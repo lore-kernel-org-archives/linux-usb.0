@@ -1,20 +1,30 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v5,04/78] page cache: Use xa_lock
-From: "Kirill A. Shutemov" <kirill@shutemov.name>
-Message-Id: <20171226165624.vdarbqqx5czgeqxc@node.shutemov.name>
-Date: Tue, 26 Dec 2017 19:56:24 +0300
-To: Matthew Wilcox <willy@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Matthew Wilcox <mawilcox@microsoft.com>, Ross Zwisler <ross.zwisler@linux.intel.com>, David Howells <dhowells@redhat.com>, Shaohua Li <shli@kernel.org>, Jens Axboe <axboe@kernel.dk>, Rehas Sachdeva <aquannie@gmail.com>, Marc Zyngier <marc.zyngier@arm.com>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, linux-nilfs@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-xfs@vger.kernel.org, linux-usb@vger.kernel.org, linux-raid@vger.kernel.org
+Subject: USB: emi62: Delete an error message for a failed memory allocation in emi62_writememory()
+From: SF Markus Elfring <elfring@users.sourceforge.net>
+Message-Id: <127ca958-ef62-dbda-5329-02252c1a2763@users.sourceforge.net>
+Date: Wed, 6 Dec 2017 12:52:14 +0100
+To: linux-usb@vger.kernel.org, Felipe Balbi <felipe.balbi@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Johan Hovold <johan@kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCBEZWMgMTUsIDIwMTcgYXQgMDI6MDM6MzZQTSAtMDgwMCwgTWF0dGhldyBXaWxjb3gg
-d3JvdGU6Cj4gRnJvbTogTWF0dGhldyBXaWxjb3ggPG1hd2lsY294QG1pY3Jvc29mdC5jb20+Cj4g
-Cj4gUmVtb3ZlIHRoZSBhZGRyZXNzX3NwYWNlIC0+dHJlZV9sb2NrIGFuZCB1c2UgdGhlIHhhX2xv
-Y2sgbmV3bHkgYWRkZWQgdG8KPiB0aGUgcmFkaXhfdHJlZV9yb290LiAgUmVuYW1lIHRoZSBhZGRy
-ZXNzX3NwYWNlIC0+cGFnZV90cmVlIHRvIC0+cGFnZXMsCj4gc2luY2Ugd2UgZG9uJ3QgcmVhbGx5
-IGNhcmUgdGhhdCBpdCdzIGEgdHJlZS4gIFRha2UgdGhlIG9wcG9ydHVuaXR5IHRvCj4gcmVhcnJh
-bmdlIHRoZSBlbGVtZW50cyBvZiBhZGRyZXNzX3NwYWNlIHRvIHBhY2sgdGhlbSBiZXR0ZXIgb24g
-NjQtYml0LAo+IGFuZCBtYWtlIHRoZSBjb21tZW50cyBtb3JlIHVzZWZ1bC4KClRoZSBkZXNjcmlw
-dGlvbiBzb3VuZHMgYSBsb3QgbGlrZSB0aHJlZSBjb21taXRzIDspCg==
+RnJvbTogTWFya3VzIEVsZnJpbmcgPGVsZnJpbmdAdXNlcnMuc291cmNlZm9yZ2UubmV0PgpEYXRl
+OiBXZWQsIDYgRGVjIDIwMTcgMTI6NDI6MjAgKzAxMDAKCk9taXQgYW4gZXh0cmEgbWVzc2FnZSBm
+b3IgYSBtZW1vcnkgYWxsb2NhdGlvbiBmYWlsdXJlIGluIHRoaXMgZnVuY3Rpb24uCgpUaGlzIGlz
+c3VlIHdhcyBkZXRlY3RlZCBieSB1c2luZyB0aGUgQ29jY2luZWxsZSBzb2Z0d2FyZS4KClNpZ25l
+ZC1vZmYtYnk6IE1hcmt1cyBFbGZyaW5nIDxlbGZyaW5nQHVzZXJzLnNvdXJjZWZvcmdlLm5ldD4K
+LS0tCiBkcml2ZXJzL3VzYi9taXNjL2VtaTYyLmMgfCA1ICsrLS0tCiAxIGZpbGUgY2hhbmdlZCwg
+MiBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNi
+L21pc2MvZW1pNjIuYyBiL2RyaXZlcnMvdXNiL21pc2MvZW1pNjIuYwppbmRleCAzZWVhNjA0Mzdm
+NTYuLmY4NTk0NjczMWFhYSAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvbWlzYy9lbWk2Mi5jCisr
+KyBiL2RyaXZlcnMvdXNiL21pc2MvZW1pNjIuYwpAQCAtNTEsMTAgKzUxLDkgQEAgc3RhdGljIGlu
+dCBlbWk2Ml93cml0ZW1lbW9yeShzdHJ1Y3QgdXNiX2RldmljZSAqZGV2LCBpbnQgYWRkcmVzcywK
+IAlpbnQgcmVzdWx0OwogCXVuc2lnbmVkIGNoYXIgKmJ1ZmZlciA9ICBrbWVtZHVwKGRhdGEsIGxl
+bmd0aCwgR0ZQX0tFUk5FTCk7CiAKLQlpZiAoIWJ1ZmZlcikgewotCQlkZXZfZXJyKCZkZXYtPmRl
+diwgImttYWxsb2MoJWQpIGZhaWxlZC5cbiIsIGxlbmd0aCk7CisJaWYgKCFidWZmZXIpCiAJCXJl
+dHVybiAtRU5PTUVNOwotCX0KKwogCS8qIE5vdGU6IHVzYl9jb250cm9sX21zZyByZXR1cm5zIG5l
+Z2F0aXZlIHZhbHVlIG9uIGVycm9yIG9yIGxlbmd0aCBvZiB0aGUKIAkgKiAJCSBkYXRhIHRoYXQg
+d2FzIHdyaXR0ZW4hICovCiAJcmVzdWx0ID0gdXNiX2NvbnRyb2xfbXNnIChkZXYsIHVzYl9zbmRj
+dHJscGlwZShkZXYsIDApLCByZXF1ZXN0LCAweDQwLCBhZGRyZXNzLCAwLCBidWZmZXIsIGxlbmd0
+aCwgMzAwKTsK
