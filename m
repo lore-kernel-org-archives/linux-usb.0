@@ -2,34 +2,24 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: USB: hub: Delete an error message for a failed memory allocation in usb_hub_clear_tt_buffer()
-From: Alan Stern <stern@rowland.harvard.edu>
-Message-Id: <Pine.LNX.4.44L0.1712061618140.1507-100000@iolanthe.rowland.org>
-Date: Wed, 6 Dec 2017 16:18:53 -0500 (EST)
-To: Joe Perches <joe@perches.com>
-Cc: SF Markus Elfring <elfring@users.sourceforge.net>, linux-usb@vger.kernel.org, Daniel Drake <drake@endlessm.com>, Dmitry Fleytman <dmitry@daynix.com>, Eugene Korenevsky <ekorenevsky@gmail.com>, Geert Uytterhoeven <geert@linux-m68k.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?ISO-8859-1?Q?G=FCnter_R=F6ck?= <linux@roeck-us.net>, Johan Hovold <johan@kernel.org>, Mathias Nyman <mathias.nyman@linux.intel.com>, Peter Chen <peter.chen@nxp.com>, LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org
+From: SF Markus Elfring <elfring@users.sourceforge.net>
+Message-Id: <a823c472-7826-3fbd-0197-5246a2cd5368@users.sourceforge.net>
+Date: Wed, 6 Dec 2017 22:33:26 +0100
+To: Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org
+Cc: Joe Perches <joe@perches.com>, Daniel Drake <drake@endlessm.com>, Dmitry Fleytman <dmitry@daynix.com>, Eugene Korenevsky <ekorenevsky@gmail.com>, Geert Uytterhoeven <geert@linux-m68k.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?B?R8O8bnRlciBSw7Zjaw==?= <linux@roeck-us.net>, Johan Hovold <johan@kernel.org>, Mathias Nyman <mathias.nyman@linux.intel.com>, Peter Chen <peter.chen@nxp.com>, LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCA2IERlYyAyMDE3LCBKb2UgUGVyY2hlcyB3cm90ZToKCj4gT24gV2VkLCAyMDE3LTEy
-LTA2IGF0IDExOjQ1IC0wNTAwLCBBbGFuIFN0ZXJuIHdyb3RlOgo+ID4gT24gV2VkLCA2IERlYyAy
-MDE3LCBTRiBNYXJrdXMgRWxmcmluZyB3cm90ZToKPiA+ID4gT21pdCBhbiBleHRyYSBtZXNzYWdl
-IGZvciBhIG1lbW9yeSBhbGxvY2F0aW9uIGZhaWx1cmUgaW4gdGhpcyBmdW5jdGlvbi4KPiAKPiBN
-YXJrdXMnIHR5cGljYWwgdGVycmlibGUgY29tbWl0IG1lc3NhZ2UuCj4gCj4gPiA+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL3VzYi9jb3JlL2h1Yi5jIGIvZHJpdmVycy91c2IvY29yZS9odWIuYwo+IFtd
-Cj4gPiA+IEBAIC04MjksNyArODI5LDYgQEAgaW50IHVzYl9odWJfY2xlYXJfdHRfYnVmZmVyKHN0
-cnVjdCB1cmIgKnVyYikKPiA+ID4gICAgICAgICovCj4gPiA+ICAgICAgIGNsZWFyID0ga21hbGxv
-YyhzaXplb2YgKmNsZWFyLCBHRlBfQVRPTUlDKTsKPiA+ID4gICAgICAgaWYgKGNsZWFyID09IE5V
-TEwpIHsKPiA+ID4gLSAgICAgICAgICAgICBkZXZfZXJyKCZ1ZGV2LT5kZXYsICJjYW4ndCBzYXZl
-IENMRUFSX1RUX0JVRkZFUiBzdGF0ZVxuIik7Cj4gPiA+ICAgICAgICAgICAgICAgLyogRklYTUUg
-cmVjb3ZlciBzb21laG93IC4uLiBSRVNFVF9UVD8gKi8KPiA+ID4gICAgICAgICAgICAgICByZXR1
-cm4gLUVOT01FTTsKPiA+ID4gICAgICAgfQo+ID4gCj4gPiBEb2VzIHRoZSBleGlzdGluZyBtZW1v
-cnkgYWxsb2NhdGlvbiBlcnJvciBtZXNzYWdlIGluY2x1ZGUgdGhlIAo+ID4gJnVkZXYtPmRldiBk
-ZXZpY2UgbmFtZSBhbmQgZHJpdmVyIG5hbWU/ICBJZiBpdCBkb2Vzbid0LCB0aGVyZSB3aWxsIGJl
-IAo+ID4gbm8gd2F5IGZvciB0aGUgdXNlciB0byB0ZWxsIHRoYXQgdGhlIGVycm9yIG1lc3NhZ2Ug
-aXMgcmVsYXRlZCB0byB0aGUgCj4gPiBkZXZpY2UgZmFpbHVyZS4KPiAKPiBObywgYnV0IHRoZSBl
-ZmZlY3QgaXMgc2ltaWxhci4KPiAKPiBPT00gZG9lcyBhIGR1bXBfc3RhY2soKSBzbyB0aGlzIGZ1
-bmN0aW9uJ3MgY2FsbCB0cmVlIGlzIHNob3duLgoKQSBjYWxsIHN0YWNrIGRvZXNuJ3QgdGVsbCB5
-b3Ugd2hpY2ggZGV2aWNlIHdhcyBiZWluZyBoYW5kbGVkLgoKQWxhbiBTdGVybgotLS0KVG8gdW5z
-dWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4
-LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5v
-cmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRv
-bW8taW5mby5odG1sCg==
+Pj4+IERvZXMgdGhlIGV4aXN0aW5nIG1lbW9yeSBhbGxvY2F0aW9uIGVycm9yIG1lc3NhZ2UgaW5j
+bHVkZSB0aGUgCj4+PiAmdWRldi0+ZGV2IGRldmljZSBuYW1lIGFuZCBkcml2ZXIgbmFtZT8gIElm
+IGl0IGRvZXNuJ3QsIHRoZXJlIHdpbGwgYmUgCj4+PiBubyB3YXkgZm9yIHRoZSB1c2VyIHRvIHRl
+bGwgdGhhdCB0aGUgZXJyb3IgbWVzc2FnZSBpcyByZWxhdGVkIHRvIHRoZSAKPj4+IGRldmljZSBm
+YWlsdXJlLgo+Pgo+PiBObywgYnV0IHRoZSBlZmZlY3QgaXMgc2ltaWxhci4KPj4KPj4gT09NIGRv
+ZXMgYSBkdW1wX3N0YWNrKCkgc28gdGhpcyBmdW5jdGlvbidzIGNhbGwgdHJlZSBpcyBzaG93bi4K
+PiAKPiBBIGNhbGwgc3RhY2sgZG9lc24ndCB0ZWxsIHlvdSB3aGljaCBkZXZpY2Ugd2FzIGJlaW5n
+IGhhbmRsZWQuCgpEbyB5b3UgZmluZCBhIGRlZmF1bHQgTGludXggYWxsb2NhdGlvbiBmYWlsdXJl
+IHJlcG9ydCBpbnN1ZmZpY2llbnQgdGhlbj8KCldvdWxkIHlvdSBsaWtlIHRvIHRvIGFjaGlldmUg
+dGhhdCB0aGUgcmVxdWVzdGVkIGluZm9ybWF0aW9uIGNhbiBiZSBkZXRlcm1pbmVkCmZyb20gYSBi
+YWNrdHJhY2U/CgpSZWdhcmRzLApNYXJrdXMKLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBs
+aXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9m
+IGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGlu
+Zm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
