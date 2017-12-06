@@ -2,22 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: core: Add "quirks" parameter for usbcore
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Message-Id: <BA71AEA5-A7C8-4E5B-A904-8DB3268318A1@canonical.com>
-Date: Wed, 6 Dec 2017 17:27:35 +0800
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: corbet@lwn.net, linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Oliver Neukum <oneukum@suse.com>
+Message-Id: <1512556084.12461.3.camel@suse.com>
+Date: Wed, 06 Dec 2017 11:28:04 +0100
+To: Kai-Heng Feng <kai.heng.feng@canonical.com>, gregkh@linuxfoundation.org
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-PiBPbiA2IERlYyAyMDE3LCBhdCA1OjEzIFBNLCBHcmVnIEtIIDxncmVna2hAbGludXhmb3VuZGF0
-aW9uLm9yZz4gd3JvdGU6Cj4gCj4gT24gV2VkLCBEZWMgMDYsIDIwMTcgYXQgMDU6MDk6MzJQTSAr
-MDgwMCwgS2FpLUhlbmcgRmVuZyB3cm90ZToKPj4gKy8qIFdvcmtzIG9ubHkgZm9yIGRpZ2l0cyBh
-bmQgbGV0dGVycywgYnV0IHNtYWxsIGFuZCBmYXN0ICovCj4+ICsjZGVmaW5lIFRPTE9XRVIoeCkg
-KCh4KSB8IDB4MjApCj4gCj4gV2hhdCBpcyB3cm9uZyB3aXRoIHRoZSBpbi1rZXJuZWwgdmVyc2lv
-biBvZiB0b2xvd2VyKCk/CgpOb3RoaW5n4oCZcyB3cm9uZyB3aXRoIHRoZSBpbi1rZXJuZWwgdmVy
-c2lvbi4gSeKAmWxsIHVzZSB0aGF0IGluIHYyLgoKT3RoZXIgdGhhbiB0aGF0LCBpcyB0aGVyZSBh
-bnl0aGluZ3MgSSBjYW4gbWFrZSB0byBpbXByb3ZlIHRoZSBjb2RlPwoKS2FpLUhlbmcKCj4gCj4g
-dGhhbmtzLAo+IAo+IGdyZWcgay1oCi0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDog
-c2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1l
-c3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0
-ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
+QW0gTWl0dHdvY2gsIGRlbiAwNi4xMi4yMDE3LCAxNzowOSArMDgwMCBzY2hyaWViIEthaS1IZW5n
+IEZlbmc6Cj4gTm93IHVzZXJzIGNhbiB1c2UgInVzYmNvcmUucXVpcmtzPSIgYXMgc2hvcnQgdGVy
+bSB3b3JrYXJvdW5kIGJlZm9yZSB0aGUKPiBuZXh0IGtlcm5lbCByZWxlYXNlLgo+IAo+IFRoaXMg
+aXMgaW5zcGlyZWQgYnkgdXNiaGlkIGFuZCB1c2Itc3RvcmFnZS4KCkhpLAoKaWYgeW91IGluY2x1
+ZGUgdGhpcyBmb3IgZGVidWdnaW5nIHB1cnBvc2VzLCBpdCB3b3VsZCBiZSBpbnRlcmVzdGluZwp0
+byBiZSBhYmxlIHRvIG5vdCBvbmx5IHN3aXRjaCBvbiBhIHF1aXJrIGZyb20gdGhlIGNvbW1hbmQg
+bGluZSwgYnV0CnRvIGFsc28gc3dpdGNoIGl0IG9mZi4gU28gaXQgbWlnaHQgYmUgYmV0dGVyIHRv
+IGRldGVjdCB0aGUgZHluYW1pYwpxdWlya3MgYWZ0ZXIgdGhlIHN0YXRpYyBxdWlya3MgYW5kIHVz
+ZSBYT1IuCgoJUmVnYXJkcwoJCU9saXZlcgotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxp
+c3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2Yg
+YSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5m
+byBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
