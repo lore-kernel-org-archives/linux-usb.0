@@ -2,19 +2,27 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2] usb: dwc2: Remove unnecessary debug prints
-From: Joe Perches <joe@perches.com>
-Message-Id: <1512674298.1845.5.camel@perches.com>
-Date: Thu, 07 Dec 2017 11:18:18 -0800
-To: Razmik Karapetyan <Razmik.Karapetyan@synopsys.com>, John Youn <John.Youn@synopsys.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Razmik Karapetyan <Razmik.Karapetyan@synopsys.com>
+Message-Id: <8729999BB856DC46AF55C3A0E7F336B52F99B6D7@am04wembxa.internal.synopsys.com>
+Date: Fri, 8 Dec 2017 07:55:33 +0000
+To: Joe Perches <joe@perches.com>, Razmik Karapetyan <Razmik.Karapetyan@synopsys.com>, John Youn <John.Youn@synopsys.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCAyMDE3LTEyLTA3IGF0IDExOjE3IC0wODAwLCBKb2UgUGVyY2hlcyB3cm90ZToKPiBP
-biBXZWQsIDIwMTctMTItMDYgYXQgMTc6NTcgKzA0MDAsIFJhem1payBLYXJhcGV0eWFuIHdyb3Rl
-Ogo+ID4gUmVtb3ZlZCB1bm5lY2Vzc2FyeSBkZWJ1ZyBwcmludHMgYWJvdXQgRE1BIG1vZGUgZm9y
-IGhvc3Qgc2lkZQo+ID4gZnJvbSBkd2MyX2dhaGJjZmdfaW5pdCgpIGZ1bmN0aW9uLgo+IAo+IFdo
-YXQgb3RoZXIgZnVuY3Rpb25hbGl0eSBtYWtlcyB0aGVzZSB1bm5lY2Vzc2FyeT8KPiBJZiBhbnks
-IGl0J3MgbmljZSB0byBkZQoKLi4uIGRlc2NyaWJlIGl0IGluIHRoZSBjaGFuZ2Vsb2cuCi0tLQpU
-byB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUg
-bGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2Vy
-bmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21h
-am9yZG9tby1pbmZvLmh0bWwK
+T24gMTIvNy8yMDE3IDExOjE4IFBNLCBKb2UgUGVyY2hlcyB3cm90ZToKPiBPbiBUaHUsIDIwMTct
+MTItMDcgYXQgMTE6MTcgLTA4MDAsIEpvZSBQZXJjaGVzIHdyb3RlOgo+PiBPbiBXZWQsIDIwMTct
+MTItMDYgYXQgMTc6NTcgKzA0MDAsIFJhem1payBLYXJhcGV0eWFuIHdyb3RlOgo+Pj4gUmVtb3Zl
+ZCB1bm5lY2Vzc2FyeSBkZWJ1ZyBwcmludHMgYWJvdXQgRE1BIG1vZGUgZm9yIGhvc3Qgc2lkZQo+
+Pj4gZnJvbSBkd2MyX2dhaGJjZmdfaW5pdCgpIGZ1bmN0aW9uLgo+Pgo+PiBXaGF0IG90aGVyIGZ1
+bmN0aW9uYWxpdHkgbWFrZXMgdGhlc2UgdW5uZWNlc3Nhcnk/Cj4+IElmIGFueSwgaXQncyBuaWNl
+IHRvIGRlCj4gCj4gLi4uIGRlc2NyaWJlIGl0IGluIHRoZSBjaGFuZ2Vsb2cuCj4gCgpIaSBKb2Us
+CgpObyBhbnkgb3RoZXIgZnVuY3Rpb25hbGl0eSBtYWtlcyB0aGVtIHVubmVjZXNzYXJ5LgoKSW4g
+dGhlIGRyaXZlciB3ZSBoYXZlIGRlYnVnIGluZm8gYWJvdXQgRE1BIHR5cGUgb25seSBmb3IgaG9z
+dCBzaWRlLCBzbyAKb3BlcmF0aW5nIGluIGRldmljZSBtb2RlIERNQSB0eXBlIGNhbiBiZSBkaWZm
+ZXJlbnQgYW5kIHRob3NlIGRlYnVnIApwcmludHMgKCJVc2luZyBCdWZmZXJcRGVzY3JpcHRvciBE
+TUEgbW9kZVxuIikgY2FuIGNhdXNlIGNvbmZ1c2lvbnMuCgpXZSBjYW4gYWRkIGRlYnVnIHByaW50
+cyBmb3IgZGV2aWNlIG1vZGUgYWxzbywgYnV0IGl0IGlzIHByZWZlcmFibGUgdG8gCmhhdmUgbGVz
+cyBkZWJ1ZyBpbmZvIGluIHRoZSBsb2cuCgpUaGFua3MsClJhem1pawotLS0KVG8gdW5zdWJzY3Jp
+YmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIg
+aW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9y
+ZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5m
+by5odG1sCg==
