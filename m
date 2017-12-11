@@ -2,22 +2,26 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v1,2/2] usb: chipidea: tegra: Select Tegra's PHY in Kconfig
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-Id: <d6b64530412955aba1284886b3f5f74e42d776da.1512947332.git.digetx@gmail.com>
-Date: Mon, 11 Dec 2017 02:10:00 +0300
-To: Felipe Balbi <balbi@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Hunter <jonathanh@nvidia.com>, Thierry Reding <thierry.reding@gmail.com>, Peter Chen <Peter.Chen@nxp.com>
-Cc: linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Thierry Reding <thierry.reding@gmail.com>
+Message-Id: <20171211100400.GE10671@ulmo>
+Date: Mon, 11 Dec 2017 11:04:00 +0100
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Felipe Balbi <balbi@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Hunter <jonathanh@nvidia.com>, Peter Chen <Peter.Chen@nxp.com>, linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-VURDIGRyaXZlciB3b24ndCBwcm9iZSB3aXRob3V0IFRlZ3JhJ3MgUEhZLCBoZW5jZSBzZWxlY3Qg
-aXQgaW4gdGhlCktjb25maWcuCgpTaWduZWQtb2ZmLWJ5OiBEbWl0cnkgT3NpcGVua28gPGRpZ2V0
-eEBnbWFpbC5jb20+Ci0tLQogZHJpdmVycy91c2IvY2hpcGlkZWEvS2NvbmZpZyB8IDEgKwogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvY2hp
-cGlkZWEvS2NvbmZpZyBiL2RyaXZlcnMvdXNiL2NoaXBpZGVhL0tjb25maWcKaW5kZXggNzg1ZjBl
-ZDAzN2Y3Li4yZWYzYjI3ZWE3MmIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL2NoaXBpZGVhL0tj
-b25maWcKKysrIGIvZHJpdmVycy91c2IvY2hpcGlkZWEvS2NvbmZpZwpAQCAtMjcsNiArMjcsNyBA
-QCBjb25maWcgVVNCX0NISVBJREVBX1BDSQogY29uZmlnIFVTQl9DSElQSURFQV9VREMKIAlib29s
-ICJDaGlwSWRlYSBkZXZpY2UgY29udHJvbGxlciIKIAlkZXBlbmRzIG9uIFVTQl9HQURHRVQKKwlz
-ZWxlY3QgVVNCX1RFR1JBX1BIWSBpZiBBUkNIX1RFR1JBCiAJaGVscAogCSAgU2F5IFkgaGVyZSB0
-byBlbmFibGUgZGV2aWNlIGNvbnRyb2xsZXIgZnVuY3Rpb25hbGl0eSBvZiB0aGUKIAkgIENoaXBJ
-ZGVhIGRyaXZlci4K
+T24gTW9uLCBEZWMgMTEsIDIwMTcgYXQgMDI6MTA6MDBBTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
+IHdyb3RlOgo+IFVEQyBkcml2ZXIgd29uJ3QgcHJvYmUgd2l0aG91dCBUZWdyYSdzIFBIWSwgaGVu
+Y2Ugc2VsZWN0IGl0IGluIHRoZQo+IEtjb25maWcuCj4gCj4gU2lnbmVkLW9mZi1ieTogRG1pdHJ5
+IE9zaXBlbmtvIDxkaWdldHhAZ21haWwuY29tPgo+IC0tLQo+ICBkcml2ZXJzL3VzYi9jaGlwaWRl
+YS9LY29uZmlnIHwgMSArCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQo+IAo+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9jaGlwaWRlYS9LY29uZmlnIGIvZHJpdmVycy91c2IvY2hp
+cGlkZWEvS2NvbmZpZwo+IGluZGV4IDc4NWYwZWQwMzdmNy4uMmVmM2IyN2VhNzJiIDEwMDY0NAo+
+IC0tLSBhL2RyaXZlcnMvdXNiL2NoaXBpZGVhL0tjb25maWcKPiArKysgYi9kcml2ZXJzL3VzYi9j
+aGlwaWRlYS9LY29uZmlnCj4gQEAgLTI3LDYgKzI3LDcgQEAgY29uZmlnIFVTQl9DSElQSURFQV9Q
+Q0kKPiAgY29uZmlnIFVTQl9DSElQSURFQV9VREMKPiAgCWJvb2wgIkNoaXBJZGVhIGRldmljZSBj
+b250cm9sbGVyIgo+ICAJZGVwZW5kcyBvbiBVU0JfR0FER0VUCj4gKwlzZWxlY3QgVVNCX1RFR1JB
+X1BIWSBpZiBBUkNIX1RFR1JBCgpUaGlzIGlzIGtpbmQgb2YgcG9pbnRsZXNzIGdpdmVuIHRoYXQg
+VVNCX1RFR1JBX1BIWSBvcmlnaW5hbGx5IHdhcwphdXRvbWF0aWNhbGx5IGVuYWJsZWQgaWYgQVJD
+SF9URUdSQSB3YXMgZW5hYmxlZC4KCldoYXQgZG8gd2UgZ2FpbiBieSB0aGVzZSB0d28gcGF0Y2hl
+cywgb3RoZXIgdGhhbiBtYXliZSBtYWtlIHRoZSBkcml2ZXIKYnVpbGRhYmxlIGFzIGEgbW9kdWxl
+PwoKVGhpZXJyeQo=
