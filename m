@@ -1,22 +1,27 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [net,stable] net: qmi_wwan: add Sierra EM7565 1199:9091
-From: David Miller <davem@davemloft.net>
-Message-Id: <20171213.135742.111407789022504972.davem@davemloft.net>
-Date: Wed, 13 Dec 2017 13:57:42 -0500 (EST)
-To: ssjoholm@mac.com
-Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, bjorn@mork.no, rspmn@arcor.de
+Subject: [2/2] usb: host: xhci-plat: enable XHCI_MISSING_CAS if platform requested
+From: Jun Li <jun.li@nxp.com>
+Message-Id: <1513051038-20311-2-git-send-email-jun.li@nxp.com>
+Date: Tue, 12 Dec 2017 11:57:18 +0800
+To: mathias.nyman@intel.com, gregkh@linuxfoundation.org, robh+dt@kernel.org, mark.rutland@arm.com
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, Li Jun <jun.li@nxp.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-RnJvbTogc3Nqb2hvbG1AbWFjLmNvbQpEYXRlOiBNb24sIDExIERlYyAyMDE3IDIxOjUxOjE0ICsw
-MTAwCgo+IEZyb206IFNlYmFzdGlhbiBTam9ob2xtIDxzc2pvaG9sbUBtYWMuY29tPgo+IAo+IFNp
-ZXJyYSBXaXJlbGVzcyBFTTc1NjUgaXMgYW4gUXVhbGNvbW0gTURNOXg1MCBiYXNlZCBNLjIgbW9k
-ZW0uCj4gVGhlIFVTQiBpZCBpcyBhZGRlZCB0byBxbWlfd3dhbi5jIHRvIGFsbG93IFFNSSBjb21t
-dW5pY2F0aW9uIAo+IHdpdGggdGhlIEVNNzU2NS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBTZWJhc3Rp
-YW4gU2pvaG9sbSA8c3Nqb2hvbG1AbWFjLmNvbT4KPiBBY2tlZC1ieTogQmrDuHJuIE1vcmsgPGJq
-b3JuQG1vcmsubm8+CgpBcHBsaWVkIGFuZCBxdWV1ZWQgdXAgZm9yIC1zdGFibGUuCi0tLQpUbyB1
-bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGlu
-dXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVs
-Lm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9y
-ZG9tby1pbmZvLmh0bWwK
+SW4gY2FzZSB0aGVyZSBpcyBDQVMgbWlzc2luZyBpZiBkZXZpY2UgcGx1Z2dlZCBpbiBTMywgd2Ug
+Y2FuIHVzZQondXNiMy1yZXN1bWUtbWlzc2luZy1jYXMnIGRldmljZSBwcm9wZXJ0eSB0byBlbmFi
+bGUgcXVpcmsgZmxhZwpYSENJX01JU1NJTkdfQ0FTLgoKU2lnbmVkLW9mZi1ieTogTGkgSnVuIDxq
+dW4ubGlAbnhwLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9ob3N0L3hoY2ktcGxhdC5jIHwgMyArKysK
+IDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3Vz
+Yi9ob3N0L3hoY2ktcGxhdC5jIGIvZHJpdmVycy91c2IvaG9zdC94aGNpLXBsYXQuYwppbmRleCA2
+ZjAzODMwLi40ZWM3MTFjIDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9ob3N0L3hoY2ktcGxhdC5j
+CisrKyBiL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1wbGF0LmMKQEAgLTI2OSw2ICsyNjksOSBAQCBz
+dGF0aWMgaW50IHhoY2lfcGxhdF9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQog
+CWlmIChkZXZpY2VfcHJvcGVydHlfcmVhZF9ib29sKCZwZGV2LT5kZXYsICJxdWlyay1icm9rZW4t
+cG9ydC1wZWQiKSkKIAkJeGhjaS0+cXVpcmtzIHw9IFhIQ0lfQlJPS0VOX1BPUlRfUEVEOwogCisJ
+aWYgKGRldmljZV9wcm9wZXJ0eV9yZWFkX2Jvb2woc3lzZGV2LCAidXNiMy1yZXN1bWUtbWlzc2lu
+Zy1jYXMiKSkKKwkJeGhjaS0+cXVpcmtzIHw9IFhIQ0lfTUlTU0lOR19DQVM7CisKIAkvKiBpbW9k
+X2ludGVydmFsIGlzIHRoZSBpbnRlcnJ1cHQgbW9kZXJhdGlvbiB2YWx1ZSBpbiBuYW5vc2Vjb25k
+cy4gKi8KIAl4aGNpLT5pbW9kX2ludGVydmFsID0gNDAwMDA7CiAJZGV2aWNlX3Byb3BlcnR5X3Jl
+YWRfdTMyKHN5c2RldiwgImltb2QtaW50ZXJ2YWwtbnMiLAo=
