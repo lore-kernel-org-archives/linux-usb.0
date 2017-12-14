@@ -2,28 +2,20 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [RFC,balbi-usb] usb: renesas_usbhs: usbhs_rcar3_notifier() can be static
-From: kbuild test robot <fengguang.wu@intel.com>
-Message-Id: <20171213172052.GA27583@lkp-sb04.lkp.intel.com>
-Date: Thu, 14 Dec 2017 01:20:52 +0800
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: kbuild-all@01.org, linux-usb@vger.kernel.org, linux-omap@vger.kernel.org, Felipe Balbi <felipe.balbi@linux.intel.com>
+From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Message-Id: <TY1PR06MB0992C0FA51F686B96E81628CD80A0@TY1PR06MB0992.apcprd06.prod.outlook.com>
+Date: Thu, 14 Dec 2017 01:55:34 +0000
+To: kbuild test robot <fengguang.wu@intel.com>
+Cc: "kbuild-all@01.org" <kbuild-all@01.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>, Felipe Balbi <felipe.balbi@linux.intel.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-Rml4ZXM6IDNhN2NjZTI2MTIyZSAoInVzYjogcmVuZXNhc191c2JoczogYWRkIGV4dGNvbiBub3Rp
-ZmllciB0byBzZXQgbW9kZSBmb3Igbm9uLW90ZyBjaGFubmVsIikKU2lnbmVkLW9mZi1ieTogRmVu
-Z2d1YW5nIFd1IDxmZW5nZ3Vhbmcud3VAaW50ZWwuY29tPgotLS0KIHJjYXIzLmMgfCAgICA0ICsr
-LS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgotLQpU
-byB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUg
-bGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2Vy
-bmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21h
-am9yZG9tby1pbmZvLmh0bWwKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9yZW5lc2FzX3VzYmhz
-L3JjYXIzLmMgYi9kcml2ZXJzL3VzYi9yZW5lc2FzX3VzYmhzL3JjYXIzLmMKaW5kZXggZDY1NzMw
-OS4uZDBlYTRmZiAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvcmVuZXNhc191c2Jocy9yY2FyMy5j
-CisrKyBiL2RyaXZlcnMvdXNiL3JlbmVzYXNfdXNiaHMvcmNhcjMuYwpAQCAtMTEyLDggKzExMiw4
-IEBAIHN0YXRpYyBpbnQgdXNiaHNfcmNhcjNfZ2V0X2lkKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2Ug
-KnBkZXYpCiAJcmV0dXJuIFVTQkhTX0dBREdFVDsKIH0KIAotaW50IHVzYmhzX3JjYXIzX25vdGlm
-aWVyKHN0cnVjdCBub3RpZmllcl9ibG9jayAqbmIsIHVuc2lnbmVkIGxvbmcgZXZlbnQsCi0JCQkg
-dm9pZCAqZGF0YSkKK3N0YXRpYyBpbnQgdXNiaHNfcmNhcjNfbm90aWZpZXIoc3RydWN0IG5vdGlm
-aWVyX2Jsb2NrICpuYiwgdW5zaWduZWQgbG9uZyBldmVudCwKKwkJCQl2b2lkICpkYXRhKQogewog
-CXN0cnVjdCB1c2Joc19wcml2ICpwcml2ID0gY29udGFpbmVyX29mKG5iLCBzdHJ1Y3QgdXNiaHNf
-cHJpdiwgbmIpOwogCg==
+SGksCgo+IEZyb206IGtidWlsZCB0ZXN0IHJvYm90LCBTZW50OiBUaHVyc2RheSwgRGVjZW1iZXIg
+MTQsIDIwMTcgMjoyMSBBTQo+IAo+IEZpeGVzOiAzYTdjY2UyNjEyMmUgKCJ1c2I6IHJlbmVzYXNf
+dXNiaHM6IGFkZCBleHRjb24gbm90aWZpZXIgdG8gc2V0IG1vZGUgZm9yIG5vbi1vdGcgY2hhbm5l
+bCIpCj4gU2lnbmVkLW9mZi1ieTogRmVuZ2d1YW5nIFd1IDxmZW5nZ3Vhbmcud3VAaW50ZWwuY29t
+PgoKVGhhbmsgeW91IGZvciB0aGUgcGF0Y2ghCgpBY2tlZC1ieTogWW9zaGloaXJvIFNoaW1vZGEg
+PHlvc2hpaGlyby5zaGltb2RhLnVoQHJlbmVzYXMuY29tPgoKQmVzdCByZWdhcmRzLApZb3NoaWhp
+cm8gU2hpbW9kYQotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxp
+bmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1h
+am9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3Zn
+ZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
