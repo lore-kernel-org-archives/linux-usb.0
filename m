@@ -1,22 +1,27 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [1/1] usb: doc: Update document for USB3 debug port usage
-From: Jonathan Corbet <corbet@lwn.net>
-Message-Id: <20171221123248.3f151a20@lwn.net>
-Date: Thu, 21 Dec 2017 12:32:48 -0700
-To: Lu Baolu <baolu.lu@linux.intel.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, Mathias Nyman <mathias.nyman@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [v5,20/78] xarray: Add MAINTAINERS entry
+From: Matthew Wilcox <willy@infradead.org>
+Message-Id: <20171215220450.7899-21-willy@infradead.org>
+Date: Fri, 15 Dec 2017 14:03:52 -0800
+To: linux-kernel@vger.kernel.org
+Cc: Matthew Wilcox <mawilcox@microsoft.com>, Ross Zwisler <ross.zwisler@linux.intel.com>, David Howells <dhowells@redhat.com>, Shaohua Li <shli@kernel.org>, Jens Axboe <axboe@kernel.dk>, Rehas Sachdeva <aquannie@gmail.com>, Marc Zyngier <marc.zyngier@arm.com>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, linux-nilfs@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-xfs@vger.kernel.org, linux-usb@vger.kernel.org, linux-raid@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCAxMyBEZWMgMjAxNyAxMzowNzo0NCArMDgwMApMdSBCYW9sdSA8YmFvbHUubHVAbGlu
-dXguaW50ZWwuY29tPiB3cm90ZToKCj4gVXBkYXRlIERvY3VtZW50YXRpb24vZHJpdmVyLWFwaS91
-c2IvdXNiMy1kZWJ1Zy1wb3J0LnJzdC4gVGhpcyB1cGRhdGUKPiBpbmNsdWRlcyB0aGUgZ3VpZGUg
-Zm9yIHVzaW5nIHhIQ0kgZGVidWcgY2FwYWJpbGl0eSBiYXNlZCBUVFkgc2VyaWFsCj4gbGluay4K
-PiAKPiBDYzogTWF0aGlhcyBOeW1hbiA8bWF0aGlhcy5ueW1hbkBsaW51eC5pbnRlbC5jb20+Cj4g
-Q2M6IEdyZWcgS3JvYWgtSGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+Cj4gU2ln
-bmVkLW9mZi1ieTogTHUgQmFvbHUgPGJhb2x1Lmx1QGxpbnV4LmludGVsLmNvbT4KCkFwcGxpZWQg
-dG8gdGhlIGRvY3MgdHJlZSwgdGhhbmtzLgoKam9uCi0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRo
-aXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9k
-eSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9t
-byBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
+RnJvbTogTWF0dGhldyBXaWxjb3ggPG1hd2lsY294QG1pY3Jvc29mdC5jb20+CgpBZGQgbXlzZWxm
+IGFzIFhBcnJheSBhbmQgSURSIG1haW50YWluZXIuCgpTaWduZWQtb2ZmLWJ5OiBNYXR0aGV3IFdp
+bGNveCA8bWF3aWxjb3hAbWljcm9zb2Z0LmNvbT4KLS0tCiBNQUlOVEFJTkVSUyB8IDEyICsrKysr
+KysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9N
+QUlOVEFJTkVSUyBiL01BSU5UQUlORVJTCmluZGV4IDgyYWQwZWFiY2U0Zi4uYmI1ZmZhMTJjZjhj
+IDEwMDY0NAotLS0gYS9NQUlOVEFJTkVSUworKysgYi9NQUlOVEFJTkVSUwpAQCAtMTQ4OTQsNiAr
+MTQ4OTQsMTggQEAgVDoJZ2l0IGdpdDovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2Vy
+bmVsL2dpdC90aXAvdGlwLmdpdCB4ODYvdmRzbwogUzoJTWFpbnRhaW5lZAogRjoJYXJjaC94ODYv
+ZW50cnkvdmRzby8KIAorWEFSUkFZCitNOglNYXR0aGV3IFdpbGNveCA8bWF3aWxjb3hAbWljcm9z
+b2Z0LmNvbT4KK006CU1hdHRoZXcgV2lsY294IDx3aWxseUBpbmZyYWRlYWQub3JnPgorTDoJbGlu
+dXgtZnNkZXZlbEB2Z2VyLmtlcm5lbC5vcmcKK1M6CVN1cHBvcnRlZAorRjoJRG9jdW1lbnRhdGlv
+bi9jb3JlLWFwaS94YXJyYXkucnN0CitGOglsaWIvaWRyLmMKK0Y6CWxpYi94YXJyYXkuYworRjoJ
+aW5jbHVkZS9saW51eC9pZHIuaAorRjoJaW5jbHVkZS9saW51eC94YXJyYXkuaAorRjoJdG9vbHMv
+dGVzdGluZy9yYWRpeC10cmVlCisKIFhDMjAyOC8zMDI4IFRVTkVSIERSSVZFUgogTToJTWF1cm8g
+Q2FydmFsaG8gQ2hlaGFiIDxtY2hlaGFiQHMtb3BlbnNvdXJjZS5jb20+CiBNOglNYXVybyBDYXJ2
+YWxobyBDaGVoYWIgPG1jaGVoYWJAa2VybmVsLm9yZz4K
