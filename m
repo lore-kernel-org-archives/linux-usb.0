@@ -2,27 +2,34 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v4] usb: dwc2: host: Don't retry NAKed transactions right away
-From: Stefan Wahren <stefan.wahren@i2se.com>
-Message-Id: <581796864.256888.1513702600488@email.1und1.de>
-Date: Tue, 19 Dec 2017 17:56:40 +0100 (CET)
-To: John Youn <johnyoun@synopsys.com>, Doug Anderson <dianders@chromium.org>, Felipe Balbi <balbi@kernel.org>
-Cc: Matthias Kaehlcke <mka@chromium.org>, "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, Julius Werner <jwerner@chromium.org>, Eric Anholt <eric@anholt.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, LKML <linux-kernel@vger.kernel.org>, John Stultz <john.stultz@linaro.org>, linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>, Alexandru M Stan <amstan@chromium.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-rpi-kernel@lists.infradead.org
+From: Doug Anderson <dianders@chromium.org>
+Message-Id: <CAD=FV=UHr3bFyETHK0mHa2hTe_GQvAwyJqFWuDRcqi2g7jLRFA@mail.gmail.com>
+Date: Tue, 19 Dec 2017 09:19:35 -0800
+To: Stefan Wahren <stefan.wahren@i2se.com>
+Cc: John Youn <johnyoun@synopsys.com>, Felipe Balbi <balbi@kernel.org>, Matthias Kaehlcke <mka@chromium.org>, "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, Julius Werner <jwerner@chromium.org>, Eric Anholt <eric@anholt.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, LKML <linux-kernel@vger.kernel.org>, John Stultz <john.stultz@linaro.org>, linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>, Alexandru M Stan <amstan@chromium.org>, Alyssa Rosenzweig <alyssa@rosenzweig.io>, linux-rpi-kernel@lists.infradead.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgRG91ZywKCj4gRG91ZyBBbmRlcnNvbiA8ZGlhbmRlcnNAY2hyb21pdW0ub3JnPiBoYXQgYW0g
-MTkuIERlemVtYmVyIDIwMTcgdW0gMTY6NTcgZ2VzY2hyaWViZW46Cj4gCj4gCj4gRmVsaXBlLAo+
-IAo+IE9uIFR1ZSwgRGVjIDEyLCAyMDE3IGF0IDEwOjMwIEFNLCBEb3VnbGFzIEFuZGVyc29uCj4g
-PGRpYW5kZXJzQGNocm9taXVtLm9yZz4gd3JvdGU6Cj4gLi4uCj4gCj4gSSBkb24ndCBtZWFuIHRv
-IGJlIGEgcGVzdCwgYnV0IEknbSBob3BpbmcgdGhhdCB3ZSBjYW4gbGFuZCB0aGlzCj4gc29tZXdo
-ZXJlIChpZiBub3RoaW5nIGVsc2UgaW4geW91ciAvbmV4dCB0cmVlKSBqdXN0IHNvIGl0IGRvZXNu
-J3QgbWlzcwo+IGFub3RoZXIgcmVsZWFzZSBjeWNsZS4gIElmIHlvdSdyZSBub3Qgc28ga2VlbiBv
-biBjb2xsZWN0aW5nIGR3YzIgaG9zdAo+IHBhdGNoZXMgdGhlc2UgZGF5cywgSSBjYW4gYWxzbyBz
-ZWUgaWYgR3JlZyBLSCBpcyB3aWxsaW5nIHRvIHRha2UgdGhpcwo+IGRpcmVjdGx5IGludG8gaGlz
-IHRyZWUuICBQbGVhc2UgbGV0IG1lIGtub3cuICBUaGFua3MgZm9yIHlvdXIgdGltZSEKPiA6KQo+
-IAo+IC1Eb3VnCgppdCdzIGFwcGxpZWQgdG8gbmV4dDoKCmh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcv
-cHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2JhbGJpL3VzYi5naXQvY29tbWl0Lz9oPW5leHQmaWQ9
-MzhkMmI1ZmI3NWMxNTkyM2ZiODljMzIxMzQ1MTZhNjIzNTE1YmNlNAotLS0KVG8gdW5zdWJzY3Jp
-YmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIg
-aW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9y
-ZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5m
-by5odG1sCg==
+SGksCgpPbiBUdWUsIERlYyAxOSwgMjAxNyBhdCA4OjU2IEFNLCBTdGVmYW4gV2FocmVuIDxzdGVm
+YW4ud2FocmVuQGkyc2UuY29tPiB3cm90ZToKPiBIaSBEb3VnLAo+Cj4+IERvdWcgQW5kZXJzb24g
+PGRpYW5kZXJzQGNocm9taXVtLm9yZz4gaGF0IGFtIDE5LiBEZXplbWJlciAyMDE3IHVtIDE2OjU3
+IGdlc2NocmllYmVuOgo+Pgo+Pgo+PiBGZWxpcGUsCj4+Cj4+IE9uIFR1ZSwgRGVjIDEyLCAyMDE3
+IGF0IDEwOjMwIEFNLCBEb3VnbGFzIEFuZGVyc29uCj4+IDxkaWFuZGVyc0BjaHJvbWl1bS5vcmc+
+IHdyb3RlOgo+PiAuLi4KPj4KPj4gSSBkb24ndCBtZWFuIHRvIGJlIGEgcGVzdCwgYnV0IEknbSBo
+b3BpbmcgdGhhdCB3ZSBjYW4gbGFuZCB0aGlzCj4+IHNvbWV3aGVyZSAoaWYgbm90aGluZyBlbHNl
+IGluIHlvdXIgL25leHQgdHJlZSkganVzdCBzbyBpdCBkb2Vzbid0IG1pc3MKPj4gYW5vdGhlciBy
+ZWxlYXNlIGN5Y2xlLiAgSWYgeW91J3JlIG5vdCBzbyBrZWVuIG9uIGNvbGxlY3RpbmcgZHdjMiBo
+b3N0Cj4+IHBhdGNoZXMgdGhlc2UgZGF5cywgSSBjYW4gYWxzbyBzZWUgaWYgR3JlZyBLSCBpcyB3
+aWxsaW5nIHRvIHRha2UgdGhpcwo+PiBkaXJlY3RseSBpbnRvIGhpcyB0cmVlLiAgUGxlYXNlIGxl
+dCBtZSBrbm93LiAgVGhhbmtzIGZvciB5b3VyIHRpbWUhCj4+IDopCj4+Cj4+IC1Eb3VnCj4KPiBp
+dCdzIGFwcGxpZWQgdG8gbmV4dDoKPgo+IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9s
+aW51eC9rZXJuZWwvZ2l0L2JhbGJpL3VzYi5naXQvY29tbWl0Lz9oPW5leHQmaWQ9MzhkMmI1ZmI3
+NWMxNTkyM2ZiODljMzIxMzQ1MTZhNjIzNTE1YmNlNAoKQXd3dywgY3J1ZC4gIE9LLCB0aGVuIF9y
+ZWFsbHlfIEknbSBqdXN0IGJlaW5nIGEgcGVzdC4gIDooICBUaGFua3MgZm9yCnBvaW50aW5nIGl0
+IG91dCBTdGVmYW4uICBJJ20gc28gdXNlZCB0byBhbGwgdGhlIGVtYWlscyB0aGF0IGZseSBieQpm
+cm9tIGZvbGtzIHdoZW4gdGhpbmdzIGxhbmQgdGhhdCBJIGRpZG4ndCB0aGluayB0byBjaGVjayBk
+aXJlY3RseS4KU29ycnkgZm9yIHRoZSBub2lzZSBGZWxpcGUgYW5kIHRoYW5rcyB0byBib3RoIG9m
+IHlvdSBndXlzIHlvdXIgYWxsCnlvdXIgaGVscC4KCi1Eb3VnCi0tLQpUbyB1bnN1YnNjcmliZSBm
+cm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0
+aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1h
+am9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0
+bWwK
