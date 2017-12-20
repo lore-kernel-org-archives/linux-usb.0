@@ -2,23 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v1] usb: chipidea: tegra: Use aligned DMA on Tegra30
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-Id: <c574aabe51fa67e9a4bb9dc959c64ec6dcb232f1.1513651763.git.digetx@gmail.com>
-Date: Tue, 19 Dec 2017 05:58:07 +0300
-To: Felipe Balbi <balbi@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, Thierry Reding <thierry.reding@gmail.com>, Peter Chen <Peter.Chen@nxp.com>
-Cc: linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Thierry Reding <thierry.reding@gmail.com>
+Message-Id: <20171220185915.GB9687@ulmo>
+Date: Wed, 20 Dec 2017 19:59:15 +0100
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Felipe Balbi <balbi@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, Peter Chen <Peter.Chen@nxp.com>, linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-VVNCIEV0aGVybmV0IGdhZGdldCBub3cgd29ya3Mgb24gVGVncmEzMC4KClNpZ25lZC1vZmYtYnk6
-IERtaXRyeSBPc2lwZW5rbyA8ZGlnZXR4QGdtYWlsLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9jaGlw
-aWRlYS9jaV9oZHJjX3RlZ3JhLmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
-KyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9jaGlwaWRlYS9jaV9o
-ZHJjX3RlZ3JhLmMgYi9kcml2ZXJzL3VzYi9jaGlwaWRlYS9jaV9oZHJjX3RlZ3JhLmMKaW5kZXgg
-N2I2NWExMDQwZDJjLi43ZjRkMmI2YWYzN2EgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL2NoaXBp
-ZGVhL2NpX2hkcmNfdGVncmEuYworKysgYi9kcml2ZXJzL3VzYi9jaGlwaWRlYS9jaV9oZHJjX3Rl
-Z3JhLmMKQEAgLTI5LDcgKzI5LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCB0ZWdyYV91ZGNfc29j
-X2luZm8gdGVncmEyMF91ZGNfc29jX2luZm8gPSB7CiB9OwogCiBzdGF0aWMgY29uc3Qgc3RydWN0
-IHRlZ3JhX3VkY19zb2NfaW5mbyB0ZWdyYTMwX3VkY19zb2NfaW5mbyA9IHsKLQkuZmxhZ3MgPSAw
-LAorCS5mbGFncyA9IENJX0hEUkNfUkVRVUlSRVNfQUxJR05FRF9ETUEsCiB9OwogCiBzdGF0aWMg
-Y29uc3Qgc3RydWN0IHRlZ3JhX3VkY19zb2NfaW5mbyB0ZWdyYTExNF91ZGNfc29jX2luZm8gPSB7
-Cg==
+T24gVHVlLCBEZWMgMTksIDIwMTcgYXQgMDU6NTg6MDdBTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
+IHdyb3RlOgo+IFVTQiBFdGhlcm5ldCBnYWRnZXQgbm93IHdvcmtzIG9uIFRlZ3JhMzAuCj4gCj4g
+U2lnbmVkLW9mZi1ieTogRG1pdHJ5IE9zaXBlbmtvIDxkaWdldHhAZ21haWwuY29tPgo+IC0tLQo+
+ICBkcml2ZXJzL3VzYi9jaGlwaWRlYS9jaV9oZHJjX3RlZ3JhLmMgfCAyICstCj4gIDEgZmlsZSBj
+aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKQWNrZWQtYnk6IFRoaWVycnkg
+UmVkaW5nIDx0cmVkaW5nQG52aWRpYS5jb20+Cg==
