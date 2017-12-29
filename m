@@ -2,25 +2,19 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: USB: serial: cp210x: add IDs for LifeScan OneTouch Verio IQ
-From: =?utf-8?q?Diego_Elio_Petten=C3=B2?= <flameeyes@flameeyes.eu>
-Message-Id: <20171228234707.334454-1-flameeyes@flameeyes.eu>
-Date: Thu, 28 Dec 2017 23:47:07 +0000
-To: Johan Hovold <johan@kernel.org>
-Cc: linux-usb@vger.kernel.org, ngharo@gmail.com, =?UTF-8?q?Diego=20Elio=20Petten=C3=B2?= <flameeyes@flameeyes.eu>
+From: Johan Hovold <johan@kernel.org>
+Message-Id: <20171229091616.GA16993@localhost>
+Date: Fri, 29 Dec 2017 10:16:16 +0100
+To: Diego Elio =?iso-8859-1?Q?Petten=F2?= <flameeyes@flameeyes.eu>
+Cc: Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org, ngharo@gmail.com
 List-ID: <linux-usb.vger.kernel.org>
 
-U2lnbmVkLW9mZi1ieTogRGllZ28gRWxpbyBQZXR0ZW7DsiA8ZmxhbWVleWVzQGZsYW1lZXllcy5l
-dT4KLS0tCiBkcml2ZXJzL3VzYi9zZXJpYWwvY3AyMTB4LmMgfCAxICsKIDEgZmlsZSBjaGFuZ2Vk
-LCAxIGluc2VydGlvbigrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL3NlcmlhbC9jcDIxMHgu
-YyBiL2RyaXZlcnMvdXNiL3NlcmlhbC9jcDIxMHguYwppbmRleCA3YzYyNzNiLi4zODgxNDIyIDEw
-MDY0NAotLS0gYS9kcml2ZXJzL3VzYi9zZXJpYWwvY3AyMTB4LmMKKysrIGIvZHJpdmVycy91c2Iv
-c2VyaWFsL2NwMjEweC5jCkBAIC0xMjQsNiArMTI0LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCB1
-c2JfZGV2aWNlX2lkIGlkX3RhYmxlW10gPSB7CiAJeyBVU0JfREVWSUNFKDB4MTBDNCwgMHg4NDcw
-KSB9LCAvKiBKdW5pcGVyIE5ldHdvcmtzIEJYIFNlcmllcyBTeXN0ZW0gQ29uc29sZSAqLwogCXsg
-VVNCX0RFVklDRSgweDEwQzQsIDB4ODQ3NykgfSwgLyogQmFsbHVmZiBSRklEICovCiAJeyBVU0Jf
-REVWSUNFKDB4MTBDNCwgMHg4NEI2KSB9LCAvKiBTdGFyaXpvbmEgSHlwZXJpb24gKi8KKwl7IFVT
-Ql9ERVZJQ0UoMHgxMEM0LCAweDg1QTcpIH0sIC8qIExpZmVTY2FuIE9uZVRvdWNoIFZlcmlvIElR
-ICovCiAJeyBVU0JfREVWSUNFKDB4MTBDNCwgMHg4NUVBKSB9LCAvKiBBQy1TZXJ2aWNlcyBJQlVT
-LUlGICovCiAJeyBVU0JfREVWSUNFKDB4MTBDNCwgMHg4NUVCKSB9LCAvKiBBQy1TZXJ2aWNlcyBD
-SVMtSUJVUyAqLwogCXsgVVNCX0RFVklDRSgweDEwQzQsIDB4ODVGOCkgfSwgLyogVmlydGVuaW8g
-UHJlb24zMiAqLwo=
+T24gVGh1LCBEZWMgMjgsIDIwMTcgYXQgMTE6NDc6MDdQTSArMDAwMCwgRGllZ28gRWxpbyBQZXR0
+ZW7DsiB3cm90ZToKCkV2ZW4gaWYgdGhpcyBpcyBhIHRyaXZpYWwgcGF0Y2gsIEkgc3RpbGwgbmVl
+ZCBhIGNvbW1pdCBtZXNzYWdlIGhlcmUuCgo+IFNpZ25lZC1vZmYtYnk6IERpZWdvIEVsaW8gUGV0
+dGVuw7IgPGZsYW1lZXllc0BmbGFtZWV5ZXMuZXU+CgpQYXRjaCBsb29rcyBnb29kIG90aGVyd2lz
+ZS4gQ2FyZSB0byBzZW5kIGEgdjI/CgpUaGFua3MsCkpvaGFuCi0tLQpUbyB1bnN1YnNjcmliZSBm
+cm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0
+aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1h
+am9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0
+bWwK
