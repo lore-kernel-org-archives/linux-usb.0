@@ -1,26 +1,20 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: USB: cp2101 Add new device ID ELV ALC 8xxx
-From: Johan Hovold <johan@kernel.org>
-Message-Id: <20180102094604.GI16993@localhost>
-Date: Tue, 2 Jan 2018 10:46:04 +0100
-To: Christian Holl <cyborgx1@gmail.com>
-Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: tools: usb: usbip: fix fd leak in case of 'fread' failure
+From: Shuah Khan <shuah@kernel.org>
+Message-Id: <5134a814-510e-a157-07db-9be17d81f674@kernel.org>
+Date: Tue, 2 Jan 2018 10:48:57 -0700
+To: Elad Wexler <elad.wexler@gmail.com>, valentina.manea.m@gmail.com, Shuah Khan <shuahkh@osg.samsung.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCBEZWMgMjcsIDIwMTcgYXQgMTA6MTM6MjNQTSArMDEwMCwgQ2hyaXN0aWFuIEhvbGwg
-d3JvdGU6Cj4gRnJvbTogQ2hyaXN0aWFuIEhvbGwgPGN5Ym9yZ3gxQGdtYWlsLmNvbT4KPiBEYXRl
-OiBXZWQsIDI3IERlYyAyMDE3IDIxOjM5OjA0ICswMTAwCj4gU3ViamVjdDogW1BBVENIXSBVU0I6
-IGNwMjEweCBBZGQgbmV3IGRldmljZSBJRCBFTFYgQUxDIDh4eHgKPiAKPiBUaGlzIGFkZHMgdGhl
-IEVMViBBTEMgOHh4eCBCYXR0ZXJ5IENoYXJnaW5nIGRldmljZQo+IHRvIHRoZSBsaXN0IG9mIFVT
-QiBJRHMgb2YgZHJpdmVycy91c2Ivc2VyaWFsL2NwMjEweC5jCj4gCj4gU2lnbmVkLW9mZi1ieTog
-Q2hyaXN0aWFuIEhvbGwgPGN5Ym9yZ3gxQGdtYWlsLmNvbT4KClRoYW5rcyBmb3IgdGhlIHBhdGNo
-LiBVbmZvcnR1bmF0ZWx5IGl0IGhhcyBiZWVuIGNvcnJ1cHRlZCBieSB5b3VyCm1haWxlciwgd2l0
-aCB0YWJzIHJlcGxhY2VkIGJ5IHNwYWNlcywgYW5kIGRvZXMgbm90IGFwcGx5LgoKVHJ5IHNlbmRp
-bmcgdGhlIHBhdGNoIHRvIHlvdXJzZWxmIGZpcnN0IGFuZCBtYWtlIHN1cmUgeW91IGNhbiBhcHBs
-eSBpdAp3aXRoIGdpdCBhbS4gZ2l0LXNlbmQtZW1haWwgKGFuZCBnaXQtZm9ybWF0LXBhdGNoKSBj
-YW4gYmUgdmVyeSBoYW5keS4KClRoYW5rcywKSm9oYW4KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20g
-dGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBi
-b2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jk
-b21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
+T24gMTIvMzAvMjAxNyAwOTowMSBBTSwgRWxhZCBXZXhsZXIgd3JvdGU6Cj4gRml4IHBvc3NpYmxl
+IHJlc291cmNlIGxlYWs6IGZkCj4gCj4gU2lnbmVkLW9mZi1ieTogRWxhZCBXZXhsZXIgPGVsYWQu
+d2V4bGVyQGdtYWlsLmNvbT4KClRoYW5rcyBmb3IgdGhlIHBhdGNoLiBMb29rcyBnb29kIHRvIG1l
+LgoKQWNrZWQtYnk6IFNodWFoIEtoYW4gPHNodWFoa2hAb3NnLnNhbXN1bmcuY29tPgoKR3JlZywg
+cGxlYXNlIHBpY2sgdGhpcyBwYXRjaCB1cC4KCnRoYW5rcywKLS0gU2h1YWgKLS0tClRvIHVuc3Vi
+c2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11
+c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3Jn
+Ck1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21v
+LWluZm8uaHRtbAo=
