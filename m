@@ -1,20 +1,23 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3,14/16] phy: Add notify_speed callback
-From: Manu Gautam <mgautam@codeaurora.org>
-Message-Id: <f6bd1d50-d992-279a-5a16-79f6fea47388@codeaurora.org>
-Date: Tue, 2 Jan 2018 11:12:06 +0530
-To: Kishon Vijay Abraham I <kishon@ti.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, "open list:GENERIC PHY FRAMEWORK" <linux-kernel@vger.kernel.org>
+Subject: NET: usb: qmi_wwan: add support for YUGA CLM920-NC5 PID 0x9625
+From: David Miller <davem@davemloft.net>
+Message-Id: <20180102.144952.87306914708931710.davem@davemloft.net>
+Date: Tue, 02 Jan 2018 14:49:52 -0500 (EST)
+To: sz.lin@moxa.com
+Cc: bjorn@mork.no, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgoKT24gMTIvMjkvMjAxNyAxMTo1OCBBTSwgS2lzaG9uIFZpamF5IEFicmFoYW0gSSB3cm90
-ZToKPiBIaSwKPgo+IE9uIEZyaWRheSAyOSBEZWNlbWJlciAyMDE3IDA5OjU0IEFNLCBNYW51IEdh
-dXRhbSB3cm90ZToKPj4gSGksCltzbmlwXQo+Cj4gc3VnZ2VzdCB1c2luZyBzd2l0Y2ggaW4gc3Vj
-aCBjYXNlLi4gYW5kIG5vdCBhbGwgUEhZIGRyaXZlcnMgZG8gc3BlY2lmaWMKPiBjb25maWd1cmF0
-aW9ucyBmb3Igc3BlY2lmaWMgc3BlZWRzLgo+PiBUaGlzIGxvb2tzIGNsdW1zeS4KPj4gV2hlcmUg
-YXMgaWYgYml0cyB0byB1c2VkIHRoZW4gdGhlcmUgaXMgbm8gbmVlZCBmb3Igc3VjaCBjaGFuZ2Vz
-Lgo+IHJlYWxseT8gdXNpbmcgYml0cyBzaG91bGQgb25seSBtYWtlIGl0IG1vcmUgY2x1bXN5LgoK
-VGhhbmtzIGZvciB5b3VyIGZlZWRiYWNrLiBJIHdpbGwgdXBkYXRlIHRoaXMgaW4gbmV4dCBwYXRj
-aHNldC4KCgo+IC1LaXNob24K
+RnJvbTogU1ogTGluICjmnpfkuIrmmbopIDxzei5saW5AbW94YS5jb20+CkRhdGU6IEZyaSwgMjkg
+RGVjIDIwMTcgMTc6MDI6MTcgKzA4MDAKCj4gVGhpcyBwYXRjaCBhZGRzIHN1cHBvcnQgZm9yIFBJ
+RCAweDk2MjUgb2YgWVVHQSBDTE05MjAtTkM1Lgo+IAo+IFlVR0EgQ0xNOTIwLU5DNSBuZWVkcyB0
+byBlbmFibGUgUU1JX1dXQU5fUVVJUktfRFRSIGJlZm9yZSBRTUkgb3BlcmF0aW9uLgo+IAo+IHFt
+aWNsaSAtZCAvZGV2L2NkYy13ZG0wIC1wIC0tZG1zLWdldC1yZXZpc2lvbgo+IFsvZGV2L2NkYy13
+ZG0wXSBEZXZpY2UgcmV2aXNpb24gcmV0cmlldmVkOgo+ICAgICAgICAgUmV2aXNpb246ICdDTE05
+MjBfTkM1LVYxICAxICBbT2N0IDIzIDIwMTYgMTk6MDA6MDBdJwo+IAo+IFNpZ25lZC1vZmYtYnk6
+IFNaIExpbiAo5p6X5LiK5pm6KSA8c3oubGluQG1veGEuY29tPgoKQXBwbGllZCwgdGhhbmsgeW91
+LgotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vi
+c2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2
+Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVs
+Lm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
