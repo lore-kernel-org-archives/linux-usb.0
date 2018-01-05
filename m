@@ -2,21 +2,23 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [13/15] usb: dwc3: Track DWC_usb31 VERSIONTYPE
-From: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-Id: <a2b0705e-ba0d-1754-f882-a01e094c99a9@cogentembedded.com>
-Date: Sat, 6 Jan 2018 00:43:10 +0300
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org
+From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Message-Id: <30102591E157244384E984126FC3CB4F300CA854@us01wembx1.internal.synopsys.com>
+Date: Fri, 5 Jan 2018 22:06:19 +0000
+To: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Felipe Balbi <balbi@kernel.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
 Cc: John Youn <John.Youn@synopsys.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGVsbG8hCgpPbiAxLzUvMjAxOCAxMToxNiBQTSwgVGhpbmggTmd1eWVuIHdyb3RlOgoKPiBBZGQg
-YSBuZXcgdmFyaWFibGUgdG8gZHdjMyBzdHJ1Y3R1cmUgdG8gdHJhY2sgVkVSU0lPTlRZUEUuIFRo
-ZQoKICAgIFRoYXQncyBjYWxsZWQgZmllbGQsIG5vdCB2YXJpYWJsZS4KCj4gVkVSU0lPTlRZUEUg
-aXMgcmVwcmVzZW50ZWQgaW4gQVNDSUkgaW4gdGhlIDMyLWJpdCBWRVJTSU9OVFlQRSByZWdpc3Rl
-ci4KPiBJbiBEV0NfdXNiMzEsIHN1YiByZWxlYXNlcyBmb3IgZWFjaCB2ZXJzaW9uIGFyZSB0cmFj
-a2VkIHdpdGggVkVSU0lPTlRZUEUKPiBzdWNoIGFzICJlYTAxIiBhbmQgImVhMDIiLgo+IAo+IFNp
-Z25lZC1vZmYtYnk6IFRoaW5oIE5ndXllbiA8dGhpbmhuQHN5bm9wc3lzLmNvbT4KWy4uLl0KCk1C
-UiwgU2VyZ2VpCi0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGlu
-ZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFq
-b3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdl
-ci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
+T24gMS81LzIwMTggMTo0MyBQTSwgU2VyZ2VpIFNodHlseW92IHdyb3RlOgoKPiBIZWxsbyEKPiAK
+PiBPbiAxLzUvMjAxOCAxMToxNiBQTSwgVGhpbmggTmd1eWVuIHdyb3RlOgo+IAo+PiBBZGQgYSBu
+ZXcgdmFyaWFibGUgdG8gZHdjMyBzdHJ1Y3R1cmUgdG8gdHJhY2sgVkVSU0lPTlRZUEUuIFRoZQo+
+IAo+ICAgICAgVGhhdCdzIGNhbGxlZCBmaWVsZCwgbm90IHZhcmlhYmxlLgoKVGhhbmtzIGZvciBw
+b2ludGluZyB0aGF0IG91dC4gSSdsbCBtYWtlIGFuIHVwZGF0ZS4KCj4+IFZFUlNJT05UWVBFIGlz
+IHJlcHJlc2VudGVkIGluIEFTQ0lJIGluIHRoZSAzMi1iaXQgVkVSU0lPTlRZUEUgcmVnaXN0ZXIu
+Cj4+IEluIERXQ191c2IzMSwgc3ViIHJlbGVhc2VzIGZvciBlYWNoIHZlcnNpb24gYXJlIHRyYWNr
+ZWQgd2l0aCBWRVJTSU9OVFlQRQo+PiBzdWNoIGFzICJlYTAxIiBhbmQgImVhMDIiLgo+Pgo+PiBT
+aWduZWQtb2ZmLWJ5OiBUaGluaCBOZ3V5ZW4gPHRoaW5obkBzeW5vcHN5cy5jb20+Cj4gWy4uLl0K
+PiAKPiBNQlIsIFNlcmdlaQo+IAoKQlIsClRoaW5oCi0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRo
+aXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9k
+eSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9t
+byBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
