@@ -1,30 +1,25 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v6,48/99] shmem: Convert shmem_free_swap to XArray
-From: Matthew Wilcox <willy@infradead.org>
-Message-Id: <20180117202203.19756-49-willy@infradead.org>
-Date: Wed, 17 Jan 2018 12:21:12 -0800
-To: linux-kernel@vger.kernel.org
-Cc: Matthew Wilcox <mawilcox@microsoft.com>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, linux-nilfs@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-xfs@vger.kernel.org, linux-usb@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>, Stefano Stabellini <sstabellini@kernel.org>, iommu@lists.linux-foundation.org, linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org, intel-gfx@lists.freedesktop.org, cgroups@vger.kernel.org, linux-sh@vger.kernel.org, David Howells <dhowells@redhat.com>
+Subject: [1/3] USB: musb: da8xx: remove clock con_id
+From: David Lechner <david@lechnology.com>
+Message-Id: <1515295192-17883-2-git-send-email-david@lechnology.com>
+Date: Sat,  6 Jan 2018 21:19:50 -0600
+To: linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org
+Cc: David Lechner <david@lechnology.com>, Sekhar Nori <nsekhar@ti.com>, Kevin Hilman <khilman@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Bin Liu <b-liu@ti.com>, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-RnJvbTogTWF0dGhldyBXaWxjb3ggPG1hd2lsY294QG1pY3Jvc29mdC5jb20+CgpUaGlzIGlzIGEg
-cGVyZmVjdCB1c2UgZm9yIHhhX2NtcHhjaGcoKS4gIE5vdGUgdGhlIHVzZSBvZiAwIGZvciBHRlAK
-ZmxhZ3M7IHdlIHdvbid0IGJlIGFsbG9jYXRpbmcgbWVtb3J5LgoKU2lnbmVkLW9mZi1ieTogTWF0
-dGhldyBXaWxjb3ggPG1hd2lsY294QG1pY3Jvc29mdC5jb20+Ci0tLQogbW0vc2htZW0uYyB8IDcg
-KystLS0tLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkK
-CmRpZmYgLS1naXQgYS9tbS9zaG1lbS5jIGIvbW0vc2htZW0uYwppbmRleCBlODIzM2NiN2FiNWMu
-LjVhMjIyNmUwNmY4YyAxMDA2NDQKLS0tIGEvbW0vc2htZW0uYworKysgYi9tbS9zaG1lbS5jCkBA
-IC02MzUsMTYgKzYzNSwxMyBAQCBzdGF0aWMgdm9pZCBzaG1lbV9kZWxldGVfZnJvbV9wYWdlX2Nh
-Y2hlKHN0cnVjdCBwYWdlICpwYWdlLCB2b2lkICpyYWRzd2FwKQogfQogCiAvKgotICogUmVtb3Zl
-IHN3YXAgZW50cnkgZnJvbSByYWRpeCB0cmVlLCBmcmVlIHRoZSBzd2FwIGFuZCBpdHMgcGFnZSBj
-YWNoZS4KKyAqIFJlbW92ZSBzd2FwIGVudHJ5IGZyb20gcGFnZSBjYWNoZSwgZnJlZSB0aGUgc3dh
-cCBhbmQgaXRzIHBhZ2UgY2FjaGUuCiAgKi8KIHN0YXRpYyBpbnQgc2htZW1fZnJlZV9zd2FwKHN0
-cnVjdCBhZGRyZXNzX3NwYWNlICptYXBwaW5nLAogCQkJICAgcGdvZmZfdCBpbmRleCwgdm9pZCAq
-cmFkc3dhcCkKIHsKLQl2b2lkICpvbGQ7CisJdm9pZCAqb2xkID0geGFfY21weGNoZygmbWFwcGlu
-Zy0+cGFnZXMsIGluZGV4LCByYWRzd2FwLCBOVUxMLCAwKTsKIAotCXhhX2xvY2tfaXJxKCZtYXBw
-aW5nLT5wYWdlcyk7Ci0Jb2xkID0gcmFkaXhfdHJlZV9kZWxldGVfaXRlbSgmbWFwcGluZy0+cGFn
-ZXMsIGluZGV4LCByYWRzd2FwKTsKLQl4YV91bmxvY2tfaXJxKCZtYXBwaW5nLT5wYWdlcyk7CiAJ
-aWYgKG9sZCAhPSByYWRzd2FwKQogCQlyZXR1cm4gLUVOT0VOVDsKIAlmcmVlX3N3YXBfYW5kX2Nh
-Y2hlKHJhZGl4X3RvX3N3cF9lbnRyeShyYWRzd2FwKSk7Cg==
+VGhlcmUgaXMgb25seSBvbmUgY2xvY2sgZm9yIHRoZSBEQTh4eCBNVVNCIGRldmljZSwgc28gd2Ug
+ZG9uJ3QgbmVlZCB0aGUKY29uX2lkLCBzbyByZW1vdmUgaXQuIFRoaXMgd2F5IHdlIGRvbid0IGhh
+dmUgdG8gYWRkIGFuIHVubmVjZXNzYXJ5CnByb3BlcnR5IHRvIHRoZSBkZXZpY2UgdHJlZSBiaW5k
+aW5ncyBmb3IgdGhlIGNsb2NrLgoKU2lnbmVkLW9mZi1ieTogRGF2aWQgTGVjaG5lciA8ZGF2aWRA
+bGVjaG5vbG9neS5jb20+Ci0tLQogZHJpdmVycy91c2IvbXVzYi9kYTh4eC5jIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy91c2IvbXVzYi9kYTh4eC5jIGIvZHJpdmVycy91c2IvbXVzYi9kYTh4eC5jCmluZGV4
+IDZjMDM2ZGUuLmI4Mjk1Y2UgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL211c2IvZGE4eHguYwor
+KysgYi9kcml2ZXJzL3VzYi9tdXNiL2RhOHh4LmMKQEAgLTUyMCw3ICs1MjAsNyBAQCBzdGF0aWMg
+aW50IGRhOHh4X3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCiAJaWYgKCFnbHVl
+KQogCQlyZXR1cm4gLUVOT01FTTsKIAotCWNsayA9IGRldm1fY2xrX2dldCgmcGRldi0+ZGV2LCAi
+dXNiMjAiKTsKKwljbGsgPSBkZXZtX2Nsa19nZXQoJnBkZXYtPmRldiwgTlVMTCk7CiAJaWYgKElT
+X0VSUihjbGspKSB7CiAJCWRldl9lcnIoJnBkZXYtPmRldiwgImZhaWxlZCB0byBnZXQgY2xvY2tc
+biIpOwogCQlyZXR1cm4gUFRSX0VSUihjbGspOwo=
