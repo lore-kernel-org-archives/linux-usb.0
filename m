@@ -2,15 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [09/15] usb: dwc3: Check for ESS TX/RX threshold config
-From: Felipe Balbi <balbi@kernel.org>
-Message-Id: <87vagck14s.fsf@linux.intel.com>
-Date: Mon, 08 Jan 2018 14:04:19 +0200
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>Thinh Nguyen <Thinh.Nguyen@synopsys.com>, linux-usb@vger.kernel.org
+From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Message-Id: <30102591E157244384E984126FC3CB4F300CBE19@us01wembx1.internal.synopsys.com>
+Date: Mon, 8 Jan 2018 23:43:53 +0000
+To: Felipe Balbi <balbi@kernel.org>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
 Cc: John Youn <John.Youn@synopsys.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgpUaGluaCBOZ3V5ZW4gPFRoaW5oLk5ndXllbkBzeW5vcHN5cy5jb20+IHdyaXRlczoKPiBD
-aGVjayBhbmQgY29uZmlndXJlIFRYL1JYIHRocmVzaG9sZCBmb3IgRFdDX3VzYjMxLiBVcGRhdGUg
-ZHdjMyBzdHJ1Y3R1cmUKPiB3aXRoIG5ldyB2YXJpYWJsZXMgdG8gc3RvcmUgdGhlc2UgdGhyZXNo
-b2xkIGNvbmZpZ3VyYXRpb25zLgoKY291bGRuJ3Qgd2UgY2FsY3VsYXRlIHRoZXNlIGluIHJ1bnRp
-bWU/IFRoZW4gd2Ugd291bGRuJ3QgbmVlZCBuZXcgRGV2aWNlIFByb3BlcnRpZXMuCg==
+SGksCgpPbiAxLzgvMjAxOCA0OjA1IEFNLCBGZWxpcGUgQmFsYmkgd3JvdGU6Cj4gCj4gSGksCj4g
+Cj4gVGhpbmggTmd1eWVuIDxUaGluaC5OZ3V5ZW5Ac3lub3BzeXMuY29tPiB3cml0ZXM6Cj4+IENo
+ZWNrIGFuZCBjb25maWd1cmUgVFgvUlggdGhyZXNob2xkIGZvciBEV0NfdXNiMzEuIFVwZGF0ZSBk
+d2MzIHN0cnVjdHVyZQo+PiB3aXRoIG5ldyB2YXJpYWJsZXMgdG8gc3RvcmUgdGhlc2UgdGhyZXNo
+b2xkIGNvbmZpZ3VyYXRpb25zLgo+IAo+IGNvdWxkbid0IHdlIGNhbGN1bGF0ZSB0aGVzZSBpbiBy
+dW50aW1lPyBUaGVuIHdlIHdvdWxkbid0IG5lZWQgbmV3IERldmljZSBQcm9wZXJ0aWVzLgo+IAoK
+SXQncyBub3QgcG9zc2libGUgdG8gY2FsY3VsYXRlIHRoZXNlIGluIHJ1bnRpbWUuIEl0IGRlcGVu
+ZHMgb24gc3lzdGVtIApsYXRlbmN5IGFuZCBkdXJhdGlvbiBvZiBwYWNrZXQgb24gQVhJL1BDSWUu
+CgpCUiwKVGhpbmgKLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBs
+aW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBt
+YWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92
+Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
