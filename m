@@ -2,35 +2,21 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: Aw: Re: dvb usb issues since kernel 4.9
-From: Jesper Dangaard Brouer <jbrouer@redhat.com>
-Message-Id: <20180108223109.66c91554@redhat.com>
-Date: Mon, 8 Jan 2018 22:31:09 +0100
-To: Josef Griebichler <griebichler.josef@gmx.at>
-Cc: Mauro Carvalho Chehab <mchehab@s-opensource.com>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, Eric Dumazet <edumazet@google.com>, Rik van Riel <riel@redhat.com>, Paolo Abeni <pabeni@redhat.com>, Hannes Frederic Sowa <hannes@redhat.com>, linux-kernel <linux-kernel@vger.kernel.org>, netdev <netdev@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, LMML <linux-media@vger.kernel.org>, Peter Zijlstra <peterz@infradead.org>, David Miller <davem@davemloft.net>, torvalds@linux-foundation.org
+From: Peter Zijlstra <peterz@infradead.org>
+Message-Id: <20180108214427.GT29822@worktop.programming.kicks-ass.net>
+Date: Mon, 8 Jan 2018 22:44:27 +0100
+To: Jesper Dangaard Brouer <jbrouer@redhat.com>
+Cc: Josef Griebichler <griebichler.josef@gmx.at>, Mauro Carvalho Chehab <mchehab@s-opensource.com>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, Eric Dumazet <edumazet@google.com>, Rik van Riel <riel@redhat.com>, Paolo Abeni <pabeni@redhat.com>, Hannes Frederic Sowa <hannes@redhat.com>, linux-kernel <linux-kernel@vger.kernel.org>, netdev <netdev@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, LMML <linux-media@vger.kernel.org>, David Miller <davem@davemloft.net>, torvalds@linux-foundation.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gTW9uLCA4IEphbiAyMDE4IDE3OjI2OjEwICswMTAwCiJKb3NlZiBHcmllYmljaGxlciIgPGdy
-aWViaWNobGVyLmpvc2VmQGdteC5hdD4gd3JvdGU6Cgo+IEkgdHJpZWQgeW91ciBtZW50aW9uZWQg
-cGF0Y2ggYnV0IHVuZm9ydHVuYXRlbHkgbm8gcmVhbCBpbXByb3ZlbWVudCBmb3IgbWUuCj4gZG1l
-c2cgaHR0cDovL2l4LmlvL0RPZwo+IHR2aGVhZGVuZCBzZXJ2aWNlIGxvZyBodHRwOi8vaXguaW8v
-RE9pCj4KPiBFcnJvcnMgZHVyaW5nIHJlY29yZGluZyBhcmUgc3RpbGwgdGhlcmUuCgpBcmUgeW91
-IF9hbHNvXyByZWNvcmRpbmcgdGhlIHN0cmVhbSBvbiB0aGUgUmFzcGJlcnJ5IFBpPwoKSXQgc2Vl
-bXMgdG8gbWUsIHRoYXQgeW91IGFyZSBleHBlY3RpbmcgdG9vIG11Y2ggZnJvbSB0aGlzIHNtYWxs
-IGRldmljZS4KCj4gRXJyb3JzIGluY3JlYXNlIGlmIHRoZXJlIGlzIGFkZGl0aW9uYWwgdGNwIGxv
-YWQgb24gcmFzcGJlcnJ5LgoKSSBkaWQgZXhwZWN0ZWQgdGhlIGlzc3VlIHRvIGdldCB3b3JzZSwg
-d2hlbiB5b3UgbG9hZCB0aGUgUGkgd2l0aApuZXR3b3JrIHRyYWZmaWMsIGFzIG5vdyB0aGUgc29m
-dGlycSB0aW1lLWJ1ZGdldCBoYXZlIHRvIGJlIHNoYXJlZApiZXR3ZWVuIG5ldHdvcmtpbmcgYW5k
-IFVTQi9EVkIuIFRodXMsIEkgZ3Vlc3MgeW91IGFyZSBydW5uaW5nIFRDUCBhbmQKVVNCL21wZWcy
-dHMgb24gdGhlIHNhbWUgQ1BVICh3aHkgd2hlbiB5b3UgaGF2ZSA0IENQVXM/Li4uKQoKSWYgeW91
-IGV4cGVjdC93YW50IHRvIGdldCBzdGFibGUgcGVyZm9ybWFuY2Ugb3V0IG9mIHN1Y2ggYSBzbWFs
-bCBib3gsCnRoZW4geW91IChvciBMaWJyZUVMRUMpIG5lZWQgdG8gdHVuZSB0aGUgYm94IGZvciB0
-aGlzIHVzYWdlLiAgQW5kIGl0CmRvZXMgbm90IGhhdmUgdG8gYmUgdGhhdCBjb21wbGljYXRlZC4g
-IEZpcnN0IHN0ZXAgaXMgdG8gbW92ZSBJUlEKaGFuZGxpbmcgZm9yIHRoZSBOSUMgdG8gYW5vdGhl
-ciBDUFUgYW5kIHRoYW4gdGhlIFVTQiBwb3J0IGhhbmRsaW5nIHRoZQpEVkIgc2lnbmFsICgvcHJv
-Yy9pcnEvKi9zbXBfYWZmaW5pdHlfbGlzdCkuICBBbmQgdGhlbiBwaW4gdGhlCnVzZXJzcGFjZSBw
-cm9jZXNzICh0YXNrc2V0KSB0byBhbm90aGVyIENQVSB0aGFuIHRoZSBvbmUgaGFuZGxpbmcKVVNC
-LXNvZnRpcnEuCgo+IFVuZm9ydHVuYXRlbHkgdGhlcmUncyBubyB1c2Jtb24gb3IgdHNoYXJrIG9u
-IGxpYnJlZWxlYyBzbyBJIGNhbid0Cj4gcHJvdmlkZSBmdXJ0aGVyIGxvZ3MuCgpEbyB5b3UgaGF2
-ZSBwZXJmIG9yIHRyYWNlLWNtZCBvbiB0aGUgYm94PyAgTWF5YmUgd2UgY291bGQgY29tZSB1cCB3
-aXRoCnNvbWUga2VybmVsIGZ1bmN0aW9ucyB0byB0cmFjZSwgdG8gbWVhc3VyZS9zaG93IHRoZSBs
-YXRlbmN5IHNwaWtlcz8K
+T24gTW9uLCBKYW4gMDgsIDIwMTggYXQgMTA6MzE6MDlQTSArMDEwMCwgSmVzcGVyIERhbmdhYXJk
+IEJyb3VlciB3cm90ZToKPiBJIGRpZCBleHBlY3RlZCB0aGUgaXNzdWUgdG8gZ2V0IHdvcnNlLCB3
+aGVuIHlvdSBsb2FkIHRoZSBQaSB3aXRoCj4gbmV0d29yayB0cmFmZmljLCBhcyBub3cgdGhlIHNv
+ZnRpcnEgdGltZS1idWRnZXQgaGF2ZSB0byBiZSBzaGFyZWQKPiBiZXR3ZWVuIG5ldHdvcmtpbmcg
+YW5kIFVTQi9EVkIuIFRodXMsIEkgZ3Vlc3MgeW91IGFyZSBydW5uaW5nIFRDUCBhbmQKPiBVU0Iv
+bXBlZzJ0cyBvbiB0aGUgc2FtZSBDUFUgKHdoeSB3aGVuIHlvdSBoYXZlIDQgQ1BVcz8uLi4pCgpJ
+c24ndCBuZXR3b3JraW5nIGFsc28gb3ZlciBVU0Igb24gdGhlIFBpID8KLS0tClRvIHVuc3Vic2Ny
+aWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2Ii
+IGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1v
+cmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWlu
+Zm8uaHRtbAo=
