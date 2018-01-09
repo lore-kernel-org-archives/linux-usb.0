@@ -1,16 +1,31 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v6,20/99] ida: Convert to XArray
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Message-Id: <e8c42206-e4d7-dda3-2bb7-2c1faa6ff5be@physik.fu-berlin.de>
-Date: Wed, 17 Jan 2018 22:17:55 +0100
-To: Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Matthew Wilcox <mawilcox@microsoft.com>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, linux-nilfs@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-xfs@vger.kernel.org, linux-usb@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>, Stefano Stabellini <sstabellini@kernel.org>, iommu@lists.linux-foundation.org, linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org, intel-gfx@lists.freedesktop.org, cgroups@vger.kernel.org, linux-sh@vger.kernel.org, David Howells <dhowells@redhat.com>
+Subject: usb: xhci: Clean up error code in xhci_dbc_tty_register_device()
+From: Dan Carpenter <dan.carpenter@oracle.com>
+Message-Id: <20180109094105.l3dtv4jy36syu55s@mwanda>
+Date: Tue, 9 Jan 2018 12:41:05 +0300
+To: Mathias Nyman <mathias.nyman@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgTWF0dGhldyEKCk9uIDAxLzE3LzIwMTggMDk6MjAgUE0sIE1hdHRoZXcgV2lsY294IHdyb3Rl
-Ogo+IFVzZSB0aGUgeGFycmF5IGluZnJzdHJ1Y3R1cmUgbGlrZSB3ZSB1c2VkIHRoZSByYWRpeCB0
-cmVlIGluZnJhc3RydWN0dXJlLgo+IFRoaXMgbGV0cyB1cyBnZXQgcmlkIG9mIGlkcl9nZXRfZnJl
-ZSgpIGZyb20gdGhlIHJhZGl4IHRyZWUgY29kZS4KClRoZXJlJ3MgYSB0eXBvOiBpbmZyc3RydWN0
-dXJlID0+IGluZnJhdHJ1Y3R1cmUKCkNoZWVycywKQWRyaWFuCg==
+dHR5X3BvcnRfcmVnaXN0ZXJfZGV2aWNlKCkgcmV0dXJucyBlcnJvciBwb2ludGVycyBvbiBlcnJv
+ciwgbmV2ZXIgTlVMTC4KVGhlIElTX0VSUl9PUl9OVUxMKCkgZnVuY3Rpb24gcmV0dXJucyBlaXRo
+ZXIgMSBvciAwIHNvIGl0IG1lYW5zIHdlCnJldHVybiAxIG9uIGVycm9yIGluc3RlYWQgb2YgYSBw
+cm9wZXIgZXJyb3IgY29kZS4gIFRoZSBjYWxsZXIgb25seQpjaGVja3MgZm9yIHplcm8gdnMgbm9u
+LXplcm8gc28gdGhpcyBkb2Vzbid0IGFmZmVjdCBydW50aW1lLgoKU2lnbmVkLW9mZi1ieTogRGFu
+IENhcnBlbnRlciA8ZGFuLmNhcnBlbnRlckBvcmFjbGUuY29tPgotLS0KVG8gdW5zdWJzY3JpYmUg
+ZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4K
+dGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBt
+YWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5o
+dG1sCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvaG9zdC94aGNpLWRiZ3R0eS5jIGIvZHJpdmVy
+cy91c2IvaG9zdC94aGNpLWRiZ3R0eS5jCmluZGV4IDhkNDdiNmZiZjk3My4uNmY1MzRiNmRlY2Vm
+IDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9ob3N0L3hoY2ktZGJndHR5LmMKKysrIGIvZHJpdmVy
+cy91c2IvaG9zdC94aGNpLWRiZ3R0eS5jCkBAIC00NDMsOSArNDQzLDEwIEBAIGludCB4aGNpX2Ri
+Y190dHlfcmVnaXN0ZXJfZGV2aWNlKHN0cnVjdCB4aGNpX2hjZCAqeGhjaSkKIAl4aGNpX2RiY190
+dHlfaW5pdF9wb3J0KHhoY2ksIHBvcnQpOwogCXR0eV9kZXYgPSB0dHlfcG9ydF9yZWdpc3Rlcl9k
+ZXZpY2UoJnBvcnQtPnBvcnQsCiAJCQkJCSAgIGRiY190dHlfZHJpdmVyLCAwLCBOVUxMKTsKLQly
+ZXQgPSBJU19FUlJfT1JfTlVMTCh0dHlfZGV2KTsKLQlpZiAocmV0KQorCWlmIChJU19FUlIodHR5
+X2RldikpIHsKKwkJcmV0ID0gUFRSX0VSUih0dHlfZGV2KTsKIAkJZ290byByZWdpc3Rlcl9mYWls
+OworCX0KIAogCXJldCA9IGtmaWZvX2FsbG9jKCZwb3J0LT53cml0ZV9maWZvLCBEQkNfV1JJVEVf
+QlVGX1NJWkUsIEdGUF9LRVJORUwpOwogCWlmIChyZXQpCg==
