@@ -2,22 +2,28 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [V2,5/5] usb: serial: f81534: fix tx error on some baud rate
-From: "Ji-Ze Hong \(Peter Hong\)" <hpeter@gmail.com>
-Message-Id: <747ab8c9-50cc-2bbb-6f58-758e3361cbe2@gmail.com>
-Date: Wed, 10 Jan 2018 13:42:32 +0800
-To: Johan Hovold <johan@kernel.org>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, peter_hong@fintek.com.tw, "Ji-Ze Hong \(Peter Hong\)" <hpeter+linux_kernel@gmail.com>
+From: Johan Hovold <johan@kernel.org>
+Message-Id: <20180110085037.GW11344@localhost>
+Date: Wed, 10 Jan 2018 09:50:37 +0100
+To: "Ji-Ze Hong \(Peter Hong\)" <hpeter@gmail.com>
+Cc: Johan Hovold <johan@kernel.org>, gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, peter_hong@fintek.com.tw, "Ji-Ze Hong \(Peter Hong\)" <hpeter+linux_kernel@gmail.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgSm9oYW4sCgpKb2hhbiBIb3ZvbGQg5pa8IDIwMTgvMS85IOS4i+WNiCAwNzozMiDlr6vpgZM6
-Cj4gT24gVGh1LCBKYW4gMDQsIDIwMTggYXQgMTA6Mjk6MjFBTSArMDgwMCwgSmktWmUgSG9uZyAo
-UGV0ZXIgSG9uZykgd3JvdGU6Cj4+ICsJLyoKPj4gKwkgKiBXZSdsbCBtYWtlIHR4IGZyYW1lIGVy
-cm9yIHdoZW4gYmF1ZCByYXRlIGZyb20gMzg0fjUwMGtwcy4gU28gd2UnbGwKPj4gKwkgKiBkZWxh
-eSBhbGwgdHggZGF0YSBmcmFtZSB3aXRoIDFiaXQuCj4+ICsJICovCj4+ICsJcG9ydF9wcml2LT5z
-aGFkb3dfY2xrIHw9IEY4MTUzNF9DTEtfVFhfREVMQVlfMUJJVDsKPiAKPiBZb3UgZG9uJ3Qgd2Fu
-J3QgdG8gZW5hYmxlIHRoaXMgb25seSBmb3IgdGhlIGFmZmVjdGVkIHJhdGVzPwo+IAoKVGhpcyBi
-aXQgd2lsbCBjb250cm9sIGFsbCB0cmFuc21pdCBUWCBmcmFtZSBhbHdheXMgZGVsYXkgMSBiaXQK
-b24gZW5hYmxlZCwgYnV0IEl0J2xsIHRyYW5zbWl0IFRYIGZyYW1lIHJhbmRvbWx5IGRlbGF5IDEg
-Yml0IG9uCmRpc2FibGVkLgoKV2UgaGFkIHRlc3RlZCBpdCB3aXRoIEJ1cm5JblRlc3QgdG8gY2hl
-Y2sgdGhlIHBlcmZvcm1hbmNlLApJdCdsbCBub3QgbWFrZSB0aGUgcGVyZm9ybWFuY2UgcmVncmVz
-c2lvbi4gU28gd2UnbGwgZGlyZWN0bHkgYWRkCml0IG9uIGFsbCBiYXVkIHJhdGUuCgpUaGFua3MK
+T24gV2VkLCBKYW4gMTAsIDIwMTggYXQgMDE6NDI6MzJQTSArMDgwMCwgSmktWmUgSG9uZyAoUGV0
+ZXIgSG9uZykgd3JvdGU6Cj4gSGkgSm9oYW4sCj4gCj4gSm9oYW4gSG92b2xkIOaWvCAyMDE4LzEv
+OSDkuIvljYggMDc6MzIg5a+r6YGTOgo+ID4gT24gVGh1LCBKYW4gMDQsIDIwMTggYXQgMTA6Mjk6
+MjFBTSArMDgwMCwgSmktWmUgSG9uZyAoUGV0ZXIgSG9uZykgd3JvdGU6Cj4gPj4gKwkvKgo+ID4+
+ICsJICogV2UnbGwgbWFrZSB0eCBmcmFtZSBlcnJvciB3aGVuIGJhdWQgcmF0ZSBmcm9tIDM4NH41
+MDBrcHMuIFNvIHdlJ2xsCj4gPj4gKwkgKiBkZWxheSBhbGwgdHggZGF0YSBmcmFtZSB3aXRoIDFi
+aXQuCj4gPj4gKwkgKi8KPiA+PiArCXBvcnRfcHJpdi0+c2hhZG93X2NsayB8PSBGODE1MzRfQ0xL
+X1RYX0RFTEFZXzFCSVQ7Cj4gPiAKPiA+IFlvdSBkb24ndCB3YW4ndCB0byBlbmFibGUgdGhpcyBv
+bmx5IGZvciB0aGUgYWZmZWN0ZWQgcmF0ZXM/Cj4gPiAKPiAKPiBUaGlzIGJpdCB3aWxsIGNvbnRy
+b2wgYWxsIHRyYW5zbWl0IFRYIGZyYW1lIGFsd2F5cyBkZWxheSAxIGJpdAo+IG9uIGVuYWJsZWQs
+IGJ1dCBJdCdsbCB0cmFuc21pdCBUWCBmcmFtZSByYW5kb21seSBkZWxheSAxIGJpdCBvbgo+IGRp
+c2FibGVkLgo+IAo+IFdlIGhhZCB0ZXN0ZWQgaXQgd2l0aCBCdXJuSW5UZXN0IHRvIGNoZWNrIHRo
+ZSBwZXJmb3JtYW5jZSwKPiBJdCdsbCBub3QgbWFrZSB0aGUgcGVyZm9ybWFuY2UgcmVncmVzc2lv
+bi4gU28gd2UnbGwgZGlyZWN0bHkgYWRkCj4gaXQgb24gYWxsIGJhdWQgcmF0ZS4KCk9rLCB0aGFu
+a3MgZm9yIGNvbmZpcm1pbmcuCgpKb2hhbgotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxp
+c3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2Yg
+YSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5m
+byBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
