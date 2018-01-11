@@ -2,20 +2,26 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,2/2] usb: dwc3: ep0: Reset TRB counter for ep0 IN
-From: Felipe Balbi <balbi@kernel.org>
-Message-Id: <87lgh4yfmn.fsf@linux.intel.com>
-Date: Thu, 11 Jan 2018 10:16:32 +0200
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>Thinh Nguyen <Thinh.Nguyen@synopsys.com>, linux-usb@vger.kernel.org
-Cc: John Youn <John.Youn@synopsys.com>, stable@vger.kernel.org
+From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Message-Id: <30102591E157244384E984126FC3CB4F300CD88C@us01wembx1.internal.synopsys.com>
+Date: Thu, 11 Jan 2018 20:57:11 +0000
+To: Felipe Balbi <balbi@kernel.org>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Cc: John Youn <John.Youn@synopsys.com>, "stable@vger.kernel.org" <stable@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgpUaGluaCBOZ3V5ZW4gPFRoaW5oLk5ndXllbkBzeW5vcHN5cy5jb20+IHdyaXRlczoKPiBJ
-biBjb250cm9sIHJlYWQgdHJhbnNmZXIgY29tcGxldGlvbiBoYW5kbGVyLCB0aGUgZHJpdmVyIG5l
-ZWRzIHRvIHJlc2V0Cj4gdGhlIFRSQiBlbnF1ZXVlIGNvdW50ZXIuIFNpbmNlIHRoZXJlIGlzIG9u
-ZSBjb250cm9sIGVuZHBvaW50IHN0cnVjdHVyZQo+IGZvciBlYWNoIGRpcmVjdGlvbiwgd2UgbXVz
-dCBhbHNvIHRyYWNrIHRoZSBUUkIgZW5xdWV1ZSBjb3VudGVyIGZvciBlYWNoCj4gZGlyZWN0aW9u
-LiBDdXJyZW50bHkgdGhlIGRyaXZlciBvbmx5IHJlc2V0cyB0aGUgVFJCIGNvdW50ZXIgZm9yIGNv
-bnRyb2wKPiBPVVQgZW5kcG9pbnQgb25seS4gQ2hlY2sgZm9yIHRoZSBkYXRhIGRpcmVjdGlvbiBh
-bmQgcHJvcGVybHkgcmVzZXQgdGhlCj4gVFJCIGNvdW50ZXIgZnJvbSBjb3JyZWN0IGNvbnRyb2wg
-ZW5kcG9pbnQuCj4KPiBDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZwo+IFNpZ25lZC1vZmYtYnk6
-IFRoaW5oIE5ndXllbiA8dGhpbmhuQHN5bm9wc3lzLmNvbT4KCm1pc3NpbmcgRml4ZXMgdGFnCg==
+SGksCgpPbiAxLzExLzIwMTggMTI6MTYgQU0sIEZlbGlwZSBCYWxiaSB3cm90ZToKPiAKPiBIaSwK
+PiAKPiBUaGluaCBOZ3V5ZW4gPFRoaW5oLk5ndXllbkBzeW5vcHN5cy5jb20+IHdyaXRlczoKPj4g
+SW4gY29udHJvbCByZWFkIHRyYW5zZmVyIGNvbXBsZXRpb24gaGFuZGxlciwgdGhlIGRyaXZlciBu
+ZWVkcyB0byByZXNldAo+PiB0aGUgVFJCIGVucXVldWUgY291bnRlci4gU2luY2UgdGhlcmUgaXMg
+b25lIGNvbnRyb2wgZW5kcG9pbnQgc3RydWN0dXJlCj4+IGZvciBlYWNoIGRpcmVjdGlvbiwgd2Ug
+bXVzdCBhbHNvIHRyYWNrIHRoZSBUUkIgZW5xdWV1ZSBjb3VudGVyIGZvciBlYWNoCj4+IGRpcmVj
+dGlvbi4gQ3VycmVudGx5IHRoZSBkcml2ZXIgb25seSByZXNldHMgdGhlIFRSQiBjb3VudGVyIGZv
+ciBjb250cm9sCj4+IE9VVCBlbmRwb2ludCBvbmx5LiBDaGVjayBmb3IgdGhlIGRhdGEgZGlyZWN0
+aW9uIGFuZCBwcm9wZXJseSByZXNldCB0aGUKPj4gVFJCIGNvdW50ZXIgZnJvbSBjb3JyZWN0IGNv
+bnRyb2wgZW5kcG9pbnQuCj4+Cj4+IENjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnCj4+IFNpZ25l
+ZC1vZmYtYnk6IFRoaW5oIE5ndXllbiA8dGhpbmhuQHN5bm9wc3lzLmNvbT4KPiAKPiBtaXNzaW5n
+IEZpeGVzIHRhZwoKU2FtZSB3aXRoIHRoaXMgcGF0Y2guIFRoZXJlJ3Mgbm8gcGFydGljdWxhciBj
+b21taXQgdGhhdCBpdCBmaXhlcy4KCkJSLApUaGluaAotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0
+aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJv
+ZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRv
+bW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
