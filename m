@@ -2,18 +2,32 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: Aw: Re: dvb usb issues since kernel 4.9
-From: Eric Dumazet <eric.dumazet@gmail.com>
-Message-Id: <1515793726.3606.1.camel@gmail.com>
-Date: Fri, 12 Jan 2018 13:48:46 -0800
-To: Mauro Carvalho Chehab <mchehab@s-opensource.com>, Linus Torvalds <torvalds@linux-foundation.org>, Eric Dumazet <edumazet@google.com>
-Cc: Josef Griebichler <griebichler.josef@gmx.at>, Jesper Dangaard Brouer <jbrouer@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, USB list <linux-usb@vger.kernel.org>, Rik van Riel <riel@redhat.com>, Paolo Abeni <pabeni@redhat.com>, Hannes Frederic Sowa <hannes@redhat.com>, linux-kernel <linux-kernel@vger.kernel.org>, netdev <netdev@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, LMML <linux-media@vger.kernel.org>, David Miller <davem@davemloft.net>, Arnd Bergmann <arnd@arndb.de>
+From: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+Message-Id: <20180113070920.4453eafe@vento.lan>
+Date: Sat, 13 Jan 2018 07:09:20 -0200
+To: Eric Dumazet <eric.dumazet@gmail.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Eric Dumazet <edumazet@google.com>, Josef Griebichler <griebichler.josef@gmx.at>, Jesper Dangaard Brouer <jbrouer@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, USB list <linux-usb@vger.kernel.org>, Rik van Riel <riel@redhat.com>, Paolo Abeni <pabeni@redhat.com>, Hannes Frederic Sowa <hannes@redhat.com>, linux-kernel <linux-kernel@vger.kernel.org>, netdev <netdev@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, LMML <linux-media@vger.kernel.org>, David Miller <davem@davemloft.net>, Arnd Bergmann <arnd@arndb.de>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCAyMDE4LTAxLTEyIGF0IDE5OjEzIC0wMjAwLCBNYXVybyBDYXJ2YWxobyBDaGVoYWIg
-d3JvdGU6Cj4gCj4gCj4gVGhlIC5jb25maWcgZmlsZSB1c2VkIHRvIGJ1aWxkIHRoZSBLZXJuZWwg
-aXMgYXQ6Cj4gCWh0dHBzOi8vcGFzdGViaW4uY29tL3dwWmdoYW5uCj4gCgpIaSBNYXVybwoKQW55
-IGNoYW5jZSB5b3UgY2FuIHRyeSBDT05GSUdfSFpfMTAwMD15LCBDT05GSUdfSFo9MTAwMMKgPwoK
-VGhhbmtzLgotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUg
-InVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9y
-ZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIu
-a2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
+RW0gRnJpLCAxMiBKYW4gMjAxOCAxMzo0ODo0NiAtMDgwMApFcmljIER1bWF6ZXQgPGVyaWMuZHVt
+YXpldEBnbWFpbC5jb20+IGVzY3JldmV1OgoKPiBPbiBGcmksIDIwMTgtMDEtMTIgYXQgMTk6MTMg
+LTAyMDAsIE1hdXJvIENhcnZhbGhvIENoZWhhYiB3cm90ZToKPiA+IAo+ID4gCj4gPiBUaGUgLmNv
+bmZpZyBmaWxlIHVzZWQgdG8gYnVpbGQgdGhlIEtlcm5lbCBpcyBhdDoKPiA+IAlodHRwczovL3Bh
+c3RlYmluLmNvbS93cFpnaGFubgo+ID4gCj4gCj4gSGkgTWF1cm8KPiAKPiBBbnkgY2hhbmNlIHlv
+dSBjYW4gdHJ5IENPTkZJR19IWl8xMDAwPXksIENPTkZJR19IWj0xMDAwwqA/CgpJIGNhbiBkbyBz
+dWNoIHRlc3QgdG8gc2F0aXNmeSB5b3VyIGN1cmlvc2l0eSwgYnV0IHRoYXQgZG9lc24ndCBzb3Vu
+ZCB0aGUgcmlnaHQKZml4LgoKU2VlLCBhbG1vc3QgYWxsIFRWIGFuZCBzZXQgdG9wIGJveGVzKFNU
+QikgcnVuIExpbnV4IG5vd2FkYXlzIGFuZCB1c3VhbGx5IGNvbWUKd2l0aCBBUk0gY3B1cyBkZXNp
+Z25lZCB0byAianVzdCBkbyB0aGVpciBqb2IiIChlLiBnLiBDUFVzIHdpdGggbG93IGNsb2Nrcyku
+IApUaGVyZSwgcG93ZXIgY29uc3VtcHRpb24gaXMgYSBtdXN0LiBUaGlzIGJ1ZyB2ZXJ5IGxpa2Vs
+eSBhZmZlY3QgdGhvc2UgZGV2aWNlcywKb25jZSBtaWdyYXRlZCB0byBLZXJuZWwgNC45Ky4gQ2hh
+bmdpbmcgZnJvbSBOT19IWiB0byBIWj0xMDAwIG9uIFRWL1NUQiB3aWxsCmZvciBzdXJlIGhhdmUg
+YmFkIHNpZGUgZWZmZWN0cyBvbiB0aG9zZSB0eXBlcyBvZiBkZXZpY2VzLCBpbmNyZWFzaW5nIHBv
+d2VyCmNvbnN1bXB0aW9uLgoKTm90IHNheWluZyB0aGF0IHRoaXMgd2lsbCBiZSBlbnZpcm9ubWVu
+dGFsbHkgdmVyeSBiYWQsIGFzIHRoZSBudW1iZXIgb2YganVzdApUViB1bml0IHNhbGVzIGlzIGF0
+IHRoZSBvcmRlciBvZiAyMzAgbWlsbGlvbiB1bml0cyBwZXIgeWVhclsxXS4KClsxXSBodHRwczov
+L3d3dy5zdGF0aXN0YS5jb20vc3RhdGlzdGljcy80NjEzMTYvZ2xvYmFsLXR2LXVuaXQtc2FsZXMv
+CgoKVGhhbmtzLApNYXVybwotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQg
+dGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdl
+IHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0
+cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
