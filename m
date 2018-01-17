@@ -1,30 +1,22 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3,2/2] usb: dwc3: ep0: Reset TRB counter for ep0 IN
-From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Message-Id: <b9ea4a6ca4400fa6ee2acde2b928fa1922c54b98.1515809719.git.thinhn@synopsys.com>
-Date: Fri, 12 Jan 2018 18:18:27 -0800
-To: Felipe Balbi <balbi@kernel.org>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>, linux-usb@vger.kernel.org
-Cc: John Youn <John.Youn@synopsys.com>, stable@vger.kernel.org
+Subject: [v6,28/99] page cache: Remove stray radix comment
+From: Matthew Wilcox <willy@infradead.org>
+Message-Id: <20180117202203.19756-29-willy@infradead.org>
+Date: Wed, 17 Jan 2018 12:20:52 -0800
+To: linux-kernel@vger.kernel.org
+Cc: Matthew Wilcox <mawilcox@microsoft.com>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, linux-nilfs@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-xfs@vger.kernel.org, linux-usb@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>, Stefano Stabellini <sstabellini@kernel.org>, iommu@lists.linux-foundation.org, linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org, intel-gfx@lists.freedesktop.org, cgroups@vger.kernel.org, linux-sh@vger.kernel.org, David Howells <dhowells@redhat.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-RFdDMyB0cmFja3MgVFJCIGNvdW50ZXIgZm9yIGVhY2ggZXAwIGRpcmVjdGlvbiBzZXBhcmF0ZWx5
-LiBJbiBjb250cm9sCnJlYWQgdHJhbnNmZXIgY29tcGxldGlvbiBoYW5kbGVyLCB0aGUgZHJpdmVy
-IG5lZWRzIHRvIHJlc2V0IHRoZSBUUkIKZW5xdWV1ZSBjb3VudGVyIGZvciBlcDAgSU4gZGlyZWN0
-aW9uLiBDdXJyZW50bHkgdGhlIGRyaXZlciBvbmx5IHJlc2V0cwp0aGUgVFJCIGNvdW50ZXIgZm9y
-IGNvbnRyb2wgT1VUIGVuZHBvaW50LiBDaGVjayBmb3IgdGhlIGRhdGEgZGlyZWN0aW9uCmFuZCBw
-cm9wZXJseSByZXNldCB0aGUgVFJCIGNvdW50ZXIgZnJvbSBjb3JyZWN0IGNvbnRyb2wgZW5kcG9p
-bnQuCgpDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZwpGaXhlczogYzJkYTJmZjAwNjA2ICgidXNi
-OiBkd2MzOiBlcDA6IGRvbid0IHVzZSBlcDBpbiBmb3IgdHJhbnNmZXJzIikKU2lnbmVkLW9mZi1i
-eTogVGhpbmggTmd1eWVuIDx0aGluaG5Ac3lub3BzeXMuY29tPgotLS0KIGRyaXZlcnMvdXNiL2R3
-YzMvZXAwLmMgfCA3ICsrKysrKy0KIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDEg
-ZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9kd2MzL2VwMC5jIGIvZHJpdmVy
-cy91c2IvZHdjMy9lcDAuYwppbmRleCBmZDNlN2FkMmViMGUuLjYxOGI0MjYwZjBkOSAxMDA2NDQK
-LS0tIGEvZHJpdmVycy91c2IvZHdjMy9lcDAuYworKysgYi9kcml2ZXJzL3VzYi9kd2MzL2VwMC5j
-CkBAIC04NTgsNyArODU4LDEyIEBAIHN0YXRpYyB2b2lkIGR3YzNfZXAwX2NvbXBsZXRlX2RhdGEo
-c3RydWN0IGR3YzMgKmR3YywKIAkJdHJiKys7CiAJCXRyYi0+Y3RybCAmPSB+RFdDM19UUkJfQ1RS
-TF9IV087CiAJCXRyYWNlX2R3YzNfY29tcGxldGVfdHJiKGVwMCwgdHJiKTsKLQkJZXAwLT50cmJf
-ZW5xdWV1ZSA9IDA7CisKKwkJaWYgKHItPmRpcmVjdGlvbikKKwkJCWR3Yy0+ZXBzWzFdLT50cmJf
-ZW5xdWV1ZSA9IDA7CisJCWVsc2UKKwkJCWR3Yy0+ZXBzWzBdLT50cmJfZW5xdWV1ZSA9IDA7CisK
-IAkJZHdjLT5lcDBfYm91bmNlZCA9IGZhbHNlOwogCX0KIAo=
+RnJvbTogTWF0dGhldyBXaWxjb3ggPG1hd2lsY294QG1pY3Jvc29mdC5jb20+CgpTaWduZWQtb2Zm
+LWJ5OiBNYXR0aGV3IFdpbGNveCA8bWF3aWxjb3hAbWljcm9zb2Z0LmNvbT4KLS0tCiBtbS9maWxl
+bWFwLmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
+LSkKCmRpZmYgLS1naXQgYS9tbS9maWxlbWFwLmMgYi9tbS9maWxlbWFwLmMKaW5kZXggZDJhMDAz
+MWQ2MWY1Li4yNTM2ZmNhY2I1YmMgMTAwNjQ0Ci0tLSBhL21tL2ZpbGVtYXAuYworKysgYi9tbS9m
+aWxlbWFwLmMKQEAgLTI2MDYsNyArMjYwNiw3IEBAIHN0YXRpYyBzdHJ1Y3QgcGFnZSAqZG9fcmVh
+ZF9jYWNoZV9wYWdlKHN0cnVjdCBhZGRyZXNzX3NwYWNlICptYXBwaW5nLAogCQkJcHV0X3BhZ2Uo
+cGFnZSk7CiAJCQlpZiAoZXJyID09IC1FRVhJU1QpCiAJCQkJZ290byByZXBlYXQ7Ci0JCQkvKiBQ
+cmVzdW1hYmx5IEVOT01FTSBmb3IgcmFkaXggdHJlZSBub2RlICovCisJCQkvKiBQcmVzdW1hYmx5
+IEVOT01FTSBmb3IgeGFycmF5IG5vZGUgKi8KIAkJCXJldHVybiBFUlJfUFRSKGVycik7CiAJCX0K
+IAo=
