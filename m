@@ -2,23 +2,31 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: USB TYPEC: RT1711H Type-C Chip Driver
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Message-Id: <20180117120028.GB31635@kuha.fi.intel.com>
-Date: Wed, 17 Jan 2018 14:00:28 +0200
-To: Greg KH <gregkh@linuxfoundation.org>
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20180117133103.GB3188@kroah.com>
+Date: Wed, 17 Jan 2018 14:31:03 +0100
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Cc: "shufan_lee\(?????????\)" <shufan_lee@richtek.com>, 'ShuFanLee' <leechu729@gmail.com>, "cy_huang\(?????????\)" <cy_huang@richtek.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgR3JlZywKCk9uIFdlZCwgSmFuIDE3LCAyMDE4IGF0IDEyOjE0OjAyUE0gKzAxMDAsIEdyZWcg
-S0ggd3JvdGU6Cj4gT24gV2VkLCBKYW4gMTcsIDIwMTggYXQgMDE6MDg6NThQTSArMDIwMCwgSGVp
-a2tpIEtyb2dlcnVzIHdyb3RlOgo+ID4gSGksCj4gPiAKPiA+IE9uIFdlZCwgSmFuIDE3LCAyMDE4
-IGF0IDA5OjMwOjQ1QU0gKzAwMDAsIHNodWZhbl9sZWUoPz8/Pz8/Pz8/KSB3cm90ZToKPiA+ID4g
-RGVhciBIZWlra2ksCj4gPiA+IAo+ID4gPiAgIFNvcnJ5IGZvciBib3RoZXJpbmcuCj4gPiA+IAo+
-ID4gPiAgIEp1c3Qgd2FudCB0byBjaGVjayBpcyB0aGVyZSBhbnl0aGluZyB3ZSBuZWVkIHRvIG1v
-ZGlmeT8KPiA+IAo+ID4gSSdsbCBjaGVjayB0aGUgcGF0Y2ggdGhpcyB3ZWVrLCBidXQgcGxlYXNl
-IG5vdGUgdGhhdCB3ZSBhcmUgLXJjOCwgc28KPiA+IG5vdGhpbmcgaXMgZ29pbmcgdG8gaGFwcGVu
-IGJlZm9yZSAtcmMxIGlzIG91dC4KPiAKPiBJZiB5b3UgYWNrIGl0IHRvZGF5LCBJIGNvdWxkIHF1
-ZXVlIGl0IHVwIGZvciAtcmMxIGFzIGl0IGlzIGEgc3RhbmQtYWxvbmUKPiBkcml2ZXIuLi4KClRo
-ZSBkcml2ZXIgZG9lcyBub3QgY29tcGlsZSBhcyBtb2R1bGU6CgpFUlJPUjogImNwdV9pZGxlX3Bv
-bGxfY3RybCIgW2RyaXZlcnMvdXNiL3R5cGVjL3J0MTcxMWgvcnQxNzExaC5rb10gdW5kZWZpbmVk
-IQoKCkJyLAo=
+T24gV2VkLCBKYW4gMTcsIDIwMTggYXQgMDI6MDA6MjhQTSArMDIwMCwgSGVpa2tpIEtyb2dlcnVz
+IHdyb3RlOgo+IEhpIEdyZWcsCj4gCj4gT24gV2VkLCBKYW4gMTcsIDIwMTggYXQgMTI6MTQ6MDJQ
+TSArMDEwMCwgR3JlZyBLSCB3cm90ZToKPiA+IE9uIFdlZCwgSmFuIDE3LCAyMDE4IGF0IDAxOjA4
+OjU4UE0gKzAyMDAsIEhlaWtraSBLcm9nZXJ1cyB3cm90ZToKPiA+ID4gSGksCj4gPiA+IAo+ID4g
+PiBPbiBXZWQsIEphbiAxNywgMjAxOCBhdCAwOTozMDo0NUFNICswMDAwLCBzaHVmYW5fbGVlKD8/
+Pz8/Pz8/Pykgd3JvdGU6Cj4gPiA+ID4gRGVhciBIZWlra2ksCj4gPiA+ID4gCj4gPiA+ID4gICBT
+b3JyeSBmb3IgYm90aGVyaW5nLgo+ID4gPiA+IAo+ID4gPiA+ICAgSnVzdCB3YW50IHRvIGNoZWNr
+IGlzIHRoZXJlIGFueXRoaW5nIHdlIG5lZWQgdG8gbW9kaWZ5Pwo+ID4gPiAKPiA+ID4gSSdsbCBj
+aGVjayB0aGUgcGF0Y2ggdGhpcyB3ZWVrLCBidXQgcGxlYXNlIG5vdGUgdGhhdCB3ZSBhcmUgLXJj
+OCwgc28KPiA+ID4gbm90aGluZyBpcyBnb2luZyB0byBoYXBwZW4gYmVmb3JlIC1yYzEgaXMgb3V0
+Lgo+ID4gCj4gPiBJZiB5b3UgYWNrIGl0IHRvZGF5LCBJIGNvdWxkIHF1ZXVlIGl0IHVwIGZvciAt
+cmMxIGFzIGl0IGlzIGEgc3RhbmQtYWxvbmUKPiA+IGRyaXZlci4uLgo+IAo+IFRoZSBkcml2ZXIg
+ZG9lcyBub3QgY29tcGlsZSBhcyBtb2R1bGU6Cj4gCj4gRVJST1I6ICJjcHVfaWRsZV9wb2xsX2N0
+cmwiIFtkcml2ZXJzL3VzYi90eXBlYy9ydDE3MTFoL3J0MTcxMWgua29dIHVuZGVmaW5lZCEKCldl
+bGwgb2YgY291cnNlIGl0IGhhcyB0byBwYXNzIHJldmlldyA6KQoKV2h5IHdvdXVsZCBhIGRyaXZl
+ciBiZSBjYWxsaW5nIHRoYXQgZnVuY3Rpb24/ICBUaGF0J3Mgbm90IHJpZ2h0IGF0IGFsbCwKaWNr
+Li4uCgpTaHVmYW4sIHdoYXQgYXJlIHlvdSBkb2luZyB0aGVyZT8KCnRoYW5rcywKCmdyZWcgay1o
+Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJz
+Y3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZn
+ZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwu
+b3JnL21ham9yZG9tby1pbmZvLmh0bWwK
