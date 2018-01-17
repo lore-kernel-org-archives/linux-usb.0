@@ -1,17 +1,35 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: usb: dwc3: core: Power-off core/PHYs on system_suspend in host mode
-From: Manu Gautam <mgautam@codeaurora.org>
-Message-Id: <e29b118b-79dd-3b07-1467-08566e3fc478@codeaurora.org>
-Date: Thu, 18 Jan 2018 16:53:27 +0530
-To: Roger Quadros <rogerq@ti.com>, Felipe Balbi <balbi@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [v6,47/99] shmem: Convert shmem_alloc_hugepage to XArray
+From: Matthew Wilcox <willy@infradead.org>
+Message-Id: <20180117202203.19756-48-willy@infradead.org>
+Date: Wed, 17 Jan 2018 12:21:11 -0800
+To: linux-kernel@vger.kernel.org
+Cc: Matthew Wilcox <mawilcox@microsoft.com>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, linux-nilfs@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-xfs@vger.kernel.org, linux-usb@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>, Stefano Stabellini <sstabellini@kernel.org>, iommu@lists.linux-foundation.org, linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org, intel-gfx@lists.freedesktop.org, cgroups@vger.kernel.org, linux-sh@vger.kernel.org, David Howells <dhowells@redhat.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgUm9nZXIsCgoKT24gMS8xNy8yMDE4IDQ6MTYgUE0sIFJvZ2VyIFF1YWRyb3Mgd3JvdGU6Cj4g
-TWFudSwKPgo+IE9uIDE2LzAxLzE4IDA4OjI2LCBNYW51IEdhdXRhbSB3cm90ZToKPgpbc25pcF0K
-PiBBZnRlciB0aGVzZSBjaGFuZ2VzIGFwcGxpZWQsIEkgY291bGQgZ2V0IHN1c3BlbmQvcmVzdW1l
-IHdvcmtpbmcgcHJvcGVybHkgb24gZHJhN3gtZXZtCj4gZm9yIGhvc3QsIGRldmljZSBhbmQgZHVh
-bC1yb2xlIGNhc2VzLgo+ICAKClRoYW5rcyBSb2dlci4gSSB3aWxsIGluY29ycG9yYXRlIHRoZXNl
-IGNoYW5nZXMgYXMgd2VsbC4K
+RnJvbTogTWF0dGhldyBXaWxjb3ggPG1hd2lsY294QG1pY3Jvc29mdC5jb20+Cgp4YV9maW5kKCkg
+aXMgYSBzbGlnaHRseSBlYXNpZXIgQVBJIHRvIHVzZSB0aGFuCnJhZGl4X3RyZWVfZ2FuZ19sb29r
+dXBfc2xvdCgpIGJlY2F1c2UgaXQgY29udGFpbnMgaXRzIG93biBSQ1UgbG9ja2luZy4KClNpZ25l
+ZC1vZmYtYnk6IE1hdHRoZXcgV2lsY294IDxtYXdpbGNveEBtaWNyb3NvZnQuY29tPgotLS0KIG1t
+L3NobWVtLmMgfCAxNCArKysrLS0tLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9u
+cygrKSwgMTAgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvbW0vc2htZW0uYyBiL21tL3NobWVt
+LmMKaW5kZXggMGY0OWVkYWUwNWU0Li5lODIzM2NiN2FiNWMgMTAwNjQ0Ci0tLSBhL21tL3NobWVt
+LmMKKysrIGIvbW0vc2htZW0uYwpAQCAtMTQxMywyMyArMTQxMywxNyBAQCBzdGF0aWMgc3RydWN0
+IHBhZ2UgKnNobWVtX2FsbG9jX2h1Z2VwYWdlKGdmcF90IGdmcCwKIAkJc3RydWN0IHNobWVtX2lu
+b2RlX2luZm8gKmluZm8sIHBnb2ZmX3QgaW5kZXgpCiB7CiAJc3RydWN0IHZtX2FyZWFfc3RydWN0
+IHB2bWE7Ci0Jc3RydWN0IGlub2RlICppbm9kZSA9ICZpbmZvLT52ZnNfaW5vZGU7Ci0Jc3RydWN0
+IGFkZHJlc3Nfc3BhY2UgKm1hcHBpbmcgPSBpbm9kZS0+aV9tYXBwaW5nOwotCXBnb2ZmX3QgaWR4
+LCBoaW5kZXg7Ci0Jdm9pZCBfX3JjdSAqKnJlc3VsdHM7CisJc3RydWN0IGFkZHJlc3Nfc3BhY2Ug
+Km1hcHBpbmcgPSBpbmZvLT52ZnNfaW5vZGUuaV9tYXBwaW5nOworCXBnb2ZmX3QgaGluZGV4Owog
+CXN0cnVjdCBwYWdlICpwYWdlOwogCiAJaWYgKCFJU19FTkFCTEVEKENPTkZJR19UUkFOU1BBUkVO
+VF9IVUdFX1BBR0VDQUNIRSkpCiAJCXJldHVybiBOVUxMOwogCiAJaGluZGV4ID0gcm91bmRfZG93
+bihpbmRleCwgSFBBR0VfUE1EX05SKTsKLQlyY3VfcmVhZF9sb2NrKCk7Ci0JaWYgKHJhZGl4X3Ry
+ZWVfZ2FuZ19sb29rdXBfc2xvdCgmbWFwcGluZy0+cGFnZXMsICZyZXN1bHRzLCAmaWR4LAotCQkJ
+CWhpbmRleCwgMSkgJiYgaWR4IDwgaGluZGV4ICsgSFBBR0VfUE1EX05SKSB7Ci0JCXJjdV9yZWFk
+X3VubG9jaygpOworCWlmICh4YV9maW5kKCZtYXBwaW5nLT5wYWdlcywgJmhpbmRleCwgaGluZGV4
+ICsgSFBBR0VfUE1EX05SIC0gMSwKKwkJCQkJCQkJWEFfUFJFU0VOVCkpCiAJCXJldHVybiBOVUxM
+OwotCX0KLQlyY3VfcmVhZF91bmxvY2soKTsKIAogCXNobWVtX3BzZXVkb192bWFfaW5pdCgmcHZt
+YSwgaW5mbywgaGluZGV4KTsKIAlwYWdlID0gYWxsb2NfcGFnZXNfdm1hKGdmcCB8IF9fR0ZQX0NP
+TVAgfCBfX0dGUF9OT1JFVFJZIHwgX19HRlBfTk9XQVJOLAo=
