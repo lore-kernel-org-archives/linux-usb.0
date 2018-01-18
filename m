@@ -2,31 +2,21 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v6,85/99] btrfs: Remove unused spinlock
-From: Matthew Wilcox <willy@infradead.org>
-Message-Id: <20180117202203.19756-86-willy@infradead.org>
-Date: Wed, 17 Jan 2018 12:21:49 -0800
-To: linux-kernel@vger.kernel.org
-Cc: Matthew Wilcox <mawilcox@microsoft.com>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, linux-nilfs@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-xfs@vger.kernel.org, linux-usb@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>, Stefano Stabellini <sstabellini@kernel.org>, iommu@lists.linux-foundation.org, linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org, intel-gfx@lists.freedesktop.org, cgroups@vger.kernel.org, linux-sh@vger.kernel.org, David Howells <dhowells@redhat.com>
+From: David Sterba <dsterba@suse.cz>
+Message-Id: <20180118142234.GK13726@twin.jikos.cz>
+Date: Thu, 18 Jan 2018 15:22:34 +0100
+To: Matthew Wilcox <willy@infradead.org>
+Cc: linux-kernel@vger.kernel.org, Matthew Wilcox <mawilcox@microsoft.com>, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, linux-nilfs@vger.kernel.org, linux-btrfs@vger.kernel.org, linux-xfs@vger.kernel.org, linux-usb@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>, Stefano Stabellini <sstabellini@kernel.org>, iommu@lists.linux-foundation.org, linux-remoteproc@vger.kernel.org, linux-s390@vger.kernel.org, intel-gfx@lists.freedesktop.org, cgroups@vger.kernel.org, linux-sh@vger.kernel.org, David Howells <dhowells@redhat.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-RnJvbTogTWF0dGhldyBXaWxjb3ggPG1hd2lsY294QG1pY3Jvc29mdC5jb20+CgpUaGUgcmVhZGFf
-bG9jayBpbiBzdHJ1Y3QgYnRyZnNfZGV2aWNlIHdhcyBvbmx5IGluaXRpYWxpc2VkLCBhbmQgbm90
-CmFjdHVhbGx5IHVzZWQuICBUaGF0J3MgZ29vZCBiZWNhdXNlIHRoZXJlJ3MgYW5vdGhlciBsb2Nr
-IGFsc28gY2FsbGVkCnJlYWRhX2xvY2sgaW4gdGhlIGJ0cmZzX2ZzX2luZm8gdGhhdCB3YXMgcXVp
-dGUgaGVhdmlseSB1c2VkLiAgUmVtb3ZlCnRoaXMgb25lLgoKU2lnbmVkLW9mZi1ieTogTWF0dGhl
-dyBXaWxjb3ggPG1hd2lsY294QG1pY3Jvc29mdC5jb20+Ci0tLQogZnMvYnRyZnMvdm9sdW1lcy5j
-IHwgMSAtCiBmcy9idHJmcy92b2x1bWVzLmggfCAxIC0KIDIgZmlsZXMgY2hhbmdlZCwgMiBkZWxl
-dGlvbnMoLSkKCmRpZmYgLS1naXQgYS9mcy9idHJmcy92b2x1bWVzLmMgYi9mcy9idHJmcy92b2x1
-bWVzLmMKaW5kZXggYTI1Njg0Mjg3NTAxLi5jYmEyODYxODNmZjkgMTAwNjQ0Ci0tLSBhL2ZzL2J0
-cmZzL3ZvbHVtZXMuYworKysgYi9mcy9idHJmcy92b2x1bWVzLmMKQEAgLTI0NCw3ICsyNDQsNiBA
-QCBzdGF0aWMgc3RydWN0IGJ0cmZzX2RldmljZSAqX19hbGxvY19kZXZpY2Uodm9pZCkKIAogCXNw
-aW5fbG9ja19pbml0KCZkZXYtPmlvX2xvY2spOwogCi0Jc3Bpbl9sb2NrX2luaXQoJmRldi0+cmVh
-ZGFfbG9jayk7CiAJYXRvbWljX3NldCgmZGV2LT5yZWFkYV9pbl9mbGlnaHQsIDApOwogCWF0b21p
-Y19zZXQoJmRldi0+ZGV2X3N0YXRzX2NjbnQsIDApOwogCWJ0cmZzX2RldmljZV9kYXRhX29yZGVy
-ZWRfaW5pdChkZXYpOwpkaWZmIC0tZ2l0IGEvZnMvYnRyZnMvdm9sdW1lcy5oIGIvZnMvYnRyZnMv
-dm9sdW1lcy5oCmluZGV4IGZmMTUyMDgzNDRhNy4uMzM1ZmQxNTkwNDU4IDEwMDY0NAotLS0gYS9m
-cy9idHJmcy92b2x1bWVzLmgKKysrIGIvZnMvYnRyZnMvdm9sdW1lcy5oCkBAIC0xMzYsNyArMTM2
-LDYgQEAgc3RydWN0IGJ0cmZzX2RldmljZSB7CiAJc3RydWN0IHdvcmtfc3RydWN0IHJjdV93b3Jr
-OwogCiAJLyogcmVhZGFoZWFkIHN0YXRlICovCi0Jc3BpbmxvY2tfdCByZWFkYV9sb2NrOwogCWF0
-b21pY190IHJlYWRhX2luX2ZsaWdodDsKIAl1NjQgcmVhZGFfbmV4dDsKIAlzdHJ1Y3QgcmVhZGFf
-em9uZSAqcmVhZGFfY3Vycl96b25lOwo=
+T24gV2VkLCBKYW4gMTcsIDIwMTggYXQgMTI6MjE6NDlQTSAtMDgwMCwgTWF0dGhldyBXaWxjb3gg
+d3JvdGU6Cj4gRnJvbTogTWF0dGhldyBXaWxjb3ggPG1hd2lsY294QG1pY3Jvc29mdC5jb20+Cj4g
+Cj4gVGhlIHJlYWRhX2xvY2sgaW4gc3RydWN0IGJ0cmZzX2RldmljZSB3YXMgb25seSBpbml0aWFs
+aXNlZCwgYW5kIG5vdAo+IGFjdHVhbGx5IHVzZWQuICBUaGF0J3MgZ29vZCBiZWNhdXNlIHRoZXJl
+J3MgYW5vdGhlciBsb2NrIGFsc28gY2FsbGVkCj4gcmVhZGFfbG9jayBpbiB0aGUgYnRyZnNfZnNf
+aW5mbyB0aGF0IHdhcyBxdWl0ZSBoZWF2aWx5IHVzZWQuICBSZW1vdmUKPiB0aGlzIG9uZS4KPiAK
+PiBTaWduZWQtb2ZmLWJ5OiBNYXR0aGV3IFdpbGNveCA8bWF3aWxjb3hAbWljcm9zb2Z0LmNvbT4K
+CkknbGwgcGljayB0aGlzIG9uZSBub3csIHRoYW5rcy4KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20g
+dGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBi
+b2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jk
+b21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
