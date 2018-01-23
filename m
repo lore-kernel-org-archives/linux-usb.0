@@ -1,22 +1,26 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [1/2] USB: storage: remove invalid URL from drivers
-From: Alan Stern <stern@rowland.harvard.edu>
-Message-Id: <Pine.LNX.4.44L0.1801221354400.1292-100000@iolanthe.rowland.org>
-Date: Mon, 22 Jan 2018 13:55:01 -0500 (EST)
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
+Subject: usb: dwc2: gadget: Use true and false for boolean values
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Message-Id: <20180123154531.GA22359@embeddedgus>
+Date: Tue, 23 Jan 2018 09:45:31 -0600
+To: John Youn <johnyoun@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, "Gustavo A. R. Silva" <garsilva@embeddedor.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gTW9uLCAyMiBKYW4gMjAxOCwgR3JlZyBLcm9haC1IYXJ0bWFuIHdyb3RlOgoKPiBUaGUgb2xk
-IFVSTCBmb3IgdXNiLXN0b3JhZ2UgZHJpdmVyIGhlbHAgaXMgbG9uZyBnb25lLiAgU28gcmVtb3Zl
-IGl0IGZyb20KPiB0aGUgY29tbWVudHMgdG8gbm90IGNvbmZ1c2UgcGVvcGxlIGFueW1vcmUuCj4g
-Cj4gUmVwb3J0ZWQtYnk6IE1hdHRoZXcgRGhhcm0gPG1kaGFybS11c2JAb25lLWV5ZWQtYWxpZW4u
-bmV0Pgo+IENjOiBBbGFuIFN0ZXJuIDxzdGVybkByb3dsYW5kLmhhcnZhcmQuZWR1Pgo+IFNpZ25l
-ZC1vZmYtYnk6IEdyZWcgS3JvYWgtSGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+
-CgpGb3IgYm90aCBwYXRjaGVzOgoKQWNrZWQtYnk6IEFsYW4gU3Rlcm4gPHN0ZXJuQHJvd2xhbmQu
-aGFydmFyZC5lZHU+Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUg
-bGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8g
-bWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8v
-dmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
+QXNzaWduIHRydWUgb3IgZmFsc2UgdG8gYm9vbGVhbiB2YXJpYWJsZXMgaW5zdGVhZCBvZiBhbiBp
+bnRlZ2VyIHZhbHVlLgoKVGhpcyBpc3N1ZSB3YXMgZGV0ZWN0ZWQgd2l0aCB0aGUgaGVscCBvZiBD
+b2NjaW5lbGxlLgoKU2lnbmVkLW9mZi1ieTogR3VzdGF2byBBLiBSLiBTaWx2YSA8Z3VzdGF2b0Bl
+bWJlZGRlZG9yLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9kd2MyL2dhZGdldC5jIHwgNCArKy0tCiAx
+IGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvdXNiL2R3YzIvZ2FkZ2V0LmMgYi9kcml2ZXJzL3VzYi9kd2MyL2dhZGdldC5j
+CmluZGV4IGU0YzNjZTAuLjFmNjg0ZGQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL2R3YzIvZ2Fk
+Z2V0LmMKKysrIGIvZHJpdmVycy91c2IvZHdjMi9nYWRnZXQuYwpAQCAtMTE2LDEwICsxMTYsMTAg
+QEAgc3RhdGljIGlubGluZSB2b2lkIGR3YzJfZ2FkZ2V0X2luY3JfZnJhbWVfbnVtKHN0cnVjdCBk
+d2MyX2hzb3RnX2VwICpoc19lcCkKIHsKIAloc19lcC0+dGFyZ2V0X2ZyYW1lICs9IGhzX2VwLT5p
+bnRlcnZhbDsKIAlpZiAoaHNfZXAtPnRhcmdldF9mcmFtZSA+IERTVFNfU09GRk5fTElNSVQpIHsK
+LQkJaHNfZXAtPmZyYW1lX292ZXJydW4gPSAxOworCQloc19lcC0+ZnJhbWVfb3ZlcnJ1biA9IHRy
+dWU7CiAJCWhzX2VwLT50YXJnZXRfZnJhbWUgJj0gRFNUU19TT0ZGTl9MSU1JVDsKIAl9IGVsc2Ug
+ewotCQloc19lcC0+ZnJhbWVfb3ZlcnJ1biA9IDA7CisJCWhzX2VwLT5mcmFtZV9vdmVycnVuID0g
+ZmFsc2U7CiAJfQogfQogCg==
