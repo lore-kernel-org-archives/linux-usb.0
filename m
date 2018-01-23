@@ -2,28 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: USB: misc: chaoskey: Use true and false for boolean values
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Message-Id: <20180123154138.GA21663@embeddedgus>
-Date: Tue, 23 Jan 2018 09:41:38 -0600
-To: Keith Packard <keithp@keithp.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Keith Packard <keithp@keithp.com>
+Message-Id: <87bmhknv1k.fsf@keithp.com>
+Date: Wed, 24 Jan 2018 08:07:35 +1100
+To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, "Gustavo A. R. Silva" <garsilva@embeddedor.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-QXNzaWduIHRydWUgb3IgZmFsc2UgdG8gYm9vbGVhbiB2YXJpYWJsZXMgaW5zdGVhZCBvZiBhbiBp
-bnRlZ2VyIHZhbHVlLgoKVGhpcyBpc3N1ZSB3YXMgZGV0ZWN0ZWQgd2l0aCB0aGUgaGVscCBvZiBD
-b2NjaW5lbGxlLgoKU2lnbmVkLW9mZi1ieTogR3VzdGF2byBBLiBSLiBTaWx2YSA8Z3VzdGF2b0Bl
-bWJlZGRlZG9yLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9taXNjL2NoYW9za2V5LmMgfCA2ICsrKy0t
-LQogMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKCmRpZmYg
-LS1naXQgYS9kcml2ZXJzL3VzYi9taXNjL2NoYW9za2V5LmMgYi9kcml2ZXJzL3VzYi9taXNjL2No
-YW9za2V5LmMKaW5kZXggYjZhMWI5My4uNzE2Y2I1MSAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2Iv
-bWlzYy9jaGFvc2tleS5jCisrKyBiL2RyaXZlcnMvdXNiL21pc2MvY2hhb3NrZXkuYwpAQCAtMTgz
-LDEwICsxODMsMTAgQEAgc3RhdGljIGludCBjaGFvc2tleV9wcm9iZShzdHJ1Y3QgdXNiX2ludGVy
-ZmFjZSAqaW50ZXJmYWNlLAogCWRldi0+aW5fZXAgPSBpbl9lcDsKIAogCWlmIChsZTE2X3RvX2Nw
-dSh1ZGV2LT5kZXNjcmlwdG9yLmlkVmVuZG9yKSAhPSBBTEVBX1ZFTkRPUl9JRCkKLQkJZGV2LT5y
-ZWFkc19zdGFydGVkID0gMTsKKwkJZGV2LT5yZWFkc19zdGFydGVkID0gdHJ1ZTsKIAogCWRldi0+
-c2l6ZSA9IHNpemU7Ci0JZGV2LT5wcmVzZW50ID0gMTsKKwlkZXYtPnByZXNlbnQgPSB0cnVlOwog
-CiAJaW5pdF93YWl0cXVldWVfaGVhZCgmZGV2LT53YWl0X3EpOwogCkBAIC0yMzksNyArMjM5LDcg
-QEAgc3RhdGljIHZvaWQgY2hhb3NrZXlfZGlzY29ubmVjdChzdHJ1Y3QgdXNiX2ludGVyZmFjZSAq
-aW50ZXJmYWNlKQogCXVzYl9zZXRfaW50ZmRhdGEoaW50ZXJmYWNlLCBOVUxMKTsKIAltdXRleF9s
-b2NrKCZkZXYtPmxvY2spOwogCi0JZGV2LT5wcmVzZW50ID0gMDsKKwlkZXYtPnByZXNlbnQgPSBm
-YWxzZTsKIAl1c2JfcG9pc29uX3VyYihkZXYtPnVyYik7CiAKIAlpZiAoIWRldi0+b3Blbikgewo=
+Ikd1c3Rhdm8gQS4gUi4gU2lsdmEiIDxndXN0YXZvQGVtYmVkZGVkb3IuY29tPiB3cml0ZXM6Cgo+
+IEFzc2lnbiB0cnVlIG9yIGZhbHNlIHRvIGJvb2xlYW4gdmFyaWFibGVzIGluc3RlYWQgb2YgYW4g
+aW50ZWdlciB2YWx1ZS4KPgo+IFRoaXMgaXNzdWUgd2FzIGRldGVjdGVkIHdpdGggdGhlIGhlbHAg
+b2YgQ29jY2luZWxsZS4KPgo+IFNpZ25lZC1vZmYtYnk6IEd1c3Rhdm8gQS4gUi4gU2lsdmEgPGd1
+c3Rhdm9AZW1iZWRkZWRvci5jb20+CgpSZXZpZXdlZC1ieTogS2VpdGggUGFja2FyZCA8a2VpdGhw
+QGtlaXRocC5jb20+Cg==
