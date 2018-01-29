@@ -3,8 +3,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [2/2] usb: chipidea: imx: Fix ULPI on imx53
 From: Peter Chen <hzpeterchen@gmail.com>
-Message-Id: <20180126025116.GA6921@b29397-desktop>
-Date: Fri, 26 Jan 2018 10:51:16 +0800
+Message-Id: <20180129033315.GA20311@b29397-desktop>
+Date: Mon, 29 Jan 2018 11:33:15 +0800
 To: Sebastian Reichel <sebastian.reichel@collabora.co.uk>
 Cc: Peter Chen <Peter.Chen@nxp.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Ian Ray <ian.ray@ge.com>, Nandor Han <nandor.han@ge.com>, Fabien Lahoudere <fabien.lahoudere@collabora.co.uk>, kernel@lists.collabora.co.uk
 List-ID: <linux-usb.vger.kernel.org>
@@ -48,5 +48,6 @@ cmNfaW14X3JlbW92ZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQo+ICAJCXBtX3J1bnRp
 bWVfcHV0X25vaWRsZSgmcGRldi0+ZGV2KTsKPiAgCX0KPiAgCWNpX2hkcmNfcmVtb3ZlX2Rldmlj
 ZShkYXRhLT5jaV9wZGV2KTsKPiArCWlmIChkYXRhLT5vdmVycmlkZV9waHlfY29udHJvbCkKPiAr
 CQl1c2JfcGh5X3NodXRkb3duKGRhdGEtPnBoeSk7Cj4gIAlpbXhfZGlzYWJsZV91bnByZXBhcmVf
-Y2xrcygmcGRldi0+ZGV2KTsKPiAgCj4gIAlyZXR1cm4gMDsKPiAtLSAKCkFwcGxpZWQgYm90aCwg
-dGhhbmtzLgo=
+Y2xrcygmcGRldi0+ZGV2KTsKPiAgCgpTZWJhc3RpYW4sIEkgaGF2ZSBhIHF1ZXN0aW9uLCBkbyB5
+b3UgaGF2ZSBhbnkgVVNCIG9yIGdlbmVyaWMgUEhZIGRyaXZlcnMKZm9yIFVMUEkgYnVzLCBhbnkg
+cG93ZXIgY29udHJvbHMgYXJlIG5lZWRlZCBmb3IgeW91ciBVTFBJIHBlcmlwaGVyYWw/Cg==
