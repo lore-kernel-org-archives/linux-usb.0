@@ -1,18 +1,26 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v4,3/7] typec: tcpm: Add SDB header for Status message handling
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Message-Id: <20180130122241.GC14922@kuha.fi.intel.com>
-Date: Tue, 30 Jan 2018 14:22:41 +0200
-To: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sebastian Reichel <sre@kernel.org>, Hans de Goede <hdegoede@redhat.com>, Yueyao Zhu <yueyao.zhu@gmail.com>, Rui Miguel Silva <rmfrfs@gmail.com>, linux-usb@vger.kernel.org, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, support.opensource@diasemi.com
+Subject: usbip: Correct maximum value of CONFIG_USBIP_VHCI_HC_PORTS
+From: Ben Hutchings <ben@decadent.org.uk>
+Message-Id: <20180129000418.GA8564@decadent.org.uk>
+Date: Mon, 29 Jan 2018 00:04:18 +0000
+To: Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan <shuahkh@osg.samsung.com>
+Cc: linux-usb@vger.kernel.org, Gianluigi Tiesi <sherpya@netfarm.it>, Borissh1983 <borissh1983@gmail.com>, 878866@bugs.debian.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVHVlLCBKYW4gMDIsIDIwMTggYXQgMDM6NTA6NTFQTSArMDAwMCwgQWRhbSBUaG9tc29uIHdy
-b3RlOgo+IFRoaXMgY29tbWl0IGFkZHMgYSBoZWFkZXIgcHJvdmlkaW5nIGRlZmluaXRpb25zIGZv
-ciBoYW5kbGluZwo+IFN0YXR1cyBtZXNzYWdlcy4gQ3VycmVudGx5IHRoZSBoZWFkZXIgb25seSBm
-b2N1c2VzIG9uIGhhbmRsaW5nCj4gaW5jb21pbmcgU3RhdHVzIG1lc3NhZ2VzLgo+IAo+IFNpZ25l
-ZC1vZmYtYnk6IEFkYW0gVGhvbXNvbiA8QWRhbS5UaG9tc29uLk9wZW5zb3VyY2VAZGlhc2VtaS5j
-b20+CgpBY2tlZC1ieTogSGVpa2tpIEtyb2dlcnVzIDxoZWlra2kua3JvZ2VydXNAbGludXguaW50
-ZWwuY29tPgoKClRoYW5rcywK
+Tm93IHRoYXQgdXNiaXAgc3VwcG9ydHMgVVNCMywgdGhlIG1heGltdW0gbnVtYmVyIG9mIHBvcnRz
+IGFsbG93ZWQKb24gYSBodWIgaXMgMTUgKFVTQl9TU19NQVhQT1JUUyksIG5vdCAzMSAoVVNCX01B
+WENISUxEUkVOKS4KClJlcG9ydGVkLWJ5OiBHaWFubHVpZ2kgVGllc2kgPHNoZXJweWFAbmV0ZmFy
+bS5pdD4KUmVwb3J0ZWQtYnk6IEJvcmlzc2gxOTgzIDxib3Jpc3NoMTk4M0BnbWFpbC5jb20+ClJl
+ZmVyZW5jZXM6IGh0dHBzOi8vYnVncy5kZWJpYW4ub3JnLzg3ODg2NgpGaXhlczogMWM5ZGU1YmY0
+Mjg2ICgidXNiaXA6IHZoY2ktaGNkOiBBZGQgVVNCMyBTdXBlclNwZWVkIHN1cHBvcnQiKQpTaWdu
+ZWQtb2ZmLWJ5OiBCZW4gSHV0Y2hpbmdzIDxiZW5AZGVjYWRlbnQub3JnLnVrPgotLS0KIGRyaXZl
+cnMvdXNiL3VzYmlwL0tjb25maWcgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
+KyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi91c2JpcC9LY29uZmln
+IGIvZHJpdmVycy91c2IvdXNiaXAvS2NvbmZpZwppbmRleCBlZWVmYTI5ZjhhYTIuLmEyMGI2NWNi
+NjY3OCAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvdXNiaXAvS2NvbmZpZworKysgYi9kcml2ZXJz
+L3VzYi91c2JpcC9LY29uZmlnCkBAIC0yNyw3ICsyNyw3IEBAIGNvbmZpZyBVU0JJUF9WSENJX0hD
+RAogCiBjb25maWcgVVNCSVBfVkhDSV9IQ19QT1JUUwogCWludCAiTnVtYmVyIG9mIHBvcnRzIHBl
+ciBVU0IvSVAgdmlydHVhbCBob3N0IGNvbnRyb2xsZXIiCi0JcmFuZ2UgMSAzMQorCXJhbmdlIDEg
+MTUKIAlkZWZhdWx0IDgKIAlkZXBlbmRzIG9uIFVTQklQX1ZIQ0lfSENECiAJLS0taGVscC0tLQo=
