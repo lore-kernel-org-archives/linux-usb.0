@@ -2,36 +2,17 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v4,3/7] typec: tcpm: Add SDB header for Status message handling
-From: "Opensource \[Adam Thomson\]" <Adam.Thomson.Opensource@diasemi.com>
-Message-Id: <b11474b10b9a5a7865d38d58a166899a08d08521.1514904982.git.Adam.Thomson.Opensource@diasemi.com>
-Date: Tue, 2 Jan 2018 15:50:51 +0000
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, Guenter Roeck <linux@roeck-us.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sebastian Reichel <sre@kernel.org>, Hans de Goede <hdegoede@redhat.com>, Yueyao Zhu <yueyao.zhu@gmail.com>, Rui Miguel Silva <rmfrfs@gmail.com>
-Cc: linux-usb@vger.kernel.org, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, support.opensource@diasemi.com
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Message-Id: <20180130122241.GC14922@kuha.fi.intel.com>
+Date: Tue, 30 Jan 2018 14:22:41 +0200
+To: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sebastian Reichel <sre@kernel.org>, Hans de Goede <hdegoede@redhat.com>, Yueyao Zhu <yueyao.zhu@gmail.com>, Rui Miguel Silva <rmfrfs@gmail.com>, linux-usb@vger.kernel.org, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, support.opensource@diasemi.com
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhpcyBjb21taXQgYWRkcyBhIGhlYWRlciBwcm92aWRpbmcgZGVmaW5pdGlvbnMgZm9yIGhhbmRs
-aW5nClN0YXR1cyBtZXNzYWdlcy4gQ3VycmVudGx5IHRoZSBoZWFkZXIgb25seSBmb2N1c2VzIG9u
-IGhhbmRsaW5nCmluY29taW5nIFN0YXR1cyBtZXNzYWdlcy4KClNpZ25lZC1vZmYtYnk6IEFkYW0g
-VGhvbXNvbiA8QWRhbS5UaG9tc29uLk9wZW5zb3VyY2VAZGlhc2VtaS5jb20+Ci0tLQogaW5jbHVk
-ZS9saW51eC91c2IvcGRfZXh0X3NkYi5oIHwgMzEgKysrKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKwogMSBmaWxlIGNoYW5nZWQsIDMxIGluc2VydGlvbnMoKykKIGNyZWF0ZSBtb2RlIDEwMDY0
-NCBpbmNsdWRlL2xpbnV4L3VzYi9wZF9leHRfc2RiLmgKCmRpZmYgLS1naXQgYS9pbmNsdWRlL2xp
-bnV4L3VzYi9wZF9leHRfc2RiLmggYi9pbmNsdWRlL2xpbnV4L3VzYi9wZF9leHRfc2RiLmgKbmV3
-IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMC4uMGViODNjZQotLS0gL2Rldi9udWxsCisr
-KyBiL2luY2x1ZGUvbGludXgvdXNiL3BkX2V4dF9zZGIuaApAQCAtMCwwICsxLDMxIEBACisvLyBT
-UERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMCsKKy8qCisgKiBDb3B5cmlnaHQgKGMpIDIw
-MTcgRGlhbG9nIFNlbWljb25kdWN0b3IKKyAqCisgKiBBdXRob3I6IEFkYW0gVGhvbXNvbiA8QWRh
-bS5UaG9tc29uLk9wZW5zb3VyY2VAZGlhc2VtaS5jb20+CisgKi8KKworI2lmbmRlZiBfX0xJTlVY
-X1VTQl9QRF9FWFRfU0RCX0gKKyNkZWZpbmUgX19MSU5VWF9VU0JfUERfRVhUX1NEQl9ICisKKy8q
-IFNEQiA6IFN0YXR1cyBEYXRhIEJsb2NrICovCitlbnVtIHVzYl9wZF9leHRfc2RiX2ZpZWxkcyB7
-CisJVVNCX1BEX0VYVF9TREJfSU5URVJOQUxfVEVNUCA9IDAsCisJVVNCX1BEX0VYVF9TREJfUFJF
-U0VOVF9JTlBVVCwKKwlVU0JfUERfRVhUX1NEQl9QUkVTRU5UX0JBVFRfSU5QVVQsCisJVVNCX1BE
-X0VYVF9TREJfRVZFTlRfRkxBR1MsCisJVVNCX1BEX0VYVF9TREJfVEVNUF9TVEFUVVMsCisJVVNC
-X1BEX0VYVF9TREJfREFUQV9TSVpFLAorfTsKKworLyogRXZlbnQgRmxhZ3MgKi8KKyNkZWZpbmUg
-VVNCX1BEX0VYVF9TREJfRVZFTlRfT0NQCQlCSVQoMSkKKyNkZWZpbmUgVVNCX1BEX0VYVF9TREJf
-RVZFTlRfT1RQCQlCSVQoMikKKyNkZWZpbmUgVVNCX1BEX0VYVF9TREJfRVZFTlRfT1ZQCQlCSVQo
-MykKKyNkZWZpbmUgVVNCX1BEX0VYVF9TREJfRVZFTlRfQ0ZfQ1ZfTU9ERQkJQklUKDQpCisKKyNk
-ZWZpbmUgVVNCX1BEX0VYVF9TREJfUFBTX0VWRU5UUwkoVVNCX1BEX0VYVF9TREJfRVZFTlRfT0NQ
-IHwJXAorCQkJCQkgVVNCX1BEX0VYVF9TREJfRVZFTlRfT1RQIHwJXAorCQkJCQkgVVNCX1BEX0VY
-VF9TREJfRVZFTlRfT1ZQKQorCisjZW5kaWYgLyogX19MSU5VWF9VU0JfUERfRVhUX1NEQl9IICov
-Cg==
+T24gVHVlLCBKYW4gMDIsIDIwMTggYXQgMDM6NTA6NTFQTSArMDAwMCwgQWRhbSBUaG9tc29uIHdy
+b3RlOgo+IFRoaXMgY29tbWl0IGFkZHMgYSBoZWFkZXIgcHJvdmlkaW5nIGRlZmluaXRpb25zIGZv
+ciBoYW5kbGluZwo+IFN0YXR1cyBtZXNzYWdlcy4gQ3VycmVudGx5IHRoZSBoZWFkZXIgb25seSBm
+b2N1c2VzIG9uIGhhbmRsaW5nCj4gaW5jb21pbmcgU3RhdHVzIG1lc3NhZ2VzLgo+IAo+IFNpZ25l
+ZC1vZmYtYnk6IEFkYW0gVGhvbXNvbiA8QWRhbS5UaG9tc29uLk9wZW5zb3VyY2VAZGlhc2VtaS5j
+b20+CgpBY2tlZC1ieTogSGVpa2tpIEtyb2dlcnVzIDxoZWlra2kua3JvZ2VydXNAbGludXguaW50
+ZWwuY29tPgoKClRoYW5rcywK
