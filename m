@@ -2,23 +2,31 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [2/5] USB: serial: f81232: add high baud rate support
-From: "Ji-Ze Hong \(Peter Hong\)" <hpeter@gmail.com>
-Message-Id: <7d8c1ff5-06fa-28f3-c5e8-3211497a6b17@gmail.com>
-Date: Tue, 23 Jan 2018 10:08:24 +0800
-To: Andy Shevchenko <andy.shevchenko@gmail.com>, Johan Hovold <johan@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, USB <linux-usb@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Peter H <peter_hong@fintek.com.tw>, "Ji-Ze Hong \(Peter Hong\)" <hpeter+linux_kernel@gmail.com>
+From: Johan Hovold <johan@kernel.org>
+Message-Id: <20180130033059.GA3434@localhost>
+Date: Tue, 30 Jan 2018 14:30:59 +1100
+To: "Ji-Ze Hong \(Peter Hong\)" <hpeter@gmail.com>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Johan Hovold <johan@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, USB <linux-usb@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Peter H <peter_hong@fintek.com.tw>, "Ji-Ze Hong \(Peter Hong\)" <hpeter+linux_kernel@gmail.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgQW5keSwKCkFuZHkgU2hldmNoZW5rbyDmlrwgMjAxOC8xLzIyIOS4i+WNiCAxMDo1NSDlr6vp
-gZM6Cj4gT24gTW9uLCBKYW4gMjIsIDIwMTggYXQgOTo1OCBBTSwgSmktWmUgSG9uZyAoUGV0ZXIg
-SG9uZykKPiA8aHBldGVyQGdtYWlsLmNvbT4gd3JvdGU6Cj4+IFRoZSBGODEyMzIgaGFkIDQgY2xv
-Y2tzb3VyY2UgMS44NDYvMTguNDYvMTQuNzcvMjRNSHogYW5kIGJhdWQgcmF0ZXMKPj4gY2FuIGJl
-IHVwIHRvIDEuNU1iaXRzIHdpdGggMjRNSHouCj4+Cj4+IEY4MTIzMiBDbG9jayByZWdpc3RlcnMg
-KDEwNmgpCj4+Cj4+IEJpdDEtMDogICAgIENsb2NrIHNvdXJjZSBzZWxlY3Rvcgo+PiAgICAgICAg
-ICAgICAgICAgICAgICAwMDogMS44NDZNSHouCj4+ICAgICAgICAgICAgICAgICAgICAgIDAxOiAx
-OC40Nk1Iei4KPj4gICAgICAgICAgICAgICAgICAgICAgMTA6IDI0TUh6Lgo+PiAgICAgICAgICAg
-ICAgICAgICAgICAxMTogMTQuNzdNSHouCj4gCj4gSG1tLi4uIFdoeSBub3QgdG8gcHJvdmlkZSBh
-IHByb3BlciBjbGsgZHJpdmVyIChiYXNlZCBvbiB0YWJsZSB2YXJpYW50Cj4gb2YgY2xrLWRpdmlk
-ZXIpIGFuZCB1c2UgaXQgaGVyZT8KPiAKPiAKCkl0IHNlZW1zIHRvbyBjb21wbGV4IHRvIHVzZSBj
-bG9jayBmcmFtZXdvcmsgaW4gdGhpcyBkcml2ZXIuCldoYXQgZG8geW91IHRoaW5rIGFib3V0IHRo
-aXMsIEpvaGFuID8KClRoYW5rcwo=
+T24gVHVlLCBKYW4gMjMsIDIwMTggYXQgMTA6MDg6MjRBTSArMDgwMCwgSmktWmUgSG9uZyAoUGV0
+ZXIgSG9uZykgd3JvdGU6Cj4gSGkgQW5keSwKPiAKPiBBbmR5IFNoZXZjaGVua28g5pa8IDIwMTgv
+MS8yMiDkuIvljYggMTA6NTUg5a+r6YGTOgo+ID4gT24gTW9uLCBKYW4gMjIsIDIwMTggYXQgOTo1
+OCBBTSwgSmktWmUgSG9uZyAoUGV0ZXIgSG9uZykKPiA+IDxocGV0ZXJAZ21haWwuY29tPiB3cm90
+ZToKPiA+PiBUaGUgRjgxMjMyIGhhZCA0IGNsb2Nrc291cmNlIDEuODQ2LzE4LjQ2LzE0Ljc3LzI0
+TUh6IGFuZCBiYXVkIHJhdGVzCj4gPj4gY2FuIGJlIHVwIHRvIDEuNU1iaXRzIHdpdGggMjRNSHou
+Cj4gPj4KPiA+PiBGODEyMzIgQ2xvY2sgcmVnaXN0ZXJzICgxMDZoKQo+ID4+Cj4gPj4gQml0MS0w
+OiAgICAgQ2xvY2sgc291cmNlIHNlbGVjdG9yCj4gPj4gICAgICAgICAgICAgICAgICAgICAgMDA6
+IDEuODQ2TUh6Lgo+ID4+ICAgICAgICAgICAgICAgICAgICAgIDAxOiAxOC40Nk1Iei4KPiA+PiAg
+ICAgICAgICAgICAgICAgICAgICAxMDogMjRNSHouCj4gPj4gICAgICAgICAgICAgICAgICAgICAg
+MTE6IDE0Ljc3TUh6Lgo+ID4gCj4gPiBIbW0uLi4gV2h5IG5vdCB0byBwcm92aWRlIGEgcHJvcGVy
+IGNsayBkcml2ZXIgKGJhc2VkIG9uIHRhYmxlIHZhcmlhbnQKPiA+IG9mIGNsay1kaXZpZGVyKSBh
+bmQgdXNlIGl0IGhlcmU/Cj4gCj4gSXQgc2VlbXMgdG9vIGNvbXBsZXggdG8gdXNlIGNsb2NrIGZy
+YW1ld29yayBpbiB0aGlzIGRyaXZlci4KPiBXaGF0IGRvIHlvdSB0aGluayBhYm91dCB0aGlzLCBK
+b2hhbiA/CgpZZWFoLCB5b3UgZG9uJ3QgbmVlZCB0byBpbXBsZW1lbnQgYSBjbGsgZHJpdmVyIGZv
+ciB0aGlzLiBJZiBhbnlvbmUKdGhpbmtzIHRoYXQgd291bGQgc2ltcGxpZnkgdGhpbmdzLCBJJ2Qg
+YmUgaGFwcHkgdG8gY29uc2lkZXIgaXQgYXMgYQpmb2xsb3ctb24gcGF0Y2guCgpUaGFua3MsCkpv
+aGFuCi0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5z
+dWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21v
+QHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJu
+ZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
