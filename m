@@ -2,26 +2,24 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [3/5] USB: serial: f81232: enable remote wakeup via RX/RI pin
-From: "Ji-Ze Hong \(Peter Hong\)" <hpeter@gmail.com>
-Message-Id: <1516607927-8887-3-git-send-email-hpeter+linux_kernel@gmail.com>
-Date: Mon, 22 Jan 2018 15:58:45 +0800
-To: johan@kernel.org
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, peter_hong@fintek.com.tw, "Ji-Ze Hong \(Peter Hong\)" <hpeter+linux_kernel@gmail.com>
+From: Johan Hovold <johan@kernel.org>
+Message-Id: <20180130035747.GB3434@localhost>
+Date: Tue, 30 Jan 2018 14:57:47 +1100
+To: "Ji-Ze Hong \(Peter Hong\)" <hpeter@gmail.com>
+Cc: johan@kernel.org, gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, peter_hong@fintek.com.tw, "Ji-Ze Hong \(Peter Hong\)" <hpeter+linux_kernel@gmail.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhlIEY4MTIzMiBjYW4gZG8gcmVtb3RlIHdha2V1cCB2aWEgUlgvUkkgcGluIHdpdGggcHVsc2Uu
-ClRoaXMgcGF0Y2ggd2lsbCB1c2UgZGV2aWNlX3NldF93YWtldXBfZW5hYmxlIHRvIGVuYWJsZSB0
-aGlzCmZlYXR1cmUuCgpTaWduZWQtb2ZmLWJ5OiBKaS1aZSBIb25nIChQZXRlciBIb25nKSA8aHBl
-dGVyK2xpbnV4X2tlcm5lbEBnbWFpbC5jb20+Ci0tLQogZHJpdmVycy91c2Ivc2VyaWFsL2Y4MTIz
-Mi5jIHwgMiArKwogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvdXNiL3NlcmlhbC9mODEyMzIuYyBiL2RyaXZlcnMvdXNiL3NlcmlhbC9mODEyMzIu
-YwppbmRleCBiZGQ3ZjMzN2NkNWYuLmRhZGYwMjRhZTQ5NCAxMDA2NDQKLS0tIGEvZHJpdmVycy91
-c2Ivc2VyaWFsL2Y4MTIzMi5jCisrKyBiL2RyaXZlcnMvdXNiL3NlcmlhbC9mODEyMzIuYwpAQCAt
-NzQyLDYgKzc0Miw3IEBAIHN0YXRpYyBpbnQgZjgxMjMyX3BvcnRfcHJvYmUoc3RydWN0IHVzYl9z
-ZXJpYWxfcG9ydCAqcG9ydCkKIAlwb3J0LT5wb3J0LmRyYWluX2RlbGF5ID0gMjU2OwogCXByaXYt
-PnBvcnQgPSBwb3J0OwogCisJZGV2aWNlX3NldF93YWtldXBfZW5hYmxlKCZwb3J0LT5zZXJpYWwt
-PmRldi0+ZGV2LCB0cnVlKTsKIAlyZXR1cm4gMDsKIH0KIApAQCAtNzUyLDYgKzc1Myw3IEBAIHN0
-YXRpYyBpbnQgZjgxMjMyX3BvcnRfcmVtb3ZlKHN0cnVjdCB1c2Jfc2VyaWFsX3BvcnQgKnBvcnQp
-CiAJcHJpdiA9IHVzYl9nZXRfc2VyaWFsX3BvcnRfZGF0YShwb3J0KTsKIAlrZnJlZShwcml2KTsK
-IAorCWRldmljZV9zZXRfd2FrZXVwX2VuYWJsZSgmcG9ydC0+c2VyaWFsLT5kZXYtPmRldiwgZmFs
-c2UpOwogCXJldHVybiAwOwogfQogCg==
+T24gTW9uLCBKYW4gMjIsIDIwMTggYXQgMDM6NTg6NDVQTSArMDgwMCwgSmktWmUgSG9uZyAoUGV0
+ZXIgSG9uZykgd3JvdGU6Cj4gVGhlIEY4MTIzMiBjYW4gZG8gcmVtb3RlIHdha2V1cCB2aWEgUlgv
+UkkgcGluIHdpdGggcHVsc2UuCj4gVGhpcyBwYXRjaCB3aWxsIHVzZSBkZXZpY2Vfc2V0X3dha2V1
+cF9lbmFibGUgdG8gZW5hYmxlIHRoaXMKPiBmZWF0dXJlLgoKVGhpcyBpcyBhIHBvbGljeSBkZWNp
+c2lvbiB0aGF0IHNob3VsZCBiZSBtYWRlIGJ5IHVzZXIgc3BhY2UgYnkgc2V0dGluZwp0aGUgcG93
+ZXIvd2FrZXVwIGF0dHJpYnV0ZSwgYW5kIG5vdCBzb21ldGhpbmcgdGhhdCBzb21ldGhpbmcgdGhh
+dApkcml2ZXJzIHNob3VsZCBlbmFibGUgZGlyZWN0bHkgdGhlbXNlbHZlcy4KClBlcmhhcHMgeW91
+IHJlYWxseSB3YW50ZWQgdG8gdXNlIGRldmljZV9zZXRfd2FrZXVwX2NhcGFibGUoKT8gQnV0IHRo
+ZW4KeW91IGFsc28gbmVlZCB0byBob25vdXIgdGhlIGN1cnJlbnQgc2V0dGluZyBpbiBzdXNwZW5k
+KCkgYXMgd2VsbC4KCkhvdyBoYXZlIHlvdSB0ZXN0ZWQgdGhpcyBmZWF0dXJlPwoKSm9oYW4KLS0t
+ClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmli
+ZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5r
+ZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcv
+bWFqb3Jkb21vLWluZm8uaHRtbAo=
