@@ -2,21 +2,29 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2] Add delay-init quirk for Corsair K70 RGB keyboards
-From: JackStocker <jackstocker.93@gmail.com>
-Message-Id: <1517761102-6849-1-git-send-email-jackstocker.93@gmail.com>
-Date: Sun,  4 Feb 2018 16:18:21 +0000
-Cc: JackStocker <jackstocker.93@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Felipe Balbi <felipe.balbi@linux.intel.com>, Seth Forshee <seth.forshee@canonical.com>, Kai-Heng Feng <kai.heng.feng@canonical.com>, Thadeu Lima de Souza Cascardo <cascardo@canonical.com>, Sandeep Singh <sandeep.singh@amd.com>, Devin Heitmueller <dheitmueller@kernellabs.com>, Dmitry Fleytman <dmitry@daynix.com>, Samuel Thibault <samuel.thibault@ens-lyon.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Message-Id: <AE53BCA5-F49A-41ED-B6F4-1B5FF8B4391F@canonical.com>
+Date: Mon, 5 Feb 2018 00:38:56 +0800
+To: JackStocker <jackstocker.93@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Felipe Balbi <felipe.balbi@linux.intel.com>, Seth Forshee <seth.forshee@canonical.com>, Thadeu Lima de Souza Cascardo <cascardo@canonical.com>, Sandeep Singh <sandeep.singh@amd.com>, Devin Heitmueller <dheitmueller@kernellabs.com>, Dmitry Fleytman <dmitry@daynix.com>, Samuel Thibault <samuel.thibault@ens-lyon.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-RG8geW91IG1lYW4gbGlrZSB0aGlzPwoKU2lnbmVkLW9mZi1ieTogSmFja1N0b2NrZXIgPGphY2tz
-dG9ja2VyLjkzQGdtYWlsLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9jb3JlL3F1aXJrcy5jIHwgMyAr
-KysKIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJz
-L3VzYi9jb3JlL3F1aXJrcy5jIGIvZHJpdmVycy91c2IvY29yZS9xdWlya3MuYwppbmRleCBhNmFh
-ZjJmLi4wNDA1ZDY4IDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9jb3JlL3F1aXJrcy5jCisrKyBi
-L2RyaXZlcnMvdXNiL2NvcmUvcXVpcmtzLmMKQEAgLTIxOCw2ICsyMTgsOSBAQCBzdGF0aWMgY29u
-c3Qgc3RydWN0IHVzYl9kZXZpY2VfaWQgdXNiX3F1aXJrX2xpc3RbXSA9IHsKIAl7IFVTQl9ERVZJ
-Q0UoMHgxYTBhLCAweDAyMDApLCAuZHJpdmVyX2luZm8gPQogCQkJVVNCX1FVSVJLX0xJTkVBUl9V
-RlJBTUVfSU5UUl9CSU5URVJWQUwgfSwKIAorCS8qIENvcnNhaXIgSzcwIFJHQiAqLworCXsgVVNC
-X0RFVklDRSgweDFiMWMsIDB4MWIxMyksIC5kcml2ZXJfaW5mbyA9IFVTQl9RVUlSS19ERUxBWV9J
-TklUIH0sCisKIAkvKiBDb3JzYWlyIFN0cmFmZSBSR0IgKi8KIAl7IFVTQl9ERVZJQ0UoMHgxYjFj
-LCAweDFiMjApLCAuZHJpdmVyX2luZm8gPSBVU0JfUVVJUktfREVMQVlfSU5JVCB9LAogCg==
+PiBPbiA1IEZlYiAyMDE4LCBhdCAxMjoxOCBBTSwgSmFja1N0b2NrZXIgPGphY2tzdG9ja2VyLjkz
+QGdtYWlsLmNvbT4gd3JvdGU6Cj4gCj4gRG8geW91IG1lYW4gbGlrZSB0aGlzPwoKWWVzLCB3aXRo
+IHByb3BlciBjb21taXQgbWVzc2FnZS4KCj4gCj4gU2lnbmVkLW9mZi1ieTogSmFja1N0b2NrZXIg
+PGphY2tzdG9ja2VyLjkzQGdtYWlsLmNvbT4KPiAtLS0KPiBkcml2ZXJzL3VzYi9jb3JlL3F1aXJr
+cy5jIHwgMyArKysKPiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvdXNiL2NvcmUvcXVpcmtzLmMgYi9kcml2ZXJzL3VzYi9jb3JlL3F1aXJr
+cy5jCj4gaW5kZXggYTZhYWYyZi4uMDQwNWQ2OCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3VzYi9j
+b3JlL3F1aXJrcy5jCj4gKysrIGIvZHJpdmVycy91c2IvY29yZS9xdWlya3MuYwo+IEBAIC0yMTgs
+NiArMjE4LDkgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCB1c2JfZGV2aWNlX2lkIHVzYl9xdWlya19s
+aXN0W10gPSB7Cj4gCXsgVVNCX0RFVklDRSgweDFhMGEsIDB4MDIwMCksIC5kcml2ZXJfaW5mbyA9
+Cj4gCQkJVVNCX1FVSVJLX0xJTkVBUl9VRlJBTUVfSU5UUl9CSU5URVJWQUwgfSwKPiAKPiArCS8q
+IENvcnNhaXIgSzcwIFJHQiAqLwo+ICsJeyBVU0JfREVWSUNFKDB4MWIxYywgMHgxYjEzKSwgLmRy
+aXZlcl9pbmZvID0gVVNCX1FVSVJLX0RFTEFZX0lOSVQgfSwKPiArCj4gCS8qIENvcnNhaXIgU3Ry
+YWZlIFJHQiAqLwo+IAl7IFVTQl9ERVZJQ0UoMHgxYjFjLCAweDFiMjApLCAuZHJpdmVyX2luZm8g
+PSBVU0JfUVVJUktfREVMQVlfSU5JVCB9LAo+IAo+IC0tIAo+IDIuNy40Cj4KLS0tClRvIHVuc3Vi
+c2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11
+c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3Jn
+Ck1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21v
+LWluZm8uaHRtbAo=
