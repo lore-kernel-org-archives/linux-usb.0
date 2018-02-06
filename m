@@ -2,26 +2,17 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: gadget: udc: change comparison to bitshift when dealing with a mask
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Message-Id: <20180206085040.3018-1-wsa+renesas@sang-engineering.com>
-Date: Tue,  6 Feb 2018 09:50:40 +0100
-To: linux-kernel@vger.kernel.org
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+From: Wolfram Sang <wsa@the-dreams.de>
+Message-Id: <20180206085422.qokhonesh6oqtaof@ninjato>
+Date: Tue, 6 Feb 2018 09:54:22 +0100
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-kernel@vger.kernel.org, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-RHVlIHRvIGEgdHlwbywgdGhlIG1hc2sgd2FzIGRlc3Ryb3llZCBieSBhIGNvbXBhcmlzb24gaW5z
-dGVhZCBvZiBhIGJpdApzaGlmdC4KClJlcG9ydGVkLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdl
-ZXJ0K3JlbmVzYXNAZ2xpZGVyLmJlPgpTaWduZWQtb2ZmLWJ5OiBXb2xmcmFtIFNhbmcgPHdzYSty
-ZW5lc2FzQHNhbmctZW5naW5lZXJpbmcuY29tPgotLS0KT25seSBidWlsZCB0ZXN0ZWQuCgogZHJp
-dmVycy91c2IvZ2FkZ2V0L3VkYy9nb2t1X3VkYy5oIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEg
-aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvZ2Fk
-Z2V0L3VkYy9nb2t1X3VkYy5oIGIvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9nb2t1X3VkYy5oCmlu
-ZGV4IDI2NjAxYmY0ZTdhOTM1Li43MDAyM2Q0MDEwNzk5NyAxMDA2NDQKLS0tIGEvZHJpdmVycy91
-c2IvZ2FkZ2V0L3VkYy9nb2t1X3VkYy5oCisrKyBiL2RyaXZlcnMvdXNiL2dhZGdldC91ZGMvZ29r
-dV91ZGMuaApAQCAtMjUsNyArMjUsNyBAQCBzdHJ1Y3QgZ29rdV91ZGNfcmVncyB7CiAjCWRlZmlu
-ZSBJTlRfRVAxREFUQVNFVAkJMHgwMDA0MAogIwlkZWZpbmUgSU5UX0VQMkRBVEFTRVQJCTB4MDAw
-ODAKICMJZGVmaW5lIElOVF9FUDNEQVRBU0VUCQkweDAwMTAwCi0jZGVmaW5lIElOVF9FUG5OQUso
-bikJCSgweDAwMTAwIDwgKG4pKQkJLyogMCA8IG4gPCA0ICovCisjZGVmaW5lIElOVF9FUG5OQUso
-bikJCSgweDAwMTAwIDw8IChuKSkJLyogMCA8IG4gPCA0ICovCiAjCWRlZmluZSBJTlRfRVAxTkFL
-CQkweDAwMjAwCiAjCWRlZmluZSBJTlRfRVAyTkFLCQkweDAwNDAwCiAjCWRlZmluZSBJTlRfRVAz
-TkFLCQkweDAwODAwCg==
+T24gVHVlLCBGZWIgMDYsIDIwMTggYXQgMDk6NTA6NDBBTSArMDEwMCwgV29sZnJhbSBTYW5nIHdy
+b3RlOgo+IER1ZSB0byBhIHR5cG8sIHRoZSBtYXNrIHdhcyBkZXN0cm95ZWQgYnkgYSBjb21wYXJp
+c29uIGluc3RlYWQgb2YgYSBiaXQKPiBzaGlmdC4KPiAKPiBSZXBvcnRlZC1ieTogR2VlcnQgVXl0
+dGVyaG9ldmVuIDxnZWVydCtyZW5lc2FzQGdsaWRlci5iZT4KPiBTaWduZWQtb2ZmLWJ5OiBXb2xm
+cmFtIFNhbmcgPHdzYStyZW5lc2FzQHNhbmctZW5naW5lZXJpbmcuY29tPgo+IC0tLQo+IE9ubHkg
+YnVpbGQgdGVzdGVkLgoKQWRkLiBub3RlOiBhY2NvcmRpbmcgdG8gJ2dpdCBncmVwJywgdGhpcyBt
+YWNybyBpcyB1bnVzZWQgY3VycmVudGx5LCBzbwpubyByZWdyZXNzaW9uLgo=
