@@ -1,32 +1,21 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [3/5] USB: serial: f81232: enable remote wakeup via RX/RI pin
-From: "Ji-Ze Hong \(Peter Hong\)" <hpeter@gmail.com>
-Message-Id: <ed36abaa-2ee4-3fc2-6472-570691381377@gmail.com>
-Date: Thu, 8 Feb 2018 17:17:24 +0800
-To: Johan Hovold <johan@kernel.org>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, peter_hong@fintek.com.tw, "Ji-Ze Hong \(Peter Hong\)" <hpeter+linux_kernel@gmail.com>
+Subject: [4/4] ARM: dts: am43xx: Enable dual-role mode for USB1
+From: Tony Lindgren <tony@atomide.com>
+Message-Id: <20180214165950.GK6364@atomide.com>
+Date: Wed, 14 Feb 2018 08:59:50 -0800
+To: Roger Quadros <rogerq@ti.com>
+Cc: balbi@kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-omap <linux-omap@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgSm9oYW4sCgpKb2hhbiBIb3ZvbGQg5pa8IDIwMTgvMi80IOS4iuWNiCAwOTo0NiDlr6vpgZM6
-Cj4gT24gVGh1LCBGZWIgMDEsIDIwMTggYXQgMTE6MTM6MDFBTSArMDgwMCwgSmktWmUgSG9uZyAo
-UGV0ZXIgSG9uZykgd3JvdGU6Cj4+IE91ciBVU0ItVG8tU2VyaWFsIHN1cHBvcnQgUkkvIFJYIHJl
-bW90ZSB3YWtldXAgYnkgTW9kZW0sIEZheCBvcgo+PiBvdGhlciBwZXJpcGhlcmFscyBhbmQgd2Ug
-aGFkIHRlc3RlZCBpdCBieSBmb2xsb3dpbmcgcHJvY2VkdXJlIHdpdGgKPj4gZGV2aWNlX3NldF93
-YWtldXBfZW5hYmxlKCkgZW5hYmxlZDoKPj4gICAgICAgMS4gVXNpbmcgcG0tc3VzcGVuZCB0byBT
-Mwo+PiAgICAgICAyLiBUcmlnZ2VyIGEgcHVsc2UgdG8gUkkvUlggdG8gd2FrZSB1cCBzeXN0ZW0u
-Cj4+Cj4+IEluIG91ciB0ZXN0LCB3ZSBjYW4gZG8gcmVtb3RlIHdha2V1cCBvbmx5IHdpdGgKPj4g
-ZGV2aWNlX3NldF93YWtldXBfZW5hYmxlKCkgZW5hYmxlZC4KPiAKPiBZZWFoLCBidXQgeW91IG5l
-ZWQgdG8gZW5hYmxlIGl0IHRob3VnaCBzeXNmcy4gTm90IGV2ZXJ5IGRldmljZSBzaG91bGQgYmUK
-PiBhYmxlIHRvIHdha2UgdGhlIHN5c3RlbSB1cC4gVGhhdCdzIGEgZGVjaXNpb24gbGVmdCBmb3Ig
-dXNlciBzcGFjZS4KPiAKPj4gU2hvdWxkIHdlIGFkZCBkZXZpY2Vfc2V0X3dha2V1cF9jYXBhYmxl
-KCkgJiBkZXZpY2Vfc2V0X3dha2V1cF9lbmFibGUoKQo+PiBsaWtlIGZvbGxvd2luZyBsaW5rPz8K
-Pj4gaHR0cHM6Ly9lbGl4aXIuZnJlZS1lbGVjdHJvbnMuY29tL2xpbnV4L2xhdGVzdC9zb3VyY2Uv
-ZHJpdmVycy9tZWRpYS9yYy9tY2V1c2IuYyNMMTQ3Ngo+IAo+IE5vLCB5b3VyIGRyaXZlciBzaG91
-bGQgbm90IGNhbGwgZGV2aWNlX3NldF93YWtldXBfZW5hYmxlKCkgaXRzZWxmLiBKdXN0Cj4gc2V0
-IHRoZSB3YWtldXAgY2FwYWJsZSBmbGFnIGluIHByb2JlLiBBbmQgaWYgeW91IGNhbiBkaXNhYmxl
-IHRoZSB3YWtlIHVwCj4gZmVhdHVyZSwgdGhpcyBuZWVkcyB0byBiZSBkb25lIGF0IHN1c3BlbmQg
-ZGVwZW5kaW5nIG9uIHdoYXQgdXNlciBzcGFjZQo+IGhhcyByZXF1ZXN0ZWQuCgpXZSdsbCBjaGFu
-Z2UgdG8gZGV2aWNlX3NldF93YWtldXBfY2FwYWJsZSgpIGFuZCBzZW5kIHRoZSB2MiBwYXRjaCB3
-aGVuCnRlc3QgT0suCgpUaGFua3MK
+KiBSb2dlciBRdWFkcm9zIDxyb2dlcnFAdGkuY29tPiBbMTgwMTIyIDA1OjE3XToKPiArVG9ueQo+
+IAo+IE9uIDIyLzAxLzE4IDE1OjExLCBSb2dlciBRdWFkcm9zIHdyb3RlOgo+ID4gVVNCMSBwb3J0
+IGlzIG1pY3JvLUFCIHR5cGUgYW5kIGNhbiBmdW5jdGlvbiBhcyBwZXJpcGhlcmFsCj4gPiBhcyB3
+ZWxsIGFzIGhvc3QuIEVuYWJsZSBkdWFsLXJvbGUgbW9kZSBmb3IgVVNCMS4KCkxvb2tzIGxpa2Ug
+SSBkb24ndCBoYXZlIHRoaXMgb25lLCBwbGVhc2UgcmVzZW5kIGl0CnNlcGFyYXRlbHkgd2hlbiBp
+dCdzIHNhZmUgdG8gYXBwbHkuCgpSZWdhcmRzLAoKVG9ueQotLS0KVG8gdW5zdWJzY3JpYmUgZnJv
+bSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhl
+IGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpv
+cmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1s
+Cg==
