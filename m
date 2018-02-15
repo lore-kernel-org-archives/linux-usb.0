@@ -2,16 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [5/6] usb: dwc2: eliminate irq parameter from dwc2_gadget_init
-From: Felipe Balbi <balbi@kernel.org>
-Message-Id: <87woze8kpj.fsf@linux.intel.com>
-Date: Thu, 15 Feb 2018 15:07:52 +0200
-To: Grigor Tovmasyan <Grigor.Tovmasyan@synopsys.com>, John Youn <John.Youn@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+From: Grigor Tovmasyan <Grigor.Tovmasyan@synopsys.com>
+Message-Id: <32EB88BF8EC1614E9FB18BD3718BE1A1163CD994@am04wembxa.internal.synopsys.com>
+Date: Thu, 15 Feb 2018 15:37:03 +0000
+To: Felipe Balbi <balbi@kernel.org>, Grigor Tovmasyan <Grigor.Tovmasyan@synopsys.com>, John Youn <John.Youn@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-R3JpZ29yIFRvdm1hc3lhbiA8R3JpZ29yLlRvdm1hc3lhbkBzeW5vcHN5cy5jb20+IHdyaXRlczoK
-Cj4gRnJvbTogVmFyZGFuIE1pa2F5ZWx5YW4gPG12YXJkYW5Ac3lub3BzeXMuY29tPgo+Cj4gVGhl
-IGlycSBpcyBhdmFpbGFibGUgaW4gaHNvdGcgYWxyZWFkeSwgc28gdGhlcmUncyBubyBuZWVkIHRv
-IHBhc3MgaXQgYXMKPiBzZXBhcmF0ZSBmdW5jdGlvbiBwYXJhbWV0ZXIuCj4KPiBTaWduZWQtb2Zm
-LWJ5OiBWYXJkYW4gTWlrYXllbHlhbiA8bXZhcmRhbkBzeW5vcHN5cy5jb20+Cj4gU2lnbmVkLW9m
-Zi1ieTogR3JpZ29yIFRvdm1hc3lhbiA8dG92bWFzeWFAc3lub3BzeXMuY29tPgoKZG9lc24ndCBh
-cHBseS4gMS00IGFyZSBhcHBsaWVkLiBQbGVhc2UgcmViYXNlIG9uIHRlc3RpbmcvbmV4dAo=
+T24gMi8xNS8yMDE4IDE3OjA4LCBGZWxpcGUgQmFsYmkgd3JvdGU6Cj4gR3JpZ29yIFRvdm1hc3lh
+biA8R3JpZ29yLlRvdm1hc3lhbkBzeW5vcHN5cy5jb20+IHdyaXRlczoKPiAKPj4gRnJvbTogVmFy
+ZGFuIE1pa2F5ZWx5YW4gPG12YXJkYW5Ac3lub3BzeXMuY29tPgo+Pgo+PiBUaGUgaXJxIGlzIGF2
+YWlsYWJsZSBpbiBoc290ZyBhbHJlYWR5LCBzbyB0aGVyZSdzIG5vIG5lZWQgdG8gcGFzcyBpdCBh
+cwo+PiBzZXBhcmF0ZSBmdW5jdGlvbiBwYXJhbWV0ZXIuCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IFZh
+cmRhbiBNaWtheWVseWFuIDxtdmFyZGFuQHN5bm9wc3lzLmNvbT4KPj4gU2lnbmVkLW9mZi1ieTog
+R3JpZ29yIFRvdm1hc3lhbiA8dG92bWFzeWFAc3lub3BzeXMuY29tPgo+IAo+IGRvZXNuJ3QgYXBw
+bHkuIDEtNCBhcmUgYXBwbGllZC4gUGxlYXNlIHJlYmFzZSBvbiB0ZXN0aW5nL25leHQKPgoKClNl
+ZW1zIGxpa2UgdGhpcyBwYXRjaCB3YXMgYWxyZWFkeSBtZXJnZWQgd2l0aCB5b3VyIHRlc3Rpbmcv
+dGV4dC4KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1
+bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRv
+bW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtl
+cm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
