@@ -1,18 +1,28 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [11/12] platform/x86: intel_cht_int33fe: Add device connections for the Type-C port
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Message-Id: <20180216134352.GQ1480@kuha.fi.intel.com>
-Date: Fri, 16 Feb 2018 15:43:52 +0200
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Darren Hart <dvhart@infradead.org>, Andy Shevchenko <andy@infradead.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: USB: chaoskey: Use kasprintf() over strcpy()/strcat()
+From: Kees Cook <keescook@chromium.org>
+Message-Id: <20180217045530.GA24226@beast>
+Date: Fri, 16 Feb 2018 20:55:30 -0800
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Keith Packard <keithp@keithp.com>
+Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCBGZWIgMTYsIDIwMTggYXQgMTE6NDc6NTBBTSArMDEwMCwgSGFucyBkZSBHb2VkZSB3
-cm90ZToKPiBXZSBuZWVkIHRvIGFkZCBkZXZpY2UtY29ubmVjdGlvbnMgZm9yIHRoZSBUWVBFLUMg
-bXV4L3N3aXRjaCBhbmQgdXNiLXJvbGUKPiBjb2RlIHRvIGJlIGFibGUgdG8gZmluZCB0aGUgUEkz
-VVNCMzA1MzIgVHlwZS1DIGNyb3NzLXN3aXRjaCBhbmQgdGhlCj4gZGV2aWNlL2hvc3Qgc3dpdGNo
-IGludGVncmF0ZWQgaW4gdGhlIENIVCBTb0MuCj4gCj4gU2lnbmVkLW9mZi1ieTogSGFucyBkZSBH
-b2VkZSA8aGRlZ29lZGVAcmVkaGF0LmNvbT4KClJldmlld2VkLWJ5OiBIZWlra2kgS3JvZ2VydXMg
-PGhlaWtraS5rcm9nZXJ1c0BsaW51eC5pbnRlbC5jb20+CgoKVGhhbmtzLAo=
+SW5zdGVhZCBvZiBrbWFsbG9jKCkgd2l0aCBtYW51YWxseSBjYWxjdWxhdGVkIHZhbHVlcyBmb2xs
+b3dlZCBieQptdWx0aXBsZSBzdHJjcHkoKS9zdHJjYXQoKSBjYWxscywganVzdCBmb2xkIGl0IGFs
+bCBpbnRvIGEgc2luZ2xlCmthc3ByaW50ZigpIGNhbGwuCgpTaWduZWQtb2ZmLWJ5OiBLZWVzIENv
+b2sgPGtlZXNjb29rQGNocm9taXVtLm9yZz4KLS0tCiBkcml2ZXJzL3VzYi9taXNjL2NoYW9za2V5
+LmMgfCA4ICsrLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCA2IGRlbGV0
+aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL21pc2MvY2hhb3NrZXkuYyBiL2RyaXZl
+cnMvdXNiL21pc2MvY2hhb3NrZXkuYwppbmRleCA3MTZjYjUxNTUyM2UuLmNmNTgyOGNlOTI3YSAx
+MDA2NDQKLS0tIGEvZHJpdmVycy91c2IvbWlzYy9jaGFvc2tleS5jCisrKyBiL2RyaXZlcnMvdXNi
+L21pc2MvY2hhb3NrZXkuYwpAQCAtMTY4LDE0ICsxNjgsMTAgQEAgc3RhdGljIGludCBjaGFvc2tl
+eV9wcm9iZShzdHJ1Y3QgdXNiX2ludGVyZmFjZSAqaW50ZXJmYWNlLAogCSAqLwogCiAJaWYgKHVk
+ZXYtPnByb2R1Y3QgJiYgdWRldi0+c2VyaWFsKSB7Ci0JCWRldi0+bmFtZSA9IGttYWxsb2Moc3Ry
+bGVuKHVkZXYtPnByb2R1Y3QpICsgMSArCi0JCQkJICAgIHN0cmxlbih1ZGV2LT5zZXJpYWwpICsg
+MSwgR0ZQX0tFUk5FTCk7CisJCWRldi0+bmFtZSA9IGthc3ByaW50ZihHRlBfS0VSTkVMLCAiJXMt
+JXMiLCB1ZGV2LT5wcm9kdWN0LAorCQkJCSAgICAgIHVkZXYtPnNlcmlhbCk7CiAJCWlmIChkZXYt
+Pm5hbWUgPT0gTlVMTCkKIAkJCWdvdG8gb3V0OwotCi0JCXN0cmNweShkZXYtPm5hbWUsIHVkZXYt
+PnByb2R1Y3QpOwotCQlzdHJjYXQoZGV2LT5uYW1lLCAiLSIpOwotCQlzdHJjYXQoZGV2LT5uYW1l
+LCB1ZGV2LT5zZXJpYWwpOwogCX0KIAogCWRldi0+aW50ZXJmYWNlID0gaW50ZXJmYWNlOwo=
