@@ -2,20 +2,25 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v3] usb: core: Add "quirks" parameter for usbcore
-From: Matthew Wilcox <willy@infradead.org>
-Message-Id: <20180225151821.GA20478@bombadil.infradead.org>
-Date: Sun, 25 Feb 2018 07:18:21 -0800
-To: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Cc: gregkh@linuxfoundation.org, oneukum@suse.com, corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Message-Id: <CAAd53p74haT9+cwVcToV7OSCxeuJM4sDhadBYvTvD7ZwzdOimQ@mail.gmail.com>
+Date: Sun, 25 Feb 2018 23:45:01 +0800
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Oliver Neukum <oneukum@suse.com>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gU3VuLCBGZWIgMjUsIDIwMTggYXQgMDg6Mzg6MzNQTSArMDgwMCwgS2FpLUhlbmcgRmVuZyB3
-cm90ZToKPiB2MjogVXNlIGluLWtlcm5lbCB0b2xvd2VyKCkgZnVuY3Rpb24uCgouLi4gd2h5IGFy
-ZSB5b3UgdXNpbmcgdG9sb3dlciBhdCBhbGw/CgpZb3UndmUgZ290IDEzIHF1aXJrcyBhbHJlYWR5
-OyB5b3UgbWF5IG5lZWQgdG8gdXNlIHVwcGVyIGNhc2UgYXMgd2VsbApiZWZvcmUgdG9vIGxvbmcu
-Cgo+ICsJCXF1aXJrID0gdm1hbGxvYyhzaXplb2Yoc3RydWN0IHF1aXJrX2VudHJ5KSk7Cgp2bWFs
-bG9jPyAgRm9yIGEgc3RydWN0IHRoYXQncyAyNCBieXRlcz8gIFlvdSBrbm93IHRoYXQgYWxsb2Nh
-dGVzIGFuCmVudGlyZSA0ayBwYWdlLCByaWdodD8KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhp
-cyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5
-IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21v
-IGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
+T24gU3VuLCBGZWIgMjUsIDIwMTggYXQgMTE6MTggUE0sIE1hdHRoZXcgV2lsY294IDx3aWxseUBp
+bmZyYWRlYWQub3JnPiB3cm90ZToKPiBPbiBTdW4sIEZlYiAyNSwgMjAxOCBhdCAwODozODozM1BN
+ICswODAwLCBLYWktSGVuZyBGZW5nIHdyb3RlOgo+PiB2MjogVXNlIGluLWtlcm5lbCB0b2xvd2Vy
+KCkgZnVuY3Rpb24uCj4KPiAuLi4gd2h5IGFyZSB5b3UgdXNpbmcgdG9sb3dlciBhdCBhbGw/Cj4K
+PiBZb3UndmUgZ290IDEzIHF1aXJrcyBhbHJlYWR5OyB5b3UgbWF5IG5lZWQgdG8gdXNlIHVwcGVy
+IGNhc2UgYXMgd2VsbAo+IGJlZm9yZSB0b28gbG9uZy4KCk1ha2VzIHNlbnNlLiBJJ2xsIHJlbW92
+ZSB0b2xvd2VyKCkgaW4gbmV4dCB2ZXJzaW9uLgoKPgo+PiArICAgICAgICAgICAgIHF1aXJrID0g
+dm1hbGxvYyhzaXplb2Yoc3RydWN0IHF1aXJrX2VudHJ5KSk7Cj4KPiB2bWFsbG9jPyAgRm9yIGEg
+c3RydWN0IHRoYXQncyAyNCBieXRlcz8gIFlvdSBrbm93IHRoYXQgYWxsb2NhdGVzIGFuCj4gZW50
+aXJlIDRrIHBhZ2UsIHJpZ2h0Pwo+CgpSaWdodCwgSSdsbCB1c2Uga21hbGxvYygpIGluc3RlYWQu
+IE9yIGlzIHRoZXJlIGFueSBtb3JlIGVmZmljaWVudAptYWxsb2MgZnVuY3Rpb24/Ci0tLQpUbyB1
+bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGlu
+dXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVs
+Lm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9y
+ZG9tby1pbmZvLmh0bWwK
