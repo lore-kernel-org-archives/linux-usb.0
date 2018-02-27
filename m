@@ -2,22 +2,25 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: inconsistent lock state with usbnet/asix usb ethernet and xhci
-From: Eric Dumazet <eric.dumazet@gmail.com>
-Message-Id: <1519744400.7296.10.camel@gmail.com>
-Date: Tue, 27 Feb 2018 07:13:20 -0800
-To: Marek Szyprowski <m.szyprowski@samsung.com>, netdev@vger.kernel.org, Linux USB Mailing List <linux-usb@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 'Linux Samsung SOC' <linux-samsung-soc@vger.kernel.org>
-Cc: Dean Jenkins <Dean_Jenkins@mentor.com>, Oliver Neukum <oneukum@suse.com>
+From: Oliver Neukum <oneukum@suse.com>
+Message-Id: <1519747675.2649.3.camel@suse.com>
+Date: Tue, 27 Feb 2018 17:07:55 +0100
+To: Eric Dumazet <eric.dumazet@gmail.com>, Marek Szyprowski <m.szyprowski@samsung.com>, LKML <linux-kernel@vger.kernel.org>, 'Linux Samsung SOC' <linux-samsung-soc@vger.kernel.org>, Linux USB Mailing List <linux-usb@vger.kernel.org>, netdev@vger.kernel.org
+Cc: Dean Jenkins <Dean_Jenkins@mentor.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVHVlLCAyMDE4LTAyLTI3IGF0IDA3OjA5IC0wODAwLCBFcmljIER1bWF6ZXQgd3JvdGU6Cj4g
-Cj4gTm90ZSB0aGF0IGZvciB0aGlzIG9uZSwgaXQgc2VlbXMgd2UgYWxzbyBjb3VsZCBwZXJmb3Jt
-IHN0YXRzIHVwZGF0ZXMgaW4KPiBCSCBjb250ZXh0LCBzaW5jZSBza2IgaXMgcXVldWVkIHZpYSBk
-ZWZlcl9iaCgpCj4gCj4gQnV0IHNpbXBsaWNpdHkgd2lucyBJIGd1ZXNzLgoKVGhpbmtpbmcgbW9y
-ZSBhYm91dCB0aGlzLCBJIGFtIG5vdCBzdXJlIHdlIGhhdmUgYW55IGd1YXJhbnRlZSB0aGF0IFRY
-CmFuZCBSWCBjYW4gbm90IHJ1biBvbiBtdWx0aXBsZSBjcHVzLgoKVXNpbmcgYW4gdW5pcXVlIHN5
-bmNwIGlzIG5vdCBnb2luZyB0byBiZSBzYWZlLCBldmVuIGlmIHdlIG1ha2UgbG9ja2RlcApoYXBw
-eSBlbm91Z2ggd2l0aCB0aGUgbG9jYWxfaXJxIHNhdmUvcmVzdG9yZS4KLS0tClRvIHVuc3Vic2Ny
-aWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2Ii
-IGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1v
-cmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWlu
-Zm8uaHRtbAo=
+QW0gRGllbnN0YWcsIGRlbiAyNy4wMi4yMDE4LCAwNzoxMyAtMDgwMCBzY2hyaWViIEVyaWMgRHVt
+YXpldDoKPiBPbiBUdWUsIDIwMTgtMDItMjcgYXQgMDc6MDkgLTA4MDAsIEVyaWMgRHVtYXpldCB3
+cm90ZToKPiA+IAo+ID4gCj4gPiBOb3RlIHRoYXQgZm9yIHRoaXMgb25lLCBpdCBzZWVtcyB3ZSBh
+bHNvIGNvdWxkIHBlcmZvcm0gc3RhdHMgdXBkYXRlcyBpbgo+ID4gQkggY29udGV4dCwgc2luY2Ug
+c2tiIGlzIHF1ZXVlZCB2aWEgZGVmZXJfYmgoKQo+ID4gCj4gPiBCdXQgc2ltcGxpY2l0eSB3aW5z
+IEkgZ3Vlc3MuCj4gCj4gVGhpbmtpbmcgbW9yZSBhYm91dCB0aGlzLCBJIGFtIG5vdCBzdXJlIHdl
+IGhhdmUgYW55IGd1YXJhbnRlZSB0aGF0IFRYCj4gYW5kIFJYIGNhbiBub3QgcnVuIG9uIG11bHRp
+cGxlIGNwdXMuCj4gCj4gVXNpbmcgYW4gdW5pcXVlIHN5bmNwIGlzIG5vdCBnb2luZyB0byBiZSBz
+YWZlLCBldmVuIGlmIHdlIG1ha2UgbG9ja2RlcAo+IGhhcHB5IGVub3VnaCB3aXRoIHRoZSBsb2Nh
+bF9pcnEgc2F2ZS9yZXN0b3JlLgoKVW5mb3J0dW5hdGVseSB5b3UgYXJlIHJpZ2h0LiBJdCBpcyBu
+b3QgZ3VhcmFudGVlZCBmb3Igc29tZSBoYXJkd2FyZS4KCglSZWdhcmRzCgkJT2xpdmVyCi0tLQpU
+byB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUg
+bGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2Vy
+bmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21h
+am9yZG9tby1pbmZvLmh0bWwK
