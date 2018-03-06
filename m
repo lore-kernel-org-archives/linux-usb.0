@@ -2,21 +2,18 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: host: xhci-rcar: add support for r8a77965
-From: Rob Herring <robh@kernel.org>
-Message-Id: <20180305221536.adxtoyvpxk3av77n@rob-hp-laptop>
-Date: Mon, 5 Mar 2018 16:15:36 -0600
+From: Simon Horman <horms@verge.net.au>
+Message-Id: <20180306093834.2eghp6suwmk7qfup@verge.net.au>
+Date: Tue, 6 Mar 2018 10:38:34 +0100
 To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: mathias.nyman@intel.com, gregkh@linuxfoundation.org, mark.rutland@arm.com, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc: mathias.nyman@intel.com, gregkh@linuxfoundation.org, robh+dt@kernel.org, mark.rutland@arm.com, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
 T24gVHVlLCBGZWIgMjcsIDIwMTggYXQgMDU6MTU6MjBQTSArMDkwMCwgWW9zaGloaXJvIFNoaW1v
 ZGEgd3JvdGU6Cj4gVGhpcyBwYXRjaCBhZGRzIHN1cHBvcnQgZm9yIHI4YTc3OTY1IChSLUNhciBN
 My1OKS4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBZb3NoaWhpcm8gU2hpbW9kYSA8eW9zaGloaXJvLnNo
-aW1vZGEudWhAcmVuZXNhcy5jb20+Cj4gLS0tCj4gIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
-aW5kaW5ncy91c2IvdXNiLXhoY2kudHh0IHwgMSArCj4gIGRyaXZlcnMvdXNiL2hvc3QveGhjaS1y
-Y2FyLmMgICAgICAgICAgICAgICAgICAgICAgIHwgNCArKysrCj4gIDIgZmlsZXMgY2hhbmdlZCwg
-NSBpbnNlcnRpb25zKCspCgpSZXZpZXdlZC1ieTogUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVsLm9y
-Zz4KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1
-YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9A
-dmdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5l
-bC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
+aW1vZGEudWhAcmVuZXNhcy5jb20+CgpSZXZpZXdlZC1ieTogU2ltb24gSG9ybWFuIDxob3Jtcyty
+ZW5lc2FzQHZlcmdlLm5ldC5hdT4KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBz
+ZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVz
+c2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQg
+IGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
