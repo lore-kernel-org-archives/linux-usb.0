@@ -1,50 +1,24 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v5,1/6] dt-bindings: add bindings for USB physical connector
-From: Roger Quadros <rogerq@ti.com>
-Message-Id: <a470c2e0-09ea-fc3a-2eef-bba2af18b33f@ti.com>
-Date: Thu, 15 Mar 2018 19:08:32 +0200
-To: Robin Murphy <robin.murphy@arm.com>, Andrzej Hajda <a.hajda@samsung.com>, "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>, Felipe Balbi <balbi@kernel.org>, Archit Taneja <architt@codeaurora.org>, linux-samsung-soc@vger.kernel.org, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, Inki Dae <inki.dae@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, linux-arm-kernel@lists.infradead.org, Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: [v5,4/6] arm64: dts: exynos: add OF graph between MHL and USB connector
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Message-Id: <20180306164939.jqpfawa6u2c2xb5e@kozik-lap>
+Date: Tue, 6 Mar 2018 17:49:39 +0100
+To: Andrzej Hajda <a.hajda@samsung.com>
+Cc: "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Marek Szyprowski <m.szyprowski@samsung.com>, dri-devel@lists.freedesktop.org, Inki Dae <inki.dae@samsung.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Chanwoo Choi <cw00.choi@samsung.com>, Archit Taneja <architt@codeaurora.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMTUvMDMvMTggMTM6NDYsIFJvYmluIE11cnBoeSB3cm90ZToKPiBPbiAxMi8wMy8xOCAxMDo0
-MSwgUm9nZXIgUXVhZHJvcyB3cm90ZToKPiBbLi4uXQo+Pj4+PiBAQCAtMCwwICsxLDc1IEBACj4+
-Pj4+ICtVU0IgQ29ubmVjdG9yCj4+Pj4+ICs9PT09PT09PT09PT09Cj4+Pj4+ICsKPj4+Pj4gK1VT
-QiBjb25uZWN0b3Igbm9kZSByZXByZXNlbnRzIHBoeXNpY2FsIFVTQiBjb25uZWN0b3IuIEl0IHNo
-b3VsZCBiZQo+Pj4+PiArYSBjaGlsZCBvZiBVU0IgaW50ZXJmYWNlIGNvbnRyb2xsZXIuCj4+Pj4+
-ICsKPj4+Pj4gK1JlcXVpcmVkIHByb3BlcnRpZXM6Cj4+Pj4+ICstIGNvbXBhdGlibGU6IGRlc2Ny
-aWJlcyB0eXBlIG9mIHRoZSBjb25uZWN0b3IsIG11c3QgYmUgb25lIG9mOgo+Pj4+PiArwqDCoMKg
-ICJ1c2ItYS1jb25uZWN0b3IiLAo+Pj4+PiArwqDCoMKgICJ1c2ItYi1jb25uZWN0b3IiLAo+Pj4+
-PiArwqDCoMKgICJ1c2ItYy1jb25uZWN0b3IiLgo+Pj4+IGNvbXBhdGlibGUgc2hvdWxkIGJlIGp1
-c3QgInVzYi1jb25uZWN0b3IiCj4+Pj4KPj4+PiBUeXBlIHNob3VsZCBiZSBhIHByb3BlcnR5Cj4+
-Pj4KPj4+PiB0eXBlOiB0eXBlIG9mIHVzYiBjb25uZWN0b3IgIkEiLCAiQiIsICJBQiIsICJDIgo+
-Pj4+IEFCIGlzIGZvciBkdWFsLXJvbGUgY29ubmVjdG9ycy4KPj4+Cj4+PiBJIGhhdmUgcHJvcG9z
-ZWQgc3VjaCBwcm9wZXJ0eSAoYW5kIHNpemUgYWxzbykgaW4gbXkgZmlyc3QgUkZDIFsxXS4gUm9k
-Cj4+PiBkaWQgbm90IGxpa2UgaXQgOikKPj4+Cj4+PiBbMV06IGh0dHBzOi8vbWFyYy5pbmZvLz9s
-PWRldmljZXRyZWUmbT0xNTA2NjA0MTE1MTUyMzMmdz0yCj4+Pgo+Pgo+PiBUaGlzIGlzIHdoYXQg
-Um9iIHNheXMgaGVyZSBodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3BhdGNoLzk5NzYwNDMv
-Cj4+ICJXZSBkaWQgInR5cGUiIGZvciBoZG1pLWNvbm5lY3RvciwgYnV0IEkgdGhpbmsgSSdkIHJl
-YWxseSBwcmVmZXIKPj4gY29tcGF0aWJsZSBiZSB1c2VkIHRvIGRpc3Rpbmd1aXNoIGFzIGxlYXN0
-IHdoZXJlIGl0IG1heSBtYXR0ZXIgdG8gcy93Lgo+PiBJbiB0aGUgSERNSSBjYXNlLCB0aGV5IGFs
-bCBhcmUgcHJldHR5IG11Y2ggdGhlIHNhbWUsIGp1c3QgZGlmZmVyZW50Cj4+IHBoeXNpY2FsIHNp
-emUuIgo+Pgo+PiBTbyB0aGUgcXVlc3Rpb24gaXMuIERvZXMgaXQgbWF0dGVyIHRvIHRoaXMgcGFy
-dGljdWxhciBzb2Z0d2FyZSBpbXBsZW1lbnRhdGlvbgo+PiBpZiBpdCBpcyB0eXBlIEEsQixDIGNv
-bm5lY3Rvcj8KPj4gSWYgeWVzLCBob3c/Cj4+Cj4+IFR5cGUgQSB3aWxsIG5ldmVyIGhhdmUgYW55
-IGFsdGVybmF0ZSBmdW5jdGlvbi4gSXQgaXMgYWx3YXlzIGRlZGljYXRlZCB0byBVU0IuCj4gCj4g
-SW4gVVNCIHNwZWMgdGVybXMsIGF0IGxlYXN0LiBJbiByZWFsaXR5IHRoZXJlIGFyZSB0aGluZ3Mg
-bGlrZSB0aGUgY29vbCB0cmljayBSb2NrY2hpcCBTb0NzIGRvIHdoZXJlYnkgdGhleSBjYW4gZXhw
-b3NlIHRoZSBkZWJ1ZyBVQVJUIFJ4L1R4IHRocm91Z2ggdGhlIE9URyBwb3J0J3MgRCsvRC0gcGlu
-cywgYW5kIHRoYXQgaXMgb24gYSB0eXBlIEEgY29ubmVjdG9yIGluIG1hbnkgcHJvZHVjdHMuIEkn
-bSBndWVzc2luZyB0aGF0J3MgcHJvYmFibHkgYmV5b25kIHRoZSBzY29wZSBvZiB0aGlzIGJpbmRp
-bmcsIHRob3VnaC4KPiAKPj4gQWxzbyBkb2VzIHRoZSBzaXplICJmdWxsIiwgIm1pY3JvIiwgIm1p
-bmkiIG1hdHRlciB0byBzb2Z0d2FyZT8KPiAKPiBJZiBpdCBtZWFucyB0aGUgdXNlciBjYW4gbG9v
-ayBpbiBzeXNmcyB0byBlYXNpbHkgY29ycmVsYXRlIGxvZ2ljYWwgcG9ydHMgd2l0aCBwaHlzaWNh
-bCBjb25uZWN0b3JzIHRoYXQncyBjZXJ0YWlubHkgaGFuZHkgKGUuZy4gb24gc29tZXRoaW5nIGxp
-a2UgT2Ryb2lkLVhVIHdoZXJlIHRoZSB0d28gVVNCMyBwb3J0cyBhcmUgYnJvdWdodCBvdXQgdG8g
-YW4gQSBhbmQgYSBtaWNyby1BQiBjb25uZWN0b3IgcmVzcGVjdGl2ZWx5KS4KCkJ1dCB0aGlzIGxv
-Z2ljIGZhaWxzIGlmIGJvdGggY29ubmVjdG9ycyBhcmUgdGhlIHNhbWUgdHlwZS9zaXplLgpUaGlz
-IGlzIHdoZXJlIHRoZSBsYWJlbCBjb21lcyBpbiBoYW5keS4gVGhlIGxhYmVscyBjYW4gYmUgdW5p
-cXVlIGFuZCBlbmQgdXNlciBjYW4gaWRlbnRpZnkgdGhlIHBvcnQgdXNpbmcgdGhhdC4KCj4gCj4g
-Um9iaW4uCg==
+T24gVHVlLCBGZWIgMjcsIDIwMTggYXQgMDg6MTE6MzJBTSArMDEwMCwgQW5kcnplaiBIYWpkYSB3
+cm90ZToKPiBPRiBncmFwaCBkZXNjcmliZXMgTUhMIGRhdGEgbGFuZXMgYmV0d2VlbiBNSEwgYW5k
+IHJlc3BlY3RpdmUgVVNCCj4gY29ubmVjdG9yLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEFuZHJ6ZWog
+SGFqZGEgPGEuaGFqZGFAc2Ftc3VuZy5jb20+Cj4gLS0tCj4gdjU6IHJlbW92ZWQgZXh0cmEgcGFy
+ZW50aGVzaXMgKGtidWlsZCB0ZXN0IHJvYm90KQo+IHY0OiBhZGRlZCBtaXNzaW5nIHJlZyBwcm9w
+ZXJ0eSBpbiBjb25uZWN0b3IncyBwb3J0IG5vZGUgKEtyenlzenRvZikKPiAtLS0KPiAgLi4uL2Jv
+b3QvZHRzL2V4eW5vcy9leHlub3M1NDMzLXRtMi1jb21tb24uZHRzaSAgICAgfCAzMSArKysrKysr
+KysrKysrKysrKysrLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAyOCBpbnNlcnRpb25zKCspLCAzIGRl
+bGV0aW9ucygtKQo+IAoKVGhhbmtzLCBhcHBsaWVkLgoKQmVzdCByZWdhcmRzLApLcnp5c3p0b2YK
+LS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNj
+cmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdl
+ci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5v
+cmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
