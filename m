@@ -2,27 +2,19 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: isp1760: Use kasprintf
-From: Himanshu Jha <himanshujha199640@gmail.com>
-Message-Id: <1520446082-12264-1-git-send-email-himanshujha199640@gmail.com>
-Date: Wed,  7 Mar 2018 23:38:02 +0530
-To: gregkh@linuxfoundation.org
-Cc: felipe.balbi@linux.intel.com, johan@kernel.org, keescook@chromium.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Himanshu Jha <himanshujha199640@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Message-Id: <CAHp75VfEvKfQ2pp6wG5BXjB38egr_ocQ_dwSXifmj5MwAyNSAA@mail.gmail.com>
+Date: Wed, 7 Mar 2018 20:20:54 +0200
+To: Himanshu Jha <himanshujha199640@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Felipe Balbi <felipe.balbi@linux.intel.com>, Johan Hovold <johan@kernel.org>, Kees Cook <keescook@chromium.org>, USB <linux-usb@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-VXNlIGthc3ByaW50ZiBpbnN0ZWFkIG9mIGNvbWJpbmF0aW9uIG9mIGttYWxsb2MgYW5kIHNwcmlu
-dGYgYW5kCnRoZXJlZm9yZSBhdm9pZCB1bm5lY2Vzc2FyeSBjb21wdXRhdGlvbiBvZiBzdHJpbmcg
-bGVuZ3RoLgoKU2lnbmVkLW9mZi1ieTogSGltYW5zaHUgSmhhIDxoaW1hbnNodWpoYTE5OTY0MEBn
-bWFpbC5jb20+Ci0tLQogZHJpdmVycy91c2IvaXNwMTc2MC9pc3AxNzYwLXVkYy5jIHwgNCArLS0t
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDMgZGVsZXRpb25zKC0pCgpkaWZmIC0t
-Z2l0IGEvZHJpdmVycy91c2IvaXNwMTc2MC9pc3AxNzYwLXVkYy5jIGIvZHJpdmVycy91c2IvaXNw
-MTc2MC9pc3AxNzYwLXVkYy5jCmluZGV4IGJhYzRlZjUuLmMzNWIxNTMgMTAwNjQ0Ci0tLSBhL2Ry
-aXZlcnMvdXNiL2lzcDE3NjAvaXNwMTc2MC11ZGMuYworKysgYi9kcml2ZXJzL3VzYi9pc3AxNzYw
-L2lzcDE3NjAtdWRjLmMKQEAgLTE0NTYsMTIgKzE0NTYsMTAgQEAgaW50IGlzcDE3NjBfdWRjX3Jl
-Z2lzdGVyKHN0cnVjdCBpc3AxNzYwX2RldmljZSAqaXNwLCBpbnQgaXJxLAogCQlyZXR1cm4gcmV0
-OwogCiAJZGV2bmFtZSA9IGRldl9uYW1lKGlzcC0+ZGV2KTsKLQl1ZGMtPmlycW5hbWUgPSBrbWFs
-bG9jKHN0cmxlbihkZXZuYW1lKSArIDcsIEdGUF9LRVJORUwpOworCXVkYy0+aXJxbmFtZSA9IGth
-c3ByaW50ZihHRlBfS0VSTkVMLCAiJXMgKHVkYykiLCBkZXZuYW1lKTsKIAlpZiAoIXVkYy0+aXJx
-bmFtZSkKIAkJcmV0dXJuIC1FTk9NRU07CiAKLQlzcHJpbnRmKHVkYy0+aXJxbmFtZSwgIiVzICh1
-ZGMpIiwgZGV2bmFtZSk7Ci0KIAlyZXQgPSByZXF1ZXN0X2lycShpcnEsIGlzcDE3NjBfdWRjX2ly
-cSwgSVJRRl9TSEFSRUQgfCBpcnFmbGFncywKIAkJCSAgdWRjLT5pcnFuYW1lLCB1ZGMpOwogCWlm
-IChyZXQgPCAwKQo=
+T24gV2VkLCBNYXIgNywgMjAxOCBhdCA4OjA4IFBNLCBIaW1hbnNodSBKaGEKPGhpbWFuc2h1amhh
+MTk5NjQwQGdtYWlsLmNvbT4gd3JvdGU6Cj4gVXNlIGthc3ByaW50ZiBpbnN0ZWFkIG9mIGNvbWJp
+bmF0aW9uIG9mIGttYWxsb2MgYW5kIHNwcmludGYgYW5kCj4gdGhlcmVmb3JlIGF2b2lkIHVubmVj
+ZXNzYXJ5IGNvbXB1dGF0aW9uIG9mIHN0cmluZyBsZW5ndGguCgo+ICAgICAgICAgZGV2bmFtZSA9
+IGRldl9uYW1lKGlzcC0+ZGV2KTsKCkRvIHlvdSBzdGlsbCBuZWVkIHRoaXMgdGVtcG9yYXJ5IHZh
+cmlhYmxlPwoKPiAtICAgICAgIHVkYy0+aXJxbmFtZSA9IGttYWxsb2Moc3RybGVuKGRldm5hbWUp
+ICsgNywgR0ZQX0tFUk5FTCk7Cj4gKyAgICAgICB1ZGMtPmlycW5hbWUgPSBrYXNwcmludGYoR0ZQ
+X0tFUk5FTCwgIiVzICh1ZGMpIiwgZGV2bmFtZSk7CgpQZXJoYXBzCgpkZXZuYW1lIC0+IGRldl9u
+YW1lKGlzcC0+ZGV2KQoKPwo=
