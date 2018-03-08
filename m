@@ -1,18 +1,33 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2] xhci: Fix front USB ports on ASUS PRIME B350M-A
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-Message-Id: <352a3f06-f125-b181-8e78-0abf2e80eabe@linux.intel.com>
-Date: Thu, 8 Mar 2018 15:14:35 +0200
-To: Kai Heng Feng <kai.heng.feng@canonical.com>
-Cc: mathias.nyman@intel.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linux USB Mailing List <linux-usb@vger.kernel.org>, linux-kernel@vger.kernel.org
+Subject: usb: dwc2: Print error if unable to set DMA coherent mask
+From: Stefan Wahren <stefan.wahren@i2se.com>
+Message-Id: <1893294987.392820.1520530314966@email.1und1.de>
+Date: Thu, 8 Mar 2018 18:31:54 +0100 (CET)
+To: John Youn <johnyoun@synopsys.com>, Felipe Balbi <balbi@kernel.org>
+Cc: Gevorg Sahakyan <gevorg.sahakyan@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Minas Harutyunyan <minas.harutyunyan@synopsys.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMDcuMDMuMjAxOCAwODowOSwgS2FpIEhlbmcgRmVuZyB3cm90ZToKPiBIaSBNYXR0aGlhcywK
-PiAKPiBEbyB5b3UgaGF2ZSBhbnkgY29uY2VybiBhYm91dCB0aGlzIHBhdGNoPwo+IAoKQWRkaW5n
-IHBhdGNoIGFuZCBzZW5kaW5nIGZvcndhcmQKClRoYW5rcwotTWF0aGlhcwotLS0KVG8gdW5zdWJz
-Y3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVz
-YiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcK
-TW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8t
-aW5mby5odG1sCg==
+PiBTdGVmYW4gV2FocmVuIDxzdGVmYW4ud2FocmVuQGkyc2UuY29tPiBoYXQgYW0gMTIuIEZlYnJ1
+YXIgMjAxOCB1bSAyMToyMCBnZXNjaHJpZWJlbjoKPiAKPiAKPiBXZSBiZXR0ZXIgcHJpbnQgYW4g
+ZXJyb3IgaW4gY2FzZSBwcm9iaW5nIG9mIGR3YzIgZmFpbHMgb24KPiBzZXR0aW5nIHRoZSBETUEg
+Y29oZXJlbnQgbWFzay4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBTdGVmYW4gV2FocmVuIDxzdGVmYW4u
+d2FocmVuQGkyc2UuY29tPgo+IC0tLQo+ICBkcml2ZXJzL3VzYi9kd2MyL3BsYXRmb3JtLmMgfCA0
+ICsrKy0KPiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+
+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9kd2MyL3BsYXRmb3JtLmMgYi9kcml2ZXJzL3Vz
+Yi9kd2MyL3BsYXRmb3JtLmMKPiBpbmRleCA0NzAzNDc4Li40ZGRiZGJkIDEwMDY0NAo+IC0tLSBh
+L2RyaXZlcnMvdXNiL2R3YzIvcGxhdGZvcm0uYwo+ICsrKyBiL2RyaXZlcnMvdXNiL2R3YzIvcGxh
+dGZvcm0uYwo+IEBAIC0zODIsOCArMzgyLDEwIEBAIHN0YXRpYyBpbnQgZHdjMl9kcml2ZXJfcHJv
+YmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqZGV2KQo+ICAJaWYgKCFkZXYtPmRldi5kbWFfbWFz
+aykKPiAgCQlkZXYtPmRldi5kbWFfbWFzayA9ICZkZXYtPmRldi5jb2hlcmVudF9kbWFfbWFzazsK
+PiAgCXJldHZhbCA9IGRtYV9zZXRfY29oZXJlbnRfbWFzaygmZGV2LT5kZXYsIERNQV9CSVRfTUFT
+SygzMikpOwo+IC0JaWYgKHJldHZhbCkKPiArCWlmIChyZXR2YWwpIHsKPiArCQlkZXZfZXJyKCZk
+ZXYtPmRldiwgImNhbid0IHNldCBjb2hlcmVudCBETUEgbWFzazogJWRcbiIsIHJldHZhbCk7Cj4g
+IAkJcmV0dXJuIHJldHZhbDsKPiArCX0KPiAgCj4gIAlyZXMgPSBwbGF0Zm9ybV9nZXRfcmVzb3Vy
+Y2UoZGV2LCBJT1JFU09VUkNFX01FTSwgMCk7Cj4gIAloc290Zy0+cmVncyA9IGRldm1faW9yZW1h
+cF9yZXNvdXJjZSgmZGV2LT5kZXYsIHJlcyk7Cj4gLS0gCj4gMi43LjQKPgoKcGluZyAuLi4KLS0t
+ClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmli
+ZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5r
+ZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcv
+bWFqb3Jkb21vLWluZm8uaHRtbAo=
