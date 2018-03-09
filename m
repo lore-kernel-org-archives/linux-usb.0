@@ -1,24 +1,18 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,2/2] usb: dwc3: add dual role support using OTG block
+Subject: [v1,10/14] usb: dwc2: Add dwc2_enter_hibernation(), dwc2_exit_hibernation()
 From: Felipe Balbi <balbi@kernel.org>
-Message-Id: <87ina6btil.fsf@linux.intel.com>
-Date: Thu, 08 Mar 2018 15:12:50 +0200
-To: Roger Quadros <rogerq@ti.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-Id: <87vae5aa7y.fsf@linux.intel.com>
+Date: Fri, 09 Mar 2018 11:07:13 +0200
+To: Grigor Tovmasyan <Grigor.Tovmasyan@synopsys.com>, John Youn <John.Youn@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgpSb2dlciBRdWFkcm9zIDxyb2dlcnFAdGkuY29tPiB3cml0ZXM6Cj4gRmVsaXBlLAo+Cj4g
-T24gMDgvMDMvMTggMTI6MzksIEZlbGlwZSBCYWxiaSB3cm90ZToKPj4gUm9nZXIgUXVhZHJvcyA8
-cm9nZXJxQHRpLmNvbT4gd3JpdGVzOgo+PiAKPj4+IFRoaXMgaXMgdXNlZnVsIG9uIHBsYXRmb3Jt
-cyAoZS5nLiBUSSBBTTQzN3gpIHRoYXQgZG9uJ3QKPj4+IGhhdmUgSUQgYXZhaWxhYmxlIG9uIGEg
-R1BJTyBidXQgZG8gaGF2ZSB0aGUgT1RHIGJsb2NrLgo+Pj4KPj4+IFdlIGNhbiBvYnRhaW4gdGhl
-IElEIHN0YXRlIHZpYSB0aGUgT1RHIGJsb2NrIGFuZCB1c2UgaXQKPj4+IGZvciBkdWFsLXJvbGUg
-c3dpdGNoaW5nLgo+Pj4KPj4+IFNpZ25lZC1vZmYtYnk6IFJvZ2VyIFF1YWRyb3MgPHJvZ2VycUB0
-aS5jb20+Cj4+IAo+PiBwYXRjaCBvbmUgYXBwbGllZCBmaW5lIHRvIHRlc3RpbmcvbmV4dC4gQnV0
-IG5vdCB0aGlzIG9uZToKPgo+IFRoYXQncyBiZWNhdXNlIHlvdSB3aWxsIG5lZWQgdGhpcyBjb21t
-aXQgZnJvbSB2NC4xNi1yYzMKPgo+IGM0YTUxNTNlODdmZAkoInVzYjogZHdjMzogY29yZTogUG93
-ZXItb2ZmIGNvcmUvUEhZcyBvbiBzeXN0ZW1fc3VzcGVuZCBpbiBob3N0IG1vZGUiKQo+Cj4gQ291
-bGQgeW91IHBsZWFzZSBhcHBseSB0aGF0IGFuZCBsZXQgbWUga25vdyBpZiBpdCB3b3Jrcz8KCmlu
-ZGVlZCwgYXBwbGllZCBmaW5lLiB0aGFua3MK
+R3JpZ29yIFRvdm1hc3lhbiA8R3JpZ29yLlRvdm1hc3lhbkBzeW5vcHN5cy5jb20+IHdyaXRlczoK
+Cj4gRnJvbTogVmFyZGFuIE1pa2F5ZWx5YW4gPG12YXJkYW5Ac3lub3BzeXMuY29tPgo+Cj4gVGhl
+c2UgYXJlIHdyYXBwZXIgZnVuY3Rpb25zIHdoaWNoIGFyZSBjYWxsaW5nIGRldmljZSBvciBob3N0
+Cj4gZW50ZXIvZXhpdCBoaWJlcm5hdGlvbiBmdW5jdGlvbnMuCj4KPiBTaWduZWQtb2ZmLWJ5OiBW
+YXJkYW4gTWlrYXllbHlhbiA8bXZhcmRhbkBzeW5vcHN5cy5jb20+Cj4gU2lnbmVkLW9mZi1ieTog
+Sm9obiBZb3VuIDxqb2hueW91bkBzeW5vcHN5cy5jb20+Cj4gU2lnbmVkLW9mZi1ieTogR3JpZ29y
+IFRvdm1hc3lhbiA8dG92bWFzeWFAc3lub3BzeXMuY29tPgoKZGlkbid0IGFwcGx5IHRvIHRlc3Rp
+bmcvbmV4dC4gQ2FyZSB0byByZWJhc2Ugb24gdGVzdGluZy9uZXh0PwoKYmVzdAo=
