@@ -2,16 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [11/11] usb: dwc2: Enable LPM
-From: Felipe Balbi <balbi@kernel.org>
-Message-Id: <87d10dbrlj.fsf@linux.intel.com>
-Date: Fri, 09 Mar 2018 10:06:32 +0200
-To: Grigor Tovmasyan <Grigor.Tovmasyan@synopsys.com>, John Youn <John.Youn@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+From: Grigor Tovmasyan <Grigor.Tovmasyan@synopsys.com>
+Message-Id: <32EB88BF8EC1614E9FB18BD3718BE1A1163F4720@am04wembxa.internal.synopsys.com>
+Date: Fri, 9 Mar 2018 13:05:40 +0000
+To: Felipe Balbi <balbi@kernel.org>, Grigor Tovmasyan <Grigor.Tovmasyan@synopsys.com>, John Youn <John.Youn@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgpHcmlnb3IgVG92bWFzeWFuIDxHcmlnb3IuVG92bWFzeWFuQHN5bm9wc3lzLmNvbT4gd3Jp
-dGVzOgo+IEZyb206IEpvaG4gWW91biA8am9obnlvdW5Ac3lub3BzeXMuY29tPgo+Cj4gU2V0ICds
-cG1fY2FwYWJsZScgZmxhZyBpbiB0aGUgZ2FkZ2V0IHN0cnVjdHVyZSBzbwo+IGluZGljYXRpbmcg
-dGhhdCBMUE0gaXMgc3VwcG9ydGVkLgo+Cj4gU2lnbmVkLW9mZi1ieTogU2V2YWsgQXJha2VseWFu
-IDxzZXZha2FAc3lub3BzeXMuY29tPgo+IFNpZ25lZC1vZmYtYnk6IEdyaWdvciBUb3ZtYXN5YW4g
-PHRvdm1hc3lhQHN5bm9wc3lzLmNvbT4KCk1pc3NpbmcgSm9obidzIFNpZ25lZC1vZmYtYnkuIFdo
-YXQgZ2l2ZXM/IEknbGwgZHJvcCB0aGlzIGZyb20gbXkgcXVldWUKZm9yIG5vdy4K
+SGkgSm9obiwKCkNvdWxkIHlvdSBwbGVhc2UgYWRkIHlvdXIgU2lnbmVkLW9mZiB0byB0aGlzIHBh
+dGNoPwoKT24gMy85LzIwMTggMTI6MDYgUE0sIEZlbGlwZSBCYWxiaSB3cm90ZToKPiBIaSwKPgo+
+IEdyaWdvciBUb3ZtYXN5YW4gPEdyaWdvci5Ub3ZtYXN5YW5Ac3lub3BzeXMuY29tPiB3cml0ZXM6
+Cj4+IEZyb206IEpvaG4gWW91biA8am9obnlvdW5Ac3lub3BzeXMuY29tPgo+Pgo+PiBTZXQgJ2xw
+bV9jYXBhYmxlJyBmbGFnIGluIHRoZSBnYWRnZXQgc3RydWN0dXJlIHNvCj4+IGluZGljYXRpbmcg
+dGhhdCBMUE0gaXMgc3VwcG9ydGVkLgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBTZXZhayBBcmFrZWx5
+YW4gPHNldmFrYUBzeW5vcHN5cy5jb20+Cj4+IFNpZ25lZC1vZmYtYnk6IEdyaWdvciBUb3ZtYXN5
+YW4gPHRvdm1hc3lhQHN5bm9wc3lzLmNvbT4KPiBNaXNzaW5nIEpvaG4ncyBTaWduZWQtb2ZmLWJ5
+LiBXaGF0IGdpdmVzPyBJJ2xsIGRyb3AgdGhpcyBmcm9tIG15IHF1ZXVlCj4gZm9yIG5vdy4KPgoK
+VGhhbmtzLCBHcmlnb3IuCi0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0
+aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2Ug
+dG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRw
+Oi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
