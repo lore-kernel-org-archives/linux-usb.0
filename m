@@ -2,19 +2,25 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: Fixes: 8f9439022648("staging: typec: modify parameter of tcpci_irq")
-From: Greg KH <greg@kroah.com>
-Message-Id: <20180312110722.GB10444@kroah.com>
-Date: Mon, 12 Mar 2018 12:07:22 +0100
-To: ShuFan Lee <leechu729@gmail.com>
-Cc: heikki.krogerus@linux.intel.com, linux@roeck-us.net, shufan_lee@richtek.com, cy_huang@richtek.com, jun.li@nxp.com, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+From: ShuFanLee <leechu729@gmail.com>
+Message-Id: <CAFaeLdSSqDok6_jaa4wwxuo+71qkv7ha5Rs81B7LvEAsRZDfYg@mail.gmail.com>
+Date: Mon, 12 Mar 2018 19:26:07 +0800
+To: Greg KH <greg@kroah.com>
+Cc: heikki.krogerus@linux.intel.com, Guenter Roeck <linux@roeck-us.net>, =?UTF-8?B?c2h1ZmFuX2xlZSjmnY7mm7jluIYp?= <shufan_lee@richtek.com>, =?UTF-8?B?Y3lfaHVhbmco6buD5ZWf5Y6fKQ==?= <cy_huang@richtek.com>, Jun Li <jun.li@nxp.com>, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gTW9uLCBNYXIgMTIsIDIwMTggYXQgMDU6NDY6NDJQTSArMDgwMCwgU2h1RmFuIExlZSB3cm90
-ZToKPiBGcm9tOiBTaHVGYW4gTGVlIDxzaHVmYW5fbGVlQHJpY2h0ZWsuY29tPgoKWW91ciBzdWJq
-ZWN0IGlzIG9kZCwgdGhhdCBsaW5lIHNob3VsZCBiZSBiZWxvdywgaW4gdGhlIHNpZ25lZC1vZmYt
-Ynk6CmFyZWEsIG5vdCBhcyB0aGUgc3ViamVjdCBvZiB0aGUgcGF0Y2ggOigKCkNhbiB5b3UgZml4
-IHRoaXMgdXAgYW5kIHJlc2VuZD8KCnRoYW5rcywKCmdyZWcgay1oCi0tLQpUbyB1bnN1YnNjcmli
-ZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBp
-bgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3Jl
-IG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZv
-Lmh0bWwK
+SGkgR3JlZywKCjIwMTgtMDMtMTIgMTk6MDcgR01UKzA4OjAwIEdyZWcgS0ggPGdyZWdAa3JvYWgu
+Y29tPjoKPiBPbiBNb24sIE1hciAxMiwgMjAxOCBhdCAwNTo0Njo0MlBNICswODAwLCBTaHVGYW4g
+TGVlIHdyb3RlOgo+PiBGcm9tOiBTaHVGYW4gTGVlIDxzaHVmYW5fbGVlQHJpY2h0ZWsuY29tPgo+
+Cj4gWW91ciBzdWJqZWN0IGlzIG9kZCwgdGhhdCBsaW5lIHNob3VsZCBiZSBiZWxvdywgaW4gdGhl
+IHNpZ25lZC1vZmYtYnk6Cj4gYXJlYSwgbm90IGFzIHRoZSBzdWJqZWN0IG9mIHRoZSBwYXRjaCA6
+KAo+Cj4gQ2FuIHlvdSBmaXggdGhpcyB1cCBhbmQgcmVzZW5kPwpZZXMuCklmIEkgdW5kZXJzdGFu
+ZCBjb3JyZWN0bHksIHRoZSB0aXRsZSBzaG91bGQgYmUgbGlrZQpzdGFnaW5nOiB0eXBlYzogbW9k
+aWZ5IHBhcmFtZXRlciBvZiB0Y3BjaV9pcnEKYW5kIHRoZSAiRml4ZXMiIHRhZyBzaG91bGQgYmUg
+cHV0IGluIHRoZSBzaWduZWQtb2ZmLWJ5IGFyZWEuCgpTaG91bGQgaXQgYmUgaW4gdGhlIGJlZ2lu
+bmluZyBvZiB0aGUgYXJlYToKRml4ZXM6IDhmOTQzOTAyMjY0OCgic3RhZ2luZzogdHlwZWM6IGhh
+bmRsZSB2ZW5kb3IgZGVmaW5lZCBwYXJ0IGFuZAptb2RpZnkgZHJwIHRvZ2dsaW5nIGZsb3ciKQpT
+aWduZWQtb2ZmLWJ5OiB4eHgKCm9yIHRoZSBlbmQgb2YgdGhlIGFyZWE/ClNpZ25lZC1vZmYtYnk6
+IHh4eApGaXhlczogOGY5NDM5MDIyNjQ4KCJzdGFnaW5nOiB0eXBlYzogaGFuZGxlIHZlbmRvciBk
+ZWZpbmVkIHBhcnQgYW5kCm1vZGlmeSBkcnAgdG9nZ2xpbmcgZmxvdyIpCgo+Cj4gdGhhbmtzLAo+
+Cj4gZ3JlZyBrLWgK
