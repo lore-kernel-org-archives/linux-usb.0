@@ -2,22 +2,24 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [11/11] usb: dwc2: Enable LPM
-From: Grigor Tovmasyan <Grigor.Tovmasyan@synopsys.com>
-Message-Id: <32EB88BF8EC1614E9FB18BD3718BE1A1163F4720@am04wembxa.internal.synopsys.com>
-Date: Fri, 9 Mar 2018 13:05:40 +0000
-To: Felipe Balbi <balbi@kernel.org>, Grigor Tovmasyan <Grigor.Tovmasyan@synopsys.com>, John Youn <John.Youn@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+From: John Youn <John.Youn@synopsys.com>
+Message-Id: <a7662dd1-aec3-845a-022d-15a9b49e30fa@synopsys.com>
+Date: Mon, 12 Mar 2018 09:38:15 -0700
+To: Felipe Balbi <balbi@kernel.org>, Grigor Tovmasyan <Grigor.Tovmasyan@synopsys.com>, John Youn <John.Youn@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgSm9obiwKCkNvdWxkIHlvdSBwbGVhc2UgYWRkIHlvdXIgU2lnbmVkLW9mZiB0byB0aGlzIHBh
-dGNoPwoKT24gMy85LzIwMTggMTI6MDYgUE0sIEZlbGlwZSBCYWxiaSB3cm90ZToKPiBIaSwKPgo+
+T24gMDMvMDkvMjAxOCAxMjowNiBBTSwgRmVsaXBlIEJhbGJpIHdyb3RlOgo+IAo+IEhpLAo+IAo+
 IEdyaWdvciBUb3ZtYXN5YW4gPEdyaWdvci5Ub3ZtYXN5YW5Ac3lub3BzeXMuY29tPiB3cml0ZXM6
 Cj4+IEZyb206IEpvaG4gWW91biA8am9obnlvdW5Ac3lub3BzeXMuY29tPgo+Pgo+PiBTZXQgJ2xw
 bV9jYXBhYmxlJyBmbGFnIGluIHRoZSBnYWRnZXQgc3RydWN0dXJlIHNvCj4+IGluZGljYXRpbmcg
 dGhhdCBMUE0gaXMgc3VwcG9ydGVkLgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBTZXZhayBBcmFrZWx5
 YW4gPHNldmFrYUBzeW5vcHN5cy5jb20+Cj4+IFNpZ25lZC1vZmYtYnk6IEdyaWdvciBUb3ZtYXN5
-YW4gPHRvdm1hc3lhQHN5bm9wc3lzLmNvbT4KPiBNaXNzaW5nIEpvaG4ncyBTaWduZWQtb2ZmLWJ5
-LiBXaGF0IGdpdmVzPyBJJ2xsIGRyb3AgdGhpcyBmcm9tIG15IHF1ZXVlCj4gZm9yIG5vdy4KPgoK
-VGhhbmtzLCBHcmlnb3IuCi0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0
-aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2Ug
-dG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRw
-Oi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
+YW4gPHRvdm1hc3lhQHN5bm9wc3lzLmNvbT4KPiAKPiBNaXNzaW5nIEpvaG4ncyBTaWduZWQtb2Zm
+LWJ5LiBXaGF0IGdpdmVzPyBJJ2xsIGRyb3AgdGhpcyBmcm9tIG15IHF1ZXVlCj4gZm9yIG5vdy4K
+PiAKClNvcnJ5LCBpdCBtdXN0IGhhdmUgZ290dGVuIGRyb3BwZWQgc29tZWhvdy4KCkRvIHlvdSBu
+ZWVkIG1lIHRvIHJlc2VuZD8KCklmIG5vdCBwbGVhc2UgYWRkOgoKU2lnbmVkLW9mZi1ieTogSm9o
+biBZb3VuIDxqb2hueW91bkBzeW5vcHN5cy5jb20+CgoKSm9obgotLS0KVG8gdW5zdWJzY3JpYmUg
+ZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4K
+dGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBt
+YWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5o
+dG1sCg==
