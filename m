@@ -2,13 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v1,10/14] usb: dwc2: Add dwc2_enter_hibernation(), dwc2_exit_hibernation()
-From: Felipe Balbi <balbi@kernel.org>
-Message-Id: <87o9jt8mu3.fsf@linux.intel.com>
-Date: Mon, 12 Mar 2018 15:06:44 +0200
-To: Grigor Tovmasyan <Grigor.Tovmasyan@synopsys.com>Grigor Tovmasyan <Grigor.Tovmasyan@synopsys.com>, John Youn <John.Youn@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+From: Grigor Tovmasyan <Grigor.Tovmasyan@synopsys.com>
+Message-Id: <32EB88BF8EC1614E9FB18BD3718BE1A1163F4AD2@am04wembxa.internal.synopsys.com>
+Date: Mon, 12 Mar 2018 13:16:46 +0000
+To: Felipe Balbi <balbi@kernel.org>, Grigor Tovmasyan <Grigor.Tovmasyan@synopsys.com>, John Youn <John.Youn@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-KG5vIHRvcC1wb3N0aW5nISEpCgpHcmlnb3IgVG92bWFzeWFuIDxHcmlnb3IuVG92bWFzeWFuQHN5
-bm9wc3lzLmNvbT4gd3JpdGVzOgo+IEhpLAo+Cj4gWWVzLiBJJ20gdmVyaWZ5aW5nLCBpdCdzIG9r
-YXkuCj4KPiBTb3JyeSBmb3IgaW5jb252ZW5pZW5jZS4KCnRoYW5rIHlvdS4gSSdsbCBtb3ZlIHRo
-ZSBjaGFuZ2VzIHRvICduZXh0Jy4K
+T25lIG1vcmUgdGhpbmcuCgpJbiAiOTY5ZDU4YWJlNTdkIHVzYjogZHdjMjogRW5hYmxlIExQTSIg
+cGF0Y2ggdGhlIGF1dGhvcidzIChKb2huIFlvdW4pIApTaWduZWQtb2ZmIGlzIG1pc3NpbmcuCgpD
+b3VsZCB5b3UgcGxlYXNlIG1hbnVhbGx5IGFkZCBoaXMgU2lnbmVkLW9mZiAoIlNpZ25lZC1vZmYt
+Ynk6IEpvaG4gWW91biAKPGpvaG55b3VuQHN5bm9wc3lzLmNvbT4iKSBvciBpdCdzIGFnYWluc3Qg
+cnVsZXM/CgoKT24gMy8xMi8yMDE4IDU6MDcgUE0sIEZlbGlwZSBCYWxiaSB3cm90ZToKPiAKPiAo
+bm8gdG9wLXBvc3RpbmchISkKPiAKPiBHcmlnb3IgVG92bWFzeWFuIDxHcmlnb3IuVG92bWFzeWFu
+QHN5bm9wc3lzLmNvbT4gd3JpdGVzOgo+PiBIaSwKPj4KPj4gWWVzLiBJJ20gdmVyaWZ5aW5nLCBp
+dCdzIG9rYXkuCj4+Cj4+IFNvcnJ5IGZvciBpbmNvbnZlbmllbmNlLgo+IAo+IHRoYW5rIHlvdS4g
+SSdsbCBtb3ZlIHRoZSBjaGFuZ2VzIHRvICduZXh0Jy4KPgotLS0KVG8gdW5zdWJzY3JpYmUgZnJv
+bSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhl
+IGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpv
+cmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1s
+Cg==
