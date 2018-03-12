@@ -2,24 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v1,10/14] usb: dwc2: Add dwc2_enter_hibernation(), dwc2_exit_hibernation()
-From: Grigor Tovmasyan <Grigor.Tovmasyan@synopsys.com>
-Message-Id: <32EB88BF8EC1614E9FB18BD3718BE1A1163F4B0E@am04wembxa.internal.synopsys.com>
-Date: Mon, 12 Mar 2018 13:39:53 +0000
-To: Felipe Balbi <balbi@kernel.org>, Grigor Tovmasyan <Grigor.Tovmasyan@synopsys.com>, John Youn <John.Youn@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+From: Felipe Balbi <balbi@kernel.org>
+Message-Id: <87ina18jrq.fsf@linux.intel.com>
+Date: Mon, 12 Mar 2018 16:12:57 +0200
+To: Grigor Tovmasyan <Grigor.Tovmasyan@synopsys.com>Grigor Tovmasyan <Grigor.Tovmasyan@synopsys.com>, John Youn <John.Youn@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMy8xMi8yMDE4IDU6MzQgUE0sIEZlbGlwZSBCYWxiaSB3cm90ZToKPiAKPiBIaSwKPiAKPiBH
-cmlnb3IgVG92bWFzeWFuIDxHcmlnb3IuVG92bWFzeWFuQHN5bm9wc3lzLmNvbT4gd3JpdGVzOgo+
-PiBPbmUgbW9yZSB0aGluZy4KPj4KPj4gSW4gIjk2OWQ1OGFiZTU3ZCB1c2I6IGR3YzI6IEVuYWJs
-ZSBMUE0iIHBhdGNoIHRoZSBhdXRob3IncyAoSm9obiBZb3VuKQo+PiBTaWduZWQtb2ZmIGlzIG1p
-c3NpbmcuCj4+Cj4+IENvdWxkIHlvdSBwbGVhc2UgbWFudWFsbHkgYWRkIGhpcyBTaWduZWQtb2Zm
-ICgiU2lnbmVkLW9mZi1ieTogSm9obiBZb3VuCj4+IDxqb2hueW91bkBzeW5vcHN5cy5jb20+Iikg
-b3IgaXQncyBhZ2FpbnN0IHJ1bGVzPwo+IAo+IEkgbmVlZCBKb2huIHRvIGdpdmUgbWUgaGlzIFMt
-by1CIGxpbmUsIHdpdGhvdXQgaXQsIEknbGwgaGF2ZSB0byBkcm9wIHRoZQo+IHBhdGNoIGFuZCwg
-Y29uc2VxdWVudGx5LCB0aGUgcmVzdCBvZiB0aGUgc2VyaWVzLgo+IAoKSSBoYXZlIGEgY2FsbCB3
-aXRoIGhpbSB0b2RheS4gSSB3aWxsIHRvbGQgaGltIHRvIGdpdmUgeW91IGhpcyBTLW8tQiBsaW5l
-IAphcyBzb29uIGFzIHBvc3NpYmxlLgoKVGhhbmtzIGFnYWluLgotLS0KVG8gdW5zdWJzY3JpYmUg
-ZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4K
-dGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBt
-YWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5o
-dG1sCg==
+SGksCgpHcmlnb3IgVG92bWFzeWFuIDxHcmlnb3IuVG92bWFzeWFuQHN5bm9wc3lzLmNvbT4gd3Jp
+dGVzOgo+IE9uIDMvMTIvMjAxOCA1OjM0IFBNLCBGZWxpcGUgQmFsYmkgd3JvdGU6Cj4+IAo+PiBI
+aSwKPj4gCj4+IEdyaWdvciBUb3ZtYXN5YW4gPEdyaWdvci5Ub3ZtYXN5YW5Ac3lub3BzeXMuY29t
+PiB3cml0ZXM6Cj4+PiBPbmUgbW9yZSB0aGluZy4KPj4+Cj4+PiBJbiAiOTY5ZDU4YWJlNTdkIHVz
+YjogZHdjMjogRW5hYmxlIExQTSIgcGF0Y2ggdGhlIGF1dGhvcidzIChKb2huIFlvdW4pCj4+PiBT
+aWduZWQtb2ZmIGlzIG1pc3NpbmcuCj4+Pgo+Pj4gQ291bGQgeW91IHBsZWFzZSBtYW51YWxseSBh
+ZGQgaGlzIFNpZ25lZC1vZmYgKCJTaWduZWQtb2ZmLWJ5OiBKb2huIFlvdW4KPj4+IDxqb2hueW91
+bkBzeW5vcHN5cy5jb20+Iikgb3IgaXQncyBhZ2FpbnN0IHJ1bGVzPwo+PiAKPj4gSSBuZWVkIEpv
+aG4gdG8gZ2l2ZSBtZSBoaXMgUy1vLUIgbGluZSwgd2l0aG91dCBpdCwgSSdsbCBoYXZlIHRvIGRy
+b3AgdGhlCj4+IHBhdGNoIGFuZCwgY29uc2VxdWVudGx5LCB0aGUgcmVzdCBvZiB0aGUgc2VyaWVz
+Lgo+PiAKPgo+IEkgaGF2ZSBhIGNhbGwgd2l0aCBoaW0gdG9kYXkuIEkgd2lsbCB0b2xkIGhpbSB0
+byBnaXZlIHlvdSBoaXMgUy1vLUIgbGluZSAKPiBhcyBzb29uIGFzIHBvc3NpYmxlLgoKVGhhbmtz
+Cg==
