@@ -1,20 +1,30 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,3/5] dt-bindings: usb: fusb302: remove max-sink-* properties
-From: Rob Herring <robh@kernel.org>
-Message-Id: <20180326222507.bujgmllb3opjcihq@rob-hp-laptop>
-Date: Mon, 26 Mar 2018 17:25:07 -0500
-To: Li Jun <jun.li@nxp.com>
-Cc: gregkh@linuxfoundation.org, mark.rutland@arm.com, heikki.krogerus@linux.intel.com, hdegoede@redhat.com, linux@roeck-us.net, rmfrfs@gmail.com, yueyao.zhu@gmail.com, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-imx@nxp.com
+Subject: [3/3] phy: phy-mtk-tphy: add properties for U2 slew rate calibrate
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Message-Id: <49dff54ceb0c2f4b820af48a87818e935e23447a.1520824899.git.chunfeng.yun@mediatek.com>
+Date: Mon, 12 Mar 2018 11:39:08 +0800
+To: Kishon Vijay Abraham I <kishon@ti.com>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Ian Campbell <ijc+devicetree@hellion.org.uk>, Ryder Lee <ryder.lee@mediatek.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCBNYXIgMjMsIDIwMTggYXQgMTA6NTg6NDVQTSArMDgwMCwgTGkgSnVuIHdyb3RlOgo+
-IFJlbW92ZSBtYXgtc2luay0qIHByb3BlcnRpZXMgc2luY2UgdGhleSBhcmUgZGVwcmVjYXRlZC4K
-PiAKPiBTaWduZWQtb2ZmLWJ5OiBMaSBKdW4gPGp1bi5saUBueHAuY29tPgo+IC0tLQo+ICBEb2N1
-bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL2ZjcyxmdXNiMzAyLnR4dCB8IDYgLS0t
-LS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCA2IGRlbGV0aW9ucygtKQoKUmV2aWV3ZWQtYnk6IFJvYiBI
-ZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlz
-dDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBh
-IG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZv
-IGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
+QWRkIHR3byBwcm9wZXJ0aWVzIG9mIHJlZl9jbGsgYW5kIGNvZWZmaWNpZW50IHVzZWQgYnkgVTIg
+c2xldyByYXRlCmNhbGlicmF0ZSB3aGljaCBtYXkgdmFyeSBvbiBkaWZmZXJlbnQgU29DcwoKU2ln
+bmVkLW9mZi1ieTogQ2h1bmZlbmcgWXVuIDxjaHVuZmVuZy55dW5AbWVkaWF0ZWsuY29tPgotLS0K
+IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9waHkvcGh5LW10ay10cGh5LnR4dCB8
+IDQgKysrKwogMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL0Rv
+Y3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9waHkvcGh5LW10ay10cGh5LnR4dCBiL0Rv
+Y3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9waHkvcGh5LW10ay10cGh5LnR4dAppbmRl
+eCA0MWUwOWVkLi4wZDM0YjJiIDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
+YmluZGluZ3MvcGh5L3BoeS1tdGstdHBoeS50eHQKKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0
+cmVlL2JpbmRpbmdzL3BoeS9waHktbXRrLXRwaHkudHh0CkBAIC0yNyw2ICsyNywxMCBAQCBPcHRp
+b25hbCBwcm9wZXJ0aWVzIChjb250cm9sbGVyIChwYXJlbnQpIG5vZGUpOgogIC0gcmVnCQk6IG9m
+ZnNldCBhbmQgbGVuZ3RoIG9mIHJlZ2lzdGVyIHNoYXJlZCBieSBtdWx0aXBsZSBwb3J0cywKIAkJ
+ICBleGNsdWRlIHBvcnQncyBwcml2YXRlIHJlZ2lzdGVyLiBJdCBpcyBuZWVkZWQgb24gbXQyNzAx
+CiAJCSAgYW5kIG10ODE3MywgYnV0IG5vdCBvbiBtdDI3MTIuCisgLSBtZWRpYXRlayxzcmMtcmVm
+LWNsay1taHoJOiBmcmVxdWVuY3kgb2YgcmVmZXJlbmNlIGNsb2NrIGZvciBzbGV3IHJhdGUKKwkJ
+ICBjYWxpYnJhdGUKKyAtIG1lZGlhdGVrLHNyYy1jb2VmCTogY29lZmZpY2llbnQgZm9yIHNsZXcg
+cmF0ZSBjYWxpYnJhdGUsIGRlcGVuZHMgb24KKwkJICBTb0MgcHJvY2VzcwogCiBSZXF1aXJlZCBw
+cm9wZXJ0aWVzIChwb3J0IChjaGlsZCkgbm9kZSk6CiAtIHJlZwkJOiBhZGRyZXNzIGFuZCBsZW5n
+dGggb2YgdGhlIHJlZ2lzdGVyIHNldCBmb3IgdGhlIHBvcnQuCg==
