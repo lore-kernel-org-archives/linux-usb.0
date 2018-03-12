@@ -2,19 +2,21 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [2/2] USB: serial: option: use mass-storage class define
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20180307145714.GD4109@kroah.com>
-Date: Wed, 7 Mar 2018 06:57:14 -0800
-To: Johan Hovold <johan@kernel.org>
-Cc: linux-usb@vger.kernel.org
+From: Johan Hovold <johan@kernel.org>
+Message-Id: <20180312103404.GI10477@localhost>
+Date: Mon, 12 Mar 2018 11:34:04 +0100
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCBNYXIgMDcsIDIwMTggYXQgMTE6NDk6NTZBTSArMDEwMCwgSm9oYW4gSG92b2xkIHdy
-b3RlOgo+IFVzZSB0aGUgVVNCIGNsYXNzIGRlZmluZSByYXRoZXIgdGhhbiBhIG1hZ2ljIG51bWJl
-ciB3aGVuIHJlZnVzaW5nIHRvCj4gYmluZCB0byBtYXNzLXN0b3JhZ2UgaW50ZXJmYWNlcy4KPiAK
-PiBTaWduZWQtb2ZmLWJ5OiBKb2hhbiBIb3ZvbGQgPGpvaGFuQGtlcm5lbC5vcmc+CgpSZXZpZXdl
-ZC1ieTogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KLS0t
-ClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmli
-ZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5r
-ZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcv
-bWFqb3Jkb21vLWluZm8uaHRtbAo=
+T24gV2VkLCBNYXIgMDcsIDIwMTggYXQgMDY6NTc6MTRBTSAtMDgwMCwgR3JlZyBLcm9haC1IYXJ0
+bWFuIHdyb3RlOgo+IE9uIFdlZCwgTWFyIDA3LCAyMDE4IGF0IDExOjQ5OjU2QU0gKzAxMDAsIEpv
+aGFuIEhvdm9sZCB3cm90ZToKPiA+IFVzZSB0aGUgVVNCIGNsYXNzIGRlZmluZSByYXRoZXIgdGhh
+biBhIG1hZ2ljIG51bWJlciB3aGVuIHJlZnVzaW5nIHRvCj4gPiBiaW5kIHRvIG1hc3Mtc3RvcmFn
+ZSBpbnRlcmZhY2VzLgo+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5OiBKb2hhbiBIb3ZvbGQgPGpvaGFu
+QGtlcm5lbC5vcmc+Cj4gCj4gUmV2aWV3ZWQtYnk6IEdyZWcgS3JvYWgtSGFydG1hbiA8Z3JlZ2to
+QGxpbnV4Zm91bmRhdGlvbi5vcmc+CgpUaGFua3MgZm9yIHJldmlld2luZy4gQm90aCBwYXRjaGVz
+IGFwcGxpZWQgZm9yIC1uZXh0LgoKSm9oYW4KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBs
+aXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9m
+IGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGlu
+Zm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
