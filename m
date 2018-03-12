@@ -2,20 +2,20 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2] usb: musb: Fix external abort in musb_remove on omap2430
-From: Bin Liu <b-liu@ti.com>
-Message-Id: <20180309141130.GM14921@uda0271908>
-Date: Fri, 9 Mar 2018 08:11:30 -0600
-To: Merlijn Wajer <merlijn@wizzup.org>
-Cc: ivo.g.dimitrov.75@gmail.com, linux-omap@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Merlijn Wajer <merlijn@wizzup.org>
+Message-Id: <b163041c-02d5-56c0-8f46-139b564a7280@wizzup.org>
+Date: Mon, 12 Mar 2018 23:30:39 +0100
+To: Bin Liu <b-liu@ti.com>, ivo.g.dimitrov.75@gmail.com, linux-omap@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgpPbiBUaHUsIE1hciAwOCwgMjAxOCBhdCAxMToxOTo0OFBNICswMTAwLCBNZXJsaWpuIFdh
-amVyIHdyb3RlOgo+IFRoaXMgZml4ZXMgYW4gb29wcyBvbiB1bmJpbmQgLyBtb2R1bGUgdW5sb2Fk
-IChvbiB0aGUgbXVzYiBvbWFwMjQzMAo+IHBsYXRmb3JtKS4KPiAKPiBtdXNiX3JlbW92ZSBmdW5j
-dGlvbiBub3cgY2FsbHMgbXVzYl9wbGF0Zm9ybV9leGl0IGJlZm9yZSBkaXNhYmxpbmcKPiBydW50
-aW1lIHBtLgo+IAo+IFNpZ25lZC1vZmYtYnk6IE1lcmxpam4gV2FqZXIgPG1lcmxpam5Ad2l6enVw
-Lm9yZz4KCkFwcGxpZWQuIFRoYW5rcy4KClJlZ2FyZHMsCi1CaW4uCi0tLQpUbyB1bnN1YnNjcmli
-ZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBp
-bgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3Jl
-IG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZv
-Lmh0bWwK
+SGkgQmluLAoKT24gMDkvMDMvMTggMTU6MTEsIEJpbiBMaXUgd3JvdGU6Cj4gSGksCj4gCj4gT24g
+VGh1LCBNYXIgMDgsIDIwMTggYXQgMTE6MTk6NDhQTSArMDEwMCwgTWVybGlqbiBXYWplciB3cm90
+ZToKPj4gVGhpcyBmaXhlcyBhbiBvb3BzIG9uIHVuYmluZCAvIG1vZHVsZSB1bmxvYWQgKG9uIHRo
+ZSBtdXNiIG9tYXAyNDMwCj4+IHBsYXRmb3JtKS4KPj4KPj4gbXVzYl9yZW1vdmUgZnVuY3Rpb24g
+bm93IGNhbGxzIG11c2JfcGxhdGZvcm1fZXhpdCBiZWZvcmUgZGlzYWJsaW5nCj4+IHJ1bnRpbWUg
+cG0uCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IE1lcmxpam4gV2FqZXIgPG1lcmxpam5Ad2l6enVwLm9y
+Zz4KPiAKPiBBcHBsaWVkLiBUaGFua3MuCgpUaGFuayB5b3UuIElzIHRoZXJlIGFueSBjaGFuY2Ug
+dGhhdCB0aGlzIHBhdGNoIGFuZCB0aGUgdmJ1cyBwYXRjaCBjb3VsZAplbmQgdXAgaW4gdGhlIDQu
+MTYtcmMgc2VyaWVzPyBJIHdhcyB3YWl0aW5nIGZvciBhbm90aGVyIHJjIHRvIHNlZSBpZiB0aGUK
+dmJ1cyBwYXRjaCB3b3VsZCBsYW5kLCBidXQgaXQgZGlkbid0IGxhbmQgd2l0aCA0LjE2LXJjNS4K
+CkNoZWVycywKTWVybGlqbgo=
