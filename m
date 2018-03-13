@@ -2,17 +2,25 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v4,01/15] usb: dwc3: Add SoftReset PHY synchonization delay
-From: Felipe Balbi <balbi@kernel.org>
-Message-Id: <87zi3d8udi.fsf@linux.intel.com>
-Date: Mon, 12 Mar 2018 12:23:53 +0200
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>Thinh Nguyen <Thinh.Nguyen@synopsys.com>, linux-usb@vger.kernel.org
+From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Message-Id: <30102591E157244384E984126FC3CB4F30107788@us01wembx1.internal.synopsys.com>
+Date: Tue, 13 Mar 2018 01:00:30 +0000
+To: Felipe Balbi <balbi@kernel.org>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
 Cc: John Youn <John.Youn@synopsys.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhpbmggTmd1eWVuIDxUaGluaC5OZ3V5ZW5Ac3lub3BzeXMuY29tPiB3cml0ZXM6Cgo+IEZyb20g
-RFdDX3VzYjMxIHByb2dyYW1taW5nIGd1aWRlIHNlY3Rpb24gMS4zLjIsIG9uY2UgRFdDM19EQ1RM
-X0NTRlRSU1QKPiBiaXQgaXMgY2xlYXJlZCwgd2UgbXVzdCB3YWl0IGF0IGxlYXN0IDUwbXMgYmVm
-b3JlIGFjY2Vzc2luZyB0aGUgUEhZCj4gZG9tYWluIChzeW5jaHJvbml6YXRpb24gZGVsYXkpLgo+
-Cj4gU2lnbmVkLW9mZi1ieTogVGhpbmggTmd1eWVuIDx0aGluaG5Ac3lub3BzeXMuY29tPgoKY2hl
-Y2tpbmcgZmlsZSBkcml2ZXJzL3VzYi9kd2MzL2NvcmUuYwpIdW5rICMxIEZBSUxFRCBhdCAyMjgu
-CjEgb3V0IG9mIDEgaHVuayBGQUlMRUQK
+SGkgRmVsaXBlLAoKT24gMy8xMi8yMDE4IDM6MjQgQU0sIEZlbGlwZSBCYWxiaSB3cm90ZToKPiBU
+aGluaCBOZ3V5ZW4gPFRoaW5oLk5ndXllbkBzeW5vcHN5cy5jb20+IHdyaXRlczoKPiAKPj4gIEZy
+b20gRFdDX3VzYjMxIHByb2dyYW1taW5nIGd1aWRlIHNlY3Rpb24gMS4zLjIsIG9uY2UgRFdDM19E
+Q1RMX0NTRlRSU1QKPj4gYml0IGlzIGNsZWFyZWQsIHdlIG11c3Qgd2FpdCBhdCBsZWFzdCA1MG1z
+IGJlZm9yZSBhY2Nlc3NpbmcgdGhlIFBIWQo+PiBkb21haW4gKHN5bmNocm9uaXphdGlvbiBkZWxh
+eSkuCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IFRoaW5oIE5ndXllbiA8dGhpbmhuQHN5bm9wc3lzLmNv
+bT4KPiAKPiBjaGVja2luZyBmaWxlIGRyaXZlcnMvdXNiL2R3YzMvY29yZS5jCj4gSHVuayAjMSBG
+QUlMRUQgYXQgMjI4Lgo+IDEgb3V0IG9mIDEgaHVuayBGQUlMRUQKPiAKCkkgZG9uJ3Qgc2VlIGNv
+bmZsaWN0IHdoZW4gYXBwbHlpbmcgdGhpcyBwYXRjaCBzZXJpZXMgdG8geW91ciBuZXh0IApicmFu
+Y2guIFRoZSBjb25mbGljdCBpcyBtYXliZSBmcm9tIGl0cyBwcmV2aW91cyB2ZXJzaW9uIGN1cnJl
+bnRseSBvbiAKeW91ciAnbmV4dCcgYW5kICd0ZXN0aW5nL25leHQnIGJyYW5jaC4KCkJSLApUaGlu
+aAotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vi
+c2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2
+Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVs
+Lm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
