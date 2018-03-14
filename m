@@ -2,19 +2,23 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [2/3] usb: host: pci: introduce PCI vendor ID for Netlogic
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20180314104849.GB32615@kroah.com>
-Date: Wed, 14 Mar 2018 11:48:49 +0100
-To: Richard Leitner <dev@g0hl1n.net>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, mathias.nyman@intel.com, bhelgaas@google.com, richard.leitner@skidata.com
+From: Richard Leitner <richard.leitner@skidata.com>
+Message-Id: <d755d623-2bb3-460f-45a0-2be6ab6f47ea@skidata.com>
+Date: Wed, 14 Mar 2018 12:36:17 +0100
+To: Greg KH <gregkh@linuxfoundation.org>, Richard Leitner <dev@g0hl1n.net>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, mathias.nyman@intel.com, bhelgaas@google.com
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCBNYXIgMTQsIDIwMTggYXQgMTE6Mjk6MzJBTSArMDEwMCwgUmljaGFyZCBMZWl0bmVy
-IHdyb3RlOgo+IEZyb206IFJpY2hhcmQgTGVpdG5lciA8cmljaGFyZC5sZWl0bmVyQHNraWRhdGEu
-Y29tPgo+IAo+IFJlcGxhY2UgdGhlIGhhcmRjb2RlZCBQQ0kgdmVuZG9yIElEIG9mIE5ldGxvZ2lj
-IHdpdGggYSBkZWZpbml0aW9uIGluCj4gcGNpX2lkcy5oCgpXaHk/ICBJdCdzIG9ubHkgYmVpbmcg
-dXNlZCBpbiBvbmUgZmlsZSwgc28gaXQgc2hvdWxkIG5vdCBiZSBpbgpwY2lfaWRzLmgsIHJpZ2h0
-PwoKdGhhbmtzLAoKZ3JlZyBrLWgKLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBz
-ZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVz
-c2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQg
-IGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
+T24gMDMvMTQvMjAxOCAxMTo0OCBBTSwgR3JlZyBLSCB3cm90ZToKPiBPbiBXZWQsIE1hciAxNCwg
+MjAxOCBhdCAxMToyOTozMkFNICswMTAwLCBSaWNoYXJkIExlaXRuZXIgd3JvdGU6Cj4+IEZyb206
+IFJpY2hhcmQgTGVpdG5lciA8cmljaGFyZC5sZWl0bmVyQHNraWRhdGEuY29tPgo+Pgo+PiBSZXBs
+YWNlIHRoZSBoYXJkY29kZWQgUENJIHZlbmRvciBJRCBvZiBOZXRsb2dpYyB3aXRoIGEgZGVmaW5p
+dGlvbiBpbgo+PiBwY2lfaWRzLmgKPiAKPiBXaHk/ICBJdCdzIG9ubHkgYmVpbmcgdXNlZCBpbiBv
+bmUgZmlsZSwgc28gaXQgc2hvdWxkIG5vdCBiZSBpbgo+IHBjaV9pZHMuaCwgcmlnaHQ/CgpJdCdz
+IGFsc28gdXNlZCBhcyBQQ0lfVkVORE9SX05FVExPR0lDIGluIGFyY2gvbWlwcy9uZXRsb2dpYy94
+bHAvLgoKU2hvdWxkIHRoaXMgYmUgcmVwbGFjZWQgd2l0aCBQQ0lfVkVORE9SX0lEX05FVExPR0lD
+IGZyb20gcGNpX2lkcy5oPwoKPiAKPiB0aGFua3MsCj4gCj4gZ3JlZyBrLWgKPiAKCnRoYW5rIHlv
+dSEKCnJlZ2FyZHM7UmljaGFyZC5MCi0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDog
+c2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1l
+c3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0
+ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
