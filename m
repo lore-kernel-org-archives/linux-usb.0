@@ -1,45 +1,32 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: usb: gadget: udc: core: Document the relation between usb_ep_queue() and completion callback
-From: Felipe Balbi <felipe.balbi@linux.intel.com>
-Message-Id: <87po3omyvq.fsf@linux.intel.com>
-Date: Wed, 28 Mar 2018 10:40:25 +0300
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: "Yavuz, Tuba" <tuba@ece.ufl.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, USB list <linux-usb@vger.kernel.org>
+Subject: [v2,16/21] remoteproc: Remove depends on HAS_DMA in case of platform dependency
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Message-Id: <1521208314-4783-17-git-send-email-geert@linux-m68k.org>
+Date: Fri, 16 Mar 2018 14:51:49 +0100
+To: Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "James E . J . Bottomley" <jejb@linux.vnet.ibm.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, Andrew Morton <akpm@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Tejun Heo <tj@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller" <davem@davemloft.net>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Stefan Richter <stefanr@s5r6.in-berlin.de>, Alan Tull <atull@kernel.org>, Moritz Fischer <mdf@kernel.org>, Wolfram Sang <wsa@the-dreams.de>, Jonathan Cameron <jic23@kernel.org>, Joerg Roedel <joro@8bytes.org>, Matias Bjorling <mb@lightnvm.io>, Jassi Brar <jassisinghbrar@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, David Woodhouse <dwmw2@infradead.org>, Brian Norris <computersforpeace@gmail.com>, Marek Vasut <marek.vasut@gmail.com>, Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>, Boris Brezillon <boris.brezillon@free-electrons.com>, Richard Weinberger <richard@nod.at>, Kalle Valo <kvalo@codeaurora.org>, Ohad Ben-Cohen <ohad@wizery.com>, Bjorn Andersson <bjorn.andersson@linaro.org>, Eric Anholt <eric@anholt.net>, Stefan Wahren <stefan.wahren@i2se.com>
+Cc: iommu@lists.linux-foundation.org, linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org, alsa-devel@alsa-project.org, linux-ide@vger.kernel.org, linux-crypto@vger.kernel.org, linux-fbdev@vger.kernel.org, linux1394-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org, linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, linux-block@vger.kernel.org, linux-media@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, netdev@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-serial@vger.kernel.org, linux-spi@vger.kernel.org, devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgpBbGFuIFN0ZXJuIDxzdGVybkByb3dsYW5kLmhhcnZhcmQuZWR1PiB3cml0ZXM6Cj4gSW1w
-cm92ZSB0aGUga2VybmVsZG9jIGZvciB1c2JfZXBfcXVldWUoKSB0byBub3RlIGV4cGxpY2l0bHkg
-dGhhdCB0aGUKPiByZXF1ZXN0J3MgY29tcGxldGlvbiByb3V0aW5lIHdpbGwgYmUgY2FsbGVkIGlm
-IGFuZCBvbmx5IGlmIHRoZSByZXR1cm4KPiB2YWx1ZSBpcyAwLiAgVGhlIGNvcnJlc3BvbmRpbmcg
-ZmFjdCBhYm91dCB1c2Jfc3VibWl0X3VyYigpIGZvciB0aGUKPiBob3N0LXNpZGUgQVBJIGhhcyBs
-b25nIGJlZW4gZG9jdW1lbnRlZCwgYW5kIHRoaXMgaGFzIGFsd2F5cyBiZWVuIHRoZQo+IGludGVu
-dGlvbiBmb3IgdGhlIGdhZGdldCBBUEkuICBCdXQgdW50aWwgbm93LCBkb2N1bWVudGF0aW9uIHNl
-ZW1zIHRvCj4gaGF2ZSBiZWVuIGxhY2tpbmcuCj4KPiBTaWduZWQtb2ZmLWJ5OiBBbGFuIFN0ZXJu
-IDxzdGVybkByb3dsYW5kLmhhcnZhcmQuZWR1Pgo+Cj4gLS0tCgpHcmVnLCBJIGhhdmUgdGhpcyBx
-dWV1ZWQgdXAgZm9yIHY0LjE4IGFscmVhZHksIGJ1dCBpZiB5b3Ugd2FubmEgdGFrZSBpdApmb3J3
-YXJkIG9uIHY0LjE3IGl0J3MgZmluZSBieSBtZS4KCkFja2VkLWJ5OiBGZWxpcGUgQmFsYmkgPGZl
-bGlwZS5iYWxiaUBsaW51eC5pbnRlbC5jb20+Cgo+ICBkcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2Nv
-cmUuYyB8ICAgIDYgKysrKysrCj4gIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykKPgo+
-IEluZGV4OiB1c2ItNC54L2RyaXZlcnMvdXNiL2dhZGdldC91ZGMvY29yZS5jCj4gPT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PQo+IC0tLSB1c2ItNC54Lm9yaWcvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9jb3JlLmMKPiArKysg
-dXNiLTQueC9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2NvcmUuYwo+IEBAIC0yNDEsNiArMjQxLDEy
-IEBAIEVYUE9SVF9TWU1CT0xfR1BMKHVzYl9lcF9mcmVlX3JlcXVlc3QpOwo+ICAgKiBSZXR1cm5z
-IHplcm8sIG9yIGEgbmVnYXRpdmUgZXJyb3IgY29kZS4gIEVuZHBvaW50cyB0aGF0IGFyZSBub3Qg
-ZW5hYmxlZAo+ICAgKiByZXBvcnQgZXJyb3JzOyBlcnJvcnMgd2lsbCBhbHNvIGJlCj4gICAqIHJl
-cG9ydGVkIHdoZW4gdGhlIHVzYiBwZXJpcGhlcmFsIGlzIGRpc2Nvbm5lY3RlZC4KPiArICoKPiAr
-ICogSWYgYW5kIG9ubHkgaWYgQHJlcSBpcyBzdWNjZXNzZnVsbHkgcXVldWVkICh0aGUgcmV0dXJu
-IHZhbHVlIGlzIHplcm8pLAo+ICsgKiBAcmVxLT5jb21wbGV0ZSgpIHdpbGwgYmUgY2FsbGVkIGV4
-YWN0bHkgb25jZSwgd2hlbiB0aGUgR2FkZ2V0IGNvcmUgYW5kCj4gKyAqIFVEQyBhcmUgZmluaXNo
-ZWQgd2l0aCB0aGUgcmVxdWVzdC4gIFdoZW4gdGhlIGNvbXBsZXRpb24gZnVuY3Rpb24gaXMgY2Fs
-bGVkLAo+ICsgKiBjb250cm9sIG9mIHRoZSByZXF1ZXN0IGlzIHJldHVybmVkIHRvIHRoZSBkZXZp
-Y2UgZHJpdmVyIHdoaWNoIHN1Ym1pdHRlZCBpdC4KPiArICogVGhlIGNvbXBsZXRpb24gaGFuZGxl
-ciBtYXkgdGhlbiBpbW1lZGlhdGVseSBmcmVlIG9yIHJldXNlIEByZXEuCj4gICAqLwo+ICBpbnQg
-dXNiX2VwX3F1ZXVlKHN0cnVjdCB1c2JfZXAgKmVwLAo+ICAJCQkgICAgICAgc3RydWN0IHVzYl9y
-ZXF1ZXN0ICpyZXEsIGdmcF90IGdmcF9mbGFncykKPgo+IC0tCj4gVG8gdW5zdWJzY3JpYmUgZnJv
-bSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KPiB0
-aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwo+IE1vcmUg
-bWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8u
-aHRtbAo=
+UmVtb3ZlIGRlcGVuZGVuY2llcyBvbiBIQVNfRE1BIHdoZXJlIGEgS2NvbmZpZyBzeW1ib2wgZGVw
+ZW5kcyBvbiBhbm90aGVyCnN5bWJvbCB0aGF0IGltcGxpZXMgSEFTX0RNQSwgYW5kLCBvcHRpb25h
+bGx5LCBvbiAifHwgQ09NUElMRV9URVNUIi4KSW4gbW9zdCBjYXNlcyB0aGlzIG90aGVyIHN5bWJv
+bCBpcyBhbiBhcmNoaXRlY3R1cmUgb3IgcGxhdGZvcm0gc3BlY2lmaWMKc3ltYm9sLCBvciBQQ0ku
+CgpHZW5lcmljIHN5bWJvbHMgYW5kIGRyaXZlcnMgd2l0aG91dCBwbGF0Zm9ybSBkZXBlbmRlbmNp
+ZXMga2VlcCB0aGVpcgpkZXBlbmRlbmNpZXMgb24gSEFTX0RNQSwgdG8gcHJldmVudCBjb21waWxp
+bmcgc3Vic3lzdGVtcyBvciBkcml2ZXJzIHRoYXQKY2Fubm90IHdvcmsgYW55d2F5LgoKVGhpcyBz
+aW1wbGlmaWVzIHRoZSBkZXBlbmRlbmNpZXMsIGFuZCBhbGxvd3MgdG8gaW1wcm92ZSBjb21waWxl
+LXRlc3RpbmcuCgpTaWduZWQtb2ZmLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4
+LW02OGsub3JnPgpSZXZpZXdlZC1ieTogTWFyayBCcm93biA8YnJvb25pZUBrZXJuZWwub3JnPgpB
+Y2tlZC1ieTogUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4KLS0tCnYyOgogIC0g
+QWRkIFJldmlld2VkLWJ5LCBBY2tlZC1ieSwKICAtIERyb3AgUkZDIHN0YXRlLAogIC0gU3BsaXQg
+cGVyIHN1YnN5c3RlbS4KLS0tCiBkcml2ZXJzL3JlbW90ZXByb2MvS2NvbmZpZyB8IDEgLQogMSBm
+aWxlIGNoYW5nZWQsIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3JlbW90ZXBy
+b2MvS2NvbmZpZyBiL2RyaXZlcnMvcmVtb3RlcHJvYy9LY29uZmlnCmluZGV4IGI2MDllMWQzNjU0
+YmE2NWYuLmI2MGQ4MTMyMTEzZGUwZjcgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvcmVtb3RlcHJvYy9L
+Y29uZmlnCisrKyBiL2RyaXZlcnMvcmVtb3RlcHJvYy9LY29uZmlnCkBAIC0yMyw3ICsyMyw2IEBA
+IGNvbmZpZyBJTVhfUkVNT1RFUFJPQwogCiBjb25maWcgT01BUF9SRU1PVEVQUk9DCiAJdHJpc3Rh
+dGUgIk9NQVAgcmVtb3RlcHJvYyBzdXBwb3J0IgotCWRlcGVuZHMgb24gSEFTX0RNQQogCWRlcGVu
+ZHMgb24gQVJDSF9PTUFQNCB8fCBTT0NfT01BUDUKIAlkZXBlbmRzIG9uIE9NQVBfSU9NTVUKIAlz
+ZWxlY3QgTUFJTEJPWAo=
