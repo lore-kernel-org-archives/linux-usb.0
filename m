@@ -1,21 +1,33 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [1/2] net/usb/ax88179_178a: Use common code in ax88179_chk_eee()
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Message-Id: <CAHp75VfJQPUsfJ14MvoJiN4S72EaNXdf1K+ahdZ8pX3qOFMkEw@mail.gmail.com>
-Date: Sat, 10 Mar 2018 20:48:21 +0200
-To: Joe Perches <joe@perches.com>
-Cc: SF Markus Elfring <elfring@users.sourceforge.net>, USB <linux-usb@vger.kernel.org>, netdev <netdev@vger.kernel.org>, "Andrew F. Davis" <afd@ti.com>, =?UTF-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>, "David S. Miller" <davem@davemloft.net>, Philippe Reynes <tremyfr@gmail.com>, Yuval Shaia <yuval.shaia@oracle.com>, LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org
+Subject: [v2,5/5] scsi: Add NO_DMA dummies for SCSI DMA mapping API
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Message-Id: <1521206744-1504-6-git-send-email-geert@linux-m68k.org>
+Date: Fri, 16 Mar 2018 14:25:44 +0100
+To: Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "James E . J . Bottomley" <jejb@linux.vnet.ibm.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, Andrew Morton <akpm@linux-foundation.org>
+Cc: iommu@lists.linux-foundation.org, linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gU2F0LCBNYXIgMTAsIDIwMTggYXQgODo0MSBQTSwgSm9lIFBlcmNoZXMgPGpvZUBwZXJjaGVz
-LmNvbT4gd3JvdGU6Cj4gT24gU2F0LCAyMDE4LTAzLTEwIGF0IDE5OjI0ICswMTAwLCBTRiBNYXJr
-dXMgRWxmcmluZyB3cm90ZToKPj4gRnJvbTogTWFya3VzIEVsZnJpbmcgPGVsZnJpbmdAdXNlcnMu
-c291cmNlZm9yZ2UubmV0Pgo+PiBEYXRlOiBTYXQsIDEwIE1hciAyMDE4IDE4OjIyOjQzICswMTAw
-Cj4+Cj4+IEFkanVzdCBhIGp1bXAgdGFyZ2V0IHNvIHRoYXQgYSBiaXQgb2YgY29tbW9uIGNvZGUg
-Y2FuIGJlIGJldHRlciByZXVzZWQKPj4gYXQgdGhlIGVuZCBvZiB0aGlzIGZ1bmN0aW9uLgo+Cj4g
-UGxlYXNlIHN0b3AgbWluZGxlc3NseSBzZW5kaW5nIHBhdGNoaW5nIE1hcmt1cy4KPgo+IEhvdyBh
-Ym91dCBsb29raW5nIGF0IHRoZSBjb2RlIGJlaW5nIG1vZGlmaWVkIGFuZAo+IHRoaW5raW5nIGFi
-b3V0IHdoYXQgaXQgZG9lcz8KCllvdSBoYXZlIGEgc3Ryb25nIG5lcnZlLCBJIGdhdmUgdXAgb24g
-aGltIGFuZCB3b3VsZCByYXRoZXIgc2ltcGxlIGJhbi4K
+QWRkIGR1bW1pZXMgZm9yIHNjc2lfZG1hX3ssdW59bWFwKCksIHRvIGFsbG93IGNvbXBpbGUtdGVz
+dGluZyBpZgpOT19ETUE9eS4KClRoaXMgcHJldmVudHMgdGhlIGZvbGxvd2luZyBmcm9tIHNob3dp
+bmcgdXAgbGF0ZXI6CgogICAgRVJST1I6ICJzY3NpX2RtYV91bm1hcCIgW2RyaXZlcnMvZmlyZXdp
+cmUvZmlyZXdpcmUtc2JwMi5rb10gdW5kZWZpbmVkIQogICAgRVJST1I6ICJzY3NpX2RtYV9tYXAi
+IFtkcml2ZXJzL2ZpcmV3aXJlL2ZpcmV3aXJlLXNicDIua29dIHVuZGVmaW5lZCEKClNpZ25lZC1v
+ZmYtYnk6IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnRAbGludXgtbTY4ay5vcmc+ClJldmlld2Vk
+LWJ5OiBNYXJrIEJyb3duIDxicm9vbmllQGtlcm5lbC5vcmc+CkFja2VkLWJ5OiBSb2JpbiBNdXJw
+aHkgPHJvYmluLm11cnBoeUBhcm0uY29tPgotLS0KdjI6CiAgLSBBZGQgUmV2aWV3ZWQtYnksIEFj
+a2VkLWJ5LAogIC0gRHJvcCBSRkMgc3RhdGUuCi0tLQogaW5jbHVkZS9zY3NpL3Njc2lfY21uZC5o
+IHwgNSArKysrKwogMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBh
+L2luY2x1ZGUvc2NzaS9zY3NpX2NtbmQuaCBiL2luY2x1ZGUvc2NzaS9zY3NpX2NtbmQuaAppbmRl
+eCAyMjgwYjIzNTE3Mzk1NzJjLi5hYWYxZTk3MWM2YTM2OGQxIDEwMDY0NAotLS0gYS9pbmNsdWRl
+L3Njc2kvc2NzaV9jbW5kLmgKKysrIGIvaW5jbHVkZS9zY3NpL3Njc2lfY21uZC5oCkBAIC0xNzQs
+OCArMTc0LDEzIEBAIGV4dGVybiB2b2lkIHNjc2lfa3VubWFwX2F0b21pY19zZyh2b2lkICp2aXJ0
+KTsKIAogZXh0ZXJuIGludCBzY3NpX2luaXRfaW8oc3RydWN0IHNjc2lfY21uZCAqY21kKTsKIAor
+I2lmZGVmIENPTkZJR19TQ1NJX0RNQQogZXh0ZXJuIGludCBzY3NpX2RtYV9tYXAoc3RydWN0IHNj
+c2lfY21uZCAqY21kKTsKIGV4dGVybiB2b2lkIHNjc2lfZG1hX3VubWFwKHN0cnVjdCBzY3NpX2Nt
+bmQgKmNtZCk7CisjZWxzZSAvKiAhQ09ORklHX1NDU0lfRE1BICovCitzdGF0aWMgaW5saW5lIGlu
+dCBzY3NpX2RtYV9tYXAoc3RydWN0IHNjc2lfY21uZCAqY21kKSB7IHJldHVybiAtRU5PU1lTOyB9
+CitzdGF0aWMgaW5saW5lIHZvaWQgc2NzaV9kbWFfdW5tYXAoc3RydWN0IHNjc2lfY21uZCAqY21k
+KSB7IH0KKyNlbmRpZiAvKiAhQ09ORklHX1NDU0lfRE1BICovCiAKIHN0YXRpYyBpbmxpbmUgdW5z
+aWduZWQgc2NzaV9zZ19jb3VudChzdHJ1Y3Qgc2NzaV9jbW5kICpjbWQpCiB7Cg==
