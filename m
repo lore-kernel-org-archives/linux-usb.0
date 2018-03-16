@@ -1,17 +1,30 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [usb-next] usb: dwc2: ix spelling mistake: "genereted" -> "generated"
-From: Felipe Balbi <felipe.balbi@linux.intel.com>
-Message-Id: <87muzbrq00.fsf@linux.intel.com>
-Date: Wed, 14 Mar 2018 11:00:15 +0200
-To: Colin King <colin.king@canonical.com>, John Youn <johnyoun@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [4/9] xhci: zero usb device slot_id member when disabling and freeing a xhci slot
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-Id: <1521210786-28347-5-git-send-email-mathias.nyman@linux.intel.com>
+Date: Fri, 16 Mar 2018 16:33:01 +0200
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org, Mathias Nyman <mathias.nyman@linux.intel.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgpDb2xpbiBLaW5nIDxjb2xpbi5raW5nQGNhbm9uaWNhbC5jb20+IHdyaXRlczoKPiBGcm9t
-OiBDb2xpbiBJYW4gS2luZyA8Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPgo+Cj4gVHJpdmlhbCBm
-aXggdG8gc3BlbGxpbmcgbWlzdGFrZSBpbiBkZXZfd2FybiB3YXJuaW5nIG1lc3NhZ2UgdGV4dC4K
-Pgo+IFNpZ25lZC1vZmYtYnk6IENvbGluIElhbiBLaW5nIDxjb2xpbi5raW5nQGNhbm9uaWNhbC5j
-b20+CgpzZWVtcyBsaWtlIHdlIG5lZWQgYSBwYXRjaCB0byBmaXggeW91ciBzdWJqZWN0IDstKSBJ
-J2xsIGZpeCBpdCB3aGVuIGFwcGx5aW5nCg==
+c2V0IHVkZXYtPnNsb3RfaWQgdG8gemVybyB3aGVuIGRpc2FibGluZyBhbmQgZnJlZWluZyB0aGUg
+eGhjaSBzbG90LgpQcmV2ZW50cyB1c2IgY29yZSBmcm9tIGNhbGxpbmcgeGhjaSB3aXRoIGEgc3Rh
+bGUgc2xvdCBpZC4KCnhIQyBjb250cm9sbGVyIG1heSBiZSByZXNldCBkdXJpbmcgcmVzdW1lIHRv
+IHJlY292ZXIgZnJvbSBzb21lIGVycm9yLgpBbGwgc2xvdHMgYXJlIHVudXNhYmxlIGFzIHRoZXkg
+YXJlIGRpc2FibGVkIGFuZCBmcmVlZC4KeGhjaSBkcml2ZXIgc3RhcnRzIHNsb3QgZW51bWVyYXRp
+b24gYWdhaW4gZnJvbSAxIGluIHRoZSBvcmRlciB0aGV5IGFyZQplbmFibGVkLiBJbiB0aGUgd29y
+c3QgY2FzZSBhIHN0YWxlIHVkZXYtPnNsb3RfaWQgZm9yIG9uZSBkZXZpY2UgbWF0Y2hlcwphIG5l
+d2x5IGVuYWJsZWQgc2xvdF9pZCBmb3IgYSBkaWZmZXJlbnQgZGV2aWNlLCBjYXVzaW5nIHVzIHRv
+CnBlcmZvcm0gYSBhY3Rpb24gb24gdGhlIHdyb25nIGRldmljZS4KClNpZ25lZC1vZmYtYnk6IE1h
+dGhpYXMgTnltYW4gPG1hdGhpYXMubnltYW5AbGludXguaW50ZWwuY29tPgotLS0KIGRyaXZlcnMv
+dXNiL2hvc3QveGhjaS1tZW0uYyB8IDIgKysKIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMo
+KykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9ob3N0L3hoY2ktbWVtLmMgYi9kcml2ZXJzL3Vz
+Yi9ob3N0L3hoY2ktbWVtLmMKaW5kZXggMzMyNDIwZC4uZTVhY2U4OSAxMDA2NDQKLS0tIGEvZHJp
+dmVycy91c2IvaG9zdC94aGNpLW1lbS5jCisrKyBiL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1tZW0u
+YwpAQCAtOTEzLDYgKzkxMyw4IEBAIHZvaWQgeGhjaV9mcmVlX3ZpcnRfZGV2aWNlKHN0cnVjdCB4
+aGNpX2hjZCAqeGhjaSwgaW50IHNsb3RfaWQpCiAJaWYgKGRldi0+b3V0X2N0eCkKIAkJeGhjaV9m
+cmVlX2NvbnRhaW5lcl9jdHgoeGhjaSwgZGV2LT5vdXRfY3R4KTsKIAorCWlmIChkZXYtPnVkZXYg
+JiYgZGV2LT51ZGV2LT5zbG90X2lkKQorCQlkZXYtPnVkZXYtPnNsb3RfaWQgPSAwOwogCWtmcmVl
+KHhoY2ktPmRldnNbc2xvdF9pZF0pOwogCXhoY2ktPmRldnNbc2xvdF9pZF0gPSBOVUxMOwogfQo=
