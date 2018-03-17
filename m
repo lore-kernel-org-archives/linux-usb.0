@@ -1,20 +1,25 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [1/2] USB: serial: option: drop redundant interface-class test
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20180307145659.GC4109@kroah.com>
-Date: Wed, 7 Mar 2018 06:56:59 -0800
-To: Johan Hovold <johan@kernel.org>
-Cc: linux-usb@vger.kernel.org
+Subject: [v1,1/3] usb: dwc2: Enable BNA interrupt for IN endpoints
+From: Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
+Message-Id: <0e2db77726ef3c53cfa27b8218034d1c14eae483.1521277589.git.hminas@synopsys.com>
+Date: Sat, 17 Mar 2018 13:09:08 +0400
+To: John Youn <John.Youn@synopsys.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+Cc: Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCBNYXIgMDcsIDIwMTggYXQgMTE6NDk6NTVBTSArMDEwMCwgSm9oYW4gSG92b2xkIHdy
-b3RlOgo+IERyb3AgcmVkdW5kYW50IGludGVyZmFjZS1jbGFzcyB0ZXN0IGZvciBTYW1zdW5nIEdU
-LUIzNzMwIG1vZGVtcyBmb3IKPiB3aGljaCB3ZSBvbmx5IG1hdGNoIGFuZCBwcm9iZSB0aGUgQ0RD
-IGRhdGEgaW50ZXJmYWNlLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEpvaGFuIEhvdm9sZCA8am9oYW5A
-a2VybmVsLm9yZz4KClJldmlld2VkLWJ5OiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51
-eGZvdW5kYXRpb24ub3JnPgotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQg
-dGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdl
-IHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0
-cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
+SW4gRERNQSBtb2RlIHJlcXVpcmVkIHRvIGVuYWJsZSBCTkEgaW50ZXJydXB0IGZvcgpib3RoIGRp
+cmVjdGlvbnMuCgpTaWduZWQtb2ZmLWJ5OiBNaW5hcyBIYXJ1dHl1bnlhbiA8aG1pbmFzQHN5bm9w
+c3lzLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9kd2MyL2dhZGdldC5jIHwgNCArKystCiAxIGZpbGUg
+Y2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJp
+dmVycy91c2IvZHdjMi9nYWRnZXQuYyBiL2RyaXZlcnMvdXNiL2R3YzIvZ2FkZ2V0LmMKaW5kZXgg
+NmMzMmJmMjZlNDhlLi5jMjMxMzIxNjU2ZjkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL2R3YzIv
+Z2FkZ2V0LmMKKysrIGIvZHJpdmVycy91c2IvZHdjMi9nYWRnZXQuYwpAQCAtMzMyMCw4ICszMzIw
+LDEwIEBAIHZvaWQgZHdjMl9oc290Z19jb3JlX2luaXRfZGlzY29ubmVjdGVkKHN0cnVjdCBkd2My
+X2hzb3RnICpoc290ZywKIAkJaHNvdGctPnJlZ3MgKyBET0VQTVNLKTsKIAogCS8qIEVuYWJsZSBC
+TkEgaW50ZXJydXB0IGZvciBERE1BICovCi0JaWYgKHVzaW5nX2Rlc2NfZG1hKGhzb3RnKSkKKwlp
+ZiAodXNpbmdfZGVzY19kbWEoaHNvdGcpKSB7CiAJCWR3YzJfc2V0X2JpdChoc290Zy0+cmVncyAr
+IERPRVBNU0ssIERPRVBNU0tfQk5BTVNLKTsKKwkJZHdjMl9zZXRfYml0KGhzb3RnLT5yZWdzICsg
+RElFUE1TSywgRElFUE1TS19CTkFJTklOVFJNU0spOworCX0KIAogCWR3YzJfd3JpdGVsKDAsIGhz
+b3RnLT5yZWdzICsgREFJTlRNU0spOwogCg==
