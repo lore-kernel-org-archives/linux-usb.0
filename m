@@ -3,28 +3,17 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v4,2/2] usb/gadget: Add driver for Aspeed SoC virtual hub
 From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Message-Id: <1521247126.16434.208.camel@kernel.crashing.org>
-Date: Sat, 17 Mar 2018 11:38:46 +1100
-To: Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org
-Cc: Greg KH <greg@kroah.com>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
+Message-Id: <1521247226.16434.209.camel@kernel.crashing.org>
+Date: Sat, 17 Mar 2018 11:40:26 +1100
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org, Greg KH <greg@kroah.com>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCAyMDE4LTAzLTE2IGF0IDA5OjIzICswMjAwLCBGZWxpcGUgQmFsYmkgd3JvdGU6Cj4g
-Pgo+ID4gSWYgSSBqdXN0IGNyZWF0ZSBhIG1hc3Mgc3RvcmFnZSBmdW5jdGlvbiBzZXQgdG8gYmUg
-InJlbW92YWJsZSIgYW5kCj4gPiAiY2Ryb20iIHdpdGggbm8gZmlsZSBhdHRhY2hlZCwgIGFuZCBl
-bmFibGUgaXQsIEkgZ2V0IGFuIGVuZGxlc3Mgc3RyZWFtCj4gPiBvZiByZXNldHMuIEl0IGxvb2tz
-IGxpa2UgdGhlIGhvc3QgY29uc3RhbnRseSBkb2VzIFVTQiByZXNldHMuCj4gPgo+ID4gSSBzdXNw
-ZWN0IHRoZSBob3N0IGlzIHNlbmRpbmcgU0NTSSBjb21tYW5kcyB0aGF0IGZhaWwgYW5kIHJlc2V0
-cwo+ID4gYXMgYSByZXN1bHQsIGJ1dCB0aGF0J3Mgc3BhbW1pbmcgYm90aCBsb2dzIGFuZCBpcyBy
-YXRoZXIgLi4uIHN1Ygo+ID4gb3B0aW1hbC4KPiA+Cj4gPiBEbyB3ZSBrbm93IHdoYXQncyBnb2lu
-ZyBvbiA/IElzIHRoaXMganVzdCBURVNUX1VOSVRfUkVBRFkgb3Igc29tZSBvdGhlcgo+ID4gbWVk
-aWEgY2hlY2sgPyBPciBhcmUgd2UgbWlzc2luZyBzb21lIGNvbW1hbmRzIHdlIHNob3VsZCBhY3R1
-YWxseQo+ID4gaW1wbGVtZW50IGluIHRoZSBtYXNzIHN0b3JhZ2UgZ2FkZ2V0ID8KPiAKPiBlbmFi
-bGUgZGVidWdnaW5nIGZvciBtYXNzIHN0b3JhZ2UsIHRoZXJlJ3MgYSBsb3Qgb2YgaW50ZXJzdGlu
-Zwo+IGluZm9ybWF0aW9uIHRoZXJlLgoKWXVwLCBJJ2xsIGRvIGFsb25nIHdpdGggb3RoZXIgdGhp
-bmdzLCBJIHdhcyBqdXN0IHByb2JpbmcgdG8gc2VlIGlmIGl0CndhcyBhIGtub3duIGlzc3VlIGJl
-Zm9yZSBkaXZpbmcgaW50byBpdC4KCkNoZWVycywKQmVuLgotLS0KVG8gdW5zdWJzY3JpYmUgZnJv
-bSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhl
-IGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpv
-cmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1s
-Cg==
+T24gU2F0LCAyMDE4LTAzLTE3IGF0IDExOjI5ICsxMTAwLCBCZW5qYW1pbiBIZXJyZW5zY2htaWR0
+IHdyb3RlOgo+IFRoZSBndWVzdCBqdXN0IHNob3cgY29uZmlnIHNlbGVjdGlvbiBtZXNzYWdlcy4g
+SSdsbCBkaWcgYSBiaXQgbmV4dCB3ZWVrCj4gaW4gY2FzZSB0aGVyZSdzIGFuIGlzc3VlIHdpdGgg
+bXkgVURDIGRyaXZlciB0aGVyZS4KCkkgbWVhbnQgdGhlICJnYWRnZXQiIGp1c3Qgc2hvd3MgLi4u
+CgpDaGVlcnMsCkJlbi4KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRo
+ZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0
+byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6
+Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
