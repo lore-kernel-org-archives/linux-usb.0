@@ -2,25 +2,17 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2] usb: dwc3: pci: Properly cleanup resource
-From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Message-Id: <88df8e02f7fa420dda75e256926f5f8e8b53a93a.1521240871.git.thinhn@synopsys.com>
-Date: Fri, 16 Mar 2018 16:00:42 -0700
-To: Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org
-Cc: John Youn <John.Youn@synopsys.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+From: Felipe Balbi <balbi@kernel.org>
+Message-Id: <87a7v4qw88.fsf@linux.intel.com>
+Date: Mon, 19 Mar 2018 10:56:55 +0200
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, linux-usb@vger.kernel.org
+Cc: John Youn <John.Youn@synopsys.com>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-UGxhdGZvcm0gZGV2aWNlIGlzIGFsbG9jYXRlZCBiZWZvcmUgYWRkaW5nIHJlc291cmNlcy4gTWFr
-ZSBzdXJlIHRvCnByb3Blcmx5IGNsZWFudXAgb24gZXJyb3IgY2FzZS4KCkZpeGVzOiBmMWM3ZTcx
-MDgxMDkgKCJ1c2I6IGR3YzM6IGNvbnZlcnQgdG8gcGNpbV9lbmFibGVfZGV2aWNlKCkiKQpTaWdu
-ZWQtb2ZmLWJ5OiBUaGluaCBOZ3V5ZW4gPHRoaW5obkBzeW5vcHN5cy5jb20+Ci0tLQpDaGFuZ2Vz
-IGluIHYyOgogLSBTZXBhcmF0ZSBmcm9tIHBhdGNoIHNlcmllcyAidXNiOiBkd2MzOiBwY2k6IE1h
-a2UgZGV2aWNlIHByb3BlcnRpZXMgY3VzdG9taXphYmxlIgoKIGRyaXZlcnMvdXNiL2R3YzMvZHdj
-My1wY2kuYyB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
-bigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2R3YzMvZHdjMy1wY2kuYyBiL2RyaXZlcnMv
-dXNiL2R3YzMvZHdjMy1wY2kuYwppbmRleCAzYmExMTEzNmViZjAuLmM5NjFhOTRkMTM2YiAxMDA2
-NDQKLS0tIGEvZHJpdmVycy91c2IvZHdjMy9kd2MzLXBjaS5jCisrKyBiL2RyaXZlcnMvdXNiL2R3
-YzMvZHdjMy1wY2kuYwpAQCAtMjIyLDcgKzIyMiw3IEBAIHN0YXRpYyBpbnQgZHdjM19wY2lfcHJv
-YmUoc3RydWN0IHBjaV9kZXYgKnBjaSwKIAlyZXQgPSBwbGF0Zm9ybV9kZXZpY2VfYWRkX3Jlc291
-cmNlcyhkd2MtPmR3YzMsIHJlcywgQVJSQVlfU0laRShyZXMpKTsKIAlpZiAocmV0KSB7CiAJCWRl
-dl9lcnIoZGV2LCAiY291bGRuJ3QgYWRkIHJlc291cmNlcyB0byBkd2MzIGRldmljZVxuIik7Ci0J
-CXJldHVybiByZXQ7CisJCWdvdG8gZXJyOwogCX0KIAogCWR3Yy0+cGNpID0gcGNpOwo=
+SGksCgpUaGluaCBOZ3V5ZW4gPFRoaW5oLk5ndXllbkBzeW5vcHN5cy5jb20+IHdyaXRlczoKPiBQ
+bGF0Zm9ybSBkZXZpY2UgaXMgYWxsb2NhdGVkIGJlZm9yZSBhZGRpbmcgcmVzb3VyY2VzLiBNYWtl
+IHN1cmUgdG8KPiBwcm9wZXJseSBjbGVhbnVwIG9uIGVycm9yIGNhc2UuCj4KPiBGaXhlczogZjFj
+N2U3MTA4MTA5ICgidXNiOiBkd2MzOiBjb252ZXJ0IHRvIHBjaW1fZW5hYmxlX2RldmljZSgpIikK
+CnRoaXMgY29tbWl0IGlzIGZyb20gd2F5IGJhY2sgaW4gMy4xNiwgcGxlYXNlIHJlc2VuZCB3aXRo
+IGEgIkNjOgo8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4iIHRhZyBiZWZvcmUgdGhpcyBmaXhlcyBs
+aW5lLgo=
