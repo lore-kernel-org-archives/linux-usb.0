@@ -1,19 +1,30 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [3/4] usb: Remove stack VLA usage
-From: "Tobin C. Harding" <me@tobin.cc>
-Message-Id: <20180309060537.GC16734@eros>
-Date: Fri, 9 Mar 2018 17:05:37 +1100
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: kernel-hardening@lists.openwall.com, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, Tycho Andersen <tycho@tycho.ws>, Kees Cook <keescook@chromium.org>, Felipe Balbi <felipe.balbi@linux.intel.com>, Alan Stern <stern@rowland.harvard.edu>
+Subject: [v5,2/2] usb/gadget/uvc-configfs Fix linked flag in a format not being set when format is linked into streaming header
+From: Joel Pepper <joel.pepper@rwth-aachen.de>
+Message-Id: <6b5e4b31-4293-4ba7-be61-eebb617362fa@rwthex-s3-b.rwth-ad.de>
+Date: Wed, 21 Mar 2018 15:25:53 +0100
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, Paul Elder <paul.elder@pitt.edu>, Joel Pepper <joel.pepper@rwth-aachen.de>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCBNYXIgMDksIDIwMTggYXQgMDQ6NTU6MzVQTSArMTEwMCwgVG9iaW4gQy4gSGFyZGlu
-ZyB3cm90ZToKPiBTaWduZWQtb2ZmLWJ5OiBUb2JpbiBDLiBIYXJkaW5nIDxtZUB0b2Jpbi5jYz4K
-PiAtLS0KClBsZWFzZSBkcm9wIHRoaXMuICBUbyBtdWNoIG9uIGdpdGh1YiBub3Qgd3JpdGluZyBw
-cm9wZXIgY29tbWl0IGxvZ3MgOigKCnYyIHRvIGNvbWUuCgp0aGFua3MsClRvYmluLgotLS0KVG8g
-dW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxp
-bnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5l
-bC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpv
-cmRvbW8taW5mby5odG1sCg==
+V2hpbGUgY2hlY2tzIGFyZSBpbiBwbGFjZSB0byBhdm9pZCBhdHRyaWJ1dGVzIGFuZCBjaGlsZHJl
+biBvZiBhIGZvcm1hdApiZWluZyBtYW5pcHVsYXRlZCBhZnRlciB0aGUgZm9ybWF0IGlzIGxpbmtl
+ZCBpbnRvIHRoZSBzdHJlYW1pbmcgaGVhZGVyLAp0aGUgbGlua2VkIGZsYWcgd2FzIG5ldmVyIGFj
+dHVhbGx5IHNldCwgaW52YWxpZGF0aW5nIHRoZSBwcm90ZWN0aW9ucy4KClNpZ25lZC1vZmYtYnk6
+IEpvZWwgUGVwcGVyIDxqb2VsLnBlcHBlckByd3RoLWFhY2hlbi5kZT4KLS0tCiBkcml2ZXJzL3Vz
+Yi9nYWRnZXQvZnVuY3Rpb24vdXZjX2NvbmZpZ2ZzLmMgfCAzICsrKwogMSBmaWxlIGNoYW5nZWQs
+IDMgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlv
+bi91dmNfY29uZmlnZnMuYyBiL2RyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi91dmNfY29uZmln
+ZnMuYwppbmRleCBhYjY0OTI1Li4zN2I0YTE0IDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9nYWRn
+ZXQvZnVuY3Rpb24vdXZjX2NvbmZpZ2ZzLmMKKysrIGIvZHJpdmVycy91c2IvZ2FkZ2V0L2Z1bmN0
+aW9uL3V2Y19jb25maWdmcy5jCkBAIC03NjMsNiArNzYzLDcgQEAgc3RhdGljIGludCB1dmNnX3N0
+cmVhbWluZ19oZWFkZXJfYWxsb3dfbGluayhzdHJ1Y3QgY29uZmlnX2l0ZW0gKnNyYywKIAlmb3Jt
+YXRfcHRyLT5mbXQgPSB0YXJnZXRfZm10OwogCWxpc3RfYWRkX3RhaWwoJmZvcm1hdF9wdHItPmVu
+dHJ5LCAmc3JjX2hkci0+Zm9ybWF0cyk7CiAJKytzcmNfaGRyLT5udW1fZm10OworCSsrdGFyZ2V0
+X2ZtdC0+bGlua2VkOwogCiBvdXQ6CiAJbXV0ZXhfdW5sb2NrKCZvcHRzLT5sb2NrKTsKQEAgLTgw
+MCw2ICs4MDEsOCBAQCBzdGF0aWMgdm9pZCB1dmNnX3N0cmVhbWluZ19oZWFkZXJfZHJvcF9saW5r
+KHN0cnVjdCBjb25maWdfaXRlbSAqc3JjLAogCQkJYnJlYWs7CiAJCX0KIAorCS0tdGFyZ2V0X2Zt
+dC0+bGlua2VkOworCiBvdXQ6CiAJbXV0ZXhfdW5sb2NrKCZvcHRzLT5sb2NrKTsKIAltdXRleF91
+bmxvY2soc3VfbXV0ZXgpOwo=
