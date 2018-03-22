@@ -2,31 +2,20 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [usb-next,v2] usb: xhci: skip phys initialization of shared hcd
-From: Roger Quadros <rogerq@ti.com>
-Message-Id: <e3560874-cf8b-a554-5226-bc640b0edcb1@ti.com>
-Date: Thu, 22 Mar 2018 14:29:39 +0200
-To: Chunfeng Yun <chunfeng.yun@mediatek.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mathias Nyman <mathias.nyman@intel.com>, Matthias Brugger <matthias.bgg@gmail.com>, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, linux-mediatek@lists.infradead.org
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20180322125300.GA22130@kroah.com>
+Date: Thu, 22 Mar 2018 13:53:00 +0100
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Mathias Nyman <mathias.nyman@intel.com>, Matthias Brugger <matthias.bgg@gmail.com>, Roger Quadros <rogerq@ti.com>, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, linux-mediatek@lists.infradead.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMjIvMDMvMTggMTQ6MTIsIENodW5mZW5nIFl1biB3cm90ZToKPiBUaGUgcGh5cyBoYXMgYWxy
-ZWFkeSBiZWVuIGluaXRpYWxpemVkIHdoZW4gYWRkIHByaW1hcnkgaGNkLAo+IGluY2x1ZGluZyB1
-c2IyIHBoeXMgYW5kIHVzYjMgcGh5cyBhbHNvIGlmIGV4aXN0LCBzbyBuZWVkbid0Cj4gcmUtcGFy
-c2UgInBoeXMiIHByb3BlcnR5IGFnYWluLgo+IAo+IFNpZ25lZC1vZmYtYnk6IENodW5mZW5nIFl1
-biA8Y2h1bmZlbmcueXVuQG1lZGlhdGVrLmNvbT4KClJldmlld2VkLWJ5OiBSb2dlciBRdWFkcm9z
-IDxyb2dlcnFAdGkuY29tPgoKPiAtLS0KPiBWMzoKPiAgICAgYWRkIHRoZSBmb2xsb3dpbmcgaW5m
-byBhYm91dCB2MSAmIHYyIHN1Z2dlc3RlZCBieSBHcmVnCj4gVjI6Cj4gICAgIGZpeCBpdCBpbiBo
-Y2QuYyBzdWdnZXN0ZWQgYnkgUm9nZXIKPiBWMToKPiAgICAgc2tpcCBwaHlzIGluaXRpYWxpemF0
-aW9uIHdoZW4gYWRkIHNoYXJlZCBIQ0QgYnkgc2V0dGluZwo+ICAgICB4aGNpLT5zaGFyZWRfaGNk
-LT5za2lwX3BoeV9pbml0aWFsaXphdGlvbj0xOwo+ICAgICBmb3IgYm90aCB4aGNpLXBsYXQuYyAm
-IHhoY2ktbXRrLmMgZmlsZXMuCj4gLS0tCj4gIGRyaXZlcnMvdXNiL2NvcmUvaGNkLmMgfCAyICst
-Cj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+IAo+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9jb3JlL2hjZC5jIGIvZHJpdmVycy91c2IvY29yZS9oY2Qu
-Ywo+IGluZGV4IDVhOTJkOGYuLjc3NzAzNmEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy91c2IvY29y
-ZS9oY2QuYwo+ICsrKyBiL2RyaXZlcnMvdXNiL2NvcmUvaGNkLmMKPiBAQCAtMjc1Nyw3ICsyNzU3
-LDcgQEAgaW50IHVzYl9hZGRfaGNkKHN0cnVjdCB1c2JfaGNkICpoY2QsCj4gIAkJfQo+ICAJfQo+
-ICAKPiAtCWlmICghaGNkLT5za2lwX3BoeV9pbml0aWFsaXphdGlvbikgewo+ICsJaWYgKCFoY2Qt
-PnNraXBfcGh5X2luaXRpYWxpemF0aW9uICYmIHVzYl9oY2RfaXNfcHJpbWFyeV9oY2QoaGNkKSkg
-ewo+ICAJCWhjZC0+cGh5X3Jvb3RodWIgPSB1c2JfcGh5X3Jvb3RodWJfaW5pdChoY2QtPnNlbGYu
-c3lzZGV2KTsKPiAgCQlpZiAoSVNfRVJSKGhjZC0+cGh5X3Jvb3RodWIpKSB7Cj4gIAkJCXJldHZh
-bCA9IFBUUl9FUlIoaGNkLT5waHlfcm9vdGh1Yik7Cj4K
+T24gVGh1LCBNYXIgMjIsIDIwMTggYXQgMDg6MTI6NTBQTSArMDgwMCwgQ2h1bmZlbmcgWXVuIHdy
+b3RlOgo+IFRoZSBwaHlzIGhhcyBhbHJlYWR5IGJlZW4gaW5pdGlhbGl6ZWQgd2hlbiBhZGQgcHJp
+bWFyeSBoY2QsCj4gaW5jbHVkaW5nIHVzYjIgcGh5cyBhbmQgdXNiMyBwaHlzIGFsc28gaWYgZXhp
+c3QsIHNvIG5lZWRuJ3QKPiByZS1wYXJzZSAicGh5cyIgcHJvcGVydHkgYWdhaW4uCgpXYWl0LCB3
+aHkgZG9lcyB0aGUgc3ViamVjdCBzYXkgInhoY2kiLCB3aGVuIHRoaXMgaXMgaW4gVVNCIGNvcmUg
+Y29kZT8KCkknbGwgZ28gZWRpdCB0aGF0IGJ5IGhhbmQuLi4KLS0tClRvIHVuc3Vic2NyaWJlIGZy
+b20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRo
+ZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFq
+b3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRt
+bAo=
