@@ -2,29 +2,19 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,3/5] dt-bindings: usb: fusb302: remove max-sink-* properties
-From: Jun Li <jun.li@nxp.com>
-Message-Id: <1521817127-23061-4-git-send-email-jun.li@nxp.com>
-Date: Fri, 23 Mar 2018 22:58:45 +0800
-To: gregkh@linuxfoundation.org, robh+dt@kernel.org, mark.rutland@arm.com, heikki.krogerus@linux.intel.com, hdegoede@redhat.com
-Cc: linux@roeck-us.net, rmfrfs@gmail.com, yueyao.zhu@gmail.com, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-imx@nxp.com
+From: Rob Herring <robh@kernel.org>
+Message-Id: <20180326222507.bujgmllb3opjcihq@rob-hp-laptop>
+Date: Mon, 26 Mar 2018 17:25:07 -0500
+To: Li Jun <jun.li@nxp.com>
+Cc: gregkh@linuxfoundation.org, mark.rutland@arm.com, heikki.krogerus@linux.intel.com, hdegoede@redhat.com, linux@roeck-us.net, rmfrfs@gmail.com, yueyao.zhu@gmail.com, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-imx@nxp.com
 List-ID: <linux-usb.vger.kernel.org>
 
-UmVtb3ZlIG1heC1zaW5rLSogcHJvcGVydGllcyBzaW5jZSB0aGV5IGFyZSBkZXByZWNhdGVkLgoK
-U2lnbmVkLW9mZi1ieTogTGkgSnVuIDxqdW4ubGlAbnhwLmNvbT4KLS0tCiBEb2N1bWVudGF0aW9u
-L2RldmljZXRyZWUvYmluZGluZ3MvdXNiL2ZjcyxmdXNiMzAyLnR4dCB8IDYgLS0tLS0tCiAxIGZp
-bGUgY2hhbmdlZCwgNiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2Rl
-dmljZXRyZWUvYmluZGluZ3MvdXNiL2ZjcyxmdXNiMzAyLnR4dCBiL0RvY3VtZW50YXRpb24vZGV2
-aWNldHJlZS9iaW5kaW5ncy91c2IvZmNzLGZ1c2IzMDIudHh0CmluZGV4IDQ3MmZhY2YuLjYwODdk
-YzcgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvZmNz
-LGZ1c2IzMDIudHh0CisrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2Iv
-ZmNzLGZ1c2IzMDIudHh0CkBAIC02LDEyICs2LDYgQEAgUmVxdWlyZWQgcHJvcGVydGllcyA6CiAt
-IGludGVycnVwdHMgICAgICAgICAgICAgOiBJbnRlcnJ1cHQgc3BlY2lmaWVyCiAKIE9wdGlvbmFs
-IHByb3BlcnRpZXMgOgotLSBmY3MsbWF4LXNpbmstbWljcm92b2x0IDogTWF4aW11bSB2b2x0YWdl
-IHRvIG5lZ290aWF0ZSB3aGVuIGNvbmZpZ3VyZWQgYXMgc2luawotLSBmY3MsbWF4LXNpbmstbWlj
-cm9hbXAgIDogTWF4aW11bSBjdXJyZW50IHRvIG5lZ290aWF0ZSB3aGVuIGNvbmZpZ3VyZWQgYXMg
-c2luawotLSBmY3MsbWF4LXNpbmstbWljcm93YXR0IDogTWF4aW11bSBwb3dlciB0byBuZWdvdGlh
-dGUgd2hlbiBjb25maWd1cmVkIGFzIHNpbmsKLQkJCSAgIElmIHRoaXMgaXMgbGVzcyB0aGVuIG1h
-eC1zaW5rLW1pY3Jvdm9sdCAqCi0JCQkgICBtYXgtc2luay1taWNyb2FtcCB0aGVuIHRoZSBjb25m
-aWd1cmVkIGN1cnJlbnQgd2lsbAotCQkJICAgYmUgY2xhbXBlZC4KIC0gZmNzLG9wZXJhdGluZy1z
-aW5rLW1pY3Jvd2F0dCA6CiAJCQkgICBNaW5pbXVtIGFtb3VudCBvZiBwb3dlciBhY2NlcHRlZCBm
-cm9tIGEgc2luawogCQkJICAgd2hlbiBuZWdvdGlhdGluZwo=
+T24gRnJpLCBNYXIgMjMsIDIwMTggYXQgMTA6NTg6NDVQTSArMDgwMCwgTGkgSnVuIHdyb3RlOgo+
+IFJlbW92ZSBtYXgtc2luay0qIHByb3BlcnRpZXMgc2luY2UgdGhleSBhcmUgZGVwcmVjYXRlZC4K
+PiAKPiBTaWduZWQtb2ZmLWJ5OiBMaSBKdW4gPGp1bi5saUBueHAuY29tPgo+IC0tLQo+ICBEb2N1
+bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL2ZjcyxmdXNiMzAyLnR4dCB8IDYgLS0t
+LS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCA2IGRlbGV0aW9ucygtKQoKUmV2aWV3ZWQtYnk6IFJvYiBI
+ZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlz
+dDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBh
+IG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZv
+IGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
