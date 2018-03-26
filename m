@@ -1,32 +1,41 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,05/21] firewire: Remove depends on HAS_DMA in case of platform dependency
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Message-Id: <1521208314-4783-6-git-send-email-geert@linux-m68k.org>
-Date: Fri, 16 Mar 2018 14:51:38 +0100
-To: Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "James E . J . Bottomley" <jejb@linux.vnet.ibm.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, Andrew Morton <akpm@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Tejun Heo <tj@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller" <davem@davemloft.net>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Stefan Richter <stefanr@s5r6.in-berlin.de>, Alan Tull <atull@kernel.org>, Moritz Fischer <mdf@kernel.org>, Wolfram Sang <wsa@the-dreams.de>, Jonathan Cameron <jic23@kernel.org>, Joerg Roedel <joro@8bytes.org>, Matias Bjorling <mb@lightnvm.io>, Jassi Brar <jassisinghbrar@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, David Woodhouse <dwmw2@infradead.org>, Brian Norris <computersforpeace@gmail.com>, Marek Vasut <marek.vasut@gmail.com>, Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>, Boris Brezillon <boris.brezillon@free-electrons.com>, Richard Weinberger <richard@nod.at>, Kalle Valo <kvalo@codeaurora.org>, Ohad Ben-Cohen <ohad@wizery.com>, Bjorn Andersson <bjorn.andersson@linaro.org>, Eric Anholt <eric@anholt.net>, Stefan Wahren <stefan.wahren@i2se.com>
-Cc: iommu@lists.linux-foundation.org, linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org, alsa-devel@alsa-project.org, linux-ide@vger.kernel.org, linux-crypto@vger.kernel.org, linux-fbdev@vger.kernel.org, linux1394-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org, linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, linux-block@vger.kernel.org, linux-media@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, netdev@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-serial@vger.kernel.org, linux-spi@vger.kernel.org, devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [v4] usb: dwc2: dwc2_vbus_supply_init: fix error check
+From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Message-Id: <20180326090001.57627-1-tomeu.vizoso@collabora.com>
+Date: Mon, 26 Mar 2018 11:00:01 +0200
+To: linux-kernel@vger.kernel.org
+Cc: Felipe Balbi <felipe.balbi@linux.intel.com>, Heiko Stuebner <heiko@sntech.de>, Tomeu Vizoso <tomeu.vizoso@collabora.com>, Amelie Delaunay <amelie.delaunay@st.com>, Minas Harutyunyan <hminas@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-UmVtb3ZlIGRlcGVuZGVuY2llcyBvbiBIQVNfRE1BIHdoZXJlIGEgS2NvbmZpZyBzeW1ib2wgZGVw
-ZW5kcyBvbiBhbm90aGVyCnN5bWJvbCB0aGF0IGltcGxpZXMgSEFTX0RNQSwgYW5kLCBvcHRpb25h
-bGx5LCBvbiAifHwgQ09NUElMRV9URVNUIi4KSW4gbW9zdCBjYXNlcyB0aGlzIG90aGVyIHN5bWJv
-bCBpcyBhbiBhcmNoaXRlY3R1cmUgb3IgcGxhdGZvcm0gc3BlY2lmaWMKc3ltYm9sLCBvciBQQ0ku
-CgpHZW5lcmljIHN5bWJvbHMgYW5kIGRyaXZlcnMgd2l0aG91dCBwbGF0Zm9ybSBkZXBlbmRlbmNp
-ZXMga2VlcCB0aGVpcgpkZXBlbmRlbmNpZXMgb24gSEFTX0RNQSwgdG8gcHJldmVudCBjb21waWxp
-bmcgc3Vic3lzdGVtcyBvciBkcml2ZXJzIHRoYXQKY2Fubm90IHdvcmsgYW55d2F5LgoKVGhpcyBz
-aW1wbGlmaWVzIHRoZSBkZXBlbmRlbmNpZXMsIGFuZCBhbGxvd3MgdG8gaW1wcm92ZSBjb21waWxl
-LXRlc3RpbmcuCgpTaWduZWQtb2ZmLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4
-LW02OGsub3JnPgpSZXZpZXdlZC1ieTogTWFyayBCcm93biA8YnJvb25pZUBrZXJuZWwub3JnPgpB
-Y2tlZC1ieTogUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4KLS0tCnYyOgogIC0g
-QWRkIFJldmlld2VkLWJ5LCBBY2tlZC1ieSwKICAtIERyb3AgUkZDIHN0YXRlLAogIC0gU3BsaXQg
-cGVyIHN1YnN5c3RlbS4KLS0tCiBkcml2ZXJzL2ZpcmV3aXJlL0tjb25maWcgfCAxIC0KIDEgZmls
-ZSBjaGFuZ2VkLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9maXJld2lyZS9L
-Y29uZmlnIGIvZHJpdmVycy9maXJld2lyZS9LY29uZmlnCmluZGV4IDE0NTk3NGY5NjYyYjYzZTYu
-LjQxOTk4NDllMzc1ODUxODEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZmlyZXdpcmUvS2NvbmZpZwor
-KysgYi9kcml2ZXJzL2ZpcmV3aXJlL0tjb25maWcKQEAgLTEsNSArMSw0IEBACiBtZW51ICJJRUVF
-IDEzOTQgKEZpcmVXaXJlKSBzdXBwb3J0IgotCWRlcGVuZHMgb24gSEFTX0RNQQogCWRlcGVuZHMg
-b24gUENJIHx8IENPTVBJTEVfVEVTVAogCSMgZmlyZXdpcmUtY29yZSBkb2VzIG5vdCBkZXBlbmQg
-b24gUENJIGJ1dCBpcwogCSMgbm90IHVzZWZ1bCB3aXRob3V0IFBDSSBjb250cm9sbGVyIGRyaXZl
-cgo=
+ZGV2bV9yZWd1bGF0b3JfZ2V0X29wdGlvbmFsIHJldHVybnMgLUVOT0RFViBpZiB0aGUgcmVndWxh
+dG9yIGlzbid0CnRoZXJlLCBzbyBpZiB0aGF0J3MgdGhlIGNhc2Ugd2UgaGF2ZSB0byBtYWtlIHN1
+cmUgbm90IHRvIGxlYXZlIC1FTk9ERVYKaW4gdGhlIHJlZ3VsYXRvciBwb2ludGVyLgoKQWxzbywg
+bWFrZSBzdXJlIHdlIHJldHVybiAwIGluIHRoYXQgY2FzZSwgYnV0IGNvcnJlY3RseSBwcm9wYWdh
+dGUgYW55Cm90aGVyIGVycm9ycy4gQWxzbyBwcm9wYWdhdGUgdGhlIGVycm9yIGZyb20gX2R3YzJf
+aGNkX3N0YXJ0LgoKRml4ZXM6IDUzMWVmNWViZWE5NiAoInVzYjogZHdjMjogYWRkIHN1cHBvcnQg
+Zm9yIGhvc3QgbW9kZSBleHRlcm5hbCB2YnVzIHN1cHBseSIpCkNjOiBBbWVsaWUgRGVsYXVuYXkg
+PGFtZWxpZS5kZWxhdW5heUBzdC5jb20+ClNpZ25lZC1vZmYtYnk6IFRvbWV1IFZpem9zbyA8dG9t
+ZXUudml6b3NvQGNvbGxhYm9yYS5jb20+Ci0tLQoKdjI6IE9ubHkgb3ZlcndyaXRlIHRoZSBlcnJv
+ciBpbiB0aGUgcG9pbnRlciBhZnRlciBjaGVja2luZyBpdCAoSGVpa28KICAgIFN0w7xibmVyIDxo
+ZWlrb0BzbnRlY2guZGU+KQp2MzogUmVtb3ZlIGh1bmtzIHRoYXQgc2hvdWxkbid0IGJlIGluIHRo
+aXMgcGF0Y2gKdjQ6IERvbid0IG92ZXJ3cml0ZSB0aGUgZXJyb3IgY29kZSBiZWZvcmUgcmV0dXJu
+aW5nIGl0IChrYnVpbGQgdGVzdAogICAgcm9ib3QgPGxrcEBpbnRlbC5jb20+KQotLS0KIGRyaXZl
+cnMvdXNiL2R3YzIvaGNkLmMgfCAxMyArKysrKysrKy0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgOCBp
+bnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2R3
+YzIvaGNkLmMgYi9kcml2ZXJzL3VzYi9kd2MyL2hjZC5jCmluZGV4IDE5MGY5NTk2NDAwMC4uYzUx
+YjczYjNlMDQ4IDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9kd2MyL2hjZC5jCisrKyBiL2RyaXZl
+cnMvdXNiL2R3YzIvaGNkLmMKQEAgLTM1OCw5ICszNTgsMTQgQEAgc3RhdGljIHZvaWQgZHdjMl9n
+dXNiY2ZnX2luaXQoc3RydWN0IGR3YzJfaHNvdGcgKmhzb3RnKQogCiBzdGF0aWMgaW50IGR3YzJf
+dmJ1c19zdXBwbHlfaW5pdChzdHJ1Y3QgZHdjMl9oc290ZyAqaHNvdGcpCiB7CisJaW50IHJldDsK
+KwogCWhzb3RnLT52YnVzX3N1cHBseSA9IGRldm1fcmVndWxhdG9yX2dldF9vcHRpb25hbChoc290
+Zy0+ZGV2LCAidmJ1cyIpOwotCWlmIChJU19FUlIoaHNvdGctPnZidXNfc3VwcGx5KSkKLQkJcmV0
+dXJuIDA7CisJaWYgKElTX0VSUihoc290Zy0+dmJ1c19zdXBwbHkpKSB7CisJCXJldCA9IFBUUl9F
+UlIoaHNvdGctPnZidXNfc3VwcGx5KTsKKwkJaHNvdGctPnZidXNfc3VwcGx5ID0gTlVMTDsKKwkJ
+cmV0dXJuIHJldCA9PSAtRU5PREVWID8gMCA6IHJldDsKKwl9CiAKIAlyZXR1cm4gcmVndWxhdG9y
+X2VuYWJsZShoc290Zy0+dmJ1c19zdXBwbHkpOwogfQpAQCAtNDM0Miw5ICs0MzQ3LDcgQEAgc3Rh
+dGljIGludCBfZHdjMl9oY2Rfc3RhcnQoc3RydWN0IHVzYl9oY2QgKmhjZCkKIAogCXNwaW5fdW5s
+b2NrX2lycXJlc3RvcmUoJmhzb3RnLT5sb2NrLCBmbGFncyk7CiAKLQlkd2MyX3ZidXNfc3VwcGx5
+X2luaXQoaHNvdGcpOwotCi0JcmV0dXJuIDA7CisJcmV0dXJuIGR3YzJfdmJ1c19zdXBwbHlfaW5p
+dChoc290Zyk7CiB9CiAKIC8qCg==
