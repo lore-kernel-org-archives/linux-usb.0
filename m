@@ -1,28 +1,27 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [PATCHv4] phy: mapphone-mdm6600: Add USB PHY driver for MDM6600 on Droid 4
-From: Tony Lindgren <tony@atomide.com>
-Message-Id: <20180327004531.GH5700@atomide.com>
-Date: Mon, 26 Mar 2018 17:45:31 -0700
-To: Dan Williams <dcbw@redhat.com>
-Cc: Pavel Machek <pavel@ucw.cz>, Sebastian Reichel <sre@kernel.org>, Kishon Vijay Abraham I <kishon@ti.com>, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, linux-omap@vger.kernel.org, devicetree@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>, Marcel Partap <mpartap@gmx.net>, Michael Scott <michael.scott@linaro.org>, Rob Herring <robh+dt@kernel.org>
+Subject: [1/2] usb: gadget: udc: core: update usb_ep_queue() documentation
+From: Felipe Balbi <felipe.balbi@linux.intel.com>
+Message-Id: <20180326101447.20382-1-felipe.balbi@linux.intel.com>
+Date: Mon, 26 Mar 2018 13:14:46 +0300
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Linux USB <linux-usb@vger.kernel.org>, Tuba Yavuz <tuba@ece.ufl.edu>, Felipe Balbi <felipe.balbi@linux.intel.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-KiBEYW4gV2lsbGlhbXMgPGRjYndAcmVkaGF0LmNvbT4gWzE4MDMyNiAxNToxOF06Cj4gT24gU3Vu
-LCAyMDE4LTAzLTI1IGF0IDEzOjUyIC0wNzAwLCBUb255IExpbmRncmVuIHdyb3RlOgo+ID4gQW55
-d2F5cywgbG9va3MgbGlrZSBxbWlfd3dhbiBuZWVkcyB0byBiZSBsb2FkZWQgYmVmb3JlCj4gPiBx
-Y3NlcmlhbCBtb2R1bGUsIG90aGVyd2lzZSB3ZSBnZXQgbmluZSB0dHlVU0IgaW5zdGFuY2VzCj4g
-PiBhbmQgTW9kZW1NYW5hZ2VyIGNhbid0IGZpbmQgYW55IG1vZGVtcy4KPiAKPiBVc2UgcWNhdXgu
-YyBvciBvcHRpb24sIHVubGVzcyB0aGUgNjYwMCBhY3R1YWxseSAqZG9lcyogaGF2ZSB0aGUgc2Ft
-ZQo+IGxheW91dCBhcyBHb2JpIDFLLzJLL2V0YyBkZXZpY2VzLgoKT0sgeWVhaCBJIGRvbid0IHRo
-aW5rIGl0J3MgR29iaS4KCj4gSWYgeW91J3JlIGdvaW5nIHRvIHVzZSBxY2F1eCBvciBvcHRvaW4s
-IHRoZW4geW91IG5lZWQgdG8gdXNlIHNvbWUKPiB2YXJpYW50IG9mIFVTQl9ERVZJQ0VfQU5EX0lO
-VEVSRkFDRV9JTkZPIHRvIGxvY2sgdGhlIHNlcmlhbCBkcml2ZXIgdG8KPiB0aGUgc3BlY2lmaWMg
-VVNCIGludGVyZmFjZXMgdGhhdCBleHBvc2UgdGhlIFRUWXMgYW5kIHRvIGlnbm9yZSB0aGUgUU1J
-Cj4gaW50ZXJmYWNlcyBhbmQgbmV0ZGV2cy4KCk9LIHRoYW5rcyBJJ2xsIHRha2UgYSBsb29rIGFu
-ZCBwb3N0IGEgcGF0Y2ggYWZ0ZXIgc29tZSB0ZXN0aW5nLgoKUmVnYXJkcywKClRvbnkKLS0tClRv
-IHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBs
-aW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJu
-ZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFq
-b3Jkb21vLWluZm8uaHRtbAo=
+TWVudGlvbiB0aGF0IC0+Y29tcGxldGUoKSBzaG91bGQgbmV2ZXIgYmUgY2FsbGVkIGZyb20gd2l0
+aGluCnVzYl9lcF9xdWV1ZSgpLgoKU2lnbmVkLW9mZi1ieTogRmVsaXBlIEJhbGJpIDxmZWxpcGUu
+YmFsYmlAbGludXguaW50ZWwuY29tPgotLS0KIGRyaXZlcnMvdXNiL2dhZGdldC91ZGMvY29yZS5j
+IHwgMyArKysKIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9k
+cml2ZXJzL3VzYi9nYWRnZXQvdWRjL2NvcmUuYyBiL2RyaXZlcnMvdXNiL2dhZGdldC91ZGMvY29y
+ZS5jCmluZGV4IDUwOTg4YjIxYTIxYi4uODQyODE0YmMwZTRmIDEwMDY0NAotLS0gYS9kcml2ZXJz
+L3VzYi9nYWRnZXQvdWRjL2NvcmUuYworKysgYi9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2NvcmUu
+YwpAQCAtMjM4LDYgKzIzOCw5IEBAIEVYUE9SVF9TWU1CT0xfR1BMKHVzYl9lcF9mcmVlX3JlcXVl
+c3QpOwogICogYXJyYW5nZXMgdG8gcG9sbCBvbmNlIHBlciBpbnRlcnZhbCwgYW5kIHRoZSBnYWRn
+ZXQgZHJpdmVyIHVzdWFsbHkgd2lsbAogICogaGF2ZSBxdWV1ZWQgc29tZSBkYXRhIHRvIHRyYW5z
+ZmVyIGF0IHRoYXQgdGltZS4KICAqCisgKiBOb3RlIHRoYXQgQHJlcSdzIC0+Y29tcGxldGUoKSBj
+YWxsYmFjayBtdXN0IG5ldmVyIGJlIGNhbGxlZCBmcm9tCisgKiB3aXRoaW4gdXNiX2VwX3F1ZXVl
+KCkgYXMgdGhhdCBjYW4gY3JlYXRlIGRlYWRsb2NrIHNpdHVhdGlvbnMuCisgKgogICogUmV0dXJu
+cyB6ZXJvLCBvciBhIG5lZ2F0aXZlIGVycm9yIGNvZGUuICBFbmRwb2ludHMgdGhhdCBhcmUgbm90
+IGVuYWJsZWQKICAqIHJlcG9ydCBlcnJvcnM7IGVycm9ycyB3aWxsIGFsc28gYmUKICAqIHJlcG9y
+dGVkIHdoZW4gdGhlIHVzYiBwZXJpcGhlcmFsIGlzIGRpc2Nvbm5lY3RlZC4K
