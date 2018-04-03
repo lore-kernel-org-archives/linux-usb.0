@@ -2,19 +2,21 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usbip: vhci_hcd: Fix usb device and sockfd leaks
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20180403065642.GB1093@kroah.com>
-Date: Tue, 3 Apr 2018 08:56:42 +0200
-To: Shuah Khan <shuahkh@osg.samsung.com>
-Cc: valentina.manea.m@gmail.com, shuah@kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Shuah Khan <shuahkh@osg.samsung.com>
+Message-Id: <2cbcf722-4430-e531-709f-25c0882fce17@osg.samsung.com>
+Date: Tue, 3 Apr 2018 07:54:39 -0600
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: valentina.manea.m@gmail.com, shuah@kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Shuah Khan <shuahkh@osg.samsung.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gTW9uLCBBcHIgMDIsIDIwMTggYXQgMDI6NTI6MzJQTSAtMDYwMCwgU2h1YWggS2hhbiB3cm90
-ZToKPiB2aGNpX2hjZCBmYWlscyB0byBkbyByZXNldCB0byBwdXQgdXNiIGRldmljZSBhbmQgc29j
-a2ZkIGluIHRoZQo+IG1vZHVsZSByZW1vdmUvc3RvcCBwYXRocy4gRml4IHRoZSBsZWFrLgo+IAo+
-IFNpZ25lZC1vZmYtYnk6IFNodWFoIEtoYW4gPHNodWFoa2hAb3NnLnNhbXN1bmcuY29tPgoKU2hv
-dWxkIHRoaXMgYmUgbWFya2VkIGZvciB0aGUgc3RhYmxlIGtlcm5lbHM/Cgp0aGFua3MsCgpncmVn
-IGstaAotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVu
-c3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9t
-b0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2Vy
-bmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
+T24gMDQvMDMvMjAxOCAxMjo1NiBBTSwgR3JlZyBLSCB3cm90ZToKPiBPbiBNb24sIEFwciAwMiwg
+MjAxOCBhdCAwMjo1MjozMlBNIC0wNjAwLCBTaHVhaCBLaGFuIHdyb3RlOgo+PiB2aGNpX2hjZCBm
+YWlscyB0byBkbyByZXNldCB0byBwdXQgdXNiIGRldmljZSBhbmQgc29ja2ZkIGluIHRoZQo+PiBt
+b2R1bGUgcmVtb3ZlL3N0b3AgcGF0aHMuIEZpeCB0aGUgbGVhay4KPj4KPj4gU2lnbmVkLW9mZi1i
+eTogU2h1YWggS2hhbiA8c2h1YWhraEBvc2cuc2Ftc3VuZy5jb20+Cj4gCj4gU2hvdWxkIHRoaXMg
+YmUgbWFya2VkIGZvciB0aGUgc3RhYmxlIGtlcm5lbHM/Cj4gCgpZZXMgcGxlYXNlIG1hcmsgdGhp
+cyBmb3Igc3RhYmxlcy4gSSBmb3Jnb3QgdG8gZG8gdGhhdC4KCnRoYW5rcywKLS0gU2h1YWgKLS0t
+ClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmli
+ZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5r
+ZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcv
+bWFqb3Jkb21vLWluZm8uaHRtbAo=
