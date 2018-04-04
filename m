@@ -1,26 +1,36 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [RFC,03/10] cpufreq: exynos: Remove support for Exynos5440
-From: Chanwoo Choi <cw00.choi@samsung.com>
-Message-Id: <5AE125C2.70105@samsung.com>
-Date: Thu, 26 Apr 2018 10:05:06 +0900
-To: Krzysztof Kozlowski <krzk@kernel.org>, Kukjin Kim <kgene@kernel.org>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Tejun Heo <tj@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Tomasz Figa <tomasz.figa@gmail.com>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, Viresh Kumar <viresh.kumar@linaro.org>, Zhang Rui <rui.zhang@intel.com>, Eduardo Valentin <edubezval@gmail.com>, Russell King <linux@armlinux.org.uk>, Hans de Goede <hdegoede@redhat.com>, Linus Walleij <linus.walleij@linaro.org>, Andi Shyti <andi@etezian.org>, Mark Brown <broonie@kernel.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org, linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org, linux-spi@vger.kernel.org, linux-usb@vger.kernel.org
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>, Jaehoon Chung <jh80.chung@samsung.com>
+Subject: usb: select USB_COMMON for usb role switch config
+From: Arnd Bergmann <arnd@arndb.de>
+Message-Id: <20180404122211.3309577-1-arnd@arndb.de>
+Date: Wed,  4 Apr 2018 14:21:53 +0200
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hans de Goede <hdegoede@redhat.com>, Andy Shevchenko <andy.shevchenko@gmail.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgS3J6eXN6dG9mLAoKT24gMjAxOOuFhCAwNOyblCAyNeydvCAwNTozMiwgS3J6eXN6dG9mIEtv
-emxvd3NraSB3cm90ZToKPiBUaGUgRXh5bm9zNTQ0MCBpcyBub3QgYWN0aXZlbHkgZGV2ZWxvcGVk
-LCB0aGVyZSBhcmUgbm8gZGV2ZWxvcG1lbnQKPiBib2FyZHMgYXZhaWxhYmxlIGFuZCBwcm9iYWJs
-eSB0aGVyZSBhcmUgbm8gcmVhbCBwcm9kdWN0cyB3aXRoIGl0Lgo+IFJlbW92ZSB3aWRlLXRyZWUg
-c3VwcG9ydCBmb3IgRXh5bm9zNTQ0MC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBLcnp5c3p0b2YgS296
-bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+Cj4gLS0tCj4gIC4uLi9iaW5kaW5ncy9jcHVmcmVxL2Nw
-dWZyZXEtZXh5bm9zNTQ0MC50eHQgICAgICAgIHwgIDI4IC0tCj4gIGRyaXZlcnMvY3B1ZnJlcS9L
-Y29uZmlnLmFybSAgICAgICAgICAgICAgICAgICAgICAgIHwgIDE0IC0KPiAgZHJpdmVycy9jcHVm
-cmVxL01ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDEgLQo+ICBkcml2ZXJz
-L2NwdWZyZXEvZXh5bm9zNTQ0MC1jcHVmcmVxLmMgICAgICAgICAgICAgICB8IDQ1MiAtLS0tLS0t
-LS0tLS0tLS0tLS0tLS0KPiAgNCBmaWxlcyBjaGFuZ2VkLCA0OTUgZGVsZXRpb25zKC0pCj4gIGRl
-bGV0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvY3B1ZnJl
-cS9jcHVmcmVxLWV4eW5vczU0NDAudHh0Cj4gIGRlbGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2Nw
-dWZyZXEvZXh5bm9zNTQ0MC1jcHVmcmVxLmMKPiAKClJldmlld2VkLWJ5OiBDaGFud29vIENob2kg
-PGN3MDAuY2hvaUBzYW1zdW5nLmNvbT4KCltzbmlwXQo=
+VGhlIG5ldyBheHAyODggZXh0Y29uIGRyaXZlciBoYXMgbm8gZGVwZW5kZW5jeSBvbiBVU0IgaXRz
+ZWxmIGJ1dApjYWxscyB0aGUgdXNiIHJvbGUgc3dpdGNoIGhlbHBlciBmdW5jdGlvbnMuIFRoaXMg
+Y2F1c2VzIGEgbGluayBlcnJvcgp3aGVuIFVTQl9DT01NT04gaXMgZGlzYWJsZWQsIGFzIHRoYXQg
+c3ViZGlyZWN0b3J5IG5ldmVyIGdldHMgZW50ZXJlZDoKCmRyaXZlcnMvZXh0Y29uL2V4dGNvbi1h
+eHAyODgubzogSW4gZnVuY3Rpb24gYGF4cDI4OF91c2Jfcm9sZV93b3JrJzoKZXh0Y29uLWF4cDI4
+OC5jOigudGV4dCsweDQ3Yik6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYHVzYl9yb2xlX3N3aXRj
+aF9zZXRfcm9sZScKZXh0Y29uLWF4cDI4OC5jOigudGV4dCsweDQ5OCk6IHVuZGVmaW5lZCByZWZl
+cmVuY2UgdG8gYHVzYl9yb2xlX3N3aXRjaF9nZXRfcm9sZScKZHJpdmVycy9leHRjb24vZXh0Y29u
+LWF4cDI4OC5vOiBJbiBmdW5jdGlvbiBgYXhwMjg4X2V4dGNvbl9wcm9iZSc6CmV4dGNvbi1heHAy
+ODguYzooLnRleHQrMHg2NzUpOiB1bmRlZmluZWQgcmVmZXJlbmNlIHRvIGB1c2Jfcm9sZV9zd2l0
+Y2hfZ2V0JwpleHRjb24tYXhwMjg4LmM6KC50ZXh0KzB4NmQxKTogdW5kZWZpbmVkIHJlZmVyZW5j
+ZSB0byBgdXNiX3JvbGVfc3dpdGNoX3B1dCcKZHJpdmVycy9leHRjb24vZXh0Y29uLWF4cDI4OC5v
+OiBJbiBmdW5jdGlvbiBgYXhwMjg4X3B1dF9yb2xlX3N3JzoKZXh0Y29uLWF4cDI4OC5jOigudGV4
+dCsweDFjKTogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byBgdXNiX3JvbGVfc3dpdGNoX3B1dCcKClRo
+ZXJlIGFyZSBtdWx0aXBsZSB3YXlzIG9mIGZpeGluZyB0aGlzLCBJIGNob3NlIHRvICdzZWxlY3Qg
+VVNCX0NPTU1PTicsCnNpbmNlIHRoYXQgaXMgaG93IHdlIHNvbHZlZCB0aGUgc2FtZSBwcm9ibGVt
+IGZvciBvdGhlciBoZWxwZXJzIGxpa2UKVVNCX0xFRF9UUklHIG9yIFBIWSBkcml2ZXJzLgoKRml4
+ZXM6IGQ1NGYwNjNjZGJlNCAoImV4dGNvbjogYXhwMjg4OiBTZXQgVVNCIHJvbGUgd2hlcmUgbmVj
+ZXNzYXJ5IikKU2lnbmVkLW9mZi1ieTogQXJuZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5kZT4KLS0t
+CiBkcml2ZXJzL3VzYi9LY29uZmlnIHwgMSArCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
+KykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9LY29uZmlnIGIvZHJpdmVycy91c2IvS2NvbmZp
+ZwppbmRleCA3NWY3ZmIxNTFmNzEuLjk4N2ZjNWJhNjMyMSAxMDA2NDQKLS0tIGEvZHJpdmVycy91
+c2IvS2NvbmZpZworKysgYi9kcml2ZXJzL3VzYi9LY29uZmlnCkBAIC0yMDcsNSArMjA3LDYgQEAg
+Y29uZmlnIFVTQl9VTFBJX0JVUwogCiBjb25maWcgVVNCX1JPTEVfU1dJVENICiAJdHJpc3RhdGUK
+KwlzZWxlY3QgVVNCX0NPTU1PTgogCiBlbmRpZiAjIFVTQl9TVVBQT1JUCg==
