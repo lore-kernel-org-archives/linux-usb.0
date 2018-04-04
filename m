@@ -1,26 +1,28 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [4.4,068/134] usb: dwc2: Make sure we disconnect the gadget state
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20180403174156.GC32709@kroah.com>
-Date: Tue, 3 Apr 2018 19:41:56 +0200
-To: Ben Hutchings <ben.hutchings@codethink.co.uk>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org, Wei Xu <xuwei5@hisilicon.com>, Guodong Xu <guodong.xu@linaro.org>, Amit Pundir <amit.pundir@linaro.org>, Rob Herring <robh+dt@kernel.org>, John Youn <johnyoun@synopsys.com>, Douglas Anderson <dianders@chromium.org>, Chen Yu <chenyu56@huawei.com>, Felipe Balbi <felipe.balbi@linux.intel.com>, linux-usb@vger.kernel.org, John Stultz <john.stultz@linaro.org>, Sasha Levin <alexander.levin@microsoft.com>
+Subject: [v4] usb: dwc2: dwc2_vbus_supply_init: fix error check
+From: Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Message-Id: <CAAObsKDAGC86EeQCQ5WzCi=VQmKe1Fs_Zhsaqf698d2tg9-fCw@mail.gmail.com>
+Date: Wed, 4 Apr 2018 15:33:13 +0200
+To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
+Cc: open list <linux-kernel@vger.kernel.org>, Felipe Balbi <felipe.balbi@linux.intel.com>, Amelie Delaunay <amelie.delaunay@st.com>, Minas Harutyunyan <hminas@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gU3VuLCBBcHIgMDEsIDIwMTggYXQgMDQ6NDk6NDVQTSArMDEwMCwgQmVuIEh1dGNoaW5ncyB3
-cm90ZToKPiBPbiBNb24sIDIwMTgtMDMtMTkgYXQgMTk6MDUgKzAxMDAsIEdyZWcgS3JvYWgtSGFy
-dG1hbiB3cm90ZToKPiA+IDQuNC1zdGFibGUgcmV2aWV3IHBhdGNoLsKgwqBJZiBhbnlvbmUgaGFz
-IGFueSBvYmplY3Rpb25zLCBwbGVhc2UgbGV0IG1lIGtub3cuCj4gPiAKPiA+IC0tLS0tLS0tLS0t
-LS0tLS0tLQo+ID4gCj4gPiBGcm9tOiBKb2huIFN0dWx0eiA8am9obi5zdHVsdHpAbGluYXJvLm9y
-Zz4KPiA+IAo+ID4gCj4gPiBbIFVwc3RyZWFtIGNvbW1pdCBkYWQzZjc5M2YyMGZiYjVjMGMzNDJm
-MGY1YTBiZGY2OWE0ZDc2MDg5IF0KPiAKPiBNYXliZSB3ZSBzaG91bGQgYWxzbyBoYXZlOgo+IAo+
-IGNvbW1pdCBkMjQ3MWQ0YTI0ZGZiZmY1ZTQ2M2QzODJlMmM2ZmVjN2Q3ZTI1YTA5Cj4gQXV0aG9y
-OiBKb2huIFN0dWx0eiA8am9obi5zdHVsdHpAbGluYXJvLm9yZz4KPiBEYXRlOsKgwqDCoE1vbiBP
-Y3QgMjMgMTQ6MzI6NDggMjAxNyAtMDcwMAo+IAo+IMKgwqDCoMKgdXNiOiBkd2MyOiBJbXByb3Zl
-IGdhZGdldCBzdGF0ZSBkaXNjb25uZWN0aW9uIGhhbmRsaW5nCgpHb29kIGlkZWEsIG5vdyBxdWV1
-ZWQgdXAuCgpncmVnIGstaAotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQg
-dGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdl
-IHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0
-cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
+Q291bGQgdGhpcyBwYXRjaCBiZSBwaWNrZWQgdXAsIHBsZWFzZT8KClRoYW5rcywKClRvbWV1CgpP
+biAyNiBNYXJjaCAyMDE4IGF0IDEzOjUxLCBIZWlrbyBTdMO8Ym5lciA8aGVpa29Ac250ZWNoLmRl
+PiB3cm90ZToKPiBBbSBNb250YWcsIDI2LiBNw6RyeiAyMDE4LCAxMTowMDowMSBDRVNUIHNjaHJp
+ZWIgVG9tZXUgVml6b3NvOgo+PiBkZXZtX3JlZ3VsYXRvcl9nZXRfb3B0aW9uYWwgcmV0dXJucyAt
+RU5PREVWIGlmIHRoZSByZWd1bGF0b3IgaXNuJ3QKPj4gdGhlcmUsIHNvIGlmIHRoYXQncyB0aGUg
+Y2FzZSB3ZSBoYXZlIHRvIG1ha2Ugc3VyZSBub3QgdG8gbGVhdmUgLUVOT0RFVgo+PiBpbiB0aGUg
+cmVndWxhdG9yIHBvaW50ZXIuCj4+Cj4+IEFsc28sIG1ha2Ugc3VyZSB3ZSByZXR1cm4gMCBpbiB0
+aGF0IGNhc2UsIGJ1dCBjb3JyZWN0bHkgcHJvcGFnYXRlIGFueQo+PiBvdGhlciBlcnJvcnMuIEFs
+c28gcHJvcGFnYXRlIHRoZSBlcnJvciBmcm9tIF9kd2MyX2hjZF9zdGFydC4KPj4KPj4gRml4ZXM6
+IDUzMWVmNWViZWE5NiAoInVzYjogZHdjMjogYWRkIHN1cHBvcnQgZm9yIGhvc3QgbW9kZSBleHRl
+cm5hbCB2YnVzCj4+IHN1cHBseSIpIENjOiBBbWVsaWUgRGVsYXVuYXkgPGFtZWxpZS5kZWxhdW5h
+eUBzdC5jb20+Cj4+IFNpZ25lZC1vZmYtYnk6IFRvbWV1IFZpem9zbyA8dG9tZXUudml6b3NvQGNv
+bGxhYm9yYS5jb20+Cj4KPiBSZXZpZXdlZC1ieTogSGVpa28gU3R1ZWJuZXIgPGhlaWtvQHNudGVj
+aC5kZT4KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1
+bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRv
+bW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtl
+cm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
