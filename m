@@ -2,32 +2,20 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usbip: vhc_hcd: prevent module being removed while device are attached
-From: Sasha Levin <Alexander.Levin@microsoft.com>
-Message-Id: <20180405170910.GO7561@sasha-vm>
-Date: Thu, 5 Apr 2018 17:09:12 +0000
-To: Shuah Khan <shuahkh@osg.samsung.com>
-Cc: "valentina.manea.m@gmail.com" <valentina.manea.m@gmail.com>, "shuah@kernel.org" <shuah@kernel.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "stable@vger.kernel.org" <stable@vger.kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Greg KH <greg@kroah.com>
+Message-Id: <20180405191102.GA19263@kroah.com>
+Date: Thu, 5 Apr 2018 21:11:02 +0200
+To: Sasha Levin <Alexander.Levin@microsoft.com>
+Cc: Shuah Khan <shuahkh@osg.samsung.com>, "valentina.manea.m@gmail.com" <valentina.manea.m@gmail.com>, "shuah@kernel.org" <shuah@kernel.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "stable@vger.kernel.org" <stable@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCBBcHIgMDUsIDIwMTggYXQgMTA6NTQ6NTlBTSAtMDYwMCwgU2h1YWggS2hhbiB3cm90
-ZToKPk9uIDA0LzA1LzIwMTggMTA6NDIgQU0sIFNhc2hhIExldmluIHdyb3RlOgo+PiBIaS4KPj4K
-Pj4gW1RoaXMgaXMgYW4gYXV0b21hdGVkIGVtYWlsXQo+Pgo+PiBUaGlzIGNvbW1pdCBoYXMgYmVl
-biBwcm9jZXNzZWQgYnkgdGhlIC1zdGFibGUgaGVscGVyIGJvdCBhbmQgZGV0ZXJtaW5lZAo+PiB0
-byBiZSBhIGhpZ2ggcHJvYmFiaWxpdHkgY2FuZGlkYXRlIGZvciAtc3RhYmxlIHRyZWVzLiAoc2Nv
-cmU6IDEzLjE4NDYpCj4+Cj4+IFRoZSBib3QgaGFzIHRlc3RlZCB0aGUgZm9sbG93aW5nIHRyZWVz
-OiB2NC4xNS4xNSwgdjQuMTQuMzIsIHY0LjkuOTIsIHY0LjQuMTI2LAo+Pgo+PiB2NC4xNS4xNTog
-QnVpbGQgT0shCj4+IHY0LjE0LjMyOiBCdWlsZCBPSyEKPj4gdjQuOS45MjogRmFpbGVkIHRvIGFw
-cGx5ISBQb3NzaWJsZSBkZXBlbmRlbmNpZXM6Cj4+ICAgICAzOTIwYWQ0OTUxZTIgKCJ1c2JpcDog
-dmhjX2hjZDogcHJldmVudCBtb2R1bGUgYmVpbmcgcmVtb3ZlZCB3aGlsZSBkZXZpY2UgYXJlIGF0
-dGFjaGVkIj4KPj4gdjQuNC4xMjY6IEZhaWxlZCB0byBhcHBseSEgUG9zc2libGUgZGVwZW5kZW5j
-aWVzOgo+PiAgICAgMDc3NWE5Y2JjNjk0ICgidXNiaXA6IHZoY2kgZXh0ZW5zaW9uOiBtb2RpZmlj
-YXRpb25zIHRvIHZoY2kgZHJpdmVyIikKPj4gICAgIDM5MjBhZDQ5NTFlMiAoInVzYmlwOiB2aGNf
-aGNkOiBwcmV2ZW50IG1vZHVsZSBiZWluZyByZW1vdmVkIHdoaWxlIGRldmljZSBhcmUgYXR0YWNo
-ZWQiKQo+Cj5UaGlzIHBhdGNoIHdpbGwgbm90IGdvIGludG8gTGludXMncyB0cmVlLiBQbGVhc2Ug
-ZG9uJ3QgcHVsbCBpdCBpbnRvIHN0YWJsZXMuCgpDb21taXRzIGluZGVlZCB3b24ndCBiZSBwaWNr
-ZWQgdXAgdW5sZXNzIHRoZXkgbWFrZSBpdCB0byBMaW51cycgdHJlZQoocGVyIHRoZSAtc3RhYmxl
-IHJ1bGVzKS4gSSdsbCBjbGFyaWZ5IHRoYXQgaW4gZnV0dXJlIG1haWxzLCB0aGFuayB5b3UhLS0K
-VG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJl
-IGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtl
-cm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9t
-YWpvcmRvbW8taW5mby5odG1sCg==
+T24gVGh1LCBBcHIgMDUsIDIwMTggYXQgMDQ6NDI6NDZQTSArMDAwMCwgU2FzaGEgTGV2aW4gd3Jv
+dGU6Cj4gSGkuCj4gCj4gW1RoaXMgaXMgYW4gYXV0b21hdGVkIGVtYWlsXQoKV2h5IGFyZSB5b3Ug
+cnVubmluZyB0aGlzIGFnYWluc3QgcGF0Y2hlcyB0aGF0IGFyZSBub3QgeWV0IGluIExpbnVzJ3MK
+dHJlZT8gIFRoYXQgZmVlbHMgb2RkLiAgT25seSBhYm91dCAxLzMgb2YgdGhlIHBhdGNoZXMgcG9z
+dGVkIGVuZCB1cApiZWluZyBtZXJnZWQgKGF0IGJlc3QpLCBzbyBkb24ndCBkbyBleHRyYSB3b3Jr
+IGJ5IHJ1bm5pbmcgdGhpcyBvbgpwYXRjaGVzIHRoYXQgbWlnaHQgbm90IGV2ZW4gYmUgbWVyZ2Vk
+IGF0IGFsbC4KCnRoYW5rcywKCmdyZWcgay1oCi0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMg
+bGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBv
+ZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBp
+bmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
