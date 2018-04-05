@@ -2,23 +2,25 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usbip: vhci_hcd: Fix usb device and sockfd leaks
-From: Sasha Levin <Alexander.Levin@microsoft.com>
-Message-Id: <DM5PR2101MB10329493C9B1602413846579FBBB0@DM5PR2101MB1032.namprd21.prod.outlook.com>
-Date: Thu, 5 Apr 2018 16:42:44 +0000
-To: Sasha Levin <Alexander.Levin@microsoft.com>, Shuah Khan <shuahkh@osg.samsung.com>, "valentina.manea.m@gmail.com" <valentina.manea.m@gmail.com>, "shuah@kernel.org" <shuah@kernel.org>
-Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "stable@vger.kernel.org" <stable@vger.kernel.org>
+From: Shuah Khan <shuahkh@osg.samsung.com>
+Message-Id: <8ecab0f4-44e6-2e06-9074-f32fcc20bac9@osg.samsung.com>
+Date: Thu, 5 Apr 2018 10:50:40 -0600
+To: Sasha Levin <Alexander.Levin@microsoft.com>, "valentina.manea.m@gmail.com" <valentina.manea.m@gmail.com>, "shuah@kernel.org" <shuah@kernel.org>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "stable@vger.kernel.org" <stable@vger.kernel.org>, Shuah Khan <shuahkh@osg.samsung.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkuCgpbVGhpcyBpcyBhbiBhdXRvbWF0ZWQgZW1haWxdCgpUaGlzIGNvbW1pdCBoYXMgYmVlbiBw
-cm9jZXNzZWQgYnkgdGhlIC1zdGFibGUgaGVscGVyIGJvdCBhbmQgZGV0ZXJtaW5lZAp0byBiZSBh
-IGhpZ2ggcHJvYmFiaWxpdHkgY2FuZGlkYXRlIGZvciAtc3RhYmxlIHRyZWVzLiAoc2NvcmU6IDEw
-LjYxMDMpCgpUaGUgYm90IGhhcyB0ZXN0ZWQgdGhlIGZvbGxvd2luZyB0cmVlczogdjQuMTUuMTUs
-IHY0LjE0LjMyLCB2NC45LjkyLCB2NC40LjEyNiwgCgp2NC4xNS4xNTogQnVpbGQgT0shCnY0LjE0
-LjMyOiBCdWlsZCBPSyEKdjQuOS45MjogQnVpbGQgT0shCnY0LjQuMTI2OiBGYWlsZWQgdG8gYXBw
-bHkhIFBvc3NpYmxlIGRlcGVuZGVuY2llczoKICAgIGYwZjFiZWI4ZjE1NSAoInVzYmlwOiB2aGNp
-X2hjZDogRml4IHVzYiBkZXZpY2UgYW5kIHNvY2tmZCBsZWFrcyIpCgoKUGxlYXNlIGxldCB1cyBr
-bm93IGlmIHlvdSdkIGxpa2UgdG8gaGF2ZSB0aGlzIHBhdGNoIGluY2x1ZGVkIGluIGEgc3RhYmxl
-IHRyZWUuCi0tLQpUaGFua3MuClNhc2hhLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6
-IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBt
-ZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBh
-dCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
+T24gMDQvMDUvMjAxOCAxMDo0MiBBTSwgU2FzaGEgTGV2aW4gd3JvdGU6Cj4gSGkuCj4gCj4gW1Ro
+aXMgaXMgYW4gYXV0b21hdGVkIGVtYWlsXQo+IAo+IFRoaXMgY29tbWl0IGhhcyBiZWVuIHByb2Nl
+c3NlZCBieSB0aGUgLXN0YWJsZSBoZWxwZXIgYm90IGFuZCBkZXRlcm1pbmVkCj4gdG8gYmUgYSBo
+aWdoIHByb2JhYmlsaXR5IGNhbmRpZGF0ZSBmb3IgLXN0YWJsZSB0cmVlcy4gKHNjb3JlOiAxMC42
+MTAzKQo+IAo+IFRoZSBib3QgaGFzIHRlc3RlZCB0aGUgZm9sbG93aW5nIHRyZWVzOiB2NC4xNS4x
+NSwgdjQuMTQuMzIsIHY0LjkuOTIsIHY0LjQuMTI2LCAKPiAKPiB2NC4xNS4xNTogQnVpbGQgT0sh
+Cj4gdjQuMTQuMzI6IEJ1aWxkIE9LIQo+IHY0LjkuOTI6IEJ1aWxkIE9LIQo+IHY0LjQuMTI2OiBG
+YWlsZWQgdG8gYXBwbHkhIFBvc3NpYmxlIGRlcGVuZGVuY2llczoKPiAgICAgZjBmMWJlYjhmMTU1
+ICgidXNiaXA6IHZoY2lfaGNkOiBGaXggdXNiIGRldmljZSBhbmQgc29ja2ZkIGxlYWtzIikKPiAK
+PiAKClRoYW5rcy4gSSB3aWxsIHNlbmQgcGF0Y2ggZm9yIHY0LjQuMTI2IHRoYXQgeW91IGNhbiBh
+cHBseSBmb3IgdGhpcyBmaXguCgp0aGFua3MsCi0tIFNodWFoCi0tLQpUbyB1bnN1YnNjcmliZSBm
+cm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0
+aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1h
+am9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0
+bWwK
