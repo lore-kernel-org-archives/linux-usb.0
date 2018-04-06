@@ -1,47 +1,29 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [RFC,06/10] thermal: samsung: Remove support for Exynos5440
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Message-Id: <CAJKOXPc4oDAFThxVszOrCr+yEaK85W3AeYTcLFyGm0-6TLyZyw@mail.gmail.com>
-Date: Thu, 26 Apr 2018 09:59:15 +0200
-To: Chanwoo Choi <cw00.choi@samsung.com>
-Cc: Kukjin Kim <kgene@kernel.org>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Tejun Heo <tj@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Tomasz Figa <tomasz.figa@gmail.com>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, Viresh Kumar <viresh.kumar@linaro.org>, Zhang Rui <rui.zhang@intel.com>, Eduardo Valentin <edubezval@gmail.com>, Russell King <linux@armlinux.org.uk>, Hans de Goede <hdegoede@redhat.com>, Linus Walleij <linus.walleij@linaro.org>, Andi Shyti <andi@etezian.org>, Mark Brown <broonie@kernel.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-arm-kernel@lists.infradead.org, "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org, linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org, linux-spi@vger.kernel.org, linux-usb@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>, Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>, Jaehoon Chung <jh80.chung@samsung.com>
+Subject: Documentation: typec.rst: Mark ascii art as a comment
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Message-Id: <20180406082229.55375-1-heikki.krogerus@linux.intel.com>
+Date: Fri,  6 Apr 2018 11:22:29 +0300
+To: Greg KH <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: Masanari Iida <standby24x7@gmail.com>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCBBcHIgMjYsIDIwMTggYXQgMzo0MSBBTSwgQ2hhbndvbyBDaG9pIDxjdzAwLmNob2lA
-c2Ftc3VuZy5jb20+IHdyb3RlOgo+IEhpIEtyenlzenRvZiwKPgo+IE9uIDIwMTjrhYQgMDTsm5Qg
-MjXsnbwgMDU6MzIsIEtyenlzenRvZiBLb3psb3dza2kgd3JvdGU6Cj4+IFRoZSBFeHlub3M1NDQw
-IGlzIG5vdCBhY3RpdmVseSBkZXZlbG9wZWQsIHRoZXJlIGFyZSBubyBkZXZlbG9wbWVudAo+PiBi
-b2FyZHMgYXZhaWxhYmxlIGFuZCBwcm9iYWJseSB0aGVyZSBhcmUgbm8gcmVhbCBwcm9kdWN0cyB3
-aXRoIGl0Lgo+PiBSZW1vdmUgd2lkZS10cmVlIHN1cHBvcnQgZm9yIEV4eW5vczU0NDAuCj4+Cj4+
-IFNpZ25lZC1vZmYtYnk6IEtyenlzenRvZiBLb3psb3dza2kgPGtyemtAa2VybmVsLm9yZz4KPj4g
-LS0tCj4+ICAuLi4vZGV2aWNldHJlZS9iaW5kaW5ncy90aGVybWFsL2V4eW5vcy10aGVybWFsLnR4
-dCB8ICAxNCArLQo+PiAgZHJpdmVycy90aGVybWFsL3NhbXN1bmcvZXh5bm9zX3RtdS5jICAgICAg
-ICAgICAgICAgfCAxNTUgKy0tLS0tLS0tLS0tLS0tLS0tLS0tCj4+ICBkcml2ZXJzL3RoZXJtYWwv
-c2Ftc3VuZy9leHlub3NfdG11LmggICAgICAgICAgICAgICB8ICAgMSAtCj4+ICAzIGZpbGVzIGNo
-YW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMTY2IGRlbGV0aW9ucygtKQo+Cj4KPiBBZnRlciBhcHBs
-aWVkIHRoaXMgcGF0Y2gsIEkgdGVzdGVkIHRoZSBidWlsZCBhbmQgZm91bmQgb3V0Cj4gJ2V4eW5v
-czU0NDAnIGtleXdvcmQuIFRoZXJlIGlzIG9uZSBjb21tZW50IGluY2x1ZGluZyAnZXh5bm9zNTQ0
-MCcgYXMgZm9sbG93aW5nOgo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdGhlcm1hbC9zYW1zdW5n
-L2V4eW5vc190bXUuYyBiL2RyaXZlcnMvdGhlcm1hbC9zYW1zdW5nL2V4eW5vc190bXUuYwo+IGlu
-ZGV4IGY5MmY0NzBiY2UyMS4uY2I1MjUyMjhjZmUxIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvdGhl
-cm1hbC9zYW1zdW5nL2V4eW5vc190bXUuYwo+ICsrKyBiL2RyaXZlcnMvdGhlcm1hbC9zYW1zdW5n
-L2V4eW5vc190bXUuYwo+IEBAIC05NDMsNyArOTQzLDcgQEAgc3RhdGljIHZvaWQgZXh5bm9zNDIx
-MF90bXVfY2xlYXJfaXJxcyhzdHJ1Y3QgZXh5bm9zX3RtdV9kYXRhICpkYXRhKQo+ICAgICAgICAg
-ICogRXh5bm9zMzI1MCwgRXh5bm9zNDQxMiwgRXh5bm9zNTI1MCBhbmQgRXh5bm9zNTI2MCBpbmNv
-cnJlY3RseQo+ICAgICAgICAgICogc3RhdGVzIHRoYXQgSU5UQ0xFQVIgcmVnaXN0ZXIgaGFzIGEg
-ZGlmZmVyZW50IHBsYWNpbmcgb2YgYml0cwo+ICAgICAgICAgICogcmVzcG9uc2libGUgZm9yIEZB
-TEwgSVJRcyB0aGFuIElOVFNUQVQgcmVnaXN0ZXIuICBFeHlub3M1NDIwCj4gLSAgICAgICAgKiBh
-bmQgRXh5bm9zNTQ0MCBkb2N1bWVudGF0aW9uIGlzIGNvcnJlY3QgKEV4eW5vczQyMTAgZG9lc24n
-dAo+ICsgICAgICAgICogZG9jdW1lbnRhdGlvbiBpcyBjb3JyZWN0IChFeHlub3M0MjEwIGRvZXNu
-J3QKPiAgICAgICAgICAqIHN1cHBvcnQgRkFMTCBJUlFzIGF0IGFsbCkuCj4gICAgICAgICAgKi8K
-PiAgICAgICAgIHdyaXRlbCh2YWxfaXJxLCBkYXRhLT5iYXNlICsgdG11X2ludGNsZWFyKTsKPgo+
-IEFmdGVyIHJlbW92aW5nIGl0LCBsb29rcyBnb29kIHRvIG1lLgo+IFJldmlld2VkLWJ5OiBDaGFu
-d29vIENob2kgPGN3MDAuY2hvaUBzYW1zdW5nLmNvbT4KClRoYW5rcywgSSBsZWZ0IHRoaXMgY29t
-bWVudCBpbnRlbnRpb25hbGx5IGFzIGl0IGhhcyBzb21lIG1lYW5pbmcgZXZlbgp3aGVuIEV4eW5v
-czU0NDAgaXMgbm90IHN1cHBvcnRlZC4KCkJlc3QgcmVnYXJkcywKS3J6eXN6dG9mCi0tLQpUbyB1
-bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGlu
-dXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVs
-Lm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9y
-ZG9tby1pbmZvLmh0bWwK
+VG8gcHJldmVudCBwcm9jZXNzaW5nIG9mIGFzY2lpIGFydCBhcyByZVN0cnVjdHVyZWRUZXh0CmVs
+ZW1lbnRzLCBtYXJraW5nIGl0IGFzIGEgY29tbWVudC4KClJlcG9ydGVkLWJ5OiBNYXNhbmFyaSBJ
+aWRhIDxzdGFuZGJ5MjR4N0BnbWFpbC5jb20+CkZpeGVzOiBiZGVjYjMzYWYzNGYgKCJ1c2I6IHR5
+cGVjOiBBUEkgZm9yIGNvbnRyb2xsaW5nIFVTQiBUeXBlLUMgTXVsdGlwbGV4ZXJzIikKU2lnbmVk
+LW9mZi1ieTogSGVpa2tpIEtyb2dlcnVzIDxoZWlra2kua3JvZ2VydXNAbGludXguaW50ZWwuY29t
+PgotLS0KIERvY3VtZW50YXRpb24vZHJpdmVyLWFwaS91c2IvdHlwZWMucnN0IHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEv
+RG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL3VzYi90eXBlYy5yc3QgYi9Eb2N1bWVudGF0aW9uL2Ry
+aXZlci1hcGkvdXNiL3R5cGVjLnJzdAppbmRleCBmZWIzMTk0NjQ5MGIuLjk3MmMxMWJmNDE0MSAx
+MDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL3VzYi90eXBlYy5yc3QKKysrIGIv
+RG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL3VzYi90eXBlYy5yc3QKQEAgLTIxMiw3ICsyMTIsNyBA
+QCBwb3J0IGRyaXZlcnMgY2FuIHVzZSBVU0IgUm9sZSBDbGFzcyBBUEkgd2l0aCB0aG9zZS4KIAog
+SWxsdXN0cmF0aW9uIG9mIHRoZSBtdXhlcyBiZWhpbmQgYSBjb25uZWN0b3IgdGhhdCBzdXBwb3J0
+cyBhbiBhbHRlcm5hdGUgbW9kZToKIAotICAgICAgICAgICAgICAgICAgICAgLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tCisuLiAgICAgICAgICAgICAgICAgICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0KICAgICAgICAgICAgICAgICAgICAgIHwgICAgICAgQ29ubmVjdG9yICAgICAgfAogICAgICAg
+ICAgICAgICAgICAgICAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgfCAgICAgICAgIHwK
