@@ -1,24 +1,37 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [RFC,07/10] pinctrl: samsung: Remove support for Exynos5440
-From: Chanwoo Choi <cw00.choi@samsung.com>
-Message-Id: <5AE12829.4090607@samsung.com>
-Date: Thu, 26 Apr 2018 10:15:21 +0900
-To: Krzysztof Kozlowski <krzk@kernel.org>, Kukjin Kim <kgene@kernel.org>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Tejun Heo <tj@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Tomasz Figa <tomasz.figa@gmail.com>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, Viresh Kumar <viresh.kumar@linaro.org>, Zhang Rui <rui.zhang@intel.com>, Eduardo Valentin <edubezval@gmail.com>, Russell King <linux@armlinux.org.uk>, Hans de Goede <hdegoede@redhat.com>, Linus Walleij <linus.walleij@linaro.org>, Andi Shyti <andi@etezian.org>, Mark Brown <broonie@kernel.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org, linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org, linux-spi@vger.kernel.org, linux-usb@vger.kernel.org
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>, Jaehoon Chung <jh80.chung@samsung.com>
+Subject: make xmldocs failed with error after 4.17 merge period
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Message-Id: <20180406075109.GA21589@kuha.fi.intel.com>
+Date: Fri, 6 Apr 2018 10:51:09 +0300
+To: Masanari Iida <standby24x7@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Greg KH <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgpPbiAyMDE464WEIDA07JuUIDI17J28IDA1OjMyLCBLcnp5c3p0b2YgS296bG93c2tpIHdy
-b3RlOgo+IFRoZSBFeHlub3M1NDQwIGlzIG5vdCBhY3RpdmVseSBkZXZlbG9wZWQsIHRoZXJlIGFy
-ZSBubyBkZXZlbG9wbWVudAo+IGJvYXJkcyBhdmFpbGFibGUgYW5kIHByb2JhYmx5IHRoZXJlIGFy
-ZSBubyByZWFsIHByb2R1Y3RzIHdpdGggaXQuCj4gUmVtb3ZlIHdpZGUtdHJlZSBzdXBwb3J0IGZv
-ciBFeHlub3M1NDQwLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEtyenlzenRvZiBLb3psb3dza2kgPGty
-emtAa2VybmVsLm9yZz4KPiAtLS0KPiAgZHJpdmVycy9waW5jdHJsL3NhbXN1bmcvS2NvbmZpZyAg
-ICAgICAgICAgICAgfCAgIDEwICstCj4gIGRyaXZlcnMvcGluY3RybC9zYW1zdW5nL01ha2VmaWxl
-ICAgICAgICAgICAgIHwgICAgMSAtCj4gIGRyaXZlcnMvcGluY3RybC9zYW1zdW5nL3BpbmN0cmwt
-ZXh5bm9zNTQ0MC5jIHwgMTAwNSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ICAzIGZpbGVz
-IGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMTAxNCBkZWxldGlvbnMoLSkKPiAgZGVsZXRlIG1v
-ZGUgMTAwNjQ0IGRyaXZlcnMvcGluY3RybC9zYW1zdW5nL3BpbmN0cmwtZXh5bm9zNTQ0MC5jCgpM
-b29rcyBnb29kIHRvIG1lLgpSZXZpZXdlZC1ieTogQ2hhbndvbyBDaG9pIDxjdzAwLmNob2lAc2Ft
-c3VuZy5jb20+Cg==
+T24gRnJpLCBBcHIgMDYsIDIwMTggYXQgMTI6Mzg6NDJQTSArMDkwMCwgTWFzYW5hcmkgSWlkYSB3
+cm90ZToKPiBBZnRlciBtZXJnZSBmb2xsb3dpbmcgcGF0Y2ggZHVyaW5nIDQuMTcgbWVyZ2VyIHBl
+cmlvZCwKPiBtYWtlIHhtbGRvY3Mgc3RhcnQgdG8gZmFpbCB3aXRoIGVycm9yLgo+IAo+ICBbYmRl
+Y2IzM2FmMzRmNzljYmZiYjY1NjY2MTIxMGY3N2M4YjhiNWI1Zl0KPiB1c2I6IHR5cGVjOiBBUEkg
+Zm9yIGNvbnRyb2xsaW5nIFVTQiBUeXBlLUMgTXVsdGlwbGV4ZXJzCj4gCj4gRXJyb3IgbWVzc2Fn
+ZXMuCj4gcmVTVCBtYXJrdXAgZXJyb3I6Cj4gL2hvbWUvaWlkYS9SZXBvL2xpbnV4LTIuNi9Eb2N1
+bWVudGF0aW9uL2RyaXZlci1hcGkvdXNiL3R5cGVjLnJzdDoyMTU6Cj4gKFNFVkVSRS80KSBVbmV4
+cGVjdGVkIHNlY3Rpb24gdGl0bGUgb3IgdHJhbnNpdGlvbi4KPiAKPiAtLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0KPiBEb2N1bWVudGF0aW9uL01ha2VmaWxlOjkzOiByZWNpcGUgZm9yIHRhcmdldCAn
+eG1sZG9jcycgZmFpbGVkCj4gbWFrZVsxXTogKioqIFt4bWxkb2NzXSBFcnJvciAxCj4gTWFrZWZp
+bGU6MTUyNzogcmVjaXBlIGZvciB0YXJnZXQgJ3htbGRvY3MnIGZhaWxlZAo+IG1ha2U6ICoqKiBb
+eG1sZG9jc10gRXJyb3IgMgo+IAo+ICQKPiAKPiBBbiBhc2NpaSBncmFwaGljIGluIHR5cGVjLnJz
+dCBjYXVzZSB0aGUgZXJyb3IuCgpUaGFua3MgZm9yIHRoZSByZXBvcnQuIEknbSBnb2luZyB0byBw
+cm9wb3NlIHRoYXQgd2UgZml4IHRoaXMgYnkKbWFya2luZyB0aGUgYXNjaWkgYXJ0IGFzIGNvbW1l
+bnQ6CgoKSSBob3BlIHRoYXQgd29ya3MuCgoKQnIsCgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlv
+bi9kcml2ZXItYXBpL3VzYi90eXBlYy5yc3QgYi9Eb2N1bWVudGF0aW9uL2RyaXZlci1hcGkvdXNi
+L3R5cGVjLnJzdAppbmRleCBmZWIzMTk0NjQ5MGIuLjk3MmMxMWJmNDE0MSAxMDA2NDQKLS0tIGEv
+RG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL3VzYi90eXBlYy5yc3QKKysrIGIvRG9jdW1lbnRhdGlv
+bi9kcml2ZXItYXBpL3VzYi90eXBlYy5yc3QKQEAgLTIxMiw3ICsyMTIsNyBAQCBwb3J0IGRyaXZl
+cnMgY2FuIHVzZSBVU0IgUm9sZSBDbGFzcyBBUEkgd2l0aCB0aG9zZS4KCiBJbGx1c3RyYXRpb24g
+b2YgdGhlIG11eGVzIGJlaGluZCBhIGNvbm5lY3RvciB0aGF0IHN1cHBvcnRzIGFuIGFsdGVybmF0
+ZSBtb2RlOgoKLSAgICAgICAgICAgICAgICAgICAgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQor
+Li4gICAgICAgICAgICAgICAgICAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCiAgICAgICAgICAg
+ICAgICAgICAgICB8ICAgICAgIENvbm5lY3RvciAgICAgIHwKICAgICAgICAgICAgICAgICAgICAg
+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQogICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwg
+ICAgICAgICB8Cg==
