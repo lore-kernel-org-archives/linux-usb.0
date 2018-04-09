@@ -1,33 +1,46 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3,06/20] fpga: Remove depends on HAS_DMA in case of platform dependency
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Message-Id: <1523987360-18760-7-git-send-email-geert@linux-m68k.org>
-Date: Tue, 17 Apr 2018 19:49:06 +0200
-To: Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Tejun Heo <tj@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller" <davem@davemloft.net>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Stefan Richter <stefanr@s5r6.in-berlin.de>, Alan Tull <atull@kernel.org>, Moritz Fischer <mdf@kernel.org>, Wolfram Sang <wsa@the-dreams.de>, Jonathan Cameron <jic23@kernel.org>, Joerg Roedel <joro@8bytes.org>, Matias Bjorling <mb@lightnvm.io>, Jassi Brar <jassisinghbrar@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, David Woodhouse <dwmw2@infradead.org>, Brian Norris <computersforpeace@gmail.com>, Marek Vasut <marek.vasut@gmail.com>, Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>, Boris Brezillon <boris.brezillon@free-electrons.com>, Richard Weinberger <richard@nod.at>, Kalle Valo <kvalo@codeaurora.org>, Ohad Ben-Cohen <ohad@wizery.com>, Bjorn Andersson <bjorn.andersson@linaro.org>, Eric Anholt <eric@anholt.net>, Stefan Wahren <stefan.wahren@i2se.com>
-Cc: iommu@lists.linux-foundation.org, linux-usb@vger.kernel.org, alsa-devel@alsa-project.org, linux-ide@vger.kernel.org, linux-crypto@vger.kernel.org, linux-fbdev@vger.kernel.org, linux1394-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org, linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, linux-block@vger.kernel.org, linux-media@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, netdev@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-serial@vger.kernel.org, linux-spi@vger.kernel.org, devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [RFT/PATCH,12/38] usb: dwc3: gadget: always use frame number from XferNotReady
+From: Felipe Balbi <felipe.balbi@linux.intel.com>
+Message-Id: <20180409112652.25755-13-felipe.balbi@linux.intel.com>
+Date: Mon,  9 Apr 2018 14:26:26 +0300
+To: Linux USB <linux-usb@vger.kernel.org>
+Cc: Felipe Balbi <felipe.balbi@linux.intel.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-UmVtb3ZlIGRlcGVuZGVuY2llcyBvbiBIQVNfRE1BIHdoZXJlIGEgS2NvbmZpZyBzeW1ib2wgZGVw
-ZW5kcyBvbiBhbm90aGVyCnN5bWJvbCB0aGF0IGltcGxpZXMgSEFTX0RNQSwgYW5kLCBvcHRpb25h
-bGx5LCBvbiAifHwgQ09NUElMRV9URVNUIi4KSW4gbW9zdCBjYXNlcyB0aGlzIG90aGVyIHN5bWJv
-bCBpcyBhbiBhcmNoaXRlY3R1cmUgb3IgcGxhdGZvcm0gc3BlY2lmaWMKc3ltYm9sLCBvciBQQ0ku
-CgpHZW5lcmljIHN5bWJvbHMgYW5kIGRyaXZlcnMgd2l0aG91dCBwbGF0Zm9ybSBkZXBlbmRlbmNp
-ZXMga2VlcCB0aGVpcgpkZXBlbmRlbmNpZXMgb24gSEFTX0RNQSwgdG8gcHJldmVudCBjb21waWxp
-bmcgc3Vic3lzdGVtcyBvciBkcml2ZXJzIHRoYXQKY2Fubm90IHdvcmsgYW55d2F5LgoKVGhpcyBz
-aW1wbGlmaWVzIHRoZSBkZXBlbmRlbmNpZXMsIGFuZCBhbGxvd3MgdG8gaW1wcm92ZSBjb21waWxl
-LXRlc3RpbmcuCgpTaWduZWQtb2ZmLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4
-LW02OGsub3JnPgpSZXZpZXdlZC1ieTogTWFyayBCcm93biA8YnJvb25pZUBrZXJuZWwub3JnPgpB
-Y2tlZC1ieTogUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4KQWNrZWQtYnk6IEFs
-YW4gVHVsbCA8YXR1bGxAa2VybmVsLm9yZz4KLS0tCnYzOgogIC0gQWRkIEFja2VkLWJ5LAogIC0g
-UmViYXNlIHRvIHY0LjE3LXJjMSwKCnYyOgogIC0gQWRkIFJldmlld2VkLWJ5LCBBY2tlZC1ieSwK
-ICAtIERyb3AgUkZDIHN0YXRlLAogIC0gU3BsaXQgcGVyIHN1YnN5c3RlbS4KLS0tCiBkcml2ZXJz
-L2ZwZ2EvS2NvbmZpZyB8IDEgLQogMSBmaWxlIGNoYW5nZWQsIDEgZGVsZXRpb24oLSkKCmRpZmYg
-LS1naXQgYS9kcml2ZXJzL2ZwZ2EvS2NvbmZpZyBiL2RyaXZlcnMvZnBnYS9LY29uZmlnCmluZGV4
-IGY0N2VmODQ4YmNkMDU2ZDUuLmZkNTM5MTMyNTQyZTMwZWUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMv
-ZnBnYS9LY29uZmlnCisrKyBiL2RyaXZlcnMvZnBnYS9LY29uZmlnCkBAIC01Myw3ICs1Myw2IEBA
-IGNvbmZpZyBGUEdBX01HUl9BTFRFUkFfQ1ZQCiBjb25maWcgRlBHQV9NR1JfWllOUV9GUEdBCiAJ
-dHJpc3RhdGUgIlhpbGlueCBaeW5xIEZQR0EiCiAJZGVwZW5kcyBvbiBBUkNIX1pZTlEgfHwgQ09N
-UElMRV9URVNUCi0JZGVwZW5kcyBvbiBIQVNfRE1BCiAJaGVscAogCSAgRlBHQSBtYW5hZ2VyIGRy
-aXZlciBzdXBwb3J0IGZvciBYaWxpbnggWnlucSBGUEdBcy4KIAo=
+VGhlIGNvcmUgcmVxdWlyZXMgdGhlIGV4dHJhIHR3byBiaXRzIG9mIGluZm9ybWF0aW9uIGZvciBw
+cm9wZXJseQpzY2hlZHVsaW5nIElzb2Nocm9ub3VzIHRyYW5zZmVycy4gVGhpcyBtZWFucyB0aGF0
+IHdlIGNhbid0IHJlbHkgb24KX19kd2MzX2dhZGdldF9nZXRfZnJhbWUoKS4gTGV0J3MgYWx3YXlz
+IGNhY2hlIHVGcmFtZSBudW1iZXIgZnJvbQpYZmVyTm90UmVhZHkgaW5zdGVhZC4KClNpZ25lZC1v
+ZmYtYnk6IEZlbGlwZSBCYWxiaSA8ZmVsaXBlLmJhbGJpQGxpbnV4LmludGVsLmNvbT4KLS0tCiBk
+cml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jIHwgMTIgKysrKystLS0tLS0tCiAxIGZpbGUgY2hhbmdl
+ZCwgNSBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+dXNiL2R3YzMvZ2FkZ2V0LmMgYi9kcml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jCmluZGV4IDk3YWU0
+ODBlNDk5OS4uMDBhNDI5ZGIxNThiIDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9kd2MzL2dhZGdl
+dC5jCisrKyBiL2RyaXZlcnMvdXNiL2R3YzMvZ2FkZ2V0LmMKQEAgLTEyNTAsNyArMTI1MCw3IEBA
+IHN0YXRpYyBpbnQgX19kd2MzX2dhZGdldF9nZXRfZnJhbWUoc3RydWN0IGR3YzMgKmR3YykKIAly
+ZXR1cm4gRFdDM19EU1RTX1NPRkZOKHJlZyk7CiB9CiAKLXN0YXRpYyB2b2lkIF9fZHdjM19nYWRn
+ZXRfc3RhcnRfaXNvYyhzdHJ1Y3QgZHdjM19lcCAqZGVwLCB1MzIgY3VyX3VmKQorc3RhdGljIHZv
+aWQgX19kd2MzX2dhZGdldF9zdGFydF9pc29jKHN0cnVjdCBkd2MzX2VwICpkZXApCiB7CiAJaWYg
+KGxpc3RfZW1wdHkoJmRlcC0+cGVuZGluZ19saXN0KSkgewogCQlkZXZfaW5mbyhkZXAtPmR3Yy0+
+ZGV2LCAiJXM6IHJhbiBvdXQgb2YgcmVxdWVzdHNcbiIsCkBAIC0xMjYzLDcgKzEyNjMsNyBAQCBz
+dGF0aWMgdm9pZCBfX2R3YzNfZ2FkZ2V0X3N0YXJ0X2lzb2Moc3RydWN0IGR3YzNfZXAgKmRlcCwg
+dTMyIGN1cl91ZikKIAkgKiBTY2hlZHVsZSB0aGUgZmlyc3QgdHJiIGZvciBvbmUgaW50ZXJ2YWwg
+aW4gdGhlIGZ1dHVyZSBvciBhdAogCSAqIGxlYXN0IDQgbWljcm9mcmFtZXMuCiAJICovCi0JZGVw
+LT5mcmFtZV9udW1iZXIgPSBjdXJfdWYgKyBtYXhfdCh1MzIsIDQsIGRlcC0+aW50ZXJ2YWwpOwor
+CWRlcC0+ZnJhbWVfbnVtYmVyICs9IG1heF90KHUzMiwgNCwgZGVwLT5pbnRlcnZhbCk7CiAJX19k
+d2MzX2dhZGdldF9raWNrX3RyYW5zZmVyKGRlcCk7CiB9CiAKQEAgLTEzMDYsMTAgKzEzMDYsNyBA
+QCBzdGF0aWMgaW50IF9fZHdjM19nYWRnZXRfZXBfcXVldWUoc3RydWN0IGR3YzNfZXAgKmRlcCwg
+c3RydWN0IGR3YzNfcmVxdWVzdCAqcmVxKQogCQkJCWR3YzNfc3RvcF9hY3RpdmVfdHJhbnNmZXIo
+ZGVwLCB0cnVlKTsKIAkJCQlkZXAtPmZsYWdzID0gRFdDM19FUF9FTkFCTEVEOwogCQkJfSBlbHNl
+IHsKLQkJCQl1MzIgY3VyX3VmOwotCi0JCQkJY3VyX3VmID0gX19kd2MzX2dhZGdldF9nZXRfZnJh
+bWUoZHdjKTsKLQkJCQlfX2R3YzNfZ2FkZ2V0X3N0YXJ0X2lzb2MoZGVwLCBjdXJfdWYpOworCQkJ
+CV9fZHdjM19nYWRnZXRfc3RhcnRfaXNvYyhkZXApOwogCQkJCWRlcC0+ZmxhZ3MgJj0gfkRXQzNf
+RVBfUEVORElOR19SRVFVRVNUOwogCQkJfQogCQkJcmV0dXJuIDA7CkBAIC0yNDMzLDggKzI0MzAs
+OSBAQCBzdGF0aWMgdm9pZCBkd2MzX2dhZGdldF9lbmRwb2ludF90cmFuc2Zlcl9ub3RfcmVhZHko
+c3RydWN0IGR3YzNfZXAgKmRlcCwKIAogCW1hc2sgPSB+KGRlcC0+aW50ZXJ2YWwgLSAxKTsKIAlj
+dXJfdWYgPSBldmVudC0+cGFyYW1ldGVycyAmIG1hc2s7CisJZGVwLT5mcmFtZV9udW1iZXIgPSBj
+dXJfdWY7CiAKLQlfX2R3YzNfZ2FkZ2V0X3N0YXJ0X2lzb2MoZGVwLCBjdXJfdWYpOworCV9fZHdj
+M19nYWRnZXRfc3RhcnRfaXNvYyhkZXApOwogfQogCiBzdGF0aWMgdm9pZCBkd2MzX2VuZHBvaW50
+X2ludGVycnVwdChzdHJ1Y3QgZHdjMyAqZHdjLAo=
