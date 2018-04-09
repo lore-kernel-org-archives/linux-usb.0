@@ -2,21 +2,23 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/4] usb: gadget: udc: renesas_usb3: fix double phy_put()
-From: Sasha Levin <Alexander.Levin@microsoft.com>
-Message-Id: <DM5PR2101MB1032B73CD93A2CAC6CB34BCFFBBB0@DM5PR2101MB1032.namprd21.prod.outlook.com>
-Date: Thu, 5 Apr 2018 01:34:18 +0000
-To: Sasha Levin <Alexander.Levin@microsoft.com>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, "balbi@kernel.org" <balbi@kernel.org>
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "stable@vger.kernel.org" <stable@vger.kernel.org>
+From: Simon Horman <horms@verge.net.au>
+Message-Id: <20180409114900.e5opyh3zxt7qkkrc@verge.net.au>
+Date: Mon, 9 Apr 2018 13:49:01 +0200
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: balbi@kernel.org, gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org, stable@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgWW9zaGloaXJvIFNoaW1vZGEuCgpbVGhpcyBpcyBhbiBhdXRvbWF0ZWQgZW1haWxdCgpUaGlz
-IGNvbW1pdCBoYXMgYmVlbiBwcm9jZXNzZWQgYmVjYXVzZSBpdCBjb250YWlucyBhICJGaXhlczoi
-IHRhZy4KZml4aW5nIGNvbW1pdDogMjc5ZDRiYzY0MDYwIHVzYjogZ2FkZ2V0OiB1ZGM6IHJlbmVz
-YXNfdXNiMzogYWRkIHN1cHBvcnQgZm9yIGdlbmVyaWMgcGh5LgoKVGhlIGJvdCBoYXMgYWxzbyBk
-ZXRlcm1pbmVkIGl0J3MgcHJvYmFibHkgYSBidWcgZml4aW5nIHBhdGNoLiAoc2NvcmU6IDk2Ljg1
-MjkpCgpUaGUgYm90IGhhcyB0ZXN0ZWQgdGhlIGZvbGxvd2luZyB0cmVlczogdjQuMTUuMTUsIAoK
-djQuMTUuMTU6IEJ1aWxkIE9LIQotLS0KVGhhbmtzLgpTYXNoYS0tClRvIHVuc3Vic2NyaWJlIGZy
-b20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRo
-ZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFq
-b3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRt
-bAo=
+T24gTW9uLCBBcHIgMDIsIDIwMTggYXQgMDk6MjE6MzFQTSArMDkwMCwgWW9zaGloaXJvIFNoaW1v
+ZGEgd3JvdGU6Cj4gVGhpcyBwYXRjaCBmaXhlcyBhbiBpc3N1ZSB0aGF0IHRoaXMgZHJpdmVyIGNh
+dXNlIGRvdWJsZSBwaHlfcHV0KCkKPiBjYWxsaW5nLiBUaGlzIGRyaXZlciBtdXN0IG5vdCBjYWxs
+IHBoeV9wdXQoKSBpbiB0aGUgcmVtb3ZlIGJlY2F1c2UKPiB0aGUgZHJpdmVyIGNhbGxzIGRldm1f
+cGh5X2dldCgpIGluIHRoZSBwcm9iZS4KPiAKPiBGaXhlczogMjc5ZDRiYzY0MDYwICgidXNiOiBn
+YWRnZXQ6IHVkYzogcmVuZXNhc191c2IzOiBhZGQgc3VwcG9ydCBmb3IgZ2VuZXJpYyBwaHkiKQo+
+IENjOiA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4gIyB2NC4xNSsKPiBTaWduZWQtb2ZmLWJ5OiBZ
+b3NoaWhpcm8gU2hpbW9kYSA8eW9zaGloaXJvLnNoaW1vZGEudWhAcmVuZXNhcy5jb20+CgpSZXZp
+ZXdlZC1ieTogU2ltb24gSG9ybWFuIDxob3JtcytyZW5lc2FzQHZlcmdlLm5ldC5hdT4KLS0tClRv
+IHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBs
+aW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJu
+ZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFq
+b3Jkb21vLWluZm8uaHRtbAo=
