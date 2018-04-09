@@ -2,21 +2,26 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [3/4] usb: gadget: udc: renesas_usb3: should call pm_runtime_enable() before add udc
-From: Sasha Levin <Alexander.Levin@microsoft.com>
-Message-Id: <DM5PR2101MB1032C33875DEA8725A4F9C09FBBB0@DM5PR2101MB1032.namprd21.prod.outlook.com>
-Date: Thu, 5 Apr 2018 01:34:13 +0000
-To: Sasha Levin <Alexander.Levin@microsoft.com>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, "balbi@kernel.org" <balbi@kernel.org>
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "stable@vger.kernel.org" <stable@vger.kernel.org>
+From: Simon Horman <horms@verge.net.au>
+Message-Id: <20180409115243.l3hwgczjthezen62@verge.net.au>
+Date: Mon, 9 Apr 2018 13:52:44 +0200
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: balbi@kernel.org, gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org, stable@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgWW9zaGloaXJvIFNoaW1vZGEuCgpbVGhpcyBpcyBhbiBhdXRvbWF0ZWQgZW1haWxdCgpUaGlz
-IGNvbW1pdCBoYXMgYmVlbiBwcm9jZXNzZWQgYmVjYXVzZSBpdCBjb250YWlucyBhICJGaXhlczoi
-IHRhZy4KZml4aW5nIGNvbW1pdDogY2YwNmRmM2ZhZTI4IHVzYjogZ2FkZ2V0OiB1ZGM6IHJlbmVz
-YXNfdXNiMzogbW92ZSBwbV9ydW50aW1lX3tlbixkaXN9YWJsZSgpLgoKVGhlIGJvdCBoYXMgYWxz
-byBkZXRlcm1pbmVkIGl0J3MgcHJvYmFibHkgYSBidWcgZml4aW5nIHBhdGNoLiAoc2NvcmU6IDk4
-LjgwOTIpCgpUaGUgYm90IGhhcyB0ZXN0ZWQgdGhlIGZvbGxvd2luZyB0cmVlczogdjQuMTUuMTUs
-IAoKdjQuMTUuMTU6IEJ1aWxkIE9LIQotLS0KVGhhbmtzLgpTYXNoYS0tClRvIHVuc3Vic2NyaWJl
-IGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGlu
-CnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUg
-bWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8u
-aHRtbAo=
+T24gTW9uLCBBcHIgMDIsIDIwMTggYXQgMDk6MjE6MzNQTSArMDkwMCwgWW9zaGloaXJvIFNoaW1v
+ZGEgd3JvdGU6Cj4gVGhpcyBwYXRjaCBmaXhlcyBhbiBpc3N1ZSB0aGF0IHRoaXMgZHJpdmVyIGNh
+dXNlcyBwYW5pYyBpZiBhIGdhZGdldAo+IGRyaXZlciBpcyBhbHJlYWR5IGxvYWRlZCBiZWNhdXNl
+IHVzYl9hZGRfZ2FkZ2V0X3VkYygpIG1pZ2h0IGNhbGwKPiByZW5lc2FzX3VzYjNfc3RhcnQoKSB2
+aWEgLnVkY19zdGFydCwgYW5kIHRoZW4gcG1fcnVudGltZV9nZXRfc3luYygpCj4gaW4gcmVuZXNh
+c191c2IzX3N0YXJ0KCkgZG9lc24ndCB3b3JrIGNvcnJlY3RseS4KPiBOb3RlIHRoYXQgdGhlIHVz
+YjNfdG9fZGV2KCkgbWFjcm8gc2hvdWxkIG5vdCBiZSBjYWxsZWQgYXQgdGhpcyB0aW1pbmcKPiBi
+ZWNhdXNlIHRoZSBtYWNybyB1c2VzIHRoZSBnYWRnZXQgc3RydWN0dXJlLgo+IAo+IEZpeGVzOiBj
+ZjA2ZGYzZmFlMjggKCJ1c2I6IGdhZGdldDogdWRjOiByZW5lc2FzX3VzYjM6IG1vdmUgcG1fcnVu
+dGltZV97ZW4sZGlzfWFibGUoKSIpCj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiAjIHY0
+LjE1Kwo+IFNpZ25lZC1vZmYtYnk6IFlvc2hpaGlybyBTaGltb2RhIDx5b3NoaWhpcm8uc2hpbW9k
+YS51aEByZW5lc2FzLmNvbT4KClJldmlld2VkLWJ5OiBTaW1vbiBIb3JtYW4gPGhvcm1zK3JlbmVz
+YXNAdmVyZ2UubmV0LmF1PgotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQg
+dGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdl
+IHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0
+cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
