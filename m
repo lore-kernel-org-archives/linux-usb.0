@@ -1,17 +1,42 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [RFC,05/10] i2c: s3c2410: Remove support for Exynos5440
-From: Wolfram Sang <wsa@the-dreams.de>
-Message-Id: <20180428124407.bpc47bo7ojebahpz@ninjato>
-Date: Sat, 28 Apr 2018 14:44:07 +0200
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Kukjin Kim <kgene@kernel.org>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Tejun Heo <tj@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Tomasz Figa <tomasz.figa@gmail.com>, Chanwoo Choi <cw00.choi@samsung.com>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, Viresh Kumar <viresh.kumar@linaro.org>, Zhang Rui <rui.zhang@intel.com>, Eduardo Valentin <edubezval@gmail.com>, Russell King <linux@armlinux.org.uk>, Hans de Goede <hdegoede@redhat.com>, Linus Walleij <linus.walleij@linaro.org>, Andi Shyti <andi@etezian.org>, Mark Brown <broonie@kernel.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org, linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org, linux-spi@vger.kernel.org, linux-usb@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>, Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>, Jaehoon Chung <jh80.chung@samsung.com>
+Subject: [2/2] usb: gadget: udc: renesas_usb3: add devm_of_platform_populate()
+From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Message-Id: <1523362434-17808-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Date: Tue, 10 Apr 2018 21:13:54 +0900
+To: balbi@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVHVlLCBBcHIgMjQsIDIwMTggYXQgMTA6MzI6MzRQTSArMDIwMCwgS3J6eXN6dG9mIEtvemxv
-d3NraSB3cm90ZToKPiBUaGUgRXh5bm9zNTQ0MCBpcyBub3QgYWN0aXZlbHkgZGV2ZWxvcGVkLCB0
-aGVyZSBhcmUgbm8gZGV2ZWxvcG1lbnQKPiBib2FyZHMgYXZhaWxhYmxlIGFuZCBwcm9iYWJseSB0
-aGVyZSBhcmUgbm8gcmVhbCBwcm9kdWN0cyB3aXRoIGl0Lgo+IFJlbW92ZSB3aWRlLXRyZWUgc3Vw
-cG9ydCBmb3IgRXh5bm9zNTQ0MC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBLcnp5c3p0b2YgS296bG93
-c2tpIDxrcnprQGtlcm5lbC5vcmc+CgpBcHBsaWVkIHRvIGZvci1uZXh0LCB0aGFua3MhCg==
+VGhpcyBwYXRjaCBhZGRzIGRldm1fb2ZfcGxhdGZvcm1fcG9wdWxhdGUoKSBjYWxsaW5nIHRvIHBv
+cHVsYXRlCnRoZSByY2FyLXVzYjMtcm9sZS1zd2l0Y2ggZHJpdmVyLgoKRm9yIG5vdywgdGhpcyBy
+ZW5lc2FzX3VzYjMgZHJpdmVyIGRvZXNuJ3QgdXNlIGFueSBBUElzIG9mCnRoZSB1c2Igcm9sZSBz
+d2l0Y2ggZnJhbWV3b3JrIGJlY2F1c2UgdGhlIHVzYl9yb2xlX3N3aXRjaF9nZXQoKQpBUEkgZGVw
+ZW5kcyBvbiB0aGUgZGV2aWNlX2Nvbm5lY3Rpb24gZnJhbWV3b3JrIGFuZCB0aGlzIGZyYW1ld29y
+awppcyBub3QgZ29vZCBtYXRjaCBvbiBkZXZpY2UgdHJlZSBlbnZpcm9ubWVudC4gSG93ZXZlciwg
+dGhlIHNlbGVjdApVU0JfUk9MRV9TV0lUQ0ggbmVlZHMgdG8gZW5hYmxlIHRoZSByY2FyLXVzYjMt
+cm9sZS1zd2l0Y2ggZHJpdmVyLgoKU2lnbmVkLW9mZi1ieTogWW9zaGloaXJvIFNoaW1vZGEgPHlv
+c2hpaGlyby5zaGltb2RhLnVoQHJlbmVzYXMuY29tPgotLS0KIGRyaXZlcnMvdXNiL2dhZGdldC91
+ZGMvS2NvbmZpZyAgICAgICAgfCAxICsKIGRyaXZlcnMvdXNiL2dhZGdldC91ZGMvcmVuZXNhc191
+c2IzLmMgfCA2ICsrKysrKwogMiBmaWxlcyBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKykKCmRpZmYg
+LS1naXQgYS9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL0tjb25maWcgYi9kcml2ZXJzL3VzYi9nYWRn
+ZXQvdWRjL0tjb25maWcKaW5kZXggMDg3NWQzOC4uN2U0YTVkZCAxMDA2NDQKLS0tIGEvZHJpdmVy
+cy91c2IvZ2FkZ2V0L3VkYy9LY29uZmlnCisrKyBiL2RyaXZlcnMvdXNiL2dhZGdldC91ZGMvS2Nv
+bmZpZwpAQCAtMTkzLDYgKzE5Myw3IEBAIGNvbmZpZyBVU0JfUkVORVNBU19VU0IzCiAJdHJpc3Rh
+dGUgJ1JlbmVzYXMgVVNCMy4wIFBlcmlwaGVyYWwgY29udHJvbGxlcicKIAlkZXBlbmRzIG9uIEFS
+Q0hfUkVORVNBUyB8fCBDT01QSUxFX1RFU1QKIAlkZXBlbmRzIG9uIEVYVENPTiAmJiBIQVNfRE1B
+CisJc2VsZWN0IFVTQl9ST0xFX1NXSVRDSAogCWhlbHAKIAkgICBSZW5lc2FzIFVTQjMuMCBQZXJp
+cGhlcmFsIGNvbnRyb2xsZXIgaXMgYSBVU0IgcGVyaXBoZXJhbCBjb250cm9sbGVyCiAJICAgdGhh
+dCBzdXBwb3J0cyBzdXBlciwgaGlnaCwgYW5kIGZ1bGwgc3BlZWQgVVNCIDMuMCBkYXRhIHRyYW5z
+ZmVycy4KZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2dhZGdldC91ZGMvcmVuZXNhc191c2IzLmMg
+Yi9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL3JlbmVzYXNfdXNiMy5jCmluZGV4IDU5ZTE0ODUuLmZk
+NTkzYjIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL2dhZGdldC91ZGMvcmVuZXNhc191c2IzLmMK
+KysrIGIvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9yZW5lc2FzX3VzYjMuYwpAQCAtMjYzOSw2ICsy
+NjM5LDEyIEBAIHN0YXRpYyBpbnQgcmVuZXNhc191c2IzX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9k
+ZXZpY2UgKnBkZXYpCiAJaWYgKHJldCA8IDApCiAJCWdvdG8gZXJyX2FkZF91ZGM7CiAKKwlyZXQg
+PSBkZXZtX29mX3BsYXRmb3JtX3BvcHVsYXRlKCZwZGV2LT5kZXYpOworCWlmIChyZXQgPCAwKQor
+CQlnb3RvIGVycl9kZXZfY3JlYXRlOworCisJLyogVE9ETzogR2V0IHJvbGUgc3dpdGNoIGFuZCB1
+c2UgdXNiX3JvbGVfc3dpdGNoX3tzZXQsZ2V0fV9yb2xlIEFQSXMgKi8KKwogCWlmIChvZl9wcm9w
+ZXJ0eV9yZWFkX2Jvb2wocGRldi0+ZGV2Lm9mX25vZGUsICJyZW5lc2FzLG5vLWlkIikpCiAJCXVz
+YjMtPmlnbm9yZV9pZCA9IHRydWU7CiAK
