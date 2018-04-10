@@ -2,23 +2,25 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usbip: usbip_event: fix to not print kernel pointer address
-From: Shuah Khan <shuahkh@osg.samsung.com>
-Message-Id: <20180405222950.24495-1-shuahkh@osg.samsung.com>
-Date: Thu,  5 Apr 2018 16:29:50 -0600
-To: valentina.manea.m@gmail.com, shuah@kernel.org, gregkh@linuxfoundation.org
-Cc: Shuah Khan <shuahkh@osg.samsung.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, stable <stable@vger.kernel.org>
+From: Sasha Levin <Alexander.Levin@microsoft.com>
+Message-Id: <DM5PR2101MB1032693F58222DE7875BD1EDFBBE0@DM5PR2101MB1032.namprd21.prod.outlook.com>
+Date: Tue, 10 Apr 2018 13:50:03 +0000
+To: Sasha Levin <Alexander.Levin@microsoft.com>, Shuah Khan <shuahkh@osg.samsung.com>, "valentina.manea.m@gmail.com" <valentina.manea.m@gmail.com>, "shuah@kernel.org" <shuah@kernel.org>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, stable <stable@vger.kernel.org>"stable@vger.kernel.org" <stable@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-Rml4IGl0IHRvIG5vdCBwcmludCBrZXJuZWwgcG9pbnRlciBhZGRyZXNzLiBSZW1vdmUgdGhlIGNv
-bmRpdGlvbmFsCmFuZCBkZWJ1ZyBtZXNzYWdlIGFzIGl0IGlzbid0IHZlcnkgdXNlZnVsLgoKU2ln
-bmVkLW9mZi1ieTogU2h1YWggS2hhbiA8c2h1YWhraEBvc2cuc2Ftc3VuZy5jb20+CkNjOiBzdGFi
-bGUgPHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmc+Ci0tLQogZHJpdmVycy91c2IvdXNiaXAvdXNiaXBf
-ZXZlbnQuYyB8IDQgLS0tLQogMSBmaWxlIGNoYW5nZWQsIDQgZGVsZXRpb25zKC0pCgpkaWZmIC0t
-Z2l0IGEvZHJpdmVycy91c2IvdXNiaXAvdXNiaXBfZXZlbnQuYyBiL2RyaXZlcnMvdXNiL3VzYmlw
-L3VzYmlwX2V2ZW50LmMKaW5kZXggNWI0YzA4NjRhZDkyLi41ZDg4OTE3Yzk2MzEgMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvdXNiL3VzYmlwL3VzYmlwX2V2ZW50LmMKKysrIGIvZHJpdmVycy91c2IvdXNi
-aXAvdXNiaXBfZXZlbnQuYwpAQCAtOTEsMTAgKzkxLDYgQEAgc3RhdGljIHZvaWQgZXZlbnRfaGFu
-ZGxlcihzdHJ1Y3Qgd29ya19zdHJ1Y3QgKndvcmspCiAJCQl1bnNldF9ldmVudCh1ZCwgVVNCSVBf
-RUhfVU5VU0FCTEUpOwogCQl9CiAKLQkJLyogU3RvcCB0aGUgZXJyb3IgaGFuZGxlci4gKi8KLQkJ
-aWYgKHVkLT5ldmVudCAmIFVTQklQX0VIX0JZRSkKLQkJCXVzYmlwX2RiZ19laCgicmVtb3ZlZCAl
-cFxuIiwgdWQpOwotCiAJCXdha2VfdXAoJnVkLT5laF93YWl0cSk7CiAJfQogfQo=
+SGksCgpbVGhpcyBpcyBhbiBhdXRvbWF0ZWQgZW1haWxdCgpUaGlzIGNvbW1pdCBoYXMgYmVlbiBw
+cm9jZXNzZWQgYmVjYXVzZSBpdCBjb250YWlucyBhIC1zdGFibGUgdGFnLgpUaGUgc3RhYmxlIHRh
+ZyBpbmRpY2F0ZXMgdGhhdCBpdCdzIHJlbGV2YW50IGZvciB0aGUgZm9sbG93aW5nIHRyZWVzOiBh
+bGwKClRoZSBib3QgaGFzIGFsc28gZGV0ZXJtaW5lZCBpdCdzIHByb2JhYmx5IGEgYnVnIGZpeGlu
+ZyBwYXRjaC4gKHNjb3JlOiA1OC40MjM3KQoKVGhlIGJvdCBoYXMgdGVzdGVkIHRoZSBmb2xsb3dp
+bmcgdHJlZXM6IHY0LjE2LjEsIHY0LjE1LjE2LCB2NC4xNC4zMywgdjQuOS45MywgdjQuNC4xMjcu
+Cgp2NC4xNi4xOiBCdWlsZCBPSyEKdjQuMTUuMTY6IEJ1aWxkIE9LIQp2NC4xNC4zMzogQnVpbGQg
+T0shCnY0LjkuOTM6IEJ1aWxkIE9LIQp2NC40LjEyNzogRmFpbGVkIHRvIGFwcGx5ISBQb3NzaWJs
+ZSBkZXBlbmRlbmNpZXM6CiAgICBiYjc4NzFhZDk5ZWEgKCJ1c2JpcDogZXZlbnQgaGFuZGxlciBh
+cyBvbmUgdGhyZWFkIikKCgpQbGVhc2UgbGV0IHVzIGtub3cgaWYgeW91J2QgbGlrZSB0byBoYXZl
+IHRoaXMgcGF0Y2ggaW5jbHVkZWQgaW4gYSBzdGFibGUgdHJlZS4KLS0tClRoYW5rcywKU2FzaGEt
+LQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3Jp
+YmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIu
+a2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3Jn
+L21ham9yZG9tby1pbmZvLmh0bWwK
