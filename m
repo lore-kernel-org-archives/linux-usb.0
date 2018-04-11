@@ -1,28 +1,21 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v4] usb/gadget/uvc-configs Fix host unable to negotiate framesizes other than first
-From: Joel Pepper <joel.pepper@rwth-aachen.de>
-Message-Id: <352ab863-b819-4751-af7f-0d8f1da72a4d@rwthex-s3-b.rwth-ad.de>
-Date: Thu, 26 Apr 2018 12:17:52 +0200
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, Paul Elder <paul.elder@pitt.edu>, Joel Pepper <joel.pepper@rwth-aachen.de>
+Subject: patch 8466489ef5ba48272ba4fa4ea9f8f403306de4c7 breaks Renesas USB3 controller functionality
+From: Marc Zyngier <marc.zyngier@arm.com>
+Message-Id: <86o9iprgbw.wl-marc.zyngier@arm.com>
+Date: Wed, 11 Apr 2018 15:02:59 +0100
+To: Bockholdt Arne <a.bockholdt@precitec-optronik.de>
+Cc: "ard.biesheuvel@linaro.org" <ard.biesheuvel@linaro.org>, "mathias.nyman@intel.com" <mathias.nyman@intel.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhpcyBwYXRjaCBzZXQgaXMgbW9zdGx5IGNvbmNlcm5lZCB3aXRoIGZpeGluZyBhIGJ1ZyB3aXRo
-IHRoZSBkcml2ZXIKc2V0dGluZyBpbmNvcnJlY3QgYkZyYW1lSW5kZXhlcywgZm9yIGRldGFpbHMg
-cmVmZXIgdG8gdGhlIHNlY29uZCBwYXRjaC4KSG93ZXZlciBwYXJ0IG9mIHRoZSBmaXggYWxzbyBk
-ZXBlbmRzIG9uIGZpeGluZyBhbiB1bnJlbGF0ZWQgYnVnLAp3aGljaCBpbnZvbHZlZCB0aGUgImxp
-bmtlZCIgZmxhZyBvbiBmb3JtYXRzIG5vdCBiZWlnIHNldC4KCnY2OiBUaGlzIGlzIG1vc3RseSBh
-IHJlc3VibWl0IG9mIHY1IHdoaWNoIGdvdCBidXJpZWQgYWhlYWQgb2YgdGhlIGxhc3QgbWVyZ2Ug
-d2luZG93IGFuZCBuZXZlciBnb3QgcmV2aWV3ZWQuIFRoZSBhZGRpdGlvbiB0byB0aGUgRG9jdW1l
-bnRhdGlvbiBoYXMgYmVlbiB1cGRhdGVkIHRvIHJlZmxlY3QgdGhpcy4gQWxzbyBtb3ZlZCB2ZXJz
-aW9uIGNvbW1lbnRzIG91dCBvZiB0aGUgYWN0dWFsIGNvbW1pdCBtZXNzYWdlIChUaGFua3MsIEZl
-bGlwZS4pCgoKSm9lbCBQZXBwZXIgKDIpOgogIHVzYi9nYWRnZXQvdXZjLWNvbmZpZ2ZzIEZpeCBs
-aW5rZWQgZmxhZyBpbiBhIGZvcm1hdCBub3QgYmVpbmcgc2V0IHdoZW4KICAgIGZvcm1hdCBpcyBs
-aW5rZWQgaW50byBzdHJlYW1pbmcgaGVhZGVyCiAgdXNiL2dhZGdldC91dmMtY29uZmlnZnMgRml4
-IGhvc3QgdW5hYmxlIHRvIG5lZ290aWF0ZSBmcmFtZXNpemVzIG90aGVyCiAgICB0aGFuIGZpcnN0
-CgogRG9jdW1lbnRhdGlvbi9BQkkvdGVzdGluZy9jb25maWdmcy11c2ItZ2FkZ2V0LXV2YyB8IDE4
-ICsrKysrKwogZHJpdmVycy91c2IvZ2FkZ2V0L2Z1bmN0aW9uL3V2Y19jb25maWdmcy5jICAgICAg
-ICB8IDY3ICsrKysrKysrKysrKysrKysrKysrKysrCiAyIGZpbGVzIGNoYW5nZWQsIDg1IGluc2Vy
-dGlvbnMoKykK
+T24gV2VkLCAxMSBBcHIgMjAxOCAxNDoxMTo1MiArMDEwMCwKQm9ja2hvbGR0IEFybmUgd3JvdGU6
+Cj4gCj4gSGkgYWxsLAo+IAo+IGlzIHRoZXJlIGFueXRoaW5nIG5ldywgSSd2ZSBqdXN0IHRyaWVk
+IHRoZSBuZXcgc3RhYmxlIDQuMTYuMSBrZXJuZWwKPiB3aXRob3V0IGFueSBjaGFuZ2UuIFRoZSBS
+ZW5lc3lzIFVTQjMgY29udHJvbGxlciBpcyBzdGlsbCBub3QKPiBmdW5jdGlvbmFsLiBJJ20gd2ls
+bGluZyB0byB0ZXN0IGFueSBwYXRjaCB0aGF0IGlzIGJhc2VkIG9uIGEgc3RhYmxlCj4ga2VybmVs
+IHZlcnNpb24gYmVjYXVzZSB0aGUgbWFjaGluZSBpcyBpbiBwcm9kdWN0aW9uIHVzZS4KCkhhdmUg
+eW91IHRlc3RlZCB0aGUgYnJhbmNoWzFdIEkgbWVudGlvbmVkIGluIG15IHByZXZpb3VzIGVtYWls
+PwpXaXRob3V0IHlvdXIgZmVlZGJhY2ssIEkgY2Fubm90IHJlYWxseSBtYWtlIG11Y2ggcHJvZ3Jl
+c3Mgb24gdGhpcy4KClRoYW5rcywKCglNLgoJClsxXSBodHRwczovL3d3dy5zcGluaWNzLm5ldC9s
+aXN0cy9saW51eC11c2IvbXNnMTY3MzAxLmh0bWwK
