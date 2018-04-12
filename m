@@ -2,35 +2,23 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [2/4] lan78xx: Read initial EEE setting from Device Tree
-From: Phil Elwell <phil@raspberrypi.org>
-Message-Id: <1523541336-145953-3-git-send-email-phil@raspberrypi.org>
-Date: Thu, 12 Apr 2018 14:55:34 +0100
-To: Woojung Huh <woojung.huh@microchip.com>, Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, "David S. Miller" <davem@davemloft.net>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij <linus.walleij@linaro.org>, Andrew Morton <akpm@linux-foundation.org>, Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Cc: Phil Elwell <phil@raspberrypi.org>
+From: Andrew Lunn <andrew@lunn.ch>
+Message-Id: <20180412141630.GM28963@lunn.ch>
+Date: Thu, 12 Apr 2018 16:16:30 +0200
+To: Phil Elwell <phil@raspberrypi.org>
+Cc: Woojung Huh <woojung.huh@microchip.com>, Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, "David S. Miller" <davem@davemloft.net>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij <linus.walleij@linaro.org>, Andrew Morton <akpm@linux-foundation.org>, Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-QWRkIHR3byBuZXcgRGV2aWNlIFRyZWUgcHJvcGVydGllczoKKiBtaWNyb2NoaXAsZWVlLWVuYWJs
-ZWQgIC0gYSBib29sZWFuIHRvIGVuYWJsZSBFRUUKKiBtaWNyb2NoaXAsdHgtbHBpLXRpbWVyIC0g
-dGltZSBpbiBtaWNyb3NlY29uZHMgdG8gd2FpdCBhZnRlciBUWCBnb2VzCiAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIGlkbGUgYmVmb3JlIGVudGVyaW5nIHRoZSBsb3cgcG93ZXIgc3RhdGUKICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgKGRlZmF1bHQgNjAwKQoKU2lnbmVkLW9mZi1ieTogUGhp
-bCBFbHdlbGwgPHBoaWxAcmFzcGJlcnJ5cGkub3JnPgotLS0KIGRyaXZlcnMvbmV0L3VzYi9sYW43
-OHh4LmMgfCAxNyArKysrKysrKysrKysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDE3IGluc2VydGlv
-bnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL25ldC91c2IvbGFuNzh4eC5jIGIvZHJpdmVycy9u
-ZXQvdXNiL2xhbjc4eHguYwppbmRleCBkMjcyN2I1Li5kOTgzOTdiIDEwMDY0NAotLS0gYS9kcml2
-ZXJzL25ldC91c2IvbGFuNzh4eC5jCisrKyBiL2RyaXZlcnMvbmV0L3VzYi9sYW43OHh4LmMKQEAg
-LTIwODAsNiArMjA4MCwyMyBAQCBzdGF0aWMgaW50IGxhbjc4eHhfcGh5X2luaXQoc3RydWN0IGxh
-bjc4eHhfbmV0ICpkZXYpCiAJbWlpX2FkdiA9ICh1MzIpbWlpX2FkdmVydGlzZV9mbG93Y3RybChk
-ZXYtPmZjX3JlcXVlc3RfY29udHJvbCk7CiAJcGh5ZGV2LT5hZHZlcnRpc2luZyB8PSBtaWlfYWR2
-X3RvX2V0aHRvb2xfYWR2X3QobWlpX2Fkdik7CiAKKwlpZiAob2ZfcHJvcGVydHlfcmVhZF9ib29s
-KGRldi0+dWRldi0+ZGV2Lm9mX25vZGUsCisJCQkJICAibWljcm9jaGlwLGVlZS1lbmFibGVkIikp
-IHsKKwkJc3RydWN0IGV0aHRvb2xfZWVlIGVkYXRhOworCisJCW1lbXNldCgmZWRhdGEsIDAsIHNp
-emVvZihlZGF0YSkpOworCQllZGF0YS5jbWQgPSBFVEhUT09MX1NFRUU7CisJCWVkYXRhLmFkdmVy
-dGlzZWQgPSBBRFZFUlRJU0VEXzEwMDBiYXNlVF9GdWxsIHwKKwkJCQkgICBBRFZFUlRJU0VEXzEw
-MGJhc2VUX0Z1bGw7CisJCWVkYXRhLmVlZV9lbmFibGVkID0gdHJ1ZTsKKwkJZWRhdGEudHhfbHBp
-X2VuYWJsZWQgPSB0cnVlOworCQlpZiAob2ZfcHJvcGVydHlfcmVhZF91MzIoZGV2LT51ZGV2LT5k
-ZXYub2Zfbm9kZSwKKwkJCQkJICJtaWNyb2NoaXAsdHgtbHBpLXRpbWVyIiwKKwkJCQkJICZlZGF0
-YS50eF9scGlfdGltZXIpKQorCQkJZWRhdGEudHhfbHBpX3RpbWVyID0gNjAwOyAvKiBub24tYWdn
-cmVzc2l2ZSAqLworCQkodm9pZClsYW43OHh4X3NldF9lZWUoZGV2LT5uZXQsICZlZGF0YSk7CisJ
-fQorCiAJZ2VucGh5X2NvbmZpZ19hbmVnKHBoeWRldik7CiAKIAlkZXYtPmZjX2F1dG9uZWcgPSBw
-aHlkZXYtPmF1dG9uZWc7Cg==
+T24gVGh1LCBBcHIgMTIsIDIwMTggYXQgMDI6NTU6MzRQTSArMDEwMCwgUGhpbCBFbHdlbGwgd3Jv
+dGU6Cj4gQWRkIHR3byBuZXcgRGV2aWNlIFRyZWUgcHJvcGVydGllczoKPiAqIG1pY3JvY2hpcCxl
+ZWUtZW5hYmxlZCAgLSBhIGJvb2xlYW4gdG8gZW5hYmxlIEVFRQo+ICogbWljcm9jaGlwLHR4LWxw
+aS10aW1lciAtIHRpbWUgaW4gbWljcm9zZWNvbmRzIHRvIHdhaXQgYWZ0ZXIgVFggZ29lcwo+ICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIGlkbGUgYmVmb3JlIGVudGVyaW5nIHRoZSBsb3cgcG93
+ZXIgc3RhdGUKPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAoZGVmYXVsdCA2MDApCgpIaSBQ
+aGlsCgpUaGlzIGxvb2tzIHdyb25nLgoKV2hhdCBzaG91bGQgaGFwcGVuIGlzIHRoYXQgdGhlIE1B
+QyBkcml2ZXIgY2FsbHMgcGh5X2luaXRfZWVlKCkgdG8gZmluZApvdXQgaWYgdGhlIFBIWSBzdXBw
+b3J0cyBFRUUuIFRoZXJlIHNob3VsZCBiZSBubyBuZWVkIHRvIGxvb2sgaW4gZGV2aWNlCnRyZWUu
+CgoJQW5kcmV3Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGlu
+ZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFq
+b3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdl
+ci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
