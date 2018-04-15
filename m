@@ -1,21 +1,30 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [1/4] lan78xx: Read MAC address from DT if present
-From: Phil Elwell <phil@raspberrypi.org>
-Message-Id: <4f95f1bc-412f-6926-0a61-f00e3abe7ecf@raspberrypi.org>
-Date: Thu, 12 Apr 2018 15:18:43 +0100
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Woojung Huh <woojung.huh@microchip.com>, Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, "David S. Miller" <davem@davemloft.net>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij <linus.walleij@linaro.org>, Andrew Morton <akpm@linux-foundation.org>, Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: usb-storage: stop using block layer bounce buffers
+From: Christoph Hellwig <hch@lst.de>
+Message-Id: <20180415145329.855-1-hch@lst.de>
+Date: Sun, 15 Apr 2018 16:53:29 +0200
+To: stern@rowland.harvard.edu
+Cc: linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net, linux-scsi@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgQW5kcmV3LAoKT24gMTIvMDQvMjAxOCAxNTowNiwgQW5kcmV3IEx1bm4gd3JvdGU6Cj4gSGkg
-UGhpbAo+IAo+PiAtCQkJcmV0ID0gbGFuNzh4eF93cml0ZV9yZWcoZGV2LCBSWF9BRERSTCwgYWRk
-cl9sbyk7Cj4+IC0JCQlyZXQgPSBsYW43OHh4X3dyaXRlX3JlZyhkZXYsIFJYX0FERFJILCBhZGRy
-X2hpKTsKPj4gKwkJbWFjX2FkZHIgPSBvZl9nZXRfbWFjX2FkZHJlc3MoZGV2LT51ZGV2LT5kZXYu
-b2Zfbm9kZSk7Cj4gCj4gSXQgbWlnaHQgYmUgYmV0dGVyIHRvIHVzZSB0aGUgaGlnaGVyIGxldmVs
-IGV0aF9wbGF0Zm9ybV9nZXRfbWFjX2FkZHJlc3MoKS4KCk9LIC0gSSdsbCB0YWtlIHlvdXIgd29y
-ZCBmb3IgaXQuCgpQaGlsCi0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0
-aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2Ug
-dG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRw
-Oi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
+VVNCIGhvc3QgY29udHJvbGxlcnMgbm93IG11c3QgaGFuZGxlIGhpZ2htZW0sIHNvIHdlIGNhbiBn
+ZXQgcmlkIG9mIGJvdW5jZQpidWZmZXJpbmcgaGlnaG1lbSBwYWdlcyBpbiB0aGUgYmxvY2sgbGF5
+ZXIuCgpTaWduZWQtb2ZmLWJ5OiBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGxzdC5kZT4KLS0tCiBk
+cml2ZXJzL3VzYi9zdG9yYWdlL3Njc2lnbHVlLmMgfCA5IC0tLS0tLS0tLQogMSBmaWxlIGNoYW5n
+ZWQsIDkgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2Ivc3RvcmFnZS9zY3Np
+Z2x1ZS5jIGIvZHJpdmVycy91c2Ivc3RvcmFnZS9zY3NpZ2x1ZS5jCmluZGV4IGMyNjdmMjgxMmEw
+NC4uNGU0NTNkOWQ0NWQ1IDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9zdG9yYWdlL3Njc2lnbHVl
+LmMKKysrIGIvZHJpdmVycy91c2Ivc3RvcmFnZS9zY3NpZ2x1ZS5jCkBAIC0xMzAsMTUgKzEzMCw2
+IEBAIHN0YXRpYyBpbnQgc2xhdmVfY29uZmlndXJlKHN0cnVjdCBzY3NpX2RldmljZSAqc2RldikK
+IAkJYmxrX3F1ZXVlX21heF9od19zZWN0b3JzKHNkZXYtPnJlcXVlc3RfcXVldWUsIDIwNDgpOwog
+CX0KIAotCS8qCi0JICogU29tZSBVU0IgaG9zdCBjb250cm9sbGVycyBjYW4ndCBkbyBETUE7IHRo
+ZXkgaGF2ZSB0byB1c2UgUElPLgotCSAqIFRoZXkgaW5kaWNhdGUgdGhpcyBieSBzZXR0aW5nIHRo
+ZWlyIGRtYV9tYXNrIHRvIE5VTEwuICBGb3IKLQkgKiBzdWNoIGNvbnRyb2xsZXJzIHdlIG5lZWQg
+dG8gbWFrZSBzdXJlIHRoZSBibG9jayBsYXllciBzZXRzCi0JICogdXAgYm91bmNlIGJ1ZmZlcnMg
+aW4gYWRkcmVzc2FibGUgbWVtb3J5LgotCSAqLwotCWlmICghdXMtPnB1c2JfZGV2LT5idXMtPmNv
+bnRyb2xsZXItPmRtYV9tYXNrKQotCQlibGtfcXVldWVfYm91bmNlX2xpbWl0KHNkZXYtPnJlcXVl
+c3RfcXVldWUsIEJMS19CT1VOQ0VfSElHSCk7Ci0KIAkvKgogCSAqIFdlIGNhbid0IHB1dCB0aGVz
+ZSBzZXR0aW5ncyBpbiBzbGF2ZV9hbGxvYygpIGJlY2F1c2UgdGhhdCBnZXRzCiAJICogY2FsbGVk
+IGJlZm9yZSB0aGUgZGV2aWNlIHR5cGUgaXMga25vd24uICBDb25zZXF1ZW50bHkgdGhlc2UK
