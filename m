@@ -2,25 +2,18 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: USB: serial: cp210x: Add ID for NI USB serial console
-From: Kyle Roeschley <kyle.roeschley@ni.com>
-Message-Id: <20180409152355.7774-1-kyle.roeschley@ni.com>
-Date: Mon, 9 Apr 2018 10:23:55 -0500
-To: Johan Hovold <johan@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Kyle Roeschley <kyle.roeschley@ni.com>
+From: Johan Hovold <johan@kernel.org>
+Message-Id: <20180416072606.GK10795@localhost>
+Date: Mon, 16 Apr 2018 09:26:06 +0200
+To: Kyle Roeschley <kyle.roeschley@ni.com>
+Cc: Johan Hovold <johan@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-QWRkZWQgdGhlIFVTQiBWSUQgYW5kIFBJRCBmb3IgdGhlIFVTQiBzZXJpYWwgY29uc29sZSBvbiBz
-b21lIE5hdGlvbmFsCkluc3RydW1lbnRzIGRldmljZXMuCgpTaWduZWQtb2ZmLWJ5OiBLeWxlIFJv
-ZXNjaGxleSA8a3lsZS5yb2VzY2hsZXlAbmkuY29tPgotLS0KIGRyaXZlcnMvdXNiL3NlcmlhbC9j
-cDIxMHguYyB8IDEgKwogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0
-IGEvZHJpdmVycy91c2Ivc2VyaWFsL2NwMjEweC5jIGIvZHJpdmVycy91c2Ivc2VyaWFsL2NwMjEw
-eC5jCmluZGV4IDA2ZDUwMmIzZTkxMy4uY2M1YjJkMGQzNDBkIDEwMDY0NAotLS0gYS9kcml2ZXJz
-L3VzYi9zZXJpYWwvY3AyMTB4LmMKKysrIGIvZHJpdmVycy91c2Ivc2VyaWFsL2NwMjEweC5jCkBA
-IC0yMTMsNiArMjEzLDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCB1c2JfZGV2aWNlX2lkIGlkX3Rh
-YmxlW10gPSB7CiAJeyBVU0JfREVWSUNFKDB4MzE5NSwgMHhGMTkwKSB9LCAvKiBMaW5rIEluc3Ry
-dW1lbnRzIE1TTy0xOSAqLwogCXsgVVNCX0RFVklDRSgweDMxOTUsIDB4RjI4MCkgfSwgLyogTGlu
-ayBJbnN0cnVtZW50cyBNU08tMjggKi8KIAl7IFVTQl9ERVZJQ0UoMHgzMTk1LCAweEYyODEpIH0s
-IC8qIExpbmsgSW5zdHJ1bWVudHMgTVNPLTI4ICovCisJeyBVU0JfREVWSUNFKDB4MzkyMywgMHg3
-QTBCKSB9LCAvKiBOYXRpb25hbCBJbnN0cnVtZW50cyBVU0IgU2VyaWFsIENvbnNvbGUgKi8KIAl7
-IFVTQl9ERVZJQ0UoMHg0MTNDLCAweDk1MDApIH0sIC8qIERXNzAwIEdQUyBVU0IgaW50ZXJmYWNl
-ICovCiAJeyB9IC8qIFRlcm1pbmF0aW5nIEVudHJ5ICovCiB9Owo=
+T24gTW9uLCBBcHIgMDksIDIwMTggYXQgMTA6MjM6NTVBTSAtMDUwMCwgS3lsZSBSb2VzY2hsZXkg
+d3JvdGU6Cj4gQWRkZWQgdGhlIFVTQiBWSUQgYW5kIFBJRCBmb3IgdGhlIFVTQiBzZXJpYWwgY29u
+c29sZSBvbiBzb21lIE5hdGlvbmFsCj4gSW5zdHJ1bWVudHMgZGV2aWNlcy4KPiAKPiBTaWduZWQt
+b2ZmLWJ5OiBLeWxlIFJvZXNjaGxleSA8a3lsZS5yb2VzY2hsZXlAbmkuY29tPgoKTm93IGFwcGxp
+ZWQsIHRoYW5rcy4KCkpvaGFuCi0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2Vu
+ZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3Nh
+Z2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBo
+dHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
