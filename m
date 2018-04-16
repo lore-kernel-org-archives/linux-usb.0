@@ -1,34 +1,41 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3,16/20] remoteproc: Remove depends on HAS_DMA in case of platform dependency
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Message-Id: <1523987360-18760-17-git-send-email-geert@linux-m68k.org>
-Date: Tue, 17 Apr 2018 19:49:16 +0200
-To: Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Tejun Heo <tj@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller" <davem@davemloft.net>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Stefan Richter <stefanr@s5r6.in-berlin.de>, Alan Tull <atull@kernel.org>, Moritz Fischer <mdf@kernel.org>, Wolfram Sang <wsa@the-dreams.de>, Jonathan Cameron <jic23@kernel.org>, Joerg Roedel <joro@8bytes.org>, Matias Bjorling <mb@lightnvm.io>, Jassi Brar <jassisinghbrar@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, David Woodhouse <dwmw2@infradead.org>, Brian Norris <computersforpeace@gmail.com>, Marek Vasut <marek.vasut@gmail.com>, Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>, Boris Brezillon <boris.brezillon@free-electrons.com>, Richard Weinberger <richard@nod.at>, Kalle Valo <kvalo@codeaurora.org>, Ohad Ben-Cohen <ohad@wizery.com>, Bjorn Andersson <bjorn.andersson@linaro.org>, Eric Anholt <eric@anholt.net>, Stefan Wahren <stefan.wahren@i2se.com>
-Cc: iommu@lists.linux-foundation.org, linux-usb@vger.kernel.org, alsa-devel@alsa-project.org, linux-ide@vger.kernel.org, linux-crypto@vger.kernel.org, linux-fbdev@vger.kernel.org, linux1394-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org, linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, linux-block@vger.kernel.org, linux-media@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, netdev@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-serial@vger.kernel.org, linux-spi@vger.kernel.org, devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [1/3] usb: gadget: udc: atmel: GPIO inversion is handled by gpiod
+From: Romain Izard <romain.izard.pro@gmail.com>
+Message-Id: <20180416093405.16612-2-romain.izard.pro@gmail.com>
+Date: Mon, 16 Apr 2018 11:34:03 +0200
+To: Nicolas Ferre <nicolas.ferre@microchip.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Ludovic Desroches <ludovic.desroches@microchip.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, Romain Izard <romain.izard.pro@gmail.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-UmVtb3ZlIGRlcGVuZGVuY2llcyBvbiBIQVNfRE1BIHdoZXJlIGEgS2NvbmZpZyBzeW1ib2wgZGVw
-ZW5kcyBvbiBhbm90aGVyCnN5bWJvbCB0aGF0IGltcGxpZXMgSEFTX0RNQSwgYW5kLCBvcHRpb25h
-bGx5LCBvbiAifHwgQ09NUElMRV9URVNUIi4KSW4gbW9zdCBjYXNlcyB0aGlzIG90aGVyIHN5bWJv
-bCBpcyBhbiBhcmNoaXRlY3R1cmUgb3IgcGxhdGZvcm0gc3BlY2lmaWMKc3ltYm9sLCBvciBQQ0ku
-CgpHZW5lcmljIHN5bWJvbHMgYW5kIGRyaXZlcnMgd2l0aG91dCBwbGF0Zm9ybSBkZXBlbmRlbmNp
-ZXMga2VlcCB0aGVpcgpkZXBlbmRlbmNpZXMgb24gSEFTX0RNQSwgdG8gcHJldmVudCBjb21waWxp
-bmcgc3Vic3lzdGVtcyBvciBkcml2ZXJzIHRoYXQKY2Fubm90IHdvcmsgYW55d2F5LgoKVGhpcyBz
-aW1wbGlmaWVzIHRoZSBkZXBlbmRlbmNpZXMsIGFuZCBhbGxvd3MgdG8gaW1wcm92ZSBjb21waWxl
-LXRlc3RpbmcuCgpTaWduZWQtb2ZmLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4
-LW02OGsub3JnPgpSZXZpZXdlZC1ieTogTWFyayBCcm93biA8YnJvb25pZUBrZXJuZWwub3JnPgpB
-Y2tlZC1ieTogUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4KQWNrZWQtYnk6IEJq
-b3JuIEFuZGVyc3NvbiA8Ympvcm4uYW5kZXJzc29uQGxpbmFyby5vcmc+Ci0tLQp2MzoKICAtIEFk
-ZCBBY2tlZC1ieSwKICAtIFJlYmFzZSB0byB2NC4xNy1yYzEsCgp2MjoKICAtIEFkZCBSZXZpZXdl
-ZC1ieSwgQWNrZWQtYnksCiAgLSBEcm9wIFJGQyBzdGF0ZSwKICAtIFNwbGl0IHBlciBzdWJzeXN0
-ZW0uCi0tLQogZHJpdmVycy9yZW1vdGVwcm9jL0tjb25maWcgfCAxIC0KIDEgZmlsZSBjaGFuZ2Vk
-LCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9yZW1vdGVwcm9jL0tjb25maWcg
-Yi9kcml2ZXJzL3JlbW90ZXByb2MvS2NvbmZpZwppbmRleCAwMjcyNzQwMDhiMDg2ZDZmLi5jZDFj
-MTY4ZmQxODg5OGRjIDEwMDY0NAotLS0gYS9kcml2ZXJzL3JlbW90ZXByb2MvS2NvbmZpZworKysg
-Yi9kcml2ZXJzL3JlbW90ZXByb2MvS2NvbmZpZwpAQCAtMjQsNyArMjQsNiBAQCBjb25maWcgSU1Y
-X1JFTU9URVBST0MKIAogY29uZmlnIE9NQVBfUkVNT1RFUFJPQwogCXRyaXN0YXRlICJPTUFQIHJl
-bW90ZXByb2Mgc3VwcG9ydCIKLQlkZXBlbmRzIG9uIEhBU19ETUEKIAlkZXBlbmRzIG9uIEFSQ0hf
-T01BUDQgfHwgU09DX09NQVA1CiAJZGVwZW5kcyBvbiBPTUFQX0lPTU1VCiAJc2VsZWN0IE1BSUxC
-T1gK
+V2hlbiBjb252ZXJ0aW5nIHRvIEdQSU8gZGVzY3JpcHRvcnMsIGdwaW9kX2dldF92YWx1ZSBhdXRv
+bWF0aWNhbGx5CmhhbmRsZXMgdGhlIGxpbmUgaW52ZXJzaW9uIGZsYWdzIGZyb20gdGhlIGRldmlj
+ZSB0cmVlLgoKRG8gbm90IGludmVydCB0aGUgbGluZSB0d2ljZS4KCkZpeGVzOiAzZGYwMzQwODEw
+MjFmYTRiNjk2N2NlMzM2NGJjN2Q4NjdlYzFjODcwCgpTaWduZWQtb2ZmLWJ5OiBSb21haW4gSXph
+cmQgPHJvbWFpbi5pemFyZC5wcm9AZ21haWwuY29tPgotLS0KIGRyaXZlcnMvdXNiL2dhZGdldC91
+ZGMvYXRtZWxfdXNiYV91ZGMuYyB8IDMgKy0tCiBkcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2F0bWVs
+X3VzYmFfdWRjLmggfCAxIC0KIDIgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDMgZGVs
+ZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9hdG1lbF91c2Jh
+X3VkYy5jIGIvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9hdG1lbF91c2JhX3VkYy5jCmluZGV4IDI3
+YzE2Mzk5YzdlOC4uMGZlM2QwZmViOGY3IDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9nYWRnZXQv
+dWRjL2F0bWVsX3VzYmFfdWRjLmMKKysrIGIvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9hdG1lbF91
+c2JhX3VkYy5jCkBAIC00MTcsNyArNDE3LDcgQEAgc3RhdGljIGlubGluZSB2b2lkIHVzYmFfaW50
+X2VuYl9zZXQoc3RydWN0IHVzYmFfdWRjICp1ZGMsIHUzMiB2YWwpCiBzdGF0aWMgaW50IHZidXNf
+aXNfcHJlc2VudChzdHJ1Y3QgdXNiYV91ZGMgKnVkYykKIHsKIAlpZiAodWRjLT52YnVzX3BpbikK
+LQkJcmV0dXJuIGdwaW9kX2dldF92YWx1ZSh1ZGMtPnZidXNfcGluKSBeIHVkYy0+dmJ1c19waW5f
+aW52ZXJ0ZWQ7CisJCXJldHVybiBncGlvZF9nZXRfdmFsdWUodWRjLT52YnVzX3Bpbik7CiAKIAkv
+KiBObyBWYnVzIGRldGVjdGlvbjogQXNzdW1lIGFsd2F5cyBwcmVzZW50ICovCiAJcmV0dXJuIDE7
+CkBAIC0yMDc2LDcgKzIwNzYsNiBAQCBzdGF0aWMgc3RydWN0IHVzYmFfZXAgKiBhdG1lbF91ZGNf
+b2ZfaW5pdChzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2LAogCiAJdWRjLT52YnVzX3BpbiA9
+IGRldm1fZ3Bpb2RfZ2V0X29wdGlvbmFsKCZwZGV2LT5kZXYsICJhdG1lbCx2YnVzIiwKIAkJCQkJ
+CUdQSU9EX0lOKTsKLQl1ZGMtPnZidXNfcGluX2ludmVydGVkID0gZ3Bpb2RfaXNfYWN0aXZlX2xv
+dyh1ZGMtPnZidXNfcGluKTsKIAogCWlmIChmaWZvX21vZGUgPT0gMCkgewogCQlwcCA9IE5VTEw7
+CmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2F0bWVsX3VzYmFfdWRjLmggYi9k
+cml2ZXJzL3VzYi9nYWRnZXQvdWRjL2F0bWVsX3VzYmFfdWRjLmgKaW5kZXggOTY5Y2U4ZjNjM2Uy
+Li5kN2ViN2NmNGZkNWMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL2dhZGdldC91ZGMvYXRtZWxf
+dXNiYV91ZGMuaAorKysgYi9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2F0bWVsX3VzYmFfdWRjLmgK
+QEAgLTMyNiw3ICszMjYsNiBAQCBzdHJ1Y3QgdXNiYV91ZGMgewogCWNvbnN0IHN0cnVjdCB1c2Jh
+X3VkY19lcnJhdGEgKmVycmF0YTsKIAlpbnQgaXJxOwogCXN0cnVjdCBncGlvX2Rlc2MgKnZidXNf
+cGluOwotCWludCB2YnVzX3Bpbl9pbnZlcnRlZDsKIAlpbnQgbnVtX2VwOwogCWludCBjb25maWd1
+cmVkX2VwOwogCXN0cnVjdCB1c2JhX2ZpZm9fY2ZnICpmaWZvX2NmZzsK
