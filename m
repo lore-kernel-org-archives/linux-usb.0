@@ -1,35 +1,36 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [1/2] usb: isp1760: Replace mdelay with msleep in isp1760_init_core
-From: Jia-Ju Bai <baijiaju1990@gmail.com>
-Message-Id: <1523345800-29129-1-git-send-email-baijiaju1990@gmail.com>
-Date: Tue, 10 Apr 2018 15:36:40 +0800
-To: gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Jia-Ju Bai <baijiaju1990@gmail.com>
+Subject: [v3,04/20] fbdev: Remove depends on HAS_DMA in case of platform dependency
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Message-Id: <1523987360-18760-5-git-send-email-geert@linux-m68k.org>
+Date: Tue, 17 Apr 2018 19:49:04 +0200
+To: Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Tejun Heo <tj@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller" <davem@davemloft.net>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Stefan Richter <stefanr@s5r6.in-berlin.de>, Alan Tull <atull@kernel.org>, Moritz Fischer <mdf@kernel.org>, Wolfram Sang <wsa@the-dreams.de>, Jonathan Cameron <jic23@kernel.org>, Joerg Roedel <joro@8bytes.org>, Matias Bjorling <mb@lightnvm.io>, Jassi Brar <jassisinghbrar@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, David Woodhouse <dwmw2@infradead.org>, Brian Norris <computersforpeace@gmail.com>, Marek Vasut <marek.vasut@gmail.com>, Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>, Boris Brezillon <boris.brezillon@free-electrons.com>, Richard Weinberger <richard@nod.at>, Kalle Valo <kvalo@codeaurora.org>, Ohad Ben-Cohen <ohad@wizery.com>, Bjorn Andersson <bjorn.andersson@linaro.org>, Eric Anholt <eric@anholt.net>, Stefan Wahren <stefan.wahren@i2se.com>
+Cc: iommu@lists.linux-foundation.org, linux-usb@vger.kernel.org, alsa-devel@alsa-project.org, linux-ide@vger.kernel.org, linux-crypto@vger.kernel.org, linux-fbdev@vger.kernel.org, linux1394-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org, linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, linux-block@vger.kernel.org, linux-media@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, netdev@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-serial@vger.kernel.org, linux-spi@vger.kernel.org, devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-aXNwMTc2MF9pbml0X2NvcmUoKSBpcyBuZXZlciBjYWxsZWQgaW4gYXRvbWljIGNvbnRleHQuCgpU
-aGUgY2FsbCBjaGFpbnMgZW5kaW5nIHVwIGF0IGlzcDE3NjBfaW5pdF9jb3JlKCkgYXJlOgpbMV0g
-aXNwMTc2MF9pbml0X2NvcmUoKSA8LSBpc3AxNzYwX3JlZ2lzdGVyKCkgPC0gaXNwMTc2MF9wbGF0
-X3Byb2JlKCkKWzJdIGlzcDE3NjBfaW5pdF9jb3JlKCkgPC0gaXNwMTc2MF9yZWdpc3RlcigpIDwt
-IGlzcDE3NjFfcGNpX3Byb2JlKCkKCmlzcDE3NjBfcGxhdF9wcm9iZSgpIGlzIHNldCBhcyAiLnBy
-b2JlIiBpbiBzdHJ1Y3QgcGxhdGZvcm1fZHJpdmVyLgppc3AxNzYxX3BjaV9wcm9iZSgpIGlzIHNl
-dCBhcyAiLnByb2JlIiBpbiBzdHJ1Y3QgcGNpX2RyaXZlci4KVGhlc2UgZnVuY3Rpb25zIGFyZSBu
-b3QgY2FsbGVkIGluIGF0b21pYyBjb250ZXh0LgoKRGVzcGl0ZSBuZXZlciBnZXR0aW5nIGNhbGxl
-ZCBmcm9tIGF0b21pYyBjb250ZXh0LCBpc3AxNzYxX3BjaV9wcm9iZSgpCmNhbGxzIG1kZWxheSgp
-IHRvIGJ1c2lseSB3YWl0LgpUaGlzIGlzIG5vdCBuZWNlc3NhcnkgYW5kIGNhbiBiZSByZXBsYWNl
-ZCB3aXRoIG1zbGVlcCgpIHRvCmF2b2lkIGJ1c3kgd2FpdGluZy4KClRoaXMgaXMgZm91bmQgYnkg
-YSBzdGF0aWMgYW5hbHlzaXMgdG9vbCBuYW1lZCBEQ05TIHdyaXR0ZW4gYnkgbXlzZWxmLgpBbmQg
-SSBhbHNvIG1hbnVhbGx5IGNoZWNrIGl0LgoKU2lnbmVkLW9mZi1ieTogSmlhLUp1IEJhaSA8YmFp
-amlhanUxOTkwQGdtYWlsLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9pc3AxNzYwL2lzcDE3NjAtY29y
-ZS5jIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
-CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvaXNwMTc2MC9pc3AxNzYwLWNvcmUuYyBiL2RyaXZl
-cnMvdXNiL2lzcDE3NjAvaXNwMTc2MC1jb3JlLmMKaW5kZXggYmZhNDAyYy4uMjU5YzNlYiAxMDA2
-NDQKLS0tIGEvZHJpdmVycy91c2IvaXNwMTc2MC9pc3AxNzYwLWNvcmUuYworKysgYi9kcml2ZXJz
-L3VzYi9pc3AxNzYwL2lzcDE3NjAtY29yZS5jCkBAIC0zNCw3ICszNCw3IEBAIHN0YXRpYyB2b2lk
-IGlzcDE3NjBfaW5pdF9jb3JlKHN0cnVjdCBpc3AxNzYwX2RldmljZSAqaXNwKQogCS8qIExvdy1s
-ZXZlbCBjaGlwIHJlc2V0ICovCiAJaWYgKGlzcC0+cnN0X2dwaW8pIHsKIAkJZ3Bpb2Rfc2V0X3Zh
-bHVlX2NhbnNsZWVwKGlzcC0+cnN0X2dwaW8sIDEpOwotCQltZGVsYXkoNTApOworCQltc2xlZXAo
-NTApOwogCQlncGlvZF9zZXRfdmFsdWVfY2Fuc2xlZXAoaXNwLT5yc3RfZ3BpbywgMCk7CiAJfQog
+UmVtb3ZlIGRlcGVuZGVuY2llcyBvbiBIQVNfRE1BIHdoZXJlIGEgS2NvbmZpZyBzeW1ib2wgZGVw
+ZW5kcyBvbiBhbm90aGVyCnN5bWJvbCB0aGF0IGltcGxpZXMgSEFTX0RNQSwgYW5kLCBvcHRpb25h
+bGx5LCBvbiAifHwgQ09NUElMRV9URVNUIi4KSW4gbW9zdCBjYXNlcyB0aGlzIG90aGVyIHN5bWJv
+bCBpcyBhbiBhcmNoaXRlY3R1cmUgb3IgcGxhdGZvcm0gc3BlY2lmaWMKc3ltYm9sLCBvciBQQ0ku
+CgpHZW5lcmljIHN5bWJvbHMgYW5kIGRyaXZlcnMgd2l0aG91dCBwbGF0Zm9ybSBkZXBlbmRlbmNp
+ZXMga2VlcCB0aGVpcgpkZXBlbmRlbmNpZXMgb24gSEFTX0RNQSwgdG8gcHJldmVudCBjb21waWxp
+bmcgc3Vic3lzdGVtcyBvciBkcml2ZXJzIHRoYXQKY2Fubm90IHdvcmsgYW55d2F5LgoKVGhpcyBz
+aW1wbGlmaWVzIHRoZSBkZXBlbmRlbmNpZXMsIGFuZCBhbGxvd3MgdG8gaW1wcm92ZSBjb21waWxl
+LXRlc3RpbmcuCgpTaWduZWQtb2ZmLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4
+LW02OGsub3JnPgpSZXZpZXdlZC1ieTogTWFyayBCcm93biA8YnJvb25pZUBrZXJuZWwub3JnPgpB
+Y2tlZC1ieTogUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4KQWNrZWQtYnk6IEJh
+cnRsb21pZWogWm9sbmllcmtpZXdpY3ogPGIuem9sbmllcmtpZUBzYW1zdW5nLmNvbT4KLS0tCnYz
+OgogIC0gQWRkIEFja2VkLWJ5LAogIC0gUmViYXNlIHRvIHY0LjE3LXJjMSwKCnYyOgogIC0gQWRk
+IFJldmlld2VkLWJ5LCBBY2tlZC1ieSwKICAtIERyb3AgUkZDIHN0YXRlLAogIC0gU3BsaXQgcGVy
+IHN1YnN5c3RlbS4KLS0tCiBkcml2ZXJzL3ZpZGVvL2ZiZGV2L0tjb25maWcgfCAzICsrLQogMSBm
+aWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvdmlkZW8vZmJkZXYvS2NvbmZpZyBiL2RyaXZlcnMvdmlkZW8vZmJkZXYvS2NvbmZp
+ZwppbmRleCBkOTQyNTQyNjNlYTVjYWE3Li40Zjk4NTNlYzE3MjE5NTBmIDEwMDY0NAotLS0gYS9k
+cml2ZXJzL3ZpZGVvL2ZiZGV2L0tjb25maWcKKysrIGIvZHJpdmVycy92aWRlby9mYmRldi9LY29u
+ZmlnCkBAIC0yMDc1LDcgKzIwNzUsOCBAQCBjb25maWcgRkJfWElMSU5YCiAKIGNvbmZpZyBGQl9H
+T0xERklTSAogCXRyaXN0YXRlICJHb2xkZmlzaCBGcmFtZWJ1ZmZlciIKLQlkZXBlbmRzIG9uIEZC
+ICYmIEhBU19ETUEgJiYgKEdPTERGSVNIIHx8IENPTVBJTEVfVEVTVCkKKwlkZXBlbmRzIG9uIEZC
+CisJZGVwZW5kcyBvbiBHT0xERklTSCB8fCBDT01QSUxFX1RFU1QKIAlzZWxlY3QgRkJfQ0ZCX0ZJ
+TExSRUNUCiAJc2VsZWN0IEZCX0NGQl9DT1BZQVJFQQogCXNlbGVjdCBGQl9DRkJfSU1BR0VCTElU
 Cg==
