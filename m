@@ -1,28 +1,34 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,2/3] usb: dwc3: Add Qualcomm DWC3 glue driver
-From: Jack Pham <jackp@codeaurora.org>
-Message-Id: <20180413182323.GA11810@usblab-sd-06.qualcomm.com>
-Date: Fri, 13 Apr 2018 11:23:23 -0700
-To: Manu Gautam <mgautam@codeaurora.org>
-Cc: balbi@kernel.org, robh@kernel.org, andy.gross@linaro.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, robh+dt@kernel.org, linux-arm-msm@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [v3,16/20] remoteproc: Remove depends on HAS_DMA in case of platform dependency
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Message-Id: <1523987360-18760-17-git-send-email-geert@linux-m68k.org>
+Date: Tue, 17 Apr 2018 19:49:16 +0200
+To: Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Tejun Heo <tj@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller" <davem@davemloft.net>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Stefan Richter <stefanr@s5r6.in-berlin.de>, Alan Tull <atull@kernel.org>, Moritz Fischer <mdf@kernel.org>, Wolfram Sang <wsa@the-dreams.de>, Jonathan Cameron <jic23@kernel.org>, Joerg Roedel <joro@8bytes.org>, Matias Bjorling <mb@lightnvm.io>, Jassi Brar <jassisinghbrar@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, David Woodhouse <dwmw2@infradead.org>, Brian Norris <computersforpeace@gmail.com>, Marek Vasut <marek.vasut@gmail.com>, Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>, Boris Brezillon <boris.brezillon@free-electrons.com>, Richard Weinberger <richard@nod.at>, Kalle Valo <kvalo@codeaurora.org>, Ohad Ben-Cohen <ohad@wizery.com>, Bjorn Andersson <bjorn.andersson@linaro.org>, Eric Anholt <eric@anholt.net>, Stefan Wahren <stefan.wahren@i2se.com>
+Cc: iommu@lists.linux-foundation.org, linux-usb@vger.kernel.org, alsa-devel@alsa-project.org, linux-ide@vger.kernel.org, linux-crypto@vger.kernel.org, linux-fbdev@vger.kernel.org, linux1394-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org, linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, linux-block@vger.kernel.org, linux-media@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, netdev@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-serial@vger.kernel.org, linux-spi@vger.kernel.org, devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCBBcHIgMTMsIDIwMTggYXQgMTE6MzI6MDRQTSArMDUzMCwgTWFudSBHYXV0YW0gd3Jv
-dGU6Cj4gT24gNC8xMy8yMDE4IDExOjAzIFBNLCBKYWNrIFBoYW0gd3JvdGU6Cj4gPiBBcmUgdGhl
-IGV4dGNvbiBwaGFuZGxlcyBib3VuZCB0byB0aGUgZ2x1ZSBub2RlPyBJIGRvbid0IHNlZSB0aGUK
-PiA+IGRlc2NyaXB0aW9uIGluIHRoZSBiaW5kaW5ncyBkb2MgaW4gUEFUQ0ggMS8zLiBBbmQgaWYg
-c28sIHdvdWxkIGl0IGJlCj4gPiBhIGR1cGxpY2F0ZSBvZiB0aGUgY2hpbGQgbm9kZSdzIGV4dGNv
-biBiaW5kaW5nPyBUaGVuIGFnYWluLCB0aGUKPiA+IGFsdGVybmF0aXZlIHdvdWxkIGJlIHRvIGdy
-YWIgaXQgZGlyZWN0bHkgZnJvbSB0aGUgY2hpbGQgKGkuZS4KPiA+IHFjb20tPmR3YzMtPmRldi5v
-Zl9ub2RlKSB3aGljaCBJJ20gbm90IHN1cmUgaXMgb2sgdG8gZG8gb3Igbm90Lgo+ID4KPiAKPiBZ
-ZXMgdGhlc2UgYXJlIGJvdW5kIHRvIGdsdWUgbm9kZS4gSSBtaXNzZWQgdG8gYWRkIGl0IHRvIGRv
-Y3VtZW50YXRpb24sIHdpbGwgZG8KPiBzby4KCk9rIHRoYW5rcy4KCj4gSSBrZXB0IGl0IHNlcGFy
-YXRlIGZvciBjb3VwbGUgb2YgcmVhc29ucyAtIG9uZSBpcyB0byBub3QgcGVlayB0b28tbXVjaCBp
-bnRvIGNoaWxkCj4gbm9kZS4gQW5vdGhlciByZWFzb24gaXMgdGhhdCBkb2luZyBzbyBhbGxvd3Mg
-dG8gaGF2ZSBleHRjb24gaW4gInBlcmlwaGVyYWwiCj4gb25seSBtb2RlIGFzIHdlbGwgKG5vdCBq
-dXN0IGRyZCBtb2RlIHdoaWNoIGlzIHRoZSBjYXNlIHdpdGggZHdjMyBjb3JlKS4KPiBJdCBhbGxv
-d3MgdG8gbm90aWZ5IGgvdyB3aGVuIHZidXMgaXMgbm90IHRoZXJlIGluIGRldmljZSBtb2RlIHdo
-aWNoIElNTyBpcwo+IHJpZ2h0IHRoaW5nIHRvIGRvLgoKQWgsIG1ha2VzIHNlbnNlLiBleHRjb24g
-Zm9yIHRoZSBjaGlsZCBpcyBvbmx5IG5lZWRlZCBmb3IgZHVhbC1yb2xlLgoKSmFjawo=
+UmVtb3ZlIGRlcGVuZGVuY2llcyBvbiBIQVNfRE1BIHdoZXJlIGEgS2NvbmZpZyBzeW1ib2wgZGVw
+ZW5kcyBvbiBhbm90aGVyCnN5bWJvbCB0aGF0IGltcGxpZXMgSEFTX0RNQSwgYW5kLCBvcHRpb25h
+bGx5LCBvbiAifHwgQ09NUElMRV9URVNUIi4KSW4gbW9zdCBjYXNlcyB0aGlzIG90aGVyIHN5bWJv
+bCBpcyBhbiBhcmNoaXRlY3R1cmUgb3IgcGxhdGZvcm0gc3BlY2lmaWMKc3ltYm9sLCBvciBQQ0ku
+CgpHZW5lcmljIHN5bWJvbHMgYW5kIGRyaXZlcnMgd2l0aG91dCBwbGF0Zm9ybSBkZXBlbmRlbmNp
+ZXMga2VlcCB0aGVpcgpkZXBlbmRlbmNpZXMgb24gSEFTX0RNQSwgdG8gcHJldmVudCBjb21waWxp
+bmcgc3Vic3lzdGVtcyBvciBkcml2ZXJzIHRoYXQKY2Fubm90IHdvcmsgYW55d2F5LgoKVGhpcyBz
+aW1wbGlmaWVzIHRoZSBkZXBlbmRlbmNpZXMsIGFuZCBhbGxvd3MgdG8gaW1wcm92ZSBjb21waWxl
+LXRlc3RpbmcuCgpTaWduZWQtb2ZmLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4
+LW02OGsub3JnPgpSZXZpZXdlZC1ieTogTWFyayBCcm93biA8YnJvb25pZUBrZXJuZWwub3JnPgpB
+Y2tlZC1ieTogUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4KQWNrZWQtYnk6IEJq
+b3JuIEFuZGVyc3NvbiA8Ympvcm4uYW5kZXJzc29uQGxpbmFyby5vcmc+Ci0tLQp2MzoKICAtIEFk
+ZCBBY2tlZC1ieSwKICAtIFJlYmFzZSB0byB2NC4xNy1yYzEsCgp2MjoKICAtIEFkZCBSZXZpZXdl
+ZC1ieSwgQWNrZWQtYnksCiAgLSBEcm9wIFJGQyBzdGF0ZSwKICAtIFNwbGl0IHBlciBzdWJzeXN0
+ZW0uCi0tLQogZHJpdmVycy9yZW1vdGVwcm9jL0tjb25maWcgfCAxIC0KIDEgZmlsZSBjaGFuZ2Vk
+LCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9yZW1vdGVwcm9jL0tjb25maWcg
+Yi9kcml2ZXJzL3JlbW90ZXByb2MvS2NvbmZpZwppbmRleCAwMjcyNzQwMDhiMDg2ZDZmLi5jZDFj
+MTY4ZmQxODg5OGRjIDEwMDY0NAotLS0gYS9kcml2ZXJzL3JlbW90ZXByb2MvS2NvbmZpZworKysg
+Yi9kcml2ZXJzL3JlbW90ZXByb2MvS2NvbmZpZwpAQCAtMjQsNyArMjQsNiBAQCBjb25maWcgSU1Y
+X1JFTU9URVBST0MKIAogY29uZmlnIE9NQVBfUkVNT1RFUFJPQwogCXRyaXN0YXRlICJPTUFQIHJl
+bW90ZXByb2Mgc3VwcG9ydCIKLQlkZXBlbmRzIG9uIEhBU19ETUEKIAlkZXBlbmRzIG9uIEFSQ0hf
+T01BUDQgfHwgU09DX09NQVA1CiAJZGVwZW5kcyBvbiBPTUFQX0lPTU1VCiAJc2VsZWN0IE1BSUxC
+T1gK
