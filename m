@@ -1,24 +1,24 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [RFT/PATCH,31/38] usb: dwc3: gadget: reduce scope of ret variable
-From: Felipe Balbi <felipe.balbi@linux.intel.com>
-Message-Id: <20180409112652.25755-32-felipe.balbi@linux.intel.com>
-Date: Mon,  9 Apr 2018 14:26:45 +0300
-To: Linux USB <linux-usb@vger.kernel.org>
-Cc: Felipe Balbi <felipe.balbi@linux.intel.com>
+Subject: [PATCH/RFC,01/11] Documentation: of: Add device-connection-id property
+From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Message-Id: <1524039005-30618-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Date: Wed, 18 Apr 2018 17:09:55 +0900
+To: gregkh@linuxfoundation.org, robh+dt@kernel.org, mark.rutland@arm.com, frowand.list@gmail.com
+Cc: heikki.krogerus@linux.intel.com, hdegoede@redhat.com, andy.shevchenko@gmail.com, p.zabel@pengutronix.de, linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-V2UgY2FuIGRlY2xhcmUgaXQgaW5zaWRlIGxpc3RfZm9yX2VhY2hfZW50cnlfc2FmZSgpIGxvb3Ag
-YW5kIHJlZHVjZQppdHMgc2NvcGUuCgpTaWduZWQtb2ZmLWJ5OiBGZWxpcGUgQmFsYmkgPGZlbGlw
-ZS5iYWxiaUBsaW51eC5pbnRlbC5jb20+Ci0tLQogZHJpdmVycy91c2IvZHdjMy9nYWRnZXQuYyB8
-IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2R3YzMvZ2FkZ2V0LmMgYi9kcml2ZXJzL3VzYi9kd2MzL2dh
-ZGdldC5jCmluZGV4IDk5OTYyZGU2NzcxNS4uM2E0MDEzYmM2MWQ4IDEwMDY0NAotLS0gYS9kcml2
-ZXJzL3VzYi9kd2MzL2dhZGdldC5jCisrKyBiL2RyaXZlcnMvdXNiL2R3YzMvZ2FkZ2V0LmMKQEAg
-LTIyODgsMTAgKzIyODgsMTAgQEAgc3RhdGljIHZvaWQgZHdjM19nYWRnZXRfZXBfY2xlYW51cF9j
-b21wbGV0ZWRfcmVxdWVzdHMoc3RydWN0IGR3YzNfZXAgKmRlcCwKIHsKIAlzdHJ1Y3QgZHdjM19y
-ZXF1ZXN0CSpyZXE7CiAJc3RydWN0IGR3YzNfcmVxdWVzdAkqdG1wOwotCWludAkJCXJldCA9IDA7
-CiAKIAlsaXN0X2Zvcl9lYWNoX2VudHJ5X3NhZmUocmVxLCB0bXAsICZkZXAtPnN0YXJ0ZWRfbGlz
-dCwgbGlzdCkgewogCQl1bnNpZ25lZCBsZW5ndGg7CisJCWludCByZXQ7CiAKIAkJbGVuZ3RoID0g
-cmVxLT5yZXF1ZXN0Lmxlbmd0aDsKIAkJaWYgKHJlcS0+bnVtX3BlbmRpbmdfc2dzKQo=
+VGhpcyBwYXRjaCBhZGRzIGEgbmV3IHByb3BlcnR5IGZvciBkZXZpY2UgY29ubmVjdGlvbiBmcmFt
+ZXdvcmsuCgpTaWduZWQtb2ZmLWJ5OiBZb3NoaWhpcm8gU2hpbW9kYSA8eW9zaGloaXJvLnNoaW1v
+ZGEudWhAcmVuZXNhcy5jb20+Ci0tLQogRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
+L2dyYXBoLnR4dCB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxl
+dGlvbigtKQoKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9n
+cmFwaC50eHQgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZ3JhcGgudHh0Cmlu
+ZGV4IDA0MTVlMmMuLmZjYTAwMzAgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
+ZS9iaW5kaW5ncy9ncmFwaC50eHQKKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL2dyYXBoLnR4dApAQCAtMTI1LDQgKzEyNSw0IEBAIE9wdGlvbmFsIGVuZHBvaW50IHByb3Bl
+cnRpZXMKIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KIAogLSByZW1vdGUtZW5kcG9pbnQ6
+IHBoYW5kbGUgdG8gYW4gJ2VuZHBvaW50JyBzdWJub2RlIG9mIGEgcmVtb3RlIGRldmljZSBub2Rl
+LgotCistIGRldmljZS1jb25uZWN0aW9uLWlkOiBzdHJpbmcgZm9yIGRldmljZSBjb25uZWN0aW9u
+Lgo=
