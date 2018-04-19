@@ -1,32 +1,59 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3,05/20] firewire: Remove depends on HAS_DMA in case of platform dependency
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Message-Id: <1523987360-18760-6-git-send-email-geert@linux-m68k.org>
-Date: Tue, 17 Apr 2018 19:49:05 +0200
-To: Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Tejun Heo <tj@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller" <davem@davemloft.net>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Stefan Richter <stefanr@s5r6.in-berlin.de>, Alan Tull <atull@kernel.org>, Moritz Fischer <mdf@kernel.org>, Wolfram Sang <wsa@the-dreams.de>, Jonathan Cameron <jic23@kernel.org>, Joerg Roedel <joro@8bytes.org>, Matias Bjorling <mb@lightnvm.io>, Jassi Brar <jassisinghbrar@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, David Woodhouse <dwmw2@infradead.org>, Brian Norris <computersforpeace@gmail.com>, Marek Vasut <marek.vasut@gmail.com>, Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>, Boris Brezillon <boris.brezillon@free-electrons.com>, Richard Weinberger <richard@nod.at>, Kalle Valo <kvalo@codeaurora.org>, Ohad Ben-Cohen <ohad@wizery.com>, Bjorn Andersson <bjorn.andersson@linaro.org>, Eric Anholt <eric@anholt.net>, Stefan Wahren <stefan.wahren@i2se.com>
-Cc: iommu@lists.linux-foundation.org, linux-usb@vger.kernel.org, alsa-devel@alsa-project.org, linux-ide@vger.kernel.org, linux-crypto@vger.kernel.org, linux-fbdev@vger.kernel.org, linux1394-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org, linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, linux-block@vger.kernel.org, linux-media@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, netdev@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-serial@vger.kernel.org, linux-spi@vger.kernel.org, devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [resend,v3,3/3] dt-bindings: Document the DT bindings for lan78xx
+From: Phil Elwell <phil@raspberrypi.org>
+Message-Id: <1524151019-82823-4-git-send-email-phil@raspberrypi.org>
+Date: Thu, 19 Apr 2018 16:16:59 +0100
+To: Woojung Huh <woojung.huh@microchip.com>, Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>, "David S. Miller" <davem@davemloft.net>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linus Walleij <linus.walleij@linaro.org>, Andrew Morton <akpm@linux-foundation.org>, Randy Dunlap <rdunlap@infradead.org>, Phil Elwell <phil@raspberrypi.org>, netdev@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-UmVtb3ZlIGRlcGVuZGVuY2llcyBvbiBIQVNfRE1BIHdoZXJlIGEgS2NvbmZpZyBzeW1ib2wgZGVw
-ZW5kcyBvbiBhbm90aGVyCnN5bWJvbCB0aGF0IGltcGxpZXMgSEFTX0RNQSwgYW5kLCBvcHRpb25h
-bGx5LCBvbiAifHwgQ09NUElMRV9URVNUIi4KSW4gbW9zdCBjYXNlcyB0aGlzIG90aGVyIHN5bWJv
-bCBpcyBhbiBhcmNoaXRlY3R1cmUgb3IgcGxhdGZvcm0gc3BlY2lmaWMKc3ltYm9sLCBvciBQQ0ku
-CgpHZW5lcmljIHN5bWJvbHMgYW5kIGRyaXZlcnMgd2l0aG91dCBwbGF0Zm9ybSBkZXBlbmRlbmNp
-ZXMga2VlcCB0aGVpcgpkZXBlbmRlbmNpZXMgb24gSEFTX0RNQSwgdG8gcHJldmVudCBjb21waWxp
-bmcgc3Vic3lzdGVtcyBvciBkcml2ZXJzIHRoYXQKY2Fubm90IHdvcmsgYW55d2F5LgoKVGhpcyBz
-aW1wbGlmaWVzIHRoZSBkZXBlbmRlbmNpZXMsIGFuZCBhbGxvd3MgdG8gaW1wcm92ZSBjb21waWxl
-LXRlc3RpbmcuCgpTaWduZWQtb2ZmLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4
-LW02OGsub3JnPgpSZXZpZXdlZC1ieTogTWFyayBCcm93biA8YnJvb25pZUBrZXJuZWwub3JnPgpB
-Y2tlZC1ieTogUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4KLS0tCnYzOgogIC0g
-UmViYXNlIHRvIHY0LjE3LXJjMSwKCnYyOgogIC0gQWRkIFJldmlld2VkLWJ5LCBBY2tlZC1ieSwK
-ICAtIERyb3AgUkZDIHN0YXRlLAogIC0gU3BsaXQgcGVyIHN1YnN5c3RlbS4KLS0tCiBkcml2ZXJz
-L2ZpcmV3aXJlL0tjb25maWcgfCAxIC0KIDEgZmlsZSBjaGFuZ2VkLCAxIGRlbGV0aW9uKC0pCgpk
-aWZmIC0tZ2l0IGEvZHJpdmVycy9maXJld2lyZS9LY29uZmlnIGIvZHJpdmVycy9maXJld2lyZS9L
-Y29uZmlnCmluZGV4IDE0NTk3NGY5NjYyYjYzZTYuLjQxOTk4NDllMzc1ODUxODEgMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvZmlyZXdpcmUvS2NvbmZpZworKysgYi9kcml2ZXJzL2ZpcmV3aXJlL0tjb25m
-aWcKQEAgLTEsNSArMSw0IEBACiBtZW51ICJJRUVFIDEzOTQgKEZpcmVXaXJlKSBzdXBwb3J0Igot
-CWRlcGVuZHMgb24gSEFTX0RNQQogCWRlcGVuZHMgb24gUENJIHx8IENPTVBJTEVfVEVTVAogCSMg
-ZmlyZXdpcmUtY29yZSBkb2VzIG5vdCBkZXBlbmQgb24gUENJIGJ1dCBpcwogCSMgbm90IHVzZWZ1
-bCB3aXRob3V0IFBDSSBjb250cm9sbGVyIGRyaXZlcgo=
+VGhlIE1pY3JvY2hpcCBMQU43OFhYIGZhbWlseSBvZiBkZXZpY2VzIGFyZSBFdGhlcm5ldCBjb250
+cm9sbGVycyB3aXRoCmEgVVNCIGludGVyZmFjZS4gRGVzcGl0ZSBiZWluZyBkaXNjb3ZlcmFibGUg
+ZGV2aWNlcyBpdCBjYW4gYmUgdXNlZnVsIHRvCmJlIGFibGUgdG8gY29uZmlndXJlIHRoZW0gZnJv
+bSBEZXZpY2UgVHJlZSwgcGFydGljdWxhcmx5IGluIGxvdy1jb3N0CmFwcGxpY2F0aW9ucyB3aXRo
+b3V0IGFuIEVFUFJPTSBvciBwcm9ncmFtbWVkIE9UUC4KCkRvY3VtZW50IHRoZSBzdXBwb3J0ZWQg
+cHJvcGVydGllcyBpbiBhIGJpbmRpbmdzIGZpbGUuCgpTaWduZWQtb2ZmLWJ5OiBQaGlsIEVsd2Vs
+bCA8cGhpbEByYXNwYmVycnlwaS5vcmc+Ci0tLQogLi4uL2RldmljZXRyZWUvYmluZGluZ3MvbmV0
+L21pY3JvY2hpcCxsYW43OHh4LnR4dCAgfCA1NCArKysrKysrKysrKysrKysrKysrKysrCiBNQUlO
+VEFJTkVSUyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAxICsKIDIg
+ZmlsZXMgY2hhbmdlZCwgNTUgaW5zZXJ0aW9ucygrKQogY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9uZXQvbWljcm9jaGlwLGxhbjc4eHgudHh0Cgpk
+aWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL25ldC9taWNyb2No
+aXAsbGFuNzh4eC50eHQgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbmV0L21p
+Y3JvY2hpcCxsYW43OHh4LnR4dApuZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAwMDAwLi5h
+NWQ3MDFiCi0tLSAvZGV2L251bGwKKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL25ldC9taWNyb2NoaXAsbGFuNzh4eC50eHQKQEAgLTAsMCArMSw1NCBAQAorTWljcm9jaGlw
+IExBTjc4eHggR2lnYWJpdCBFdGhlcm5ldCBjb250cm9sbGVyCisKK1RoZSBMQU43OFhYIGRldmlj
+ZXMgYXJlIHVzdWFsbHkgY29uZmlndXJlZCBieSBwcm9ncmFtbWluZyB0aGVpciBPVFAgb3Igd2l0
+aAorYW4gZXh0ZXJuYWwgRUVQUk9NLCBidXQgc29tZSBwbGF0Zm9ybXMgKGUuZy4gUmFzcGJlcnJ5
+IFBpIDMgQispIGhhdmUgbmVpdGhlci4KK1RoZSBEZXZpY2UgVHJlZSBwcm9wZXJ0aWVzLCBpZiBw
+cmVzZW50LCBvdmVycmlkZSB0aGUgT1RQIGFuZCBFRVBST00uCisKK1JlcXVpcmVkIHByb3BlcnRp
+ZXM6CistIGNvbXBhdGlibGU6IFNob3VsZCBiZSBvbmUgb2YgInVzYjQyNCw3ODAwIiwgInVzYjQy
+NCw3ODAxIiBvciAidXNiNDI0LDc4NTAiLgorCitPcHRpb25hbCBwcm9wZXJ0aWVzOgorLSBsb2Nh
+bC1tYWMtYWRkcmVzczogICBzZWUgZXRoZXJuZXQudHh0CistIG1hYy1hZGRyZXNzOiAgICAgICAg
+IHNlZSBldGhlcm5ldC50eHQKKworT3B0aW9uYWwgcHJvcGVydGllcyBvZiB0aGUgZW1iZWRkZWQg
+UEhZOgorLSBtaWNyb2NoaXAsbGVkLW1vZGVzOiBhIDAuLjQgZWxlbWVudCB2ZWN0b3IsIHdpdGgg
+ZWFjaCBlbGVtZW50IGNvbmZpZ3VyaW5nCisgIHRoZSBvcGVyYXRpbmcgbW9kZSBvZiBhbiBMRUQu
+IE9taXR0ZWQgTEVEcyBhcmUgdHVybmVkIG9mZi4gQWxsb3dlZCB2YWx1ZXMKKyAgYXJlIGRlZmlu
+ZWQgaW4gImluY2x1ZGUvZHQtYmluZGluZ3MvbmV0L21pY3JvY2hpcC1sYW43OHh4LmgiLgorCitF
+eGFtcGxlOgorCisvKiBCYXNlZCBvbiB0aGUgY29uZmlndXJhdGlvbiBmb3IgYSBSYXNwYmVycnkg
+UGkgMyBCKyAqLworJnVzYiB7CisJdXNiMUAxIHsKKwkJY29tcGF0aWJsZSA9ICJ1c2I0MjQsMjUx
+NCI7CisJCXJlZyA9IDwxPjsKKwkJI2FkZHJlc3MtY2VsbHMgPSA8MT47CisJCSNzaXplLWNlbGxz
+ID0gPDA+OworCisJCXVzYjFfMUAxIHsKKwkJCWNvbXBhdGlibGUgPSAidXNiNDI0LDI1MTQiOwor
+CQkJcmVnID0gPDE+OworCQkJI2FkZHJlc3MtY2VsbHMgPSA8MT47CisJCQkjc2l6ZS1jZWxscyA9
+IDwwPjsKKworCQkJZXRoZXJuZXQ6IHVzYmV0aGVyQDEgeworCQkJCWNvbXBhdGlibGUgPSAidXNi
+NDI0LDc4MDAiOworCQkJCXJlZyA9IDwxPjsKKwkJCQlsb2NhbC1tYWMtYWRkcmVzcyA9IFsgMDAg
+MTEgMjIgMzMgNDQgNTUgXTsKKworCQkJCW1kaW8geworCQkJCQkjYWRkcmVzcy1jZWxscyA9IDww
+eDE+OworCQkJCQkjc2l6ZS1jZWxscyA9IDwweDA+OworCQkJCQlldGhfcGh5OiBldGhlcm5ldC1w
+aHlAMSB7CisJCQkJCQlyZWcgPSA8MT47CisJCQkJCQltaWNyb2NoaXAsbGVkLW1vZGVzID0gPAor
+CQkJCQkJIAlMQU43OFhYX0xJTktfMTAwMF9BQ1RJVklUWQorCQkJCQkJCUxBTjc4WFhfTElOS18x
+MF8xMDBfQUNUSVZJVFkKKwkJCQkJCT47CisJCQkJCX07CisJCQkJfTsKKwkJCX07CisJCX07CisJ
+fTsKK307CmRpZmYgLS1naXQgYS9NQUlOVEFJTkVSUyBiL01BSU5UQUlORVJTCmluZGV4IDIzNzM1
+ZDkuLjkxY2I5NjEgMTAwNjQ0Ci0tLSBhL01BSU5UQUlORVJTCisrKyBiL01BSU5UQUlORVJTCkBA
+IC0xNDU3Miw2ICsxNDU3Miw3IEBAIE06CVdvb2p1bmcgSHVoIDx3b29qdW5nLmh1aEBtaWNyb2No
+aXAuY29tPgogTToJTWljcm9jaGlwIExpbnV4IERyaXZlciBTdXBwb3J0IDxVTkdMaW51eERyaXZl
+ckBtaWNyb2NoaXAuY29tPgogTDoJbmV0ZGV2QHZnZXIua2VybmVsLm9yZwogUzoJTWFpbnRhaW5l
+ZAorRjoJRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL25ldC9taWNyb2NoaXAsbGFu
+Nzh4eC50eHQKIEY6CWRyaXZlcnMvbmV0L3VzYi9sYW43OHh4LioKIEY6CWluY2x1ZGUvZHQtYmlu
+ZGluZ3MvbmV0L21pY3JvY2hpcC1sYW43OHh4LmgKIAo=
