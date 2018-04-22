@@ -2,28 +2,30 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v7,1/6] typec: tcpm: Add core support for sink side PPS
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20180422140508.GA21446@kroah.com>
-Date: Sun, 22 Apr 2018 16:05:08 +0200
-To: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, Guenter Roeck <linux@roeck-us.net>, Sebastian Reichel <sre@kernel.org>, Hans de Goede <hdegoede@redhat.com>, Jun Li <jun.li@nxp.com>, linux-usb@vger.kernel.org, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, support.opensource@diasemi.com
+From: "Opensource \[Adam Thomson\]" <Adam.Thomson.Opensource@diasemi.com>
+Message-Id: <2E89032DDAA8B9408CB92943514A0337014C1E6AAD@SW-EX-MBX01.diasemi.com>
+Date: Sun, 22 Apr 2018 20:57:32 +0000
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, Guenter Roeck <linux@roeck-us.net>, Sebastian Reichel <sre@kernel.org>, Hans de Goede <hdegoede@redhat.com>, Jun Li <jun.li@nxp.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Support Opensource <Support.Opensource@diasemi.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCBNYXIgMjMsIDIwMTggYXQgMTA6MTI6MjBBTSArMDAwMCwgQWRhbSBUaG9tc29uIHdy
-b3RlOgo+IFRoaXMgY29tbWl0IGFkZHMgY29kZSB0byBoYW5kbGUgcmVxdWVzdGluZyBvZiBQUFMg
-QVBET3MuIFN3aXRjaGluZwo+IGJldHdlZW4gc3RhbmRhcmQgUERPcyBhbmQgQVBET3MsIGFuZCBy
-ZS1yZXF1ZXN0aW5nIGFuIEFQRE8gdG8KPiBtb2RpZnkgb3BlcmF0aW5nIHZvbHRhZ2UvY3VycmVu
-dCB3aWxsIGJlIHRyaWdnZXJlZCBieSBhbgo+IGV4dGVybmFsIGNhbGwgaW50byBUQ1BNLgo+IAo+
-IFNpZ25lZC1vZmYtYnk6IEFkYW0gVGhvbXNvbiA8QWRhbS5UaG9tc29uLk9wZW5zb3VyY2VAZGlh
-c2VtaS5jb20+Cj4gQWNrZWQtYnk6IEhlaWtraSBLcm9nZXJ1cyA8aGVpa2tpLmtyb2dlcnVzQGxp
-bnV4LmludGVsLmNvbT4KPiBSZXZpZXdlZC1ieTogR3VlbnRlciBSb2VjayA8bGludXhAcm9lY2st
-dXMubmV0Pgo+IC0tLQo+ICBkcml2ZXJzL3VzYi90eXBlYy90Y3BtLmMgfCA1MTcgKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0KPiAgaW5jbHVkZS9saW51eC91
-c2IvcGQuaCAgIHwgICA0ICstCj4gIGluY2x1ZGUvbGludXgvdXNiL3RjcG0uaCB8ICAgMSArCj4g
-IDMgZmlsZXMgY2hhbmdlZCwgNTA5IGluc2VydGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQoKVGhp
-cyBwYXRjaCBhZGRzIGJ1aWxkIHdhcm5pbmdzIHRvIHRoZSB0cmVlLCBzbyBJIGNhbid0IHRha2Ug
-aXQsIHNvcnJ5LgpQbGVhc2UgZml4IHVwIGFuZCByZXNlbmQuCgp0aGFua3MsCgpncmVnIGstaAot
-LS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2Ny
-aWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2Vy
-Lmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9y
-Zy9tYWpvcmRvbW8taW5mby5odG1sCg==
+T24gMjIgQXByaWwgMjAxOCAxNTowNSwgR3JlZyBLcm9haC1IYXJ0bWFuIHdyb3RlOgoKPiBPbiBG
+cmksIE1hciAyMywgMjAxOCBhdCAxMDoxMjoyMEFNICswMDAwLCBBZGFtIFRob21zb24gd3JvdGU6
+Cj4gPiBUaGlzIGNvbW1pdCBhZGRzIGNvZGUgdG8gaGFuZGxlIHJlcXVlc3Rpbmcgb2YgUFBTIEFQ
+RE9zLiBTd2l0Y2hpbmcKPiA+IGJldHdlZW4gc3RhbmRhcmQgUERPcyBhbmQgQVBET3MsIGFuZCBy
+ZS1yZXF1ZXN0aW5nIGFuIEFQRE8gdG8KPiA+IG1vZGlmeSBvcGVyYXRpbmcgdm9sdGFnZS9jdXJy
+ZW50IHdpbGwgYmUgdHJpZ2dlcmVkIGJ5IGFuCj4gPiBleHRlcm5hbCBjYWxsIGludG8gVENQTS4K
+PiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBBZGFtIFRob21zb24gPEFkYW0uVGhvbXNvbi5PcGVuc291
+cmNlQGRpYXNlbWkuY29tPgo+ID4gQWNrZWQtYnk6IEhlaWtraSBLcm9nZXJ1cyA8aGVpa2tpLmty
+b2dlcnVzQGxpbnV4LmludGVsLmNvbT4KPiA+IFJldmlld2VkLWJ5OiBHdWVudGVyIFJvZWNrIDxs
+aW51eEByb2Vjay11cy5uZXQ+Cj4gPiAtLS0KPiA+ICBkcml2ZXJzL3VzYi90eXBlYy90Y3BtLmMg
+fCA1MTcKPiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLQo+
+ID4gIGluY2x1ZGUvbGludXgvdXNiL3BkLmggICB8ICAgNCArLQo+ID4gIGluY2x1ZGUvbGludXgv
+dXNiL3RjcG0uaCB8ICAgMSArCj4gPiAgMyBmaWxlcyBjaGFuZ2VkLCA1MDkgaW5zZXJ0aW9ucygr
+KSwgMTMgZGVsZXRpb25zKC0pCj4gCj4gVGhpcyBwYXRjaCBhZGRzIGJ1aWxkIHdhcm5pbmdzIHRv
+IHRoZSB0cmVlLCBzbyBJIGNhbid0IHRha2UgaXQsIHNvcnJ5Lgo+IFBsZWFzZSBmaXggdXAgYW5k
+IHJlc2VuZC4KCk5vIHByb2JsZW0uIFNvcnJ5IGZvciB0aGF0LiBXaWxsIHRha2UgYSBsb29rIGFu
+ZCByZXNvbHZlIHRoZSB3YXJuaW5ncy4KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0
+OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEg
+bWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8g
+YXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
