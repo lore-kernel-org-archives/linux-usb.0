@@ -1,41 +1,38 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3,07/20] i2c: Remove depends on HAS_DMA in case of platform dependency
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Message-Id: <1523987360-18760-8-git-send-email-geert@linux-m68k.org>
-Date: Tue, 17 Apr 2018 19:49:07 +0200
-To: Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Tejun Heo <tj@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller" <davem@davemloft.net>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Stefan Richter <stefanr@s5r6.in-berlin.de>, Alan Tull <atull@kernel.org>, Moritz Fischer <mdf@kernel.org>, Wolfram Sang <wsa@the-dreams.de>, Jonathan Cameron <jic23@kernel.org>, Joerg Roedel <joro@8bytes.org>, Matias Bjorling <mb@lightnvm.io>, Jassi Brar <jassisinghbrar@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, David Woodhouse <dwmw2@infradead.org>, Brian Norris <computersforpeace@gmail.com>, Marek Vasut <marek.vasut@gmail.com>, Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>, Boris Brezillon <boris.brezillon@free-electrons.com>, Richard Weinberger <richard@nod.at>, Kalle Valo <kvalo@codeaurora.org>, Ohad Ben-Cohen <ohad@wizery.com>, Bjorn Andersson <bjorn.andersson@linaro.org>, Eric Anholt <eric@anholt.net>, Stefan Wahren <stefan.wahren@i2se.com>
-Cc: iommu@lists.linux-foundation.org, linux-usb@vger.kernel.org, alsa-devel@alsa-project.org, linux-ide@vger.kernel.org, linux-crypto@vger.kernel.org, linux-fbdev@vger.kernel.org, linux1394-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org, linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, linux-block@vger.kernel.org, linux-media@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, netdev@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-serial@vger.kernel.org, linux-spi@vger.kernel.org, devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [1/2] USB: musb: dsps: drop duplicate phy initialisation
+From: Bin Liu <b-liu@ti.com>
+Message-Id: <1524491401-28583-2-git-send-email-b-liu@ti.com>
+Date: Mon, 23 Apr 2018 08:50:00 -0500
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-UmVtb3ZlIGRlcGVuZGVuY2llcyBvbiBIQVNfRE1BIHdoZXJlIGEgS2NvbmZpZyBzeW1ib2wgZGVw
-ZW5kcyBvbiBhbm90aGVyCnN5bWJvbCB0aGF0IGltcGxpZXMgSEFTX0RNQSwgYW5kLCBvcHRpb25h
-bGx5LCBvbiAifHwgQ09NUElMRV9URVNUIi4KSW4gbW9zdCBjYXNlcyB0aGlzIG90aGVyIHN5bWJv
-bCBpcyBhbiBhcmNoaXRlY3R1cmUgb3IgcGxhdGZvcm0gc3BlY2lmaWMKc3ltYm9sLCBvciBQQ0ku
-CgpHZW5lcmljIHN5bWJvbHMgYW5kIGRyaXZlcnMgd2l0aG91dCBwbGF0Zm9ybSBkZXBlbmRlbmNp
-ZXMga2VlcCB0aGVpcgpkZXBlbmRlbmNpZXMgb24gSEFTX0RNQSwgdG8gcHJldmVudCBjb21waWxp
-bmcgc3Vic3lzdGVtcyBvciBkcml2ZXJzIHRoYXQKY2Fubm90IHdvcmsgYW55d2F5LgoKVGhpcyBz
-aW1wbGlmaWVzIHRoZSBkZXBlbmRlbmNpZXMsIGFuZCBhbGxvd3MgdG8gaW1wcm92ZSBjb21waWxl
-LXRlc3RpbmcuCgpTaWduZWQtb2ZmLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4
-LW02OGsub3JnPgpSZXZpZXdlZC1ieTogTWFyayBCcm93biA8YnJvb25pZUBrZXJuZWwub3JnPgpB
-Y2tlZC1ieTogUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4KLS0tCnYzOgogIC0g
-UmViYXNlIHRvIHY0LjE3LXJjMSwKCnYyOgogIC0gQWRkIFJldmlld2VkLWJ5LCBBY2tlZC1ieSwK
-ICAtIERyb3AgUkZDIHN0YXRlLAogIC0gU3BsaXQgcGVyIHN1YnN5c3RlbS4KLS0tCiBkcml2ZXJz
-L2kyYy9idXNzZXMvS2NvbmZpZyB8IDMgLS0tCiAxIGZpbGUgY2hhbmdlZCwgMyBkZWxldGlvbnMo
-LSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2kyYy9idXNzZXMvS2NvbmZpZyBiL2RyaXZlcnMvaTJj
-L2J1c3Nlcy9LY29uZmlnCmluZGV4IGM0ODY1YjA4ZDdmYjllM2IuLjhkMjFiOTgyNWQ3MTc2NGQg
-MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvaTJjL2J1c3Nlcy9LY29uZmlnCisrKyBiL2RyaXZlcnMvaTJj
-L2J1c3Nlcy9LY29uZmlnCkBAIC03MDcsNyArNzA3LDYgQEAgY29uZmlnIEkyQ19NUEMKIGNvbmZp
-ZyBJMkNfTVQ2NVhYCiAJdHJpc3RhdGUgIk1lZGlhVGVrIEkyQyBhZGFwdGVyIgogCWRlcGVuZHMg
-b24gQVJDSF9NRURJQVRFSyB8fCBDT01QSUxFX1RFU1QKLQlkZXBlbmRzIG9uIEhBU19ETUEKIAlo
-ZWxwCiAJICBUaGlzIHNlbGVjdHMgdGhlIE1lZGlhVGVrKFIpIEludGVncmF0ZWQgSW50ZXIgQ2ly
-Y3VpdCBidXMgZHJpdmVyCiAJICBmb3IgTVQ2NXh4IGFuZCBNVDgxeHguCkBAIC04ODUsNyArODg0
-LDYgQEAgY29uZmlnIEkyQ19TSDc3NjAKIAogY29uZmlnIEkyQ19TSF9NT0JJTEUKIAl0cmlzdGF0
-ZSAiU3VwZXJIIE1vYmlsZSBJMkMgQ29udHJvbGxlciIKLQlkZXBlbmRzIG9uIEhBU19ETUEKIAlk
-ZXBlbmRzIG9uIEFSQ0hfU0hNT0JJTEUgfHwgQVJDSF9SRU5FU0FTIHx8IENPTVBJTEVfVEVTVAog
-CWhlbHAKIAkgIElmIHlvdSBzYXkgeWVzIHRvIHRoaXMgb3B0aW9uLCBzdXBwb3J0IHdpbGwgYmUg
-aW5jbHVkZWQgZm9yIHRoZQpAQCAtMTA5OCw3ICsxMDk2LDYgQEAgY29uZmlnIEkyQ19YTFA5WFgK
-IAogY29uZmlnIEkyQ19SQ0FSCiAJdHJpc3RhdGUgIlJlbmVzYXMgUi1DYXIgSTJDIENvbnRyb2xs
-ZXIiCi0JZGVwZW5kcyBvbiBIQVNfRE1BCiAJZGVwZW5kcyBvbiBBUkNIX1JFTkVTQVMgfHwgQ09N
-UElMRV9URVNUCiAJc2VsZWN0IEkyQ19TTEFWRQogCWhlbHAK
+RnJvbTogSm9oYW4gSG92b2xkIDxqb2hhbkBrZXJuZWwub3JnPgoKU2luY2UgY29tbWl0IDM5Y2Vl
+MjAwYzIzZSAoInVzYjogbXVzYjogY29yZTogY2FsbCBpbml0IGFuZCBzaHV0ZG93biBmb3IKdGhl
+IHVzYiBwaHkiKSB0aGUgbXVzYiBVU0IgcGh5IGlzIGluaXRpYWxpc2VkIGJ5IG11c2JfY29yZSwg
+YnV0IHRoZQpvcmlnaW5hbCBpbml0aWFsaXNhdGlvbiBpbiB0aGUgZHNwcy1nbHVlIGluaXQgY2Fs
+bGJhY2sgd2FzIGxlZnQgaW4KcGxhY2UgcmVzdWx0aW5nIGluIHR3byBjYWxscyB0byBwaHkgaW5p
+dCBkdXJpbmcgcHJvYmUgKGFuZCBzaW1pbGFybHksCnR3byBzaHV0ZG93bnMgb24gcmVtb3ZlKS4K
+CkRyb3AgdGhlIGR1cGxpY2F0ZSBwaHkgaW5pdCBhbmQgc2h1dGRvd24gY2FsbHMgZnJvbSB0aGUg
+ZHNwcyBnbHVlIGluCmZhdm91ciBvZiB0aGUgb25lcyBpbiBtdXNiIGNvcmUsIHdoaWNoIG90aGVy
+IGdsdWUgZHJpdmVycyByZWx5IG9uLgoKTm90ZSBob3dldmVyIHRoYXQgYW55IGdlbmVyaWMgcGh5
+IGlzIHN0aWxsIGluaXRpYWxpc2VkIGluIHRoZSBnbHVlIGluaXQKY2FsbGJhY2sgKGp1c3QgYXMg
+Zm9yIHRoZSBvdGhlciBkcml2ZXJzKS4KCkNjOiBVd2UgS2xlaW5lLUvDtm5pZyA8dS5rbGVpbmUt
+a29lbmlnQHBlbmd1dHJvbml4LmRlPgpTaWduZWQtb2ZmLWJ5OiBKb2hhbiBIb3ZvbGQgPGpvaGFu
+QGtlcm5lbC5vcmc+CkFja2VkLWJ5OiBVd2UgS2xlaW5lLUvDtm5pZyA8dS5rbGVpbmUta29lbmln
+QHBlbmd1dHJvbml4LmRlPgpTaWduZWQtb2ZmLWJ5OiBCaW4gTGl1IDxiLWxpdUB0aS5jb20+Ci0t
+LQogZHJpdmVycy91c2IvbXVzYi9tdXNiX2RzcHMuYyB8IDIgLS0KIDEgZmlsZSBjaGFuZ2VkLCAy
+IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL211c2IvbXVzYl9kc3BzLmMg
+Yi9kcml2ZXJzL3VzYi9tdXNiL211c2JfZHNwcy5jCmluZGV4IDA1YTY3OWQ1ZTNhMi4uNmE2MGJj
+MDQ5MGM1IDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9tdXNiL211c2JfZHNwcy5jCisrKyBiL2Ry
+aXZlcnMvdXNiL211c2IvbXVzYl9kc3BzLmMKQEAgLTQ1MSw3ICs0NTEsNiBAQCBzdGF0aWMgaW50
+IGRzcHNfbXVzYl9pbml0KHN0cnVjdCBtdXNiICptdXNiKQogCWlmICghcmV2KQogCQlyZXR1cm4g
+LUVOT0RFVjsKIAotCXVzYl9waHlfaW5pdChtdXNiLT54Y2Vpdik7CiAJaWYgKElTX0VSUihtdXNi
+LT5waHkpKSAgewogCQltdXNiLT5waHkgPSBOVUxMOwogCX0gZWxzZSB7CkBAIC01MDEsNyArNTAw
+LDYgQEAgc3RhdGljIGludCBkc3BzX211c2JfZXhpdChzdHJ1Y3QgbXVzYiAqbXVzYikKIAlzdHJ1
+Y3QgZHNwc19nbHVlICpnbHVlID0gZGV2X2dldF9kcnZkYXRhKGRldi0+cGFyZW50KTsKIAogCWRl
+bF90aW1lcl9zeW5jKCZtdXNiLT5kZXZfdGltZXIpOwotCXVzYl9waHlfc2h1dGRvd24obXVzYi0+
+eGNlaXYpOwogCXBoeV9wb3dlcl9vZmYobXVzYi0+cGh5KTsKIAlwaHlfZXhpdChtdXNiLT5waHkp
+OwogCWRlYnVnZnNfcmVtb3ZlX3JlY3Vyc2l2ZShnbHVlLT5kYmdmc19yb290KTsK
