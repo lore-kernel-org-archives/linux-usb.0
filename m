@@ -2,11 +2,11 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/2] usb: typec: tps6598x: handle block reads separately with plain-I2C adapters
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20180422125428.GA12748@kroah.com>
-Date: Sun, 22 Apr 2018 14:54:28 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Message-Id: <20180423080309.GG25303@kuha.fi.intel.com>
+Date: Mon, 23 Apr 2018 11:03:09 +0300
 To: Guenter Roeck <linux@roeck-us.net>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, linux-usb@vger.kernel.org, stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, stable@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
 T24gRnJpLCBBcHIgMjAsIDIwMTggYXQgMTA6MjY6MDhBTSAtMDcwMCwgR3VlbnRlciBSb2VjayB3
@@ -47,9 +47,7 @@ PiA+ICsJCXJldHVybiByZWdtYXBfcmF3X3JlYWQodHBzLT5yZWdtYXAsIHJlZywgdmFsLCBsZW4p
 Owo+ID4gKwo+ID4gKwlyZXQgPSByZWdtYXBfcmF3X3JlYWQodHBzLT5yZWdtYXAsIHJlZywgZGF0
 YSwgc2l6ZW9mKGRhdGEpKTsKPiA+ICsJaWYgKHJldCkKPiA+ICsJCXJldHVybiByZXQ7Cj4gPiAr
 Cj4gCj4gU2FuaXR5IGNoZWNrID8KPiAJaWYgKGRhdGFbMF0gIT0gbGVuKQo+IAkJcmV0dXJuIC1F
-c29tZXRoaW5nOwo+IAo+IE90aGVyIHRoYW4gdGhhdCwKPiAKPiBSZXZpZXdlZC1ieTogR3VlbnRl
-ciBSb2VjayA8bGludXhAcm9lY2stdXMubmV0PgoKSSdsbCB3YWl0IGZvciBhIHYyIG9mIHRoaXMg
-dG8gYXBwbHkgaXQuCgp0aGFua3MsCgpncmVnIGstaAotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0
-aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJv
-ZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRv
-bW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
+c29tZXRoaW5nOwoKTm8uIFRoZW4gd2Ugd291bGQgbm90IGV2ZW4gbmVlZCB0aGUgbGVuIHBhcmFt
+ZXRlci4gVGhlIGlkZWEgaXMgdG8KYWxsb3cgcmVhZGluZyBhIG51bWJlciBvZiBieXRlcyBzcGVj
+aWZpZWQgYnkgY2FsbGVyLCByZWdhcmRsZXNzIG9mIHRoZQptYXhpbXVtIHNpemUgb2YgdGhlIGJs
+b2NrLgoKClRoYW5rcywK
