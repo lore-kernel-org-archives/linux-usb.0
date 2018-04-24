@@ -1,39 +1,24 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3,11/20] mailbox: Remove depends on HAS_DMA in case of platform dependency
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Message-Id: <1523987360-18760-12-git-send-email-geert@linux-m68k.org>
-Date: Tue, 17 Apr 2018 19:49:11 +0200
-To: Christoph Hellwig <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Tejun Heo <tj@kernel.org>, Herbert Xu <herbert@gondor.apana.org.au>, "David S . Miller" <davem@davemloft.net>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Stefan Richter <stefanr@s5r6.in-berlin.de>, Alan Tull <atull@kernel.org>, Moritz Fischer <mdf@kernel.org>, Wolfram Sang <wsa@the-dreams.de>, Jonathan Cameron <jic23@kernel.org>, Joerg Roedel <joro@8bytes.org>, Matias Bjorling <mb@lightnvm.io>, Jassi Brar <jassisinghbrar@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, David Woodhouse <dwmw2@infradead.org>, Brian Norris <computersforpeace@gmail.com>, Marek Vasut <marek.vasut@gmail.com>, Cyrille Pitchen <cyrille.pitchen@wedev4u.fr>, Boris Brezillon <boris.brezillon@free-electrons.com>, Richard Weinberger <richard@nod.at>, Kalle Valo <kvalo@codeaurora.org>, Ohad Ben-Cohen <ohad@wizery.com>, Bjorn Andersson <bjorn.andersson@linaro.org>, Eric Anholt <eric@anholt.net>, Stefan Wahren <stefan.wahren@i2se.com>
-Cc: iommu@lists.linux-foundation.org, linux-usb@vger.kernel.org, alsa-devel@alsa-project.org, linux-ide@vger.kernel.org, linux-crypto@vger.kernel.org, linux-fbdev@vger.kernel.org, linux1394-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org, linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org, linux-block@vger.kernel.org, linux-media@vger.kernel.org, linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org, netdev@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-serial@vger.kernel.org, linux-spi@vger.kernel.org, devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [1/5] usb: mtu3: avoid TX data length truncated in SS/SSP mode
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Message-Id: <3b0c7ca576fee8220d63c9914483b70b0fbc8783.1524537854.git.chunfeng.yun@mediatek.com>
+Date: Tue, 24 Apr 2018 10:52:46 +0800
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Felipe Balbi <felipe.balbi@linux.intel.com>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
 List-ID: <linux-usb.vger.kernel.org>
 
-UmVtb3ZlIGRlcGVuZGVuY2llcyBvbiBIQVNfRE1BIHdoZXJlIGEgS2NvbmZpZyBzeW1ib2wgZGVw
-ZW5kcyBvbiBhbm90aGVyCnN5bWJvbCB0aGF0IGltcGxpZXMgSEFTX0RNQSwgYW5kLCBvcHRpb25h
-bGx5LCBvbiAifHwgQ09NUElMRV9URVNUIi4KSW4gbW9zdCBjYXNlcyB0aGlzIG90aGVyIHN5bWJv
-bCBpcyBhbiBhcmNoaXRlY3R1cmUgb3IgcGxhdGZvcm0gc3BlY2lmaWMKc3ltYm9sLCBvciBQQ0ku
-CgpHZW5lcmljIHN5bWJvbHMgYW5kIGRyaXZlcnMgd2l0aG91dCBwbGF0Zm9ybSBkZXBlbmRlbmNp
-ZXMga2VlcCB0aGVpcgpkZXBlbmRlbmNpZXMgb24gSEFTX0RNQSwgdG8gcHJldmVudCBjb21waWxp
-bmcgc3Vic3lzdGVtcyBvciBkcml2ZXJzIHRoYXQKY2Fubm90IHdvcmsgYW55d2F5LgoKVGhpcyBz
-aW1wbGlmaWVzIHRoZSBkZXBlbmRlbmNpZXMsIGFuZCBhbGxvd3MgdG8gaW1wcm92ZSBjb21waWxl
-LXRlc3RpbmcuCgpTaWduZWQtb2ZmLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4
-LW02OGsub3JnPgpSZXZpZXdlZC1ieTogTWFyayBCcm93biA8YnJvb25pZUBrZXJuZWwub3JnPgpB
-Y2tlZC1ieTogUm9iaW4gTXVycGh5IDxyb2Jpbi5tdXJwaHlAYXJtLmNvbT4KLS0tCnYzOgogIC0g
-UmViYXNlIHRvIHY0LjE3LXJjMSwKICAtIFJlbW92ZWQgYm9ndXMgbm90ZXMsCgp2MjoKICAtIEFk
-ZCBSZXZpZXdlZC1ieSwgQWNrZWQtYnksCiAgLSBEcm9wIFJGQyBzdGF0ZSwKICAtIFNwbGl0IHBl
-ciBzdWJzeXN0ZW0uCi0tLQogZHJpdmVycy9tYWlsYm94L0tjb25maWcgfCAyIC0tCiAxIGZpbGUg
-Y2hhbmdlZCwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL21haWxib3gvS2Nv
-bmZpZyBiL2RyaXZlcnMvbWFpbGJveC9LY29uZmlnCmluZGV4IGEyYmIyNzQ0NmRjZTRlMmIuLjcy
-NWRjZTViYTYyZDViYWYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbWFpbGJveC9LY29uZmlnCisrKyBi
-L2RyaXZlcnMvbWFpbGJveC9LY29uZmlnCkBAIC0xNjIsNyArMTYyLDYgQEAgY29uZmlnIFhHRU5F
-X1NMSU1QUk9fTUJPWAogY29uZmlnIEJDTV9QRENfTUJPWAogCXRyaXN0YXRlICJCcm9hZGNvbSBG
-bGV4U3BhcnggRE1BIE1haWxib3giCiAJZGVwZW5kcyBvbiBBUkNIX0JDTV9JUFJPQyB8fCBDT01Q
-SUxFX1RFU1QKLQlkZXBlbmRzIG9uIEhBU19ETUEKIAloZWxwCiAJICBNYWlsYm94IGltcGxlbWVu
-dGF0aW9uIGZvciB0aGUgQnJvYWRjb20gRmxleFNwYXJ4IERNQSByaW5nIG1hbmFnZXIsCiAJICB3
-aGljaCBwcm92aWRlcyBhY2Nlc3MgdG8gdmFyaW91cyBvZmZsb2FkIGVuZ2luZXMgb24gQnJvYWRj
-b20KQEAgLTE3Miw3ICsxNzEsNiBAQCBjb25maWcgQkNNX0ZMRVhSTV9NQk9YCiAJdHJpc3RhdGUg
-IkJyb2FkY29tIEZsZXhSTSBNYWlsYm94IgogCWRlcGVuZHMgb24gQVJNNjQKIAlkZXBlbmRzIG9u
-IEFSQ0hfQkNNX0lQUk9DIHx8IENPTVBJTEVfVEVTVAotCWRlcGVuZHMgb24gSEFTX0RNQQogCXNl
-bGVjdCBHRU5FUklDX01TSV9JUlFfRE9NQUlOCiAJZGVmYXVsdCBtIGlmIEFSQ0hfQkNNX0lQUk9D
-CiAJaGVscAo=
+VGhlIHZhcmlhYmxlIG9mICdjb3VudCcgaXMgZGVjbGFyZWQgYXMgdTgsIHRoaXMgd2lsbCBjYXVz
+ZSBhbiBpc3N1ZQpkdWUgdG8gdmFsdWUgdHJ1bmNhdGVkIHdoZW4gd29ya3MgaW4gU1Mgb3IgU1NQ
+IG1vZGUgYW5kIGRhdGEgbGVuZ3RoCmlzIGdyZWF0ZXIgdGhhbiAyNTUsIHNvIGNoYW5nZSBpdCBh
+cyB1MzIuCgpTaWduZWQtb2ZmLWJ5OiBDaHVuZmVuZyBZdW4gPGNodW5mZW5nLnl1bkBtZWRpYXRl
+ay5jb20+Ci0tLQogZHJpdmVycy91c2IvbXR1My9tdHUzX2dhZGdldF9lcDAuYyB8IDIgKy0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvdXNiL210dTMvbXR1M19nYWRnZXRfZXAwLmMgYi9kcml2ZXJzL3VzYi9tdHUzL210
+dTNfZ2FkZ2V0X2VwMC5jCmluZGV4IGViZGNmN2EuLmQ2N2I1NDAgMTAwNjQ0Ci0tLSBhL2RyaXZl
+cnMvdXNiL210dTMvbXR1M19nYWRnZXRfZXAwLmMKKysrIGIvZHJpdmVycy91c2IvbXR1My9tdHUz
+X2dhZGdldF9lcDAuYwpAQCAtNTQ2LDcgKzU0Niw3IEBAIHN0YXRpYyB2b2lkIGVwMF90eF9zdGF0
+ZShzdHJ1Y3QgbXR1MyAqbXR1KQogCXN0cnVjdCB1c2JfcmVxdWVzdCAqcmVxOwogCXUzMiBjc3I7
+CiAJdTggKnNyYzsKLQl1OCBjb3VudDsKKwl1MzIgY291bnQ7CiAJdTMyIG1heHA7CiAKIAlkZXZf
+ZGJnKG10dS0+ZGV2LCAiJXNcbiIsIF9fZnVuY19fKTsK
