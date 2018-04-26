@@ -2,18 +2,27 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [RFC,04/10] clk: samsung: Remove support for Exynos5440
-From: Sylwester Nawrocki <s.nawrocki@samsung.com>
-Message-Id: <8e4e4712-4b21-83f8-fa06-142e9557a251@samsung.com>
-Date: Wed, 25 Apr 2018 14:49:24 +0200
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Kukjin Kim <kgene@kernel.org>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Tejun Heo <tj@kernel.org>, Tomasz Figa <tomasz.figa@gmail.com>, Chanwoo Choi <cw00.choi@samsung.com>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, Viresh Kumar <viresh.kumar@linaro.org>, Zhang Rui <rui.zhang@intel.com>, Eduardo Valentin <edubezval@gmail.com>, Russell King <linux@armlinux.org.uk>, Hans de Goede <hdegoede@redhat.com>, Linus Walleij <linus.walleij@linaro.org>, Andi Shyti <andi@etezian.org>, Mark Brown <broonie@kernel.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org, linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org, linux-spi@vger.kernel.org, linux-usb@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>, Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>, Jaehoon Chung <jh80.chung@samsung.com>, Jingoo Han <jingoohan1@gmail.com>
+From: Chanwoo Choi <cw00.choi@samsung.com>
+Message-Id: <5AE12441.2090506@samsung.com>
+Date: Thu, 26 Apr 2018 09:58:41 +0900
+To: Krzysztof Kozlowski <krzk@kernel.org>, Kukjin Kim <kgene@kernel.org>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Tejun Heo <tj@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Tomasz Figa <tomasz.figa@gmail.com>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, Viresh Kumar <viresh.kumar@linaro.org>, Zhang Rui <rui.zhang@intel.com>, Eduardo Valentin <edubezval@gmail.com>, Russell King <linux@armlinux.org.uk>, Hans de Goede <hdegoede@redhat.com>, Linus Walleij <linus.walleij@linaro.org>, Andi Shyti <andi@etezian.org>, Mark Brown <broonie@kernel.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org, linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org, linux-spi@vger.kernel.org, linux-usb@vger.kernel.org
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>, Jaehoon Chung <jh80.chung@samsung.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-Q2M6IEppbmdvbyBIYW4KCk9uIDA0LzI0LzIwMTggMTA6MzIgUE0sIEtyenlzenRvZiBLb3psb3dz
-a2kgd3JvdGU6Cj4gVGhlIEV4eW5vczU0NDAgaXMgbm90IGFjdGl2ZWx5IGRldmVsb3BlZCwgdGhl
-cmUgYXJlIG5vIGRldmVsb3BtZW50Cj4gYm9hcmRzIGF2YWlsYWJsZSBhbmQgcHJvYmFibHkgdGhl
-cmUgYXJlIG5vIHJlYWwgcHJvZHVjdHMgd2l0aCBpdC4KPiBSZW1vdmUgd2lkZS10cmVlIHN1cHBv
-cnQgZm9yIEV4eW5vczU0NDAuCj4gCj4gU2lnbmVkLW9mZi1ieTogS3J6eXN6dG9mIEtvemxvd3Nr
-aSA8a3J6a0BrZXJuZWwub3JnPgoKVGhhbmtzIEtyenlzenRvZiwgcGF0Y2ggYXBwbGllZCwgYXNz
-dW1pbmcgdGhlcmUgaXMgbm8gaXNzdWVzIHdpdGggYXBwbHlpbmcgCnBhdGNoZXMgZnJvbSB0aGlz
-IHNlcmllcyBpbmRpdmlkdWFsbHkgdGhyb3VnaCB0aGUgc3Vic3lzdGVtIHRyZWVzLgo=
+SGkgS3J6eXN6dG9mLAoKT24gMjAxOOuFhCAwNOyblCAyNeydvCAwNTozMiwgS3J6eXN6dG9mIEtv
+emxvd3NraSB3cm90ZToKPiBUaGUgRXh5bm9zNTQ0MCBpcyBub3QgYWN0aXZlbHkgZGV2ZWxvcGVk
+LCB0aGVyZSBhcmUgbm8gZGV2ZWxvcG1lbnQKPiBib2FyZHMgYXZhaWxhYmxlIGFuZCBwcm9iYWJs
+eSB0aGVyZSBhcmUgbm8gcmVhbCBwcm9kdWN0cyB3aXRoIGl0Lgo+IFJlbW92ZSB3aWRlLXRyZWUg
+c3VwcG9ydCBmb3IgRXh5bm9zNTQ0MC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBLcnp5c3p0b2YgS296
+bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+Cj4gLS0tCj4gIC4uLi9kZXZpY2V0cmVlL2JpbmRpbmdz
+L2Nsb2NrL2V4eW5vczU0NDAtY2xvY2sudHh0IHwgIDI4IC0tLS0KPiAgZHJpdmVycy9jbGsvc2Ft
+c3VuZy9NYWtlZmlsZSAgICAgICAgICAgICAgICAgICAgICAgfCAgIDEgLQo+ICBkcml2ZXJzL2Ns
+ay9zYW1zdW5nL2Nsay1leHlub3M1NDQwLmMgICAgICAgICAgICAgICB8IDE2NyAtLS0tLS0tLS0t
+LS0tLS0tLS0tLS0KPiAgaW5jbHVkZS9kdC1iaW5kaW5ncy9jbG9jay9leHlub3M1NDQwLmggICAg
+ICAgICAgICAgfCAgNDQgLS0tLS0tCj4gIDQgZmlsZXMgY2hhbmdlZCwgMjQwIGRlbGV0aW9ucygt
+KQo+ICBkZWxldGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
+L2Nsb2NrL2V4eW5vczU0NDAtY2xvY2sudHh0Cj4gIGRlbGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJz
+L2Nsay9zYW1zdW5nL2Nsay1leHlub3M1NDQwLmMKPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IGluY2x1
+ZGUvZHQtYmluZGluZ3MvY2xvY2svZXh5bm9zNTQ0MC5oCj4gCgpMb29rcyBnb29kIHRvIG1lLiBU
+aGFua3MuCgpBY2tlZC1ieTogQ2hhbndvbyBDaG9pIDxjdzAwLmNob2lAc2Ftc3VuZy5jb20+Cgpb
+c25pcF0K
