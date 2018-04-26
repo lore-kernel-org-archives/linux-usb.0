@@ -2,27 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: NET: usb: qmi_wwan: add support for ublox R410M PID 0x90b2
-From: SZ Lin <sz.lin@moxa.com>
-Message-Id: <20180426063013.453-1-sz.lin@moxa.com>
-Date: Thu, 26 Apr 2018 14:30:13 +0800
-Cc: =?UTF-8?q?SZ=20Lin=20=28=E6=9E=97=E4=B8=8A=E6=99=BA=29?= <sz.lin@moxa.com>, stable <stable@vger.kernel.org>, =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+From: =?utf-8?q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
+Message-Id: <87vace5jwr.fsf@miraculix.mork.no>
+Date: Thu, 26 Apr 2018 12:41:56 +0200
+To: =?utf-8?B?U1ogTGluICjmnpfkuIrmmbop?= <sz.lin@moxa.com>
+Cc: stable <stable@vger.kernel.org>, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhpcyBwYXRjaCBhZGRzIHN1cHBvcnQgZm9yIFBJRCAweDkwYjIgb2YgdWJsb3ggUjQxME0uCgpx
-bWljbGkgLWQgL2Rldi9jZGMtd2RtMCAtLWRtcy1nZXQtbWFudWZhY3R1cmVyClsvZGV2L2NkYy13
-ZG0wXSBEZXZpY2UgbWFudWZhY3R1cmVyIHJldHJpZXZlZDoKICAgICAgICBNYW51ZmFjdHVyZXI6
-ICd1LWJsb3gnCgpxbWljbGkgLWQgL2Rldi9jZGMtd2RtMCAtLWRtcy1nZXQtbW9kZWwKWy9kZXYv
-Y2RjLXdkbTBdIERldmljZSBtb2RlbCByZXRyaWV2ZWQ6CiAgICAgICAgTW9kZWw6ICdTQVJBLVI0
-MTBNLTAyQicKClNpZ25lZC1vZmYtYnk6IFNaIExpbiAo5p6X5LiK5pm6KSA8c3oubGluQG1veGEu
-Y29tPgpDYzogc3RhYmxlIDxzdGFibGVAdmdlci5rZXJuZWwub3JnPgotLS0KIGRyaXZlcnMvbmV0
-L3VzYi9xbWlfd3dhbi5jIHwgMSArCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKCmRp
-ZmYgLS1naXQgYS9kcml2ZXJzL25ldC91c2IvcW1pX3d3YW4uYyBiL2RyaXZlcnMvbmV0L3VzYi9x
-bWlfd3dhbi5jCmluZGV4IGM4NTNlNzQxMGY1YS4uNTFjNjhmYzQxNmZhIDEwMDY0NAotLS0gYS9k
-cml2ZXJzL25ldC91c2IvcW1pX3d3YW4uYworKysgYi9kcml2ZXJzL25ldC91c2IvcW1pX3d3YW4u
-YwpAQCAtMTA5OCw2ICsxMDk4LDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCB1c2JfZGV2aWNlX2lk
-IHByb2R1Y3RzW10gPSB7CiAJe1FNSV9GSVhFRF9JTlRGKDB4MDVjNiwgMHg5MDgwLCA4KX0sCiAJ
-e1FNSV9GSVhFRF9JTlRGKDB4MDVjNiwgMHg5MDgzLCAzKX0sCiAJe1FNSV9GSVhFRF9JTlRGKDB4
-MDVjNiwgMHg5MDg0LCA0KX0sCisJe1FNSV9GSVhFRF9JTlRGKDB4MDVjNiwgMHg5MGIyLCAzKX0s
-ICAgIC8qIHVibG94IFI0MTBNICovCiAJe1FNSV9GSVhFRF9JTlRGKDB4MDVjNiwgMHg5MjBkLCAw
-KX0sCiAJe1FNSV9GSVhFRF9JTlRGKDB4MDVjNiwgMHg5MjBkLCA1KX0sCiAJe1FNSV9RVUlSS19T
-RVRfRFRSKDB4MDVjNiwgMHg5NjI1LCA0KX0sCS8qIFlVR0EgQ0xNOTIwLU5DNSAqLwo=
+IlNaIExpbiAo5p6X5LiK5pm6KSIgPHN6LmxpbkBtb3hhLmNvbT4gd3JpdGVzOgoKPiBUaGlzIHBh
+dGNoIGFkZHMgc3VwcG9ydCBmb3IgUElEIDB4OTBiMiBvZiB1YmxveCBSNDEwTS4KCkFja2VkLWJ5
+OiBCasO4cm4gTW9yayA8Ympvcm5AbW9yay5ubz4KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhp
+cyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5
+IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21v
+IGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
