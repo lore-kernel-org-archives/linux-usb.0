@@ -2,23 +2,30 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: USB: serial: option: adding support for ublox R410M
-From: Lars Melin <larsm17@gmail.com>
-Message-Id: <72c63853-aa2d-e74c-1112-36d54ef52a85@gmail.com>
-Date: Thu, 26 Apr 2018 14:48:54 +0700
-To: Johan Hovold <johan@kernel.org>, =?UTF-8?B?U1ogTGluICjmnpfkuIrmmbop?= <sz.lin@moxa.com>
-Cc: stable <stable@vger.kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Johan Hovold <johan@kernel.org>
+Message-Id: <20180426081403.GA335@localhost>
+Date: Thu, 26 Apr 2018 10:14:03 +0200
+To: Lars Melin <larsm17@gmail.com>
+Cc: Johan Hovold <johan@kernel.org>, SZ Lin =?utf-8?B?KOael+S4iuaZuik=?= <sz.lin@moxa.com>, stable <stable@vger.kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, =?iso-8859-1?Q?Bj=F8rn?= Mork <bjorn@mork.no>, Dan Williams <dcbw@redhat.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gNC8yNi8yMDE4IDE0OjA5LCBKb2hhbiBIb3ZvbGQgd3JvdGU6Cj4gT24gVGh1LCBBcHIgMjYs
-IDIwMTggYXQgMDI6Mjg6MzFQTSArMDgwMCwgU1ogTGluICjmnpfkuIrmmbopIHdyb3RlOgo+PiBU
-aGlzIHBhdGNoIGFkZHMgc3VwcG9ydCBmb3IgdWJsb3ggUjQxME0gUElEIDB4OTBiMiBVU0IgbW9k
-ZW0gdG8gb3B0aW9uCj4+IGRyaXZlciwgdGhpcyBtb2R1bGUgc3VwcG9ydHMgTFRFIENhdCBNMSAv
-IE5CMS4KPj4KPj4gSW50ZXJmYWNlIGxheW91dDoKPj4gMDogUUNETS9ESUFHCj4+IDE6IEFEQgo+
-PiAyOiBBVAo+PiAzOiBSTU5FVAo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBTWiBMaW4gKOael+S4iuaZ
-uikgPHN6LmxpbkBtb3hhLmNvbT4KPj4gQ2M6IHN0YWJsZSA8c3RhYmxlQHZnZXIua2VybmVsLm9y
-Zz4KPiAKPiBBcHBsaWVkLCB0aGFua3MuCj4gCj4gSm9oYW4KCldpdGggYSBRdWFsY29tbSBEZXZp
-Y2UgTWFuYWdlbWVudCBpbnRlcmZhY2UsIHNob3VsZG4ndCB0aGlzIG1vZGVtIGJlIApkcml2ZW4g
-YnkgcWNzZXJpYWw/CgovTGFycwotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNl
-bmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNz
-YWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAg
-aHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
+T24gVGh1LCBBcHIgMjYsIDIwMTggYXQgMDI6NDg6NTRQTSArMDcwMCwgTGFycyBNZWxpbiB3cm90
+ZToKPiBPbiA0LzI2LzIwMTggMTQ6MDksIEpvaGFuIEhvdm9sZCB3cm90ZToKPiA+IE9uIFRodSwg
+QXByIDI2LCAyMDE4IGF0IDAyOjI4OjMxUE0gKzA4MDAsIFNaIExpbiAo5p6X5LiK5pm6KSB3cm90
+ZToKPiA+PiBUaGlzIHBhdGNoIGFkZHMgc3VwcG9ydCBmb3IgdWJsb3ggUjQxME0gUElEIDB4OTBi
+MiBVU0IgbW9kZW0gdG8gb3B0aW9uCj4gPj4gZHJpdmVyLCB0aGlzIG1vZHVsZSBzdXBwb3J0cyBM
+VEUgQ2F0IE0xIC8gTkIxLgo+ID4+Cj4gPj4gSW50ZXJmYWNlIGxheW91dDoKPiA+PiAwOiBRQ0RN
+L0RJQUcKPiA+PiAxOiBBREIKPiA+PiAyOiBBVAo+ID4+IDM6IFJNTkVUCj4gPj4KPiA+PiBTaWdu
+ZWQtb2ZmLWJ5OiBTWiBMaW4gKOael+S4iuaZuikgPHN6LmxpbkBtb3hhLmNvbT4KPiA+PiBDYzog
+c3RhYmxlIDxzdGFibGVAdmdlci5rZXJuZWwub3JnPgo+ID4gCj4gPiBBcHBsaWVkLCB0aGFua3Mu
+Cj4gPiAKPiA+IEpvaGFuCj4gCj4gV2l0aCBhIFF1YWxjb21tIERldmljZSBNYW5hZ2VtZW50IGlu
+dGVyZmFjZSwgc2hvdWxkbid0IHRoaXMgbW9kZW0gYmUgCj4gZHJpdmVuIGJ5IHFjc2VyaWFsPwoK
+SG1tLCB3ZSBhbHJlYWR5IGhhdmUgc29tZSBRQ0RNIGludGVyZmFjZXMgaGFuZGxlZCBieSBvcHRp
+b24gYW5kIHFjYXV4IHNvCml0J3Mgbm90IHRoYXQgY2xlYXItY3V0LgoKRGFuIGFuZCBCasO2cm4g
+aGFkIGEgZGlzY3Vzc2lvbiBhYm91dCB0aGlzIGEgd2hpbGUgYmFjaywgc28gYWRkaW5nIHRoZW0K
+b24gQ0MuIEl0IHNlZW1zIHRvIG1lIHRoYXQgdGhpcyBkZXZpY2UgZG9lcyBub3QgZml0IHRoZSBp
+bnRlbmRlZCB1c2UgKG9yCkdvYmkgMTAwMCBsYXlvdXQpIGZvciBxY3NlcmlhbCwgYnV0IEkgbWF5
+IGJlIG1pc3Rha2VuLgoKVGhhbmtzLApKb2hhbgotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlz
+IGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkg
+b2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8g
+aW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
