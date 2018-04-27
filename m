@@ -1,28 +1,25 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: usb: gadget: f_phonet: fix pn_net_xmit()'s return type
-From: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Message-Id: <20180424131844.5417-1-luc.vanoostenryck@gmail.com>
-Date: Tue, 24 Apr 2018 15:18:41 +0200
-To: linux-kernel@vger.kernel.org
-Cc: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "David S. Miller" <davem@davemloft.net>, Stephen Hemminger <stephen@networkplumber.org>, Johannes Berg <johannes.berg@intel.com>, "Gustavo A. R. Silva" <garsilva@embeddedor.com>, Bhumika Goyal <bhumirks@gmail.com>, linux-usb@vger.kernel.org
+Subject: usb-misc: sisusbvga: fix spelling mistake: "asymmeric" -> "asymmetric"
+From: Colin King <colin.king@canonical.com>
+Message-Id: <20180427191231.17305-1-colin.king@canonical.com>
+Date: Fri, 27 Apr 2018 20:12:31 +0100
+To: Thomas Winischhofer <thomas@winischhofer.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhlIG1ldGhvZCBuZG9fc3RhcnRfeG1pdCgpIGlzIGRlZmluZWQgYXMgcmV0dXJuaW5nIGFuICdu
-ZXRkZXZfdHhfdCcsCndoaWNoIGlzIGEgdHlwZWRlZiBmb3IgYW4gZW51bSB0eXBlLCBidXQgdGhl
-IGltcGxlbWVudGF0aW9uIGluIHRoaXMKZHJpdmVyIHJldHVybnMgYW4gJ2ludCcuCgpGaXggdGhp
-cyBieSByZXR1cm5pbmcgJ25ldGRldl90eF90JyBpbiB0aGlzIGRyaXZlciB0b28uCgpTaWduZWQt
-b2ZmLWJ5OiBMdWMgVmFuIE9vc3RlbnJ5Y2sgPGx1Yy52YW5vb3N0ZW5yeWNrQGdtYWlsLmNvbT4K
-LS0tCiBkcml2ZXJzL3VzYi9nYWRnZXQvZnVuY3Rpb24vZl9waG9uZXQuYyB8IDIgKy0KIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi9mX3Bob25ldC5jIGIvZHJpdmVycy91c2IvZ2FkZ2V0
-L2Z1bmN0aW9uL2ZfcGhvbmV0LmMKaW5kZXggNzg4OWJjYzA1Li44YjcyYjE5MmMgMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi9mX3Bob25ldC5jCisrKyBiL2RyaXZlcnMv
-dXNiL2dhZGdldC9mdW5jdGlvbi9mX3Bob25ldC5jCkBAIC0yMjEsNyArMjIxLDcgQEAgc3RhdGlj
-IHZvaWQgcG5fdHhfY29tcGxldGUoc3RydWN0IHVzYl9lcCAqZXAsIHN0cnVjdCB1c2JfcmVxdWVz
-dCAqcmVxKQogCW5ldGlmX3dha2VfcXVldWUoZGV2KTsKIH0KIAotc3RhdGljIGludCBwbl9uZXRf
-eG1pdChzdHJ1Y3Qgc2tfYnVmZiAqc2tiLCBzdHJ1Y3QgbmV0X2RldmljZSAqZGV2KQorc3RhdGlj
-IG5ldGRldl90eF90IHBuX25ldF94bWl0KHN0cnVjdCBza19idWZmICpza2IsIHN0cnVjdCBuZXRf
-ZGV2aWNlICpkZXYpCiB7CiAJc3RydWN0IHBob25ldF9wb3J0ICpwb3J0ID0gbmV0ZGV2X3ByaXYo
-ZGV2KTsKIAlzdHJ1Y3QgZl9waG9uZXQgKmZwOwo=
+RnJvbTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KClRyaXZpYWwg
+Zml4IHRvIHNwZWxsaW5nIG1pc3Rha2UgaW4gdGV4dCBzdHJpbmcKClNpZ25lZC1vZmYtYnk6IENv
+bGluIElhbiBLaW5nIDxjb2xpbi5raW5nQGNhbm9uaWNhbC5jb20+Ci0tLQogZHJpdmVycy91c2Iv
+bWlzYy9zaXN1c2J2Z2Evc2lzdXNiLmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9taXNjL3Npc3Vz
+YnZnYS9zaXN1c2IuYyBiL2RyaXZlcnMvdXNiL21pc2Mvc2lzdXNidmdhL3Npc3VzYi5jCmluZGV4
+IDNlNjViZGMyNjE1Yy4uZjkyYzVkZjI2MzIwIDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9taXNj
+L3Npc3VzYnZnYS9zaXN1c2IuYworKysgYi9kcml2ZXJzL3VzYi9taXNjL3Npc3VzYnZnYS9zaXN1
+c2IuYwpAQCAtMjEwNyw3ICsyMTA3LDcgQEAgc3RhdGljIHZvaWQgc2lzdXNiX2dldF9yYW1jb25m
+aWcoc3RydWN0IHNpc3VzYl91c2JfZGF0YSAqc2lzdXNiKQogCQlidyA9IGJ1c1NEUlsodG1wOCAm
+IDB4MDMpXTsKIAkJYnJlYWs7CiAJY2FzZSAyOgotCQlyYW10eXBldGV4dDEgPSAiYXN5bW1lcmlj
+IjsKKwkJcmFtdHlwZXRleHQxID0gImFzeW1tZXRyaWMiOwogCQlzaXN1c2ItPnZyYW1zaXplICs9
+IHNpc3VzYi0+dnJhbXNpemUvMjsKIAkJYncgPSBidXNERFJBWyh0bXA4ICYgMHgwMyldOwogCQli
+cmVhazsK
