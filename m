@@ -2,16 +2,23 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: NET: usb: qmi_wwan: add support for ublox R410M PID 0x90b2
-From: =?utf-8?q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
-Message-Id: <87vace5jwr.fsf@miraculix.mork.no>
-Date: Thu, 26 Apr 2018 12:41:56 +0200
-To: =?utf-8?B?U1ogTGluICjmnpfkuIrmmbop?= <sz.lin@moxa.com>
-Cc: stable <stable@vger.kernel.org>, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+From: David Miller <davem@davemloft.net>
+Message-Id: <20180427.132452.583189737343918915.davem@davemloft.net>
+Date: Fri, 27 Apr 2018 13:24:52 -0400 (EDT)
+To: sz.lin@moxa.com
+Cc: stable@vger.kernel.org, bjorn@mork.no, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-IlNaIExpbiAo5p6X5LiK5pm6KSIgPHN6LmxpbkBtb3hhLmNvbT4gd3JpdGVzOgoKPiBUaGlzIHBh
-dGNoIGFkZHMgc3VwcG9ydCBmb3IgUElEIDB4OTBiMiBvZiB1YmxveCBSNDEwTS4KCkFja2VkLWJ5
-OiBCasO4cm4gTW9yayA8Ympvcm5AbW9yay5ubz4KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhp
-cyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5
-IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21v
-IGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
+RnJvbTogU1ogTGluICjmnpfkuIrmmbopIDxzei5saW5AbW94YS5jb20+CkRhdGU6IFRodSwgMjYg
+QXByIDIwMTggMTQ6MzA6MTMgKzA4MDAKCj4gVGhpcyBwYXRjaCBhZGRzIHN1cHBvcnQgZm9yIFBJ
+RCAweDkwYjIgb2YgdWJsb3ggUjQxME0uCj4gCj4gcW1pY2xpIC1kIC9kZXYvY2RjLXdkbTAgLS1k
+bXMtZ2V0LW1hbnVmYWN0dXJlcgo+IFsvZGV2L2NkYy13ZG0wXSBEZXZpY2UgbWFudWZhY3R1cmVy
+IHJldHJpZXZlZDoKPiAgICAgICAgIE1hbnVmYWN0dXJlcjogJ3UtYmxveCcKPiAKPiBxbWljbGkg
+LWQgL2Rldi9jZGMtd2RtMCAtLWRtcy1nZXQtbW9kZWwKPiBbL2Rldi9jZGMtd2RtMF0gRGV2aWNl
+IG1vZGVsIHJldHJpZXZlZDoKPiAgICAgICAgIE1vZGVsOiAnU0FSQS1SNDEwTS0wMkInCj4gCj4g
+U2lnbmVkLW9mZi1ieTogU1ogTGluICjmnpfkuIrmmbopIDxzei5saW5AbW94YS5jb20+Cj4gQ2M6
+IHN0YWJsZSA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4KCkFwcGxpZWQuCi0tLQpUbyB1bnN1YnNj
+cmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNi
+IiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpN
+b3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1p
+bmZvLmh0bWwK
