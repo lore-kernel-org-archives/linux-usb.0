@@ -1,40 +1,40 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2] usb: chipidea: Hook into mux framework to toggle usb switch
-From: Peter Rosin <peda@axentia.se>
-Message-Id: <4abbe781-f488-b876-06a0-5521736c4d6c@axentia.se>
-Date: Mon, 14 May 2018 09:21:36 +0200
-To: yossim@codeaurora.org
-Cc: Peter Chen <Peter.Chen@nxp.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "open list:CHIPIDEA USB HIGH SPEED DUAL ROLE CONTROLLER" <linux-usb@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, robh@kernel.org, swboyd@chromium.org, devicetree@vger.kernel.org, Stephen Boyd <stephen.boyd@linaro.org>
+Subject: [RFC,01/10] ARM: dts: exynos: Remove Exynos5440
+From: Rob Herring <robh@kernel.org>
+Message-Id: <20180501140725.GA25487@rob-hp-laptop>
+Date: Tue, 1 May 2018 09:07:25 -0500
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Kukjin Kim <kgene@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Tejun Heo <tj@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Tomasz Figa <tomasz.figa@gmail.com>, Chanwoo Choi <cw00.choi@samsung.com>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, Viresh Kumar <viresh.kumar@linaro.org>, Zhang Rui <rui.zhang@intel.com>, Eduardo Valentin <edubezval@gmail.com>, Russell King <linux@armlinux.org.uk>, Hans de Goede <hdegoede@redhat.com>, Linus Walleij <linus.walleij@linaro.org>, Andi Shyti <andi@etezian.org>, Mark Brown <broonie@kernel.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org, linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org, linux-spi@vger.kernel.org, linux-usb@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>, Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>, Jaehoon Chung <jh80.chung@samsung.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMjAxOC0wNC0xOCAwNzo0OCwgeW9zc2ltQGNvZGVhdXJvcmEub3JnIHdyb3RlOgo+IE9uIDIw
-MTgtMDQtMTcgMTc6MTEsIFBldGVyIFJvc2luIHdyb3RlOgo+PiBPbiAyMDE4LTA0LTE3IDE1OjUy
-LCBZb3NzaSBNYW5zaGFyb2ZmIHdyb3RlOgo+Pj4gT24gdGhlIGRiNDEwYyA5NmJvYXJkcyBwbGF0
-Zm9ybSB3ZSBoYXZlIGEgVEM3VVNCNDBNVSBvbiB0aGUgYm9hcmQKPj4+IHRvIG11eCB0aGUgRCsv
-RC0gbGluZXMgY29taW5nIGZyb20gdGhlIGNvbnRyb2xsZXIgYmV0d2VlbiBhIG1pY3JvCj4+PiB1
-c2IgImRldmljZSIgcG9ydCBhbmQgYSBVU0IgaHViIGZvciAiaG9zdCIgcm9sZXNbMV0uIER1cmlu
-ZyBhCj4+PiByb2xlIHN3aXRjaCwgd2UgbmVlZCB0byB0b2dnbGUgdGhpcyBtdXggdG8gZm9yd2Fy
-ZCB0aGUgRCsvRC0KPj4+IGxpbmVzIHRvIGVpdGhlciB0aGUgcG9ydCBvciB0aGUgaHViLiBBZGQg
-dGhlIG5lY2Vzc2FyeSBjb2RlIHRvIGRvCj4+PiB0aGUgcm9sZSBzd2l0Y2ggaW4gY2hpcGlkZWEg
-Y29yZSB2aWEgdGhlIGdlbmVyaWMgbXV4IGZyYW1ld29yay4KPj4+IEJvYXJkIGNvbmZpZ3VyYXRp
-b25zIGxpa2Ugb24gZGI0MTBjIGFyZSBleHBlY3RlZCB0byBjaGFuZ2Ugcm9sZXMKPj4+IHZpYSB0
-aGUgc3lzZnMgQVBJIGRlc2NyaWJlZCBpbgo+Pj4gRG9jdW1lbnRhdGlvbi9BQkkvdGVzdGluZy9z
-eXNmcy1wbGF0Zm9ybS1jaGlwaWRlYS11c2IyLgo+Pgo+PiBPaywgc28gdGhpcyBpcyB2Mi4gUGxl
-YXNlIGRlc2NyaWJlIHdoYXQgaXMgZGlmZmVyZW50IGZyb20gdjEuCj4+IEkgaGF2ZSB0b2xkIHlv
-dSBiZWZvcmUgdGhhdCB0aGlzIGluZm9ybWF0aW9uIGhlbHBzLgo+Pgo+Pj4gWzFdIAo+Pj4gaHR0
-cHM6Ly9naXRodWIuY29tLzk2Ym9hcmRzL2RvY3VtZW50YXRpb24vcmF3L21hc3Rlci9Db25zdW1l
-ckVkaXRpb24vRHJhZ29uQm9hcmQtNDEwYy9IYXJkd2FyZURvY3MvU2NoZW1hdGljc19EcmFnb25C
-b2FyZC5wZGYKPj4KPj4gVGhpcyBsaW5rIHJldHVybnMgNDA0IGZvciBtZS4KPj4KPj4gQ2hlZXJz
-LAo+PiBQZXRlcgo+IAo+IAo+IEhpLAo+IFRoaXMgcGF0Y2ggd2FzIHNwbGl0IGFwYXJ0IGZyb20g
-dGhlIG9yaWdpbmFsIHBhdGNoIGludG8gdHdvIHBhdGNoZXMKPiBvbmUgZm9yIGNoaXBpZGVhIGFu
-ZCB0aGUgb3RoZXIgZm9yIGJpbmRpbmdzLgo+IHRoaXMgcGF0Y2ggaGFzIG5vIG90aGVyIGNoYW5n
-ZXMgdHdvIHRoZSBjb2RlLgo+IAo+IEkgd2lsbCB1cGRhdGUgdGhlIGxpbmsuCgpKdXN0IGEgbm90
-ZTogSSB3aWxsIG5vdCBmZWVkIHRoZSBtdXhfY29udHJvbF9nZXRfb3B0aW9uYWwgcGF0Y2ggdXBz
-dHJlYW0KdW50aWwgSSBmZWVsIGNvbmZpZGVudCB0aGF0IHRoaXMgcGF0Y2ggaXMgZ29pbmcgYWxz
-byBoZWFkaW5nIHVwc3RyZWFtLgoKQ2hlZXJzLApQZXRlcgotLS0KVG8gdW5zdWJzY3JpYmUgZnJv
-bSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhl
-IGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpv
-cmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1s
-Cg==
+T24gVHVlLCBBcHIgMjQsIDIwMTggYXQgMTA6MzI6MzBQTSArMDIwMCwgS3J6eXN6dG9mIEtvemxv
+d3NraSB3cm90ZToKPiBUaGUgRXh5bm9zNTQ0MCAocXVhZC1jb3JlIEExNSB3aXRoIEdNQUMsIFBD
+SWUsIFNBVEEpIHdhcyB0YXJnZXRpbmcKPiBzZXJ2ZXIgcGxhdGZvcm1zIGJ1dCBpdCBkaWQgbm90
+IG1ha2UgaXQgdG8gdGhlIG1hcmtldCByZWFsbHkuICBUaGVyZSBhcmUKPiBubyBkZXZlbG9wbWVu
+dCBib2FyZHMgd2l0aCBpdCBhbmQgcHJvYmFibHkgdGhlcmUgYXJlIG5vIHJlYWwgcHJvZHVjdHMK
+PiBuZWl0aGVyLiAgVGhlIGRldmVsb3BtZW50IGZvciBFeHlub3M1NDQwIGVuZGVkIGluIDIwMTMg
+YW5kIHNpbmNlIHRoZW4KPiB0aGUgcGxhdGZvcm0gaXMgaW4gbWFpbnRlbmFuY2UgbW9kZS4KPiAK
+PiBSZW1vdmUgYWxsIERldmljZSBUcmVlIHNvdXJjZXMgZm9yIEV4eW5vczU0NDAsIGFzIGZpcnN0
+IHN0ZXAgb2YgcmVtb3ZhbAo+IG9mIHRoZSBwbGF0Zm9ybSB0byBzaW1wbGlmeSB0aGUgY29kZSBh
+bmQgZHJpdmVycy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBLcnp5c3p0b2YgS296bG93c2tpIDxrcnpr
+QGtlcm5lbC5vcmc+Cj4gLS0tCj4gIC4uLi9iaW5kaW5ncy9hcm0vc2Ftc3VuZy9zYW1zdW5nLWJv
+YXJkcy50eHQgICAgICAgIHwgICAyIC0KPiAgYXJjaC9hcm0vYm9vdC9kdHMvTWFrZWZpbGUgICAg
+ICAgICAgICAgICAgICAgICAgICAgfCAgIDIgLQo+ICBhcmNoL2FybS9ib290L2R0cy9leHlub3M1
+NDQwLXNkNXYxLmR0cyAgICAgICAgICAgICB8ICA0MiAtLS0KPiAgYXJjaC9hcm0vYm9vdC9kdHMv
+ZXh5bm9zNTQ0MC1zc2RrNTQ0MC5kdHMgICAgICAgICAgfCAgODEgLS0tLS0KPiAgYXJjaC9hcm0v
+Ym9vdC9kdHMvZXh5bm9zNTQ0MC10bXUtc2Vuc29yLWNvbmYuZHRzaSAgfCAgMjAgLS0KPiAgYXJj
+aC9hcm0vYm9vdC9kdHMvZXh5bm9zNTQ0MC10cmlwLXBvaW50cy5kdHNpICAgICAgfCAgMjEgLS0K
+PiAgYXJjaC9hcm0vYm9vdC9kdHMvZXh5bm9zNTQ0MC5kdHNpICAgICAgICAgICAgICAgICAgfCAz
+NTUgLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gIDcgZmlsZXMgY2hhbmdlZCwgNTIzIGRlbGV0aW9u
+cygtKQo+ICBkZWxldGUgbW9kZSAxMDA2NDQgYXJjaC9hcm0vYm9vdC9kdHMvZXh5bm9zNTQ0MC1z
+ZDV2MS5kdHMKPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IGFyY2gvYXJtL2Jvb3QvZHRzL2V4eW5vczU0
+NDAtc3NkazU0NDAuZHRzCj4gIGRlbGV0ZSBtb2RlIDEwMDY0NCBhcmNoL2FybS9ib290L2R0cy9l
+eHlub3M1NDQwLXRtdS1zZW5zb3ItY29uZi5kdHNpCj4gIGRlbGV0ZSBtb2RlIDEwMDY0NCBhcmNo
+L2FybS9ib290L2R0cy9leHlub3M1NDQwLXRyaXAtcG9pbnRzLmR0c2kKPiAgZGVsZXRlIG1vZGUg
+MTAwNjQ0IGFyY2gvYXJtL2Jvb3QvZHRzL2V4eW5vczU0NDAuZHRzaQoKUmV2aWV3ZWQtYnk6IFJv
+YiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMg
+bGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBv
+ZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBp
+bmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
