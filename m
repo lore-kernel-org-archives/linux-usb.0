@@ -1,24 +1,45 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [RFC,02/10] ata: ahci-platform: Remove support for Exynos5440
-From: Rob Herring <robh@kernel.org>
-Message-Id: <20180501140801.GA27080@rob-hp-laptop>
-Date: Tue, 1 May 2018 09:08:01 -0500
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Kukjin Kim <kgene@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Tejun Heo <tj@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Tomasz Figa <tomasz.figa@gmail.com>, Chanwoo Choi <cw00.choi@samsung.com>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, Viresh Kumar <viresh.kumar@linaro.org>, Zhang Rui <rui.zhang@intel.com>, Eduardo Valentin <edubezval@gmail.com>, Russell King <linux@armlinux.org.uk>, Hans de Goede <hdegoede@redhat.com>, Linus Walleij <linus.walleij@linaro.org>, Andi Shyti <andi@etezian.org>, Mark Brown <broonie@kernel.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org, linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org, linux-spi@vger.kernel.org, linux-usb@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>, Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>, Jaehoon Chung <jh80.chung@samsung.com>
+Subject: [02/20] usb: host: xhci: check DYING state earlier
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-Id: <0499213e-c195-bf4a-5175-5dedcdc8641a@linux.intel.com>
+Date: Wed, 2 May 2018 14:38:22 +0300
+To: Felipe Balbi <felipe.balbi@linux.intel.com>
+Cc: Linux USB <linux-usb@vger.kernel.org>, Alan Stern <stern@rowland.harvard.edu>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVHVlLCBBcHIgMjQsIDIwMTggYXQgMTA6MzI6MzFQTSArMDIwMCwgS3J6eXN6dG9mIEtvemxv
-d3NraSB3cm90ZToKPiBUaGUgRXh5bm9zNTQ0MCBpcyBub3QgYWN0aXZlbHkgZGV2ZWxvcGVkLCB0
-aGVyZSBhcmUgbm8gZGV2ZWxvcG1lbnQKPiBib2FyZHMgYXZhaWxhYmxlIGFuZCBwcm9iYWJseSB0
-aGVyZSBhcmUgbm8gcmVhbCBwcm9kdWN0cyB3aXRoIGl0Lgo+IFJlbW92ZSB3aWRlLXRyZWUgc3Vw
-cG9ydCBmb3IgRXh5bm9zNTQ0MC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBLcnp5c3p0b2YgS296bG93
-c2tpIDxrcnprQGtlcm5lbC5vcmc+Cj4gLS0tCj4gIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
-aW5kaW5ncy9hdGEvYWhjaS1wbGF0Zm9ybS50eHQgfCAxIC0KPiAgZHJpdmVycy9hdGEvYWhjaV9w
-bGF0Zm9ybS5jICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IDEgLQo+ICAyIGZpbGVzIGNo
-YW5nZWQsIDIgZGVsZXRpb25zKC0pCgpSZXZpZXdlZC1ieTogUm9iIEhlcnJpbmcgPHJvYmhAa2Vy
-bmVsLm9yZz4KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5l
-ICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpv
-cmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2Vy
-Lmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
+T24gMTcuMDQuMjAxOCAxMDowNywgRmVsaXBlIEJhbGJpIHdyb3RlOgo+IAo+IEhpLAo+IAo+IE1h
+dGhpYXMgTnltYW4gPG1hdGhpYXMubnltYW5AbGludXguaW50ZWwuY29tPiB3cml0ZXM6Cj4+IE9u
+IDE2LjA0LjIwMTggMTU6MjksIEZlbGlwZSBCYWxiaSB3cm90ZToKPj4+IEluc3RlYWQgb2YgYWxs
+b2NhdGluZyB1cmIgcHJpdiBhbmQsIG1heWJlLCBiYWlsIG91dCBkdWUgdG8geGhjaSBiZWluZwo+
+Pj4gaW4gRFlJTkcgc3RhdGUsIHdlIGNhbiBtb3ZlIHRoZSBjaGVjayBlYXJsaWVyIGFuZCBhdm9p
+ZCB0aGUgbWVtb3J5Cj4+PiBhbGxvY2F0aW9uIGFsdG9nZXRoZXIuCj4+Cj4+IFRoaXMgYWxzbyBt
+b3ZlcyBjaGVja2luZyBmb3IgRFlJTkcgb3V0c2lkZSB0aGUgbG9jay4KPj4KPj4gTW9zdCBjYXNl
+cyBzZXQgRFlJTkcgd2l0aCBsb2NrIGhlbGQsIHNvIGlmIHdlIGZpcnN0IGdldCB0aGUgbG9jayBi
+ZWZvcmUKPj4gY2hlY2tpbmcgRFlJTkcgd2UgaGF2ZSBhIGJldHRlciBjaGFuY2Ugb2Ygbm90IGJl
+aW5nIGluIHRoZSBwcm9jZXNzIG9mIGR5aW5nLgo+IAo+IHByZXR0eSBzdXJlIHRoYXQncyBhdG9t
+aWMsIHRob3VnaC4KClRoYXQncyBub3Qgd2hhdCBJJ20gYWZ0ZXIsIHlvdXIgZml4IGlzIGNsZWFu
+aW5nIHVwIGNvZGUgaW4gdGhlIGNhc2Ugd2hlcmUgRFlJTkcgZmxhZyBpcwpzZXQgYmVmb3JlIHho
+Y2lfdXJiX2VucXVldWUoKSBpcyBjYWxsZWQuIEknbSB3b3JyaWVkIGFib3V0IHRoZSBjYXNlIHdo
+ZW4gc2V0dGluZyBEWUlORyBmbGFnIHJhY2VzCndpdGggeGhjaV91cmJfZW5xdWV1ZSgpLiBpLmUu
+IHhoY2lfdXJiX2VucXVldWUoKSBpcyBzcGlubmluZyBvbiB0aGUgbG9jaywgd2FpdGluZywgd2hp
+bGUKc29tZSBvdGhlciBwYXJ0IG9mIHRoZSBkcml2ZXIgaXMgZGVzcGVyYXRlbHkgdHJ5aW5nIHRv
+IGFjY2VzcyBodyB3aXRoIGxvY2sgaGVsZCwgZmFpbGluZywKZmluYWxseSBzZXR0aW5nIERZSU5H
+IGZsYWcsIGFuZCB0aGVuIHJlbGVhc2luZyBsb2NrLgoKSWYgdGhlIGNoZWNrIGlzIGRvbmUgYmVm
+b3JlIHRha2luZyB0aGUgbG9jayB0aGVuIHRoZSBVUkIgbWlnaHQgYmUgcXVldWVkIG9uIGR5aW5n
+IGRldmljZSwKYXQgYSB0aW1lIHdoZW4geGhjaV9oY19kaWVkIGFscmVhZHkgc3RhcnRlZCBjYW5j
+ZWxsaW5nIGFuZCBnaXZpbmcgYmFjayBhbGwgcXVldWVkIFVSQgoKPiAKPj4gU21hbGwgdGhpbmcs
+IGJ1dCBzbyBpcyB0aGlzIGNsZWFudXAsIHNvIG5vdCBzdXJlIGl0cyB3b3J0aCB0aGUgY2hhbmdl
+Cj4gCj4gTG9vayBhdCB0aGUgcmVzdWx0LiBXaXRoIHRoaXMgY2hhbmdlIHdlIGRvbid0IG5lZWQg
+dG8gdGFrZSBhIGxvY2ssCj4gYWxsb2NhdGUgbWVtb3J5LCBzZWFyY2ggZm9yIGVuZHBvaW50IGlu
+ZGV4LCBzZWFyY2ggZm9yIGVuZHBvaW50Cj4gc3RhdGUuIEFsbCBvZiB0aG9zZSBhcmUgbmVlZGVk
+IGZvciBwcm9wZXIgb3BlcmF0aW9uIG9mIHRoZSBmdW5jdGlvbiwgYnV0Cj4gaWYgdGhlIGNvbnRy
+b2xsZXIgaGFzIGFscmVhZHkgZGllZCwgdGhlcmUncyBubyBwb2ludCBpbiBnb2luZyBhbnkKPiBm
+dXJ0aGVyLgoKQnV0IHdlIG1pZ2h0IG1pc3MgdGhlIGZhY3QgdGhhdCBob3N0IGRpZWQsIGFuZCBn
+byBldmVuIGZ1cnRoZXIsIGFkZGluZyBVUkIgdG8gbGlzdCwKd3JpdGluZyBUUkJzIHRvIHJpbmdi
+dWZmZXJzIGV0Yy4KCkluIGNvZGUgd2Ugc2F2ZSBvbmUgbGluZSwKZ290bzogZnJlZV9wcml2Cgot
+TWF0aGlhcwotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUg
+InVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9y
+ZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIu
+a2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
