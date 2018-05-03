@@ -1,32 +1,23 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: usb: dwc3: qcom: mark PM functions as __maybe_unused
-From: Doug Anderson <dianders@chromium.org>
-Message-Id: <CAD=FV=UAw+JB4=++cPDBT1GtO_AChhrgtayJZqV3+yE7RLxcAQ@mail.gmail.com>
-Date: Wed, 30 May 2018 16:00:17 -0700
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Manu Gautam <mgautam@codeaurora.org>, linux-usb@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: [v5,03/14] staging: typec: tcpci: add compatible string for nxp ptn5110
+From: Jun Li <jun.li@nxp.com>
+Message-Id: <1525307094-27402-4-git-send-email-jun.li@nxp.com>
+Date: Thu,  3 May 2018 08:24:43 +0800
+To: robh+dt@kernel.org, gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com, linux@roeck-us.net
+Cc: jun.li@nxp.com, a.hajda@samsung.com, cw00.choi@samsung.com, shufan_lee@richtek.com, peter.chen@nxp.com, gsomlo@gmail.com, devicetree@vger.kernel.org, linux-usb@vger.kernel.org, linux-imx@nxp.com
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgpPbiBGcmksIE1heSAyNSwgMjAxOCBhdCA5OjA2IEFNLCBBcm5kIEJlcmdtYW5uIDxhcm5k
-QGFybmRiLmRlPiB3cm90ZToKPiBUaGUgI2lmZGVmIGd1YXJkcyBhcm91bmQgdGhlc2UgYXJlIHdy
-b25nLCByZXN1bHRpbmcgaW4gd2FybmluZ3MKPiBpbiBjZXJ0YWluIGNvbmZpZ3VyYXRpb25zOgo+
-Cj4gZHJpdmVycy91c2IvZHdjMy9kd2MzLXFjb20uYzoyNDQ6MTI6IGVycm9yOiAnZHdjM19xY29t
-X3Jlc3VtZScgZGVmaW5lZCBidXQgbm90IHVzZWQgWy1XZXJyb3I9dW51c2VkLWZ1bmN0aW9uXQo+
-ICBzdGF0aWMgaW50IGR3YzNfcWNvbV9yZXN1bWUoc3RydWN0IGR3YzNfcWNvbSAqcWNvbSkKPiAg
-ICAgICAgICAgICBefn5+fn5+fn5+fn5+fn5+Cj4gZHJpdmVycy91c2IvZHdjMy9kd2MzLXFjb20u
-YzoyMjM6MTI6IGVycm9yOiAnZHdjM19xY29tX3N1c3BlbmQnIGRlZmluZWQgYnV0IG5vdCB1c2Vk
-IFstV2Vycm9yPXVudXNlZC1mdW5jdGlvbl0KPiAgc3RhdGljIGludCBkd2MzX3Fjb21fc3VzcGVu
-ZChzdHJ1Y3QgZHdjM19xY29tICpxY29tKQo+Cj4gVGhpcyByZXBsYWNlcyB0aGUgZ3VhcmRzIHdp
-dGggX19tYXliZV91bnVzZWQgYW5ub3RhdGlvbnMgdG8gc2h1dCB1cAo+IHRoZSB3YXJuaW5ncyBh
-bmQgZ2l2ZSBiZXR0ZXIgY29tcGlsZSB0aW1lIGNvdmVyYWdlLgo+Cj4gRml4ZXM6IGE0MzMzYzNh
-NmJhOSAoInVzYjogZHdjMzogQWRkIFF1YWxjb21tIERXQzMgZ2x1ZSBkcml2ZXIiKQo+IFNpZ25l
-ZC1vZmYtYnk6IEFybmQgQmVyZ21hbm4gPGFybmRAYXJuZGIuZGU+Cj4gLS0tCj4gIGRyaXZlcnMv
-dXNiL2R3YzMvZHdjMy1xY29tLmMgfCAxMiArKysrLS0tLS0tLS0KPiAgMSBmaWxlIGNoYW5nZWQs
-IDQgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkKCkZXSVc6CgpSZXZpZXdlZC1ieTogRG91
-Z2xhcyBBbmRlcnNvbiA8ZGlhbmRlcnNAY2hyb21pdW0ub3JnPgotLS0KVG8gdW5zdWJzY3JpYmUg
-ZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4K
-dGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBt
-YWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5o
-dG1sCg==
+QWRkIG54cCBwdG41MTEwIHR5cGVjIGNvbnRyb2xsZXIgY29tcGF0aWJsZSBzdHJpbmc6IHVzYi10
+Y3BjaSxwdG41MTEwLAp3aGljaCBpcyBhIHN0YW5kYXJkIHRjcGNpIGNoaXAgd2l0aCBwb3dlciBk
+ZWxpdmVyeSBzdXBwb3J0LgoKU2lnbmVkLW9mZi1ieTogTGkgSnVuIDxqdW4ubGlAbnhwLmNvbT4K
+LS0tCiBkcml2ZXJzL3N0YWdpbmcvdHlwZWMvdGNwY2kuYyB8IDEgKwogMSBmaWxlIGNoYW5nZWQs
+IDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9zdGFnaW5nL3R5cGVjL3RjcGNp
+LmMgYi9kcml2ZXJzL3N0YWdpbmcvdHlwZWMvdGNwY2kuYwppbmRleCAwNzZkOTdlLi43NDFhODBh
+IDEwMDY0NAotLS0gYS9kcml2ZXJzL3N0YWdpbmcvdHlwZWMvdGNwY2kuYworKysgYi9kcml2ZXJz
+L3N0YWdpbmcvdHlwZWMvdGNwY2kuYwpAQCAtNTc2LDYgKzU3Niw3IEBAIE1PRFVMRV9ERVZJQ0Vf
+VEFCTEUoaTJjLCB0Y3BjaV9pZCk7CiAjaWZkZWYgQ09ORklHX09GCiBzdGF0aWMgY29uc3Qgc3Ry
+dWN0IG9mX2RldmljZV9pZCB0Y3BjaV9vZl9tYXRjaFtdID0gewogCXsgLmNvbXBhdGlibGUgPSAi
+dXNiLHRjcGNpIiwgfSwKKwl7IC5jb21wYXRpYmxlID0gIm54cCxwdG41MTEwIiwgfSwKIAl7fSwK
+IH07CiBNT0RVTEVfREVWSUNFX1RBQkxFKG9mLCB0Y3BjaV9vZl9tYXRjaCk7Cg==
