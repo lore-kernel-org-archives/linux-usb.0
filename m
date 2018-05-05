@@ -1,26 +1,26 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v6,10/15] staging: typec: tcpci: enable vbus detection
-From: Jun Li <jun.li@nxp.com>
-Message-Id: <1527475967-15201-11-git-send-email-jun.li@nxp.com>
-Date: Mon, 28 May 2018 10:52:42 +0800
-To: robh+dt@kernel.org, gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com, linux@roeck-us.net
-Cc: cw00.choi@samsung.com, a.hajda@samsung.com, shufan_lee@richtek.com, peter.chen@nxp.com, garsilva@embeddedor.com, gsomlo@gmail.com, jun.li@nxp.com, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-imx@nxp.com
+Subject: [RESEND,2/5] usb: mtu3: remove repeated setting of gadget state
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Message-Id: <e570f74b9ef18b0de5fc2bf660c547028a22743e.1525486663.git.chunfeng.yun@mediatek.com>
+Date: Sat, 5 May 2018 10:21:17 +0800
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Felipe Balbi <felipe.balbi@linux.intel.com>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
 List-ID: <linux-usb.vger.kernel.org>
 
-VENQQ0kgaW1wbGVtZW50YXRpb24gbWF5IG5lZWQgU1cgdG8gZW5hYmxlIFZCVVMgZGV0ZWN0aW9u
-IHRvIGdlbmVyYXRlCnBvd2VyIHN0YXR1cyBldmVudHMuCgpSZXZpZXdlZC1ieTogR3VlbnRlciBS
-b2VjayA8bGludXhAcm9lY2stdXMubmV0PgpTaWduZWQtb2ZmLWJ5OiBMaSBKdW4gPGp1bi5saUBu
-eHAuY29tPgotLS0KIGRyaXZlcnMvc3RhZ2luZy90eXBlYy90Y3BjaS5jIHwgNiArKysrKysKIDEg
-ZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3N0YWdp
-bmcvdHlwZWMvdGNwY2kuYyBiL2RyaXZlcnMvc3RhZ2luZy90eXBlYy90Y3BjaS5jCmluZGV4IDNi
-MzVmY2UuLjRkM2IwYWUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvc3RhZ2luZy90eXBlYy90Y3BjaS5j
-CisrKyBiL2RyaXZlcnMvc3RhZ2luZy90eXBlYy90Y3BjaS5jCkBAIC0zNzMsNiArMzczLDEyIEBA
-IHN0YXRpYyBpbnQgdGNwY2lfaW5pdChzdHJ1Y3QgdGNwY19kZXYgKnRjcGMpCiAJaWYgKHJldCA8
-IDApCiAJCXJldHVybiByZXQ7CiAKKwkvKiBFbmFibGUgVmJ1cyBkZXRlY3Rpb24gKi8KKwlyZXQg
-PSByZWdtYXBfd3JpdGUodGNwY2ktPnJlZ21hcCwgVENQQ19DT01NQU5ELAorCQkJICAgVENQQ19D
-TURfRU5BQkxFX1ZCVVNfREVURUNUKTsKKwlpZiAocmV0IDwgMCkKKwkJcmV0dXJuIHJldDsKKwog
-CXJlZyA9IFRDUENfQUxFUlRfVFhfU1VDQ0VTUyB8IFRDUENfQUxFUlRfVFhfRkFJTEVEIHwKIAkJ
-VENQQ19BTEVSVF9UWF9ESVNDQVJERUQgfCBUQ1BDX0FMRVJUX1JYX1NUQVRVUyB8CiAJCVRDUENf
-QUxFUlRfUlhfSEFSRF9SU1QgfCBUQ1BDX0FMRVJUX0NDX1NUQVRVUzsK
+VGhlIHVzYl9hZGRfZ2FkZ2V0X3VkYygpIHdpbGwgc2V0IHRoZSBnYWRnZXQgc3RhdGUgYXMKVVNC
+X1NUQVRFX05PVEFUVEFDSEVELCBzbyB3ZSBuZWVkbid0IHNldCBpdCBhZ2Fpbi4KClNpZ25lZC1v
+ZmYtYnk6IENodW5mZW5nIFl1biA8Y2h1bmZlbmcueXVuQG1lZGlhdGVrLmNvbT4KLS0tCiBkcml2
+ZXJzL3VzYi9tdHUzL210dTNfZ2FkZ2V0LmMgfCA4ICsrLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwg
+MiBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNi
+L210dTMvbXR1M19nYWRnZXQuYyBiL2RyaXZlcnMvdXNiL210dTMvbXR1M19nYWRnZXQuYwppbmRl
+eCBmMDVmMTBmLi5kZTBkZTAxIDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9tdHUzL210dTNfZ2Fk
+Z2V0LmMKKysrIGIvZHJpdmVycy91c2IvbXR1My9tdHUzX2dhZGdldC5jCkBAIC02NjAsMTQgKzY2
+MCwxMCBAQCBpbnQgbXR1M19nYWRnZXRfc2V0dXAoc3RydWN0IG10dTMgKm10dSkKIAltdHUzX2dh
+ZGdldF9pbml0X2VwcyhtdHUpOwogCiAJcmV0ID0gdXNiX2FkZF9nYWRnZXRfdWRjKG10dS0+ZGV2
+LCAmbXR1LT5nKTsKLQlpZiAocmV0KSB7CisJaWYgKHJldCkKIAkJZGV2X2VycihtdHUtPmRldiwg
+ImZhaWxlZCB0byByZWdpc3RlciB1ZGNcbiIpOwotCQlyZXR1cm4gcmV0OwotCX0KIAotCXVzYl9n
+YWRnZXRfc2V0X3N0YXRlKCZtdHUtPmcsIFVTQl9TVEFURV9OT1RBVFRBQ0hFRCk7Ci0KLQlyZXR1
+cm4gMDsKKwlyZXR1cm4gcmV0OwogfQogCiB2b2lkIG10dTNfZ2FkZ2V0X2NsZWFudXAoc3RydWN0
+IG10dTMgKm10dSkK
