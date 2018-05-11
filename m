@@ -2,22 +2,30 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v5,03/14] staging: typec: tcpci: add compatible string for nxp ptn5110
-From: Jun Li <jun.li@nxp.com>
-Message-Id: <1525307094-27402-4-git-send-email-jun.li@nxp.com>
-Date: Thu,  3 May 2018 08:24:43 +0800
-To: robh+dt@kernel.org, gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com, linux@roeck-us.net
-Cc: jun.li@nxp.com, a.hajda@samsung.com, cw00.choi@samsung.com, shufan_lee@richtek.com, peter.chen@nxp.com, gsomlo@gmail.com, devicetree@vger.kernel.org, linux-usb@vger.kernel.org, linux-imx@nxp.com
+From: Mats Karrman <mats.dev.list@gmail.com>
+Message-Id: <b5a8eb68-c4dc-ee6e-5e3c-f2a49577e4c0@gmail.com>
+Date: Fri, 11 May 2018 21:51:36 +0200
+To: Li Jun <jun.li@nxp.com>, robh+dt@kernel.org, gregkh@linuxfoundation.org, heikki.krogerus@linux.intel.com, linux@roeck-us.net
+Cc: a.hajda@samsung.com, cw00.choi@samsung.com, shufan_lee@richtek.com, peter.chen@nxp.com, gsomlo@gmail.com, devicetree@vger.kernel.org, linux-usb@vger.kernel.org, linux-imx@nxp.com
 List-ID: <linux-usb.vger.kernel.org>
 
-QWRkIG54cCBwdG41MTEwIHR5cGVjIGNvbnRyb2xsZXIgY29tcGF0aWJsZSBzdHJpbmc6IHVzYi10
-Y3BjaSxwdG41MTEwLAp3aGljaCBpcyBhIHN0YW5kYXJkIHRjcGNpIGNoaXAgd2l0aCBwb3dlciBk
-ZWxpdmVyeSBzdXBwb3J0LgoKU2lnbmVkLW9mZi1ieTogTGkgSnVuIDxqdW4ubGlAbnhwLmNvbT4K
-LS0tCiBkcml2ZXJzL3N0YWdpbmcvdHlwZWMvdGNwY2kuYyB8IDEgKwogMSBmaWxlIGNoYW5nZWQs
-IDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9zdGFnaW5nL3R5cGVjL3RjcGNp
-LmMgYi9kcml2ZXJzL3N0YWdpbmcvdHlwZWMvdGNwY2kuYwppbmRleCAwNzZkOTdlLi43NDFhODBh
-IDEwMDY0NAotLS0gYS9kcml2ZXJzL3N0YWdpbmcvdHlwZWMvdGNwY2kuYworKysgYi9kcml2ZXJz
-L3N0YWdpbmcvdHlwZWMvdGNwY2kuYwpAQCAtNTc2LDYgKzU3Niw3IEBAIE1PRFVMRV9ERVZJQ0Vf
-VEFCTEUoaTJjLCB0Y3BjaV9pZCk7CiAjaWZkZWYgQ09ORklHX09GCiBzdGF0aWMgY29uc3Qgc3Ry
-dWN0IG9mX2RldmljZV9pZCB0Y3BjaV9vZl9tYXRjaFtdID0gewogCXsgLmNvbXBhdGlibGUgPSAi
-dXNiLHRjcGNpIiwgfSwKKwl7IC5jb21wYXRpYmxlID0gIm54cCxwdG41MTEwIiwgfSwKIAl7fSwK
-IH07CiBNT0RVTEVfREVWSUNFX1RBQkxFKG9mLCB0Y3BjaV9vZl9tYXRjaCk7Cg==
+SGkgTGkgSnVuLAoKT24gMjAxOC0wNS0wMyAwMjoyNCwgTGkgSnVuIHdyb3RlOgoKPiBBZGQgbnhw
+IHB0bjUxMTAgdHlwZWMgY29udHJvbGxlciBjb21wYXRpYmxlIHN0cmluZzogdXNiLXRjcGNpLHB0
+bjUxMTAsCj4gd2hpY2ggaXMgYSBzdGFuZGFyZCB0Y3BjaSBjaGlwIHdpdGggcG93ZXIgZGVsaXZl
+cnkgc3VwcG9ydC4KPgo+IFNpZ25lZC1vZmYtYnk6IExpIEp1biA8anVuLmxpQG54cC5jb20+Cj4g
+LS0tCj4gICBkcml2ZXJzL3N0YWdpbmcvdHlwZWMvdGNwY2kuYyB8IDEgKwo+ICAgMSBmaWxlIGNo
+YW5nZWQsIDEgaW5zZXJ0aW9uKCspCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9zdGFnaW5nL3R5
+cGVjL3RjcGNpLmMgYi9kcml2ZXJzL3N0YWdpbmcvdHlwZWMvdGNwY2kuYwo+IGluZGV4IDA3NmQ5
+N2UuLjc0MWE4MGEgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy9zdGFnaW5nL3R5cGVjL3RjcGNpLmMK
+PiArKysgYi9kcml2ZXJzL3N0YWdpbmcvdHlwZWMvdGNwY2kuYwo+IEBAIC01NzYsNiArNTc2LDcg
+QEAgTU9EVUxFX0RFVklDRV9UQUJMRShpMmMsIHRjcGNpX2lkKTsKPiAgICNpZmRlZiBDT05GSUdf
+T0YKPiAgIHN0YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIHRjcGNpX29mX21hdGNoW10g
+PSB7Cj4gICAJeyAuY29tcGF0aWJsZSA9ICJ1c2IsdGNwY2kiLCB9LAoKRWl0aGVyIHRoaXMgbGlu
+ZSBzaG91bGQgZ28gYXdheSwgb3IgYSAiZ2VuZXJpYyBUQ1BDSSBjb250cm9sbGVyIiBsaW5lIHNo
+b3VsZCBiZQphZGRlZCB0byB0aGUgRFQgZG9jdW1lbnRhdGlvbi4KCkJSIC8vIE1hdHMKCj4gKwl7
+IC5jb21wYXRpYmxlID0gIm54cCxwdG41MTEwIiwgfSwKPiAgIAl7fSwKPiAgIH07Cj4gICBNT0RV
+TEVfREVWSUNFX1RBQkxFKG9mLCB0Y3BjaV9vZl9tYXRjaCk7Cj4KLS0tClRvIHVuc3Vic2NyaWJl
+IGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGlu
+CnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUg
+bWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8u
+aHRtbAo=
