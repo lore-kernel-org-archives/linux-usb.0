@@ -3,8 +3,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: Fwd: Enabling USB (auto)suspend for xHCI controllers incurs random device failures since kernel 4.15
 From: russianneuromancer@ya.ru
-Message-Id: <fb8a018d1bd111357788e2fa07c23b080227db5d.camel@ya.ru>
-Date: Tue, 15 May 2018 02:06:37 +0800
+Message-Id: <75b148335eff47aac9bbc0d6bb652843ed8a2b43.camel@ya.ru>
+Date: Tue, 15 May 2018 02:06:47 +0800
 To: Mathias Nyman <mathias.nyman@linux.intel.com>, gert <gert@disroot.org>, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
