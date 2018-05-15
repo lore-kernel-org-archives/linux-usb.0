@@ -1,29 +1,43 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [RFC,03/10] cpufreq: exynos: Remove support for Exynos5440
-From: Rob Herring <robh@kernel.org>
-Message-Id: <20180501140840.GA27306@rob-hp-laptop>
-Date: Tue, 1 May 2018 09:08:40 -0500
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Kukjin Kim <kgene@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Tejun Heo <tj@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Tomasz Figa <tomasz.figa@gmail.com>, Chanwoo Choi <cw00.choi@samsung.com>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, Viresh Kumar <viresh.kumar@linaro.org>, Zhang Rui <rui.zhang@intel.com>, Eduardo Valentin <edubezval@gmail.com>, Russell King <linux@armlinux.org.uk>, Hans de Goede <hdegoede@redhat.com>, Linus Walleij <linus.walleij@linaro.org>, Andi Shyti <andi@etezian.org>, Mark Brown <broonie@kernel.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org, linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org, linux-spi@vger.kernel.org, linux-usb@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>, Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>, Jaehoon Chung <jh80.chung@samsung.com>
+Subject: [v2,6/6] usb: gadget: udc: renesas_usb3: disable the controller's irqs for reconnecting
+From: Simon Horman <horms@verge.net.au>
+Message-Id: <20180515073516.dohlnvtahelsw4tw@verge.net.au>
+Date: Tue, 15 May 2018 09:35:16 +0200
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: balbi@kernel.org, gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org, stable@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVHVlLCBBcHIgMjQsIDIwMTggYXQgMTA6MzI6MzJQTSArMDIwMCwgS3J6eXN6dG9mIEtvemxv
-d3NraSB3cm90ZToKPiBUaGUgRXh5bm9zNTQ0MCBpcyBub3QgYWN0aXZlbHkgZGV2ZWxvcGVkLCB0
-aGVyZSBhcmUgbm8gZGV2ZWxvcG1lbnQKPiBib2FyZHMgYXZhaWxhYmxlIGFuZCBwcm9iYWJseSB0
-aGVyZSBhcmUgbm8gcmVhbCBwcm9kdWN0cyB3aXRoIGl0Lgo+IFJlbW92ZSB3aWRlLXRyZWUgc3Vw
-cG9ydCBmb3IgRXh5bm9zNTQ0MC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBLcnp5c3p0b2YgS296bG93
-c2tpIDxrcnprQGtlcm5lbC5vcmc+Cj4gLS0tCj4gIC4uLi9iaW5kaW5ncy9jcHVmcmVxL2NwdWZy
-ZXEtZXh5bm9zNTQ0MC50eHQgICAgICAgIHwgIDI4IC0tCj4gIGRyaXZlcnMvY3B1ZnJlcS9LY29u
-ZmlnLmFybSAgICAgICAgICAgICAgICAgICAgICAgIHwgIDE0IC0KPiAgZHJpdmVycy9jcHVmcmVx
-L01ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgIDEgLQo+ICBkcml2ZXJzL2Nw
-dWZyZXEvZXh5bm9zNTQ0MC1jcHVmcmVxLmMgICAgICAgICAgICAgICB8IDQ1MiAtLS0tLS0tLS0t
-LS0tLS0tLS0tLS0KPiAgNCBmaWxlcyBjaGFuZ2VkLCA0OTUgZGVsZXRpb25zKC0pCj4gIGRlbGV0
-ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvY3B1ZnJlcS9j
-cHVmcmVxLWV4eW5vczU0NDAudHh0Cj4gIGRlbGV0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2NwdWZy
-ZXEvZXh5bm9zNTQ0MC1jcHVmcmVxLmMKClJldmlld2VkLWJ5OiBSb2IgSGVycmluZyA8cm9iaEBr
-ZXJuZWwub3JnPgotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxp
-bmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1h
-am9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3Zn
-ZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
+T24gVHVlLCBBcHIgMTAsIDIwMTggYXQgMDI6Mzg6NTRQTSArMDkwMCwgWW9zaGloaXJvIFNoaW1v
+ZGEgd3JvdGU6Cj4gVGhpcyBwYXRjaCBmaXhlcyBhbiBpc3N1ZSB0aGF0IHJlY29ubmVjdGlvbiBp
+cyBwb3NzaWJsZSB0byBmYWlsCj4gYmVjYXVzZSB1bmV4cGVjdGVkIHN0YXRlIGhhbmRsaW5nIGhh
+cHBlbnMgYnkgdGhlIGlycXMuIFRvIGZpeCB0aGUgaXNzdWUsCj4gdGhlIGRyaXZlciBkaXNhYmxl
+cyB0aGUgY29udHJvbGxlcidzIGlycXMgd2hlbiBkaXNjb25uZWN0ZWQuCj4gCj4gRml4ZXM6IDc0
+NmJmZTYzYmJhMyAoInVzYjogZ2FkZ2V0OiByZW5lc2FzX3VzYjM6IGFkZCBzdXBwb3J0IGZvciBS
+ZW5lc2FzIFVTQjMuMCBwZXJpcGhlcmFsIGNvbnRyb2xsZXIiKQo+IENjOiA8c3RhYmxlQHZnZXIu
+a2VybmVsLm9yZz4gIyB2NC41Kwo+IFNpZ25lZC1vZmYtYnk6IFlvc2hpaGlybyBTaGltb2RhIDx5
+b3NoaWhpcm8uc2hpbW9kYS51aEByZW5lc2FzLmNvbT4KPiAtLS0KPiAKPiBSZW1hcmtzOgo+ICAt
+IEEgbmV3IGZpbGUgaW4gdjIKPiAKPiAgZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9yZW5lc2FzX3Vz
+YjMuYyB8IDcgKysrKysrKwo+ICAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspCj4gCj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2dhZGdldC91ZGMvcmVuZXNhc191c2IzLmMgYi9kcml2
+ZXJzL3VzYi9nYWRnZXQvdWRjL3JlbmVzYXNfdXNiMy5jCj4gaW5kZXggMGU3MDE2My4uNWNhZjc4
+YiAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL3JlbmVzYXNfdXNiMy5jCj4g
+KysrIGIvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9yZW5lc2FzX3VzYjMuYwo+IEBAIC02MjMsNiAr
+NjIzLDEzIEBAIHN0YXRpYyB2b2lkIHVzYjNfZGlzY29ubmVjdChzdHJ1Y3QgcmVuZXNhc191c2Iz
+ICp1c2IzKQo+ICAJdXNiM191c2IyX3B1bGx1cCh1c2IzLCAwKTsKPiAgCXVzYjNfY2xlYXJfYml0
+KHVzYjMsIFVTQjMwX0NPTl9CM19DT05ORUNULCBVU0IzX1VTQjMwX0NPTik7Cj4gIAl1c2IzX3Jl
+c2V0X2VwYyh1c2IzKTsKPiArCXVzYjNfZGlzYWJsZV9pcnFfMSh1c2IzLCBVU0JfSU5UXzFfQjJf
+UlNVTSB8IFVTQl9JTlRfMV9CM19QTExXS1VQIHwKPiArCQkJICAgVVNCX0lOVF8xX0IzX0xVUFNV
+Q1MgfCBVU0JfSU5UXzFfQjNfRElTQUJMRSB8Cj4gKwkJCSAgIFVTQl9JTlRfMV9TUEVFRCB8IFVT
+Ql9JTlRfMV9CM19XUk1SU1QgfAo+ICsJCQkgICBVU0JfSU5UXzFfQjNfSE9UUlNUIHwgVVNCX0lO
+VF8xX0IyX1NQTkQgfAo+ICsJCQkgICBVU0JfSU5UXzFfQjJfTDFTUE5EIHwgVVNCX0lOVF8xX0Iy
+X1VTQlJTVCk7CgpIaSBTaGltb2RhLXNhbiwKCmlzIGl0IGludGVudGlvbmFsIHRoYXQgVVNCX0lO
+VF8xX1ZCVVNfQ05HIGlzIG5vdCBkaXNhYmxlZCBhYm92ZT8KCj4gKwl1c2IzX2NsZWFyX2JpdCh1
+c2IzLCBVU0JfQ09NX0NPTl9TUERfTU9ERSwgVVNCM19VU0JfQ09NX0NPTik7Cj4gKwl1c2IzX2lu
+aXRfZXBjX3JlZ2lzdGVycyh1c2IzKTsKPiAgCj4gIAlpZiAodXNiMy0+ZHJpdmVyKQo+ICAJCXVz
+YjMtPmRyaXZlci0+ZGlzY29ubmVjdCgmdXNiMy0+Z2FkZ2V0KTsKPiAtLSAKPiAxLjkuMQo+Ci0t
+LQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3Jp
+YmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIu
+a2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3Jn
+L21ham9yZG9tby1pbmZvLmh0bWwK
