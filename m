@@ -2,32 +2,24 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,2/2] arm64: dts: exynos: add OF graph between USB-PHY and MUIC
-From: Andrzej Hajda <a.hajda@samsung.com>
-Message-Id: <20180515121239.18192-3-a.hajda@samsung.com>
-Date: Tue, 15 May 2018 14:12:39 +0200
-To: "open list:DESIGNWARE USB3 DRD IP DRIVER" <linux-usb@vger.kernel.org>
-Cc: Andrzej Hajda <a.hajda@samsung.com>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Marek Szyprowski <m.szyprowski@samsung.com>, "open list:OPEN FIRMWARE AND FLATTENED
-	DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Inki Dae <inki.dae@samsung.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Krzysztof Kozlowski <krzk@kernel.org>, Chanwoo Choi <cw00.choi@samsung.com>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Message-Id: <CAJKOXPdxtek3yhr=LoHYwmqoLGPTZtpONR3iOseCi50ZiY=m_Q@mail.gmail.com>
+Date: Tue, 15 May 2018 14:19:15 +0200
+To: Andrzej Hajda <a.hajda@samsung.com>
+Cc: "open list:DESIGNWARE USB3 DRD IP DRIVER" <linux-usb@vger.kernel.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Marek Szyprowski <m.szyprowski@samsung.com>, "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Inki Dae <inki.dae@samsung.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Chanwoo Choi <cw00.choi@samsung.com>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, linux-kernel@vger.kernel.org, "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T0YgZ3JhcGggZGVzY3JpYmVzIFVTQiBkYXRhIGxhbmVzIGJldHdlZW4gVVNCLVBIWSBhbmQgcmVz
-cGVjdGl2ZSBNVUlDLgpTaW5jZSBncmFwaCBpcyBwcmVzZW50IGFuZCBEV0MgZHJpdmVyIGNhbiB1
-c2UgaXQgdG8gZ2V0IGV4dGNvbiwgb2Jzb2xldGUKZXh0Y29uIHByb3BlcnR5IGNhbiBiZSByZW1v
-dmVkLgoKU2lnbmVkLW9mZi1ieTogQW5kcnplaiBIYWpkYSA8YS5oYWpkYUBzYW1zdW5nLmNvbT4K
-LS0tCiAuLi4vZHRzL2V4eW5vcy9leHlub3M1NDMzLXRtMi1jb21tb24uZHRzaSAgICAgfCAxOSAr
-KysrKysrKysrKysrKysrKystCiAxIGZpbGUgY2hhbmdlZCwgMTggaW5zZXJ0aW9ucygrKSwgMSBk
-ZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvZXh5bm9zL2V4eW5v
-czU0MzMtdG0yLWNvbW1vbi5kdHNpIGIvYXJjaC9hcm02NC9ib290L2R0cy9leHlub3MvZXh5bm9z
-NTQzMy10bTItY29tbW9uLmR0c2kKaW5kZXggMDM0NTNiODIyMDkzLi4wNDJlNTg5NGExMzggMTAw
-NjQ0Ci0tLSBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvZXh5bm9zL2V4eW5vczU0MzMtdG0yLWNvbW1v
-bi5kdHNpCisrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvZXh5bm9zL2V4eW5vczU0MzMtdG0yLWNv
-bW1vbi5kdHNpCkBAIC04NjgsNiArODY4LDE4IEBACiAJCQkJCX07CiAJCQkJfTsKIAkJCX07CisK
-KwkJCXBvcnRzIHsKKwkJCQkjYWRkcmVzcy1jZWxscyA9IDwxPjsKKwkJCQkjc2l6ZS1jZWxscyA9
-IDwwPjsKKworCQkJCXBvcnRAMCB7CisJCQkJCXJlZyA9IDwwPjsKKwkJCQkJbXVpY190b191c2I6
-IGVuZHBvaW50IHsKKwkJCQkJCXJlbW90ZS1lbmRwb2ludCA9IDwmdXNiX3RvX211aWM+OworCQkJ
-CQl9OworCQkJCX07CisJCQl9OwogCQl9OwogCiAJCXJlZ3VsYXRvcnMgewpAQCAtMTI4NywxMiAr
-MTI5OSwxNyBAQAogCiAmdXNiZHJkX2R3YzMgewogCWRyX21vZGUgPSAib3RnIjsKLQlleHRjb24g
-PSA8Jm11aWM+OwogfTsKIAogJnVzYmRyZDMwX3BoeSB7CiAJdmJ1cy1zdXBwbHkgPSA8JnNhZmVv
-dXQxX3JlZz47CiAJc3RhdHVzID0gIm9rYXkiOworCisJcG9ydCB7CisJCXVzYl90b19tdWljOiBl
-bmRwb2ludCB7CisJCQlyZW1vdGUtZW5kcG9pbnQgPSA8Jm11aWNfdG9fdXNiPjsKKwkJfTsKKwl9
-OwogfTsKIAogJnh4dGkgewo=
+T24gVHVlLCBNYXkgMTUsIDIwMTggYXQgMjoxMiBQTSwgQW5kcnplaiBIYWpkYSA8YS5oYWpkYUBz
+YW1zdW5nLmNvbT4gd3JvdGU6Cj4gT0YgZ3JhcGggZGVzY3JpYmVzIFVTQiBkYXRhIGxhbmVzIGJl
+dHdlZW4gVVNCLVBIWSBhbmQgcmVzcGVjdGl2ZSBNVUlDLgo+IFNpbmNlIGdyYXBoIGlzIHByZXNl
+bnQgYW5kIERXQyBkcml2ZXIgY2FuIHVzZSBpdCB0byBnZXQgZXh0Y29uLCBvYnNvbGV0ZQo+IGV4
+dGNvbiBwcm9wZXJ0eSBjYW4gYmUgcmVtb3ZlZC4KPgo+IFNpZ25lZC1vZmYtYnk6IEFuZHJ6ZWog
+SGFqZGEgPGEuaGFqZGFAc2Ftc3VuZy5jb20+Cj4gLS0tCj4gIC4uLi9kdHMvZXh5bm9zL2V4eW5v
+czU0MzMtdG0yLWNvbW1vbi5kdHNpICAgICB8IDE5ICsrKysrKysrKysrKysrKysrKy0KPiAgMSBm
+aWxlIGNoYW5nZWQsIDE4IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCkFzIHdlIGRpc2N1
+c3NlZCBmb3IgdjEgLSBzaW5jZSB0aGlzIHdhcyBub3Qgc3BsaXQgaW50byB0d28sIEknbGwgYXBw
+bHkKaXQgb25jZSBmaXJzdCBwYXRjaCBoaXRzIG1haW5saW5lLgoKQmVzdCByZWdhcmRzLApLcnp5
+c3p0b2YKLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1
+bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRv
+bW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtl
+cm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
