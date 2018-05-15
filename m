@@ -2,23 +2,45 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,11/11] docs: fix broken references with multiple hints
-From: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Message-Id: <9091975.Ce87WTtYpq@amdc3058>
-Date: Tue, 15 May 2018 12:28:46 +0200
+From: Steven Rostedt <rostedt@goodmis.org>
+Message-Id: <20180515105228.4ac2df94@gandalf.local.home>
+Date: Tue, 15 May 2018 10:52:28 -0400
 To: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@infradead.org>, linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, David Airlie <airlied@linux.ie>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Harry Wei <harryxiyou@gmail.com>, Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Roy Pledge <Roy.Pledge@nxp.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@redhat.com>, James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, linux-kernel@zh-kernel.org, linux-usb@vger.kernel.org, linux-input@vger.kernel.org, devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org, linux-security-module@vger.kernel.org
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@infradead.org>, linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>, David Airlie <airlied@linux.ie>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Harry Wei <harryxiyou@gmail.com>, Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Roy Pledge <Roy.Pledge@nxp.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Ingo Molnar <mingo@redhat.com>, James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, linux-kernel@zh-kernel.org, linux-usb@vger.kernel.org, linux-input@vger.kernel.org, devel@driverdev.osuosl.org, linux-fbdev@vger.kernel.org, linux-security-module@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkbmVzZGF5LCBNYXkgMDksIDIwMTggMTA6MTg6NTQgQU0gTWF1cm8gQ2FydmFsaG8gQ2hl
-aGFiIHdyb3RlOgo+IFRoZSBzY3JpcHQ6Cj4gCS4vc2NyaXB0cy9kb2N1bWVudGF0aW9uLWZpbGUt
-cmVmLWNoZWNrIC0tZml4LXJzdAo+IAo+IEdpdmVzIG11bHRpcGxlIGhpbnRzIGZvciBicm9rZW4g
-cmVmZXJlbmNlcyBvbiBzb21lIGZpbGVzLgo+IE1hbnVhbGx5IHVzZSB0aGUgb25lIHRoYXQgYXBw
-bGllcyBmb3Igc29tZSBmaWxlcy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBNYXVybyBDYXJ2YWxobyBD
-aGVoYWIgPG1jaGVoYWIrc2Ftc3VuZ0BrZXJuZWwub3JnPgoKQWNrZWQtYnk6IEJhcnRsb21pZWog
-Wm9sbmllcmtpZXdpY3ogPGIuem9sbmllcmtpZUBzYW1zdW5nLmNvbT4gIyBmb3IgZmJkZXYgcGFy
-dAoKQmVzdCByZWdhcmRzLAotLS0KQmFydGxvbWllaiBab2xuaWVya2lld2ljegpTYW1zdW5nIFIm
-RCBJbnN0aXR1dGUgUG9sYW5kClNhbXN1bmcgRWxlY3Ryb25pY3MKCi0tClRvIHVuc3Vic2NyaWJl
-IGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGlu
-CnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUg
-bWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8u
-aHRtbAo=
+T24gV2VkLCAgOSBNYXkgMjAxOCAxMDoxODo1NCAtMDMwMApNYXVybyBDYXJ2YWxobyBDaGVoYWIg
+PG1jaGVoYWIrc2Ftc3VuZ0BrZXJuZWwub3JnPiB3cm90ZToKCgo+IGRpZmYgLS1naXQgYS9Eb2N1
+bWVudGF0aW9uL3RyYWNlL2V2ZW50cy5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYWNlL2V2ZW50cy5y
+c3QKPiBpbmRleCA3YjZiMTIzNmVjMmUuLmMyOTIxMTdiODNhOSAxMDA2NDQKPiAtLS0gYS9Eb2N1
+bWVudGF0aW9uL3RyYWNlL2V2ZW50cy5yc3QKPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYWNlL2V2
+ZW50cy5yc3QKPiBAQCAtOCw3ICs4LDcgQEAgRXZlbnQgVHJhY2luZwo+ICAxLiBJbnRyb2R1Y3Rp
+b24KPiAgPT09PT09PT09PT09PT09Cj4gIAo+IC1UcmFjZXBvaW50cyAoc2VlIERvY3VtZW50YXRp
+b24vdHJhY2UvdHJhY2Vwb2ludHMudHh0KSBjYW4gYmUgdXNlZAo+ICtUcmFjZXBvaW50cyAoc2Vl
+IERvY3VtZW50YXRpb24vdHJhY2UvdHJhY2Vwb2ludHMucnN0KSBjYW4gYmUgdXNlZAo+ICB3aXRo
+b3V0IGNyZWF0aW5nIGN1c3RvbSBrZXJuZWwgbW9kdWxlcyB0byByZWdpc3RlciBwcm9iZSBmdW5j
+dGlvbnMKPiAgdXNpbmcgdGhlIGV2ZW50IHRyYWNpbmcgaW5mcmFzdHJ1Y3R1cmUuCj4gIAo+IGRp
+ZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYWNlL3RyYWNlcG9pbnQtYW5hbHlzaXMucnN0IGIv
+RG9jdW1lbnRhdGlvbi90cmFjZS90cmFjZXBvaW50LWFuYWx5c2lzLnJzdAo+IGluZGV4IGIwYzlj
+MjFmMTI5ZC4uNzE2MzI2YjlmMTUyIDEwMDY0NAo+IC0tLSBhL0RvY3VtZW50YXRpb24vdHJhY2Uv
+dHJhY2Vwb2ludC1hbmFseXNpcy5yc3QKPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYWNlL3RyYWNl
+cG9pbnQtYW5hbHlzaXMucnN0Cj4gQEAgLTYsNyArNiw3IEBAIE5vdGVzIG9uIEFuYWx5c2luZyBC
+ZWhhdmlvdXIgVXNpbmcgRXZlbnRzIGFuZCBUcmFjZXBvaW50cwo+ICAxLiBJbnRyb2R1Y3Rpb24K
+PiAgPT09PT09PT09PT09PT09Cj4gIAo+IC1UcmFjZXBvaW50cyAoc2VlIERvY3VtZW50YXRpb24v
+dHJhY2UvdHJhY2Vwb2ludHMudHh0KSBjYW4gYmUgdXNlZCB3aXRob3V0Cj4gK1RyYWNlcG9pbnRz
+IChzZWUgRG9jdW1lbnRhdGlvbi90cmFjZS90cmFjZXBvaW50cy5yc3QpIGNhbiBiZSB1c2VkIHdp
+dGhvdXQKPiAgY3JlYXRpbmcgY3VzdG9tIGtlcm5lbCBtb2R1bGVzIHRvIHJlZ2lzdGVyIHByb2Jl
+IGZ1bmN0aW9ucyB1c2luZyB0aGUgZXZlbnQKPiAgdHJhY2luZyBpbmZyYXN0cnVjdHVyZS4KPiAg
+Cgo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L3RyYWNlcG9pbnQuaCBiL2luY2x1ZGUvbGlu
+dXgvdHJhY2Vwb2ludC5oCj4gaW5kZXggYzk0ZjQ2NmQ1N2VmLi4xOWE2OTBiNTU5Y2EgMTAwNjQ0
+Cj4gLS0tIGEvaW5jbHVkZS9saW51eC90cmFjZXBvaW50LmgKPiArKysgYi9pbmNsdWRlL2xpbnV4
+L3RyYWNlcG9pbnQuaAo+IEBAIC00LDcgKzQsNyBAQAo+ICAvKgo+ICAgKiBLZXJuZWwgVHJhY2Vw
+b2ludCBBUEkuCj4gICAqCj4gLSAqIFNlZSBEb2N1bWVudGF0aW9uL3RyYWNlL3RyYWNlcG9pbnRz
+LnR4dC4KPiArICogU2VlIERvY3VtZW50YXRpb24vdHJhY2UvdHJhY2Vwb2ludHMucnN0Lgo+ICAg
+Kgo+ICAgKiBDb3B5cmlnaHQgKEMpIDIwMDgtMjAxNCBNYXRoaWV1IERlc25veWVycyA8bWF0aGll
+dS5kZXNub3llcnNAZWZmaWNpb3MuY29tPgo+ICAgKgoKQWNrZWQtYnk6IFN0ZXZlbiBSb3N0ZWR0
+IChWTXdhcmUpIDxyb3N0ZWR0QGdvb2RtaXMub3JnPgoKLS0gU3RldmUKLS0tClRvIHVuc3Vic2Ny
+aWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2Ii
+IGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1v
+cmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWlu
+Zm8uaHRtbAo=
