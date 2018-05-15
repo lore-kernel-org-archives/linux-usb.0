@@ -2,17 +2,24 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/4] usb: dwc2: Move dwc2_readl/writel functions after hsotg structure
-From: Felipe Balbi <balbi@kernel.org>
-Message-Id: <87h8n99ylk.fsf@linux.intel.com>
-Date: Tue, 15 May 2018 10:17:43 +0300
-To: Gevorg Sahakya <Gevorg.Sahakyan@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>, linux-usb@vger.kernel.org
+From: Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
+Message-Id: <410670D7E743164D87FA6160E7907A560113AFD2AD@am04wembxb.internal.synopsys.com>
+Date: Tue, 15 May 2018 07:41:12 +0000
+To: Felipe Balbi <balbi@kernel.org>, Gevorg Sahakya <Gevorg.Sahakyan@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
 Cc: John Youn <John.Youn@synopsys.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-R2V2b3JnIFNhaGFreWEgPEdldm9yZy5TYWhha3lhbkBzeW5vcHN5cy5jb20+IHdyaXRlczoKCj4g
-RnJvbTogR2V2b3JnIFNhaGFreWFuIDxzYWhha3lhbkBzeW5vcHN5cy5jb20+Cj4KPiBNb3ZlZCBk
-d2MyX3JlYWRsL3dyaXRlbCBmdW5jdGlvbnMgYWZ0ZXIgaHNvdGcgZGVjbGFyYXRpb24gZm9yCj4g
-YWRkaW5nIGhzb3RnIHN0cnVjdHVyZSB0byBkd2MyX3JlYWRsL3dyaXRlbCBmdW5jdGlvbiBwcm90
-b3R5cGVzLgo+Cj4gU2lnbmVkLW9mZi1ieTogR2V2b3JnIFNhaGFreWFuIDxzYWhha3lhbkBzeW5v
-cHN5cy5jb20+Cj4gU2lnbmVkLW9mZi1ieTogR2V2b3JnIFNhaGFreWEgPHNhaGFreWFuQHN5bm9w
-c3lzLmNvbT4KCldoeSB0d28gc2lnbmVkLW9mZi1ieSBmb3IgdGhlIHNhbWUgcGVyc29uPwo=
+SGkgRmlsaXBlLAoKT24gNS8xNS8yMDE4IDExOjE5IEFNLCBGZWxpcGUgQmFsYmkgd3JvdGU6Cj4g
+R2V2b3JnIFNhaGFreWEgPEdldm9yZy5TYWhha3lhbkBzeW5vcHN5cy5jb20+IHdyaXRlczoKPiAK
+Pj4gRnJvbTogR2V2b3JnIFNhaGFreWFuIDxzYWhha3lhbkBzeW5vcHN5cy5jb20+Cj4+Cj4+IE1v
+dmVkIGR3YzJfcmVhZGwvd3JpdGVsIGZ1bmN0aW9ucyBhZnRlciBoc290ZyBkZWNsYXJhdGlvbiBm
+b3IKPj4gYWRkaW5nIGhzb3RnIHN0cnVjdHVyZSB0byBkd2MyX3JlYWRsL3dyaXRlbCBmdW5jdGlv
+biBwcm90b3R5cGVzLgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBHZXZvcmcgU2FoYWt5YW4gPHNhaGFr
+eWFuQHN5bm9wc3lzLmNvbT4KPj4gU2lnbmVkLW9mZi1ieTogR2V2b3JnIFNhaGFreWEgPHNhaGFr
+eWFuQHN5bm9wc3lzLmNvbT4KPiAKPiBXaHkgdHdvIHNpZ25lZC1vZmYtYnkgZm9yIHRoZSBzYW1l
+IHBlcnNvbj8KPiAKClNlY29uZCBzaWduZWQtb2ZmIGFkZGVkIHdyb25nbHkuIFNob3VsZCBHZXZv
+cmcgcmUtc3VibWl0IHRoZSBwYXRjaCB3aXRoIAoxIHNpZ25lZC1vZmY/CgpUaGFua3MsCk1pbmFz
+Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJz
+Y3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZn
+ZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwu
+b3JnL21ham9yZG9tby1pbmZvLmh0bWwK
