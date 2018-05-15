@@ -1,41 +1,28 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2] usbserial: pl2303 tx xon/xoff flow control
-From: Florian Zumbiehl <florz@florz.de>
-Message-Id: <20180520002312.GT4749@florz.florz.de>
-Date: Sun, 20 May 2018 02:23:12 +0200
-To: Johan Hovold <johan@kernel.org>
-Cc: linux-usb@vger.kernel.org
+Subject: [net-next,v2,1/2] of: mdio: Fall back to mdiobus_register() with NULL device_node
+From: Florian Fainelli <f.fainelli@gmail.com>
+Message-Id: <20180515235619.27773-2-f.fainelli@gmail.com>
+Date: Tue, 15 May 2018 16:56:18 -0700
+To: netdev@vger.kernel.org
+Cc: Florian Fainelli <f.fainelli@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Vivien Didelot <vivien.didelot@savoirfairelinux.com>, "David S. Miller" <davem@davemloft.net>, Nicolas Ferre <nicolas.ferre@microchip.com>, Fugang Duan <fugang.duan@nxp.com>, Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, Alexandre Torgue <alexandre.torgue@st.com>, Jose Abreu <joabreu@synopsys.com>, Grygorii Strashko <grygorii.strashko@ti.com>, Woojung Huh <woojung.huh@microchip.com>, Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>, Antoine Tenart <antoine.tenart@free-electrons.com>, Tobias Jordan <Tobias.Jordan@elektrobit.com>, Russell King <rmk+kernel@armlinux.org.uk>, Geert Uytterhoeven <geert+renesas@glider.be>, Thomas Petazzoni <thomas.petazzoni@free-electrons.com>, =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, Simon Horman <horms+renesas@verge.net.au>, Maxim Uvarov <muvarov@gmail.com>, Sekhar Nori <nsekhar@ti.com>, open list <linux-kernel@vger.kernel.org>, "open list:RENESAS ETHERNET DRIVERS" <linux-renesas-soc@vger.kernel.org>, "open list:TI ETHERNET SWITCH DRIVER CPSW" <linux-omap@vger.kernel.org>, "open list:USB NETWORKING DRIVERS" <linux-usb@vger.kernel.org>, "open list:OPEN FIRMWARE AND FLATTENED
+	DEVICE TREE" <devicetree@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-U3VwcG9ydCBoYXJkd2FyZS1sZXZlbCBYb24vWG9mZiBmbG93IGNvbnRyb2wgaW4gdHJhbnNtaXQg
-ZGlyZWN0aW9uIHdpdGgKcGwyMzAzLgoKSSBvbmx5IGtub3cgaG93IHRvIGdldCB0aGUgaGFyZHdh
-cmUgdG8gZG8gSVhPTi8hSVhBTlkgd2l0aCBeUy9eUSBhcyBjb250cm9sCmNoYXJhY3RlcnMsIHNv
-IEkgcHJlc2VydmUgdGhlIG9sZCBiZWhhdmlvdXIgZm9yIGFsbCBvdGhlciBjYXNlcy4KClNpZ25l
-ZC1vZmYtYnk6IEZsb3JpYW4gWnVtYmllaGwgPGZsb3J6QGZsb3J6LmRlPgotLS0KLS0KVG8gdW5z
-dWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4
-LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5v
-cmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRv
-bW8taW5mby5odG1sCgotLS0gbGludXgtNC4xNi45L2RyaXZlcnMvdXNiL3NlcmlhbC9wbDIzMDMu
-Yy5vcmlnCTIwMTgtMDUtMjAgMDA6NTE6MzQuNTgwOTY2MTI0ICswMjAwCisrKyBsaW51eC00LjE2
-LjkvZHJpdmVycy91c2Ivc2VyaWFsL3BsMjMwMy5jCTIwMTgtMDUtMjAgMDE6MTY6NDkuNTMyNzMw
-MDk4ICswMjAwCkBAIC01MzksMTIgKzUzOSwxOCBAQAogCXN0cnVjdCB1c2Jfc2VyaWFsICpzZXJp
-YWwgPSBwb3J0LT5zZXJpYWw7CiAJc3RydWN0IHBsMjMwM19zZXJpYWxfcHJpdmF0ZSAqc3ByaXYg
-PSB1c2JfZ2V0X3NlcmlhbF9kYXRhKHNlcmlhbCk7CiAJc3RydWN0IHBsMjMwM19wcml2YXRlICpw
-cml2ID0gdXNiX2dldF9zZXJpYWxfcG9ydF9kYXRhKHBvcnQpOworCWJvb2wgdGVybWlvc191bmNo
-YW5nZWQ7CiAJdW5zaWduZWQgbG9uZyBmbGFnczsKIAl1bnNpZ25lZCBjaGFyICpidWY7CiAJaW50
-IHJldDsKIAl1OCBjb250cm9sOwogCi0JaWYgKG9sZF90ZXJtaW9zICYmICF0dHlfdGVybWlvc19o
-d19jaGFuZ2UoJnR0eS0+dGVybWlvcywgb2xkX3Rlcm1pb3MpKQorCXRlcm1pb3NfdW5jaGFuZ2Vk
-ID0gb2xkX3Rlcm1pb3MgJiYKKwkJISh0dHlfdGVybWlvc19od19jaGFuZ2UoJnR0eS0+dGVybWlv
-cywgb2xkX3Rlcm1pb3MpIHx8CisJCSAgKCh0dHktPnRlcm1pb3MuY19pZmxhZyBeIG9sZF90ZXJt
-aW9zLT5jX2lmbGFnKSAmIChJWE9OIHwgSVhBTlkpKSB8fAorCQkgIHR0eS0+dGVybWlvcy5jX2Nj
-W1ZTVE9QXSAhPSBvbGRfdGVybWlvcy0+Y19jY1tWU1RPUF0gfHwKKwkJICB0dHktPnRlcm1pb3Mu
-Y19jY1tWU1RBUlRdICE9IG9sZF90ZXJtaW9zLT5jX2NjW1ZTVEFSVF0pOworCWlmICh0ZXJtaW9z
-X3VuY2hhbmdlZCkKIAkJcmV0dXJuOwogCiAJYnVmID0ga3phbGxvYyg3LCBHRlBfS0VSTkVMKTsK
-QEAgLTY2Miw2ICs2NjgsMTAgQEAKIAkJCXBsMjMwM192ZW5kb3Jfd3JpdGUoc2VyaWFsLCAweDAs
-IDB4NDEpOwogCQllbHNlCiAJCQlwbDIzMDNfdmVuZG9yX3dyaXRlKHNlcmlhbCwgMHgwLCAweDYx
-KTsKKwl9IGVsc2UgaWYgKElfSVhPTih0dHkpICYmICFJX0lYQU5ZKHR0eSkgJiYKKwkJCVNUQVJU
-X0NIQVIodHR5KSA9PSAweDExICYmCisJCQlTVE9QX0NIQVIodHR5KSA9PSAweDEzKSB7CisJCXBs
-MjMwM192ZW5kb3Jfd3JpdGUoc2VyaWFsLCAweDAsIDB4YzApOwogCX0gZWxzZSB7CiAJCXBsMjMw
-M192ZW5kb3Jfd3JpdGUoc2VyaWFsLCAweDAsIDB4MCk7CiAJfQo=
+V2hlbiB0aGUgZGV2aWNlX25vZGUgc3BlY2lmaWVkIGlzIE5VTEwsIGZhbGwgYmFjayB0byBtZGlv
+YnVzX3JlZ2lzdGVyKCkuCldlIGhhdmUgYSBudW1iZXIgb2YgZHJpdmVycyBoYXZpbmcgYSBzaW1p
+bGFyIHBhdHRlcm4gd2hpY2ggaXM6CgppZiAobnApCglvZl9tZGlvYnVzX3JlZ2lzdGVyKCkKZWxz
+ZQoJbWRpb2J1c19yZWdpc3RlcigpCgpzbyBpbmNvcnBvcmF0ZSB0aGF0IGJlaGF2aW9yIHdpdGhp
+biB0aGUgY29yZSBvZl9tZGlvYnVzX3JlZ2lzdGVyKCkKZnVuY3Rpb24uIFRoaXMgaXMgYWxzbyBj
+b25zaXN0ZW50IHdpdGggdGhlIHN0dWIgdmVyc2lvbiB0aGF0IHdlIGRlZmluZWQKd2hlbiBDT05G
+SUdfT0Y9bi4KClNpZ25lZC1vZmYtYnk6IEZsb3JpYW4gRmFpbmVsbGkgPGYuZmFpbmVsbGlAZ21h
+aWwuY29tPgotLS0KIGRyaXZlcnMvb2Yvb2ZfbWRpby5jIHwgMyArKysKIDEgZmlsZSBjaGFuZ2Vk
+LCAzIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL29mL29mX21kaW8uYyBiL2Ry
+aXZlcnMvb2Yvb2ZfbWRpby5jCmluZGV4IDhjMGM5MjcxMmZjOS4uZDk2M2JhZjhlNTNhIDEwMDY0
+NAotLS0gYS9kcml2ZXJzL29mL29mX21kaW8uYworKysgYi9kcml2ZXJzL29mL29mX21kaW8uYwpA
+QCAtMjA0LDYgKzIwNCw5IEBAIGludCBvZl9tZGlvYnVzX3JlZ2lzdGVyKHN0cnVjdCBtaWlfYnVz
+ICptZGlvLCBzdHJ1Y3QgZGV2aWNlX25vZGUgKm5wKQogCWJvb2wgc2NhbnBoeXMgPSBmYWxzZTsK
+IAlpbnQgYWRkciwgcmM7CiAKKwlpZiAoIW5wKQorCQlyZXR1cm4gbWRpb2J1c19yZWdpc3Rlciht
+ZGlvKTsKKwogCS8qIERvIG5vdCBjb250aW51ZSBpZiB0aGUgbm9kZSBpcyBkaXNhYmxlZCAqLwog
+CWlmICghb2ZfZGV2aWNlX2lzX2F2YWlsYWJsZShucCkpCiAJCXJldHVybiAtRU5PREVWOwo=
