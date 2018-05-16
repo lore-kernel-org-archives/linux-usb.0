@@ -2,20 +2,33 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/2] Convert target drivers to use sbitmap
-From: Felipe Balbi <felipe.balbi@linux.intel.com>
-Message-Id: <8736ys9mco.fsf@linux.intel.com>
-Date: Wed, 16 May 2018 08:54:31 +0300
-To: Matthew Wilcox <willy@infradead.org>, linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, linux1394-devel@lists.sourceforge.net, linux-usb@vger.kernel.org, kvm@vger.kernel.org, virtualization@lists.linux-foundation.org, netdev@vger.kernel.org, Juergen Gross <jgross@suse.com>, qla2xxx-upstream@qlogic.com, Kent Overstreet <kent.overstreet@gmail.com>, Jens Axboe <axboe@kernel.dk>
-Cc: Matthew Wilcox <mawilcox@microsoft.com>
+From: kbuild test robot <lkp@intel.com>
+Message-Id: <201805162035.EWoS94Oq%fengguang.wu@intel.com>
+Date: Wed, 16 May 2018 20:47:21 +0800
+To: Matthew Wilcox <willy@infradead.org>
+Cc: kbuild-all@01.org, linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, linux1394-devel@lists.sourceforge.net, linux-usb@vger.kernel.org, kvm@vger.kernel.org, virtualization@lists.linux-foundation.org, netdev@vger.kernel.org, Juergen Gross <jgross@suse.com>, qla2xxx-upstream@qlogic.com, Kent Overstreet <kent.overstreet@gmail.com>, Jens Axboe <axboe@kernel.dk>, Matthew Wilcox <mawilcox@microsoft.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgpNYXR0aGV3IFdpbGNveCA8d2lsbHlAaW5mcmFkZWFkLm9yZz4gd3JpdGVzOgo+IEZyb206
-IE1hdHRoZXcgV2lsY294IDxtYXdpbGNveEBtaWNyb3NvZnQuY29tPgo+Cj4gVGhlIHNiaXRtYXAg
-YW5kIHRoZSBwZXJjcHVfaWRhIHBlcmZvcm0gZXNzZW50aWFsbHkgdGhlIHNhbWUgdGFzaywKPiBh
-bGxvY2F0aW5nIHRhZ3MgZm9yIGNvbW1hbmRzLiAgU2luY2UgdGhlIHNiaXRtYXAgaXMgbW9yZSB1
-c2VkIHRoYW4KPiB0aGUgcGVyY3B1X2lkYSwgY29udmVydCB0aGUgcGVyY3B1X2lkYSB1c2VycyB0
-byB0aGUgc2JpdG1hcCBBUEkuCj4KPiBTaWduZWQtb2ZmLWJ5OiBNYXR0aGV3IFdpbGNveCA8bWF3
-aWxjb3hAbWljcm9zb2Z0LmNvbT4KPiAtLS0KClsuLi5dCgo+ICBkcml2ZXJzL3VzYi9nYWRnZXQv
-ZnVuY3Rpb24vZl90Y20uYyAgICAgIHwgIDggKysrLS0tCgpmb3IgZHJpdmVycy91c2IvZ2FkZ2V0
-L2Z1bmN0aW9uL2ZfdGNtLmMKCkFja2VkLWJ5OiBGZWxpcGUgQmFsYmkgPGZlbGlwZS5iYWxiaUBs
-aW51eC5pbnRlbC5jb20+Cg==
+SGkgTWF0dGhldywKCkkgbG92ZSB5b3VyIHBhdGNoISBQZXJoYXBzIHNvbWV0aGluZyB0byBpbXBy
+b3ZlOgoKW2F1dG8gYnVpbGQgdGVzdCBXQVJOSU5HIG9uIGxpbnVzL21hc3Rlcl0KW2Fsc28gYnVp
+bGQgdGVzdCBXQVJOSU5HIG9uIHY0LjE3LXJjNSBuZXh0LTIwMTgwNTE2XQpbY2Fubm90IGFwcGx5
+IHRvIHRhcmdldC9tYXN0ZXJdCltpZiB5b3VyIHBhdGNoIGlzIGFwcGxpZWQgdG8gdGhlIHdyb25n
+IGdpdCB0cmVlLCBwbGVhc2UgZHJvcCB1cyBhIG5vdGUgdG8gaGVscCBpbXByb3ZlIHRoZSBzeXN0
+ZW1dCgp1cmw6ICAgIGh0dHBzOi8vZ2l0aHViLmNvbS8wZGF5LWNpL2xpbnV4L2NvbW1pdHMvTWF0
+dGhldy1XaWxjb3gvVXNlLXNiaXRtYXAtaW5zdGVhZC1vZi1wZXJjcHVfaWRhLzIwMTgwNTE2LTE0
+MzY1OApyZXByb2R1Y2U6CiAgICAgICAgIyBhcHQtZ2V0IGluc3RhbGwgc3BhcnNlCiAgICAgICAg
+bWFrZSBBUkNIPXg4Nl82NCBhbGxtb2Rjb25maWcKICAgICAgICBtYWtlIEM9MSBDRj0tRF9fQ0hF
+Q0tfRU5ESUFOX18KCgpzcGFyc2Ugd2FybmluZ3M6IChuZXcgb25lcyBwcmVmaXhlZCBieSA+PikK
+Cj4+IGRyaXZlcnMvdGFyZ2V0L2lzY3NpL2lzY3NpX3RhcmdldF91dGlsLmM6MTUwOjU6IHNwYXJz
+ZTogc3ltYm9sICdpc2NzaXRfd2FpdF9mb3JfdGFnJyB3YXMgbm90IGRlY2xhcmVkLiBTaG91bGQg
+aXQgYmUgc3RhdGljPwogICBkcml2ZXJzL3RhcmdldC9pc2NzaS9pc2NzaV90YXJnZXRfdXRpbC5j
+OjExNzQ6MzE6IHNwYXJzZTogZXhwcmVzc2lvbiB1c2luZyBzaXplb2Yodm9pZCkKICAgZHJpdmVy
+cy90YXJnZXQvaXNjc2kvaXNjc2lfdGFyZ2V0X3V0aWwuYzoxMTc0OjMxOiBzcGFyc2U6IGV4cHJl
+c3Npb24gdXNpbmcgc2l6ZW9mKHZvaWQpCgpQbGVhc2UgcmV2aWV3IGFuZCBwb3NzaWJseSBmb2xk
+IHRoZSBmb2xsb3d1cCBwYXRjaC4KLS0tCjAtREFZIGtlcm5lbCB0ZXN0IGluZnJhc3RydWN0dXJl
+ICAgICAgICAgICAgICAgIE9wZW4gU291cmNlIFRlY2hub2xvZ3kgQ2VudGVyCmh0dHBzOi8vbGlz
+dHMuMDEub3JnL3BpcGVybWFpbC9rYnVpbGQtYWxsICAgICAgICAgICAgICAgICAgIEludGVsIENv
+cnBvcmF0aW9uCi0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5l
+ICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpv
+cmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2Vy
+Lmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
