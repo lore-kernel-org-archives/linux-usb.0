@@ -1,31 +1,27 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: thermal: samsung: Remove support for Exynos5440
-From: Rob Herring <robh@kernel.org>
-Message-Id: <20180501144516.GA519@rob-hp-laptop>
-Date: Tue, 1 May 2018 09:45:16 -0500
-To: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Eduardo Valentin <edubezval@gmail.com>, Kukjin Kim <kgene@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Tejun Heo <tj@kernel.org>, Sylwester Nawrocki <s.nawrocki@samsung.com>, Tomasz Figa <tomasz.figa@gmail.com>, Chanwoo Choi <cw00.choi@samsung.com>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, "Rafael J. Wysocki" <rjw@rjwysocki.net>, Viresh Kumar <viresh.kumar@linaro.org>, Zhang Rui <rui.zhang@intel.com>, Russell King <linux@armlinux.org.uk>, Hans de Goede <hdegoede@redhat.com>, Linus Walleij <linus.walleij@linaro.org>, Andi Shyti <andi@etezian.org>, Mark Brown <broonie@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-ide@vger.kernel.org, linux-clk@vger.kernel.org, linux-pm@vger.kernel.org, linux-i2c@vger.kernel.org, linux-gpio@vger.kernel.org, linux-spi@vger.kernel.org, linux-usb@vger.kernel.org, Marek Szyprowski <m.szyprowski@samsung.com>, Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>, Jaehoon Chung <jh80.chung@samsung.com>
+Subject: [V2,2/4] usb: gadget: configfs: Create control_config group
+From: Felipe Balbi <balbi@kernel.org>
+Message-Id: <87tvr886vz.fsf@linux.intel.com>
+Date: Wed, 16 May 2018 09:13:52 +0300
+To: Jerry Zhang <zhangjerry@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+Cc: Michal Nazarewicz <mina86@mina86.com>, Krzysztof Opasiak <kopasiak90@gmail.com>, Badhri Jagan Sridharan <badhri@google.com>, Andrzej Pietrasiewicz <andrzej.p@samsung.com>, felixhaedicke@web.de
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCBBcHIgMjYsIDIwMTggYXQgMDE6MjE6MTJQTSArMDIwMCwgQmFydGxvbWllaiBab2xu
-aWVya2lld2ljeiB3cm90ZToKPiBGcm9tOiBLcnp5c3p0b2YgS296bG93c2tpIDxrcnprQGtlcm5l
-bC5vcmc+Cj4gU3ViamVjdDogW1BBVENIXSB0aGVybWFsOiBzYW1zdW5nOiBSZW1vdmUgc3VwcG9y
-dCBmb3IgRXh5bm9zNTQ0MAo+IAo+IFRoZSBFeHlub3M1NDQwIGlzIG5vdCBhY3RpdmVseSBkZXZl
-bG9wZWQsIHRoZXJlIGFyZSBubyBkZXZlbG9wbWVudAo+IGJvYXJkcyBhdmFpbGFibGUgYW5kIHBy
-b2JhYmx5IHRoZXJlIGFyZSBubyByZWFsIHByb2R1Y3RzIHdpdGggaXQuCj4gUmVtb3ZlIHdpZGUt
-dHJlZSBzdXBwb3J0IGZvciBFeHlub3M1NDQwLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEtyenlzenRv
-ZiBLb3psb3dza2kgPGtyemtAa2VybmVsLm9yZz4KPiBbYi56b2xuaWVya2llOiBwb3J0ZWQgb3Zl
-ciBkcml2ZXIgY2hhbmdlc10KPiBTaWduZWQtb2ZmLWJ5OiBCYXJ0bG9taWVqIFpvbG5pZXJraWV3
-aWN6IDxiLnpvbG5pZXJraWVAc2Ftc3VuZy5jb20+Cj4gLS0tCj4gRWR1YXJkbywgaGVyZSBpcyBh
-IHZlcnNpb24gd2hpY2ggYXBwbGllcyBvbiB0b3Agb2YgcGVuZGluZyBFeHlub3MKPiB0aGVybWFs
-IGNoYW5nZXMgKGh0dHBzOi8vbGttbC5vcmcvbGttbC8yMDE4LzQvMTYvMjU2KS4KPiAKPiAgRG9j
-dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3RoZXJtYWwvZXh5bm9zLXRoZXJtYWwudHh0
-IHwgICAxNCAKPiAgZHJpdmVycy90aGVybWFsL3NhbXN1bmcvZXh5bm9zX3RtdS5jICAgICAgICAg
-ICAgICAgICAgICAgICAgIHwgIDE2MSAtLS0tLS0tLS0tLQo+ICAyIGZpbGVzIGNoYW5nZWQsIDQg
-aW5zZXJ0aW9ucygrKSwgMTcxIGRlbGV0aW9ucygtKQoKUmV2aWV3ZWQtYnk6IFJvYiBIZXJyaW5n
-IDxyb2JoQGtlcm5lbC5vcmc+Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2Vu
-ZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3Nh
-Z2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBo
-dHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
+SmVycnkgWmhhbmcgPHpoYW5namVycnlAZ29vZ2xlLmNvbT4gd3JpdGVzOgoKPiBDb250cm9sX2Nv
+bmZpZyBpcyBhIGdyb3VwIHVuZGVyIGdhZGdldCB0aGF0IGFjdHMKPiBhcyBhIG5vcm1hbCBjb25m
+aWcgZ3JvdXAsIGV4Y2VwdCBpdCBkb2VzIG5vdAo+IGFwcGVhciBpbiBjZGV2LT5jb25maWdzLgo+
+Cj4gRnVuY3Rpb25zIHRoYXQgaGF2ZSBleGFjdGx5IHplcm8gZGVzY3JpcHRvcnMgY2FuCj4gYmUg
+bGlua2VkIGludG8gY29udHJvbF9jb25maWcuIFRoZXNlIGZ1bmN0aW9ucwo+IGFyZSBib3VuZCBh
+bmQgdW5ib3VuZCB3aXRoIHRoZSByZXN0IG9mIHRoZSBnYWRnZXQsCj4gYnV0IGFyZSBuZXZlciBl
+bmFibGVkLiBBbHNvLCBmdW5jdGlvbnMgd2l0aCB6ZXJvCj4gZGVzY3JpcHRvcnMgY2Fubm90IGJl
+IHVzZWQgaW4gcmVhbCBjb25maWdzLgo+Cj4gQ3JlYXRlIGNvbmZpZ2ZzX3NldHVwKCksIHdoaWNo
+IHdpbGwgZmlyc3QgYXR0ZW1wdAo+IGNvbXBvc2l0ZSBzZXR1cC4gSWYgdGhhdCBmYWlscywgaXQg
+d2lsbCBnbyB0aHJvdWdoCj4gZnVuY3Rpb25zIGluIGNvbnRyb2xfY29uZmlnIGFuZCB1c2UgcmVx
+X21hdGNoIHRvCj4gZmluZCBhbmQgZGVsaXZlciB0aGUgcmVxdWVzdCB0byBhIGZ1bmN0aW9uIHRo
+YXQgY2FuCj4gaGFuZGxlIGl0Lgo+Cj4gVGhpcyBhbGxvd3MgdGhlIHVzZXIgdG8gY3JlYXRlIGEg
+ZnVuY3Rpb25mcyBpbnN0YW5jZQo+IGRlZGljYXRlZCB0byBoYW5kbGluZyBub24tc3RhbmRhcmQg
+Y29udHJvbCByZXF1ZXN0cwo+IG5vIG1hdHRlciB3aGF0IGZ1bmN0aW9ucyBvciBjb25maWd1cmF0
+aW9ucyBhcmUKPiBjdXJyZW50bHkgYWN0aXZlLgo+Cj4gU2lnbmVkLW9mZi1ieTogSmVycnkgWmhh
+bmcgPHpoYW5namVycnlAZ29vZ2xlLmNvbT4KCkkgZGlkbid0IGdldCBwYXRjaCAxCg==
