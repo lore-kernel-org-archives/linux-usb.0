@@ -1,24 +1,30 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [3/3] MAINTAINERS: add USB CCID Gadget Device
-From: Marcus Folkesson <marcus.folkesson@gmail.com>
-Message-Id: <20180526203401.16586-3-marcus.folkesson@gmail.com>
-Date: Sat, 26 May 2018 22:34:01 +0200
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, Felipe Balbi <balbi@kernel.org>, davem@davemloft.net, Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Randy Dunlap <rdunlap@infradead.org>, Ruslan Bilovol <ruslan.bilovol@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Kate Stewart <kstewart@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Marcus Folkesson <marcus.folkesson@gmail.com>
+Subject: [13/14] usb: musb: gadget: fix to_musb_request() to not return NULL
+From: Bin Liu <b-liu@ti.com>
+Message-Id: <1526910142-15862-14-git-send-email-b-liu@ti.com>
+Date: Mon, 21 May 2018 08:42:21 -0500
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, Bin Liu <b-liu@ti.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-QWRkIE1BSU5UQUlORVJTIGVudHJ5IGZvciBVU0IgQ0NJRCBHYWRnZXQgRGV2aWNlCgpTaWduZWQt
-b2ZmLWJ5OiBNYXJjdXMgRm9sa2Vzc29uIDxtYXJjdXMuZm9sa2Vzc29uQGdtYWlsLmNvbT4KLS0t
-CiBNQUlOVEFJTkVSUyB8IDggKysrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlvbnMo
-KykKCmRpZmYgLS1naXQgYS9NQUlOVEFJTkVSUyBiL01BSU5UQUlORVJTCmluZGV4IDA3OGZkODBm
-NjY0Zi4uZTc3YzNkMmJlYzg5IDEwMDY0NAotLS0gYS9NQUlOVEFJTkVSUworKysgYi9NQUlOVEFJ
-TkVSUwpAQCAtMTQ1NDEsNiArMTQ1NDEsMTQgQEAgTDoJbGludXgtc2NzaUB2Z2VyLmtlcm5lbC5v
-cmcKIFM6CU1haW50YWluZWQKIEY6CWRyaXZlcnMvdXNiL3N0b3JhZ2UvdWFzLmMKIAorVVNCIEND
-SUQgR0FER0VUCitNOglNYXJjdXMgRm9sa2Vzc29uIDxtYXJjdXMuZm9sa2Vzc29uQGdtYWlsLmNv
-bT4KK0w6CWxpbnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmcKK1M6CU1haW50YWluZWQKK0Y6CWRyaXZl
-cnMvdXNiL2dhZGdldC9mdW5jdGlvbi9mX2NjaWQuKgorRjoJaW5jbHVkZS91YXBpL2xpbnV4L3Vz
-Yi9jY2lkLmgKK0Y6CURvY3VtZW50YXRpb24vdXNiL2dhZGdldF9jY2lkLnJzdAorCiBVU0IgQ0RD
-IEVUSEVSTkVUIERSSVZFUgogTToJT2xpdmVyIE5ldWt1bSA8b2xpdmVyQG5ldWt1bS5vcmc+CiBM
-OglsaW51eC11c2JAdmdlci5rZXJuZWwub3JnCg==
+VGhlIGdhZGdldCBmdW5jdGlvbiBkcml2ZXJzIHNob3VsZCBlbnN1cmUgdGhlIHVzYl9yZXF1ZXN0
+IHBhcmFtZXRlcgpwYXNzZWQgaW4gaXMgbm90IE5VTEwuIFVEQyBjb3JlIGRvZXNuJ3QgY2hlY2sg
+aWYgaXQgaXMgTlVMTCwgc28gTVVTQgpkcml2ZXIgc2hvdWxkbid0IGhhdmUgdG8gY2hlY2sgaXQg
+ZWl0aGVyLgoKQ29udmVydCB0b19tdXNiX3JlcXVlc3QoKSB0byBhIHNpbXBsZSBtYWNybyB0byBu
+b3QgZGlyZWN0bHkgcmV0dXJuIE5VTEwKdG8gYXZvaWQgd2FybmluZ3MgZnJvbSBjb2RlIHN0YXRp
+YyBhbmFseXNpcyB0b29scy4KClNpZ25lZC1vZmYtYnk6IEJpbiBMaXUgPGItbGl1QHRpLmNvbT4K
+LS0tCiBkcml2ZXJzL3VzYi9tdXNiL211c2JfZ2FkZ2V0LmggfCA1ICstLS0tCiAxIGZpbGUgY2hh
+bmdlZCwgMSBpbnNlcnRpb24oKyksIDQgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy91c2IvbXVzYi9tdXNiX2dhZGdldC5oIGIvZHJpdmVycy91c2IvbXVzYi9tdXNiX2dhZGdldC5o
+CmluZGV4IDljMzRhY2EwNmRiNi4uNDY2ODc3YjQ3MWVmIDEwMDY0NAotLS0gYS9kcml2ZXJzL3Vz
+Yi9tdXNiL211c2JfZ2FkZ2V0LmgKKysrIGIvZHJpdmVycy91c2IvbXVzYi9tdXNiX2dhZGdldC5o
+CkBAIC02MCwxMCArNjAsNyBAQCBzdHJ1Y3QgbXVzYl9yZXF1ZXN0IHsKIAllbnVtIGJ1ZmZlcl9t
+YXBfc3RhdGUgbWFwX3N0YXRlOwogfTsKIAotc3RhdGljIGlubGluZSBzdHJ1Y3QgbXVzYl9yZXF1
+ZXN0ICp0b19tdXNiX3JlcXVlc3Qoc3RydWN0IHVzYl9yZXF1ZXN0ICpyZXEpCi17Ci0JcmV0dXJu
+IHJlcSA/IGNvbnRhaW5lcl9vZihyZXEsIHN0cnVjdCBtdXNiX3JlcXVlc3QsIHJlcXVlc3QpIDog
+TlVMTDsKLX0KKyNkZWZpbmUgdG9fbXVzYl9yZXF1ZXN0KHIpCWNvbnRhaW5lcl9vZigociksIHN0
+cnVjdCBtdXNiX3JlcXVlc3QsIHJlcXVlc3QpCiAKIGV4dGVybiBzdHJ1Y3QgdXNiX3JlcXVlc3Qg
+KgogbXVzYl9hbGxvY19yZXF1ZXN0KHN0cnVjdCB1c2JfZXAgKmVwLCBnZnBfdCBnZnBfZmxhZ3Mp
+Owo=
