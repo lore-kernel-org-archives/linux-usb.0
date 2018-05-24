@@ -3,8 +3,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v3] usbip: dynamically allocate idev by nports found in sysfs
 From: Michael Grzeschik <mgr@pengutronix.de>
-Message-Id: <20180523210131.6h3xsm2thnr6py4q@pengutronix.de>
-Date: Wed, 23 May 2018 23:01:31 +0200
+Message-Id: <20180524073400.qqwyy7zsihjjswse@pengutronix.de>
+Date: Thu, 24 May 2018 09:34:00 +0200
 To: Shuah Khan <shuah@kernel.org>
 Cc: linux-usb@vger.kernel.org, valentina.manea.m@gmail.com, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, kernel@pengutronix.de
 List-ID: <linux-usb.vger.kernel.org>
@@ -23,5 +23,7 @@ cnRzIHRvIGJlZ2lubmluZyBvZiBmdW5jdGlvbgo+ID4gCj4gCj4gSG1tLiBXaXRoIHRoaXMgcGF0
 Y2ggSSBzZWUgYSBzZWdmYXVsdCB3aGVuIEkgcnVuIHVzYmlwIHBvcnQgY29tbWFuZC4KPiBJIHRo
 aW5rIHRoaXMgcGF0Y2ggaXMgaW5jb21wbGV0ZSBhbmQgbW9yZSBjaGFuZ2VzIGFyZSBuZWVkZWQg
 dG8gdGhlCj4gY29kZSB0aGF0IHJlZmVyZW5jZXMgdGhlIGlkZXYgYXJyYXkuCj4gCj4gSSBjYW4n
-dCB0YWtlIHRoaXMgcGF0Y2guCgpJIHdpbGwgdGVzdCBpdCBhZ2FpbiB0b21vcnJvdy4KClRoYW5r
-cywKTWljaGFlbAo=
+dCB0YWtlIHRoaXMgcGF0Y2guCgpJIG1pc3NlZCB0aGF0IGdldF9ucG9ydHMgZGVwZW5kcyBvbiB2
+aGNpX2RyaXZlci0+aGNfZGV2aWNlIHdoaWNoIGlzCm5vdCBpbml0aWFsaXplZCB0aGF0IGVhcmx5
+LiBJIHdpbGwgcmV3b3JrIGl0IHRvIGdldCB0aGUgaGNfZGV2aWNlCmJ5IHBhcmFtZXRlciBhbmQg
+c2VuZCB2NC4KClRoYW5rcywKTWljaGFlbAo=
