@@ -1,23 +1,32 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,2/2] arm64: dts: exynos: add OF graph between USB-PHY and MUIC
-From: Felipe Balbi <balbi@kernel.org>
-Message-Id: <87zi1087om.fsf@linux.intel.com>
-Date: Wed, 16 May 2018 08:56:41 +0300
-To: Krzysztof Kozlowski <krzk@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>
-Cc: "open list:DESIGNWARE USB3 DRD IP DRIVER" <linux-usb@vger.kernel.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Marek Szyprowski <m.szyprowski@samsung.com>, "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Inki Dae <inki.dae@samsung.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Chanwoo Choi <cw00.choi@samsung.com>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, linux-kernel@vger.kernel.org, "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>
+Subject: usb: gadget: composite: fix delayed_status race condition when set_interface
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Message-Id: <75dc545f259a68d36d49c0c663d5cac19bb61a24.1527240183.git.chunfeng.yun@mediatek.com>
+Date: Fri, 25 May 2018 17:24:57 +0800
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Felipe Balbi <felipe.balbi@linux.intel.com>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
 List-ID: <linux-usb.vger.kernel.org>
 
-S3J6eXN6dG9mIEtvemxvd3NraSA8a3J6a0BrZXJuZWwub3JnPiB3cml0ZXM6Cgo+IE9uIFR1ZSwg
-TWF5IDE1LCAyMDE4IGF0IDI6MTIgUE0sIEFuZHJ6ZWogSGFqZGEgPGEuaGFqZGFAc2Ftc3VuZy5j
-b20+IHdyb3RlOgo+PiBPRiBncmFwaCBkZXNjcmliZXMgVVNCIGRhdGEgbGFuZXMgYmV0d2VlbiBV
-U0ItUEhZIGFuZCByZXNwZWN0aXZlIE1VSUMuCj4+IFNpbmNlIGdyYXBoIGlzIHByZXNlbnQgYW5k
-IERXQyBkcml2ZXIgY2FuIHVzZSBpdCB0byBnZXQgZXh0Y29uLCBvYnNvbGV0ZQo+PiBleHRjb24g
-cHJvcGVydHkgY2FuIGJlIHJlbW92ZWQuCj4+Cj4+IFNpZ25lZC1vZmYtYnk6IEFuZHJ6ZWogSGFq
-ZGEgPGEuaGFqZGFAc2Ftc3VuZy5jb20+Cj4+IC0tLQo+PiAgLi4uL2R0cy9leHlub3MvZXh5bm9z
-NTQzMy10bTItY29tbW9uLmR0c2kgICAgIHwgMTkgKysrKysrKysrKysrKysrKysrLQo+PiAgMSBm
-aWxlIGNoYW5nZWQsIDE4IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPgo+IEFzIHdlIGRp
-c2N1c3NlZCBmb3IgdjEgLSBzaW5jZSB0aGlzIHdhcyBub3Qgc3BsaXQgaW50byB0d28sIEknbGwg
-YXBwbHkKPiBpdCBvbmNlIGZpcnN0IHBhdGNoIGhpdHMgbWFpbmxpbmUuCgpJIGp1c3QgdG9vayBw
-YXRjaCAxIHRvIG15IHRyZWUsIGZ5aQo=
+SXQgaGFwcGVucyB3aGVuIGVuYWJsZSBkZWJ1ZyBsb2csIGlmIHNldF9hbHQoKSByZXR1cm5zClVT
+Ql9HQURHRVRfREVMQVlFRF9TVEFUVVMgYW5kIHVzYl9jb21wb3NpdGVfc2V0dXBfY29udGludWUo
+KQppcyBjYWxsZWQgYmVmb3JlIGluY3JlYXNpbmcgY291bnQgb2YgQGRlbGF5ZWRfc3RhdHVzLApz
+byBmaXggaXQgYnkgdXNpbmcgc3BpbmxvY2sgb2YgQGNkZXYtPmxvY2suCgpTaWduZWQtb2ZmLWJ5
+OiBDaHVuZmVuZyBZdW4gPGNodW5mZW5nLnl1bkBtZWRpYXRlay5jb20+ClRlc3RlZC1ieTogSmF5
+IEhzdSA8c2hpaC1jaGllaC5oc3VAbWVkaWF0ZWsuY29tPgotLS0KIGRyaXZlcnMvdXNiL2dhZGdl
+dC9jb21wb3NpdGUuYyB8IDMgKysrCiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCgpk
+aWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvZ2FkZ2V0L2NvbXBvc2l0ZS5jIGIvZHJpdmVycy91c2Iv
+Z2FkZ2V0L2NvbXBvc2l0ZS5jCmluZGV4IGYyNDJjMmIuLmQyZmEwNzEgMTAwNjQ0Ci0tLSBhL2Ry
+aXZlcnMvdXNiL2dhZGdldC9jb21wb3NpdGUuYworKysgYi9kcml2ZXJzL3VzYi9nYWRnZXQvY29t
+cG9zaXRlLmMKQEAgLTE3MTksNiArMTcxOSw4IEBAIHN0YXRpYyBpbnQgZmlsbF9leHRfcHJvcChz
+dHJ1Y3QgdXNiX2NvbmZpZ3VyYXRpb24gKmMsIGludCBpbnRlcmZhY2UsIHU4ICpidWYpCiAJCSAq
+LwogCQlpZiAod192YWx1ZSAmJiAhZi0+Z2V0X2FsdCkKIAkJCWJyZWFrOworCisJCXNwaW5fbG9j
+aygmY2Rldi0+bG9jayk7CiAJCXZhbHVlID0gZi0+c2V0X2FsdChmLCB3X2luZGV4LCB3X3ZhbHVl
+KTsKIAkJaWYgKHZhbHVlID09IFVTQl9HQURHRVRfREVMQVlFRF9TVEFUVVMpIHsKIAkJCURCRyhj
+ZGV2LApAQCAtMTcyOCw2ICsxNzMwLDcgQEAgc3RhdGljIGludCBmaWxsX2V4dF9wcm9wKHN0cnVj
+dCB1c2JfY29uZmlndXJhdGlvbiAqYywgaW50IGludGVyZmFjZSwgdTggKmJ1ZikKIAkJCURCRyhj
+ZGV2LCAiZGVsYXllZF9zdGF0dXMgY291bnQgJWRcbiIsCiAJCQkJCWNkZXYtPmRlbGF5ZWRfc3Rh
+dHVzKTsKIAkJfQorCQlzcGluX3VubG9jaygmY2Rldi0+bG9jayk7CiAJCWJyZWFrOwogCWNhc2Ug
+VVNCX1JFUV9HRVRfSU5URVJGQUNFOgogCQlpZiAoY3RybC0+YlJlcXVlc3RUeXBlICE9IChVU0Jf
+RElSX0lOfFVTQl9SRUNJUF9JTlRFUkZBQ0UpKQo=
