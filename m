@@ -2,23 +2,18 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: net: qmi_wwan: Add Netgear Aircard 779S
-From: Josh Hill <josh@joshuajhill.com>
-Message-Id: <1527466241-28446-1-git-send-email-josh@joshuajhill.com>
-Date: Sun, 27 May 2018 20:10:41 -0400
-Cc: joshuajhill@gmail.com, josh@joshuajhill.com, =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>, "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+From: =?utf-8?q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
+Message-Id: <87r2lwmamc.fsf@miraculix.mork.no>
+Date: Mon, 28 May 2018 10:45:47 +0200
+To: Josh Hill <josh@joshuajhill.com>
+Cc: joshuajhill@gmail.com, "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-QWRkIHN1cHBvcnQgZm9yIE5ldGdlYXIgQWlyY2FyZCA3NzlTCgpTaWduZWQtb2ZmLWJ5OiBKb3No
-IEhpbGwgPGpvc2hAam9zaHVhamhpbGwuY29tPgotLS0KIGRyaXZlcnMvbmV0L3VzYi9xbWlfd3dh
-bi5jIHwgMSArCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKCmRpZmYgLS1naXQgYS9k
-cml2ZXJzL25ldC91c2IvcW1pX3d3YW4uYyBiL2RyaXZlcnMvbmV0L3VzYi9xbWlfd3dhbi5jCmlu
-ZGV4IDQyNTY1ZGQuLjA5NDY4MDggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbmV0L3VzYi9xbWlfd3dh
-bi5jCisrKyBiL2RyaXZlcnMvbmV0L3VzYi9xbWlfd3dhbi5jCkBAIC0xMTAzLDYgKzExMDMsNyBA
-QCBzdGF0aWMgY29uc3Qgc3RydWN0IHVzYl9kZXZpY2VfaWQgcHJvZHVjdHNbXSA9IHsKIAl7UU1J
-X0ZJWEVEX0lOVEYoMHgwNWM2LCAweDkyMGQsIDUpfSwKIAl7UU1JX1FVSVJLX1NFVF9EVFIoMHgw
-NWM2LCAweDk2MjUsIDQpfSwJLyogWVVHQSBDTE05MjAtTkM1ICovCiAJe1FNSV9GSVhFRF9JTlRG
-KDB4MDg0NiwgMHg2OGEyLCA4KX0sCisJe1FNSV9GSVhFRF9JTlRGKDB4MDg0NiwgMHg2OGQzLCA4
-KX0sCS8qIE5ldGdlYXIgQWlyY2FyZCA3NzlTICovCiAJe1FNSV9GSVhFRF9JTlRGKDB4MTJkMSwg
-MHgxNDBjLCAxKX0sCS8qIEh1YXdlaSBFMTczICovCiAJe1FNSV9GSVhFRF9JTlRGKDB4MTJkMSwg
-MHgxNGFjLCAxKX0sCS8qIEh1YXdlaSBFMTgyMCAqLwogCXtRTUlfRklYRURfSU5URigweDE0MzUs
-IDB4ZDE4MSwgMyl9LAkvKiBXaXN0cm9uIE5lV2ViIEQxOFExICovCg==
+Sm9zaCBIaWxsIDxqb3NoQGpvc2h1YWpoaWxsLmNvbT4gd3JpdGVzOgoKPiBBZGQgc3VwcG9ydCBm
+b3IgTmV0Z2VhciBBaXJjYXJkIDc3OVMKPgo+IFNpZ25lZC1vZmYtYnk6IEpvc2ggSGlsbCA8am9z
+aEBqb3NodWFqaGlsbC5jb20+CgpBY2tlZC1ieTogQmrDuHJuIE1vcmsgPGJqb3JuQG1vcmsubm8+
+CgpQbGVhc2UgcXVldWUgdGhpcyBmb3Igc3RhYmxlIHRvby4gIFRoYW5rcy4KCgpCasO4cm4KLS0t
+ClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmli
+ZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5r
+ZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcv
+bWFqb3Jkb21vLWluZm8uaHRtbAo=
