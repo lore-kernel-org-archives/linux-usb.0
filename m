@@ -1,34 +1,22 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,2/3] USB: DT probing support to ehci-npcm7xx
-From: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-Id: <9fe0ca4a-c244-e909-ec27-07c3db89f941@cogentembedded.com>
-Date: Thu, 31 May 2018 19:49:43 +0300
-To: avifishman70@gmail.com, gregkh@linuxfoundation.org, stern@rowland.harvard.edu
-Cc: tmaimon77@gmail.com, venture@google.com, yuenn@google.com, brendanhiggins@google.com, mathias.nyman@linux.intel.com, bjorn.andersson@linaro.org, jhogan@kernel.org, albeu@free.fr, chunfeng.yun@mediatek.com, tony@atomide.com, baolu.lu@linux.intel.com, elder@linaro.org, digetx@gmail.com, kstewart@linuxfoundation.org, hdegoede@redhat.com, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, openbmc@lists.ozlabs.org, robh+dt@kernel.org, mark.rutland@arm.com, devicetree@vger.kernel.org
+Subject: [v1,3/3] MAINTAINERS: add subfolders for nuvoton *npcm*
+From: Avi Fishman <avifishman70@gmail.com>
+Message-Id: <1527582935-31175-4-git-send-email-avifishman70@gmail.com>
+Date: Tue, 29 May 2018 11:35:35 +0300
+To: gregkh@linuxfoundation.org, stern@rowland.harvard.edu
+Cc: avifishman70@gmail.com, tmaimon77@gmail.com, venture@google.com, yuenn@google.com, brendanhiggins@google.com, mathias.nyman@linux.intel.com, bjorn.andersson@linaro.org, jhogan@kernel.org, albeu@free.fr, chunfeng.yun@mediatek.com, tony@atomide.com, baolu.lu@linux.intel.com, elder@linaro.org, digetx@gmail.com, kstewart@linuxfoundation.org, hdegoede@redhat.com, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, openbmc@lists.ozlabs.org, robh+dt@kernel.org, mark.rutland@arm.com, devicetree@vger.kernel.org, davem@davemloft.net, mchehab+samsung@kernel.org, akpm@linux-foundation.org, rdunlap@infradead.org, Avi Fishman <AviFishman70@gmail.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGVsbG8hCgpPbiAwNS8zMS8yMDE4IDA0OjQwIFBNLCBhdmlmaXNobWFuNzBAZ21haWwuY29tIHdy
-b3RlOgoKPiBGcm9tOiBBdmkgRmlzaG1hbiA8QXZpRmlzaG1hbjcwQGdtYWlsLmNvbT4KPiAKPiBE
-ZXZpY2UgVHJlZSBkb2N1bWVudGF0aW9uIGZvciBOdXZvdG9uIG5wY203eHggRUhDSS4KPiAKPiBT
-aWduZWQtb2ZmLWJ5OiBBdmkgRmlzaG1hbiA8QXZpRmlzaG1hbjcwQGdtYWlsLmNvbT4KPiAtLS0K
-PiAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9ucGNtN3h4LXVzYi50eHQg
-fCAxNyArKysrKysrKysrKysrKysrKwo+ICAxIGZpbGUgY2hhbmdlZCwgMTcgaW5zZXJ0aW9ucygr
-KQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
-L3VzYi9ucGNtN3h4LXVzYi50eHQKPiAKPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZp
-Y2V0cmVlL2JpbmRpbmdzL3VzYi9ucGNtN3h4LXVzYi50eHQgYi9Eb2N1bWVudGF0aW9uL2Rldmlj
-ZXRyZWUvYmluZGluZ3MvdXNiL25wY203eHgtdXNiLnR4dAo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0
-Cj4gaW5kZXggMDAwMDAwMDAwMDAwLi5kZWM2N2Q0ZDRjMzAKPiAtLS0gL2Rldi9udWxsCj4gKysr
-IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9ucGNtN3h4LXVzYi50eHQK
-PiBAQCAtMCwwICsxLDE3IEBACj4gK051dm90b24gTlBDTTdYWCBTb0MgVVNCIGNvbnRyb2xsZXJz
-Ogo+ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+ICsKPiArRUhDSToKPiArLS0tLS0K
-PiArCj4gK1JlcXVpcmVkIHByb3BlcnRpZXM6Cj4gKy0gY29tcGF0aWJsZTogIm51dm90b24sbnBj
-bTc1MC1laGNpIgo+ICstIGludGVycnVwdHM6IFNob3VsZCBjb250YWluIHRoZSBFSENJIGludGVy
-cnVwdAo+ICsKPiArRXhhbXBsZToKPiArCj4gKwllaGNpQGUxODAwMDAwIHsKCiAgVGhlIG5vZGUg
-c2hvdWxkIGJlIG5hbWVkICJ1c2JAZTE4MDAwMDAiIGFzIHRoZSBEVCBzcGVjLiByZXF1aXJlcyB0
-aGUgZ2VuZXJpYwpub2RlIG5hbWVzLgoKWy4uLl0KCk1CUiwgU2VyZ2VpCi0tLQpUbyB1bnN1YnNj
-cmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNi
-IiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpN
-b3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1p
-bmZvLmh0bWwK
+RnJvbTogQXZpIEZpc2htYW4gPEF2aUZpc2htYW43MEBnbWFpbC5jb20+CgpTaWduZWQtb2ZmLWJ5
+OiBBdmkgRmlzaG1hbiA8QXZpRmlzaG1hbjcwQGdtYWlsLmNvbT4KLS0tCiBNQUlOVEFJTkVSUyB8
+IDMgKysrCiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvTUFJ
+TlRBSU5FUlMgYi9NQUlOVEFJTkVSUwppbmRleCBlMGNlM2M1ZjMyZTUuLjIzYzQ1MGFkYWQ0NCAx
+MDA2NDQKLS0tIGEvTUFJTlRBSU5FUlMKKysrIGIvTUFJTlRBSU5FUlMKQEAgLTE3MjcsNyArMTcy
+NywxMCBAQCBGOglhcmNoL2FybS9tYWNoLW5wY20vCiBGOglhcmNoL2FybS9ib290L2R0cy9udXZv
+dG9uLW5wY20qCiBGOglpbmNsdWRlL2R0LWJpbmRpbmdzL2Nsb2NrL251dm90b24sbnBjbTd4eC1j
+bGtzLmgKIEY6CWRyaXZlcnMvKi8qbnBjbSoKK0Y6CWRyaXZlcnMvKi8qLypucGNtKgogRjoJRG9j
+dW1lbnRhdGlvbi8qLypucGNtKgorRjoJRG9jdW1lbnRhdGlvbi8qLyovKm5wY20qCitGOglEb2N1
+bWVudGF0aW9uLyovKi8qLypucGNtKgogCiBBUk0vTlVWT1RPTiBXOTBYOTAwIEFSTSBBUkNISVRF
+Q1RVUkUKIE06CVdhbiBab25nU2h1biA8bWN1b3MuY29tQGdtYWlsLmNvbT4K
