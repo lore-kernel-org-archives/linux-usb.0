@@ -2,18 +2,18 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: net: qmi_wwan: Add Netgear Aircard 779S
-From: =?utf-8?q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
-Message-Id: <87r2lwmamc.fsf@miraculix.mork.no>
-Date: Mon, 28 May 2018 10:45:47 +0200
-To: Josh Hill <josh@joshuajhill.com>
-Cc: joshuajhill@gmail.com, "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+From: David Miller <davem@davemloft.net>
+Message-Id: <20180529.105639.1629911740988094405.davem@davemloft.net>
+Date: Tue, 29 May 2018 10:56:39 -0400 (EDT)
+To: josh@joshuajhill.com
+Cc: joshuajhill@gmail.com, bjorn@mork.no, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-Sm9zaCBIaWxsIDxqb3NoQGpvc2h1YWpoaWxsLmNvbT4gd3JpdGVzOgoKPiBBZGQgc3VwcG9ydCBm
-b3IgTmV0Z2VhciBBaXJjYXJkIDc3OVMKPgo+IFNpZ25lZC1vZmYtYnk6IEpvc2ggSGlsbCA8am9z
-aEBqb3NodWFqaGlsbC5jb20+CgpBY2tlZC1ieTogQmrDuHJuIE1vcmsgPGJqb3JuQG1vcmsubm8+
-CgpQbGVhc2UgcXVldWUgdGhpcyBmb3Igc3RhYmxlIHRvby4gIFRoYW5rcy4KCgpCasO4cm4KLS0t
-ClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmli
-ZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5r
-ZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcv
-bWFqb3Jkb21vLWluZm8uaHRtbAo=
+RnJvbTogSm9zaCBIaWxsIDxqb3NoQGpvc2h1YWpoaWxsLmNvbT4KRGF0ZTogU3VuLCAyNyBNYXkg
+MjAxOCAyMDoxMDo0MSAtMDQwMAoKPiBBZGQgc3VwcG9ydCBmb3IgTmV0Z2VhciBBaXJjYXJkIDc3
+OVMKPiAKPiBTaWduZWQtb2ZmLWJ5OiBKb3NoIEhpbGwgPGpvc2hAam9zaHVhamhpbGwuY29tPgoK
+QXBwbGllZCBhbmQgcXVldWVkIHVwIGZvciAtc3RhYmxlLgotLS0KVG8gdW5zdWJzY3JpYmUgZnJv
+bSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhl
+IGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpv
+cmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1s
+Cg==
