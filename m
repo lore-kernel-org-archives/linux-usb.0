@@ -1,23 +1,25 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [2/4] USB: serial: ftdi_sio: use non-underscore fixed types
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20180518135419.GD24822@kroah.com>
-Date: Fri, 18 May 2018 15:54:19 +0200
-To: Johan Hovold <johan@kernel.org>
-Cc: linux-usb@vger.kernel.org
+Subject: usb: dwc2: gadget: fix missing process for isoc descriptor dma mode
+From: "Zengtao \(B\)" <prime.zeng@hisilicon.com>
+Message-Id: <1527681676-44003-1-git-send-email-prime.zeng@hisilicon.com>
+Date: Wed, 30 May 2018 20:01:15 +0800
+To: hminas@synopsys.com
+Cc: Zeng Tao <prime.zeng@hisilicon.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCBNYXkgMTgsIDIwMTggYXQgMDM6MjU6NDhQTSArMDIwMCwgSm9oYW4gSG92b2xkIHdy
-b3RlOgo+IFJlcGxhY2UgYWxsIF9fdSB0eXBlcyB3aXRoIHRoZWlyIHUgY291bnRlcnBhcnRzIHRo
-cm91Z2hvdXQgdGhlIGRyaXZlcgo+ICh3aG9zZSBzdHJ1Y3R1cmVzIGFyZSBub3QgZXhwb3J0ZWQg
-dG8gdXNlciBzcGFjZSkuCj4gCj4gU2lnbmVkLW9mZi1ieTogSm9oYW4gSG92b2xkIDxqb2hhbkBr
-ZXJuZWwub3JnPgo+IC0tLQo+ICBkcml2ZXJzL3VzYi9zZXJpYWwvZnRkaV9zaW8uYyB8IDUwICsr
-KysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAyNSBp
-bnNlcnRpb25zKCspLCAyNSBkZWxldGlvbnMoLSkKClJldmlld2VkLWJ5OiBHcmVnIEtyb2FoLUhh
-cnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgotLS0KVG8gdW5zdWJzY3JpYmUgZnJv
-bSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhl
-IGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpv
-cmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1s
-Cg==
+SWYgaXQncyB0aGUgZmlyc3QgcmVxdWVzdCB0byBxdWV1ZSwgYW5kIHdlIGFyZSB1c2luZyBkZXNj
+cmlwdG9yIGRtYSBtb2RlCmZvciBpc29jIHRyYW5zZmVyLCB3ZSBvbmx5IG5lZWQgdG8gYWRkIHRo
+ZSByZXF1ZXN0IHRvIHRoZSBxdWV1ZSwgYW5kIGl0CndpbGwgYmUgcHJvY2Vzc2VkIGluIHRoZSBm
+dXR1cmUgbmFrIGludGVycnVwdCBoYW5kbGVyLgoKU2lnbmVkLW9mZi1ieTogWmVuZyBUYW8gPHBy
+aW1lLnplbmdAaGlzaWxpY29uLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9kd2MyL2dhZGdldC5jIHwg
+MyArKysKIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2
+ZXJzL3VzYi9kd2MyL2dhZGdldC5jIGIvZHJpdmVycy91c2IvZHdjMi9nYWRnZXQuYwppbmRleCBm
+MGQ5Y2NmLi40OGUzYTQ4YyAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvZHdjMi9nYWRnZXQuYwor
+KysgYi9kcml2ZXJzL3VzYi9kd2MyL2dhZGdldC5jCkBAIC0xMzY1LDYgKzEzNjUsOSBAQCBzdGF0
+aWMgaW50IGR3YzJfaHNvdGdfZXBfcXVldWUoc3RydWN0IHVzYl9lcCAqZXAsIHN0cnVjdCB1c2Jf
+cmVxdWVzdCAqcmVxLAogCQkJcmV0dXJuIDA7CiAJCX0KIAorCQlpZiAodXNpbmdfZGVzY19kbWEo
+aHMpKQorCQkJcmV0dXJuIDA7CisKIAkJLyogVXBkYXRlIGN1cnJlbnQgZnJhbWUgbnVtYmVyIHZh
+bHVlLiAqLwogCQlocy0+ZnJhbWVfbnVtYmVyID0gZHdjMl9oc290Z19yZWFkX2ZyYW1lbm8oaHMp
+OwogCQl3aGlsZSAoZHdjMl9nYWRnZXRfdGFyZ2V0X2ZyYW1lX2VsYXBzZWQoaHNfZXApKSB7Cg==
