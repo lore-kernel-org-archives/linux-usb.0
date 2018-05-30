@@ -1,28 +1,37 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [net-next,v2,1/2] of: mdio: Fall back to mdiobus_register() with NULL device_node
-From: Florian Fainelli <f.fainelli@gmail.com>
-Message-Id: <20180515235619.27773-2-f.fainelli@gmail.com>
-Date: Tue, 15 May 2018 16:56:18 -0700
-To: netdev@vger.kernel.org
-Cc: Florian Fainelli <f.fainelli@gmail.com>, Andrew Lunn <andrew@lunn.ch>, Vivien Didelot <vivien.didelot@savoirfairelinux.com>, "David S. Miller" <davem@davemloft.net>, Nicolas Ferre <nicolas.ferre@microchip.com>, Fugang Duan <fugang.duan@nxp.com>, Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, Alexandre Torgue <alexandre.torgue@st.com>, Jose Abreu <joabreu@synopsys.com>, Grygorii Strashko <grygorii.strashko@ti.com>, Woojung Huh <woojung.huh@microchip.com>, Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, Rob Herring <robh+dt@kernel.org>, Frank Rowand <frowand.list@gmail.com>, Antoine Tenart <antoine.tenart@free-electrons.com>, Tobias Jordan <Tobias.Jordan@elektrobit.com>, Russell King <rmk+kernel@armlinux.org.uk>, Geert Uytterhoeven <geert+renesas@glider.be>, Thomas Petazzoni <thomas.petazzoni@free-electrons.com>, =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, Simon Horman <horms+renesas@verge.net.au>, Maxim Uvarov <muvarov@gmail.com>, Sekhar Nori <nsekhar@ti.com>, open list <linux-kernel@vger.kernel.org>, "open list:RENESAS ETHERNET DRIVERS" <linux-renesas-soc@vger.kernel.org>, "open list:TI ETHERNET SWITCH DRIVER CPSW" <linux-omap@vger.kernel.org>, "open list:USB NETWORKING DRIVERS" <linux-usb@vger.kernel.org>, "open list:OPEN FIRMWARE AND FLATTENED
-	DEVICE TREE" <devicetree@vger.kernel.org>
+Subject: [v1] dwc2: gadget: Fix ISOC IN DDMA PID bitfield value calculation
+From: Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
+Message-Id: <d61fab544fd2d09d58d6a6ea6eea00e6a4d4cccf.1527665526.git.hminas@synopsys.com>
+Date: Wed, 30 May 2018 11:34:04 +0400
+To: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>, linux-usb@vger.kernel.org
+Cc: John Youn <John.Youn@synopsys.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-V2hlbiB0aGUgZGV2aWNlX25vZGUgc3BlY2lmaWVkIGlzIE5VTEwsIGZhbGwgYmFjayB0byBtZGlv
-YnVzX3JlZ2lzdGVyKCkuCldlIGhhdmUgYSBudW1iZXIgb2YgZHJpdmVycyBoYXZpbmcgYSBzaW1p
-bGFyIHBhdHRlcm4gd2hpY2ggaXM6CgppZiAobnApCglvZl9tZGlvYnVzX3JlZ2lzdGVyKCkKZWxz
-ZQoJbWRpb2J1c19yZWdpc3RlcigpCgpzbyBpbmNvcnBvcmF0ZSB0aGF0IGJlaGF2aW9yIHdpdGhp
-biB0aGUgY29yZSBvZl9tZGlvYnVzX3JlZ2lzdGVyKCkKZnVuY3Rpb24uIFRoaXMgaXMgYWxzbyBj
-b25zaXN0ZW50IHdpdGggdGhlIHN0dWIgdmVyc2lvbiB0aGF0IHdlIGRlZmluZWQKd2hlbiBDT05G
-SUdfT0Y9bi4KClNpZ25lZC1vZmYtYnk6IEZsb3JpYW4gRmFpbmVsbGkgPGYuZmFpbmVsbGlAZ21h
-aWwuY29tPgotLS0KIGRyaXZlcnMvb2Yvb2ZfbWRpby5jIHwgMyArKysKIDEgZmlsZSBjaGFuZ2Vk
-LCAzIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL29mL29mX21kaW8uYyBiL2Ry
-aXZlcnMvb2Yvb2ZfbWRpby5jCmluZGV4IDhjMGM5MjcxMmZjOS4uZDk2M2JhZjhlNTNhIDEwMDY0
-NAotLS0gYS9kcml2ZXJzL29mL29mX21kaW8uYworKysgYi9kcml2ZXJzL29mL29mX21kaW8uYwpA
-QCAtMjA0LDYgKzIwNCw5IEBAIGludCBvZl9tZGlvYnVzX3JlZ2lzdGVyKHN0cnVjdCBtaWlfYnVz
-ICptZGlvLCBzdHJ1Y3QgZGV2aWNlX25vZGUgKm5wKQogCWJvb2wgc2NhbnBoeXMgPSBmYWxzZTsK
-IAlpbnQgYWRkciwgcmM7CiAKKwlpZiAoIW5wKQorCQlyZXR1cm4gbWRpb2J1c19yZWdpc3Rlciht
-ZGlvKTsKKwogCS8qIERvIG5vdCBjb250aW51ZSBpZiB0aGUgbm9kZSBpcyBkaXNhYmxlZCAqLwog
-CWlmICghb2ZfZGV2aWNlX2lzX2F2YWlsYWJsZShucCkpCiAJCXJldHVybiAtRU5PREVWOwo=
+UElEIGJpdGZpZWxkIGluIGRlc2NyaXB0b3Igc2hvdWxkIGJlIHNldCBiYXNlZCBvbiBwYXJ0aWN1
+bGFyIHJlcXVlc3QKbGVuZ3RoLCBub3QgYmFzZWQgb24gRVAncyBtYyB2YWx1ZS4gUElEIHZhbHVl
+IGNhbid0IGJlIHNldCB0byAwIGV2ZW4KcmVxdWVzdCBsZW5ndGggaXMgMC4KCklmIHJlcXVlc3Qg
+bGVuZ3RoIGlzIDAgdGhlbiBTUCBiaXQgc2hvdWxkIGJlIHNldCBhbG9uZyBQSUQuCgpTaWduZWQt
+b2ZmLWJ5OiBNaW5hcyBIYXJ1dHl1bnlhbiA8aG1pbmFzQHN5bm9wc3lzLmNvbT4KLS0tCiBkcml2
+ZXJzL3VzYi9kd2MyL2dhZGdldC5jIHwgMTUgKysrKysrKysrKystLS0tCiAxIGZpbGUgY2hhbmdl
+ZCwgMTEgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJz
+L3VzYi9kd2MyL2dhZGdldC5jIGIvZHJpdmVycy91c2IvZHdjMi9nYWRnZXQuYwppbmRleCBmMGQ5
+Y2NmMWQ2NjUuLmZmN2YyMzIxODY0MiAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvZHdjMi9nYWRn
+ZXQuYworKysgYi9kcml2ZXJzL3VzYi9kd2MyL2dhZGdldC5jCkBAIC04MTIsNiArODEyLDggQEAg
+c3RhdGljIGludCBkd2MyX2dhZGdldF9maWxsX2lzb2NfZGVzYyhzdHJ1Y3QgZHdjMl9oc290Z19l
+cCAqaHNfZXAsCiAJdTMyIGluZGV4OwogCXUzMiBtYXhzaXplID0gMDsKIAl1MzIgbWFzayA9IDA7
+CisJdTggcGlkID0gMDsKKwl1OCBzcCA9IDA7CiAKIAltYXhzaXplID0gZHdjMl9nYWRnZXRfZ2V0
+X2Rlc2NfcGFyYW1zKGhzX2VwLCAmbWFzayk7CiAKQEAgLTg0MCwxMCArODQyLDE1IEBAIHN0YXRp
+YyBpbnQgZHdjMl9nYWRnZXRfZmlsbF9pc29jX2Rlc2Moc3RydWN0IGR3YzJfaHNvdGdfZXAgKmhz
+X2VwLAogCQkJICgobGVuIDw8IERFVl9ETUFfTkJZVEVTX1NISUZUKSAmIG1hc2spKTsKIAogCWlm
+IChoc19lcC0+ZGlyX2luKSB7Ci0JCWRlc2MtPnN0YXR1cyB8PSAoKGhzX2VwLT5tYyA8PCBERVZf
+RE1BX0lTT0NfUElEX1NISUZUKSAmCi0JCQkJIERFVl9ETUFfSVNPQ19QSURfTUFTSykgfAotCQkJ
+CSgobGVuICUgaHNfZXAtPmVwLm1heHBhY2tldCkgPwotCQkJCSBERVZfRE1BX1NIT1JUIDogMCkg
+fAorCQlpZiAobGVuKSB7CisJCQlwaWQgPSBESVZfUk9VTkRfVVAobGVuLCBoc19lcC0+ZXAubWF4
+cGFja2V0KTsKKwkJCXNwID0gKGxlbiAlIGhzX2VwLT5lcC5tYXhwYWNrZXQpID8gREVWX0RNQV9T
+SE9SVCA6IDA7CisJCX0gZWxzZSB7CisJCQlwaWQgPSAxOworCQkJc3AgPSBERVZfRE1BX1NIT1JU
+OworCQl9CisJCWRlc2MtPnN0YXR1cyB8PSAoKHBpZCA8PCBERVZfRE1BX0lTT0NfUElEX1NISUZU
+KSAmCisJCQkJIERFVl9ETUFfSVNPQ19QSURfTUFTSykgfCBzcCB8CiAJCQkJKChoc19lcC0+dGFy
+Z2V0X2ZyYW1lIDw8CiAJCQkJICBERVZfRE1BX0lTT0NfRlJOVU1fU0hJRlQpICYKIAkJCQkgREVW
+X0RNQV9JU09DX0ZSTlVNX01BU0spOwo=
