@@ -2,29 +2,21 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: chipidea: Fix ULPI on imx51
-From: Fabio Estevam <festevam@gmail.com>
-Message-Id: <CAOMZO5BbgG2POYvayjT99BAAkC5HzrUWr28Z7DggVwTFSCnpFQ@mail.gmail.com>
-Date: Wed, 30 May 2018 15:10:30 -0300
-To: Andrey Smirnov <andrew.smirnov@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Nikita Yushchenko <nikita.yoush@cogentembedded.com>, Peter Chen <peter.chen@nxp.com>, USB list <linux-usb@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, Fabio Estevam <fabio.estevam@nxp.com>, Chris Healy <cphealy@gmail.com>, Lucas Stach <l.stach@pengutronix.de>
+From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+Message-Id: <49e934d8-228a-35b1-8db2-0402422916fa@cogentembedded.com>
+Date: Thu, 31 May 2018 12:20:48 +0300
+To: Andrey Smirnov <andrew.smirnov@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Peter Chen <peter.chen@nxp.com>, Fabio Estevam <fabio.estevam@nxp.com>, Lucas Stach <l.stach@pengutronix.de>, Chris Healy <cphealy@gmail.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCBNYXkgMzAsIDIwMTggYXQgMjozNCBQTSwgQW5kcmV5IFNtaXJub3YKPGFuZHJldy5z
-bWlybm92QGdtYWlsLmNvbT4gd3JvdGU6Cj4gV29ya2Fyb3VuZCBpbnRyb2R1Y2VkIGZvciBpLk1Y
-NTMgaW4gYmU5Y2FlMjQ3OWY0OCAoInVzYjogY2hpcGlkZWE6Cj4gaW14OiBGaXggVUxQSSBvbiBp
-bXg1MyIpIHNlZW1zIHRvIGJlIGFwcGxpY2FibGUgaW4gY2FzZSBvZiBpLk1YNTEgYXMKPiB3ZWxs
-LiBSdW5uaW5nIGxhdGVzdCBrZXJuZWwgb24gWklJIFJEVTEgQm9hcmQgKGlteDUxLXppaS1yZHUx
-LmR0cykKPiBleGhpYml0cyBhIGtlcm5lbCBmcm96ZW4gb24gUE9SVFNDIGFjY2VzcyBhbmQgYXBw
-bHlpbmcgdGhlIHdvcmthcm91bmQKPiByZXNvbHZlcyB0aGUgaXNzdWUuCj4KPiBDYzogUGV0ZXIg
-Q2hlbiA8cGV0ZXIuY2hlbkBueHAuY29tPgo+IENjOiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdr
-aEBsaW51eGZvdW5kYXRpb24ub3JnPgo+IENjOiBOaWtpdGEgWXVzaGNoZW5rbyA8bmlraXRhLnlv
-dXNoQGNvZ2VudGVtYmVkZGVkLmNvbT4KPiBDYzogRmFiaW8gRXN0ZXZhbSA8ZmFiaW8uZXN0ZXZh
-bUBueHAuY29tPgo+IENjOiBMdWNhcyBTdGFjaCA8bC5zdGFjaEBwZW5ndXRyb25peC5kZT4KPiBD
-YzogQ2hyaXMgSGVhbHkgPGNwaGVhbHlAZ21haWwuY29tPgo+IENjOiBsaW51eC1hcm0ta2VybmVs
-QGxpc3RzLmluZnJhZGVhZC5vcmcKPiBDYzogbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZwo+
-IENjOiBsaW51eC11c2JAdmdlci5rZXJuZWwub3JnCj4gU2lnbmVkLW9mZi1ieTogQW5kcmV5IFNt
-aXJub3YgPGFuZHJldy5zbWlybm92QGdtYWlsLmNvbT4KClJldmlld2VkLWJ5OiBGYWJpbyBFc3Rl
-dmFtIDxmYWJpby5lc3RldmFtQG54cC5jb20+Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMg
-bGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBv
-ZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBp
-bmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
+PiBXb3JrYXJvdW5kIGludHJvZHVjZWQgZm9yIGkuTVg1MyBpbiBiZTljYWUyNDc5ZjQ4ICgidXNi
+OiBjaGlwaWRlYToKPiBpbXg6IEZpeCBVTFBJIG9uIGlteDUzIikgc2VlbXMgdG8gYmUgYXBwbGlj
+YWJsZSBpbiBjYXNlIG9mIGkuTVg1MSBhcwo+IHdlbGwuIFJ1bm5pbmcgbGF0ZXN0IGtlcm5lbCBv
+biBaSUkgUkRVMSBCb2FyZCAoaW14NTEtemlpLXJkdTEuZHRzKQo+IGV4aGliaXRzIGEga2VybmVs
+IGZyb3plbiBvbiBQT1JUU0MgYWNjZXNzIGFuZCBhcHBseWluZyB0aGUgd29ya2Fyb3VuZAo+IHJl
+c29sdmVzIHRoZSBpc3N1ZS4KCkNvbmZpcm1lZCBvbiA4LjknJyBSRFUxCgpUZXN0ZWQtQnk6IE5p
+a2l0YSBZdXNoY2hlbmtvIDxuaWtpdGEueW91c2hAY29nZW50ZW1iZWRkZWQuY29tPgotLS0KVG8g
+dW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxp
+bnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5l
+bC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpv
+cmRvbW8taW5mby5odG1sCg==
