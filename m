@@ -1,40 +1,21 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [1/2] Convert target drivers to use sbitmap
-From: Matthew Wilcox <willy@infradead.org>
-Message-Id: <20180612180843.GF19433@bombadil.infradead.org>
-Date: Tue, 12 Jun 2018 11:08:43 -0700
-To: Bart Van Assche <Bart.VanAssche@wdc.com>
-Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "virtualization@lists.linux-foundation.org" <virtualization@lists.linux-foundation.org>, "kent.overstreet@gmail.com" <kent.overstreet@gmail.com>, "linux1394-devel@lists.sourceforge.net" <linux1394-devel@lists.sourceforge.net>, "jgross@suse.com" <jgross@suse.com>, "axboe@kernel.dk" <axboe@kernel.dk>, "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, "qla2xxx-upstream@qlogic.com" <qla2xxx-upstream@qlogic.com>, "target-devel@vger.kernel.org" <target-devel@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Subject: [1/1] net: usb: cdc_mbim: add flag FLAG_SEND_ZLP
+From: David Miller <davem@davemloft.net>
+Message-Id: <20180601.140242.1606988426134274824.davem@davemloft.net>
+Date: Fri, 01 Jun 2018 14:02:42 -0400 (EDT)
+To: dnlplm@gmail.com
+Cc: bjorn@mork.no, oliver@neukum.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVHVlLCBKdW4gMTIsIDIwMTggYXQgMDQ6MzI6MDNQTSArMDAwMCwgQmFydCBWYW4gQXNzY2hl
-IHdyb3RlOgo+IE9uIFR1ZSwgMjAxOC0wNi0xMiBhdCAwOToxNSAtMDcwMCwgTWF0dGhldyBXaWxj
-b3ggd3JvdGU6Cj4gPiBPbiBUdWUsIEp1biAxMiwgMjAxOCBhdCAwMzoyMjo0MlBNICswMDAwLCBC
-YXJ0IFZhbiBBc3NjaGUgd3JvdGU6Cj4gPiA+IFBsZWFzZSBpbnRyb2R1Y2UgZnVuY3Rpb25zIGlu
-IHRoZSB0YXJnZXQgY29yZSBmb3IgYWxsb2NhdGluZyBhbmQgZnJlZWluZyBhIHRhZwo+ID4gPiBp
-bnN0ZWFkIG9mIHNwcmVhZGluZyB0aGUga25vd2xlZGdlIG9mIGhvdyB0byBhbGxvY2F0ZSBhbmQg
-ZnJlZSB0YWdzIG92ZXIgYWxsCj4gPiA+IHRhcmdldCBkcml2ZXJzLgo+ID4gCj4gPiBJIGNhbid0
-IHdpdGhvdXQgZG9pbmcgYW4gdW5yZWFzb25hYmx5IGxhcmdlIGFtb3VudCBvZiB3b3JrIG9uIGRy
-aXZlcnMgdGhhdAo+ID4gSSBoYXZlIG5vIHdheSB0byB0ZXN0LiAgU29tZSBvZiB0aGUgZHJpdmVy
-cyBoYXZlIHRoZSBzZV9jbWQgYWxyZWFkeTsgc29tZQo+ID4gb2YgdGhlbSBkb24ndC4gIEknZCBi
-ZSBoYXBweSB0byBpbnRyb2R1Y2UgYSBjb21tb24gZnVuY3Rpb24gZm9yIGZyZWVpbmcKPiA+IGEg
-dGFnLgo+IAo+IFdoaWNoIHRhcmdldCBkcml2ZXJzIGFyZSB5b3UgcmVmZXJyaW5nIHRvPyBJZiB5
-b3UgYXJlIHJlZmVycmluZyB0byB0aGUgc2JwIGRyaXZlcjoKPiBJIHRoaW5rIHRoYXQgZHJpdmVy
-IGlzIGRlYWQgYW5kIGNhbiBiZSByZW1vdmVkIGZyb20gdGhlIGtlcm5lbCB0cmVlLiBJIGV2ZW4g
-ZG9uJ3QKPiBrbm93IHdoZXRoZXIgdGhhdCBkcml2ZXIgZXZlciBoYXMgaGFkIGFueSB1c2VycyBv
-dGhlciB0aGFuIHRoZSBkZXZlbG9wZXIgb2YgdGhhdAo+IGRyaXZlci4KCkZvciBleGFtcGxlIHRj
-bV9mYzoKCiAgICAgICAgdGFnID0gc2JpdG1hcF9xdWV1ZV9nZXQoJnNlX3Nlc3MtPnNlc3NfdGFn
-X3Bvb2wsICZjcHUpOwogICAgICAgIGlmICh0YWcgPCAwKQogICAgICAgICAgICAgICAgZ290byBi
-dXN5OwoKICAgICAgICBjbWQgPSAmKChzdHJ1Y3QgZnRfY21kICopc2Vfc2Vzcy0+c2Vzc19jbWRf
-bWFwKVt0YWddOwoKb3IgcWxhMnh4eDoKCiAgICAgICAgdGFnID0gc2JpdG1hcF9xdWV1ZV9nZXQo
-JnNlX3Nlc3MtPnNlc3NfdGFnX3Bvb2wsICZjcHUpOwogICAgICAgIGlmICh0YWcgPCAwKQogICAg
-ICAgICAgICAgICAgcmV0dXJuIE5VTEw7CgogICAgICAgIGNtZCA9ICYoKHN0cnVjdCBxbGFfdGd0
-X2NtZCAqKXNlX3Nlc3MtPnNlc3NfY21kX21hcClbdGFnXTsKClRoZSBjb3JlIGRvZXNuJ3Qga25v
-dyBhdCB3aGF0IG9mZnNldCBmcm9tIHRoZSBwb2ludGVyIHRvIHN0b3JlIHRoZSB0YWcKJiBjcHUu
-ICBPbmx5IHRoZSBpbmRpdmlkdWFsIGRyaXZlcnMga25vdyB0aGVpciBjbWQgbGF5b3V0LgotLS0K
-VG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJl
-IGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtl
-cm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9t
-YWpvcmRvbW8taW5mby5odG1sCg==
+RnJvbTogRGFuaWVsZSBQYWxtYXMgPGRubHBsbUBnbWFpbC5jb20+CkRhdGU6IFRodSwgMzEgTWF5
+IDIwMTggMTE6MTg6MjkgKzAyMDAKCj4gVGVzdGluZyBUZWxpdCBMTTk0MCB3aXRoIElDTVAgcGFj
+a2V0cyA+IDE0NTUyIGJ5dGVzIHJldmVhbGVkIHRoYXQKPiB0aGUgbW9kZW0gbmVlZHMgRkxBR19T
+RU5EX1pMUCB0byBwcm9wZXJseSB3b3JrLCBvdGhlcndpc2UgdGhlIGNkYwo+IG1iaW0gZGF0YSBp
+bnRlcmZhY2Ugd29uJ3QgYmUgYW55bW9yZSByZXNwb25zaXZlLgo+IAo+IFNpZ25lZC1vZmYtYnk6
+IERhbmllbGUgUGFsbWFzIDxkbmxwbG1AZ21haWwuY29tPgoKQXBwbGllZCBhbmQgcXVldWVkIHVw
+IGZvciAtc3RhYmxlLgotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhl
+IGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRv
+IG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDov
+L3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
