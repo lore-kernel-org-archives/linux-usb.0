@@ -1,38 +1,26 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,2/2] arm64: dts: exynos: add OF graph between USB-PHY and MUIC
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Message-Id: <CAJKOXPeyh=oGE90Uz9nMxd-JgNORmoG3xPcMSHUrbnjccu5U2g@mail.gmail.com>
-Date: Fri, 22 Jun 2018 12:56:25 +0200
-To: Andrzej Hajda <a.hajda@samsung.com>
-Cc: "open list:DESIGNWARE USB3 DRD IP DRIVER" <linux-usb@vger.kernel.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, Marek Szyprowski <m.szyprowski@samsung.com>, "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Inki Dae <inki.dae@samsung.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Chanwoo Choi <cw00.choi@samsung.com>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, linux-kernel@vger.kernel.org, "linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>
+Subject: [v5,1/7] clk: msm8996-gcc: Mark halt check as no-op for USB/PCIE pipe_clk
+From: Stephen Boyd <sboyd@kernel.org>
+Message-Id: <152787872536.144038.14465736571389918971@swboyd.mtv.corp.google.com>
+Date: Fri, 01 Jun 2018 11:45:25 -0700
+To: Kishon Vijay Abraham I <kishon@ti.com>, Manu Gautam <mgautam@codeaurora.org>, robh@kernel.org
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, dianders@chromium.org, evgreen@chromium.org, Vivek Gautam <vivek.gautam@codeaurora.org>, linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMjIgSnVuZSAyMDE4IGF0IDEyOjM5LCBBbmRyemVqIEhhamRhIDxhLmhhamRhQHNhbXN1bmcu
-Y29tPiB3cm90ZToKPiBPbiAyMC4wNi4yMDE4IDIwOjI4LCBLcnp5c3p0b2YgS296bG93c2tpIHdy
-b3RlOgo+PiBPbiBUdWUsIE1heSAxNSwgMjAxOCBhdCAwMjoxMjozOVBNICswMjAwLCBBbmRyemVq
-IEhhamRhIHdyb3RlOgo+Pj4gT0YgZ3JhcGggZGVzY3JpYmVzIFVTQiBkYXRhIGxhbmVzIGJldHdl
-ZW4gVVNCLVBIWSBhbmQgcmVzcGVjdGl2ZSBNVUlDLgo+Pj4gU2luY2UgZ3JhcGggaXMgcHJlc2Vu
-dCBhbmQgRFdDIGRyaXZlciBjYW4gdXNlIGl0IHRvIGdldCBleHRjb24sIG9ic29sZXRlCj4+PiBl
-eHRjb24gcHJvcGVydHkgY2FuIGJlIHJlbW92ZWQuCj4+Pgo+Pj4gU2lnbmVkLW9mZi1ieTogQW5k
-cnplaiBIYWpkYSA8YS5oYWpkYUBzYW1zdW5nLmNvbT4KPj4+IC0tLQo+Pj4gIC4uLi9kdHMvZXh5
-bm9zL2V4eW5vczU0MzMtdG0yLWNvbW1vbi5kdHNpICAgICB8IDE5ICsrKysrKysrKysrKysrKysr
-Ky0KPj4+ICAxIGZpbGUgY2hhbmdlZCwgMTggaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+
-PiBkdGMgVz0xIG5vdyBjb21wbGFpbnMgd2l0aDoKPj4gPT09Cj4+IFdhcm5pbmcgKGdyYXBoX2No
-aWxkX2FkZHJlc3MpOgo+PiAvc29jL2hzaTJjQDE0ZDkwMDAwL21heDc3ODQzQDY2L21heDc3ODQz
-LW11aWMvcG9ydHM6IGdyYXBoIG5vZGUgaGFzIHNpbmdsZSBjaGlsZCBub2RlICdwb3J0QDAnLCAj
-YWRkcmVzcy1jZWxscy8jc2l6ZS1jZWxscyBhcmUgbm90IG5lY2Vzc2FyeQo+PiA9PT0KPj4KPj4g
-RG8geW91IHBsYW4gdG8gYWRkIG1vcmUgcG9ydHMgc29vbj8KPgo+IFRoZXJlIGNvdWxkIGJlIGEg
-bGluayBiZXR3ZWVuIFVBUlQgYW5kIE1VSUMsIGl0IGNvdWxkIGJlIGJlbmVmaWNpYWwgZm9yCj4g
-dGhlIHBsYXRmb3JtIC0gdGhlcmUgaXMgbm8gcG9pbnQgdG8gZmVlZCBVQVJUIHdpdGggZGF0YSB3
-aGVuIFVBUlQgb3V0cHV0Cj4gaXMgbXV4ZWQtb3V0IGJ5IE1VSUMuCj4gU28gSSBwbGFuIHRvIGlu
-dmVzdGlnYXRlIGl0IGJ1dCB0aGlzIGlzIG5vdCBvbiBteSBzaG9ydCBsaXN0IDopCj4gQWx0ZXJu
-YXRpdmVseSBvbmUgY2FuIGNyZWF0ZSBncmFwaHMgd2l0aG91dCB1c2luZyBpdCBhdG0uCgpJbiB0
-aGF0IGNhc2UgY291bGQgeW91IHJlbW92ZSBoZXJlIHRoZSBhZGRyZXNzL3NpemUtY2VsbHMgdG8g
-Zml4IHRoZQp3YXJuaW5nPyBJIHNlZSB0aGF0IGNvZGUgdXNlcyAtMSBpbiBvZl9ncmFwaF9nZXRf
-cmVtb3RlX25vZGUoKSBzbyBpdApzaG91bGQgbm90IGRlcGVuZCBvbiB0aGUgcmVnIG51bWJlci4K
-CkJlc3QgcmVnYXJkcywKS3J6eXN6dG9mCi0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlz
-dDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBh
-IG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZv
-IGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
+UXVvdGluZyBNYW51IEdhdXRhbSAoMjAxOC0wNS0wMiAxNDowNjowOCkKPiBUaGUgVVNCIGFuZCBQ
+Q0lFIHBpcGUgY2xvY2tzIGFyZSBzb3VyY2VkIGZyb20gZXh0ZXJuYWwgY2xvY2tzCj4gaW5zaWRl
+IHRoZSBRTVAgVVNCL1BDSUUgUEhZcy4gRW5hYmxpbmcgb3IgZGlzYWJsaW5nIG9mIFBJUEUgUkNH
+Cj4gY2xvY2tzIGlzIGRlcGVuZGVudCBvbiBQSFkgaW5pdGlhbGl6YXRpb24gc2VxdWVuY2UgaGVu
+Y2UKPiB1cGRhdGUgaGFsdF9jaGVjayB0byBCUkFOQ0hfSEFMVF9TS0lQIGZvciB0aGVzZSBjbG9j
+a3Mgc28KPiB0aGF0IGNsb2NrIHN0YXR1cyBiaXQgaXMgbm90IHBvbGxlZCB3aGVuIGVuYWJsaW5n
+IG9yIGRpc2FibGluZwo+IHRoZSBjbG9ja3MuIEl0IGFsbG93cyB0byBzaW1wbGlmeSBQSFkgY2xp
+ZW50IGRyaXZlciBjb2RlIHdoaWNoCj4gaXMgYm90aCB1c2VyIGFuZCBzb3VyY2Ugb2YgdGhlIHBp
+cGVfY2xrIGFuZCBhdm9pZCBlcnJvciBsb2dnaW5nCj4gcmVsYXRlZCBzdGF0dXMgY2hlY2sgb24g
+Y2xrX2Rpc2FibGUvZW5hYmxlLgo+IAo+IFNpZ25lZC1vZmYtYnk6IE1hbnUgR2F1dGFtIDxtZ2F1
+dGFtQGNvZGVhdXJvcmEub3JnPgo+IC0tLQoKQXBwbGllZCB0byBjbGstbmV4dAotLS0KVG8gdW5z
+dWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4
+LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5v
+cmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRv
+bW8taW5mby5odG1sCg==
