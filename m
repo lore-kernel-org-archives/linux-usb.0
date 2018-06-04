@@ -2,20 +2,24 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: Fwd: Enabling USB (auto)suspend for xHCI controllers incurs random device failures since kernel 4.15
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-Message-Id: <11db50a1-5cb8-5391-362d-d1778cbe6195@linux.intel.com>
-Date: Mon, 4 Jun 2018 10:33:56 +0300
-To: "russianneuromancer@ya.ru" <russianneuromancer@ya.ru>, gert <gert@disroot.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, stern@rowland.harvard.edu
+From: russianneuromancer@ya.ru
+Message-Id: <ec51f6d7d5298faceadbf70b32739043dbada330.camel@ya.ru>
+Date: Mon, 04 Jun 2018 20:07:43 +0800
+To: Mathias Nyman <mathias.nyman@linux.intel.com>, gert <gert@disroot.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, stern@rowland.harvard.edu
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMDIuMDYuMjAxOCAxNTozMiwgcnVzc2lhbm5ldXJvbWFuY2VyQHlhLnJ1IHdyb3RlOgo+IEhp
-IQo+IAo+IEkgdGVzdGVkIGZvci11c2ItbGludXMgYnJhbmNoIG9uIERlbGwgNTg1NSBhbmQgbXkg
-aXNzdWUgaXMgbm8gbG9uZ2VyIHJlcHJvZHVjaWJsZSB3aXRoIGl0IChhdCBsZWFzdCBmb3IgbGF0
-ZXN0IHR3byBkYXlzLCB3aGljaCBzaG91bGQgYmUgbW9yZSB0aGFuIGVub3VnaCB0byByZXByb2R1
-Y2UgaXQpLgo+IAoKR3JlYXQsIFRoYW5rcy4KCklmIHlvdSB3YW50IHRvIGhhdmUgYSAidGVzdGVk
-LWJ5OiIgZmxhZyB3aXRoIHlvdXIgbmFtZSBhZGRlZCB0byB0aGUgcGF0Y2ggSSdsbCBuZWVkCmEg
-cmVhbCBuYW1lIHRvIGdvIHdpdGggdGhlIGVtYWlsIGFkZHJlc3MuCgotTWF0aGlhcwotLS0KVG8g
-dW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxp
-bnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5l
-bC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpv
-cmRvbW8taW5mby5odG1sCg==
+SGVsbG8hCgpUaGFuayB5b3UgZm9yIGZpeGluZyB0aGlzIGlzc3VlISAKCj4gSWYgeW91IHdhbnQg
+dG8gaGF2ZSBhICJ0ZXN0ZWQtYnk6IiBmbGFnIHdpdGggeW91ciBuYW1lIGFkZGVkIHRvIHRoZQo+
+IHBhdGNoIAoKSXQgZG9lc24ndCBtYXR0ZXIgdG8gbWUuCgowNC8wNi8yMDE4IDEwOjMzICswMzAw
+LCBNYXRoaWFzIE55bWFuOgo+IE9uIDAyLjA2LjIwMTggMTU6MzIsIHJ1c3NpYW5uZXVyb21hbmNl
+ckB5YS5ydSB3cm90ZToKPiA+IEhpIQo+ID4gCj4gPiBJIHRlc3RlZCBmb3ItdXNiLWxpbnVzIGJy
+YW5jaCBvbiBEZWxsIDU4NTUgYW5kIG15IGlzc3VlIGlzIG5vCj4gPiBsb25nZXIgcmVwcm9kdWNp
+YmxlIHdpdGggaXQgKGF0IGxlYXN0IGZvciBsYXRlc3QgdHdvIGRheXMsIHdoaWNoCj4gPiBzaG91
+bGQgYmUgbW9yZSB0aGFuIGVub3VnaCB0byByZXByb2R1Y2UgaXQpLgo+ID4gCj4gCj4gR3JlYXQs
+IFRoYW5rcy4KPiAKPiBJZiB5b3Ugd2FudCB0byBoYXZlIGEgInRlc3RlZC1ieToiIGZsYWcgd2l0
+aCB5b3VyIG5hbWUgYWRkZWQgdG8gdGhlCj4gcGF0Y2ggSSdsbCBuZWVkCj4gYSByZWFsIG5hbWUg
+dG8gZ28gd2l0aCB0aGUgZW1haWwgYWRkcmVzcy4KPiAKPiAtTWF0aGlhcwotLS0KVG8gdW5zdWJz
+Y3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVz
+YiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcK
+TW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8t
+aW5mby5odG1sCg==
