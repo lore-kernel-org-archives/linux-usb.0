@@ -1,31 +1,26 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v6,14/15] staging: typec: tcpci: Only touch target bit when enable vconn
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Message-Id: <20180611131509.GR17155@kuha.fi.intel.com>
-Date: Mon, 11 Jun 2018 16:15:09 +0300
-To: Li Jun <jun.li@nxp.com>
-Cc: robh+dt@kernel.org, gregkh@linuxfoundation.org, linux@roeck-us.net, cw00.choi@samsung.com, a.hajda@samsung.com, shufan_lee@richtek.com, peter.chen@nxp.com, garsilva@embeddedor.com, gsomlo@gmail.com, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-imx@nxp.com
+Subject: [v3,2/3] USB: DT probing support to ehci-npcm7xx
+From: Rob Herring <robh@kernel.org>
+Message-Id: <20180605200115.GA20061@rob-hp-laptop>
+Date: Tue, 5 Jun 2018 14:01:15 -0600
+To: avifishman70@gmail.com
+Cc: gregkh@linuxfoundation.org, stern@rowland.harvard.edu, tmaimon77@gmail.com, venture@google.com, yuenn@google.com, brendanhiggins@google.com, mathias.nyman@linux.intel.com, bjorn.andersson@linaro.org, jhogan@kernel.org, albeu@free.fr, chunfeng.yun@mediatek.com, tony@atomide.com, baolu.lu@linux.intel.com, elder@linaro.org, digetx@gmail.com, kstewart@linuxfoundation.org, hdegoede@redhat.com, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, openbmc@lists.ozlabs.org, mark.rutland@arm.com, devicetree@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gTW9uLCBNYXkgMjgsIDIwMTggYXQgMTA6NTI6NDZBTSArMDgwMCwgTGkgSnVuIHdyb3RlOgo+
-IFdlIG5lZWQgcmVnbWFwX3VwZGF0ZV9iaXRzIHRvIGF2b2lkIHRvdWNoIGFueSBvdGhlciBiaXRz
-IHdoZW4KPiBlbmFibGUgb3IgZGlzYWJsZSB2Y29ubi4KPiAKPiBSZXZpZXdlZC1ieTogR3VlbnRl
-ciBSb2VjayA8bGludXhAcm9lY2stdXMubmV0Pgo+IFNpZ25lZC1vZmYtYnk6IExpIEp1biA8anVu
-LmxpQG54cC5jb20+CgpSZXZpZXdlZC1ieTogSGVpa2tpIEtyb2dlcnVzIDxoZWlra2kua3JvZ2Vy
-dXNAbGludXguaW50ZWwuY29tPgoKPiAtLS0KPiAgZHJpdmVycy9zdGFnaW5nL3R5cGVjL3RjcGNp
-LmMgfCA5ICsrKy0tLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCA2IGRl
-bGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3N0YWdpbmcvdHlwZWMvdGNwY2ku
-YyBiL2RyaXZlcnMvc3RhZ2luZy90eXBlYy90Y3BjaS5jCj4gaW5kZXggMTFjMmQzNy4uYWM2YjQx
-OCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3N0YWdpbmcvdHlwZWMvdGNwY2kuYwo+ICsrKyBiL2Ry
-aXZlcnMvc3RhZ2luZy90eXBlYy90Y3BjaS5jCj4gQEAgLTIxOCwxMiArMjE4LDkgQEAgc3RhdGlj
-IGludCB0Y3BjaV9zZXRfdmNvbm4oc3RydWN0IHRjcGNfZGV2ICp0Y3BjLCBib29sIGVuYWJsZSkK
-PiAgCQkJcmV0dXJuIHJldDsKPiAgCX0KPiAgCj4gLQlyZXQgPSByZWdtYXBfd3JpdGUodGNwY2kt
-PnJlZ21hcCwgVENQQ19QT1dFUl9DVFJMLAo+IC0JCQkgICBlbmFibGUgPyBUQ1BDX1BPV0VSX0NU
-UkxfVkNPTk5fRU5BQkxFIDogMCk7Cj4gLQlpZiAocmV0IDwgMCkKPiAtCQlyZXR1cm4gcmV0Owo+
-IC0KPiAtCXJldHVybiAwOwo+ICsJcmV0dXJuIHJlZ21hcF91cGRhdGVfYml0cyh0Y3BjaS0+cmVn
-bWFwLCBUQ1BDX1BPV0VSX0NUUkwsCj4gKwkJCQlUQ1BDX1BPV0VSX0NUUkxfVkNPTk5fRU5BQkxF
-LAo+ICsJCQkJZW5hYmxlID8gVENQQ19QT1dFUl9DVFJMX1ZDT05OX0VOQUJMRSA6IDApOwo+ICB9
-Cj4gIAo+ICBzdGF0aWMgaW50IHRjcGNpX3NldF9yb2xlcyhzdHJ1Y3QgdGNwY19kZXYgKnRjcGMs
-IGJvb2wgYXR0YWNoZWQsCgpUaGFua3MsCg==
+T24gVGh1LCBNYXkgMzEsIDIwMTggYXQgMDg6NDA6MjlQTSArMDMwMCwgYXZpZmlzaG1hbjcwQGdt
+YWlsLmNvbSB3cm90ZToKPiBGcm9tOiBBdmkgRmlzaG1hbiA8QXZpRmlzaG1hbjcwQGdtYWlsLmNv
+bT4KClRoZSBzdWJqZWN0IHNvdW5kcyBsaWtlIGEgZHJpdmVyIGNoYW5nZSwgbm90IGEgYmluZGlu
+ZyBkb2MuIFRvIHN0YXJ0IAp3aXRoLCB0aGUgc3ViamVjdCBwcmVmaXggc2hvdWxkIGJlICJkdC1i
+aW5kaW5nczogdXNiOiAuLi4iCgo+IERldmljZSBUcmVlIGRvY3VtZW50YXRpb24gZm9yIE51dm90
+b24gbnBjbTd4eCBFSENJLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEF2aSBGaXNobWFuIDxBdmlGaXNo
+bWFuNzBAZ21haWwuY29tPgo+IC0tLQo+ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
+Z3MvdXNiL25wY203eHgtdXNiLnR4dCB8IDE3ICsrKysrKysrKysrKysrKysrCj4gIDEgZmlsZSBj
+aGFuZ2VkLCAxNyBpbnNlcnRpb25zKCspCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0
+aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL25wY203eHgtdXNiLnR4dAoKT3RoZXJ3aXNlLAoK
+UmV2aWV3ZWQtYnk6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+Ci0tLQpUbyB1bnN1YnNj
+cmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNi
+IiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpN
+b3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1p
+bmZvLmh0bWwK
