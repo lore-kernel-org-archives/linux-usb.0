@@ -1,14 +1,28 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v5] USB: serial: ftdi_sio: Add MTP NVM support
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Message-Id: <CAHp75Vd1HNALk7O-Gkr-CsGJ_eQVp1Rxd_P6BbnSNni56rZzpw@mail.gmail.com>
-Date: Tue, 26 Jun 2018 15:59:15 +0300
-To: Loic Poulain <loic.poulain@linaro.org>
-Cc: Johan Hovold <johan@kernel.org>, USB <linux-usb@vger.kernel.org>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Ajay Gupta <ajaykuee@gmail.com>
+Subject: [v2] storage: Widen bcdDevice range for SanDisk SDDR-31 quirk
+From: Mark Knibbs <mark_k@iname.com>
+Message-Id: <trinity-bda6e5c1-a004-4718-806b-f2cb43637291-1528401285812@3c-app-mailcom-lxa16>
+Date: Thu, 7 Jun 2018 21:54:45 +0200
+To: linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVHVlLCBKdW4gMjYsIDIwMTggYXQgMzo1NyBQTSwgQW5keSBTaGV2Y2hlbmtvCjxhbmR5LnNo
-ZXZjaGVua29AZ21haWwuY29tPiB3cm90ZToKCkp1c3Qgbm90aWNlZCB5b3UgaGF2ZSBzZW50IHY2
-LgpJJ20gcHJldHR5IGZpbmUgd2l0aCBpdCwgdGhhbmtzIQo=
+VGhlIFNhbkRpc2sgU0REUi0zMSBuZWVkcyB0aGUgVVNfRkxfRklYX0NBUEFDSVRZIHF1aXJrLiBQ
+cmV2aW91c2x5IHRoYXQKd2FzIG9ubHkgYXBwbGllZCBmb3IgYmNkRGV2aWNlIDB4MDAwOSwgYnV0
+IGxhdGVyIGZpcm13YXJlIHdoaWNoIHJlcG9ydHMKYmNkRGV2aWNlIDB4MDAyMiBuZWVkcyBpdCB0
+b28uCgpTaWduZWQtb2ZmLWJ5OiBNYXJrIEtuaWJicyA8bWFya19rQGluYW1lLmNvbT4KLS0tCi0t
+ClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmli
+ZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5r
+ZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcv
+bWFqb3Jkb21vLWluZm8uaHRtbAoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL3N0b3JhZ2UvdW51
+c3VhbF9kZXZzLmggYi9kcml2ZXJzL3VzYi9zdG9yYWdlL3VudXN1YWxfZGV2cy5oCmluZGV4IDc0
+N2QzYTkuLmRmY2NlYWYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL3N0b3JhZ2UvdW51c3VhbF9k
+ZXZzLmgKKysrIGIvZHJpdmVycy91c2Ivc3RvcmFnZS91bnVzdWFsX2RldnMuaApAQCAtMTA0NCw3
+ICsxMDQ0LDcgQEAgVU5VU1VBTF9ERVYoICAweDA3ODEsIDB4MDAwMSwgMHgwMjAwLCAweDAyMDAs
+CiAgICAgICAgICAgICAgICBVU0JfU0NfU0NTSSwgVVNCX1BSX0NCLCBOVUxMLAogICAgICAgICAg
+ICAgICAgVVNfRkxfU0lOR0xFX0xVTiApLAogCi1VTlVTVUFMX0RFViggIDB4MDc4MSwgMHgwMDAy
+LCAweDAwMDksIDB4MDAwOSwKK1VOVVNVQUxfREVWKCAgMHgwNzgxLCAweDAwMDIsIDB4MDAwMCwg
+MHgwMDIyLAogICAgICAgICAgICAgICAgIlNhbkRpc2sgQ29ycG9yYXRpb24iLAogICAgICAgICAg
+ICAgICAgIkltYWdlTWF0ZSBDb21wYWN0Rmxhc2ggVVNCIiwKICAgICAgICAgICAgICAgIFVTQl9T
+Q19ERVZJQ0UsIFVTQl9QUl9ERVZJQ0UsIE5VTEwsCg==
