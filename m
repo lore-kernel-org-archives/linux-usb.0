@@ -1,31 +1,20 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: USB: musb: mark expected switch fall-throughs
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Message-Id: <20180628183233.GA23194@embeddedor.com>
-Date: Thu, 28 Jun 2018 13:32:33 -0500
-To: Bin Liu <b-liu@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: [RFC,v4,1/8] usb: pd: include kernel.h
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Message-Id: <20180608112941.26332-2-heikki.krogerus@linux.intel.com>
+Date: Fri,  8 Jun 2018 14:29:34 +0300
+To: Guenter Roeck <linux@roeck-us.net>, Hans de Goede <hdegoede@redhat.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jun Li <jun.li@nxp.com>, Mats Karrman <mats.dev.list@gmail.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SW4gcHJlcGFyYXRpb24gdG8gZW5hYmxpbmcgLVdpbXBsaWNpdC1mYWxsdGhyb3VnaCwgbWFyayBz
-d2l0Y2ggY2FzZXMKd2hlcmUgd2UgYXJlIGV4cGVjdGluZyB0byBmYWxsIHRocm91Z2guCgpTaWdu
-ZWQtb2ZmLWJ5OiBHdXN0YXZvIEEuIFIuIFNpbHZhIDxndXN0YXZvQGVtYmVkZGVkb3IuY29tPgot
-LS0KIGRyaXZlcnMvdXNiL211c2IvbXVzYl9kc3BzLmMgfCAyICstCiBkcml2ZXJzL3VzYi9tdXNi
-L211c2JfaG9zdC5jIHwgMSArCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBk
-ZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL211c2IvbXVzYl9kc3BzLmMgYi9k
-cml2ZXJzL3VzYi9tdXNiL211c2JfZHNwcy5jCmluZGV4IGZiODcxZWEuLmRmODI3ZmYgMTAwNjQ0
-Ci0tLSBhL2RyaXZlcnMvdXNiL211c2IvbXVzYl9kc3BzLmMKKysrIGIvZHJpdmVycy91c2IvbXVz
-Yi9tdXNiX2RzcHMuYwpAQCAtMjM3LDcgKzIzNyw3IEBAIHN0YXRpYyBpbnQgZHNwc19jaGVja19z
-dGF0dXMoc3RydWN0IG11c2IgKm11c2IsIHZvaWQgKnVudXNlZCkKIAkJfQogCQltdXNiX3dyaXRl
-YihtdXNiLT5tcmVncywgTVVTQl9ERVZDVEwsIDApOwogCQlza2lwX3Nlc3Npb24gPSAxOwotCQkv
-KiBmYWxsICovCisJCS8qIGZhbGwgdGhyb3VnaCAqLwogCiAJY2FzZSBPVEdfU1RBVEVfQV9JRExF
-OgogCWNhc2UgT1RHX1NUQVRFX0JfSURMRToKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL211c2Iv
-bXVzYl9ob3N0LmMgYi9kcml2ZXJzL3VzYi9tdXNiL211c2JfaG9zdC5jCmluZGV4IDgwMDBjN2Mu
-LmI1OWNlOWEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL211c2IvbXVzYl9ob3N0LmMKKysrIGIv
-ZHJpdmVycy91c2IvbXVzYi9tdXNiX2hvc3QuYwpAQCAtMzc4LDYgKzM3OCw3IEBAIHN0YXRpYyB2
-b2lkIG11c2JfYWR2YW5jZV9zY2hlZHVsZShzdHJ1Y3QgbXVzYiAqbXVzYiwgc3RydWN0IHVyYiAq
-dXJiLAogCQkJCXFoID0gZmlyc3RfcWgoaGVhZCk7CiAJCQkJYnJlYWs7CiAJCQl9CisJCQkvKiBl
-bHNlOiBmYWxsIHRocm91Z2ggKi8KIAogCQljYXNlIFVTQl9FTkRQT0lOVF9YRkVSX0lTT0M6CiAJ
-CWNhc2UgVVNCX0VORFBPSU5UX1hGRVJfSU5UOgo=
+U29tZSBvZiB0aGUgbWFjcm9zIHVzZSBsZTE2X3RvX2NwdSgpLgoKU2lnbmVkLW9mZi1ieTogSGVp
+a2tpIEtyb2dlcnVzIDxoZWlra2kua3JvZ2VydXNAbGludXguaW50ZWwuY29tPgotLS0KIGluY2x1
+ZGUvbGludXgvdXNiL3BkLmggfCAxICsKIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQoK
+ZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvdXNiL3BkLmggYi9pbmNsdWRlL2xpbnV4L3VzYi9w
+ZC5oCmluZGV4IDA5YjU3MGZlYjI5Ny4uZjIxNjJlMGZlNTMxIDEwMDY0NAotLS0gYS9pbmNsdWRl
+L2xpbnV4L3VzYi9wZC5oCisrKyBiL2luY2x1ZGUvbGludXgvdXNiL3BkLmgKQEAgLTE1LDYgKzE1
+LDcgQEAKICNpZm5kZWYgX19MSU5VWF9VU0JfUERfSAogI2RlZmluZSBfX0xJTlVYX1VTQl9QRF9I
+CiAKKyNpbmNsdWRlIDxsaW51eC9rZXJuZWwuaD4KICNpbmNsdWRlIDxsaW51eC90eXBlcy5oPgog
+I2luY2x1ZGUgPGxpbnV4L3VzYi90eXBlYy5oPgogCg==
