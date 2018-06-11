@@ -2,27 +2,14 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2] arm64: dts: msm8996: Use dwc3-qcom glue driver for USB
-From: Vivek Gautam <vivek.gautam@codeaurora.org>
-Message-Id: <c13e4dae-aba3-727a-9242-a968af450794@codeaurora.org>
-Date: Mon, 11 Jun 2018 12:31:48 +0530
-To: Julien Massot <jmassot@softbankrobotics.com>
+From: Julien Massot <jmassot@softbankrobotics.com>
+Message-Id: <CADGp=QdjwY=9C26NtehXLk5V=k7f1fqorzQcx98Gtc4jK0hc+A@mail.gmail.com>
+Date: Mon, 11 Jun 2018 14:33:55 +0200
+To: Vivek Gautam <vivek.gautam@codeaurora.org>
 Cc: Manu Gautam <mgautam@codeaurora.org>, andy.gross@linaro.org, linux-soc@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, dianders@chromium.org, linux-usb@vger.kernel.org, felipe.balbi@linux.intel.com, gregkh@linuxfoundation.org, bjorn.andersson@linaro.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgoKT24gNi8xMS8yMDE4IDEyOjA2IFBNLCBKdWxpZW4gTWFzc290IHdyb3RlOgo+IEhpLAo+
-Cj4+IE9uIDUvMzEvMjAxOCA0OjE3IFBNLCBNYW51IEdhdXRhbSB3cm90ZToKPj4+IE1vdmUgZnJv
-bSBkd2MzLW9mLXNpbXBsZSB0byBkd2MzLXFjb20gZ2x1ZSBkcml2ZXIgdG8KPj4+IHN1cHBvcnQg
-cGVyaXBoZXJhbCBtb2RlIHdoaWNoIHJlcXVpcmVzIHFzY3JhdGNoIHdyYXBwZXIKPj4+IHByb2dy
-YW1taW5nIG9uIFZCVVMgZXZlbnQuCj4gSSB3b3VsZCBsaWtlIHRvIHRlc3QgdXNiIG90ZyBhcyBw
-ZXJpcGhlcmFsIHJvbGUsIGJ1dCB0aGF0J3Mgbm90IGNsZWFyCj4gZm9yIG1lIHdoaWNoIHBhdGNo
-ZXMKPiBhcmUgcmVxdWlyZWQgb24gdG9wIG9mIGxpbnV4IG1hc3RlciBicmFuY2ggb3IgbGluYXJv
-IHFjb20tbHQKPiBpbnRlZ3JhdGlvbiBicmFuY2gsIG9yIGEKPiBjdXN0b20gYnJhbmNoIHdoaWNo
-IGludGVncmF0ZSBkdC1iaW5kaW5nIHBoeSBvciB1c2IgcmVsYXRlZCBwYXRjaC4KPgo+IENhbiB5
-b3UgcG9pbnQgbWUgdGhlIHBhdGNoZXMgSSBuZWVkIHRvIGFwcGx5LCBvciBhIGJyYW5jaCwgdG8g
-dGVzdAo+IHBlcmlwaGVyYWwgZmVhdHVyZSA/CgpJIGhhdmUgYSBicmFuY2ggdGhhdCdzIGJhc2Vk
-IG9uIDQuMTcuIFlvdSBjYW4gcGljayB0aGF0LgpodHRwczovL2dpdGh1Yi5jb20vdml2ZWtnYXV0
-YW0xL2xpbnV4L2NvbW1pdHMvdjQuMTcvZGI4MjBjCgpUaGFua3MKVml2ZWsKPgo+IFRoYW5rcywK
-PiBKdWxpZW4KPgotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxp
-bmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1h
-am9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3Zn
-ZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
+SGkgVml2ZWssCgo+IEkgaGF2ZSBhIGJyYW5jaCB0aGF0J3MgYmFzZWQgb24gNC4xNy4gWW91IGNh
+biBwaWNrIHRoYXQuCj4gaHR0cHM6Ly9naXRodWIuY29tL3ZpdmVrZ2F1dGFtMS9saW51eC9jb21t
+aXRzL3Y0LjE3L2RiODIwYwo+CgpUaGFua3MgYSBsb3QsCkkgd2lsbCB0ZXN0IHRoaXMgYnJhbmNo
+LgoKSnVsaWVuCg==
