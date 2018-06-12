@@ -1,22 +1,26 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v4,3/3] MAINTAINERS: add subfolders for nuvoton *npcm*
-From: Avi Fishman <avifishman70@gmail.com>
-Message-Id: <20180607145821.322979-4-avifishman70@gmail.com>
-Date: Thu,  7 Jun 2018 17:58:21 +0300
-To: gregkh@linuxfoundation.org, stern@rowland.harvard.edu
-Cc: avifishman70@gmail.com, tmaimon77@gmail.com, venture@google.com, yuenn@google.com, brendanhiggins@google.com, mathias.nyman@linux.intel.com, bjorn.andersson@linaro.org, jhogan@kernel.org, albeu@free.fr, chunfeng.yun@mediatek.com, tony@atomide.com, baolu.lu@linux.intel.com, elder@linaro.org, digetx@gmail.com, kstewart@linuxfoundation.org, hdegoede@redhat.com, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, openbmc@lists.ozlabs.org, robh+dt@kernel.org, mark.rutland@arm.com, devicetree@vger.kernel.org, Avi Fishman <AviFishman70@gmail.com>
+Subject: usb: dwc2: gadget: fix packet drop issue for ISOC OUT transfers
+From: Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
+Message-Id: <567e1236bdcd81b113fb29e1cc3ae83a52d8d956.1528792007.git.hminas@synopsys.com>
+Date: Tue, 12 Jun 2018 12:27:36 +0400
+To: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>, linux-usb@vger.kernel.org
+Cc: John Youn <John.Youn@synopsys.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-RnJvbTogQXZpIEZpc2htYW4gPEF2aUZpc2htYW43MEBnbWFpbC5jb20+CgpTaWduZWQtb2ZmLWJ5
-OiBBdmkgRmlzaG1hbiA8QXZpRmlzaG1hbjcwQGdtYWlsLmNvbT4KLS0tCiBNQUlOVEFJTkVSUyB8
-IDMgKysrCiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvTUFJ
-TlRBSU5FUlMgYi9NQUlOVEFJTkVSUwppbmRleCBlMGNlM2M1ZjMyZTUuLjIzYzQ1MGFkYWQ0NCAx
-MDA2NDQKLS0tIGEvTUFJTlRBSU5FUlMKKysrIGIvTUFJTlRBSU5FUlMKQEAgLTE3MjcsNyArMTcy
-NywxMCBAQCBGOglhcmNoL2FybS9tYWNoLW5wY20vCiBGOglhcmNoL2FybS9ib290L2R0cy9udXZv
-dG9uLW5wY20qCiBGOglpbmNsdWRlL2R0LWJpbmRpbmdzL2Nsb2NrL251dm90b24sbnBjbTd4eC1j
-bGtzLmgKIEY6CWRyaXZlcnMvKi8qbnBjbSoKK0Y6CWRyaXZlcnMvKi8qLypucGNtKgogRjoJRG9j
-dW1lbnRhdGlvbi8qLypucGNtKgorRjoJRG9jdW1lbnRhdGlvbi8qLyovKm5wY20qCitGOglEb2N1
-bWVudGF0aW9uLyovKi8qLypucGNtKgogCiBBUk0vTlVWT1RPTiBXOTBYOTAwIEFSTSBBUkNISVRF
-Q1RVUkUKIE06CVdhbiBab25nU2h1biA8bWN1b3MuY29tQGdtYWlsLmNvbT4K
+SW4gSVNPQyBPVVQgdHJhbnNmZXIsIHdoZW4gdGhlIE9VVCB0b2tlbiByZWNlaXZlZCB3aGlsZSBF
+UCBkaXNhYmxlZCwKd2Ugc2hvdWxkbid0IGNvbXBsZXRlIGEgdXNiIHJlcXVlc3QuIFRoZSBjdXJy
+ZW50IGZsb3cgY29tcGxldGVkIG9uZQp1c2IgcmVxdWVzdCwgdGhpcyB3aWxsIGxlYWQgdG8gYSBw
+YWNrZXQgZHJvcCB0byBmdW5jdGlvbiBkcml2ZXIuCgpTaWduZWQtb2ZmLWJ5OiBNaW5hcyBIYXJ1
+dHl1bnlhbiA8aG1pbmFzQHN5bm9wc3lzLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9kd2MyL2dhZGdl
+dC5jIHwgMiAtLQogMSBmaWxlIGNoYW5nZWQsIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy91c2IvZHdjMi9nYWRnZXQuYyBiL2RyaXZlcnMvdXNiL2R3YzIvZ2FkZ2V0LmMKaW5k
+ZXggN2M3MWQ1YWJhNzY1Li43YTVlMjY1ZjQ4ZjcgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL2R3
+YzIvZ2FkZ2V0LmMKKysrIGIvZHJpdmVycy91c2IvZHdjMi9nYWRnZXQuYwpAQCAtMjc1NSw4ICsy
+NzU1LDYgQEAgc3RhdGljIHZvaWQgZHdjMl9nYWRnZXRfaGFuZGxlX291dF90b2tlbl9lcF9kaXNh
+YmxlZChzdHJ1Y3QgZHdjMl9oc290Z19lcCAqZXApCiAJaWYgKGRpcl9pbiB8fCAhZXAtPmlzb2No
+cm9ub3VzKQogCQlyZXR1cm47CiAKLQlkd2MyX2hzb3RnX2NvbXBsZXRlX3JlcXVlc3QoaHNvdGcs
+IGVwLCBnZXRfZXBfaGVhZChlcCksIDApOwotCiAJaWYgKHVzaW5nX2Rlc2NfZG1hKGhzb3RnKSkg
+ewogCQlpZiAoZXAtPnRhcmdldF9mcmFtZSA9PSBUQVJHRVRfRlJBTUVfSU5JVElBTCkgewogCQkJ
+LyogU3RhcnQgZmlyc3QgSVNPIE91dCAqLwo=
