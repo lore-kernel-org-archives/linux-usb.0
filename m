@@ -2,25 +2,23 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb/gadget: aspeed-vhub: add USB_LIBCOMPOSITE dependency
-From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Message-Id: <71cfc192be06d07e79bfdfe43a566d3260e19cd6.camel@kernel.crashing.org>
-Date: Tue, 12 Jun 2018 14:29:36 +1000
-To: Felipe Balbi <balbi@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Randy Dunlap <rdunlap@infradead.org>
+Message-Id: <db22cad5-c25f-1b34-1784-5df5ed1ac0b2@infradead.org>
+Date: Thu, 14 Jun 2018 13:20:04 -0700
+To: Benjamin Herrenschmidt <benh@kernel.crashing.org>, Felipe Balbi <balbi@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCAyMDE4LTA1LTMwIGF0IDE1OjI5ICswMzAwLCBGZWxpcGUgQmFsYmkgd3JvdGU6Cj4g
-SGksCj4gCj4gQXJuZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5kZT4gd3JpdGVzOgo+ID4gV2l0aG91
-dCB0aGF0IG9wdGlvbiwgd2UgcnVuIGludG8gYSBsaW5rIGZhaWx1cmU6Cj4gPiAKPiA+IGRyaXZl
+T24gMDYvMTEvMjAxOCAwOToyOSBQTSwgQmVuamFtaW4gSGVycmVuc2NobWlkdCB3cm90ZToKPiBP
+biBXZWQsIDIwMTgtMDUtMzAgYXQgMTU6MjkgKzAzMDAsIEZlbGlwZSBCYWxiaSB3cm90ZToKPj4g
+SGksCj4+Cj4+IEFybmQgQmVyZ21hbm4gPGFybmRAYXJuZGIuZGU+IHdyaXRlczoKPj4+IFdpdGhv
+dXQgdGhhdCBvcHRpb24sIHdlIHJ1biBpbnRvIGEgbGluayBmYWlsdXJlOgo+Pj4KPj4+IGRyaXZl
 cnMvdXNiL2dhZGdldC91ZGMvYXNwZWVkLXZodWIvaHViLm86IEluIGZ1bmN0aW9uIGBhc3Rfdmh1
-Yl9zdGRfaHViX3JlcXVlc3QnOgo+ID4gaHViLmM6KC50ZXh0KzB4NWIwKTogdW5kZWZpbmVkIHJl
-ZmVyZW5jZSB0byBgdXNiX2dhZGdldF9nZXRfc3RyaW5nJwo+ID4gCj4gPiBGaXhlczogN2VjY2Ey
-YTQwODBjICgidXNiL2dhZGdldDogQWRkIGRyaXZlciBmb3IgQXNwZWVkIFNvQyB2aXJ0dWFsIGh1
-YiIpCj4gPiBTaWduZWQtb2ZmLWJ5OiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPgo+IAo+
-IEFja2VkLWJ5OiBGZWxpcGUgQmFsYmkgPGZlbGlwZS5iYWxiaUBsaW51eC5pbnRlbC5jb20+CgpH
-cmVnLCBjYW4geW91IHNlbmQgdGhpcyB0byBMaW51cyBhc2FwID8gU29tZSBwZW9wbGUgYXJlIGhp
-dHRpbmcgYnVpbGQKYnJlYWthZ2VzIHVwc3RyZWFtIGJlY2F1c2Ugb2YgdGhpcy4KClRoYW5rcyAh
-CgpDaGVlcnMsCkJlbiwKLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRo
-ZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0
-byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6
-Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
+Yl9zdGRfaHViX3JlcXVlc3QnOgo+Pj4gaHViLmM6KC50ZXh0KzB4NWIwKTogdW5kZWZpbmVkIHJl
+ZmVyZW5jZSB0byBgdXNiX2dhZGdldF9nZXRfc3RyaW5nJwo+Pj4KPj4+IEZpeGVzOiA3ZWNjYTJh
+NDA4MGMgKCJ1c2IvZ2FkZ2V0OiBBZGQgZHJpdmVyIGZvciBBc3BlZWQgU29DIHZpcnR1YWwgaHVi
+IikKPj4+IFNpZ25lZC1vZmYtYnk6IEFybmQgQmVyZ21hbm4gPGFybmRAYXJuZGIuZGU+Cj4+Cj4+
+IEFja2VkLWJ5OiBGZWxpcGUgQmFsYmkgPGZlbGlwZS5iYWxiaUBsaW51eC5pbnRlbC5jb20+Cj4g
+Cj4gR3JlZywgY2FuIHlvdSBzZW5kIHRoaXMgdG8gTGludXMgYXNhcCA/IFNvbWUgcGVvcGxlIGFy
+ZSBoaXR0aW5nIGJ1aWxkCj4gYnJlYWthZ2VzIHVwc3RyZWFtIGJlY2F1c2Ugb2YgdGhpcy4KCkFn
+cmVlZC4KCj4gVGhhbmtzICEKCmRpdHRvLgo=
