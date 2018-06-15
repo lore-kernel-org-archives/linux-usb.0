@@ -2,23 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [2/3] usb: dwc2: host: do not delay retries after successful transfer
-From: Torokhov <dmitry.torokhov@gmail.com>
-Message-Id: <20180615220131.65402-2-dmitry.torokhov@gmail.com>
-Date: Fri, 15 Jun 2018 15:01:30 -0700
-To: Felipe Balbi <felipe.balbi@linux.intel.com>, Minas Harutyunyan <hminas@synopsys.com>
-Cc: Douglas Anderson <dianders@chromium.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Doug Anderson <dianders@chromium.org>
+Message-Id: <CAD=FV=X7fveskggyu_Fd44zCWdGMqU9sF-tHHcrF5mOpUD_+Dw@mail.gmail.com>
+Date: Fri, 15 Jun 2018 16:49:54 -0700
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Felipe Balbi <felipe.balbi@linux.intel.com>, Minas Harutyunyan <hminas@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-V2hlbiBoYW5kbGluZyBzcGxpdCB0cmFuc2FjdGlvbnMgd2Ugc2hvdWxkIG5vdCBiZSBkZWxheWlu
-ZyByZXRyeWluZwpTU1BMSVQvQ1NQTElUIGFmdGVyIHdlIHN1Y2Nlc3NmdWxseSBjb21tdW5pY2F0
-ZSB3aXRoIHRoZSBkZXZpY2UsIHNvCmxldCdzIHJlc2V0IGR0ZC0+bnVtX25ha3MgY291bnRlciB3
-aGVuIGhhbmRsaW5nIFhGRVJDT01QTC4KClNpZ25lZC1vZmYtYnk6IERtaXRyeSBUb3Jva2hvdiA8
-ZG1pdHJ5LnRvcm9raG92QGdtYWlsLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9kd2MyL2hjZF9pbnRy
-LmMgfCAxICsKIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQoKZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvdXNiL2R3YzIvaGNkX2ludHIuYyBiL2RyaXZlcnMvdXNiL2R3YzIvaGNkX2ludHIuYwpp
-bmRleCBkNDIzYjZhNDlmOTZjLi5iOTg3OWRlNjIzMGQwIDEwMDY0NAotLS0gYS9kcml2ZXJzL3Vz
-Yi9kd2MyL2hjZF9pbnRyLmMKKysrIGIvZHJpdmVycy91c2IvZHdjMi9oY2RfaW50ci5jCkBAIC0x
-MDkyLDYgKzEwOTIsNyBAQCBzdGF0aWMgdm9pZCBkd2MyX2hjX3hmZXJjb21wX2ludHIoc3RydWN0
-IGR3YzJfaHNvdGcgKmhzb3RnLAogCX0KIAogaGFuZGxlX3hmZXJjb21wX2RvbmU6CisJcXRkLT5u
-dW1fbmFrcyA9IDA7CiAJZGlzYWJsZV9oY19pbnQoaHNvdGcsIGNobnVtLCBIQ0lOVE1TS19YRkVS
-Q09NUEwpOwogfQogCg==
+SGksCgpPbiBGcmksIEp1biAxNSwgMjAxOCBhdCAzOjAxIFBNLCBEbWl0cnkgVG9yb2tob3YKPGRt
+aXRyeS50b3Jva2hvdkBnbWFpbC5jb20+IHdyb3RlOgo+IFdoZW4gaGFuZGxpbmcgc3BsaXQgdHJh
+bnNhY3Rpb25zIHdlIHNob3VsZCBub3QgYmUgZGVsYXlpbmcgcmV0cnlpbmcKPiBTU1BMSVQvQ1NQ
+TElUIGFmdGVyIHdlIHN1Y2Nlc3NmdWxseSBjb21tdW5pY2F0ZSB3aXRoIHRoZSBkZXZpY2UsIHNv
+Cj4gbGV0J3MgcmVzZXQgZHRkLT5udW1fbmFrcyBjb3VudGVyIHdoZW4gaGFuZGxpbmcgWEZFUkNP
+TVBMLgo+Cj4gU2lnbmVkLW9mZi1ieTogRG1pdHJ5IFRvcm9raG92IDxkbWl0cnkudG9yb2tob3ZA
+Z21haWwuY29tPgo+IC0tLQo+ICBkcml2ZXJzL3VzYi9kd2MyL2hjZF9pbnRyLmMgfCAxICsKPiAg
+MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCgpSZXZpZXdlZC1ieTogRG91Z2xhcyBBbmRl
+cnNvbiA8ZGlhbmRlcnNAY2hyb21pdW0ub3JnPgotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlz
+IGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkg
+b2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8g
+aW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
