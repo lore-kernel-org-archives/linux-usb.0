@@ -2,23 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: gadget: add error handling for skb_realloc_headroom
-From: Zhouyang Jia <jiazhouyang09@gmail.com>
-Message-Id: <1528778503-41615-1-git-send-email-jiazhouyang09@gmail.com>
-Date: Tue, 12 Jun 2018 12:41:41 +0800
-Cc: Zhouyang Jia <jiazhouyang09@gmail.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Bhumika Goyal <bhumirks@gmail.com>, Johan Hovold <johan@kernel.org>, Andrew Gabbasov <andrew_gabbasov@mentor.com>, David Lechner <david@lechnology.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Felipe Balbi <balbi@kernel.org>
+Message-Id: <87vaafw1j5.fsf@linux.intel.com>
+Date: Tue, 19 Jun 2018 12:47:42 +0300
+To: linux-usb-owner@vger.kernel.org
+Cc: Zhouyang Jia <jiazhouyang09@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Bhumika Goyal <bhumirks@gmail.com>, Johan Hovold <johan@kernel.org>, Andrew Gabbasov <andrew_gabbasov@mentor.com>, David Lechner <david@lechnology.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-V2hlbiBza2JfcmVhbGxvY19oZWFkcm9vbSBmYWlscywgdGhlIGxhY2sgb2YgZXJyb3ItaGFuZGxp
-bmcgY29kZSBtYXkKY2F1c2UgdW5leHBlY3RlZCByZXN1bHRzLgoKVGhpcyBwYXRjaCBhZGRzIGVy
-cm9yLWhhbmRsaW5nIGNvZGUgYWZ0ZXIgY2FsbGluZyBza2JfcmVhbGxvY19oZWFkcm9vbS4KClNp
-Z25lZC1vZmYtYnk6IFpob3V5YW5nIEppYSA8amlhemhvdXlhbmcwOUBnbWFpbC5jb20+Ci0tLQog
-ZHJpdmVycy91c2IvZ2FkZ2V0L2Z1bmN0aW9uL2Zfcm5kaXMuYyB8IDMgKysrCiAxIGZpbGUgY2hh
-bmdlZCwgMyBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvZ2FkZ2V0L2Z1
-bmN0aW9uL2Zfcm5kaXMuYyBiL2RyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi9mX3JuZGlzLmMK
-aW5kZXggZDQ4ZGYzNi4uMTdjMTY0YiAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvZ2FkZ2V0L2Z1
-bmN0aW9uL2Zfcm5kaXMuYworKysgYi9kcml2ZXJzL3VzYi9nYWRnZXQvZnVuY3Rpb24vZl9ybmRp
-cy5jCkBAIC0zNzQsNiArMzc0LDkgQEAgc3RhdGljIHN0cnVjdCBza19idWZmICpybmRpc19hZGRf
-aGVhZGVyKHN0cnVjdCBnZXRoZXIgKnBvcnQsCiAJCXJldHVybiBOVUxMOwogCiAJc2tiMiA9IHNr
-Yl9yZWFsbG9jX2hlYWRyb29tKHNrYiwgc2l6ZW9mKHN0cnVjdCBybmRpc19wYWNrZXRfbXNnX3R5
-cGUpKTsKKwlpZiAoIXNrYjIpCisJCXJldHVybiBOVUxMOworCiAJcm5kaXNfYWRkX2hkcihza2Iy
-KTsKIAogCWRldl9rZnJlZV9za2Ioc2tiKTsK
+SGksCgpsaW51eC11c2Itb3duZXJAdmdlci5rZXJuZWwub3JnIHdyaXRlczoKPiBXaGVuIHNrYl9y
+ZWFsbG9jX2hlYWRyb29tIGZhaWxzLCB0aGUgbGFjayBvZiBlcnJvci1oYW5kbGluZyBjb2RlIG1h
+eQo+IGNhdXNlIHVuZXhwZWN0ZWQgcmVzdWx0cy4KPgo+IFRoaXMgcGF0Y2ggYWRkcyBlcnJvci1o
+YW5kbGluZyBjb2RlIGFmdGVyIGNhbGxpbmcgc2tiX3JlYWxsb2NfaGVhZHJvb20uCj4KPiBTaWdu
+ZWQtb2ZmLWJ5OiBaaG91eWFuZyBKaWEgPGppYXpob3V5YW5nMDlAZ21haWwuY29tPgoKRnJvbSBs
+aW51eC11c2Itb3duZXI/Pz8gSSBjYW4ndCBhcHBseSB0aGlzIHBhdGNoLgo=
