@@ -1,23 +1,36 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: net: drivers/net: Convert random_ether_addr to eth_random_addr
-From: David Miller <davem@davemloft.net>
-Message-Id: <20180623.105055.470247977870986966.davem@davemloft.net>
-Date: Sat, 23 Jun 2018 10:50:55 +0900 (KST)
-To: joe@perches.com
-Cc: derek.chickles@caviumnetworks.com, satananda.burla@caviumnetworks.com, felix.manlunas@caviumnetworks.com, raghu.vatsavayi@caviumnetworks.com, ulli.kroll@googlemail.com, linus.walleij@linaro.org, yisen.zhuang@huawei.com, salil.mehta@huawei.com, jeffrey.t.kirsher@intel.com, bryan.whitehead@microchip.com, UNGLinuxDriver@microchip.com, harish.patil@cavium.com, manish.chopra@cavium.com, Dept-GELinuxNICDev@cavium.com, linux-net-drivers@solarflare.com, ecree@solarflare.com, bkenward@solarflare.com, grygorii.strashko@ti.com, w-kwok2@ti.com, m-karicheri2@ti.com, jdmason@kudzu.us, dave.jiang@intel.com, allenbh@gmail.com, woojung.huh@microchip.com, ath9k-devel@qca.qualcomm.com, mareklindner@neomailbox.ch, sw@simonwunderlich.de, a@unstable.cc, kvalo@codeaurora.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, intel-wired-lan@lists.osuosl.org, linux-omap@vger.kernel.org, linux-ntb@googlegroups.com, linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org, b.a.t.m.a.n@lists.open-mesh.org
+Subject: [21/27] media: ttusb-dec: use usb_fill_int_urb()
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Message-Id: <20180620110105.19955-22-bigeasy@linutronix.de>
+Date: Wed, 20 Jun 2018 13:00:59 +0200
+To: linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-usb@vger.kernel.org, tglx@linutronix.de, Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 List-ID: <linux-usb.vger.kernel.org>
 
-RnJvbTogSm9lIFBlcmNoZXMgPGpvZUBwZXJjaGVzLmNvbT4KRGF0ZTogRnJpLCAyMiBKdW4gMjAx
-OCAxMDo1MTowMCAtMDcwMAoKPiByYW5kb21fZXRoZXJfYWRkciBpcyBhICNkZWZpbmUgZm9yIGV0
-aF9yYW5kb21fYWRkciB3aGljaCBpcwo+IGdlbmVyYWxseSBwcmVmZXJyZWQgaW4ga2VybmVsIGNv
-ZGUgYnkgfjM6MQo+IAo+IENvbnZlcnQgdGhlIHVzZXMgb2YgcmFuZG9tX2V0aGVyX2FkZHIgdG8g
-ZW5hYmxlIHJlbW92aW5nIHRoZSAjZGVmaW5lCj4gCj4gTWlzY2VsbGFuZWE6Cj4gCj4gbyBDb252
-ZXJ0ICZ2Zm1hY1swXSB0byBlcXVpdmFsZW50IHZmbWFjIGFuZCBhdm9pZCB1bm5lY2Vzc2FyeSBs
-aW5lIHdyYXAKPiAKPiBTaWduZWQtb2ZmLWJ5OiBKb2UgUGVyY2hlcyA8am9lQHBlcmNoZXMuY29t
-PgoKSSdsbCBhcHBseSB0aGlzIHRvIG5ldC1uZXh0LCB0aGFua3MgSm9lLgotLS0KVG8gdW5zdWJz
-Y3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVz
-YiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcK
-TW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8t
-aW5mby5odG1sCg==
+VXNpbmcgdXNiX2ZpbGxfaW50X3VyYigpIGhlbHBzIHRvIGZpbmQgY29kZSB3aGljaCBpbml0aWFs
+aXplcyBhbiBVUkIuIEEKZ3JlcCBmb3IgbWVtYmVycyBvZiB0aGUgc3RydWN0IChsaWtlIC0+Y29t
+cGxldGUpIHJldmVhbCBsb3RzIG9mIG90aGVyCnRoaW5ncywgdG9vLgoKQ2M6IE1hdXJvIENhcnZh
+bGhvIENoZWhhYiA8bWNoZWhhYkBrZXJuZWwub3JnPgpTaWduZWQtb2ZmLWJ5OiBTZWJhc3RpYW4g
+QW5kcnplaiBTaWV3aW9yIDxiaWdlYXN5QGxpbnV0cm9uaXguZGU+Ci0tLQogZHJpdmVycy9tZWRp
+YS91c2IvdHR1c2ItZGVjL3R0dXNiX2RlYy5jIHwgMTMgKysrKystLS0tLS0tLQogMSBmaWxlIGNo
+YW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgOCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2
+ZXJzL21lZGlhL3VzYi90dHVzYi1kZWMvdHR1c2JfZGVjLmMgYi9kcml2ZXJzL21lZGlhL3VzYi90
+dHVzYi1kZWMvdHR1c2JfZGVjLmMKaW5kZXggNDRjYTY2Y2I5YjhmLi40YzA5NDM2NDg3M2QgMTAw
+NjQ0Ci0tLSBhL2RyaXZlcnMvbWVkaWEvdXNiL3R0dXNiLWRlYy90dHVzYl9kZWMuYworKysgYi9k
+cml2ZXJzL21lZGlhL3VzYi90dHVzYi1kZWMvdHR1c2JfZGVjLmMKQEAgLTg1OCwxNiArODU4LDEz
+IEBAIHN0YXRpYyB2b2lkIHR0dXNiX2RlY19zZXR1cF91cmJzKHN0cnVjdCB0dHVzYl9kZWMgKmRl
+YykKIAkJaW50IGZyYW1lX29mZnNldCA9IDA7CiAJCXN0cnVjdCB1cmIgKnVyYiA9IGRlYy0+aXNv
+X3VyYltpXTsKIAotCQl1cmItPmRldiA9IGRlYy0+dWRldjsKLQkJdXJiLT5jb250ZXh0ID0gZGVj
+OwotCQl1cmItPmNvbXBsZXRlID0gdHR1c2JfZGVjX3Byb2Nlc3NfdXJiOwotCQl1cmItPnBpcGUg
+PSBkZWMtPmluX3BpcGU7CisJCXVzYl9maWxsX2ludF91cmIodXJiLCBkZWMtPnVkZXYsIGRlYy0+
+aW5fcGlwZSwKKwkJCQkgZGVjLT5pc29fYnVmZmVyICsgYnVmZmVyX29mZnNldCwKKwkJCQkgSVNP
+X0ZSQU1FX1NJWkUgKiBGUkFNRVNfUEVSX0lTT19CVUYsCisJCQkJIHR0dXNiX2RlY19wcm9jZXNz
+X3VyYiwgZGVjLCAxKTsKKwogCQl1cmItPnRyYW5zZmVyX2ZsYWdzID0gVVJCX0lTT19BU0FQOwot
+CQl1cmItPmludGVydmFsID0gMTsKIAkJdXJiLT5udW1iZXJfb2ZfcGFja2V0cyA9IEZSQU1FU19Q
+RVJfSVNPX0JVRjsKLQkJdXJiLT50cmFuc2Zlcl9idWZmZXJfbGVuZ3RoID0gSVNPX0ZSQU1FX1NJ
+WkUgKgotCQkJCQkgICAgICBGUkFNRVNfUEVSX0lTT19CVUY7Ci0JCXVyYi0+dHJhbnNmZXJfYnVm
+ZmVyID0gZGVjLT5pc29fYnVmZmVyICsgYnVmZmVyX29mZnNldDsKIAkJYnVmZmVyX29mZnNldCAr
+PSBJU09fRlJBTUVfU0laRSAqIEZSQU1FU19QRVJfSVNPX0JVRjsKIAogCQlmb3IgKGogPSAwOyBq
+IDwgRlJBTUVTX1BFUl9JU09fQlVGOyBqKyspIHsK
