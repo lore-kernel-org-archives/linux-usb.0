@@ -1,32 +1,22 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2] usb: xhci: increase CRS timeout value
-From: Ajay Gupta <ajaykuee@gmail.com>
-Message-Id: <1528751133-12402-1-git-send-email-ajaykuee@gmail.com>
-Date: Mon, 11 Jun 2018 14:05:33 -0700
-To: linux-usb@vger.kernel.org
-Cc: felipe.balbi@linux.intel.com, oneukum@suse.com, mathias.nyman@linux.intel.com, Ajay Gupta <ajaykuee@gmail.com>, Nagaraj Annaiah <naga.annaiah@gmail.com>
+Subject: [v7,3/3] MAINTAINERS: add subfolders for nuvoton *npcm*
+From: Avi Fishman <avifishman70@gmail.com>
+Message-Id: <20180620063306.134820-4-avifishman70@gmail.com>
+Date: Wed, 20 Jun 2018 09:33:06 +0300
+To: gregkh@linuxfoundation.org, stern@rowland.harvard.edu
+Cc: avifishman70@gmail.com, tmaimon77@gmail.com, venture@google.com, yuenn@google.com, brendanhiggins@google.com, mathias.nyman@linux.intel.com, bjorn.andersson@linaro.org, jhogan@kernel.org, albeu@free.fr, chunfeng.yun@mediatek.com, tony@atomide.com, baolu.lu@linux.intel.com, elder@linaro.org, digetx@gmail.com, kstewart@linuxfoundation.org, hdegoede@redhat.com, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, openbmc@lists.ozlabs.org, robh+dt@kernel.org, mark.rutland@arm.com, devicetree@vger.kernel.org, Avi Fishman <AviFishman70@gmail.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-U29tZSBjb250cm9sbGVycyB0YWtlIGFsbW9zdCA1NW1zIHRvIGNvbXBsZXRlIGNvbnRyb2xsZXIK
-cmVzdG9yZSBzdGF0ZSAoQ1JTKS4KVGhlcmUgaXMgbm8gdGltZW91dCBsaW1pdCBtZW50aW9uZWQg
-aW4geGhjaSBzcGVjaWZpY2F0aW9uIHNvCmZpeGluZyB0aGUgaXNzdWUgYnkgaW5jcmVhc2luZyB0
-aGUgdGltZW91dCBsaW1pdCB0byA1NW1zCgpTaWduZWQtb2ZmLWJ5OiBBamF5IEd1cHRhIDxhamF5
-a3VlZUBnbWFpbC5jb20+ClNpZ25lZC1vZmYtYnk6IE5hZ2FyYWogQW5uYWlhaCA8bmFnYS5hbm5h
-aWFoQGdtYWlsLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9ob3N0L3hoY2kuYyB8IDcgKysrKysrLQog
-MSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvdXNiL2hvc3QveGhjaS5jIGIvZHJpdmVycy91c2IvaG9zdC94aGNpLmMKaW5k
-ZXggOGM4ZGEyZC4uZmE3YmQ3MSAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvaG9zdC94aGNpLmMK
-KysrIGIvZHJpdmVycy91c2IvaG9zdC94aGNpLmMKQEAgLTEwNDMsOCArMTA0MywxMyBAQCBpbnQg
-eGhjaV9yZXN1bWUoc3RydWN0IHhoY2lfaGNkICp4aGNpLCBib29sIGhpYmVybmF0ZWQpCiAJCWNv
-bW1hbmQgPSByZWFkbCgmeGhjaS0+b3BfcmVncy0+Y29tbWFuZCk7CiAJCWNvbW1hbmQgfD0gQ01E
-X0NSUzsKIAkJd3JpdGVsKGNvbW1hbmQsICZ4aGNpLT5vcF9yZWdzLT5jb21tYW5kKTsKKwkJLyog
-U29tZSBjb250cm9sbGVycyB0YWtlIHVwdG8gNTUrIG1zIHRvIGNvbXBsZXRlCisJCSAqIHRoZSBj
-b250cm9sbGVyIHJlc3RvcmUgc28gc2V0dGluZyB0aGUgdGltZW91dCB0bworCQkgKiAxMDBtcy4g
-WGhjaSBzcGVjaWZpY2F0aW9uIGRvZXNuJ3QgbWVudGlvbiBhbnkKKwkJICogdGltZW91dCB2YWx1
-ZS4KKwkJICovCiAJCWlmICh4aGNpX2hhbmRzaGFrZSgmeGhjaS0+b3BfcmVncy0+c3RhdHVzLAot
-CQkJICAgICAgU1RTX1JFU1RPUkUsIDAsIDEwICogMTAwMCkpIHsKKwkJCSAgICAgIFNUU19SRVNU
-T1JFLCAwLCAxMDAgKiAxMDAwKSkgewogCQkJeGhjaV93YXJuKHhoY2ksICJXQVJOOiB4SEMgcmVz
-dG9yZSBzdGF0ZSB0aW1lb3V0XG4iKTsKIAkJCXNwaW5fdW5sb2NrX2lycSgmeGhjaS0+bG9jayk7
-CiAJCQlyZXR1cm4gLUVUSU1FRE9VVDsK
+RnJvbTogQXZpIEZpc2htYW4gPEF2aUZpc2htYW43MEBnbWFpbC5jb20+CgpTaWduZWQtb2ZmLWJ5
+OiBBdmkgRmlzaG1hbiA8QXZpRmlzaG1hbjcwQGdtYWlsLmNvbT4KLS0tCiBNQUlOVEFJTkVSUyB8
+IDMgKysrCiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvTUFJ
+TlRBSU5FUlMgYi9NQUlOVEFJTkVSUwppbmRleCBlMGNlM2M1ZjMyZTUuLjIzYzQ1MGFkYWQ0NCAx
+MDA2NDQKLS0tIGEvTUFJTlRBSU5FUlMKKysrIGIvTUFJTlRBSU5FUlMKQEAgLTE3MjcsNyArMTcy
+NywxMCBAQCBGOglhcmNoL2FybS9tYWNoLW5wY20vCiBGOglhcmNoL2FybS9ib290L2R0cy9udXZv
+dG9uLW5wY20qCiBGOglpbmNsdWRlL2R0LWJpbmRpbmdzL2Nsb2NrL251dm90b24sbnBjbTd4eC1j
+bGtzLmgKIEY6CWRyaXZlcnMvKi8qbnBjbSoKK0Y6CWRyaXZlcnMvKi8qLypucGNtKgogRjoJRG9j
+dW1lbnRhdGlvbi8qLypucGNtKgorRjoJRG9jdW1lbnRhdGlvbi8qLyovKm5wY20qCitGOglEb2N1
+bWVudGF0aW9uLyovKi8qLypucGNtKgogCiBBUk0vTlVWT1RPTiBXOTBYOTAwIEFSTSBBUkNISVRF
+Q1RVUkUKIE06CVdhbiBab25nU2h1biA8bWN1b3MuY29tQGdtYWlsLmNvbT4K
