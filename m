@@ -2,23 +2,20 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: net/usb/drivers: Remove useless hrtimer_active check
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-Message-Id: <1529417671-21384-1-git-send-email-daniel.lezcano@linaro.org>
-Date: Tue, 19 Jun 2018 16:14:30 +0200
-To: oliver@neukum.org
-Cc: "David S. Miller" <davem@davemloft.net>, "open list:USB CDC ETHERNET DRIVER" <linux-usb@vger.kernel.org>, "open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+From: David Miller <davem@davemloft.net>
+Message-Id: <20180620.090704.1841351400456293204.davem@davemloft.net>
+Date: Wed, 20 Jun 2018 09:07:04 +0900 (KST)
+To: daniel.lezcano@linaro.org
+Cc: oliver@neukum.org, linux-usb@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhlIGNvZGUgZG9lczoKCiBpZiAoaHJ0aW1lcl9hY3RpdmUoJnQpKQogICAgaHJ0aW1lcl9jYW5j
-ZWwoJnQpOwoKSG93ZXZlciwgaHJ0aW1lcl9jYW5jZWwoKSBjaGVja3MgaWYgdGhlIHRpbWVyIGlz
-IGFjdGl2ZSwgc28gdGhlCnRlc3QgYWJvdmUgaXMgcG9pbnRsZXNzLgoKU2lnbmVkLW9mZi1ieTog
-RGFuaWVsIExlemNhbm8gPGRhbmllbC5sZXpjYW5vQGxpbmFyby5vcmc+Ci0tLQogZHJpdmVycy9u
-ZXQvdXNiL2NkY19uY20uYyB8IDMgKy0tCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyks
-IDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9uZXQvdXNiL2NkY19uY20uYyBi
-L2RyaXZlcnMvbmV0L3VzYi9jZGNfbmNtLmMKaW5kZXggOTBkMDdlZC4uNzMyY2VmZiAxMDA2NDQK
-LS0tIGEvZHJpdmVycy9uZXQvdXNiL2NkY19uY20uYworKysgYi9kcml2ZXJzL25ldC91c2IvY2Rj
-X25jbS5jCkBAIC05NjcsOCArOTY3LDcgQEAgdm9pZCBjZGNfbmNtX3VuYmluZChzdHJ1Y3QgdXNi
-bmV0ICpkZXYsIHN0cnVjdCB1c2JfaW50ZXJmYWNlICppbnRmKQogCiAJYXRvbWljX3NldCgmY3R4
-LT5zdG9wLCAxKTsKIAotCWlmIChocnRpbWVyX2FjdGl2ZSgmY3R4LT50eF90aW1lcikpCi0JCWhy
-dGltZXJfY2FuY2VsKCZjdHgtPnR4X3RpbWVyKTsKKwlocnRpbWVyX2NhbmNlbCgmY3R4LT50eF90
-aW1lcik7CiAKIAl0YXNrbGV0X2tpbGwoJmN0eC0+YmgpOwogCg==
+RnJvbTogRGFuaWVsIExlemNhbm8gPGRhbmllbC5sZXpjYW5vQGxpbmFyby5vcmc+CkRhdGU6IFR1
+ZSwgMTkgSnVuIDIwMTggMTY6MTQ6MzAgKzAyMDAKCj4gVGhlIGNvZGUgZG9lczoKPiAKPiAgaWYg
+KGhydGltZXJfYWN0aXZlKCZ0KSkKPiAgICAgaHJ0aW1lcl9jYW5jZWwoJnQpOwo+IAo+IEhvd2V2
+ZXIsIGhydGltZXJfY2FuY2VsKCkgY2hlY2tzIGlmIHRoZSB0aW1lciBpcyBhY3RpdmUsIHNvIHRo
+ZQo+IHRlc3QgYWJvdmUgaXMgcG9pbnRsZXNzLgo+IAo+IFNpZ25lZC1vZmYtYnk6IERhbmllbCBM
+ZXpjYW5vIDxkYW5pZWwubGV6Y2Fub0BsaW5hcm8ub3JnPgoKQXBwbGllZC4KLS0tClRvIHVuc3Vi
+c2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11
+c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3Jn
+Ck1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21v
+LWluZm8uaHRtbAo=
