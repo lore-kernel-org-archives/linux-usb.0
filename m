@@ -2,9 +2,9 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: cdc-acm: Decrement tty port's refcount if probe() fail
-From: Oliver Neukum <oneukum@suse.de>
-Message-Id: <1529571736.17868.3.camel@suse.de>
-Date: Thu, 21 Jun 2018 11:02:16 +0200
+From: Oliver Neukum <oneukum@suse.com>
+Message-Id: <1529571758.17868.4.camel@suse.com>
+Date: Thu, 21 Jun 2018 11:02:38 +0200
 To: Jaejoong Kim <climbbb.kim@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
@@ -18,8 +18,8 @@ dHlfcG9ydF9vcGVyYXRpb25zLgo+IAo+IFRoZSBwcm9ibGVtIGlzIHRoZSBkZXN0cnVjdCgpIGNh
 bGxiYWNrIGZ1bmN0aW9uIGlzIG5vdCBjYWxsZWQgaWYKPiB0aGUgcHJvYmUoKSBmYWlscywgYmVj
 YXVzZSB0dHlfcG9ydCdzIHJlZmNvdW50IGlzIG5vdCB6ZXJvLiBTbywKPiBhZGQgdHR5X3BvcnRf
 cHV0KCkgd2hlbiBwcm9iZSgpIGZhaWxzLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEphZWpvb25nIEtp
-bSA8Y2xpbWJiYi5raW1AZ21haWwuY29tPgpBY2tlZC1ieTogT2xpdmVyIE5ldWt1bSA8b25ldWt1
-bUBzdXNlLmNvbT4KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBs
-aW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBt
-YWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92
-Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
+bSA8Y2xpbWJiYi5raW1AZ21haWwuY29tPgoKQWNrZWQtYnk6IE9saXZlciBOZXVrdW0gPG9uZXVr
+dW1Ac3VzZS5jb20+Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUg
+bGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8g
+bWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8v
+dmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
