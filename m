@@ -2,23 +2,35 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: chipidea: Fix ULPI on imx51
-From: Peter Chen <peter.chen@nxp.com>
-Message-Id: <HE1PR04MB1450D1881C07BEAEF4A8283B8B750@HE1PR04MB1450.eurprd04.prod.outlook.com>
-Date: Fri, 22 Jun 2018 00:49:43 +0000
-To: Nikita Yushchenko <nikita.yoush@cogentembedded.com>, Andrey Smirnov <andrew.smirnov@gmail.com>, Fabio Estevam <festevam@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, Fabio Estevam <fabio.estevam@nxp.com>, Chris Healy <cphealy@gmail.com>, Lucas Stach <l.stach@pengutronix.de>, Sebastian Reichel <sebastian.reichel@collabora.co.uk>
+From: Fabio Estevam <festevam@gmail.com>
+Message-Id: <CAOMZO5CumdNSP6iTfgXPdmpcZwh7YmBstUpAmb3A1QAf1UWJdw@mail.gmail.com>
+Date: Fri, 22 Jun 2018 13:27:20 -0300
+To: Andrey Smirnov <andrew.smirnov@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Nikita Yushchenko <nikita.yoush@cogentembedded.com>, Peter Chen <peter.chen@nxp.com>, USB list <linux-usb@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>, linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, Fabio Estevam <fabio.estevam@nxp.com>, Chris Healy <cphealy@gmail.com>, Lucas Stach <l.stach@pengutronix.de>, Sebastian Reichel <sebastian.reichel@collabora.co.uk>
 List-ID: <linux-usb.vger.kernel.org>
 
-PiA+Pj4+DQo+ID4+DQo+ID4+IEkgbmV2ZXIgYXNzdW1lZCBpdCB3YXMgYSByZWdyZXNzaW9uIGFu
-ZCB0aGF0IFVTQiB3b3JrZWQgb24gUkRVMSBib2FyZA0KPiA+PiBiZWZvcmUsIHNvIEkgbmV2ZXIg
-dHJpZWQgdG8gc2VlIGlmIHRoaXMgd2FzIGEgcmVncmVzc2lvbi4gSSBjYW4gb25seQ0KPiA+PiB0
-ZWxsIHlvdSB0aGF0IGl0IGhhbmdzIGFzIHNvb24gYXMgYW55IFBPUlRTQyByZWdpc3RlcnMgYXJl
-IGFjY2Vzc2VkLg0KPiA+DQo+ID4gSGFuZyBhdCByZWdpc3RlciBhY2Nlc3MgdXN1YWxseSBtZWFu
-cyB0aGF0IG1vZHVsZSB0aGF0IG93bnMgdGhlDQo+ID4gcmVnaXN0ZXIgaXMgbm90IGNsb2NrZWQu
-DQo+IA0KPiBPbiBSRFUxLCBjYWxsIHRvIHVzYl9waHlfaW5pdCgpIGFjdHVhbGx5IGNhbGxzIHVz
-Yl9nZW5fcGh5X2luaXQoKSB0aGF0IGRvZXMNCj4gcmVndWxhdG9yX2VuYWJsZSgpIGZvciAmdnVz
-Yl9yZWcgYW5kIGNsa19wcmVwYXJlX2VuYWJsZSgpIGZvciAmY2xrXzI2TV91c2IuICBJDQo+IHRo
-aW5nIHNvbWUgb2YgdGhlc2UgdHdvIGlzIGFjdHVhbGx5IG5lZWRlZCB0byBhdm9pZCBoYW5nIG9u
-IHJlZ2lzdGVyIGFjY2Vzcy4NCg0KRmFiaW8sIHdvdWxkIHlvdSBwbGVhc2UgY2hlY2sgYm90aCBy
-ZWd1bGF0b3IgYW5kIGNsb2NrIGZvciBVTFBJIFBIWSBhcmUgb24gYXQgaW14NTFiYmc/DQoNClBl
-dGVyCg==
+SGkgQW5kcmV5LAoKT24gVGh1LCBKdW4gMjEsIDIwMTggYXQgNjo0NCBQTSwgQW5kcmV5IFNtaXJu
+b3YKPGFuZHJldy5zbWlybm92QGdtYWlsLmNvbT4gd3JvdGU6Cgo+IEkganVzdCBmaW5pc2hlZCBl
+eHBlcmltZW50aW5nIHdpdGggaXQgb24gUkRVMSBhbmQgQmFiYmFnZSBib2FyZHMgYW5kIEkKPiBj
+YW4ndCByZXByb2R1Y2UgdGhlIGhhbmcgdGhhdCB5b3UgZGVzY3JpYmUgYWdhaW5zdCA0LjE4LXJj
+MS4gQXQgdGhpcwo+IHBvaW50IEkgd29uZGVyIGlmIGl0J3MgdGhlIGJvb3Rsb2FkZXIgdGhhdCBp
+cyBhIHZhcmlhYmxlIHRoYXQgcGxheXMKPiBpbnRvIHRoaXMuIEkgd2FzIGJvb3RpbmcgYm90aCBi
+b2FyZHMgd2l0aCAyMDE4LjA2LjAgdmVyc2lvbiBvZiBiYXJlYm94Cj4gKyB0aGUgY3VzdG9tIHBh
+dGNoZXMgdGhhdCBjYW4gYmUgZm91bmQgaGVyZQo+IGh0dHBzOi8vZ2l0aHViLmNvbS9uZHJleXMv
+YmFyZWJveC9jb21taXRzL3JkdTEtbmV0Ym9vdC4gTm90ZSB0aGF0IHRoZQo+IGxhc3QgcGF0Y2gg
+aW4gdGhhdCBicmFuY2gvc3RhY2sgd2FzIGFkZGVkIGFzIGEgcGFydCBvZiB0aGlzCj4gaW52ZXN0
+aWdhdGlvbiwgYnV0IGV2ZW4gYmVmb3JlIGl0LCBJIHdhcyBhYmxlIHRvIGJvb3QgTGludXgganVz
+dCBmaW5lLAo+IGFsYmVpdCB3aXRob3V0IHdvcmtpbmcgVVNCLgoKVGhhbmtzIGZvciBpbnZlc3Rp
+Z2F0aW5nIHRoaXMgaXNzdWUuCgpZZXMsIHQgaXMgcG9zc2libGUgdGhhdCB0aGUgZGlmZmVyZW5j
+ZSBpbiBiZWhhdmlvdXIgdGhhdCB3ZSBzZWUgY291bGQKYmUgcmVsYXRlZCB0byB0aGUgZmFjdCB3
+ZSB1c2UgZGlmZmVyZW50IGJvb3Rsb2FkZXJzLgoKSW4gb3JkZXIgdG8gbWFrZSB0aGluZ3MgZWFz
+aWVyLCBJIGFtIHNoYXJpbmcgYSBCdWlsZHJvb3QgaW1hZ2UgZm9yCmlteDUxLWJhYmJhZ2UgdGhh
+dCBjb250YWlucyBVLUJvb3QgMjAxOC4wNSArIGtlcm5lbCA0LjE3LjI6Cmh0dHBzOi8vd3d3LmRy
+b3Bib3guY29tL3MveWV2bnU0eTF6ZGNobmJ0L3NkY2FyZC5pbWc/ZGw9MAoKUGxlYXNlIGZsYXNo
+IGl0IGRpcmVjdGx5IHRvIHRoZSBTRCBjYXJkIHZpYSBkZCBhbmQgYm9vdCBpdC4KCllvdSB3aWxs
+IG5vdGljZSB0aGF0IGl0IHdpbGwgYm9vdCBub3JtYWxseS4gVGhlbiBwbGVhc2UgY29weSBhCjQu
+MTgtcmMxIHpJbWFnZSBpbnRvIHRoZSBmaXJzdCBTRCBjYXJkIHBhcnRpdGlvbiBhbmQgeW91IHdp
+bGwgbm90aWNlCnRoZSBoYW5nLgoKVGhhbmtzCi0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMg
+bGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBv
+ZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBp
+bmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
