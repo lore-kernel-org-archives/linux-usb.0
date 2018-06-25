@@ -2,21 +2,27 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v7,3/3] MAINTAINERS: add subfolders for nuvoton *npcm*
-From: Avi Fishman <avifishman70@gmail.com>
-Message-Id: <20180620063306.134820-4-avifishman70@gmail.com>
-Date: Wed, 20 Jun 2018 09:33:06 +0300
-To: gregkh@linuxfoundation.org, stern@rowland.harvard.edu
-Cc: avifishman70@gmail.com, tmaimon77@gmail.com, venture@google.com, yuenn@google.com, brendanhiggins@google.com, mathias.nyman@linux.intel.com, bjorn.andersson@linaro.org, jhogan@kernel.org, albeu@free.fr, chunfeng.yun@mediatek.com, tony@atomide.com, baolu.lu@linux.intel.com, elder@linaro.org, digetx@gmail.com, kstewart@linuxfoundation.org, hdegoede@redhat.com, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, openbmc@lists.ozlabs.org, robh+dt@kernel.org, mark.rutland@arm.com, devicetree@vger.kernel.org, Avi Fishman <AviFishman70@gmail.com>
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20180625135953.GA3999@kroah.com>
+Date: Mon, 25 Jun 2018 21:59:53 +0800
+To: avifishman70@gmail.com
+Cc: stern@rowland.harvard.edu, tmaimon77@gmail.com, venture@google.com, yuenn@google.com, brendanhiggins@google.com, mathias.nyman@linux.intel.com, bjorn.andersson@linaro.org, jhogan@kernel.org, albeu@free.fr, chunfeng.yun@mediatek.com, tony@atomide.com, baolu.lu@linux.intel.com, elder@linaro.org, digetx@gmail.com, kstewart@linuxfoundation.org, hdegoede@redhat.com, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, openbmc@lists.ozlabs.org, robh+dt@kernel.org, mark.rutland@arm.com, devicetree@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-RnJvbTogQXZpIEZpc2htYW4gPEF2aUZpc2htYW43MEBnbWFpbC5jb20+CgpTaWduZWQtb2ZmLWJ5
-OiBBdmkgRmlzaG1hbiA8QXZpRmlzaG1hbjcwQGdtYWlsLmNvbT4KLS0tCiBNQUlOVEFJTkVSUyB8
-IDMgKysrCiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvTUFJ
-TlRBSU5FUlMgYi9NQUlOVEFJTkVSUwppbmRleCBlMGNlM2M1ZjMyZTUuLjIzYzQ1MGFkYWQ0NCAx
-MDA2NDQKLS0tIGEvTUFJTlRBSU5FUlMKKysrIGIvTUFJTlRBSU5FUlMKQEAgLTE3MjcsNyArMTcy
-NywxMCBAQCBGOglhcmNoL2FybS9tYWNoLW5wY20vCiBGOglhcmNoL2FybS9ib290L2R0cy9udXZv
-dG9uLW5wY20qCiBGOglpbmNsdWRlL2R0LWJpbmRpbmdzL2Nsb2NrL251dm90b24sbnBjbTd4eC1j
-bGtzLmgKIEY6CWRyaXZlcnMvKi8qbnBjbSoKK0Y6CWRyaXZlcnMvKi8qLypucGNtKgogRjoJRG9j
-dW1lbnRhdGlvbi8qLypucGNtKgorRjoJRG9jdW1lbnRhdGlvbi8qLyovKm5wY20qCitGOglEb2N1
-bWVudGF0aW9uLyovKi8qLypucGNtKgogCiBBUk0vTlVWT1RPTiBXOTBYOTAwIEFSTSBBUkNISVRF
-Q1RVUkUKIE06CVdhbiBab25nU2h1biA8bWN1b3MuY29tQGdtYWlsLmNvbT4K
+T24gV2VkLCBKdW4gMjAsIDIwMTggYXQgMDk6MzM6MDZBTSArMDMwMCwgYXZpZmlzaG1hbjcwQGdt
+YWlsLmNvbSB3cm90ZToKPiBGcm9tOiBBdmkgRmlzaG1hbiA8QXZpRmlzaG1hbjcwQGdtYWlsLmNv
+bT4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBBdmkgRmlzaG1hbiA8QXZpRmlzaG1hbjcwQGdtYWlsLmNv
+bT4KCk5vIGNoYW5nZWxvZyB0ZXh0PwoKPiAtLS0KPiAgTUFJTlRBSU5FUlMgfCAzICsrKwo+ICAx
+IGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAtLWdpdCBhL01BSU5UQUlO
+RVJTIGIvTUFJTlRBSU5FUlMKPiBpbmRleCBlMGNlM2M1ZjMyZTUuLjIzYzQ1MGFkYWQ0NCAxMDA2
+NDQKPiAtLS0gYS9NQUlOVEFJTkVSUwo+ICsrKyBiL01BSU5UQUlORVJTCj4gQEAgLTE3MjcsNyAr
+MTcyNywxMCBAQCBGOglhcmNoL2FybS9tYWNoLW5wY20vCj4gIEY6CWFyY2gvYXJtL2Jvb3QvZHRz
+L251dm90b24tbnBjbSoKPiAgRjoJaW5jbHVkZS9kdC1iaW5kaW5ncy9jbG9jay9udXZvdG9uLG5w
+Y203eHgtY2xrcy5oCj4gIEY6CWRyaXZlcnMvKi8qbnBjbSoKPiArRjoJZHJpdmVycy8qLyovKm5w
+Y20qCj4gIEY6CURvY3VtZW50YXRpb24vKi8qbnBjbSoKPiArRjoJRG9jdW1lbnRhdGlvbi8qLyov
+Km5wY20qCj4gK0Y6CURvY3VtZW50YXRpb24vKi8qLyovKm5wY20qCgpQYXRjaCBkb2VzIG5vdCBh
+cHBseSB0byA0LjE4LXJjMiA6KAoKdGhhbmtzLAoKZ3JlZyBrLWgKLS0tClRvIHVuc3Vic2NyaWJl
+IGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGlu
+CnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUg
+bWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8u
+aHRtbAo=
