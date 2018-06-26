@@ -2,14 +2,26 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2] arm64: dts: msm8996: Use dwc3-qcom glue driver for USB
-From: Julien Massot <jmassot@softbankrobotics.com>
-Message-Id: <CADGp=QdjwY=9C26NtehXLk5V=k7f1fqorzQcx98Gtc4jK0hc+A@mail.gmail.com>
-Date: Mon, 11 Jun 2018 14:33:55 +0200
-To: Vivek Gautam <vivek.gautam@codeaurora.org>
-Cc: Manu Gautam <mgautam@codeaurora.org>, andy.gross@linaro.org, linux-soc@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, dianders@chromium.org, linux-usb@vger.kernel.org, felipe.balbi@linux.intel.com, gregkh@linuxfoundation.org, bjorn.andersson@linaro.org
+From: Manu Gautam <mgautam@codeaurora.org>
+Message-Id: <7a791c29-c5b1-4e64-63a7-702c9ae2b267@codeaurora.org>
+Date: Tue, 26 Jun 2018 15:07:55 +0530
+To: Vivek Gautam <vivek.gautam@codeaurora.org>, andy.gross@linaro.org
+Cc: linux-soc@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, dianders@chromium.org, linux-usb@vger.kernel.org, felipe.balbi@linux.intel.com, gregkh@linuxfoundation.org, bjorn.andersson@linaro.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgVml2ZWssCgo+IEkgaGF2ZSBhIGJyYW5jaCB0aGF0J3MgYmFzZWQgb24gNC4xNy4gWW91IGNh
-biBwaWNrIHRoYXQuCj4gaHR0cHM6Ly9naXRodWIuY29tL3ZpdmVrZ2F1dGFtMS9saW51eC9jb21t
-aXRzL3Y0LjE3L2RiODIwYwo+CgpUaGFua3MgYSBsb3QsCkkgd2lsbCB0ZXN0IHRoaXMgYnJhbmNo
-LgoKSnVsaWVuCg==
+SGkgQW5keSwKCk9uIDYvNy8yMDE4IDI6MDAgUE0sIFZpdmVrIEdhdXRhbSB3cm90ZToKPiAKPiAK
+PiBPbiA1LzMxLzIwMTggNDoxNyBQTSwgTWFudSBHYXV0YW0gd3JvdGU6Cj4+IE1vdmUgZnJvbSBk
+d2MzLW9mLXNpbXBsZSB0byBkd2MzLXFjb20gZ2x1ZSBkcml2ZXIgdG8KPj4gc3VwcG9ydCBwZXJp
+cGhlcmFsIG1vZGUgd2hpY2ggcmVxdWlyZXMgcXNjcmF0Y2ggd3JhcHBlcgo+PiBwcm9ncmFtbWlu
+ZyBvbiBWQlVTIGV2ZW50Lgo+Pgo+PiBGaXhlczogYTQzMzNjM2E2YmE5ICgidXNiOiBkd2MzOiBB
+ZGQgUXVhbGNvbW0gRFdDMyBnbHVlIGRyaXZlciIpCj4+IFNpZ25lZC1vZmYtYnk6IE1hbnUgR2F1
+dGFtIDxtZ2F1dGFtQGNvZGVhdXJvcmEub3JnPgo+PiAtLS0KPj4KPj4gQ2hhbmdlcyBzaW5jZSB2
+MToKPj4gwqAgLSBVcGRhdGUgdW5pdCBhZGRyZXNzIG9mIERUIG5vZGUgYXMgcGVyIERvdWcncyBj
+b21tZW50Cj4+Cj4+IMKgIGFyY2gvYXJtNjQvYm9vdC9kdHMvcWNvbS9hcHE4MDk2LWRiODIwYy5k
+dHNpIHzCoCA2ICsrKystLQo+PiDCoCBhcmNoL2FybTY0L2Jvb3QvZHRzL3Fjb20vbXNtODk5Ni5k
+dHNpwqDCoMKgwqDCoMKgwqAgfCAxMCArKysrKystLS0tCj4+IMKgIDIgZmlsZXMgY2hhbmdlZCwg
+MTAgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkKPiAKPiBUZXN0ZWQgb24gREI4MjBjLiBX
+b3JrcyBmaW5lLgo+IFRlc3RlZC1ieTogVml2ZWsgR2F1dGFtIDx2aXZlay5nYXV0YW1AY29kZWF1
+cm9yYS5vcmc+Cj4gCgpBbmR5LCBsZXQgbWUga25vdyBpZiB0aGlzIGxvb2tzIGdvb2QgdG8geW91
+LgpBbmQgaXQgd291bGQgYmUgZ3JlYXQgdG8gZ2V0IHRoaXMgaW4gNC4xOCB0byBmaXggVVNCIHJl
+Z3Jlc3Npb24gb24gZGI4MjBjLgoKVGhhbmtzLApNYW51Cg==
