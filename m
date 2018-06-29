@@ -2,23 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2] usb: gadget: add error handling for skb_realloc_headroom
-From: Zhouyang Jia <jiazhouyang09@gmail.com>
-Message-Id: <1529410988-70261-1-git-send-email-jiazhouyang09@gmail.com>
-Date: Tue, 19 Jun 2018 20:23:03 +0800
-Cc: Zhouyang Jia <jiazhouyang09@gmail.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Vincent Pelletier <plr.vincent@gmail.com>, Johan Hovold <johan@kernel.org>, David Lechner <david@lechnology.com>, Bhumika Goyal <bhumirks@gmail.com>, Andrew Gabbasov <andrew_gabbasov@mentor.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Felipe Balbi <balbi@kernel.org>
+Message-Id: <87vaa2drqd.fsf@linux.intel.com>
+Date: Fri, 29 Jun 2018 09:36:10 +0300
+To: linux-usb-owner@vger.kernel.org
+Cc: Zhouyang Jia <jiazhouyang09@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Vincent Pelletier <plr.vincent@gmail.com>, Johan Hovold <johan@kernel.org>, David Lechner <david@lechnology.com>, Bhumika Goyal <bhumirks@gmail.com>, Andrew Gabbasov <andrew_gabbasov@mentor.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-V2hlbiBza2JfcmVhbGxvY19oZWFkcm9vbSBmYWlscywgdGhlIGxhY2sgb2YgZXJyb3ItaGFuZGxp
-bmcgY29kZSBtYXkKY2F1c2UgdW5leHBlY3RlZCByZXN1bHRzLgoKVGhpcyBwYXRjaCBhZGRzIGVy
-cm9yLWhhbmRsaW5nIGNvZGUgYWZ0ZXIgY2FsbGluZyBza2JfcmVhbGxvY19oZWFkcm9vbS4KClNp
-Z25lZC1vZmYtYnk6IFpob3V5YW5nIEppYSA8amlhemhvdXlhbmcwOUBnbWFpbC5jb20+Ci0tLQog
-ZHJpdmVycy91c2IvZ2FkZ2V0L2Z1bmN0aW9uL2Zfcm5kaXMuYyB8IDMgKysrCiAxIGZpbGUgY2hh
-bmdlZCwgMyBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvZ2FkZ2V0L2Z1
-bmN0aW9uL2Zfcm5kaXMuYyBiL2RyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi9mX3JuZGlzLmMK
-aW5kZXggZDQ4ZGYzNi4uMTdjMTY0YiAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvZ2FkZ2V0L2Z1
-bmN0aW9uL2Zfcm5kaXMuYworKysgYi9kcml2ZXJzL3VzYi9nYWRnZXQvZnVuY3Rpb24vZl9ybmRp
-cy5jCkBAIC0zNzQsNiArMzc0LDkgQEAgc3RhdGljIHN0cnVjdCBza19idWZmICpybmRpc19hZGRf
-aGVhZGVyKHN0cnVjdCBnZXRoZXIgKnBvcnQsCiAJCXJldHVybiBOVUxMOwogCiAJc2tiMiA9IHNr
-Yl9yZWFsbG9jX2hlYWRyb29tKHNrYiwgc2l6ZW9mKHN0cnVjdCBybmRpc19wYWNrZXRfbXNnX3R5
-cGUpKTsKKwlpZiAoIXNrYjIpCisJCXJldHVybiBOVUxMOworCiAJcm5kaXNfYWRkX2hkcihza2Iy
-KTsKIAogCWRldl9rZnJlZV9za2Ioc2tiKTsK
+SGksCgpsaW51eC11c2Itb3duZXJAdmdlci5rZXJuZWwub3JnIHdyaXRlczoKCj4gV2hlbiBza2Jf
+cmVhbGxvY19oZWFkcm9vbSBmYWlscywgdGhlIGxhY2sgb2YgZXJyb3ItaGFuZGxpbmcgY29kZSBt
+YXkKPiBjYXVzZSB1bmV4cGVjdGVkIHJlc3VsdHMuCj4KPiBUaGlzIHBhdGNoIGFkZHMgZXJyb3It
+aGFuZGxpbmcgY29kZSBhZnRlciBjYWxsaW5nIHNrYl9yZWFsbG9jX2hlYWRyb29tLgo+Cj4gU2ln
+bmVkLW9mZi1ieTogWmhvdXlhbmcgSmlhIDxqaWF6aG91eWFuZzA5QGdtYWlsLmNvbT4KCmZyb20g
+bGludXgtdXNiLW93bmVyQHZnZXIua2VybmVsLm9yZz8/Cg==
