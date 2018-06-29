@@ -1,17 +1,28 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2] usb: gadget: add error handling for skb_realloc_headroom
-From: Felipe Balbi <balbi@kernel.org>
-Message-Id: <87vaa2drqd.fsf@linux.intel.com>
-Date: Fri, 29 Jun 2018 09:36:10 +0300
-To: linux-usb-owner@vger.kernel.org
-Cc: Zhouyang Jia <jiazhouyang09@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Vincent Pelletier <plr.vincent@gmail.com>, Johan Hovold <johan@kernel.org>, David Lechner <david@lechnology.com>, Bhumika Goyal <bhumirks@gmail.com>, Andrew Gabbasov <andrew_gabbasov@mentor.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [2/5] dt-bindings: phy-mtk-tphy: add optional properties for u2phy
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Message-Id: <86d49766059a738e7182a49e6c113a12403b3b01.1530238400.git.chunfeng.yun@mediatek.com>
+Date: Fri, 29 Jun 2018 10:20:28 +0800
+To: Kishon Vijay Abraham I <kishon@ti.com>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>, Rob Herring <robh+dt@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgpsaW51eC11c2Itb3duZXJAdmdlci5rZXJuZWwub3JnIHdyaXRlczoKCj4gV2hlbiBza2Jf
-cmVhbGxvY19oZWFkcm9vbSBmYWlscywgdGhlIGxhY2sgb2YgZXJyb3ItaGFuZGxpbmcgY29kZSBt
-YXkKPiBjYXVzZSB1bmV4cGVjdGVkIHJlc3VsdHMuCj4KPiBUaGlzIHBhdGNoIGFkZHMgZXJyb3It
-aGFuZGxpbmcgY29kZSBhZnRlciBjYWxsaW5nIHNrYl9yZWFsbG9jX2hlYWRyb29tLgo+Cj4gU2ln
-bmVkLW9mZi1ieTogWmhvdXlhbmcgSmlhIDxqaWF6aG91eWFuZzA5QGdtYWlsLmNvbT4KCmZyb20g
-bGludXgtdXNiLW93bmVyQHZnZXIua2VybmVsLm9yZz8/Cg==
+QWRkIHNvbWUgb3B0aW9uYWwgcHJvcGVydGllcyBmb3IgZXllIGRpYWdyYW0gdGVzdCBhbmQgQkMx
+MiBvZgp1MnBoeQoKU2lnbmVkLW9mZi1ieTogQ2h1bmZlbmcgWXVuIDxjaHVuZmVuZy55dW5AbWVk
+aWF0ZWsuY29tPgotLS0KIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9waHkvcGh5
+LW10ay10cGh5LnR4dCB8IDYgKysrKysrCiAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCsp
+CgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3BoeS9waHkt
+bXRrLXRwaHkudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3BoeS9waHkt
+bXRrLXRwaHkudHh0CmluZGV4IDBkMzRiMmIuLmE1ZjdhNGYgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50
+YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9waHkvcGh5LW10ay10cGh5LnR4dAorKysgYi9Eb2N1
+bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvcGh5L3BoeS1tdGstdHBoeS50eHQKQEAgLTQ3
+LDYgKzQ3LDEyIEBAIFJlcXVpcmVkIHByb3BlcnRpZXMgKHBvcnQgKGNoaWxkKSBub2RlKToKIAkJ
+CS0gUEhZX1RZUEVfUENJRQogCQkJLSBQSFlfVFlQRV9TQVRBCiAKK09wdGlvbmFsIHByb3BlcnRp
+ZXMgKFBIWV9UWVBFX1VTQjIgcG9ydCAoY2hpbGQpIG5vZGUpOgorLSBtZWRpYXRlayxleWUtc3Jj
+CTogdTMyLCB0aGUgdmFsdWUgb2Ygc2xldyByYXRlIGNhbGlicmF0ZQorLSBtZWRpYXRlayxleWUt
+dnJ0CTogdTMyLCB0aGUgc2VsZWN0aW9uIG9mIFZSVCByZWZlcmVuY2Ugdm9sdGFnZQorLSBtZWRp
+YXRlayxleWUtdGVybQk6IHUzMiwgdGhlIHNlbGVjdGlvbiBvZiBIU19UWCBURVJNIHJlZmVyZW5j
+ZSB2b2x0YWdlCistIG1lZGlhdGVrLGJjMTIJOiBib29sLCBlbmFibGUgQkMxMiBvZiB1MnBoeSBp
+ZiBzdXBwb3J0IGl0CisKIEV4YW1wbGU6CiAKIHUzcGh5OiB1c2ItcGh5QDExMjkwMDAwIHsK
