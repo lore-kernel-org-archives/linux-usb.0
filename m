@@ -3,8 +3,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/2] cdc_ncm: Handle multicast Ethernet traffic
 From: =?utf-8?q?Miguel_Rodr=C3=ADguez_P=C3=A9rez?= <miguel@det.uvigo.gal>
-Message-Id: <08ae8ed9-f1c9-aebf-7749-405b3ea08665@det.uvigo.gal>
-Date: Sat, 30 Jun 2018 15:41:25 +0200
+Message-Id: <3ad90982-414d-108f-304e-e22ae7df9748@det.uvigo.gal>
+Date: Sat, 30 Jun 2018 16:24:35 +0200
 To: Oliver Neukum <oneukum@suse.com>, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
