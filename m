@@ -2,22 +2,18 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2] USB: chipidea: Do not hang when CONFIG_USB_CHIPIDEA_ULPI is not selected
-From: Shawn Guo <shawnguo@kernel.org>
-Message-Id: <20180703014805.GX4348@dragon>
-Date: Tue, 3 Jul 2018 09:48:07 +0800
-To: Fabio Estevam <festevam@gmail.com>
+From: Fabio Estevam <festevam@gmail.com>
+Message-Id: <CAOMZO5AnrF9e4yJ7-ZOoCEVmG1PZbieV4fcTprNngiT-bq=1+A@mail.gmail.com>
+Date: Mon, 2 Jul 2018 23:00:06 -0300
+To: Shawn Guo <shawnguo@kernel.org>
 Cc: Peter Chen <peter.chen@nxp.com>, Andrey Smirnov <andrew.smirnov@gmail.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, Lucas Stach <l.stach@pengutronix.de>, Sebastian Reichel <sebastian.reichel@collabora.co.uk>, dl-linux-imx <linux-imx@nxp.com>, Sascha Hauer <kernel@pengutronix.de>, Fabio Estevam <fabio.estevam@nxp.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gTW9uLCBKdWwgMDIsIDIwMTggYXQgMDg6NTI6MzRBTSAtMDMwMCwgRmFiaW8gRXN0ZXZhbSB3
-cm90ZToKPiBIaSBQZXRlciwKPiAKPiBPbiBNb24sIEp1bCAyLCAyMDE4IGF0IDEyOjA4IEFNLCBQ
-ZXRlciBDaGVuIDxwZXRlci5jaGVuQG54cC5jb20+IHdyb3RlOgo+IAo+ID4gRmFiaW8sIHNpbmNl
-IHRoaXMgZnVuY3Rpb24gaGFzIGRlcGVuZGVuY3kgd2l0aCBkZWZjb25maWcsIGlzIHRoZSBkZWZj
-b25maWcgY2hhbmdlIGEgZml4IGZvciB2NC4xOC1yYwo+ID4gb3IgZm9yIHY0LjE5LXJjMT8KPiAK
-PiBJIGhhdmUgc2VudCB0aGUgZGVmY29uZmlnIGNoYW5nZXMgZm9yIGlteF92Nl92N19kZWZjb25m
-aWcgYW5kCj4gaW14X3Y0X3Y1X2RlZmNvbmZpZyBhbmQgaG9wZSB0aGF0IHRoZXkgY291bGQgYmUg
-YXBwbGllZCBmb3IgNC4xOC1yYy4KCkkgd2lsbCBtYWtlIHN1cmUgYm90aCBkZWZjb25maWcgcGF0
-Y2hlcyBnbyBpbnRvIDQuMTgtcmMuCgpTaGF3bgotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlz
-IGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkg
-b2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8g
-aW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
+T24gTW9uLCBKdWwgMiwgMjAxOCBhdCAxMDo0OCBQTSwgU2hhd24gR3VvIDxzaGF3bmd1b0BrZXJu
+ZWwub3JnPiB3cm90ZToKCj4gSSB3aWxsIG1ha2Ugc3VyZSBib3RoIGRlZmNvbmZpZyBwYXRjaGVz
+IGdvIGludG8gNC4xOC1yYy4KClRoYW5rcywgU2hhd24hCgpQZXRlciwKCkNvdWxkIHlvdSBwbGVh
+c2UgdGhlbiBxdWV1ZSB0aGlzIGNoaXBpZGVhIHBhdGNoIGZvciA0LjE4LXJjPwoKVGhhbmtzCi0t
+LQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3Jp
+YmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIu
+a2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3Jn
+L21ham9yZG9tby1pbmZvLmh0bWwK
