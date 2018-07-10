@@ -1,19 +1,29 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [1/3] usb: gadget: f_fs: Only return delayed status when len is 0
-From: Felipe Balbi <balbi@kernel.org>
-Message-Id: <8760122s2p.fsf@linux.intel.com>
-Date: Thu, 26 Jul 2018 13:45:50 +0300
-To: Jerry Zhang <zhangjerry@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-Cc: Michal Nazarewicz <mina86@mina86.com>, Krzysztof Opasiak <kopasiak90@gmail.com>, Badhri Jagan Sridharan <badhri@google.com>, Andrzej Pietrasiewicz <andrzej.p@samsung.com>, Lars-Peter Clausen <lars@metafoo.de>, felixhaedicke@web.de
+Subject: [v2] arm64: dts: msm8996: Use dwc3-qcom glue driver for USB
+From: lemagoup@gmail.com
+Message-Id: <CAEz4NHpAYwgW0s7euAw4kWrc=V4Z9Oritu9+1rmkxmSwuZ5=ow@mail.gmail.com>
+Date: Tue, 10 Jul 2018 17:03:32 +0200
+To: Felipe Balbi <felipe.balbi@linux.intel.com>
+Cc: Vivek Gautam <vivek.gautam@codeaurora.org>, Manu Gautam <mgautam@codeaurora.org>, andy.gross@linaro.org, linux-soc@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, dianders@chromium.org, linux-usb@vger.kernel.org, gregkh@linuxfoundation.org, bjorn.andersson@linaro.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgpKZXJyeSBaaGFuZyA8emhhbmdqZXJyeUBnb29nbGUuY29tPiB3cml0ZXM6Cj4gSGkgRmVs
-aXBlLAo+Cj4gSSBub3RpY2VkIHRoaXMgd2Fzbid0IHF1ZXVlZCB1cCBmb3IgNC4xOC4gRG8geW91
-IHRoaW5rIHRoZXJlIGlzCj4gYW55dGhpbmcgSSBuZWVkIHRvIGRvIHRvIGdldCB0aGlzIHBhdGNo
-IHNldCBpbnRvIDQuMTk/IEFsc28sIGNhbiB3ZSBhdAo+IGxlYXN0IGFkZCBqdXN0IHRoaXMgcGF0
-Y2ggKCd1c2I6IGdhZGdldDogZl9mczogT25seSByZXR1cm4gZGVsYXllZAo+IHN0YXR1cyB3aGVu
-IGxlbiBpcyAwJykgdG8gNC4xOCBhcyBmdW5jdGlvbmZzIGNvbnRyb2wgcmVxdWVzdHMgd29uJ3QK
-PiB3b3JrIHdpdGhvdXQgaXQ/CgpwYXRjaCAxIGlzIG5vdyBxdWV1ZWQgZm9yIG5leHQgbWVyZ2Ug
-d2luZG93LiBXaGF0IHNob3VsZCBJIGRvIHdpdGgKcGF0Y2hlcyAyIGFuZCAzPwo=
+SGkgRmVsaXBlLAoKMjAxOC0wNi0yNyAxNDozMCBHTVQrMDI6MDAgRmVsaXBlIEJhbGJpIDxmZWxp
+cGUuYmFsYmlAbGludXguaW50ZWwuY29tPjoKPgo+IGxvb2tzIGxpa2Ugd2UgbmVlZCB0byBkbyBh
+d2F5IHdpdGggdGhlIHdhaXRfZXZlbnRfbG9ja19pcnEoKQo+IGNhbGwuIHVzYl9lcF9kZXF1ZXVl
+KCkgY2FuIGJlIGNhbGxlZCBmcm9tIHdpdGhpbiB0aGUgY29udHJvbGxlcidzCj4gaW50ZXJydXB0
+IGhhbmRsZXIsIHNvIHdlIGNhbid0IHJlbHkgb24gd2FpdF9ldmVudF9sb2NrX2lycSgpLiBJIGd1
+ZXNzCj4gdGhlIGJlc3QgdGhpbmcgaGVyZSB3b3VsZCBiZSB0byBtYXJrIFRSQnMgYXMgZGlydHkg
+KGFuZCBub3QgaW5jcmVtZW50Cj4gZGVxdWV1ZSBwb2ludGVyKSwgc28gdGhleSBhcmVuJ3QgcmV1
+c2VkIGJ5IGFjY2lkZW50LCB0aGVuIGxldCBlbmRwb2ludAo+IGNvbnRpbnVlIHByb2Nlc3Npbmcu
+IE9uY2UgY29tbWFuZCBjb21wbGV0aW9uIGludGVycnVwdCBmaXJlcywgd2UKPiBpbmNyZW1lbnQg
+ZGVxdWV1ZSBwb2ludGVyLgo+Cj4gVGhpcyBzaG91bGQgd29yayBiZXR0ZXIsIEkgc3VwcG9zZS4g
+RG8geW91IHdhbnQgYSBzaG90IGF0IGltcGxlbWVudGluZwo+IHRoaXM/CgpJIHdyb3RlIGEgcGF0
+Y2ggdG8gaW1wbGVtZW50IHRoaXMgbGFzdCB3ZWVrLCBhbmQgc2VudCBpdCB0byBsaW51eC1hcm0t
+bXNtLgpGZWVsIGZyZWUgdG8gcmV2aWV3IGl0IGFuZCB0ZWxsIG1lIGlmIHRoaXMgY29tcGxpZXMg
+d2l0aCB3aGF0IHlvdQpzdWdnZXN0ZWQgdG8gbWUuCgpSZWdhcmRzLAoKUGllcnJlIExlIE1hZ291
+cm91Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5z
+dWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21v
+QHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJu
+ZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
