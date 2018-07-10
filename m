@@ -2,25 +2,18 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: cdc_acm: Add quirk for Castles VEGA3000
-From: Lubomir Rintel <lkundrak@v3.sk>
-Message-Id: <20180710062849.915863-1-lkundrak@v3.sk>
-Date: Tue, 10 Jul 2018 08:28:49 +0200
-To: linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Oliver Neukum <oneukum@suse.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lubomir Rintel <lkundrak@v3.sk>
+From: Oliver Neukum <oneukum@suse.com>
+Message-Id: <1531218026.15323.0.camel@suse.com>
+Date: Tue, 10 Jul 2018 12:20:26 +0200
+To: Lubomir Rintel <lkundrak@v3.sk>, linux-usb@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhlIGRldmljZSAoYSBQT1MgdGVybWluYWwpIGltcGxlbWVudHMgQ0RDIEFDTSwgYnV0IGhhcyBu
-b3QgdW5pb24KZGVzY3JpcHRvci4KClNpZ25lZC1vZmYtYnk6IEx1Ym9taXIgUmludGVsIDxsa3Vu
-ZHJha0B2My5zaz4KLS0tCiBkcml2ZXJzL3VzYi9jbGFzcy9jZGMtYWNtLmMgfCAzICsrKwogMSBm
-aWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2Ns
-YXNzL2NkYy1hY20uYyBiL2RyaXZlcnMvdXNiL2NsYXNzL2NkYy1hY20uYwppbmRleCA5OThiMzJk
-MDE2N2UuLjc1YzQ2MjNhZDc3OSAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvY2xhc3MvY2RjLWFj
-bS5jCisrKyBiL2RyaXZlcnMvdXNiL2NsYXNzL2NkYy1hY20uYwpAQCAtMTgzMSw2ICsxODMxLDkg
-QEAgc3RhdGljIGNvbnN0IHN0cnVjdCB1c2JfZGV2aWNlX2lkIGFjbV9pZHNbXSA9IHsKIAl7IFVT
-Ql9ERVZJQ0UoMHgwOWQ4LCAweDAzMjApLCAvKiBFbGF0ZWMgR21iSCBUV04zICovCiAJLmRyaXZl
-cl9pbmZvID0gTk9fVU5JT05fTk9STUFMLCAvKiBoYXMgbWlzcGxhY2VkIHVuaW9uIGRlc2NyaXB0
-b3IgKi8KIAl9LAorCXsgVVNCX0RFVklDRSgweDBjYTYsIDB4YTA1MCksIC8qIENhc3RsZXMgVkVH
-QTMwMDAgKi8KKwkuZHJpdmVyX2luZm8gPSBOT19VTklPTl9OT1JNQUwsIC8qIHJlcG9ydHMgemVy
-byBsZW5ndGggZGVzY3JpcHRvciAqLworCX0sCiAKIAl7IFVTQl9ERVZJQ0UoMHgyOTEyLCAweDAw
-MDEpLCAvKiBBVE9MIEZQcmludCAqLwogCS5kcml2ZXJfaW5mbyA9IENMRUFSX0hBTFRfQ09ORElU
-SU9OUywK
+T24gRGksIDIwMTgtMDctMTAgYXQgMDg6MjggKzAyMDAsIEx1Ym9taXIgUmludGVsIHdyb3RlOgo+
+IFRoZSBkZXZpY2UgKGEgUE9TIHRlcm1pbmFsKSBpbXBsZW1lbnRzIENEQyBBQ00sIGJ1dCBoYXMg
+bm90IHVuaW9uCj4gZGVzY3JpcHRvci4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBMdWJvbWlyIFJpbnRl
+bCA8bGt1bmRyYWtAdjMuc2s+CkFja2VkLWJ5OiBPbGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2Uu
+Y29tPgotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVu
+c3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9t
+b0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2Vy
+bmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
