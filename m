@@ -2,21 +2,25 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [02/31] usb: usbssp: Added some decoding functions.
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20180712061030.GB20905@kroah.com>
-Date: Thu, 12 Jul 2018 08:10:30 +0200
-To: Pawel Laszczak <pawell@cadence.com>
-Cc: linux-usb@vger.kernel.org, Felipe Balbi <balbi@kernel.org>, linux-kernel@vger.kernel.org, ltyrala@cadence.com, adouglas@cadence.com
+From: Pawel Laszczak <pawell@cadence.com>
+Message-Id: <BYAPR07MB4709D8EB760716D0F9B0F4FBDD590@BYAPR07MB4709.namprd07.prod.outlook.com>
+Date: Thu, 12 Jul 2018 06:28:33 +0000
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, Felipe Balbi <balbi@kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Lukasz Tyrala <ltyrala@cadence.com>, Alan Douglas <adouglas@cadence.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCBKdWwgMTIsIDIwMTggYXQgMDY6NDY6NTlBTSArMDEwMCwgUGF3ZWwgTGFzemN6YWsg
-d3JvdGU6Cj4gVGhpcyBwYXRjaCBhZGQgYWRkaXRpb25hbCBmdW5jdGlvbnMgdGhhdCBjb252ZXJ0
-cyBzb21lIGZpZWxkcyB0byBzdHJpbmcuCj4gCj4gRm9yIGV4YW1wbGUgZnVuY3Rpb24gdXNic3Nw
-X3RyYl9jb21wX2NvZGVfc3RyaW5nIHRha2UgY29tcGxldGlvbiBjCj4gb2RlIHZhbHVlIGFuZCBy
-ZXR1cm4gc3RyaW5nIGRlc2NyaWJpbmcgY29tcGxldGlvbiBjb2RlLgoKT2RkIGxpbmUtd3JhcHBp
-bmcgOigKCkFuZCB3aHkgZG8geW91IHdhbnQgYSBzdHJpbmcgZm9yIHRoZXNlIHRoaW5ncz8gIFdo
-byBjYXJlcyBhYm91dCB0aGVtPwoKdGhhbmtzLAoKZ3JlZyBrLWgKLS0tClRvIHVuc3Vic2NyaWJl
-IGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGlu
-CnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUg
-bWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8u
-aHRtbAo=
+PiA+IFRoaXMgcGF0Y2ggYWRkIGFkZGl0aW9uYWwgZnVuY3Rpb25zIHRoYXQgY29udmVydHMgc29t
+ZSBmaWVsZHMgdG8gc3RyaW5nLgo+ID4KPiA+IEZvciBleGFtcGxlIGZ1bmN0aW9uIHVzYnNzcF90
+cmJfY29tcF9jb2RlX3N0cmluZyB0YWtlIGNvbXBsZXRpb24gYyBvZGUKPiA+IHZhbHVlIGFuZCBy
+ZXR1cm4gc3RyaW5nIGRlc2NyaWJpbmcgY29tcGxldGlvbiBjb2RlLgo+IAo+IE9kZCBsaW5lLXdy
+YXBwaW5nIDooCkRvIHlvdSBtZWFuIGFkZGl0aW9uYWwgc3BhY2UgY2hhcmFjdGVyIGJldHdlZW4g
+ImMiIGFuZCAib2RlIgoKPiBBbmQgd2h5IGRvIHlvdSB3YW50IGEgc3RyaW5nIGZvciB0aGVzZSB0
+aGluZ3M/ICBXaG8gY2FyZXMgYWJvdXQgdGhlbT8KSXQgd2lsbCBiZSB1c2VkIGluIG5leHQgdmVy
+c2lvbiBvZiBkcml2ZXIuIEkgaGF2ZSBwbGFuIHRvIGFkZCBnYWRnZXQtZGVidWdmcy5jIGZpbGUu
+CkF0IHRoaXMgbW9tZW50IHRoaXMgZnVuY3Rpb25zIGNhbiBiZSB1c2VmdWwgZHVyaW5nIGRlYnVn
+Z2luZyBkcml2ZXIgaWYgc29tZW9uZSB3YW50IHRvIGRpc3BsYXkKc29tZSBkZWJ1ZyBpbmZvcm1h
+dGlvbi4gCgpTaG91bGQgSSByZW1vdmUgdGhpcyBmdW5jdGlvbiA/CiAKPiB0aGFua3MsCj4gCj4g
+Z3JlZyBrLWgKLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5l
+ICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpv
+cmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2Vy
+Lmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
