@@ -1,17 +1,29 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: HID: hiddev: fix potential Spectre v1
-From: Jiri Kosina <jikos@kernel.org>
-Message-Id: <nycvar.YFH.7.76.1807091431310.997@cbobk.fhfr.pm>
-Date: Mon, 9 Jul 2018 14:31:40 +0200 (CEST)
-To: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, linux-usb@vger.kernel.org, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: usb: host: xhci-plat: Iterate over parent nodes for finding quirks
+From: Anurag Kumar Vulisha <anuragku@xilinx.com>
+Message-Id: <MWHPR02MB2816AE6D9F6C065DADA78D7EA75F0@MWHPR02MB2816.namprd02.prod.outlook.com>
+Date: Sat, 14 Jul 2018 15:37:20 +0000
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Mathias Nyman <mathias.nyman@intel.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "v.anuragkumar@gmail.com" <v.anuragkumar@gmail.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCAyOSBKdW4gMjAxOCwgR3VzdGF2byBBLiBSLiBTaWx2YSB3cm90ZToKCj4gdXJlZi0+
-ZmllbGRfaW5kZXgsIHVyZWYtPnVzYWdlX2luZGV4LCBmaW5mby5maWVsZF9pbmRleCBhbmQKPiBj
-aW5mby5pbmRleCBjYW4gYmUgaW5kaXJlY3RseSBjb250cm9sbGVkIGJ5IHVzZXItc3BhY2UsIGhl
-bmNlCj4gbGVhZGluZyB0byBhIHBvdGVudGlhbCBleHBsb2l0YXRpb24gb2YgdGhlIFNwZWN0cmUg
-dmFyaWFudCAxCj4gdnVsbmVyYWJpbGl0eS4KPiAKPiBUaGlzIGlzc3VlIHdhcyBkZXRlY3RlZCB3
-aXRoIHRoZSBoZWxwIG9mIFNtYXRjaDoKCkFwcGxpZWQsIHRoYW5rcyBHdXN0YXZvLgo=
+SEkgR3JlZywKClBpbmchClRob3VnaHQgb2YgZ2l2aW5nIGEgZnJpZW5kbHkgcmVtYWluZGVyIGFi
+b3V0IHRoaXMgcGF0Y2guCgpUaGFua3MsCkFudXJhZyBLdW1hciBWdWxpc2hhCgo+LS0tLS1Pcmln
+aW5hbCBNZXNzYWdlLS0tLS0KPkZyb206IEdyZWcgS3JvYWgtSGFydG1hbiBbbWFpbHRvOmdyZWdr
+aEBsaW51eGZvdW5kYXRpb24ub3JnXQo+U2VudDogVHVlc2RheSwgSnVuZSAxMiwgMjAxOCAxOjMz
+IFBNCj5UbzogQW51cmFnIEt1bWFyIFZ1bGlzaGEgPGFudXJhZ2t1QHhpbGlueC5jb20+Cj5DYzog
+TWF0aGlhcyBOeW1hbiA8bWF0aGlhcy5ueW1hbkBpbnRlbC5jb20+OyBsaW51eC11c2JAdmdlci5r
+ZXJuZWwub3JnOyBsaW51eC0KPmtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcKPlN1YmplY3Q6IFJlOiBb
+UEFUQ0hdIHVzYjogaG9zdDogeGhjaS1wbGF0OiBJdGVyYXRlIG92ZXIgcGFyZW50IG5vZGVzIGZv
+ciBmaW5kaW5nIHF1aXJrcwo+Cj5PbiBUdWUsIEp1biAxMiwgMjAxOCBhdCAwNzowMzozOUFNICsw
+MDAwLCBBbnVyYWcgS3VtYXIgVnVsaXNoYSB3cm90ZToKPj4gSGkgR3JlZywKPj4KPj4gUGxlYXNl
+IGxldCBtZSBrbm93IGlmIHlvdSBoYXZlIGFueSBjb21tZW50cyBvbiB0aGlzIHBhdGNoLgo+Cj5J
+dCBpcyB0aGUgbWlkZGxlIG9mIHRoZSBtZXJnZSB3aW5kb3csIEkgY2FuIG5vdCBkbyBhbnl0aGlu
+ZyB3aXRoIGFueSBwYXRjaGVzIHVudGlsCj5hZnRlciA0LjE4LXJjMSBpcyBvdXQuCj4KPlBsZWFz
+ZSBiZSBwYXRpZW50Lgo+Cj50aGFua3MsCj4KPmdyZWcgay1oCi0tLQpUbyB1bnN1YnNjcmliZSBm
+cm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0
+aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1h
+am9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0
+bWwK
