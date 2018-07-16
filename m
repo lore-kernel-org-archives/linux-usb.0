@@ -2,20 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [2/2] USB: iuu_phoenix: drop redundant input-speed re-encoding
-From: Greg KH <greg@kroah.com>
-Message-Id: <20180716115646.GB22073@kroah.com>
-Date: Mon, 16 Jul 2018 13:56:46 +0200
-To: Johan Hovold <johan@kernel.org>
-Cc: linux-usb@vger.kernel.org
+From: Johan Hovold <johan@kernel.org>
+Message-Id: <20180716121442.GN10204@localhost>
+Date: Mon, 16 Jul 2018 14:14:42 +0200
+To: Greg KH <greg@kroah.com>
+Cc: Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gTW9uLCBKdWwgMTYsIDIwMTggYXQgMDE6NTE6NTZQTSArMDIwMCwgSm9oYW4gSG92b2xkIHdy
-b3RlOgo+IERyb3AgcmVkdW5kYW50IGlucHV0LXNwZWVkIHJlLWVuY29kaW5nIGF0IGV2ZXJ5IG9w
-ZW4oKS4gVGhlIG91dHB1dCBhbmQKPiBpbnB1dCBzcGVlZHMgYXJlIGluaXRpYWxpc2VkIHRvIHRo
-ZSBzYW1lIHZhbHVlIGFuZCBhcmUga2VwdCBpbiBzeW5jIG9uCj4gdGVybWlvcyB1cGRhdGVzLgo+
-IAo+IFNpZ25lZC1vZmYtYnk6IEpvaGFuIEhvdm9sZCA8am9oYW5Aa2VybmVsLm9yZz4KClJldmll
-d2VkLWJ5OiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgot
-LS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2Ny
-aWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2Vy
-Lmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9y
-Zy9tYWpvcmRvbW8taW5mby5odG1sCg==
+T24gTW9uLCBKdWwgMTYsIDIwMTggYXQgMDE6NTY6NDZQTSArMDIwMCwgR3JlZyBLcm9haC1IYXJ0
+bWFuIHdyb3RlOgo+IE9uIE1vbiwgSnVsIDE2LCAyMDE4IGF0IDAxOjUxOjU2UE0gKzAyMDAsIEpv
+aGFuIEhvdm9sZCB3cm90ZToKPiA+IERyb3AgcmVkdW5kYW50IGlucHV0LXNwZWVkIHJlLWVuY29k
+aW5nIGF0IGV2ZXJ5IG9wZW4oKS4gVGhlIG91dHB1dCBhbmQKPiA+IGlucHV0IHNwZWVkcyBhcmUg
+aW5pdGlhbGlzZWQgdG8gdGhlIHNhbWUgdmFsdWUgYW5kIGFyZSBrZXB0IGluIHN5bmMgb24KPiA+
+IHRlcm1pb3MgdXBkYXRlcy4KPiA+IAo+ID4gU2lnbmVkLW9mZi1ieTogSm9oYW4gSG92b2xkIDxq
+b2hhbkBrZXJuZWwub3JnPgo+IAo+IFJldmlld2VkLWJ5OiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdy
+ZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgoKVGhhbmtzIGZvciByZXZpZXdpbmcuIEJvdGggbm93
+IGFwcGxpZWQuCgpKb2hhbgotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQg
+dGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdl
+IHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0
+cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
