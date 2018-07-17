@@ -2,32 +2,37 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: dvb usb issues since kernel 4.9
-From: hannah@marvell.com
-Message-Id: <361dec80-081e-c796-2052-71d006b84ffc@marvell.com>
-Date: Tue, 17 Jul 2018 21:07:36 +0300
+From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Message-Id: <20180718072107.0bfdece8@vela.lan>
+Date: Wed, 18 Jul 2018 07:21:07 +0900
 To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Miller <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Josef Griebichler <griebichler.josef@gmx.at>, Hannes Frederic Sowa <hannes@redhat.com>, Jesper Dangaard Brouer <jbrouer@redhat.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Media Mailing List <linux-media@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@s-opensource.com>, Ingo Molnar <mingo@kernel.org>, Network Development <netdev@vger.kernel.org>, Paolo Abeni <pabeni@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Rik van Riel <riel@redhat.com>, Alan Stern <stern@rowland.harvard.edu>, dma <dmaengine@vger.kernel.org>, vkoul@kernel.org, Dan Williams <dan.j.williams@intel.com>, nadavh@marvell.com, thomas.petazzoni@bootlin.com, omrii@marvell.com
+Cc: hannah@marvell.com, Jonathan Corbet <corbet@lwn.net>, David Miller <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Josef Griebichler <griebichler.josef@gmx.at>, Hannes Frederic Sowa <hannes@redhat.com>, Jesper Dangaard Brouer <jbrouer@redhat.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Media Mailing List <linux-media@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@s-opensource.com>, Ingo Molnar <mingo@kernel.org>, Network Development <netdev@vger.kernel.org>, Paolo Abeni <pabeni@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Rik van Riel <riel@redhat.com>, Alan Stern <stern@rowland.harvard.edu>, dma <dmaengine@vger.kernel.org>, vkoul@kernel.org, Dan Williams <dan.j.williams@intel.com>, nadavh@marvell.com, thomas.petazzoni@bootlin.com, omrii@marvell.com
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgTGludXMsCgpPbiAwNy8xNy8yMDE4IDA4OjA5IFBNLCBMaW51cyBUb3J2YWxkcyB3cm90ZToK
-PiBPbiBUdWUsIEp1bCAxNywgMjAxOCBhdCA0OjU4IEFNIEhhbm5hIEhhd2EgPGhhbm5haEBtYXJ2
-ZWxsLmNvbT4gd3JvdGU6Cj4+Cj4+IEFmdGVyIHNvbWUgZGVidWcvYmlzZWN0L2RpZmYsIGZvdW5k
-IHRoYXQgcGF0Y2ggInNvZnRpcnE6IExldCBrc29mdGlycWQKPj4gZG8gaXRzIGpvYiIgaXMgcHJv
-YmxlbWF0aWMgcGF0Y2guCj4KPiBPaywgdGhpcyB0aHJlYWQgZGllZCBkb3duIHdpdGhvdXQgYW55
-IHJlc29sdXRpb24uCj4KPj4gLSBVc2luZyB2NC4xNC4wIChpbmNsdWRpbmcgc29mdGlycSBwYXRj
-aCkgYW5kIHRoZSBhZGRpdGlvbmFsIGZpeAo+PiBwcm9wb3NlZCBieSBMaW51cyAtIG5vIHRpbWVv
-dXQgaXNzdWUuCj4KPiBBcmUgeW91IHRhbGtpbmcgYWJvdXQgdGhlIHBhdGNoIHRoYXQgbWFkZSBI
-SV9TT0ZUSVJRIGFuZAo+IFRBU0tMRVRfU09GVElSUSBzcGVjaWFsLCBhbmQgaGFkIHRoaXM6Cj4K
-PiAgICNkZWZpbmUgU09GVElSUV9OT1dfTUFTSyAoKDEgPDwgSElfU09GVElSUSkgfCAoMSA8PCBU
-QVNLTEVUX1NPRlRJUlEpKQo+Cj4gaW4gaXQ/CnllcywgZXhhY3RseS4uCgpMaW5rIHRvIHRoZSBw
-YXRjaDoKaHR0cHM6Ly9naXQubGludXh0di5vcmcvbWNoZWhhYi9leHBlcmltZW50YWwuZ2l0L2Nv
-bW1pdC8/aD12NC4xNSUyYm1lZGlhJTJiZHdjMiZpZD1jY2Y4MzNmZDRhNWI5OWMzZDNjZjJjMDlj
-MDY1NjcwZjc0YTIzMGE3CgpUaGFua3MsCkhhbm5hCgo+Cj4gSSB0aGluayBJJ2xsIGp1c3QgY29t
+SGkgTGludXMsCgpFbSBUdWUsIDE3IEp1bCAyMDE4IDEwOjA5OjI4IC0wNzAwCkxpbnVzIFRvcnZh
+bGRzIDx0b3J2YWxkc0BsaW51eC1mb3VuZGF0aW9uLm9yZz4gZXNjcmV2ZXU6Cgo+IE9uIFR1ZSwg
+SnVsIDE3LCAyMDE4IGF0IDQ6NTggQU0gSGFubmEgSGF3YSA8aGFubmFoQG1hcnZlbGwuY29tPiB3
+cm90ZToKPiA+Cj4gPiBBZnRlciBzb21lIGRlYnVnL2Jpc2VjdC9kaWZmLCBmb3VuZCB0aGF0IHBh
+dGNoICJzb2Z0aXJxOiBMZXQga3NvZnRpcnFkCj4gPiBkbyBpdHMgam9iIiBpcyBwcm9ibGVtYXRp
+YyBwYXRjaC4gIAo+IAo+IE9rLCB0aGlzIHRocmVhZCBkaWVkIGRvd24gd2l0aG91dCBhbnkgcmVz
+b2x1dGlvbi4KPiAKPiA+LSBVc2luZyB2NC4xNC4wIChpbmNsdWRpbmcgc29mdGlycSBwYXRjaCkg
+YW5kIHRoZSBhZGRpdGlvbmFsIGZpeAo+ID4gcHJvcG9zZWQgYnkgTGludXMgLSBubyB0aW1lb3V0
+IGlzc3VlLiAgCj4gCj4gQXJlIHlvdSB0YWxraW5nIGFib3V0IHRoZSBwYXRjaCB0aGF0IG1hZGUg
+SElfU09GVElSUSBhbmQKPiBUQVNLTEVUX1NPRlRJUlEgc3BlY2lhbCwgYW5kIGhhZCB0aGlzOgo+
+IAo+ICAgI2RlZmluZSBTT0ZUSVJRX05PV19NQVNLICgoMSA8PCBISV9TT0ZUSVJRKSB8ICgxIDw8
+IFRBU0tMRVRfU09GVElSUSkpCj4gCj4gaW4gaXQ/Cj4gCj4gSSB0aGluayBJJ2xsIGp1c3QgY29t
 bWl0IHRoZSBkYW1uIHRoaW5nLiBJdCdzIGhhY2t5LCBidXQgaXQncyBzaW1wbGUsCj4gYW5kIGl0
 IG5ldmVyIGdvdCBhcHBsaWVkIGJlY2F1c2Ugd2UgaGFkIHNtYXJ0ZXIgc3VnZ2VzdGlvbnMuIEJ1
 dCB0aGUKPiBzbWFydGVyIHN1Z2dlc3Rpb25zIG5ldmVyIGVuZGVkIHVwIGJlaW5nIGFwcGxpZWQg
-ZWl0aGVyLCBzby4uCj4KPiAgICAgICAgICAgICAgICAgICAgICAgIExpbnVzCj4KLS0tClRvIHVu
-c3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51
-eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwu
-b3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jk
-b21vLWluZm8uaHRtbAo=
+ZWl0aGVyLCBzby4uCgpZZWFoLCBJTUhPIHRoZSBiZXN0IHdvdWxkIGJlIHRvIGFwcGx5IHlvdXIg
+cGF0Y2hbMV0sIGMvYyBzdGFibGUgdXAgdG8KNC45LiBOb3RoaW5nIHByZXZlbnRzIGFwcGx5aW5n
+IGEgYmV0dGVyL3NtYXJ0ZXIgc29sdXRpb24gb25jZSB3ZQpoYXZlIGl0LiBGcm9tIG15IHNpZGUs
+IEkgY2FuIGtlZXAgdGVzdGluZyB3aGF0ZXZlciBzbWFydCBzdWdnZXN0aW9ucwpwZW9wbGUgcHJv
+cG9zZS4gWWV0LCBiZXR0ZXIgdG8gaGF2ZSBvbmUgZml4IG9uIG91ciBoYW5kIHRoYW4gdHdvCmZp
+eGVzIGZseWluZyBhcm91bmQuCgpbMV0gZS4gZy4gCglodHRwczovL2dpdC5saW51eHR2Lm9yZy9t
+Y2hlaGFiL2V4cGVyaW1lbnRhbC5naXQvY29tbWl0Lz9oPXY0LjE1JTJibWVkaWElMmJkd2MyJmlk
+PWNjZjgzM2ZkNGE1Yjk5YzNkM2NmMmMwOWMwNjU2NzBmNzRhMjMwYTcKClJlZ2FyZHMsCk1hdXJv
+Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJz
+Y3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZn
+ZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwu
+b3JnL21ham9yZG9tby1pbmZvLmh0bWwK
