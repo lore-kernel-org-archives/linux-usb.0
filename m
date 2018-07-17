@@ -2,20 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: phy: fix copyright issue of phy-fsl-usb.c
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20180717071950.GA12255@kroah.com>
-Date: Tue, 17 Jul 2018 09:19:50 +0200
-To: Pengbo Mu <pengbo.mu@nxp.com>
-Cc: Felipe Balbi <balbi@kernel.org>, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+From: Joe Perches <joe@perches.com>
+Message-Id: <85129bed442d10a94e196d9381a474d936982c16.camel@perches.com>
+Date: Tue, 17 Jul 2018 09:36:33 -0700
+To: Pengbo Mu <pengbo.mu@nxp.com>, Felipe Balbi <balbi@kernel.org>, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVHVlLCBKdWwgMTcsIDIwMTggYXQgMDM6MTA6MDJQTSArMDgwMCwgUGVuZ2JvIE11IHdyb3Rl
-Ogo+IEZpeGVkIHRoZSBjb3B5cmlnaHQgaXNzdWUgb2YgZHJpdmVycy91c2IvcGh5L3BoeS1mc2wt
-dXNiLmMuCgpJIHN0aWxsIGZhaWwgdG8gdW5kZXJzdGFuZCB3aGF0IGV4YWN0bHkgdGhlICJjb3B5
-cmlnaHQgaXNzdWUiIGlzIGhlcmUuCkNhbiB5b3UgcHJvdmlkZSBzb21lIGRldGFpbHMgcGxlYXNl
-LgoKSWRlYWxseSB5b3Ugd291bGQgaGF2ZSB5b3VyIGxhd3llciBzaWduIG9mZiBvbiB0aGlzIHBh
-dGNoLCBhcyB0aGV5IGtub3cKdGhpcyB0eXBlIG9mIGxhdyBiZXR0ZXIgdGhhbiB3ZSBkbyA6KQoK
-dGhhbmtzLAoKZ3JlZyBrLWgKLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5k
-IHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2Fn
-ZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0
-dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
+T24gVHVlLCAyMDE4LTA3LTE3IGF0IDE1OjEwICswODAwLCBQZW5nYm8gTXUgd3JvdGU6Cj4gRml4
+ZWQgdGhlIGNvcHlyaWdodCBpc3N1ZSBvZiBkcml2ZXJzL3VzYi9waHkvcGh5LWZzbC11c2IuYy4K
+W10KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvcGh5L3BoeS1mc2wtdXNiLmMgYi9kcml2ZXJz
+L3VzYi9waHkvcGh5LWZzbC11c2IuYwpbXQo+IEBAIC0xLDYgKzEsNiBAQAo+ICAvLyBTUERYLUxp
+Y2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMCsKPiAgLyoKPiAtICogQ29weXJpZ2h0IChDKSAyMDA3
+LDIwMDggRnJlZXNjYWxlIHNlbWljb25kdWN0b3IsIEluYy4KPiArICogQ29weXJpZ2h0IDIwMDcs
+MjAwOCBGcmVlc2NhbGUgU2VtaWNvbmR1Y3RvciwgSW5jLgoKV2hhdCBpc3N1ZT8KClRoZXJlIGFy
+ZSB+NjBLIGZpbGVzIGluIGxpbnV4IGFuZCB+NTBLIG9mIHRoZW0KaGF2ZSAiKGMpIiBvciAiKEMp
+IiBpbiB0aGVtLgotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxp
+bmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1h
+am9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3Zn
+ZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
