@@ -2,23 +2,24 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: dwc3: rockchip: Fix PHY documentation links.
-From: Heiko Stuebner <heiko@sntech.de>
-Message-Id: <1651148.X0ZVfyzq5n@phil>
-Date: Tue, 10 Jul 2018 15:03:14 +0200
+From: Rob Herring <robh@kernel.org>
+Message-Id: <20180720141705.GA30482@rob-hp-laptop>
+Date: Fri, 20 Jul 2018 08:17:05 -0600
 To: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, kernel@collabora.com, devicetree@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, Rob Herring <robh+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mark Rutland <mark.rutland@arm.com>, linux-arm-kernel@lists.infradead.org
+Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, kernel@collabora.com, devicetree@vger.kernel.org, Heiko Stuebner <heiko@sntech.de>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mark Rutland <mark.rutland@arm.com>, linux-arm-kernel@lists.infradead.org
 List-ID: <linux-usb.vger.kernel.org>
 
-QW0gRGllbnN0YWcsIDEwLiBKdWxpIDIwMTgsIDE0OjU4OjQ4IENFU1Qgc2NocmllYiBFbnJpYyBC
-YWxsZXRibyBpIFNlcnJhOgo+IENvbW1pdCAzNDk2MmZiODA3MGMgKCJkb2NzOiBGaXggbW9yZSBi
-cm9rZW4gcmVmZXJlbmNlcyIpIHJlcGxhY2VkIHRoZQo+IGJyb2tlbiByZWZlcmVuY2UgdG8gcm9j
-a2NoaXAsZHdjMy11c2ItcGh5LnR4dCBiaW5kaW5nIGZvciB0aGUgUXVhbGNvbW0KPiBEV0MzIGJp
-bmRpbmcgKHFjb20tZHdjMy11c2ItcGh5LnR4dCkuIFRoYXQncyB3cm9uZywgc28gcmVwbGFjZSB0
-aGF0Cj4gcmVmZXJlbmNlIGZvciB0aGUgY29ycmVjdCBvbmVzLgo+IAo+IEZpeGVzOiAzNDk2MmZi
-ODA3MGMgKCJkb2NzOiBGaXggbW9yZSBicm9rZW4gcmVmZXJlbmNlcyIpCj4gU2lnbmVkLW9mZi1i
-eTogRW5yaWMgQmFsbGV0Ym8gaSBTZXJyYSA8ZW5yaWMuYmFsbGV0Ym9AY29sbGFib3JhLmNvbT4K
-ClJldmlld2VkLWJ5OiBIZWlrbyBTdHVlYm5lciA8aGVpa29Ac250ZWNoLmRlPgotLS0KVG8gdW5z
-dWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4
-LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5v
-cmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRv
-bW8taW5mby5odG1sCg==
+T24gVHVlLCBKdWwgMTAsIDIwMTggYXQgMDI6NTg6NDhQTSArMDIwMCwgRW5yaWMgQmFsbGV0Ym8g
+aSBTZXJyYSB3cm90ZToKPiBDb21taXQgMzQ5NjJmYjgwNzBjICgiZG9jczogRml4IG1vcmUgYnJv
+a2VuIHJlZmVyZW5jZXMiKSByZXBsYWNlZCB0aGUKPiBicm9rZW4gcmVmZXJlbmNlIHRvIHJvY2tj
+aGlwLGR3YzMtdXNiLXBoeS50eHQgYmluZGluZyBmb3IgdGhlIFF1YWxjb21tCj4gRFdDMyBiaW5k
+aW5nIChxY29tLWR3YzMtdXNiLXBoeS50eHQpLiBUaGF0J3Mgd3JvbmcsIHNvIHJlcGxhY2UgdGhh
+dAo+IHJlZmVyZW5jZSBmb3IgdGhlIGNvcnJlY3Qgb25lcy4KPiAKPiBGaXhlczogMzQ5NjJmYjgw
+NzBjICgiZG9jczogRml4IG1vcmUgYnJva2VuIHJlZmVyZW5jZXMiKQo+IFNpZ25lZC1vZmYtYnk6
+IEVucmljIEJhbGxldGJvIGkgU2VycmEgPGVucmljLmJhbGxldGJvQGNvbGxhYm9yYS5jb20+Cj4g
+LS0tCj4gCj4gIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2Ivcm9ja2NoaXAs
+ZHdjMy50eHQgfCAzICsrLQo+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRl
+bGV0aW9uKC0pCgpBcHBsaWVkLgoKUm9iCi0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlz
+dDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBh
+IG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZv
+IGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
