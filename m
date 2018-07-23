@@ -2,17 +2,24 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: dwc3: call set incr burst type func()
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20180723051605.GA13377@kroah.com>
-Date: Mon, 23 Jul 2018 07:16:05 +0200
-To: Pengbo Mu <pengbo.mu@nxp.com>
-Cc: Felipe Balbi <balbi@kernel.org>, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, ran.wang_1@nxp.com
+From: Pengbo Mu <pengbo.mu@nxp.com>
+Message-Id: <AM0PR0402MB3747A7EA275D6680ACEFD821F4560@AM0PR0402MB3747.eurprd04.prod.outlook.com>
+Date: Mon, 23 Jul 2018 06:37:13 +0000
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Felipe Balbi <balbi@kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, Ran Wang <ran.wang_1@nxp.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gTW9uLCBKdWwgMjMsIDIwMTggYXQgMTE6MzQ6MTNBTSArMDgwMCwgUGVuZ2JvIE11IHdyb3Rl
-Ogo+IENhbGwgZHdjM19zZXRfaW5jcl9idXJzdF90eXBlKCkgaW4gZHdjM19jb3JlX2luaXQoKS4K
-PiAKClRoYXQgc2F5cyB3aGF0IHlvdSBkaWQsIG5vdCB3aHkgeW91IGFyZSBkb2luZyB0aGlzLgoK
-UGxlYXNlIGZpeCB1cC4KCmdyZWcgay1oCi0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlz
-dDogc2VuZCB0aGUgbGluZSAidW5zdWJzY3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBh
-IG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZnZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZv
-IGF0ICBodHRwOi8vdmdlci5rZXJuZWwub3JnL21ham9yZG9tby1pbmZvLmh0bWwK
+SGkgR3JlZywNCg0KVGhpcyBwYXRjaCBzaG91bGQgYmUgdGllZCB3aXRoIGh0dHBzOi8vcGF0Y2h3
+b3JrLmtlcm5lbC5vcmcvcGF0Y2gvMTA1Mzk1MzUvLg0KQWZ0ZXIgc2VudCBmb3VyIHBhdGNoZXMs
+IEkgZm91bmQgSSB3YXMgbWlzc2luZyB0aGlzIGNhbGwuDQpUaGFua3MgZm9yIHlvdXIgYWR2aWNl
+LiBJIHdpbGwgZml4IGl0IGltbWVkaWF0ZWx5IQ0KDQpQZW5nYm8gTXUNCi0tLS0tT3JpZ2luYWwg
+TWVzc2FnZS0tLS0tDQpGcm9tOiBHcmVnIEtyb2FoLUhhcnRtYW4gW21haWx0bzpncmVna2hAbGlu
+dXhmb3VuZGF0aW9uLm9yZ10gDQpTZW50OiAyMDE45bm0N+aciDIz5pelIDEzOjE2DQpUbzogUGVu
+Z2JvIE11IDxwZW5nYm8ubXVAbnhwLmNvbT4NCkNjOiBGZWxpcGUgQmFsYmkgPGJhbGJpQGtlcm5l
+bC5vcmc+OyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBsaW51eC11c2JAdmdlci5rZXJu
+ZWwub3JnOyBSYW4gV2FuZyA8cmFuLndhbmdfMUBueHAuY29tPg0KU3ViamVjdDogUmU6IFtQQVRD
+SF0gdXNiOiBkd2MzOiBjYWxsIHNldCBpbmNyIGJ1cnN0IHR5cGUgZnVuYygpDQoNCk9uIE1vbiwg
+SnVsIDIzLCAyMDE4IGF0IDExOjM0OjEzQU0gKzA4MDAsIFBlbmdibyBNdSB3cm90ZToNCj4gQ2Fs
+bCBkd2MzX3NldF9pbmNyX2J1cnN0X3R5cGUoKSBpbiBkd2MzX2NvcmVfaW5pdCgpLg0KPiANCg0K
+VGhhdCBzYXlzIHdoYXQgeW91IGRpZCwgbm90IHdoeSB5b3UgYXJlIGRvaW5nIHRoaXMuDQoNClBs
+ZWFzZSBmaXggdXAuDQoNCmdyZWcgay1oCg==
