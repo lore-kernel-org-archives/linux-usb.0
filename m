@@ -2,34 +2,21 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v6,3/4] arm64: dts: dwc3: description of incr burst type
-From: Pengbo Mu <pengbo.mu@nxp.com>
-Message-Id: <1532341959-3478-3-git-send-email-pengbo.mu@nxp.com>
-Date: Mon, 23 Jul 2018 18:32:38 +0800
-To: Felipe Balbi <balbi@kernel.org>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will.deacon@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, ran.wang_1@nxp.com, pengbo.mu@nxp.com
+From: Rob Herring <robh@kernel.org>
+Message-Id: <20180724232018.GA16709@rob-hp-laptop>
+Date: Tue, 24 Jul 2018 17:20:18 -0600
+To: Pengbo Mu <pengbo.mu@nxp.com>
+Cc: Felipe Balbi <balbi@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will.deacon@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, ran.wang_1@nxp.com
 List-ID: <linux-usb.vger.kernel.org>
 
-QWRkIGRlc2NyaXB0aW9uIG9mICdzbnBzLGluY3ItYnVyc3QtdHlwZS1hZGp1c3RtZW50JyB0byBi
-aW5kaW5nCnNvIHRoYXQgY29uZmlndXJpbmcgZGV2aWNldHJlZS4KClNpZ25lZC1vZmYtYnk6IFJh
-biBXYW5nIDxyYW4ud2FuZ18xQG54cC5jb20+ClNpZ25lZC1vZmYtYnk6IFBlbmdibyBNdSA8cGVu
-Z2JvLm11QG54cC5jb20+Ci0tLQogRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3Vz
-Yi9kd2MzLnR4dCB8IDYgKysrKysrCiAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspCgpk
-aWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9kd2MzLnR4
-dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvZHdjMy50eHQKaW5kZXgg
-N2YxM2ViZS4uM2U0YzM4YiAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
-bmRpbmdzL3VzYi9kd2MzLnR4dAorKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
-Z3MvdXNiL2R3YzMudHh0CkBAIC05Niw2ICs5NiwxMSBAQCBPcHRpb25hbCBwcm9wZXJ0aWVzOgog
-CQkJZW5hYmxlIHBlcmlvZGljIEVTUyBUWCB0aHJlc2hvbGQuCiAKICAtIDxERVBSRUNBVEVEPiB0
-eC1maWZvLXJlc2l6ZTogZGV0ZXJtaW5lcyBpZiB0aGUgRklGTyAqaGFzKiB0byBiZSByZWFsbG9j
-YXRlZC4KKyAtIHNucHMsaW5jci1idXJzdC10eXBlLWFkanVzdG1lbnQ6IFZhbHVlIGZvciBJTkNS
-IGJ1cnN0IHR5cGUgb2YgR1NCVVNDRkcwCisJCQlyZWdpc3RlciwgdW5kZWZpbmVkIGxlbmd0aCBJ
-TkNSIGJ1cnN0IHR5cGUgZW5hYmxlIGFuZCBJTkNSeCB0eXBlLgorCQkJV2hlbiBqdXN0IG9uZSB2
-YWx1ZSwgd2hpY2ggbWVhbnMgSU5DUlggYnVyc3QgbW9kZSBlbmFibGVkLiBXaGVuCisJCQltb3Jl
-IHRoYW4gb25lIHZhbHVlLCB3aGljaCBtZWFucyB1bmRlZmluZWQgbGVuZ3RoIElOQ1IgYnVyc3Qg
-dHlwZQorCQkJZW5hYmxlZC4gVGhlIHZhbHVlcyBjYW4gYmUgMSwgNCwgOCwgMTYsIDMyLCA2NCwg
-MTI4IGFuZCAyNTYuCiAKICAtIGluIGFkZGl0aW9uIGFsbCBwcm9wZXJ0aWVzIGZyb20gdXNiLXho
-Y2kudHh0IGZyb20gdGhlIGN1cnJlbnQgZGlyZWN0b3J5IGFyZQogICAgc3VwcG9ydGVkIGFzIHdl
-bGwKQEAgLTEwOCw0ICsxMTMsNSBAQCBkd2MzQDRhMDMwMDAwIHsKIAlyZWcgPSA8MHg0YTAzMDAw
-MCAweGNmZmY+OwogCWludGVycnVwdHMgPSA8MCA5MiA0PgogCXVzYi1waHkgPSA8JnVzYjJfcGh5
-PiwgPCZ1c2IzLHBoeT47CisJc25wcyxpbmNyLWJ1cnN0LXR5cGUtYWRqdXN0bWVudCA9IDwxPiwg
-PDQ+LCA8OD4sIDwxNj47CiB9Owo=
+T24gTW9uLCBKdWwgMjMsIDIwMTggYXQgMDY6MzI6MzhQTSArMDgwMCwgUGVuZ2JvIE11IHdyb3Rl
+Ogo+IEFkZCBkZXNjcmlwdGlvbiBvZiAnc25wcyxpbmNyLWJ1cnN0LXR5cGUtYWRqdXN0bWVudCcg
+dG8gYmluZGluZwo+IHNvIHRoYXQgY29uZmlndXJpbmcgZGV2aWNldHJlZS4KPiAKPiBTaWduZWQt
+b2ZmLWJ5OiBSYW4gV2FuZyA8cmFuLndhbmdfMUBueHAuY29tPgo+IFNpZ25lZC1vZmYtYnk6IFBl
+bmdibyBNdSA8cGVuZ2JvLm11QG54cC5jb20+Cj4gLS0tCj4gIERvY3VtZW50YXRpb24vZGV2aWNl
+dHJlZS9iaW5kaW5ncy91c2IvZHdjMy50eHQgfCA2ICsrKysrKwo+ICAxIGZpbGUgY2hhbmdlZCwg
+NiBpbnNlcnRpb25zKCspCgpSZXZpZXdlZC1ieTogUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVsLm9y
+Zz4KLS0tClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1
+YnNjcmliZSBsaW51eC11c2IiIGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9A
+dmdlci5rZXJuZWwub3JnCk1vcmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5l
+bC5vcmcvbWFqb3Jkb21vLWluZm8uaHRtbAo=
