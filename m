@@ -1,21 +1,23 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,1/4] Simplify usbnet_cdc_update_filter
-From: =?utf-8?q?Miguel_Rodr=C3=ADguez_P=C3=A9rez?= <miguel@det.uvigo.gal>
-Message-Id: <20180701090553.7776-1-miguel@det.uvigo.gal>
-Date: Sun,  1 Jul 2018 11:05:49 +0200
-To: oliver@neukum.org, linux-usb@vger.kernel.org, netdev@vger.kernel.org, gregkh@linuxfoundation.org
-Cc: =?UTF-8?q?Miguel=20Rodr=C3=ADguez=20P=C3=A9rez?= <miguel@det.uvigo.gal>
+Subject: [6/7] usb: gadget: f_uac2: disable IN/OUT ep if unused
+From: Felipe Balbi <felipe.balbi@linux.intel.com>
+Message-Id: <87zhye1d8o.fsf@linux.intel.com>
+Date: Thu, 26 Jul 2018 13:51:35 +0300
+To: Eugeniu Rosca <erosca@de.adit-jv.com>, Ruslan Bilovol <ruslan.bilovol@gmail.com>, Jassi Brar <jaswinder.singh@linaro.org>
+Cc: Andrzej Pietrasiewicz <andrzej.p@samsung.com>, Daniel Mack <zonque@gmail.com>, Robert Baldyga <r.baldyga@samsung.com>, Peter Chen <peter.chen@nxp.com>, Christoph Hellwig <hch@lst.de>, Eugeniu Rosca <rosca.eugeniu@gmail.com>, Vladimir Zapolskiy <vladimir_zapolskiy@mentor.com>, Joshua Frkuska <joshua_frkuska@mentor.com>, linux-usb@vger.kernel.org, Andreas Pape <apape@de.adit-jv.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SSBoYXZlIHJld29ya2VkIHRoZSBwYXRjaGVzIGFjY29yZGluZyB0byB0aGUgcHJldmlvdXMgcm91
-bmQgb2YgcmV2aXNpb25zLgpJIGhvcGUgZXZlcnl0aGluZyBpcyBmb3JtYXRlZCBjb3JyZWN0bHkg
-dGhpcyB0aW1lLgoKTWlndWVsIFJvZHLDrWd1ZXogUMOpcmV6ICg0KToKICBTaW1wbGlmeSB1c2Ju
-ZXRfY2RjX3VwZGF0ZV9maWx0ZXIKICBFeHBvcnQgdXNibmV0X2NkY191cGRhdGVfZmlsdGVyCiAg
-UmVwbGFjZSB0aGUgd2F5IGNkY19uY20gaG9va3MgaW50byB1c2JuZXRfY2hhbmdlX210dQogIEhv
-b2sgaW50byBzZXRfcnhfbW9kZSB0byBhZG1pdCBtdWx0aWNhc3QgdHJhZmZpYwoKIGRyaXZlcnMv
-bmV0L3VzYi9jZGNfZXRoZXIuYyB8IDE4ICsrKysrKystLS0tLS0tLS0tLQogZHJpdmVycy9uZXQv
-dXNiL2NkY19uY20uYyAgIHwgMTYgKysrKysrLS0tLS0tLS0tLQogaW5jbHVkZS9saW51eC91c2Iv
-dXNibmV0LmggIHwgIDEgKwogMyBmaWxlcyBjaGFuZ2VkLCAxNCBpbnNlcnRpb25zKCspLCAyMSBk
-ZWxldGlvbnMoLSkK
+RXVnZW5pdSBSb3NjYSA8ZXJvc2NhQGRlLmFkaXQtanYuY29tPiB3cml0ZXM6Cgo+IEZyb206IEFu
+ZHJlYXMgUGFwZSA8YXBhcGVAZGUuYWRpdC1qdi5jb20+Cj4KPiBWaWEgcF9jaG1hc2svY19jaG1h
+c2sgdGhlIHVzZXIgY2FuIGRlZmluZSB3aGV0aGVyIHVhYzIgc2hhbGwgc3VwcG9ydAo+IHBsYXli
+YWNrIGFuZC9vciBjYXB0dXJlLiBUaGlzIGhhcyBvbmx5IGVmZmVjdCBvbiB0aGUgY3JlYXRlZCBB
+TFNBIGRldmljZSwKPiBidXQgbm90IG9uIHRoZSBVU0IgZGVzY3JpcHRvci4gVGhpcyBwYXRjaCBh
+ZGRzIHBsYXliYWNrL2NhcHR1cmUgZGVzY3JpcHRvcnMKPiBkZXBlbmRlbnQgb24gdGhhdCBwYXJh
+bWV0ZXIuCj4KPiBTaWduZWQtb2ZmLWJ5OiBBbmRyZWFzIFBhcGUgPGFwYXBlQGRlLmFkaXQtanYu
+Y29tPgo+IFNpZ25lZC1vZmYtYnk6IEV1Z2VuaXUgUm9zY2EgPGVyb3NjYUBkZS5hZGl0LWp2LmNv
+bT4KCnVuZm9ydHVuYXRlbHkgZG9lc24ndCBhcHBseToKCmNoZWNraW5nIGZpbGUgZHJpdmVycy91
+c2IvZ2FkZ2V0L2Z1bmN0aW9uL2ZfdWFjMi5jCkh1bmsgIzEzIEZBSUxFRCBhdCA2NzguCjEgb3V0
+IG9mIDE0IGh1bmtzIEZBSUxFRAoKUGxlYXNlIHJlYmFzZSBvbiB0ZXN0aW5nL25leHQgYWZ0ZXIg
+YSBjb3VwbGUgaG91cnMK
