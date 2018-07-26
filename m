@@ -1,38 +1,19 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: dvb usb issues since kernel 4.9
-From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Message-Id: <20180718072107.0bfdece8@vela.lan>
-Date: Wed, 18 Jul 2018 07:21:07 +0900
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: hannah@marvell.com, Jonathan Corbet <corbet@lwn.net>, David Miller <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Josef Griebichler <griebichler.josef@gmx.at>, Hannes Frederic Sowa <hannes@redhat.com>, Jesper Dangaard Brouer <jbrouer@redhat.com>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Media Mailing List <linux-media@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@s-opensource.com>, Ingo Molnar <mingo@kernel.org>, Network Development <netdev@vger.kernel.org>, Paolo Abeni <pabeni@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Rik van Riel <riel@redhat.com>, Alan Stern <stern@rowland.harvard.edu>, dma <dmaengine@vger.kernel.org>, vkoul@kernel.org, Dan Williams <dan.j.williams@intel.com>, nadavh@marvell.com, thomas.petazzoni@bootlin.com, omrii@marvell.com
+Subject: [1/3] usb: gadget: f_fs: Only return delayed status when len is 0
+From: Felipe Balbi <balbi@kernel.org>
+Message-Id: <8760122s2p.fsf@linux.intel.com>
+Date: Thu, 26 Jul 2018 13:45:50 +0300
+To: Jerry Zhang <zhangjerry@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+Cc: Michal Nazarewicz <mina86@mina86.com>, Krzysztof Opasiak <kopasiak90@gmail.com>, Badhri Jagan Sridharan <badhri@google.com>, Andrzej Pietrasiewicz <andrzej.p@samsung.com>, Lars-Peter Clausen <lars@metafoo.de>, felixhaedicke@web.de
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgTGludXMsCgpFbSBUdWUsIDE3IEp1bCAyMDE4IDEwOjA5OjI4IC0wNzAwCkxpbnVzIFRvcnZh
-bGRzIDx0b3J2YWxkc0BsaW51eC1mb3VuZGF0aW9uLm9yZz4gZXNjcmV2ZXU6Cgo+IE9uIFR1ZSwg
-SnVsIDE3LCAyMDE4IGF0IDQ6NTggQU0gSGFubmEgSGF3YSA8aGFubmFoQG1hcnZlbGwuY29tPiB3
-cm90ZToKPiA+Cj4gPiBBZnRlciBzb21lIGRlYnVnL2Jpc2VjdC9kaWZmLCBmb3VuZCB0aGF0IHBh
-dGNoICJzb2Z0aXJxOiBMZXQga3NvZnRpcnFkCj4gPiBkbyBpdHMgam9iIiBpcyBwcm9ibGVtYXRp
-YyBwYXRjaC4gIAo+IAo+IE9rLCB0aGlzIHRocmVhZCBkaWVkIGRvd24gd2l0aG91dCBhbnkgcmVz
-b2x1dGlvbi4KPiAKPiA+LSBVc2luZyB2NC4xNC4wIChpbmNsdWRpbmcgc29mdGlycSBwYXRjaCkg
-YW5kIHRoZSBhZGRpdGlvbmFsIGZpeAo+ID4gcHJvcG9zZWQgYnkgTGludXMgLSBubyB0aW1lb3V0
-IGlzc3VlLiAgCj4gCj4gQXJlIHlvdSB0YWxraW5nIGFib3V0IHRoZSBwYXRjaCB0aGF0IG1hZGUg
-SElfU09GVElSUSBhbmQKPiBUQVNLTEVUX1NPRlRJUlEgc3BlY2lhbCwgYW5kIGhhZCB0aGlzOgo+
-IAo+ICAgI2RlZmluZSBTT0ZUSVJRX05PV19NQVNLICgoMSA8PCBISV9TT0ZUSVJRKSB8ICgxIDw8
-IFRBU0tMRVRfU09GVElSUSkpCj4gCj4gaW4gaXQ/Cj4gCj4gSSB0aGluayBJJ2xsIGp1c3QgY29t
-bWl0IHRoZSBkYW1uIHRoaW5nLiBJdCdzIGhhY2t5LCBidXQgaXQncyBzaW1wbGUsCj4gYW5kIGl0
-IG5ldmVyIGdvdCBhcHBsaWVkIGJlY2F1c2Ugd2UgaGFkIHNtYXJ0ZXIgc3VnZ2VzdGlvbnMuIEJ1
-dCB0aGUKPiBzbWFydGVyIHN1Z2dlc3Rpb25zIG5ldmVyIGVuZGVkIHVwIGJlaW5nIGFwcGxpZWQg
-ZWl0aGVyLCBzby4uCgpZZWFoLCBJTUhPIHRoZSBiZXN0IHdvdWxkIGJlIHRvIGFwcGx5IHlvdXIg
-cGF0Y2hbMV0sIGMvYyBzdGFibGUgdXAgdG8KNC45LiBOb3RoaW5nIHByZXZlbnRzIGFwcGx5aW5n
-IGEgYmV0dGVyL3NtYXJ0ZXIgc29sdXRpb24gb25jZSB3ZQpoYXZlIGl0LiBGcm9tIG15IHNpZGUs
-IEkgY2FuIGtlZXAgdGVzdGluZyB3aGF0ZXZlciBzbWFydCBzdWdnZXN0aW9ucwpwZW9wbGUgcHJv
-cG9zZS4gWWV0LCBiZXR0ZXIgdG8gaGF2ZSBvbmUgZml4IG9uIG91ciBoYW5kIHRoYW4gdHdvCmZp
-eGVzIGZseWluZyBhcm91bmQuCgpbMV0gZS4gZy4gCglodHRwczovL2dpdC5saW51eHR2Lm9yZy9t
-Y2hlaGFiL2V4cGVyaW1lbnRhbC5naXQvY29tbWl0Lz9oPXY0LjE1JTJibWVkaWElMmJkd2MyJmlk
-PWNjZjgzM2ZkNGE1Yjk5YzNkM2NmMmMwOWMwNjU2NzBmNzRhMjMwYTcKClJlZ2FyZHMsCk1hdXJv
-Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJz
-Y3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZn
-ZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwu
-b3JnL21ham9yZG9tby1pbmZvLmh0bWwK
+SGksCgpKZXJyeSBaaGFuZyA8emhhbmdqZXJyeUBnb29nbGUuY29tPiB3cml0ZXM6Cj4gSGkgRmVs
+aXBlLAo+Cj4gSSBub3RpY2VkIHRoaXMgd2Fzbid0IHF1ZXVlZCB1cCBmb3IgNC4xOC4gRG8geW91
+IHRoaW5rIHRoZXJlIGlzCj4gYW55dGhpbmcgSSBuZWVkIHRvIGRvIHRvIGdldCB0aGlzIHBhdGNo
+IHNldCBpbnRvIDQuMTk/IEFsc28sIGNhbiB3ZSBhdAo+IGxlYXN0IGFkZCBqdXN0IHRoaXMgcGF0
+Y2ggKCd1c2I6IGdhZGdldDogZl9mczogT25seSByZXR1cm4gZGVsYXllZAo+IHN0YXR1cyB3aGVu
+IGxlbiBpcyAwJykgdG8gNC4xOCBhcyBmdW5jdGlvbmZzIGNvbnRyb2wgcmVxdWVzdHMgd29uJ3QK
+PiB3b3JrIHdpdGhvdXQgaXQ/CgpwYXRjaCAxIGlzIG5vdyBxdWV1ZWQgZm9yIG5leHQgbWVyZ2Ug
+d2luZG93LiBXaGF0IHNob3VsZCBJIGRvIHdpdGgKcGF0Y2hlcyAyIGFuZCAzPwo=
