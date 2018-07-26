@@ -1,24 +1,25 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2] USB: chipidea: Do not hang when CONFIG_USB_CHIPIDEA_ULPI is not selected
-From: Fabio Estevam <festevam@gmail.com>
-Message-Id: <CAOMZO5CNiVrFtS2NKvgMjZGCzXuev+efpYuNy0KRZ=vV56q5-Q@mail.gmail.com>
-Date: Wed, 4 Jul 2018 10:11:35 -0300
-To: Peter Chen <peter.chen@nxp.com>
-Cc: Shawn Guo <shawnguo@kernel.org>, USB list <linux-usb@vger.kernel.org>, Andrey Smirnov <andrew.smirnov@gmail.com>, Lucas Stach <l.stach@pengutronix.de>, Sebastian Reichel <sebastian.reichel@collabora.co.uk>, dl-linux-imx <linux-imx@nxp.com>, Sascha Hauer <kernel@pengutronix.de>, Fabio Estevam <fabio.estevam@nxp.com>
+Subject: [v4,1/3] usb: gadget: ccid: add support for USB CCID Gadget Device
+From: Felipe Balbi <balbi@kernel.org>
+Message-Id: <87woti1d5h.fsf@linux.intel.com>
+Date: Thu, 26 Jul 2018 13:53:30 +0300
+To: Marcus Folkesson <marcus.folkesson@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, davem@davemloft.net, Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Randy Dunlap <rdunlap@infradead.org>, Ruslan Bilovol <ruslan.bilovol@gmail.com>, Thomas Gleixner <tglx@linutronix.de>, Kate Stewart <kstewart@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgUGV0ZXIsCgpPbiBXZWQsIEp1bCA0LCAyMDE4IGF0IDU6MjQgQU0sIFBldGVyIENoZW4gPHBl
-dGVyLmNoZW5AbnhwLmNvbT4gd3JvdGU6Cgo+IEl0IHNlZW1zIHRoZXJlIGlzIG5vIGhhcm0gaWYg
-d2UgYWx3YXlzIGluY2x1ZGUgZHJpdmVycy91c2IvY2hpcGlkZWEvdWxwaS5jIGV4Y2VwdCBpbmNy
-ZWFzaW5nCj4gYSBsaXR0bGUgY29kZSBzaXplLCBob3cgYWJvdXQgYWx3YXlzIGJ1aWxkIHVscGku
-YyBmb3IgdGhlIHdob2xlIGNoaXBpZGVhIGF0IE1ha2VmaWxlLCBkZWxldGUKPiBDT05GSUdfVVNC
-X0NISVBJREVBX1VMUEkgYXMgd2VsbCwgbWVhbndoaWxlLCB3ZSBuZWVkIHRvIHNlbGVjdCBVU0Jf
-VUxQSV9CVVMKPiBhdCBLY29uZmlnPwo+Cj4gQmVzaWRlcywgYXQgZnVuY3Rpb24gY2lfdWxwaV9y
-ZXN1bWUgZm9yIHVscGkuYywgd2UgbmVlZCB0byBhZGQgY29uZGl0aW9uIHRvIHF1aXQgZm9yIG5v
-bi11bHBpIGludGVyZmFjZS4KClllcywgSSBzZW50IGEgdjIgbGV0dGluZyB1bHBpLmMgdG8gYmUg
-YWx3YXlzIGJ1aWx0LWluLgotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGxpc3Q6IHNlbmQg
-dGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkgb2YgYSBtZXNzYWdl
-IHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8gaW5mbyBhdCAgaHR0
-cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
+TWFyY3VzIEZvbGtlc3NvbiA8bWFyY3VzLmZvbGtlc3NvbkBnbWFpbC5jb20+IHdyaXRlczoKCj4g
+Q2hpcCBDYXJkIEludGVyZmFjZSBEZXZpY2UgKENDSUQpIHByb3RvY29sIGlzIGEgVVNCIHByb3Rv
+Y29sIHRoYXQKPiBhbGxvd3MgYSBzbWFydGNhcmQgZGV2aWNlIHRvIGJlIGNvbm5lY3RlZCB0byBh
+IGNvbXB1dGVyIHZpYSBhIGNhcmQKPiByZWFkZXIgdXNpbmcgYSBzdGFuZGFyZCBVU0IgaW50ZXJm
+YWNlLCB3aXRob3V0IHRoZSBuZWVkIGZvciBlYWNoIG1hbnVmYWN0dXJlcgo+IG9mIHNtYXJ0Y2Fy
+ZHMgdG8gcHJvdmlkZSBpdHMgb3duIHJlYWRlciBvciBwcm90b2NvbC4KPgo+IFRoaXMgZ2FkZ2V0
+IGRyaXZlciBtYWtlcyBMaW51eCBzaG93IHVwIGFzIGEgQ0NJRCBkZXZpY2UgdG8gdGhlIGhvc3Qg
+YW5kIGxldCBhCj4gdXNlcnNwYWNlIGRhZW1vbiBhY3QgYXMgdGhlIHNtYXJ0Y2FyZC4KPgo+IFRo
+aXMgaXMgdXNlZnVsIHdoZW4gdGhlIExpbnV4IGdhZGdldCBpdHNlbGYgc2hvdWxkIGFjdCBhcyBh
+IGNyeXB0b2dyYXBoaWMKPiBkZXZpY2Ugb3IgZm9yd2FyZCBBUERVcyB0byBhbiBlbWJlZGRlZCBz
+bWFydGNhcmQgZGV2aWNlLgo+Cj4gU2lnbmVkLW9mZi1ieTogTWFyY3VzIEZvbGtlc3NvbiA8bWFy
+Y3VzLmZvbGtlc3NvbkBnbWFpbC5jb20+CgpJIHN0aWxsIGRvbid0IHNlZSB0aGUgYmVuZWZpdCBv
+ZiBoYXZpbmcgdGhpcyBpbiB0aGUga2VybmVsIHdoZW4KZnVuY3Rpb25mcyB3b3VsZCBkbyBqdXN0
+IGZpbmUuCg==
