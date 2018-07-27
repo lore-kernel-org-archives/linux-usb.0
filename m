@@ -2,21 +2,27 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v3] usb: dwc3: core: Add quirk for enabling AutoRetry feature in the controller
-From: Felipe Balbi <balbi@kernel.org>
-Message-Id: <87k1phywot.fsf@linux.intel.com>
-Date: Fri, 27 Jul 2018 10:17:22 +0300
-To: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>, gregkh@linuxfoundation.org
-Cc: v.anuragkumar@gmail.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Anurag Kumar Vulisha <anuragku@xilinx.com>
+Message-Id: <MWHPR02MB2816BCF2F19A0D7DA70A6E53A72A0@MWHPR02MB2816.namprd02.prod.outlook.com>
+Date: Fri, 27 Jul 2018 07:34:23 +0000
+To: Felipe Balbi <balbi@kernel.org>, "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+Cc: "v.anuragkumar@gmail.com" <v.anuragkumar@gmail.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgpBbnVyYWcgS3VtYXIgVnVsaXNoYSA8YW51cmFnLmt1bWFyLnZ1bGlzaGFAeGlsaW54LmNv
-bT4gd3JpdGVzOgo+IEJ5IGRlZmF1bHQgd2hlbiBjb3JlIHNlZXMgYW55IHRyYW5zYWN0aW9uIGVy
-cm9yKENSQyBvciBvdmVyZmxvdykKPiBpdCByZXBsaWVzIHdpdGggdGVybWluYXRpbmcgcmV0cnkg
-QUNLIChSZXRyeT0xIGFuZCBOdW1wID09IDApLgo+IEVuYWJsaW5nIHRoaXMgQXV0byBSZXRyeSBm
-ZWF0dXJlIGluIGNvbnRyb2xsZXIsIG9uIHNlZWluZyBhbnkKPiB0cmFuc2FjdGlvbiBlcnJvcnMg
-bWFrZXMgdGhlIGNvcmUgdG8gc2VuZCBhIG5vbi10ZXJtaW5hdGluZyBBQ0sKPiB0cmFuc2FjdGlv
-biBwYWNrZXQgKHRoYXQgaXMsIEFDSyBUUCB3aXRoIFJldHJ5PTEgYW5kIE51bXAgIT0gMCkuCj4g
-RG9pbmcgc28gd2lsbCBnaXZlIGNvbnRyb2xsZXIgYSBjaGFuY2UgdG8gcmVjb3ZlciBmcm9tIHRo
-ZSBlcnJvcgo+IGNvbmRpdGlvbi4KPgo+IFNpZ25lZC1vZmYtYnk6IEFudXJhZyBLdW1hciBWdWxp
-c2hhIDxhbnVyYWcua3VtYXIudnVsaXNoYUB4aWxpbnguY29tPgo+IC0tLQoKc3ViamVjdCBsaW5l
-IGlzIG1pc2xlYWRpbmcsIGF0IGJlc3QuIFlvdSdyZSBub3QgYWRkaW5nIGFueSBxdWlya3MuCg==
+SGkgRmVsaXBlLAoKPkhpLAo+Cj5BbnVyYWcgS3VtYXIgVnVsaXNoYSA8YW51cmFnLmt1bWFyLnZ1
+bGlzaGFAeGlsaW54LmNvbT4gd3JpdGVzOgo+PiBCeSBkZWZhdWx0IHdoZW4gY29yZSBzZWVzIGFu
+eSB0cmFuc2FjdGlvbiBlcnJvcihDUkMgb3Igb3ZlcmZsb3cpIGl0Cj4+IHJlcGxpZXMgd2l0aCB0
+ZXJtaW5hdGluZyByZXRyeSBBQ0sgKFJldHJ5PTEgYW5kIE51bXAgPT0gMCkuCj4+IEVuYWJsaW5n
+IHRoaXMgQXV0byBSZXRyeSBmZWF0dXJlIGluIGNvbnRyb2xsZXIsIG9uIHNlZWluZyBhbnkKPj4g
+dHJhbnNhY3Rpb24gZXJyb3JzIG1ha2VzIHRoZSBjb3JlIHRvIHNlbmQgYSBub24tdGVybWluYXRp
+bmcgQUNLCj4+IHRyYW5zYWN0aW9uIHBhY2tldCAodGhhdCBpcywgQUNLIFRQIHdpdGggUmV0cnk9
+MSBhbmQgTnVtcCAhPSAwKS4KPj4gRG9pbmcgc28gd2lsbCBnaXZlIGNvbnRyb2xsZXIgYSBjaGFu
+Y2UgdG8gcmVjb3ZlciBmcm9tIHRoZSBlcnJvcgo+PiBjb25kaXRpb24uCj4+Cj4+IFNpZ25lZC1v
+ZmYtYnk6IEFudXJhZyBLdW1hciBWdWxpc2hhIDxhbnVyYWcua3VtYXIudnVsaXNoYUB4aWxpbngu
+Y29tPgo+PiAtLS0KPgo+c3ViamVjdCBsaW5lIGlzIG1pc2xlYWRpbmcsIGF0IGJlc3QuIFlvdSdy
+ZSBub3QgYWRkaW5nIGFueSBxdWlya3MuCj4KT29wcyAhICBXaWxsIGZpeCB0aGlzIGFuZCBzZW5k
+IGFub3RoZXIgdmVyc2lvbgoKVGhhbmtzLApBbnVyYWcgS3VtYXIgVnVsaXNoYQo+LS0KPmJhbGJp
+Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJz
+Y3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZn
+ZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwu
+b3JnL21ham9yZG9tby1pbmZvLmh0bWwK
