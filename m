@@ -2,22 +2,31 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v6,4/4] arm: arm64: dts: add property snps incr burst type adjustment
-From: Felipe Balbi <balbi@kernel.org>
-Message-Id: <87a7qe1cds.fsf@linux.intel.com>
-Date: Thu, 26 Jul 2018 14:10:07 +0300
-To: Pengbo Mu <pengbo.mu@nxp.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will.deacon@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, ran.wang_1@nxp.com
+From: Pengbo Mu <pengbo.mu@nxp.com>
+Message-Id: <AM0PR0402MB374720F0D369137620BEEEB7F42E0@AM0PR0402MB3747.eurprd04.prod.outlook.com>
+Date: Tue, 31 Jul 2018 02:46:28 +0000
+To: Felipe Balbi <balbi@kernel.org>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will.deacon@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, Ran Wang <ran.wang_1@nxp.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-UGVuZ2JvIE11IDxwZW5nYm8ubXVAbnhwLmNvbT4gd3JpdGVzOgoKPiBQcm9wZXJ0eSAic25wcyxp
-bmNyLWJ1cnN0LXR5cGUtYWRqdXN0bWVudCA9IDx4PiwgPHk+Li4uIiBmb3IgVVNCMy4wCj4gRFdD
-My5XaGVuIG9ubHkgb25lIHZhbHVlIG1lYW5zIElOQ1J4IG1vZGUgd2l0aCBmaXggYnVyc3QgdHlw
-ZS4KPiBXaGVuIG1vcmUgdGhhbiBvbmUgdmFsdWUsIG1lYW5zIHVuZGVmaW5lZCBsZW5ndGggYnVy
-c3QgbW9kZSwgVVNCCj4gY29udHJvbGxlciBjYW4gdXNlIHRoZSBsZW5ndGggbGVzcyB0aGFuIG9y
-IGVxdWFsIHRvIHRoZSBsYXJnZXN0Cj4gZW5hYmxlZCBidXJzdCBsZW5ndGguCj4KPiBXaGlsZSBl
-bmFibGluZyB1bmRlZmluZWQgbGVuZ3RoIElOQ1IgYnVyc3QgdHlwZSBhbmQgSU5DUjE2IGJ1cnN0
-IHR5cGUsCj4gZ2V0IGJldHRlciB3cml0ZSBwZXJmb3JtYW5jZSBvbiBOWFAgTGF5ZXJzY2FwZSBw
-bGF0Zm9ybXM6IGFyb3VuZCAzJQo+IGltcHJvdmVtZW50IChmcm9tIDM2NE1CL3MgdG8gMzc1TUIv
-cykuCj4KPiBTaWduZWQtb2ZmLWJ5OiBSYW4gV2FuZyA8cmFuLndhbmdfMUBueHAuY29tPgo+IFNp
-Z25lZC1vZmYtYnk6IFBlbmdibyBNdSA8cGVuZ2JvLm11QG54cC5jb20+Cgp3aWxsIHRoaXMgZ28g
-dGhyb3VnaCBhcm02NCB0cmVlIG9yIGRvIHlvdSBuZWVkIG1lIHRvIHBpY2sgaXQgdXA/Cg==
+RmVsaXBlIEJhbGJpIFttYWlsdG86YmFsYmlAa2VybmVsLm9yZ10gd3JpdGVzOgo+ID4gUHJvcGVy
+dHkgInNucHMsaW5jci1idXJzdC10eXBlLWFkanVzdG1lbnQgPSA8eD4sIDx5Pi4uLiIgZm9yIFVT
+QjMuMAo+ID4gRFdDMy5XaGVuIG9ubHkgb25lIHZhbHVlIG1lYW5zIElOQ1J4IG1vZGUgd2l0aCBm
+aXggYnVyc3QgdHlwZS4KPiA+IFdoZW4gbW9yZSB0aGFuIG9uZSB2YWx1ZSwgbWVhbnMgdW5kZWZp
+bmVkIGxlbmd0aCBidXJzdCBtb2RlLCBVU0IKPiA+IGNvbnRyb2xsZXIgY2FuIHVzZSB0aGUgbGVu
+Z3RoIGxlc3MgdGhhbiBvciBlcXVhbCB0byB0aGUgbGFyZ2VzdAo+ID4gZW5hYmxlZCBidXJzdCBs
+ZW5ndGguCj4gPgo+ID4gV2hpbGUgZW5hYmxpbmcgdW5kZWZpbmVkIGxlbmd0aCBJTkNSIGJ1cnN0
+IHR5cGUgYW5kIElOQ1IxNiBidXJzdCB0eXBlLAo+ID4gZ2V0IGJldHRlciB3cml0ZSBwZXJmb3Jt
+YW5jZSBvbiBOWFAgTGF5ZXJzY2FwZSBwbGF0Zm9ybXM6IGFyb3VuZCAzJQo+ID4gaW1wcm92ZW1l
+bnQgKGZyb20gMzY0TUIvcyB0byAzNzVNQi9zKS4KPiA+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBSYW4g
+V2FuZyA8cmFuLndhbmdfMUBueHAuY29tPgo+ID4gU2lnbmVkLW9mZi1ieTogUGVuZ2JvIE11IDxw
+ZW5nYm8ubXVAbnhwLmNvbT4KPiAKPiB3aWxsIHRoaXMgZ28gdGhyb3VnaCBhcm02NCB0cmVlIG9y
+IGRvIHlvdSBuZWVkIG1lIHRvIHBpY2sgaXQgdXA/CgpIaSAsCkkgYW0gc29ycnkgZm9yIEkgZG9u
+J3QgdW5kZXJzdGFuZCB3aGF0IHlvdSBtZWFuIC4KVGhpcyBwYXRjaCBmaXhlZCB0aGUgZHRzIGZp
+bGVzIG9mIGFybTMyICYgYXJtNjQgLCBzbyBJIG5hbWVkIHRoZSB0aXRsZSBsaWtlICJhcm06IGFy
+bTY0OiBkdHMgKioqIiAuCklzIHRoaXMgc29tZXRoaW5nIHdyb25nID8gSWYgeWVzICwgcGxzIHRl
+bGwgbWUgYW5kIEkgd2lsbCBmaXggaXQgIQoKVGhhbmtzLApQZW5nYm8KLS0tClRvIHVuc3Vic2Ny
+aWJlIGZyb20gdGhpcyBsaXN0OiBzZW5kIHRoZSBsaW5lICJ1bnN1YnNjcmliZSBsaW51eC11c2Ii
+IGluCnRoZSBib2R5IG9mIGEgbWVzc2FnZSB0byBtYWpvcmRvbW9Admdlci5rZXJuZWwub3JnCk1v
+cmUgbWFqb3Jkb21vIGluZm8gYXQgIGh0dHA6Ly92Z2VyLmtlcm5lbC5vcmcvbWFqb3Jkb21vLWlu
+Zm8uaHRtbAo=
