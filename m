@@ -1,24 +1,29 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: usb: host: xhci-plat: Iterate over parent nodes for finding quirks
-From: Anurag Kumar Vulisha <anuragku@xilinx.com>
-Message-Id: <BN3PR0201MB09936E8B2B5995EAEDF46E79A7200@BN3PR0201MB0993.namprd02.prod.outlook.com>
-Date: Mon, 6 Aug 2018 11:41:16 +0000
-To: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "v.anuragkumar@gmail.com" <v.anuragkumar@gmail.com>
+Subject: usb: gadget: ffs: Fix BUG when userland exits with submitted AIO transfers
+From: Vincent Pelletier <plr.vincent@gmail.com>
+Message-Id: <20180801150338.017e39c1@gmail.com>
+Date: Wed, 1 Aug 2018 15:03:55 +0000
+To: Felipe Balbi <felipe.balbi@linux.intel.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>, Roger Quadros <rogerq@ti.com>, Lars-Peter Clausen <lars@metafoo.de>, Sam Protsenko <semen.protsenko@linaro.org>, linux-usb@vger.kernel.org, Praneeth Bajjuri <praneeth@ti.com>, "He, Bo" <bo.he@intel.com>, "Bai, Jie A" <jie.a.bai@intel.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-Pj4NCj4+IEkgaGF2ZSByZXBsaWVkIHRvIHRoZSBjb21tZW50cyB0aGF0IE1hdGhpYXMgaGFzIHBy
-ZXZpb3VzbHkgZ2l2ZW4gb24NCj4+IHRoaXMgcGF0Y2ggYW5kIHdhaXRpbmcgb24gaGlzIHJlcGx5
-LCBidXQgbG9va3MgbGlrZSBNYXRoaWFzIGlzIG9uDQo+PiB2YWNhdGlvbi4gU2luY2UgaGUgaXMg
-b2theSB3aXRoIGFwcGx5aW5nIHRoZSBwYXRjaCwgd291bGQgaXQgYmUNCj4+IHBvc3NpYmxlIHRv
-IGdldCB0aGlzIHBhdGNoIGFwcGxpZWQ/IElmIHlvdSBoYXZlIGFueSBzdWdnZXN0aW9ucyBJIGNh
-biB3b3JrIG9uIGZpeGluZw0KPnRoZW0gYW5kIHJlLXNlbmQgdGhlIHBhdGNoLiBUaGFua3MgZm9y
-IHlvdXIgaGVscCBpbiB0aGlzIHJlZ2FyZC4NCj4+DQo+DQo+SSdtIGJhY2suDQo+SnVzdCBub3Rl
-ZCB0aGF0IHRoZXJlIGlzIG9uZSBjaGFuZ2Ugc3RpbGwgbmVlZGVkLCAoY29tbWVudGVkIG9uIGFj
-dHVhbCBwYXRjaCkgSSdsbCBwaWNrDQo+dXAgdGhlIG5leHQgdmVyc2lvbiBvZiB0aGUgcGF0Y2gs
-IGJ1dCB3ZSBhcmUgaW4gcmM4IGFscmVhZHkgc28geW91ciBmaXggd2lsbCBnbyB0byA0LjE5LQ0K
-PnJjMiBlYXJsaWVzdC4NCj4NCkhpIE1hdGhpYXMsDQoNCjQuMTktcmMyIGlzIGZpbmUuIEkgaGF2
-ZSBjb3JyZWN0ZWQgdGhlIHBhdGNoIGFuZCBzZW50IGEgdjIuIFRoYW5rcyBhIGxvdCBmb3INCnlv
-dXIgaGVscCwNCg0KUmVnYXJkcywNCkFudXJhZyBLdW1hciBWdWxpc2hhCg==
+SGVsbG8sCgpCbyBIZSwgQ0MnZWQsIGZvdW5kIGEgcmVncmVzc2lvbiBpbnRyb2R1Y2VkIGluIG15
+IHBhdGNoLCBkaXNjdXNzZWQgaW4KdGhpcyB0aHJlYWQsIGFuZCBzdWJtaXR0ZWQgYSBwYXRjaDoK
+ICBTdWJqZWN0OiBbUEFUQ0hdIGZpeCBwYW5pYyBhdCBwd3FfYWN0aXZhdGVfZGVsYXllZF93b3Jr
+LgogIERhdGU6IFdlZCwgMSBBdWcgMjAxOCAxMDoxNDozOCArMDAwMAogIE1lc3NhZ2UtSUQ6IDxD
+RDY5MjVFODc4MUVGRDREOEUxMTg4MkQyMEZDNDA2RDUyOTgzNEQyQFNIU01TWDEwNC5jY3IuY29y
+cC5pbnRlbC5jb20+CgpPbiBGcmksIDI5IEp1biAyMDE4IDA5OjMyOjQzICswMzAwLCBGZWxpcGUg
+QmFsYmkKPGZlbGlwZS5iYWxiaUBsaW51eC5pbnRlbC5jb20+IHdyb3RlOgo+IEhtbSwgdGhhdCdz
+IHdoYXQgSSByZW1lbWJlciwgYnV0IHdlIGRvbid0IGhhdmUgdGhhdCBkb2N1bWVudGVkIGFuZCBk
+d2MzCj4gaGFzIGEgc2xlZXAgaW4gaXRzIGRlcXVldWUsIHdoaWNoIEkgbmVlZCB0byByZW1vdmUg
+Zm9yIG90aGVyIHJlYXNvbnMKPiBhbnl3YXkuCgpHaXZlbiB0aGUgYWJvdmUgY29tbWVudCBmcm9t
+IEZlbGlwZSwgSSBleHBlY3RlZCBteSBwYXRjaCB3b3VsZCBiZQpkcm9wcGVkIGluIGZhdm91ciBv
+ZiBtYWtpbmcgZHdjMyBub3Qgc2xlZXAgaW4gZGVxdWV1ZSwgYXMgaXQgc2VlbXMgdG8KYmUgdGhl
+IGFjdHVhbCByb290IGNhdXNlLgoKU2hvdWxkIG15IHBhdGNoIGJlIHJldmVydGVkID8gSXQgYWRk
+cyBjb21wbGV4aXR5IHdoaWNoLCBJIGJlbGlldmUsCmJlY29tZXMgc3VwZXJmbHVvdXMgaWYgZGVx
+dWV1ZSBkb2VzIG5vdCBzbGVlcCBhbnl3aGVyZS4KCk9yIG1heWJlIG5vbi1zbGVlcGluZyBkZXF1
+ZXVlIGlzIG5vdCB0aGVyZSB5ZXQsIGFuZCBhIHNvbHV0aW9uIHJpZ2h0IG5vdwoobGF0ZXIgcmV2
+ZXJ0YWJsZSkgaXMgYmV0dGVyLCBpbiB3aGljaCBjYXNlIG15IGNoYW5nZSB3b3VsZCBiZSB3b3J0
+aApmaXhpbmcgPwo=
