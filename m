@@ -2,19 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: Regression in net2280 locking
-From: "D. Ziesche" <dziesche@zes.com>
-Message-Id: <5B6ACB36.5060905@zes.com>
-Date: Wed, 08 Aug 2018 12:51:34 +0200
-To: Alan Stern <stern@rowland.harvard.edu>
+From: Alan Stern <stern@rowland.harvard.edu>
+Message-Id: <Pine.LNX.4.44L0.1808081021111.1466-100000@iolanthe.rowland.org>
+Date: Wed, 8 Aug 2018 10:21:35 -0400 (EDT)
+To: "D. Ziesche" <dziesche@zes.com>
 Cc: balbi@kernel.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgp0aGFua3MgZm9yIHRoZSBwYXRjaC4KSSBhcHBsaWVkIHRoZSBwYXRjaCBvbiBsaW51eCBt
-YXN0ZXIgYW5kIGl0IGZpeGVkIHRoZSBpc3N1ZS4KCgpzaGVsbCBvdXRwdXQ6CiQgLi9hLm91dCAv
-ZGV2L3VzYl9nYWRnZXQvYWlvX3NpbXBsZV90ZXN0CkV2ZW50IEJJTkQKRXZlbnQgRU5BQkxFCnN1
-Ym1pdDogaW4Kc3VibWl0OiBvdXQKRXZlbnQgU1VTUEVORApFdmVudCBESVNBQkxFCkV2ZW50IEVO
-QUJMRQpldj1pbjsgcmV0PTIxMTIKZXY9b3V0OyByZXQ9MApzdWJtaXQ6IGluCnN1Ym1pdDogb3V0
-CkV2ZW50IFNVU1BFTkQKRXZlbnQgRElTQUJMRQotLS0KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlz
-IGxpc3Q6IHNlbmQgdGhlIGxpbmUgInVuc3Vic2NyaWJlIGxpbnV4LXVzYiIgaW4KdGhlIGJvZHkg
-b2YgYSBtZXNzYWdlIHRvIG1ham9yZG9tb0B2Z2VyLmtlcm5lbC5vcmcKTW9yZSBtYWpvcmRvbW8g
-aW5mbyBhdCAgaHR0cDovL3ZnZXIua2VybmVsLm9yZy9tYWpvcmRvbW8taW5mby5odG1sCg==
+T24gV2VkLCA4IEF1ZyAyMDE4LCBELiBaaWVzY2hlIHdyb3RlOgoKPiBIaSwKPiAKPiB0aGFua3Mg
+Zm9yIHRoZSBwYXRjaC4KPiBJIGFwcGxpZWQgdGhlIHBhdGNoIG9uIGxpbnV4IG1hc3RlciBhbmQg
+aXQgZml4ZWQgdGhlIGlzc3VlLgo+IAo+IAo+IHNoZWxsIG91dHB1dDoKPiAkIC4vYS5vdXQgL2Rl
+di91c2JfZ2FkZ2V0L2Fpb19zaW1wbGVfdGVzdAo+IEV2ZW50IEJJTkQKPiBFdmVudCBFTkFCTEUK
+PiBzdWJtaXQ6IGluCj4gc3VibWl0OiBvdXQKPiBFdmVudCBTVVNQRU5ECj4gRXZlbnQgRElTQUJM
+RQo+IEV2ZW50IEVOQUJMRQo+IGV2PWluOyByZXQ9MjExMgo+IGV2PW91dDsgcmV0PTAKPiBzdWJt
+aXQ6IGluCj4gc3VibWl0OiBvdXQKPiBFdmVudCBTVVNQRU5ECj4gRXZlbnQgRElTQUJMRQoKVGhh
+bmsgeW91IGZvciB0ZXN0aW5nLiAgSSB3aWxsIHN1Ym1pdCB0aGUgcGF0Y2guCgpBbGFuIFN0ZXJu
+Ci0tLQpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgbGlzdDogc2VuZCB0aGUgbGluZSAidW5zdWJz
+Y3JpYmUgbGludXgtdXNiIiBpbgp0aGUgYm9keSBvZiBhIG1lc3NhZ2UgdG8gbWFqb3Jkb21vQHZn
+ZXIua2VybmVsLm9yZwpNb3JlIG1ham9yZG9tbyBpbmZvIGF0ICBodHRwOi8vdmdlci5rZXJuZWwu
+b3JnL21ham9yZG9tby1pbmZvLmh0bWwK
