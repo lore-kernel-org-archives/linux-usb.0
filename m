@@ -1,23 +1,26 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [2/3] dt-bindings: usb: fusb302: Use usb-connector bindings for configuration
-From: Rob Herring <robh@kernel.org>
-Message-Id: <20180831121740.GA21868@bogus>
-Date: Fri, 31 Aug 2018 08:17:40 -0400
-To: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, Guenter Roeck <linux@roeck-us.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mark Rutland <mark.rutland@arm.com>, Hans de Goede <hdegoede@redhat.com>, Li Jun <jun.li@nxp.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, support.opensource@diasemi.com
+Subject: [3/4] usb: dwc3: trace: log ep commands in hex
+From: Felipe Balbi <felipe.balbi@linux.intel.com>
+Message-Id: <20180820103001.6453-3-felipe.balbi@linux.intel.com>
+Date: Mon, 20 Aug 2018 13:30:00 +0300
+To: linux-usb@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com, Felipe Balbi <felipe.balbi@linux.intel.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVHVlLCAyMSBBdWcgMjAxOCAxMzoyODoyMiArMDEwMCwgQWRhbSBUaG9tc29uIHdyb3RlOgo+
-IFRoZXJlIGFyZSBub3cgZ2VuZXJpYyB1c2ItY29ubmVjdG9yIGJpbmRpbmdzIHdoaWNoIGNhbiBi
-ZSB1c2VkCj4gdG8gZGVmaW5lIGEgcG9ydCBjb250cm9sbGVycyBjb25maWd1cmF0aW9uIGZvciBV
-U0ItUEQsIHNvIGRldmljZQo+IHNwZWNpZmljIGJpbmRpbmdzIGFyZSBubyBsb25nZXIgbmVjZXNz
-YXJ5Lgo+IAo+IFRoaXMgdXBkYXRlIGRlcHJlY2F0ZXMgJ2ZjcyxvcGVyYXRpbmctc2luay1taWNy
-b3dhdHQnLCBhbmQgcmVmZXJlbmNlcwo+IHRoZSAndXNiLWNvbm5lY3RvcicgYmluZGluZ3MgaW5z
-dGVhZCB0byBhY2hpZXZlIHRoZSByZXF1aXJlZCBwb3J0Cj4gY29uZmlnLgo+IAo+IFNpZ25lZC1v
-ZmYtYnk6IEFkYW0gVGhvbXNvbiA8QWRhbS5UaG9tc29uLk9wZW5zb3VyY2VAZGlhc2VtaS5jb20+
-Cj4gLS0tCj4gIC4uLi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9mY3MsZnVzYjMwMi50eHQgICAg
-ICAgIHwgMzIgKysrKysrKysrKysrKysrKystLS0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgMjUgaW5z
-ZXJ0aW9ucygrKSwgNyBkZWxldGlvbnMoLSkKPiAKClJldmlld2VkLWJ5OiBSb2IgSGVycmluZyA8
-cm9iaEBrZXJuZWwub3JnPgo=
+VGhleSBhcmUgbXVjaCBtb3JlIHVzZWZ1bCBpbiBoZXhhZGVjaW1hbCB0aGFuIGluIGRlY2ltYWwu
+IE1vcmVvdmVyLApnZW5lcmljIGNvbW1hbmRzIGFyZSBhbHJlYWR5IGxvZ2dlZCBpbiBoZXguCgpT
+aWduZWQtb2ZmLWJ5OiBGZWxpcGUgQmFsYmkgPGZlbGlwZS5iYWxiaUBsaW51eC5pbnRlbC5jb20+
+Ci0tLQogZHJpdmVycy91c2IvZHdjMy90cmFjZS5oIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEg
+aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvZHdj
+My90cmFjZS5oIGIvZHJpdmVycy91c2IvZHdjMy90cmFjZS5oCmluZGV4IGYyMjcxNGNjZTA3MC4u
+NTBmYjZmMmQ5MmRkIDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9kd2MzL3RyYWNlLmgKKysrIGIv
+ZHJpdmVycy91c2IvZHdjMy90cmFjZS5oCkBAIC0xOTksNyArMTk5LDcgQEAgREVDTEFSRV9FVkVO
+VF9DTEFTUyhkd2MzX2xvZ19nYWRnZXRfZXBfY21kLAogCQlfX2VudHJ5LT5wYXJhbTIgPSBwYXJh
+bXMtPnBhcmFtMjsKIAkJX19lbnRyeS0+Y21kX3N0YXR1cyA9IGNtZF9zdGF0dXM7CiAJKSwKLQlU
+UF9wcmludGsoIiVzOiBjbWQgJyVzJyBbJWRdIHBhcmFtcyAlMDh4ICUwOHggJTA4eCAtLT4gc3Rh
+dHVzOiAlcyIsCisJVFBfcHJpbnRrKCIlczogY21kICclcycgWyV4XSBwYXJhbXMgJTA4eCAlMDh4
+ICUwOHggLS0+IHN0YXR1czogJXMiLAogCQlfX2dldF9zdHIobmFtZSksIGR3YzNfZ2FkZ2V0X2Vw
+X2NtZF9zdHJpbmcoX19lbnRyeS0+Y21kKSwKIAkJX19lbnRyeS0+Y21kLCBfX2VudHJ5LT5wYXJh
+bTAsCiAJCV9fZW50cnktPnBhcmFtMSwgX19lbnRyeS0+cGFyYW0yLAo=
