@@ -2,11 +2,11 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [3/3] usb: typec: fusb302: Populate tcpc fwnode for TCPM property handling
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Message-Id: <20180821132227.GB31230@kuha.fi.intel.com>
-Date: Tue, 21 Aug 2018 16:22:27 +0300
+From: Guenter Roeck <linux@roeck-us.net>
+Message-Id: <20180821140338.GE17160@roeck-us.net>
+Date: Tue, 21 Aug 2018 07:03:38 -0700
 To: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Hans de Goede <hdegoede@redhat.com>, Li Jun <jun.li@nxp.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, support.opensource@diasemi.com
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Hans de Goede <hdegoede@redhat.com>, Li Jun <jun.li@nxp.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, support.opensource@diasemi.com
 List-ID: <linux-usb.vger.kernel.org>
 
 T24gVHVlLCBBdWcgMjEsIDIwMTggYXQgMDE6Mjg6MjNQTSArMDEwMCwgQWRhbSBUaG9tc29uIHdy
@@ -15,16 +15,16 @@ bnRlciB3aXRoIHRoZQo+IGNoaWxkIHVzYi1jb25uZWN0b3Igbm9kZSwgaWYgaXQgZXhpc3RzLCBz
 byB0aGF0IFRDUE0gY2FuIHBlcmZvcm0KPiBnZW5lcmljIHByb3BlcnR5IGhhbmRsaW5nIHRvIGRl
 ZmluZSB0aGUgcG9ydHMgY2FwYWJpbGl0aWVzLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEFkYW0gVGhv
 bXNvbiA8QWRhbS5UaG9tc29uLk9wZW5zb3VyY2VAZGlhc2VtaS5jb20+CgpSZXZpZXdlZC1ieTog
-SGVpa2tpIEtyb2dlcnVzIDxoZWlra2kua3JvZ2VydXNAbGludXguaW50ZWwuY29tPgoKPiAtLS0K
-PiAgZHJpdmVycy91c2IvdHlwZWMvZnVzYjMwMi9mdXNiMzAyLmMgfCAzICsrKwo+ICAxIGZpbGUg
-Y2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL3R5
-cGVjL2Z1c2IzMDIvZnVzYjMwMi5jIGIvZHJpdmVycy91c2IvdHlwZWMvZnVzYjMwMi9mdXNiMzAy
-LmMKPiBpbmRleCA4MmJlZDk4Li4xYjQ2NGM5IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvdXNiL3R5
-cGVjL2Z1c2IzMDIvZnVzYjMwMi5jCj4gKysrIGIvZHJpdmVycy91c2IvdHlwZWMvZnVzYjMwMi9m
-dXNiMzAyLmMKPiBAQCAtMTczNiw2ICsxNzM2LDkgQEAgc3RhdGljIGludCBmdXNiMzAyX3Byb2Jl
-KHN0cnVjdCBpMmNfY2xpZW50ICpjbGllbnQsCj4gIAljaGlwLT50Y3BjX2Rldi5jb25maWcgPSAm
-Y2hpcC0+dGNwY19jb25maWc7Cj4gIAltdXRleF9pbml0KCZjaGlwLT5sb2NrKTsKPiAgCj4gKwlj
-aGlwLT50Y3BjX2Rldi5md25vZGUgPQo+ICsJCWRldmljZV9nZXRfbmFtZWRfY2hpbGRfbm9kZShk
-ZXYsICJjb25uZWN0b3IiKTsKPiArCj4gIAlpZiAoIWRldmljZV9wcm9wZXJ0eV9yZWFkX3UzMihk
-ZXYsICJmY3Msb3BlcmF0aW5nLXNpbmstbWljcm93YXR0IiwgJnYpKQo+ICAJCWNoaXAtPnRjcGNf
-Y29uZmlnLm9wZXJhdGluZ19zbmtfbXcgPSB2IC8gMTAwMDsKClRoYW5rcywK
+R3VlbnRlciBSb2VjayA8bGludXhAcm9lY2stdXMubmV0PgoKPiAtLS0KPiAgZHJpdmVycy91c2Iv
+dHlwZWMvZnVzYjMwMi9mdXNiMzAyLmMgfCAzICsrKwo+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNl
+cnRpb25zKCspCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL3R5cGVjL2Z1c2IzMDIvZnVz
+YjMwMi5jIGIvZHJpdmVycy91c2IvdHlwZWMvZnVzYjMwMi9mdXNiMzAyLmMKPiBpbmRleCA4MmJl
+ZDk4Li4xYjQ2NGM5IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvdXNiL3R5cGVjL2Z1c2IzMDIvZnVz
+YjMwMi5jCj4gKysrIGIvZHJpdmVycy91c2IvdHlwZWMvZnVzYjMwMi9mdXNiMzAyLmMKPiBAQCAt
+MTczNiw2ICsxNzM2LDkgQEAgc3RhdGljIGludCBmdXNiMzAyX3Byb2JlKHN0cnVjdCBpMmNfY2xp
+ZW50ICpjbGllbnQsCj4gIAljaGlwLT50Y3BjX2Rldi5jb25maWcgPSAmY2hpcC0+dGNwY19jb25m
+aWc7Cj4gIAltdXRleF9pbml0KCZjaGlwLT5sb2NrKTsKPiAgCj4gKwljaGlwLT50Y3BjX2Rldi5m
+d25vZGUgPQo+ICsJCWRldmljZV9nZXRfbmFtZWRfY2hpbGRfbm9kZShkZXYsICJjb25uZWN0b3Ii
+KTsKPiArCj4gIAlpZiAoIWRldmljZV9wcm9wZXJ0eV9yZWFkX3UzMihkZXYsICJmY3Msb3BlcmF0
+aW5nLXNpbmstbWljcm93YXR0IiwgJnYpKQo+ICAJCWNoaXAtPnRjcGNfY29uZmlnLm9wZXJhdGlu
+Z19zbmtfbXcgPSB2IC8gMTAwMDsKPiAgCj4gLS0gCj4gMS45LjEKPgo=
