@@ -1,15 +1,37 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [RFC,3/3] stk1160: Use non-coherent buffers for USB transfers
-From: Christoph Hellwig <hch@infradead.org>
-Message-Id: <20180830175937.GB11521@infradead.org>
-Date: Thu, 30 Aug 2018 10:59:37 -0700
-To: Ezequiel Garcia <ezequiel@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Tomasz Figa <tfiga@chromium.org>, "Matwey V . Kornilov" <matwey@sai.msu.ru>, Alan Stern <stern@rowland.harvard.edu>, kernel@collabora.com, Keiichi Watanabe <keiichiw@chromium.org>
+Subject: [07/14] USB: EHCI: ehci-mv: remove private_init
+From: Lubomir Rintel <lkundrak@v3.sk>
+Message-Id: <20180822204307.13251-8-lkundrak@v3.sk>
+Date: Wed, 22 Aug 2018 22:43:00 +0200
+To: linux-kernel@vger.kernel.org
+Cc: linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Eric Miao <eric.y.miao@gmail.com>, Haojian Zhuang <haojian.zhuang@gmail.com>, Kishon Vijay Abraham I <kishon@ti.com>, Alan Stern <stern@rowland.harvard.edu>, Lubomir Rintel <lkundrak@v3.sk>
 List-ID: <linux-usb.vger.kernel.org>
 
-PiArCWRtYV9zeW5jX3NpbmdsZV9mb3JfY3B1KCZ1cmItPmRldi0+ZGV2LCB1cmItPnRyYW5zZmVy
-X2RtYSwKPiArCQl1cmItPnRyYW5zZmVyX2J1ZmZlcl9sZW5ndGgsIERNQV9GUk9NX0RFVklDRSk7
-CgpZb3UgY2FuJ3QgdWUgZG1hX3N5bmNfc2luZ2xlX2Zvcl9jcHUgb24gbm9uLWNvaGVyZW50IGRt
-YSBidWZmZXJzLAp3aGljaCBpcyBvbmUgb2YgdGhlIG1ham9yIGlzc3VlcyB3aXRoIHRoZW0uCg==
+SXQncyB1bnVzZWQuCgpTaWduZWQtb2ZmLWJ5OiBMdWJvbWlyIFJpbnRlbCA8bGt1bmRyYWtAdjMu
+c2s+Ci0tLQogZHJpdmVycy91c2IvaG9zdC9laGNpLW12LmMgICAgICAgICAgIHwgNCAtLS0tCiBp
+bmNsdWRlL2xpbnV4L3BsYXRmb3JtX2RhdGEvbXZfdXNiLmggfCAxIC0KIDIgZmlsZXMgY2hhbmdl
+ZCwgNSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9ob3N0L2VoY2ktbXYu
+YyBiL2RyaXZlcnMvdXNiL2hvc3QvZWhjaS1tdi5jCmluZGV4IDc3YTRhYjFkY2QwNy4uNzA1ZDFi
+NDNiMmRkIDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9ob3N0L2VoY2ktbXYuYworKysgYi9kcml2
+ZXJzL3VzYi9ob3N0L2VoY2ktbXYuYwpAQCAtMjAzLDkgKzIwMyw2IEBAIHN0YXRpYyBpbnQgbXZf
+ZWhjaV9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQogCQlkZXZpY2Vfd2FrZXVw
+X2VuYWJsZShoY2QtPnNlbGYuY29udHJvbGxlcik7CiAJfQogCi0JaWYgKHBkYXRhLT5wcml2YXRl
+X2luaXQpCi0JCXBkYXRhLT5wcml2YXRlX2luaXQoZWhjaV9tdi0+b3BfcmVncywgZWhjaV9tdi0+
+cGh5X3JlZ3MpOwotCiAJZGV2X2luZm8oJnBkZXYtPmRldiwKIAkJICJzdWNjZXNzZnVsIGZpbmQg
+RUhDSSBkZXZpY2Ugd2l0aCByZWdzIDB4JXAgaXJxICVkIgogCQkgIiB3b3JraW5nIGluICVzIG1v
+ZGVcbiIsIGhjZC0+cmVncywgaGNkLT5pcnEsCkBAIC0yNjAsNyArMjU3LDYgQEAgc3RhdGljIGNv
+bnN0IHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2VfaWQgZWhjaV9pZF90YWJsZVtdID0gewogc3RhdGlj
+IHZvaWQgbXZfZWhjaV9zaHV0ZG93bihzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQogewog
+CXN0cnVjdCB1c2JfaGNkICpoY2QgPSBwbGF0Zm9ybV9nZXRfZHJ2ZGF0YShwZGV2KTsKLQlzdHJ1
+Y3QgZWhjaV9oY2RfbXYgKmVoY2lfbXYgPSBoY2RfdG9fZWhjaV9oY2RfbXYoaGNkKTsKIAogCWlm
+ICghaGNkLT5yaF9yZWdpc3RlcmVkKQogCQlyZXR1cm47CmRpZmYgLS1naXQgYS9pbmNsdWRlL2xp
+bnV4L3BsYXRmb3JtX2RhdGEvbXZfdXNiLmggYi9pbmNsdWRlL2xpbnV4L3BsYXRmb3JtX2RhdGEv
+bXZfdXNiLmgKaW5kZXggOThiNzkyNWYxYTJkLi5jMGY2MjRhY2E4MWMgMTAwNjQ0Ci0tLSBhL2lu
+Y2x1ZGUvbGludXgvcGxhdGZvcm1fZGF0YS9tdl91c2IuaAorKysgYi9pbmNsdWRlL2xpbnV4L3Bs
+YXRmb3JtX2RhdGEvbXZfdXNiLmgKQEAgLTQ4LDYgKzQ4LDUgQEAgc3RydWN0IG12X3VzYl9wbGF0
+Zm9ybV9kYXRhIHsKIAlpbnQJKCpwaHlfaW5pdCkodm9pZCBfX2lvbWVtICpyZWdiYXNlKTsKIAl2
+b2lkCSgqcGh5X2RlaW5pdCkodm9pZCBfX2lvbWVtICpyZWdiYXNlKTsKIAlpbnQJKCpzZXRfdmJ1
+cykodW5zaWduZWQgaW50IHZidXMpOwotCWludCAgICAgKCpwcml2YXRlX2luaXQpKHZvaWQgX19p
+b21lbSAqb3ByZWdzLCB2b2lkIF9faW9tZW0gKnBoeXJlZ3MpOwogfTsKICNlbmRpZgo=
