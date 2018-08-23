@@ -1,18 +1,32 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [5/6] dt-bindings: usb: renesas_usbhs: Add r8a774a1 support
-From: Rob Herring <robh@kernel.org>
-Message-Id: <20180831122021.GA26062@bogus>
-Date: Fri, 31 Aug 2018 08:20:21 -0400
-To: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc: Mark Rutland <mark.rutland@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, Simon Horman <horms@verge.net.au>, Geert Uytterhoeven <geert+renesas@glider.be>, Chris Paterson <Chris.Paterson2@renesas.com>, Biju Das <biju.das@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [v2] usb: iowarrior: replace kmalloc with kmalloc_array
+From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Message-Id: <20180823174415.GA26008@embeddedor.com>
+Date: Thu, 23 Aug 2018 12:44:15 -0500
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>, "Gustavo A. R. Silva" <gustavo@embeddedor.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCAyNCBBdWcgMjAxOCAwODo1NjoxNCArMDEwMCwgRmFicml6aW8gQ2FzdHJvIHdyb3Rl
-Ogo+IERvY3VtZW50IFJaL0cyTSAoUjhBNzc0QTEpIFNvQyBiaW5kaW5ncy4KPiAKPiBTaWduZWQt
-b2ZmLWJ5OiBGYWJyaXppbyBDYXN0cm8gPGZhYnJpemlvLmNhc3Ryb0BicC5yZW5lc2FzLmNvbT4K
-PiBSZXZpZXdlZC1ieTogQmlqdSBEYXMgPGJpanUuZGFzQGJwLnJlbmVzYXMuY29tPgo+IC0tLQo+
-ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL3JlbmVzYXNfdXNiaHMudHh0
-IHwgMyArKy0KPiAgMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigt
-KQo+IAoKUmV2aWV3ZWQtYnk6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+Cg==
+QSBjb21tb24gZmxhdyBpbiB0aGUga2VybmVsIGlzIGludGVnZXIgb3ZlcmZsb3cgZHVyaW5nIG1l
+bW9yeSBhbGxvY2F0aW9uCnNpemUgY2FsY3VsYXRpb25zLiBJbiBhbiBlZmZvcnQgdG8gcmVkdWNl
+IHRoZSBmcmVxdWVuY3kgb2YgdGhlc2UgYnVncywKa21hbGxvY19hcnJheSB3YXMgaW1wbGVtZW50
+ZWQsIHdoaWNoIGFsbG9jYXRlcyBtZW1vcnkgZm9yIGFuIGFycmF5LAp3aGlsZSBhdCB0aGUgc2Ft
+ZSB0aW1lIGRldGVjdHMgaW50ZWdlciBvdmVyZmxvdy4KClRoaXMgcGF0Y2ggcmVwbGFjZXMgY2Fz
+ZXMgb2Y6CgprbWFsbG9jKGEgKiBiLCBnZnApCgp3aXRoOgoJa21hbGxvY19hcnJheShhICogYiwg
+Z2ZwKQoKU2lnbmVkLW9mZi1ieTogR3VzdGF2byBBLiBSLiBTaWx2YSA8Z3VzdGF2b0BlbWJlZGRl
+ZG9yLmNvbT4KLS0tCkNoYW5nZXMgaW4gdjI6CiAtIEFsaWduIEdGUF9LRVJORUwgdG8gb3BlbiBw
+YXJlbnRoZXNpcy4KCiBkcml2ZXJzL3VzYi9taXNjL2lvd2Fycmlvci5jIHwgNCArKy0tCiAxIGZp
+bGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvdXNiL21pc2MvaW93YXJyaW9yLmMgYi9kcml2ZXJzL3VzYi9taXNjL2lvd2Fycmlv
+ci5jCmluZGV4IGMyOTkxYjguLmJhMDVkZDggMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL21pc2Mv
+aW93YXJyaW9yLmMKKysrIGIvZHJpdmVycy91c2IvbWlzYy9pb3dhcnJpb3IuYwpAQCAtODA4LDgg
+KzgwOCw4IEBAIHN0YXRpYyBpbnQgaW93YXJyaW9yX3Byb2JlKHN0cnVjdCB1c2JfaW50ZXJmYWNl
+ICppbnRlcmZhY2UsCiAJCQkgZGV2LT5pbnRfaW5fZW5kcG9pbnQtPmJJbnRlcnZhbCk7CiAJLyog
+Y3JlYXRlIGFuIGludGVybmFsIGJ1ZmZlciBmb3IgaW50ZXJydXB0IGRhdGEgZnJvbSB0aGUgZGV2
+aWNlICovCiAJZGV2LT5yZWFkX3F1ZXVlID0KLQkgICAga21hbGxvYygoKGRldi0+cmVwb3J0X3Np
+emUgKyAxKSAqIE1BWF9JTlRFUlJVUFRfQlVGRkVSKSwKLQkJICAgIEdGUF9LRVJORUwpOworCSAg
+ICBrbWFsbG9jX2FycmF5KGRldi0+cmVwb3J0X3NpemUgKyAxLCBNQVhfSU5URVJSVVBUX0JVRkZF
+UiwKKwkJCSAgR0ZQX0tFUk5FTCk7CiAJaWYgKCFkZXYtPnJlYWRfcXVldWUpCiAJCWdvdG8gZXJy
+b3I7CiAJLyogR2V0IHRoZSBzZXJpYWwtbnVtYmVyIG9mIHRoZSBjaGlwICovCg==
