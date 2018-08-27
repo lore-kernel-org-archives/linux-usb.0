@@ -1,18 +1,29 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v1,2/2] Embedded USB Debugger (EUD) driver
-From: Prakruthi Deepak Heragu <pheragu@codeaurora.org>
-Message-Id: <cffb39ab91d2922d5eb06fb9cf388d1f@codeaurora.org>
-Date: Mon, 20 Aug 2018 09:59:10 -0700
-To: Trilok Soni <tsoni@codeaurora.org>
-Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, ckadabi@codeaurora.org, bryanh@codeaurora.org, psodagud@codeaurora.org, rnayak@codeaurora.org, Satya Durga Srinivasu Prabhala <satyap@codeaurora.org>
+Subject: [v2,5/7] usb: chipidea: Fix otg event handler
+From: Loic Poulain <loic.poulain@linaro.org>
+Message-Id: <1535362415-16559-5-git-send-email-loic.poulain@linaro.org>
+Date: Mon, 27 Aug 2018 11:33:33 +0200
+To: Peter.Chen@nxp.com
+Cc: linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org, david.brown@linaro.org, robh+dt@kernel.org, bjorn.andersson@linaro.org, andy.gross@linaro.org, andy.shevchenko@gmail.com, Loic Poulain <loic.poulain@linaro.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMjAxOC0wOC0xNyAxMjo0NywgVHJpbG9rIFNvbmkgd3JvdGU6Cj4gSGkgUHJha3J1dGhpLAo+
-IAo+IE9uIDgvMTYvMjAxOCA1OjA1IFBNLCBQcmFrcnV0aGkgRGVlcGFrIEhlcmFndSB3cm90ZToK
-Pj4gKwo+PiArI2RlZmluZSBFVURfSU5UX1ZCVVMJCUJJVCgyKQo+PiArI2RlZmluZSBFVURfSU5U
-X0NIR1IJCUJJVCgzKQo+PiArI2RlZmluZSBFVURfSU5UX1NBRkVfTU9ERQlCSVQoNCkKPj4gKwo+
-PiArI2RlZmluZSBFVURfTlIJCQkxCj4gCj4gSSBkb24ndCBzZWUgYW55IHVzZSBvZiBFVURfTlIg
-aW4gdGhlIGRyaXZlciBiZWxvdy4gRG8gd2UgbmVlZCBpdD8KU29ycnkgYWJvdXQgdGhhdC4gV2ls
-bCBnZXQgcmlkIG9mIGl0Lgo=
+QXQgT1RHIHdvcmsgcnVubmluZyB0aW1lLCBpdCdzIHBvc3NpYmxlIHRoYXQgc2V2ZXJhbCBldmVu
+dHMgbmVlZCB0byBiZQphZGRyZXNzZWQgKGUuZy4gSUQgYW5kIFZCVVMgZXZlbnRzKS4gVGhlIGN1
+cnJlbnQgaW1wbGVtZW50YXRpb24gaGFuZGxlcwpvbmx5IG9uZSBldmVudCBhdCBhIHRpbWUgd2hp
+Y2ggbGVhZHMgdG8gaWdub3JpbmcgdGhlIG90aGVyIG9uZS4gRml4IGl0LgoKU2lnbmVkLW9mZi1i
+eTogTG9pYyBQb3VsYWluIDxsb2ljLnBvdWxhaW5AbGluYXJvLm9yZz4KLS0tCiB2Mjogbm8gY2hh
+bmdlCgogZHJpdmVycy91c2IvY2hpcGlkZWEvb3RnLmMgfCA5ICsrKysrKy0tLQogMSBmaWxlIGNo
+YW5nZWQsIDYgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2
+ZXJzL3VzYi9jaGlwaWRlYS9vdGcuYyBiL2RyaXZlcnMvdXNiL2NoaXBpZGVhL290Zy5jCmluZGV4
+IDEwMjM2ZmUuLjhiZjQwMzIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL2NoaXBpZGVhL290Zy5j
+CisrKyBiL2RyaXZlcnMvdXNiL2NoaXBpZGVhL290Zy5jCkBAIC0yMDYsMTQgKzIwNiwxNyBAQCBz
+dGF0aWMgdm9pZCBjaV9vdGdfd29yayhzdHJ1Y3Qgd29ya19zdHJ1Y3QgKndvcmspCiAJfQogCiAJ
+cG1fcnVudGltZV9nZXRfc3luYyhjaS0+ZGV2KTsKKwogCWlmIChjaS0+aWRfZXZlbnQpIHsKIAkJ
+Y2ktPmlkX2V2ZW50ID0gZmFsc2U7CiAJCWNpX2hhbmRsZV9pZF9zd2l0Y2goY2kpOwotCX0gZWxz
+ZSBpZiAoY2ktPmJfc2Vzc192YWxpZF9ldmVudCkgeworCX0KKworCWlmIChjaS0+Yl9zZXNzX3Zh
+bGlkX2V2ZW50KSB7CiAJCWNpLT5iX3Nlc3NfdmFsaWRfZXZlbnQgPSBmYWxzZTsKIAkJY2lfaGFu
+ZGxlX3ZidXNfY2hhbmdlKGNpKTsKLQl9IGVsc2UKLQkJZGV2X2VycihjaS0+ZGV2LCAidW5leHBl
+Y3RlZCBldmVudCBvY2N1cnMgYXQgJXNcbiIsIF9fZnVuY19fKTsKKwl9CisKIAlwbV9ydW50aW1l
+X3B1dF9zeW5jKGNpLT5kZXYpOwogCiAJZW5hYmxlX2lycShjaS0+aXJxKTsK
