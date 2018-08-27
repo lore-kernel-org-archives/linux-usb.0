@@ -2,23 +2,33 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: host: xhci-rcar: Add support for r8a774a1
-From: Biju Das <biju.das@bp.renesas.com>
-Message-Id: <1535105808-11401-1-git-send-email-biju.das@bp.renesas.com>
-Date: Fri, 24 Aug 2018 11:16:48 +0100
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mathias Nyman <mathias.nyman@intel.com>, Felipe Balbi <felipe.balbi@linux.intel.com>
-Cc: Biju Das <biju.das@bp.renesas.com>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Fengguang Wu <fengguang.wu@intel.com>, Chris Brandt <chris.brandt@renesas.com>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Geert Uytterhoeven <geert+renesas@glider.be>, linux-usb@vger.kernel.org, Simon Horman <horms@verge.net.au>, Chris Paterson <Chris.Paterson2@renesas.com>, Fabrizio Castro <fabrizio.castro@bp.renesas.com>, linux-renesas-soc@vger.kernel.org
+From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Message-Id: <OSBPR01MB229391181806670F0A150B88D80B0@OSBPR01MB2293.jpnprd01.prod.outlook.com>
+Date: Mon, 27 Aug 2018 05:04:29 +0000
+To: Biju Das <biju.das@bp.renesas.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mathias Nyman <mathias.nyman@intel.com>, Felipe Balbi <felipe.balbi@linux.intel.com>
+Cc: Fengguang Wu <fengguang.wu@intel.com>, Chris Brandt <Chris.Brandt@renesas.com>, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Geert Uytterhoeven <geert+renesas@glider.be>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, Simon Horman <horms@verge.net.au>, Chris Paterson <Chris.Paterson2@renesas.com>, Fabrizio Castro <fabrizio.castro@bp.renesas.com>, "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhpcyBwYXRjaCBhZGRzIHN1cHBvcnQgZm9yIHI4YTc3NGExIChSWi9HMk0pLgoKU2lnbmVkLW9m
-Zi1ieTogQmlqdSBEYXMgPGJpanUuZGFzQGJwLnJlbmVzYXMuY29tPgpSZXZpZXdlZC1ieTogRmFi
-cml6aW8gQ2FzdHJvIDxmYWJyaXppby5jYXN0cm9AYnAucmVuZXNhcy5jb20+Ci0tLQogZHJpdmVy
-cy91c2IvaG9zdC94aGNpLXJjYXIuYyB8IDQgKysrKwogMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0
-aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1yY2FyLmMgYi9kcml2
-ZXJzL3VzYi9ob3N0L3hoY2ktcmNhci5jCmluZGV4IGYzM2ZmYzIuLmM5MDZiMTMgMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1yY2FyLmMKKysrIGIvZHJpdmVycy91c2IvaG9zdC94
-aGNpLXJjYXIuYwpAQCAtNzIsNiArNzIsMTAgQEAgTU9EVUxFX0ZJUk1XQVJFKFhIQ0lfUkNBUl9G
-SVJNV0FSRV9OQU1FX1YzKTsKIAogc3RhdGljIGNvbnN0IHN0cnVjdCBzb2NfZGV2aWNlX2F0dHJp
-YnV0ZSByY2FyX3F1aXJrc19tYXRjaFtdICA9IHsKIAl7CisJCS5zb2NfaWQgPSAicjhhNzc0YTEi
-LAorCQkuZGF0YSA9ICh2b2lkICopUkNBUl9YSENJX0ZJUk1XQVJFX1YzLAorCX0sCisJewogCQku
-c29jX2lkID0gInI4YTc3OTUiLCAucmV2aXNpb24gPSAiRVMxLioiLAogCQkuZGF0YSA9ICh2b2lk
-ICopUkNBUl9YSENJX0ZJUk1XQVJFX1YyLAogCX0sCg==
+SGkgQmlqdS1zYW4sCgpUaGFuayB5b3UgZm9yIHRoZSBwYXRjaCEKCj4gRnJvbTogQmlqdSBEYXMs
+IFNlbnQ6IEZyaWRheSwgQXVndXN0IDI0LCAyMDE4IDc6MTcgUE0KPiAKPiBUaGlzIHBhdGNoIGFk
+ZHMgc3VwcG9ydCBmb3IgcjhhNzc0YTEgKFJaL0cyTSkuCj4gCj4gU2lnbmVkLW9mZi1ieTogQmlq
+dSBEYXMgPGJpanUuZGFzQGJwLnJlbmVzYXMuY29tPgo+IFJldmlld2VkLWJ5OiBGYWJyaXppbyBD
+YXN0cm8gPGZhYnJpemlvLmNhc3Ryb0BicC5yZW5lc2FzLmNvbT4KPiAtLS0KPiAgZHJpdmVycy91
+c2IvaG9zdC94aGNpLXJjYXIuYyB8IDQgKysrKwo+ICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRp
+b25zKCspCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1yY2FyLmMgYi9k
+cml2ZXJzL3VzYi9ob3N0L3hoY2ktcmNhci5jCj4gaW5kZXggZjMzZmZjMi4uYzkwNmIxMyAxMDA2
+NDQKPiAtLS0gYS9kcml2ZXJzL3VzYi9ob3N0L3hoY2ktcmNhci5jCj4gKysrIGIvZHJpdmVycy91
+c2IvaG9zdC94aGNpLXJjYXIuYwo+IEBAIC03Miw2ICs3MiwxMCBAQCBNT0RVTEVfRklSTVdBUkUo
+WEhDSV9SQ0FSX0ZJUk1XQVJFX05BTUVfVjMpOwo+IAo+ICBzdGF0aWMgY29uc3Qgc3RydWN0IHNv
+Y19kZXZpY2VfYXR0cmlidXRlIHJjYXJfcXVpcmtzX21hdGNoW10gID0gewo+ICAJewo+ICsJCS5z
+b2NfaWQgPSAicjhhNzc0YTEiLAo+ICsJCS5kYXRhID0gKHZvaWQgKilSQ0FSX1hIQ0lfRklSTVdB
+UkVfVjMsCj4gKwl9LAo+ICsJewoKSSBhbHNvIGRvbid0IHRoaW5rIHlvdSBuZWVkIHRoaXMgcGF0
+Y2ggYWN0dWFsbHkgYmVjYXVzZQp5b3Ugc3VibWl0dGVkIGFkZGluZyBhIGJpbmRpbmdzIHBhdGNo
+IGZvciB1c2IteGhjaSBbMV0KYW5kIGl0IGhhZCAicmVuZXNhcyxyY2FyLWdlbjMteGhjaSIgZm9y
+IFJaL0cyLgpJbiBvdGhlciB3b3JkcywgaWYgYSB4aGNpIG5vZGUgb2YgUlovRzIgZHRzaSBoYXMg
+InJlbmVzYXMscmNhci1nZW4zLXhoY2kiIGNvbXBhdGlibGUsCnRoaXMgY2FuIHByb2JlIHRoZSB4
+aGNpLXBsYXQvcmNhciBkcml2ZXIgd2l0aCB0aGUgZmlybXdhcmUgVjMuCgpbMV0KaHR0cHM6Ly9w
+YXRjaHdvcmsua2VybmVsLm9yZy9wYXRjaC8xMDU3NDg4Ny8KCkJlc3QgcmVnYXJkcywKWW9zaGlo
+aXJvIFNoaW1vZGEKCj4gIAkJLnNvY19pZCA9ICJyOGE3Nzk1IiwgLnJldmlzaW9uID0gIkVTMS4q
+IiwKPiAgCQkuZGF0YSA9ICh2b2lkICopUkNBUl9YSENJX0ZJUk1XQVJFX1YyLAo+ICAJfSwKPiAt
+LQo+IDIuNy40Cg==
