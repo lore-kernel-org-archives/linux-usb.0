@@ -2,25 +2,27 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: option: Do not try to bind to ADB interfaces
-From: =?utf-8?q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
-Message-Id: <87r2ijdbuv.fsf@miraculix.mork.no>
-Date: Mon, 27 Aug 2018 18:15:52 +0200
-To: Johan Hovold <johan@kernel.org>
-Cc: Romain Izard <romain.izard.pro@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, stable <stable@vger.kernel.org>, Lars Melin <larsm17@gmail.com>
+From: Johan Hovold <johan@kernel.org>
+Message-Id: <20180829075610.GE28861@localhost>
+Date: Wed, 29 Aug 2018 09:56:10 +0200
+To: =?iso-8859-1?Q?Bj=F8rn?= Mork <bjorn@mork.no>
+Cc: Johan Hovold <johan@kernel.org>, Romain Izard <romain.izard.pro@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, stable <stable@vger.kernel.org>, Lars Melin <larsm17@gmail.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-Sm9oYW4gSG92b2xkIDxqb2hhbkBrZXJuZWwub3JnPiB3cml0ZXM6Cgo+IEl0IHdvdWxkIGFsbG93
-IGZvciBzaW1wbGVyIGRldmljZS1pZCBlbnRyaWVzLCBhdCBsZWFzdCB3aGVuIEFEQiBpcyB0aGUK
-PiBvbmx5IGJsYWNrbGlzdGVkIGludGVyZmFjZSwgYW5kIG1heSBlbmFibGUgQURCIGZvciBzb21l
-IG9sZGVyIGVudHJpZXMuCj4KPiBPbiB0aGUgb3RoZXIgaGFuZCwgaW50ZXJmYWNlIGNsYXNzIDB4
-ZmYgaXMgaW5kZWVkIHN1cHBvc2VkIHRvIGJlIHZlbmRvcgo+IHNwZWNpZmljIGFzIExhcnMgYW5k
-IEdyZWcgcG9pbnRlZCBvdXQsIGFuZCB3aXRoIHN0YXR1cyBxdW8gd2UgZG9uJ3QKPiBjYXVzZSBh
-bnkgcmVncmVzc2lvbnMuIElmIEFEQiBpc24ndCBjdXJyZW50bHkgYXZhaWxhYmxlIGZvciBzb21l
-IGRldmljZQo+IGR1ZSB0byBvcHRpb24gYmluZGluZyB0byB0aGF0IGludGVyZmFjZSwgd2UnbGwg
-anVzdCBibGFja2xpc3QgaXQgYXMgc29vbgo+IHdlIGdldCBhIHJlcG9ydC4KPgo+IFNvIHBlcnNv
-bmFsbHkgSSdtIG5vdCBzdXJlIGl0J3Mgd29ydGggaXQsIGJ1dCBJIGRvbid0IGhhdmUgYSBzdHJv
-bmcKPiBvcGluaW9uIG9uIHRoZSBtYXR0ZXIgZWl0aGVyLgoKKzEKClRoZSBhZGIgdXNlcnNwYWNl
-IGFwcGxpY2F0aW9uIGlzIGFsc28gZnJlZSB0byB1bmJpbmQgYW55IGNvbmZsaWN0aW5nCmRyaXZl
-ciwgc28gSSBkb24ndCB0aGluayBibGFja2xpc3RpbmcgaXMgc3RyaWN0bHkgbmVjZXNzYXJ5LiAg
-RXhjZXB0IHRvCnByZXZlbnQgYW55IGNvbmZ1c2lvbiBjYXVzZWQgYnkgYm9ndXMgdHR5VVNCeCBk
-ZXZpY2VzLgoKCkJqw7hybgo=
+T24gTW9uLCBBdWcgMjcsIDIwMTggYXQgMDY6MTU6NTJQTSArMDIwMCwgQmrDuHJuIE1vcmsgd3Jv
+dGU6Cj4gSm9oYW4gSG92b2xkIDxqb2hhbkBrZXJuZWwub3JnPiB3cml0ZXM6Cj4gCj4gPiBJdCB3
+b3VsZCBhbGxvdyBmb3Igc2ltcGxlciBkZXZpY2UtaWQgZW50cmllcywgYXQgbGVhc3Qgd2hlbiBB
+REIgaXMgdGhlCj4gPiBvbmx5IGJsYWNrbGlzdGVkIGludGVyZmFjZSwgYW5kIG1heSBlbmFibGUg
+QURCIGZvciBzb21lIG9sZGVyIGVudHJpZXMuCj4gPgo+ID4gT24gdGhlIG90aGVyIGhhbmQsIGlu
+dGVyZmFjZSBjbGFzcyAweGZmIGlzIGluZGVlZCBzdXBwb3NlZCB0byBiZSB2ZW5kb3IKPiA+IHNw
+ZWNpZmljIGFzIExhcnMgYW5kIEdyZWcgcG9pbnRlZCBvdXQsIGFuZCB3aXRoIHN0YXR1cyBxdW8g
+d2UgZG9uJ3QKPiA+IGNhdXNlIGFueSByZWdyZXNzaW9ucy4gSWYgQURCIGlzbid0IGN1cnJlbnRs
+eSBhdmFpbGFibGUgZm9yIHNvbWUgZGV2aWNlCj4gPiBkdWUgdG8gb3B0aW9uIGJpbmRpbmcgdG8g
+dGhhdCBpbnRlcmZhY2UsIHdlJ2xsIGp1c3QgYmxhY2tsaXN0IGl0IGFzIHNvb24KPiA+IHdlIGdl
+dCBhIHJlcG9ydC4KPiA+Cj4gPiBTbyBwZXJzb25hbGx5IEknbSBub3Qgc3VyZSBpdCdzIHdvcnRo
+IGl0LCBidXQgSSBkb24ndCBoYXZlIGEgc3Ryb25nCj4gPiBvcGluaW9uIG9uIHRoZSBtYXR0ZXIg
+ZWl0aGVyLgo+IAo+ICsxCj4gCj4gVGhlIGFkYiB1c2Vyc3BhY2UgYXBwbGljYXRpb24gaXMgYWxz
+byBmcmVlIHRvIHVuYmluZCBhbnkgY29uZmxpY3RpbmcKPiBkcml2ZXIsIHNvIEkgZG9uJ3QgdGhp
+bmsgYmxhY2tsaXN0aW5nIGlzIHN0cmljdGx5IG5lY2Vzc2FyeS4gIEV4Y2VwdCB0bwo+IHByZXZl
+bnQgYW55IGNvbmZ1c2lvbiBjYXVzZWQgYnkgYm9ndXMgdHR5VVNCeCBkZXZpY2VzLgoKUmlnaHQu
+IExldCdzIGxlYXZlIHRoaW5ncyBhcyB0aGV5IGFyZSB0aGVuLgoKVGhhbmtzLApKb2hhbgo=
