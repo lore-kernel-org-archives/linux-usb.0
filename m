@@ -2,27 +2,17 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/6] usb: xhci-mtk: resume USB3 roothub first
-From: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Message-Id: <3bcc220aa54bfebc39cea54cd736388ad37ee0c5.1535510898.git.chunfeng.yun@mediatek.com>
-Date: Wed, 29 Aug 2018 10:55:13 +0800
-To: Mathias Nyman <mathias.nyman@intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Felipe Balbi <felipe.balbi@linux.intel.com>, Matthias Brugger <matthias.bgg@gmail.com>, Alan Stern <stern@rowland.harvard.edu>, Chunfeng Yun <chunfeng.yun@mediatek.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+From: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Message-Id: <f144173b-6131-21cf-1ead-60d938ac289a@cogentembedded.com>
+Date: Wed, 29 Aug 2018 12:13:02 +0300
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>, Mathias Nyman <mathias.nyman@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Felipe Balbi <felipe.balbi@linux.intel.com>, Matthias Brugger <matthias.bgg@gmail.com>, Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
 List-ID: <linux-usb.vger.kernel.org>
 
-R2l2ZSBVU0IzIGRldmljZXMgYSBiZXR0ZXIgY2hhbmNlIHRvIGVudW1lcmF0ZSBhdCBVU0IzIHNw
-ZWVkcyBpZgp0aGV5IGFyZSBjb25uZWN0ZWQgdG8gYSBzdXNwZW5kZWQgaG9zdC4KUG9ydGluZyBm
-cm9tICI2NzFmZmRmIHhoY2k6IHJlc3VtZSBVU0IgMyByb290aHViIGZpcnN0IgoKU2lnbmVkLW9m
-Zi1ieTogQ2h1bmZlbmcgWXVuIDxjaHVuZmVuZy55dW5AbWVkaWF0ZWsuY29tPgotLS0KIGRyaXZl
-cnMvdXNiL2hvc3QveGhjaS1tdGsuYyB8IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0
-aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9ob3N0L3ho
-Y2ktbXRrLmMgYi9kcml2ZXJzL3VzYi9ob3N0L3hoY2ktbXRrLmMKaW5kZXggNzMzNGRhOS4uNzFk
-MGQzMyAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvaG9zdC94aGNpLW10ay5jCisrKyBiL2RyaXZl
-cnMvdXNiL2hvc3QveGhjaS1tdGsuYwpAQCAtNjQyLDEwICs2NDIsMTAgQEAgc3RhdGljIGludCBf
-X21heWJlX3VudXNlZCB4aGNpX210a19yZXN1bWUoc3RydWN0IGRldmljZSAqZGV2KQogCXhoY2lf
-bXRrX2hvc3RfZW5hYmxlKG10ayk7CiAKIAl4aGNpX2RiZyh4aGNpLCAiJXM6IHJlc3RhcnQgcG9y
-dCBwb2xsaW5nXG4iLCBfX2Z1bmNfXyk7Ci0Jc2V0X2JpdChIQ0RfRkxBR19QT0xMX1JILCAmaGNk
-LT5mbGFncyk7Ci0JdXNiX2hjZF9wb2xsX3JoX3N0YXR1cyhoY2QpOwogCXNldF9iaXQoSENEX0ZM
-QUdfUE9MTF9SSCwgJnhoY2ktPnNoYXJlZF9oY2QtPmZsYWdzKTsKIAl1c2JfaGNkX3BvbGxfcmhf
-c3RhdHVzKHhoY2ktPnNoYXJlZF9oY2QpOworCXNldF9iaXQoSENEX0ZMQUdfUE9MTF9SSCwgJmhj
-ZC0+ZmxhZ3MpOworCXVzYl9oY2RfcG9sbF9yaF9zdGF0dXMoaGNkKTsKIAlyZXR1cm4gMDsKIH0K
-IAo=
+T24gOC8yOS8yMDE4IDU6NTUgQU0sIENodW5mZW5nIFl1biB3cm90ZToKCj4gR2l2ZSBVU0IzIGRl
+dmljZXMgYSBiZXR0ZXIgY2hhbmNlIHRvIGVudW1lcmF0ZSBhdCBVU0IzIHNwZWVkcyBpZgo+IHRo
+ZXkgYXJlIGNvbm5lY3RlZCB0byBhIHN1c3BlbmRlZCBob3N0Lgo+IFBvcnRpbmcgZnJvbSAiNjcx
+ZmZkZiB4aGNpOiByZXN1bWUgVVNCIDMgcm9vdGh1YiBmaXJzdCIKCiAgICBGcm9tIGNvbW1pdCA2
+NzFmZmRmZjViMTMgKCJ4aGNpOiByZXN1bWUgVVNCIDMgcm9vdGh1YiBmaXJzdCIpLgo+IFNpZ25l
+ZC1vZmYtYnk6IENodW5mZW5nIFl1biA8Y2h1bmZlbmcueXVuQG1lZGlhdGVrLmNvbT4KWy4uLl0K
+Ck1CUiwgU2VyZ2VpCg==
