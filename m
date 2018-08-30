@@ -2,37 +2,15 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [5/6] dt-bindings: usb: renesas_usbhs: Add r8a774a1 support
-From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Message-Id: <1535097375-5561-6-git-send-email-fabrizio.castro@bp.renesas.com>
-Date: Fri, 24 Aug 2018 08:56:14 +0100
-To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>
-Cc: Fabrizio Castro <fabrizio.castro@bp.renesas.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, Simon Horman <horms@verge.net.au>, Geert Uytterhoeven <geert+renesas@glider.be>, Chris Paterson <Chris.Paterson2@renesas.com>, Biju Das <biju.das@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Simon Horman <horms@verge.net.au>
+Message-Id: <20180830120901.uy572tza34dk3tin@verge.net.au>
+Date: Thu, 30 Aug 2018 14:09:01 +0200
+To: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, Chris Paterson <Chris.Paterson2@renesas.com>, Biju Das <biju.das@bp.renesas.com>, linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-RG9jdW1lbnQgUlovRzJNIChSOEE3NzRBMSkgU29DIGJpbmRpbmdzLgoKU2lnbmVkLW9mZi1ieTog
-RmFicml6aW8gQ2FzdHJvIDxmYWJyaXppby5jYXN0cm9AYnAucmVuZXNhcy5jb20+ClJldmlld2Vk
-LWJ5OiBCaWp1IERhcyA8YmlqdS5kYXNAYnAucmVuZXNhcy5jb20+Ci0tLQogRG9jdW1lbnRhdGlv
-bi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9yZW5lc2FzX3VzYmhzLnR4dCB8IDMgKystCiAxIGZp
-bGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEv
-RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9yZW5lc2FzX3VzYmhzLnR4dCBi
-L0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvcmVuZXNhc191c2Jocy50eHQK
-aW5kZXggNDM5NjBmYS4uMDg3MTQwYSAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0
-cmVlL2JpbmRpbmdzL3VzYi9yZW5lc2FzX3VzYmhzLnR4dAorKysgYi9Eb2N1bWVudGF0aW9uL2Rl
-dmljZXRyZWUvYmluZGluZ3MvdXNiL3JlbmVzYXNfdXNiaHMudHh0CkBAIC01LDYgKzUsNyBAQCBS
-ZXF1aXJlZCBwcm9wZXJ0aWVzOgogCiAJLSAicmVuZXNhcyx1c2Jocy1yOGE3NzQzIiBmb3Igcjhh
-Nzc0MyAoUlovRzFNKSBjb21wYXRpYmxlIGRldmljZQogCS0gInJlbmVzYXMsdXNiaHMtcjhhNzc0
-NSIgZm9yIHI4YTc3NDUgKFJaL0cxRSkgY29tcGF0aWJsZSBkZXZpY2UKKwktICJyZW5lc2FzLHVz
-YmhzLXI4YTc3NGExIiBmb3IgcjhhNzc0YTEgKFJaL0cyTSkgY29tcGF0aWJsZSBkZXZpY2UKIAkt
-ICJyZW5lc2FzLHVzYmhzLXI4YTc3OTAiIGZvciByOGE3NzkwIChSLUNhciBIMikgY29tcGF0aWJs
-ZSBkZXZpY2UKIAktICJyZW5lc2FzLHVzYmhzLXI4YTc3OTEiIGZvciByOGE3NzkxIChSLUNhciBN
-Mi1XKSBjb21wYXRpYmxlIGRldmljZQogCS0gInJlbmVzYXMsdXNiaHMtcjhhNzc5MiIgZm9yIHI4
-YTc3OTIgKFItQ2FyIFYySCkgY29tcGF0aWJsZSBkZXZpY2UKQEAgLTE2LDcgKzE3LDcgQEAgUmVx
-dWlyZWQgcHJvcGVydGllczoKIAktICJyZW5lc2FzLHVzYmhzLXI4YTc3OTk1IiBmb3IgcjhhNzc5
-OTUgKFItQ2FyIEQzKSBjb21wYXRpYmxlIGRldmljZQogCS0gInJlbmVzYXMsdXNiaHMtcjdzNzIx
-MDAiIGZvciByN3M3MjEwMCAoUlovQTEpIGNvbXBhdGlibGUgZGV2aWNlCiAJLSAicmVuZXNhcyxy
-Y2FyLWdlbjItdXNiaHMiIGZvciBSLUNhciBHZW4yIG9yIFJaL0cxIGNvbXBhdGlibGUgZGV2aWNl
-cwotCS0gInJlbmVzYXMscmNhci1nZW4zLXVzYmhzIiBmb3IgUi1DYXIgR2VuMyBjb21wYXRpYmxl
-IGRldmljZQorCS0gInJlbmVzYXMscmNhci1nZW4zLXVzYmhzIiBmb3IgUi1DYXIgR2VuMyBvciBS
-Wi9HMiBjb21wYXRpYmxlIGRldmljZXMKIAktICJyZW5lc2FzLHJ6YTEtdXNiaHMiIGZvciBSWi9B
-MSBjb21wYXRpYmxlIGRldmljZQogCiAJV2hlbiBjb21wYXRpYmxlIHdpdGggdGhlIGdlbmVyaWMg
-dmVyc2lvbiwgbm9kZXMgbXVzdCBsaXN0IHRoZQo=
+T24gRnJpLCBBdWcgMjQsIDIwMTggYXQgMDg6NTY6MTRBTSArMDEwMCwgRmFicml6aW8gQ2FzdHJv
+IHdyb3RlOgo+IERvY3VtZW50IFJaL0cyTSAoUjhBNzc0QTEpIFNvQyBiaW5kaW5ncy4KPiAKPiBT
+aWduZWQtb2ZmLWJ5OiBGYWJyaXppbyBDYXN0cm8gPGZhYnJpemlvLmNhc3Ryb0BicC5yZW5lc2Fz
+LmNvbT4KPiBSZXZpZXdlZC1ieTogQmlqdSBEYXMgPGJpanUuZGFzQGJwLnJlbmVzYXMuY29tPgoK
+UmV2aWV3ZWQtYnk6IFNpbW9uIEhvcm1hbiA8aG9ybXMrcmVuZXNhc0B2ZXJnZS5uZXQuYXU+Cg==
