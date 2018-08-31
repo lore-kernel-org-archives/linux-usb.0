@@ -1,24 +1,30 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [14/14] DT: marvell,mmp2: add USB OTG host controller
-From: Lubomir Rintel <lkundrak@v3.sk>
-Message-Id: <20180822204307.13251-15-lkundrak@v3.sk>
-Date: Wed, 22 Aug 2018 22:43:07 +0200
-To: linux-kernel@vger.kernel.org
-Cc: linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Eric Miao <eric.y.miao@gmail.com>, Haojian Zhuang <haojian.zhuang@gmail.com>, Kishon Vijay Abraham I <kishon@ti.com>, Alan Stern <stern@rowland.harvard.edu>, Lubomir Rintel <lkundrak@v3.sk>
+Subject: [v2,2/3] dt-bindings: usb: renesas_usbhs: add clock-names property
+From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Message-Id: <1535711579-15169-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Date: Fri, 31 Aug 2018 19:32:58 +0900
+To: balbi@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-U2lnbmVkLW9mZi1ieTogTHVib21pciBSaW50ZWwgPGxrdW5kcmFrQHYzLnNrPgotLS0KIGFyY2gv
-YXJtL2Jvb3QvZHRzL21tcDIuZHRzaSB8IDExICsrKysrKysrKysrCiAxIGZpbGUgY2hhbmdlZCwg
-MTEgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2FyY2gvYXJtL2Jvb3QvZHRzL21tcDIuZHRz
-aSBiL2FyY2gvYXJtL2Jvb3QvZHRzL21tcDIuZHRzaQppbmRleCAxNGEzNDQ4ZjM4YjkuLjYzZDRk
-NWM2ZmQ4MyAxMDA2NDQKLS0tIGEvYXJjaC9hcm0vYm9vdC9kdHMvbW1wMi5kdHNpCisrKyBiL2Fy
-Y2gvYXJtL2Jvb3QvZHRzL21tcDIuZHRzaQpAQCAtMTI0LDYgKzEyNCwxNyBAQAogCQkJCSNwaHkt
-Y2VsbHMgPSA8MD47CiAJCQkJc3RhdHVzID0gImRpc2FibGVkIjsKIAkJCX07CisKKwkJCXVzYl9v
-dGcwOiB1c2Itb3RnQGQ0MjA4MDAwIHsKKwkJCQljb21wYXRpYmxlID0gIm1hcnZlbGwscHhhdTJv
-LWVoY2kiOworCQkJCXJlZyA9IDwweGQ0MjA4MDAwIDB4MjAwPjsKKwkJCQlpbnRlcnJ1cHRzID0g
-PDQ0PjsKKwkJCQljbG9ja3MgPSA8JnNvY19jbG9ja3MgTU1QMl9DTEtfVVNCPjsKKwkJCQljbG9j
-ay1uYW1lcyA9ICJVU0JDTEsiOworCQkJCXBoeXMgPSA8JnVzYl9vdGdfcGh5MD47CisJCQkJcGh5
-LW5hbWVzID0gInVzYiI7CisJCQkJc3RhdHVzID0gImRpc2FibGVkIjsKKwkJCX07CiAJCX07CiAK
-IAkJYXBiQGQ0MDAwMDAwIHsJLyogQVBCICovCg==
+Ui1DYXIgR2VuMyBuZWVkcyB0byBlbmFibGUgY2xvY2tzIG9mIGJvdGggaG9zdCBhbmQgcGVyaXBo
+ZXJhbC4KT3RoZXJ3aXNlLCBvdGhlciBzaWRlIGRldmljZSBjYW5ub3Qgd29yayBjb3JyZWN0bHku
+IFNvLCB0aGlzIHBhdGNoCmFkZHMgYSBwcm9wZXJ0eSBvZiBjbG9jay1uYW1lcyBmb3IgUi1DYXIg
+R2VuMyBhcyBhbiBvcHRpb25hbC4KClNpZ25lZC1vZmYtYnk6IFlvc2hpaGlybyBTaGltb2RhIDx5
+b3NoaWhpcm8uc2hpbW9kYS51aEByZW5lc2FzLmNvbT4KLS0tCiBEb2N1bWVudGF0aW9uL2Rldmlj
+ZXRyZWUvYmluZGluZ3MvdXNiL3JlbmVzYXNfdXNiaHMudHh0IHwgMiArKwogMSBmaWxlIGNoYW5n
+ZWQsIDIgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
+ZS9iaW5kaW5ncy91c2IvcmVuZXNhc191c2Jocy50eHQgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvdXNiL3JlbmVzYXNfdXNiaHMudHh0CmluZGV4IDA4NzE0MGEuLmE4ZmEzZWMg
+MTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvcmVuZXNh
+c191c2Jocy50eHQKKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9y
+ZW5lc2FzX3VzYmhzLnR4dApAQCAtMzcsNiArMzcsOCBAQCBPcHRpb25hbCBwcm9wZXJ0aWVzOgog
+ICAtIGRtYXM6IE11c3QgY29udGFpbiBhIGxpc3Qgb2YgcmVmZXJlbmNlcyB0byBETUEgc3BlY2lm
+aWVycy4KICAgLSBkbWEtbmFtZXMgOiBuYW1lZCAiY2glZCIsIHdoZXJlICVkIGlzIHRoZSBjaGFu
+bmVsIG51bWJlciByYW5naW5nIGZyb20gemVybwogICAgICAgICAgICAgICAgIHRvIHRoZSBudW1i
+ZXIgb2YgY2hhbm5lbHMgKERuRklGT3MpIG1pbnVzIG9uZS4KKyAgLSBjbG9jay1uYW1lczogRm9y
+IGEgInJlbmVzYXMscmNhci1nZW4zLXVzYmhzIiBjb21wYXRpYmxlIGRldmljZSwKKwkJICJoc3Vz
+YiIgYW5kICJlaGNpL29oY2kiIGNhbiBiZSBzZXQuCiAKIEV4YW1wbGU6CiAJdXNiaHM6IHVzYkBl
+NjU5MDAwMCB7Cg==
