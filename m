@@ -2,24 +2,30 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [RFC,2/3] USB: core: Add non-coherent buffer allocation helpers
-From: Christoph Hellwig <hch@infradead.org>
-Message-Id: <20180831055047.GA9140@infradead.org>
-Date: Thu, 30 Aug 2018 22:50:47 -0700
-To: Ezequiel Garcia <ezequiel@collabora.com>
-Cc: Christoph Hellwig <hch@infradead.org>, linux-media@vger.kernel.org, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Tomasz Figa <tfiga@chromium.org>, "Matwey V . Kornilov" <matwey@sai.msu.ru>, Alan Stern <stern@rowland.harvard.edu>, kernel@collabora.com, Keiichi Watanabe <keiichiw@chromium.org>
+From: Tomasz Figa <tfiga@chromium.org>
+Message-Id: <CAAFQd5DhFr8ywjc41oK9q+zZXH9zsOKh_7DxWmjzcE0+5Q3hGA@mail.gmail.com>
+Date: Fri, 31 Aug 2018 15:51:54 +0900
+To: Christoph Hellwig <hch@infradead.org>
+Cc: Ezequiel Garcia <ezequiel@collabora.com>, Linux Media Mailing List <linux-media@vger.kernel.org>, linux-usb@vger.kernel.org, "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+	Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, "Matwey V. Kornilov" <matwey@sai.msu.ru>, Alan Stern <stern@rowland.harvard.edu>, kernel@collabora.com, keiichiw@chromium.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCBBdWcgMzAsIDIwMTggYXQgMDc6MTE6MzVQTSAtMDMwMCwgRXplcXVpZWwgR2FyY2lh
-IHdyb3RlOgo+IE9uIFRodSwgMjAxOC0wOC0zMCBhdCAxMDo1OCAtMDcwMCwgQ2hyaXN0b3BoIEhl
-bGx3aWcgd3JvdGU6Cj4gPiBQbGVhc2UgZG9uJ3QgaW50cm9kdWNlIG5ldyBETUFfQVRUUl9OT05f
-Q09OU0lTVEVOVCB1c2VycywgaXQgaXMKPiA+IGEgcmF0aGVyIGhvcnJpYmxlIGludGVyZmFjZSwg
-YW5kIEkgcGxhbiB0byBraWxsIGl0IG9mZiByYXRoZXIgc29vbmVyCj4gPiB0aGFuIGxhdGVyLiAg
-SSBwbGFuIHRvIHBvc3Qgc29tZSBwYXRjaGVzIGZvciBhIGJldHRlciBpbnRlcmZhY2UKPiA+IHRo
-YXQgY2FuIHJldXNlIHRoZSBub3JtYWwgZG1hX3N5bmNfc2luZ2xlXyogaW50ZXJmYWNlcyBmb3Ig
-b3duZXJzaGlwCj4gPiB0cmFuc2ZlcnMuICBJIGNhbiBoYXBwaWx5IGluY2x1ZGUgdXNiIGluIHRo
-YXQgaW5pdGlhbCBwYXRjaCBzZXQgYmFzZWQKPiA+IG9uIHlvdXIgd29yayBoZXJlIGlmIHRoYXQg
-aGVscHMuCj4gCj4gUGxlYXNlIGRvLiBVbnRpbCB3ZSBoYXZlIHByb3BlciBhbGxvY2F0b3JzIHRo
-YXQgZ28gdGhydSB0aGUgRE1BIEFQSSwKPiBkcml2ZXJzIHdpbGwgaGF2ZSB0byBrbWFsbG9jIHRo
-ZSBVU0IgdHJhbnNmZXIgYnVmZmVycywgYW5kIGhhdmUKPiBzdHJlYW1pbmcgbWFwcGluZ3MuIFdo
-aWNoIGluIHR1cm5zIG1lYW4gbm90IHVzaW5nIElPTU1VIG9yIENNQS4KCmRtYV9tYXBfcGFnZSB3
-aWxsIG9mIGNvdXJzZSB1c2UgdGhlIGlvbW11Lgo=
+T24gRnJpLCBBdWcgMzEsIDIwMTggYXQgMjo1MCBQTSBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGlu
+ZnJhZGVhZC5vcmc+IHdyb3RlOgo+Cj4gT24gVGh1LCBBdWcgMzAsIDIwMTggYXQgMDc6MTE6MzVQ
+TSAtMDMwMCwgRXplcXVpZWwgR2FyY2lhIHdyb3RlOgo+ID4gT24gVGh1LCAyMDE4LTA4LTMwIGF0
+IDEwOjU4IC0wNzAwLCBDaHJpc3RvcGggSGVsbHdpZyB3cm90ZToKPiA+ID4gUGxlYXNlIGRvbid0
+IGludHJvZHVjZSBuZXcgRE1BX0FUVFJfTk9OX0NPTlNJU1RFTlQgdXNlcnMsIGl0IGlzCj4gPiA+
+IGEgcmF0aGVyIGhvcnJpYmxlIGludGVyZmFjZSwgYW5kIEkgcGxhbiB0byBraWxsIGl0IG9mZiBy
+YXRoZXIgc29vbmVyCj4gPiA+IHRoYW4gbGF0ZXIuICBJIHBsYW4gdG8gcG9zdCBzb21lIHBhdGNo
+ZXMgZm9yIGEgYmV0dGVyIGludGVyZmFjZQo+ID4gPiB0aGF0IGNhbiByZXVzZSB0aGUgbm9ybWFs
+IGRtYV9zeW5jX3NpbmdsZV8qIGludGVyZmFjZXMgZm9yIG93bmVyc2hpcAo+ID4gPiB0cmFuc2Zl
+cnMuICBJIGNhbiBoYXBwaWx5IGluY2x1ZGUgdXNiIGluIHRoYXQgaW5pdGlhbCBwYXRjaCBzZXQg
+YmFzZWQKPiA+ID4gb24geW91ciB3b3JrIGhlcmUgaWYgdGhhdCBoZWxwcy4KPiA+Cj4gPiBQbGVh
+c2UgZG8uIFVudGlsIHdlIGhhdmUgcHJvcGVyIGFsbG9jYXRvcnMgdGhhdCBnbyB0aHJ1IHRoZSBE
+TUEgQVBJLAo+ID4gZHJpdmVycyB3aWxsIGhhdmUgdG8ga21hbGxvYyB0aGUgVVNCIHRyYW5zZmVy
+IGJ1ZmZlcnMsIGFuZCBoYXZlCj4gPiBzdHJlYW1pbmcgbWFwcGluZ3MuIFdoaWNoIGluIHR1cm5z
+IG1lYW4gbm90IHVzaW5nIElPTU1VIG9yIENNQS4KPgo+IGRtYV9tYXBfcGFnZSB3aWxsIG9mIGNv
+dXJzZSB1c2UgdGhlIGlvbW11LgoKU3VyZSwgZG1hX21hcCooKSB3aWxsLCBidXQgdXNpbmcga21h
+bGxvYygpIGRlZmVhdHMgKGhhbGYgb2YpIHRoZQpwdXJwb3NlIG9mIGl0LCBzaW5jZSBjb250aWd1
+b3VzIG1lbW9yeSB3b3VsZCBiZSBhbGxvY2F0ZWQKdW5uZWNlc3NhcmlseSwgcmlza2luZyBmYWls
+dXJlcyBkdWUgdG8gZnJhZ21lbnRhdGlvbi4KCkJlc3QgcmVnYXJkcywKVG9tYXN6Cg==
