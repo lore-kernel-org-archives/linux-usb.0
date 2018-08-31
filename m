@@ -1,34 +1,32 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: Possible use_mm() mis-uses
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Message-Id: <CA+55aFxWqg-t19i70mk-Y_dLVkjAjxV6jHnBZCTv0kg=MR8L7A@mail.gmail.com>
-Date: Wed, 22 Aug 2018 13:07:34 -0700
-To: Felix Kuehling <felix.kuehling@amd.com>
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, Oded Gabbay <oded.gabbay@gmail.com>, Alex Deucher <alexander.deucher@amd.com>, "David \(ChunMing\) Zhou" <David1.Zhou@amd.com>, Dave Airlie <airlied@linux.ie>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>, Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>, Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, DRI <dri-devel@lists.freedesktop.org>, amd-gfx@lists.freedesktop.org, KVM list <kvm@vger.kernel.org>, intel-gvt-dev@lists.freedesktop.org, intel-gfx <intel-gfx@lists.freedesktop.org>, USB list <linux-usb@vger.kernel.org>
+Subject: usb: core: phy: clean up return value check about devm_of_phy_get_by_index()
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Message-Id: <258d57f5c8559c5fd3ba6d1ac1dcc5463737da2e.1535709096.git.chunfeng.yun@mediatek.com>
+Date: Fri, 31 Aug 2018 17:55:09 +0800
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Felipe Balbi <felipe.balbi@linux.intel.com>
+Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Matthias Brugger <matthias.bgg@gmail.com>, Johan Hovold <johan@kernel.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCBBdWcgMjIsIDIwMTggYXQgMTI6NDQgUE0gRmVsaXggS3VlaGxpbmcgPGZlbGl4Lmt1
-ZWhsaW5nQGFtZC5jb20+IHdyb3RlOgo+Cj4gWW91J3JlIHJpZ2h0LCBidXQgdGhhdCdzIGEgYml0
-IGZyYWdpbGUgYW5kIGNvbnZvbHV0ZWQuIEknbGwgZml4IEtGRCB0bwo+IGhhbmRsZSB0aGlzIG1v
-cmUgcm9idXN0bHkuIFNlZSB0aGUgYXR0YWNoZWQgKHVudGVzdGVkKSBwYXRjaC4KClllcywgdGhp
-cyBwYXRjaCB0aGF0IG1ha2VzIHRoZSB3aG9sZSAiaGFzIHRvIHVzZSBjdXJyZW50IG1tIiBvciB1
-c2VzCiJnZXRfdGFza19tbSgpIiBsb29rcyBnb29kIGZyb20gYSBWTTwgd29ycnkgc3RhbmRwb2lu
-dC4KClRoYW5rcy4KCj4gQW5kCj4gb2J2aW91c2x5IHRoYXQgb3BhcXVlIHBvaW50ZXIgZGlkbid0
-IHdvcmsgYXMgaW50ZW5kZWQuIEl0IGp1c3QgZ2V0cwo+IHByb21vdGVkIHRvIGFuIG1tX3N0cnVj
-dCAqIHdpdGhvdXQgYSB3YXJuaW5nIGZyb20gdGhlIGNvbXBpbGVyLiBNYXliZSBJCj4gc2hvdWxk
-IGNoYW5nZSB0aGF0IHRvIGEgbG9uZyB0byBtYWtlIGFidXNlIGVhc2llciB0byBzcG90LgoKVXNp
-bmcgYSAidm9pZCAqIiBpcyBhY3R1YWxseSBqdXN0IGFib3V0IHRoZSB3b3JzdCBwb3NzaWJsZSB0
-eXBlIGZvcgpzb21ldGhpbmcgdGhhdCBzaG91bGQgYmUgYSBjb29raWUsIGJlY2F1c2UgaXQgc2ls
-ZW50bHkgdHJhbnNsYXRlcyB0bwphbnkgcG9pbnRlci4KCiJsb25nIiBpcyBhY3R1YWxseSBub3Qg
-bXVjaCBiZXR0ZXIsIGJlY3Vhc2UgaXQgd2lsbCBzaWxlbnRseSBjb252ZXJ0CnRvIGFueSBpbnRl
-Z2VyIHR5cGUuCgpBIGdvb2QgZmFpcmx5IHR5cGUtc2FmZSBjb29raWUgdHlwZSBpcyBhY3R1YWxs
-eSB0aGlzOgoKICAgIHR5cGVkZWYgdm9sYXRpbGUgY29uc3Qgc3RydWN0IG5vX3N1Y2hfc3RydWN0
-ICpjb29raWVfcHRyX3Q7CgphbmQgbm93IHNvbWV0aGluZyBvZiB0eXBlICJjb29raWVfcHRyX3Qi
-IGlzIGFjdHVhbGx5IHZlcnkgIGhhcmQgdG8KY29udmVydCB0byBvdGhlciB0eXBlcyBieSBtaXN0
-YWtlLgoKTm90ZSB0aGF0IHRoZSAidm9sYXRpbGUgY29uc3QiIGlzIG5vdCBqdXN0IHJhbmRvbSBu
-b2lzZSAtIGl0J3Mgc28gdGhhdAppdCB3b24ndCBldmVuIGNvbnZlcnQgd2l0aG91dCB3YXJuaW5n
-cyB0byB0aGluZ3MgdGhhdCB0YWtlIGEgImNvbnN0CnZvaWQgKiIgYXMgYW4gYXJndW1lbnQgKGxp
-a2UsIHNheSwgdGhlIHNvdXJjZSBvZiAnbWVtY3B5KCknKS4KClNvIHlvdSBhbG1vc3QgX2hhdmVf
-IHRvIGV4cGxpY2l0bHkgY2FzdCBpdCB0byB1c2UgaXQuCgogICAgICAgICAgIExpbnVzCg==
+VXNlIElTX0VSUigpIGluc3RlYWQgb2YgSVNfRVJSX09SX05VTEwoKSBiZWNhdXNlIGRldm1fb2Zf
+cGh5X2dldF9ieV9pbmRleCgpCm5ldmVyIHJldHVybiBOVUxMIHZhbHVlOwpCdXQgc3RpbGwgbmVl
+ZCBpZ25vcmUgdGhlIGVycm9yIG9mIC1FTk9ERVYsIGZvciBtb3JlIGluZm9ybWF0aW9uLCBwbGVh
+c2UKcmVmZXIgdG86ClswXSBodHRwczovL2xrbWwub3JnL2xrbWwvMjAxOC80LzE5Lzg4ClsxXSBo
+dHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3BhdGNoLzEwMTYwMTgxLwoKU2lnbmVkLW9mZi1i
+eTogQ2h1bmZlbmcgWXVuIDxjaHVuZmVuZy55dW5AbWVkaWF0ZWsuY29tPgotLS0KVjQ6IG1vZGlm
+eSB0aGUgcGF0Y2ggc3ViamVjdCBzdWdnZXN0ZWQgYnkgSm9oYW4KVjM6IGFiYW5kb24gdGhlIHRl
+cm5hcnkgb3BlcmF0b3Igc3VnZ2VzdGVkIGJ5IEpvaGFuClYyOiBrZWVwIHRoZSAtRU5PREVWIGNo
+ZWNrCi0tLQoKIGRyaXZlcnMvdXNiL2NvcmUvcGh5LmMgfCA3ICsrKystLS0KIDEgZmlsZSBjaGFu
+Z2VkLCA0IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy91c2IvY29yZS9waHkuYyBiL2RyaXZlcnMvdXNiL2NvcmUvcGh5LmMKaW5kZXggOTg3OTc2Ny4u
+MzhiMmM3NyAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvY29yZS9waHkuYworKysgYi9kcml2ZXJz
+L3VzYi9jb3JlL3BoeS5jCkBAIC0yMywxMCArMjMsMTEgQEAgc3RhdGljIGludCB1c2JfcGh5X3Jv
+b3RodWJfYWRkX3BoeShzdHJ1Y3QgZGV2aWNlICpkZXYsIGludCBpbmRleCwKIAkJCQkgICBzdHJ1
+Y3QgbGlzdF9oZWFkICpsaXN0KQogewogCXN0cnVjdCB1c2JfcGh5X3Jvb3RodWIgKnJvb3RodWJf
+ZW50cnk7Ci0Jc3RydWN0IHBoeSAqcGh5ID0gZGV2bV9vZl9waHlfZ2V0X2J5X2luZGV4KGRldiwg
+ZGV2LT5vZl9ub2RlLCBpbmRleCk7CisJc3RydWN0IHBoeSAqcGh5OwogCi0JaWYgKElTX0VSUl9P
+Ul9OVUxMKHBoeSkpIHsKLQkJaWYgKCFwaHkgfHwgUFRSX0VSUihwaHkpID09IC1FTk9ERVYpCisJ
+cGh5ID0gZGV2bV9vZl9waHlfZ2V0X2J5X2luZGV4KGRldiwgZGV2LT5vZl9ub2RlLCBpbmRleCk7
+CisJaWYgKElTX0VSUihwaHkpKSB7CisJCWlmIChQVFJfRVJSKHBoeSkgPT0gLUVOT0RFVikKIAkJ
+CXJldHVybiAwOwogCQllbHNlCiAJCQlyZXR1cm4gUFRSX0VSUihwaHkpOwo=
