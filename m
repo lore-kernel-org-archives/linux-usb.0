@@ -1,20 +1,30 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [1/6] usb: xhci-mtk: resume USB3 roothub first
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-Message-Id: <93e36b7b-f0d0-4f5e-69b7-4195c25628f4@linux.intel.com>
-Date: Tue, 4 Sep 2018 17:44:23 +0300
-To: Chunfeng Yun <chunfeng.yun@mediatek.com>, Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Felipe Balbi <felipe.balbi@linux.intel.com>, Matthias Brugger <matthias.bgg@gmail.com>, Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+Subject: usb: dwc2: Fix call location of dwc2_check_core_endianness
+From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Message-Id: <20180901224348.25011-1-martin.blumenstingl@googlemail.com>
+Date: Sun,  2 Sep 2018 00:43:48 +0200
+To: bmh@certi.org.br
+Cc: John.Youn@synopsys.com, alexandre.torgue@st.com, gregkh@linuxfoundation.org, hminas@synopsys.com, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMzAuMDguMjAxOCAwNDowOSwgQ2h1bmZlbmcgWXVuIHdyb3RlOgo+IEhpLAo+IE9uIFdlZCwg
-MjAxOC0wOC0yOSBhdCAxMjoxMyArMDMwMCwgU2VyZ2VpIFNodHlseW92IHdyb3RlOgo+PiBPbiA4
-LzI5LzIwMTggNTo1NSBBTSwgQ2h1bmZlbmcgWXVuIHdyb3RlOgo+Pgo+Pj4gR2l2ZSBVU0IzIGRl
-dmljZXMgYSBiZXR0ZXIgY2hhbmNlIHRvIGVudW1lcmF0ZSBhdCBVU0IzIHNwZWVkcyBpZgo+Pj4g
-dGhleSBhcmUgY29ubmVjdGVkIHRvIGEgc3VzcGVuZGVkIGhvc3QuCj4+PiBQb3J0aW5nIGZyb20g
-IjY3MWZmZGYgeGhjaTogcmVzdW1lIFVTQiAzIHJvb3RodWIgZmlyc3QiCj4+Cj4+ICAgICAgRnJv
-bSBjb21taXQgNjcxZmZkZmY1YjEzICgieGhjaTogcmVzdW1lIFVTQiAzIHJvb3RodWIgZmlyc3Qi
-KS4KPiAKPiBPaywgVGhhbmtzCj4gCgphZGRpbmcgdG8gcXVldWUgKEknbGwgZml4IHRoYXQgY29t
-bWl0IElEKQoKLU1hdGhpYXMK
+PiBTb21lIFNvQy9JUCBhcyBTVE0zMkY0NjksIHRoZSBzbnBzaWQgY2FuIG9ubHkgYmUgcmVhZCBh
+ZnRlciBjbG9jayBpcwo+IGVuYWJsZWQsIG90aGVyd2lzZSBpdCB3aWxsIHJlYWQgYXMgMCwgYW5k
+IHRoZSBkd2MyX2NoZWNrX2NvcmVfZW5kaWFubmVzcwo+IHdpbGwgYXNzdW1lIHRoZSBjb3JlIGFu
+ZCBBSEIgaGF2ZSBvcHBvc2l0ZSBlbmRpYW5uZXNzLCBsZWFkaW5nIHRvIHRoZQo+IGZvbGxvd2lu
+ZyBlcnJvcjoKPiAKPiBbICAgIDEuOTc2MzM5XSBkd2MyIDUwMDAwMDAwLnVzYjogNTAwMDAwMDAu
+dXNiIHN1cHBseSB2dXNiX2Qgbm90IGZvdW5kLCB1c2luZyBkdW1teSByZWd1bGF0b3IKPiBbICAg
+IDEuOTg2MTI0XSBkd2MyIDUwMDAwMDAwLnVzYjogTGlua2VkIGFzIGEgY29uc3VtZXIgdG8gcmVn
+dWxhdG9yLjAKPiBbICAgIDEuOTkyNzExXSBkd2MyIDUwMDAwMDAwLnVzYjogNTAwMDAwMDAudXNi
+IHN1cHBseSB2dXNiX2Egbm90IGZvdW5kLCB1c2luZyBkdW1teSByZWd1bGF0b3IKPiBbICAgIDIu
+MDAzNjcyXSBkd2MyIDUwMDAwMDAwLnVzYjogZHdjMl9jb3JlX3Jlc2V0OiBIQU5HISBBSEIgSWRs
+ZSB0aW1lb3V0IEdSU1RDVEwgR1JTVENUTF9BSEJJRExFCj4gWyAgICAyLjAxNTE3Nl0gZHdjMjog
+cHJvYmUgb2YgNTAwMDAwMDAudXNiIGZhaWxlZCB3aXRoIGVycm9yIC0xNgo+IAo+IFRoZSBwcm9w
+b3NlZCBwYXRjaCBjaGFuZ2VzIHRoZSBsb2NhdGlvbiB3aGVyZSBkd2MyX2NoZWNrX2NvcmVfZW5k
+aWFubmVzcwo+IGlzIGNhbGxlZCwgYWxsb3dpbmcgdGhlIGNsb2NrIHBlcmlwaGVyYWwgdG8gYmUg
+ZW5hYmxlZCBmaXJzdC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBCcnVubyBNZWlyZWxsZXMgSGVycmVy
+YSA8Ym1oQGNlcnRpLm9yZy5icj4KVGVzdGVkLWJ5OiBNYXJ0aW4gQmx1bWVuc3RpbmdsIDxtYXJ0
+aW4uYmx1bWVuc3RpbmdsQGdvb2dsZW1haWwuY29tPgoKVGhpcyBmaXhlcyB0aGUgc2FtZSBlcnJv
+ciBvbiBteSBPZHJvaWQtQzEgKE1lc29uOGIgU29DKS4KVGhhbmsgeW91IGZvciBzcG90dGluZyBh
+bmQgZml4aW5nIHRoaXMhCgoKUmVnYXJkcwpNYXJ0aW4K
