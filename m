@@ -1,16 +1,27 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: USB: serial: cypress_m8: fix spelling mistake "retreiving" -> "retrieving"
-From: Johan Hovold <johan@kernel.org>
-Message-Id: <20180924084936.GE5101@localhost>
-Date: Mon, 24 Sep 2018 10:49:36 +0200
-To: Colin King <colin.king@canonical.com>
-Cc: Johan Hovold <johan@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [v2,03/10] platform: x86: intel_cht_int33fe: Add dependency on muxes
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Message-Id: <20180903133616.71051-4-heikki.krogerus@linux.intel.com>
+Date: Mon,  3 Sep 2018 16:36:09 +0300
+To: Hans de Goede <hdegoede@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Andy Shevchenko <andy@infradead.org>, Darren Hart <dvhart@infradead.org>, platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gTW9uLCBTZXAgMjQsIDIwMTggYXQgMTI6MDQ6MDhBTSArMDEwMCwgQ29saW4gS2luZyB3cm90
-ZToKPiBGcm9tOiBDb2xpbiBJYW4gS2luZyA8Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPgo+IAo+
-IFRyaXZpYWwgZml4IHRvIHNwZWxsaW5nIG1pc3Rha2UgaW4gZGV2X2RiZyBtZXNzYWdlCj4gCj4g
-U2lnbmVkLW9mZi1ieTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4K
-CkFwcGxpZWQsIHRoYW5rcy4KCkpvaGFuCg==
+VGhlIGNvbm5lY3Rpb25zIGNyZWF0ZSBjbGVhciBkZXBlbmRlbmN5IG9uIHRoZSBtdXhlcy4KZnVz
+YjMwMiBmYWlscyB0byBwcm9iZSB1bmxlc3Mgd2UgaGF2ZSB0aGUgbXV4IGRyaXZlcnMKYXZhaWxh
+YmxlLgoKU2lnbmVkLW9mZi1ieTogSGVpa2tpIEtyb2dlcnVzIDxoZWlra2kua3JvZ2VydXNAbGlu
+dXguaW50ZWwuY29tPgotLS0KIGRyaXZlcnMvcGxhdGZvcm0veDg2L0tjb25maWcgfCAyICsrCiAx
+IGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9wbGF0
+Zm9ybS94ODYvS2NvbmZpZyBiL2RyaXZlcnMvcGxhdGZvcm0veDg2L0tjb25maWcKaW5kZXggMGMx
+YWE2YzMxNGY1Li5iZGFjOTM5ZGUyMjMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvcGxhdGZvcm0veDg2
+L0tjb25maWcKKysrIGIvZHJpdmVycy9wbGF0Zm9ybS94ODYvS2NvbmZpZwpAQCAtODY3LDYgKzg2
+Nyw4IEBAIGNvbmZpZyBJTlRFTF9DSFRfSU5UMzNGRQogCXRyaXN0YXRlICJJbnRlbCBDaGVycnkg
+VHJhaWwgQUNQSSBJTlQzM0ZFIERyaXZlciIKIAlkZXBlbmRzIG9uIFg4NiAmJiBBQ1BJICYmIEky
+QyAmJiBSRUdVTEFUT1IKIAlkZXBlbmRzIG9uIENIQVJHRVJfQlEyNDE5MD15IHx8IChDSEFSR0VS
+X0JRMjQxOTA9bSAmJiBtKQorCWRlcGVuZHMgb24gVVNCX1JPTEVTX0lOVEVMX1hIQ0k9eSB8fCAo
+VVNCX1JPTEVTX0lOVEVMX1hIQ0k9bSAmJiBtKQorCWRlcGVuZHMgb24gVFlQRUNfTVVYX1BJM1VT
+QjMwNTMyPXkgfHwgKFRZUEVDX01VWF9QSTNVU0IzMDUzMj1tICYmIG0pCiAJLS0taGVscC0tLQog
+CSAgVGhpcyBkcml2ZXIgYWRkIHN1cHBvcnQgZm9yIHRoZSBJTlQzM0ZFIEFDUEkgZGV2aWNlIGZv
+dW5kIG9uCiAJICBzb21lIEludGVsIENoZXJyeSBUcmFpbCBkZXZpY2VzLgo=
