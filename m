@@ -1,25 +1,33 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v5,2/2] usb: typec: ucsi: add support for Cypress CCGx
-From: Wolfram Sang <wsa@the-dreams.de>
-Message-Id: <20180905223127.GA12930@kunai>
-Date: Thu, 6 Sep 2018 00:31:27 +0200
-To: Ajay Gupta <ajayg@nvidia.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, "heikki.krogerus@linux.intel.com" <heikki.krogerus@linux.intel.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+Subject: [v1] arm64: dts: dwc3: Add description of 'configure-gfladj'
+From: Shawn Guo <shawnguo@kernel.org>
+Message-Id: <20180903011931.GB3850@dragon>
+Date: Mon, 3 Sep 2018 09:19:33 +0800
+To: Yinbo Zhu <yinbo.zhu@nxp.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, xiaobo.xie@nxp.com, Ran Wang <ran.wang_1@nxp.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, festevam@gmail.com
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCBTZXAgMDUsIDIwMTggYXQgMTA6MTc6MjZQTSArMDAwMCwgQWpheSBHdXB0YSB3cm90
-ZToKPiBIaSBHcmVnLAo+IAo+ID4gPiArc3RhdGljIGludCBjY2dfcmVhZChzdHJ1Y3QgdWNzaV9j
-Y2cgKnVjLCB1MTYgcmFiLCB1OCAqZGF0YSwgdTMyIGxlbikKPiA+ID4gK3sKPiA+ID4gKwlzdHJ1
-Y3QgZGV2aWNlICpkZXYgPSB1Yy0+ZGV2Owo+ID4gPiArCXN0cnVjdCBpMmNfY2xpZW50ICpjbGll
-bnQgPSB1Yy0+Y2xpZW50Owo+ID4gPiArCXVuc2lnbmVkIGNoYXIgYnVmWzJdOwo+ID4gPiArCXN0
-cnVjdCBpMmNfbXNnIG1zZ3NbXSA9IHsKPiA+ID4gKwkJewo+ID4gPiArCQkJLmFkZHIJPSBjbGll
-bnQtPmFkZHIsCj4gPiA+ICsJCQkuZmxhZ3MgID0gMHgwLAo+ID4gPiArCQkJLmxlbgk9IDB4MiwK
-PiA+ID4gKwkJCS5idWYJPSBidWYsCj4gPiA+ICsJCX0sCj4gPiA+ICsJCXsKPiA+ID4gKwkJCS5h
-ZGRyCT0gY2xpZW50LT5hZGRyLAo+ID4gPiArCQkJLmZsYWdzICA9IEkyQ19NX1JELAo+ID4gPiAr
-CQkJLmJ1Zgk9IGRhdGEsCj4gPiA+ICsJCX0sCj4gPiA+ICsJfTsKPiA+IAo+ID4gQXJlIHlvdSBz
-dXJlIHlvdSBhcmUgYWxsb3dlZCB0byBkbyBpMmMgbWVzc2FnZXMgb2ZmIG9mIHRoZSBzdGFjayBs
-aWtlIHRoaXM/Cj4gPiBXaWxsIHRoYXQgd29yayBvbiBhbGwgcGxhdGZvcm1zPwoKRE1BIGlzIG9w
-dGlvbmFsIHdpdGggSTJDLiBUaGVzZSBtZXNzYWdlcyBkbyBub3Qgc2V0IHRoZSBJMkNfTV9ETUFT
-QUZFCmZsYWcsIHNvIGl0IHNob3VsZCBiZSBPSy4K
+T24gV2VkLCBBdWcgMjksIDIwMTggYXQgMDM6MzM6MjRQTSArMDgwMCwgWWluYm8gWmh1IHdyb3Rl
+Ogo+IFRoaXMgcGF0Y2ggaXMgdG8gYWRkIGRlc2NyaXB0aW9uIG9mICdjb25maWd1cmUtZ2ZsYWRq
+JyB0byBiaW5kaW5nCj4gc28gdGhhdCBjb25maWd1cmluZyBkZXZpY2V0cmVlCj4gCj4gU2lnbmVk
+LW9mZi1ieTogWWluYm8gWmh1IDx5aW5iby56aHVAbnhwLmNvbT4KCkFoLCBva2F5LiAgWW91IGp1
+c3Qgc3RhcnRlZCBkb2N1bWVudGluZyB0aGUgYmluZGluZy4gIFNvIHBsZWFzZSBzZW5kIG1lCmR0
+cyBwYXRjaCBvbmx5IGFmdGVyIHRoZSBjb3JyZXNwb25kaW5nIGJpbmRpbmdzIGFuZCBkcml2ZXIg
+Y29kZSBhcmUKYWNjZXB0ZWQuCgpTaGF3bgoKPiAtLS0KPiAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0
+cmVlL2JpbmRpbmdzL3VzYi9kd2MzLnR4dCB8ICAgIDEgKwo+ICAxIGZpbGVzIGNoYW5nZWQsIDEg
+aW5zZXJ0aW9ucygrKSwgMCBkZWxldGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRh
+dGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9kd2MzLnR4dCBiL0RvY3VtZW50YXRpb24vZGV2
+aWNldHJlZS9iaW5kaW5ncy91c2IvZHdjMy50eHQKPiBpbmRleCAzZTRjMzhiLi40MGM2NTY4IDEw
+MDY0NAo+IC0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvZHdjMy50
+eHQKPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL2R3YzMudHh0
+Cj4gQEAgLTEwMSw2ICsxMDEsNyBAQCBPcHRpb25hbCBwcm9wZXJ0aWVzOgo+ICAJCQlXaGVuIGp1
+c3Qgb25lIHZhbHVlLCB3aGljaCBtZWFucyBJTkNSWCBidXJzdCBtb2RlIGVuYWJsZWQuIFdoZW4K
+PiAgCQkJbW9yZSB0aGFuIG9uZSB2YWx1ZSwgd2hpY2ggbWVhbnMgdW5kZWZpbmVkIGxlbmd0aCBJ
+TkNSIGJ1cnN0IHR5cGUKPiAgCQkJZW5hYmxlZC4gVGhlIHZhbHVlcyBjYW4gYmUgMSwgNCwgOCwg
+MTYsIDMyLCA2NCwgMTI4IGFuZCAyNTYuCj4gKyAtIGNvbmZpZ3VyZS1nZmxhZGo6IGRldGVybWlu
+ZSB3aGV0aGVyIGZyYW1lIGxlbmd0aCBhZGp1c3RtZW50IGlzIHJlcXVpcmVkIG9yIG5vdC4KPiAg
+Cj4gICAtIGluIGFkZGl0aW9uIGFsbCBwcm9wZXJ0aWVzIGZyb20gdXNiLXhoY2kudHh0IGZyb20g
+dGhlIGN1cnJlbnQgZGlyZWN0b3J5IGFyZQo+ICAgICBzdXBwb3J0ZWQgYXMgd2VsbAo+IC0tIAo+
+IDEuNy4xCj4K
