@@ -1,24 +1,23 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: usb/dwc3/gadget: fix kernel-doc parameter warning
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-Id: <50ab44e8-b365-a3a6-8aff-8621374e3f94@infradead.org>
-Date: Sun, 2 Sep 2018 19:39:55 -0700
-To: LKML <linux-kernel@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>
-Cc: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [2/4,next] net: lan78xx: Drop unnecessary strcpy in lan78xx_probe
+From: Stefan Wahren <stefan.wahren@i2se.com>
+Message-Id: <1535994759-8938-3-git-send-email-stefan.wahren@i2se.com>
+Date: Mon,  3 Sep 2018 19:12:37 +0200
+To: Woojung Huh <woojung.huh@microchip.com>
+Cc: Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Stefan Wahren <stefan.wahren@i2se.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-RnJvbTogUmFuZHkgRHVubGFwIDxyZHVubGFwQGluZnJhZGVhZC5vcmc+CgpGaXgga2VybmVsLWRv
-YyB3YXJuaW5nOgoKLi4vZHJpdmVycy91c2IvZHdjMy9nYWRnZXQuYzo1MTA6IHdhcm5pbmc6IEV4
-Y2VzcyBmdW5jdGlvbiBwYXJhbWV0ZXIgJ2R3YycgZGVzY3JpcHRpb24gaW4gJ2R3YzNfZ2FkZ2V0
-X3N0YXJ0X2NvbmZpZycKClNpZ25lZC1vZmYtYnk6IFJhbmR5IER1bmxhcCA8cmR1bmxhcEBpbmZy
-YWRlYWQub3JnPgpDYzogRmVsaXBlIEJhbGJpIDxiYWxiaUBrZXJuZWwub3JnPgotLS0KIGRyaXZl
-cnMvdXNiL2R3YzMvZ2FkZ2V0LmMgfCAgICAxIC0KIDEgZmlsZSBjaGFuZ2VkLCAxIGRlbGV0aW9u
-KC0pCgotLS0gbG54LTQxOS1yYzIub3JpZy9kcml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jCisrKyBs
-bngtNDE5LXJjMi9kcml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jCkBAIC00NzMsNyArNDczLDYgQEAg
-c3RhdGljIGludCBkd2MzX2dhZGdldF9zZXRfeGZlcl9yZXNvdXJjZQogCiAvKioKICAqIGR3YzNf
-Z2FkZ2V0X3N0YXJ0X2NvbmZpZyAtIGNvbmZpZ3VyZSBlcCByZXNvdXJjZXMKLSAqIEBkd2M6IHBv
-aW50ZXIgdG8gb3VyIGNvbnRyb2xsZXIgY29udGV4dCBzdHJ1Y3R1cmUKICAqIEBkZXA6IGVuZHBv
-aW50IHRoYXQgaXMgYmVpbmcgZW5hYmxlZAogICoKICAqIElzc3VlIGEgJURXQzNfREVQQ01EX0RF
-UFNUQVJUQ0ZHIGNvbW1hbmQgdG8gQGRlcC4gQWZ0ZXIgdGhlIGNvbW1hbmQncwo=
+VGhlcmUgaXMgbm8gbmVlZCBmb3IgdGhpcyBzdHJjcHkgYmVjYXVzZSBhbGxvY19ldGhlcmRldigp
+IGFscmVhZHkKZG9lcyB0aGlzIGpvYi4KClNpZ25lZC1vZmYtYnk6IFN0ZWZhbiBXYWhyZW4gPHN0
+ZWZhbi53YWhyZW5AaTJzZS5jb20+Ci0tLQogZHJpdmVycy9uZXQvdXNiL2xhbjc4eHguYyB8IDEg
+LQogMSBmaWxlIGNoYW5nZWQsIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL25l
+dC91c2IvbGFuNzh4eC5jIGIvZHJpdmVycy9uZXQvdXNiL2xhbjc4eHguYwppbmRleCAzZjcwYjk0
+Li4zZDUwNWMyIDEwMDY0NAotLS0gYS9kcml2ZXJzL25ldC91c2IvbGFuNzh4eC5jCisrKyBiL2Ry
+aXZlcnMvbmV0L3VzYi9sYW43OHh4LmMKQEAgLTM3NjYsNyArMzc2Niw2IEBAIHN0YXRpYyBpbnQg
+bGFuNzh4eF9wcm9iZShzdHJ1Y3QgdXNiX2ludGVyZmFjZSAqaW50ZiwKIAlyZXQgPSBsYW43OHh4
+X2JpbmQoZGV2LCBpbnRmKTsKIAlpZiAocmV0IDwgMCkKIAkJZ290byBvdXQyOwotCXN0cmNweShu
+ZXRkZXYtPm5hbWUsICJldGglZCIpOwogCiAJaWYgKG5ldGRldi0+bXR1ID4gKGRldi0+aGFyZF9t
+dHUgLSBuZXRkZXYtPmhhcmRfaGVhZGVyX2xlbikpCiAJCW5ldGRldi0+bXR1ID0gZGV2LT5oYXJk
+X210dSAtIG5ldGRldi0+aGFyZF9oZWFkZXJfbGVuOwo=
