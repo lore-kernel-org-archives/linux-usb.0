@@ -1,33 +1,24 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [01/25] tty: Change return type to void
-From: Jiri Slaby <jslaby@suse.cz>
-Message-Id: <d3d5df26-4678-2539-e579-1c48bc726163@suse.cz>
-Date: Wed, 5 Sep 2018 07:57:25 +0200
-To: Jaejoong Kim <climbbb.kim@gmail.com>, sergei.shtylyov@cogentembedded.com
-Cc: devel@driverdev.osuosl.org, Greg KH <gregkh@linuxfoundation.org>, linux-um@lists.infradead.org, greybus-dev@lists.linaro.org, linuxppc-dev@lists.ozlabs.org, linux-bluetooth@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, linux-mmc@vger.kernel.org, linux-s390@vger.kernel.org, linux-serial@vger.kernel.org, USB list <linux-usb@vger.kernel.org>, netdev@vger.kernel.org, sparclinux@vger.kernel.org
+Subject: [V2,2/4,next] net: lan78xx: Drop unnecessary strcpy in lan78xx_probe
+From: Stefan Wahren <stefan.wahren@i2se.com>
+Message-Id: <1536082152-3669-3-git-send-email-stefan.wahren@i2se.com>
+Date: Tue,  4 Sep 2018 19:29:10 +0200
+To: Woojung Huh <woojung.huh@microchip.com>
+Cc: Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Stefan Wahren <stefan.wahren@i2se.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMDkvMDUvMjAxOCwgMDM6MDggQU0sIEphZWpvb25nIEtpbSB3cm90ZToKPiAgICAgPiBAQCAt
-Njg4LDcgKzY4OCw3IEBAIGV4dGVybiBpbnQgdHR5X3BvcnRfY2xvc2Vfc3RhcnQoc3RydWN0Cj4g
-ICAgIHR0eV9wb3J0ICpwb3J0LAo+ICAgICA+wqAgwqBleHRlcm4gdm9pZCB0dHlfcG9ydF9jbG9z
-ZV9lbmQoc3RydWN0IHR0eV9wb3J0ICpwb3J0LCBzdHJ1Y3QKPiAgICAgdHR5X3N0cnVjdCAqdHR5
-KTsKPiAgICAgPsKgIMKgZXh0ZXJuIHZvaWQgdHR5X3BvcnRfY2xvc2Uoc3RydWN0IHR0eV9wb3J0
-ICpwb3J0LAo+ICAgICA+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqBzdHJ1Y3QgdHR5X3N0cnVjdCAqdHR5LCBzdHJ1Y3QgZmlsZQo+ICAgICAqZmlscCk7Cj4g
-ICAgID4gLWV4dGVybiBpbnQgdHR5X3BvcnRfaW5zdGFsbChzdHJ1Y3QgdHR5X3BvcnQgKnBvcnQs
-IHN0cnVjdAo+ICAgICB0dHlfZHJpdmVyICpkcml2ZXIsCj4gICAgID4gK2V4dGVybiB2b2lkIHR0
-eV9wb3J0X2luc3RhbGwoc3RydWN0IHR0eV9wb3J0ICpwb3J0LCBzdHJ1Y3QKPiAgICAgdHR5X2Ry
-aXZlciAqZHJpdmVyLAo+ICAgICA+wqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqBzdHJ1Y3QgdHR5X3N0cnVjdCAqdHR5KTsKPiAKPiAgICAgwqAgwqAgWW91IG5l
-ZWQgdG8gdXBkYXRlIGFsbCB0aGUgY2FsbGVycyBpbiB0aGUgc2FtZSBwYXRjaCAtLSB0aGUKPiAg
-ICAga2VybmVsIG11c3QKPiAgICAgcmVtYWluIGJ1aWxkYWJsZSBhZnRlciBlYWNoIHBhdGNoIGJ1
-dCB5b3Ugc2VlbSB0byBoYXZlIHNwcmVhZCB0aGF0Cj4gICAgIHVwZGF0ZQo+ICAgICBhbW9uZyBh
-IGxvdCBvZiBwYXRjaGVzLi4KPiAKPiAKPiBPSy4gSSB3aWxsIG1ha2Ugc2V2ZXJhbCBwYXRjaGVz
-IGFzIG9uZSBwYXRjaC4KCllvdSBkb24ndCBoYXZlIHRvLiBKdXN0IHJlb3JkZXIgdGhlIHBhdGNo
-ZXMgYXMgc3VnZ2VzdGVkIGJ5IFNhbS4gKEZpcnN0LAptYWtlIGV2ZXJ5Ym9keSBpZ25vcmUgdGhl
-IHJldHVybiB2YWx1ZSwgdGhlbiBjaGFuZ2UgdGhlc2UgcmV0dXJuIHR5cGVzCnRvIHZvaWQuKQoK
-QlRXIHlvdSBjYW4gbWVudGlvbiBpbiB0aGlzIGNvbW1pdCBsb2csIHRoYXQgdGhpcyBjaGFuZ2Ug
-aXMgcG9zc2libGUKYWZ0ZXIgYTMxMjNmZDBhNGE1LiBUaGF0IGNvbW1pdCBtYWRlIHR0eV9zdGFu
-ZGFyZF9pbnN0YWxsIHRvIGFsd2F5cwpyZXR1cm4gMC4KCnRoYW5rcywK
+VGhlcmUgaXMgbm8gbmVlZCBmb3IgdGhpcyBzdHJjcHkgYmVjYXVzZSBhbGxvY19ldGhlcmRldigp
+IGFscmVhZHkKZG9lcyB0aGlzIGpvYi4KClNpZ25lZC1vZmYtYnk6IFN0ZWZhbiBXYWhyZW4gPHN0
+ZWZhbi53YWhyZW5AaTJzZS5jb20+ClJldmlld2VkLWJ5OiBSYWdodXJhbSBDaGFyeSBKYWxsaXBh
+bGxpIDxyYWdodXJhbWNoYXJ5LmphbGxpcGFsbGlAbWljcm9jaGlwLmNvbT4KLS0tCiBkcml2ZXJz
+L25ldC91c2IvbGFuNzh4eC5jIHwgMSAtCiAxIGZpbGUgY2hhbmdlZCwgMSBkZWxldGlvbigtKQoK
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvbmV0L3VzYi9sYW43OHh4LmMgYi9kcml2ZXJzL25ldC91c2Iv
+bGFuNzh4eC5jCmluZGV4IDNmNzBiOTQuLjNkNTA1YzIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbmV0
+L3VzYi9sYW43OHh4LmMKKysrIGIvZHJpdmVycy9uZXQvdXNiL2xhbjc4eHguYwpAQCAtMzc2Niw3
+ICszNzY2LDYgQEAgc3RhdGljIGludCBsYW43OHh4X3Byb2JlKHN0cnVjdCB1c2JfaW50ZXJmYWNl
+ICppbnRmLAogCXJldCA9IGxhbjc4eHhfYmluZChkZXYsIGludGYpOwogCWlmIChyZXQgPCAwKQog
+CQlnb3RvIG91dDI7Ci0Jc3RyY3B5KG5ldGRldi0+bmFtZSwgImV0aCVkIik7CiAKIAlpZiAobmV0
+ZGV2LT5tdHUgPiAoZGV2LT5oYXJkX210dSAtIG5ldGRldi0+aGFyZF9oZWFkZXJfbGVuKSkKIAkJ
+bmV0ZGV2LT5tdHUgPSBkZXYtPmhhcmRfbXR1IC0gbmV0ZGV2LT5oYXJkX2hlYWRlcl9sZW47Cg==
