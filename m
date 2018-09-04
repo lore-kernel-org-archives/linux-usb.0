@@ -1,17 +1,27 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [1/4,next] net: lan78xx: Bail out if lan78xx_get_endpoints fails
-From: Raghuram Chary J <raghuramchary.jallipalli@microchip.com>
-Message-Id: <0573C9D4B793EF43BF95221F2F4CC85159126C@CHN-SV-EXMX06.mchp-main.com>
-Date: Tue, 4 Sep 2018 04:20:24 +0000
-To: stefan.wahren@i2se.com, Woojung.Huh@microchip.com
-Cc: UNGLinuxDriver@microchip.com, davem@davemloft.net, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [v3,03/10] platform: x86: intel_cht_int33fe: Add dependency on muxes
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Message-Id: <20180904112219.89287-4-heikki.krogerus@linux.intel.com>
+Date: Tue,  4 Sep 2018 14:22:12 +0300
+To: Hans de Goede <hdegoede@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Andy Shevchenko <andy@infradead.org>, Darren Hart <dvhart@infradead.org>, platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-PiBXZSBuZWVkIHRvIGJhaWwgb3V0IGlmIGxhbjc4eHhfZ2V0X2VuZHBvaW50cygpIGZhaWxzLCBv
-dGhlcndpc2UgdGhlIHJlc3VsdCBpcwo+IG92ZXJ3cml0dGVuLgo+IAo+IEZpeGVzOiA1NWQ3ZGU5
-ZGU2YzMgKCJNaWNyb2NoaXAncyBMQU43ODAwIGZhbWlseSBVU0IgMi8zIHRvIDEwLzEwMC8xMDAw
-Cj4gRXRoZXJuZXQiKQo+IFNpZ25lZC1vZmYtYnk6IFN0ZWZhbiBXYWhyZW4gPHN0ZWZhbi53YWhy
-ZW5AaTJzZS5jb20+CgpSZXZpZXdlZC1ieTogUmFnaHVyYW0gQ2hhcnkgSmFsbGlwYWxsaSA8cmFn
-aHVyYW1jaGFyeS5qYWxsaXBhbGxpQG1pY3JvY2hpcC5jb20+CgpUaGFua3MsCi1SYWdodQo=
+VGhlIGNvbm5lY3Rpb25zIGNyZWF0ZSBjbGVhciBkZXBlbmRlbmN5IG9uIHRoZSBtdXhlcy4KZnVz
+YjMwMiBmYWlscyB0byBwcm9iZSB1bmxlc3Mgd2UgaGF2ZSB0aGUgbXV4IGRyaXZlcnMKYXZhaWxh
+YmxlLgoKU2lnbmVkLW9mZi1ieTogSGVpa2tpIEtyb2dlcnVzIDxoZWlra2kua3JvZ2VydXNAbGlu
+dXguaW50ZWwuY29tPgotLS0KIGRyaXZlcnMvcGxhdGZvcm0veDg2L0tjb25maWcgfCAyICsrCiAx
+IGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9wbGF0
+Zm9ybS94ODYvS2NvbmZpZyBiL2RyaXZlcnMvcGxhdGZvcm0veDg2L0tjb25maWcKaW5kZXggMGMx
+YWE2YzMxNGY1Li5iZGFjOTM5ZGUyMjMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvcGxhdGZvcm0veDg2
+L0tjb25maWcKKysrIGIvZHJpdmVycy9wbGF0Zm9ybS94ODYvS2NvbmZpZwpAQCAtODY3LDYgKzg2
+Nyw4IEBAIGNvbmZpZyBJTlRFTF9DSFRfSU5UMzNGRQogCXRyaXN0YXRlICJJbnRlbCBDaGVycnkg
+VHJhaWwgQUNQSSBJTlQzM0ZFIERyaXZlciIKIAlkZXBlbmRzIG9uIFg4NiAmJiBBQ1BJICYmIEky
+QyAmJiBSRUdVTEFUT1IKIAlkZXBlbmRzIG9uIENIQVJHRVJfQlEyNDE5MD15IHx8IChDSEFSR0VS
+X0JRMjQxOTA9bSAmJiBtKQorCWRlcGVuZHMgb24gVVNCX1JPTEVTX0lOVEVMX1hIQ0k9eSB8fCAo
+VVNCX1JPTEVTX0lOVEVMX1hIQ0k9bSAmJiBtKQorCWRlcGVuZHMgb24gVFlQRUNfTVVYX1BJM1VT
+QjMwNTMyPXkgfHwgKFRZUEVDX01VWF9QSTNVU0IzMDUzMj1tICYmIG0pCiAJLS0taGVscC0tLQog
+CSAgVGhpcyBkcml2ZXIgYWRkIHN1cHBvcnQgZm9yIHRoZSBJTlQzM0ZFIEFDUEkgZGV2aWNlIGZv
+dW5kIG9uCiAJICBzb21lIEludGVsIENoZXJyeSBUcmFpbCBkZXZpY2VzLgo=
