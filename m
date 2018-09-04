@@ -2,25 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/4,next] net: lan78xx: Bail out if lan78xx_get_endpoints fails
-From: Stefan Wahren <stefan.wahren@i2se.com>
-Message-Id: <1535994759-8938-2-git-send-email-stefan.wahren@i2se.com>
-Date: Mon,  3 Sep 2018 19:12:36 +0200
-To: Woojung Huh <woojung.huh@microchip.com>
-Cc: Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Stefan Wahren <stefan.wahren@i2se.com>
+From: Raghuram Chary J <raghuramchary.jallipalli@microchip.com>
+Message-Id: <0573C9D4B793EF43BF95221F2F4CC85159126C@CHN-SV-EXMX06.mchp-main.com>
+Date: Tue, 4 Sep 2018 04:20:24 +0000
+To: stefan.wahren@i2se.com, Woojung.Huh@microchip.com
+Cc: UNGLinuxDriver@microchip.com, davem@davemloft.net, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-V2UgbmVlZCB0byBiYWlsIG91dCBpZiBsYW43OHh4X2dldF9lbmRwb2ludHMoKSBmYWlscywgb3Ro
-ZXJ3aXNlIHRoZQpyZXN1bHQgaXMgb3ZlcndyaXR0ZW4uCgpGaXhlczogNTVkN2RlOWRlNmMzICgi
-TWljcm9jaGlwJ3MgTEFONzgwMCBmYW1pbHkgVVNCIDIvMyB0byAxMC8xMDAvMTAwMCBFdGhlcm5l
-dCIpClNpZ25lZC1vZmYtYnk6IFN0ZWZhbiBXYWhyZW4gPHN0ZWZhbi53YWhyZW5AaTJzZS5jb20+
-Ci0tLQogZHJpdmVycy9uZXQvdXNiL2xhbjc4eHguYyB8IDUgKysrKysKIDEgZmlsZSBjaGFuZ2Vk
-LCA1IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL25ldC91c2IvbGFuNzh4eC5j
-IGIvZHJpdmVycy9uZXQvdXNiL2xhbjc4eHguYwppbmRleCBhOTk5MWM1Li4zZjcwYjk0IDEwMDY0
-NAotLS0gYS9kcml2ZXJzL25ldC91c2IvbGFuNzh4eC5jCisrKyBiL2RyaXZlcnMvbmV0L3VzYi9s
-YW43OHh4LmMKQEAgLTI5NTIsNiArMjk1MiwxMSBAQCBzdGF0aWMgaW50IGxhbjc4eHhfYmluZChz
-dHJ1Y3QgbGFuNzh4eF9uZXQgKmRldiwgc3RydWN0IHVzYl9pbnRlcmZhY2UgKmludGYpCiAJaW50
-IGk7CiAKIAlyZXQgPSBsYW43OHh4X2dldF9lbmRwb2ludHMoZGV2LCBpbnRmKTsKKwlpZiAocmV0
-KSB7CisJCW5ldGRldl93YXJuKGRldi0+bmV0LCAibGFuNzh4eF9nZXRfZW5kcG9pbnRzIGZhaWxl
-ZDogJWRcbiIsCisJCQkgICAgcmV0KTsKKwkJcmV0dXJuIHJldDsKKwl9CiAKIAlkZXYtPmRhdGFb
-MF0gPSAodW5zaWduZWQgbG9uZylremFsbG9jKHNpemVvZigqcGRhdGEpLCBHRlBfS0VSTkVMKTsK
-IAo=
+PiBXZSBuZWVkIHRvIGJhaWwgb3V0IGlmIGxhbjc4eHhfZ2V0X2VuZHBvaW50cygpIGZhaWxzLCBv
+dGhlcndpc2UgdGhlIHJlc3VsdCBpcwo+IG92ZXJ3cml0dGVuLgo+IAo+IEZpeGVzOiA1NWQ3ZGU5
+ZGU2YzMgKCJNaWNyb2NoaXAncyBMQU43ODAwIGZhbWlseSBVU0IgMi8zIHRvIDEwLzEwMC8xMDAw
+Cj4gRXRoZXJuZXQiKQo+IFNpZ25lZC1vZmYtYnk6IFN0ZWZhbiBXYWhyZW4gPHN0ZWZhbi53YWhy
+ZW5AaTJzZS5jb20+CgpSZXZpZXdlZC1ieTogUmFnaHVyYW0gQ2hhcnkgSmFsbGlwYWxsaSA8cmFn
+aHVyYW1jaGFyeS5qYWxsaXBhbGxpQG1pY3JvY2hpcC5jb20+CgpUaGFua3MsCi1SYWdodQo=
