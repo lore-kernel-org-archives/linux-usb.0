@@ -1,30 +1,27 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: usb: dwc2: remove set but unused variable
-From: Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
-Message-Id: <410670D7E743164D87FA6160E7907A56013A76F5B9@am04wembxa.internal.synopsys.com>
-Date: Mon, 24 Sep 2018 05:48:33 +0000
-To: Josh Abraham <j.abraham1776@gmail.com>, "minas.harutyunyan@synopsys.com" <minas.harutyunyan@synopsys.com>
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>
+Subject: [16/25] isdn: capi: Change return type to void
+From: Jaejoong Kim <climbbb.kim@gmail.com>
+Message-Id: <1536029091-4426-17-git-send-email-climbbb.kim@gmail.com>
+Date: Tue,  4 Sep 2018 11:44:42 +0900
+To: linux-um@lists.infradead.org, netdev@vger.kernel.org, linux-mmc@vger.kernel.org, linux-s390@vger.kernel.org, devel@driverdev.osuosl.org, greybus-dev@lists.linaro.org, linuxppc-dev@lists.ozlabs.org, linux-serial@vger.kernel.org, sparclinux@vger.kernel.org, linux-usb@vger.kernel.org, linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jslaby@suse.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gOS8yNC8yMDE4IDU6NDEgQU0sIEpvc2ggQWJyYWhhbSB3cm90ZToKPiBUaGlzIHBhdGNoIHJl
-bW92ZXMgYSBzZXQgYnV0IHVudXNlZCB2YXJpYWJsZSBpbiBoY2QuYy4KPiAKPiBGaXhlcyBnY2Mg
-d2FybmluZzoKPiB2YXJpYWJsZSDigJhkYXRhX2ZpZm/igJkgc2V0IGJ1dCBub3QgdXNlZCBbLVd1
-bnVzZWQtYnV0LXNldC12YXJpYWJsZV0KPiAKPiBTaWduZWQtb2ZmLWJ5OiBKb3NodWEgQWJyYWhh
-bSA8ai5hYnJhaGFtMTc3NkBnbWFpbC5jb20+Cj4gLS0tCj4gICBkcml2ZXJzL3VzYi9kd2MyL2hj
-ZC5jIHwgMyAtLS0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAzIGRlbGV0aW9ucygtKQo+IAo+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL3VzYi9kd2MyL2hjZC5jIGIvZHJpdmVycy91c2IvZHdjMi9oY2QuYwo+
-IGluZGV4IDJiZDZlNmJmYzI0MS4uNWYyM2I5MzNjYWZjIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMv
-dXNiL2R3YzIvaGNkLmMKPiArKysgYi9kcml2ZXJzL3VzYi9kd2MyL2hjZC5jCj4gQEAgLTEzMjgs
-MTQgKzEzMjgsMTEgQEAgc3RhdGljIHZvaWQgZHdjMl9oY193cml0ZV9wYWNrZXQoc3RydWN0IGR3
-YzJfaHNvdGcgKmhzb3RnLAo+ICAgCXUzMiByZW1haW5pbmdfY291bnQ7Cj4gICAJdTMyIGJ5dGVf
-Y291bnQ7Cj4gICAJdTMyIGR3b3JkX2NvdW50Owo+IC0JdTMyIF9faW9tZW0gKmRhdGFfZmlmbzsK
-PiAgIAl1MzIgKmRhdGFfYnVmID0gKHUzMiAqKWNoYW4tPnhmZXJfYnVmOwo+ICAgCj4gICAJaWYg
-KGRiZ19oYyhjaGFuKSkKPiAgIAkJZGV2X3ZkYmcoaHNvdGctPmRldiwgIiVzKClcbiIsIF9fZnVu
-Y19fKTsKPiAgIAo+IC0JZGF0YV9maWZvID0gKHUzMiBfX2lvbWVtICopKGhzb3RnLT5yZWdzICsg
-SENGSUZPKGNoYW4tPmhjX251bSkpOwo+IC0KPiAgIAlyZW1haW5pbmdfY291bnQgPSBjaGFuLT54
-ZmVyX2xlbiAtIGNoYW4tPnhmZXJfY291bnQ7Cj4gICAJaWYgKHJlbWFpbmluZ19jb3VudCA+IGNo
-YW4tPm1heF9wYWNrZXQpCj4gICAJCWJ5dGVfY291bnQgPSBjaGFuLT5tYXhfcGFja2V0Owo+IApB
-Y2tlZC1ieTogTWluYXMgSGFydXR5dW55YW4gPGhtaW5hc0BzeW5vcHN5cy5jb20+Cg==
+U2luY2UgdHR5X3N0YW5kYXJkX2luc3RhbGwoKSBhbHdheXMgcmV0dXJucyAwLCB0aGUgcmV0dXJu
+IHR5cGUgaGFzIGNoYW5nZWQKdG8gdm9pZC4gTm93IGFwcGx5IHRoaXMgYW5kIHJlbW92ZSB0aGUg
+b2Jzb2xldGUgZXJyb3IgY2hlY2suCgpTaWduZWQtb2ZmLWJ5OiBKYWVqb29uZyBLaW0gPGNsaW1i
+YmIua2ltQGdtYWlsLmNvbT4KLS0tCiBkcml2ZXJzL2lzZG4vY2FwaS9jYXBpLmMgfCAxMCArKysr
+LS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQoK
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvaXNkbi9jYXBpL2NhcGkuYyBiL2RyaXZlcnMvaXNkbi9jYXBp
+L2NhcGkuYwppbmRleCBlZjU1NjBiLi4wOGRhZjNhIDEwMDY0NAotLS0gYS9kcml2ZXJzL2lzZG4v
+Y2FwaS9jYXBpLmMKKysrIGIvZHJpdmVycy9pc2RuL2NhcGkvY2FwaS5jCkBAIC05OTksMTMgKzk5
+OSwxMSBAQCBzdGF0aWMgaW50CiBjYXBpbmNfdHR5X2luc3RhbGwoc3RydWN0IHR0eV9kcml2ZXIg
+KmRyaXZlciwgc3RydWN0IHR0eV9zdHJ1Y3QgKnR0eSkKIHsKIAlzdHJ1Y3QgY2FwaW1pbm9yICpt
+cCA9IGNhcGltaW5vcl9nZXQodHR5LT5pbmRleCk7Ci0JaW50IHJldCA9IHR0eV9zdGFuZGFyZF9p
+bnN0YWxsKGRyaXZlciwgdHR5KTsKIAotCWlmIChyZXQgPT0gMCkKLQkJdHR5LT5kcml2ZXJfZGF0
+YSA9IG1wOwotCWVsc2UKLQkJY2FwaW1pbm9yX3B1dChtcCk7Ci0JcmV0dXJuIHJldDsKKwl0dHlf
+c3RhbmRhcmRfaW5zdGFsbChkcml2ZXIsIHR0eSk7CisJdHR5LT5kcml2ZXJfZGF0YSA9IG1wOwor
+CisJcmV0dXJuIDA7CiB9CiAKIHN0YXRpYyB2b2lkIGNhcGluY190dHlfY2xlYW51cChzdHJ1Y3Qg
+dHR5X3N0cnVjdCAqdHR5KQo=
