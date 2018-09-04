@@ -2,22 +2,17 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [net-next] net: usbnet: mark expected switch fall-through
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Message-Id: <20180903184845.GA8150@embeddedor.com>
-Date: Mon, 3 Sep 2018 13:48:45 -0500
-To: Oliver Neukum <oneukum@suse.com>, "David S. Miller" <davem@davemloft.net>
-Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+From: David Miller <davem@davemloft.net>
+Message-Id: <20180904.122003.1117430773350007507.davem@davemloft.net>
+Date: Tue, 04 Sep 2018 12:20:03 -0700 (PDT)
+To: gustavo@embeddedor.com
+Cc: oneukum@suse.com, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SW4gcHJlcGFyYXRpb24gdG8gZW5hYmxpbmcgLVdpbXBsaWNpdC1mYWxsdGhyb3VnaCwgbWFyayBz
-d2l0Y2ggY2FzZXMKd2hlcmUgd2UgYXJlIGV4cGVjdGluZyB0byBmYWxsIHRocm91Z2guCgpBZGRy
-ZXNzZXMtQ292ZXJpdHktSUQ6IDEwNzc2MTQgKCJNaXNzaW5nIGJyZWFrIGluIHN3aXRjaCIpClNp
-Z25lZC1vZmYtYnk6IEd1c3Rhdm8gQS4gUi4gU2lsdmEgPGd1c3Rhdm9AZW1iZWRkZWRvci5jb20+
-Ci0tLQogZHJpdmVycy9uZXQvdXNiL3VzYm5ldC5jIHwgMSArCiAxIGZpbGUgY2hhbmdlZCwgMSBp
-bnNlcnRpb24oKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL25ldC91c2IvdXNibmV0LmMgYi9kcml2
-ZXJzL25ldC91c2IvdXNibmV0LmMKaW5kZXggNzcwYWE2Mi4uNzNhYTMzMyAxMDA2NDQKLS0tIGEv
-ZHJpdmVycy9uZXQvdXNiL3VzYm5ldC5jCisrKyBiL2RyaXZlcnMvbmV0L3VzYi91c2JuZXQuYwpA
-QCAtMTUyNyw2ICsxNTI3LDcgQEAgc3RhdGljIHZvaWQgdXNibmV0X2JoIChzdHJ1Y3QgdGltZXJf
-bGlzdCAqdCkKIAkJCWNvbnRpbnVlOwogCQljYXNlIHR4X2RvbmU6CiAJCQlrZnJlZShlbnRyeS0+
-dXJiLT5zZyk7CisJCQkvKiBmYWxsIHRocm91Z2ggKi8KIAkJY2FzZSByeF9jbGVhbnVwOgogCQkJ
-dXNiX2ZyZWVfdXJiIChlbnRyeS0+dXJiKTsKIAkJCWRldl9rZnJlZV9za2IgKHNrYik7Cg==
+RnJvbTogIkd1c3Rhdm8gQS4gUi4gU2lsdmEiIDxndXN0YXZvQGVtYmVkZGVkb3IuY29tPgpEYXRl
+OiBNb24sIDMgU2VwIDIwMTggMTM6NDg6NDUgLTA1MDAKCj4gSW4gcHJlcGFyYXRpb24gdG8gZW5h
+YmxpbmcgLVdpbXBsaWNpdC1mYWxsdGhyb3VnaCwgbWFyayBzd2l0Y2ggY2FzZXMKPiB3aGVyZSB3
+ZSBhcmUgZXhwZWN0aW5nIHRvIGZhbGwgdGhyb3VnaC4KPiAKPiBBZGRyZXNzZXMtQ292ZXJpdHkt
+SUQ6IDEwNzc2MTQgKCJNaXNzaW5nIGJyZWFrIGluIHN3aXRjaCIpCj4gU2lnbmVkLW9mZi1ieTog
+R3VzdGF2byBBLiBSLiBTaWx2YSA8Z3VzdGF2b0BlbWJlZGRlZG9yLmNvbT4KCkFwcGxpZWQsIHRo
+YW5rIHlvdS4K
