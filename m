@@ -1,25 +1,27 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: usb: core: fix compile warning
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Message-Id: <20180911075413.GA20870@embeddedor.com>
-Date: Tue, 11 Sep 2018 02:54:13 -0500
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: [07/25] tty: mips_ejtag_fdc: Change return type to void
+From: Jaejoong Kim <climbbb.kim@gmail.com>
+Message-Id: <1536029091-4426-8-git-send-email-climbbb.kim@gmail.com>
+Date: Tue,  4 Sep 2018 11:44:33 +0900
+To: linux-um@lists.infradead.org, netdev@vger.kernel.org, linux-mmc@vger.kernel.org, linux-s390@vger.kernel.org, devel@driverdev.osuosl.org, greybus-dev@lists.linaro.org, linuxppc-dev@lists.ozlabs.org, linux-serial@vger.kernel.org, sparclinux@vger.kernel.org, linux-usb@vger.kernel.org, linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jslaby@suse.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-Rml4IHRoZSBmb2xsb3dpbmcgY29tcGlsZSB3YXJuaW5nOgoKd2FybmluZzogdW51c2VkIHZhcmlh
-YmxlIOKAmGZsYWdz4oCZIFstV3VudXNlZC12YXJpYWJsZV0KICB1bnNpZ25lZCBsb25nIGZsYWdz
-OwoKRml4ZXM6IGVkMTk0ZDEzNjc2OSAoInVzYjogY29yZTogcmVtb3ZlIGxvY2FsX2lycV9zYXZl
-KCkgYXJvdW5kIC0+Y29tcGxldGUoKSBoYW5kbGVyIikKU2lnbmVkLW9mZi1ieTogR3VzdGF2byBB
-LiBSLiBTaWx2YSA8Z3VzdGF2b0BlbWJlZGRlZG9yLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9jb3Jl
-L2hjZC5jIHwgMSAtCiAxIGZpbGUgY2hhbmdlZCwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBh
-L2RyaXZlcnMvdXNiL2NvcmUvaGNkLmMgYi9kcml2ZXJzL3VzYi9jb3JlL2hjZC5jCmluZGV4IGY5
-ODVkMjMuLjQ4NzAyNWQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL2NvcmUvaGNkLmMKKysrIGIv
-ZHJpdmVycy91c2IvY29yZS9oY2QuYwpAQCAtMTczOCw3ICsxNzM4LDYgQEAgc3RhdGljIHZvaWQg
-X191c2JfaGNkX2dpdmViYWNrX3VyYihzdHJ1Y3QgdXJiICp1cmIpCiAJc3RydWN0IHVzYl9oY2Qg
-KmhjZCA9IGJ1c190b19oY2QodXJiLT5kZXYtPmJ1cyk7CiAJc3RydWN0IHVzYl9hbmNob3IgKmFu
-Y2hvciA9IHVyYi0+YW5jaG9yOwogCWludCBzdGF0dXMgPSB1cmItPnVubGlua2VkOwotCXVuc2ln
-bmVkIGxvbmcgZmxhZ3M7CiAKIAl1cmItPmhjcHJpdiA9IE5VTEw7CiAJaWYgKHVubGlrZWx5KCh1
-cmItPnRyYW5zZmVyX2ZsYWdzICYgVVJCX1NIT1JUX05PVF9PSykgJiYK
+U2luY2UgdHR5X3BvcnRfaW5zdGFsbCgpIGFsd2F5cyByZXR1cm5zIDAsIHRoZSByZXR1cm4gdHlw
+ZSBoYXMgY2hhbmdlZAp0byB2b2lkLiBOb3cgYXBwbHkgdGhpcyBhbmQgcmVtb3ZlIHRoZSBvYnNv
+bGV0ZSBlcnJvciBjaGVjay4KClNpZ25lZC1vZmYtYnk6IEphZWpvb25nIEtpbSA8Y2xpbWJiYi5r
+aW1AZ21haWwuY29tPgotLS0KIGRyaXZlcnMvdHR5L21pcHNfZWp0YWdfZmRjLmMgfCA0ICsrKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1n
+aXQgYS9kcml2ZXJzL3R0eS9taXBzX2VqdGFnX2ZkYy5jIGIvZHJpdmVycy90dHkvbWlwc19lanRh
+Z19mZGMuYwppbmRleCA0YzFjZDQ5Li4zM2UwNmI0IDEwMDY0NAotLS0gYS9kcml2ZXJzL3R0eS9t
+aXBzX2VqdGFnX2ZkYy5jCisrKyBiL2RyaXZlcnMvdHR5L21pcHNfZWp0YWdfZmRjLmMKQEAgLTc2
+Myw3ICs3NjMsOSBAQCBzdGF0aWMgaW50IG1pcHNfZWp0YWdfZmRjX3R0eV9pbnN0YWxsKHN0cnVj
+dCB0dHlfZHJpdmVyICpkcml2ZXIsCiAJc3RydWN0IG1pcHNfZWp0YWdfZmRjX3R0eSAqcHJpdiA9
+IGRyaXZlci0+ZHJpdmVyX3N0YXRlOwogCiAJdHR5LT5kcml2ZXJfZGF0YSA9ICZwcml2LT5wb3J0
+c1t0dHktPmluZGV4XTsKLQlyZXR1cm4gdHR5X3BvcnRfaW5zdGFsbCgmcHJpdi0+cG9ydHNbdHR5
+LT5pbmRleF0ucG9ydCwgZHJpdmVyLCB0dHkpOworCXR0eV9wb3J0X2luc3RhbGwoJnByaXYtPnBv
+cnRzW3R0eS0+aW5kZXhdLnBvcnQsIGRyaXZlciwgdHR5KTsKKworCXJldHVybiAwOwogfQogCiBz
+dGF0aWMgaW50IG1pcHNfZWp0YWdfZmRjX3R0eV9vcGVuKHN0cnVjdCB0dHlfc3RydWN0ICp0dHks
+IHN0cnVjdCBmaWxlICpmaWxwKQo=
