@@ -1,37 +1,23 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [1/5] misc: rtsx_usb: Use USB remote wakeup signaling for card insertion detection
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Message-Id: <481937DD-FB33-4086-B478-32491A01B51A@canonical.com>
-Date: Mon, 17 Sep 2018 16:07:27 +0800
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux USB Mailing List <linux-usb@vger.kernel.org>
+Subject: [v6,3/4] arm64: dts: dwc3: description of incr burst type
+From: Leo Li <pku.leo@gmail.com>
+Message-Id: <CADRPPNQQE1ESJ5WkMxySstxpaQir-w5XOdiwDe3qTTQ_cim5Xw@mail.gmail.com>
+Date: Wed, 5 Sep 2018 15:52:33 -0500
+To: Rob Herring <robh@kernel.org>
+Cc: pengbo.mu@nxp.com, Felipe Balbi <balbi@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will.deacon@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, lkml <linux-kernel@vger.kernel.org>, linux-usb@vger.kernel.org, "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, Ran Wang <ran.wang_1@nxp.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-YXQgMjE6NDEsIEFsYW4gU3Rlcm4gPHN0ZXJuQHJvd2xhbmQuaGFydmFyZC5lZHU+IHdyb3RlOgoK
-PiBPbiBUaHUsIDEzIFNlcCAyMDE4LCBLYWktSGVuZyBGZW5nIHdyb3RlOgo+Cj4+IEkgYW0gd29y
-a2luZyBvbiB0aGUgbmV4dCB2ZXJzaW9uIG9mIHRoaXMgc2VyaWVzLCBhbmQgdGhlIGxhc3QgbWlz
-c2luZwo+PiBwdXp6bGUgaXMgdG8gZGlmZmVyZW50aWF0ZSBzeXN0ZW0td2lkZSByZXN1bWUgZnJv
-bSBydW50aW1lIHJlc3VtZSBpbgo+PiB1c2JfZHJpdmVyJ3MgcmVzdW1lKCkgYW5kIHJlc2V0X3Jl
-c3VtZSgpIGNhbGxiYWNrLgo+Pgo+PiBUaGUgcGFyZW50IGRldmljZSwgcnRzeF91c2IsIGhhcyB0
-d28gY2hpbGQgZGV2aWNlcywgcnRzeF91c2JfbXMgYW5kCj4+IHJ0c3hfdXNiX3NkbW1jLgo+PiBw
-bV9yZXF1ZXN0X3Jlc3VtZSgpIGlzIHVzZWQgaW4gcnRzeF91c2IncyByZXN1bWUoKSB0byBmYWNp
-bGl0YXRlIFVTQiAgCj4+IHJlbW90ZQo+PiB3YWtldXAgc2lnbmFsaW5nLCBzbyB3ZSBkb24ndCBu
-ZWVkIHRvIHBvbGwgdGhlIGNhcmQgc2xvdCBzdGF0dXMuCj4+IEJ1dCB0aGlzIGhhcyBhIHNpZGUg
-ZWZmZWN0OiBkdXJpbmcgc3lzdGVtIHJlc3VtZSB0aGUgcnRzeF91c2IgY2FsbHMKPj4gcG1fcmVx
-dWVzdF9yZXN1bWUoKSBpbiBpdHMgcmVzdW1lKCksIHNvIGNoaWxkIGRldmljZXMgY2FsbHMgdGhl
-aXIKPj4gcnVudGltZV9yZXN1bWUoKSBpbnN0ZWFkIG9mIHJlc3VtZSgpIGNhbGxiYWNrLgo+Cj4g
-SGF2ZSB5b3UgYWN0dWFsbHkgb2JzZXJ2ZWQgdGhpcz8gIEl0IHNob3VsZG4ndCBoYXBwZW4uCj4g
-cG1fcmVxdWVzdF9yZXN1bWUoKSBzY2hlZHVsZXMgYSBydW50aW1lIHJlc3VtZSBvbiB0aGUgUE0g
-d29yayBxdWV1ZSwKPiBidXQgdGhpcyB3b3JrIHF1ZXVlIGlzIGZyb3plbiBkdXJpbmcgc3lzdGVt
-IHNsZWVwLiAgSXQgZG9lc24ndCB1bmZyZWV6ZQo+IHVudGlsIGFmdGVyIGFsbCB0aGUgZGV2aWNl
-cyBoYXZlIGJlZW4gcmVzdG9yZWQgdG8gZnVsbCBwb3dlci4gIFRodXMgdGhlCj4gY2hpbGQgZGV2
-aWNlJ3MgcmVzdW1lKCkgY2FsbGJhY2sgc2hvdWxkIGJlIGludm9rZWQgYmVmb3JlCj4gcnVudGlt
-ZV9yZXN1bWUoKS4KCllvdSBhcmUgcmlnaHQsIEkgcmVhZCB0aGUgdHJhY2Ugd3JvbmcuCgpJdCBo
-YXBwZW5zIHJpZ2h0IGJlZm9yZSBzeXN0ZW0td2lkZSBzdXNwZW5zaW9uLCB3aGVuIHRoZSBQTSBj
-b3JlIHJlc3VtZXMgaXQgIAp0byBmdWxseSBmdW5jdGlvbmFsIHN0YXRlLgoKPgo+PiBTbywgaXMg
-aXQgcmVhc29uYWJsZSB0byBwYXNzIHBtX21lc3NhZ2VfdCB0byByZXN1bWUoKSBhbmQgcmVzZXRf
-cmVzdW1lKCkKPj4gY2FsbGJhY2tzIGFuZCB1c2UgUE1TR19JU19BVVRPKCkgdG8gZGlmZmVyZW50
-aWF0ZSB0aGVtPwo+Cj4gSXQgc2hvdWxkIG5vdCBiZSBuZWNlc3NhcnkgdG8gZG8gdGhpcy4KClVu
-ZGVyc3Rvb2QsIHRoYW5rcy4KCkthaS1IZW5nCgo+Cj4gQWxhbiBTdGVybgo=
+T24gVHVlLCBKdWwgMjQsIDIwMTggYXQgNjoyMyBQTSBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwu
+b3JnPiB3cm90ZToKPgo+IE9uIE1vbiwgSnVsIDIzLCAyMDE4IGF0IDA2OjMyOjM4UE0gKzA4MDAs
+IFBlbmdibyBNdSB3cm90ZToKPiA+IEFkZCBkZXNjcmlwdGlvbiBvZiAnc25wcyxpbmNyLWJ1cnN0
+LXR5cGUtYWRqdXN0bWVudCcgdG8gYmluZGluZwo+ID4gc28gdGhhdCBjb25maWd1cmluZyBkZXZp
+Y2V0cmVlLgo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IFJhbiBXYW5nIDxyYW4ud2FuZ18xQG54cC5j
+b20+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBQZW5nYm8gTXUgPHBlbmdiby5tdUBueHAuY29tPgo+ID4g
+LS0tCj4gPiAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9kd2MzLnR4dCB8
+IDYgKysrKysrCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKQo+Cj4gUmV2aWV3
+ZWQtYnk6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+CgpIaSBGZWxpcGUsCgpXaGF0IGRv
+IHlvdSB0aGluayBhYm91dCB0aGlzIHBhdGNoPyAgVGhlIHBhdGNoIHRpdGxlIHByZWZpeCBzaG91
+bGQgYmUKdXBkYXRlZCBmcm9tICJhcm02NDogZHRzOiBkd2MzIiB0byAiZHQtYmluZGluZ3M6IHVz
+YjogZHdjMyIgdGhvdWdoLgoKUmVnYXJkcywKTGVvCg==
