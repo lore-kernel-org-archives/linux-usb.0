@@ -2,28 +2,26 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v3,4/6] usb: chipidea: Fix otg event handler
-From: Loic Poulain <loic.poulain@linaro.org>
-Message-Id: <1536074340-14840-4-git-send-email-loic.poulain@linaro.org>
-Date: Tue,  4 Sep 2018 17:18:58 +0200
-To: Peter.Chen@nxp.com
-Cc: linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org, david.brown@linaro.org, robh+dt@kernel.org, bjorn.andersson@linaro.org, andy.gross@linaro.org, andy.shevchenko@gmail.com, Loic Poulain <loic.poulain@linaro.org>
+From: Peter Chen <peter.chen@nxp.com>
+Message-Id: <AM0PR04MB531481DD28B3A924892174CD8B020@AM0PR04MB5314.eurprd04.prod.outlook.com>
+Date: Wed, 5 Sep 2018 03:25:11 +0000
+To: Loic Poulain <loic.poulain@linaro.org>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>, "david.brown@linaro.org" <david.brown@linaro.org>, "robh+dt@kernel.org" <robh+dt@kernel.org>, "bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>, "andy.gross@linaro.org" <andy.gross@linaro.org>, "andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-QXQgT1RHIHdvcmsgcnVubmluZyB0aW1lLCBpdCdzIHBvc3NpYmxlIHRoYXQgc2V2ZXJhbCBldmVu
-dHMgbmVlZCB0byBiZQphZGRyZXNzZWQgKGUuZy4gSUQgYW5kIFZCVVMgZXZlbnRzKS4gVGhlIGN1
-cnJlbnQgaW1wbGVtZW50YXRpb24gaGFuZGxlcwpvbmx5IG9uZSBldmVudCBhdCBhIHRpbWUgd2hp
-Y2ggbGVhZHMgdG8gaWdub3JpbmcgdGhlIG90aGVyIG9uZS4gRml4IGl0LgoKU2lnbmVkLW9mZi1i
-eTogTG9pYyBQb3VsYWluIDxsb2ljLnBvdWxhaW5AbGluYXJvLm9yZz4KLS0tCiB2MjogdjM6IG5v
-IGNoYW5nZQoKIGRyaXZlcnMvdXNiL2NoaXBpZGVhL290Zy5jIHwgOSArKysrKystLS0KIDEgZmls
-ZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy91c2IvY2hpcGlkZWEvb3RnLmMgYi9kcml2ZXJzL3VzYi9jaGlwaWRlYS9vdGcuYwpp
-bmRleCBkYjRjZWZmLi5mMjVkNDgyIDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9jaGlwaWRlYS9v
-dGcuYworKysgYi9kcml2ZXJzL3VzYi9jaGlwaWRlYS9vdGcuYwpAQCAtMjAzLDE0ICsyMDMsMTcg
-QEAgc3RhdGljIHZvaWQgY2lfb3RnX3dvcmsoc3RydWN0IHdvcmtfc3RydWN0ICp3b3JrKQogCX0K
-IAogCXBtX3J1bnRpbWVfZ2V0X3N5bmMoY2ktPmRldik7CisKIAlpZiAoY2ktPmlkX2V2ZW50KSB7
-CiAJCWNpLT5pZF9ldmVudCA9IGZhbHNlOwogCQljaV9oYW5kbGVfaWRfc3dpdGNoKGNpKTsKLQl9
-IGVsc2UgaWYgKGNpLT5iX3Nlc3NfdmFsaWRfZXZlbnQpIHsKKwl9CisKKwlpZiAoY2ktPmJfc2Vz
-c192YWxpZF9ldmVudCkgewogCQljaS0+Yl9zZXNzX3ZhbGlkX2V2ZW50ID0gZmFsc2U7CiAJCWNp
-X2hhbmRsZV92YnVzX2NoYW5nZShjaSk7Ci0JfSBlbHNlCi0JCWRldl9lcnIoY2ktPmRldiwgInVu
-ZXhwZWN0ZWQgZXZlbnQgb2NjdXJzIGF0ICVzXG4iLCBfX2Z1bmNfXyk7CisJfQorCiAJcG1fcnVu
-dGltZV9wdXRfc3luYyhjaS0+ZGV2KTsKIAogCWVuYWJsZV9pcnEoY2ktPmlycSk7Cg==
+PiAgdjI6IHYzOiBubyBjaGFuZ2UKPiAKPiAgZHJpdmVycy91c2IvY2hpcGlkZWEvb3RnLmMgfCA5
+ICsrKysrKy0tLQo+ICAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9u
+cygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9jaGlwaWRlYS9vdGcuYyBiL2RyaXZl
+cnMvdXNiL2NoaXBpZGVhL290Zy5jIGluZGV4Cj4gZGI0Y2VmZi4uZjI1ZDQ4MiAxMDA2NDQKPiAt
+LS0gYS9kcml2ZXJzL3VzYi9jaGlwaWRlYS9vdGcuYwo+ICsrKyBiL2RyaXZlcnMvdXNiL2NoaXBp
+ZGVhL290Zy5jCj4gQEAgLTIwMywxNCArMjAzLDE3IEBAIHN0YXRpYyB2b2lkIGNpX290Z193b3Jr
+KHN0cnVjdCB3b3JrX3N0cnVjdCAqd29yaykKPiAgCX0KPiAKPiAgCXBtX3J1bnRpbWVfZ2V0X3N5
+bmMoY2ktPmRldik7Cj4gKwo+ICAJaWYgKGNpLT5pZF9ldmVudCkgewo+ICAJCWNpLT5pZF9ldmVu
+dCA9IGZhbHNlOwo+ICAJCWNpX2hhbmRsZV9pZF9zd2l0Y2goY2kpOwo+IC0JfSBlbHNlIGlmIChj
+aS0+Yl9zZXNzX3ZhbGlkX2V2ZW50KSB7Cj4gKwl9Cj4gKwo+ICsJaWYgKGNpLT5iX3Nlc3NfdmFs
+aWRfZXZlbnQpIHsKPiAgCQljaS0+Yl9zZXNzX3ZhbGlkX2V2ZW50ID0gZmFsc2U7Cj4gIAkJY2lf
+aGFuZGxlX3ZidXNfY2hhbmdlKGNpKTsKPiAtCX0gZWxzZQo+IC0JCWRldl9lcnIoY2ktPmRldiwg
+InVuZXhwZWN0ZWQgZXZlbnQgb2NjdXJzIGF0ICVzXG4iLCBfX2Z1bmNfXyk7Cj4gKwl9Cj4gKwo+
+ICAJcG1fcnVudGltZV9wdXRfc3luYyhjaS0+ZGV2KTsKPiAKPiAgCWVuYWJsZV9pcnEoY2ktPmly
+cSk7Cj4gLS0KCkZvciBjaGlwaWRlYSBjaGFuZ2VzLCBJIHdpbGwgYXBwbHkgdGhlbS4gVGhhbmtz
+LgoKUGV0ZXIK
