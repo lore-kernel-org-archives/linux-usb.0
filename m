@@ -2,33 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2] usb: xhci: fix interrupt transfer error happened on MTK platforms
-From: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Message-Id: <e8698cc5710a9d1f25e33e2201e2177bfbfec75c.1536305256.git.chunfeng.yun@mediatek.com>
-Date: Fri, 7 Sep 2018 15:29:12 +0800
-To: Mathias Nyman <mathias.nyman@intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Felipe Balbi <felipe.balbi@linux.intel.com>, Matthias Brugger <matthias.bgg@gmail.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>, Sean Wang <sean.wang@mediatek.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, stable@vger.kernel.org
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20180907074251.GA2079@kroah.com>
+Date: Fri, 7 Sep 2018 09:42:51 +0200
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>, Felipe Balbi <felipe.balbi@linux.intel.com>, Matthias Brugger <matthias.bgg@gmail.com>, Sean Wang <sean.wang@mediatek.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, stable@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhlIE1USyB4SENJIGNvbnRyb2xsZXIgdXNlIHNvbWUgcmVzZXJ2ZWQgYnl0ZXMgaW4gZW5kcG9p
-bnQgY29udGV4dCBmb3IKYmFuZHdpZHRoIHNjaGVkdWxpbmcsIHNvIG5lZWQga2VlcCB0aGVtIGlu
-IHhoY2lfZW5kcG9pbnRfY29weSgpOwoKVGhlIGlzc3VlIGlzIGludHJvZHVjZWQgYnk6CmNvbW1p
-dCBmNTI0OTQ2MWI1MDQgKCJ4aGNpOiBDbGVhciB0aGUgaG9zdCBzaWRlIHRvZ2dsZSBtYW51YWxs
-eSB3aGVuCmVuZHBvaW50IGlzIHNvZnQgcmVzZXQiKQpJdCByZXNldHMgZW5kcG9pbnRzIGFuZCB3
-aWxsIGRyb3AgYmFuZHdpZHRoIHNjaGVkdWxpbmcgcGFyYW1ldGVycyB1c2VkCmJ5IGludGVycnVw
-dCBvciBpc29jaHJvbm91cyBlbmRwb2ludHMgb24gTVRLIHhIQ0kgY29udHJvbGxlci4KRml4ZXM6
-IGY1MjQ5NDYxYjUwNCAoInhoY2k6IENsZWFyIHRoZSBob3N0IHNpZGUgdG9nZ2xlIG1hbnVhbGx5
-IHdoZW4KZW5kcG9pbnQgaXMgc29mdCByZXNldCIpCgpDYzogc3RhYmxlQHZnZXIua2VybmVsLm9y
-ZwpTaWduZWQtb2ZmLWJ5OiBDaHVuZmVuZyBZdW4gPGNodW5mZW5nLnl1bkBtZWRpYXRlay5jb20+
-ClRlc3RlZC1ieTogU2VhbiBXYW5nIDxzZWFuLndhbmdAbWVkaWF0ZWsuY29tPgotLS0KdjI6IGFk
-ZCBmaXggdGFnLCBDYyBhbmQgVGVzdGVkLWJ5Ci0tLQogZHJpdmVycy91c2IvaG9zdC94aGNpLW1l
-bS5jIHwgNCArKysrCiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0
-IGEvZHJpdmVycy91c2IvaG9zdC94aGNpLW1lbS5jIGIvZHJpdmVycy91c2IvaG9zdC94aGNpLW1l
-bS5jCmluZGV4IGVmMzUwYzMuLmIxZjI3YWEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL2hvc3Qv
-eGhjaS1tZW0uYworKysgYi9kcml2ZXJzL3VzYi9ob3N0L3hoY2ktbWVtLmMKQEAgLTE2MTMsNiAr
-MTYxMywxMCBAQCB2b2lkIHhoY2lfZW5kcG9pbnRfY29weShzdHJ1Y3QgeGhjaV9oY2QgKnhoY2ks
-CiAJaW5fZXBfY3R4LT5lcF9pbmZvMiA9IG91dF9lcF9jdHgtPmVwX2luZm8yOwogCWluX2VwX2N0
-eC0+ZGVxID0gb3V0X2VwX2N0eC0+ZGVxOwogCWluX2VwX2N0eC0+dHhfaW5mbyA9IG91dF9lcF9j
-dHgtPnR4X2luZm87CisJaWYgKHhoY2ktPnF1aXJrcyAmIFhIQ0lfTVRLX0hPU1QpIHsKKwkJaW5f
-ZXBfY3R4LT5yZXNlcnZlZFswXSA9IG91dF9lcF9jdHgtPnJlc2VydmVkWzBdOworCQlpbl9lcF9j
-dHgtPnJlc2VydmVkWzFdID0gb3V0X2VwX2N0eC0+cmVzZXJ2ZWRbMV07CisJfQogfQogCiAvKiBD
-b3B5IG91dHB1dCB4aGNpX3Nsb3RfY3R4IHRvIHRoZSBpbnB1dCB4aGNpX3Nsb3RfY3R4Lgo=
+T24gRnJpLCBTZXAgMDcsIDIwMTggYXQgMDM6Mjk6MTJQTSArMDgwMCwgQ2h1bmZlbmcgWXVuIHdy
+b3RlOgo+IFRoZSBNVEsgeEhDSSBjb250cm9sbGVyIHVzZSBzb21lIHJlc2VydmVkIGJ5dGVzIGlu
+IGVuZHBvaW50IGNvbnRleHQgZm9yCj4gYmFuZHdpZHRoIHNjaGVkdWxpbmcsIHNvIG5lZWQga2Vl
+cCB0aGVtIGluIHhoY2lfZW5kcG9pbnRfY29weSgpOwoKSWYgdGhleSBhcmUgInJlc2VydmVkIiBz
+aG91bGRuJ3QgdGhleSBiZSBwcm9wZXJseSBuYW1lZD8gIEFuZCBieSB1c2luZwpyZXNlcnZlZCBi
+eXRlcywgaXNuJ3QgdGhhdCBhIHNwZWMgdmlvbGF0aW9uPwoKdGhhbmtzLAoKZ3JlZyBrLWgK
