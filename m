@@ -2,24 +2,15 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [V2,1/4] USB: serial: f81232: clear overrun flag
-From: Johan Hovold <johan@kernel.org>
-Message-Id: <20180905143933.GC1089@localhost>
-Date: Wed, 5 Sep 2018 16:39:33 +0200
-To: "Ji-Ze Hong \(Peter Hong\)" <hpeter@gmail.com>
-Cc: johan@kernel.org, gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, peter_hong@fintek.com.tw, hpeter+linux_kernel@gmail.com, Oliver Neukum <oneukum@suse.com>
+From: "Ji-Ze Hong \(Peter Hong\)" <hpeter@gmail.com>
+Message-Id: <648af074-4082-17e6-270a-7d61ba702576@gmail.com>
+Date: Fri, 7 Sep 2018 15:41:17 +0800
+To: Johan Hovold <johan@kernel.org>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, peter_hong@fintek.com.tw, hpeter+linux_kernel@gmail.com, Oliver Neukum <oneukum@suse.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCBBdWcgMzAsIDIwMTggYXQgMDk6NDc6MTBBTSArMDgwMCwgSmktWmUgSG9uZyAoUGV0
-ZXIgSG9uZykgd3JvdGU6Cj4gVGhlIEY4MTIzMiB3aWxsIHJlcG9ydCBkYXRhIGFuZCBMU1Igd2l0
-aCBidWxrIGxpa2UgZm9sbG93aW5nIGZvcm1hdDoKPiBidWxrLWluIGRhdGE6IFtMU1IoMUJ5dGUp
-K0RBVEEoMUJ5dGUpXVtMU1IoMUJ5dGUpK0RBVEEoMUJ5dGUpXS4uLgo+IAo+IExTUiB3aWxsIGF1
-dG8gY2xlYXIgZnJhbWUvcGFyaXR5L2JyZWFrIGVycm9yIGZsYWcgd2hlbiByZWFkaW5nIGJ5IEgv
-VywKPiBidXQgb3ZlcnJydW4gd2lsbCBvbmx5IGNsZWFyZWQgd2hlbiByZWFkaW5nIExTUi4gU28g
-dGhpcyBwYXRjaCBhZGQgYQo+IHdvcmtlciB0byByZWFkIExTUiB3aGVuIE9FLgo+IAo+IENjOiBP
-bGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2UuY29tPgo+IFNpZ25lZC1vZmYtYnk6IEppLVplIEhv
-bmcgKFBldGVyIEhvbmcpIDxocGV0ZXIrbGludXhfa2VybmVsQGdtYWlsLmNvbT4KPiAtLS0KPiB2
-MjoKPiAgICAgICAgIDE6IEFkZCBmbHVzaF93b3JrKCZwb3J0X3ByaXYtPmxzcl93b3JrKSBpbiBm
-ODEyMzJfY2xvc2UoKS4KPiAgICAgICAgICAgIFRoYW5rcyBmb3Igbm90aWNlIGJ5IE9saXZlciBO
-ZXVrdW0KCkxvb2tzIGxpa2UgeW91IGlnbm9yZWQgT2xpdmVyJ3MgY29tbWVudCB0aGF0IHlvdSBu
-ZWVkZWQgdG8gdGFrZSBjYXJlIG9mCmFueSBwZW5kaW5nIGxzciB3b3JrIGJvdGggYW5kIGNsb3Nl
-IGFuZCBzdXNwZW5kLgoKSm9oYW4K
+SGksCgpKb2hhbiBIb3ZvbGQg5pa8IDIwMTgvOS81IOS4i+WNiCAxMDozOSDlr6vpgZM6Cj4gTG9v
+a3MgbGlrZSB5b3UgaWdub3JlZCBPbGl2ZXIncyBjb21tZW50IHRoYXQgeW91IG5lZWRlZCB0byB0
+YWtlIGNhcmUgb2YKPiBhbnkgcGVuZGluZyBsc3Igd29yayBib3RoIGFuZCBjbG9zZSBhbmQgc3Vz
+cGVuZC4KPiAKCkknbGwgYWRkIHRoZSBjYW5jZWwgb3BlcmF0aW9uIHdoZW4gc3VzcGVuZCgpIHdp
+dGggbmV4dCB2ZXJzaW9uLgoKVGhhbmtzCg==
