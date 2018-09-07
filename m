@@ -1,25 +1,25 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [10/25] tty: synclink: Change return type to void
-From: Jaejoong Kim <climbbb.kim@gmail.com>
-Message-Id: <1536029091-4426-11-git-send-email-climbbb.kim@gmail.com>
-Date: Tue,  4 Sep 2018 11:44:36 +0900
-To: linux-um@lists.infradead.org, netdev@vger.kernel.org, linux-mmc@vger.kernel.org, linux-s390@vger.kernel.org, devel@driverdev.osuosl.org, greybus-dev@lists.linaro.org, linuxppc-dev@lists.ozlabs.org, linux-serial@vger.kernel.org, sparclinux@vger.kernel.org, linux-usb@vger.kernel.org, linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jslaby@suse.com>
+Subject: WARNING: ODEBUG bug in vudc_probe
+From: Shuah Khan <shuah@kernel.org>
+Message-Id: <8e8f8ac1-8b72-a21c-f504-74a5ce12b625@kernel.org>
+Date: Fri, 7 Sep 2018 10:03:39 -0600
+To: Dmitry Vyukov <dvyukov@google.com>, valentina.manea.m@gmail.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, USB list <linux-usb@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, khlebnikov@yandex-team.ru, paolo.valente@linaro.org, axboe@kernel.dk
+Cc: Shuah Khan <shuah@kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-U2luY2UgdHR5X3BvcnRfaW5zdGFsbCgpIGFsd2F5cyByZXR1cm5zIDAsIHRoZSByZXR1cm4gdHlw
-ZSBoYXMgY2hhbmdlZAp0byB2b2lkLiBOb3cgYXBwbHkgdGhpcyBhbmQgcmVtb3ZlIHRoZSBvYnNv
-bGV0ZSBlcnJvciBjaGVjay4KClNpZ25lZC1vZmYtYnk6IEphZWpvb25nIEtpbSA8Y2xpbWJiYi5r
-aW1AZ21haWwuY29tPgotLS0KIGRyaXZlcnMvdHR5L3N5bmNsaW5rLmMgfCAzICsrLQogMSBmaWxl
-IGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvdHR5L3N5bmNsaW5rLmMgYi9kcml2ZXJzL3R0eS9zeW5jbGluay5jCmluZGV4IGZiZGY0
-ZDAuLjZlN2U0ZDYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdHR5L3N5bmNsaW5rLmMKKysrIGIvZHJp
-dmVycy90dHkvc3luY2xpbmsuYwpAQCAtMzM1NSw4ICszMzU1LDkgQEAgc3RhdGljIGludCBtZ3Ns
-X2luc3RhbGwoc3RydWN0IHR0eV9kcml2ZXIgKmRyaXZlciwgc3RydWN0IHR0eV9zdHJ1Y3QgKnR0
-eSkKIAlpZiAobWdzbF9wYXJhbm9pYV9jaGVjayhpbmZvLCB0dHktPm5hbWUsICJtZ3NsX29wZW4i
-KSkKIAkJcmV0dXJuIC1FTk9ERVY7CiAJdHR5LT5kcml2ZXJfZGF0YSA9IGluZm87CisJdHR5X3Bv
-cnRfaW5zdGFsbCgmaW5mby0+cG9ydCwgZHJpdmVyLCB0dHkpOwogCi0JcmV0dXJuIHR0eV9wb3J0
-X2luc3RhbGwoJmluZm8tPnBvcnQsIGRyaXZlciwgdHR5KTsKKwlyZXR1cm4gMDsKIH0KIAogLyog
-bWdzbF9vcGVuKCkK
+SGkgRG1pdHJ5LAoKT24gMDkvMDcvMjAxOCAwNDo1NCBBTSwgRG1pdHJ5IFZ5dWtvdiB3cm90ZToK
+PiBIaSwKPiAKPiBJIGFtIGdldHRpbmcgdGhlIGZvbGxvd2luZyBlcnJvciB3aGlsZSBib290aW5n
+IGtlcm5lbCBvbiB1cHN0cmVhbQo+IGNvbW1pdCBhNDlhOWRjY2U4MDJiMzY1MTAxM2Y2NTk4MTNk
+ZjEzNjFkMzA2MTcyLCBjb25maWcgaXMgYXR0YWNoZWQuCj4gU2VlbXMgdGhlcmUgaXMgc29tZSBr
+aW5kIG9mIHJlc291cmNlIGxlYWsuCj4gCj4gVGhhbmtzCgpPZGQuIFRoaXMgY29tbWl0IGhhcyBu
+b3RoaW5nIHRvIGRvIHdpdGggdnVkYy4gSSBhbSBhZGRpbmcgZGV2ZWxvcGVycwp0aGF0IGFyZSBh
+c3NvY2lhdGVkIHdpdGggdGhpcyBjb21taXQgdG8gdGhlIHRocmVhZC4KCmRpZmYgLS1naXQgYS9i
+bG9jay9iZnEtY2dyb3VwLmMgYi9ibG9jay9iZnEtY2dyb3VwLmMKaW5kZXggNThjNmVmYTlmOWE5
+Li45ZmU1OTUyZDExN2QgMTAwNjQ0Ci0tLSBhL2Jsb2NrL2JmcS1jZ3JvdXAuYworKysgYi9ibG9j
+ay9iZnEtY2dyb3VwLmMKQEAgLTI3NSw5ICsyNzUsOSBAQCBzdGF0aWMgdm9pZCBiZnFnX2FuZF9i
+bGtnX2dldChzdHJ1Y3QgYmZxX2dyb3VwICpiZnFnKQoKIHZvaWQgYmZxZ19hbmRfYmxrZ19wdXQo
+c3RydWN0IGJmcV9ncm91cCAqYmZxZykKIHsKLSAgICAgICBiZnFnX3B1dChiZnFnKTsKLQogICAg
+ICAgIGJsa2dfcHV0KGJmcWdfdG9fYmxrZyhiZnFnKSk7CisKKyAgICAgICBiZnFnX3B1dChiZnFn
+KTsKIH0KCiAvKiBAc3RhdHMgPSAwICovCg==
