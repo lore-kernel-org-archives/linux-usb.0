@@ -2,29 +2,21 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v9,1/2] i2c: buses: add i2c bus driver for NVIDIA GPU
-From: Peter Rosin <peda@axentia.se>
-Message-Id: <5254644A-E11F-41FD-AD53-A41DBE1817D0@axentia.se>
-Date: Sat, 08 Sep 2018 07:20:26 +0200
-To: Ajay Gupta <ajayg@nvidia.com>, "wsa@the-dreams.de" <wsa@the-dreams.de>, "heikki.krogerus@linux.intel.com" <heikki.krogerus@linux.intel.com>
-Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+From: Ajay Gupta <ajayg@nvidia.com>
+Message-Id: <57308F0E-C9DF-4729-8712-669019BD1327@nvidia.com>
+Date: Sat, 8 Sep 2018 14:13:39 +0000
+To: Peter Rosin <peda@axentia.se>
+Cc: "wsa@the-dreams.de" <wsa@the-dreams.de>, "heikki.krogerus@linux.intel.com" <heikki.krogerus@linux.intel.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gU2VwdGVtYmVyIDcsIDIwMTggMTE6NDg6MzcgUE0gR01UKzAyOjAwLCBBamF5IEd1cHRhIDxh
-amF5Z0BudmlkaWEuY29tPiB3cm90ZToKCj4+ID4+IFBlciB5b3VyIGNvbW1lbnRzIG9uIHY4LCB0
-aGUgYWRkcmVzcyBoYXMgdG8gYmUgcHJvZ3JhbW1lZCBiZWZvcmUKPnRoZQo+PiA+PiB0cmFuc2Zl
-ciwgYnV0IHlvdSBmYWlsIHRvIGRvIHRoYXQgaWYgdGhlIGZpcnN0IG1lc3NhZ2UgaXMgYSByZWFk
-Lgo+PiA+IFRoaXMgd2lsbCBuZXZlciBoYXBwZW4uIEhpbnQ6IEkyQ19BUV9DT01CX1dSSVRFX0ZJ
-UlNUCj4+IAo+PiBZZXMsIGl0IHdpbGwuIElmIHRoZSB0cmFuc2ZlciBjb25zaXN0cyBvZiBhIHNp
-bmdsZSByZWFkLCBpLmUuIHcvbyBhbnkKPmxlYWRpbmcgd3JpdGUuCj4+IEUuZy4gaTJjX3NtYnVz
-X3JlYWRfYnl0ZSAod2hpY2ggaXMgZW11bGF0ZWQgaW4geW91ciBjYXNlIGFuZCB3aWxsCj5nZW5l
-cmF0ZQo+PiB0aGlzIHBhdHRlcm4pLgo+SSBkb24ndCB0aGluayB3ZSBpbnRlbmQgdG8gc3VwcG9y
-dCBTTUJVUyBjb21tYW5kcyBhbmQgc28gSSB3aWxsIGRyb3AKPkkyQ19GVU5DX1NNQlVTX0VNVUwu
-CgpTTUJVUyBoYXMgbm90aGluZyB0byBkbyB3aXRoIHRoZSBwcm9ibGVtLCB0aGF0IHdhcyBqdXN0
-IGFuIGV4YW1wbGUuIEFuIEkyQyBjbGllbnQgZHJpdmVyIGNhbiBpc3N1ZSBzdWNoIEkyQyB4ZmVy
-cyBhbGwgYnkgaXRzZWxmIHdpdGhvdXQgZ29pbmcgdGhyb3VnaCBlbXVsYXRpb24sIHNvIGp1c3Qg
-ZHJvcHBpbmcgdGhlIF9FTVVMIGZsYWcgaXMgbm90IHRoZSBhbnN3ZXIuIEFuZCBJJ2QgYmUgc3Vy
-cHJpc2VkIGlmIHRoZSBoYXJkd2FyZSBkb2Vzbid0IHN1cHBvcnQgc2luZ2xlIG1lc3NhZ2UgcmVh
-ZHMuCgpUaGVyZSBpcyBubyBxdWlyayBmbGFnIGZvciB0aGlzIGFibm9ybWFsaXR5LCBzbyB5b3Ug
-d2lsbCBoYXZlIHRvIG9wZW4gY29kZSB0aGUgY2hlY2sgaW4geW91ciBtYXN0ZXJfeGZlciBpZiB5
-b3UgY2FuJ3QgbWFrZSBzdWNoIHhmZXJzIHdvcmssIGJ1dCB0aGUgYmVzdCBmaXggaXMgY2VydGFp
-bmx5IHRvIGp1c3QgbWFrZSB0aGVtIHdvcmsuLi4KCkNoZWVycywKUGV0ZXIK
+SGkgUGV0ZXIsDQoNCj4+Pj4gLg0KDQo+U01CVVMgaGFzIG5vdGhpbmcgdG8gZG8gd2l0aCB0aGUg
+PnByb2JsZW0sIHRoYXQgd2FzIGp1c3QgYW4gZXhhbXBsZS4gQW4gSTJDID5jbGllbnQgZHJpdmVy
+IGNhbiBpc3N1ZSBzdWNoIEkyQyB4ZmVycyBhbGwgYnkgPml0c2VsZiB3aXRob3V0IGdvaW5nIHRo
+cm91Z2ggZW11bGF0aW9uLCBzbyA+anVzdCBkcm9wcGluZyB0aGUgX0VNVUwgZmxhZyBpcyBub3Qg
+dGhlID5hbnN3ZXIuIEFuZCBJJ2QgYmUgc3VycHJpc2VkIGlmIHRoZSA+aGFyZHdhcmUgZG9lc24n
+dCBzdXBwb3J0IHNpbmdsZSBtZXNzYWdlID5yZWFkcy4NCg0KPlRoZXJlIGlzIG5vIHF1aXJrIGZs
+YWcgZm9yIHRoaXMgYWJub3JtYWxpdHksID5zbyB5b3Ugd2lsbCBoYXZlIHRvIG9wZW4gY29kZSB0
+aGUgY2hlY2sgaW4gPnlvdXIgbWFzdGVyX3hmZXIgaWYgeW91IGNhbid0IG1ha2Ugc3VjaCA+eGZl
+cnMgd29yaywgYnV0IHRoZSBiZXN0IGZpeCBpcyBjZXJ0YWlubHkgdG8gPmp1c3QgbWFrZSB0aGVt
+IHdvcmsuLi4NCg0KSSBoYXZlIGZpeGVkIHRoYXQgaW4gdjEwLiBQbGVhc2UgY2hlY2sNCg0KPkNo
+ZWVycywNCj5QZXRlcg0KDQrigJQNCm52cHVibGljDQrigJQK
