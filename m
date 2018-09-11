@@ -1,10 +1,10 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v4,3/3] usb: renesas_usbhs: Add multiple clocks management
+Subject: [v5,3/3] usb: renesas_usbhs: Add multiple clocks management
 From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Message-Id: <1536573140-24123-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-Date: Mon, 10 Sep 2018 18:52:20 +0900
+Message-Id: <1536655625-10550-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Date: Tue, 11 Sep 2018 17:47:05 +0900
 To: balbi@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com
 Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 List-ID: <linux-usb.vger.kernel.org>
