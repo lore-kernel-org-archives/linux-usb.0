@@ -2,51 +2,24 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,02/17] compat_ioctl: move drivers to generic_compat_ioctl_ptrarg
-From: Jason Gunthorpe <jgg@ziepe.ca>
-Message-Id: <20180912153300.GE5633@ziepe.ca>
-Date: Wed, 12 Sep 2018 09:33:00 -0600
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org, Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Peter Huewe <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>, Stefan Richter <stefanr@s5r6.in-berlin.de>, Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, Tomas Winkler <tomas.winkler@intel.com>, Artem Bityutskiy <dedekind1@gmail.com>, Marek Vasut <marek.vasut@gmail.com>, "David S. Miller" <davem@davemloft.net>, Alex Williamson <alex.williamson@redhat.com>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, linux-kernel@vger.kernel.org, linux-integrity@vger.kernel.org, linux1394-devel@lists.sourceforge.net, linux-usb@vger.kernel.org, linux-input@vger.kernel.org, linux-mtd@lists.infradead.org, netdev@vger.kernel.org, devel@driverdev.osuosl.org, kvm@vger.kernel.org, virtualization@lists.linux-foundation.org
+From: Arnd Bergmann <arnd@arndb.de>
+Message-Id: <CAK8P3a1RoYo0VHrDfxdmJt9ns0ErTeuctH9CPG5_mg7JTwZtEQ@mail.gmail.com>
+Date: Wed, 12 Sep 2018 18:20:34 +0200
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Al Viro <viro@zeniv.linux.org.uk>, Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>, Sudip Mukherjee <sudipm.mukherjee@gmail.com>, gregkh <gregkh@linuxfoundation.org>, Peter Huewe <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>, Stefan Richter <stefanr@s5r6.in-berlin.de>, Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, "Winkler, Tomas" <tomas.winkler@intel.com>, Artem Bityutskiy <dedekind1@gmail.com>, Marek Vasut <marek.vasut@gmail.com>, David Miller <davem@davemloft.net>, Alex Williamson <alex.williamson@redhat.com>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-integrity@vger.kernel.org, linux1394-devel@lists.sourceforge.net, USB list <linux-usb@vger.kernel.org>, "open list:HID CORE LAYER" <linux-input@vger.kernel.org>, linux-mtd <linux-mtd@lists.infradead.org>, Networking <netdev@vger.kernel.org>, driverdevel <devel@driverdev.osuosl.org>, kvm@vger.kernel.org, virtualization@lists.linux-foundation.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCBTZXAgMTIsIDIwMTggYXQgMDU6MDE6MDNQTSArMDIwMCwgQXJuZCBCZXJnbWFubiB3
-cm90ZToKPiBFYWNoIG9mIHRoZXNlIGRyaXZlcnMgaGFzIGEgY29weSBvZiB0aGUgc2FtZSB0cml2
-aWFsIGhlbHBlciBmdW5jdGlvbiB0bwo+IGNvbnZlcnQgdGhlIHBvaW50ZXIgYXJndW1lbnQgYW5k
-IHRoZW4gY2FsbCB0aGUgbmF0aXZlIGlvY3RsIGhhbmRsZXIuCj4gCj4gV2Ugbm93IGhhdmUgYSBn
-ZW5lcmljIGltcGxlbWVudGF0aW9uIG9mIHRoYXQsIHNvIHVzZSBpdC4KPiAKPiBTaWduZWQtb2Zm
-LWJ5OiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPgo+ICBkcml2ZXJzL2NoYXIvcHBkZXYu
-YyAgICAgICAgICAgICAgfCAxMiArLS0tLS0tLS0tCj4gIGRyaXZlcnMvY2hhci90cG0vdHBtX3Z0
-cG1fcHJveHkuYyB8IDEyICstLS0tLS0tLS0KPiAgZHJpdmVycy9maXJld2lyZS9jb3JlLWNkZXYu
-YyAgICAgIHwgMTIgKy0tLS0tLS0tLQo+ICBkcml2ZXJzL2hpZC91c2JoaWQvaGlkZGV2LmMgICAg
-ICAgfCAxMSArLS0tLS0tLS0KPiAgZHJpdmVycy9od3RyYWNpbmcvc3RtL2NvcmUuYyAgICAgIHwg
-MTIgKy0tLS0tLS0tLQo+ICBkcml2ZXJzL21pc2MvbWVpL21haW4uYyAgICAgICAgICAgfCAyMiAr
-LS0tLS0tLS0tLS0tLS0tLQo+ICBkcml2ZXJzL210ZC91YmkvY2Rldi5jICAgICAgICAgICAgfCAz
-NiArKystLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gIGRyaXZlcnMvbmV0L3RhcC5jICAgICAg
-ICAgICAgICAgICB8IDEyICstLS0tLS0tLS0KPiAgZHJpdmVycy9zdGFnaW5nL3BpNDMzL3BpNDMz
-X2lmLmMgIHwgMTIgKy0tLS0tLS0tLQo+ICBkcml2ZXJzL3VzYi9jb3JlL2RldmlvLmMgICAgICAg
-ICAgfCAxNiArLS0tLS0tLS0tLS0tCj4gIGRyaXZlcnMvdmZpby92ZmlvLmMgICAgICAgICAgICAg
-ICB8IDM5ICsrKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KPiAgZHJpdmVycy92aG9zdC9u
-ZXQuYyAgICAgICAgICAgICAgIHwgMTIgKy0tLS0tLS0tLQo+ICBkcml2ZXJzL3Zob3N0L3Njc2ku
-YyAgICAgICAgICAgICAgfCAxMiArLS0tLS0tLS0tCj4gIGRyaXZlcnMvdmhvc3QvdGVzdC5jICAg
-ICAgICAgICAgICB8IDEyICstLS0tLS0tLS0KPiAgZHJpdmVycy92aG9zdC92c29jay5jICAgICAg
-ICAgICAgIHwgMTIgKy0tLS0tLS0tLQo+ICBmcy9mYXQvZmlsZS5jICAgICAgICAgICAgICAgICAg
-ICAgfCAxMyArLS0tLS0tLS0tLQo+ICAxNiBmaWxlcyBjaGFuZ2VkLCAyMCBpbnNlcnRpb25zKCsp
-LCAyMzcgZGVsZXRpb25zKC0pCj4gCgo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2NoYXIvdHBtL3Rw
-bV92dHBtX3Byb3h5LmMgYi9kcml2ZXJzL2NoYXIvdHBtL3RwbV92dHBtX3Byb3h5LmMKPiBpbmRl
-eCA4N2EwY2U0N2YyMDEuLmExNzBmNWNhNzQxNiAxMDA2NDQKPiArKysgYi9kcml2ZXJzL2NoYXIv
-dHBtL3RwbV92dHBtX3Byb3h5LmMKPiBAQCAtNjc4LDIwICs2NzgsMTAgQEAgc3RhdGljIGxvbmcg
-dnRwbXhfZm9wc19pb2N0bChzdHJ1Y3QgZmlsZSAqZiwgdW5zaWduZWQgaW50IGlvY3RsLAo+ICAJ
-fQo+ICB9Cj4gIAo+IC0jaWZkZWYgQ09ORklHX0NPTVBBVAo+IC1zdGF0aWMgbG9uZyB2dHBteF9m
-b3BzX2NvbXBhdF9pb2N0bChzdHJ1Y3QgZmlsZSAqZiwgdW5zaWduZWQgaW50IGlvY3RsLAo+IC0J
-CQkJCSAgdW5zaWduZWQgbG9uZyBhcmcpCj4gLXsKPiAtCXJldHVybiB2dHBteF9mb3BzX2lvY3Rs
-KGYsIGlvY3RsLCAodW5zaWduZWQgbG9uZyljb21wYXRfcHRyKGFyZykpOwo+IC19Cj4gLSNlbmRp
-Zgo+IC0KPiAgc3RhdGljIGNvbnN0IHN0cnVjdCBmaWxlX29wZXJhdGlvbnMgdnRwbXhfZm9wcyA9
-IHsKPiAgCS5vd25lciA9IFRISVNfTU9EVUxFLAo+ICAJLnVubG9ja2VkX2lvY3RsID0gdnRwbXhf
-Zm9wc19pb2N0bCwKPiAtI2lmZGVmIENPTkZJR19DT01QQVQKPiAtCS5jb21wYXRfaW9jdGwgPSB2
-dHBteF9mb3BzX2NvbXBhdF9pb2N0bCwKPiAtI2VuZGlmCj4gKwkuY29tcGF0X2lvY3RsID0gZ2Vu
-ZXJpY19jb21wYXRfaW9jdGxfcHRyYXJnLAo+ICAJLmxsc2VlayA9IG5vb3BfbGxzZWVrLAo+ICB9
-OwoKRm9yIHZ0cG06CgpSZXZpZXdlZC1ieTogSmFzb24gR3VudGhvcnBlIDxqZ2dAbWVsbGFub3gu
-Y29tPgoKQXJuZCwgd291bGQgeW91IGNvbnNpZGVyIGluY2x1ZGluZyBhIHBhdGNoIGFzIHBhcnQg
-b2YvYWZ0ZXIgdGhpcwpzZXJpZXMgdG8gbWFrZSBjb21wYXRfaW9jdGwgaW4gZHJpdmVycy9pbmZp
-bmliYW5kL2NvcmUvdXZlcmJzX21haW4uYwp1c2UgdGhpcyBhcyB3ZWxsPyAgTG9va3MgbGlrZSBh
-IGJ1ZyB0b28/CgpUaGFua3MsCkphc29uCg==
+T24gV2VkLCBTZXAgMTIsIDIwMTggYXQgNTozMyBQTSBKYXNvbiBHdW50aG9ycGUgPGpnZ0B6aWVw
+ZS5jYT4gd3JvdGU6Cj4KPiBPbiBXZWQsIFNlcCAxMiwgMjAxOCBhdCAwNTowMTowM1BNICswMjAw
+LCBBcm5kIEJlcmdtYW5uIHdyb3RlOgo+ID4gRWFjaCBvZiB0aGVzZSBkcml2ZXJzIGhhcyBhIGNv
+cHkgb2YgdGhlIHNhbWUgdHJpdmlhbCBoZWxwZXIgZnVuY3Rpb24gdG8KPiA+IGNvbnZlcnQgdGhl
+IHBvaW50ZXIgYXJndW1lbnQgYW5kIHRoZW4gY2FsbCB0aGUgbmF0aXZlIGlvY3RsIGhhbmRsZXIu
+Cj4gPgo+ID4gV2Ugbm93IGhhdmUgYSBnZW5lcmljIGltcGxlbWVudGF0aW9uIG9mIHRoYXQsIHNv
+IHVzZSBpdC4KPiA+Cj4KPiBGb3IgdnRwbToKPgo+IFJldmlld2VkLWJ5OiBKYXNvbiBHdW50aG9y
+cGUgPGpnZ0BtZWxsYW5veC5jb20+Cj4KPiBBcm5kLCB3b3VsZCB5b3UgY29uc2lkZXIgaW5jbHVk
+aW5nIGEgcGF0Y2ggYXMgcGFydCBvZi9hZnRlciB0aGlzCj4gc2VyaWVzIHRvIG1ha2UgY29tcGF0
+X2lvY3RsIGluIGRyaXZlcnMvaW5maW5pYmFuZC9jb3JlL3V2ZXJic19tYWluLmMKPiB1c2UgdGhp
+cyBhcyB3ZWxsPyAgTG9va3MgbGlrZSBhIGJ1ZyB0b28/CgpUaGF0IHNob3VsZCBiZSBpbmNsdWRl
+ZCBpbiBwYXRjaCA1IGluIHRoaXMgc2VyaWVzLiBJIG1heSBoYXZlIHNraXBwZWQKc29tZSBDYyB0
+aGVyZSBzaW5jZSBpdCBoYWQgdG9vIG1hbnkgcmVjaXBpZW50cyAoc2VudCBvbmx5IHRvIHRoZQpt
+YWlsaW5nIGxpc3RzIGluc3RlYWQpLgoKICAgICAgICBBcm5kCg==
