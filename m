@@ -2,46 +2,25 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,05/17] compat_ioctl: move more drivers to generic_compat_ioctl_ptrarg
-From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Message-Id: <20180912130131.2c6581d5@coco.lan>
-Date: Wed, 12 Sep 2018 13:01:31 -0300
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20180912181330.GC15031@kroah.com>
+Date: Wed, 12 Sep 2018 20:13:30 +0200
 To: Arnd Bergmann <arnd@arndb.de>
-Cc: viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "David S. Miller" <davem@davemloft.net>, devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org, qat-linux@intel.com, linux-crypto@vger.kernel.org, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org, linux-iio@vger.kernel.org, linux-rdma@vger.kernel.org, linux-nvdimm@lists.01.org, linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-remoteproc@vger.kernel.org, sparclinux@vger.kernel.org, linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org, linux-wireless@vger.kernel.org, netdev@vger.kernel.org
+Cc: viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org, qat-linux@intel.com, linux-crypto@vger.kernel.org, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org, linux-iio@vger.kernel.org, linux-rdma@vger.kernel.org, linux-nvdimm@lists.01.org, linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-remoteproc@vger.kernel.org, sparclinux@vger.kernel.org, linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org, linux-wireless@vger.kernel.org, netdev@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-RW0gV2VkLCAxMiBTZXAgMjAxOCAxNzowODo1MiArMDIwMApBcm5kIEJlcmdtYW5uIDxhcm5kQGFy
-bmRiLmRlPiBlc2NyZXZldToKCj4gVGhlIC5pb2N0bCBhbmQgLmNvbXBhdF9pb2N0bCBmaWxlIG9w
-ZXJhdGlvbnMgaGF2ZSB0aGUgc2FtZSBwcm90b3R5cGUgc28KPiB0aGV5IGNhbiBib3RoIHBvaW50
-IHRvIHRoZSBzYW1lIGZ1bmN0aW9uLCB3aGljaCB3b3JrcyBncmVhdCBhbG1vc3QgYWxsCj4gdGhl
-IHRpbWUgd2hlbiBhbGwgdGhlIGNvbW1hbmRzIGFyZSBjb21wYXRpYmxlLgo+IAo+IE9uZSBleGNl
-cHRpb24gaXMgdGhlIHMzOTAgYXJjaGl0ZWN0dXJlLCB3aGVyZSBhIGNvbXBhdCBwb2ludGVyIGlz
-IG9ubHkKPiAzMSBiaXQgd2lkZSwgYW5kIGNvbnZlcnRpbmcgaXQgaW50byBhIDY0LWJpdCBwb2lu
-dGVyIHJlcXVpcmVzIGNhbGxpbmcKPiBjb21wYXRfcHRyKCkuIE1vc3QgZHJpdmVycyBoZXJlIHdp
-bGwgZXZlciBydW4gaW4gczM5MCwgYnV0IHNpbmNlIHdlIG5vdwo+IGhhdmUgYSBnZW5lcmljIGhl
-bHBlciBmb3IgaXQsIGl0J3MgZWFzeSBlbm91Z2ggdG8gdXNlIGl0IGNvbnNpc3RlbnRseS4KPiAK
-PiBJIGRvdWJsZS1jaGVja2VkIGFsbCB0aGVzZSBkcml2ZXJzIHRvIGVuc3VyZSB0aGF0IGFsbCBp
-b2N0bCBhcmd1bWVudHMKPiBhcmUgdXNlZCBhcyBwb2ludGVycyBvciBhcmUgaWdub3JlZCwgYnV0
-IGFyZSBub3QgaW50ZXJwcmV0ZWQgYXMgaW50ZWdlcgo+IHZhbHVlcy4KPiAKPiBTaWduZWQtb2Zm
-LWJ5OiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPgo+IC0tLQoKPiAgZHJpdmVycy9tZWRp
-YS9yYy9saXJjX2Rldi5jICAgICAgICAgICAgICAgICB8IDQgKy0tLQoKPiBkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9tZWRpYS9yYy9saXJjX2Rldi5jIGIvZHJpdmVycy9tZWRpYS9yYy9saXJjX2Rldi5j
-Cj4gaW5kZXggZjg2MmYxYjdmOTk2Li4wNzcyMDlmNDE0ZWQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVy
-cy9tZWRpYS9yYy9saXJjX2Rldi5jCj4gKysrIGIvZHJpdmVycy9tZWRpYS9yYy9saXJjX2Rldi5j
-Cj4gQEAgLTczMCw5ICs3MzAsNyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGZpbGVfb3BlcmF0aW9u
-cyBsaXJjX2ZvcHMgPSB7Cj4gIAkub3duZXIJCT0gVEhJU19NT0RVTEUsCj4gIAkud3JpdGUJCT0g
-aXJfbGlyY190cmFuc21pdF9pciwKPiAgCS51bmxvY2tlZF9pb2N0bAk9IGlyX2xpcmNfaW9jdGws
-Cj4gLSNpZmRlZiBDT05GSUdfQ09NUEFUCj4gLQkuY29tcGF0X2lvY3RsCT0gaXJfbGlyY19pb2N0
-bCwKPiAtI2VuZGlmCj4gKwkuY29tcGF0X2lvY3RsCT0gZ2VuZXJpY19jb21wYXRfaW9jdGxfcHRy
-YXJnLAo+ICAJLnJlYWQJCT0gaXJfbGlyY19yZWFkLAo+ICAJLnBvbGwJCT0gaXJfbGlyY19wb2xs
-LAo+ICAJLm9wZW4JCT0gaXJfbGlyY19vcGVuLAoKQWRkaW5nIGFuIGluZnJhcmVkIHJlbW90ZSBj
-b250cm9sbGVyIHRvIGEgczM5MCBtYWluZnJhbWUgc291bmRzIGZ1biA6LSkKCkkgc3VzcGVjdCB0
-aGF0IG9uZSBjb3VsZCBpbXBsZW1lbnQgaXQgb24gYSBzMzkwIHBsYXRmb3JtIAp1c2luZyBncGlv
-LWlyLXJlY3YgYW5kL29yIGdwaW8taXItdHggZHJpdmVycy4gUGVyaGFwcyBvbmUgcG9zc2libGUK
-cHJhY3RpY2FsIHVzYWdlIHdvdWxkIGJlIHRvIGxldCB0aGUgbWFpbmZyYW1lIHRvIHNlbmQgcmVt
-b3RlCmNvbnRyb2xsZXIgY29kZXMgdG8gYWRqdXN0IHRoZSBhaXIgY29uZGl0aW9uaW5nIHN5c3Rl
-bSA7LSkKCkZyb20gbGlyYyBkcml2ZXIncyBQb1YsIHRoZXJlJ3Mgbm90aGluZyB0aGF0IHJlYWxs
-eSBwcmV2ZW50cyBvbmUgdG8KZG8gdGhhdCBhbmQgdXNlIGxpcmMgQVBJLCBhbmQgdGhlIGRyaXZl
-ciBpcyBnZW5lcmljIGVub3VnaCB0byB3b3JrCm9uIGFueSBoYXJkd2FyZSBwbGF0Zm9ybS4KCkkg
-ZGlkbid0IGNoZWNrIHRoZSBpbXBsZW1lbnRhdGlvbiBvZiBnZW5lcmljX2NvbXBhdF9pb2N0bF9w
-dHJhcmcoKSwKYnV0IGFzc3VtaW5nIGl0IGlzIG9rLAoKQWNrZWQtYnk6IE1hdXJvIENhcnZhbGhv
-IENoZWhhYiA8bWNoZWhhYitzYW1zdW5nQGtlcm5lbC5vcmc+CgpUaGFua3MsCk1hdXJvCg==
+T24gV2VkLCBTZXAgMTIsIDIwMTggYXQgMDU6MDg6NTJQTSArMDIwMCwgQXJuZCBCZXJnbWFubiB3
+cm90ZToKPiBUaGUgLmlvY3RsIGFuZCAuY29tcGF0X2lvY3RsIGZpbGUgb3BlcmF0aW9ucyBoYXZl
+IHRoZSBzYW1lIHByb3RvdHlwZSBzbwo+IHRoZXkgY2FuIGJvdGggcG9pbnQgdG8gdGhlIHNhbWUg
+ZnVuY3Rpb24sIHdoaWNoIHdvcmtzIGdyZWF0IGFsbW9zdCBhbGwKPiB0aGUgdGltZSB3aGVuIGFs
+bCB0aGUgY29tbWFuZHMgYXJlIGNvbXBhdGlibGUuCj4gCj4gT25lIGV4Y2VwdGlvbiBpcyB0aGUg
+czM5MCBhcmNoaXRlY3R1cmUsIHdoZXJlIGEgY29tcGF0IHBvaW50ZXIgaXMgb25seQo+IDMxIGJp
+dCB3aWRlLCBhbmQgY29udmVydGluZyBpdCBpbnRvIGEgNjQtYml0IHBvaW50ZXIgcmVxdWlyZXMg
+Y2FsbGluZwo+IGNvbXBhdF9wdHIoKS4gTW9zdCBkcml2ZXJzIGhlcmUgd2lsbCBldmVyIHJ1biBp
+biBzMzkwLCBidXQgc2luY2Ugd2Ugbm93Cj4gaGF2ZSBhIGdlbmVyaWMgaGVscGVyIGZvciBpdCwg
+aXQncyBlYXN5IGVub3VnaCB0byB1c2UgaXQgY29uc2lzdGVudGx5Lgo+IAo+IEkgZG91YmxlLWNo
+ZWNrZWQgYWxsIHRoZXNlIGRyaXZlcnMgdG8gZW5zdXJlIHRoYXQgYWxsIGlvY3RsIGFyZ3VtZW50
+cwo+IGFyZSB1c2VkIGFzIHBvaW50ZXJzIG9yIGFyZSBpZ25vcmVkLCBidXQgYXJlIG5vdCBpbnRl
+cnByZXRlZCBhcyBpbnRlZ2VyCj4gdmFsdWVzLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEFybmQgQmVy
+Z21hbm4gPGFybmRAYXJuZGIuZGU+CgpBY2tlZC1ieTogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVn
+a2hAbGludXhmb3VuZGF0aW9uLm9yZz4K
