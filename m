@@ -2,9 +2,9 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,05/17] compat_ioctl: move more drivers to generic_compat_ioctl_ptrarg
-From: David Sterba <dsterba@suse.cz>
-Message-Id: <20180914142324.GI5847@twin.jikos.cz>
-Date: Fri, 14 Sep 2018 16:23:24 +0200
+From: Darren Hart <dvhart@infradead.org>
+Message-Id: <20180914203506.GE35251@wrath>
+Date: Fri, 14 Sep 2018 13:35:06 -0700
 To: Arnd Bergmann <arnd@arndb.de>
 Cc: viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "David S. Miller" <davem@davemloft.net>, devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org, qat-linux@intel.com, linux-crypto@vger.kernel.org, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org, linux-iio@vger.kernel.org, linux-rdma@vger.kernel.org, linux-nvdimm@lists.01.org, linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-remoteproc@vger.kernel.org, sparclinux@vger.kernel.org, linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org, linux-wireless@vger.kernel.org, netdev@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
@@ -22,6 +22,19 @@ aXQncyBlYXN5IGVub3VnaCB0byB1c2UgaXQgY29uc2lzdGVudGx5Lgo+IAo+IEkgZG91YmxlLWNo
 ZWNrZWQgYWxsIHRoZXNlIGRyaXZlcnMgdG8gZW5zdXJlIHRoYXQgYWxsIGlvY3RsIGFyZ3VtZW50
 cwo+IGFyZSB1c2VkIGFzIHBvaW50ZXJzIG9yIGFyZSBpZ25vcmVkLCBidXQgYXJlIG5vdCBpbnRl
 cnByZXRlZCBhcyBpbnRlZ2VyCj4gdmFsdWVzLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEFybmQgQmVy
-Z21hbm4gPGFybmRAYXJuZGIuZGU+Cj4gLS0tCgo+ICBmcy9idHJmcy9zdXBlci5jICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHwgMiArLQoKQWNrZWQtYnk6IERhdmlkIFN0ZXJiYSA8ZHN0ZXJi
-YUBzdXNlLmNvbT4K
+Z21hbm4gPGFybmRAYXJuZGIuZGU+Cj4gLS0tCi4uLgo+ICBkcml2ZXJzL3BsYXRmb3JtL3g4Ni93
+bWkuYyAgICAgICAgICAgICAgICAgIHwgMiArLQouLi4KPiAgc3RhdGljIHZvaWQgbGlua19ldmVu
+dF93b3JrKHN0cnVjdCB3b3JrX3N0cnVjdCAqd29yaykKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9w
+bGF0Zm9ybS94ODYvd21pLmMgYi9kcml2ZXJzL3BsYXRmb3JtL3g4Ni93bWkuYwo+IGluZGV4IDA0
+NzkxZWE1ZDk3Yi4uZTRkMDY5N2UwN2Q2IDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvcGxhdGZvcm0v
+eDg2L3dtaS5jCj4gKysrIGIvZHJpdmVycy9wbGF0Zm9ybS94ODYvd21pLmMKPiBAQCAtODg2LDcg
+Kzg4Niw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZmlsZV9vcGVyYXRpb25zIHdtaV9mb3BzID0g
+ewo+ICAJLnJlYWQJCT0gd21pX2NoYXJfcmVhZCwKPiAgCS5vcGVuCQk9IHdtaV9jaGFyX29wZW4s
+Cj4gIAkudW5sb2NrZWRfaW9jdGwJPSB3bWlfaW9jdGwsCj4gLQkuY29tcGF0X2lvY3RsCT0gd21p
+X2lvY3RsLAo+ICsJLmNvbXBhdF9pb2N0bAk9IGdlbmVyaWNfY29tcGF0X2lvY3RsX3B0cmFyZywK
+PiAgfTsKCkZvciBwbGF0Zm9ybS9kcml2ZXJzL3g4NjoKCkFja2VkLWJ5OiBEYXJyZW4gSGFydCAo
+Vk13YXJlKSA8ZHZoYXJ0QGluZnJhZGVhZC5vcmc+CgpBcyBmb3IgYSBsb25nZXIgdGVybSBzb2x1
+dGlvbiwgd291bGQgaXQgYmUgcG9zc2libGUgdG8gaW5pdCBmb3BzIGluIHN1Y2gKYSB3YXkgdGhh
+dCB0aGUgY29tcGF0X2lvY3RsIGNhbGwgZGVmYXVsdHMgdG8gZ2VuZXJpY19jb21wYXRfaW9jdGxf
+cHRyYXJnCnNvIHdlIGRvbid0IGhhdmUgdG8gZHVwbGljYXRlIHRoaXMgYm9pbGVycGxhdGUgZm9y
+IGV2ZXJ5IGlvY3RsIGZvcHMKc3RydWN0dXJlPwo=
