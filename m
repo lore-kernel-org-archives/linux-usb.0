@@ -1,24 +1,25 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [V2,2/4,next] net: lan78xx: Drop unnecessary strcpy in lan78xx_probe
-From: Stefan Wahren <stefan.wahren@i2se.com>
-Message-Id: <1536082152-3669-3-git-send-email-stefan.wahren@i2se.com>
-Date: Tue,  4 Sep 2018 19:29:10 +0200
-To: Woojung Huh <woojung.huh@microchip.com>
-Cc: Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Stefan Wahren <stefan.wahren@i2se.com>
+Subject: net: usb: remove redundant null pointer check before of_node_put
+From: zhongjiang <zhongjiang@huawei.com>
+Message-Id: <1537104017-63874-1-git-send-email-zhongjiang@huawei.com>
+Date: Sun, 16 Sep 2018 21:20:17 +0800
+To: davem@davemloft.net
+Cc: woojung.huh@microchip.com, UNGLinuxDriver@microchip.com, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhlcmUgaXMgbm8gbmVlZCBmb3IgdGhpcyBzdHJjcHkgYmVjYXVzZSBhbGxvY19ldGhlcmRldigp
-IGFscmVhZHkKZG9lcyB0aGlzIGpvYi4KClNpZ25lZC1vZmYtYnk6IFN0ZWZhbiBXYWhyZW4gPHN0
-ZWZhbi53YWhyZW5AaTJzZS5jb20+ClJldmlld2VkLWJ5OiBSYWdodXJhbSBDaGFyeSBKYWxsaXBh
-bGxpIDxyYWdodXJhbWNoYXJ5LmphbGxpcGFsbGlAbWljcm9jaGlwLmNvbT4KLS0tCiBkcml2ZXJz
-L25ldC91c2IvbGFuNzh4eC5jIHwgMSAtCiAxIGZpbGUgY2hhbmdlZCwgMSBkZWxldGlvbigtKQoK
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvbmV0L3VzYi9sYW43OHh4LmMgYi9kcml2ZXJzL25ldC91c2Iv
-bGFuNzh4eC5jCmluZGV4IDNmNzBiOTQuLjNkNTA1YzIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbmV0
-L3VzYi9sYW43OHh4LmMKKysrIGIvZHJpdmVycy9uZXQvdXNiL2xhbjc4eHguYwpAQCAtMzc2Niw3
-ICszNzY2LDYgQEAgc3RhdGljIGludCBsYW43OHh4X3Byb2JlKHN0cnVjdCB1c2JfaW50ZXJmYWNl
-ICppbnRmLAogCXJldCA9IGxhbjc4eHhfYmluZChkZXYsIGludGYpOwogCWlmIChyZXQgPCAwKQog
-CQlnb3RvIG91dDI7Ci0Jc3RyY3B5KG5ldGRldi0+bmFtZSwgImV0aCVkIik7CiAKIAlpZiAobmV0
-ZGV2LT5tdHUgPiAoZGV2LT5oYXJkX210dSAtIG5ldGRldi0+aGFyZF9oZWFkZXJfbGVuKSkKIAkJ
-bmV0ZGV2LT5tdHUgPSBkZXYtPmhhcmRfbXR1IC0gbmV0ZGV2LT5oYXJkX2hlYWRlcl9sZW47Cg==
+b2Zfbm9kZV9wdXQgaGFzIHRha2VuIHRoZSBudWxsIHBvaW50ZXIgY2hlY2sgaW50byBhY2NvdW50
+LiBTbyBpdCBpcwpzYWZlIHRvIHJlbW92ZSB0aGUgZHVwbGljYXRlZCBjaGVjayBiZWZvcmUgb2Zf
+bm9kZV9wdXQuCgpTaWduZWQtb2ZmLWJ5OiB6aG9uZyBqaWFuZyA8emhvbmdqaWFuZ0BodWF3ZWku
+Y29tPgotLS0KIGRyaXZlcnMvbmV0L3VzYi9sYW43OHh4LmMgfCAzICstLQogMSBmaWxlIGNoYW5n
+ZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
+bmV0L3VzYi9sYW43OHh4LmMgYi9kcml2ZXJzL25ldC91c2IvbGFuNzh4eC5jCmluZGV4IDNjZTNj
+NjYuLjM0Y2EwZWUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbmV0L3VzYi9sYW43OHh4LmMKKysrIGIv
+ZHJpdmVycy9uZXQvdXNiL2xhbjc4eHguYwpAQCAtMTgzNSw4ICsxODM1LDcgQEAgc3RhdGljIGlu
+dCBsYW43OHh4X21kaW9faW5pdChzdHJ1Y3QgbGFuNzh4eF9uZXQgKmRldikKIAogCW5vZGUgPSBv
+Zl9nZXRfY2hpbGRfYnlfbmFtZShkZXYtPnVkZXYtPmRldi5vZl9ub2RlLCAibWRpbyIpOwogCXJl
+dCA9IG9mX21kaW9idXNfcmVnaXN0ZXIoZGV2LT5tZGlvYnVzLCBub2RlKTsKLQlpZiAobm9kZSkK
+LQkJb2Zfbm9kZV9wdXQobm9kZSk7CisJb2Zfbm9kZV9wdXQobm9kZSk7CiAJaWYgKHJldCkgewog
+CQluZXRkZXZfZXJyKGRldi0+bmV0LCAiY2FuJ3QgcmVnaXN0ZXIgTURJTyBidXNcbiIpOwogCQln
+b3RvIGV4aXQxOwo=
