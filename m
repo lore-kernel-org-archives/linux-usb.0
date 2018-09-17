@@ -2,23 +2,34 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,05/17] compat_ioctl: move more drivers to generic_compat_ioctl_ptrarg
-From: Al Viro <viro@ZenIV.linux.org.uk>
-Message-Id: <20180914205748.GC19965@ZenIV.linux.org.uk>
-Date: Fri, 14 Sep 2018 21:57:48 +0100
-To: Darren Hart <dvhart@infradead.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-fsdevel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "David S. Miller" <davem@davemloft.net>, devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org, qat-linux@intel.com, linux-crypto@vger.kernel.org, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org, linux-iio@vger.kernel.org, linux-rdma@vger.kernel.org, linux-nvdimm@lists.01.org, linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-remoteproc@vger.kernel.org, sparclinux@vger.kernel.org, linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org, linux-wireless@vger.kernel.org, netdev@vger.kernel.org
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Message-Id: <20180917103348.00003f31@huawei.com>
+Date: Mon, 17 Sep 2018 10:33:48 +0100
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "David S. Miller" <davem@davemloft.net>, devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org, qat-linux@intel.com, linux-crypto@vger.kernel.org, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org, linux-iio@vger.kernel.org, linux-rdma@vger.kernel.org, linux-nvdimm@lists.01.org, linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-remoteproc@vger.kernel.org, sparclinux@vger.kernel.org, linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org, linux-wireless@vger.kernel.org, netdev@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCBTZXAgMTQsIDIwMTggYXQgMDE6MzU6MDZQTSAtMDcwMCwgRGFycmVuIEhhcnQgd3Jv
-dGU6CiAKPiBBY2tlZC1ieTogRGFycmVuIEhhcnQgKFZNd2FyZSkgPGR2aGFydEBpbmZyYWRlYWQu
-b3JnPgo+IAo+IEFzIGZvciBhIGxvbmdlciB0ZXJtIHNvbHV0aW9uLCB3b3VsZCBpdCBiZSBwb3Nz
-aWJsZSB0byBpbml0IGZvcHMgaW4gc3VjaAo+IGEgd2F5IHRoYXQgdGhlIGNvbXBhdF9pb2N0bCBj
-YWxsIGRlZmF1bHRzIHRvIGdlbmVyaWNfY29tcGF0X2lvY3RsX3B0cmFyZwo+IHNvIHdlIGRvbid0
-IGhhdmUgdG8gZHVwbGljYXRlIHRoaXMgYm9pbGVycGxhdGUgZm9yIGV2ZXJ5IGlvY3RsIGZvcHMK
-PiBzdHJ1Y3R1cmU/CgoJQmFkIGlkZWEsIHRoYXQuLi4gIEJlY2F1c2Ugc2V2ZXJhbCB5ZWFycyBk
-b3duIHRoZSByb2FkIHNvbWVib2R5IHdpbGwgYWRkCmFuIGlvY3RsIHRoYXQgdGFrZXMgYW4gdW5z
-aWduZWQgaW50IGZvciBhcmd1bWVudC4gIFdpdGhvdXQgc28gbXVjaCBhcyBsb29raW5nCmF0IHlv
-dXIgbWFnaWNhbCBteXN0ZXJ5IG1hY3JvIGJlaW5nIHVzZWQgdG8gaW5pdGlhbGl6ZSBmaWxlX29w
-ZXJhdGlvbnMuCgoJRldJVywgSSB3b3VsZCBuYW1lIHRoYXQgaGVscGVyIGluIG1vcmUgYmx1bnQg
-d2F5IC0gc29tZXRoaW5nIGxpa2UKY29tcGF0X2lvY3RsX29ubHlfY29tcGF0X3BvaW50ZXJfaW9j
-dGxzX2hlcmUoKS4uLgo=
+T24gV2VkLCAxMiBTZXAgMjAxOCAxNzowODo1MiArMDIwMApBcm5kIEJlcmdtYW5uIDxhcm5kQGFy
+bmRiLmRlPiB3cm90ZToKCj4gVGhlIC5pb2N0bCBhbmQgLmNvbXBhdF9pb2N0bCBmaWxlIG9wZXJh
+dGlvbnMgaGF2ZSB0aGUgc2FtZSBwcm90b3R5cGUgc28KPiB0aGV5IGNhbiBib3RoIHBvaW50IHRv
+IHRoZSBzYW1lIGZ1bmN0aW9uLCB3aGljaCB3b3JrcyBncmVhdCBhbG1vc3QgYWxsCj4gdGhlIHRp
+bWUgd2hlbiBhbGwgdGhlIGNvbW1hbmRzIGFyZSBjb21wYXRpYmxlLgo+IAo+IE9uZSBleGNlcHRp
+b24gaXMgdGhlIHMzOTAgYXJjaGl0ZWN0dXJlLCB3aGVyZSBhIGNvbXBhdCBwb2ludGVyIGlzIG9u
+bHkKPiAzMSBiaXQgd2lkZSwgYW5kIGNvbnZlcnRpbmcgaXQgaW50byBhIDY0LWJpdCBwb2ludGVy
+IHJlcXVpcmVzIGNhbGxpbmcKPiBjb21wYXRfcHRyKCkuIE1vc3QgZHJpdmVycyBoZXJlIHdpbGwg
+ZXZlciBydW4gaW4gczM5MCwgYnV0IHNpbmNlIHdlIG5vdwo+IGhhdmUgYSBnZW5lcmljIGhlbHBl
+ciBmb3IgaXQsIGl0J3MgZWFzeSBlbm91Z2ggdG8gdXNlIGl0IGNvbnNpc3RlbnRseS4KPiAKPiBJ
+IGRvdWJsZS1jaGVja2VkIGFsbCB0aGVzZSBkcml2ZXJzIHRvIGVuc3VyZSB0aGF0IGFsbCBpb2N0
+bCBhcmd1bWVudHMKPiBhcmUgdXNlZCBhcyBwb2ludGVycyBvciBhcmUgaWdub3JlZCwgYnV0IGFy
+ZSBub3QgaW50ZXJwcmV0ZWQgYXMgaW50ZWdlcgo+IHZhbHVlcy4KPiAKPiBTaWduZWQtb2ZmLWJ5
+OiBBcm5kIEJlcmdtYW5uIDxhcm5kQGFybmRiLmRlPgo+IC0tLQoKRm9yIElJTyBwYXJ0LgoKQWNr
+ZWQtYnk6IEpvbmF0aGFuIENhbWVyb24gPEpvbmF0aGFuLkNhbWVyb25AaHVhd2VpLmNvbT4KClRo
+YW5rcywKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9paW8vaW5kdXN0cmlhbGlvLWNvcmUuYyBiL2Ry
+aXZlcnMvaWlvL2luZHVzdHJpYWxpby1jb3JlLmMKPiBpbmRleCBhMDYyY2ZkZGM1YWYuLjIyODQ0
+Yjk0YjBlOSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL2lpby9pbmR1c3RyaWFsaW8tY29yZS5jCj4g
+KysrIGIvZHJpdmVycy9paW8vaW5kdXN0cmlhbGlvLWNvcmUuYwo+IEBAIC0xNjMwLDcgKzE2MzAs
+NyBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGZpbGVfb3BlcmF0aW9ucyBpaW9fYnVmZmVyX2ZpbGVv
+cHMgPSB7Cj4gIAkub3duZXIgPSBUSElTX01PRFVMRSwKPiAgCS5sbHNlZWsgPSBub29wX2xsc2Vl
+aywKPiAgCS51bmxvY2tlZF9pb2N0bCA9IGlpb19pb2N0bCwKPiAtCS5jb21wYXRfaW9jdGwgPSBp
+aW9faW9jdGwsCj4gKwkuY29tcGF0X2lvY3RsID0gZ2VuZXJpY19jb21wYXRfaW9jdGxfcHRyYXJn
+LAo+ICB9Owo+Cg==
