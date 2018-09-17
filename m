@@ -2,19 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [07/10] usb: typec: pci: Enable Intel USB role mux on Apollo Lake platforms
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20180914132716.GA8858@kroah.com>
-Date: Fri, 14 Sep 2018 15:27:16 +0200
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-Id: <dbb053b1-ce50-894c-c40a-5306b04785f9@linux.intel.com>
+Date: Mon, 17 Sep 2018 10:47:41 +0300
+To: Greg KH <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org, Heikki Krogerus <heikki.krogerus@linux.intel.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCBTZXAgMTMsIDIwMTggYXQgMDM6MjQ6MDBQTSArMDMwMCwgTWF0aGlhcyBOeW1hbiB3
-cm90ZToKPiBGcm9tOiBIZWlra2kgS3JvZ2VydXMgPGhlaWtraS5rcm9nZXJ1c0BsaW51eC5pbnRl
-bC5jb20+Cj4gCj4gSW50ZWwgQXBvbGxvIExha2UgaGFzIHRoZSBzYW1lIGludGVybmFsIFVTQiBy
-b2xlIG11eCBhcwo+IEludGVsIENoZXJyeSBUcmFpbC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBIZWlr
-a2kgS3JvZ2VydXMgPGhlaWtraS5rcm9nZXJ1c0BsaW51eC5pbnRlbC5jb20+Cj4gU2lnbmVkLW9m
-Zi1ieTogTWF0aGlhcyBOeW1hbiA8bWF0aGlhcy5ueW1hbkBsaW51eC5pbnRlbC5jb20+Cj4gLS0t
-Cj4gIGRyaXZlcnMvdXNiL2hvc3QveGhjaS1wY2kuYyB8IDYgKysrKy0tCj4gIDEgZmlsZSBjaGFu
-Z2VkLCA0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpXaHkgaXMgdGhpcyBub3QgYSA0
-LjE5LWZpbmFsIHBhdGNoPyAgU3RhYmxlPwo=
+T24gMTQuMDkuMjAxOCAxNjoyNywgR3JlZyBLSCB3cm90ZToKPiBPbiBUaHUsIFNlcCAxMywgMjAx
+OCBhdCAwMzoyNDowMFBNICswMzAwLCBNYXRoaWFzIE55bWFuIHdyb3RlOgo+PiBGcm9tOiBIZWlr
+a2kgS3JvZ2VydXMgPGhlaWtraS5rcm9nZXJ1c0BsaW51eC5pbnRlbC5jb20+Cj4+Cj4+IEludGVs
+IEFwb2xsbyBMYWtlIGhhcyB0aGUgc2FtZSBpbnRlcm5hbCBVU0Igcm9sZSBtdXggYXMKPj4gSW50
+ZWwgQ2hlcnJ5IFRyYWlsLgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBIZWlra2kgS3JvZ2VydXMgPGhl
+aWtraS5rcm9nZXJ1c0BsaW51eC5pbnRlbC5jb20+Cj4+IFNpZ25lZC1vZmYtYnk6IE1hdGhpYXMg
+TnltYW4gPG1hdGhpYXMubnltYW5AbGludXguaW50ZWwuY29tPgo+PiAtLS0KPj4gICBkcml2ZXJz
+L3VzYi9ob3N0L3hoY2ktcGNpLmMgfCA2ICsrKystLQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCA0IGlu
+c2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4gCj4gV2h5IGlzIHRoaXMgbm90IGEgNC4xOS1m
+aW5hbCBwYXRjaD8gIFN0YWJsZT8KPiAKClRoaXMgd2Fzbid0IHVyZ2VudCBpbiBhbnkgd2F5IGFj
+Y29yZGluZyB0byBIZWlra2ksIHNvCkkgcXVldWVkIGl0IGZvciBsaW51eC1uZXh0LiBCdXQgYm90
+aCBhcmUgZmluZS4KCkJ1dCBTdGFibGUgd291bGQgbWFrZSBzZW5zZS4KCi1NYXRoaWFzCg==
