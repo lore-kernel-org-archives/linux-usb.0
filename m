@@ -1,33 +1,27 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v5,2/3] dt-bindings: usb: renesas_usbhs: add clock-names property
-From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Message-Id: <1536655625-10550-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-Date: Tue, 11 Sep 2018 17:47:04 +0900
-To: balbi@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [net-next,21/22] l2tp: fix return type of ndo_start_xmit function
+From: YueHaibing <yuehaibing@huawei.com>
+Message-Id: <20180920123306.14772-22-yuehaibing@huawei.com>
+Date: Thu, 20 Sep 2018 20:33:05 +0800
+To: davem@davemloft.net, dmitry.tarnyagin@lockless.no, wg@grandegger.com, mkl@pengutronix.de, michal.simek@xilinx.com, hsweeten@visionengravers.com, madalin.bucur@nxp.com, pantelis.antoniou@gmail.com, claudiu.manoil@nxp.com, leoyang.li@nxp.com, linux@armlinux.org.uk, sammy@sammy.net, ralf@linux-mips.org, nico@fluxnic.net, steve.glendinning@shawell.net, f.fainelli@gmail.com, grygorii.strashko@ti.com, w-kwok2@ti.com, m-karicheri2@ti.com, t.sailer@alumni.ethz.ch, jreuter@yaina.de, kys@microsoft.com, haiyangz@microsoft.com, wei.liu2@citrix.com, paul.durrant@citrix.com, arvid.brodin@alten.se, pshelar@ovn.org
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, linux-can@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, linux-mips@linux-mips.org, linux-omap@vger.kernel.org, linux-hams@vger.kernel.org, devel@linuxdriverproject.org, linux-usb@vger.kernel.org, xen-devel@lists.xenproject.org, dev@openvswitch.org, YueHaibing <yuehaibing@huawei.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-Ui1DYXIgR2VuMyBuZWVkcyB0byBlbmFibGUgY2xvY2tzIG9mIGJvdGggaG9zdCBhbmQgcGVyaXBo
-ZXJhbC4KT3RoZXJ3aXNlLCBvdGhlciBzaWRlIGRldmljZSBjYW5ub3Qgd29yayBjb3JyZWN0bHku
-IFNvLCB0aGlzIHBhdGNoCmFkZHMgYSBwcm9wZXJ0eSBvZiBjbG9jay1uYW1lcyBmb3IgUi1DYXIg
-R2VuMyBhcyBhbiBvcHRpb25hbC4KClNpZ25lZC1vZmYtYnk6IFlvc2hpaGlybyBTaGltb2RhIDx5
-b3NoaWhpcm8uc2hpbW9kYS51aEByZW5lc2FzLmNvbT4KLS0tCiBEb2N1bWVudGF0aW9uL2Rldmlj
-ZXRyZWUvYmluZGluZ3MvdXNiL3JlbmVzYXNfdXNiaHMudHh0IHwgNiArKysrKy0KIDEgZmlsZSBj
-aGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9Eb2N1
-bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL3JlbmVzYXNfdXNiaHMudHh0IGIvRG9j
-dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9yZW5lc2FzX3VzYmhzLnR4dAppbmRl
-eCAwODcxNDBhLi4xNWZiM2IzIDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
-YmluZGluZ3MvdXNiL3JlbmVzYXNfdXNiaHMudHh0CisrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNl
-dHJlZS9iaW5kaW5ncy91c2IvcmVuZXNhc191c2Jocy50eHQKQEAgLTI2LDcgKzI2LDExIEBAIFJl
-cXVpcmVkIHByb3BlcnRpZXM6CiAKICAgLSByZWc6IEJhc2UgYWRkcmVzcyBhbmQgbGVuZ3RoIG9m
-IHRoZSByZWdpc3RlciBmb3IgdGhlIFVTQkhTCiAgIC0gaW50ZXJydXB0czogSW50ZXJydXB0IHNw
-ZWNpZmllciBmb3IgdGhlIFVTQkhTCi0gIC0gY2xvY2tzOiBBIGxpc3Qgb2YgcGhhbmRsZSArIGNs
-b2NrIHNwZWNpZmllciBwYWlycworICAtIGNsb2NrczogQSBsaXN0IG9mIHBoYW5kbGUgKyBjbG9j
-ayBzcGVjaWZpZXIgcGFpcnMuCisJICAgIC0gSW4gY2FzZSBvZiAicmVuZXNhcyxyY2FyLWdlbjMt
-dXNiaHMiLCB0d28gY2xvY2tzIGFyZSByZXF1aXJlZC4KKwkgICAgICBGaXJzdCBjbG9jayBzaG91
-bGQgYmUgcGVyaXBoZXJhbCBhbmQgc2Vjb25kIG9uZSBzaG91bGQgYmUgaG9zdC4KKwkgICAgLSBJ
-biBjYXNlIG9mIGV4Y2VwdCBhYm92ZSwgb25lIGNsb2NrIGlzIHJlcXVpcmVkLiBGaXJzdCBjbG9j
-aworCSAgICAgIHNob3VsZCBiZSBwZXJpcGhlcmFsLgogCiBPcHRpb25hbCBwcm9wZXJ0aWVzOgog
-ICAtIHJlbmVzYXMsYnVzd2FpdDogSW50ZWdlciB0byB1c2UgQlVTV0FJVCByZWdpc3Rlcgo=
+VGhlIG1ldGhvZCBuZG9fc3RhcnRfeG1pdCgpIGlzIGRlZmluZWQgYXMgcmV0dXJuaW5nIGFuICdu
+ZXRkZXZfdHhfdCcsCndoaWNoIGlzIGEgdHlwZWRlZiBmb3IgYW4gZW51bSB0eXBlLCBzbyBtYWtl
+IHN1cmUgdGhlIGltcGxlbWVudGF0aW9uIGluCnRoaXMgZHJpdmVyIGhhcyByZXR1cm5zICduZXRk
+ZXZfdHhfdCcgdmFsdWUsIGFuZCBjaGFuZ2UgdGhlIGZ1bmN0aW9uCnJldHVybiB0eXBlIHRvIG5l
+dGRldl90eF90LgoKRm91bmQgYnkgY29jY2luZWxsZS4KClNpZ25lZC1vZmYtYnk6IFl1ZUhhaWJp
+bmcgPHl1ZWhhaWJpbmdAaHVhd2VpLmNvbT4KLS0tCiBuZXQvbDJ0cC9sMnRwX2V0aC5jIHwgMyAr
+Ky0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYg
+LS1naXQgYS9uZXQvbDJ0cC9sMnRwX2V0aC5jIGIvbmV0L2wydHAvbDJ0cF9ldGguYwppbmRleCA4
+YWFkYzRmLi40MTczY2IxIDEwMDY0NAotLS0gYS9uZXQvbDJ0cC9sMnRwX2V0aC5jCisrKyBiL25l
+dC9sMnRwL2wydHBfZXRoLmMKQEAgLTc3LDcgKzc3LDggQEAgc3RhdGljIHZvaWQgbDJ0cF9ldGhf
+ZGV2X3VuaW5pdChzdHJ1Y3QgbmV0X2RldmljZSAqZGV2KQogCSAqLwogfQogCi1zdGF0aWMgaW50
+IGwydHBfZXRoX2Rldl94bWl0KHN0cnVjdCBza19idWZmICpza2IsIHN0cnVjdCBuZXRfZGV2aWNl
+ICpkZXYpCitzdGF0aWMgbmV0ZGV2X3R4X3QKK2wydHBfZXRoX2Rldl94bWl0KHN0cnVjdCBza19i
+dWZmICpza2IsIHN0cnVjdCBuZXRfZGV2aWNlICpkZXYpCiB7CiAJc3RydWN0IGwydHBfZXRoICpw
+cml2ID0gbmV0ZGV2X3ByaXYoZGV2KTsKIAlzdHJ1Y3QgbDJ0cF9zZXNzaW9uICpzZXNzaW9uID0g
+cHJpdi0+c2Vzc2lvbjsK
