@@ -1,31 +1,27 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v4,4/8] usb: dwc3: implement stream transfer timeout
-From: Anurag Kumar Vulisha <anuragku@xilinx.com>
-Message-Id: <BN3PR0201MB0993B7CC13E3042415127FE0A7180@BN3PR0201MB0993.namprd02.prod.outlook.com>
-Date: Sat, 15 Sep 2018 13:20:18 +0000
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, "balbi@kernel.org" <balbi@kernel.org>, "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "v.anuragkumar@gmail.com" <v.anuragkumar@gmail.com>
+Subject: [net-next,20/22] rionet: fix return type of ndo_start_xmit function
+From: YueHaibing <yuehaibing@huawei.com>
+Message-Id: <20180920123306.14772-21-yuehaibing@huawei.com>
+Date: Thu, 20 Sep 2018 20:33:04 +0800
+To: davem@davemloft.net, dmitry.tarnyagin@lockless.no, wg@grandegger.com, mkl@pengutronix.de, michal.simek@xilinx.com, hsweeten@visionengravers.com, madalin.bucur@nxp.com, pantelis.antoniou@gmail.com, claudiu.manoil@nxp.com, leoyang.li@nxp.com, linux@armlinux.org.uk, sammy@sammy.net, ralf@linux-mips.org, nico@fluxnic.net, steve.glendinning@shawell.net, f.fainelli@gmail.com, grygorii.strashko@ti.com, w-kwok2@ti.com, m-karicheri2@ti.com, t.sailer@alumni.ethz.ch, jreuter@yaina.de, kys@microsoft.com, haiyangz@microsoft.com, wei.liu2@citrix.com, paul.durrant@citrix.com, arvid.brodin@alten.se, pshelar@ovn.org
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, linux-can@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, linux-mips@linux-mips.org, linux-omap@vger.kernel.org, linux-hams@vger.kernel.org, devel@linuxdriverproject.org, linux-usb@vger.kernel.org, xen-devel@lists.xenproject.org, dev@openvswitch.org, YueHaibing <yuehaibing@huawei.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgVGhpbmgsCgo+Pgo+PiBAQCAtMjQwMyw2ICsyNDI0LDEzIEBAIHN0YXRpYyB2b2lkCj5kd2Mz
-X2dhZGdldF9lbmRwb2ludF90cmFuc2Zlcl9pbl9wcm9ncmVzcyhzdHJ1Y3QgZHdjM19lcCAqZGVw
-LAo+PiAgCQkJc3RvcCA9IHRydWU7Cj4+ICAJfQo+Pgo+PiArCS8qCj4+ICsJICogRGVsZXRlIHRo
-ZSB0aW1lciB0aGF0IHdhcyBzdGFydGVkIGluIF9fZHdjM19nYWRnZXRfa2lja190cmFuc2Zlcigp
-Cj4+ICsJICogZm9yIHN0cmVhbSBjYXBhYmxlIGVuZHBvaW50cy4KPj4gKwkgKi8KPj4gKwlpZiAo
-ZGVwLT5zdHJlYW1fY2FwYWJsZSkKPj4gKwkJZGVsX3RpbWVyKCZkZXAtPnN0cmVhbV90aW1lb3V0
-X3RpbWVyKTsKPj4gKwo+PiAgCWR3YzNfZ2FkZ2V0X2VwX2NsZWFudXBfY29tcGxldGVkX3JlcXVl
-c3RzKGRlcCwgZXZlbnQsIHN0YXR1cyk7Cj4+Cj4+ICAJaWYgKHN0b3ApIHsKPj4gQEAgLTI0ODcs
-NiArMjUxNSwxMSBAQCBzdGF0aWMgdm9pZCBkd2MzX2VuZHBvaW50X2ludGVycnVwdChzdHJ1Y3Qg
-ZHdjMyAqZHdjLAo+PiAgCQl9Cj4+ICAJCWJyZWFrOwo+PiAgCWNhc2UgRFdDM19ERVBFVlRfU1RS
-RUFNRVZUOgo+PiArCQlpZiAoZXZlbnQtPnN0YXR1cyA9PSBERVBFVlRfU1RSRUFNRVZUX0ZPVU5E
-KQo+PiArCQkJZGVsX3RpbWVyKCZkZXAtPnN0cmVhbV90aW1lb3V0X3RpbWVyKTsKPj4gKwkJZWxz
-ZQo+PiArCQkJZGV2X2RiZyhkd2MtPmRldiwgInVuYWJsZSB0byBmaW5kIHN1aXRhYmxlIHN0cmVh
-bSIpOwo+Cj5UaGlzIGRlYnVnIG1lc3NhZ2UgaXMgYWxyZWFkeSBwcmludGVkIGluIHRoZSBkcml2
-ZXIgdHJhY2Vwb2ludC4gVGhlcmUncyBubyBuZWVkIHRvCj5wcmludCBpdCBoZXJlLiBBbHNvLCBJ
-IGRvbid0IHRoaW5rIEZlbGlwZSB3aWxsIGFjY2VwdCBhZGRpbmcgbmV3IGRldl9kYmcoKSBhZnRl
-ciByZW1vdmluZwo+YWxsIG9mIHRoZW0gYW5kIGNvbnZlcnRpbmcgdGhlbSB0byB0cmFjZXBvaW50
-cy4KPgoKSSBhZ3JlZSB3aXRoIHlvdSwgdGhhbmtzIGZvciBjb3JyZWN0aW5nLiBXaWxsIHJlbW92
-ZSB0aGUgZGVidWcgcHJpbnRzIGFuZCByZXNlbmQgdGhlIHBhdGNoZXMKClRoYW5rcywKQW51cmFn
-IEt1bWFyIFZ1bGlzaGEK
+VGhlIG1ldGhvZCBuZG9fc3RhcnRfeG1pdCgpIGlzIGRlZmluZWQgYXMgcmV0dXJuaW5nIGFuICdu
+ZXRkZXZfdHhfdCcsCndoaWNoIGlzIGEgdHlwZWRlZiBmb3IgYW4gZW51bSB0eXBlLCBzbyBtYWtl
+IHN1cmUgdGhlIGltcGxlbWVudGF0aW9uIGluCnRoaXMgZHJpdmVyIGhhcyByZXR1cm5zICduZXRk
+ZXZfdHhfdCcgdmFsdWUsIGFuZCBjaGFuZ2UgdGhlIGZ1bmN0aW9uCnJldHVybiB0eXBlIHRvIG5l
+dGRldl90eF90LgoKRm91bmQgYnkgY29jY2luZWxsZS4KClNpZ25lZC1vZmYtYnk6IFl1ZUhhaWJp
+bmcgPHl1ZWhhaWJpbmdAaHVhd2VpLmNvbT4KLS0tCiBkcml2ZXJzL25ldC9yaW9uZXQuYyB8IDMg
+KystCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZm
+IC0tZ2l0IGEvZHJpdmVycy9uZXQvcmlvbmV0LmMgYi9kcml2ZXJzL25ldC9yaW9uZXQuYwppbmRl
+eCBlOWYxMDFjLi5kZTM5MWM3IDEwMDY0NAotLS0gYS9kcml2ZXJzL25ldC9yaW9uZXQuYworKysg
+Yi9kcml2ZXJzL25ldC9yaW9uZXQuYwpAQCAtMTcwLDcgKzE3MCw4IEBAIHN0YXRpYyBpbnQgcmlv
+bmV0X3F1ZXVlX3R4X21zZyhzdHJ1Y3Qgc2tfYnVmZiAqc2tiLCBzdHJ1Y3QgbmV0X2RldmljZSAq
+bmRldiwKIAlyZXR1cm4gMDsKIH0KIAotc3RhdGljIGludCByaW9uZXRfc3RhcnRfeG1pdChzdHJ1
+Y3Qgc2tfYnVmZiAqc2tiLCBzdHJ1Y3QgbmV0X2RldmljZSAqbmRldikKK3N0YXRpYyBuZXRkZXZf
+dHhfdAorcmlvbmV0X3N0YXJ0X3htaXQoc3RydWN0IHNrX2J1ZmYgKnNrYiwgc3RydWN0IG5ldF9k
+ZXZpY2UgKm5kZXYpCiB7CiAJaW50IGk7CiAJc3RydWN0IHJpb25ldF9wcml2YXRlICpybmV0ID0g
+bmV0ZGV2X3ByaXYobmRldik7Cg==
