@@ -1,27 +1,30 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [net-next,20/22] rionet: fix return type of ndo_start_xmit function
-From: YueHaibing <yuehaibing@huawei.com>
-Message-Id: <20180920123306.14772-21-yuehaibing@huawei.com>
-Date: Thu, 20 Sep 2018 20:33:04 +0800
-To: davem@davemloft.net, dmitry.tarnyagin@lockless.no, wg@grandegger.com, mkl@pengutronix.de, michal.simek@xilinx.com, hsweeten@visionengravers.com, madalin.bucur@nxp.com, pantelis.antoniou@gmail.com, claudiu.manoil@nxp.com, leoyang.li@nxp.com, linux@armlinux.org.uk, sammy@sammy.net, ralf@linux-mips.org, nico@fluxnic.net, steve.glendinning@shawell.net, f.fainelli@gmail.com, grygorii.strashko@ti.com, w-kwok2@ti.com, m-karicheri2@ti.com, t.sailer@alumni.ethz.ch, jreuter@yaina.de, kys@microsoft.com, haiyangz@microsoft.com, wei.liu2@citrix.com, paul.durrant@citrix.com, arvid.brodin@alten.se, pshelar@ovn.org
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, linux-can@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, linux-mips@linux-mips.org, linux-omap@vger.kernel.org, linux-hams@vger.kernel.org, devel@linuxdriverproject.org, linux-usb@vger.kernel.org, xen-devel@lists.xenproject.org, dev@openvswitch.org, YueHaibing <yuehaibing@huawei.com>
+Subject: [v2,06/10] usb: host: xhci-plat: add platform TPL support
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-Id: <1537460020-1009-7-git-send-email-mathias.nyman@linux.intel.com>
+Date: Thu, 20 Sep 2018 19:13:36 +0300
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org, Peter Chen <peter.chen@nxp.com>, Mathias Nyman <mathias.nyman@linux.intel.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhlIG1ldGhvZCBuZG9fc3RhcnRfeG1pdCgpIGlzIGRlZmluZWQgYXMgcmV0dXJuaW5nIGFuICdu
-ZXRkZXZfdHhfdCcsCndoaWNoIGlzIGEgdHlwZWRlZiBmb3IgYW4gZW51bSB0eXBlLCBzbyBtYWtl
-IHN1cmUgdGhlIGltcGxlbWVudGF0aW9uIGluCnRoaXMgZHJpdmVyIGhhcyByZXR1cm5zICduZXRk
-ZXZfdHhfdCcgdmFsdWUsIGFuZCBjaGFuZ2UgdGhlIGZ1bmN0aW9uCnJldHVybiB0eXBlIHRvIG5l
-dGRldl90eF90LgoKRm91bmQgYnkgY29jY2luZWxsZS4KClNpZ25lZC1vZmYtYnk6IFl1ZUhhaWJp
-bmcgPHl1ZWhhaWJpbmdAaHVhd2VpLmNvbT4KLS0tCiBkcml2ZXJzL25ldC9yaW9uZXQuYyB8IDMg
-KystCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9uZXQvcmlvbmV0LmMgYi9kcml2ZXJzL25ldC9yaW9uZXQuYwppbmRl
-eCBlOWYxMDFjLi5kZTM5MWM3IDEwMDY0NAotLS0gYS9kcml2ZXJzL25ldC9yaW9uZXQuYworKysg
-Yi9kcml2ZXJzL25ldC9yaW9uZXQuYwpAQCAtMTcwLDcgKzE3MCw4IEBAIHN0YXRpYyBpbnQgcmlv
-bmV0X3F1ZXVlX3R4X21zZyhzdHJ1Y3Qgc2tfYnVmZiAqc2tiLCBzdHJ1Y3QgbmV0X2RldmljZSAq
-bmRldiwKIAlyZXR1cm4gMDsKIH0KIAotc3RhdGljIGludCByaW9uZXRfc3RhcnRfeG1pdChzdHJ1
-Y3Qgc2tfYnVmZiAqc2tiLCBzdHJ1Y3QgbmV0X2RldmljZSAqbmRldikKK3N0YXRpYyBuZXRkZXZf
-dHhfdAorcmlvbmV0X3N0YXJ0X3htaXQoc3RydWN0IHNrX2J1ZmYgKnNrYiwgc3RydWN0IG5ldF9k
-ZXZpY2UgKm5kZXYpCiB7CiAJaW50IGk7CiAJc3RydWN0IHJpb25ldF9wcml2YXRlICpybmV0ID0g
-bmV0ZGV2X3ByaXYobmRldik7Cg==
+RnJvbTogUGV0ZXIgQ2hlbiA8cGV0ZXIuY2hlbkBueHAuY29tPgoKVGhlIFRQTCBzdXBwb3J0IGlz
+IHVzZWQgdG8gaWRlbnRpZnkgdGFyZ2V0ZWQgZGV2aWNlcyBkdXJpbmcKRUgyLjAgYW5kIEVIMy4w
+IGNlcnRpZmljYXRpb24gdGVzdCwgdGhlIHVzZXIgY2FuIGFkZCAidHBsLXN1cHBvcnQiCmF0IGR0
+cyB0byBlbmFibGUgdGhpcyBmZWF0dXJlLgoKU2lnbmVkLW9mZi1ieTogUGV0ZXIgQ2hlbiA8cGV0
+ZXIuY2hlbkBueHAuY29tPgpTaWduZWQtb2ZmLWJ5OiBNYXRoaWFzIE55bWFuIDxtYXRoaWFzLm55
+bWFuQGxpbnV4LmludGVsLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9ob3N0L3hoY2ktcGxhdC5jIHwg
+MyArKysKIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2
+ZXJzL3VzYi9ob3N0L3hoY2ktcGxhdC5jIGIvZHJpdmVycy91c2IvaG9zdC94aGNpLXBsYXQuYwpp
+bmRleCA5NGU5MzkyLi4zMmI1NTc0IDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9ob3N0L3hoY2kt
+cGxhdC5jCisrKyBiL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1wbGF0LmMKQEAgLTE4LDYgKzE4LDcg
+QEAKICNpbmNsdWRlIDxsaW51eC91c2IvcGh5Lmg+CiAjaW5jbHVkZSA8bGludXgvc2xhYi5oPgog
+I2luY2x1ZGUgPGxpbnV4L2FjcGkuaD4KKyNpbmNsdWRlIDxsaW51eC91c2Ivb2YuaD4KIAogI2lu
+Y2x1ZGUgInhoY2kuaCIKICNpbmNsdWRlICJ4aGNpLXBsYXQuaCIKQEAgLTMwNSw2ICszMDYsOCBA
+QCBzdGF0aWMgaW50IHhoY2lfcGxhdF9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2
+KQogCQloY2QtPnNraXBfcGh5X2luaXRpYWxpemF0aW9uID0gMTsKIAl9CiAKKwloY2QtPnRwbF9z
+dXBwb3J0ID0gb2ZfdXNiX2hvc3RfdHBsX3N1cHBvcnQoc3lzZGV2LT5vZl9ub2RlKTsKKwl4aGNp
+LT5zaGFyZWRfaGNkLT50cGxfc3VwcG9ydCA9IGhjZC0+dHBsX3N1cHBvcnQ7CiAJcmV0ID0gdXNi
+X2FkZF9oY2QoaGNkLCBpcnEsIElSUUZfU0hBUkVEKTsKIAlpZiAocmV0KQogCQlnb3RvIGRpc2Fi
+bGVfdXNiX3BoeTsK
