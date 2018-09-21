@@ -1,28 +1,31 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [net,7/7] smsc95xx: Check for Wake-on-LAN modes
-From: Florian Fainelli <f.fainelli@gmail.com>
-Message-Id: <20180924205420.31309-8-f.fainelli@gmail.com>
-Date: Mon, 24 Sep 2018 13:54:20 -0700
-To: netdev@vger.kernel.org
-Cc: Florian Fainelli <f.fainelli@gmail.com>, "David S. Miller" <davem@davemloft.net>, Woojung Huh <woojung.huh@microchip.com>, Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, Steve Glendinning <steve.glendinning@shawell.net>, Kees Cook <keescook@chromium.org>, Alexander Kurz <akurz@blala.de>, Hayes Wang <hayeswang@realtek.com>, Kai-Heng Feng <kai.heng.feng@canonical.com>, Grant Grundler <grundler@chromium.org>, zhong jiang <zhongjiang@huawei.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Ran Wang <ran.wang_1@nxp.com>, Eric Dumazet <edumazet@google.com>, "open list:USB NETWORKING DRIVERS" <linux-usb@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: xhci: Add check for invalid byte size error when UAS devices are connected.
+From: Sandeep Singh <Sandeep.Singh@amd.com>
+Message-Id: <1537536150-11721-1-git-send-email-Sandeep.Singh@amd.com>
+Date: Fri, 21 Sep 2018 18:52:29 +0530
+To: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, gregkh@linuxfoundation.org, mathias.nyman@intel.com
+Cc: Sandeep Singh <sandeep.singh@amd.com>, Nehal Shah <Nehal-bakulchandra.Shah@amd.com>, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhlIGRyaXZlciBkb2VzIG5vdCBjaGVjayBmb3IgV2FrZS1vbi1MQU4gbW9kZXMgc3BlY2lmaWVk
-IGJ5IGFuIHVzZXIsCmJ1dCB3aWxsIGNvbmRpdGlvbmFsbHkgc2V0IHRoZSBkZXZpY2UgYXMgd2Fr
-ZS11cCBlbmFibGVkIG9yIG5vdCBiYXNlZCBvbgp0aGF0LCB3aGljaCBjb3VsZCBiZSBhIHZlcnkg
-Y29uZnVzaW5nIHVzZXIgZXhwZXJpZW5jZS4KCkZpeGVzOiBlMGU0NzRhODNjMTggKCJzbXNjOTV4
-eDogYWRkIHdvbCBtYWdpYyBwYWNrZXQgc3VwcG9ydCIpClNpZ25lZC1vZmYtYnk6IEZsb3JpYW4g
-RmFpbmVsbGkgPGYuZmFpbmVsbGlAZ21haWwuY29tPgotLS0KIGRyaXZlcnMvbmV0L3VzYi9zbXNj
-OTV4eC5jIHwgMyArKysKIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykKCmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL25ldC91c2Ivc21zYzk1eHguYyBiL2RyaXZlcnMvbmV0L3VzYi9zbXNjOTV4
-eC5jCmluZGV4IDA2YjRkMjkwNzg0ZC4uMjYyZTdhM2MyM2NiIDEwMDY0NAotLS0gYS9kcml2ZXJz
-L25ldC91c2Ivc21zYzk1eHguYworKysgYi9kcml2ZXJzL25ldC91c2Ivc21zYzk1eHguYwpAQCAt
-Nzc0LDYgKzc3NCw5IEBAIHN0YXRpYyBpbnQgc21zYzk1eHhfZXRodG9vbF9zZXRfd29sKHN0cnVj
-dCBuZXRfZGV2aWNlICpuZXQsCiAJc3RydWN0IHNtc2M5NXh4X3ByaXYgKnBkYXRhID0gKHN0cnVj
-dCBzbXNjOTV4eF9wcml2ICopKGRldi0+ZGF0YVswXSk7CiAJaW50IHJldDsKIAorCWlmICh3b2xp
-bmZvLT53b2xvcHRzICYgflNVUFBPUlRFRF9XQUtFKQorCQlyZXR1cm4gLUVJTlZBTDsKKwogCXBk
-YXRhLT53b2xvcHRzID0gd29saW5mby0+d29sb3B0cyAmIFNVUFBPUlRFRF9XQUtFOwogCiAJcmV0
-ID0gZGV2aWNlX3NldF93YWtldXBfZW5hYmxlKCZkZXYtPnVkZXYtPmRldiwgcGRhdGEtPndvbG9w
-dHMpOwo=
+RnJvbTogU2FuZGVlcCBTaW5naCA8c2FuZGVlcC5zaW5naEBhbWQuY29tPgoKT2JzZXJ2ZWQgIlRS
+QiBjb21wbGV0aW9uIGNvZGUgKDI3KSIgZXJyb3Igd2hpY2ggY29ycmVzcG9uZHMgdG8gU3RvcHBl
+ZCAtCkxlbmd0aCBJbnZhbGlkIGVycm9yKHhoY2kgc3BlYyBzZWN0aW9uIDQuMTcuNCkgd2hpbGUg
+Y29ubmVjdGluZyBVU0IgdG8KU0FUQSBicmlkZ2UuCgpMb29rcyBsaWtlIHRoaXMgY2FzZSB3YXMg
+bm90IGNvbnNpZGVyZWQgd2hlbiB0aGUgZm9sbG93aW5nIHBhdGNoWzFdIHdhcwpjb21taXR0ZWQu
+IEhlbmNlIGFkZGluZyB0aGlzIG5ldyBjaGVjayB3aGljaCBjYW4gcHJldmVudAp0aGUgaW52YWxp
+ZCBieXRlIHNpemUgZXJyb3IuCgpbMV0gYWRlMmUzYSB4aGNpOiBoYW5kbGUgdHJhbnNmZXIgZXZl
+bnRzIHdpdGhvdXQgVFJCIHBvaW50ZXIKClNpZ25lZC1vZmYtYnk6IFNhbmRlZXAgU2luZ2ggPHNh
+bmRlZXAuc2luZ2hAYW1kLmNvbT4KY2M6IE5laGFsIFNoYWggPE5laGFsLWJha3VsY2hhbmRyYS5T
+aGFoQGFtZC5jb20+CmNjOiBTaHlhbSBTdW5kYXIgUyBLIDxTaHlhbS1zdW5kYXIuUy1rQGFtZC5j
+b20+Ci0tLQogZHJpdmVycy91c2IvaG9zdC94aGNpLXJpbmcuYyB8IDEgKwogMSBmaWxlIGNoYW5n
+ZWQsIDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvaG9zdC94aGNpLXJp
+bmcuYyBiL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1yaW5nLmMKaW5kZXggZjBhOTlhYS4uOGJhMmNi
+YyAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvaG9zdC94aGNpLXJpbmcuYworKysgYi9kcml2ZXJz
+L3VzYi9ob3N0L3hoY2ktcmluZy5jCkBAIC0yMjQ2LDYgKzIyNDYsNyBAQCBzdGF0aWMgaW50IGhh
+bmRsZV90eF9ldmVudChzdHJ1Y3QgeGhjaV9oY2QgKnhoY2ksCiAJCQlnb3RvIGNsZWFudXA7CiAJ
+CWNhc2UgQ09NUF9SSU5HX1VOREVSUlVOOgogCQljYXNlIENPTVBfUklOR19PVkVSUlVOOgorCQlj
+YXNlIENPTVBfU1RPUFBFRF9MRU5HVEhfSU5WQUxJRDoKIAkJCWdvdG8gY2xlYW51cDsKIAkJZGVm
+YXVsdDoKIAkJCXhoY2lfZXJyKHhoY2ksICJFUlJPUiBUcmFuc2ZlciBldmVudCBmb3IgdW5rbm93
+biBzdHJlYW0gcmluZyBzbG90ICV1IGVwICV1XG4iLAo=
