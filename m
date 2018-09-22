@@ -2,25 +2,17 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: ALSA: usb-audio: ensure that cluster header size is enough
-From: Dan Carpenter <dan.carpenter@oracle.com>
-Message-Id: <20180922133831.GA6792@mwanda>
-Date: Sat, 22 Sep 2018 16:38:32 +0300
-To: Jaroslav Kysela <perex@perex.cz>, Ruslan Bilovol <ruslan.bilovol@gmail.com>
+From: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Message-Id: <6146a00b-70b6-cb02-2bd2-77201c07fb80@cogentembedded.com>
+Date: Sat, 22 Sep 2018 20:13:35 +0300
+To: Dan Carpenter <dan.carpenter@oracle.com>, Jaroslav Kysela <perex@perex.cz>, Ruslan Bilovol <ruslan.bilovol@gmail.com>
 Cc: Takashi Iwai <tiwai@suse.com>, Jorge Sanjuan <jorge.sanjuan@codethink.co.uk>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Michael Drake <michael.drake@codethink.co.uk>, alsa-devel@alsa-project.org, linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SSB0aGluayB3ZSBuZWVkIGEgY2hlY2sgdG8gbWFrZSBzdXJlIHRoYXQgImhjX2hlYWRlci53TGVu
-Z3RoIiBpcyBsYXJnZQplbm91Z2ggZm9yIGEgc3RydWN0IHN0cnVjdCB1YWMzX2NsdXN0ZXJfaGVh
-ZGVyX2Rlc2NyaXB0b3IuCgpGaXhlczogOWEyZmU5YjgwMWY1ICgiQUxTQTogdXNiOiBpbml0aWFs
-IFVTQiBBdWRpbyBEZXZpY2UgQ2xhc3MgMy4wIHN1cHBvcnQiKQpTaWduZWQtb2ZmLWJ5OiBEYW4g
-Q2FycGVudGVyIDxkYW4uY2FycGVudGVyQG9yYWNsZS5jb20+CgpkaWZmIC0tZ2l0IGEvc291bmQv
-dXNiL3N0cmVhbS5jIGIvc291bmQvdXNiL3N0cmVhbS5jCmluZGV4IDY3Y2Y4NDlhYTE2Yi4uZjcx
-NzljZTM5YTE5IDEwMDY0NAotLS0gYS9zb3VuZC91c2Ivc3RyZWFtLmMKKysrIGIvc291bmQvdXNi
-L3N0cmVhbS5jCkBAIC05NjgsNiArOTY4LDEyIEBAIHNuZF91c2JfZ2V0X2F1ZGlvZm9ybWF0X3Vh
-YzMoc3RydWN0IHNuZF91c2JfYXVkaW8gKmNoaXAsCiAJICogYW5kIHJlcXVlc3QgQ2x1c3RlciBE
-ZXNjcmlwdG9yCiAJICovCiAJd0xlbmd0aCA9IGxlMTZfdG9fY3B1KGhjX2hlYWRlci53TGVuZ3Ro
-KTsKKwlpZiAod0xlbmd0aCA8IHNpemVvZigqY2x1c3RlcikpIHsKKwkJZGV2X2VycigmZGV2LT5k
-ZXYsCisJCQkiJXU6JWQgOiBjbHVzdGVyIGhlYWRlciBzaXplIHRvbyBzbWFsbCAlZFxuIiwKKwkJ
-CWlmYWNlX25vLCBhbHRubywgd0xlbmd0aCk7CisJCXJldHVybiBFUlJfUFRSKC1FSU8pOworCX0K
-IAljbHVzdGVyID0ga3phbGxvYyh3TGVuZ3RoLCBHRlBfS0VSTkVMKTsKIAlpZiAoIWNsdXN0ZXIp
-CiAJCXJldHVybiBFUlJfUFRSKC1FTk9NRU0pOwo=
+SGVsbG8hCgpPbiAwOS8yMi8yMDE4IDA0OjM4IFBNLCBEYW4gQ2FycGVudGVyIHdyb3RlOgoKPiBJ
+IHRoaW5rIHdlIG5lZWQgYSBjaGVjayB0byBtYWtlIHN1cmUgdGhhdCAiaGNfaGVhZGVyLndMZW5n
+dGgiIGlzIGxhcmdlCj4gZW5vdWdoIGZvciBhIHN0cnVjdCBzdHJ1Y3QgdWFjM19jbHVzdGVyX2hl
+YWRlcl9kZXNjcmlwdG9yLgoKICAgc3RydWN0IHN0cnVjdD8gOi0pCgo+IEZpeGVzOiA5YTJmZTli
+ODAxZjUgKCJBTFNBOiB1c2I6IGluaXRpYWwgVVNCIEF1ZGlvIERldmljZSBDbGFzcyAzLjAgc3Vw
+cG9ydCIpCj4gU2lnbmVkLW9mZi1ieTogRGFuIENhcnBlbnRlciA8ZGFuLmNhcnBlbnRlckBvcmFj
+bGUuY29tPgoKWy4uLl0KCk1CUiwgU2VyZ2VpCg==
