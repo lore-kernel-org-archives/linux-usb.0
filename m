@@ -1,24 +1,27 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [3/3] usb: typec: fusb302: Populate tcpc fwnode for TCPM property handling
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Message-Id: <20180911143724.GE22723@kuha.fi.intel.com>
-Date: Tue, 11 Sep 2018 17:37:24 +0300
-To: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Hans de Goede <hdegoede@redhat.com>, Li Jun <jun.li@nxp.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, support.opensource@diasemi.com
+Subject: [4/4] usb: usbtmc: uninitialized symbol 'actual' in usbtmc_ioctl_abort_bulk_in_tag
+From: Guido Kiener <guido@kiener-muenchen.de>
+Message-Id: <20180924233032.2379-5-guido@kiener-muenchen.de>
+Date: Tue, 25 Sep 2018 01:30:32 +0200
+To: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, guido.kiener@rohde-schwarz.com, oneukum@suse.com, dan.carpenter@oracle.com, steve_bayless@keysight.com, dpenkler@gmail.com
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgQWRhbSwKCk9uIE1vbiwgU2VwIDEwLCAyMDE4IGF0IDAxOjI0OjI4UE0gKzAxMDAsIEFkYW0g
-VGhvbXNvbiB3cm90ZToKPiBUaGlzIHVwZGF0ZSBwb3B1bGF0ZXMgdGhlIHRjcGMgaGFuZGxlJ3Mg
-Zndub2RlIHBvaW50ZXIgd2l0aCB0aGUKPiBjaGlsZCB1c2ItY29ubmVjdG9yIG5vZGUsIGlmIGl0
-IGV4aXN0cywgc28gdGhhdCBUQ1BNIGNhbiBwZXJmb3JtCj4gZ2VuZXJpYyBwcm9wZXJ0eSBoYW5k
-bGluZyB0byBkZWZpbmUgdGhlIHBvcnRzIGNhcGFiaWxpdGllcy4KPiAKPiBTaWduZWQtb2ZmLWJ5
-OiBBZGFtIFRob21zb24gPEFkYW0uVGhvbXNvbi5PcGVuc291cmNlQGRpYXNlbWkuY29tPgo+IFJl
-dmlld2VkLWJ5OiBIZWlra2kgS3JvZ2VydXMgPGhlaWtraS5rcm9nZXJ1c0BsaW51eC5pbnRlbC5j
-b20+Cj4gUmV2aWV3ZWQtYnk6IEd1ZW50ZXIgUm9lY2sgPGxpbnV4QHJvZWNrLXVzLm5ldD4KCkkn
-dmUgYXBwbGllZCB0aGlzIHBhdGNoIHRvIG15IHRyZWU6Cmh0dHBzOi8vZ2l0aHViLmNvbS9rcm9o
-ZWkvbGludXgvY29tbWl0L2JjNTYxNGNmZTI5ZWI0ODQ5NGVhZjg4ODQ1ZjU3YTQ5YWU1YzE5NjcK
-Ckkgd2lsbCByZXNlbmQgaXQgdG8gR3JlZyB0b2dldGhlciB3aXRoIGFsbCB0aGUgb3RoZXIgVHlw
-ZS1DIHBhdGNoZXMKdGhhdCBhcmUgcmVhZHkgbmV4dCB3ZWVrIGFmdGVyIHY0LjE5LXJjNCB1bmxl
-c3MgR3JlZyBoYXMgcGlja2VkIGl0CmhpbXNlbGYgYmVmb3JlIHRoYXQuCgoKVGhhbmtzLAo=
+RnJvbTogR3VpZG8gS2llbmVyIDxndWlkby5raWVuZXJAcm9oZGUtc2Nod2Fyei5jb20+CgpGaXgg
+dW5pbml0aWFsaXplZCBzeW1ib2wgJ2FjdHVhbCcgaW4gZnVuY3Rpb24KdXNidG1jX2lvY3RsX2Fi
+b3J0X2J1bGtfaW5fdGFnKCkuCgpXaGVuIHN5bWJvbCAnYWN0dWFsJyBpcyBub3QgaW5pdGlhbGl6
+ZWQgYW5kIHVzYl9idWxrX21zZygpIGZhaWxzLAp0aGUgc3Vic2VxdWVudCBrZXJuZWwgZGVidWcg
+bWVzc2FnZSBzaG93cyBpbnZhbGlkIGRhdGEuCgpTaWduZWQtb2ZmLWJ5OiBHdWlkbyBLaWVuZXIg
+PGd1aWRvLmtpZW5lckByb2hkZS1zY2h3YXJ6LmNvbT4KRml4ZXM6IGNiZTc0M2YxMzMzYiAoInVz
+YjogdXNidG1jOiBGaXggaW9jdGwgVVNCVE1DX0lPQ1RMX0FCT1JUX0JVTEtfSU4iKQotLS0KIGRy
+aXZlcnMvdXNiL2NsYXNzL3VzYnRtYy5jIHwgMSArCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9jbGFzcy91c2J0bWMuYyBiL2RyaXZlcnMv
+dXNiL2NsYXNzL3VzYnRtYy5jCmluZGV4IDcxODRmYTAzNTQzNC4uNDk0MjEyMmIyMzQ2IDEwMDY0
+NAotLS0gYS9kcml2ZXJzL3VzYi9jbGFzcy91c2J0bWMuYworKysgYi9kcml2ZXJzL3VzYi9jbGFz
+cy91c2J0bWMuYwpAQCAtMzIxLDYgKzMyMSw3IEBAIHN0YXRpYyBpbnQgdXNidG1jX2lvY3RsX2Fi
+b3J0X2J1bGtfaW5fdGFnKHN0cnVjdCB1c2J0bWNfZGV2aWNlX2RhdGEgKmRhdGEsCiAJZGV2X2Ri
+ZyhkZXYsICJSZWFkaW5nIGZyb20gYnVsayBpbiBFUFxuIik7CiAKIAkvKiBEYXRhIG11c3QgYmUg
+cHJlc2VudC4gU28gdXNlIGxvdyB0aW1lb3V0IDMwMCBtcyAqLworCWFjdHVhbCA9IDA7CiAJcnYg
+PSB1c2JfYnVsa19tc2coZGF0YS0+dXNiX2RldiwKIAkJCSAgdXNiX3JjdmJ1bGtwaXBlKGRhdGEt
+PnVzYl9kZXYsCiAJCQkJCSAgZGF0YS0+YnVsa19pbiksCg==
