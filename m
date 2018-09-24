@@ -1,46 +1,27 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [net-next,11/22] net: faraday: fix return type of ndo_start_xmit function
-From: YueHaibing <yuehaibing@huawei.com>
-Message-Id: <20180920123306.14772-12-yuehaibing@huawei.com>
-Date: Thu, 20 Sep 2018 20:32:55 +0800
-To: davem@davemloft.net, dmitry.tarnyagin@lockless.no, wg@grandegger.com, mkl@pengutronix.de, michal.simek@xilinx.com, hsweeten@visionengravers.com, madalin.bucur@nxp.com, pantelis.antoniou@gmail.com, claudiu.manoil@nxp.com, leoyang.li@nxp.com, linux@armlinux.org.uk, sammy@sammy.net, ralf@linux-mips.org, nico@fluxnic.net, steve.glendinning@shawell.net, f.fainelli@gmail.com, grygorii.strashko@ti.com, w-kwok2@ti.com, m-karicheri2@ti.com, t.sailer@alumni.ethz.ch, jreuter@yaina.de, kys@microsoft.com, haiyangz@microsoft.com, wei.liu2@citrix.com, paul.durrant@citrix.com, arvid.brodin@alten.se, pshelar@ovn.org
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, linux-can@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, linux-mips@linux-mips.org, linux-omap@vger.kernel.org, linux-hams@vger.kernel.org, devel@linuxdriverproject.org, linux-usb@vger.kernel.org, xen-devel@lists.xenproject.org, dev@openvswitch.org, YueHaibing <yuehaibing@huawei.com>
+Subject: [net,4/7] sr9800: Check for supported Wake-on-LAN modes
+From: Florian Fainelli <f.fainelli@gmail.com>
+Message-Id: <20180924205420.31309-5-f.fainelli@gmail.com>
+Date: Mon, 24 Sep 2018 13:54:17 -0700
+To: netdev@vger.kernel.org
+Cc: Florian Fainelli <f.fainelli@gmail.com>, "David S. Miller" <davem@davemloft.net>, Woojung Huh <woojung.huh@microchip.com>, Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, Steve Glendinning <steve.glendinning@shawell.net>, Kees Cook <keescook@chromium.org>, Alexander Kurz <akurz@blala.de>, Hayes Wang <hayeswang@realtek.com>, Kai-Heng Feng <kai.heng.feng@canonical.com>, Grant Grundler <grundler@chromium.org>, zhong jiang <zhongjiang@huawei.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Ran Wang <ran.wang_1@nxp.com>, Eric Dumazet <edumazet@google.com>, "open list:USB NETWORKING DRIVERS" <linux-usb@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhlIG1ldGhvZCBuZG9fc3RhcnRfeG1pdCgpIGlzIGRlZmluZWQgYXMgcmV0dXJuaW5nIGFuICdu
-ZXRkZXZfdHhfdCcsCndoaWNoIGlzIGEgdHlwZWRlZiBmb3IgYW4gZW51bSB0eXBlLCBidXQgdGhl
-IGltcGxlbWVudGF0aW9uIGluIHRoaXMKZHJpdmVyIHJldHVybnMgYW4gJ2ludCcuCgpGb3VuZCBi
-eSBjb2NjaW5lbGxlLgoKU2lnbmVkLW9mZi1ieTogWXVlSGFpYmluZyA8eXVlaGFpYmluZ0BodWF3
-ZWkuY29tPgotLS0KIGRyaXZlcnMvbmV0L2V0aGVybmV0L2ZhcmFkYXkvZnRnbWFjMTAwLmMgfCA0
-ICsrLS0KIGRyaXZlcnMvbmV0L2V0aGVybmV0L2ZhcmFkYXkvZnRtYWMxMDAuYyAgfCA3ICsrKyst
-LS0KIDIgZmlsZXMgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQoKZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvbmV0L2V0aGVybmV0L2ZhcmFkYXkvZnRnbWFjMTAwLmMgYi9kcml2
-ZXJzL25ldC9ldGhlcm5ldC9mYXJhZGF5L2Z0Z21hYzEwMC5jCmluZGV4IGQ4ZWFkN2UuLjRkNjcz
-MjIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbmV0L2V0aGVybmV0L2ZhcmFkYXkvZnRnbWFjMTAwLmMK
-KysrIGIvZHJpdmVycy9uZXQvZXRoZXJuZXQvZmFyYWRheS9mdGdtYWMxMDAuYwpAQCAtNzEyLDgg
-KzcxMiw4IEBAIHN0YXRpYyBib29sIGZ0Z21hYzEwMF9wcmVwX3R4X2NzdW0oc3RydWN0IHNrX2J1
-ZmYgKnNrYiwgdTMyICpjc3VtX3ZsYW4pCiAJcmV0dXJuIHNrYl9jaGVja3N1bV9oZWxwKHNrYikg
-PT0gMDsKIH0KIAotc3RhdGljIGludCBmdGdtYWMxMDBfaGFyZF9zdGFydF94bWl0KHN0cnVjdCBz
-a19idWZmICpza2IsCi0JCQkJICAgICBzdHJ1Y3QgbmV0X2RldmljZSAqbmV0ZGV2KQorc3RhdGlj
-IG5ldGRldl90eF90IGZ0Z21hYzEwMF9oYXJkX3N0YXJ0X3htaXQoc3RydWN0IHNrX2J1ZmYgKnNr
-YiwKKwkJCQkJICAgICBzdHJ1Y3QgbmV0X2RldmljZSAqbmV0ZGV2KQogewogCXN0cnVjdCBmdGdt
-YWMxMDAgKnByaXYgPSBuZXRkZXZfcHJpdihuZXRkZXYpOwogCXN0cnVjdCBmdGdtYWMxMDBfdHhk
-ZXMgKnR4ZGVzLCAqZmlyc3Q7CmRpZmYgLS1naXQgYS9kcml2ZXJzL25ldC9ldGhlcm5ldC9mYXJh
-ZGF5L2Z0bWFjMTAwLmMgYi9kcml2ZXJzL25ldC9ldGhlcm5ldC9mYXJhZGF5L2Z0bWFjMTAwLmMK
-aW5kZXggYTExOTdkMy4uNTcwY2FlYiAxMDA2NDQKLS0tIGEvZHJpdmVycy9uZXQvZXRoZXJuZXQv
-ZmFyYWRheS9mdG1hYzEwMC5jCisrKyBiL2RyaXZlcnMvbmV0L2V0aGVybmV0L2ZhcmFkYXkvZnRt
-YWMxMDAuYwpAQCAtNjM0LDggKzYzNCw4IEBAIHN0YXRpYyB2b2lkIGZ0bWFjMTAwX3R4X2NvbXBs
-ZXRlKHN0cnVjdCBmdG1hYzEwMCAqcHJpdikKIAkJOwogfQogCi1zdGF0aWMgaW50IGZ0bWFjMTAw
-X3htaXQoc3RydWN0IGZ0bWFjMTAwICpwcml2LCBzdHJ1Y3Qgc2tfYnVmZiAqc2tiLAotCQkJIGRt
-YV9hZGRyX3QgbWFwKQorc3RhdGljIG5ldGRldl90eF90IGZ0bWFjMTAwX3htaXQoc3RydWN0IGZ0
-bWFjMTAwICpwcml2LCBzdHJ1Y3Qgc2tfYnVmZiAqc2tiLAorCQkJCSBkbWFfYWRkcl90IG1hcCkK
-IHsKIAlzdHJ1Y3QgbmV0X2RldmljZSAqbmV0ZGV2ID0gcHJpdi0+bmV0ZGV2OwogCXN0cnVjdCBm
-dG1hYzEwMF90eGRlcyAqdHhkZXM7CkBAIC0xMDE2LDcgKzEwMTYsOCBAQCBzdGF0aWMgaW50IGZ0
-bWFjMTAwX3N0b3Aoc3RydWN0IG5ldF9kZXZpY2UgKm5ldGRldikKIAlyZXR1cm4gMDsKIH0KIAot
-c3RhdGljIGludCBmdG1hYzEwMF9oYXJkX3N0YXJ0X3htaXQoc3RydWN0IHNrX2J1ZmYgKnNrYiwg
-c3RydWN0IG5ldF9kZXZpY2UgKm5ldGRldikKK3N0YXRpYyBuZXRkZXZfdHhfdAorZnRtYWMxMDBf
-aGFyZF9zdGFydF94bWl0KHN0cnVjdCBza19idWZmICpza2IsIHN0cnVjdCBuZXRfZGV2aWNlICpu
-ZXRkZXYpCiB7CiAJc3RydWN0IGZ0bWFjMTAwICpwcml2ID0gbmV0ZGV2X3ByaXYobmV0ZGV2KTsK
-IAlkbWFfYWRkcl90IG1hcDsK
+VGhlIGRyaXZlciBjdXJyZW50bHkgc2lsZW50bHkgYWNjZXB0cyB1bnN1cHBvcnRlZCBXYWtlLW9u
+LUxBTiBtb2Rlcwoob3RoZXIgdGhhbiBXQUtFX1BIWSBvciBXQUtFX01BR0lDKSB3aXRob3V0IHJl
+cG9ydGluZyB0aGF0IHRvIHRoZSB1c2VyLAp3aGljaCBpcyBjb25mdXNpbmcuCgpGaXhlczogMTlh
+MzhkOGUwYWEzICgiVVNCMk5FVCA6IFNSOTgwMCA6IE9uZSBjaGlwIFVTQjIuMCBVU0IyTkVUIFNS
+OTgwMCBEZXZpY2UgRHJpdmVyIFN1cHBvcnQiKQpTaWduZWQtb2ZmLWJ5OiBGbG9yaWFuIEZhaW5l
+bGxpIDxmLmZhaW5lbGxpQGdtYWlsLmNvbT4KLS0tCiBkcml2ZXJzL25ldC91c2Ivc3I5ODAwLmMg
+fCAzICsrKwogMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvbmV0L3VzYi9zcjk4MDAuYyBiL2RyaXZlcnMvbmV0L3VzYi9zcjk4MDAuYwppbmRleCA5
+Mjc3YTBmMjI4ZGYuLjM1ZjM5ZjIzZDg4MSAxMDA2NDQKLS0tIGEvZHJpdmVycy9uZXQvdXNiL3Ny
+OTgwMC5jCisrKyBiL2RyaXZlcnMvbmV0L3VzYi9zcjk4MDAuYwpAQCAtNDIxLDYgKzQyMSw5IEBA
+IHNyX3NldF93b2woc3RydWN0IG5ldF9kZXZpY2UgKm5ldCwgc3RydWN0IGV0aHRvb2xfd29saW5m
+byAqd29saW5mbykKIAlzdHJ1Y3QgdXNibmV0ICpkZXYgPSBuZXRkZXZfcHJpdihuZXQpOwogCXU4
+IG9wdCA9IDA7CiAKKwlpZiAod29saW5mby0+d29sb3B0cyAmIH4oV0FLRV9QSFkgfCBXQUtFX01B
+R0lDKSkKKwkJcmV0dXJuIC1FSU5WQUw7CisKIAlpZiAod29saW5mby0+d29sb3B0cyAmIFdBS0Vf
+UEhZKQogCQlvcHQgfD0gU1JfTU9OSVRPUl9MSU5LOwogCWlmICh3b2xpbmZvLT53b2xvcHRzICYg
+V0FLRV9NQUdJQykK
