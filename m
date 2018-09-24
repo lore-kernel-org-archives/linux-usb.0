@@ -1,29 +1,27 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2] usb: core: added uevent for over-current
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20180920111137.GA16430@kroah.com>
-Date: Thu, 20 Sep 2018 13:11:37 +0200
-To: Jon Flatley <jflat@chromium.org>
-Cc: linux-usb@vger.kernel.org
+Subject: [net,1/7] asix: Check for supported Wake-on-LAN modes
+From: Florian Fainelli <f.fainelli@gmail.com>
+Message-Id: <20180924205420.31309-2-f.fainelli@gmail.com>
+Date: Mon, 24 Sep 2018 13:54:14 -0700
+To: netdev@vger.kernel.org
+Cc: Florian Fainelli <f.fainelli@gmail.com>, "David S. Miller" <davem@davemloft.net>, Woojung Huh <woojung.huh@microchip.com>, Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, Steve Glendinning <steve.glendinning@shawell.net>, Kees Cook <keescook@chromium.org>, Alexander Kurz <akurz@blala.de>, Hayes Wang <hayeswang@realtek.com>, Kai-Heng Feng <kai.heng.feng@canonical.com>, Grant Grundler <grundler@chromium.org>, zhong jiang <zhongjiang@huawei.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Ran Wang <ran.wang_1@nxp.com>, Eric Dumazet <edumazet@google.com>, "open list:USB NETWORKING DRIVERS" <linux-usb@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVHVlLCBTZXAgMTEsIDIwMTggYXQgMTA6NDM6MTBBTSAtMDcwMCwgSm9uIEZsYXRsZXkgd3Jv
-dGU6Cj4gQWZ0ZXIgY29tbWl0IDFjYmQ1M2M4Y2Q4NSAoInVzYjogY29yZTogaW50cm9kdWNlIHBl
-ci1wb3J0IG92ZXItY3VycmVudAo+IGNvdW50ZXJzIikgdXNiIHBvcnRzIGV4cG9zZSBhIHN5c2Zz
-IHZhbHVlICdvdmVyX2N1cnJlbnRfY291bnQnCj4gdG8gdXNlciBzcGFjZS4gVGhpcyB2YWx1ZSBv
-biBpdHMgb3duIGlzIG5vdCB2ZXJ5IHVzZWZ1bCBhcyBpdCByZXF1aXJlcwo+IG1hbnVhbCBwb2xs
-aW5nLgo+IAo+IEFzIGEgc29sdXRpb24sIGZpcmUgYSB1ZGV2IGV2ZW50IGZyb20gdGhlIHVzYiBo
-dWIgZGV2aWNlIHRoYXQgc3BlY2lmaWVzCj4gdGhlIHZhbHVlcyAnT1ZFUl9DVVJSRU5UX1BPUlQn
-IGFuZCAnT1ZFUl9DVVJSRU5UX0NPVU5UJyB0aGF0IGluZGljYXRlCj4gdGhlIHBhdGggb2YgdGhl
-IHVzYiBwb3J0IHdoZXJlIHRoZSBvdmVyLWN1cnJlbnQgZXZlbnQgb2NjdXJyZWQgYW5kIHRoZQo+
-IHZhbHVlIG9mICdvdmVyX2N1cnJlbnRfY291bnQnIGluIHN5c2ZzLiBBZGRpdGlvbmFsbHksIGNh
-bGwKPiBzeXNmc19ub3RpZnkoKSBzbyB0aGUgc3lzZnMgdmFsdWUgc3VwcG9ydHMgcG9sbCgpLgo+
-IAo+IFNpZ25lZC1vZmYtYnk6IEpvbiBGbGF0bGV5IDxqZmxhdEBjaHJvbWl1bS5vcmc+Cj4gLS0t
-Cj4gIERvY3VtZW50YXRpb24vQUJJL3Rlc3Rpbmcvc3lzZnMtYnVzLXVzYiB8ICA5ICsrKysrKy0K
-PiAgZHJpdmVycy91c2IvY29yZS9odWIuYyAgICAgICAgICAgICAgICAgIHwgMzYgKysrKysrKysr
-KysrKysrKysrKysrKysrKwo+ICAyIGZpbGVzIGNoYW5nZWQsIDQ0IGluc2VydGlvbnMoKyksIDEg
-ZGVsZXRpb24oLSkKClRoaXMgcGF0Y2ggZG9lc24ndCBhcHBseSBhZ2FpbnN0IG15IHVzYi1uZXh0
-IGJyYW5jaCBhdCB0aGUgbW9tZW50LgoKQ2FuIHlvdSByZWJhc2UgaXQgYW5kIHJlc2VuZD8KCnRo
-YW5rcywKCmdyZWcgay1oCg==
+VGhlIGRyaXZlciBjdXJyZW50bHkgc2lsZW50bHkgYWNjZXB0cyB1bnN1cHBvcnRlZCBXYWtlLW9u
+LUxBTiBtb2Rlcwoob3RoZXIgdGhhbiBXQUtFX1BIWSBvciBXQUtFX01BR0lDKSB3aXRob3V0IHJl
+cG9ydGluZyB0aGF0IHRvIHRoZSB1c2VyLAp3aGljaCBpcyBjb25mdXNpbmcuCgpGaXhlczogMmU1
+NWNjNzIxMGZlICgiW1BBVENIXSBVU0I6IHVzYm5ldCAoMy85KSBtb2R1bGUgZm9yIEFTSVggRXRo
+ZXJuZXQgYWRhcHRlcnMiKQpTaWduZWQtb2ZmLWJ5OiBGbG9yaWFuIEZhaW5lbGxpIDxmLmZhaW5l
+bGxpQGdtYWlsLmNvbT4KLS0tCiBkcml2ZXJzL25ldC91c2IvYXNpeF9jb21tb24uYyB8IDMgKysr
+CiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9u
+ZXQvdXNiL2FzaXhfY29tbW9uLmMgYi9kcml2ZXJzL25ldC91c2IvYXNpeF9jb21tb24uYwppbmRl
+eCBlOTVkZDEyZWRlYzQuLjAyM2I4ZDBiZjE3NSAxMDA2NDQKLS0tIGEvZHJpdmVycy9uZXQvdXNi
+L2FzaXhfY29tbW9uLmMKKysrIGIvZHJpdmVycy9uZXQvdXNiL2FzaXhfY29tbW9uLmMKQEAgLTYw
+Nyw2ICs2MDcsOSBAQCBpbnQgYXNpeF9zZXRfd29sKHN0cnVjdCBuZXRfZGV2aWNlICpuZXQsIHN0
+cnVjdCBldGh0b29sX3dvbGluZm8gKndvbGluZm8pCiAJc3RydWN0IHVzYm5ldCAqZGV2ID0gbmV0
+ZGV2X3ByaXYobmV0KTsKIAl1OCBvcHQgPSAwOwogCisJaWYgKHdvbGluZm8tPndvbG9wdHMgJiB+
+KFdBS0VfUEhZIHwgV0FLRV9NQUdJQykpCisJCXJldHVybiAtRUlOVkFMOworCiAJaWYgKHdvbGlu
+Zm8tPndvbG9wdHMgJiBXQUtFX1BIWSkKIAkJb3B0IHw9IEFYX01PTklUT1JfTElOSzsKIAlpZiAo
+d29saW5mby0+d29sb3B0cyAmIFdBS0VfTUFHSUMpCg==
