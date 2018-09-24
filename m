@@ -2,25 +2,15 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: USB: serial: cypress_m8: fix spelling mistake "retreiving" -> "retrieving"
-From: Colin King <colin.king@canonical.com>
-Message-Id: <20180923230408.8721-1-colin.king@canonical.com>
-Date: Mon, 24 Sep 2018 00:04:08 +0100
-To: Johan Hovold <johan@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Johan Hovold <johan@kernel.org>
+Message-Id: <20180924084936.GE5101@localhost>
+Date: Mon, 24 Sep 2018 10:49:36 +0200
+To: Colin King <colin.king@canonical.com>
+Cc: Johan Hovold <johan@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-RnJvbTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KClRyaXZpYWwg
-Zml4IHRvIHNwZWxsaW5nIG1pc3Rha2UgaW4gZGV2X2RiZyBtZXNzYWdlCgpTaWduZWQtb2ZmLWJ5
-OiBDb2xpbiBJYW4gS2luZyA8Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPgotLS0KIGRyaXZlcnMv
-dXNiL3NlcmlhbC9jeXByZXNzX204LmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9zZXJpYWwvY3lw
-cmVzc19tOC5jIGIvZHJpdmVycy91c2Ivc2VyaWFsL2N5cHJlc3NfbTguYwppbmRleCBlMDAzNWMw
-MjMxMjAuLjMxYzYwOTFiZTQ2YSAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2Ivc2VyaWFsL2N5cHJl
-c3NfbTguYworKysgYi9kcml2ZXJzL3VzYi9zZXJpYWwvY3lwcmVzc19tOC5jCkBAIC0zNzgsNyAr
-Mzc4LDcgQEAgc3RhdGljIGludCBjeXByZXNzX3NlcmlhbF9jb250cm9sKHN0cnVjdCB0dHlfc3Ry
-dWN0ICp0dHksCiAJCQlyZXR2YWwgPSAtRU5PVFRZOwogCQkJZ290byBvdXQ7CiAJCX0KLQkJZGV2
-X2RiZyhkZXYsICIlcyAtIHJldHJlaXZpbmcgc2VyaWFsIGxpbmUgc2V0dGluZ3NcbiIsIF9fZnVu
-Y19fKTsKKwkJZGV2X2RiZyhkZXYsICIlcyAtIHJldHJpZXZpbmcgc2VyaWFsIGxpbmUgc2V0dGlu
-Z3NcbiIsIF9fZnVuY19fKTsKIAkJZG8gewogCQkJcmV0dmFsID0gdXNiX2NvbnRyb2xfbXNnKHBv
-cnQtPnNlcmlhbC0+ZGV2LAogCQkJCQl1c2JfcmN2Y3RybHBpcGUocG9ydC0+c2VyaWFsLT5kZXYs
-IDApLAo=
+T24gTW9uLCBTZXAgMjQsIDIwMTggYXQgMTI6MDQ6MDhBTSArMDEwMCwgQ29saW4gS2luZyB3cm90
+ZToKPiBGcm9tOiBDb2xpbiBJYW4gS2luZyA8Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPgo+IAo+
+IFRyaXZpYWwgZml4IHRvIHNwZWxsaW5nIG1pc3Rha2UgaW4gZGV2X2RiZyBtZXNzYWdlCj4gCj4g
+U2lnbmVkLW9mZi1ieTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4K
+CkFwcGxpZWQsIHRoYW5rcy4KCkpvaGFuCg==
