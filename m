@@ -1,28 +1,26 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v4,03/10] platform: x86: intel_cht_int33fe: Add dependency on muxes
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Message-Id: <20180911101044.44004-4-heikki.krogerus@linux.intel.com>
-Date: Tue, 11 Sep 2018 13:10:37 +0300
-To: Hans de Goede <hdegoede@redhat.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andy Shevchenko <andy@infradead.org>, Darren Hart <dvhart@infradead.org>, platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [net,3/7] lan78xx: Check for supported Wake-on-LAN modes
+From: Florian Fainelli <f.fainelli@gmail.com>
+Message-Id: <20180924205420.31309-4-f.fainelli@gmail.com>
+Date: Mon, 24 Sep 2018 13:54:16 -0700
+To: netdev@vger.kernel.org
+Cc: Florian Fainelli <f.fainelli@gmail.com>, "David S. Miller" <davem@davemloft.net>, Woojung Huh <woojung.huh@microchip.com>, Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, Steve Glendinning <steve.glendinning@shawell.net>, Kees Cook <keescook@chromium.org>, Alexander Kurz <akurz@blala.de>, Hayes Wang <hayeswang@realtek.com>, Kai-Heng Feng <kai.heng.feng@canonical.com>, Grant Grundler <grundler@chromium.org>, zhong jiang <zhongjiang@huawei.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Ran Wang <ran.wang_1@nxp.com>, Eric Dumazet <edumazet@google.com>, "open list:USB NETWORKING DRIVERS" <linux-usb@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhlIGNvbm5lY3Rpb25zIGNyZWF0ZSBjbGVhciBkZXBlbmRlbmN5IG9uIHRoZSBtdXhlcy4KZnVz
-YjMwMiBmYWlscyB0byBwcm9iZSB1bmxlc3Mgd2UgaGF2ZSB0aGUgbXV4IGRyaXZlcnMKYXZhaWxh
-YmxlLgoKU2lnbmVkLW9mZi1ieTogSGVpa2tpIEtyb2dlcnVzIDxoZWlra2kua3JvZ2VydXNAbGlu
-dXguaW50ZWwuY29tPgpBY2tlZC1ieTogQW5keSBTaGV2Y2hlbmtvIDxhbmR5LnNoZXZjaGVua29A
-Z21haWwuY29tPgotLS0KIGRyaXZlcnMvcGxhdGZvcm0veDg2L0tjb25maWcgfCAyICsrCiAxIGZp
-bGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9wbGF0Zm9y
-bS94ODYvS2NvbmZpZyBiL2RyaXZlcnMvcGxhdGZvcm0veDg2L0tjb25maWcKaW5kZXggMGMxYWE2
-YzMxNGY1Li5iZGFjOTM5ZGUyMjMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvcGxhdGZvcm0veDg2L0tj
-b25maWcKKysrIGIvZHJpdmVycy9wbGF0Zm9ybS94ODYvS2NvbmZpZwpAQCAtODY3LDYgKzg2Nyw4
-IEBAIGNvbmZpZyBJTlRFTF9DSFRfSU5UMzNGRQogCXRyaXN0YXRlICJJbnRlbCBDaGVycnkgVHJh
-aWwgQUNQSSBJTlQzM0ZFIERyaXZlciIKIAlkZXBlbmRzIG9uIFg4NiAmJiBBQ1BJICYmIEkyQyAm
-JiBSRUdVTEFUT1IKIAlkZXBlbmRzIG9uIENIQVJHRVJfQlEyNDE5MD15IHx8IChDSEFSR0VSX0JR
-MjQxOTA9bSAmJiBtKQorCWRlcGVuZHMgb24gVVNCX1JPTEVTX0lOVEVMX1hIQ0k9eSB8fCAoVVNC
-X1JPTEVTX0lOVEVMX1hIQ0k9bSAmJiBtKQorCWRlcGVuZHMgb24gVFlQRUNfTVVYX1BJM1VTQjMw
-NTMyPXkgfHwgKFRZUEVDX01VWF9QSTNVU0IzMDUzMj1tICYmIG0pCiAJLS0taGVscC0tLQogCSAg
-VGhpcyBkcml2ZXIgYWRkIHN1cHBvcnQgZm9yIHRoZSBJTlQzM0ZFIEFDUEkgZGV2aWNlIGZvdW5k
-IG9uCiAJICBzb21lIEludGVsIENoZXJyeSBUcmFpbCBkZXZpY2VzLgo=
+VGhlIGRyaXZlciBzdXBwb3J0cyBhIGZhaXIgYW1vdW50IG9mIFdha2Utb24tTEFOIG1vZGVzLCBi
+dXQgaXMgbm90CmNoZWNraW5nIHRoYXQgdGhlIHVzZXIgc3BlY2lmaWVkIG9uZSB0aGF0IGlzIHN1
+cHBvcnRlZC4KCkZpeGVzOiA1NWQ3ZGU5ZGU2YzMgKCJNaWNyb2NoaXAncyBMQU43ODAwIGZhbWls
+eSBVU0IgMi8zIHRvIDEwLzEwMC8xMDAwIEV0aGVybmV0IGRldmljZSBkcml2ZXIiKQpTaWduZWQt
+b2ZmLWJ5OiBGbG9yaWFuIEZhaW5lbGxpIDxmLmZhaW5lbGxpQGdtYWlsLmNvbT4KLS0tCiBkcml2
+ZXJzL25ldC91c2IvbGFuNzh4eC5jIHwgMyArKysKIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlv
+bnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL25ldC91c2IvbGFuNzh4eC5jIGIvZHJpdmVycy9u
+ZXQvdXNiL2xhbjc4eHguYwppbmRleCBhOTk5MWM1ZjQ3MzYuLmUwYTU4OGQxYjhlNiAxMDA2NDQK
+LS0tIGEvZHJpdmVycy9uZXQvdXNiL2xhbjc4eHguYworKysgYi9kcml2ZXJzL25ldC91c2IvbGFu
+Nzh4eC5jCkBAIC0xNDE1LDYgKzE0MTUsOSBAQCBzdGF0aWMgaW50IGxhbjc4eHhfc2V0X3dvbChz
+dHJ1Y3QgbmV0X2RldmljZSAqbmV0ZGV2LAogCWlmICh3b2wtPndvbG9wdHMgJiBXQUtFX0FSUCkK
+IAkJcGRhdGEtPndvbCB8PSBXQUtFX0FSUDsKIAorCWlmIChwZGF0YS0+d29sID09IDApCisJCXJl
+dHVybiAtRUlOVkFMOworCiAJZGV2aWNlX3NldF93YWtldXBfZW5hYmxlKCZkZXYtPnVkZXYtPmRl
+diwgKGJvb2wpd29sLT53b2xvcHRzKTsKIAogCXBoeV9ldGh0b29sX3NldF93b2wobmV0ZGV2LT5w
+aHlkZXYsIHdvbCk7Cg==
