@@ -1,16 +1,26 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v5] USB: serial: ftdi_sio: implement GPIO support for FT-X devices
-From: Johan Hovold <johan@kernel.org>
-Message-Id: <20180924123736.GJ5101@localhost>
-Date: Mon, 24 Sep 2018 14:37:36 +0200
-To: Karoly Pados <pados@pados.hu>
-Cc: Johan Hovold <johan@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>
+Subject: [3/4] usb: usbtmc: uninitialized symbol 'actual' in usbtmc_ioctl_clear
+From: Guido Kiener <guido@kiener-muenchen.de>
+Message-Id: <20180924233032.2379-4-guido@kiener-muenchen.de>
+Date: Tue, 25 Sep 2018 01:30:31 +0200
+To: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, guido.kiener@rohde-schwarz.com, oneukum@suse.com, dan.carpenter@oracle.com, steve_bayless@keysight.com, dpenkler@gmail.com
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gTW9uLCBTZXAgMjQsIDIwMTggYXQgMTE6NTI6MzhBTSArMDAwMCwgS2Fyb2x5IFBhZG9zIHdy
-b3RlOgo+IE9vcHMsIEkgc2VudCB2NCBhZ2Fpbiwgc28gaXQgaGFkIG5vIGNoYW5nZXMgYXQgYWxs
-LiBDYW4ndCBJIGp1c3QKPiByZXNlbmQgdjUgaW5zdGVhZCBvZiBjYWxsaW5nIGl0IHY2PwoKTm8s
-IHlvdSBzaG91bGQgbGFiZWwgaXQgdjYgc28gdGhhdCBpdCBjYW4gYmUgdG9sZCBhcGFydCBmcm9t
-IHRoZQppbmNvcnJlY3QgdjUuCgpUaGFua3MsCkpvaGFuCg==
+RnJvbTogR3VpZG8gS2llbmVyIDxndWlkby5raWVuZXJAcm9oZGUtc2Nod2Fyei5jb20+CgpGaXgg
+dW5pbml0aWFsaXplZCBzeW1ib2wgJ2FjdHVhbCcgaW4gZnVuY3Rpb24gdXNidG1jX2lvY3RsX2Ns
+ZWFyLgoKV2hlbiBzeW1ib2wgJ2FjdHVhbCcgaXMgbm90IGluaXRpYWxpemVkIGFuZCB1c2JfYnVs
+a19tc2coKSBmYWlscywKdGhlIHN1YnNlcXVlbnQga2VybmVsIGRlYnVnIG1lc3NhZ2Ugc2hvd3Mg
+YSByYW5kb20gdmFsdWUuCgpTaWduZWQtb2ZmLWJ5OiBHdWlkbyBLaWVuZXIgPGd1aWRvLmtpZW5l
+ckByb2hkZS1zY2h3YXJ6LmNvbT4KRml4ZXM6IGRmZWUwMmFjNGJjZSAoInVzYjogdXNidG1jOiBG
+aXggaW9jdGwgVVNCVE1DX0lPQ1RMX0NMRUFSIikKLS0tCiBkcml2ZXJzL3VzYi9jbGFzcy91c2J0
+bWMuYyB8IDEgKwogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy91c2IvY2xhc3MvdXNidG1jLmMgYi9kcml2ZXJzL3VzYi9jbGFzcy91c2J0bWMuYwpp
+bmRleCA5Y2I5MDYwM2Y3MWYuLjcxODRmYTAzNTQzNCAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2Iv
+Y2xhc3MvdXNidG1jLmMKKysrIGIvZHJpdmVycy91c2IvY2xhc3MvdXNidG1jLmMKQEAgLTE2Nzks
+NiArMTY3OSw3IEBAIHN0YXRpYyBpbnQgdXNidG1jX2lvY3RsX2NsZWFyKHN0cnVjdCB1c2J0bWNf
+ZGV2aWNlX2RhdGEgKmRhdGEpCiAJCWRvIHsKIAkJCWRldl9kYmcoZGV2LCAiUmVhZGluZyBmcm9t
+IGJ1bGsgaW4gRVBcbiIpOwogCisJCQlhY3R1YWwgPSAwOwogCQkJcnYgPSB1c2JfYnVsa19tc2co
+ZGF0YS0+dXNiX2RldiwKIAkJCQkJICB1c2JfcmN2YnVsa3BpcGUoZGF0YS0+dXNiX2RldiwKIAkJ
+CQkJCQkgIGRhdGEtPmJ1bGtfaW4pLAo=
