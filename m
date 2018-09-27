@@ -1,14 +1,30 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: usbip: fix vhci_hcd controller counting
-From: Jonathan Dieter <jdieter@gmail.com>
-Message-Id: <6bfc36e2f038506e26b28f29406f112057af22e1.camel@gmail.com>
-Date: Sat, 29 Sep 2018 11:47:58 +0100
-To: Maciej =?UTF-8?Q?=C5=BBenczykowski?= <zenczykowski@gmail.com>, Maciej =?UTF-8?Q?=C5=BBenczykowski?= <maze@google.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan <shuah@kernel.org>, linux-usb@vger.kernel.org
+Subject: dt-bindings: usb-xhci: Document r8a7744 support
+From: Biju Das <biju.das@bp.renesas.com>
+Message-Id: <1538055758-3416-1-git-send-email-biju.das@bp.renesas.com>
+Date: Thu, 27 Sep 2018 14:42:38 +0100
+To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>
+Cc: Biju Das <biju.das@bp.renesas.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, Simon Horman <horms@verge.net.au>, Geert Uytterhoeven <geert+renesas@glider.be>, Chris Paterson <Chris.Paterson2@renesas.com>, Fabrizio Castro <fabrizio.castro@bp.renesas.com>, linux-renesas-soc@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-Rm9yIHdoYXRldmVyIGl0J3Mgd29ydGgsIEkndmUgdGVzdGVkIHRoaXMgb24gNC4xOC45IGFuZCBj
-YW4gdmVyaWZ5IHRoYXQKdGhlcmUgYXJlIG5vIHJlZ3Jlc3Npb25zIHRoZXJlLgoKVGVzdGVkLWJ5
-OiBKb25hdGhhbiBEaWV0ZXIgPGpkaWV0ZXJAZ21haWwuY29tPgo=
+RG9jdW1lbnQgcjhhNzc0NCB4aGNpIHN1cHBvcnQuIFRoZSBkcml2ZXIgd2lsbCB1c2UgdGhlIGZh
+bGxiYWNrCmNvbXBhdGlibGUgc3RyaW5nICJyZW5lc2FzLHJjYXItZ2VuMi14aGNpIiwgdGhlcmVm
+b3JlIG5vIGRyaXZlcgpjaGFuZ2UgaXMgbmVlZGVkLgoKU2lnbmVkLW9mZi1ieTogQmlqdSBEYXMg
+PGJpanUuZGFzQGJwLnJlbmVzYXMuY29tPgpSZXZpZXdlZC1ieTogQ2hyaXMgUGF0ZXJzb24gPENo
+cmlzLlBhdGVyc29uMkByZW5lc2FzLmNvbT4KLS0tClRoaXMgcGF0Y2ggaXMgdGVzdGVkIGFnYWlu
+c3QgbGludXgtbmV4dCBuZXh0LTIwMTgwOTI3IGFuZCB1c2ItbmV4dAotLS0KIERvY3VtZW50YXRp
+b24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvdXNiLXhoY2kudHh0IHwgMSArCiAxIGZpbGUgY2hh
+bmdlZCwgMSBpbnNlcnRpb24oKykKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvdXNiL3VzYi14aGNpLnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
+aW5kaW5ncy91c2IvdXNiLXhoY2kudHh0CmluZGV4IGZiNTY0ZTcuLmZlYThiMTUgMTAwNjQ0Ci0t
+LSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvdXNiLXhoY2kudHh0Cisr
+KyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvdXNiLXhoY2kudHh0CkBA
+IC04LDYgKzgsNyBAQCBSZXF1aXJlZCBwcm9wZXJ0aWVzOgogICAgIC0gIm1hcnZlbGwsYXJtYWRh
+LTM3NS14aGNpIiBmb3IgQXJtYWRhIDM3NSBTb0NzCiAgICAgLSAibWFydmVsbCxhcm1hZGEtMzgw
+LXhoY2kiIGZvciBBcm1hZGEgMzh4IFNvQ3MKICAgICAtICJyZW5lc2FzLHhoY2ktcjhhNzc0MyIg
+Zm9yIHI4YTc3NDMgU29DCisgICAgLSAicmVuZXNhcyx4aGNpLXI4YTc3NDQiIGZvciByOGE3NzQ0
+IFNvQwogICAgIC0gInJlbmVzYXMseGhjaS1yOGE3NzRhMSIgZm9yIHI4YTc3NGExIFNvQwogICAg
+IC0gInJlbmVzYXMseGhjaS1yOGE3NzkwIiBmb3IgcjhhNzc5MCBTb0MKICAgICAtICJyZW5lc2Fz
+LHhoY2ktcjhhNzc5MSIgZm9yIHI4YTc3OTEgU29DCg==
