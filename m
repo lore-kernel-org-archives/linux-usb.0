@@ -3,8 +3,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: dwc2: Fix HiKey regression caused by power_down feature
 From: Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
-Message-Id: <3AD91E696667BF4BA728303C178E8A63532AB864@am04wembxb.internal.synopsys.com>
-Date: Wed, 26 Sep 2018 06:02:41 +0000
+Message-Id: <3AD91E696667BF4BA728303C178E8A63532ACAE6@am04wembxb.internal.synopsys.com>
+Date: Thu, 27 Sep 2018 12:33:13 +0000
 To: John Stultz <john.stultz@linaro.org>, Artur Petrosyan <arthur.petrosyan@synopsys.com>
 Cc: Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>, lkml <linux-kernel@vger.kernel.org>, John Youn <John.Youn@synopsys.com>, Felipe Balbi <felipe.balbi@linux.intel.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 List-ID: <linux-usb.vger.kernel.org>
@@ -31,7 +31,11 @@ ICAgZHdjMiBmNzJjMDAwMC51c2I6IFdhaXRpbmcgZm9yIEhvc3QgTW9kZSwgTW9kZT1QZXJpcGhl
 cmFsCj4gbWVzc2FnZXMuCj4gCj4gSWYgSSBib290IHcvIHRoZSBnYWRnZXQgcG9ydCBwbHVnZ2Vk
 IGluLCBVU0IgZ2FkZ2V0IG1vZGUgZG9lc24ndCBzZWVtCj4gdG8gZnVuY3Rpb24gYXQgYWxsLCBh
 bmQgd2hlbiBJIHJlbW92ZSB0aGUgZ2FkZ2V0IGNhYmxlIG5vdGhpbmcKPiBoYXBwZW5zLCBpdCBk
-b2Vzbid0IHN3aXRjaCB0byBob3N0IG1vZGUuCj4gCj4gdGhhbmtzCj4gLWpvaG4KPiAKCkNvdWxk
-IHlvdSBwbGVhc2Ugc2VuZCB0aGUgZG1lc2cgbG9ncyBmb3IgdGhvc2Ugc2l0dWF0aW9ucz8KQWxz
-bywgcGxlYXNlIHNwZWNpZnkgdGhlIHZlcnNpb24gb2YgdGhlIGtlcm5lbCB0aGF0IHRoZSB0ZXN0
-ZXMgaGFzIGJlZW4gCmRvbmUgb24uCgpSZWdhcmRzLApBcnR1cgo=
+b2Vzbid0IHN3aXRjaCB0byBob3N0IG1vZGUuCj4gCj4gdGhhbmtzCj4gLWpvaG4KPiAKCldlIHdv
+dWxkIGxpa2UgdG8gYnV5IHRoZSBIaUtleSBib2FyZCB0byBwZXJmb3JtIHRlc3Rlcy4KV2UgZm91
+bmQgdGhpcyBIaUtleSBMZU1ha2VyIHRvIGhhdmUgVVNCIDIuMCBwb3J0cwpodHRwczovL3d3dy5l
+YmF5LmNvbS9pdG0vSGlLZXktTGVNYWtlci12ZXJzaW9uLTJHQi1LaXJpbi02MjAtU29DLTgtY29y
+ZS1BUk0tQ29ydGV4LUE1My1DUFUtQVJNLU1hbGktNDUwLzI2Mzk1ODA0NzMwOD9oYXNoPWl0ZW0z
+ZDc1MjAyYTRjOmc6YUdzQUFPU3dPa3hicXFvdApvbiBlYmF5LgoKQ291bGQgeW91IHBsZWFzZSBj
+b25maXJtIHRoYXQgaXQgaXMgdGhlIHJpZ2h0IGJvYXJkIHRvIHRlc3QgdGhlIGlzc3VlcyAKeW91
+IG1lbnRpb24uCgpSZWdhcmRzLApBcnR1cgo=
