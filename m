@@ -1,34 +1,32 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [net-next,19/22] net: plip: fix return type of ndo_start_xmit function
-From: YueHaibing <yuehaibing@huawei.com>
-Message-Id: <20180920123306.14772-20-yuehaibing@huawei.com>
-Date: Thu, 20 Sep 2018 20:33:03 +0800
-To: davem@davemloft.net, dmitry.tarnyagin@lockless.no, wg@grandegger.com, mkl@pengutronix.de, michal.simek@xilinx.com, hsweeten@visionengravers.com, madalin.bucur@nxp.com, pantelis.antoniou@gmail.com, claudiu.manoil@nxp.com, leoyang.li@nxp.com, linux@armlinux.org.uk, sammy@sammy.net, ralf@linux-mips.org, nico@fluxnic.net, steve.glendinning@shawell.net, f.fainelli@gmail.com, grygorii.strashko@ti.com, w-kwok2@ti.com, m-karicheri2@ti.com, t.sailer@alumni.ethz.ch, jreuter@yaina.de, kys@microsoft.com, haiyangz@microsoft.com, wei.liu2@citrix.com, paul.durrant@citrix.com, arvid.brodin@alten.se, pshelar@ovn.org
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, linux-can@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, linux-mips@linux-mips.org, linux-omap@vger.kernel.org, linux-hams@vger.kernel.org, devel@linuxdriverproject.org, linux-usb@vger.kernel.org, xen-devel@lists.xenproject.org, dev@openvswitch.org, YueHaibing <yuehaibing@huawei.com>
+Subject: [net,v2,3/7] lan78xx: Check for supported Wake-on-LAN modes
+From: Florian Fainelli <f.fainelli@gmail.com>
+Message-Id: <20180928231856.3587-4-f.fainelli@gmail.com>
+Date: Fri, 28 Sep 2018 16:18:52 -0700
+To: netdev@vger.kernel.org
+Cc: Florian Fainelli <f.fainelli@gmail.com>, "David S. Miller" <davem@davemloft.net>, Woojung Huh <woojung.huh@microchip.com>, Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, Steve Glendinning <steve.glendinning@shawell.net>, Kees Cook <keescook@chromium.org>, Alexander Kurz <akurz@blala.de>, Hayes Wang <hayeswang@realtek.com>, Kai-Heng Feng <kai.heng.feng@canonical.com>, Grant Grundler <grundler@chromium.org>, zhong jiang <zhongjiang@huawei.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Ran Wang <ran.wang_1@nxp.com>, Eric Dumazet <edumazet@google.com>, "open list:USB NETWORKING DRIVERS" <linux-usb@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhlIG1ldGhvZCBuZG9fc3RhcnRfeG1pdCgpIGlzIGRlZmluZWQgYXMgcmV0dXJuaW5nIGFuICdu
-ZXRkZXZfdHhfdCcsCndoaWNoIGlzIGEgdHlwZWRlZiBmb3IgYW4gZW51bSB0eXBlLCBzbyBtYWtl
-IHN1cmUgdGhlIGltcGxlbWVudGF0aW9uIGluCnRoaXMgZHJpdmVyIGhhcyByZXR1cm5zICduZXRk
-ZXZfdHhfdCcgdmFsdWUsIGFuZCBjaGFuZ2UgdGhlIGZ1bmN0aW9uCnJldHVybiB0eXBlIHRvIG5l
-dGRldl90eF90LgoKRm91bmQgYnkgY29jY2luZWxsZS4KClNpZ25lZC1vZmYtYnk6IFl1ZUhhaWJp
-bmcgPHl1ZWhhaWJpbmdAaHVhd2VpLmNvbT4KLS0tCiBkcml2ZXJzL25ldC9wbGlwL3BsaXAuYyB8
-IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkK
-CmRpZmYgLS1naXQgYS9kcml2ZXJzL25ldC9wbGlwL3BsaXAuYyBiL2RyaXZlcnMvbmV0L3BsaXAv
-cGxpcC5jCmluZGV4IGZlYjkyZWMuLjBiMzU0ZTYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbmV0L3Bs
-aXAvcGxpcC5jCisrKyBiL2RyaXZlcnMvbmV0L3BsaXAvcGxpcC5jCkBAIC0xNDYsNyArMTQ2LDcg
-QEAKIHN0YXRpYyB2b2lkIHBsaXBfaW50ZXJydXB0KHZvaWQgKmRldl9pZCk7CiAKIC8qIEZ1bmN0
-aW9ucyBmb3IgREVWIG1ldGhvZHMgKi8KLXN0YXRpYyBpbnQgcGxpcF90eF9wYWNrZXQoc3RydWN0
-IHNrX2J1ZmYgKnNrYiwgc3RydWN0IG5ldF9kZXZpY2UgKmRldik7CitzdGF0aWMgbmV0ZGV2X3R4
-X3QgcGxpcF90eF9wYWNrZXQoc3RydWN0IHNrX2J1ZmYgKnNrYiwgc3RydWN0IG5ldF9kZXZpY2Ug
-KmRldik7CiBzdGF0aWMgaW50IHBsaXBfaGFyZF9oZWFkZXIoc3RydWN0IHNrX2J1ZmYgKnNrYiwg
-c3RydWN0IG5ldF9kZXZpY2UgKmRldiwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1bnNp
-Z25lZCBzaG9ydCB0eXBlLCBjb25zdCB2b2lkICpkYWRkciwKIAkJCSAgICBjb25zdCB2b2lkICpz
-YWRkciwgdW5zaWduZWQgbGVuKTsKQEAgLTk2Miw3ICs5NjIsNyBAQCBzdGF0aWMgX19iZTE2IHBs
-aXBfdHlwZV90cmFucyhzdHJ1Y3Qgc2tfYnVmZiAqc2tiLCBzdHJ1Y3QgbmV0X2RldmljZSAqZGV2
-KQogCXNwaW5fdW5sb2NrX2lycXJlc3RvcmUoJm5sLT5sb2NrLCBmbGFncyk7CiB9CiAKLXN0YXRp
-YyBpbnQKK3N0YXRpYyBuZXRkZXZfdHhfdAogcGxpcF90eF9wYWNrZXQoc3RydWN0IHNrX2J1ZmYg
-KnNrYiwgc3RydWN0IG5ldF9kZXZpY2UgKmRldikKIHsKIAlzdHJ1Y3QgbmV0X2xvY2FsICpubCA9
-IG5ldGRldl9wcml2KGRldik7Cg==
+VGhlIGRyaXZlciBzdXBwb3J0cyBhIGZhaXIgYW1vdW50IG9mIFdha2Utb24tTEFOIG1vZGVzLCBi
+dXQgaXMgbm90CmNoZWNraW5nIHRoYXQgdGhlIHVzZXIgc3BlY2lmaWVkIG9uZSB0aGF0IGlzIHN1
+cHBvcnRlZC4KCkZpeGVzOiA1NWQ3ZGU5ZGU2YzMgKCJNaWNyb2NoaXAncyBMQU43ODAwIGZhbWls
+eSBVU0IgMi8zIHRvIDEwLzEwMC8xMDAwIEV0aGVybmV0IGRldmljZSBkcml2ZXIiKQpTaWduZWQt
+b2ZmLWJ5OiBGbG9yaWFuIEZhaW5lbGxpIDxmLmZhaW5lbGxpQGdtYWlsLmNvbT4KLS0tCiBkcml2
+ZXJzL25ldC91c2IvbGFuNzh4eC5jIHwgMTcgKysrKy0tLS0tLS0tLS0tLS0KIDEgZmlsZSBjaGFu
+Z2VkLCA0IGluc2VydGlvbnMoKyksIDEzIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvbmV0L3VzYi9sYW43OHh4LmMgYi9kcml2ZXJzL25ldC91c2IvbGFuNzh4eC5jCmluZGV4IGE5
+OTkxYzVmNDczNi4uYzNjOWJhNDRlMmExIDEwMDY0NAotLS0gYS9kcml2ZXJzL25ldC91c2IvbGFu
+Nzh4eC5jCisrKyBiL2RyaXZlcnMvbmV0L3VzYi9sYW43OHh4LmMKQEAgLTE0MDEsMTkgKzE0MDEs
+MTAgQEAgc3RhdGljIGludCBsYW43OHh4X3NldF93b2woc3RydWN0IG5ldF9kZXZpY2UgKm5ldGRl
+diwKIAlpZiAocmV0IDwgMCkKIAkJcmV0dXJuIHJldDsKIAotCXBkYXRhLT53b2wgPSAwOwotCWlm
+ICh3b2wtPndvbG9wdHMgJiBXQUtFX1VDQVNUKQotCQlwZGF0YS0+d29sIHw9IFdBS0VfVUNBU1Q7
+Ci0JaWYgKHdvbC0+d29sb3B0cyAmIFdBS0VfTUNBU1QpCi0JCXBkYXRhLT53b2wgfD0gV0FLRV9N
+Q0FTVDsKLQlpZiAod29sLT53b2xvcHRzICYgV0FLRV9CQ0FTVCkKLQkJcGRhdGEtPndvbCB8PSBX
+QUtFX0JDQVNUOwotCWlmICh3b2wtPndvbG9wdHMgJiBXQUtFX01BR0lDKQotCQlwZGF0YS0+d29s
+IHw9IFdBS0VfTUFHSUM7Ci0JaWYgKHdvbC0+d29sb3B0cyAmIFdBS0VfUEhZKQotCQlwZGF0YS0+
+d29sIHw9IFdBS0VfUEhZOwotCWlmICh3b2wtPndvbG9wdHMgJiBXQUtFX0FSUCkKLQkJcGRhdGEt
+PndvbCB8PSBXQUtFX0FSUDsKKwlpZiAod29sLT53b2xvcHRzICYgfldBS0VfQUxMKQorCQlyZXR1
+cm4gLUVJTlZBTDsKKworCXBkYXRhLT53b2wgPSB3b2wtPndvbG9wdHM7CiAKIAlkZXZpY2Vfc2V0
+X3dha2V1cF9lbmFibGUoJmRldi0+dWRldi0+ZGV2LCAoYm9vbCl3b2wtPndvbG9wdHMpOwogCg==
