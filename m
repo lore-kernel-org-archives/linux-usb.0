@@ -2,30 +2,20 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [-next] USB: core: remove set but not used variable 'udev'
-From: Alan Stern <stern@rowland.harvard.edu>
-Message-Id: <Pine.LNX.4.44L0.1809241010010.1646-100000@iolanthe.rowland.org>
-Date: Mon, 24 Sep 2018 10:10:11 -0400 (EDT)
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20180928131000.GA15118@kroah.com>
+Date: Fri, 28 Sep 2018 15:10:00 +0200
 To: YueHaibing <yuehaibing@huawei.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Daniel Drake <drake@endlessm.com>, Joe Perches <joe@perches.com>, Mathias Nyman <mathias.nyman@linux.intel.com>, Felipe Balbi <felipe.balbi@linux.intel.com>, Martin Liu <liumartin@google.com>, linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org
+Cc: Daniel Drake <drake@endlessm.com>, Joe Perches <joe@perches.com>, Alan Stern <stern@rowland.harvard.edu>, Mathias Nyman <mathias.nyman@linux.intel.com>, Felipe Balbi <felipe.balbi@linux.intel.com>, Martin Liu <liumartin@google.com>, linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gU2F0LCAyMiBTZXAgMjAxOCwgWXVlSGFpYmluZyB3cm90ZToKCj4gRml4ZXMgZ2NjICctV3Vu
-dXNlZC1idXQtc2V0LXZhcmlhYmxlJyB3YXJuaW5nOgo+IAo+IGRyaXZlcnMvdXNiL2NvcmUvZHJp
-dmVyLmM6IEluIGZ1bmN0aW9uICd1c2JfZHJpdmVyX2NsYWltX2ludGVyZmFjZSc6Cj4gZHJpdmVy
-cy91c2IvY29yZS9kcml2ZXIuYzo1MTM6MjE6IHdhcm5pbmc6Cj4gIHZhcmlhYmxlICd1ZGV2JyBz
-ZXQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQo+IAo+IFNpZ25lZC1v
-ZmYtYnk6IFl1ZUhhaWJpbmcgPHl1ZWhhaWJpbmdAaHVhd2VpLmNvbT4KPiAtLS0KPiAgZHJpdmVy
-cy91c2IvY29yZS9kcml2ZXIuYyB8IDMgLS0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAzIGRlbGV0aW9u
-cygtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9jb3JlL2RyaXZlci5jIGIvZHJpdmVy
-cy91c2IvY29yZS9kcml2ZXIuYwo+IGluZGV4IGExZjIyNWYuLjUzNTY0MzggMTAwNjQ0Cj4gLS0t
-IGEvZHJpdmVycy91c2IvY29yZS9kcml2ZXIuYwo+ICsrKyBiL2RyaXZlcnMvdXNiL2NvcmUvZHJp
-dmVyLmMKPiBAQCAtNTEwLDcgKzUxMCw2IEBAIGludCB1c2JfZHJpdmVyX2NsYWltX2ludGVyZmFj
-ZShzdHJ1Y3QgdXNiX2RyaXZlciAqZHJpdmVyLAo+ICAJCQkJc3RydWN0IHVzYl9pbnRlcmZhY2Ug
-KmlmYWNlLCB2b2lkICpwcml2KQo+ICB7Cj4gIAlzdHJ1Y3QgZGV2aWNlICpkZXY7Cj4gLQlzdHJ1
-Y3QgdXNiX2RldmljZSAqdWRldjsKPiAgCWludCByZXR2YWwgPSAwOwo+ICAKPiAgCWlmICghaWZh
-Y2UpCj4gQEAgLTUyNCw4ICs1MjMsNiBAQCBpbnQgdXNiX2RyaXZlcl9jbGFpbV9pbnRlcmZhY2Uo
-c3RydWN0IHVzYl9kcml2ZXIgKmRyaXZlciwKPiAgCWlmICghaWZhY2UtPmF1dGhvcml6ZWQpCj4g
-IAkJcmV0dXJuIC1FTk9ERVY7Cj4gIAo+IC0JdWRldiA9IGludGVyZmFjZV90b191c2JkZXYoaWZh
-Y2UpOwo+IC0KPiAgCWRldi0+ZHJpdmVyID0gJmRyaXZlci0+ZHJ2d3JhcC5kcml2ZXI7Cj4gIAl1
-c2Jfc2V0X2ludGZkYXRhKGlmYWNlLCBwcml2KTsKPiAgCWlmYWNlLT5uZWVkc19iaW5kaW5nID0g
-MDsKCkFja2VkLWJ5OiBBbGFuIFN0ZXJuIDxzdGVybkByb3dsYW5kLmhhcnZhcmQuZWR1Pgo=
+T24gU2F0LCBTZXAgMjIsIDIwMTggYXQgMDY6MzE6MjZBTSArMDAwMCwgWXVlSGFpYmluZyB3cm90
+ZToKPiBGaXhlcyBnY2MgJy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGUnIHdhcm5pbmc6Cj4gCj4g
+ZHJpdmVycy91c2IvY29yZS9kcml2ZXIuYzogSW4gZnVuY3Rpb24gJ3VzYl9kcml2ZXJfY2xhaW1f
+aW50ZXJmYWNlJzoKPiBkcml2ZXJzL3VzYi9jb3JlL2RyaXZlci5jOjUxMzoyMTogd2FybmluZzoK
+PiAgdmFyaWFibGUgJ3VkZXYnIHNldCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFy
+aWFibGVdCj4gCj4gU2lnbmVkLW9mZi1ieTogWXVlSGFpYmluZyA8eXVlaGFpYmluZ0BodWF3ZWku
+Y29tPgo+IEFja2VkLWJ5OiBBbGFuIFN0ZXJuIDxzdGVybkByb3dsYW5kLmhhcnZhcmQuZWR1Pgo+
+IC0tLQo+ICBkcml2ZXJzL3VzYi9jb3JlL2RyaXZlci5jIHwgMyAtLS0KPiAgMSBmaWxlIGNoYW5n
+ZWQsIDMgZGVsZXRpb25zKC0pCgpUaGlzIHBhdGNoIGJyZWFrcyB0aGUgYnVpbGQsIHdoaWNoIGlz
+IG5vdCBvayA6KAo=
