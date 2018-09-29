@@ -1,27 +1,37 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [net,v2,4/7] sr9800: Check for supported Wake-on-LAN modes
-From: Florian Fainelli <f.fainelli@gmail.com>
-Message-Id: <20180928231856.3587-5-f.fainelli@gmail.com>
-Date: Fri, 28 Sep 2018 16:18:53 -0700
-To: netdev@vger.kernel.org
-Cc: Florian Fainelli <f.fainelli@gmail.com>, "David S. Miller" <davem@davemloft.net>, Woojung Huh <woojung.huh@microchip.com>, Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, Steve Glendinning <steve.glendinning@shawell.net>, Kees Cook <keescook@chromium.org>, Alexander Kurz <akurz@blala.de>, Hayes Wang <hayeswang@realtek.com>, Kai-Heng Feng <kai.heng.feng@canonical.com>, Grant Grundler <grundler@chromium.org>, zhong jiang <zhongjiang@huawei.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Ran Wang <ran.wang_1@nxp.com>, Eric Dumazet <edumazet@google.com>, "open list:USB NETWORKING DRIVERS" <linux-usb@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: usb: gadget: fix spelling mistakeis "[En]queing" -> "[En]queuing"
+From: Colin King <colin.king@canonical.com>
+Message-Id: <20180929114313.10557-1-colin.king@canonical.com>
+Date: Sat, 29 Sep 2018 12:43:13 +0100
+To: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, Michal Simek <michal.simek@xilinx.com>, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhlIGRyaXZlciBjdXJyZW50bHkgc2lsZW50bHkgYWNjZXB0cyB1bnN1cHBvcnRlZCBXYWtlLW9u
-LUxBTiBtb2Rlcwoob3RoZXIgdGhhbiBXQUtFX1BIWSBvciBXQUtFX01BR0lDKSB3aXRob3V0IHJl
-cG9ydGluZyB0aGF0IHRvIHRoZSB1c2VyLAp3aGljaCBpcyBjb25mdXNpbmcuCgpGaXhlczogMTlh
-MzhkOGUwYWEzICgiVVNCMk5FVCA6IFNSOTgwMCA6IE9uZSBjaGlwIFVTQjIuMCBVU0IyTkVUIFNS
-OTgwMCBEZXZpY2UgRHJpdmVyIFN1cHBvcnQiKQpTaWduZWQtb2ZmLWJ5OiBGbG9yaWFuIEZhaW5l
-bGxpIDxmLmZhaW5lbGxpQGdtYWlsLmNvbT4KLS0tCiBkcml2ZXJzL25ldC91c2Ivc3I5ODAwLmMg
-fCAzICsrKwogMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvbmV0L3VzYi9zcjk4MDAuYyBiL2RyaXZlcnMvbmV0L3VzYi9zcjk4MDAuYwppbmRleCA5
-Mjc3YTBmMjI4ZGYuLjM1ZjM5ZjIzZDg4MSAxMDA2NDQKLS0tIGEvZHJpdmVycy9uZXQvdXNiL3Ny
-OTgwMC5jCisrKyBiL2RyaXZlcnMvbmV0L3VzYi9zcjk4MDAuYwpAQCAtNDIxLDYgKzQyMSw5IEBA
-IHNyX3NldF93b2woc3RydWN0IG5ldF9kZXZpY2UgKm5ldCwgc3RydWN0IGV0aHRvb2xfd29saW5m
-byAqd29saW5mbykKIAlzdHJ1Y3QgdXNibmV0ICpkZXYgPSBuZXRkZXZfcHJpdihuZXQpOwogCXU4
-IG9wdCA9IDA7CiAKKwlpZiAod29saW5mby0+d29sb3B0cyAmIH4oV0FLRV9QSFkgfCBXQUtFX01B
-R0lDKSkKKwkJcmV0dXJuIC1FSU5WQUw7CisKIAlpZiAod29saW5mby0+d29sb3B0cyAmIFdBS0Vf
-UEhZKQogCQlvcHQgfD0gU1JfTU9OSVRPUl9MSU5LOwogCWlmICh3b2xpbmZvLT53b2xvcHRzICYg
-V0FLRV9NQUdJQykK
+RnJvbTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KClRyaXZpYWwg
+Zml4IHRvIHNwZWxsaW5nIG1pc3Rha2VzIGluIGRlYnVnIHdhcm5pbmcgbWVzc2FnZXMKClNpZ25l
+ZC1vZmYtYnk6IENvbGluIElhbiBLaW5nIDxjb2xpbi5raW5nQGNhbm9uaWNhbC5jb20+Ci0tLQog
+ZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9hc3BlZWQtdmh1Yi9lcG4uYyB8IDIgKy0KIGRyaXZlcnMv
+dXNiL2dhZGdldC91ZGMvdWRjLXhpbGlueC5jICAgICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQs
+IDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3Vz
+Yi9nYWRnZXQvdWRjL2FzcGVlZC12aHViL2Vwbi5jIGIvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9h
+c3BlZWQtdmh1Yi9lcG4uYwppbmRleCA1OTM5ZWIxZTk3ZjIuLmU5ZWUyYjcyYWYxOSAxMDA2NDQK
+LS0tIGEvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9hc3BlZWQtdmh1Yi9lcG4uYworKysgYi9kcml2
+ZXJzL3VzYi9nYWRnZXQvdWRjL2FzcGVlZC12aHViL2Vwbi5jCkBAIC0zNTMsNyArMzUzLDcgQEAg
+c3RhdGljIGludCBhc3Rfdmh1Yl9lcG5fcXVldWUoc3RydWN0IHVzYl9lcCogdV9lcCwgc3RydWN0
+IHVzYl9yZXF1ZXN0ICp1X3JlcSwKIAkvKiBFbmRwb2ludCBlbmFibGVkID8gKi8KIAlpZiAoIWVw
+LT5lcG4uZW5hYmxlZCB8fCAhdV9lcC0+ZGVzYyB8fCAhZXAtPmRldiB8fCAhZXAtPmRfaWR4IHx8
+CiAJICAgICFlcC0+ZGV2LT5lbmFibGVkIHx8IGVwLT5kZXYtPnN1c3BlbmRlZCkgewotCQlFUERC
+RyhlcCwiRW5xdWVpbmcgcmVxdWVzdCBvbiB3cm9uZyBvciBkaXNhYmxlZCBFUFxuIik7CisJCUVQ
+REJHKGVwLCAiRW5xdWV1aW5nIHJlcXVlc3Qgb24gd3Jvbmcgb3IgZGlzYWJsZWQgRVBcbiIpOwog
+CQlyZXR1cm4gLUVTSFVURE9XTjsKIAl9CiAKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2dhZGdl
+dC91ZGMvdWRjLXhpbGlueC5jIGIvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy91ZGMteGlsaW54LmMK
+aW5kZXggNjQwN2U0MzNiYzc4Li5iMWY0MTA0ZDEyODMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNi
+L2dhZGdldC91ZGMvdWRjLXhpbGlueC5jCisrKyBiL2RyaXZlcnMvdXNiL2dhZGdldC91ZGMvdWRj
+LXhpbGlueC5jCkBAIC0xMDc4LDcgKzEwNzgsNyBAQCBzdGF0aWMgaW50IHh1ZGNfZXBfcXVldWUo
+c3RydWN0IHVzYl9lcCAqX2VwLCBzdHJ1Y3QgdXNiX3JlcXVlc3QgKl9yZXEsCiAJdW5zaWduZWQg
+bG9uZyBmbGFnczsKIAogCWlmICghZXAtPmRlc2MpIHsKLQkJZGV2X2RiZyh1ZGMtPmRldiwgIiVz
+OnF1ZWluZyByZXF1ZXN0IHRvIGRpc2FibGVkICVzXG4iLAorCQlkZXZfZGJnKHVkYy0+ZGV2LCAi
+JXM6IHF1ZXVpbmcgcmVxdWVzdCB0byBkaXNhYmxlZCAlc1xuIiwKIAkJCV9fZnVuY19fLCBlcC0+
+bmFtZSk7CiAJCXJldHVybiAtRVNIVVRET1dOOwogCX0K
