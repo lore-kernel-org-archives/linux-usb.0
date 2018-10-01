@@ -1,29 +1,29 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,05/17] compat_ioctl: move more drivers to generic_compat_ioctl_ptrarg
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-Message-Id: <20181006070521.GM12063@builder>
-Date: Sat, 6 Oct 2018 00:05:21 -0700
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: viro@zeniv.linux.org.uk, linux-fsdevel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "David S. Miller" <davem@davemloft.net>, devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org, qat-linux@intel.com, linux-crypto@vger.kernel.org, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org, linux-iio@vger.kernel.org, linux-rdma@vger.kernel.org, linux-nvdimm@lists.01.org, linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-remoteproc@vger.kernel.org, sparclinux@vger.kernel.org, linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org, linux-wireless@vger.kernel.org, netdev@vger.kernel.org
+Subject: [RFT,2/2] xhci: handle port status events for removed USB3 hcd
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-Id: <a1cfee1d-7e5f-1a40-b285-5eafafec08e2@linux.intel.com>
+Date: Mon, 1 Oct 2018 18:52:47 +0300
+To: Jack Pham <jackp@codeaurora.org>
+Cc: Peter Chen <peter.chen@nxp.com>, dl-linux-imx <linux-imx@nxp.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, Jun Li <jun.li@nxp.com>, "joel@jms.id.au" <joel@jms.id.au>, "mrana@codeaurora.org" <mrana@codeaurora.org>, "stable@vger.kernel.org" <stable@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkIDEyIFNlcCAwODowOCBQRFQgMjAxOCwgQXJuZCBCZXJnbWFubiB3cm90ZToKClsuLl0K
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ycG1zZy9ycG1zZ19jaGFyLmMgYi9kcml2ZXJzL3JwbXNn
-L3JwbXNnX2NoYXIuYwo+IGluZGV4IGE3NmI5NjNhN2U1MC4uMDJhZWZiMmIyZDQ3IDEwMDY0NAo+
-IC0tLSBhL2RyaXZlcnMvcnBtc2cvcnBtc2dfY2hhci5jCj4gKysrIGIvZHJpdmVycy9ycG1zZy9y
-cG1zZ19jaGFyLmMKPiBAQCAtMjg1LDcgKzI4NSw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgZmls
-ZV9vcGVyYXRpb25zIHJwbXNnX2VwdGRldl9mb3BzID0gewo+ICAJLndyaXRlID0gcnBtc2dfZXB0
-ZGV2X3dyaXRlLAo+ICAJLnBvbGwgPSBycG1zZ19lcHRkZXZfcG9sbCwKPiAgCS51bmxvY2tlZF9p
-b2N0bCA9IHJwbXNnX2VwdGRldl9pb2N0bCwKPiAtCS5jb21wYXRfaW9jdGwgPSBycG1zZ19lcHRk
-ZXZfaW9jdGwsCj4gKwkuY29tcGF0X2lvY3RsID0gZ2VuZXJpY19jb21wYXRfaW9jdGxfcHRyYXJn
-LAo+ICB9Owo+ICAKPiAgc3RhdGljIHNzaXplX3QgbmFtZV9zaG93KHN0cnVjdCBkZXZpY2UgKmRl
-diwgc3RydWN0IGRldmljZV9hdHRyaWJ1dGUgKmF0dHIsCj4gQEAgLTQ0Niw3ICs0NDYsNyBAQCBz
-dGF0aWMgY29uc3Qgc3RydWN0IGZpbGVfb3BlcmF0aW9ucyBycG1zZ19jdHJsZGV2X2ZvcHMgPSB7
-Cj4gIAkub3BlbiA9IHJwbXNnX2N0cmxkZXZfb3BlbiwKPiAgCS5yZWxlYXNlID0gcnBtc2dfY3Ry
-bGRldl9yZWxlYXNlLAo+ICAJLnVubG9ja2VkX2lvY3RsID0gcnBtc2dfY3RybGRldl9pb2N0bCwK
-PiAtCS5jb21wYXRfaW9jdGwgPSBycG1zZ19jdHJsZGV2X2lvY3RsLAo+ICsJLmNvbXBhdF9pb2N0
-bCA9IGdlbmVyaWNfY29tcGF0X2lvY3RsX3B0cmFyZywKPiAgfTsKPiAgCgpGb3IgcnBtc2cgcGFy
-dAoKQWNrZWQtYnk6IEJqb3JuIEFuZGVyc3NvbiA8Ympvcm4uYW5kZXJzc29uQGxpbmFyby5vcmc+
-CgpSZWdhcmRzLApCam9ybgo=
+T24gMjguMDkuMjAxOCAyMToxMCwgSmFjayBQaGFtIHdyb3RlOgo+IEhpIE1hdGhpYXMsCj4gCj4+
+PiBKYWNrLCBQZXRlciwgZG8gdGhlc2UgcGF0Y2hlcyBzb2x2ZSB0aGUgcmVtb3ZlIGlzc3VlcyB5
+b3UgYXJlIHNlZWluZz8KPj4KPj4gQXQgbXkgdHdvIFVTQjMgcGxhdGZvcm1zLCBvbmx5IGFwcGx5
+IHRoZSAxc3QgcGF0Y2ggY2FuIGZpeCBteSBwcm9ibGVtLiAgTWF5YmUKPj4gbXkgVVNCMyBwb3J0
+IGNoYW5nZSBpbnRlcnJ1cHQgb2NjdXJzIGFsd2F5cyBiZWZvcmUgcmVtb3ZpbmcgVVNCMiBIQ0Qu
+Cj4+Ckl0J3MgcG9zc2libGUgeWVzLgoKPj4gUGV0ZXIKPiAKPiBEaXR0by4gSSB0aGluayB0aGUg
+eGhjaV9pcnEoKSBpcyBnZXR0aW5nIHRyaWdnZXJlZCBieSBzb21ldGhpbmcgZHVyaW5nCj4gdXNi
+X3JlbW92ZV9oY2QoKSAodXNiX2Rpc2Nvbm5lY3Qgb24gdGhlIHJvb3QgaHViPykgYnV0IGlzIGFi
+bGUgdG8KPiBjb21wbGV0ZSBiZWZvcmUgaXQgcmV0dXJucy4gVGhhdCBpcywgdGhlIE5VTEwgcG9p
+bnRlciBkZXJlZmVyZW5jZSBpcwo+IHJlc29sdmVkIHlldCBJIGRvbid0IHNlZSB0aGF0ICJpZ25v
+cmUgcG9ydCBldmVudCBmb3IgcmVtb3ZlZCBVU0IzIGhjZCIKPiBtZXNzYWdlIGF0IGFsbC4KPiAK
+PiBSZWdhcmRsZXNzLCBpdCdzIGdvb2QgdG8gaGF2ZSBoZXJlIGp1c3QgaW4gY2FzZSwgc28KPiBU
+ZXN0ZWQtYnk6IEphY2sgUGhhbSA8amFja3BAY29kZWF1cm9yYS5vcmc+Cj4gCj4gV2lsbCB5b3Ug
+YmUgc2VuZGluZyB0aGlzIGFzIHNlcGFyYXRlIHBhdGNoZXMgZm9yIC1yYyB2cyAtc3RhYmxlPwo+
+IAo+IFRoYW5rcywKPiBKYWNrCj4gCgpUaGFua3MsIGFkZGluZyB0ZXN0ZWQtYnkgdGFncy4KCkkn
+bGwgc2VuZCB0aGVtIHRvIC1yYyB3aXRoIHN0YWJsZSB0YWcsIGFuZCB0aGVuIGxhdGVyIHNlbmQg
+YSBiYWNrcG9ydGVkIHZlcnNpb24KdG8gb2xkZXIga2VybmVsIG9uY2UgSSBoYXZlIGEgdXBzdHJl
+YW0gY29tbWl0IElEIEkgY2FuIHJlZmVyIHRvLgoKVGhhbmtzCi1NYXRoaWFzCg==
