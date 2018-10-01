@@ -1,24 +1,16 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [2/2] cdc-acm: correct counting of UART states in serial state notification
-From: Oliver Neukum <oneukum@suse.com>
-Message-Id: <1538660052.1254.4.camel@suse.com>
-Date: Thu, 04 Oct 2018 15:34:12 +0200
-To: Tobias Herzog <t-herzog@gmx.de>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: dt-bindings: usb: renesas_usbhs: Add support for r8a7744
+From: Simon Horman <horms@verge.net.au>
+Message-Id: <20181001130049.go6q4qnsdmnrerae@verge.net.au>
+Date: Mon, 1 Oct 2018 15:00:50 +0200
+To: Biju Das <biju.das@bp.renesas.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, Chris Paterson <Chris.Paterson2@renesas.com>, Fabrizio Castro <fabrizio.castro@bp.renesas.com>, linux-renesas-soc@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gU2EsIDIwMTgtMDktMjIgYXQgMjI6MTEgKzAyMDAsIFRvYmlhcyBIZXJ6b2cgd3JvdGU6Cj4g
-VGhlIHVzYiBzdGFuZGFyZCAoIlVuaXZlcnNhbCBTZXJpYWwgQnVzIENsYXNzIERlZmluaXRpb25z
-IGZvciBDb21tdW5pY2F0aW9uCj4gRGV2aWNlcyIpIGRpc3RpZ3Vpc2hlcyBiZXR3ZWVuICJjb25z
-aXN0ZW50IHNpZ25hbHMiIChEU1IsIERDRCksIGFuZAo+ICJpcnJlZ3VsYXIgc2lnbmFscyIgKGJy
-ZWFrLCByaW5nLCBwYXJpdHkgZXJyb3IsIGZyYW1pbmcgZXJyb3IsIG92ZXJydW4pLgo+IFRoZSBi
-aXRzIG9mICJpcnJlZ3VsYXIgc2lnbmFscyIgYXJlIHNldCwgaWYgdGhpcyBlcnJvci9ldmVudCBv
-Y2N1cnJlZCBvbgo+IHRoZSBkZXZpY2Ugc2lkZSBhbmQgYXJlIGltbWVhZGVhdGx5IHVuc2V0LCBp
-ZiB0aGUgc2VyaWFsIHN0YXRlIG5vdGlmaWNhdGlvbgo+IHdhcyBzZW50Lgo+IExpa2Ugb3RoZXIg
-ZHJpdmVycyBvZiByZWFsIHNlcmlhbCBwb3J0cyBkbywganVzdCB0aGUgb2NjdXJlbmNlIG9mIHRo
-b3NlCj4gZXZlbnRzIHNob3VsZCBiZSBjb3VudGVkIGluIHNlcmlhbF9pY291bnRlcl9zdHJ1Y3Qg
-KGJ1dCBubyAxLT4wCj4gdHJhbnNpdGlvbnMpLgo+IAo+IFNpZ25lZC1vZmYtYnk6IFRvYmlhcyBI
-ZXJ6b2cgPHQtaGVyem9nQGdteC5kZT4KQWNrZWQtYnk6IE9saXZlciBOZXVrdW0gPG9uZXVrdW1A
-c3VzZS5jb20+Cg==
+T24gVGh1LCBTZXAgMjcsIDIwMTggYXQgMDI6MDE6MTZQTSArMDEwMCwgQmlqdSBEYXMgd3JvdGU6
+Cj4gRG9jdW1lbnQgc3VwcG9ydCBmb3IgUlovRzFOIChSOEE3NzQ0KSBTb0MuCj4gCj4gU2lnbmVk
+LW9mZi1ieTogQmlqdSBEYXMgPGJpanUuZGFzQGJwLnJlbmVzYXMuY29tPgo+IFJldmlld2VkLWJ5
+OiBDaHJpcyBQYXRlcnNvbiA8Q2hyaXMuUGF0ZXJzb24yQHJlbmVzYXMuY29tPgoKUmV2aWV3ZWQt
+Ynk6IFNpbW9uIEhvcm1hbiA8aG9ybXMrcmVuZXNhc0B2ZXJnZS5uZXQuYXU+Cg==
