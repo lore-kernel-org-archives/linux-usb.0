@@ -3,8 +3,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/2] cdc-acm: do not reset notification buffer index upon urb unlinking
 From: Oliver Neukum <oneukum@suse.com>
-Message-Id: <1538659961.1254.2.camel@suse.com>
-Date: Thu, 04 Oct 2018 15:32:41 +0200
+Message-Id: <1538659994.1254.3.camel@suse.com>
+Date: Thu, 04 Oct 2018 15:33:14 +0200
 To: Tobias Herzog <t-herzog@gmx.de>
 Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
@@ -17,9 +17,6 @@ bm90aWZpY2F0aW9ucywgaW4gY2FzZSB0aGUgaW5kZXggaXMgbm90IDAgd2hlbiB1cmIKPiB1bmxp
 bmsgaGFwcGVucyAoaS5lLiB3aGVuIHBhcnRzIG9mIGEgbm90aWZpY2F0aW9uIGFscmVhZHkgaGF2
 ZSBiZWVuCj4gdHJhbnNmZXJyZWQpLiBPbiB0aGUgZGV2aWNlIHNpZGUgdGhlcmUgaXMgbm8gInJl
 c2V0IiBvZiB0aGUgbm90aWZpY2F0aW9uCj4gdHJhbnNpbWlzc2lvbiBhbmQgdGh1cyB3ZSB3b3Vs
-ZCBnZXQgb3V0IG9mIHN5bmMgd2l0aCB0aGUgZGV2aWNlLgoKSGksCgp5b3UgYXJlIHJpZ2h0LCB3
-aGVuIHlvdSBhcmUgZGVzY3JpYmluZyB0aGUgcHJvYmxlbS4gVGhlIGZpeCBzZWVtcyB0byBtZQp0
-byBmaXggYSBwYXJ0LCBhbGJlaXQgYSBsYXJnZSBwYXJ0IG9mIHRoZSBpc3N1ZS4gQXMgZmFyIGFz
-IEkgY2FuIHRlbGwsCnRoZSB0cmFuc2ZlciBjb3VsZCBiZSBwYXJ0aWFsbHkgc3VjY2VzZnVsLCBt
-ZWFuaW5nIHRoYXQgdGhlIGRyaXZlcgpsb3NlcyBhIHBhcnQgaW4gdGhlIG1pZGRsZSBvZiB0aGUg
-bm90aWZpY2F0aW9uLgoKCVJlZ2FyZHMKCQlPbGl2ZXIK
+ZCBnZXQgb3V0IG9mIHN5bmMgd2l0aCB0aGUgZGV2aWNlLgo+IAo+IFNpZ25lZC1vZmYtYnk6IFRv
+YmlhcyBIZXJ6b2cgPHQtaGVyem9nQGdteC5kZT4KQWNrZWQtYnk6IE9saXZlciBOZXVrdW0gPG9u
+ZXVrdW1Ac3VzZS5jb20+Cg==
