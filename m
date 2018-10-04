@@ -1,21 +1,32 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [2/3] net: ethernet: Remove dummy runtime PM callbacks from Renesas drivers
-From: Wolfram Sang <wsa@the-dreams.de>
-Message-Id: <20181025225448.GA20207@kunai>
-Date: Thu, 25 Oct 2018 23:54:48 +0100
-To: Jarkko Nikula <jarkko.nikula@linux.intel.com>
-Cc: linux-pm@vger.kernel.org, linux-i2c@vger.kernel.org, Wolfram Sang <wsa+renesas@sang-engineering.com>, netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>, Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>, linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [v2,-next] USB: core: remove set but not used variable 'udev'
+From: YueHaibing <yuehaibing@huawei.com>
+Message-Id: <1538622372-6467-1-git-send-email-yuehaibing@huawei.com>
+Date: Thu, 4 Oct 2018 03:06:12 +0000
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Daniel Drake <drake@endlessm.com>, Joe Perches <joe@perches.com>, Alan Stern <stern@rowland.harvard.edu>, Mathias Nyman <mathias.nyman@linux.intel.com>, Felipe Balbi <felipe.balbi@linux.intel.com>, Martin Liu <liumartin@google.com>
+Cc: YueHaibing <yuehaibing@huawei.com>, linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCBPY3QgMjQsIDIwMTggYXQgMDQ6NTE6MzNQTSArMDMwMCwgSmFya2tvIE5pa3VsYSB3
-cm90ZToKPiBQbGF0Zm9ybSBkcml2ZXJzIGRvbid0IG5lZWQgZHVtbXkgcnVudGltZSBQTSBjYWxs
-YmFja3MgdGhhdCBqdXN0IHJldHVybgo+IHN1Y2Nlc3MgaW4gb3JkZXIgdG8gaGF2ZSBydW50aW1l
-IFBNIGhhcHBlbmluZy4gVGhpcyBoYXMgY2hhbmdlZCBzaW5jZQo+IGZvbGxvd2luZyBjb21taXRz
-Ogo+IAo+IDA1YWE1NWRkZGI5ZSAoIlBNIC8gUnVudGltZTogTGVuaWVudCBnZW5lcmljIHJ1bnRp
-bWUgcG0gY2FsbGJhY2tzIikKPiA1NDNmMjUwM2E5NTYgKCJQTSAvIHBsYXRmb3JtX2J1czogQWxs
-b3cgcnVudGltZSBQTSBieSBkZWZhdWx0IikKPiA4YjMxM2EzOGVjZmYgKCJQTSAvIFBsYXRmb3Jt
-OiBVc2UgZ2VuZXJpYyBydW50aW1lIFBNIGNhbGxiYWNrcyBkaXJlY3RseSIpCj4gCj4gU2lnbmVk
-LW9mZi1ieTogSmFya2tvIE5pa3VsYSA8amFya2tvLm5pa3VsYUBsaW51eC5pbnRlbC5jb20+CgpB
-Y2tlZC1ieTogV29sZnJhbSBTYW5nIDx3c2ErcmVuZXNhc0BzYW5nLWVuZ2luZWVyaW5nLmNvbT4K
+Rml4ZXMgZ2NjICctV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlJyB3YXJuaW5nOgoKZHJpdmVycy91
+c2IvY29yZS9kcml2ZXIuYzogSW4gZnVuY3Rpb24gJ3VzYl9kcml2ZXJfY2xhaW1faW50ZXJmYWNl
+JzoKZHJpdmVycy91c2IvY29yZS9kcml2ZXIuYzo1MTM6MjE6IHdhcm5pbmc6CiB2YXJpYWJsZSAn
+dWRldicgc2V0IGJ1dCBub3QgdXNlZCBbLVd1bnVzZWQtYnV0LXNldC12YXJpYWJsZV0KClNpbmNl
+IGNvbW1pdCBjMTgzODEzZmNlZTQ0YTI0ICgiVVNCOiByZW1vdmUgTFBNIG1hbmFnZW1lbnQgZnJv
+bSAKdXNiX2RyaXZlcl9jbGFpbV9pbnRlcmZhY2UoKSIpLCAndWRldicgaXMgbm90IHVzZWQuCgpT
+aWduZWQtb2ZmLWJ5OiBZdWVIYWliaW5nIDx5dWVoYWliaW5nQGh1YXdlaS5jb20+CkFja2VkLWJ5
+OiBBbGFuIFN0ZXJuIDxzdGVybkByb3dsYW5kLmhhcnZhcmQuZWR1PgotLS0KdjI6IGFkZCBmaXhl
+cyBjb21taXQgaW5mbwotLS0KIGRyaXZlcnMvdXNiL2NvcmUvZHJpdmVyLmMgfCAzIC0tLQogMSBm
+aWxlIGNoYW5nZWQsIDMgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvY29y
+ZS9kcml2ZXIuYyBiL2RyaXZlcnMvdXNiL2NvcmUvZHJpdmVyLmMKaW5kZXggYTFmMjI1Zi4uNTM1
+NjQzOCAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvY29yZS9kcml2ZXIuYworKysgYi9kcml2ZXJz
+L3VzYi9jb3JlL2RyaXZlci5jCkBAIC01MTAsNyArNTEwLDYgQEAgaW50IHVzYl9kcml2ZXJfY2xh
+aW1faW50ZXJmYWNlKHN0cnVjdCB1c2JfZHJpdmVyICpkcml2ZXIsCiAJCQkJc3RydWN0IHVzYl9p
+bnRlcmZhY2UgKmlmYWNlLCB2b2lkICpwcml2KQogewogCXN0cnVjdCBkZXZpY2UgKmRldjsKLQlz
+dHJ1Y3QgdXNiX2RldmljZSAqdWRldjsKIAlpbnQgcmV0dmFsID0gMDsKIAogCWlmICghaWZhY2Up
+CkBAIC01MjQsOCArNTIzLDYgQEAgaW50IHVzYl9kcml2ZXJfY2xhaW1faW50ZXJmYWNlKHN0cnVj
+dCB1c2JfZHJpdmVyICpkcml2ZXIsCiAJaWYgKCFpZmFjZS0+YXV0aG9yaXplZCkKIAkJcmV0dXJu
+IC1FTk9ERVY7CiAKLQl1ZGV2ID0gaW50ZXJmYWNlX3RvX3VzYmRldihpZmFjZSk7Ci0KIAlkZXYt
+PmRyaXZlciA9ICZkcml2ZXItPmRydndyYXAuZHJpdmVyOwogCXVzYl9zZXRfaW50ZmRhdGEoaWZh
+Y2UsIHByaXYpOwogCWlmYWNlLT5uZWVkc19iaW5kaW5nID0gMDsK
