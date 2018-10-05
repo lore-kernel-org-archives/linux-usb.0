@@ -1,17 +1,30 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,RESEND,3/3] usb: typec: pci: Enable Intel USB role mux on Apollo Lake platforms
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Message-Id: <20181001154929.GE15780@kuha.fi.intel.com>
-Date: Mon, 1 Oct 2018 18:49:29 +0300
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, stable@vger.kernel.org
+Subject: selftests: usbip: add wait after attach and before checking port status
+From: Shuah Khan <shuah@kernel.org>
+Message-Id: <20181005221744.21605-1-shuah@kernel.org>
+Date: Fri,  5 Oct 2018 16:17:43 -0600
+To: shuah@kernel.org, gregkh@linuxfoundation.org, valentina.manea.m@gmail.com
+Cc: linux-usb@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gTW9uLCBPY3QgMDEsIDIwMTggYXQgMDY6NDQ6NTFQTSArMDMwMCwgSGVpa2tpIEtyb2dlcnVz
-IHdyb3RlOgo+IEhpLAo+IAo+IE5vdCBhIGJpZ2dpZSwgYnV0IHdoeSB3YXMgdGhlIHRvcGljIGZv
-ciB0aGlzIHBhdGNoIGNoYW5nZWQ/Cj4gCj4gSSdtIG5vdCBzdXJlIEFwb2xsbyBsYWtlcyBldmVu
-IGhhdmUgVHlwZS1DIGNvbm5lY3RvcnMuIFRoZSBtdXggaXMKPiBuZWVkZWQgd2l0aCB0aGUgdUFC
-IGNvbm5lY3RvcnMuCgpNeSBiYWQuIFRoZSB0b3BpYyB3YXMgd3JvbmcgYWxyZWFkeSB3aGVuIEkg
-c2VuZCB0aGUgcGF0Y2ggdG8geW91LgpTb3JyeSA6LSkKCgpCciwK
+QWRkIHNsZWVwIGJldHdlZW4gYXR0YWNoIGFuZCAidXNiaXAgcG9ydCIgY2hlY2sgdG8gbWFrZSBz
+dXJlIHN0YXR1cyBpcwp1cGRhdGVkLiBSdW5uaW5nIGF0dGFjaCBhbmQgcXVlcnkgYmFjayBzaG93
+cyBpbmNvcnJlY3Qgc3RhdHVzLgoKU2lnbmVkLW9mZi1ieTogU2h1YWggS2hhbiAoU2Ftc3VuZyBP
+U0cpIDxzaHVhaEBrZXJuZWwub3JnPgotLS0KIHRvb2xzL3Rlc3Rpbmcvc2VsZnRlc3RzL2RyaXZl
+cnMvdXNiL3VzYmlwL3VzYmlwX3Rlc3Quc2ggfCA0ICsrKysKIDEgZmlsZSBjaGFuZ2VkLCA0IGlu
+c2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS90b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9kcml2ZXJz
+L3VzYi91c2JpcC91c2JpcF90ZXN0LnNoIGIvdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvZHJpdmVy
+cy91c2IvdXNiaXAvdXNiaXBfdGVzdC5zaAppbmRleCBhNzJkZjkzY2YxZjguLjEyOGYwYWIyNDMw
+NyAxMDA3NTUKLS0tIGEvdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvZHJpdmVycy91c2IvdXNiaXAv
+dXNiaXBfdGVzdC5zaAorKysgYi90b29scy90ZXN0aW5nL3NlbGZ0ZXN0cy9kcml2ZXJzL3VzYi91
+c2JpcC91c2JpcF90ZXN0LnNoCkBAIC0xNDEsNiArMTQxLDEwIEBAIGVjaG8gIkltcG9ydCBkZXZp
+Y2VzIGZyb20gbG9jYWxob3N0IC0gc2hvdWxkIHdvcmsiCiBzcmMvdXNiaXAgYXR0YWNoIC1yIGxv
+Y2FsaG9zdCAtYiAkYnVzaWQ7CiBlY2hvICI9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PSIKIAorIyBXYWl0IGZvciBzeXNmcyBmaWxl
+IHRvIGJlIHVwZGF0ZWQuIFdpdGhvdXQgdGhpcyBzbGVlcCwgdXNiaXAgcG9ydAorIyBzaG93cyBu
+byBpbXBvcnRlZCBkZXZpY2VzLgorc2xlZXAgMzsKKwogZWNobyAiTGlzdCBpbXBvcnRlZCBkZXZp
+Y2VzIC0gZXhwZWN0IHRvIHNlZSBpbXBvcnRlZCBkZXZpY2VzIjsKIHNyYy91c2JpcCBwb3J0Owog
+ZWNobyAiPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT0iCg==
