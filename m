@@ -2,24 +2,15 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usbnet: smsc95xx: simplify tx_fixup code
-From: Ben Dooks <ben.dooks@codethink.co.uk>
-Message-Id: <40033993674bb8b5ef33ac33f28f3aff@codethink.co.uk>
-Date: Sat, 06 Oct 2018 12:27:27 +0100
-To: David Miller <davem@davemloft.net>
+From: David Miller <davem@davemloft.net>
+Message-Id: <20181006.102815.1648316987275753897.davem@davemloft.net>
+Date: Sat, 06 Oct 2018 10:28:15 -0700 (PDT)
+To: ben.dooks@codethink.co.uk
 Cc: netdev@vger.kernel.org, David.Laight@aculab.com, oneukum@suse.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kernel@lists.codethink.co.uk
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMjAxOC0xMC0wNSAyMjoyNCwgRGF2aWQgTWlsbGVyIHdyb3RlOgo+IEZyb206IEJlbiBEb29r
-cyA8YmVuLmRvb2tzQGNvZGV0aGluay5jby51az4KPiBEYXRlOiBUdWUsICAyIE9jdCAyMDE4IDE3
-OjU2OjAyICswMTAwCj4gCj4+IC0JbWVtY3B5KHNrYi0+ZGF0YSwgJnR4X2NtZF9hLCA0KTsKPj4g
-KwlwdHIgPSBza2JfcHVzaChza2IsIDgpOwo+PiArCXR4X2NtZF9hID0gY3B1X3RvX2xlMzIodHhf
-Y21kX2EpOwo+PiArCXR4X2NtZF9iID0gY3B1X3RvX2xlMzIodHhfY21kX2IpOwo+PiArCW1lbWNw
-eShwdHIsICZ0eF9jbWRfYSwgNCk7Cj4+ICsJbWVtY3B5KHB0cis0LCAmdHhfY21kX2IsIDQpOwo+
-IAo+IEV2ZW4gYSBtZW1jcHkoKSB0aHJvdWdoIGEgdm9pZCBwb2ludGVyIGRvZXMgbm90IGd1YXJh
-bnRlZSB0aGF0IGdjYyB3aWxsCj4gbm90IGVtaXQgd29yZCBzaXplZCBsb2FkcyBhbmQgc3RvcmVz
-Lgo+IAo+IFlvdSBtdXN0IHVzZSB0aGUgZ2V0X3VuYWxpZ25lZCgpL3B1dF91bmFsaWduZWQoKSBm
-YWNpbGl0aWVzIHRvIGRvIHRoaXMKPiBwcm9wZXJseS4KClRoYW5rcywgZ290IGEgbmV3IHZlcnNp
-b24gb2YgdGhlIHNlcmllcyBqdXN0IGJlaW5nIHRlc3RlZCB3aXRoIHRoaXMuClNob3VsZCBpdCBn
-byBpbnRvIHRoZSBvcmlnaW5hbCwgb3IgYXMgYSBzZXBhcmF0ZSBjaGFuZ2U/Cgo+IAo+IEkgYWxz
-byBhZ3JlZSB0aGF0IG1ha2luZyBhIHByb3BlciB0eXBlIGFuZCBzdHJ1Y3R1cmUgaW5zdGVhZCBv
-ZiB1c2luZwo+IGEgdm9pZCBwb2ludGVyIHdvdWxkIGJlIGJldHRlci4K
+RnJvbTogQmVuIERvb2tzIDxiZW4uZG9va3NAY29kZXRoaW5rLmNvLnVrPgpEYXRlOiBTYXQsIDA2
+IE9jdCAyMDE4IDEyOjI3OjI3ICswMTAwCgo+IFRoYW5rcywgZ290IGEgbmV3IHZlcnNpb24gb2Yg
+dGhlIHNlcmllcyBqdXN0IGJlaW5nIHRlc3RlZCB3aXRoIHRoaXMuCj4gU2hvdWxkIGl0IGdvIGlu
+dG8gdGhlIG9yaWdpbmFsLCBvciBhcyBhIHNlcGFyYXRlIGNoYW5nZT8KCkludG8gdGhlIG9yaWdp
+bmFsLgo=
