@@ -2,18 +2,28 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [net-next,06/19] net: usb: aqc111: Introduce link management
-From: David Miller <davem@davemloft.net>
-Message-Id: <20181005.104606.97635572200071855.davem@davemloft.net>
-Date: Fri, 05 Oct 2018 10:46:06 -0700 (PDT)
-To: Igor.Russkikh@aquantia.com
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, Dmitry.Bezrukov@aquantia.com
+From: Andrew Lunn <andrew@lunn.ch>
+Message-Id: <20181006173510.GE6990@lunn.ch>
+Date: Sat, 6 Oct 2018 19:35:10 +0200
+To: Igor Russkikh <Igor.Russkikh@aquantia.com>
+Cc: "David S . Miller" <davem@davemloft.net>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, Dmitry Bezrukov <Dmitry.Bezrukov@aquantia.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-RnJvbTogSWdvciBSdXNza2lraCA8SWdvci5SdXNza2lraEBhcXVhbnRpYS5jb20+CkRhdGU6IEZy
-aSwgNSBPY3QgMjAxOCAxMDoyNDo1NSArMDAwMAoKPiArCXN3aXRjaCAoYXFjMTExX2RhdGEtPmxp
-bmtfc3BlZWQpIHsKPiArCWNhc2UgQVFfSU5UX1NQRUVEXzVHOgo+ICsJewo+ICsJCWxpbmtfc3Bl
-ZWQgPSA1MDAwOwo+ICsJCXJlZzggPSAweDA1Owo+ICsJCXJlZzE2ID0gMHgwMDFGOwo+ICsJCWJy
-ZWFrOwo+ICsJfQoKUGxlYXNlIGRvIG5vdCBwdXQgY3VybHkgYnJhY2VzIGFyb3VuZCBzd2l0Y2gg
-Y2FzZXMuCgpZb3UgYXJlbid0IGRlY2xhcmluZyBsb2NhbCBzY29wZSB2YXJpYWJsZXMgaW4gdGhl
-c2UgY2FzZSBzdGF0ZW1lbnRzIHNvCnRoZSBjdXJseSBicmFjZXMgYXJlIGNvbXBsZXRlbHkgdW5u
-ZWNlc3NhcnkgYW5kIGxvb2sgdWdseS4K
+PiBAQCAtMjAyLDYgKzMxOSw5IEBAIHN0YXRpYyBpbnQgYXFjMTExX2JpbmQoc3RydWN0IHVzYm5l
+dCAqZGV2LCBzdHJ1Y3QgdXNiX2ludGVyZmFjZSAqaW50ZikKPiAgCWRldi0+bmV0LT5uZXRkZXZf
+b3BzID0gJmFxYzExMV9uZXRkZXZfb3BzOwo+ICAKPiAgCWFxYzExMV9yZWFkX2Z3X3ZlcnNpb24o
+ZGV2LCBhcWMxMTFfZGF0YSk7Cj4gKwlhcWMxMTFfZGF0YS0+YXV0b25lZyA9IEFVVE9ORUdfRU5B
+QkxFOwo+ICsJYXFjMTExX2RhdGEtPmFkdmVydGlzZWRfc3BlZWQgPSAodXNiX3NwZWVkID09IFVT
+Ql9TUEVFRF9TVVBFUikgPwo+ICsJCQkJCSBTUEVFRF81MDAwIDogU1BFRURfMTAwMDsKCkhpIEln
+b3IKCkknZCBiZSBpbnRlcmVzdGVkIGluIGtub3dpbmcgdGhlIHJlYXNvbmluZyBiZWhpbmQgdGhp
+cy4KClVTQiAzIGhhcyBhIHJhdyBiYW5kd2lkdGggb2YgNUdicHMuIEJ1dCBpdCBpcyBhIHNoYXJl
+ZCBidXMuIFNvIHlvdQpoYXZlIG5vIGd1YXJhbnRlZWQgeW91IGFyZSBhY3R1YWxseSBnb2luZyB0
+byBnZXQgdGhlIG5lZWRlZCBiYW5kd2lkdGgKdG8gc3VwcG9ydCBsaW5lIHJhdGUuCgpVU0IgMi4w
+IG9ubHkgZ2l2ZXMgeW91IDQ4ME1icHMuIFNvIGl0IHdvbid0IGV2ZW4gZ2l2ZSB5b3UgdGhlIGZ1
+bGwKMUcuIFNvIHVzaW5nIHRoZSBzYW1lIHJlYXNvbmluZyBmb3IgVVNCMywgbWF5YmUgeW91IHNo
+b3VsZCBsaW1pdCBpdCB0bwoxMDBNYnBzPwoKSSBwZXJzb25hbGx5IHdvdWxkIG5vdCBhcHBseSBy
+ZXN0cmljdGlvbnMgb24gdGhlIFBIWSBkZXBlbmRpbmcgb24gd2hhdApVU0IgaXMgYmVpbmcgdXNl
+ZC4KClRoaXMgYmVjb21lcyBtb3JlIGltcG9ydGFudCB3aGVuIHVzaW5nIFNGUHMuIElmIGkgaGF2
+ZSBhbiBTRlAgcGVlcgp3aGljaCBpcyBleHBlY3RpbmcgMjUwMEJhc2UtWCwgYnV0IGJlY2F1c2Ug
+dGhlIGRldmljZSBpcyBwbHVnZ2VkIGludG8KVVNCIDIgcG9ydCBpdCBpcyBmb3JjZWQgdG8gdXNl
+IDEwMDBCYXNlLVgsIGl0IGlzIG5vdCBnb2luZyB0byBnZXQKbGluay4KCglBbmRyZXcK
