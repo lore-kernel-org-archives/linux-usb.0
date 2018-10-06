@@ -2,21 +2,24 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usbnet: smsc95xx: simplify tx_fixup code
-From: David Miller <davem@davemloft.net>
-Message-Id: <20181005.142412.601607260441380535.davem@davemloft.net>
-Date: Fri, 05 Oct 2018 14:24:12 -0700 (PDT)
-To: ben.dooks@codethink.co.uk
-Cc: netdev@vger.kernel.org, David.Laight@ACULAB.COM, oneukum@suse.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kernel@lists.codethink.co.uk
+From: Ben Dooks <ben.dooks@codethink.co.uk>
+Message-Id: <40033993674bb8b5ef33ac33f28f3aff@codethink.co.uk>
+Date: Sat, 06 Oct 2018 12:27:27 +0100
+To: David Miller <davem@davemloft.net>
+Cc: netdev@vger.kernel.org, David.Laight@aculab.com, oneukum@suse.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kernel@lists.codethink.co.uk
 List-ID: <linux-usb.vger.kernel.org>
 
-RnJvbTogQmVuIERvb2tzIDxiZW4uZG9va3NAY29kZXRoaW5rLmNvLnVrPgpEYXRlOiBUdWUsICAy
-IE9jdCAyMDE4IDE3OjU2OjAyICswMTAwCgo+IC0JbWVtY3B5KHNrYi0+ZGF0YSwgJnR4X2NtZF9h
-LCA0KTsKPiArCXB0ciA9IHNrYl9wdXNoKHNrYiwgOCk7Cj4gKwl0eF9jbWRfYSA9IGNwdV90b19s
-ZTMyKHR4X2NtZF9hKTsKPiArCXR4X2NtZF9iID0gY3B1X3RvX2xlMzIodHhfY21kX2IpOwo+ICsJ
-bWVtY3B5KHB0ciwgJnR4X2NtZF9hLCA0KTsKPiArCW1lbWNweShwdHIrNCwgJnR4X2NtZF9iLCA0
-KTsKCkV2ZW4gYSBtZW1jcHkoKSB0aHJvdWdoIGEgdm9pZCBwb2ludGVyIGRvZXMgbm90IGd1YXJh
-bnRlZSB0aGF0IGdjYyB3aWxsCm5vdCBlbWl0IHdvcmQgc2l6ZWQgbG9hZHMgYW5kIHN0b3Jlcy4K
-CllvdSBtdXN0IHVzZSB0aGUgZ2V0X3VuYWxpZ25lZCgpL3B1dF91bmFsaWduZWQoKSBmYWNpbGl0
-aWVzIHRvIGRvIHRoaXMKcHJvcGVybHkuCgpJIGFsc28gYWdyZWUgdGhhdCBtYWtpbmcgYSBwcm9w
-ZXIgdHlwZSBhbmQgc3RydWN0dXJlIGluc3RlYWQgb2YgdXNpbmcKYSB2b2lkIHBvaW50ZXIgd291
-bGQgYmUgYmV0dGVyLgo=
+T24gMjAxOC0xMC0wNSAyMjoyNCwgRGF2aWQgTWlsbGVyIHdyb3RlOgo+IEZyb206IEJlbiBEb29r
+cyA8YmVuLmRvb2tzQGNvZGV0aGluay5jby51az4KPiBEYXRlOiBUdWUsICAyIE9jdCAyMDE4IDE3
+OjU2OjAyICswMTAwCj4gCj4+IC0JbWVtY3B5KHNrYi0+ZGF0YSwgJnR4X2NtZF9hLCA0KTsKPj4g
+KwlwdHIgPSBza2JfcHVzaChza2IsIDgpOwo+PiArCXR4X2NtZF9hID0gY3B1X3RvX2xlMzIodHhf
+Y21kX2EpOwo+PiArCXR4X2NtZF9iID0gY3B1X3RvX2xlMzIodHhfY21kX2IpOwo+PiArCW1lbWNw
+eShwdHIsICZ0eF9jbWRfYSwgNCk7Cj4+ICsJbWVtY3B5KHB0cis0LCAmdHhfY21kX2IsIDQpOwo+
+IAo+IEV2ZW4gYSBtZW1jcHkoKSB0aHJvdWdoIGEgdm9pZCBwb2ludGVyIGRvZXMgbm90IGd1YXJh
+bnRlZSB0aGF0IGdjYyB3aWxsCj4gbm90IGVtaXQgd29yZCBzaXplZCBsb2FkcyBhbmQgc3RvcmVz
+Lgo+IAo+IFlvdSBtdXN0IHVzZSB0aGUgZ2V0X3VuYWxpZ25lZCgpL3B1dF91bmFsaWduZWQoKSBm
+YWNpbGl0aWVzIHRvIGRvIHRoaXMKPiBwcm9wZXJseS4KClRoYW5rcywgZ290IGEgbmV3IHZlcnNp
+b24gb2YgdGhlIHNlcmllcyBqdXN0IGJlaW5nIHRlc3RlZCB3aXRoIHRoaXMuClNob3VsZCBpdCBn
+byBpbnRvIHRoZSBvcmlnaW5hbCwgb3IgYXMgYSBzZXBhcmF0ZSBjaGFuZ2U/Cgo+IAo+IEkgYWxz
+byBhZ3JlZSB0aGF0IG1ha2luZyBhIHByb3BlciB0eXBlIGFuZCBzdHJ1Y3R1cmUgaW5zdGVhZCBv
+ZiB1c2luZwo+IGEgdm9pZCBwb2ludGVyIHdvdWxkIGJlIGJldHRlci4K
