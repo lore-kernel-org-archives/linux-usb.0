@@ -1,22 +1,32 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [net-next,07/19] net: usb: aqc111: Add support for getting and setting of MAC address
-From: Andrew Lunn <andrew@lunn.ch>
-Message-Id: <20181009144623.GW4730@lunn.ch>
-Date: Tue, 9 Oct 2018 16:46:23 +0200
-To: Igor Russkikh <Igor.Russkikh@aquantia.com>
-Cc: "David S . Miller" <davem@davemloft.net>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, Dmitry Bezrukov <Dmitry.Bezrukov@aquantia.com>
+Subject: [-next] usb/early: remove set but not used variable 'remain_length'
+From: YueHaibing <yuehaibing@huawei.com>
+Message-Id: <1538792581-192494-1-git-send-email-yuehaibing@huawei.com>
+Date: Sat, 6 Oct 2018 02:23:01 +0000
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, Mike Rapoport <rppt@linux.vnet.ibm.com>, Lu Baolu <baolu.lu@linux.intel.com>
+Cc: YueHaibing <yuehaibing@huawei.com>, linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVHVlLCBPY3QgMDksIDIwMTggYXQgMDI6MzQ6MzZQTSArMDAwMCwgSWdvciBSdXNza2lraCB3
-cm90ZToKPiBIaSBBbmRyZXcsCj4gCj4gPj4gKwlpZiAocmV0IDwgMCkKPiA+PiArCQlnb3RvIG91
-dDsKPiA+PiArCj4gPj4gKwltZW1jcHkoZGV2LT5uZXQtPmRldl9hZGRyLCBidWYsIEVUSF9BTEVO
-KTsKPiA+PiArCW1lbWNweShkZXYtPm5ldC0+cGVybV9hZGRyLCBkZXYtPm5ldC0+ZGV2X2FkZHIs
-IEVUSF9BTEVOKTsKPiA+IAo+ID4gSXMgdGhpcyByZWFsbHkgdGhlIHBlcm1hbmVudCBhZGRyZXNz
-PyBJZiBpIGNhbGwgYXFjMTExX3NldF9tYWNfYWRkcigpCj4gPiBmb2xsb3dlZCBieSBhcWMxMTFf
-Z2V0X21hYygpIGkgc3RpbGwgZ2V0IHdoYXQgaXMgaW4gdGhlIE9UUCBFRVBST00/Cj4gCj4gVGhh
-dHMgYWN0dWFsbHkgYSBjb25mdXNpb24gd2l0aCBmdW5jdGlvbiBuYW1lIGhlcmUuCj4gVGhpbmsg
-aXRzIGJldHRlciB0byBuYW1lIGl0IGFxYzExMV9pbml0X21hYygpIHNpbmNlIGl0IGdldHMgY2Fs
-bGVkCj4gb25seSBvbmNlIG9uIGJpbmQuCgpIaSBJZ29yCgpPciBhcWMxMTFfZ2V0X290cF9tYWMo
-KT8KCiAgIEFuZHJldwo=
+Rml4ZXMgZ2NjICctV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlJyB3YXJuaW5nOgoKZHJpdmVycy91
+c2IvZWFybHkveGhjaS1kYmMuYzogSW4gZnVuY3Rpb24gJ3hkYmNfaGFuZGxlX3R4X2V2ZW50JzoK
+ZHJpdmVycy91c2IvZWFybHkveGhjaS1kYmMuYzo3MjA6OTogd2FybmluZzoKIHZhcmlhYmxlICdy
+ZW1haW5fbGVuZ3RoJyBzZXQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxl
+XQoKSXQgbmV2ZXIgYmUgdXNlZCBzaW5jZSBpbnRyb2R1Y3Rpb24gaW4gCmNvbW1pdCBhZWI5ZGQx
+ZGU5OGMgKCJ1c2IvZWFybHk6IEFkZCBkcml2ZXIgZm9yIHhoY2kgZGVidWcgY2FwYWJpbGl0eSIp
+CgpTaWduZWQtb2ZmLWJ5OiBZdWVIYWliaW5nIDx5dWVoYWliaW5nQGh1YXdlaS5jb20+Ci0tLQog
+ZHJpdmVycy91c2IvZWFybHkveGhjaS1kYmMuYyB8IDMgLS0tCiAxIGZpbGUgY2hhbmdlZCwgMyBk
+ZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9lYXJseS94aGNpLWRiYy5jIGIv
+ZHJpdmVycy91c2IvZWFybHkveGhjaS1kYmMuYwppbmRleCA5ZDRlZTg4Li5kMjY1MmRjIDEwMDY0
+NAotLS0gYS9kcml2ZXJzL3VzYi9lYXJseS94aGNpLWRiYy5jCisrKyBiL2RyaXZlcnMvdXNiL2Vh
+cmx5L3hoY2ktZGJjLmMKQEAgLTcxNywxNyArNzE3LDE0IEBAIHN0YXRpYyB2b2lkIHhkYmNfaGFu
+ZGxlX3BvcnRfc3RhdHVzKHN0cnVjdCB4ZGJjX3RyYiAqZXZ0X3RyYikKIAogc3RhdGljIHZvaWQg
+eGRiY19oYW5kbGVfdHhfZXZlbnQoc3RydWN0IHhkYmNfdHJiICpldnRfdHJiKQogewotCXNpemVf
+dCByZW1haW5fbGVuZ3RoOwogCXUzMiBjb21wX2NvZGU7CiAJaW50IGVwX2lkOwogCiAJY29tcF9j
+b2RlCT0gR0VUX0NPTVBfQ09ERShsZTMyX3RvX2NwdShldnRfdHJiLT5maWVsZFsyXSkpOwotCXJl
+bWFpbl9sZW5ndGgJPSBFVkVOVF9UUkJfTEVOKGxlMzJfdG9fY3B1KGV2dF90cmItPmZpZWxkWzJd
+KSk7CiAJZXBfaWQJCT0gVFJCX1RPX0VQX0lEKGxlMzJfdG9fY3B1KGV2dF90cmItPmZpZWxkWzNd
+KSk7CiAKIAlzd2l0Y2ggKGNvbXBfY29kZSkgewogCWNhc2UgQ09NUF9TVUNDRVNTOgotCQlyZW1h
+aW5fbGVuZ3RoID0gMDsKIAljYXNlIENPTVBfU0hPUlRfUEFDS0VUOgogCQlicmVhazsKIAljYXNl
+IENPTVBfVFJCX0VSUk9SOgo=
