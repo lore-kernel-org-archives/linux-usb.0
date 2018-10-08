@@ -2,22 +2,26 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usbip: vhci_hcd: check port number before using
-From: Shuah Khan <shuah@kernel.org>
-Message-Id: <c7da9adc-3cb3-c5a6-519c-ba4440897c28@kernel.org>
-Date: Mon, 8 Oct 2018 13:28:57 -0600
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Valentina Manea <valentina.manea.m@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, syzbot+600b03e0cf1b73bb23c4@syzkaller.appspotmail.com, stable <stable@vger.kernel.org>, Shuah Khan <shuah@kernel.org>
+From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Message-Id: <CADVatmOZ943m_bmXS9vQs8Fy73aaG1PNP1YCzX-J2HN_f5Zigw@mail.gmail.com>
+Date: Mon, 8 Oct 2018 21:01:13 +0100
+To: Shuah Khan <shuah@kernel.org>
+Cc: Valentina Manea <valentina.manea.m@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel <linux-kernel@vger.kernel.org>, linux-usb@vger.kernel.org, syzbot+600b03e0cf1b73bb23c4@syzkaller.appspotmail.com, Stable <stable@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgU3VkaXAsCgpPbiAxMC8wOC8yMDE4IDAxOjE5IFBNLCBTdWRpcCBNdWtoZXJqZWUgd3JvdGU6
-Cj4gRnJvbTogU3VkaXAgTXVraGVyamVlIDxzdWRpcG0ubXVraGVyamVlQGdtYWlsLmNvbT4KPiAK
-PiBUaGUgcG9ydCBudW1iZXIgaXMgY2hlY2tlZCBhbmQgaXQganVzdCBwcmludHMgYW4gZXJyb3Ig
-bWVzc2FnZSBidXQgaXQKPiBzdGlsbCBjb250aW51ZXMgdG8gdXNlIHRoZSBpbnZhbGlkIHBvcnQu
-IEFuZCBhcyBhIHJlc3VsdCBpdCBhY2Nlc3Nlcwo+IG1lbW9yeSB3aGljaCBpcyBub3QgaXRzIHJl
-c3VsdGluZyBpbiAgQlVHIHJlcG9ydCBmcm9tIEtBU0FOLgoKWWVzIHRoZXJlIGlzIGFuIGlzc3Vl
-IHdpdGggb3V0IG9mIGJvdW5kcyBhY2Nlc3MuIEJ1dCB0aGlzIGlzbid0IHRoZQpyaWdodCBmaXgu
-Cgo+IAo+IFJlcG9ydGVkLWJ5OiBzeXpib3QrNjAwYjAzZTBjZjFiNzNiYjIzYzRAc3l6a2FsbGVy
-LmFwcHNwb3RtYWlsLmNvbQo+IENjOiBzdGFibGUgPHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmc+Cj4g
-U2lnbmVkLW9mZi1ieTogU3VkaXAgTXVraGVyamVlIDxzdWRpcG0ubXVraGVyamVlQGdtYWlsLmNv
-bT4KCkkgc2VudCBpbiBhIGZpeCBmb3IgdGhpcyBsYXN0IEZyaWRheS4KCmh0dHBzOi8vcGF0Y2h3
-b3JrLmtlcm5lbC5vcmcvcGF0Y2gvMTA2Mjg4MzMvCgp0aGFua3MsCi0tIFNodWFoCg==
+T24gTW9uLCBPY3QgOCwgMjAxOCBhdCA4OjI5IFBNIFNodWFoIEtoYW4gPHNodWFoQGtlcm5lbC5v
+cmc+IHdyb3RlOgo+Cj4gSGkgU3VkaXAsCj4KPiBPbiAxMC8wOC8yMDE4IDAxOjE5IFBNLCBTdWRp
+cCBNdWtoZXJqZWUgd3JvdGU6Cj4gPiBGcm9tOiBTdWRpcCBNdWtoZXJqZWUgPHN1ZGlwbS5tdWto
+ZXJqZWVAZ21haWwuY29tPgo+ID4KPiA+IFRoZSBwb3J0IG51bWJlciBpcyBjaGVja2VkIGFuZCBp
+dCBqdXN0IHByaW50cyBhbiBlcnJvciBtZXNzYWdlIGJ1dCBpdAo+ID4gc3RpbGwgY29udGludWVz
+IHRvIHVzZSB0aGUgaW52YWxpZCBwb3J0LiBBbmQgYXMgYSByZXN1bHQgaXQgYWNjZXNzZXMKPiA+
+IG1lbW9yeSB3aGljaCBpcyBub3QgaXRzIHJlc3VsdGluZyBpbiAgQlVHIHJlcG9ydCBmcm9tIEtB
+U0FOLgo+Cj4gWWVzIHRoZXJlIGlzIGFuIGlzc3VlIHdpdGggb3V0IG9mIGJvdW5kcyBhY2Nlc3Mu
+IEJ1dCB0aGlzIGlzbid0IHRoZQo+IHJpZ2h0IGZpeC4KPgo+ID4KPiA+IFJlcG9ydGVkLWJ5OiBz
+eXpib3QrNjAwYjAzZTBjZjFiNzNiYjIzYzRAc3l6a2FsbGVyLmFwcHNwb3RtYWlsLmNvbQo+ID4g
+Q2M6IHN0YWJsZSA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4KPiA+IFNpZ25lZC1vZmYtYnk6IFN1
+ZGlwIE11a2hlcmplZSA8c3VkaXBtLm11a2hlcmplZUBnbWFpbC5jb20+Cj4KPiBJIHNlbnQgaW4g
+YSBmaXggZm9yIHRoaXMgbGFzdCBGcmlkYXkuCj4KPiBodHRwczovL3BhdGNod29yay5rZXJuZWwu
+b3JnL3BhdGNoLzEwNjI4ODMzLwoKQW5kIEkgY2FuIGNvbmZpcm0gdGhpcyBwYXRjaCBhbHNvIGZp
+eGVzIHRoZSBpc3N1ZSB0ZXN0ZWQgd2l0aCB0aGUKcmVwcm9kdWNlciBJIHdhcyB1c2luZyBpbiBt
+eSB2bS4K
