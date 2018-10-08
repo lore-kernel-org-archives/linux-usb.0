@@ -3,21 +3,19 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [net-next,05/19] net: usb: aqc111: Introduce PHY access
 From: Igor Russkikh <igor.russkikh@aquantia.com>
-Message-Id: <ee87bdce-b840-80eb-e904-bcb86ea60ec2@aquantia.com>
-Date: Mon, 8 Oct 2018 17:07:09 +0300
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: "David S . Miller" <davem@davemloft.net>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, Dmitry Bezrukov <Dmitry.Bezrukov@aquantia.com>
+Message-Id: <747f70d8-303a-aeea-2359-26b03a5e0336@aquantia.com>
+Date: Mon, 8 Oct 2018 17:10:21 +0300
+To: Oliver Neukum <oneukum@suse.com>, "David S . Miller" <davem@davemloft.net>
+Cc: Dmitry Bezrukov <Dmitry.Bezrukov@aquantia.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgQW5kcmV3LAoKPj4+PiArCXN0cnVjdCBhcWMxMTFfZGF0YSAqYXFjMTExX2RhdGEgPSAoc3Ry
-dWN0IGFxYzExMV9kYXRhICopZGV2LT5kYXRhWzBdOwo+Pj4KPj4+IEhhdmluZyB0byBkbyB0aGlz
-IGNhc3QgYWxsIHRoZSB0aW1lIGlzIHF1aWV0IHVnbHkuIEl0IHNlZW1zIGxpa2Ugc29tZQo+Pj4g
-b3RoZXIgdXNiX25ldCBkcml2ZXJzIHVzZSBuZXRkZXZfcHJpdigpLgo+Pgo+PiBBcyBJIHNlZSBt
-b3N0IG9mIHVzYiB1c2JuZXQgYmFzZWQgZGV2aWNlcyB1c2UgdGhlIHNhbWUgdGhlbWUgd2l0aCBh
-Y2Nlc3NpbmcKPj4gcHJpdmF0ZSBkYXRhIHZpYSBkZXYtPmRhdGEuCj4gCj4gSXQgaXMganVzdCB1
-Z2x5LiBJdCB3b3VsZCBvZiBiZWVuIGJldHRlciBpZiBkZXYtPmRhdGFbXSB3YXMgYSB2b2lkCj4g
-cG9pbnRlci4gVGhpcyBpcyB0aGUgZmlyc3QgdXNibmV0IGRyaXZlciBpJ3ZlIHJldmlld2VkLCBz
-byBpIGRvbid0Cj4ga25vdyB0aGUgaGlzdG9yeSBiZWhpbmQgdGhpcy4gSSB3b25kZXIgaWYgYWRk
-aW5nIGEgdm9pZCAqcHJpdiB3b3VsZCBiZQo+IGFjY2VwdGVkPwoKSSBjYW4ndCBjb21tZW50IG9u
-IGhpc3Rvcnkgb2YgdGhpcywgYnV0Li4uCgpuZXQtbmV4dC9kcml2ZXJzL25ldC91c2IkIGdyZXAg
-ImRldi0+ZGF0YSIgKiB8IHdjIC1sCjE3MwoKUmVnYXJkcywKICBJZ29yCg==
+SGkgT2xpdmVyLAoKPj4gKwlhcWMxMTFfcmVhZF9jbWQoZGV2LCBBUV9BQ0NFU1NfTUFDLCBBUV9G
+V19WRVJfTUFKT1IsCj4+ICsJCQkxLCAxLCAmYXFjMTExX2RhdGEtPmZ3X3Zlci5tYWpvcik7Cj4+
+ICsJYXFjMTExX3JlYWRfY21kKGRldiwgQVFfQUNDRVNTX01BQywgQVFfRldfVkVSX01JTk9SLAo+
+PiArCQkJMSwgMSwgJmFxYzExMV9kYXRhLT5md192ZXIubWlub3IpOwo+PiArCWFxYzExMV9yZWFk
+X2NtZChkZXYsIEFRX0FDQ0VTU19NQUMsIEFRX0ZXX1ZFUl9SRVYsCj4+ICsJCQkxLCAxLCAmYXFj
+MTExX2RhdGEtPmZ3X3Zlci5yZXYpOwo+IAo+IFdoeSByZWFkIHRoZSBzdHVmZiB5b3UgZG9uJ3Qg
+bmVlZD8KCmZ3X3ZlciBpcyB1c2VkIGJlbG93IHRvIGRldGVybWluZSBwaHkgYWNjZXNzIG1vZGUu
+Cgpmd192ZXIucmV2IGlzIG5vdCB1c2VkIGluIHRoaXMgZXhhY3QgcGF0Y2gsIHRoYXRzIHRydWUs
+CmJ1dCBpdCBnZXRzIHJlcG9ydGVkIGluIGxhdGVyIHBhdGNoZXMgaW4gdGhlIHNldC4KClJlZ2Fy
+ZHMsCiAgSWdvcgo=
