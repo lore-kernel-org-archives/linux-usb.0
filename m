@@ -2,26 +2,15 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [net-next,09/19] net: usb: aqc111: Implement RX data path
-From: Andrew Lunn <andrew@lunn.ch>
-Message-Id: <20181006011843.GC32455@lunn.ch>
-Date: Sat, 6 Oct 2018 03:18:43 +0200
+From: =?utf-8?q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
+Message-Id: <874ldv9r30.fsf@miraculix.mork.no>
+Date: Tue, 09 Oct 2018 15:39:47 +0200
 To: Igor Russkikh <Igor.Russkikh@aquantia.com>
 Cc: "David S . Miller" <davem@davemloft.net>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, Dmitry Bezrukov <Dmitry.Bezrukov@aquantia.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-PiArc3RhdGljIGludCBhcWMxMTFfcnhfZml4dXAoc3RydWN0IHVzYm5ldCAqZGV2LCBzdHJ1Y3Qg
-c2tfYnVmZiAqc2tiKQo+ICt7Cj4gKwlzdHJ1Y3Qgc2tfYnVmZiAqbmV3X3NrYiA9IE5VTEw7Cj4g
-Kwl1MzIgc2tiX2xlbiA9IDA7Cj4gKwl1MzIgZGVzY19vZmZzZXQgPSAwOyAvKlJYIEhlYWRlciBP
-ZmZzZXQqLwo+ICsJdTMyIHN0YXJ0X29mX2Rlc2NzID0gMDsKPiArCXUxNiBwa3RfY291bnQgPSAw
-Owo+ICsJdTMyIHBrdF90b3RhbF9vZmZzZXQgPSAwOwo+ICsJc3RydWN0IGFxX3J4X3BhY2tldF9k
-ZXNjICpwa3RfZGVzYyA9IE5VTEw7Cj4gKwlzdHJ1Y3QgYXFfcnhfZGVzY19oZWFkZXIgZGVzY19o
-ZHI7Cj4gKwo+ICsJaWYgKCFza2IpCj4gKwkJZ290byBlcnI7Cj4gKwo+ICsJaWYgKHNrYi0+bGVu
-ID09IDApCj4gKwkJZ290byBlcnI7Cj4gKwo+ICsJc2tiX2xlbiA9IHNrYi0+bGVuOwo+ICsJLyog
-UlggT2Zmc2V0IEhlYWRlciAqLwo+ICsJc2tiX3RyaW0oc2tiLCBza2ItPmxlbiAtIHNpemVvZihz
-dHJ1Y3QgYXFfcnhfZGVzY19oZWFkZXIpKTsKPiArCW1lbWNweSgmZGVzY19oZHIsIHNrYl90YWls
-X3BvaW50ZXIoc2tiKSwKPiArCSAgICAgICBzaXplb2Yoc3RydWN0IGFxX3J4X2Rlc2NfaGVhZGVy
-KSk7Cj4gKwlsZTY0X3RvX2NwdXMoJmRlc2NfaGRyKTsKClNhbWUgcXVlc3Rpb24gYXMgZm9yIFRY
-LgoKPiArCj4gKwkvKiBDaGVjayB0aGVzZSBwYWNrZXRzICovCj4gKwlkZXNjX29mZnNldCA9ICh1
-MzIpZGVzY19oZHIuZGVzY19vZmZzZXQ7CgpJIGRvbid0IHRoaW5rIHlvdSBuZWVkIHRoZSBjYXN0
-IGhlcmUuCgpQbGVhc2UgcmV2aWV3IGFsbCB5b3VyIGNhc3RzIGFuZCByZW1vdmUgYW55IHRoYXQg
-YXJlIG5vdCBuZWVkZWQuCgogICAgICAgQW5kcmV3Cg==
+SWdvciBSdXNza2lraCA8SWdvci5SdXNza2lraEBhcXVhbnRpYS5jb20+IHdyaXRlczoKCj4gRnJv
+bTogRG1pdHJ5IEJlenJ1a292IDxkbWl0cnkuYmV6cnVrb3ZAYXF1YW50aWEuY29tPgo+Cj4gU2ln
+bmVkLW9mZi1ieTogRG1pdHJ5IEJlenJ1a292IDxkbWl0cnkuYmV6cnVrb3ZAYXF1YW50aWEuY29t
+Pgo+IFNpZ25lZC1vZmYtYnk6IElnb3IgUnVzc2tpa2ggPGlnb3IucnVzc2tpa2hAYXF1YW50aWEu
+Y29tPgo+IC0tLQoKWW91J2Qgd2FudCBzb21lIGRlc2NyaXB0aW9uIGhlcmUuCgoKCkJqw7hybgo=
