@@ -2,26 +2,21 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [net-next,07/19] net: usb: aqc111: Add support for getting and setting of MAC address
-From: Igor Russkikh <igor.russkikh@aquantia.com>
-Message-Id: <082aefef-5927-181e-e505-685c1ca51492@aquantia.com>
-Date: Tue, 9 Oct 2018 14:34:36 +0000
-To: Andrew Lunn <andrew@lunn.ch>
+From: Andrew Lunn <andrew@lunn.ch>
+Message-Id: <20181009144623.GW4730@lunn.ch>
+Date: Tue, 9 Oct 2018 16:46:23 +0200
+To: Igor Russkikh <Igor.Russkikh@aquantia.com>
 Cc: "David S . Miller" <davem@davemloft.net>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, Dmitry Bezrukov <Dmitry.Bezrukov@aquantia.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgQW5kcmV3LA0KDQo+PiArCWlmIChyZXQgPCAwKQ0KPj4gKwkJZ290byBvdXQ7DQo+PiArDQo+
-PiArCW1lbWNweShkZXYtPm5ldC0+ZGV2X2FkZHIsIGJ1ZiwgRVRIX0FMRU4pOw0KPj4gKwltZW1j
-cHkoZGV2LT5uZXQtPnBlcm1fYWRkciwgZGV2LT5uZXQtPmRldl9hZGRyLCBFVEhfQUxFTik7DQo+
-IA0KPiBJcyB0aGlzIHJlYWxseSB0aGUgcGVybWFuZW50IGFkZHJlc3M/IElmIGkgY2FsbCBhcWMx
-MTFfc2V0X21hY19hZGRyKCkNCj4gZm9sbG93ZWQgYnkgYXFjMTExX2dldF9tYWMoKSBpIHN0aWxs
-IGdldCB3aGF0IGlzIGluIHRoZSBPVFAgRUVQUk9NPw0KDQpUaGF0cyBhY3R1YWxseSBhIGNvbmZ1
-c2lvbiB3aXRoIGZ1bmN0aW9uIG5hbWUgaGVyZS4NClRoaW5rIGl0cyBiZXR0ZXIgdG8gbmFtZSBp
-dCBhcWMxMTFfaW5pdF9tYWMoKSBzaW5jZSBpdCBnZXRzIGNhbGxlZA0Kb25seSBvbmNlIG9uIGJp
-bmQuDQoNCkl0IHJlYWxseSBpbml0aWFsaXplcyBwZXJtX2FkZHIgb25jZSwgdGh1cyBzdGFuZGFy
-ZCBuZGV2IGNhbGxiYWNrIHdpbGwgZ2l2ZQ0KdGhlIHBlcm0gbWFjIHlvdSB3YW50Lg0KDQo+IA0K
-PiBZb3UgaW5pdGlhbGl6ZWQgaXQgYWJvdmUgYXMgezB9LiBZb3UgZG9uJ3QgbmVlZCB0byBtZW1z
-ZXQgaXQgaGVyZS4NCj4gDQo+PiArCXJldCA9IGFxYzExMV9nZXRfbWFjKGRldiwgYnVmKTsNCj4g
-DQo+IERvIHlvdSBldmVuIG5lZWQgdG8gemVybyBpdD8gSWYgYXFjMTExX2dldF9tYWMoKSBmYWls
-cywgaXQgd2lsbCBiZQ0KPiBsZWZ0IHVuZGVmaW5lZCwgYnV0IHlvdSBmYWlsIHRoZSBiaW5kIGFu
-eXdheS4NCg0KV2UgZXZlbiBkb24ndCBuZWVkIHRoaXMgYGJ1ZmAgaGVyZSBhdCBhbGwuIFdlJ2xs
-IG1vdmUgaXQgaW50bw0KYWJvdmUgaW5pdF9tYWMgZnVuY3Rpb24uDQoNCkJSLCBJZ29yCg==
+T24gVHVlLCBPY3QgMDksIDIwMTggYXQgMDI6MzQ6MzZQTSArMDAwMCwgSWdvciBSdXNza2lraCB3
+cm90ZToKPiBIaSBBbmRyZXcsCj4gCj4gPj4gKwlpZiAocmV0IDwgMCkKPiA+PiArCQlnb3RvIG91
+dDsKPiA+PiArCj4gPj4gKwltZW1jcHkoZGV2LT5uZXQtPmRldl9hZGRyLCBidWYsIEVUSF9BTEVO
+KTsKPiA+PiArCW1lbWNweShkZXYtPm5ldC0+cGVybV9hZGRyLCBkZXYtPm5ldC0+ZGV2X2FkZHIs
+IEVUSF9BTEVOKTsKPiA+IAo+ID4gSXMgdGhpcyByZWFsbHkgdGhlIHBlcm1hbmVudCBhZGRyZXNz
+PyBJZiBpIGNhbGwgYXFjMTExX3NldF9tYWNfYWRkcigpCj4gPiBmb2xsb3dlZCBieSBhcWMxMTFf
+Z2V0X21hYygpIGkgc3RpbGwgZ2V0IHdoYXQgaXMgaW4gdGhlIE9UUCBFRVBST00/Cj4gCj4gVGhh
+dHMgYWN0dWFsbHkgYSBjb25mdXNpb24gd2l0aCBmdW5jdGlvbiBuYW1lIGhlcmUuCj4gVGhpbmsg
+aXRzIGJldHRlciB0byBuYW1lIGl0IGFxYzExMV9pbml0X21hYygpIHNpbmNlIGl0IGdldHMgY2Fs
+bGVkCj4gb25seSBvbmNlIG9uIGJpbmQuCgpIaSBJZ29yCgpPciBhcWMxMTFfZ2V0X290cF9tYWMo
+KT8KCiAgIEFuZHJldwo=
