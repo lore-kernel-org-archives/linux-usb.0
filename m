@@ -2,21 +2,15 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [net-next,05/19] net: usb: aqc111: Introduce PHY access
-From: Andrew Lunn <andrew@lunn.ch>
-Message-Id: <20181010005852.GA20147@lunn.ch>
-Date: Wed, 10 Oct 2018 02:58:52 +0200
-To: Igor Russkikh <Igor.Russkikh@aquantia.com>
+From: Igor Russkikh <igor.russkikh@aquantia.com>
+Message-Id: <05acc54b-7581-2881-2ee7-186594ca3468@aquantia.com>
+Date: Wed, 10 Oct 2018 07:54:44 +0000
+To: Andrew Lunn <andrew@lunn.ch>
 Cc: "David S . Miller" <davem@davemloft.net>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, Dmitry Bezrukov <Dmitry.Bezrukov@aquantia.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gTW9uLCBPY3QgMDgsIDIwMTggYXQgMDk6MDk6NTRBTSArMDAwMCwgSWdvciBSdXNza2lraCB3
-cm90ZToKPiBIaSBBbmRyZXcsCj4gCj4gPj4gIAo+ID4+ICsJc3RydWN0IGFxYzExMV9kYXRhICph
-cWMxMTFfZGF0YSA9IChzdHJ1Y3QgYXFjMTExX2RhdGEgKilkZXYtPmRhdGFbMF07Cj4gPiAKPiA+
-IEhhdmluZyB0byBkbyB0aGlzIGNhc3QgYWxsIHRoZSB0aW1lIGlzIHF1aWV0IHVnbHkuIEl0IHNl
-ZW1zIGxpa2Ugc29tZQo+ID4gb3RoZXIgdXNiX25ldCBkcml2ZXJzIHVzZSBuZXRkZXZfcHJpdigp
-Lgo+IAo+IEFzIEkgc2VlIG1vc3Qgb2YgdXNiIHVzYm5ldCBiYXNlZCBkZXZpY2VzIHVzZSB0aGUg
-c2FtZSB0aGVtZSB3aXRoIGFjY2Vzc2luZwo+IHByaXZhdGUgZGF0YSB2aWEgZGV2LT5kYXRhLgoK
-SGkgSWdvcgoKSSBqdXN0IGRpc2NvdmVyZWQgZHJpdmVyX3ByaXYuCgpodHRwczovL2VsaXhpci5i
-b290bGluLmNvbS9saW51eC92NC4xOS1yYzcvc291cmNlL2luY2x1ZGUvbGludXgvdXNiL3VzYm5l
-dC5oI0wzMwoKSXQgd291bGQgYmUgZ29vZCB0byB1c2UgdGhhdCwgdG8gYXZvaWQgdGhlIGNhc3Rz
-LgoKICAgQW5kcmV3Cg==
+T24gMTAuMTAuMjAxOCAwMzo1OCwgQW5kcmV3IEx1bm4gd3JvdGU6DQoNCj4gDQo+IEkganVzdCBk
+aXNjb3ZlcmVkIGRyaXZlcl9wcml2Lg0KPiANCj4gaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20v
+bGludXgvdjQuMTktcmM3L3NvdXJjZS9pbmNsdWRlL2xpbnV4L3VzYi91c2JuZXQuaCNMMzMNCj4g
+DQo+IEl0IHdvdWxkIGJlIGdvb2QgdG8gdXNlIHRoYXQsIHRvIGF2b2lkIHRoZSBjYXN0cy4NCg0K
+TG9va3MgZ29vZCB0byBtZSwgdGhhbmtzLg0KDQpSZWdhcmRzLA0KICBJZ29yCg==
