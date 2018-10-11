@@ -2,26 +2,17 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: net: cdc_ncm: use tasklet_init() for tasklet_struct init
-From: Ben Dooks <ben.dooks@codethink.co.uk>
-Message-Id: <20181011130332.25710-1-ben.dooks@codethink.co.uk>
-Date: Thu, 11 Oct 2018 14:03:32 +0100
-To: avem@davemloft.net, oliver@neukum.org
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kernel@lists.codethink.co.uk, Ben Dooks <ben.dooks@codethink.co.uk>
+From: David Miller <davem@davemloft.net>
+Message-Id: <20181011.120642.1884317415368072192.davem@davemloft.net>
+Date: Thu, 11 Oct 2018 12:06:42 -0700 (PDT)
+To: ben.dooks@codethink.co.uk
+Cc: oliver@neukum.org, linux-usb@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kernel@lists.codethink.co.uk
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhlIHRhc2tsZXQgaW5pdGlhbGlzYXRpb24gd291bGQgYmUgYmV0dGVyIGRvbmUgYnkgdGFza2xl
-dF9pbml0KCkKaW5zdGVhZCBvZiBhc3N1bWluZyBhbGwgdGhlIGZpZWxkcyBhcmUgaW4gYW4gb2sg
-c3RhdGUgYnkgZGVmYXVsdC4KClRoaXMgZG9lcyBub3QgZml4IGFueSBhY3R1YWwga25vdyBidWcu
-CgpTaWduZWQtb2ZmLWJ5OiBCZW4gRG9va3MgPGJlbi5kb29rc0Bjb2RldGhpbmsuY28udWs+Ci0t
-LQogZHJpdmVycy9uZXQvdXNiL2NkY19uY20uYyB8IDMgKy0tCiAxIGZpbGUgY2hhbmdlZCwgMSBp
-bnNlcnRpb24oKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9uZXQvdXNi
-L2NkY19uY20uYyBiL2RyaXZlcnMvbmV0L3VzYi9jZGNfbmNtLmMKaW5kZXggMGQ3MjJiMzI2ZTFi
-Li44NjNmMzU0OGE0MzkgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbmV0L3VzYi9jZGNfbmNtLmMKKysr
-IGIvZHJpdmVycy9uZXQvdXNiL2NkY19uY20uYwpAQCAtNzg0LDggKzc4NCw3IEBAIGludCBjZGNf
-bmNtX2JpbmRfY29tbW9uKHN0cnVjdCB1c2JuZXQgKmRldiwgc3RydWN0IHVzYl9pbnRlcmZhY2Ug
-KmludGYsIHU4IGRhdGFfCiAKIAlocnRpbWVyX2luaXQoJmN0eC0+dHhfdGltZXIsIENMT0NLX01P
-Tk9UT05JQywgSFJUSU1FUl9NT0RFX1JFTCk7CiAJY3R4LT50eF90aW1lci5mdW5jdGlvbiA9ICZj
-ZGNfbmNtX3R4X3RpbWVyX2NiOwotCWN0eC0+YmguZGF0YSA9ICh1bnNpZ25lZCBsb25nKWRldjsK
-LQljdHgtPmJoLmZ1bmMgPSBjZGNfbmNtX3R4cGF0aF9iaDsKKwl0YXNrbGV0X2luaXQoJmN0eC0+
-YmgsIGNkY19uY21fdHhwYXRoX2JoLCAodW5zaWduZWQgbG9uZylkZXYpOwogCWF0b21pY19zZXQo
-JmN0eC0+c3RvcCwgMCk7CiAJc3Bpbl9sb2NrX2luaXQoJmN0eC0+bXR4KTsKIAo=
+RnJvbTogQmVuIERvb2tzIDxiZW4uZG9va3NAY29kZXRoaW5rLmNvLnVrPgpEYXRlOiBUaHUsIDEx
+IE9jdCAyMDE4IDE0OjAzOjMyICswMTAwCgo+IFRoZSB0YXNrbGV0IGluaXRpYWxpc2F0aW9uIHdv
+dWxkIGJlIGJldHRlciBkb25lIGJ5IHRhc2tsZXRfaW5pdCgpCj4gaW5zdGVhZCBvZiBhc3N1bWlu
+ZyBhbGwgdGhlIGZpZWxkcyBhcmUgaW4gYW4gb2sgc3RhdGUgYnkgZGVmYXVsdC4KPiAKPiBUaGlz
+IGRvZXMgbm90IGZpeCBhbnkgYWN0dWFsIGtub3cgYnVnLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEJl
+biBEb29rcyA8YmVuLmRvb2tzQGNvZGV0aGluay5jby51az4KCkFwcGxpZWQgdG8gbmV0LW5leHQu
+Cg==
