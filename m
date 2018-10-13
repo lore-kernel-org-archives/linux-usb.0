@@ -1,19 +1,31 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [1/7] net: smsc75xx: add usbnet -> priv function
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20181012101957.GA27607@kroah.com>
-Date: Fri, 12 Oct 2018 12:19:57 +0200
-To: Ben Dooks <ben.dooks@codethink.co.uk>
-Cc: davem@davemloft.net, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kernel@lists.codethink.co.uk, bjorn@mork.no, steve.glendinning@shawell.net
+Subject: [V6,06/10] usb: dwc3: don't issue no-op trb for stream capable endpoints
+From: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
+Message-Id: <1539436498-24892-7-git-send-email-anurag.kumar.vulisha@xilinx.com>
+Date: Sat, 13 Oct 2018 18:44:53 +0530
+To: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alan Stern <stern@rowland.harvard.edu>, Johan Hovold <johan@kernel.org>, Jaejoong Kim <climbbb.kim@gmail.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, Roger Quadros <rogerq@ti.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, v.anuragkumar@gmail.com, Thinh Nguyen <thinhn@synopsys.com>, Tejas Joglekar <tejas.joglekar@synopsys.com>, Ajay Yugalkishore Pandey <APANDEY@xilinx.com>, Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCBPY3QgMTIsIDIwMTggYXQgMTA6MTY6MzZBTSArMDEwMCwgQmVuIERvb2tzIHdyb3Rl
-Ogo+IFRoZXJlIGFyZSBhIG51bWJlciBvZiBwbGFjZXMgaW4gdGhlIHNtc2M3NXh4IGRyaXZlciB3
-aGVyZSBpdCBnZXRzIHRoZQo+IHByaXZhdGUtZGF0YSBmcm9tIHRoZSB1c2JuZXQgcGFzc2VkIGlu
-LiBJdCB3b3VsZCBiZSBzZW5zaWJsZSB0byBoYXZlCj4gb25lIGlubGluZSBmdW5jdGlvbiB0byBj
-b252ZXJ0IGl0IGFuZCBjaGFuZ2UgYWxsIHBvaW50cyBpbiB0aGUgZHJpdmVyCj4gdG8gdXNlIHRo
-YXQuCj4gCj4gU2lnbmVkLW9mZi1ieTogQmVuIERvb2tzIDxiZW4uZG9va3NAY29kZXRoaW5rLmNv
-LnVrPgoKUmV2aWV3ZWQtYnk6IEdyZWcgS3JvYWgtSGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91bmRh
-dGlvbi5vcmc+Cg==
+VGhlIHN0cmVhbSBjYXBhYmxlIGVuZHBvaW50cyByZXF1aXJlIHN0cmVhbSBpZCB0byBiZSBnaXZl
+bgp3aGVuIGlzc3VpbmcgU1RBUlQgVFJBTlNGRVIuIFdoaWxlIGlzc3Vpbmcgbm8tb3AgdHJiIHRo
+ZQpzdHJlYW0gaWQgaXMgbm90IHlldCBrbm93biwgc28gZG9uJ3QgaXNzdWUgbm8tb3AgdHJiJ3Mg
+b24Kc3RyZWFtIGNhcGFibGUgZW5kcG9pbnRzLgoKU2lnbmVkLW9mZi1ieTogQW51cmFnIEt1bWFy
+IFZ1bGlzaGEgPGFudXJhZy5rdW1hci52dWxpc2hhQHhpbGlueC5jb20+Ci0tLQogQ2huYWdlcyBp
+biB2NjoKCTEuIFJlcGxhY2VkIGRlcC0+c3RyZWFtX2NhcGFibGUgd2l0aCBkZXAtPmVuZHBvaW50
+LnN0cmVhbV9jYXBhYmxlCgogQ2hhbmdlcyBpbiB2NToKCTEuIE5vbmUKCiBDaGFuZ2VzIGluIHY0
+OgoJMS4gTm9uZQoKIENoYW5nZXMgaW4gdjM6CgkxLiBOb25lCgogQ2hhbmdlcyBpbiB2MjoKCTEu
+IE5vbmUKLS0tCiBkcml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jIHwgMiArLQogMSBmaWxlIGNoYW5n
+ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91
+c2IvZHdjMy9nYWRnZXQuYyBiL2RyaXZlcnMvdXNiL2R3YzMvZ2FkZ2V0LmMKaW5kZXggYjU4Y2Q2
+OS4uODlkZjAzMCAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvZHdjMy9nYWRnZXQuYworKysgYi9k
+cml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jCkBAIC02NjYsNyArNjY2LDcgQEAgc3RhdGljIGludCBf
+X2R3YzNfZ2FkZ2V0X2VwX2VuYWJsZShzdHJ1Y3QgZHdjM19lcCAqZGVwLCB1bnNpZ25lZCBpbnQg
+YWN0aW9uKQogCSAqIElzc3VlIFN0YXJ0VHJhbnNmZXIgaGVyZSB3aXRoIG5vLW9wIFRSQiBzbyB3
+ZSBjYW4gYWx3YXlzIHJlbHkgb24gTm8KIAkgKiBSZXNwb25zZSBVcGRhdGUgVHJhbnNmZXIgY29t
+bWFuZC4KIAkgKi8KLQlpZiAodXNiX2VuZHBvaW50X3hmZXJfYnVsayhkZXNjKSB8fAorCWlmICgo
+dXNiX2VuZHBvaW50X3hmZXJfYnVsayhkZXNjKSAmJiAhZGVwLT5lbmRwb2ludC5zdHJlYW1fY2Fw
+YWJsZSkgfHwKIAkJCXVzYl9lbmRwb2ludF94ZmVyX2ludChkZXNjKSkgewogCQlzdHJ1Y3QgZHdj
+M19nYWRnZXRfZXBfY21kX3BhcmFtcyBwYXJhbXM7CiAJCXN0cnVjdCBkd2MzX3RyYgkqdHJiOwo=
