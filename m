@@ -1,22 +1,33 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [net-next,14/19] net: usb: aqc111: Implement set_rx_mode callback
-From: Igor Russkikh <igor.russkikh@aquantia.com>
-Message-Id: <091a2ad3-d0d9-b196-c0cf-b5c6653a51f2@aquantia.com>
-Date: Mon, 8 Oct 2018 13:49:55 +0000
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: "David S . Miller" <davem@davemloft.net>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, Dmitry Bezrukov <Dmitry.Bezrukov@aquantia.com>
+Subject: [V6,10/10] usb: dwc3: Check MISSED ISOC bit only for ISOC endpoints
+From: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
+Message-Id: <1539436498-24892-12-git-send-email-anurag.kumar.vulisha@xilinx.com>
+Date: Sat, 13 Oct 2018 18:44:58 +0530
+To: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alan Stern <stern@rowland.harvard.edu>, Johan Hovold <johan@kernel.org>, Jaejoong Kim <climbbb.kim@gmail.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, Roger Quadros <rogerq@ti.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, v.anuragkumar@gmail.com, Thinh Nguyen <thinhn@synopsys.com>, Tejas Joglekar <tejas.joglekar@synopsys.com>, Ajay Yugalkishore Pandey <APANDEY@xilinx.com>, Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgQW5kcmV3LA0KDQo+PiArew0KPj4gKwlzdHJ1Y3QgdXNibmV0ICpkZXYgPSBuZXRkZXZfcHJp
-dihuZXQpOw0KPj4gKwlzdHJ1Y3QgYXFjMTExX2RhdGEgKmFxYzExMV9kYXRhID0gKHN0cnVjdCBh
-cWMxMTFfZGF0YSAqKWRldi0+ZGF0YVswXTsNCj4gDQo+PiArCXU4ICptX2ZpbHRlciA9ICgodTgg
-KilkZXYtPmRhdGEpICsgMTI7DQo+IA0KPiBQbGVhc2UgY291bGQgeW91IGV4cGxhaW4gaXMuDQoN
-Ck9oLCB0aGF0IHdhcyBhIGxlZ2FjeSBjb2RlLCB0aGUgaWRlYSBpcyBpdCB1c2VkIHNwYXJlIGFy
-ZWEgaW4gZGV2LT5kYXRhIGFycmF5IHRvDQprZWVwIHBlcm1hbmVudGx5IDggYnl0ZXMgZm9yIG1j
-YXN0IGZpbHRlciByZXF1ZXN0Lg0KDQpCdXQgdGhlIHRydXRoIGlzIHVzYm5ldF93cml0ZSBhbnl3
-YXkgcHJlYWxsb2NhdGVzIHRoZSBkYXRhIGJ1ZmZlciBhbmQgY29waWVzIHRoZSBkYXRhIGluIHRo
-ZXJlLg0KDQpUaGVyZWZvcmUgaXRzIHJlYWxseSBiZXR0ZXIgdG8ganVzdCBhbGxvY2F0ZSBtX2Zp
-bHRlciBvbiBzdGFjayB0byBtYWtlIHRoZSBjb2RlIGNsZWFuLg0KDQpSZWdhcmRzLA0KICBJZ29y
+V2hlbiBzdHJlYW1pbmcgaXMgZW5hYmxlZCBvbiBCVUxLIGVuZHBvaW50cyBhbmQgTFNUIGJpdCBp
+cyBzZXQKb2JzZXJ2ZWQgTUlTU0VEIElTT0MgYml0IHNldCBpbiBldmVudC0+c3RhdHVzIGZvciBC
+VUxLIGVwLiBTaW5jZQp0aGlzIGJpdCBpcyBvbmx5IHZhbGlkIGZvciBpc29jcm9ub3VzIGVuZHBv
+aW50cywgY2hhbmdlZCB0aGUgY29kZQp0byBjaGVjayBmb3IgaXNvY3Jub3VzIGVuZHBvaW50cyB3
+aGVuIE1JU1NFRCBJU09DIGJpdCBpcyBzZXQuCgpTaWduZWQtb2ZmLWJ5OiBBbnVyYWcgS3VtYXIg
+VnVsaXNoYSA8YW51cmFnLmt1bWFyLnZ1bGlzaGFAeGlsaW54LmNvbT4KUmV2aWV3ZWQtYnk6IFRo
+aW5oIE5ndXllbiA8dGhpbmhuQHN5bm9wc3lzLmNvbT4KVGVzdGVkLUJ5OiBUZWphcyBKb2dsZWth
+ciA8dGVqYXMuam9nbGVrYXJAc3lub3BzeXMuY29tPgotLS0KIENobmFnZXMgaW4gdjY6CgkxLiBO
+b25lCgogQ2hhbmdlcyBpbiB2NToKCTEuIE5vbmUKCiBDaGFuZ2VzIGluIHY0OgoJMS4gTm9uZQoK
+IENoYW5nZXMgaW4gdjM6CgkxLiBOb25lCgogQ2hhbmdlcyBpbiB2MjoKCTEuIE5vbmUKLS0tCiBk
+cml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jIHwgMyArKy0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2Vy
+dGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9kd2MzL2dh
+ZGdldC5jIGIvZHJpdmVycy91c2IvZHdjMy9nYWRnZXQuYwppbmRleCBmNTRkZTgwLi41YmMzN2Rk
+IDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jCisrKyBiL2RyaXZlcnMvdXNi
+L2R3YzMvZ2FkZ2V0LmMKQEAgLTI0MTYsNyArMjQxNiw4IEBAIHN0YXRpYyB2b2lkIGR3YzNfZ2Fk
+Z2V0X2VuZHBvaW50X3RyYW5zZmVyX2luX3Byb2dyZXNzKHN0cnVjdCBkd2MzX2VwICpkZXAsCiAJ
+aWYgKGV2ZW50LT5zdGF0dXMgJiBERVBFVlRfU1RBVFVTX0JVU0VSUikKIAkJc3RhdHVzID0gLUVD
+T05OUkVTRVQ7CiAKLQlpZiAoZXZlbnQtPnN0YXR1cyAmIERFUEVWVF9TVEFUVVNfTUlTU0VEX0lT
+T0MpIHsKKwlpZiAoKGV2ZW50LT5zdGF0dXMgJiBERVBFVlRfU1RBVFVTX01JU1NFRF9JU09DKSAm
+JgorCSAgICB1c2JfZW5kcG9pbnRfeGZlcl9pc29jKGRlcC0+ZW5kcG9pbnQuZGVzYykpIHsKIAkJ
+c3RhdHVzID0gLUVYREVWOwogCiAJCWlmIChsaXN0X2VtcHR5KCZkZXAtPnN0YXJ0ZWRfbGlzdCkp
 Cg==
