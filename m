@@ -1,16 +1,32 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: dt-bindings: usb: renesas_usbhs: Add support for r8a7744
-From: Simon Horman <horms@verge.net.au>
-Message-Id: <20181001130049.go6q4qnsdmnrerae@verge.net.au>
-Date: Mon, 1 Oct 2018 15:00:50 +0200
-To: Biju Das <biju.das@bp.renesas.com>
-Cc: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, Chris Paterson <Chris.Paterson2@renesas.com>, Fabrizio Castro <fabrizio.castro@bp.renesas.com>, linux-renesas-soc@vger.kernel.org
+Subject: WARNING in usb_submit_urb (3)
+From: Andrey Konovalov <andreyknvl@google.com>
+Message-Id: <CAAeHK+wJVFv-8AHFG3V3tOdkzw9D63Ztot_tb=oR-QVNXWPoXw@mail.gmail.com>
+Date: Mon, 15 Oct 2018 19:40:49 +0200
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: syzbot <syzbot+24a30223a4b609bb802e@syzkaller.appspotmail.com>, Thinh.Nguyen@synopsys.com, Felipe Balbi <felipe.balbi@linux.intel.com>, "Gustavo A . R . Silva" <garsilva@embeddedor.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, LKML <linux-kernel@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>, syzkaller-bugs <syzkaller-bugs@googlegroups.com>, Oliver Neukum <oneukum@suse.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCBTZXAgMjcsIDIwMTggYXQgMDI6MDE6MTZQTSArMDEwMCwgQmlqdSBEYXMgd3JvdGU6
-Cj4gRG9jdW1lbnQgc3VwcG9ydCBmb3IgUlovRzFOIChSOEE3NzQ0KSBTb0MuCj4gCj4gU2lnbmVk
-LW9mZi1ieTogQmlqdSBEYXMgPGJpanUuZGFzQGJwLnJlbmVzYXMuY29tPgo+IFJldmlld2VkLWJ5
-OiBDaHJpcyBQYXRlcnNvbiA8Q2hyaXMuUGF0ZXJzb24yQHJlbmVzYXMuY29tPgoKUmV2aWV3ZWQt
-Ynk6IFNpbW9uIEhvcm1hbiA8aG9ybXMrcmVuZXNhc0B2ZXJnZS5uZXQuYXU+Cg==
+T24gTW9uLCBPY3QgMTUsIDIwMTggYXQgNzoxMiBQTSwgQWxhbiBTdGVybiA8c3Rlcm5Acm93bGFu
+ZC5oYXJ2YXJkLmVkdT4gd3JvdGU6Cj4gQWgsIEkgc2VlIHRoZSBwcm9ibGVtLiAgSW4gZmFjdCBp
+dCBpcyB0aGUgc2FtZSBpc3N1ZSwgYnV0IHRoZSBjb21taXQKPiBtZW50aW9uZWQgYWJvdmUgY29u
+dGFpbnMgYW4gZXJyb3IgKGlzX2luIGdldHMgdGVzdGVkIHRvbyBzb29uKS4gIFRoZQo+IGZpeCBp
+cyBiZWxvdzsgY2FuIHlvdSBjaGVjayBpdD8KCllvdSBjYW4gYXNrIHN5emJvdCB0byBkbyB0aGlz
+OgoKI3N5eiB0ZXN0OiBnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9n
+aXQvdG9ydmFsZHMvbGludXguZ2l0Cm1hc3RlcgoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2Nv
+cmUvZGV2aW8uYyBiL2RyaXZlcnMvdXNiL2NvcmUvZGV2aW8uYwppbmRleCAyNDQ0MTdkMGRmZDEu
+LmZmY2NkNDBlYTY3ZCAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvY29yZS9kZXZpby5jCisrKyBi
+L2RyaXZlcnMvdXNiL2NvcmUvZGV2aW8uYwpAQCAtMTQ3NCw4ICsxNDc0LDYgQEAgc3RhdGljIGlu
+dCBwcm9jX2RvX3N1Ym1pdHVyYihzdHJ1Y3QgdXNiX2Rldl9zdGF0ZSAqcHMsIHN0cnVjdCB1c2Jk
+ZXZmc191cmIgKnV1cmIKIAl1ID0gMDsKIAlzd2l0Y2ggKHV1cmItPnR5cGUpIHsKIAljYXNlIFVT
+QkRFVkZTX1VSQl9UWVBFX0NPTlRST0w6Ci0JCWlmIChpc19pbikKLQkJCWFsbG93X3Nob3J0ID0g
+dHJ1ZTsKIAkJaWYgKCF1c2JfZW5kcG9pbnRfeGZlcl9jb250cm9sKCZlcC0+ZGVzYykpCiAJCQly
+ZXR1cm4gLUVJTlZBTDsKIAkJLyogbWluIDggYnl0ZSBzZXR1cCBwYWNrZXQgKi8KQEAgLTE1MDUs
+NiArMTUwMyw4IEBAIHN0YXRpYyBpbnQgcHJvY19kb19zdWJtaXR1cmIoc3RydWN0IHVzYl9kZXZf
+c3RhdGUgKnBzLCBzdHJ1Y3QgdXNiZGV2ZnNfdXJiICp1dXJiCiAJCQlpc19pbiA9IDA7CiAJCQl1
+dXJiLT5lbmRwb2ludCAmPSB+VVNCX0RJUl9JTjsKIAkJfQorCQlpZiAoaXNfaW4pCisJCQlhbGxv
+d19zaG9ydCA9IHRydWU7CiAJCXNub29wKCZwcy0+ZGV2LT5kZXYsICJjb250cm9sIHVyYjogYlJl
+cXVlc3RUeXBlPSUwMnggIgogCQkJImJSZXF1ZXN0PSUwMnggd1ZhbHVlPSUwNHggIgogCQkJIndJ
+bmRleD0lMDR4IHdMZW5ndGg9JTA0eFxuIiwK
