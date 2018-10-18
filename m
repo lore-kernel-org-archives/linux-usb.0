@@ -2,52 +2,37 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [V2,3/6] usb: xhci: xhci-plat: Add support for Broadcom STB SoC's
-From: Alan Cooper <alcooperx@gmail.com>
-Message-Id: <1539815349-24126-4-git-send-email-alcooperx@gmail.com>
-Date: Wed, 17 Oct 2018 18:29:06 -0400
-To: linux-kernel@vger.kernel.org
-Cc: Al Cooper <alcooperx@gmail.com>, Alan Stern <stern@rowland.harvard.edu>, Alban Bedel <albeu@free.fr>, Alex Elder <elder@linaro.org>, Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, Avi Fishman <avifishman70@gmail.com>, bcm-kernel-feedback-list@broadcom.com, Bjorn Andersson <bjorn.andersson@linaro.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>, "David S. Miller" <davem@davemloft.net>, devicetree@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Gustavo A. R. Silva" <gustavo@embeddedor.com>, Hans de Goede <hdegoede@redhat.com>, James Hogan <jhogan@kernel.org>, Jianguo Sun <sunjianguo1@huawei.com>, Johan Hovold <johan@kernel.org>, Kees Cook <keescook@chromium.org>, linux-usb@vger.kernel.org, Lu Baolu <baolu.lu@linux.intel.com>, Mark Rutland <mark.rutland@arm.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Mathias Nyman <mathias.nyman@intel.com>, Mathias Nyman <mathias.nyman@linux.intel.com>, Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, Rishabh Bhatnagar <rishabhb@codeaurora.org>, Rob Herring <robh+dt@kernel.org>, Roger Quadros <rogerq@ti.com>
+From: kbuild test robot <lkp@intel.com>
+Message-Id: <201810190028.sduFtg5C%fengguang.wu@intel.com>
+Date: Fri, 19 Oct 2018 00:49:15 +0800
+To: Al Cooper <alcooperx@gmail.com>
+Cc: kbuild-all@01.org, linux-kernel@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>, Alban Bedel <albeu@free.fr>, Alex Elder <elder@linaro.org>, Andrew Morton <akpm@linux-foundation.org>, Arnd Bergmann <arnd@arndb.de>, Avi Fishman <avifishman70@gmail.com>, bcm-kernel-feedback-list@broadcom.com, Bjorn Andersson <bjorn.andersson@linaro.org>, Chunfeng Yun <chunfeng.yun@mediatek.com>, "David S. Miller" <davem@davemloft.net>, devicetree@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Gustavo A. R. Silva" <gustavo@embeddedor.com>, Hans de Goede <hdegoede@redhat.com>, James Hogan <jhogan@kernel.org>, Jianguo Sun <sunjianguo1@huawei.com>, Johan Hovold <johan@kernel.org>, Kees Cook <keescook@chromium.org>, linux-usb@vger.kernel.org, Lu Baolu <baolu.lu@linux.intel.com>, Mark Rutland <mark.rutland@arm.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Mathias Nyman <mathias.nyman@intel.com>, Mathias Nyman <mathias.nyman@linux.intel.com>, Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, Rishabh Bhatnagar <rishabhb@codeaurora.org>, Rob Herring <robh+dt@kernel.org>, Roger Quadros <rogerq@ti.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-QWRkIHN1cHBvcnQgZm9yIEJyb2FkY29tIFNUQiBTb0MncyB0byB0aGUgeGhjaSBwbGF0Zm9ybSBk
-cml2ZXIKClNpZ25lZC1vZmYtYnk6IEFsIENvb3BlciA8YWxjb29wZXJ4QGdtYWlsLmNvbT4KLS0t
-CiBkcml2ZXJzL3VzYi9ob3N0L3hoY2ktYnJjbS5jIHwgMTcgKysrKysrKysrKysrKysrKysKIGRy
-aXZlcnMvdXNiL2hvc3QveGhjaS1icmNtLmggfCAxNiArKysrKysrKysrKysrKysrCiBkcml2ZXJz
-L3VzYi9ob3N0L3hoY2ktcGxhdC5jIHwgIDggKysrKysrKysKIDMgZmlsZXMgY2hhbmdlZCwgNDEg
-aW5zZXJ0aW9ucygrKQogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvdXNiL2hvc3QveGhjaS1i
-cmNtLmMKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL3VzYi9ob3N0L3hoY2ktYnJjbS5oCgpk
-aWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvaG9zdC94aGNpLWJyY20uYyBiL2RyaXZlcnMvdXNiL2hv
-c3QveGhjaS1icmNtLmMKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMDAwLi5h
-NzIyMDEyNmY2YWYKLS0tIC9kZXYvbnVsbAorKysgYi9kcml2ZXJzL3VzYi9ob3N0L3hoY2ktYnJj
-bS5jCkBAIC0wLDAgKzEsMTcgQEAKKy8vIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4w
-CisvKiBDb3B5cmlnaHQgKGMpIDIwMTgsIEJyb2FkY29tICovCisKKyNpbmNsdWRlIDxsaW51eC91
-c2IuaD4KKyNpbmNsdWRlIDxsaW51eC91c2IvaGNkLmg+CisKKyNpbmNsdWRlICJ4aGNpLmgiCisK
-K2ludCB4aGNpX3BsYXRfYnJjbV9pbml0X3F1aXJrKHN0cnVjdCB1c2JfaGNkICpoY2QpCit7CisJ
-c3RydWN0IHhoY2lfaGNkCSp4aGNpID0gaGNkX3RvX3hoY2koaGNkKTsKKworCXhoY2ktPnF1aXJr
-cyB8PSBYSENJX1JFU0VUX09OX1JFU1VNRTsKKwloY2QtPnN1c3BlbmRfd2l0aG91dF9waHlfZXhp
-dCA9IDE7CisJcmV0dXJuIDA7Cit9CisKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2hvc3QveGhj
-aS1icmNtLmggYi9kcml2ZXJzL3VzYi9ob3N0L3hoY2ktYnJjbS5oCm5ldyBmaWxlIG1vZGUgMTAw
-NjQ0CmluZGV4IDAwMDAwMDAwMDAwMC4uYTM5ZDFiODA3YTRjCi0tLSAvZGV2L251bGwKKysrIGIv
-ZHJpdmVycy91c2IvaG9zdC94aGNpLWJyY20uaApAQCAtMCwwICsxLDE2IEBACisvKiBTUERYLUxp
-Y2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMCAqLworLyogQ29weXJpZ2h0IChjKSAyMDE4LCBCcm9h
-ZGNvbSAqLworCisjaWZuZGVmIF9YSENJX0JSQ01fSAorI2RlZmluZSBfWEhDSV9CUkNNX0gKKwor
-I2lmIElTX0VOQUJMRUQoQ09ORklHX1VTQl9YSENJX0JSQ00pCitpbnQgeGhjaV9wbGF0X2JyY21f
-aW5pdF9xdWlyayhzdHJ1Y3QgdXNiX2hjZCAqaGNkKTsKKyNlbHNlCitzdGF0aWMgaW5saW5lIGlu
-dCB4aGNpX2JyY21faW5pdF9xdWlyayhzdHJ1Y3QgdXNiX2hjZCAqaGNkKQoreworCXJldHVybiAw
-OworfQorI2VuZGlmCisjZW5kaWYgLyogX1hIQ0lfQlJDTV9IICovCisKZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvdXNiL2hvc3QveGhjaS1wbGF0LmMgYi9kcml2ZXJzL3VzYi9ob3N0L3hoY2ktcGxhdC5j
-CmluZGV4IDk0ZTkzOTI0OWIyYi4uMWRlMjI5MjhlODYyIDEwMDY0NAotLS0gYS9kcml2ZXJzL3Vz
-Yi9ob3N0L3hoY2ktcGxhdC5jCisrKyBiL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1wbGF0LmMKQEAg
-LTIzLDYgKzIzLDcgQEAKICNpbmNsdWRlICJ4aGNpLXBsYXQuaCIKICNpbmNsdWRlICJ4aGNpLW12
-ZWJ1LmgiCiAjaW5jbHVkZSAieGhjaS1yY2FyLmgiCisjaW5jbHVkZSAieGhjaS1icmNtLmgiCiAK
-IHN0YXRpYyBzdHJ1Y3QgaGNfZHJpdmVyIF9fcmVhZF9tb3N0bHkgeGhjaV9wbGF0X2hjX2RyaXZl
-cjsKIApAQCAtMTExLDYgKzExMiwxMCBAQCBzdGF0aWMgaW50IHhoY2lfcGxhdF9zdGFydChzdHJ1
-Y3QgdXNiX2hjZCAqaGNkKQogCS5yZXN1bWVfcXVpcmsgPSB4aGNpX3JjYXJfcmVzdW1lX3F1aXJr
-LAogfTsKIAorc3RhdGljIGNvbnN0IHN0cnVjdCB4aGNpX3BsYXRfcHJpdiB4aGNpX3BsYXRfYnJj
-bSA9IHsKKwkuaW5pdF9xdWlyayA9IHhoY2lfcGxhdF9icmNtX2luaXRfcXVpcmsKK307CisKIHN0
-YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIHVzYl94aGNpX29mX21hdGNoW10gPSB7CiAJ
-ewogCQkuY29tcGF0aWJsZSA9ICJnZW5lcmljLXhoY2kiLApAQCAtMTQzLDYgKzE0OCw5IEBAIHN0
-YXRpYyBpbnQgeGhjaV9wbGF0X3N0YXJ0KHN0cnVjdCB1c2JfaGNkICpoY2QpCiAJfSwgewogCQku
-Y29tcGF0aWJsZSA9ICJyZW5lc2FzLHJjYXItZ2VuMy14aGNpIiwKIAkJLmRhdGEgPSAmeGhjaV9w
-bGF0X3JlbmVzYXNfcmNhcl9nZW4zLAorCX0sIHsKKwkJLmNvbXBhdGlibGUgPSAiYnJjbSxiY203
-NDQ1LXhoY2kiLAorCQkuZGF0YSA9ICZ4aGNpX3BsYXRfYnJjbSwKIAl9LAogCXt9LAogfTsK
+SGkgQWwsCgpJIGxvdmUgeW91ciBwYXRjaCEgWWV0IHNvbWV0aGluZyB0byBpbXByb3ZlOgoKW2F1
+dG8gYnVpbGQgdGVzdCBFUlJPUiBvbiB1c2IvdXNiLXRlc3RpbmddClthbHNvIGJ1aWxkIHRlc3Qg
+RVJST1Igb24gdjQuMTktcmM4IG5leHQtMjAxODEwMThdCltpZiB5b3VyIHBhdGNoIGlzIGFwcGxp
+ZWQgdG8gdGhlIHdyb25nIGdpdCB0cmVlLCBwbGVhc2UgZHJvcCB1cyBhIG5vdGUgdG8gaGVscCBp
+bXByb3ZlIHRoZSBzeXN0ZW1dCgp1cmw6ICAgIGh0dHBzOi8vZ2l0aHViLmNvbS8wZGF5LWNpL2xp
+bnV4L2NvbW1pdHMvQWwtQ29vcGVyL0FkZC1YSENJLUVIQ0ktYW5kLU9IQ0ktc3VwcG9ydC1mb3It
+QnJvYWRjb20tU1RCLVNvUy1zLzIwMTgxMDE5LTAwMTEzMgpiYXNlOiAgIGh0dHBzOi8vZ2l0Lmtl
+cm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L2dyZWdraC91c2IuZ2l0IHVzYi10ZXN0
+aW5nCmNvbmZpZzogeDg2XzY0LXJhbmRjb25maWcteDAxNy0yMDE4NDEgKGF0dGFjaGVkIGFzIC5j
+b25maWcpCmNvbXBpbGVyOiBnY2MtNyAoRGViaWFuIDcuMy4wLTEpIDcuMy4wCnJlcHJvZHVjZToK
+ICAgICAgICAjIHNhdmUgdGhlIGF0dGFjaGVkIC5jb25maWcgdG8gbGludXggYnVpbGQgdHJlZQog
+ICAgICAgIG1ha2UgQVJDSD14ODZfNjQgCgpOb3RlOiB0aGUgbGludXgtcmV2aWV3L0FsLUNvb3Bl
+ci9BZGQtWEhDSS1FSENJLWFuZC1PSENJLXN1cHBvcnQtZm9yLUJyb2FkY29tLVNUQi1Tb1Mtcy8y
+MDE4MTAxOS0wMDExMzIgSEVBRCA4MGFlZGYyMDM3YTZjNjk3YmZlMjE5M2ZmYmI2MzVlNGFiMjZh
+MGI2IGJ1aWxkcyBmaW5lLgogICAgICBJdCBvbmx5IGh1cnRzIGJpc2VjdGliaWxpdHkuCgpBbGwg
+ZXJyb3JzIChuZXcgb25lcyBwcmVmaXhlZCBieSA+Pik6Cgo+PiBkcml2ZXJzL3VzYi8vaG9zdC94
+aGNpLXBsYXQuYzoxMTc6MTY6IGVycm9yOiAneGhjaV9wbGF0X2JyY21faW5pdF9xdWlyaycgdW5k
+ZWNsYXJlZCBoZXJlIChub3QgaW4gYSBmdW5jdGlvbik7IGRpZCB5b3UgbWVhbiAneGhjaV9icmNt
+X2luaXRfcXVpcmsnPwogICAgIC5pbml0X3F1aXJrID0geGhjaV9wbGF0X2JyY21faW5pdF9xdWly
+awogICAgICAgICAgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgogICAgICAgICAg
+ICAgICAgICAgeGhjaV9icmNtX2luaXRfcXVpcmsKCnZpbSArMTE3IGRyaXZlcnMvdXNiLy9ob3N0
+L3hoY2ktcGxhdC5jCgogICAxMTUJCiAgIDExNglzdGF0aWMgY29uc3Qgc3RydWN0IHhoY2lfcGxh
+dF9wcml2IHhoY2lfcGxhdF9icmNtID0gewogPiAxMTcJCS5pbml0X3F1aXJrID0geGhjaV9wbGF0
+X2JyY21faW5pdF9xdWlyawogICAxMTgJfTsKICAgMTE5Ci0tLQowLURBWSBrZXJuZWwgdGVzdCBp
+bmZyYXN0cnVjdHVyZSAgICAgICAgICAgICAgICBPcGVuIFNvdXJjZSBUZWNobm9sb2d5IENlbnRl
+cgpodHRwczovL2xpc3RzLjAxLm9yZy9waXBlcm1haWwva2J1aWxkLWFsbCAgICAgICAgICAgICAg
+ICAgICBJbnRlbCBDb3Jwb3JhdGlvbgo=
