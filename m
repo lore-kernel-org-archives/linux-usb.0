@@ -1,16 +1,30 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [2/2] usb: xhci: fix timeout for transition from RExit to U0
-From: Aaron Ma <aaron.ma@canonical.com>
-Message-Id: <797e068f-c5db-82df-e9ee-51772e482423@canonical.com>
-Date: Mon, 22 Oct 2018 11:37:24 +0800
-To: Greg KH <gregkh@linuxfoundation.org>, mathias.nyman@intel.com
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RFC,1/5] driver core: Add fwnode member to struct device_connection
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Message-Id: <20181024150525.11552-2-heikki.krogerus@linux.intel.com>
+Date: Wed, 24 Oct 2018 18:05:21 +0300
+To: Heiko Stuebner <heiko@sntech.de>
+Cc: Guenter Roeck <linux@roeck-us.net>, Hans de Goede <hdegoede@redhat.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMTAvMjIvMTggMjoyMSBBTSwgR3JlZyBLSCB3cm90ZToKPiBDYW4gd2UgcHV0IHRoZSB1bml0
-cyBpbiB0aGUgI2RlZmluZSBpdHNlbGYgc28gdGhhdCB0aGlzIHdpbGwgYmUgbW9yZQo+IG9idmlv
-dXMgaW4gdGhlIGZ1dHVyZT8gIExpa2UgWEhDSV9NQVhfUkVYSVRfVElNRU9VVF9NUz8KCklmIG5v
-IG90aGVyIGNvbmNlcm5zIGFib3V0IHRoZXNlIDIgcGF0Y2hlcywKSSB3aWxsIHNlbmQgVjIgb2Yg
-Mm5kIHBhdGNoIHRvIGZvbGxvdyB5b3VyIGFkdmljZS4KClRoYW5rcywKQWFyb24K
+VGhpcyB3aWxsIHByZXBhcmUgdGhlIGRldmljZSBjb25uZWN0aW9uIEFQSSBmb3IgY29ubmVjdGlv
+bnMKZGVzY3JpYmVkIGluIGZpcm13YXJlLgoKU2lnbmVkLW9mZi1ieTogSGVpa2tpIEtyb2dlcnVz
+IDxoZWlra2kua3JvZ2VydXNAbGludXguaW50ZWwuY29tPgotLS0KIGluY2x1ZGUvbGludXgvZGV2
+aWNlLmggfCA2ICsrKysrKwogMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKQoKZGlmZiAt
+LWdpdCBhL2luY2x1ZGUvbGludXgvZGV2aWNlLmggYi9pbmNsdWRlL2xpbnV4L2RldmljZS5oCmlu
+ZGV4IDkwMjI0ZTc1YWRlNC4uYTk2NGEwZDYxNGZhIDEwMDY0NAotLS0gYS9pbmNsdWRlL2xpbnV4
+L2RldmljZS5oCisrKyBiL2luY2x1ZGUvbGludXgvZGV2aWNlLmgKQEAgLTc1MywxMSArNzUzLDE3
+IEBAIHN0cnVjdCBkZXZpY2VfZG1hX3BhcmFtZXRlcnMgewogCiAvKioKICAqIHN0cnVjdCBkZXZp
+Y2VfY29ubmVjdGlvbiAtIERldmljZSBDb25uZWN0aW9uIERlc2NyaXB0b3IKKyAqIEBmd25vZGU6
+IFRoZSBkZXZpY2Ugbm9kZSBvZiB0aGUgY29ubmVjdGVkIGRldmljZQogICogQGVuZHBvaW50OiBU
+aGUgbmFtZXMgb2YgdGhlIHR3byBkZXZpY2VzIGNvbm5lY3RlZCB0b2dldGhlcgogICogQGlkOiBV
+bmlxdWUgaWRlbnRpZmllciBmb3IgdGhlIGNvbm5lY3Rpb24KICAqIEBsaXN0OiBMaXN0IGhlYWQs
+IHByaXZhdGUsIGZvciBpbnRlcm5hbCB1c2Ugb25seQorICoKKyAqIE5PVEU6IEBmd25vZGUgaXMg
+bm90IHVzZWQgdG9nZXRoZXIgd2l0aCBAZW5kcG9pbnQuIEBmd25vZGUgaXMgdXNlZCB3aGVuCisg
+KiBwbGF0Zm9ybSBmaXJtd2FyZSBkZWZpbmVzIHRoZSBjb25uZWN0aW9uLiBXaGVuIHRoZSBjb25u
+ZWN0aW9uIGlzIHJlZ2lzdGVkZWQKKyAqIHdpdGggZGV2aWNlX2Nvbm5lY3Rpb25fYWRkKCkgQGVu
+ZHBvaW50IGlzIHVzZWQgaW5zdGVhZC4KICAqLwogc3RydWN0IGRldmljZV9jb25uZWN0aW9uIHsK
+KwlzdHJ1Y3QgZndub2RlX2hhbmRsZQkqZndub2RlOwogCWNvbnN0IGNoYXIJCSplbmRwb2ludFsy
+XTsKIAljb25zdCBjaGFyCQkqaWQ7CiAJc3RydWN0IGxpc3RfaGVhZAlsaXN0Owo=
