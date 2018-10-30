@@ -2,26 +2,15 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/2] usb: dwc2: gadget: Fix WkupAlert interrupt handler.
-From: Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
-Message-Id: <d1ac0cb745c83e9b1e698af63d4fc09e02061181.1540902331.git.arturp@synopsys.com>
-Date: Tue, 30 Oct 2018 08:26:45 -0400
-To: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Minas Harutyunyan <minas.harutyunyan@synopsys.com>, linux-usb@vger.kernel.org
-Cc: John Youn <john.youn@synopsys.com>, Artur Petrosyan <arthur.petrosyan@synopsys.com>
+From: Felipe Balbi <balbi@kernel.org>
+Message-Id: <87va5jehqx.fsf@linux.intel.com>
+Date: Tue, 30 Oct 2018 14:33:42 +0200
+To: Artur Petrosyan <arthur.petrosyan@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Minas Harutyunyan <minas.harutyunyan@synopsys.com>, linux-usb@vger.kernel.org
+Cc: John Youn <john.youn@synopsys.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-QWNjb3JkaW5nIHRvIHRoZSBkYXRhYm9vayBEQ1RMX1JNVFdLVVBTSUcgYml0CmlzIGRlZmluZWQg
-aW4gRENUTCByZWdpc3RlciBub3QgaW4gRENGRy4KClVwZGF0ZWQgc2V0dGluZyBEQ1RMX1JNVFdL
-VVBTSUcgYml0IHRvIERDVEwKcmVnaXN0ZXIuCgpTaWduZWQtb2ZmLWJ5OiBBcnR1ciBQZXRyb3N5
-YW4gPGFydHVycEBzeW5vcHN5cy5jb20+ClNpZ25lZC1vZmYtYnk6IE1pbmFzIEhhcnV0eXVueWFu
-IDxobWluYXNAc3lub3BzeXMuY29tPgotLS0KIGRyaXZlcnMvdXNiL2R3YzIvZ2FkZ2V0LmMgfCAy
-ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYg
-LS1naXQgYS9kcml2ZXJzL3VzYi9kd2MyL2dhZGdldC5jIGIvZHJpdmVycy91c2IvZHdjMi9nYWRn
-ZXQuYwppbmRleCAyZDZkMmM4MjQ0ZGUuLjZiZDQwNTRlODk0ZCAxMDA2NDQKLS0tIGEvZHJpdmVy
-cy91c2IvZHdjMi9nYWRnZXQuYworKysgYi9kcml2ZXJzL3VzYi9kd2MyL2dhZGdldC5jCkBAIC0y
-NjIsNyArMjYyLDcgQEAgc3RhdGljIHZvaWQgZHdjMl9nYWRnZXRfd2t1cF9hbGVydF9oYW5kbGVy
-KHN0cnVjdCBkd2MyX2hzb3RnICpoc290ZykKIAlpZiAoZ2ludHN0czIgJiBHSU5UU1RTMl9XS1VQ
-X0FMRVJUX0lOVCkgewogCQlkZXZfZGJnKGhzb3RnLT5kZXYsICIlczogV2t1cF9BbGVydF9JbnRc
-biIsIF9fZnVuY19fKTsKIAkJZHdjMl9jbGVhcl9iaXQoaHNvdGcsIEdJTlRTVFMyLCBHSU5UU1RT
-Ml9XS1VQX0FMRVJUX0lOVCk7Ci0JCWR3YzJfc2V0X2JpdChoc290ZywgRENGRywgRENUTF9STVRX
-S1VQU0lHKTsKKwkJZHdjMl9zZXRfYml0KGhzb3RnLCBEQ1RMLCBEQ1RMX1JNVFdLVVBTSUcpOwog
-CX0KIH0KIAo=
+SGksCgpBcnR1ciBQZXRyb3N5YW4gPGFydGh1ci5wZXRyb3N5YW5Ac3lub3BzeXMuY29tPiB3cml0
+ZXM6Cj4gQWNjb3JkaW5nIHRvIHRoZSBkYXRhYm9vayBEQ1RMX1JNVFdLVVBTSUcgYml0Cj4gaXMg
+ZGVmaW5lZCBpbiBEQ1RMIHJlZ2lzdGVyIG5vdCBpbiBEQ0ZHLgo+Cj4gVXBkYXRlZCBzZXR0aW5n
+IERDVExfUk1UV0tVUFNJRyBiaXQgdG8gRENUTAo+IHJlZ2lzdGVyLgo+Cgpsb29rcyBsaWtlIHRo
+aXMgbmVlZHMgYSBDYyBzdGFibGUgYW5kIEZpeGVzIHRhZy4gQ2FyZSB0byBhZGQ/Cg==
