@@ -2,23 +2,15 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: xhci: fix small typo
-From: Yangtao Li <tiny.windzz@gmail.com>
-Message-Id: <20181101155624.23435-1-tiny.windzz@gmail.com>
-Date: Thu,  1 Nov 2018 11:56:24 -0400
-To: mathias.nyman@intel.com, gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Yangtao Li <tiny.windzz@gmail.com>
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20181101174104.GA5179@kroah.com>
+Date: Thu, 1 Nov 2018 18:41:04 +0100
+To: Yangtao Li <tiny.windzz@gmail.com>
+Cc: mathias.nyman@intel.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-U2lnbmVkLW9mZi1ieTogWWFuZ3RhbyBMaSA8dGlueS53aW5kenpAZ21haWwuY29tPgotLS0KIGRy
-aXZlcnMvdXNiL2hvc3QveGhjaS5jIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
-KCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvaG9zdC94aGNpLmMg
-Yi9kcml2ZXJzL3VzYi9ob3N0L3hoY2kuYwppbmRleCAwNDIwZWVmYTY0N2EuLmQ0NDQ2ZGM0NmZk
-MSAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvaG9zdC94aGNpLmMKKysrIGIvZHJpdmVycy91c2Iv
-aG9zdC94aGNpLmMKQEAgLTQxMDUsNyArNDEwNSw3IEBAIHN0YXRpYyBpbnQgeGhjaV9lbmFibGVf
-ZGV2aWNlKHN0cnVjdCB1c2JfaGNkICpoY2QsIHN0cnVjdCB1c2JfZGV2aWNlICp1ZGV2KQogCiAv
-KgogICogVHJhbnNmZXIgdGhlIHBvcnQgaW5kZXggaW50byByZWFsIGluZGV4IGluIHRoZSBIVyBw
-b3J0IHN0YXR1cwotICogcmVnaXN0ZXJzLiBDYWN1bGF0ZSBvZmZzZXQgYmV0d2VlbiB0aGUgcG9y
-dCdzIFBPUlRTQyByZWdpc3RlcgorICogcmVnaXN0ZXJzLiBDYWxjdWxhdGUgb2Zmc2V0IGJldHdl
-ZW4gdGhlIHBvcnQncyBQT1JUU0MgcmVnaXN0ZXIKICAqIGFuZCBwb3J0IHN0YXR1cyBiYXNlLiBE
-aXZpZGUgdGhlIG51bWJlciBvZiBwZXIgcG9ydCByZWdpc3RlcgogICogdG8gZ2V0IHRoZSByZWFs
-IGluZGV4LiBUaGUgcmF3IHBvcnQgbnVtYmVyIGJhc2VzIDEuCiAgKi8K
+T24gVGh1LCBOb3YgMDEsIDIwMTggYXQgMTE6NTY6MjRBTSAtMDQwMCwgWWFuZ3RhbyBMaSB3cm90
+ZToKPiBTaWduZWQtb2ZmLWJ5OiBZYW5ndGFvIExpIDx0aW55LndpbmR6ekBnbWFpbC5jb20+Cj4g
+LS0tCj4gIGRyaXZlcnMvdXNiL2hvc3QveGhjaS5jIHwgMiArLQo+ICAxIGZpbGUgY2hhbmdlZCwg
+MSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCkkgZG9uJ3QgdGFrZSBwYXRjaGVzIHdpdGhv
+dXQgYW55IGNoYW5nZWxvZyB0ZXh0LCBzb3JyeS4KCmdyZWcgay1oCg==
