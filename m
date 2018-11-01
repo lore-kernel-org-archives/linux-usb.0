@@ -1,29 +1,20 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: usb: gadget: aspeed-vhub: constify usb_gadget_ops structure
-From: Andrew Jeffery <andrew@aj.id.au>
-Message-Id: <1541637316.1471870.1569457840.5A56DC54@webmail.messagingengine.com>
-Date: Thu, 08 Nov 2018 11:05:16 +1030
-To: Julia Lawall <Julia.Lawall@lip6.fr>, Felipe Balbi <balbi@kernel.org>
-Cc: kernel-janitors@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Joel Stanley <joel@jms.id.au>, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org
+Subject: [v2] usbnet: smsc95xx: disable carrier check while suspending
+From: Raghuram Chary J <raghuramchary.jallipalli@microchip.com>
+Message-Id: <0573C9D4B793EF43BF95221F2F4CC8515B56CB@CHN-SV-EXMX06.mchp-main.com>
+Date: Thu, 1 Nov 2018 13:58:19 +0000
+To: frieder.schrempf@kontron.de, steve.glendinning@shawell.net, UNGLinuxDriver@microchip.com
+Cc: davem@davemloft.net, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCAzMSBPY3QgMjAxOCwgYXQgMDI6NDksIEp1bGlhIExhd2FsbCB3cm90ZToKPiBUaGUg
-dXNiX2dhZGdldF9vcHMgc3RydWN0dXJlIGNhbiBiZSBjb25zdCBhcyBpdCBpcyBvbmx5IHN0b3Jl
-ZCBpbgo+IHRoZSBvcHMgZmllbGQgb2YgYSB1c2JfZ2FkZ2V0IHN0cnVjdHVyZSBhbmQgdGhpcyBm
-aWVsZCBpcyBjb25zdC4KPiAKPiBEb25lIHdpdGggdGhlIGhlbHAgb2YgQ29jY2luZWxsZS4KPiAK
-PiBTaWduZWQtb2ZmLWJ5OiBKdWxpYSBMYXdhbGwgPEp1bGlhLkxhd2FsbEBsaXA2LmZyPgoKUmV2
-aWV3ZWQtYnk6IEFuZHJldyBKZWZmZXJ5IDxhbmRyZXdAYWouaWQuYXU+Cgo+IAo+IC0tLQo+ICBk
-cml2ZXJzL3VzYi9nYWRnZXQvdWRjL2FzcGVlZC12aHViL2Rldi5jIHwgICAgMiArLQo+ICAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9hc3BlZWQtdmh1Yi9kZXYuYyBiL2RyaXZlcnMvdXNi
-Lwo+IGdhZGdldC91ZGMvYXNwZWVkLXZodWIvZGV2LmMKPiBpbmRleCBmMDIzMzkxMmJhY2UuLjZi
-MWIxNmIxN2Q3ZCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL2FzcGVlZC12
-aHViL2Rldi5jCj4gKysrIGIvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9hc3BlZWQtdmh1Yi9kZXYu
-Ywo+IEBAIC00MzgsNyArNDM4LDcgQEAgc3RhdGljIGludCBhc3Rfdmh1Yl91ZGNfc3RvcChzdHJ1
-Y3QgdXNiX2dhZGdldCAKPiAqZ2FkZ2V0KQo+ICAJcmV0dXJuIDA7Cj4gIH0KPiAgCj4gLXN0YXRp
-YyBzdHJ1Y3QgdXNiX2dhZGdldF9vcHMgYXN0X3ZodWJfdWRjX29wcyA9IHsKPiArc3RhdGljIGNv
-bnN0IHN0cnVjdCB1c2JfZ2FkZ2V0X29wcyBhc3Rfdmh1Yl91ZGNfb3BzID0gewo+ICAJLmdldF9m
-cmFtZQk9IGFzdF92aHViX3VkY19nZXRfZnJhbWUsCj4gIAkud2FrZXVwCQk9IGFzdF92aHViX3Vk
-Y193YWtldXAsCj4gIAkucHVsbHVwCQk9IGFzdF92aHViX3VkY19wdWxsdXAsCj4K
+PiBXZSBuZWVkIHRvIG1ha2Ugc3VyZSwgdGhhdCB0aGUgY2FycmllciBjaGVjayBwb2xsaW5nIGlz
+IGRpc2FibGVkIHdoaWxlCj4gc3VzcGVuZGluZy4gT3RoZXJ3aXNlIHdlIGNhbiBlbmQgdXAgd2l0
+aCB1c2JuZXRfcmVhZF9jbWQoKSBiZWluZyBpc3N1ZWQKPiB3aGVuIG9ubHkgdXNibmV0X3JlYWRf
+Y21kX25vcG0oKSBpcyBhbGxvd2VkLiBJZiB0aGlzIGhhcHBlbnMsIHJlYWQKPiBvcGVyYXRpb25z
+IGxvY2sgdXAuCj4gCj4gRml4ZXM6IGQ2OWQxNjk0OTMgKCJ1c2JuZXQ6IHNtc2M5NXh4OiBmaXgg
+bGluayBkZXRlY3Rpb24gZm9yIGRpc2FibGVkCj4gYXV0b25lZ290aWF0aW9uIikKPiBDYzogPHN0
+YWJsZUB2Z2VyLmtlcm5lbC5vcmc+Cj4gU2lnbmVkLW9mZi1ieTogRnJpZWRlciBTY2hyZW1wZiA8
+ZnJpZWRlci5zY2hyZW1wZkBrb250cm9uLmRlPgoKUmV2aWV3ZWQtYnk6IFJhZ2h1cmFtIENoYXJ5
+IEogPFJhZ2h1cmFtQ2hhcnkuSmFsbGlwYWxsaUBtaWNyb2NoaXAuY29tPgoKLVJhZ2h1Cg==
