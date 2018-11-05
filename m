@@ -1,28 +1,15 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [14/14] DT: marvell,mmp2: add USB OTG host controller
+Subject: [09/14] USB: phy-mv-usb: use phy-pxa-usb
 From: Pavel Machek <pavel@ucw.cz>
-Message-Id: <20181105092010.GL4439@amd>
-Date: Mon, 5 Nov 2018 10:20:10 +0100
+Message-Id: <20181105091948.GI4439@amd>
+Date: Mon, 5 Nov 2018 10:19:48 +0100
 To: Lubomir Rintel <lkundrak@v3.sk>
 Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Eric Miao <eric.y.miao@gmail.com>, Haojian Zhuang <haojian.zhuang@gmail.com>, Kishon Vijay Abraham I <kishon@ti.com>, Alan Stern <stern@rowland.harvard.edu>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkIDIwMTgtMDgtMjIgMjI6NDM6MDcsIEx1Ym9taXIgUmludGVsIHdyb3RlOgo+IFNpZ25l
-ZC1vZmYtYnk6IEx1Ym9taXIgUmludGVsIDxsa3VuZHJha0B2My5zaz4KPiAtLS0KPiAgYXJjaC9h
-cm0vYm9vdC9kdHMvbW1wMi5kdHNpIHwgMTEgKysrKysrKysrKysKPiAgMSBmaWxlIGNoYW5nZWQs
-IDExIGluc2VydGlvbnMoKykKCkFnYWluLCBJIGd1ZXNzIHRoaXMgY291bGQgYmUgbWVyZ2VkIHdp
-dGggdGhlIHByZXZpb3VzIHBhdGNoLiBBbnl3YXksCml0IGlzIGFsc28gZ29vZCB0byBnbyBhcy1p
-cy4KCkFja2VkLWJ5OiBQYXZlbCBNYWNoZWsgPHBhdmVsQHVjdy5jej4KCj4gZGlmZiAtLWdpdCBh
-L2FyY2gvYXJtL2Jvb3QvZHRzL21tcDIuZHRzaSBiL2FyY2gvYXJtL2Jvb3QvZHRzL21tcDIuZHRz
-aQo+IGluZGV4IDE0YTM0NDhmMzhiOS4uNjNkNGQ1YzZmZDgzIDEwMDY0NAo+IC0tLSBhL2FyY2gv
-YXJtL2Jvb3QvZHRzL21tcDIuZHRzaQo+ICsrKyBiL2FyY2gvYXJtL2Jvb3QvZHRzL21tcDIuZHRz
-aQo+IEBAIC0xMjQsNiArMTI0LDE3IEBACj4gIAkJCQkjcGh5LWNlbGxzID0gPDA+Owo+ICAJCQkJ
-c3RhdHVzID0gImRpc2FibGVkIjsKPiAgCQkJfTsKPiArCj4gKwkJCXVzYl9vdGcwOiB1c2Itb3Rn
-QGQ0MjA4MDAwIHsKPiArCQkJCWNvbXBhdGlibGUgPSAibWFydmVsbCxweGF1Mm8tZWhjaSI7Cj4g
-KwkJCQlyZWcgPSA8MHhkNDIwODAwMCAweDIwMD47Cj4gKwkJCQlpbnRlcnJ1cHRzID0gPDQ0PjsK
-PiArCQkJCWNsb2NrcyA9IDwmc29jX2Nsb2NrcyBNTVAyX0NMS19VU0I+Owo+ICsJCQkJY2xvY2st
-bmFtZXMgPSAiVVNCQ0xLIjsKPiArCQkJCXBoeXMgPSA8JnVzYl9vdGdfcGh5MD47Cj4gKwkJCQlw
-aHktbmFtZXMgPSAidXNiIjsKPiArCQkJCXN0YXR1cyA9ICJkaXNhYmxlZCI7Cj4gKwkJCX07Cj4g
-IAkJfTsKPiAgCj4gIAkJYXBiQGQ0MDAwMDAwIHsJLyogQVBCICovCg==
+T24gV2VkIDIwMTgtMDgtMjIgMjI6NDM6MDIsIEx1Ym9taXIgUmludGVsIHdyb3RlOgo+IFVzZSBh
+IHByb3BlciBQSFkgZHJpdmVyLCBpbnN0ZWFkIG9mIGhvb2tzIHRvIGEgYm9hcmQgc3VwcG9ydCBw
+YWNrYWdlLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEx1Ym9taXIgUmludGVsIDxsa3VuZHJha0B2My5z
+az4KCkFja2VkLWJ5OiBQYXZlbCBNYWNoZWsgPHBhdmVsQHVjdy5jej4K
