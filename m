@@ -2,40 +2,17 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: gadget: fix spelling mistakeis "[En]queing" -> "[En]queuing"
-From: Andrew Jeffery <andrew@aj.id.au>
-Message-Id: <1541642122.1498358.1569514624.6EA70C69@webmail.messagingengine.com>
-Date: Thu, 08 Nov 2018 12:25:22 +1030
-To: Colin King <colin.king@canonical.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Joel Stanley <joel@jms.id.au>, Michal Simek <michal.simek@xilinx.com>, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org
-Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+From: David Laight <David.Laight@ACULAB.COM>
+Message-Id: <66d0fa13f6b6409bbc6b080ae58273ff@AcuMS.aculab.com>
+Date: Thu, 8 Nov 2018 14:19:27 +0000
+To: 'Andrew Jeffery' <andrew@aj.id.au>, Colin King <colin.king@canonical.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Joel Stanley <joel@jms.id.au>, Michal Simek <michal.simek@xilinx.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
+Cc: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gU2F0LCAyOSBTZXAgMjAxOCwgYXQgMjI6MTMsIENvbGluIEtpbmcgd3JvdGU6Cj4gRnJvbTog
-Q29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KPiAKPiBUcml2aWFsIGZp
-eCB0byBzcGVsbGluZyBtaXN0YWtlcyBpbiBkZWJ1ZyB3YXJuaW5nIG1lc3NhZ2VzCj4gCj4gU2ln
-bmVkLW9mZi1ieTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KClJl
-dmlld2VkLWJ5OiBBbmRyZXcgSmVmZmVyeSA8YW5kcmV3QGFqLmlkLmF1PgoKPiAtLS0KPiAgZHJp
-dmVycy91c2IvZ2FkZ2V0L3VkYy9hc3BlZWQtdmh1Yi9lcG4uYyB8IDIgKy0KPiAgZHJpdmVycy91
-c2IvZ2FkZ2V0L3VkYy91ZGMteGlsaW54LmMgICAgICB8IDIgKy0KPiAgMiBmaWxlcyBjaGFuZ2Vk
-LCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvdXNiL2dhZGdldC91ZGMvYXNwZWVkLXZodWIvZXBuLmMgYi9kcml2ZXJzL3VzYi8KPiBnYWRn
-ZXQvdWRjL2FzcGVlZC12aHViL2Vwbi5jCj4gaW5kZXggNTkzOWViMWU5N2YyLi5lOWVlMmI3MmFm
-MTkgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9hc3BlZWQtdmh1Yi9lcG4u
-Ywo+ICsrKyBiL2RyaXZlcnMvdXNiL2dhZGdldC91ZGMvYXNwZWVkLXZodWIvZXBuLmMKPiBAQCAt
-MzUzLDcgKzM1Myw3IEBAIHN0YXRpYyBpbnQgYXN0X3ZodWJfZXBuX3F1ZXVlKHN0cnVjdCB1c2Jf
-ZXAqIHVfZXAsIAo+IHN0cnVjdCB1c2JfcmVxdWVzdCAqdV9yZXEsCj4gIAkvKiBFbmRwb2ludCBl
-bmFibGVkID8gKi8KPiAgCWlmICghZXAtPmVwbi5lbmFibGVkIHx8ICF1X2VwLT5kZXNjIHx8ICFl
-cC0+ZGV2IHx8ICFlcC0+ZF9pZHggfHwKPiAgCSAgICAhZXAtPmRldi0+ZW5hYmxlZCB8fCBlcC0+
-ZGV2LT5zdXNwZW5kZWQpIHsKPiAtCQlFUERCRyhlcCwiRW5xdWVpbmcgcmVxdWVzdCBvbiB3cm9u
-ZyBvciBkaXNhYmxlZCBFUFxuIik7Cj4gKwkJRVBEQkcoZXAsICJFbnF1ZXVpbmcgcmVxdWVzdCBv
-biB3cm9uZyBvciBkaXNhYmxlZCBFUFxuIik7Cj4gIAkJcmV0dXJuIC1FU0hVVERPV047Cj4gIAl9
-Cj4gIAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL3VkYy14aWxpbnguYyBi
-L2RyaXZlcnMvdXNiL2dhZGdldC8KPiB1ZGMvdWRjLXhpbGlueC5jCj4gaW5kZXggNjQwN2U0MzNi
-Yzc4Li5iMWY0MTA0ZDEyODMgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy91
-ZGMteGlsaW54LmMKPiArKysgYi9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL3VkYy14aWxpbnguYwo+
-IEBAIC0xMDc4LDcgKzEwNzgsNyBAQCBzdGF0aWMgaW50IHh1ZGNfZXBfcXVldWUoc3RydWN0IHVz
-Yl9lcCAqX2VwLCAKPiBzdHJ1Y3QgdXNiX3JlcXVlc3QgKl9yZXEsCj4gIAl1bnNpZ25lZCBsb25n
-IGZsYWdzOwo+ICAKPiAgCWlmICghZXAtPmRlc2MpIHsKPiAtCQlkZXZfZGJnKHVkYy0+ZGV2LCAi
-JXM6cXVlaW5nIHJlcXVlc3QgdG8gZGlzYWJsZWQgJXNcbiIsCj4gKwkJZGV2X2RiZyh1ZGMtPmRl
-diwgIiVzOiBxdWV1aW5nIHJlcXVlc3QgdG8gZGlzYWJsZWQgJXNcbiIsCj4gIAkJCV9fZnVuY19f
-LCBlcC0+bmFtZSk7Cj4gIAkJcmV0dXJuIC1FU0hVVERPV047Cj4gIAl9Cj4gLS0gCj4gMi4xNy4x
-Cj4K
+RnJvbTogQW5kcmV3IEplZmZlcnkNCj4gU2VudDogMDggTm92ZW1iZXIgMjAxOCAwMTo1NQ0KPiA+
+IC0JCUVQREJHKGVwLCJFbnF1ZWluZyByZXF1ZXN0IG9uIHdyb25nIG9yIGRpc2FibGVkIEVQXG4i
+KTsNCj4gPiArCQlFUERCRyhlcCwgIkVucXVldWluZyByZXF1ZXN0IG9uIHdyb25nIG9yIGRpc2Fi
+bGVkIEVQXG4iKTsNCg0KU2hvdWxkbid0IGl0IGJlIEVucXVldWVpbmcgPw0KDQoJRGF2aWQNCg0K
+LQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0s
+IE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdh
+bGVzKQo=
