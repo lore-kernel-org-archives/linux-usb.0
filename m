@@ -2,30 +2,14 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [stable,netdev,4.4+] lan78xx: make sure RX_ADDRL & RX_ADDRH regs are always up to date
-From: Sasha Levin <sashal@kernel.org>
-Message-Id: <20181108154904.GD8097@sasha-vm>
-Date: Thu, 8 Nov 2018 10:49:04 -0500
-To: Paolo Pisati <p.pisati@gmail.com>
-Cc: Woojung Huh <woojung.huh@microchip.com>, Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, netdev@vger.kernel.org, stable@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Paolo Pisati <p.pisati@gmail.com>
+Message-Id: <20181109113159.GA22785@harukaze>
+Date: Fri, 9 Nov 2018 12:31:59 +0100
+To: Sasha Levin <sashal@kernel.org>
+Cc: Paolo Pisati <p.pisati@gmail.com>, Woojung Huh <woojung.huh@microchip.com>, Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, netdev@vger.kernel.org, stable@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCBOb3YgMDgsIDIwMTggYXQgMTI6MDE6MjdQTSArMDEwMCwgUGFvbG8gUGlzYXRpIHdy
-b3RlOgo+T24gV2VkLCBOb3YgMDcsIDIwMTggYXQgMDc6MTc6NTFQTSAtMDUwMCwgU2FzaGEgTGV2
-aW4gd3JvdGU6Cj4+IFNvIHdoeSBub3QganVzdCB0YWtlIDc2MGRiMjliZGMgY29tcGxldGVseT8g
-SXQgbG9va3Mgc2FmZXIgdGhhbiB0YWtpbmcgYQo+PiBwYXJ0aWFsIGJhY2twb3J0LCBhbmQgd2ls
-bCBtYWtlIGFwcGx5aW5nIGZ1dHVyZSBwYXRjaGVzIGVhc2llci4KPj4KPj4gSSB0cmllZCB0byBk
-byBpdCBhbmQgaXQgZG9lc24ndCBsb29rIGxpa2UgdGhlcmUgYXJlIGFueSBkZXBlbmRlbmNpZXMK
-Pj4gdGhhdCB3b3VsZCBjYXVzZSBhbiBpc3N1ZS4KPgo+U29tZWhvdyBpIHdhcyBjb252aW5jZWQg
-aXQgZGlkbid0IGJ1aWxkIG9uIDQuNC54Li4uIGNhbiB5b3UgcGljayBpdCB1cD8KPgo+Y29tbWl0
-IDc2MGRiMjliZGM5N2I3M2ZmNjBiMDkxMzE1YWQ3ODdiMWRlYjVjZjUKPkF1dGhvcjogUGhpbCBF
-bHdlbGwgPHBoaWxAcmFzcGJlcnJ5cGkub3JnPgo+RGF0ZTogICBUaHUgQXByIDE5IDE3OjU5OjM4
-IDIwMTggKzAxMDAKPgo+ICAgIGxhbjc4eHg6IFJlYWQgTUFDIGFkZHJlc3MgZnJvbSBEVCBpZiBw
-cmVzZW50Cj4KPiAgICBUaGVyZSBpcyBhIHN0YW5kYXJkIG1lY2hhbmlzbSBmb3IgbG9jYXRpbmcg
-YW5kIHVzaW5nIGEgTUFDIGFkZHJlc3MgZnJvbQo+ICAgIHRoZSBEZXZpY2UgVHJlZS4gVXNlIHRo
-aXMgZmFjaWxpdHkgaW4gdGhlIGxhbjc4eHggZHJpdmVyIHRvIHN1cHBvcnQKPiAgICBhcHBsaWNh
-dGlvbnMgd2l0aG91dCBwcm9ncmFtbWVkIEVFUFJPTSBvciBPVFAuIEF0IHRoZSBzYW1lIHRpbWUs
-Cj4gICAgcmVndWxhcmlzZSB0aGUgaGFuZGxpbmcgb2YgdGhlIGRpZmZlcmVudCBhZGRyZXNzIHNv
-dXJjZXMuCj4KPiAgICBTaWduZWQtb2ZmLWJ5OiBQaGlsIEVsd2VsbCA8cGhpbEByYXNwYmVycnlw
-aS5vcmc+Cj4gICAgU2lnbmVkLW9mZi1ieTogRGF2aWQgUy4gTWlsbGVyIDxkYXZlbUBkYXZlbWxv
-ZnQubmV0PgoKQ2FuIHlvdSBjb25maXJtIGl0IGFjdHVhbGx5IHdvcmtzIG9uIDQuND8KLS0tClRo
-YW5rcywKU2FzaGEK
+T24gVGh1LCBOb3YgMDgsIDIwMTggYXQgMTA6NDk6MDRBTSAtMDUwMCwgU2FzaGEgTGV2aW4gd3Jv
+dGU6Cj4gCj4gQ2FuIHlvdSBjb25maXJtIGl0IGFjdHVhbGx5IHdvcmtzIG9uIDQuND8KClllcywg
+YnVpbHQgYW5kIHRlc3RlZCBvbiA0LjQueToKClRlc3RlZC1ieTogUGFvbG8gUGlzYXRpIDxwLnBp
+c2F0aUBnbWFpbC5jb20+Cg==
