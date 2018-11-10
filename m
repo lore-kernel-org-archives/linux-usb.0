@@ -2,18 +2,26 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,2/3] spi: add FTDI MPSSE SPI controller driver
-From: Mark Brown <broonie@kernel.org>
-Message-Id: <20181109153026.GA7734@sirena.org.uk>
-Date: Fri, 9 Nov 2018 15:30:26 +0000
-To: Anatolij Gustschin <agust@denx.de>
-Cc: linux-usb@vger.kernel.org, linux-spi@vger.kernel.org, linux-fpga@vger.kernel.org, gregkh@linuxfoundation.org, atull@kernel.org, mdf@kernel.org
+From: Anatolij Gustschin <agust@denx.de>
+Message-Id: <20181110113958.021c4f46@crub>
+Date: Sat, 10 Nov 2018 11:39:58 +0100
+To: Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org
+Cc: linux-usb@vger.kernel.org, linux-fpga@vger.kernel.org, gregkh@linuxfoundation.org, atull@kernel.org, mdf@kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCBOb3YgMDksIDIwMTggYXQgMDg6NTM6NTZBTSArMDEwMCwgQW5hdG9saWogR3VzdHNj
-aGluIHdyb3RlOgo+IEFkZCBTUEkgYnVzIGNvbnRyb2xsZXIgZHJpdmVyIGZvciBGVERJIE1QU1NF
-IG1vZGUuIFRoaXMgZHJpdmVyCj4gaXMgc3VwcG9zZWQgdG8gYmUgdXNlZCB0b2dldGhlciB3aXRo
-IHRoZSBGVDIzMkggaW50ZXJmYWNlIGRyaXZlcgo+IGZvciBGUEdBIGNvbmZpZ3VyYXRpb24gaW4g
-ZHJpdmVycy91c2IvbWlzYy9mdDIzMmgtaW50Zi5jIHdoaWNoCj4gYWRkcyBhbiBtcHNzZSBzcGkg
-cGxhdGZvcm0gZGV2aWNlIGRlc2NyaWJpbmcgVVNCIFNQSSBidXMgd2l0aAo+IGF0dGFjaGVkIFNQ
-SSBzbGF2ZSBkZXZpY2VzLgoKSSBkb24ndCBoYXZlIHRoZSByZXN0IG9mIHRoaXMgc2VyaWVzIG9y
-IGEgY292ZXIgbGV0dGVyIC0gd2hhdCdzIHRoZQpzdG9yeSB3aXRoIGRlcGVuZGVuY2llcz8K
+T24gRnJpLCA5IE5vdiAyMDE4IDE1OjMwOjI2ICswMDAwCk1hcmsgQnJvd24gYnJvb25pZUBrZXJu
+ZWwub3JnIHdyb3RlOgoKPk9uIEZyaSwgTm92IDA5LCAyMDE4IGF0IDA4OjUzOjU2QU0gKzAxMDAs
+IEFuYXRvbGlqIEd1c3RzY2hpbiB3cm90ZToKPj4gQWRkIFNQSSBidXMgY29udHJvbGxlciBkcml2
+ZXIgZm9yIEZUREkgTVBTU0UgbW9kZS4gVGhpcyBkcml2ZXIKPj4gaXMgc3VwcG9zZWQgdG8gYmUg
+dXNlZCB0b2dldGhlciB3aXRoIHRoZSBGVDIzMkggaW50ZXJmYWNlIGRyaXZlcgo+PiBmb3IgRlBH
+QSBjb25maWd1cmF0aW9uIGluIGRyaXZlcnMvdXNiL21pc2MvZnQyMzJoLWludGYuYyB3aGljaAo+
+PiBhZGRzIGFuIG1wc3NlIHNwaSBwbGF0Zm9ybSBkZXZpY2UgZGVzY3JpYmluZyBVU0IgU1BJIGJ1
+cyB3aXRoCj4+IGF0dGFjaGVkIFNQSSBzbGF2ZSBkZXZpY2VzLiAgCj4KPkkgZG9uJ3QgaGF2ZSB0
+aGUgcmVzdCBvZiB0aGlzIHNlcmllcyBvciBhIGNvdmVyIGxldHRlciAtIHdoYXQncyB0aGUKPnN0
+b3J5IHdpdGggZGVwZW5kZW5jaWVzPwoKVGhpcyB2MiBwYXRjaCBpcyB0aGUgb25seSBwYXRjaCBv
+ZiB0aGUgb3JpZ2luYWwgc2VyaWVzIHRoYXQgd2FzCmNoYW5nZWQsIEkgZGlkbid0IHJlc2VuZCB3
+aG9sZSBzZXJpZXMgdG8gYXZvaWQgc3BhbW1pbmcgdGhlIGxpc3RzLgoKVGhlIG9yaWdpbmFsIGNv
+dmVyIGxldHRlciBpcyBoZXJlIFsxXSwgdGhpcyB2MiBwYXRjaCBkZXBlbmRzIG9uCnBhdGNoIFsy
+XS4KClsxXSBodHRwczovL21hcmMuaW5mby8/bD1saW51eC1zcGkmbT0xNTQxNDM0NzYxMDkzNjMm
+dz0yClsyXSBodHRwczovL21hcmMuaW5mby8/bD1saW51eC1zcGkmbT0xNTQxNDM0NzkxMTM0NzMm
+dz0yCgpUaGFua3MsCgpBbmF0b2xpago=
