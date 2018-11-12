@@ -1,23 +1,31 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v1,2/5] extcon: Return -EPROBE_DEFER when extcon device is not found
-From: Chanwoo Choi <cw00.choi@samsung.com>
-Message-Id: <5BECC905.4060802@samsung.com>
-Date: Thu, 15 Nov 2018 10:16:53 +0900
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: MyungJoo Ham <myungjoo.ham@samsung.com>, USB <linux-usb@vger.kernel.org>, Felipe Balbi <balbi@kernel.org>, Guenter Roeck <linux@roeck-us.net>, "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>, rogerq@ti.com, Linux PM <linux-pm@vger.kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Sebastian Reichel <sre@kernel.org>, Linux OMAP Mailing List <linux-omap@vger.kernel.org>, Darren Hart <dvhart@infradead.org>, Platform Driver <platform-driver-x86@vger.kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Chen-Yu Tsai <wens@csie.org>, Hans de Goede <hdegoede@redhat.com>
+Subject: [2/6] xhci: handle port status events for removed USB3 hcd
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-Id: <1542010889-8716-3-git-send-email-mathias.nyman@linux.intel.com>
+Date: Mon, 12 Nov 2018 10:21:25 +0200
+To: linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMjAxOOuFhCAxMeyblCAxNOydvCAyMzowNCwgQW5keSBTaGV2Y2hlbmtvIHdyb3RlOgo+IE9u
-IFdlZCwgTm92IDE0LCAyMDE4IGF0IDE6MTcgUE0gQW5keSBTaGV2Y2hlbmtvCj4gPGFuZHkuc2hl
-dmNoZW5rb0BnbWFpbC5jb20+IHdyb3RlOgo+PiBPbiBXZWQsIE5vdiAxNCwgMjAxOCBhdCAxOjA1
-IFBNIENoYW53b28gQ2hvaSA8Y3cwMC5jaG9pQHNhbXN1bmcuY29tPiB3cm90ZToKPiAKPj4+PiBD
-aGFuZ2luZyBOVUxMIHRvIC1FTk9ERVYgaXMgYSB0cmFkaW5nIGJhZCB0byB3b3JzZS4KPiAKPj4g
-UC5TLiBJIHN0aWxsIGRpc2FncmVlIHdpdGggeW91ciBhcmd1bWVudHMgaW4gcmVsYXRpb24gdG8g
-ZGUgZmFjdG8gdXNlIG9mIGFuIEFQSS4KPiAKPiBJIHNwb2tlIHRvIGNvbGxlYWd1ZXMgb2YgbWlu
-ZSBhbmQgdGhleSBhcmUgYWdyZWUgdGhhdCBzZW1hbnRpY2FsbHkKPiAtRVBST0JFX0RFRkVSIGlz
-IGEgd3JvbmcgZXJyb3IgY29kZSBmcm9tIEFQSSB0aGF0IG1hdGNoZXMgYWdhaW5zdCBzb21lCj4g
-bGlzdC4KPiBPbiB0aGUgb3RoZXIgaGFuZCwgdGhleSBhZ3JlZSB3aXRoIG1lIHRoYXQgY2hhbmdp
-bmcgTlVMTCB0byAtRU5PREVWIGlzCj4gYSB0cmFkaW5nIGJhZCB0byB3b3JzZS4KPiAKPiBTbywg
-SSB3aXRoZHJhdyBtaW5lIGNvbXBsYWludHMgYWdhaW5zdCBBUEkuCj4gCgpPSy4gVGhhbmtzLgo=
+QXQgeGhjaSByZW1vdmFsIHRoZSBVU0IzIGhjZCAoc2hhcmVkX2hjZCkgaXMgcmVtb3ZlZCBiZWZv
+cmUgdGhlIHByaW1hcnkKVVNCMiBoY2QuIEludGVycnVwdHMgZm9yIHBvcnQgc3RhdHVzIGNoYW5n
+ZXMgbWF5IHN0aWxsIG9jY3VyIGZvciBVU0IzCnBvcnRzIGFmdGVyIHRoZSBzaGFyZWRfaGNkIGlz
+IGZyZWVkLCBjYXVzaW5nICBOVUxMIHBvaW50ZXIgZGVyZWZlcmVuY2UuCgpDaGVjayBpZiB4aGNp
+LT5zaGFyZWRfaGNkIGlzIHN0aWxsIHZhbGlkIGJlZm9yZSBoYW5kaW5nIFVTQjMgcG9ydCBldmVu
+dHMKCkNjOiA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4KUmVwb3J0ZWQtYnk6IFBldGVyIENoZW4g
+PHBldGVyLmNoZW5AbnhwLmNvbT4KVGVzdGVkLWJ5OiBKYWNrIFBoYW0gPGphY2twQGNvZGVhdXJv
+cmEub3JnPgpTaWduZWQtb2ZmLWJ5OiBNYXRoaWFzIE55bWFuIDxtYXRoaWFzLm55bWFuQGxpbnV4
+LmludGVsLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9ob3N0L3hoY2ktcmluZy5jIHwgNyArKysrKysr
+CiAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91
+c2IvaG9zdC94aGNpLXJpbmcuYyBiL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1yaW5nLmMKaW5kZXgg
+YThkOTJjOS4uODBkNDY0ZSAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvaG9zdC94aGNpLXJpbmcu
+YworKysgYi9kcml2ZXJzL3VzYi9ob3N0L3hoY2ktcmluZy5jCkBAIC0xNTU2LDYgKzE1NTYsMTMg
+QEAgc3RhdGljIHZvaWQgaGFuZGxlX3BvcnRfc3RhdHVzKHN0cnVjdCB4aGNpX2hjZCAqeGhjaSwK
+IAkJZ290byBjbGVhbnVwOwogCX0KIAorCS8qIFdlIG1pZ2h0IGdldCBpbnRlcnJ1cHRzIGFmdGVy
+IHNoYXJlZF9oY2QgaXMgcmVtb3ZlZCAqLworCWlmIChwb3J0LT5yaHViID09ICZ4aGNpLT51c2Iz
+X3JodWIgJiYgeGhjaS0+c2hhcmVkX2hjZCA9PSBOVUxMKSB7CisJCXhoY2lfZGJnKHhoY2ksICJp
+Z25vcmUgcG9ydCBldmVudCBmb3IgcmVtb3ZlZCBVU0IzIGhjZFxuIik7CisJCWJvZ3VzX3BvcnRf
+c3RhdHVzID0gdHJ1ZTsKKwkJZ290byBjbGVhbnVwOworCX0KKwogCWhjZCA9IHBvcnQtPnJodWIt
+PmhjZDsKIAlidXNfc3RhdGUgPSAmeGhjaS0+YnVzX3N0YXRlW2hjZF9pbmRleChoY2QpXTsKIAlo
+Y2RfcG9ydG51bSA9IHBvcnQtPmhjZF9wb3J0bnVtOwo=
