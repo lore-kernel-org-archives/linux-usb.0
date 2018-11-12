@@ -2,29 +2,31 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v1,4/5] usb: dwc3: drd: Switch to device property for 'extcon' handling
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Message-Id: <20181110181101.24557-4-andriy.shevchenko@linux.intel.com>
-Date: Sat, 10 Nov 2018 20:11:00 +0200
-To: MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, linux-usb@vger.kernel.org, Felipe Balbi <balbi@kernel.org>, Guenter Roeck <linux@roeck-us.net>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, Roger Quadros <rogerq@ti.com>, linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>, Sebastian Reichel <sre@kernel.org>, linux-omap@vger.kernel.org, Darren Hart <dvhart@infradead.org>, platform-driver-x86@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>, Hans de Goede <hdegoede@redhat.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+From: Felipe Balbi <balbi@kernel.org>
+Message-Id: <874lcm34ch.fsf@linux.intel.com>
+Date: Mon, 12 Nov 2018 13:47:10 +0200
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo Choi <cw00.choi@samsung.com>, linux-usb@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, Roger Quadros <rogerq@ti.com>, linux-pm@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>, Sebastian Reichel <sre@kernel.org>, linux-omap@vger.kernel.org, Darren Hart <dvhart@infradead.org>, platform-driver-x86@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>, Hans de Goede <hdegoede@redhat.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-U3dpdGNoIHRvIGRldmljZSBwcm9wZXJ0eSBmb3IgJ2V4dGNvbicgaGFuZGxpbmcuCk5vIGZ1bmN0
-aW9uYWwgY2hhbmdlIGludGVuZGVkLgoKU2lnbmVkLW9mZi1ieTogQW5keSBTaGV2Y2hlbmtvIDxh
-bmRyaXkuc2hldmNoZW5rb0BsaW51eC5pbnRlbC5jb20+Ci0tLQogZHJpdmVycy91c2IvZHdjMy9k
-cmQuYyB8IDUgKysrLS0KIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDIgZGVsZXRp
-b25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvZHdjMy9kcmQuYyBiL2RyaXZlcnMvdXNi
-L2R3YzMvZHJkLmMKaW5kZXggZTdlNDIxNTIxYTM0Li41ZGM0Y2RkZDViNjggMTAwNjQ0Ci0tLSBh
-L2RyaXZlcnMvdXNiL2R3YzMvZHJkLmMKKysrIGIvZHJpdmVycy91c2IvZHdjMy9kcmQuYwpAQCAt
-MTAsNiArMTAsNyBAQAogI2luY2x1ZGUgPGxpbnV4L2V4dGNvbi5oPgogI2luY2x1ZGUgPGxpbnV4
-L29mX2dyYXBoLmg+CiAjaW5jbHVkZSA8bGludXgvcGxhdGZvcm1fZGV2aWNlLmg+CisjaW5jbHVk
-ZSA8bGludXgvcHJvcGVydHkuaD4KIAogI2luY2x1ZGUgImRlYnVnLmgiCiAjaW5jbHVkZSAiY29y
-ZS5oIgpAQCAtNDg1LDggKzQ4Niw4IEBAIHN0YXRpYyBzdHJ1Y3QgZXh0Y29uX2RldiAqZHdjM19n
-ZXRfZXh0Y29uKHN0cnVjdCBkd2MzICpkd2MpCiAJc3RydWN0IGRldmljZV9ub2RlICpucF9waHks
-ICpucF9jb25uOwogCXN0cnVjdCBleHRjb25fZGV2ICplZGV2OwogCi0JaWYgKG9mX3Byb3BlcnR5
-X3JlYWRfYm9vbChkZXYtPm9mX25vZGUsICJleHRjb24iKSkKLQkJcmV0dXJuIGV4dGNvbl9nZXRf
-ZWRldl9ieV9waGFuZGxlKGR3Yy0+ZGV2LCAwKTsKKwlpZiAoZGV2aWNlX3Byb3BlcnR5X3JlYWRf
-Ym9vbChkZXYsICJleHRjb24iKSkKKwkJcmV0dXJuIGV4dGNvbl9nZXRfZWRldl9ieV9waGFuZGxl
-KGRldiwgMCk7CiAKIAlucF9waHkgPSBvZl9wYXJzZV9waGFuZGxlKGRldi0+b2Zfbm9kZSwgInBo
-eXMiLCAwKTsKIAlucF9jb25uID0gb2ZfZ3JhcGhfZ2V0X3JlbW90ZV9ub2RlKG5wX3BoeSwgLTEs
-IC0xKTsK
+SGksCgpBbmR5IFNoZXZjaGVua28gPGFuZHJpeS5zaGV2Y2hlbmtvQGxpbnV4LmludGVsLmNvbT4g
+d3JpdGVzOgo+IFN3aXRjaCB0byBkZXZpY2UgcHJvcGVydHkgZm9yICdleHRjb24nIGhhbmRsaW5n
+Lgo+IE5vIGZ1bmN0aW9uYWwgY2hhbmdlIGludGVuZGVkLgo+Cj4gU2lnbmVkLW9mZi1ieTogQW5k
+eSBTaGV2Y2hlbmtvIDxhbmRyaXkuc2hldmNoZW5rb0BsaW51eC5pbnRlbC5jb20+Cj4gLS0tCj4g
+IGRyaXZlcnMvdXNiL2R3YzMvZHJkLmMgfCA1ICsrKy0tCj4gIDEgZmlsZSBjaGFuZ2VkLCAzIGlu
+c2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2Iv
+ZHdjMy9kcmQuYyBiL2RyaXZlcnMvdXNiL2R3YzMvZHJkLmMKPiBpbmRleCBlN2U0MjE1MjFhMzQu
+LjVkYzRjZGRkNWI2OCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3VzYi9kd2MzL2RyZC5jCj4gKysr
+IGIvZHJpdmVycy91c2IvZHdjMy9kcmQuYwo+IEBAIC0xMCw2ICsxMCw3IEBACj4gICNpbmNsdWRl
+IDxsaW51eC9leHRjb24uaD4KPiAgI2luY2x1ZGUgPGxpbnV4L29mX2dyYXBoLmg+Cj4gICNpbmNs
+dWRlIDxsaW51eC9wbGF0Zm9ybV9kZXZpY2UuaD4KPiArI2luY2x1ZGUgPGxpbnV4L3Byb3BlcnR5
+Lmg+Cj4gIAo+ICAjaW5jbHVkZSAiZGVidWcuaCIKPiAgI2luY2x1ZGUgImNvcmUuaCIKPiBAQCAt
+NDg1LDggKzQ4Niw4IEBAIHN0YXRpYyBzdHJ1Y3QgZXh0Y29uX2RldiAqZHdjM19nZXRfZXh0Y29u
+KHN0cnVjdCBkd2MzICpkd2MpCj4gIAlzdHJ1Y3QgZGV2aWNlX25vZGUgKm5wX3BoeSwgKm5wX2Nv
+bm47Cj4gIAlzdHJ1Y3QgZXh0Y29uX2RldiAqZWRldjsKPiAgCj4gLQlpZiAob2ZfcHJvcGVydHlf
+cmVhZF9ib29sKGRldi0+b2Zfbm9kZSwgImV4dGNvbiIpKQo+IC0JCXJldHVybiBleHRjb25fZ2V0
+X2VkZXZfYnlfcGhhbmRsZShkd2MtPmRldiwgMCk7Cj4gKwlpZiAoZGV2aWNlX3Byb3BlcnR5X3Jl
+YWRfYm9vbChkZXYsICJleHRjb24iKSkKPiArCQlyZXR1cm4gZXh0Y29uX2dldF9lZGV2X2J5X3Bo
+YW5kbGUoZGV2LCAwKTsKCk5vIHJlc2VydmF0aW9ucyBhZ2FpbnN0IGFueSBvZiB0aGUgcGF0Y2hl
+cy4gV2hhdCBpcyB0aGUgaWRlYSBmb3IgZ2V0dGluZwp0aGVzZSBtZXJnZWQgdXBzdHJlYW0/IEkg
+ZG9uJ3QgbWluZCB0YWtpbmcgNC01IHRocm91Z2ggbXkgdHJlZSwgYnV0IHdoYXQKYXJlIHRoZSBv
+dGhlciBmb2xrcyBjb25zaWRlcmluZz8K
