@@ -1,18 +1,19 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: usb: gadget: fix spelling mistakeis "[En]queing" -> "[En]queuing"
-From: David Laight <David.Laight@ACULAB.COM>
-Message-Id: <66d0fa13f6b6409bbc6b080ae58273ff@AcuMS.aculab.com>
-Date: Thu, 8 Nov 2018 14:19:27 +0000
-To: 'Andrew Jeffery' <andrew@aj.id.au>, Colin King <colin.king@canonical.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Joel Stanley <joel@jms.id.au>, Michal Simek <michal.simek@xilinx.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>
-Cc: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [4/4] arm64: dts: exynos: Update DWC3 modules on Exynos5433 SoCs
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Message-Id: <20181113192506.GA2418@kozik-lap>
+Date: Tue, 13 Nov 2018 20:25:06 +0100
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: linux-usb@vger.kernel.org, linux-samsung-soc@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Felipe Balbi <balbi@kernel.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-RnJvbTogQW5kcmV3IEplZmZlcnkNCj4gU2VudDogMDggTm92ZW1iZXIgMjAxOCAwMTo1NQ0KPiA+
-IC0JCUVQREJHKGVwLCJFbnF1ZWluZyByZXF1ZXN0IG9uIHdyb25nIG9yIGRpc2FibGVkIEVQXG4i
-KTsNCj4gPiArCQlFUERCRyhlcCwgIkVucXVldWluZyByZXF1ZXN0IG9uIHdyb25nIG9yIGRpc2Fi
-bGVkIEVQXG4iKTsNCg0KU2hvdWxkbid0IGl0IGJlIEVucXVldWVpbmcgPw0KDQoJRGF2aWQNCg0K
-LQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJvYWQsIE1vdW50IEZhcm0s
-IE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24gTm86IDEzOTczODYgKFdh
-bGVzKQo=
+T24gVHVlLCBTZXAgMTgsIDIwMTggYXQgMTA6MTY6NTNBTSArMDIwMCwgTWFyZWsgU3p5cHJvd3Nr
+aSB3cm90ZToKPiBVcGRhdGUgRFdDMyBoYXJkd2FyZSBtb2R1bGVzIHRvIEV4eW5vczU0MzMgc3Bl
+Y2lmaWMgdmFyaWFudDogY2hhbmdlCj4gY29tcGF0aWJsZSBuYW1lIGFuZCBhZGQgYWxsIHJlcXVp
+cmVkIGNsb2NrcyAoYm90aCB0byB0aGUgZ2x1ZSBub2RlIGFuZAo+IERXQzMgY29yZSBub2RlKS4K
+PiAKPiBTaWduZWQtb2ZmLWJ5OiBNYXJlayBTenlwcm93c2tpIDxtLnN6eXByb3dza2lAc2Ftc3Vu
+Zy5jb20+Cj4gLS0tCj4gIGFyY2gvYXJtNjQvYm9vdC9kdHMvZXh5bm9zL2V4eW5vczU0MzMuZHRz
+aSB8IDI0ICsrKysrKysrKysrKysrKystLS0tLS0KClRoYW5rcywgYXBwbGllZC4KCkJlc3QgcmVn
+YXJkcywKS3J6eXN6dG9mCg==
