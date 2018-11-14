@@ -2,22 +2,21 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,net-next,19/21] net: usb: aqc111: Add support for wake on LAN by MAGIC packet
-From: Igor Russkikh <igor.russkikh@aquantia.com>
-Message-Id: <3c322e27-06c7-69a1-cbe8-271741da0bb3@aquantia.com>
-Date: Wed, 14 Nov 2018 07:56:14 +0000
-To: Andrew Lunn <andrew@lunn.ch>
+From: Andrew Lunn <andrew@lunn.ch>
+Message-Id: <20181114213038.GG32305@lunn.ch>
+Date: Wed, 14 Nov 2018 22:30:38 +0100
+To: Igor Russkikh <Igor.Russkikh@aquantia.com>
 Cc: "David S . Miller" <davem@davemloft.net>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, Dmitry Bezrukov <Dmitry.Bezrukov@aquantia.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-Pj4gKw0KPj4gKwkJaWYgKGFxYzExMV9kYXRhLT5kcGEpIHsNCj4+ICsJCQlhcWMxMTFfc2V0X3Bo
-eV9zcGVlZChkZXYsIEFVVE9ORUdfRU5BQkxFLCBTUEVFRF8xMDApOw0KPiANCj4gU28gdGhpcyBp
-cyBiZXR0ZXIsIHlvdSBsZWF2ZSBhdXRvLW5lZyBlbmFibGVkLiBCdXQgeW91IHJlYWxseSBzaG91
-bGQNCj4gYmUgdGFraW5nIHRoZSBsaW5rIHBhcnRuZXJzIGNhcGFiaWxpdGllcyBpbnRvIGFjY291
-bnQuDQoNCldlJ3ZlIGNvbnNpZGVyZWQgdGhhdCwgYnV0IHRoZW4gdGhvdWdodCBhYm91dCB0aGUg
-Zm9sbG93aW5nIGNhc2U6DQoNCkFmdGVyIHN1Y2ggYSBzbGVlcCBzdGF0ZSB3aGVyZSBwYXJ0bmVy
-J3MgY2FwYWJpbGl0aWVzIHdlcmUgY29uc2lkZXJlZCwNCnVzZXIgbWF5IG1vdmUgd2l0aCB0aGUg
-dW5pdCBhbmQgcmVwbHVnIGl0IGludG8gZGlmZmVyZW50IGxpbmsgcGFydG5lciB3aXRoDQpvdGhl
-ciwgaW5jb21wYXRpYmxlIHNwZWVkIG1hc2suIFRoYXQgd2lsbCBhbnl3YXkgbGVhZCB0byB3b2wg
-bGluayBmYWlsdXJlLg0KDQpJbiB0aGF0IHNlbnNlIGl0IG1heSBiZSBiZXR0ZXIgdG8ganVzdCBz
-ZWxlY3QgdGhlIG1vc3Qgd2lkZWx5IGF2YWlsYWJsZQ0KMTAwTSBsb3cgcG93ZXIgc3BlZWQgYW5k
-IGRvbid0IGRvIGFueSBpbnRlbGxpZ2VuY2UgaGVyZT8NCg0KUmVnYXJkcywNCiAgSWdvcgo=
+PiBXZSd2ZSBjb25zaWRlcmVkIHRoYXQsIGJ1dCB0aGVuIHRob3VnaHQgYWJvdXQgdGhlIGZvbGxv
+d2luZyBjYXNlOgo+IAo+IEFmdGVyIHN1Y2ggYSBzbGVlcCBzdGF0ZSB3aGVyZSBwYXJ0bmVyJ3Mg
+Y2FwYWJpbGl0aWVzIHdlcmUgY29uc2lkZXJlZCwKPiB1c2VyIG1heSBtb3ZlIHdpdGggdGhlIHVu
+aXQgYW5kIHJlcGx1ZyBpdCBpbnRvIGRpZmZlcmVudCBsaW5rIHBhcnRuZXIgd2l0aAo+IG90aGVy
+LCBpbmNvbXBhdGlibGUgc3BlZWQgbWFzay4gVGhhdCB3aWxsIGFueXdheSBsZWFkIHRvIHdvbCBs
+aW5rIGZhaWx1cmUuCgpXT0wgZm9yIGEgbm9tYWRpYyBkZXZpY2U/IElzIHRoYXQgZXZlbiBhIHJl
+YWwgdXNlIGNhc2U/CgpBbnl3YXksIGxvb2tpbmcgYXQgdGhlIGxpbmsgcGFydG5lciBjYXBhYmls
+aXRpZXMgaXMganVzdCByZWFsbHkgYQpjb3JuZXIgY2FzZSwgdGhhdCB0aGUgTFAgb25seSBzdXBw
+b3J0cyAxRy4gRG8gc3VjaCBkZXZpY2VzIGV4aXN0PwoKU28gc2tpcHBpbmcgdGhpcyBpcyBmaW5l
+LiBCdXQgaWYgeW91IHVzZSBwaHlsaWIsIHlvdSBwcmV0dHkgbXVjaCBnZXQKaXQgZm9yIGZyZWUg
+aWYgeW91IHdhbnQgaXQuCgogICBBbmRyZXcK
