@@ -1,22 +1,25 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,net-next,19/21] net: usb: aqc111: Add support for wake on LAN by MAGIC packet
-From: Andrew Lunn <andrew@lunn.ch>
-Message-Id: <20181114213038.GG32305@lunn.ch>
-Date: Wed, 14 Nov 2018 22:30:38 +0100
-To: Igor Russkikh <Igor.Russkikh@aquantia.com>
-Cc: "David S . Miller" <davem@davemloft.net>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, Dmitry Bezrukov <Dmitry.Bezrukov@aquantia.com>
+Subject: [13/14] usb: dwc3: gadget: remove unnecessary dev_info()
+From: Felipe Balbi <felipe.balbi@linux.intel.com>
+Message-Id: <20181114091829.16015-13-felipe.balbi@linux.intel.com>
+Date: Wed, 14 Nov 2018 11:18:28 +0200
+To: Linux USB <linux-usb@vger.kernel.org>
+Cc: Felipe Balbi <felipe.balbi@linux.intel.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-PiBXZSd2ZSBjb25zaWRlcmVkIHRoYXQsIGJ1dCB0aGVuIHRob3VnaHQgYWJvdXQgdGhlIGZvbGxv
-d2luZyBjYXNlOgo+IAo+IEFmdGVyIHN1Y2ggYSBzbGVlcCBzdGF0ZSB3aGVyZSBwYXJ0bmVyJ3Mg
-Y2FwYWJpbGl0aWVzIHdlcmUgY29uc2lkZXJlZCwKPiB1c2VyIG1heSBtb3ZlIHdpdGggdGhlIHVu
-aXQgYW5kIHJlcGx1ZyBpdCBpbnRvIGRpZmZlcmVudCBsaW5rIHBhcnRuZXIgd2l0aAo+IG90aGVy
-LCBpbmNvbXBhdGlibGUgc3BlZWQgbWFzay4gVGhhdCB3aWxsIGFueXdheSBsZWFkIHRvIHdvbCBs
-aW5rIGZhaWx1cmUuCgpXT0wgZm9yIGEgbm9tYWRpYyBkZXZpY2U/IElzIHRoYXQgZXZlbiBhIHJl
-YWwgdXNlIGNhc2U/CgpBbnl3YXksIGxvb2tpbmcgYXQgdGhlIGxpbmsgcGFydG5lciBjYXBhYmls
-aXRpZXMgaXMganVzdCByZWFsbHkgYQpjb3JuZXIgY2FzZSwgdGhhdCB0aGUgTFAgb25seSBzdXBw
-b3J0cyAxRy4gRG8gc3VjaCBkZXZpY2VzIGV4aXN0PwoKU28gc2tpcHBpbmcgdGhpcyBpcyBmaW5l
-LiBCdXQgaWYgeW91IHVzZSBwaHlsaWIsIHlvdSBwcmV0dHkgbXVjaCBnZXQKaXQgZm9yIGZyZWUg
-aWYgeW91IHdhbnQgaXQuCgogICBBbmRyZXcK
+UnVubmluZyBvdXQgb2YgcmVxdWVzdHMgb24gaXNvY2hyb25vdXMgZW5kcG9pbnRzIGlzIHBhcnQg
+b2Ygbm9ybWFsCm9wZXJhdGlvbi4gV2UgZG9uJ3QgcmVhbGx5IG5lZWQgdG8ga25vdyBhYm91dCBp
+dCBldmVyeSB0aW1lIGl0CmhhcHBlbnMuCgpTaWduZWQtb2ZmLWJ5OiBGZWxpcGUgQmFsYmkgPGZl
+bGlwZS5iYWxiaUBsaW51eC5pbnRlbC5jb20+Ci0tLQogZHJpdmVycy91c2IvZHdjMy9nYWRnZXQu
+YyB8IDIgLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvdXNiL2R3YzMvZ2FkZ2V0LmMgYi9kcml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jCmluZGV4
+IDE4YzYzMTM3MzQ4ZC4uZDhjN2FkMGMyMmU4IDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9kd2Mz
+L2dhZGdldC5jCisrKyBiL2RyaXZlcnMvdXNiL2R3YzMvZ2FkZ2V0LmMKQEAgLTEyNjksOCArMTI2
+OSw2IEBAIHN0YXRpYyBpbnQgX19kd2MzX2dhZGdldF9nZXRfZnJhbWUoc3RydWN0IGR3YzMgKmR3
+YykKIHN0YXRpYyBpbnQgX19kd2MzX2dhZGdldF9zdGFydF9pc29jKHN0cnVjdCBkd2MzX2VwICpk
+ZXApCiB7CiAJaWYgKGxpc3RfZW1wdHkoJmRlcC0+cGVuZGluZ19saXN0KSkgewotCQlkZXZfaW5m
+byhkZXAtPmR3Yy0+ZGV2LCAiJXM6IHJhbiBvdXQgb2YgcmVxdWVzdHNcbiIsCi0JCQkJZGVwLT5u
+YW1lKTsKIAkJZGVwLT5mbGFncyB8PSBEV0MzX0VQX1BFTkRJTkdfUkVRVUVTVDsKIAkJcmV0dXJu
+IC1FQUdBSU47CiAJfQo=
