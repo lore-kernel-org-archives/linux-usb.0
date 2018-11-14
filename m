@@ -1,25 +1,27 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,net-next,18/21] net: usb: aqc111: Implement get/set_link_ksettings callbacks
-From: Igor Russkikh <igor.russkikh@aquantia.com>
-Message-Id: <4c85686b-8465-0c59-b145-acd3a7d2d419@aquantia.com>
-Date: Wed, 14 Nov 2018 07:46:50 +0000
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: "David S . Miller" <davem@davemloft.net>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, Dmitry Bezrukov <Dmitry.Bezrukov@aquantia.com>
+Subject: [01/14] usb: dwc3: core: Clean up ULPI device
+From: Felipe Balbi <felipe.balbi@linux.intel.com>
+Message-Id: <20181114091829.16015-1-felipe.balbi@linux.intel.com>
+Date: Wed, 14 Nov 2018 11:18:16 +0200
+To: Linux USB <linux-usb@vger.kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, stable@vger.kernel.org, Felipe Balbi <felipe.balbi@linux.intel.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-Pj4gKwlpZiAodXNiX3NwZWVkID09IFVTQl9TUEVFRF9TVVBFUikgew0KPj4gKwkJZXRodG9vbF9s
-aW5rX2tzZXR0aW5nc19hZGRfbGlua19tb2RlKGVsaywgc3VwcG9ydGVkLA0KPj4gKwkJCQkJCSAg
-ICAgMjUwMGJhc2VUX0Z1bGwpOw0KPj4gKwkJZXRodG9vbF9saW5rX2tzZXR0aW5nc19hZGRfbGlu
-a19tb2RlKGVsaywgc3VwcG9ydGVkLA0KPj4gKwkJCQkJCSAgICAgNTAwMGJhc2VUX0Z1bGwpOw0K
-Pj4gKwl9DQo+IA0KPiBIaSBJZ29yDQo+IA0KPiBXZSBkaXNjdXNzZWQgdGhpcyB3aXRoIHRoZSBm
-aXJzdCB2ZXJzaW9uIG9mIHRoZSBwYXRjaGVzLiBJIHRoaW5rIHlvdQ0KPiBzaG91bGQgYWRkIGEg
-Y29tbWVudCBleHBsYWluaW5nIHdoeSAyLjVHIGFuZCA1RyBpcyBkaXNhYmxlZCB1bmxlc3MNCj4g
-U3VwZXIgc3BlZWQgaXMgYXZhaWxhYmxlLg0KDQpSaWdodCwgSSd2ZSBleHBsYWluZWQgdGhhdCB0
-byB5b3UgYnV0IGZvcmdvdCB0byBhZGQgYSBjb21tZW50IGhlcmUuDQoNCj4+ICsJaWYgKGFxYzEx
-MV9kYXRhLT5hdXRvbmVnKQ0KPj4gKwkJYml0bWFwX2NvcHkoZWxrLT5saW5rX21vZGVzLmFkdmVy
-dGlzaW5nLA0KPj4gKwkJCSAgICBlbGstPmxpbmtfbW9kZXMuc3VwcG9ydGVkLA0KPj4gKwkJCSAg
-ICBfX0VUSFRPT0xfTElOS19NT0RFX01BU0tfTkJJVFMpOw0KPiANCj4gbGlua21vZGVfY29weSgp
-LiBJdCBpcyBxdWl0ZSBuZXcsIHNvIHlvdSBwcm9iYWJseSBkb24ndCBrbm93IGFib3V0IGl0Lg0K
-DQpPaywNCg0KUmVnYXJkcywNCiAgSWdvcgo=
+RnJvbTogQW5keSBTaGV2Y2hlbmtvIDxhbmRyaXkuc2hldmNoZW5rb0BsaW51eC5pbnRlbC5jb20+
+CgpJZiBkd2MzX2NvcmVfaW5pdF9tb2RlKCkgZmFpbHMgd2l0aCBkZWZlcnJlZCBwcm9iZSwKbmV4
+dCBwcm9iZSBmYWlscyBvbiBzeXNmcyB3aXRoCgpzeXNmczogY2Fubm90IGNyZWF0ZSBkdXBsaWNh
+dGUgZmlsZW5hbWUgJy9kZXZpY2VzL3BjaTAwMDA6MDAvMDAwMDowMDoxMS4wL2R3YzMuMC5hdXRv
+L2R3YzMuMC5hdXRvLnVscGknCgpUbyBhdm9pZCB0aGlzIGZhaWx1cmUsIGNsZWFuIHVwIFVMUEkg
+ZGV2aWNlLgoKQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPgpTaWduZWQtb2ZmLWJ5OiBBbmR5
+IFNoZXZjaGVua28gPGFuZHJpeS5zaGV2Y2hlbmtvQGxpbnV4LmludGVsLmNvbT4KU2lnbmVkLW9m
+Zi1ieTogRmVsaXBlIEJhbGJpIDxmZWxpcGUuYmFsYmlAbGludXguaW50ZWwuY29tPgotLS0KIGRy
+aXZlcnMvdXNiL2R3YzMvY29yZS5jIHwgMSArCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
+KykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9kd2MzL2NvcmUuYyBiL2RyaXZlcnMvdXNiL2R3
+YzMvY29yZS5jCmluZGV4IDc1Y2ZmNTdiMjYyOS4uOGY2ZDljNmYwMTZlIDEwMDY0NAotLS0gYS9k
+cml2ZXJzL3VzYi9kd2MzL2NvcmUuYworKysgYi9kcml2ZXJzL3VzYi9kd2MzL2NvcmUuYwpAQCAt
+MTUwNSw2ICsxNTA1LDcgQEAgc3RhdGljIGludCBkd2MzX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9k
+ZXZpY2UgKnBkZXYpCiAKIGVycjU6CiAJZHdjM19ldmVudF9idWZmZXJzX2NsZWFudXAoZHdjKTsK
+Kwlkd2MzX3VscGlfZXhpdChkd2MpOwogCiBlcnI0OgogCWR3YzNfZnJlZV9zY3JhdGNoX2J1ZmZl
+cnMoZHdjKTsK
