@@ -1,19 +1,27 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: usb: misc: fix boolconv.cocci warnings
-From: Anatolij Gustschin <agust@denx.de>
-Message-Id: <20181123162949.0ca117d0@crub>
-Date: Fri, 23 Nov 2018 16:29:49 +0100
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Julia Lawall <julia.lawall@lip6.fr>, linux-usb@vger.kernel.org, linux-spi@vger.kernel.org, linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org, broonie@kernel.org, atull@kernel.org, mdf@kernel.org, kbuild-all@01.org
+Subject: Documentation/usb: Fix typo
+From: Thiebaud Weksteen <tweek@google.com>
+Message-Id: <20181126144926.64517-1-tweek@google.com>
+Date: Mon, 26 Nov 2018 15:49:26 +0100
+To: linux-usb@vger.kernel.org
+Cc: trivial@kernel.org, =?UTF-8?q?Thi=C3=A9baud=20Weksteen?= <tweek@google.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCAyMyBOb3YgMjAxOCAxNjoxMDo1NCArMDEwMApHcmVnIEtIIGdyZWdraEBsaW51eGZv
-dW5kYXRpb24ub3JnIHdyb3RlOgouLi4KPj4gRml4ZXM6IDA3NzJhNWJmNTgwYyAoInVzYjogbWlz
-YzogYWRkIGRyaXZlciBmb3IgRlQyMzJIIGJhc2VkIEZQR0EgY29uZmlndXJhdGlvbiBkZXZpY2Vz
-IikgIAo+Cj5JIGNhbid0IGZpbmQgdGhpcyBjb21taXQgYW55d2hlcmUsIG5vciB0aGUgZmlsZSB0
-aGF0IHRoaXMgcGF0Y2ggdG91Y2hlcy4KPgo+V2hhdCB0cmVlIGlzIGl0IGluPwoKVGhpcyBuZXcg
-ZHJpdmVyIHdhcyBzdWJtaXR0ZWQgdG8gdGhlIGxpc3RzIGFuZCBpcyBub3QgaW4gbWFpbmxpbmUK
-dHJlZSB5ZXQuIEl0IHdhcyBjb21taXR0ZWQgdG8gc29tZSB0cmVlIGZvciBidWlsZCB0ZXN0aW5n
-IHRoZQpzdWJtaXR0ZWQgcGF0Y2hlcywgaXQgc2VlbXMuCgpUaGFua3MsCgpBbmF0b2xpago=
+RnJvbTogVGhpw6liYXVkIFdla3N0ZWVuIDx0d2Vla0Bnb29nbGUuY29tPgoKRml4IHNtYWxsIHR5
+cG8gYXV0aHJvaXplZCAtPiBhdXRob3JpemVkIGluIHRoZSBhdXRob3JpemF0aW9uIHBhZ2UuCgpT
+aWduZWQtb2ZmLWJ5OiBUaGnDqWJhdWQgV2Vrc3RlZW4gPHR3ZWVrQGdvb2dsZS5jb20+Ci0tLQog
+RG9jdW1lbnRhdGlvbi91c2IvYXV0aG9yaXphdGlvbi50eHQgfCAyICstCiAxIGZpbGUgY2hhbmdl
+ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0
+aW9uL3VzYi9hdXRob3JpemF0aW9uLnR4dCBiL0RvY3VtZW50YXRpb24vdXNiL2F1dGhvcml6YXRp
+b24udHh0CmluZGV4IGM3ZTk4NWYwNWQ4Zi4uZjkwMWVjNzc0MzljIDEwMDY0NAotLS0gYS9Eb2N1
+bWVudGF0aW9uL3VzYi9hdXRob3JpemF0aW9uLnR4dAorKysgYi9Eb2N1bWVudGF0aW9uL3VzYi9h
+dXRob3JpemF0aW9uLnR4dApAQCAtMTE5LDUgKzExOSw1IEBAIElmIGEgZGVhdXRob3JpemVkIGlu
+dGVyZmFjZSB3aWxsIGJlIGF1dGhvcml6ZWQgc28gdGhlIGRyaXZlciBwcm9iaW5nIG11c3QKIGJl
+IHRyaWdnZXJlZCBtYW51YWxseSBieSB3cml0aW5nIElOVEVSRkFDRSB0byAvc3lzL2J1cy91c2Iv
+ZHJpdmVyc19wcm9iZQogCiBGb3IgZHJpdmVycyB0aGF0IG5lZWQgbXVsdGlwbGUgaW50ZXJmYWNl
+cyBhbGwgbmVlZGVkIGludGVyZmFjZXMgc2hvdWxkIGJlCi1hdXRocm9pemVkIGZpcnN0LiBBZnRl
+ciB0aGF0IHRoZSBkcml2ZXJzIHNob3VsZCBiZSBwcm9iZWQuCithdXRob3JpemVkIGZpcnN0LiBB
+ZnRlciB0aGF0IHRoZSBkcml2ZXJzIHNob3VsZCBiZSBwcm9iZWQuCiBUaGlzIGF2b2lkcyBzaWRl
+IGVmZmVjdHMuCg==
