@@ -2,16 +2,33 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [stable,netdev,4.4+] lan78xx: make sure RX_ADDRL & RX_ADDRH regs are always up to date
-From: Greg KH <greg@kroah.com>
-Message-Id: <20181129123145.GG3149@kroah.com>
-Date: Thu, 29 Nov 2018 13:31:45 +0100
-To: Paolo Pisati <p.pisati@gmail.com>
-Cc: Sasha Levin <sashal@kernel.org>, Woojung Huh <woojung.huh@microchip.com>, Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, netdev@vger.kernel.org, stable@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20181129133051.GA11799@kroah.com>
+Date: Thu, 29 Nov 2018 14:30:51 +0100
+To: Sasha Levin <sashal@kernel.org>
+Cc: Paolo Pisati <p.pisati@gmail.com>, Woojung Huh <woojung.huh@microchip.com>, Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>, netdev@vger.kernel.org, stable@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCBOb3YgMDksIDIwMTggYXQgMTI6MzE6NTlQTSArMDEwMCwgUGFvbG8gUGlzYXRpIHdy
-b3RlOgo+IE9uIFRodSwgTm92IDA4LCAyMDE4IGF0IDEwOjQ5OjA0QU0gLTA1MDAsIFNhc2hhIExl
-dmluIHdyb3RlOgo+ID4gCj4gPiBDYW4geW91IGNvbmZpcm0gaXQgYWN0dWFsbHkgd29ya3Mgb24g
-NC40Pwo+IAo+IFllcywgYnVpbHQgYW5kIHRlc3RlZCBvbiA0LjQueToKPiAKPiBUZXN0ZWQtYnk6
-IFBhb2xvIFBpc2F0aSA8cC5waXNhdGlAZ21haWwuY29tPgoKTm93IHF1ZXVlZCB1cCwgdGhhbmtz
-LgoKZ3JlZyBrLWgK
+T24gVGh1LCBOb3YgMDgsIDIwMTggYXQgMTA6NDk6MDRBTSAtMDUwMCwgU2FzaGEgTGV2aW4gd3Jv
+dGU6Cj4gT24gVGh1LCBOb3YgMDgsIDIwMTggYXQgMTI6MDE6MjdQTSArMDEwMCwgUGFvbG8gUGlz
+YXRpIHdyb3RlOgo+ID4gT24gV2VkLCBOb3YgMDcsIDIwMTggYXQgMDc6MTc6NTFQTSAtMDUwMCwg
+U2FzaGEgTGV2aW4gd3JvdGU6Cj4gPiA+IFNvIHdoeSBub3QganVzdCB0YWtlIDc2MGRiMjliZGMg
+Y29tcGxldGVseT8gSXQgbG9va3Mgc2FmZXIgdGhhbiB0YWtpbmcgYQo+ID4gPiBwYXJ0aWFsIGJh
+Y2twb3J0LCBhbmQgd2lsbCBtYWtlIGFwcGx5aW5nIGZ1dHVyZSBwYXRjaGVzIGVhc2llci4KPiA+
+ID4gCj4gPiA+IEkgdHJpZWQgdG8gZG8gaXQgYW5kIGl0IGRvZXNuJ3QgbG9vayBsaWtlIHRoZXJl
+IGFyZSBhbnkgZGVwZW5kZW5jaWVzCj4gPiA+IHRoYXQgd291bGQgY2F1c2UgYW4gaXNzdWUuCj4g
+PiAKPiA+IFNvbWVob3cgaSB3YXMgY29udmluY2VkIGl0IGRpZG4ndCBidWlsZCBvbiA0LjQueC4u
+LiBjYW4geW91IHBpY2sgaXQgdXA/Cj4gPiAKPiA+IGNvbW1pdCA3NjBkYjI5YmRjOTdiNzNmZjYw
+YjA5MTMxNWFkNzg3YjFkZWI1Y2Y1Cj4gPiBBdXRob3I6IFBoaWwgRWx3ZWxsIDxwaGlsQHJhc3Bi
+ZXJyeXBpLm9yZz4KPiA+IERhdGU6ICAgVGh1IEFwciAxOSAxNzo1OTozOCAyMDE4ICswMTAwCj4g
+PiAKPiA+ICAgIGxhbjc4eHg6IFJlYWQgTUFDIGFkZHJlc3MgZnJvbSBEVCBpZiBwcmVzZW50Cj4g
+PiAKPiA+ICAgIFRoZXJlIGlzIGEgc3RhbmRhcmQgbWVjaGFuaXNtIGZvciBsb2NhdGluZyBhbmQg
+dXNpbmcgYSBNQUMgYWRkcmVzcyBmcm9tCj4gPiAgICB0aGUgRGV2aWNlIFRyZWUuIFVzZSB0aGlz
+IGZhY2lsaXR5IGluIHRoZSBsYW43OHh4IGRyaXZlciB0byBzdXBwb3J0Cj4gPiAgICBhcHBsaWNh
+dGlvbnMgd2l0aG91dCBwcm9ncmFtbWVkIEVFUFJPTSBvciBPVFAuIEF0IHRoZSBzYW1lIHRpbWUs
+Cj4gPiAgICByZWd1bGFyaXNlIHRoZSBoYW5kbGluZyBvZiB0aGUgZGlmZmVyZW50IGFkZHJlc3Mg
+c291cmNlcy4KPiA+IAo+ID4gICAgU2lnbmVkLW9mZi1ieTogUGhpbCBFbHdlbGwgPHBoaWxAcmFz
+cGJlcnJ5cGkub3JnPgo+ID4gICAgU2lnbmVkLW9mZi1ieTogRGF2aWQgUy4gTWlsbGVyIDxkYXZl
+bUBkYXZlbWxvZnQubmV0Pgo+IAo+IENhbiB5b3UgY29uZmlybSBpdCBhY3R1YWxseSB3b3JrcyBv
+biA0LjQ/CgpJdCBkb2VzIG5vdCBidWlsZCBvbiA0LjQsIHNvIEknbSBkcm9wcGluZyBpdCA6KAoK
+Z3JlZyBrLWgK
