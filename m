@@ -1,31 +1,33 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [AUTOSEL,4.4,16/33] USB: omap_udc: fix omap_udc_start() on 15xx machines
-From: Sasha Levin <sashal@kernel.org>
-Message-Id: <20181205095131.7685-16-sashal@kernel.org>
-Date: Wed,  5 Dec 2018 04:51:14 -0500
-To: stable@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Aaro Koskinen <aaro.koskinen@iki.fi>, Felipe Balbi <felipe.balbi@linux.intel.com>, Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [v7,06/10] usb: dwc3: don't issue no-op trb for stream capable endpoints
+From: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
+Message-Id: <1543662811-5194-7-git-send-email-anurag.kumar.vulisha@xilinx.com>
+Date: Sat, 1 Dec 2018 16:43:27 +0530
+To: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, Johan Hovold <johan@kernel.org>, Jaejoong Kim <climbbb.kim@gmail.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, Roger Quadros <rogerq@ti.com>, Manu Gautam <mgautam@codeaurora.org>, martin.petersen@oracle.com, Bart Van Assche <bvanassche@acm.org>, Mike Christie <mchristi@redhat.com>, Matthew Wilcox <willy@infradead.org>, Colin Ian King <colin.king@canonical.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, v.anuragkumar@gmail.com, Thinh Nguyen <thinhn@synopsys.com>, Tejas Joglekar <tejas.joglekar@synopsys.com>, Ajay Yugalkishore Pandey <APANDEY@xilinx.com>, Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-RnJvbTogQWFybyBLb3NraW5lbiA8YWFyby5rb3NraW5lbkBpa2kuZmk+CgpbIFVwc3RyZWFtIGNv
-bW1pdCA2Y2E2Njk1ZjU3NmI4NDUzZmU2ODg2NWU4NGQyNTk0NmQ2M2IxMGFkIF0KCk9uIE9NQVAg
-MTV4eCBtYWNoaW5lcyB0aGVyZSBhcmUgbm8gdHJhbnNjZWl2ZXJzLCBhbmQgb21hcF91ZGNfc3Rh
-cnQoKQphbHdheXMgZmFpbHMgYXMgaXQgZm9yZ290IHRvIGFkanVzdCB0aGUgZGVmYXVsdCByZXR1
-cm4gdmFsdWUuCgpTaWduZWQtb2ZmLWJ5OiBBYXJvIEtvc2tpbmVuIDxhYXJvLmtvc2tpbmVuQGlr
-aS5maT4KU2lnbmVkLW9mZi1ieTogRmVsaXBlIEJhbGJpIDxmZWxpcGUuYmFsYmlAbGludXguaW50
-ZWwuY29tPgpTaWduZWQtb2ZmLWJ5OiBTYXNoYSBMZXZpbiA8c2FzaGFsQGtlcm5lbC5vcmc+Ci0t
-LQogZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9vbWFwX3VkYy5jIHwgMyArKy0KIDEgZmlsZSBjaGFu
-Z2VkLCAyIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJz
-L3VzYi9nYWRnZXQvdWRjL29tYXBfdWRjLmMgYi9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL29tYXBf
-dWRjLmMKaW5kZXggZGExMDMwZjY5MTQ1Li42NTM5NjM0NTlkNzggMTAwNjQ0Ci0tLSBhL2RyaXZl
-cnMvdXNiL2dhZGdldC91ZGMvb21hcF91ZGMuYworKysgYi9kcml2ZXJzL3VzYi9nYWRnZXQvdWRj
-L29tYXBfdWRjLmMKQEAgLTIwNDUsNyArMjA0NSw3IEBAIHN0YXRpYyBpbmxpbmUgaW50IG1hY2hp
-bmVfd2l0aG91dF92YnVzX3NlbnNlKHZvaWQpCiBzdGF0aWMgaW50IG9tYXBfdWRjX3N0YXJ0KHN0
-cnVjdCB1c2JfZ2FkZ2V0ICpnLAogCQlzdHJ1Y3QgdXNiX2dhZGdldF9kcml2ZXIgKmRyaXZlcikK
-IHsKLQlpbnQJCXN0YXR1cyA9IC1FTk9ERVY7CisJaW50CQlzdGF0dXM7CiAJc3RydWN0IG9tYXBf
-ZXAJKmVwOwogCXVuc2lnbmVkIGxvbmcJZmxhZ3M7CiAKQEAgLTIwODMsNiArMjA4Myw3IEBAIHN0
-YXRpYyBpbnQgb21hcF91ZGNfc3RhcnQoc3RydWN0IHVzYl9nYWRnZXQgKmcsCiAJCQlnb3RvIGRv
-bmU7CiAJCX0KIAl9IGVsc2UgeworCQlzdGF0dXMgPSAwOwogCQlpZiAoY2FuX3B1bGx1cCh1ZGMp
-KQogCQkJcHVsbHVwX2VuYWJsZSh1ZGMpOwogCQllbHNlCg==
+VGhlIHN0cmVhbSBjYXBhYmxlIGVuZHBvaW50cyByZXF1aXJlIHN0cmVhbSBpZCB0byBiZSBnaXZl
+bgp3aGVuIGlzc3VpbmcgU1RBUlQgVFJBTlNGRVIuIFdoaWxlIGlzc3Vpbmcgbm8tb3AgdHJiIHRo
+ZQpzdHJlYW0gaWQgaXMgbm90IHlldCBrbm93biwgc28gZG9uJ3QgaXNzdWUgbm8tb3AgdHJiJ3Mg
+b24Kc3RyZWFtIGNhcGFibGUgZW5kcG9pbnRzLgoKU2lnbmVkLW9mZi1ieTogQW51cmFnIEt1bWFy
+IFZ1bGlzaGEgPGFudXJhZy5rdW1hci52dWxpc2hhQHhpbGlueC5jb20+Ci0tLQogQ2hhbmdlcyBp
+biB2NzoKCTEuIFJldmVydGVkIHRvIGRlcC0+c3RyZWFtX2NhcGFibGUgZnJvbSBkZXAtPmVuZHBv
+aW50LnN0cmVhbV9jYXBhYmxlCgogQ2hhbmdlcyBpbiB2NjoKCTEuIFJlcGxhY2VkIGRlcC0+c3Ry
+ZWFtX2NhcGFibGUgd2l0aCBkZXAtPmVuZHBvaW50LnN0cmVhbV9jYXBhYmxlCgogQ2hhbmdlcyBp
+biB2NToKCTEuIE5vbmUKCiBDaGFuZ2VzIGluIHY0OgoJMS4gTm9uZQoKIENoYW5nZXMgaW4gdjM6
+CgkxLiBOb25lCgogQ2hhbmdlcyBpbiB2MjoKCTEuIE5vbmUKLS0tCiBkcml2ZXJzL3VzYi9kd2Mz
+L2dhZGdldC5jIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0
+aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvZHdjMy9nYWRnZXQuYyBiL2RyaXZlcnMv
+dXNiL2R3YzMvZ2FkZ2V0LmMKaW5kZXggM2VkZmMwYi4uNzhjOWJjNiAxMDA2NDQKLS0tIGEvZHJp
+dmVycy91c2IvZHdjMy9nYWRnZXQuYworKysgYi9kcml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jCkBA
+IC02NzMsNyArNjczLDcgQEAgc3RhdGljIGludCBfX2R3YzNfZ2FkZ2V0X2VwX2VuYWJsZShzdHJ1
+Y3QgZHdjM19lcCAqZGVwLCB1bnNpZ25lZCBpbnQgYWN0aW9uKQogCSAqIElzc3VlIFN0YXJ0VHJh
+bnNmZXIgaGVyZSB3aXRoIG5vLW9wIFRSQiBzbyB3ZSBjYW4gYWx3YXlzIHJlbHkgb24gTm8KIAkg
+KiBSZXNwb25zZSBVcGRhdGUgVHJhbnNmZXIgY29tbWFuZC4KIAkgKi8KLQlpZiAodXNiX2VuZHBv
+aW50X3hmZXJfYnVsayhkZXNjKSB8fAorCWlmICgodXNiX2VuZHBvaW50X3hmZXJfYnVsayhkZXNj
+KSAmJiAhZGVwLT5zdHJlYW1fY2FwYWJsZSkgfHwKIAkJCXVzYl9lbmRwb2ludF94ZmVyX2ludChk
+ZXNjKSkgewogCQlzdHJ1Y3QgZHdjM19nYWRnZXRfZXBfY21kX3BhcmFtcyBwYXJhbXM7CiAJCXN0
+cnVjdCBkd2MzX3RyYgkqdHJiOwo=
