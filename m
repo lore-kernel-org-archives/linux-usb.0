@@ -2,28 +2,26 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,2/3] usb: chipidea: imx: Warn if oc polarity isn't specified
-From: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Message-Id: <20181202213325.26017-2-u.kleine-koenig@pengutronix.de>
-Date: Sun,  2 Dec 2018 22:33:24 +0100
-To: Peter Chen <Peter.Chen@nxp.com>, Shawn Guo <shawnguo@kernel.org>
-Cc: Fabio Estevam <fabio.estevam@nxp.com>, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de, Matthew Starr <mstarr@hedonline.com>
+From: Peter Chen <peter.chen@nxp.com>
+Message-Id: <AM0PR04MB53148CE406ED8DBFABA5A79B8BAF0@AM0PR04MB5314.eurprd04.prod.outlook.com>
+Date: Tue, 4 Dec 2018 06:19:11 +0000
+To: =?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?= <u.kleine-koenig@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>
+Cc: Fabio Estevam <fabio.estevam@nxp.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "kernel@pengutronix.de" <kernel@pengutronix.de>, "mstarr@hedonline.com" <mstarr@hedonline.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhlIHBvbGFyaXR5IG9mIHRoZSBvdmVyIGN1cnJlbnQgZGV0ZWN0aW9uIHBpbiBpc24ndCBjb25m
-aWd1cmVkIG9uIGkuTVg2LzcKaWYgaXQncyB1bnNwZWNpZmllZCBpbiB0aGUgZGV2aWNlIHRyZWUu
-IFNvIHRoZSBhY3R1YWwgY29uZmlndXJhdGlvbiBkZXBlbmRzCm9uIGJvb3Rsb2FkZXIgYmVoYXZp
-b3Igd2hpY2ggaXMgYmFkLgoKU28gZW5jb3VyYWdlIHVzZXJzIHRvIGZpeCB0aGVpciBkZXZpY2Ug
-dHJlZSBieSBpc3N1aW5nIGEgd2FybmluZyBpbiB0aGlzCmNhc2UuCgpTaWduZWQtb2ZmLWJ5OiBV
-d2UgS2xlaW5lLUvDtm5pZyA8dS5rbGVpbmUta29lbmlnQHBlbmd1dHJvbml4LmRlPgotLS0KIGRy
-aXZlcnMvdXNiL2NoaXBpZGVhL2NpX2hkcmNfaW14LmMgfCAyICsrCiAxIGZpbGUgY2hhbmdlZCwg
-MiBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvY2hpcGlkZWEvY2lfaGRy
-Y19pbXguYyBiL2RyaXZlcnMvdXNiL2NoaXBpZGVhL2NpX2hkcmNfaW14LmMKaW5kZXggODBiNGU0
-ZWY5YjY4Li4zZGNmZDBkOTdmOTQgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL2NoaXBpZGVhL2Np
-X2hkcmNfaW14LmMKKysrIGIvZHJpdmVycy91c2IvY2hpcGlkZWEvY2lfaGRyY19pbXguYwpAQCAt
-MTQxLDYgKzE0MSw4IEBAIHN0YXRpYyBzdHJ1Y3QgaW14X3VzYm1pc2NfZGF0YSAqdXNibWlzY19n
-ZXRfaW5pdF9kYXRhKHN0cnVjdCBkZXZpY2UgKmRldikKIAl9IGVsc2UgaWYgKG9mX2ZpbmRfcHJv
-cGVydHkobnAsICJvdmVyLWN1cnJlbnQtYWN0aXZlLWxvdyIsIE5VTEwpKSB7CiAJCWRhdGEtPm9j
-X3BvbF9hY3RpdmVfbG93ID0gMTsKIAkJZGF0YS0+b2NfcG9sX2NvbmZpZ3VyZWQgPSAxOworCX0g
-ZWxzZSB7CisJCWRldl93YXJuKGRldiwgIk5vIG92ZXIgY3VycmVudCBwb2xhcml0eSBkZWZpbmVk
-XG4iKTsKIAl9CiAKIAlpZiAob2ZfZmluZF9wcm9wZXJ0eShucCwgImV4dGVybmFsLXZidXMtZGl2
-aWRlciIsIE5VTEwpKQo=
+PiBTaWduZWQtb2ZmLWJ5OiBVd2UgS2xlaW5lLUvDtm5pZyA8dS5rbGVpbmUta29lbmlnQHBlbmd1
+dHJvbml4LmRlPg0KPiAtLS0NCj4gIGRyaXZlcnMvdXNiL2NoaXBpZGVhL2NpX2hkcmNfaW14LmMg
+fCAyICsrDQo+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0t
+Z2l0IGEvZHJpdmVycy91c2IvY2hpcGlkZWEvY2lfaGRyY19pbXguYyBiL2RyaXZlcnMvdXNiL2No
+aXBpZGVhL2NpX2hkcmNfaW14LmMNCj4gaW5kZXggODBiNGU0ZWY5YjY4Li4zZGNmZDBkOTdmOTQg
+MTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvdXNiL2NoaXBpZGVhL2NpX2hkcmNfaW14LmMNCj4gKysr
+IGIvZHJpdmVycy91c2IvY2hpcGlkZWEvY2lfaGRyY19pbXguYw0KPiBAQCAtMTQxLDYgKzE0MSw4
+IEBAIHN0YXRpYyBzdHJ1Y3QgaW14X3VzYm1pc2NfZGF0YQ0KPiAqdXNibWlzY19nZXRfaW5pdF9k
+YXRhKHN0cnVjdCBkZXZpY2UgKmRldikNCj4gIAl9IGVsc2UgaWYgKG9mX2ZpbmRfcHJvcGVydHko
+bnAsICJvdmVyLWN1cnJlbnQtYWN0aXZlLWxvdyIsIE5VTEwpKSB7DQo+ICAJCWRhdGEtPm9jX3Bv
+bF9hY3RpdmVfbG93ID0gMTsNCj4gIAkJZGF0YS0+b2NfcG9sX2NvbmZpZ3VyZWQgPSAxOw0KPiAr
+CX0gZWxzZSB7DQo+ICsJCWRldl93YXJuKGRldiwgIk5vIG92ZXIgY3VycmVudCBwb2xhcml0eSBk
+ZWZpbmVkXG4iKTsNCj4gIAl9DQoNCklmIHRoZSBwbGF0Zm9ybSBkb2Vzbid0IHN1cHBvcnQgT0Ms
+IHRoZSBwb2xhcml0eSBzZXR0aW5nIGlzIG5vdCBuZWVkZWQuIFlvdSBjb3VsZCBjb25zaWRlcg0K
+Z2V0dGluZyBwb2xhcml0eSBwcm9wZXJ0eSBvbmx5ICJkaXNhYmxlLW92ZXItY3VycmVudCIgaXMg
+bm90IGZvdW5kIGF0IHBhdGNoIDEuDQoNClBldGVyCg==
