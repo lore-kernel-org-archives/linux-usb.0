@@ -2,19 +2,27 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v3,4/4] doc: usb: ci-hdrc-usb2: Add pinctrl properties for HSIC pin groups
-From: Fabio Estevam <festevam@gmail.com>
-Message-Id: <CAOMZO5BdzvSNovd15jcijGBMzS_G+5xnmyNBXMH7S3cmwCfKMA@mail.gmail.com>
-Date: Tue, 4 Dec 2018 18:01:32 -0200
-To: frieder.schrempf@kontron.de
+From: Frieder Schrempf <frieder.schrempf@kontron.de>
+Message-Id: <0215e99c-c024-42f6-9dad-4bab70bae193@kontron.de>
+Date: Wed, 5 Dec 2018 07:45:06 +0000
+To: Fabio Estevam <festevam@gmail.com>
 Cc: Peter Chen <peter.chen@nxp.com>, USB list <linux-usb@vger.kernel.org>, NXP Linux Team <linux-imx@nxp.com>, Rob Herring <robh+dt@kernel.org>, "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, Schrempf Frieder <frieder.schrempf@exceet.de>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgRnJpZWRlciwKCk9uIFR1ZSwgRGVjIDQsIDIwMTggYXQgMTI6MzEgUE0gU2NocmVtcGYgRnJp
-ZWRlcgo8ZnJpZWRlci5zY2hyZW1wZkBrb250cm9uLmRlPiB3cm90ZToKCj4gVGhlcmUgYXJlIG1h
-bnkgb3RoZXIgb3B0aW9uYWwgcHJvcGVydGllcyBmb3IgdGhpcyBkcml2ZXIgYW5kIGEgbG90IG9m
-Cj4gdGhlbSBhcmUgbm90IGluIHRoZSBnaXZlbiBleGFtcGxlLiBNYXliZSB3ZSBzaG91bGQganVz
-dCBrZWVwIHRoZQo+IHBpbmN0cmxzIGZvciBIU0lDLW1vZGUgb3V0IG9mIHRoZSBleGFtcGxlLCB0
-b28/CgpJIGFtIGp1c3QgdHJ5aW5nIHRvIG1ha2UgbGlmZSBlYXNpZXIgZm9yIHRob3NlIHdobyB3
-YW50IHRvIHVzZSBIU0lDCnN1cHBvcnQgd2l0aCBjaGlwaWRlYS4KCkNhbiB3ZSBqdXN0IGFkZCBh
-IHJlYWwgZHRzIHNuaXBwZXQgZXhhbXBsZSBvZiB5b3VyIGJvYXJkIGludG8gdGhlCmJpbmRpbmcg
-ZG9jdW1lbnQ/Cg==
+SGkgRmFiaW8sDQoNCk9uIDA0LjEyLjE4IDIxOjAxLCBGYWJpbyBFc3RldmFtIHdyb3RlOg0KPiBI
+aSBGcmllZGVyLA0KPiANCj4gT24gVHVlLCBEZWMgNCwgMjAxOCBhdCAxMjozMSBQTSBTY2hyZW1w
+ZiBGcmllZGVyDQo+IDxmcmllZGVyLnNjaHJlbXBmQGtvbnRyb24uZGU+IHdyb3RlOg0KPiANCj4+
+IFRoZXJlIGFyZSBtYW55IG90aGVyIG9wdGlvbmFsIHByb3BlcnRpZXMgZm9yIHRoaXMgZHJpdmVy
+IGFuZCBhIGxvdCBvZg0KPj4gdGhlbSBhcmUgbm90IGluIHRoZSBnaXZlbiBleGFtcGxlLiBNYXli
+ZSB3ZSBzaG91bGQganVzdCBrZWVwIHRoZQ0KPj4gcGluY3RybHMgZm9yIEhTSUMtbW9kZSBvdXQg
+b2YgdGhlIGV4YW1wbGUsIHRvbz8NCj4gDQo+IEkgYW0ganVzdCB0cnlpbmcgdG8gbWFrZSBsaWZl
+IGVhc2llciBmb3IgdGhvc2Ugd2hvIHdhbnQgdG8gdXNlIEhTSUMNCj4gc3VwcG9ydCB3aXRoIGNo
+aXBpZGVhLg0KPiANCj4gQ2FuIHdlIGp1c3QgYWRkIGEgcmVhbCBkdHMgc25pcHBldCBleGFtcGxl
+IG9mIHlvdXIgYm9hcmQgaW50byB0aGUNCj4gYmluZGluZyBkb2N1bWVudD8NCg0KU3VyZSwgaGVy
+ZSBpcyB3aGF0IEkgaGF2ZSBpbiBteSBkdHM6DQoNCiZ1c2JoMiB7DQoJcGluY3RybC1uYW1lcyA9
+ICJpZGxlIiwgImFjdGl2ZSI7DQoJcGluY3RybC0wID0gPCZwaW5jdHJsX3VzYmgyX2lkbGU+Ow0K
+CXBpbmN0cmwtMSA9IDwmcGluY3RybF91c2JoMl9hY3RpdmU+Ow0KCXN0YXR1cyA9ICJva2F5IjsN
+CgkjYWRkcmVzcy1jZWxscyA9IDwxPjsNCgkjc2l6ZS1jZWxscyA9IDwwPjsNCg0KCXVzYm5ldDog
+c21zY0AxIHsNCgkJY29tcGF0aWJsZSA9ICJ1c2I0MjQsOTczMCI7DQoJCXJlZyA9IDwxPjsNCgl9
+Ow0KfTsNCg0KQFBldGVyOiBDYW4geW91IGFkZCB0aGlzIGFzIGEgc2Vjb25kIGV4YW1wbGUgdG8g
+dGhlIGJpbmRpbmcgZG9jdW1lbnRhdGlvbj8NCg0KVGhhbmtzLA0KRnJpZWRlcgo=
