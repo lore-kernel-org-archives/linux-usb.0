@@ -2,25 +2,47 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v7,05/10] usb: dwc3: make controller clear transfer resources after complete
-From: Felipe Balbi <balbi@kernel.org>
-Message-Id: <878t142vpq.fsf@linux.intel.com>
-Date: Wed, 05 Dec 2018 11:01:37 +0200
-To: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, Johan Hovold <johan@kernel.org>, Jaejoong Kim <climbbb.kim@gmail.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, Roger Quadros <rogerq@ti.com>, Manu Gautam <mgautam@codeaurora.org>, martin.petersen@oracle.com, Bart Van Assche <bvanassche@acm.org>, Mike Christie <mchristi@redhat.com>, Matthew Wilcox <willy@infradead.org>, Colin Ian King <colin.king@canonical.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, v.anuragkumar@gmail.com, Thinh Nguyen <thinhn@synopsys.com>, Tejas Joglekar <tejas.joglekar@synopsys.com>, Ajay Yugalkishore Pandey <APANDEY@xilinx.com>
+From: Anurag Kumar Vulisha <anuragku@xilinx.com>
+Message-Id: <BL0PR02MB56339BB8AD013857534BF09EA7A80@BL0PR02MB5633.namprd02.prod.outlook.com>
+Date: Wed, 5 Dec 2018 19:05:01 +0000
+To: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, Johan Hovold <johan@kernel.org>, Jaejoong Kim <climbbb.kim@gmail.com>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, Roger Quadros <rogerq@ti.com>, Manu Gautam <mgautam@codeaurora.org>, "martin.petersen@oracle.com" <martin.petersen@oracle.com>, Bart Van Assche <bvanassche@acm.org>, Mike Christie <mchristi@redhat.com>, Matthew Wilcox <willy@infradead.org>, Colin Ian King <colin.king@canonical.com>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "v.anuragkumar@gmail.com" <v.anuragkumar@gmail.com>, Thinh Nguyen <thinhn@synopsys.com>, Tejas Joglekar <tejas.joglekar@synopsys.com>, Ajay Yugalkishore Pandey <APANDEY@xilinx.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgpBbnVyYWcgS3VtYXIgVnVsaXNoYSA8YW51cmFnLmt1bWFyLnZ1bGlzaGFAeGlsaW54LmNv
-bT4gd3JpdGVzOgo+IEBAIC0yNDg3LDYgKzI0OTcsMTEgQEAgc3RhdGljIHZvaWQgZHdjM19lbmRw
-b2ludF9pbnRlcnJ1cHQoc3RydWN0IGR3YzMgKmR3YywKPiAgCX0KPiAgCj4gIAlzd2l0Y2ggKGV2
-ZW50LT5lbmRwb2ludF9ldmVudCkgewo+ICsJY2FzZSBEV0MzX0RFUEVWVF9YRkVSQ09NUExFVEU6
-Cj4gKwkJaWYgKCFkZXAtPnN0cmVhbV9jYXBhYmxlKQo+ICsJCQlicmVhazsKPiArCQlkZXAtPmZs
-YWdzICY9IH5EV0MzX0VQX1RSQU5TRkVSX1NUQVJURUQ7Cj4gKwkJLyogRmFsbCBUaHJvdWdoICov
-CgppbnN0ZWFkLCBsZXQncyBhZGQgYSBwcm9wZXIgaGFuZGxlciBmb3IgdGhpczoKCmR3YzNfZ2Fk
-Z2V0X2VuZHBvaW50X3RyYW5zZmVyX2NvbXBsZXRlKGRlcCwgZXZlbnQpOwoKVGhhdCBoYW5kbGVy
-IHNob3VsZCBiZSAic2VsZi1zdWZmaWNpZW50Ii4gSU9XLCB3ZSBzaG91bGRuJ3QgaGF2ZSB0aGlz
-CmZhbGwgdGhyb3VnaCBoZXJlLiBUaGlzIG1lYW5zIHRoYXQgdGhlIG90aGVyIHBhdGNoIHdoZXJl
-IHlvdSBtb2RpZnkKZHdjM19nYWRnZXRfdHJhbnNmZXJfaW5fcHJvZ3Jlc3MoKSBzaG91bGRuJ3Qg
-YmUgbmVjZXNzYXJ5LCBzaW5jZSB0aGF0CmV2ZW50IHNob3VsZG4ndCBydW4gZm9yIHN0cmVhbSBj
-YXBhYmxlIGVuZHBvaW50cy4KCldoaWxlIHJld3JpdGluZyB0aGUgcGF0Y2hlcywgcGxlYXNlIHJl
-YmFzZSBvbiBteSB0ZXN0aW5nL25leHQgYXMgSSBoYXZlCmFwcGxpZWQgYSBmZXcgb2YgdGhlIHBh
-dGNoZXMgaW4gdGhpcyBzZXJpZXMuCg==
+SEkgRmVsaXBlLAo+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0KPkZyb206IEZlbGlwZSBCYWxi
+aSBbbWFpbHRvOmJhbGJpQGtlcm5lbC5vcmddCj5TZW50OiBXZWRuZXNkYXksIERlY2VtYmVyIDA1
+LCAyMDE4IDI6MzIgUE0KPlRvOiBBbnVyYWcgS3VtYXIgVnVsaXNoYSA8YW51cmFna3VAeGlsaW54
+LmNvbT47IEdyZWcgS3JvYWgtSGFydG1hbgo+PGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPjsg
+U2h1YWggS2hhbiA8c2h1YWhAa2VybmVsLm9yZz47IEFsYW4gU3Rlcm4KPjxzdGVybkByb3dsYW5k
+LmhhcnZhcmQuZWR1PjsgSm9oYW4gSG92b2xkIDxqb2hhbkBrZXJuZWwub3JnPjsgSmFlam9vbmcg
+S2ltCj48Y2xpbWJiYi5raW1AZ21haWwuY29tPjsgQmVuamFtaW4gSGVycmVuc2NobWlkdCA8YmVu
+aEBrZXJuZWwuY3Jhc2hpbmcub3JnPjsKPlJvZ2VyIFF1YWRyb3MgPHJvZ2VycUB0aS5jb20+OyBN
+YW51IEdhdXRhbSA8bWdhdXRhbUBjb2RlYXVyb3JhLm9yZz47Cj5tYXJ0aW4ucGV0ZXJzZW5Ab3Jh
+Y2xlLmNvbTsgQmFydCBWYW4gQXNzY2hlIDxidmFuYXNzY2hlQGFjbS5vcmc+OyBNaWtlCj5DaHJp
+c3RpZSA8bWNocmlzdGlAcmVkaGF0LmNvbT47IE1hdHRoZXcgV2lsY294IDx3aWxseUBpbmZyYWRl
+YWQub3JnPjsgQ29saW4gSWFuCj5LaW5nIDxjb2xpbi5raW5nQGNhbm9uaWNhbC5jb20+Cj5DYzog
+bGludXgtdXNiQHZnZXIua2VybmVsLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsK
+PnYuYW51cmFna3VtYXJAZ21haWwuY29tOyBUaGluaCBOZ3V5ZW4gPHRoaW5obkBzeW5vcHN5cy5j
+b20+OyBUZWphcyBKb2dsZWthcgo+PHRlamFzLmpvZ2xla2FyQHN5bm9wc3lzLmNvbT47IEFqYXkg
+WXVnYWxraXNob3JlIFBhbmRleSA8QVBBTkRFWUB4aWxpbnguY29tPjsKPkFudXJhZyBLdW1hciBW
+dWxpc2hhIDxhbnVyYWdrdUB4aWxpbnguY29tPgo+U3ViamVjdDogUmU6IFtQQVRDSCB2NyAwNS8x
+MF0gdXNiOiBkd2MzOiBtYWtlIGNvbnRyb2xsZXIgY2xlYXIgdHJhbnNmZXIgcmVzb3VyY2VzCj5h
+ZnRlciBjb21wbGV0ZQo+Cj4KPkhpLAo+Cj5BbnVyYWcgS3VtYXIgVnVsaXNoYSA8YW51cmFnLmt1
+bWFyLnZ1bGlzaGFAeGlsaW54LmNvbT4gd3JpdGVzOgo+PiBAQCAtMjQ4Nyw2ICsyNDk3LDExIEBA
+IHN0YXRpYyB2b2lkIGR3YzNfZW5kcG9pbnRfaW50ZXJydXB0KHN0cnVjdCBkd2MzICpkd2MsCj4+
+ICAJfQo+Pgo+PiAgCXN3aXRjaCAoZXZlbnQtPmVuZHBvaW50X2V2ZW50KSB7Cj4+ICsJY2FzZSBE
+V0MzX0RFUEVWVF9YRkVSQ09NUExFVEU6Cj4+ICsJCWlmICghZGVwLT5zdHJlYW1fY2FwYWJsZSkK
+Pj4gKwkJCWJyZWFrOwo+PiArCQlkZXAtPmZsYWdzICY9IH5EV0MzX0VQX1RSQU5TRkVSX1NUQVJU
+RUQ7Cj4+ICsJCS8qIEZhbGwgVGhyb3VnaCAqLwo+Cj5pbnN0ZWFkLCBsZXQncyBhZGQgYSBwcm9w
+ZXIgaGFuZGxlciBmb3IgdGhpczoKPgo+ZHdjM19nYWRnZXRfZW5kcG9pbnRfdHJhbnNmZXJfY29t
+cGxldGUoZGVwLCBldmVudCk7Cj4KPlRoYXQgaGFuZGxlciBzaG91bGQgYmUgInNlbGYtc3VmZmlj
+aWVudCIuIElPVywgd2Ugc2hvdWxkbid0IGhhdmUgdGhpcwo+ZmFsbCB0aHJvdWdoIGhlcmUuIFRo
+aXMgbWVhbnMgdGhhdCB0aGUgb3RoZXIgcGF0Y2ggd2hlcmUgeW91IG1vZGlmeQo+ZHdjM19nYWRn
+ZXRfdHJhbnNmZXJfaW5fcHJvZ3Jlc3MoKSBzaG91bGRuJ3QgYmUgbmVjZXNzYXJ5LCBzaW5jZSB0
+aGF0Cj5ldmVudCBzaG91bGRuJ3QgcnVuIGZvciBzdHJlYW0gY2FwYWJsZSBlbmRwb2ludHMuCj4K
+ClRoYW5rcyBmb3IgIHlvdXIgc3VnZ2VzdGlvbiwgd2lsbCBpbXBsZW1lbnQgdGhlIGNoYW5nZXMg
+YXMgc2FpZCBhbmQgc2VuZAp0aGUgcGF0Y2hlcwoKPldoaWxlIHJld3JpdGluZyB0aGUgcGF0Y2hl
+cywgcGxlYXNlIHJlYmFzZSBvbiBteSB0ZXN0aW5nL25leHQgYXMgSSBoYXZlCj5hcHBsaWVkIGEg
+ZmV3IG9mIHRoZSBwYXRjaGVzIGluIHRoaXMgc2VyaWVzLiAKCk9rYXkgLCB3aWxsIHJlYmFzZSBv
+biB0b3Agb2YgdGVzdGluZy9uZXh0IGFuZCBzZW5kIHRoZSBwYXRjaGVzCgpCZXN0IFJlZ2FyZHMs
+CkFudXJhZyBLdW1hciBWdWxpc2hhCg==
