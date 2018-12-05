@@ -2,24 +2,25 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v3,2/5] usb: assign ACPI companions for embedded USB devices
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20181205093247.GB1817@kroah.com>
-Date: Wed, 5 Dec 2018 10:32:47 +0100
-To: Rajat Jain <rajatja@google.com>
-Cc: Marcel Holtmann <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>, "David S. Miller" <davem@davemloft.net>, Dmitry Torokhov <dtor@chromium.org>, Alex Hung <alex.hung@canonical.com>, linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, netdev@vger.kernel.org, rajatxjain@gmail.com, dtor@google.com, raghuram.hegde@intel.com, chethan.tumkur.narayan@intel.com, sukumar.ghorai@intel.com
+From: "Ghorai, Sukumar" <sukumar.ghorai@intel.com>
+Message-Id: <D73ECEF0C711E34A8F972E4B87F540058FBCF1CB@ORSMSX114.amr.corp.intel.com>
+Date: Wed, 5 Dec 2018 17:19:16 +0000
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rajat Jain <rajatja@google.com>
+Cc: Marcel Holtmann <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>, "David S. Miller" <davem@davemloft.net>, Dmitry Torokhov <dtor@chromium.org>, Alex Hung <alex.hung@canonical.com>, "linux-bluetooth@vger.kernel.org" <linux-bluetooth@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "rajatxjain@gmail.com" <rajatxjain@gmail.com>, "dtor@google.com" <dtor@google.com>, "Hegde, Raghuram" <raghuram.hegde@intel.com>, "Tumkur Narayan, Chethan" <chethan.tumkur.narayan@intel.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCBOb3YgMjEsIDIwMTggYXQgMDM6NTA6MTdQTSAtMDgwMCwgUmFqYXQgSmFpbiB3cm90
-ZToKPiBGcm9tOiBEbWl0cnkgVG9yb2tob3YgPGR0b3JAY2hyb21pdW0ub3JnPgo+IAo+IFVTQiBk
-ZXZpY2VzIHBlcm1hbmVudGx5IGNvbm5lY3RlZCB0byBVU0IgcG9ydHMgbWF5IGJlIGRlc2NyaWJl
-ZCBpbiBBQ1BJCj4gdGFibGVzIGFuZCBzaGFyZSBBQ1BJIGRldmljZXMgd2l0aCBwb3J0cyB0aGV5
-IGFyZSBjb25uZWN0ZWQgdG8uIFNlZSBbMV0KPiBmb3IgZGV0YWlscy4KPiAKPiBUaGlzIHdpbGwg
-YWxsb3cgdXMgdG8gZGVzY3JpYmUgc2lkZWJhbmQgcmVzb3VyY2VzIGZvciBkZXZpY2VzLCBzdWNo
-IGFzLAo+IGZvciBleGFtcGxlLCBoYXJkIHJlc2V0IGxpbmUgZm9yIEJUIFVTQiBjb250cm9sbGVy
-cy4KPiAKPiBbMV0gaHR0cHM6Ly9kb2NzLm1pY3Jvc29mdC5jb20vZW4tdXMvd2luZG93cy1oYXJk
-d2FyZS9kcml2ZXJzL2JyaW5ndXAvb3RoZXItYWNwaS1uYW1lc3BhY2Utb2JqZWN0cyNhY3BpLW5h
-bWVzcGFjZS1oaWVyYXJjaHktYW5kLWFkci1mb3ItZW1iZWRkZWQtdXNiLWRldmljZXMKPiAKPiBT
-aWduZWQtb2ZmLWJ5OiBEbWl0cnkgVG9yb2tob3YgPGR0b3JAY2hyb21pdW0ub3JnPgo+IFNpZ25l
-ZC1vZmYtYnk6IFJhamF0IEphaW4gPHJhamF0amFAZ29vZ2xlLmNvbT4gKGNoYW5nZWQgaG93IHdl
-IGdldCB0aGUgdXNiX3BvcnQpCgpBY2tlZC1ieTogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hA
-bGludXhmb3VuZGF0aW9uLm9yZz4K
+Pk9uIFdlZCwgTm92IDIxLCAyMDE4IGF0IDAzOjUwOjE3UE0gLTA4MDAsIFJhamF0IEphaW4gd3Jv
+dGU6Cj4+IEZyb206IERtaXRyeSBUb3Jva2hvdiA8ZHRvckBjaHJvbWl1bS5vcmc+Cj4+Cj4+IFVT
+QiBkZXZpY2VzIHBlcm1hbmVudGx5IGNvbm5lY3RlZCB0byBVU0IgcG9ydHMgbWF5IGJlIGRlc2Ny
+aWJlZCBpbgo+PiBBQ1BJIHRhYmxlcyBhbmQgc2hhcmUgQUNQSSBkZXZpY2VzIHdpdGggcG9ydHMg
+dGhleSBhcmUgY29ubmVjdGVkIHRvLgo+PiBTZWUgWzFdIGZvciBkZXRhaWxzLgo+Pgo+PiBUaGlz
+IHdpbGwgYWxsb3cgdXMgdG8gZGVzY3JpYmUgc2lkZWJhbmQgcmVzb3VyY2VzIGZvciBkZXZpY2Vz
+LCBzdWNoCj4+IGFzLCBmb3IgZXhhbXBsZSwgaGFyZCByZXNldCBsaW5lIGZvciBCVCBVU0IgY29u
+dHJvbGxlcnMuCj4+Cj4+IFsxXQo+PiBodHRwczovL2RvY3MubWljcm9zb2Z0LmNvbS9lbi11cy93
+aW5kb3dzLWhhcmR3YXJlL2RyaXZlcnMvYnJpbmd1cC9vdGhlCj4+IHItYWNwaS1uYW1lc3BhY2Ut
+b2JqZWN0cyNhY3BpLW5hbWVzcGFjZS1oaWVyYXJjaHktYW5kLWFkci1mb3ItCj5lbWJlZGRlZAo+
+PiAtdXNiLWRldmljZXMKPj4KPj4gU2lnbmVkLW9mZi1ieTogRG1pdHJ5IFRvcm9raG92IDxkdG9y
+QGNocm9taXVtLm9yZz4KPj4gU2lnbmVkLW9mZi1ieTogUmFqYXQgSmFpbiA8cmFqYXRqYUBnb29n
+bGUuY29tPiAoY2hhbmdlZCBob3cgd2UgZ2V0IHRoZQo+PiB1c2JfcG9ydCkKPgo+QWNrZWQtYnk6
+IEdyZWcgS3JvYWgtSGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+CgpUZXN0ZWQt
+Ynk6IFN1a3VtYXIgR2hvcmFpIDxzdWt1bWFyLmdob3JhaUBpbnRlbC5jb20+Cg==
