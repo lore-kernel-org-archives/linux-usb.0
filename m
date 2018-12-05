@@ -1,15 +1,32 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [net,2/2] net: usb: aqc111: Support for thermal throttling feature
-From: Andrew Lunn <andrew@lunn.ch>
-Message-Id: <20181212202835.GC14328@lunn.ch>
-Date: Wed, 12 Dec 2018 21:28:35 +0100
-To: Igor Russkikh <Igor.Russkikh@aquantia.com>
-Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "davem@davemloft.net" <davem@davemloft.net>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, Dmitry Bezrukov <Dmitry.Bezrukov@aquantia.com>
+Subject: [AUTOSEL,4.19,072/123] USB: omap_udc: fix rejection of out transfers when DMA is used
+From: Sasha Levin <sashal@kernel.org>
+Message-Id: <20181205093555.5386-72-sashal@kernel.org>
+Date: Wed,  5 Dec 2018 04:35:04 -0500
+To: stable@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Aaro Koskinen <aaro.koskinen@iki.fi>, Felipe Balbi <felipe.balbi@linux.intel.com>, Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-PiBOT1JNQUxfVEVNUCBhbmQgQ1JJVElDQUxfVEVNUCB2YWx1ZXMgYXJlIGFjdHVhbGx5IGEgaHlz
-dGVyZXNpcy4gIEluCj4gY29vbCBkb3duIGNhc2Ugb25seSBhZnRlciBURU1QX05PUk1BTCB0ZW1w
-ZXJhdHVyZSBsaW5rIHdpbGwgYmUKPiBmbGlwcGVkIGJhY2sgYWdhaW4uCgpBaCwgeWVzLCBzb3Jy
-eSwgaSByZWFkIHRoYXQgd3JvbmcuCgogICAgQW5kcmV3Cg==
+RnJvbTogQWFybyBLb3NraW5lbiA8YWFyby5rb3NraW5lbkBpa2kuZmk+CgpbIFVwc3RyZWFtIGNv
+bW1pdCAwNjljYWY1OTUwZGZhNzVkMDUyNmNkODljNDM5ZmY5ZDlkMzEzNmQ4IF0KCkNvbW1pdCAz
+ODdmODY5ZDI1NzkgKCJ1c2I6IGdhZGdldDogdV9ldGhlcjogY29uZGl0aW9uYWxseSBhbGlnbgp0
+cmFuc2ZlciBzaXplIikgc3RhcnRlZCBhbGlnbmluZyB0cmFuc2ZlciBzaXplIG9ubHkgaWYgcmVx
+dWVzdGVkLApicmVha2luZyBvbWFwX3VkYyBETUEgbW9kZS4gU2V0IHF1aXJrX2VwX291dF9hbGln
+bmVkX3NpemUgdG8gcmVzdG9yZQp0aGUgb2xkIGJlaGF2aW91ci4KCkZpeGVzOiAzODdmODY5ZDI1
+NzkgKCJ1c2I6IGdhZGdldDogdV9ldGhlcjogY29uZGl0aW9uYWxseSBhbGlnbiB0cmFuc2ZlciBz
+aXplIikKU2lnbmVkLW9mZi1ieTogQWFybyBLb3NraW5lbiA8YWFyby5rb3NraW5lbkBpa2kuZmk+
+ClNpZ25lZC1vZmYtYnk6IEZlbGlwZSBCYWxiaSA8ZmVsaXBlLmJhbGJpQGxpbnV4LmludGVsLmNv
+bT4KU2lnbmVkLW9mZi1ieTogU2FzaGEgTGV2aW4gPHNhc2hhbEBrZXJuZWwub3JnPgotLS0KIGRy
+aXZlcnMvdXNiL2dhZGdldC91ZGMvb21hcF91ZGMuYyB8IDEgKwogMSBmaWxlIGNoYW5nZWQsIDEg
+aW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9vbWFwX3Vk
+Yy5jIGIvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9vbWFwX3VkYy5jCmluZGV4IDliMjNlMDRjOGYw
+Mi4uZmNmMTNlZjMzYjMxIDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL29tYXBf
+dWRjLmMKKysrIGIvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9vbWFwX3VkYy5jCkBAIC0yNjQyLDYg
+KzI2NDIsNyBAQCBvbWFwX3VkY19zZXR1cChzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpvZGV2LCBz
+dHJ1Y3QgdXNiX3BoeSAqeGNlaXYpCiAJdWRjLT5nYWRnZXQuc3BlZWQgPSBVU0JfU1BFRURfVU5L
+Tk9XTjsKIAl1ZGMtPmdhZGdldC5tYXhfc3BlZWQgPSBVU0JfU1BFRURfRlVMTDsKIAl1ZGMtPmdh
+ZGdldC5uYW1lID0gZHJpdmVyX25hbWU7CisJdWRjLT5nYWRnZXQucXVpcmtfZXBfb3V0X2FsaWdu
+ZWRfc2l6ZSA9IDE7CiAJdWRjLT50cmFuc2NlaXZlciA9IHhjZWl2OwogCiAJLyogZXAwIGlzIHNw
+ZWNpYWw7IHB1dCBpdCByaWdodCBhZnRlciB0aGUgU0VUVVAgYnVmZmVyICovCg==
