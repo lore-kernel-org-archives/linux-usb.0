@@ -1,35 +1,22 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [1/2] pci: pci_ids: Move Synopsys HAPS platform device IDs
-From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Message-Id: <30102591E157244384E984126FC3CB4F639A8E87@us01wembx1.internal.synopsys.com>
-Date: Mon, 10 Dec 2018 21:51:09 +0000
-To: Bjorn Helgaas <helgaas@kernel.org>, Thinh Nguyen <thinh.nguyen@synopsys.com>
-Cc: Felipe Balbi <felipe.balbi@linux.intel.com>, "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>, "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, USB <linux-usb@vger.kernel.org>
+Subject: usb: dwc2: Revert "usb: dwc2: Disable all EP's on disconnect"
+From: Dan Carpenter <dan.carpenter@oracle.com>
+Message-Id: <20181206145218.GQ3073@unbuntlaptop>
+Date: Thu, 6 Dec 2018 17:52:18 +0300
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Minas Harutyunyan <hminas@synopsys.com>, Felipe Balbi <felipe.balbi@linux.intel.com>, Geert Uytterhoeven <geert@linux-m68k.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgQmpvcm4sCgpPbiAxMi8xMC8yMDE4IDEwOjU0IEFNLCBCam9ybiBIZWxnYWFzIHdyb3RlOgo+
-IE9uIFNhdCwgRGVjIDA4LCAyMDE4IGF0IDAyOjQ5OjA5QU0gKzAwMDAsIFRoaW5oIE5ndXllbiB3
-cm90ZToKPj4gSGkgQmpvcm4sCj4+Cj4+IE9uIDExLzYvMjAxOCAxMjo0NCBBTSwgRmVsaXBlIEJh
-bGJpIHdyb3RlOgo+Pj4gVGhpbmggTmd1eWVuIDx0aGluaC5uZ3V5ZW5Ac3lub3BzeXMuY29tPiB3
-cml0ZXM6Cj4+Pgo+Pj4+ICsrIGxpbnV4LXVzYgo+Pj4+ICsrIEdyZWcKPj4+Pgo+Pj4+IE9uIDEx
-LzIvMjAxOCA2OjQ3IFBNLCBUaGluaCBOZ3V5ZW4gd3JvdGU6Cj4+Pj4+IFN5bm9wc3lzIFVTQiAz
-LnggaG9zdCBIQVBTIHBsYXRmb3JtIGhhcyBhIGNsYXNzIGNvZGUgb2YKPj4+Pj4gUENJX0NMQVNT
-X1NFUklBTF9VU0JfWEhDSSwgYW5kIHhoY2kgZHJpdmVyIGNhbiBjbGFpbSBpdC4gSG93ZXZlciwg
-dGhlc2UKPj4+Pj4gZGV2aWNlcyBzaG91bGQgdXNlIGR3YzMtaGFwcyBkcml2ZXIuIFNldCBkcml2
-ZXJfb3ZlcnJpZGUgdG8gZHdjMy1oYXBzCj4+Pj4+IGZvciB0aGVzZSBwbGF0Zm9ybXMuCj4+Pj4+
-Cj4+Pj4+IFNpZ25lZC1vZmYtYnk6IFRoaW5oIE5ndXllbiA8dGhpbmhuQHN5bm9wc3lzLmNvbT4K
-Pj4+IEZXSVc6Cj4+Pgo+Pj4gQWNrZWQtYnk6IEZlbGlwZSBCYWxiaSA8ZmVsaXBlLmJhbGJpQGxp
-bnV4LmludGVsLmNvbT4KPj4+Cj4+IFBsZWFzZSBsZXQgbWUga25vdyBpZiB5b3UncmUgb2sgd2l0
-aCB0aGVzZSAyIHBhdGNoZXMuICAoVGhpcyBhbmQgcGF0Y2gKPj4gc3ViamVjdCAiW1BBVENIIDEv
-Ml0gcGNpOiBwY2lfaWRzOiBNb3ZlIFN5bm9wc3lzIEhBUFMgcGxhdGZvcm0gZGV2aWNlIElEcyIp
-Cj4gMSkgUnVuICJnaXQgbG9nIC0tb25lbGluZSBkcml2ZXJzL3BjaS9xdWlya3MuYyIgLi4uCj4K
-PiAyKSBxdWlya19hbWRfbmxfY2xhc3MoKSBhbmQgcXVpcmtfbmV0bW9zKCkgZG8gc29tZXRoaW5n
-IHNpbWlsYXIgaW4gYQo+IGRpZmZlcmVudCB3YXkuICBxdWlya19hbWRfbmxfY2xhc3MoKSBpbiBw
-YXJ0aWN1bGFyIHNlZW1zIHRvIGJlIGRvaW5nCj4gZXhhY3RseSB0aGUgc2FtZSB0aGluZy4gIEkg
-dGhpbmsgc2luY2UgdGhleSdyZSBkb2luZyB0aGUgc2FtZSB0aGluZywgdGhleQo+IHNob3VsZCBk
-byBpdCB0aGUgc2FtZSB3YXkuICBXb3VsZCB0aGUgcXVpcmtfYW1kX25sX2NsYXNzKCkgc29sdXRp
-b24gd29yawo+IGZvciB5b3U/Cj4KPiBCam9ybgo+CgpZZXMuIEFsc28sIHRoZSB3YXkgTmV0bW9z
-IGhhbmRsaW5nIG11bHRpcGxlIGRldmljZXMgaXMgY2xlYW5lci4gSSdsbAppbmNvcnBvcmF0ZSB0
-aGUgdGhlaXIgc29sdXRpb25zLgoKVGhhbmtzLApUaGluaAo=
+SGkgTWFyZWssCgpJJ20gc3VycHJpc2VkIHlvdSBkb24ndCBnZXQgZGVhZGxvY2tzIHdoZW4geW91
+IGFwcGx5IHRoaXMgcGF0Y2guCgpPbiBXZWQsIE5vdiAyMSwgMjAxOCBhdCAwNDo0NTowNFBNICsw
+MTAwLCBNYXJlayBTenlwcm93c2tpIHdyb3RlOgoKPiBAQCAtNDAyMCw5ICs0MDA4LDcgQEAgc3Rh
+dGljIGludCBkd2MyX2hzb3RnX2VwX2Rpc2FibGUoc3RydWN0IHVzYl9lcCAqZXApCj4gIAo+ICAJ
+ZXBjdHJsX3JlZyA9IGRpcl9pbiA/IERJRVBDVEwoaW5kZXgpIDogRE9FUENUTChpbmRleCk7Cj4g
+IAo+IC0JbG9ja2VkID0gc3Bpbl9pc19sb2NrZWQoJmhzb3RnLT5sb2NrKTsKPiAtCWlmICghbG9j
+a2VkKQo+IC0JCXNwaW5fbG9ja19pcnFzYXZlKCZoc290Zy0+bG9jaywgZmxhZ3MpOwo+ICsJc3Bp
+bl9sb2NrX2lycXNhdmUoJmhzb3RnLT5sb2NrLCBmbGFncyk7Cj4gIAoKT25lIG9mIHRoZSBjYWxs
+ZXJzIGlzIGFscmVhZHkgaG9sZGluZyB0aGUgaHNvdGctPmxvZy4gIFRoZQpzcGluX2lzX2xvY2tl
+ZCgpIHRlc3Qgd291bGQgYXZvaWQgdGhlIGRlYWRsb2NrLgoKcmVnYXJkcywKZGFuIGNhcnBlbnRl
+cgo=
