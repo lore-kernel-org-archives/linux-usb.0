@@ -2,21 +2,25 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: dwc2: Revert "usb: dwc2: Disable all EP's on disconnect"
-From: Dan Carpenter <dan.carpenter@oracle.com>
-Message-Id: <20181206145218.GQ3073@unbuntlaptop>
-Date: Thu, 6 Dec 2018 17:52:18 +0300
-To: Marek Szyprowski <m.szyprowski@samsung.com>
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+Message-Id: <5abb1e89-bf49-6c08-742a-a782111b41dc@samsung.com>
+Date: Thu, 6 Dec 2018 16:07:14 +0100
+To: Dan Carpenter <dan.carpenter@oracle.com>
 Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Minas Harutyunyan <hminas@synopsys.com>, Felipe Balbi <felipe.balbi@linux.intel.com>, Geert Uytterhoeven <geert@linux-m68k.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgTWFyZWssCgpJJ20gc3VycHJpc2VkIHlvdSBkb24ndCBnZXQgZGVhZGxvY2tzIHdoZW4geW91
-IGFwcGx5IHRoaXMgcGF0Y2guCgpPbiBXZWQsIE5vdiAyMSwgMjAxOCBhdCAwNDo0NTowNFBNICsw
-MTAwLCBNYXJlayBTenlwcm93c2tpIHdyb3RlOgoKPiBAQCAtNDAyMCw5ICs0MDA4LDcgQEAgc3Rh
-dGljIGludCBkd2MyX2hzb3RnX2VwX2Rpc2FibGUoc3RydWN0IHVzYl9lcCAqZXApCj4gIAo+ICAJ
-ZXBjdHJsX3JlZyA9IGRpcl9pbiA/IERJRVBDVEwoaW5kZXgpIDogRE9FUENUTChpbmRleCk7Cj4g
-IAo+IC0JbG9ja2VkID0gc3Bpbl9pc19sb2NrZWQoJmhzb3RnLT5sb2NrKTsKPiAtCWlmICghbG9j
-a2VkKQo+IC0JCXNwaW5fbG9ja19pcnFzYXZlKCZoc290Zy0+bG9jaywgZmxhZ3MpOwo+ICsJc3Bp
-bl9sb2NrX2lycXNhdmUoJmhzb3RnLT5sb2NrLCBmbGFncyk7Cj4gIAoKT25lIG9mIHRoZSBjYWxs
-ZXJzIGlzIGFscmVhZHkgaG9sZGluZyB0aGUgaHNvdGctPmxvZy4gIFRoZQpzcGluX2lzX2xvY2tl
-ZCgpIHRlc3Qgd291bGQgYXZvaWQgdGhlIGRlYWRsb2NrLgoKcmVnYXJkcywKZGFuIGNhcnBlbnRl
-cgo=
+SGkgRGFuLAoKT24gMjAxOC0xMi0wNiAxNTo1MiwgRGFuIENhcnBlbnRlciB3cm90ZToKPiBIaSBN
+YXJlaywKPgo+IEknbSBzdXJwcmlzZWQgeW91IGRvbid0IGdldCBkZWFkbG9ja3Mgd2hlbiB5b3Ug
+YXBwbHkgdGhpcyBwYXRjaC4KCldoeSBzaG91bGQgSSBnZXQgaXQ/IEl0IGlzIGp1c3QgYSByZXZl
+cnQgdG8gdGhlIHN0YXRlIGJlZm9yZSBhcHBseWluZwp0aGUgbWVudGlvbmVkIGluY29ycmVjdCBw
+YXRjaC4KCj4gT24gV2VkLCBOb3YgMjEsIDIwMTggYXQgMDQ6NDU6MDRQTSArMDEwMCwgTWFyZWsg
+U3p5cHJvd3NraSB3cm90ZToKPgo+PiBAQCAtNDAyMCw5ICs0MDA4LDcgQEAgc3RhdGljIGludCBk
+d2MyX2hzb3RnX2VwX2Rpc2FibGUoc3RydWN0IHVzYl9lcCAqZXApCj4+ICAKPj4gIAllcGN0cmxf
+cmVnID0gZGlyX2luID8gRElFUENUTChpbmRleCkgOiBET0VQQ1RMKGluZGV4KTsKPj4gIAo+PiAt
+CWxvY2tlZCA9IHNwaW5faXNfbG9ja2VkKCZoc290Zy0+bG9jayk7Cj4+IC0JaWYgKCFsb2NrZWQp
+Cj4+IC0JCXNwaW5fbG9ja19pcnFzYXZlKCZoc290Zy0+bG9jaywgZmxhZ3MpOwo+PiArCXNwaW5f
+bG9ja19pcnFzYXZlKCZoc290Zy0+bG9jaywgZmxhZ3MpOwo+PiAgCj4gT25lIG9mIHRoZSBjYWxs
+ZXJzIGlzIGFscmVhZHkgaG9sZGluZyB0aGUgaHNvdGctPmxvZy4gIFRoZQo+IHNwaW5faXNfbG9j
+a2VkKCkgdGVzdCB3b3VsZCBhdm9pZCB0aGUgZGVhZGxvY2suCgpCZWZvcmUgdGhhdCBicm9rZW4g
+cGF0Y2gsIHRoZXJlIHdhcyBubyBjYWxsIHRvIGFueSBmdW5jdGlvbiB3aGljaCB0YWtlcwpzcGlu
+bG9jayBhZ2Fpbiwgc28gbm8gZGVhZGxvY2suCgpCZXN0IHJlZ2FyZHMK
