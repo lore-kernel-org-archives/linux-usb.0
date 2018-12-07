@@ -2,35 +2,19 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: dwc2: Revert "usb: dwc2: Disable all EP's on disconnect"
-From: Felipe Balbi <felipe.balbi@linux.intel.com>
-Message-Id: <87lg517jj6.fsf@linux.intel.com>
-Date: Fri, 07 Dec 2018 11:50:21 +0200
-To: Minas Harutyunyan <minas.harutyunyan@synopsys.com>, Marek Szyprowski <m.szyprowski@samsung.com>Minas Harutyunyan <minas.harutyunyan@synopsys.com>, Dan Carpenter <dan.carpenter@oracle.com>, Maynard CABIENTE <maynard.cabiente@raritan.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+From: Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
+Message-Id: <410670D7E743164D87FA6160E7907A56013A7B48EC@am04wembxa.internal.synopsys.com>
+Date: Fri, 7 Dec 2018 09:58:28 +0000
+To: Minas Harutyunyan <minas.harutyunyan@synopsys.com>, Felipe Balbi <felipe.balbi@linux.intel.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Dan Carpenter <dan.carpenter@oracle.com>, Maynard CABIENTE <maynard.cabiente@raritan.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgoKTWluYXMgSGFydXR5dW55YW4gPG1pbmFzLmhhcnV0eXVueWFuQHN5bm9wc3lzLmNvbT4g
-d3JpdGVzOgoKPiBIaSBNYXJlaywKPgo+IE9uIDEyLzYvMjAxOCA3OjA0IFBNLCBNYXJlayBTenlw
-cm93c2tpIHdyb3RlOgo+PiBEZWFyIE1pbmFzLAo+PiAKPj4gT24gMjAxOC0xMi0wNCAxMzozNCwg
-TWluYXMgSGFydXR5dW55YW4gd3JvdGU6Cj4+PiBPbiAxMS8yMy8yMDE4IDY6NDMgUE0sIERhbiBD
-YXJwZW50ZXIgd3JvdGU6Cj4+Pj4gVWdoLi4uICBXZSBhbHNvIGhhZCBhIGxvbmcgdGhyZWFkIGFi
-b3V0IHRoZSB2MiBwYXRjaCBidXQgaXQgdHVybnMgb3V0Cj4+Pj4gdGhlIGxpc3Qgd2FzIG5vdCBD
-QydkLiAgSSBzaG91bGQgaGF2ZSBjaGVja2VkIGZvciB0aGF0Lgo+Pj4+Cj4+Pj4gWW91IGhhdmUg
-dG8gcGFzcyBhIGZsYWcgdG8gc2F5IGlmIHRoZSBjYWxsZXIgaG9sZHMgdGhlIGxvY2sgb3Igbm90
-Li4uCj4+Pj4KPj4+PiByZWdhcmRzLAo+Pj4+IGRhbiBjYXJwZW50ZXIKPj4+Pgo+Pj4gSGkgRGFu
-LCBNYXJlaywgTWF5bmFyZCwKPj4+Cj4+PiBDb3VsZCB5b3UgcGxlYXNlIGFwcGx5IGJlbGxvdyBw
-YXRjaCBvdmVyIGZvbGxvdyBwYXRjaGVzOgo+Pj4KPj4+IGRjY2YxYmFkNGJlNyB1c2I6IGR3YzI6
-IERpc2FibGUgYWxsIEVQJ3Mgb24gZGlzY29ubmVjdAo+Pj4gNmY3NzRiNTAxOTI4IHVzYjogZHdj
-MjogRml4IGVwIGRpc2FibGUgc3BpbmxvY2sgZmxvdy4KPj4+Cj4+PiBQbGVhc2UgcmV2aWV3IGFu
-ZCB0ZXN0LiBGZWVkYmFjayBpcyBhcHByZWNpYXRlZCA6LSkKPj4gCj4+IE9rYXksIEkgZmluYWxs
-eSBtYW5hZ2VkIHRvIGZpbmQgc29tZSB0aW1lIHRvIGNoZWNrIHRoaXMuIFlvdXIgZGlmZiBpcwo+
-PiBtYW5nbGVkLCBzbyBJIGhhZCB0byBtYW51YWxseSBhcHBseSBpdC4gRnJhbmtseSwgaXQgaXMg
-dmVyeSBzaW1pbGFyIHRvCj4+IHRoZSByZXZlcnQgSSBwcm9wb3NlZC4gSSd2ZSBjaGVja2VkIGl0
-IG9uIG15IHRlc3QgbWFjaGluZXMgYW5kIGl0IGZpeGVzCj4+IHRoZSBpc3N1ZXMuIEknbSBub3Qg
-dmVyeSBoYXBweSBhYm91dCB0aGUgdW5sb2NrL2xvY2sgZGVzaWduLCBidXQgaXQKPj4gc2hvdWxk
-IGJlIHNhZmUgaW4gdGhpcyBjYXNlIGFuZCBkb2Vzbid0IG1ha2UgdGhlIGNvZGUgZXZlbiBtb3Jl
-IGNvbXBsZXguCj4+IEZlZWwgZnJlZSB0byBhZGQgYSBmb2xsb3dpbmcgdGFnIHRvIHRoZSBmaW5h
-bCBwYXRjaDoKPj4gCj4+IFRlc3RlZC1ieTogTWFyZWsgU3p5cHJvd3NraSA8bS5zenlwcm93c2tp
-QHNhbXN1bmcuY29tPgo+IFRoYW5rcyBmb3IgdGVzdGluZy4KCnNob3VsZCAkU3ViamVjdCBiZSBh
-cHBsaWVkPyBDYW4geW91IHJlc2VuZCByZWJhc2VkIG9uIHRlc3RpbmcvbmV4dCB3aXRoClRlc3Rl
-ZC1ieSB0YWdzIGNvbGxlY3RlZCBpZiB5b3UncmUgaGFwcHkgd2l0aCBpdD8KCnRoYW5rcwo=
+SGkgRmlsaXBlLAoKTXkgcGF0Y2ggZGNjZjFiYWQ0YmU3ZWFhMDk2YzFmMzY5N2JkMzc4ODNmOWEw
+OGVjYiAidXNiOiBkd2MyOiBEaXNhYmxlIAphbGwgRVAncyBvbiBkaXNjb25uZWN0IiBhcHBsaWVk
+IHRvIDQuMjAtcmMxLgoKSSBuZWVkIHRvIHVwZGF0ZSB0aGlzIHBhdGNoLiBXaGF0IEkgc2hvdWxk
+IGRvLiBUaGVyZSBhcmUgMiBvcHRpb25zOgoKMS4gQWNrIE1hcmVrIFN6eXByb3dza2kgPG0uc3p5
+cHJvd3NraUBzYW1zdW5nLmNvbT4gW1BBVENIXSB1c2I6IGR3YzI6IApSZXZlcnQgInVzYjogZHdj
+MjogRGlzYWJsZSBhbGwgRVAncyBvbiBkaXNjb25uZWN0IiB0aGVuIHN1Ym1pdCBmaW5hbCAKZml4
+ZWQgdmVyc2lvbiBvZiBwYXRjaD8KCjIuIE9yIHN1Ym1pdCBuZXcgcGF0Y2ggdG8gZml4IGV4aXN0
+aW5nICJ1c2I6IGR3YzI6IERpc2FibGUgYWxsIEVQJ3Mgb24gCmRpc2Nvbm5lY3QiLgoKUGxlYXNl
+IGFkdmlzZS4KClRoYW5rcywKTWluYXMK
