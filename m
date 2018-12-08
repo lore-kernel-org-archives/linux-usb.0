@@ -1,19 +1,36 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3,2/2] USB: quirks: Disable LPM for Logitech UVC devices
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20181212113735.GB20058@kroah.com>
-Date: Wed, 12 Dec 2018 12:37:35 +0100
-To: Kyle Williams <kdgwill@chromium.org>
-Cc: linux-kernel@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>, Mathias Nyman <mathias.nyman@linux.intel.com>, Nicolas Boichat <drinkcat@chromium.org>, Jon Flatley <jflat@chromium.org>, Felipe Balbi <felipe.balbi@linux.intel.com>, Kai-Heng Feng <kai.heng.feng@canonical.com>, Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>, Harry Pan <harry.pan@intel.com>, Emmanuel Pescosta <emmanuelpescosta099@gmail.com>, Danilo Krummrich <danilokrummrich@dk-develop.de>, Dmitry Fleytman Dmitry Fleytman <dmitry.fleytman@gmail.com>, linux-usb@vger.kernel.org
+Subject: [v2,1/4] usb: dwc3: Add property snps,refclk-period-ns
+From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Message-Id: <83adc98adc1760a0fad87d81d171e1dac783e7e5.1544235317.git.thinhn@synopsys.com>
+Date: Fri, 7 Dec 2018 18:27:30 -0800
+To: Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>
+Cc: John Youn <john.youn@synopsys.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCBEZWMgMDcsIDIwMTggYXQgMDg6NDc6MjJQTSAtMDUwMCwgS3lsZSBXaWxsaWFtcyB3
-cm90ZToKPiBGcm9tOiBLeWxlIFdpbGxpYW1zIDxrZGd3aWxsQGNocm9taXVtLm9yZz4KPiAKPiBE
-ZXNjcmlwdGlvbjogU29tZSBVU0IgZGV2aWNlIC8gaG9zdCBjb250cm9sbGVyIGNvbWJpbmF0aW9u
-cyBzZWVtIHRvIGhhdmUKPiBwcm9ibGVtcyB3aXRoIExpbmsgUG93ZXIgbWFuYWdlbWVudC4gSW4g
-cGFydGljdWxhciBpdCBpcyBkZXNjcmliZWQgdGhhdAo+IHRoZSBjb21iaW5hdGlvbiBvZiBjZXJ0
-YWluIExvZ2l0ZWNoIHV2YyBkZXZpY2VzIGFuZCBvdGhlciBwb3dlcmVkIG1lZGlhCj4gZGV2aWNl
-cyBzdWNoIGNhdXNlcyAnbm90IGVub3VnaCBiYW5kd2lkdGggZm9yIG5ldyBkZXZpY2Ugc3RhdGUn
-IGVycm9yLgoKU2FtZSB0aGluZyB3aXRoICJEZXNjcmlwdGlvbjoiIDooCg==
+VGhpcyBwYXRjaCBpbnRyb2R1Y2VzIHByb3BlcnR5ICJzbnBzLHJlZmNsay1wZXJpb2QtbnMiIHRv
+IGluZm9ybSB0aGUKY29udHJvbGxlciBvZiB0aGUgcmVmZXJlbmNlIGNsb2NrIHBlcmlvZC4gSWYg
+dGhlIHJlZmVyZW5jZSBjbG9jayBwZXJpb2QKaXMgZGlmZmVyZW50IGZyb20gdGhlIGRlZmF1bHQg
+Q29yZSBDb25zdWx0YW50IHNldHRpbmcsIHRoZW4gdGhpcwpwcm9wZXJ0eSBjYW4gYmUgc2V0IHRv
+IHRoZSByZWZlcmVuY2UgY2xvY2sgcGVyaW9kLgoKVGhpcyBwcm9wZXJ0eSBkb2VzIG5vdCBjb250
+cm9sIHRoZSByZWZlcmVuY2UgY2xvY2sgcmF0ZS4gVGhlIGNvbnRyb2xsZXIKdXNlcyB0aGlzIHZh
+bHVlIHRvIHBlcmZvcm0gaW50ZXJuYWwgdGltaW5nIGNhbGN1bGF0aW9ucyB0aGF0IGFyZSBiYXNl
+ZApvbiB0aGUgcmVmZXJlbmNlIGNsb2NrLgoKU2lnbmVkLW9mZi1ieTogVGhpbmggTmd1eWVuIDx0
+aGluaG5Ac3lub3BzeXMuY29tPgotLS0KQ2hhbmdlcyBpbiB2MjoKLSBTcGxpdCBmcm9tICJ1c2I6
+IGR3YzM6IEFkZCByZWZlcmVuY2UgY2xvY2sgcHJvcGVydGllcyIKLSBSZXZpc2UgY29tbWl0IG1l
+c3NhZ2UgYW5kIHByb3BlcnR5IGRlc2NyaXB0aW9uCgogRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
+L2JpbmRpbmdzL3VzYi9kd2MzLnR4dCB8IDIgKysKIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlv
+bnMoKykKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNi
+L2R3YzMudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9kd2MzLnR4
+dAppbmRleCA4ZTUyNjVlOWY2NTguLmI3ZTY3ZWRmZjliMiAxMDA2NDQKLS0tIGEvRG9jdW1lbnRh
+dGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9kd2MzLnR4dAorKysgYi9Eb2N1bWVudGF0aW9u
+L2RldmljZXRyZWUvYmluZGluZ3MvdXNiL2R3YzMudHh0CkBAIC05OSw2ICs5OSw4IEBAIE9wdGlv
+bmFsIHByb3BlcnRpZXM6CiAJCQl0aGlzIGFuZCB0eC10aHItbnVtLXBrdC1wcmQgdG8gYSB2YWxp
+ZCwgbm9uLXplcm8gdmFsdWUKIAkJCTEtMTYgKERXQ191c2IzMSBwcm9ncmFtbWluZyBndWlkZSBz
+ZWN0aW9uIDEuMi4zKSB0bwogCQkJZW5hYmxlIHBlcmlvZGljIEVTUyBUWCB0aHJlc2hvbGQuCisg
+LSBzbnBzLHJlZmNsay1wZXJpb2QtbnM6IGlmIHNldCwgdGhpcyB2YWx1ZSBpbmZvcm1zIHRoZSBj
+b250cm9sbGVyIG9mIHRoZQorCQkJcmVmZXJlbmNlIGNsb2NrIHBlcmlvZCBpbiBuYW5vc2Vjb25k
+cy4KIAogIC0gPERFUFJFQ0FURUQ+IHR4LWZpZm8tcmVzaXplOiBkZXRlcm1pbmVzIGlmIHRoZSBG
+SUZPICpoYXMqIHRvIGJlIHJlYWxsb2NhdGVkLgogIC0gc25wcyxpbmNyLWJ1cnN0LXR5cGUtYWRq
+dXN0bWVudDogVmFsdWUgZm9yIElOQ1IgYnVyc3QgdHlwZSBvZiBHU0JVU0NGRzAK
