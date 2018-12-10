@@ -2,31 +2,21 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/2] pci: pci_ids: Move Synopsys HAPS platform device IDs
-From: Bjorn Helgaas <helgaas@kernel.org>
-Message-Id: <20181210185433.GB47246@google.com>
-Date: Mon, 10 Dec 2018 12:54:33 -0600
-To: Thinh Nguyen <thinh.nguyen@synopsys.com>
-Cc: Felipe Balbi <felipe.balbi@linux.intel.com>, "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>, "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, USB <linux-usb@vger.kernel.org>
+From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Message-Id: <30102591E157244384E984126FC3CB4F639A8E68@us01wembx1.internal.synopsys.com>
+Date: Mon, 10 Dec 2018 21:49:31 +0000
+To: Bjorn Helgaas <helgaas@kernel.org>, Thinh Nguyen <thinh.nguyen@synopsys.com>
+Cc: Felipe Balbi <balbi@kernel.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>, John Youn <john.youn@synopsys.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gU2F0LCBEZWMgMDgsIDIwMTggYXQgMDI6NDk6MDlBTSArMDAwMCwgVGhpbmggTmd1eWVuIHdy
-b3RlOgo+IEhpIEJqb3JuLAo+IAo+IE9uIDExLzYvMjAxOCAxMjo0NCBBTSwgRmVsaXBlIEJhbGJp
-IHdyb3RlOgo+ID4gVGhpbmggTmd1eWVuIDx0aGluaC5uZ3V5ZW5Ac3lub3BzeXMuY29tPiB3cml0
-ZXM6Cj4gPgo+ID4+ICsrIGxpbnV4LXVzYgo+ID4+ICsrIEdyZWcKPiA+Pgo+ID4+IE9uIDExLzIv
-MjAxOCA2OjQ3IFBNLCBUaGluaCBOZ3V5ZW4gd3JvdGU6Cj4gPj4+IFN5bm9wc3lzIFVTQiAzLngg
-aG9zdCBIQVBTIHBsYXRmb3JtIGhhcyBhIGNsYXNzIGNvZGUgb2YKPiA+Pj4gUENJX0NMQVNTX1NF
-UklBTF9VU0JfWEhDSSwgYW5kIHhoY2kgZHJpdmVyIGNhbiBjbGFpbSBpdC4gSG93ZXZlciwgdGhl
-c2UKPiA+Pj4gZGV2aWNlcyBzaG91bGQgdXNlIGR3YzMtaGFwcyBkcml2ZXIuIFNldCBkcml2ZXJf
-b3ZlcnJpZGUgdG8gZHdjMy1oYXBzCj4gPj4+IGZvciB0aGVzZSBwbGF0Zm9ybXMuCj4gPj4+Cj4g
-Pj4+IFNpZ25lZC1vZmYtYnk6IFRoaW5oIE5ndXllbiA8dGhpbmhuQHN5bm9wc3lzLmNvbT4KPiA+
-IEZXSVc6Cj4gPgo+ID4gQWNrZWQtYnk6IEZlbGlwZSBCYWxiaSA8ZmVsaXBlLmJhbGJpQGxpbnV4
-LmludGVsLmNvbT4KPiA+Cj4gCj4gUGxlYXNlIGxldCBtZSBrbm93IGlmIHlvdSdyZSBvayB3aXRo
-IHRoZXNlIDIgcGF0Y2hlcy4gIChUaGlzIGFuZCBwYXRjaAo+IHN1YmplY3QgIltQQVRDSCAxLzJd
-IHBjaTogcGNpX2lkczogTW92ZSBTeW5vcHN5cyBIQVBTIHBsYXRmb3JtIGRldmljZSBJRHMiKQoK
-MSkgUnVuICJnaXQgbG9nIC0tb25lbGluZSBkcml2ZXJzL3BjaS9xdWlya3MuYyIgLi4uCgoyKSBx
-dWlya19hbWRfbmxfY2xhc3MoKSBhbmQgcXVpcmtfbmV0bW9zKCkgZG8gc29tZXRoaW5nIHNpbWls
-YXIgaW4gYQpkaWZmZXJlbnQgd2F5LiAgcXVpcmtfYW1kX25sX2NsYXNzKCkgaW4gcGFydGljdWxh
-ciBzZWVtcyB0byBiZSBkb2luZwpleGFjdGx5IHRoZSBzYW1lIHRoaW5nLiAgSSB0aGluayBzaW5j
-ZSB0aGV5J3JlIGRvaW5nIHRoZSBzYW1lIHRoaW5nLCB0aGV5CnNob3VsZCBkbyBpdCB0aGUgc2Ft
-ZSB3YXkuICBXb3VsZCB0aGUgcXVpcmtfYW1kX25sX2NsYXNzKCkgc29sdXRpb24gd29yawpmb3Ig
-eW91PwoKQmpvcm4K
+SGkgQmpvcm4sCgpPbiAxMi8xMC8yMDE4IDEwOjQ5IEFNLCBCam9ybiBIZWxnYWFzIHdyb3RlOgo+
+IE9uIEZyaSwgTm92IDAyLCAyMDE4IGF0IDA2OjQ3OjM4UE0gLTA3MDAsIFRoaW5oIE5ndXllbiB3
+cm90ZToKPj4gTW92ZSBTeW5vcHN5cyBIQVBTIHBsYXRmb3JtIGRldmljZSBJRHMgdG8gcGNpX2lk
+cy5oLgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBUaGluaCBOZ3V5ZW4gPHRoaW5obkBzeW5vcHN5cy5j
+b20+Cj4gMSkgUnVuICJnaXQgbG9nIC0tb25lbGluZSBpbmNsdWRlL2xpbnV4L3BjaV9pZHMuaCIg
+YW5kIGZvbGxvdyB0aGUKPiBzdHlsZSBjb252ZW50aW9uIGZvciBwYXRjaCBzdWJqZWN0Lgo+Cj4g
+MikgRXhwbGFpbiBpbiB0aGUgY2hhbmdlbG9nIHdoeSB3ZSdyZSBtb3ZpbmcgdGhpcyB0byBwY2lf
+aWRzLmguICBOb3RlCj4gdGhlIGNvbW1lbnQgYXQgdGhlIHRvcCBvZiBwY2lfaWRzLmguICBJIHRo
+aW5rIHRoZSBtb3ZlIGlzIGZpbmUgYmVjYXVzZQo+IHlvdSdyZSB1c2luZyB0aGUgZGVmaW5pdGlv
+biBpbiB0d28gcGxhY2VzLCBzbyBqdXN0IG1lbnRpb24gdGhhdCBpbiB0aGUKPiBjaGFuZ2Vsb2cu
+Cj4KPiBUaGFua3MhCgpUaGFua3MgZm9yIHRoZSByZXZpZXchIEknbGwgZml4IGl0LgoKVGhpbmgK
