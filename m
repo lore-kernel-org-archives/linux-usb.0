@@ -2,14 +2,14 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/1] usb: dwc2: disable power_down on Amlogic devices
-From: Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
-Message-Id: <410670D7E743164D87FA6160E7907A56013A7B631D@am04wembxa.internal.synopsys.com>
-Date: Mon, 10 Dec 2018 06:04:26 +0000
-To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "minas.harutyunyan@synopsys.com" <minas.harutyunyan@synopsys.com>, "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-amlogic@lists.infradead.org" <linux-amlogic@lists.infradead.org>, "Arthur.Petrosyan@synopsys.com" <Arthur.Petrosyan@synopsys.com>, "christianshewitt@gmail.com" <christianshewitt@gmail.com>, "stable@vger.kernel.org" <stable@vger.kernel.org>
+From: Brad Harper <bjharper@gmail.com>
+Message-Id: <81fb7231-8bc1-c8e9-4901-20676632a10b@gmail.com>
+Date: Tue, 11 Dec 2018 00:20:41 +1100
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-usb@vger.kernel.org, hminas@synopsys.com, gregkh@linuxfoundation.org
+Cc: Arthur.Petrosyan@synopsys.com, christianshewitt@gmail.com, linux-kernel@vger.kernel.org, stable@vger.kernel.org, linux-amlogic@lists.infradead.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMTIvOS8yMDE4IDExOjAxIFBNLCBNYXJ0aW4gQmx1bWVuc3RpbmdsIHdyb3RlOgo+IERpc2Fi
+T24gMTAvMTIvMjAxOCA2OjAxIGFtLCBNYXJ0aW4gQmx1bWVuc3RpbmdsIHdyb3RlOgo+IERpc2Fi
 bGUgcG93ZXJfZG93biBieSBzZXR0aW5nIHRoZSBwYXJhbWV0ZXIgdG8KPiBEV0MyX1BPV0VSX0RP
 V05fUEFSQU1fTk9ORS4gVGhpcyBmaXhlcyBhIHByb2JsZW0gb24gdmFyaW91cyBBbWxvZ2ljCj4g
 TWVzb24gU29DcyB3aGVyZSBVU0IgZGV2aWNlcyBhcmUgb25seSByZWNvZ25pemVkIHdoZW4gcGx1
@@ -27,8 +27,10 @@ ZXJnZSB0YWcgJ3VzYi1mb3ItdjQuMTcnIG9mIGdpdDovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20v
 bGludXgva2VybmVsL2dpdC9iYWxiaS91c2IgaW50byB1c2ItdGVzdGluZyIpLgo+IAo+IENjOiA8
 c3RhYmxlQHZnZXIua2VybmVsLm9yZz4gIyA0LjE5Cj4gU3VnZ2VzdGVkLWJ5OiBDaHJpc3RpYW4g
 SGV3aXR0IDxjaHJpc3RpYW5zaGV3aXR0QGdtYWlsLmNvbT4KPiBTaWduZWQtb2ZmLWJ5OiBNYXJ0
-aW4gQmx1bWVuc3RpbmdsIDxtYXJ0aW4uYmx1bWVuc3RpbmdsQGdvb2dsZW1haWwuY29tPgoKQWNr
-ZWQtYnk6IE1pbmFzIEhhcnV0eXVueWFuIDxobWluYXNAc3lub3BzeXMuY29tPgo+IC0tLQo+ICAg
+aW4gQmx1bWVuc3RpbmdsIDxtYXJ0aW4uYmx1bWVuc3RpbmdsQGdvb2dsZW1haWwuY29tPgoKRml4
+ZWQgdGhlIGlzc3VlIG9uIHRoZSBPZHJvaWQgQzIgc2JjIHdpdGggYW1sb2dpYyBtZXNvbiBneGJi
+IHNvYywgCmRldmljZXMgYXJlIG5vdyBkZXRlY3RlZCB3aGVuIGNvbm5lY3RlZCBhZnRlciBib290
+CgpUZXN0ZWQtYnk6IEJyYWQgSGFycGVyIDxiamhhcnBlckBnbWFpbC5jb20+Cgo+IC0tLQo+ICAg
 ZHJpdmVycy91c2IvZHdjMi9wYXJhbXMuYyB8IDEgKwo+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5z
 ZXJ0aW9uKCspCj4gCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2R3YzIvcGFyYW1zLmMgYi9k
 cml2ZXJzL3VzYi9kd2MyL3BhcmFtcy5jCj4gaW5kZXggN2MxYjY5MzhmMjEyLi4zOGM4MTNiMWQy
