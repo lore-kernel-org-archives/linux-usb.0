@@ -2,31 +2,18 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v3,2/2] USB: quirks: Disable LPM for Logitech UVC devices
-From: Kyle Williams <kdgwill@chromium.org>
-Message-Id: <20181208014724.951-3-kdgwill@google.com>
-Date: Fri,  7 Dec 2018 20:47:22 -0500
-To: linux-kernel@vger.kernel.org
-Cc: kdgwill@chromium.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alan Stern <stern@rowland.harvard.edu>, Mathias Nyman <mathias.nyman@linux.intel.com>, Nicolas Boichat <drinkcat@chromium.org>, Jon Flatley <jflat@chromium.org>, Felipe Balbi <felipe.balbi@linux.intel.com>, Kai-Heng Feng <kai.heng.feng@canonical.com>, Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>, Harry Pan <harry.pan@intel.com>, Emmanuel Pescosta <emmanuelpescosta099@gmail.com>, Danilo Krummrich <danilokrummrich@dk-develop.de>, Dmitry Fleytman Dmitry Fleytman <dmitry.fleytman@gmail.com>, linux-usb@vger.kernel.org
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20181212113735.GB20058@kroah.com>
+Date: Wed, 12 Dec 2018 12:37:35 +0100
+To: Kyle Williams <kdgwill@chromium.org>
+Cc: linux-kernel@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>, Mathias Nyman <mathias.nyman@linux.intel.com>, Nicolas Boichat <drinkcat@chromium.org>, Jon Flatley <jflat@chromium.org>, Felipe Balbi <felipe.balbi@linux.intel.com>, Kai-Heng Feng <kai.heng.feng@canonical.com>, Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>, Harry Pan <harry.pan@intel.com>, Emmanuel Pescosta <emmanuelpescosta099@gmail.com>, Danilo Krummrich <danilokrummrich@dk-develop.de>, Dmitry Fleytman Dmitry Fleytman <dmitry.fleytman@gmail.com>, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-RnJvbTogS3lsZSBXaWxsaWFtcyA8a2Rnd2lsbEBjaHJvbWl1bS5vcmc+CgpEZXNjcmlwdGlvbjog
-U29tZSBVU0IgZGV2aWNlIC8gaG9zdCBjb250cm9sbGVyIGNvbWJpbmF0aW9ucyBzZWVtIHRvIGhh
-dmUKcHJvYmxlbXMgd2l0aCBMaW5rIFBvd2VyIG1hbmFnZW1lbnQuIEluIHBhcnRpY3VsYXIgaXQg
-aXMgZGVzY3JpYmVkIHRoYXQKdGhlIGNvbWJpbmF0aW9uIG9mIGNlcnRhaW4gTG9naXRlY2ggdXZj
-IGRldmljZXMgYW5kIG90aGVyIHBvd2VyZWQgbWVkaWEKZGV2aWNlcyBzdWNoIGNhdXNlcyAnbm90
-IGVub3VnaCBiYW5kd2lkdGggZm9yIG5ldyBkZXZpY2Ugc3RhdGUnIGVycm9yLgoKVGhpcyBwYXRj
-aCBlbmFibGVzIHRoZSBVU0JfUVVJUktfTk9fTFBNIHF1aXJrIGVudHJpZXMgZm9yIGFsbCBjb25u
-ZWN0ZWQKTG9naXRlY2ggVVZDIGRldmljZXMgaW5kaWNhdGluZyBMUE0gc2hvdWxkIHJlbWFpbiBk
-aXNhYmxlZCBmb3IgdGhlIGRldmljZS4KClNpZ25lZC1vZmYtYnk6IEt5bGUgV2lsbGlhbXMgPGtk
-Z3dpbGxAY2hyb21pdW0ub3JnPgotLS0KIGRyaXZlcnMvdXNiL2NvcmUvcXVpcmtzLmMgfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1n
-aXQgYS9kcml2ZXJzL3VzYi9jb3JlL3F1aXJrcy5jIGIvZHJpdmVycy91c2IvY29yZS9xdWlya3Mu
-YwppbmRleCAwNjkwZmNmZjBlYTIuLmJiYmI3ZTZkZjk1OCAxMDA2NDQKLS0tIGEvZHJpdmVycy91
-c2IvY29yZS9xdWlya3MuYworKysgYi9kcml2ZXJzL3VzYi9jb3JlL3F1aXJrcy5jCkBAIC00NDAs
-NyArNDQwLDcgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCB1c2JfZGV2aWNlX2lkIHVzYl9xdWlya19s
-aXN0W10gPSB7CiBzdGF0aWMgY29uc3Qgc3RydWN0IHVzYl9kZXZpY2VfaWQgdXNiX2ludGVyZmFj
-ZV9xdWlya19saXN0W10gPSB7CiAJLyogTG9naXRlY2ggVVZDIENhbWVyYXMgKi8KIAl7IFVTQl9W
-RU5ET1JfQU5EX0lOVEVSRkFDRV9JTkZPKDB4MDQ2ZCwgVVNCX0NMQVNTX1ZJREVPLCAxLCAwKSwK
-LQkgIC5kcml2ZXJfaW5mbyA9IFVTQl9RVUlSS19SRVNFVF9SRVNVTUUgfSwKKwkgIC5kcml2ZXJf
-aW5mbyA9IFVTQl9RVUlSS19SRVNFVF9SRVNVTUUgfCBVU0JfUVVJUktfTk9fTFBNIH0sCiAKIAl7
-IH0gIC8qIHRlcm1pbmF0aW5nIGVudHJ5IG11c3QgYmUgbGFzdCAqLwogfTsK
+T24gRnJpLCBEZWMgMDcsIDIwMTggYXQgMDg6NDc6MjJQTSAtMDUwMCwgS3lsZSBXaWxsaWFtcyB3
+cm90ZToKPiBGcm9tOiBLeWxlIFdpbGxpYW1zIDxrZGd3aWxsQGNocm9taXVtLm9yZz4KPiAKPiBE
+ZXNjcmlwdGlvbjogU29tZSBVU0IgZGV2aWNlIC8gaG9zdCBjb250cm9sbGVyIGNvbWJpbmF0aW9u
+cyBzZWVtIHRvIGhhdmUKPiBwcm9ibGVtcyB3aXRoIExpbmsgUG93ZXIgbWFuYWdlbWVudC4gSW4g
+cGFydGljdWxhciBpdCBpcyBkZXNjcmliZWQgdGhhdAo+IHRoZSBjb21iaW5hdGlvbiBvZiBjZXJ0
+YWluIExvZ2l0ZWNoIHV2YyBkZXZpY2VzIGFuZCBvdGhlciBwb3dlcmVkIG1lZGlhCj4gZGV2aWNl
+cyBzdWNoIGNhdXNlcyAnbm90IGVub3VnaCBiYW5kd2lkdGggZm9yIG5ldyBkZXZpY2Ugc3RhdGUn
+IGVycm9yLgoKU2FtZSB0aGluZyB3aXRoICJEZXNjcmlwdGlvbjoiIDooCg==
