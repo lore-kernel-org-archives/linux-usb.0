@@ -2,18 +2,29 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v1,2/2] usb:cdns3 Add Cadence USB3 DRD Driver
-From: Peter Chen <peter.chen@nxp.com>
-Message-Id: <VI1PR04MB532701CEDE94C068759987688BA70@VI1PR04MB5327.eurprd04.prod.outlook.com>
-Date: Wed, 12 Dec 2018 09:24:59 +0000
-To: Felipe Balbi <balbi@kernel.org>, Peter Chen <hzpeterchen@gmail.com>, "pawell@cadence.com" <pawell@cadence.com>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "rogerq@ti.com" <rogerq@ti.com>, lkml <linux-kernel@vger.kernel.org>, "adouglas@cadence.com" <adouglas@cadence.com>, "jbergsagel@ti.com" <jbergsagel@ti.com>, "nsekhar@ti.com" <nsekhar@ti.com>, "nm@ti.com" <nm@ti.com>, "sureshp@cadence.com" <sureshp@cadence.com>, "pjez@cadence.com" <pjez@cadence.com>, "kurahul@cadence.com" <kurahul@cadence.com>
+From: Bin Liu <b-liu@ti.com>
+Message-Id: <20181212155313.GA6502@uda0271908>
+Date: Wed, 12 Dec 2018 09:53:13 -0600
+To: Peter Chen <hzpeterchen@gmail.com>
+Cc: pawell@cadence.com, balbi@kernel.org, devicetree@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, rogerq@ti.com, lkml <linux-kernel@vger.kernel.org>, adouglas@cadence.com, jbergsagel@ti.com, nsekhar@ti.com, nm@ti.com, sureshp@cadence.com, peter.chen@nxp.com, pjez@cadence.com, kurahul@cadence.com
 List-ID: <linux-usb.vger.kernel.org>
 
-PiA+Cj4gPiBJbnRlcnJ1cHQgaGFuZGxlciAoaGFyZGlycSBjb250ZXh0KSBhdCBDUFUwLCBhbmQg
-cHJvY2VzcyBhdCBDUFUxLCBlZwo+ID4gcm9sZSBzd2l0Y2gsIHVubG9hZCBtb2R1bGUsIGV0Yy4K
-PiAKPiB0aGUgcHJvY2VzcyBhdCBDUFUxIHdvdWxkIG5lZWQgdG8gZGlzYWJsZSBpbnRlcnJ1cHRz
-IChzcGluX2xvY2tfaXJxKCkgb3IKPiBzcGluX2xvY2tfaXJxc2F2ZSgpKSwgbm90IHRoZSBoYXJk
-aXJxIG9uIENQVTAgYXMgdGhhdCBhbHJlYWR5IHJ1bnMgd2l0aCBpbnRlcnJydXB0cwo+IGRpc2Fi
-bGVkLgo+IAo+IGh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvZG9jL2h0bWwvbGF0ZXN0L2tlcm5lbC1o
-YWNraW5nL2xvY2tpbmcuaHRtbCN0YWJsZS1vZi0KPiBtaW5pbXVtLXJlcXVpcmVtZW50cwo+IAoK
-SSBzZWUsIHRoYW5rcy4KClBldGVyCg==
+UGV0ZXIsCgpPbiBXZWQsIERlYyAxMiwgMjAxOCBhdCAxMDowNDoyNUFNICswODAwLCBQZXRlciBD
+aGVuIHdyb3RlOgoKW3NuaXBdCgo+ID4gPkkgc3Ryb25nbHkgYWR2aXNlIGFnYWluc3QgdXNpbmcg
+ZGV2X2RiZygpIGZvciBkZWJ1Z2dpbmcuIEV2ZW4gbW9yZSBzbwo+ID4gPmluc2lkZSB5b3VyIElS
+USBoYW5kbGVyLgo+IAo+IEZlbGlwZSwgSSB1c2UgRHluYW1pYyBEZWJ1ZyBmb3IgZGVidWdnaW5n
+LCBhbmQgc2hvdyBkZWJ1ZyBtZXNzYWdlcyB3aXRoCj4gImRtZXNnIiBhZnRlciB0ZXN0aW5nL2Rl
+YnVnZ2luZy4gSSBzZWUgZHdjMyB1c2luZyB0cmFjZSwgIGFueSBiZW5lZml0cwo+IGZvciBzd2l0
+Y2hpbmcKPiB0byB0cmFjZT8KClRoZSBiZW5lZml0cyBJIHNlZSBhcmUKCi0gKmJ5IGRlZmF1bHQq
+LCB0aGUgZGVidWcgbG9nIGRvZXNuJ3QgaGF2ZSB0byBnbyB0aHJvdWdoIHVhcnQgY29uc29sZSwK
+ICB3aGljaCBpcyBzbG93LgoKICBJIHR5cGljYWxseSAnY2F0IHRyYWNlX3BpcGUnIGZyb20gYSB0
+ZWxuZXQgd2hpY2ggaXMgbXVjaCBmYXN0ZXIgdGhlbgogIHVhcnQuIEJ1dCBEeW5hbWljIERlYnVn
+IGxvZyBieSBkZWZhdWx0IGdvdCBwcmludGVkIG9uIHVhcnQsIEkgaGF2ZSB0bwogIHNldCBwcmlu
+dGsgbGV2ZWwgdG8gbm90IHByaW50IHRoZW0sIHdoaWNoIGlzIGFuIGV4dHJhIHN0ZXAuCgotIHRy
+YWNlcG9pbnQgdXNlcyBvbmUgcGxhY2UgdG8gZGVjb2RlIHRoZSBtZXNzYWdlIHZzIEREIGhhcyB0
+byByZXBlYXQKICB0aGUgc2ltaWxhciBwcmludCBzdGF0ZW1lbnQgaW4gdGhlIGNvZGU7IGFuZCB0
+cmFjZXBvaW50IGRlY29kZXMgaXQKICBvZmZsaW5lIHdoaWNoIHJlZHVjZSB0aGUga2VybmVsIHJ1
+bnRpbWUgb3ZlcmhlYWQgdG9vLgoKLSB3aXRoIHRyYWNlcG9pbnQsIGl0IGlzIGVhc2llciB0byB0
+dXJuIG9uIGRlYnVnIGZvciBhIHNwZWNpZmljIGdyb3VwIG9mCiAgbWVzc2FnZXMuCgotIHlvdSBj
+YW4gYWRqdXN0IHRoZSBmdHJhY2UgYnVmZmVyIHNpemUgYXQgcnVudGltZS4gY2FuIHdlIGRvIHRo
+YXQgZm9yCiAgcHJpbnRrPyBJIGRvbid0IHJlbWVtYmVyLgoKUmVnYXJkcywKLUJpbi4K
