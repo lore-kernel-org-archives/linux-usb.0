@@ -2,21 +2,25 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: cdc-acm: fix abnormal DATA RX issue for Mediatek Preloader.
-From: Oliver Neukum <oneukum@suse.com>
-Message-Id: <1544696034.11160.5.camel@suse.com>
-Date: Thu, 13 Dec 2018 11:13:54 +0100
-To: Johan Hovold <johan@kernel.org>, macpaul.lin@mediatek.com
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, wsd_upstream@mediatek.com, linux-usb@vger.kernel.org
+From: Johan Hovold <johan@kernel.org>
+Message-Id: <20181213101812.GK3500@localhost>
+Date: Thu, 13 Dec 2018 11:18:12 +0100
+To: Oliver Neukum <oneukum@suse.com>
+Cc: Johan Hovold <johan@kernel.org>, macpaul.lin@mediatek.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, wsd_upstream@mediatek.com, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRG8sIDIwMTgtMTItMTMgYXQgMTA6NDMgKzAxMDAsIEpvaGFuIEhvdm9sZCB3cm90ZToKPiBP
-biBUaHUsIERlYyAxMywgMjAxOCBhdCAxMToyNzo1NkFNICswODAwLCBtYWNwYXVsLmxpbkBtZWRp
-YXRlay5jb20gd3JvdGU6Cj4gPiBGcm9tOiBNYWNwYXVsIExpbiA8bWFjcGF1bC5saW5AbWVkaWF0
-ZWsuY29tPgo+ID4gCj4gPiArCS8qIGhhbmRsZSBhY3RpdmUgaGFuZHNoYWtlIHRyaWdnZXJlZCBi
-eSBkZXZpY2UgKi8KPiA+ICsJaWYgKHF1aXJrcyA9PSBESVNBQkxFX0VDSE8pCj4gPiArCQlhY21f
-dHR5X2RyaXZlci0+aW5pdF90ZXJtaW9zLmNfbGZsYWcgJj0gfihFQ0hPKTsKPiAKPiBZb3UgY2Fu
-bm90IGNoYW5nZSB0aGUgZHJpdmVyIGluaXRfdGVybWlvcyBsaWtlIHRoaXMgYXMgdGhhdCB3aWxs
-IGFmZmVjdAo+IGFsbCBjZGMtYWNtIGRldmljZXMgdGhhdCBhcmUgcHJvYmVkIGxhdGVyLiBJZiB0
-aGlzIGlzIGF0IGFsbCBuZWVkZWQsCj4gdGhpcyB3aWxsIGhhdmUgdG8gYmUgZG9uZSBhdCB0dHkg
-aW5zdGFsbCB0aW1lLgoKUmlnaHQuIEhvdyBkbyB3aXRoIGRlY2lkZSBvbiBhIHNlbnNpYmxlIGRl
-ZmF1bHQgYW55d2F5PwoKCVJlZ2FyZHMKCQlPbGl2ZXIK
+T24gVGh1LCBEZWMgMTMsIDIwMTggYXQgMTE6MTM6NTRBTSArMDEwMCwgT2xpdmVyIE5ldWt1bSB3
+cm90ZToKPiBPbiBEbywgMjAxOC0xMi0xMyBhdCAxMDo0MyArMDEwMCwgSm9oYW4gSG92b2xkIHdy
+b3RlOgo+ID4gT24gVGh1LCBEZWMgMTMsIDIwMTggYXQgMTE6Mjc6NTZBTSArMDgwMCwgbWFjcGF1
+bC5saW5AbWVkaWF0ZWsuY29tIHdyb3RlOgo+ID4gPiBGcm9tOiBNYWNwYXVsIExpbiA8bWFjcGF1
+bC5saW5AbWVkaWF0ZWsuY29tPgo+ID4gPiAKPiA+ID4gKwkvKiBoYW5kbGUgYWN0aXZlIGhhbmRz
+aGFrZSB0cmlnZ2VyZWQgYnkgZGV2aWNlICovCj4gPiA+ICsJaWYgKHF1aXJrcyA9PSBESVNBQkxF
+X0VDSE8pCj4gPiA+ICsJCWFjbV90dHlfZHJpdmVyLT5pbml0X3Rlcm1pb3MuY19sZmxhZyAmPSB+
+KEVDSE8pOwo+ID4gCj4gPiBZb3UgY2Fubm90IGNoYW5nZSB0aGUgZHJpdmVyIGluaXRfdGVybWlv
+cyBsaWtlIHRoaXMgYXMgdGhhdCB3aWxsIGFmZmVjdAo+ID4gYWxsIGNkYy1hY20gZGV2aWNlcyB0
+aGF0IGFyZSBwcm9iZWQgbGF0ZXIuIElmIHRoaXMgaXMgYXQgYWxsIG5lZWRlZCwKPiA+IHRoaXMg
+d2lsbCBoYXZlIHRvIGJlIGRvbmUgYXQgdHR5IGluc3RhbGwgdGltZS4KPiAKPiBSaWdodC4gSG93
+IGRvIHdpdGggZGVjaWRlIG9uIGEgc2Vuc2libGUgZGVmYXVsdCBhbnl3YXk/CgpJIHRoaW5rIHRo
+ZSBjdXJyZW50IGRlZmF1bHRzIGFyZSBzZW5zaWJsZS4gVGhleSBhcmUgYmFzZWQgb24KdHR5X3N0
+ZF90ZXJtaW9zLCB3aGljaCBoYXMgRUNITyBzZXQsIGFzIGZvciBtb3N0IChhbGw/KSB0dHkgZHJp
+dmVycy4KCkpvaGFuCg==
