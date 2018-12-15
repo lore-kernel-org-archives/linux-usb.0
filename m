@@ -2,43 +2,15 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: dt-bindings: usb: renesas_usbhs: Add r8a774c0 support
-From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Message-Id: <TY1PR01MB1770B22A29EB0FB0402676A2C0A10@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-Date: Fri, 14 Dec 2018 09:37:32 +0000
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Simon Horman <horms@verge.net.au>, Geert Uytterhoeven <geert+renesas@glider.be>, Chris Paterson <Chris.Paterson2@renesas.com>, Biju Das <biju.das@bp.renesas.com>, "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+From: Simon Horman <horms@verge.net.au>
+Message-Id: <20181215151818.ymunljdhlduvvh7v@verge.net.au>
+Date: Sat, 15 Dec 2018 16:18:19 +0100
+To: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Geert Uytterhoeven <geert+renesas@glider.be>, Chris Paterson <Chris.Paterson2@renesas.com>, Biju Das <biju.das@bp.renesas.com>, linux-renesas-soc@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhhbmsgeW91IFlvc2hpaGlyby1zYW4KCj4gRnJvbTogWW9zaGloaXJvIFNoaW1vZGEKPiBTZW50
-OiAxNCBEZWNlbWJlciAyMDE4IDA5OjE1Cj4gU3ViamVjdDogUkU6IFtQQVRDSF0gZHQtYmluZGlu
-Z3M6IHVzYjogcmVuZXNhc191c2JoczogQWRkIHI4YTc3NGMwIHN1cHBvcnQKPgo+IEhlbGxvIEZh
-YnJpemlvLXNhbiwKPgo+ID4gRnJvbTogRmFicml6aW8gQ2FzdHJvLCBTZW50OiBGcmlkYXksIERl
-Y2VtYmVyIDE0LCAyMDE4IDU6MTYgUE0KPiA+Cj4gPiBIZWxsbyBZb3NoaWhpcm8tc2FuLAo+ID4K
-PiA+IFRoYW5rIHlvdSBmb3IgeW91ciBmZWVkYmFjayEKPiA+Cj4gPiA+IEZyb206IFlvc2hpaGly
-byBTaGltb2RhCj4gPiA+IFNlbnQ6IDE0IERlY2VtYmVyIDIwMTggMDY6MDEKPiA+ID4gU3ViamVj
-dDogUkU6IFtQQVRDSF0gZHQtYmluZGluZ3M6IHVzYjogcmVuZXNhc191c2JoczogQWRkIHI4YTc3
-NGMwIHN1cHBvcnQKPiA+ID4KPiA+ID4gSGkgRmFicml6aW8sCj4gPiA+Cj4gPiA+ID4gRnJvbTog
-RmFicml6aW8gQ2FzdHJvLCBTZW50OiBGcmlkYXksIERlY2VtYmVyIDE0LCAyMDE4IDU6MjEgQU0K
-PiA+ID4gPgo+ID4gPiA+IERvY3VtZW50IFJaL0cyRSAoUjhBNzc0QzApIFNvQyBiaW5kaW5ncy4K
-PiA+ID4gPgo+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IEZhYnJpemlvIENhc3RybyA8ZmFicml6aW8u
-Y2FzdHJvQGJwLnJlbmVzYXMuY29tPgo+ID4gPgo+ID4gPiBUaGFuayB5b3UgZm9yIHRoZSBwYXRj
-aCEKPiA+ID4KPiA+ID4gUmV2aWV3ZWQtYnk6IFlvc2hpaGlybyBTaGltb2RhIDx5b3NoaWhpcm8u
-c2hpbW9kYS51aEByZW5lc2FzLmNvbT4KPiA+ID4KPiA+ID4gQnkgdGhlIHdheSwgSSdtIG5vdCBz
-dXJlLCBidXQgSSdtIHdvbmRlcmluZyB0aGF0IHdlIG5lZWQgdG8gYWRkCj4gPiA+IC5jb21wYXRp
-YmxlIHJlbmVzYXMsdXNiaHMtcjhhNzc0YzAgd2l0aCAuZGF0YSBVU0JIU19UWVBFX1JDQVJfR0VO
-M19XSVRIX1BMTAo+ID4gPiBsaWtlIHI4YTc3OTkwIHRvIHRoZSBkcml2ZXJzL3VzYi9yZW5lc2Fz
-X3VzYmhzL2NvbW1vbi5jLgo+ID4gPiBXaGF0IGRvIHlvdSB0aGluaz8KPiA+Cj4gPiBZZWFoLCB5
-b3UgYXJlIHJpZ2h0LCBJIGFtIGdvaW5nIHRvIHNlbmQgYSBwYXRjaCBmb3IgdGhhdCBzaG9ydGx5
-Lgo+Cj4gVGhhbmsgeW91IGZvciBzdWJtaXR0aW5nIGEgcGF0Y2ghCj4gSSBoYXZlIHJldmlld2Vk
-IHlvdSBwYXRjaCBhbmQgc3VibWl0dGVkIG15IEFja2VkLWJ5Lgo+Cj4gQmVzdCByZWdhcmRzLAo+
-IFlvc2hpaGlybyBTaGltb2RhCgoKCltodHRwczovL3d3dzIucmVuZXNhcy5ldS9tZWRpYS9lbWFp
-bC91bmljZWYuanBnXQoKVGhpcyBDaHJpc3RtYXMsIGluc3RlYWQgb2Ygc2VuZGluZyBvdXQgY2Fy
-ZHMsIFJlbmVzYXMgRWxlY3Ryb25pY3MgRXVyb3BlIGhhdmUgZGVjaWRlZCB0byBzdXBwb3J0IFVu
-aWNlZiB3aXRoIGEgZG9uYXRpb24uIEZvciBmdXJ0aGVyIGRldGFpbHMgY2xpY2sgaGVyZTxodHRw
-czovL3d3dy51bmljZWYub3JnLz4gdG8gZmluZCBvdXQgYWJvdXQgdGhlIHZhbHVhYmxlIHdvcmsg
-dGhleSBkbywgaGVscGluZyBjaGlsZHJlbiBhbGwgb3ZlciB0aGUgd29ybGQuCldlIHdvdWxkIGxp
-a2UgdG8gdGFrZSB0aGlzIG9wcG9ydHVuaXR5IHRvIHdpc2ggeW91IGEgTWVycnkgQ2hyaXN0bWFz
-IGFuZCBhIHByb3NwZXJvdXMgTmV3IFllYXIuCgoKClJlbmVzYXMgRWxlY3Ryb25pY3MgRXVyb3Bl
-IEx0ZCwgRHVrZXMgTWVhZG93LCBNaWxsYm9hcmQgUm9hZCwgQm91cm5lIEVuZCwgQnVja2luZ2hh
-bXNoaXJlLCBTTDggNUZILCBVSy4gUmVnaXN0ZXJlZCBpbiBFbmdsYW5kICYgV2FsZXMgdW5kZXIg
-UmVnaXN0ZXJlZCBOby4gMDQ1ODY3MDkuCg==
+T24gVGh1LCBEZWMgMTMsIDIwMTggYXQgMDg6MjE6MDNQTSArMDAwMCwgRmFicml6aW8gQ2FzdHJv
+IHdyb3RlOgo+IERvY3VtZW50IFJaL0cyRSAoUjhBNzc0QzApIFNvQyBiaW5kaW5ncy4KPiAKPiBT
+aWduZWQtb2ZmLWJ5OiBGYWJyaXppbyBDYXN0cm8gPGZhYnJpemlvLmNhc3Ryb0BicC5yZW5lc2Fz
+LmNvbT4KClJldmlld2VkLWJ5OiBTaW1vbiBIb3JtYW4gPGhvcm1zK3JlbmVzYXNAdmVyZ2UubmV0
+LmF1Pgo=
