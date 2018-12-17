@@ -1,17 +1,28 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: dt-bindings: usb-xhci: Add r8a774c0 support
-From: Rob Herring <robh@kernel.org>
-Message-Id: <20181220203938.GA23828@bogus>
-Date: Thu, 20 Dec 2018 14:39:38 -0600
-To: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc: Mark Rutland <mark.rutland@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Simon Horman <horms@verge.net.au>, Geert Uytterhoeven <geert+renesas@glider.be>, Chris Paterson <Chris.Paterson2@renesas.com>, Biju Das <biju.das@bp.renesas.com>, linux-renesas-soc@vger.kernel.org
+Subject: usb: gadget: uvc: add uvcg_warn macro
+From: Paul Elder <paul.elder@ideasonboard.com>
+Message-Id: <20181217060340.26813-1-paul.elder@ideasonboard.com>
+Date: Mon, 17 Dec 2018 01:03:40 -0500
+To: laurent.pinchart@ideasonboard.com, kieran.bingham@ideasonboard.com
+Cc: Paul Elder <paul.elder@ideasonboard.com>, balbi@kernel.org, gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCAxMyBEZWMgMjAxOCAyMDoyMToxMSArMDAwMCwgRmFicml6aW8gQ2FzdHJvIHdyb3Rl
-Ogo+IERvY3VtZW50IFJaL0cyRSAoUjhBNzc0QzApIFNvQyBiaW5kaW5ncy4KPiAKPiBTaWduZWQt
-b2ZmLWJ5OiBGYWJyaXppbyBDYXN0cm8gPGZhYnJpemlvLmNhc3Ryb0BicC5yZW5lc2FzLmNvbT4K
-PiAtLS0KPiAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi91c2IteGhjaS50
-eHQgfCAxICsKPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCj4gCgpSZXZpZXdlZC1i
-eTogUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVsLm9yZz4K
+V2Ugb25seSBoYXZlIHV2Y2dfZGJnLCB1dmNnX2luZm8sIGFuZCB1dmNnX2Vyciwgc28gYWRkIHV2
+Y2dfd2FybiBtYWNybwp0byBwcmludCBnYWRnZXQgZGV2aWNlIG5hbWUgYW5kIGZ1bmN0aW9uIG5h
+bWUgYWxvbmcgd2l0aCBmb3JtYXQuCgpTaWduZWQtb2ZmLWJ5OiBQYXVsIEVsZGVyIDxwYXVsLmVs
+ZGVyQGlkZWFzb25ib2FyZC5jb20+Ci0tLQogZHJpdmVycy91c2IvZ2FkZ2V0L2Z1bmN0aW9uL3V2
+Yy5oIHwgMiArKwogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi91dmMuaCBiL2RyaXZlcnMvdXNiL2dhZGdldC9m
+dW5jdGlvbi91dmMuaAppbmRleCAxZDg5YjFkZjRiYTAuLmMzODFjZTliYmJiZSAxMDA2NDQKLS0t
+IGEvZHJpdmVycy91c2IvZ2FkZ2V0L2Z1bmN0aW9uL3V2Yy5oCisrKyBiL2RyaXZlcnMvdXNiL2dh
+ZGdldC9mdW5jdGlvbi91dmMuaApAQCAtNTYsNiArNTYsOCBAQCBleHRlcm4gdW5zaWduZWQgaW50
+IHV2Y19nYWRnZXRfdHJhY2VfcGFyYW07CiAJZGV2X2RiZygmKGYpLT5jb25maWctPmNkZXYtPmdh
+ZGdldC0+ZGV2LCAiJXM6ICIgZm10LCAoZiktPm5hbWUsICMjYXJncykKICNkZWZpbmUgdXZjZ19p
+bmZvKGYsIGZtdCwgYXJncy4uLikgXAogCWRldl9pbmZvKCYoZiktPmNvbmZpZy0+Y2Rldi0+Z2Fk
+Z2V0LT5kZXYsICIlczogIiBmbXQsIChmKS0+bmFtZSwgIyNhcmdzKQorI2RlZmluZSB1dmNnX3dh
+cm4oZiwgZm10LCBhcmdzLi4uKSBcCisJZGV2X3dhcm4oJihmKS0+Y29uZmlnLT5jZGV2LT5nYWRn
+ZXQtPmRldiwgIiVzOiAiIGZtdCwgKGYpLT5uYW1lLCAjI2FyZ3MpCiAjZGVmaW5lIHV2Y2dfZXJy
+KGYsIGZtdCwgYXJncy4uLikgXAogCWRldl9lcnIoJihmKS0+Y29uZmlnLT5jZGV2LT5nYWRnZXQt
+PmRldiwgIiVzOiAiIGZtdCwgKGYpLT5uYW1lLCAjI2FyZ3MpCiAK
