@@ -2,20 +2,25 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: gadget: u_serial: process RX in workqueue instead of tasklet
-From: Felipe Balbi <balbi@kernel.org>
-Message-Id: <87o99kzli9.fsf@linux.intel.com>
-Date: Mon, 17 Dec 2018 08:59:42 +0200
-To: =?utf-8?Q?Micha=C5=82_Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>, linux-usb@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: =?utf-8?b?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+Message-Id: <20181217135024.GA25153@qmqm.qmqm.pl>
+Date: Mon, 17 Dec 2018 14:50:24 +0100
+To: Felipe Balbi <balbi@kernel.org>
+Cc: linux-usb@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgpNaWNoYcWCIE1pcm9zxYJhdyA8bWlycS1saW51eEByZXJlLnFtcW0ucGw+IHdyaXRlczoK
-PiBTd2l0Y2ggUlggcHJvY2Vzc2luZyBmcm9tIHRhc2tsZXQgdG8gKGRlbGF5ZWQpIHdvcmsgcXVl
-dWUuIFRoaXMgYWxsb3dzCj4gcmVjZWl2ZXIgbW9yZSByb29tIHRvIHByb2Nlc3MgaW5jb21pbmcg
-ZGF0YSBhbmQgcHJldmVudHMgZmxvb2Qgb2YKPiAidHR5R1MwOiBSWCBub3Qgc2NoZWR1bGVkPyIg
-bWVzc2FnZXMgb24gSFMgcmVjZWl2ZSBvbiBzbG93IENQVS4KPgo+IEEgc2lkZSBlZmZlY3QgaXMg
-Mi40TUIvcyB6bW9kZW0gdHJhbnNmZXIgc3BlZWQgKHVwIGZyb20gMS44TUIvcykKPiBvbiBteSB0
-ZXN0IGJvYXJkLgo+Cj4gU2lnbmVkLW9mZi1ieTogTWljaGHFgiBNaXJvc8WCYXcgPG1pcnEtbGlu
-dXhAcmVyZS5xbXFtLnBsPgoKaG93IGhhdmUgeW91IHRlc3RlZCB0aGlzPyBTcGVjaWFsbHksIGhv
-dyBoYXZlIHlvdSBtZWFzdXJlZCB0aHJvdWdocHV0PyBJCndhbnQgdG8gdHJ5IGFuZCByZXByb2R1
-Y2UgaXQgaGVyZS4K
+T24gTW9uLCBEZWMgMTcsIDIwMTggYXQgMDg6NTk6NDJBTSArMDIwMCwgRmVsaXBlIEJhbGJpIHdy
+b3RlOgo+IAo+IEhpLAo+IAo+IE1pY2hhxYIgTWlyb3PFgmF3IDxtaXJxLWxpbnV4QHJlcmUucW1x
+bS5wbD4gd3JpdGVzOgo+ID4gU3dpdGNoIFJYIHByb2Nlc3NpbmcgZnJvbSB0YXNrbGV0IHRvIChk
+ZWxheWVkKSB3b3JrIHF1ZXVlLiBUaGlzIGFsbG93cwo+ID4gcmVjZWl2ZXIgbW9yZSByb29tIHRv
+IHByb2Nlc3MgaW5jb21pbmcgZGF0YSBhbmQgcHJldmVudHMgZmxvb2Qgb2YKPiA+ICJ0dHlHUzA6
+IFJYIG5vdCBzY2hlZHVsZWQ/IiBtZXNzYWdlcyBvbiBIUyByZWNlaXZlIG9uIHNsb3cgQ1BVLgo+
+ID4KPiA+IEEgc2lkZSBlZmZlY3QgaXMgMi40TUIvcyB6bW9kZW0gdHJhbnNmZXIgc3BlZWQgKHVw
+IGZyb20gMS44TUIvcykKPiA+IG9uIG15IHRlc3QgYm9hcmQuCj4gPgo+ID4gU2lnbmVkLW9mZi1i
+eTogTWljaGHFgiBNaXJvc8WCYXcgPG1pcnEtbGludXhAcmVyZS5xbXFtLnBsPgo+IAo+IGhvdyBo
+YXZlIHlvdSB0ZXN0ZWQgdGhpcz8gU3BlY2lhbGx5LCBob3cgaGF2ZSB5b3UgbWVhc3VyZWQgdGhy
+b3VnaHB1dD8gSQo+IHdhbnQgdG8gdHJ5IGFuZCByZXByb2R1Y2UgaXQgaGVyZS4KClRoZSBzcGVl
+ZHMgYXJlIGZyb20gbWluaWNvbSAnc2VuZCBmaWxlJyByZXBvcnQgYWZ0ZXIgdHJhbnNmZXJyaW5n
+CmEgMTVNQiBmaWxlICh6bW9kZW0gbW9kZSwgdG8gbHJ6c3ogb24gdGhlIGRldmljZSkuIFRoZSBk
+ZXZpY2UgaXMgYQpBdG1lbCBTQU1BNUQyLWJhc2VkIGJvYXJkLgoKQmVzdCBSZWdhcmRzLApNaWNo
+YcWCwqBNaXJvc8WCYXcK
