@@ -3,38 +3,26 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v1,2/2] usb:cdns3 Add Cadence USB3 DRD Driver
 From: Pawel Laszczak <pawell@cadence.com>
-Message-Id: <BYAPR07MB4709A216316119DCFF25A31EDDA30@BYAPR07MB4709.namprd07.prod.outlook.com>
-Date: Sun, 16 Dec 2018 13:01:36 +0000
-To: Peter Chen <hzpeterchen@gmail.com>
-Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "balbi@kernel.org" <balbi@kernel.org>, "rogerq@ti.com" <rogerq@ti.com>, lkml <linux-kernel@vger.kernel.org>, Alan Douglas <adouglas@cadence.com>, "jbergsagel@ti.com" <jbergsagel@ti.com>, "nsekhar@ti.com" <nsekhar@ti.com>, "nm@ti.com" <nm@ti.com>, Suresh Punnoose <sureshp@cadence.com>, "peter.chen@nxp.com" <peter.chen@nxp.com>, Pawel Jez <pjez@cadence.com>, Rahul Kumar <kurahul@cadence.com>
+Message-Id: <BYAPR07MB47093D9B4AFA4BFAF11C43AFDDBC0@BYAPR07MB4709.namprd07.prod.outlook.com>
+Date: Mon, 17 Dec 2018 05:46:43 +0000
+To: Kishon Vijay Abraham I <kishon@ti.com>, Felipe Balbi <balbi@kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "rogerq@ti.com" <rogerq@ti.com>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Alan Douglas <adouglas@cadence.com>, "jbergsagel@ti.com" <jbergsagel@ti.com>, "nsekhar@ti.com" <nsekhar@ti.com>, "nm@ti.com" <nm@ti.com>, Suresh Punnoose <sureshp@cadence.com>, "peter.chen@nxp.com" <peter.chen@nxp.com>, Pawel Jez <pjez@cadence.com>, Rahul Kumar <kurahul@cadence.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgUGV0ZXINCg0KPk9uIE1vbiwgRGVjIDEwLCAyMDE4IGF0IDg6NTUgUE0gUGF3ZWwgTGFzemN6
-YWsgPHBhd2VsbEBjYWRlbmNlLmNvbT4gd3JvdGU6DQo+Pg0KPj4gVGhpcyBwYXRjaCBpbnRyb2R1
-Y2UgbmV3IENhZGVuY2UgVVNCU1MgRFJEIGRyaXZlcg0KPj4gdG8gbGludXgga2VybmVsLg0KPj4N
-Cj4+IFRoZSBDYWRlbmNlIFVTQlNTIERSRCBEcml2ZXIgaXMgYSBoaWdobHkNCj4+IGNvbmZpZ3Vy
-YWJsZSBJUCBDb3JlIHdoaWNoIGNhbiBiZQ0KPj4gaW5zdGFudGlhdGVkIGFzIER1YWwtUm9sZSBE
-ZXZpY2UgKERSRCksDQo+PiBQZXJpcGhlcmFsIE9ubHkgYW5kIEhvc3QgT25seSAoWEhDSSkNCj4+
-IGNvbmZpZ3VyYXRpb25zLg0KPj4NCj4+IFRoZSBjdXJyZW50IGRyaXZlciBoYXMgYmVlbiB2YWxp
-ZGF0ZWQgd2l0aA0KPj4gRlBHQSBidXJuZWQuIFdlIGhhdmUgc3VwcG9ydCBmb3IgUENJZQ0KPj4g
-YnVzLCB3aGljaCBpcyB1c2VkIG9uIEZQR0EgcHJvdG90eXBpbmcuDQo+Pg0KPj4gVGhlIGhvc3Qg
-c2lkZSBvZiBVU0JTUy1EUkQgY29udHJvbGxlciBpcyBjb21wbGlhbmNlDQo+PiB3aXRoIFhIQ0kg
-c3BlY2lmaWNhdGlvbiwgc28gaXQgd29ya3Mgd2l0aA0KPj4gc3RhbmRhcmQgWEhDSSBsaW51eCBk
-cml2ZXIuDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogUGF3ZWwgTGFzemN6YWsgPHBhd2VsbEBjYWRl
-bmNlLmNvbT4NCj4+IC0tLQ0KPg0KPkkgaGF2ZSBjb21waWxlZCBpdCBhdCBteSBBUk02NCBwbGF0
-Zm9ybSwgYW5kIHdpbGwgZ2l2ZSB5b3UgbW9yZSBmZWVkYmFjayBhZnRlcg0KPmFkZGluZyBwbGF0
-Zm9ybSBzdXBwb3J0LiBCZWxvdyBpcyBvbmUgY29tcGlsZSB3YXJuaW5nLCBwbGVhc2UgZml4DQo+
-DQo+ICBDQyAgICAgIGRyaXZlcnMvdXNiL2NkbnMzL2hvc3Qubw0KPiAgQVIgICAgICBkcml2ZXJz
-L3VzYi9jZG5zMy9jZG5zMy1wY2kubw0KPi9ob21lL2IyOTM5Ny93b3JrL3Byb2plY3RzL2xpbnV4
-LWlteC9kcml2ZXJzL3VzYi9jZG5zMy9nYWRnZXQuYzogSW4NCj5mdW5jdGlvbiDigJhjZG5zM19n
-YWRnZXRfZXBfZGlzYWJsZeKAmToNCj4vaG9tZS9iMjkzOTcvd29yay9wcm9qZWN0cy9saW51eC1p
-bXgvZHJpdmVycy91c2IvY2RuczMvZ2FkZ2V0LmM6MTEyMjoxOToNCj53YXJuaW5nOiDigJhwcml2
-X2RlduKAmSBtYXkgYmUgdXNlZCB1bmluaXRpYWxpemVkIGluIHRoaXMgZnVuY3Rpb24NCj5bLVdt
-YXliZS11bmluaXRpYWxpemVkXQ0KPiAgIGRldl9kYmcocHJpdl9kZXYtPmRldiwgInVzYnNzOiBp
-bnZhbGlkIHBhcmFtZXRlcnNcbiIpOw0KPiAgICAgICAgICAgICAgICAgICBefg0KPiAgQVIgICAg
-ICBkcml2ZXJzL3VzYi9jZG5zMy9jZG5zMy5vDQo+DQoNCkkgZm91bmQgdGhpcyBhbHNvLiBTb21l
-IHRpbWUgYWdvIEkgY2hhbmdlZCANCnByX2VycigidXNic3M6IGludmFsaWQgcGFyYW1ldGVyc1xu
-Iik7ICANCnRvDQpkZXZfZXJyKHByaXZfZGV2LT5kZXYsICJ1c2JzczogaW52YWxpZCBwYXJhbWV0
-ZXJzXG4iKTsgICAgDQoNCkluIGNkbnMzX2dhZGdldF9lcF9kaXNhYmxlIGZ1bmN0aW9uIGFuZCBp
-dCB3YXMgbWlzdGFrZS4gDQoNCkkgZG9uJ3Qga25vdyB3aHkgSSBkaWRuJ3Qgc2VlIHRoaXMgd2Fy
-bmluZyBiZWZvcmUgcG9zdGluZyBwYXRjaC4NCg0KQ2hlZXJzIA0KUGF3ZWwK
+SGksDQoNCj4NCj5PbiAxMi8xMi8xOCAxMjoyMiBQTSwgRmVsaXBlIEJhbGJpIHdyb3RlOg0KPj4N
+Cj4+IEhpDQo+Pg0KPj4gUGF3ZWwgTGFzemN6YWsgPHBhd2VsbEBjYWRlbmNlLmNvbT4gd3JpdGVz
+Og0KPj4+Pj4gKwljZG5zLT5waHkgPSBkZXZtX3BoeV9nZXQoZGV2LCAiY2RuczMsdXNicGh5Iik7
+DQo+Pj4+PiArCWlmIChJU19FUlIoY2Rucy0+cGh5KSkgew0KPj4+Pj4gKwkJcmV0ID0gUFRSX0VS
+UihjZG5zLT5waHkpOw0KPj4+Pj4gKwkJaWYgKHJldCA9PSAtRU5PU1lTIHx8IHJldCA9PSAtRU5P
+REVWKSB7DQo+Pj4+DQo+Pj4+IEFyZSB5b3Ugc3VyZSB5b3UgY2FuIGdldCBFTk9TWVMgaGVyZT8g
+SGF2ZSB5b3UgY2hlY2tlZCBvdXRwdXQgb2YNCj4+Pj4gY2hlY2twYXRjaCAtLXN0cmljdD8NCj4+
+Pj4gLTo4NTI6IFdBUk5JTkc6IEVOT1NZUyBtZWFucyAnaW52YWxpZCBzeXNjYWxsIG5yJyBhbmQg
+bm90aGluZyBlbHNlDQo+Pj4NCj4+PiBZZXMgdGhpcyBlcnJvciBjb2RlIGNhbiBiZSByZXR1cm5l
+ZCBieSByZWxhdGVkIHRvIHBoeSBmdW5jdGlvbiBpZg0KPj4+IENPTkZJR19HRU5FUklDX1BIWSBp
+cyBkaXNhYmxlZC4NCj4+Pg0KPj4+IEkgaGF2ZSBzZWVuIHRoaXMgd2FybmluZyBpbiBvdXRwdXQg
+b2YgY2hlY2twYXRjaCAtLXN0cmljdCAuDQo+Pg0KPj4gS2lzaG9uLCBzZWVtcyBsaWtlIHlvdSBz
+aG91bGRuJ3QgYmUgdXNpbmcgdGhhdCBlcnJvciB2YWx1ZS4NCj4NCj5obW0sIHllYWggc2hvdWxk
+IGNoYW5nZSB0aGUgcmV0dXJuIHZhbHVlIHRvIC1FTk9ERVYgd2hlbiBHRU5FUklDX1BIWSBpcyBk
+aXNhYmxlZC4NCj4NCg0KU28gSSB3aWxsIHJlbW92ZSB0aGlzIEVOT1NZUyBmcm9tIG5leHQgcGF0
+Y2guIEkgYXNzdW1lIHRoYXQgaXQgd2lsbCBiZSByZW1vdmVkIGFsc28gZnJvbSBnZW5lcmljIHBo
+eSBkcml2ZXIuIA0KDQpUaGFua3MsDQpQYXdlbAo=
