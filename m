@@ -2,18 +2,23 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/2] dt-bindings: Add Qualcomm USB Super-Speed PHY bindings
-From: Stephen Boyd <swboyd@chromium.org>
-Message-Id: <154533751009.79149.13940391507897650993@swboyd.mtv.corp.google.com>
-Date: Thu, 20 Dec 2018 12:25:10 -0800
-To: gregkh@linuxfoundation.org, jorge.ramirez-ortiz@linaro.org, kishon@ti.com, mark.rutland@arm.com, robh+dt@kernel.org
+From: Jorge Ramirez <jorge.ramirez-ortiz@linaro.org>
+Message-Id: <14fc8e2e-f3c9-ef87-ec8f-51bdaea90470@linaro.org>
+Date: Fri, 21 Dec 2018 08:37:56 +0100
+To: Stephen Boyd <swboyd@chromium.org>, gregkh@linuxfoundation.org, kishon@ti.com, mark.rutland@arm.com, robh+dt@kernel.org
 Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, shawn.guo@linaro.org, vkoul@kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-UXVvdGluZyBKb3JnZSBSYW1pcmV6LU9ydGl6ICgyMDE4LTEyLTA3IDAxOjU1OjU3KQo+ICsKPiAr
-LSBxY29tLHZkZC12b2x0YWdlLWxldmVsOgo+ICsgICAgVmFsdWUgdHlwZTogPHByb3AtYXJyYXk+
-Cj4gKyAgICBEZWZpbml0aW9uOiBUaGlzIGlzIGEgbGlzdCBvZiB0aHJlZSBpbnRlZ2VyIHZhbHVl
-cyA8bm8gbWluIG1heD4gd2hlcmUKPiArICAgICAgICAgICAgICAgIGVhY2ggdmFsdWUgY29ycmVz
-cG9uZGluZyB0byB2b2x0YWdlIGNvcm5lciBpbiB1Vi4KCkFzIGZhciBhcyBJJ20gYXdhcmUsIHRo
-aXMgaXNuJ3QgaG93IHFjb20ncyB2b2x0YWdlIGNvcm5lcnMgYXJlIGhhbmRsZWQKb3IgYXJlIGdv
-aW5nIHRvIGJlIGhhbmRsZWQuIENhbid0IHlvdSBoYXJkY29kZSBpdCBpbiB0aGUgZHJpdmVyIGZv
-ciBub3c/Cg==
+T24gMTIvMjAvMTggMjE6MjUsIFN0ZXBoZW4gQm95ZCB3cm90ZToKPiBRdW90aW5nIEpvcmdlIFJh
+bWlyZXotT3J0aXogKDIwMTgtMTItMDcgMDE6NTU6NTcpCj4+ICsKPj4gKy0gcWNvbSx2ZGQtdm9s
+dGFnZS1sZXZlbDoKPj4gKyAgICBWYWx1ZSB0eXBlOiA8cHJvcC1hcnJheT4KPj4gKyAgICBEZWZp
+bml0aW9uOiBUaGlzIGlzIGEgbGlzdCBvZiB0aHJlZSBpbnRlZ2VyIHZhbHVlcyA8bm8gbWluIG1h
+eD4gd2hlcmUKPj4gKyAgICAgICAgICAgICAgICBlYWNoIHZhbHVlIGNvcnJlc3BvbmRpbmcgdG8g
+dm9sdGFnZSBjb3JuZXIgaW4gdVYuCj4gQXMgZmFyIGFzIEknbSBhd2FyZSwgdGhpcyBpc24ndCBo
+b3cgcWNvbSdzIHZvbHRhZ2UgY29ybmVycyBhcmUgaGFuZGxlZAo+IG9yIGFyZSBnb2luZyB0byBi
+ZSBoYW5kbGVkLiBDYW4ndCB5b3UgaGFyZGNvZGUgaXQgaW4gdGhlIGRyaXZlciBmb3Igbm93Pwo+
+Cj4KCm9rIHNvIHlvdSBtZWFuIHVzZSBhIHJlZ3VsYXRvciB0byBjb250cm9sIHRoZSBzdXBwbHkg
+KHdpdGggCnJlZ3VsYXRvci1taW4tbWljcm92b2x0IGFuZCBtYXgtbWljcm92b2x0IHByb3BlcnRp
+ZXMgaW5zdGVhZD8KSSdsbCBsb29rIGludG8gdGhhdAoKSSBndWVzcyB3ZSBzaG91bGQgcHVsbCBi
+YWNrIG9uIHRoaXMgb25lIGFzIHdlbGw/Cmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3BhdGNod29y
+ay9wYXRjaC8xMDI2NjQxLwo=
