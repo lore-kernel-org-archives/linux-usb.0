@@ -1,30 +1,29 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [5/6] xhci: Use device_iommu_mapped()
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-Message-Id: <3d5b3bb3-b119-7798-4c26-910782ef1bdf@linux.intel.com>
-Date: Mon, 17 Dec 2018 13:21:43 +0200
-To: Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org
-Cc: Russell Currey <ruscur@russell.cc>, Sam Bobroff <sbobroff@linux.ibm.com>, oohall@gmail.com, Benjamin Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, Michael Ellerman <mpe@ellerman.id.au>, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Hanjun Guo <hanjun.guo@linaro.org>, Sudeep Holla <sudeep.holla@arm.com>, Dan Williams <dan.j.williams@intel.com>, Vinod Koul <vkoul@kernel.org>, jroedel@suse.de, Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, dmaengine@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: usb: devio: update max count of DPs per interval for ISOC
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Message-Id: <1545992864-9530-1-git-send-email-chunfeng.yun@mediatek.com>
+Date: Fri, 28 Dec 2018 18:27:44 +0800
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Felipe Balbi <felipe.balbi@linux.intel.com>, Matthias Brugger <matthias.bgg@gmail.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMTEuMTIuMjAxOCAxNTo0MywgSm9lcmcgUm9lZGVsIHdyb3RlOgo+IEZyb206IEpvZXJnIFJv
-ZWRlbCA8anJvZWRlbEBzdXNlLmRlPgo+IAo+IFJlcGxhY2UgdGhlIGRldi0+aW9tbXVfZ3JvdXAg
-Y2hlY2sgd2l0aCBhIHByb3BlciBmdW5jdGlvbgo+IGNhbGwgdGhhdCBiZXR0ZXIgcmVwcmVuc2Vu
-dHMgaXRzIHB1cnBvc2UuCj4gCj4gQ2M6IE1hdGhpYXMgTnltYW4gPG1hdGhpYXMubnltYW5AaW50
-ZWwuY29tPgo+IEFja2VkLWJ5OiBSb2JpbiBNdXJwaHkgPHJvYmluLm11cnBoeUBhcm0uY29tPgo+
-IFNpZ25lZC1vZmYtYnk6IEpvZXJnIFJvZWRlbCA8anJvZWRlbEBzdXNlLmRlPgo+IC0tLQo+ICAg
-ZHJpdmVycy91c2IvaG9zdC94aGNpLmMgfCAyICstCj4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
-cnRpb24oKyksIDEgZGVsZXRpb24oLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvaG9z
-dC94aGNpLmMgYi9kcml2ZXJzL3VzYi9ob3N0L3hoY2kuYwo+IGluZGV4IGRhZTNiZTFiOWM4Zi4u
-OGVhY2QyZWQ0MTJiIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvdXNiL2hvc3QveGhjaS5jCj4gKysr
-IGIvZHJpdmVycy91c2IvaG9zdC94aGNpLmMKPiBAQCAtMjQ0LDcgKzI0NCw3IEBAIHN0YXRpYyB2
-b2lkIHhoY2lfemVyb182NGJfcmVncyhzdHJ1Y3QgeGhjaV9oY2QgKnhoY2kpCj4gICAJICogYW4g
-aW9tbXUuIERvaW5nIGFueXRoaW5nIHdoZW4gdGhlcmUgaXMgbm8gaW9tbXUgaXMgZGVmaW5pdGVs
-eQo+ICAgCSAqIHVuc2FmZS4uLgo+ICAgCSAqLwo+IC0JaWYgKCEoeGhjaS0+cXVpcmtzICYgWEhD
-SV9aRVJPXzY0Ql9SRUdTKSB8fCAhZGV2LT5pb21tdV9ncm91cCkKPiArCWlmICghKHhoY2ktPnF1
-aXJrcyAmIFhIQ0lfWkVST182NEJfUkVHUykgfHwgIWRldmljZV9pb21tdV9tYXBwZWQoZGV2KSkK
-PiAgIAkJcmV0dXJuOwo+ICAgCj4gICAJeGhjaV9pbmZvKHhoY2ksICJaZXJvaW5nIDY0Yml0IGJh
-c2UgcmVnaXN0ZXJzLCBleHBlY3RpbmcgZmF1bHRcbiIpOwo+IAoKQWNrZWQtYnk6IE1hdGhpYXMg
-TnltYW4gPG1hdGhpYXMubnltYW5AbGludXguaW50ZWwuY29tPgo=
+VGhlIGhvc3Qgc2hhbGwgYmUgYWJsZSB0byBhY2NlcHQgYW5kIHNlbmQgdXAgdG8gOTYgRFBzIGZv
+cgpkZXZpY2VzIG9wZXJhdGluZyBhdCBHZW4gMiBzcGVlZC4KClNpZ25lZC1vZmYtYnk6IENodW5m
+ZW5nIFl1biA8Y2h1bmZlbmcueXVuQG1lZGlhdGVrLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9jb3Jl
+L2RldmlvLmMgfCA4ICsrKy0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCA1
+IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2NvcmUvZGV2aW8uYyBiL2Ry
+aXZlcnMvdXNiL2NvcmUvZGV2aW8uYwppbmRleCBhNzViYzBiOGE1MGYuLjgyYzE2MjEwZTM0YyAx
+MDA2NDQKLS0tIGEvZHJpdmVycy91c2IvY29yZS9kZXZpby5jCisrKyBiL2RyaXZlcnMvdXNiL2Nv
+cmUvZGV2aW8uYwpAQCAtMTU2NCwxMiArMTU2NCwxMCBAQCBzdGF0aWMgaW50IHByb2NfZG9fc3Vi
+bWl0dXJiKHN0cnVjdCB1c2JfZGV2X3N0YXRlICpwcywgc3RydWN0IHVzYmRldmZzX3VyYiAqdXVy
+YgogCQl9CiAJCWZvciAodG90bGVuID0gdSA9IDA7IHUgPCBudW1iZXJfb2ZfcGFja2V0czsgdSsr
+KSB7CiAJCQkvKgotCQkJICogYXJiaXRyYXJ5IGxpbWl0IG5lZWQgZm9yIFVTQiAzLjAKLQkJCSAq
+IGJNYXhCdXJzdCAoMH4xNSBhbGxvd2VkLCAxfjE2IHBhY2tldHMpCi0JCQkgKiBibUF0dHJpYnV0
+ZXMgKGJpdCAxOjAsIG11bHQgMH4yLCAxfjMgcGFja2V0cykKLQkJCSAqIHNpemVtYXg6IDEwMjQg
+KiAxNiAqIDMgPSA0OTE1MgorCQkJICogYXJiaXRyYXJ5IGxpbWl0IG5lZWQgZm9yIFVTQiAzLjEg
+R2VuMgorCQkJICogc2l6ZW1heDogOTYgRFBzIGF0IFNTUCwgOTYgKiAxMDI0ID0gOTgzMDQKIAkJ
+CSAqLwotCQkJaWYgKGlzb3BrdFt1XS5sZW5ndGggPiA0OTE1MikgeworCQkJaWYgKGlzb3BrdFt1
+XS5sZW5ndGggPiA5ODMwNCkgewogCQkJCXJldCA9IC1FSU5WQUw7CiAJCQkJZ290byBlcnJvcjsK
+IAkJCX0K
