@@ -1,17 +1,33 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: USB: serial: cp210x: support all gpios on CP2102N QFN28 package
-From: Johan Hovold <johan@kernel.org>
-Message-Id: <20190125095225.GE3691@localhost>
-Date: Fri, 25 Jan 2019 10:52:25 +0100
-To: Mans Rullgard <mans@mansr.com>
-Cc: Johan Hovold <johan@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Karoly Pados <pados@pados.hu>
+Subject: [13/19] usbnet: smsc95xx: Replace smsc95xx_link_ok_nopm()
+From: Marek Vasut <marex@denx.de>
+Message-Id: <20190103011040.25974-14-marex@denx.de>
+Date: Thu,  3 Jan 2019 02:10:34 +0100
+To: netdev@vger.kernel.org
+Cc: Marek Vasut <marex@denx.de>, "David S . Miller" <davem@davemloft.net>, Nisar Sayed <Nisar.Sayed@microchip.com>, Woojung Huh <Woojung.Huh@microchip.com>, Andrew Lunn <andrew@lunn.ch>, Florian Fainelli <f.fainelli@gmail.com>, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCBKYW4gMjQsIDIwMTkgYXQgMDE6NDg6MzlQTSArMDAwMCwgTWFucyBSdWxsZ2FyZCB3
-cm90ZToKPiBUaGUgUUZOMjggcGFja2FnZSB2ZXJzaW9uIG9mIHRoZSBDUDIxMDJOIGhhcyB0aHJl
-ZSBhZGRpdGlvbmFsIGdwaW8gcGlucy4KPiBBZGQgc3VwcG9ydCBmb3IgdGhlc2UuCj4gCj4gU2ln
-bmVkLW9mZi1ieTogTWFucyBSdWxsZ2FyZCA8bWFuc0BtYW5zci5jb20+CgpUaGFua3MgZm9yIGlu
-dmVzdGlnYXRpbmcgYW5kIGVuYWJsaW5nIHN1cHBvcnQgZm9yIHRoZSByZW1haW5pbmcgcGlucy4K
-Ck5vdyBhcHBsaWVkLgoKSm9oYW4K
+UmVwbGFjZSB0aGUgZnVuY3Rpb24gd2l0aCBnZW5waHlfdXBkYXRlX2xpbmsoKSwgc2luY2UgdGhh
+dCdzIHJlYWxseQphbGwgdGhhdCBpdCBpcy4KClNpZ25lZC1vZmYtYnk6IE1hcmVrIFZhc3V0IDxt
+YXJleEBkZW54LmRlPgpDYzogRGF2aWQgUy4gTWlsbGVyIDxkYXZlbUBkYXZlbWxvZnQubmV0PgpD
+YzogTmlzYXIgU2F5ZWQgPE5pc2FyLlNheWVkQG1pY3JvY2hpcC5jb20+CkNjOiBXb29qdW5nIEh1
+aCA8V29vanVuZy5IdWhAbWljcm9jaGlwLmNvbT4KQ2M6IEFuZHJldyBMdW5uIDxhbmRyZXdAbHVu
+bi5jaD4KQ2M6IEZsb3JpYW4gRmFpbmVsbGkgPGYuZmFpbmVsbGlAZ21haWwuY29tPgpDYzogbGlu
+dXgtdXNiQHZnZXIua2VybmVsLm9yZwpUbzogbmV0ZGV2QHZnZXIua2VybmVsLm9yZwotLS0KIGRy
+aXZlcnMvbmV0L3VzYi9zbXNjOTV4eC5jIHwgMTEgKysrLS0tLS0tLS0KIDEgZmlsZSBjaGFuZ2Vk
+LCAzIGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9u
+ZXQvdXNiL3Ntc2M5NXh4LmMgYi9kcml2ZXJzL25ldC91c2Ivc21zYzk1eHguYwppbmRleCBmYTMz
+ZWRhNjEyNzUuLjQwMTY2MmYyOGYwMSAxMDA2NDQKLS0tIGEvZHJpdmVycy9uZXQvdXNiL3Ntc2M5
+NXh4LmMKKysrIGIvZHJpdmVycy9uZXQvdXNiL3Ntc2M5NXh4LmMKQEAgLTE0MjcsMTYgKzE0Mjcs
+MTEgQEAgc3RhdGljIGludCBzbXNjOTV4eF9saW5rX29rX25vcG0oc3RydWN0IHVzYm5ldCAqZGV2
+KQogCXN0cnVjdCBzbXNjOTV4eF9wcml2ICpwZGF0YSA9IChzdHJ1Y3Qgc21zYzk1eHhfcHJpdiAq
+KShkZXYtPmRhdGFbMF0pOwogCWludCByZXQ7CiAKLQkvKiBmaXJzdCwgYSBkdW1teSByZWFkLCBu
+ZWVkZWQgdG8gbGF0Y2ggc29tZSBNSUkgcGh5cyAqLwotCXJldCA9IHBoeV9yZWFkKHBkYXRhLT5w
+aHlkZXYsIE1JSV9CTVNSKTsKLQlpZiAocmV0IDwgMCkKLQkJcmV0dXJuIHJldDsKLQotCXJldCA9
+IHBoeV9yZWFkKHBkYXRhLT5waHlkZXYsIE1JSV9CTVNSKTsKLQlpZiAocmV0IDwgMCkKKwlyZXQg
+PSBnZW5waHlfdXBkYXRlX2xpbmsocGRhdGEtPnBoeWRldik7CisJaWYgKHJldCkKIAkJcmV0dXJu
+IHJldDsKIAotCXJldHVybiAhIShyZXQgJiBCTVNSX0xTVEFUVVMpOworCXJldHVybiBwZGF0YS0+
+cGh5ZGV2LT5saW5rOwogfQogCiBzdGF0aWMgaW50IHNtc2M5NXh4X2VudGVyX3N1c3BlbmQwKHN0
+cnVjdCB1c2JuZXQgKmRldikK
