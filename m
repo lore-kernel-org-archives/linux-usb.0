@@ -1,24 +1,29 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2] usb: dwc3: gadget: Handle 0 xfer length for OUT EP
-From: Tejas Joglekar <tejas.joglekar@synopsys.com>
-Message-Id: <6DE59E7D7B09224BB10C87AEADB5972692D6C5@IN01WEMBXB.internal.synopsys.com>
-Date: Tue, 22 Jan 2019 04:28:10 +0000
-To: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>, Tejas Joglekar <tejas.joglekar@synopsys.com>, Felipe Balbi <balbi@kernel.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Cc: John Youn <john.youn@synopsys.com>, "stable@vger.kernel.org" <stable@vger.kernel.org>, "thinh.nguyen@synopsys.com" <thinh.nguyen@synopsys.com>
+Subject: [5/8] arm64: tegra: Enable xudc on Jetson TX1
+From: Nagarjuna Kristam <nkristam@nvidia.com>
+Message-Id: <1546509899-5071-6-git-send-email-nkristam@nvidia.com>
+Date: Thu, 3 Jan 2019 15:34:56 +0530
+To: balbi@kernel.org, gregkh@linuxfoundation.org, thierry.reding@gmail.com, jonathanh@nvidia.com
+Cc: linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org, Nagarjuna Kristam <nkristam@nvidia.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCk9uIDEvMjEvMjAxOSA5OjQ3IFBNLCBTZXJnZWkgU2h0eWx5b3Ygd3JvdGU6Cj4gSGVsbG8h
-Cj4KPiBPbiAwMS8yMS8yMDE5IDEyOjMzIFBNLCBUZWphcyBKb2dsZWthciB3cm90ZToKPgo+PiBG
-b3IgT1VUIGVuZHBvaW50cywgemVyby1sZW5ndGggdHJhbnNmZXJzIHJlcXVpcmUgTWF4UGFja2V0
-U2l6ZSBidWZmZXIgYXMKPj4gcGVyIHRoZSBEV0NfdXNiMyBwcm9ncmFtbWluZyBndWlkZSAzLjMw
-YSBzZWN0aW9uIDQuMi4zLjMuCj4+Cj4+IFRoaXMgcGF0Y2ggZml4ZXMgdGhpcyBieSBleHBsaWNp
-dGx5IGNoZWNraW5nIHplcm8gbGVuZ3RoCj4+IHRyYW5zZmVyIHRvIGNvcnJlY3RseSBwYWQgdXAg
-dG8gTWF4UGFja2V0U2l6ZS4KPj4KPj4gRml4ZXM6IGM2MjY3YTUxNjM5YiAodXNiOiBkd2MzOiBn
-YWRnZXQ6IGFsaWduIHRyYW5zZmVycyB0bwo+PiB3TWF4UGFja2V0U2l6ZSkKPiAgICBQbGVhc2Ug
-ZW5jbG9zZSB0aGUgc3VtbWFyeSBpbiAoIiIpLCBubyBqdXN0ICgpLiBBbmQgcGxlYXNlIG5ldmVy
-IHdyYXAgaXQuClN1cmUsIEkgd2lsbCBzZW5kIHYzLgo+PiBDYzogc3RhYmxlQHZnZXIua2VybmVs
-Lm9yZwo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBUZWphcyBKb2dsZWthciA8am9nbGVrYXJAc3lub3Bz
-eXMuY29tPgo+IFsuLi5dCj4KPiBNQlIsIFNlcmdlaQo+ClRoYW5rcyAmIFJlZ2FyZHMsCgpUZWph
-cyBKb2dsZWthcgo=
+RW5hYmxlIFhVU0IgZGV2aWNlIG1vZGUgZHJpdmVyIGZvciBVU0IwIHNsb3Qgb24gSmV0c29uIFRY
+MS4KClNpZ25lZC1vZmYtYnk6IE5hZ2FyanVuYSBLcmlzdGFtIDxua3Jpc3RhbUBudmlkaWEuY29t
+PgotLS0KIGFyY2gvYXJtNjQvYm9vdC9kdHMvbnZpZGlhL3RlZ3JhMjEwLXAyNTk3LmR0c2kgfCAx
+NSArKysrKysrKysrKysrKysKIDEgZmlsZSBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspCgpkaWZm
+IC0tZ2l0IGEvYXJjaC9hcm02NC9ib290L2R0cy9udmlkaWEvdGVncmEyMTAtcDI1OTcuZHRzaSBi
+L2FyY2gvYXJtNjQvYm9vdC9kdHMvbnZpZGlhL3RlZ3JhMjEwLXAyNTk3LmR0c2kKaW5kZXggOTg1
+Nzc3Yy4uMjkzYjk1ZiAxMDA2NDQKLS0tIGEvYXJjaC9hcm02NC9ib290L2R0cy9udmlkaWEvdGVn
+cmEyMTAtcDI1OTcuZHRzaQorKysgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL252aWRpYS90ZWdyYTIx
+MC1wMjU5Ny5kdHNpCkBAIC0xMzI1LDYgKzEzMjUsMjEgQEAKIAkJc3RhdHVzID0gIm9rYXkiOwog
+CX07CiAKKwlleHRjb25fdXNiOiBleHRjb25fdmJ1cyB7CisJCWNvbXBhdGlibGUgPSAibGludXgs
+ZXh0Y29uLXVzYi1ncGlvIjsKKwkJdmJ1cy1ncGlvID0gPCZncGlvIFRFR1JBX0dQSU8oWiwgMCkg
+MT47CisJfTsKKworCXh1ZGNANzAwZDAwMDAgeworCQlwaHlzID0gPCZ7L3BhZGN0bEA3MDA5ZjAw
+MC9wYWRzL3VzYjIvbGFuZXMvdXNiMi0wfT47CisJCXBoeS1uYW1lcyA9ICJ1c2IyIjsKKwkJYXZk
+ZGlvX3VzYi1zdXBwbHkgPSA8JnZkZF9wZXhfMXYwNT47CisJCWh2ZGRfdXNiLXN1cHBseSA9IDwm
+dmRkXzN2M19zeXM+OworCQlhdmRkX3BsbF91dG1pcC1zdXBwbHkgPSA8JnZkZF8xdjg+OworCQll
+eHRjb24gPSA8JmV4dGNvbl91c2I+OworCQlzdGF0dXMgPSAib2theSI7CisJfTsKKwogCXNhdGFA
+NzAwMjAwMDAgewogCQlzdGF0dXMgPSAib2theSI7CiAJCXBoeXMgPSA8JnsvcGFkY3RsQDcwMDlm
+MDAwL3BhZHMvc2F0YS9sYW5lcy9zYXRhLTB9PjsK
