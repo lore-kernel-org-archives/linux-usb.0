@@ -2,28 +2,17 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [10/19] usbnet: smsc95xx: Replace smsc95xx_mdio_read() with phy_read()
-From: Marek Vasut <marex@denx.de>
-Message-Id: <45d9ab9a-9ecf-d958-a376-d73054b8dca7@denx.de>
-Date: Fri, 4 Jan 2019 15:58:13 +0100
-To: Andrew Lunn <andrew@lunn.ch>
+From: Andrew Lunn <andrew@lunn.ch>
+Message-Id: <20190104155738.GB30114@lunn.ch>
+Date: Fri, 4 Jan 2019 16:57:38 +0100
+To: Marek Vasut <marex@denx.de>
 Cc: netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>, Nisar Sayed <Nisar.Sayed@microchip.com>, Woojung Huh <Woojung.Huh@microchip.com>, Florian Fainelli <f.fainelli@gmail.com>, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMS80LzE5IDI6MjQgUE0sIEFuZHJldyBMdW5uIHdyb3RlOgo+Pj4gQWxsIHRoaXMgY3Jvc3Nv
-dmVyIGNvZGUgc2hvdWxkIGJlIG1vdmVkIGludG8gdGhlIFBIWSBkcml2ZXIuCj4+Cj4+IEZpbmUs
-IHRoaXMgY2FuIGJlIGRvbmUgaW4gYSBzdWJzZXF1ZW50IHBhdGNoIHRob3VnaCwgcmlnaHQgPyBJ
-J2QgbGlrZSB0bwo+PiBrZWVwIHRoZSBjaGFuZ2VzIHNtYWxsLCBzbyBpZiBzb21ldGhpbmcgYnJl
-YWtzLCBpdCBjb3VsZCBiZSBiaXNlY3RlZCBlYXNpbHkuCj4gCj4gSGkgTWFyZWsKCkhpLAoKPiBU
-aGUgcHJvYmxlbSBpcywgZG8geW91IGhhdmUgYSByZWdyZXNzaW9uIGJlY2F1c2Ugb2YgdGhlIGNo
-YW5nZXMgeW91Cj4gbWFkZSBoZXJlLCBvciBiZWNhdXNlIHlvdSBoYXZlIHR3byB0aGluZ3MgY29u
-dHJvbGxpbmcgdGhlIFBIWSwgdGhlIE1BQwo+IGRyaXZlciBhbmQgdGhlIFBIWSBkcml2ZXIsIHdo
-aWNoIGFyZSBub3QgY29vcmRpbmF0aW5nPwo+IAo+IEkgZG9uJ3Qga25vdyBpZiB5b3UgY2FuIGRv
-IGEgcGllY2VtZWFsIGNvbnZlcnNhdGlvbiBsaWtlIHRoaXMuIEkgZG9uJ3QKPiByZW1lbWJlciBh
-bnlib2R5IGVsc2UgZG9pbmcgYW55dGhpbmcgbGlrZSB0aGlzIGJlZm9yZS4KCkknZCBwcmVmZXIg
-dGhhdC4KCj4gV2hhdCB5b3UgY2FuIGRvIHBpZWNlbWVhbCBpcyBhZGQgbmV3IGZ1bmN0aW9uYWxp
-dHkgdG8gdGhlIGV4aXN0aW5nIFBIWQo+IGRyaXZlci4gSWYgeW91IGJyZWFrIHRoZSBQSFkgZHJp
-dmVyIHdlIGNhbiB0aGVuIGJpc2VjdCBpdCB0byBmaW5kIG91dAo+IHdoaWNoIGNoYW5nZSBicm9r
-ZSBpdC4gT25jZSB0aGUgUEhZIGRyaXZlciBoYXMgZXZlcnl0aGluZyB5b3UgbmVlZCwKPiB0aGVu
-IHN3YXAgdGhlIE1BQyBkcml2ZXIgdG8gdXNlIHBoeWxpYi4KCkkgd29uZGVyLCBpZiBJIHVzZSB0
-aGUgcGh5bGliIGZ1bmN0aW9ucyBpbnN0ZWFkIG9mIHRoZSBhZC1ob2Mgb25lcyBpbgp0aGUgTUFD
-IGRyaXZlciwgaXMgdGhlcmUgc3RpbGwgYSBwcm9ibGVtIHdpdGggc3luY2hyb25pemF0aW9uID8K
+PiBJIHdvbmRlciwgaWYgSSB1c2UgdGhlIHBoeWxpYiBmdW5jdGlvbnMgaW5zdGVhZCBvZiB0aGUg
+YWQtaG9jIG9uZXMgaW4KPiB0aGUgTUFDIGRyaXZlciwgaXMgdGhlcmUgc3RpbGwgYSBwcm9ibGVt
+IHdpdGggc3luY2hyb25pemF0aW9uID8KCllvdSB3b3VsZCBuZWVkIHRvIGxvb2sgZGVlcCBpbnRv
+IHBoeWxpYi4gV2hlbiBkb2VzIGl0IHJlc2V0IHRoZSBQSFk/CkNvbmZpZ3VyZSBhdXRvLW5lZywg
+c2V0dXAgaW50ZXJydXB0cywgZXRjPyBJdCBsb29rcyBsaWtlIGJvdGggYXJlCmdvaW5nIHRvIGRv
+IHRoaXMsIHNvIGkgZXhwZWN0IHRoZXkgYXJlIGdvaW5nIHRvIG1lc3MgZWFjaCBvdGhlciB1cC4K
+CiAgICAgIEFuZHJldwo=
