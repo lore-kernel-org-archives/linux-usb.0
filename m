@@ -2,27 +2,14 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [V2] usb:xhci: Fix for Enabling USB ROLE SWITCH QUIRK on INTEL_SUNRISEPOINT_LP_XHCI
-From: m.balaji@intel.com
-Message-Id: <20190108163153.18081-1-m.balaji@intel.com>
-Date: Tue,  8 Jan 2019 11:31:53 -0500
-To: linux-usb@vger.kernel.org
-Cc: mathias.nyman@linux.intel.com, heikki.krogerus@linux.intel.com, hdegoede@redhat.com, greg@kroah.com, M@vger.kernel.org, Balaji <m.balaji@intel.com>
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20190107173657.GB22315@kroah.com>
+Date: Mon, 7 Jan 2019 18:36:57 +0100
+To: m.balaji@intel.com
+Cc: linux-usb@vger.kernel.org, mathias.nyman@linux.intel.com, heikki.krogerus@linux.intel.com, hdegoede@redhat.com, M@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-RnJvbTogTSwgQmFsYWppIDxtLmJhbGFqaUBpbnRlbC5jb20+CgpUaGlzIGZpeCBlbmFibGVzIFVT
-QiByb2xlIGZlYXR1cmUgb24gaW50ZWwgY29tbWVyY2lhbCBudWMKcGxhdGZvcm0gd2hpY2ggaXMg
-YmFzZWQgb24gS2FieWxha2UgY2hpcHNldC4KClNpZ25lZC1vZmYtYnk6IE0sIEJhbGFqaSA8bS5i
-YWxhamlAaW50ZWwuY29tPgotLS0KIENoYW5nZXMgZnJvbSB2MTogY2hhbmdlZCBwYXRjaCBzdWJq
-ZWN0IGZyb20gcm9sZXM6IHRvIHVzYjp4aGNpCiBkcml2ZXJzL3VzYi9ob3N0L3hoY2ktcGNpLmMg
-fCAxICsKIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQoKZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvdXNiL2hvc3QveGhjaS1wY2kuYyBiL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1wY2kuYwppbmRl
-eCBhOWVjNzA1MWYyODYuLmMyZmUyMThlMDUxZiAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvaG9z
-dC94aGNpLXBjaS5jCisrKyBiL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1wY2kuYwpAQCAtMTk0LDYg
-KzE5NCw3IEBAIHN0YXRpYyB2b2lkIHhoY2lfcGNpX3F1aXJrcyhzdHJ1Y3QgZGV2aWNlICpkZXYs
-IHN0cnVjdCB4aGNpX2hjZCAqeGhjaSkKIAkJeGhjaS0+cXVpcmtzIHw9IFhIQ0lfU1NJQ19QT1JU
-X1VOVVNFRDsKIAlpZiAocGRldi0+dmVuZG9yID09IFBDSV9WRU5ET1JfSURfSU5URUwgJiYKIAkg
-ICAgKHBkZXYtPmRldmljZSA9PSBQQ0lfREVWSUNFX0lEX0lOVEVMX0NIRVJSWVZJRVdfWEhDSSB8
-fAorCSAgICAgcGRldi0+ZGV2aWNlID09IFBDSV9ERVZJQ0VfSURfSU5URUxfU1VOUklTRVBPSU5U
-X0xQX1hIQ0kgfHwKIAkgICAgIHBkZXYtPmRldmljZSA9PSBQQ0lfREVWSUNFX0lEX0lOVEVMX0FQ
-TF9YSENJKSkKIAkJeGhjaS0+cXVpcmtzIHw9IFhIQ0lfSU5URUxfVVNCX1JPTEVfU1c7CiAJaWYg
-KHBkZXYtPnZlbmRvciA9PSBQQ0lfVkVORE9SX0lEX0lOVEVMICYmCg==
+T24gVHVlLCBKYW4gMDgsIDIwMTkgYXQgMTE6MzE6NTNBTSAtMDUwMCwgbS5iYWxhamlAaW50ZWwu
+Y29tIHdyb3RlOgo+IEZyb206IE0sIEJhbGFqaSA8bS5iYWxhamlAaW50ZWwuY29tPgoKV2UgbmVl
+ZCBhICJmdWxsIiBuYW1lLCAiTSwiIGlzIHByb2JhYmx5IG5vdCB5b3VyIGZpcnN0IG5hbWUgOikK
+CnRoYW5rcywKCmdyZWcgay1oCg==
