@@ -1,26 +1,17 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [4/4] usb: musb: jz4740: Drop dependency on USB_OTG_BLACKLIST_HUB
+Subject: [3/4] usb: musb: jz4740: Drop dependency on MACH_JZ4740, use COMPILE_TEST
 From: Bin Liu <b-liu@ti.com>
-Message-Id: <20190107201119.GD25910@uda0271908>
-Date: Mon, 7 Jan 2019 14:11:19 -0600
+Message-Id: <20190107201006.GC25910@uda0271908>
+Date: Mon, 7 Jan 2019 14:10:06 -0600
 To: Paul Cercueil <paul@crapouillou.net>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, od@zcrc.me
 List-ID: <linux-usb.vger.kernel.org>
 
 SGksCgpQbGVhc2UgdXNlIHRoZSBmb2xsb3dpbmcgc3ViamVjdCBpbnN0ZWFkLgoKCXVzYjogbXVz
-YjogS2NvbmZpZzogRHJvcCBkZXBlbmRlbmN5IG9uIFVTQl9PVEdfQkxBQ0tMSVNUX0hVQiBmb3Ig
-ano0NzQwCgpSZWdhcmRzLAotQmluLgoKT24gVGh1LCBEZWMgMTMsIDIwMTggYXQgMDM6NDU6NTVQ
-TSArMDEwMCwgUGF1bCBDZXJjdWVpbCB3cm90ZToKPiBUaGUgVVNCIElQIGluIHRoZSBKWjQ3NDAg
-U29DIGRvZXMgbm90IHN1cHBvcnQgaG9zdCBtb2RlLCBvbmx5IGdhZGdldAo+IG1vZGUuCj4gCj4g
-U2lnbmVkLW9mZi1ieTogUGF1bCBDZXJjdWVpbCA8cGF1bEBjcmFwb3VpbGxvdS5uZXQ+Cj4gLS0t
-Cj4gIGRyaXZlcnMvdXNiL211c2IvS2NvbmZpZyB8IDEgLQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBk
-ZWxldGlvbigtKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9tdXNiL0tjb25maWcgYi9k
-cml2ZXJzL3VzYi9tdXNiL0tjb25maWcKPiBpbmRleCA2ZjViMGVkNmE1MDcuLmE4ODQxNzliYzNj
-MCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3VzYi9tdXNiL0tjb25maWcKPiArKysgYi9kcml2ZXJz
-L3VzYi9tdXNiL0tjb25maWcKPiBAQCAtMTEzLDcgKzExMyw2IEBAIGNvbmZpZyBVU0JfTVVTQl9K
-WjQ3NDAKPiAgCWRlcGVuZHMgb24gTk9QX1VTQl9YQ0VJVgo+ICAJZGVwZW5kcyBvbiBNSVBTIHx8
-IENPTVBJTEVfVEVTVAo+ICAJZGVwZW5kcyBvbiBVU0JfTVVTQl9HQURHRVQKPiAtCWRlcGVuZHMg
-b24gVVNCX09UR19CTEFDS0xJU1RfSFVCCj4gIAo+ICBjb25maWcgVVNCX01VU0JfQU0zMzVYX0NI
-SUxECj4gIAl0cmlzdGF0ZQo+IC0tIAo+IDIuMTEuMAo+Cg==
+YjogS2NvbmZpZzogRHJvcCBkZXBlbmRlbmN5IG9uIE1BQ0hfSlo0NzQwIGFuZCB1c2UgQ09NUElM
+RV9URVNUIGZvciBqejQ3NDAKCQpPbiBUaHUsIERlYyAxMywgMjAxOCBhdCAwMzo0NTo1NFBNICsw
+MTAwLCBQYXVsIENlcmN1ZWlsIHdyb3RlOgo+IERlcGVuZGluZyBvbiBNQUNIX0lOR0VOSUMgcHJl
+dmVudCB1cyBmcm9tIGNyZWF0aW5nIGEgZ2VuZXJpYyBrZXJuZWwgdGhhdAoKZGlkIHlvdSBtZWFu
+IE1BQ0hfSlo0NzQwIGluc3RlYWQ/CgpSZWdhcmRzLAotQmluLgo=
