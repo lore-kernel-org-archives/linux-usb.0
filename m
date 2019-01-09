@@ -2,19 +2,26 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v1,2/6] clk: qcom: Skip halt checks on gcc_usb3_phy_pipe_clk for 8998
-From: Stephen Boyd <sboyd@kernel.org>
-Message-Id: <154706036649.15366.4782578068557224270@swboyd.mtv.corp.google.com>
-Date: Wed, 09 Jan 2019 10:59:26 -0800
-To: Jeffrey Hugo <jhugo@codeaurora.org>, mturquette@baylibre.com
+From: Jeffrey Hugo <jhugo@codeaurora.org>
+Message-Id: <d99bd2ac-4c35-470e-e19d-e90f091cad4b@codeaurora.org>
+Date: Wed, 9 Jan 2019 12:28:44 -0700
+To: Stephen Boyd <sboyd@kernel.org>, mturquette@baylibre.com
 Cc: bjorn.andersson@linaro.org, andy.gross@linaro.org, david.brown@linaro.org, linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, kishon@ti.com, robh+dt@kernel.org, mark.rutland@arm.com, devicetree@vger.kernel.org, gregkh@linuxfoundation.org, balbi@kernel.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-UXVvdGluZyBKZWZmcmV5IEh1Z28gKDIwMTktMDEtMDQgMDg6NTA6MTUpCj4gVGhlIGdjY191c2Iz
-X3BoeV9waXBlX2NsayBpcyBnZW5lcmF0ZWQgYnkgdGhlIHBoeSwgYnV0IGlzIGFsc28gdXNlZCBi
-eQo+IHRoZSBwaHkgZHVyaW5nIGluaXQuICBUaGUgY2xvY2sgbmVlZHMgdG8gYmUgZW5hYmxlZCBk
-dXJpbmcgdGhlIGluaXQKPiBzZXF1ZW5jZSwgYnV0IG1heSBub3QgYmUgZnVsbHkgYWN0aXZlIHVu
-dGlsIGFmdGVyIHRoZSBpbml0IHNlcXVlbmNlIGlzCj4gY29tcGxldGUuICBUaGlzIGNhdXNlcyBh
-IGNhdGNoLTIyIGlmIHRoZSBjbG9jayBzdGF0dXMgaXMgY2hlY2tlZCBkdXJpbmcKPiBlbmFibGUu
-ICBBcyBhIHJlc3VsdCwgc2tpcCB0aGUgY2hlY2tzIHRvIGF2b2lkIHRoZSB0cm91Ymxpbmcgc2l0
-dWF0aW9uLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEplZmZyZXkgSHVnbyA8amh1Z29AY29kZWF1cm9y
-YS5vcmc+Cj4gLS0tCgpBcHBsaWVkIHRvIGNsay1uZXh0Cg==
+T24gMS85LzIwMTkgMTE6NTkgQU0sIFN0ZXBoZW4gQm95ZCB3cm90ZToKPiBRdW90aW5nIEplZmZy
+ZXkgSHVnbyAoMjAxOS0wMS0wNCAwODo1MDoxNSkKPj4gVGhlIGdjY191c2IzX3BoeV9waXBlX2Ns
+ayBpcyBnZW5lcmF0ZWQgYnkgdGhlIHBoeSwgYnV0IGlzIGFsc28gdXNlZCBieQo+PiB0aGUgcGh5
+IGR1cmluZyBpbml0LiAgVGhlIGNsb2NrIG5lZWRzIHRvIGJlIGVuYWJsZWQgZHVyaW5nIHRoZSBp
+bml0Cj4+IHNlcXVlbmNlLCBidXQgbWF5IG5vdCBiZSBmdWxseSBhY3RpdmUgdW50aWwgYWZ0ZXIg
+dGhlIGluaXQgc2VxdWVuY2UgaXMKPj4gY29tcGxldGUuICBUaGlzIGNhdXNlcyBhIGNhdGNoLTIy
+IGlmIHRoZSBjbG9jayBzdGF0dXMgaXMgY2hlY2tlZCBkdXJpbmcKPj4gZW5hYmxlLiAgQXMgYSBy
+ZXN1bHQsIHNraXAgdGhlIGNoZWNrcyB0byBhdm9pZCB0aGUgdHJvdWJsaW5nIHNpdHVhdGlvbi4K
+PiAKPiBJIHdpbGwgYXNrIGFnYWluLCBpcyBhbnlvbmUgZ29pbmcgdG8gZml4IHRoaXMgaW4gdGhl
+IHBoeSBkcml2ZXI/IEluCj4gdGhlb3J5IGl0IGlzbid0IG5lZWRlZCBpZiB0aGUgcGh5IGRyaXZl
+ciBjYW4gZG8gdGhpbmdzIGRpZmZlcmVudGx5LCBidXQKPiBsYXN0IHRpbWUgSSBjaGVja2VkIEkg
+d2FzIHRvbGQgdGhhdCB0aGUgcGh5IHRlYW0gc2FpZCBpdCBoYWQgdG8gYmUgZG9uZQo+IHRoaXMg
+d2F5Lgo+IAoKSW50ZXJlc3RpbmcuICBJIHdhcyB1bmF3YXJlIG9mIHBhc3QgZGlzY3Vzc2lvbihz
+KSBvbiB0aGlzLiAgVGhhbmsgeW91IApmb3IgdGFraW5nIHRoZSBjaGFuZ2UsIGJ1dCBJJ2xsIHRy
+eSBoYXZpbmcgYSBsb29rIHRvIHNlZSBpZiBtYXliZSBJIGNhbiAKcHJvdmUgeW91ciB0aGVvcnkg
+Z29pbmcgZm9yd2FyZC4K
