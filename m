@@ -2,20 +2,25 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: drivers/usb/storage/sddr55.c: Remove duplicate header
-From: Sabyasachi Gupta <sabyasachi.linux@gmail.com>
-Message-Id: <5c36f6ef.1c69fb81.9d82d.5592@mx.google.com>
-Date: Thu, 10 Jan 2019 13:10:25 +0530
-To: stern@rowland.harvard.edu, gregkh@linuxfoundation.org
-Cc: jrdr.linux@gmail.com, linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org, brajeswar.linux@gmail.com
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20190111091037.GB15610@kroah.com>
+Date: Fri, 11 Jan 2019 10:10:37 +0100
+To: Sabyasachi Gupta <sabyasachi.linux@gmail.com>
+Cc: stern@rowland.harvard.edu, jrdr.linux@gmail.com, linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org, brajeswar.linux@gmail.com
 List-ID: <linux-usb.vger.kernel.org>
 
-UmVtb3ZlIHVudXN1YWxfc2RkcjU1Lmggd2hpY2ggaXMgaW5jbHVkZWQgbW9yZSB0aGFuIG9uY2UK
-ClNpZ25lZC1vZmYtYnk6IFNhYnlhc2FjaGkgR3VwdGEgPHNhYnlhc2FjaGkubGludXhAZ21haWwu
-Y29tPgotLS0KIGRyaXZlcnMvdXNiL3N0b3JhZ2Uvc2RkcjU1LmMgfCAxIC0KIDEgZmlsZSBjaGFu
-Z2VkLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2Ivc3RvcmFnZS9zZGRy
-NTUuYyBiL2RyaXZlcnMvdXNiL3N0b3JhZ2Uvc2RkcjU1LmMKaW5kZXggYjg1MjdjNS4uOTZiZjdl
-ZSAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2Ivc3RvcmFnZS9zZGRyNTUuYworKysgYi9kcml2ZXJz
-L3VzYi9zdG9yYWdlL3NkZHI1NS5jCkBAIC02Miw3ICs2Miw2IEBAIE1PRFVMRV9ERVZJQ0VfVEFC
-TEUodXNiLCBzZGRyNTVfdXNiX2lkcyk7CiB9CiAKIHN0YXRpYyBzdHJ1Y3QgdXNfdW51c3VhbF9k
-ZXYgc2RkcjU1X3VudXN1YWxfZGV2X2xpc3RbXSA9IHsKLSMJaW5jbHVkZSAidW51c3VhbF9zZGRy
-NTUuaCIKIAl7IH0JCS8qIFRlcm1pbmF0aW5nIGVudHJ5ICovCiB9OwogCg==
+T24gVGh1LCBKYW4gMTAsIDIwMTkgYXQgMDE6MTA6MjVQTSArMDUzMCwgU2FieWFzYWNoaSBHdXB0
+YSB3cm90ZToKPiBSZW1vdmUgdW51c3VhbF9zZGRyNTUuaCB3aGljaCBpcyBpbmNsdWRlZCBtb3Jl
+IHRoYW4gb25jZQo+IAo+IFNpZ25lZC1vZmYtYnk6IFNhYnlhc2FjaGkgR3VwdGEgPHNhYnlhc2Fj
+aGkubGludXhAZ21haWwuY29tPgo+IC0tLQo+ICBkcml2ZXJzL3VzYi9zdG9yYWdlL3NkZHI1NS5j
+IHwgMSAtCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGRlbGV0aW9uKC0pCj4gCj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvdXNiL3N0b3JhZ2Uvc2RkcjU1LmMgYi9kcml2ZXJzL3VzYi9zdG9yYWdlL3NkZHI1
+NS5jCj4gaW5kZXggYjg1MjdjNS4uOTZiZjdlZSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3VzYi9z
+dG9yYWdlL3NkZHI1NS5jCj4gKysrIGIvZHJpdmVycy91c2Ivc3RvcmFnZS9zZGRyNTUuYwo+IEBA
+IC02Miw3ICs2Miw2IEBAIE1PRFVMRV9ERVZJQ0VfVEFCTEUodXNiLCBzZGRyNTVfdXNiX2lkcyk7
+Cj4gIH0KPiAgCj4gIHN0YXRpYyBzdHJ1Y3QgdXNfdW51c3VhbF9kZXYgc2RkcjU1X3VudXN1YWxf
+ZGV2X2xpc3RbXSA9IHsKPiAtIwlpbmNsdWRlICJ1bnVzdWFsX3NkZHI1NS5oIgo+ICAJeyB9CQkv
+KiBUZXJtaW5hdGluZyBlbnRyeSAqLwo+ICB9OwoKQXMgT2xpdmVyIHNhaWQgb24gdGhlIG90aGVy
+IHBhdGNoLCB0aGlzIGJyZWFrcyB0aGUgY29kZS4gIFBsZWFzZSBkbyBub3QKYmxpbmRseSBtYWtl
+IGNoYW5nZXMgd2l0aG91dCB1bmRlcnN0YW5kaW5nIHdoYXQgdGhlIGNvZGUgZG9lcy4KCnRoYW5r
+cywKCmdyZWcgay1oCg==
