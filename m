@@ -2,31 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,2/6] dt-bindings: usb: Add support for msm8998
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-Message-Id: <20190115180901.GD28907@builder>
-Date: Tue, 15 Jan 2019 10:09:01 -0800
+From: Rob Herring <robh@kernel.org>
+Message-Id: <20190116213250.GA24600@bogus>
+Date: Wed, 16 Jan 2019 15:32:50 -0600
 To: Jeffrey Hugo <jhugo@codeaurora.org>
-Cc: robh+dt@kernel.org, mark.rutland@arm.com, andy.gross@linaro.org, david.brown@linaro.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, kishon@ti.com, devicetree@vger.kernel.org, gregkh@linuxfoundation.org, balbi@kernel.org, linux-usb@vger.kernel.org
+Cc: robh+dt@kernel.org, mark.rutland@arm.com, bjorn.andersson@linaro.org, andy.gross@linaro.org, david.brown@linaro.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, kishon@ti.com, devicetree@vger.kernel.org, gregkh@linuxfoundation.org, balbi@kernel.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gTW9uIDE0IEphbiAwODozNiBQU1QgMjAxOSwgSmVmZnJleSBIdWdvIHdyb3RlOgoKPiBtc204
-OTk4IFVTQiBoYXMgYSBkd2MzIGNvbnRyb2xsZXIganVzdCBsaWtlIHRoZSBleGlzdGluZyBzZG04
-NDUgc3VwcG9ydAo+IAoKUmV2aWV3ZWQtYnk6IEJqb3JuIEFuZGVyc3NvbiA8Ympvcm4uYW5kZXJz
-c29uQGxpbmFyby5vcmc+Cgo+IFNpZ25lZC1vZmYtYnk6IEplZmZyZXkgSHVnbyA8amh1Z29AY29k
-ZWF1cm9yYS5vcmc+Cj4gLS0tCj4gIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91
-c2IvcWNvbSxkd2MzLnR4dCB8IDEgKwo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykK
-PiAKPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9x
-Y29tLGR3YzMudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9xY29t
-LGR3YzMudHh0Cj4gaW5kZXggOTVhZmRjZi4uY2I2OTVhYSAxMDA2NDQKPiAtLS0gYS9Eb2N1bWVu
-dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL3Fjb20sZHdjMy50eHQKPiArKysgYi9Eb2N1
-bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL3Fjb20sZHdjMy50eHQKPiBAQCAtNCw2
-ICs0LDcgQEAgUmVxdWlyZWQgcHJvcGVydGllczoKPiAgLSBjb21wYXRpYmxlOgkJQ29tcGF0aWJs
-ZSBsaXN0LCBjb250YWlucwo+ICAJCQkicWNvbSxkd2MzIgo+ICAJCQkicWNvbSxtc204OTk2LWR3
-YzMiIGZvciBtc204OTk2IFNPQy4KPiArCQkJInFjb20sbXNtODk5OC1kd2MzIiBmb3IgbXNtODk5
-OCBTT0MuCj4gIAkJCSJxY29tLHNkbTg0NS1kd2MzIiBmb3Igc2RtODQ1IFNPQy4KPiAgLSByZWc6
-CQkJT2Zmc2V0IGFuZCBsZW5ndGggb2YgcmVnaXN0ZXIgc2V0IGZvciBRU0NSQVRDSCB3cmFwcGVy
-Cj4gIC0gcG93ZXItZG9tYWluczoJc3BlY2lmaWVzIGEgcGhhbmRsZSB0byBQTSBkb21haW4gcHJv
-dmlkZXIgbm9kZQo+IC0tIAo+IFF1YWxjb21tIERhdGFjZW50ZXIgVGVjaG5vbG9naWVzIGFzIGFu
-IGFmZmlsaWF0ZSBvZiBRdWFsY29tbSBUZWNobm9sb2dpZXMsIEluYy4KPiBRdWFsY29tbSBUZWNo
-bm9sb2dpZXMsIEluYy4gaXMgYSBtZW1iZXIgb2YgdGhlCj4gQ29kZSBBdXJvcmEgRm9ydW0sIGEg
-TGludXggRm91bmRhdGlvbiBDb2xsYWJvcmF0aXZlIFByb2plY3QuCj4K
+T24gTW9uLCAxNCBKYW4gMjAxOSAwOTozNjoyNyAtMDcwMCwgSmVmZnJleSBIdWdvIHdyb3RlOgo+
+IG1zbTg5OTggVVNCIGhhcyBhIGR3YzMgY29udHJvbGxlciBqdXN0IGxpa2UgdGhlIGV4aXN0aW5n
+IHNkbTg0NSBzdXBwb3J0Cj4gCj4gU2lnbmVkLW9mZi1ieTogSmVmZnJleSBIdWdvIDxqaHVnb0Bj
+b2RlYXVyb3JhLm9yZz4KPiAtLS0KPiAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
+L3VzYi9xY29tLGR3YzMudHh0IHwgMSArCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
+KQo+IAoKUmV2aWV3ZWQtYnk6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+Cg==
