@@ -1,31 +1,34 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [21/21] memblock: drop memblock_alloc_*_nopanic() variants
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20190118084230.GA8855@kroah.com>
-Date: Fri, 18 Jan 2019 09:42:30 +0100
-To: Mike Rapoport <rppt@linux.ibm.com>
-Cc: linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>, Catalin Marinas <catalin.marinas@arm.com>, Christoph Hellwig <hch@lst.de>, "David S. Miller" <davem@davemloft.net>, Dennis Zhou <dennis@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Greentime Hu <green.hu@gmail.com>, Guan Xuetao <gxt@pku.edu.cn>, Guo Ren <guoren@kernel.org>, Heiko Carstens <heiko.carstens@de.ibm.com>, Mark Salter <msalter@redhat.com>, Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, Michal Simek <monstr@monstr.eu>, Paul Burton <paul.burton@mips.com>, Petr Mladek <pmladek@suse.com>, Rich Felker <dalias@libc.org>, Richard Weinberger <richard@nod.at>, Rob Herring <robh+dt@kernel.org>, Russell King <linux@armlinux.org.uk>, Stafford Horne <shorne@gmail.com>, Tony Luck <tony.luck@intel.com>, Vineet Gupta <vgupta@synopsys.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, devicetree@vger.kernel.org, kasan-dev@googlegroups.com, linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-c6x-dev@linux-c6x.org, linux-ia64@vger.kernel.org, linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org, linux-usb@vger.kernel.org, linux-xtensa@linux-xtensa.org, linuxppc-dev@lists.ozlabs.org, openrisc@lists.librecores.org, sparclinux@vger.kernel.org, uclinux-h8-devel@lists.sourceforge.jp, x86@kernel.org, xen-devel@lists.xenproject.org
+Subject: usb: phy: am335x: fix race condition in _probe
+From: Bin Liu <b-liu@ti.com>
+Message-Id: <20190116175407.31779-1-b-liu@ti.com>
+Date: Wed, 16 Jan 2019 11:54:07 -0600
+To: Felipe Balbi <balbi@kernel.org>
+Cc: linux-usb@vger.kernel.org, stable@vger.kernel.org, Bin Liu <b-liu@ti.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCBKYW4gMTYsIDIwMTkgYXQgMDM6NDQ6MjFQTSArMDIwMCwgTWlrZSBSYXBvcG9ydCB3
-cm90ZToKPiBBcyBhbGwgdGhlIG1lbWJsb2NrIGFsbG9jYXRpb24gZnVuY3Rpb25zIHJldHVybiBO
-VUxMIGluIGNhc2Ugb2YgZXJyb3IKPiByYXRoZXIgdGhhbiBwYW5pYygpLCB0aGUgZHVwbGljYXRl
-cyB3aXRoIF9ub3BhbmljIHN1ZmZpeCBjYW4gYmUgcmVtb3ZlZC4KPiAKPiBTaWduZWQtb2ZmLWJ5
-OiBNaWtlIFJhcG9wb3J0IDxycHB0QGxpbnV4LmlibS5jb20+Cj4gLS0tCj4gIGFyY2gvYXJjL2tl
-cm5lbC91bndpbmQuYyAgICAgICB8ICAzICstLQo+ICBhcmNoL3NoL21tL2luaXQuYyAgICAgICAg
-ICAgICAgfCAgMiArLQo+ICBhcmNoL3g4Ni9rZXJuZWwvc2V0dXBfcGVyY3B1LmMgfCAxMCArKysr
-Ky0tLS0tCj4gIGFyY2gveDg2L21tL2thc2FuX2luaXRfNjQuYyAgICB8IDE0ICsrKysrKysrLS0t
-LS0tCj4gIGRyaXZlcnMvZmlybXdhcmUvbWVtbWFwLmMgICAgICB8ICAyICstCj4gIGRyaXZlcnMv
-dXNiL2Vhcmx5L3hoY2ktZGJjLmMgICB8ICAyICstCj4gIGluY2x1ZGUvbGludXgvbWVtYmxvY2su
-aCAgICAgICB8IDM1IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gIGtlcm5l
-bC9kbWEvc3dpb3RsYi5jICAgICAgICAgICB8ICAyICstCj4gIGtlcm5lbC9wcmludGsvcHJpbnRr
-LmMgICAgICAgICB8IDE3ICsrKysrKystLS0tLS0tLS0tCj4gIG1tL21lbWJsb2NrLmMgICAgICAg
-ICAgICAgICAgICB8IDM1IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gIG1t
-L3BhZ2VfYWxsb2MuYyAgICAgICAgICAgICAgICB8IDEwICsrKysrLS0tLS0KPiAgbW0vcGFnZV9l
-eHQuYyAgICAgICAgICAgICAgICAgIHwgIDIgKy0KPiAgbW0vcGVyY3B1LmMgICAgICAgICAgICAg
-ICAgICAgIHwgMTEgKysrKy0tLS0tLS0KPiAgbW0vc3BhcnNlLmMgICAgICAgICAgICAgICAgICAg
-IHwgIDYgKystLS0tCj4gIDE0IGZpbGVzIGNoYW5nZWQsIDM3IGluc2VydGlvbnMoKyksIDExNCBk
-ZWxldGlvbnMoLSkKCkFja2VkLWJ5OiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZv
-dW5kYXRpb24ub3JnPgo=
+cG93ZXIgb2ZmIHRoZSBwaHkgc2hvdWxkIGJlIGRvbmUgYmVmb3JlIHBvcHVsYXRlIHRoZSBwaHku
+IE90aGVyd2lzZSwKYW0zMzV4X2luaXQoKSBjb3VsZCBiZSBjYWxsZWQgYnkgdGhlIHBoeSBvd25l
+ciB0byBwb3dlciBvbiB0aGUgcGh5IGZpcnN0LAp0aGVuIGFtMzM1eF9waHlfcHJvYmUoKSB0dXJu
+cyBvZmYgdGhlIHBoeSBhZ2FpbiB3aXRob3V0IHRoZSBjYWxsZXIga25vd2luZwppdC4KCkZpeGVz
+OiAyZmM3MTFkNzYzNTIgKCJ1c2I6IHBoeTogYW0zMzV4OiBFbmFibGUgVVNCIHJlbW90ZSB3YWtl
+dXAgdXNpbmcgUEhZIHdha2V1cCIpCkNjOiBzdGFibGVAdmdlci5rZXJuZWwub3JnICMgdjMuMTgr
+ClNpZ25lZC1vZmYtYnk6IEJpbiBMaXUgPGItbGl1QHRpLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9w
+aHkvcGh5LWFtMzM1eC5jIHwgNSArLS0tLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
+LCA0IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL3BoeS9waHktYW0zMzV4
+LmMgYi9kcml2ZXJzL3VzYi9waHkvcGh5LWFtMzM1eC5jCmluZGV4IDI3YmRiNzIyMjUyNy4uZjVm
+MDU2OGQ4NTMzIDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9waHkvcGh5LWFtMzM1eC5jCisrKyBi
+L2RyaXZlcnMvdXNiL3BoeS9waHktYW0zMzV4LmMKQEAgLTYxLDkgKzYxLDYgQEAgc3RhdGljIGlu
+dCBhbTMzNXhfcGh5X3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCiAJaWYgKHJl
+dCkKIAkJcmV0dXJuIHJldDsKIAotCXJldCA9IHVzYl9hZGRfcGh5X2RldigmYW1fcGh5LT51c2Jf
+cGh5X2dlbi5waHkpOwotCWlmIChyZXQpCi0JCXJldHVybiByZXQ7CiAJYW1fcGh5LT51c2JfcGh5
+X2dlbi5waHkuaW5pdCA9IGFtMzM1eF9pbml0OwogCWFtX3BoeS0+dXNiX3BoeV9nZW4ucGh5LnNo
+dXRkb3duID0gYW0zMzV4X3NodXRkb3duOwogCkBAIC04Miw3ICs3OSw3IEBAIHN0YXRpYyBpbnQg
+YW0zMzV4X3BoeV9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQogCWRldmljZV9z
+ZXRfd2FrZXVwX2VuYWJsZShkZXYsIGZhbHNlKTsKIAlwaHlfY3RybF9wb3dlcihhbV9waHktPnBo
+eV9jdHJsLCBhbV9waHktPmlkLCBhbV9waHktPmRyX21vZGUsIGZhbHNlKTsKIAotCXJldHVybiAw
+OworCXJldHVybiB1c2JfYWRkX3BoeV9kZXYoJmFtX3BoeS0+dXNiX3BoeV9nZW4ucGh5KTsKIH0K
+IAogc3RhdGljIGludCBhbTMzNXhfcGh5X3JlbW92ZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpw
+ZGV2KQo=
