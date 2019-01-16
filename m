@@ -1,21 +1,31 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: usb: storage: Remove outdated URL from MAINTAINERS
-From: David Brown <david.brown@linaro.org>
-Message-Id: <20190107191502.GA31394@davidb.org>
-Date: Mon, 7 Jan 2019 12:15:03 -0700
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Alan Stern <stern@rowland.harvard.edu>, Matt Dharm <mdharm-usb@one-eyed-alien.net>, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net
+Subject: [4/8] net/macb: bindings doc/trivial: fix documentation for sama5d3 10/100 interface
+From: Nicolas Ferre <nicolas.ferre@microchip.com>
+Message-Id: <0005c2ef28b985c663e0cd058bbc6d3856e05ec2.1547629763.git.nicolas.ferre@microchip.com>
+Date: Wed, 16 Jan 2019 10:57:40 +0100
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>, Ludovic Desroches <ludovic.desroches@microchip.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org, netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>, linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, Nicolas Ferre <nicolas.ferre@microchip.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhpcyB3ZWJzaXRlIGhhc24ndCB3b3JrZWQgZm9yIHF1aXRlIHNvbWUgdGltZS4KClNpZ25lZC1v
-ZmYtYnk6IERhdmlkIEJyb3duIDxkYXZpZC5icm93bkBsaW5hcm8ub3JnPgpDYzogTWF0dCBEaGFy
-bSA8bWRoYXJtLXVzYkBvbmUtZXllZC1hbGllbi5uZXQ+Ci0tLQogTUFJTlRBSU5FUlMgfCAxIC0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvTUFJTlRBSU5FUlMg
-Yi9NQUlOVEFJTkVSUwppbmRleCA4MmFkMGVhYmNlNGYuLjBkYmJhMTQxMjhlNCAxMDA2NDQKLS0t
-IGEvTUFJTlRBSU5FUlMKKysrIGIvTUFJTlRBSU5FUlMKQEAgLTE0MTQyLDcgKzE0MTQyLDYgQEAg
-TToJQWxhbiBTdGVybiA8c3Rlcm5Acm93bGFuZC5oYXJ2YXJkLmVkdT4KIEw6CWxpbnV4LXVzYkB2
-Z2VyLmtlcm5lbC5vcmcKIEw6CXVzYi1zdG9yYWdlQGxpc3RzLm9uZS1leWVkLWFsaWVuLm5ldAog
-UzoJTWFpbnRhaW5lZAotVzoJaHR0cDovL3d3dy5vbmUtZXllZC1hbGllbi5uZXQvfm1kaGFybS9s
-aW51eC11c2IvCiBGOglkcml2ZXJzL3VzYi9zdG9yYWdlLwogCiBVU0IgTUlESSBEUklWRVIK
+VGhpcyByZW1vdmVzIGEgbGluZSBsZWZ0IHdoaWxlIGFkZGluZyB0aGUgY29ycmVjdCBjb21wYXRp
+YmlsaXR5IHN0cmluZyBmb3IKc2FtYTVkMyAxMC8xMDAgaW50ZXJmYWNlLiBOb3cgdXNlIHRoZSAi
+YXRtZWwsc2FtYTVkMy1tYWNiIiBzdHJpbmcuCgpTaWduZWQtb2ZmLWJ5OiBOaWNvbGFzIEZlcnJl
+IDxuaWNvbGFzLmZlcnJlQG1pY3JvY2hpcC5jb20+Ci0tLQogRG9jdW1lbnRhdGlvbi9kZXZpY2V0
+cmVlL2JpbmRpbmdzL25ldC9tYWNiLnR4dCB8IDMgKy0tCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNl
+cnRpb24oKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZp
+Y2V0cmVlL2JpbmRpbmdzL25ldC9tYWNiLnR4dCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
+aW5kaW5ncy9uZXQvbWFjYi50eHQKaW5kZXggM2UxN2FjMWQ1ZDU4Li5mNWM0MTRiMTBlMjcgMTAw
+NjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9uZXQvbWFjYi50eHQK
+KysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL25ldC9tYWNiLnR4dApAQCAt
+Myw4ICszLDcgQEAKIFJlcXVpcmVkIHByb3BlcnRpZXM6CiAtIGNvbXBhdGlibGU6IFNob3VsZCBi
+ZSAiY2RucyxbPGNoaXA+LV17bWFjYnxnZW19IgogICBVc2UgImNkbnMsYXQ5MXJtOTIwMC1lbWFj
+IiBBdG1lbCBhdDkxcm05MjAwIFNvQy4KLSAgVXNlICJjZG5zLGF0OTFzYW05MjYwLW1hY2IiIGZv
+ciBBdG1lbCBhdDkxc2FtOSBTb0NzIG9yIHRoZSAxMC8xMDBNYml0IElQCi0gIGF2YWlsYWJsZSBv
+biBzYW1hNWQzIFNvQ3MuCisgIFVzZSAiY2RucyxhdDkxc2FtOTI2MC1tYWNiIiBmb3IgQXRtZWwg
+YXQ5MXNhbTkgU29Dcy4KICAgVXNlICJjZG5zLG5wNC1tYWNiIiBmb3IgTlA0IFNvQyBkZXZpY2Vz
+LgogICBVc2UgImNkbnMsYXQzMmFwNzAwMC1tYWNiIiBmb3Igb3RoZXIgMTAvMTAwIHVzYWdlIG9y
+IHVzZSB0aGUgZ2VuZXJpYyBmb3JtOiAiY2RucyxtYWNiIi4KICAgVXNlICJjZG5zLHBjMzAyLWdl
+bSIgZm9yIFBpY29jaGlwIHBpY29YY2VsbCBwYzMwMiBhbmQgbGF0ZXIgZGV2aWNlcyBiYXNlZCBv
+bgo=
