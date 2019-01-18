@@ -2,22 +2,17 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: USB: EHCI: ehci-mv: add MODULE_DEVICE_TABLE
-From: Lubomir Rintel <lkundrak@v3.sk>
-Message-Id: <20190114201608.17514-1-lkundrak@v3.sk>
-Date: Mon, 14 Jan 2019 21:16:08 +0100
-To: Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>, stable@vger.kernel.org
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20190118085144.GA9572@kroah.com>
+Date: Fri, 18 Jan 2019 09:51:44 +0100
+To: Lubomir Rintel <lkundrak@v3.sk>
+Cc: Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhpcyBmaXhlcyBhdXRvbG9hZGluZyB0aGUgbW9kdWxlIGJ5IHRoZSBPRiBjb21wYXRpYmxlIHN0
-cmluZy4KCkZpeGVzOiA4MTNlMThiMThhODdmMzFjNWIyMTZlYTc1NDYxMjdkZWFjM2FlMWFlCkNj
-OiBzdGFibGVAdmdlci5rZXJuZWwub3JnICMgdjQuMTkrClNpZ25lZC1vZmYtYnk6IEx1Ym9taXIg
-UmludGVsIDxsa3VuZHJha0B2My5zaz4KLS0tCiBkcml2ZXJzL3VzYi9ob3N0L2VoY2ktbXYuYyB8
-IDEgKwogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy91c2IvaG9zdC9laGNpLW12LmMgYi9kcml2ZXJzL3VzYi9ob3N0L2VoY2ktbXYuYwppbmRleCBm
-MjYxMDllYWZkYmYuLjY2ZWMxZmRmOWZlNyAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvaG9zdC9l
-aGNpLW12LmMKKysrIGIvZHJpdmVycy91c2IvaG9zdC9laGNpLW12LmMKQEAgLTMwMiwzICszMDIs
-NCBAQCBNT0RVTEVfQVVUSE9SKCJDaGFvIFhpZSA8Y2hhby54aWVAbWFydmVsbC5jb20+Iik7CiBN
-T0RVTEVfQVVUSE9SKCJOZWlsIFpoYW5nIDx6aGFuZ3dtQG1hcnZlbGwuY29tPiIpOwogTU9EVUxF
-X0FMSUFTKCJtdi1laGNpIik7CiBNT0RVTEVfTElDRU5TRSgiR1BMIik7CitNT0RVTEVfREVWSUNF
-X1RBQkxFKG9mLCBlaGNpX212X2R0X2lkcyk7Cg==
+T24gTW9uLCBKYW4gMTQsIDIwMTkgYXQgMDk6MTY6MDhQTSArMDEwMCwgTHVib21pciBSaW50ZWwg
+d3JvdGU6Cj4gVGhpcyBmaXhlcyBhdXRvbG9hZGluZyB0aGUgbW9kdWxlIGJ5IHRoZSBPRiBjb21w
+YXRpYmxlIHN0cmluZy4KPiAKPiBGaXhlczogODEzZTE4YjE4YTg3ZjMxYzViMjE2ZWE3NTQ2MTI3
+ZGVhYzNhZTFhZQoKSW4gdGhlIGZ1dHVyZSwgdGhpcyB0eXBlIG9mIGxpbmUgc2hvdWxkIGJlIHdy
+aXR0ZW4gYXM6CkZpeGVzOiA4MTNlMThiMThhODcgKCJVU0I6IEVIQ0k6IGVoY2ktbXY6IGFkZCBE
+VCBzdXBwb3J0IikKCkknbGwgY2hhbmdlIHRoaXMgaW4gdGhlIHBhdGNoLCBidXQgbmV4dCB0aW1l
+IGJlIG1vcmUgY2FyZWZ1bC4KCnRoYW5rcywKCmdyZWcgay1oCg==
