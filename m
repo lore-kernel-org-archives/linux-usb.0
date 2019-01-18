@@ -1,18 +1,28 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3,1/4] Documentation: dt: Add binding info for jz4740-musb driver
-From: Bin Liu <b-liu@ti.com>
-Message-Id: <20190121151804.GB30080@uda0271908>
-Date: Mon, 21 Jan 2019 09:18:04 -0600
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: usb: dwc3: exynos: Fix error handling of clk_prepare_enable
+From: Alexey Khoroshilov <khoroshilov@ispras.ru>
+Message-Id: <1547846257-19970-1-git-send-email-khoroshilov@ispras.ru>
+Date: Sat, 19 Jan 2019 00:17:37 +0300
+To: Marek Szyprowski <m.szyprowski@samsung.com>, Felipe Balbi <balbi@kernel.org>
+Cc: Alexey Khoroshilov <khoroshilov@ispras.ru>, Kukjin Kim <kgene@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org, ldv-project@linuxtesting.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCBKYW4gMTcsIDIwMTkgYXQgMDc6MzM6MjdQTSAtMDMwMCwgUGF1bCBDZXJjdWVpbCB3
-cm90ZToKPiBUaGlzIGNvbW1pdCBhZGRzIGRvY3VtZW50YXRpb24gZm9yIHRoZSBkZXZpY2UtdHJl
-ZSBiaW5kaW5ncyBvZiB0aGUKPiBqejQ3NDAtbXVzYiBkcml2ZXIsIHdoaWNoIHByb3ZpZGVzIHN1
-cHBvcnQgZm9yIHRoZSBVU0IgZ2FkZ2V0IG1vZGUKPiBvZiB0aGUgSlo0NzQwIGFuZCBzaW1pbGFy
-IFNvQ3MgZnJvbSBJbmdlbmljLgo+IAo+IFNpZ25lZC1vZmYtYnk6IFBhdWwgQ2VyY3VlaWwgPHBh
-dWxAY3JhcG91aWxsb3UubmV0Pgo+IFJldmlld2VkLWJ5OiBSb2IgSGVycmluZyA8cm9iaEBrZXJu
-ZWwub3JnPgoKVGhlIHNlcmllcyBpcyBhcHBsaWVkLiBUaGFua3MuCgpSZWdhcmRzLAotQmluLgo=
+SWYgY2xrX3ByZXBhcmVfZW5hYmxlKCkgZmFpbHMgaW4gZHdjM19leHlub3NfcHJvYmUoKSwKZXh5
+bm9zLT5jbGtzWzBdIGlzIGxlZnQgdW5kaXNhYmxlZCBiZWNhdXNlIG9mIHVzYWdlCnByZWluY3Jl
+bWVudCBpbiB3aGlsZSBjb25kaXRpb24uCgpGb3VuZCBieSBMaW51eCBEcml2ZXIgVmVyaWZpY2F0
+aW9uIHByb2plY3QgKGxpbnV4dGVzdGluZy5vcmcpLgoKU2lnbmVkLW9mZi1ieTogQWxleGV5IEto
+b3Jvc2hpbG92IDxraG9yb3NoaWxvdkBpc3ByYXMucnU+CkZpeGVzOiA5ZjIxNjgzNjdhMGEgKCJ1
+c2I6IGR3YzM6IGV4eW5vczogUmV3b3JrIGNsb2NrIGhhbmRsaW5nIGFuZCBwcmVwYXJlIGZvciBu
+ZXcgdmFyaWFudHMiKQotLS0KIGRyaXZlcnMvdXNiL2R3YzMvZHdjMy1leHlub3MuYyB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvdXNiL2R3YzMvZHdjMy1leHlub3MuYyBiL2RyaXZlcnMvdXNiL2R3YzMvZHdj
+My1leHlub3MuYwppbmRleCBjYjdmY2Q3YzBhZDguLmU3ZjZjZmYyN2I5YSAxMDA2NDQKLS0tIGEv
+ZHJpdmVycy91c2IvZHdjMy9kd2MzLWV4eW5vcy5jCisrKyBiL2RyaXZlcnMvdXNiL2R3YzMvZHdj
+My1leHlub3MuYwpAQCAtNzgsNyArNzgsNyBAQCBzdGF0aWMgaW50IGR3YzNfZXh5bm9zX3Byb2Jl
+KHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCiAJZm9yIChpID0gMDsgaSA8IGV4eW5vcy0+
+bnVtX2Nsa3M7IGkrKykgewogCQlyZXQgPSBjbGtfcHJlcGFyZV9lbmFibGUoZXh5bm9zLT5jbGtz
+W2ldKTsKIAkJaWYgKHJldCkgewotCQkJd2hpbGUgKC0taSA+IDApCisJCQl3aGlsZSAoaS0tID4g
+MCkKIAkJCQljbGtfZGlzYWJsZV91bnByZXBhcmUoZXh5bm9zLT5jbGtzW2ldKTsKIAkJCXJldHVy
+biByZXQ7CiAJCX0K
