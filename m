@@ -2,28 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usbip: Fix vhci_urb_enqueue() URB null transfer buffer error path
-From: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-Id: <bf3e3361-2cab-3229-21a0-b4b12241afaa@cogentembedded.com>
-Date: Sat, 19 Jan 2019 19:58:47 +0300
-To: Shuah Khan <skhan@linuxfoundation.org>, valentina.manea.m@gmail.com, shuah@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Shuah Khan <shuah@kernel.org>
+Message-Id: <4b4a2764-257a-6a30-19c0-9eabf66d62c4@kernel.org>
+Date: Sun, 20 Jan 2019 12:29:19 -0700
+To: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>, Shuah Khan <skhan@linuxfoundation.org>, valentina.manea.m@gmail.com, gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, shuah <shuah@kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGVsbG8hCgpPbiAwMS8xOS8yMDE5IDEyOjI5IEFNLCBTaHVhaCBLaGFuIHdyb3RlOgoKPiBGcm9t
-OiBTaHVhaCBLaGFuIDxzaHVhaEBrZXJuZWwub3JnPgo+IAo+IEZpeCB2aGNpX3VyYl9lbnF1ZXVl
-KCkgdG8gcHJpbnQgZXJyb3IgYW5kIHJldHVybiBlcnJvciBpbnN0ZWFkIG9mCj4gZmFpbGluZyB3
-aXRoIFdBUk5fT04uCgogICBJdCdzIEJVR19PTigpLgoKPiBTaWduZWQtb2ZmLWJ5OiBTaHVhaCBL
-aGFuIDxzaHVhaEBrZXJuZWwub3JnPgo+IC0tLQo+ICBkcml2ZXJzL3VzYi91c2JpcC92aGNpX2hj
-ZC5jIHwgNiArKysrLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMiBkZWxl
-dGlvbnMoLSkKPiAKPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvdXNiaXAvdmhjaV9oY2QuYyBi
-L2RyaXZlcnMvdXNiL3VzYmlwL3ZoY2lfaGNkLmMKPiBpbmRleCAxZTU5MmVjOTRiYTQuLjg0OWVi
-ZmRlODdiNSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3VzYi91c2JpcC92aGNpX2hjZC5jCj4gKysr
-IGIvZHJpdmVycy91c2IvdXNiaXAvdmhjaV9oY2QuYwo+IEBAIC03MDIsOCArNzAyLDEwIEBAIHN0
-YXRpYyBpbnQgdmhjaV91cmJfZW5xdWV1ZShzdHJ1Y3QgdXNiX2hjZCAqaGNkLCBzdHJ1Y3QgdXJi
-ICp1cmIsIGdmcF90IG1lbV9mbGFnCj4gIAl9Cj4gIAl2ZGV2ID0gJnZoY2lfaGNkLT52ZGV2W3Bv
-cnRudW0tMV07Cj4gIAo+IC0JLyogcGF0Y2ggdG8gdXNiX3NnX2luaXQoKSBpcyBpbiAyLjUuNjAg
-Ki8KPiAtCUJVR19PTighdXJiLT50cmFuc2Zlcl9idWZmZXIgJiYgdXJiLT50cmFuc2Zlcl9idWZm
-ZXJfbGVuZ3RoKTsKPiArCWlmICghdXJiLT50cmFuc2Zlcl9idWZmZXIgJiYgdXJiLT50cmFuc2Zl
-cl9idWZmZXJfbGVuZ3RoKSB7Cj4gKwkJZGV2X2VycihkZXYsICJOdWxsIFVSQiB0cmFuc2ZlciBi
-dWZmZXJcbiIpOwo+ICsJCXJldHVybiAtRUlOVkFMOwo+ICsJfQo+ICAKPiAgCXNwaW5fbG9ja19p
-cnFzYXZlKCZ2aGNpLT5sb2NrLCBmbGFncyk7Cj4gIAoKTUJSLCBTZXJnZWkK
+T24gMS8xOS8xOSA5OjU4IEFNLCBTZXJnZWkgU2h0eWx5b3Ygd3JvdGU6Cj4gSGVsbG8hCj4gCj4g
+T24gMDEvMTkvMjAxOSAxMjoyOSBBTSwgU2h1YWggS2hhbiB3cm90ZToKPiAKPj4gRnJvbTogU2h1
+YWggS2hhbiA8c2h1YWhAa2VybmVsLm9yZz4KPj4KPj4gRml4IHZoY2lfdXJiX2VucXVldWUoKSB0
+byBwcmludCBlcnJvciBhbmQgcmV0dXJuIGVycm9yIGluc3RlYWQgb2YKPj4gZmFpbGluZyB3aXRo
+IFdBUk5fT04uCj4gCj4gICAgIEl0J3MgQlVHX09OKCkuCgpUaGFua3MuIEkgd2lsbCBmaXggaXQu
+CgotLSBTaHVhaAo=
