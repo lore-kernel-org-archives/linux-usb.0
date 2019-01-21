@@ -1,17 +1,33 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: usbip: Fix vhci_urb_enqueue() URB null transfer buffer error path
-From: Shuah Khan <shuah@kernel.org>
-Message-Id: <4b4a2764-257a-6a30-19c0-9eabf66d62c4@kernel.org>
-Date: Sun, 20 Jan 2019 12:29:19 -0700
-To: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>, Shuah Khan <skhan@linuxfoundation.org>, valentina.manea.m@gmail.com, gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, shuah <shuah@kernel.org>
+Subject: [v3,08/10] ARM64: dts: marvell: armada-37xx: fix USB2 memory region
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+Message-Id: <20190121112336.23489-9-miquel.raynal@bootlin.com>
+Date: Mon, 21 Jan 2019 12:23:34 +0100
+To: Gregory Clement <gregory.clement@bootlin.com>, Jason Cooper <jason@lakedaemon.net>, Andrew Lunn <andrew@lunn.ch>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Kishon Vijay Abraham I <kishon@ti.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mathias Nyman <mathias.nyman@intel.com>, Alan Stern <stern@rowland.harvard.edu>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Antoine Tenart <antoine.tenart@bootlin.com>, Maxime Chevallier <maxime.chevallier@bootlin.com>, Nadav Haklai <nadavh@marvell.com>, Miquel Raynal <miquel.raynal@bootlin.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMS8xOS8xOSA5OjU4IEFNLCBTZXJnZWkgU2h0eWx5b3Ygd3JvdGU6Cj4gSGVsbG8hCj4gCj4g
-T24gMDEvMTkvMjAxOSAxMjoyOSBBTSwgU2h1YWggS2hhbiB3cm90ZToKPiAKPj4gRnJvbTogU2h1
-YWggS2hhbiA8c2h1YWhAa2VybmVsLm9yZz4KPj4KPj4gRml4IHZoY2lfdXJiX2VucXVldWUoKSB0
-byBwcmludCBlcnJvciBhbmQgcmV0dXJuIGVycm9yIGluc3RlYWQgb2YKPj4gZmFpbGluZyB3aXRo
-IFdBUk5fT04uCj4gCj4gICAgIEl0J3MgQlVHX09OKCkuCgpUaGFua3MuIEkgd2lsbCBmaXggaXQu
-CgotLSBTaHVhaAo=
+VGhlIHNwZWNpZmljYXRpb24gc3BsaXRzIHRoZSBVU0IyIG1lbW9yeSByZWdpb24gaW50byB0aHJl
+ZSBzZWN0aW9uczoKMS8gMHhEMDA1RTAwMC0weEQwMDVFRkZGOiBVU0IyIEhvc3QgQ29udHJvbGxl
+ciBSZWdpc3RlcnMKMi8gMHhEMDA1RjAwMC0weEQwMDVGN0ZGOiBVU0IyIFVUTUkgUEhZIFJlZ2lz
+dGVycwozLyAweEQwMDVGODAwLTB4RDAwNUZGRkY6IFVTQjIgSG9zdCBNaXNjZWxsYW5lb3VzIFJl
+Z2lzdGVycwoKU2VjdGlvbiAxLyBiZWxvbmdzIHRvIHRoZSBVU0IyIG5vZGUgYnV0IHNlY3Rpb24g
+Mi8gYmVsb25ncyB0byB0aGUgVVRNSQpQSFkgbm9kZS4gU2VjdGlvbiAzLyBjYW4gYmUgYWNjZXNz
+ZWQgYnkgYm90aCB0aGUgVVNCIGNvbnRyb2xsZXIgYW5kCnRoZSBQSFkgYmVjYXVzZSBvZiB0aGUg
+bWlzY2FlbGxhbmVvdXMgbmF0dXJlIG9mIHRoZSByZWdpc3RlcnMgaW5zaWRlCnNvIGEgc3BlY2lm
+aWMgbm9kZSB3aWxsIGJlIGNyZWF0ZWQgdG8gY292ZXIgdGhlIGFyZWEgYW5kIGEgaGFuZGxlIHRv
+Cml0IHdpbGwgYmUgYWRkZWQgaW4gYm90aCB0aGUgVVNCIGNvbnRyb2xsZXIgYW5kIHRoZSBQSFkg
+bm9kZS4KClNpZ25lZC1vZmYtYnk6IE1pcXVlbCBSYXluYWwgPG1pcXVlbC5yYXluYWxAYm9vdGxp
+bi5jb20+Ci0tLQogYXJjaC9hcm02NC9ib290L2R0cy9tYXJ2ZWxsL2FybWFkYS0zN3h4LmR0c2kg
+fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRp
+ZmYgLS1naXQgYS9hcmNoL2FybTY0L2Jvb3QvZHRzL21hcnZlbGwvYXJtYWRhLTM3eHguZHRzaSBi
+L2FyY2gvYXJtNjQvYm9vdC9kdHMvbWFydmVsbC9hcm1hZGEtMzd4eC5kdHNpCmluZGV4IGQ2ZTU0
+ODYxOGE5NS4uNWNmZDFiOTIwZjMxIDEwMDY0NAotLS0gYS9hcmNoL2FybTY0L2Jvb3QvZHRzL21h
+cnZlbGwvYXJtYWRhLTM3eHguZHRzaQorKysgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL21hcnZlbGwv
+YXJtYWRhLTM3eHguZHRzaQpAQCAtMzUxLDcgKzM1MSw3IEBACiAKIAkJCXVzYjI6IHVzYkA1ZTAw
+MCB7CiAJCQkJY29tcGF0aWJsZSA9ICJtYXJ2ZWxsLGFybWFkYS0zNzAwLWVoY2kiOwotCQkJCXJl
+ZyA9IDwweDVlMDAwIDB4MjAwMD47CisJCQkJcmVnID0gPDB4NWUwMDAgMHgxMDAwPjsKIAkJCQlp
+bnRlcnJ1cHRzID0gPEdJQ19TUEkgMTcgSVJRX1RZUEVfTEVWRUxfSElHSD47CiAJCQkJc3RhdHVz
+ID0gImRpc2FibGVkIjsKIAkJCX07Cg==
