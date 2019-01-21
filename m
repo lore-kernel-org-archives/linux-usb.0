@@ -1,33 +1,24 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: xhci: Use struct_size() in kzalloc()
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Message-Id: <20190108154046.GA13254@embeddedor>
-Date: Tue, 8 Jan 2019 09:40:46 -0600
-To: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: [v2,5/6] usb: linux/fsl_device: Add platform member has_fsl_erratum_14
+From: "yinbo.zhu" <yinbo.zhu@nxp.com>
+Message-Id: <20190121102601.4735-5-yinbo.zhu@nxp.com>
+Date: Mon, 21 Jan 2019 10:25:20 +0000
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Yinbo Zhu <yinbo.zhu@nxp.com>, Xiaobo Xie <xiaobo.xie@nxp.com>, Jerry Huang <jerry.huang@nxp.com>, Ran Wang <ran.wang_1@nxp.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ramneek Mehresh <ramneek.mehresh@freescale.com>, Nikhil Badola <nikhil.badola@freescale.com>, Suresh Gupta <suresh.gupta@freescale.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T25lIG9mIHRoZSBtb3JlIGNvbW1vbiBjYXNlcyBvZiBhbGxvY2F0aW9uIHNpemUgY2FsY3VsYXRp
-b25zIGlzIGZpbmRpbmcgdGhlCnNpemUgb2YgYSBzdHJ1Y3R1cmUgdGhhdCBoYXMgYSB6ZXJvLXNp
-emVkIGFycmF5IGF0IHRoZSBlbmQsIGFsb25nIHdpdGggbWVtb3J5CmZvciBzb21lIG51bWJlciBv
-ZiBlbGVtZW50cyBmb3IgdGhhdCBhcnJheS4gRm9yIGV4YW1wbGU6CgpzdHJ1Y3QgZm9vIHsKICAg
-IGludCBzdHVmZjsKICAgIHZvaWQgKmVudHJ5W107Cn07CgppbnN0YW5jZSA9IGt6YWxsb2Moc2l6
-ZW9mKHN0cnVjdCBmb28pICsgc2l6ZW9mKHZvaWQgKikgKiBjb3VudCwgR0ZQX0tFUk5FTCk7CgpJ
-bnN0ZWFkIG9mIGxlYXZpbmcgdGhlc2Ugb3Blbi1jb2RlZCBhbmQgcHJvbmUgdG8gdHlwZSBtaXN0
-YWtlcywgd2UgY2FuIG5vdwp1c2UgdGhlIG5ldyBzdHJ1Y3Rfc2l6ZSgpIGhlbHBlcjoKCmluc3Rh
-bmNlID0ga3phbGxvYyhzdHJ1Y3Rfc2l6ZShpbnN0YW5jZSwgZW50cnksIGNvdW50KSwgR0ZQX0tF
-Uk5FTCk7CgpUaGlzIGNvZGUgd2FzIGRldGVjdGVkIHdpdGggdGhlIGhlbHAgb2YgQ29jY2luZWxs
-ZS4KClNpZ25lZC1vZmYtYnk6IEd1c3Rhdm8gQS4gUi4gU2lsdmEgPGd1c3Rhdm9AZW1iZWRkZWRv
-ci5jb20+Ci0tLQogZHJpdmVycy91c2IvaG9zdC94aGNpLmMgfCAzICstLQogMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-dXNiL2hvc3QveGhjaS5jIGIvZHJpdmVycy91c2IvaG9zdC94aGNpLmMKaW5kZXggMDA1ZTY1OTIy
-NjA4Li43ZmE1OGM5OWYxMjYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL2hvc3QveGhjaS5jCisr
-KyBiL2RyaXZlcnMvdXNiL2hvc3QveGhjaS5jCkBAIC0xNDU1LDggKzE0NTUsNyBAQCBzdGF0aWMg
-aW50IHhoY2lfdXJiX2VucXVldWUoc3RydWN0IHVzYl9oY2QgKmhjZCwgc3RydWN0IHVyYiAqdXJi
-LCBnZnBfdCBtZW1fZmxhZwogCWVsc2UKIAkJbnVtX3RkcyA9IDE7CiAKLQl1cmJfcHJpdiA9IGt6
-YWxsb2Moc2l6ZW9mKHN0cnVjdCB1cmJfcHJpdikgKwotCQkJICAgbnVtX3RkcyAqIHNpemVvZihz
-dHJ1Y3QgeGhjaV90ZCksIG1lbV9mbGFncyk7CisJdXJiX3ByaXYgPSBremFsbG9jKHN0cnVjdF9z
-aXplKHVyYl9wcml2LCB0ZCwgbnVtX3RkcyksIG1lbV9mbGFncyk7CiAJaWYgKCF1cmJfcHJpdikK
-IAkJcmV0dXJuIC1FTk9NRU07CiAK
+RnJvbTogWWluYm8gWmh1IDx5aW5iby56aHVAbnhwLmNvbT4KClRoaXMgcGF0Y2ggaXMgdG8gYWRk
+IG1lbWJlciBoYXNfZnNsX2VycmF0dW1fMTQgaW4gcGxhdGZvcm0gZGF0YQoKU2lnbmVkLW9mZi1i
+eTogWWluYm8gWmh1IDx5aW5iby56aHVAbnhwLmNvbT4KLS0tCiBpbmNsdWRlL2xpbnV4L2ZzbF9k
+ZXZpY2VzLmggfCAgICAxICsKIDEgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb25zKCspLCAwIGRl
+bGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvZnNsX2RldmljZXMuaCBiL2lu
+Y2x1ZGUvbGludXgvZnNsX2RldmljZXMuaAppbmRleCA3ZWE1M2M4Li41YzIxYTNhIDEwMDY0NAot
+LS0gYS9pbmNsdWRlL2xpbnV4L2ZzbF9kZXZpY2VzLmgKKysrIGIvaW5jbHVkZS9saW51eC9mc2xf
+ZGV2aWNlcy5oCkBAIC0xMDIsNiArMTAyLDcgQEAgc3RydWN0IGZzbF91c2IyX3BsYXRmb3JtX2Rh
+dGEgewogCXVuc2lnbmVkICAgICAgICBoYXNfZnNsX2VycmF0dW1fYTAwNTI3NToxOwogCXVuc2ln
+bmVkCWhhc19mc2xfZXJyYXR1bV9hMDA1Njk3OjE7CiAJdW5zaWduZWQJaGFzX2ZzbF9lcnJhdHVt
+X2EwMDY5MTg6MTsKKwl1bnNpZ25lZAloYXNfZnNsX2VycmF0dW1fMTQ6MTsKIAl1bnNpZ25lZCAg
+ICAgICAgY2hlY2tfcGh5X2Nsa192YWxpZDoxOwogCiAJLyogcmVnaXN0ZXIgc2F2ZSBhcmVhIGZv
+ciBzdXNwZW5kL3Jlc3VtZSAqLwo=
