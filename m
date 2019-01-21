@@ -1,30 +1,23 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v5,1/6] usb: uvc: include videodev2.h in g_uvc.h
-From: Paul Elder <paul.elder@ideasonboard.com>
-Message-Id: <20190109070856.27460-2-paul.elder@ideasonboard.com>
-Date: Wed,  9 Jan 2019 02:08:51 -0500
-To: laurent.pinchart@ideasonboard.com, kieran.bingham@ideasonboard.com
-Cc: Paul Elder <paul.elder@ideasonboard.com>, b-liu@ti.com, stern@rowland.harvard.edu, rogerq@ti.com, balbi@kernel.org, gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [v1,5/6] usb: linux/fsl_device: Add platform member has_fsl_erratum_14
+From: "yinbo.zhu" <yinbo.zhu@nxp.com>
+Message-Id: <20190121031304.31161-5-yinbo.zhu@nxp.com>
+Date: Mon, 21 Jan 2019 11:13:03 +0800
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: yinbo.zhu@nxp.com, xiaobo.xie@nxp.com, jerry.huang@nxp.com, ran.wang_1@nxp.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ramneek Mehresh <ramneek.mehresh@freescale.com>, Nikhil Badola <nikhil.badola@freescale.com>, Suresh Gupta <suresh.gupta@freescale.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-VjRMMl9FVkVOVF9QUklWQVRFX1NUQVJUIGlzIHVzZWQgaW4gZ191dmMuaCBidXQgaXMgZGVmaW5l
-ZCBpbgp2aWRlb2RldjIuaCwgd2hpY2ggaXMgbm90IGluY2x1ZGVkIGFuZCBjYXVzZXMgYSBjb21w
-aWxlciB3YXJuaW5nOgoKbGludXgvdXNiL2dfdXZjLmg6MTU6Mjg6IGVycm9yOiDigJhWNEwyX0VW
-RU5UX1BSSVZBVEVfU1RBUlTigJkgdW5kZWNsYXJlZCBoZXJlIChub3QgaW4gYSBmdW5jdGlvbikK
-ICNkZWZpbmUgVVZDX0VWRU5UX0ZJUlNUICAgKFY0TDJfRVZFTlRfUFJJVkFURV9TVEFSVCArIDAp
-CgpJbmNsdWRlIHZpZGVvZGV2Mi5oIGluIGdfdXZjLmguCgpTaWduZWQtb2ZmLWJ5OiBQYXVsIEVs
-ZGVyIDxwYXVsLmVsZGVyQGlkZWFzb25ib2FyZC5jb20+ClJldmlld2VkLWJ5OiBMYXVyZW50IFBp
-bmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+Ci0tLQpObyBjaGFuZ2Ug
-ZnJvbSB2NApObyBjaGFuZ2UgZnJvbSB2MwpObyBjaGFuZ2UgZnJvbSB2MgpObyBjaGFuZ2UgZnJv
-bSB2MQoKIGluY2x1ZGUvdWFwaS9saW51eC91c2IvZ191dmMuaCB8IDEgKwogMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvaW5jbHVkZS91YXBpL2xpbnV4L3VzYi9n
-X3V2Yy5oIGIvaW5jbHVkZS91YXBpL2xpbnV4L3VzYi9nX3V2Yy5oCmluZGV4IDNjOWVlMzAyMGNi
-Yi4uNjY5OGMzMjYzYWU4IDEwMDY0NAotLS0gYS9pbmNsdWRlL3VhcGkvbGludXgvdXNiL2dfdXZj
-LmgKKysrIGIvaW5jbHVkZS91YXBpL2xpbnV4L3VzYi9nX3V2Yy5oCkBAIC0xMSw2ICsxMSw3IEBA
-CiAjaW5jbHVkZSA8bGludXgvaW9jdGwuaD4KICNpbmNsdWRlIDxsaW51eC90eXBlcy5oPgogI2lu
-Y2x1ZGUgPGxpbnV4L3VzYi9jaDkuaD4KKyNpbmNsdWRlIDxsaW51eC92aWRlb2RldjIuaD4KIAog
-I2RlZmluZSBVVkNfRVZFTlRfRklSU1QJCQkoVjRMMl9FVkVOVF9QUklWQVRFX1NUQVJUICsgMCkK
-ICNkZWZpbmUgVVZDX0VWRU5UX0NPTk5FQ1QJCShWNEwyX0VWRU5UX1BSSVZBVEVfU1RBUlQgKyAw
-KQo=
+VGhpcyBwYXRjaCBpcyB0byBhZGQgbWVtYmVyIGhhc19mc2xfZXJyYXR1bV8xNCBpbiBwbGF0Zm9y
+bSBkYXRhCgpTaWduZWQtb2ZmLWJ5OiBZaW5ibyBaaHUgPHlpbmJvLnpodUBueHAuY29tPgotLS0K
+IGluY2x1ZGUvbGludXgvZnNsX2RldmljZXMuaCB8ICAgIDEgKwogMSBmaWxlcyBjaGFuZ2VkLCAx
+IGluc2VydGlvbnMoKyksIDAgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51
+eC9mc2xfZGV2aWNlcy5oIGIvaW5jbHVkZS9saW51eC9mc2xfZGV2aWNlcy5oCmluZGV4IDdlYTUz
+YzguLjVjMjFhM2EgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvbGludXgvZnNsX2RldmljZXMuaAorKysg
+Yi9pbmNsdWRlL2xpbnV4L2ZzbF9kZXZpY2VzLmgKQEAgLTEwMiw2ICsxMDIsNyBAQCBzdHJ1Y3Qg
+ZnNsX3VzYjJfcGxhdGZvcm1fZGF0YSB7CiAJdW5zaWduZWQgICAgICAgIGhhc19mc2xfZXJyYXR1
+bV9hMDA1Mjc1OjE7CiAJdW5zaWduZWQJaGFzX2ZzbF9lcnJhdHVtX2EwMDU2OTc6MTsKIAl1bnNp
+Z25lZAloYXNfZnNsX2VycmF0dW1fYTAwNjkxODoxOworCXVuc2lnbmVkCWhhc19mc2xfZXJyYXR1
+bV8xNDoxOwogCXVuc2lnbmVkICAgICAgICBjaGVja19waHlfY2xrX3ZhbGlkOjE7CiAKIAkvKiBy
+ZWdpc3RlciBzYXZlIGFyZWEgZm9yIHN1c3BlbmQvcmVzdW1lICovCg==
