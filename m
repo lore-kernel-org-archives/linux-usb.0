@@ -1,10 +1,10 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [12/21] arch: use memblock_alloc() instead of memblock_alloc_from(size, align, 0)
+Subject: [v2,12/21] arch: use memblock_alloc() instead of memblock_alloc_from(size, align, 0)
 From: Mike Rapoport <rppt@linux.ibm.com>
-Message-Id: <1547646261-32535-13-git-send-email-rppt@linux.ibm.com>
-Date: Wed, 16 Jan 2019 15:44:12 +0200
+Message-Id: <1548057848-15136-13-git-send-email-rppt@linux.ibm.com>
+Date: Mon, 21 Jan 2019 10:03:59 +0200
 To: linux-mm@kvack.org
 Cc: Andrew Morton <akpm@linux-foundation.org>, Catalin Marinas <catalin.marinas@arm.com>, Christoph Hellwig <hch@lst.de>, "David S. Miller" <davem@davemloft.net>, Dennis Zhou <dennis@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, Greentime Hu <green.hu@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Guan Xuetao <gxt@pku.edu.cn>, Guo Ren <guoren@kernel.org>, Heiko Carstens <heiko.carstens@de.ibm.com>, Mark Salter <msalter@redhat.com>, Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, Michal Simek <monstr@monstr.eu>, Paul Burton <paul.burton@mips.com>, Petr Mladek <pmladek@suse.com>, Rich Felker <dalias@libc.org>, Richard Weinberger <richard@nod.at>, Rob Herring <robh+dt@kernel.org>, Russell King <linux@armlinux.org.uk>, Stafford Horne <shorne@gmail.com>, Tony Luck <tony.luck@intel.com>, Vineet Gupta <vgupta@synopsys.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, devicetree@vger.kernel.org, kasan-dev@googlegroups.com, linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-c6x-dev@linux-c6x.org, linux-ia64@vger.kernel.org, linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org, linux-usb@vger.kernel.org, linux-xtensa@linux-xtensa.org, linuxppc-dev@lists.ozlabs.org, openrisc@lists.librecores.org, sparclinux@vger.kernel.org, uclinux-h8-devel@lists.sourceforge.jp, x86@kernel.org, xen-devel@lists.xenproject.org, Mike Rapoport <rppt@linux.ibm.com>
 List-ID: <linux-usb.vger.kernel.org>
@@ -12,7 +12,8 @@ List-ID: <linux-usb.vger.kernel.org>
 VGhlIGxhc3QgcGFyYW1ldGVyIG9mIG1lbWJsb2NrX2FsbG9jX2Zyb20oKSBpcyB0aGUgbG93ZXIg
 bGltaXQgZm9yIHRoZQptZW1vcnkgYWxsb2NhdGlvbi4gV2hlbiBpdCBpcyAwLCB0aGUgY2FsbCBp
 cyBlcXVpdmFsZW50IHRvCm1lbWJsb2NrX2FsbG9jKCkuCgpTaWduZWQtb2ZmLWJ5OiBNaWtlIFJh
-cG9wb3J0IDxycHB0QGxpbnV4LmlibS5jb20+Ci0tLQogYXJjaC9hbHBoYS9rZXJuZWwvY29yZV9j
+cG9wb3J0IDxycHB0QGxpbnV4LmlibS5jb20+CkFja2VkLWJ5OiBQYXVsIEJ1cnRvbiA8cGF1bC5i
+dXJ0b25AbWlwcy5jb20+ICMgTUlQUyBwYXJ0Ci0tLQogYXJjaC9hbHBoYS9rZXJuZWwvY29yZV9j
 aWEuYyAgfCAgMiArLQogYXJjaC9hbHBoYS9rZXJuZWwvcGNpX2lvbW11LmMgfCAgNCArKy0tCiBh
 cmNoL2FscGhhL2tlcm5lbC9zZXR1cC5jICAgICB8ICAyICstCiBhcmNoL2lhNjQva2VybmVsL21j
 YS5jICAgICAgICB8ICAzICstLQogYXJjaC9taXBzL2tlcm5lbC90cmFwcy5jICAgICAgfCAgMiAr
