@@ -1,33 +1,25 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,08/10] ARM64: dts: marvell: armada-37xx: fix USB2 memory region
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-Message-Id: <20190111133133.24803-9-miquel.raynal@bootlin.com>
-Date: Fri, 11 Jan 2019 14:31:31 +0100
-To: Kishon Vijay Abraham I <kishon@ti.com>, Gregory Clement <gregory.clement@bootlin.com>, Jason Cooper <jason@lakedaemon.net>, Andrew Lunn <andrew@lunn.ch>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mathias Nyman <mathias.nyman@intel.com>, Alan Stern <stern@rowland.harvard.edu>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Antoine Tenart <antoine.tenart@bootlin.com>, Maxime Chevallier <maxime.chevallier@bootlin.com>, Nadav Haklai <nadavh@marvell.com>, Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [v3,2/3] usb: dwc3: qcom: Add support for MSM8998
+From: Jeffrey Hugo <jhugo@codeaurora.org>
+Message-Id: <1548106388-5079-1-git-send-email-jhugo@codeaurora.org>
+Date: Mon, 21 Jan 2019 14:33:08 -0700
+To: mark.rutland@arm.com, balbi@kernel.org
+Cc: bjorn.andersson@linaro.org, andy.gross@linaro.org, david.brown@linaro.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org, devicetree@vger.kernel.org, gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, Jeffrey Hugo <jhugo@codeaurora.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhlIHNwZWNpZmljYXRpb24gc3BsaXRzIHRoZSBVU0IyIG1lbW9yeSByZWdpb24gaW50byB0aHJl
-ZSBzZWN0aW9uczoKMS8gMHhEMDA1RTAwMC0weEQwMDVFRkZGOiBVU0IyIEhvc3QgQ29udHJvbGxl
-ciBSZWdpc3RlcnMKMi8gMHhEMDA1RjAwMC0weEQwMDVGN0ZGOiBVU0IyIFVUTUkgUEhZIFJlZ2lz
-dGVycwozLyAweEQwMDVGODAwLTB4RDAwNUZGRkY6IFVTQjIgSG9zdCBNaXNjZWxsYW5lb3VzIFJl
-Z2lzdGVycwoKU2VjdGlvbiAxLyBiZWxvbmdzIHRvIHRoZSBVU0IyIG5vZGUgYnV0IHNlY3Rpb24g
-Mi8gYmVsb25ncyB0byB0aGUgVVRNSQpQSFkgbm9kZS4gU2VjdGlvbiAzLyBjYW4gYmUgYWNjZXNz
-ZWQgYnkgYm90aCB0aGUgVVNCIGNvbnRyb2xsZXIgYW5kCnRoZSBQSFkgYmVjYXVzZSBvZiB0aGUg
-bWlzY2FlbGxhbmVvdXMgbmF0dXJlIG9mIHRoZSByZWdpc3RlcnMgaW5zaWRlCnNvIGEgc3BlY2lm
-aWMgbm9kZSB3aWxsIGJlIGNyZWF0ZWQgdG8gY292ZXIgdGhlIGFyZWEgYW5kIGEgaGFuZGxlIHRv
-Cml0IHdpbGwgYmUgYWRkZWQgaW4gYm90aCB0aGUgVVNCIGNvbnRyb2xsZXIgYW5kIHRoZSBQSFkg
-bm9kZS4KClNpZ25lZC1vZmYtYnk6IE1pcXVlbCBSYXluYWwgPG1pcXVlbC5yYXluYWxAYm9vdGxp
-bi5jb20+Ci0tLQogYXJjaC9hcm02NC9ib290L2R0cy9tYXJ2ZWxsL2FybWFkYS0zN3h4LmR0c2kg
-fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRp
-ZmYgLS1naXQgYS9hcmNoL2FybTY0L2Jvb3QvZHRzL21hcnZlbGwvYXJtYWRhLTM3eHguZHRzaSBi
-L2FyY2gvYXJtNjQvYm9vdC9kdHMvbWFydmVsbC9hcm1hZGEtMzd4eC5kdHNpCmluZGV4IGQ2ZTU0
-ODYxOGE5NS4uNWNmZDFiOTIwZjMxIDEwMDY0NAotLS0gYS9hcmNoL2FybTY0L2Jvb3QvZHRzL21h
-cnZlbGwvYXJtYWRhLTM3eHguZHRzaQorKysgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL21hcnZlbGwv
-YXJtYWRhLTM3eHguZHRzaQpAQCAtMzUxLDcgKzM1MSw3IEBACiAKIAkJCXVzYjI6IHVzYkA1ZTAw
-MCB7CiAJCQkJY29tcGF0aWJsZSA9ICJtYXJ2ZWxsLGFybWFkYS0zNzAwLWVoY2kiOwotCQkJCXJl
-ZyA9IDwweDVlMDAwIDB4MjAwMD47CisJCQkJcmVnID0gPDB4NWUwMDAgMHgxMDAwPjsKIAkJCQlp
-bnRlcnJ1cHRzID0gPEdJQ19TUEkgMTcgSVJRX1RZUEVfTEVWRUxfSElHSD47CiAJCQkJc3RhdHVz
-ID0gImRpc2FibGVkIjsKIAkJCX07Cg==
+QWRkIGEgTVNNODk5OCBzcGVjaWZpYyBEVCBjb21wYXRpYmxlIHNvIHRoYXQgd2UgY2FuIHByb3Bl
+cmx5IGJpbmQgdG8gdGhlCmRldmljZSBhbmQgZW5hYmxlIHRoZSBVU0IgY29udHJvbGxlci4KClNp
+Z25lZC1vZmYtYnk6IEplZmZyZXkgSHVnbyA8amh1Z29AY29kZWF1cm9yYS5vcmc+ClJldmlld2Vk
+LWJ5OiBCam9ybiBBbmRlcnNzb24gPGJqb3JuLmFuZGVyc3NvbkBsaW5hcm8ub3JnPgotLS0KIGRy
+aXZlcnMvdXNiL2R3YzMvZHdjMy1xY29tLmMgfCAxICsKIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
+dGlvbigrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2R3YzMvZHdjMy1xY29tLmMgYi9kcml2
+ZXJzL3VzYi9kd2MzL2R3YzMtcWNvbS5jCmluZGV4IGE2ZDAyMDMuLjE4NGRmNGQgMTAwNjQ0Ci0t
+LSBhL2RyaXZlcnMvdXNiL2R3YzMvZHdjMy1xY29tLmMKKysrIGIvZHJpdmVycy91c2IvZHdjMy9k
+d2MzLXFjb20uYwpAQCAtNTk1LDYgKzU5NSw3IEBAIHN0YXRpYyBpbnQgX19tYXliZV91bnVzZWQg
+ZHdjM19xY29tX3J1bnRpbWVfcmVzdW1lKHN0cnVjdCBkZXZpY2UgKmRldikKIHN0YXRpYyBjb25z
+dCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIGR3YzNfcWNvbV9vZl9tYXRjaFtdID0gewogCXsgLmNvbXBh
+dGlibGUgPSAicWNvbSxkd2MzIiB9LAogCXsgLmNvbXBhdGlibGUgPSAicWNvbSxtc204OTk2LWR3
+YzMiIH0sCisJeyAuY29tcGF0aWJsZSA9ICJxY29tLG1zbTg5OTgtZHdjMyIgfSwKIAl7IC5jb21w
+YXRpYmxlID0gInFjb20sc2RtODQ1LWR3YzMiIH0sCiAJeyB9CiB9Owo=
