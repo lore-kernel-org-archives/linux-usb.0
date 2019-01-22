@@ -2,45 +2,13 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,3/6] usb: host: Stops USB controller init if PLL fails to lock
-From: "yinbo.zhu" <yinbo.zhu@nxp.com>
-Message-Id: <20190121102601.4735-3-yinbo.zhu@nxp.com>
-Date: Mon, 21 Jan 2019 10:25:10 +0000
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Yinbo Zhu <yinbo.zhu@nxp.com>, Xiaobo Xie <xiaobo.xie@nxp.com>, Jerry Huang <jerry.huang@nxp.com>, Ran Wang <ran.wang_1@nxp.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ramneek Mehresh <ramneek.mehresh@freescale.com>, Nikhil Badola <nikhil.badola@freescale.com>, Suresh Gupta <suresh.gupta@freescale.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20190122080414.GA9680@kroah.com>
+Date: Tue, 22 Jan 2019 09:04:14 +0100
+To: Yinbo Zhu <yinbo.zhu@nxp.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>, Xiaobo Xie <xiaobo.xie@nxp.com>, Jerry Huang <jerry.huang@nxp.com>, Ran Wang <ran.wang_1@nxp.com>, Ramneek Mehresh <ramneek.mehresh@freescale.com>, Nikhil Badola <nikhil.badola@freescale.com>, Suresh Gupta <suresh.gupta@freescale.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-RnJvbTogeWluYm8uemh1IDx5aW5iby56aHVAbnhwLmNvbT4KClVTQiBlcnJhdHVtLUEwMDY5MTgg
-d29ya2Fyb3VuZCB0cmllcyB0byBzdGFydCBpbnRlcm5hbCBQSFkgaW5zaWRlCnVib290ICh3aGVu
-IFBMTCBmYWlscyB0byBsb2NrKS4gSG93ZXZlciwgaWYgdGhlIHdvcmthcm91bmQgYWxzbwpmYWls
-cywgdGhlbiBVU0IgaW5pdGlhbGl6YXRpb24gaXMgYWxzbyBzdG9wcGVkIGluc2lkZSBMaW51eC4K
-RXJyYXR1bS1BMDA2OTE4IHdvcmthcm91bmQgZmFpbHVyZSBjcmVhdGVzICJmc2wsZXJyYXR1bV9h
-MDA2OTE4Igpub2RlIGluIGRldmljZS10cmVlLiBQcmVzZW5jZSBvZiB0aGlzIG5vZGUgaW4gZGV2
-aWNlLXRyZWUgaXMKdXNlZCB0byBzdG9wIFVTQiBjb250cm9sbGVyIGluaXRpYWxpemF0aW9uIGlu
-IExpbnV4CgpTaWduZWQtb2ZmLWJ5OiBSYW1uZWVrIE1laHJlc2ggPHJhbW5lZWsubWVocmVzaEBm
-cmVlc2NhbGUuY29tPgpTaWduZWQtb2ZmLWJ5OiBTdXJlc2ggR3VwdGEgPHN1cmVzaC5ndXB0YUBm
-cmVlc2NhbGUuY29tPgpTaWduZWQtb2ZmLWJ5OiBZaW5ibyBaaHUgPHlpbmJvLnpodUBueHAuY29t
-PgotLS0KQ2hhbmdlIGluIHYyOgoJCXJlcGxhY2UgWWluYm8uWmh1IHdpdGggWWluYm8gWmh1Cgog
-ZHJpdmVycy91c2IvaG9zdC9laGNpLWZzbC5jICAgICAgfCAgICA1ICsrKysrCiBkcml2ZXJzL3Vz
-Yi9ob3N0L2ZzbC1tcGgtZHItb2YuYyB8ICAgIDUgKysrKysKIDIgZmlsZXMgY2hhbmdlZCwgMTAg
-aW5zZXJ0aW9ucygrKSwgMCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9o
-b3N0L2VoY2ktZnNsLmMgYi9kcml2ZXJzL3VzYi9ob3N0L2VoY2ktZnNsLmMKaW5kZXggYTI4ZWMx
-ZS4uNjg4NDEzMCAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvaG9zdC9laGNpLWZzbC5jCisrKyBi
-L2RyaXZlcnMvdXNiL2hvc3QvZWhjaS1mc2wuYwpAQCAtMjI0LDYgKzIyNCwxMSBAQCBzdGF0aWMg
-aW50IGVoY2lfZnNsX3NldHVwX3BoeShzdHJ1Y3QgdXNiX2hjZCAqaGNkLAogCQlwb3J0c2MgfD0g
-UE9SVF9QVFNfUFRXOwogCQkvKiBmYWxsIHRocm91Z2ggKi8KIAljYXNlIEZTTF9VU0IyX1BIWV9V
-VE1JOgorCQlpZiAocGRhdGEtPmhhc19mc2xfZXJyYXR1bV9hMDA2OTE4KSB7CisJCQlwcl93YXJu
-KCJmc2wtZWhjaTogVVNCIFBIWSBjbG9jayBpbnZhbGlkXG4iKTsKKwkJCXJldHVybiAtRUlOVkFM
-OworCQl9CisKIAljYXNlIEZTTF9VU0IyX1BIWV9VVE1JX0RVQUw6CiAJCS8qIFBIWV9DTEtfVkFM
-SUQgYml0IGlzIGRlLWZlYXR1cmVkIGZyb20gYWxsIGNvbnRyb2xsZXIKIAkJICogdmVyc2lvbnMg
-YmVsb3cgMi40IGFuZCBpcyB0byBiZSBjaGVja2VkIG9ubHkgZm9yCmRpZmYgLS1naXQgYS9kcml2
-ZXJzL3VzYi9ob3N0L2ZzbC1tcGgtZHItb2YuYyBiL2RyaXZlcnMvdXNiL2hvc3QvZnNsLW1waC1k
-ci1vZi5jCmluZGV4IDY3N2Y5ZDUuLjdlMDc3MDEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL2hv
-c3QvZnNsLW1waC1kci1vZi5jCisrKyBiL2RyaXZlcnMvdXNiL2hvc3QvZnNsLW1waC1kci1vZi5j
-CkBAIC0yMjUsNiArMjI1LDExIEBAIHN0YXRpYyBpbnQgZnNsX3VzYjJfbXBoX2RyX29mX3Byb2Jl
-KHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKm9mZGV2KQogCXBkYXRhLT5oYXNfZnNsX2VycmF0dW1f
-YTAwNTY5NyA9CiAJCW9mX3Byb3BlcnR5X3JlYWRfYm9vbChucCwgImZzbCx1c2JfZXJyYXR1bS1h
-MDA1Njk3Iik7CiAKKwlpZiAob2ZfZ2V0X3Byb3BlcnR5KG5wLCAiZnNsLGVycmF0dW1fYTAwNjkx
-OCIsIE5VTEwpKQorCQlwZGF0YS0+aGFzX2ZzbF9lcnJhdHVtX2EwMDY5MTggPSAxOworCWVsc2UK
-KwkJcGRhdGEtPmhhc19mc2xfZXJyYXR1bV9hMDA2OTE4ID0gMDsKKwogCS8qCiAJICogRGV0ZXJt
-aW5lIHdoZXRoZXIgcGh5X2Nsa192YWxpZCBuZWVkcyB0byBiZSBjaGVja2VkCiAJICogYnkgcmVh
-ZGluZyBwcm9wZXJ0eSBpbiBkZXZpY2UgdHJlZQo=
+T24gTW9uLCBKYW4gMjEsIDIwMTkgYXQgMTA6MjU6MTBBTSArMDAwMCwgWWluYm8gWmh1IHdyb3Rl
+Ogo+IEZyb206IHlpbmJvLnpodSA8eWluYm8uemh1QG54cC5jb20+CgpUaGlzIGxpbmUgaXMgc3Rp
+bGwgd3JvbmcgOigK
