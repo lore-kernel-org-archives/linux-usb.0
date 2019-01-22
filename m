@@ -2,27 +2,37 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v4,1/5] usb: split code locating ACPI companion into port and device
-From: Rajat Jain <rajatja@google.com>
-Message-Id: <CACK8Z6FzWTZ_SYCBqGsOcf2xzSp3+W9HD-1inyRtJ=Wqsww8Pw@mail.gmail.com>
-Date: Tue, 22 Jan 2019 14:28:27 -0800
-To: Marcel Holtmann <marcel@holtmann.org>
-Cc: Johan Hedberg <johan.hedberg@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "David S. Miller" <davem@davemloft.net>, Dmitry Torokhov <dtor@chromium.org>, Alex Hung <alex.hung@canonical.com>, Bluez mailing list <linux-bluetooth@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-usb@vger.kernel.org, netdev <netdev@vger.kernel.org>, Rajat Jain <rajatxjain@gmail.com>, Dmitry Torokhov <dtor@google.com>, Raghuram Hegde <raghuram.hegde@intel.com>, chethan.tumkur.narayan@intel.com, "Ghorai, Sukumar" <sukumar.ghorai@intel.com>
+From: Dmitry Torokhov <dtor@google.com>
+Message-Id: <CAE_wzQ8C4KTpLWVvw4J-YhjzrUDOW4c+4bJmGStTR=BEdidkWQ@mail.gmail.com>
+Date: Tue, 22 Jan 2019 14:42:26 -0800
+To: Rajat Jain <rajatja@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Marcel Holtmann <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>, "David S. Miller" <davem@davemloft.net>, Alex Hung <alex.hung@canonical.com>, Bluez mailing list <linux-bluetooth@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-usb@vger.kernel.org, netdev <netdev@vger.kernel.org>, Rajat Jain <rajatxjain@gmail.com>, Raghuram Hegde <raghuram.hegde@intel.com>, chethan.tumkur.narayan@intel.com, "Ghorai, Sukumar" <sukumar.ghorai@intel.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgTWFyY2VsLAoKT24gU2F0LCBKYW4gMTksIDIwMTkgYXQgMTE6NTEgQU0gTWFyY2VsIEhvbHRt
-YW5uIDxtYXJjZWxAaG9sdG1hbm4ub3JnPiB3cm90ZToKPgo+IEhpIFJhamF0LAo+Cj4gPiBJbiBw
-cmVwYXJhdGlvbiBmb3IgaGFuZGxpbmcgZW1iZWRkZWQgVVNCIGRldmljZXMgbGV0J3Mgc3BsaXQK
-PiA+IHVzYl9hY3BpX2ZpbmRfY29tcGFuaW9uKCkgaW50byB1c2JfYWNwaV9maW5kX2NvbXBhbmlv
-bl9mb3JfZGV2aWNlKCkgYW5kCj4gPiB1c2JfYWNwaV9maW5kX2NvbXBhbmlvbl9mb3JfcG9ydCgp
-Lgo+ID4KPiA+IFNpZ25lZC1vZmYtYnk6IERtaXRyeSBUb3Jva2hvdiA8ZHRvckBjaHJvbWl1bS5v
-cmc+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBSYWphdCBKYWluIDxyYWphdGphQGdvb2dsZS5jb20+Cj4g
-PiBBY2tlZC1ieTogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9y
-Zz4KPiA+IFRlc3RlZC1ieTogU3VrdW1hciBHaG9yYWkgPHN1a3VtYXIuZ2hvcmFpQGludGVsLmNv
-bT4KPiA+IC0tLQo+ID4gdjQ6IEFkZCBBY2tlZC1ieSBhbmQgVGVzdGVkLWJ5IGluIHNpZ25hdHVy
-ZXMuCj4gPiB2Mzogc2FtZSBhcyB2MQo+ID4gdjI6IHNhbWUgYXMgdjEKPiA+Cj4gPiBkcml2ZXJz
-L3VzYi9jb3JlL3VzYi1hY3BpLmMgfCAxMzMgKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0t
-LS0tLS0tCj4gPiAxIGZpbGUgY2hhbmdlZCwgNzIgaW5zZXJ0aW9ucygrKSwgNjEgZGVsZXRpb25z
-KC0pCj4KPiB3aGF0IGlzIHRoZSBwbGFuIGhlcmU/IEkgdGFrZSB0aGlzIHZpYSBibHVldG9vdGgt
-bmV4dCB0cmVlPwoKWWVzLCBJJ2QgdGhpbmsgdGhhdCB3b3VsZCBiZSB0aGUgYmVzdCBwbGFuLiBE
-bWl0cnkgLyBHcmVnIC0gZG8geW91CmhhdmUgYW55IG9iamVjdGlvbnMgLyBzdWdnZXN0aW9ucz8K
-Cj4KPiBSZWdhcmRzCj4KPiBNYXJjZWwKPgo=
+T24gVHVlLCBKYW4gMjIsIDIwMTkgYXQgMjoyOSBQTSBSYWphdCBKYWluIDxyYWphdGphQGdvb2ds
+ZS5jb20+IHdyb3RlOgo+Cj4gSGkgTWFyY2VsLAo+Cj4gT24gU2F0LCBKYW4gMTksIDIwMTkgYXQg
+MTE6NTEgQU0gTWFyY2VsIEhvbHRtYW5uIDxtYXJjZWxAaG9sdG1hbm4ub3JnPiB3cm90ZToKPiA+
+Cj4gPiBIaSBSYWphdCwKPiA+Cj4gPiA+IEluIHByZXBhcmF0aW9uIGZvciBoYW5kbGluZyBlbWJl
+ZGRlZCBVU0IgZGV2aWNlcyBsZXQncyBzcGxpdAo+ID4gPiB1c2JfYWNwaV9maW5kX2NvbXBhbmlv
+bigpIGludG8gdXNiX2FjcGlfZmluZF9jb21wYW5pb25fZm9yX2RldmljZSgpIGFuZAo+ID4gPiB1
+c2JfYWNwaV9maW5kX2NvbXBhbmlvbl9mb3JfcG9ydCgpLgo+ID4gPgo+ID4gPiBTaWduZWQtb2Zm
+LWJ5OiBEbWl0cnkgVG9yb2tob3YgPGR0b3JAY2hyb21pdW0ub3JnPgo+ID4gPiBTaWduZWQtb2Zm
+LWJ5OiBSYWphdCBKYWluIDxyYWphdGphQGdvb2dsZS5jb20+Cj4gPiA+IEFja2VkLWJ5OiBHcmVn
+IEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgo+ID4gPiBUZXN0ZWQt
+Ynk6IFN1a3VtYXIgR2hvcmFpIDxzdWt1bWFyLmdob3JhaUBpbnRlbC5jb20+Cj4gPiA+IC0tLQo+
+ID4gPiB2NDogQWRkIEFja2VkLWJ5IGFuZCBUZXN0ZWQtYnkgaW4gc2lnbmF0dXJlcy4KPiA+ID4g
+djM6IHNhbWUgYXMgdjEKPiA+ID4gdjI6IHNhbWUgYXMgdjEKPiA+ID4KPiA+ID4gZHJpdmVycy91
+c2IvY29yZS91c2ItYWNwaS5jIHwgMTMzICsrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0t
+LS0tLQo+ID4gPiAxIGZpbGUgY2hhbmdlZCwgNzIgaW5zZXJ0aW9ucygrKSwgNjEgZGVsZXRpb25z
+KC0pCj4gPgo+ID4gd2hhdCBpcyB0aGUgcGxhbiBoZXJlPyBJIHRha2UgdGhpcyB2aWEgYmx1ZXRv
+b3RoLW5leHQgdHJlZT8KPgo+IFllcywgSSdkIHRoaW5rIHRoYXQgd291bGQgYmUgdGhlIGJlc3Qg
+cGxhbi4gRG1pdHJ5IC8gR3JlZyAtIGRvIHlvdQo+IGhhdmUgYW55IG9iamVjdGlvbnMgLyBzdWdn
+ZXN0aW9ucz8KClRoYXQncyB1cCB0byBHcmVnLCBidXQgc2luY2UgaGUnZCBhY2tlZCB0aGUgcGF0
+Y2hlcyBJJ2QgYXNzdW1lIGhlJ3MgT0sKd2l0aCB0YWtpbmcgaXQgdGhyb3VnaCBibHVldG9vdGgu
+IEFzIGFuIG9wdGlvbiBNYXJjZWwgY291bGQgY3V0IGFuCmltbXV0YWJsZSBicmFuY2ggb2ZmIDQu
+MjAgd2l0aCB0aGUgZmlyc3QgMiBwYXRjaGVzIHNvIHRoYXQgaGUgYW5kIEdyZWcKY2FuIGJvdGgg
+cHVsbCBpdCBpbnRvIHRoZWlyIG1haW4gYnJhbmNoZXMgYW5kIHRoZW4gZ2l0IHdpbGwgZG8gdGhl
+CnJpZ2h0IHRoaW5nIHdoZW4gTGludXMgcHVsbHMgZnJvbSB0aGVtLiBMZWUgdXNlcyBxdWl0ZSBh
+IGJpdCBvZiB0aGVtCmluIE1GRCBhbmQgb3RoZXIgbWFpbnRhaW5lcnMgYXJlIGtub3duIHRvIG9j
+Y2FzaW9uYWxseSBtYWtlIHRoZW0gZm9yCndvcmsgdGhhdCBuZWVkcyB0byBiZSBzaGFyZWQgYmV0
+d2VlbiB0cmVlcy4KClRoYW5rcy4K
