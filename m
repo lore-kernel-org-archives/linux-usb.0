@@ -2,24 +2,27 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v3,2/3] usb: dwc3: qcom: Add support for MSM8998
-From: Jeffrey Hugo <jhugo@codeaurora.org>
-Message-Id: <1548106388-5079-1-git-send-email-jhugo@codeaurora.org>
-Date: Mon, 21 Jan 2019 14:33:08 -0700
-To: mark.rutland@arm.com, balbi@kernel.org
-Cc: bjorn.andersson@linaro.org, andy.gross@linaro.org, david.brown@linaro.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org, devicetree@vger.kernel.org, gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, Jeffrey Hugo <jhugo@codeaurora.org>
+From: Andy Gross <andy.gross@linaro.org>
+Message-Id: <20190122211558.GB30582@hector.attlocal.net>
+Date: Tue, 22 Jan 2019 15:15:58 -0600
+To: Jeffrey Hugo <jhugo@codeaurora.org>
+Cc: mark.rutland@arm.com, balbi@kernel.org, bjorn.andersson@linaro.org, david.brown@linaro.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, robh+dt@kernel.org, devicetree@vger.kernel.org, gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-QWRkIGEgTVNNODk5OCBzcGVjaWZpYyBEVCBjb21wYXRpYmxlIHNvIHRoYXQgd2UgY2FuIHByb3Bl
-cmx5IGJpbmQgdG8gdGhlCmRldmljZSBhbmQgZW5hYmxlIHRoZSBVU0IgY29udHJvbGxlci4KClNp
-Z25lZC1vZmYtYnk6IEplZmZyZXkgSHVnbyA8amh1Z29AY29kZWF1cm9yYS5vcmc+ClJldmlld2Vk
-LWJ5OiBCam9ybiBBbmRlcnNzb24gPGJqb3JuLmFuZGVyc3NvbkBsaW5hcm8ub3JnPgotLS0KIGRy
-aXZlcnMvdXNiL2R3YzMvZHdjMy1xY29tLmMgfCAxICsKIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
-dGlvbigrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2R3YzMvZHdjMy1xY29tLmMgYi9kcml2
-ZXJzL3VzYi9kd2MzL2R3YzMtcWNvbS5jCmluZGV4IGE2ZDAyMDMuLjE4NGRmNGQgMTAwNjQ0Ci0t
-LSBhL2RyaXZlcnMvdXNiL2R3YzMvZHdjMy1xY29tLmMKKysrIGIvZHJpdmVycy91c2IvZHdjMy9k
-d2MzLXFjb20uYwpAQCAtNTk1LDYgKzU5NSw3IEBAIHN0YXRpYyBpbnQgX19tYXliZV91bnVzZWQg
-ZHdjM19xY29tX3J1bnRpbWVfcmVzdW1lKHN0cnVjdCBkZXZpY2UgKmRldikKIHN0YXRpYyBjb25z
-dCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIGR3YzNfcWNvbV9vZl9tYXRjaFtdID0gewogCXsgLmNvbXBh
-dGlibGUgPSAicWNvbSxkd2MzIiB9LAogCXsgLmNvbXBhdGlibGUgPSAicWNvbSxtc204OTk2LWR3
-YzMiIH0sCisJeyAuY29tcGF0aWJsZSA9ICJxY29tLG1zbTg5OTgtZHdjMyIgfSwKIAl7IC5jb21w
-YXRpYmxlID0gInFjb20sc2RtODQ1LWR3YzMiIH0sCiAJeyB9CiB9Owo=
+T24gTW9uLCBKYW4gMjEsIDIwMTkgYXQgMDI6MzM6MDhQTSAtMDcwMCwgSmVmZnJleSBIdWdvIHdy
+b3RlOgo+IEFkZCBhIE1TTTg5OTggc3BlY2lmaWMgRFQgY29tcGF0aWJsZSBzbyB0aGF0IHdlIGNh
+biBwcm9wZXJseSBiaW5kIHRvIHRoZQo+IGRldmljZSBhbmQgZW5hYmxlIHRoZSBVU0IgY29udHJv
+bGxlci4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBKZWZmcmV5IEh1Z28gPGpodWdvQGNvZGVhdXJvcmEu
+b3JnPgo+IFJldmlld2VkLWJ5OiBCam9ybiBBbmRlcnNzb24gPGJqb3JuLmFuZGVyc3NvbkBsaW5h
+cm8ub3JnPgo+IC0tLQo+ICBkcml2ZXJzL3VzYi9kd2MzL2R3YzMtcWNvbS5jIHwgMSArCj4gIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQo+IAo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3Vz
+Yi9kd2MzL2R3YzMtcWNvbS5jIGIvZHJpdmVycy91c2IvZHdjMy9kd2MzLXFjb20uYwo+IGluZGV4
+IGE2ZDAyMDMuLjE4NGRmNGQgMTAwNjQ0Cj4gLS0tIGEvZHJpdmVycy91c2IvZHdjMy9kd2MzLXFj
+b20uYwo+ICsrKyBiL2RyaXZlcnMvdXNiL2R3YzMvZHdjMy1xY29tLmMKPiBAQCAtNTk1LDYgKzU5
+NSw3IEBAIHN0YXRpYyBpbnQgX19tYXliZV91bnVzZWQgZHdjM19xY29tX3J1bnRpbWVfcmVzdW1l
+KHN0cnVjdCBkZXZpY2UgKmRldikKPiAgc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQg
+ZHdjM19xY29tX29mX21hdGNoW10gPSB7Cj4gIAl7IC5jb21wYXRpYmxlID0gInFjb20sZHdjMyIg
+fSwKPiAgCXsgLmNvbXBhdGlibGUgPSAicWNvbSxtc204OTk2LWR3YzMiIH0sCj4gKwl7IC5jb21w
+YXRpYmxlID0gInFjb20sbXNtODk5OC1kd2MzIiB9LAo+ICAJeyAuY29tcGF0aWJsZSA9ICJxY29t
+LHNkbTg0NS1kd2MzIiB9LAo+ICAJeyB9CgpSZXZpZXdlZC1ieTogQW5keSBHcm9zcyA8YW5keS5n
+cm9zc0BsaW5hcm8ub3JnPgo=
