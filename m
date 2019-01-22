@@ -2,28 +2,34 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v4,2/5] usb: assign ACPI companions for embedded USB devices
-From: Marcel Holtmann <marcel@holtmann.org>
-Message-Id: <77FFC08C-D038-4BBE-9153-FBA1701D3168@holtmann.org>
-Date: Sat, 19 Jan 2019 20:51:01 +0100
-To: Rajat Jain <rajatja@google.com>
-Cc: Johan Hedberg <johan.hedberg@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "David S. Miller" <davem@davemloft.net>, Dmitry Torokhov <dtor@chromium.org>, Alex Hung <alex.hung@canonical.com>, linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, netdev@vger.kernel.org, rajatxjain@gmail.com, dtor@google.com, raghuram.hegde@intel.com, chethan.tumkur.narayan@intel.com, sukumar.ghorai@intel.com
+From: Rajat Jain <rajatja@google.com>
+Message-Id: <CACK8Z6Ez63Bn43WJL5X96GUr+U3T69UyymRtNg++1By_KUP=DA@mail.gmail.com>
+Date: Tue, 22 Jan 2019 14:29:40 -0800
+To: Marcel Holtmann <marcel@holtmann.org>
+Cc: Johan Hedberg <johan.hedberg@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "David S. Miller" <davem@davemloft.net>, Dmitry Torokhov <dtor@chromium.org>, Alex Hung <alex.hung@canonical.com>, linux-bluetooth@vger.kernel.org, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-usb@vger.kernel.org, netdev@vger.kernel.org, Rajat Jain <rajatxjain@gmail.com>, Dmitry Torokhov <dtor@google.com>, raghuram.hegde@intel.com, chethan.tumkur.narayan@intel.com, "Ghorai, Sukumar" <sukumar.ghorai@intel.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgUmFqYXQsCgo+IFVTQiBkZXZpY2VzIHBlcm1hbmVudGx5IGNvbm5lY3RlZCB0byBVU0IgcG9y
-dHMgbWF5IGJlIGRlc2NyaWJlZCBpbiBBQ1BJCj4gdGFibGVzIGFuZCBzaGFyZSBBQ1BJIGRldmlj
-ZXMgd2l0aCBwb3J0cyB0aGV5IGFyZSBjb25uZWN0ZWQgdG8uIFNlZSBbMV0KPiBmb3IgZGV0YWls
-cy4KPiAKPiBUaGlzIHdpbGwgYWxsb3cgdXMgdG8gZGVzY3JpYmUgc2lkZWJhbmQgcmVzb3VyY2Vz
-IGZvciBkZXZpY2VzLCBzdWNoIGFzLAo+IGZvciBleGFtcGxlLCBoYXJkIHJlc2V0IGxpbmUgZm9y
-IEJUIFVTQiBjb250cm9sbGVycy4KPiAKPiBbMV0gaHR0cHM6Ly9kb2NzLm1pY3Jvc29mdC5jb20v
-ZW4tdXMvd2luZG93cy1oYXJkd2FyZS9kcml2ZXJzL2JyaW5ndXAvb3RoZXItYWNwaS1uYW1lc3Bh
-Y2Utb2JqZWN0cyNhY3BpLW5hbWVzcGFjZS1oaWVyYXJjaHktYW5kLWFkci1mb3ItZW1iZWRkZWQt
-dXNiLWRldmljZXMKPiAKPiBTaWduZWQtb2ZmLWJ5OiBEbWl0cnkgVG9yb2tob3YgPGR0b3JAY2hy
-b21pdW0ub3JnPgo+IFNpZ25lZC1vZmYtYnk6IFJhamF0IEphaW4gPHJhamF0amFAZ29vZ2xlLmNv
-bT4gKGNoYW5nZWQgaG93IHdlIGdldCB0aGUgdXNiX3BvcnQpCj4gQWNrZWQtYnk6IEdyZWcgS3Jv
-YWgtSGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+Cj4gVGVzdGVkLWJ5OiBTdWt1
-bWFyIEdob3JhaSA8c3VrdW1hci5naG9yYWlAaW50ZWwuY29tPgo+IC0tLQo+IHY0OiBBZGQgQWNr
-ZWQtYnkgYW5kIFRlc3RlZC1ieSBpbiBzaWduYXR1cmVzLgo+IHYzOiBzYW1lIGFzIHYxCj4gdjI6
-IHNhbWUgYXMgdjEKPiAKPiBkcml2ZXJzL3VzYi9jb3JlL3VzYi1hY3BpLmMgfCA0NCArKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tCj4gMSBmaWxlIGNoYW5nZWQsIDM1IGluc2Vy
-dGlvbnMoKyksIDkgZGVsZXRpb25zKC0pCgpzYW1lIHF1ZXN0aW9uIGhlcmUuIFdoaWNoIHRyZWUg
-aXMgc3VwcG9zZSB0byB0YWtlIHRoaXM/CgpSZWdhcmRzCgpNYXJjZWwK
+T24gU2F0LCBKYW4gMTksIDIwMTkgYXQgMTE6NTEgQU0gTWFyY2VsIEhvbHRtYW5uIDxtYXJjZWxA
+aG9sdG1hbm4ub3JnPiB3cm90ZToKPgo+IEhpIFJhamF0LAo+Cj4gPiBVU0IgZGV2aWNlcyBwZXJt
+YW5lbnRseSBjb25uZWN0ZWQgdG8gVVNCIHBvcnRzIG1heSBiZSBkZXNjcmliZWQgaW4gQUNQSQo+
+ID4gdGFibGVzIGFuZCBzaGFyZSBBQ1BJIGRldmljZXMgd2l0aCBwb3J0cyB0aGV5IGFyZSBjb25u
+ZWN0ZWQgdG8uIFNlZSBbMV0KPiA+IGZvciBkZXRhaWxzLgo+ID4KPiA+IFRoaXMgd2lsbCBhbGxv
+dyB1cyB0byBkZXNjcmliZSBzaWRlYmFuZCByZXNvdXJjZXMgZm9yIGRldmljZXMsIHN1Y2ggYXMs
+Cj4gPiBmb3IgZXhhbXBsZSwgaGFyZCByZXNldCBsaW5lIGZvciBCVCBVU0IgY29udHJvbGxlcnMu
+Cj4gPgo+ID4gWzFdIGh0dHBzOi8vZG9jcy5taWNyb3NvZnQuY29tL2VuLXVzL3dpbmRvd3MtaGFy
+ZHdhcmUvZHJpdmVycy9icmluZ3VwL290aGVyLWFjcGktbmFtZXNwYWNlLW9iamVjdHMjYWNwaS1u
+YW1lc3BhY2UtaGllcmFyY2h5LWFuZC1hZHItZm9yLWVtYmVkZGVkLXVzYi1kZXZpY2VzCj4gPgo+
+ID4gU2lnbmVkLW9mZi1ieTogRG1pdHJ5IFRvcm9raG92IDxkdG9yQGNocm9taXVtLm9yZz4KPiA+
+IFNpZ25lZC1vZmYtYnk6IFJhamF0IEphaW4gPHJhamF0amFAZ29vZ2xlLmNvbT4gKGNoYW5nZWQg
+aG93IHdlIGdldCB0aGUgdXNiX3BvcnQpCj4gPiBBY2tlZC1ieTogR3JlZyBLcm9haC1IYXJ0bWFu
+IDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KPiA+IFRlc3RlZC1ieTogU3VrdW1hciBHaG9y
+YWkgPHN1a3VtYXIuZ2hvcmFpQGludGVsLmNvbT4KPiA+IC0tLQo+ID4gdjQ6IEFkZCBBY2tlZC1i
+eSBhbmQgVGVzdGVkLWJ5IGluIHNpZ25hdHVyZXMuCj4gPiB2Mzogc2FtZSBhcyB2MQo+ID4gdjI6
+IHNhbWUgYXMgdjEKPiA+Cj4gPiBkcml2ZXJzL3VzYi9jb3JlL3VzYi1hY3BpLmMgfCA0NCArKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tCj4gPiAxIGZpbGUgY2hhbmdlZCwgMzUg
+aW5zZXJ0aW9ucygrKSwgOSBkZWxldGlvbnMoLSkKPgo+IHNhbWUgcXVlc3Rpb24gaGVyZS4gV2hp
+Y2ggdHJlZSBpcyBzdXBwb3NlIHRvIHRha2UgdGhpcz8KCkp1c3QgcmVzcG9uZGVkIHRvIHRoZSAx
+c3QgcGF0Y2guIFNpbmNlIHRoZSBzdWJzZXF1ZW50IHBhdGNoZXMgdXNlIHRoaXMKZmVhdHVyZSwg
+bWF5IGJlIGJlc3QgdG8gcHVzaCB0aGlzIHZpYSB5b3VyIHRyZWUuIEdyZWcgb3IgRG1pdHJ5IGNh
+bgpzdWdnZXN0IGlmIHRoZXkgaGF2ZSBhbnkgb3RoZXIgc3VnZ2VzdGlvbnMuCgo+Cj4gUmVnYXJk
+cwo+Cj4gTWFyY2VsCj4K
