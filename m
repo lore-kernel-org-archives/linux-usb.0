@@ -2,26 +2,29 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [2/8] dt-bindings: arm: atmel: add new sam9x60 reset controller binding
-From: Nicolas Ferre <nicolas.ferre@microchip.com>
-Message-Id: <ed46005be5beff6efc47d40cea304185efa2bcc0.1547629763.git.nicolas.ferre@microchip.com>
-Date: Wed, 16 Jan 2019 10:57:38 +0100
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>, Ludovic Desroches <ludovic.desroches@microchip.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org, netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>, linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, Nicolas Ferre <nicolas.ferre@microchip.com>
+From: Rob Herring <robh@kernel.org>
+Message-Id: <20190122010733.GA21139@bogus>
+Date: Mon, 21 Jan 2019 19:07:33 -0600
+To: Nicolas Ferre <nicolas.ferre@microchip.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Ludovic Desroches <ludovic.desroches@microchip.com>, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org, netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>, linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, devicetree@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-VXBkYXRlIHRoZSBSZXNldCBDb250cm9sbGVyJ3MgYmluZGluZyB0byBhZGQgbmV3IFNvQyBjb21w
-YXRpYmlsaXR5IHN0cmluZy4KClNpZ25lZC1vZmYtYnk6IE5pY29sYXMgRmVycmUgPG5pY29sYXMu
-ZmVycmVAbWljcm9jaGlwLmNvbT4KLS0tCiBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
-Z3MvYXJtL2F0bWVsLXN5c3JlZ3MudHh0IHwgMSArCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKykKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJt
-L2F0bWVsLXN5c3JlZ3MudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Fy
-bS9hdG1lbC1zeXNyZWdzLnR4dAppbmRleCAzNjk1MmNjMzk5OTMuLmJhZGNlNmVmM2FiMyAxMDA2
-NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9hdG1lbC1zeXNy
-ZWdzLnR4dAorKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvYXJtL2F0bWVs
-LXN5c3JlZ3MudHh0CkBAIC0yMiw2ICsyMiw3IEBAIEl0cyBzdWJub2RlcyBjYW4gYmU6CiBSU1RD
-IFJlc2V0IENvbnRyb2xsZXIgcmVxdWlyZWQgcHJvcGVydGllczoKIC0gY29tcGF0aWJsZTogU2hv
-dWxkIGJlICJhdG1lbCw8Y2hpcD4tcnN0YyIuCiAgIDxjaGlwPiBjYW4gYmUgImF0OTFzYW05MjYw
-IiwgImF0OTFzYW05ZzQ1IiwgInNhbWE1ZDMiIG9yICJzYW14NyIKKyAgaXQgYWxzbyBjYW4gYmUg
-Im1pY3JvY2hpcCxzYW05eDYwLXJzdGMiCiAtIHJlZzogU2hvdWxkIGNvbnRhaW4gcmVnaXN0ZXJz
-IGxvY2F0aW9uIGFuZCBsZW5ndGgKIC0gY2xvY2tzOiBwaGFuZGxlIHRvIGlucHV0IGNsb2NrLgog
-Cg==
+T24gV2VkLCBKYW4gMTYsIDIwMTkgYXQgMTA6NTc6MzhBTSArMDEwMCwgTmljb2xhcyBGZXJyZSB3
+cm90ZToKPiBVcGRhdGUgdGhlIFJlc2V0IENvbnRyb2xsZXIncyBiaW5kaW5nIHRvIGFkZCBuZXcg
+U29DIGNvbXBhdGliaWxpdHkgc3RyaW5nLgo+IAo+IFNpZ25lZC1vZmYtYnk6IE5pY29sYXMgRmVy
+cmUgPG5pY29sYXMuZmVycmVAbWljcm9jaGlwLmNvbT4KPiAtLS0KPiAgRG9jdW1lbnRhdGlvbi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9hdG1lbC1zeXNyZWdzLnR4dCB8IDEgKwo+ICAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKykKPiAKPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9hdG1lbC1zeXNyZWdzLnR4dCBiL0RvY3VtZW50YXRpb24v
+ZGV2aWNldHJlZS9iaW5kaW5ncy9hcm0vYXRtZWwtc3lzcmVncy50eHQKPiBpbmRleCAzNjk1MmNj
+Mzk5OTMuLmJhZGNlNmVmM2FiMyAxMDA2NDQKPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRy
+ZWUvYmluZGluZ3MvYXJtL2F0bWVsLXN5c3JlZ3MudHh0Cj4gKysrIGIvRG9jdW1lbnRhdGlvbi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL2FybS9hdG1lbC1zeXNyZWdzLnR4dAo+IEBAIC0yMiw2ICsyMiw3
+IEBAIEl0cyBzdWJub2RlcyBjYW4gYmU6Cj4gIFJTVEMgUmVzZXQgQ29udHJvbGxlciByZXF1aXJl
+ZCBwcm9wZXJ0aWVzOgo+ICAtIGNvbXBhdGlibGU6IFNob3VsZCBiZSAiYXRtZWwsPGNoaXA+LXJz
+dGMiLgo+ICAgIDxjaGlwPiBjYW4gYmUgImF0OTFzYW05MjYwIiwgImF0OTFzYW05ZzQ1IiwgInNh
+bWE1ZDMiIG9yICJzYW14NyIKPiArICBpdCBhbHNvIGNhbiBiZSAibWljcm9jaGlwLHNhbTl4NjAt
+cnN0YyIKCkhvdyBpcyB0aGlzIHJlbGF0ZWQgdG8gYXQ5MXNhbTkyNjAtcnN0Yz8KClRoZSAneCcg
+aXMgYSB3aWxkY2FyZD8gV2UgZ2VuZXJhbGx5IGF2b2lkIHdpbGRjYXJkcy4KCj4gIC0gcmVnOiBT
+aG91bGQgY29udGFpbiByZWdpc3RlcnMgbG9jYXRpb24gYW5kIGxlbmd0aAo+ICAtIGNsb2Nrczog
+cGhhbmRsZSB0byBpbnB1dCBjbG9jay4KPiAgCj4gLS0gCj4gMi4xNy4xCj4K
