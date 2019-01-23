@@ -2,26 +2,39 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/3] treewide: Lift switch variables out of switches
-From: Matthew Wilcox <willy@infradead.org>
-Message-Id: <20190123191802.GB15311@bombadil.infradead.org>
-Date: Wed, 23 Jan 2019 11:18:02 -0800
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, Kees Cook <keescook@chromium.org>, dev@openvswitch.org, Ard Biesheuvel <ard.biesheuvel@linaro.org>, netdev@vger.kernel.org, intel-gfx@lists.freedesktop.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-mm@kvack.org, linux-security-module@vger.kernel.org, kernel-hardening@lists.openwall.com, intel-wired-lan@lists.osuosl.org, linux-fsdevel@vger.kernel.org, xen-devel@lists.xenproject.org, Laura Abbott <labbott@redhat.com>, linux-kbuild@vger.kernel.org, Alexander Popov <alex.popov@linux.com>
+From: Kees Cook <keescook@chromium.org>
+Message-Id: <CAGXu5jLNvHVhbyr5Cbyoe8o0ARv52sU-NEpD+u2UYfESM3ofCw@mail.gmail.com>
+Date: Thu, 24 Jan 2019 09:36:11 +1300
+To: Matthew Wilcox <willy@infradead.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, Greg KH <gregkh@linuxfoundation.org>, dev@openvswitch.org, Ard Biesheuvel <ard.biesheuvel@linaro.org>, Network Development <netdev@vger.kernel.org>, intel-gfx@lists.freedesktop.org, linux-usb@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, Maling list - DRI developers <dri-devel@lists.freedesktop.org>, Linux-MM <linux-mm@kvack.org>, linux-security-module <linux-security-module@vger.kernel.org>, Kernel Hardening <kernel-hardening@lists.openwall.com>, intel-wired-lan@lists.osuosl.org, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, xen-devel <xen-devel@lists.xenproject.org>, Laura Abbott <labbott@redhat.com>, linux-kbuild <linux-kbuild@vger.kernel.org>, Alexander Popov <alex.popov@linux.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCBKYW4gMjMsIDIwMTkgYXQgMDQ6MTc6MzBQTSArMDIwMCwgSmFuaSBOaWt1bGEgd3Jv
-dGU6Cj4gQ2FuJ3QgaGF2ZToKPiAKPiAJc3dpdGNoIChpKSB7Cj4gCQlpbnQgajsKPiAJY2FzZSAw
-Ogo+ICAgICAgICAgCS8qIC4uLiAqLwo+IAl9Cj4gCj4gYmVjYXVzZSBpdCBjYW4ndCBiZSB0dXJu
-ZWQgaW50bzoKPiAKPiAJc3dpdGNoIChpKSB7Cj4gCQlpbnQgaiA9IDA7IC8qIG5vdCB2YWxpZCBD
-ICovCj4gCWNhc2UgMDoKPiAgICAgICAgIAkvKiAuLi4gKi8KPiAJfQo+IAo+IGJ1dCBjYW4gaGF2
-ZSBlLmcuOgo+IAo+IAlzd2l0Y2ggKGkpIHsKPiAJY2FzZSAwOgo+IAkJewo+IAkJCWludCBqID0g
-MDsKPiAJICAgICAgICAJLyogLi4uICovCj4gCQl9Cj4gCX0KPiAKPiBJIHRoaW5rIEtlZXMnIGFw
-cHJvYWNoIG9mIG1vdmluZyBzdWNoIHZhcmlhYmxlIGRlY2xhcmF0aW9ucyB0byB0aGUKPiBlbmNs
-b3NpbmcgYmxvY2sgc2NvcGUgaXMgYmV0dGVyIHRoYW4gYWRkaW5nIGFub3RoZXIgbmVzdGluZyBi
-bG9jay4KCkFub3RoZXIgbmVzdGluZyBsZXZlbCB3b3VsZCBiZSBiYWQsIGJ1dCBJIHRoaW5rIHRo
-aXMgaXMgT0s6CgoJc3dpdGNoIChpKSB7CgljYXNlIDA6IHsKCQlpbnQgaiA9IDA7CiAgICAgICAg
-CS8qIC4uLiAqLwoJfQoJY2FzZSAxOiB7CgkJdm9pZCAqcCA9IHE7CgkJLyogLi4uICovCgl9Cgl9
-CgpJIGNhbiBpbWFnaW5lIEtlZXMnIHBhdGNoIG1pZ2h0IGhhdmUgYSBiYWQgZWZmZWN0IG9uIHN0
-YWNrIGNvbnN1bXB0aW9uLAp1bmxlc3MgR0NDIGNhbiBiZSByZWxpZWQgb24gdG8gYmUgc21hcnQg
-ZW5vdWdoIHRvIG5vdGljZSB0aGUKbm9uLW92ZXJsYXBwaW5nIGxpdmVuZXNzIG9mIHRoZSB2cmlh
-YmxlcyBhbmQgdXNlIHRoZSBzYW1lIHN0YWNrIHNsb3RzCmZvciBib3RoLgo=
+T24gVGh1LCBKYW4gMjQsIDIwMTkgYXQgODoxOCBBTSBNYXR0aGV3IFdpbGNveCA8d2lsbHlAaW5m
+cmFkZWFkLm9yZz4gd3JvdGU6Cj4KPiBPbiBXZWQsIEphbiAyMywgMjAxOSBhdCAwNDoxNzozMFBN
+ICswMjAwLCBKYW5pIE5pa3VsYSB3cm90ZToKPiA+IENhbid0IGhhdmU6Cj4gPgo+ID4gICAgICAg
+c3dpdGNoIChpKSB7Cj4gPiAgICAgICAgICAgICAgIGludCBqOwo+ID4gICAgICAgY2FzZSAwOgo+
+ID4gICAgICAgICAgICAgICAvKiAuLi4gKi8KPiA+ICAgICAgIH0KPiA+Cj4gPiBiZWNhdXNlIGl0
+IGNhbid0IGJlIHR1cm5lZCBpbnRvOgo+ID4KPiA+ICAgICAgIHN3aXRjaCAoaSkgewo+ID4gICAg
+ICAgICAgICAgICBpbnQgaiA9IDA7IC8qIG5vdCB2YWxpZCBDICovCj4gPiAgICAgICBjYXNlIDA6
+Cj4gPiAgICAgICAgICAgICAgIC8qIC4uLiAqLwo+ID4gICAgICAgfQo+ID4KPiA+IGJ1dCBjYW4g
+aGF2ZSBlLmcuOgo+ID4KPiA+ICAgICAgIHN3aXRjaCAoaSkgewo+ID4gICAgICAgY2FzZSAwOgo+
+ID4gICAgICAgICAgICAgICB7Cj4gPiAgICAgICAgICAgICAgICAgICAgICAgaW50IGogPSAwOwo+
+ID4gICAgICAgICAgICAgICAgICAgICAgIC8qIC4uLiAqLwo+ID4gICAgICAgICAgICAgICB9Cj4g
+PiAgICAgICB9Cj4gPgo+ID4gSSB0aGluayBLZWVzJyBhcHByb2FjaCBvZiBtb3Zpbmcgc3VjaCB2
+YXJpYWJsZSBkZWNsYXJhdGlvbnMgdG8gdGhlCj4gPiBlbmNsb3NpbmcgYmxvY2sgc2NvcGUgaXMg
+YmV0dGVyIHRoYW4gYWRkaW5nIGFub3RoZXIgbmVzdGluZyBibG9jay4KPgo+IEFub3RoZXIgbmVz
+dGluZyBsZXZlbCB3b3VsZCBiZSBiYWQsIGJ1dCBJIHRoaW5rIHRoaXMgaXMgT0s6Cj4KPiAgICAg
+ICAgIHN3aXRjaCAoaSkgewo+ICAgICAgICAgY2FzZSAwOiB7Cj4gICAgICAgICAgICAgICAgIGlu
+dCBqID0gMDsKPiAgICAgICAgICAgICAgICAgLyogLi4uICovCj4gICAgICAgICB9Cj4gICAgICAg
+ICBjYXNlIDE6IHsKPiAgICAgICAgICAgICAgICAgdm9pZCAqcCA9IHE7Cj4gICAgICAgICAgICAg
+ICAgIC8qIC4uLiAqLwo+ICAgICAgICAgfQo+ICAgICAgICAgfQo+Cj4gSSBjYW4gaW1hZ2luZSBL
+ZWVzJyBwYXRjaCBtaWdodCBoYXZlIGEgYmFkIGVmZmVjdCBvbiBzdGFjayBjb25zdW1wdGlvbiwK
+PiB1bmxlc3MgR0NDIGNhbiBiZSByZWxpZWQgb24gdG8gYmUgc21hcnQgZW5vdWdoIHRvIG5vdGlj
+ZSB0aGUKPiBub24tb3ZlcmxhcHBpbmcgbGl2ZW5lc3Mgb2YgdGhlIHZyaWFibGVzIGFuZCB1c2Ug
+dGhlIHNhbWUgc3RhY2sgc2xvdHMKPiBmb3IgYm90aC4KCkdDQyBpcyByZWFzb25hYmxlIGF0IHRo
+aXMuIFRoZSBtYWluIGlzc3VlLCB0aG91Z2gsIHdhcyBtb3N0IG9mIHRoZXNlCnBsYWNlcyB3ZXJl
+IHVzaW5nIHRoZSB2YXJpYWJsZXMgaW4gbXVsdGlwbGUgY2FzZSBzdGF0ZW1lbnRzLCBzbyB0aGV5
+CmNvdWxkbid0IGJlIGxpbWl0ZWQgdG8gYSBzaW5nbGUgYmxvY2sgKG9yIHRoZXknZCBuZWVkIHRv
+IGJlIG1hbnVhbGx5CnJlcGVhdGVkIGluIGVhY2ggYmxvY2ssIHdoaWNoIGlzIGV2ZW4gbW9yZSB1
+Z2x5LCBJTU8pLgoKV2hhdGV2ZXIgdGhlIGNvbnNlbnN1cywgSSdtIGhhcHB5IHRvIHR3ZWFrIHRo
+ZSBwYXRjaC4KClRoYW5rcyEK
