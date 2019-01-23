@@ -1,26 +1,25 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: usb: dwc3: gadget: issue a stop command for ISOC endpoint
-From: "Zengtao \(B\)" <prime.zeng@hisilicon.com>
-Message-Id: <1548064976-30196-1-git-send-email-prime.zeng@hisilicon.com>
-Date: Mon, 21 Jan 2019 18:02:56 +0800
-To: felipe.balbi@linux.intel.com
-Cc: Zeng Tao <prime.zeng@hisilicon.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: usb: musb: Fix potential NULL dereference
+From: "Matwey V. Kornilov" <matwey@sai.msu.ru>
+Message-Id: <20190123175142.12604-1-matwey@sai.msu.ru>
+Date: Wed, 23 Jan 2019 20:51:42 +0300
+To: Bin Liu <b-liu@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: matwey.kornilov@gmail.com, "Matwey V. Kornilov" <matwey@sai.msu.ru>, "open list:MUSB MULTIPOINT HIGH SPEED
+	DUAL-ROLE CONTROLLER" <linux-usb@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-Rm9yIElTT0MgdHJhbnNmZXJzLCBpZiB0aGVyZSBpcyBubyBhdmFpbGFibGUgZGF0YSBmb3IgYSBw
-ZXJpb2QsIHdlIG5lZWQKdG8gc3RvcCB0aGUgdHJhbnNmZXIgYnkgaXNzdWUgYSBzdG9wIGNvbW1h
-bmQsIG90aGVyd2lzZSwgYWxsIHRoZQp1cGNvbWluZyB0cmFuc2ZlcnMgd2lsbCBzdGFydGVkIGJ5
-IHVwZGF0ZSB0cmFuc2ZlciBjb21tYW5kLCBhbmQgd2lsbCBiZQpkcm9wcGVkIHdpdGggTUlTUyBJ
-U09DIGVycm9ycy4KClNpZ25lZC1vZmYtYnk6IFplbmcgVGFvIDxwcmltZS56ZW5nQGhpc2lsaWNv
-bi5jb20+Ci0tLQogZHJpdmVycy91c2IvZHdjMy9nYWRnZXQuYyB8IDQgKysrKwogMSBmaWxlIGNo
-YW5nZWQsIDQgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2R3YzMvZ2Fk
-Z2V0LmMgYi9kcml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jCmluZGV4IGUxOGMyYTIuLjU4ZTcxYmEg
-MTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL2R3YzMvZ2FkZ2V0LmMKKysrIGIvZHJpdmVycy91c2Iv
-ZHdjMy9nYWRnZXQuYwpAQCAtMjUwMCw2ICsyNTAwLDEwIEBAIHN0YXRpYyB2b2lkIGR3YzNfZ2Fk
-Z2V0X2VuZHBvaW50X3RyYW5zZmVyX2luX3Byb2dyZXNzKHN0cnVjdCBkd2MzX2VwICpkZXAsCiAJ
-CQlzdG9wID0gdHJ1ZTsKIAl9CiAKKwlpZiAobGlzdF9lbXB0eSgmZGVwLT5zdGFydGVkX2xpc3Qp
-ICYmCisJICAgICh1c2JfZW5kcG9pbnRfeGZlcl9pc29jKGRlcC0+ZW5kcG9pbnQuZGVzYykpKQor
-CQlzdG9wID0gdHJ1ZTsKKwogCWR3YzNfZ2FkZ2V0X2VwX2NsZWFudXBfY29tcGxldGVkX3JlcXVl
-c3RzKGRlcCwgZXZlbnQsIHN0YXR1cyk7CiAKIAlpZiAoc3RvcCkgewo=
+V2UgYXNzaWduICJ1cmItPmhjcHJpdiA9IHFoOyIgYSBmZXcgbGluZXMgZG93bi4gVGhlIHZhbGlk
+IHFoIGZvciB0aGUgdXJiIGlzCmhlcC0+aGNwcml2IGluIHRoaXMgY29kZSBwYXRoLgoKRml4ZXM6
+IDcxNGJjNWVmM2VkYSAoIm11c2I6IHBvdGVudGlhbCB1c2UgYWZ0ZXIgZnJlZSIpClNpZ25lZC1v
+ZmYtYnk6IE1hdHdleSBWLiBLb3JuaWxvdiA8bWF0d2V5QHNhaS5tc3UucnU+Ci0tLQogZHJpdmVy
+cy91c2IvbXVzYi9tdXNiX2hvc3QuYyB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlv
+bigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL211c2IvbXVzYl9o
+b3N0LmMgYi9kcml2ZXJzL3VzYi9tdXNiL211c2JfaG9zdC5jCmluZGV4IGM2MTE4YTk2MmQzNy4u
+NmYyNjc3MTY3NjhlIDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9tdXNiL211c2JfaG9zdC5jCisr
+KyBiL2RyaXZlcnMvdXNiL211c2IvbXVzYl9ob3N0LmMKQEAgLTIzMzYsNyArMjMzNiw3IEBAIHN0
+YXRpYyBpbnQgbXVzYl91cmJfZW5xdWV1ZSgKIAkJICogb2RkLCByYXJlLCBlcnJvciBwcm9uZSwg
+YnV0IGxlZ2FsLgogCQkgKi8KIAkJa2ZyZWUocWgpOwotCQlxaCA9IE5VTEw7CisJCXFoID0gaGVw
+LT5oY3ByaXY7CiAJCXJldCA9IDA7CiAJfSBlbHNlCiAJCXJldCA9IG11c2Jfc2NoZWR1bGUobXVz
+YiwgcWgsCg==
