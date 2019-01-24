@@ -2,39 +2,34 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/3] treewide: Lift switch variables out of switches
-From: Kees Cook <keescook@chromium.org>
-Message-Id: <CAGXu5jLNvHVhbyr5Cbyoe8o0ARv52sU-NEpD+u2UYfESM3ofCw@mail.gmail.com>
-Date: Thu, 24 Jan 2019 09:36:11 +1300
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, Greg KH <gregkh@linuxfoundation.org>, dev@openvswitch.org, Ard Biesheuvel <ard.biesheuvel@linaro.org>, Network Development <netdev@vger.kernel.org>, intel-gfx@lists.freedesktop.org, linux-usb@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, Maling list - DRI developers <dri-devel@lists.freedesktop.org>, Linux-MM <linux-mm@kvack.org>, linux-security-module <linux-security-module@vger.kernel.org>, Kernel Hardening <kernel-hardening@lists.openwall.com>, intel-wired-lan@lists.osuosl.org, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, xen-devel <xen-devel@lists.xenproject.org>, Laura Abbott <labbott@redhat.com>, linux-kbuild <linux-kbuild@vger.kernel.org>, Alexander Popov <alex.popov@linux.com>
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20190124081024.GA1108@kroah.com>
+Date: Thu, 24 Jan 2019 09:10:24 +0100
+To: Kees Cook <keescook@chromium.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, Edwin Zimmerman <edwin@211mainstreet.net>, dev@openvswitch.org, Ard Biesheuvel <ard.biesheuvel@linaro.org>, Network Development <netdev@vger.kernel.org>, intel-gfx@lists.freedesktop.org, linux-usb@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, Maling list - DRI developers <dri-devel@lists.freedesktop.org>, Linux-MM <linux-mm@kvack.org>, linux-security-module <linux-security-module@vger.kernel.org>, Kernel Hardening <kernel-hardening@lists.openwall.com>, intel-wired-lan@lists.osuosl.org, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, xen-devel <xen-devel@lists.xenproject.org>, Laura Abbott <labbott@redhat.com>, linux-kbuild <linux-kbuild@vger.kernel.org>, Alexander Popov <alex.popov@linux.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCBKYW4gMjQsIDIwMTkgYXQgODoxOCBBTSBNYXR0aGV3IFdpbGNveCA8d2lsbHlAaW5m
-cmFkZWFkLm9yZz4gd3JvdGU6Cj4KPiBPbiBXZWQsIEphbiAyMywgMjAxOSBhdCAwNDoxNzozMFBN
-ICswMjAwLCBKYW5pIE5pa3VsYSB3cm90ZToKPiA+IENhbid0IGhhdmU6Cj4gPgo+ID4gICAgICAg
-c3dpdGNoIChpKSB7Cj4gPiAgICAgICAgICAgICAgIGludCBqOwo+ID4gICAgICAgY2FzZSAwOgo+
-ID4gICAgICAgICAgICAgICAvKiAuLi4gKi8KPiA+ICAgICAgIH0KPiA+Cj4gPiBiZWNhdXNlIGl0
-IGNhbid0IGJlIHR1cm5lZCBpbnRvOgo+ID4KPiA+ICAgICAgIHN3aXRjaCAoaSkgewo+ID4gICAg
-ICAgICAgICAgICBpbnQgaiA9IDA7IC8qIG5vdCB2YWxpZCBDICovCj4gPiAgICAgICBjYXNlIDA6
-Cj4gPiAgICAgICAgICAgICAgIC8qIC4uLiAqLwo+ID4gICAgICAgfQo+ID4KPiA+IGJ1dCBjYW4g
-aGF2ZSBlLmcuOgo+ID4KPiA+ICAgICAgIHN3aXRjaCAoaSkgewo+ID4gICAgICAgY2FzZSAwOgo+
-ID4gICAgICAgICAgICAgICB7Cj4gPiAgICAgICAgICAgICAgICAgICAgICAgaW50IGogPSAwOwo+
-ID4gICAgICAgICAgICAgICAgICAgICAgIC8qIC4uLiAqLwo+ID4gICAgICAgICAgICAgICB9Cj4g
-PiAgICAgICB9Cj4gPgo+ID4gSSB0aGluayBLZWVzJyBhcHByb2FjaCBvZiBtb3Zpbmcgc3VjaCB2
-YXJpYWJsZSBkZWNsYXJhdGlvbnMgdG8gdGhlCj4gPiBlbmNsb3NpbmcgYmxvY2sgc2NvcGUgaXMg
-YmV0dGVyIHRoYW4gYWRkaW5nIGFub3RoZXIgbmVzdGluZyBibG9jay4KPgo+IEFub3RoZXIgbmVz
-dGluZyBsZXZlbCB3b3VsZCBiZSBiYWQsIGJ1dCBJIHRoaW5rIHRoaXMgaXMgT0s6Cj4KPiAgICAg
-ICAgIHN3aXRjaCAoaSkgewo+ICAgICAgICAgY2FzZSAwOiB7Cj4gICAgICAgICAgICAgICAgIGlu
-dCBqID0gMDsKPiAgICAgICAgICAgICAgICAgLyogLi4uICovCj4gICAgICAgICB9Cj4gICAgICAg
-ICBjYXNlIDE6IHsKPiAgICAgICAgICAgICAgICAgdm9pZCAqcCA9IHE7Cj4gICAgICAgICAgICAg
-ICAgIC8qIC4uLiAqLwo+ICAgICAgICAgfQo+ICAgICAgICAgfQo+Cj4gSSBjYW4gaW1hZ2luZSBL
-ZWVzJyBwYXRjaCBtaWdodCBoYXZlIGEgYmFkIGVmZmVjdCBvbiBzdGFjayBjb25zdW1wdGlvbiwK
-PiB1bmxlc3MgR0NDIGNhbiBiZSByZWxpZWQgb24gdG8gYmUgc21hcnQgZW5vdWdoIHRvIG5vdGlj
-ZSB0aGUKPiBub24tb3ZlcmxhcHBpbmcgbGl2ZW5lc3Mgb2YgdGhlIHZyaWFibGVzIGFuZCB1c2Ug
-dGhlIHNhbWUgc3RhY2sgc2xvdHMKPiBmb3IgYm90aC4KCkdDQyBpcyByZWFzb25hYmxlIGF0IHRo
-aXMuIFRoZSBtYWluIGlzc3VlLCB0aG91Z2gsIHdhcyBtb3N0IG9mIHRoZXNlCnBsYWNlcyB3ZXJl
-IHVzaW5nIHRoZSB2YXJpYWJsZXMgaW4gbXVsdGlwbGUgY2FzZSBzdGF0ZW1lbnRzLCBzbyB0aGV5
-CmNvdWxkbid0IGJlIGxpbWl0ZWQgdG8gYSBzaW5nbGUgYmxvY2sgKG9yIHRoZXknZCBuZWVkIHRv
-IGJlIG1hbnVhbGx5CnJlcGVhdGVkIGluIGVhY2ggYmxvY2ssIHdoaWNoIGlzIGV2ZW4gbW9yZSB1
-Z2x5LCBJTU8pLgoKV2hhdGV2ZXIgdGhlIGNvbnNlbnN1cywgSSdtIGhhcHB5IHRvIHR3ZWFrIHRo
-ZSBwYXRjaC4KClRoYW5rcyEK
+T24gVGh1LCBKYW4gMjQsIDIwMTkgYXQgMDc6NTU6NTFBTSArMTMwMCwgS2VlcyBDb29rIHdyb3Rl
+Ogo+IE9uIFRodSwgSmFuIDI0LCAyMDE5IGF0IDQ6NDQgQU0gSmFuaSBOaWt1bGEgPGphbmkubmlr
+dWxhQGxpbnV4LmludGVsLmNvbT4gd3JvdGU6Cj4gPgo+ID4gT24gV2VkLCAyMyBKYW4gMjAxOSwg
+RWR3aW4gWmltbWVybWFuIDxlZHdpbkAyMTFtYWluc3RyZWV0Lm5ldD4gd3JvdGU6Cj4gPiA+IE9u
+IFdlZCwgMjMgSmFuIDIwMTksIEphbmkgTmlrdWxhIDxqYW5pLm5pa3VsYUBsaW51eC5pbnRlbC5j
+b20+IHdyb3RlOgo+ID4gPj4gT24gV2VkLCAyMyBKYW4gMjAxOSwgR3JlZyBLSCA8Z3JlZ2toQGxp
+bnV4Zm91bmRhdGlvbi5vcmc+IHdyb3RlOgo+ID4gPj4gPiBPbiBXZWQsIEphbiAyMywgMjAxOSBh
+dCAwMzowMzo0N0FNIC0wODAwLCBLZWVzIENvb2sgd3JvdGU6Cj4gPiA+PiA+PiBWYXJpYWJsZXMg
+ZGVjbGFyZWQgaW4gYSBzd2l0Y2ggc3RhdGVtZW50IGJlZm9yZSBhbnkgY2FzZSBzdGF0ZW1lbnRz
+Cj4gPiA+PiA+PiBjYW5ub3QgYmUgaW5pdGlhbGl6ZWQsIHNvIG1vdmUgYWxsIGluc3RhbmNlcyBv
+dXQgb2YgdGhlIHN3aXRjaGVzLgo+ID4gPj4gPj4gQWZ0ZXIgdGhpcywgZnV0dXJlIGFsd2F5cy1p
+bml0aWFsaXplZCBzdGFjayB2YXJpYWJsZXMgd2lsbCB3b3JrCj4gPiA+PiA+PiBhbmQgbm90IHRo
+cm93IHdhcm5pbmdzIGxpa2UgdGhpczoKPiA+ID4+ID4+Cj4gPiA+PiA+PiBmcy9mY250bC5jOiBJ
+biBmdW5jdGlvbiDigJhzZW5kX3NpZ2lvX3RvX3Rhc2vigJk6Cj4gPiA+PiA+PiBmcy9mY250bC5j
+OjczODoxMzogd2FybmluZzogc3RhdGVtZW50IHdpbGwgbmV2ZXIgYmUgZXhlY3V0ZWQgWy1Xc3dp
+dGNoLXVucmVhY2hhYmxlXQo+ID4gPj4gPj4gICAgc2lnaW5mb190IHNpOwo+ID4gPj4gPj4gICAg
+ICAgICAgICAgIF5+Cj4gPiA+PiA+Cj4gPiA+PiA+IFRoYXQncyBhIHBhaW4sIHNvIHRoaXMgbWVh
+bnMgd2UgY2FuJ3QgaGF2ZSBhbnkgbmV3IHZhcmlhYmxlcyBpbiB7IH0KPiA+ID4+ID4gc2NvcGUg
+ZXhjZXB0IGZvciBhdCB0aGUgdG9wIG9mIGEgZnVuY3Rpb24/Cj4gCj4gSnVzdCBpbiBjYXNlIHRo
+aXMgd2Fzbid0IGNsZWFyOiBubywgaXQncyBqdXN0IHRoZSBzd2l0Y2ggc3RhdGVtZW50Cj4gYmVm
+b3JlIHRoZSBmaXJzdCAiY2FzZSIuIEkgY2Fubm90IGltYWdpbmUgaG93IGJhZCBpdCB3b3VsZCBi
+ZSBpZiB3ZQo+IGNvdWxkbid0IGhhdmUgYmxvY2stc2NvcGVkIHZhcmlhYmxlcyEgSGVoLiA6KQoK
+U29ycnksIGl0IHdhcyBub3QgY2xlYXIgYXQgZmlyc3QgZ2xhbmNlLiAgU28gbm8gbW9yZSBvYmpl
+Y3Rpb24gZnJvbSBtZQpmb3IgdGhpcyBjaGFuZ2UuCgpncmVnIGstaAo=
