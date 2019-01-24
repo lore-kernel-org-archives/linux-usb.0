@@ -1,21 +1,26 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,1/6] usb: fsl: Set USB_EN bit to select ULPI phy
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20190122080813.GA21793@kroah.com>
-Date: Tue, 22 Jan 2019 09:08:13 +0100
-To: Yinbo Zhu <yinbo.zhu@nxp.com>
-Cc: Alan Stern <stern@rowland.harvard.edu>, Xiaobo Xie <xiaobo.xie@nxp.com>, Jerry Huang <jerry.huang@nxp.com>, Ran Wang <ran.wang_1@nxp.com>, Ramneek Mehresh <ramneek.mehresh@freescale.com>, Nikhil Badola <nikhil.badola@freescale.com>, Suresh Gupta <suresh.gupta@freescale.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [2/4] usb: dwc3: gadget: don't use resource_index as a flag
+From: Felipe Balbi <felipe.balbi@linux.intel.com>
+Message-Id: <20190124072501.15100-2-felipe.balbi@linux.intel.com>
+Date: Thu, 24 Jan 2019 09:24:59 +0200
+To: Linux USB <linux-usb@vger.kernel.org>
+Cc: Felipe Balbi <felipe.balbi@linux.intel.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gTW9uLCBKYW4gMjEsIDIwMTkgYXQgMTA6MjU6MDBBTSArMDAwMCwgWWluYm8gWmh1IHdyb3Rl
-Ogo+IEZyb206IE5pa2hpbCBCYWRvbGEgPG5pa2hpbC5iYWRvbGFAZnJlZXNjYWxlLmNvbT4KPiAK
-PiBTZXQgVVNCX0VOIGJpdCB0byBzZWxlY3QgVUxQSSBwaHkgZm9yIFVTQiBjb250cm9sbGVyIHZl
-cnNpb24gMi41Cj4gCj4gU2lnbmVkLW9mZi1ieTogTmlraGlsIEJhZG9sYSA8bmlraGlsLmJhZG9s
-YUBmcmVlc2NhbGUuY29tPgo+IFNpZ25lZC1vZmYtYnk6IFlpbmJvIFpodSA8eWluYm8uemh1QG54
-cC5jb20+Cj4gLS0tCj4gQ2hhbmdlIGluIHYyOgo+IAkJcmVwbGFjZSBZaW5iby5aaHUgd2l0aCBZ
-aW5ibyBaaHUgCj4gCj4gIGRyaXZlcnMvdXNiL2hvc3QvZWhjaS1mc2wuYyB8ICAgIDYgKysrKysr
-Cj4gIDEgZmlsZXMgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCAwIGRlbGV0aW9ucygtKQoKVGhp
-cyBwYXRjaCBkb2Vzbid0IGFwcGx5IGFnYWluc3QgbXkgdXNiLW5leHQgYnJhbmNoLCB3aGF0IGRp
-ZCB5b3UKZ2VuZXJhdGUgaXQgYWdhaW5zdD8KCnRoYW5rcywKCmdyZWcgay1oCg==
+V2UgaGF2ZSBhIHByb3BlciBmbGFnIGZvciB0ZXN0aW5nIHRoYXQgd2UgaGF2ZSBhIHZhbGlkIHRy
+YW5zZmVyIGluCmZsaWdodCwgbGV0J3MgdXNlIHRoYXQgaW5zdGVhZC4KClRoaXMgcGF0Y2ggaXMg
+aW4gcHJlcGFyYXRpb24gdG8gZml4IGEgcmFyZSByYWNlIGNvbmRpdGlvbiB0aGF0IGhhcHBlbnMK
+dXBvbiBEaXNjb25uZWN0IEludGVycnVwdC4KClNpZ25lZC1vZmYtYnk6IEZlbGlwZSBCYWxiaSA8
+ZmVsaXBlLmJhbGJpQGxpbnV4LmludGVsLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9kd2MzL2dhZGdl
+dC5jIHwgNCArKy0tCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9u
+cygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2R3YzMvZ2FkZ2V0LmMgYi9kcml2ZXJzL3Vz
+Yi9kd2MzL2dhZGdldC5jCmluZGV4IGEzOTAzYjhkYzExZS4uZjAzMjBmY2ZkYWY0IDEwMDY0NAot
+LS0gYS9kcml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jCisrKyBiL2RyaXZlcnMvdXNiL2R3YzMvZ2Fk
+Z2V0LmMKQEAgLTI2MTksOCArMjYxOSw4IEBAIHN0YXRpYyB2b2lkIGR3YzNfc3RvcF9hY3RpdmVf
+dHJhbnNmZXIoc3RydWN0IGR3YzNfZXAgKmRlcCwgYm9vbCBmb3JjZSkKIAl1MzIgY21kOwogCWlu
+dCByZXQ7CiAKLQlpZiAoKGRlcC0+ZmxhZ3MgJiBEV0MzX0VQX0VORF9UUkFOU0ZFUl9QRU5ESU5H
+KSB8fAotCSAgICAhZGVwLT5yZXNvdXJjZV9pbmRleCkKKwlpZiAoZGVwLT5mbGFncyAmIERXQzNf
+RVBfRU5EX1RSQU5TRkVSX1BFTkRJTkcpCisJCXx8ICEoZGVwLT5mbGFncyAmIERXQzNfRVBfVFJB
+TlNGRVJfU1RBUlRFRCkpCiAJCXJldHVybjsKIAogCS8qCg==
