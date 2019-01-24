@@ -2,21 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: MUSB interrupt storm on device removal
-From: =?utf-8?b?TcOlbnMgUnVsbGfDpXJk?= <mans@mansr.com>
-Message-Id: <yw1xlg3b14kh.fsf@mansr.com>
-Date: Wed, 23 Jan 2019 20:50:38 +0000
-To: Bin Liu <b-liu@ti.com>
-Cc: Alan Stern <stern@rowland.harvard.edu>, Johan Hovold <johan@kernel.org>, Greg KH <greg@kroah.com>, linux-usb@vger.kernel.org
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20190124081143.GB1108@kroah.com>
+Date: Thu, 24 Jan 2019 09:11:43 +0100
+To: Bin Liu <b-liu@ti.com>, Alan Stern <stern@rowland.harvard.edu>, Johan Hovold <johan@kernel.org>, =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-QmluIExpdSA8Yi1saXVAdGkuY29tPiB3cml0ZXM6Cgo+PiA+ID4gV2h5IGRvZXNuJ3QgdGhlIHNh
-bWUgcHJvYmxlbSBvY2N1ciB3aXRoIG90aGVyIHR5cGVzIG9mIGhvc3QgY29udHJvbGxlcj8KPj4g
-PiAKPj4gPiBOb3Qgc3VyZSwgSSBhbSBvbiBtdXNiIGZvciBtb3N0IG9mIHRoZSB0aW1lcy4gTWF5
-YmUgb3RoZXIgSENEIGRvZXNuJ3QKPj4gPiBnaXZlYmFjayBVUkJzIHdpdGggLUVQUk9UTyBpbiBz
-dWNoIGVycm9yIGNhc2UuCj4+IAo+PiBlaGNpLWhjZCBhbHNvIHVzZXMgLUVQUk9UTy4KPgo+IElz
-IGl0IHBvc3NpYmxlIHRvIHRlc3QgdGhlIHVzZSBjYXNlIG9uIGVoY2k/Cj4KPiAtIGNvbm5lY3Qg
-YSBtdWx0aS1wb3J0cyB1c2Igc2VyaWFsIGRldmljZSB0byBhIGh1YjsKPiAtIG9wZW4gbXVsdGlw
-bGUgcG9ydHMgd2l0aCBjYXQgY29tbWFuZDsKPiAtIHJlbW92ZSB0aGUgdXNiIHNlcmlhbCBkZXZp
-Y2UgZnJvbSB0aGUgaHViOwo+IC0gY29uc29sZSBsb2NrdXAgaGFwcGVucz8KCkl0IGRvZXNuJ3Qg
-c2VlbSB0byBoYXBwZW4gdXNpbmcgZWhjaSBvciBldmVuIG11c2Igb24gQWxsd2lubmVyIEEyMC4K
-SSBoYXZlIG9ubHkgc2VlbiB0aGUgcHJvYmxlbSB3aXRoIG11c2Igb24gQU0zMzU4Lgo=
+T24gV2VkLCBKYW4gMjMsIDIwMTkgYXQgMDI6MTI6MzhQTSAtMDYwMCwgQmluIExpdSB3cm90ZToK
+PiA+ID4gPiA+IFRoYW5rcyBmb3IgdGhlIGluZm8uCj4gPiA+ID4gPiBJIHdpbGwgaGFuZGxlIHRo
+aXMgY2FzZSBpbiBtdXNiIGRyaXZlci4KPiA+ID4gPiAKPiA+ID4gPiBXaHkgZG9lc24ndCB0aGUg
+c2FtZSBwcm9ibGVtIG9jY3VyIHdpdGggb3RoZXIgdHlwZXMgb2YgaG9zdCBjb250cm9sbGVyPwo+
+ID4gPiAKPiA+ID4gTm90IHN1cmUsIEkgYW0gb24gbXVzYiBmb3IgbW9zdCBvZiB0aGUgdGltZXMu
+IE1heWJlIG90aGVyIEhDRCBkb2Vzbid0Cj4gPiA+IGdpdmViYWNrIFVSQnMgd2l0aCAtRVBST1RP
+IGluIHN1Y2ggZXJyb3IgY2FzZS4KPiA+IAo+ID4gZWhjaS1oY2QgYWxzbyB1c2VzIC1FUFJPVE8u
+Cj4gCj4gSXMgaXQgcG9zc2libGUgdG8gdGVzdCB0aGUgdXNlIGNhc2Ugb24gZWhjaT8KPiAKPiAt
+IGNvbm5lY3QgYSBtdWx0aS1wb3J0cyB1c2Igc2VyaWFsIGRldmljZSB0byBhIGh1YjsKPiAtIG9w
+ZW4gbXVsdGlwbGUgcG9ydHMgd2l0aCBjYXQgY29tbWFuZDsKPiAtIHJlbW92ZSB0aGUgdXNiIHNl
+cmlhbCBkZXZpY2UgZnJvbSB0aGUgaHViOwo+IC0gY29uc29sZSBsb2NrdXAgaGFwcGVucz8KCk5v
+IGxvY2t1cCBoYXBwZW5zIGF0IGFsbCBmb3IgbWUgOikKCkxvb2tzIGxpa2UgdGhpcyBpcyBhIG11
+c2Itb25seSBpc3N1ZSA6KAoKdGhhbmtzLAoKZ3JlZyBrLWgK
