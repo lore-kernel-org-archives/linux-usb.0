@@ -2,14 +2,21 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [6/7] usb: typec: ucsi: add check for supported vendor
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Message-Id: <20190118152945.GF17706@kuha.fi.intel.com>
-Date: Fri, 18 Jan 2019 17:29:45 +0200
-To: Ajay Gupta <ajayg@nvidia.com>
-Cc: linux-usb@vger.kernel.org
+From: Ajay Gupta <ajayg@nvidia.com>
+Message-Id: <BYAPR12MB2727068314435E1D6AC14547DC9A0@BYAPR12MB2727.namprd12.prod.outlook.com>
+Date: Thu, 24 Jan 2019 18:04:02 +0000
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCBKYW4gMTcsIDIwMTkgYXQgMDU6MTM6MDJQTSAtMDgwMCwgQWpheSBHdXB0YSB3cm90
-ZToKPiBBZGRlZCBjaGVjayB0byBzZWUgdGhlIGN1cnJlbnRseSBmbGFzaGVkIG9yIG5ldyBmaXJt
-d2FyZSBiZWluZwo+IGZsYXNoZWQgaXMgZnJvbSBhIHN1cHBvcnRlZCB2ZW5kb3IuCgpXaHkgc2Vw
-YXJhdGUgcGF0Y2ggZm9yIHRoaXM/Cgp0aGFua3MsCg==
+SGkgSGVpa2tpLAo+IEZyb206IEhlaWtraSBLcm9nZXJ1cyA8aGVpa2tpLmtyb2dlcnVzQGxpbnV4
+LmludGVsLmNvbT4KPiBTZW50OiBGcmlkYXksIEphbnVhcnkgMTgsIDIwMTkgNzozMCBBTQo+IFRv
+OiBBamF5IEd1cHRhIDxhamF5Z0BudmlkaWEuY29tPgo+IENjOiBsaW51eC11c2JAdmdlci5rZXJu
+ZWwub3JnCj4gU3ViamVjdDogUmU6IFtQQVRDSCA2LzddIHVzYjogdHlwZWM6IHVjc2k6IGFkZCBj
+aGVjayBmb3Igc3VwcG9ydGVkIHZlbmRvcgo+IAo+IE9uIFRodSwgSmFuIDE3LCAyMDE5IGF0IDA1
+OjEzOjAyUE0gLTA4MDAsIEFqYXkgR3VwdGEgd3JvdGU6Cj4gPiBBZGRlZCBjaGVjayB0byBzZWUg
+dGhlIGN1cnJlbnRseSBmbGFzaGVkIG9yIG5ldyBmaXJtd2FyZSBiZWluZyBmbGFzaGVkCj4gPiBp
+cyBmcm9tIGEgc3VwcG9ydGVkIHZlbmRvci4KPiAKPiBXaHkgc2VwYXJhdGUgcGF0Y2ggZm9yIHRo
+aXM/CkkgdGhvdWdodCBpdHMgdmVuZG9yIHNwZWNpZmljIGNoYW5nZXM7IHNvIGFkZGVkIHNlcGFy
+YXRlbHksIGxvb2tzIGxpa2UgbmVlZCB0byAKbWVyZ2UgdG8gcGF0Y2ggNS83LgoKVGhhbmtzCj4g
+bnZwdWJsaWMKPiB0aGFua3MsCj4gCj4gLS0KPiBoZWlra2kK
