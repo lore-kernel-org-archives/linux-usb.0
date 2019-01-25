@@ -1,21 +1,32 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: usb: renesas_usbhs: replace udelay() with usleep_range()
-From: Simon Horman <horms@verge.net.au>
-Message-Id: <20190117104311.zwr6fg3lip2xauec@verge.net.au>
-Date: Thu, 17 Jan 2019 11:43:12 +0100
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: [v4,10/10] ARM64: dts: marvell: armada-37xx: link USB hosts with their PHYs
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+Message-Id: <20190125103925.15753-11-miquel.raynal@bootlin.com>
+Date: Fri, 25 Jan 2019 11:39:24 +0100
+To: Gregory Clement <gregory.clement@bootlin.com>, Jason Cooper <jason@lakedaemon.net>, Andrew Lunn <andrew@lunn.ch>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Kishon Vijay Abraham I <kishon@ti.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mathias Nyman <mathias.nyman@intel.com>, Alan Stern <stern@rowland.harvard.edu>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Antoine Tenart <antoine.tenart@bootlin.com>, Maxime Chevallier <maxime.chevallier@bootlin.com>, Nadav Haklai <nadavh@marvell.com>, Miquel Raynal <miquel.raynal@bootlin.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCBKYW4gMTcsIDIwMTkgYXQgMDQ6MjQ6MTVQTSArMDkwMCwgWW9zaGloaXJvIFNoaW1v
-ZGEgd3JvdGU6Cj4gQWNjb3JkaW5nIHRvIERvY3VtZW50YXRpb24vdGltZXJzL3RpbWVycy1ob3d0
-by50eHQsIGEgZHJpdmVyIHNob3VsZAo+IHVzZSB1c2xlZXBfcmFuZ2UoKSBpbnN0ZWFkIG9mIHVk
-ZWxheSgpIG9uIE5PTi1BVE9NSUMgQ09OVEVYVCBpZgo+ICJTTEVFUElORyBGT1IgflVTRUNTIE9S
-IFNNQUxMIE1TRUNTICggMTB1cyAtIDIwbXMpIi4KPiAKPiBTaW5jZSB0aGUgLmhhcmR3YXJlX2lu
-aXQoKSBhbmQgLnBvd2VyX2N0cmwoKSB3aWxsIHJ1biBvbiBOT04tQVRPTUlDCj4gQ09OVEVYVCwg
-dGhpcyBwYXRjaCByZXBsYWNlcyB1ZGVsYXkoKSB3aXRoIHVzbGVlcF9yYW5nZSgpLgo+IAo+IFNp
-Z25lZC1vZmYtYnk6IFlvc2hpaGlybyBTaGltb2RhIDx5b3NoaWhpcm8uc2hpbW9kYS51aEByZW5l
-c2FzLmNvbT4KClJldmlld2VkLWJ5OiBTaW1vbiBIb3JtYW4gPGhvcm1zK3JlbmVzYXNAdmVyZ2Uu
-bmV0LmF1Pgo=
+UmVmZXJlbmNlIHRoZSBQSFkgbm9kZXMgZnJvbSB0aGUgVVNCIGNvbnRyb2xsZXIgbm9kZXMuCgpU
+aGUgVVNCMyBob3N0IGNvbnRyb2xsZXIgaXMgd2lyZWQgdG86CiAgKiB0aGUgZmlyc3QgUEhZIG9m
+IHRoZSBDT01QSFkgSVAKICAqIHRoZSBPVEctY2FwYWJsZSBVVE1JIFBIWQoKVGhlIFVTQjIgaG9z
+dCBjb250cm9sbGVyIGlzIHdpcmVkIHRvOgogICogdGhlIGhvc3Qtb25seSBVVE1JIFBIWQoKU2ln
+bmVkLW9mZi1ieTogTWlxdWVsIFJheW5hbCA8bWlxdWVsLnJheW5hbEBib290bGluLmNvbT4KLS0t
+CiBhcmNoL2FybTY0L2Jvb3QvZHRzL21hcnZlbGwvYXJtYWRhLTM3eHguZHRzaSB8IDQgKysrKwog
+MSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2FyY2gvYXJtNjQv
+Ym9vdC9kdHMvbWFydmVsbC9hcm1hZGEtMzd4eC5kdHNpIGIvYXJjaC9hcm02NC9ib290L2R0cy9t
+YXJ2ZWxsL2FybWFkYS0zN3h4LmR0c2kKaW5kZXggZDJkOGVmMDBjNTkyLi5jMGIxYzkxNDY1MjUg
+MTAwNjQ0Ci0tLSBhL2FyY2gvYXJtNjQvYm9vdC9kdHMvbWFydmVsbC9hcm1hZGEtMzd4eC5kdHNp
+CisrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvbWFydmVsbC9hcm1hZGEtMzd4eC5kdHNpCkBAIC0z
+NDcsNiArMzQ3LDggQEAKIAkJCQltYXJ2ZWxsLHVzYi1taXNjLXJlZyA9IDwmdXNiMzJfc3lzY29u
+PjsKIAkJCQlpbnRlcnJ1cHRzID0gPEdJQ19TUEkgMyBJUlFfVFlQRV9MRVZFTF9ISUdIPjsKIAkJ
+CQljbG9ja3MgPSA8JnNiX3BlcmlwaF9jbGsgMTI+OworCQkJCXBoeXMgPSA8JmNvbXBoeTAgMD4s
+IDwmdXNiMl91dG1pX290Z19waHk+OworCQkJCXBoeS1uYW1lcyA9ICJ1c2IzLXBoeSIsICJ1c2Iy
+LXV0bWktb3RnLXBoeSI7CiAJCQkJc3RhdHVzID0gImRpc2FibGVkIjsKIAkJCX07CiAKQEAgLTM2
+OCw2ICszNzAsOCBAQAogCQkJCXJlZyA9IDwweDVlMDAwIDB4MTAwMD47CiAJCQkJbWFydmVsbCx1
+c2ItbWlzYy1yZWcgPSA8JnVzYjJfc3lzY29uPjsKIAkJCQlpbnRlcnJ1cHRzID0gPEdJQ19TUEkg
+MTcgSVJRX1RZUEVfTEVWRUxfSElHSD47CisJCQkJcGh5cyA9IDwmdXNiMl91dG1pX2hvc3RfcGh5
+PjsKKwkJCQlwaHktbmFtZXMgPSAidXNiMi11dG1pLWhvc3QtcGh5IjsKIAkJCQlzdGF0dXMgPSAi
+ZGlzYWJsZWQiOwogCQkJfTsKIAo=
