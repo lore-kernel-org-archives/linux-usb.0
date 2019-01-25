@@ -1,28 +1,33 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [5/8] net/macb: bindings doc: add sam9x60 binding
-From: Nicolas Ferre <nicolas.ferre@microchip.com>
-Message-Id: <86c21275e53de0b6f26b51edbeb9b7e6506a37c7.1547629763.git.nicolas.ferre@microchip.com>
-Date: Wed, 16 Jan 2019 10:57:41 +0100
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>, Ludovic Desroches <ludovic.desroches@microchip.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Sebastian Reichel <sre@kernel.org>, linux-pm@vger.kernel.org, netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>, linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, Nicolas Ferre <nicolas.ferre@microchip.com>
+Subject: [v4,08/10] ARM64: dts: marvell: armada-37xx: fix USB2 memory region
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+Message-Id: <20190125103925.15753-9-miquel.raynal@bootlin.com>
+Date: Fri, 25 Jan 2019 11:39:22 +0100
+To: Gregory Clement <gregory.clement@bootlin.com>, Jason Cooper <jason@lakedaemon.net>, Andrew Lunn <andrew@lunn.ch>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Kishon Vijay Abraham I <kishon@ti.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mathias Nyman <mathias.nyman@intel.com>, Alan Stern <stern@rowland.harvard.edu>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Antoine Tenart <antoine.tenart@bootlin.com>, Maxime Chevallier <maxime.chevallier@bootlin.com>, Nadav Haklai <nadavh@marvell.com>, Miquel Raynal <miquel.raynal@bootlin.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-QWRkIHRoZSBjb21wYXRpYmlsaXR5IHN0aW5nIGRvY3VtZW50YXRpb24gZm9yIHNhbTl4NjAgMTAv
-MTAwIGludGVyZmFjZS4KClNpZ25lZC1vZmYtYnk6IE5pY29sYXMgRmVycmUgPG5pY29sYXMuZmVy
-cmVAbWljcm9jaGlwLmNvbT4KLS0tCiBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
-bmV0L21hY2IudHh0IHwgMSArCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykKCmRpZmYg
-LS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbmV0L21hY2IudHh0IGIv
-RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL25ldC9tYWNiLnR4dAppbmRleCBmNWM0
-MTRiMTBlMjcuLjE3NGYyOTJkOGEzZSAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0
-cmVlL2JpbmRpbmdzL25ldC9tYWNiLnR4dAorKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
-YmluZGluZ3MvbmV0L21hY2IudHh0CkBAIC00LDYgKzQsNyBAQCBSZXF1aXJlZCBwcm9wZXJ0aWVz
-OgogLSBjb21wYXRpYmxlOiBTaG91bGQgYmUgImNkbnMsWzxjaGlwPi1de21hY2J8Z2VtfSIKICAg
-VXNlICJjZG5zLGF0OTFybTkyMDAtZW1hYyIgQXRtZWwgYXQ5MXJtOTIwMCBTb0MuCiAgIFVzZSAi
-Y2RucyxhdDkxc2FtOTI2MC1tYWNiIiBmb3IgQXRtZWwgYXQ5MXNhbTkgU29Dcy4KKyAgVXNlICJj
-ZG5zLHNhbTl4NjAtbWFjYiIgZm9yIE1pY3JvY2hpcCBzYW05eDYwIFNvQy4KICAgVXNlICJjZG5z
-LG5wNC1tYWNiIiBmb3IgTlA0IFNvQyBkZXZpY2VzLgogICBVc2UgImNkbnMsYXQzMmFwNzAwMC1t
-YWNiIiBmb3Igb3RoZXIgMTAvMTAwIHVzYWdlIG9yIHVzZSB0aGUgZ2VuZXJpYyBmb3JtOiAiY2Ru
-cyxtYWNiIi4KICAgVXNlICJjZG5zLHBjMzAyLWdlbSIgZm9yIFBpY29jaGlwIHBpY29YY2VsbCBw
-YzMwMiBhbmQgbGF0ZXIgZGV2aWNlcyBiYXNlZCBvbgo=
+VGhlIHNwZWNpZmljYXRpb24gc3BsaXRzIHRoZSBVU0IyIG1lbW9yeSByZWdpb24gaW50byB0aHJl
+ZSBzZWN0aW9uczoKMS8gMHhEMDA1RTAwMC0weEQwMDVFRkZGOiBVU0IyIEhvc3QgQ29udHJvbGxl
+ciBSZWdpc3RlcnMKMi8gMHhEMDA1RjAwMC0weEQwMDVGN0ZGOiBVU0IyIFVUTUkgUEhZIFJlZ2lz
+dGVycwozLyAweEQwMDVGODAwLTB4RDAwNUZGRkY6IFVTQjIgSG9zdCBNaXNjZWxsYW5lb3VzIFJl
+Z2lzdGVycwoKU2VjdGlvbiAxLyBiZWxvbmdzIHRvIHRoZSBVU0IyIG5vZGUgYnV0IHNlY3Rpb24g
+Mi8gYmVsb25ncyB0byB0aGUgVVRNSQpQSFkgbm9kZS4gU2VjdGlvbiAzLyBjYW4gYmUgYWNjZXNz
+ZWQgYnkgYm90aCB0aGUgVVNCIGNvbnRyb2xsZXIgYW5kCnRoZSBQSFkgYmVjYXVzZSBvZiB0aGUg
+bWlzY2FlbGxhbmVvdXMgbmF0dXJlIG9mIHRoZSByZWdpc3RlcnMgaW5zaWRlCnNvIGEgc3BlY2lm
+aWMgbm9kZSB3aWxsIGJlIGNyZWF0ZWQgdG8gY292ZXIgdGhlIGFyZWEgYW5kIGEgaGFuZGxlIHRv
+Cml0IHdpbGwgYmUgYWRkZWQgaW4gYm90aCB0aGUgVVNCIGNvbnRyb2xsZXIgYW5kIHRoZSBQSFkg
+bm9kZS4KClNpZ25lZC1vZmYtYnk6IE1pcXVlbCBSYXluYWwgPG1pcXVlbC5yYXluYWxAYm9vdGxp
+bi5jb20+Ci0tLQogYXJjaC9hcm02NC9ib290L2R0cy9tYXJ2ZWxsL2FybWFkYS0zN3h4LmR0c2kg
+fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKCmRp
+ZmYgLS1naXQgYS9hcmNoL2FybTY0L2Jvb3QvZHRzL21hcnZlbGwvYXJtYWRhLTM3eHguZHRzaSBi
+L2FyY2gvYXJtNjQvYm9vdC9kdHMvbWFydmVsbC9hcm1hZGEtMzd4eC5kdHNpCmluZGV4IGQ2ZTU0
+ODYxOGE5NS4uNWNmZDFiOTIwZjMxIDEwMDY0NAotLS0gYS9hcmNoL2FybTY0L2Jvb3QvZHRzL21h
+cnZlbGwvYXJtYWRhLTM3eHguZHRzaQorKysgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL21hcnZlbGwv
+YXJtYWRhLTM3eHguZHRzaQpAQCAtMzUxLDcgKzM1MSw3IEBACiAKIAkJCXVzYjI6IHVzYkA1ZTAw
+MCB7CiAJCQkJY29tcGF0aWJsZSA9ICJtYXJ2ZWxsLGFybWFkYS0zNzAwLWVoY2kiOwotCQkJCXJl
+ZyA9IDwweDVlMDAwIDB4MjAwMD47CisJCQkJcmVnID0gPDB4NWUwMDAgMHgxMDAwPjsKIAkJCQlp
+bnRlcnJ1cHRzID0gPEdJQ19TUEkgMTcgSVJRX1RZUEVfTEVWRUxfSElHSD47CiAJCQkJc3RhdHVz
+ID0gImRpc2FibGVkIjsKIAkJCX07Cg==
