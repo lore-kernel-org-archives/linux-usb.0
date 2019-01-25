@@ -2,22 +2,25 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: musb: Fix potential NULL dereference
-From: Bin Liu <b-liu@ti.com>
-Message-Id: <20190125164412.GJ18982@uda0271908>
-Date: Fri, 25 Jan 2019 10:44:12 -0600
-To: "Matwey V. Kornilov" <matwey.kornilov@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "open list:MUSB MULTIPOINT HIGH SPEED DUAL-ROLE CONTROLLER" <linux-usb@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+From: Alan Stern <stern@rowland.harvard.edu>
+Message-Id: <Pine.LNX.4.44L0.1901251636140.4354-100000@netrider.rowland.org>
+Date: Fri, 25 Jan 2019 16:37:48 -0500 (EST)
+To: Bin Liu <b-liu@ti.com>
+Cc: "Matwey V. Kornilov" <matwey.kornilov@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "open list:MUSB MULTIPOINT HIGH SPEED DUAL-ROLE CONTROLLER" <linux-usb@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCBKYW4gMjQsIDIwMTkgYXQgMDk6NDc6MDJQTSArMDMwMCwgTWF0d2V5IFYuIEtvcm5p
-bG92IHdyb3RlOgo+IEJ5IHRoZSB3YXksIHdoeSBkbyB3ZSBuZWVkIHRvIHN0b3JlIHRoZSBxaCBp
-biB1cmItPmhjcHJpdj8KPiBxaCBjYW4gYWx3YXlzIGJlIGFjY2Vzc2libGUgdGhyb3VnaCB1cmIt
-PmVwLT5oY3ByaXYKPiBXb3VsZG4ndCBpdCBiZSBiZXR0ZXIgdG8gZHJvcCBlbnRpcmUgdXJiLT5o
-Y3ByaXYgdXNhZ2U/CgpJIGFtIG5vdCBzdXJlIHdoeS4gVGhlIGNvZGUgaXMgdGhlcmUgc2luY2Ug
-dGhlIGZpcnN0IGNvbW1pdCBpbiBhIGRlY2FkZQphZ28uIEJ1dCBJIHRlbmQgdG8gYWdyZWUgd2l0
-aCB5b3UuCgpJbiBhIHF1aWNrIHNlYXJjaCBmb3IgdXJiLT5oY3ByaXYgYW5kIHVyYi0+ZXAtPmhj
-cHJpdiwgYmFzZWQgb24gdGhlCnVzYWdlIGluIGNvcmUvaGNkLmMsIGl0IHNlZW1zIHRvIG1lIHRo
-YXQgdXJiLT5oY3ByaXYgc2hvdWxkIG5vdCBiZQpjaGFuZ2VkIGluIGVhY2ggY29udHJvbGxlciBk
-cml2ZXIsIGJ1dCBJIHNlZSBib3RoIGhhdmUgYmVlbiB1c2VkIGluIG1vc3QKY29udHJvbGxlciBk
-cml2ZXJzLiBJIHdpbGwgbGVhdmUgdGhpcyB0byBvdGhlcnMgdG8gZWR1Y2F0ZSBtZS4KClJlZ2Fy
-ZHMsCi1CaW4uCg==
+T24gRnJpLCAyNSBKYW4gMjAxOSwgQmluIExpdSB3cm90ZToKCj4gT24gVGh1LCBKYW4gMjQsIDIw
+MTkgYXQgMDk6NDc6MDJQTSArMDMwMCwgTWF0d2V5IFYuIEtvcm5pbG92IHdyb3RlOgo+ID4gQnkg
+dGhlIHdheSwgd2h5IGRvIHdlIG5lZWQgdG8gc3RvcmUgdGhlIHFoIGluIHVyYi0+aGNwcml2Pwo+
+ID4gcWggY2FuIGFsd2F5cyBiZSBhY2Nlc3NpYmxlIHRocm91Z2ggdXJiLT5lcC0+aGNwcml2Cj4g
+PiBXb3VsZG4ndCBpdCBiZSBiZXR0ZXIgdG8gZHJvcCBlbnRpcmUgdXJiLT5oY3ByaXYgdXNhZ2U/
+Cj4gCj4gSSBhbSBub3Qgc3VyZSB3aHkuIFRoZSBjb2RlIGlzIHRoZXJlIHNpbmNlIHRoZSBmaXJz
+dCBjb21taXQgaW4gYSBkZWNhZGUKPiBhZ28uIEJ1dCBJIHRlbmQgdG8gYWdyZWUgd2l0aCB5b3Uu
+Cj4gCj4gSW4gYSBxdWljayBzZWFyY2ggZm9yIHVyYi0+aGNwcml2IGFuZCB1cmItPmVwLT5oY3By
+aXYsIGJhc2VkIG9uIHRoZQo+IHVzYWdlIGluIGNvcmUvaGNkLmMsIGl0IHNlZW1zIHRvIG1lIHRo
+YXQgdXJiLT5oY3ByaXYgc2hvdWxkIG5vdCBiZQo+IGNoYW5nZWQgaW4gZWFjaCBjb250cm9sbGVy
+IGRyaXZlciwgYnV0IEkgc2VlIGJvdGggaGF2ZSBiZWVuIHVzZWQgaW4gbW9zdAo+IGNvbnRyb2xs
+ZXIgZHJpdmVycy4gSSB3aWxsIGxlYXZlIHRoaXMgdG8gb3RoZXJzIHRvIGVkdWNhdGUgbWUuCgpJ
+biBzb21lIG9mIHRoZSBvbGRlciBIQ0RzLCB1cmItPmhjcHJpdiAhPSBOVUxMIGlzIHVzZWQgdG8g
+aW5kaWNhdGUgdGhhdCAKdXJiIGlzIG9uIGFuIGVuZHBvaW50IHF1ZXVlLiAgUGVyaGFwcyB0aGF0
+IHVzYWdlIHdhcyBjb3BpZWQuCgpBbGFuIFN0ZXJuCg==
