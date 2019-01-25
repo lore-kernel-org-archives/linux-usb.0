@@ -2,36 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v6,3/4] Bluetooth: Allow driver specific cmd timeout handling
-From: Rajat Jain <rajatja@google.com>
-Message-Id: <20190124232814.252661-3-rajatja@google.com>
-Date: Thu, 24 Jan 2019 15:28:13 -0800
-To: Marcel Holtmann <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "David S. Miller" <davem@davemloft.net>, Dmitry Torokhov <dtor@chromium.org>, Rajat Jain <rajatja@google.com>, Alex Hung <alex.hung@canonical.com>, linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, netdev@vger.kernel.org
-Cc: rajatxjain@gmail.com, dtor@google.com, raghuram.hegde@intel.com, chethan.tumkur.narayan@intel.com, sukumar.ghorai@intel.com
+From: Marcel Holtmann <marcel@holtmann.org>
+Message-Id: <08DB08CC-00B5-4D59-92F8-49C27127282B@holtmann.org>
+Date: Fri, 25 Jan 2019 08:51:14 +0100
+To: Rajat Jain <rajatja@google.com>
+Cc: Johan Hedberg <johan.hedberg@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "David S. Miller" <davem@davemloft.net>, Dmitry Torokhov <dtor@chromium.org>, Alex Hung <alex.hung@canonical.com>, linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, netdev@vger.kernel.org, rajatxjain@gmail.com, dtor@google.com, raghuram.hegde@intel.com, chethan.tumkur.narayan@intel.com, sukumar.ghorai@intel.com
 List-ID: <linux-usb.vger.kernel.org>
 
-QWRkIGEgaG9vayB0byBhbGxvdyB0aGUgQlQgZHJpdmVyIHRvIGRvIGRldmljZSBvciBjb21tYW5k
-IHNwZWNpZmljCmhhbmRsaW5nIGluIGNhc2Ugb2YgdGltZW91dHMuIFRoaXMgaXMgdG8gYmUgdXNl
-ZCBieSBJbnRlbCBkcml2ZXIgdG8KcmVzZXQgdGhlIGRldmljZSBhZnRlciBjZXJ0YWluIG51bWJl
-ciBvZiB0aW1lb3V0cy4KClNpZ25lZC1vZmYtYnk6IFJhamF0IEphaW4gPHJhamF0amFAZ29vZ2xl
-LmNvbT4KLS0tCnY2OiBEcm9wcGVkIHRoZSAic2VudCBjb21tYW5kIiBwYXJhbWV0ZXIgZnJvbSBj
-bWRfdGltZW91dCgpCnY1OiBEcm9wIHRoZSBxdWlyaywgYW5kIHJlbmFtZSB0aGUgaG9vayBmdW5j
-dGlvbiB0byBjbWRfdGltZW91dCgpCnY0OiBzYW1lIGFzIHYxCnYzOiBzYW1lIGFzIHYxCnYyOiBz
-YW1lIGFzIHYxCgogaW5jbHVkZS9uZXQvYmx1ZXRvb3RoL2hjaV9jb3JlLmggfCAxICsKIG5ldC9i
-bHVldG9vdGgvaGNpX2NvcmUuYyAgICAgICAgIHwgMyArKysKIDIgZmlsZXMgY2hhbmdlZCwgNCBp
-bnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9uZXQvYmx1ZXRvb3RoL2hjaV9jb3Jl
-LmggYi9pbmNsdWRlL25ldC9ibHVldG9vdGgvaGNpX2NvcmUuaAppbmRleCBlNWVhNjMzZWEzNjgu
-LjA5NGU2MWUwNzAzMCAxMDA2NDQKLS0tIGEvaW5jbHVkZS9uZXQvYmx1ZXRvb3RoL2hjaV9jb3Jl
-LmgKKysrIGIvaW5jbHVkZS9uZXQvYmx1ZXRvb3RoL2hjaV9jb3JlLmgKQEAgLTQzNyw2ICs0Mzcs
-NyBAQCBzdHJ1Y3QgaGNpX2RldiB7CiAJaW50ICgqcG9zdF9pbml0KShzdHJ1Y3QgaGNpX2RldiAq
-aGRldik7CiAJaW50ICgqc2V0X2RpYWcpKHN0cnVjdCBoY2lfZGV2ICpoZGV2LCBib29sIGVuYWJs
-ZSk7CiAJaW50ICgqc2V0X2JkYWRkcikoc3RydWN0IGhjaV9kZXYgKmhkZXYsIGNvbnN0IGJkYWRk
-cl90ICpiZGFkZHIpOworCXZvaWQgKCpjbWRfdGltZW91dCkoc3RydWN0IGhjaV9kZXYgKmhkZXYp
-OwogfTsKIAogI2RlZmluZSBIQ0lfUEhZX0hBTkRMRShoYW5kbGUpCShoYW5kbGUgJiAweGZmKQpk
-aWZmIC0tZ2l0IGEvbmV0L2JsdWV0b290aC9oY2lfY29yZS5jIGIvbmV0L2JsdWV0b290aC9oY2lf
-Y29yZS5jCmluZGV4IDczNTJmZTg1Njc0Yi4uNzU3OTMyNjViYTllIDEwMDY0NAotLS0gYS9uZXQv
-Ymx1ZXRvb3RoL2hjaV9jb3JlLmMKKysrIGIvbmV0L2JsdWV0b290aC9oY2lfY29yZS5jCkBAIC0y
-NTc4LDYgKzI1NzgsOSBAQCBzdGF0aWMgdm9pZCBoY2lfY21kX3RpbWVvdXQoc3RydWN0IHdvcmtf
-c3RydWN0ICp3b3JrKQogCQlidF9kZXZfZXJyKGhkZXYsICJjb21tYW5kIHR4IHRpbWVvdXQiKTsK
-IAl9CiAKKwlpZiAoaGRldi0+Y21kX3RpbWVvdXQpCisJCWhkZXYtPmNtZF90aW1lb3V0KGhkZXYp
-OworCiAJYXRvbWljX3NldCgmaGRldi0+Y21kX2NudCwgMSk7CiAJcXVldWVfd29yayhoZGV2LT53
-b3JrcXVldWUsICZoZGV2LT5jbWRfd29yayk7CiB9Cg==
+SGkgUmFqYXQsCgo+IEFkZCBhIGhvb2sgdG8gYWxsb3cgdGhlIEJUIGRyaXZlciB0byBkbyBkZXZp
+Y2Ugb3IgY29tbWFuZCBzcGVjaWZpYwo+IGhhbmRsaW5nIGluIGNhc2Ugb2YgdGltZW91dHMuIFRo
+aXMgaXMgdG8gYmUgdXNlZCBieSBJbnRlbCBkcml2ZXIgdG8KPiByZXNldCB0aGUgZGV2aWNlIGFm
+dGVyIGNlcnRhaW4gbnVtYmVyIG9mIHRpbWVvdXRzLgo+IAo+IFNpZ25lZC1vZmYtYnk6IFJhamF0
+IEphaW4gPHJhamF0amFAZ29vZ2xlLmNvbT4KPiAtLS0KPiB2NjogRHJvcHBlZCB0aGUgInNlbnQg
+Y29tbWFuZCIgcGFyYW1ldGVyIGZyb20gY21kX3RpbWVvdXQoKQo+IHY1OiBEcm9wIHRoZSBxdWly
+aywgYW5kIHJlbmFtZSB0aGUgaG9vayBmdW5jdGlvbiB0byBjbWRfdGltZW91dCgpCj4gdjQ6IHNh
+bWUgYXMgdjEKPiB2Mzogc2FtZSBhcyB2MQo+IHYyOiBzYW1lIGFzIHYxCj4gCj4gaW5jbHVkZS9u
+ZXQvYmx1ZXRvb3RoL2hjaV9jb3JlLmggfCAxICsKPiBuZXQvYmx1ZXRvb3RoL2hjaV9jb3JlLmMg
+ICAgICAgICB8IDMgKysrCj4gMiBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykKCnBhdGNo
+IGhhcyBiZWVuIGFwcGxpZWQgdG8gYmx1ZXRvb3RoLW5leHQgdHJlZS4KClJlZ2FyZHMKCk1hcmNl
+bAo=
