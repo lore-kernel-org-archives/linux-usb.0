@@ -1,32 +1,27 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: usb: gadget: udc: net2272: Fix bitwise and boolean operations
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Message-Id: <20190122212808.GA27011@embeddedor>
-Date: Tue, 22 Jan 2019 15:28:08 -0600
-To: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: [v4,07/10] MAINTAINERS: phy: fill Armada 3700 PHY drivers entry
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+Message-Id: <20190125103925.15753-8-miquel.raynal@bootlin.com>
+Date: Fri, 25 Jan 2019 11:39:21 +0100
+To: Gregory Clement <gregory.clement@bootlin.com>, Jason Cooper <jason@lakedaemon.net>, Andrew Lunn <andrew@lunn.ch>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Kishon Vijay Abraham I <kishon@ti.com>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mathias Nyman <mathias.nyman@intel.com>, Alan Stern <stern@rowland.harvard.edu>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Antoine Tenart <antoine.tenart@bootlin.com>, Maxime Chevallier <maxime.chevallier@bootlin.com>, Nadav Haklai <nadavh@marvell.com>, Miquel Raynal <miquel.raynal@bootlin.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-KCF4ICYgeSkgc3RyaWtlcyBhZ2Fpbi4KCkZpeCBiaXR3aXNlIGFuZCBib29sZWFuIG9wZXJhdGlv
-bnMgYnkgZW5jbG9zaW5nIHRoZSBleHByZXNzaW9uOgoKCWludGNzciAmICgxIDw8IE5FVDIyNzJf
-UENJX0lSUSkKCmluIHBhcmVudGhlc2VzLCBiZWZvcmUgYXBwbHlpbmcgdGhlIGJvb2xlYW4gb3Bl
-cmF0b3IgJyEnLgoKTm90aWNlIHRoYXQgdGhpcyBjb2RlIGhhcyBiZWVuIHRoZXJlIHNpbmNlIDIw
-MTEuIFNvLCBpdCB3b3VsZApiZSBoZWxwZnVsIGlmIHNvbWVvbmUgY2FuIGRvdWJsZS1jaGVjayB0
-aGlzLgoKVGhpcyBpc3N1ZSB3YXMgZGV0ZWN0ZWQgd2l0aCB0aGUgaGVscCBvZiBDb2NjaW5lbGxl
-LgoKRml4ZXM6IGNlYjgwMzYzYjJlYyAoIlVTQjogbmV0MjI3MjogZHJpdmVyIGZvciBQTFggTkVU
-MjI3MiBVU0IgZGV2aWNlIGNvbnRyb2xsZXIiKQpDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZwpT
-aWduZWQtb2ZmLWJ5OiBHdXN0YXZvIEEuIFIuIFNpbHZhIDxndXN0YXZvQGVtYmVkZGVkb3IuY29t
-PgotLS0KIGRyaXZlcnMvdXNiL2dhZGdldC91ZGMvbmV0MjI3Mi5jIHwgMiArLQogMSBmaWxlIGNo
-YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy91c2IvZ2FkZ2V0L3VkYy9uZXQyMjcyLmMgYi9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL25ldDIy
-NzIuYwppbmRleCA2NjA4NzhhMTk1MDUuLmI3N2YzMTI2NTgwZSAxMDA2NDQKLS0tIGEvZHJpdmVy
-cy91c2IvZ2FkZ2V0L3VkYy9uZXQyMjcyLmMKKysrIGIvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9u
-ZXQyMjcyLmMKQEAgLTIwODMsNyArMjA4Myw3IEBAIHN0YXRpYyBpcnFyZXR1cm5fdCBuZXQyMjcy
-X2lycShpbnQgaXJxLCB2b2lkICpfZGV2KQogI2lmIGRlZmluZWQoUExYX1BDSV9SREsyKQogCS8q
-IHNlZSBpZiBQQ0kgaW50IGZvciB1cyBieSBjaGVja2luZyBpcnFzdGF0ICovCiAJaW50Y3NyID0g
-cmVhZGwoZGV2LT5yZGsyLmZwZ2FfYmFzZV9hZGRyICsgUkRLMl9JUlFTVEFUKTsKLQlpZiAoIWlu
-dGNzciAmICgxIDw8IE5FVDIyNzJfUENJX0lSUSkpIHsKKwlpZiAoIShpbnRjc3IgJiAoMSA8PCBO
-RVQyMjcyX1BDSV9JUlEpKSkgewogCQlzcGluX3VubG9jaygmZGV2LT5sb2NrKTsKIAkJcmV0dXJu
-IElSUV9OT05FOwogCX0K
+VXBkYXRlIHRoZSBBcm1hZGEgMzcwMCBQSFkgZHJpdmVycyBlbnRyeSB3aXRoIHRoZSByZWNlbnRs
+eSBhZGRlZCBVVE1JClBIWSBkcml2ZXIuCgpTaWduZWQtb2ZmLWJ5OiBNaXF1ZWwgUmF5bmFsIDxt
+aXF1ZWwucmF5bmFsQGJvb3RsaW4uY29tPgotLS0KIE1BSU5UQUlORVJTIHwgNCArKystCiAxIGZp
+bGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEv
+TUFJTlRBSU5FUlMgYi9NQUlOVEFJTkVSUwppbmRleCBhYmZkODBmMjFiMjQuLjJhMDhhMDk3ZTEw
+NyAxMDA2NDQKLS0tIGEvTUFJTlRBSU5FUlMKKysrIGIvTUFJTlRBSU5FUlMKQEAgLTkwODAsMTEg
+KzkwODAsMTMgQEAgRjoJZHJpdmVycy9ncHUvZHJtL2FybWFkYS8KIEY6CWluY2x1ZGUvdWFwaS9k
+cm0vYXJtYWRhX2RybS5oCiBGOglEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlz
+cGxheS9hcm1hZGEvCiAKLU1BUlZFTEwgQVJNQURBIDM3MDAgQ09NUEhZIERSSVZFUgorTUFSVkVM
+TCBBUk1BREEgMzcwMCBQSFkgRFJJVkVSUwogTToJTWlxdWVsIFJheW5hbCA8bWlxdWVsLnJheW5h
+bEBib290bGluLmNvbT4KIFM6CU1haW50YWluZWQKIEY6CWRyaXZlcnMvcGh5L21hcnZlbGwvcGh5
+LW12ZWJ1LWEzNzAwLWNvbXBoeS5jCitGOglkcml2ZXJzL3BoeS9tYXJ2ZWxsL3BoeS1tdmVidS1h
+MzcwMC11dG1pLmMKIEY6CURvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9waHkvcGh5
+LW12ZWJ1LWNvbXBoeS50eHQKK0Y6CURvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9w
+aHkvcGh5LW12ZWJ1LXV0bWkudHh0CiAKIE1BUlZFTEwgQ1JZUFRPIERSSVZFUgogTToJQm9yaXMg
+QnJlemlsbG9uIDxiYnJlemlsbG9uQGtlcm5lbC5vcmc+Cg==
