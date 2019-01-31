@@ -1,31 +1,22 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v4,1/2] dt-bindings: usb: ci-hdrc-usb2: add property power-active-high
-From: Philipp Puschmann <philipp.puschmann@emlix.com>
-Message-Id: <20190123143103.16891-1-philipp.puschmann@emlix.com>
-Date: Wed, 23 Jan 2019 15:31:02 +0100
-To: gregkh@linuxfoundation.org
-Cc: robh+dt@kernel.org, mark.rutland@arm.com, Peter.Chen@nxp.com, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Philipp Puschmann <philipp.puschmann@emlix.com>, Rob Herring <robh@kernel.org>
+Subject: [v2] usb: xhci: remove unused member 'parent' in xhci_regset struct
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Message-Id: <1548899490-19065-1-git-send-email-chunfeng.yun@mediatek.com>
+Date: Thu, 31 Jan 2019 09:51:30 +0800
+To: Mathias Nyman <mathias.nyman@intel.com>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>, Felipe Balbi <felipe.balbi@linux.intel.com>, Alan Stern <stern@rowland.harvard.edu>, Chunfeng Yun <chunfeng.yun@mediatek.com>, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, linux-mediatek@lists.infradead.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhlIGkuTVggVVNCIGNvbnRyb2xsZXIgbWF5IGRyaXZlIHRoZSB1c2IgcG93ZXIgbGluZSBkaXJl
-Y3RseSwgYnV0IHRoZQpwb2xhcml0eSBkZXBlbmRzIG9uIHRoZSBib2FyZC4gUmVzZXQgc3RhdGUg
-b2YgdGhlIHBvbGFyaXR5IGlzIGxvdy1hY3RpdmUgc28KYWRkIHRoaXMgcHJvcGVydHkgdG8gYWxs
-b3cgaXQgdG8gYmUgaGlnaC1hY3RpdmUuCgpTaWduZWQtb2ZmLWJ5OiBQaGlsaXBwIFB1c2NobWFu
-biA8cGhpbGlwcC5wdXNjaG1hbm5AZW1saXguY29tPgpSZXZpZXdlZC1ieTogUm9iIEhlcnJpbmcg
-PHJvYmhAa2VybmVsLm9yZz4KLS0tCkNoYW5nZXMgaW4gdjQ6IGRvIG5vdCBsaW1pdCB0byBpLk1Y
-NgoKIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvY2ktaGRyYy11c2IyLnR4
-dCB8IDEgKwogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvRG9j
-dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9jaS1oZHJjLXVzYjIudHh0IGIvRG9j
-dW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9jaS1oZHJjLXVzYjIudHh0CmluZGV4
-IGFkYWU4MjM4NWRkNi4uYTI1NDM4NmE5MWFkIDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0aW9uL2Rl
-dmljZXRyZWUvYmluZGluZ3MvdXNiL2NpLWhkcmMtdXNiMi50eHQKKysrIGIvRG9jdW1lbnRhdGlv
-bi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9jaS1oZHJjLXVzYjIudHh0CkBAIC05Myw2ICs5Myw3
-IEBAIGkubXggc3BlY2lmaWMgcHJvcGVydGllcwogLSBvdmVyLWN1cnJlbnQtYWN0aXZlLWxvdzog
-b3ZlciBjdXJyZW50IHNpZ25hbCBwb2xhcml0eSBpcyBhY3RpdmUgbG93LgogLSBvdmVyLWN1cnJl
-bnQtYWN0aXZlLWhpZ2g6IG92ZXIgY3VycmVudCBzaWduYWwgcG9sYXJpdHkgaXMgYWN0aXZlIGhp
-Z2guCiAgIEl0J3MgcmVjb21tZW5kZWQgdG8gc3BlY2lmeSB0aGUgb3ZlciBjdXJyZW50IHBvbGFy
-aXR5LgorLSBwb3dlci1hY3RpdmUtaGlnaDogcG93ZXIgc2lnbmFsIHBvbGFyaXR5IGlzIGFjdGl2
-ZSBoaWdoCiAtIGV4dGVybmFsLXZidXMtZGl2aWRlcjogZW5hYmxlcyBvZmYtY2hpcCByZXNpc3Rv
-ciBkaXZpZGVyIGZvciBWYnVzCiAKIEV4YW1wbGU6Cg==
+VGhlIG1lbWJlciBAcGFyZW50IG9mIHhoY2lfcmVnc2V0IHN0cnVjdCBpcyBub3QgdXNlZCBpbiBm
+YWN0LApzbyByZW1vdmUgaXQKClNpZ25lZC1vZmYtYnk6IENodW5mZW5nIFl1biA8Y2h1bmZlbmcu
+eXVuQG1lZGlhdGVrLmNvbT4KLS0tCnYyOiByZW1vdmUgQ2hhbmdlLUlkCi0tLQogZHJpdmVycy91
+c2IvaG9zdC94aGNpLWRlYnVnZnMuaCB8IDEgLQogMSBmaWxlIGNoYW5nZWQsIDEgZGVsZXRpb24o
+LSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9ob3N0L3hoY2ktZGVidWdmcy5oIGIvZHJpdmVy
+cy91c2IvaG9zdC94aGNpLWRlYnVnZnMuaAppbmRleCBhYzViYzQwZjVjM2EuLmY3YTRlMjQ5MmIw
+MCAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvaG9zdC94aGNpLWRlYnVnZnMuaAorKysgYi9kcml2
+ZXJzL3VzYi9ob3N0L3hoY2ktZGVidWdmcy5oCkBAIC04MCw3ICs4MCw2IEBAIHN0cnVjdCB4aGNp
+X3JlZ3NldCB7CiAJY2hhcgkJCW5hbWVbREVCVUdGU19OQU1FTEVOXTsKIAlzdHJ1Y3QgZGVidWdm
+c19yZWdzZXQzMglyZWdzZXQ7CiAJc2l6ZV90CQkJbnJlZ3M7Ci0Jc3RydWN0IGRlbnRyeQkJKnBh
+cmVudDsKIAlzdHJ1Y3QgbGlzdF9oZWFkCWxpc3Q7CiB9OwogCg==
