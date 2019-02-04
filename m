@@ -1,16 +1,42 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: usb: gadget: udc: renesas_usb3: add support for r8a774c0
-From: Felipe Balbi <balbi@kernel.org>
-Message-Id: <8736op4l1a.fsf@linux.intel.com>
-Date: Fri, 15 Feb 2019 08:34:41 +0200
-To: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Simon Horman <horms+renesas@verge.net.au>, Kees Cook <keescook@chromium.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Simon Horman <horms@verge.net.au>, Geert Uytterhoeven <geert+renesas@glider.be>, Chris Paterson <Chris.Paterson2@renesas.com>, Biju Das <biju.das@bp.renesas.com>, "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+Subject: [v2,2/2] PCI: Override Synopsys USB 3.x HAPS device class
+From: Trent Piepho <tpiepho@impinj.com>
+Message-Id: <1549320120.3075.12.camel@impinj.com>
+Date: Mon, 4 Feb 2019 22:42:00 +0000
+To: "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>, "thinh.nguyen@synopsys.com" <thinh.nguyen@synopsys.com>, "bhelgaas@google.com" <bhelgaas@google.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Cc: "john.youn@synopsys.com" <john.youn@synopsys.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgoobm8gdG9wLXBvc3RpbmcsIHBsZWFzZSkKCkZhYnJpemlvIENhc3RybyA8ZmFicml6aW8u
-Y2FzdHJvQGJwLnJlbmVzYXMuY29tPiB3cml0ZXM6Cgo+IEhlbGxvIEZlbGlwZSwKPgo+IFdobyBp
-cyB0aGUgYmVzdCBwZXJzb24gZm9yIHRha2luZyBwYXRjaGVzIGZvciByZW5lc2FzX3VzYjMuYz8K
-CnRoZXkncmUgYWxyZWFkeSBpbiBteSAnbmV4dCcgYnJhbmNoLiBJJ2xsIHNlbmQgcHVsbCByZXF1
-ZXN0IHRvIEdyZWcgc2hvcnRseQo=
+T24gTW9uLCAyMDE4LTEyLTEwIGF0IDE0OjA4IC0wODAwLCBUaGluaCBOZ3V5ZW4gd3JvdGU6DQo+
+IFN5bm9wc3lzIFVTQiAzLnggaG9zdCBIQVBTIHBsYXRmb3JtIGhhcyBhIGNsYXNzIGNvZGUgb2YN
+Cj4gUENJX0NMQVNTX1NFUklBTF9VU0JfWEhDSSwgYW5kIHhoY2kgZHJpdmVyIGNhbiBjbGFpbSBp
+dC4gSG93ZXZlciwgdGhlc2UNCj4gZGV2aWNlcyBzaG91bGQgdXNlIGR3YzMtaGFwcyBkcml2ZXIu
+IENoYW5nZSB0aGVzZSBkZXZpY2VzJyBjbGFzcyBjb2RlIHRvDQo+IFBDSV9DTEFTU19TRVJJQUxf
+VVNCX0RFVklDRSB0byBwcmV2ZW50IHRoZSB4aGNpLXBjaSBkcml2ZXIgZnJvbSBjbGFpbWluZw0K
+PiB0aGVtLg0KPiANCg0KPiArDQo+ICsJc3dpdGNoIChwZGV2LT5kZXZpY2UpIHsNCj4gKwljYXNl
+IFBDSV9ERVZJQ0VfSURfU1lOT1BTWVNfSEFQU1VTQjM6DQo+ICsJY2FzZSBQQ0lfREVWSUNFX0lE
+X1NZTk9QU1lTX0hBUFNVU0IzX0FYSToNCj4gKwljYXNlIFBDSV9ERVZJQ0VfSURfU1lOT1BTWVNf
+SEFQU1VTQjMxOg0KPiArCQlwZGV2LT5jbGFzcyA9IFBDSV9DTEFTU19TRVJJQUxfVVNCX0RFVklD
+RTsNCj4gKwkJcGNpX2luZm8ocGRldiwgIlBDSSBjbGFzcyBvdmVycmlkZGVuICglIzA4eCAtPiAl
+IzA4eCkgc28gZHdjMyBkcml2ZXIgY2FuIGNsYWltIHRoaXMgaW5zdGVhZCBvZiB4aGNpXG4iLA0K
+PiArCQkJIGNsYXNzLCBwZGV2LT5jbGFzcyk7DQo+ICsJCWJyZWFrOw0KPiArCWRlZmF1bHQ6DQo+
+ICsJCXJldHVybjsNCj4gKwl9DQo+ICt9DQo+ICtERUNMQVJFX1BDSV9GSVhVUF9IRUFERVIoUENJ
+X1ZFTkRPUl9JRF9TWU5PUFNZUywgUENJX0FOWV9JRCwNCj4gKwkJCSBxdWlya19zeW5vcHN5c19o
+YXBzKTsNCj4gKw0KDQpUaGlzIGNoYW5nZSBicmVha3MgbXkgSU1YN2QgYmFzZWQgZGV2aWNlLiAg
+VGhpcyBTb0MgaGFzIGEgUENJZSBidXMNCmJhc2VkIG9uIHRoZSBTeW5vcHN5cyBEZXNpZ253YXJl
+IGhvc3QgY29udHJvbGxlci4gIFRoaXMgaGFzIGEgcm9vdA0KYnJpZGdlIHRoYXQgc2hvd3MgdXAg
+YXM6DQoNCjAwOjAwLjAgUENJIGJyaWRnZTogU3lub3BzeXMsIEluYy4gRGV2aWNlIGFiY2QgKHJl
+diAwMSkgKHByb2ctaWYgMDAgW05vcm1hbCBkZWNvZGVdKSAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIA0KMDA6MDAuMCAwNjA0OiAxNmMzOmFiY2QgKHJldiAwMSkgKHByb2ctaWYgMDAg
+W05vcm1hbCBkZWNvZGVdKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgDQoNCldoaWNoIGlzIHRvIHNheSwgY2xhc3MgMHgwNjA0LCB2ZW5kb3Ig
+UENJX1ZFTkRPUl9JRF9TWU5PUFNZUywgYW5kIHRoZQ0KZGV2aWNlIElEIDB4YWJjZC4NCg0KSXQg
+bG9va3MgbGlrZSB0aGVyZSBoYXMgYmVlbiBhIGJpdCBvZiBzbG9wcHkgYWxsb2NhdGlvbiBvZiBQ
+Q0kgZGV2aWNlDQpjb2RlcywgYXMgUENJX0RFVklDRV9JRF9TWU5PUFNZU19IQVBTVVNCMyBpcyBh
+bHNvIDB4YWJjZC4NCg0KU28gdGhlIHJlc3VsdCBvZiB0aGlzIHBhdGNoIGlzIHRvIHRyeSB0byB0
+dXJuIHRoZSBpbXg3ZCBQQ0llIHJvb3QNCmJyaWRnZSBpbnRvIGEgVVNCIGNvbnRyb2xsZXIuICBX
+aGljaCBvZiBjb3Vyc2UgYnJlYWtzIGl0IGFuZCBwcmV2ZW50cw0KYW55dGhpbmcgYmVoaW5kIGl0
+LCBpLmUuIHRoZSBlbmRwb2ludCBhdHRhY2hlZCB0byB0aGUgcGNpLWUgYnVzLCBmcm9tDQp3b3Jr
+aW5nLg0KDQpTb21laG93IHRoaXMgcXVpcmsgbmVlZHMgdG8gYmUgbW9yZSB0YXJnZXRlZC4K
