@@ -1,32 +1,23 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: USB: renesas_usbhs: fix spelling mistake "doens't" -> "doesn't"
-From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Message-Id: <TY2PR01MB4812BB4DEA0983E1A1E940B6D8630@TY2PR01MB4812.jpnprd01.prod.outlook.com>
-Date: Mon, 18 Feb 2019 02:57:26 +0000
-To: Colin King <colin.king@canonical.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: [1/8] usb: ohci-da8xx: add a new line after local variables
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Message-Id: <20190205102546.29457-2-brgl@bgdev.pl>
+Date: Tue,  5 Feb 2019 11:25:39 +0100
+To: Sekhar Nori <nsekhar@ti.com>, Kevin Hilman <khilman@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <bgolaszewski@baylibre.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksDQoNCj4gRnJvbTogQ29saW4gS2luZywgU2VudDogTW9uZGF5LCBGZWJydWFyeSAxOCwgMjAx
-OSA3OjQ0IEFNDQo+IA0KPiBGcm9tOiBDb2xpbiBJYW4gS2luZyA8Y29saW4ua2luZ0BjYW5vbmlj
-YWwuY29tPg0KPiANCj4gVGhlcmUgaXMgYSBzcGVsbGluZyBtaXN0YWtlIGluIGEgZGV2X2VyciBt
-ZXNzYWdlLiBGaXggaXQuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBDb2xpbiBJYW4gS2luZyA8Y29s
-aW4ua2luZ0BjYW5vbmljYWwuY29tPg0KDQpUaGFuayB5b3UgZm9yIHRoZSBwYXRjaCENCg0KQWNr
-ZWQtYnk6IFlvc2hpaGlybyBTaGltb2RhIDx5b3NoaWhpcm8uc2hpbW9kYS51aEByZW5lc2FzLmNv
-bT4NCg0KQmVzdCByZWdhcmRzLA0KWW9zaGloaXJvIFNoaW1vZGENCg0KPiAtLS0NCj4gIGRyaXZl
-cnMvdXNiL3JlbmVzYXNfdXNiaHMvbW9kX2hvc3QuYyB8IDIgKy0NCj4gIDEgZmlsZSBjaGFuZ2Vk
-LCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvdXNiL3JlbmVzYXNfdXNiaHMvbW9kX2hvc3QuYyBiL2RyaXZlcnMvdXNiL3JlbmVzYXNfdXNi
-aHMvbW9kX2hvc3QuYw0KPiBpbmRleCA0ZTU5YzY0OWRiODEuLmRkZDNiZTQ4Zjk0OCAxMDA2NDQN
-Cj4gLS0tIGEvZHJpdmVycy91c2IvcmVuZXNhc191c2Jocy9tb2RfaG9zdC5jDQo+ICsrKyBiL2Ry
-aXZlcnMvdXNiL3JlbmVzYXNfdXNiaHMvbW9kX2hvc3QuYw0KPiBAQCAtMzQwLDcgKzM0MCw3IEBA
-IHN0YXRpYyB2b2lkIHVzYmhzaF9waXBlX2RldGFjaChzdHJ1Y3QgdXNiaHNoX2hwcml2ICpocHJp
-diwNCj4gIAlwaXBlID0gdXNiaHNoX3VlcF90b19waXBlKHVlcCk7DQo+IA0KPiAgCWlmICh1bmxp
-a2VseSghcGlwZSkpIHsNCj4gLQkJZGV2X2VycihkZXYsICJ1ZXAgZG9lbnMndCBoYXZlIHBpcGVc
-biIpOw0KPiArCQlkZXZfZXJyKGRldiwgInVlcCBkb2Vzbid0IGhhdmUgcGlwZVxuIik7DQo+ICAJ
-fSBlbHNlIGlmICgxID09IHVlcC0+Y291bnRlci0tKSB7IC8qIGxhc3QgdXNlciAqLw0KPiAgCQlz
-dHJ1Y3QgdXNiX2hvc3RfZW5kcG9pbnQgKmVwID0gdXNiaHNoX3VlcF90b19lcCh1ZXApOw0KPiAg
-CQlzdHJ1Y3QgdXNiaHNoX2RldmljZSAqdWRldiA9IHVzYmhzaF91ZXBfdG9fdWRldih1ZXApOw0K
-PiAtLQ0KPiAyLjIwLjEK
+RnJvbTogQmFydG9zeiBHb2xhc3pld3NraSA8YmdvbGFzemV3c2tpQGJheWxpYnJlLmNvbT4KClRo
+aXMgaW1wcm92ZXMgdGhlIGNvZGluZyBzdHlsZS4KClNpZ25lZC1vZmYtYnk6IEJhcnRvc3ogR29s
+YXN6ZXdza2kgPGJnb2xhc3pld3NraUBiYXlsaWJyZS5jb20+Ci0tLQogZHJpdmVycy91c2IvaG9z
+dC9vaGNpLWRhOHh4LmMgfCAxICsKIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQoKZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2hvc3Qvb2hjaS1kYTh4eC5jIGIvZHJpdmVycy91c2IvaG9z
+dC9vaGNpLWRhOHh4LmMKaW5kZXggYTU1Y2JiYTQwYTVhLi5jNDkyYzdlNmY3NDYgMTAwNjQ0Ci0t
+LSBhL2RyaXZlcnMvdXNiL2hvc3Qvb2hjaS1kYTh4eC5jCisrKyBiL2RyaXZlcnMvdXNiL2hvc3Qv
+b2hjaS1kYTh4eC5jCkBAIC00MDUsNiArNDA1LDcgQEAgc3RhdGljIGludCBvaGNpX2RhOHh4X3By
+b2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCiAJc3RydWN0IHVzYl9oY2QJKmhjZDsK
+IAlzdHJ1Y3QgcmVzb3VyY2UgKm1lbTsKIAlpbnQgZXJyb3IsIGlycTsKKwogCWhjZCA9IHVzYl9j
+cmVhdGVfaGNkKCZvaGNpX2RhOHh4X2hjX2RyaXZlciwgJnBkZXYtPmRldiwKIAkJCQlkZXZfbmFt
+ZSgmcGRldi0+ZGV2KSk7CiAJaWYgKCFoY2QpCg==
