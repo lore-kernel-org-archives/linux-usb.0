@@ -1,17 +1,30 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: xhci: Drop superfluous initialization in xhci_queue_ctrl_tx()
+Subject: xhci: Use ffs() to find page size in xhci_mem_init()
 From: Andrey Smirnov <andrew.smirnov@gmail.com>
-Message-Id: <CAHQ1cqHia75RWT25T2+QnZdd-wVkdyn0QciVo3b1w=BLN35D2g@mail.gmail.com>
-Date: Thu, 7 Feb 2019 13:07:46 -0800
-To: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Cc: linux-usb@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel <linux-kernel@vger.kernel.org>
+Message-Id: <20190207000349.7816-1-andrew.smirnov@gmail.com>
+Date: Wed,  6 Feb 2019 16:03:49 -0800
+To: linux-usb@vger.kernel.org
+Cc: Andrey Smirnov <andrew.smirnov@gmail.com>, Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCBGZWIgNywgMjAxOSBhdCA4OjQ0IEFNIFNlcmdlaSBTaHR5bHlvdgo8c2VyZ2VpLnNo
-dHlseW92QGNvZ2VudGVtYmVkZGVkLmNvbT4gd3JvdGU6Cj4KPiBIZWxsbyEKPgo+IE9uIDA3LjAy
-LjIwMTkgMzowMywgQW5kcmV5IFNtaXJub3Ygd3JvdGU6Cj4KPiA+IFNpbXBsaWZ5IGZpbGVkJ3Mg
-aW5pdGlhbGl6YXRpb24gYnkgZGlyZWN0bHkgYXNzaWduaW5nIGl0cyBmaW5hbCB2YWx1ZQo+Cj4g
-ICAgIGZpZWxkJ3MuCj4KCk9vcHMsIG1pc3NlZCB0aGF0LiBXaWxsIGZpeCBpbiB2Mi4KClRoYW5r
-cywKQW5kcmV5IFNtaXJub3YK
+R2V0IHBhZ2Ugc2l6ZSBvcmRlciB1c2luZyBmZnMoKSBpbnN0ZWFkIG9mIG9wZW4gY29kaW5nIGl0
+IHdpdGggYSBsb29wLgoKU2lnbmVkLW9mZi1ieTogQW5kcmV5IFNtaXJub3YgPGFuZHJldy5zbWly
+bm92QGdtYWlsLmNvbT4KQ2M6IE1hdGhpYXMgTnltYW4gPG1hdGhpYXMubnltYW5AaW50ZWwuY29t
+PgpDYzogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KQ2M6
+IGxpbnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmcKQ2M6IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5v
+cmcKLS0tCiBkcml2ZXJzL3VzYi9ob3N0L3hoY2ktbWVtLmMgfCA2ICstLS0tLQogMSBmaWxlIGNo
+YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCA1IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvdXNiL2hvc3QveGhjaS1tZW0uYyBiL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1tZW0uYwppbmRl
+eCAzNmEzZWI4ODQ5ZjEuLjQ0YjQzYzNkODE5ZiAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvaG9z
+dC94aGNpLW1lbS5jCisrKyBiL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1tZW0uYwpAQCAtMjM2Miwx
+MSArMjM2Miw3IEBAIGludCB4aGNpX21lbV9pbml0KHN0cnVjdCB4aGNpX2hjZCAqeGhjaSwgZ2Zw
+X3QgZmxhZ3MpCiAJcGFnZV9zaXplID0gcmVhZGwoJnhoY2ktPm9wX3JlZ3MtPnBhZ2Vfc2l6ZSk7
+CiAJeGhjaV9kYmdfdHJhY2UoeGhjaSwgdHJhY2VfeGhjaV9kYmdfaW5pdCwKIAkJCSJTdXBwb3J0
+ZWQgcGFnZSBzaXplIHJlZ2lzdGVyID0gMHgleCIsIHBhZ2Vfc2l6ZSk7Ci0JZm9yIChpID0gMDsg
+aSA8IDE2OyBpKyspIHsKLQkJaWYgKCgweDEgJiBwYWdlX3NpemUpICE9IDApCi0JCQlicmVhazsK
+LQkJcGFnZV9zaXplID0gcGFnZV9zaXplID4+IDE7Ci0JfQorCWkgPSBmZnMocGFnZV9zaXplKTsK
+IAlpZiAoaSA8IDE2KQogCQl4aGNpX2RiZ190cmFjZSh4aGNpLCB0cmFjZV94aGNpX2RiZ19pbml0
+LAogCQkJIlN1cHBvcnRlZCBwYWdlIHNpemUgb2YgJWlLIiwgKDEgPDwgKGkrMTIpKSAvIDEwMjQp
+Owo=
