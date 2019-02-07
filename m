@@ -1,18 +1,31 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [4/8] ARM: davinci: da830-evm: use gpio lookup entries for usb gpios
-From: Linus Walleij <linus.walleij@linaro.org>
-Message-Id: <CACRpkda9M+MWxQnfkSbAXxdXjR0Ko41+rh+GbmNzJJTLn8Ptaw@mail.gmail.com>
-Date: Fri, 8 Feb 2019 14:34:27 +0100
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Sekhar Nori <nsekhar@ti.com>, Kevin Hilman <khilman@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linux ARM <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, linux-usb@vger.kernel.org, Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [v4,2/4] dt-bindings: connector: Add vbus-supply property
+From: Jorge Ramirez <jorge.ramirez-ortiz@linaro.org>
+Message-Id: <20190207111734.24171-3-jorge.ramirez-ortiz@linaro.org>
+Date: Thu,  7 Feb 2019 12:17:32 +0100
+To: jorge.ramirez-ortiz@linaro.org, robh@kernel.org, bjorn.andersson@linaro.org
+Cc: swboyd@chromium.org, andy.gross@linaro.org, shawn.guo@linaro.org, gregkh@linuxfoundation.org, mark.rutland@arm.com, kishon@ti.com, jackp@codeaurora.org, devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, khasim.mohammed@linaro.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVHVlLCBGZWIgNSwgMjAxOSBhdCAxMToyNSBBTSBCYXJ0b3N6IEdvbGFzemV3c2tpIDxicmds
-QGJnZGV2LnBsPiB3cm90ZToKCj4gRnJvbTogQmFydG9zeiBHb2xhc3pld3NraSA8YmdvbGFzemV3
-c2tpQGJheWxpYnJlLmNvbT4KPgo+IEFkZCBsb29rdXAgZW50cmllcyBmb3IgdmJ1cyBhbmQgb3Zl
-cmN1cnJlbnQgZ3Bpb3MgZm9yIGRhODMwLWV2bS4KPgo+IFNpZ25lZC1vZmYtYnk6IEJhcnRvc3og
-R29sYXN6ZXdza2kgPGJnb2xhc3pld3NraUBiYXlsaWJyZS5jb20+CgpSZXZpZXdlZC1ieTogTGlu
-dXMgV2FsbGVpaiA8bGludXMud2FsbGVpakBsaW5hcm8ub3JnPgoKWW91cnMsCkxpbnVzIFdhbGxl
-aWoK
+U29tZSBwaHlzIG1pZ2h0IG5lZWQgdG8gY29udHJvbCB0aGVpciBWQlVTIHJlZ3VsYXRvcnMgd2hp
+bGUgbm90IGJlaW5nCnN1cHBsaWVkIGJ5IHRoZW0uIElmIHN1Y2ggc3VwcG9ydCBpcyByZXF1aXJl
+ZCwgdXNlIHRoZSB2YnVzLXN1cHBseQpwcm9wZXJ0eSBpbiB0aGUgY29ubmVjdG9yIHRvIHJldHJp
+ZXZlIHRoZSByZWd1bGF0b3IuCgpTaWduZWQtb2ZmLWJ5OiBKb3JnZSBSYW1pcmV6LU9ydGl6IDxq
+b3JnZS5yYW1pcmV6LW9ydGl6QGxpbmFyby5vcmc+Ci0tLQogRG9jdW1lbnRhdGlvbi9kZXZpY2V0
+cmVlL2JpbmRpbmdzL2Nvbm5lY3Rvci91c2ItY29ubmVjdG9yLnR4dCB8IDQgKysrKwogMSBmaWxl
+IGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2
+aWNldHJlZS9iaW5kaW5ncy9jb25uZWN0b3IvdXNiLWNvbm5lY3Rvci50eHQgYi9Eb2N1bWVudGF0
+aW9uL2RldmljZXRyZWUvYmluZGluZ3MvY29ubmVjdG9yL3VzYi1jb25uZWN0b3IudHh0CmluZGV4
+IGE5YTJmMmZjNDRmMi4uMmFkMjJkZDZkYzM5IDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0aW9uL2Rl
+dmljZXRyZWUvYmluZGluZ3MvY29ubmVjdG9yL3VzYi1jb25uZWN0b3IudHh0CisrKyBiL0RvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9jb25uZWN0b3IvdXNiLWNvbm5lY3Rvci50eHQK
+QEAgLTE2LDYgKzE2LDEwIEBAIE9wdGlvbmFsIHByb3BlcnRpZXM6CiAgIG5vbi1mdWxsc2l6ZSBj
+b25uZWN0b3JzOiAibWluaSIsICJtaWNybyIuCiAtIHNlbGYtcG93ZXJlZDogU2V0IHRoaXMgcHJv
+cGVydHkgaWYgdGhlIHVzYiBkZXZpY2UgdGhhdCBoYXMgaXRzIG93biBwb3dlcgogICBzb3VyY2Uu
+CistIHZidXMtc3VwcGx5OgorICAgIFZhbHVlIHR5cGU6IDxwaGFuZGxlPgorICAgIERlZmluaXRp
+b246IHBoYW5kbGUgdG8gdGhlIHJlZ3VsYXRvciBWQlVTIHN1cHBseSBub2RlLiBTZXQgdGhpcyBw
+cm9wZXJ0eSBpZgorCQkgdGhlIGNvbm5lY3RvciBpcyBzdXBwbGllZCBieSBWQlVTLgogCiBPcHRp
+b25hbCBwcm9wZXJ0aWVzIGZvciB1c2ItYy1jb25uZWN0b3I6CiAtIHBvd2VyLXJvbGU6IHNob3Vs
+ZCBiZSBvbmUgb2YgInNvdXJjZSIsICJzaW5rIiBvciAiZHVhbCIoRFJQKSBpZiB0eXBlYwo=
