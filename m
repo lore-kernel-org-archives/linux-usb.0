@@ -2,33 +2,17 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [4/8] ARM: davinci: da830-evm: use gpio lookup entries for usb gpios
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Message-Id: <20190205102546.29457-5-brgl@bgdev.pl>
-Date: Tue,  5 Feb 2019 11:25:42 +0100
-To: Sekhar Nori <nsekhar@ti.com>, Kevin Hilman <khilman@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <bgolaszewski@baylibre.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Message-Id: <CACRpkda9M+MWxQnfkSbAXxdXjR0Ko41+rh+GbmNzJJTLn8Ptaw@mail.gmail.com>
+Date: Fri, 8 Feb 2019 14:34:27 +0100
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Sekhar Nori <nsekhar@ti.com>, Kevin Hilman <khilman@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Linux ARM <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, linux-usb@vger.kernel.org, Bartosz Golaszewski <bgolaszewski@baylibre.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-RnJvbTogQmFydG9zeiBHb2xhc3pld3NraSA8YmdvbGFzemV3c2tpQGJheWxpYnJlLmNvbT4KCkFk
-ZCBsb29rdXAgZW50cmllcyBmb3IgdmJ1cyBhbmQgb3ZlcmN1cnJlbnQgZ3Bpb3MgZm9yIGRhODMw
-LWV2bS4KClNpZ25lZC1vZmYtYnk6IEJhcnRvc3ogR29sYXN6ZXdza2kgPGJnb2xhc3pld3NraUBi
-YXlsaWJyZS5jb20+Ci0tLQogYXJjaC9hcm0vbWFjaC1kYXZpbmNpL2JvYXJkLWRhODMwLWV2bS5j
-IHwgMTAgKysrKysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDEwIGluc2VydGlvbnMoKykKCmRpZmYg
-LS1naXQgYS9hcmNoL2FybS9tYWNoLWRhdmluY2kvYm9hcmQtZGE4MzAtZXZtLmMgYi9hcmNoL2Fy
-bS9tYWNoLWRhdmluY2kvYm9hcmQtZGE4MzAtZXZtLmMKaW5kZXggYzRkYTYzNWVlNGNlLi4wNzEy
-YTM3MTUzYTggMTAwNjQ0Ci0tLSBhL2FyY2gvYXJtL21hY2gtZGF2aW5jaS9ib2FyZC1kYTgzMC1l
-dm0uYworKysgYi9hcmNoL2FybS9tYWNoLWRhdmluY2kvYm9hcmQtZGE4MzAtZXZtLmMKQEAgLTU0
-LDYgKzU0LDE0IEBAIHN0YXRpYyBjb25zdCBzaG9ydCBkYTgzMF9ldm1fdXNiMTFfcGluc1tdID0g
-ewogCiBzdGF0aWMgZGE4eHhfb2NpY19oYW5kbGVyX3QgZGE4MzBfZXZtX3VzYl9vY2ljX2hhbmRs
-ZXI7CiAKK3N0YXRpYyBzdHJ1Y3QgZ3Bpb2RfbG9va3VwX3RhYmxlIGRhODMwX2V2bV91c2JfZ3Bp
-b19sb29rdXAgPSB7CisJLmRldl9pZAkJPSAib2hjaS1kYTh4eCIsCisJLnRhYmxlID0geworCQlH
-UElPX0xPT0tVUCgiZGF2aW5jaV9ncGlvIiwgT05fQkRfVVNCX0RSViwgInZidXMiLCAwKSwKKwkJ
-R1BJT19MT09LVVAoImRhdmluY2lfZ3BpbyIsIE9OX0JEX1VTQl9PVkMsICJvYyIsIDApLAorCX0s
-Cit9OworCiBzdGF0aWMgaW50IGRhODMwX2V2bV91c2Jfc2V0X3Bvd2VyKHVuc2lnbmVkIHBvcnQs
-IGludCBvbikKIHsKIAlncGlvX3NldF92YWx1ZShPTl9CRF9VU0JfRFJWLCBvbik7CkBAIC0xNTgs
-NiArMTY2LDggQEAgc3RhdGljIF9faW5pdCB2b2lkIGRhODMwX2V2bV91c2JfaW5pdCh2b2lkKQog
-CX0KIAlncGlvX2RpcmVjdGlvbl9pbnB1dChPTl9CRF9VU0JfT1ZDKTsKIAorCWdwaW9kX2FkZF9s
-b29rdXBfdGFibGUoJmRhODMwX2V2bV91c2JfZ3Bpb19sb29rdXApOworCiAJcmV0ID0gZGE4eHhf
-cmVnaXN0ZXJfdXNiMTEoJmRhODMwX2V2bV91c2IxMV9wZGF0YSk7CiAJaWYgKHJldCkKIAkJcHJf
-d2FybigiJXM6IFVTQiAxLjEgcmVnaXN0cmF0aW9uIGZhaWxlZDogJWRcbiIsIF9fZnVuY19fLCBy
-ZXQpOwo=
+T24gVHVlLCBGZWIgNSwgMjAxOSBhdCAxMToyNSBBTSBCYXJ0b3N6IEdvbGFzemV3c2tpIDxicmds
+QGJnZGV2LnBsPiB3cm90ZToKCj4gRnJvbTogQmFydG9zeiBHb2xhc3pld3NraSA8YmdvbGFzemV3
+c2tpQGJheWxpYnJlLmNvbT4KPgo+IEFkZCBsb29rdXAgZW50cmllcyBmb3IgdmJ1cyBhbmQgb3Zl
+cmN1cnJlbnQgZ3Bpb3MgZm9yIGRhODMwLWV2bS4KPgo+IFNpZ25lZC1vZmYtYnk6IEJhcnRvc3og
+R29sYXN6ZXdza2kgPGJnb2xhc3pld3NraUBiYXlsaWJyZS5jb20+CgpSZXZpZXdlZC1ieTogTGlu
+dXMgV2FsbGVpaiA8bGludXMud2FsbGVpakBsaW5hcm8ub3JnPgoKWW91cnMsCkxpbnVzIFdhbGxl
+aWoK
