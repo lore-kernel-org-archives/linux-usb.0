@@ -2,23 +2,29 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: dwc3: Enable GBit Ethernet on Odroid XU4
-From: Roger Quadros <rogerq@ti.com>
-Message-Id: <5C5AB41C.9080402@ti.com>
-Date: Wed, 6 Feb 2019 12:17:00 +0200
-To: Jochen Sprickerhof <jochen@sprickerhof.de>
-Cc: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Vivek Gautam <gautam.vivek@samsung.com>, Andrzej Pietrasiewicz <andrzej.p@samsung.com>, Kishon Vijay Abraham I <kishon@ti.com>, m.szyprowski@samsung.com
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+Message-Id: <bdbce410-7f48-17a5-b58b-3ebd65ca6913@samsung.com>
+Date: Fri, 8 Feb 2019 13:36:40 +0100
+To: Roger Quadros <rogerq@ti.com>, Jochen Sprickerhof <jochen@sprickerhof.de>
+Cc: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Kishon Vijay Abraham I <kishon@ti.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-K01hcmVrCgpBcyBWaXZlaydzIGFuZCBBbmRyemVqJ3MgU2Ftc3VuZyBJRHMgYm91bmNlZCBiYWNr
-LgoKT24gMDYvMDIvMTkgMTE6MzgsIEpvY2hlbiBTcHJpY2tlcmhvZiB3cm90ZToKPiAqIFJvZ2Vy
-IFF1YWRyb3MgPHJvZ2VycUB0aS5jb20+IFsyMDE5LTAyLTA2IDEwOjQxXToKPj4gSGksCj4+Cj4+
-IE9uIDIxLzAxLzE5IDE2OjAyLCBKb2NoZW4gU3ByaWNrZXJob2Ygd3JvdGU6Cj4gWy4uXQo+Pj4g
-SSdtIG5vdCBzdXJlIHdoeSB0aGlzIGl0IG9ubHkgd29ya3Mgd2l0aCB0aGUgZHJpdmVyIGNvbXBp
-bGVkIGludG8gdGhlCj4+PiBrZXJuZWwgbm9yIHdoeSBpdCBuZWVkcyBhIGhhcmQgcmVzZXQgb3Ig
-d2h5IGl0IHdhcyB0aGUgbGluZSB3YXMgZHJvcHBlZAo+Pj4gd2hlbiB0aGUgcGF0Y2ggd2FzIGFj
-Y2VwdGVkLiBXb3VsZCBiZSBncmVhdCB0byBnZXQgc29tZSBmZWVkYmFjayBvZiB0aGUKPj4+IGF1
-dGhvcnMuCj4+Cj4+IFdoZW4gWEhDSSBkcml2ZXIgaXMgY29tcGlsZWQgaW50byB0aGUga2VybmVs
-IGFyZSB0aGUgcmVsZXZhbnQgUEhZIGRyaXZlcnMKPj4gY29tcGlsZWQgaW4gYXMgd2VsbD8KPiAK
-PiBPbmx5IENPTkZJR19VU0JfUEhZPXkgKEkgdG9vayB0aGUgY29uZmlnIGZyb20gdGhlIGxpbnV4
-LWltYWdlLTQuMTkuMC0xLWFybW1wXzQuMTkuMTMtMV9hcm1oZi5kZWIgRGViaWFuIHBhY2thZ2Ug
-YXMgYSBiYXNpcyB3aGVyZSB0aGlzIGlzIHRoZSBkZWZhdWx0KS4KPgo=
+SGkgUm9nZXIsCgpPbiAyMDE5LTAyLTA2IDExOjE3LCBSb2dlciBRdWFkcm9zIHdyb3RlOgo+ICtN
+YXJlawo+Cj4gQXMgVml2ZWsncyBhbmQgQW5kcnplaidzIFNhbXN1bmcgSURzIGJvdW5jZWQgYmFj
+ay4KPgo+IE9uIDA2LzAyLzE5IDExOjM4LCBKb2NoZW4gU3ByaWNrZXJob2Ygd3JvdGU6Cj4+ICog
+Um9nZXIgUXVhZHJvcyA8cm9nZXJxQHRpLmNvbT4gWzIwMTktMDItMDYgMTA6NDFdOgo+Pj4gSGks
+Cj4+Pgo+Pj4gT24gMjEvMDEvMTkgMTY6MDIsIEpvY2hlbiBTcHJpY2tlcmhvZiB3cm90ZToKPj4g
+Wy4uXQo+Pj4+IEknbSBub3Qgc3VyZSB3aHkgdGhpcyBpdCBvbmx5IHdvcmtzIHdpdGggdGhlIGRy
+aXZlciBjb21waWxlZCBpbnRvIHRoZQo+Pj4+IGtlcm5lbCBub3Igd2h5IGl0IG5lZWRzIGEgaGFy
+ZCByZXNldCBvciB3aHkgaXQgd2FzIHRoZSBsaW5lIHdhcyBkcm9wcGVkCj4+Pj4gd2hlbiB0aGUg
+cGF0Y2ggd2FzIGFjY2VwdGVkLiBXb3VsZCBiZSBncmVhdCB0byBnZXQgc29tZSBmZWVkYmFjayBv
+ZiB0aGUKPj4+PiBhdXRob3JzLgo+Pj4gV2hlbiBYSENJIGRyaXZlciBpcyBjb21waWxlZCBpbnRv
+IHRoZSBrZXJuZWwgYXJlIHRoZSByZWxldmFudCBQSFkgZHJpdmVycwo+Pj4gY29tcGlsZWQgaW4g
+YXMgd2VsbD8KPj4gT25seSBDT05GSUdfVVNCX1BIWT15IChJIHRvb2sgdGhlIGNvbmZpZyBmcm9t
+IHRoZSBsaW51eC1pbWFnZS00LjE5LjAtMS1hcm1tcF80LjE5LjEzLTFfYXJtaGYuZGViIERlYmlh
+biBwYWNrYWdlIGFzIGEgYmFzaXMgd2hlcmUgdGhpcyBpcyB0aGUgZGVmYXVsdCkuCgpJIGNvbmZp
+cm0gdGhhdCBvbiBPZHJvaWQgWFU0IFVTQiAzLjAgd29ya3Mgb25seSB3aGVuIGFsbCByZWxhdGVk
+IGRyaXZlcnMKKGR3YzMsIHhoY2kgYW5kIGV4eW5vczUgZHJkIHBoeSkgYXJlIGNvbXBpbGVkIGlu
+dG8gdGhlIGtlcm5lbC4gSWYgdGhleQphcmUgY29tcGlsZWQgYXMgbW9kdWxlcywgVVNCIDMuMCBj
+YWxpYnJhdGlvbiBkb2Vzbid0IHdvcmsuIFRoZSBtZW50aW9uZWQKcGF0Y2ggZG9lc24ndCBmaXgg
+YW55dGhpbmcuCgpCZXN0IHJlZ2FyZHMK
