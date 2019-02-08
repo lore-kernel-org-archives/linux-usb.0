@@ -2,25 +2,18 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [net-next] net: usb: rtl8150: mark expected switch fall-through
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Message-Id: <20190208190906.GA19976@embeddedor>
-Date: Fri, 8 Feb 2019 13:09:06 -0600
-To: Petko Manolov <petkan@nucleusys.com>, "David S. Miller" <davem@davemloft.net>
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+From: David Miller <davem@davemloft.net>
+Message-Id: <20190208.115529.481319155837472988.davem@davemloft.net>
+Date: Fri, 08 Feb 2019 11:55:29 -0800 (PST)
+To: gustavo@embeddedor.com
+Cc: petkan@nucleusys.com, linux-usb@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SW4gcHJlcGFyYXRpb24gdG8gZW5hYmxpbmcgLVdpbXBsaWNpdC1mYWxsdGhyb3VnaCwgbWFyayBz
-d2l0Y2gKY2FzZXMgd2hlcmUgd2UgYXJlIGV4cGVjdGluZyB0byBmYWxsIHRocm91Z2guCgpXYXJu
-aW5nIGxldmVsIDMgd2FzIHVzZWQ6IC1XaW1wbGljaXQtZmFsbHRocm91Z2g9MwoKVGhpcyBwYXRj
-aCBpcyBwYXJ0IG9mIHRoZSBvbmdvaW5nIGVmZm9ydHMgdG8gZW5hYmxpbmcKLVdpbXBsaWNpdC1m
-YWxsdGhyb3VnaC4KClNpZ25lZC1vZmYtYnk6IEd1c3Rhdm8gQS4gUi4gU2lsdmEgPGd1c3Rhdm9A
-ZW1iZWRkZWRvci5jb20+Ci0tLQogZHJpdmVycy9uZXQvdXNiL3J0bDgxNTAuYyB8IDEgKwogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9uZXQvdXNi
-L3J0bDgxNTAuYyBiL2RyaXZlcnMvbmV0L3VzYi9ydGw4MTUwLmMKaW5kZXggM2YxNDVlNGM2YzA4
-Li41OWRiZGJiNWZlZmYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbmV0L3VzYi9ydGw4MTUwLmMKKysr
-IGIvZHJpdmVycy9uZXQvdXNiL3J0bDgxNTAuYwpAQCAtODQ3LDYgKzg0Nyw3IEBAIHN0YXRpYyBp
-bnQgcnRsODE1MF9pb2N0bChzdHJ1Y3QgbmV0X2RldmljZSAqbmV0ZGV2LCBzdHJ1Y3QgaWZyZXEg
-KnJxLCBpbnQgY21kKQogCXN3aXRjaCAoY21kKSB7CiAJY2FzZSBTSU9DREVWUFJJVkFURToKIAkJ
-ZGF0YVswXSA9IGRldi0+cGh5OworCQkvKiBmYWxsIHRocm91Z2ggKi8KIAljYXNlIFNJT0NERVZQ
-UklWQVRFICsgMToKIAkJcmVhZF9taWlfd29yZChkZXYsIGRldi0+cGh5LCAoZGF0YVsxXSAmIDB4
-MWYpLCAmZGF0YVszXSk7CiAJCWJyZWFrOwo=
+RnJvbTogIkd1c3Rhdm8gQS4gUi4gU2lsdmEiIDxndXN0YXZvQGVtYmVkZGVkb3IuY29tPgpEYXRl
+OiBGcmksIDggRmViIDIwMTkgMTM6MDk6MDYgLTA2MDAKCj4gSW4gcHJlcGFyYXRpb24gdG8gZW5h
+YmxpbmcgLVdpbXBsaWNpdC1mYWxsdGhyb3VnaCwgbWFyayBzd2l0Y2gKPiBjYXNlcyB3aGVyZSB3
+ZSBhcmUgZXhwZWN0aW5nIHRvIGZhbGwgdGhyb3VnaC4KPiAKPiBXYXJuaW5nIGxldmVsIDMgd2Fz
+IHVzZWQ6IC1XaW1wbGljaXQtZmFsbHRocm91Z2g9Mwo+IAo+IFRoaXMgcGF0Y2ggaXMgcGFydCBv
+ZiB0aGUgb25nb2luZyBlZmZvcnRzIHRvIGVuYWJsaW5nCj4gLVdpbXBsaWNpdC1mYWxsdGhyb3Vn
+aC4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBHdXN0YXZvIEEuIFIuIFNpbHZhIDxndXN0YXZvQGVtYmVk
+ZGVkb3IuY29tPgoKQXBwbGllZC4K
