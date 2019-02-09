@@ -1,20 +1,31 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [alsa-devel] don't pass a NULL struct device to DMA API functions
-From: Takashi Iwai <tiwai@suse.de>
-Message-Id: <s5hwomj7a9e.wl-tiwai@suse.de>
-Date: Fri, 01 Feb 2019 17:18:21 +0100
-To: Christoph Hellwig <hch@lst.de>
-Cc: John Crispin <john@phrozen.org>, Vinod Koul <vkoul@kernel.org>, Dmitry Tarnyagin <dmitry.tarnyagin@lockless.no>, Nicolas Ferre <nicolas.ferre@microchip.com>, Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Felipe Balbi <balbi@kernel.org>, linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org, alsa-devel@alsa-project.org, iommu@lists.linux-foundation.org
+Subject: USB: serial: pl2303: add Delock Infrared device id
+From: ebrahim@gnu.org
+Message-Id: <20190209084840.2319-2-ebrahim@gnu.org>
+Date: Sat,  9 Feb 2019 12:18:40 +0330
+To: linux-usb@vger.kernel.org
+Cc: Ebrahim Byagowi <ebrahim@gnu.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCAwMSBGZWIgMjAxOSAxNzowOTo1NyArMDEwMCwKQ2hyaXN0b3BoIEhlbGx3aWcgd3Jv
-dGU6Cj4gCj4gT24gRnJpLCBGZWIgMDEsIDIwMTkgYXQgMDI6MTY6MDhQTSArMDEwMCwgVGFrYXNo
-aSBJd2FpIHdyb3RlOgo+ID4gQWN0dWFsbHkgdGhlcmUgYXJlIGEgYnVuY2ggb2YgSVNBIHNvdW5k
-IGRyaXZlcnMgdGhhdCBzdGlsbCBjYWxsCj4gPiBhbGxvY2F0b3JzIHdpdGggTlVMTCBkZXZpY2Uu
-Cj4gPiAKPiA+IFRoZSBwYXRjaCBiZWxvdyBzaG91bGQgYWRkcmVzcyBpdCwgYWx0aG91Z2ggaXQn
-cyBvbmx5IGNvbXBpbGUtdGVzdGVkLgo+IAo+IE9oLCBJIG1pc3NlZCB0aGVzZSAiaW5kaXJlY3Qi
-IGNhbGxzLiAgVGhpcyBsb29rcyBnb29kIHRvIG1lOgo+IAo+IFJldmlld2VkLWJ5OiBDaHJpc3Rv
-cGggSGVsbHdpZyA8aGNoQGxzdC5kZT4KCk9LLCBtZXJnZWQgdGhpcyBvbmUgdG8gZm9yLW5leHQg
-YnJhbmNoIG5vdyBhcyB3ZWxsLgoKCnRoYW5rcywKClRha2FzaGkK
+RnJvbTogRWJyYWhpbSBCeWFnb3dpIDxlYnJhaGltQGdudS5vcmc+CgpUaGlzIG1ha2VzIERlbG9j
+ayBJbmZyYXJlZCBhZGFwdGVyIHRvIHdvcmsgYXMgYSBVU0IgdG8gU2VyaWFsIGRldmljZS4KLS0t
+CiBkcml2ZXJzL3VzYi9zZXJpYWwvcGwyMzAzLmMgfCAxICsKIGRyaXZlcnMvdXNiL3NlcmlhbC9w
+bDIzMDMuaCB8IDMgKysrCiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQoKZGlmZiAt
+LWdpdCBhL2RyaXZlcnMvdXNiL3NlcmlhbC9wbDIzMDMuYyBiL2RyaXZlcnMvdXNiL3NlcmlhbC9w
+bDIzMDMuYwppbmRleCA5OGU3YTVkZjAuLmQ1ZWM3MjU3NSAxMDA2NDQKLS0tIGEvZHJpdmVycy91
+c2Ivc2VyaWFsL3BsMjMwMy5jCisrKyBiL2RyaXZlcnMvdXNiL3NlcmlhbC9wbDIzMDMuYwpAQCAt
+MTA1LDYgKzEwNSw3IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgdXNiX2RldmljZV9pZCBpZF90YWJs
+ZVtdID0gewogCXsgVVNCX0RFVklDRShTQU5XQV9WRU5ET1JfSUQsIFNBTldBX1BST0RVQ1RfSUQp
+IH0sCiAJeyBVU0JfREVWSUNFKEFETElOS19WRU5ET1JfSUQsIEFETElOS19ORDY1MzBfUFJPRFVD
+VF9JRCkgfSwKIAl7IFVTQl9ERVZJQ0UoU01BUlRfVkVORE9SX0lELCBTTUFSVF9QUk9EVUNUX0lE
+KSB9LAorCXsgVVNCX0RFVklDRShERUxPQ0tfVkVORE9SX0lELCBERUxPQ0tfUFJPRFVDVF9JRCkg
+fSwKIAl7IH0JCQkJCS8qIFRlcm1pbmF0aW5nIGVudHJ5ICovCiB9OwogCmRpZmYgLS1naXQgYS9k
+cml2ZXJzL3VzYi9zZXJpYWwvcGwyMzAzLmggYi9kcml2ZXJzL3VzYi9zZXJpYWwvcGwyMzAzLmgK
+aW5kZXggNGUyNTU0ZDU1Li4wMTkzNmRlMTMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL3Nlcmlh
+bC9wbDIzMDMuaAorKysgYi9kcml2ZXJzL3VzYi9zZXJpYWwvcGwyMzAzLmgKQEAgLTE1MywzICsx
+NTMsNiBAQAogI2RlZmluZSBTTUFSVF9WRU5ET1JfSUQJMHgwYjhjCiAjZGVmaW5lIFNNQVJUX1BS
+T0RVQ1RfSUQJMHgyMzAzCiAKKy8qIERlbG9jayBJbmZyYXJlZCBBZGFwdGVyICovCisjZGVmaW5l
+IERFTE9DS19WRU5ET1JfSUQJMHgxNjg1CisjZGVmaW5lIERFTE9DS19QUk9EVUNUX0lECTB4MjAw
+MAo=
