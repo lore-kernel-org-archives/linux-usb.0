@@ -1,20 +1,34 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,6/9] usb: roles: Find the muxes by also matching against the device node
+Subject: [v2,7/9] usb: typec: Find the ports by also matching against the device node
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Message-Id: <20190212112452.GC32070@kuha.fi.intel.com>
-Date: Tue, 12 Feb 2019 13:24:52 +0200
-To: Jun Li <jun.li@nxp.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andy Shevchenko <andy.shevchenko@gmail.com>, Chen Yu <chenyu56@huawei.com>, Hans de Goede <hdegoede@redhat.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Message-Id: <20190211083929.GD16987@kuha.fi.intel.com>
+Date: Mon, 11 Feb 2019 10:39:29 +0200
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen Yu <chenyu56@huawei.com>, Jun Li <jun.li@nxp.com>, Hans de Goede <hdegoede@redhat.com>, USB <linux-usb@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgpPbiBUdWUsIEZlYiAxMiwgMjAxOSBhdCAxMDo0MToyOEFNICswMDAwLCBKdW4gTGkgd3Jv
-dGU6Cj4gPiBAQCAtMzIsNiArMzIsNyBAQCB0eXBlZGVmIGVudW0gdXNiX3JvbGUgKCp1c2Jfcm9s
-ZV9zd2l0Y2hfZ2V0X3QpKHN0cnVjdAo+ID4gZGV2aWNlICpkZXYpOwo+ID4gICAqIHVzYl9yb2xl
-X3N3aXRjaF9yZWdpc3RlcigpIGJlZm9yZSByZWdpc3RlcmluZyB0aGUgc3dpdGNoLgo+ID4gICAq
-Lwo+ID4gIHN0cnVjdCB1c2Jfcm9sZV9zd2l0Y2hfZGVzYyB7Cj4gPiArCXN0cnVjdCBmd25vZGVf
-aGFuZGxlICpmd25vZGU7Cj4gWW91IG1heSBhZGQgc29tZSBkZXNjcmlwdGlvbiBmb3IgdGhpcyBu
-ZXcgbWVtYmVyCj4gLyoqCj4gICogc3RydWN0IHVzYl9yb2xlX3N3aXRjaF9kZXNjIC0gVVNCIFJv
-bGUgU3dpdGNoIERlc2NyaXB0b3IKPiAgKiBAIGZ3bm9kZSAKCllvdSBhcmUgY29ycmVjdC4gSSBu
-ZWVkIHRvIGZpeCB0aGF0IG9uZS4KCnRoYW5rcywK
+SGkgQW5keSwKCk9uIFRodSwgSmFuIDMxLCAyMDE5IGF0IDAzOjM1OjM3UE0gKzAyMDAsIEhlaWtr
+aSBLcm9nZXJ1cyB3cm90ZToKPiBPbiBXZWQsIEphbiAzMCwgMjAxOSBhdCAwNjo1MTo1NlBNICsw
+MjAwLCBBbmR5IFNoZXZjaGVua28gd3JvdGU6Cj4gPiBPbiBXZWQsIEphbiAzMCwgMjAxOSBhdCA2
+OjAzIFBNIEhlaWtraSBLcm9nZXJ1cwo+ID4gPGhlaWtraS5rcm9nZXJ1c0BsaW51eC5pbnRlbC5j
+b20+IHdyb3RlOgo+ID4gPgo+ID4gPiBXaGVuIHRoZSBjb25uZWN0aW9ucyBhcmUgZGVmaW5lZCBp
+biBmaXJtd2FyZSwgc3RydWN0Cj4gPiA+IGRldmljZV9jb25uZWN0aW9uIHdpbGwgaGF2ZSB0aGUg
+Zndub2RlIG1lbWJlciBwb2ludGluZyB0bwo+ID4gPiB0aGUgZGV2aWNlIG5vZGUgKHN0cnVjdCBm
+d25vZGVfaGFuZGxlKSBvZiB0aGUgcmVxdWVzdGVkCj4gPiA+IGRldmljZSwgYW5kIHRoZSBlbmRw
+b2ludCB3aWxsIG5vdCBiZSB1c2VkIGF0IGFsbCBpbiB0aGF0Cj4gPiA+IGNhc2UuCj4gPiAKPiA+
+ID4gKyAgICAgICAvKgo+ID4gPiArICAgICAgICAqIEZJWE1FOiBDaGVjayBkb2VzIHRoZSBmd25v
+ZGUgc3VwcG9ydHMgdGhlIHJlcXVlc3RlZCBTVklELiBJZiBpdCBkb2VzCj4gPiA+ICsgICAgICAg
+ICogd2UgbmVlZCB0byByZXR1cm4gRVJSX1BUUigtUFJPQkVfREVGRVIpIHdoZW4gdGhlcmUgaXMg
+bm8gZGV2aWNlLgo+ID4gPiArICAgICAgICAqLwo+ID4gPiArICAgICAgIGlmIChjb24tPmZ3bm9k
+ZSkKPiA+ID4gKyAgICAgICAgICAgICAgIHJldHVybiBjbGFzc19maW5kX2RldmljZSh0eXBlY19j
+bGFzcywgTlVMTCwgY29uLT5md25vZGUsCj4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgdHlwZWNfcG9ydF9md25vZGVfbWF0Y2gpOwo+ID4gPiArCj4gPiA+ICsg
+ICAgICAgZGV2ID0gY2xhc3NfZmluZF9kZXZpY2UodHlwZWNfY2xhc3MsIE5VTEwsIGNvbi0+ZW5k
+cG9pbnRbZXBdLAo+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHR5cGVjX3Bv
+cnRfbmFtZV9tYXRjaCk7Cj4gPiA+ICsKPiA+ID4gKyAgICAgICByZXR1cm4gZGV2ID8gZGV2IDog
+RVJSX1BUUigtRVBST0JFX0RFRkVSKTsKPiA+IAo+ID4gSnVzdCAgdG8gYmUgY2xlYXIsIHRoaXMg
+b25lIHRha2VzIGEgcmVmZXJlbmNlIG9uIGRldi4gSXMgaXQgdGFrZW4gaW50byBhY2NvdW50Pwo+
+IAo+IFllcy4gVGhhdCBpcyB3aGF0IHdlIHdhbnQgaXQgdG8gZG8uCgpHZW50bGUgcGluZy4gSXMg
+dGhlIHNlcmllcyBPSz8KCnRoYW5rcywK
