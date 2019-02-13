@@ -2,30 +2,19 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v4,2/4] dt-bindings: connector: Add vbus-supply property
-From: Jorge Ramirez <jorge.ramirez-ortiz@linaro.org>
-Message-Id: <20190207111734.24171-3-jorge.ramirez-ortiz@linaro.org>
-Date: Thu,  7 Feb 2019 12:17:32 +0100
-To: jorge.ramirez-ortiz@linaro.org, robh@kernel.org, bjorn.andersson@linaro.org
-Cc: swboyd@chromium.org, andy.gross@linaro.org, shawn.guo@linaro.org, gregkh@linuxfoundation.org, mark.rutland@arm.com, kishon@ti.com, jackp@codeaurora.org, devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, khasim.mohammed@linaro.org
+From: Rob Herring <robh@kernel.org>
+Message-Id: <20190213214422.GA31951@bogus>
+Date: Wed, 13 Feb 2019 15:44:22 -0600
+To: Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>
+Cc: robh@kernel.org, bjorn.andersson@linaro.org, swboyd@chromium.org, andy.gross@linaro.org, shawn.guo@linaro.org, gregkh@linuxfoundation.org, mark.rutland@arm.com, kishon@ti.com, jackp@codeaurora.org, devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, khasim.mohammed@linaro.org
 List-ID: <linux-usb.vger.kernel.org>
 
-U29tZSBwaHlzIG1pZ2h0IG5lZWQgdG8gY29udHJvbCB0aGVpciBWQlVTIHJlZ3VsYXRvcnMgd2hp
-bGUgbm90IGJlaW5nCnN1cHBsaWVkIGJ5IHRoZW0uIElmIHN1Y2ggc3VwcG9ydCBpcyByZXF1aXJl
-ZCwgdXNlIHRoZSB2YnVzLXN1cHBseQpwcm9wZXJ0eSBpbiB0aGUgY29ubmVjdG9yIHRvIHJldHJp
-ZXZlIHRoZSByZWd1bGF0b3IuCgpTaWduZWQtb2ZmLWJ5OiBKb3JnZSBSYW1pcmV6LU9ydGl6IDxq
-b3JnZS5yYW1pcmV6LW9ydGl6QGxpbmFyby5vcmc+Ci0tLQogRG9jdW1lbnRhdGlvbi9kZXZpY2V0
-cmVlL2JpbmRpbmdzL2Nvbm5lY3Rvci91c2ItY29ubmVjdG9yLnR4dCB8IDQgKysrKwogMSBmaWxl
-IGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2
-aWNldHJlZS9iaW5kaW5ncy9jb25uZWN0b3IvdXNiLWNvbm5lY3Rvci50eHQgYi9Eb2N1bWVudGF0
-aW9uL2RldmljZXRyZWUvYmluZGluZ3MvY29ubmVjdG9yL3VzYi1jb25uZWN0b3IudHh0CmluZGV4
-IGE5YTJmMmZjNDRmMi4uMmFkMjJkZDZkYzM5IDEwMDY0NAotLS0gYS9Eb2N1bWVudGF0aW9uL2Rl
-dmljZXRyZWUvYmluZGluZ3MvY29ubmVjdG9yL3VzYi1jb25uZWN0b3IudHh0CisrKyBiL0RvY3Vt
-ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9jb25uZWN0b3IvdXNiLWNvbm5lY3Rvci50eHQK
-QEAgLTE2LDYgKzE2LDEwIEBAIE9wdGlvbmFsIHByb3BlcnRpZXM6CiAgIG5vbi1mdWxsc2l6ZSBj
-b25uZWN0b3JzOiAibWluaSIsICJtaWNybyIuCiAtIHNlbGYtcG93ZXJlZDogU2V0IHRoaXMgcHJv
-cGVydHkgaWYgdGhlIHVzYiBkZXZpY2UgdGhhdCBoYXMgaXRzIG93biBwb3dlcgogICBzb3VyY2Uu
-CistIHZidXMtc3VwcGx5OgorICAgIFZhbHVlIHR5cGU6IDxwaGFuZGxlPgorICAgIERlZmluaXRp
-b246IHBoYW5kbGUgdG8gdGhlIHJlZ3VsYXRvciBWQlVTIHN1cHBseSBub2RlLiBTZXQgdGhpcyBw
-cm9wZXJ0eSBpZgorCQkgdGhlIGNvbm5lY3RvciBpcyBzdXBwbGllZCBieSBWQlVTLgogCiBPcHRp
-b25hbCBwcm9wZXJ0aWVzIGZvciB1c2ItYy1jb25uZWN0b3I6CiAtIHBvd2VyLXJvbGU6IHNob3Vs
-ZCBiZSBvbmUgb2YgInNvdXJjZSIsICJzaW5rIiBvciAiZHVhbCIoRFJQKSBpZiB0eXBlYwo=
+T24gVGh1LCAgNyBGZWIgMjAxOSAxMjoxNzozMiArMDEwMCwgSm9yZ2UgUmFtaXJlei1PcnRpeiB3
+cm90ZToKPiBTb21lIHBoeXMgbWlnaHQgbmVlZCB0byBjb250cm9sIHRoZWlyIFZCVVMgcmVndWxh
+dG9ycyB3aGlsZSBub3QgYmVpbmcKPiBzdXBwbGllZCBieSB0aGVtLiBJZiBzdWNoIHN1cHBvcnQg
+aXMgcmVxdWlyZWQsIHVzZSB0aGUgdmJ1cy1zdXBwbHkKPiBwcm9wZXJ0eSBpbiB0aGUgY29ubmVj
+dG9yIHRvIHJldHJpZXZlIHRoZSByZWd1bGF0b3IuCj4gCj4gU2lnbmVkLW9mZi1ieTogSm9yZ2Ug
+UmFtaXJlei1PcnRpeiA8am9yZ2UucmFtaXJlei1vcnRpekBsaW5hcm8ub3JnPgo+IC0tLQo+ICBE
+b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvY29ubmVjdG9yL3VzYi1jb25uZWN0b3Iu
+dHh0IHwgNCArKysrCj4gIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykKPiAKClJldmll
+d2VkLWJ5OiBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPgo=
