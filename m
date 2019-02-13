@@ -1,18 +1,28 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [3/8] dt-bindings: usb: dwc2: Add Amlogic G12A DWC2 Compatible
-From: Rob Herring <robh@kernel.org>
-Message-Id: <20190228161417.GA31632@bogus>
-Date: Thu, 28 Feb 2019 10:14:17 -0600
-To: Neil Armstrong <narmstrong@baylibre.com>
-Cc: gregkh@linuxfoundation.org, hminas@synopsys.com, balbi@kernel.org, kishon@ti.com, devicetree@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: usb: dwc3: Reset num_trbs after skipping
+From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Message-Id: <84bb0bfc1a910cd99e23861451be603be790283b.1550029050.git.thinhn@synopsys.com>
+Date: Tue, 12 Feb 2019 19:39:27 -0800
+To: Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org
+Cc: John Youn <john.youn@synopsys.com>, Thinh Nguyen <thinh.nguyen@synopsys.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVHVlLCAxMiBGZWIgMjAxOSAxNjoxNDowOCArMDEwMCwgTmVpbCBBcm1zdHJvbmcgd3JvdGU6
-Cj4gQWRkcyB0aGUgc3BlY2lmaWMgY29tcGF0aWJsZSBzdHJpbmcgZm9yIHRoZSBEV0MyIElQIGZv
-dW5kIGluIHRoZQo+IEFtbG9naWMgRzEyQSBTb0MgRmFtaWx5Lgo+IAo+IFNpZ25lZC1vZmYtYnk6
-IE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT4KPiAtLS0KPiAgRG9jdW1l
-bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9kd2MyLnR4dCB8IDEgKwo+ICAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKykKPiAKClJldmlld2VkLWJ5OiBSb2IgSGVycmluZyA8cm9i
-aEBrZXJuZWwub3JnPgo=
+Q3VycmVudGx5IHJlcS0+bnVtX3RyYnMgaXMgbm90IHJlc2V0IGFmdGVyIHRoZSBUUkJzIGFyZSBz
+a2lwcGVkIGFuZApwcm9jZXNzZWQgZnJvbSB0aGUgY2FuY2VsbGVkIGxpc3QuIFRoZSBnYWRnZXQg
+ZHJpdmVyIG1heSByZXVzZSB0aGUKcmVxdWVzdCB3aXRoIGFuIGludmFsaWQgcmVxLT5udW1fdHJi
+cywgYW5kIERXQzMgd2lsbCBpbmNvcnJlY3RseSBza2lwCnRyYnMuIFRvIGZpeCB0aGlzLCBzaW1w
+bHkgcmVzZXQgcmVxLT5udW1fdHJicyB0byAwIGFmdGVyIHNraXBwaW5nCnRocm91Z2ggYWxsIG9m
+IHRoZW0uCgpGaXhlczogYzNhY2Q1OTAxNDE0ICgidXNiOiBkd2MzOiBnYWRnZXQ6IHVzZSBudW1f
+dHJicyB3aGVuIHNraXBwaW5nIFRSQnMgb24gLT5kZXF1ZXVlKCkiKQpTaWduZWQtb2ZmLWJ5OiBU
+aGluaCBOZ3V5ZW4gPHRoaW5obkBzeW5vcHN5cy5jb20+Ci0tLQogZHJpdmVycy91c2IvZHdjMy9n
+YWRnZXQuYyB8IDIgKysKIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykKCmRpZmYgLS1n
+aXQgYS9kcml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jIGIvZHJpdmVycy91c2IvZHdjMy9nYWRnZXQu
+YwppbmRleCBlODNmODRlMDdmMTguLmExOTQzNzIzNzYyYiAxMDA2NDQKLS0tIGEvZHJpdmVycy91
+c2IvZHdjMy9nYWRnZXQuYworKysgYi9kcml2ZXJzL3VzYi9kd2MzL2dhZGdldC5jCkBAIC0xNTAy
+LDYgKzE1MDIsOCBAQCBzdGF0aWMgdm9pZCBkd2MzX2dhZGdldF9lcF9za2lwX3RyYnMoc3RydWN0
+IGR3YzNfZXAgKmRlcCwgc3RydWN0IGR3YzNfcmVxdWVzdCAqcgogCQl0cmItPmN0cmwgJj0gfkRX
+QzNfVFJCX0NUUkxfSFdPOwogCQlkd2MzX2VwX2luY19kZXEoZGVwKTsKIAl9CisKKwlyZXEtPm51
+bV90cmJzID0gMDsKIH0KIAogc3RhdGljIHZvaWQgZHdjM19nYWRnZXRfZXBfY2xlYW51cF9jYW5j
+ZWxsZWRfcmVxdWVzdHMoc3RydWN0IGR3YzNfZXAgKmRlcCkK
