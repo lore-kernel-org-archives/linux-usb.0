@@ -2,22 +2,24 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [-next] usb: host: oxu210hp-hcd: remove set but not used variables 'uframes, transfer_buffer_length'
-From: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-Id: <0b843ce0-e302-6d7b-be67-ddaf0e4fb6d3@cogentembedded.com>
-Date: Fri, 15 Feb 2019 11:11:07 +0300
-To: YueHaibing <yuehaibing@huawei.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Colin Ian King <colin.king@canonical.com>
+From: YueHaibing <yuehaibing@huawei.com>
+Message-Id: <8432c416-b0ae-b533-d077-21e7ffd3b3b1@huawei.com>
+Date: Fri, 15 Feb 2019 20:18:17 +0800
+To: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Colin Ian King <colin.king@canonical.com>
 Cc: linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGVsbG8hCgpPbiAxNS4wMi4yMDE5IDY6MTcsIFl1ZUhhaWJpbmcgd3JvdGU6Cgo+IEZpeGVzIGdj
-YyAnLVd1bnVzZWQtYnV0LXNldC12YXJpYWJsZScgd2FybmluZzoKPiAKPiBkcml2ZXJzL3VzYi9o
-b3N0L294dTIxMGhwLWhjZC5jOiBJbiBmdW5jdGlvbiAnc2Nhbl9wZXJpb2RpYyc6Cj4gZHJpdmVy
-cy91c2IvaG9zdC9veHUyMTBocC1oY2QuYzoyMjU2OjEzOiB3YXJuaW5nOgo+ICAgdmFyaWFibGUg
-J3VmcmFtZXMnIHNldCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGVdCj4g
-Cj4gZHJpdmVycy91c2IvaG9zdC9veHUyMTBocC1oY2QuYzogSW4gZnVuY3Rpb24gJ294dV91cmJf
-ZW5xdWV1ZSc6Cj4gZHJpdmVycy91c2IvaG9zdC9veHUyMTBocC1oY2QuYzoyODM1OjY6IHdhcm5p
-bmc6Cj4gICB2YXJpYWJsZSAndHJhbnNmZXJfYnVmZmVyX2xlbmd0aCcgc2V0IGJ1dCBub3QgdXNl
-ZCBbLVd1bnVzZWQtYnV0LXNldC12YXJpYWJsZV0KPiAKPiBJdCBuZXZlciB1c2VkIHNpbmNlIGlu
-dHJvZHVjdGlvbi4KCiAgICAiSXQncyIgb3IgZXZlbiBiZXR0ZXIsICJ0aGV5IGFyZSI/Cgo+IAo+
-IFNpZ25lZC1vZmYtYnk6IFl1ZUhhaWJpbmcgPHl1ZWhhaWJpbmdAaHVhd2VpLmNvbT4KWy4uLl0K
-Ck1CUiwgU2VyZ2VpCg==
+T24gMjAxOS8yLzE1IDE2OjExLCBTZXJnZWkgU2h0eWx5b3Ygd3JvdGU6Cj4gSGVsbG8hCj4gCj4g
+T24gMTUuMDIuMjAxOSA2OjE3LCBZdWVIYWliaW5nIHdyb3RlOgo+IAo+PiBGaXhlcyBnY2MgJy1X
+dW51c2VkLWJ1dC1zZXQtdmFyaWFibGUnIHdhcm5pbmc6Cj4+Cj4+IGRyaXZlcnMvdXNiL2hvc3Qv
+b3h1MjEwaHAtaGNkLmM6IEluIGZ1bmN0aW9uICdzY2FuX3BlcmlvZGljJzoKPj4gZHJpdmVycy91
+c2IvaG9zdC9veHUyMTBocC1oY2QuYzoyMjU2OjEzOiB3YXJuaW5nOgo+PiAgIHZhcmlhYmxlICd1
+ZnJhbWVzJyBzZXQgYnV0IG5vdCB1c2VkIFstV3VudXNlZC1idXQtc2V0LXZhcmlhYmxlXQo+Pgo+
+PiBkcml2ZXJzL3VzYi9ob3N0L294dTIxMGhwLWhjZC5jOiBJbiBmdW5jdGlvbiAnb3h1X3VyYl9l
+bnF1ZXVlJzoKPj4gZHJpdmVycy91c2IvaG9zdC9veHUyMTBocC1oY2QuYzoyODM1OjY6IHdhcm5p
+bmc6Cj4+ICAgdmFyaWFibGUgJ3RyYW5zZmVyX2J1ZmZlcl9sZW5ndGgnIHNldCBidXQgbm90IHVz
+ZWQgWy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGVdCj4+Cj4+IEl0IG5ldmVyIHVzZWQgc2luY2Ug
+aW50cm9kdWN0aW9uLgo+IAo+ICAgICJJdCdzIiBvciBldmVuIGJldHRlciwgInRoZXkgYXJlIj8K
+Ck9rLCB3aWxsIGZpeCBpdCwgVGhhbmtzIQoKPiAKPj4KPj4gU2lnbmVkLW9mZi1ieTogWXVlSGFp
+YmluZyA8eXVlaGFpYmluZ0BodWF3ZWkuY29tPgo+IFsuLi5dCj4gCj4gTUJSLCBTZXJnZWkKPiAK
+Pgo=
