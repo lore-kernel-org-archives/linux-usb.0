@@ -2,35 +2,15 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: gadget: udc: renesas_usb3: add support for r8a774c0
-From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Message-Id: <TY1PR01MB1770317703AABF9DBAFD2FC5C0670@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-Date: Thu, 14 Feb 2019 16:09:25 +0000
-To: Felipe Balbi <balbi@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Simon Horman <horms+renesas@verge.net.au>, Kees Cook <keescook@chromium.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Simon Horman <horms@verge.net.au>, Geert Uytterhoeven <geert+renesas@glider.be>, Chris Paterson <Chris.Paterson2@renesas.com>, Biju Das <biju.das@bp.renesas.com>, "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+From: Felipe Balbi <balbi@kernel.org>
+Message-Id: <8736op4l1a.fsf@linux.intel.com>
+Date: Fri, 15 Feb 2019 08:34:41 +0200
+To: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Simon Horman <horms+renesas@verge.net.au>, Kees Cook <keescook@chromium.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Simon Horman <horms@verge.net.au>, Geert Uytterhoeven <geert+renesas@glider.be>, Chris Paterson <Chris.Paterson2@renesas.com>, Biju Das <biju.das@bp.renesas.com>, "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGVsbG8gRmVsaXBlLAoKV2hvIGlzIHRoZSBiZXN0IHBlcnNvbiBmb3IgdGFraW5nIHBhdGNoZXMg
-Zm9yIHJlbmVzYXNfdXNiMy5jPwoKVGhhbmtzLApGYWIKCj4gRnJvbTogRmFicml6aW8gQ2FzdHJv
-IDxmYWJyaXppby5jYXN0cm9AYnAucmVuZXNhcy5jb20+Cj4gU2VudDogMTMgRGVjZW1iZXIgMjAx
-OCAyMDoyNAo+IFN1YmplY3Q6IFtQQVRDSF0gdXNiOiBnYWRnZXQ6IHVkYzogcmVuZXNhc191c2Iz
-OiBhZGQgc3VwcG9ydCBmb3IgcjhhNzc0YzAKPgo+IFJaL0cyRSBVU0IgMy4wIGltcGxlbWVudGF0
-aW9uIGlzIGxpa2UgdGhlIG9uZSBmb3VuZCBvbiBSLUNhciBFMywKPiB0aGVyZWZvcmUgYWRkIHRo
-ZSBzYW1lIHF1aXJrLgo+Cj4gU2lnbmVkLW9mZi1ieTogRmFicml6aW8gQ2FzdHJvIDxmYWJyaXpp
-by5jYXN0cm9AYnAucmVuZXNhcy5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvdXNiL2dhZGdldC91ZGMv
-cmVuZXNhc191c2IzLmMgfCA0ICsrKysKPiAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygr
-KQo+Cj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2dhZGdldC91ZGMvcmVuZXNhc191c2IzLmMg
-Yi9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL3JlbmVzYXNfdXNiMy5jCj4gaW5kZXggY2RmZmJkMS4u
-MTg0NDRhOCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3VzYi9nYWRnZXQvdWRjL3JlbmVzYXNfdXNi
-My5jCj4gKysrIGIvZHJpdmVycy91c2IvZ2FkZ2V0L3VkYy9yZW5lc2FzX3VzYjMuYwo+IEBAIC0y
-NjI1LDYgKzI2MjUsMTAgQEAgTU9EVUxFX0RFVklDRV9UQUJMRShvZiwgdXNiM19vZl9tYXRjaCk7
-Cj4KPiAgc3RhdGljIGNvbnN0IHN0cnVjdCBzb2NfZGV2aWNlX2F0dHJpYnV0ZSByZW5lc2FzX3Vz
-YjNfcXVpcmtzX21hdGNoW10gPSB7Cj4gIHsKPiArLnNvY19pZCA9ICJyOGE3NzRjMCIsCj4gKy5k
-YXRhID0gJnJlbmVzYXNfdXNiM19wcml2X3I4YTc3OTkwLAo+ICt9LAo+ICt7Cj4gIC5zb2NfaWQg
-PSAicjhhNzc5NSIsIC5yZXZpc2lvbiA9ICJFUzEuKiIsCj4gIC5kYXRhID0gJnJlbmVzYXNfdXNi
-M19wcml2X3I4YTc3OTVfZXMxLAo+ICB9LAo+IC0tCj4gMi43LjQKCgoKUmVuZXNhcyBFbGVjdHJv
-bmljcyBFdXJvcGUgR21iSCxHZXNjaGFlZnRzZnVlaHJlci9QcmVzaWRlbnQgOiBNaWNoYWVsIEhh
-bm5hd2FsZCwgU2l0eiBkZXIgR2VzZWxsc2NoYWZ0L1JlZ2lzdGVyZWQgb2ZmaWNlOiBEdWVzc2Vs
-ZG9yZiwgQXJjYWRpYXN0cmFzc2UgMTAsIDQwNDcyIER1ZXNzZWxkb3JmLCBHZXJtYW55LEhhbmRl
-bHNyZWdpc3Rlci9Db21tZXJjaWFsIFJlZ2lzdGVyOiBEdWVzc2VsZG9yZiwgSFJCIDM3MDggVVN0
-LUlETnIuL1RheCBpZGVudGlmaWNhdGlvbiBuby46IERFIDExOTM1MzQwNiBXRUVFLVJlZy4tTnIu
-L1dFRUUgcmVnLiBuby46IERFIDE0OTc4NjQ3Cg==
+SGksCgoobm8gdG9wLXBvc3RpbmcsIHBsZWFzZSkKCkZhYnJpemlvIENhc3RybyA8ZmFicml6aW8u
+Y2FzdHJvQGJwLnJlbmVzYXMuY29tPiB3cml0ZXM6Cgo+IEhlbGxvIEZlbGlwZSwKPgo+IFdobyBp
+cyB0aGUgYmVzdCBwZXJzb24gZm9yIHRha2luZyBwYXRjaGVzIGZvciByZW5lc2FzX3VzYjMuYz8K
+CnRoZXkncmUgYWxyZWFkeSBpbiBteSAnbmV4dCcgYnJhbmNoLiBJJ2xsIHNlbmQgcHVsbCByZXF1
+ZXN0IHRvIEdyZWcgc2hvcnRseQo=
