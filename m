@@ -2,34 +2,11 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [2/2] RTL8153-BD is used in Dell DA300 type-C dongle. It should be added to the whitelist of devices to activate MAC address pass through.
-From: David Chen <david0813@gmail.com>
-Message-Id: <05F13E08-C930-439D-BDA9-6D6C282889FF@gmail.com>
-Date: Mon, 18 Feb 2019 16:24:45 +0800
-To: Oliver Neukum <oneukum@suse.com>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, netdev@vger.kernel.org, kai.heng.feng@canonical.com, davem@davemloft.net, david.chen7@dell.com, mario.limonciello@dell.com, f.fainelli@gmail.com, edumazet@google.com, zhongjiang@huawei.com, bigeasy@linutronix.de, hayeswang@realtek.com, jslaby@suse.cz
+From: David Miller <davem@davemloft.net>
+Message-Id: <20190218.120337.1294324245757959219.davem@davemloft.net>
+Date: Mon, 18 Feb 2019 12:03:37 -0800 (PST)
+To: david0813@gmail.com
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, hayeswang@realtek.com, mario.limonciello@dell.com, bigeasy@linutronix.de, edumazet@google.com, jslaby@suse.cz, f.fainelli@gmail.com, david.chen7@dell.com, kai.heng.feng@canonical.com, zhongjiang@huawei.com
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgT2xpdmVyLAoKVGhhbmtzIGZvciByZXZpZXdpbmcuICBJIGhhdmUgbWFkZSBzb21lIG1pc3Rh
-a2UsIHdpbGwgY29ycmVjdCBpdCBhbmQgcmVzZW5kLgoKVGhhbmtzIGFuZCBSZWdhcmRzLAotRGF2
-aWQKCj4gT2xpdmVyIE5ldWt1bSA8b25ldWt1bUBzdXNlLmNvbT4g5pa8IDIwMTnlubQy5pyIMTjm
-l6Ug5LiL5Y2INDowNCDlr6vpgZPvvJoKPiAKPj4gT24gTW8sIDIwMTktMDItMTggYXQgMTE6NDgg
-KzA4MDAsIERhdmlkIENoZW4gd3JvdGU6Cj4+IEZyb206IERhdmlkIENoZW4gPGRhdmlkLmNoZW43
-QGRlbGwuY29tPgo+PiAKPj4gUGVyIGNvbmZpcm1pbmcgd2l0aCBSZWFsdGVrIGFsbCBkZXZpY2Vz
-IGNvbnRhaW5pbmcgUlRMODE1My1CRCBzaG91bGQKPj4gYWN0aXZhdGUgTUFDIHBhc3MgdGhyb3Vn
-aCBhbmQgdGhlcmUgd29uJ3QgdXNlIHBhc3MgdGhyb3VnaCBiaXQgb24gZWZ1c2UKPj4gbGlrZSBp
-biBSVEw4MTUzLUFELgo+PiAKPj4gU2lnbmVkLW9mZi1ieTogRGF2aWQgQ2hlbiA8ZGF2aWQuY2hl
-bjdAZGVsbC5jb20+Cj4+IC0tLQo+PiBkcml2ZXJzL25ldC91c2IvcjgxNTIuYyB8IDIgKy0KPj4g
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4+IAo+PiBkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9uZXQvdXNiL3I4MTUyLmMgYi9kcml2ZXJzL25ldC91c2IvcjgxNTIu
-Ywo+PiBpbmRleCBhZGE2YmFmODg0N2EuLjg2YzhjNjRmYmIwZiAxMDA2NDQKPj4gLS0tIGEvZHJp
-dmVycy9uZXQvdXNiL3I4MTUyLmMKPj4gKysrIGIvZHJpdmVycy9uZXQvdXNiL3I4MTUyLmMKPj4g
-QEAgLTExNzksNyArMTE3OSw3IEBAIHN0YXRpYyBpbnQgdmVuZG9yX21hY19wYXNzdGhydV9hZGRy
-X3JlYWQoc3RydWN0IHI4MTUyICp0cCwgc3RydWN0IHNvY2thZGRyICpzYSkKPj4gICAgfSBlbHNl
-IHsKPj4gICAgICAgIC8qIHRlc3QgZm9yIFJUTDgxNTMtQk5EIGFuZCBSVEw4MTUzLUJEICovCj4+
-ICAgICAgICBvY3BfZGF0YSA9IG9jcF9yZWFkX2J5dGUodHAsIE1DVV9UWVBFX1VTQiwgVVNCX01J
-U0NfMSk7Cj4+IC0gICAgICAgIGlmICgob2NwX2RhdGEgJiBCTkRfTUFTSykgPT0gMCAmJiAob2Nw
-X2RhdGEgJiBCRF9NQVNLKSkgewo+PiArICAgICAgICBpZiAoKG9jcF9kYXRhICYgQk5EX01BU0sp
-ID09IDAgJiYgKG9jcF9kYXRhICYgQkRfTUFTSykgPT0gMCkgewo+IAo+IFlvdSBhcmUgaW52ZXJ0
-aW5nIHRoZSBzZWNvbmQgaGFsZiBvZiB0aGUgdGVzdC4gSG93IGNhbiB0aGlzIHBvc3NpYmx5IGJl
-Cj4gcmlnaHQ/IEhhZCB5b3UgZHJvcHBlZCBpdCwgSSB3b3VsZCB1bmRlcnN0YW5kLiBCdXQgdGhp
-cz8gQXJlIHlvdSBzdXJlPwo+IAo+ICAgIFJlZ2FyZHMKPiAgICAgICAgT2xpdmVyCj4K
+V2hlcmUgaXMgcGF0Y2ggIzE/Cg==
