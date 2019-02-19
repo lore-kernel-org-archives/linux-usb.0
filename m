@@ -1,19 +1,30 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [1/8] dt-bindings: phy: Add Amlogic G12A USB2 PHY Bindings
-From: Rob Herring <robh@kernel.org>
-Message-Id: <20190228151823.GA20865@bogus>
-Date: Thu, 28 Feb 2019 09:18:23 -0600
-To: Neil Armstrong <narmstrong@baylibre.com>
-Cc: gregkh@linuxfoundation.org, hminas@synopsys.com, balbi@kernel.org, kishon@ti.com, devicetree@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [next] usb: typec: mux: fix an unsigned less than zero check
+From: Colin King <colin.king@canonical.com>
+Message-Id: <20190219151918.13114-1-colin.king@canonical.com>
+Date: Tue, 19 Feb 2019 15:19:18 +0000
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVHVlLCAxMiBGZWIgMjAxOSAxNjoxNDowNiArMDEwMCwgTmVpbCBBcm1zdHJvbmcgd3JvdGU6
-Cj4gQWRkIHRoZSBBbWxvZ2ljIEcxMkEgRmFtaWx5IFVTQjIgT1RHIFBIWSBCaW5kaW5ncwo+IAo+
-IFNpZ25lZC1vZmYtYnk6IE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT4K
-PiAtLS0KPiAgLi4uL2JpbmRpbmdzL3BoeS9tZXNvbi1nMTJhLXVzYjItcGh5LnR4dCAgICAgIHwg
-MjIgKysrKysrKysrKysrKysrKysrKwo+ICAxIGZpbGUgY2hhbmdlZCwgMjIgaW5zZXJ0aW9ucygr
-KQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
-L3BoeS9tZXNvbi1nMTJhLXVzYjItcGh5LnR4dAo+IAoKUmV2aWV3ZWQtYnk6IFJvYiBIZXJyaW5n
-IDxyb2JoQGtlcm5lbC5vcmc+Cg==
+RnJvbTogQ29saW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KClRoZSBjaGVj
+a3Mgb2YgYSBuZWdhdGl2ZSBudmFsIGluZGljYXRpbmcgYW4gZXJyb3IgYW4gbmV2ZXIgYmUgdHJ1
+ZQphcyBudmFsIGlzIGN1cnJlbnRseSBhIHNpemVfdCB3aGljaCBpcyBvZiBjb3Vyc2UgdW5zaWdu
+ZWQgYW5kIGhlbmNlCm5ldmVyIGxlc3MgdGhhbiB6ZXJvLiBGaXggdGhpcyBieSBtYWtpbmcgbnZh
+bCBhbiBpbnQuCgpEZXRlY3RlZCBieSBDb3Zlcml0eVNjYW4sIENJRCMxNDc2ODYzICgiVW5zaWdu
+ZWQgY29tcGFyZWQgYWdhaW5zdCAwKSAKYW5kIENJRCMxNDc2OTQ4ICgiTG9vcCBib3VuZCIpCgpG
+aXhlczogOTZhNmQwMzFjYTk5ICgidXNiOiB0eXBlYzogbXV4OiBGaW5kIHRoZSBtdXhlcyBieSBh
+bHNvIG1hdGNoaW5nIGFnYWluc3QgdGhlIGRldmljZSBub2RlIikKU2lnbmVkLW9mZi1ieTogQ29s
+aW4gSWFuIEtpbmcgPGNvbGluLmtpbmdAY2Fub25pY2FsLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi90
+eXBlYy9tdXguYyB8IDMgKy0tCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDIgZGVs
+ZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvdHlwZWMvbXV4LmMgYi9kcml2ZXJz
+L3VzYi90eXBlYy9tdXguYwppbmRleCBiOTRlMjkyMGViMzguLjY0ZDJlZDNmZWNiOCAxMDA2NDQK
+LS0tIGEvZHJpdmVycy91c2IvdHlwZWMvbXV4LmMKKysrIGIvZHJpdmVycy91c2IvdHlwZWMvbXV4
+LmMKQEAgLTEyNiwxMCArMTI2LDkgQEAgc3RhdGljIHZvaWQgKnR5cGVjX211eF9tYXRjaChzdHJ1
+Y3QgZGV2aWNlX2Nvbm5lY3Rpb24gKmNvbiwgaW50IGVwLCB2b2lkICpkYXRhKQogewogCWNvbnN0
+IHN0cnVjdCB0eXBlY19hbHRtb2RlX2Rlc2MgKmRlc2MgPSBkYXRhOwogCXN0cnVjdCB0eXBlY19t
+dXggKm11eDsKLQlzaXplX3QgbnZhbDsKIAlib29sIG1hdGNoOwogCXUxNiAqdmFsOwotCWludCBp
+OworCWludCBpLCBudmFsOwogCiAJaWYgKCFjb24tPmZ3bm9kZSkgewogCQlsaXN0X2Zvcl9lYWNo
+X2VudHJ5KG11eCwgJm11eF9saXN0LCBlbnRyeSkK
