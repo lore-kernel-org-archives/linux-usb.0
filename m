@@ -2,18 +2,24 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2] USB: serial: cp210x: Fix GPIO in autosuspend
-From: Oliver Neukum <oneukum@suse.com>
-Message-Id: <1550481432.11088.4.camel@suse.com>
-Date: Mon, 18 Feb 2019 10:17:12 +0100
-To: Karoly Pados <pados@pados.hu>, Johan Hovold <johan@kernel.org>, Loic Poulain <loic.poulain@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+From: Johan Hovold <johan@kernel.org>
+Message-Id: <20190220092304.GG4072@localhost>
+Date: Wed, 20 Feb 2019 10:23:04 +0100
+To: Karoly Pados <pados@pados.hu>
+Cc: Johan Hovold <johan@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Loic Poulain <loic.poulain@linaro.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gU28sIDIwMTktMDItMTcgYXQgMTg6NTkgKzAxMDAsIEthcm9seSBQYWRvcyB3cm90ZToKPiBD
-dXJyZW50IEdQSU8gY29kZSBpbiBjcDIxMHggZmFpbHMgdG8gdGFrZSBVU0IgYXV0b3N1c3BlbmQg
-aW50byBhY2NvdW50LAo+IG1ha2luZyBpdCBwcmFjdGljYWxseSBpbXBvc3NpYmxlIHRvIHVzZSBH
-UElPcyB3aXRoIGF1dG9zdXNwZW5kIGVuYWJsZWQKPiB3aXRob3V0IHVzZXIgY29uZmlndXJhdGlv
-bi4gRml4IHRoaXMgbGlrZSBmb3IgZnRkaV9zaW8gaW4gYSBwcmV2aW91cyBwYXRjaC4KPiBUZXN0
-ZWQgb24gYSBDUDIxMDJOLgoKSGksCgp5b3VyIHBhdGNoIGlzIGxvb2tpbmcgZ29vZCB0byBtZSwg
-YnV0IEkgYW0gYWZyYWlkIHRoZXJlIGFyZSBpc3N1ZXMuCkhvdyBkbyB0aGUgR1BJTyBsaW5lcyBv
-biB0aGUgZGV2aWNlIGludGVyYWN0IHdpdGggVVNCIHJlc2V0IGFuZCBzeXN0ZW0Kc3VzcGVuZD8K
-CglSZWdhcmRzCgkJT2xpdmVyCg==
+T24gU3VuLCBGZWIgMTcsIDIwMTkgYXQgMDY6NTk6MDFQTSArMDEwMCwgS2Fyb2x5IFBhZG9zIHdy
+b3RlOgo+IEN1cnJlbnQgR1BJTyBjb2RlIGluIGNwMjEweCBmYWlscyB0byB0YWtlIFVTQiBhdXRv
+c3VzcGVuZCBpbnRvIGFjY291bnQsCj4gbWFraW5nIGl0IHByYWN0aWNhbGx5IGltcG9zc2libGUg
+dG8gdXNlIEdQSU9zIHdpdGggYXV0b3N1c3BlbmQgZW5hYmxlZAo+IHdpdGhvdXQgdXNlciBjb25m
+aWd1cmF0aW9uLiBGaXggdGhpcyBsaWtlIGZvciBmdGRpX3NpbyBpbiBhIHByZXZpb3VzIHBhdGNo
+Lgo+IFRlc3RlZCBvbiBhIENQMjEwMk4uCj4gCj4gU2lnbmVkLW9mZi1ieTogS2Fyb2x5IFBhZG9z
+IDxwYWRvc0BwYWRvcy5odT4KPiAtLS0KPiBDaGFuZ2Vsb2c6Cj4gLSB2MjogUmVzdHJpY3QgbmV3
+IGF1dG9wbSBjYWxscyB0byBHUElPIHBhdGhzLgo+ICAgICAgIEFsd2F5cyBjaGVjayByZXN1bHQg
+b2YgdXNiX2F1dG9wbV9nZXQuCj4gICAgICAgUmViYXNlZCB0byBjdXJyZW50IHVzYl9zZXJpYWwg
+dXBzdHJlYW0uCgpUaGFua3MgZm9yIHRoZSB2Mi4gTm93IGFwcGxpZWQgYWZ0ZXIgcmVtb3Zpbmcg
+dGhlIHVubW90aXZhdGVkIHdoaXRlCnNwYWNlIGNoYW5nZS4KCkkgYWxzbyBhZGRlZCBhIEZpeGVz
+IGFuZCBDQy1zdGFibGUgdGFnIGFzIHRoaXMgc2VlbXMgYW5ub3lpbmcgZW5vdWdoIHRvCndhcnJh
+bnQgYSBiYWNrcG9ydCBldmVuIGlmIGF1dG9zdXNwZW5kIHdhcyBuZXZlciBhY3R1YWxseSBzdXBw
+b3J0ZWQuCgpKb2hhbgo=
