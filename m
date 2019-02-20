@@ -3,21 +3,15 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/4] usb: xhci: fix build warning - missing prototype
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20190220184448.GA3301@kroah.com>
-Date: Wed, 20 Feb 2019 19:44:48 +0100
+Message-Id: <20190220191753.GB20249@kroah.com>
+Date: Wed, 20 Feb 2019 20:17:53 +0100
 To: Mathias Nyman <mathias.nyman@linux.intel.com>
 Cc: linux-usb@vger.kernel.org, Jean-Philippe Menil <jpmenil@gmail.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCBGZWIgMjAsIDIwMTkgYXQgMDg6MDE6MDhQTSArMDIwMCwgTWF0aGlhcyBOeW1hbiB3
-cm90ZToKPiBPbiAyMC4yLjIwMTkgMTkuNTAsIE1hdGhpYXMgTnltYW4gd3JvdGU6Cj4gPiBGcm9t
-OiBKZWFuLVBoaWxpcHBlIE1lbmlsIDxqcG1lbmlsQGdtYWlsLmNvbT4KPiA+IAo+ID4gRml4IGJ1
-aWxkIHdhcm5pbmcgd2hlbiBidWlsZGluZyBkcml2ZXJzL3VzYi9ob3N0L3hoY2ktbWVtLm8gZHVl
-IHRvIG1pc3NpbmcKPiA+IHByb3RvdHlwZSBmb3IgeGhjaV9mcmVlX3ZpcnRfZGV2aWNlc19kZXB0
-aF9maXJzdC4KPiA+IAo+ID4gVGhpcyBmdW5jdGlvbiBpcyBvbmx5IHVzZWQgaW4geGhjaS1tZW0u
-YyBzbyBqdXN0IG1ha2UgaXQgc3RhdGljLgo+ID4gCj4gPiBTaWduZWQtb2ZmLWJ5OiBKZWFuLVBo
-aWxpcHBlIE1lbmlsIDxqcG1lbmlsQGdtYWlsLmNvbT4KPiAKPiBNeSBTaWduZWQtb2ZmLWJ5IHdh
-cyBhcHBhcmVudGx5IGxvc3QgYWZ0ZXIgSSBkaWQgc29tZSBwYXRjaCBqdWdnbGluZwo+IAo+IFNp
-Z25lZC1vZmYtYnk6IE1hdGhpYXMgTnltYW4gPG1hdGhpYXMubnltYW5AbGludXguaW50ZWwuY29t
-Pgo+IAo+IFdhbnQgbWUgdG8gcmVzZW5kPwoKTmFoLCBJIGNhbiBmaXggaXQgdXAgd2hlbiBJIGFw
-cGx5IGl0IGluIHRoZSBtb3JuaW5nLgoKdGhhbmtzLAoKZ3JlZyBrLWgK
+T24gV2VkLCBGZWIgMjAsIDIwMTkgYXQgMDc6NTA6NTJQTSArMDIwMCwgTWF0aGlhcyBOeW1hbiB3
+cm90ZToKPiBGcm9tOiBKZWFuLVBoaWxpcHBlIE1lbmlsIDxqcG1lbmlsQGdtYWlsLmNvbT4KPiAK
+PiBGaXggYnVpbGQgd2FybmluZyB3aGVuIGJ1aWxkaW5nIGRyaXZlcnMvdXNiL2hvc3QveGhjaS1t
+ZW0ubyBkdWUgdG8gbWlzc2luZwo+IHByb3RvdHlwZSBmb3IgeGhjaV9mcmVlX3ZpcnRfZGV2aWNl
+c19kZXB0aF9maXJzdC4KClRoZXJlIGlzIG5vIG5vcm1hbCAiYnVpbGQgd2FybmluZyIsIHRoaXMg
+aXMgYSBzcGFyc2UgZml4dXAsIHJpZ2h0Pwo=
