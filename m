@@ -2,24 +2,26 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v1] usb: chipidea: tegra: Fix missed ci_hdrc_remove_device()
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-Id: <20190224153622.8877-1-digetx@gmail.com>
-Date: Sun, 24 Feb 2019 18:36:22 +0300
-To: Peter Chen <Peter.Chen@nxp.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>
-Cc: linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Peter Chen <peter.chen@nxp.com>
+Message-Id: <VI1PR04MB5327FE97DC8C68B4D56DE0A98B7A0@VI1PR04MB5327.eurprd04.prod.outlook.com>
+Date: Mon, 25 Feb 2019 02:27:19 +0000
+To: Dmitry Osipenko <digetx@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhlIENoaXBJZGVhJ3MgcGxhdGZvcm0gZGV2aWNlIG5lZWQgdG8gYmUgdW5yZWdpc3RlcmVkIG9u
-IFRlZ3JhJ3MgZHJpdmVyCm1vZHVsZSByZW1vdmFsLgoKRml4ZXM6IGRmZWJiNWY0M2E3ODgyN2Eg
-KCJ1c2I6IGNoaXBpZGVhOiBBZGQgc3VwcG9ydCBmb3IgVGVncmEyMC8zMC8xMTQvMTI0IikKU2ln
-bmVkLW9mZi1ieTogRG1pdHJ5IE9zaXBlbmtvIDxkaWdldHhAZ21haWwuY29tPgotLS0KIGRyaXZl
-cnMvdXNiL2NoaXBpZGVhL2NpX2hkcmNfdGVncmEuYyB8IDEgKwogMSBmaWxlIGNoYW5nZWQsIDEg
-aW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvY2hpcGlkZWEvY2lfaGRyY190
-ZWdyYS5jIGIvZHJpdmVycy91c2IvY2hpcGlkZWEvY2lfaGRyY190ZWdyYS5jCmluZGV4IDc3Mjg1
-MWJlZTk5Yi4uMTIwMjUzNThiYjNjIDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9jaGlwaWRlYS9j
-aV9oZHJjX3RlZ3JhLmMKKysrIGIvZHJpdmVycy91c2IvY2hpcGlkZWEvY2lfaGRyY190ZWdyYS5j
-CkBAIC0xMzAsNiArMTMwLDcgQEAgc3RhdGljIGludCB0ZWdyYV91ZGNfcmVtb3ZlKHN0cnVjdCBw
-bGF0Zm9ybV9kZXZpY2UgKnBkZXYpCiB7CiAJc3RydWN0IHRlZ3JhX3VkYyAqdWRjID0gcGxhdGZv
-cm1fZ2V0X2RydmRhdGEocGRldik7CiAKKwljaV9oZHJjX3JlbW92ZV9kZXZpY2UodWRjLT5kZXYp
-OwogCXVzYl9waHlfc2V0X3N1c3BlbmQodWRjLT5waHksIDEpOwogCWNsa19kaXNhYmxlX3VucHJl
-cGFyZSh1ZGMtPmNsayk7CiAK
+PiAKPiBGaXhlczogZGZlYmI1ZjQzYTc4ODI3YSAoInVzYjogY2hpcGlkZWE6IEFkZCBzdXBwb3J0
+IGZvciBUZWdyYTIwLzMwLzExNC8xMjQiKQoKSSBzdXBwb3NlIHlvdSBuZWVkIHRvIGFwcGx5IGF0
+IHN0YWJsZSB0cmVlIHRvbywgcmlnaHQ/Cgo+IFNpZ25lZC1vZmYtYnk6IERtaXRyeSBPc2lwZW5r
+byA8ZGlnZXR4QGdtYWlsLmNvbT4KPiAtLS0KPiAgZHJpdmVycy91c2IvY2hpcGlkZWEvY2lfaGRy
+Y190ZWdyYS5jIHwgMSArCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQo+IAo+IGRp
+ZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9jaGlwaWRlYS9jaV9oZHJjX3RlZ3JhLmMKPiBiL2RyaXZl
+cnMvdXNiL2NoaXBpZGVhL2NpX2hkcmNfdGVncmEuYwo+IGluZGV4IDc3Mjg1MWJlZTk5Yi4uMTIw
+MjUzNThiYjNjIDEwMDY0NAo+IC0tLSBhL2RyaXZlcnMvdXNiL2NoaXBpZGVhL2NpX2hkcmNfdGVn
+cmEuYwo+ICsrKyBiL2RyaXZlcnMvdXNiL2NoaXBpZGVhL2NpX2hkcmNfdGVncmEuYwo+IEBAIC0x
+MzAsNiArMTMwLDcgQEAgc3RhdGljIGludCB0ZWdyYV91ZGNfcmVtb3ZlKHN0cnVjdCBwbGF0Zm9y
+bV9kZXZpY2UgKnBkZXYpCj4gewo+ICAJc3RydWN0IHRlZ3JhX3VkYyAqdWRjID0gcGxhdGZvcm1f
+Z2V0X2RydmRhdGEocGRldik7Cj4gCj4gKwljaV9oZHJjX3JlbW92ZV9kZXZpY2UodWRjLT5kZXYp
+Owo+ICAJdXNiX3BoeV9zZXRfc3VzcGVuZCh1ZGMtPnBoeSwgMSk7Cj4gIAljbGtfZGlzYWJsZV91
+bnByZXBhcmUodWRjLT5jbGspOwo+IAogCkFja2VkLWJ5OiBQZXRlciBDaGVuIDxwZXRlci5jaGVu
+QG54cC5jb20+CgpIaSBHcmVnLCB3b3VsZCB5b3Ugc3RpbGwgYWNjZXB0IHRoZSBidWctZml4IGZv
+ciB0aGlzIHJlbGVhc2UgKHY1LjApPyBPciBJIHNlbmQgeW91IGxhdGVyPwoKUGV0ZXIK
