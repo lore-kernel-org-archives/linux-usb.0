@@ -2,24 +2,34 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v1] usb: chipidea: tegra: Fix missed ci_hdrc_remove_device()
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-Id: <e7693387-9ac5-b2d8-0a0f-d507dfe05830@gmail.com>
-Date: Tue, 26 Feb 2019 17:33:05 +0300
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Joe Perches <joe@perches.com>, Andy Whitcroft <apw@canonical.com>
-Cc: Peter Chen <peter.chen@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20190226145857.GB26080@kroah.com>
+Date: Tue, 26 Feb 2019 15:58:57 +0100
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Joe Perches <joe@perches.com>, Andy Whitcroft <apw@canonical.com>, Peter Chen <peter.chen@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-MjYuMDIuMjAxOSAxMzo1NiwgR3JlZyBLcm9haC1IYXJ0bWFuINC/0LjRiNC10YI6Cj4gT24gTW9u
-LCBGZWIgMjUsIDIwMTkgYXQgMDg6MDc6MTVBTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtvIHdyb3Rl
-Ogo+PiDQkiBNb24sIDI1IEZlYiAyMDE5IDAyOjI3OjE5ICswMDAwCj4+IFBldGVyIENoZW4gPHBl
-dGVyLmNoZW5AbnhwLmNvbT4g0L/QuNGI0LXRgjoKPj4KPj4+ICAKPj4+Pgo+Pj4+IEZpeGVzOiBk
-ZmViYjVmNDNhNzg4MjdhICgidXNiOiBjaGlwaWRlYTogQWRkIHN1cHBvcnQgZm9yCj4+Pj4gVGVn
-cmEyMC8zMC8xMTQvMTI0IikgIAo+Pj4KPj4+IEkgc3VwcG9zZSB5b3UgbmVlZCB0byBhcHBseSBh
-dCBzdGFibGUgdHJlZSB0b28sIHJpZ2h0Pwo+Pj4KPj4KPj4gSXQgaXMgZW5vdWdoIHRvIGhhdmUg
-dGhlICJGaXhlcyIgdGFnIHRvIGdldCBwYXRjaCBiYWNrcG9ydGVkIGludG8gYWxsCj4+IHJlbGV2
-YW50IGtlcm5lbCB2ZXJzaW9ucy4KPiAKPiBObyBpdCBpcyBub3QuICBNeSBzY3JpcHRzIGRvIE5P
-VCB0cmlnZ2VyIG9mZiBvZiB0aGUgZml4ZXM6IHRhZywgcGxlYXNlCj4gcmVhZDoKPiAgICAgaHR0
-cHM6Ly93d3cua2VybmVsLm9yZy9kb2MvaHRtbC9sYXRlc3QvcHJvY2Vzcy9zdGFibGUta2VybmVs
-LXJ1bGVzLmh0bWwKPiBmb3IgaG93IHRvIGRvIHRoaXMgcHJvcGVybHkuCgpPa2F5LCBteSBiYWQg
-dGhlbi4gTWF5YmUgdGhpcyBpcyBzb21ldGhpbmcgdGhhdCBjb3VsZCB3YXJuZWQgYnkgY2hlY2tw
-YXRjaC4uIGFkZGluZyBKb2UgYW5kIEFuZHkgdG8gdGhlIHRocmVhZC4K
+T24gVHVlLCBGZWIgMjYsIDIwMTkgYXQgMDU6MzM6MDVQTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtv
+IHdyb3RlOgo+IDI2LjAyLjIwMTkgMTM6NTYsIEdyZWcgS3JvYWgtSGFydG1hbiDQv9C40YjQtdGC
+Ogo+ID4gT24gTW9uLCBGZWIgMjUsIDIwMTkgYXQgMDg6MDc6MTVBTSArMDMwMCwgRG1pdHJ5IE9z
+aXBlbmtvIHdyb3RlOgo+ID4+INCSIE1vbiwgMjUgRmViIDIwMTkgMDI6Mjc6MTkgKzAwMDAKPiA+
+PiBQZXRlciBDaGVuIDxwZXRlci5jaGVuQG54cC5jb20+INC/0LjRiNC10YI6Cj4gPj4KPiA+Pj4g
+IAo+ID4+Pj4KPiA+Pj4+IEZpeGVzOiBkZmViYjVmNDNhNzg4MjdhICgidXNiOiBjaGlwaWRlYTog
+QWRkIHN1cHBvcnQgZm9yCj4gPj4+PiBUZWdyYTIwLzMwLzExNC8xMjQiKSAgCj4gPj4+Cj4gPj4+
+IEkgc3VwcG9zZSB5b3UgbmVlZCB0byBhcHBseSBhdCBzdGFibGUgdHJlZSB0b28sIHJpZ2h0Pwo+
+ID4+Pgo+ID4+Cj4gPj4gSXQgaXMgZW5vdWdoIHRvIGhhdmUgdGhlICJGaXhlcyIgdGFnIHRvIGdl
+dCBwYXRjaCBiYWNrcG9ydGVkIGludG8gYWxsCj4gPj4gcmVsZXZhbnQga2VybmVsIHZlcnNpb25z
+Lgo+ID4gCj4gPiBObyBpdCBpcyBub3QuICBNeSBzY3JpcHRzIGRvIE5PVCB0cmlnZ2VyIG9mZiBv
+ZiB0aGUgZml4ZXM6IHRhZywgcGxlYXNlCj4gPiByZWFkOgo+ID4gICAgIGh0dHBzOi8vd3d3Lmtl
+cm5lbC5vcmcvZG9jL2h0bWwvbGF0ZXN0L3Byb2Nlc3Mvc3RhYmxlLWtlcm5lbC1ydWxlcy5odG1s
+Cj4gPiBmb3IgaG93IHRvIGRvIHRoaXMgcHJvcGVybHkuCj4gCj4gT2theSwgbXkgYmFkIHRoZW4u
+IE1heWJlIHRoaXMgaXMgc29tZXRoaW5nIHRoYXQgY291bGQgd2FybmVkIGJ5IGNoZWNrcGF0Y2gu
+LiBhZGRpbmcgSm9lIGFuZCBBbmR5IHRvIHRoZSB0aHJlYWQuCgpXaHk/ICBJdCdzIGFsbG93ZWQg
+dG8gcHV0IGZpeGVzOiB0YWdzIGZvciBhIHBhdGNoIHRoYXQgZG9lcyBub3QgYmVsb25nCmluIGEg
+c3RhYmxlIHRyZWUuICBUaGF0IGhhcHBlbnMgYWxsIHRoZSB0aW1lLCBhbmQgaXMgZW5jb3VyYWdl
+ZC4gIExvb2sKYXQgc29tZSBvZiB0aGUgc3R1ZmYgaW4gbGludXgtbmV4dCBub3csIHdlIGhhdmUg
+Rml4ZXM6IGZvciBjb21taXRzIHRoYXQKYXJlIHN0aWxsIGluIGxpbnV4LW5leHQgYXMgd2VsbCwg
+YmVjYXVzZSB3ZSBkbyBub3QgcmViYXNlIG91ciB0cmVlcy4KV2hlbiB0aGV5IGFsbCBtZXJnZSBp
+bnRvIExpbnVzJ3MgdHJlZSwgYWxsIGlzIGdvb2QuCgpTbyB0aGlzIGlzIG5vdCBzb21ldGhpbmcg
+dGhhdCBjaGVja3BhdGNoIG5lZWRzIHRvIGRvIGFueXRoaW5nIGFib3V0LgoKdGhhbmtzLAoKZ3Jl
+ZyBrLWgK
