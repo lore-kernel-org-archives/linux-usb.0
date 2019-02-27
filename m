@@ -2,40 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [3/3] usb: typec: altmodes/displayport: Notify drm subsys of hotplug events
-From: kbuild test robot <lkp@intel.com>
-Message-Id: <201902262354.qqbs1z5l%fengguang.wu@intel.com>
-Date: Wed, 27 Feb 2019 00:04:36 +0800
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Message-Id: <20190227094420.GE27730@kuha.fi.intel.com>
+Date: Wed, 27 Feb 2019 11:44:20 +0200
 To: Hans de Goede <hdegoede@redhat.com>
-Cc: kbuild-all@01.org, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul <seanpaul@chromium.org>, Daniel Vetter <daniel.vetter@intel.com>, Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, David Airlie <airlied@linux.ie>, intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <maxime.ripard@bootlin.com>, Sean Paul <seanpaul@chromium.org>, Daniel Vetter <daniel.vetter@intel.com>, Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, David Airlie <airlied@linux.ie>, intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgSGFucywKCkkgbG92ZSB5b3VyIHBhdGNoISBZZXQgc29tZXRoaW5nIHRvIGltcHJvdmU6Cgpb
-YXV0byBidWlsZCB0ZXN0IEVSUk9SIG9uIGRybS1pbnRlbC9mb3ItbGludXgtbmV4dF0KW2Fsc28g
-YnVpbGQgdGVzdCBFUlJPUiBvbiBuZXh0LTIwMTkwMjI2XQpbY2Fubm90IGFwcGx5IHRvIHY1LjAt
-cmM4XQpbaWYgeW91ciBwYXRjaCBpcyBhcHBsaWVkIHRvIHRoZSB3cm9uZyBnaXQgdHJlZSwgcGxl
-YXNlIGRyb3AgdXMgYSBub3RlIHRvIGhlbHAgaW1wcm92ZSB0aGUgc3lzdGVtXQoKdXJsOiAgICBo
-dHRwczovL2dpdGh1Yi5jb20vMGRheS1jaS9saW51eC9jb21taXRzL0hhbnMtZGUtR29lZGUvUHJv
-cGFnYXRlLURQLW92ZXItVHlwZS1DLWhvdHBsdWctZXZlbnRzLWZyb20tVHlwZS1DLXN1YnN5cy10
-by1kcm0tZHJpdmVycy8yMDE5MDIyNi0wMDUzMzQKYmFzZTogICBnaXQ6Ly9hbm9uZ2l0LmZyZWVk
-ZXNrdG9wLm9yZy9kcm0taW50ZWwgZm9yLWxpbnV4LW5leHQKY29uZmlnOiB4ODZfNjQtcmFuZGNv
-bmZpZy1zMS0wMjI2MTgwMiAoYXR0YWNoZWQgYXMgLmNvbmZpZykKY29tcGlsZXI6IGdjYy02IChE
-ZWJpYW4gNi41LjAtMikgNi41LjAgMjAxODEwMjYKcmVwcm9kdWNlOgogICAgICAgICMgc2F2ZSB0
-aGUgYXR0YWNoZWQgLmNvbmZpZyB0byBsaW51eCBidWlsZCB0cmVlCiAgICAgICAgbWFrZSBBUkNI
-PXg4Nl82NCAKCkFsbCBlcnJvcnMgKG5ldyBvbmVzIHByZWZpeGVkIGJ5ID4+KToKCiAgIGxkOiBk
-cml2ZXJzL3VzYi90eXBlYy9hbHRtb2Rlcy9kaXNwbGF5cG9ydC5vOiBpbiBmdW5jdGlvbiBgZHBf
-YWx0bW9kZV9yZW1vdmUnOgo+PiBkcml2ZXJzL3VzYi90eXBlYy9hbHRtb2Rlcy9kaXNwbGF5cG9y
-dC5jOjU3MDogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byBgZHJtX2ttc19jYWxsX29vYl9ob3RwbHVn
-X25vdGlmaWVyX2NoYWluJwogICBsZDogZHJpdmVycy91c2IvdHlwZWMvYWx0bW9kZXMvZGlzcGxh
-eXBvcnQubzogaW4gZnVuY3Rpb24gYGRwX2FsdG1vZGVfbm90aWZ5JzoKICAgZHJpdmVycy91c2Iv
-dHlwZWMvYWx0bW9kZXMvZGlzcGxheXBvcnQuYzo3OTogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byBg
-ZHJtX2ttc19jYWxsX29vYl9ob3RwbHVnX25vdGlmaWVyX2NoYWluJwoKdmltICs1NzAgZHJpdmVy
-cy91c2IvdHlwZWMvYWx0bW9kZXMvZGlzcGxheXBvcnQuYwoKICAgNTYyCQogICA1NjMJc3RhdGlj
-IHZvaWQgZHBfYWx0bW9kZV9yZW1vdmUoc3RydWN0IHR5cGVjX2FsdG1vZGUgKmFsdCkKICAgNTY0
-CXsKICAgNTY1CQlzdHJ1Y3QgZHBfYWx0bW9kZSAqZHAgPSB0eXBlY19hbHRtb2RlX2dldF9kcnZk
-YXRhKGFsdCk7CiAgIDU2NgkKICAgNTY3CQlzeXNmc19yZW1vdmVfZ3JvdXAoJmFsdC0+ZGV2Lmtv
-YmosICZkcF9hbHRtb2RlX2dyb3VwKTsKICAgNTY4CQljYW5jZWxfd29ya19zeW5jKCZkcC0+d29y
-ayk7CiAgIDU2OQkKID4gNTcwCQlkcm1fa21zX2NhbGxfb29iX2hvdHBsdWdfbm90aWZpZXJfY2hh
-aW4oRFJNX09PQl9IT1RQTFVHX1RZUEVfQ19EUCk7CiAgIDU3MQl9CiAgIDU3MgotLS0KMC1EQVkg
-a2VybmVsIHRlc3QgaW5mcmFzdHJ1Y3R1cmUgICAgICAgICAgICAgICAgT3BlbiBTb3VyY2UgVGVj
-aG5vbG9neSBDZW50ZXIKaHR0cHM6Ly9saXN0cy4wMS5vcmcvcGlwZXJtYWlsL2tidWlsZC1hbGwg
-ICAgICAgICAgICAgICAgICAgSW50ZWwgQ29ycG9yYXRpb24K
+T24gTW9uLCBGZWIgMjUsIDIwMTkgYXQgMDI6MjA6MzdQTSArMDEwMCwgSGFucyBkZSBHb2VkZSB3
+cm90ZToKPiBVc2UgdGhlIG5ldyBkcm1fa21zX2NhbGxfb29iX2hvdHBsdWdfbm90aWZpZXJfY2hh
+aW4oKSBmdW5jdGlvbiB0byBsb2FkCj4gZHJtL2ttcyBkcml2ZXJzIGtub3cgYWJvdXQgRGlzcGxh
+eVBvcnQgb3ZlciBUeXBlLUMgaG90cGx1ZyBldmVudHMuCj4gCj4gU2lnbmVkLW9mZi1ieTogSGFu
+cyBkZSBHb2VkZSA8aGRlZ29lZGVAcmVkaGF0LmNvbT4KCkknbSBPSyB3aXRoIHRoaXMuIEknbGwg
+d2FpdCBmb3IgdGhlIHYyIGFuZCBzZWUgaWYgSSBjYW4gdGVzdCB0aGVzZS4KCnRoYW5rcywK
