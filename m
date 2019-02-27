@@ -1,18 +1,25 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2,1/5] usb: gadget: u_serial: add missing port entry locking
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20190227093458.GA7322@kroah.com>
-Date: Wed, 27 Feb 2019 10:34:58 +0100
-To: =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc: linux-usb@vger.kernel.org, Felipe Balbi <balbi@kernel.org>
+Subject: [v2] usb: core: Fix typo in description of "authorized_default"
+From: Jakub Wilk <jwilk@jwilk.net>
+Message-Id: <20190227175239.6727-1-jwilk@jwilk.net>
+Date: Wed, 27 Feb 2019 18:52:39 +0100
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCBGZWIgMjcsIDIwMTkgYXQgMTA6Mjk6MzdBTSArMDEwMCwgTWljaGHFgiBNaXJvc8WC
-YXcgd3JvdGU6Cj4gZ3NlcmlhbF9hbGxvY19saW5lKCkgbWlzc2VzIGxvY2tpbmcgKGZvciBhIHJl
-bGVhc2UgYmFycmllcikgd2hpbGUKPiByZXNldHRpbmcgcG9ydCBlbnRyeSBvbiBUVFkgYWxsb2Nh
-dGlvbiBmYWlsdXJlLiBGaXggdGhpcy4KPiAKPiBTaWduZWQtb2ZmLWJ5OiBNaWNoYcWCIE1pcm9z
-xYJhdyA8bWlycS1saW51eEByZXJlLnFtcW0ucGw+Cj4gLS0tCj4gICB2Mjogbm8gY2hhbmdlcwoK
-U2hvdWxkbid0IHlvdSBoYXZlIGFkZGVkIGE6CkNjOiBzdGFibGUgPHN0YWJsZUB2Z2VyLmtlcm5l
-bC5vcmc+Cgp0byB0aGlzPyAgOikK
+QWRkIG1pc3NpbmcgcmlnaHQgcGFyZW50aGVzaXMuCgpTaWduZWQtb2ZmLWJ5OiBKYWt1YiBXaWxr
+IDxqd2lsa0Bqd2lsay5uZXQ+Ci0tLQogZHJpdmVycy91c2IvY29yZS9oY2QuYyB8IDIgKy0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvdXNiL2NvcmUvaGNkLmMgYi9kcml2ZXJzL3VzYi9jb3JlL2hjZC5jCmluZGV4IDNi
+NmUzZTI1ZjU5ZS4uMzE4OTE4MWJiNjI4IDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9jb3JlL2hj
+ZC5jCisrKyBiL2RyaXZlcnMvdXNiL2NvcmUvaGNkLmMKQEAgLTM4NSw3ICszODUsNyBAQCBtb2R1
+bGVfcGFyYW0oYXV0aG9yaXplZF9kZWZhdWx0LCBpbnQsIFNfSVJVR098U19JV1VTUik7CiBNT0RV
+TEVfUEFSTV9ERVNDKGF1dGhvcml6ZWRfZGVmYXVsdCwKIAkJIkRlZmF1bHQgVVNCIGRldmljZSBh
+dXRob3JpemF0aW9uOiAwIGlzIG5vdCBhdXRob3JpemVkLCAxIGlzICIKIAkJImF1dGhvcml6ZWQs
+IDIgaXMgYXV0aG9yaXplZCBmb3IgaW50ZXJuYWwgZGV2aWNlcywgLTEgaXMgIgotCQkiYXV0aG9y
+aXplZCBleGNlcHQgZm9yIHdpcmVsZXNzIFVTQiAoZGVmYXVsdCwgb2xkIGJlaGF2aW91ciIpOwor
+CQkiYXV0aG9yaXplZCBleGNlcHQgZm9yIHdpcmVsZXNzIFVTQiAoZGVmYXVsdCwgb2xkIGJlaGF2
+aW91cikiKTsKIC8qLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSovCiAKIC8qKgo=
