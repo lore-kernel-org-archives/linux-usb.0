@@ -1,26 +1,24 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [2/4] usb: xhci: Fix for Enabling USB ROLE SWITCH QUIRK on INTEL_SUNRISEPOINT_LP_XHCI
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20190221095000.GB618@kroah.com>
-Date: Thu, 21 Feb 2019 10:50:00 +0100
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: linux-usb@vger.kernel.org, Balaji Manoharan <m.balaji@intel.com>
+Subject: [1/5] usb: chipidea: imx: remove unused header files
+From: Peter Chen <peter.chen@nxp.com>
+Message-Id: <20190227064908.17731-2-peter.chen@nxp.com>
+Date: Wed, 27 Feb 2019 06:51:29 +0000
+To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, Jun Li <jun.li@nxp.com>, Peter Chen <peter.chen@nxp.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCBGZWIgMjEsIDIwMTkgYXQgMTA6NTY6MThBTSArMDIwMCwgTWF0aGlhcyBOeW1hbiB3
-cm90ZToKPiBPbiAyMC4yLjIwMTkgMjEuMTcsIEdyZWcgS0ggd3JvdGU6Cj4gPiBPbiBXZWQsIEZl
-YiAyMCwgMjAxOSBhdCAwNzo1MDo1M1BNICswMjAwLCBNYXRoaWFzIE55bWFuIHdyb3RlOgo+ID4g
-PiBGcm9tOiBCYWxhamkgTWFub2hhcmFuIDxtLmJhbGFqaUBpbnRlbC5jb20+Cj4gPiA+IAo+ID4g
-PiBUaGlzIGZpeCBlbmFibGVzIFVTQiByb2xlIGZlYXR1cmUgb24gaW50ZWwgY29tbWVyY2lhbCBu
-dWMKPiA+ID4gcGxhdGZvcm0gd2hpY2ggaXMgYmFzZWQgb24gS2FieWxha2UgY2hpcHNldC4KPiA+
-ID4gCj4gPiA+IFNpZ25lZC1vZmYtYnk6IEJhbGFqaSBNYW5vaGFyYW4gPG0uYmFsYWppQGludGVs
-LmNvbT4KPiA+ID4gUmV2aWV3ZWQtYnk6IEhhbnMgZGUgR29lZGUgPGhkZWdvZWRlQHJlZGhhdC5j
-b20+Cj4gPiA+IFJldmlld2VkLWJ5OiBIZWlra2kgS3JvZ2VydXMgPGhlaWtraS5rcm9nZXJ1c0Bs
-aW51eC5pbnRlbC5jb20+Cj4gPiA+IFNpZ25lZC1vZmYtYnk6IE1hdGhpYXMgTnltYW4gPG1hdGhp
-YXMubnltYW5AbGludXguaW50ZWwuY29tPgo+ID4gPiAtLS0KPiA+ID4gICBkcml2ZXJzL3VzYi9o
-b3N0L3hoY2ktcGNpLmMgfCAxICsKPiA+ID4gICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
-KykKPiA+IAo+ID4gU2hvdWxkbid0IHRoaXMgYmUgY2M6IHN0YWJsZT8KPiAKPiBZZXMsIGFncmVl
-LCB0aGlzIHdvdWxkIGJlIGdvb2QgdG8gZ2V0IHRvIHN0YWJsZSBhcyB3ZWxsCgpPaywgd2lsbCBh
-ZGQgdGhlIGNjOiBzdGFibGUgdGFnIHRvIGl0LCB0aGFua3MuCgpncmVnIGstaAo=
+RnJvbTogSnVuIExpIDxqdW4ubGlAbnhwLmNvbT4KClRob3NlIDIgaGVhZGVycyBmaWxlcyBhcmUg
+bm90IHJlcXVpcmVkIG5vdy4KClNpZ25lZC1vZmYtYnk6IEp1biBMaSA8anVuLmxpQG54cC5jb20+
+ClNpZ25lZC1vZmYtYnk6IFBldGVyIENoZW4gPHBldGVyLmNoZW5AbnhwLmNvbT4KLS0tCiBkcml2
+ZXJzL3VzYi9jaGlwaWRlYS9jaV9oZHJjX2lteC5jIHwgMiAtLQogMSBmaWxlIGNoYW5nZWQsIDIg
+ZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvY2hpcGlkZWEvY2lfaGRyY19p
+bXguYyBiL2RyaXZlcnMvdXNiL2NoaXBpZGVhL2NpX2hkcmNfaW14LmMKaW5kZXggZTgxZGU5Y2E4
+NzI5Li4xZWYyMzczYzIyOWUgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL2NoaXBpZGVhL2NpX2hk
+cmNfaW14LmMKKysrIGIvZHJpdmVycy91c2IvY2hpcGlkZWEvY2lfaGRyY19pbXguYwpAQCAtNywx
+MCArNyw4IEBACiAKICNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4KICNpbmNsdWRlIDxsaW51eC9v
+Zl9wbGF0Zm9ybS5oPgotI2luY2x1ZGUgPGxpbnV4L29mX2dwaW8uaD4KICNpbmNsdWRlIDxsaW51
+eC9wbGF0Zm9ybV9kZXZpY2UuaD4KICNpbmNsdWRlIDxsaW51eC9wbV9ydW50aW1lLmg+Ci0jaW5j
+bHVkZSA8bGludXgvZG1hLW1hcHBpbmcuaD4KICNpbmNsdWRlIDxsaW51eC91c2IvY2hpcGlkZWEu
+aD4KICNpbmNsdWRlIDxsaW51eC91c2Ivb2YuaD4KICNpbmNsdWRlIDxsaW51eC9jbGsuaD4K
