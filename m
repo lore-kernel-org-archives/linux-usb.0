@@ -2,26 +2,17 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v3,1/5] usb: gadget: u_serial: add missing port entry locking
-From: =?utf-8?b?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Message-Id: <7e94cf9d80899fe76537b455bb5668cc7ed0fa08.1551264094.git.mirq-linux@rere.qmqm.pl>
-Date: Wed, 27 Feb 2019 11:46:57 +0100
-To: linux-usb@vger.kernel.org
-Cc: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20190227130300.GA18700@kroah.com>
+Date: Wed, 27 Feb 2019 14:03:00 +0100
+To: =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+Cc: linux-usb@vger.kernel.org, Felipe Balbi <balbi@kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-Z3NlcmlhbF9hbGxvY19saW5lKCkgbWlzc2VzIGxvY2tpbmcgKGZvciBhIHJlbGVhc2UgYmFycmll
-cikgd2hpbGUKcmVzZXR0aW5nIHBvcnQgZW50cnkgb24gVFRZIGFsbG9jYXRpb24gZmFpbHVyZS4g
-Rml4IHRoaXMuCgpDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZwpTaWduZWQtb2ZmLWJ5OiBNaWNo
-YcWCIE1pcm9zxYJhdyA8bWlycS1saW51eEByZXJlLnFtcW0ucGw+Ci0tLQogIHYzOiBhZGRlZCBj
-Yy1zdGFibGUKICB2Mjogbm8gY2hhbmdlcwotLS0KIGRyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlv
-bi91X3NlcmlhbC5jIHwgMiArKwogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKQoKZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi91X3NlcmlhbC5jIGIvZHJpdmVy
-cy91c2IvZ2FkZ2V0L2Z1bmN0aW9uL3Vfc2VyaWFsLmMKaW5kZXggNjVmNjM0ZWM3ZmMyLi5iYjFl
-MmUxZDAwNzYgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi91X3Nlcmlh
-bC5jCisrKyBiL2RyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi91X3NlcmlhbC5jCkBAIC0xMjM5
-LDggKzEyMzksMTAgQEAgaW50IGdzZXJpYWxfYWxsb2NfbGluZSh1bnNpZ25lZCBjaGFyICpsaW5l
-X251bSkKIAkJCQlfX2Z1bmNfXywgcG9ydF9udW0sIFBUUl9FUlIodHR5X2RldikpOwogCiAJCXJl
-dCA9IFBUUl9FUlIodHR5X2Rldik7CisJCW11dGV4X2xvY2soJnBvcnRzW3BvcnRfbnVtXS5sb2Nr
-KTsKIAkJcG9ydCA9IHBvcnRzW3BvcnRfbnVtXS5wb3J0OwogCQlwb3J0c1twb3J0X251bV0ucG9y
-dCA9IE5VTEw7CisJCW11dGV4X3VubG9jaygmcG9ydHNbcG9ydF9udW1dLmxvY2spOwogCQlnc2Vy
-aWFsX2ZyZWVfcG9ydChwb3J0KTsKIAkJZ290byBlcnI7CiAJfQo=
+T24gV2VkLCBGZWIgMjcsIDIwMTkgYXQgMTE6NDY6NTdBTSArMDEwMCwgTWljaGHFgiBNaXJvc8WC
+YXcgd3JvdGU6Cj4gZ3NlcmlhbF9hbGxvY19saW5lKCkgbWlzc2VzIGxvY2tpbmcgKGZvciBhIHJl
+bGVhc2UgYmFycmllcikgd2hpbGUKPiByZXNldHRpbmcgcG9ydCBlbnRyeSBvbiBUVFkgYWxsb2Nh
+dGlvbiBmYWlsdXJlLiBGaXggdGhpcy4KPiAKPiBDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZwo+
+IFNpZ25lZC1vZmYtYnk6IE1pY2hhxYIgTWlyb3PFgmF3IDxtaXJxLWxpbnV4QHJlcmUucW1xbS5w
+bD4KPiAKClJldmlld2VkLWJ5OiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5k
+YXRpb24ub3JnPgo=
