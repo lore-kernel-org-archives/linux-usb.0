@@ -2,22 +2,18 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/8] dt-bindings: phy: Add Amlogic G12A USB2 PHY Bindings
-From: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Message-Id: <CAFBinCD_n_T=Ho+yB74FW1JP8mCLj0KmHPeDFWne=yfmgd9rqg@mail.gmail.com>
-Date: Sun, 17 Feb 2019 22:58:38 +0100
+From: Rob Herring <robh@kernel.org>
+Message-Id: <20190228151823.GA20865@bogus>
+Date: Thu, 28 Feb 2019 09:18:23 -0600
 To: Neil Armstrong <narmstrong@baylibre.com>
-Cc: gregkh@linuxfoundation.org, hminas@synopsys.com, balbi@kernel.org, kishon@ti.com, devicetree@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc: gregkh@linuxfoundation.org, hminas@synopsys.com, balbi@kernel.org, kishon@ti.com, devicetree@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVHVlLCBGZWIgMTIsIDIwMTkgYXQgNDoxNCBQTSBOZWlsIEFybXN0cm9uZyA8bmFybXN0cm9u
-Z0BiYXlsaWJyZS5jb20+IHdyb3RlOgo+Cj4gQWRkIHRoZSBBbWxvZ2ljIEcxMkEgRmFtaWx5IFVT
-QjIgT1RHIFBIWSBCaW5kaW5ncwpuaXQtcGljazogaWYgeW91IHdhbnQgdG8ga2VlcCAiT1RHIiBp
-biB0aGVyZSB0aGVuIHBsZWFzZSBhZGQgYSBzaG9ydApkZXNjcmlwdGlvbiBob3cgT1RHIHdvcmtz
-IG9uIHRoaXMgUEhZLgpJIHdvdWxkIGRlc2NyaWJlIHRoaXMgYXM6ICJBZGQgdGhlIEFtbG9naWMg
-RzEyQSBGYW1pbHkgVVNCMiBQSFkKQmluZGluZ3MuIFRoZSBQSFkgd29ya3MgZm9yIGhvc3Qgb3Ig
-cGVyaXBoZXJhbCBtb2Rlcy4gQ29uZmlndXJhdGlvbiBvZgp0aGUgbW9kZSBpcyBwYXJ0IG9mIHRo
-ZSBVU0JDVFJMIHJlZ2lzdGVycyB3aGljaCBhcmUgb3V0c2lkZSBvZiB0aGUgUEhZCnJlZ2lzdGVy
-cy4iCgo+IFNpZ25lZC1vZmYtYnk6IE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJl
-LmNvbT4Kd2l0aCB0aGUgcGF0Y2ggZGVzY3JpcHRpb24gbml0LXBpY2sgYWRkcmVzc2VkOgpSZXZp
-ZXdlZC1ieTogTWFydGluIEJsdW1lbnN0aW5nbCA8bWFydGluLmJsdW1lbnN0aW5nbEBnb29nbGVt
-YWlsLmNvbT4KCgpSZWdhcmRzCk1hcnRpbgo=
+T24gVHVlLCAxMiBGZWIgMjAxOSAxNjoxNDowNiArMDEwMCwgTmVpbCBBcm1zdHJvbmcgd3JvdGU6
+Cj4gQWRkIHRoZSBBbWxvZ2ljIEcxMkEgRmFtaWx5IFVTQjIgT1RHIFBIWSBCaW5kaW5ncwo+IAo+
+IFNpZ25lZC1vZmYtYnk6IE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT4K
+PiAtLS0KPiAgLi4uL2JpbmRpbmdzL3BoeS9tZXNvbi1nMTJhLXVzYjItcGh5LnR4dCAgICAgIHwg
+MjIgKysrKysrKysrKysrKysrKysrKwo+ICAxIGZpbGUgY2hhbmdlZCwgMjIgaW5zZXJ0aW9ucygr
+KQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
+L3BoeS9tZXNvbi1nMTJhLXVzYjItcGh5LnR4dAo+IAoKUmV2aWV3ZWQtYnk6IFJvYiBIZXJyaW5n
+IDxyb2JoQGtlcm5lbC5vcmc+Cg==
