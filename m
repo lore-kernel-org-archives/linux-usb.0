@@ -1,21 +1,28 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3,2/5] usb: gadget: u_serial: reimplement console support
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20190227130616.GB18700@kroah.com>
-Date: Wed, 27 Feb 2019 14:06:16 +0100
-To: =?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-Cc: linux-usb@vger.kernel.org, Felipe Balbi <balbi@kernel.org>
+Subject: usb: musb: sunxi: propagate devicetree node to glue pdev
+From: =?utf-8?b?TcOlbnMgUnVsbGfDpXJk?= <mans@mansr.com>
+Message-Id: <20190228112031.8122-1-mans@mansr.com>
+Date: Thu, 28 Feb 2019 11:20:31 +0000
+To: Bin Liu <b-liu@ti.com>, Maxime Ripard <maxime.ripard@bootlin.com>, Chen-Yu Tsai <wens@csie.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCBGZWIgMjcsIDIwMTkgYXQgMTE6NDY6NTdBTSArMDEwMCwgTWljaGHFgiBNaXJvc8WC
-YXcgd3JvdGU6Cj4gUmV3cml0ZSBjb25zb2xlIHN1cHBvcnQgdG8gZml4IGEgZmV3IHNob3J0Y29t
-aW5ncyBvZiB0aGUgb2xkIGNvZGUKPiBwcmV2ZW50aW5nIGl0cyB1c2Ugd2l0aCBtdWx0aXBsZSBw
-b3J0cy4gVGhpcyByZW1vdmVzIHNvbWUgZHVwbGljYXRlZAo+IGNvZGUgYW5kIHJlcGxhY2VzIGEg
-Y3VzdG9tIGt0aHJlYWQgd2l0aCBzaW1wbGVyIHdvcmtxdWV1ZSBpdGVtLgo+IAo+IE9ubHkgcG9y
-dCB0dHlHUzAgZ2V0cyB0byBiZSBhIGNvbnNvbGUgZm9yIG5vdy4KPiAKPiBTaWduZWQtb2ZmLWJ5
-OiBNaWNoYcWCIE1pcm9zxYJhdyA8bWlycS1saW51eEByZXJlLnFtcW0ucGw+CgpJdCdzIGEgdG91
-Z2ggY2h1bmsgb2YgY29kZSB0byByZXZpZXcsIGJ1dCBJIF90aGlua18gaXQgbG9va3MgY29ycmVj
-dC4KQXMgbG9uZyBhcyB5b3UgaGF2ZSBhY3R1YWxseSB0ZXN0ZWQgaXQgOikKClJldmlld2VkLWJ5
-OiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnPgo=
+SW4gb3JkZXIgZm9yIGRldmljZXRyZWUgbm9kZXMgdG8gYmUgY29ycmVjdGx5IGFzc29jaWF0ZWQg
+d2l0aCBhdHRhY2hlZApkZXZpY2VzLCB0aGUgY29udHJvbGxlciBub2RlIG5lZWRzIHRvIGJlIHBy
+b3BhZ2F0ZWQgdG8gdGhlIGdsdWUgZGV2aWNlLgoKU2lnbmVkLW9mZi1ieTogTWFucyBSdWxsZ2Fy
+ZCA8bWFuc0BtYW5zci5jb20+Ci0tLQpUaGlzIGRlcGVuZHMgb24gMmMxZWE2YWJkZTg4ICgicGxh
+dGZvcm06IHNldCBvZl9ub2RlIGluCnBsYXRmb3JtX2RldmljZV9yZWdpc3Rlcl9mdWxsKCkiKSB3
+aGljaCBpcyBjdXJyZW50bHkgd2luZGluZyBpdHMgd2F5CnRocm91Z2ggdGhlIHN0YWdpbmcgdHJl
+ZXMuCi0tLQogZHJpdmVycy91c2IvbXVzYi9zdW54aS5jIHwgMiArKwogMSBmaWxlIGNoYW5nZWQs
+IDIgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL211c2Ivc3VueGkuYyBi
+L2RyaXZlcnMvdXNiL211c2Ivc3VueGkuYwppbmRleCA4MzJhNDFmOWVlN2QuLmE3MjY2NWZiZjEx
+MSAxMDA2NDQKLS0tIGEvZHJpdmVycy91c2IvbXVzYi9zdW54aS5jCisrKyBiL2RyaXZlcnMvdXNi
+L211c2Ivc3VueGkuYwpAQCAtNzgxLDYgKzc4MSw4IEBAIHN0YXRpYyBpbnQgc3VueGlfbXVzYl9w
+cm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQogCXBpbmZvLm5hbWUJID0gIm11c2It
+aGRyYyI7CiAJcGluZm8uaWQJPSBQTEFURk9STV9ERVZJRF9BVVRPOwogCXBpbmZvLnBhcmVudAk9
+ICZwZGV2LT5kZXY7CisJcGluZm8uZndub2RlCT0gb2ZfZndub2RlX2hhbmRsZShwZGV2LT5kZXYu
+b2Zfbm9kZSk7CisJcGluZm8ub2Zfbm9kZV9yZXVzZWQgPSB0cnVlOwogCXBpbmZvLnJlcwk9IHBk
+ZXYtPnJlc291cmNlOwogCXBpbmZvLm51bV9yZXMJPSBwZGV2LT5udW1fcmVzb3VyY2VzOwogCXBp
+bmZvLmRhdGEJPSAmcGRhdGE7Cg==
