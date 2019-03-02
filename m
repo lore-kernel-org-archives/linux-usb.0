@@ -2,19 +2,21 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: USB: usb.h: tweak struct urb to remove wasted space
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20190302080004.GB18046@kroah.com>
-Date: Sat, 2 Mar 2019 09:00:04 +0100
-To: Oliver Neukum <oneukum@suse.com>
+From: Oliver Neukum <oneukum@suse.com>
+Message-Id: <1551534701.16887.2.camel@suse.com>
+Date: Sat, 02 Mar 2019 14:51:41 +0100
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCBNYXIgMDEsIDIwMTkgYXQgMDg6NDQ6MTNQTSArMDEwMCwgT2xpdmVyIE5ldWt1bSB3
-cm90ZToKPiBPbiBGciwgMjAxOS0wMy0wMSBhdCAxODoyMiArMDEwMCwgR3JlZyBLcm9haC1IYXJ0
-bWFuIHdyb3RlOgo+ID4gQnkgbW92aW5nIG9uZSBmaWVsZCBhcm91bmQgaW4gJ3N0cnVjdCB1cmIn
-IHdlIHJlZHVjZSB0aGUgc2l6ZSBvZiB0aGUKPiA+IHN0cnVjdHVyZSBieSA4IGJ5dGVzLgo+IAo+
-IElmIHlvdSBhcmUgZ29pbmcgZm9yIHRoaXMgSSBoYXZlIHRvIGFzayB3aHkgdW5saW5rIGFuZCBz
-dGF0dXMKPiBhcmUgZnVsbCBzaXplIGludHMgYW55d2F5LgoKSGlzdG9yeSwgdGhleSBob2xkIGEg
-Im5vcm1hbCIgbmVnYXRpdmUgZXJyb3IgY29kZS4gIEkgZ3Vlc3Mgd2UgY291bGQKdHVybiB0aGVt
-IGludG8gczE2LCBpZiBpdCByZWFsbHkgbWF0dGVycywgYnV0IHRoYXQgZmVlbHMgb2RkIHRvIG1l
-LgoKdGhhbmtzLAoKZ3JlZyBrLWgK
+T24gU2EsIDIwMTktMDMtMDIgYXQgMDk6MDAgKzAxMDAsIEdyZWcgS3JvYWgtSGFydG1hbiB3cm90
+ZToKPiBPbiBGcmksIE1hciAwMSwgMjAxOSBhdCAwODo0NDoxM1BNICswMTAwLCBPbGl2ZXIgTmV1
+a3VtIHdyb3RlOgo+ID4gT24gRnIsIDIwMTktMDMtMDEgYXQgMTg6MjIgKzAxMDAsIEdyZWcgS3Jv
+YWgtSGFydG1hbiB3cm90ZToKPiA+ID4gQnkgbW92aW5nIG9uZSBmaWVsZCBhcm91bmQgaW4gJ3N0
+cnVjdCB1cmInIHdlIHJlZHVjZSB0aGUgc2l6ZSBvZiB0aGUKPiA+ID4gc3RydWN0dXJlIGJ5IDgg
+Ynl0ZXMuCj4gPiAKPiA+IElmIHlvdSBhcmUgZ29pbmcgZm9yIHRoaXMgSSBoYXZlIHRvIGFzayB3
+aHkgdW5saW5rIGFuZCBzdGF0dXMKPiA+IGFyZSBmdWxsIHNpemUgaW50cyBhbnl3YXkuCj4gCj4g
+SGlzdG9yeSwgdGhleSBob2xkIGEgIm5vcm1hbCIgbmVnYXRpdmUgZXJyb3IgY29kZS4gIEkgZ3Vl
+c3Mgd2UgY291bGQKPiB0dXJuIHRoZW0gaW50byBzMTYsIGlmIGl0IHJlYWxseSBtYXR0ZXJzLCBi
+dXQgdGhhdCBmZWVscyBvZGQgdG8gbWUuCgpSZXR1cm5pbmcgaW50ZXJuYWwgZXJyb3IgY29kZXMg
+dG8gdXNlciBzcGFjZSBpcyBhIGJ1Zy4KCglSZWdhcmRzCgkJT2xpdmVyCg==
