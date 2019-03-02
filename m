@@ -2,26 +2,32 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v3,06/12] usb: dwc3: Increase timeout for CmdAct cleared by device controller
-From: Yu Chen <chenyu56@huawei.com>
-Message-Id: <20190302090505.65542-7-chenyu56@huawei.com>
-Date: Sat, 2 Mar 2019 17:04:59 +0800
-To: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: john.stultz@linaro.org, suzhuangluan@hisilicon.com, kongfei@hisilicon.com, liuyu712@hisilicon.com, wanghu17@hisilicon.com, butao@hisilicon.com, chenyao11@huawei.com, fangshengzhou@hisilicon.com, lipengcheng8@huawei.com, songxiaowei@hisilicon.com, xuyiping@hisilicon.com, xuyoujun4@huawei.com, yudongbin@hisilicon.com, zangleigang@hisilicon.com, Yu Chen <chenyu56@huawei.com>, Andy Shevchenko <andy.shevchenko@gmail.com>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Binghui Wang <wangbinghui@hisilicon.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Message-Id: <CAHp75Vd+wPU_QvaWHanpG6hjnUj6==4Y3YiOtZnWpk0kyFUQ4A@mail.gmail.com>
+Date: Sat, 2 Mar 2019 17:47:23 +0200
+To: Yu Chen <chenyu56@huawei.com>
+Cc: USB <linux-usb@vger.kernel.org>, devicetree <devicetree@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, John Stultz <john.stultz@linaro.org>, Suzhuangluan <suzhuangluan@hisilicon.com>, Kongfei <kongfei@hisilicon.com>, liuyu712@hisilicon.com, wanghu17@hisilicon.com, butao@hisilicon.com, Yao Chen <chenyao11@huawei.com>, fangshengzhou@hisilicon.com, lipengcheng8@huawei.com, songxiaowei <songxiaowei@hisilicon.com>, xu yiping <xuyiping@hisilicon.com>, xuyoujun4@huawei.com, yudongbin@hisilicon.com, zangleigang@hisilicon.com, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Binghui Wang <wangbinghui@hisilicon.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SXQgbmVlZHMgbW9yZSB0aW1lIGZvciB0aGUgZGV2aWNlIGNvbnRyb2xsZXIgdG8gY2xlYXIgdGhl
-IENtZEFjdCBvZgpERVBDTUQgb24gSGlzaWxpY29uIEtpcmluIFNvYy4KCkNjOiBBbmR5IFNoZXZj
-aGVua28gPGFuZHkuc2hldmNoZW5rb0BnbWFpbC5jb20+CkNjOiBGZWxpcGUgQmFsYmkgPGJhbGJp
-QGtlcm5lbC5vcmc+CkNjOiBHcmVnIEtyb2FoLUhhcnRtYW4gPGdyZWdraEBsaW51eGZvdW5kYXRp
-b24ub3JnPgpDYzogSm9obiBTdHVsdHogPGpvaG4uc3R1bHR6QGxpbmFyby5vcmc+CkNjOiBCaW5n
-aHVpIFdhbmcgPHdhbmdiaW5naHVpQGhpc2lsaWNvbi5jb20+ClNpZ25lZC1vZmYtYnk6IFl1IENo
-ZW4gPGNoZW55dTU2QGh1YXdlaS5jb20+Ci0tLQogZHJpdmVycy91c2IvZHdjMy9nYWRnZXQuYyB8
-IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlm
-ZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2R3YzMvZ2FkZ2V0LmMgYi9kcml2ZXJzL3VzYi9kd2MzL2dh
-ZGdldC5jCmluZGV4IDZjOWI3NmJjYzJlMS4uODRkNzAxYjM3MTcxIDEwMDY0NAotLS0gYS9kcml2
-ZXJzL3VzYi9kd2MzL2dhZGdldC5jCisrKyBiL2RyaXZlcnMvdXNiL2R3YzMvZ2FkZ2V0LmMKQEAg
-LTI3MCw3ICsyNzAsNyBAQCBpbnQgZHdjM19zZW5kX2dhZGdldF9lcF9jbWQoc3RydWN0IGR3YzNf
-ZXAgKmRlcCwgdW5zaWduZWQgY21kLAogewogCWNvbnN0IHN0cnVjdCB1c2JfZW5kcG9pbnRfZGVz
-Y3JpcHRvciAqZGVzYyA9IGRlcC0+ZW5kcG9pbnQuZGVzYzsKIAlzdHJ1Y3QgZHdjMwkJKmR3YyA9
-IGRlcC0+ZHdjOwotCXUzMgkJCXRpbWVvdXQgPSAxMDAwOworCXUzMgkJCXRpbWVvdXQgPSA1MDAw
-OwogCXUzMgkJCXNhdmVkX2NvbmZpZyA9IDA7CiAJdTMyCQkJcmVnOwogCg==
+T24gU2F0LCBNYXIgMiwgMjAxOSBhdCAxMTowNiBBTSBZdSBDaGVuIDxjaGVueXU1NkBodWF3ZWku
+Y29tPiB3cm90ZToKPgo+IEl0IG5lZWRzIG1vcmUgdGltZSBmb3IgdGhlIGRldmljZSBjb250cm9s
+bGVyIHRvIGNsZWFyIHRoZSBDbWRBY3Qgb2YKPiBERVBDTUQgb24gSGlzaWxpY29uIEtpcmluIFNv
+Yy4KPgoKNXggdGltZXMgbW9yZT8gQ2FuIHlvdSBwcm92aWRlIG1vcmUgc3BlY2lmaWMgZGV0YWls
+cyBvbiB0aGF0PwoKPiBDYzogQW5keSBTaGV2Y2hlbmtvIDxhbmR5LnNoZXZjaGVua29AZ21haWwu
+Y29tPgo+IENjOiBGZWxpcGUgQmFsYmkgPGJhbGJpQGtlcm5lbC5vcmc+Cj4gQ2M6IEdyZWcgS3Jv
+YWgtSGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+Cj4gQ2M6IEpvaG4gU3R1bHR6
+IDxqb2huLnN0dWx0ekBsaW5hcm8ub3JnPgo+IENjOiBCaW5naHVpIFdhbmcgPHdhbmdiaW5naHVp
+QGhpc2lsaWNvbi5jb20+Cj4gU2lnbmVkLW9mZi1ieTogWXUgQ2hlbiA8Y2hlbnl1NTZAaHVhd2Vp
+LmNvbT4KPiAtLS0KPiAgZHJpdmVycy91c2IvZHdjMy9nYWRnZXQuYyB8IDIgKy0KPiAgMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCj4KPiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy91c2IvZHdjMy9nYWRnZXQuYyBiL2RyaXZlcnMvdXNiL2R3YzMvZ2FkZ2V0LmMKPiBp
+bmRleCA2YzliNzZiY2MyZTEuLjg0ZDcwMWIzNzE3MSAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3Vz
+Yi9kd2MzL2dhZGdldC5jCj4gKysrIGIvZHJpdmVycy91c2IvZHdjMy9nYWRnZXQuYwo+IEBAIC0y
+NzAsNyArMjcwLDcgQEAgaW50IGR3YzNfc2VuZF9nYWRnZXRfZXBfY21kKHN0cnVjdCBkd2MzX2Vw
+ICpkZXAsIHVuc2lnbmVkIGNtZCwKPiAgewo+ICAgICAgICAgY29uc3Qgc3RydWN0IHVzYl9lbmRw
+b2ludF9kZXNjcmlwdG9yICpkZXNjID0gZGVwLT5lbmRwb2ludC5kZXNjOwo+ICAgICAgICAgc3Ry
+dWN0IGR3YzMgICAgICAgICAgICAgKmR3YyA9IGRlcC0+ZHdjOwo+IC0gICAgICAgdTMyICAgICAg
+ICAgICAgICAgICAgICAgdGltZW91dCA9IDEwMDA7Cj4gKyAgICAgICB1MzIgICAgICAgICAgICAg
+ICAgICAgICB0aW1lb3V0ID0gNTAwMDsKPiAgICAgICAgIHUzMiAgICAgICAgICAgICAgICAgICAg
+IHNhdmVkX2NvbmZpZyA9IDA7Cj4gICAgICAgICB1MzIgICAgICAgICAgICAgICAgICAgICByZWc7
+Cj4KPiAtLQo+IDIuMTUuMC1yYzIKPgo=
