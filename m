@@ -2,40 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v3,10/12] hikey960: Support usb functionality of Hikey960
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Message-Id: <CAHp75VdaNn4OQAQt1cU8CZ+Cton90kxmwQSG5Du7KUzPR3hSCg@mail.gmail.com>
-Date: Sat, 2 Mar 2019 18:01:29 +0200
+From: John Stultz <john.stultz@linaro.org>
+Message-Id: <CALAqxLVSiWB-HRJWd-aBWNZ-u3JpK4WVR84DSEKRNV1Kzom8pg@mail.gmail.com>
+Date: Sun, 3 Mar 2019 15:17:29 -0500
 To: Yu Chen <chenyu56@huawei.com>
-Cc: USB <linux-usb@vger.kernel.org>, devicetree <devicetree@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, John Stultz <john.stultz@linaro.org>, Suzhuangluan <suzhuangluan@hisilicon.com>, Kongfei <kongfei@hisilicon.com>, liuyu712@hisilicon.com, wanghu17@hisilicon.com, butao@hisilicon.com, Yao Chen <chenyao11@huawei.com>, fangshengzhou@hisilicon.com, lipengcheng8@huawei.com, songxiaowei <songxiaowei@hisilicon.com>, xu yiping <xuyiping@hisilicon.com>, xuyoujun4@huawei.com, yudongbin@hisilicon.com, zangleigang@hisilicon.com, Chunfeng Yun <chunfeng.yun@mediatek.com>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Binghui Wang <wangbinghui@hisilicon.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Linux USB List <linux-usb@vger.kernel.org>, "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>, Zhuangluan Su <suzhuangluan@hisilicon.com>, Kongfei <kongfei@hisilicon.com>, "Liuyu \(R\)" <liuyu712@hisilicon.com>, wanghu17@hisilicon.com, butao@hisilicon.com, chenyao11@huawei.com, fangshengzhou@hisilicon.com, Li Pengcheng <lipengcheng8@huawei.com>, songxiaowei@hisilicon.com, YiPing Xu <xuyiping@hisilicon.com>, xuyoujun4@huawei.com, yudongbin@hisilicon.com, Zang Leigang <zangleigang@hisilicon.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>, Andy Shevchenko <andy.shevchenko@gmail.com>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Binghui Wang <wangbinghui@hisilicon.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gU2F0LCBNYXIgMiwgMjAxOSBhdCAxMTowNSBBTSBZdSBDaGVuIDxjaGVueXU1NkBodWF3ZWku
-Y29tPiB3cm90ZToKPgo+IFRoaXMgZHJpdmVyIGhhbmRsZXMgdXNiIGh1YiBwb3dlciBvbiBhbmQg
-dHlwZUMgcG9ydCBldmVudCBvZiBIaUtleTk2MCBib2FyZDoKPiAxKURQJkRNIHN3aXRjaGluZyBi
-ZXR3ZWVuIHVzYiBodWIgYW5kIHR5cGVDIHBvcnQgYmFzZSBvbiB0eXBlQyBwb3J0Cj4gc3RhdGUK
-PiAyKUNvbnRyb2wgcG93ZXIgb2YgdXNiIGh1YiBvbiBIaWtleTk2MAo+IDMpQ29udHJvbCB2YnVz
-IG9mIHR5cGVDIHBvcnQKCj4gK2NvbmZpZyBISVNJX0hJS0VZX1VTQgo+ICsgICAgICAgdHJpc3Rh
-dGUgIlVTQiBmdW5jdGlvbmFsaXR5IG9mIEhpU2lsaWNvbiBIaWtleSBQbGF0Zm9ybSIKPiArICAg
-ICAgIGRlcGVuZHMgb24gT0YgJiYgR1BJT0xJQgo+ICsgICAgICAgaGVscAo+ICsgICAgICAgICBJ
-ZiB5b3Ugc2F5IHllcyBoZXJlIHlvdSBnZXQgc3VwcG9ydCBmb3IgdXNiIGZ1bmN0aW9uYWxpdHkg
-b2YgSGlTaWxpY29uIEhpa2V5IFBsYXRmb3JtLgoKPiArI2luY2x1ZGUgPGxpbnV4L29mLmg+CgpJ
-dCdzIGhhcmQgdG8gc2VlIHdoeSB0aGlzIGhhdmUKZGVwZW5kcyBvbiBPRiBmb2xsb3dlZCBieSBh
-Ym92ZSBoZWFkZXIgaW5jbHVzaW9uLgoKPiArICAgICAgIGhpc2lfaGlrZXlfdXNiLT50eXBlY192
-YnVzID0gZGV2bV9ncGlvZF9nZXQoZGV2LCAidHlwZWMtdmJ1cyIsCj4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgR1BJT0RfT1VUX0xPVyk7Cgo+ICsgICAgICAgaWYgKCFoaXNpX2hpa2V5X3VzYi0+
-dHlwZWNfdmJ1cykKPiArICAgICAgICAgICAgICAgcmV0dXJuIC1FTk9FTlQ7CgpIbW0uLi4gSXMg
-aXQgcG9zc2libGUgdG8gZ2V0IE5VTEwgcG9pbnRlciBmcm9tIGdwaW9kX2dldCgpIGF0IGFsbD8K
-Cj4gKyAgICAgICBpZiAoIWhpc2lfaGlrZXlfdXNiLT5vdGdfc3dpdGNoKQo+ICsgICAgICAgICAg
-ICAgICByZXR1cm4gLUVOT0VOVDsKCkRpdHRvLgoKPiArICAgICAgIC8qIGh1Yi12ZGQzMy1lbiBp
-cyBvcHRpb25hbCAqLwo+ICsgICAgICAgaGlzaV9oaWtleV91c2ItPmh1Yl92YnVzID0gZGV2bV9n
-cGlvZF9nZXQoZGV2LCAiaHViLXZkZDMzLWVuIiwKPiArICAgICAgICAgICAgICAgICAgICAgICBH
-UElPRF9PVVRfSElHSCk7CgpkZXZtX2dwaW9fZ2V0X29wdGlvbmFsKCkgaWYgaXQncyBpbmRlZWQg
-b3B0aW9uYWwuCgo+ICsgICAgICAgaGlzaV9oaWtleV91c2ItPnJvbGVfc3cgPSB1c2Jfcm9sZV9z
-d2l0Y2hfZ2V0KGRldik7Cj4gKyAgICAgICBpZiAoIWhpc2lfaGlrZXlfdXNiLT5yb2xlX3N3KQo+
-ICsgICAgICAgICAgICAgICByZXR1cm4gLUVQUk9CRV9ERUZFUjsKCj4gKyAgICAgICBlbHNlIGlm
-IChJU19FUlIoaGlzaV9oaWtleV91c2ItPnJvbGVfc3cpKQoKUmVkdW5kYW50ICdlbHNlJwoKPiAr
-ICAgICAgICAgICAgICAgcmV0dXJuIFBUUl9FUlIoaGlzaV9oaWtleV91c2ItPnJvbGVfc3cpOwoK
-PiArc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgaWRfdGFibGVfaGlzaV9oaWtleV91
-c2JbXSA9IHsKPiArICAgICAgIHsuY29tcGF0aWJsZSA9ICJoaXNpbGljb24sZ3Bpb19odWJ2MSJ9
-LAo+ICsgICAgICAgey5jb21wYXRpYmxlID0gImhpc2lsaWNvbixoaWtleTk2MF91c2IifSwKPiAr
-ICAgICAgIHt9Cj4gK307CgpNT0RVTEVfREVWSUNFX1RBQkxFKCk/Cg==
+T24gU2F0LCBNYXIgMiwgMjAxOSBhdCA0OjA1IEFNIFl1IENoZW4gPGNoZW55dTU2QGh1YXdlaS5j
+b20+IHdyb3RlOgo+ICtzdGF0aWMgaW50IGhpc2lfaGlrZXlfdXNiX3Byb2JlKHN0cnVjdCBwbGF0
+Zm9ybV9kZXZpY2UgKnBkZXYpCj4gK3sKPiArICAgICAgIHN0cnVjdCBkZXZpY2UgKmRldiA9ICZw
+ZGV2LT5kZXY7Cj4gKyAgICAgICBzdHJ1Y3QgZGV2aWNlX25vZGUgKnJvb3QgPSBkZXYtPm9mX25v
+ZGU7CgpNaW5vciBuaXQ6IHJvb3QgaXMgdW51c2VkIGFuZCBnZW5lcmF0ZXMgYnVpbGQgd2Fybmlu
+Z3MuCgp0aGFua3MKLWpvaG4K
