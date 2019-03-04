@@ -3,21 +3,34 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v3,10/12] hikey960: Support usb functionality of Hikey960
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Message-Id: <CAHp75Vdkp40e5-Bv+LnLBxgPkTDJ0FA1ooq+C4-do=4k5prTiQ@mail.gmail.com>
-Date: Mon, 4 Mar 2019 08:50:39 +0200
-To: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc: Yu Chen <chenyu56@huawei.com>, USB <linux-usb@vger.kernel.org>, devicetree <devicetree@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, John Stultz <john.stultz@linaro.org>, Suzhuangluan <suzhuangluan@hisilicon.com>, Kongfei <kongfei@hisilicon.com>, liuyu712@hisilicon.com, wanghu17@hisilicon.com, butao@hisilicon.com, Yao Chen <chenyao11@huawei.com>, fangshengzhou@hisilicon.com, lipengcheng8@huawei.com, songxiaowei <songxiaowei@hisilicon.com>, xu yiping <xuyiping@hisilicon.com>, xuyoujun4@huawei.com, yudongbin@hisilicon.com, zangleigang@hisilicon.com, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Binghui Wang <wangbinghui@hisilicon.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Message-Id: <CAHp75VcjQjBV8xsuJyZ1RBnNQAV_k8z9Hp-3S_JnYDRpJZ2UXw@mail.gmail.com>
+Date: Mon, 4 Mar 2019 08:55:30 +0200
+To: Chen Yu <chenyu56@huawei.com>
+Cc: liuyu712@hisilicon.com, USB <linux-usb@vger.kernel.org>, devicetree <devicetree@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, John Stultz <john.stultz@linaro.org>, Suzhuangluan <suzhuangluan@hisilicon.com>, Kongfei <kongfei@hisilicon.com>, wanghu17@hisilicon.com, butao@hisilicon.com, Yao Chen <chenyao11@huawei.com>, fangshengzhou@hisilicon.com, lipengcheng8@huawei.com, songxiaowei <songxiaowei@hisilicon.com>, xu yiping <xuyiping@hisilicon.com>, xuyoujun4@huawei.com, yudongbin@hisilicon.com, zangleigang@hisilicon.com, Chunfeng Yun <chunfeng.yun@mediatek.com>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Binghui Wang <wangbinghui@hisilicon.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gTW9uLCBNYXIgNCwgMjAxOSBhdCAzOjQ3IEFNIENodW5mZW5nIFl1biA8Y2h1bmZlbmcueXVu
-QG1lZGlhdGVrLmNvbT4gd3JvdGU6Cj4gT24gU2F0LCAyMDE5LTAzLTAyIGF0IDE3OjA1ICswODAw
-LCBZdSBDaGVuIHdyb3RlOgoKPiA+ICsgICAgIGhpc2lfaGlrZXlfdXNiLT5yb2xlX3N3ID0gdXNi
-X3JvbGVfc3dpdGNoX2dldChkZXYpOwo+ID4gKyAgICAgaWYgKCFoaXNpX2hpa2V5X3VzYi0+cm9s
-ZV9zdykKPiA+ICsgICAgICAgICAgICAgcmV0dXJuIC1FUFJPQkVfREVGRVI7Cj4gSGVyZSByZXR1
-cm4gRVBST0JFX0RFRkZFUiBtZWFucyB0aGUgcmVsYXRlZCBkZXZpY2VfY29ubmVjdGlvbiBpcwo+
-IHJlZ2lzdGVyZWQgYWZ0ZXIgdGhpcyBwcm9iZSBpcyBjYWxsZWQsIHJpZ2h0Pwo+IGlmIG5vdCwg
-dXNlIElTX0VSUl9PUl9OVUxMIHRoZW4gcmV0dXJuIFBUUl9FUlIgaXMgZW5vdWdoCgpIb3cgZW5v
-dWdoPyBJZiByZXR1cm4gdmFsdWUgaXMgTlVMTCBpdCB3b3VsZCBiZSB0cmFuc2Zvcm1lcmVkIHRv
-IDAsCndoaWNoIGlzIHN1Y2Nlc3MgcmV0dXJuIGNvZGUgZnJvbSB0aGUgLT5wcm9iZSgpIHdoaWNo
-IG1lYW5zIHdlIHdpbGwKaGF2ZSAtPnByb2JlZCgpIGFuZCBub3QgZnVuY3Rpb25hbCBkZXZpY2Uu
-CgpBbSBJIG1pc3Npbmcgc29tZXRoaW5nPwo=
+T24gTW9uLCBNYXIgNCwgMjAxOSBhdCA0OjM1IEFNIENoZW4gWXUgPGNoZW55dTU2QGh1YXdlaS5j
+b20+IHdyb3RlOgo+IE9uIDIwMTkvMy8zIDA6MDEsIEFuZHkgU2hldmNoZW5rbyB3cm90ZToKPiA+
+IE9uIFNhdCwgTWFyIDIsIDIwMTkgYXQgMTE6MDUgQU0gWXUgQ2hlbiA8Y2hlbnl1NTZAaHVhd2Vp
+LmNvbT4gd3JvdGU6Cgo+ID4+ICtjb25maWcgSElTSV9ISUtFWV9VU0IKPiA+PiArICAgICAgIHRy
+aXN0YXRlICJVU0IgZnVuY3Rpb25hbGl0eSBvZiBIaVNpbGljb24gSGlrZXkgUGxhdGZvcm0iCj4g
+Pj4gKyAgICAgICBkZXBlbmRzIG9uIE9GICYmIEdQSU9MSUIKPiA+PiArICAgICAgIGhlbHAKPiA+
+PiArICAgICAgICAgSWYgeW91IHNheSB5ZXMgaGVyZSB5b3UgZ2V0IHN1cHBvcnQgZm9yIHVzYiBm
+dW5jdGlvbmFsaXR5IG9mIEhpU2lsaWNvbiBIaWtleSBQbGF0Zm9ybS4KPiA+Cj4gPj4gKyNpbmNs
+dWRlIDxsaW51eC9vZi5oPgo+ID4KPiA+IEl0J3MgaGFyZCB0byBzZWUgd2h5IHRoaXMgaGF2ZQo+
+ID4gZGVwZW5kcyBvbiBPRiBmb2xsb3dlZCBieSBhYm92ZSBoZWFkZXIgaW5jbHVzaW9uLgo+ID4K
+PiBUaGlzIGRyaXZlciBkZXBlbmRzIG9uIGRldmljZXRyZWUsIHNvIEkgYWRkICJkZXBlbmRzIG9u
+IE9GIi4KPiBCdXQgaXMgc2VlbXMgdGhhdCAiI2luY2x1ZGUgPGxpbnV4L29mLmg+IiBjYW4gYmUg
+cmVtb3ZlZCBhZnRlciAib2ZfIiBBUEkKPiBoYXZlIGJlZW4gcmVtb3ZlZC4gVGhhbmtzIGZvciB5
+b3VyIHJlbWluZGVyIQoKU28sIGl0IG1lYW5zIHRoYXQgdGVjaG5pY2FsbHkgdGhlcmUgaXMgbm8g
+c3VjaCBkZXBlbmRlbmN5LCByYXRoZXIKYWRtaW5pc3RyYXRpdmVseS4KCj4gPj4gKyAgICAgICBo
+aXNpX2hpa2V5X3VzYi0+dHlwZWNfdmJ1cyA9IGRldm1fZ3Bpb2RfZ2V0KGRldiwgInR5cGVjLXZi
+dXMiLAo+ID4+ICsgICAgICAgICAgICAgICAgICAgICAgIEdQSU9EX09VVF9MT1cpOwo+ID4KPiA+
+PiArICAgICAgIGlmICghaGlzaV9oaWtleV91c2ItPnR5cGVjX3ZidXMpCj4gPj4gKyAgICAgICAg
+ICAgICAgIHJldHVybiAtRU5PRU5UOwo+ID4KPiA+IEhtbS4uLiBJcyBpdCBwb3NzaWJsZSB0byBn
+ZXQgTlVMTCBwb2ludGVyIGZyb20gZ3Bpb2RfZ2V0KCkgYXQgYWxsPwo+ID4KPiA+PiArICAgICAg
+IGlmICghaGlzaV9oaWtleV91c2ItPm90Z19zd2l0Y2gpCj4gPj4gKyAgICAgICAgICAgICAgIHJl
+dHVybiAtRU5PRU5UOwo+ID4KPiA+IERpdHRvLgo+ID4KPiBJIGNoZWNrIHRoZSBjb21tZW50cyBv
+ZiBkZXZtX2dwaW9fZ2V0IEFQSSwgaXQgd2lsbCBub3QgcmV0dXJuIE5VTEwgcG9pbnRlci4KPiBC
+dXQgaXMgaXQgbW9yZSBzYWZlIHRvIGtlZXAgdGhlIE5VTEwgY2hlY2tpbmc/IFdoYXQgaXMgeW91
+ciBhZHZpY2U/CgpXaHkgZG8gd2UgbmVlZCBkZWFkIGNvZGU/Cg==
