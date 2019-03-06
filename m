@@ -1,30 +1,23 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [2/3] usb: xhci: dbc: Don't free all memory with spinlock held
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-Message-Id: <1553269817-19312-3-git-send-email-mathias.nyman@linux.intel.com>
-Date: Fri, 22 Mar 2019 17:50:16 +0200
-To: gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org, Mathias Nyman <mathias.nyman@linux.intel.com>, stable <stable@vger.kernel.org>
+Subject: [5/9] arm64: defconfig: enable TYPEC_HD3SS3220 config option
+From: Biju Das <biju.das@bp.renesas.com>
+Message-Id: <1551863246-11656-6-git-send-email-biju.das@bp.renesas.com>
+Date: Wed,  6 Mar 2019 09:07:22 +0000
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Biju Das <biju.das@bp.renesas.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org, Simon Horman <horms@verge.net.au>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Chris Paterson <Chris.Paterson2@renesas.com>, Fabrizio Castro <fabrizio.castro@bp.renesas.com>, linux-renesas-soc@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-VGhlIHhoY2kgZGVidWcgY2FwYWJpbGl0eSAoRGJDKSBmZWF0dXJlIGRpZCBpdHMgbWVtb3J5IGNs
-ZWFudXAgd2l0aApzcGlubG9jayBoZWxkLiBkbWFfZnJlZV9jb2hlcmVudCgpIHdhcm5zIGlmIGNh
-bGxlZCB3aXRoIGludGVycnVwdHMKZGlzYWJsZWQKCm1vdmUgdGhlIG1lbW9yeSBjbGVhbnVwIG91
-dHNpZGUgdGhlIHNwaW5sb2NrCgpDYzogc3RhYmxlIDxzdGFibGVAdmdlci5rZXJuZWwub3JnPgpT
-aWduZWQtb2ZmLWJ5OiBNYXRoaWFzIE55bWFuIDxtYXRoaWFzLm55bWFuQGxpbnV4LmludGVsLmNv
-bT4KLS0tCiBkcml2ZXJzL3VzYi9ob3N0L3hoY2ktZGJnY2FwLmMgfCA1ICsrKy0tCiAxIGZpbGUg
-Y2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvdXNiL2hvc3QveGhjaS1kYmdjYXAuYyBiL2RyaXZlcnMvdXNiL2hvc3QveGhjaS1kYmdj
-YXAuYwppbmRleCBjNzhiZTU3Li5kOTMyY2MzIDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9ob3N0
-L3hoY2ktZGJnY2FwLmMKKysrIGIvZHJpdmVycy91c2IvaG9zdC94aGNpLWRiZ2NhcC5jCkBAIC01
-MTYsNyArNTE2LDYgQEAgc3RhdGljIGludCB4aGNpX2RvX2RiY19zdG9wKHN0cnVjdCB4aGNpX2hj
-ZCAqeGhjaSkKIAkJcmV0dXJuIC0xOwogCiAJd3JpdGVsKDAsICZkYmMtPnJlZ3MtPmNvbnRyb2wp
-OwotCXhoY2lfZGJjX21lbV9jbGVhbnVwKHhoY2kpOwogCWRiYy0+c3RhdGUgPSBEU19ESVNBQkxF
-RDsKIAogCXJldHVybiAwOwpAQCAtNTYyLDggKzU2MSwxMCBAQCBzdGF0aWMgdm9pZCB4aGNpX2Ri
-Y19zdG9wKHN0cnVjdCB4aGNpX2hjZCAqeGhjaSkKIAlyZXQgPSB4aGNpX2RvX2RiY19zdG9wKHho
-Y2kpOwogCXNwaW5fdW5sb2NrX2lycXJlc3RvcmUoJmRiYy0+bG9jaywgZmxhZ3MpOwogCi0JaWYg
-KCFyZXQpCisJaWYgKCFyZXQpIHsKKwkJeGhjaV9kYmNfbWVtX2NsZWFudXAoeGhjaSk7CiAJCXBt
-X3J1bnRpbWVfcHV0X3N5bmMoeGhjaV90b19oY2QoeGhjaSktPnNlbGYuY29udHJvbGxlcik7CisJ
-fQogfQogCiBzdGF0aWMgdm9pZAo=
+RW5hYmxlIHN1cHBvcnQgZm9yIHRoZSBUSSBIRDNTUzMyMCBVU0IgVHlwZS1DIERSUCBQb3J0IGNv
+bnRyb2xsZXIgZHJpdmVyCmJ5IHR1cm5pbmcgb24gQ09ORklHX1RZUEVDIGFuZCBDT05GSUdfVFlQ
+RUNfSEQzU1MzMjIwIGFzIG1vZHVsZXMuCgpTaWduZWQtb2ZmLWJ5OiBCaWp1IERhcyA8YmlqdS5k
+YXNAYnAucmVuZXNhcy5jb20+Ci0tLQogYXJjaC9hcm02NC9jb25maWdzL2RlZmNvbmZpZyB8IDIg
+KysKIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9hcmNoL2Fy
+bTY0L2NvbmZpZ3MvZGVmY29uZmlnIGIvYXJjaC9hcm02NC9jb25maWdzL2RlZmNvbmZpZwppbmRl
+eCBiMjYzYjE0Li40MGEwODVhIDEwMDY0NAotLS0gYS9hcmNoL2FybTY0L2NvbmZpZ3MvZGVmY29u
+ZmlnCisrKyBiL2FyY2gvYXJtNjQvY29uZmlncy9kZWZjb25maWcKQEAgLTU0NCw2ICs1NDQsOCBA
+QCBDT05GSUdfVVNCX1VMUEk9eQogQ09ORklHX1VTQl9HQURHRVQ9eQogQ09ORklHX1VTQl9SRU5F
+U0FTX1VTQkhTX1VEQz1tCiBDT05GSUdfVVNCX1JFTkVTQVNfVVNCMz1tCitDT05GSUdfVFlQRUM9
+bQorQ09ORklHX1RZUEVDX0hEM1NTMzIyMD1tCiBDT05GSUdfTU1DPXkKIENPTkZJR19NTUNfQkxP
+Q0tfTUlOT1JTPTMyCiBDT05GSUdfTU1DX0FSTU1NQ0k9eQo=
