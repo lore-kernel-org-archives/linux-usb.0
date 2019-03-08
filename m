@@ -2,21 +2,24 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: uas: fix usb subsystem hang after power off hub port
-From: Oliver Neukum <oneukum@suse.com>
-Message-Id: <1552063928.29776.2.camel@suse.com>
-Date: Fri, 08 Mar 2019 17:52:08 +0100
-To: Kento.A.Kobayashi@sony.com, gregkh@linuxfoundation.org, stern@rowland.harvard.edu
-Cc: usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org
+From: Alan Stern <stern@rowland.harvard.edu>
+Message-Id: <Pine.LNX.4.44L0.1903081231260.1412-100000@iolanthe.rowland.org>
+Date: Fri, 8 Mar 2019 12:33:14 -0500 (EST)
+To: Oliver Neukum <oneukum@suse.com>
+Cc: Kento.A.Kobayashi@sony.com, gregkh@linuxfoundation.org, usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnIsIDIwMTktMDMtMDggYXQgMDk6MTMgKzAwMDAsIEtlbnRvLkEuS29iYXlhc2hpQHNvbnku
-Y29tIHdyb3RlOgo+IFRoZSB1c2JfcmVzZXRfYW5kX3ZlcmlmeV9kZXZpY2UgaW5jbHVkZWQgaW4g
-dXNiX3Jlc2V0X2RldmljZSBmYWlscwo+IHdpdGggLUVOT0RFViBhZnRlciBwb3dlciBvZmYgaHVi
-IHBvcnQsIGFuZCB0aGUgLUVOT0RFViBlcnJvciB3aWxsCj4gYmUgcmVwb3J0ZWQgdG8gdWFzX2Vo
-X2J1c19yZXNldF9oYW5kbGVyIGFuZCB1cHBlciBsYXllciwgc28gaXQKPiBkb2Vzbid0IG5lZWQg
-dG8gZG8gcmViaW5kIGlmIC1FTk9ERVYgaGFwcGVucy4KCkhpLAoKbm8gSSBhbSBzb3JyeSwgdGhh
-dCBpcyBhbiBhc3N1bXB0aW9uIHlvdSBqdXN0IGNhbm5vdCBtYWtlLgpBbnl0aGluZyBjYW4gdHJp
-Z2dlciBhIHJlc2V0LiBUaGF0IGJlaW5nIFNDU0kgaXMgdGhlIGNvbW1vbgpjYXNlIGNlcnRhaW5s
-eSwgYnV0IG5vdCB0aGUgb25seSBjYXNlLiBBbmQgaW4gdGhvc2UgY2FzZXMKd2UgY2Fubm90IGRl
-cGVuZCBvbiB1cHBlciBsYXllcnMgZG9pbmcgdGhlIHJpZ2h0IHRoaW5nLCBpZgp3ZSBqdXN0IGln
-bm9yZSBhbiBlcnJvci4KCk5BQ0sKCglTb3JyeQoJCU9saXZlcgo=
+T24gRnJpLCA4IE1hciAyMDE5LCBPbGl2ZXIgTmV1a3VtIHdyb3RlOgoKPiBPbiBGciwgMjAxOS0w
+My0wOCBhdCAwOToxMyArMDAwMCwgS2VudG8uQS5Lb2JheWFzaGlAc29ueS5jb20gd3JvdGU6Cj4g
+PiBUaGUgdXNiX3Jlc2V0X2FuZF92ZXJpZnlfZGV2aWNlIGluY2x1ZGVkIGluIHVzYl9yZXNldF9k
+ZXZpY2UgZmFpbHMKPiA+IHdpdGggLUVOT0RFViBhZnRlciBwb3dlciBvZmYgaHViIHBvcnQsIGFu
+ZCB0aGUgLUVOT0RFViBlcnJvciB3aWxsCj4gPiBiZSByZXBvcnRlZCB0byB1YXNfZWhfYnVzX3Jl
+c2V0X2hhbmRsZXIgYW5kIHVwcGVyIGxheWVyLCBzbyBpdAo+ID4gZG9lc24ndCBuZWVkIHRvIGRv
+IHJlYmluZCBpZiAtRU5PREVWIGhhcHBlbnMuCj4gCj4gSGksCj4gCj4gbm8gSSBhbSBzb3JyeSwg
+dGhhdCBpcyBhbiBhc3N1bXB0aW9uIHlvdSBqdXN0IGNhbm5vdCBtYWtlLgo+IEFueXRoaW5nIGNh
+biB0cmlnZ2VyIGEgcmVzZXQuIFRoYXQgYmVpbmcgU0NTSSBpcyB0aGUgY29tbW9uCj4gY2FzZSBj
+ZXJ0YWlubHksIGJ1dCBub3QgdGhlIG9ubHkgY2FzZS4gQW5kIGluIHRob3NlIGNhc2VzCj4gd2Ug
+Y2Fubm90IGRlcGVuZCBvbiB1cHBlciBsYXllcnMgZG9pbmcgdGhlIHJpZ2h0IHRoaW5nLCBpZgo+
+IHdlIGp1c3QgaWdub3JlIGFuIGVycm9yLgo+IAo+IE5BQ0sKPiAKPiAJU29ycnkKPiAJCU9saXZl
+cgoKTm90ZSB0aGF0IHRoZSByZXNldCByb3V0aW5lcyBpbiB1c2Itc3RvcmFnZSBkbyBub3QgbWFr
+ZSBhbnkgZXhjZXB0aW9ucwpmb3IgLUVOT0RFVi4KCkFsYW4gU3Rlcm4K
