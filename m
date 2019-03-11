@@ -1,39 +1,22 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3,10/12] hikey960: Support usb functionality of Hikey960
-From: Yu Chen <chenyu56@huawei.com>
-Message-Id: <c1d606aa-e281-4767-5715-679460f5ce60@huawei.com>
-Date: Mon, 4 Mar 2019 15:31:21 +0800
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: liuyu712@hisilicon.com, USB <linux-usb@vger.kernel.org>, devicetree <devicetree@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, John Stultz <john.stultz@linaro.org>, Suzhuangluan <suzhuangluan@hisilicon.com>, Kongfei <kongfei@hisilicon.com>, wanghu17@hisilicon.com, butao@hisilicon.com, Yao Chen <chenyao11@huawei.com>, fangshengzhou@hisilicon.com, lipengcheng8@huawei.com, songxiaowei <songxiaowei@hisilicon.com>, xu yiping <xuyiping@hisilicon.com>, xuyoujun4@huawei.com, yudongbin@hisilicon.com, zangleigang@hisilicon.com, Chunfeng Yun <chunfeng.yun@mediatek.com>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Binghui Wang <wangbinghui@hisilicon.com>, Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Subject: [V2,8/8] arm64: defconfig: Enable tegra XUDC driver
+From: Nagarjuna Kristam <nkristam@nvidia.com>
+Message-Id: <1552302716-18554-9-git-send-email-nkristam@nvidia.com>
+Date: Mon, 11 Mar 2019 16:41:56 +0530
+To: balbi@kernel.org, gregkh@linuxfoundation.org, thierry.reding@gmail.com, jonathanh@nvidia.com
+Cc: linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org, Nagarjuna Kristam <nkristam@nvidia.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgpPbiAyMDE5LzMvNCAxNDo1NSwgQW5keSBTaGV2Y2hlbmtvIHdyb3RlOgo+IE9uIE1vbiwg
-TWFyIDQsIDIwMTkgYXQgNDozNSBBTSBDaGVuIFl1IDxjaGVueXU1NkBodWF3ZWkuY29tPiB3cm90
-ZToKPj4gT24gMjAxOS8zLzMgMDowMSwgQW5keSBTaGV2Y2hlbmtvIHdyb3RlOgo+Pj4gT24gU2F0
-LCBNYXIgMiwgMjAxOSBhdCAxMTowNSBBTSBZdSBDaGVuIDxjaGVueXU1NkBodWF3ZWkuY29tPiB3
-cm90ZToKPiAKPj4+PiArY29uZmlnIEhJU0lfSElLRVlfVVNCCj4+Pj4gKyAgICAgICB0cmlzdGF0
-ZSAiVVNCIGZ1bmN0aW9uYWxpdHkgb2YgSGlTaWxpY29uIEhpa2V5IFBsYXRmb3JtIgo+Pj4+ICsg
-ICAgICAgZGVwZW5kcyBvbiBPRiAmJiBHUElPTElCCj4+Pj4gKyAgICAgICBoZWxwCj4+Pj4gKyAg
-ICAgICAgIElmIHlvdSBzYXkgeWVzIGhlcmUgeW91IGdldCBzdXBwb3J0IGZvciB1c2IgZnVuY3Rp
-b25hbGl0eSBvZiBIaVNpbGljb24gSGlrZXkgUGxhdGZvcm0uCj4+Pgo+Pj4+ICsjaW5jbHVkZSA8
-bGludXgvb2YuaD4KPj4+Cj4+PiBJdCdzIGhhcmQgdG8gc2VlIHdoeSB0aGlzIGhhdmUKPj4+IGRl
-cGVuZHMgb24gT0YgZm9sbG93ZWQgYnkgYWJvdmUgaGVhZGVyIGluY2x1c2lvbi4KPj4+Cj4+IFRo
-aXMgZHJpdmVyIGRlcGVuZHMgb24gZGV2aWNldHJlZSwgc28gSSBhZGQgImRlcGVuZHMgb24gT0Yi
-Lgo+PiBCdXQgaXMgc2VlbXMgdGhhdCAiI2luY2x1ZGUgPGxpbnV4L29mLmg+IiBjYW4gYmUgcmVt
-b3ZlZCBhZnRlciAib2ZfIiBBUEkKPj4gaGF2ZSBiZWVuIHJlbW92ZWQuIFRoYW5rcyBmb3IgeW91
-ciByZW1pbmRlciEKPiAKPiBTbywgaXQgbWVhbnMgdGhhdCB0ZWNobmljYWxseSB0aGVyZSBpcyBu
-byBzdWNoIGRlcGVuZGVuY3ksIHJhdGhlcgo+IGFkbWluaXN0cmF0aXZlbHkuCj4gCk9LLiBJIHdp
-bGwgcmVtb3ZlIHRoZSBkZXBlbmRlbnQgbmV4dCB2ZXJzaW9uLgo+Pj4+ICsgICAgICAgaGlzaV9o
-aWtleV91c2ItPnR5cGVjX3ZidXMgPSBkZXZtX2dwaW9kX2dldChkZXYsICJ0eXBlYy12YnVzIiwK
-Pj4+PiArICAgICAgICAgICAgICAgICAgICAgICBHUElPRF9PVVRfTE9XKTsKPj4+Cj4+Pj4gKyAg
-ICAgICBpZiAoIWhpc2lfaGlrZXlfdXNiLT50eXBlY192YnVzKQo+Pj4+ICsgICAgICAgICAgICAg
-ICByZXR1cm4gLUVOT0VOVDsKPj4+Cj4+PiBIbW0uLi4gSXMgaXQgcG9zc2libGUgdG8gZ2V0IE5V
-TEwgcG9pbnRlciBmcm9tIGdwaW9kX2dldCgpIGF0IGFsbD8KPj4+Cj4+Pj4gKyAgICAgICBpZiAo
-IWhpc2lfaGlrZXlfdXNiLT5vdGdfc3dpdGNoKQo+Pj4+ICsgICAgICAgICAgICAgICByZXR1cm4g
-LUVOT0VOVDsKPj4+Cj4+PiBEaXR0by4KPj4+Cj4+IEkgY2hlY2sgdGhlIGNvbW1lbnRzIG9mIGRl
-dm1fZ3Bpb19nZXQgQVBJLCBpdCB3aWxsIG5vdCByZXR1cm4gTlVMTCBwb2ludGVyLgo+PiBCdXQg
-aXMgaXQgbW9yZSBzYWZlIHRvIGtlZXAgdGhlIE5VTEwgY2hlY2tpbmc/IFdoYXQgaXMgeW91ciBh
-ZHZpY2U/Cj4gCj4gV2h5IGRvIHdlIG5lZWQgZGVhZCBjb2RlPwo+IApPSy5JIHdpbGwgcmVtb3Zl
-IGl0LgoKVGhhbmtzCll1IENoZW4K
+RW5hYmxlIHN1cHBvcnQgZm9yIE52aWRpYSBYVVNCIGRldmljZSBtb2RlIGNvbnRyb2xsZXIgZHJp
+dmVyCgpTaWduZWQtb2ZmLWJ5OiBOYWdhcmp1bmEgS3Jpc3RhbSA8bmtyaXN0YW1AbnZpZGlhLmNv
+bT4KLS0tCiBhcmNoL2FybTY0L2NvbmZpZ3MvZGVmY29uZmlnIHwgMSArCiAxIGZpbGUgY2hhbmdl
+ZCwgMSBpbnNlcnRpb24oKykKCmRpZmYgLS1naXQgYS9hcmNoL2FybTY0L2NvbmZpZ3MvZGVmY29u
+ZmlnIGIvYXJjaC9hcm02NC9jb25maWdzL2RlZmNvbmZpZwppbmRleCBiM2Q4MjA5Li45NzgyNTcx
+IDEwMDY0NAotLS0gYS9hcmNoL2FybTY0L2NvbmZpZ3MvZGVmY29uZmlnCisrKyBiL2FyY2gvYXJt
+NjQvY29uZmlncy9kZWZjb25maWcKQEAgLTUxOCw2ICs1MTgsNyBAQCBDT05GSUdfVVNCX1VMUEk9
+eQogQ09ORklHX1VTQl9HQURHRVQ9eQogQ09ORklHX1VTQl9SRU5FU0FTX1VTQkhTX1VEQz1tCiBD
+T05GSUdfVVNCX1JFTkVTQVNfVVNCMz1tCitDT05GSUdfVVNCX1RFR1JBX1hVREM9eQogQ09ORklH
+X1VTQl9VTFBJX0JVUz15CiBDT05GSUdfTU1DPXkKIENPTkZJR19NTUNfQkxPQ0tfTUlOT1JTPTMy
+Cg==
