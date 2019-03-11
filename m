@@ -2,20 +2,25 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [3/5] usb: roles: add API to get usb_role_switch by node
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Message-Id: <CAHp75VeW+NoaGQCnfMcZSz67V68ykRMO=BG9_U6NFODJ5g=1FA@mail.gmail.com>
-Date: Fri, 8 Mar 2019 08:52:06 +0200
-To: Chunfeng Yun <chunfeng.yun@mediatek.com>
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Message-Id: <1552282615.10179.25.camel@mhfsdcap03>
+Date: Mon, 11 Mar 2019 13:36:55 +0800
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc: Rob Herring <robh+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, Mark Rutland <mark.rutland@arm.com>, Matthias Brugger <matthias.bgg@gmail.com>, Adam Thomson <Adam.Thomson.Opensource@diasemi.com>, Li Jun <jun.li@nxp.com>, Badhri Jagan Sridharan <badhri@google.com>, Hans de Goede <hdegoede@redhat.com>, Min Guo <min.guo@mediatek.com>, devicetree <devicetree@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, USB <linux-usb@vger.kernel.org>, linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>, "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCBNYXIgOCwgMjAxOSBhdCA4OjE0IEFNIENodW5mZW5nIFl1biA8Y2h1bmZlbmcueXVu
-QG1lZGlhdGVrLmNvbT4gd3JvdGU6Cj4KPiBBZGQgdXNiX3JvbGVfc3dpdGNoX2dldF9ieV9ub2Rl
-KCkgdG8gbWFrZSBlYXNpZXIgdG8gZ2V0Cj4gdXNiX3JvbGVfc3dpdGNoIGJ5IG5vZGUgd2hpY2gg
-cmVnaXN0ZXIgaXQuCj4gSXQncyB1c2VmdWwgd2hlbiB0aGVyZSBpcyBub3QgZGV2aWNlX2Nvbm5l
-Y3Rpb24gcmVnaXN0ZXJlZAo+IGJldHdlZW4gdHdvIGRyaXZlcnMgYW5kIG9ubHkga25vd3MgdGhl
-IG5vZGUgd2hpY2ggcmVnaXN0ZXIKPiB1c2Jfcm9sZV9zd2l0Y2guCgo+ICtzdGF0aWMgaW50IF9f
-c3dpdGNoX21hdGNoX25vZGUoc3RydWN0IGRldmljZSAqZGV2LCBjb25zdCB2b2lkICpub2RlKQo+
-ICt7Cj4gKyAgICAgICByZXR1cm4gZGV2LT5wYXJlbnQtPm9mX25vZGUgPT0gKGNvbnN0IHN0cnVj
-dCBkZXZpY2Vfbm9kZSAqKW5vZGU7Cj4gK30KCkhtbS4uLiBTaG91bGRuJ3QgYmUgc2xpZ2h0bHkg
-YmV0dGVyIHRvIGNvbXBhcmUgZndub2RlIGluc3RlYWQ/Cg==
+SGksCgpPbiBGcmksIDIwMTktMDMtMDggYXQgMDg6NTIgKzAyMDAsIEFuZHkgU2hldmNoZW5rbyB3
+cm90ZToKPiBPbiBGcmksIE1hciA4LCAyMDE5IGF0IDg6MTQgQU0gQ2h1bmZlbmcgWXVuIDxjaHVu
+ZmVuZy55dW5AbWVkaWF0ZWsuY29tPiB3cm90ZToKPiA+Cj4gPiBBZGQgdXNiX3JvbGVfc3dpdGNo
+X2dldF9ieV9ub2RlKCkgdG8gbWFrZSBlYXNpZXIgdG8gZ2V0Cj4gPiB1c2Jfcm9sZV9zd2l0Y2gg
+Ynkgbm9kZSB3aGljaCByZWdpc3RlciBpdC4KPiA+IEl0J3MgdXNlZnVsIHdoZW4gdGhlcmUgaXMg
+bm90IGRldmljZV9jb25uZWN0aW9uIHJlZ2lzdGVyZWQKPiA+IGJldHdlZW4gdHdvIGRyaXZlcnMg
+YW5kIG9ubHkga25vd3MgdGhlIG5vZGUgd2hpY2ggcmVnaXN0ZXIKPiA+IHVzYl9yb2xlX3N3aXRj
+aC4KPiAKPiA+ICtzdGF0aWMgaW50IF9fc3dpdGNoX21hdGNoX25vZGUoc3RydWN0IGRldmljZSAq
+ZGV2LCBjb25zdCB2b2lkICpub2RlKQo+ID4gK3sKPiA+ICsgICAgICAgcmV0dXJuIGRldi0+cGFy
+ZW50LT5vZl9ub2RlID09IChjb25zdCBzdHJ1Y3QgZGV2aWNlX25vZGUgKilub2RlOwo+ID4gK30K
+PiAKPiBIbW0uLi4gU2hvdWxkbid0IGJlIHNsaWdodGx5IGJldHRlciB0byBjb21wYXJlIGZ3bm9k
+ZSBpbnN0ZWFkPwo+IApVc2luZyBmd25vZGUgaXMgaW5kZWVkIHN1aXRhYmxlIGZvciBtb3JlIGNh
+c2VzLApJIGZpbmQgdGhhdCB0aGVyZSBhcmUgbWFueSBmdW5jdGlvbnMgbmFtZWQgeHhfYnlfbm9k
+ZSB1c2luZyBub2RlLCBidXQKbm90IGZ3bm9kZSwgaXMgdGhlcmUgYW55IHJ1bGVzIGFib3V0IGNo
+b2ljZSBiZXR3ZWVuIGRldmljZV9ub2RlIGFuZApmd25vZGVfaGFuZGxlPwoKVGhhbmtzCg==
