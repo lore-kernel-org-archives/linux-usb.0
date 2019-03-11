@@ -1,18 +1,26 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: drivers: uwb: Kconfig: pedantic cleanups
-From: Greg KH <greg@kroah.com>
-Message-Id: <20190306192608.GB29080@kroah.com>
-Date: Wed, 6 Mar 2019 20:26:08 +0100
-To: "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [v3,8/8] usb: typec: fusb302: Add __printf attribute to fusb302_log function
+From: Hans de Goede <hdegoede@redhat.com>
+Message-Id: <20190311104818.30216-9-hdegoede@redhat.com>
+Date: Mon, 11 Mar 2019 11:48:18 +0100
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Guenter Roeck <linux@roeck-us.net>, Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCBNYXIgMDYsIDIwMTkgYXQgMDc6NTE6NDZQTSArMDEwMCwgRW5yaWNvIFdlaWdlbHQs
-IG1ldHV4IElUIGNvbnN1bHQgd3JvdGU6Cj4gU2lnbmVkLW9mZi1ieTogRW5yaWNvIFdlaWdlbHQs
-IG1ldHV4IElUIGNvbnN1bHQgPGluZm9AbWV0dXgubmV0Pgo+IC0tLQo+ICBkcml2ZXJzL3V3Yi9L
-Y29uZmlnIHwgNDIgKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4g
-IDEgZmlsZSBjaGFuZ2VkLCAyMSBpbnNlcnRpb25zKCspLCAyMSBkZWxldGlvbnMoLSkKCkkgZG8g
-bm90IHRha2UgcGF0Y2hlcyB3aXRob3V0IGFueSBjaGFuZ2Vsb2cgY29tbWVudHMuCgp0aGFua3Ms
-CgpncmVnIGstaAo=
+QWRkIF9fcHJpbnRmIGF0dHJpYnV0ZSB0byBmdXNiMzAyX2xvZyBmdW5jdGlvbiwgc28gdGhhdCB3
+ZSBnZXQKY29tcGlsZXIgd2FybmluZ3Mgd2hlbiBzcGVjaWZ5aW5nIHdyb25nIHZhcmFyZyBwYXJh
+bWV0ZXJzLgoKUmV2aWV3ZWQtYnk6IEd1ZW50ZXIgUm9lY2sgPGxpbnV4QHJvZWNrLXVzLm5ldD4K
+U2lnbmVkLW9mZi1ieTogSGFucyBkZSBHb2VkZSA8aGRlZ29lZGVAcmVkaGF0LmNvbT4KLS0tCiBk
+cml2ZXJzL3VzYi90eXBlYy90Y3BtL2Z1c2IzMDIuYyB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAx
+IGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL3R5
+cGVjL3RjcG0vZnVzYjMwMi5jIGIvZHJpdmVycy91c2IvdHlwZWMvdGNwbS9mdXNiMzAyLmMKaW5k
+ZXggZjNiNjZkYzcxYzMzLi42ZWE2MTk5Y2FhZmEgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL3R5
+cGVjL3RjcG0vZnVzYjMwMi5jCisrKyBiL2RyaXZlcnMvdXNiL3R5cGVjL3RjcG0vZnVzYjMwMi5j
+CkBAIC0xMjUsMTMgKzEyNSwxMyBAQCBzdHJ1Y3QgZnVzYjMwMl9jaGlwIHsKICAqLwogCiAjaWZk
+ZWYgQ09ORklHX0RFQlVHX0ZTCi0KIHN0YXRpYyBib29sIGZ1c2IzMDJfbG9nX2Z1bGwoc3RydWN0
+IGZ1c2IzMDJfY2hpcCAqY2hpcCkKIHsKIAlyZXR1cm4gY2hpcC0+bG9nYnVmZmVyX3RhaWwgPT0K
+IAkJKGNoaXAtPmxvZ2J1ZmZlcl9oZWFkICsgMSkgJSBMT0dfQlVGRkVSX0VOVFJJRVM7CiB9CiAK
+K19fcHJpbnRmKDIsIDApCiBzdGF0aWMgdm9pZCBfZnVzYjMwMl9sb2coc3RydWN0IGZ1c2IzMDJf
+Y2hpcCAqY2hpcCwgY29uc3QgY2hhciAqZm10LAogCQkJIHZhX2xpc3QgYXJncykKIHsK
