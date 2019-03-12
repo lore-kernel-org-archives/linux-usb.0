@@ -2,18 +2,27 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v3] usb: dwc2: gadget: Add scatter-gather mode
-From: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
-Message-Id: <324f258d-4c95-58e1-6e13-830b2581b402@gmail.com>
-Date: Tue, 12 Mar 2019 12:39:35 +0100
-To: Minas Harutyunyan <minas.harutyunyan@synopsys.com>, Marek Szyprowski <m.szyprowski@samsung.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+From: Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
+Message-Id: <410670D7E743164D87FA6160E7907A56013A7E9B6F@am04wembxa.internal.synopsys.com>
+Date: Tue, 12 Mar 2019 13:23:47 +0000
+To: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>, Minas Harutyunyan <minas.harutyunyan@synopsys.com>, Marek Szyprowski <m.szyprowski@samsung.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Felipe Balbi <felipe.balbi@linux.intel.com>, Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgTWluYXMsCgoKVyBkbml1IDEyLjAzLjIwMTkgb8KgMDg6NTQsIE1pbmFzIEhhcnV0eXVueWFu
-IHBpc3plOgo+IEhpLAo+IAo+IFNCIENWIE1TQyB0ZXN0cyBmYWlsZWQgc3RhcnRpbmcgZnJvbSBU
-ZXN0IENhc2UgNiB3aXRoIEJOQSBpbnRlcnJ1cHQgb24KPiBlcDFpbi4gSXQncyBmaXJzdCBCVUxL
-IElOIHRyYW5zYWN0aW9uIGFmdGVyIEdFVCBNQVhMVU4uCj4KQ2FuIHlvdSBoZWxwIG1lIHJlcHJv
-ZHVjZSB0aGUgcHJvYmxlbT8gSSBoYXZlIGFuIE9kcm9pZCBVMy4KCj4gCj4gTWVhbnRpbWUgaXQn
-cyBwYXNzaW5nIHNtb2tlIHRlc3Qgd2l0aCBtYXNzIHN0b3JhZ2UgZnVuY3Rpb24gY29ubmVjdGVk
-IHRvCj4gTGludXggaG9zdC4KClNvIHRoZSAicmVhbCIgdXNlIGNhc2Ugd2l0aCBtYXNzIHN0b3Jh
-Z2Ugd29ya3MsIHJpZ2h0PwoKQW5kcnplago=
+SGkgQW5kcnplaiwKCk9uIDMvMTIvMjAxOSAzOjM5IFBNLCBBbmRyemVqIFBpZXRyYXNpZXdpY3og
+d3JvdGU6Cj4gSGkgTWluYXMsCj4gCj4gCj4gVyBkbml1IDEyLjAzLjIwMTkgb8KgMDg6NTQsIE1p
+bmFzIEhhcnV0eXVueWFuIHBpc3plOgo+PiBIaSwKPj4KPj4gU0IgQ1YgTVNDIHRlc3RzIGZhaWxl
+ZCBzdGFydGluZyBmcm9tIFRlc3QgQ2FzZSA2IHdpdGggQk5BIGludGVycnVwdCBvbgo+PiBlcDFp
+bi4gSXQncyBmaXJzdCBCVUxLIElOIHRyYW5zYWN0aW9uIGFmdGVyIEdFVCBNQVhMVU4uCj4+Cj4g
+Q2FuIHlvdSBoZWxwIG1lIHJlcHJvZHVjZSB0aGUgcHJvYmxlbT8gSSBoYXZlIGFuIE9kcm9pZCBV
+My4KMS4gRG93bmxvYWQgZnJvbSB1c2Iub3JnIFVTQiBDViB0b29sLiBJbnN0YWxsIG9uIE1TIFdp
+bmRvd3MuCjIuIFNldHVwIHlvdXIgT2Ryb2lkIFUzIGFzIG1hc3Mgc3RvcmFnZSBhbmQgY29ubmVj
+dCB0byBNUyBXaW5kb3dzLgozLiBSdW4gVVNCIENWLiBDaG9vc2UgTVNDIHRlc3RzIHRvIHJ1bi4K
+CkkgdXNlZCAiVVNCIDMgR2VuIFggQ29tbWFuZCBWZXJpZmllciIuCj4gCj4+Cj4+IE1lYW50aW1l
+IGl0J3MgcGFzc2luZyBzbW9rZSB0ZXN0IHdpdGggbWFzcyBzdG9yYWdlIGZ1bmN0aW9uIGNvbm5l
+Y3RlZCB0bwo+PiBMaW51eCBob3N0Lgo+IAo+IFNvIHRoZSAicmVhbCIgdXNlIGNhc2Ugd2l0aCBt
+YXNzIHN0b3JhZ2Ugd29ya3MsIHJpZ2h0Pwo+IApZZXMsIGl0J3Mgd29ya3MuIEFjdHVhbGx5LCBV
+U0IgQ1YgdXNlIGFub3RoZXIgT1MgYW5kIGhvc3QgZHJpdmVyIHdoaWNoIApjYW4gYmUgcmVhc29u
+IG9mIGZhaWwsIGJ1dCBtYXNzIHN0b3JhZ2Ugc2hvdWxkIHBhc3MgYWxsIENWIE1TQyB0ZXN0cyAK
+YmVzaWRlcyBzbW9rZSB0ZXN0cyB3aXRoIExpbnV4LgoKPiBBbmRyemVqCj4gCgpUaGFua3MsCk1p
+bmFzCg==
