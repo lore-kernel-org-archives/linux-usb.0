@@ -1,20 +1,24 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2] USB: cp210x: add new device id
-From: Johan Hovold <johan@kernel.org>
-Message-Id: <20190328081612.GC6643@localhost>
-Date: Thu, 28 Mar 2019 09:16:12 +0100
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Johan Hovold <johan@kernel.org>, Uli <t9cpu@web.de>, linux-usb@vger.kernel.org
+Subject: usb: u132-hcd: fix potential NULL pointer dereference
+From: Kangjie Lu <kjlu@umn.edu>
+Message-Id: <20190314072713.20666-1-kjlu@umn.edu>
+Date: Thu, 14 Mar 2019 02:27:11 -0500
+To: kjlu@umn.edu
+Cc: pakki001@umn.edu, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Colin Ian King <colin.king@canonical.com>, Jia-Ju Bai <baijiaju1990@gmail.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCBNYXIgMjcsIDIwMTkgYXQgMTA6MTE6MTRBTSArMDkwMCwgR3JlZyBLcm9haC1IYXJ0
-bWFuIHdyb3RlOgo+IExvcmVueiBNZXNzdGVjaG5payBoYXMgYSBkZXZpY2UgdGhhdCBpcyBjb250
-cm9sbGVkIGJ5IHRoZSBjcDIxMHggZHJpdmVyLAo+IHNvIGFkZCB0aGUgZGV2aWNlIGlkIHRvIHRo
-ZSBkcml2ZXIuICBUaGUgZGV2aWNlIGlkIHdhcyBwcm92aWRlZCBieQo+IFNpbGljb24tTGFicyBm
-b3IgdGhlIGRldmljZXMgZnJvbSB0aGlzIHZlbmRvci4KPiAKPiBSZXBvcnRlZC1ieTogVWxpIDx0
-OWNwdUB3ZWIuZGU+Cj4gU2lnbmVkLW9mZi1ieTogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hA
-bGludXhmb3VuZGF0aW9uLm9yZz4KPiBDYzogc3RhYmxlIDxzdGFibGVAdmdlci5rZXJuZWwub3Jn
-Pgo+IC0tLQo+IHYyOiBmaXggRnJvbTogbGluZSB0byBtYXRjaCBzLW8tYi4KCkFwcGxpZWQsIHRo
-YW5rcy4KCkpvaGFuCg==
+SW4gY2FzZSBjcmVhdGVfc2luZ2xldGhyZWFkX3dvcmtxdWV1ZSBmYWlscywgdGhlIGZpeCBub3Rp
+ZmllcwpjYWxsZXJzIHRoZSBlcnJvciB0byBhdm9pZCBwb3RlbnRpYWwgTlVMTCBwb2ludGVyIGRl
+cmVmZXJlbmNlcy4KClNpZ25lZC1vZmYtYnk6IEthbmdqaWUgTHUgPGtqbHVAdW1uLmVkdT4KLS0t
+CiBkcml2ZXJzL3VzYi9ob3N0L3UxMzItaGNkLmMgfCAyICsrCiAxIGZpbGUgY2hhbmdlZCwgMiBp
+bnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvaG9zdC91MTMyLWhjZC5jIGIv
+ZHJpdmVycy91c2IvaG9zdC91MTMyLWhjZC5jCmluZGV4IDkzNDU4NGYwYTIwYS4uNmQ1YjUzMmIw
+M2Y4IDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9ob3N0L3UxMzItaGNkLmMKKysrIGIvZHJpdmVy
+cy91c2IvaG9zdC91MTMyLWhjZC5jCkBAIC0zMjAzLDYgKzMyMDMsOCBAQCBzdGF0aWMgaW50IF9f
+aW5pdCB1MTMyX2hjZF9pbml0KHZvaWQpCiAJCXJldHVybiAtRU5PREVWOwogCXByaW50ayhLRVJO
+X0lORk8gImRyaXZlciAlc1xuIiwgaGNkX25hbWUpOwogCXdvcmtxdWV1ZSA9IGNyZWF0ZV9zaW5n
+bGV0aHJlYWRfd29ya3F1ZXVlKCJ1MTMyIik7CisJaWYgKHVubGlrZWx5KCF3b3JrcXVldWUpKQor
+CQlyZXR1cm4gLUVOT01FTTsKIAlyZXR2YWwgPSBwbGF0Zm9ybV9kcml2ZXJfcmVnaXN0ZXIoJnUx
+MzJfcGxhdGZvcm1fZHJpdmVyKTsKIAlyZXR1cm4gcmV0dmFsOwogfQo=
