@@ -2,22 +2,27 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: WARNING: ODEBUG bug in vudc_probe
-From: Shuah Khan <shuah@kernel.org>
-Message-Id: <1694e4f1-de18-bb34-2031-7d570d977495@kernel.org>
-Date: Thu, 14 Mar 2019 11:15:44 -0600
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: Valentina Manea <valentina.manea.m@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, USB list <linux-usb@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, shuah <shuah@kernel.org>
+From: Dmitry Vyukov <dvyukov@google.com>
+Message-Id: <CACT4Y+aj8cmoBjBt==9y=NCThOrntadAghsgMx2gBFGpD8B8VQ@mail.gmail.com>
+Date: Fri, 15 Mar 2019 09:27:51 +0100
+To: shuah <shuah@kernel.org>
+Cc: Valentina Manea <valentina.manea.m@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, USB list <linux-usb@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgRG1pdHJ5LAoKT24gMy8xMS8xOSA4OjE4IEFNLCBEbWl0cnkgVnl1a292IHdyb3RlOgo+IE9u
-IE1vbiwgTWFyIDExLCAyMDE5IGF0IDM6MTYgUE0gRG1pdHJ5IFZ5dWtvdiA8ZHZ5dWtvdkBnb29n
-bGUuY29tPiB3cm90ZToKPj4KCj4+Cj4+IFRoZSBib290IHNlZW1zIHRvIGJlIGZpeGVkIG5vdywg
-YnV0IHdoYXQgY29tbWl0IGZpeGVkIGl0Pwo+Pgo+PiBUaGlzIGJ1ZyBtYWtlcyBhbGwga2VybmVs
-cyBzdGFydGluZyBmcm9tIDQuMTQgdW5ib290YWJsZSBmb3IgdGhlCj4+IHB1cnBvc2VzIG9mIGJp
-c2VjdGlvbi4gSWYgd2UgZmlndXJlIG91dCB3aGF0IHdhcyB0aGUgYnVnIGFuZCB3aGF0Cj4+IGZp
-eGVkIGl0LCB3ZSBjYW4gdGhpbmsgb2YgcG9zc2libGUgd2F5cyBvZiB1bmJyZWFraW5nIGtlcm5l
-bCBib290Lgo+IAo+IAoKClVwc3RyZWFtIGNvbW1pdDoKY29tbWl0IGUyOGZkNTZhZDUyNzNiZTY3
-ZDBmYWU1YmVkYzdlMTY4MGU3Mjk5NTIKCjQuMTQuODEgY29tbWl0OgoKY29tbWl0IDI1NTYyNGEz
-NWI0Y2EyMjhiYWM5YTFmMTM1MjYzZTI4YzI3YzQ2NDAKClBsZWFzZSBsZXQgbWUga25vdyBpZiB5
-b3UgYXJlIHN0aWxsIHNlZWluZyB0aGUgcHJvYmxlbS4gSSB3aWxsIHN0YXJ0Cmxvb2tpbmcgYXQg
-aXQuCgp0aGFua3MsCi0tIFNodWFoCg==
+T24gVGh1LCBNYXIgMTQsIDIwMTkgYXQgNjoxNSBQTSBzaHVhaCA8c2h1YWhAa2VybmVsLm9yZz4g
+d3JvdGU6Cj4KPiBIaSBEbWl0cnksCj4KPiBPbiAzLzExLzE5IDg6MTggQU0sIERtaXRyeSBWeXVr
+b3Ygd3JvdGU6Cj4gPiBPbiBNb24sIE1hciAxMSwgMjAxOSBhdCAzOjE2IFBNIERtaXRyeSBWeXVr
+b3YgPGR2eXVrb3ZAZ29vZ2xlLmNvbT4gd3JvdGU6Cj4gPj4KPgo+ID4+Cj4gPj4gVGhlIGJvb3Qg
+c2VlbXMgdG8gYmUgZml4ZWQgbm93LCBidXQgd2hhdCBjb21taXQgZml4ZWQgaXQ/Cj4gPj4KPiA+
+PiBUaGlzIGJ1ZyBtYWtlcyBhbGwga2VybmVscyBzdGFydGluZyBmcm9tIDQuMTQgdW5ib290YWJs
+ZSBmb3IgdGhlCj4gPj4gcHVycG9zZXMgb2YgYmlzZWN0aW9uLiBJZiB3ZSBmaWd1cmUgb3V0IHdo
+YXQgd2FzIHRoZSBidWcgYW5kIHdoYXQKPiA+PiBmaXhlZCBpdCwgd2UgY2FuIHRoaW5rIG9mIHBv
+c3NpYmxlIHdheXMgb2YgdW5icmVha2luZyBrZXJuZWwgYm9vdC4KPiA+Cj4gPgo+Cj4KPiBVcHN0
+cmVhbSBjb21taXQ6Cj4gY29tbWl0IGUyOGZkNTZhZDUyNzNiZTY3ZDBmYWU1YmVkYzdlMTY4MGU3
+Mjk5NTIKPgo+IDQuMTQuODEgY29tbWl0Ogo+Cj4gY29tbWl0IDI1NTYyNGEzNWI0Y2EyMjhiYWM5
+YTFmMTM1MjYzZTI4YzI3YzQ2NDAKPgo+IFBsZWFzZSBsZXQgbWUga25vdyBpZiB5b3UgYXJlIHN0
+aWxsIHNlZWluZyB0aGUgcHJvYmxlbS4gSSB3aWxsIHN0YXJ0Cj4gbG9va2luZyBhdCBpdC4KCkhp
+IFNodWFoLAoKVGhhbmtzIGZvciBpbmZvLgpObywgSSBkb24ndCBzZWUgdGhlIHByb2JsZW0gYXQg
+aGVhZC4gSSBhbSBzZWVpbmcgdGhlIHByb2JsZW0gd2hlbgp0cnlpbmcgdG8gZG8gYmlzZWN0aW9u
+IGFuZCB0cnlpbmcgdG8gZmlndXJlIG91dCBzb21lIHByYWN0aWNhbCB3YXkgb2YKZG9pbmcgaXQu
+Cg==
