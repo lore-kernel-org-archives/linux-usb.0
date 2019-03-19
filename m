@@ -3,13 +3,23 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [2/4] cdc-acm: Convert acm_minors to XArray
 From: Oliver Neukum <oneukum@suse.com>
-Message-Id: <1552999164.14757.42.camel@suse.com>
-Date: Tue, 19 Mar 2019 13:39:24 +0100
-To: Matthew Wilcox <willy@infradead.org>, linux-usb@vger.kernel.org
+Message-Id: <1552999276.14757.45.camel@suse.com>
+Date: Tue, 19 Mar 2019 13:41:16 +0100
+To: Greg KH <greg@kroah.com>, Matthew Wilcox <willy@infradead.org>
+Cc: linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gTW8sIDIwMTktMDMtMTggYXQgMTQ6MTcgLTA3MDAsIE1hdHRoZXcgV2lsY294IHdyb3RlOgo+
-IFNpZ25lZC1vZmYtYnk6IE1hdHRoZXcgV2lsY294IDx3aWxseUBpbmZyYWRlYWQub3JnPgoKU3Ry
-YWlnaHQgcmVwbGFjZW1lbnQuIExvb2tzIGZpbmUgdG8gbWUuIEJ1dCB3aXRob3V0CmEgY29tbWl0
-IG1lc3NhZ2UgR3JlZyB3b3VsZCBkaXNtZW1iZXIgYm90aCBvZiB1cy4KCglSZWdhcmRzCgkJT2xp
-dmVyCg==
+T24gRGksIDIwMTktMDMtMTkgYXQgMTM6MTQgKzAxMDAsIEdyZWcgS0ggd3JvdGU6Cj4gT24gTW9u
+LCBNYXIgMTgsIDIwMTkgYXQgMDI6MTc6MTFQTSAtMDcwMCwgTWF0dGhldyBXaWxjb3ggd3JvdGU6
+Cj4gPiBTaWduZWQtb2ZmLWJ5OiBNYXR0aGV3IFdpbGNveCA8d2lsbHlAaW5mcmFkZWFkLm9yZz4K
+ClsuLl0KPiA+ICBzdGF0aWMgaW50IGFjbV9hbGxvY19taW5vcihzdHJ1Y3QgYWNtICphY20pCj4g
+PiAgewo+ID4gLQlpbnQgbWlub3I7Cj4gPiAtCj4gPiAtCW11dGV4X2xvY2soJmFjbV9taW5vcnNf
+bG9jayk7Cj4gPiAtCW1pbm9yID0gaWRyX2FsbG9jKCZhY21fbWlub3JzLCBhY20sIDAsIEFDTV9U
+VFlfTUlOT1JTLCBHRlBfS0VSTkVMKTsKPiA+IC0JbXV0ZXhfdW5sb2NrKCZhY21fbWlub3JzX2xv
+Y2spOwo+ID4gLQo+ID4gLQlyZXR1cm4gbWlub3I7Cj4gPiArCXJldHVybiB4YV9hbGxvYygmYWNt
+X21pbm9ycywgJmFjbS0+bWlub3IsIGFjbSwKPiA+ICsJCQlYQV9MSU1JVCgwLCBBQ01fVFRZX01J
+Tk9SUyAtIDEpLCBHRlBfS0VSTkVMKTsKPiAKPiBTbywgdGhlIG9ubHkgdGhpbmcgImJldHRlciIg
+aGVyZSBpcyB0aGF0IHlvdSBkb24ndCBuZWVkIGEgbG9jayBhbnltb3JlPwoKT25jZSB0aGlzIGlz
+IGFjY2VwdGVkIEkgY2FuIHJlZHVjZSB0aGUgbG9ja2luZyB0byBhIHBlciBpbnN0YW5jZQpzcGlu
+bG9jay4gQnV0IHRvIHN0YXJ0IHdpdGggYSBzdHJhaWdodCBjb252ZXJzaW9uIGlzIGJlc3QuCgoJ
+UmVnYXJkcwoJCU9saXZlcgo=
