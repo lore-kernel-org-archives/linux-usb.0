@@ -2,16 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [4/4] usb/serial: Convert serial_minors to XArray
-From: Greg KH <greg@kroah.com>
-Message-Id: <20190319061409.GA6648@kroah.com>
-Date: Tue, 19 Mar 2019 07:14:09 +0100
-To: Matthew Wilcox <willy@infradead.org>
+From: Matthew Wilcox <willy@infradead.org>
+Message-Id: <20190319113509.GS19508@bombadil.infradead.org>
+Date: Tue, 19 Mar 2019 04:35:09 -0700
+To: Greg KH <greg@kroah.com>
 Cc: linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gTW9uLCBNYXIgMTgsIDIwMTkgYXQgMDI6MTc6MTNQTSAtMDcwMCwgTWF0dGhldyBXaWxjb3gg
-d3JvdGU6Cj4gU2lnbmVkLW9mZi1ieTogTWF0dGhldyBXaWxjb3ggPHdpbGx5QGluZnJhZGVhZC5v
-cmc+Cj4gLS0tCj4gIGRyaXZlcnMvdXNiL3NlcmlhbC91c2Itc2VyaWFsLmMgfCAyMSArKysrKysr
-KysrLS0tLS0tLS0tLS0KPiAgMSBmaWxlIGNoYW5nZWQsIDEwIGluc2VydGlvbnMoKyksIDExIGRl
-bGV0aW9ucygtKQoKSSByZWFsbHkgZG8gbm90IGxpa2UgdGFraW5nIHBhdGNoZXMgd2l0aG91dCBh
-bnkgY2hhbmdlbG9nIHRleHQgYXQgYWxsIDooCg==
+T24gVHVlLCBNYXIgMTksIDIwMTkgYXQgMDc6MTQ6MDlBTSArMDEwMCwgR3JlZyBLSCB3cm90ZToK
+PiBPbiBNb24sIE1hciAxOCwgMjAxOSBhdCAwMjoxNzoxM1BNIC0wNzAwLCBNYXR0aGV3IFdpbGNv
+eCB3cm90ZToKPiA+IFNpZ25lZC1vZmYtYnk6IE1hdHRoZXcgV2lsY294IDx3aWxseUBpbmZyYWRl
+YWQub3JnPgo+ID4gLS0tCj4gPiAgZHJpdmVycy91c2Ivc2VyaWFsL3VzYi1zZXJpYWwuYyB8IDIx
+ICsrKysrKysrKystLS0tLS0tLS0tLQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxMCBpbnNlcnRpb25z
+KCspLCAxMSBkZWxldGlvbnMoLSkKPiAKPiBJIHJlYWxseSBkbyBub3QgbGlrZSB0YWtpbmcgcGF0
+Y2hlcyB3aXRob3V0IGFueSBjaGFuZ2Vsb2cgdGV4dCBhdCBhbGwgOigKCkknbSByZWFsbHkgbm90
+IHN1cmUgd2hhdCB0byBzYXkuICBTb21ldGhpbmcgZXh0b2xsaW5nIHRoZSBzdXBlcmlvcml0eQpv
+ZiB0aGUgbmV3IEFQST8gIEkndmUgZ290IDI3OSBwYXRjaGVzIGhlcmUgYW5kIHNvbWUgb2YgdGhl
+bSBhcmUgcmVhbGx5Cmp1c3QgMToxIHJlcGxhY2VtZW50cyBsaWtlIHRoaXMgb25lLgoKV2hhdCB3
+b3VsZCB5b3Ugd2FudCB0byByZWFkIGlmIHlvdSBjYW1lIGFjcm9zcyB0aGlzIHBhdGNoIGluIGdp
+dCBsb2cKaW4gZml2ZSB5ZWFycyB0aW1lPwo=
