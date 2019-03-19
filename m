@@ -1,23 +1,18 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [2/5] reset: Add acquired flag to of_reset_control_array_get()
-From: Philipp Zabel <p.zabel@pengutronix.de>
-Message-Id: <1553077636.7071.3.camel@pengutronix.de>
-Date: Wed, 20 Mar 2019 11:27:16 +0100
-To: Felipe Balbi <balbi@kernel.org>, Thierry Reding <thierry.reding@gmail.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+Subject: [v5,1/2] usb: typec: ucsi: add get_fw_info function
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Message-Id: <20190319134240.GX7752@kuha.fi.intel.com>
+Date: Tue, 19 Mar 2019 15:42:40 +0200
+To: Ajay Gupta <ajaykuee@gmail.com>
+Cc: linux-usb@vger.kernel.org, Ajay Gupta <ajayg@nvidia.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCAyMDE5LTAzLTIwIGF0IDA4OjUxICswMjAwLCBGZWxpcGUgQmFsYmkgd3JvdGU6Cj4g
-UGhpbGlwcCBaYWJlbCA8cC56YWJlbEBwZW5ndXRyb25peC5kZT4gd3JpdGVzOgpbLi4uXQo+ID4g
-RmVsaXBlLCBjb3VsZCBJIGdldCB5b3VyIGFja2VkLWJ5IHRvIG1lcmdlIHRoaXMgdGhyb3VnaCB0
-aGUgcmVzZXQgdHJlZT8KPiA+IAo+ID4gZHdjMy1vZi1zaW1wbGUgaXMgYSBiaXQgb2YgYSBzcGVj
-aWFsIGNhc2UgYmVjYXVzZSBpdCBjYWxscwo+ID4gb2ZfcmVzZXRfY29udHJvbF9hcnJheV9nZXQg
-ZGlyZWN0bHkgaW5zdGVhZCBvZiB0aHJvdWdoIHRoZQo+ID4gb2ZfcmVzZXRfY29udHJvbF9hcnJh
-eV9nZXRfc2hhcmVkL2V4Y2x1c2l2ZSB3cmFwcGVycy4KPiAKPiBTdXJlIHRoaW5nOgo+IAo+IEFj
-a2VkLWJ5OiBGZWxpcGUgQmFsYmkgPGZlbGlwZS5iYWxiaUBsaW51eC5pbnRlbC5jb20+CgpUaGFu
-ayB5b3UsIEkndmUgYWRkZWQgcGF0Y2hlcyAxLTMgdG8gcmVzZXQvbmV4dCBhbmQgbmFtZWQgYSBz
-dGFibGUKYnJhbmNoIHRoYXQgY291bGQgYmUgdXNlZCBhcyBhIGRlcGVuZGVuY3kgZm9yIHBhdGNo
-ZXMgNC01OgoKICBnaXQ6Ly9naXQucGVuZ3V0cm9uaXguZGUvcHphL2xpbnV4IHJlc2V0L2FjcXVp
-cmUKCnJlZ2FyZHMKUGhpbGlwcAo=
+T24gVGh1LCBGZWIgMDcsIDIwMTkgYXQgMTE6MTg6MTJBTSAtMDgwMCwgQWpheSBHdXB0YSB3cm90
+ZToKPiBGcm9tOiBBamF5IEd1cHRhIDxhamF5Z0BudmlkaWEuY29tPgo+IAo+IEZ1bmN0aW9uIGlz
+IHRvIGdldCB0aGUgZGV0YWlscyBvZiBjY2cgZmlybXdhcmUgYW5kIGRldmljZSB2ZXJzaW9uLgo+
+IEl0IHdpbGwgYmUgdXNlZnVsIGluIGRlYnVnZ2luZyBhbmQgYWxzbyBkdXJpbmcgZmlybXdhcmUg
+dXBkYXRlLgo+IAo+IFNpZ25lZC1vZmYtYnk6IEFqYXkgR3VwdGEgPGFqYXlnQG52aWRpYS5jb20+
+CgpBcHBsaWVkOgpodHRwczovL2dpdGh1Yi5jb20va3JvaGVpL2xpbnV4L2NvbW1pdC8yMWRjZWRi
+Y2EwMWM5ZTg1MzI0NDlhNTA4NjE5MDBlMDZjNTE4YWQyCgp0aGFua3MsCg==
