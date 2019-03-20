@@ -2,18 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2] USB:serial:pl2303:add new Pull-Up mode to support PL2303HXD (TYPE_HX)
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20190306052504.GB8200@kroah.com>
-Date: Wed, 6 Mar 2019 06:25:04 +0100
-To: Charles Yeh <charlesyeh522@gmail.com>
+From: Charles Yeh <charlesyeh522@gmail.com>
+Message-Id: <CAAZvQQ7-yDAYp361k=gTn6hk8PN0eyDxCthAo8M7SYtNa8bUMA@mail.gmail.com>
+Date: Wed, 20 Mar 2019 10:43:28 +0800
+To: Greg KH <gregkh@linuxfoundation.org>
 Cc: Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org, charles-yeh@prolific.com.tw
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCBNYXIgMDYsIDIwMTkgYXQgMTI6NDI6MjlQTSArMDgwMCwgQ2hhcmxlcyBZZWggd3Jv
-dGU6Cj4gSGkgSm9oYW4gLyBHcmVnLAo+IAo+IERvIHlvdSBoYXZlIHRpbWUgdG8gcmV2aWV3IHRo
-ZSBwYXRjaD8KPiBJZiB0aGVyZSBpcyBubyB0aW1lLi4gV2hvIGVsc2UgY2FuIHJldmlldyB0aGlz
-IHBhdGNoPwo+IEJlY2F1c2UgbXkgYm9zcyBoYXMgYmVlbiBhc2tpbmcgbWUgdG8gdXBkYXRlIHRo
-ZSBMaW51eCBwYXRjaC4uLgoKSXQgaXMgdGhlIG1pZGRsZSBvZiB0aGUgbWVyZ2Ugd2luZG93IGFu
-ZCB3ZSBjYW4gbm90IGFjY2VwdCBhbnkgbmV3CnBhdGNoZXMgdW50aWwgYWZ0ZXIgNS4xLXJjMSBp
-cyBvdXQgaW4gMSAxLzIgd2Vla3MuICBQbGVhc2Ugd2FpdCB1bnRpbAp0aG5lIGJlZm9yZSB3ZSBj
-YW4gZ2V0IHRvIHJldmlld2luZyB0aGlzLgoKdGhhbmtzLAoKZ3JlZyBrLWgK
+SGkgR3JlZyAvIEpvaGFuLAogICAgICBJcyB0aGVyZSBmcmVlIHRpbWUgdG8gY2hlY2sgdGhlIHBh
+dGNoPwogICAgIE9yIEkgaGF2ZSB0byBjb250aW51ZSB3YWl0LgoKVGhhbmtzIQoKQ2hhcmxlcwoK
+R3JlZyBLSCA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+IOaWvCAyMDE55bm0M+aciDbml6Ug
+6YCx5LiJIOS4i+WNiDE6MjXlr6vpgZPvvJoKPgo+IE9uIFdlZCwgTWFyIDA2LCAyMDE5IGF0IDEy
+OjQyOjI5UE0gKzA4MDAsIENoYXJsZXMgWWVoIHdyb3RlOgo+ID4gSGkgSm9oYW4gLyBHcmVnLAo+
+ID4KPiA+IERvIHlvdSBoYXZlIHRpbWUgdG8gcmV2aWV3IHRoZSBwYXRjaD8KPiA+IElmIHRoZXJl
+IGlzIG5vIHRpbWUuLiBXaG8gZWxzZSBjYW4gcmV2aWV3IHRoaXMgcGF0Y2g/Cj4gPiBCZWNhdXNl
+IG15IGJvc3MgaGFzIGJlZW4gYXNraW5nIG1lIHRvIHVwZGF0ZSB0aGUgTGludXggcGF0Y2guLi4K
+Pgo+IEl0IGlzIHRoZSBtaWRkbGUgb2YgdGhlIG1lcmdlIHdpbmRvdyBhbmQgd2UgY2FuIG5vdCBh
+Y2NlcHQgYW55IG5ldwo+IHBhdGNoZXMgdW50aWwgYWZ0ZXIgNS4xLXJjMSBpcyBvdXQgaW4gMSAx
+LzIgd2Vla3MuICBQbGVhc2Ugd2FpdCB1bnRpbAo+IHRobmUgYmVmb3JlIHdlIGNhbiBnZXQgdG8g
+cmV2aWV3aW5nIHRoaXMuCj4KPiB0aGFua3MsCj4KPiBncmVnIGstaAo=
