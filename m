@@ -2,29 +2,29 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: gadget: f_fs: don't free buffer prematurely
-From: Manu Gautam <mgautam@codeaurora.org>
-Message-Id: <f382765c6d30972ab84224a1b3982f62@codeaurora.org>
-Date: Wed, 20 Mar 2019 09:01:05 +0530
-To: fei.yang@intel.com
-Cc: balbi@kernel.org, gregkh@linuxfoundation.org, zhangjerry@google.com, andrzej.p@collabora.com, plr.vincent@gmail.com, jingx.shen@intel.com, john.stultz@linaro.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb-owner@vger.kernel.org
+From: fei.yang@intel.com
+Message-Id: <02E7334B1630744CBDC55DA8586225837F7FB244@ORSMSX102.amr.corp.intel.com>
+Date: Wed, 20 Mar 2019 05:38:38 +0000
+To: "mgautam@codeaurora.org" <mgautam@codeaurora.org>
+Cc: "balbi@kernel.org" <balbi@kernel.org>, "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, "zhangjerry@google.com" <zhangjerry@google.com>, "andrzej.p@collabora.com" <andrzej.p@collabora.com>, "plr.vincent@gmail.com" <plr.vincent@gmail.com>, "Shen, JingX" <jingx.shen@intel.com>, "john.stultz@linaro.org" <john.stultz@linaro.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-usb-owner@vger.kernel.org" <linux-usb-owner@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMjAxOS0wMy0yMCAwNDo1NSwgZmVpLnlhbmdAaW50ZWwuY29tIHdyb3RlOgo+IEZyb206IEZl
-aSBZYW5nIDxmZWkueWFuZ0BpbnRlbC5jb20+Cj4gCj4gVGhlIGZvbGxvd2luZyBrZXJuZWwgcGFu
-aWMgaGFwcGVucyBkdWUgdG8gdGhlIGlvX2RhdGEgYnVmZmVyIGdldHMgCj4gZGVhbGxvY2F0ZWQK
-PiBiZWZvcmUgdGhlIGFzeW5jIGlvIGlzIGNvbXBsZXRlZC4gQWRkIGEgY2hlY2sgZm9yIHRoZSBj
-YXNlIHdoZXJlIAo+IGlvX2RhdGEgYnVmZmVyCj4gc2hvdWxkIGJlIGRlYWxsb2NhdGVkIGJ5IGZm
-c191c2VyX2NvcHlfd29ya2VyLgoKW3NuaXBdCgpQbGVhc2UgYWRkIHRhZyAtICdGaXhlczogNzcy
-YTdhNzI0ZjYgKCJ1c2I6IGdhZGdldDogZl9mczogQWxsb3cgCnNjYXR0ZXItZ2F0aGVyIGJ1ZmZl
-cnMiKQoKCj4gLS0tCj4gIGRyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi9mX2ZzLmMgfCAzICsr
-LQo+ICAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCj4gCj4g
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi9mX2ZzLmMKPiBiL2RyaXZl
-cnMvdXNiL2dhZGdldC9mdW5jdGlvbi9mX2ZzLmMKPiBpbmRleCAyMDQxM2MyLi40N2JlOTYxIDEw
-MDY0NAo+IC0tLSBhL2RyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi9mX2ZzLmMKPiArKysgYi9k
-cml2ZXJzL3VzYi9nYWRnZXQvZnVuY3Rpb24vZl9mcy5jCj4gQEAgLTExMzMsNyArMTEzMyw4IEBA
-IHN0YXRpYyBzc2l6ZV90IGZmc19lcGZpbGVfaW8oc3RydWN0IGZpbGUgKmZpbGUsCj4gc3RydWN0
-IGZmc19pb19kYXRhICppb19kYXRhKQo+ICBlcnJvcl9tdXRleDoKPiAgCW11dGV4X3VubG9jaygm
-ZXBmaWxlLT5tdXRleCk7Cj4gIGVycm9yOgo+IC0JZmZzX2ZyZWVfYnVmZmVyKGlvX2RhdGEpOwo+
-ICsJaWYgKHJldCAhPSAtRUlPQ0JRVUVVRUQpIC8qIGRvbid0IGZyZWUgaWYgdGhlcmUgaXMgaW9j
-YiBxdWV1ZWQgKi8KPiArCQlmZnNfZnJlZV9idWZmZXIoaW9fZGF0YSk7Cj4gIAlyZXR1cm4gcmV0
-Owo+ICB9Cg==
+Pj4gRnJvbTogRmVpIFlhbmcgPGZlaS55YW5nQGludGVsLmNvbT4KPj4gCj4+IFRoZSBmb2xsb3dp
+bmcga2VybmVsIHBhbmljIGhhcHBlbnMgZHVlIHRvIHRoZSBpb19kYXRhIGJ1ZmZlciBnZXRzIAo+
+PiBkZWFsbG9jYXRlZCBiZWZvcmUgdGhlIGFzeW5jIGlvIGlzIGNvbXBsZXRlZC4gQWRkIGEgY2hl
+Y2sgZm9yIHRoZSBjYXNlIAo+PiB3aGVyZSBpb19kYXRhIGJ1ZmZlciBzaG91bGQgYmUgZGVhbGxv
+Y2F0ZWQgYnkgZmZzX3VzZXJfY29weV93b3JrZXIuCj4gCj4gW3NuaXBdCj4KPiBQbGVhc2UgYWRk
+IHRhZyAtICdGaXhlczogNzcyYTdhNzI0ZjYgKCJ1c2I6IGdhZGdldDogZl9mczogQWxsb3cgc2Nh
+dHRlci1nYXRoZXIgYnVmZmVycyIpClNlbnQgW1BBVENIIFYyXQoKPj4gLS0tCj4+ICBkcml2ZXJz
+L3VzYi9nYWRnZXQvZnVuY3Rpb24vZl9mcy5jIHwgMyArKy0KPj4gIDEgZmlsZSBjaGFuZ2VkLCAy
+IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPj4gCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJz
+L3VzYi9nYWRnZXQvZnVuY3Rpb24vZl9mcy5jCj4+IGIvZHJpdmVycy91c2IvZ2FkZ2V0L2Z1bmN0
+aW9uL2ZfZnMuYwo+PiBpbmRleCAyMDQxM2MyLi40N2JlOTYxIDEwMDY0NAo+PiAtLS0gYS9kcml2
+ZXJzL3VzYi9nYWRnZXQvZnVuY3Rpb24vZl9mcy5jCj4+ICsrKyBiL2RyaXZlcnMvdXNiL2dhZGdl
+dC9mdW5jdGlvbi9mX2ZzLmMKPj4gQEAgLTExMzMsNyArMTEzMyw4IEBAIHN0YXRpYyBzc2l6ZV90
+IGZmc19lcGZpbGVfaW8oc3RydWN0IGZpbGUgKmZpbGUsCj4+IHN0cnVjdCBmZnNfaW9fZGF0YSAq
+aW9fZGF0YSkKPj4gIGVycm9yX211dGV4Ogo+PiAgCW11dGV4X3VubG9jaygmZXBmaWxlLT5tdXRl
+eCk7Cj4+ICBlcnJvcjoKPj4gLQlmZnNfZnJlZV9idWZmZXIoaW9fZGF0YSk7Cj4+ICsJaWYgKHJl
+dCAhPSAtRUlPQ0JRVUVVRUQpIC8qIGRvbid0IGZyZWUgaWYgdGhlcmUgaXMgaW9jYiBxdWV1ZWQg
+Ki8KPj4gKwkJZmZzX2ZyZWVfYnVmZmVyKGlvX2RhdGEpOwo+PiAgCXJldHVybiByZXQ7Cj4+ICB9
+Cg==
