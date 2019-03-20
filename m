@@ -3,8 +3,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [-next] usb: typec: fusb302: Make fusb302_irq_work static
 From: Mukesh Ojha <mojha@codeaurora.org>
-Message-Id: <365d56d1-708d-072b-22da-cb02924383de@codeaurora.org>
-Date: Thu, 21 Mar 2019 00:55:08 +0530
+Message-Id: <43561c26-2d17-7237-e887-ddea7d992aab@codeaurora.org>
+Date: Thu, 21 Mar 2019 01:21:50 +0530
 To: Yue Haibing <yuehaibing@huawei.com>, linux@roeck-us.net, heikki.krogerus@linux.intel.com, gregkh@linuxfoundation.org
 Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
@@ -25,6 +25,4 @@ QU5ETEVEOwo+ICAgfQo+ICAgCj4gLXZvaWQgZnVzYjMwMl9pcnFfd29yayhzdHJ1Y3Qgd29ya19z
 dHJ1Y3QgKndvcmspCj4gK3N0YXRpYyB2b2lkIGZ1c2IzMDJfaXJxX3dvcmsoc3RydWN0IHdvcmtf
 c3RydWN0ICp3b3JrKQo+ICAgewo+ICAgCXN0cnVjdCBmdXNiMzAyX2NoaXAgKmNoaXAgPSBjb250
 YWluZXJfb2Yod29yaywgc3RydWN0IGZ1c2IzMDJfY2hpcCwKPiAgIAkJCQkJCSBpcnFfd29yayk7
-CgpHb29kwqAgdG8gc2VlIHRoZSB3b3JrIG9uIHNwYXJzZSB3YXJuaW5nIGFzIHdlbGwuCgoKQWNr
-ZWQtYnk6IE11a2VzaCBPamhhIDxtb2poYUBjb2RlYXVyb3JhLm9yZz4KClRoYW5rcywKTXVrZXNo
-Cg==
+CgoKUmV2aWV3ZWQtYnk6IE11a2VzaCBPamhhIDxtb2poYUBjb2RlYXVyb3JhLm9yZz4K
