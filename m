@@ -2,22 +2,15 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2] USB:serial:pl2303:add new Pull-Up mode to support PL2303HXD (TYPE_HX)
-From: Charles Yeh <charlesyeh522@gmail.com>
-Message-Id: <CAAZvQQ7-yDAYp361k=gTn6hk8PN0eyDxCthAo8M7SYtNa8bUMA@mail.gmail.com>
-Date: Wed, 20 Mar 2019 10:43:28 +0800
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org, charles-yeh@prolific.com.tw
+From: Johan Hovold <johan@kernel.org>
+Message-Id: <20190320084349.GB15782@localhost>
+Date: Wed, 20 Mar 2019 09:43:49 +0100
+To: Charles Yeh <charlesyeh522@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org, charles-yeh@prolific.com.tw
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgR3JlZyAvIEpvaGFuLAogICAgICBJcyB0aGVyZSBmcmVlIHRpbWUgdG8gY2hlY2sgdGhlIHBh
-dGNoPwogICAgIE9yIEkgaGF2ZSB0byBjb250aW51ZSB3YWl0LgoKVGhhbmtzIQoKQ2hhcmxlcwoK
-R3JlZyBLSCA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+IOaWvCAyMDE55bm0M+aciDbml6Ug
-6YCx5LiJIOS4i+WNiDE6MjXlr6vpgZPvvJoKPgo+IE9uIFdlZCwgTWFyIDA2LCAyMDE5IGF0IDEy
-OjQyOjI5UE0gKzA4MDAsIENoYXJsZXMgWWVoIHdyb3RlOgo+ID4gSGkgSm9oYW4gLyBHcmVnLAo+
-ID4KPiA+IERvIHlvdSBoYXZlIHRpbWUgdG8gcmV2aWV3IHRoZSBwYXRjaD8KPiA+IElmIHRoZXJl
-IGlzIG5vIHRpbWUuLiBXaG8gZWxzZSBjYW4gcmV2aWV3IHRoaXMgcGF0Y2g/Cj4gPiBCZWNhdXNl
-IG15IGJvc3MgaGFzIGJlZW4gYXNraW5nIG1lIHRvIHVwZGF0ZSB0aGUgTGludXggcGF0Y2guLi4K
-Pgo+IEl0IGlzIHRoZSBtaWRkbGUgb2YgdGhlIG1lcmdlIHdpbmRvdyBhbmQgd2UgY2FuIG5vdCBh
-Y2NlcHQgYW55IG5ldwo+IHBhdGNoZXMgdW50aWwgYWZ0ZXIgNS4xLXJjMSBpcyBvdXQgaW4gMSAx
-LzIgd2Vla3MuICBQbGVhc2Ugd2FpdCB1bnRpbAo+IHRobmUgYmVmb3JlIHdlIGNhbiBnZXQgdG8g
-cmV2aWV3aW5nIHRoaXMuCj4KPiB0aGFua3MsCj4KPiBncmVnIGstaAo=
+T24gV2VkLCBNYXIgMjAsIDIwMTkgYXQgMTA6NDM6MjhBTSArMDgwMCwgQ2hhcmxlcyBZZWggd3Jv
+dGU6Cj4gSGkgR3JlZyAvIEpvaGFuLAo+ICAgICAgIElzIHRoZXJlIGZyZWUgdGltZSB0byBjaGVj
+ayB0aGUgcGF0Y2g/Cj4gICAgICBPciBJIGhhdmUgdG8gY29udGludWUgd2FpdC4KClRoZSBtZXJn
+ZSB3aW5kb3cgaXMganVzdCBvdmVyIGFuZCBJJ3ZlIHN0YXJ0ZWQgdG8gcHJvY2VzcyBteSBxdWV1
+ZS4KRG9uJ3Qgd29ycnksIEknbGwgZ2V0IHRvIHlvdXIgcGF0Y2hlcyBhcyB3ZWxsLgoKSm9oYW4K
