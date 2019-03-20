@@ -2,20 +2,23 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2] usb: introduce usb_ep_type_string() function
-From: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Message-Id: <1553044567.10179.148.camel@mhfsdcap03>
-Date: Wed, 20 Mar 2019 09:16:07 +0800
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Felipe Balbi <balbi@kernel.org>, Mathias Nyman <mathias.nyman@intel.com>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, Matthias Brugger <matthias.bgg@gmail.com>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Arnd Bergmann <arnd@arndb.de>, Roger Quadros <rogerq@ti.com>, Alan Stern <stern@rowland.harvard.edu>, "Gustavo A. R. Silva" <gustavo@embeddedor.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Miquel Raynal <miquel.raynal@bootlin.com>, Dmitry Torokhov <dtor@chromium.org>, Johan Hovold <johan@kernel.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, Colin Ian King <colin.king@canonical.com>, Matteo Croce <mcroce@redhat.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org
+From: Felipe Balbi <balbi@kernel.org>
+Message-Id: <87r2b2ujao.fsf@linux.intel.com>
+Date: Wed, 20 Mar 2019 08:55:11 +0200
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Mathias Nyman <mathias.nyman@intel.com>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>, Matthias Brugger <matthias.bgg@gmail.com>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Arnd Bergmann <arnd@arndb.de>, Roger Quadros <rogerq@ti.com>, Alan Stern <stern@rowland.harvard.edu>, "Gustavo A. R. Silva" <gustavo@embeddedor.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Miquel Raynal <miquel.raynal@bootlin.com>, Dmitry Torokhov <dtor@chromium.org>, Johan Hovold <johan@kernel.org>, Benjamin Herrenschmidt <benh@kernel.crashing.org>, Colin Ian King <colin.king@canonical.com>, Matteo Croce <mcroce@redhat.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgR3JlZywKCk9uIFR1ZSwgMjAxOS0wMy0xOSBhdCAxMDoyMyArMDEwMCwgR3JlZyBLcm9haC1I
-YXJ0bWFuIHdyb3RlOgo+IE9uIFR1ZSwgTWFyIDE5LCAyMDE5IGF0IDAzOjU0OjE5UE0gKzA4MDAs
-IENodW5mZW5nIFl1biB3cm90ZToKPiA+IAo+ID4gSGkgRmVsaXBlICYgTWF0aGlhcywKPiA+IAo+
-ID4gQ291bGQgeW91IHBsZWFzZSBjb21tZW50IHRoaXMgcGF0Y2gsIGlmIHRoZXJlIGlzIHNvbWUt
-ZWZmZWN0IG9uIGR3YzMgYW5kCj4gPiB4aGNpLCBJJ2xsIHJlbW92ZSBpdHMgY2hhbmdlLgp0eXBv
-OiBzb21lLWVmZmVjdC9zaWRlLWVmZmVjdAo+IAo+IFRvIGJlIHNwZWNpZmljLCB5b3UgYXJlIGNo
-YW5naW5nIHRoZSBzdHJpbmcgdmFsdWVzIGZvciB0aGluZ3MgdGhhdCBtaWdodAo+IGNhcmUgYWJv
-dXQgaXQgYW5kIGFyZSBzZWVuIGJ5IHVzZXJzcGFjZS4KPiAKPiBQbGVhc2UgYmUgZXhwbGljaXQg
-YWJvdXQgdGhpcywgYXMgaXQgY291bGQgY2F1c2UgcHJvYmxlbXMuClRoYW5rIHlvdSBmb3IgbWFr
-aW5nIGl0IG1vcmUgY2xlYXJlcgoKPiAKPiBncmVnIGstaAo=
+Q2h1bmZlbmcgWXVuIDxjaHVuZmVuZy55dW5AbWVkaWF0ZWsuY29tPiB3cml0ZXM6Cgo+IEhpIEdy
+ZWcsCj4KPiBPbiBUdWUsIDIwMTktMDMtMTkgYXQgMTA6MjMgKzAxMDAsIEdyZWcgS3JvYWgtSGFy
+dG1hbiB3cm90ZToKPj4gT24gVHVlLCBNYXIgMTksIDIwMTkgYXQgMDM6NTQ6MTlQTSArMDgwMCwg
+Q2h1bmZlbmcgWXVuIHdyb3RlOgo+PiA+IAo+PiA+IEhpIEZlbGlwZSAmIE1hdGhpYXMsCj4+ID4g
+Cj4+ID4gQ291bGQgeW91IHBsZWFzZSBjb21tZW50IHRoaXMgcGF0Y2gsIGlmIHRoZXJlIGlzIHNv
+bWUtZWZmZWN0IG9uIGR3YzMgYW5kCj4+ID4geGhjaSwgSSdsbCByZW1vdmUgaXRzIGNoYW5nZS4K
+PiB0eXBvOiBzb21lLWVmZmVjdC9zaWRlLWVmZmVjdAoKd2VsbCwgd2UgZG9uJ3QgcmVhbGx5IGtu
+b3cgaWYgdGhlcmUgYXJlIHRvb2xzIHBhcnNpbmcgdGhlIG91dHB1dC4gVGhlCnNpZGUtZWZmZWN0
+IF9kb2VzXyBleGlzdCAoaS5lLiB5b3UgY2hhbmdlIHRoZSBzdHJpbmcgOi0pLCB3aGF0IHdlIGRv
+bid0Cmtub3cgaXMgaWYgdGhpcyB3aWxsIGNhdXNlIHByb2JsZW1zIHRvIHBvc3NpYmx5IGV4aXN0
+aW5nIHRvb2xzLgoKUGVyc29uYWxseSwgSSBkb24ndCBtaW5kIHRoZSBwYXRjaCwgYnV0IGlmIGl0
+IGJyZWFrcyBleGlzdGluZyBwYXJzZXJzLAp0aGF0IHdvdWxkIGJlIGEgbGl0dGxlIGFubm95aW5n
+Lgo=
