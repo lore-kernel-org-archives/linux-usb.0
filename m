@@ -2,19 +2,22 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [31/38] vfs: Convert gadgetfs to fs_context
-From: David Howells <dhowells@redhat.com>
-Message-Id: <27311.1553067744@warthog.procyon.org.uk>
-Date: Wed, 20 Mar 2019 07:42:24 +0000
-To: Felipe Balbi <balbi@kernel.org>
-Cc: dhowells@redhat.com, viro@zeniv.linux.org.uk, linux-usb@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Felipe Balbi <balbi@kernel.org>
+Message-Id: <87imweueoq.fsf@linux.intel.com>
+Date: Wed, 20 Mar 2019 10:34:45 +0200
+To: David Howells <dhowells@redhat.com>
+Cc: viro@zeniv.linux.org.uk, linux-usb@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-RmVsaXBlIEJhbGJpIDxiYWxiaUBrZXJuZWwub3JnPiB3cm90ZToKCj4gbG9va3MgbGlrZSBhIG1v
-c3RseSBtZWNoYW5pY2FsIGNoYW5nZS4gRG8geW91IHdhbnQgdGhpcyB0byBnbyB0aHJvdWdoCj4g
-dGhlIFVTQiB0cmVlIG9yIEZTIHRyZWU/CgpJJ20gZ29pbmcgdG8gdHJ5IGFuZCBnZXQgYWxsIG9m
-IHRoZXNlIHRvIGdvIHRocm91Z2ggdGhlIEFsJ3MgdmZzIHRyZWUgc2luY2UKdGhlcmUgYXJlIGRl
-cGVuZGVudCBjbGVhbnVwIHBhdGNoZXMgdGhhdCByZW1vdmUgY29kZSB0aGF0J3MgdGhlbiBvYnNv
-bGV0ZS4KCj4gQWxzbywgZG8geW91IG1pbmQgZG9pbmcgdGhlIHNhbWUgZm9yIGRyaXZlcnMvdXNi
-L2dhZGdldC9mdW5jdGlvbi9mX2ZzLmM/CgpTdXJlLiAgVGhlIHJlYXNvbiBJIGhhZG4ndCBhbHJl
-YWR5IGRvbmUgaXQgaXMgdGhhdCBpdCBkb2Vzbid0IGxvb2sgZW50aXJlbHkKdHJpdmlhbC4KCkRh
-dmlkCg==
+RGF2aWQgSG93ZWxscyA8ZGhvd2VsbHNAcmVkaGF0LmNvbT4gd3JpdGVzOgoKPiBGZWxpcGUgQmFs
+YmkgPGJhbGJpQGtlcm5lbC5vcmc+IHdyb3RlOgo+Cj4+IGxvb2tzIGxpa2UgYSBtb3N0bHkgbWVj
+aGFuaWNhbCBjaGFuZ2UuIERvIHlvdSB3YW50IHRoaXMgdG8gZ28gdGhyb3VnaAo+PiB0aGUgVVNC
+IHRyZWUgb3IgRlMgdHJlZT8KPgo+IEknbSBnb2luZyB0byB0cnkgYW5kIGdldCBhbGwgb2YgdGhl
+c2UgdG8gZ28gdGhyb3VnaCB0aGUgQWwncyB2ZnMgdHJlZSBzaW5jZQo+IHRoZXJlIGFyZSBkZXBl
+bmRlbnQgY2xlYW51cCBwYXRjaGVzIHRoYXQgcmVtb3ZlIGNvZGUgdGhhdCdzIHRoZW4gb2Jzb2xl
+dGUuCgpJbiB0aGF0IGNhc2UsIGhlcmUncyBteSBhY2s6CgpBY2tlZC1ieTogRmVsaXBlIEJhbGJp
+IDxmZWxpcGUuYmFsYmlAbGludXguaW50ZWwuY29tPgoKPj4gQWxzbywgZG8geW91IG1pbmQgZG9p
+bmcgdGhlIHNhbWUgZm9yIGRyaXZlcnMvdXNiL2dhZGdldC9mdW5jdGlvbi9mX2ZzLmM/Cj4KPiBT
+dXJlLiAgVGhlIHJlYXNvbiBJIGhhZG4ndCBhbHJlYWR5IGRvbmUgaXQgaXMgdGhhdCBpdCBkb2Vz
+bid0IGxvb2sgZW50aXJlbHkKPiB0cml2aWFsLgoKb2gsIG5vIHJ1c2ggOi0pIEp1c3QgdGhvdWdo
+dCBJJ2QgbWVudGlvbi4K
