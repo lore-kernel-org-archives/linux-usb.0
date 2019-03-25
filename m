@@ -2,24 +2,19 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: r8152: Refresh MAC address during USBDEVFS_RESET
-From: Mario Limonciello <mario.limonciello@dell.com>
-Message-Id: <1553523143-23072-1-git-send-email-mario.limonciello@dell.com>
-Date: Mon, 25 Mar 2019 09:12:23 -0500
-To: linux-usb@vger.kernel.org
-Cc: davem@davemloft.net, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, hayeswang@realtek.com, sjg@google.com, campello@google.com, Ryan Hong <Ryan.Hong@Dell.com>, Crag Wang <Crag.Wang@dell.com>, Mario Limonciello <mario.limonciello@dell.com>
+From: Simon Glass <sjg@chromium.org>
+Message-Id: <CAPnjgZ2JVkE04gE1agJwQcfufoqYHv_=3CAjxpOyOMn61XwgJA@mail.gmail.com>
+Date: Mon, 25 Mar 2019 12:02:25 -0600
+To: Mario Limonciello <mario.limonciello@dell.com>
+Cc: linux-usb@vger.kernel.org, davem@davemloft.net, netdev@vger.kernel.org, lk <linux-kernel@vger.kernel.org>, hayeswang@realtek.com, Daniel Campello <campello@google.com>, Ryan Hong <Ryan.Hong@dell.com>, Crag Wang <Crag.Wang@dell.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gc29tZSBwbGF0Zm9ybXMgaXQgaXMgcG9zc2libGUgdG8gZHluYW1pY2FsbHkgY2hhbmdlIHRo
-ZSBwb2xpY3kKb2Ygd2hhdCBNQUMgYWRkcmVzcyBpcyBzZWxlY3RlZCBmcm9tIHRoZSBBU0wgYXQg
-cnVudGltZS4KClRoZXNlIHRvb2xzIHdpbGwgcmVzZXQgdGhlIFVTQiBkZXZpY2UgYW5kIGV4cGVj
-dCB0aGUgY2hhbmdlIHRvIGJlCm1hZGUgaW1tZWRpYXRlbHkuCgpTaWduZWQtb2ZmLWJ5OiBNYXJp
-byBMaW1vbmNpZWxsbyA8bWFyaW8ubGltb25jaWVsbG9AZGVsbC5jb20+Ci0tLQogZHJpdmVycy9u
-ZXQvdXNiL3I4MTUyLmMgfCAzICsrKwogMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQoK
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvbmV0L3VzYi9yODE1Mi5jIGIvZHJpdmVycy9uZXQvdXNiL3I4
-MTUyLmMKaW5kZXggODZjOGM2NC4uZWI1MzUxYiAxMDA2NDQKLS0tIGEvZHJpdmVycy9uZXQvdXNi
-L3I4MTUyLmMKKysrIGIvZHJpdmVycy9uZXQvdXNiL3I4MTUyLmMKQEAgLTQyNjgsNiArNDI2OCw5
-IEBAIHN0YXRpYyBpbnQgcnRsODE1Ml9wb3N0X3Jlc2V0KHN0cnVjdCB1c2JfaW50ZXJmYWNlICpp
-bnRmKQogCWlmICghdHApCiAJCXJldHVybiAwOwogCisJLyogcmVzZXQgdGhlIE1BQyBhZGRkcmVz
-cyBpbiBjYXNlIG9mIHBvbGljeSBjaGFuZ2UgKi8KKwlzZXRfZXRoZXJuZXRfYWRkcih0cCk7CisK
-IAluZXRkZXYgPSB0cC0+bmV0ZGV2OwogCWlmICghbmV0aWZfcnVubmluZyhuZXRkZXYpKQogCQly
-ZXR1cm4gMDsK
+T24gTW9uLCAyNSBNYXIgMjAxOSBhdCAwODoxMiwgTWFyaW8gTGltb25jaWVsbG8KPG1hcmlvLmxp
+bW9uY2llbGxvQGRlbGwuY29tPiB3cm90ZToKPgo+IE9uIHNvbWUgcGxhdGZvcm1zIGl0IGlzIHBv
+c3NpYmxlIHRvIGR5bmFtaWNhbGx5IGNoYW5nZSB0aGUgcG9saWN5Cj4gb2Ygd2hhdCBNQUMgYWRk
+cmVzcyBpcyBzZWxlY3RlZCBmcm9tIHRoZSBBU0wgYXQgcnVudGltZS4KPgo+IFRoZXNlIHRvb2xz
+IHdpbGwgcmVzZXQgdGhlIFVTQiBkZXZpY2UgYW5kIGV4cGVjdCB0aGUgY2hhbmdlIHRvIGJlCj4g
+bWFkZSBpbW1lZGlhdGVseS4KPgo+IFNpZ25lZC1vZmYtYnk6IE1hcmlvIExpbW9uY2llbGxvIDxt
+YXJpby5saW1vbmNpZWxsb0BkZWxsLmNvbT4KPiAtLS0KPiAgZHJpdmVycy9uZXQvdXNiL3I4MTUy
+LmMgfCAzICsrKwo+ICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCgpSZXZpZXdlZC1i
+eTogU2ltb24gR2xhc3MgPHNqZ0BjaHJvbWl1bS5vcmc+Cg==
