@@ -2,44 +2,13 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [BACKPORT,4.4.y,04/25] USB: iowarrior: fix oops with malicious USB descriptors
-From: Baolin Wang <baolin.wang@linaro.org>
-Message-Id: <CAMz4kuJJPS+GBQqJ4p-PebbKJt5MKK4vQv5EwJAPpL64fBDKLQ@mail.gmail.com>
-Date: Tue, 26 Mar 2019 17:35:46 +0800
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "# 3.4.x" <stable@vger.kernel.org>, Kees Cook <keescook@chromium.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, "Gustavo A. R. Silva" <gustavo@embeddedor.com>, Josh Boyer <jwboyer@fedoraproject.org>, Ralf Spenneberg <ralf@spenneberg.net>, USB list <linux-usb@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Chunyan Zhang <chunyan.zhang@spreadtrum.com>, Baolin Wang <baolin.wang@spreadtrum.com>, orson.zhai@unisoc.com, =?UTF-8?B?Q2h1bnlhbiBaaGFuZyAo5byg5pil6ImzKQ==?= <Chunyan.Zhang@unisoc.com>
+From: =?utf-8?b?57+f5LqsIChPcnNvbiBaaGFpKQ==?= <Orson.Zhai@unisoc.com>
+Message-Id: <da28497fe12647b495db75473fd4e91c@BJMBX01.spreadtrum.com>
+Date: Tue, 26 Mar 2019 09:47:28 +0000
+To: Baolin Wang <baolin.wang@linaro.org>, Arnd Bergmann <arnd@arndb.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "# 3.4.x" <stable@vger.kernel.org>, Kees Cook <keescook@chromium.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, "Gustavo A. R. Silva" <gustavo@embeddedor.com>, Josh Boyer <jwboyer@fedoraproject.org>, Ralf Spenneberg <ralf@spenneberg.net>, USB list <linux-usb@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, =?gb2312?B?1cW0utHeIChDaHVueWFuIFpoYW5nKQ==?= <Chunyan.Zhang@unisoc.com>, =?gb2312?B?zfWxpsHWIChCYW9saW4gV2FuZyk=?= <baolin.wang@unisoc.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVHVlLCAyNiBNYXIgMjAxOSBhdCAxNjoyMSwgQXJuZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5k
-ZT4gd3JvdGU6Cj4KPiBPbiBUdWUsIE1hciAyNiwgMjAxOSBhdCAyOjIzIEFNIEdyZWcgS3JvYWgt
-SGFydG1hbgo+IDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4gd3JvdGU6Cj4gPgo+ID4gT24g
-RnJpLCBNYXIgMjIsIDIwMTkgYXQgMDQ6NDM6NTVQTSArMDEwMCwgQXJuZCBCZXJnbWFubiB3cm90
-ZToKPiA+ID4gRnJvbTogSm9zaCBCb3llciA8andib3llckBmZWRvcmFwcm9qZWN0Lm9yZz4KPiA+
-ID4KPiA+ID4gVGhlIGlvd2FycmlvciBkcml2ZXIgZXhwZWN0cyBhdCBsZWFzdCBvbmUgdmFsaWQg
-ZW5kcG9pbnQuICBJZiBnaXZlbgo+ID4gPiBtYWxpY2lvdXMgZGVzY3JpcHRvcnMgdGhhdCBzcGVj
-aWZ5IDAgZm9yIHRoZSBudW1iZXIgb2YgZW5kcG9pbnRzLAo+ID4gPiBpdCB3aWxsIGNyYXNoIGlu
-IHRoZSBwcm9iZSBmdW5jdGlvbi4gIEVuc3VyZSB0aGVyZSBpcyBhdCBsZWFzdAo+ID4gPiBvbmUg
-ZW5kcG9pbnQgb24gdGhlIGludGVyZmFjZSBiZWZvcmUgdXNpbmcgaXQuCj4gPiA+Cj4gPiA+IFRo
-ZSBmdWxsIHJlcG9ydCBvZiB0aGlzIGlzc3VlIGNhbiBiZSBmb3VuZCBoZXJlOgo+ID4gPiBodHRw
-Oi8vc2VjbGlzdHMub3JnL2J1Z3RyYXEvMjAxNi9NYXIvODcKPiA+ID4KPiA+ID4gUmVwb3J0ZWQt
-Ynk6IFJhbGYgU3Blbm5lYmVyZyA8cmFsZkBzcGVubmViZXJnLm5ldD4KPiA+ID4gQ2M6IHN0YWJs
-ZSA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4KPiA+ID4gU2lnbmVkLW9mZi1ieTogSm9zaCBCb3ll
-ciA8andib3llckBmZWRvcmFwcm9qZWN0Lm9yZz4KPiA+ID4gU2lnbmVkLW9mZi1ieTogR3JlZyBL
-cm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3VuZGF0aW9uLm9yZz4KPiA+ID4gKGNoZXJyeSBw
-aWNrZWQgZnJvbSBjb21taXQgNGVjMGVmM2E4MjEyNWVmYzM2MTczMDYyYTUwNjI0NTUwYTkwMGFl
-MCkKPiA+ID4gU2lnbmVkLW9mZi1ieTogQXJuZCBCZXJnbWFubiA8YXJuZEBhcm5kYi5kZT4KPiA+
-ID4gLS0tCj4gPiA+ICBkcml2ZXJzL3VzYi9taXNjL2lvd2Fycmlvci5jIHwgNiArKysrKysKPiA+
-ID4gIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykKPiA+Cj4gPiBUaGlzIGNvbW1pdCBo
-YXMgYmVlbiBpbiB0aGUgdHJlZSBmb3IgYSBsb25nIHRpbWUuICBJdCB3YXMgaW4gdGhlIDQuNC43
-Cj4gPiByZWxlYXNlLCBiYWNrIGluIEFwcmlsIDIwMTYuICBBbmQgdGhlbiBpdCB3YXMgcmV2ZXJ0
-ZWQgaW4gY29tbWl0Cj4gPiBiNzMyMWU4MWZjMzYgKCJVU0I6IGlvd2FycmlvcjogZml4IE5VTEwt
-ZGVyZWYgYXQgcHJvYmUiKSBhcyBpdCBicm9rZQo+ID4gc3lzdGVtcy4gIFNvIHdoeSBhZGQgaXQg
-YmFjaywgdGhlIGNvcnJlY3QgZnVuY3Rpb25hbGl0eSBzaG91bGQgYmUgdGhlcmUKPiA+IHRvZGF5
-LCByaWdodD8KPgo+IFNvcnJ5IEkgbWlzc2VkIHRoYXQgaGlzdG9yeS4gVGhlIHNjcmlwdCBJIHVz
-ZWQgdG8gaWRlbnRpZnkgcGF0Y2hlcyBub3RpY2VkCj4gdGhhdCB0aGlzIHBhdGNoIHdhcyBub3Qg
-YXBwbGllZCwgYnV0IEkgZGlkIG5vdCBoYXZlIGEgY2hlY2sgZm9yIGFscmVhZHktCj4gcmV2ZXJ0
-ZWQgcGF0Y2hlcy4KPgo+IENodW55YW4sIEJhb2xpbjogaXQgc2VlbXMgdGhlIHNwcmVhZHRydW0g
-NC40IGtlcm5lbCBnb3QgdGhpcyB3cm9uZwo+IGFzIHdlbGwsIGJ5IGJhY2twb3J0aW5nIHRoZSBw
-YXRjaCBhZ2FpbiBvbiB0b3Agb2YgNC40LjE3Mi4gQ2FuIHlvdSBjaGVjawo+IHRoZSBsYXRlc3Qg
-aW50ZXJuYWwgdmVyc2lvbiBmb3IgdGhpcz8KClllcywgSSBzYXcgdGhpcyBwYXRjaCBpbiBvdXIg
-NC40IGtlcm5lbC4KCk9yc29uLCB3ZSBzaG91bGQgcmV2ZXJ0IHRoaXMgcGF0Y2ggZnJvbSBvdXIg
-a2VybmVsIGFzIEdyZWcgbWVudGlvbmVkLgo=
+SGkgQXJuZCwgQmFvbGluLAoKVGhhbmsgeW91IQoKSSBhbSBpbiB0cmF2ZWwuCgpJICdsbCBhcHBs
+eSBpdCB3aGVuIEkgYW0gYmFjay4KCkJlc3QsCk9yc29uCi0tLS0tLS0tCkdvb2QgcGF0Y2hlcyBh
+cmUgYWx3YXlzIHdlbGNvbWUhCg==
