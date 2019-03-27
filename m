@@ -1,14 +1,30 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [BACKPORT,4.4.y,04/25] USB: iowarrior: fix oops with malicious USB descriptors
-From: =?utf-8?b?57+f5LqsIChPcnNvbiBaaGFpKQ==?= <Orson.Zhai@unisoc.com>
-Message-Id: <da28497fe12647b495db75473fd4e91c@BJMBX01.spreadtrum.com>
-Date: Tue, 26 Mar 2019 09:47:28 +0000
-To: Baolin Wang <baolin.wang@linaro.org>, Arnd Bergmann <arnd@arndb.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "# 3.4.x" <stable@vger.kernel.org>, Kees Cook <keescook@chromium.org>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, "Gustavo A. R. Silva" <gustavo@embeddedor.com>, Josh Boyer <jwboyer@fedoraproject.org>, Ralf Spenneberg <ralf@spenneberg.net>, USB list <linux-usb@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, =?gb2312?B?1cW0utHeIChDaHVueWFuIFpoYW5nKQ==?= <Chunyan.Zhang@unisoc.com>, =?gb2312?B?zfWxpsHWIChCYW9saW4gV2FuZyk=?= <baolin.wang@unisoc.com>
+Subject: [v2] USB: cp210x: add new device id
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20190327011114.GC30198@kroah.com>
+Date: Wed, 27 Mar 2019 10:11:14 +0900
+To: Johan Hovold <johan@kernel.org>
+Cc: Uli <t9cpu@web.de>, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SGkgQXJuZCwgQmFvbGluLAoKVGhhbmsgeW91IQoKSSBhbSBpbiB0cmF2ZWwuCgpJICdsbCBhcHBs
-eSBpdCB3aGVuIEkgYW0gYmFjay4KCkJlc3QsCk9yc29uCi0tLS0tLS0tCkdvb2QgcGF0Y2hlcyBh
-cmUgYWx3YXlzIHdlbGNvbWUhCg==
+TG9yZW56IE1lc3N0ZWNobmlrIGhhcyBhIGRldmljZSB0aGF0IGlzIGNvbnRyb2xsZWQgYnkgdGhl
+IGNwMjEweCBkcml2ZXIsCnNvIGFkZCB0aGUgZGV2aWNlIGlkIHRvIHRoZSBkcml2ZXIuICBUaGUg
+ZGV2aWNlIGlkIHdhcyBwcm92aWRlZCBieQpTaWxpY29uLUxhYnMgZm9yIHRoZSBkZXZpY2VzIGZy
+b20gdGhpcyB2ZW5kb3IuCgpSZXBvcnRlZC1ieTogVWxpIDx0OWNwdUB3ZWIuZGU+ClNpZ25lZC1v
+ZmYtYnk6IEdyZWcgS3JvYWgtSGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+CkNj
+OiBzdGFibGUgPHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmc+Ci0tLQp2MjogZml4IEZyb206IGxpbmUg
+dG8gbWF0Y2ggcy1vLWIuCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2Ivc2VyaWFsL2NwMjEweC5j
+IGIvZHJpdmVycy91c2Ivc2VyaWFsL2NwMjEweC5jCmluZGV4IGZmZmUyM2FiMDE4OS4uZjAxY2Qw
+ZWU1NjIxIDEwMDY0NAotLS0gYS9kcml2ZXJzL3VzYi9zZXJpYWwvY3AyMTB4LmMKKysrIGIvZHJp
+dmVycy91c2Ivc2VyaWFsL2NwMjEweC5jCkBAIC04MCw2ICs4MCw3IEBAIHN0YXRpYyBjb25zdCBz
+dHJ1Y3QgdXNiX2RldmljZV9pZCBpZF90YWJsZVtdID0gewogCXsgVVNCX0RFVklDRSgweDEwQzQs
+IDB4ODA0RSkgfSwgLyogU29mdHdhcmUgQmlzcXVlIFBhcmFtb3VudCBNRSBidWlsZC1pbiBjb252
+ZXJ0ZXIgKi8KIAl7IFVTQl9ERVZJQ0UoMHgxMEM0LCAweDgwNTMpIH0sIC8qIEVuZm9yYSBFREcx
+MjI4ICovCiAJeyBVU0JfREVWSUNFKDB4MTBDNCwgMHg4MDU0KSB9LCAvKiBFbmZvcmEgR1NNMjIy
+OCAqLworCXsgVVNCX0RFVklDRSgweDEwQzQsIDB4ODA1NikgfSwgLyogTG9yZW56IE1lc3N0ZWNo
+bmlrIGRldmljZXMgKi8KIAl7IFVTQl9ERVZJQ0UoMHgxMEM0LCAweDgwNjYpIH0sIC8qIEFyZ3Vz
+c29mdCBJbi1TeXN0ZW0gUHJvZ3JhbW1lciAqLwogCXsgVVNCX0RFVklDRSgweDEwQzQsIDB4ODA2
+RikgfSwgLyogSU1TIFVTQiB0byBSUzQyMiBDb252ZXJ0ZXIgQ2FibGUgKi8KIAl7IFVTQl9ERVZJ
+Q0UoMHgxMEM0LCAweDgwN0EpIH0sIC8qIENydW1iMTI4IGJvYXJkICovCg==
