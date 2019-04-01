@@ -2,18 +2,21 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: musb: Force-disable pullup on shutdown
-From: Bin Liu <b-liu@ti.com>
-Message-Id: <20190401171725.GK25852@uda0271908>
-Date: Mon, 1 Apr 2019 12:17:25 -0500
-To: Paul Cercueil <paul@crapouillou.net>
+From: Paul Cercueil <paul@crapouillou.net>
+Message-Id: <1554140782.10471.0@crapouillou.net>
+Date: Mon, 01 Apr 2019 19:46:22 +0200
+To: Bin Liu <b-liu@ti.com>
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, od@zcrc.me
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCBNYXIgMjEsIDIwMTkgYXQgMDM6NDI6NDZQTSArMDEwMCwgUGF1bCBDZXJjdWVpbCB3
-cm90ZToKPiBXaGVuIHRoZSBtdXNiIGlzIHNodXRkb3duLCBmb3IgaW5zdGFuY2Ugd2hlbiB0aGUg
-ZHJpdmVyIGlzIHVubG9hZGVkLAo+IGZvcmNlLWRpc2FibGUgdGhlIHB1bGx1cC4gT3RoZXJ3aXNl
-LCB0aGUgaG9zdCB3aWxsIHN0aWxsIHNlZSB0aGUgZ2FkZ2V0Cj4gZGV2aWNlIGV2ZW4gYWZ0ZXIg
-dGhlIHNodXRkb3duLgoKaG93IHdvdWxkIHRoaXMgaGFwcGVuPwoKd2hlbiBtdXNiLWhkcmMgZHJp
-dmVyIGlzIHVubG9hZGVkLCB1ZGMgY29yZSByZW1vdmVzIHRoZSBib3VuZCBnYWRnZXQKZHJpdmVy
-IHdoaWNoIGNhbGxzIG11c2JfZ2FkZ2V0X3B1bGx1cCgpIHRvIGRpc2FibGUgdGhlIHB1bGx1cC4K
-ClJlZ2FyZHMsCi1CaW4uCg==
+TGUgbHVuLiAxIGF2cmlsIDIwMTkgw6AgMTk6MTcsIEJpbiBMaXUgPGItbGl1QHRpLmNvbT4gYSDD
+qWNyaXQgOgo+IE9uIFRodSwgTWFyIDIxLCAyMDE5IGF0IDAzOjQyOjQ2UE0gKzAxMDAsIFBhdWwg
+Q2VyY3VlaWwgd3JvdGU6Cj4+ICBXaGVuIHRoZSBtdXNiIGlzIHNodXRkb3duLCBmb3IgaW5zdGFu
+Y2Ugd2hlbiB0aGUgZHJpdmVyIGlzIHVubG9hZGVkLAo+PiAgZm9yY2UtZGlzYWJsZSB0aGUgcHVs
+bHVwLiBPdGhlcndpc2UsIHRoZSBob3N0IHdpbGwgc3RpbGwgc2VlIHRoZSAKPj4gZ2FkZ2V0Cj4+
+ICBkZXZpY2UgZXZlbiBhZnRlciB0aGUgc2h1dGRvd24uCj4gCj4gaG93IHdvdWxkIHRoaXMgaGFw
+cGVuPwo+IAo+IHdoZW4gbXVzYi1oZHJjIGRyaXZlciBpcyB1bmxvYWRlZCwgdWRjIGNvcmUgcmVt
+b3ZlcyB0aGUgYm91bmQgZ2FkZ2V0Cj4gZHJpdmVyIHdoaWNoIGNhbGxzIG11c2JfZ2FkZ2V0X3B1
+bGx1cCgpIHRvIGRpc2FibGUgdGhlIHB1bGx1cC4KCkknbSB0ZXN0aW5nIHdpdGggdGhlIGp6NDc0
+MC1tdXNiIGRyaXZlci4gSSBkb24ndCB1bmxvYWQgdGhlIG1vZHVsZSAoaXQncwpidWlsdC1pbikg
+YnV0IHVuYmluZCBpdCBmcm9tIHN5c2ZzLgoKPiBSZWdhcmRzLAo+IC1CaW4uCg==
