@@ -2,145 +2,133 @@ Return-Path: <SRS0=hNA8=SH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_PASS,T_DKIMWL_WL_HIGH,USER_AGENT_MUTT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.5 required=3.0 tests=DKIM_ADSP_CUSTOM_MED,
+	DKIM_INVALID,DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8817EC4360F
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Apr 2019 14:10:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD5A5C4360F
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Apr 2019 15:09:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 56BF421852
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Apr 2019 14:10:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1554473459;
-	bh=rOs16tjl4NeqpvLRx3378WVrHemAT6MQngXXgPQU91M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=yGXo+oxzrtJKCSpC+/oMjKA2PRImph2ldBXHIfpziV+YZlZU6hYA+4niUJA8s1OTW
-	 DmsYi2NEjIdkP9qtzR9J8+s8IKGlUy4r667DQI41HKFe5aN3/yjhb3Wr4GiYPg/igw
-	 GzHPXUCMEdOH/gmNXnZ18DaguSIjwoe7zGok46KM=
+	by mail.kernel.org (Postfix) with ESMTP id 95F40217D4
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Apr 2019 15:09:21 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fuTtE4P4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731215AbfDEOKy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Apr 2019 10:10:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55852 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726594AbfDEOKy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 5 Apr 2019 10:10:54 -0400
-Received: from localhost (173-25-63-173.client.mchsi.com [173.25.63.173])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9379F21852;
-        Fri,  5 Apr 2019 14:10:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1554473452;
-        bh=rOs16tjl4NeqpvLRx3378WVrHemAT6MQngXXgPQU91M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=oio3KZkvSyU16WJdRfEzLqceSF5fiV0m2ETPP1JVgXOnSYUYTOnuapOsF9onnOi4z
-         vHHFRRhXrtiZMBI1QguRzJHne/BmGZ1KhU1kB8jgdD6U5lJcGivh0h3ONbAo08n+Gb
-         E3FcCVHG5/Sf18MBlGJAj1fGj3hXU4fCulrHeGWA=
-Date:   Fri, 5 Apr 2019 09:10:51 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Ron Murray <rjmx@rjmx.net>
-Cc:     linux-pci@vger.kernel.org, Borislav Petkov <bp@alien8.de>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Marcel Holtmann <marcel@holtmann.org>,
-        Johan Hedberg <johan.hedberg@gmail.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: PCI device appears intermittently
-Message-ID: <20190405141051.GA109021@google.com>
-References: <06ca8af7-46e3-2769-cce0-48596ce99211@rjmx.net>
- <20190402130925.GC141706@google.com>
+        id S1728811AbfDEPJU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Apr 2019 11:09:20 -0400
+Received: from mail-wm1-f50.google.com ([209.85.128.50]:52997 "EHLO
+        mail-wm1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726643AbfDEPJU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Apr 2019 11:09:20 -0400
+Received: by mail-wm1-f50.google.com with SMTP id a184so7062276wma.2
+        for <linux-usb@vger.kernel.org>; Fri, 05 Apr 2019 08:09:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:to:from:subject:message-id:date:user-agent:mime-version
+         :content-transfer-encoding:content-language;
+        bh=Y+R21v24VrGZ9Ioflyb+SU0Pm3gSGmG5YW3GEXKImvk=;
+        b=fuTtE4P4S91vkAafrEguhCEpvzF2Zpitc6aI0jcMIdO8e2PfVxRtQRBKh5eKyvuWaZ
+         ZJM05IzF7u0ALEgjnnpw3na8haKinS+HyMg9noo73p1pueGC0YHfyXtJOPkuHcaOca0s
+         5P73gHPonQnO8BUjNMqwYtbPUXxzMeQGI2IM6GAuDJ6itHQ6n9Te8MCq4d1QrBo3Vtdw
+         GL1hibC0FogGN2BBand70/ozchoV5RGOk9hdvYMGoEaDorr8Q4v8AcZ4/m0pK0N6nFXK
+         TN9ynxkSKkEDKHV2HokdwuN6oIPjckK+Spw74TcXOgQXqzH87HT8LNi6WustMJ4/zdKB
+         lbUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:to:from:subject:message-id:date
+         :user-agent:mime-version:content-transfer-encoding:content-language;
+        bh=Y+R21v24VrGZ9Ioflyb+SU0Pm3gSGmG5YW3GEXKImvk=;
+        b=O8XZ1MPfPGhOZi1/3+ZNIT0WLtWKu1olkg78vl2hoaAEkY6UEIHHsRl7n9FSEzWgE+
+         2zXz6i5cQr4NAVAbBjSF6Z1zLn3fcSG/ZV6GyiA8vUAjYvtHQk8n/aATTsLFeSOs80Qk
+         Xu5YiK0XMc/dC1JvMefcVrsUA7+TO5Vx69UEqEWGiphdUAOCg3BrgxUvDfdrFLQ9KeI4
+         gfVhqKR8c627gjYLZXO1bjB3u4JFhV1mPs/VlKhDFQ/N0juxg5yxSmd+b/w9Heg7/CcM
+         WRdMB3yVRrI5W33bK/T7zM39moFtzjih8xh13N2Pn1ILK7K5w84vokLHk7ku/u8xqa17
+         yddA==
+X-Gm-Message-State: APjAAAVkouOKeI3nQlcjnHB0v+71Mz7Q0KE85BSdCu4GqGzV0FOQ5u4v
+        WN8hbSaQ/jW91rNyJoH6nfBtG0OJ
+X-Google-Smtp-Source: APXvYqwdM+/1ZeM+MJVYkJpw/DmHvKbQ5aP31a5lhtQZbZh2snF1wZ5/gVhfMBLLXm2P0srXpNnmug==
+X-Received: by 2002:a1c:6587:: with SMTP id z129mr8502519wmb.84.1554476957606;
+        Fri, 05 Apr 2019 08:09:17 -0700 (PDT)
+Received: from ?IPv6:2003:da:df28:a100:3615:f02e:4511:2c54? (p200300DADF28A1003615F02E45112C54.dip0.t-ipconnect.de. [2003:da:df28:a100:3615:f02e:4511:2c54])
+        by smtp.gmail.com with ESMTPSA id 192sm5152201wme.13.2019.04.05.08.09.16
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 05 Apr 2019 08:09:16 -0700 (PDT)
+To:     linux-usb@vger.kernel.org
+From:   "Linus K." <linus.kaschulla@gmail.com>
+Subject: Bug: cdc_acm blocking write after many small writes
+Message-ID: <10cfe58c-2d91-30d3-8672-ebe261363bf1@gmail.com>
+Date:   Fri, 5 Apr 2019 17:09:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190402130925.GC141706@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-[+cc Borislav, Alan, Marcel, Johan, linux-usb, LKML]
+Hi,
+I recently submitted this bug to https://bugzilla.kernel.org/ and was 
+redirected here.
 
-On Tue, Apr 02, 2019 at 08:09:25AM -0500, Bjorn Helgaas wrote:
-> On Thu, Mar 28, 2019 at 09:22:03PM -0400, Ron Murray wrote:
-> > I have an ASRock 970A-G/3.1 motherboard, which, with current Linux
-> > kernels, occasionally "finds" an extra PCI device on the initial
-> > scan.
-> 
-> Hmmm, I don't have any good ideas.  You mention "current" kernels.  Is
-> this a regression?  If there is an earlier kernel that never finds
-> this extra device, it's possible we could find the problem by
-> bisecting.  It's a little harder with intermittent problems like this,
-> though.
-> 
-> Is there any rhyme or reason to when the problem occurs?  Do you dual
-> boot with Windows?  Does it happen after an unusual shutdown (crash,
-> oops, etc)?  Is there anything connected to that port?
-> 
-> Can you collect the output of "sudo lspci -vvv" and the dmesg logs for
-> successful and failing boots?  Maybe attach them to a
-> bugzilla.kernel.org entry.
+Using a Atmel Evo Kit (which is recognized as /dev/ttyACM0).
 
-The bugzilla entry is https://bugzilla.kernel.org/show_bug.cgi?id=203157
-Thanks, Ron!
+When writing many small chunks of data to it, it'll block write forever 
+(at least many minutes using select call).
+Writing anyway causes errno 11: Resource temporarily not available.
 
-I unpacked the tar file and attached the individual files.  I think
-they might be labeled backwards, though.  Compared to lspci-vvv.good,
-lspci-vvv.bad contains two extra devices:
+This seems to be a race condition or buffer overflow since adding a 
+small sleep of 1ms between writes (of 1 byte or similar small) defers 
+the point of getting stuck.
+Without sleep I can push about 240 bytes and with 1ms sleep I get a lot 
+more (e.g. about 105680).
 
-  00:09.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890/RD9x0/RX980 PCI to PCI bridge (PCI Express GPP Port 4)
-  02:00.0 USB controller: ASMedia Technology Inc. ASM1143 USB 3.1 Host Controller
+Also writing bigger chunks doesn't seem to produce the problem.
+I can't use that as a solution hover since I need to keep the delay as 
+small as possible.
+Meaning small packets (often 1 to 3 bytes) and no caching.
 
-The 00:09.0 bridge leads to bus 02, i.e., to the XHCI USB device.
-Obviously if we don't find the bridge, we won't find the USB device
-either.
+The used serial devices has a set baud of 115200 symbols/sec (no parity, 
+8 bytes, 1 stopbit).
 
-Is there anything you can relate to the USB device?  I assume it's not
-something like "the USB controller appears only when there's a USB
-device connected to it"?  No flaky USB device connected (low battery
-or something)?
+I should also not that I didn't run into the bug writing as much data as 
+possible.
+I ran 2 writes of 1 byte every 16.667ms (60 Hz) which caused the program 
+to get stuck after about 5-20 seconds.
+The program is implemented using python, has 2 extra threads but only 
+uses the serial connection (reading and writing) in the main thread.
 
-Looking at USB, I see this weirdness:
+I also tried different usb ports (separate root hubs).
 
-  $ grep "BCM\|000272C95496" dmesg.*
-  dmesg.bad:usb 4-2: Product: BCM20702A0
-  dmesg.bad:usb 4-2: SerialNumber: 000272C95496
-  dmesg.bad:Bluetooth: hci0: BCM: chip id 63
-  dmesg.bad:Bluetooth: hci0: BCM: features 0x07
-  dmesg.bad:Bluetooth: hci0: BCM20702A
-  dmesg.bad:Bluetooth: hci0: BCM20702A1 (001.002.014) build 0000
-  dmesg.bad:Bluetooth: hci0: BCM20702A1 (001.002.014) build 1338
-  dmesg.good:usb 4-2: Product: BCM920702 Bluetooth 4.0
-  dmesg.good:usb 4-2: SerialNumber: 000272C95496
-  dmesg.good:Bluetooth: hci0: BCM: chip id 63
-  dmesg.good:Bluetooth: hci0: BCM: features 0x07
-  dmesg.good:Bluetooth: hci0: BCM20702A1 (001.002.014) build 1338
-  dmesg.good:Bluetooth: hci0: BCM20702A1 (001.002.014) build 1338
+This bug doesn't exists on my RaspberryPi this bug didn't exist on 
+kernel 4.14.98-v7+ and probably before.
+The raspberrypi only had the occasional pause when exceeding writing 
+more than the device could handle and resumes asap (as expected).
 
-Looks like the same device, but for some reason it identifies
-differently.  Added some Bluetooth guys in case they have an idea;
-I sure don't.
+The same problem also doesn't exists when using a FTDI as well as a 
+CP2102 on my PC.
 
-> > I wouldn't mind, but it finds it early in the piece, and that
-> > changes the PCI allocation of my Ethernet board from 02:06.0 to
-> > 03:06.0, and, with systemd, Linux comes up with no network
-> > connection. A reboot fixes it, mostly.
-> > 
-> > Here's the first few lines of 'lspci' when Linux doesn't find the
-> > extra device
-> > 
-> > > 00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD9x0/RX980 Host Bridge (rev 02) 
-> > > 00:00.2 IOMMU: Advanced Micro Devices, Inc. [AMD/ATI] RD890S/RD990 I/O Memory Management Unit (IOMMU)
-> > > 00:02.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890/RD9x0/RX980 PCI to PCI bridge (PCI Express GFX port 0)
-> > > 00:11.0 SATA controller: Advanced Micro Devices, Inc. [AMD/ATI] SB7x0/SB8x0/SB9x0 SATA Controller [AHCI mode] (rev 40) 
-> > 
-> > and here's the same thing when it does:
-> > 
-> > > 00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD9x0/RX980 Host Bridge (rev 02)
-> > > 00:00.2 IOMMU: Advanced Micro Devices, Inc. [AMD/ATI] RD890S/RD990 I/O Memory Management Unit (IOMMU)
-> > > 00:02.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890/RD9x0/RX980 PCI to PCI bridge (PCI Express GFX port 0)
-> > > 00:09.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890/RD9x0/RX980 PCI to PCI bridge (PCI Express GPP Port 4)
-> > > 00:11.0 SATA controller: Advanced Micro Devices, Inc. [AMD/ATI] SB7x0/SB8x0/SB9x0 SATA Controller [AHCI mode] (rev 40)
-> > > 00:12.0 USB controller: Advanced Micro Devices, Inc. [AMD/ATI] SB7x0/SB8x0/SB9x0 USB OHCI0 Controller 
-> > 
-> > The 00:09.0 device is the extra one. Anything else I can provide to assist?
+(I also disabled the ModemManager service which tried to communicate 
+with the device using Hayes (AT) commands.)
+
+There is no kernel log regarding the bug. Tested using USB 2 as as well 
+as USB 3.
+Kernel log when plugging in affected device:
+[ 6184.123072] usb 2-10.2: New USB device found, idVendor=03eb, 
+idProduct=2404, bcdDevice= 1.00
+[ 6184.123076] usb 2-10.2: New USB device strings: Mfr=1, Product=2, 
+SerialNumber=0
+[ 6184.123078] usb 2-10.2: Product: CDC
+[ 6184.123080] usb 2-10.2: Manufacturer: ATMEL ASF
+[ 6184.131485] cdc_acm 2-10.2:1.0: ttyACM0: USB ACM device
+---
+
+
+Greetings,
+Linus Kaschulla (currently studing, using linux for many years and 
+getting my feed wet with c programming with linux)
+
