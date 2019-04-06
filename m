@@ -1,143 +1,87 @@
-Return-Path: <SRS0=hNA8=SH=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=peg9=SI=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D663C282CE
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Apr 2019 21:34:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BD90C282DA
+	for <linux-usb@archiver.kernel.org>; Sat,  6 Apr 2019 06:06:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2A82821726
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Apr 2019 21:34:34 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=mbuki-mvuki-org.20150623.gappssmtp.com header.i=@mbuki-mvuki-org.20150623.gappssmtp.com header.b="O2iDRTx2"
+	by mail.kernel.org (Postfix) with ESMTP id 5DCCB21855
+	for <linux-usb@archiver.kernel.org>; Sat,  6 Apr 2019 06:06:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1554530789;
+	bh=CvZMM9Lg3PqHnayk0tLjKdbFOZ3+GzX8d9wJBMNfnrU=;
+	h=Date:From:Subject:References:In-Reply-To:Cc:Cc:To:List-ID:From;
+	b=bJYhUBvoSfgFKuh/XXSVWl0xOa4SzgX71tHQpbfrioD6cKjz0vcNvW+cA1lLFzHKF
+	 /q6UmNLaAHpmldSQXVTeMs7UKN31OaoAM7ceop5X+zT3CuN5nzLECivXb1sQI4o2mj
+	 1ipNek50bf+hulUBpfisHwopR+FS2JGi5cclWwzU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726167AbfDEVed (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Apr 2019 17:34:33 -0400
-Received: from mail-wr1-f54.google.com ([209.85.221.54]:35470 "EHLO
-        mail-wr1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725973AbfDEVed (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Apr 2019 17:34:33 -0400
-Received: by mail-wr1-f54.google.com with SMTP id w1so9620089wrp.2
-        for <linux-usb@vger.kernel.org>; Fri, 05 Apr 2019 14:34:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mbuki-mvuki-org.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NyvK4CkZko+1ZyXXLKPTfOXhwHWsjBk4NGNi5kyz4ww=;
-        b=O2iDRTx2YqKVdqsXf/hpIVGmWx1FL0Mnjf0ZmwXLxDgXD/BvYDgJHorj3Y0ZQatMfV
-         G+xz5D8lmKF7hn6cywb0gThedPnuxLwaMybU1zzFjzuKk8LF4S65ly7tNOkOBC3jJVzA
-         xChQink66guhFbwqQ9aNIahLCmszemWpHhI0Qo+MllBz6jbRLCVVGBEyBv9ftZn6KUx4
-         6iY9Oz6ByjLF/lo3VWjXosUPW9onHbJwwYtxWaEcIRdSMSUrZIc8qIFsWCUn9CnX5tLF
-         owR8n7VIgyXT1vS6zTAETU5HCXKQnUmw3OivIve/QX4iNL02UsVCU5kzKGqGimRlc8Tc
-         0IPA==
+        id S1726720AbfDFGG2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 6 Apr 2019 02:06:28 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:37200 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726712AbfDFGG1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 6 Apr 2019 02:06:27 -0400
+Received: by mail-pg1-f196.google.com with SMTP id e6so4201093pgc.4;
+        Fri, 05 Apr 2019 23:06:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NyvK4CkZko+1ZyXXLKPTfOXhwHWsjBk4NGNi5kyz4ww=;
-        b=GskVVeUaO47hRgUsTgRaNc9MNuTubm2IxIfNcOU3R96Uxd1E2WSK9k29U8Yp5hdWIr
-         dtWXiApCjwi3xId+8C2xID0AHlVAEd7BJydi8fPIkRVggvX8EdmG7eu+xnne41Ne8SHb
-         aV91UevjChX0MTuH1nggFADkmWnA3ktFnUlp4ziDHjCd2Ob54t0jV+pQ0gHWzmXGPvqn
-         IwveGs29qM4NSugI5u0nowfhLUvpQ1HM8vOJAP/PhrdmxzVjnFsavfTS7iUojghSj4CJ
-         o6mQZOuROmcCyNtjVk9csIvIkxBCXvqHc5fQf6+HbWXngNp8fb1RDP0hjiTaHC+i02Cc
-         fzBA==
-X-Gm-Message-State: APjAAAWFlkSNdwB6TpfESLI3/k5++aRxd9PmpOjrrzsSN/HAhb3O1vs9
-        20N7kllklVcD1JAfUcgV63ryoWRTWYTepdTwRmQWvg==
-X-Google-Smtp-Source: APXvYqwIenadDP1gIaPT2VZVsLHbl3lT+ta3Izq3owqgDG2GVGUa7Xa4HO41346PpP8r/aNSGNy+A+8yhYNt091Up/w=
-X-Received: by 2002:a5d:6406:: with SMTP id z6mr10523988wru.266.1554499637318;
- Fri, 05 Apr 2019 14:27:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <CANSNSoWL-2hP6j+nQwjr26vUmvyJ_Y1c9CrJ4bHnuqYCXhecdg@mail.gmail.com>
- <Pine.LNX.4.44L0.1904041509280.1288-100000@iolanthe.rowland.org>
-In-Reply-To: <Pine.LNX.4.44L0.1904041509280.1288-100000@iolanthe.rowland.org>
-From:   Jesse Hathaway <jesse@mbuki-mvuki.org>
-Date:   Fri, 5 Apr 2019 16:27:06 -0500
-Message-ID: <CANSNSoVGLEkRE5DPyVhPVdsCbu44SOu0Tpf7smWjPUn_qwRHHA@mail.gmail.com>
-Subject: Re: Regression causes a hang on boot with a Comtrol PCI card
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Bjorn Helgaas <helgaas@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        Mathias Nyman <mathias.nyman@intel.com>,
+        h=x-gm-message-state:message-id:date:from:subject:references
+         :in-reply-to:cc:cc:to;
+        bh=s8wVCbGwXB2mQcIs0fbts1xGiNvvvyK5lG0VCS8kmOo=;
+        b=oieb/1DpVvQVlyP97lUcZNb20UwBZLy1nRAzsXaAPO+LbyV622dKB3imDjmMELEyQV
+         TaoOQuKSTcxBNlNn7Iviy/ppRpXnyw0ZBWpplxTJLW317v/2ji4Yzy3mhKgE32yFDJl0
+         YVRco8D7JKWzLRSvVXdGGPblVx8IZcUvmeSLFuM0Aqq4/5nAQIGEBfppRUKWZAuC3weP
+         BiH7WEwt1z5pogA7TgvEoQBykLaFgwK2N0J0fHBp9TBP/dtzKPFrSQjzuojHW0axtACG
+         HDOh67iz8P8foMVcLZpydgPUO73VG/vXZcK8e4slpDpz1DhdzzCaJx5MISjp25HE5EjE
+         8LkQ==
+X-Gm-Message-State: APjAAAWBFbrwOI9ebb5C5uPOcSpTuic8jB5Le5UkNb32h1QCf/16o8iW
+        c7zz/GExxMyBHSZHn3TSQg==
+X-Google-Smtp-Source: APXvYqwhdbgUy/IrenHHLW9WLnoj/6lg84mi8aoeZ8wLNk2e2AJSL1gqF9TCMU2JqHDyTRNYqICMoA==
+X-Received: by 2002:a63:408:: with SMTP id 8mr16094901pge.334.1554530786641;
+        Fri, 05 Apr 2019 23:06:26 -0700 (PDT)
+Received: from localhost ([210.160.217.71])
+        by smtp.gmail.com with ESMTPSA id f63sm32031358pfc.180.2019.04.05.23.06.25
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 05 Apr 2019 23:06:25 -0700 (PDT)
+Message-ID: <5ca841e1.1c69fb81.20175.d3d6@mx.google.com>
+Date:   Sat, 06 Apr 2019 01:06:23 -0500
+From:   Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 03/12] dt-bindings: usb: ehci-r8a77470 devicetree binding document
+References: <1554123232-58942-1-git-send-email-biju.das@bp.renesas.com> <1554123232-58942-4-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1554123232-58942-4-git-send-email-biju.das@bp.renesas.com>
+Cc:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Biju Das <biju.das@bp.renesas.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+To:     Biju Das <biju.das@bp.renesas.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Apr 4, 2019 at 2:14 PM Alan Stern <stern@rowland.harvard.edu> wrote:
-> Okay.  You could try skipping that pci_write_config_byte() call.  The
-> following loop would probably time out, and you might find that the
-> code crashes later on.
->
-> You could also try setting try_handoff to 0 near the start of the
-> routine.  Your system plus the Comtrol PCI card could have the same
-> sort of bug as reported in Bugzilla #77021.
+On Mon,  1 Apr 2019 13:53:43 +0100, Biju Das wrote:
+> Add device tree binding document for Renesas r8a77470(a.k.a RZ/G1C)
+> on-chip EHCI controller driver.
+> 
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> ---
+> V1-->V2
+>   * New patch
+> ---
+>  .../devicetree/bindings/usb/ehci-r8a77470.txt      | 35 ++++++++++++++++++++++
+>  1 file changed, 35 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/ehci-r8a77470.txt
+> 
 
-I tried both of those options and the output was similar, here is the output
-with try_handoff set to 0. In both cases the box then hangs on initializing
-pstore. Excuse my ignorance on understanding how having the Comtrol
-card present would effect the USB handoff, but would there be any
-value in trying to boot this box via UEFI, rather than via the BIOS? Does
-UEFI handle the handoff differently?
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-[   11.391514] DEBUG: Passed quirk_usb_disable_ehci 945
-[   11.397250] DEBUG: Passed quirk_usb_disable_ehci 950
-[   11.402988] DEBUG: Passed quirk_usb_disable_ehci 958
-[   11.408724] DEBUG: Passed quirk_usb_disable_ehci 964
-[   11.414461] DEBUG: Passed quirk_usb_disable_ehci 968
-[   11.420197] DEBUG: Passed ehci_bios_handoff 849
-[   11.425448] DEBUG: Passed ehci_bios_handoff 889
-[   11.430699] DEBUG: Passed ehci_bios_handoff 902
-[   11.435952] DEBUG: Passed ehci_bios_handoff 918
-[   11.441203] DEBUG: Passed ehci_bios_handoff 926
-[   11.446455] DEBUG: Passed quirk_usb_disable_ehci 981
-[   11.452292] DEBUG: Passed quirk_usb_disable_ehci 1009
-[   11.458180] pci 0000:00:1d.0: quirk_usb_early_handoff+0x0/0x865
-took 82350 usecs
-[   11.466568] pci 0000:01:00.0: calling  quirk_e100_interrupt+0x0/0x1a0 @ 1
-[   11.474249] pci 0000:01:00.0: quirk_e100_interrupt+0x0/0x1a0 took 0 usecs
-[   11.481931] pci 0000:01:00.1: calling  quirk_e100_interrupt+0x0/0x1a0 @ 1
-[   11.489612] pci 0000:01:00.1: quirk_e100_interrupt+0x0/0x1a0 took 0 usecs
-[   11.497296] pci 0000:03:00.0: calling  quirk_blacklist_vpd+0x0/0x30 @ 1
-[   11.504783] pci 0000:03:00.0: [Firmware Bug]: disabling VPD access
-(can't determine size of non-standard VPD format)
-[   11.516663] pci 0000:03:00.0: quirk_blacklist_vpd+0x0/0x30 took 11600 usecs
-[   11.524538] pci 0000:07:00.0: calling  quirk_e100_interrupt+0x0/0x1a0 @ 1
-[   11.532219] pci 0000:07:00.0: quirk_e100_interrupt+0x0/0x1a0 took 0 usecs
-[   11.539901] pci 0000:07:00.1: calling  quirk_e100_interrupt+0x0/0x1a0 @ 1
-[   11.547582] pci 0000:07:00.1: quirk_e100_interrupt+0x0/0x1a0 took 0 usecs
-[   11.555374] pci 0000:0b:00.0: calling  pci_fixup_video+0x0/0x110 @ 1
-[   11.562797] pci 0000:0b:00.0: Video device with shadowed ROM at
-[mem 0x000c0000-0x000dffff]
-[   11.572248] pci 0000:0b:00.0: pci_fixup_video+0x0/0x110 took 9453 usecs
-[   11.579991] Unpacking initramfs...
-[   11.923856] Freeing initrd memory: 22636K
-[   11.950050] PCI-DMA: Using software bounce buffering for IO (SWIOTLB)
-[   11.957345] software IO TLB: mapped [mem 0x76289000-0x7a289000] (64MB)
-[   11.967721] Initialise system trusted keyrings
-[   11.972908] workingset: timestamp_bits=40 max_order=27 bucket_order=0
-[   11.981517] zbud: loaded
-[   12.138528] Key type asymmetric registered
-[   12.143201] Asymmetric key parser 'x509' registered
-[   12.148754] Block layer SCSI generic (bsg) driver version 0.4
-loaded (major 247)
-[   12.157245] io scheduler mq-deadline registered
-[   12.163318] pcieport 0000:00:01.0: Signaling PME with IRQ 25
-[   12.169926] pcieport 0000:00:02.0: Signaling PME with IRQ 26
-[   12.176519] pcieport 0000:00:03.0: Signaling PME with IRQ 27
-[   12.183109] pcieport 0000:00:03.2: Signaling PME with IRQ 28
-[   12.189678] pcieport 0000:00:1c.0: Signaling PME with IRQ 29
-[   12.196248] pcieport 0000:00:1c.4: Signaling PME with IRQ 30
-[   12.202833] pcieport 0000:00:1c.7: Signaling PME with IRQ 31
-[   12.212006] pcieport 0000:80:01.0: Signaling PME with IRQ 33
-[   12.218609] pcieport 0000:80:03.0: Signaling PME with IRQ 34
-[   12.225404] shpchp: Standard Hot Plug PCI Controller Driver version: 0.4
-[   12.238133] ERST: Error Record Serialization Table (ERST) support
-is initialized.
-[   12.246614] pstore: Registered erst as persistent store backend
