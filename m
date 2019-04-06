@@ -2,86 +2,85 @@ Return-Path: <SRS0=peg9=SI=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BD90C282DA
-	for <linux-usb@archiver.kernel.org>; Sat,  6 Apr 2019 06:06:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8992EC282DA
+	for <linux-usb@archiver.kernel.org>; Sat,  6 Apr 2019 15:32:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5DCCB21855
-	for <linux-usb@archiver.kernel.org>; Sat,  6 Apr 2019 06:06:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1554530789;
-	bh=CvZMM9Lg3PqHnayk0tLjKdbFOZ3+GzX8d9wJBMNfnrU=;
-	h=Date:From:Subject:References:In-Reply-To:Cc:Cc:To:List-ID:From;
-	b=bJYhUBvoSfgFKuh/XXSVWl0xOa4SzgX71tHQpbfrioD6cKjz0vcNvW+cA1lLFzHKF
-	 /q6UmNLaAHpmldSQXVTeMs7UKN31OaoAM7ceop5X+zT3CuN5nzLECivXb1sQI4o2mj
-	 1ipNek50bf+hulUBpfisHwopR+FS2JGi5cclWwzU=
+	by mail.kernel.org (Postfix) with ESMTP id 5F4242083E
+	for <linux-usb@archiver.kernel.org>; Sat,  6 Apr 2019 15:32:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726720AbfDFGG2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 6 Apr 2019 02:06:28 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:37200 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726712AbfDFGG1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 6 Apr 2019 02:06:27 -0400
-Received: by mail-pg1-f196.google.com with SMTP id e6so4201093pgc.4;
-        Fri, 05 Apr 2019 23:06:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:from:subject:references
-         :in-reply-to:cc:cc:to;
-        bh=s8wVCbGwXB2mQcIs0fbts1xGiNvvvyK5lG0VCS8kmOo=;
-        b=oieb/1DpVvQVlyP97lUcZNb20UwBZLy1nRAzsXaAPO+LbyV622dKB3imDjmMELEyQV
-         TaoOQuKSTcxBNlNn7Iviy/ppRpXnyw0ZBWpplxTJLW317v/2ji4Yzy3mhKgE32yFDJl0
-         YVRco8D7JKWzLRSvVXdGGPblVx8IZcUvmeSLFuM0Aqq4/5nAQIGEBfppRUKWZAuC3weP
-         BiH7WEwt1z5pogA7TgvEoQBykLaFgwK2N0J0fHBp9TBP/dtzKPFrSQjzuojHW0axtACG
-         HDOh67iz8P8foMVcLZpydgPUO73VG/vXZcK8e4slpDpz1DhdzzCaJx5MISjp25HE5EjE
-         8LkQ==
-X-Gm-Message-State: APjAAAWBFbrwOI9ebb5C5uPOcSpTuic8jB5Le5UkNb32h1QCf/16o8iW
-        c7zz/GExxMyBHSZHn3TSQg==
-X-Google-Smtp-Source: APXvYqwhdbgUy/IrenHHLW9WLnoj/6lg84mi8aoeZ8wLNk2e2AJSL1gqF9TCMU2JqHDyTRNYqICMoA==
-X-Received: by 2002:a63:408:: with SMTP id 8mr16094901pge.334.1554530786641;
-        Fri, 05 Apr 2019 23:06:26 -0700 (PDT)
-Received: from localhost ([210.160.217.71])
-        by smtp.gmail.com with ESMTPSA id f63sm32031358pfc.180.2019.04.05.23.06.25
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 05 Apr 2019 23:06:25 -0700 (PDT)
-Message-ID: <5ca841e1.1c69fb81.20175.d3d6@mx.google.com>
-Date:   Sat, 06 Apr 2019 01:06:23 -0500
-From:   Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH 03/12] dt-bindings: usb: ehci-r8a77470 devicetree binding document
-References: <1554123232-58942-1-git-send-email-biju.das@bp.renesas.com> <1554123232-58942-4-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1554123232-58942-4-git-send-email-biju.das@bp.renesas.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>
-Cc:     Biju Das <biju.das@bp.renesas.com>,
+        id S1726456AbfDFPcc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 6 Apr 2019 11:32:32 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:57843 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726419AbfDFPcc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 6 Apr 2019 11:32:32 -0400
+Received: (qmail 19478 invoked by uid 500); 6 Apr 2019 11:32:31 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 6 Apr 2019 11:32:31 -0400
+Date:   Sat, 6 Apr 2019 11:32:31 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@netrider.rowland.org
+To:     Jesse Hathaway <jesse@mbuki-mvuki.org>
+cc:     Bjorn Helgaas <helgaas@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-To:     Biju Das <biju.das@bp.renesas.com>
+        <linux-usb@vger.kernel.org>
+Subject: Re: Regression causes a hang on boot with a Comtrol PCI card
+In-Reply-To: <CANSNSoVGLEkRE5DPyVhPVdsCbu44SOu0Tpf7smWjPUn_qwRHHA@mail.gmail.com>
+Message-ID: <Pine.LNX.4.44L0.1904061121410.19196-100000@netrider.rowland.org>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon,  1 Apr 2019 13:53:43 +0100, Biju Das wrote:
-> Add device tree binding document for Renesas r8a77470(a.k.a RZ/G1C)
-> on-chip EHCI controller driver.
-> 
-> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-> ---
-> V1-->V2
->   * New patch
-> ---
->  .../devicetree/bindings/usb/ehci-r8a77470.txt      | 35 ++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/ehci-r8a77470.txt
-> 
+On Fri, 5 Apr 2019, Jesse Hathaway wrote:
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+> On Thu, Apr 4, 2019 at 2:14 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+> > Okay.  You could try skipping that pci_write_config_byte() call.  The
+> > following loop would probably time out, and you might find that the
+> > code crashes later on.
+> >
+> > You could also try setting try_handoff to 0 near the start of the
+> > routine.  Your system plus the Comtrol PCI card could have the same
+> > sort of bug as reported in Bugzilla #77021.
+> 
+> I tried both of those options and the output was similar, here is the output
+> with try_handoff set to 0. In both cases the box then hangs on initializing
+> pstore.
+
+Well, at least that's forward progress.  I don't know what pstore is or
+what connection it has to the USB subsystem.  Does the machine hang 
+similarly if you boot without the Comtrol PCI card present?
+
+For that matter, what happens if you remove EHCI from the kernel 
+configuration completely?
+
+>  Excuse my ignorance on understanding how having the Comtrol
+> card present would effect the USB handoff, but would there be any
+> value in trying to boot this box via UEFI, rather than via the BIOS? Does
+> UEFI handle the handoff differently?
+
+The UEFI and the legacy BIOS are two separate pieces of code with no 
+particular connection to one another.  It's a good bet that they do 
+pretty much everything differently.
+
+As for how the PCI card affects the USB handoff, it depends on how the
+BIOS behaves.  Normally the BIOS will take control of all the available
+EHCI controllers during bootup (so that it can use them to communicate
+with a USB keyboard or mouse), including controllers on add-on PCI
+cards as well as those on the motherboard.  When the kernel starts up,
+it tries to take ownership of the controllers away from the BIOS
+(that's the handoff) so that Linux can use them.  However, if the BIOS
+was never tested for handoff of USB controllers on add-on PCI cards, it
+could easily have a bug that would crash the machine.
+
+Alan Stern
 
