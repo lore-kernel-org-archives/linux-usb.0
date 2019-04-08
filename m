@@ -1,93 +1,273 @@
-Return-Path: <SRS0=HLg3=SJ=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=iu7A=SK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2FCFC10F0E
-	for <linux-usb@archiver.kernel.org>; Sun,  7 Apr 2019 10:32:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14FC7C282DF
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 05:53:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 50BDA213F2
-	for <linux-usb@archiver.kernel.org>; Sun,  7 Apr 2019 10:32:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA08920883
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 05:53:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="Wi8CNYbA"
+	dkim=pass (1024-bit key) header.d=renesasgroup.onmicrosoft.com header.i=@renesasgroup.onmicrosoft.com header.b="nTV33qsh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726199AbfDGKcu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 7 Apr 2019 06:32:50 -0400
-Received: from mout.gmx.net ([212.227.15.19]:35691 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726086AbfDGKcu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 7 Apr 2019 06:32:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1554633154;
-        bh=ELPzC6hMDeTHuZkvWY+xrjrKoXlo3msNknQjDNar2wc=;
-        h=X-UI-Sender-Class:To:Cc:From:Subject:Date;
-        b=Wi8CNYbAJzju3vSI/FmvoXA4wwG+AWQDCN66PpGhkXL+joKmI6T7vHZNKoqfGJz3L
-         PUJrI4oZ1QQM4fX0Bs1Oq1gLAPMlmMTRINqqv2hUvFmwGjryaLdsjLKkIkx/K0tqAG
-         1egloWUg6z70gDoBpuPyiBBgltT8XmHGZJRtvhXM=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [10.0.0.21] ([193.81.162.161]) by mail.gmx.com (mrgmx001
- [212.227.17.190]) with ESMTPSA (Nemesis) id 0LkfdE-1geqkI3A1s-00aVT6; Sun, 07
- Apr 2019 12:32:34 +0200
-To:     linux-usb@vger.kernel.org
-Cc:     mathias.nyman@linux.intel.com
-From:   Bernhard Gebetsberger <bernhard.gebetsberger@gmx.at>
-Subject: Regression xhci_hcd cmd failed due to incorrect slot or ep state
-Message-ID: <0d300c86-4aaa-28d4-cb37-5bc62fa67a9a@gmx.at>
-Date:   Sun, 7 Apr 2019 12:32:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+        id S1726528AbfDHFw7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 Apr 2019 01:52:59 -0400
+Received: from mail-eopbgr1400135.outbound.protection.outlook.com ([40.107.140.135]:51492
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726068AbfDHFw7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 8 Apr 2019 01:52:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Isbyz695f9quno7mSOUO0ogaIIKtwxEzbHyI3TcNRLM=;
+ b=nTV33qsh0eZlHC/d7IVbvl/rYh/iQ62/TqA/IRPLT6Q62me/GKHSPLszOSJ3fk6/2MIOo/ukuK2+wzj1RIG7GhM/Z0lq4YiU9r2RNDs2Y+O3w1Me5Gg9dLzg1RmWm9WbXoo9csd52rMNAPBaVyw3i5TvVxzNsCuLeJRFjIjxioY=
+Received: from TYAPR01MB4271.jpnprd01.prod.outlook.com (20.178.139.148) by
+ TYAPR01MB3310.jpnprd01.prod.outlook.com (20.178.136.75) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1771.16; Mon, 8 Apr 2019 05:52:52 +0000
+Received: from TYAPR01MB4271.jpnprd01.prod.outlook.com
+ ([fe80::cda2:4f20:84e4:de70]) by TYAPR01MB4271.jpnprd01.prod.outlook.com
+ ([fe80::cda2:4f20:84e4:de70%4]) with mapi id 15.20.1771.016; Mon, 8 Apr 2019
+ 05:52:52 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+CC:     Arnd Bergmann <arnd@arndb.de>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Simon Horman <horms@verge.net.au>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: RE: [PATCH 1/4] usb: common: Consider only available nodes for
+ dr_mode
+Thread-Topic: [PATCH 1/4] usb: common: Consider only available nodes for
+ dr_mode
+Thread-Index: AQHU0B7eErGhE/vMCk28vL9eutYCg6YoS1aggAB/jACAABbzYIAAEYIAgAkHtGA=
+Date:   Mon, 8 Apr 2019 05:52:52 +0000
+Message-ID:
+ <TYAPR01MB4271B55EEE25B5D5D4327ACCD82C0@TYAPR01MB4271.jpnprd01.prod.outlook.com>
+References: <1551438348-22119-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1551438348-22119-2-git-send-email-fabrizio.castro@bp.renesas.com>
+ <TYAPR01MB427119513E310A30792924E7D8560@TYAPR01MB4271.jpnprd01.prod.outlook.com>
+ <TY1PR01MB1770C3AF8E4E5386319FDCF9C0560@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+ <TYAPR01MB4271277BF22B6EAE0A6313D1D8560@TYAPR01MB4271.jpnprd01.prod.outlook.com>
+ <TY1PR01MB1770D9F7ED790CF98FF2C7CFC0560@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY1PR01MB1770D9F7ED790CF98FF2C7CFC0560@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [118.238.235.108]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9d17935b-bfb1-4206-d57d-08d6bbe6706b
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600139)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:TYAPR01MB3310;
+x-ms-traffictypediagnostic: TYAPR01MB3310:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <TYAPR01MB331073895604AC4FB27FC46ED82C0@TYAPR01MB3310.jpnprd01.prod.outlook.com>
+x-forefront-prvs: 0001227049
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(346002)(39860400002)(376002)(366004)(396003)(136003)(199004)(43544003)(189003)(25786009)(6246003)(9686003)(52536014)(99286004)(68736007)(6306002)(6862004)(2906002)(4326008)(55016002)(53936002)(54906003)(478600001)(966005)(6116002)(229853002)(316002)(14454004)(6436002)(5660300002)(7696005)(3846002)(26005)(93886005)(7736002)(102836004)(305945005)(86362001)(53546011)(8936002)(97736004)(6506007)(106356001)(186003)(8676002)(81166006)(81156014)(11346002)(14444005)(476003)(71200400001)(66066001)(256004)(76176011)(486006)(71190400001)(446003)(74316002)(33656002)(105586002);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB3310;H:TYAPR01MB4271.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: yCzXd3cjrECU7aVqg5jpRVrpGe1FNMFMX87n0bnaFSYvaFwkiA/5d5+q0eEdz5yWXnQJhCQkTDvxI3lh5B3TnHcKls2XV1n0892Bu7l7y8RUq5EI02PQs5hMP1pEZoPOpt9USZB1sVAST50JiSvlxk7woKCkUXOFWrW81Pihx4RqOoPztTWx3rTN/wBh2JD5EkeFG/GF1mcWFIx5PPYJquDrGBVS9GX7HH6vSBqcc0Gxu/pUM4s0ToARqMmcIkSLAqr/cJVXv4Nn8QcenC1tVfdEIAOMZHiZx9R6f7/H9EPkGGZpC3sXPAiM05JCUCK7zrMJfpv3oNsiReFNhDT1Ndq/KEdtjbEAHWNGwMkeVv8fV7fYZW5F0l0kwLwErMl891oTeuPVNZyYEWN5/13A0A8XlXR6Kpz/lg3pECL3Pu0=
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Language: de-DE
-X-Provags-ID: V03:K1:1wGLrUVoq65Cbm6fVRt0A1pEYi1fMNhJbOB5dBmxEfWTs/nAmG6
- LaqVi6TdFCLj67wUgPpsBX19Dw722huat5arGO8/gbiRul3b4uUedZkp7jxbwRY2iNHYQLz
- VIIZBqypfMA89oNW8DaIvhqDavDcf+fXVOA9p9AAASPWUpkuWTEm7zENS/C6/Hbx2c+iNbl
- vBjOGNigXvpFoN8ICCC8Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Ln7+09dIBZE=:AL4LH8fXJORE2Hsgdhf8Jt
- ZToaE/TFYha5Dcz04zIsyAHufU3Z1m9yd5SB3bAChqJgKTfwxtvuLcT1VGTxpowAQacthwW5V
- eVhQ0b7MMNV4gCMEwITao3GU0zwRtLlWJ9En7QXxt5w2qYbVb0wasJlLvYLdbPDN0JculVfeZ
- 7PhuEabJQhuvb/iz9mSOXYXhYeWMBfkONuK6/7s607cY/CHO7JJe3gkS+UvvO7bR2l4QK0sW9
- SyQamLFnQ5sT6r68TTpOL8cZx3VPR0kaVHgtPDS01JtrbhdWL5DyxQkDkKQzNXnl8T6rprBQi
- +aw3X9mV0IOkEj7Svrh0gxBBXTVU+7xISxuBHpCm2wBu1l96kuRINyBkzRG2CurIbhWkCafEm
- XbRgO10+y803rBnR9PX5DjjJ12Bla96wiCyo9xUZulvqzMKNYNmPRCO0DnaMrn62hfPOEx4Zz
- ybJxFOiR78s+zqpefYvqPTB8ym2lVzw/Z25VT6OiPV5ctrExXtqWcwKC9OPb/Om8r2Eu7sXI6
- TnlB8tp9CNTTM7xXjYSuzi+oLKDGbY1/NhSdG4drVbFIyM3cjh0P8jK92q8JgwtARfEh10jP4
- yRD3hCsLrsNfQmnc4O+1ZsXpCtd8ZbijoteBMnhEvYLpWBOdf5ViwnT3MaEjEg3Ve422XNd2N
- 355IkCurRzjlUyrDbMytH57tlIn1NkMah+bsAcWJitzx/UvPmGlCBQ6YWda3v6KoEb6gFEhP3
- WVkHc255qLm+1PRrT22gDX7gSjfWFeNuYuKslbRdrtMiAQFGpD1My+PurD3OUE/HyN1jzLqaA
- KZ2b3pL4hIpvxQZc2tFe97tqMoO26uS14j6RjqZr5bTf9fsEJPmz6DFw+BmGtQqglf+oXXh8n
- lDmC1E0VKyjA1EJNMFqgwVFardO1RIFhaHsIGp/sr41xS0GH3z1S1BboVtpavTiPcqp92htF7
- osprwuL0vsA==
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9d17935b-bfb1-4206-d57d-08d6bbe6706b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Apr 2019 05:52:52.0649
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3310
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190408055252.FI1Hv-EQ52KtJxLASShl3nIJZFpB5xS2HJ3UR316IHk@z>
 
-When using=C2=A0 the kernel version 4.20 or above my usb wifi stick doesn'=
-t
-work until I reboot my system, dmesg shows this message when the issue
-occurs:
+Hi Fabrizio-san,
 
-xhci_hcd 0000:15:00.0: WARN Set TR Deq Ptr cmd failed due to incorrect slo=
-t or ep state
+> From: Fabrizio Castro, Sent: Tuesday, April 2, 2019 8:47 PM
+>=20
+> Hi Yoshihiro-san,
+>=20
+> Thank you for your feedback.
+>=20
+> > Hi Fabrizio-san,
+> >
+> > > From: Fabrizio Castro, Sent: Tuesday, April 2, 2019 6:22 PM
+> > >
+> > > Hi Yoshihiro-san,
+> > >
+> > > Thank you for your feedback.
+> > >
+> > > > From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > > > Sent: 02 April 2019 02:54
+> > > > Subject: RE: [PATCH 1/4] usb: common: Consider only available nodes=
+ for dr_mode
+> > > >
+> > > > Hi Fabrizio-san,
+> > > >
+> > > > Thank you for the patch!
+> > > >
+> > > > > From: Fabrizio Castro, Sent: Friday, March 1, 2019 8:06 PM
+> > > > >
+> > > > > There are cases where multiple device tree nodes point to the
+> > > > > same phy node by means of the "phys" property, but we should
+> > > > > only consider those nodes that are marked as available rather
+> > > > > than just any node.
+> > > > >
+> > > > > Fixes: 98bfb3946695 ("usb: of: add an api to get dr_mode by the p=
+hy node")
+> > > > > Cc: stable@vger.kernel.org # v4.4+
+> > > > > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> > > > > ---
+> > > >
+> > > > I'm guessing this code needs for phy-rcar-gen3-usb2.c only because
+> > > > the phy driver only gets the dr_mode from index 0 like below:
+> > > >
+> > > > 	channel->dr_mode =3D of_usb_get_dr_mode_by_phy(dev->of_node, 0);
+> > > >
+> > > > Yesterday, I submitted patches to get multiple indexes from control=
+ler
+> > > > device nodes:
+> > > >
+> > > > https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=
+=3D99561
+> > > >
+> > > > So, would you check the phy patches can get the dr_mode without thi=
+s changing common patch?
+> > >
+> > > I will go through your patch series, but I can't see why any driver w=
+ould be interested
+> > > in considering a disabled node for getting dr_mode, can you?
+> > > Do you have a use case for this?
+> >
+> > This is not a use case though, the commit 98bfb3946695 is made by a TI =
+engineer so that
+> > I checked TI's dts/dtsi file on armv7 arch (am335x-boneblue.dts) a litt=
+le and then
+> > it has one usb controller node only. So, the commit didn't take care of=
+ a disabled node, I guess.
+> > However, as you know, on R-Car Gen3 and RZ/G2, they have multiple contr=
+oller nodes. So,
+> > one of the controller can be disabled.
+>=20
+> The real question is, are we going to need to read dr_mode from a disable=
+d node?
+> Because this patch gets in the way of that, but looking through the code =
+and
+> device trees it doesn't look like anybody needs that. I have tested this =
+patch in isolation
+> on a few R-Car platforms, and it all seemed good to me back when I submit=
+ted the patch,
+> but it would probably need thorough testing, and more testing from your s=
+ide is more than
+> welcome. Besides this point, of_usb_get_dr_mode_by_phy returns the dr_mod=
+e value that
+> matches the argument the first, which means what you get back from it dep=
+ends from
+> the order in which you specify the nodes within the device tree in case y=
+ou have multiple
+> nodes meeting the same requirements (from a of_usb_get_dr_mode_by_phy per=
+spective),
+> a.k.a. "luck".
 
-I've found that the problem is caused by this commit:
+Thank you very much for the detailed explanation. I agree with you. This AP=
+I should not get
+the dr_mode from a disabled node. For example, descriping the following dev=
+ice nodes are nonsense:
 
-commit f8f80be501aa2f10669585c3e328fad079d8cb3a
-Author: Mathias Nyman <mathias.nyman@linux.intel.com  <mailto:mathias.nyma=
-n@linux.intel.com>>
-Date:   Thu Sep 20 19:13:37 2018 +0300
+&host {
+	dr_mode =3D "peripheral";		// <--- here
+	status =3D "disabled";
+}
 
-     xhci: Use soft retry to recover faster from transaction errors
+&peripheral {
+	dr_mode =3D "peripheral";
+	status =3D "okay";
+}
 
-It looks like it only affects wifi sticks(various models) on specific
-hardware configurations(I have this issue on my Ryzen pc, my Intel pc
-isn=C2=B4t affected, but someone in the kernel bug tracker mentioned that =
-he
-has this issue on an Intel notebook as well (only with USB 3.0 ports
-though)).
+> We should make sure there is only one node that can match our requirement=
+ at any one
+> time for this to work properly, and parsing only enabled nodes gets in th=
+at direction,
+> therefore I still think this patch is valid, and belongs to stable versio=
+ns of the kernel
+> as well.
+
+I agree this patch is valid for both mainline and stable versions because a=
+ll this API users
+in v5.1-rc4 are called with the second argument -1 or 0 and then the behavi=
+or should be
+the same as before. So,
+
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+
+Best regards,
+Yoshihiro Shimoda
+
+> After reading your comment on patch:
+> "phy: renesas: rcar-gen3-usb2: No need to request IRQ for non-OTG"
+>=20
+> I can now see that patch "arm64: dts: renesas: r8a77995: draak: Remove hs=
+usb node" is wrong
+> for your case, and that we need to find a better solution for patch:
+> "phy: renesas: rcar-gen3-usb2: No need to request IRQ for non-OTG"
+>=20
+> I am looking into your series now, I'll come back to you soon on the othe=
+r patch.
+>=20
+> Thanks,
+> Fab
+>=20
+> >
+> > By the way, if we applied this patch, since the behavior will be change=
+d at least,
+> > so all of this api user have to test whether this code doesn't break or=
+ not.
+> >
+> > Best regards,
+> > Yoshihiro Shimoda
+> >
+> > > Thanks,
+> > > Fab
+> > >
+> > > >
+> > > > Best regards,
+> > > > Yoshihiro Shimoda
+> > > >
+> > > > >  drivers/usb/common/common.c | 2 ++
+> > > > >  1 file changed, 2 insertions(+)
+> > > > >
+> > > > > diff --git a/drivers/usb/common/common.c b/drivers/usb/common/com=
+mon.c
+> > > > > index 48277bb..73c8e65 100644
+> > > > > --- a/drivers/usb/common/common.c
+> > > > > +++ b/drivers/usb/common/common.c
+> > > > > @@ -145,6 +145,8 @@ enum usb_dr_mode of_usb_get_dr_mode_by_phy(st=
+ruct device_node *np, int arg0)
+> > > > >
+> > > > >  	do {
+> > > > >  		controller =3D of_find_node_with_property(controller, "phys");
+> > > > > +		if (!of_device_is_available(controller))
+> > > > > +			continue;
+> > > > >  		index =3D 0;
+> > > > >  		do {
+> > > > >  			if (arg0 =3D=3D -1) {
+> > > > > --
+> > > > > 2.7.4
+
