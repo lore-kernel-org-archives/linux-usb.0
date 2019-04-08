@@ -3,125 +3,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS autolearn=unavailable autolearn_force=no
+	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5352C10F13
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 19:01:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BF65C10F13
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 19:12:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 843E120879
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 19:01:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 31E1E20879
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 19:12:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727290AbfDHTBa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 Apr 2019 15:01:30 -0400
-Received: from mail-out.m-online.net ([212.18.0.10]:50623 "EHLO
-        mail-out.m-online.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726664AbfDHTBa (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Apr 2019 15:01:30 -0400
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-        by mail-out.m-online.net (Postfix) with ESMTP id 44dKX7744Sz1rXtr;
-        Mon,  8 Apr 2019 21:01:27 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-        by mail.m-online.net (Postfix) with ESMTP id 44dKX768Clz1qr64;
-        Mon,  8 Apr 2019 21:01:27 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-        by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
-        with ESMTP id ZPXLf5woQrhu; Mon,  8 Apr 2019 21:01:26 +0200 (CEST)
-X-Auth-Info: +MLpf2AoXkRdfoTcWWaN0KzQhljWziyowuPyM6ImORQ=
-Received: from crub (p508B6C31.dip0.t-ipconnect.de [80.139.108.49])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.mnet-online.de (Postfix) with ESMTPSA;
-        Mon,  8 Apr 2019 21:01:26 +0200 (CEST)
-Date:   Mon, 8 Apr 2019 21:01:26 +0200
-From:   Anatolij Gustschin <agust@denx.de>
-To:     Moritz Fischer <mdf@kernel.org>
-Cc:     linux-usb@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
-        gregkh@linuxfoundation.org, broonie@kernel.org, atull@kernel.org
-Subject: Re: [PATCH v4 3/3] fpga: Add fpga manager driver for ARRI Altera
- FPP
-Message-ID: <20190408210126.74920213@crub>
-In-Reply-To: <20190408180151.GA5643@archbook>
-References: <20190221202506.17744-1-agust@denx.de>
-        <20190221202506.17744-4-agust@denx.de>
-        <20190408180151.GA5643@archbook>
+        id S1726493AbfDHTMX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 Apr 2019 15:12:23 -0400
+Received: from mail1.bemta24.messagelabs.com ([67.219.250.213]:37106 "EHLO
+        mail1.bemta24.messagelabs.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726068AbfDHTMX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Apr 2019 15:12:23 -0400
+Received: from [67.219.250.197] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+        by server-1.bemta.az-b.us-west-2.aws.symcld.net id 59/76-26556-51D9BAC5; Mon, 08 Apr 2019 19:12:21 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLKsWRWlGSWpSXmKPExsXi5LtOQFdk7uo
+  Yg61PzC0WLWtltpjw+wKbA5PH7Ls/GD0+b5ILYIpizcxLyq9IYM3o2X2BreArZ8XD/81MDYxP
+  OLsYuTiEBFYxSqzb1sAO4exhlPj7o4+ti5GTg03AUOLclrfsILaIgJbE5qaXzF2MHBzMAhoS5
+  zeZgJjCAgoST1fpQFQoSvx4dowZwq6TOHD8EtgUFgEViaUX5rKA2LwC1hIfzpwCqxES8JFY+P
+  MLmM0p4Csx79hHVhCbUUBM4vupNUwgNrOAuMStJ/PBbAkBAYkle84zQ9iiEi8f/2OFsOUl5tw
+  6zQ5xmabE+l36EK3mEncOroYaoygxpfshO8QJghInZz5hASkXAjptzgatCYxis5Asm4UwaBaS
+  QbOQDJqFZNACRtZVjBZJRZnpGSW5iZk5uoYGBrqGhka6hsYmuoZGFnqJVbpJeqXFuuWpxSW6R
+  nqJ5cV6xZW5yTkpenmpJZsYgZGYUtDWsIPx0/L0Q4ySHExKorwnWlfHCPEl5adUZiQWZ8QXle
+  akFh9ilOHgUJLgDZ0NlBMsSk1PrUjLzAGmBJi0BAePkgjvSZA0b3FBYm5xZjpE6hSjMceBRQ/
+  nMnO8Pfh8LrMQS15+XqqUOK/+LKBSAZDSjNI8uEGwVHWJUVZKmJeRgYFBiKcgtSg3swRV/hWj
+  OAejkjDvZJCFPJl5JXD7XgGdwgR0yhQdsFNKEhFSUg2MC5WL9LxfSZTsZtpnffKh13V2vfZZ7
+  2ocOrRfJyQUfw6e8d2UM8jvTrRJkttiDn7VdS1zUrbuMznDXjd7X5WO5AydHdMfSb9UuNYaHP
+  +j5bejfn39JbvWtza5kqL13x8kK76zz2xu2PRg5ZkTyh0me4IXJx0KVZu9bEnJjEuXPS6Y8k5
+  9XGWjxFKckWioxVxUnAgA9TBZqVADAAA=
+X-Env-Sender: Seth.Bollinger@digi.com
+X-Msg-Ref: server-9.tower-345.messagelabs.com!1554750740!7057660!2
+X-Originating-IP: [66.77.174.16]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.31.5; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 18040 invoked from network); 8 Apr 2019 19:12:20 -0000
+Received: from owa.digi.com (HELO MCL-VMS-XCH01.digi.com) (66.77.174.16)
+  by server-9.tower-345.messagelabs.com with SMTP; 8 Apr 2019 19:12:20 -0000
+Received: from MTK-SMS-XCH03.digi.com (10.10.8.197) by MCL-VMS-XCH01.digi.com
+ (10.5.8.49) with Microsoft SMTP Server (TLS) id 14.3.439.0; Mon, 8 Apr 2019
+ 14:12:19 -0500
+Received: from MTK-SMS-XCH01.digi.com ([fe80::cca7:5299:c88e:1c40]) by
+ MTK-SMS-XCH03.digi.com ([fe80::484d:c326:e7f1:a9fd%16]) with mapi id
+ 14.03.0439.000; Mon, 8 Apr 2019 14:12:19 -0500
+From:   "Bollinger, Seth" <Seth.Bollinger@digi.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+CC:     USB list <linux-usb@vger.kernel.org>
+Subject: Re: Bug: VHCI + USB 3.0
+Thread-Topic: Bug: VHCI + USB 3.0
+Thread-Index: AQHU6+SEgulXK6TzJ0OKPp0lJzg2fKYuYXeAgAAIH4CAAS7ugIAABkMAgAADKICAAuoyAIAAH+eAgAAgmYCAAA8VAIAAEicAgAAIsQCAAANzgA==
+Date:   Mon, 8 Apr 2019 19:12:19 +0000
+Message-ID: <C22C24B7-A1A1-44E4-9559-ED576ABE8CFF@digi.com>
+References: <Pine.LNX.4.44L0.1904081453480.1440-100000@iolanthe.rowland.org>
+In-Reply-To: <Pine.LNX.4.44L0.1904081453480.1440-100000@iolanthe.rowland.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.10.81.30]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C09542FA8E164248945444DF95BC868E@digi.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190408190126.HrKRx7Xb7ANfI2V9FRVFX1yzV3NTizq1bkrudjZdSIU@z>
 
-Hi Moritz,
-
-On Mon, 8 Apr 2019 11:05:49 -0700
-Moritz Fischer mdf@kernel.org wrote:
-
->Hi Anatolij,
->
->looks mostly good, a couple of nits inline.
-
-Thanks for review.
-
-...
->> +++ b/drivers/fpga/ftdi-fifo-fpp.c
->> @@ -0,0 +1,594 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Altera FPGA firmware upload via FPP using FT232H Bitbang/FT245-FIFO.
->> + *
->> + * Copyright (C) 2017 - 2018 DENX Software Engineering  
->Maybe bump that to 2019 ;-)
-
-I'll update it in next version.
-
-...
->> +	gpiod_set_raw_value_cansleep(priv->nconfig, 1);
->> +	gpiod_set_raw_value_cansleep(priv->conf_done, 0);
->> +	msleep(50);  
->
->You could use a constant here for the 50 ...
-
-Do you mean something like below?
-
-  const unsigned int wait_50ms = 50;
-  ...
-  msleep(wait_50ms);
-
-...
->and here ...
->> +	gpiod_set_value_cansleep(priv->nconfig, 1);
->> +	msleep(50);  
->and here ...
->> +	gpiod_set_value_cansleep(priv->nconfig, 0);
->> +
->> +	/* Wait for CONF_DONE to get low */  
->Does the retry number come from datasheet?
-
-No, it is an empirical value.
-
-...
->> +	if (!retries) {
->> +		dev_warn(dev, "CONF_DONE wait timeout\n");  
->
->warn or err?
-
-err fits better here, I'll update to dev_err().
-
-...
->> +	struct fpp_fpga_mgr_priv *priv = mgr->priv;
->> +	struct device *dev = &priv->pdev->dev;
->> +	int retries = MAX_RETRIES;
->> +	int ret;
->> +	u8 mask, status;  
->
->Can you swap the two lines, reverse xmas-tree please.
-
-Will do in v5.
-
-Thanks,
-Anatolij
+PiBPbiBBcHIgOCwgMjAxOSwgYXQgMTo1OSBQTSwgQWxhbiBTdGVybiA8c3Rlcm5Acm93bGFuZC5o
+YXJ2YXJkLmVkdTxtYWlsdG86c3Rlcm5Acm93bGFuZC5oYXJ2YXJkLmVkdT4+IHdyb3RlOg0KDQo+
+IE5vLCB0aGF0IHRyYWNlIGRpZCBub3Qgc2hvdyBhbnkgZmFpbHVyZS4gIERpZCB5b3Ugc2VlIHRo
+ZSBjb3JyZXNwb25kaW5nDQo+IGVycm9yIG1lc3NhZ2VzIGluIHRoZSBrZXJuZWwgbG9nIHdoaWxl
+IHlvdSB3ZXJlIGNvbGxlY3RpbmcgdGhlIHRyYWNlPw0KPiBNYXliZSB5b3UgY2FuIHRyeSBhZ2Fp
+bi4NCg0KSeKAmW0gY2VydGFpbiB0aGUgbGFzdCB0cmFjZSBJIHNlbnQgc2hvdWxkIGhhdmUgY29u
+dGFpbmVkIHRoZSByZWFkLg0KDQpidWxrIEEgMDAwMDA0YmYgdHkgMDMgc3QgMDAwMDAwMDAgVCAz
+NTg0IEwgMCBjaCAwMDAwMDA4MSBlcCAxIGZsIDANCkJJIGNvbXBsZXRpb246IHN0IDAgc3RhdCAt
+NzUgQUwgMCBlYyAwIHJldHVybmluZyAtNzUNCg0KPiBQUzogV2h5IGRvZXNuJ3QgeW91ciBlbWFp
+bCBjbGllbnQgaW5zZXJ0IHNvbWUgc29ydCBvZiAicmVwbHkgaW5kZW50Ig0KPiBzdHJpbmcsIHN1
+Y2ggYXMgIj4gIj8gIExvb2tpbmcgYXQgdGhlIG1lc3NhZ2VzIHlvdSBzZW5kLCBpdCdzIG5vdCBz
+bw0KPiBlYXN5IHRvIHRlbGwgd2hpY2ggcGFydHMgd2VyZSB3cml0dGVuIGJ5IHlvdSBhbmQgd2hp
+Y2ggeW91IGFyZSByZXBseWluZw0KPiB0by4NCg0KTXkgYXBvbG9naWVzLiAgSSB0ZXN0ZWQgaXQg
+dXNpbmcgbXkgZ21haWwgYW5kIEkgc2VlIHRoZSDigJw+IOKAnCwgc28gSSB0aG91Z2h0IGl0IHdh
+cyBzZXQgdXAgY29ycmVjdGx5LiAgVW5mb3J0dW5hdGVseSBteSBjb21wYW55IGRvZXNu4oCZdCBn
+aXZlIG1lIGEgY2xpZW50IHRoYXQgd2lsbCBlYXNpbHkgc3VwcG9ydCB0aGF0LiAgSeKAmWxsIHRy
+eSBhbmQgZG8gaXQgYnkgaGFuZC4NCg0KDQo=
