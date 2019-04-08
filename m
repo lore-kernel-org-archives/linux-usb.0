@@ -2,755 +2,551 @@ Return-Path: <SRS0=iu7A=SK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
-	T_DKIMWL_WL_HIGH,USER_AGENT_MUTT autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A2A8C10F13
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 18:05:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2C40C10F13
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 18:29:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 40296206C0
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 18:05:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1554746759;
-	bh=aUyIzC9P5c7vp8X97t/26QxdpadmM7O0vTi8a+X6kas=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=d8xw9372IP/BpA7K04z7VYJK3jwu4gtHYAaeO6AEweHNVaT7VxUwfPeSObR/dUWQW
-	 nlasjCc2olVpR5L8G4BK33F3MrkO2+r/kc8wzBLe7DJIBQrjdEIIi17BkG/DP1jcFJ
-	 6svUAJxHnXLVjrSPHMN9W5a7bs6MNu6tSq+TaUmM=
+	by mail.kernel.org (Postfix) with ESMTP id 6606D20830
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 18:29:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728914AbfDHSFx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 Apr 2019 14:05:53 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:41834 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725983AbfDHSFx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Apr 2019 14:05:53 -0400
-Received: by mail-pf1-f194.google.com with SMTP id 188so8069103pfd.8;
-        Mon, 08 Apr 2019 11:05:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=i1QE+whj+Xlew4p+uSvaE2zunaBTwuk5GoqvNtWSlbU=;
-        b=E87+aVDGXS4ONINS3PHDo4kQpszXf0vu4i6mYop2Se/GHir36BMd6R76K88UF/+eZU
-         4YX7ABGN3pkQRL0hE2WysHoBAKroJm5++5uyOUw1ZSzxZcdFiJ3Q8mlgryZGxr4hYHoM
-         vhIVeWU+IxRCduxn96oglszT3uJL+DMOT1nTolVjspaLwn0tFu4IXR5L+4riZM01nYgO
-         v1x51QoGhydPJrPNM34ORalxCLo6SOLuydyEnKZrizDTJoDhlCjYmzylTx5ENkpSHL1+
-         XHhltJCuXLLpOfDQPRxMskE4qkjwKmZU9bFPNeZOOZqp0wVVUXr2Xv7OK+JgjDymTvKd
-         vgUg==
-X-Gm-Message-State: APjAAAVpTgtRv/qWcIlTQ+o8M99mXYRLcHhbnsF5hhcDKHv+SQsVqgzQ
-        DISMtFz2VYvumK9kCKJpR4c=
-X-Google-Smtp-Source: APXvYqyPR3+Pln07g9+roZQGQnRoBGLiud72c3oW6DPbm1ayXHihNjPtOXuS0dXaKR1u5ug/snwbZA==
-X-Received: by 2002:a62:e213:: with SMTP id a19mr31814413pfi.85.1554746752063;
-        Mon, 08 Apr 2019 11:05:52 -0700 (PDT)
-Received: from localhost ([207.114.172.147])
-        by smtp.gmail.com with ESMTPSA id k14sm59999239pfb.125.2019.04.08.11.05.50
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 08 Apr 2019 11:05:51 -0700 (PDT)
-Date:   Mon, 8 Apr 2019 11:05:49 -0700
-From:   Moritz Fischer <mdf@kernel.org>
-To:     Anatolij Gustschin <agust@denx.de>
-Cc:     linux-usb@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
-        gregkh@linuxfoundation.org, broonie@kernel.org, atull@kernel.org,
-        mdf@kernel.org
-Subject: Re: [PATCH v4 3/3] fpga: Add fpga manager driver for ARRI Altera FPP
-Message-ID: <20190408180151.GA5643@archbook>
-References: <20190221202506.17744-1-agust@denx.de>
- <20190221202506.17744-4-agust@denx.de>
+        id S1729038AbfDHS3D (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 Apr 2019 14:29:03 -0400
+Received: from mail1.bemta23.messagelabs.com ([67.219.246.115]:52083 "EHLO
+        mail1.bemta23.messagelabs.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728741AbfDHS3D (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Apr 2019 14:29:03 -0400
+Received: from [67.219.246.197] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+        by server-4.bemta.az-c.us-east-1.aws.symcld.net id 2E/66-24138-6E29BAC5; Mon, 08 Apr 2019 18:28:54 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrKKsWRWlGSWpSXmKPExsXi5LtOQPfZpNU
+  xBis2S1ksWtbKbDHh9wU2ByaP2Xd/MHp83iQXwBTFmpmXlF+RwJrRs/sCW8GaeUwVv083MDYw
+  XpjF1MXIxSEksIpRYu2eJ2wQzh5GicMntjN3MXJysAkYSpzb8pYdxBYR0JLY3PQSKM7BwSygI
+  XF+kwmIKSygIPF0lQ5EhaLEj2fHmCHsPIk1nzpZQWwWARWJaXfuMIHYvALWEjue7WUEsYUEfC
+  SeXfwNNp1TwFfi+edbYL2MAmIS30+tAatnFhCXuPVkPpgtISAgsWTPeWYIW1Ti5eN/rBC2vMS
+  cW6fZIS7TlFi/S7+LkR3INJfYKwYxRFFiSvdDdogDBCVOznzCAlIsBHTYnA1aExjFZiFZNQth
+  zCy4MbOQjJmFZMwCRtZVjGZJRZnpGSW5iZk5uoYGBrqGhka6prpGxoZ6iVW6yXqlxbqpicUlu
+  kBuebFecWVuck6KXl5qySZGYASmFLA+38E4b3n6IUZJDiYlUd4TratjhPiS8lMqMxKLM+KLSn
+  NSiw8xynBwKEnwuk8EygkWpaanVqRl5gBTAUxagoNHSYS3FiTNW1yQmFucmQ6ROsVoz3Fg0cO
+  5zBwnHz4DkvcOPgeSb0GkEEtefl6qlDhvDkibAEhbRmke3FBY6rrEKCslzMvIwMAgxFOQWpSb
+  WYIq/4pRnINRSZi3DWQKT2ZeCdzuV0BnMQGdNUUH7KySRISUVAPjjvDN17nfxC+UK8p+tZ3HQ
+  Vw94J8596sZLXHi1cVSD3TeTX1rvcjdU/yb1HGPnAWX5bl5n69uFvm4x/BKhdwnDzfpheFzLi
+  caWTzKP6ivvmj1Y763+1lO+Tb9W7hynd2fkBvvUu/rCR4zY2paZmTokJxqGR/lLbr2xed3+xV
+  fv9nfZOAYtNVEiaU4I9FQi7moOBEAWpPWyVgDAAA=
+X-Env-Sender: Seth.Bollinger@digi.com
+X-Msg-Ref: server-20.tower-405.messagelabs.com!1554748134!7106783!1
+X-Originating-IP: [66.77.174.16]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.31.5; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 31014 invoked from network); 8 Apr 2019 18:28:54 -0000
+Received: from owa.digi.com (HELO MCL-VMS-XCH01.digi.com) (66.77.174.16)
+  by server-20.tower-405.messagelabs.com with SMTP; 8 Apr 2019 18:28:54 -0000
+Received: from MTK-SMS-XCH04.digi.com (10.10.8.198) by MCL-VMS-XCH01.digi.com
+ (10.5.8.49) with Microsoft SMTP Server (TLS) id 14.3.439.0; Mon, 8 Apr 2019
+ 13:28:53 -0500
+Received: from MTK-SMS-XCH01.digi.com ([fe80::cca7:5299:c88e:1c40]) by
+ MTK-SMS-XCH04.digi.com ([fe80::ed97:4834:fa1b:3be7%19]) with mapi id
+ 14.03.0439.000; Mon, 8 Apr 2019 13:28:53 -0500
+From:   "Bollinger, Seth" <Seth.Bollinger@digi.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+CC:     USB list <linux-usb@vger.kernel.org>
+Subject: Re: Bug: VHCI + USB 3.0
+Thread-Topic: Bug: VHCI + USB 3.0
+Thread-Index: AQHU6+SEgulXK6TzJ0OKPp0lJzg2fKYuYXeAgAAIH4CAAS7ugIAABkMAgAADKICAAuoyAIAAH+eAgAAgmYCAAA8VAIAAEicA
+Date:   Mon, 8 Apr 2019 18:28:52 +0000
+Message-ID: <2BD36DBB-21E5-4776-820C-BAA3C87F707C@digi.com>
+References: <Pine.LNX.4.44L0.1904081309531.1440-100000@iolanthe.rowland.org>
+In-Reply-To: <Pine.LNX.4.44L0.1904081309531.1440-100000@iolanthe.rowland.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.10.81.30]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <909FBF247003104694E020F768F12599@digi.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20190221202506.17744-4-agust@denx.de>
-User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190408180549.BdjQ-xQuTZyPGvoTuDnQUCAucjiXCzXFD_BTUu9ZCeQ@z>
 
-Hi Anatolij,
-
-looks mostly good, a couple of nits inline.
-
-On Thu, Feb 21, 2019 at 09:25:06PM +0100, Anatolij Gustschin wrote:
-> Add FPGA manager driver for loading ARRI Altera FPGAs via fast
-> passive parallel (FPP) interface using FTDI FT232H chip.
-> 
-> Signed-off-by: Anatolij Gustschin <agust@denx.de>
-> ---
->  .../ABI/testing/sysfs-driver-ftdi-fifo-fpp    |   7 +
->  drivers/fpga/Kconfig                          |   7 +
->  drivers/fpga/Makefile                         |   1 +
->  drivers/fpga/ftdi-fifo-fpp.c                  | 594 ++++++++++++++++++
->  4 files changed, 609 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-driver-ftdi-fifo-fpp
->  create mode 100644 drivers/fpga/ftdi-fifo-fpp.c
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-driver-ftdi-fifo-fpp b/Documentation/ABI/testing/sysfs-driver-ftdi-fifo-fpp
-> new file mode 100644
-> index 000000000000..f3055100d07e
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-driver-ftdi-fifo-fpp
-> @@ -0,0 +1,7 @@
-> +What:		/sys/bus/platform/devices/ftdi-fifo-fpp-mgr.N/cfg_mode
-> +Date:		Feb 2019
-> +Kernel Version:	5.2
-> +Contact:	Anatolij Gustschin <agust@denx.de>
-> +Description:
-> +		Contains either "fifo" or "bitbang" and controls if fifo
-> +		of bitbang configuration mode is used in the driver.
-> diff --git a/drivers/fpga/Kconfig b/drivers/fpga/Kconfig
-> index c20445b867ae..19d82163a0b2 100644
-> --- a/drivers/fpga/Kconfig
-> +++ b/drivers/fpga/Kconfig
-> @@ -50,6 +50,13 @@ config FPGA_MGR_ALTERA_CVP
->  	  FPGA manager driver support for Arria-V, Cyclone-V, Stratix-V
->  	  and Arria 10 Altera FPGAs using the CvP interface over PCIe.
->  
-> +config FPGA_MGR_FTDI_FIFO_FPP
-> +	tristate "Altera FPP over FT232H FIFO"
-> +	depends on USB_FT232H_INTF
-> +	help
-> +	  FPGA manager driver support for Altera fast passive parallel
-> +	  interface (FPP) over FT232H FT245 FIFO.
-> +
->  config FPGA_MGR_ZYNQ_FPGA
->  	tristate "Xilinx Zynq FPGA"
->  	depends on ARCH_ZYNQ || COMPILE_TEST
-> diff --git a/drivers/fpga/Makefile b/drivers/fpga/Makefile
-> index c0dd4c82fbdb..61725d31e6d1 100644
-> --- a/drivers/fpga/Makefile
-> +++ b/drivers/fpga/Makefile
-> @@ -9,6 +9,7 @@ obj-$(CONFIG_FPGA)			+= fpga-mgr.o
->  # FPGA Manager Drivers
->  obj-$(CONFIG_FPGA_MGR_ALTERA_CVP)	+= altera-cvp.o
->  obj-$(CONFIG_FPGA_MGR_ALTERA_PS_SPI)	+= altera-ps-spi.o
-> +obj-$(CONFIG_FPGA_MGR_FTDI_FIFO_FPP)	+= ftdi-fifo-fpp.o
->  obj-$(CONFIG_FPGA_MGR_ICE40_SPI)	+= ice40-spi.o
->  obj-$(CONFIG_FPGA_MGR_MACHXO2_SPI)	+= machxo2-spi.o
->  obj-$(CONFIG_FPGA_MGR_SOCFPGA)		+= socfpga.o
-> diff --git a/drivers/fpga/ftdi-fifo-fpp.c b/drivers/fpga/ftdi-fifo-fpp.c
-> new file mode 100644
-> index 000000000000..2bc72335cd70
-> --- /dev/null
-> +++ b/drivers/fpga/ftdi-fifo-fpp.c
-> @@ -0,0 +1,594 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Altera FPGA firmware upload via FPP using FT232H Bitbang/FT245-FIFO.
-> + *
-> + * Copyright (C) 2017 - 2018 DENX Software Engineering
-Maybe bump that to 2019 ;-)
-
-> + * Anatolij Gustschin <agust@denx.de>
-> + */
-> +
-> +#include <linux/bitops.h>
-> +#include <linux/delay.h>
-> +#include <linux/fpga/fpga-mgr.h>
-> +#include <linux/module.h>
-> +#include <linux/kernel.h>
-> +#include <linux/sizes.h>
-> +#include <linux/slab.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/usb.h>
-> +#include <linux/usb/ft232h-intf.h>
-> +
-> +#define BULK_OUT_BUF_SZ	SZ_1M
-> +#define MAX_RETRIES	10
-> +
-> +/*
-> + * With logic of CPLD we can write the state of nConfig pin and
-> + * read back the state of some pins (conf_done, init_done, nStatus).
-> + * Status header and bit assignment in data register on CPLD.
-> + */
-> +#define INPUT_HEADER_0	0xA5
-> +#define INPUT_HEADER_1	0x5A
-> +#define IN_CONF_DONE	BIT(0)
-> +#define IN_INIT_DONE	BIT(1)
-> +#define IN_ADDR_SELECT	BIT(4)
-> +#define IN_BOARD_REV	BIT(5)
-> +#define OUT_NCONFIG	BIT(0)
-> +#define OUT_RESET_N	BIT(1)
-> +
-> +enum fpp_board_rev {
-> +	BOARD_REVA = 1,
-> +	BOARD_REVB = 2,
-> +};
-> +
-> +enum fpp_addr_sel {
-> +	ADDR_SELECT_INVALID,
-> +	ADDR_SELECT_GND,
-> +	ADDR_SELECT_NC
-> +};
-> +
-> +struct fpp_mgr_ops {
-> +	int (*write_init)(struct fpga_manager *mgr,
-> +			  struct fpga_image_info *info,
-> +			  const char *buf, size_t count);
-> +	int (*write)(struct fpga_manager *mgr, const char *buf, size_t count);
-> +	int (*write_complete)(struct fpga_manager *mgr,
-> +			      struct fpga_image_info *info);
-> +};
-> +
-> +struct fpp_fpga_mgr_priv {
-> +	struct platform_device		*pdev;
-> +	struct usb_interface		*intf;
-> +	const struct ft232h_intf_ops	*iops;
-> +	struct fpga_manager	*mgr;
-> +	struct fpp_mgr_ops	*ops;
-> +	struct gpio_desc	*nconfig;
-> +	struct gpio_desc	*conf_done;
-> +	char			cfg_mode[8];
-> +	u8			out_data_port;
-> +	int			index;
-> +	void			*bulk_buf;
-> +	char			usb_dev_id[32];
-> +	char			fpga_mgr_name[64];
-> +	enum fpp_board_rev	rev;
-> +	enum fpp_addr_sel	addr_sel;
-> +};
-> +
-> +static int fpp_fpga_mgr_set_data_port(struct fpp_fpga_mgr_priv *priv,
-> +				      u8 bitmask, u8 value)
-> +{
-> +	struct device *dev = &priv->pdev->dev;
-> +	struct bulk_desc desc;
-> +	u8 *data;
-> +	int ret;
-> +
-> +	/*
-> +	 * With CPLD connected (in FT245 FIFO mode) we use ACBUS8&9
-> +	 * pins to switch between data and command mode:
-> +	 * ACBUS8&9 == 0, 0  --> normal mode (data communication)
-> +	 * ACBUS8&9 == 1, 0  --> command mode
-> +	 */
-> +	gpiod_set_raw_value_cansleep(priv->nconfig, 1);
-> +	gpiod_set_raw_value_cansleep(priv->conf_done, 0);
-> +	msleep(50);
-
-You could use a constant here for the 50 ...
-> +
-> +	/* Write commands to CPLD */
-> +	ret = priv->iops->set_bitmode(priv->intf, 0x00, BITMODE_SYNCFF);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (value)
-> +		priv->out_data_port |= bitmask;
-> +	else
-> +		priv->out_data_port &= ~bitmask;
-> +
-> +	data = priv->bulk_buf;
-> +	*data = priv->out_data_port;
-> +
-> +	desc.dir_out = true;
-> +	desc.act_len = 0;
-> +	desc.len = 1;
-> +	desc.data = data;
-> +	desc.timeout = FTDI_USB_WRITE_TIMEOUT;
-> +
-> +	ret = priv->iops->bulk_xfer(priv->intf, &desc);
-> +	if (ret) {
-> +		dev_err(dev, "Writing in SYNCFF mode failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	msleep(50);
-
-and here ...
-> +	/* Switch back to data mode with ACBUS8&9 back to low */
-> +	gpiod_set_raw_value_cansleep(priv->nconfig, 0);
-> +	gpiod_set_raw_value_cansleep(priv->conf_done, 0);
-> +	msleep(50);
-and here ...
-> +
-> +	return 0;
-> +}
-> +
-> +static int fpp_fpga_mgr_bitbang_write_init(struct fpga_manager *mgr,
-> +					   struct fpga_image_info *info,
-> +					   const char *buf, size_t count)
-> +{
-> +	struct fpp_fpga_mgr_priv *priv = mgr->priv;
-> +	struct device *dev = &priv->pdev->dev;
-> +	int retries = MAX_RETRIES;
-> +	int ret;
-> +
-> +	gpiod_set_value_cansleep(priv->nconfig, 0);
-> +	msleep(50);
-
-and here ...
-> +	gpiod_set_value_cansleep(priv->nconfig, 1);
-> +	msleep(50);
-and here ...
-> +	gpiod_set_value_cansleep(priv->nconfig, 0);
-> +
-> +	/* Wait for CONF_DONE to get low */
-Does the retry number come from datasheet?
-> +	do {
-> +		msleep(50);
-> +
-> +		ret = gpiod_get_value_cansleep(priv->conf_done);
-> +		if (ret < 0) {
-> +			dev_err(dev, "Failed to get CONF_DONE pin: %d\n", ret);
-> +			return ret;
-> +		}
-> +
-> +		if (!ret)
-> +			break;
-> +	} while (--retries > 0);
-> +
-> +	if (!retries) {
-> +		dev_warn(dev, "CONF_DONE low wait timeout\n");
-> +		return -ETIMEDOUT;
-> +	}
-> +
-> +	ret = priv->iops->set_bitmode(priv->intf, 0xff, BITMODE_BITBANG);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Set max. working baud rate (for hardware without CPLD) */
-> +	return priv->iops->set_baudrate(priv->intf, 700000);
-> +}
-> +
-> +static int fpp_fpga_mgr_bitbang_write(struct fpga_manager *mgr,
-> +				      const char *buf, size_t count)
-> +{
-> +	struct fpp_fpga_mgr_priv *priv = mgr->priv;
-> +	struct bulk_desc desc;
-> +	size_t blk_sz;
-> +	int ret;
-> +
-> +	desc.data = priv->bulk_buf;
-> +	desc.dir_out = true;
-> +	desc.timeout = FTDI_USB_WRITE_TIMEOUT;
-> +
-> +	while (count) {
-> +		blk_sz = min_t(size_t, count, BULK_OUT_BUF_SZ);
-> +		memcpy(priv->bulk_buf, buf, blk_sz);
-> +		desc.act_len = 0;
-> +		desc.len = blk_sz;
-> +		ret = priv->iops->bulk_xfer(priv->intf, &desc);
-> +		if (ret < 0)
-> +			return ret;
-> +
-> +		buf += desc.act_len;
-> +		count -= desc.act_len;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int fpp_fpga_mgr_bitbang_write_complete(struct fpga_manager *mgr,
-> +					       struct fpga_image_info *info)
-> +{
-> +	struct fpp_fpga_mgr_priv *priv = mgr->priv;
-> +	struct device *dev = &priv->pdev->dev;
-> +	int retries = MAX_RETRIES;
-> +	int ret;
-> +
-> +	/* Wait for CONF_DONE to get high */
-> +	do {
-> +		msleep(50);
-> +
-> +		ret = gpiod_get_value_cansleep(priv->conf_done);
-> +		if (ret < 0)
-> +			return ret;
-> +
-> +		if (ret)
-> +			break;
-> +	} while (--retries > 0);
-> +
-> +	if (!retries) {
-> +		dev_warn(dev, "CONF_DONE wait timeout\n");
-
-warn or err?
-
-> +		return -ETIMEDOUT;
-> +	}
-> +
-> +	priv->iops->disable_bitbang(priv->intf);
-> +	return 0;
-> +}
-> +
-> +static inline bool status_hdr_is_valid(u8 *buf)
-> +{
-> +	return buf[0] == INPUT_HEADER_0 && buf[1] == INPUT_HEADER_1;
-> +}
-> +
-> +static int fpp_fpga_mgr_read_status(struct fpp_fpga_mgr_priv *priv, u8 *status)
-> +{
-> +	struct device *dev = &priv->pdev->dev;
-> +	u8 *inbuf = priv->bulk_buf;
-> +	int retries = MAX_RETRIES;
-> +	int ret;
-> +
-> +	if (!status)
-> +		return -EINVAL;
-> +
-> +	/* Wait until CPLD sends valid header and status register */
-> +	do {
-> +		ret = priv->iops->read_data(priv->intf, inbuf, 64);
-> +		if (ret < 0) {
-> +			dev_err(dev, "Can't read status data: %d\n", ret);
-> +			return ret;
-> +		}
-> +
-> +		/* Check input buffer header */
-> +		if (ret >= 4 && status_hdr_is_valid(inbuf)) {
-> +			*status = inbuf[2];
-> +			return 0;
-> +		}
-> +
-> +		/* Wait and read back status again */
-> +		msleep(100); /* CPLD sends status every 100ms */
-> +	} while (--retries > 0);
-> +
-> +	dev_warn(dev, "Timeout when reading status\n");
-> +	return -ETIMEDOUT;
-> +}
-> +
-> +static int fpp_fpga_mgr_ft245_fifo_write_init(struct fpga_manager *mgr,
-> +					      struct fpga_image_info *info,
-> +					      const char *buf, size_t count)
-> +{
-> +	struct fpp_fpga_mgr_priv *priv = mgr->priv;
-> +	struct device *dev = &priv->pdev->dev;
-> +	int retries = MAX_RETRIES;
-> +	int ret;
-> +	u8 status;
-> +
-> +	gpiod_direction_output_raw(priv->conf_done, 0);
-> +
-> +	/* Set/reset nConfig via commands to CPLD */
-> +	ret = fpp_fpga_mgr_set_data_port(priv, OUT_NCONFIG, 1);
-> +	if (ret)
-> +		return ret;
-> +	ret = fpp_fpga_mgr_set_data_port(priv, OUT_NCONFIG, 0);
-> +	if (ret)
-> +		return ret;
-> +	ret = fpp_fpga_mgr_set_data_port(priv, OUT_NCONFIG, 1);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* In FT245 FIFO mode we need sync FIFO mode to talk to FPGA */
-> +	ret = priv->iops->set_bitmode(priv->intf, 0xff, BITMODE_SYNCFF);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Wait until FPGA is ready for loading (conf_done zero) or timeout */
-> +	do {
-> +		ret = fpp_fpga_mgr_read_status(priv, &status);
-> +		if (!ret) {
-> +			/* Check conf_done status */
-> +			if ((status & IN_CONF_DONE) == 0)
-> +				break;
-> +		}
-> +	} while (--retries > 0);
-> +
-> +	if (!retries) {
-> +		dev_warn(dev, "CONF_DONE wait timeout\n");
-> +		return -ETIMEDOUT;
-> +	}
-> +
-> +	/* Configure for max. baud rate (3MHz * 4 in bitbang mode) */
-> +	return priv->iops->set_baudrate(priv->intf, 3000000);
-> +}
-> +
-> +static int fpp_fpga_mgr_ft245_fifo_write(struct fpga_manager *mgr,
-> +					 const char *buf, size_t count)
-> +{
-> +	return fpp_fpga_mgr_bitbang_write(mgr, buf, count);
-> +}
-> +
-> +static int fpp_fpga_mgr_ft245_fifo_write_complete(struct fpga_manager *mgr,
-> +						  struct fpga_image_info *info)
-> +{
-> +	struct fpp_fpga_mgr_priv *priv = mgr->priv;
-> +	struct device *dev = &priv->pdev->dev;
-> +	int retries = MAX_RETRIES;
-> +	int ret;
-> +	u8 mask, status;
-
-Can you swap the two lines, reverse xmas-tree please.
-> +
-> +	mask = IN_CONF_DONE | IN_INIT_DONE;
-> +
-> +	do {
-> +		ret = fpp_fpga_mgr_read_status(priv, &status);
-> +		if (!ret) {
-> +			/* Check conf_done/init_done status */
-> +			if ((status & mask) == mask)
-> +				break;
-> +		}
-> +	} while (--retries > 0);
-> +
-> +	if (!retries) {
-> +		dev_warn(dev, "INIT_DONE wait timeout\n");
-> +		return -ETIMEDOUT;
-> +	}
-> +
-> +	/* Release Reset_n, keep nCONFIG high, too! */
-> +	return fpp_fpga_mgr_set_data_port(priv, OUT_NCONFIG | OUT_RESET_N, 1);
-> +}
-> +
-> +static enum fpga_mgr_states fpp_fpga_mgr_state(struct fpga_manager *mgr)
-> +{
-> +	return FPGA_MGR_STATE_UNKNOWN;
-> +}
-> +
-> +static int fpp_fpga_mgr_write_init(struct fpga_manager *mgr,
-> +				   struct fpga_image_info *info,
-> +				   const char *buf, size_t count)
-> +{
-> +	struct fpp_fpga_mgr_priv *priv = mgr->priv;
-> +
-> +	if (info && info->flags & FPGA_MGR_PARTIAL_RECONFIG) {
-> +		dev_err(&mgr->dev, "Partial reconfiguration not supported.\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (priv->ops->write_init)
-> +		return priv->ops->write_init(mgr, info, buf, count);
-> +
-> +	return -ENODEV;
-> +}
-> +
-> +static int fpp_fpga_mgr_write(struct fpga_manager *mgr, const char *buf,
-> +			      size_t count)
-> +{
-> +	struct fpp_fpga_mgr_priv *priv = mgr->priv;
-> +
-> +	if (priv->ops->write)
-> +		return priv->ops->write(mgr, buf, count);
-> +
-> +	return -ENODEV;
-> +}
-> +
-> +static int fpp_fpga_mgr_write_complete(struct fpga_manager *mgr,
-> +				       struct fpga_image_info *info)
-> +{
-> +	struct fpp_fpga_mgr_priv *priv = mgr->priv;
-> +
-> +	if (priv->ops->write_complete)
-> +		return priv->ops->write_complete(mgr, info);
-> +
-> +	return -ENODEV;
-> +}
-> +
-> +static struct fpp_mgr_ops fpp_mgr_bitbang_ops = {
-> +	.write_init	= fpp_fpga_mgr_bitbang_write_init,
-> +	.write		= fpp_fpga_mgr_bitbang_write,
-> +	.write_complete	= fpp_fpga_mgr_bitbang_write_complete,
-> +};
-> +
-> +static struct fpp_mgr_ops fpp_mgr_ft245_fifo_ops = {
-> +	.write_init	= fpp_fpga_mgr_ft245_fifo_write_init,
-> +	.write		= fpp_fpga_mgr_ft245_fifo_write,
-> +	.write_complete	= fpp_fpga_mgr_ft245_fifo_write_complete,
-> +};
-> +
-> +static const struct fpga_manager_ops fpp_fpga_mgr_ops = {
-> +	.state		= fpp_fpga_mgr_state,
-> +	.write_init	= fpp_fpga_mgr_write_init,
-> +	.write		= fpp_fpga_mgr_write,
-> +	.write_complete	= fpp_fpga_mgr_write_complete,
-> +};
-> +
-> +static ssize_t cfg_mode_show(struct device *dev, struct device_attribute *attr,
-> +			     char *buf)
-> +{
-> +	struct platform_device *pdev = to_platform_device(dev);
-> +	struct fpga_manager *mgr = platform_get_drvdata(pdev);
-> +	struct fpp_fpga_mgr_priv *priv = mgr->priv;
-> +
-> +	return snprintf(buf, PAGE_SIZE, "%s\n", priv->cfg_mode);
-> +}
-> +
-> +static ssize_t cfg_mode_store(struct device *dev, struct device_attribute *attr,
-> +			      const char *buf, size_t count)
-> +{
-> +	struct platform_device *pdev = to_platform_device(dev);
-> +	struct fpga_manager *mgr = platform_get_drvdata(pdev);
-> +	struct fpp_fpga_mgr_priv *priv = mgr->priv;
-> +
-> +	if (!count || count > sizeof(priv->cfg_mode))
-> +		return -EINVAL;
-> +
-> +	if (!strncmp(buf, "fifo", 4)) {
-> +		strncpy(priv->cfg_mode, buf, sizeof(priv->cfg_mode) - 1);
-> +		priv->cfg_mode[4] = 0;
-> +		priv->ops = &fpp_mgr_ft245_fifo_ops;
-> +		gpiod_direction_output_raw(priv->conf_done, 0);
-> +	} else if (!strncmp(buf, "bitbang", 7)) {
-> +		strncpy(priv->cfg_mode, buf, sizeof(priv->cfg_mode) - 1);
-> +		priv->cfg_mode[7] = 0;
-> +		priv->ops = &fpp_mgr_bitbang_ops;
-> +		gpiod_direction_input(priv->conf_done);
-> +	} else {
-> +		return -EINVAL;
-> +	}
-> +
-> +	return count;
-> +}
-> +
-> +static DEVICE_ATTR_RW(cfg_mode);
-> +
-> +static int fpp_fpga_mgr_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct fpp_fpga_mgr_priv *priv;
-> +	struct fpga_manager *mgr;
-> +	struct fifo_fpp_mgr_platform_data *pd;
-> +	int ret, retries = MAX_RETRIES;
-> +	char id_string[8];
-> +	u8 status = 0;
-> +
-> +	pd = dev->platform_data;
-> +	if (!pd) {
-> +		dev_err(dev, "Missing platform data.\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (!pd->ops ||
-> +	    !pd->ops->bulk_xfer || !pd->ops->ctrl_xfer ||
-> +	    !pd->ops->read_data || !pd->ops->write_data ||
-> +	    !pd->ops->set_bitmode || !pd->ops->set_baudrate ||
-> +	    !pd->ops->disable_bitbang)
-> +		return -EINVAL;
-> +
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	priv->intf = to_usb_interface(dev->parent);
-> +	priv->iops = pd->ops;
-> +
-> +	ret = sscanf(dev_name(dev->parent), "%s", priv->usb_dev_id);
-> +	if (ret != 1) {
-> +		dev_err(dev, "Can't get parent device name: %d\n", ret);
-> +		return -ENODEV;
-> +	}
-> +
-> +	priv->pdev = pdev;
-> +	priv->ops = &fpp_mgr_ft245_fifo_ops;
-> +	strncpy(priv->cfg_mode, "fifo", sizeof(priv->cfg_mode));
-> +
-> +	priv->nconfig = devm_gpiod_get(dev, "nconfig", GPIOD_OUT_LOW);
-> +	if (IS_ERR(priv->nconfig)) {
-> +		ret = PTR_ERR(priv->nconfig);
-> +		dev_err(dev, "Failed to get nconfig gpio: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	priv->conf_done = devm_gpiod_get(dev, "conf_done", GPIOD_OUT_LOW);
-> +	if (IS_ERR(priv->conf_done)) {
-> +		ret = PTR_ERR(priv->conf_done);
-> +		dev_err(dev, "Failed to get conf_done gpio: %d\n", ret);
-> +		goto err_cfg1;
-> +	}
-> +
-> +	priv->bulk_buf = devm_kmalloc(dev, BULK_OUT_BUF_SZ,
-> +				      GFP_KERNEL | GFP_DMA32);
-> +	if (!priv->bulk_buf) {
-> +		ret = -ENOMEM;
-> +		goto err_cfg2;
-> +	}
-> +
-> +	ret = priv->iops->set_bitmode(priv->intf, 0xff, BITMODE_SYNCFF);
-> +	if (ret)
-> +		goto err_cfg2;
-> +
-> +	/* Read status register from CPLD */
-> +	do {
-> +		ret = fpp_fpga_mgr_read_status(priv, &status);
-> +		if (!ret)
-> +			break;
-> +	} while (--retries > 0);
-> +
-> +	if (!retries) {
-> +		ret = -ETIMEDOUT;
-> +		goto err_cfg2;
-> +	}
-> +
-> +	priv->rev = (status & IN_BOARD_REV) ? BOARD_REVB : BOARD_REVA;
-> +
-> +	if (priv->rev == BOARD_REVB) {
-> +		priv->addr_sel = (status & IN_ADDR_SELECT) ?
-> +				 ADDR_SELECT_NC : ADDR_SELECT_GND;
-> +		if (priv->addr_sel == ADDR_SELECT_NC)
-> +			strncpy(id_string, "right", sizeof(id_string));
-> +		else
-> +			strncpy(id_string, "left", sizeof(id_string));
-> +	} else {
-> +		priv->addr_sel = ADDR_SELECT_INVALID;
-> +		strncpy(id_string, "single", sizeof(id_string));
-> +	}
-> +
-> +	dev_info(dev, "Board Rev %d, Addr Sel %d\n", priv->rev, priv->addr_sel);
-> +
-> +	/* Use unique board ID and USB bus/port in FPGA manager name */
-> +	snprintf(priv->fpga_mgr_name, sizeof(priv->fpga_mgr_name),
-> +		 "ftdi-fpp-fpga-mgr %s %s", id_string, priv->usb_dev_id);
-> +
-> +	mgr = devm_fpga_mgr_create(dev, priv->fpga_mgr_name,
-> +				   &fpp_fpga_mgr_ops, priv);
-> +	if (!mgr)
-> +		goto err_cfg2;
-> +
-> +	platform_set_drvdata(pdev, mgr);
-> +
-> +	ret = fpga_mgr_register(mgr);
-> +	if (ret) {
-> +		dev_err(dev, "unable to register FPGA manager\n");
-> +		goto err_cfg2;
-> +	}
-> +
-> +	ret = device_create_file(dev, &dev_attr_cfg_mode);
-> +	if (ret)
-> +		dev_warn(dev, "Can't create cfg_mode interface %d\n", ret);
-> +
-> +	return 0;
-> +
-> +err_cfg2:
-> +	devm_gpiod_put(dev, priv->conf_done);
-> +err_cfg1:
-> +	devm_gpiod_put(dev, priv->nconfig);
-> +	return ret;
-> +}
-> +
-> +static int fpp_fpga_mgr_remove(struct platform_device *pdev)
-> +{
-> +	struct fpga_manager *mgr = platform_get_drvdata(pdev);
-> +	struct fpp_fpga_mgr_priv *priv = mgr->priv;
-> +
-> +	device_remove_file(&pdev->dev, &dev_attr_cfg_mode);
-> +	fpga_mgr_unregister(mgr);
-> +	devm_gpiod_put(&pdev->dev, priv->conf_done);
-> +	devm_gpiod_put(&pdev->dev, priv->nconfig);
-> +	return 0;
-> +}
-> +
-> +static struct platform_driver fpp_fpga_mgr_driver = {
-> +	.driver.name	= "ftdi-fifo-fpp-mgr",
-> +	.probe		= fpp_fpga_mgr_probe,
-> +	.remove		= fpp_fpga_mgr_remove,
-> +};
-> +
-> +module_platform_driver(fpp_fpga_mgr_driver);
-> +
-> +MODULE_ALIAS("platform:ftdi-fifo-fpp-mgr");
-> +MODULE_AUTHOR("Anatolij Gustschin <agust@denx.de>");
-> +MODULE_DESCRIPTION("FT232H Bitbang/FT245-FIFO FPP FPGA Manager Driver");
-> +MODULE_LICENSE("GPL v2");
-> -- 
-> 2.17.1
-> 
-
-Thanks,
-
-Moritz
+T24gQXByIDgsIDIwMTksIGF0IDEyOjIzIFBNLCBBbGFuIFN0ZXJuIDxzdGVybkByb3dsYW5kLmhh
+cnZhcmQuZWR1PG1haWx0bzpzdGVybkByb3dsYW5kLmhhcnZhcmQuZWR1Pj4gd3JvdGU6DQoNClRo
+ZSB0d28gYmlnLWVuZGlhbiBudW1iZXJzIGF0IHRoZSBlbmQgb2YgdGhpcyBsaW5lIGFyZSB0aGUg
+bG9naWNhbA0KYmxvY2sgYWRkcmVzcyBvZiB0aGUgZGV2aWNlJ3MgbGFzdCBibG9jayBhbmQgdGhl
+IGxvZ2ljYWwgYmxvY2sgc2l6ZSBpbg0KYnl0ZXMuICBUaHVzIHRoZSBkZXZpY2UgY2xhaW1zIHRv
+IGhhdmUgNTEyLWJ5dGUgYmxvY2tzLg0KDQpJIHN1c3BlY3QgeW91IGhhdmUgcnVuIGFjcm9zcyBh
+IGJ1ZyBpbiB0aGUgZGV2aWNlLiAgSXQgc2hvdWxkbid0IG1pbmQNCnRoYXQgaXQgd2FzIGFza2Vk
+IHRvIHNlbmQgMzU4NCBieXRlcyBvZiBkYXRhOyBpdCBvdWdodCB0byBzZW5kIDMNCjEwMjQtYnl0
+ZSBwYWNrZXRzIGZvbGxvd2VkIGJ5IGEgc2hvcnQgNTEyLWJ5dGUgcGFja2V0LiAgSW5zdGVhZCBp
+dA0Kc2VlbXMgdG8gYmUgc2VuZGluZyA0IDEwMjQtYnl0ZSBwYWNrZXRzLCB0aHVzIGNhdXNpbmcg
+YW4gZXJyb3IuICBBdA0KbGVhc3QsIHRoYXQncyBteSBndWVzcy4NCg0KSSBhbSBjb25mdXNlZCBh
+cyB0byBob3cgdGhpcyBjb3VsZCBiZSBhIGRldmljZSBidWcuICBUaGV5IGhhdmUgd29ya2VkIGlu
+IGV2ZXJ5IG1hY2hpbmUgd2XigJl2ZSB1c2VkIHRoZW0gaW4gc28gZmFyLCBzYXZlIGZvciB0aGUg
+VVNCSVAgdXNlIGNhc2UuICBJ4oCZdmUgc3BlbnQgcXVpdGUgc29tZSB0aW1lIHRyeWluZyB0byBy
+ZXByb2R1Y2UgaW4gcGh5c2ljYWwgbWFjaGluZXMsIGV2ZW4gdGhlIHNhbWUgb25lIHRoYXQgZXhw
+ZXJpZW5jZXMgdGhlIHByb2JsZW0gdXNpbmcgVVNCSVAuDQoNCg0KVG8gaGVscCB2ZXJpZnkgdGhp
+cywgY2FuIHlvdSBzZW5kIGEgc2ltaWxhciB1c2Jtb24gdHJhY2Ugb24gdGhlIHNlcnZlcg0Kc2hv
+d2luZyB3aGF0IGhhcHBlbnMgd2hlbiB0aGUgRU9WRVJGTE9XIGVycm9yIG9jY3Vycz8gIFRoZSBk
+ZWJ1Zw0KbWVzc2FnZXMgaW4geW91ciBBcHJpbCA2IGVtYWlsIGRvbid0IGNvbnRhaW4gYWxsIHRo
+ZSBkZXRhaWxlZA0KaW5mb3JtYXRpb24uDQoNCkkgYmVsaWV2ZSB0aGlzIHRyYWNlIHNob3VsZCBo
+YXZlIGNhcHR1cmVkIHRoZSBmYWlsdXJlLCBhbHRob3VnaCBJ4oCZbSBub3Qgc2VlaW5nIHRoZSBv
+ZGQgcmVhZCBoZXJlLi4uDQoNCmZmZmY4MDAwNzNlMGY4NDAgMjgyNzMyNzA5MiBTIENpOjI6MDAx
+OjAgcyBhMyAwMCAwMDAwIDAwMDEgMDAwNCA0IDwNCmZmZmY4MDAwNzNlMGY4NDAgMjgyNzMyNzEw
+OCBDIENpOjI6MDAxOjAgMCA0ID0gNjMwMjAwMDANCmZmZmY4MDAwNzNlMGY4NDAgMjgyNzMyNzEx
+MiBTIENpOjI6MDAxOjAgcyBhMyAwMCAwMDAwIDAwMDIgMDAwNCA0IDwNCmZmZmY4MDAwNzNlMGY4
+NDAgMjgyNzMyNzExNiBDIENpOjI6MDAxOjAgMCA0ID0gYTAwMjAwMDANCmZmZmY4MDAwNzQ1ZWMw
+MDAgMjgyNzMyNzEyMCBTIElpOjI6MDAxOjEgLTExNToyMDQ4IDQgPA0KZmZmZjgwMDA3M2UwZjg0
+MCAyODI3MzI3MTMzIFMgQ286MjowMDE6MCBzIDIzIDAzIDAwMWIgMDcwMSAwMDAwIDANCmZmZmY4
+MDAwNzNlMGY4NDAgMjgyNzMyNzE0MCBDIENvOjI6MDAxOjAgMCAwDQpmZmZmODAwMDczZTBmODQw
+IDI4MjczMjcxNDMgUyBDbzoyOjAwMTowIHMgMjMgMDMgMDAxYiAwNzAyIDAwMDAgMA0KZmZmZjgw
+MDA3M2UwZjg0MCAyODI3MzI3MTUwIEMgQ286MjowMDE6MCAwIDANCmZmZmY4MDAwNzQ1ZWMwMDAg
+MjgyNzMyNzE1NiBDIElpOjI6MDAxOjEgLTI6MjA0OCAwDQpmZmZmODAwMDczZTBmODQwIDI4Mjcz
+MjcxNjAgUyBDaToyOjAwMTowIHMgYTMgMDAgMDAwMCAwMDAxIDAwMDQgNCA8DQpmZmZmODAwMDcz
+ZTBmODQwIDI4MjczMjcxNjQgQyBDaToyOjAwMTowIDAgNCA9IDAzMDMwMDAwDQpmZmZmODAwMDcz
+ZTBmODQwIDI4MjczMjcxNjcgUyBDaToyOjAwMTowIHMgYTMgMDAgMDAwMCAwMDAyIDAwMDQgNCA8
+DQpmZmZmODAwMDczZTBmODQwIDI4MjczMjcxNzEgQyBDaToyOjAwMTowIDAgNCA9IGEwMDIwMDAw
+DQpmZmZmODAwMDc0NWVjMDAwIDI4MjczMjcxNzMgUyBJaToyOjAwMToxIC0xMTU6MjA0OCA0IDwN
+CmZmZmY4MDAwNzNlMGY4NDAgMjgyNzMyNzE3OCBTIENvOjI6MDAxOjAgcyAyMyAwMyAwMDFiIDA3
+MDEgMDAwMCAwDQpmZmZmODAwMDczZTBmODQwIDI4MjczMjcxODQgQyBDbzoyOjAwMTowIDAgMA0K
+ZmZmZjgwMDA3M2UwZjg0MCAyODI3MzI3MTg3IFMgQ286MjowMDE6MCBzIDIzIDAzIDAwMWIgMDcw
+MiAwMDAwIDANCmZmZmY4MDAwNzNlMGY4NDAgMjgyNzMyNzE5NCBDIENvOjI6MDAxOjAgMCAwDQpm
+ZmZmODAwMDc0NWVjMDAwIDI4MjczMjcxOTkgQyBJaToyOjAwMToxIC0yOjIwNDggMA0KZmZmZjgw
+MDA3M2UwZjg0MCAyODI3MzI3MjAyIFMgQ2k6MjowMDE6MCBzIGEzIDAwIDAwMDAgMDAwMSAwMDA0
+IDQgPA0KZmZmZjgwMDA3M2UwZjg0MCAyODI3MzI3MjA2IEMgQ2k6MjowMDE6MCAwIDQgPSAwMzAz
+MDAwMA0KZmZmZjgwMDA3M2UwZjg0MCAyODI3MzI3MjA5IFMgQ2k6MjowMDE6MCBzIGEzIDAwIDAw
+MDAgMDAwMiAwMDA0IDQgPA0KZmZmZjgwMDA3M2UwZjg0MCAyODI3MzI3MjEzIEMgQ2k6MjowMDE6
+MCAwIDQgPSBhMDAyMDAwMA0KZmZmZjgwMDA3NDVlYzAwMCAyODI3MzI3MjE4IFMgSWk6MjowMDE6
+MSAtMTE1OjIwNDggNCA8DQpmZmZmODAwMDczZTBmODQwIDI4MjczMjcyMjEgUyBDbzoyOjAwMTow
+IHMgMjMgMDMgMDAxYiAwNzAxIDAwMDAgMA0KZmZmZjgwMDA3M2UwZjg0MCAyODI3MzI3MjQwIEMg
+Q286MjowMDE6MCAwIDANCmZmZmY4MDAwNzNlMGY4NDAgMjgyNzMyNzI0MyBTIENvOjI6MDAxOjAg
+cyAyMyAwMyAwMDFiIDA3MDIgMDAwMCAwDQpmZmZmODAwMDczZTBmODQwIDI4MjczMjcyNDkgQyBD
+bzoyOjAwMTowIDAgMA0KZmZmZjgwMDA3NDVlYzAwMCAyODI3MzI3MjU0IEMgSWk6MjowMDE6MSAt
+MjoyMDQ4IDANCmZmZmY4MDAwNzNlMGY4NDAgMjgyNzM0MDAxNCBTIENpOjI6MDAxOjAgcyBhMyAw
+MCAwMDAwIDAwMDEgMDAwNCA0IDwNCmZmZmY4MDAwNzNlMGY4NDAgMjgyNzM0MDAyMCBDIENpOjI6
+MDAxOjAgMCA0ID0gMDMwMjAwMDANCmZmZmY4MDAwNzNlMGY4NDAgMjgyNzM0MDAyNCBTIENpOjI6
+MDAxOjAgcyBhMyAwMCAwMDAwIDAwMDIgMDAwNCA0IDwNCmZmZmY4MDAwNzNlMGY4NDAgMjgyNzM0
+MDAyOCBDIENpOjI6MDAxOjAgMCA0ID0gYTAwMjAwMDANCmZmZmY4MDAwNzQ1ZWMwMDAgMjgyNzM0
+MDAzMSBTIElpOjI6MDAxOjEgLTExNToyMDQ4IDQgPA0KZmZmZjgwMDA3M2UwZjg0MCAyODI3MzQw
+MDMzIFMgQ2k6MjowMDE6MCBzIGEzIDAwIDAwMDAgMDAwMSAwMDA0IDQgPA0KZmZmZjgwMDA3M2Uw
+Zjg0MCAyODI3MzQwMDM4IEMgQ2k6MjowMDE6MCAwIDQgPSAwMzAyMDAwMA0KZmZmZjgwMDA3M2Uw
+Zjg0MCAyODI3MzYwMDA5IFMgQ2k6MjowMDE6MCBzIGEzIDAwIDAwMDAgMDAwMSAwMDA0IDQgPA0K
+ZmZmZjgwMDA3M2UwZjg0MCAyODI3MzYwMDE1IEMgQ2k6MjowMDE6MCAwIDQgPSAwMzAyMDAwMA0K
+ZmZmZjgwMDA3M2UwZjg0MCAyODI3MzYwMDE5IFMgQ2k6MjowMDI6MCBzIDgwIDAwIDAwMDAgMDAw
+MCAwMDAyIDIgPA0KZmZmZjgwMDA3M2UwZjg0MCAyODI3MzYwNzk4IEMgQ2k6MjowMDI6MCAwIDIg
+PSAwMTAwDQpmZmZmODAwMDczZTBmODQwIDI4MjczNjA4MjkgUyBDaToyOjAwMjowIHMgODEgMDAg
+MDAwMCAwMDAwIDAwMDIgMiA8DQpmZmZmODAwMDczZTBmODQwIDI4MjczNjE3OTYgQyBDaToyOjAw
+MjowIDAgMiA9IDAzMDANCmZmZmY4MDAwNzNlMGY4NDAgMjgyNzM2MTgxOSBTIENvOjI6MDAyOjAg
+cyAwMSAwMyAwMDAwIDAwMDAgMDAwMCAwDQpmZmZmODAwMDczZTBmODQwIDI4MjczNjI1NDQgQyBD
+bzoyOjAwMjowIDAgMA0KZmZmZjgwMDA3M2UwZjg0MCAyODI3MzYyNTY3IFMgQ2k6MjowMDI6MCBz
+IGEzIDAwIDAwMDAgMDAwMSAwMDA0IDQgPA0KZmZmZjgwMDA3M2UwZjg0MCAyODI3MzYzNTUxIEMg
+Q2k6MjowMDI6MCAwIDQgPSBhMDAyMDAwMA0KZmZmZjgwMDA3M2UwZjg0MCAyODI3MzYzNTc0IFMg
+Q2k6MjowMDI6MCBzIGEzIDAwIDAwMDAgMDAwMiAwMDA0IDQgPA0KZmZmZjgwMDA3M2UwZjg0MCAy
+ODI3MzY0NTQ0IEMgQ2k6MjowMDI6MCAwIDQgPSBhMDAyMDAwMA0KZmZmZjgwMDA3M2UwZjg0MCAy
+ODI3MzY0NTcyIFMgQ2k6MjowMDI6MCBzIGEzIDAwIDAwMDAgMDAwMyAwMDA0IDQgPA0KZmZmZjgw
+MDA3M2UwZjg0MCAyODI3MzY1NTUwIEMgQ2k6MjowMDI6MCAwIDQgPSBhMDAyMDAwMA0KZmZmZjgw
+MDA3M2UwZjg0MCAyODI3MzY1NTcyIFMgQ2k6MjowMDI6MCBzIGEzIDAwIDAwMDAgMDAwNCAwMDA0
+IDQgPA0KZmZmZjgwMDA3M2UwZjg0MCAyODI3MzY2NTQyIEMgQ2k6MjowMDI6MCAwIDQgPSAwMzAy
+MDEwMA0KZmZmZjgwMDA3M2UwZjg0MCAyODI3MzY2NTY2IFMgQ286MjowMDI6MCBzIDIzIDAxIDAw
+MTAgMDAwNCAwMDAwIDANCmZmZmY4MDAwNzNlMGY4NDAgMjgyNzM2NzI5NyBDIENvOjI6MDAyOjAg
+MCAwDQpmZmZmODAwMDczY2ZmZTQwIDI4Mjc0NzIwMTAgUyBJaToyOjAwMjoxIC0xMTU6MTI4IDIg
+PA0KZmZmZjgwMDA3M2UwZjg0MCAyODI3NDcyMDI1IFMgQ2k6MjowMDI6MCBzIGEzIDAwIDAwMDAg
+MDAwNCAwMDA0IDQgPA0KZmZmZjgwMDA3M2UwZjg0MCAyODI3NDcyNzk4IEMgQ2k6MjowMDI6MCAw
+IDQgPSAwMzAyMDAwMA0KZmZmZjgwMDA3M2UwZjg0MCAyODI3NDcyOTMyIFMgQ2k6MjowMDI6MCBz
+IGEzIDAwIDAwMDAgMDAwNCAwMDA0IDQgPA0KZmZmZjgwMDA3M2UwZjg0MCAyODI3NDczNzkwIEMg
+Q2k6MjowMDI6MCAwIDQgPSAwMzAyMDAwMA0KZmZmZjgwMDA3M2UwZjg0MCAyODI3NDczODEzIFMg
+Q286MjowMDI6MCBzIDIzIDAzIDAwMDQgMDAwNCAwMDAwIDANCmZmZmY4MDAwNzNlMGY4NDAgMjgy
+NzQ3NDU0NSBDIENvOjI6MDAyOjAgMCAwDQpmZmZmODAwMDczY2ZmZTQwIDI4Mjc0ODcwNDAgQyBJ
+aToyOjAwMjoxIDA6MTI4IDEgPSAxMA0KZmZmZjgwMDA3M2NmZmU0MCAyODI3NDg3MDQzIFMgSWk6
+MjowMDI6MSAtMTE1OjEyOCAyIDwNCmZmZmY4MDAwNzNlMGY4NDAgMjgyNzQ5MjAwOSBTIENpOjI6
+MDAyOjAgcyBhMyAwMCAwMDAwIDAwMDQgMDAwNCA0IDwNCmZmZmY4MDAwNzNlMGY4NDAgMjgyNzQ5
+Mjc5OSBDIENpOjI6MDAyOjAgMCA0ID0gMDMwMjEwMDANCmZmZmY4MDAwNzNlMGY4NDAgMjgyNzQ5
+MjgyMiBTIENvOjI6MDAyOjAgcyAyMyAwMSAwMDE0IDAwMDQgMDAwMCAwDQpmZmZmODAwMDczZTBm
+ODQwIDI4Mjc0OTM1NDIgQyBDbzoyOjAwMjowIDAgMA0KZmZmZjgwMDA3M2UwZjg0MCAyODI3NDkz
+NTUwIFMgQ286MjowMDI6MCBzIDIzIDAxIDAwMWQgMDAwNCAwMDAwIDANCmZmZmY4MDAwNzNlMGY4
+NDAgMjgyNzQ5NDI5NiBDIENvOjI6MDAyOjAgMCAwDQpmZmZmODAwMDczZTBmODQwIDI4Mjc0OTQz
+MDMgUyBDbzoyOjAwMjowIHMgMjMgMDEgMDAxOSAwMDA0IDAwMDAgMA0KZmZmZjgwMDA3M2UwZjg0
+MCAyODI3NDk1MDUyIEMgQ286MjowMDI6MCAwIDANCmZmZmY4MDAwNzNlMGY4NDAgMjgyNzQ5NTA1
+OSBTIENvOjI6MDAyOjAgcyAyMyAwMSAwMDEwIDAwMDQgMDAwMCAwDQpmZmZmODAwMDczZTBmODQw
+IDI4Mjc0OTU3OTMgQyBDbzoyOjAwMjowIDAgMA0KZmZmZjgwMDA3M2UwZjg0MCAyODI3NDk1ODAw
+IFMgQ2k6MjowMDI6MCBzIGEzIDAwIDAwMDAgMDAwNCAwMDA0IDQgPA0KZmZmZjgwMDA3M2UwZjg0
+MCAyODI3NDk2Nzk5IEMgQ2k6MjowMDI6MCAwIDQgPSAwMzAyMDAwMA0KZmZmZjgwMDA3M2UwZjg0
+MCAyODI3NTc2MDEwIFMgQ2k6MjowOTE6MCBzIDgwIDA2IDAxMDAgMDAwMCAwMDA4IDggPA0KZmZm
+ZjgwMDA3M2UwZjg0MCAyODI3NTc2NTUzIEMgQ2k6MjowOTE6MCAwIDggPSAxMjAxMjAwMyAwMDAw
+MDAwOQ0KZmZmZjgwMDA3M2UwZjg0MCAyODI3NTc2NTYxIFMgQ2k6MjowOTE6MCBzIDgwIDA2IDAx
+MDAgMDAwMCAwMDEyIDE4IDwNCmZmZmY4MDAwNzNlMGY4NDAgMjgyNzU3NzA0NCBDIENpOjI6MDkx
+OjAgMCAxOCA9IDEyMDEyMDAzIDAwMDAwMDA5IGZlMTMwMDYzIDEwMDEwMTAyIDAzMDENCmZmZmY4
+MDAwNzNlMGY4NDAgMjgyNzU3NzA1NCBTIENpOjI6MDkxOjAgcyA4MCAwNiAwZjAwIDAwMDAgMDAw
+NSA1IDwNCmZmZmY4MDAwNzNlMGY4NDAgMjgyNzU3NzU0NyBDIENpOjI6MDkxOjAgMCA1ID0gMDUw
+ZjE2MDAgMDINCmZmZmY4MDAwNzNlMGY4NDAgMjgyNzU3NzU1NiBTIENpOjI6MDkxOjAgcyA4MCAw
+NiAwZjAwIDAwMDAgMDAxNiAyMiA8DQpmZmZmODAwMDczZTBmODQwIDI4Mjc1NzgwNTIgQyBDaToy
+OjA5MTowIDAgMjIgPSAwNTBmMTYwMCAwMjA3MTAwMiAwNjAwMDAwMCAwYTEwMDMwMCAwZTAwMDIw
+YSBmZjA3DQpmZmZmODAwMDczZTBmODQwIDI4Mjc1NzgwNjIgUyBDaToyOjA5MTowIHMgODAgMDYg
+MDIwMCAwMDAwIDAwMDkgOSA8DQpmZmZmODAwMDczZTBmODQwIDI4Mjc1Nzg1NDIgQyBDaToyOjA5
+MTowIDAgOSA9IDA5MDIyYzAwIDAxMDEwMDgwIDNmDQpmZmZmODAwMDczZTBmODQwIDI4Mjc1Nzg1
+NDkgUyBDaToyOjA5MTowIHMgODAgMDYgMDIwMCAwMDAwIDAwMmMgNDQgPA0KZmZmZjgwMDA3M2Uw
+Zjg0MCAyODI3NTc5MDQ2IEMgQ2k6MjowOTE6MCAwIDQ0ID0gMDkwMjJjMDAgMDEwMTAwODAgM2Yw
+OTA0MDAgMDAwMjA4MDYgNTAwMDA3MDUgODEwMjAwMDQgMDAwNjMwMDMgMDAwMDAwMDcNCmZmZmY4
+MDAwNzRjOGY5YzAgMjgyNzU3OTA1OCBTIENpOjI6MDkxOjAgcyA4MCAwNiAwMzAwIDAwMDAgMDBm
+ZiAyNTUgPA0KZmZmZjgwMDA3NGM4ZjljMCAyODI3NTc5NTUwIEMgQ2k6MjowOTE6MCAwIDQgPSAw
+NDAzMDkwNA0KZmZmZjgwMDA3NGM4ZjljMCAyODI3NTc5NTU3IFMgQ2k6MjowOTE6MCBzIDgwIDA2
+IDAzMDIgMDQwOSAwMGZmIDI1NSA8DQpmZmZmODAwMDc0YzhmOWMwIDI4Mjc1ODAwNDIgQyBDaToy
+OjA5MTowIDAgMjYgPSAxYTAzNTUwMCA1MzAwNDIwMCAyMDAwNDQwMCA0OTAwNTMwMCA0YjAwMjAw
+MCAzMzAwMmUwMCAzMDAwDQpmZmZmODAwMDc0YzhmOWMwIDI4Mjc1ODAwNTEgUyBDaToyOjA5MTow
+IHMgODAgMDYgMDMwMSAwNDA5IDAwZmYgMjU1IDwNCmZmZmY4MDAwNzRjOGY5YzAgMjgyNzU4MDU0
+NSBDIENpOjI6MDkxOjAgMCAxOCA9IDEyMDMyMDAwIDIwMDAyMDAwIDIwMDAyMDAwIDIwMDAyMDAw
+IDIwMDANCmZmZmY4MDAwNzRjOGY5YzAgMjgyNzU4MDU1MyBTIENpOjI6MDkxOjAgcyA4MCAwNiAw
+MzAzIDA0MDkgMDBmZiAyNTUgPA0KZmZmZjgwMDA3NGM4ZjljMCAyODI3NTgxMzAwIEMgQ2k6Mjow
+OTE6MCAwIDM0ID0gMjIwMzMwMDAgMzcwMDMwMDAgNDEwMDM5MDAgMzEwMDMzMDAgMzYwMDM2MDAg
+NDYwMDM2MDAgMzgwMDMyMDAgMzEwMDM1MDANCmZmZmY4MDAwNzNmZTkzMDAgMjgyNzU4MzU0OSBT
+IENvOjI6MDkxOjAgcyAwMCAwOSAwMDAxIDAwMDAgMDAwMCAwDQpmZmZmODAwMDczZmU5MzAwIDI4
+Mjc1ODQwNDkgQyBDbzoyOjA5MTowIDAgMA0KZmZmZjgwMDA3M2Q4YTU0MCAyODI3NTg0MzQzIFMg
+Q2k6MjowMDI6MCBzIGEzIDAwIDAwMDAgMDAwNCAwMDA0IDQgPA0KZmZmZjgwMDA3M2Q4YTU0MCAy
+ODI3NTg1Mjk2IEMgQ2k6MjowMDI6MCAwIDQgPSAwMzAyMDAwMA0KZmZmZjgwMDA3M2Q4YTU0MCAy
+ODI3NjA0MTUyIFMgQ2k6MjowMDI6MCBzIGEzIDAwIDAwMDAgMDAwNCAwMDA0IDQgPA0KZmZmZjgw
+MDA3M2Q4YTU0MCAyODI3NjA1MDQ2IEMgQ2k6MjowMDI6MCAwIDQgPSAwMzAyMDAwMA0KZmZmZjgw
+MDA3M2Q4YTU0MCAyODI3NjA1MDU0IFMgQ286MjowMDI6MCBzIDIzIDAzIDAwMDQgMDAwNCAwMDAw
+IDANCmZmZmY4MDAwNzNkOGE1NDAgMjgyNzYwNTc5NCBDIENvOjI6MDAyOjAgMCAwDQpmZmZmODAw
+MDczY2ZmZTQwIDI4Mjc2MTUwNDAgQyBJaToyOjAwMjoxIDA6MTI4IDEgPSAxMA0KZmZmZjgwMDA3
+M2NmZmU0MCAyODI3NjE1MDQ0IFMgSWk6MjowMDI6MSAtMTE1OjEyOCAyIDwNCmZmZmY4MDAwNzNk
+OGE1NDAgMjgyNzYyNDAwNyBTIENpOjI6MDAyOjAgcyBhMyAwMCAwMDAwIDAwMDQgMDAwNCA0IDwN
+CmZmZmY4MDAwNzNkOGE1NDAgMjgyNzYyNDc5NyBDIENpOjI6MDAyOjAgMCA0ID0gMDMwMjEwMDAN
+CmZmZmY4MDAwNzNkOGE1NDAgMjgyNzYyNDgwMyBTIENvOjI6MDAyOjAgcyAyMyAwMSAwMDE0IDAw
+MDQgMDAwMCAwDQpmZmZmODAwMDczZDhhNTQwIDI4Mjc2MjU1NDYgQyBDbzoyOjAwMjowIDAgMA0K
+ZmZmZjgwMDA3M2Q4YTU0MCAyODI3NjI1NTUxIFMgQ286MjowMDI6MCBzIDIzIDAxIDAwMWQgMDAw
+NCAwMDAwIDANCmZmZmY4MDAwNzNkOGE1NDAgMjgyNzYyNjI5NyBDIENvOjI6MDAyOjAgMCAwDQpm
+ZmZmODAwMDczZDhhNTQwIDI4Mjc2MjYzMDIgUyBDbzoyOjAwMjowIHMgMjMgMDEgMDAxOSAwMDA0
+IDAwMDAgMA0KZmZmZjgwMDA3M2Q4YTU0MCAyODI3NjI3MDQ2IEMgQ286MjowMDI6MCAwIDANCmZm
+ZmY4MDAwNzNkOGE1NDAgMjgyNzYyNzA1MSBTIENvOjI6MDAyOjAgcyAyMyAwMSAwMDEwIDAwMDQg
+MDAwMCAwDQpmZmZmODAwMDczZDhhNTQwIDI4Mjc2Mjc3OTYgQyBDbzoyOjAwMjowIDAgMA0KZmZm
+ZjgwMDA3M2Q4YTU0MCAyODI3NjI3ODAyIFMgQ2k6MjowMDI6MCBzIGEzIDAwIDAwMDAgMDAwNCAw
+MDA0IDQgPA0KZmZmZjgwMDA3M2Q4YTU0MCAyODI3NjI4ODAwIEMgQ2k6MjowMDI6MCAwIDQgPSAw
+MzAyMDAwMA0KZmZmZjgwMDA3M2Q4YTU0MCAyODI3NzA4MDExIFMgQ2k6MjowOTE6MCBzIDgwIDA2
+IDAxMDAgMDAwMCAwMDA4IDggPA0KZmZmZjgwMDA3M2Q4YTU0MCAyODI3NzA4NTQ4IEMgQ2k6Mjow
+OTE6MCAwIDggPSAxMjAxMjAwMyAwMDAwMDAwOQ0KZmZmZjgwMDA3M2Q4YTU0MCAyODI3NzA4NTU1
+IFMgQ2k6MjowOTE6MCBzIDgwIDA2IDAxMDAgMDAwMCAwMDEyIDE4IDwNCmZmZmY4MDAwNzNkOGE1
+NDAgMjgyNzcwOTA1MiBDIENpOjI6MDkxOjAgMCAxOCA9IDEyMDEyMDAzIDAwMDAwMDA5IGZlMTMw
+MDYzIDEwMDEwMTAyIDAzMDENCmZmZmY4MDAwNzNkOGE1NDAgMjgyNzcwOTA2MCBTIENpOjI6MDkx
+OjAgcyA4MCAwNiAwZjAwIDAwMDAgMDAwNSA1IDwNCmZmZmY4MDAwNzNkOGE1NDAgMjgyNzcwOTU0
+MiBDIENpOjI6MDkxOjAgMCA1ID0gMDUwZjE2MDAgMDINCmZmZmY4MDAwNzNkOGE1NDAgMjgyNzcw
+OTU0OCBTIENpOjI6MDkxOjAgcyA4MCAwNiAwZjAwIDAwMDAgMDAxNiAyMiA8DQpmZmZmODAwMDcz
+ZDhhNTQwIDI4Mjc3MTAwNDcgQyBDaToyOjA5MTowIDAgMjIgPSAwNTBmMTYwMCAwMjA3MTAwMiAw
+NjAwMDAwMCAwYTEwMDMwMCAwZTAwMDIwYSBmZjA3DQpmZmZmODAwMDczZDhhNTQwIDI4Mjc3MTAw
+NTQgUyBDaToyOjA5MTowIHMgODAgMDYgMDIwMCAwMDAwIDAwMmMgNDQgPA0KZmZmZjgwMDA3M2Q4
+YTU0MCAyODI3NzEwNTUwIEMgQ2k6MjowOTE6MCAwIDQ0ID0gMDkwMjJjMDAgMDEwMTAwODAgM2Yw
+OTA0MDAgMDAwMjA4MDYgNTAwMDA3MDUgODEwMjAwMDQgMDAwNjMwMDMgMDAwMDAwMDcNCmZmZmY4
+MDAwNzNkOGE1NDAgMjgyNzcxMDU1NyBTIENpOjI6MDkxOjAgcyA4MCAwNiAwMzAzIDA0MDkgMDBm
+ZiAyNTUgPA0KZmZmZjgwMDA3M2Q4YTU0MCAyODI3NzExMjkyIEMgQ2k6MjowOTE6MCAwIDM0ID0g
+MjIwMzMwMDAgMzcwMDMwMDAgNDEwMDM5MDAgMzEwMDMzMDAgMzYwMDM2MDAgNDYwMDM2MDAgMzgw
+MDMyMDAgMzEwMDM1MDANCmZmZmY4MDAwNzNkOGE1NDAgMjgyNzcxMzQyNCBTIENvOjI6MDkxOjAg
+cyAwMCAwOSAwMDAxIDAwMDAgMDAwMCAwDQpmZmZmODAwMDczZDhhNTQwIDI4Mjc3MTM4MDEgQyBD
+bzoyOjA5MTowIDAgMA0KZmZmZjgwMDA3NGYzOTE4MCAyODI3NzEzODIyIFMgQ2k6MjowMDI6MCBz
+IGEzIDAwIDAwMDAgMDAwNCAwMDA0IDQgPA0KZmZmZjgwMDA3NGYzOTE4MCAyODI3NzE0NzkyIEMg
+Q2k6MjowMDI6MCAwIDQgPSAwMzAyMDAwMA0KZmZmZjgwMDA3NGYzOTE4MCAyODI3OTY5OTIyIFMg
+Q2k6MjowOTE6MCBzIDgwIDA2IDAxMDAgMDAwMCAwMDA4IDggPA0KZmZmZjgwMDA3NGYzOTE4MCAy
+ODI3OTcwMjk1IEMgQ2k6MjowOTE6MCAwIDggPSAxMjAxMjAwMyAwMDAwMDAwOQ0KZmZmZjgwMDA3
+M2Q4YTU0MCAyODI3OTcxMDAxIFMgQ286MjowOTE6MCBzIDAwIDMxIDAwMjggMDAwMCAwMDAwIDAN
+CmZmZmY4MDAwNzNkOGE1NDAgMjgyNzk3MTI5OCBDIENvOjI6MDkxOjAgMCAwDQpmZmZmODAwMDcz
+ZDhhNTQwIDI4Mjc5NzE5MTIgUyBDaToyOjA5MTowIHMgODAgMDYgMDEwMCAwMDAwIDAwMTIgMTgg
+PA0KZmZmZjgwMDA3M2Q4YTU0MCAyODI3OTcyMzAyIEMgQ2k6MjowOTE6MCAwIDE4ID0gMTIwMTIw
+MDMgMDAwMDAwMDkgZmUxMzAwNjMgMTAwMTAxMDIgMDMwMQ0KZmZmZjgwMDA3M2UxMWNjMCAyODI3
+OTcyODY3IFMgQ2k6MjowOTE6MCBzIDgwIDA2IDBmMDAgMDAwMCAwMDA1IDUgPA0KZmZmZjgwMDA3
+M2UxMWNjMCAyODI3OTczMjkxIEMgQ2k6MjowOTE6MCAwIDUgPSAwNTBmMTYwMCAwMg0KZmZmZjgw
+MDA3M2UxMWNjMCAyODI3OTczNzQ1IFMgQ2k6MjowOTE6MCBzIDgwIDA2IDBmMDAgMDAwMCAwMDE2
+IDIyIDwNCmZmZmY4MDAwNzNlMTFjYzAgMjgyNzk3NDA0MiBDIENpOjI6MDkxOjAgMCAyMiA9IDA1
+MGYxNjAwIDAyMDcxMDAyIDA2MDAwMDAwIDBhMTAwMzAwIDBlMDAwMjBhIGZmMDcNCmZmZmY4MDAw
+NzNlMGYwYzAgMjgyNzk3NDUxOSBTIENpOjI6MDkxOjAgcyA4MCAwNiAwMjAwIDAwMDAgMDAwOSA5
+IDwNCmZmZmY4MDAwNzNlMGYwYzAgMjgyNzk3NDgwNCBDIENpOjI6MDkxOjAgMCA5ID0gMDkwMjJj
+MDAgMDEwMTAwODAgM2YNCmZmZmY4MDAwNzNkOGE1NDAgMjgyNzk3NTI2NyBTIENpOjI6MDkxOjAg
+cyA4MCAwNiAwMjAwIDAwMDAgMDAyYyA0NCA8DQpmZmZmODAwMDczZDhhNTQwIDI4Mjc5NzU1NTQg
+QyBDaToyOjA5MTowIDAgNDQgPSAwOTAyMmMwMCAwMTAxMDA4MCAzZjA5MDQwMCAwMDAyMDgwNiA1
+MDAwMDcwNSA4MTAyMDAwNCAwMDA2MzAwMyAwMDAwMDAwNw0KZmZmZjgwMDA3M2UxMWU0MCAyODI3
+OTc2MDIwIFMgQ2k6MjowOTE6MCBzIDgwIDA2IDAzMDAgMDAwMCAwMGZmIDI1NSA8DQpmZmZmODAw
+MDczZTExZTQwIDI4Mjc5NzYzMDIgQyBDaToyOjA5MTowIDAgNCA9IDA0MDMwOTA0DQpmZmZmODAw
+MDc0ZjM5MTgwIDI4Mjc5NzY3OTIgUyBDaToyOjA5MTowIHMgODAgMDYgMDMwMiAwNDA5IDAwZmYg
+MjU1IDwNCmZmZmY4MDAwNzRmMzkxODAgMjgyNzk3NzI5MiBDIENpOjI6MDkxOjAgMCAyNiA9IDFh
+MDM1NTAwIDUzMDA0MjAwIDIwMDA0NDAwIDQ5MDA1MzAwIDRiMDAyMDAwIDMzMDAyZTAwIDMwMDAN
+CmZmZmY4MDAwNzExZTgzYzAgMjgyNzk3NzY5NSBTIENpOjI6MDkxOjAgcyA4MCAwNiAwMzAxIDA0
+MDkgMDBmZiAyNTUgPA0KZmZmZjgwMDA3MTFlODNjMCAyODI3OTc4MDQxIEMgQ2k6MjowOTE6MCAw
+IDE4ID0gMTIwMzIwMDAgMjAwMDIwMDAgMjAwMDIwMDAgMjAwMDIwMDAgMjAwMA0KZmZmZjgwMDA3
+M2UwZjQ4MCAyODI3OTc4NTI2IFMgQ2k6MjowOTE6MCBzIDgwIDA2IDAzMDMgMDQwOSAwMGZmIDI1
+NSA8DQpmZmZmODAwMDczZTBmNDgwIDI4Mjc5NzkwNDYgQyBDaToyOjA5MTowIDAgMzQgPSAyMjAz
+MzAwMCAzNzAwMzAwMCA0MTAwMzkwMCAzMTAwMzMwMCAzNjAwMzYwMCA0NjAwMzYwMCAzODAwMzIw
+MCAzMTAwMzUwMA0KZmZmZjgwMDA3MTFlODkwMCAyODI3OTc5NzM1IFMgQ286MjowOTE6MCBzIDAw
+IDA5IDAwMDEgMDAwMCAwMDAwIDANCmZmZmY4MDAwNzExZTg5MDAgMjgyNzk4MDA0OSBDIENvOjI6
+MDkxOjAgMCAwDQpmZmZmODAwMDcxMWU4OTAwIDI4Mjg5ODk5MjAgUyBDaToyOjA5MTowIHMgYTEg
+ZmUgMDAwMCAwMDAwIDAwMDEgMSA8DQpmZmZmODAwMDcxMWU4OTAwIDI4Mjg5OTAzMDQgQyBDaToy
+OjA5MTowIDAgMSA9IDAwDQpmZmZmODAwMDcxMWU4OTAwIDI4Mjg5OTEyNzkgUyBCbzoyOjA5MToy
+IC0xMTUgMzEgPSA1NTUzNDI0MyAwMTAwMDAwMCAyNDAwMDAwMCA4MDAwMDYxMiAwMDAwMDAyNCAw
+MDAwMDAwMCAwMDAwMDAwMCAwMDAwMDANCmZmZmY4MDAwNzExZTg5MDAgMjgyODk5MTI5NCBDIEJv
+OjI6MDkxOjIgMCAzMSA+DQpmZmZmODAwMDc0ZjM5ZjAwIDI4Mjg5OTIwMjMgUyBCaToyOjA5MTox
+IC0xMTUgMzYgPA0KZmZmZjgwMDA3NGYzOWYwMCAyODI4OTkyMDM1IEMgQmk6MjowOTE6MSAwIDM2
+ID0gMDA4MDA2MDIgMWYwMDAwMDAgMjAyMDIwMjAgMjAyMDIwMjAgNTU1MzQyMjAgNDQ0OTUzNGIg
+MjAzMzJlMzAgMjAyMDIwMjANCmZmZmY4MDAwNzRmMzlmMDAgMjgyODk5MjY0OSBTIEJpOjI6MDkx
+OjEgLTExNSAxMyA8DQpmZmZmODAwMDc0ZjM5ZjAwIDI4Mjg5OTI2NTkgQyBCaToyOjA5MToxIDAg
+MTMgPSA1NTUzNDI1MyAwMTAwMDAwMCAwMDAwMDAwMCAwMA0KZmZmZjgwMDA3NGYzOWYwMCAyODI4
+OTkzNTMwIFMgQm86MjowOTE6MiAtMTE1IDMxID0gNTU1MzQyNDMgMDIwMDAwMDAgMDAwMDAwMDAg
+MDAwMDA2MDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwDQpmZmZmODAwMDc0ZjM5
+ZjAwIDI4Mjg5OTM1NDIgQyBCbzoyOjA5MToyIDAgMzEgPg0KZmZmZjgwMDA3NGYzOWYwMCAyODI4
+OTkzOTkwIFMgQmk6MjowOTE6MSAtMTE1IDEzIDwNCmZmZmY4MDAwNzRmMzlmMDAgMjgyODk5NDAw
+MCBDIEJpOjI6MDkxOjEgMCAxMyA9IDU1NTM0MjUzIDAyMDAwMDAwIDAwMDAwMDAwIDAwDQpmZmZm
+ODAwMDc0ZjM5ZjAwIDI4Mjg5OTQ0OTMgUyBCbzoyOjA5MToyIC0xMTUgMzEgPSA1NTUzNDI0MyAw
+MzAwMDAwMCAwODAwMDAwMCA4MDAwMGEyNSAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAw
+MDANCmZmZmY4MDAwNzRmMzlmMDAgMjgyODk5NDUwNyBDIEJvOjI6MDkxOjIgMCAzMSA+DQpmZmZm
+ODAwMDc0ZjM5ZjAwIDI4Mjg5OTQ5NzggUyBCaToyOjA5MToxIC0xMTUgOCA8DQpmZmZmODAwMDc0
+ZjM5ZjAwIDI4Mjg5OTQ5ODkgQyBCaToyOjA5MToxIDAgOCA9IDBlNjlmZmZmIDAwMDAwMjAwDQpm
+ZmZmODAwMDc0ZjM5ZjAwIDI4Mjg5OTUzNTQgUyBCaToyOjA5MToxIC0xMTUgMTMgPA0KZmZmZjgw
+MDA3NGYzOWYwMCAyODI4OTk1MzYzIEMgQmk6MjowOTE6MSAwIDEzID0gNTU1MzQyNTMgMDMwMDAw
+MDAgMDAwMDAwMDAgMDANCmZmZmY4MDAwNzRmMzlmMDAgMjgyODk5NTgyMCBTIEJvOjI6MDkxOjIg
+LTExNSAzMSA9IDU1NTM0MjQzIDA0MDAwMDAwIGMwMDAwMDAwIDgwMDAwNjFhIDAwM2YwMGMwIDAw
+MDAwMDAwIDAwMDAwMDAwIDAwMDAwMA0KZmZmZjgwMDA3NGYzOWYwMCAyODI4OTk1ODMzIEMgQm86
+MjowOTE6MiAwIDMxID4NCmZmZmY4MDAwNzRmMzlmMDAgMjgyODk5NjMzMCBTIEJpOjI6MDkxOjEg
+LTExNSAxOTIgPA0KZmZmZjgwMDA3NGYzOWYwMCAyODI4OTk2MzQwIEMgQmk6MjowOTE6MSAtMTIx
+IDcwID0gNDUwMDAwMDAgMDUxZWYwMDAgMTA0MDAwMDAgOWE4MDAwMDAgMDAwMDAwMDAgMDAwMDAw
+MDAgMDAwMDAwMDAgMDAwMDAwMDANCmZmZmY4MDAwNzRmMzlmMDAgMjgyODk5Njc5MCBTIEJpOjI6
+MDkxOjEgLTExNSAxMyA8DQpmZmZmODAwMDc0ZjM5ZjAwIDI4Mjg5OTY4MDAgQyBCaToyOjA5MTox
+IDAgMTMgPSA1NTUzNDI1MyAwNDAwMDAwMCA3YTAwMDAwMCAwMA0KZmZmZjgwMDA3NGYzOWYwMCAy
+ODI4OTk3MjY2IFMgQm86MjowOTE6MiAtMTE1IDMxID0gNTU1MzQyNDMgMDUwMDAwMDAgYzAwMDAw
+MDAgODAwMDA2MWEgMDAzZjAwYzAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwDQpmZmZmODAwMDc0
+ZjM5ZjAwIDI4Mjg5OTcyNzcgQyBCbzoyOjA5MToyIDAgMzEgPg0KZmZmZjgwMDA3NGYzOWYwMCAy
+ODI4OTk3NjM1IFMgQmk6MjowOTE6MSAtMTE1IDE5MiA8DQpmZmZmODAwMDc0ZjM5ZjAwIDI4Mjg5
+OTc2NDUgQyBCaToyOjA5MToxIC0xMjEgNzAgPSA0NTAwMDAwMCAwNTFlZjAwMCAxMDQwMDAwMCA5
+YTgwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMA0KZmZmZjgwMDA3NGYz
+OWYwMCAyODI4OTk3OTg5IFMgQmk6MjowOTE6MSAtMTE1IDEzIDwNCmZmZmY4MDAwNzRmMzlmMDAg
+MjgyODk5Nzk5OSBDIEJpOjI6MDkxOjEgMCAxMyA9IDU1NTM0MjUzIDA1MDAwMDAwIDdhMDAwMDAw
+IDAwDQpmZmZmODAwMDc0ZjM5ZjAwIDI4Mjg5OTg0OTkgUyBCbzoyOjA5MToyIC0xMTUgMzEgPSA1
+NTUzNDI0MyAwNjAwMDAwMCAwMDAwMDAwMCAwMDAwMDYwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAw
+MDAwMCAwMDAwMDANCmZmZmY4MDAwNzRmMzlmMDAgMjgyODk5ODUwOSBDIEJvOjI6MDkxOjIgMCAz
+MSA+DQpmZmZmODAwMDc0ZjM5ZjAwIDI4Mjg5OTg4NDUgUyBCaToyOjA5MToxIC0xMTUgMTMgPA0K
+ZmZmZjgwMDA3NGYzOWYwMCAyODI4OTk4ODU1IEMgQmk6MjowOTE6MSAwIDEzID0gNTU1MzQyNTMg
+MDYwMDAwMDAgMDAwMDAwMDAgMDANCmZmZmY4MDAwNzRmMzlmMDAgMjgyODk5OTIzMiBTIEJvOjI6
+MDkxOjIgLTExNSAzMSA9IDU1NTM0MjQzIDA3MDAwMDAwIDAwMDAwMDAwIDAwMDAwNjFlIDAwMDAw
+MDAxIDAwMDAwMDAwIDAwMDAwMDAwIDAwMDAwMA0KZmZmZjgwMDA3NGYzOWYwMCAyODI4OTk5MjQz
+IEMgQm86MjowOTE6MiAwIDMxID4NCmZmZmY4MDAwNzRmMzlmMDAgMjgyODk5OTU5OCBTIEJpOjI6
+MDkxOjEgLTExNSAxMyA8DQpmZmZmODAwMDc0ZjM5ZjAwIDI4Mjg5OTk2MDggQyBCaToyOjA5MTox
+IDAgMTMgPSA1NTUzNDI1MyAwNzAwMDAwMCAwMDAwMDAwMCAwMQ0KZmZmZjgwMDA3NGYzOWYwMCAy
+ODI4OTk5OTMyIFMgQm86MjowOTE6MiAtMTE1IDMxID0gNTU1MzQyNDMgMDgwMDAwMDAgNjAwMDAw
+MDAgODAwMDA2MDMgMDAwMDAwNjAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwDQpmZmZmODAwMDc0
+ZjM5ZjAwIDI4Mjg5OTk5NDQgQyBCbzoyOjA5MToyIDAgMzEgPg0KZmZmZjgwMDA3NGYzOWYwMCAy
+ODI5MDAwMjc4IFMgQmk6MjowOTE6MSAtMTE1IDk2IDwNCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTAw
+MDI4OSBDIEJpOjI6MDkxOjEgLTEyMSAxOCA9IDcwMDAwNTAwIDAwMDAwMDBhIDAwMDAwMDAwIDI0
+MDAwMDAwIDAwMDANCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTAwMDYxMSBTIEJpOjI6MDkxOjEgLTEx
+NSAxMyA8DQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkwMDA2MjEgQyBCaToyOjA5MToxIDAgMTMgPSA1
+NTUzNDI1MyAwODAwMDAwMCA0ZTAwMDAwMCAwMA0KZmZmZjgwMDA3NGYzOWYwMCAyODI5MDAwOTc4
+IFMgQm86MjowOTE6MiAtMTE1IDMxID0gNTU1MzQyNDMgMDkwMDAwMDAgMDAwMDAwMDAgMDAwMDA2
+MDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwDQpmZmZmODAwMDc0ZjM5ZjAwIDI4
+MjkwMDA5ODkgQyBCbzoyOjA5MToyIDAgMzEgPg0KZmZmZjgwMDA3NGYzOWYwMCAyODI5MDAxMzEx
+IFMgQmk6MjowOTE6MSAtMTE1IDEzIDwNCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTAwMTMyMSBDIEJp
+OjI6MDkxOjEgMCAxMyA9IDU1NTM0MjUzIDA5MDAwMDAwIDAwMDAwMDAwIDAwDQpmZmZmODAwMDc0
+ZjM5ZjAwIDI4MjkwMDE2MjQgUyBCbzoyOjA5MToyIC0xMTUgMzEgPSA1NTUzNDI0MyAwYTAwMDAw
+MCAwODAwMDAwMCA4MDAwMGEyNSAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDANCmZm
+ZmY4MDAwNzRmMzlmMDAgMjgyOTAwMTYzNiBDIEJvOjI6MDkxOjIgMCAzMSA+DQpmZmZmODAwMDc0
+ZjM5ZjAwIDI4MjkwMDE5OTIgUyBCaToyOjA5MToxIC0xMTUgOCA8DQpmZmZmODAwMDc0ZjM5ZjAw
+IDI4MjkwMDIwMDIgQyBCaToyOjA5MToxIDAgOCA9IDBlNjlmZmZmIDAwMDAwMjAwDQpmZmZmODAw
+MDc0ZjM5ZjAwIDI4MjkwMDIzMzAgUyBCaToyOjA5MToxIC0xMTUgMTMgPA0KZmZmZjgwMDA3NGYz
+OWYwMCAyODI5MDAyMzQxIEMgQmk6MjowOTE6MSAwIDEzID0gNTU1MzQyNTMgMGEwMDAwMDAgMDAw
+MDAwMDAgMDANCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTAwMjY5NCBTIEJvOjI6MDkxOjIgLTExNSAz
+MSA9IDU1NTM0MjQzIDBiMDAwMDAwIGMwMDAwMDAwIDgwMDAwNjFhIDAwM2YwMGMwIDAwMDAwMDAw
+IDAwMDAwMDAwIDAwMDAwMA0KZmZmZjgwMDA3NGYzOWYwMCAyODI5MDAyNzA0IEMgQm86MjowOTE6
+MiAwIDMxID4NCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTAwMzAxNSBTIEJpOjI6MDkxOjEgLTExNSAx
+OTIgPA0KZmZmZjgwMDA3NGYzOWYwMCAyODI5MDAzMDI1IEMgQmk6MjowOTE6MSAtMTIxIDcwID0g
+NDUwMDAwMDAgMDUxZWYwMDAgMTA0MDAwMDAgOWE4MDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAw
+MDAwMDAgMDAwMDAwMDANCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTAwMzM1NiBTIEJpOjI6MDkxOjEg
+LTExNSAxMyA8DQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkwMDMzNjYgQyBCaToyOjA5MToxIDAgMTMg
+PSA1NTUzNDI1MyAwYjAwMDAwMCA3YTAwMDAwMCAwMA0KZmZmZjgwMDA3NGYzOWYwMCAyODI5MDAz
+NzIxIFMgQm86MjowOTE6MiAtMTE1IDMxID0gNTU1MzQyNDMgMGMwMDAwMDAgYzAwMDAwMDAgODAw
+MDA2MWEgMDAzZjAwYzAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwDQpmZmZmODAwMDc0ZjM5ZjAw
+IDI4MjkwMDM3MzMgQyBCbzoyOjA5MToyIDAgMzEgPg0KZmZmZjgwMDA3NGYzOWYwMCAyODI5MDA0
+MDU3IFMgQmk6MjowOTE6MSAtMTE1IDE5MiA8DQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkwMDQwNjYg
+QyBCaToyOjA5MToxIC0xMjEgNzAgPSA0NTAwMDAwMCAwNTFlZjAwMCAxMDQwMDAwMCA5YTgwMDAw
+MCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMA0KZmZmZjgwMDA3NGYzOWYwMCAy
+ODI5MDA0MzcxIFMgQmk6MjowOTE6MSAtMTE1IDEzIDwNCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTAw
+NDM4MCBDIEJpOjI6MDkxOjEgMCAxMyA9IDU1NTM0MjUzIDBjMDAwMDAwIDdhMDAwMDAwIDAwDQpm
+ZmZmODAwMDc0ZjM5ZjAwIDI4MjkwMDQ4MzUgUyBCbzoyOjA5MToyIC0xMTUgMzEgPSA1NTUzNDI0
+MyAwZDAwMDAwMCAwMDEwMDAwMCA4MDAwMGEyOCAwMDAwMDAwMCAwMDAwMDAwOCAwMDAwMDAwMCAw
+MDAwMDANCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTAwNDg0NSBDIEJvOjI6MDkxOjIgMCAzMSA+DQpm
+ZmZmODAwMDc0ZjM5ZjAwIDI4MjkwMDUxODEgUyBCaToyOjA5MToxIC0xMTUgNDA5NiA8DQpmZmZm
+ODAwMDc0ZjM5ZjAwIDI4MjkxNDU3MTIgQyBCaToyOjA5MToxIDAgNDA5NiA9IDMzYzA4ZWQwIGJj
+MDA3Y2ZiIDUwMDc1MDFmIGZjYmUxYjdjIGJmMWIwNjUwIDU3YjllNTAxIGYzYTRjYmJkIGJlMDdi
+MTA0DQpmZmZmODAwMDc0ZjM5MjQwIDI4MjkxNDY0ODAgUyBCaToyOjA5MToxIC0xMTUgMTMgPA0K
+ZmZmZjgwMDA3NGYzOTI0MCAyODI5MTQ2NDkwIEMgQmk6MjowOTE6MSAwIDEzID0gNTU1MzQyNTMg
+MGQwMDAwMDAgMDAwMDAwMDAgMDANCmZmZmY4MDAwNzRmMzkyNDAgMjgyOTE0NzUyNyBTIEJvOjI6
+MDkxOjIgLTExNSAzMSA9IDU1NTM0MjQzIDBlMDAwMDAwIDAwMDAwMDAwIDAwMDAwNjAwIDAwMDAw
+MDAwIDAwMDAwMDAwIDAwMDAwMDAwIDAwMDAwMA0KZmZmZjgwMDA3NGYzOTI0MCAyODI5MTQ3NTM4
+IEMgQm86MjowOTE6MiAwIDMxID4NCmZmZmY4MDAwNzRmMzkyNDAgMjgyOTE0ODA0OSBTIEJpOjI6
+MDkxOjEgLTExNSAxMyA8DQpmZmZmODAwMDc0ZjM5MjQwIDI4MjkxNDgwNTkgQyBCaToyOjA5MTox
+IDAgMTMgPSA1NTUzNDI1MyAwZTAwMDAwMCAwMDAwMDAwMCAwMA0KZmZmZjgwMDA3NGYzOTI0MCAy
+ODI5MTQ4NTg5IFMgQm86MjowOTE6MiAtMTE1IDMxID0gNTU1MzQyNDMgMGYwMDAwMDAgMDAwMDAw
+MDAgMDAwMDA2MDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwDQpmZmZmODAwMDc0
+ZjM5MjQwIDI4MjkxNDg1OTkgQyBCbzoyOjA5MToyIDAgMzEgPg0KZmZmZjgwMDA3NGYzOTI0MCAy
+ODI5MTQ5MDg1IFMgQmk6MjowOTE6MSAtMTE1IDEzIDwNCmZmZmY4MDAwNzRmMzkyNDAgMjgyOTE0
+OTA5NSBDIEJpOjI6MDkxOjEgMCAxMyA9IDU1NTM0MjUzIDBmMDAwMDAwIDAwMDAwMDAwIDAwDQpm
+ZmZmODAwMDc0ZjM5MjQwIDI4MjkxNDk1NTMgUyBCbzoyOjA5MToyIC0xMTUgMzEgPSA1NTUzNDI0
+MyAxMDAwMDAwMCAwODAwMDAwMCA4MDAwMGEyNSAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAw
+MDAwMDANCmZmZmY4MDAwNzRmMzkyNDAgMjgyOTE0OTU2NCBDIEJvOjI6MDkxOjIgMCAzMSA+DQpm
+ZmZmODAwMDc0ZjM5MjQwIDI4MjkxNTAwNzAgUyBCaToyOjA5MToxIC0xMTUgOCA8DQpmZmZmODAw
+MDc0ZjM5MjQwIDI4MjkxNTAwODAgQyBCaToyOjA5MToxIDAgOCA9IDBlNjlmZmZmIDAwMDAwMjAw
+DQpmZmZmODAwMDc0ZjM5MjQwIDI4MjkxNTA1NjYgUyBCaToyOjA5MToxIC0xMTUgMTMgPA0KZmZm
+ZjgwMDA3NGYzOTI0MCAyODI5MTUwNTc1IEMgQmk6MjowOTE6MSAwIDEzID0gNTU1MzQyNTMgMTAw
+MDAwMDAgMDAwMDAwMDAgMDANCmZmZmY4MDAwNzRmMzkyNDAgMjgyOTE1MTA1OCBTIEJvOjI6MDkx
+OjIgLTExNSAzMSA9IDU1NTM0MjQzIDExMDAwMDAwIDAwMDAwMDAwIDAwMDAwNjAwIDAwMDAwMDAw
+IDAwMDAwMDAwIDAwMDAwMDAwIDAwMDAwMA0KZmZmZjgwMDA3NGYzOTI0MCAyODI5MTUxMDY5IEMg
+Qm86MjowOTE6MiAwIDMxID4NCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTE1MTUyNyBTIEJpOjI6MDkx
+OjEgLTExNSAxMyA8DQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkxNTE1MzYgQyBCaToyOjA5MToxIDAg
+MTMgPSA1NTUzNDI1MyAxMTAwMDAwMCAwMDAwMDAwMCAwMA0KZmZmZjgwMDA3NGYzOWYwMCAyODI5
+MTUxOTk0IFMgQm86MjowOTE6MiAtMTE1IDMxID0gNTU1MzQyNDMgMTIwMDAwMDAgYzAwMDAwMDAg
+ODAwMDA2MWEgMDAzZjAwYzAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwDQpmZmZmODAwMDc0ZjM5
+ZjAwIDI4MjkxNTIwMDQgQyBCbzoyOjA5MToyIDAgMzEgPg0KZmZmZjgwMDA3NGYzOWYwMCAyODI5
+MTUyNDcxIFMgQmk6MjowOTE6MSAtMTE1IDE5MiA8DQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkxNTI0
+ODEgQyBCaToyOjA5MToxIC0xMjEgNzAgPSA0NTAwMDAwMCAwNTFlZjAwMCAxMDQwMDAwMCA5YTgw
+MDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMA0KZmZmZjgwMDA3NGYzOWYw
+MCAyODI5MTUyOTMwIFMgQmk6MjowOTE6MSAtMTE1IDEzIDwNCmZmZmY4MDAwNzRmMzlmMDAgMjgy
+OTE1MjkzOSBDIEJpOjI6MDkxOjEgMCAxMyA9IDU1NTM0MjUzIDEyMDAwMDAwIDdhMDAwMDAwIDAw
+DQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkxNTM0MjEgUyBCbzoyOjA5MToyIC0xMTUgMzEgPSA1NTUz
+NDI0MyAxMzAwMDAwMCBjMDAwMDAwMCA4MDAwMDYxYSAwMDNmMDBjMCAwMDAwMDAwMCAwMDAwMDAw
+MCAwMDAwMDANCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTE1MzQzMyBDIEJvOjI6MDkxOjIgMCAzMSA+
+DQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkxNTM4ODYgUyBCaToyOjA5MToxIC0xMTUgMTkyIDwNCmZm
+ZmY4MDAwNzRmMzlmMDAgMjgyOTE1Mzg5NiBDIEJpOjI6MDkxOjEgLTEyMSA3MCA9IDQ1MDAwMDAw
+IDA1MWVmMDAwIDEwNDAwMDAwIDlhODAwMDAwIDAwMDAwMDAwIDAwMDAwMDAwIDAwMDAwMDAwIDAw
+MDAwMDAwDQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkxNTQyODQgUyBCaToyOjA5MToxIC0xMTUgMTMg
+PA0KZmZmZjgwMDA3NGYzOWYwMCAyODI5MTU0Mjk0IEMgQmk6MjowOTE6MSAwIDEzID0gNTU1MzQy
+NTMgMTMwMDAwMDAgN2EwMDAwMDAgMDANCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTE1NDc1MSBTIEJv
+OjI6MDkxOjIgLTExNSAzMSA9IDU1NTM0MjQzIDE0MDAwMDAwIDAwMDAwMDAwIDAwMDAwNjAwIDAw
+MDAwMDAwIDAwMDAwMDAwIDAwMDAwMDAwIDAwMDAwMA0KZmZmZjgwMDA3NGYzOWYwMCAyODI5MTU0
+NzYyIEMgQm86MjowOTE6MiAwIDMxID4NCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTE1NTE0MCBTIEJp
+OjI6MDkxOjEgLTExNSAxMyA8DQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkxNTUxNDkgQyBCaToyOjA5
+MToxIDAgMTMgPSA1NTUzNDI1MyAxNDAwMDAwMCAwMDAwMDAwMCAwMA0KZmZmZjgwMDA3NGYzOWYw
+MCAyODI5MTU1NjczIFMgQm86MjowOTE6MiAtMTE1IDMxID0gNTU1MzQyNDMgMTUwMDAwMDAgMDAx
+MDAwMDAgODAwMDBhMjggMDAwZTY5ZmYgODAwMDAwMDggMDAwMDAwMDAgMDAwMDAwDQpmZmZmODAw
+MDc0ZjM5ZjAwIDI4MjkxNTU2ODIgQyBCbzoyOjA5MToyIDAgMzEgPg0KZmZmZjgwMDA3NGYzOWYw
+MCAyODI5MTU2MDMwIFMgQmk6MjowOTE6MSAtMTE1IDQwOTYgPA0KZmZmZjgwMDA3NGYzOWYwMCAy
+ODI5MTU2NTU1IEMgQmk6MjowOTE6MSAwIDQwOTYgPSAwNTBjMGMwYyAwZTAwMGEwOSAwMjA2MDcw
+ZiAwNTAxMGYwYyAwYjA5MDEwMSAwMDBhMDIwMiAwMTAxMGEwYSAwMTAyMDUwNQ0KZmZmZjgwMDA3
+NGYzOWYwMCAyODI5MTU3MDc0IFMgQmk6MjowOTE6MSAtMTE1IDEzIDwNCmZmZmY4MDAwNzRmMzlm
+MDAgMjgyOTE1NzA4NCBDIEJpOjI6MDkxOjEgMCAxMyA9IDU1NTM0MjUzIDE1MDAwMDAwIDAwMDAw
+MDAwIDAwDQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkxNTc1NTQgUyBCbzoyOjA5MToyIC0xMTUgMzEg
+PSA1NTUzNDI0MyAxNjAwMDAwMCAwMDEwMDAwMCA4MDAwMGEyOCAwMDBlNjlmZiBmMDAwMDAwOCAw
+MDAwMDAwMCAwMDAwMDANCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTE1NzU2NCBDIEJvOjI6MDkxOjIg
+MCAzMSA+DQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkxNTgwMzEgUyBCaToyOjA5MToxIC0xMTUgNDA5
+NiA8DQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkxNTgwNTEgQyBCaToyOjA5MToxIDAgNDA5NiA9IDA1
+MGMwYzBjIDBlMDAwYTA5IDAyMDYwNzBmIDA1MDEwZjBjIDBiMDkwMTAxIDAwMGEwMjAyIDAxMDEw
+YTBhIDAxMDIwNTA1DQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkxNTg2OTggUyBCaToyOjA5MToxIC0x
+MTUgMTMgPA0KZmZmZjgwMDA3NGYzOWYwMCAyODI5MTU4NzA4IEMgQmk6MjowOTE6MSAwIDEzID0g
+NTU1MzQyNTMgMTYwMDAwMDAgMDAwMDAwMDAgMDANCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTE1OTI2
+MCBTIEJvOjI6MDkxOjIgLTExNSAzMSA9IDU1NTM0MjQzIDE3MDAwMDAwIDAwMTAwMDAwIDgwMDAw
+YTI4IDAwMDAwMDAwIDAwMDAwMDA4IDAwMDAwMDAwIDAwMDAwMA0KZmZmZjgwMDA3NGYzOWYwMCAy
+ODI5MTU5MjcwIEMgQm86MjowOTE6MiAwIDMxID4NCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTE1OTcy
+NyBTIEJpOjI6MDkxOjEgLTExNSA0MDk2IDwNCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTE2MDAwMiBD
+IEJpOjI6MDkxOjEgMCA0MDk2ID0gMzNjMDhlZDAgYmMwMDdjZmIgNTAwNzUwMWYgZmNiZTFiN2Mg
+YmYxYjA2NTAgNTdiOWU1MDEgZjNhNGNiYmQgYmUwN2IxMDQNCmZmZmY4MDAwNzRmMzlmMDAgMjgy
+OTE2MDQyNSBTIEJpOjI6MDkxOjEgLTExNSAxMyA8DQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkxNjA0
+MzQgQyBCaToyOjA5MToxIDAgMTMgPSA1NTUzNDI1MyAxNzAwMDAwMCAwMDAwMDAwMCAwMA0KZmZm
+ZjgwMDA3NGYzOWYwMCAyODI5MTYwODkxIFMgQm86MjowOTE6MiAtMTE1IDMxID0gNTU1MzQyNDMg
+MTgwMDAwMDAgMDAxMDAwMDAgODAwMDBhMjggMDAwMDAwMDAgMDgwMDAwMDggMDAwMDAwMDAgMDAw
+MDAwDQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkxNjA5MDIgQyBCbzoyOjA5MToyIDAgMzEgPg0KZmZm
+ZjgwMDA3NGYzOWYwMCAyODI5MTYxMjg3IFMgQmk6MjowOTE6MSAtMTE1IDQwOTYgPA0KZmZmZjgw
+MDA3NGYzOWYwMCAyODI5MTYxMzA3IEMgQmk6MjowOTE6MSAwIDQwOTYgPSAwMDAwMDAwMCAwMDAw
+MDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAw
+MA0KZmZmZjgwMDA3NGYzOWYwMCAyODI5MTYxNjQ1IFMgQmk6MjowOTE6MSAtMTE1IDEzIDwNCmZm
+ZmY4MDAwNzRmMzlmMDAgMjgyOTE2MTY1NSBDIEJpOjI6MDkxOjEgMCAxMyA9IDU1NTM0MjUzIDE4
+MDAwMDAwIDAwMDAwMDAwIDAwDQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkxNjIxODYgUyBCbzoyOjA5
+MToyIC0xMTUgMzEgPSA1NTUzNDI0MyAxOTAwMDAwMCAwMDAyMDAwMCA4MDAwMGEyOCAwMDBlNjlm
+ZiBmODAwMDAwMSAwMDAwMDAwMCAwMDAwMDANCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTE2MjE5NiBD
+IEJvOjI6MDkxOjIgMCAzMSA+DQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkxNjI1NzYgUyBCaToyOjA5
+MToxIC0xMTUgNTEyIDwNCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTE2Mjk1NyBDIEJpOjI6MDkxOjEg
+MCA1MTIgPSAwMDAwMDEwYiAwZDA4MDQwYiAwNTAyMDUwNSAwYzAxMDAwNiAwNjBlMDYwZiAwZjAy
+MGIwNCAwNDBkMDcwMCAwODAyMDYwZg0KZmZmZjgwMDA3NGYzOWYwMCAyODI5MTYzMzcwIFMgQmk6
+MjowOTE6MSAtMTE1IDEzIDwNCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTE2MzM3OSBDIEJpOjI6MDkx
+OjEgMCAxMyA9IDU1NTM0MjUzIDE5MDAwMDAwIDAwMDAwMDAwIDAwDQpmZmZmODAwMDc0ZjM5ZjAw
+IDI4MjkxNjM3NzAgUyBCbzoyOjA5MToyIC0xMTUgMzEgPSA1NTUzNDI0MyAxYTAwMDAwMCAwMDAy
+MDAwMCA4MDAwMGEyOCAwMDBlNjlmZiBmOTAwMDAwMSAwMDAwMDAwMCAwMDAwMDANCmZmZmY4MDAw
+NzRmMzlmMDAgMjgyOTE2Mzc4MCBDIEJvOjI6MDkxOjIgMCAzMSA+DQpmZmZmODAwMDc0ZjM5ZjAw
+IDI4MjkxNjQxMzYgUyBCaToyOjA5MToxIC0xMTUgNTEyIDwNCmZmZmY4MDAwNzRmMzlmMDAgMjgy
+OTE2NDE0NiBDIEJpOjI6MDkxOjEgMCA1MTIgPSAwMzBmMDQwMiAwMzBkMDEwMSAwZTBkMGMwYSAw
+NzAzMDIwOSAwNDA2MDMwMSAwZjAxMDIwNSAwNzAyMDkwZiAwZDBlMDIwYw0KZmZmZjgwMDA3NGYz
+OWYwMCAyODI5MTY0NTI4IFMgQmk6MjowOTE6MSAtMTE1IDEzIDwNCmZmZmY4MDAwNzRmMzlmMDAg
+MjgyOTE2NDUzOCBDIEJpOjI6MDkxOjEgMCAxMyA9IDU1NTM0MjUzIDFhMDAwMDAwIDAwMDAwMDAw
+IDAwDQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkxNjQ4OTMgUyBCbzoyOjA5MToyIC0xMTUgMzEgPSA1
+NTUzNDI0MyAxYjAwMDAwMCAwMDAyMDAwMCA4MDAwMGEyOCAwMDBlNjlmZiBmYTAwMDAwMSAwMDAw
+MDAwMCAwMDAwMDANCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTE2NDkwNSBDIEJvOjI6MDkxOjIgMCAz
+MSA+DQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkxNjUyNTQgUyBCaToyOjA5MToxIC0xMTUgNTEyIDwN
+CmZmZmY4MDAwNzRmMzlmMDAgMjgyOTE2NTI2NCBDIEJpOjI6MDkxOjEgMCA1MTIgPSAwNzBkMDYw
+YSAwODAyMGUwOCAwNjA5MDQwZiAwMTA1MDQwZCAwMTBmMGYwMiAwZjAwMDkwNSAwOTA4MGEwZCAw
+MTBhMGUwOQ0KZmZmZjgwMDA3NGYzOWYwMCAyODI5MTY1NjIzIFMgQmk6MjowOTE6MSAtMTE1IDEz
+IDwNCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTE2NTYzMyBDIEJpOjI6MDkxOjEgMCAxMyA9IDU1NTM0
+MjUzIDFiMDAwMDAwIDAwMDAwMDAwIDAwDQpmZmZmODAwMDc0ZjM5ZjAwIDI4MjkxNjYwMzMgUyBC
+bzoyOjA5MToyIC0xMTUgMzEgPSA1NTUzNDI0MyAxYzAwMDAwMCAwMDAyMDAwMCA4MDAwMGEyOCAw
+MDBlNjlmZiBmYjAwMDAwMSAwMDAwMDAwMCAwMDAwMDANCmZmZmY4MDAwNzRmMzlmMDAgMjgyOTE2
+NjA0NCBDIEJvOjI6MDkxOjIgMCAzMSA+DQpmZmZmODAwMDc0ZjBkYzAwIDI4MjkzMzU5ODggUyBC
+aToyOjA5MToxIC0xMTUgNTEyIDwNCmZmZmY4MDAwNzRmMGRjMDAgMjgyOTMzNTk5OSBDIEJpOjI6
+MDkxOjEgMCA1MTIgPSAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAzNTJlMzEz
+MSAyZTMwNDQyMCAzMDM3MjAzMiAzMDMxMzIyZA0KZmZmZjgwMDA3NGYwZGI0MCAyODI5MzM2MzA0
+IFMgQmk6MjowOTE6MSAtMTE1IDEzIDwNCmZmZmY4MDAwNzRmMGRiNDAgMjgyOTMzNjMxNCBDIEJp
+OjI6MDkxOjEgMCAxMyA9IDU1NTM0MjUzIGE3MDAwMDAwIDAwMDAwMDAwIDAwDQpmZmZmODAwMDc0
+ZjBkYTgwIDI4MjkzMzY2NDMgUyBCbzoyOjA5MToyIC0xMTUgMzEgPSA1NTUzNDI0MyBhODAwMDAw
+MCAwMDAyMDAwMCA4MDAwMGEyOCAwMDAwMDAwMCAwMTAwMDAwMSAwMDAwMDAwMCAwMDAwMDANCmZm
+ZmY4MDAwNzRmMGRhODAgMjgyOTMzNjY1NCBDIEJvOjI6MDkxOjIgMCAzMSA+DQpmZmZmODAwMDc0
+ZjBkOWMwIDI4MjkzMzY5NTIgUyBCaToyOjA5MToxIC0xMTUgNTEyIDwNCmZmZmY4MDAwNzRmMGQ5
+YzAgMjgyOTMzNjk2MyBDIEJpOjI6MDkxOjEgMCA1MTIgPSAwMDAwMDAwMCAwMDAwMDAwMCAwMDAw
+MDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMA0KZmZmZjgw
+MDA3NGYwZDkwMCAyODI5MzM3MjYyIFMgQmk6MjowOTE6MSAtMTE1IDEzIDwNCmZmZmY4MDAwNzRm
+MGQ5MDAgMjgyOTMzNzI3MSBDIEJpOjI6MDkxOjEgMCAxMyA9IDU1NTM0MjUzIGE4MDAwMDAwIDAw
+MDAwMDAwIDAwDQpmZmZmODAwMDc0ZjBkODQwIDI4MjkzMzc1OTkgUyBCbzoyOjA5MToyIC0xMTUg
+MzEgPSA1NTUzNDI0MyBhOTAwMDAwMCAwMDAwMDAwMCAwMDAwMDYwMCAwMDAwMDAwMCAwMDAwMDAw
+MCAwMDAwMDAwMCAwMDAwMDANCmZmZmY4MDAwNzRmMGQ4NDAgMjgyOTMzNzYwOSBDIEJvOjI6MDkx
+OjIgMCAzMSA+DQpmZmZmODAwMDc0ZjBkNzgwIDI4MjkzMzc5MzYgUyBCaToyOjA5MToxIC0xMTUg
+MTMgPA0KZmZmZjgwMDA3NGYwZDc4MCAyODI5MzM3OTQ1IEMgQmk6MjowOTE6MSAwIDEzID0gNTU1
+MzQyNTMgYTkwMDAwMDAgMDAwMDAwMDAgMDANCmZmZmY4MDAwNzRmMGQ2YzAgMjgyOTMzOTMyMyBT
+IEJvOjI6MDkxOjIgLTExNSAzMSA9IDU1NTM0MjQzIGFhMDAwMDAwIDAwMDAwMDAwIDAwMDAwNjAw
+IDAwMDAwMDAwIDAwMDAwMDAwIDAwMDAwMDAwIDAwMDAwMA0KZmZmZjgwMDA3NGYwZDZjMCAyODI5
+MzM5MzMzIEMgQm86MjowOTE6MiAwIDMxID4NCmZmZmY4MDAwNzRmMGQ2MDAgMjgyOTMzOTY2OSBT
+IEJpOjI6MDkxOjEgLTExNSAxMyA8DQpmZmZmODAwMDc0ZjBkNjAwIDI4MjkzMzk2NzggQyBCaToy
+OjA5MToxIDAgMTMgPSA1NTUzNDI1MyBhYTAwMDAwMCAwMDAwMDAwMCAwMA0KZmZmZjgwMDA3NGYw
+ZDU0MCAyODI5MzQwMDMzIFMgQm86MjowOTE6MiAtMTE1IDMxID0gNTU1MzQyNDMgYWIwMDAwMDAg
+MDAwMjAwMDAgODAwMDBhMjggMDAwMDAwMDAgMDIwMDAwMDEgMDAwMDAwMDAgMDAwMDAwDQpmZmZm
+ODAwMDc0ZjBkNTQwIDI4MjkzNDAwNDMgQyBCbzoyOjA5MToyIDAgMzEgPg0KZmZmZjgwMDA3NGYw
+ZDQ4MCAyODI5MzQwMzQ5IFMgQmk6MjowOTE6MSAtMTE1IDUxMiA8DQpmZmZmODAwMDc0ZjBkNDgw
+IDI4MjkzNDAzNTkgQyBCaToyOjA5MToxIDAgNTEyID0gMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAw
+MDAgMDAwMDAwMDAgMzUyZTMxMzEgMmUzMDQ0MjAgMzAzNzIwMzIgMzAzMTMyMmQNCmZmZmY4MDAw
+NzRmMGQzYzAgMjgyOTM0MDY2MCBTIEJpOjI6MDkxOjEgLTExNSAxMyA8DQpmZmZmODAwMDc0ZjBk
+M2MwIDI4MjkzNDA2NjkgQyBCaToyOjA5MToxIDAgMTMgPSA1NTUzNDI1MyBhYjAwMDAwMCAwMDAw
+MDAwMCAwMA0KZmZmZjgwMDA3NGYwZDMwMCAyODI5MzQxMDA1IFMgQm86MjowOTE6MiAtMTE1IDMx
+ID0gNTU1MzQyNDMgYWMwMDAwMDAgMDAwMjAwMDAgODAwMDBhMjggMDAwMDAwMDAgMDEwMDAwMDEg
+MDAwMDAwMDAgMDAwMDAwDQpmZmZmODAwMDc0ZjBkMzAwIDI4MjkzNDEwMTYgQyBCbzoyOjA5MToy
+IDAgMzEgPg0KZmZmZjgwMDA3NGYwZDI0MCAyODI5MzQxMzE0IFMgQmk6MjowOTE6MSAtMTE1IDUx
+MiA8DQpmZmZmODAwMDc0ZjBkMjQwIDI4MjkzNDEzMjQgQyBCaToyOjA5MToxIDAgNTEyID0gMDAw
+MDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAw
+MDAgMDAwMDAwMDANCmZmZmY4MDAwNzRmMGQxODAgMjgyOTM0MTYyNyBTIEJpOjI6MDkxOjEgLTEx
+NSAxMyA8DQpmZmZmODAwMDc0ZjBkMTgwIDI4MjkzNDE2MzYgQyBCaToyOjA5MToxIDAgMTMgPSA1
+NTUzNDI1MyBhYzAwMDAwMCAwMDAwMDAwMCAwMA0KZmZmZjgwMDA3NGYwZDBjMCAyODI5MzQxOTg4
+IFMgQm86MjowOTE6MiAtMTE1IDMxID0gNTU1MzQyNDMgYWQwMDAwMDAgMDAwMDAwMDAgMDAwMDA2
+MDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwDQpmZmZmODAwMDc0ZjBkMGMwIDI4
+MjkzNDE5OTggQyBCbzoyOjA5MToyIDAgMzEgPg0KZmZmZjgwMDA3NGYwZDAwMCAyODI5MzQyMjk4
+IFMgQmk6MjowOTE6MSAtMTE1IDEzIDwNCmZmZmY4MDAwNzRmMGQwMDAgMjgyOTM0MjMwNyBDIEJp
+OjI6MDkxOjEgMCAxMyA9IDU1NTM0MjUzIGFkMDAwMDAwIDAwMDAwMDAwIDAwDQpmZmZmODAwMDcz
+MGNhM2MwIDI4MjkzNDM2MjkgUyBCbzoyOjA5MToyIC0xMTUgMzEgPSA1NTUzNDI0MyBhZTAwMDAw
+MCAwMDAwMDAwMCAwMDAwMDYwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDANCmZm
+ZmY4MDAwNzMwY2EzYzAgMjgyOTM0MzYzOSBDIEJvOjI6MDkxOjIgMCAzMSA+DQpmZmZmODAwMDcz
+MGNhMTgwIDI4MjkzNDM5NTQgUyBCaToyOjA5MToxIC0xMTUgMTMgPA0KZmZmZjgwMDA3MzBjYTE4
+MCAyODI5MzQzOTYzIEMgQmk6MjowOTE6MSAwIDEzID0gNTU1MzQyNTMgYWUwMDAwMDAgMDAwMDAw
+MDAgMDANCmZmZmY4MDAwNzMwY2FmMDAgMjgyOTM0NDM0MyBTIEJvOjI6MDkxOjIgLTExNSAzMSA9
+IDU1NTM0MjQzIGFmMDAwMDAwIDAwMDQwMDAwIDgwMDAwYTI4IDAwMDAwMDAwIDAyMDAwMDAyIDAw
+MDAwMDAwIDAwMDAwMA0KZmZmZjgwMDA3MzBjYWYwMCAyODI5MzQ0MzUzIEMgQm86MjowOTE6MiAw
+IDMxID4NCmZmZmY4MDAwNzMwY2E1NDAgMjgyOTM0NDY2MiBTIEJpOjI6MDkxOjEgLTExNSAxMDI0
+IDwNCmZmZmY4MDAwNzMwY2E1NDAgMjgyOTM0NDY3NCBDIEJpOjI6MDkxOjEgMCAxMDI0ID0gMDAw
+MDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMzUyZTMxMzEgMmUzMDQ0MjAgMzAzNzIw
+MzIgMzAzMTMyMmQNCmZmZmY4MDAwNzMwY2E4NDAgMjgyOTM0NDk0NiBTIEJpOjI6MDkxOjEgLTEx
+NSAxMyA8DQpmZmZmODAwMDczMGNhODQwIDI4MjkzNDQ5NTYgQyBCaToyOjA5MToxIDAgMTMgPSA1
+NTUzNDI1MyBhZjAwMDAwMCAwMDAwMDAwMCAwMA0KZmZmZjgwMDA3MzBjYWI0MCAyODI5MzQ1Mjky
+IFMgQm86MjowOTE6MiAtMTE1IDMxID0gNTU1MzQyNDMgYjAwMDAwMDAgMDAwMDAwMDAgMDAwMDA2
+MDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwMDAgMDAwMDAwDQpmZmZmODAwMDczMGNhYjQwIDI4
+MjkzNDUzMTYgQyBCbzoyOjA5MToyIDAgMzEgPg0KZmZmZjgwMDA3MzBjYTc4MCAyODI5MzQ1NjI2
+IFMgQmk6MjowOTE6MSAtMTE1IDEzIDwNCmZmZmY4MDAwNzMwY2E3ODAgMjgyOTM0NTYzNSBDIEJp
+OjI6MDkxOjEgMCAxMyA9IDU1NTM0MjUzIGIwMDAwMDAwIDAwMDAwMDAwIDAwDQpmZmZmODAwMDc0
+ZTNlMzAwIDI4MjkzNDcwNjQgUyBCbzoyOjA5MToyIC0xMTUgMzEgPSA1NTUzNDI0MyBiMTAwMDAw
+MCAwMDAwMDAwMCAwMDAwMDYwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDANCmZm
+ZmY4MDAwNzRlM2UzMDAgMjgyOTM0NzA3NCBDIEJvOjI6MDkxOjIgMCAzMSA+DQoNClNldGgNCg0K
