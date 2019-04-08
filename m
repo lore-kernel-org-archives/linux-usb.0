@@ -2,267 +2,87 @@ Return-Path: <SRS0=iu7A=SK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,
+	URIBL_BLOCKED,USER_AGENT_MUTT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 788C3C10F13
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 12:39:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 877A8C10F13
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 13:12:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 48D9821473
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 12:39:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 596AC2147A
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 13:12:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1554729168;
+	bh=nJBbtsN/cpKD2DenPGFLGd3fGM8ebukyh0M/xQp7K6M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=XDOQYGRkWxjj3Zmm4emS6qsMiMoknAC9p2HwwFGl/PjQPoyNLYRH8mfOxDzSZ14UJ
+	 9qhL5eVkB7imQH+xu+/+q3+MwVBPjXthR1BLHU9BrbU4HaJoI+FfXenmlcjXgGAM0X
+	 by07i90avWgqbRBbvQ3VcC/Mkoce+8ajURAqN+Ck=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726570AbfDHMjI convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 Apr 2019 08:39:08 -0400
-Received: from mail1.bemta24.messagelabs.com ([67.219.250.213]:53197 "EHLO
-        mail1.bemta24.messagelabs.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726510AbfDHMjI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Apr 2019 08:39:08 -0400
-Received: from [67.219.250.197] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-        by server-1.bemta.az-b.us-west-2.aws.symcld.net id AE/CF-26556-9E04BAC5; Mon, 08 Apr 2019 12:39:05 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGKsWRWlGSWpSXmKPExsXi5LtOQPelw+o
-  Ygx/zFCwWLWtltpjw+wKbA5PH7Ls/GD0+b5ILYIpizcxLyq9IYM34vPwHa8F/g4r9x1rZGhi/
-  SXcxcnEICaxilFg0fxsThLOHUeJT+zHmLkZODjYBQ4lzW96yg9giAloSm5tegsWZBawlpq+5z
-  djFyMEhLKAg8XSVDkSJosSPZyCtHEB2mMS/f8ogYRYBFYm1Xycxgti8QJ2bJu4GmyIk4Ctx4M
-  szsOmcAn4S8+/tZQGxGQXEJL6fWsMEsUlc4taT+WC2hICAxJI955khbFGJl4//sULY8hJzbp1
-  mh6jXkViw+xMbyAnMAuYSp75nQYS1JZYtfM0McYKgxMmZT1hASoSATpuzQWsCo9gsJMtmIRk0
-  C2HQLCSDZiEZtICRdRWjeVJRZnpGSW5iZo6uoYGBrqGhka6hsbGumbFeYpVukl5psW55anGJr
-  pFeYnmxXnFlbnJOil5easkmRmAcphS02u9gfLM8/RCjJAeTkijvgiurYoT4kvJTKjMSizPii0
-  pzUosPMcpwcChJ8Arar44REixKTU+tSMvMASYEmLQEB4+SCK87MCkI8RYXJOYWZ6ZDpE4x6nI
-  cWPRwLrMQS15+XqqUOK8ZyAwBkKKM0jy4EbDkdIlRVkqYl5GBgUGIpyC1KDezBFX+FaM4B6OS
-  MK8dyBSezLwSuE2vgI5gAjpiig7YESWJCCmpBkbjfY845h/aZmp5PSvC/pHFLfGZfC+j1vcW9
-  T6WCdc/nF9z/VxunSzLKatiFj8G6+N/zZd2tffe7FihfOj5Mbsfb66Y7eaftveT0MQ7N549uq
-  a0wvx/QWb3sqrJXrN3rrBT7T2y9L7LNqabN5h+3+ljZ9s9PyXiXGRNgEpZ2emn5ZuWdU4X2hG
-  kxFKckWioxVxUnAgAlJD0iUkDAAA=
-X-Env-Sender: Seth.Bollinger@digi.com
-X-Msg-Ref: server-18.tower-345.messagelabs.com!1554727142!7030378!6
-X-Originating-IP: [66.77.174.16]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.31.5; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 9126 invoked from network); 8 Apr 2019 12:39:05 -0000
-Received: from owa.digi.com (HELO MCL-VMS-XCH01.digi.com) (66.77.174.16)
-  by server-18.tower-345.messagelabs.com with SMTP; 8 Apr 2019 12:39:05 -0000
-Received: from MTK-SMS-XCH03.digi.com (10.10.8.197) by MCL-VMS-XCH01.digi.com
- (10.5.8.49) with Microsoft SMTP Server (TLS) id 14.3.439.0; Mon, 8 Apr 2019
- 07:39:04 -0500
-Received: from MTK-SMS-XCH01.digi.com ([fe80::cca7:5299:c88e:1c40]) by
- MTK-SMS-XCH03.digi.com ([fe80::484d:c326:e7f1:a9fd%16]) with mapi id
- 14.03.0439.000; Mon, 8 Apr 2019 07:39:04 -0500
-From:   "Bollinger, Seth" <Seth.Bollinger@digi.com>
-To:     Alan Stern <stern@rowland.harvard.edu>
-CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: Re: Bug: VHCI + USB 3.0
-Thread-Topic: Bug: VHCI + USB 3.0
-Thread-Index: AQHU6+SEgulXK6TzJ0OKPp0lJzg2fKYuYXeAgAAIH4CAAS7ugIAABkMAgAADKICAAuoyAA==
-Date:   Mon, 8 Apr 2019 12:39:04 +0000
-Message-ID: <A91C245C-B630-47E8-9243-EB4CA8E91E51@digi.com>
-References: <Pine.LNX.4.44L0.1904061204070.19196-100000@netrider.rowland.org>
-In-Reply-To: <Pine.LNX.4.44L0.1904061204070.19196-100000@netrider.rowland.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.10.81.30]
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <C22FD4ED3BE2EA468E2DC99626EE47D1@digi.com>
-Content-Transfer-Encoding: 8BIT
+        id S1726530AbfDHNMr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 Apr 2019 09:12:47 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:33978 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725933AbfDHNMr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Apr 2019 09:12:47 -0400
+Received: by mail-lj1-f194.google.com with SMTP id j89so11226706ljb.1;
+        Mon, 08 Apr 2019 06:12:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Am71RulpTFJZ5pi1WTVijVtGKSEt335ICjoqGLB21Qg=;
+        b=oW6deHz73qpvD9QYjvxXdweVRzmZ+L8ii0to+HLaxkVxyxO9ENH6AGLYvNq6U63mdC
+         e0cEYWxiyDygqJLMc4SVJNRHM4335Ph0cVlv3OVLJYpMLjeWB1/02EtwT30a+DCHtw9t
+         JuQi5Tub2k31IAJhgPmlh9yrjtJGCwUP3YHhBTIWKuucFa5LeQTsjTqvgnf6qzodtzND
+         4PdAEOevC9PajmScHQ3l6XZK62wJNRPrvBNeO9UfaL+hMKq5v9e05Qus1MZ4xpdJ5qfc
+         pRCKG/J69f92C9dIeTxsEqrTTbFOruYFMWAp/sZ444edqppj4e0+u/7/OQUGqDswrur5
+         kX9A==
+X-Gm-Message-State: APjAAAUb5qOiUnXAMB0Ufn26bh+4y/RWpmSqf9XZfG+1PkV6hPYoUWUr
+        VU9rx9VM6+GGPMC2SJBKUNw=
+X-Google-Smtp-Source: APXvYqwbWuahmKd5oNZKpZ6QPXJ3qoJvzs8Ho69vZliTOoAJU1zvrsOs80x7mRYxTRBXhsEvNrn8dA==
+X-Received: by 2002:a2e:420c:: with SMTP id p12mr16070936lja.1.1554729164911;
+        Mon, 08 Apr 2019 06:12:44 -0700 (PDT)
+Received: from xi.terra (c-74bee655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.190.116])
+        by smtp.gmail.com with ESMTPSA id d3sm6281038ljc.15.2019.04.08.06.12.43
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 08 Apr 2019 06:12:43 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.91)
+        (envelope-from <johan@kernel.org>)
+        id 1hDU4r-0002if-CX; Mon, 08 Apr 2019 15:12:45 +0200
+Date:   Mon, 8 Apr 2019 15:12:45 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     "Ramachandran Srinivasan (BRT-SG)" <srinivasan.r@brtchip.com>
+Cc:     Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] Deferred URB submission for timesharing the DMA channels
+ of DWC_OTG host controller in Raspberry PI
+Message-ID: <20190408131245.GC24108@localhost>
+References: <1554724399-2972-1-git-send-email-srinivasan.r@brtchip.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <1554724399-2972-1-git-send-email-srinivasan.r@brtchip.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190408131245.WdlG__nCkl9NRHrHFVNWI0vifGs_bFgr7SuWWh0YeLg@z>
 
-On Apr 6, 2019, at 11:08 AM, Alan Stern <stern@rowland.harvard.edu<mailto:stern@rowland.harvard.edu>> wrote:
+On Mon, Apr 08, 2019 at 11:54:00AM +0000, Ramachandran Srinivasan (BRT-SG) wrote:
 
-Can you provide the "lsusb -v" output for the storage device as shown
-on both computers?  I want to see if the server and the client disagree
-on the maxpacket sizes for the bulk endpoints.  The key is that 3584 is
-a multiple of 512 but not of 1024.
+Make sure to always provide a proper commit message.
 
-Sorry for the delay.
+> Signed-off-by: Srinivasan R <srinivasan.r@brtchip.com>
+> ---
+>  drivers/usb/serial/ftdi_sio.c | 153 +++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 152 insertions(+), 1 deletion(-)
 
-Physical device:
+Your patch has been been (whitespace) corrupted and is barely readable.
+I have no idea you're trying to here.
 
-Bus 006 Device 006: ID 13fe:5500
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               3.10
-  bDeviceClass            0
-  bDeviceSubClass         0
-  bDeviceProtocol         0
-  bMaxPacketSize0         9
-  idVendor           0x13fe
-  idProduct          0x5500
-  bcdDevice            1.00
-  iManufacturer           1
-  iProduct                2 USB DISK 3.0
-  iSerial                 3 070192D930D6C811
-  bNumConfigurations      1
-  Configuration Descriptor:
-    bLength                 9
-    bDescriptorType         2
-    wTotalLength           44
-    bNumInterfaces          1
-    bConfigurationValue     1
-    iConfiguration          0
-    bmAttributes         0x80
-      (Bus Powered)
-    MaxPower              504mA
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        0
-      bAlternateSetting       0
-      bNumEndpoints           2
-      bInterfaceClass         8
-      bInterfaceSubClass      6
-      bInterfaceProtocol     80
-      iInterface              0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x81  EP 1 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0400  1x 1024 bytes
-        bInterval               0
-        bMaxBurst               3
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x02  EP 2 OUT
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0400  1x 1024 bytes
-        bInterval               0
-        bMaxBurst               3
-Binary Object Store Descriptor:
-  bLength                 5
-  bDescriptorType        15
-  wTotalLength           22
-  bNumDeviceCaps          2
-  USB 2.0 Extension Device Capability:
-    bLength                 7
-    bDescriptorType        16
-    bDevCapabilityType      2
-    bmAttributes   0x00000006
-      BESL Link Power Management (LPM) Supported
-  SuperSpeed USB Device Capability:
-    bLength                10
-    bDescriptorType        16
-    bDevCapabilityType      3
-    bmAttributes         0x00
-    wSpeedsSupported   0x000e
-      Device can operate at Full Speed (12Mbps)
-      Device can operate at High Speed (480Mbps)
-      Device can operate at SuperSpeed (5Gbps)
-    bFunctionalitySupport   2
-      Lowest fully-functional device speed is High Speed (480Mbps)
-    bU1DevExitLat          10 micro seconds
-    bU2DevExitLat        2047 micro seconds
-can't get debug descriptor: Resource temporarily unavailable
-Device Status:     0x000c
-  (Bus Powered)
-  U1 Enabled
-  U2 Enabled
-
-
-
-Virtual Device:
-
-Bus 004 Device 019: ID 13fe:5500 Kingston Technology Company Inc.
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               3.10
-  bDeviceClass            0 (Defined at Interface level)
-  bDeviceSubClass         0
-  bDeviceProtocol         0
-  bMaxPacketSize0         9
-  idVendor           0x13fe Kingston Technology Company Inc.
-  idProduct          0x5500
-  bcdDevice            1.00
-  iManufacturer           1
-  iProduct                2 USB DISK 3.0
-  iSerial                 3 070192D930D6C811
-  bNumConfigurations      1
-  Configuration Descriptor:
-    bLength                 9
-    bDescriptorType         2
-    wTotalLength           44
-    bNumInterfaces          1
-    bConfigurationValue     1
-    iConfiguration          0
-    bmAttributes         0x80
-      (Bus Powered)
-    MaxPower              126mA
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        0
-      bAlternateSetting       0
-      bNumEndpoints           2
-      bInterfaceClass         8 Mass Storage
-      bInterfaceSubClass      6 SCSI
-      bInterfaceProtocol     80 Bulk-Only
-      iInterface              0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x81  EP 1 IN
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0400  1x 1024 bytes
-        bInterval               0
-        bMaxBurst               3
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x02  EP 2 OUT
-        bmAttributes            2
-          Transfer Type            Bulk
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0400  1x 1024 bytes
-        bInterval               0
-        bMaxBurst               3
-Binary Object Store Descriptor:
-  bLength                 5
-  bDescriptorType        15
-  wTotalLength           22
-  bNumDeviceCaps          2
-  USB 2.0 Extension Device Capability:
-    bLength                 7
-    bDescriptorType        16
-    bDevCapabilityType      2
-    bmAttributes   0x00000006
-      Link Power Management (LPM) Supported
-  SuperSpeed USB Device Capability:
-    bLength                10
-    bDescriptorType        16
-    bDevCapabilityType      3
-    bmAttributes         0x00
-    wSpeedsSupported   0x000e
-      Device can operate at Full Speed (12Mbps)
-      Device can operate at High Speed (480Mbps)
-      Device can operate at SuperSpeed (5Gbps)
-    bFunctionalitySupport   2
-      Lowest fully-functional device speed is High Speed (480Mbps)
-    bU1DevExitLat          10 micro seconds
-    bU2DevExitLat        2047 micro seconds
-Device Status:     0x000c
-  (Bus Powered)
-  U1 Enabled
-  U2 Enabled
-
-Seth
+Johan
