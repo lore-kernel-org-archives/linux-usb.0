@@ -2,130 +2,238 @@ Return-Path: <SRS0=iu7A=SK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_MUTT
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C756C282CE
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 08:17:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99E1AC282DE
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 09:38:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6D6A020870
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 08:17:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4329020880
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 09:38:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UuivZUkS"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="mJO8uxCX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726527AbfDHIRn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 Apr 2019 04:17:43 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:39287 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725877AbfDHIRn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Apr 2019 04:17:43 -0400
-Received: by mail-wr1-f65.google.com with SMTP id j9so15185946wrn.6;
-        Mon, 08 Apr 2019 01:17:41 -0700 (PDT)
+        id S1726396AbfDHJiV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 Apr 2019 05:38:21 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:50303 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726133AbfDHJiU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Apr 2019 05:38:20 -0400
+Received: by mail-wm1-f67.google.com with SMTP id z11so13597540wmi.0
+        for <linux-usb@vger.kernel.org>; Mon, 08 Apr 2019 02:38:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=bEsw5ua8rvDmmKnykFRWyXLqnx583cH0nPtNZnDfDYM=;
-        b=UuivZUkS/GSWKWWwR+YB6pIfK0sEKGxYJLlTr0l0Hcu2NGRsbDxK4TxNaDvkUZyEcV
-         L0aqJ4JYBKVofwD/8AmnK+FFjTWexrlkKFpkX4PFJ0ARh/MI0GiACJ9MXEm7O3q9rIle
-         0u7vvtzHxp5gjp32gDb2tOz6Xd05ZmMuhH8YLuimCSA63AJu6ZEa/z3EhaH8gqlYrDNI
-         SRu/zSHmJizD1EnBHq2tVGPnpZsq/I5sHZO3D+axrSf4k08LBdgTLawdwtPla0PBqeYw
-         Md98l6TTzBgh36v+JkHqIaQ8AvB8uEFmcMWNrKvgIBv53YdnN1jKZ+FFhObGvi6tQBX+
-         fEqg==
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:openpgp:autocrypt:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=F6de1zOqVElmQeCk7fGLmBoT3MjihPuW5aUU6GvNCC4=;
+        b=mJO8uxCXtJ6kuPAimWUfdQTKLAsjadJbMUPYUUuMneF/e8INZFc0U4tyVPYNxZSlWO
+         DdsNyA6u6VNnEdCEycd604+9ZhAyaZPDtp9p79dHu1MCk8wK8SQH2owaszCaC1dgl8AA
+         2GOVZmARKH3qreerPbzJuPWC9AxDVGIHHOClMX6el8xV5uXOMIj2B4IJBR0JvZ05W7ck
+         pwTsLkL6TuFhPo4eEqjvVHmcRgjQobr7vSS3VcxOBbHYPXARF1/MfPZdaKmXpuKdBaoS
+         Ml6XUv2e6YbOskiNtR/LZ2PZifbx9oZXOsecGr6wJvcXi8PSWDLmZ82OFZ1uHruo32uz
+         a1Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=bEsw5ua8rvDmmKnykFRWyXLqnx583cH0nPtNZnDfDYM=;
-        b=agPidLL/tW/qzCJpegcczMWoBWUyyg8y8J9YCOfwVEAc7m88QQ8bnyNOUsg2MSro2R
-         EtpHdNIwUK7+4GERNOOGcwelMWCdp5tb6lbbnR4IE60ukhYrka01cIzxiBrv7LpaAbrk
-         Cok6+LhJctG56FXGsJIXKLCjxAJhgqQtXSOK7z9T0xIJgNgzL/tsIqYgtK/Z+zIINVA1
-         99jZEFQ63aDwN6pmnkveXLe8Fiklw5uLjh1kPcVbLtWh6SvYY9SgX/URF//Amn9JONAB
-         oHMVljRCEZtXYFRFKlCq5i4ZEhhSs6gzAOgUxv/bsvEwhLiAjEhHZtsIzw9Ch9UYdFIA
-         vTZw==
-X-Gm-Message-State: APjAAAVsdb28F/sldUgCgSsYavSwa+jFpjGsJPgqNFnSojWn5uJk0BJP
-        Ci2O6LGBPjVyHiLiBnSPF1Q=
-X-Google-Smtp-Source: APXvYqyJkqmyS/98ugYohNWGEtMLU2vk1mfvFqfHfgnvJkEKWB/SQLu1PsY83ltaqUMkuNxI90oyHg==
-X-Received: by 2002:adf:ef8e:: with SMTP id d14mr16354610wro.81.1554711460917;
-        Mon, 08 Apr 2019 01:17:40 -0700 (PDT)
-Received: from localhost (pD9E51B25.dip0.t-ipconnect.de. [217.229.27.37])
-        by smtp.gmail.com with ESMTPSA id t24sm12690669wmi.10.2019.04.08.01.17.39
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 08 Apr 2019 01:17:40 -0700 (PDT)
-Date:   Mon, 8 Apr 2019 10:17:39 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, linux-usb@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] usb: host: xhci-tegra: Add Tegra186 XUSB support
-Message-ID: <20190408081739.GB6644@ulmo>
-References: <20190401104050.31355-1-thierry.reding@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :organization:message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=F6de1zOqVElmQeCk7fGLmBoT3MjihPuW5aUU6GvNCC4=;
+        b=MlqHuR4lPekcFIRMfVyTJCZt26fk76uMwMu2cgo9K83okTYpI4Xt81wh+A0rzehjSu
+         f2aVcr/gsxSoTeNjJsXFRx+1VfqmLJ+mzRSjY7UgNiJ6fYmN4VzzD8u08pF0XCkd9i/o
+         QajBf6p5/vXA/PZ7+U8J91RygBkUx/J3umVkQc3U30cScEBC/8fmIUroalljupnY5S3I
+         3cHwTKgKNzCSIRfusAGQPYGoAqJu4+AuIO9doojVqe8ZFO5+AqWt/Box33Q8OUljjirZ
+         kgQqyfVmuAweUJnrU1YMMhqmzEM2b/ZDj1TMOib9b8+i3RfxfJn7e/7P9QrPkZidsO9M
+         2hfw==
+X-Gm-Message-State: APjAAAV3xc3JDkPdaSAJPW7eKZewxj1gR5ufq3KCl1Ir2tGiP+GJERCn
+        +T/0GmCojC3/uWf+nR35JqRPcA==
+X-Google-Smtp-Source: APXvYqxkhqhoibk3KVATiPt0ruGqZayW+DbceZSh7ov8aV8LoyX7v3yL6qkAfJJCLtYm44Ud5QbdFg==
+X-Received: by 2002:a7b:cb16:: with SMTP id u22mr16803433wmj.60.1554716298364;
+        Mon, 08 Apr 2019 02:38:18 -0700 (PDT)
+Received: from [10.1.2.12] (lmontsouris-657-1-212-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id a187sm13930254wma.32.2019.04.08.02.38.17
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 08 Apr 2019 02:38:17 -0700 (PDT)
+Subject: Re: [PATCH v5 0/8] arm64: meson: Add support for USB on Amlogic G12A
+To:     gregkh@linuxfoundation.org, hminas@synopsys.com, balbi@kernel.org
+Cc:     kishon@ti.com, linux-amlogic@lists.infradead.org,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+References: <20190325093943.29138-1-narmstrong@baylibre.com>
+From:   Neil Armstrong <narmstrong@baylibre.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ ZaTUOEkgIor5losDrePdPgE=
+Organization: Baylibre
+Message-ID: <76726909-8395-666a-a96f-c9b8712b12b2@baylibre.com>
+Date:   Mon, 8 Apr 2019 11:38:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="wq9mPyueHGvFACwf"
-Content-Disposition: inline
-In-Reply-To: <20190401104050.31355-1-thierry.reding@gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190325093943.29138-1-narmstrong@baylibre.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Hi Greg, Felipe, Minas,
 
---wq9mPyueHGvFACwf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Apr 01, 2019 at 12:40:44PM +0200, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
->=20
-> Hi,
->=20
-> This series introduces support for XUSB to the Tegra186 SoC. This is
-> mostly the same as on earlier generations in that it provides an XHCI
-> compatible interface with a bit of vendor-specific glue. Perhaps the
-> most notable change is the removal of the IPFS wrapper. Patches for
-> the UPHY related changes that control the PHYs for the XUSB controller
-> were merged into v5.1.
->=20
-> This version is a rebase of the series posted here:
->=20
->     http://patchwork.ozlabs.org/project/linux-tegra/list/?series=3D88193
->=20
-> There have been no code changes and I collected Reviewed-by and Acked-by
-> tags.
->=20
-> Greg, can you pick up patches 1-3 with Rob's and Mathias' Acked-by,
-> respectively? I'll pick up patches 4-6 into the Tegra tree.
-
-Hi Greg,
-
-would you mind picking up patches 1-3 of this series?
+Gentle ping about these remaining patches, who is supposed to
+pick them ?
 
 Thanks,
-Thierry
+Neil
 
---wq9mPyueHGvFACwf
-Content-Type: application/pgp-signature; name="signature.asc"
+On 25/03/2019 10:39, Neil Armstrong wrote:
+> This patchset adds support for USB on Amlogic G12A SoCs.
+> 
+> This patchset is composed with :
+> - bindings of the PHYs
+> - bindings of the USB Control Glue
+> - PHY Drivers
+> - USB Control Glue driver
+> 
+> Device Tree nodes will be added in a separate patchset.
+> 
+> The Amlogic G12A USB Complex is composed of :
+> - 2 USB Controllers :
+>  * DWC3 for USB2 and USB3 Host functionality
+>  * DWC2 for USB2 Peripheral functionality
+> - 2 USB2 OTG PHYs, only a single one will be routed to either DWC2 to DWC3
+> - 1 USB3 PHY shared with PCIE funcionnality
+> - A Glue to control PHY routing, setup and OTG detection
+> 
+> The Glue configures the UTMI 8bit interfaces for the USB2 PHYs, including
+> routing of the OTG PHY between the DWC3 and DWC2 controllers, and
+> setups the on-chip OTG mode selection for this PHY.
+> 
+> This drivers supports the on-probe setup of the OTG mode, and manually
+> via the USB Role interface. The IRQ mode change detect is yet to be added
+> in a future patchset, mainly due to lack of hardware to validate on.
+> 
+> Changes since v4 at [3]:
+> - remove remaining phy_put/clk_put() of patch 8
+> - handled phy_power_off/on() in suspend/resume
+> - Collected review tag on patch 8
+> 
+> Changes since v3 at [2]:
+> - Documented and replaced magic values in USB2 PHY driver
+> 
+> Changes since v2 at [1]:
+> - Collected review tags
+> - Removed syscon.h in usb2 phy driver
+> - Added comment on the USB3/PCIe switch
+> - Renamed dwc3_meson_g12a_usb_init_mode in glue driver
+> - Changed indentation in dwc3_meson_g12a_role_set
+> - Switched to of_get_compatible_child in glue code
+> - Added devm_add_action_or_reset() to disable clock in case of probe failure
+> - Checks priv->vbus before enabling regulator
+> - Switched phy_init/phy_power_on
+> - Removed priv->phys[i] NULL checks in suspend code
+> - Removed clk_disable_unprepare/clk_put in remove code
+> 
+> Changes since v1 at [0]:
+>  - USB2 PHY Bindings: collected tags and updated commit log
+>  - USB3/PCIE PHY Bindings: collected tag and updated reset list
+>  - DWC2 Compatible: collected tags
+>  - DWC3 Glue Bindings:
+>    - removed clock-names and reset-names for single entries
+>    - removed ports graph for PHYs and replaced by phys list with phy-names
+>    - added dr_mode and optional vbus-supply
+>    - fixed example
+>  - USB2 PHY Driver: removed USB_SUPPORT and otg.h include
+>  - USB3/PCIE PHY Driver: removed USB_SUPPORT, fixed comment and unused reg variable
+>  - USB Glue Driver:
+>    - Moved debugfs I/F to USB_ROLE_SWITCH framework
+>    - Integrated USB Glue Control Registers offset
+>    - Removed of graph parsing to use devm_phy_optional_get()
+>    - Fixed PHY mode handling and OTG switching
+>    - Simplified PHY calls by removing the NULL test
+>    - Added optional vbus regulator handling
+> 
+> [1] https://lkml.kernel.org/r/20190212151413.24632-1-narmstrong@baylibre.com
+> [2] https://lkml.kernel.org/r/20190304103846.2060-1-narmstrong@baylibre.com
+> [3] https://lkml.kernel.org/r/20190318101153.7531-1-narmstrong@baylibre.com
+> [4] https://lkml.kernel.org/r/20190318132655.30040-1-narmstrong@baylibre.com
+> 
+> Neil Armstrong (8):
+>   dt-bindings: phy: Add Amlogic G12A USB2 PHY Bindings
+>   dt-bindings: phy: Add Amlogic G12A USB3+PCIE Combo PHY Bindings
+>   dt-bindings: usb: dwc2: Add Amlogic G12A DWC2 Compatible
+>   dt-bindings: usb: dwc3: Add Amlogic G12A DWC3 Glue Bindings
+>   phy: amlogic: add Amlogic G12A USB2 PHY Driver
+>   phy: amlogic: Add Amlogic G12A USB3 + PCIE Combo PHY Driver
+>   usb: dwc2: Add Amlogic G12A DWC2 Params
+>   usb: dwc3: Add Amlogic G12A DWC3 glue
+> 
+>  .../bindings/phy/meson-g12a-usb2-phy.txt      |  22 +
+>  .../bindings/phy/meson-g12a-usb3-pcie-phy.txt |  22 +
+>  .../devicetree/bindings/usb/amlogic,dwc3.txt  |  88 +++
+>  .../devicetree/bindings/usb/dwc2.txt          |   1 +
+>  drivers/phy/amlogic/Kconfig                   |  22 +
+>  drivers/phy/amlogic/Makefile                  |   2 +
+>  drivers/phy/amlogic/phy-meson-g12a-usb2.c     | 341 ++++++++++
+>  .../phy/amlogic/phy-meson-g12a-usb3-pcie.c    | 413 ++++++++++++
+>  drivers/usb/dwc2/params.c                     |  12 +
+>  drivers/usb/dwc3/Kconfig                      |  10 +
+>  drivers/usb/dwc3/Makefile                     |   1 +
+>  drivers/usb/dwc3/dwc3-meson-g12a.c            | 604 ++++++++++++++++++
+>  12 files changed, 1538 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/phy/meson-g12a-usb2-phy.txt
+>  create mode 100644 Documentation/devicetree/bindings/phy/meson-g12a-usb3-pcie-phy.txt
+>  create mode 100644 drivers/phy/amlogic/phy-meson-g12a-usb2.c
+>  create mode 100644 drivers/phy/amlogic/phy-meson-g12a-usb3-pcie.c
+>  create mode 100644 drivers/usb/dwc3/dwc3-meson-g12a.c
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlyrA6MACgkQ3SOs138+
-s6HZIQ/+IDrPopch617P4krSq4RRYSipiePmD/iKvBjodWR/t/npMJJLji9bckIp
-PIE9KSBY1FqcYo9txWx6jy03WU1JhPvHimYyq4DwDPytI+BjJc/qsXHqDQep8QxT
-ENuG2A/k0ANmZInPeM3Y3YK0C1fVudXOA9YT5aBJ51cyp34UFYPOWleIKDoRgi7A
-L1mnbo45EsW7zs1eiDOHIVQhGr8XYFDQrnU8FozHD3VJG2D18InhRvwMTLIJnSZa
-DDnA2qfIgaaWWcWvN0tcTsBd1WEXLsYMrSUdBj1/wJOV6qFfixCKSduWkxbNcEP/
-/5vybxYJg1pAA6eTYCdLPmOkwNOhAo5iOvmaFqCm0132SWNaLmg63G7q9WWE3DZa
-GmV8oTndXLZohpLqQw9IwTnyMFeOUeFw0HoEUFgx7mHbbDQjNUB6JZMiY/GaBpHi
-ITE5dPt5DXQJ89i3Bv3uHI4X47U8WsjECm5XrIfD/NBYxXXOiaiGZERpedcQUbeQ
-VWRhxK783b9ovlqaU5CrDX+bahG4fg2K3pXc5hdM/L6z5SK97cNGn4C2dT+y4ej4
-GXq5bGhZSbTkqcvqNGxVFNhwY+fSucZnZxg+k7Mmp7Bg/K9iX0uIPnYhe+wgPFQB
-C+6M3VVnggmJcshMx16vFD+Py3nT57tpjy2gI7X1QoAawpHTtS0=
-=1XCU
------END PGP SIGNATURE-----
-
---wq9mPyueHGvFACwf--
