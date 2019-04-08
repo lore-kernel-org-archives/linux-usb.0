@@ -2,140 +2,93 @@ Return-Path: <SRS0=iu7A=SK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_MUTT
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4442AC10F13
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 15:03:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66006C10F13
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 15:53:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1374421473
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 15:03:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3660221473
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 15:53:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XD50hFB6"
+	dkim=pass (2048-bit key) header.d=cogentembedded-com.20150623.gappssmtp.com header.i=@cogentembedded-com.20150623.gappssmtp.com header.b="IcPCXuWN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727753AbfDHPC7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 Apr 2019 11:02:59 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:37652 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726615AbfDHPC7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Apr 2019 11:02:59 -0400
-Received: by mail-wm1-f65.google.com with SMTP id v14so15091853wmf.2;
-        Mon, 08 Apr 2019 08:02:58 -0700 (PDT)
+        id S1727011AbfDHPxC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 Apr 2019 11:53:02 -0400
+Received: from mail-lj1-f176.google.com ([209.85.208.176]:45889 "EHLO
+        mail-lj1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726005AbfDHPxC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Apr 2019 11:53:02 -0400
+Received: by mail-lj1-f176.google.com with SMTP id y6so11726895ljd.12
+        for <linux-usb@vger.kernel.org>; Mon, 08 Apr 2019 08:53:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=fGBfhMWeRrQGORS5NyKcAVeIa/HorxH2EOZq3fBJ2tA=;
-        b=XD50hFB6dJ8laiwAaakQZCIwHT6fYvZk9VUJqj+1HY31a9qLd10nCJ+moIAWSgvwGu
-         9fk/0JBkyCNqySjlt7uxRJmHLFHEp1vwfKlTff2BbysEIrqL2l9tLcG3DdGCxDSGFfpG
-         ybY8NnEAPzoryvfaw6088VemIS8VTZXR0A7lQDt9yMSzLZW6g5juv2+fcl/J7EWSvc72
-         xlJVWr/3Om9GemvlTaPATFNwa/CAFKNYQt0D3pUsEJzjtYWnaDNT4ryMhGnymDK3dh0F
-         yHlzsKq1SkvV5AkGQg5BqDMbDaT8FND0Rl+jci2kgHvQksEfz08qF1YyGPKNaVcWAWw0
-         Li5g==
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=428MxoPmdfFdLO0ZnEGu1wKnxhHOYMTzNgVe45wSPeg=;
+        b=IcPCXuWNc3beaetdh+7XcyO/TOi79e1lhkaGWY616uBzwiuW9qppcsls/VR4e0HtHZ
+         5UNAA3xI7LsnsZ3+qliCPc1l4no6Q5Fq3GxcVf0fEQsMrIRm0hR78Mj1nEOVwlc4vyQ0
+         a54KqUpKCoQ/QM1MB3nBylx4MiS+FrWrBx2WKHg7pyrrlScEx8hjz0TuR8Y5uow/L9s8
+         DzttzBHU4Oj81wwpKOFb//5mMwwqUnZXC1sDDAV8azXgkYCIMrE63tgGCdA0te35Rvv2
+         Ff28Yku2BN/ia/KAzfeiXeorhbsoDfmI6koysKmIPltYNlO63pj66t4tQxxrEs1yQVRf
+         myBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=fGBfhMWeRrQGORS5NyKcAVeIa/HorxH2EOZq3fBJ2tA=;
-        b=T7zOodkFXpW/fTlN3e46AdzCsFwM/gtqGBrYChCP3ztQajplr3AARAuoKIhtyTT4mq
-         0KXpr6Pa7US/D1f/aWsgN98rOetu/KLZa5pggmqhzmk/XpqtsWwXhlYr2Z0hVHJwCP+S
-         WFqwyqrLhJ5sGfXDG6ZHQocO7u4ImBE6sipz4KpIwcwbMb/4ybgZv0ypSm1L87s6mbc7
-         UmWNKWFmXw0n1W8H/V2X8K++cJXLawp0fFrvquIkexazkW08foudziKfW6kkM0eHuD47
-         bp8hYP557N8GxH2R7etuiTbJ63kJRLqRsHWZnlGsZ1FylnBF5yjs09t0/p/Ywefezedg
-         NMfw==
-X-Gm-Message-State: APjAAAUi4TRoAoisPqeLts4bvRX020BbnKwYF99h7Nu3MURtdUyvycND
-        eFJL099Bna5IyOTu7kpYrHw=
-X-Google-Smtp-Source: APXvYqyO+osh1QTlxvJbpoqfSoAUjcAQNH9tdPKMpHIxq1h+12wgTZdqeMJdMCGslx5D5+X9EeMJ1g==
-X-Received: by 2002:a1c:9691:: with SMTP id y139mr17956721wmd.64.1554735777904;
-        Mon, 08 Apr 2019 08:02:57 -0700 (PDT)
-Received: from localhost (pD9E51B25.dip0.t-ipconnect.de. [217.229.27.37])
-        by smtp.gmail.com with ESMTPSA id a11sm30933017wrx.5.2019.04.08.08.02.56
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 08 Apr 2019 08:02:56 -0700 (PDT)
-Date:   Mon, 8 Apr 2019 17:02:55 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jon Hunter <jonathanh@nvidia.com>, linux-usb@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] usb: host: xhci-tegra: Add Tegra186 XUSB support
-Message-ID: <20190408150255.GA13288@ulmo>
-References: <20190408081739.GB6644@ulmo>
- <Pine.LNX.4.44L0.1904081006330.1440-100000@iolanthe.rowland.org>
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=428MxoPmdfFdLO0ZnEGu1wKnxhHOYMTzNgVe45wSPeg=;
+        b=qusf1lgZeJ6YlZrk9TX9N7pY/B1qTWp1QLRuzA0FHs/ELqXeG+RuIkejFQOWzW4KUM
+         FwmqP0EuYwcQPQ6PJ7YELkx6AsXxvbulvFwOW8vFiA4DBvRzWjGqcOgCEK0RgIr5ycX9
+         uaNdGdj6/59KKyQeKtRJWWo6beXBM3pgrmuvSbNXQLGns1qyiSxuSZ4WwIARI9s9dnGK
+         /HDbBtOMqidUL1yk1259hOsJ0vvNQis3wwKNY9SF2lHKCDqarxp7QNBG7PgMv5wPx0kJ
+         H2H82H5iC+hbpxRxYxmHW86UU+ItPtaqd33oBWIUQvq4/iEWgG8qs1lirYr7fO8b77zK
+         3G8g==
+X-Gm-Message-State: APjAAAXZssSe7wJJDw5uohh18oO72k9QeIrolpGMwVSrDCGGZkqV5lxi
+        /Glcea6xgBJezNUEW7dMqMRo1w==
+X-Google-Smtp-Source: APXvYqwIaTAvIlAnm9T6Vg41F+LKWP0AIhn7gELwQO/oIIYJUnOT5aGXlICeD1fC/dFHKB7F4hDA2Q==
+X-Received: by 2002:a2e:7007:: with SMTP id l7mr8072769ljc.101.1554738780397;
+        Mon, 08 Apr 2019 08:53:00 -0700 (PDT)
+Received: from wasted.cogentembedded.com ([31.173.87.219])
+        by smtp.gmail.com with ESMTPSA id u17sm6626581lfu.63.2019.04.08.08.52.59
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 08 Apr 2019 08:52:59 -0700 (PDT)
+Subject: Re: [PATCH] Deferred URB submission for timesharing the DMA channels
+ of DWC_OTG host controller in Raspberry PI
+To:     "Ramachandran Srinivasan (BRT-SG)" <srinivasan.r@brtchip.com>
+Cc:     Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <1554724399-2972-1-git-send-email-srinivasan.r@brtchip.com>
+ <20190408131245.GC24108@localhost>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <34bac244-3816-115f-4fab-a651ee167cf8@cogentembedded.com>
+Date:   Mon, 8 Apr 2019 18:52:58 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="9jxsPFA5p3P2qPhR"
-Content-Disposition: inline
-In-Reply-To: <Pine.LNX.4.44L0.1904081006330.1440-100000@iolanthe.rowland.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190408131245.GC24108@localhost>
+Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190408155258.16I3QgfWz2k4xhHYjBccdcoUVzzpdHB__zY9EdULuQg@z>
 
+On 04/08/2019 04:12 PM, Johan Hovold wrote:
 
---9jxsPFA5p3P2qPhR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Make sure to always provide a proper commit message.
+> 
+>> Signed-off-by: Srinivasan R <srinivasan.r@brtchip.com>
 
-On Mon, Apr 08, 2019 at 10:07:38AM -0400, Alan Stern wrote:
-> On Mon, 8 Apr 2019, Thierry Reding wrote:
->=20
-> > On Mon, Apr 01, 2019 at 12:40:44PM +0200, Thierry Reding wrote:
-> > > From: Thierry Reding <treding@nvidia.com>
-> > >=20
-> > > Hi,
-> > >=20
-> > > This series introduces support for XUSB to the Tegra186 SoC. This is
-> > > mostly the same as on earlier generations in that it provides an XHCI
-> > > compatible interface with a bit of vendor-specific glue. Perhaps the
-> > > most notable change is the removal of the IPFS wrapper. Patches for
-> > > the UPHY related changes that control the PHYs for the XUSB controller
-> > > were merged into v5.1.
-> > >=20
-> > > This version is a rebase of the series posted here:
-> > >=20
-> > >     http://patchwork.ozlabs.org/project/linux-tegra/list/?series=3D88=
-193
-> > >=20
-> > > There have been no code changes and I collected Reviewed-by and Acked=
--by
-> > > tags.
-> > >=20
-> > > Greg, can you pick up patches 1-3 with Rob's and Mathias' Acked-by,
-> > > respectively? I'll pick up patches 4-6 into the Tegra tree.
-> >=20
-> > Hi Greg,
-> >=20
-> > would you mind picking up patches 1-3 of this series?
->=20
-> FYI: Greg is on vacation for the coming week, with no email access.
+   Also, you have to sign off with your full name.
 
-Thanks for letting me know, Alan. I'll ping Greg again when he's back.
+[...]
 
-Thierry
-
---9jxsPFA5p3P2qPhR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAlyrYpwACgkQ3SOs138+
-s6EkeA/8C715419f8XxaZRrI3OuZ9lSHxmV5+wcNuR6Acb+qy5nYhDpG4bW97odQ
-2VBkvUFPPlSciHcFsJ7qP70gd3mCLU0/1fvbuYwyRXJtak5XaJNWqcvOJJoNs4Iv
-dZeOq+VVEiXYqle6ca6dT3j2Ofh81rpVcqWCTx2Olyo+uCUDv7V13kaW803QH6XJ
-NMFAwB/ajxAcBEzg19pXDHttA4jJRNiz1ekt8cDi8D4h5lQy2ebRDjRO14VIeXGz
-c1dx8gJXQihPc5HLy+bGl6mXNcmfw8tb9CJaD3ssZCIbzSYdYQcWA+vvFUT1Ltq5
-IABNXL3HEJk7VWSSyJ66wsIonsdISVbQp9GbjKaRZbDAS25va7gaWMCUKEUQcFBy
-sEWPRYJ4QASuRubFP6BZ9FhhNcm0Y0ALRnVIK5oQlTRqU7b/VLx0OalwFgy+zQu9
-PG7NawTw8mVdWyAkdx2hUZ2IYgfWMnty53EYjuvsOSoLMZhTzyfaxSZfdi2IANHu
-/MEKzKQvafzb+4KsEhPrBZfp1whhWjAZL35Qs17UXqPlEAXoYHaX+RXF/uB6S+Dl
-6UrZlO/WXR4Pg/xh0r4AgcEePOgZdYjpg6lCq5DPHONSAnO4o+oyN/qtYAvlnJr8
-kUJLDi/1iX6IW0JfOWiX89T1sO+YPx18eX2xMlTz9id0vIhDYF8=
-=V6kD
------END PGP SIGNATURE-----
-
---9jxsPFA5p3P2qPhR--
+MBR, Sergei
