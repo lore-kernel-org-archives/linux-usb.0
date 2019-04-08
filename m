@@ -3,73 +3,125 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	MAILING_LIST_MULTI,SPF_PASS autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9C32C10F13
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 19:00:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5352C10F13
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 19:01:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B6CF820879
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 19:00:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 843E120879
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 19:01:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726786AbfDHTAA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 Apr 2019 15:00:00 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:52534 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726544AbfDHS77 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Apr 2019 14:59:59 -0400
-Received: (qmail 6534 invoked by uid 2102); 8 Apr 2019 14:59:58 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 8 Apr 2019 14:59:58 -0400
-Date:   Mon, 8 Apr 2019 14:59:58 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     "Bollinger, Seth" <Seth.Bollinger@digi.com>
-cc:     USB list <linux-usb@vger.kernel.org>
-Subject: Re: Bug: VHCI + USB 3.0
-In-Reply-To: <2BD36DBB-21E5-4776-820C-BAA3C87F707C@digi.com>
-Message-ID: <Pine.LNX.4.44L0.1904081453480.1440-100000@iolanthe.rowland.org>
+        id S1727290AbfDHTBa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 Apr 2019 15:01:30 -0400
+Received: from mail-out.m-online.net ([212.18.0.10]:50623 "EHLO
+        mail-out.m-online.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726664AbfDHTBa (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Apr 2019 15:01:30 -0400
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+        by mail-out.m-online.net (Postfix) with ESMTP id 44dKX7744Sz1rXtr;
+        Mon,  8 Apr 2019 21:01:27 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+        by mail.m-online.net (Postfix) with ESMTP id 44dKX768Clz1qr64;
+        Mon,  8 Apr 2019 21:01:27 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+        by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
+        with ESMTP id ZPXLf5woQrhu; Mon,  8 Apr 2019 21:01:26 +0200 (CEST)
+X-Auth-Info: +MLpf2AoXkRdfoTcWWaN0KzQhljWziyowuPyM6ImORQ=
+Received: from crub (p508B6C31.dip0.t-ipconnect.de [80.139.108.49])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.mnet-online.de (Postfix) with ESMTPSA;
+        Mon,  8 Apr 2019 21:01:26 +0200 (CEST)
+Date:   Mon, 8 Apr 2019 21:01:26 +0200
+From:   Anatolij Gustschin <agust@denx.de>
+To:     Moritz Fischer <mdf@kernel.org>
+Cc:     linux-usb@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-fpga@vger.kernel.org, linux-kernel@vger.kernel.org,
+        gregkh@linuxfoundation.org, broonie@kernel.org, atull@kernel.org
+Subject: Re: [PATCH v4 3/3] fpga: Add fpga manager driver for ARRI Altera
+ FPP
+Message-ID: <20190408210126.74920213@crub>
+In-Reply-To: <20190408180151.GA5643@archbook>
+References: <20190221202506.17744-1-agust@denx.de>
+        <20190221202506.17744-4-agust@denx.de>
+        <20190408180151.GA5643@archbook>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190408190126.HrKRx7Xb7ANfI2V9FRVFX1yzV3NTizq1bkrudjZdSIU@z>
 
-On Mon, 8 Apr 2019, Bollinger, Seth wrote:
+Hi Moritz,
 
-> On Apr 8, 2019, at 12:23 PM, Alan Stern <stern@rowland.harvard.edu<mailto:stern@rowland.harvard.edu>> wrote:
-> 
-> The two big-endian numbers at the end of this line are the logical
-> block address of the device's last block and the logical block size in
-> bytes.  Thus the device claims to have 512-byte blocks.
-> 
-> I suspect you have run across a bug in the device.  It shouldn't mind
-> that it was asked to send 3584 bytes of data; it ought to send 3
-> 1024-byte packets followed by a short 512-byte packet.  Instead it
-> seems to be sending 4 1024-byte packets, thus causing an error.  At
-> least, that's my guess.
-> 
-> I am confused as to how this could be a device bug.  They have worked in every machine we’ve used them in so far, save for the USBIP use case.  I’ve spent quite some time trying to reproduce in physical machines, even the same one that experiences the problem using USBIP.
+On Mon, 8 Apr 2019 11:05:49 -0700
+Moritz Fischer mdf@kernel.org wrote:
 
-I don't know.  That's just my best guess based on the data seen so far.
+>Hi Anatolij,
+>
+>looks mostly good, a couple of nits inline.
 
-> To help verify this, can you send a similar usbmon trace on the server
-> showing what happens when the EOVERFLOW error occurs?  The debug
-> messages in your April 6 email don't contain all the detailed
-> information.
-> 
-> I believe this trace should have captured the failure, although I’m not seeing the odd read here...
+Thanks for review.
 
-No, that trace did not show any failure.  Did you see the corresponding 
-error messages in the kernel log while you were collecting the trace?
-Maybe you can try again.
+...
+>> +++ b/drivers/fpga/ftdi-fifo-fpp.c
+>> @@ -0,0 +1,594 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * Altera FPGA firmware upload via FPP using FT232H Bitbang/FT245-FIFO.
+>> + *
+>> + * Copyright (C) 2017 - 2018 DENX Software Engineering  
+>Maybe bump that to 2019 ;-)
 
-Alan
+I'll update it in next version.
 
-PS: Why doesn't your email client insert some sort of "reply indent"  
-string, such as "> "?  Looking at the messages you send, it's not so
-easy to tell which parts were written by you and which you are replying
-to.
+...
+>> +	gpiod_set_raw_value_cansleep(priv->nconfig, 1);
+>> +	gpiod_set_raw_value_cansleep(priv->conf_done, 0);
+>> +	msleep(50);  
+>
+>You could use a constant here for the 50 ...
 
+Do you mean something like below?
+
+  const unsigned int wait_50ms = 50;
+  ...
+  msleep(wait_50ms);
+
+...
+>and here ...
+>> +	gpiod_set_value_cansleep(priv->nconfig, 1);
+>> +	msleep(50);  
+>and here ...
+>> +	gpiod_set_value_cansleep(priv->nconfig, 0);
+>> +
+>> +	/* Wait for CONF_DONE to get low */  
+>Does the retry number come from datasheet?
+
+No, it is an empirical value.
+
+...
+>> +	if (!retries) {
+>> +		dev_warn(dev, "CONF_DONE wait timeout\n");  
+>
+>warn or err?
+
+err fits better here, I'll update to dev_err().
+
+...
+>> +	struct fpp_fpga_mgr_priv *priv = mgr->priv;
+>> +	struct device *dev = &priv->pdev->dev;
+>> +	int retries = MAX_RETRIES;
+>> +	int ret;
+>> +	u8 mask, status;  
+>
+>Can you swap the two lines, reverse xmas-tree please.
+
+Will do in v5.
+
+Thanks,
+Anatolij
