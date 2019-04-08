@@ -2,101 +2,105 @@ Return-Path: <SRS0=iu7A=SK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6A5AC282CE
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 06:46:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84A46C282CE
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 07:00:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AE69C20870
-	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 06:46:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2B6D420880
+	for <linux-usb@archiver.kernel.org>; Mon,  8 Apr 2019 07:00:45 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="d8lYWMss"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726431AbfDHGqX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 Apr 2019 02:46:23 -0400
-Received: from mail.lolchat.de ([212.58.75.196]:37891 "EHLO mail.lolchat.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725881AbfDHGqX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 8 Apr 2019 02:46:23 -0400
-Received: from [192.168.255.180] (mini [192.168.255.180])
-        (authenticated bits=0)
-        by mail.lolchat.de (8.15.2/8.15.2/Debian-12) with ESMTPSA id x386kHdn020041
-        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT);
-        Mon, 8 Apr 2019 08:46:17 +0200
-Subject: Re: Problem with USB2 devices connected to a hub
-To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
-        linux-usb@vger.kernel.org
-References: <ccf69384-7aa2-883f-beb0-6bac8e9364e8@chini.tk>
- <352717b6-d467-92e6-640f-469c0682a91d@linux.intel.com>
- <9dc271d6-67c4-4e06-5bcb-d5dd3a480927@chini.tk>
- <c3e9e38f-28dd-3154-afcd-3922a23fbde0@linux.intel.com>
- <dea4e484-c4d3-a56b-6beb-1acf05c1ac8d@chini.tk>
- <dca924bf-dbb0-297c-cb39-d7cea474a144@chini.tk>
- <f413aeb9-08c5-2cff-f238-4766df35401d@chini.tk>
- <6e528087-923a-bc00-7db6-04c1c86845f2@linux.intel.com>
- <6ff355d4-5fc5-6c80-d3ee-d279c40c5ab3@chini.tk>
- <457f1aeb-aa48-b3ec-caaf-951de8744cb4@chini.tk>
- <0d3f6759-e7f8-8fd5-d164-dad4c08a49d4@linux.intel.com>
- <1f127b03-f009-f7ec-4c99-e859416565a1@linux.intel.com>
-From:   Georg Chini <georg@chini.tk>
-Message-ID: <cbf6294c-93d5-27c1-f94e-92d04bd7d931@chini.tk>
-Date:   Mon, 8 Apr 2019 08:46:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
-MIME-Version: 1.0
-In-Reply-To: <1f127b03-f009-f7ec-4c99-e859416565a1@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        id S1725953AbfDHHAo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 Apr 2019 03:00:44 -0400
+Received: from mail-eopbgr70052.outbound.protection.outlook.com ([40.107.7.52]:54501
+        "EHLO EUR04-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725871AbfDHHAo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 8 Apr 2019 03:00:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jqDeyUOm+b1PUviVVYuW9fRp/U6FXm0GsJoLgQ60dMo=;
+ b=d8lYWMssYiGwTuYhisH0A2z2iPwGhNck9oiMUHjInLT89E3iVm/8lSLOhnaq8dIiXk187YBwMH685k7HfEftrKFwYaN+pfeZOMRI+F+EbWw0pBH8K3I6280kQQxjwDOgSf0zFPnxdA3RMJP5OwyASUYvJQCv40hIaf0tNtPQUrc=
+Received: from VI1PR04MB5327.eurprd04.prod.outlook.com (20.177.52.16) by
+ VI1PR04MB5053.eurprd04.prod.outlook.com (20.177.50.138) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1771.18; Mon, 8 Apr 2019 07:00:39 +0000
+Received: from VI1PR04MB5327.eurprd04.prod.outlook.com
+ ([fe80::2c55:3ad5:63a9:77a2]) by VI1PR04MB5327.eurprd04.prod.outlook.com
+ ([fe80::2c55:3ad5:63a9:77a2%3]) with mapi id 15.20.1771.021; Mon, 8 Apr 2019
+ 07:00:39 +0000
+From:   Peter Chen <peter.chen@nxp.com>
+To:     Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>
+CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: RE: Why there is a refcnt check when we change configfs property
+Thread-Topic: Why there is a refcnt check when we change configfs property
+Thread-Index: AdTpLGh1VL7L01/0R/2ANZXQil7QIgADMemAAF+87QAABsmugADBPl6w
+Date:   Mon, 8 Apr 2019 07:00:39 +0000
+Message-ID: <VI1PR04MB53274AD6124C23E44E5E55478B2C0@VI1PR04MB5327.eurprd04.prod.outlook.com>
+References: <VI1PR04MB5327CD7017881B1F0D70730A8B560@VI1PR04MB5327.eurprd04.prod.outlook.com>
+ <87tvfghh5u.fsf@linux.intel.com>
+ <VI1PR04MB5327F6BA759FD5B0FDADC71C8B500@VI1PR04MB5327.eurprd04.prod.outlook.com>
+ <fd8e99d9-4ce1-0e75-dea7-1af74b15a7a3@gmail.com>
+In-Reply-To: <fd8e99d9-4ce1-0e75-dea7-1af74b15a7a3@gmail.com>
+Accept-Language: en-US
 Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=peter.chen@nxp.com; 
+x-originating-ip: [119.31.174.66]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f45cb1bd-3fac-4a64-9849-08d6bbefe8f1
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600139)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:VI1PR04MB5053;
+x-ms-traffictypediagnostic: VI1PR04MB5053:
+x-microsoft-antispam-prvs: <VI1PR04MB505359A090F6A9D83ACFAC968B2C0@VI1PR04MB5053.eurprd04.prod.outlook.com>
+x-forefront-prvs: 0001227049
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(346002)(136003)(39860400002)(366004)(396003)(376002)(199004)(189003)(44832011)(68736007)(86362001)(14454004)(26005)(486006)(76176011)(11346002)(476003)(8676002)(446003)(81156014)(81166006)(256004)(6506007)(102836004)(478600001)(8936002)(93886005)(66066001)(186003)(71200400001)(71190400001)(52536014)(53936002)(6246003)(33656002)(110136005)(9686003)(106356001)(97736004)(6436002)(6116002)(5660300002)(7696005)(305945005)(55016002)(7736002)(2906002)(99286004)(105586002)(4326008)(74316002)(25786009)(229853002)(316002)(3846002);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR04MB5053;H:VI1PR04MB5327.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: qDvGZzN4F6JSWPLwxcJggNTBnxV9DGTkY2xt5lsAYxcxYlQN/A8Zv3UPzYhz9pcEVGK9UMGtzr0Y0wuWDvLXzYHxRfFnJUulTwIT/M6zp5J4PmnvBIF4P04OnBZSTSp28EG5HTRM9gA3BkwEOWNTVktCcQZkYSdu4EqT2jpGVraCKWXNst9MClunB6gjTCYmqr1sVviIn4e06VexnR/m1mjX/YTIz/Sa0l0N2SD9la6VaMliR3R8nPWvuQgCNkXGJGh8n8c+VKMxBCT0oZRvj5OSAn4ciQ5MygyES0isvN2w+pGSIGH6TRoca0ItMY2MbbkjzmhZuPOoVKvr+aCyaR63XPnuBf+oHTAjJ2cuyf/pMthcV0T4N2F8sIzmvCUZ1GNp4fyp3rL5Qrbl0qGBFAju3qjwyl9zMBJHLY12skg=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f45cb1bd-3fac-4a64-9849-08d6bbefe8f1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Apr 2019 07:00:39.7998
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5053
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 02.04.19 16:52, Mathias Nyman wrote:
-> On 28.3.2019 15.41, Mathias Nyman wrote:
->>
->>>> The issue happens when only a single hub and a single device is 
->>>> connected to the
->>>> USB subsystem. On my previous board, I had two USB dongles and two 
->>>> sound
->>>> devices connected to the same hub and it worked without issues. So 
->>>> I guess it
->>>> is not a real bandwidth limit. Somehow the hub seems to eat the 
->>>> bandwidth.
->>>
->>>
->>> Can/will you investigate this problem further or do I have to live 
->>> with it? Or is there
->>> anything more I can do?
->>>
->>
->> This is one of the items I'm looking at.
->>
->> xHC hw calculates bandwidth usage when endpoints are added based on 
->> values in endpoint context.
->> The traces unfortunately didn't support this, so new tracing support 
->> was needed, added here to my
->> bandwith-debug branch:
->>
->> git://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git 
->> bandwidth-debug
->>
->> xHC hw can also report available bandwidth, but we don't yet have 
->> driver support.
->> I was planning on adding a hack that checks the available bandwidth 
->> after every endpoint change
->> and add it to the testbranch, but that part is not yet finished.
->>
->> New traces using the bandwidth-debug testbranch could be useful, even 
->> without the "available bandwidth"
->> support
->>
->
-> available bandwidth tracking added to bandwidth-debug branch, any 
-> chance you could take new traces?
->
-> -Mathias
-
-Sorry, only just read the mail, will do so in the next days.
-
+IA0KPiA+DQo+ID4gQW5kcnplaiwgd291bGQgeW91IHRlbGwgdXMgd2h5IHlvdSBpbnRyb2R1Y2Ug
+cmVmY250IGZvciBkcml2ZXIncw0KPiA+IGNvbmZpZ2ZzIG9wdHM/IEFuZCB3aHkgaXQgaXMgbmVl
+ZGVkIHRvIGp1ZGdlIGZvciAic3RvcmUiIG9wZXJhdGlvbj8NCj4gPg0KPiANCj4gVGhlIHJlYXNv
+biBpcyB0aGF0IGEgZnVuY3Rpb24gY2FuIGJlIGxpbmtlZCB0byBtb3JlIHRoYW4gb25lIGNvbmZp
+Z3VyYXRpb24uIEltYWdpbmUNCj4gdGhpcyBzZXF1ZW5jZTogeW91IGNyZWF0ZSBhIGZ1bmN0aW9u
+LCBzZXQgaXRzIHBhcmFtZXRlcnMgYW5kIHRoZW4gY3JlYXRlIGENCj4gY29uZmlndXJhdGlvbi4g
+VGhlbiB5b3UgZGVjbGFyZSAiSSB3YW50IHRoaXMgZnVuY3Rpb24gaW4gbXkgY29uZmlndXJhdGlv
+biIuIFlvdSBjYW4NCj4gZGVjaWRlIHRoYXQgeW91IHdhbnQgdGhhdCBwYXJ0aWN1bGFyIGZ1bmN0
+aW9uIGluc3RhbmNlIGJlY2F1c2UgeW91IGFscmVhZHkga25vdw0KPiBob3cgaXQgaXMgY29uZmln
+dXJlZCBhbmQgYXJlIGZpbmUgd2l0aCB0aGF0IHN0YXRlLiBUaGluayBvZiBpdCBhcyBhIGNvbnRy
+YWN0IGJldHdlZW4NCj4gdGhlIGZ1bmN0aW9uIGFuZCB0aGUgY29uZmlndXJhdGlvbi4NCj4gDQo+
+IE5vdywgc3VwcG9zZSBzb21lIG90aGVyIGNvbmZpZ3VyYXRpb24gaXMgY3JlYXRlZCBhbmQgaW4g
+dGhhdCBjb25maWd1cmF0aW9uIGEgc2ltaWxhcg0KPiBmdW5jdGlvbiBpcyBuZWVkZWQuIFRoZSBj
+cmVhdG9yIG9mIHRoYXQgb3RoZXIgY29uZmlndXJhdGlvbiBtaWdodCBiZSB0ZW1wdGVkIHRvDQo+
+IG1vZGlmeSB0aGUgZXhpc3RpbmcgYW5kIGFscmVhZHkgdXNlZCBmdW5jdGlvbiAobGlua2VkIHRv
+IGEgY29uZmlndXJhdGlvbiksIHRodXMNCj4gYnJlYWtpbmcgdGhlIGNvbnRyYWN0IGJldHdlZW4g
+dGhlIGZ1bmN0aW9uIGFuZCB0aGUgZmlyc3QgY29uZmlndXJhdGlvbi4NCg0KVGhhbmtzLCBBbmRy
+emVqLg0KDQpCdXQgd2UgZGVzaWduZWQgInN0b3JlIiBlbnRyeSBmb3IgZnVuY3Rpb24gZHJpdmVy
+cywgd2UgY2FuJ3QgdXNlIGl0IG5vdy4NCklzIGl0IHBvc3NpYmxlIGxldCB0aGUgcGFyYW1ldGVy
+cyBwZXIgZnVuY3Rpb24gZGV2aWNlIGluc3RlYWQgb2YgZnVuY3Rpb24gZHJpdmVyPw0KT3IgbGlr
+ZSBtb2R1bGUgcGFyYW1ldGVycywgbGV0IHRoZSB1c2VyIGNoYW5nZSBvbmUgdGltZSBhdCBsZWFz
+dC4NCg0KUGV0ZXINCg==
