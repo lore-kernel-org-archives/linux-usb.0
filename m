@@ -6,117 +6,90 @@ X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1E29C10F0E
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 14:14:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A854C10F0E
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 14:34:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9AB9920830
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 14:14:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5BBE62084B
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 14:34:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726479AbfDIOOu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 9 Apr 2019 10:14:50 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:45882 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726374AbfDIOOu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Apr 2019 10:14:50 -0400
-Received: (qmail 1647 invoked by uid 2102); 9 Apr 2019 10:14:49 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 9 Apr 2019 10:14:49 -0400
-Date:   Tue, 9 Apr 2019 10:14:49 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Miquel Raynal <miquel.raynal@bootlin.com>
-cc:     Hans de Goede <hdegoede@redhat.com>, <linux-usb@vger.kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@kernel.org>
-Subject: Re: Question about regulators
-In-Reply-To: <20190409094132.22d2d827@xps13>
-Message-ID: <Pine.LNX.4.44L0.1904091007190.1599-100000@iolanthe.rowland.org>
+        id S1726461AbfDIOec (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 9 Apr 2019 10:34:32 -0400
+Received: from mga02.intel.com ([134.134.136.20]:20195 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726035AbfDIOeb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 9 Apr 2019 10:34:31 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Apr 2019 07:34:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,329,1549958400"; 
+   d="scan'208";a="147780055"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.164]) ([10.237.72.164])
+  by FMSMGA003.fm.intel.com with ESMTP; 09 Apr 2019 07:34:29 -0700
+Subject: Re: Regression xhci_hcd cmd failed due to incorrect slot or ep state
+To:     Bernhard Gebetsberger <bernhard.gebetsberger@gmx.at>,
+        linux-usb@vger.kernel.org
+References: <0d300c86-4aaa-28d4-cb37-5bc62fa67a9a@gmx.at>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-ID: <520462de-9a7f-d3f3-2cce-e4be045cf8b2@linux.intel.com>
+Date:   Tue, 9 Apr 2019 17:36:51 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+In-Reply-To: <0d300c86-4aaa-28d4-cb37-5bc62fa67a9a@gmx.at>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 9 Apr 2019, Miquel Raynal wrote:
-
-> Hi Hans,
+On 7.4.2019 13.32, Bernhard Gebetsberger wrote:
+> When using  the kernel version 4.20 or above my usb wifi stick doesn't
+> work until I reboot my system, dmesg shows this message when the issue
+> occurs:
 > 
-> Hans de Goede <hdegoede@redhat.com> wrote on Tue, 9 Apr 2019 09:38:01
-> +0200:
+> xhci_hcd 0000:15:00.0: WARN Set TR Deq Ptr cmd failed due to incorrect slot or ep state
 > 
-> > Hi,
-> > 
-> > On 09-04-19 09:26, Miquel Raynal wrote:
-> > > Hello,
-> > > 
-> > > Adding Greg & Hans just in case they have an idea, or someone else to
-> > > ping in mind.
-> > > 
-> > > Miquel Raynal <miquel.raynal@bootlin.com> wrote on Wed, 3 Apr 2019
-> > > 10:13:43 +0200:
-> > >   
-> > >> Hello,
-> > >>
-> > >> I am reading the document named "xHCI interoperability testing v0.94"
-> > >> available on usb.org. There is this paragraph:
-> > >>
-> > >>          Devices operating at Enhanced SuperSpeed GenX are allowed to
-> > >>          draw a maximum configured current of 900mA and unconfigured
-> > >>          current of 150mA. Devices operating at High-Speed or below may
-> > >>          draw a maximum configured current of 500mA and unconfigured
-> > >>          current of 100mA*. Devices must report their maximum configured
-> > >>          current draw and their power configuration as self or bus
-> > >>          powered to the host and must operate within the regions
-> > >>          reported. Additionally any device that is in the suspended
-> > >>          state may draw no more than 2.5 mA.
-> > >>
-> > >> My understanding is that the current limitation on Vbus should be tuned
-> > >> dynamically between 100, 150, 500 and 900mA depending on the type of
-> > >> device and if has been configured or not.
-> > >>
-> > >> Despite some researches in the USB core I can't find any mechanism
-> > >> handling this in Linux implementation.
-> > >>
-> > >> Behind this remark, I actually have boards (Armada 7040/8040 DB) with a
-> > >> regulator on Vbus to limit the current to either 500 or 900mA. I
-> > >> checked the xhci-platform driver which is used with these SoCs and I
-> > >> don't find any mean to tweak this value depending on the inserted
-> > >> device.
-> > >>
-> > >> Should I actually care? Is it enough to limit to 900mA whenever the
-> > >> xHCI driver is probed?  
-> > 
-> > To be clear you are talking about a regulator producing Vbus for device
-> > plugged into the system, right ?
-> > 
-> > In that case just configuring th current-limit at 900mA is fine, it really
-> > is up to the device to not consume more then it may and even if it does since
-> > the port is capable of delivering 900mA anyways that is not a problem.
-> > 
-> > There is code in various places in the kernel for Linux devices to not
-> > consume too much energy (mostly in charger ic drivers) when the Linux
-> > device itself is an USB device drawing power.
-> > 
-> > Regards,
-> > 
-> > Hans
-> > 
+> I've found that the problem is caused by this commit:
 > 
-> Thank you very much for answering my questions. I'll just stick to a
-> 900mA limitation in all cases then.
+> commit f8f80be501aa2f10669585c3e328fad079d8cb3a
+> Author: Mathias Nyman <mathias.nyman@linux.intel.com  <mailto:mathias.nyman@linux.intel.com>>
+> Date:   Thu Sep 20 19:13:37 2018 +0300
+> 
+>      xhci: Use soft retry to recover faster from transaction errors
+> 
+> It looks like it only affects wifi sticks(various models) on specific
+> hardware configurations(I have this issue on my Ryzen pc, my Intel pc
+> isn´t affected, but someone in the kernel bug tracker mentioned that he
+> has this issue on an Intel notebook as well (only with USB 3.0 ports
+> though)).
 
-If you want to be more strict about it, in theory you could enforce the
-lower current limits.  We do know when they are supposed to take
-effect, although that knowledge is currently not used.  The Linux USB
-core has no mechanism for informing regulators about maximum current
-limits, but some such mechanism certainly could be added.
+Thanks for the report.
 
-For example, one relatively simple thing you could do is set the limit
-to 900 mA when the device connection is SuperSpeed or faster, and 500
-mA when the device connection is High speed or slower.  (And 2.5 mA 
-when the device is suspended.)  But you would have to write the code to 
-do this and insert it in the correct place in the xhci-hcd driver.
+I can see how these would be related, setting a new Transfer Ring dequeue pointer
+requires the ep ring to be in Error or stopped state, otherwise you see the above message.
 
-Alan Stern
+The soft retry patch will automatically restart a ring from stopped to running state.
 
+But to know the details where the issue exactly is, or how we ended up there, I would need to
+look at logs and traces.
+
+Logs and traces can be taken with:
+
+mount -t debugfs none /sys/kernel/debug
+echo 'module xhci_hcd =p' >/sys/kernel/debug/dynamic_debug/control
+echo 'module usbcore =p' >/sys/kernel/debug/dynamic_debug/control
+echo 81920 > /sys/kernel/debug/tracing/buffer_size_kb
+echo 1 > /sys/kernel/debug/tracing/events/xhci-hcd/enable
+
+< trigger failure >
+
+Send output of dmesg to me, and
+copy /sys/kernel/debug/tracing/trace to me.
+
+-Mathias
+
+   
