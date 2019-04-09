@@ -3,61 +3,62 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A145EC10F0E
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 13:30:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30D9EC10F0E
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 13:31:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 11D69206C0
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 13:30:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AEEAB206C0
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 13:31:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727335AbfDINao convert rfc822-to-8bit (ORCPT
+        id S1727136AbfDINbB convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 9 Apr 2019 09:30:44 -0400
-Received: from mail1.bemta24.messagelabs.com ([67.219.250.116]:42782 "EHLO
+        Tue, 9 Apr 2019 09:31:01 -0400
+Received: from mail1.bemta24.messagelabs.com ([67.219.250.215]:38302 "EHLO
         mail1.bemta24.messagelabs.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726464AbfDINao (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Apr 2019 09:30:44 -0400
+        by vger.kernel.org with ESMTP id S1726772AbfDINbB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Apr 2019 09:31:01 -0400
 Received: from [67.219.250.197] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-        by server-5.bemta.az-b.us-west-2.aws.symcld.net id 52/AC-24370-17E9CAC5; Tue, 09 Apr 2019 13:30:25 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrDKsWRWlGSWpSXmKPExsXi5LtOQLdg3po
-  Yg9M/TC0WLWtltpjw+wKbA5PH7Ls/GD0+b5ILYIpizcxLyq9IYM34vvcla8HPqfwVk6/eZG5g
-  fDyZt4uRi0NIYBWjRPfL86wQzh5GifvXVrN0MXJysAkYSpzb8pYdxBYR0JLY3PSSuYuRg4NZQ
-  EPi/CYTEFNYQEHi6SodiApFiR/PjjGDjBERaGKUeDrjJhtIgkVARWLz2n1gI3kFrCVub3rIDG
-  ILCdRKtC/bDGZzCthIPJv4AqyeUUBM4vupNUwgNrOAuMStJ/PBbAkBAYkle84zQ9iiEi8f/2O
-  FsOUl5tw6zQ5RryOxYPcnNgjbXGLhwuPMELa2xLKFr5khbhCUODnzCQvI/UJAt83ZoDWBUWwW
-  km2zkEyahWTSLCSTZiGZtICRdRWjRVJRZnpGSW5iZo6uoYGBrqGhka6hMRCbmuglVukm6ZUW6
-  5anFpfoGukllhfrFVfmJuek6OWllmxiBMZkSkHLrB2MZ1akH2KU5GBSEuVd2LkmRogvKT+lMi
-  OxOCO+qDQntfgQowwHh5IEr95coJxgUWp6akVaZg4wOcCkJTh4lER4eUDSvMUFibnFmekQqVO
-  MuhwHFj2cyyzEkpeflyolzhsEUiQAUpRRmgc3ApaoLjHKSgnzMjIwMAjxFKQW5WaWoMq/YhTn
-  YFQS5lUFmcKTmVcCt+kV0BFMQEdM0VkNckRJIkJKqoFx+RVjkW12qlqG3BKu33Wfb5+qMWf21
-  pu+XPlCiQVMdR8vWL2IW9Xk+GGrDzvXjMx7GvYp79/9M1f2beRe80jS5tSqC5xfVxblrZql0/
-  li/UFZvrCsv+qf+7YeaHjxjXGrrtilZ5++vPJ8krfNytG4/l6E6NnfP7OuVfzuuXlrTfipP2+
-  5A9xilViKMxINtZiLihMBqFo/EE8DAAA=
+        by server-3.bemta.az-b.us-west-2.aws.symcld.net id 55/AF-23907-27E9CAC5; Tue, 09 Apr 2019 13:30:26 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrDKsWRWlGSWpSXmKPExsXi5LtOQLdo3po
+  Ygw+d/BaLlrUyW0z4fYHNgclj9t0fjB6fN8kFMEWxZuYl5VcksGZ83/uSteDnVP6KyVdvMjcw
+  Pp7M28XIxSEksIpR4v/ak4wQzh5GiblfljJ3MXJysAkYSpzb8pYdxBYR0JLY3PQSKM7BwSygI
+  XF+kwmIKSygIPF0lQ5EhaLEj2fHmEHGiAg0MUrcOXYHbAyLgIrE5rX7WEBsXgFriSc/joKNFB
+  KolWhfthmshlPARuLZxBdsIDajgJjE91NrmEBsZgFxiVtP5oPZEgICEkv2nGeGsEUlXj7+xwp
+  hy0vMuXWaHaJeR2LB7k9sELa5xLGnNxkhbG2JZQtfM0PcIChxcuYTFpD7hYBum7NBawKj2Cwk
+  22YhmTQLyaRZSCbNQjJpASPrKkaLpKLM9IyS3MTMHF1DAwNdQ0MjXUNjE10jQyO9xCrdJL3SY
+  t3y1OISXSC3vFivuDI3OSdFLy+1ZBMjMCZTCtqu7GD8tTz9EKMkB5OSKO/CzjUxQnxJ+SmVGY
+  nFGfFFpTmpxYcYZTg4lCR49eYC5QSLUtNTK9Iyc4DJASYtwcGjJMLLA5LmLS5IzC3OTIdInWL
+  U5Tiw6OFcZiGWvPy8VClx3iCQIgGQoozSPLgRsER1iVFWSpiXkYGBQYinILUoN7MEVf4VozgH
+  o5IwryrIFJ7MvBK4Ta+AjmACOmKKzmqQI0oSEVJSDYzTnO1XRH/ZvP/hfduahIL9F34cmt1z+
+  Nq3LedD3jMo3Xs788mbjfW6jdY6ob1m3VcrgxYkcb8+8yHZtjTmPqu+213JgMI8ad6aU58Wii
+  7iDl6QZfRot27PUcs9S2ao7hMVtBRoD/59OMjjqoOXe/DeJYba8/obJ3QbrdqxiDm2YeOJ7rw
+  Sfz0lluKMREMt5qLiRAAyHGCxTwMAAA==
 X-Env-Sender: Seth.Bollinger@digi.com
-X-Msg-Ref: server-5.tower-345.messagelabs.com!1554816623!7155510!1
+X-Msg-Ref: server-5.tower-345.messagelabs.com!1554816623!7155510!2
 X-Originating-IP: [66.77.174.16]
 X-SYMC-ESS-Client-Auth: outbound-route-from=pass
 X-StarScan-Received: 
 X-StarScan-Version: 9.31.5; banners=-,-,-
 X-VirusChecked: Checked
-Received: (qmail 3082 invoked from network); 9 Apr 2019 13:30:23 -0000
+Received: (qmail 3243 invoked from network); 9 Apr 2019 13:30:25 -0000
 Received: from owa.digi.com (HELO MCL-VMS-XCH01.digi.com) (66.77.174.16)
-  by server-5.tower-345.messagelabs.com with SMTP; 9 Apr 2019 13:30:23 -0000
-Received: from MTK-SMS-XCH02.digi.com (10.10.8.196) by MCL-VMS-XCH01.digi.com
+  by server-5.tower-345.messagelabs.com with SMTP; 9 Apr 2019 13:30:25 -0000
+Received: from MTK-SMS-XCH03.digi.com (10.10.8.197) by MCL-VMS-XCH01.digi.com
  (10.5.8.49) with Microsoft SMTP Server (TLS) id 14.3.439.0; Tue, 9 Apr 2019
- 08:30:22 -0500
+ 08:30:23 -0500
 Received: from MTK-SMS-XCH01.digi.com ([fe80::cca7:5299:c88e:1c40]) by
- MTK-SMS-XCH02.digi.com ([fe80::4960:cfbf:ad5e:3cdb%20]) with mapi id
+ MTK-SMS-XCH03.digi.com ([fe80::484d:c326:e7f1:a9fd%16]) with mapi id
  14.03.0439.000; Tue, 9 Apr 2019 08:30:22 -0500
 From:   "Bollinger, Seth" <Seth.Bollinger@digi.com>
 To:     Alan Stern <stern@rowland.harvard.edu>
 CC:     USB list <linux-usb@vger.kernel.org>
 Subject: Re: Bug: VHCI + USB 3.0
 Thread-Topic: Bug: VHCI + USB 3.0
-Thread-Index: AQHU6+SEgulXK6TzJ0OKPp0lJzg2fKYuYXeAgAAIH4CAAS7ugIAABkMAgAADKICAAuoyAIAAH+eAgAAgmYCAAA8VAIAAEicAgAAIsQCAAANzgIABLpUA
+Thread-Index: AQHU6+SEgulXK6TzJ0OKPp0lJzg2fKYuYXeAgAAIH4CAAS7ugIAABkMAgAADKICAAuoyAIAAH+eAgAAgmYCAAA8VAIAAEicAgAAIsQCAAANzgIABMrSA
 Date:   Tue, 9 Apr 2019 13:30:21 +0000
-Message-ID: <26C1E17D-86C3-42A9-AC21-DBB4554FB901@digi.com>
+Message-ID: <81BA7AE9-F21B-4BF1-B9A0-FDC82996EBA5@digi.com>
 References: <Pine.LNX.4.44L0.1904081453480.1440-100000@iolanthe.rowland.org>
  <C22C24B7-A1A1-44E4-9559-ED576ABE8CFF@digi.com>
 In-Reply-To: <C22C24B7-A1A1-44E4-9559-ED576ABE8CFF@digi.com>
@@ -67,7 +68,7 @@ X-MS-Has-Attach:
 X-MS-TNEF-Correlator: 
 x-originating-ip: [10.10.81.30]
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <7085E3238280194E944E9D1F69207E09@digi.com>
+Content-ID: <1EAE9BC96DB9D2458603385BF864061E@digi.com>
 Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
 Sender: linux-usb-owner@vger.kernel.org
