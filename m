@@ -3,113 +3,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
-	T_DKIMWL_WL_HIGH,UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86B29C10F13
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 02:10:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AA5FC10F13
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 02:42:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 55D5221473
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 02:10:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5A97D213F2
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 02:42:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="lZLSLXsk"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="LBbM7iLt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726538AbfDICKx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 Apr 2019 22:10:53 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:59924 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725953AbfDICKx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Apr 2019 22:10:53 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x392A4Rk097347;
-        Tue, 9 Apr 2019 02:10:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
- from : references : date : in-reply-to : message-id : mime-version :
- content-type; s=corp-2018-07-02;
- bh=HfkS45Zt2fMESAbcnl3hyfZ2EC46gZ0d06xznFPMZWM=;
- b=lZLSLXskSicYiRk9BPdTzZLzw8GvWANg5CRXoY8w8tkndlhxs0iGlCdIC9XZzKvOjMm3
- 2YFON2NdZdGuMtXgZY3K0DSbORuVuBaQW0YUOkfAfb82fMxd7DfKIOtlD/yxwKza6sO1
- hnpfhy9YJqZsL88ZVgXP1YoXHB83DEIH7ZhRg+1xin4TX5L12JzRZ29KW3EjXJtJWpZ7
- ASPu/rLFcFKF8Tr6Skwg3BtO+F6Z/44XxrcS0b6quxWCmYYLRUZBli8XSx85DH872IEm
- varNiMwz+sCBRV+gobC5kFXbMSNF7byyXP+eThY21sVA8LK0+JSkZV2vWP3csXQq92Ei pg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by aserp2130.oracle.com with ESMTP id 2rphmea66j-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 09 Apr 2019 02:10:28 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x3929cb6007436;
-        Tue, 9 Apr 2019 02:10:28 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3030.oracle.com with ESMTP id 2rpj5aa1v3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 09 Apr 2019 02:10:28 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x392ANCq014365;
-        Tue, 9 Apr 2019 02:10:23 GMT
-Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 08 Apr 2019 19:10:22 -0700
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Kento.A.Kobayashi@sony.com,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Oliver Neukum <oneukum@suse.com>, <gregkh@linuxfoundation.org>,
-        USB Storage list <usb-storage@lists.one-eyed-alien.net>,
-        <Jacky.Cao@sony.com>,
-        Kernel development list <linux-kernel@vger.kernel.org>,
-        SCSI development list <linux-scsi@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH] usb: uas: fix usb subsystem hang after power off hub port
-From:   "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-References: <Pine.LNX.4.44L0.1904041522150.1288-100000@iolanthe.rowland.org>
-Date:   Mon, 08 Apr 2019 22:10:19 -0400
-In-Reply-To: <Pine.LNX.4.44L0.1904041522150.1288-100000@iolanthe.rowland.org>
-        (Alan Stern's message of "Thu, 4 Apr 2019 15:33:38 -0400 (EDT)")
-Message-ID: <yq1a7h0orn8.fsf@oracle.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
+        id S1726575AbfDICml (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 Apr 2019 22:42:41 -0400
+Received: from mail-eopbgr130072.outbound.protection.outlook.com ([40.107.13.72]:19014
+        "EHLO EUR01-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726530AbfDICml (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 8 Apr 2019 22:42:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pc0H0ZxkhZoAO+xY7zVlI2uvABjt5xbnRdF8HStKoiA=;
+ b=LBbM7iLtZFAktoNuTKuCrT7BhH90dge04BjmkKyEF0QXGTW7FGVVW+dKO/xCtq5Q4Rf+btYFknLGwfzWbW52em42DEbAgNk4Rok6m5xTWbbJZxwVUOLDvTO1fFQm/YmrqVNhzDJDM3NQzTdqaCE3iBW+qz59iax5YKgRxtltPkM=
+Received: from AM5PR0402MB2865.eurprd04.prod.outlook.com (10.175.41.148) by
+ AM5PR0402MB2883.eurprd04.prod.outlook.com (10.175.42.9) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1771.21; Tue, 9 Apr 2019 02:42:36 +0000
+Received: from AM5PR0402MB2865.eurprd04.prod.outlook.com
+ ([fe80::d017:34d9:4a70:bb8]) by AM5PR0402MB2865.eurprd04.prod.outlook.com
+ ([fe80::d017:34d9:4a70:bb8%11]) with mapi id 15.20.1771.016; Tue, 9 Apr 2019
+ 02:42:36 +0000
+From:   Ran Wang <ran.wang_1@nxp.com>
+To:     Felipe Balbi <balbi@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RESEND: How to configure kernel to support USB device mode (gadget)
+ UASP feature
+Thread-Topic: RESEND: How to configure kernel to support USB device mode
+ (gadget) UASP feature
+Thread-Index: AdTufd58kSdKurHGSPyGyCxQvanJMA==
+Date:   Tue, 9 Apr 2019 02:42:35 +0000
+Message-ID: <AM5PR0402MB2865EEBA2F9CDCB01A58D8D2F12D0@AM5PR0402MB2865.eurprd04.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=ran.wang_1@nxp.com; 
+x-originating-ip: [92.121.36.197]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f379fca9-2cae-4a0e-ddb6-08d6bc950656
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600139)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:AM5PR0402MB2883;
+x-ms-traffictypediagnostic: AM5PR0402MB2883:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <AM5PR0402MB2883EA779054B7A697C1BBE5F12D0@AM5PR0402MB2883.eurprd04.prod.outlook.com>
+x-forefront-prvs: 000227DA0C
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(376002)(39860400002)(346002)(366004)(396003)(189003)(199004)(305945005)(71200400001)(68736007)(5660300002)(256004)(8676002)(8936002)(14454004)(4326008)(7736002)(52536014)(4744005)(478600001)(71190400001)(74316002)(81166006)(81156014)(53936002)(9686003)(86362001)(55016002)(2171002)(6306002)(6436002)(110136005)(99286004)(6506007)(476003)(33656002)(6116002)(2906002)(26005)(186003)(486006)(66066001)(3846002)(97736004)(106356001)(316002)(25786009)(105586002)(102836004)(54906003)(7696005);DIR:OUT;SFP:1101;SCL:1;SRVR:AM5PR0402MB2883;H:AM5PR0402MB2865.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: P6xGojXw9/i1VWGrmcbeuVEUIoNtf5lJANyzwa4gDemDIH172Vn2JfXM+zWxVV3vqfHztHw5qCJmCnV1rDFHzWMpduWWWwz4qYtOWoqIfHFeAf7cK4pyiqtvrJKa4p5vEnY6egyd0mLMCk9s6UMgN9JGTU1AzBm8ZhA6DmP8duLScx9fF9rOT49FeTopjqejJl99V5nMDuJsYBydTUxSnoWSm6SPhcl9iXB8Mslq7x0q/xv/fm2tnNyg/ZNmofN/J3yWjIrN8SJaAv7ENC2YPxYCiTqo53SSbcOU0yl8PSioiPd7up3I9jJIjRQl9VobSJPuV7AFjHwGpZSdQgeoipNj48RJW0l4ACDArfDyqqLLjBqgqSH5mbUJfspkWalpR+mC7jZE6FXfNS+gbUdI5ZAKxKQzHupWCnfnvh2iuGA=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9221 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=411
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1904090013
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9221 signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=431 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1904090013
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f379fca9-2cae-4a0e-ddb6-08d6bc950656
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Apr 2019 02:42:36.0617
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0402MB2883
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190409021019.dmiNGI1arYzdHVh-u7bO3ebGHQI5GXWO_C6IRXHVfU0@z>
 
-
-Alan,
-
-> So it looks as though the SCSI subsystem doesn't like to have a reset 
-> handler call scsi_remove_host.
-
-Are you talking about a PCI device removal handler or a SCSI error
-handler?
-
-> Commands dispatched by the removal routines are forced to wait for the
-> reset recovery to finish, which won't happen until those commands have
-> been completed.
->
-> Is this a bug in the SCSI core?  If not, we need to know what is the
-> right way to do things when a reset handler detects that the SCSI host
-> has been hot-unplugged.
-
-PCI surprise removal should generally work. But it's somewhat unusual
-for a SCSI host to evaporate in the middle of error handling. After all,
-the main purpose of eh is to leverage the interfaces provided by the
-host to try to reconnect to a target that tripped and fell off the
-bus...
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+SGVsbG8gU2lycywNCg0K44CAV2XigJlkIGxpa2UgdG8gZW5hYmxlIFVBU1AgZmVhdHVyZSBvZiBV
+U0IgZGV2aWNlIG1vZGUNCihnYWRnZXQpIG9uIExheWVyc2NhcGUgcGxhdGZvcm0gd2hpY2ggaW50
+ZWdyYXRpbmcgRFdDMw0KSVAgYWxyZWFkeS4gDQoNCsKgwqDCoCBCdXQgbm90IHN1cmUgaG93IHRv
+IGNvbmZpZ3VyZSBLY29uZmlnIGluIGtlcm5lbC4NCkNvdWxkIHlvdSBwbGVhc2Ugc2hvdyBtZSB3
+aGVyZSBJIGNhbiBmaW5kIHJlbGF0ZWQgZ3VpZGUvZG9jPw0K44CADQrjgIBUaGUgb25seSBjbHVl
+IEkgY2FuIGZpbmQgaXMgYSBwb3N0IDoNCihodHRwczovL3d3dy5zcGluaWNzLm5ldC9saXN0cy9s
+aW51eC11c2IvbXNnNTUzNjYuaHRtbCkNCmJ1dCBzZWVtcyBpdCBkb2VzbuKAmXQgZXhpc3QgaW4g
+Y3VycmVudCBtYWlubGluZS4NCuOAgFRoYW5rIHlvdSB2ZXJ5IG11Y2guDQoNClJlZ2FyZHMsDQpS
+YW4NCg==
