@@ -6,91 +6,88 @@ X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_PASS autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 349CCC10F0E
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 15:17:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65FF4C282DA
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 15:19:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0AC972084F
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 15:17:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3E9D42084F
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 15:19:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726523AbfDIPQv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 9 Apr 2019 11:16:51 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:36956 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726492AbfDIPQv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Apr 2019 11:16:51 -0400
-Received: by mail-pl1-f196.google.com with SMTP id w23so9592313ply.4;
-        Tue, 09 Apr 2019 08:16:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=KyDoJ4EF4tKFatRTJIVOBt2T69QEP0WdD+xc0GB6Pf8=;
-        b=sEb6V+GjGpX/adAxqjtR3ah3mJ5NNIR/J7jAVigYyPqa+Lb9uCNMWya45zHB9YPGWL
-         kbpVGsu3nwzmgI/bNglWgr7PTpsXmMbdu/rl20ZsFyxHzleDptVgePn0Gz8Yc2SSn0Dl
-         oLawAkzn9RAN108UPSblsxYAIgrQK2BIrG03OGvtl4rtQ0HZQNe5kPgk0IcPUdPwHaVI
-         SuAN4IgkhZwWVl5D4yC6Tk7Dy/ZFsX0mPEDxh5SZu/luY+3Z6ZBI0l6Iyw9LArKxsAjg
-         WxJ6cn0WS0S4VrNGgZRsM73qyh35EytCFGKB6U7elXMxrmDm630UZseS6QtkoAjJ8kCC
-         UobQ==
-X-Gm-Message-State: APjAAAV/eJlVLKrwc7OVhqbSpOM/o3BNnCB3uD8QpKZ6HEs2oKTkpSTV
-        qZ80rvFLQVXnlTdyRXI7+9s=
-X-Google-Smtp-Source: APXvYqzlwcZxQo5mq4WPr+YtES0+PQj+Skp4JMJiQoex8JslatADRapIFoX2ocQZY6cYV46JjVZt5g==
-X-Received: by 2002:a17:902:2ac3:: with SMTP id j61mr38121413plb.112.1554823010201;
-        Tue, 09 Apr 2019 08:16:50 -0700 (PDT)
-Received: from ?IPv6:2620:15c:2cd:203:5cdc:422c:7b28:ebb5? ([2620:15c:2cd:203:5cdc:422c:7b28:ebb5])
-        by smtp.gmail.com with ESMTPSA id g73sm60597977pfd.185.2019.04.09.08.16.48
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 09 Apr 2019 08:16:49 -0700 (PDT)
-Message-ID: <1554823007.161891.6.camel@acm.org>
-Subject: Re: [PATCH] usb: uas: fix usb subsystem hang after power off hub
- port
-From:   Bart Van Assche <bvanassche@acm.org>
-To:     Alan Stern <stern@rowland.harvard.edu>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc:     Kento.A.Kobayashi@sony.com,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        Oliver Neukum <oneukum@suse.com>, gregkh@linuxfoundation.org,
-        USB Storage list <usb-storage@lists.one-eyed-alien.net>,
-        Jacky.Cao@sony.com,
-        Kernel development list <linux-kernel@vger.kernel.org>,
-        SCSI development list <linux-scsi@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>
-Date:   Tue, 09 Apr 2019 08:16:47 -0700
-In-Reply-To: <Pine.LNX.4.44L0.1904091014570.1599-100000@iolanthe.rowland.org>
-References: <Pine.LNX.4.44L0.1904091014570.1599-100000@iolanthe.rowland.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.2-1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1726511AbfDIPTg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 9 Apr 2019 11:19:36 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:46138 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726431AbfDIPTf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Apr 2019 11:19:35 -0400
+Received: (qmail 3066 invoked by uid 2102); 9 Apr 2019 11:19:35 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 9 Apr 2019 11:19:35 -0400
+Date:   Tue, 9 Apr 2019 11:19:35 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     "Bollinger, Seth" <Seth.Bollinger@digi.com>,
+        Jens Axboe <axboe@kernel.dk>
+cc:     USB list <linux-usb@vger.kernel.org>, <linux-block@vger.kernel.org>
+Subject: Re: Bug: VHCI + USB 3.0
+In-Reply-To: <26C1E17D-86C3-42A9-AC21-DBB4554FB901@digi.com>
+Message-ID: <Pine.LNX.4.44L0.1904091057120.1599-100000@iolanthe.rowland.org>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190409151647.NcpQHd-4S3ztFXsX_x2VWeIT_w9pfmiS5VeV448g9p4@z>
 
-On Tue, 2019-04-09 at 10:44 -0400, Alan Stern wrote:
-+AD4 On Mon, 8 Apr 2019, Martin K. Petersen wrote:
-+AD4 
-+AD4 +AD4 
-+AD4 +AD4 Alan,
-+AD4 +AD4 
-+AD4 +AD4 +AD4 So it looks as though the SCSI subsystem doesn't like to have a reset 
-+AD4 +AD4 +AD4 handler call scsi+AF8-remove+AF8-host.
-+AD4 +AD4 
-+AD4 +AD4 Are you talking about a PCI device removal handler or a SCSI error
-+AD4 +AD4 handler?
-+AD4 
-+AD4 The context of this discussion is a USB mass-storage device where the
-+AD4 device's port on its upstream hub has been powered off.  The
-+AD4 powered-off port causes an executing command to time out.  As a result
-+AD4 the SCSI error handler runs and calls the USB reset routine, but the
-+AD4 reset fails because the kernel is unable to communicate with the device
-+AD4 through the powered-off port.  This causes the USB reset routine to
-+AD4 unbind the device from its USB driver, which in turn calls
-+AD4 scsi+AF8-remove+AF8-host -- while the error handler is still running.
+On Tue, 9 Apr 2019, Bollinger, Seth wrote:
 
-From which context does that unbind happen? From inside a SCSI EH callback
-or from the context of a workqueue? I think the former is not allowed but
-that the latter is allowed. The SRP initiator driver (ib+AF8-srp.c) follows the
-latter approach. See also srp+AF8-queue+AF8-remove+AF8-work().
+> > No, that trace did not show any failure.  Did you see the corresponding 
+> > error messages in the kernel log while you were collecting the trace?
+> > Maybe you can try again.
+> 
+> Ok, I have it this time.  I must have sniffed the wrong bus last time.
+> 
+> 2019-04-09 13:09:32 AW24-D00005 user.notice awusbd[2514]: bulk A 000004bf ty 03 st 00000000 T 3584 L 0 ch 00000081 ep 1 fl 0
+> 2019-04-09 13:09:32 AW24-D00005 user.notice awusbd[2514]: bulk A 000004bf ty 03 st 00000000 T 4096 L 0 ch 00000081 ep 1 fl 0
+> 2019-04-09 13:09:32 AW24-D00005 user.notice awusbd[2514]: message repeated 2 times: [ bulk A 000004bf ty 03 st 00000000 T 4096 L 0 ch 00000081 ep 1 fl 0]
+> 2019-04-09 13:09:32 AW24-D00005 user.notice awusbd[2514]: BI completion: st 0 stat -75 AL 0 ec 0 returning -75
+> 2019-04-09 13:09:32 AW24-D00005 user.notice awusbd[2514]: bulk A 000004bf ty 03 st 00000000 T 4096 L 0 ch 00000081 ep 1 fl 0
+> 2019-04-09 13:09:32 AW24-D00005 user.notice awusbd[2514]: message repeated 3 times: [ bulk A 000004bf ty 03 st 00000000 T 4096 L 0 ch 00000081 ep 1 fl 0]
+> 2019-04-09 13:09:32 AW24-D00005 user.notice awusbd[2514]: BI completion: st 0 stat -2 AL 0 ec 0 returning -2
+> 2019-04-09 13:09:32 AW24-D00005 user.notice awusbd[2514]: message repeated 6 times: [ BI completion: st 0 stat -2 AL 0 ec 0 returning -2]
+> 2019-04-09 13:09:32 AW24-D00005 user.notice awusbd[2514]: bulk A 000004bf ty 03 st 00000000 T 13 L 0 ch 00000081 ep 0 fl 4271644
+> 2019-04-09 13:09:32 AW24-D00005 user.notice awusbd[2514]: BI completion: st 0 stat -71 AL 0 ec 0 returning -71
 
-Bart.
+All right, now I see the problem.  It's here:
+
+> ffff800074057b40 1058554625 S Bo:2:098:2 -115 31 = 55534243 07010000 007e0000 80000a28 000001ff c100003f 00000000 000000
+> ffff800074057b40 1058554638 C Bo:2:098:2 0 31 >
+> ffff800074057cc0 1058555039 S Bi:2:098:1 -115 3584 <
+> ffff800074057cc0 1058555066 C Bi:2:098:1 -75 3584 = 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+> ffff800073e0fb40 1058555113 S Bi:2:098:1 -115 4096 <
+> ffff8000723f5f00 1058555129 S Bi:2:098:1 -115 4096 <
+> ffff8000723f5c00 1058555148 S Bi:2:098:1 -115 4096 <
+> ffff8000723f5b40 1058555202 S Bi:2:098:1 -115 4096 <
+> ffff8000723f5a80 1058555224 S Bi:2:098:1 -115 4096 <
+> ffff8000711d8780 1058555237 S Bi:2:098:1 -115 4096 <
+> ffff800074091900 1058555255 S Bi:2:098:1 -115 4096 <
+> ffff800073e0fb40 1058555769 C Bi:2:098:1 -2 4096 = 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+
+This is a READ command asking for 63 blocks (31.5 KB) of data.  The
+device sends 7 4096-byte packets followed by a 3584-byte packet, but
+the kernel's scatter-gather list contains a 3584-byte buffer followed
+by 7 4096-byte buffers.  Since the VHCI driver doesn't have full native
+SG support, it needs each packet to be stored in a contiguous region of
+memory.  In this case the first packet causes an overrun error.
+
+The best way to fix the problem would be to improve the SG support in
+VHCI.  Short of that, we would like to tell the block layer that this
+device requires all scatterlist elements (except the last one) for any
+single command to be multiples of 1024 bytes, in spite of the fact that
+the device claims to have a block size of 512 bytes.
+
+Jens (or anyone who knows more about the block layer than I do), what's 
+the right way to do this?
+
+Any help would be appreciated.
+
+Alan Stern
+
