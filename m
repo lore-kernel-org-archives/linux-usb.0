@@ -3,26 +3,26 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD08EC10F0E
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 12:09:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06580C10F0E
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 12:09:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B747A20880
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 12:09:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D3B0F20880
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 12:09:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727312AbfDIMJf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 9 Apr 2019 08:09:35 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:43739 "EHLO
+        id S1727335AbfDIMJm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 9 Apr 2019 08:09:42 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:52355 "EHLO
         relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726388AbfDIMJe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Apr 2019 08:09:34 -0400
+        with ESMTP id S1727156AbfDIMJY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Apr 2019 08:09:24 -0400
 X-Originating-IP: 109.213.33.177
 Received: from localhost (alyon-652-1-42-177.w109-213.abo.wanadoo.fr [109.213.33.177])
         (Authenticated sender: alexandre.belloni@bootlin.com)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id C988620003;
-        Tue,  9 Apr 2019 12:09:30 +0000 (UTC)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id E318E2001A;
+        Tue,  9 Apr 2019 12:09:21 +0000 (UTC)
 From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
 To:     Felipe Balbi <balbi@kernel.org>, Vladimir Zapolskiy <vz@mleia.com>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -30,9 +30,9 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-kernel@vger.kernel.org,
         Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [PATCH 5/5] usb: gadget: udc: lpc32xx: rework interrupt handling
-Date:   Tue,  9 Apr 2019 14:09:08 +0200
-Message-Id: <20190409120908.12079-6-alexandre.belloni@bootlin.com>
+Subject: [PATCH 3/5] usb: gadget: udc: lpc32xx: properly setup phy interrupts
+Date:   Tue,  9 Apr 2019 14:09:06 +0200
+Message-Id: <20190409120908.12079-4-alexandre.belloni@bootlin.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190409120908.12079-1-alexandre.belloni@bootlin.com>
 References: <20190409120908.12079-1-alexandre.belloni@bootlin.com>
@@ -43,98 +43,35 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190409120908.ONrIzE7ESpVBlmTnUO0IyGIrEaMpYs2nJNOH5QIDUJQ@z>
+Message-ID: <20190409120906.8iG-SUORY3TqYTu_6TUH0J5LYwW4U6rCwJkST-lDIV4@z>
 
-There is no actual need to do the enable/disable_irq dance. Instead enable
-the interrupts on the phy only when necessary.
+Only INT_VBUS_VLD is set to generate ATX interrupts on the phy but
+INT_SESS_VLD is checked in vbus_work. This leads to cases where
+hot-plugging USB doesn't work after boot.
 
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 ---
- drivers/usb/gadget/udc/lpc32xx_udc.c | 29 ++++++++++------------------
- 1 file changed, 10 insertions(+), 19 deletions(-)
+ drivers/usb/gadget/udc/lpc32xx_udc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/gadget/udc/lpc32xx_udc.c b/drivers/usb/gadget/udc/lpc32xx_udc.c
-index 5d6246d23b99..d8f1c60793ed 100644
+index 777279fa4637..12f2d76e50fe 100644
 --- a/drivers/usb/gadget/udc/lpc32xx_udc.c
 +++ b/drivers/usb/gadget/udc/lpc32xx_udc.c
-@@ -617,17 +617,13 @@ static void isp1301_udc_configure(struct lpc32xx_udc *udc)
- 		(ISP1301_I2C_OTG_CONTROL_1 | ISP1301_I2C_REG_CLEAR_ADDR),
- 		OTG1_VBUS_DISCHRG);
- 
--	/* Clear and enable VBUS high edge interrupt */
- 	i2c_smbus_write_byte_data(udc->isp1301_i2c_client,
- 		ISP1301_I2C_INTERRUPT_LATCH | ISP1301_I2C_REG_CLEAR_ADDR, ~0);
-+
+@@ -604,11 +604,11 @@ static void isp1301_udc_configure(struct lpc32xx_udc *udc)
  	i2c_smbus_write_byte_data(udc->isp1301_i2c_client,
  		ISP1301_I2C_INTERRUPT_FALLING | ISP1301_I2C_REG_CLEAR_ADDR, ~0);
--	i2c_smbus_write_byte_data(udc->isp1301_i2c_client,
--		ISP1301_I2C_INTERRUPT_FALLING, INT_SESS_VLD | INT_VBUS_VLD);
+ 	i2c_smbus_write_byte_data(udc->isp1301_i2c_client,
+-		ISP1301_I2C_INTERRUPT_FALLING, INT_VBUS_VLD);
++		ISP1301_I2C_INTERRUPT_FALLING, INT_SESS_VLD | INT_VBUS_VLD);
  	i2c_smbus_write_byte_data(udc->isp1301_i2c_client,
  		ISP1301_I2C_INTERRUPT_RISING | ISP1301_I2C_REG_CLEAR_ADDR, ~0);
--	i2c_smbus_write_byte_data(udc->isp1301_i2c_client,
--		ISP1301_I2C_INTERRUPT_RISING, INT_SESS_VLD | INT_VBUS_VLD);
- 
- 	dev_info(udc->dev, "ISP1301 Vendor ID  : 0x%04x\n", vendor);
- 	dev_info(udc->dev, "ISP1301 Product ID : 0x%04x\n", product);
-@@ -2887,9 +2883,6 @@ static void vbus_work(struct lpc32xx_udc *udc)
- 			lpc32xx_vbus_session(&udc->gadget, udc->vbus);
- 		}
- 	}
--
--	/* Re-enable after completion */
--	enable_irq(udc->udp_irq[IRQ_USB_ATX]);
- }
- 
- static irqreturn_t lpc32xx_usb_vbus_irq(int irq, void *_udc)
-@@ -2905,7 +2898,6 @@ static int lpc32xx_start(struct usb_gadget *gadget,
- 			 struct usb_gadget_driver *driver)
- {
- 	struct lpc32xx_udc *udc = to_udc(gadget);
--	int i;
- 
- 	if (!driver || driver->max_speed < USB_SPEED_FULL || !driver->setup) {
- 		dev_err(udc->dev, "bad parameter.\n");
-@@ -2927,20 +2919,23 @@ static int lpc32xx_start(struct usb_gadget *gadget,
- 	udc->last_vbus = udc->vbus = 0;
- 	vbus_work(udc);
- 
--	/* Do not re-enable ATX IRQ (3) */
--	for (i = IRQ_USB_LP; i < IRQ_USB_ATX; i++)
--		enable_irq(udc->udp_irq[i]);
-+	/* enable interrupts */
-+	i2c_smbus_write_byte_data(udc->isp1301_i2c_client,
-+		ISP1301_I2C_INTERRUPT_FALLING, INT_SESS_VLD | INT_VBUS_VLD);
-+	i2c_smbus_write_byte_data(udc->isp1301_i2c_client,
+ 	i2c_smbus_write_byte_data(udc->isp1301_i2c_client,
+-		ISP1301_I2C_INTERRUPT_RISING, INT_VBUS_VLD);
 +		ISP1301_I2C_INTERRUPT_RISING, INT_SESS_VLD | INT_VBUS_VLD);
  
- 	return 0;
- }
- 
- static int lpc32xx_stop(struct usb_gadget *gadget)
- {
--	int i;
- 	struct lpc32xx_udc *udc = to_udc(gadget);
- 
--	for (i = IRQ_USB_LP; i <= IRQ_USB_ATX; i++)
--		disable_irq(udc->udp_irq[i]);
-+	i2c_smbus_write_byte_data(udc->isp1301_i2c_client,
-+		ISP1301_I2C_INTERRUPT_FALLING | ISP1301_I2C_REG_CLEAR_ADDR, ~0);
-+	i2c_smbus_write_byte_data(udc->isp1301_i2c_client,
-+		ISP1301_I2C_INTERRUPT_RISING | ISP1301_I2C_REG_CLEAR_ADDR, ~0);
- 
- 	if (udc->clocked) {
- 		spin_lock(&udc->lock);
-@@ -3172,10 +3167,6 @@ static int lpc32xx_udc_probe(struct platform_device *pdev)
- 	init_waitqueue_head(&udc->ep_disable_wait_queue);
- 	atomic_set(&udc->enabled_ep_cnt, 0);
- 
--	/* Keep all IRQs disabled until GadgetFS starts up */
--	for (i = IRQ_USB_LP; i <= IRQ_USB_ATX; i++)
--		disable_irq(udc->udp_irq[i]);
--
- 	retval = usb_add_gadget_udc(dev, &udc->gadget);
- 	if (retval < 0)
- 		goto add_gadget_fail;
+ 	dev_info(udc->dev, "ISP1301 Vendor ID  : 0x%04x\n",
+ 		 i2c_smbus_read_word_data(udc->isp1301_i2c_client, 0x00));
 -- 
 2.20.1
 
