@@ -2,131 +2,237 @@ Return-Path: <SRS0=+Ncr=SL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69FCFC282CE
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 08:29:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51965C10F0E
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 09:28:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3AD1220883
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 08:29:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0448820833
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 09:28:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="detqpy/l"
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="eWiT16O7";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.onmicrosoft.com header.i=@synopsys.onmicrosoft.com header.b="oFOlnAkY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726685AbfDII3C (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 9 Apr 2019 04:29:02 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:35159 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726062AbfDII3C (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Apr 2019 04:29:02 -0400
-Received: by mail-wr1-f67.google.com with SMTP id w1so19708537wrp.2
-        for <linux-usb@vger.kernel.org>; Tue, 09 Apr 2019 01:29:01 -0700 (PDT)
+        id S1726815AbfDIJ2V (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 9 Apr 2019 05:28:21 -0400
+Received: from smtprelay.synopsys.com ([198.182.47.9]:41422 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726624AbfDIJ2V (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Apr 2019 05:28:21 -0400
+Received: from mailhost.synopsys.com (dc8-mailhost1.synopsys.com [10.13.135.209])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay.synopsys.com (Postfix) with ESMTPS id 8028C24E1400;
+        Tue,  9 Apr 2019 02:28:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1554802100; bh=cw3SAoWeGc4PRmfQT4UsvRBCJh22DJd5tQ+oAxnHgTQ=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=eWiT16O7xCdz75yV6f5I5LMPZjj7HO6l+yZZdXCUNdqaSu6yJjJx+n3/WCiRCX6Sx
+         RfHAQ6wzIuF7QDSv48if8X9CFgJUhU8KIbmAbmvsHZ+7OOq38UJNxo6xzBARJgm76n
+         4nuxZ8bQHEt99iR60R1pUFdoafSVkg1e9Wyra5bSUUZuz9oK6h89nVKv1Le+mjJfB9
+         JJQX7PSWg3awJT8ybFm06snrSZdUK0upVHlerS1MZRD7CRfL7a2lYz0D3nSxaS28bN
+         PCv3gopNgOcyzHD7Rr3jV4PTOajNRmMzrkv1sgc8TwtAnYXzm8d5IGk8//DKYMktQv
+         paFoV6YWKmE9w==
+Received: from US01WXQAHTC1.internal.synopsys.com (us01wxqahtc1.internal.synopsys.com [10.12.238.230])
+        (using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPS id C4ACFA005D;
+        Tue,  9 Apr 2019 09:28:19 +0000 (UTC)
+Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
+ US01WXQAHTC1.internal.synopsys.com (10.12.238.230) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Tue, 9 Apr 2019 02:28:19 -0700
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (10.13.134.195)
+ by mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Tue, 9 Apr 2019 02:28:19 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=oDHFDpA+LDAaFrEgc9NLsZxvCSbtmYUT07CTCE02Foc=;
-        b=detqpy/lFCxRKBEtg/rbfa4pFoXMjmaZqVapKPvZQHv07lV1eutRqeK7OxiNldd3uu
-         n6l0XywIpgXn7K2n6pUZhkMgxdEgimGcTseLs2e8TlKH3zC2jugfMuPPoSSqCiHS8/zF
-         cqH/dVpHlRnImOWKB5g/ae/tzWMzYmaxTUNpDdFS2QTl7yAbXiLr8iJmD0aT5VwCZF7r
-         1vCi1/61UxuDoriTtb2AJF37bKe6K4b4eqx1u7GXPJYYr/WjBIZTas8vCgC8S69vfEvu
-         j4ku1DQU1oaHeuw//ce8oNyPnq+bsZP9ukBi9jWlimCPd0EYwCopVSt6yf8xGLa2j7n5
-         hkbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=oDHFDpA+LDAaFrEgc9NLsZxvCSbtmYUT07CTCE02Foc=;
-        b=UxakWXwOD4vCLEh/w52/5/+W1X6B2kV2bFa8BHp89dkoxmLD+fr5I6WtmchuN9MPZw
-         +b+1OJYVbeDX3XTfWdccGwTtREzDMyJFTqalwQi4GvOAH9VNzWe8gTvZXTldAYsBR5hJ
-         kSceS4PA4ErFrN8a5+iMJC/ZGWUkAxzNZm3DRUSYuSpCEt36YnVgd0lKDc62O8PvUj2K
-         1iHiiEGd7RAzvNjPrlED6Uef278LcJ3mSlXROGShpduoCWPYv5jS8GfSIMdGOjmuPNMW
-         ch9LvzbhQwjMLHPrYy0hKVEeIBYIIHx+j044OaQ1DLeyPTVbei8RmtNS53y6kvW5t4GK
-         Qozw==
-X-Gm-Message-State: APjAAAW7hiCXaKDGX3MBuQQeXAeUyslJpyq6bHNSELCn33V8BTHd3Lm+
-        8vsj6PJJBoAZqBsyRhVVyz8PMQ==
-X-Google-Smtp-Source: APXvYqwCpN8co4hFEFy3tLbJi0y3Wsz1ehUVA7yESuheTK1WxaISMtk9iED7jiKaRU713M2sj+5QfA==
-X-Received: by 2002:adf:f285:: with SMTP id k5mr6966327wro.110.1554798540359;
-        Tue, 09 Apr 2019 01:29:00 -0700 (PDT)
-Received: from debian-brgl.home ([2a01:cb1d:af:5b00:6d6c:8493:1ab5:dad7])
-        by smtp.gmail.com with ESMTPSA id c20sm59968651wre.28.2019.04.09.01.28.59
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 09 Apr 2019 01:28:59 -0700 (PDT)
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-To:     Sekhar Nori <nsekhar@ti.com>, Kevin Hilman <khilman@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v3 0/6] ARM: davinci: ohci-da8xx: model the vbus GPIO as a fixed regulator
-Date:   Tue,  9 Apr 2019 10:28:49 +0200
-Message-Id: <20190409082855.15373-1-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.21.0
+ d=synopsys.onmicrosoft.com; s=selector1-synopsys-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cw3SAoWeGc4PRmfQT4UsvRBCJh22DJd5tQ+oAxnHgTQ=;
+ b=oFOlnAkYQfzNlbXCCnJ2nhfWM97yqlRI0feOBDE6CcJPPWzZKYD3efIPCfmepRqJv13vagd+udEeVpxmGT0lJz8EZnbpujPmoaE15UYV1ftAI0Y5cyK2zQkuFUcWXpr4imQynFv0dlk0S5xwrdOp2xEhpnJhYYc5mIhK3Kja5hs=
+Received: from BN6PR1201MB0082.namprd12.prod.outlook.com (10.174.113.147) by
+ BN6PR1201MB0258.namprd12.prod.outlook.com (10.174.115.141) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1771.16; Tue, 9 Apr 2019 09:28:16 +0000
+Received: from BN6PR1201MB0082.namprd12.prod.outlook.com
+ ([fe80::4d0f:ceb2:da99:6777]) by BN6PR1201MB0082.namprd12.prod.outlook.com
+ ([fe80::4d0f:ceb2:da99:6777%9]) with mapi id 15.20.1771.016; Tue, 9 Apr 2019
+ 09:28:16 +0000
+From:   Minas Harutyunyan <minas.harutyunyan@synopsys.com>
+To:     Stefan Wahren <stefan.wahren@i2se.com>,
+        Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
+        Minas Harutyunyan <minas.harutyunyan@synopsys.com>
+CC:     "linux-rpi-kernel@lists.infradead.org" 
+        <linux-rpi-kernel@lists.infradead.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Woojung Huh <woojung.huh@microchip.com>
+Subject: RE: lan78xx: About 8000 usb interrupts per second when idle
+Thread-Topic: lan78xx: About 8000 usb interrupts per second when idle
+Thread-Index: AQHU7qRormOeg1if+0+BIJiAx9ltXaYzjorg
+Date:   Tue, 9 Apr 2019 09:28:16 +0000
+Message-ID: <BN6PR1201MB008219D0CF1CB7CF7F802008A72D0@BN6PR1201MB0082.namprd12.prod.outlook.com>
+References: <20190408143443.335f7e93@xhacker.debian>
+ <002929b7-9a0d-6d92-4e03-18a6748c6708@i2se.com>
+ <20190408160551.03911b27@xhacker.debian>
+ <20190409144655.753d3bd9@xhacker.debian>
+ <3cda1098-e0ad-42ac-af96-c85eba480556@i2se.com>
+In-Reply-To: <3cda1098-e0ad-42ac-af96-c85eba480556@i2se.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: =?utf-8?B?UEcxbGRHRStQR0YwSUc1dFBTSmliMlI1TG5SNGRDSWdjRDBpWXpwY2RYTmxj?=
+ =?utf-8?B?bk5jYUcxcGJtRnpYR0Z3Y0dSaGRHRmNjbTloYldsdVoxd3dPV1E0TkRsaU5p?=
+ =?utf-8?B?MHpNbVF6TFRSaE5EQXRPRFZsWlMwMllqZzBZbUV5T1dVek5XSmNiWE5uYzF4?=
+ =?utf-8?B?dGMyY3RZMkUyT1Rsa1pEUXROV0ZoT1MweE1XVTVMV0ZtTUdFdE1UQTJOVE13?=
+ =?utf-8?B?WVRGa1lUSmtYR0Z0WlMxMFpYTjBYR05oTmprNVpHUTFMVFZoWVRrdE1URmxP?=
+ =?utf-8?B?UzFoWmpCaExURXdOalV6TUdFeFpHRXlaR0p2WkhrdWRIaDBJaUJ6ZWowaU1U?=
+ =?utf-8?B?STNOaUlnZEQwaU1UTXhPVGt5TnpVMk9URTNORFF4TlRRNElpQm9QU0l2UTBk?=
+ =?utf-8?B?aVFuQnlVbTl2YkUxdU5rSndOekp3VUhWR1pHTnlLM005SWlCcFpEMGlJaUJp?=
+ =?utf-8?B?YkQwaU1DSWdZbTg5SWpFaUlHTnBQU0pqUVVGQlFVVlNTRlV4VWxOU1ZVWk9R?=
+ =?utf-8?B?MmRWUVVGQ1VVcEJRVUZOUmxBeVRYUjFOMVZCWkdacWMwOWpUaXRRZGxjeEsw?=
+ =?utf-8?B?OTNOWGN6TkNzNVdVOUJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlNFRkJRVUZEYTBOQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UlVGQlVVRkNRVUZCUVROS1JIbEpkMEZCUVVGQlFVRkJRVUZCUVVGQlFVbzBR?=
+ =?utf-8?B?VUZCUW0xQlIydEJZbWRDYUVGSE5FRlpkMEpzUVVZNFFXTkJRbk5CUjBWQllt?=
+ =?utf-8?B?ZENkVUZIYTBGaVowSnVRVVk0UVdSM1FtaEJTRkZCV2xGQ2VVRkhNRUZaVVVK?=
+ =?utf-8?B?NVFVZHpRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZGUVVGQlFVRkJRVUZCUVdk?=
+ =?utf-8?B?QlFVRkJRVUZ1WjBGQlFVZFpRV0ozUWpGQlJ6UkJXa0ZDZVVGSWEwRllkMEoz?=
+ =?utf-8?B?UVVkRlFXTm5RakJCUnpSQldsRkNlVUZJVFVGWWQwSnVRVWRaUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlVVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVTkJRVUZCUVVGRFpVRkJRVUZhWjBKMlFVaFZRV0puUW10QlNF?=
+ =?utf-8?B?bEJaVkZDWmtGSVFVRlpVVUo1UVVoUlFXSm5RbXhCU0VsQlkzZENaa0ZJVFVG?=
+ =?utf-8?B?WlVVSjBRVWhOUVdSUlFuVkJSMk5CV0hkQ2FrRkhPRUZpWjBKdFFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRa0ZCUVVGQlFVRkJRVUZKUVVGQlFVRkJTalJCUVVGQ2JVRkhPRUZr?=
+ =?utf-8?B?VVVKMVFVZFJRV05uUWpWQlJqaEJZMEZDYUVGSVNVRmtRVUoxUVVkVlFXTm5R?=
+ =?utf-8?B?bnBCUmpoQlkzZENhRUZITUVGamQwSXhRVWMwUVZwM1FtWkJTRWxCV2xGQ2Vr?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVWQlFVRkJRVUZCUVVGQlowRkJRVUZCUVc1blFV?=
+ =?utf-8?B?RkJSMWxCWW5kQ01VRkhORUZhUVVKNVFVaHJRVmgzUW5kQlIwVkJZMmRDTUVG?=
+ =?utf-8?B?SE5FRmFVVUo1UVVoTlFWaDNRbnBCUnpCQllWRkNha0ZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRlJRVUZCUVVGQlFVRkJRMEZC?=
+ =?utf-8?B?UVVGQlFVTmxRVUZCUVZwblFuWkJTRlZCWW1kQ2EwRklTVUZsVVVKbVFVaEJR?=
+ =?utf-8?B?VmxSUW5sQlNGRkJZbWRDYkVGSVNVRmpkMEptUVVoTlFXUkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZDUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVsQlFVRkJRVUZLTkVGQlFVSnRRVWM0UVdSUlFuVkJSMUZCWTJk?=
+ =?utf-8?B?Q05VRkdPRUZqUVVKb1FVaEpRV1JCUW5WQlIxVkJZMmRDZWtGR09FRmtRVUo2?=
+ =?utf-8?B?UVVjd1FWbDNRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlJVRkJRVUZCUVVGQlFVRm5RVUZCUVVGQmJtZEJRVUZIV1VGaWQwSXhR?=
+ =?utf-8?B?VWMwUVZwQlFubEJTR3RCV0hkQ2QwRkhSVUZqWjBJd1FVYzBRVnBSUW5sQlNF?=
+ =?utf-8?B?MUJXSGRDTVVGSE1FRlpkMEZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVkZCUVVGQlFVRkJRVUZEUVVGQlFVRkJRMlZCUVVG?=
+ =?utf-8?B?QlduZENNRUZJVFVGWWQwSjNRVWhKUVdKM1FtdEJTRlZCV1hkQ01FRkdPRUZr?=
+ =?utf-8?B?UVVKNVFVZEZRV0ZSUW5WQlIydEJZbWRDYmtGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVKQlFVRkJRVUZCUVVGQlNVRkJR?=
+ =?utf-8?B?VUZCUVVvMFFVRkJRbnBCUjBWQllrRkNiRUZJVFVGWWQwSm9RVWROUVZsM1Fu?=
+ =?utf-8?B?WkJTRlZCWW1kQ01FRkdPRUZqUVVKelFVZEZRV0puUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkZRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRV2RCUVVGQlFVRnVaMEZCUVVoTlFWbFJRbk5CUjFWQlkzZENaa0ZJ?=
+ =?utf-8?B?UlVGa1VVSjJRVWhSUVZwUlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCVVVGQlFVRkJRVUZCUVVOQlFVRkJRVUZEWlVGQlFVRmpkMEoxUVVoQlFX?=
+ =?utf-8?B?TjNRbVpCUjNkQllWRkNha0ZIVlVGaVowSjZRVWRWUVZoM1FqQkJSMVZCWTJk?=
+ =?utf-8?B?Q2RFRkdPRUZOVVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFrRkJRVUZCUVVGQlFVRkpRVUZCUVVGQlNqUkJRVUZD?=
+ =?utf-8?B?ZWtGSE5FRmpRVUo2UVVZNFFXSkJRbkJCUjAxQldsRkNkVUZJVFVGYVVVSm1R?=
+ =?utf-8?B?VWhSUVZwUlFubEJSekJCV0hkQ2VrRklVVUZrVVVKclFVZFZRV0puUWpCQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVVZCUVVGQlFVRkJRVUZCWjBGQlFV?=
+ =?utf-8?B?RkJRVzVuUVVGQlNGbEJXbmRDWmtGSGMwRmFVVUkxUVVoalFXSjNRbmxCUjFG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGUlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlEwRkJRVUZCUVVFOUlpOCtQQzl0WlhSaFBnPT0=?=
+x-dg-rorf: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=hminas@synopsys.com; 
+x-originating-ip: [92.123.244.188]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a8a0ef0a-ff8e-41c5-cfe3-08d6bccdb275
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600139)(711020)(4605104)(2017052603328)(7193020);SRVR:BN6PR1201MB0258;
+x-ms-traffictypediagnostic: BN6PR1201MB0258:
+x-microsoft-antispam-prvs: <BN6PR1201MB02580B4774A9B202B9A4C192A72D0@BN6PR1201MB0258.namprd12.prod.outlook.com>
+x-forefront-prvs: 000227DA0C
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(346002)(136003)(39850400004)(376002)(396003)(189003)(199004)(9686003)(476003)(6116002)(316002)(486006)(110136005)(55016002)(33656002)(256004)(74316002)(54906003)(53936002)(11346002)(6246003)(66066001)(446003)(93886005)(76176011)(478600001)(102836004)(99286004)(97736004)(7696005)(6506007)(14454004)(26005)(186003)(105586002)(3846002)(4326008)(8676002)(229853002)(71190400001)(2906002)(52536014)(71200400001)(7736002)(106356001)(5660300002)(81156014)(81166006)(6636002)(6436002)(8936002)(25786009)(305945005)(68736007)(86362001);DIR:OUT;SFP:1102;SCL:1;SRVR:BN6PR1201MB0258;H:BN6PR1201MB0082.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: synopsys.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: Q250uraecahqMrpJyCjOgAk2UxSIjmdmsu5j7tuskKFWpsL8THDiSksoTlLHHmdaw+tYprtRdviAB3Wp+hDocw4NRWRshNUNAiWeCuwUsUujGadx81lXJOaSDB4EIj3bvbZEqFIDrck6jnahfye1+qDc8aPjkxYNMDxznH2cFTJlezNHMTZjMBbtvqrS0qOIW+UyAM/sIjsVoKH6oCwGqpY8rFAoSiQ3WnIbLxJ3KL44TQwJfBvPbdzrDkvA2NeUMGhkSS7XhXcazk9CIgL50gWryDLKyKeXDN5z0M4JCuxdMCFhBIbzDbGZzbaDZwvE7o4+9IWNPWJBmVEuMiS1cbRYkqHFZatkqCUReRk5XVMq/6l+IF+w4nDyCVRsETRdUzT9CGPsUcTxNy3Cs6cg1fDVgyM41G/e4zM9EWfuQPM=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-Network-Message-Id: a8a0ef0a-ff8e-41c5-cfe3-08d6bccdb275
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Apr 2019 09:28:16.5805
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1201MB0258
+X-OriginatorOrg: synopsys.com
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-
-Historically the power supply management in this driver has been handled
-in two separate places in parallel. Device-tree users simply defined an
-appropriate regulator, while two boards with no DT support (da830-evm and
-omapl138-hawk) passed functions defined in their respective board files
-over platform data. These functions simply used legacy GPIO calls to
-watch the oc GPIO for interrupts and disable the vbus GPIO when the irq
-fires.
-
-Commit d193abf1c913 ("usb: ohci-da8xx: add vbus and overcurrent gpios")
-updated these GPIO calls to the modern API and moved them inside the
-driver.
-
-This however is not the optimal solution for the vbus GPIO as it
-duplicates code. Instead we should model the GPIO as a fixed regulator
-that can be controlled with a GPIO.
-
-This series adds fixed regulators for all users of vbus GPIO, adds
-overcurrent protection using the existing vbus regulator in the USB
-driver and removes the vbus GPIO calls once they're no longer used.
-
-Tested on da830-evm with the module both built-in and loadable.
-
-v1 -> v2:
-- add patch 1/6 that fixes an existing problem with missing array
-  sentinels in GPIO lookups
-- add patch 2/6 that removes an unnecessary use count variable from the
-  driver
-- reorder the changes: add support for overcurrent protection using the
-  existing vbus regulator first, then setup fixed regulators in board
-  files and finally remove the vbus GPIO from the ohci driver
-
-v2 -> v3:
-- change the device id of the fixed regulator to 0 since it's the first
-  one
-- drop the interrupt-context handler and only use the thread
-- drop Alan's Ack from patch 3/6 as it's changed significantly
-- rebase on top of v5.1-rc4
-
-Bartosz Golaszewski (6):
-  ARM: davinci: add missing sentinels to GPIO lookup tables
-  usb: ohci-da8xx: let the regulator framework keep track of use count
-  usb: ohci-da8xx: disable the regulator if the overcurrent irq fired
-  ARM: davinci: omapl138-hawk: add a fixed regulator for ohci-da8xx
-  ARM: davinci: da830-evm: add a fixed regulator for ohci-da8xx
-  usb: ohci-da8xx: drop the vbus GPIO
-
- arch/arm/mach-davinci/board-da830-evm.c     | 51 +++++++++++++++++++--
- arch/arm/mach-davinci/board-da850-evm.c     |  1 +
- arch/arm/mach-davinci/board-dm355-evm.c     |  1 +
- arch/arm/mach-davinci/board-dm644x-evm.c    |  1 +
- arch/arm/mach-davinci/board-omapl138-hawk.c | 50 ++++++++++++++++++--
- drivers/usb/host/ohci-da8xx.c               | 46 ++++++++-----------
- 6 files changed, 116 insertions(+), 34 deletions(-)
-
--- 
-2.21.0
-
+SGkgU3RlZmFuLA0KDQo+IEhpIE1pbmFzLA0KPiANCj4gQW0gMDkuMDQuMTkgdW0gMDg6NTQgc2No
+cmllYiBKaXNoZW5nIFpoYW5nOg0KPj4gT24gTW9uLCA4IEFwciAyMDE5IDE2OjA1OjUxICswODAw
+IEppc2hlbmcgWmhhbmcgd3JvdGU6DQo+PiANCj4+PiBIaSBTdGVmYW4sDQo+Pj4gDQo+Pj4gT24g
+TW9uLCA4IEFwciAyMDE5IDA5OjU3OjE0ICswMjAwIFN0ZWZhbiBXYWhyZW4gd3JvdGU6DQo+Pj4g
+DQo+Pj4+IA0KPj4+PiBIaSBKaXNoZW5nLA0KPj4+PiANCj4+Pj4gDQo+Pj4+IHRoYW5rcyBmb3Ig
+c2VuZGluZyB0aGlzIHBhdGNoLiAgSSBhbHJlYWR5IHJlcG9ydGVkIHRoaXMgaXNzdWUNCj4+Pj4g
+bGFzdCB5ZWFyIFsxXSwgYnV0IE1pY3JvY2hpcCB3YXNuJ3QgYWJsZSB0byBwcm92aWRlIGEgZml4
+Lg0KPj4+PiANCj4+Pj4gSSB3aWxsIGdpdmUgaXQgYSB0cnkuDQo+Pj4+IA0KPj4+Pj4gVGhlIHNl
+Y29uZCBvbmU6IDgwMDAgdXNiIGludGVycnVwdHMgcGVyIHNlY29uZCB3aGVuIGlkbGUuDQo+Pj4+
+PiBUaGlzIGlzIGFibm9ybWFsLiBhbnkgaWRlYT8gSXMgaXQgZHVlIHRvIHRoZSBsYW43OHh4Pw0K
+Pj4+PiBEb2VzIHRoaXMgZG93bnN0cmVhbSBwYXRjaCBbMl0gaW1wcm92ZSB5b3VyIHNpdHVhdGlv
+bj8NCj4+PiBUaGFua3MgYSBsb3QuIFdpbGwgdHJ5IHRoZSBwYXRjaCB0b25pZ2h0Lg0KPj4gSSB0
+cmllZCB0aGlzIHBhdGNoLCBpdCBkb2Vzbid0IGhlbHAuIE9uZSBtb3JlIG9ic2VydmF0aW9uOiBp
+ZiBJIA0KPj4gaWZjb25maWcgZXRoMCBkb3duLCBJIGNhbiBzdGlsbCBnZXQgODAwMCB1c2IgaW50
+ZXJydXB0cyBwZXIgc2Vjb25kLg0KPj4gIE5vdCBzdXJlIHdoZXRoZXIgdGhpcyBpcyB1c2IgaXNz
+dWUgb3Igbm90Lg0KPiANCj4gSmlzaGVuZyByZXBvcnRzIGEgbG90IG9mIFVTQiBpbnRlcnJ1cHRz
+IHdoaWxlIHRoZSBsYW43OHh4IGRyaXZlciBvbg0KPiBSYXNwYmVycnkgUGkgM0IrIGlzIGluIGlk
+bGUuDQo+IA0KPiBBbnkgc3VnZ2VzdGlvbnMgdG8gbmFycm93IHRoaXMgZG93bj8NCg0KZHdjMiBp
+biBob3N0IG1vZGUgZW5hYmxlIFNPRiBpbnRlcnJ1cHRzIGlmIGFueSBwZXJpb2RpYyBFUCBhcmUg
+aW4gdXNlLg0KU28sIDgwMDAgaW50ZXJydXB0cyBwZXIgc2Vjb25kIGlzIGV4cGVjdGFudCBiZWhh
+dmlvci4NCg0KPiANCj4gU3RlZmFuDQo+IA0KPj4gDQo+PiBUaGFua3MNCj4+DQo=
