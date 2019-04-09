@@ -2,102 +2,121 @@ Return-Path: <SRS0=+Ncr=SL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A23DAC10F0E
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 16:46:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2DF1C282CE
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 17:17:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7BAD72084C
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 16:46:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE03C2084F
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 17:17:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726615AbfDIQpy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 9 Apr 2019 12:45:54 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:46464 "HELO
+        id S1726532AbfDIRRp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 9 Apr 2019 13:17:45 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:46606 "HELO
         iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726507AbfDIQpy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Apr 2019 12:45:54 -0400
-Received: (qmail 4779 invoked by uid 2102); 9 Apr 2019 12:45:53 -0400
+        with SMTP id S1726496AbfDIRRp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Apr 2019 13:17:45 -0400
+Received: (qmail 5532 invoked by uid 2102); 9 Apr 2019 13:17:44 -0400
 Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 9 Apr 2019 12:45:53 -0400
-Date:   Tue, 9 Apr 2019 12:45:53 -0400 (EDT)
+  by localhost with SMTP; 9 Apr 2019 13:17:44 -0400
+Date:   Tue, 9 Apr 2019 13:17:44 -0400 (EDT)
 From:   Alan Stern <stern@rowland.harvard.edu>
 X-X-Sender: stern@iolanthe.rowland.org
-To:     Bart Van Assche <bvanassche@acm.org>
-cc:     "Martin K. Petersen" <martin.petersen@oracle.com>,
-        <Kento.A.Kobayashi@sony.com>,
-        "James E.J. Bottomley" <jejb@linux.ibm.com>,
-        Oliver Neukum <oneukum@suse.com>, <gregkh@linuxfoundation.org>,
-        USB Storage list <usb-storage@lists.one-eyed-alien.net>,
-        <Jacky.Cao@sony.com>,
-        Kernel development list <linux-kernel@vger.kernel.org>,
-        SCSI development list <linux-scsi@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH] usb: uas: fix usb subsystem hang after power off hub
- port
-In-Reply-To: <1554823007.161891.6.camel@acm.org>
-Message-ID: <Pine.LNX.4.44L0.1904091232370.1599-100000@iolanthe.rowland.org>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+cc:     Sekhar Nori <nsekhar@ti.com>, Kevin Hilman <khilman@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH v3 3/6] usb: ohci-da8xx: disable the regulator if the
+ overcurrent irq fired
+In-Reply-To: <20190409082855.15373-4-brgl@bgdev.pl>
+Message-ID: <Pine.LNX.4.44L0.1904091316550.1599-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190409164553.Iab9MbNNir4A2RkxIRpRbISMbk7PtiaSQ3dilrOmN1I@z>
+Message-ID: <20190409171744.lMzcLI5aJ4Jmhk_7VSTnNQKhgcG8SjcHpBfJtVR2rhY@z>
 
-On Tue, 9 Apr 2019, Bart Van Assche wrote:
+On Tue, 9 Apr 2019, Bartosz Golaszewski wrote:
 
-> On Tue, 2019-04-09 at 10:44 -0400, Alan Stern wrote:
-> +AD4 On Mon, 8 Apr 2019, Martin K. Petersen wrote:
-> +AD4 
-> +AD4 +AD4 
-> +AD4 +AD4 Alan,
-> +AD4 +AD4 
-> +AD4 +AD4 +AD4 So it looks as though the SCSI subsystem doesn't like to have a reset 
-> +AD4 +AD4 +AD4 handler call scsi+AF8-remove+AF8-host.
-> +AD4 +AD4 
-> +AD4 +AD4 Are you talking about a PCI device removal handler or a SCSI error
-> +AD4 +AD4 handler?
-> +AD4 
-> +AD4 The context of this discussion is a USB mass-storage device where the
-> +AD4 device's port on its upstream hub has been powered off.  The
-> +AD4 powered-off port causes an executing command to time out.  As a result
-> +AD4 the SCSI error handler runs and calls the USB reset routine, but the
-> +AD4 reset fails because the kernel is unable to communicate with the device
-> +AD4 through the powered-off port.  This causes the USB reset routine to
-> +AD4 unbind the device from its USB driver, which in turn calls
-> +AD4 scsi+AF8-remove+AF8-host -- while the error handler is still running.
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > 
-> From which context does that unbind happen? From inside a SCSI EH callback
-> or from the context of a workqueue? I think the former is not allowed but
-> that the latter is allowed. The SRP initiator driver (ib+AF8-srp.c) follows the
-> latter approach. See also srp+AF8-queue+AF8-remove+AF8-work().
+> Historically the power supply management in this driver has been handled
+> in two separate places in parallel. Device-tree users simply defined an
+> appropriate regulator, while two boards with no DT support (da830-evm and
+> omapl138-hawk) passed functions defined in their respective board files
+> over platform data. These functions simply used legacy GPIO calls to
+> watch the oc GPIO for interrupts and disable the vbus GPIO when the irq
+> fires.
+> 
+> Commit d193abf1c913 ("usb: ohci-da8xx: add vbus and overcurrent gpios")
+> updated these GPIO calls to the modern API and moved them inside the
+> driver.
+> 
+> This however is not the optimal solution for the vbus GPIO which should
+> be modeled as a fixed regulator that can be controlled with a GPIO.
+> 
+> In order to keep the overcurrent protection available once we move the
+> board files to using fixed regulators we need to disable the enable_reg
+> regulator when the overcurrent indicator interrupt fires. Since we
+> cannot call regulator_disable() from interrupt context, we need to
+> switch to using a oneshot threaded interrupt.
+> 
+> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> ---
+>  drivers/usb/host/ohci-da8xx.c | 23 ++++++++++++++++++-----
+>  1 file changed, 18 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/usb/host/ohci-da8xx.c b/drivers/usb/host/ohci-da8xx.c
+> index 9c6d1f03b871..108fe0a1b962 100644
+> --- a/drivers/usb/host/ohci-da8xx.c
+> +++ b/drivers/usb/host/ohci-da8xx.c
+> @@ -202,12 +202,24 @@ static int ohci_da8xx_regulator_event(struct notifier_block *nb,
+>  	return 0;
+>  }
+>  
+> -static irqreturn_t ohci_da8xx_oc_handler(int irq, void *data)
+> +static irqreturn_t ohci_da8xx_oc_thread(int irq, void *data)
+>  {
+>  	struct da8xx_ohci_hcd *da8xx_ohci = data;
+> +	struct device *dev = da8xx_ohci->hcd->self.controller;
+> +	int ret;
+>  
+> -	if (gpiod_get_value(da8xx_ohci->oc_gpio))
+> -		gpiod_set_value(da8xx_ohci->vbus_gpio, 0);
+> +	if (gpiod_get_value_cansleep(da8xx_ohci->oc_gpio)) {
+> +		if (da8xx_ohci->vbus_gpio) {
+> +			gpiod_set_value_cansleep(da8xx_ohci->vbus_gpio, 0);
+> +		} else if (da8xx_ohci->vbus_reg) {
+> +			ret = regulator_disable(da8xx_ohci->vbus_reg);
+> +			if (ret)
+> +				dev_err(dev,
+> +					"Failed to disable regulator: %d\n",
+> +					ret);
+> +		}
+> +			
+> +	}
+>  
+>  	return IRQ_HANDLED;
+>  }
+> @@ -434,8 +446,9 @@ static int ohci_da8xx_probe(struct platform_device *pdev)
+>  		if (oc_irq < 0)
+>  			goto err;
+>  
+> -		error = devm_request_irq(dev, oc_irq, ohci_da8xx_oc_handler,
+> -				IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING,
+> +		error = devm_request_threaded_irq(dev, oc_irq, NULL,
+> +				ohci_da8xx_oc_thread, IRQF_TRIGGER_RISING |
+> +				IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
+>  				"OHCI over-current indicator", da8xx_ohci);
+>  		if (error)
+>  			goto err;
+> 
 
-The unbind happens from inside the SCSI EH callback.  If that really is
-not allowed, we'll need to change it.  Or we can just change it
-regardless, since the effort required is pretty small.
-
-Kento, please try the patch below.  Does it help with your problem?
-
-Alan Stern
-
-
-
-Index: usb-4.x/drivers/usb/core/hub.c
-===================================================================
---- usb-4.x.orig/drivers/usb/core/hub.c
-+++ usb-4.x/drivers/usb/core/hub.c
-@@ -5902,7 +5902,9 @@ int usb_reset_device(struct usb_device *
- 					cintf->needs_binding = 1;
- 			}
- 		}
--		usb_unbind_and_rebind_marked_interfaces(udev);
-+		/* If the reset failed, hub_wq will unbind drivers later */
-+		if (ret == 0)
-+			usb_unbind_and_rebind_marked_interfaces(udev);
- 	}
- 
- 	usb_autosuspend_device(udev);
-
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
