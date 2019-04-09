@@ -2,58 +2,58 @@ Return-Path: <SRS0=+Ncr=SL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-8.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A291EC282CE
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 08:29:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C61A9C282CE
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 08:29:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6D4372133D
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 08:29:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9410520883
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 08:29:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="s99I0hVk"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="rc+kTt8M"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726791AbfDII3H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 9 Apr 2019 04:29:07 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:46590 "EHLO
+        id S1726894AbfDII3e (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 9 Apr 2019 04:29:34 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:46588 "EHLO
         mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726756AbfDII3H (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Apr 2019 04:29:07 -0400
-Received: by mail-wr1-f67.google.com with SMTP id t17so19626359wrw.13
-        for <linux-usb@vger.kernel.org>; Tue, 09 Apr 2019 01:29:05 -0700 (PDT)
+        with ESMTP id S1726711AbfDII3F (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Apr 2019 04:29:05 -0400
+Received: by mail-wr1-f67.google.com with SMTP id t17so19626285wrw.13
+        for <linux-usb@vger.kernel.org>; Tue, 09 Apr 2019 01:29:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=WkiOzqo+5E8+PTnExhJYSKG8TC17kxUDe5ZrFElD/ZE=;
-        b=s99I0hVkurOugcw1p2GVsy9/iolntxChb1wMHFhKwdWsGTYowrVBedaTcoohRv1I2I
-         qqWs6ADvHGqaBJcOVWBmvS1Trdj1RdsLOmorucGdN5FbA2BV6+SZ4wEtQfuZ7mjqIq+k
-         B31JBuG048iRnXknjb8+nMWglaY6g8O8UkPcniFG0pGt15WOJA5vJm8yZ1/8xhIzfF1k
-         dUl/u15wFJnPd9u2vo35AOshy90KiK9wJZJDMdKJz+jWjEUG+rWrI3JWKYvjXTUv8nqx
-         wmC7iY0IpWJLzeAuPFlKThI2lA6DdCWQ+P0ar6F18+uGJv3r931t8Y8K3OqeJFsuQYK+
-         21+g==
+        bh=a1ibeF6fSGxrtLocqohp3DOAYCn4qHHgfHueAd+c1xs=;
+        b=rc+kTt8MY2foIoO6IjqRvTBpTQiETlG0C7fT9V7xOdJMWZEKp+lAiESGAKm99LXeXu
+         T5xQLvJGPkdZatLGwgq7gk5rUuiTTglQKmV/sOshrcW29zByeTA5MPNfno0S8u/6eGuq
+         3Bk9cHaoT3DXyZq/jSWydel7+s2mOogSSjxHmB593utiDAnkgd4i+VsS3Ls853Pzg2nm
+         rFNO4FFcGBle4U+0Evd1zYEwZK0c+eK+EGNrD21XZSKGYovcqKxt5rF5znqRF8ong5fp
+         elykfxGj6rwLp+F4N8t03WwjQMJxuIFYDt+Xx59ZRvexjbyaPin4+fO0MrMGORdLG9mV
+         T1JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WkiOzqo+5E8+PTnExhJYSKG8TC17kxUDe5ZrFElD/ZE=;
-        b=ovU19fxwxUBIbNg7HPoFSGYFzySrE2VdJFCbwCvj4vc2qXj97wwbDvL2yWG7wOVXop
-         Z/KnOh+9C5c+MIwwbJdxViy4oiCAsP+rxFKU8pLMBet+QWlEjYZmqL9MV2TQw1Zo6M20
-         SPiTy51clfI0rdRyEh1SU+vH3CfhSz+8EsbFj108RFzDrEd6Mitg+waFRresqztbj3QY
-         85xspWisZvla0DMzTq/43pno7GS+ZCEStz8xKSPG3/VWulpRNvnAoaIfR05Mw9sMZ44w
-         C5dSPw/c25KET2PRb4FARtQYyBXlWN8S2U89mkMeDzU3vttGzgSyAQPgkAvdaLUOMsPo
-         JfZg==
-X-Gm-Message-State: APjAAAXcYLvFecyoDMuO5R/KH8Nqz7nFDIw+/SaxZWTU//XRozx0ntAO
-        QB7VXUs8zMw6jWhCq5RE5Dhcag==
-X-Google-Smtp-Source: APXvYqxhwWqWQ9oHtjDDiAcwLNtMiQK1Mu4cvY64Bg3l4X3qTuwytnbqiwjJUEoaVX6oKkBKyMC+tw==
-X-Received: by 2002:adf:f285:: with SMTP id k5mr6966620wro.110.1554798545229;
-        Tue, 09 Apr 2019 01:29:05 -0700 (PDT)
+        bh=a1ibeF6fSGxrtLocqohp3DOAYCn4qHHgfHueAd+c1xs=;
+        b=um3OcOxIgHhjGWuq5/xB9BBgN9ZIFo2wksBlJOzJdgyhaaofWQYG+2ASeTE7ix39Fy
+         ix2ZiTit444GK+JjUrRNIVkjbyjZQsQRu9Jh2/QjohxO+VYV9Bfdy/tpYlrqa+v5wh5I
+         RdT6VHWtFxpBjuDXGwU5q53YdmmQAGyr9Dc2BV2rTozR1YVLo8dydHVVScv4R/KTnBTT
+         Kekr9afZ04OkZA52FK2qY2ExfjTsi2/q/wFrPaCC4hqeldW/kE3D6YY7OtcMBZH7+vwu
+         OdWYBtvzcP5XnuudaFqpZgNEl1dXgGTTayPE3XJnx9tWNnnQWrPtVV63Mcw8SUrDimIQ
+         Q//A==
+X-Gm-Message-State: APjAAAUfUM66ko/qbWwmLmUPOA2qktrkI1SJKPM6GwYPxUDDIUxmctyz
+        A2Lqgb9cNEDrKc5bEtZKjIz03A==
+X-Google-Smtp-Source: APXvYqysocVGytB4qAkrXJND7pGufXDa6d177/I7jwR3YsuT6GTfMd1DU/ZnHPgeW3VASAODo3gPGw==
+X-Received: by 2002:adf:ff88:: with SMTP id j8mr21891334wrr.1.1554798543888;
+        Tue, 09 Apr 2019 01:29:03 -0700 (PDT)
 Received: from debian-brgl.home ([2a01:cb1d:af:5b00:6d6c:8493:1ab5:dad7])
-        by smtp.gmail.com with ESMTPSA id c20sm59968651wre.28.2019.04.09.01.29.03
+        by smtp.gmail.com with ESMTPSA id c20sm59968651wre.28.2019.04.09.01.29.02
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 09 Apr 2019 01:29:04 -0700 (PDT)
+        Tue, 09 Apr 2019 01:29:03 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Sekhar Nori <nsekhar@ti.com>, Kevin Hilman <khilman@kernel.org>,
         Alan Stern <stern@rowland.harvard.edu>,
@@ -61,9 +61,9 @@ To:     Sekhar Nori <nsekhar@ti.com>, Kevin Hilman <khilman@kernel.org>,
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v3 4/6] ARM: davinci: omapl138-hawk: add a fixed regulator for ohci-da8xx
-Date:   Tue,  9 Apr 2019 10:28:53 +0200
-Message-Id: <20190409082855.15373-5-brgl@bgdev.pl>
+Subject: [PATCH v3 3/6] usb: ohci-da8xx: disable the regulator if the overcurrent irq fired
+Date:   Tue,  9 Apr 2019 10:28:52 +0200
+Message-Id: <20190409082855.15373-4-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190409082855.15373-1-brgl@bgdev.pl>
 References: <20190409082855.15373-1-brgl@bgdev.pl>
@@ -74,105 +74,80 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190409082853.cl-m2x6pqLuFYFZKTo1I88qsm5s3NWbUmWmqCUE-1tg@z>
+Message-ID: <20190409082852.vGokQUl14y1aVc403xA5sdt2119MmGYUqb-Q7ShkGI8@z>
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Instead of directly using the vbus GPIO we should model it as a fixed
-regulator. Add all necessary fix-ups for the regulator to be registered
-and configure the vbus GPIO as its enable pin.
+Historically the power supply management in this driver has been handled
+in two separate places in parallel. Device-tree users simply defined an
+appropriate regulator, while two boards with no DT support (da830-evm and
+omapl138-hawk) passed functions defined in their respective board files
+over platform data. These functions simply used legacy GPIO calls to
+watch the oc GPIO for interrupts and disable the vbus GPIO when the irq
+fires.
+
+Commit d193abf1c913 ("usb: ohci-da8xx: add vbus and overcurrent gpios")
+updated these GPIO calls to the modern API and moved them inside the
+driver.
+
+This however is not the optimal solution for the vbus GPIO which should
+be modeled as a fixed regulator that can be controlled with a GPIO.
+
+In order to keep the overcurrent protection available once we move the
+board files to using fixed regulators we need to disable the enable_reg
+regulator when the overcurrent indicator interrupt fires. Since we
+cannot call regulator_disable() from interrupt context, we need to
+switch to using a oneshot threaded interrupt.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- arch/arm/mach-davinci/board-omapl138-hawk.c | 49 +++++++++++++++++++--
- 1 file changed, 46 insertions(+), 3 deletions(-)
+ drivers/usb/host/ohci-da8xx.c | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
 
-diff --git a/arch/arm/mach-davinci/board-omapl138-hawk.c b/arch/arm/mach-davinci/board-omapl138-hawk.c
-index e244c8648594..db177a6a7e48 100644
---- a/arch/arm/mach-davinci/board-omapl138-hawk.c
-+++ b/arch/arm/mach-davinci/board-omapl138-hawk.c
-@@ -21,6 +21,7 @@
- #include <linux/platform_data/mtd-davinci.h>
- #include <linux/platform_data/mtd-davinci-aemif.h>
- #include <linux/platform_data/ti-aemif.h>
-+#include <linux/regulator/fixed.h>
- #include <linux/regulator/machine.h>
+diff --git a/drivers/usb/host/ohci-da8xx.c b/drivers/usb/host/ohci-da8xx.c
+index 9c6d1f03b871..108fe0a1b962 100644
+--- a/drivers/usb/host/ohci-da8xx.c
++++ b/drivers/usb/host/ohci-da8xx.c
+@@ -202,12 +202,24 @@ static int ohci_da8xx_regulator_event(struct notifier_block *nb,
+ 	return 0;
+ }
  
- #include <asm/mach-types.h>
-@@ -298,15 +299,50 @@ static const short da850_hawk_usb11_pins[] = {
- 	-1
- };
+-static irqreturn_t ohci_da8xx_oc_handler(int irq, void *data)
++static irqreturn_t ohci_da8xx_oc_thread(int irq, void *data)
+ {
+ 	struct da8xx_ohci_hcd *da8xx_ohci = data;
++	struct device *dev = da8xx_ohci->hcd->self.controller;
++	int ret;
  
--static struct gpiod_lookup_table hawk_usb_gpio_lookup = {
-+static struct regulator_consumer_supply hawk_usb_supplies[] = {
-+	REGULATOR_SUPPLY("vbus", NULL),
-+};
-+
-+static struct regulator_init_data hawk_usb_vbus_data = {
-+	.consumer_supplies	= hawk_usb_supplies,
-+	.num_consumer_supplies	= ARRAY_SIZE(hawk_usb_supplies),
-+};
-+
-+static struct fixed_voltage_config hawk_usb_vbus = {
-+	.supply_name		= "vbus",
-+	.microvolts		= 3300000,
-+	.init_data		= &hawk_usb_vbus_data,
-+};
-+
-+static struct platform_device hawk_usb_vbus_device = {
-+	.name		= "reg-fixed-voltage",
-+	.id		= 0,
-+	.dev		= {
-+		.platform_data = &hawk_usb_vbus,
-+	},
-+};
-+
-+static struct gpiod_lookup_table hawk_usb_oc_gpio_lookup = {
- 	.dev_id		= "ohci-da8xx",
- 	.table = {
--		GPIO_LOOKUP("davinci_gpio", DA850_USB1_VBUS_PIN, "vbus", 0),
- 		GPIO_LOOKUP("davinci_gpio", DA850_USB1_OC_PIN, "oc", 0),
- 		{ }
- 	},
- };
- 
-+static struct gpiod_lookup_table hawk_usb_vbus_gpio_lookup = {
-+	.dev_id		= "reg-fixed-voltage.0",
-+	.table = {
-+		GPIO_LOOKUP("davinci_gpio", DA850_USB1_VBUS_PIN, NULL, 0),
-+		{ }
-+	},
-+};
-+
-+static struct gpiod_lookup_table *hawk_usb_gpio_lookups[] = {
-+	&hawk_usb_oc_gpio_lookup,
-+	&hawk_usb_vbus_gpio_lookup,
-+};
-+
- static struct da8xx_ohci_root_hub omapl138_hawk_usb11_pdata = {
- 	/* TPS2087 switch @ 5V */
- 	.potpgt         = (3 + 1) / 2,  /* 3 ms max */
-@@ -327,12 +363,19 @@ static __init void omapl138_hawk_usb_init(void)
- 		pr_warn("%s: USB PHY CLK registration failed: %d\n",
- 			__func__, ret);
- 
-+	gpiod_add_lookup_tables(hawk_usb_gpio_lookups,
-+				ARRAY_SIZE(hawk_usb_gpio_lookups));
-+
- 	ret = da8xx_register_usb_phy();
- 	if (ret)
- 		pr_warn("%s: USB PHY registration failed: %d\n",
- 			__func__, ret);
- 
--	gpiod_add_lookup_table(&hawk_usb_gpio_lookup);
-+	ret = platform_device_register(&hawk_usb_vbus_device);
-+	if (ret) {
-+		pr_warn("%s: Unable to register the vbus supply\n", __func__);
-+		return;
+-	if (gpiod_get_value(da8xx_ohci->oc_gpio))
+-		gpiod_set_value(da8xx_ohci->vbus_gpio, 0);
++	if (gpiod_get_value_cansleep(da8xx_ohci->oc_gpio)) {
++		if (da8xx_ohci->vbus_gpio) {
++			gpiod_set_value_cansleep(da8xx_ohci->vbus_gpio, 0);
++		} else if (da8xx_ohci->vbus_reg) {
++			ret = regulator_disable(da8xx_ohci->vbus_reg);
++			if (ret)
++				dev_err(dev,
++					"Failed to disable regulator: %d\n",
++					ret);
++		}
++			
 +	}
  
- 	ret = da8xx_register_usb11(&omapl138_hawk_usb11_pdata);
- 	if (ret)
+ 	return IRQ_HANDLED;
+ }
+@@ -434,8 +446,9 @@ static int ohci_da8xx_probe(struct platform_device *pdev)
+ 		if (oc_irq < 0)
+ 			goto err;
+ 
+-		error = devm_request_irq(dev, oc_irq, ohci_da8xx_oc_handler,
+-				IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING,
++		error = devm_request_threaded_irq(dev, oc_irq, NULL,
++				ohci_da8xx_oc_thread, IRQF_TRIGGER_RISING |
++				IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
+ 				"OHCI over-current indicator", da8xx_ohci);
+ 		if (error)
+ 			goto err;
 -- 
 2.21.0
 
