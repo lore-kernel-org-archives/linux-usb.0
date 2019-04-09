@@ -2,133 +2,114 @@ Return-Path: <SRS0=+Ncr=SL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
+	T_DKIMWL_WL_HIGH,UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4911DC10F13
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 01:36:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86B29C10F13
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 02:10:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 180FC20883
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 01:36:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 55D5221473
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 02:10:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=Synaptics.onmicrosoft.com header.i=@Synaptics.onmicrosoft.com header.b="tYI///G7"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="lZLSLXsk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726572AbfDIBgP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 8 Apr 2019 21:36:15 -0400
-Received: from mail-eopbgr750083.outbound.protection.outlook.com ([40.107.75.83]:63342
-        "EHLO NAM02-BL2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725950AbfDIBgO (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 8 Apr 2019 21:36:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=Synaptics.onmicrosoft.com; s=selector1-synaptics-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KtOGbTw0D8MZFQkXd32h3JC4MoeshcrO2gx6LlPe9A8=;
- b=tYI///G72EcYpBjUsGXqVu/4R+Usy5jaERYLmfIxEJWl3vIeNLLK2uT1jcQDP2/6XOINZLp/dJibtMqgbxy+j0krQ/KClT2ubIVBHZdr027Lj9kf1bHCy35lf3WtIQKsuXgGHucHRUMJL/vt+Y33rbzmro386fkWmtqUuRHjSIk=
-Received: from BYAPR03MB4773.namprd03.prod.outlook.com (20.179.92.152) by
- BYAPR03MB4439.namprd03.prod.outlook.com (20.178.49.24) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1771.13; Tue, 9 Apr 2019 01:36:11 +0000
-Received: from BYAPR03MB4773.namprd03.prod.outlook.com
- ([fe80::1a8:1bc4:174b:472b]) by BYAPR03MB4773.namprd03.prod.outlook.com
- ([fe80::1a8:1bc4:174b:472b%2]) with mapi id 15.20.1771.016; Tue, 9 Apr 2019
- 01:36:11 +0000
-From:   Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-To:     "RaghuramChary.Jallipalli@microchip.com" 
-        <RaghuramChary.Jallipalli@microchip.com>
-CC:     "marc.zyngier@arm.com" <marc.zyngier@arm.com>,
-        "Woojung.Huh@microchip.com" <Woojung.Huh@microchip.com>,
-        "UNGLinuxDriver@microchip.com" <UNGLinuxDriver@microchip.com>,
-        "davem@davemloft.net" <davem@davemloft.net>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] net: lan78xx: fix "enabled interrupts" warninig
-Thread-Topic: [PATCH] net: lan78xx: fix "enabled interrupts" warninig
-Thread-Index: AQHU7dHNU1pmmx19ukWi008Ht4Z+BqYx4peAgACJ84D//6iSAIAA9j2A
-Date:   Tue, 9 Apr 2019 01:36:10 +0000
-Message-ID: <20190409092753.39961390@xhacker.debian>
-References: <20190408140301.3dcbccdd@xhacker.debian>
-        <BL0PR11MB33292EC33542F7D4FE5208469F2C0@BL0PR11MB3329.namprd11.prod.outlook.com>
-        <20190408155947.3efcb1eb@xhacker.debian>
-        <BL0PR11MB3329824981AAA87127C157C69F2C0@BL0PR11MB3329.namprd11.prod.outlook.com>
-In-Reply-To: <BL0PR11MB3329824981AAA87127C157C69F2C0@BL0PR11MB3329.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [124.74.246.114]
-x-clientproxiedby: TY2PR02CA0036.apcprd02.prod.outlook.com
- (2603:1096:404:a6::24) To BYAPR03MB4773.namprd03.prod.outlook.com
- (2603:10b6:a03:134::24)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Jisheng.Zhang@synaptics.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 125e9db4-8d5a-4b7c-cc60-08d6bc8bbe65
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600139)(711020)(4605104)(2017052603328)(7193020);SRVR:BYAPR03MB4439;
-x-ms-traffictypediagnostic: BYAPR03MB4439:
-x-microsoft-antispam-prvs: <BYAPR03MB443933E85F38B89EA21215DDED2D0@BYAPR03MB4439.namprd03.prod.outlook.com>
-x-forefront-prvs: 000227DA0C
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(346002)(39860400002)(136003)(366004)(396003)(376002)(199004)(189003)(478600001)(25786009)(6916009)(97876018)(14454004)(2501003)(26005)(72206003)(2906002)(70486001)(102836004)(6486002)(76176011)(97736004)(386003)(186003)(66066001)(229853002)(105586002)(14444005)(6506007)(256004)(2351001)(68736007)(6246003)(106356001)(3846002)(8936002)(6512007)(305945005)(86362001)(476003)(71190400001)(11346002)(5640700003)(446003)(6116002)(8266002)(117636001)(81156014)(7736002)(486006)(5660300002)(8676002)(93886005)(99286004)(81166006)(4326008)(53936002)(52116002)(54906003)(6436002)(50226002)(316002)(1076003)(71200400001)(1970100003)(9686003)(39210200001);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR03MB4439;H:BYAPR03MB4773.namprd03.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
-received-spf: None (protection.outlook.com: synaptics.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: l1hWWhy2S1r9yNdDzLabkLzrMp/mz7SrHZ/KiBFkp/QqFGPdUMC84Ii3c42Gi8TEvFrvgtfrGDRmXZwHwWIASlVmnMUONG/LjCKPyNHh0Mg6gM4zooGki2lkBzhEZ2XuU+R2yjTxG9z+p3q3Sr9qpieFq2gh6+4Z4YROyIrrv4KHRoJe/K38TaSzHZ/w1DYdWl7Hzde5ptRRgpUkZWJ4WMx4sM2D4cvzIATbqw5/UnFeuXaE7CudPXXfOGuVgecGm90fNUM2gYY1uToHzZHoFc4c08WQR9NxcPAs2N+T6w9f0rdcWa0p9eQSQgwAVq+du+JHgtae40tWFJZsGaZpkAXrSi6boV9cQ4Jwk8UN6nlqUk0PXl4JnX29HHcS954A1kEFORrP09l7dhF/bEJGEqzPM+AVVdmrC1QMBdBg/aI=
-Content-Type: text/plain; charset="UTF-8"
-Content-ID: <7901A8ACE9A14246A1F2FBC0B414FF7F@namprd03.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+        id S1726538AbfDICKx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 8 Apr 2019 22:10:53 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:59924 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725953AbfDICKx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 8 Apr 2019 22:10:53 -0400
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x392A4Rk097347;
+        Tue, 9 Apr 2019 02:10:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
+ from : references : date : in-reply-to : message-id : mime-version :
+ content-type; s=corp-2018-07-02;
+ bh=HfkS45Zt2fMESAbcnl3hyfZ2EC46gZ0d06xznFPMZWM=;
+ b=lZLSLXskSicYiRk9BPdTzZLzw8GvWANg5CRXoY8w8tkndlhxs0iGlCdIC9XZzKvOjMm3
+ 2YFON2NdZdGuMtXgZY3K0DSbORuVuBaQW0YUOkfAfb82fMxd7DfKIOtlD/yxwKza6sO1
+ hnpfhy9YJqZsL88ZVgXP1YoXHB83DEIH7ZhRg+1xin4TX5L12JzRZ29KW3EjXJtJWpZ7
+ ASPu/rLFcFKF8Tr6Skwg3BtO+F6Z/44XxrcS0b6quxWCmYYLRUZBli8XSx85DH872IEm
+ varNiMwz+sCBRV+gobC5kFXbMSNF7byyXP+eThY21sVA8LK0+JSkZV2vWP3csXQq92Ei pg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2130.oracle.com with ESMTP id 2rphmea66j-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 09 Apr 2019 02:10:28 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x3929cb6007436;
+        Tue, 9 Apr 2019 02:10:28 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3030.oracle.com with ESMTP id 2rpj5aa1v3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 09 Apr 2019 02:10:28 +0000
+Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x392ANCq014365;
+        Tue, 9 Apr 2019 02:10:23 GMT
+Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 08 Apr 2019 19:10:22 -0700
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Kento.A.Kobayashi@sony.com,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Oliver Neukum <oneukum@suse.com>, <gregkh@linuxfoundation.org>,
+        USB Storage list <usb-storage@lists.one-eyed-alien.net>,
+        <Jacky.Cao@sony.com>,
+        Kernel development list <linux-kernel@vger.kernel.org>,
+        SCSI development list <linux-scsi@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH] usb: uas: fix usb subsystem hang after power off hub port
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+References: <Pine.LNX.4.44L0.1904041522150.1288-100000@iolanthe.rowland.org>
+Date:   Mon, 08 Apr 2019 22:10:19 -0400
+In-Reply-To: <Pine.LNX.4.44L0.1904041522150.1288-100000@iolanthe.rowland.org>
+        (Alan Stern's message of "Thu, 4 Apr 2019 15:33:38 -0400 (EDT)")
+Message-ID: <yq1a7h0orn8.fsf@oracle.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
 MIME-Version: 1.0
-X-OriginatorOrg: synaptics.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 125e9db4-8d5a-4b7c-cc60-08d6bc8bbe65
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Apr 2019 01:36:10.8928
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 335d1fbc-2124-4173-9863-17e7051a2a0e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR03MB4439
+Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9221 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=411
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1904090013
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9221 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=431 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1904090013
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190409013610.0BxPX4Mw1v2nCgXHyODuxUKRo3hKxKh4ZkM4yum6wqM@z>
+Message-ID: <20190409021019.dmiNGI1arYzdHVh-u7bO3ebGHQI5GXWO_C6IRXHVfU0@z>
 
-On Mon, 8 Apr 2019 10:46:52 +0000  wrote:
 
->=20
->=20
-> > > Is this warning specific to any linux version? =20
-> >
-> > In theory, no. I only tested 5.0, 4.20, both can reproduce this warning=
-.
-> > =20
-> This makes me think that code is fine because it occurs in 4.20 and great=
-er. Or maybe the problem is masked in older. I maybe wrong in assuming that=
-.
+Alan,
 
-Per my understanding, the warning should occur since commit cc89c323a30e
-("lan78xx: Use irq_domain for phy interrupt from USB Int. EP")
-I just bought a Raspberry Pi 3B+ a few days ago, so I didn't have chance
-to check 4.19 and before.
+> So it looks as though the SCSI subsystem doesn't like to have a reset 
+> handler call scsi_remove_host.
 
->=20
-> >
-> > The warning comes from calling generic_handle_irq() in usb tasklet cont=
-ext.
-> > This is not correct.
-> >
-> > Per my understanding, if there's chained irq, we could introduce extra
-> > irqdomain. E.g
-> >
-> > GIC <--> another irqchip controller <--> HW device
-> > =20
-> Correct, IRQ domain is generally used in chained irq controllers.
-> Yes, We need to check why irq domain is used in the current driver.
->=20
+Are you talking about a PCI device removal handler or a SCSI error
+handler?
 
-It's introduced in the commit cc89c323a30e
+> Commands dispatched by the removal routines are forced to wait for the
+> reset recovery to finish, which won't happen until those commands have
+> been completed.
+>
+> Is this a bug in the SCSI core?  If not, we need to know what is the
+> right way to do things when a reset handler detects that the SCSI host
+> has been hot-unplugged.
 
-Thanks
+PCI surprise removal should generally work. But it's somewhat unusual
+for a SCSI host to evaporate in the middle of error handling. After all,
+the main purpose of eh is to leverage the interfaces provided by the
+host to try to reconnect to a target that tripped and fell off the
+bus...
 
+-- 
+Martin K. Petersen	Oracle Linux Engineering
