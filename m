@@ -2,29 +2,15 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: net: lan78xx: fix "enabled interrupts" warninig
-From: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-Message-Id: <20190409092753.39961390@xhacker.debian>
-Date: Tue, 9 Apr 2019 01:36:10 +0000
-To: "RaghuramChary.Jallipalli@microchip.com" <RaghuramChary.Jallipalli@microchip.com>
-Cc: "marc.zyngier@arm.com" <marc.zyngier@arm.com>, "Woojung.Huh@microchip.com" <Woojung.Huh@microchip.com>, "UNGLinuxDriver@microchip.com" <UNGLinuxDriver@microchip.com>, "davem@davemloft.net" <davem@davemloft.net>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+From: Raghuram Chary J <raghuramchary.jallipalli@microchip.com>
+Message-Id: <BL0PR11MB332928F6078BB4AF41344AFE9F2D0@BL0PR11MB3329.namprd11.prod.outlook.com>
+Date: Tue, 9 Apr 2019 05:26:04 +0000
+To: Jisheng.Zhang@synaptics.com
+Cc: marc.zyngier@arm.com, Woojung.Huh@microchip.com, UNGLinuxDriver@microchip.com, davem@davemloft.net, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gTW9uLCA4IEFwciAyMDE5IDEwOjQ2OjUyICswMDAwICB3cm90ZToKCj4gCj4gCj4gPiA+IElz
-IHRoaXMgd2FybmluZyBzcGVjaWZpYyB0byBhbnkgbGludXggdmVyc2lvbj8gIAo+ID4KPiA+IElu
-IHRoZW9yeSwgbm8uIEkgb25seSB0ZXN0ZWQgNS4wLCA0LjIwLCBib3RoIGNhbiByZXByb2R1Y2Ug
-dGhpcyB3YXJuaW5nLgo+ID4gIAo+IFRoaXMgbWFrZXMgbWUgdGhpbmsgdGhhdCBjb2RlIGlzIGZp
-bmUgYmVjYXVzZSBpdCBvY2N1cnMgaW4gNC4yMCBhbmQgZ3JlYXRlci4gT3IgbWF5YmUgdGhlIHBy
-b2JsZW0gaXMgbWFza2VkIGluIG9sZGVyLiBJIG1heWJlIHdyb25nIGluIGFzc3VtaW5nIHRoYXQu
-CgpQZXIgbXkgdW5kZXJzdGFuZGluZywgdGhlIHdhcm5pbmcgc2hvdWxkIG9jY3VyIHNpbmNlIGNv
-bW1pdCBjYzg5YzMyM2EzMGUKKCJsYW43OHh4OiBVc2UgaXJxX2RvbWFpbiBmb3IgcGh5IGludGVy
-cnVwdCBmcm9tIFVTQiBJbnQuIEVQIikKSSBqdXN0IGJvdWdodCBhIFJhc3BiZXJyeSBQaSAzQisg
-YSBmZXcgZGF5cyBhZ28sIHNvIEkgZGlkbid0IGhhdmUgY2hhbmNlCnRvIGNoZWNrIDQuMTkgYW5k
-IGJlZm9yZS4KCj4gCj4gPgo+ID4gVGhlIHdhcm5pbmcgY29tZXMgZnJvbSBjYWxsaW5nIGdlbmVy
-aWNfaGFuZGxlX2lycSgpIGluIHVzYiB0YXNrbGV0IGNvbnRleHQuCj4gPiBUaGlzIGlzIG5vdCBj
-b3JyZWN0Lgo+ID4KPiA+IFBlciBteSB1bmRlcnN0YW5kaW5nLCBpZiB0aGVyZSdzIGNoYWluZWQg
-aXJxLCB3ZSBjb3VsZCBpbnRyb2R1Y2UgZXh0cmEKPiA+IGlycWRvbWFpbi4gRS5nCj4gPgo+ID4g
-R0lDIDwtLT4gYW5vdGhlciBpcnFjaGlwIGNvbnRyb2xsZXIgPC0tPiBIVyBkZXZpY2UKPiA+ICAK
-PiBDb3JyZWN0LCBJUlEgZG9tYWluIGlzIGdlbmVyYWxseSB1c2VkIGluIGNoYWluZWQgaXJxIGNv
-bnRyb2xsZXJzLgo+IFllcywgV2UgbmVlZCB0byBjaGVjayB3aHkgaXJxIGRvbWFpbiBpcyB1c2Vk
-IGluIHRoZSBjdXJyZW50IGRyaXZlci4KPiAKCkl0J3MgaW50cm9kdWNlZCBpbiB0aGUgY29tbWl0
-IGNjODljMzIzYTMwZQoKVGhhbmtzCg==
+PiA+IENvcnJlY3QsIElSUSBkb21haW4gaXMgZ2VuZXJhbGx5IHVzZWQgaW4gY2hhaW5lZCBpcnEg
+Y29udHJvbGxlcnMuCj4gPiBZZXMsIFdlIG5lZWQgdG8gY2hlY2sgd2h5IGlycSBkb21haW4gaXMg
+dXNlZCBpbiB0aGUgY3VycmVudCBkcml2ZXIuCj4gPgo+IAo+IEl0J3MgaW50cm9kdWNlZCBpbiB0
+aGUgY29tbWl0IGNjODljMzIzYTMwZQo+IApUaGFua3MgSmlzaGVuZywgV2lsbCBjaGVjayBhbmQg
+Z2V0IGJhY2sgQVNBUC4KClRoYW5rcwo=
