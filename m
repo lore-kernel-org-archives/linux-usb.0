@@ -3,95 +3,94 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FF46C10F0E
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 14:51:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 349CCC10F0E
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 15:17:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1895E2064B
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 14:51:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0AC972084F
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Apr 2019 15:17:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726551AbfDIOvk convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 9 Apr 2019 10:51:40 -0400
-Received: from mail1.bemta23.messagelabs.com ([67.219.246.213]:34171 "EHLO
-        mail1.bemta23.messagelabs.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726396AbfDIOvk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Apr 2019 10:51:40 -0400
-Received: from [67.219.246.197] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-        by server-1.bemta.az-c.us-east-1.aws.symcld.net id 69/F5-25987-A71BCAC5; Tue, 09 Apr 2019 14:51:38 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrFKsWRWlGSWpSXmKPExsXi5LtOQLdq45o
-  Yg1Zli0XLWpktJvy+wObA5DH77g9Gj8+b5AKYolgz85LyKxJYM2a8uMZYMIG74tbtI4wNjOs5
-  uxi5OIQE9jBKPO1+wt7FyMnBJmAocW7LWzBbREBLYnPTS+YuRg4OZgENifObTEBMYQEFiaerd
-  CAqFCV+PDvGDGF3MUr87Q4FsVkEVCQWvD7DAmLzClhLND1/ygaxah2jxP01WxhBEpwCNhKH97
-  9iBbEZBcQkvp9awwRiMwuIS9x6Mh/MlhAQkFiy5zwzhC0q8fLxP1YIW17i+afF7BD1OhILdn9
-  ig7DNJZ71XoGaoy2xbOFrZogjBCVOznzCMoFRZBaSFbOQtM9C0j4LSfssJO0LGFlXMZomFWWm
-  Z5TkJmbm6BoaGOgaGhrpmuuaG+glVukm65UW66YmFpfoGuollhfrFVfmJuek6OWllmxiBMZVS
-  gG72w7GE0vTDzFKcjApifIu7FwTI8SXlJ9SmZFYnBFfVJqTWnyIUYaDQ0mC13UDUE6wKDU9tS
-  ItMwcY4TBpCQ4eJRHeBSBp3uKCxNzizHSI1ClGS44Dix7OZeb40v4ISO6592wusxBLXn5eqpQ
-  472OQBgGQhozSPLhxsCR0iVFWSpiXkYGBQYinILUoN7MEVf4VozgHo5IwrzvIFJ7MvBK4ra+A
-  DmICOmiKzmqQg0oSEVJSDYwpH3UlWlyy9c9c+GnBav7l2Z64jNak50ZvlwgrntCLuuW5Kv68X
-  lQu+82Dmy+cfK+oOaMwtnRt9vamh/wy/FKGHCctVOTE+PN3+M3/Iulc0Zt4QGGZkIjbBx9xjh
-  VynZ1GUUunxl39cnpjyDKxB2s+9s62ZJgdwb+Tbd2GkhfzZz1bn18V8USJpTgj0VCLuag4EQD
-  zjusSPQMAAA==
-X-Env-Sender: Seth.Bollinger@digi.com
-X-Msg-Ref: server-11.tower-405.messagelabs.com!1554821497!7188260!1
-X-Originating-IP: [66.77.174.16]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.31.5; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 17659 invoked from network); 9 Apr 2019 14:51:37 -0000
-Received: from owa.digi.com (HELO MCL-VMS-XCH01.digi.com) (66.77.174.16)
-  by server-11.tower-405.messagelabs.com with SMTP; 9 Apr 2019 14:51:37 -0000
-Received: from MTK-SMS-XCH01.digi.com ([fe80::cca7:5299:c88e:1c40]) by
- MCL-VMS-XCH01.digi.com ([fe80::5587:821d:f8e4:6578%13]) with mapi id
- 14.03.0439.000; Tue, 9 Apr 2019 09:51:37 -0500
-From:   "Bollinger, Seth" <Seth.Bollinger@digi.com>
-To:     Alan Stern <stern@rowland.harvard.edu>
-CC:     USB list <linux-usb@vger.kernel.org>
-Subject: Re: Bug: VHCI + USB 3.0
-Thread-Topic: Bug: VHCI + USB 3.0
-Thread-Index: AQHU6+SEgulXK6TzJ0OKPp0lJzg2fKYuYXeAgAAIH4CAAS7ugIAABkMAgAADKICAAuoyAIAAH+eAgAAgmYCAAA8VAIAAEicAgAAIsQCAAANzgIABMrSAgAAWyQA=
-Date:   Tue, 9 Apr 2019 14:51:36 +0000
-Message-ID: <C85E6688-562E-4852-8D91-0270C6383D11@digi.com>
-References: <Pine.LNX.4.44L0.1904081453480.1440-100000@iolanthe.rowland.org>
- <C22C24B7-A1A1-44E4-9559-ED576ABE8CFF@digi.com>
- <81BA7AE9-F21B-4BF1-B9A0-FDC82996EBA5@digi.com>
-In-Reply-To: <81BA7AE9-F21B-4BF1-B9A0-FDC82996EBA5@digi.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.10.30.39]
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <FBA2F51124C1D0478052ECD7F0A8065A@digi.com>
-Content-Transfer-Encoding: 8BIT
-MIME-Version: 1.0
+        id S1726523AbfDIPQv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 9 Apr 2019 11:16:51 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:36956 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726492AbfDIPQv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Apr 2019 11:16:51 -0400
+Received: by mail-pl1-f196.google.com with SMTP id w23so9592313ply.4;
+        Tue, 09 Apr 2019 08:16:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=KyDoJ4EF4tKFatRTJIVOBt2T69QEP0WdD+xc0GB6Pf8=;
+        b=sEb6V+GjGpX/adAxqjtR3ah3mJ5NNIR/J7jAVigYyPqa+Lb9uCNMWya45zHB9YPGWL
+         kbpVGsu3nwzmgI/bNglWgr7PTpsXmMbdu/rl20ZsFyxHzleDptVgePn0Gz8Yc2SSn0Dl
+         oLawAkzn9RAN108UPSblsxYAIgrQK2BIrG03OGvtl4rtQ0HZQNe5kPgk0IcPUdPwHaVI
+         SuAN4IgkhZwWVl5D4yC6Tk7Dy/ZFsX0mPEDxh5SZu/luY+3Z6ZBI0l6Iyw9LArKxsAjg
+         WxJ6cn0WS0S4VrNGgZRsM73qyh35EytCFGKB6U7elXMxrmDm630UZseS6QtkoAjJ8kCC
+         UobQ==
+X-Gm-Message-State: APjAAAV/eJlVLKrwc7OVhqbSpOM/o3BNnCB3uD8QpKZ6HEs2oKTkpSTV
+        qZ80rvFLQVXnlTdyRXI7+9s=
+X-Google-Smtp-Source: APXvYqzlwcZxQo5mq4WPr+YtES0+PQj+Skp4JMJiQoex8JslatADRapIFoX2ocQZY6cYV46JjVZt5g==
+X-Received: by 2002:a17:902:2ac3:: with SMTP id j61mr38121413plb.112.1554823010201;
+        Tue, 09 Apr 2019 08:16:50 -0700 (PDT)
+Received: from ?IPv6:2620:15c:2cd:203:5cdc:422c:7b28:ebb5? ([2620:15c:2cd:203:5cdc:422c:7b28:ebb5])
+        by smtp.gmail.com with ESMTPSA id g73sm60597977pfd.185.2019.04.09.08.16.48
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 09 Apr 2019 08:16:49 -0700 (PDT)
+Message-ID: <1554823007.161891.6.camel@acm.org>
+Subject: Re: [PATCH] usb: uas: fix usb subsystem hang after power off hub
+ port
+From:   Bart Van Assche <bvanassche@acm.org>
+To:     Alan Stern <stern@rowland.harvard.edu>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc:     Kento.A.Kobayashi@sony.com,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        Oliver Neukum <oneukum@suse.com>, gregkh@linuxfoundation.org,
+        USB Storage list <usb-storage@lists.one-eyed-alien.net>,
+        Jacky.Cao@sony.com,
+        Kernel development list <linux-kernel@vger.kernel.org>,
+        SCSI development list <linux-scsi@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>
+Date:   Tue, 09 Apr 2019 08:16:47 -0700
+In-Reply-To: <Pine.LNX.4.44L0.1904091014570.1599-100000@iolanthe.rowland.org>
+References: <Pine.LNX.4.44L0.1904091014570.1599-100000@iolanthe.rowland.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.2-1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190409151647.NcpQHd-4S3ztFXsX_x2VWeIT_w9pfmiS5VeV448g9p4@z>
 
+On Tue, 2019-04-09 at 10:44 -0400, Alan Stern wrote:
++AD4 On Mon, 8 Apr 2019, Martin K. Petersen wrote:
++AD4 
++AD4 +AD4 
++AD4 +AD4 Alan,
++AD4 +AD4 
++AD4 +AD4 +AD4 So it looks as though the SCSI subsystem doesn't like to have a reset 
++AD4 +AD4 +AD4 handler call scsi+AF8-remove+AF8-host.
++AD4 +AD4 
++AD4 +AD4 Are you talking about a PCI device removal handler or a SCSI error
++AD4 +AD4 handler?
++AD4 
++AD4 The context of this discussion is a USB mass-storage device where the
++AD4 device's port on its upstream hub has been powered off.  The
++AD4 powered-off port causes an executing command to time out.  As a result
++AD4 the SCSI error handler runs and calls the USB reset routine, but the
++AD4 reset fails because the kernel is unable to communicate with the device
++AD4 through the powered-off port.  This causes the USB reset routine to
++AD4 unbind the device from its USB driver, which in turn calls
++AD4 scsi+AF8-remove+AF8-host -- while the error handler is still running.
 
-> No, that trace did not show any failure.  Did you see the corresponding 
-> error messages in the kernel log while you were collecting the trace?
-> Maybe you can try again.
+From which context does that unbind happen? From inside a SCSI EH callback
+or from the context of a workqueue? I think the former is not allowed but
+that the latter is allowed. The SRP initiator driver (ib+AF8-srp.c) follows the
+latter approach. See also srp+AF8-queue+AF8-remove+AF8-work().
 
-This xhci debug spew might be helpful.
-
-ffff800073097780 342993897 S Bi:8:003:1[  341.533219] xhci-hcd xhci-hcd.1.auto: Babble error for slot 3 ep 2 on endpoint
-[  341.541655] xhci-hcd xhci-hcd.1.auto: Cleaning up stalled endpoint ring
-[  341.548262] xhci-hcd xhci-hcd.1.auto: Finding endpoint context
-[  341.554087] xhci-hcd xhci-hcd.1.auto: Cycle state = 0x1
-[  341.559305] xhci-hcd xhci-hcd.1.auto: New dequeue segment = ffff800073da9b40 (virtual)
-[  341.567214] xhci-hcd xhci-hcd.1.auto: New dequeue pointer = 0xf710a750 (DMA)
-[  341.574254] xhci-hcd xhci-hcd.1.auto: Queueing new dequeue state
-[  341.580254] xhci-hcd xhci-hcd.1.auto: Set TR Deq Ptr cmd, new deq seg = ffff800073da9b40 (0xf710a000 dma), new deq ptr = ffff0000099c5750 (0xf710a750 dma), new cycle = 1
-[  341.595373] xhci-hcd xhci-hcd.1.auto: // Ding dong!
-[  341.600243] xhci-hcd xhci-hcd.1.auto: Giveback URB ffff800071760540, len = 3072, expected = 3584, status = -75
-[  341.610241] xhci-hcd xhci-hcd.1.auto: Ignoring reset ep completion code of 1
-[  341.617283] xhci-hcd xhci-hcd.1.auto: Successful Set TR Deq Ptr cmd, deq = @f710a750
- -115 13 <
-ffff[  341.625130] xhci-hcd xhci-hcd.1.auto: Transfer error for slot 3 ep 2 on endpoint
-
+Bart.
