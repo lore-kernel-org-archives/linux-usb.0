@@ -2,54 +2,81 @@ Return-Path: <SRS0=X9rV=SM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CF20C10F11
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 15:45:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C56C0C10F11
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 16:15:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E63BF20830
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 15:45:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 74CA12133D
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 16:15:12 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=dialogsemiconductor.onmicrosoft.com header.i=@dialogsemiconductor.onmicrosoft.com header.b="tLhMM28M"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730809AbfDJPpQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 Apr 2019 11:45:16 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:33727 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729463AbfDJPpQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Apr 2019 11:45:16 -0400
-Received: by mail-wr1-f68.google.com with SMTP id q1so3591568wrp.0
-        for <linux-usb@vger.kernel.org>; Wed, 10 Apr 2019 08:45:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=4qCMyXMWiKd9n52ivmqBIDxDuymwbpMWqgSRM39uvkM=;
-        b=tVePDdGbwFatfyunru9LGEEXBddkIAzooTwZSyYZmhmrwQNAAmoF2M1V6qy2r60Cqs
-         tAGN/lu4LxRIlS+UtPfng0oS4abpIuUC5lwpS3TxcviJe5AQ4YolRYvXkHERzyqKTl52
-         a4fUBkTtITSh3VWWXuDcHBWJrNDMi2WWRH3SEGiqsTSryBVUNBnd10feCIL1GPqdefSj
-         AHBRBdENtj4cFyuH7GrKgUGZM+8cIxCYjXfLyQRuhbqBUUEmYhw7rIIMY0lvhGu0LZxK
-         ShvUva/AARp+hHIeJUC0snKIPEKZhDvj09+yiRlSQDRGe2r+tQTUc4RH78CwycI5fgeQ
-         ycbw==
-X-Gm-Message-State: APjAAAU3s5Iic/F8vwx1ynFXSkzHyCOO3TO/Ij96iJCzSdx8qdMpwWlg
-        yyTw6Sho7+B1Jwfj3gqySQmmjA==
-X-Google-Smtp-Source: APXvYqyDjwY02pWDS05WTZqUVPC4WBfk6UMcueia5eo7FEjS9z7IPglwrvW1vvf3Z1fK7kivgZmxHw==
-X-Received: by 2002:adf:cf0e:: with SMTP id o14mr26722770wrj.182.1554911113772;
-        Wed, 10 Apr 2019 08:45:13 -0700 (PDT)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
-        by smtp.gmail.com with ESMTPSA id c20sm67071309wre.28.2019.04.10.08.45.12
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Wed, 10 Apr 2019 08:45:13 -0700 (PDT)
-Subject: Re: [PATCH v2] usb: typec: tcpm: collision avoidance
-To:     Kyle Tso <kyletso@google.com>,
+        id S2387687AbfDJQPH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 Apr 2019 12:15:07 -0400
+Received: from mail1.bemta25.messagelabs.com ([195.245.230.132]:38823 "EHLO
+        mail1.bemta25.messagelabs.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729048AbfDJQPG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Apr 2019 12:15:06 -0400
+Received: from [46.226.53.50] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+        by server-4.bemta.az-c.eu-west-1.aws.symcld.net id 52/38-09106-4861EAC5; Wed, 10 Apr 2019 16:15:00 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrGJsWRWlGSWpSXmKPExsWSoc9grtssti7
+  G4FiTtcXtqSeZLJoXr2ezeHN8OpNF1+qdLBb7Pq5jsri8aw6bxaJlrcwWTxaeYXLg8FiwqdRj
+  3slAj/1z17B7vN93lc1j5/cGdo/Pm+QC2KJYM/OS8isSWDNavv9jLlhTWnH+/xr2BsYXxV2MX
+  BwsAuuZJbpu72QGcYQEpjFJ/N/eygThPGaU+L22B8jh5GATsJCYfOIBG4gtIlAtcfhROztIEb
+  PAciaJKY9mAyU4OIQFbCUmP6qEqLGT2LliDlhYRCBfYulKQ5Awi4CqxPJ9v1lBbF6BRInujXO
+  hdu1kkTjXNR9sPidQb9euyewgNqOArMSXxtXMIDazgLjErSfzwe6REBCQWLLnPDOELSrx8vE/
+  Voj6VImTTTcYIeI6EmevP4GylSTmzT0CZctKXJrfDWX7SrSsWcoCcoSEwB1GiRunp8A19xxZC
+  WVbSCzpbmWBsKUkTlw8ygphF0h8XdzEDmHLSPz4tIsNYtBGNomWb6/BLhUSSJb4MPcsVJGcxK
+  reh1DbLjBL/GzrY5vAqDULyXezgCHGLKApsX6XPkRYUWJK90P2WeAQE5Q4OfMJywJGllWM5kl
+  FmekZJbmJmTm6hgYGuoaGRrpGQNrUWC+xSjdZL7VUtzy1uETXUC+xvFivuDI3OSdFLy+1ZBMj
+  MJ2lFJww3cE4aUX6IUZJDiYlUd68O2tjhPiS8lMqMxKLM+KLSnNSiw8xynBwKEnwuouuixESL
+  EpNT61Iy8wBJlaYtAQHj5IIbyFImre4IDG3ODMdInWK0ZLjwKKHc5k5Zs58DiTfHgSSQix5+X
+  mpUuK81SANAiANGaV5cONgyf8So6yUMC8jAwODEE9BalFuZgmq/CtGcQ5GJWHeGSBTeDLzSuC
+  2vgI6iAnooCk6q0EOKklESEk1MCb+8PRn+MjDtHzRSetI59Pf8oyypdcl7WaojHsfe2OmxcKt
+  HYkr016Xfi5Id69+P3m2ZXCLq1qQ0L0zezusry9583E9s1Kaub5bX1VnYfqX2/a9JRb1p+IVn
+  sYJrjjOt5LFL0DbuuaCo+AZt9VKXxbv75pQXLjoSMlXDSElsRthj1fXKbnEKLEUZyQaajEXFS
+  cCAF08UaL5AwAA
+X-Env-Sender: Adam.Thomson.Opensource@diasemi.com
+X-Msg-Ref: server-9.tower-302.messagelabs.com!1554912899!6047660!1
+X-Originating-IP: [104.47.0.55]
+X-SYMC-ESS-Client-Auth: mailfrom-relay-check=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.31.5; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 30091 invoked from network); 10 Apr 2019 16:14:59 -0000
+Received: from mail-he1eur01lp2055.outbound.protection.outlook.com (HELO EUR01-HE1-obe.outbound.protection.outlook.com) (104.47.0.55)
+  by server-9.tower-302.messagelabs.com with AES256-SHA256 encrypted SMTP; 10 Apr 2019 16:14:59 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dialogsemiconductor.onmicrosoft.com; s=selector1-diasemi-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VeYZgqz4LBp1H24AxkQe24K3XOwyT4gxH3zkXH2cCSE=;
+ b=tLhMM28MPDPvhsacSfR8xzSbEORmBmC9GJ939rJx8QUwgRa6JdkRCVcttt0/dRxwHB7XIT4Mvp7hPxO3kX0GKGNzLQsnVFFjqqfO342f5EOv4B61yD7VHF8kOFVRsk6ntRDkU5O3Ww3d4hBgOkGgp/pFnsT95yOhvWDJpurvskg=
+Received: from AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM (10.169.154.136) by
+ AM5PR1001MB1202.EURPRD10.PROD.OUTLOOK.COM (10.169.155.146) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1792.15; Wed, 10 Apr 2019 16:14:57 +0000
+Received: from AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::4c34:5c5d:78d9:750a]) by AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::4c34:5c5d:78d9:750a%7]) with mapi id 15.20.1771.021; Wed, 10 Apr 2019
+ 16:14:57 +0000
+From:   Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
+To:     Hans de Goede <hdegoede@redhat.com>, Kyle Tso <kyletso@google.com>,
         Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
-Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+CC:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Guenter Roeck <linux@roeck-us.net>,
         Greg KH <gregkh@linuxfoundation.org>,
         Badhri Jagan Sridharan <badhri@google.com>,
         "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v2] usb: typec: tcpm: collision avoidance
+Thread-Topic: [PATCH v2] usb: typec: tcpm: collision avoidance
+Thread-Index: AQHU4KspeY0Mu675x0axAclkvdJ7hKYsH+OAgAGJhQCABMDhgIABfVoAgAABNYCAABpfAIABSWkQgAAplQCAADE4AIAAB8Bw
+Date:   Wed, 10 Apr 2019 16:14:57 +0000
+Message-ID:
+ <AM5PR1001MB09943830CFED9CB321CC883D802E0@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
 References: <20190322121745.159768-1-kyletso@google.com>
  <20190404141345.GF21319@kuha.fi.intel.com>
  <08a6d422-e8f7-303e-7bf1-952344f2c182@roeck-us.net>
@@ -59,304 +86,237 @@ References: <20190322121745.159768-1-kyletso@google.com>
  <9c9d17e3-bd99-c877-359c-a0a1b10a8d73@redhat.com>
  <AM5PR1001MB099440C3AA6DA6BA2AB0F2AE802E0@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
  <CAGZ6i=0rRgNH5bU-zcP58MNi+VSa+xeAQWL67egaZ-ui-ebmYA@mail.gmail.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <9f9a2de9-2cfb-385c-8e99-54b2587113ce@redhat.com>
-Date:   Wed, 10 Apr 2019 17:45:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <CAGZ6i=0rRgNH5bU-zcP58MNi+VSa+xeAQWL67egaZ-ui-ebmYA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format="flowed"
+ <9f9a2de9-2cfb-385c-8e99-54b2587113ce@redhat.com>
+In-Reply-To: <9f9a2de9-2cfb-385c-8e99-54b2587113ce@redhat.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [165.225.80.228]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: f5d275fb-2667-4931-8049-08d6bdcfacb8
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(5600139)(711020)(4605104)(2017052603328)(7193020);SRVR:AM5PR1001MB1202;
+x-ms-traffictypediagnostic: AM5PR1001MB1202:
+x-ms-exchange-sharedmailbox-routingagent-processed: True
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <AM5PR1001MB1202BC7C1D14BE04126F000AA72E0@AM5PR1001MB1202.EURPRD10.PROD.OUTLOOK.COM>
+x-forefront-prvs: 00032065B2
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(346002)(136003)(376002)(39860400002)(366004)(51234002)(199004)(189003)(93886005)(74316002)(7736002)(6306002)(86362001)(5024004)(256004)(14444005)(6246003)(11346002)(33656002)(99286004)(186003)(26005)(305945005)(476003)(486006)(446003)(9686003)(3846002)(66066001)(6116002)(2906002)(52536014)(229853002)(478600001)(45080400002)(76176011)(71200400001)(7696005)(14454004)(71190400001)(97736004)(102836004)(4326008)(55236004)(6436002)(53546011)(30864003)(6506007)(5660300002)(8936002)(81156014)(8676002)(81166006)(105586002)(966005)(53936002)(25786009)(316002)(110136005)(54906003)(106356001)(55016002)(68736007)(72206003);DIR:OUT;SFP:1101;SCL:1;SRVR:AM5PR1001MB1202;H:AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
+received-spf: None (protection.outlook.com: diasemi.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 6KyjKaWEwVAzQpzogM04oAWwPftmABwLcGR0njJO5SMKrrTQC3r7x+F31K/9HusWGfXWU2UxyPscBV9zDOCme2C9OrRSrqTW6BY2PTfHrywCbGXL5yqmYSVITY28yFqsCbfMsrr7/s3NC7E/95KIPgKq2FksxcEYojNInMOMGDQ0IABDwTTBetr+0r/MjhjJNaYqbktF0eQBFtiWGzGoTkBGUX1SwkQ5GTRtVcVkrlcHMJLJ4hn3hT7stmL7k/MYbwsxxWQ4raxk02ecuH8ckaP0fuy+8z8t94cR7Bq9F/QhgrQ8FfIqXew8DBesFAc+WBU69tcso/d7VcTjBj90I2vgfVM0yOQmzLUZjuuys3snS48INM8Uv57pzBVyd0KroUJQkAntAXYUFmV6Xfic+JukfTLW+SSn7FbkDZz1rb4=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: diasemi.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f5d275fb-2667-4931-8049-08d6bdcfacb8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Apr 2019 16:14:57.2135
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR1001MB1202
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190410154512.Ji-l-p7sXKcva8k1tPq_F_hYBXiN4TE8lkLqxWo9ipI@z>
+Message-ID: <20190410161457.gNEZyXMSZunb5qptmyOr4-RLnZrAf0rVWFxjKqRkX3Y@z>
 
-Hi Kyle,
-
-On 10-04-19 14:49, Kyle Tso wrote:
-> On Wed, Apr 10, 2019 at 6:32 PM Adam Thomson
-> <Adam.Thomson.Opensource@diasemi.com> wrote:
->>
->> On 09 April 2019 15:41, Hans de Goede wrote:
->>
->>> Hi,
->>>
->>> On 09-04-19 15:06, Heikki Krogerus wrote:
->>>> On Tue, Apr 09, 2019 at 04:02:30PM +0300, Heikki Krogerus wrote:
->>>>> +Hans
->>>>>
->>>>> On Mon, Apr 08, 2019 at 10:17:35PM +0800, Kyle Tso wrote:
->>>>>> On Fri, Apr 5, 2019 at 9:42 PM Guenter Roeck <linux@roeck-us.net> wrote:
->>>>>>>
->>>>>>> On 4/4/19 7:13 AM, Heikki Krogerus wrote:
->>>>>>>> Hi,
->>>>>>>>
->>>>>>>> On Fri, Mar 22, 2019 at 08:17:45PM +0800, Kyle Tso wrote:
->>>>>>>>> This patch provides the implementation of Collision Avoidance
->>>>>>>>> introduced in PD3.0. The start of each Atomic Message Sequence
->>>>>>>>> (AMS) initiated by the port will be denied if the current AMS is
->>>>>>>>> not interruptible. The Source port will set the CC to SinkTxNG if
->>>>>>>>> it is going to initiate an AMS, and SinkTxOk otherwise.
->>>>>>>>> Meanwhile, any AMS initiated by a Sink port will be denied in
->>>>>>>>> TCPM if the port partner (Source) sets SinkTxNG except for HARD_RESET
->>> and SOFT_RESET.
->>>>>>>>
->>>>>>>> I tested this with my GDBWin which has fusb302. When I plug-in
->>>>>>>> DisplayPort adapter, the partner device never gets registered, and
->>>>>>>> I see steady flow of warnings from fusb302:
->>>>>>>>
->>>>>>>
->>>>>>> FWIW, I made multiple attempts to review the patch. Each time I get
->>>>>>> stuck after a while and notice that I don't understand what is going on.
->>>>>>>
->>>>>>> Maybe the state machine needs a complete overhaul. It seems to have
->>>>>>> reached a point where it is getting too complex to understand what is going
->>> on.
->>>>>>>
->>>>>>>> [  693.391176] Vconn is on during toggle start [  693.391250]
->>>>>>>> WARNING: CPU: 2 PID: 30 at drivers/usb/typec/tcpm/fusb302.c:562
->>>>>>>> fusb302_set_toggling+0x129/0x130 [fusb302] [  693.400293] Modules
->>> linked in: intel_xhci_usb_role_switch fusb302 tcpm roles pi3usb30532 i915 typec
->>> intel_gtt intel_cht_int33fe
->>>>>>>> [  693.406309] CPU: 2 PID: 30 Comm: kworker/u8:1 Tainted: G        W
->>> 5.1.0-rc3-heikki+ #17
->>>>>>>> [  693.408434] cht_wcove_pwrsrc cht_wcove_pwrsrc: Could not detect
->>>>>>>> charger type [  693.412278] Hardware name: Default string Default
->>>>>>>> string/Default string, BIOS 5.11 05/25/2017 [  693.412283]
->>>>>>>> Workqueue: i2c-fusb302 tcpm_state_machine_work [tcpm] [
->>>>>>>> 693.424256] RIP: 0010:fusb302_set_toggling+0x129/0x130 [fusb302] [
->>>>>>>> 693.427234] Code: 89 df e8 da ef ff ff 85 c0 78 c6 c6 83 b0 01 00
->>>>>>>> 00 00 eb b7 b9 02 00 00 00 e9 48 ff ff ff 48 c7 c7 20 e8 21 a0 e8
->>>>>>>> 8e 0c e4 e0 <0f> 0b e9 58 ff ff ff 41 55 4c 8d 6f e8 41 54 41 89
->>>>>>>> f4 55 53 48 8d [  693.436204] RSP: 0000:ffffc9000076bd90 EFLAGS:
->>>>>>>> 00010286 [  693.439174] RAX: 0000000000000000 RBX:
->>>>>>>> ffff888178080028 RCX: 0000000000000000 [  693.442157] RDX:
->>>>>>>> 000000000000001f RSI: ffffffff8259051f RDI: ffffffff8259091f [
->>>>>>>> 693.445130] RBP: 0000000000000003 R08: ffffffff82590500 R09:
->>>>>>>> 00000000000202c0 [  693.448100] R10: 0000010cb24a3d18 R11:
->>>>>>>> 000000000000001e R12: ffff8881780801b0 [  693.451086] R13:
->>> ffffffffa021e4e5 R14: 0000000000000003 R15: ffff888178080040 [  693.454060] FS:
->>> 0000000000000000(0000) GS:ffff88817bb00000(0000) knlGS:0000000000000000 [
->>> 693.460009] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033 [  693.462984] CR2:
->>> 00000000f7fb74a0 CR3: 000000000200d000 CR4: 00000000001006e0 [  693.465969]
->>> Call Trace:
->>>>>>>> [  693.468937]  tcpm_set_cc+0xb9/0x170 [fusb302] [  693.471894]
->>>>>>>> tcpm_ams_start+0x1b8/0x2a0 [tcpm]
->>>>>>>
->>>>>>> tcpm_ams_start() sets TYPEC_CC_RP_1_5 unconditionally, no matter
->>>>>>> what. This causes the fusb302 code to start toggling. As such, it
->>>>>>> may well attempt to start toggling in the wrong state.
->>>>>>>
->>>>>>> Guenter
->>>>>>>
->>>>>>
->>>>>> I read the fusb302 spec but failed to find the statement that says
->>>>>> it should "set toggling" when CC switches among default/medium/high.
->>>>>>
->>>>>> quot from fusb302 spec:
->>>>>> "The FUSB302 allows the host software to change the charging current
->>>>>> capabilities of the port through the HOST_CUR control bits. If the
->>>>>> HOST_CUR bits are changed prior to attach, the FUSB302 automatically
->>>>>> indicates the programmed current capability when a device is attached.
->>>>>> If the current capabilities are changed after a device is attached,
->>>>>> the FUSB302 immediately changes the CC line to the programmed
->>>>>> capability."
->>>>>>
->>>>>> Is it possible to skip fusb302_set_toggling() @ line#658 if
->>>>>> tcpm_set_cc() is called in order to switch the cc among
->>>>>> default/medium/high of Rp ?
->>>>
->>>> Hans, you introduced that in commit daf81d0137a9c ("usb: typec:
->>>> fusb302: Refactor / simplify tcpm_set_cc()"), so could you take a look
->>>> at this.
->>>
->>> I do not believe that that commit introduces the fusb302_set_toggling() as the
->>> subject of the commit says it just refactors things, the set_toggling call was
->>> introduced by:
->>>
->>> commit ea3b4d5523bc8("usb: typec: fusb302: Resolve fixed power role contract
->>> setup")
->>>
->>> Before that:
->>>
->>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/u
->>> sb/typec/tcpm/fusb302.c?id=40326e857c57a0095d3f9d72c14cb13aef4ca564
->>>
->>> tcpm_set_cc actually turned toggling off in all cases.
->>>
->>> I've no doubt that Adam was seeing a real problem, but I've doubted if this was
->>> the right fix before. I even had it reverted in my tree for a while, but since in my
->>> use-cases so far it has not caused any problems I've not looked into it further.
->>
->>  From my recollection, that was the only way to generate the necessary event from
->> fusb302 to indicate a connection, when the device was in a fixed role state
->> (i.e. only source or only sink). Without it the driver doesn't work in these
->> scenarios as there's no TOGDONE event generated by fusb302, so no eventual call
->> to 'tcpm_cc_change()' to tell TCPM that something has happened and move on the
->> state machine. Not all devices will be DRP so we have to account for this.
->>
-> 
-> The switch among different Rp values on CC pins comes from TCPM and
-> after the switch finishes, TCPM doesn't need to update the CC status because
-> this kind of switch won't affect the state machine.
-> 
->>>
->>> In the mean time the code has changed quite a bit though, so making
->>> tcpm_set_cc() behave as it did before, see:
->>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/u
->>> sb/typec/tcpm/fusb302.c?id=40326e857c57a0095d3f9d72c14cb13aef4ca564
->>>
->>> Will require writing something from scratch based on the new code which
->>> mimicks the behaviour of the old code; and then we also need to fix Adam's
->>> problem on top.
->>>
->>> Regards,
->>>
->>> Hans
-> 
-> I tried to fix this with below changes and it works.
-> 
-> ============================================
-> --- a/drivers/usb/typec/tcpm/fusb302.c
-> +++ b/drivers/usb/typec/tcpm/fusb302.c
-> @@ -110,6 +110,9 @@ struct fusb302_chip {
->          enum typec_cc_status cc2;
->          u32 snk_pdo[PDO_MAX_OBJECTS];
-> 
-> +       /* Local pin status */
-> +       enum typec_cc_status cc;
-> +
->   #ifdef CONFIG_DEBUG_FS
->          struct dentry *dentry;
->          /* lock for log buffer access */
-> @@ -611,6 +614,19 @@ static int tcpm_set_cc(struct tcpc_dev *dev, enum
-> typec_cc_status cc)
->          enum toggling_mode mode;
-> 
->          mutex_lock(&chip->lock);
-> +       if ((chip->cc == TYPEC_CC_RP_DEF || chip->cc == TYPEC_CC_RP_1_5 ||
-> +            chip->cc == TYPEC_CC_RP_3_0) && (cc == TYPEC_CC_RP_DEF ||
-> +            cc == TYPEC_CC_RP_1_5 || cc == TYPEC_CC_RP_3_0)) {
-> +               ret = fusb302_set_src_current(chip, cc_src_current[cc]);
-> +               if (ret < 0) {
-> +                       fusb302_log(chip, "cannot set src current %s, ret=%d\n",
-> +                                   typec_cc_status_name[cc], ret);
-> +                       goto done;
-> +               }
-> +               fusb302_log(chip, "cc := %s", typec_cc_status_name[cc]);
-> +               goto rp_switch;
-> +       }
-> +
->          switch (cc) {
->          case TYPEC_CC_OPEN:
->                  mode = TOGGLING_MODE_OFF;
-> @@ -659,6 +675,8 @@ static int tcpm_set_cc(struct tcpc_dev *dev, enum
-> typec_cc_status cc)
->          if (ret < 0)
->                  fusb302_log(chip, "cannot set toggling mode, ret=%d", ret);
-> 
-> +rp_switch:
-> +       chip->cc = cc;
->   done:
->          mutex_unlock(&chip->lock);
-
-
-I understand what you are trying to do here and I agree that just
-changing the Cc pins this way should not start toggling. But I
-would rather go back to the functionality of tcpm_set_cc() from
-before commit ea3b4d5523bc8("usb: typec: fusb302: Resolve fixed power role contract setup")
-
-Starting toggling from tcpm_set_cc() just feels wrong; and currently
-power role swapping is broken with the fusb302, which IIRC used to
-work. I suspect this is related.
-
-I plan to write a patch tomorrow to functionally take tcpm_set_cc()
-back to the way it was before. This should fix your case and
-I hope this also fixes power-role swapping.
-
-This will re-introduce Adam Thomson's problem, but I have a feeling
-that that actually needs a fix in the tcpm.c code rather then at
-the fusb302 level.
-
-Anyways first let me attempt to write the promised patch and then
-we will see from there.
-
-Regards,
-
-Hans
-
-
-
-
-
-> ============================================
-> 
-> TCPM logs:
-> 
-> [   52.267343] CC1: 0 -> 1, CC2: 0 -> 2 [state DRP_TOGGLING, polarity
-> 0, connected]
-> [   52.267354] state change DRP_TOGGLING -> SRC_ATTACH_WAIT
-> [   52.267435] pending state change SRC_ATTACH_WAIT -> SNK_TRY @ 200 ms
-> [   52.466852] state change SRC_ATTACH_WAIT -> SNK_TRY [delayed 200 ms]
-> [   52.466876] cc:=2
-> [   52.471851] pending state change SNK_TRY -> SNK_TRY_WAIT @ 140 ms
-> [   52.610244] state change SNK_TRY -> SNK_TRY_WAIT [delayed 140 ms]
-> [   52.610256] state change SNK_TRY_WAIT -> SRC_TRYWAIT
-> [   52.610298] cc:=3
-> [   52.613262] pending state change SRC_TRYWAIT ->
-> SRC_TRYWAIT_UNATTACHED @ 140 ms
-> [   52.625248] CC1: 1 -> 1, CC2: 2 -> 2 [state SRC_TRYWAIT, polarity
-> 0, connected]
-> [   52.625261] state change SRC_TRYWAIT -> SRC_TRYWAIT_DEBOUNCE
-> [   52.625299] pending state change SRC_TRYWAIT_DEBOUNCE ->
-> SRC_ATTACHED @ 200 ms
-> [   52.823417] state change SRC_TRYWAIT_DEBOUNCE -> SRC_ATTACHED
-> [delayed 200 ms]
-> [   52.823425] polarity 1
-> [   52.823458] Requesting mux state 1, usb-role 1, orientation 2
-> [   52.846919] vconn:=1
-> [   52.854536] vbus:=1 charge=0
-> [   52.893437] pending state change SRC_ATTACHED -> SRC_UNATTACHED @ 480 ms
-> [   52.894715] VBUS on
-> [   52.894718] state change SRC_ATTACHED -> SRC_STARTUP
-> [   52.894733] AMS POWER_NEGOTIATION start
-> [   52.894736] cc:=4
-> [   52.895043] state change SRC_STARTUP -> AMS_START in AMS POWER_NEGOTIATION
-> [   52.895046] state change AMS_START -> SRC_SEND_CAPABILITIES in AMS
-> POWER_NEGOTIATION
-> [   52.895048] PD TX, header: 0x11a1
-> [   52.910309] PD TX complete, status: 0
-> [   52.910346] pending state change SRC_SEND_CAPABILITIES ->
-> HARD_RESET_SEND @ 150 ms in AMS POWER_NEGOTIATION
-> [   52.912383] PD RX, header: 0x1042 [1]
-> [   52.912387] state change SRC_SEND_CAPABILITIES -> SRC_NEGOTIATE_CAPABILITIES
-> [   52.912398] Requested 5000 mV, 900 mA for 900 / 900 mA
-> [   52.912400] PD TX, header: 0x363
-> [   52.915725] PD TX complete, status: 0
-> [   52.915765] pending state change SRC_NEGOTIATE_CAPABILITIES ->
-> SRC_TRANSITION_SUPPLY @ 35 ms
-> [   52.950125] state change SRC_NEGOTIATE_CAPABILITIES ->
-> SRC_TRANSITION_SUPPLY [delayed 35 ms]
-> [   52.950139] PD TX, header: 0x566
-> [   52.953910] PD TX complete, status: 0
-> [   52.955573] state change SRC_TRANSITION_SUPPLY -> SRC_READY
-> [   52.957359] PD TX, header: 0x176f
-> [   52.962785] PD TX complete, status: 0
-> [   52.966026] PD RX, header: 0x524f [1]
-> [   52.966037] Rx VDM cmd 0xff008041 type 1 cmd 1 len 5
-> [   52.966081] Identity: 04b4:1120.0000
-> [   52.966106] PD TX, header: 0x196f
-> [   52.969875] PD TX complete, status: 0
-> [   52.972298] PD RX, header: 0x244f [1]
-> [   52.972304] Rx VDM cmd 0xff008042 type 1 cmd 2 len 2
-> [   52.972308] SVID 1: 0xff01
-> [   52.972340] PD TX, header: 0x1b6f
-> [   52.976066] PD TX complete, status: 0
-> [   52.986511] PD RX, header: 0x264f [1]
-> [   52.986516] Rx VDM cmd 0xff018043 type 1 cmd 3 len 2
-> [   52.986520]  Alternate mode 0: SVID 0xff01, VDO 1: 0x00000405
-> 
+T24gMTAgQXByaWwgMjAxOSAxNjo0NSwgSGFucyBkZSBHb2VkZSB3cm90ZToNCg0KPiBIaSBLeWxl
+LA0KPiANCj4gT24gMTAtMDQtMTkgMTQ6NDksIEt5bGUgVHNvIHdyb3RlOg0KPiA+IE9uIFdlZCwg
+QXByIDEwLCAyMDE5IGF0IDY6MzIgUE0gQWRhbSBUaG9tc29uDQo+ID4gPEFkYW0uVGhvbXNvbi5P
+cGVuc291cmNlQGRpYXNlbWkuY29tPiB3cm90ZToNCj4gPj4NCj4gPj4gT24gMDkgQXByaWwgMjAx
+OSAxNTo0MSwgSGFucyBkZSBHb2VkZSB3cm90ZToNCj4gPj4NCj4gPj4+IEhpLA0KPiA+Pj4NCj4g
+Pj4+IE9uIDA5LTA0LTE5IDE1OjA2LCBIZWlra2kgS3JvZ2VydXMgd3JvdGU6DQo+ID4+Pj4gT24g
+VHVlLCBBcHIgMDksIDIwMTkgYXQgMDQ6MDI6MzBQTSArMDMwMCwgSGVpa2tpIEtyb2dlcnVzIHdy
+b3RlOg0KPiA+Pj4+PiArSGFucw0KPiA+Pj4+Pg0KPiA+Pj4+PiBPbiBNb24sIEFwciAwOCwgMjAx
+OSBhdCAxMDoxNzozNVBNICswODAwLCBLeWxlIFRzbyB3cm90ZToNCj4gPj4+Pj4+IE9uIEZyaSwg
+QXByIDUsIDIwMTkgYXQgOTo0MiBQTSBHdWVudGVyIFJvZWNrIDxsaW51eEByb2Vjay11cy5uZXQ+
+DQo+IHdyb3RlOg0KPiA+Pj4+Pj4+DQo+ID4+Pj4+Pj4gT24gNC80LzE5IDc6MTMgQU0sIEhlaWtr
+aSBLcm9nZXJ1cyB3cm90ZToNCj4gPj4+Pj4+Pj4gSGksDQo+ID4+Pj4+Pj4+DQo+ID4+Pj4+Pj4+
+IE9uIEZyaSwgTWFyIDIyLCAyMDE5IGF0IDA4OjE3OjQ1UE0gKzA4MDAsIEt5bGUgVHNvIHdyb3Rl
+Og0KPiA+Pj4+Pj4+Pj4gVGhpcyBwYXRjaCBwcm92aWRlcyB0aGUgaW1wbGVtZW50YXRpb24gb2Yg
+Q29sbGlzaW9uIEF2b2lkYW5jZQ0KPiA+Pj4+Pj4+Pj4gaW50cm9kdWNlZCBpbiBQRDMuMC4gVGhl
+IHN0YXJ0IG9mIGVhY2ggQXRvbWljIE1lc3NhZ2UgU2VxdWVuY2UNCj4gPj4+Pj4+Pj4+IChBTVMp
+IGluaXRpYXRlZCBieSB0aGUgcG9ydCB3aWxsIGJlIGRlbmllZCBpZiB0aGUgY3VycmVudCBBTVMN
+Cj4gPj4+Pj4+Pj4+IGlzIG5vdCBpbnRlcnJ1cHRpYmxlLiBUaGUgU291cmNlIHBvcnQgd2lsbCBz
+ZXQgdGhlIENDIHRvDQo+ID4+Pj4+Pj4+PiBTaW5rVHhORyBpZiBpdCBpcyBnb2luZyB0byBpbml0
+aWF0ZSBhbiBBTVMsIGFuZCBTaW5rVHhPayBvdGhlcndpc2UuDQo+ID4+Pj4+Pj4+PiBNZWFud2hp
+bGUsIGFueSBBTVMgaW5pdGlhdGVkIGJ5IGEgU2luayBwb3J0IHdpbGwgYmUgZGVuaWVkIGluDQo+
+ID4+Pj4+Pj4+PiBUQ1BNIGlmIHRoZSBwb3J0IHBhcnRuZXIgKFNvdXJjZSkgc2V0cyBTaW5rVHhO
+RyBleGNlcHQgZm9yDQo+ID4+Pj4+Pj4+PiBIQVJEX1JFU0VUDQo+ID4+PiBhbmQgU09GVF9SRVNF
+VC4NCj4gPj4+Pj4+Pj4NCj4gPj4+Pj4+Pj4gSSB0ZXN0ZWQgdGhpcyB3aXRoIG15IEdEQldpbiB3
+aGljaCBoYXMgZnVzYjMwMi4gV2hlbiBJIHBsdWctaW4NCj4gPj4+Pj4+Pj4gRGlzcGxheVBvcnQg
+YWRhcHRlciwgdGhlIHBhcnRuZXIgZGV2aWNlIG5ldmVyIGdldHMgcmVnaXN0ZXJlZCwNCj4gPj4+
+Pj4+Pj4gYW5kIEkgc2VlIHN0ZWFkeSBmbG93IG9mIHdhcm5pbmdzIGZyb20gZnVzYjMwMjoNCj4g
+Pj4+Pj4+Pj4NCj4gPj4+Pj4+Pg0KPiA+Pj4+Pj4+IEZXSVcsIEkgbWFkZSBtdWx0aXBsZSBhdHRl
+bXB0cyB0byByZXZpZXcgdGhlIHBhdGNoLiBFYWNoIHRpbWUgSQ0KPiA+Pj4+Pj4+IGdldCBzdHVj
+ayBhZnRlciBhIHdoaWxlIGFuZCBub3RpY2UgdGhhdCBJIGRvbid0IHVuZGVyc3RhbmQgd2hhdCBp
+cyBnb2luZw0KPiBvbi4NCj4gPj4+Pj4+Pg0KPiA+Pj4+Pj4+IE1heWJlIHRoZSBzdGF0ZSBtYWNo
+aW5lIG5lZWRzIGEgY29tcGxldGUgb3ZlcmhhdWwuIEl0IHNlZW1zIHRvDQo+ID4+Pj4+Pj4gaGF2
+ZSByZWFjaGVkIGEgcG9pbnQgd2hlcmUgaXQgaXMgZ2V0dGluZyB0b28gY29tcGxleCB0bw0KPiA+
+Pj4+Pj4+IHVuZGVyc3RhbmQgd2hhdCBpcyBnb2luZw0KPiA+Pj4gb24uDQo+ID4+Pj4+Pj4NCj4g
+Pj4+Pj4+Pj4gWyAgNjkzLjM5MTE3Nl0gVmNvbm4gaXMgb24gZHVyaW5nIHRvZ2dsZSBzdGFydCBb
+ICA2OTMuMzkxMjUwXQ0KPiA+Pj4+Pj4+PiBXQVJOSU5HOiBDUFU6IDIgUElEOiAzMCBhdCBkcml2
+ZXJzL3VzYi90eXBlYy90Y3BtL2Z1c2IzMDIuYzo1NjINCj4gPj4+Pj4+Pj4gZnVzYjMwMl9zZXRf
+dG9nZ2xpbmcrMHgxMjkvMHgxMzAgW2Z1c2IzMDJdIFsgIDY5My40MDAyOTNdDQo+ID4+Pj4+Pj4+
+IE1vZHVsZXMNCj4gPj4+IGxpbmtlZCBpbjogaW50ZWxfeGhjaV91c2Jfcm9sZV9zd2l0Y2ggZnVz
+YjMwMiB0Y3BtIHJvbGVzIHBpM3VzYjMwNTMyDQo+ID4+PiBpOTE1IHR5cGVjIGludGVsX2d0dCBp
+bnRlbF9jaHRfaW50MzNmZQ0KPiA+Pj4+Pj4+PiBbICA2OTMuNDA2MzA5XSBDUFU6IDIgUElEOiAz
+MCBDb21tOiBrd29ya2VyL3U4OjEgVGFpbnRlZDogRyAgICAgICAgVw0KPiA+Pj4gNS4xLjAtcmMz
+LWhlaWtraSsgIzE3DQo+ID4+Pj4+Pj4+IFsgIDY5My40MDg0MzRdIGNodF93Y292ZV9wd3JzcmMg
+Y2h0X3djb3ZlX3B3cnNyYzogQ291bGQgbm90DQo+ID4+Pj4+Pj4+IGRldGVjdCBjaGFyZ2VyIHR5
+cGUgWyAgNjkzLjQxMjI3OF0gSGFyZHdhcmUgbmFtZTogRGVmYXVsdA0KPiA+Pj4+Pj4+PiBzdHJp
+bmcgRGVmYXVsdCBzdHJpbmcvRGVmYXVsdCBzdHJpbmcsIEJJT1MgNS4xMSAwNS8yNS8yMDE3IFsN
+Cj4gPj4+Pj4+Pj4gNjkzLjQxMjI4M10NCj4gPj4+Pj4+Pj4gV29ya3F1ZXVlOiBpMmMtZnVzYjMw
+MiB0Y3BtX3N0YXRlX21hY2hpbmVfd29yayBbdGNwbV0gWw0KPiA+Pj4+Pj4+PiA2OTMuNDI0MjU2
+XSBSSVA6IDAwMTA6ZnVzYjMwMl9zZXRfdG9nZ2xpbmcrMHgxMjkvMHgxMzANCj4gPj4+Pj4+Pj4g
+W2Z1c2IzMDJdIFsgNjkzLjQyNzIzNF0gQ29kZTogODkgZGYgZTggZGEgZWYgZmYgZmYgODUgYzAg
+NzggYzYNCj4gPj4+Pj4+Pj4gYzYgODMgYjAgMDEgMDANCj4gPj4+Pj4+Pj4gMDAgMDAgZWIgYjcg
+YjkgMDIgMDAgMDAgMDAgZTkgNDggZmYgZmYgZmYgNDggYzcgYzcgMjAgZTggMjEgYTANCj4gPj4+
+Pj4+Pj4gZTggOGUgMGMgZTQgZTAgPDBmPiAwYiBlOSA1OCBmZiBmZiBmZiA0MSA1NSA0YyA4ZCA2
+ZiBlOCA0MSA1NA0KPiA+Pj4+Pj4+PiA0MSA4OQ0KPiA+Pj4+Pj4+PiBmNCA1NSA1MyA0OCA4ZCBb
+ICA2OTMuNDM2MjA0XSBSU1A6IDAwMDA6ZmZmZmM5MDAwMDc2YmQ5MCBFRkxBR1M6DQo+ID4+Pj4+
+Pj4+IDAwMDEwMjg2IFsgIDY5My40MzkxNzRdIFJBWDogMDAwMDAwMDAwMDAwMDAwMCBSQlg6DQo+
+ID4+Pj4+Pj4+IGZmZmY4ODgxNzgwODAwMjggUkNYOiAwMDAwMDAwMDAwMDAwMDAwIFsgIDY5My40
+NDIxNTddIFJEWDoNCj4gPj4+Pj4+Pj4gMDAwMDAwMDAwMDAwMDAxZiBSU0k6IGZmZmZmZmZmODI1
+OTA1MWYgUkRJOiBmZmZmZmZmZjgyNTkwOTFmIFsNCj4gPj4+Pj4+Pj4gNjkzLjQ0NTEzMF0gUkJQ
+OiAwMDAwMDAwMDAwMDAwMDAzIFIwODogZmZmZmZmZmY4MjU5MDUwMCBSMDk6DQo+ID4+Pj4+Pj4+
+IDAwMDAwMDAwMDAwMjAyYzAgWyAgNjkzLjQ0ODEwMF0gUjEwOiAwMDAwMDEwY2IyNGEzZDE4IFIx
+MToNCj4gPj4+Pj4+Pj4gMDAwMDAwMDAwMDAwMDAxZSBSMTI6IGZmZmY4ODgxNzgwODAxYjAgWyAg
+NjkzLjQ1MTA4Nl0gUjEzOg0KPiA+Pj4gZmZmZmZmZmZhMDIxZTRlNSBSMTQ6IDAwMDAwMDAwMDAw
+MDAwMDMgUjE1OiBmZmZmODg4MTc4MDgwMDQwIFsgIDY5My40NTQwNjBdDQo+IEZTOg0KPiA+Pj4g
+MDAwMDAwMDAwMDAwMDAwMCgwMDAwKSBHUzpmZmZmODg4MTdiYjAwMDAwKDAwMDApDQo+ID4+PiBr
+bmxHUzowMDAwMDAwMDAwMDAwMDAwIFsgNjkzLjQ2MDAwOV0gQ1M6ICAwMDEwIERTOiAwMDAwIEVT
+OiAwMDAwIENSMDoNCj4gMDAwMDAwMDA4MDA1MDAzMyBbICA2OTMuNDYyOTg0XSBDUjI6DQo+ID4+
+PiAwMDAwMDAwMGY3ZmI3NGEwIENSMzogMDAwMDAwMDAwMjAwZDAwMCBDUjQ6IDAwMDAwMDAwMDAx
+MDA2ZTAgWw0KPiA+Pj4gNjkzLjQ2NTk2OV0gQ2FsbCBUcmFjZToNCj4gPj4+Pj4+Pj4gWyAgNjkz
+LjQ2ODkzN10gIHRjcG1fc2V0X2NjKzB4YjkvMHgxNzAgW2Z1c2IzMDJdIFsgIDY5My40NzE4OTRd
+DQo+ID4+Pj4+Pj4+IHRjcG1fYW1zX3N0YXJ0KzB4MWI4LzB4MmEwIFt0Y3BtXQ0KPiA+Pj4+Pj4+
+DQo+ID4+Pj4+Pj4gdGNwbV9hbXNfc3RhcnQoKSBzZXRzIFRZUEVDX0NDX1JQXzFfNSB1bmNvbmRp
+dGlvbmFsbHksIG5vIG1hdHRlcg0KPiA+Pj4+Pj4+IHdoYXQuIFRoaXMgY2F1c2VzIHRoZSBmdXNi
+MzAyIGNvZGUgdG8gc3RhcnQgdG9nZ2xpbmcuIEFzIHN1Y2gsDQo+ID4+Pj4+Pj4gaXQgbWF5IHdl
+bGwgYXR0ZW1wdCB0byBzdGFydCB0b2dnbGluZyBpbiB0aGUgd3Jvbmcgc3RhdGUuDQo+ID4+Pj4+
+Pj4NCj4gPj4+Pj4+PiBHdWVudGVyDQo+ID4+Pj4+Pj4NCj4gPj4+Pj4+DQo+ID4+Pj4+PiBJIHJl
+YWQgdGhlIGZ1c2IzMDIgc3BlYyBidXQgZmFpbGVkIHRvIGZpbmQgdGhlIHN0YXRlbWVudCB0aGF0
+DQo+ID4+Pj4+PiBzYXlzIGl0IHNob3VsZCAic2V0IHRvZ2dsaW5nIiB3aGVuIENDIHN3aXRjaGVz
+IGFtb25nDQo+IGRlZmF1bHQvbWVkaXVtL2hpZ2guDQo+ID4+Pj4+Pg0KPiA+Pj4+Pj4gcXVvdCBm
+cm9tIGZ1c2IzMDIgc3BlYzoNCj4gPj4+Pj4+ICJUaGUgRlVTQjMwMiBhbGxvd3MgdGhlIGhvc3Qg
+c29mdHdhcmUgdG8gY2hhbmdlIHRoZSBjaGFyZ2luZw0KPiA+Pj4+Pj4gY3VycmVudCBjYXBhYmls
+aXRpZXMgb2YgdGhlIHBvcnQgdGhyb3VnaCB0aGUgSE9TVF9DVVIgY29udHJvbA0KPiA+Pj4+Pj4g
+Yml0cy4gSWYgdGhlIEhPU1RfQ1VSIGJpdHMgYXJlIGNoYW5nZWQgcHJpb3IgdG8gYXR0YWNoLCB0
+aGUNCj4gPj4+Pj4+IEZVU0IzMDIgYXV0b21hdGljYWxseSBpbmRpY2F0ZXMgdGhlIHByb2dyYW1t
+ZWQgY3VycmVudCBjYXBhYmlsaXR5DQo+IHdoZW4gYSBkZXZpY2UgaXMgYXR0YWNoZWQuDQo+ID4+
+Pj4+PiBJZiB0aGUgY3VycmVudCBjYXBhYmlsaXRpZXMgYXJlIGNoYW5nZWQgYWZ0ZXIgYSBkZXZp
+Y2UgaXMNCj4gPj4+Pj4+IGF0dGFjaGVkLCB0aGUgRlVTQjMwMiBpbW1lZGlhdGVseSBjaGFuZ2Vz
+IHRoZSBDQyBsaW5lIHRvIHRoZQ0KPiA+Pj4+Pj4gcHJvZ3JhbW1lZCBjYXBhYmlsaXR5LiINCj4g
+Pj4+Pj4+DQo+ID4+Pj4+PiBJcyBpdCBwb3NzaWJsZSB0byBza2lwIGZ1c2IzMDJfc2V0X3RvZ2ds
+aW5nKCkgQCBsaW5lIzY1OCBpZg0KPiA+Pj4+Pj4gdGNwbV9zZXRfY2MoKSBpcyBjYWxsZWQgaW4g
+b3JkZXIgdG8gc3dpdGNoIHRoZSBjYyBhbW9uZw0KPiA+Pj4+Pj4gZGVmYXVsdC9tZWRpdW0vaGln
+aCBvZiBScCA/DQo+ID4+Pj4NCj4gPj4+PiBIYW5zLCB5b3UgaW50cm9kdWNlZCB0aGF0IGluIGNv
+bW1pdCBkYWY4MWQwMTM3YTljICgidXNiOiB0eXBlYzoNCj4gPj4+PiBmdXNiMzAyOiBSZWZhY3Rv
+ciAvIHNpbXBsaWZ5IHRjcG1fc2V0X2NjKCkiKSwgc28gY291bGQgeW91IHRha2UgYQ0KPiA+Pj4+
+IGxvb2sgYXQgdGhpcy4NCj4gPj4+DQo+ID4+PiBJIGRvIG5vdCBiZWxpZXZlIHRoYXQgdGhhdCBj
+b21taXQgaW50cm9kdWNlcyB0aGUNCj4gPj4+IGZ1c2IzMDJfc2V0X3RvZ2dsaW5nKCkgYXMgdGhl
+IHN1YmplY3Qgb2YgdGhlIGNvbW1pdCBzYXlzIGl0IGp1c3QNCj4gPj4+IHJlZmFjdG9ycyB0aGlu
+Z3MsIHRoZSBzZXRfdG9nZ2xpbmcgY2FsbCB3YXMgaW50cm9kdWNlZCBieToNCj4gPj4+DQo+ID4+
+PiBjb21taXQgZWEzYjRkNTUyM2JjOCgidXNiOiB0eXBlYzogZnVzYjMwMjogUmVzb2x2ZSBmaXhl
+ZCBwb3dlciByb2xlDQo+ID4+PiBjb250cmFjdA0KPiA+Pj4gc2V0dXAiKQ0KPiA+Pj4NCj4gPj4+
+IEJlZm9yZSB0aGF0Og0KPiA+Pj4NCj4gPj4+IGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3Nj
+bS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdC90DQo+ID4+PiByZWUvZHJpdmVy
+cy91DQo+ID4+PiBzYi90eXBlYy90Y3BtL2Z1c2IzMDIuYz9pZD00MDMyNmU4NTdjNTdhMDA5NWQz
+ZjlkNzJjMTRjYjEzYWVmNGNhNTY0DQo+ID4+Pg0KPiA+Pj4gdGNwbV9zZXRfY2MgYWN0dWFsbHkg
+dHVybmVkIHRvZ2dsaW5nIG9mZiBpbiBhbGwgY2FzZXMuDQo+ID4+Pg0KPiA+Pj4gSSd2ZSBubyBk
+b3VidCB0aGF0IEFkYW0gd2FzIHNlZWluZyBhIHJlYWwgcHJvYmxlbSwgYnV0IEkndmUgZG91YnRl
+ZA0KPiA+Pj4gaWYgdGhpcyB3YXMgdGhlIHJpZ2h0IGZpeCBiZWZvcmUuIEkgZXZlbiBoYWQgaXQg
+cmV2ZXJ0ZWQgaW4gbXkgdHJlZQ0KPiA+Pj4gZm9yIGEgd2hpbGUsIGJ1dCBzaW5jZSBpbiBteSB1
+c2UtY2FzZXMgc28gZmFyIGl0IGhhcyBub3QgY2F1c2VkIGFueSBwcm9ibGVtcw0KPiBJJ3ZlIG5v
+dCBsb29rZWQgaW50byBpdCBmdXJ0aGVyLg0KPiA+Pg0KPiA+PiAgRnJvbSBteSByZWNvbGxlY3Rp
+b24sIHRoYXQgd2FzIHRoZSBvbmx5IHdheSB0byBnZW5lcmF0ZSB0aGUNCj4gPj4gbmVjZXNzYXJ5
+IGV2ZW50IGZyb20NCj4gPj4gZnVzYjMwMiB0byBpbmRpY2F0ZSBhIGNvbm5lY3Rpb24sIHdoZW4g
+dGhlIGRldmljZSB3YXMgaW4gYSBmaXhlZCByb2xlDQo+ID4+IHN0YXRlIChpLmUuIG9ubHkgc291
+cmNlIG9yIG9ubHkgc2luaykuIFdpdGhvdXQgaXQgdGhlIGRyaXZlciBkb2Vzbid0DQo+ID4+IHdv
+cmsgaW4gdGhlc2Ugc2NlbmFyaW9zIGFzIHRoZXJlJ3Mgbm8gVE9HRE9ORSBldmVudCBnZW5lcmF0
+ZWQgYnkNCj4gPj4gZnVzYjMwMiwgc28gbm8gZXZlbnR1YWwgY2FsbCB0byAndGNwbV9jY19jaGFu
+Z2UoKScgdG8gdGVsbCBUQ1BNIHRoYXQNCj4gPj4gc29tZXRoaW5nIGhhcyBoYXBwZW5lZCBhbmQg
+bW92ZSBvbiB0aGUgc3RhdGUgbWFjaGluZS4gTm90IGFsbCBkZXZpY2VzIHdpbGwNCj4gYmUgRFJQ
+IHNvIHdlIGhhdmUgdG8gYWNjb3VudCBmb3IgdGhpcy4NCj4gPj4NCj4gPg0KPiA+IFRoZSBzd2l0
+Y2ggYW1vbmcgZGlmZmVyZW50IFJwIHZhbHVlcyBvbiBDQyBwaW5zIGNvbWVzIGZyb20gVENQTSBh
+bmQNCj4gPiBhZnRlciB0aGUgc3dpdGNoIGZpbmlzaGVzLCBUQ1BNIGRvZXNuJ3QgbmVlZCB0byB1
+cGRhdGUgdGhlIENDIHN0YXR1cw0KPiA+IGJlY2F1c2UgdGhpcyBraW5kIG9mIHN3aXRjaCB3b24n
+dCBhZmZlY3QgdGhlIHN0YXRlIG1hY2hpbmUuDQo+ID4NCj4gPj4+DQo+ID4+PiBJbiB0aGUgbWVh
+biB0aW1lIHRoZSBjb2RlIGhhcyBjaGFuZ2VkIHF1aXRlIGEgYml0IHRob3VnaCwgc28gbWFraW5n
+DQo+ID4+PiB0Y3BtX3NldF9jYygpIGJlaGF2ZSBhcyBpdCBkaWQgYmVmb3JlLCBzZWU6DQo+ID4+
+PiBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC90b3J2YWxk
+cy9saW51eC5naXQvdA0KPiA+Pj4gcmVlL2RyaXZlcnMvdQ0KPiA+Pj4gc2IvdHlwZWMvdGNwbS9m
+dXNiMzAyLmM/aWQ9NDAzMjZlODU3YzU3YTAwOTVkM2Y5ZDcyYzE0Y2IxM2FlZjRjYTU2NA0KPiA+
+Pj4NCj4gPj4+IFdpbGwgcmVxdWlyZSB3cml0aW5nIHNvbWV0aGluZyBmcm9tIHNjcmF0Y2ggYmFz
+ZWQgb24gdGhlIG5ldyBjb2RlDQo+ID4+PiB3aGljaCBtaW1pY2tzIHRoZSBiZWhhdmlvdXIgb2Yg
+dGhlIG9sZCBjb2RlOyBhbmQgdGhlbiB3ZSBhbHNvIG5lZWQNCj4gPj4+IHRvIGZpeCBBZGFtJ3Mg
+cHJvYmxlbSBvbiB0b3AuDQo+ID4+Pg0KPiA+Pj4gUmVnYXJkcywNCj4gPj4+DQo+ID4+PiBIYW5z
+DQo+ID4NCj4gPiBJIHRyaWVkIHRvIGZpeCB0aGlzIHdpdGggYmVsb3cgY2hhbmdlcyBhbmQgaXQg
+d29ya3MuDQo+ID4NCj4gPiA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PQ0KPiA+IC0tLSBhL2RyaXZlcnMvdXNiL3R5cGVjL3RjcG0vZnVzYjMwMi5jDQo+ID4gKysr
+IGIvZHJpdmVycy91c2IvdHlwZWMvdGNwbS9mdXNiMzAyLmMNCj4gPiBAQCAtMTEwLDYgKzExMCw5
+IEBAIHN0cnVjdCBmdXNiMzAyX2NoaXAgew0KPiA+ICAgICAgICAgIGVudW0gdHlwZWNfY2Nfc3Rh
+dHVzIGNjMjsNCj4gPiAgICAgICAgICB1MzIgc25rX3Bkb1tQRE9fTUFYX09CSkVDVFNdOw0KPiA+
+DQo+ID4gKyAgICAgICAvKiBMb2NhbCBwaW4gc3RhdHVzICovDQo+ID4gKyAgICAgICBlbnVtIHR5
+cGVjX2NjX3N0YXR1cyBjYzsNCj4gPiArDQo+ID4gICAjaWZkZWYgQ09ORklHX0RFQlVHX0ZTDQo+
+ID4gICAgICAgICAgc3RydWN0IGRlbnRyeSAqZGVudHJ5Ow0KPiA+ICAgICAgICAgIC8qIGxvY2sg
+Zm9yIGxvZyBidWZmZXIgYWNjZXNzICovIEBAIC02MTEsNiArNjE0LDE5IEBAIHN0YXRpYw0KPiA+
+IGludCB0Y3BtX3NldF9jYyhzdHJ1Y3QgdGNwY19kZXYgKmRldiwgZW51bSB0eXBlY19jY19zdGF0
+dXMgY2MpDQo+ID4gICAgICAgICAgZW51bSB0b2dnbGluZ19tb2RlIG1vZGU7DQo+ID4NCj4gPiAg
+ICAgICAgICBtdXRleF9sb2NrKCZjaGlwLT5sb2NrKTsNCj4gPiArICAgICAgIGlmICgoY2hpcC0+
+Y2MgPT0gVFlQRUNfQ0NfUlBfREVGIHx8IGNoaXAtPmNjID09IFRZUEVDX0NDX1JQXzFfNSB8fA0K
+PiA+ICsgICAgICAgICAgICBjaGlwLT5jYyA9PSBUWVBFQ19DQ19SUF8zXzApICYmIChjYyA9PSBU
+WVBFQ19DQ19SUF9ERUYgfHwNCj4gPiArICAgICAgICAgICAgY2MgPT0gVFlQRUNfQ0NfUlBfMV81
+IHx8IGNjID09IFRZUEVDX0NDX1JQXzNfMCkpIHsNCj4gPiArICAgICAgICAgICAgICAgcmV0ID0g
+ZnVzYjMwMl9zZXRfc3JjX2N1cnJlbnQoY2hpcCwgY2Nfc3JjX2N1cnJlbnRbY2NdKTsNCj4gPiAr
+ICAgICAgICAgICAgICAgaWYgKHJldCA8IDApIHsNCj4gPiArICAgICAgICAgICAgICAgICAgICAg
+ICBmdXNiMzAyX2xvZyhjaGlwLCAiY2Fubm90IHNldCBzcmMgY3VycmVudCAlcywgcmV0PSVkXG4i
+LA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHR5cGVjX2NjX3N0YXR1
+c19uYW1lW2NjXSwgcmV0KTsNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICBnb3RvIGRvbmU7
+DQo+ID4gKyAgICAgICAgICAgICAgIH0NCj4gPiArICAgICAgICAgICAgICAgZnVzYjMwMl9sb2co
+Y2hpcCwgImNjIDo9ICVzIiwgdHlwZWNfY2Nfc3RhdHVzX25hbWVbY2NdKTsNCj4gPiArICAgICAg
+ICAgICAgICAgZ290byBycF9zd2l0Y2g7DQo+ID4gKyAgICAgICB9DQo+ID4gKw0KPiA+ICAgICAg
+ICAgIHN3aXRjaCAoY2MpIHsNCj4gPiAgICAgICAgICBjYXNlIFRZUEVDX0NDX09QRU46DQo+ID4g
+ICAgICAgICAgICAgICAgICBtb2RlID0gVE9HR0xJTkdfTU9ERV9PRkY7IEBAIC02NTksNiArNjc1
+LDggQEAgc3RhdGljDQo+ID4gaW50IHRjcG1fc2V0X2NjKHN0cnVjdCB0Y3BjX2RldiAqZGV2LCBl
+bnVtIHR5cGVjX2NjX3N0YXR1cyBjYykNCj4gPiAgICAgICAgICBpZiAocmV0IDwgMCkNCj4gPiAg
+ICAgICAgICAgICAgICAgIGZ1c2IzMDJfbG9nKGNoaXAsICJjYW5ub3Qgc2V0IHRvZ2dsaW5nIG1v
+ZGUsIHJldD0lZCIsDQo+ID4gcmV0KTsNCj4gPg0KPiA+ICtycF9zd2l0Y2g6DQo+ID4gKyAgICAg
+ICBjaGlwLT5jYyA9IGNjOw0KPiA+ICAgZG9uZToNCj4gPiAgICAgICAgICBtdXRleF91bmxvY2so
+JmNoaXAtPmxvY2spOw0KPiANCj4gDQo+IEkgdW5kZXJzdGFuZCB3aGF0IHlvdSBhcmUgdHJ5aW5n
+IHRvIGRvIGhlcmUgYW5kIEkgYWdyZWUgdGhhdCBqdXN0IGNoYW5naW5nIHRoZSBDYw0KPiBwaW5z
+IHRoaXMgd2F5IHNob3VsZCBub3Qgc3RhcnQgdG9nZ2xpbmcuIEJ1dCBJIHdvdWxkIHJhdGhlciBn
+byBiYWNrIHRvIHRoZQ0KPiBmdW5jdGlvbmFsaXR5IG9mIHRjcG1fc2V0X2NjKCkgZnJvbSBiZWZv
+cmUgY29tbWl0IGVhM2I0ZDU1MjNiYzgoInVzYjogdHlwZWM6DQo+IGZ1c2IzMDI6IFJlc29sdmUg
+Zml4ZWQgcG93ZXIgcm9sZSBjb250cmFjdCBzZXR1cCIpDQo+IA0KPiBTdGFydGluZyB0b2dnbGlu
+ZyBmcm9tIHRjcG1fc2V0X2NjKCkganVzdCBmZWVscyB3cm9uZzsgYW5kIGN1cnJlbnRseSBwb3dl
+ciByb2xlDQo+IHN3YXBwaW5nIGlzIGJyb2tlbiB3aXRoIHRoZSBmdXNiMzAyLCB3aGljaCBJSVJD
+IHVzZWQgdG8gd29yay4gSSBzdXNwZWN0IHRoaXMgaXMNCj4gcmVsYXRlZC4NCj4gDQo+IEkgcGxh
+biB0byB3cml0ZSBhIHBhdGNoIHRvbW9ycm93IHRvIGZ1bmN0aW9uYWxseSB0YWtlIHRjcG1fc2V0
+X2NjKCkgYmFjayB0byB0aGUNCj4gd2F5IGl0IHdhcyBiZWZvcmUuIFRoaXMgc2hvdWxkIGZpeCB5
+b3VyIGNhc2UgYW5kIEkgaG9wZSB0aGlzIGFsc28gZml4ZXMgcG93ZXItcm9sZQ0KPiBzd2FwcGlu
+Zy4NCj4gDQo+IFRoaXMgd2lsbCByZS1pbnRyb2R1Y2UgQWRhbSBUaG9tc29uJ3MgcHJvYmxlbSwg
+YnV0IEkgaGF2ZSBhIGZlZWxpbmcgdGhhdCB0aGF0DQo+IGFjdHVhbGx5IG5lZWRzIGEgZml4IGlu
+IHRoZSB0Y3BtLmMgY29kZSByYXRoZXIgdGhlbiBhdCB0aGUgZnVzYjMwMiBsZXZlbC4NCg0KVG8g
+YmUgY2xlYXIgaGVyZSwgdGhlIG5hbWVzIFRPR0dMSU5HX01PREVfU05LIGFuZCBUT0dHTElOR19N
+T0RFX1NSQyBhcmUgYQ0KbWlzbm9tZXIgZnJvbSB0aGUgSFcgc3BlYyBmb3IgZnVzYjMwMi4gVGhl
+IGRldmljZSBpc24ndCB0b2dnbGluZyBhbnl0aGluZyBhcyBmYXINCmFzIEknbSBhd2FyZSwgc28g
+SSBkb24ndCBuZWNlc3NhcmlseSBhZ3JlZSB3aXRoIHlvdXIgcG9pbnQuIEl0J3MgYSBtZWNoYW5p
+c20gdG8NCmhhdmUgdGhlIEhXIHJlcG9ydCB3aGVuIHRoZSBDQyBsaW5lIGNoYW5nZXMgb24gY29u
+bmVjdGlvbi4gV2l0aG91dCB0aGF0IHdlIGhhdmUNCm5vIHJlcG9ydGluZyBmcm9tIHRoZSBIVyBm
+b3IgdGhlIGZpeGVkIHJvbGUgc2NlbmFyaW9zLiBJJ20gYWxzbyBub3QgMTAwJQ0KY29udmluY2Vk
+IHlldCB0aGF0IHRoaXMgaXMgc29tZXRoaW5nIHRvIHJlc29sdmUgaW4gVENQTSBhcyB0aGUgcmVw
+b3J0aW5nDQptZWNoYW5pc20gaXMgdGhlcmUgdG8ga2ljay1vbiB0aGUgVENQTSBzdGF0ZSBtYWNo
+aW5lLiBJdCBqdXN0IG5lZWRzIHRoZSBkZXZpY2UNCmRyaXZlciB0byBrbm93IHdoZW4gdG8gZG8g
+aXQsIGhlbmNlIHRoZSByZWFzb24gZm9yIG15IGNoYW5nZS4NCg0KVGhpbmsgbWF5YmUgdGhpcyBu
+ZWVkcyBhIGxpdHRsZSBtb3JlIGNvbnNpZGVyYXRpb24gYmVmb3JlIGJyZWFraW5nIHNvbWV0aGlu
+Zw0KdG8gZml4IHNvbWV0aGluZyBlbHNlLiBJIHdvdWxkIGJlIGludGVyZXN0ZWQgdG8ga25vdyB0
+aG91Z2ggaWYgeW91IHJvbGwtYmFjaw0KZG9lcyBmaXggUFIgc3dhcC4NCg0KPiANCj4gQW55d2F5
+cyBmaXJzdCBsZXQgbWUgYXR0ZW1wdCB0byB3cml0ZSB0aGUgcHJvbWlzZWQgcGF0Y2ggYW5kIHRo
+ZW4gd2Ugd2lsbCBzZWUNCj4gZnJvbSB0aGVyZS4NCj4gDQo+IFJlZ2FyZHMsDQo+IA0KPiBIYW5z
+DQo=
