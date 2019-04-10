@@ -2,67 +2,160 @@ Return-Path: <SRS0=X9rV=SM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_MUTT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D4D8C10F11
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 10:08:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2108C10F11
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 10:22:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 20F7B2133D
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 10:08:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BA54A206B7
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 10:22:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728914AbfDJKIy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 Apr 2019 06:08:54 -0400
-Received: from mx2.suse.de ([195.135.220.15]:46212 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728543AbfDJKIy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 10 Apr 2019 06:08:54 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 34F62AECE;
-        Wed, 10 Apr 2019 10:08:53 +0000 (UTC)
-Message-ID: <1554890928.21725.6.camel@suse.com>
-Subject: Re: lan78xx: About 8000 usb interrupts per second when idle
-From:   Oliver Neukum <oneukum@suse.com>
-To:     Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
-        Minas Harutyunyan <minas.harutyunyan@synopsys.com>
-Cc:     Douglas Anderson <dianders@chromium.org>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        "linux-rpi-kernel@lists.infradead.org" 
-        <linux-rpi-kernel@lists.infradead.org>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Date:   Wed, 10 Apr 2019 12:08:48 +0200
-In-Reply-To: <20190410172917.23cb7d0e@xhacker.debian>
-References: <20190408143443.335f7e93@xhacker.debian>
-         <002929b7-9a0d-6d92-4e03-18a6748c6708@i2se.com>
-         <20190408160551.03911b27@xhacker.debian>
-         <20190409144655.753d3bd9@xhacker.debian>
-         <3cda1098-e0ad-42ac-af96-c85eba480556@i2se.com>
-         <BN6PR1201MB008219D0CF1CB7CF7F802008A72D0@BN6PR1201MB0082.namprd12.prod.outlook.com>
-         <20190410172917.23cb7d0e@xhacker.debian>
+        id S1730422AbfDJKWq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 Apr 2019 06:22:46 -0400
+Received: from mga05.intel.com ([192.55.52.43]:35502 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729002AbfDJKWq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 10 Apr 2019 06:22:46 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Apr 2019 03:22:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,332,1549958400"; 
+   d="scan'208";a="163012491"
+Received: from kuha.fi.intel.com ([10.237.72.189])
+  by fmsmga001.fm.intel.com with SMTP; 10 Apr 2019 03:22:40 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 10 Apr 2019 13:22:39 +0300
+Date:   Wed, 10 Apr 2019 13:22:39 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
+        Li Jun <jun.li@nxp.com>,
+        Badhri Jagan Sridharan <badhri@google.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Min Guo <min.guo@mediatek.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [v3 PATCH 4/6] usb: roles: add API to get usb_role_switch by node
+Message-ID: <20190410102239.GG20058@kuha.fi.intel.com>
+References: <1554257354-7440-1-git-send-email-chunfeng.yun@mediatek.com>
+ <1554257354-7440-5-git-send-email-chunfeng.yun@mediatek.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <1554257354-7440-5-git-send-email-chunfeng.yun@mediatek.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190410102239.GG1AALqjxUORKwArvXnwlXKl9HZ7w0KhkH16Js8WTOg@z>
 
-On Mi, 2019-04-10 at 09:37 +0000, Jisheng Zhang wrote:
-> On Tue, 9 Apr 2019 09:28:16 +0000 Minas Harutyunyan wrote:
-
-Hi,
-
-> > dwc2 in host mode enable SOF interrupts if any periodic EP are in use.
-> > So, 8000 interrupts per second is expectant behavior.
+On Wed, Apr 03, 2019 at 10:09:12AM +0800, Chunfeng Yun wrote:
+> Add fwnode_usb_role_switch_get() to make easier to get
+> usb_role_switch by fwnode which register it.
+> It's useful when there is not device_connection registered
+> between two drivers and only knows the fwnode which register
+> usb_role_switch.
 > 
-> Makes sense. 8 microframes each 1ms, so 8*1000 = 8000 interrupts/s
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> ---
+> v3 changes:
+>   1. use fwnodes instead of node suggested by Andy
+>   2. rebuild the API suggested by Heikki
+> 
+> v2 no changes
+> ---
+>  drivers/usb/roles/class.c | 31 +++++++++++++++++++++++++++++++
+>  include/linux/usb/role.h  |  2 ++
+>  2 files changed, 33 insertions(+)
+> 
+> diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
+> index f45d8df5cfb8..5ecb57f8960b 100644
+> --- a/drivers/usb/roles/class.c
+> +++ b/drivers/usb/roles/class.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/device.h>
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+> +#include <linux/of.h>
+>  #include <linux/slab.h>
+>  
+>  static struct class *role_class;
+> @@ -135,6 +136,36 @@ struct usb_role_switch *usb_role_switch_get(struct device *dev)
+>  }
+>  EXPORT_SYMBOL_GPL(usb_role_switch_get);
+>  
+> +static int __switch_match_fwnode(struct device *dev, const void *fwnode)
+> +{
+> +	return dev_fwnode(dev->parent) == (const struct fwnode_handle *)fwnode;
+> +}
 
-The remedy for that would be using autosuspend. That just tells us that
-support for autosuspend is not optional.
+I don't think this is actually needed. Why not just assign the
+parent's fwnode for the mux as well?
 
-	Regards
-		Oliver
+I'll add an example to the patch 6/6 in this series.
 
+> +/**
+> + * fwnode_usb_role_switch_get - Find USB role switch by it's parent fwnode
+> + * @fwnode: The fwnode that register USB role switch
+> + *
+> + * Finds and returns role switch registered by @fwnode. The reference count
+> + * for the found switch is incremented.
+> + */
+> +struct usb_role_switch *
+> +fwnode_usb_role_switch_get(struct fwnode_handle *fwnode)
+> +{
+> +	struct usb_role_switch *sw;
+> +	struct device *dev;
+> +
+> +	dev = class_find_device(role_class, NULL, fwnode,
+> +				__switch_match_fwnode);
+
+So here you can then reuse switch_fwnode_match():
+
+	dev = class_find_device(role_class, NULL, fwnode, switch_fwnode_match);
+
+> +	if (!dev)
+> +		return ERR_PTR(-EPROBE_DEFER);
+> +
+> +	sw = to_role_switch(dev);
+> +	WARN_ON(!try_module_get(sw->dev.parent->driver->owner));
+> +
+> +	return sw;
+> +}
+> +EXPORT_SYMBOL_GPL(fwnode_usb_role_switch_get);
+> +
+>  /**
+>   * usb_role_switch_put - Release handle to a switch
+>   * @sw: USB Role Switch
+> diff --git a/include/linux/usb/role.h b/include/linux/usb/role.h
+> index c05ffa6abda9..d21cd55d9e45 100644
+> --- a/include/linux/usb/role.h
+> +++ b/include/linux/usb/role.h
+> @@ -46,6 +46,8 @@ int usb_role_switch_set_role(struct usb_role_switch *sw, enum usb_role role);
+>  enum usb_role usb_role_switch_get_role(struct usb_role_switch *sw);
+>  struct usb_role_switch *usb_role_switch_get(struct device *dev);
+>  void usb_role_switch_put(struct usb_role_switch *sw);
+> +struct usb_role_switch *
+> +fwnode_usb_role_switch_get(struct fwnode_handle *fwnode);
+>  
+>  struct usb_role_switch *
+>  usb_role_switch_register(struct device *parent,
+> -- 
+> 2.20.1
+
+thanks,
+
+-- 
+heikki
