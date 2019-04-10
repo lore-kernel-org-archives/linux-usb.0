@@ -2,31 +2,16 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: uas: fix usb subsystem hang after power off hub port
-From: Bart Van Assche <bvanassche@acm.org>
-Message-Id: <1554823007.161891.6.camel@acm.org>
-Date: Tue, 09 Apr 2019 08:16:47 -0700
-To: Alan Stern <stern@rowland.harvard.edu>, "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: Kento.A.Kobayashi@sony.com, "James E.J. Bottomley" <jejb@linux.ibm.com>, Oliver Neukum <oneukum@suse.com>, gregkh@linuxfoundation.org, USB Storage list <usb-storage@lists.one-eyed-alien.net>, Jacky.Cao@sony.com, Kernel development list <linux-kernel@vger.kernel.org>, SCSI development list <linux-scsi@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+Message-Id: <yq1lg0imwxx.fsf@oracle.com>
+Date: Tue, 09 Apr 2019 22:11:06 -0400
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>, "Martin K. Petersen" <martin.petersen@oracle.com>, Kento.A.Kobayashi@sony.com, "James E.J. Bottomley" <jejb@linux.ibm.com>, Oliver Neukum <oneukum@suse.com>, gregkh@linuxfoundation.org, USB Storage list <usb-storage@lists.one-eyed-alien.net>, Jacky.Cao@sony.com, Kernel development list <linux-kernel@vger.kernel.org>, SCSI development list <linux-scsi@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVHVlLCAyMDE5LTA0LTA5IGF0IDEwOjQ0IC0wNDAwLCBBbGFuIFN0ZXJuIHdyb3RlOgo+IE9u
-IE1vbiwgOCBBcHIgMjAxOSwgTWFydGluIEsuIFBldGVyc2VuIHdyb3RlOgo+IAo+ID4gCj4gPiBB
-bGFuLAo+ID4gCj4gPiA+IFNvIGl0IGxvb2tzIGFzIHRob3VnaCB0aGUgU0NTSSBzdWJzeXN0ZW0g
-ZG9lc24ndCBsaWtlIHRvIGhhdmUgYSByZXNldCAKPiA+ID4gaGFuZGxlciBjYWxsIHNjc2lfcmVt
-b3ZlX2hvc3QuCj4gPiAKPiA+IEFyZSB5b3UgdGFsa2luZyBhYm91dCBhIFBDSSBkZXZpY2UgcmVt
-b3ZhbCBoYW5kbGVyIG9yIGEgU0NTSSBlcnJvcgo+ID4gaGFuZGxlcj8KPiAKPiBUaGUgY29udGV4
-dCBvZiB0aGlzIGRpc2N1c3Npb24gaXMgYSBVU0IgbWFzcy1zdG9yYWdlIGRldmljZSB3aGVyZSB0
-aGUKPiBkZXZpY2UncyBwb3J0IG9uIGl0cyB1cHN0cmVhbSBodWIgaGFzIGJlZW4gcG93ZXJlZCBv
-ZmYuICBUaGUKPiBwb3dlcmVkLW9mZiBwb3J0IGNhdXNlcyBhbiBleGVjdXRpbmcgY29tbWFuZCB0
-byB0aW1lIG91dC4gIEFzIGEgcmVzdWx0Cj4gdGhlIFNDU0kgZXJyb3IgaGFuZGxlciBydW5zIGFu
-ZCBjYWxscyB0aGUgVVNCIHJlc2V0IHJvdXRpbmUsIGJ1dCB0aGUKPiByZXNldCBmYWlscyBiZWNh
-dXNlIHRoZSBrZXJuZWwgaXMgdW5hYmxlIHRvIGNvbW11bmljYXRlIHdpdGggdGhlIGRldmljZQo+
-IHRocm91Z2ggdGhlIHBvd2VyZWQtb2ZmIHBvcnQuICBUaGlzIGNhdXNlcyB0aGUgVVNCIHJlc2V0
-IHJvdXRpbmUgdG8KPiB1bmJpbmQgdGhlIGRldmljZSBmcm9tIGl0cyBVU0IgZHJpdmVyLCB3aGlj
-aCBpbiB0dXJuIGNhbGxzCj4gc2NzaV9yZW1vdmVfaG9zdCAtLSB3aGlsZSB0aGUgZXJyb3IgaGFu
-ZGxlciBpcyBzdGlsbCBydW5uaW5nLgoKRnJvbSB3aGljaCBjb250ZXh0IGRvZXMgdGhhdCB1bmJp
-bmQgaGFwcGVuPyBGcm9tIGluc2lkZSBhIFNDU0kgRUggY2FsbGJhY2sKb3IgZnJvbSB0aGUgY29u
-dGV4dCBvZiBhIHdvcmtxdWV1ZT8gSSB0aGluayB0aGUgZm9ybWVyIGlzIG5vdCBhbGxvd2VkIGJ1
-dAp0aGF0IHRoZSBsYXR0ZXIgaXMgYWxsb3dlZC4gVGhlIFNSUCBpbml0aWF0b3IgZHJpdmVyIChp
-Yl9zcnAuYykgZm9sbG93cyB0aGUKbGF0dGVyIGFwcHJvYWNoLiBTZWUgYWxzbyBzcnBfcXVldWVf
-cmVtb3ZlX3dvcmsoKS4KCkJhcnQuCg==
+QmFydCwKCj4gRnJvbSB3aGljaCBjb250ZXh0IGRvZXMgdGhhdCB1bmJpbmQgaGFwcGVuPyBGcm9t
+IGluc2lkZSBhIFNDU0kgRUgKPiBjYWxsYmFjayBvciBmcm9tIHRoZSBjb250ZXh0IG9mIGEgd29y
+a3F1ZXVlPyBJIHRoaW5rIHRoZSBmb3JtZXIgaXMgbm90Cj4gYWxsb3dlZCBidXQgdGhhdCB0aGUg
+bGF0dGVyIGlzIGFsbG93ZWQuIFRoZSBTUlAgaW5pdGlhdG9yIGRyaXZlcgo+IChpYl9zcnAuYykg
+Zm9sbG93cyB0aGUgbGF0dGVyIGFwcHJvYWNoLgoKWWVhaC4gSXQncyBiZXR0ZXIgdG8gcHVudCB0
+aGUgYWN0dWFsIHRlYXIgZG93bi4K
