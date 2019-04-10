@@ -2,84 +2,65 @@ Return-Path: <SRS0=X9rV=SM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,
-	USER_AGENT_MUTT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 001D9C10F11
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 14:08:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3417C282CE
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 14:22:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C4C7A20818
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 14:08:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1554905285;
-	bh=i4dHT4ibwSYl3XrxVP0zmBLNUAQ54jVI1SBrlEIK82g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=emNW2GBJsV6zTAMflvOsrS8Yd9UTDkM6Z/sRgnOv31ZERgB9lYmjpIKSs+dpUNYQA
-	 Hb7GPp/duvdRnwzktxsSp0QFLATUi9rRjDRrTxTlbjeG2/d0FZr4gE6SLPsDAaHNz0
-	 nf7g+2cpO2E9Ru3/jXtzzPbv8tRprcCq8DPnDvcE=
+	by mail.kernel.org (Postfix) with ESMTP id CB13A20854
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 14:22:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732499AbfDJOIA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 Apr 2019 10:08:00 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:38495 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729946AbfDJOIA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Apr 2019 10:08:00 -0400
-Received: by mail-ot1-f66.google.com with SMTP id e80so2028560ote.5;
-        Wed, 10 Apr 2019 07:07:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=DtrUml0mzaurwWxpooSkRDdxwOyemSBwP6zZRHr5fz4=;
-        b=Qo9QegL8eeEwR6bH+Zf+wYGIn81t4FcjBjLrkF3XwOMdF6BiIr8OOQu+5WT+T6O3x7
-         Y3jlFeWUkNVcmdZTTEAQAulKaodZApOTiaHilyXyW7irSRL+CKtmqmVy4GwqyPKjnofo
-         V3hICjYRPr+VHMLDm6Pr1z+A7mbirFK/JlD5MmByJO5GxxEgapZtKm+CMfzaIIuW6Fo8
-         Y4uEQruJ4zOA2uCq7BxvDXIu//lc8IBU6OQYHJTXNHoFnl5xgYDafe5uMMxe5jNGBFdU
-         oPb4zBRhiLqmHpazUBTCTHxjMaODGV7fL10LrAyMf0EXdKmR4SZpoEnCMGZU9s2Hh+2O
-         lq2w==
-X-Gm-Message-State: APjAAAVfCPvvub+78/tP6MmKCq88t7HSyb88abQBKKsRCD6Akw9DryEc
-        LMUvOmf6uZis8w+U8LvJAZevziQ=
-X-Google-Smtp-Source: APXvYqw4LaO744267VQAAghjElvMUyeks4I8AeRlYqp3XNJwqOuwLzMvcveTYk0G0gcrUd1jUO6QgA==
-X-Received: by 2002:a9d:871:: with SMTP id 104mr26927420oty.315.1554905279065;
-        Wed, 10 Apr 2019 07:07:59 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id m63sm7909843otc.76.2019.04.10.07.07.58
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 10 Apr 2019 07:07:58 -0700 (PDT)
-Date:   Wed, 10 Apr 2019 09:07:57 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Mark Rutland <mark.rutland@arm.com>, Bin Liu <b-liu@ti.com>,
-        od@zcrc.me, linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v2 1/3] dt-bindings: usb: Add usb-phy property to the
- jz4740-musb node
-Message-ID: <20190410140757.GA19016@bogus>
-References: <20190404094739.23503-1-paul@crapouillou.net>
+        id S1732691AbfDJOWZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 Apr 2019 10:22:25 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:49650 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1732663AbfDJOWZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Apr 2019 10:22:25 -0400
+Received: (qmail 1860 invoked by uid 2102); 10 Apr 2019 10:22:24 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 10 Apr 2019 10:22:24 -0400
+Date:   Wed, 10 Apr 2019 10:22:24 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Oliver Neukum <oneukum@suse.com>
+cc:     Seth Bollinger <Seth.Bollinger@digi.com>,
+        Ming Lei <tom.leiming@gmail.com>, Jens Axboe <axboe@kernel.dk>,
+        linux-block <linux-block@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>
+Subject: Re: Bug: VHCI + USB 3.0
+In-Reply-To: <1554883329.21725.1.camel@suse.com>
+Message-ID: <Pine.LNX.4.44L0.1904101018330.1629-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20190404094739.23503-1-paul@crapouillou.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: TEXT/PLAIN; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190410140757.27hSiWhfemZYuG0cPDKwbnhQ0JJXJWdJSsxxpM70t90@z>
 
-On Thu,  4 Apr 2019 11:47:37 +0200, Paul Cercueil wrote:
-> Add a required 'usb-phy' property, to obtain a phandle to the USB PHY
-> from devicetree.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
-> 
-> Notes:
->     v2: Change "usb-phy" DT property to "phys"
-> 
->  Documentation/devicetree/bindings/usb/ingenic,jz4740-musb.txt | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
+On Wed, 10 Apr 2019, Oliver Neukum wrote:
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+> On Di, 2019-04-09 at 15:57 -0400, Alan Stern wrote:
+> > On Tue, 9 Apr 2019, Bollinger, Seth wrote:
+> > 
+> > > I will do that as a test.  However, I’m concerned that we’re solving only a specific case.  Won’t it fail in a similar way if a different subsystem does the same thing (USB modem or video drivers, etc.)?
+> > 
+> > Those other drivers don't use the block device interface, as far as I 
+> > know.  So they would have to use other methods for addressing the 
+> > potential problems in any case.  usb-storage is perhaps distinct in 
+> > that it doesn't generate the scatter-gather lists that it uses, but 
+> > instead has to work with whatever the block layer provides.
+> 
+> UAS, too. But I can pick up the corresponding fix.
+> Are you sure about sound though?
+
+Yes; I just did a quick check for occurrences of "blk_queue" under 
+sound/.
+
+Besides, sound drivers use the ALSA interface to userspace.  The 
+devices don't show up as regular block devices.
+
+Alan Stern
+
