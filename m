@@ -2,15 +2,29 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: Deferred URB submission for timesharing the DMA channels of DWC_OTG host controller in Raspberry PI
-From: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-Id: <34bac244-3816-115f-4fab-a651ee167cf8@cogentembedded.com>
-Date: Mon, 8 Apr 2019 18:52:58 +0300
-To: "Ramachandran Srinivasan \(BRT-SG\)" <srinivasan.r@brtchip.com>
-Cc: Johan Hovold <johan@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+From: "Ramachandran Srinivasan \(BRT-SG\)" <srinivasan.r@brtchip.com>
+Message-Id: <20190410085608.GA13848@brtchip.com>
+Date: Wed, 10 Apr 2019 08:56:12 +0000
+To: Johan Hovold <johan@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMDQvMDgvMjAxOSAwNDoxMiBQTSwgSm9oYW4gSG92b2xkIHdyb3RlOgoKPiBNYWtlIHN1cmUg
-dG8gYWx3YXlzIHByb3ZpZGUgYSBwcm9wZXIgY29tbWl0IG1lc3NhZ2UuCj4gCj4+IFNpZ25lZC1v
-ZmYtYnk6IFNyaW5pdmFzYW4gUiA8c3Jpbml2YXNhbi5yQGJydGNoaXAuY29tPgoKICAgQWxzbywg
-eW91IGhhdmUgdG8gc2lnbiBvZmYgd2l0aCB5b3VyIGZ1bGwgbmFtZS4KClsuLi5dCgpNQlIsIFNl
-cmdlaQo=
+VGhhbmtzLCBKb2hhbiwgSSBoYXZlIGFtZW5kIHRoZSBjb21taXQgbWVzc2FnZSBvZiBteSBjaGFu
+Z2VzIGFzIHBlciB0aGUKcGF0Y2hpbmcgcHJvY2VzcywgYW5kIGhlbmNlIHRoZSBnaXQgZm9ybWF0
+LXBhdGNoIGhhcyBjcmVhdGVkIGEgbmV3IGVtYWlsCnN1YmplY3QgIltQQVRDSCB2Ml0gdXNiOiBz
+ZXJpYWw6IGRlZmVyIFVSQiBzdWJtaXNzaW9uIGZvciBmdGRpX3NpbyIsCkFsc28gZm9yIHRoZSB3
+aGl0ZXNwYWNlIHByb2JsZW0gSSBoYXZlIHJ1biB0aGUgImNoZWNrcGF0Y2gucGwiIHNjcmlwdAph
+bmQgZW5zdXJlZCBJIGdvdCAwLUVycm9yIGFuZCAwLVdhcm5pbmdzLiBQbGVhc2UgaGVscCB0byBy
+ZXZpZXcgdGhlCmNoYW5nZXMuCgpUaGFua3MsIFNyaW5pLgoKVGhlIDA0LzA4LzIwMTkgMTU6MTIs
+IEpvaGFuIEhvdm9sZCB3cm90ZToKPiBPbiBNb24sIEFwciAwOCwgMjAxOSBhdCAxMTo1NDowMEFN
+ICswMDAwLCBSYW1hY2hhbmRyYW4gU3Jpbml2YXNhbiAoQlJULVNHKSB3cm90ZToKPgo+IE1ha2Ug
+c3VyZSB0byBhbHdheXMgcHJvdmlkZSBhIHByb3BlciBjb21taXQgbWVzc2FnZS4KPgo+ID4gU2ln
+bmVkLW9mZi1ieTogU3Jpbml2YXNhbiBSIDxzcmluaXZhc2FuLnJAYnJ0Y2hpcC5jb20+Cj4gPiAt
+LS0KPiA+ICBkcml2ZXJzL3VzYi9zZXJpYWwvZnRkaV9zaW8uYyB8IDE1MyArKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKy0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMTUyIGlu
+c2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPgo+IFlvdXIgcGF0Y2ggaGFzIGJlZW4gYmVlbiAo
+d2hpdGVzcGFjZSkgY29ycnVwdGVkIGFuZCBpcyBiYXJlbHkgcmVhZGFibGUuCj4gSSBoYXZlIG5v
+IGlkZWEgeW91J3JlIHRyeWluZyB0byBoZXJlLgo+Cj4gSm9oYW4KLS0tCgpQbGVhc2Ugbm90ZSBC
+UlQgaGF2ZSB1cGRhdGVkIHRoZWlyIFByaXZhY3kgUG9saWN5LgoKUGxlYXNlIGNsaWNrIG9uIHRo
+ZSBmb2xsb3dpbmcgbGluayB0byBhY2Nlc3MgYW5kIHJldmlldy4KCkJSVCBQcml2YWN5IFBvbGlj
+eTxodHRwOi8vYnJ0Y2hpcC5jb20vcHJpdmFjeS1wb2xpY3kvPgo=
