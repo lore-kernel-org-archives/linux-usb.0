@@ -2,269 +2,173 @@ Return-Path: <SRS0=X9rV=SM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,UNPARSEABLE_RELAY,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4AA1C10F14
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 05:17:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2EE1C10F14
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 06:48:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7E21A20854
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 05:17:57 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=cadence.com header.i=@cadence.com header.b="LcRmDp5u";
-	dkim=pass (1024-bit key) header.d=cadence.com header.i=@cadence.com header.b="OR6OZ3pb"
+	by mail.kernel.org (Postfix) with ESMTP id 9B4AB217D6
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 06:48:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726670AbfDJFRv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 Apr 2019 01:17:51 -0400
-Received: from mx0a-0014ca01.pphosted.com ([208.84.65.235]:48786 "EHLO
-        mx0a-0014ca01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725835AbfDJFRv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Apr 2019 01:17:51 -0400
-Received: from pps.filterd (m0042385.ppops.net [127.0.0.1])
-        by mx0a-0014ca01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x3A5BoeH012390;
-        Tue, 9 Apr 2019 22:15:36 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=proofpoint;
- bh=9sYRTpxdlVHnn5/oHJPtFelTxxi3AU7r4B61wajNYMM=;
- b=LcRmDp5uuiLUTvfC5OtFRsCEkmzhIWYbJvIECzHzhG7gDSmPar68CSf+ClAdWdFi9xeC
- GgiHq92EwDk3dZxbAlN6EFwknwz1Bv/jmZVXBwT9htA+zhc2FjT7WjXVhz/RNe3jui8W
- FJicckkz9mZzzgbIbEFUup4X0B5hWBSt6YLl5fjRapRGVcz9fqtBQtJh8Nc57SP8qKFO
- VJZM7O+/H0959FxBMjPRvmOaa5MR2wVqxLnKNMpX/nF8ZU2tz6ZLPNm1H0khOq0cEA/j
- GeZZiyD3mAbXRa3Ip/lUg6T71jyQRG19vWLSRz2bvGtSfEfMZelF8SFEqGKNgVXShaY5 Sg== 
-Authentication-Results: cadence.com;
-        spf=pass smtp.mailfrom=pawell@cadence.com
-Received: from nam04-co1-obe.outbound.protection.outlook.com (mail-co1nam04lp2056.outbound.protection.outlook.com [104.47.45.56])
-        by mx0a-0014ca01.pphosted.com with ESMTP id 2rr9dfytcc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Tue, 09 Apr 2019 22:15:35 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9sYRTpxdlVHnn5/oHJPtFelTxxi3AU7r4B61wajNYMM=;
- b=OR6OZ3pbQO6ODLpSQxMviBdyYGdin2HxBUUlbxzfdaH5EDbIT/T+e+4WizYMr2nYWsIufd6NI1pZA3Q1CwtAW2u4b5KByM11ZGHxM7dsPO/q2uxLpUtUCcS+jpsoLwPBaMyNF9m8nHUMwe0FSdHt5d6xn6vLNEJAIypm6t9izl4=
-Received: from CY1PR07CA0019.namprd07.prod.outlook.com
- (2a01:111:e400:c60a::29) by DM6PR07MB5916.namprd07.prod.outlook.com
- (2603:10b6:5:181::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1771.21; Wed, 10 Apr
- 2019 05:15:33 +0000
-Received: from CO1NAM05FT047.eop-nam05.prod.protection.outlook.com
- (2a01:111:f400:7e50::201) by CY1PR07CA0019.outlook.office365.com
- (2a01:111:e400:c60a::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1792.14 via Frontend
- Transport; Wed, 10 Apr 2019 05:15:32 +0000
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- cadence.com discourages use of 158.140.1.28 as permitted sender)
-Received: from sjmaillnx1.cadence.com (158.140.1.28) by
- CO1NAM05FT047.mail.protection.outlook.com (10.152.96.162) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.1792.7 via Frontend Transport; Wed, 10 Apr 2019 05:15:32 +0000
-Received: from maileu3.global.cadence.com (maileu3.cadence.com [10.160.88.99])
-        by sjmaillnx1.cadence.com (8.14.4/8.14.4) with ESMTP id x3A5FQQA012370
-        (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
-        Tue, 9 Apr 2019 22:15:31 -0700
-X-CrossPremisesHeadersFilteredBySendConnector: maileu3.global.cadence.com
-Received: from maileu3.global.cadence.com (10.160.88.99) by
- maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3; Wed, 10 Apr 2019 07:15:27 +0200
-Received: from lvlogina.cadence.com (10.165.176.102) by
- maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
- 15.0.1367.3 via Frontend Transport; Wed, 10 Apr 2019 07:15:26 +0200
-Received: from lvlogina.cadence.com (localhost.localdomain [127.0.0.1])
-        by lvlogina.cadence.com (8.14.4/8.14.4) with ESMTP id x3A5FRV4017241;
-        Wed, 10 Apr 2019 06:15:27 +0100
-Received: (from pawell@localhost)
-        by lvlogina.cadence.com (8.14.4/8.14.4/Submit) id x3A5FQJP017239;
-        Wed, 10 Apr 2019 06:15:26 +0100
-From:   Pawel Laszczak <pawell@cadence.com>
-To:     <devicetree@vger.kernel.org>
-CC:     <gregkh@linuxfoundation.org>, <felipe.balbi@linux.intel.com>,
-        <mark.rutland@arm.com>, <linux-usb@vger.kernel.org>,
-        <hdegoede@redhat.com>, <heikki.krogerus@linux.intel.com>,
-        <andy.shevchenko@gmail.com>, <robh+dt@kernel.org>, <rogerq@ti.com>,
-        <linux-kernel@vger.kernel.org>, <jbergsagel@ti.com>,
-        <nsekhar@ti.com>, <nm@ti.com>, <sureshp@cadence.com>,
-        <peter.chen@nxp.com>, <kurahul@cadence.com>,
-        Pawel Laszczak <pawell@cadence.com>
-Subject: [PATCH v5 4/6] usb:common Simplify usb_decode_get_set_descriptor function.
-Date:   Wed, 10 Apr 2019 06:15:00 +0100
-Message-ID: <1554873302-5624-5-git-send-email-pawell@cadence.com>
-X-Mailer: git-send-email 1.7.11.2
-In-Reply-To: <1554873302-5624-1-git-send-email-pawell@cadence.com>
-References: <1554873302-5624-1-git-send-email-pawell@cadence.com>
+        id S1728643AbfDJGsC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 Apr 2019 02:48:02 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:12013 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726056AbfDJGsB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Apr 2019 02:48:01 -0400
+X-UUID: 8d3b645fbb8a43a89a780aeee688f151-20190410
+X-UUID: 8d3b645fbb8a43a89a780aeee688f151-20190410
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 1731274032; Wed, 10 Apr 2019 14:47:45 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Wed, 10 Apr 2019 14:47:44 +0800
+Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Wed, 10 Apr 2019 14:47:43 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Mathias Nyman <mathias.nyman@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Dongjin Kim <tobetter@gmail.com>
+Subject: [v2 PATCH 3/6] usb: misc: usb3503: get optional clock by devm_clk_get_optional()
+Date:   Wed, 10 Apr 2019 14:47:26 +0800
+Message-ID:
+ <e24a625adb68a0975636d6d59424c9986657a18d.1554877692.git.chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <bc6cdc2dce698dddbd692ba100fbf08c15c7b023.1554877692.git.chunfeng.yun@mediatek.com>
+References: <bc6cdc2dce698dddbd692ba100fbf08c15c7b023.1554877692.git.chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-OrganizationHeadersPreserved: maileu3.global.cadence.com
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:158.140.1.28;IPV:CAL;SCL:-1;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(39860400002)(396003)(376002)(346002)(136003)(2980300002)(199004)(189003)(36092001)(7636002)(87636003)(426003)(8936002)(478600001)(76176011)(2616005)(486006)(305945005)(11346002)(336012)(50466002)(48376002)(26005)(126002)(476003)(186003)(2351001)(107886003)(7416002)(8676002)(2906002)(5660300002)(86362001)(105596002)(51416003)(76130400001)(246002)(4326008)(446003)(50226002)(106466001)(54906003)(36756003)(47776003)(42186006)(316002)(26826003)(16586007)(6666004)(356004)(6916009)(4720700003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM6PR07MB5916;H:sjmaillnx1.cadence.com;FPR:;SPF:SoftFail;LANG:en;PTR:corp.cadence.com;A:1;MX:1;
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2e6ab19d-ae28-4b38-6a1f-08d6bd738e3e
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600139)(711020)(4605104)(2017052603328);SRVR:DM6PR07MB5916;
-X-MS-TrafficTypeDiagnostic: DM6PR07MB5916:
-X-Microsoft-Antispam-PRVS: <DM6PR07MB59161BE0621FED24D63E425ADD2E0@DM6PR07MB5916.namprd07.prod.outlook.com>
-X-Forefront-PRVS: 00032065B2
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: NcRFfLWUeEfztrYYxo+beH6GAy759HZ1o30tuD4n5gq9VRaEP3WkKhrffs4O4c/wNdrWjg5sWOjCe4febdvyzkkJtEuw7I34lJlga3AXbBFtNnYcgvoNFaLccVJ20VTPW1WZKpFAR4XOlBjc+iREaHQK1spkGOx9DlNfmNNYef68Mj1ltwt9F83b82Bsixi6YB3HDbfynOfaEglzm6OVFw9NdRLeAaXE7/Gsx2EXjrIRyk4mAcjEIZI75282w7s2ZBg0uba2hERYFow1awDeSn8rGkbsaVtr7s8J9hXvzE+1FS7tBBkEBLswXCnPmkQMwQFHuacRJI7gz9Nc4ICuWdpoFrPBGbee4ujeWA959wShsGW8yTjFaba+HjNVy+Mi3iTmbSqygRJiDlTtQJR7Wj4obd7oklO5JMZXnp1iXjM=
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2019 05:15:32.0384
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e6ab19d-ae28-4b38-6a1f-08d6bd738e3e
-X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9;Ip=[158.140.1.28];Helo=[sjmaillnx1.cadence.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR07MB5916
-X-Proofpoint-SPF-Result: pass
-X-Proofpoint-SPF-Record: v=spf1 include:_spf.salesforce.com include:mktomail.com
- include:spf-0014ca01.pphosted.com include:spf.protection.outlook.com
- include:auth.msgapp.com include:spf.mandrillapp.com ~all
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-04-10_03:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0
- priorityscore=1501 malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0
- spamscore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=874 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1904100037
+X-MTK:  N
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190410051500.-ywFVNdnGJROuIj2XlxHF0iSJS0sa9f7M_cC4CyO_2E@z>
+Message-ID: <20190410064726.OVgNfjfBkz9b-1CCdDegkWKE-v0TEHQgzbtgwSkfkDY@z>
 
-Patch moves switch responsible for decoding descriptor type
-outside snprintf. It improves code readability a little.
+Use devm_clk_get_optional() to get optional clock
 
-Signed-off-by: Pawel Laszczak <pawell@cadence.com>
+Cc: Dongjin Kim <tobetter@gmail.com>
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 ---
- drivers/usb/common/debug.c | 113 +++++++++++++++++++------------------
- 1 file changed, 58 insertions(+), 55 deletions(-)
+v2: no changes
+---
+ drivers/usb/misc/usb3503.c | 48 ++++++++++++++------------------------
+ 1 file changed, 18 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/usb/common/debug.c b/drivers/usb/common/debug.c
-index ad6c96aa45b0..8e2c81a40cf8 100644
---- a/drivers/usb/common/debug.c
-+++ b/drivers/usb/common/debug.c
-@@ -105,62 +105,65 @@ static void usb_decode_get_set_descriptor(__u8 bRequestType, __u8 bRequest,
- 					  __u16 wValue, __u16 wIndex,
- 					  __u16 wLength, char *str, size_t size)
+diff --git a/drivers/usb/misc/usb3503.c b/drivers/usb/misc/usb3503.c
+index d5141aa79dd4..72f39a9751b5 100644
+--- a/drivers/usb/misc/usb3503.c
++++ b/drivers/usb/misc/usb3503.c
+@@ -172,7 +172,6 @@ static int usb3503_probe(struct usb3503 *hub)
+ 		hub->gpio_reset		= pdata->gpio_reset;
+ 		hub->mode		= pdata->initial_mode;
+ 	} else if (np) {
+-		struct clk *clk;
+ 		u32 rate = 0;
+ 		hub->port_off_mask = 0;
+ 
+@@ -198,34 +197,29 @@ static int usb3503_probe(struct usb3503 *hub)
+ 			}
+ 		}
+ 
+-		clk = devm_clk_get(dev, "refclk");
+-		if (IS_ERR(clk) && PTR_ERR(clk) != -ENOENT) {
++		hub->clk = devm_clk_get_optional(dev, "refclk");
++		if (IS_ERR(hub->clk)) {
+ 			dev_err(dev, "unable to request refclk (%ld)\n",
+-					PTR_ERR(clk));
+-			return PTR_ERR(clk);
++					PTR_ERR(hub->clk));
++			return PTR_ERR(hub->clk);
+ 		}
+ 
+-		if (!IS_ERR(clk)) {
+-			hub->clk = clk;
+-
+-			if (rate != 0) {
+-				err = clk_set_rate(hub->clk, rate);
+-				if (err) {
+-					dev_err(dev,
+-						"unable to set reference clock rate to %d\n",
+-						(int) rate);
+-					return err;
+-				}
+-			}
+-
+-			err = clk_prepare_enable(hub->clk);
++		if (rate != 0) {
++			err = clk_set_rate(hub->clk, rate);
+ 			if (err) {
+ 				dev_err(dev,
+-					"unable to enable reference clock\n");
++					"unable to set reference clock rate to %d\n",
++					(int)rate);
+ 				return err;
+ 			}
+ 		}
+ 
++		err = clk_prepare_enable(hub->clk);
++		if (err) {
++			dev_err(dev, "unable to enable reference clock\n");
++			return err;
++		}
++
+ 		property = of_get_property(np, "disabled-ports", &len);
+ 		if (property && (len / sizeof(u32)) > 0) {
+ 			int i;
+@@ -324,8 +318,7 @@ static int usb3503_i2c_remove(struct i2c_client *i2c)
+ 	struct usb3503 *hub;
+ 
+ 	hub = i2c_get_clientdata(i2c);
+-	if (hub->clk)
+-		clk_disable_unprepare(hub->clk);
++	clk_disable_unprepare(hub->clk);
+ 
+ 	return 0;
+ }
+@@ -348,8 +341,7 @@ static int usb3503_platform_remove(struct platform_device *pdev)
+ 	struct usb3503 *hub;
+ 
+ 	hub = platform_get_drvdata(pdev);
+-	if (hub->clk)
+-		clk_disable_unprepare(hub->clk);
++	clk_disable_unprepare(hub->clk);
+ 
+ 	return 0;
+ }
+@@ -358,18 +350,14 @@ static int usb3503_platform_remove(struct platform_device *pdev)
+ static int usb3503_suspend(struct usb3503 *hub)
  {
-+	char *s;
-+
-+	switch (wValue >> 8) {
-+	case USB_DT_DEVICE:
-+		s = "Device";
-+		break;
-+	case USB_DT_CONFIG:
-+		s = "Configuration";
-+		break;
-+	case USB_DT_STRING:
-+		s = "String";
-+		break;
-+	case USB_DT_INTERFACE:
-+		s = "Interface";
-+		break;
-+	case USB_DT_ENDPOINT:
-+		s = "Endpoint";
-+		break;
-+	case USB_DT_DEVICE_QUALIFIER:
-+		s = "Device Qualifier";
-+		break;
-+	case USB_DT_OTHER_SPEED_CONFIG:
-+		s = "Other Speed Config";
-+		break;
-+	case USB_DT_INTERFACE_POWER:
-+		s = "Interface Power";
-+		break;
-+	case USB_DT_OTG:
-+		s = "OTG";
-+		break;
-+	case USB_DT_DEBUG:
-+		s = "Debug";
-+		break;
-+	case USB_DT_INTERFACE_ASSOCIATION:
-+		s = "Interface Association";
-+		break;
-+	case USB_DT_BOS:
-+		s = "BOS";
-+		break;
-+	case USB_DT_DEVICE_CAPABILITY:
-+		s = "Device Capability";
-+		break;
-+	case USB_DT_PIPE_USAGE:
-+		s = "Pipe Usage";
-+		break;
-+	case USB_DT_SS_ENDPOINT_COMP:
-+		s = "SS Endpoint Companion";
-+		break;
-+	case USB_DT_SSP_ISOC_ENDPOINT_COMP:
-+		s = "SSP Isochronous Endpoint Companion";
-+		break;
-+	default:
-+		s = "UNKNOWN";
-+		break;
-+	}
-+
- 	snprintf(str, size, "%s %s Descriptor(Index = %d, Length = %d)",
--		 bRequest == USB_REQ_GET_DESCRIPTOR ? "Get" : "Set",
--		 ({ char *s;
--			switch (wValue >> 8) {
--			case USB_DT_DEVICE:
--				s = "Device";
--				break;
--			case USB_DT_CONFIG:
--				s = "Configuration";
--				break;
--			case USB_DT_STRING:
--				s = "String";
--				break;
--			case USB_DT_INTERFACE:
--				s = "Interface";
--				break;
--			case USB_DT_ENDPOINT:
--				s = "Endpoint";
--				break;
--			case USB_DT_DEVICE_QUALIFIER:
--				s = "Device Qualifier";
--				break;
--			case USB_DT_OTHER_SPEED_CONFIG:
--				s = "Other Speed Config";
--				break;
--			case USB_DT_INTERFACE_POWER:
--				s = "Interface Power";
--				break;
--			case USB_DT_OTG:
--				s = "OTG";
--				break;
--			case USB_DT_DEBUG:
--				s = "Debug";
--				break;
--			case USB_DT_INTERFACE_ASSOCIATION:
--				s = "Interface Association";
--				break;
--			case USB_DT_BOS:
--				s = "BOS";
--				break;
--			case USB_DT_DEVICE_CAPABILITY:
--				s = "Device Capability";
--				break;
--			case USB_DT_PIPE_USAGE:
--				s = "Pipe Usage";
--				break;
--			case USB_DT_SS_ENDPOINT_COMP:
--				s = "SS Endpoint Companion";
--				break;
--			case USB_DT_SSP_ISOC_ENDPOINT_COMP:
--				s = "SSP Isochronous Endpoint Companion";
--				break;
--			default:
--				s = "UNKNOWN";
--				break;
--			} s; }), wValue & 0xff, wLength);
-+		bRequest == USB_REQ_GET_DESCRIPTOR ? "Get" : "Set",
-+		s, wValue & 0xff, wLength);
+ 	usb3503_switch_mode(hub, USB3503_MODE_STANDBY);
+-
+-	if (hub->clk)
+-		clk_disable_unprepare(hub->clk);
++	clk_disable_unprepare(hub->clk);
+ 
+ 	return 0;
  }
  
- static void usb_decode_get_configuration(__u16 wLength, char *str, size_t size)
+ static int usb3503_resume(struct usb3503 *hub)
+ {
+-	if (hub->clk)
+-		clk_prepare_enable(hub->clk);
+-
++	clk_prepare_enable(hub->clk);
+ 	usb3503_switch_mode(hub, hub->mode);
+ 
+ 	return 0;
 -- 
-2.17.1
+2.21.0
 
