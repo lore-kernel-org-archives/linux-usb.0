@@ -2,30 +2,18 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,1/3] dt-bindings: usb: Add usb-phy property to the jz4740-musb node
-From: Paul Cercueil <paul@crapouillou.net>
-Message-Id: <20190404094739.23503-1-paul@crapouillou.net>
-Date: Thu,  4 Apr 2019 11:47:37 +0200
-To: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Bin Liu <b-liu@ti.com>
-Cc: od@zcrc.me, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Paul Cercueil <paul@crapouillou.net>
+From: Rob Herring <robh@kernel.org>
+Message-Id: <20190410140757.GA19016@bogus>
+Date: Wed, 10 Apr 2019 09:07:57 -0500
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: Mark Rutland <mark.rutland@arm.com>, Bin Liu <b-liu@ti.com>, od@zcrc.me, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-QWRkIGEgcmVxdWlyZWQgJ3VzYi1waHknIHByb3BlcnR5LCB0byBvYnRhaW4gYSBwaGFuZGxlIHRv
-IHRoZSBVU0IgUEhZCmZyb20gZGV2aWNldHJlZS4KClNpZ25lZC1vZmYtYnk6IFBhdWwgQ2VyY3Vl
-aWwgPHBhdWxAY3JhcG91aWxsb3UubmV0PgotLS0KCk5vdGVzOgogICAgdjI6IENoYW5nZSAidXNi
-LXBoeSIgRFQgcHJvcGVydHkgdG8gInBoeXMiCgogRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
-bmRpbmdzL3VzYi9pbmdlbmljLGp6NDc0MC1tdXNiLnR4dCB8IDggKysrKysrKysKIDEgZmlsZSBj
-aGFuZ2VkLCA4IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2Rldmlj
-ZXRyZWUvYmluZGluZ3MvdXNiL2luZ2VuaWMsano0NzQwLW11c2IudHh0IGIvRG9jdW1lbnRhdGlv
-bi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9pbmdlbmljLGp6NDc0MC1tdXNiLnR4dAppbmRleCA2
-MjAzNTVjZWU2M2YuLjE2ODA4NzIxZjNmZiAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZp
-Y2V0cmVlL2JpbmRpbmdzL3VzYi9pbmdlbmljLGp6NDc0MC1tdXNiLnR4dAorKysgYi9Eb2N1bWVu
-dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL2luZ2VuaWMsano0NzQwLW11c2IudHh0CkBA
-IC04LDkgKzgsMTUgQEAgUmVxdWlyZWQgcHJvcGVydGllczoKIC0gaW50ZXJydXB0LW5hbWVzOiBt
-dXN0IGJlICJtYyIKIC0gY2xvY2tzOiBwaGFuZGxlIHRvIHRoZSAidWRjIiBjbG9jawogLSBjbG9j
-ay1uYW1lczogbXVzdCBiZSAidWRjIgorLSBwaHlzOiBwaGFuZGxlIHRvIHRoZSBVU0IgUEhZCiAK
-IEV4YW1wbGU6CiAKK3VzYl9waHk6IHVzYi1waHlAMCB7CisJY29tcGF0aWJsZSA9ICJ1c2Itbm9w
-LXhjZWl2IjsKKwkjcGh5LWNlbGxzID0gPDA+OworfTsKKwogdWRjOiB1c2JAMTMwNDAwMDAgewog
-CWNvbXBhdGlibGUgPSAiaW5nZW5pYyxqejQ3NDAtbXVzYiI7CiAJcmVnID0gPDB4MTMwNDAwMDAg
-MHgxMDAwMD47CkBAIC0yMSw0ICsyNyw2IEBAIHVkYzogdXNiQDEzMDQwMDAwIHsKIAogCWNsb2Nr
-cyA9IDwmY2d1IEpaNDc0MF9DTEtfVURDPjsKIAljbG9jay1uYW1lcyA9ICJ1ZGMiOworCisJcGh5
-cyA9IDwmdXNiX3BoeT47CiB9Owo=
+T24gVGh1LCAgNCBBcHIgMjAxOSAxMTo0NzozNyArMDIwMCwgUGF1bCBDZXJjdWVpbCB3cm90ZToK
+PiBBZGQgYSByZXF1aXJlZCAndXNiLXBoeScgcHJvcGVydHksIHRvIG9idGFpbiBhIHBoYW5kbGUg
+dG8gdGhlIFVTQiBQSFkKPiBmcm9tIGRldmljZXRyZWUuCj4gCj4gU2lnbmVkLW9mZi1ieTogUGF1
+bCBDZXJjdWVpbCA8cGF1bEBjcmFwb3VpbGxvdS5uZXQ+Cj4gLS0tCj4gCj4gTm90ZXM6Cj4gICAg
+IHYyOiBDaGFuZ2UgInVzYi1waHkiIERUIHByb3BlcnR5IHRvICJwaHlzIgo+IAo+ICBEb2N1bWVu
+dGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL2luZ2VuaWMsano0NzQwLW11c2IudHh0IHwg
+OCArKysrKysrKwo+ICAxIGZpbGUgY2hhbmdlZCwgOCBpbnNlcnRpb25zKCspCj4gCgpSZXZpZXdl
+ZC1ieTogUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVsLm9yZz4K
