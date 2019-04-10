@@ -2,34 +2,34 @@ Return-Path: <SRS0=X9rV=SM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_MUTT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_MUTT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2108C10F11
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 10:22:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3C8BC10F14
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 10:24:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BA54A206B7
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 10:22:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BBDAA2075B
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 10:24:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730422AbfDJKWq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 Apr 2019 06:22:46 -0400
-Received: from mga05.intel.com ([192.55.52.43]:35502 "EHLO mga05.intel.com"
+        id S1730453AbfDJKYX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 Apr 2019 06:24:23 -0400
+Received: from mga12.intel.com ([192.55.52.136]:43939 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729002AbfDJKWq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 10 Apr 2019 06:22:46 -0400
+        id S1727497AbfDJKYX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 10 Apr 2019 06:24:23 -0400
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Apr 2019 03:22:45 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Apr 2019 03:24:22 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.60,332,1549958400"; 
-   d="scan'208";a="163012491"
+   d="scan'208";a="163012781"
 Received: from kuha.fi.intel.com ([10.237.72.189])
-  by fmsmga001.fm.intel.com with SMTP; 10 Apr 2019 03:22:40 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 10 Apr 2019 13:22:39 +0300
-Date:   Wed, 10 Apr 2019 13:22:39 +0300
+  by fmsmga001.fm.intel.com with SMTP; 10 Apr 2019 03:24:16 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 10 Apr 2019 13:24:15 +0300
+Date:   Wed, 10 Apr 2019 13:24:15 +0300
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
@@ -46,114 +46,41 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org
-Subject: Re: [v3 PATCH 4/6] usb: roles: add API to get usb_role_switch by node
-Message-ID: <20190410102239.GG20058@kuha.fi.intel.com>
+Subject: Re: [v3 PATCH 6/6] usb: mtu3: register a USB Role Switch for dual
+ role mode
+Message-ID: <20190410102415.GH20058@kuha.fi.intel.com>
 References: <1554257354-7440-1-git-send-email-chunfeng.yun@mediatek.com>
- <1554257354-7440-5-git-send-email-chunfeng.yun@mediatek.com>
+ <1554257354-7440-7-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <1554257354-7440-5-git-send-email-chunfeng.yun@mediatek.com>
+In-Reply-To: <1554257354-7440-7-git-send-email-chunfeng.yun@mediatek.com>
 User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190410102239.GG1AALqjxUORKwArvXnwlXKl9HZ7w0KhkH16Js8WTOg@z>
+Message-ID: <20190410102415.EagWnqTis06lKjWNUAvWvyZRm2DN2pHevmIPi4BqwyY@z>
 
-On Wed, Apr 03, 2019 at 10:09:12AM +0800, Chunfeng Yun wrote:
-> Add fwnode_usb_role_switch_get() to make easier to get
-> usb_role_switch by fwnode which register it.
-> It's useful when there is not device_connection registered
-> between two drivers and only knows the fwnode which register
-> usb_role_switch.
-> 
-> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> ---
-> v3 changes:
->   1. use fwnodes instead of node suggested by Andy
->   2. rebuild the API suggested by Heikki
-> 
-> v2 no changes
-> ---
->  drivers/usb/roles/class.c | 31 +++++++++++++++++++++++++++++++
->  include/linux/usb/role.h  |  2 ++
->  2 files changed, 33 insertions(+)
-> 
-> diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
-> index f45d8df5cfb8..5ecb57f8960b 100644
-> --- a/drivers/usb/roles/class.c
-> +++ b/drivers/usb/roles/class.c
-> @@ -12,6 +12,7 @@
->  #include <linux/device.h>
->  #include <linux/module.h>
->  #include <linux/mutex.h>
-> +#include <linux/of.h>
->  #include <linux/slab.h>
->  
->  static struct class *role_class;
-> @@ -135,6 +136,36 @@ struct usb_role_switch *usb_role_switch_get(struct device *dev)
->  }
->  EXPORT_SYMBOL_GPL(usb_role_switch_get);
->  
-> +static int __switch_match_fwnode(struct device *dev, const void *fwnode)
+On Wed, Apr 03, 2019 at 10:09:14AM +0800, Chunfeng Yun wrote:
+> +static int ssusb_role_sw_register(struct otg_switch_mtk *otg_sx)
 > +{
-> +	return dev_fwnode(dev->parent) == (const struct fwnode_handle *)fwnode;
+> +	struct usb_role_switch_desc role_sx_desc = { 0 };
+> +	struct ssusb_mtk *ssusb =
+> +		container_of(otg_sx, struct ssusb_mtk, otg_switch);
+> +
+> +	if (!otg_sx->role_sw_used)
+> +		return 0;
+> +
+> +	role_sx_desc.set = ssusb_role_sw_set;
+> +	role_sx_desc.get = ssusb_role_sw_get;
+
+        role_sw_desc.fwnode = dev_fwnode(ssusb->dev);
+
+> +	otg_sx->role_sw = usb_role_switch_register(ssusb->dev, &role_sx_desc);
+> +
+> +	return PTR_ERR_OR_ZERO(otg_sx->role_sw);
 > +}
-
-I don't think this is actually needed. Why not just assign the
-parent's fwnode for the mux as well?
-
-I'll add an example to the patch 6/6 in this series.
-
-> +/**
-> + * fwnode_usb_role_switch_get - Find USB role switch by it's parent fwnode
-> + * @fwnode: The fwnode that register USB role switch
-> + *
-> + * Finds and returns role switch registered by @fwnode. The reference count
-> + * for the found switch is incremented.
-> + */
-> +struct usb_role_switch *
-> +fwnode_usb_role_switch_get(struct fwnode_handle *fwnode)
-> +{
-> +	struct usb_role_switch *sw;
-> +	struct device *dev;
-> +
-> +	dev = class_find_device(role_class, NULL, fwnode,
-> +				__switch_match_fwnode);
-
-So here you can then reuse switch_fwnode_match():
-
-	dev = class_find_device(role_class, NULL, fwnode, switch_fwnode_match);
-
-> +	if (!dev)
-> +		return ERR_PTR(-EPROBE_DEFER);
-> +
-> +	sw = to_role_switch(dev);
-> +	WARN_ON(!try_module_get(sw->dev.parent->driver->owner));
-> +
-> +	return sw;
-> +}
-> +EXPORT_SYMBOL_GPL(fwnode_usb_role_switch_get);
-> +
->  /**
->   * usb_role_switch_put - Release handle to a switch
->   * @sw: USB Role Switch
-> diff --git a/include/linux/usb/role.h b/include/linux/usb/role.h
-> index c05ffa6abda9..d21cd55d9e45 100644
-> --- a/include/linux/usb/role.h
-> +++ b/include/linux/usb/role.h
-> @@ -46,6 +46,8 @@ int usb_role_switch_set_role(struct usb_role_switch *sw, enum usb_role role);
->  enum usb_role usb_role_switch_get_role(struct usb_role_switch *sw);
->  struct usb_role_switch *usb_role_switch_get(struct device *dev);
->  void usb_role_switch_put(struct usb_role_switch *sw);
-> +struct usb_role_switch *
-> +fwnode_usb_role_switch_get(struct fwnode_handle *fwnode);
->  
->  struct usb_role_switch *
->  usb_role_switch_register(struct device *parent,
-> -- 
-> 2.20.1
 
 thanks,
 
