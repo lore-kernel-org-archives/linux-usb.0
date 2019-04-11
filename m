@@ -2,116 +2,163 @@ Return-Path: <SRS0=u5rC=SN=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.4 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_PASS,USER_AGENT_MUTT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC64CC10F13
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 07:39:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACE8DC10F13
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 07:55:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B51FC20873
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 07:39:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 83A3E21841
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 07:55:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726635AbfDKHj6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 Apr 2019 03:39:58 -0400
-Received: from mga18.intel.com ([134.134.136.126]:52138 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726256AbfDKHj5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 11 Apr 2019 03:39:57 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Apr 2019 00:39:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,336,1549958400"; 
-   d="scan'208";a="163309552"
-Received: from kuha.fi.intel.com ([10.237.72.189])
-  by fmsmga001.fm.intel.com with SMTP; 11 Apr 2019 00:39:54 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 11 Apr 2019 10:39:53 +0300
-Date:   Thu, 11 Apr 2019 10:39:53 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Ajay Gupta <ajayg@nvidia.com>
-Cc:     kbuild test robot <lkp@intel.com>, kbuild-all@01.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH 2/4] usb: typec: ucsi: ccg: add firmware flashing support
-Message-ID: <20190411073953.GI20058@kuha.fi.intel.com>
-References: <20190410081545.78464-3-heikki.krogerus@linux.intel.com>
- <201904110046.Bx46coK1%lkp@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <201904110046.Bx46coK1%lkp@intel.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+        id S1726857AbfDKHzo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 Apr 2019 03:55:44 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:47035 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726615AbfDKHzo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 Apr 2019 03:55:44 -0400
+Received: from mail-pl1-f197.google.com ([209.85.214.197])
+        by youngberry.canonical.com with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+        (Exim 4.76)
+        (envelope-from <kai.heng.feng@canonical.com>)
+        id 1hEUYg-0006Lw-5u
+        for linux-usb@vger.kernel.org; Thu, 11 Apr 2019 07:55:42 +0000
+Received: by mail-pl1-f197.google.com with SMTP id v5so3596556plo.4
+        for <linux-usb@vger.kernel.org>; Thu, 11 Apr 2019 00:55:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=O8I6+QP8dAnvcFSf5snO01pHB909XvBWfAoeHtdYzI8=;
+        b=A1fRoyRHKcJwczkjlmmLdwQX9ndCF5LFnH0mSZ4pDC/QvPilMvAyFEofu1/77SAX1u
+         LON7cXeeldf15ovBYMiVxExadDvrbJ/8l1W3ti+ivWmCT1JZAZsnOdA/s/aiyZtouqK8
+         Vl4uw+yDUFtSmXBUnnrmeAKEUlgfh2KW+AUqtZlHdVMOD8S8SEBh19dYeo9DkpZK/MhD
+         0TUCZq64X5tMUcpYlXjlrX2esyULw+9guq13Whrp0f8gctF8WlifW/CKwMuvdPfq1wG0
+         YIciW17DW+ujbNGr9+ADBu5Jq08ILdCXdoMPV1dDVbNTpU0S82uDhp2q5grvBfDJC3/7
+         bBIg==
+X-Gm-Message-State: APjAAAW/jZdvyVzaHx2i2uGpXkGuWCRO52ycNYmdlwLtETAtKIXI9D5z
+        9W1iX2sekeTAiaIw/q+MGZsJVeoh6DyEnj+uEkOqfgWWST1puFLkanCjIEwdvomAJRf34M+AqRb
+        hTTNle/HgarI0cCmW9MKUOnIS99htGBx5Ebst6A==
+X-Received: by 2002:a63:5d04:: with SMTP id r4mr45228663pgb.117.1554969340866;
+        Thu, 11 Apr 2019 00:55:40 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqyf9uzTE307KSiC17kXBaM23T2n+LvwNyaSWq56IFkwGEPI52Bl0l3Pm5K8lQQ663fOW+HivA==
+X-Received: by 2002:a63:5d04:: with SMTP id r4mr45228644pgb.117.1554969340636;
+        Thu, 11 Apr 2019 00:55:40 -0700 (PDT)
+Received: from 2001-b011-380f-14b9-9cff-45f9-ad8b-c268.dynamic-ip6.hinet.net (2001-b011-380f-14b9-9cff-45f9-ad8b-c268.dynamic-ip6.hinet.net. [2001:b011:380f:14b9:9cff:45f9:ad8b:c268])
+        by smtp.gmail.com with ESMTPSA id l2sm42048820pgl.2.2019.04.11.00.55.39
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 11 Apr 2019 00:55:40 -0700 (PDT)
+Content-Type: text/plain; charset="UTF-8"; delsp="yes"; format="flowed"
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.8\))
+Subject: Re: [PATCH v2] USB: Disable USB2 LPM at shutdown
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+In-Reply-To: <9EC6DA7E-2503-40F8-AB5A-25A2424B6346@canonical.com>
+Date:   Thu, 11 Apr 2019 15:55:38 +0800
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>
+Content-Transfer-Encoding: 8bit
+Message-Id: <80534332-7E39-42B9-8B64-580B483B83A5@canonical.com>
+References: <20190124061643.11663-1-kai.heng.feng@canonical.com>
+ <20190130082133.GA32660@kroah.com>
+ <D84EEC8F-8B65-4B0C-9EA7-E01A0BB47398@canonical.com>
+ <9EC6DA7E-2503-40F8-AB5A-25A2424B6346@canonical.com>
+To:     Alan Stern <stern@rowland.harvard.edu>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+X-Mailer: Apple Mail (2.3445.104.8)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190411073953.FFWbNHWTlc5rxO-5BpfRt99tR4x5RFhTepu2JbBuI_M@z>
+Message-ID: <20190411075538.aCvQrXv-P_VtayCNzJdHu03RsYbi_Pg2KWid-xCyZlw@z>
 
-Hi Ajay,
+at 18:22, Kai-Heng Feng <kai.heng.feng@canonical.com> wrote:
 
-On Thu, Apr 11, 2019 at 12:31:45AM +0800, kbuild test robot wrote:
-> Hi Heikki,
-> 
-> I love your patch! Perhaps something to improve:
-> 
-> [auto build test WARNING on usb/usb-testing]
-> [also build test WARNING on v5.1-rc4 next-20190410]
-> [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Heikki-Krogerus/usb-typec-ucsi-Remaining-changes-for-v5-2/20190410-221455
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-> reproduce:
->         # apt-get install sparse
->         make ARCH=x86_64 allmodconfig
->         make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
-> 
-> 
-> sparse warnings: (new ones prefixed by >>)
-> 
->    drivers/usb/typec/ucsi/ucsi_ccg.c:212:24: sparse: expression using sizeof(void)
->    drivers/usb/typec/ucsi/ucsi_ccg.c:212:24: sparse: expression using sizeof(void)
-> >> drivers/usb/typec/ucsi/ucsi_ccg.c:690:16: sparse: restricted __le16 degrades to integer
->    drivers/usb/typec/ucsi/ucsi_ccg.c:698:24: sparse: restricted __le16 degrades to integer
->    drivers/usb/typec/ucsi/ucsi_ccg.c:735:26: sparse: restricted __le16 degrades to integer
->    drivers/usb/typec/ucsi/ucsi_ccg.c:737:33: sparse: restricted __le16 degrades to integer
->    drivers/usb/typec/ucsi/ucsi_ccg.c:777:37: sparse: restricted __le16 degrades to integer
-> 
-> vim +690 drivers/usb/typec/ucsi/ucsi_ccg.c
-> 
->    680	
->    681	static bool ccg_check_vendor_version(struct ucsi_ccg *uc,
->    682					     struct version_format *app,
->    683					     struct fw_config_table *fw_cfg)
->    684	{
->    685		struct device *dev = uc->dev;
->    686	
->    687		/* Check if the fw build is for supported vendors.
->    688		 * Add all supported vendors here.
->    689		 */
->  > 690		if (app->build != (('n' << 8) | 'v')) {
+> at 00:01, Kai-Heng Feng <kai.heng.feng@canonical.com> wrote:
+>
+>>> On Jan 30, 2019, at 16:21, Greg KH <gregkh@linuxfoundation.org> wrote:
+>>>
+>>> On Thu, Jan 24, 2019 at 02:16:43PM +0800, Kai-Heng Feng wrote:
+>>>> The QCA Rome USB Bluetooth controller has several issues once LPM gets
+>>>> enabled:
+>>>> - Fails to get enumerated in coldboot. [1]
+>>>> - Drains more power (~ 0.2W) when the system is in S5. [2]
+>>>> - Disappears after a warmboot. [2]
+>>>>
+>>>> The issue happens because the device lingers at LPM L1 in S5, so device
+>>>> can't get enumerated even after a reboot.
+>>>>
+>>>> Disable LPM at shutdown to solve the issue.
+>>>>
+>>>> [1] https://bugs.launchpad.net/bugs/1757218
+>>>> [2] https://patchwork.kernel.org/patch/10607097/
+>>>>
+>>>> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+>>>> ---
+>>>> v2: Use new LPM helpers.
+>>>>
+>>>> drivers/usb/core/port.c | 9 +++++++++
+>>>> 1 file changed, 9 insertions(+)
+>>>>
+>>>> diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
+>>>> index 1a06a4b5fbb1..bbbb35fa639f 100644
+>>>> --- a/drivers/usb/core/port.c
+>>>> +++ b/drivers/usb/core/port.c
+>>>> @@ -285,6 +285,14 @@ static int usb_port_runtime_suspend(struct device  
+>>>> *dev)
+>>>> }
+>>>> #endif
+>>>>
+>>>> +static void usb_port_shutdown(struct device *dev)
+>>>> +{
+>>>> +	struct usb_port *port_dev = to_usb_port(dev);
+>>>> +
+>>>> +	if (port_dev->child)
+>>>> +		usb_disable_usb2_hardware_lpm(port_dev->child);
+>>>> +}
+>>>> +
+>>>> static const struct dev_pm_ops usb_port_pm_ops = {
+>>>> #ifdef CONFIG_PM
+>>>> 	.runtime_suspend =	usb_port_runtime_suspend,
+>>>> @@ -301,6 +309,7 @@ struct device_type usb_port_device_type = {
+>>>> static struct device_driver usb_port_driver = {
+>>>> 	.name = "usb",
+>>>> 	.owner = THIS_MODULE,
+>>>> +	.shutdown = usb_port_shutdown,
+>>>> };
+>>>
+>>> So you now do this for all ports in the system, no matter what is
+>>> plugged in or not.  Are you _SURE_ you want to do that?  It seems like a
+>>> big hammer to solve just one single device's problems.
+>>
+>> Yes I think this should be universally applied.
+>>
+>> I don’t think the bug only happens to one device. Users won’t find this
+>> unless they connect their laptop to a power meter.
+>>
+>> Platform may not completely cut off USB bus power during shutdown,
+>> so the device transits to L1 after system shutdown. Now xHC is disabled
+>> so nothing can bring it back to L0 or L2.
+>
+> It would be great if someone can come up with better ideas.
+>
+> We can also use other approaches, but currently this is the only way I  
+> can think of.
 
-How about a macro for these?
+Alan and Mathias,
 
-        #define CCG_VERSION_BUILD       (__le16)(...)
+It would be great if you can review this patch, or give me some suggestion.
 
->    691			dev_info(dev, "current fw is not from supported vendor\n");
->    692			return false;
->    693		}
->    694	
->    695		/* Check if the new fw build is for supported vendors
->    696		 * Add all supported vendors here.
->    697		 */
->    698		if (fw_cfg->app.build != (('n' << 8) | 'v')) {
->    699			dev_info(dev, "new fw is not from supported vendor\n");
->    700			return false;
->    701		}
->    702		return true;
->    703	}
->    704	
+Kai-Heng
 
-thanks,
+>
+> Kai-Heng
+>
+>> Kai-Heng
+>>
+>>> thanks,
+>>>
+>>> greg k-h
 
--- 
-heikki
+
