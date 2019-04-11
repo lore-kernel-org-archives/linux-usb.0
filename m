@@ -2,92 +2,128 @@ Return-Path: <SRS0=u5rC=SN=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_PASS,T_DKIMWL_WL_HIGH
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS,UNPARSEABLE_RELAY autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D520C10F14
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 10:35:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60735C10F14
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 11:52:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 40B482084D
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 10:35:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1554978908;
-	bh=BPu15EQCXncytuJ/klWU193XERiuL7U21XWAChE20MI=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:List-ID:From;
-	b=AXmxx5zeZPSQM4aPeUo1fcfvcOPrbHoww8RG/n0O2PRiHCIpV1utXjpdByO+YLU3o
-	 hvgX4S9vf/iDqPCM+9tMVM9ISRu9N7wb/n9drNA31EddKqjFKA9jjCf5yArLygDq2s
-	 wvMRpTNFNV1PkAkgNvctUP6tAC+egf1ftqQ1FJQE=
+	by mail.kernel.org (Postfix) with ESMTP id 3828821852
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 11:52:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726783AbfDKKfG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 Apr 2019 06:35:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45180 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726026AbfDKKfG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 11 Apr 2019 06:35:06 -0400
-Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 40AB82084D;
-        Thu, 11 Apr 2019 10:35:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1554978906;
-        bh=BPu15EQCXncytuJ/klWU193XERiuL7U21XWAChE20MI=;
-        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-        b=t56eLH2gN7y1l9Ra3JxcOYyTnQn9Ab5RtTKrMmOablfO1vRBlJ34HHnLS2zqausMj
-         kvPuVjrF+m3q3fepiT8ZxKWygVeXLA57JRsjI1Lyej+R25CQ1BV0073BLDJ7QQ/4xC
-         VxsBF2ibjallHaXq5nnXErjFgOzfs0mLXiv+/I3g=
-Date:   Thu, 11 Apr 2019 12:35:02 +0200 (CEST)
-From:   Jiri Kosina <jikos@kernel.org>
-To:     Benjamin Tissoires <benjamin.tissoires@gmail.com>
-cc:     Andrej Shadura <andrew.shadura@collabora.co.uk>,
-        linux-input <linux-input@vger.kernel.org>,
+        id S1726735AbfDKLww (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 Apr 2019 07:52:52 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:58492 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726215AbfDKLwv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 Apr 2019 07:52:51 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrewsh)
+        with ESMTPSA id 62FB9281A86
+Subject: Re: [PATCH v3] HID: add driver for U2F Zero built-in LED and RNG
+To:     Jiri Kosina <jikos@kernel.org>,
+        Benjamin Tissoires <benjamin.tissoires@gmail.com>
+Cc:     linux-input <linux-input@vger.kernel.org>,
         linux-usb@vger.kernel.org,
         Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        kernel@collabora.com, Theodore Ts'o <tytso@mit.edu>,
-        Vasily Khoruzhick <anarsoul@gmail.com>,
-        Nick Kossifidis <mickflemm@gmail.com>,
-        linux-crypto@vger.kernel.org
-Subject: Re: [PATCH v3] HID: add driver for U2F Zero built-in LED and RNG
-In-Reply-To: <CAN+gG=H6TGtB68-XJ+Pg53EhL_M2m8MG1z33Yenvd9PhXJ=Oqw@mail.gmail.com>
-Message-ID: <nycvar.YFH.7.76.1904111234080.9803@cbobk.fhfr.pm>
-References: <20190401124200.17331-1-andrew.shadura@collabora.co.uk> <nycvar.YFH.7.76.1904101400520.9803@cbobk.fhfr.pm> <CAN+gG=H6TGtB68-XJ+Pg53EhL_M2m8MG1z33Yenvd9PhXJ=Oqw@mail.gmail.com>
-User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
+        kernel@collabora.com, linux-crypto@vger.kernel.org
+References: <20190401124200.17331-1-andrew.shadura@collabora.co.uk>
+ <nycvar.YFH.7.76.1904101400520.9803@cbobk.fhfr.pm>
+ <CAN+gG=H6TGtB68-XJ+Pg53EhL_M2m8MG1z33Yenvd9PhXJ=Oqw@mail.gmail.com>
+ <nycvar.YFH.7.76.1904111234080.9803@cbobk.fhfr.pm>
+From:   Andrej Shadura <andrew.shadura@collabora.co.uk>
+Openpgp: preference=signencrypt
+Autocrypt: addr=andrew.shadura@collabora.co.uk; prefer-encrypt=mutual;
+ keydata=
+ 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
+ Ooa/yj03j5gtPgECL7c=
+Organization: Collabora
+Message-ID: <d33b8772-bae6-1d20-8ff0-3397095f6e4b@collabora.co.uk>
+Date:   Thu, 11 Apr 2019 13:52:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
+In-Reply-To: <nycvar.YFH.7.76.1904111234080.9803@cbobk.fhfr.pm>
 Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190411103502.PoT_UkmQPz9uA5IT0u7iOd96BOOn28uAdVAmqpciaa0@z>
+Message-ID: <20190411115245.IB79a-4EgMQilduxUwJceo61XQcgstj7OUxlJW-egYw@z>
 
-On Thu, 11 Apr 2019, Benjamin Tissoires wrote:
-
-> > So I still am not really happy about this being wired up into generic HID
-> > although it's really a USB driver, but we've discussed that already, and I
-> > don't see any option that'd work substantially better in this case,
-> > especially from the UX point of view. Oh well. Applied to for-5.2/u2fzero,
-> > thanks!
-> >
+On 11/04/2019 12:35, Jiri Kosina wrote:
+> On Thu, 11 Apr 2019, Benjamin Tissoires wrote:
 > 
-> Hi wish I were CC-ed on these threads.
-
-Gah, for some reason I was convinced you were.
-
-> My CI script now fails because hid-u2fzero.ko needs devm_hwrng_register 
-> and the Kconfig doesn't force pulling the right dependency.
+>>> So I still am not really happy about this being wired up into generic HID
+>>> although it's really a USB driver, but we've discussed that already, and I
+>>> don't see any option that'd work substantially better in this case,
+>>> especially from the UX point of view. Oh well. Applied to for-5.2/u2fzero,
+>>> thanks!
+>>>
+>>
+>> Hi wish I were CC-ed on these threads.
 > 
-> Also, you probably want to add in .probe() a check for the actual 
-> transport driver (`hid_is_using_ll_driver(hdev, &usb_hid_driver)`) or 
-> you can not use the usbhid functions without crashing the kernel.
+> Gah, for some reason I was convinced you were.
+> 
+>> My CI script now fails because hid-u2fzero.ko needs devm_hwrng_register 
+>> and the Kconfig doesn't force pulling the right dependency.
 
-Benjamin, I love your CI :)
+>> Also, you probably want to add in .probe() a check for the actual 
+>> transport driver (`hid_is_using_ll_driver(hdev, &usb_hid_driver)`) or 
+>> you can not use the usbhid functions without crashing the kernel.
 
-Andrej, could you please send fixups on top of the applied patch?
+Thanks, that’s very useful.
 
-Thanks,
+> Benjamin, I love your CI :)
+> 
+> Andrej, could you please send fixups on top of the applied patch?
+
+Sure, will do.
 
 -- 
-Jiri Kosina
-SUSE Labs
-
+Cheers,
+  Andrej
