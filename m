@@ -1,148 +1,77 @@
-Return-Path: <SRS0=X9rV=SM=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=u5rC=SN=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6214CC10F11
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 20:54:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4491C10F11
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 01:01:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 31A6220830
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Apr 2019 20:54:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BBF0A217D4
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 01:01:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726517AbfDJUy1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 Apr 2019 16:54:27 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:50796 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726093AbfDJUy1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Apr 2019 16:54:27 -0400
-Received: (qmail 10261 invoked by uid 2102); 10 Apr 2019 16:54:26 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 10 Apr 2019 16:54:26 -0400
-Date:   Wed, 10 Apr 2019 16:54:26 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Raul E Rangel <rrangel@chromium.org>
-cc:     linux-usb@vger.kernel.org, <groeck@chromium.org>,
-        <djkurtz@chromium.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Dmitry Torokhov <dtor@chromium.org>,
-        <linux-kernel@vger.kernel.org>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Johan Hovold <johan@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Roger Quadros <rogerq@ti.com>
-Subject: Re: [PATCH] usb/hcd: Send a uevent signaling that the host controller
- has died
-In-Reply-To: <20190410203520.248158-1-rrangel@chromium.org>
-Message-ID: <Pine.LNX.4.44L0.1904101647170.1629-100000@iolanthe.rowland.org>
+        id S1726664AbfDKBBB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 Apr 2019 21:01:01 -0400
+Received: from mail-it1-f198.google.com ([209.85.166.198]:37925 "EHLO
+        mail-it1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726023AbfDKBBB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Apr 2019 21:01:01 -0400
+Received: by mail-it1-f198.google.com with SMTP id 79so3990895itz.3
+        for <linux-usb@vger.kernel.org>; Wed, 10 Apr 2019 18:01:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=tv6qffGYPBYILk02p1FMdoKuMlPTDm5i51uvShtRcdg=;
+        b=RXfWIJ3Ekc4dFuCcqFua5OV5qDoPlXjqHGz72SaN1a5dVXfsRSjTeREUe5a8g/mM06
+         M2T++wsnvnAQQDocu4jxXNkziZ4g9Js5IHvq6QH4GVd8YcuTYv3I6LSTIgIZr4bn4Ttb
+         P5HyiB3TZsdMjbcWQkSb7Ruwmn+TeoqhwZuXro4Z4eHKiYKCJYeqee5lb9F71T1go9m5
+         OPcjDIYc9/ACqLQCok4G51Iw6vNYSNu6ZEOLGOoo5h3wMmDc3sqFM/v71ZlroIu6iIO1
+         vln2qv1GW/bLfOnfiMbj98Hz3htOgR8rQMIbBdub6YR7Vx68FBllOKzriNYqVvrpL8Q/
+         ZtYQ==
+X-Gm-Message-State: APjAAAVczN1ElZqllGFNsXjYGB/3PKabxVLGGjRkB7kbyS13yuoW9dKG
+        4dbZTdn1wI/I3XVNHeOOJGIO7G2ZWax4DU2Qy6L3MpV7l1LA
+X-Google-Smtp-Source: APXvYqxCZLGueWq5+oTUJrVwXdp0ypnCtB9uKcBjYF7CAUuJhz4sOdX1+9dO3GIL47zrKLAQa5u9dFaPzSh25WO+CAWv07XsXDdf
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+X-Received: by 2002:a24:3d8e:: with SMTP id n136mr1715965itn.3.1554944460297;
+ Wed, 10 Apr 2019 18:01:00 -0700 (PDT)
+Date:   Wed, 10 Apr 2019 18:01:00 -0700
+In-Reply-To: <00000000000065a79f057a095de8@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000033a06b058636b877@google.com>
+Subject: Re: WARNING in usb_submit_urb (4)
+From:   syzbot <syzbot+7634edaea4d0b341c625@syzkaller.appspotmail.com>
+To:     Thinh.Nguyen@synopsys.com, andreyknvl@google.com,
+        felipe.balbi@linux.intel.com, gregkh@linuxfoundation.org,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, mmarek@suse.com, shuah@kernel.org,
+        stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com,
+        torvalds@linux-foundation.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190410205426.oAnDJk4-uaXaShoBVsAqIehDpziAji97bNki-jZtTog@z>
 
-On Wed, 10 Apr 2019, Raul E Rangel wrote:
+syzbot has bisected this bug to:
 
-> This change will send a CHANGE event to udev with the DEAD environment
-> variable set when the HC dies. I chose this instead of any of the other
-> udev events because it's representing a state change in the host
-> controller. The only other event that might have fit was OFFLINE, but
-> that seems to be used for hot-removal.
-> 
-> By notifying user space the appropriate policies can be applied.
-> e.g.,
->  * Collect error logs.
->  * Notify the user that USB is no longer functional.
->  * Perform a graceful reboot.
-> 
-> Signed-off-by: Raul E Rangel <rrangel@chromium.org>
+commit c470abd4fde40ea6a0846a2beab642a578c0b8cd
+Author: Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Sun Feb 19 22:34:00 2017 +0000
 
-One or two problems...  See below.
+     Linux 4.10
 
-> ---
-> 
->  drivers/usb/core/hcd.c  | 25 +++++++++++++++++++++++++
->  include/linux/usb/hcd.h |  1 +
->  2 files changed, 26 insertions(+)
-> 
-> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-> index 975d7c1288e3..b38ad9ce068b 100644
-> --- a/drivers/usb/core/hcd.c
-> +++ b/drivers/usb/core/hcd.c
-> @@ -2343,6 +2343,22 @@ int hcd_bus_resume(struct usb_device *rhdev, pm_message_t msg)
->  	return status;
->  }
->  
-> +
-> +/**
-> + * hcd_died_work - Workqueue routine for root-hub has died.
-> + * @hcd: primary host controller for this root hub.
-> + *
-> + * Do not call with the shared_hcd.
-> + * */
-> +static void hcd_died_work(struct work_struct *work)
-> +{
-> +	struct usb_hcd *hcd = container_of(work, struct usb_hcd, died_work);
-> +
-> +	/* Notify user space that the host controller has died */
-> +	kobject_uevent_env(&hcd->self.root_hub->dev.kobj, KOBJ_CHANGE,
-> +			   (char *[]){ "DEAD=1", NULL });
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11b415ed200000
+start commit:   e12e00e3 Merge tag 'kbuild-fixes-v4.20' of git://git.kerne..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8f215f21f041a0d7
+dashboard link: https://syzkaller.appspot.com/bug?extid=7634edaea4d0b341c625
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11ce6fbd400000
 
-How do you know that the root hub hasn't already been deallocated?
+Reported-by: syzbot+7634edaea4d0b341c625@syzkaller.appspotmail.com
+Fixes: c470abd4fde4 ("Linux 4.10")
 
-> +}
-> +
->  /* Workqueue routine for root-hub remote wakeup */
->  static void hcd_resume_work(struct work_struct *work)
->  {
-> @@ -2488,6 +2504,13 @@ void usb_hc_died (struct usb_hcd *hcd)
->  			usb_kick_hub_wq(hcd->self.root_hub);
->  		}
->  	}
-> +
-> +	/* Handle the case where this function gets called with a shared HCD */
-> +	if (usb_hcd_is_primary_hcd(hcd))
-> +		schedule_work(&hcd->died_work);
-> +	else
-> +		schedule_work(&hcd->primary_hcd->died_work);
-> +
->  	spin_unlock_irqrestore (&hcd_root_hub_lock, flags);
->  	/* Make sure that the other roothub is also deallocated. */
->  }
-> @@ -2555,6 +2578,8 @@ struct usb_hcd *__usb_create_hcd(const struct hc_driver *driver,
->  	INIT_WORK(&hcd->wakeup_work, hcd_resume_work);
->  #endif
->  
-> +	INIT_WORK(&hcd->died_work, hcd_died_work);
-> +
->  	hcd->driver = driver;
->  	hcd->speed = driver->flags & HCD_MASK;
->  	hcd->product_desc = (driver->product_desc) ? driver->product_desc :
-
-You forgot to ensure that this work entry won't still be pending when
-the hcd structure is deallocated.
-
-Alan Stern
-
-> diff --git a/include/linux/usb/hcd.h b/include/linux/usb/hcd.h
-> index 695931b03684..ae51d5bd1dfc 100644
-> --- a/include/linux/usb/hcd.h
-> +++ b/include/linux/usb/hcd.h
-> @@ -98,6 +98,7 @@ struct usb_hcd {
->  #ifdef CONFIG_PM
->  	struct work_struct	wakeup_work;	/* for remote wakeup */
->  #endif
-> +	struct work_struct	died_work;	/* for dying */
->  
->  	/*
->  	 * hardware info/state
-> 
-
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
