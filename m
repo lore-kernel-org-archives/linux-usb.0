@@ -2,1017 +2,228 @@ Return-Path: <SRS0=u5rC=SN=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6C90C10F14
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 20:03:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84629C10F13
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 20:06:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 783B620850
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 20:03:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3B0B820850
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 20:06:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MzbcDKJw"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="qkbIObnU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726738AbfDKUD1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 Apr 2019 16:03:27 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:45150 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726577AbfDKUD1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 Apr 2019 16:03:27 -0400
-Received: by mail-pg1-f195.google.com with SMTP id y3so3999848pgk.12
-        for <linux-usb@vger.kernel.org>; Thu, 11 Apr 2019 13:03:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=NiNwA+H6GPWlCD3BgNEAUH0piRv77/h4PB9nnS0d9jE=;
-        b=MzbcDKJw9yg9HCYR7z3UXkvaYPJiGqPAnfgq/Yh/AW3yKfE1t82bddYKJ9f8KvPLff
-         AwdPMHKZw0JvJiAR16g4+pW/QWgUrHaO6yO/CJFUSi5g7WAY88BIopVWGzRycWvvXyem
-         Pw7peavoJ98twyYlrIaLm8UeE8IR8WsysG2k0YZ1PR5brjDbNPVxJOokDDQcIhUSlLIJ
-         iFZvR53tL+NowQaKBKbnh8mfT/0XMPaPzaoFCgSN9xiWIgnqYw3xz+Fr57j8EB7b52nX
-         vsOeKJE+5WzwFw7XESD5PQcQncMjQpasBuwIXGIloVnFn6pM1ieDumqP5a5zGUflZsGu
-         nEzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=NiNwA+H6GPWlCD3BgNEAUH0piRv77/h4PB9nnS0d9jE=;
-        b=RyeiJl/569DhMEJcB4jPL00H9dkreYfjZlFy/ACLeiuUtow2U99cXBSuFeDLAb07wV
-         VAwMNVUEu75Y4bzHWJQ/vl/3lYY/0W+X4RhUKXbHQUmUA6uE+8sKr0JkIkHPf0+Bmqoe
-         sls9j9Dn+6ks0dl9ghEAgGqoAbBG58twcT0W6X8002nBR9k75IWbHWKOLrC2KB5Lsgm2
-         EDWMPzy9IppIIAM0dbUasf27p+eD/FR2ftXAzr3I/pnGHiSb14IGLKOABtV2MDK5qQJ1
-         gJTOtlbWRu8jnbOWV22jaU3XGvE+RWZAjkjQBwUG8p6rfSNt6NtekHFkEkaOUffi6GTd
-         eBQQ==
-X-Gm-Message-State: APjAAAW/csvafTw/hDoXYyb5dDTbg2BFjdNp+/0PhN7XOmiDKIfkjat7
-        iOLX4fpi2NiR0rZABhxzVV8=
-X-Google-Smtp-Source: APXvYqz6RCehgcFZQGqoUac614eiLx36NUAFarVaTPqcLUADC2RPazds3hC11uiJekdloPMJ58JKRQ==
-X-Received: by 2002:a65:65c9:: with SMTP id y9mr15655212pgv.47.1555013006324;
-        Thu, 11 Apr 2019 13:03:26 -0700 (PDT)
-Received: from ajayg.nvidia.com (searspoint.nvidia.com. [216.228.112.21])
-        by smtp.gmail.com with ESMTPSA id n26sm107920326pfi.165.2019.04.11.13.03.25
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 11 Apr 2019 13:03:25 -0700 (PDT)
-From:   Ajay Gupta <ajaykuee@gmail.com>
-X-Google-Original-From: Ajay Gupta <ajayg@nvidia.com>
-To:     heikki.krogerus@linux.intel.com
-Cc:     linux-usb@vger.kernel.org, Ajay Gupta <ajayg@nvidia.com>
-Subject: [PATCH v6 2/2] usb: typec: ucsi: ccg: add firmware flashing support
-Date:   Thu, 11 Apr 2019 13:03:10 -0700
-Message-Id: <20190411200310.9775-3-ajayg@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190411200310.9775-1-ajayg@nvidia.com>
-References: <20190411200310.9775-1-ajayg@nvidia.com>
+        id S1726808AbfDKUGR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 Apr 2019 16:06:17 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:17527 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726797AbfDKUGP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 Apr 2019 16:06:15 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5caf9e330002>; Thu, 11 Apr 2019 13:06:12 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 11 Apr 2019 13:06:14 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 11 Apr 2019 13:06:14 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL104.nvidia.com
+ (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 11 Apr
+ 2019 20:06:14 +0000
+Received: from NAM04-SN1-obe.outbound.protection.outlook.com (104.47.44.52) by
+ HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Thu, 11 Apr 2019 20:06:14 +0000
+Received: from BYAPR12MB2727.namprd12.prod.outlook.com (20.177.125.216) by
+ BYAPR12MB2951.namprd12.prod.outlook.com (20.179.91.224) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1771.19; Thu, 11 Apr 2019 20:06:10 +0000
+Received: from BYAPR12MB2727.namprd12.prod.outlook.com
+ ([fe80::a1bb:f0d6:d9a5:64b6]) by BYAPR12MB2727.namprd12.prod.outlook.com
+ ([fe80::a1bb:f0d6:d9a5:64b6%3]) with mapi id 15.20.1771.019; Thu, 11 Apr 2019
+ 20:06:10 +0000
+From:   Ajay Gupta <ajayg@nvidia.com>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+CC:     kbuild test robot <lkp@intel.com>,
+        "kbuild-all@01.org" <kbuild-all@01.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: RE: [PATCH 2/4] usb: typec: ucsi: ccg: add firmware flashing support
+Thread-Topic: [PATCH 2/4] usb: typec: ucsi: ccg: add firmware flashing support
+Thread-Index: AQHU73WpNJkcXFJeH0yy9femJdhs4KY1ltqAgAD9u4CAAM/mkA==
+Date:   Thu, 11 Apr 2019 20:06:10 +0000
+Message-ID:
+ <BYAPR12MB2727C6487CD7C279DA0256BEDC2F0@BYAPR12MB2727.namprd12.prod.outlook.com>
+References: <20190410081545.78464-3-heikki.krogerus@linux.intel.com>
+ <201904110046.Bx46coK1%lkp@intel.com>
+ <20190411073953.GI20058@kuha.fi.intel.com>
+In-Reply-To: <20190411073953.GI20058@kuha.fi.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Enabled=True;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SiteId=43083d15-7273-40c1-b7db-39efd9ccc17a;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Owner=ajayg@nvidia.com;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SetDate=2019-04-11T20:06:09.3871839Z;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Name=Unrestricted;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Application=Microsoft Azure
+ Information Protection;
+ MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Extended_MSFT_Method=Automatic;
+ Sensitivity=Unrestricted
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=ajayg@nvidia.com; 
+x-originating-ip: [216.228.112.22]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 08661729-8927-4017-6928-08d6beb92448
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600139)(711020)(4605104)(2017052603328)(7193020);SRVR:BYAPR12MB2951;
+x-ms-traffictypediagnostic: BYAPR12MB2951:
+x-ms-exchange-purlcount: 3
+x-microsoft-antispam-prvs: <BYAPR12MB2951FA47BEA3096643667FF8DC2F0@BYAPR12MB2951.namprd12.prod.outlook.com>
+x-forefront-prvs: 00046D390F
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(366004)(136003)(346002)(39860400002)(376002)(396003)(13464003)(189003)(199004)(55016002)(6436002)(76176011)(3846002)(81156014)(105586002)(106356001)(8676002)(81166006)(9686003)(71190400001)(229853002)(6306002)(68736007)(53546011)(71200400001)(6116002)(14454004)(33656002)(478600001)(25786009)(86362001)(966005)(6506007)(102836004)(446003)(11346002)(52536014)(2906002)(97736004)(7696005)(186003)(6246003)(4326008)(26005)(74316002)(8936002)(6916009)(476003)(256004)(14444005)(53936002)(99286004)(7736002)(66066001)(316002)(54906003)(305945005)(5660300002)(486006)(6606295002);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR12MB2951;H:BYAPR12MB2727.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: nvidia.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: iCYLj8O2o1kYIghU6zMeR8sju0BBWe2fRepNagKrWLhheTjl4J3eoyxpTvSPZAti42PZoj7UjCDrA1/TZv1NTwiIpRMzFrRJQF9SxT2O8Ml3WYQR5sXIhrPoXUoJx5HtQjX9D7QEvVbDZjRMGZSDKQ+Od9oYy1lI7gAp29rjVJAlYFjzx+I/qAfjvtwuo4AJW+71NEWSxg+nXiUbwfjrYQ/Oii9jsLLbfAcFmew8w+pPYMTE6kE+rYVx95UGXykA6ql30mrR6jCtvt+4LF+Sy9cIIg8z2jfclyfzPIDNo/Ix/jM+cE49zEj98b2xtxYtHdmFXhg1nHZ2ZHW9O4zAWLY+HbYKlMSlwMszTZV5XR3m6y3OlhGryXg8dDMeYJ7LMyBVBowcq669OPGMBIdwnEe7zE5Tzj3CNWHkWFPgXps=
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 08661729-8927-4017-6928-08d6beb92448
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Apr 2019 20:06:10.4885
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB2951
+X-OriginatorOrg: Nvidia.com
+Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1555013172; bh=w4ACW0LA3HqA5AEVY1PXBdifIbFeEEw4v7P0EKzxjXE=;
+        h=X-PGP-Universal:From:To:CC:Subject:Thread-Topic:Thread-Index:Date:
+         Message-ID:References:In-Reply-To:Accept-Language:X-MS-Has-Attach:
+         X-MS-TNEF-Correlator:msip_labels:authentication-results:
+         x-originating-ip:x-ms-publictraffictype:
+         x-ms-office365-filtering-correlation-id:x-microsoft-antispam:
+         x-ms-traffictypediagnostic:x-ms-exchange-purlcount:
+         x-microsoft-antispam-prvs:x-forefront-prvs:
+         x-forefront-antispam-report:received-spf:
+         x-ms-exchange-senderadcheck:x-microsoft-antispam-message-info:
+         MIME-Version:X-MS-Exchange-CrossTenant-Network-Message-Id:
+         X-MS-Exchange-CrossTenant-originalarrivaltime:
+         X-MS-Exchange-CrossTenant-fromentityheader:
+         X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
+         X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg:
+         Content-Language:Content-Type:Content-Transfer-Encoding;
+        b=qkbIObnUFcAT1gg62FRILRFwqMJq3SvZZIHQV2H5FCrBLHMMVWOXLs/4QgAaJzvLD
+         36q0HdEVQavF8zGuyTC398UYcOXyWqfptIhspBJb4v0LCFWZtarFoY8oYtpfwlTXkG
+         tV56+oix9/tL1PfDhHClWO4CveqUTVMhWpZkL+jHY+seNrS73Lp4/LYWmUupMyQ4Kg
+         xr5+go/Ykp55BQLT0CZ1IFpg27KV/YS1Bj9zKboU/wZUUcf4WZOoVJEPPNkvSVMaR3
+         ogXdWw5/8TEg71Ro7sMtcGcnHw7PK9j1oK5nO7QbUdhSw9fHnMWQTziGzHbPYIWA8c
+         VCPlRrHUsem7g==
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190411200310.WAYvSElBncLe9cVyHcZ50ot4O2h9xn-6XkqN4Q33ea8@z>
+Message-ID: <20190411200610.WUQl7mBJRj32X1XOoG9y0NQ4tdvHZgJLIpJTgrkCa2M@z>
 
-CCGx has two copies of the firmware in addition to the bootloader.
-If the device is running FW1, FW2 can be updated with the new version.
-Dual firmware mode allows the CCG device to stay in a PD contract and
-support USB PD and Type-C functionality while a firmware update is in
-progress.
+Hi Heikki,
 
-First we read the currently flashed firmware version of both
-primary and secondary firmware and then compare it with
-version of firmware file to determine if flashing is required.
+> -----Original Message-----
+> From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Sent: Thursday, April 11, 2019 12:40 AM
+> To: Ajay Gupta <ajayg@nvidia.com>
+> Cc: kbuild test robot <lkp@intel.com>; kbuild-all@01.org; Greg Kroah-Hart=
+man
+> <gregkh@linuxfoundation.org>; linux-usb@vger.kernel.org
+> Subject: Re: [PATCH 2/4] usb: typec: ucsi: ccg: add firmware flashing sup=
+port
+>=20
+> Hi Ajay,
+>=20
+> On Thu, Apr 11, 2019 at 12:31:45AM +0800, kbuild test robot wrote:
+> > Hi Heikki,
+> >
+> > I love your patch! Perhaps something to improve:
+> >
+> > [auto build test WARNING on usb/usb-testing] [also build test WARNING
+> > on v5.1-rc4 next-20190410] [if your patch is applied to the wrong git
+> > tree, please drop us a note to help improve the system]
+> >
+> > url:    https://github.com/0day-ci/linux/commits/Heikki-Krogerus/usb-ty=
+pec-
+> ucsi-Remaining-changes-for-v5-2/20190410-221455
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git =
+usb-
+> testing
+> > reproduce:
+> >         # apt-get install sparse
+> >         make ARCH=3Dx86_64 allmodconfig
+> >         make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+> >
+> >
+> > sparse warnings: (new ones prefixed by >>)
+> >
+> >    drivers/usb/typec/ucsi/ucsi_ccg.c:212:24: sparse: expression using
+> sizeof(void)
+> >    drivers/usb/typec/ucsi/ucsi_ccg.c:212:24: sparse: expression using
+> > sizeof(void)
+> > >> drivers/usb/typec/ucsi/ucsi_ccg.c:690:16: sparse: restricted __le16
+> > >> degrades to integer
+> >    drivers/usb/typec/ucsi/ucsi_ccg.c:698:24: sparse: restricted __le16 =
+degrades
+> to integer
+> >    drivers/usb/typec/ucsi/ucsi_ccg.c:735:26: sparse: restricted __le16 =
+degrades
+> to integer
+> >    drivers/usb/typec/ucsi/ucsi_ccg.c:737:33: sparse: restricted __le16 =
+degrades
+> to integer
+> >    drivers/usb/typec/ucsi/ucsi_ccg.c:777:37: sparse: restricted __le16
+> > degrades to integer
+> >
+> > vim +690 drivers/usb/typec/ucsi/ucsi_ccg.c
+> >
+> >    680
+> >    681	static bool ccg_check_vendor_version(struct ucsi_ccg *uc,
+> >    682					     struct version_format *app,
+> >    683					     struct fw_config_table *fw_cfg)
+> >    684	{
+> >    685		struct device *dev =3D uc->dev;
+> >    686
+> >    687		/* Check if the fw build is for supported vendors.
+> >    688		 * Add all supported vendors here.
+> >    689		 */
+> >  > 690		if (app->build !=3D (('n' << 8) | 'v')) {
+>=20
+> How about a macro for these?
+>=20
+>         #define CCG_VERSION_BUILD       (__le16)(...)
+Sure, I have fixed them and posted version-6 of patches at
+https://marc.info/?l=3Dlinux-usb&m=3D155501300619846&w=3D2=20
 
-Command framework is added to support sending commands to CCGx
-controller. We wait for response after sending the command and then
-read the response from RAB_RESPONSE register.
+Please help review.
 
-Below commands are supported,
-	- ENTER_FLASHING
-	- RESET
-	- PDPORT_ENABLE
-	- JUMP_TO_BOOT
-	- FLASH_ROW_RW
-	- VALIDATE_FW
-
-Command specific mutex lock is also added to sync between driver
-and user threads.
-
-PD port number information is added which is required while sending
-PD_PORT_ENABLE command
-
-Signed-off-by: Ajay Gupta <ajayg@nvidia.com>
----
-Changes from v5 to v6
-	- Fixed below sparse warnings
-	"restricted __le16 degrades to integer"
-
- drivers/usb/typec/ucsi/ucsi_ccg.c | 831 +++++++++++++++++++++++++++++-
- 1 file changed, 818 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-index 3884fb41c72e..a899d4c29125 100644
---- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-+++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-@@ -9,6 +9,7 @@
-  */
- #include <linux/acpi.h>
- #include <linux/delay.h>
-+#include <linux/firmware.h>
- #include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/pci.h>
-@@ -24,6 +25,73 @@ enum enum_fw_mode {
- 	FW_INVALID,
- };
- 
-+#define CCGX_RAB_DEVICE_MODE			0x0000
-+#define CCGX_RAB_INTR_REG			0x0006
-+#define  DEV_INT				BIT(0)
-+#define  PORT0_INT				BIT(1)
-+#define  PORT1_INT				BIT(2)
-+#define  UCSI_READ_INT				BIT(7)
-+#define CCGX_RAB_JUMP_TO_BOOT			0x0007
-+#define  TO_BOOT				'J'
-+#define  TO_ALT_FW				'A'
-+#define CCGX_RAB_RESET_REQ			0x0008
-+#define  RESET_SIG				'R'
-+#define  CMD_RESET_I2C				0x0
-+#define  CMD_RESET_DEV				0x1
-+#define CCGX_RAB_ENTER_FLASHING			0x000A
-+#define  FLASH_ENTER_SIG			'P'
-+#define CCGX_RAB_VALIDATE_FW			0x000B
-+#define CCGX_RAB_FLASH_ROW_RW			0x000C
-+#define  FLASH_SIG				'F'
-+#define  FLASH_RD_CMD				0x0
-+#define  FLASH_WR_CMD				0x1
-+#define  FLASH_FWCT1_WR_CMD			0x2
-+#define  FLASH_FWCT2_WR_CMD			0x3
-+#define  FLASH_FWCT_SIG_WR_CMD			0x4
-+#define CCGX_RAB_READ_ALL_VER			0x0010
-+#define CCGX_RAB_READ_FW2_VER			0x0020
-+#define CCGX_RAB_UCSI_CONTROL			0x0039
-+#define CCGX_RAB_UCSI_CONTROL_START		BIT(0)
-+#define CCGX_RAB_UCSI_CONTROL_STOP		BIT(1)
-+#define CCGX_RAB_UCSI_DATA_BLOCK(offset)	(0xf000 | ((offset) & 0xff))
-+#define REG_FLASH_RW_MEM        0x0200
-+#define DEV_REG_IDX				CCGX_RAB_DEVICE_MODE
-+#define CCGX_RAB_PDPORT_ENABLE			0x002C
-+#define  PDPORT_1		BIT(0)
-+#define  PDPORT_2		BIT(1)
-+#define CCGX_RAB_RESPONSE			0x007E
-+#define  ASYNC_EVENT				BIT(7)
-+
-+/* CCGx events & async msg codes */
-+#define RESET_COMPLETE		0x80
-+#define EVENT_INDEX		RESET_COMPLETE
-+#define PORT_CONNECT_DET	0x84
-+#define PORT_DISCONNECT_DET	0x85
-+#define ROLE_SWAP_COMPELETE	0x87
-+
-+/* ccg firmware */
-+#define CYACD_LINE_SIZE         527
-+#define CCG4_ROW_SIZE           256
-+#define FW1_METADATA_ROW        0x1FF
-+#define FW2_METADATA_ROW        0x1FE
-+#define FW_CFG_TABLE_SIG_SIZE	256
-+
-+static int secondary_fw_min_ver = 41;
-+
-+enum enum_flash_mode {
-+	SECONDARY_BL,	/* update secondary using bootloader */
-+	PRIMARY,	/* update primary using secondary */
-+	SECONDARY,	/* update secondary using primary */
-+	FLASH_NOT_NEEDED,	/* update not required */
-+	FLASH_INVALID,
-+};
-+
-+static const char * const ccg_fw_names[] = {
-+	"ccg_boot.cyacd",
-+	"ccg_primary.cyacd",
-+	"ccg_secondary.cyacd"
-+};
-+
- struct ccg_dev_info {
- #define CCG_DEVINFO_FWMODE_SHIFT (0)
- #define CCG_DEVINFO_FWMODE_MASK (0x3 << CCG_DEVINFO_FWMODE_SHIFT)
-@@ -50,6 +118,50 @@ struct version_info {
- 	struct version_format app;
- };
- 
-+struct fw_config_table {
-+	u32 identity;
-+	u16 table_size;
-+	u8 fwct_version;
-+	u8 is_key_change;
-+	u8 guid[16];
-+	struct version_format base;
-+	struct version_format app;
-+	u8 primary_fw_digest[32];
-+	u32 key_exp_length;
-+	u8 key_modulus[256];
-+	u8 key_exp[4];
-+};
-+
-+/* CCGx response codes */
-+enum ccg_resp_code {
-+	CMD_NO_RESP             = 0x00,
-+	CMD_SUCCESS             = 0x02,
-+	FLASH_DATA_AVAILABLE    = 0x03,
-+	CMD_INVALID             = 0x05,
-+	FLASH_UPDATE_FAIL       = 0x07,
-+	INVALID_FW              = 0x08,
-+	INVALID_ARG             = 0x09,
-+	CMD_NOT_SUPPORT         = 0x0A,
-+	TRANSACTION_FAIL        = 0x0C,
-+	PD_CMD_FAIL             = 0x0D,
-+	UNDEF_ERROR             = 0x0F,
-+	INVALID_RESP		= 0x10,
-+};
-+
-+#define CCG_EVENT_MAX	(EVENT_INDEX + 43)
-+
-+struct ccg_cmd {
-+	u16 reg;
-+	u32 data;
-+	int len;
-+	u32 delay; /* ms delay for cmd timeout  */
-+};
-+
-+struct ccg_resp {
-+	u8 code;
-+	u8 length;
-+};
-+
- struct ucsi_ccg {
- 	struct device *dev;
- 	struct ucsi *ucsi;
-@@ -58,17 +170,18 @@ struct ucsi_ccg {
- 	struct ccg_dev_info info;
- 	/* version info for boot, primary and secondary */
- 	struct version_info version[FW2 + 1];
-+	/* CCG HPI communication flags */
-+	unsigned long flags;
-+#define RESET_PENDING	0
-+#define DEV_CMD_PENDING	1
-+	struct ccg_resp dev_resp;
-+	u8 cmd_resp;
-+	int port_num;
-+	int irq;
-+	struct work_struct work;
-+	struct mutex lock; /* to sync between user and driver thread */
- };
- 
--#define CCGX_RAB_DEVICE_MODE			0x0000
--#define CCGX_RAB_INTR_REG			0x0006
--#define CCGX_RAB_READ_ALL_VER			0x0010
--#define CCGX_RAB_READ_FW2_VER			0x0020
--#define CCGX_RAB_UCSI_CONTROL			0x0039
--#define CCGX_RAB_UCSI_CONTROL_START		BIT(0)
--#define CCGX_RAB_UCSI_CONTROL_STOP		BIT(1)
--#define CCGX_RAB_UCSI_DATA_BLOCK(offset)	(0xf000 | ((offset) & 0xff))
--
- static int ccg_read(struct ucsi_ccg *uc, u16 rab, u8 *data, u32 len)
- {
- 	struct i2c_client *client = uc->client;
-@@ -276,6 +389,682 @@ static int get_fw_info(struct ucsi_ccg *uc)
- 	return 0;
- }
- 
-+static inline bool invalid_async_evt(int code)
-+{
-+	return (code >= CCG_EVENT_MAX) || (code < EVENT_INDEX);
-+}
-+
-+static void ccg_process_response(struct ucsi_ccg *uc)
-+{
-+	struct device *dev = uc->dev;
-+
-+	if (uc->dev_resp.code & ASYNC_EVENT) {
-+		if (uc->dev_resp.code == RESET_COMPLETE) {
-+			if (test_bit(RESET_PENDING, &uc->flags))
-+				uc->cmd_resp = uc->dev_resp.code;
-+			get_fw_info(uc);
-+		}
-+		if (invalid_async_evt(uc->dev_resp.code))
-+			dev_err(dev, "invalid async evt %d\n",
-+				uc->dev_resp.code);
-+	} else {
-+		if (test_bit(DEV_CMD_PENDING, &uc->flags)) {
-+			uc->cmd_resp = uc->dev_resp.code;
-+			clear_bit(DEV_CMD_PENDING, &uc->flags);
-+		} else {
-+			dev_err(dev, "dev resp 0x%04x but no cmd pending\n",
-+				uc->dev_resp.code);
-+		}
-+	}
-+}
-+
-+static int ccg_read_response(struct ucsi_ccg *uc)
-+{
-+	unsigned long target = jiffies + msecs_to_jiffies(1000);
-+	struct device *dev = uc->dev;
-+	u8 intval;
-+	int status;
-+
-+	/* wait for interrupt status to get updated */
-+	do {
-+		status = ccg_read(uc, CCGX_RAB_INTR_REG, &intval,
-+				  sizeof(intval));
-+		if (status < 0)
-+			return status;
-+
-+		if (intval & DEV_INT)
-+			break;
-+		usleep_range(500, 600);
-+	} while (time_is_after_jiffies(target));
-+
-+	if (time_is_before_jiffies(target)) {
-+		dev_err(dev, "response timeout error\n");
-+		return -ETIME;
-+	}
-+
-+	status = ccg_read(uc, CCGX_RAB_RESPONSE, (u8 *)&uc->dev_resp,
-+			  sizeof(uc->dev_resp));
-+	if (status < 0)
-+		return status;
-+
-+	status = ccg_write(uc, CCGX_RAB_INTR_REG, &intval, sizeof(intval));
-+	if (status < 0)
-+		return status;
-+
-+	return 0;
-+}
-+
-+/* Caller must hold uc->lock */
-+static int ccg_send_command(struct ucsi_ccg *uc, struct ccg_cmd *cmd)
-+{
-+	struct device *dev = uc->dev;
-+	int ret;
-+
-+	switch (cmd->reg & 0xF000) {
-+	case DEV_REG_IDX:
-+		set_bit(DEV_CMD_PENDING, &uc->flags);
-+		break;
-+	default:
-+		dev_err(dev, "invalid cmd register\n");
-+		break;
-+	}
-+
-+	ret = ccg_write(uc, cmd->reg, (u8 *)&cmd->data, cmd->len);
-+	if (ret < 0)
-+		return ret;
-+
-+	msleep(cmd->delay);
-+
-+	ret = ccg_read_response(uc);
-+	if (ret < 0) {
-+		dev_err(dev, "response read error\n");
-+		switch (cmd->reg & 0xF000) {
-+		case DEV_REG_IDX:
-+			clear_bit(DEV_CMD_PENDING, &uc->flags);
-+			break;
-+		default:
-+			dev_err(dev, "invalid cmd register\n");
-+			break;
-+		}
-+		return -EIO;
-+	}
-+	ccg_process_response(uc);
-+
-+	return uc->cmd_resp;
-+}
-+
-+static int ccg_cmd_enter_flashing(struct ucsi_ccg *uc)
-+{
-+	struct ccg_cmd cmd;
-+	int ret;
-+
-+	cmd.reg = CCGX_RAB_ENTER_FLASHING;
-+	cmd.data = FLASH_ENTER_SIG;
-+	cmd.len = 1;
-+	cmd.delay = 50;
-+
-+	mutex_lock(&uc->lock);
-+
-+	ret = ccg_send_command(uc, &cmd);
-+
-+	mutex_unlock(&uc->lock);
-+
-+	if (ret != CMD_SUCCESS) {
-+		dev_err(uc->dev, "enter flashing failed ret=%d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int ccg_cmd_reset(struct ucsi_ccg *uc)
-+{
-+	struct ccg_cmd cmd;
-+	u8 *p;
-+	int ret;
-+
-+	p = (u8 *)&cmd.data;
-+	cmd.reg = CCGX_RAB_RESET_REQ;
-+	p[0] = RESET_SIG;
-+	p[1] = CMD_RESET_DEV;
-+	cmd.len = 2;
-+	cmd.delay = 5000;
-+
-+	mutex_lock(&uc->lock);
-+
-+	set_bit(RESET_PENDING, &uc->flags);
-+
-+	ret = ccg_send_command(uc, &cmd);
-+	if (ret != RESET_COMPLETE)
-+		goto err_clear_flag;
-+
-+	ret = 0;
-+
-+err_clear_flag:
-+	clear_bit(RESET_PENDING, &uc->flags);
-+
-+	mutex_unlock(&uc->lock);
-+
-+	return ret;
-+}
-+
-+static int ccg_cmd_port_control(struct ucsi_ccg *uc, bool enable)
-+{
-+	struct ccg_cmd cmd;
-+	int ret;
-+
-+	cmd.reg = CCGX_RAB_PDPORT_ENABLE;
-+	if (enable)
-+		cmd.data = (uc->port_num == 1) ?
-+			    PDPORT_1 : (PDPORT_1 | PDPORT_2);
-+	else
-+		cmd.data = 0x0;
-+	cmd.len = 1;
-+	cmd.delay = 10;
-+
-+	mutex_lock(&uc->lock);
-+
-+	ret = ccg_send_command(uc, &cmd);
-+
-+	mutex_unlock(&uc->lock);
-+
-+	if (ret != CMD_SUCCESS) {
-+		dev_err(uc->dev, "port control failed ret=%d\n", ret);
-+		return ret;
-+	}
-+	return 0;
-+}
-+
-+static int ccg_cmd_jump_boot_mode(struct ucsi_ccg *uc, int bl_mode)
-+{
-+	struct ccg_cmd cmd;
-+	int ret;
-+
-+	cmd.reg = CCGX_RAB_JUMP_TO_BOOT;
-+
-+	if (bl_mode)
-+		cmd.data = TO_BOOT;
-+	else
-+		cmd.data = TO_ALT_FW;
-+
-+	cmd.len = 1;
-+	cmd.delay = 100;
-+
-+	mutex_lock(&uc->lock);
-+
-+	set_bit(RESET_PENDING, &uc->flags);
-+
-+	ret = ccg_send_command(uc, &cmd);
-+	if (ret != RESET_COMPLETE)
-+		goto err_clear_flag;
-+
-+	ret = 0;
-+
-+err_clear_flag:
-+	clear_bit(RESET_PENDING, &uc->flags);
-+
-+	mutex_unlock(&uc->lock);
-+
-+	return ret;
-+}
-+
-+static int
-+ccg_cmd_write_flash_row(struct ucsi_ccg *uc, u16 row,
-+			const void *data, u8 fcmd)
-+{
-+	struct i2c_client *client = uc->client;
-+	struct ccg_cmd cmd;
-+	u8 buf[CCG4_ROW_SIZE + 2];
-+	u8 *p;
-+	int ret;
-+
-+	/* Copy the data into the flash read/write memory. */
-+	put_unaligned_le16(REG_FLASH_RW_MEM, buf);
-+
-+	memcpy(buf + 2, data, CCG4_ROW_SIZE);
-+
-+	mutex_lock(&uc->lock);
-+
-+	ret = i2c_master_send(client, buf, CCG4_ROW_SIZE + 2);
-+	if (ret != CCG4_ROW_SIZE + 2) {
-+		dev_err(uc->dev, "REG_FLASH_RW_MEM write fail %d\n", ret);
-+		return ret < 0 ? ret : -EIO;
-+	}
-+
-+	/* Use the FLASH_ROW_READ_WRITE register to trigger */
-+	/* writing of data to the desired flash row */
-+	p = (u8 *)&cmd.data;
-+	cmd.reg = CCGX_RAB_FLASH_ROW_RW;
-+	p[0] = FLASH_SIG;
-+	p[1] = fcmd;
-+	put_unaligned_le16(row, &p[2]);
-+	cmd.len = 4;
-+	cmd.delay = 50;
-+	if (fcmd == FLASH_FWCT_SIG_WR_CMD)
-+		cmd.delay += 400;
-+	if (row == 510)
-+		cmd.delay += 220;
-+	ret = ccg_send_command(uc, &cmd);
-+
-+	mutex_unlock(&uc->lock);
-+
-+	if (ret != CMD_SUCCESS) {
-+		dev_err(uc->dev, "write flash row failed ret=%d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int ccg_cmd_validate_fw(struct ucsi_ccg *uc, unsigned int fwid)
-+{
-+	struct ccg_cmd cmd;
-+	int ret;
-+
-+	cmd.reg = CCGX_RAB_VALIDATE_FW;
-+	cmd.data = fwid;
-+	cmd.len = 1;
-+	cmd.delay = 500;
-+
-+	mutex_lock(&uc->lock);
-+
-+	ret = ccg_send_command(uc, &cmd);
-+
-+	mutex_unlock(&uc->lock);
-+
-+	if (ret != CMD_SUCCESS)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+#define CCG_FW_VERSION_NVIDIA(b)	(le16_to_cpu(b) != (('n' << 8) | 'v'))
-+static bool ccg_check_vendor_version(struct ucsi_ccg *uc,
-+				     struct version_format *app,
-+				     struct fw_config_table *fw_cfg)
-+{
-+	struct device *dev = uc->dev;
-+
-+	/* Check if the fw build is for supported vendors.
-+	 * Add all supported vendors here.
-+	 */
-+	if (CCG_FW_VERSION_NVIDIA(app->build)) {
-+		dev_info(dev, "current fw is not from supported vendor\n");
-+		return false;
-+	}
-+
-+	/* Check if the new fw build is for supported vendors
-+	 * Add all supported vendors here.
-+	 */
-+	if (CCG_FW_VERSION_NVIDIA(fw_cfg->app.build)) {
-+		dev_info(dev, "new fw is not from supported vendor\n");
-+		return false;
-+	}
-+	return true;
-+}
-+
-+static bool ccg_check_fw_version(struct ucsi_ccg *uc, const char *fw_name,
-+				 struct version_format *app)
-+{
-+	const struct firmware *fw = NULL;
-+	struct device *dev = uc->dev;
-+	struct fw_config_table fw_cfg;
-+	u32 cur_version, new_version;
-+	bool is_later = false;
-+
-+	if (request_firmware(&fw, fw_name, dev) != 0) {
-+		dev_err(dev, "error: Failed to open cyacd file %s\n", fw_name);
-+		return false;
-+	}
-+
-+	/*
-+	 * check if signed fw
-+	 * last part of fw image is fw cfg table and signature
-+	 */
-+	if (fw->size < sizeof(fw_cfg) + FW_CFG_TABLE_SIG_SIZE)
-+		goto not_signed_fw;
-+
-+	memcpy((uint8_t *)&fw_cfg, fw->data + fw->size -
-+	       sizeof(fw_cfg) - FW_CFG_TABLE_SIG_SIZE, sizeof(fw_cfg));
-+
-+	if (fw_cfg.identity != ('F' | 'W' << 8 | 'C' << 16 | 'T' << 24)) {
-+		dev_info(dev, "not a signed image\n");
-+		goto not_signed_fw;
-+	}
-+
-+	/* compare input version with FWCT version */
-+	cur_version = le16_to_cpu(app->build) | app->patch << 16 |
-+			app->ver << 24;
-+
-+	new_version = le16_to_cpu(fw_cfg.app.build) | fw_cfg.app.patch << 16 |
-+			fw_cfg.app.ver << 24;
-+
-+	if (!ccg_check_vendor_version(uc, app, &fw_cfg))
-+		goto not_supported_version;
-+
-+	if (new_version > cur_version)
-+		is_later = true;
-+
-+not_supported_version:
-+not_signed_fw:
-+	release_firmware(fw);
-+	return is_later;
-+}
-+
-+static int ccg_fw_update_needed(struct ucsi_ccg *uc,
-+				enum enum_flash_mode *mode)
-+{
-+	struct device *dev = uc->dev;
-+	int err;
-+	struct version_info version[3];
-+
-+	err = ccg_read(uc, CCGX_RAB_DEVICE_MODE, (u8 *)(&uc->info),
-+		       sizeof(uc->info));
-+	if (err) {
-+		dev_err(dev, "read device mode failed\n");
-+		return err;
-+	}
-+
-+	err = ccg_read(uc, CCGX_RAB_READ_ALL_VER, (u8 *)version,
-+		       sizeof(version));
-+	if (err) {
-+		dev_err(dev, "read device mode failed\n");
-+		return err;
-+	}
-+
-+	if (memcmp(&version[FW1], "\0\0\0\0\0\0\0\0",
-+		   sizeof(struct version_info)) == 0) {
-+		dev_info(dev, "secondary fw is not flashed\n");
-+		*mode = SECONDARY_BL;
-+	} else if (le16_to_cpu(version[FW1].base.build) <
-+		secondary_fw_min_ver) {
-+		dev_info(dev, "secondary fw version is too low (< %d)\n",
-+			 secondary_fw_min_ver);
-+		*mode = SECONDARY;
-+	} else if (memcmp(&version[FW2], "\0\0\0\0\0\0\0\0",
-+		   sizeof(struct version_info)) == 0) {
-+		dev_info(dev, "primary fw is not flashed\n");
-+		*mode = PRIMARY;
-+	} else if (ccg_check_fw_version(uc, ccg_fw_names[PRIMARY],
-+		   &version[FW2].app)) {
-+		dev_info(dev, "found primary fw with later version\n");
-+		*mode = PRIMARY;
-+	} else {
-+		dev_info(dev, "secondary and primary fw are the latest\n");
-+		*mode = FLASH_NOT_NEEDED;
-+	}
-+	return 0;
-+}
-+
-+static int do_flash(struct ucsi_ccg *uc, enum enum_flash_mode mode)
-+{
-+	struct device *dev = uc->dev;
-+	const struct firmware *fw = NULL;
-+	const char *p, *s;
-+	const char *eof;
-+	int err, row, len, line_sz, line_cnt = 0;
-+	unsigned long start_time = jiffies;
-+	struct fw_config_table  fw_cfg;
-+	u8 fw_cfg_sig[FW_CFG_TABLE_SIG_SIZE];
-+	u8 *wr_buf;
-+
-+	err = request_firmware(&fw, ccg_fw_names[mode], dev);
-+	if (err) {
-+		dev_err(dev, "request %s failed err=%d\n",
-+			ccg_fw_names[mode], err);
-+		return err;
-+	}
-+
-+	if (((uc->info.mode & CCG_DEVINFO_FWMODE_MASK) >>
-+			CCG_DEVINFO_FWMODE_SHIFT) == FW2) {
-+		err = ccg_cmd_port_control(uc, false);
-+		if (err < 0)
-+			goto release_fw;
-+		err = ccg_cmd_jump_boot_mode(uc, 0);
-+		if (err < 0)
-+			goto release_fw;
-+	}
-+
-+	eof = fw->data + fw->size;
-+
-+	/*
-+	 * check if signed fw
-+	 * last part of fw image is fw cfg table and signature
-+	 */
-+	if (fw->size < sizeof(fw_cfg) + sizeof(fw_cfg_sig))
-+		goto not_signed_fw;
-+
-+	memcpy((uint8_t *)&fw_cfg, fw->data + fw->size -
-+	       sizeof(fw_cfg) - sizeof(fw_cfg_sig), sizeof(fw_cfg));
-+
-+	if (fw_cfg.identity != ('F' | ('W' << 8) | ('C' << 16) | ('T' << 24))) {
-+		dev_info(dev, "not a signed image\n");
-+		goto not_signed_fw;
-+	}
-+	eof = fw->data + fw->size - sizeof(fw_cfg) - sizeof(fw_cfg_sig);
-+
-+	memcpy((uint8_t *)&fw_cfg_sig,
-+	       fw->data + fw->size - sizeof(fw_cfg_sig), sizeof(fw_cfg_sig));
-+
-+	/* flash fw config table and signature first */
-+	err = ccg_cmd_write_flash_row(uc, 0, (u8 *)&fw_cfg,
-+				      FLASH_FWCT1_WR_CMD);
-+	if (err)
-+		goto release_fw;
-+
-+	err = ccg_cmd_write_flash_row(uc, 0, (u8 *)&fw_cfg + CCG4_ROW_SIZE,
-+				      FLASH_FWCT2_WR_CMD);
-+	if (err)
-+		goto release_fw;
-+
-+	err = ccg_cmd_write_flash_row(uc, 0, &fw_cfg_sig,
-+				      FLASH_FWCT_SIG_WR_CMD);
-+	if (err)
-+		goto release_fw;
-+
-+not_signed_fw:
-+	wr_buf = kzalloc(CCG4_ROW_SIZE + 4, GFP_KERNEL);
-+	if (!wr_buf)
-+		return -ENOMEM;
-+
-+	err = ccg_cmd_enter_flashing(uc);
-+	if (err)
-+		goto release_mem;
-+
-+	/*****************************************************************
-+	 * CCG firmware image (.cyacd) file line format
-+	 *
-+	 * :00rrrrllll[dd....]cc/r/n
-+	 *
-+	 * :00   header
-+	 * rrrr is row number to flash				(4 char)
-+	 * llll is data len to flash				(4 char)
-+	 * dd   is a data field represents one byte of data	(512 char)
-+	 * cc   is checksum					(2 char)
-+	 * \r\n newline
-+	 *
-+	 * Total length: 3 + 4 + 4 + 512 + 2 + 2 = 527
-+	 *
-+	 *****************************************************************/
-+
-+	p = strnchr(fw->data, fw->size, ':');
-+	while (p < eof) {
-+		s = strnchr(p + 1, eof - p - 1, ':');
-+
-+		if (!s)
-+			s = eof;
-+
-+		line_sz = s - p;
-+
-+		if (line_sz != CYACD_LINE_SIZE) {
-+			dev_err(dev, "Bad FW format line_sz=%d\n", line_sz);
-+			err =  -EINVAL;
-+			goto release_mem;
-+		}
-+
-+		if (hex2bin(wr_buf, p + 3, CCG4_ROW_SIZE + 4)) {
-+			err =  -EINVAL;
-+			goto release_mem;
-+		}
-+
-+		row = get_unaligned_be16(wr_buf);
-+		len = get_unaligned_be16(&wr_buf[2]);
-+
-+		if (len != CCG4_ROW_SIZE) {
-+			err =  -EINVAL;
-+			goto release_mem;
-+		}
-+
-+		err = ccg_cmd_write_flash_row(uc, row, wr_buf + 4,
-+					      FLASH_WR_CMD);
-+		if (err)
-+			goto release_mem;
-+
-+		line_cnt++;
-+		p = s;
-+	}
-+
-+	dev_info(dev, "total %d row flashed. time: %dms\n",
-+		 line_cnt, jiffies_to_msecs(jiffies - start_time));
-+
-+	err = ccg_cmd_validate_fw(uc, (mode == PRIMARY) ? FW2 :  FW1);
-+	if (err)
-+		dev_err(dev, "%s validation failed err=%d\n",
-+			(mode == PRIMARY) ? "FW2" :  "FW1", err);
-+	else
-+		dev_info(dev, "%s validated\n",
-+			 (mode == PRIMARY) ? "FW2" :  "FW1");
-+
-+	err = ccg_cmd_port_control(uc, false);
-+	if (err < 0)
-+		goto release_mem;
-+
-+	err = ccg_cmd_reset(uc);
-+	if (err < 0)
-+		goto release_mem;
-+
-+	err = ccg_cmd_port_control(uc, true);
-+	if (err < 0)
-+		goto release_mem;
-+
-+release_mem:
-+	kfree(wr_buf);
-+
-+release_fw:
-+	release_firmware(fw);
-+	return err;
-+}
-+
-+/*******************************************************************************
-+ * CCG4 has two copies of the firmware in addition to the bootloader.
-+ * If the device is running FW1, FW2 can be updated with the new version.
-+ * Dual firmware mode allows the CCG device to stay in a PD contract and support
-+ * USB PD and Type-C functionality while a firmware update is in progress.
-+ ******************************************************************************/
-+static int ccg_fw_update(struct ucsi_ccg *uc, enum enum_flash_mode flash_mode)
-+{
-+	int err;
-+
-+	while (flash_mode != FLASH_NOT_NEEDED) {
-+		err = do_flash(uc, flash_mode);
-+		if (err < 0)
-+			return err;
-+		err = ccg_fw_update_needed(uc, &flash_mode);
-+		if (err < 0)
-+			return err;
-+	}
-+	dev_info(uc->dev, "CCG FW update successful\n");
-+
-+	return err;
-+}
-+
-+static int ccg_restart(struct ucsi_ccg *uc)
-+{
-+	struct device *dev = uc->dev;
-+	int status;
-+
-+	status = ucsi_ccg_init(uc);
-+	if (status < 0) {
-+		dev_err(dev, "ucsi_ccg_start fail, err=%d\n", status);
-+		return status;
-+	}
-+
-+	status = request_threaded_irq(uc->irq, NULL, ccg_irq_handler,
-+				      IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
-+				      dev_name(dev), uc);
-+	if (status < 0) {
-+		dev_err(dev, "request_threaded_irq failed - %d\n", status);
-+		return status;
-+	}
-+
-+	uc->ucsi = ucsi_register_ppm(dev, &uc->ppm);
-+	if (IS_ERR(uc->ucsi)) {
-+		dev_err(uc->dev, "ucsi_register_ppm failed\n");
-+		return PTR_ERR(uc->ucsi);
-+	}
-+
-+	return 0;
-+}
-+
-+static void ccg_update_firmware(struct work_struct *work)
-+{
-+	struct ucsi_ccg *uc = container_of(work, struct ucsi_ccg, work);
-+	enum enum_flash_mode flash_mode;
-+	int status;
-+
-+	status = ccg_fw_update_needed(uc, &flash_mode);
-+	if (status < 0)
-+		return;
-+
-+	if (flash_mode != FLASH_NOT_NEEDED) {
-+		ucsi_unregister_ppm(uc->ucsi);
-+		free_irq(uc->irq, uc);
-+
-+		ccg_fw_update(uc, flash_mode);
-+		ccg_restart(uc);
-+	}
-+}
-+
-+static ssize_t do_flash_store(struct device *dev,
-+			      struct device_attribute *attr,
-+			      const char *buf, size_t n)
-+{
-+	struct i2c_client *i2c_cl = to_i2c_client(dev);
-+	struct ucsi_ccg *uc = i2c_get_clientdata(i2c_cl);
-+	unsigned int mode;
-+
-+	if (kstrtouint(buf, 10, &mode))
-+		return -EINVAL;
-+
-+	if (mode)
-+		schedule_work(&uc->work);
-+
-+	return n;
-+}
-+
-+static ssize_t do_flash_show(struct device *dev,
-+			     struct device_attribute *attr, char *buf)
-+{
-+	return sprintf(buf, "[Usage]\n"
-+		"1) copy ccg_boot.cyacd /lib/firmware/\n"
-+		"2) copy ccg_primary.cyacd /lib/firmware/\n"
-+		"3) copy ccg_secondary.cyacd /lib/firmware/\n"
-+		"4) echo 1 > do_flash\n");
-+}
-+
-+static DEVICE_ATTR_RW(do_flash);
-+
-+static struct attribute *
-+ucsi_ccg_sysfs_attrs[] = {
-+	&dev_attr_do_flash.attr,
-+	NULL,
-+};
-+
-+static struct attribute_group
-+ucsi_ccg_attr_group = {
-+	.attrs = ucsi_ccg_sysfs_attrs,
-+};
-+
- static int ucsi_ccg_probe(struct i2c_client *client,
- 			  const struct i2c_device_id *id)
- {
-@@ -296,6 +1085,8 @@ static int ucsi_ccg_probe(struct i2c_client *client,
- 	uc->ppm.sync = ucsi_ccg_sync;
- 	uc->dev = dev;
- 	uc->client = client;
-+	mutex_init(&uc->lock);
-+	INIT_WORK(&uc->work, ccg_update_firmware);
- 
- 	/* reset ccg device and initialize ucsi */
- 	status = ucsi_ccg_init(uc);
-@@ -310,15 +1101,21 @@ static int ucsi_ccg_probe(struct i2c_client *client,
- 		return status;
- 	}
- 
--	status = devm_request_threaded_irq(dev, client->irq, NULL,
--					   ccg_irq_handler,
--					   IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
--					   dev_name(dev), uc);
-+	uc->port_num = 1;
-+
-+	if (uc->info.mode & CCG_DEVINFO_PDPORTS_MASK)
-+		uc->port_num++;
-+
-+	status = request_threaded_irq(client->irq, NULL, ccg_irq_handler,
-+				      IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
-+				      dev_name(dev), uc);
- 	if (status < 0) {
- 		dev_err(uc->dev, "request_threaded_irq failed - %d\n", status);
- 		return status;
- 	}
- 
-+	uc->irq = client->irq;
-+
- 	uc->ucsi = ucsi_register_ppm(dev, &uc->ppm);
- 	if (IS_ERR(uc->ucsi)) {
- 		dev_err(uc->dev, "ucsi_register_ppm failed\n");
-@@ -335,6 +1132,11 @@ static int ucsi_ccg_probe(struct i2c_client *client,
- 	}
- 
- 	i2c_set_clientdata(client, uc);
-+
-+	status = sysfs_create_group(&uc->dev->kobj, &ucsi_ccg_attr_group);
-+	if (status)
-+		dev_err(uc->dev, "cannot create sysfs group: %d\n", status);
-+
- 	return 0;
- }
- 
-@@ -342,7 +1144,10 @@ static int ucsi_ccg_remove(struct i2c_client *client)
- {
- 	struct ucsi_ccg *uc = i2c_get_clientdata(client);
- 
-+	cancel_work_sync(&uc->work);
- 	ucsi_unregister_ppm(uc->ucsi);
-+	free_irq(uc->irq, uc);
-+	sysfs_remove_group(&uc->dev->kobj, &ucsi_ccg_attr_group);
- 
- 	return 0;
- }
--- 
-2.17.1
-
+Thanks
+> nvpublic
+>=20
+> >    691			dev_info(dev, "current fw is not from supported
+> vendor\n");
+> >    692			return false;
+> >    693		}
+> >    694
+> >    695		/* Check if the new fw build is for supported vendors
+> >    696		 * Add all supported vendors here.
+> >    697		 */
+> >    698		if (fw_cfg->app.build !=3D (('n' << 8) | 'v')) {
+> >    699			dev_info(dev, "new fw is not from supported
+> vendor\n");
+> >    700			return false;
+> >    701		}
+> >    702		return true;
+> >    703	}
+> >    704
+>=20
+> thanks,
+>=20
+> --
+> heikki
