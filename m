@@ -2,21 +2,30 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v3] HID: add driver for U2F Zero built-in LED and RNG
-From: Jiri Kosina <jikos@kernel.org>
-Message-Id: <nycvar.YFH.7.76.1904101400520.9803@cbobk.fhfr.pm>
-Date: Wed, 10 Apr 2019 14:02:49 +0200 (CEST)
-To: Andrej Shadura <andrew.shadura@collabora.co.uk>
-Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org, Andrzej Pietrasiewicz <andrzej.p@collabora.com>, kernel@collabora.com, Theodore Ts'o <tytso@mit.edu>, Vasily Khoruzhick <anarsoul@gmail.com>, Nick Kossifidis <mickflemm@gmail.com>, linux-crypto@vger.kernel.org
+From: Benjamin Tissoires <benjamin.tissoires@gmail.com>
+Message-Id: <CAN+gG=H6TGtB68-XJ+Pg53EhL_M2m8MG1z33Yenvd9PhXJ=Oqw@mail.gmail.com>
+Date: Thu, 11 Apr 2019 11:58:26 +0200
+To: Jiri Kosina <jikos@kernel.org>
+Cc: Andrej Shadura <andrew.shadura@collabora.co.uk>, linux-input <linux-input@vger.kernel.org>, linux-usb@vger.kernel.org, Andrzej Pietrasiewicz <andrzej.p@collabora.com>, kernel@collabora.com, Theodore Ts'o <tytso@mit.edu>, Vasily Khoruzhick <anarsoul@gmail.com>, Nick Kossifidis <mickflemm@gmail.com>, linux-crypto@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gTW9uLCAxIEFwciAyMDE5LCBBbmRyZWogU2hhZHVyYSB3cm90ZToKCj4gVTJGIFplcm8gc3Vw
-cG9ydHMgY3VzdG9tIGNvbW1hbmRzIGZvciBibGlua2luZyB0aGUgTEVEIGFuZCBnZXR0aW5nIGRh
-dGEKPiBmcm9tIHRoZSBpbnRlcm5hbCBoYXJkd2FyZSBSTkcuIEV4cG9zZSB0aGUgYmxpbmtpbmcg
-ZnVuY3Rpb24gYXMgYSBMRUQKPiBkZXZpY2UsIGFuZCB0aGUgaW50ZXJuYWwgaGFyZHdhcmUgUk5H
-IGFzIGFuIEhXUk5HIHNvIHRoYXQgaXQgY2FuIGJlIHVzZWQKPiB0byBmZWVkIHRoZSBlbnRocm9w
-eSBwb29sLgoKU28gSSBzdGlsbCBhbSBub3QgcmVhbGx5IGhhcHB5IGFib3V0IHRoaXMgYmVpbmcg
-d2lyZWQgdXAgaW50byBnZW5lcmljIEhJRCAKYWx0aG91Z2ggaXQncyByZWFsbHkgYSBVU0IgZHJp
-dmVyLCBidXQgd2UndmUgZGlzY3Vzc2VkIHRoYXQgYWxyZWFkeSwgYW5kIEkgCmRvbid0IHNlZSBh
-bnkgb3B0aW9uIHRoYXQnZCB3b3JrIHN1YnN0YW50aWFsbHkgYmV0dGVyIGluIHRoaXMgY2FzZSwg
-CmVzcGVjaWFsbHkgZnJvbSB0aGUgVVggcG9pbnQgb2Ygdmlldy4gT2ggd2VsbC4gQXBwbGllZCB0
-byBmb3ItNS4yL3UyZnplcm8sIAp0aGFua3MhCg==
+T24gV2VkLCBBcHIgMTAsIDIwMTkgYXQgMzoxNCBQTSBKaXJpIEtvc2luYSA8amlrb3NAa2VybmVs
+Lm9yZz4gd3JvdGU6Cj4KPiBPbiBNb24sIDEgQXByIDIwMTksIEFuZHJlaiBTaGFkdXJhIHdyb3Rl
+Ogo+Cj4gPiBVMkYgWmVybyBzdXBwb3J0cyBjdXN0b20gY29tbWFuZHMgZm9yIGJsaW5raW5nIHRo
+ZSBMRUQgYW5kIGdldHRpbmcgZGF0YQo+ID4gZnJvbSB0aGUgaW50ZXJuYWwgaGFyZHdhcmUgUk5H
+LiBFeHBvc2UgdGhlIGJsaW5raW5nIGZ1bmN0aW9uIGFzIGEgTEVECj4gPiBkZXZpY2UsIGFuZCB0
+aGUgaW50ZXJuYWwgaGFyZHdhcmUgUk5HIGFzIGFuIEhXUk5HIHNvIHRoYXQgaXQgY2FuIGJlIHVz
+ZWQKPiA+IHRvIGZlZWQgdGhlIGVudGhyb3B5IHBvb2wuCj4KPiBTbyBJIHN0aWxsIGFtIG5vdCBy
+ZWFsbHkgaGFwcHkgYWJvdXQgdGhpcyBiZWluZyB3aXJlZCB1cCBpbnRvIGdlbmVyaWMgSElECj4g
+YWx0aG91Z2ggaXQncyByZWFsbHkgYSBVU0IgZHJpdmVyLCBidXQgd2UndmUgZGlzY3Vzc2VkIHRo
+YXQgYWxyZWFkeSwgYW5kIEkKPiBkb24ndCBzZWUgYW55IG9wdGlvbiB0aGF0J2Qgd29yayBzdWJz
+dGFudGlhbGx5IGJldHRlciBpbiB0aGlzIGNhc2UsCj4gZXNwZWNpYWxseSBmcm9tIHRoZSBVWCBw
+b2ludCBvZiB2aWV3LiBPaCB3ZWxsLiBBcHBsaWVkIHRvIGZvci01LjIvdTJmemVybywKPiB0aGFu
+a3MhCj4KCkhpIHdpc2ggSSB3ZXJlIENDLWVkIG9uIHRoZXNlIHRocmVhZHMuCgpNeSBDSSBzY3Jp
+cHQgbm93IGZhaWxzIGJlY2F1c2UgaGlkLXUyZnplcm8ua28gbmVlZHMKZGV2bV9od3JuZ19yZWdp
+c3RlciBhbmQgdGhlIEtjb25maWcgZG9lc24ndCBmb3JjZSBwdWxsaW5nIHRoZSByaWdodApkZXBl
+bmRlbmN5LgoKQWxzbywgeW91IHByb2JhYmx5IHdhbnQgdG8gYWRkIGluIC5wcm9iZSgpIGEgY2hl
+Y2sgZm9yIHRoZSBhY3R1YWwKdHJhbnNwb3J0IGRyaXZlciAoYGhpZF9pc191c2luZ19sbF9kcml2
+ZXIoaGRldiwgJnVzYl9oaWRfZHJpdmVyKWApIG9yCnlvdSBjYW4gbm90IHVzZSB0aGUgdXNiaGlk
+IGZ1bmN0aW9ucyB3aXRob3V0IGNyYXNoaW5nIHRoZSBrZXJuZWwuCgpDaGVlcnMsCkJlbmphbWlu
+Cg==
