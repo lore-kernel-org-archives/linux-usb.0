@@ -2,336 +2,116 @@ Return-Path: <SRS0=u5rC=SN=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.4 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_PASS,USER_AGENT_MUTT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC0FDC10F13
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 06:59:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC64CC10F13
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 07:39:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9E71421841
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 06:59:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B51FC20873
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 07:39:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726865AbfDKG7X (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 Apr 2019 02:59:23 -0400
-Received: from mail2.g1.pair.com ([66.39.3.168]:53408 "EHLO mail2.g1.pair.com"
+        id S1726635AbfDKHj6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 Apr 2019 03:39:58 -0400
+Received: from mga18.intel.com ([134.134.136.126]:52138 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726121AbfDKG7X (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 11 Apr 2019 02:59:23 -0400
-Received: from mail2.g1.pair.com (localhost [127.0.0.1])
-        by mail2.g1.pair.com (Postfix) with ESMTP id 2FED89B8E9;
-        Thu, 11 Apr 2019 02:59:19 -0400 (EDT)
-Received: from [192.168.223.151] (c-98-248-40-109.hsd1.ca.comcast.net [98.248.40.109])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail2.g1.pair.com (Postfix) with ESMTPSA id D14229B8DC;
-        Thu, 11 Apr 2019 02:59:18 -0400 (EDT)
-Subject: Re: Kernel oops when using multiple V4L cameras on ODroid-C2 meson:
- 9600004f in dwc2_unmap_urb_for_dma+0x1c/0x28
-To:     Minas Harutyunyan <minas.harutyunyan@synopsys.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-References: <c5ee9550-29c6-580b-ba6f-b06c11940119@tinmith.net>
- <410670D7E743164D87FA6160E7907A56013A80FA9E@am04wembxb.internal.synopsys.com>
-From:   Wayne Piekarski <wayne@tinmith.net>
-Message-ID: <5b1caa8c-d6ee-6f93-e93b-8bffceab883d@tinmith.net>
-Date:   Wed, 10 Apr 2019 23:59:14 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
+        id S1726256AbfDKHj5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 11 Apr 2019 03:39:57 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Apr 2019 00:39:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,336,1549958400"; 
+   d="scan'208";a="163309552"
+Received: from kuha.fi.intel.com ([10.237.72.189])
+  by fmsmga001.fm.intel.com with SMTP; 11 Apr 2019 00:39:54 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 11 Apr 2019 10:39:53 +0300
+Date:   Thu, 11 Apr 2019 10:39:53 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Ajay Gupta <ajayg@nvidia.com>
+Cc:     kbuild test robot <lkp@intel.com>, kbuild-all@01.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH 2/4] usb: typec: ucsi: ccg: add firmware flashing support
+Message-ID: <20190411073953.GI20058@kuha.fi.intel.com>
+References: <20190410081545.78464-3-heikki.krogerus@linux.intel.com>
+ <201904110046.Bx46coK1%lkp@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <410670D7E743164D87FA6160E7907A56013A80FA9E@am04wembxb.internal.synopsys.com>
-Content-Type: multipart/mixed;
- boundary="------------1629678D9C9274DFCA01B0D6"
-Content-Language: en-GB
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <201904110046.Bx46coK1%lkp@intel.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190411073953.FFWbNHWTlc5rxO-5BpfRt99tR4x5RFhTepu2JbBuI_M@z>
 
-This is a multi-part message in MIME format.
---------------1629678D9C9274DFCA01B0D6
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Hi Ajay,
 
-Hi Minas,
+On Thu, Apr 11, 2019 at 12:31:45AM +0800, kbuild test robot wrote:
+> Hi Heikki,
+> 
+> I love your patch! Perhaps something to improve:
+> 
+> [auto build test WARNING on usb/usb-testing]
+> [also build test WARNING on v5.1-rc4 next-20190410]
+> [if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+> 
+> url:    https://github.com/0day-ci/linux/commits/Heikki-Krogerus/usb-typec-ucsi-Remaining-changes-for-v5-2/20190410-221455
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+> reproduce:
+>         # apt-get install sparse
+>         make ARCH=x86_64 allmodconfig
+>         make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+> 
+> 
+> sparse warnings: (new ones prefixed by >>)
+> 
+>    drivers/usb/typec/ucsi/ucsi_ccg.c:212:24: sparse: expression using sizeof(void)
+>    drivers/usb/typec/ucsi/ucsi_ccg.c:212:24: sparse: expression using sizeof(void)
+> >> drivers/usb/typec/ucsi/ucsi_ccg.c:690:16: sparse: restricted __le16 degrades to integer
+>    drivers/usb/typec/ucsi/ucsi_ccg.c:698:24: sparse: restricted __le16 degrades to integer
+>    drivers/usb/typec/ucsi/ucsi_ccg.c:735:26: sparse: restricted __le16 degrades to integer
+>    drivers/usb/typec/ucsi/ucsi_ccg.c:737:33: sparse: restricted __le16 degrades to integer
+>    drivers/usb/typec/ucsi/ucsi_ccg.c:777:37: sparse: restricted __le16 degrades to integer
+> 
+> vim +690 drivers/usb/typec/ucsi/ucsi_ccg.c
+> 
+>    680	
+>    681	static bool ccg_check_vendor_version(struct ucsi_ccg *uc,
+>    682					     struct version_format *app,
+>    683					     struct fw_config_table *fw_cfg)
+>    684	{
+>    685		struct device *dev = uc->dev;
+>    686	
+>    687		/* Check if the fw build is for supported vendors.
+>    688		 * Add all supported vendors here.
+>    689		 */
+>  > 690		if (app->build != (('n' << 8) | 'v')) {
 
-Thanks for your reply. I did some more playing with this, and found that 
-I can cause kernel oops and reboot even with just one camera and by just 
-probing it with v4l2-ctl.
+How about a macro for these?
 
-for each in `ls -1 /dev/video* /dev/v4l/by-id/* /dev/v4l/by-path/*`; do
-     echo "scan: $each"
-     v4l2-ctl --device $each --all | grep "H264" | grep "Pixel Format"
-done
+        #define CCG_VERSION_BUILD       (__le16)(...)
 
-scan: 
-/dev/v4l/by-id/usb-Sonix_Technology_Co.__Ltd._H264_USB_Camera_SN0001-video-index0
-Message from syslogd@localhost at Apr 11 06:54:09 ...
-  kernel:[  142.777649] Internal error: Oops: 9600004f [#1] PREEMPT SMP
+>    691			dev_info(dev, "current fw is not from supported vendor\n");
+>    692			return false;
+>    693		}
+>    694	
+>    695		/* Check if the new fw build is for supported vendors
+>    696		 * Add all supported vendors here.
+>    697		 */
+>    698		if (fw_cfg->app.build != (('n' << 8) | 'v')) {
+>    699			dev_info(dev, "new fw is not from supported vendor\n");
+>    700			return false;
+>    701		}
+>    702		return true;
+>    703	}
+>    704	
 
-I have attached the regdump output as a file captured just before 
-running the v4l2-ctl command. Also, this is the output from dmesg --follow:
+thanks,
 
-[  134.163768] usb 1-1.2: reset high-speed USB device number 3 using dwc2
-[  136.891628] usb 1-1.2: reset high-speed USB device number 3 using dwc2
-[  139.619463] usb 1-1.2: reset high-speed USB device number 3 using dwc2
-[  142.595299] usb 1-1.2: reset high-speed USB device number 3 using dwc2
-[  142.777478] Unable to handle kernel write to read-only memory at 
-virtual address ffff80007e354ffe
-[  142.777527] Mem abort info:
-[  142.777538]   ESR = 0x9600004f
-[  142.777548]   Exception class = DABT (current EL), IL = 32 bits
-[  142.777556]   SET = 0, FnV = 0
-[  142.777564]   EA = 0, S1PTW = 0
-[  142.777571] Data abort info:
-[  142.777579]   ISV = 0, ISS = 0x0000004f
-[  142.777594]   CM = 0, WnR = 1
-[  142.777609] swapper pgtable: 4k pages, 48-bit VAs, pgdp = 
-00000000a5dbde96
-[  142.777626] [ffff80007e354ffe] pgd=000000007fffa003, 
-pud=000000007fe08003, pmd=000000007fc16003, pte=00e000007e354793
-[  142.777649] Internal error: Oops: 9600004f [#1] PREEMPT SMP
-
-I hope this is helpful, thanks for your help!
-
-regards,
-Wayne
-
-
-On 4/5/19 1:56 AM, Minas Harutyunyan wrote:
-> Hi Wayne,
->
-> On 4/4/2019 10:27 PM, Wayne Piekarski wrote:
->> Hi everyone,
->>
->> I have three USB H.264 cameras connected to an ODroid-C2 running a
->> latest Armbian nightly build, with what appears to be kernel 5.0.5.
->>
->> When trying to access these cameras via V4L, I immediately get a kernel
->> oops and the device reboots.
->>
->> It appears as though the problem occurs in
->> dwc2_unmap_urb_for_dma+0x1c/0x28 which is in drivers/usb/dwc2.
->>
->> I'm not a kernel developer so not sure what other information I can
->> provide apart from the oops dump. I can provide other information if needed.
->>
-> Could you please provide register dump (debugfs: regdump) before start
-> playing and provide verbose debug log after start playing till oops.
-> Which is speed of your camera? Did you connected directly to root hub?
->
-> Thanks,
-> Minas
->
->> thanks!
->>
->> [  204.624452] Internal error: Oops: 9600004f [#1] PREEMPT SMP
->> [  204.635515] Modules linked in: snd_soc_hdmi_codec dw_hdmi_i2s_audio
->> dw_hdmi_cec meson_vdec uvcvideo videobuf2_dma_contig videobuf2_vmalloc
->> v4l2_mem2mem videobuf2_memops lz4hc videobuf2_v4l2 lz4hc_compress ao_cec
->> videobuf2_common meson_dw_hdmi meson_rng meson_ir dw_hdmi meson_drm
->> rng_core rc_core videodev drm_kms_helper cec snd_soc_meson_aiu_spdif
->> snd_soc_meson_aiu_i2s drm media meson_canvas snd_soc_meson_audio_core
->> meson_gxbb_wdt drm_panel_orientation_quirks zram snd_usb_audio
->> snd_soc_simple_card snd_hwdep snd_usbmidi_lib snd_soc_simple_card_utils
->> snd_soc_core snd_rawmidi snd_seq_device snd_pcm_dmaengine snd_pcm
->> snd_timer snd scpi_hwmon soundcore ip_tables x_tables realtek
->> [  204.728202] CPU: 2 PID: 0 Comm: swapper/2 Tainted: G W
->> 5.0.5-meson64 #5.77.190401
->> [  204.745037] Hardware name: Hardkernel ODROID-C2 (DT)
->> [  204.758748] pstate: 80000005 (Nzcv daif -PAN -UAO)
->> [  204.772475] pc : __memcpy+0xa0/0x180
->> [  204.786168] lr : dwc2_free_dma_aligned_buffer+0x78/0x80
->> [  204.799988] sp : ffff000010013da0
->> [  204.813726] x29: ffff000010013da0 x28: 0000000000000000
->> [  204.827504] x27: 0000000000000038 x26: ffff000010e960c0
->> [  204.841198] x25: 0000000000000101 x24: 0000000000000020
->> [  204.854820] x23: ffff000010e9d000 x22: ffff80006b378594
->> [  204.868394] x21: 0000000000000000 x20: ffff80006a124f79
->> [  204.881902] x19: ffff80007e6f1800 x18: 000000000098090c
->> [  204.895494] x17: 0000000000000000 x16: 0000000000000000
->> [  204.909050] x15: 000000000000014d x14: 0000000000000400
->> [  204.922531] x13: 0000000000000000 x12: 0000000000000001
->> [  204.935862] x11: 000000000047f7f9 x10: 0000000000000040
->> [  204.948999] x9 : 0000000000000002 x8 : ffff000010eb82a0
->> [  204.962085] x7 : 0000000000000002 x6 : ffff80006a124f79
->> [  204.975122] x5 : 0000000000000000 x4 : 0000000000800200
->> [  204.988041] x3 : 00000000000001f4 x2 : 0000000000000002
->> [  205.000822] x1 : ffff80007edbf202 x0 : ffff80006a124f79
->> [  205.013627] Process swapper/2 (pid: 0, stack limit = 0x0000000035e14788)
->> [  205.027581] Call trace:
->> [  205.040442]  __memcpy+0xa0/0x180
->> [  205.053332]  dwc2_unmap_urb_for_dma+0x1c/0x28
->> [  205.066319]  unmap_urb_for_dma+0x18/0x28
->> [  205.079213]  __usb_hcd_giveback_urb+0x38/0xe0
->> [  205.092009]  usb_giveback_urb_bh+0xac/0x108
->> [  205.104753]  tasklet_action_common.isra.2+0x7c/0x168
->> [  205.117479]  tasklet_action+0x24/0x30
->> [  205.130030]  __do_softirq+0x10c/0x220
->> [  205.142521]  irq_exit+0xac/0xc0
->> [  205.154950]  __handle_domain_irq+0x60/0xb0
->> [  205.167376]  gic_handle_irq+0x58/0xa8
->> [  205.179784]  el1_irq+0xb0/0x128
->> [  205.192121]  arch_cpu_idle+0x10/0x18
->> [  205.204478]  do_idle+0x1dc/0x2a0
->> [  205.216787]  cpu_startup_entry+0x24/0x28
->> [  205.229051]  secondary_start_kernel+0x19c/0x1d8
->> [  205.241263] Code: b8404423 b80044c3 36080062 78402423 (780024c3)
->> [  205.253985] ---[ end trace 156b59abcb22f143 ]---
->> [  205.266298] Kernel panic - not syncing: Fatal exception in interrupt
->> [  205.279479] SMP: stopping secondary CPUs
->> [  205.291947] Kernel Offset: disabled
->> [  205.304384] CPU features: 0x002,24002004
->> [  205.316867] Memory Limit: none
->> [  205.329314] Rebooting in 10 seconds..
->>
->>
->
-
---------------1629678D9C9274DFCA01B0D6
-Content-Type: text/plain; charset=UTF-8;
- name="regdump.txt"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="regdump.txt"
-
-JCBzdWRvIGNhdCAvc3lzL2tlcm5lbC9kZWJ1Zy9jOTEwMDAwMC51c2IvcmVnZHVtcAoKR09U
-R0NUTCA9IDB4MDIyMDAwMDAKR09UR0lOVCA9IDB4MDAwMDAwMDAKR0FIQkNGRyA9IDB4MDAw
-MDAwMmIKR1VTQkNGRyA9IDB4MDAwMDE0MGYKR1JTVENUTCA9IDB4ODAwMDAwMDAKR0lOVFNU
-UyA9IDB4MDQwMDAwMjkKR0lOVE1TSyA9IDB4ZjMwMDAwMDYKR1JYU1RTUiA9IDB4MDAwZjAw
-NDEKR1JYRlNJWiA9IDB4MDAwMDAyMDAKR05QVFhGU0laID0gMHgwMWY0MDIwMApHTlBUWFNU
-UyA9IDB4MDgwODAxZjQKR0kyQ0NUTCA9IDB4MDAwMDAwMDAKR1BWTkRDVEwgPSAweDAwMDAw
-MDAwCkdHUElPID0gMHgwMDAwMDAwMApHVUlEID0gMHgxMjM0NTY3OApHU05QU0lEID0gMHg0
-ZjU0MzEwYQpHSFdDRkcxID0gMHgwMDAwMDAwMApHSFdDRkcyID0gMHgyMjhmYzg1NQpHSFdD
-RkczID0gMHgwN2MwNTA2OApHSFdDRkc0ID0gMHhjOWUwNDAzMApHTFBNQ0ZHID0gMHgwMDAw
-MDAwMApHUFdSRE4gPSAweDA4MDAwMDEwCkdERklGT0NGRyA9IDB4MDdjMDA4MDAKQURQQ1RM
-ID0gMHgwMDAwMDAwMApIUFRYRlNJWiA9IDB4MDFmNDAzZjQKRFBUWEZTSVpOKDEpID0gMHgw
-MDAwMDAwMApEUFRYRlNJWk4oMikgPSAweDAwMDAwMDAwCkRQVFhGU0laTigzKSA9IDB4MDAw
-MDAwMDAKRFBUWEZTSVpOKDQpID0gMHgwMDAwMDAwMApEUFRYRlNJWk4oNSkgPSAweDAwMDAw
-MDAwCkRQVFhGU0laTig2KSA9IDB4MDAwMDAwMDAKRFBUWEZTSVpOKDcpID0gMHgwMDAwMDAw
-MApEUFRYRlNJWk4oOCkgPSAweDAwMDAwMDAwCkRQVFhGU0laTig5KSA9IDB4MDAwMDAwMDAK
-RFBUWEZTSVpOKDEwKSA9IDB4MDAwMDAwMDAKRFBUWEZTSVpOKDExKSA9IDB4MDAwMDAwMDAK
-RFBUWEZTSVpOKDEyKSA9IDB4MDAwMDAwMDAKRFBUWEZTSVpOKDEzKSA9IDB4MDAwMDAwMDAK
-RFBUWEZTSVpOKDE0KSA9IDB4MDAwMDAwMDAKRFBUWEZTSVpOKDE1KSA9IDB4MDAwMDAwMDAK
-RENGRyA9IDB4MDAwMDAwMDAKRENUTCA9IDB4MDAwMDAwMDAKRFNUUyA9IDB4MDAwMDAwMDAK
-RElFUE1TSyA9IDB4MDAwMDAwMDAKRE9FUE1TSyA9IDB4MDAwMDAwMDAKREFJTlQgPSAweDAw
-MDAwMDAwCkRBSU5UTVNLID0gMHgwMDAwMDAwMApEVEtOUVIxID0gMHgwMDAwMDAwMApEVEtO
-UVIyID0gMHgwMDAwMDAwMApEVEtOUVIzID0gMHgwMDAwMDAwMApEVEtOUVI0ID0gMHgwMDAw
-MDAwMApEVkJVU0RJUyA9IDB4MDAwMTBlYTUKRFZCVVNQVUxTRSA9IDB4MDAwMDAyYzYKRElF
-UENUTCgwKSA9IDB4MDA5MDAwNDAKRElFUENUTCgxKSA9IDB4MDA5MDgwNDAKRElFUENUTCgy
-KSA9IDB4MDA5MDAwNDAKRElFUENUTCgzKSA9IDB4MDA5MDAwNDAKRElFUENUTCg0KSA9IDB4
-MDA5MDgwNDAKRElFUENUTCg1KSA9IDB4MDA5MDAwNDAKRElFUENUTCg2KSA9IDB4MDA5MDAw
-NDAKRElFUENUTCg3KSA9IDB4MDA5MDAwNDAKRElFUENUTCg4KSA9IDB4MDA5MDgwNDAKRElF
-UENUTCg5KSA9IDB4MDA5MDgwNDAKRElFUENUTCgxMCkgPSAweDAwOTA4MDQwCkRJRVBDVEwo
-MTEpID0gMHgwMDkwMDA0MApESUVQQ1RMKDEyKSA9IDB4MDA5MDgwNDAKRElFUENUTCgxMykg
-PSAweDAwOTAwMDQwCkRJRVBDVEwoMTQpID0gMHgwMDkwMDA0MApESUVQQ1RMKDE1KSA9IDB4
-MDA5MDAwNDAKRE9FUENUTCgwKSA9IDB4MDA5MDAwNDAKRE9FUENUTCgxKSA9IDB4MDA5MDgw
-NDAKRE9FUENUTCgyKSA9IDB4MDA5MDAwNDAKRE9FUENUTCgzKSA9IDB4MDA5MDAwNDAKRE9F
-UENUTCg0KSA9IDB4MDA5MDgwNDAKRE9FUENUTCg1KSA9IDB4MDA5MDAwNDAKRE9FUENUTCg2
-KSA9IDB4MDA5MDAwNDAKRE9FUENUTCg3KSA9IDB4MDA5MDAwNDAKRE9FUENUTCg4KSA9IDB4
-MDA5MDgwNDAKRE9FUENUTCg5KSA9IDB4MDA5MDgwNDAKRE9FUENUTCgxMCkgPSAweDAwOTA4
-MDQwCkRPRVBDVEwoMTEpID0gMHgwMDkwMDA0MApET0VQQ1RMKDEyKSA9IDB4MDA5MDgwNDAK
-RE9FUENUTCgxMykgPSAweDAwOTAwMDQwCkRPRVBDVEwoMTQpID0gMHgwMDkwMDA0MApET0VQ
-Q1RMKDE1KSA9IDB4MDA5MDAwNDAKRElFUElOVCgwKSA9IDB4MDAwMDAwODAKRElFUElOVCgx
-KSA9IDB4MDAwMDAwMDAKRElFUElOVCgyKSA9IDB4MDAwMDAwMDAKRElFUElOVCgzKSA9IDB4
-MDAwMDAwMDAKRElFUElOVCg0KSA9IDB4MDAwMDAwMDAKRElFUElOVCg1KSA9IDB4MDAwMDAw
-MDAKRElFUElOVCg2KSA9IDB4MDAwMDAwMDAKRElFUElOVCg3KSA9IDB4MDAwMDAwMDAKRElF
-UElOVCg4KSA9IDB4MDAwMDAwMDAKRElFUElOVCg5KSA9IDB4MDAwMDAwMDAKRElFUElOVCgx
-MCkgPSAweDAwMDAwMDAwCkRJRVBJTlQoMTEpID0gMHgwMDAwMDAwMApESUVQSU5UKDEyKSA9
-IDB4MDAwMDAwMDAKRElFUElOVCgxMykgPSAweDAwMDAwMDAwCkRJRVBJTlQoMTQpID0gMHgw
-MDAwMDAwMApESUVQSU5UKDE1KSA9IDB4MDAwMDAwMDAKRE9FUElOVCgwKSA9IDB4MDAwMDAw
-MDAKRE9FUElOVCgxKSA9IDB4MDAwMDAwMDAKRE9FUElOVCgyKSA9IDB4MDAwMDAwMDAKRE9F
-UElOVCgzKSA9IDB4MDAwMDAwMDAKRE9FUElOVCg0KSA9IDB4MDAwMDAwMDAKRE9FUElOVCg1
-KSA9IDB4MDAwMDAwMDAKRE9FUElOVCg2KSA9IDB4MDAwMDAwMDAKRE9FUElOVCg3KSA9IDB4
-MDAwMDAwMDAKRE9FUElOVCg4KSA9IDB4MDAwMDAwMDAKRE9FUElOVCg5KSA9IDB4MDAwMDAw
-MDAKRE9FUElOVCgxMCkgPSAweDAwMDAwMDAwCkRPRVBJTlQoMTEpID0gMHgwMDAwMDAwMApE
-T0VQSU5UKDEyKSA9IDB4MDAwMDAwMDAKRE9FUElOVCgxMykgPSAweDAwMDAwMDAwCkRPRVBJ
-TlQoMTQpID0gMHgwMDAwMDAwMApET0VQSU5UKDE1KSA9IDB4MDAwMDAwMDAKRElFUFRTSVoo
-MCkgPSAweDAwMDAwMDAwCkRJRVBUU0laKDEpID0gMHg4MDAwMDAzYwpESUVQVFNJWigyKSA9
-IDB4MjAwMDAwMDgKRElFUFRTSVooMykgPSAweDIwMDAwMDA4CkRJRVBUU0laKDQpID0gMHg4
-MDAwMDAzYwpESUVQVFNJWig1KSA9IDB4MDAwMDAwMDAKRElFUFRTSVooNikgPSAweDAwMDAw
-MDAwCkRJRVBUU0laKDcpID0gMHgyMDAwMDAwOApESUVQVFNJWig4KSA9IDB4ODAwMDAwNDAK
-RElFUFRTSVooOSkgPSAweDgwMDAwMDNjCkRJRVBUU0laKDEwKSA9IDB4ODAwMDAwNDAKRElF
-UFRTSVooMTEpID0gMHgyMDAwMDAwOApESUVQVFNJWigxMikgPSAweDgwMDAwMDNjCkRJRVBU
-U0laKDEzKSA9IDB4MDAwMDAwMDAKRElFUFRTSVooMTQpID0gMHgyMDAwMDAwOApESUVQVFNJ
-WigxNSkgPSAweDIwMDAwMDA4CkRPRVBUU0laKDApID0gMHgwMDAwMDAwMApET0VQVFNJWigx
-KSA9IDB4ODAwMDAwM2MKRE9FUFRTSVooMikgPSAweDIwMDAwMDA4CkRPRVBUU0laKDMpID0g
-MHgyMDAwMDAwOApET0VQVFNJWig0KSA9IDB4ODAwMDAwM2MKRE9FUFRTSVooNSkgPSAweDAw
-MDAwMDAwCkRPRVBUU0laKDYpID0gMHgwMDAwMDAwMApET0VQVFNJWig3KSA9IDB4MjAwMDAw
-MDgKRE9FUFRTSVooOCkgPSAweDgwMDAwMDQwCkRPRVBUU0laKDkpID0gMHg4MDAwMDAzYwpE
-T0VQVFNJWigxMCkgPSAweDgwMDAwMDQwCkRPRVBUU0laKDExKSA9IDB4MjAwMDAwMDgKRE9F
-UFRTSVooMTIpID0gMHg4MDAwMDAzYwpET0VQVFNJWigxMykgPSAweDAwMDAwMDAwCkRPRVBU
-U0laKDE0KSA9IDB4MjAwMDAwMDgKRE9FUFRTSVooMTUpID0gMHgyMDAwMDAwOApESUVQRE1B
-KDApID0gMHg2ZDg4MTAwMApESUVQRE1BKDEpID0gMHg3ZWMwMGY4NApESUVQRE1BKDIpID0g
-MHg3ZWFhNzAwOApESUVQRE1BKDMpID0gMHg3ZWFhNzAwOApESUVQRE1BKDQpID0gMHg3ZWMw
-MGY4NApESUVQRE1BKDUpID0gMHg2ZDg4MTAwMApESUVQRE1BKDYpID0gMHg2ZDg4MTAwMApE
-SUVQRE1BKDcpID0gMHg3ZWFhNzAwOApESUVQRE1BKDgpID0gMHg2ZDg4MTAwMApESUVQRE1B
-KDkpID0gMHg3ZWMwMGY4NApESUVQRE1BKDEwKSA9IDB4NmQ4ODEwMDAKRElFUERNQSgxMSkg
-PSAweDdlYWE3MDA4CkRJRVBETUEoMTIpID0gMHg3ZWMwMGY4NApESUVQRE1BKDEzKSA9IDB4
-NmQ4ODEwMDAKRElFUERNQSgxNCkgPSAweDdlYWE3MDA4CkRJRVBETUEoMTUpID0gMHg3ZWFh
-NzAwOApET0VQRE1BKDApID0gMHg2ZDg4MTAwMApET0VQRE1BKDEpID0gMHg3ZWMwMGY4NApE
-T0VQRE1BKDIpID0gMHg3ZWFhNzAwOApET0VQRE1BKDMpID0gMHg3ZWFhNzAwOApET0VQRE1B
-KDQpID0gMHg3ZWMwMGY4NApET0VQRE1BKDUpID0gMHg2ZDg4MTAwMApET0VQRE1BKDYpID0g
-MHg2ZDg4MTAwMApET0VQRE1BKDcpID0gMHg3ZWFhNzAwOApET0VQRE1BKDgpID0gMHg2ZDg4
-MTAwMApET0VQRE1BKDkpID0gMHg3ZWMwMGY4NApET0VQRE1BKDEwKSA9IDB4NmQ4ODEwMDAK
-RE9FUERNQSgxMSkgPSAweDdlYWE3MDA4CkRPRVBETUEoMTIpID0gMHg3ZWMwMGY4NApET0VQ
-RE1BKDEzKSA9IDB4NmQ4ODEwMDAKRE9FUERNQSgxNCkgPSAweDdlYWE3MDA4CkRPRVBETUEo
-MTUpID0gMHg3ZWFhNzAwOApEVFhGU1RTKDApID0gMHgwMDAwMDAwMApEVFhGU1RTKDEpID0g
-MHgwMDAwMDAwMApEVFhGU1RTKDIpID0gMHgwMDAwMDAwMApEVFhGU1RTKDMpID0gMHgwMDAw
-MDAwMApEVFhGU1RTKDQpID0gMHgwMDAwMDAwMApEVFhGU1RTKDUpID0gMHgwMDAwMDAwMApE
-VFhGU1RTKDYpID0gMHgwMDAwMDAwMApEVFhGU1RTKDcpID0gMHgwMDAwMDAwMApEVFhGU1RT
-KDgpID0gMHgwMDAwMDAwMApEVFhGU1RTKDkpID0gMHgwMDAwMDAwMApEVFhGU1RTKDEwKSA9
-IDB4MDAwMDAwMDAKRFRYRlNUUygxMSkgPSAweDAwMDAwMDAwCkRUWEZTVFMoMTIpID0gMHgw
-MDAwMDAwMApEVFhGU1RTKDEzKSA9IDB4MDAwMDAwMDAKRFRYRlNUUygxNCkgPSAweDAwMDAw
-MDAwCkRUWEZTVFMoMTUpID0gMHgwMDAwMDAwMApQQ0dDVEwgPSAweDAwMDAwMDAwCkhDRkcg
-PSAweDAwMDAwMjAwCkhGSVIgPSAweDAwMDEwZWE1CkhGTlVNID0gMHgwODNkMzcyOQpIUFRY
-U1RTID0gMHg1MzA4MDFmNApIQUlOVCA9IDB4MDAwMDAwMDAKSEFJTlRNU0sgPSAweDAwMDAw
-MDAwCkhGTEJBRERSID0gMHgwMDAwMDAwMApIUFJUMCA9IDB4MDAwMDEwMDUKSENDSEFSKDAp
-ID0gMHgwMDkwMDA0MApIQ0NIQVIoMSkgPSAweDAwOTA4MDQwCkhDQ0hBUigyKSA9IDB4MDA5
-MDAwNDAKSENDSEFSKDMpID0gMHgwMDkwMDA0MApIQ0NIQVIoNCkgPSAweDAwOTA4MDQwCkhD
-Q0hBUig1KSA9IDB4MDA5MDAwNDAKSENDSEFSKDYpID0gMHgwMDkwMDA0MApIQ0NIQVIoNykg
-PSAweDAwOTAwMDQwCkhDQ0hBUig4KSA9IDB4MDA5MDgwNDAKSENDSEFSKDkpID0gMHgwMDkw
-ODA0MApIQ0NIQVIoMTApID0gMHgwMDkwODA0MApIQ0NIQVIoMTEpID0gMHgwMDkwMDA0MApI
-Q0NIQVIoMTIpID0gMHgwMDkwODA0MApIQ0NIQVIoMTMpID0gMHgwMDkwMDA0MApIQ0NIQVIo
-MTQpID0gMHgwMDkwMDA0MApIQ0NIQVIoMTUpID0gMHgwMDkwMDA0MApIQ1NQTFQoMCkgPSAw
-eDAwMDAwMDAwCkhDU1BMVCgxKSA9IDB4MDAwMDAwMDAKSENTUExUKDIpID0gMHgwMDAwMDAw
-MApIQ1NQTFQoMykgPSAweDAwMDAwMDAwCkhDU1BMVCg0KSA9IDB4MDAwMDAwMDAKSENTUExU
-KDUpID0gMHgwMDAwMDAwMApIQ1NQTFQoNikgPSAweDAwMDAwMDAwCkhDU1BMVCg3KSA9IDB4
-MDAwMDAwMDAKSENTUExUKDgpID0gMHgwMDAwMDAwMApIQ1NQTFQoOSkgPSAweDAwMDAwMDAw
-CkhDU1BMVCgxMCkgPSAweDAwMDAwMDAwCkhDU1BMVCgxMSkgPSAweDAwMDAwMDAwCkhDU1BM
-VCgxMikgPSAweDAwMDAwMDAwCkhDU1BMVCgxMykgPSAweDAwMDAwMDAwCkhDU1BMVCgxNCkg
-PSAweDAwMDAwMDAwCkhDU1BMVCgxNSkgPSAweDAwMDAwMDAwCkhDSU5UKDApID0gMHgwMDAw
-MDAwMApIQ0lOVCgxKSA9IDB4MDAwMDAwMDAKSENJTlQoMikgPSAweDAwMDAwMDAwCkhDSU5U
-KDMpID0gMHgwMDAwMDAwMApIQ0lOVCg0KSA9IDB4MDAwMDAwMDAKSENJTlQoNSkgPSAweDAw
-MDAwMDAwCkhDSU5UKDYpID0gMHgwMDAwMDAwMApIQ0lOVCg3KSA9IDB4MDAwMDAwMDAKSENJ
-TlQoOCkgPSAweDAwMDAwMDAwCkhDSU5UKDkpID0gMHgwMDAwMDAwMApIQ0lOVCgxMCkgPSAw
-eDAwMDAwMDAwCkhDSU5UKDExKSA9IDB4MDAwMDAwMDAKSENJTlQoMTIpID0gMHgwMDAwMDAw
-MApIQ0lOVCgxMykgPSAweDAwMDAwMDAwCkhDSU5UKDE0KSA9IDB4MDAwMDAwMDAKSENJTlQo
-MTUpID0gMHgwMDAwMDAwMApIQ0lOVE1TSygwKSA9IDB4MDAwMDAwMDAKSENJTlRNU0soMSkg
-PSAweDAwMDAwMDAwCkhDSU5UTVNLKDIpID0gMHgwMDAwMDAwMApIQ0lOVE1TSygzKSA9IDB4
-MDAwMDAwMDAKSENJTlRNU0soNCkgPSAweDAwMDAwMDAwCkhDSU5UTVNLKDUpID0gMHgwMDAw
-MDAwMApIQ0lOVE1TSyg2KSA9IDB4MDAwMDAwMDAKSENJTlRNU0soNykgPSAweDAwMDAwMDAw
-CkhDSU5UTVNLKDgpID0gMHgwMDAwMDAwMApIQ0lOVE1TSyg5KSA9IDB4MDAwMDAwMDAKSENJ
-TlRNU0soMTApID0gMHgwMDAwMDAwMApIQ0lOVE1TSygxMSkgPSAweDAwMDAwMDAwCkhDSU5U
-TVNLKDEyKSA9IDB4MDAwMDAwMDAKSENJTlRNU0soMTMpID0gMHgwMDAwMDAwMApIQ0lOVE1T
-SygxNCkgPSAweDAwMDAwMDAwCkhDSU5UTVNLKDE1KSA9IDB4MDAwMDAwMDAKSENUU0laKDAp
-ID0gMHgwMDAwMDAwMApIQ1RTSVooMSkgPSAweDgwMDAwMDNjCkhDVFNJWigyKSA9IDB4MjAw
-MDAwMDgKSENUU0laKDMpID0gMHgyMDAwMDAwOApIQ1RTSVooNCkgPSAweDgwMDAwMDNjCkhD
-VFNJWig1KSA9IDB4MDAwMDAwMDAKSENUU0laKDYpID0gMHgwMDAwMDAwMApIQ1RTSVooNykg
-PSAweDIwMDAwMDA4CkhDVFNJWig4KSA9IDB4ODAwMDAwNDAKSENUU0laKDkpID0gMHg4MDAw
-MDAzYwpIQ1RTSVooMTApID0gMHg4MDAwMDA0MApIQ1RTSVooMTEpID0gMHgyMDAwMDAwOApI
-Q1RTSVooMTIpID0gMHg4MDAwMDAzYwpIQ1RTSVooMTMpID0gMHgwMDAwMDAwMApIQ1RTSVoo
-MTQpID0gMHgyMDAwMDAwOApIQ1RTSVooMTUpID0gMHgyMDAwMDAwOApIQ0RNQSgwKSA9IDB4
-NmQ4ODEwMDAKSENETUEoMSkgPSAweDdlYzAwZjg0CkhDRE1BKDIpID0gMHg3ZWFhNzAwOApI
-Q0RNQSgzKSA9IDB4N2VhYTcwMDgKSENETUEoNCkgPSAweDdlYzAwZjg0CkhDRE1BKDUpID0g
-MHg2ZDg4MTAwMApIQ0RNQSg2KSA9IDB4NmQ4ODEwMDAKSENETUEoNykgPSAweDdlYWE3MDA4
-CkhDRE1BKDgpID0gMHg2ZDg4MTAwMApIQ0RNQSg5KSA9IDB4N2VjMDBmODQKSENETUEoMTAp
-ID0gMHg2ZDg4MTAwMApIQ0RNQSgxMSkgPSAweDdlYWE3MDA4CkhDRE1BKDEyKSA9IDB4N2Vj
-MDBmODQKSENETUEoMTMpID0gMHg2ZDg4MTAwMApIQ0RNQSgxNCkgPSAweDdlYWE3MDA4CkhD
-RE1BKDE1KSA9IDB4N2VhYTcwMDgKSENETUFCKDApID0gMHg3ZWFhNzAwOApIQ0RNQUIoMSkg
-PSAweDdlYWE3MDA4CkhDRE1BQigyKSA9IDB4N2VhYTcwMDgKSENETUFCKDMpID0gMHg3ZWFh
-NzAwOApIQ0RNQUIoNCkgPSAweDdlYWE3MDA4CkhDRE1BQig1KSA9IDB4N2VhYTcwMDgKSENE
-TUFCKDYpID0gMHg3ZWFhNzAwOApIQ0RNQUIoNykgPSAweDdlYWE3MDA4CkhDRE1BQig4KSA9
-IDB4N2VhYTcwMDgKSENETUFCKDkpID0gMHg3ZWFhNzAwOApIQ0RNQUIoMTApID0gMHg3ZWFh
-NzAwOApIQ0RNQUIoMTEpID0gMHg3ZWFhNzAwOApIQ0RNQUIoMTIpID0gMHg3ZWFhNzAwOApI
-Q0RNQUIoMTMpID0gMHg3ZWFhNzAwOApIQ0RNQUIoMTQpID0gMHg3ZWFhNzAwOApIQ0RNQUIo
-MTUpID0gMHg3ZWFhNzAwOAo=
---------------1629678D9C9274DFCA01B0D6--
+-- 
+heikki
