@@ -2,76 +2,94 @@ Return-Path: <SRS0=u5rC=SN=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS,UNPARSEABLE_RELAY autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4491C10F11
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 01:01:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05A06C10F11
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 01:06:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BBF0A217D4
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 01:01:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CDBAC20850
+	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 01:06:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726664AbfDKBBB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 Apr 2019 21:01:01 -0400
-Received: from mail-it1-f198.google.com ([209.85.166.198]:37925 "EHLO
-        mail-it1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726023AbfDKBBB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Apr 2019 21:01:01 -0400
-Received: by mail-it1-f198.google.com with SMTP id 79so3990895itz.3
-        for <linux-usb@vger.kernel.org>; Wed, 10 Apr 2019 18:01:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=tv6qffGYPBYILk02p1FMdoKuMlPTDm5i51uvShtRcdg=;
-        b=RXfWIJ3Ekc4dFuCcqFua5OV5qDoPlXjqHGz72SaN1a5dVXfsRSjTeREUe5a8g/mM06
-         M2T++wsnvnAQQDocu4jxXNkziZ4g9Js5IHvq6QH4GVd8YcuTYv3I6LSTIgIZr4bn4Ttb
-         P5HyiB3TZsdMjbcWQkSb7Ruwmn+TeoqhwZuXro4Z4eHKiYKCJYeqee5lb9F71T1go9m5
-         OPcjDIYc9/ACqLQCok4G51Iw6vNYSNu6ZEOLGOoo5h3wMmDc3sqFM/v71ZlroIu6iIO1
-         vln2qv1GW/bLfOnfiMbj98Hz3htOgR8rQMIbBdub6YR7Vx68FBllOKzriNYqVvrpL8Q/
-         ZtYQ==
-X-Gm-Message-State: APjAAAVczN1ElZqllGFNsXjYGB/3PKabxVLGGjRkB7kbyS13yuoW9dKG
-        4dbZTdn1wI/I3XVNHeOOJGIO7G2ZWax4DU2Qy6L3MpV7l1LA
-X-Google-Smtp-Source: APXvYqxCZLGueWq5+oTUJrVwXdp0ypnCtB9uKcBjYF7CAUuJhz4sOdX1+9dO3GIL47zrKLAQa5u9dFaPzSh25WO+CAWv07XsXDdf
+        id S1726795AbfDKBGH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 Apr 2019 21:06:07 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:61644 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725782AbfDKBGH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Apr 2019 21:06:07 -0400
+X-UUID: 0ac7dc869424441dab17ec1c9647182c-20190411
+X-UUID: 0ac7dc869424441dab17ec1c9647182c-20190411
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 1897485948; Thu, 11 Apr 2019 09:06:01 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31N1.mediatek.inc
+ (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Thu, 11 Apr
+ 2019 09:05:59 +0800
+Received: from [10.17.3.153] (172.27.4.253) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Thu, 11 Apr 2019 09:05:59 +0800
+Message-ID: <1554944759.10179.182.camel@mhfsdcap03>
+Subject: Re: [v3 PATCH 6/6] usb: mtu3: register a USB Role Switch for dual
+ role mode
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+CC:     Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "Matthias Brugger" <matthias.bgg@gmail.com>,
+        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
+        Li Jun <jun.li@nxp.com>,
+        "Badhri Jagan Sridharan" <badhri@google.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Min Guo <min.guo@mediatek.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>
+Date:   Thu, 11 Apr 2019 09:05:59 +0800
+In-Reply-To: <20190410102415.GH20058@kuha.fi.intel.com>
+References: <1554257354-7440-1-git-send-email-chunfeng.yun@mediatek.com>
+         <1554257354-7440-7-git-send-email-chunfeng.yun@mediatek.com>
+         <20190410102415.GH20058@kuha.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-X-Received: by 2002:a24:3d8e:: with SMTP id n136mr1715965itn.3.1554944460297;
- Wed, 10 Apr 2019 18:01:00 -0700 (PDT)
-Date:   Wed, 10 Apr 2019 18:01:00 -0700
-In-Reply-To: <00000000000065a79f057a095de8@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000033a06b058636b877@google.com>
-Subject: Re: WARNING in usb_submit_urb (4)
-From:   syzbot <syzbot+7634edaea4d0b341c625@syzkaller.appspotmail.com>
-To:     Thinh.Nguyen@synopsys.com, andreyknvl@google.com,
-        felipe.balbi@linux.intel.com, gregkh@linuxfoundation.org,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, mmarek@suse.com, shuah@kernel.org,
-        stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com,
-        torvalds@linux-foundation.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+X-MTK:  N
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190411010559.qvUv2LJlqsOdltQZW657LLny7WGZFV6PiwldmQ-AFM4@z>
 
-syzbot has bisected this bug to:
+On Wed, 2019-04-10 at 13:24 +0300, Heikki Krogerus wrote:
+> On Wed, Apr 03, 2019 at 10:09:14AM +0800, Chunfeng Yun wrote:
+> > +static int ssusb_role_sw_register(struct otg_switch_mtk *otg_sx)
+> > +{
+> > +	struct usb_role_switch_desc role_sx_desc = { 0 };
+> > +	struct ssusb_mtk *ssusb =
+> > +		container_of(otg_sx, struct ssusb_mtk, otg_switch);
+> > +
+> > +	if (!otg_sx->role_sw_used)
+> > +		return 0;
+> > +
+> > +	role_sx_desc.set = ssusb_role_sw_set;
+> > +	role_sx_desc.get = ssusb_role_sw_get;
+> 
+>         role_sw_desc.fwnode = dev_fwnode(ssusb->dev);
+Ok, thanks
 
-commit c470abd4fde40ea6a0846a2beab642a578c0b8cd
-Author: Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sun Feb 19 22:34:00 2017 +0000
+> 
+> > +	otg_sx->role_sw = usb_role_switch_register(ssusb->dev, &role_sx_desc);
+> > +
+> > +	return PTR_ERR_OR_ZERO(otg_sx->role_sw);
+> > +}
+> 
+> thanks,
+> 
 
-     Linux 4.10
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=11b415ed200000
-start commit:   e12e00e3 Merge tag 'kbuild-fixes-v4.20' of git://git.kerne..
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=8f215f21f041a0d7
-dashboard link: https://syzkaller.appspot.com/bug?extid=7634edaea4d0b341c625
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11ce6fbd400000
-
-Reported-by: syzbot+7634edaea4d0b341c625@syzkaller.appspotmail.com
-Fixes: c470abd4fde4 ("Linux 4.10")
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
