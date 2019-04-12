@@ -2,115 +2,102 @@ Return-Path: <SRS0=sojL=SO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_PASS,USER_AGENT_NEOMUTT autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
+	T_DKIMWL_WL_HIGH,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED76FC10F0E
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 14:20:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55771C10F0E
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 14:24:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B024C20818
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 14:20:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2391420818
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 14:24:14 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kalray.eu header.i=@kalray.eu header.b="WL2LXkx1"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Ufa0BLRK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726826AbfDLOUx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 12 Apr 2019 10:20:53 -0400
-Received: from zimbra2.kalray.eu ([92.103.151.219]:58154 "EHLO
-        zimbra2.kalray.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726327AbfDLOUw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 Apr 2019 10:20:52 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTP id AB65B27E03E9;
-        Fri, 12 Apr 2019 16:20:51 +0200 (CEST)
-Received: from zimbra2.kalray.eu ([127.0.0.1])
-        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id sSfOF7cDh-UR; Fri, 12 Apr 2019 16:20:51 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTP id 1EB4B27E03F4;
-        Fri, 12 Apr 2019 16:20:51 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 1EB4B27E03F4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
-        s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1555078851;
-        bh=zyseTl01AU0ypodMCS0rtQ0e+EhLf21aXij1VCAKFng=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=WL2LXkx1GUb6Pzxjp8W9GmmGL5AWjc4unKG9nrTf8+v5ZQBAymid5SmA747s9yr04
-         rtjFp18PR+SMUAMuCy/rYkAv3r35g+mkDVknflCGskXC80yUMZmy946KKiTOUAr05q
-         PGWVzLzP8vMRd7filqbZZsOCKrgB6YY+My+xEK1s=
-X-Virus-Scanned: amavisd-new at zimbra2.kalray.eu
-Received: from zimbra2.kalray.eu ([127.0.0.1])
-        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id xWMTi2OqUsmI; Fri, 12 Apr 2019 16:20:51 +0200 (CEST)
-Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206])
-        by zimbra2.kalray.eu (Postfix) with ESMTPSA id EE08927E03E9;
-        Fri, 12 Apr 2019 16:20:50 +0200 (CEST)
-Date:   Fri, 12 Apr 2019 16:20:44 +0200
-From:   Jules Maselbas <jmaselbas@kalray.eu>
-To:     Artur Petrosyan <arthur.petrosyan@synopsys.com>
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Minas Harutyunyan <minas.harutyunyan@synopsys.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        John Youn <john.youn@synopsys.com>
-Subject: Re: [PATCH 03/14] usb: dwc2: Fix wakeup detected and session request
- interrupt handlers.
-Message-ID: <20190412142044.e3lojhrhpwe3d7pe@tellis.lin.mbt.kalray.eu>
-References: <cover.1555075927.git.arturp@synopsys.com>
- <8f99e3ceb45ede4526363bd9b44d417a6b6ff5cd.1555075928.git.arturp@synopsys.com>
+        id S1727345AbfDLOYF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 12 Apr 2019 10:24:05 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:47384 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726826AbfDLOYE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 Apr 2019 10:24:04 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x3CENsvb002136;
+        Fri, 12 Apr 2019 09:23:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1555079034;
+        bh=Vw6Zie5sf+oXW59daqqsWea0HiJVk+fUww+feLpxn68=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=Ufa0BLRKH93NdBpmeFH4ilom/mdIyE6VbZ7esGJUQ0+AT9EhCYUthn2wSJpIXOJ8n
+         XaAULeRpvLiZqVmGBNdU6v7LF/RK3nBEPZyeruby5MJVJXUcPg0GnCkeY3bNsJbT2l
+         NNIzwecBSWnhujNIWBq6c+coUSbhU/sZwunHWLk4=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x3CENsAn095752
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 12 Apr 2019 09:23:54 -0500
+Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 12
+ Apr 2019 09:23:54 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Fri, 12 Apr 2019 09:23:54 -0500
+Received: from [172.24.190.172] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x3CENpxb004909;
+        Fri, 12 Apr 2019 09:23:52 -0500
+Subject: Re: [PATCH v5 0/6] ARM: davinci: ohci-da8xx: model the vbus GPIO as a
+ fixed regulator
+To:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Kevin Hilman <khilman@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+References: <20190412123640.11437-1-brgl@bgdev.pl>
+From:   Sekhar Nori <nsekhar@ti.com>
+Message-ID: <bb650c9b-ebf3-719b-861f-6d76c26cd1fd@ti.com>
+Date:   Fri, 12 Apr 2019 19:53:50 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <8f99e3ceb45ede4526363bd9b44d417a6b6ff5cd.1555075928.git.arturp@synopsys.com>
-User-Agent: NeoMutt/20180716-1344-11488f
+In-Reply-To: <20190412123640.11437-1-brgl@bgdev.pl>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190412142044.TE1Umc8v39_8F9FKjadvYpk0FFE3eOKS-nbmtDpKDlc@z>
 
-Hi Artur,
-
-On Fri, Apr 12, 2019 at 01:38:56PM +0000, Artur Petrosyan wrote:
-> In host mode port power must be turned on when wakeup
-> detected or session request interrupt is detected.
-> Because, otherwise core wouldn't exit form partial
-> power down.
+On 12/04/19 6:06 PM, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > 
-> - Turned on the port power by setting HPRT0_PWR bit.
+> Historically the power supply management in this driver has been handled
+> in two separate places in parallel. Device-tree users simply defined an
+> appropriate regulator, while two boards with no DT support (da830-evm and
+> omapl138-hawk) passed functions defined in their respective board files
+> over platform data. These functions simply used legacy GPIO calls to
+> watch the oc GPIO for interrupts and disable the vbus GPIO when the irq
+> fires.
 > 
-> - Called dwc2_hcd_connect() function after enabling
->   the power of the port.
+> Commit d193abf1c913 ("usb: ohci-da8xx: add vbus and overcurrent gpios")
+> updated these GPIO calls to the modern API and moved them inside the
+> driver.
 > 
-> Signed-off-by: Artur Petrosyan <arturp@synopsys.com>
-> ---
->  drivers/usb/dwc2/core_intr.c | 24 +++++++++++++++++++++---
->  1 file changed, 21 insertions(+), 3 deletions(-)
+> This however is not the optimal solution for the vbus GPIO as it
+> duplicates code. Instead we should model the GPIO as a fixed regulator
+> that can be controlled with a GPIO.
 > 
-> diff --git a/drivers/usb/dwc2/core_intr.c b/drivers/usb/dwc2/core_intr.c
-> index 19ae2595f1c3..ce523fd2b1b4 100644
-> --- a/drivers/usb/dwc2/core_intr.c
-> +++ b/drivers/usb/dwc2/core_intr.c
-> @@ -312,6 +312,7 @@ static void dwc2_handle_conn_id_status_change_intr(struct dwc2_hsotg *hsotg)
->  static void dwc2_handle_session_req_intr(struct dwc2_hsotg *hsotg)
->  {
->  	int ret;
-> +	u32 hprt0;
->  
->  	/* Clear interrupt */
->  	dwc2_writel(hsotg, GINTSTS_SESSREQINT, GINTSTS);
-> @@ -320,7 +321,8 @@ static void dwc2_handle_session_req_intr(struct dwc2_hsotg *hsotg)
->  		hsotg->lx_state);
->  
->  	if (dwc2_is_device_mode(hsotg)) {
-> -		if (hsotg->lx_state == DWC2_L2) {
-> +		if (hsotg->lx_state == DWC2_L2 &&
-> +		    hsotg->params.power_down == 1) {
-I think you can replace 1 with DWC2_POWER_DOWN_PARAM_PARTIAL.
+> This series adds fixed regulators for all users of vbus GPIO, adds
+> overcurrent protection using the existing vbus regulator in the USB
+> driver and removes the vbus GPIO calls once they're no longer used.
+> 
+> Tested on da830-evm with the module both built-in and loadable.
 
-[snip]
+Applied to v5.2/soc with Alan's ack applied on 3/6
 
----
-Best,
-Jules
-
+Thanks,
+Sekhar
