@@ -2,128 +2,167 @@ Return-Path: <SRS0=sojL=SO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C83BEC10F14
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 12:37:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 737B6C10F0E
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 12:38:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 978F22082E
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 12:37:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 37ECF2082E
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 12:38:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="ZzNHNCwB"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="A5spJEAR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728355AbfDLMgs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 12 Apr 2019 08:36:48 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:39405 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727958AbfDLMgr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 Apr 2019 08:36:47 -0400
-Received: by mail-wm1-f66.google.com with SMTP id n25so10821924wmk.4
-        for <linux-usb@vger.kernel.org>; Fri, 12 Apr 2019 05:36:46 -0700 (PDT)
+        id S1727629AbfDLMiQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 12 Apr 2019 08:38:16 -0400
+Received: from mail-it1-f194.google.com ([209.85.166.194]:36021 "EHLO
+        mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726827AbfDLMiQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 Apr 2019 08:38:16 -0400
+Received: by mail-it1-f194.google.com with SMTP id y10so15213649itc.1
+        for <linux-usb@vger.kernel.org>; Fri, 12 Apr 2019 05:38:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=joOQiQILwSUQpc0pTrHcK/ya5VvWQmcmFsscTsVp5Yw=;
-        b=ZzNHNCwB2MHMWsVsm62DVxQ40e64KQJi/5XS/zJI3Rjuz6UiIQiQMIUYlicxAUcMyR
-         wRQ2JIBoVs7/ncCvHJ8+S+E26InWJTkutfL6OgVcBXzDapJNRwkL6ud3lxmQO4+sVf4U
-         yrD+9EoL68IteFtZqS3XoRyLkBvfZRS5hkK3azO7M0CKgRK+VNnHorMzdE0bDI76P7kf
-         SZkyMPqvWdXwelb9aV+hp3POKqHftBQGR1+CLlP3EWsRrn86DrGUe2IkOYctdhH88lEH
-         Sg149a9nAHReBS9/uCKfoRyPgwqhxf4H+pCB/ty922D4QH/Nt4/GLMfK1INdKe7RXtD5
-         xnPg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Ane6YKMR1pWYkffJSXuaHDPMnOw6zUnYRWo0YgeFabk=;
+        b=A5spJEARDHhg9TLZ56N9kutO1OdLDEXHb/Wc25z/xeeLcP0hptI0VLx5u8EHT/juFE
+         Yp4Ixg5U9sB5T/gfFmPbEiptZ7xDP3ZCA1HhELF7/MGAkqQKsWOgkFqQUv/GhdCTqCkJ
+         tmj99PFjWjhJuHvsI22gmTXH1Q4+XhrYiowj44XltGns0V2kAOIbFWQYS8uHYtNeRP6Y
+         4QOFbdf83zhBApokqkheMm16IEYntGfnrxAzWvHnLAd6y7a08W6K188Bjv4dzIaA+OeW
+         +TKs5sB52EuT+TRMxFt/aznvxBabE8HaBDupnPZM10X/zRxzHr7qhndGEGGMIK26E7nd
+         gRJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=joOQiQILwSUQpc0pTrHcK/ya5VvWQmcmFsscTsVp5Yw=;
-        b=cpkU3I0vA8+9aF6WG2eLJXmWTBbErh0n0Gx6PWilHVuw1Rmjja/yjI5eRlUC0vBylz
-         Qg82RPsNElhuxWR5PdOju5CYVEYzIMt+PRcGqWnOycBb2pAEkxVX5ISlAhFzakGME2WZ
-         6uM4QJCuCHwtwue8z8cJpr2rJdVVQ+BhZaLNV1C6xKc2LTTXTde0KvPpLsSr8WUZ289s
-         9FuTJSiUlT7iFwBugj+WOQqDmAKeBO5D7BzhrDZvmveHlUlIb5k9ME8zldc4fahh+O1b
-         jelkMTfv66p8BL1cAzR5ZJmTWRJLs4cVmrZ1+8aabUJb+jG3G626LENesNupqNjTiz1+
-         /zJQ==
-X-Gm-Message-State: APjAAAXVxDgRHsOS91R4Hy2QBKPnTR2KIGlh/cucB+AMMidHMq86YnFh
-        +Lk5YOgy62+iuC4wMkmQH0yZ0Q==
-X-Google-Smtp-Source: APXvYqyElSWkpRR37KwhB8kBDZhyovKNUnSkJGF/0UvOx0kMpkjnAmtwpkNmPmgtdNBA9lHMZWqVSg==
-X-Received: by 2002:a1c:1a4d:: with SMTP id a74mr11089006wma.50.1555072605753;
-        Fri, 12 Apr 2019 05:36:45 -0700 (PDT)
-Received: from localhost.localdomain (aputeaux-684-1-35-248.w90-86.abo.wanadoo.fr. [90.86.90.248])
-        by smtp.gmail.com with ESMTPSA id v190sm12384030wme.18.2019.04.12.05.36.44
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 12 Apr 2019 05:36:45 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Ane6YKMR1pWYkffJSXuaHDPMnOw6zUnYRWo0YgeFabk=;
+        b=N4W43buSYuP18Gt0u8dHmHgmEaInT9WJ0raVFm2qG1PFWdX/P/ZJER0/UHTT+aGXUU
+         0M72zylfmQqPvDL0Xj2npAxcy+z8nJYngECMldiwvTdVyqf7Q9wLW0AcsaSzvyQoBnGy
+         CM1Sl/b4sQjp2v7WUKBb4PdLSDCbvk1wNk9kyU1evmOgE+1NWOaiBnNJew3KJptPrszW
+         i8iEVJnGLeA1eyUvl0JfjN4DcE9POxT+PZIkTOOEJ59nV3ZRlpkA0WMC2d4pbgfLsNF6
+         zvGYo3WpwXjTkJDn1x6no2elKFtvq8o9X5XP3ur4Sg9+LcA1oEv6Ad12CIlk4mDgnAS9
+         ja5w==
+X-Gm-Message-State: APjAAAXZiF0+GmttsWJ4/Cl8qPeIDfh69ZieARekmCFgRvv88cAcOfvR
+        6JRH1AWGjOwzSGVHCY24kHFTYN1MVLPUf1/B/MtHdA==
+X-Google-Smtp-Source: APXvYqzyFb1u2GzJeIRUCa3Hs5/nKTmq+A4x5q3ZS7iCdOkJnVD3M0QcWjj4x/hIQD+0M2yKx7BShrlGNMAAbi05Fnk=
+X-Received: by 2002:a24:ad2:: with SMTP id 201mr12314477itw.26.1555072695236;
+ Fri, 12 Apr 2019 05:38:15 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190412123640.11437-1-brgl@bgdev.pl> <20190412123640.11437-4-brgl@bgdev.pl>
+In-Reply-To: <20190412123640.11437-4-brgl@bgdev.pl>
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Fri, 12 Apr 2019 14:38:03 +0200
+Message-ID:
+ <CAMRc=MeoXotnKNrEmDb1_UnttGBRsh4Xj4Kjw0tand5kscx9bw@mail.gmail.com>
+Subject: Re: [PATCH v5 3/6] usb: ohci-da8xx: disable the regulator if the
+ overcurrent irq fired
 To:     Sekhar Nori <nsekhar@ti.com>, Kevin Hilman <khilman@kernel.org>,
         Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-usb@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v5 2/6] usb: ohci-da8xx: let the regulator framework keep track of use count
-Date:   Fri, 12 Apr 2019 14:36:36 +0200
-Message-Id: <20190412123640.11437-3-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190412123640.11437-1-brgl@bgdev.pl>
-References: <20190412123640.11437-1-brgl@bgdev.pl>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190412123636.BrP59Va1gybAYDNHe2FW4adJl6Gw7BBAywNs_JxKJzA@z>
+Message-ID: <20190412123803.4ZJBv4vnGHQ0CWz8CYKJZatngoQTSyybttWnFjdpyz0@z>
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+pt., 12 kwi 2019 o 14:36 Bartosz Golaszewski <brgl@bgdev.pl> napisa=C5=82(a=
+):
+>
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+>
+> Historically the power supply management in this driver has been handled
+> in two separate places in parallel. Device-tree users simply defined an
+> appropriate regulator, while two boards with no DT support (da830-evm and
+> omapl138-hawk) passed functions defined in their respective board files
+> over platform data. These functions simply used legacy GPIO calls to
+> watch the oc GPIO for interrupts and disable the vbus GPIO when the irq
+> fires.
+>
+> Commit d193abf1c913 ("usb: ohci-da8xx: add vbus and overcurrent gpios")
+> updated these GPIO calls to the modern API and moved them inside the
+> driver.
+>
+> This however is not the optimal solution for the vbus GPIO which should
+> be modeled as a fixed regulator that can be controlled with a GPIO.
+>
+> In order to keep the overcurrent protection available once we move the
+> board files to using fixed regulators we need to disable the enable_reg
+> regulator when the overcurrent indicator interrupt fires. Since we
+> cannot call regulator_disable() from interrupt context, we need to
+> switch to using a oneshot threaded interrupt.
+>
+> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-There's no reason to have a separate variable to keep track of the
-regulator state. The regulator core already does that. Remove
-reg_enabled from struct da8xx_ohci_hcd.
+Sekhar,
 
-Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+I forgot to include Alan's ack for v4:
+
 Acked-by: Alan Stern <stern@rowland.harvard.edu>
----
- drivers/usb/host/ohci-da8xx.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/usb/host/ohci-da8xx.c b/drivers/usb/host/ohci-da8xx.c
-index ca8a94f15ac0..209a262b5565 100644
---- a/drivers/usb/host/ohci-da8xx.c
-+++ b/drivers/usb/host/ohci-da8xx.c
-@@ -40,7 +40,6 @@ struct da8xx_ohci_hcd {
- 	struct phy *usb11_phy;
- 	struct regulator *vbus_reg;
- 	struct notifier_block nb;
--	unsigned int reg_enabled;
- 	struct gpio_desc *vbus_gpio;
- 	struct gpio_desc *oc_gpio;
- };
-@@ -100,21 +99,18 @@ static int ohci_da8xx_set_power(struct usb_hcd *hcd, int on)
- 	if (!da8xx_ohci->vbus_reg)
- 		return 0;
- 
--	if (on && !da8xx_ohci->reg_enabled) {
-+	if (on) {
- 		ret = regulator_enable(da8xx_ohci->vbus_reg);
- 		if (ret) {
- 			dev_err(dev, "Failed to enable regulator: %d\n", ret);
- 			return ret;
- 		}
--		da8xx_ohci->reg_enabled = 1;
--
--	} else if (!on && da8xx_ohci->reg_enabled) {
-+	} else {
- 		ret = regulator_disable(da8xx_ohci->vbus_reg);
- 		if (ret) {
- 			dev_err(dev, "Failed  to disable regulator: %d\n", ret);
- 			return ret;
- 		}
--		da8xx_ohci->reg_enabled = 0;
- 	}
- 
- 	return 0;
--- 
-2.21.0
-
+> ---
+>  drivers/usb/host/ohci-da8xx.c | 22 +++++++++++++++++-----
+>  1 file changed, 17 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/usb/host/ohci-da8xx.c b/drivers/usb/host/ohci-da8xx.=
+c
+> index 209a262b5565..f69b339d45e5 100644
+> --- a/drivers/usb/host/ohci-da8xx.c
+> +++ b/drivers/usb/host/ohci-da8xx.c
+> @@ -202,12 +202,23 @@ static int ohci_da8xx_regulator_event(struct notifi=
+er_block *nb,
+>         return 0;
+>  }
+>
+> -static irqreturn_t ohci_da8xx_oc_handler(int irq, void *data)
+> +static irqreturn_t ohci_da8xx_oc_thread(int irq, void *data)
+>  {
+>         struct da8xx_ohci_hcd *da8xx_ohci =3D data;
+> +       struct device *dev =3D da8xx_ohci->hcd->self.controller;
+> +       int ret;
+>
+> -       if (gpiod_get_value(da8xx_ohci->oc_gpio))
+> -               gpiod_set_value(da8xx_ohci->vbus_gpio, 0);
+> +       if (gpiod_get_value_cansleep(da8xx_ohci->oc_gpio)) {
+> +               if (da8xx_ohci->vbus_gpio) {
+> +                       gpiod_set_value_cansleep(da8xx_ohci->vbus_gpio, 0=
+);
+> +               } else if (da8xx_ohci->vbus_reg) {
+> +                       ret =3D regulator_disable(da8xx_ohci->vbus_reg);
+> +                       if (ret)
+> +                               dev_err(dev,
+> +                                       "Failed to disable regulator: %d\=
+n",
+> +                                       ret);
+> +               }
+> +       }
+>
+>         return IRQ_HANDLED;
+>  }
+> @@ -434,8 +445,9 @@ static int ohci_da8xx_probe(struct platform_device *p=
+dev)
+>                 if (oc_irq < 0)
+>                         goto err;
+>
+> -               error =3D devm_request_irq(dev, oc_irq, ohci_da8xx_oc_han=
+dler,
+> -                               IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLIN=
+G,
+> +               error =3D devm_request_threaded_irq(dev, oc_irq, NULL,
+> +                               ohci_da8xx_oc_thread, IRQF_TRIGGER_RISING=
+ |
+> +                               IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
+>                                 "OHCI over-current indicator", da8xx_ohci=
+);
+>                 if (error)
+>                         goto err;
+> --
+> 2.21.0
+>
