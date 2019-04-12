@@ -7,50 +7,50 @@ X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2AFFC10F0E
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 22:42:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E265EC10F0E
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 22:42:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B225F20818
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 22:42:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A8C8C20818
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 22:42:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="P5nTYPh6"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fbSrJK0g"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727197AbfDLWmV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 12 Apr 2019 18:42:21 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:40600 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727129AbfDLWmU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 Apr 2019 18:42:20 -0400
-Received: by mail-pf1-f193.google.com with SMTP id c207so5797068pfc.7
-        for <linux-usb@vger.kernel.org>; Fri, 12 Apr 2019 15:42:20 -0700 (PDT)
+        id S1727154AbfDLWmS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 12 Apr 2019 18:42:18 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:42566 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727130AbfDLWmS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 Apr 2019 18:42:18 -0400
+Received: by mail-pf1-f194.google.com with SMTP id w25so5784056pfi.9
+        for <linux-usb@vger.kernel.org>; Fri, 12 Apr 2019 15:42:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=/YuEmfQg8iFJSPB8k83tnNDUSXUSqQSeLxTTSLbTTIw=;
-        b=P5nTYPh6nN+ghxubaHuPvzgMsTS6c1Xt/Xvkr9w2rsv7ycd0UBEp43vGHPMABrMA44
-         8M1S92pVD/nXq/g4qcsJrJE3pQ5hdDPeaPGzBY08joVJz2pRCq+R/45s9T/NDQcNvwmK
-         0SeL6Og/rn6RzOK+wrkEtwZYp1WhY7HOYCVIs=
+        bh=m7bMG3CshorQmg1lKkeTmGf1nYdxxwbwlljLNgyUqRE=;
+        b=fbSrJK0g0fV9BeN6bDPthd9lwEe9RLJC+eoaMbx0RbbjJBVQAYnXPHCBoED/Iwmtoy
+         43NBpBf2SWtGJXyPHTMBb6VifLYayinWnZmQZQc/fNKtRQB8E+htKim93DGLixzSaRGI
+         9XLSySNPGmeKLiswXK6NlSTK6HU0CXSn6zWis=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/YuEmfQg8iFJSPB8k83tnNDUSXUSqQSeLxTTSLbTTIw=;
-        b=N9ntZt7goe6CG+ftiOQEEFhwAK/cv931eSOWN19LK/V/D7FDA10ZL14Al8/6FYsWE3
-         CEbnNom54mXPi3mr42T2lgAOfEgsiBgrh3zcq1z3SPP6NTbHZHuPc43/07G5nfwqhHmq
-         fHRpoLwtfkda1e9bm/ZCJF1bX2TbSrdnLjgVtk5IRgmhWvg5GxmTBRX8oz/bCpkFvbAQ
-         7+/SCMWKPM3ArlBR5F/+eST5/zJFJkwhbY2rHwZYS1ROZqXMFuaZcAoMEJkoFOhC2UnH
-         ufRfbxfAG1GMDGIzy1Dgq5Kyn+whM7tM53T5SZij/N9wlxngEno4d1s7sj8NH5g0p0gj
-         tByg==
-X-Gm-Message-State: APjAAAXdfdcCVlshVreYWkXdKKGsuMPDr+bRI6c5/SJ0kJgZaoP+DVH4
-        NZIq8DXHnPn08+5fFKZSn5ubLw==
-X-Google-Smtp-Source: APXvYqz6+8oEj+Agjb0SozX8O6BNiaCaZRMvO2ErsDU5sbBvwehG9ytDclHC9I/t9H4hjjFzy2iowQ==
-X-Received: by 2002:a63:25c4:: with SMTP id l187mr57149864pgl.202.1555108940140;
-        Fri, 12 Apr 2019 15:42:20 -0700 (PDT)
+        bh=m7bMG3CshorQmg1lKkeTmGf1nYdxxwbwlljLNgyUqRE=;
+        b=GunXFp/D1EYkn47SwEJZJxt8FaVuHMv48J2S/c7xgSwRfTHrtW+4VZsaEJpnZGEzWy
+         NzXDzZMkoaZ2+4mN96HcMA6TqHlK6OIXGFUd/QcvSUq5QNTfJk2gbckPQ+bzqo058Qny
+         jDes1r9znFjou2kCJSIElJmAt1+0cCvQIdxxdqa+eSWb8SS18CifJ7sMvMUWbn4TywYq
+         +U3bFnuUAOLeEyUNMnAgRsytpMYoLMUr3f/wHNQW3gc0j+6C29/MRFaMJg9Qg8Eg/WgM
+         v3CoIhw+VZNjHtxJzmFMdNH1j7/XwzE4D71cGvGiLH+xGuefA4f7dsnjJASt99DP+UrN
+         Et3g==
+X-Gm-Message-State: APjAAAWiKUI2D0jX/MS8RquB1vRKvWyfulAadEjfnYK4lV47EAKv5lYf
+        b/v2zlZP4+0Vr0t5qh3NTU1K+A==
+X-Google-Smtp-Source: APXvYqweeBTDzcVs0mDhVE440cgj90OdEU1JkqINcR2OMkCnTKxWPM/VbLWGNBobMDyb4Goe8LhlsA==
+X-Received: by 2002:a63:6193:: with SMTP id v141mr56642537pgb.392.1555108937371;
+        Fri, 12 Apr 2019 15:42:17 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com ([2620:15c:202:1:24fa:e766:52c9:e3b2])
-        by smtp.gmail.com with ESMTPSA id j22sm57170579pfn.129.2019.04.12.15.42.18
+        by smtp.gmail.com with ESMTPSA id j22sm57170579pfn.129.2019.04.12.15.42.16
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 12 Apr 2019 15:42:19 -0700 (PDT)
+        Fri, 12 Apr 2019 15:42:16 -0700 (PDT)
 From:   Douglas Anderson <dianders@chromium.org>
 To:     Rob Herring <robh+dt@kernel.org>,
         Minas Harutyunyan <hminas@synopsys.com>,
@@ -61,12 +61,12 @@ Cc:     amstan@chromium.org, linux-rockchip@lists.infradead.org,
         mka@chromium.org, ryandcase@chromium.org, jwerner@chromium.org,
         Elaine Zhang <zhangqing@rock-chips.com>,
         Douglas Anderson <dianders@chromium.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 4/4] ARM: dts: rockchip: Add quirk for resetting rk3288's dwc2 host on wakeup
-Date:   Fri, 12 Apr 2019 15:41:49 -0700
-Message-Id: <20190412224149.106971-5-dianders@chromium.org>
+        Yunzhi Li <lyz@rock-chips.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 2/4] usb: dwc2: optionally assert phy reset when waking up
+Date:   Fri, 12 Apr 2019 15:41:47 -0700
+Message-Id: <20190412224149.106971-3-dianders@chromium.org>
 X-Mailer: git-send-email 2.21.0.392.gf8f6787159e-goog
 In-Reply-To: <20190412224149.106971-1-dianders@chromium.org>
 References: <20190412224149.106971-1-dianders@chromium.org>
@@ -77,30 +77,154 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190412224149.ydP_LnMwrfJkxYAqf-fSKDppGS3GHaBmCYh2QvVu7qE@z>
+Message-ID: <20190412224147.X-GYrOpBtt7XGMCKCtvgQUVMh84lXu0M5mpNOUEtiQY@z>
 
-The "host" USB port on rk3288 has a hardware errata where we've got to
-assert a PHY reset whenever we see a remote wakeup.  Add that quirk
-property to the device tree.
+On the rk3288 USB host-only port (the one that's not the OTG-enabled
+port) the PHY can get into a bad state when a wakeup is asserted (not
+just a wakeup from full system suspend but also a wakeup from
+autosuspend).
+
+We can get the PHY out of its bad state by asserting its "port reset",
+but unfortunately that seems to assert a reset onto the USB bus so it
+could confuse things if we don't actually deenumerate / reenumerate the
+device.
+
+We can also get the PHY out of its bad state by fully resetting it using
+the reset from the CRU (clock reset unit), which does a more full
+reset.  The CRU-based reset appears to actually cause devices on the bus
+to be removed and reinserted, which fixes the problem (albeit in a hacky
+way).
+
+It's unfortunate that we need to do a full re-enumeration of devices at
+wakeup time, but this is better than alternative of letting the bus get
+wedged.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Signed-off-by: Yunzhi Li <lyz@rock-chips.com>
 ---
 
- arch/arm/boot/dts/rk3288.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/dwc2/core.h      |  5 +++++
+ drivers/usb/dwc2/core_intr.c | 12 ++++++++++++
+ drivers/usb/dwc2/hcd.c       | 16 +++++++++++++---
+ drivers/usb/dwc2/platform.c  |  9 +++++++++
+ 4 files changed, 39 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm/boot/dts/rk3288.dtsi b/arch/arm/boot/dts/rk3288.dtsi
-index 92e0600595f8..6367c1b50fd7 100644
---- a/arch/arm/boot/dts/rk3288.dtsi
-+++ b/arch/arm/boot/dts/rk3288.dtsi
-@@ -617,6 +617,7 @@
- 		dr_mode = "host";
- 		phys = <&usbphy2>;
- 		phy-names = "usb2-phy";
-+		snps,reset-phy-on-wake;
- 		status = "disabled";
- 	};
+diff --git a/drivers/usb/dwc2/core.h b/drivers/usb/dwc2/core.h
+index 30bab8463c96..f30748f4fe7e 100644
+--- a/drivers/usb/dwc2/core.h
++++ b/drivers/usb/dwc2/core.h
+@@ -859,6 +859,8 @@ struct dwc2_hregs_backup {
+  * @gadget_enabled:	Peripheral mode sub-driver initialization indicator.
+  * @ll_hw_enabled:	Status of low-level hardware resources.
+  * @hibernated:		True if core is hibernated
++ * @reset_phy_on_wake:	Quirk saying that we should assert PHY reset on a
++ *			remote wakeup.
+  * @frame_number:       Frame number read from the core. For both device
+  *			and host modes. The value ranges are from 0
+  *			to HFNUM_MAX_FRNUM.
+@@ -972,6 +974,7 @@ struct dwc2_hregs_backup {
+  * @status_buf_dma:     DMA address for status_buf
+  * @start_work:         Delayed work for handling host A-cable connection
+  * @reset_work:         Delayed work for handling a port reset
++ * @phy_reset_work:     Work structure for doing a PHY reset
+  * @otg_port:           OTG port number
+  * @frame_list:         Frame list
+  * @frame_list_dma:     Frame list DMA address
+@@ -1045,6 +1048,7 @@ struct dwc2_hsotg {
+ 	unsigned int gadget_enabled:1;
+ 	unsigned int ll_hw_enabled:1;
+ 	unsigned int hibernated:1;
++	unsigned int reset_phy_on_wake:1;
+ 	u16 frame_number;
  
+ 	struct phy *phy;
+@@ -1147,6 +1151,7 @@ struct dwc2_hsotg {
+ 
+ 	struct delayed_work start_work;
+ 	struct delayed_work reset_work;
++	struct work_struct phy_reset_work;
+ 	u8 otg_port;
+ 	u32 *frame_list;
+ 	dma_addr_t frame_list_dma;
+diff --git a/drivers/usb/dwc2/core_intr.c b/drivers/usb/dwc2/core_intr.c
+index 19ae2595f1c3..16ff33574116 100644
+--- a/drivers/usb/dwc2/core_intr.c
++++ b/drivers/usb/dwc2/core_intr.c
+@@ -435,6 +435,18 @@ static void dwc2_handle_wakeup_detected_intr(struct dwc2_hsotg *hsotg)
+ 			/* Restart the Phy Clock */
+ 			pcgcctl &= ~PCGCTL_STOPPCLK;
+ 			dwc2_writel(hsotg, pcgcctl, PCGCTL);
++
++			/*
++			 * If we've got this quirk then the PHY is stuck upon
++			 * wakeup.  Assert reset.  This will propagate out and
++			 * eventually we'll re-enumerate the device.  Not great
++			 * but the best we can do.  We can't call phy_reset()
++			 * at interrupt time but there's no hurry, so we'll
++			 * schedule it for later.
++			 */
++			if (hsotg->reset_phy_on_wake)
++				schedule_work(&hsotg->phy_reset_work);
++
+ 			mod_timer(&hsotg->wkp_timer,
+ 				  jiffies + msecs_to_jiffies(71));
+ 		} else {
+diff --git a/drivers/usb/dwc2/hcd.c b/drivers/usb/dwc2/hcd.c
+index 3f087962f498..332349148d3f 100644
+--- a/drivers/usb/dwc2/hcd.c
++++ b/drivers/usb/dwc2/hcd.c
+@@ -4376,6 +4376,17 @@ static void dwc2_hcd_reset_func(struct work_struct *work)
+ 	spin_unlock_irqrestore(&hsotg->lock, flags);
+ }
+ 
++static void dwc2_hcd_phy_reset_func(struct work_struct *work)
++{
++	struct dwc2_hsotg *hsotg = container_of(work, struct dwc2_hsotg,
++						phy_reset_work);
++	int ret;
++
++	ret = phy_reset(hsotg->phy);
++	if (ret)
++		dev_warn(hsotg->dev, "PHY reset failed\n");
++}
++
+ /*
+  * =========================================================================
+  *  Linux HC Driver Functions
+@@ -5271,11 +5282,10 @@ int dwc2_hcd_init(struct dwc2_hsotg *hsotg)
+ 		hsotg->hc_ptr_array[i] = channel;
+ 	}
+ 
+-	/* Initialize hsotg start work */
++	/* Initialize work */
+ 	INIT_DELAYED_WORK(&hsotg->start_work, dwc2_hcd_start_func);
+-
+-	/* Initialize port reset work */
+ 	INIT_DELAYED_WORK(&hsotg->reset_work, dwc2_hcd_reset_func);
++	INIT_WORK(&hsotg->phy_reset_work, dwc2_hcd_phy_reset_func);
+ 
+ 	/*
+ 	 * Allocate space for storing data on status transactions. Normally no
+diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
+index c0b64d483552..9b65b766e0b9 100644
+--- a/drivers/usb/dwc2/platform.c
++++ b/drivers/usb/dwc2/platform.c
+@@ -481,6 +481,15 @@ static int dwc2_driver_probe(struct platform_device *dev)
+ 		hsotg->gadget_enabled = 1;
+ 	}
+ 
++	hsotg->reset_phy_on_wake =
++		of_property_read_bool(dev->dev.of_node,
++				      "snps,reset-phy-on-wake");
++	if (hsotg->reset_phy_on_wake && !hsotg->phy) {
++		dev_warn(hsotg->dev,
++			 "Quirk reset-phy-on-wake only supports generic PHYs\n");
++		hsotg->reset_phy_on_wake = false;
++	}
++
+ 	if (hsotg->dr_mode != USB_DR_MODE_PERIPHERAL) {
+ 		retval = dwc2_hcd_init(hsotg);
+ 		if (retval) {
 -- 
 2.21.0.392.gf8f6787159e-goog
 
