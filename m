@@ -2,112 +2,100 @@ Return-Path: <SRS0=sojL=SO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
+	T_DKIMWL_WL_HIGH autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48F61C10F14
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 10:29:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03F53C10F0E
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 10:32:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 203CA2171F
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 10:29:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C889220850
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 10:32:30 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="mkrryVkZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726736AbfDLK3W (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 12 Apr 2019 06:29:22 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:43761 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726114AbfDLK3W (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 Apr 2019 06:29:22 -0400
-X-IronPort-AV: E=Sophos;i="5.60,340,1549897200"; 
-   d="scan'208";a="13076615"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 12 Apr 2019 19:29:20 +0900
-Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 06C3142FE7BC;
-        Fri, 12 Apr 2019 19:29:16 +0900 (JST)
-From:   Biju Das <biju.das@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     Biju Das <biju.das@bp.renesas.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, Simon Horman <horms@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH V3 1/7] dt-bindings: usb: hd3ss3220 device tree binding document
-Date:   Fri, 12 Apr 2019 11:22:43 +0100
-Message-Id: <1555064563-22465-1-git-send-email-biju.das@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
+        id S1727256AbfDLKcZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 12 Apr 2019 06:32:25 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:48596 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726327AbfDLKcZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 Apr 2019 06:32:25 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x3CAWEAX051748;
+        Fri, 12 Apr 2019 05:32:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1555065134;
+        bh=/xfSaZ1QRl+hHQhdhFBw9Ok1kkvfuJN2/FbjpR69m2w=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=mkrryVkZpE4l27xD5xBLVtI2xG3WQ9SYfDcGP/DCB/QkWsFlZpf7oCaONDNJl88tn
+         wmkJwP61gbNw89UAbcHJKBsnYOEXWBpha0hXentMb9hQ66Kx3RCuKKCHz6bYEULaiQ
+         2h2rb8zkId/J/Ystb8pcOeL1xmdk3fu3HygemauM=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x3CAWECt070241
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 12 Apr 2019 05:32:14 -0500
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 12
+ Apr 2019 05:32:14 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Fri, 12 Apr 2019 05:32:14 -0500
+Received: from [172.24.190.172] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x3CAWBFZ056757;
+        Fri, 12 Apr 2019 05:32:12 -0500
+Subject: Re: [PATCH v4 6/6] usb: ohci-da8xx: drop the vbus GPIO
+To:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Kevin Hilman <khilman@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+References: <20190411093024.23555-1-brgl@bgdev.pl>
+ <20190411093024.23555-7-brgl@bgdev.pl>
+From:   Sekhar Nori <nsekhar@ti.com>
+Message-ID: <5bd92c5a-86e4-6779-6035-f9a0b33917e9@ti.com>
+Date:   Fri, 12 Apr 2019 16:02:11 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190411093024.23555-7-brgl@bgdev.pl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190412102243.5GvkYsTarIZ-8UQZ4flK3AhGCHXR6L9d65Yx2VoyH7o@z>
+Message-ID: <20190412103211.xvnHbtTaJgF0JSH35Sn8cedAXIMtoREfNRKzWG_xatU@z>
 
-Add device tree binding document for TI HD3SS3220 Type-C DRP port
-controller driver.
+Hi Bartosz,
 
-Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
-V2-->V3
-  * Added Rob's Reviewed by tag.
-V1-->V2
-  * Added connector node.
-  * updated the example with connector node.
----
- .../devicetree/bindings/usb/ti,hd3ss3220.txt       | 37 ++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/ti,hd3ss3220.txt
+On 11/04/19 3:00 PM, Bartosz Golaszewski wrote:
+> @@ -209,9 +197,7 @@ static irqreturn_t ohci_da8xx_oc_thread(int irq, void *data)
+>  	int ret;
+>  
+>  	if (gpiod_get_value_cansleep(da8xx_ohci->oc_gpio)) {
+> -		if (da8xx_ohci->vbus_gpio) {
+> -			gpiod_set_value_cansleep(da8xx_ohci->vbus_gpio, 0);
+> -		} else if (da8xx_ohci->vbus_reg) {
+> +		if (da8xx_ohci->vbus_reg) {
+>  			ret = regulator_disable(da8xx_ohci->vbus_reg);
+>  			if (ret)
+>  				dev_err(dev,
 
-diff --git a/Documentation/devicetree/bindings/usb/ti,hd3ss3220.txt b/Documentation/devicetree/bindings/usb/ti,hd3ss3220.txt
-new file mode 100644
-index 0000000..7f41400
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/ti,hd3ss3220.txt
-@@ -0,0 +1,37 @@
-+TI HD3SS3220 TypeC DRP Port Controller.
-+
-+Required properties:
-+ - compatible: Must be "ti,hd3ss3220".
-+ - reg: I2C slave address, must be 0x47 or 0x67 based on ADDR pin.
-+ - interrupts: <a b> where a is the interrupt number and b represents an
-+   encoding of the sense and level information for the interrupt.
-+
-+Required sub-node:
-+ - connector : The "usb-c-connector" attached to the hd3ss3220 chip. The
-+   bindings of the connector node are specified in:
-+
-+	Documentation/devicetree/bindings/connector/usb-connector.txt
-+
-+Example:
-+hd3ss3220@47 {
-+	compatible = "ti,hd3ss3220";
-+	reg = <0x47>;
-+	interrupt-parent = <&gpio6>;
-+	interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
-+
-+	usb_con: connector {
-+		compatible = "usb-c-connector";
-+		label = "USB-C";
-+		data-role = "dual";
-+	};
-+
-+	port {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		hd3ss3220_ep: endpoint@0 {
-+			reg = <0>;
-+			remote-endpoint = <&usb3peri_role_switch>;
-+		};
-+	};
-+};
--- 
-2.7.4
+You can now reduce a level of indentation here by doing
 
+	if (gpiod_get_value_cansleep(da8xx_ohci->oc_gpio) &&
+	    da8xx_ohci->vbus_reg) {
+		ret = regulator_disable(da8xx_ohci->vbus_reg);
+		if (ret)
+			dev_err(dev, "Failed to disable regulator: %d\n",
+				ret);
+	}
+
+Thanks
+Sekhar
