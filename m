@@ -6,46 +6,45 @@ X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
 	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49FF9C10F14
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 11:36:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2773C10F0E
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 11:46:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 12061206BA
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 11:36:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B3F52171F
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 11:46:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727015AbfDLLgL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 12 Apr 2019 07:36:11 -0400
-Received: from mail-io1-f69.google.com ([209.85.166.69]:50730 "EHLO
-        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726912AbfDLLgK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 Apr 2019 07:36:10 -0400
-Received: by mail-io1-f69.google.com with SMTP id s24so7460959ioe.17
-        for <linux-usb@vger.kernel.org>; Fri, 12 Apr 2019 04:36:10 -0700 (PDT)
+        id S1727335AbfDLLqN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 12 Apr 2019 07:46:13 -0400
+Received: from mail-it1-f199.google.com ([209.85.166.199]:40322 "EHLO
+        mail-it1-f199.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726709AbfDLLqM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 Apr 2019 07:46:12 -0400
+Received: by mail-it1-f199.google.com with SMTP id j8so8397450ita.5
+        for <linux-usb@vger.kernel.org>; Fri, 12 Apr 2019 04:46:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=UiCWQQNTwSWDgZkpoo6T7faKwPtAOCeWWd9TxlPGM54=;
-        b=Voq9ko0YHBmUTU/mg4341pAIHdnKqSXPZUsgjMo1OQ89IdqJFQcALyUPL8R1GuKVI2
-         aK9e3yR7m3jY42F1TJYGm9RycHtcv3lhxQzIeIbJ8RYQS79p/gVIE6oc8tNUFI9VewWb
-         xmrw5nhaX7z9BmehEKDt/LY1nzEwZwY3tBktLo9WqtlXla4QOBeiPK/AxnIfjkEdzZN/
-         eiaAsBXzX1g9ls6MIBRCC/w41++kcnC0N3ijMObQrKZ/dv32Cn6oMgCnD7sOWtxH4+1d
-         6mWgLjWTZhl7ufO6g8Y/ToqV3dr3wAKyeD8rCtz2cTAzjeuJR3VXZo7sX8m1ftLwfPvf
-         5a+Q==
-X-Gm-Message-State: APjAAAUi8GAeVJKSAXGDQ2qqipIlv6EajiTRxULsMDOhMbGzXSnGWp9W
-        7NRn12BzZKP6hho3/Wb/l+tXh/C2u2sx+4rG7Er6C9IGG8pm
-X-Google-Smtp-Source: APXvYqyzmyxTijk5ZME7ahSMwlO2RnQ4WpZHGVKV4ohLUekIiOLKwhh0xxxqvnTMfr9Dw/zCGE+kZRce6qyAYt5X3oEJxrOmxd6S
+        bh=HwCE7LPaiVCxQVhg3bBIAPZUT7It159Z1je9DXoVpAE=;
+        b=YelNU3WZW8TZsdwCFvxJ1jRx1TDhjJJAJtpI2+0RalsQTBwVJb4C/PJ5ehsP7z5GCv
+         6n7PjaOfv/AJQhD2rq1CdUXwqmSt9l4wsuHP3HVilM3tTztU9y8fW1dLgOy8iZ3u/Hwh
+         EDn9dTLgQzSiOCxoe6WUryUJS6GA+vIlxWtFnzXJSx9mPk586ehD/2AdTLjpMSUIPgQJ
+         aBUkFng3Vlh+jftNm8VooJsAclVcZFnQBhzR1SMbB65CG24lF2KySpFRnK8gJhNzWUs9
+         pH45bZynZFvthSyeJ4eXQMERXzWOjQ+0zGCKrB8iyFGbiUgJ5W4Mh5BpD2irLR9ulXs2
+         fV4A==
+X-Gm-Message-State: APjAAAXzN+Q6UVN2C3RAWviM8AUTFhlqk33/YXjWl11DaCFYUcy1QAyg
+        yt6+dY9NPofOal7xypFzC086s/ay+cIPAFMNByRsPON1wbjH
+X-Google-Smtp-Source: APXvYqyU5W6sqpRNueTN5DA30JoFFSSeLOCZ0GGD18mAwMgNQm9Uc0ySNkpUAe0ZgiULMy75TAL5xG5sqcM+qNOvnH40puU/HUbU
 MIME-Version: 1.0
-X-Received: by 2002:a05:660c:a45:: with SMTP id j5mr3523699itl.20.1555068969879;
- Fri, 12 Apr 2019 04:36:09 -0700 (PDT)
-Date:   Fri, 12 Apr 2019 04:36:09 -0700
+X-Received: by 2002:a24:70c1:: with SMTP id f184mr3481952itc.28.1555069571891;
+ Fri, 12 Apr 2019 04:46:11 -0700 (PDT)
+Date:   Fri, 12 Apr 2019 04:46:11 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000008d15ee058653b53e@google.com>
-Subject: KASAN: invalid-free in disconnect_rio
-From:   syzbot <syzbot+35f04d136fc975a70da4@syzkaller.appspotmail.com>
+Message-ID: <0000000000006f1596058653d991@google.com>
+Subject: INFO: task hung in usb_kill_urb
+From:   syzbot <syzbot+d919b0f29d7b5a4994b9@syzkaller.appspotmail.com>
 To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        miquel@df.uba.ar, rio500-users@lists.sourceforge.net,
-        syzkaller-bugs@googlegroups.com
+        gustavo@embeddedor.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
@@ -58,136 +57,140 @@ syzbot found the following crash on:
 
 HEAD commit:    9a33b369 usb-fuzzer: main usb gadget fuzzer driver
 git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=174ce2e3200000
+console output: https://syzkaller.appspot.com/x/log.txt?x=14c4c1af200000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
-dashboard link: https://syzkaller.appspot.com/bug?extid=35f04d136fc975a70da4
+dashboard link: https://syzkaller.appspot.com/bug?extid=d919b0f29d7b5a4994b9
 compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=138150f3200000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1290c22d200000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14410dbb200000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12f0acd3200000
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+35f04d136fc975a70da4@syzkaller.appspotmail.com
+Reported-by: syzbot+d919b0f29d7b5a4994b9@syzkaller.appspotmail.com
 
-usb 6-1: USB disconnect, device number 2
-rio500 3-1:0.110: USB Rio disconnected.
-usb 4-1: USB disconnect, device number 2
-==================================================================
-usb 1-1: USB disconnect, device number 2
-BUG: KASAN: double-free or invalid-free in slab_free mm/slub.c:3003 [inline]
-BUG: KASAN: double-free or invalid-free in kfree+0xce/0x290 mm/slub.c:3958
-usb 2-1: USB disconnect, device number 2
+usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
+usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
+usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
+usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
+usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
+INFO: task kworker/0:2:532 blocked for more than 143 seconds.
+       Not tainted 5.1.0-rc4-319354-g9a33b36 #3
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+kworker/0:2     D26656   532      2 0x80000000
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+  schedule+0x8f/0x180 kernel/sched/core.c:3562
+  usb_kill_urb drivers/usb/core/urb.c:695 [inline]
+  usb_kill_urb+0x22a/0x2c0 drivers/usb/core/urb.c:687
+  usb_start_wait_urb+0x257/0x4d0 drivers/usb/core/message.c:63
+  usb_internal_control_msg drivers/usb/core/message.c:101 [inline]
+  usb_control_msg+0x321/0x4a0 drivers/usb/core/message.c:152
+usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
+  hub_port_init+0x81d/0x2d30 drivers/usb/core/hub.c:4655
+  hub_port_connect drivers/usb/core/hub.c:5021 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+  port_event drivers/usb/core/hub.c:5350 [inline]
+  hub_event+0x11b8/0x3b00 drivers/usb/core/hub.c:5432
+  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
+  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
+  kthread+0x313/0x420 kernel/kthread.c:253
+  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
 
-CPU: 0 PID: 5152 Comm: kworker/0:4 Not tainted 5.1.0-rc4-319354-g9a33b36 #3
+Showing all locks held in the system:
+1 lock held by khungtaskd/23:
+  #0: 00000000e5b75d53 (rcu_read_lock){....}, at:  
+debug_show_all_locks+0x53/0x269 kernel/locking/lockdep.c:5059
+5 locks held by kworker/0:2/532:
+  #0: 0000000071ab50a3 ((wq_completion)usb_hub_wq){+.+.}, at:  
+__write_once_size include/linux/compiler.h:220 [inline]
+  #0: 0000000071ab50a3 ((wq_completion)usb_hub_wq){+.+.}, at:  
+arch_atomic64_set arch/x86/include/asm/atomic64_64.h:34 [inline]
+  #0: 0000000071ab50a3 ((wq_completion)usb_hub_wq){+.+.}, at: atomic64_set  
+include/asm-generic/atomic-instrumented.h:855 [inline]
+  #0: 0000000071ab50a3 ((wq_completion)usb_hub_wq){+.+.}, at:  
+atomic_long_set include/asm-generic/atomic-long.h:40 [inline]
+  #0: 0000000071ab50a3 ((wq_completion)usb_hub_wq){+.+.}, at: set_work_data  
+kernel/workqueue.c:619 [inline]
+  #0: 0000000071ab50a3 ((wq_completion)usb_hub_wq){+.+.}, at:  
+set_work_pool_and_clear_pending kernel/workqueue.c:646 [inline]
+  #0: 0000000071ab50a3 ((wq_completion)usb_hub_wq){+.+.}, at:  
+process_one_work+0x81f/0x1580 kernel/workqueue.c:2240
+  #1: 000000004253e0f6 ((work_completion)(&hub->events)){+.+.}, at:  
+process_one_work+0x853/0x1580 kernel/workqueue.c:2244
+  #2: 00000000eeaa16eb (&dev->mutex){....}, at: device_lock  
+include/linux/device.h:1207 [inline]
+  #2: 00000000eeaa16eb (&dev->mutex){....}, at: hub_event+0x18a/0x3b00  
+drivers/usb/core/hub.c:5378
+  #3: 000000004f32b3e5 (&port_dev->status_lock){+.+.}, at: usb_lock_port  
+drivers/usb/core/hub.c:2994 [inline]
+  #3: 000000004f32b3e5 (&port_dev->status_lock){+.+.}, at: hub_port_connect  
+drivers/usb/core/hub.c:5020 [inline]
+  #3: 000000004f32b3e5 (&port_dev->status_lock){+.+.}, at:  
+hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+  #3: 000000004f32b3e5 (&port_dev->status_lock){+.+.}, at: port_event  
+drivers/usb/core/hub.c:5350 [inline]
+  #3: 000000004f32b3e5 (&port_dev->status_lock){+.+.}, at:  
+hub_event+0x11a3/0x3b00 drivers/usb/core/hub.c:5432
+  #4: 00000000bd3d99c8 (hcd->address0_mutex){+.+.}, at:  
+hub_port_init+0x1bb/0x2d30 drivers/usb/core/hub.c:4529
+1 lock held by rsyslogd/5433:
+  #0: 00000000977dfa25 (&f->f_pos_lock){+.+.}, at: __fdget_pos+0xe8/0x100  
+fs/file.c:801
+2 locks held by getty/5523:
+  #0: 0000000040ff7945 (&tty->ldisc_sem){++++}, at:  
+tty_ldisc_ref_wait+0x27/0x80 drivers/tty/tty_ldisc.c:272
+  #1: 000000006c00c4a7 (&ldata->atomic_read_lock){+.+.}, at:  
+n_tty_read+0x21c/0x1a60 drivers/tty/n_tty.c:2156
+2 locks held by getty/5524:
+  #0: 00000000cc012e5a (&tty->ldisc_sem){++++}, at:  
+tty_ldisc_ref_wait+0x27/0x80 drivers/tty/tty_ldisc.c:272
+  #1: 000000001fd3230f (&ldata->atomic_read_lock){+.+.}, at:  
+n_tty_read+0x21c/0x1a60 drivers/tty/n_tty.c:2156
+2 locks held by getty/5525:
+  #0: 00000000c53cd960 (&tty->ldisc_sem){++++}, at:  
+tty_ldisc_ref_wait+0x27/0x80 drivers/tty/tty_ldisc.c:272
+  #1: 00000000e779c4bc (&ldata->atomic_read_lock){+.+.}, at:  
+n_tty_read+0x21c/0x1a60 drivers/tty/n_tty.c:2156
+2 locks held by getty/5526:
+  #0: 00000000a6b003b0 (&tty->ldisc_sem){++++}, at:  
+tty_ldisc_ref_wait+0x27/0x80 drivers/tty/tty_ldisc.c:272
+  #1: 00000000bd516627 (&ldata->atomic_read_lock){+.+.}, at:  
+n_tty_read+0x21c/0x1a60 drivers/tty/n_tty.c:2156
+usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
+2 locks held by getty/5527:
+  #0: 00000000970614b6 (&tty->ldisc_sem){++++}, at:  
+tty_ldisc_ref_wait+0x27/0x80 drivers/tty/tty_ldisc.c:272
+  #1: 000000004a83542c (&ldata->atomic_read_lock){+.+.}, at:  
+n_tty_read+0x21c/0x1a60 drivers/tty/n_tty.c:2156
+2 locks held by getty/5528:
+  #0: 00000000c9f52a2b (&tty->ldisc_sem){++++}, at:  
+tty_ldisc_ref_wait+0x27/0x80 drivers/tty/tty_ldisc.c:272
+  #1: 0000000068927d8f (&ldata->atomic_read_lock){+.+.}, at:  
+n_tty_read+0x21c/0x1a60 drivers/tty/n_tty.c:2156
+2 locks held by getty/5529:
+  #0: 00000000b02ccb7f (&tty->ldisc_sem){++++}, at:  
+tty_ldisc_ref_wait+0x27/0x80 drivers/tty/tty_ldisc.c:272
+  #1: 000000001e46199a (&ldata->atomic_read_lock){+.+.}, at:  
+n_tty_read+0x21c/0x1a60 drivers/tty/n_tty.c:2156
+
+=============================================
+
+NMI backtrace for cpu 1
+CPU: 1 PID: 23 Comm: khungtaskd Not tainted 5.1.0-rc4-319354-g9a33b36 #3
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
 Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
 Call Trace:
   __dump_stack lib/dump_stack.c:77 [inline]
   dump_stack+0xe8/0x16e lib/dump_stack.c:113
-  print_address_description+0x6c/0x236 mm/kasan/report.c:187
-  kasan_report_invalid_free+0x66/0xa0 mm/kasan/report.c:278
-usb 5-1: USB disconnect, device number 2
-  __kasan_slab_free+0x162/0x180 mm/kasan/common.c:438
-  slab_free_hook mm/slub.c:1429 [inline]
-  slab_free_freelist_hook+0x5e/0x140 mm/slub.c:1456
-  slab_free mm/slub.c:3003 [inline]
-  kfree+0xce/0x290 mm/slub.c:3958
-  disconnect_rio+0x13b/0x200 drivers/usb/misc/rio500.c:506
-  usb_unbind_interface+0x1c9/0x980 drivers/usb/core/driver.c:423
-  __device_release_driver drivers/base/dd.c:1082 [inline]
-  device_release_driver_internal+0x436/0x4f0 drivers/base/dd.c:1113
-  bus_remove_device+0x302/0x5c0 drivers/base/bus.c:556
-  device_del+0x467/0xb90 drivers/base/core.c:2269
-  usb_disable_device+0x242/0x790 drivers/usb/core/message.c:1235
-  usb_disconnect+0x298/0x870 drivers/usb/core/hub.c:2197
-  hub_port_connect drivers/usb/core/hub.c:4940 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0xcd2/0x3b00 drivers/usb/core/hub.c:5432
-  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
-  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
+  nmi_cpu_backtrace.cold+0x48/0x87 lib/nmi_backtrace.c:101
+  nmi_trigger_cpumask_backtrace+0x1a6/0x1bd lib/nmi_backtrace.c:62
+  trigger_all_cpu_backtrace include/linux/nmi.h:146 [inline]
+  check_hung_uninterruptible_tasks kernel/hung_task.c:204 [inline]
+  watchdog+0x98e/0xe20 kernel/hung_task.c:288
   kthread+0x313/0x420 kernel/kthread.c:253
   ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-
-Allocated by task 5152:
-  set_track mm/kasan/common.c:87 [inline]
-  __kasan_kmalloc mm/kasan/common.c:497 [inline]
-  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:470
-  kmalloc include/linux/slab.h:547 [inline]
-  probe_rio+0x188/0x268 drivers/usb/misc/rio500.c:471
-  usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
-  really_probe+0x2da/0xb10 drivers/base/dd.c:509
-  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
-  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
-  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
-  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
-  device_add+0xad2/0x16e0 drivers/base/core.c:2106
-  usb_set_configuration+0xdf7/0x1740 drivers/usb/core/message.c:2021
-  generic_probe+0xa2/0xda drivers/usb/core/generic.c:210
-  usb_probe_device+0xc0/0x150 drivers/usb/core/driver.c:266
-  really_probe+0x2da/0xb10 drivers/base/dd.c:509
-  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
-  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
-  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
-  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
-  device_add+0xad2/0x16e0 drivers/base/core.c:2106
-  usb_new_device.cold+0x537/0xccf drivers/usb/core/hub.c:2534
-  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0x138e/0x3b00 drivers/usb/core/hub.c:5432
-  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
-  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
-  kthread+0x313/0x420 kernel/kthread.c:253
-  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-
-Freed by task 585:
-  set_track mm/kasan/common.c:87 [inline]
-  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:459
-  slab_free_hook mm/slub.c:1429 [inline]
-  slab_free_freelist_hook+0x5e/0x140 mm/slub.c:1456
-  slab_free mm/slub.c:3003 [inline]
-  kfree+0xce/0x290 mm/slub.c:3958
-  disconnect_rio+0x13b/0x200 drivers/usb/misc/rio500.c:506
-  usb_unbind_interface+0x1c9/0x980 drivers/usb/core/driver.c:423
-  __device_release_driver drivers/base/dd.c:1082 [inline]
-  device_release_driver_internal+0x436/0x4f0 drivers/base/dd.c:1113
-  bus_remove_device+0x302/0x5c0 drivers/base/bus.c:556
-  device_del+0x467/0xb90 drivers/base/core.c:2269
-  usb_disable_device+0x242/0x790 drivers/usb/core/message.c:1235
-  usb_disconnect+0x298/0x870 drivers/usb/core/hub.c:2197
-  hub_port_connect drivers/usb/core/hub.c:4940 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0xcd2/0x3b00 drivers/usb/core/hub.c:5432
-  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
-  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
-  kthread+0x313/0x420 kernel/kthread.c:253
-  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-
-The buggy address belongs to the object at ffff88808863a200
-  which belongs to the cache kmalloc-4k of size 4096
-The buggy address is located 0 bytes inside of
-  4096-byte region [ffff88808863a200, ffff88808863b200)
-usb 3-1: new high-speed USB device number 3 using dummy_hcd
-The buggy address belongs to the page:
-page:ffffea0002218e00 count:1 mapcount:0 mapping:ffff88812c3f4600 index:0x0  
-compound_mapcount: 0
-flags: 0xfff00000010200(slab|head)
-raw: 00fff00000010200 0000000000000000 0000000600000001 ffff88812c3f4600
-raw: 0000000000000000 0000000000070007 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
-  ffff88808863a100: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-  ffff88808863a180: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> ffff88808863a200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                    ^
-  ffff88808863a280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff88808863a300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0 skipped: idling at native_safe_halt+0x2/0x10  
+arch/x86/include/asm/irqflags.h:57
 
 
 ---
