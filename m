@@ -7,50 +7,50 @@ X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0A89C10F0E
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 22:42:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2AFFC10F0E
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 22:42:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BF8EA20818
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 22:42:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B225F20818
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 22:42:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="I51Nr8Nv"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="P5nTYPh6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727186AbfDLWmU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 12 Apr 2019 18:42:20 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:34015 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727166AbfDLWmT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 Apr 2019 18:42:19 -0400
-Received: by mail-pg1-f194.google.com with SMTP id v12so5863944pgq.1
-        for <linux-usb@vger.kernel.org>; Fri, 12 Apr 2019 15:42:18 -0700 (PDT)
+        id S1727197AbfDLWmV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 12 Apr 2019 18:42:21 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:40600 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727129AbfDLWmU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 Apr 2019 18:42:20 -0400
+Received: by mail-pf1-f193.google.com with SMTP id c207so5797068pfc.7
+        for <linux-usb@vger.kernel.org>; Fri, 12 Apr 2019 15:42:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=QzD3qq/PMUVMpjWUpPygcIhbopx0mZxT37qNcK5sZeg=;
-        b=I51Nr8NvO7I03CvvyUyTROENQTyD5o14qi2nx7dIdi+6gWVZccni3+8Y7liLPOoM6S
-         y9AG/P3jxdIb+NZo10L2IGrB8/rc53LHv3xCCHWPWM+fMXpDiqO5LcdzLIgZz+NkIkQb
-         YE2yvYHVcGNlyAKI03VIkTIuDLRqZg1dLbm2k=
+        bh=/YuEmfQg8iFJSPB8k83tnNDUSXUSqQSeLxTTSLbTTIw=;
+        b=P5nTYPh6nN+ghxubaHuPvzgMsTS6c1Xt/Xvkr9w2rsv7ycd0UBEp43vGHPMABrMA44
+         8M1S92pVD/nXq/g4qcsJrJE3pQ5hdDPeaPGzBY08joVJz2pRCq+R/45s9T/NDQcNvwmK
+         0SeL6Og/rn6RzOK+wrkEtwZYp1WhY7HOYCVIs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=QzD3qq/PMUVMpjWUpPygcIhbopx0mZxT37qNcK5sZeg=;
-        b=fAZpT3fPQJZ2HesSiyTx8B/HLht4WilC2uh2hYGQX0XmLn2w/WQRXvJx0BKFNANRSn
-         4G0qvwJ8kR8FZM9bnFcM9QffB9mq1TaHKdNgtWIDsmXtL7PGjNKqnaZiceXC+Qs27K3n
-         dMGOCB3lfMo+oHqizhG7yYZ355QpQALNVgwG982P5RFqBVGvouyXYB/DdfFqjfCzC3Yl
-         HSI9P7LhajSXESiBvbB7zYFxYrwdkfZ8gqwrO7TESuqytAZQsC/EI12K40laQimcMg68
-         iY2q3+kYPpgQUabDNXghS0azsTRdqXN9RTCDdK6PEL3Vt0VEkl23lCK0QcRhD7QXbmDH
-         wujg==
-X-Gm-Message-State: APjAAAVZQ3OPBTkvTxck/Pm4HqWxEyiomd8eyvifnNHaylFzqAksvW9w
-        ffm1olf2i9lHTXoS8LlPAUeDRA==
-X-Google-Smtp-Source: APXvYqwsHgmjXC6uKa5IaBxOFT2e9eBfb4WK9JupK/WhHmuI1mKfXXGN9jIgHYYXdygBtHRX1fxrvA==
-X-Received: by 2002:aa7:8384:: with SMTP id u4mr59216540pfm.214.1555108938477;
-        Fri, 12 Apr 2019 15:42:18 -0700 (PDT)
+        bh=/YuEmfQg8iFJSPB8k83tnNDUSXUSqQSeLxTTSLbTTIw=;
+        b=N9ntZt7goe6CG+ftiOQEEFhwAK/cv931eSOWN19LK/V/D7FDA10ZL14Al8/6FYsWE3
+         CEbnNom54mXPi3mr42T2lgAOfEgsiBgrh3zcq1z3SPP6NTbHZHuPc43/07G5nfwqhHmq
+         fHRpoLwtfkda1e9bm/ZCJF1bX2TbSrdnLjgVtk5IRgmhWvg5GxmTBRX8oz/bCpkFvbAQ
+         7+/SCMWKPM3ArlBR5F/+eST5/zJFJkwhbY2rHwZYS1ROZqXMFuaZcAoMEJkoFOhC2UnH
+         ufRfbxfAG1GMDGIzy1Dgq5Kyn+whM7tM53T5SZij/N9wlxngEno4d1s7sj8NH5g0p0gj
+         tByg==
+X-Gm-Message-State: APjAAAXdfdcCVlshVreYWkXdKKGsuMPDr+bRI6c5/SJ0kJgZaoP+DVH4
+        NZIq8DXHnPn08+5fFKZSn5ubLw==
+X-Google-Smtp-Source: APXvYqz6+8oEj+Agjb0SozX8O6BNiaCaZRMvO2ErsDU5sbBvwehG9ytDclHC9I/t9H4hjjFzy2iowQ==
+X-Received: by 2002:a63:25c4:: with SMTP id l187mr57149864pgl.202.1555108940140;
+        Fri, 12 Apr 2019 15:42:20 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com ([2620:15c:202:1:24fa:e766:52c9:e3b2])
-        by smtp.gmail.com with ESMTPSA id j22sm57170579pfn.129.2019.04.12.15.42.17
+        by smtp.gmail.com with ESMTPSA id j22sm57170579pfn.129.2019.04.12.15.42.18
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 12 Apr 2019 15:42:17 -0700 (PDT)
+        Fri, 12 Apr 2019 15:42:19 -0700 (PDT)
 From:   Douglas Anderson <dianders@chromium.org>
 To:     Rob Herring <robh+dt@kernel.org>,
         Minas Harutyunyan <hminas@synopsys.com>,
@@ -64,9 +64,9 @@ Cc:     amstan@chromium.org, linux-rockchip@lists.infradead.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Mark Rutland <mark.rutland@arm.com>,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 3/4] ARM: dts: rockchip: Hook resets up to USB PHYs on rk3288.
-Date:   Fri, 12 Apr 2019 15:41:48 -0700
-Message-Id: <20190412224149.106971-4-dianders@chromium.org>
+Subject: [PATCH 4/4] ARM: dts: rockchip: Add quirk for resetting rk3288's dwc2 host on wakeup
+Date:   Fri, 12 Apr 2019 15:41:49 -0700
+Message-Id: <20190412224149.106971-5-dianders@chromium.org>
 X-Mailer: git-send-email 2.21.0.392.gf8f6787159e-goog
 In-Reply-To: <20190412224149.106971-1-dianders@chromium.org>
 References: <20190412224149.106971-1-dianders@chromium.org>
@@ -77,49 +77,30 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190412224148.W5ETBN2IvHWCaA0Tja02ar84MZ5KHLBbOEeZGOrQWHA@z>
+Message-ID: <20190412224149.ydP_LnMwrfJkxYAqf-fSKDppGS3GHaBmCYh2QvVu7qE@z>
 
-Let's hook up the resets to the three USB PHYs on rk3288 as per the
-bindings.  This is in preparation for a future patch that will set the
-"snps,reset-phy-on-wake" on the host port.
+The "host" USB port on rk3288 has a hardware errata where we've got to
+assert a PHY reset whenever we see a remote wakeup.  Add that quirk
+property to the device tree.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
 
- arch/arm/boot/dts/rk3288.dtsi | 6 ++++++
- 1 file changed, 6 insertions(+)
+ arch/arm/boot/dts/rk3288.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/arch/arm/boot/dts/rk3288.dtsi b/arch/arm/boot/dts/rk3288.dtsi
-index 2e604f0afa98..92e0600595f8 100644
+index 92e0600595f8..6367c1b50fd7 100644
 --- a/arch/arm/boot/dts/rk3288.dtsi
 +++ b/arch/arm/boot/dts/rk3288.dtsi
-@@ -905,6 +905,8 @@
- 				clocks = <&cru SCLK_OTGPHY0>;
- 				clock-names = "phyclk";
- 				#clock-cells = <0>;
-+				resets = <&cru SRST_USBOTG_PHY>;
-+				reset-names = "phy-reset";
- 			};
- 
- 			usbphy1: usb-phy@334 {
-@@ -913,6 +915,8 @@
- 				clocks = <&cru SCLK_OTGPHY1>;
- 				clock-names = "phyclk";
- 				#clock-cells = <0>;
-+				resets = <&cru SRST_USBHOST0_PHY>;
-+				reset-names = "phy-reset";
- 			};
- 
- 			usbphy2: usb-phy@348 {
-@@ -921,6 +925,8 @@
- 				clocks = <&cru SCLK_OTGPHY2>;
- 				clock-names = "phyclk";
- 				#clock-cells = <0>;
-+				resets = <&cru SRST_USBHOST1_PHY>;
-+				reset-names = "phy-reset";
- 			};
- 		};
+@@ -617,6 +617,7 @@
+ 		dr_mode = "host";
+ 		phys = <&usbphy2>;
+ 		phy-names = "usb2-phy";
++		snps,reset-phy-on-wake;
+ 		status = "disabled";
  	};
+ 
 -- 
 2.21.0.392.gf8f6787159e-goog
 
