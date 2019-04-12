@@ -6,57 +6,57 @@ X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
 	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5377C10F13
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 00:48:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D57E2C10F13
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 00:55:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 874852184B
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 00:48:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 99ACF2184B
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 00:55:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PtKcslHD"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TsjlWIJv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726918AbfDLAsS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 Apr 2019 20:48:18 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:32882 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726636AbfDLAsS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 Apr 2019 20:48:18 -0400
-Received: by mail-wr1-f67.google.com with SMTP id q1so9712799wrp.0
-        for <linux-usb@vger.kernel.org>; Thu, 11 Apr 2019 17:48:17 -0700 (PDT)
+        id S1726711AbfDLAzr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 Apr 2019 20:55:47 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:42945 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726694AbfDLAzr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 Apr 2019 20:55:47 -0400
+Received: by mail-wr1-f66.google.com with SMTP id g3so9646276wrx.9
+        for <linux-usb@vger.kernel.org>; Thu, 11 Apr 2019 17:55:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=EGa6ziXLYfRRM+NmivaW3Md44smSFk48FqpDI63b5lo=;
-        b=PtKcslHDn2R6z6QcnKMR4NphY8jE54zbep/3cKh9aE+bR36cTRa2WXKbOLhqEHTm59
-         h+8SpKz+XawyoWvTdrjazPnlxJ+5rPJ+5VEQZmk7J7kAVvAXWMyDXty1FrLfOvsuHoA7
-         xbECveEa7lWMG5m19QG5fzhZEK7OTI5mkG7noKywPaR8zMkjhZEZzk3FUhtVeFYlCaZA
-         GAICt8oQZvXimP0kemSmMkmDq3+bfz+Qk58ZQ8G6EzBAqfeDYSWJRQ0pL78MYI19u/wb
-         gAibFC1M9hwK4YwwBVDBAdETKieknZqqlBTvt/w1Uc51nS+XEazejJFtbpZ9YNAy+edH
-         w21w==
+        bh=9fx65PGs+hcTLW3v5Oxc17IQCXrFa7XQEHDSKo+zIjg=;
+        b=TsjlWIJv+DW3+CPH6/AwmnLDzKKYSz2qaedQ4z4004P48t2r8voIdztozBT9E386a/
+         5rc3Vr9fAhascrbg5ePHArL72NqgpsSWIBir2VCUou4q1kWw708b0EFVvXVgCbNFc1/9
+         DmvaU/A42NIyQW2VCV9GCWxI9OQUM5SfS/OH+OfEr9XH+eLbj8T7VriJ9yCdv7leTUe8
+         8uJTdVstjDmG7dXzwAVuzmdUpd9qFapAszN+dEMcWPEoodwUKvqAJPU/CJPpSns+1waA
+         GfM6RDT5ZVa5VktjBTBjgHx9dpzo/J4ddOW5N3pGHU0LKriUrmFlTfZe1I7eUxtYe6SC
+         Ve0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=EGa6ziXLYfRRM+NmivaW3Md44smSFk48FqpDI63b5lo=;
-        b=A9SeS+kfQNbW5ADrJlmjxrw3coaGrih1wJilkAfcoOB5tOTKIRKF6tD8DuqzwseShE
-         yGc7jUAELac1M2lwwG1AMJYiCvxnitr4F5lWS8iVhPIMzaHmPx6TWdmRl4bJ8awUHlmS
-         w/XEaP3133V50UVmuF0TjssGcbZpK3dOLxji78SDjEN8ZoYXpkipsuVuC6OyzCPPIXCC
-         ImHl6VrlzkUkPyazGHZ63lx/ZQjf6s7InYJvgLUxaxbXAFeUrE3WeBkTVlXo3NR9kJ5L
-         IBKoK7E7jhPOYBTUL5E1ILEhbnDq/mVDB9P/F1hGYBH/8HGSkcpIdYdp07/nfi29yqab
-         Dseg==
-X-Gm-Message-State: APjAAAW+XSn2wvlbxqBhDHh4Z8+J4slnqIu2S05UPxrEAnodHX6la+Vv
-        xoWEiQorCicPvQ4KIrXbMDlzTagp6d+oy4EBL+RfxA==
-X-Google-Smtp-Source: APXvYqzRFUlCHznqhQBumuCsyfdx/ROFSBWLjFLoML0kLKMa7ajlzmY0FuthJauK33a1w5Rq9vJ0A1gBGYQJfZmQEvE=
-X-Received: by 2002:adf:ec87:: with SMTP id z7mr32359209wrn.44.1555030096320;
- Thu, 11 Apr 2019 17:48:16 -0700 (PDT)
+        bh=9fx65PGs+hcTLW3v5Oxc17IQCXrFa7XQEHDSKo+zIjg=;
+        b=pbiFsRy66la9xbYTGmmQciOWUh+sDzB1SLNnhpH96Q6IPm7tXvUXTXcdH4rKpo2sXh
+         CXIEQxlJzGdQC887P3n++s/FHCVhyU9BhNTAz23gN7IACAi02k0Ts4DPeHiJu7b0sfkp
+         zewBiGgXSYKZJYUx+DA1JAbPV1QC65XUAbvPs23HLotaJQtkIqRp9OPsJxkomchybRbT
+         ui5I2NCt6GWNEdTZfyxM2+0wI0GcnbASsGoKrITPgAtYWgdFo0ydGkOiWY/GZXclZYX9
+         XPEmXGvjhiariG426Trlhpn7qQ5axVzU6SQHZ3eP1YuvCMr3PNQIlamIdrnNWPVyplKC
+         /8RQ==
+X-Gm-Message-State: APjAAAXaJM6q+xfzAPEmZHk4PWeN+2s0WdnG4SARYlmMO4lQ0lNwTYd7
+        behf9aBWHxc7oOlD3upV+jahIIY6mk4cPjx1LF4ZvQ==
+X-Google-Smtp-Source: APXvYqyTVKbY+rzszRq9p2dM0geGu5ZteEkp4ydnwlItURigbQOQ7cDwZKcWU7KZtCtyaCbRXo2CYivy92hIHs6jiJY=
+X-Received: by 2002:adf:b612:: with SMTP id f18mr22392914wre.236.1555030544590;
+ Thu, 11 Apr 2019 17:55:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190329041409.70138-1-chenyu56@huawei.com> <20190329041409.70138-11-chenyu56@huawei.com>
-In-Reply-To: <20190329041409.70138-11-chenyu56@huawei.com>
+References: <20190329041409.70138-1-chenyu56@huawei.com> <20190329041409.70138-12-chenyu56@huawei.com>
+In-Reply-To: <20190329041409.70138-12-chenyu56@huawei.com>
 From:   John Stultz <john.stultz@linaro.org>
-Date:   Thu, 11 Apr 2019 17:48:04 -0700
+Date:   Thu, 11 Apr 2019 17:55:32 -0700
 Message-ID:
- <CALAqxLVdrzNS2t1OYT=Pziu81VO+zWq5LYghHhMJO53cSvNNtQ@mail.gmail.com>
-Subject: Re: [PATCH v5 10/13] usb: dwc3: Registering a role switch in the DRD code.
+ <CALAqxLVjKNYbzqaYZ=L0NGgpDUzs+xU53Z4-3OFnJuHGCAZ2GA@mail.gmail.com>
+Subject: Re: [PATCH v5 11/13] hikey960: Support usb functionality of Hikey960
 To:     Yu Chen <chenyu56@huawei.com>
 Cc:     Linux USB List <linux-usb@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
@@ -70,92 +70,130 @@ Cc:     Linux USB List <linux-usb@vger.kernel.org>,
         songxiaowei@hisilicon.com, YiPing Xu <xuyiping@hisilicon.com>,
         xuyoujun4@huawei.com, Yudongbin <yudongbin@hisilicon.com>,
         Zang Leigang <zangleigang@hisilicon.com>,
-        Jun Li <lijun.kernel@gmail.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Felipe Balbi <balbi@kernel.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Binghui Wang <wangbinghui@hisilicon.com>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190412004804.oOckWOidaGUA3JOyg4Jg2D7MO30MniSscqFaMCntnws@z>
+Message-ID: <20190412005532.0ot4ggwlWWzUkf9TehpUt9TC7k3S8-fLiNpd4oi8IME@z>
 
 On Thu, Mar 28, 2019 at 9:14 PM Yu Chen <chenyu56@huawei.com> wrote:
 >
-> The Type-C drivers use USB role switch API to inform the
-> system about the negotiated data role, so registering a role
-> switch in the DRD code in order to support platforms with
-> USB Type-C connectors.
->
+> This driver handles usb hub power on and typeC port event of HiKey960 board:
+> 1)DP&DM switching between usb hub and typeC port base on typeC port
+> state
+> 2)Control power of usb hub on Hikey960
+> 3)Control vbus of typeC port
 
 Hey Yu Chen!
-  Thanks so much for sending these patches out!  I have run into some
-troubles on bootup where things aren't working properly at first, that
-seem to be due to state initialization races.  In chasing those down,
-I've found some other quirks I wanted to bring up.
+  Wanted to say thanks again for sending these patches out so
+persistently. I did catch an issue with this driver that I wanted to
+let you know about.
 
-> --- a/drivers/usb/dwc3/drd.c
-> +++ b/drivers/usb/dwc3/drd.c
-> @@ -479,6 +479,43 @@ static struct extcon_dev *dwc3_get_extcon(struct dwc3 *dwc)
->         return edev;
->  }
->
-> +static int dwc3_usb_role_switch_set(struct device *dev, enum usb_role role)
+> +static int hisi_hikey_role_switch(struct notifier_block *nb,
+> +                       unsigned long state, void *data)
 > +{
-> +       struct dwc3 *dwc = dev_get_drvdata(dev);
-> +       u32 mode;
+> +       struct hisi_hikey_usb *hisi_hikey_usb;
 > +
-> +       switch (role) {
+> +       hisi_hikey_usb = container_of(nb, struct hisi_hikey_usb, nb);
+> +
+> +       switch (state) {
+> +       case USB_ROLE_NONE:
+> +               usb_typec_power_ctrl(hisi_hikey_usb, TYPEC_VBUS_POWER_OFF);
+> +               usb_switch_ctrl(hisi_hikey_usb, USB_SWITCH_TO_HUB);
+> +               hub_power_ctrl(hisi_hikey_usb, HUB_VBUS_POWER_ON);
+> +               break;
 > +       case USB_ROLE_HOST:
-> +               mode = DWC3_GCTL_PRTCAP_HOST;
+> +               usb_switch_ctrl(hisi_hikey_usb, USB_SWITCH_TO_TYPEC);
+> +               usb_typec_power_ctrl(hisi_hikey_usb, TYPEC_VBUS_POWER_ON);
 > +               break;
 > +       case USB_ROLE_DEVICE:
-> +               mode = DWC3_GCTL_PRTCAP_DEVICE;
+> +               hub_power_ctrl(hisi_hikey_usb, HUB_VBUS_POWER_OFF);
+> +               usb_typec_power_ctrl(hisi_hikey_usb, TYPEC_VBUS_POWER_OFF);
+> +               usb_switch_ctrl(hisi_hikey_usb, USB_SWITCH_TO_TYPEC);
 > +               break;
 > +       default:
-> +               if (dwc->role_switch_default_mode == USB_DR_MODE_HOST)
-> +                       mode = DWC3_GCTL_PRTCAP_HOST;
-> +               else
-> +                       mode = DWC3_GCTL_PRTCAP_DEVICE;
 > +               break;
 > +       }
 > +
-> +       dwc3_set_mode(dwc, mode);
 > +       return 0;
 > +}
 > +
-> +static enum usb_role dwc3_usb_role_switch_get(struct device *dev)
+> +static int hisi_hikey_usb_probe(struct platform_device *pdev)
 > +{
-> +       struct dwc3 *dwc = dev_get_drvdata(dev);
-> +       unsigned long flags;
-> +       enum usb_role role;
+> +       struct device *dev = &pdev->dev;
+> +       struct hisi_hikey_usb *hisi_hikey_usb;
+> +       int ret;
 > +
-> +       spin_lock_irqsave(&dwc->lock, flags);
-> +       role = dwc->current_otg_role;
-> +       spin_unlock_irqrestore(&dwc->lock, flags);
+> +       hisi_hikey_usb = devm_kzalloc(dev, sizeof(*hisi_hikey_usb), GFP_KERNEL);
+> +       if (!hisi_hikey_usb)
+> +               return -ENOMEM;
 > +
-> +       return role;
+> +       hisi_hikey_usb->nb.notifier_call = hisi_hikey_role_switch;
+> +
+> +       hisi_hikey_usb->typec_vbus = devm_gpiod_get(dev, "typec-vbus",
+> +                       GPIOD_OUT_LOW);
+> +       if (IS_ERR(hisi_hikey_usb->typec_vbus))
+> +               return PTR_ERR(hisi_hikey_usb->typec_vbus);
+> +
+> +       hisi_hikey_usb->otg_switch = devm_gpiod_get(dev, "otg-switch",
+> +                       GPIOD_OUT_HIGH);
+> +       if (IS_ERR(hisi_hikey_usb->otg_switch))
+> +               return PTR_ERR(hisi_hikey_usb->otg_switch);
+> +
+> +       /* hub-vdd33-en is optional */
+> +       hisi_hikey_usb->hub_vbus = devm_gpiod_get_optional(dev, "hub-vdd33-en",
+> +                       GPIOD_OUT_HIGH);
+> +       if (IS_ERR(hisi_hikey_usb->hub_vbus))
+> +               return PTR_ERR(hisi_hikey_usb->hub_vbus);
+> +
+> +       hisi_hikey_usb->role_sw = usb_role_switch_get(dev);
+> +       if (!hisi_hikey_usb->role_sw)
+> +               return -EPROBE_DEFER;
+> +       if (IS_ERR(hisi_hikey_usb->role_sw))
+> +               return PTR_ERR(hisi_hikey_usb->role_sw);
+> +
+> +       ret = usb_role_switch_register_notifier(hisi_hikey_usb->role_sw,
+> +                       &hisi_hikey_usb->nb);
+> +       if (ret) {
+> +               usb_role_switch_put(hisi_hikey_usb->role_sw);
+> +               return ret;
+> +       }
+> +
+> +       platform_set_drvdata(pdev, hisi_hikey_usb);
+> +
+> +       return 0;
 > +}
-> +
 
-So the two functions above are a bit asymmetric.  The
-dwc3_usb_role_switch_set() can put the device into host or device
-mode, which eventually sets the current_dr_role value.  However on the
-dwc3_usb_role_switch_get() we return the current_otg_role value.
-current_otg_role isn't set unless current_dr_role is
-DWC3_GCTL_PRTCAP_OTG, which doesn't seem to happen here.
+The issue I found is that if due to module load order or other
+randomization in bootup timing, this driver loads much later then the
+other USB infrastructure, the usb_role_switch notifier that is
+registered may be registered after any state initialization or change
+has occurred that would trigger the notifier callbacks.
 
-I suspect in dwc3_usb_role_switch_get() we should return
-current_dr_role, unless current_dr_role==DWC3_GCTL_PRTCAP_OTG, in
-which case we'd want to return current_otg_role.
+This means initially this driver could be out of sync with the core
+usb_role_switch state.
 
-Does that make sense?
+I've tried doing something like the following on probe to force the
+initialization:
+   cur_role = usb_role_switch_get_role(hisi_hikey_usb->role_sw);
+   usb_role_switch_set_role(hisi_hikey_usb->role_sw, cur_role);
 
-Nothing really actually use this dwc3_usb_role_switch_get() yet, so
-this was easy to overlook, and I only caught it as I was trying to
-debug some of the initialization races.
+But this is racy, as a state change can happen in between the call to
+get_role and set_role, which would end up overwriting the proper
+state.
+
+I suspect a proper fix needs to happen in the
+usb_role_switch_register_notifier(), where the callback gets called
+with the initial state while holding the lock to avoid races.
+
+I'll comment more in that patch.
 
 thanks
 -john
