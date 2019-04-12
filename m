@@ -2,193 +2,143 @@ Return-Path: <SRS0=sojL=SO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F347DC10F14
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 02:44:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2425EC10F0E
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 03:59:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B4ADA20869
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 02:44:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E53DF2083E
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 03:59:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OqXysMWk"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yJUMwLs/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726800AbfDLCoh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 Apr 2019 22:44:37 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:36841 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726677AbfDLCoh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 Apr 2019 22:44:37 -0400
-Received: by mail-wm1-f67.google.com with SMTP id h18so9062139wml.1
-        for <linux-usb@vger.kernel.org>; Thu, 11 Apr 2019 19:44:35 -0700 (PDT)
+        id S1726777AbfDLD7d (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 Apr 2019 23:59:33 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:32902 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726699AbfDLD7c (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 Apr 2019 23:59:32 -0400
+Received: by mail-wm1-f66.google.com with SMTP id z6so3331839wmi.0
+        for <linux-usb@vger.kernel.org>; Thu, 11 Apr 2019 20:59:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=mDJyMt7hNSr7DUrGZuy9n2QrIgPqsmoHKZcHMUGT+sQ=;
-        b=OqXysMWklVoFhfk4g1eQY43XP8kbjkscpAtuJiuU7r4gqFXVScKtGM2iF4M1kJdjGh
-         TIQpF3mg/X1bUfQ/US8kUapj/rLZa8GMEHZM/YFxXoDkmKGwiBZpfx71g3wlUaA+TOKi
-         h32BzaeXkaqvHfEg5AGb0PogSB+dlsW4X9BPJjcHKhY/ZFQP6V9CvCt0D32U/FnPFpDG
-         EXvD3B/Yn75eOTyjgLo5w70gFWavHFuZVC23RzlXYo9i6W9EksYKXifQ2Wc8vuIBiq+R
-         ZYKtQGqNAVHr001aT8DG9yi44ee9RHutMTinPS1QRpSoQmC2VdujDh6kRzQ14Em01vzN
-         /ZXQ==
+         :cc;
+        bh=FDjbew8/XnEWPCx2JhORMgpWfv6ak7qB7VTQ5Y2QSSQ=;
+        b=yJUMwLs/VuheROMdvbgcxf4aIlTmHjgP0u0OBcJVi/d+ATgieKvDC5dQ9akuiy+0as
+         1SWiHpYd3ln7U9/XZXOiWPacUxeA4m7ZwIagBdles+ZrvSDlTmzTaUl6dM3ji725o9D/
+         xw9PYnbcHoRwWBqHHluLC/I/k+y6vUD2mycjfMOGhH+4e3bOc9yS5uSGQAFodOgnwxAK
+         sNY4u+dATu/fRLitXCIs915unk3mx+at3s+kf8cb4RqsC/ZaE6bv9nbYTxIiPkVx1vDV
+         uzGqJUDVQHxvmLcvsBksSoZ+/X3fb7yHxdoLKCGeividloux9ewo97rgVOUYs1uKvAE2
+         Uuvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=mDJyMt7hNSr7DUrGZuy9n2QrIgPqsmoHKZcHMUGT+sQ=;
-        b=bnjkJ3EEbovg8UhWi1Gio+mDyHSI64xRCUFvZDTnTBIDpEe+WCMeivydqBCP5gv29s
-         tnjDyzd7CPNhbQHj4FPXXRs771NBXZ3sb4RSX4SrZanSYLmbmdnN11mlt5VJDI/ybrKk
-         IUct1zMuL1eyuayCTQ9DfLYSkNeX+Zy5gS2awyYAoNIsJ7l+VqLH/bczoYePpa81T9nO
-         i7CZ6S5dUd/5l76GmZsQRHKBR6AHmytueGK41CCed+EN8ThfJT8kQbTVZatF9eXggwm+
-         duKU1jvHAWr4m3zRjMcy6sp+H5K8q/Iz+6JJBMLDnXH/xMVlfQnwXjWX0Y2kaelmnOAQ
-         l8wA==
-X-Gm-Message-State: APjAAAWucxAYth80h5l4K2df9teS7+fARC8sHN2istduDEwx6KpJAVNa
-        p7//qk5KxIl/Tn9XSWaGGXmtfljBu8xgThV8a+Y=
-X-Google-Smtp-Source: APXvYqwU7Kev11ayCzcgaiNR8RPCLO8KeW0rWKRbgpWXFyQ/gVtpJ6e4t8d7sSEiomATGAbBrtOa3y27iIq5O8B9MQk=
-X-Received: by 2002:a1c:4187:: with SMTP id o129mr8760479wma.57.1555037074483;
- Thu, 11 Apr 2019 19:44:34 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=FDjbew8/XnEWPCx2JhORMgpWfv6ak7qB7VTQ5Y2QSSQ=;
+        b=Awq37gZnwLIXWlaX6nzuCgxNfKsVwr3RAjPYG/4bjALr6nBhLdtst5lXkxho7grkmq
+         oWg70saTvL5OihYWvnUdBDamUa2HH1KtnRel6tvlbF2ytB5YtEP5IC73PlZi1hV4ebp7
+         h27EwiFqNaKV4gZWh8ydPlxt2+TFlxMOeLHT0xpQydMc/qxhVMwuRvICfkFLNPSvdJi2
+         +LayNyUiZW6mxFR+AR0G8dTbh4CYzdry9zJHsphfaI2NuDkUESQ6vNOrQaEgZAtslL35
+         5BncDGAzsm/qEq+lYcuPK3E7yJcLejC97RrhivM+lWE1ebqpA04IxYnfxitAhb6xpPc3
+         glIQ==
+X-Gm-Message-State: APjAAAWgKuxfClpZ1i8aUoMRO6d7seOiEyZYgyNX3ryulE6bBoisrb1J
+        4vmBtxNTzpgLqt7tSNCVM0VlLVAvJNFvcBNxPzOPGg==
+X-Google-Smtp-Source: APXvYqwmNvRI2C5zFcXXGEjgvhsdkSLF3QjkF0eksska2gjzZB75WwT6NhB+7nv2p7FzRVpgPijHAosZyFC7RKRtFr8=
+X-Received: by 2002:a1c:a103:: with SMTP id k3mr9179534wme.8.1555041570364;
+ Thu, 11 Apr 2019 20:59:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190212125049.12108-1-charlesyeh522@gmail.com> <20190402073420.GJ12562@localhost>
-In-Reply-To: <20190402073420.GJ12562@localhost>
-From:   Charles Yeh <charlesyeh522@gmail.com>
-Date:   Fri, 12 Apr 2019 10:44:22 +0800
+References: <20190329041409.70138-1-chenyu56@huawei.com> <20190329041409.70138-10-chenyu56@huawei.com>
+ <CALAqxLUQW03waz0LETcnYpc7qhm=RG6RfwbGVZ7MQz00jTZSWQ@mail.gmail.com>
+In-Reply-To: <CALAqxLUQW03waz0LETcnYpc7qhm=RG6RfwbGVZ7MQz00jTZSWQ@mail.gmail.com>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Thu, 11 Apr 2019 20:59:17 -0700
 Message-ID:
- <CAAZvQQ6mVgu7nqomaSaPuo_DUrWEruu1f1=q13Qxr+A2Gq=1Zw@mail.gmail.com>
-Subject: Re: [PATCH] [v2]USB:serial:pl2303:add new Pull-Up mode to support
- PL2303HXD (TYPE_HX)
-To:     Johan Hovold <johan@kernel.org>
-Cc:     Greg KH <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
-        charles-yeh@prolific.com.tw
+ <CALAqxLWf0_73spYd68-bnYZp5evLNjcFwBqevVdHCoziG9paBA@mail.gmail.com>
+Subject: Re: [PATCH v5 09/13] usb: roles: Add usb role switch notifier.
+To:     Yu Chen <chenyu56@huawei.com>
+Cc:     Linux USB List <linux-usb@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
+        Zhuangluan Su <suzhuangluan@hisilicon.com>,
+        Kongfei <kongfei@hisilicon.com>,
+        "Liuyu (R)" <liuyu712@hisilicon.com>, wanghu17@hisilicon.com,
+        butao <butao@hisilicon.com>, chenyao11@huawei.com,
+        fangshengzhou@hisilicon.com,
+        Li Pengcheng <lipengcheng8@huawei.com>,
+        songxiaowei@hisilicon.com, YiPing Xu <xuyiping@hisilicon.com>,
+        xuyoujun4@huawei.com, Yudongbin <yudongbin@hisilicon.com>,
+        Zang Leigang <zangleigang@hisilicon.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190412024422.YqdtnOr0C3kH35Dl7IbjGfKTa1oGwrIb2ad589HxQiI@z>
+Message-ID: <20190412035917.1b3tiFH-Kt3zteKa15As6kM_E-0UyuLQWCpiVy3UI7k@z>
 
-Hi Johan,
-
-A Patch:
-[PATCH] USB:serial:pl2303:Add new PID to support PL2303HXN (TYPE_HXN)
-
-B Patch:
-[PATCH] [v2]USB:serial:pl2303:add new Pull-Up mode to
-support PL2303HXD (TYPE_HX)
-
-
-To save time, let you have more time to process A patch,
-B patch's reply will wait until A patch passes,
-then I will repeat the problem of B patch.
-
-Charles.
-
-Johan Hovold <johan@kernel.org> =E6=96=BC 2019=E5=B9=B44=E6=9C=882=E6=97=A5=
- =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=883:34=E5=AF=AB=E9=81=93=EF=BC=9A
+On Thu, Apr 11, 2019 at 6:12 PM John Stultz <john.stultz@linaro.org> wrote:
 >
-> On Tue, Feb 12, 2019 at 08:50:49PM +0800, Charles Yeh wrote:
-> > Pull-Up mode is disabled (default) in PL2303HXD.
-> > When the Pull-Up mode is activated, its TX/DTR/RTS external resistor wi=
-ll start the output function.
+> On Thu, Mar 28, 2019 at 9:14 PM Yu Chen <chenyu56@huawei.com> wrote:
 > >
-> > How to enable the Pull-Up mode of PL2303HXD
-> > 1.TX/DTR/RTS external resistor is required on the circuit diagram (PCB)
-> > 2.PL2303HXD OTP needs to be programmed to have a Pull-Up mode through 6=
-.5V (USB_VCC,5V->6.5V)
+> > This patch adds notifier for drivers want to be informed of the usb role
+> > switch.
 > >
-> > The patch driver will read whether the PL2303HXD has a Pull-Up mode,and=
- if so,
-> > it will be set to enable Pull-Up mode function.
-> >
-> > Signed-off-by: Charles Yeh <charlesyeh522@gmail.com>
-> > ---
-> >  drivers/usb/serial/pl2303.c | 24 ++++++++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
-> >
-> > diff --git a/drivers/usb/serial/pl2303.c b/drivers/usb/serial/pl2303.c
-> > index bb3f9aa4a909..e5d00e4a495d 100644
-> > --- a/drivers/usb/serial/pl2303.c
-> > +++ b/drivers/usb/serial/pl2303.c
-> > @@ -145,6 +145,16 @@ MODULE_DEVICE_TABLE(usb, id_table);
-> >  #define UART_OVERRUN_ERROR           0x40
-> >  #define UART_CTS                     0x80
-> >
-> > +#define      TYPE_HX_READ_PUM_STATUS_REG     0x8484
-> > +#define      TYPE_HX_READ_PUM_ADD            0x0404
-> > +#define      TYPE_HX_READ_PUM_DATA_REG       0x8383
+> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > Cc: Hans de Goede <hdegoede@redhat.com>
+> > Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
+> > Cc: John Stultz <john.stultz@linaro.org>
+> > Suggested-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > Signed-off-by: Yu Chen <chenyu56@huawei.com>
 >
-> Again, the defines need to reflect what the registers are for, not what
-> use happen to use them for in on specific code path.
+> Hey Yu Chen!
+>    Thanks again for sending this patch out! As mentioned in my
+> comments with the other patches, I've got one proposal I wanted to
+> share to try to avoid  state initialization races that I've seen with
+> this patchset.
 >
-> These are used to access the EEPROM/OTP, right?
->
-> > +#define      TYPE_HX_PULLUP_MODE_DATA        0x08
->
-> What is bit 0x08?
->
-> > +#define      TYPE_HX_PULLUP_MODE_REG         0x09
->
-> And this register isn't just used for pull-up mode as far as I can tell.
->
-> > +#define      TYPE_HX_PUM_ADD0                0x00
-> > +#define      TYPE_HX_PUM_DATA0               0x31
-> > +#define      TYPE_HX_PUM_ADD1                0x01
-> > +#define      TYPE_HX_PUM_DATA1               0x08
->
-> Same for these, we don't want multiple defines for register 0 for
-> example. What are bits 0x31 of register 0?
->
-> > +
-> >  static void pl2303_set_break(struct usb_serial_port *port, bool enable=
-);
-> >
-> >  enum pl2303_type {
-> > @@ -688,6 +698,20 @@ static void pl2303_set_termios(struct tty_struct *=
-tty,
-> >               pl2303_vendor_write(serial, 0x0, 0x0);
-> >       }
-> >
-> > +     if (spriv->type =3D=3D &pl2303_type_data[TYPE_HX]) {
-> > +             pl2303_vendor_read(serial, TYPE_HX_READ_PUM_STATUS_REG, b=
-uf);
-> > +             pl2303_vendor_write(serial, TYPE_HX_READ_PUM_ADD,
-> > +                                     TYPE_HX_PULLUP_MODE_REG);
-> > +             pl2303_vendor_read(serial, TYPE_HX_READ_PUM_STATUS_REG, b=
-uf);
-> > +             pl2303_vendor_read(serial, TYPE_HX_READ_PUM_DATA_REG, buf=
-);
->
-> Why do you need to access the OTP on every set_termios() call? I thought
-> those settings where copied to the corresponding control registers
-> during boot?
->
-> > +             if (*buf =3D=3D TYPE_HX_PULLUP_MODE_DATA) {
->
-> Don't you want to just check bit 0x80 here?
->
-> > +                     pl2303_vendor_write(serial, TYPE_HX_PUM_ADD0,
-> > +                                             TYPE_HX_PUM_DATA0);
->
-> So this looks broken since you're overwriting the flow control settings
-> that were just set above. And again, what are bits 0x31 of register 0?
-> Doesn't 0x30 control auto-rts?
->
-> > +                     pl2303_vendor_write(serial, TYPE_HX_PUM_ADD1,
-> > +                                             TYPE_HX_PUM_DATA1);
->
-> And why do you need to (over-)write register 2?
->
-> Either way, configuring pull-up mode should be done at probe and not on
-> every set_termios() call.
->
-> > +             }
-> > +     }
-> > +
-> >       kfree(buf);
+> > diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
+> > index f45d8df5cfb8..e2caaa665d6e 100644
+> > --- a/drivers/usb/roles/class.c
+> > +++ b/drivers/usb/roles/class.c
+> > @@ -58,6 +61,20 @@ int usb_role_switch_set_role(struct usb_role_switch *sw, enum usb_role role)
 > >  }
+> >  EXPORT_SYMBOL_GPL(usb_role_switch_set_role);
+> >
+> > +int usb_role_switch_register_notifier(struct usb_role_switch *sw,
+> > +                                     struct notifier_block *nb)
+> > +{
+> > +       return blocking_notifier_chain_register(&sw->nh, nb);
+> > +}
+> > +EXPORT_SYMBOL_GPL(usb_role_switch_register_notifier);
 >
-> Thanks,
-> Johan
+> As noted earlier, one issue I've seen is that the hisi_hikey_usb
+> driver's notifier may not get called early enough to receive
+> notification of the initial usb state.
+>
+> It seems like on registration here, we should take the lock, read the
+> role state and immediately call the notifier to properly initialize
+> it? I suspect that should close the window for any state races around
+> driver probe timings and
+>
+> Does that make sense? I have roughly prototyped this but need to do
+> additional testing.
+
+So these seem to be working ok.
+First, the notifier call on register change:
+  https://git.linaro.org/people/john.stultz/android-dev.git/commit/?h=dev/hikey960-mainline-WIP&id=1d312db9763c2449c3cf5b3383b1f33390f8ce7b
+
+Second, the current_dr_role change for dwc3:
+  https://git.linaro.org/people/john.stultz/android-dev.git/commit/?h=dev/hikey960-mainline-WIP&id=b80b536de76eb80f7df0846aa54ac22e2b4ffe4e
+
+Feel free to fold/rework those changes into your patch set.
+
+thanks
+-john
