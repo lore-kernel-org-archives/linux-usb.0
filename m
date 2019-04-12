@@ -7,59 +7,60 @@ X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 333B8C10F0E
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 19:06:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1AD4C10F0E
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 19:07:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0541620818
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 19:06:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7EA7320818
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 19:07:44 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tBLazjDq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gudNp+xp"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727011AbfDLTGp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 12 Apr 2019 15:06:45 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:35477 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726815AbfDLTGo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 Apr 2019 15:06:44 -0400
-Received: by mail-pl1-f194.google.com with SMTP id w24so5566129plp.2
-        for <linux-usb@vger.kernel.org>; Fri, 12 Apr 2019 12:06:44 -0700 (PDT)
+        id S1726925AbfDLTHo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 12 Apr 2019 15:07:44 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:41454 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726815AbfDLTHn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 Apr 2019 15:07:43 -0400
+Received: by mail-pg1-f196.google.com with SMTP id f6so5628615pgs.8
+        for <linux-usb@vger.kernel.org>; Fri, 12 Apr 2019 12:07:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=DRPocUE8WKEeXFVpYST5j7H7BWcZxEGItilfo5R/UWw=;
-        b=tBLazjDqBVvIJWvEPXkOiafHrGHszojYIr9kAPCthWtRp0UigspG3PGLgryjdESG/7
-         qPEzxUmLndwelr1D0jHKckyiJ/kpdnXVjUjz4cur1VmzSxxmCToNBxM6KcqhtzdnHthP
-         mXbEKHx4VddaT+80HirIzBOQpmgavlxn/Od2kHvt8Th3Yza7AznFwS2FimRYhGrd17mQ
-         512g+dg6UxJnJ99jTc8QFAAW7MKxJUlzuHI/AA82HHcTEzVuobxYV9wwXdZUtfoiS4k0
-         +WPJTl1j3CLOd9UJbPcrLtpqpymb/8R5CrGk2Rm6ATqgdru54t/hcIpuS6slLmA/uUyl
-         yC0Q==
+        bh=29QQJVkj+zdJP/T+0bm/LfPSV4BUo2ddpOGXI10rrkg=;
+        b=gudNp+xpxrZJIH5EjduReh93ow0UdBhoaW3UV+AvE8pFmDY64B4BjCjPRVkmpr8sBz
+         MKhRchiLUOoQm7eZgyUxyx3nlFTrbBt2RNe1vscj+vodhSP8rFZRb76mYiPuiqzQy+WO
+         C6L8JDURpt/GuBovW+A7jiTJOXc890T1dl1JIoV1FL6+EBR4/aSsRSfrYGbjkcyWVWMr
+         gAPgFlwrdy0xXtvpCUeXaH0qp8+wm0+oApbLPyA//dKlVyD8VUOG/7PPAFnpvP0Krp58
+         dgmpAWWC3GrHAHQCj1WjqWYxEJPx6nscLz7Hpgibd7WRnTDx7ByxYR8lPm03HfkaNXWk
+         cmlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=DRPocUE8WKEeXFVpYST5j7H7BWcZxEGItilfo5R/UWw=;
-        b=AtUbkuftJWbZgCm8tZdF/ecUr09jqD+rYBCupjyDRd3QB9sYljlQMdx0yaoYcObsTz
-         XI17kKhd6QgoFetYEjrgEvtzy6CL6x2Gd3DnoTpxsbGOtpnhvFNvMjSo/t6QQvi/dFaQ
-         mGOU6FaJCioGatC/NUTSnetjm53R9pSdS18TNn2XI42Nm5h+HF0euteyS+UBhtW8XFYK
-         by2RGl1O4VuRcA+M7vfUxCNeyXaEaWJehgpBOhKUlJakxwAS+6w0k6QPy1MbDiwDBWeS
-         8Njm5OG9G+LKz/VnS5180Z9DuS/hldgQLa/emWm4ECTb2d5hzW7DERoZLWjYFv+P6h9f
-         ptKg==
-X-Gm-Message-State: APjAAAWjZCU5iEnKYsm0eH5Fd4UtvVPf+Ah/K23MfPZgS8WVa21PWoea
-        ZZBTaH5UqLouhtWIgNkwjOILL2zuG0g=
-X-Google-Smtp-Source: APXvYqws2HXlpg3JBlcE27H7SPyvYsz/VVlZT7Ba6ozHgIKC78R3kW+kRztZzCgp6K57ObrtxQiahQ==
-X-Received: by 2002:a17:902:be04:: with SMTP id r4mr60033330pls.218.1555096003960;
-        Fri, 12 Apr 2019 12:06:43 -0700 (PDT)
+        bh=29QQJVkj+zdJP/T+0bm/LfPSV4BUo2ddpOGXI10rrkg=;
+        b=OkjBqSzYcMfc9CljHje8PyzYVsSnO4+DGBPXtJgqjWQGlN3P8dMG709ioqXdRRcPPk
+         UxaD7hJY3/m6lc4pn9mok7IWSV/FjJeoTuPDvMA7NefxY+SGdBjF+9yzoNHnBxFReXSq
+         qckQ2izxgsB9CcnruTF7dqiwXBKzVQ3wINQrIk9L6idCV2Zjhy7tNDln/9vpAYsSH3pz
+         lXJq1ZjyWOTMc/dWVjgH7lSHA9RNSi+Q2tM7ppcmjzuyFxeMXZqk4scZ6TIACM94W7w4
+         6SfnyWXPvHsoYWaHfpsoBv4wTEG9vPIiLzqQ67tz6spWKEDSz2aP45TiEkX7agYmPKRH
+         Ylhg==
+X-Gm-Message-State: APjAAAWt31PKmnMpRnUEQFlF1lQ/kR6/nDp3xC75ip787uyjQ9HNPr7x
+        jDvmj5BeTkZUgOdf05oECmLQGOltuQ4=
+X-Google-Smtp-Source: APXvYqyMYcAfIhZ6efYCEwKtCOyMAo80cNYHUK3QXrFpB6AqSYDMpGLRdBkcQ0zhr4JNGfmHhpwb5Q==
+X-Received: by 2002:a63:31ce:: with SMTP id x197mr54117678pgx.69.1555096062862;
+        Fri, 12 Apr 2019 12:07:42 -0700 (PDT)
 Received: from ajayg.nvidia.com (searspoint.nvidia.com. [216.228.112.21])
-        by smtp.gmail.com with ESMTPSA id c3sm58760133pfo.2.2019.04.12.12.06.42
+        by smtp.gmail.com with ESMTPSA id c3sm58760133pfo.2.2019.04.12.12.07.41
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 12 Apr 2019 12:06:43 -0700 (PDT)
+        Fri, 12 Apr 2019 12:07:42 -0700 (PDT)
 From:   Ajay Gupta <ajaykuee@gmail.com>
 X-Google-Original-From: Ajay Gupta <ajayg@nvidia.com>
 To:     heikki.krogerus@linux.intel.com
-Cc:     linux-usb@vger.kernel.org, Ajay Gupta <ajayg@nvidia.com>
-Subject: [PATCH v7 1/3] usb: typec: ucsi: ccg: add get_fw_info function
-Date:   Fri, 12 Apr 2019 12:06:21 -0700
-Message-Id: <20190412190623.26945-2-ajayg@nvidia.com>
+Cc:     linux-usb@vger.kernel.org, heikki.krogeruslinux@intel.com,
+        Ajay Gupta <ajayg@nvidia.com>
+Subject: [PATCH v7 2/3] i2c: nvidia-gpu: Supply CCGx driver the fw build info
+Date:   Fri, 12 Apr 2019 12:06:22 -0700
+Message-Id: <20190412190623.26945-3-ajayg@nvidia.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190412190623.26945-1-ajayg@nvidia.com>
 References: <20190412190623.26945-1-ajayg@nvidia.com>
@@ -68,118 +69,45 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190412190621.cyulXEC0_0scV67j_qwkkSKuh4IxcgRalJ1pLTJ1AVo@z>
+Message-ID: <20190412190622.I9De-h8z_8ckXASzcSgasPsjmIXpaSvzQ6mhm8tcyos@z>
 
-Function is to get the details of ccg firmware and device version.
-It will be useful in debugging and also during firmware update.
+From: Heikki Krogerus <heikki.krogerus () linux ! intel ! com>
 
-Signed-off-by: Ajay Gupta <ajayg@nvidia.com>
+Adding device property "ccgx,firmware-build" for the CCGx
+device, so the CCGx driver knows which firmware binary to
+use for a specific vendor.
+
 Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Signed-off-by: Ajay Gupta <ajayg@nvidia.com>
 ---
-Changes from v6 to v7
-	- None
+ drivers/i2c/busses/i2c-nvidia-gpu.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
- drivers/usb/typec/ucsi/ucsi_ccg.c | 66 ++++++++++++++++++++++++++++++-
- 1 file changed, 64 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-index de8a43bdff68..3884fb41c72e 100644
---- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-+++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-@@ -17,15 +17,54 @@
- #include <asm/unaligned.h>
- #include "ucsi.h"
- 
-+enum enum_fw_mode {
-+	BOOT,   /* bootloader */
-+	FW1,    /* FW partition-1 (contains secondary fw) */
-+	FW2,    /* FW partition-2 (contains primary fw) */
-+	FW_INVALID,
-+};
-+
-+struct ccg_dev_info {
-+#define CCG_DEVINFO_FWMODE_SHIFT (0)
-+#define CCG_DEVINFO_FWMODE_MASK (0x3 << CCG_DEVINFO_FWMODE_SHIFT)
-+#define CCG_DEVINFO_PDPORTS_SHIFT (2)
-+#define CCG_DEVINFO_PDPORTS_MASK (0x3 << CCG_DEVINFO_PDPORTS_SHIFT)
-+	u8 mode;
-+	u8 bl_mode;
-+	__le16 silicon_id;
-+	__le16 bl_last_row;
-+} __packed;
-+
-+struct version_format {
-+	__le16 build;
-+	u8 patch;
-+	u8 ver;
-+#define CCG_VERSION_MIN_SHIFT (0)
-+#define CCG_VERSION_MIN_MASK (0xf << CCG_VERSION_MIN_SHIFT)
-+#define CCG_VERSION_MAJ_SHIFT (4)
-+#define CCG_VERSION_MAJ_MASK (0xf << CCG_VERSION_MAJ_SHIFT)
-+} __packed;
-+
-+struct version_info {
-+	struct version_format base;
-+	struct version_format app;
-+};
-+
- struct ucsi_ccg {
- 	struct device *dev;
- 	struct ucsi *ucsi;
- 	struct ucsi_ppm ppm;
- 	struct i2c_client *client;
-+	struct ccg_dev_info info;
-+	/* version info for boot, primary and secondary */
-+	struct version_info version[FW2 + 1];
+diff --git a/drivers/i2c/busses/i2c-nvidia-gpu.c b/drivers/i2c/busses/i2c-nvidia-gpu.c
+index 4e67d5ed480e..1c8f708f212b 100644
+--- a/drivers/i2c/busses/i2c-nvidia-gpu.c
++++ b/drivers/i2c/busses/i2c-nvidia-gpu.c
+@@ -253,6 +253,12 @@ static const struct pci_device_id gpu_i2c_ids[] = {
  };
+ MODULE_DEVICE_TABLE(pci, gpu_i2c_ids);
  
--#define CCGX_RAB_INTR_REG			0x06
--#define CCGX_RAB_UCSI_CONTROL			0x39
-+#define CCGX_RAB_DEVICE_MODE			0x0000
-+#define CCGX_RAB_INTR_REG			0x0006
-+#define CCGX_RAB_READ_ALL_VER			0x0010
-+#define CCGX_RAB_READ_FW2_VER			0x0020
-+#define CCGX_RAB_UCSI_CONTROL			0x0039
- #define CCGX_RAB_UCSI_CONTROL_START		BIT(0)
- #define CCGX_RAB_UCSI_CONTROL_STOP		BIT(1)
- #define CCGX_RAB_UCSI_DATA_BLOCK(offset)	(0xf000 | ((offset) & 0xff))
-@@ -220,6 +259,23 @@ static irqreturn_t ccg_irq_handler(int irq, void *data)
- 	return IRQ_HANDLED;
- }
- 
-+static int get_fw_info(struct ucsi_ccg *uc)
-+{
-+	int err;
++static const struct property_entry ccgx_props[] = {
++	/* Use FW built for NVIDIA (nv) only */
++	PROPERTY_ENTRY_U16("ccgx,firmware-build", ('n' << 8) | 'v'),
++	{ }
++};
 +
-+	err = ccg_read(uc, CCGX_RAB_READ_ALL_VER, (u8 *)(&uc->version),
-+		       sizeof(uc->version));
-+	if (err < 0)
-+		return err;
-+
-+	err = ccg_read(uc, CCGX_RAB_DEVICE_MODE, (u8 *)(&uc->info),
-+		       sizeof(uc->info));
-+	if (err < 0)
-+		return err;
-+
-+	return 0;
-+}
-+
- static int ucsi_ccg_probe(struct i2c_client *client,
- 			  const struct i2c_device_id *id)
+ static int gpu_populate_client(struct gpu_i2c_dev *i2cd, int irq)
  {
-@@ -248,6 +304,12 @@ static int ucsi_ccg_probe(struct i2c_client *client,
- 		return status;
- 	}
- 
-+	status = get_fw_info(uc);
-+	if (status < 0) {
-+		dev_err(uc->dev, "get_fw_info failed - %d\n", status);
-+		return status;
-+	}
-+
- 	status = devm_request_threaded_irq(dev, client->irq, NULL,
- 					   ccg_irq_handler,
- 					   IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
+ 	struct i2c_client *ccgx_client;
+@@ -267,6 +273,7 @@ static int gpu_populate_client(struct gpu_i2c_dev *i2cd, int irq)
+ 		sizeof(i2cd->gpu_ccgx_ucsi->type));
+ 	i2cd->gpu_ccgx_ucsi->addr = 0x8;
+ 	i2cd->gpu_ccgx_ucsi->irq = irq;
++	i2cd->gpu_ccgx_ucsi->properties = ccgx_props;
+ 	ccgx_client = i2c_new_device(&i2cd->adapter, i2cd->gpu_ccgx_ucsi);
+ 	if (!ccgx_client)
+ 		return -ENODEV;
 -- 
 2.17.1
 
