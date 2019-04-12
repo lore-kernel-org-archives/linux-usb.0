@@ -1,109 +1,161 @@
-Return-Path: <SRS0=u5rC=SN=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=sojL=SO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_PASS,
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
 	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6042C10F13
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 22:07:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5377C10F13
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 00:48:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 81D5920693
-	for <linux-usb@archiver.kernel.org>; Thu, 11 Apr 2019 22:07:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 874852184B
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Apr 2019 00:48:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="j/HmTZNM"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PtKcslHD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726731AbfDKWHA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 Apr 2019 18:07:00 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:42437 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726633AbfDKWHA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 Apr 2019 18:07:00 -0400
-Received: by mail-ot1-f66.google.com with SMTP id 103so6643669otd.9;
-        Thu, 11 Apr 2019 15:06:59 -0700 (PDT)
+        id S1726918AbfDLAsS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 Apr 2019 20:48:18 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:32882 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726636AbfDLAsS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 11 Apr 2019 20:48:18 -0400
+Received: by mail-wr1-f67.google.com with SMTP id q1so9712799wrp.0
+        for <linux-usb@vger.kernel.org>; Thu, 11 Apr 2019 17:48:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20161025;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=7bVmLSoAA3mmTol5I1TZfDHdrTrxINLq9Q3hFc5Zt/8=;
-        b=j/HmTZNMniZ39ADhgC+mc7Htp+aTRSpWas4Mvz+pu2VJ4yrYcPmDLOw/ZU3sBKAOzj
-         fv7wb/Ur1nwJNf4i9YElBqXJxwTFoUC94lYqHhMtZ2DqrYdQn5aZ9TMN7HLfs0M2B8Ii
-         wQN5+b8eEloxz+XmPtNx/dbUd8FAdy1bBZvRVQvlZE3YzO0f6D4MBcy8UUenL2VbJxip
-         Xwu92+/57T5iEI6ingnAL94QPzGXqVzfh3zrv4iKS4e66nHG3n5x5S/ITE6E0mmgB2s7
-         Vcnb/PttnT55LVzI0HAAb/x4I4nwL2emqXh94QKH5I6BtdwkdHgfQAXz+Mszg4YiYK4L
-         rZJA==
+        bh=EGa6ziXLYfRRM+NmivaW3Md44smSFk48FqpDI63b5lo=;
+        b=PtKcslHDn2R6z6QcnKMR4NphY8jE54zbep/3cKh9aE+bR36cTRa2WXKbOLhqEHTm59
+         h+8SpKz+XawyoWvTdrjazPnlxJ+5rPJ+5VEQZmk7J7kAVvAXWMyDXty1FrLfOvsuHoA7
+         xbECveEa7lWMG5m19QG5fzhZEK7OTI5mkG7noKywPaR8zMkjhZEZzk3FUhtVeFYlCaZA
+         GAICt8oQZvXimP0kemSmMkmDq3+bfz+Qk58ZQ8G6EzBAqfeDYSWJRQ0pL78MYI19u/wb
+         gAibFC1M9hwK4YwwBVDBAdETKieknZqqlBTvt/w1Uc51nS+XEazejJFtbpZ9YNAy+edH
+         w21w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=7bVmLSoAA3mmTol5I1TZfDHdrTrxINLq9Q3hFc5Zt/8=;
-        b=UmvF/0UmV7rGSFspnnHvTATjNmmQIYuzBNwHKEXGoRVlL6HFOO+kHzGOpXEnFfUYFq
-         cAI4VTPTyV+ieOqYVINa4Ygr8wnsm3gALVeq3TNCMR6PTSI3NSoT1O3bNBbfX2eERZrY
-         tUVwH0I1BNqjOkPRdGL3g/ICN0bUTsjpYAKDNFfsH0ZukFb13VsT4D8NP4z2RBlOKNIA
-         FwziifykzhvQ9BhxKNYF2EUQ4vSbZnIk2xLbO+vFbFAMgLLSc11XPqFi8iUvytz25v9l
-         Dubyerec46kAydNsdhnUDGueKz5uS2ezWjD/+6jir8l/vYHsQjnaTCv9h5u/pEdLf1p+
-         ZW+Q==
-X-Gm-Message-State: APjAAAWyLgXFIpWwaFOnB/p9V8PexvBfKUzacZ7JWKIMmf1XjfM9lMNV
-        U+dVx//ERmocG0Uq7rsBMCFYSKCyOIjZOKawsXM=
-X-Google-Smtp-Source: APXvYqw4wjJ/2dn0N9aktJ6YhMPO6Zg/dbaYzY5uESOkIOa50KJCY2YFEcRDi2s1gX4v5pvlTMjzujb6PBR+XaFp8ZE=
-X-Received: by 2002:a9d:6e88:: with SMTP id a8mr7724444otr.117.1555020419055;
- Thu, 11 Apr 2019 15:06:59 -0700 (PDT)
+        bh=EGa6ziXLYfRRM+NmivaW3Md44smSFk48FqpDI63b5lo=;
+        b=A9SeS+kfQNbW5ADrJlmjxrw3coaGrih1wJilkAfcoOB5tOTKIRKF6tD8DuqzwseShE
+         yGc7jUAELac1M2lwwG1AMJYiCvxnitr4F5lWS8iVhPIMzaHmPx6TWdmRl4bJ8awUHlmS
+         w/XEaP3133V50UVmuF0TjssGcbZpK3dOLxji78SDjEN8ZoYXpkipsuVuC6OyzCPPIXCC
+         ImHl6VrlzkUkPyazGHZ63lx/ZQjf6s7InYJvgLUxaxbXAFeUrE3WeBkTVlXo3NR9kJ5L
+         IBKoK7E7jhPOYBTUL5E1ILEhbnDq/mVDB9P/F1hGYBH/8HGSkcpIdYdp07/nfi29yqab
+         Dseg==
+X-Gm-Message-State: APjAAAW+XSn2wvlbxqBhDHh4Z8+J4slnqIu2S05UPxrEAnodHX6la+Vv
+        xoWEiQorCicPvQ4KIrXbMDlzTagp6d+oy4EBL+RfxA==
+X-Google-Smtp-Source: APXvYqzRFUlCHznqhQBumuCsyfdx/ROFSBWLjFLoML0kLKMa7ajlzmY0FuthJauK33a1w5Rq9vJ0A1gBGYQJfZmQEvE=
+X-Received: by 2002:adf:ec87:: with SMTP id z7mr32359209wrn.44.1555030096320;
+ Thu, 11 Apr 2019 17:48:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190306212431.5779-1-martin.blumenstingl@googlemail.com>
- <20190327234217.GA8346@bogus> <CAFBinCDzYDH8NTwedUMaaN-gxtP29FEmvPtrmnQ+d2_N_PZ+=A@mail.gmail.com>
-In-Reply-To: <CAFBinCDzYDH8NTwedUMaaN-gxtP29FEmvPtrmnQ+d2_N_PZ+=A@mail.gmail.com>
-From:   Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Date:   Fri, 12 Apr 2019 00:06:48 +0200
+References: <20190329041409.70138-1-chenyu56@huawei.com> <20190329041409.70138-11-chenyu56@huawei.com>
+In-Reply-To: <20190329041409.70138-11-chenyu56@huawei.com>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Thu, 11 Apr 2019 17:48:04 -0700
 Message-ID:
- <CAFBinCCq8eZs+mirGg4qih4B0Oux-58jRkQXGmuCMOA-GmxrUA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: usb: dwc2: document the vbus-supply property
-To:     Rob Herring <robh@kernel.org>
-Cc:     hminas@synopsys.com, gregkh@linuxfoundation.org,
-        mark.rutland@arm.com, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        amelie.delaunay@st.com, felipe.balbi@linux.intel.com
+ <CALAqxLVdrzNS2t1OYT=Pziu81VO+zWq5LYghHhMJO53cSvNNtQ@mail.gmail.com>
+Subject: Re: [PATCH v5 10/13] usb: dwc3: Registering a role switch in the DRD code.
+To:     Yu Chen <chenyu56@huawei.com>
+Cc:     Linux USB List <linux-usb@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, lkml <linux-kernel@vger.kernel.org>,
+        Zhuangluan Su <suzhuangluan@hisilicon.com>,
+        Kongfei <kongfei@hisilicon.com>,
+        "Liuyu (R)" <liuyu712@hisilicon.com>, wanghu17@hisilicon.com,
+        butao <butao@hisilicon.com>, chenyao11@huawei.com,
+        fangshengzhou@hisilicon.com,
+        Li Pengcheng <lipengcheng8@huawei.com>,
+        songxiaowei@hisilicon.com, YiPing Xu <xuyiping@hisilicon.com>,
+        xuyoujun4@huawei.com, Yudongbin <yudongbin@hisilicon.com>,
+        Zang Leigang <zangleigang@hisilicon.com>,
+        Jun Li <lijun.kernel@gmail.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190411220648.N3EvS-P_NFfYm83lU9dEZqyyhUuda3m1H3tIcCbeGPo@z>
+Message-ID: <20190412004804.oOckWOidaGUA3JOyg4Jg2D7MO30MniSscqFaMCntnws@z>
 
-Hi Rob,
-
-On Thu, Mar 28, 2019 at 9:00 PM Martin Blumenstingl
-<martin.blumenstingl@googlemail.com> wrote:
-[...]
-> > > diff --git a/Documentation/devicetree/bindings/usb/dwc2.txt b/Documentation/devicetree/bindings/usb/dwc2.txt
-> > > index 6dc3c4a34483..1e8a775a0e72 100644
-> > > --- a/Documentation/devicetree/bindings/usb/dwc2.txt
-> > > +++ b/Documentation/devicetree/bindings/usb/dwc2.txt
-> > > @@ -31,6 +31,10 @@ Refer to clk/clock-bindings.txt for generic clock consumer properties
-> > >  Optional properties:
-> > >  - phys: phy provider specifier
-> > >  - phy-names: shall be "usb2-phy"
-> > > +- vbus-supply: reference to the VBUS regulator. Depending on the current mode
-> > > +  this is enabled (in "host" mode") or disabled (in "peripheral" mode). The
-> > > +  regulator is updated if the controller is configured in "otg" mode and the
-> > > +  status changes between "host" and "peripheral".
-> >
-> > This is actually wrong IMO unless Vbus is powering the controller
-> > itself. If it is just a regulator routed to the USB connector, then the
-> > DT should use the usb-connector binding and put vbus-supply there. If
-> > the driver needs it, then it can walk the tree/graph and get it. For
-> > some reason folks seem to think everything the driver needs has to be in
-> > the node associated with the driver.
-> I didn't know about the usb-connector binding yet - thank you for
-> pointing it out (rather than saying that this is bad without giving a
-> reason)!
+On Thu, Mar 28, 2019 at 9:14 PM Yu Chen <chenyu56@huawei.com> wrote:
 >
-> do you want me to re-spin this with a notice (stating that this should
-> be implemented in another way)?
-please let me know whether I should re-spin this with a notice.
-if not: can you please take this patch through your tree?
+> The Type-C drivers use USB role switch API to inform the
+> system about the negotiated data role, so registering a role
+> switch in the DRD code in order to support platforms with
+> USB Type-C connectors.
+>
 
+Hey Yu Chen!
+  Thanks so much for sending these patches out!  I have run into some
+troubles on bootup where things aren't working properly at first, that
+seem to be due to state initialization races.  In chasing those down,
+I've found some other quirks I wanted to bring up.
 
-Thank you!
-Martin
+> --- a/drivers/usb/dwc3/drd.c
+> +++ b/drivers/usb/dwc3/drd.c
+> @@ -479,6 +479,43 @@ static struct extcon_dev *dwc3_get_extcon(struct dwc3 *dwc)
+>         return edev;
+>  }
+>
+> +static int dwc3_usb_role_switch_set(struct device *dev, enum usb_role role)
+> +{
+> +       struct dwc3 *dwc = dev_get_drvdata(dev);
+> +       u32 mode;
+> +
+> +       switch (role) {
+> +       case USB_ROLE_HOST:
+> +               mode = DWC3_GCTL_PRTCAP_HOST;
+> +               break;
+> +       case USB_ROLE_DEVICE:
+> +               mode = DWC3_GCTL_PRTCAP_DEVICE;
+> +               break;
+> +       default:
+> +               if (dwc->role_switch_default_mode == USB_DR_MODE_HOST)
+> +                       mode = DWC3_GCTL_PRTCAP_HOST;
+> +               else
+> +                       mode = DWC3_GCTL_PRTCAP_DEVICE;
+> +               break;
+> +       }
+> +
+> +       dwc3_set_mode(dwc, mode);
+> +       return 0;
+> +}
+> +
+> +static enum usb_role dwc3_usb_role_switch_get(struct device *dev)
+> +{
+> +       struct dwc3 *dwc = dev_get_drvdata(dev);
+> +       unsigned long flags;
+> +       enum usb_role role;
+> +
+> +       spin_lock_irqsave(&dwc->lock, flags);
+> +       role = dwc->current_otg_role;
+> +       spin_unlock_irqrestore(&dwc->lock, flags);
+> +
+> +       return role;
+> +}
+> +
+
+So the two functions above are a bit asymmetric.  The
+dwc3_usb_role_switch_set() can put the device into host or device
+mode, which eventually sets the current_dr_role value.  However on the
+dwc3_usb_role_switch_get() we return the current_otg_role value.
+current_otg_role isn't set unless current_dr_role is
+DWC3_GCTL_PRTCAP_OTG, which doesn't seem to happen here.
+
+I suspect in dwc3_usb_role_switch_get() we should return
+current_dr_role, unless current_dr_role==DWC3_GCTL_PRTCAP_OTG, in
+which case we'd want to return current_otg_role.
+
+Does that make sense?
+
+Nothing really actually use this dwc3_usb_role_switch_get() yet, so
+this was easy to overlook, and I only caught it as I was trying to
+debug some of the initialization races.
+
+thanks
+-john
