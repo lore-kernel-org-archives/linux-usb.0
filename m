@@ -2,159 +2,115 @@ Return-Path: <SRS0=jcui=SP=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B82CC10F11
-	for <linux-usb@archiver.kernel.org>; Sat, 13 Apr 2019 20:39:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A518C10F11
+	for <linux-usb@archiver.kernel.org>; Sat, 13 Apr 2019 20:40:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1D3B420675
-	for <linux-usb@archiver.kernel.org>; Sat, 13 Apr 2019 20:39:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 205CD20870
+	for <linux-usb@archiver.kernel.org>; Sat, 13 Apr 2019 20:40:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726988AbfDMUix (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 13 Apr 2019 16:38:53 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:46864 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726936AbfDMUix (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 13 Apr 2019 16:38:53 -0400
-Received: by mail-ed1-f66.google.com with SMTP id d1so11254119edd.13
-        for <linux-usb@vger.kernel.org>; Sat, 13 Apr 2019 13:38:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ZiCM0RO/92DahOkwyKD8HuHBHkhV62I5tXQ5to8Sh3U=;
-        b=JoET5A8a+v9Tfk2oa36f0vO6OgLPE2LdqmrTkJIvyFxNovE656vxSwQgXSByyMYZXU
-         EGDOSEMkx1ZLOcn13OsPM6CGc/LnQhg1P2/IJgJvN00iajnPihyWozZsUTb7uH2v+avD
-         LsRR9DFFHhwM4POE58dlarDZUBVRUzHll2Fr3BL5tzSgBjYI2vgPQm6+zSojiwNAWXwW
-         ycGdbDYhzSfUGp0STUoqfVtVkne4cVGG5upYtAouKqapu7P/0BqyJdZ9df1W2k/qk/6l
-         zJ66t3s0yutgvWQI28Nq9OwHwm3856/f192owqeTYlD09ylI6sQrUvSsOzWMJuout7JB
-         J3yQ==
-X-Gm-Message-State: APjAAAX+UkXRd2UBMSWCqE9RBkwYv5EZQV6s99GSRzp57zF4MWhaUSag
-        aIurIRTtbTVIZgV5/O6Wvjz5Kg==
-X-Google-Smtp-Source: APXvYqzKc5fhn1Q6UZXIajWWRE56dECMmxAz3LeQHXAevL1M5sUq/3bED6DH+hQ68GwjclmYAUoB8Q==
-X-Received: by 2002:a50:f5c3:: with SMTP id x3mr11649166edm.28.1555187931559;
-        Sat, 13 Apr 2019 13:38:51 -0700 (PDT)
-Received: from shalem.localdomain (84-106-84-65.cable.dynamic.v4.ziggo.nl. [84.106.84.65])
-        by smtp.gmail.com with ESMTPSA id r1sm4275960edx.12.2019.04.13.13.38.50
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Sat, 13 Apr 2019 13:38:50 -0700 (PDT)
-Subject: Re: [PATCH v2] usb: typec: tcpm: collision avoidance
+        id S1727112AbfDMUj7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 13 Apr 2019 16:39:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34408 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726964AbfDMUj7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 13 Apr 2019 16:39:59 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id ABBD93089692;
+        Sat, 13 Apr 2019 20:39:58 +0000 (UTC)
+Received: from shalem.localdomain.com (ovpn-116-44.ams2.redhat.com [10.36.116.44])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 1838560BE2;
+        Sat, 13 Apr 2019 20:39:56 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
-To:     Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
-        Kyle Tso <kyletso@google.com>
-Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Guenter Roeck <linux@roeck-us.net>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Badhri Jagan Sridharan <badhri@google.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20190322121745.159768-1-kyletso@google.com>
- <20190404141345.GF21319@kuha.fi.intel.com>
- <08a6d422-e8f7-303e-7bf1-952344f2c182@roeck-us.net>
- <CAGZ6i=2zKLhS4By8Xanc863G+jSxPYg8SLU-UHkY94r5MiEYag@mail.gmail.com>
- <20190409130230.GC20058@kuha.fi.intel.com>
- <20190409130649.GD20058@kuha.fi.intel.com>
- <9c9d17e3-bd99-c877-359c-a0a1b10a8d73@redhat.com>
- <AM5PR1001MB099440C3AA6DA6BA2AB0F2AE802E0@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
- <CAGZ6i=0rRgNH5bU-zcP58MNi+VSa+xeAQWL67egaZ-ui-ebmYA@mail.gmail.com>
- <9f9a2de9-2cfb-385c-8e99-54b2587113ce@redhat.com>
- <AM5PR1001MB09943830CFED9CB321CC883D802E0@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
- <76a3c6df-63c0-78e7-c1ca-c83a30e95d38@redhat.com>
-Message-ID: <009662c6-2897-e2dd-03a7-992fc0a78599@redhat.com>
-Date:   Sat, 13 Apr 2019 22:38:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
+        Kyle Tso <kyletso@google.com>, linux-usb@vger.kernel.org
+Subject: [PATCH 1/3] usb: typec: tcpm: Add start_srp_connection_detect callback
+Date:   Sat, 13 Apr 2019 22:39:53 +0200
+Message-Id: <20190413203955.10788-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <76a3c6df-63c0-78e7-c1ca-c83a30e95d38@redhat.com>
-Content-Type: text/plain; charset="UTF-8"; format="flowed"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.47]); Sat, 13 Apr 2019 20:39:58 +0000 (UTC)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190413203849.GMi4J6hIILTAS3vlsdux0oJgkOcHDbMsoPb69nsf5ts@z>
+Content-Type: text/plain; charset="UTF-8"
+Message-ID: <20190413203953.cByVTEesv4B_0NSt2mrl01tkeh-8DuS-QNm19U8yjD4@z>
 
-Hi,
+Some tcpc device-drivers need to explicitly be told to watch for connection
+events, otherwise the tcpc will not generate any TCPM_CC_EVENTs and devices
+being plugged into the Type-C port will not be noticed.
 
-On 10-04-19 18:38, Hans de Goede wrote:
-> On 10-04-19 18:14, Adam Thomson wrote:
->> On 10 April 2019 16:45, Hans de Goede wrote:
+For dual-role ports tcpm_start_drp_toggling() is used to tell the tcpc to
+watch for connection events. But for single-role ports we've so far been
+falling back to just calling tcpm_set_cc(). For some tcpc-s such as the
+fusb302 this is not enough and no TCPM_CC_EVENT will be generated.
 
-<snip>
+This commit adds a new start_srp_connection_detect callback to tcpc_dev
+and when this is implemented calls this in place of start_drp_toggling
+for SRP devices.
 
->>> Starting toggling from tcpm_set_cc() just feels wrong; and currently power role
->>> swapping is broken with the fusb302, which IIRC used to work. I suspect this is
->>> related.
->>>
->>> I plan to write a patch tomorrow to functionally take tcpm_set_cc() back to the
->>> way it was before. This should fix your case and I hope this also fixes power-role
->>> swapping.
->>>
->>> This will re-introduce Adam Thomson's problem, but I have a feeling that that
->>> actually needs a fix in the tcpm.c code rather then at the fusb302 level.
->>
->> To be clear here, the names TOGGLING_MODE_SNK and TOGGLING_MODE_SRC are a
->> misnomer from the HW spec for fusb302. The device isn't toggling anything as far
->> as I'm aware, so I don't necessarily agree with your point.
-> 
-> If I understand the datasheet correctly:
-> 
-> "The FUSB302 has the capability to do autonomous
-> DRP toggle. In autonomous toggle the FUSB302
-> internally controls the PDWN1, PDWN2, PU_EN1 and
-> PU_EN2, MEAS_CC1 and MEAS_CC2 and implements
-> a fixed DRP toggle between presenting as a SRC and
-> presenting as a SNK. Alternately, it can present as a
-> SRC or SNK only and poll CC1 and CC2 continuously."
-> 
-> It is still attaching Rp resp Rd to CC1 or CC2 one at a time
-> to detect polarity, so it is still toggling, it just is not
-> doing dual-role toggling. This is also expected behavior for
-> a sink, a sink may not present Rd on both CC pins at the
-> same time, otherwise the source cannot detect the polarity
-> and the source also cannot detect if Vconn is necessary.
-> 
->> It's a mechanism to
->> have the HW report when the CC line changes on connection. Without that we have
->> no reporting from the HW for the fixed role scenarios.
-> 
-> Not just connection, also polarity detection. Notice that
-> the tcpm framework / the driver also has a start_drp_toggling()
-> method. I think we may also need a start_srp_toggling function
-> just like it and call that from the SNK_UNATTACHED and
-> SRC_UNATTACHED states for single-role ports. I agree that we
-> need to start toggling when in those states, but tcpm_set_cc gets
-> called in a lot of other places where AFAIK we should NOT
-> restart toggling and your patch causes us to restart
-> toggling in those cases.
+Fixes: ea3b4d5523bc("usb: typec: fusb302: Resolve fixed power role ...")
+Cc: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/usb/typec/tcpm/tcpm.c | 8 ++++++++
+ include/linux/usb/tcpm.h      | 6 ++++++
+ 2 files changed, 14 insertions(+)
 
-Ok, so as I suspected, commit ea3b4d5523bc ("usb: typec: fusb302:
-Resolve fixed power role contract setup") is what caused the
-power-role swapping breakage I've been seeing.
-
-So I've prepared a 3 patch series:
-
-1) Add a new start_srp_connection_detect function which, when
-implemented by the tcpc_dev, gets called instead of
-start_drp_toggling for single role ports (SRPs)
-
-2) Implement 1. for fusb302 to fix the SRP issue Adam was
-seeing, without depending on set_cc starting "toggling"
-or something like it for the fix
-
-3) Revert commit ea3b4d5523bc, restoring power-role swap
-functionality.
-
-This should also fix the issue Kyle Tso was seeing when
-trying to change from one Rp setting to another.
-
-I'll send out the series right after this email.
-
-Regards,
-
-Hans
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index a2233d72ae7c..1af54af90b50 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -2553,6 +2553,14 @@ static bool tcpm_start_drp_toggling(struct tcpm_port *port,
+ 			return true;
+ 	}
+ 
++	if (port->tcpc->start_srp_connection_detect &&
++	    port->port_type != TYPEC_PORT_DRP) {
++		tcpm_log_force(port, "Start SRP connection detection");
++		ret = port->tcpc->start_srp_connection_detect(port->tcpc, cc);
++		if (!ret)
++			return true;
++	}
++
+ 	return false;
+ }
+ 
+diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
+index 0c532ca3f079..bf2bbbf2e2b2 100644
+--- a/include/linux/usb/tcpm.h
++++ b/include/linux/usb/tcpm.h
+@@ -125,6 +125,10 @@ struct tcpc_config {
+  *		Optional; if supported by hardware, called to start DRP
+  *		toggling. DRP toggling is stopped automatically if
+  *		a connection is established.
++ * @start_srp_connection_detect:
++ *		Optional; if supported by hardware, called to start connection
++ *		detection for single role ports. Connection detection is stopped
++ *		automatically if a connection is established.
+  * @try_role:	Optional; called to set a preferred role
+  * @pd_transmit:Called to transmit PD message
+  * @mux:	Pointer to multiplexer data
+@@ -149,6 +153,8 @@ struct tcpc_dev {
+ 			 enum typec_role role, enum typec_data_role data);
+ 	int (*start_drp_toggling)(struct tcpc_dev *dev,
+ 				  enum typec_cc_status cc);
++	int (*start_srp_connection_detect)(struct tcpc_dev *dev,
++					   enum typec_cc_status cc);
+ 	int (*try_role)(struct tcpc_dev *dev, int role);
+ 	int (*pd_transmit)(struct tcpc_dev *dev, enum tcpm_transmit_type type,
+ 			   const struct pd_message *msg);
+-- 
+2.21.0
 
