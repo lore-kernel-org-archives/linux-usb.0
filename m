@@ -2,144 +2,109 @@ Return-Path: <SRS0=HzBI=SQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8515C10F13
-	for <linux-usb@archiver.kernel.org>; Sun, 14 Apr 2019 20:06:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75139C10F13
+	for <linux-usb@archiver.kernel.org>; Sun, 14 Apr 2019 21:52:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 956EA20850
-	for <linux-usb@archiver.kernel.org>; Sun, 14 Apr 2019 20:06:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3CB1420848
+	for <linux-usb@archiver.kernel.org>; Sun, 14 Apr 2019 21:52:07 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eotyTU2w"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727129AbfDNUGH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 14 Apr 2019 16:06:07 -0400
-Received: from mail-io1-f69.google.com ([209.85.166.69]:48872 "EHLO
-        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726733AbfDNUGH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Apr 2019 16:06:07 -0400
-Received: by mail-io1-f69.google.com with SMTP id 186so12594555iox.15
-        for <linux-usb@vger.kernel.org>; Sun, 14 Apr 2019 13:06:07 -0700 (PDT)
+        id S1726159AbfDNVwG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 14 Apr 2019 17:52:06 -0400
+Received: from mail-io1-f48.google.com ([209.85.166.48]:40308 "EHLO
+        mail-io1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725797AbfDNVwF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Apr 2019 17:52:05 -0400
+Received: by mail-io1-f48.google.com with SMTP id d201so12993440iof.7
+        for <linux-usb@vger.kernel.org>; Sun, 14 Apr 2019 14:52:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=CW1A+9NsDigDiU4b9VQF1bLweuLfAMX81CzYcgOzo2U=;
+        b=eotyTU2w4Y/vxR4aKiJTdy8sZ3UnJwtY85R6Y0dEzbv28mKaHjrXz/FzjsEjSFYAZQ
+         nsrxCFSq5tHCwNgNmZz4qbSJxmKvigyHcPMDAP6W8GL2DZyHYuqeo1+6FrzaHD3vVrpf
+         THAeAjfeJVLeBSLsGdSQ6tGFagjJg6nJPNer9aEJudUHQ1WD2DKMbZwYLDY18oyl/usx
+         ZUAzozap7Rj7tvVYcGEKOAerr/tWbZ37Yln8BkzHiVhzOa1AdiOcmZwWUYjlRDDqgovV
+         rVvHeDbBGFVGmipHPYbEx8V8A2PeAcsctblv4TJGan05d0IFQIyN41JzhrAcC22iv3yC
+         Y9ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=pG8X90FvGf2fjplmvbLtMTBmdPNswK6If5gFdTwKTvw=;
-        b=XeyMbOcFmKeqjVFIZCRfQNFciobVioVnczj8At72R1xriyCCYD6z5xeG3XqotsI7j2
-         9e+xgs8aewLYRthMMdwRgH3WuFfoXfNse3DNmrSlazULfAqE29GNPFKakgiBGwSLBGku
-         CUzICnk2q3pR1HxpPAPLhtS8rxR9gU+/UhXisyupHgEF3+AUD8ljpOlbRoF8vhFypXvq
-         WfrIzyGXQr+NeyBVt9n9XRcfwZpKgyn8RsmPiZynl0T7T+CDl0SUONyTsDoe0jRTnOV9
-         GLPR7L0fHRPG4Heg10ZRECxFTIOZbH/Rm7Ukd2Bj9TWdgLCMdpm/aQB2Ff0HKa54imDt
-         blcg==
-X-Gm-Message-State: APjAAAWTSmJazRb9SWpjVl2Po24U7X9T0t2AZAwiVd6wwIaNDCeTvdYr
-        eY8/LlDa+AN4aLkP399diiQ5++NM1o+DFxLn4QCbBFw9pKoo
-X-Google-Smtp-Source: APXvYqyxqVaJ4b3Vg2hyOK/Rmb3LNq2KY/kmQvLjpRf1ijUubg9W3mpaa6VBm2x5Ij7esICf7qeTeXH/962aigqQ/POJkiIrMjQ8
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=CW1A+9NsDigDiU4b9VQF1bLweuLfAMX81CzYcgOzo2U=;
+        b=pK1ocdh+vR80PyxPMcujIeaVvb0IES7YwLhvFHMVHDMZSFtaCAgE0b6fBKTqaAAaB5
+         0EArkeswcYmnk9UZ3rYWvpdhmDlUXezZjihr01OgaJvxODywhboJFaIbC7erWw2yEMlG
+         t9POlacPjd2jLCkY9TjVtNYupHRLeoxfXD50ay5RxtmVEJiqm8hiO7hToPUSx2hhXfdA
+         53K+kGMYqEO7RTIj0DhUPuGB38qyoAJiUMGx+xExEzcKqOAn31lmqaA+LMBDUgsJcXnW
+         /BKasTRIWtvxW+6aoeW4Re/OVcKTQqIPaQKAWHGykWtkIxzg47wLDiC5vWMUTUa4gPK9
+         VV8g==
+X-Gm-Message-State: APjAAAWgX8KGsO6/s7I/DT7z/O8dPHGiTK3DkFUfDXKLB4Q94e9Daxay
+        PK12fpPEUDzDP9FY8SxzDck1mPh8Hczhue0RyF8=
+X-Google-Smtp-Source: APXvYqweZVDeiKM1USKyhPEXaAljj2nBaHYeDd0D6lG04H2/ldOsozO9uA6SC6pJS5sPNguyp/0hkL4Zot1Zb9OgQ0Y=
+X-Received: by 2002:a6b:c84e:: with SMTP id y75mr28086989iof.107.1555278724839;
+ Sun, 14 Apr 2019 14:52:04 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a24:6243:: with SMTP id d64mr5877150itc.0.1555272366728;
- Sun, 14 Apr 2019 13:06:06 -0700 (PDT)
-Date:   Sun, 14 Apr 2019 13:06:06 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000f2b23d05868310f9@google.com>
-Subject: KASAN: stack-out-of-bounds Read in hfcsusb_probe
-From:   syzbot <syzbot+8750abbc3a46ef47d509@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, bigeasy@linutronix.de, davem@davemloft.net,
-        gustavo@embeddedor.com, isdn@linux-pingi.de,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, pakki001@umn.edu,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+From:   Paul Zimmerman <pauldzim@gmail.com>
+Date:   Sun, 14 Apr 2019 14:51:39 -0700
+Message-ID: <CADBGO7-LHDTT2s2PCTMFmf1dOVyj_aYv5A2O04pbGWp+6K6utw@mail.gmail.com>
+Subject: Re: lan78xx: About 8000 usb interrupts per second when idle
+To:     Lukas Wunner <lukas@wunner.de>
+Cc:     Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Oliver Neukum <oneukum@suse.com>,
+        Minas Harutyunyan <minas.harutyunyan@synopsys.com>,
+        linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+Lukas Wunner wrote:
+> On Tue, Apr 09, 2019 at 09:28:16AM +0000, Minas Harutyunyan wrote:
+>> Am 09.04.19 um 08:54 schrieb Jisheng Zhang:
+>>> The second one: 8000 usb interrupts per second when idle.
+>>> This is abnormal. any idea? Is it due to the lan78xx?
+>>
+>> dwc2 in host mode enable SOF interrupts if any periodic EP are in use.
+>> So, 8000 interrupts per second is expectant behavior.
+>
+> The dwc_otg driver patched into the Raspberry Pi Foundation's
+> kernel seems to make do with much fewer interrupts and much
+> lower CPU load.  How does it do that and how could dwc2 be
+> made to do the same?
 
-syzbot found the following crash on:
+It connects an interrupt from the USB Phy to the FIQ (fast interrupt
+request) pin on the Arm CPU. The dwc2 driver could do the same, except
+I don't think the Linux kernel supports FIQ interrupts, so that would
+need to be added. It would also be unique to Arm and to the SOC that
+is used on the Pi.
 
-HEAD commit:    9a33b369 usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=171744f3200000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
-dashboard link: https://syzkaller.appspot.com/bug?extid=8750abbc3a46ef47d509
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12ca062d200000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=154a87bb200000
+> Would it be possible for you to provide
+> me with documentation on the chip? The Synopsis website
+> requires registration for downloads and registration requires
+> a Synopsis customer ID.
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+8750abbc3a46ef47d509@syzkaller.appspotmail.com
+It's highly unlikely that Minas can provide you with the databook if
+you are not a customer. I used to work for Synopsys and wrote the
+original dwc2 driver. The company's policy did not allow non-customers
+to be given the databook. But you can find a copy on the web from a
+couple of different sites, google for dwc_otg. In any case, it would
+not cover the FIQ method that is used in the Pi driver, you would
+probably need the Phy databook for that.
 
-usb 1-1: config 0 interface 170 has no altsetting 0
-usb 1-1: New USB device found, idVendor=0742, idProduct=200a,  
-bcdDevice=c2.97
-usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-usb 1-1: config 0 descriptor??
-==================================================================
-BUG: KASAN: stack-out-of-bounds in hfcsusb_probe.cold+0x1a43/0x267f  
-drivers/isdn/hardware/mISDN/hfcsusb.c:1976
-Read of size 4 at addr ffff8880a84c72f0 by task kworker/0:1/12
+> It seems the Foundation's dwc_otg driver was forked from code
+> that later begat dwc2.
 
-CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.1.0-rc4-319354-g9a33b36 #3
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xe8/0x16e lib/dump_stack.c:113
-  print_address_description+0x6c/0x236 mm/kasan/report.c:187
-  kasan_report.cold+0x1a/0x3c mm/kasan/report.c:317
-  hfcsusb_probe.cold+0x1a43/0x267f drivers/isdn/hardware/mISDN/hfcsusb.c:1976
-  usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
-  really_probe+0x2da/0xb10 drivers/base/dd.c:509
-  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
-  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
-  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
-  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
-  device_add+0xad2/0x16e0 drivers/base/core.c:2106
-  usb_set_configuration+0xdf7/0x1740 drivers/usb/core/message.c:2021
-  generic_probe+0xa2/0xda drivers/usb/core/generic.c:210
-  usb_probe_device+0xc0/0x150 drivers/usb/core/driver.c:266
-  really_probe+0x2da/0xb10 drivers/base/dd.c:509
-  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
-  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
-  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
-  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
-  device_add+0xad2/0x16e0 drivers/base/core.c:2106
-  usb_new_device.cold+0x537/0xccf drivers/usb/core/hub.c:2534
-  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0x138e/0x3b00 drivers/usb/core/hub.c:5432
-  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
-  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
-  kthread+0x313/0x420 kernel/kthread.c:253
-  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+Yes, I ported dwc2 from the Synopsys dwc_otg driver. But the FIQ
+interrupt stuff was not part of the dwc_otg driver, it was added by
+the Raspberry Pi foundation guys specifically to work around problems
+on the Pi platform.
 
-The buggy address belongs to the page:
-page:ffffea0002a131c0 count:0 mapcount:0 mapping:0000000000000000 index:0x0
-flags: 0xfff00000000000()
-raw: 00fff00000000000 ffffea0002a131c8 ffffea0002a131c8 0000000000000000
-raw: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
-  ffff8880a84c7180: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  ffff8880a84c7200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 f1 f1
-> ffff8880a84c7280: f1 f1 f1 f1 01 f2 00 00 00 00 00 00 00 00 f3 f3
-                                                              ^
-  ffff8880a84c7300: f3 f3 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  ffff8880a84c7380: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-==================================================================
-
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+HTH,
+Paul
