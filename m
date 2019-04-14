@@ -6,46 +6,45 @@ X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
 	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F5A2C10F13
-	for <linux-usb@archiver.kernel.org>; Sun, 14 Apr 2019 19:56:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04C09C10F14
+	for <linux-usb@archiver.kernel.org>; Sun, 14 Apr 2019 19:56:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 65F5D20848
-	for <linux-usb@archiver.kernel.org>; Sun, 14 Apr 2019 19:56:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D938720848
+	for <linux-usb@archiver.kernel.org>; Sun, 14 Apr 2019 19:56:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727189AbfDNT4J (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 14 Apr 2019 15:56:09 -0400
-Received: from mail-it1-f198.google.com ([209.85.166.198]:50338 "EHLO
-        mail-it1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726350AbfDNT4G (ORCPT
+        id S1726810AbfDNT4G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 14 Apr 2019 15:56:06 -0400
+Received: from mail-io1-f72.google.com ([209.85.166.72]:36896 "EHLO
+        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726283AbfDNT4G (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Apr 2019 15:56:06 -0400
-Received: by mail-it1-f198.google.com with SMTP id k8so14657420itd.0
+Received: by mail-io1-f72.google.com with SMTP id u22so12634873iof.4
         for <linux-usb@vger.kernel.org>; Sun, 14 Apr 2019 12:56:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=MUVaWCItQ5KZAjiybLX8Sr3AeFtFAmSiWGZpQ0Glmlg=;
-        b=DUR4vp86Mn1FYS3nIzeCZsGvjVov+6aOy00wVrLZmdXcfEjeEwxymsNfmOxJ73ddBF
-         QAq1LINPgyVe7c/XBTQ8uyHSNZ3BDm3XLj9G+2OTVX+un5+2pjU6jqQucG7KrYqm50gV
-         20uHHaCFAmj4NVBCMJNu57ObPZDYxP8gXTaSmkfkMa54KzLHrEmLooLkcpVXrRi691IM
-         4sO49yfy8y9/T0f4jamp2tHLVhS7LvOAaSv2rvM4TTHcprrSU+iCYF545+EN8T9GYnUz
-         U4PPP+mAFu2upqEHTeqbOYnvuR8Rq5DgteuqU+1iWpDemn+PXjK/CkF/2WQLanhebwJA
-         wFrQ==
-X-Gm-Message-State: APjAAAXGs04IrBgzrRu2KDA2o15vs6ukVWlrVqnieX5P8aygZMTZbW3z
-        tNaPI15VIoJ5VYXHAST47I3M12BYa6vv5tz5THQBorridznE
-X-Google-Smtp-Source: APXvYqw9rQO7T2WFR69ECdZHalnlV7uGPqKQjrjFXmpdK+1gEF80ZOoRVwF26OH/mF0O+OTNx8suoTqJ1phb/vFSwpwvcc4mpvyF
+        bh=JJk1ISI5HmD3aTUiZDHKLZINh41Fl9C7dn4cVG2mDmU=;
+        b=K4qaZ9lsuvx3os/VPAaHFwl8FF79r/K4wqhdYsXdkDz2E55qrSAz1apbYr8Tlqsc3e
+         TZWqxYG+jphw61I5EHuh4qtBMRXsa3538DkXB+WLGX3zJZopz3gUROXjZBagJPY9F0iy
+         r/0F71tal6ROILXMLyonryPPGNIGiPo09ut95Is5vWuRU6ZRMSYmWNTxjQaFXO4TFFUz
+         jk/ZS6zUElOs5oPkpyhkozLk32kC/hlRdv5FxK2PMgxGokJydIeewwlWKPGDpdElgdHh
+         5s9UJc2/JZjTMw6nBKkSOKl5DAdWetzBiTQFgWG2GwCIkjtx9iFgjgmNd+pPbIjzNVHN
+         srzw==
+X-Gm-Message-State: APjAAAVm0k0ax/arzN1Q4bI7QfTsZFqhRgfHZykVChnar/z5TzLJlEKn
+        0yDQR0YVFhS59FRsDnD50uNninA9etify/GaKrJBzJ0ByY9R
+X-Google-Smtp-Source: APXvYqyiZGgShE1dNbinHI9S0ECWytlREVmnQcPY+2LzFXnBoa/ffIkRcsHuH+kuvyj6rVvzRXFVsVeU7R+TwVQKfzTdSK40725y
 MIME-Version: 1.0
-X-Received: by 2002:a24:d94d:: with SMTP id p74mr5607026itg.20.1555271766029;
- Sun, 14 Apr 2019 12:56:06 -0700 (PDT)
-Date:   Sun, 14 Apr 2019 12:56:06 -0700
+X-Received: by 2002:a6b:ea14:: with SMTP id m20mr3297993ioc.33.1555271765630;
+ Sun, 14 Apr 2019 12:56:05 -0700 (PDT)
+Date:   Sun, 14 Apr 2019 12:56:05 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000024bbd7058682eda1@google.com>
-Subject: WARNING: ODEBUG bug in rsi_probe
-From:   syzbot <syzbot+1d1597a5aa3679c65b9f@syzkaller.appspotmail.com>
-To:     amitkarwar@gmail.com, andreyknvl@google.com, davem@davemloft.net,
-        kvalo@codeaurora.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, siva8118@gmail.com,
+Message-ID: <0000000000001ea4d5058682ed7c@google.com>
+Subject: WARNING in __flush_work (3)
+From:   syzbot <syzbot+2e1ef9188251d9cc7944@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, laurent.pinchart@ideasonboard.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, mchehab@kernel.org,
         syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
@@ -59,25 +58,26 @@ syzbot found the following crash on:
 
 HEAD commit:    9a33b369 usb-fuzzer: main usb gadget fuzzer driver
 git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=163713bb200000
+console output: https://syzkaller.appspot.com/x/log.txt?x=17f389af200000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
-dashboard link: https://syzkaller.appspot.com/bug?extid=1d1597a5aa3679c65b9f
+dashboard link: https://syzkaller.appspot.com/bug?extid=2e1ef9188251d9cc7944
 compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11ab7cd3200000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10dd0fc3200000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16e77a5b200000
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+1d1597a5aa3679c65b9f@syzkaller.appspotmail.com
+Reported-by: syzbot+2e1ef9188251d9cc7944@syzkaller.appspotmail.com
 
-rsi_91x: rsi_load_firmware: REGOUT read failed
-rsi_91x: rsi_hal_device_init: Failed to load TA instructions
-rsi_91x: rsi_probe: Failed in device init
-------------[ cut here ]------------
-ODEBUG: free active (active state 0) object type: timer_list hint:  
-bl_cmd_timeout+0x0/0x50 drivers/net/wireless/rsi/rsi_91x_hal.c:577
-WARNING: CPU: 0 PID: 5 at lib/debugobjects.c:325  
-debug_print_object+0x162/0x250 lib/debugobjects.c:325
+usb 1-1: config 0 has an invalid interface number: 246 but max is 0
+usb 1-1: config 0 has no interface number 0
+usb 1-1: New USB device found, idVendor=06f8, idProduct=300c,  
+bcdDevice=68.91
+usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+usb 1-1: config 0 descriptor??
+WARNING: CPU: 0 PID: 12 at kernel/workqueue.c:3030 __flush_work+0x728/0x820  
+kernel/workqueue.c:3030
 Kernel panic - not syncing: panic_on_warn set ...
-CPU: 0 PID: 5 Comm: kworker/0:0 Not tainted 5.1.0-rc4-319354-g9a33b36 #3
+CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.1.0-rc4-319354-g9a33b36 #3
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
 Google 01/01/2011
 Workqueue: usb_hub_wq hub_event
@@ -92,23 +92,21 @@ Call Trace:
   do_error_trap+0x130/0x1f0 arch/x86/kernel/traps.c:272
   do_invalid_op+0x37/0x40 arch/x86/kernel/traps.c:291
   invalid_op+0x14/0x20 arch/x86/entry/entry_64.S:973
-RIP: 0010:debug_print_object+0x162/0x250 lib/debugobjects.c:325
-Code: dd e0 a1 b3 8e 48 89 fa 48 c1 ea 03 80 3c 02 00 0f 85 bf 00 00 00 48  
-8b 14 dd e0 a1 b3 8e 48 c7 c7 60 96 b3 8e e8 8e 93 d2 fd <0f> 0b 83 05 e9  
-d6 59 10 01 48 83 c4 20 5b 5d 41 5c 41 5d c3 48 89
-RSP: 0018:ffff8880a846f110 EFLAGS: 00010086
-RAX: 0000000000000000 RBX: 0000000000000003 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff815b1e42 RDI: ffffed101508de14
-RBP: 0000000000000001 R08: ffff8880a8444980 R09: ffffed1015a03edb
-R10: ffffed1015a03eda R11: ffff8880ad01f6d7 R12: ffffffff917e7780
-R13: ffffffff8161ec90 R14: ffffffff96d67928 R15: ffff88809927f060
-  __debug_check_no_obj_freed lib/debugobjects.c:785 [inline]
-  debug_check_no_obj_freed+0x2a3/0x42e lib/debugobjects.c:817
-  slab_free_hook mm/slub.c:1426 [inline]
-  slab_free_freelist_hook+0xfb/0x140 mm/slub.c:1456
-  slab_free mm/slub.c:3003 [inline]
-  kfree+0xce/0x290 mm/slub.c:3958
-  rsi_probe+0xdf3/0x140d drivers/net/wireless/rsi/rsi_91x_sdio.c:1178
+RIP: 0010:__flush_work+0x728/0x820 kernel/workqueue.c:3030
+Code: ff e8 3c 37 27 00 0f 0b 45 31 e4 e9 7e fd ff ff e8 2d 37 27 00 4c 89  
+ef 45 31 e4 e8 f2 a6 bb 0c e9 69 fd ff ff e8 18 37 27 00 <0f> 0b 45 31 e4  
+e9 5a fd ff ff e8 b9 47 5e 00 e9 78 fc ff ff e8 cf
+RSP: 0018:ffff8880a84b6e48 EFLAGS: 00010293
+RAX: ffff8880a84a3100 RBX: ffff888091a6fcb0 RCX: dffffc0000000000
+RDX: 0000000000000000 RSI: ffffffff814a8e58 RDI: 0000000000000001
+RBP: ffff8880a84b6fb0 R08: ffff8880a84a3100 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000001
+R13: 0000000000000001 R14: 0000000000000200 R15: ffff888091a6fcc8
+  __cancel_work_timer+0x326/0x450 kernel/workqueue.c:3126
+  uvc_ctrl_cleanup_device+0x27/0x488 drivers/media/usb/uvc/uvc_ctrl.c:2353
+  uvc_delete+0x2e/0x2f0 drivers/media/usb/uvc/uvc_driver.c:1871
+  kref_put include/linux/kref.h:67 [inline]
+  uvc_probe+0xfa5/0x6588 drivers/media/usb/uvc/uvc_driver.c:2228
   usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
   really_probe+0x2da/0xb10 drivers/base/dd.c:509
   driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
@@ -136,8 +134,8 @@ R13: ffffffff8161ec90 R14: ffffffff96d67928 R15: ffff88809927f060
   worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
   kthread+0x313/0x420 kernel/kthread.c:253
   ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-
-======================================================
+Kernel Offset: disabled
+Rebooting in 86400 seconds..
 
 
 ---
