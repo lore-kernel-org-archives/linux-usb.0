@@ -6,46 +6,46 @@ X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
 	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04C09C10F14
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88527C10F13
 	for <linux-usb@archiver.kernel.org>; Sun, 14 Apr 2019 19:56:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D938720848
-	for <linux-usb@archiver.kernel.org>; Sun, 14 Apr 2019 19:56:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 643DB20848
+	for <linux-usb@archiver.kernel.org>; Sun, 14 Apr 2019 19:56:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726810AbfDNT4G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 14 Apr 2019 15:56:06 -0400
-Received: from mail-io1-f72.google.com ([209.85.166.72]:36896 "EHLO
-        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726283AbfDNT4G (ORCPT
+        id S1727239AbfDNT4U (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 14 Apr 2019 15:56:20 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70]:33814 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726308AbfDNT4G (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Apr 2019 15:56:06 -0400
-Received: by mail-io1-f72.google.com with SMTP id u22so12634873iof.4
+Received: by mail-io1-f70.google.com with SMTP id y13so12627957iol.1
         for <linux-usb@vger.kernel.org>; Sun, 14 Apr 2019 12:56:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=JJk1ISI5HmD3aTUiZDHKLZINh41Fl9C7dn4cVG2mDmU=;
-        b=K4qaZ9lsuvx3os/VPAaHFwl8FF79r/K4wqhdYsXdkDz2E55qrSAz1apbYr8Tlqsc3e
-         TZWqxYG+jphw61I5EHuh4qtBMRXsa3538DkXB+WLGX3zJZopz3gUROXjZBagJPY9F0iy
-         r/0F71tal6ROILXMLyonryPPGNIGiPo09ut95Is5vWuRU6ZRMSYmWNTxjQaFXO4TFFUz
-         jk/ZS6zUElOs5oPkpyhkozLk32kC/hlRdv5FxK2PMgxGokJydIeewwlWKPGDpdElgdHh
-         5s9UJc2/JZjTMw6nBKkSOKl5DAdWetzBiTQFgWG2GwCIkjtx9iFgjgmNd+pPbIjzNVHN
-         srzw==
-X-Gm-Message-State: APjAAAVm0k0ax/arzN1Q4bI7QfTsZFqhRgfHZykVChnar/z5TzLJlEKn
-        0yDQR0YVFhS59FRsDnD50uNninA9etify/GaKrJBzJ0ByY9R
-X-Google-Smtp-Source: APXvYqyiZGgShE1dNbinHI9S0ECWytlREVmnQcPY+2LzFXnBoa/ffIkRcsHuH+kuvyj6rVvzRXFVsVeU7R+TwVQKfzTdSK40725y
+        bh=U2tPvtbFi8gH/NJ70CtiTDqglAZX32uDg8WawLuOVpk=;
+        b=JljPSalY+0Y5jk79xlxbJ4AtI+SlHimtDxYoa8B2cMNUwnksyeFJ9/TCtkhIyO654l
+         LUtX25lbOsR2KCp50mOtTmp+1+QkYCirw0iREUw4UClUXD41TBA5JsF60vYYQErwrKlr
+         s8HFHrJkN0TkXBiqgda82L3fCXhF5iCXAXZbSGh1GutubPkQdqD/pRM16E1G/Za2WIxV
+         kao969q/Xh54V8lSTHxi2olhpKcP/Pm7VFNh8zjJ5XTDO5lmRQJPD68b53wz6v3C8qb9
+         T9Wf1Qhi0tZogpW71Qcm9LIKpO6r2olxfEn4xAzyrWctTqeH9Cx3icl6qCtRiYpojJte
+         dGQQ==
+X-Gm-Message-State: APjAAAUmTS2YJ5koIRagWJVrd07bbbOB8mZzUGF4sdKQBDvMBhcl78Sz
+        LssDIlRTljIsKg0eFPhkHE//MfyApGVP5B85xC89VBd2NBvg
+X-Google-Smtp-Source: APXvYqxoZPS0HA1Br6PxZwvKME0V9mIzINVhaFLzqLaexNWjely+BkGIyPUV9Yaw3LOhrXmtoPceNFB5dea2bBUVwDrBl4BdrMTh
 MIME-Version: 1.0
-X-Received: by 2002:a6b:ea14:: with SMTP id m20mr3297993ioc.33.1555271765630;
+X-Received: by 2002:a24:56cf:: with SMTP id o198mr6037053itb.12.1555271765852;
  Sun, 14 Apr 2019 12:56:05 -0700 (PDT)
 Date:   Sun, 14 Apr 2019 12:56:05 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000001ea4d5058682ed7c@google.com>
-Subject: WARNING in __flush_work (3)
-From:   syzbot <syzbot+2e1ef9188251d9cc7944@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, laurent.pinchart@ideasonboard.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org,
-        syzkaller-bugs@googlegroups.com
+Message-ID: <000000000000220d72058682edb2@google.com>
+Subject: INFO: trying to register non-static key in ni6501_detach
+From:   syzbot <syzbot+cf4f2b6c24aff0a3edf6@syzkaller.appspotmail.com>
+To:     abbotti@mev.co.uk, andreyknvl@google.com,
+        devel@driverdev.osuosl.org, gregkh@linuxfoundation.org,
+        hsweeten@visionengravers.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
@@ -58,55 +58,48 @@ syzbot found the following crash on:
 
 HEAD commit:    9a33b369 usb-fuzzer: main usb gadget fuzzer driver
 git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=17f389af200000
+console output: https://syzkaller.appspot.com/x/log.txt?x=10e2e69f200000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
-dashboard link: https://syzkaller.appspot.com/bug?extid=2e1ef9188251d9cc7944
+dashboard link: https://syzkaller.appspot.com/bug?extid=cf4f2b6c24aff0a3edf6
 compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10dd0fc3200000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16e77a5b200000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1093c6bf200000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10df67c3200000
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+2e1ef9188251d9cc7944@syzkaller.appspotmail.com
+Reported-by: syzbot+cf4f2b6c24aff0a3edf6@syzkaller.appspotmail.com
 
-usb 1-1: config 0 has an invalid interface number: 246 but max is 0
-usb 1-1: config 0 has no interface number 0
-usb 1-1: New USB device found, idVendor=06f8, idProduct=300c,  
-bcdDevice=68.91
 usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
 usb 1-1: config 0 descriptor??
-WARNING: CPU: 0 PID: 12 at kernel/workqueue.c:3030 __flush_work+0x728/0x820  
-kernel/workqueue.c:3030
-Kernel panic - not syncing: panic_on_warn set ...
-CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.1.0-rc4-319354-g9a33b36 #3
+usb 1-1: string descriptor 0 read error: -71
+comedi comedi0: Wrong number of endpoints
+ni6501 1-1:0.233: driver 'ni6501' failed to auto-configure device.
+INFO: trying to register non-static key.
+the code is fine but needs lockdep annotation.
+turning off the locking correctness validator.
+CPU: 0 PID: 585 Comm: kworker/0:3 Not tainted 5.1.0-rc4-319354-g9a33b36 #3
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
 Google 01/01/2011
 Workqueue: usb_hub_wq hub_event
 Call Trace:
   __dump_stack lib/dump_stack.c:77 [inline]
   dump_stack+0xe8/0x16e lib/dump_stack.c:113
-  panic+0x29d/0x5f2 kernel/panic.c:214
-  __warn.cold+0x20/0x48 kernel/panic.c:571
-  report_bug+0x262/0x2a0 lib/bug.c:186
-  fixup_bug arch/x86/kernel/traps.c:179 [inline]
-  fixup_bug arch/x86/kernel/traps.c:174 [inline]
-  do_error_trap+0x130/0x1f0 arch/x86/kernel/traps.c:272
-  do_invalid_op+0x37/0x40 arch/x86/kernel/traps.c:291
-  invalid_op+0x14/0x20 arch/x86/entry/entry_64.S:973
-RIP: 0010:__flush_work+0x728/0x820 kernel/workqueue.c:3030
-Code: ff e8 3c 37 27 00 0f 0b 45 31 e4 e9 7e fd ff ff e8 2d 37 27 00 4c 89  
-ef 45 31 e4 e8 f2 a6 bb 0c e9 69 fd ff ff e8 18 37 27 00 <0f> 0b 45 31 e4  
-e9 5a fd ff ff e8 b9 47 5e 00 e9 78 fc ff ff e8 cf
-RSP: 0018:ffff8880a84b6e48 EFLAGS: 00010293
-RAX: ffff8880a84a3100 RBX: ffff888091a6fcb0 RCX: dffffc0000000000
-RDX: 0000000000000000 RSI: ffffffff814a8e58 RDI: 0000000000000001
-RBP: ffff8880a84b6fb0 R08: ffff8880a84a3100 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000001
-R13: 0000000000000001 R14: 0000000000000200 R15: ffff888091a6fcc8
-  __cancel_work_timer+0x326/0x450 kernel/workqueue.c:3126
-  uvc_ctrl_cleanup_device+0x27/0x488 drivers/media/usb/uvc/uvc_ctrl.c:2353
-  uvc_delete+0x2e/0x2f0 drivers/media/usb/uvc/uvc_driver.c:1871
-  kref_put include/linux/kref.h:67 [inline]
-  uvc_probe+0xfa5/0x6588 drivers/media/usb/uvc/uvc_driver.c:2228
+  assign_lock_key kernel/locking/lockdep.c:786 [inline]
+  register_lock_class+0x11b8/0x1250 kernel/locking/lockdep.c:1095
+  __lock_acquire+0xfb/0x37c0 kernel/locking/lockdep.c:3582
+  lock_acquire+0x10d/0x2f0 kernel/locking/lockdep.c:4211
+  __mutex_lock_common kernel/locking/mutex.c:925 [inline]
+  __mutex_lock+0xfe/0x12b0 kernel/locking/mutex.c:1072
+  ni6501_detach+0x5b/0x110 drivers/staging/comedi/drivers/ni_usb6501.c:567
+  comedi_device_detach+0xed/0x800 drivers/staging/comedi/drivers.c:204
+  comedi_device_cleanup.part.0+0x68/0x140  
+drivers/staging/comedi/comedi_fops.c:156
+  comedi_device_cleanup drivers/staging/comedi/comedi_fops.c:187 [inline]
+  comedi_free_board_dev.part.0+0x16/0x90  
+drivers/staging/comedi/comedi_fops.c:190
+  comedi_free_board_dev drivers/staging/comedi/comedi_fops.c:189 [inline]
+  comedi_release_hardware_device+0x111/0x140  
+drivers/staging/comedi/comedi_fops.c:2880
+  comedi_auto_config.cold+0x124/0x1b0 drivers/staging/comedi/drivers.c:1068
   usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
   really_probe+0x2da/0xb10 drivers/base/dd.c:509
   driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
@@ -134,8 +127,6 @@ R13: 0000000000000001 R14: 0000000000000200 R15: ffff888091a6fcc8
   worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
   kthread+0x313/0x420 kernel/kthread.c:253
   ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
 
 
 ---
