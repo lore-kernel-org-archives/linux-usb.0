@@ -4,48 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88527C10F13
-	for <linux-usb@archiver.kernel.org>; Sun, 14 Apr 2019 19:56:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 328D6C282CE
+	for <linux-usb@archiver.kernel.org>; Sun, 14 Apr 2019 20:06:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 643DB20848
-	for <linux-usb@archiver.kernel.org>; Sun, 14 Apr 2019 19:56:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1344F20870
+	for <linux-usb@archiver.kernel.org>; Sun, 14 Apr 2019 20:06:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727239AbfDNT4U (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 14 Apr 2019 15:56:20 -0400
-Received: from mail-io1-f70.google.com ([209.85.166.70]:33814 "EHLO
-        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726308AbfDNT4G (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Apr 2019 15:56:06 -0400
-Received: by mail-io1-f70.google.com with SMTP id y13so12627957iol.1
-        for <linux-usb@vger.kernel.org>; Sun, 14 Apr 2019 12:56:06 -0700 (PDT)
+        id S1727334AbfDNUGO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 14 Apr 2019 16:06:14 -0400
+Received: from mail-it1-f197.google.com ([209.85.166.197]:53717 "EHLO
+        mail-it1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727282AbfDNUGK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Apr 2019 16:06:10 -0400
+Received: by mail-it1-f197.google.com with SMTP id o197so14644457ito.3
+        for <linux-usb@vger.kernel.org>; Sun, 14 Apr 2019 13:06:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=U2tPvtbFi8gH/NJ70CtiTDqglAZX32uDg8WawLuOVpk=;
-        b=JljPSalY+0Y5jk79xlxbJ4AtI+SlHimtDxYoa8B2cMNUwnksyeFJ9/TCtkhIyO654l
-         LUtX25lbOsR2KCp50mOtTmp+1+QkYCirw0iREUw4UClUXD41TBA5JsF60vYYQErwrKlr
-         s8HFHrJkN0TkXBiqgda82L3fCXhF5iCXAXZbSGh1GutubPkQdqD/pRM16E1G/Za2WIxV
-         kao969q/Xh54V8lSTHxi2olhpKcP/Pm7VFNh8zjJ5XTDO5lmRQJPD68b53wz6v3C8qb9
-         T9Wf1Qhi0tZogpW71Qcm9LIKpO6r2olxfEn4xAzyrWctTqeH9Cx3icl6qCtRiYpojJte
-         dGQQ==
-X-Gm-Message-State: APjAAAUmTS2YJ5koIRagWJVrd07bbbOB8mZzUGF4sdKQBDvMBhcl78Sz
-        LssDIlRTljIsKg0eFPhkHE//MfyApGVP5B85xC89VBd2NBvg
-X-Google-Smtp-Source: APXvYqxoZPS0HA1Br6PxZwvKME0V9mIzINVhaFLzqLaexNWjely+BkGIyPUV9Yaw3LOhrXmtoPceNFB5dea2bBUVwDrBl4BdrMTh
+        bh=jz03t11ccWSz2vGVS2VwPYo/J5ue/SoQrG7djKidhog=;
+        b=VHfHGukCKD6KTSalGlTmB6FNdJXP+DzHuR/zkZHP4Xyy1YUPgzaJxVzA1X55FAPJdn
+         hLQrDo9CrGrsJeZJz+ZKTbrGRGQkDrGbT4932MfLqeu5iIvfE0iVU6HgsDtxaXjN/gHU
+         hEWnU0lI/WFDC3O1FeMg+FaYyQWhmQJy0G0yv6S+dbhYDxEAdxbEubTLGXLv+rh1oN/4
+         ScitxedmzFDLrS9Yl0UIq1kptqMPiq66c4MKGhwt+lu5d7jXNW/zyznQBmKW2LGAtmQH
+         ppNiEJEMJ5pT4ZfpoDoAC0v15KcWjF5TAS3jvTRCuVMMbDFsNshv7TQ7dYl9B1VNF3Kv
+         XeDA==
+X-Gm-Message-State: APjAAAVtx/GOV0vs0bn55cBpAWJHjbb6f065WCp94+yc5XWLD+8qnScP
+        5Z62jYtVtIKKL/YB4/LeIRHlpN9wm/ZxzfGzXISjeCjpwgPT
+X-Google-Smtp-Source: APXvYqxabh800sTRYTR4qosbLn+XK21HnJZd5Gzk6nXsXu9FmsPociNnNn8xxXag5PhhTXA1MtT7H1pPuqxyRb5dO2RZQRC/KhhJ
 MIME-Version: 1.0
-X-Received: by 2002:a24:56cf:: with SMTP id o198mr6037053itb.12.1555271765852;
- Sun, 14 Apr 2019 12:56:05 -0700 (PDT)
-Date:   Sun, 14 Apr 2019 12:56:05 -0700
+X-Received: by 2002:a24:612:: with SMTP id 18mr5878395itv.9.1555272368962;
+ Sun, 14 Apr 2019 13:06:08 -0700 (PDT)
+Date:   Sun, 14 Apr 2019 13:06:08 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000220d72058682edb2@google.com>
-Subject: INFO: trying to register non-static key in ni6501_detach
-From:   syzbot <syzbot+cf4f2b6c24aff0a3edf6@syzkaller.appspotmail.com>
-To:     abbotti@mev.co.uk, andreyknvl@google.com,
-        devel@driverdev.osuosl.org, gregkh@linuxfoundation.org,
-        hsweeten@visionengravers.com, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Message-ID: <00000000000014c6b305868311d3@google.com>
+Subject: KASAN: use-after-free Read in __video_do_ioctl
+From:   syzbot <syzbot+5b7575b3f6820232e17c@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, ezequiel@collabora.com,
+        hans.verkuil@cisco.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, niklas.soderlund+renesas@ragnatech.se,
+        paul.kocialkowski@bootlin.com, sakari.ailus@linux.intel.com,
+        samitolvanen@google.com, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
@@ -58,50 +60,76 @@ syzbot found the following crash on:
 
 HEAD commit:    9a33b369 usb-fuzzer: main usb gadget fuzzer driver
 git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=10e2e69f200000
+console output: https://syzkaller.appspot.com/x/log.txt?x=1317cedd200000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
-dashboard link: https://syzkaller.appspot.com/bug?extid=cf4f2b6c24aff0a3edf6
+dashboard link: https://syzkaller.appspot.com/bug?extid=5b7575b3f6820232e17c
 compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1093c6bf200000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10df67c3200000
+
+Unfortunately, I don't have any reproducer for this crash yet.
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+cf4f2b6c24aff0a3edf6@syzkaller.appspotmail.com
+Reported-by: syzbot+5b7575b3f6820232e17c@syzkaller.appspotmail.com
 
-usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-usb 1-1: config 0 descriptor??
-usb 1-1: string descriptor 0 read error: -71
-comedi comedi0: Wrong number of endpoints
-ni6501 1-1:0.233: driver 'ni6501' failed to auto-configure device.
-INFO: trying to register non-static key.
-the code is fine but needs lockdep annotation.
-turning off the locking correctness validator.
-CPU: 0 PID: 585 Comm: kworker/0:3 Not tainted 5.1.0-rc4-319354-g9a33b36 #3
+radio-raremono 6-1:0.210: raremono_cmd_main failed (-71)
+radio-raremono 6-1:0.210: V4L2 device registered as radio32
+usb 6-1: USB disconnect, device number 119
+radio-raremono 6-1:0.210: Thanko's Raremono disconnected
+==================================================================
+BUG: KASAN: use-after-free in __mutex_lock_common  
+kernel/locking/mutex.c:1009 [inline]
+BUG: KASAN: use-after-free in __mutex_lock+0x11ad/0x12b0  
+kernel/locking/mutex.c:1072
+Read of size 8 at addr ffff888097e94bf8 by task v4l_id/7329
+
+CPU: 1 PID: 7329 Comm: v4l_id Not tainted 5.1.0-rc4-319354-g9a33b36 #3
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
 Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
 Call Trace:
   __dump_stack lib/dump_stack.c:77 [inline]
   dump_stack+0xe8/0x16e lib/dump_stack.c:113
-  assign_lock_key kernel/locking/lockdep.c:786 [inline]
-  register_lock_class+0x11b8/0x1250 kernel/locking/lockdep.c:1095
-  __lock_acquire+0xfb/0x37c0 kernel/locking/lockdep.c:3582
-  lock_acquire+0x10d/0x2f0 kernel/locking/lockdep.c:4211
-  __mutex_lock_common kernel/locking/mutex.c:925 [inline]
-  __mutex_lock+0xfe/0x12b0 kernel/locking/mutex.c:1072
-  ni6501_detach+0x5b/0x110 drivers/staging/comedi/drivers/ni_usb6501.c:567
-  comedi_device_detach+0xed/0x800 drivers/staging/comedi/drivers.c:204
-  comedi_device_cleanup.part.0+0x68/0x140  
-drivers/staging/comedi/comedi_fops.c:156
-  comedi_device_cleanup drivers/staging/comedi/comedi_fops.c:187 [inline]
-  comedi_free_board_dev.part.0+0x16/0x90  
-drivers/staging/comedi/comedi_fops.c:190
-  comedi_free_board_dev drivers/staging/comedi/comedi_fops.c:189 [inline]
-  comedi_release_hardware_device+0x111/0x140  
-drivers/staging/comedi/comedi_fops.c:2880
-  comedi_auto_config.cold+0x124/0x1b0 drivers/staging/comedi/drivers.c:1068
+  print_address_description+0x6c/0x236 mm/kasan/report.c:187
+  kasan_report.cold+0x1a/0x3c mm/kasan/report.c:317
+  __mutex_lock_common kernel/locking/mutex.c:1009 [inline]
+  __mutex_lock+0x11ad/0x12b0 kernel/locking/mutex.c:1072
+  __video_do_ioctl+0x5d2/0xb40 drivers/media/v4l2-core/v4l2-ioctl.c:2842
+usb 5-1: Using ep0 maxpacket: 8
+  video_usercopy+0x44e/0xf00 drivers/media/v4l2-core/v4l2-ioctl.c:3056
+  v4l2_ioctl+0x14e/0x1a0 drivers/media/v4l2-core/v4l2-dev.c:364
+  vfs_ioctl fs/ioctl.c:46 [inline]
+  file_ioctl fs/ioctl.c:509 [inline]
+  do_vfs_ioctl+0xced/0x12f0 fs/ioctl.c:696
+  ksys_ioctl+0xa0/0xc0 fs/ioctl.c:713
+  __do_sys_ioctl fs/ioctl.c:720 [inline]
+  __se_sys_ioctl fs/ioctl.c:718 [inline]
+  __x64_sys_ioctl+0x74/0xb0 fs/ioctl.c:718
+  do_syscall_64+0xcf/0x4f0 arch/x86/entry/common.c:290
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x7f582f197347
+Code: 90 90 90 48 8b 05 f1 fa 2a 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff  
+ff c3 90 90 90 90 90 90 90 90 90 90 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff  
+ff 73 01 c3 48 8b 0d c1 fa 2a 00 31 d2 48 29 c2 64
+usb 5-1: config 0 has an invalid interface number: 85 but max is 0
+RSP: 002b:00007ffda90c77a8 EFLAGS: 00000202 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f582f197347
+RDX: 00007ffda90c77b0 RSI: 0000000080685600 RDI: 0000000000000003
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000400884
+R13: 00007ffda90c7900 R14: 0000000000000000 R15: 0000000000000000
+
+Allocated by task 5:
+  set_track mm/kasan/common.c:87 [inline]
+  __kasan_kmalloc mm/kasan/common.c:497 [inline]
+  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:470
+  slab_post_alloc_hook mm/slab.h:437 [inline]
+  slab_alloc_node mm/slub.c:2756 [inline]
+  __kmalloc_node_track_caller+0xf3/0x320 mm/slub.c:4372
+  alloc_dr drivers/base/devres.c:103 [inline]
+  devm_kmalloc+0x8c/0x190 drivers/base/devres.c:793
+  devm_kzalloc include/linux/device.h:679 [inline]
+  usb_raremono_probe+0x34/0x235 drivers/media/radio/radio-raremono.c:298
   usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
   really_probe+0x2da/0xb10 drivers/base/dd.c:509
+usb 5-1: config 0 has no interface number 0
   driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
   __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
   bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
@@ -116,9 +144,12 @@ drivers/staging/comedi/comedi_fops.c:2880
   __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
   bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
   __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+usb 5-1: New USB device found, idVendor=04b3, idProduct=4001, bcdDevice=  
+1.10
   bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
   device_add+0xad2/0x16e0 drivers/base/core.c:2106
   usb_new_device.cold+0x537/0xccf drivers/usb/core/hub.c:2534
+usb 5-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
   hub_port_connect drivers/usb/core/hub.c:5089 [inline]
   hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
   port_event drivers/usb/core/hub.c:5350 [inline]
@@ -128,6 +159,55 @@ drivers/staging/comedi/comedi_fops.c:2880
   kthread+0x313/0x420 kernel/kthread.c:253
   ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
 
+Freed by task 5:
+  set_track mm/kasan/common.c:87 [inline]
+  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:459
+  slab_free_hook mm/slub.c:1429 [inline]
+  slab_free_freelist_hook+0x5e/0x140 mm/slub.c:1456
+usb 5-1: config 0 descriptor??
+  slab_free mm/slub.c:3003 [inline]
+  kfree+0xce/0x290 mm/slub.c:3958
+  release_nodes+0x4ac/0x920 drivers/base/devres.c:508
+  devres_release_all+0x79/0xc8 drivers/base/devres.c:529
+  __device_release_driver drivers/base/dd.c:1086 [inline]
+  device_release_driver_internal+0x23a/0x4f0 drivers/base/dd.c:1113
+  bus_remove_device+0x302/0x5c0 drivers/base/bus.c:556
+  device_del+0x467/0xb90 drivers/base/core.c:2269
+  usb_disable_device+0x242/0x790 drivers/usb/core/message.c:1235
+usb-storage 5-1:0.85: USB Mass Storage device detected
+  usb_disconnect+0x298/0x870 drivers/usb/core/hub.c:2197
+  hub_port_connect drivers/usb/core/hub.c:4940 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+  port_event drivers/usb/core/hub.c:5350 [inline]
+  hub_event+0xcd2/0x3b00 drivers/usb/core/hub.c:5432
+usb-storage 5-1:0.85: Quirks match for vid 04b3 pid 4001: 2000
+  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
+  process_scheduled_works kernel/workqueue.c:2331 [inline]
+  worker_thread+0x7b0/0xe20 kernel/workqueue.c:2417
+  kthread+0x313/0x420 kernel/kthread.c:253
+  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+
+The buggy address belongs to the object at ffff888097e94400
+  which belongs to the cache kmalloc-4k of size 4096
+The buggy address is located 2040 bytes inside of
+  4096-byte region [ffff888097e94400, ffff888097e95400)
+The buggy address belongs to the page:
+page:ffffea00025fa400 count:1 mapcount:0 mapping:ffff88812c3f4600 index:0x0  
+compound_mapcount: 0
+flags: 0xfff00000010200(slab|head)
+raw: 00fff00000010200 dead000000000100 dead000000000200 ffff88812c3f4600
+raw: 0000000000000000 0000000000070007 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+  ffff888097e94a80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffff888097e94b00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ffff888097e94b80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                                                 ^
+  ffff888097e94c00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffff888097e94c80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
 
 ---
 This bug is generated by a bot. It may contain errors.
@@ -136,5 +216,3 @@ syzbot engineers can be reached at syzkaller@googlegroups.com.
 
 syzbot will keep track of this bug report. See:
 https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
