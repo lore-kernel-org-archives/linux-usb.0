@@ -2,240 +2,109 @@ Return-Path: <SRS0=TXFt=SR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10FF8C282DA
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 14:49:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E20CDC10F0E
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 15:15:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C56262075B
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 14:49:27 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesasgroup.onmicrosoft.com header.i=@renesasgroup.onmicrosoft.com header.b="jj7lI6rx"
+	by mail.kernel.org (Postfix) with ESMTP id B7F8420818
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 15:15:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727552AbfDOOt1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Apr 2019 10:49:27 -0400
-Received: from mail-eopbgr1410112.outbound.protection.outlook.com ([40.107.141.112]:62324
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726147AbfDOOt0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 15 Apr 2019 10:49:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector1-bp-renesas-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hhfjildXo6G0whB93eE/eGjQIy+DgWlc5Px9CBV2+2Y=;
- b=jj7lI6rxoDh9haihKNwA6gkNUtbxf2fbUehrcqly7Pde/59BeKLHal45w98x44hk/cHJhuorJgYihEA78tppOxtda2aAMfuYFoBY4Ktk/AxTNGSdisAq1Gtz0Sqr1KFvt4E8eZ6Of0NkT4cQbUswryUYKlcIiN/LJcOCa+MmAdk=
-Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com (52.134.242.17) by
- OSBPR01MB1992.jpnprd01.prod.outlook.com (52.134.242.18) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1792.17; Mon, 15 Apr 2019 14:49:18 +0000
-Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com
- ([fe80::6d2c:bd11:88b0:c53a]) by OSBPR01MB2103.jpnprd01.prod.outlook.com
- ([fe80::6d2c:bd11:88b0:c53a%3]) with mapi id 15.20.1792.020; Mon, 15 Apr 2019
- 14:49:18 +0000
-From:   Biju Das <biju.das@bp.renesas.com>
-To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
-CC:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Simon Horman <horms@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH V3 3/7] usb: typec: driver for TI HD3SS3220 USB Type-C DRP
- port controller
-Thread-Topic: [PATCH V3 3/7] usb: typec: driver for TI HD3SS3220 USB Type-C
- DRP port controller
-Thread-Index: AQHU8Rm3RnAmHxdsR0OpfSn+9IeizKY8glkAgADL37A=
-Date:   Mon, 15 Apr 2019 14:49:18 +0000
-Message-ID:
- <OSBPR01MB2103960377E7512523DC066DB82B0@OSBPR01MB2103.jpnprd01.prod.outlook.com>
-References: <1555064179-15626-1-git-send-email-biju.das@bp.renesas.com>
-         <1555064179-15626-4-git-send-email-biju.das@bp.renesas.com>
- <1555295036.10179.192.camel@mhfsdcap03>
-In-Reply-To: <1555295036.10179.192.camel@mhfsdcap03>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=biju.das@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 41f2919b-9b28-4e75-98c8-08d6c1b189f0
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600140)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB1992;
-x-ms-traffictypediagnostic: OSBPR01MB1992:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <OSBPR01MB19925BF5434027986B30EB24B82B0@OSBPR01MB1992.jpnprd01.prod.outlook.com>
-x-forefront-prvs: 000800954F
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(136003)(366004)(376002)(346002)(39860400002)(396003)(51914003)(199004)(189003)(74316002)(86362001)(71200400001)(71190400001)(305945005)(2906002)(6116002)(3846002)(44832011)(476003)(486006)(7696005)(316002)(33656002)(5660300002)(6246003)(7736002)(97736004)(53936002)(68736007)(9686003)(54906003)(6306002)(99286004)(4326008)(55016002)(105586002)(8676002)(229853002)(6916009)(66066001)(106356001)(6436002)(14444005)(5024004)(256004)(26005)(186003)(52536014)(76176011)(81166006)(81156014)(6506007)(446003)(8936002)(478600001)(14454004)(11346002)(102836004)(25786009)(966005)(21314003);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB1992;H:OSBPR01MB2103.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: w6Mef1Mt4o/1Wse8Xtm/guwohTpTIVB6PQQ9sDxf4sPzwpbmNVLIYMZGBaWhB18c4drgk2pjAGyEe3oMirs4sWviGrapY0rgCCo5ytoq8q84r1GB+Sb4h8IAPOX2FVrDZAOUkXHmNQKW7NUxZ0Kc3ZX01aLbkcIjlAzaqbK83lXnrfVv6BRNDwARLaNspFU9oNChZJq6QmlZG6rQR0Mh5Uq6pcYuAKz//amP0W5uQ7JRwonbiBgltMLPsh9bpjemGqumOAbGkBct6z2Kno28Wx2d3ij3ef5CTSmh5Mx8RfDal0T6vsCzX7n5+lRvUGmJ0GViAnj7wh7LAdrcrpWKz4sGA1rL4abnpSLur/Y3ihJ2RhzQaAahDNqLIADqqHWZczZFhOUszvNB6o5f78QYibVHalda7LW3EGQEy04bDn4=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+        id S1727552AbfDOPP3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Apr 2019 11:15:29 -0400
+Received: from mga04.intel.com ([192.55.52.120]:23729 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727412AbfDOPP3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 15 Apr 2019 11:15:29 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Apr 2019 08:15:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,354,1549958400"; 
+   d="scan'208";a="149585831"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.164]) ([10.237.72.164])
+  by FMSMGA003.fm.intel.com with ESMTP; 15 Apr 2019 08:15:27 -0700
+Subject: Re: Problem with USB2 devices connected to a hub
+To:     Georg Chini <georg@chini.tk>, linux-usb@vger.kernel.org
+References: <ccf69384-7aa2-883f-beb0-6bac8e9364e8@chini.tk>
+ <352717b6-d467-92e6-640f-469c0682a91d@linux.intel.com>
+ <9dc271d6-67c4-4e06-5bcb-d5dd3a480927@chini.tk>
+ <c3e9e38f-28dd-3154-afcd-3922a23fbde0@linux.intel.com>
+ <dea4e484-c4d3-a56b-6beb-1acf05c1ac8d@chini.tk>
+ <dca924bf-dbb0-297c-cb39-d7cea474a144@chini.tk>
+ <f413aeb9-08c5-2cff-f238-4766df35401d@chini.tk>
+ <6e528087-923a-bc00-7db6-04c1c86845f2@linux.intel.com>
+ <6ff355d4-5fc5-6c80-d3ee-d279c40c5ab3@chini.tk>
+ <457f1aeb-aa48-b3ec-caaf-951de8744cb4@chini.tk>
+ <0d3f6759-e7f8-8fd5-d164-dad4c08a49d4@linux.intel.com>
+ <1f127b03-f009-f7ec-4c99-e859416565a1@linux.intel.com>
+ <cbf6294c-93d5-27c1-f94e-92d04bd7d931@chini.tk>
+ <3b6dad8e-2285-d98d-f703-b83c939f5848@chini.tk>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-ID: <7b7f9ef0-6276-c609-9b8b-8e96115a4772@linux.intel.com>
+Date:   Mon, 15 Apr 2019 18:17:53 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 41f2919b-9b28-4e75-98c8-08d6c1b189f0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Apr 2019 14:49:18.4660
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB1992
+In-Reply-To: <3b6dad8e-2285-d98d-f703-b83c939f5848@chini.tk>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190415144918.c8pj7uy92cWWF8QahflJKGiA3p44JSyTt4GHkF5ug-Y@z>
 
-SGksDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0gg
-VjMgMy83XSB1c2I6IHR5cGVjOiBkcml2ZXIgZm9yIFRJIEhEM1NTMzIyMCBVU0IgVHlwZS1DDQo+
-IERSUCBwb3J0IGNvbnRyb2xsZXINCj4gDQo+IEhpLA0KPiBPbiBGcmksIDIwMTktMDQtMTIgYXQg
-MTE6MTYgKzAxMDAsIEJpanUgRGFzIHdyb3RlOg0KPiA+IERyaXZlciBmb3IgVEkgSEQzU1MzMjIw
-IFVTQiBUeXBlLUMgRFJQIHBvcnQgY29udHJvbGxlci4NCj4gPg0KPiA+IFRoZSBkcml2ZXIgY3Vy
-cmVudGx5IHJlZ2lzdGVycyB0aGUgcG9ydCBhbmQgc3VwcG9ydHMgZGF0YSByb2xlIHN3YXBwaW5n
-Lg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogQmlqdSBEYXMgPGJpanUuZGFzQGJwLnJlbmVzYXMu
-Y29tPg0KPiA+IC0tLQ0KPiA+ICBOb3RlOiBUaGlzIHBhdGNoIGhhcyBjb21waWxhdGlvbiBkZXBl
-bmRlbmN5IG9uDQo+ID4gaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wYXRjaC8xMDg4MjU1
-NS8NCj4gPg0KPiA+ICBWMi0tPlYzDQo+ID4gICAgKiBVc2VkIHRoZSBuZXcgYXBpICJ1c2Jfcm9s
-ZV9zd2l0Y2ggYnkgbm9kZSIgZm9yIGdldHRpbmcNCj4gPiAgICAgIHJlbW90ZSBlbmRwb2ludCBh
-c3NvY2lhdGVkIHdpdGggVHlwZS1DIFVTQiBEUlAgcG9ydA0KPiA+ICAgICAgY29udHJvbGxlciBk
-ZXZpY2VzLg0KPiA+ICBWMS0tPlYyDQo+ID4gICAgKiBEcml2ZXIgdXNlcyB1c2Igcm9sZSBjbGFz
-cyBpbnN0ZWFkIG9mIGV4dGNvbiBmb3IgZHVhbCByb2xlIHN3aXRjaA0KPiA+ICAgICAgYW5kIGFs
-c28gaGFuZGxlcyBjb25uZWN0L2Rpc2Nvbm5lY3QgZXZlbnRzLg0KPiA+IC0tLQ0KPiA+ICBkcml2
-ZXJzL3VzYi90eXBlYy9LY29uZmlnICAgICB8ICAxMCArKw0KPiA+ICBkcml2ZXJzL3VzYi90eXBl
-Yy9NYWtlZmlsZSAgICB8ICAgMSArDQo+ID4gIGRyaXZlcnMvdXNiL3R5cGVjL2hkM3NzMzIyMC5j
-IHwgMjc4DQo+ID4gKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+
-ID4gIDMgZmlsZXMgY2hhbmdlZCwgMjg5IGluc2VydGlvbnMoKykNCj4gPiAgY3JlYXRlIG1vZGUg
-MTAwNjQ0IGRyaXZlcnMvdXNiL3R5cGVjL2hkM3NzMzIyMC5jDQo+ID4NCj4gPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy91c2IvdHlwZWMvS2NvbmZpZyBiL2RyaXZlcnMvdXNiL3R5cGVjL0tjb25maWcN
-Cj4gPiBpbmRleCA4OWQ5MTkzLi45MmEzNzE3IDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvdXNi
-L3R5cGVjL0tjb25maWcNCj4gPiArKysgYi9kcml2ZXJzL3VzYi90eXBlYy9LY29uZmlnDQo+ID4g
-QEAgLTUwLDYgKzUwLDE2IEBAIHNvdXJjZSAiZHJpdmVycy91c2IvdHlwZWMvdGNwbS9LY29uZmln
-Ig0KPiA+DQo+ID4gIHNvdXJjZSAiZHJpdmVycy91c2IvdHlwZWMvdWNzaS9LY29uZmlnIg0KPiA+
-DQo+ID4gK2NvbmZpZyBUWVBFQ19IRDNTUzMyMjANCj4gPiArCXRyaXN0YXRlICJUSSBIRDNTUzMy
-MjAgVHlwZS1DIERSUCBQb3J0IGNvbnRyb2xsZXIgZHJpdmVyIg0KPiA+ICsJZGVwZW5kcyBvbiBJ
-MkMNCj4gPiArCWhlbHANCj4gPiArCSAgU2F5IFkgb3IgTSBoZXJlIGlmIHlvdXIgc3lzdGVtIGhh
-cyBUSSBIRDNTUzMyMjAgVHlwZS1DIERSUCBQb3J0DQo+ID4gKwkgIGNvbnRyb2xsZXIgZHJpdmVy
-Lg0KPiA+ICsNCj4gPiArCSAgSWYgeW91IGNob29zZSB0byBidWlsZCB0aGlzIGRyaXZlciBhcyBh
-IGR5bmFtaWNhbGx5IGxpbmtlZCBtb2R1bGUsIHRoZQ0KPiA+ICsJICBtb2R1bGUgd2lsbCBiZSBj
-YWxsZWQgaGQzc3MzMjIwLmtvLg0KPiA+ICsNCj4gPiAgY29uZmlnIFRZUEVDX1RQUzY1OThYDQo+
-ID4gIAl0cmlzdGF0ZSAiVEkgVFBTNjU5OHggVVNCIFBvd2VyIERlbGl2ZXJ5IGNvbnRyb2xsZXIg
-ZHJpdmVyIg0KPiA+ICAJZGVwZW5kcyBvbiBJMkMNCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy91
-c2IvdHlwZWMvTWFrZWZpbGUgYi9kcml2ZXJzL3VzYi90eXBlYy9NYWtlZmlsZQ0KPiA+IGluZGV4
-IDY2OTZiNzIuLjc3NTNhNWMzIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvdXNiL3R5cGVjL01h
-a2VmaWxlDQo+ID4gKysrIGIvZHJpdmVycy91c2IvdHlwZWMvTWFrZWZpbGUNCj4gPiBAQCAtNCw1
-ICs0LDYgQEAgdHlwZWMteQkJCQk6PSBjbGFzcy5vIG11eC5vIGJ1cy5vDQo+ID4gIG9iai0kKENP
-TkZJR19UWVBFQykJCSs9IGFsdG1vZGVzLw0KPiA+ICBvYmotJChDT05GSUdfVFlQRUNfVENQTSkJ
-Kz0gdGNwbS8NCj4gPiAgb2JqLSQoQ09ORklHX1RZUEVDX1VDU0kpCSs9IHVjc2kvDQo+ID4gK29i
-ai0kKENPTkZJR19UWVBFQ19IRDNTUzMyMjApCSs9IGhkM3NzMzIyMC5vDQo+ID4gIG9iai0kKENP
-TkZJR19UWVBFQ19UUFM2NTk4WCkJKz0gdHBzNjU5OHgubw0KPiA+ICBvYmotJChDT05GSUdfVFlQ
-RUMpCQkrPSBtdXgvDQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL3R5cGVjL2hkM3NzMzIy
-MC5jDQo+ID4gYi9kcml2ZXJzL3VzYi90eXBlYy9oZDNzczMyMjAuYyBuZXcgZmlsZSBtb2RlIDEw
-MDY0NCBpbmRleA0KPiA+IDAwMDAwMDAuLmI1Y2I0MmMNCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4g
-KysrIGIvZHJpdmVycy91c2IvdHlwZWMvaGQzc3MzMjIwLmMNCj4gPiBAQCAtMCwwICsxLDI3OCBA
-QA0KPiA+ICsvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMCsNCj4gPiArLyoNCj4g
-PiArICogVEkgSEQzU1MzMjIwIFR5cGUtQyBEUlAgUG9ydCBDb250cm9sbGVyIERyaXZlcg0KPiA+
-ICsgKg0KPiA+ICsgKiBDb3B5cmlnaHQgKEMpIDIwMTkgUmVuZXNhcyBFbGVjdHJvbmljcyBDb3Jw
-Lg0KPiA+ICsgKi8NCj4gPiArDQo+ID4gKyNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4NCj4gPiAr
-I2luY2x1ZGUgPGxpbnV4L2kyYy5oPg0KPiA+ICsjaW5jbHVkZSA8bGludXgvdXNiL3JvbGUuaD4N
-Cj4gPiArI2luY2x1ZGUgPGxpbnV4L2lycXJldHVybi5oPg0KPiA+ICsjaW5jbHVkZSA8bGludXgv
-aW50ZXJydXB0Lmg+DQo+ID4gKyNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4NCj4gPiArI2luY2x1
-ZGUgPGxpbnV4L29mX2dyYXBoLmg+DQo+ID4gKyNpbmNsdWRlIDxsaW51eC9yZWdtYXAuaD4NCj4g
-PiArI2luY2x1ZGUgPGxpbnV4L3NsYWIuaD4NCj4gPiArI2luY2x1ZGUgPGxpbnV4L3VzYi90eXBl
-Yy5oPg0KPiA+ICsjaW5jbHVkZSA8bGludXgvZGVsYXkuaD4NCj4gPiArDQo+ID4gKyNkZWZpbmUg
-SEQzU1MzMjIwX1JFR19DTl9TVEFUX0NUUkwJMHgwOQ0KPiA+ICsjZGVmaW5lIEhEM1NTMzIyMF9S
-RUdfR0VOX0NUUkwJCTB4MEENCj4gPiArI2RlZmluZSBIRDNTUzMyMjBfUkVHX0RFVl9SRVYJCTB4
-QTANCj4gPiArDQo+ID4gKy8qIFJlZ2lzdGVyIEhEM1NTMzIyMF9SRUdfQ05fU1RBVF9DVFJMKi8N
-Cj4gPiArI2RlZmluZSBIRDNTUzMyMjBfUkVHX0NOX1NUQVRfQ1RSTF9BVFRBQ0hFRF9TVEFURV9N
-QVNLDQo+IAkoQklUKDcpIHwgQklUKDYpKQ0KPiA+ICsjZGVmaW5lIEhEM1NTMzIyMF9SRUdfQ05f
-U1RBVF9DVFJMX0FTX0RGUAkJQklUKDYpDQo+ID4gKyNkZWZpbmUgSEQzU1MzMjIwX1JFR19DTl9T
-VEFUX0NUUkxfQVNfVUZQCQlCSVQoNykNCj4gPiArI2RlZmluZSBIRDNTUzMyMjBfUkVHX0NOX1NU
-QVRfQ1RSTF9UT19BQ0NFU1NPUlkNCj4gCShCSVQoNykgfCBCSVQoNikpDQo+ID4gKyNkZWZpbmUg
-SEQzU1MzMjIwX1JFR19DTl9TVEFUX0NUUkxfSU5UX1NUQVRVUwkJQklUKDQpDQo+ID4gKw0KPiA+
-ICsvKiBSZWdpc3RlciBIRDNTUzMyMjBfUkVHX0dFTl9DVFJMKi8NCj4gPiArI2RlZmluZSBIRDNT
-UzMyMjBfUkVHX0dFTl9DVFJMX1NSQ19QUkVGX01BU0sNCj4gCShCSVQoMikgfCBCSVQoMSkpDQo+
-ID4gKyNkZWZpbmUgSEQzU1MzMjIwX1JFR19HRU5fQ1RSTF9TUkNfUFJFRl9EUlBfREVGQVVMVAkw
-eDAwDQo+ID4gKyNkZWZpbmUgSEQzU1MzMjIwX1JFR19HRU5fQ1RSTF9TUkNfUFJFRl9EUlBfVFJZ
-X1NOSwlCSVQoMSkNCj4gPiArI2RlZmluZSBIRDNTUzMyMjBfUkVHX0dFTl9DVFJMX1NSQ19QUkVG
-X0RSUF9UUllfU1JDDQo+IAkoQklUKDIpIHwgQklUKDEpKQ0KPiA+ICsNCj4gPiArc3RydWN0IGhk
-M3NzMzIyMCB7DQo+ID4gKwlzdHJ1Y3QgZGV2aWNlICpkZXY7DQo+ID4gKwlzdHJ1Y3QgcmVnbWFw
-ICpyZWdtYXA7DQo+ID4gKwlzdHJ1Y3QgdXNiX3JvbGVfc3dpdGNoCSpyb2xlX3N3Ow0KPiA+ICsJ
-c3RydWN0IHR5cGVjX3BvcnQgKnBvcnQ7DQo+ID4gKwlzdHJ1Y3QgdHlwZWNfY2FwYWJpbGl0eSB0
-eXBlY19jYXA7DQo+ID4gK307DQo+ID4gKw0KPiA+ICtzdGF0aWMgaW50IGhkM3NzMzIyMF9zZXRf
-c291cmNlX3ByZWYoc3RydWN0IGhkM3NzMzIyMCAqaGQzc3MzMjIwLCBpbnQNCj4gPiArc3JjX3By
-ZWYpIHsNCj4gPiArCXVuc2lnbmVkIGludCByZWdfdmFsOw0KPiA+ICsJaW50IHJldDsNCj4gPiAr
-DQo+ID4gKwlyZXQgPSByZWdtYXBfcmVhZChoZDNzczMyMjAtPnJlZ21hcCwNCj4gSEQzU1MzMjIw
-X1JFR19HRU5fQ1RSTCwgJnJlZ192YWwpOw0KPiA+ICsJaWYgKHJldCA8IDApDQo+ID4gKwkJcmV0
-dXJuIHJldDsNCj4gPiArDQo+ID4gKwlyZWdfdmFsICY9IH5IRDNTUzMyMjBfUkVHX0dFTl9DVFJM
-X1NSQ19QUkVGX01BU0s7DQo+ID4gKwlyZWdfdmFsIHw9IHNyY19wcmVmOw0KPiA+ICsNCj4gPiAr
-CXJldHVybiByZWdtYXBfd3JpdGUoaGQzc3MzMjIwLT5yZWdtYXAsDQo+IEhEM1NTMzIyMF9SRUdf
-R0VOX0NUUkwsDQo+ID4gK3JlZ192YWwpOw0KPiB1c2UgcmVnbWFwX3VwZGF0ZV9iaXRzKCk/DQoN
-ClllcywgQXMgYW4gb3B0aW1pemF0aW9uIHdpbGwgY2hhbmdlIGl0IHRvIHJlZ21hcF91cGRhdGVf
-Yml0cy4NCg0KPiA+ICt9DQo+ID4gKw0KPiA+ICtzdGF0aWMgZW51bSB1c2Jfcm9sZSBoZDNzczMy
-MjBfZ2V0X2F0dGFjaGVkX3N0YXRlKHN0cnVjdCBoZDNzczMyMjANCj4gPiArKmhkM3NzMzIyMCkg
-ew0KPiA+ICsJdW5zaWduZWQgaW50IHJlZ192YWw7DQo+ID4gKwllbnVtIHVzYl9yb2xlIGF0dGFj
-aGVkX3N0YXRlOw0KPiA+ICsJaW50IHJldDsNCj4gPiArDQo+ID4gKwlyZXQgPSByZWdtYXBfcmVh
-ZChoZDNzczMyMjAtPnJlZ21hcCwNCj4gSEQzU1MzMjIwX1JFR19DTl9TVEFUX0NUUkwsDQo+ID4g
-KwkJCSAgJnJlZ192YWwpOw0KPiA+ICsJaWYgKHJldCA8IDApDQo+ID4gKwkJcmV0dXJuIHJldDsN
-Cj4gPiArDQo+ID4gKwlzd2l0Y2ggKHJlZ192YWwgJg0KPiBIRDNTUzMyMjBfUkVHX0NOX1NUQVRf
-Q1RSTF9BVFRBQ0hFRF9TVEFURV9NQVNLKSB7DQo+ID4gKwljYXNlIEhEM1NTMzIyMF9SRUdfQ05f
-U1RBVF9DVFJMX0FTX0RGUDoNCj4gPiArCQlhdHRhY2hlZF9zdGF0ZSA9IFVTQl9ST0xFX0hPU1Q7
-DQo+ID4gKwlicmVhazsNCj4gPiArCWNhc2UgSEQzU1MzMjIwX1JFR19DTl9TVEFUX0NUUkxfQVNf
-VUZQOg0KPiA+ICsJCWF0dGFjaGVkX3N0YXRlID0gVVNCX1JPTEVfREVWSUNFOw0KPiA+ICsJYnJl
-YWs7DQo+ID4gKwlkZWZhdWx0Og0KPiA+ICsJCWF0dGFjaGVkX3N0YXRlID0gVVNCX1JPTEVfTk9O
-RTsNCj4gPiArCX0NCj4gPiArDQo+ID4gKwlyZXR1cm4gYXR0YWNoZWRfc3RhdGU7DQo+ID4gK30N
-Cj4gPiArDQo+ID4gK3N0YXRpYyBpbnQgaGQzc3MzMjIwX2RyX3NldChjb25zdCBzdHJ1Y3QgdHlw
-ZWNfY2FwYWJpbGl0eSAqY2FwLA0KPiA+ICsJCQkgICAgZW51bSB0eXBlY19kYXRhX3JvbGUgcm9s
-ZSkNCj4gPiArew0KPiA+ICsJc3RydWN0IGhkM3NzMzIyMCAqaGQzc3MzMjIwID0gY29udGFpbmVy
-X29mKGNhcCwgc3RydWN0IGhkM3NzMzIyMCwNCj4gPiArCQkJCQkJICAgdHlwZWNfY2FwKTsNCj4g
-PiArCWVudW0gdXNiX3JvbGUgcm9sZV92YWw7DQo+ID4gKwlpbnQgcHJlZiwgcmV0ID0gMDsNCj4g
-PiArDQo+ID4gKwlpZiAocm9sZSA9PSBUWVBFQ19IT1NUKSB7DQo+ID4gKwkJcm9sZV92YWwgPSBV
-U0JfUk9MRV9IT1NUOw0KPiA+ICsJCXByZWYgPQ0KPiBIRDNTUzMyMjBfUkVHX0dFTl9DVFJMX1NS
-Q19QUkVGX0RSUF9UUllfU1JDOw0KPiA+ICsJfSBlbHNlIHsNCj4gPiArCQlyb2xlX3ZhbCA9IFVT
-Ql9ST0xFX0RFVklDRTsNCj4gPiArCQlwcmVmID0NCj4gSEQzU1MzMjIwX1JFR19HRU5fQ1RSTF9T
-UkNfUFJFRl9EUlBfVFJZX1NOSzsNCj4gPiArCX0NCj4gPiArDQo+ID4gKwlyZXQgPSBoZDNzczMy
-MjBfc2V0X3NvdXJjZV9wcmVmKGhkM3NzMzIyMCwgcHJlZik7DQo+ID4gKwl1c2xlZXBfcmFuZ2Uo
-MTAsIDEwMCk7DQo+ID4gKw0KPiA+ICsJdXNiX3JvbGVfc3dpdGNoX3NldF9yb2xlKGhkM3NzMzIy
-MC0+cm9sZV9zdywgcm9sZV92YWwpOw0KPiA+ICsJdHlwZWNfc2V0X2RhdGFfcm9sZShoZDNzczMy
-MjAtPnBvcnQsIHJvbGUpOw0KPiA+ICsNCj4gPiArCXJldHVybiByZXQ7DQo+ID4gK30NCj4gPiAr
-DQo+ID4gK3N0YXRpYyB2b2lkIGhkM3NzMzIyMF9zZXRfcm9sZShzdHJ1Y3QgaGQzc3MzMjIwICpo
-ZDNzczMyMjApIHsNCj4gPiArCWVudW0gdXNiX3JvbGUgcm9sZV9zdGF0ZSA9DQo+IGhkM3NzMzIy
-MF9nZXRfYXR0YWNoZWRfc3RhdGUoaGQzc3MzMjIwKTsNCj4gPiArDQo+ID4gKwl1c2Jfcm9sZV9z
-d2l0Y2hfc2V0X3JvbGUoaGQzc3MzMjIwLT5yb2xlX3N3LCByb2xlX3N0YXRlKTsNCj4gPiArCWlm
-IChyb2xlX3N0YXRlID09IFVTQl9ST0xFX05PTkUpDQo+ID4gKwkJaGQzc3MzMjIwX3NldF9zb3Vy
-Y2VfcHJlZihoZDNzczMyMjAsDQo+ID4gKw0KPiAJSEQzU1MzMjIwX1JFR19HRU5fQ1RSTF9TUkNf
-UFJFRl9EUlBfREVGQVVMVCk7DQo+ID4gKw0KPiA+ICsJc3dpdGNoIChyb2xlX3N0YXRlKSB7DQo+
-ID4gKwljYXNlIFVTQl9ST0xFX0hPU1Q6DQo+ID4gKwkJdHlwZWNfc2V0X2RhdGFfcm9sZShoZDNz
-czMyMjAtPnBvcnQsIFRZUEVDX0hPU1QpOw0KPiA+ICsJCWJyZWFrOw0KPiA+ICsJY2FzZSBVU0Jf
-Uk9MRV9ERVZJQ0U6DQo+ID4gKwkJdHlwZWNfc2V0X2RhdGFfcm9sZShoZDNzczMyMjAtPnBvcnQs
-IFRZUEVDX0RFVklDRSk7DQo+ID4gKwkJYnJlYWs7DQo+ID4gKwlkZWZhdWx0Og0KPiA+ICsJCWJy
-ZWFrOw0KPiA+ICsJfQ0KPiA+ICt9DQo+ID4gKw0KPiA+ICtpcnFyZXR1cm5fdCBoZDNzczMyMjBf
-aXJxKHN0cnVjdCBoZDNzczMyMjAgKmhkM3NzMzIyMCkgew0KPiA+ICsJaW50IGVycjsNCj4gPiAr
-CXVuc2lnbmVkIGludCBkYXRhOw0KPiA+ICsNCj4gPiArCWhkM3NzMzIyMF9zZXRfcm9sZShoZDNz
-czMyMjApOw0KPiA+ICsNCj4gPiArCWVyciA9IHJlZ21hcF9yZWFkKGhkM3NzMzIyMC0+cmVnbWFw
-LA0KPiBIRDNTUzMyMjBfUkVHX0NOX1NUQVRfQ1RSTCwgJmRhdGEpOw0KPiA+ICsJaWYgKGVyciA8
-IDApDQo+ID4gKwkJcmV0dXJuIElSUV9OT05FOw0KPiA+ICsNCj4gPiArCWVyciA9IHJlZ21hcF93
-cml0ZShoZDNzczMyMjAtPnJlZ21hcCwNCj4gSEQzU1MzMjIwX1JFR19DTl9TVEFUX0NUUkwsDQo+
-ID4gKwkJCSAgIGRhdGEgfA0KPiBIRDNTUzMyMjBfUkVHX0NOX1NUQVRfQ1RSTF9JTlRfU1RBVFVT
-KTsNCj4gPiArCWlmIChlcnIgPCAwKQ0KPiA+ICsJCXJldHVybiBJUlFfTk9ORTsNCj4gdXNlIHJl
-Z21hcF94eHhfYml0cygpIGlmIHBvc3NpYmxlPw0KDQpPSyAsIHllcyBhcyBhbiBvcHRpbWl6YXRp
-b24sIGluIHRoaXMgY2FzZSBJIG5lZWQgdG8gdXNlICJyZWdtYXBfdXBkYXRlX2JpdHNfYmFzZSIg
-YXBpIHdpdGggZm9yY2UgdXBkYXRlIHRvIGNsZWFyIHRoZSBpbnRlcnJ1cHQgc3RhdHVzIGJpdC4N
-Ckkgd2lsbCBzZW5kIFY0IHdpdGggdGhpcyBjaGFuZ2VzLCAgUGxlYXNlIGxldCBtZSBrbm93LCBp
-ZiB5b3UgdGhpbmsgb3RoZXJ3aXNlLg0KDQpUaGUgbmV3IGNvZGUgd2lsbCBsb29rIGxpa2UNCg0K
-ICAgICAgIGVyciA9IHJlZ21hcF91cGRhdGVfYml0c19iYXNlKGhkM3NzMzIyMC0+cmVnbWFwLA0K
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEhEM1NTMzIyMF9SRUdfQ05fU1RB
-VF9DVFJMLA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEhEM1NTMzIyMF9S
-RUdfQ05fU1RBVF9DVFJMX0lOVF9TVEFUVVMsDQogICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgSEQzU1MzMjIwX1JFR19DTl9TVEFUX0NUUkxfSU5UX1NUQVRVUywNCiAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBOVUxMLCBmYWxzZSwgdHJ1ZSk7DQoNClJlZ2Fy
-ZHMsDQpCaWp1DQoNCg==
+On 12.4.2019 22.48, Georg Chini wrote:
+> On 08.04.19 08:46, Georg Chini wrote:
+>> On 02.04.19 16:52, Mathias Nyman wrote:
+>>> On 28.3.2019 15.41, Mathias Nyman wrote:
+>>>>
+>>>>>> The issue happens when only a single hub and a single device is connected to the
+>>>>>> USB subsystem. On my previous board, I had two USB dongles and two sound
+>>>>>> devices connected to the same hub and it worked without issues. So I guess it
+>>>>>> is not a real bandwidth limit. Somehow the hub seems to eat the bandwidth.
+>>>>>
+>>>>>
+>>>> git://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git bandwidth-debug
+>>>>
+>>>> New traces using the bandwidth-debug testbranch could be useful, even without the "available bandwidth"
+>>>> support
+>>>>
+> Here are the traces. In the beginning, there is no USB device connected. Then I connect a hub
+> (this time a simple 4 port USB 2.0 hub). After that I connect an USB sound device to the hub.
+> 
+> Hope it helps.
+> 
+
+Traces show secondary bandwidth error response from xHC hardware when adding ISOC OUT endpoint 1:
+
+321.773182: xhci_add_endpoint: State disabled mult 1 max P. Streams 0 interval 1000 us max ESIT payload 200 CErr 0 Type Isoc OUT burst 0 maxp 200 deq 00000000fffb2001 avg trb len 200
+321.773198: xhci_configure_endpoint_ctrl_ctx: Add: slot 1out
+321.773199: xhci_configure_endpoint: RS 00001 full-speed multi-TT Ctx Entries 7 MEL 0 us Port# 2/0 [TT Slot 7 Port# 1 TTT 0 Intr 0] Addr 0 State enabled/disabled
+321.773200: xhci_queue_trb: CMD: Configure Endpoint Command: ctx 00000000fffaf000 slot 8 flags d:C
+321.773380: xhci_handle_event: EVENT: TRB 00000000ffffeb60 status 'Secondary Bandwidth Error' len 0 slot 8 ep 0 type 'Command Completion Event' flags e:c
+
+That endpoint only moves 200 bytes every 1ms (every FS frame), which is 1.6Mbit/s.
+There was another periodic endpoint added before this one, but it only moves 4 bytes every 32ms, equals ~1kbit/s
+
+which together are still far from the ~12Mbit/s supported by FS bus, even with the TT think time etc.
+Traces doesn't show any incorrect values being given to xHC hw in the context either.
+
+Only thing I can think of is that there are other parameters affecting the available bandwidth calculations,
+such as the average TRB length, and Link powermanagement related exit latencies.
+
+xhci specs say:
+
+The xHC uses the value of the Average TRB Length field in the Endpoint Context as a metric to help
+compute the system bus bandwidth requirements of an endpoint. The accuracy of this parameter is
+particularly important for periodic endpoints. An xHC will use the Average TRB Length and other metrics to
+allocate/distribute system bus bandwidth to endpoints. These “other” metrics are xHC implementation
+specific and outside the scope of this specification.
+
+I'm out for a week, so response will be slow.
+
+-Mathias
