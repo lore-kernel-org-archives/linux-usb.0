@@ -2,142 +2,141 @@ Return-Path: <SRS0=TXFt=SR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_PASS,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58A3AC10F0E
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 17:48:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6682C10F0E
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 17:51:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 163AD20848
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 17:48:30 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ApHHfgv/"
+	by mail.kernel.org (Postfix) with ESMTP id 9395B20848
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 17:51:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727379AbfDORs3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Apr 2019 13:48:29 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:33337 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727552AbfDORs3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Apr 2019 13:48:29 -0400
-Received: by mail-pl1-f195.google.com with SMTP id t16so8944344plo.0
-        for <linux-usb@vger.kernel.org>; Mon, 15 Apr 2019 10:48:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9Dv+R0VL/bb+jQfziwn2QW1zo1nWTJgpQUXYmCc2ap4=;
-        b=ApHHfgv/brsFKSwRUyz8eNdWSjFtlZ9bNiUxkt0ycFqZT0cx7Y/xeGghp+2fEUlF04
-         ouZ9QvcWV+4ovzmtFoT961GYF1yUmC4yIWZ50XHsg99XypZYRl9GqOCeUaPCrjZOOirT
-         EjIQtArdWE+HNSZiGgD1Gwgg53iym4wMFtRyl/qxR3Mk/t8umK6xQT4JCvL/OAmIOrHP
-         9arDv4lw325LlfASfzSw/39anUuyhn1E/k06PH2uAkzeJB2mwq+Gqpq+W8bq928RxDuf
-         Igrp7nDkE8qBlrRXFkRDnw0HmDk3vfn+fPAUpPdUSmp7/MIYzImOzVdevIBYKhuw6X7U
-         evCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9Dv+R0VL/bb+jQfziwn2QW1zo1nWTJgpQUXYmCc2ap4=;
-        b=jTEsP1W72VwffXVOoXKsq1rtjxyfs4+6c1GMygx1j1qMduL+DJbg05OfOTxLlgYP5g
-         utY3hpKA2+6xFN8kcTccyQIjEna+fpRtxV1WukR1SvpaEb7Hai0Iu7RIN4EJ6Ki8jxMn
-         cSlXZ8E0vPZy51zvSEFx4nEuox1N0xFFL2r5Yol41FPLPGU0g85NBaWV2DcXa0xRDeFe
-         +bhxwmW97DjyoXTZyzWQifsQC+4xSa+ExofVdMrLGGpd7oNzwXmGiU2i1rnMxUymUepe
-         +n9Zt/AJp1TZB5CQG6KN63BzrKiLj17jXsuULxcj9S/7KeCgjlbZ65D3WhFKAAWN02b8
-         6V5w==
-X-Gm-Message-State: APjAAAW9hRr3Iq0wwWCUI+YNAJFvKbyEhJGoj1Axw45FPvIXovyMZIBo
-        SiMDTGfQJR2c5gy7rNkM8iFZRaeKVxL/QM+Zo4qGHAcAvpk=
-X-Google-Smtp-Source: APXvYqyLCe79Crj+h8qxyZJJMXZlAmSLdWORBWOAlSt3hOuWVlrS2thdXslxIN4DWKPBsrLbk8kFOgT3pEOU6EopIOc=
-X-Received: by 2002:a17:902:b48c:: with SMTP id y12mr74860592plr.280.1555350507794;
- Mon, 15 Apr 2019 10:48:27 -0700 (PDT)
+        id S1727413AbfDORvY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Apr 2019 13:51:24 -0400
+Received: from mail.lolchat.de ([212.58.75.196]:60041 "EHLO mail.lolchat.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727256AbfDORvX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 15 Apr 2019 13:51:23 -0400
+Received: from [192.168.255.180] (mini [192.168.255.180])
+        (authenticated bits=0)
+        by mail.lolchat.de (8.15.2/8.15.2/Debian-12) with ESMTPSA id x3FHpH4n014447
+        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT);
+        Mon, 15 Apr 2019 19:51:17 +0200
+Subject: Re: Problem with USB2 devices connected to a hub
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
+        linux-usb@vger.kernel.org
+References: <ccf69384-7aa2-883f-beb0-6bac8e9364e8@chini.tk>
+ <352717b6-d467-92e6-640f-469c0682a91d@linux.intel.com>
+ <9dc271d6-67c4-4e06-5bcb-d5dd3a480927@chini.tk>
+ <c3e9e38f-28dd-3154-afcd-3922a23fbde0@linux.intel.com>
+ <dea4e484-c4d3-a56b-6beb-1acf05c1ac8d@chini.tk>
+ <dca924bf-dbb0-297c-cb39-d7cea474a144@chini.tk>
+ <f413aeb9-08c5-2cff-f238-4766df35401d@chini.tk>
+ <6e528087-923a-bc00-7db6-04c1c86845f2@linux.intel.com>
+ <6ff355d4-5fc5-6c80-d3ee-d279c40c5ab3@chini.tk>
+ <457f1aeb-aa48-b3ec-caaf-951de8744cb4@chini.tk>
+ <0d3f6759-e7f8-8fd5-d164-dad4c08a49d4@linux.intel.com>
+ <1f127b03-f009-f7ec-4c99-e859416565a1@linux.intel.com>
+ <cbf6294c-93d5-27c1-f94e-92d04bd7d931@chini.tk>
+ <3b6dad8e-2285-d98d-f703-b83c939f5848@chini.tk>
+ <7b7f9ef0-6276-c609-9b8b-8e96115a4772@linux.intel.com>
+From:   Georg Chini <georg@chini.tk>
+Message-ID: <33a1722e-dd48-2d44-328c-66dd40995edf@chini.tk>
+Date:   Mon, 15 Apr 2019 19:51:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-References: <0000000000006f1596058653d991@google.com> <Pine.LNX.4.44L0.1904121540001.1283-100000@iolanthe.rowland.org>
-In-Reply-To: <Pine.LNX.4.44L0.1904121540001.1283-100000@iolanthe.rowland.org>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Mon, 15 Apr 2019 19:48:16 +0200
-Message-ID: <CAAeHK+wrF8Oh7ur+BcuyARvm2sx6KNVGFxqKHoyajApN+tOA_g@mail.gmail.com>
-Subject: Re: INFO: task hung in usb_kill_urb
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        gustavo@embeddedor.com,
-        Kernel development list <linux-kernel@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <7b7f9ef0-6276-c609-9b8b-8e96115a4772@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Apr 12, 2019 at 9:46 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+On 15.04.19 17:17, Mathias Nyman wrote:
+> On 12.4.2019 22.48, Georg Chini wrote:
+>> On 08.04.19 08:46, Georg Chini wrote:
+>>> On 02.04.19 16:52, Mathias Nyman wrote:
+>>>> On 28.3.2019 15.41, Mathias Nyman wrote:
+>>>>>
+>>>>>>> The issue happens when only a single hub and a single device is 
+>>>>>>> connected to the
+>>>>>>> USB subsystem. On my previous board, I had two USB dongles and 
+>>>>>>> two sound
+>>>>>>> devices connected to the same hub and it worked without issues. 
+>>>>>>> So I guess it
+>>>>>>> is not a real bandwidth limit. Somehow the hub seems to eat the 
+>>>>>>> bandwidth.
+>>>>>>
+>>>>>>
+>>>>> git://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git 
+>>>>> bandwidth-debug
+>>>>>
+>>>>> New traces using the bandwidth-debug testbranch could be useful, 
+>>>>> even without the "available bandwidth"
+>>>>> support
+>>>>>
+>> Here are the traces. In the beginning, there is no USB device 
+>> connected. Then I connect a hub
+>> (this time a simple 4 port USB 2.0 hub). After that I connect an USB 
+>> sound device to the hub.
+>>
+>> Hope it helps.
+>>
 >
-> Andrey:
+> Traces show secondary bandwidth error response from xHC hardware when 
+> adding ISOC OUT endpoint 1:
 >
-> It's really hard to tell just what's going on here.
+> 321.773182: xhci_add_endpoint: State disabled mult 1 max P. Streams 0 
+> interval 1000 us max ESIT payload 200 CErr 0 Type Isoc OUT burst 0 
+> maxp 200 deq 00000000fffb2001 avg trb len 200
+> 321.773198: xhci_configure_endpoint_ctrl_ctx: Add: slot 1out
+> 321.773199: xhci_configure_endpoint: RS 00001 full-speed multi-TT Ctx 
+> Entries 7 MEL 0 us Port# 2/0 [TT Slot 7 Port# 1 TTT 0 Intr 0] Addr 0 
+> State enabled/disabled
+> 321.773200: xhci_queue_trb: CMD: Configure Endpoint Command: ctx 
+> 00000000fffaf000 slot 8 flags d:C
+> 321.773380: xhci_handle_event: EVENT: TRB 00000000ffffeb60 status 
+> 'Secondary Bandwidth Error' len 0 slot 8 ep 0 type 'Command Completion 
+> Event' flags e:c
 >
-> On Fri, 12 Apr 2019, syzbot wrote:
+> That endpoint only moves 200 bytes every 1ms (every FS frame), which 
+> is 1.6Mbit/s.
+> There was another periodic endpoint added before this one, but it only 
+> moves 4 bytes every 32ms, equals ~1kbit/s
 >
-> > Hello,
-> >
-> > syzbot found the following crash on:
-> >
-> > HEAD commit:    9a33b369 usb-fuzzer: main usb gadget fuzzer driver
-> > git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=14c4c1af200000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=d919b0f29d7b5a4994b9
-> > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14410dbb200000
-> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12f0acd3200000
-> >
-> > IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> > Reported-by: syzbot+d919b0f29d7b5a4994b9@syzkaller.appspotmail.com
-> >
-> > usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-> > usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-> > usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-> > usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-> > usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-> > INFO: task kworker/0:2:532 blocked for more than 143 seconds.
-> >        Not tainted 5.1.0-rc4-319354-g9a33b36 #3
-> > "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-> > kworker/0:2     D26656   532      2 0x80000000
-> > Workqueue: usb_hub_wq hub_event
-> > Call Trace:
-> >   schedule+0x8f/0x180 kernel/sched/core.c:3562
-> >   usb_kill_urb drivers/usb/core/urb.c:695 [inline]
-> >   usb_kill_urb+0x22a/0x2c0 drivers/usb/core/urb.c:687
-> >   usb_start_wait_urb+0x257/0x4d0 drivers/usb/core/message.c:63
-> >   usb_internal_control_msg drivers/usb/core/message.c:101 [inline]
-> >   usb_control_msg+0x321/0x4a0 drivers/usb/core/message.c:152
+> which together are still far from the ~12Mbit/s supported by FS bus, 
+> even with the TT think time etc.
+> Traces doesn't show any incorrect values being given to xHC hw in the 
+> context either.
 >
-> It looks like something is stuck waiting for usb_kill_urb() to finish.
-> But what happened before that?
+> Only thing I can think of is that there are other parameters affecting 
+> the available bandwidth calculations,
+> such as the average TRB length, and Link powermanagement related exit 
+> latencies.
+>
+> xhci specs say:
+>
+> The xHC uses the value of the Average TRB Length field in the Endpoint 
+> Context as a metric to help
+> compute the system bus bandwidth requirements of an endpoint. The 
+> accuracy of this parameter is
+> particularly important for periodic endpoints. An xHC will use the 
+> Average TRB Length and other metrics to
+> allocate/distribute system bus bandwidth to endpoints. These “other” 
+> metrics are xHC implementation
+> specific and outside the scope of this specification.
+>
+> I'm out for a week, so response will be slow.
+>
+> -Mathias
 
-This crash is somewhat special. It happens quite often during USB
-fuzzing, but at the same time it's a hang, which makes it a bit harder
-debug. I initially thought that is somehow related to my custom USB
-fuzzing kernel patches, but then I saw that someone else hit this
-issue while doing USB fuzzing in a completely different way that
-doesn't require kernel modifications. So it might be an actual issue
-in the kernel.
+So what you are saying is that it's a "bug" or "feature" of the C3858 
+CPU and can't be fixed, right?
 
-The full console output is provided by the syzbot, but I guess it's
-not very useful in this case. I've just made sure that this issue is
-manually reproducible, so we can easily retest it with debug patches
-(syzbot should be also able to do that via the syz test command). Or
-is there a way to turn on some verbose mode to see some USB debug
-messages?
+Regards
+             Georg
 
->
-> I can't tell from the reproducer source, because it uses a bunch of
-> special stuff you added in your usb-fuzzer tree.
->
-> Alan Stern
->
-
-I understand, for now I guess the simpler way to debug this is to run
-the reproducer. I'll write you and Greg a separate email regarding all
-that special stuff that I added.
-
-Thanks!
