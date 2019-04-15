@@ -1,110 +1,123 @@
-Return-Path: <SRS0=HzBI=SQ=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=TXFt=SR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75139C10F13
-	for <linux-usb@archiver.kernel.org>; Sun, 14 Apr 2019 21:52:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59D22C282CE
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 00:27:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3CB1420848
-	for <linux-usb@archiver.kernel.org>; Sun, 14 Apr 2019 21:52:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2450420850
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 00:27:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eotyTU2w"
+	dkim=pass (1024-bit key) header.d=Sony.onmicrosoft.com header.i=@Sony.onmicrosoft.com header.b="GuJpItaT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726159AbfDNVwG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 14 Apr 2019 17:52:06 -0400
-Received: from mail-io1-f48.google.com ([209.85.166.48]:40308 "EHLO
-        mail-io1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725797AbfDNVwF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Apr 2019 17:52:05 -0400
-Received: by mail-io1-f48.google.com with SMTP id d201so12993440iof.7
-        for <linux-usb@vger.kernel.org>; Sun, 14 Apr 2019 14:52:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=CW1A+9NsDigDiU4b9VQF1bLweuLfAMX81CzYcgOzo2U=;
-        b=eotyTU2w4Y/vxR4aKiJTdy8sZ3UnJwtY85R6Y0dEzbv28mKaHjrXz/FzjsEjSFYAZQ
-         nsrxCFSq5tHCwNgNmZz4qbSJxmKvigyHcPMDAP6W8GL2DZyHYuqeo1+6FrzaHD3vVrpf
-         THAeAjfeJVLeBSLsGdSQ6tGFagjJg6nJPNer9aEJudUHQ1WD2DKMbZwYLDY18oyl/usx
-         ZUAzozap7Rj7tvVYcGEKOAerr/tWbZ37Yln8BkzHiVhzOa1AdiOcmZwWUYjlRDDqgovV
-         rVvHeDbBGFVGmipHPYbEx8V8A2PeAcsctblv4TJGan05d0IFQIyN41JzhrAcC22iv3yC
-         Y9ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=CW1A+9NsDigDiU4b9VQF1bLweuLfAMX81CzYcgOzo2U=;
-        b=pK1ocdh+vR80PyxPMcujIeaVvb0IES7YwLhvFHMVHDMZSFtaCAgE0b6fBKTqaAAaB5
-         0EArkeswcYmnk9UZ3rYWvpdhmDlUXezZjihr01OgaJvxODywhboJFaIbC7erWw2yEMlG
-         t9POlacPjd2jLCkY9TjVtNYupHRLeoxfXD50ay5RxtmVEJiqm8hiO7hToPUSx2hhXfdA
-         53K+kGMYqEO7RTIj0DhUPuGB38qyoAJiUMGx+xExEzcKqOAn31lmqaA+LMBDUgsJcXnW
-         /BKasTRIWtvxW+6aoeW4Re/OVcKTQqIPaQKAWHGykWtkIxzg47wLDiC5vWMUTUa4gPK9
-         VV8g==
-X-Gm-Message-State: APjAAAWgX8KGsO6/s7I/DT7z/O8dPHGiTK3DkFUfDXKLB4Q94e9Daxay
-        PK12fpPEUDzDP9FY8SxzDck1mPh8Hczhue0RyF8=
-X-Google-Smtp-Source: APXvYqweZVDeiKM1USKyhPEXaAljj2nBaHYeDd0D6lG04H2/ldOsozO9uA6SC6pJS5sPNguyp/0hkL4Zot1Zb9OgQ0Y=
-X-Received: by 2002:a6b:c84e:: with SMTP id y75mr28086989iof.107.1555278724839;
- Sun, 14 Apr 2019 14:52:04 -0700 (PDT)
-MIME-Version: 1.0
-From:   Paul Zimmerman <pauldzim@gmail.com>
-Date:   Sun, 14 Apr 2019 14:51:39 -0700
-Message-ID: <CADBGO7-LHDTT2s2PCTMFmf1dOVyj_aYv5A2O04pbGWp+6K6utw@mail.gmail.com>
-Subject: Re: lan78xx: About 8000 usb interrupts per second when idle
-To:     Lukas Wunner <lukas@wunner.de>
-Cc:     Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Oliver Neukum <oneukum@suse.com>,
-        Minas Harutyunyan <minas.harutyunyan@synopsys.com>,
-        linux-usb@vger.kernel.org
+        id S1726178AbfDOA1x (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 14 Apr 2019 20:27:53 -0400
+Received: from mail-eopbgr750123.outbound.protection.outlook.com ([40.107.75.123]:20703
+        "EHLO NAM02-BL2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725795AbfDOA1w (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 14 Apr 2019 20:27:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Sony.onmicrosoft.com;
+ s=selector1-Sony-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZgAwppD5yICrzY8xg8UsrGia/T63ZzUOT8OEF1JOhhc=;
+ b=GuJpItaTOF1w2Ulo+QzbgmLSM+d9u3xrERsFLvjNi37wSScurHkn6fgZgQXkGIXHOvVeOaYmG5Dl4je17yBhSzmszKyo8zC2CVJ+tRvcvOn/jRV8Qkk4h5IWN1EvZ6TjkAaIhLxkTwHEyk4EiUlUWc7n1dS+5n+gVqSYoXL7e5E=
+Received: from BN6PR1301CA0025.namprd13.prod.outlook.com
+ (2603:10b6:405:29::38) by BN6PR13MB3121.namprd13.prod.outlook.com
+ (2603:10b6:405:7e::37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1813.9; Mon, 15 Apr
+ 2019 00:27:49 +0000
+Received: from SN1NAM02FT059.eop-nam02.prod.protection.outlook.com
+ (2a01:111:f400:7e44::207) by BN6PR1301CA0025.outlook.office365.com
+ (2603:10b6:405:29::38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1813.9 via Frontend
+ Transport; Mon, 15 Apr 2019 00:27:48 +0000
+Authentication-Results: spf=pass (sender IP is 117.103.190.44)
+ smtp.mailfrom=sony.com; lists.one-eyed-alien.net; dkim=none (message not
+ signed) header.d=none;lists.one-eyed-alien.net; dmarc=bestguesspass
+ action=none header.from=sony.com;
+Received-SPF: Pass (protection.outlook.com: domain of sony.com designates
+ 117.103.190.44 as permitted sender) receiver=protection.outlook.com;
+ client-ip=117.103.190.44; helo=jp.sony.com;
+Received: from jp.sony.com (117.103.190.44) by
+ SN1NAM02FT059.mail.protection.outlook.com (10.152.72.177) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.1771.16 via Frontend Transport; Mon, 15 Apr 2019 00:27:48 +0000
+Received: from JPYOKXHT107.jp.sony.com (117.103.191.54) by
+ JPYOKXEG104.jp.sony.com (117.103.190.44) with Microsoft SMTP Server (TLS) id
+ 14.3.439.0; Mon, 15 Apr 2019 00:27:44 +0000
+Received: from JPYOKXMS103.jp.sony.com ([169.254.3.121]) by
+ JPYOKXHT107.jp.sony.com ([117.103.191.54]) with mapi id 14.03.0439.000; Mon,
+ 15 Apr 2019 00:27:44 +0000
+From:   <Kento.A.Kobayashi@sony.com>
+To:     <stern@rowland.harvard.edu>, <bvanassche@acm.org>
+CC:     <martin.petersen@oracle.com>, <jejb@linux.ibm.com>,
+        <oneukum@suse.com>, <gregkh@linuxfoundation.org>,
+        <usb-storage@lists.one-eyed-alien.net>, <Jacky.Cao@sony.com>,
+        <linux-kernel@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>
+Subject: RE: [PATCH] usb: uas: fix usb subsystem hang after power off hub
+ port
+Thread-Topic: [PATCH] usb: uas: fix usb subsystem hang after power off hub
+ port
+Thread-Index: AdTVjvFIkAhaIt3DQTSj1OrTHxvrsgAQFLsAAIWEBcAAQQqsgAB7RvcAAgdcBTAAAJSpAACOr4UQABH/lYAA3G8Q4AAdt7kAAE4ci4AAIMlyAADXFiz8ABpB6wAAASSCgAADHJ6AAQuMo2A=
+Date:   Mon, 15 Apr 2019 00:27:43 +0000
+Message-ID: <AE5419EAB4965843B3C0C1FE29F1FFE5899C80@JPYOKXMS103.jp.sony.com>
+References: <1554823007.161891.6.camel@acm.org>
+ <Pine.LNX.4.44L0.1904091232370.1599-100000@iolanthe.rowland.org>
+In-Reply-To: <Pine.LNX.4.44L0.1904091232370.1599-100000@iolanthe.rowland.org>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [2001:cf8:1:539:0:dddd:1bac:d758]
 Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:117.103.190.44;IPV:NLI;CTRY:JP;EFV:NLI;SFV:NSPM;SFS:(10019020)(39860400002)(396003)(136003)(346002)(376002)(2980300002)(189003)(199004)(7416002)(37786003)(4744005)(5660300002)(23726003)(2906002)(72206003)(106466001)(14444005)(33656002)(55016002)(2876002)(478600001)(26005)(86152003)(97756001)(102836004)(55846006)(4326008)(6116002)(186003)(77096007)(16586007)(110136005)(54906003)(47776003)(316002)(50466002)(426003)(305945005)(8676002)(8936002)(76176011)(106002)(356004)(6246003)(7636002)(2171002)(86362001)(476003)(246002)(229853002)(336012)(46406003)(7696005)(7736002)(446003)(126002)(486006)(11346002);DIR:OUT;SFP:1102;SCL:1;SRVR:BN6PR13MB3121;H:jp.sony.com;FPR:;SPF:Pass;LANG:en;PTR:jpyokxeg104.jp.sony.com;MX:1;A:1;
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 87ff734f-bcab-427d-afa7-08d6c1393045
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600140)(711020)(4605104)(4709054)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:BN6PR13MB3121;
+X-MS-TrafficTypeDiagnostic: BN6PR13MB3121:
+X-Microsoft-Antispam-PRVS: <BN6PR13MB3121F32466B22BE8A165D03FC92B0@BN6PR13MB3121.namprd13.prod.outlook.com>
+X-Forefront-PRVS: 000800954F
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Message-Info: 0JWlszs4Lfwpjw61pARfDEEb7cwiQXvJVAsAHjys3dSM/koOqVmqzxOoD080dhTarT0Ekk15VveWEMBQtiYXCM966vLm4ZUS7rPD9IeKDrBsxhUPQdg4FMvu2k5qroL68+G1oOJgURwLcTUGdYWf+1d2qXYTf3TZ/HRRBVN4Ny1thcFecc5RiJYMvw3XGfZfFKLfPuYIiGSwXe251HiPfocEuC/qhiEkref/JZyciHznmBAargDXgXqtAWWRlsCuBPzOMqtAr9JzCIx0NpXh5RFz7qDVM0e5TrnJ2RdP65udZqMZF8eoZqyBOexP1aLq9fhJ0d+G2+kMoMKcrJYKp6QcL8x/1CIPCJuk51dsrn6SMf2yx3qE1tLAXIdq+BXFAvGZpnpgah4uCaNqvbJoRwOuAVtJX6NH21gnoyDePSI=
+X-OriginatorOrg: sony.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2019 00:27:48.1629
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87ff734f-bcab-427d-afa7-08d6c1393045
+X-MS-Exchange-CrossTenant-Id: 66c65d8a-9158-4521-a2d8-664963db48e4
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=66c65d8a-9158-4521-a2d8-664963db48e4;Ip=[117.103.190.44];Helo=[jp.sony.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR13MB3121
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190415002743.9BVuGR0zMIt8oxoRDG_XQqb1qeJ4zX1Y2pQNqZjXs5I@z>
 
-Lukas Wunner wrote:
-> On Tue, Apr 09, 2019 at 09:28:16AM +0000, Minas Harutyunyan wrote:
->> Am 09.04.19 um 08:54 schrieb Jisheng Zhang:
->>> The second one: 8000 usb interrupts per second when idle.
->>> This is abnormal. any idea? Is it due to the lan78xx?
->>
->> dwc2 in host mode enable SOF interrupts if any periodic EP are in use.
->> So, 8000 interrupts per second is expectant behavior.
+Hi
+
+>The unbind happens from inside the SCSI EH callback.  If that really is not allowed, we'll need to change it.  Or we can just change it regardless, since the effort required is pretty small.
 >
-> The dwc_otg driver patched into the Raspberry Pi Foundation's
-> kernel seems to make do with much fewer interrupts and much
-> lower CPU load.  How does it do that and how could dwc2 be
-> made to do the same?
+>Kento, please try the patch below.  Does it help with your problem?
 
-It connects an interrupt from the USB Phy to the FIQ (fast interrupt
-request) pin on the Arm CPU. The dwc2 driver could do the same, except
-I don't think the Linux kernel supports FIQ interrupts, so that would
-need to be added. It would also be unique to Arm and to the SOC that
-is used on the Pi.
+Thank you for suggestion about this problem.
+I confirmed your patch fixes this problem.
+I think you change policy for error handler to not calling unbind, right?
+In addition, I have a question about this patch.
+Could you please tell me why it should not be allowed that the unbind is occurred from eh callback?
 
-> Would it be possible for you to provide
-> me with documentation on the chip? The Synopsis website
-> requires registration for downloads and registration requires
-> a Synopsis customer ID.
+This patch will ignore all error which is returned from usb_reset_and_verify_device.
+But my patch will ignore error only being returned ENODEV case.
+I think side effect of your patch is bigger than my patch.
+So I want to know why the unbind is occurred from eh callback should not be allowed.
 
-It's highly unlikely that Minas can provide you with the databook if
-you are not a customer. I used to work for Synopsys and wrote the
-original dwc2 driver. The company's policy did not allow non-customers
-to be given the databook. But you can find a copy on the web from a
-couple of different sites, google for dwc_otg. In any case, it would
-not cover the FIQ method that is used in the Pi driver, you would
-probably need the Phy databook for that.
-
-> It seems the Foundation's dwc_otg driver was forked from code
-> that later begat dwc2.
-
-Yes, I ported dwc2 from the Synopsys dwc_otg driver. But the FIQ
-interrupt stuff was not part of the dwc_otg driver, it was added by
-the Raspberry Pi foundation guys specifically to work around problems
-on the Pi platform.
-
-HTH,
-Paul
+Regards,
+Kento Kobayashi
