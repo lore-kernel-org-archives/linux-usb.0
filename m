@@ -2,183 +2,188 @@ Return-Path: <SRS0=TXFt=SR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CE07C10F0E
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 12:09:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D53F8C10F0E
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 13:22:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 06DE92077C
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 12:09:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9D08E206BA
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 13:22:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WoPDMUDr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727393AbfDOMJq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Apr 2019 08:09:46 -0400
-Received: from mga12.intel.com ([192.55.52.136]:10510 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726042AbfDOMJq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 15 Apr 2019 08:09:46 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Apr 2019 05:09:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,353,1549958400"; 
-   d="scan'208";a="164850781"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 15 Apr 2019 05:09:44 -0700
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Ajay Gupta <ajayg@nvidia.com>, linux-usb@vger.kernel.org
-Subject: [PATCH v2 7/7] usb: typec: Add driver for NVIDIA Alt Modes
-Date:   Mon, 15 Apr 2019 15:09:31 +0300
-Message-Id: <20190415120931.61328-8-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190415120931.61328-1-heikki.krogerus@linux.intel.com>
-References: <20190415120931.61328-1-heikki.krogerus@linux.intel.com>
+        id S1727218AbfDONWW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Apr 2019 09:22:22 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:40555 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726095AbfDONWW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Apr 2019 09:22:22 -0400
+Received: by mail-pf1-f195.google.com with SMTP id c207so8589298pfc.7
+        for <linux-usb@vger.kernel.org>; Mon, 15 Apr 2019 06:22:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=k823784193+Wbwx+hkiLr5rxpPkmZThfRfkjHzlz5ew=;
+        b=WoPDMUDrxIi6ns6AGQphxLi58iaYeHsedZxvIc1tJ+ijbhTRJMOwgK8zg5DxpY1qRd
+         CVzsf4ESHAcSvwBz0Dib7W25gGTKh/gh/t+4VbF0y7mRZyOw5TucqpxOd4dBS2WmF6tq
+         ioQRLsDNql2ZP/Z2PQKQeXyMrCbBWN/WWPJsNONP4AV0BknHZKUNO1wtwNG8qQzN8gIT
+         rK1InhFABUgXFfwWloweZwLj21VChIfM3Ozgvw+rS3sxzOxpMLEkgo75Enf6QrXbMjcd
+         1fIuqp9bhGLRpKtpvMX6koeMTOkYNbi73xZQLbLVfKBgl+XL6KiFA6fae+0t/zPDs1au
+         jhzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=k823784193+Wbwx+hkiLr5rxpPkmZThfRfkjHzlz5ew=;
+        b=jN7eogvyFqKOyKNRPBGpZ/QITm8vP1qIncYAlQfyETxt9ohbEMJsui2kxlENQJKChE
+         uSwe8pl0XEXikC4Km3A/fQpxvuotSTisSnNlgBy93XAh1rwQTrJAWgnbKsto7lBhRWqo
+         QOAr5yo5j1P+McpUob30sL1Ceachz5vPS+ThQ2vhKb7mhOALP60aYbNFk55YJ84N4aUL
+         bTgRBc+XrodtjfsCOG6WQa9xmwFyhCPLPtX/VHJyyB8gkx6mQZAxk7Z4excI5hLThQwV
+         N++OI7aC6wLGZDXZ8yeqcdt9BvQreb02BErVgX7uLCLGuNkwUn5ZqBJu6KnJeSdcHb1+
+         N9aA==
+X-Gm-Message-State: APjAAAWcZR665YnWQ3uTZo/23E9Urxsr96xku50HAPUCWXg1MLImPCwm
+        gULosjKHeLjkDyyN2hAwvVaLo5so
+X-Google-Smtp-Source: APXvYqw8tTm8lh66z+j3Vo4R5m/+d1e09FqZ2wLjJRK4hfGboJ7PCr/Fjh1E8FlH8HejO2fd3LhpXQ==
+X-Received: by 2002:a63:ef09:: with SMTP id u9mr70420922pgh.126.1555334541164;
+        Mon, 15 Apr 2019 06:22:21 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id a72sm41512702pge.0.2019.04.15.06.22.20
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 15 Apr 2019 06:22:20 -0700 (PDT)
+Subject: Re: [PATCH 1/3] usb: typec: tcpm: Add start_srp_connection_detect
+ callback
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Kyle Tso <kyletso@google.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+References: <20190413203955.10788-1-hdegoede@redhat.com>
+ <AM5PR1001MB0994B21356503AC1041171E7802B0@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
+ <5bf45d6e-3b72-4b99-b05d-54fe96d11a48@redhat.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <9b13f77a-300b-0f20-4903-f71538d9c38d@roeck-us.net>
+Date:   Mon, 15 Apr 2019 06:22:19 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
+In-Reply-To: <5bf45d6e-3b72-4b99-b05d-54fe96d11a48@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format="flowed"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190415120931.hYQM-bInc4D78HhCi7cis_8hx_28_sbfPkDmPUo9tHg@z>
+Message-ID: <20190415132219.u90aXXyU2FIVYcvnK9UkvzrtvstHg8x6ZE_87DjYqUc@z>
 
-From: Ajay Gupta <ajayg@nvidia.com>
+On 4/15/19 3:37 AM, Hans de Goede wrote:
+> Hi,
+> 
+> On 15-04-19 12:31, Adam Thomson wrote:
+>> On 13 April 2019 21:40, Hans de Goede wrote:
+>>
+>>> Some tcpc device-drivers need to explicitly be told to watch for connection
+>>> events, otherwise the tcpc will not generate any TCPM_CC_EVENTs and devices
+>>> being plugged into the Type-C port will not be noticed.
+>>>
+>>> For dual-role ports tcpm_start_drp_toggling() is used to tell the tcpc to watch for
+>>> connection events. But for single-role ports we've so far been falling back to just
+>>> calling tcpm_set_cc(). For some tcpc-s such as the
+>>> fusb302 this is not enough and no TCPM_CC_EVENT will be generated.
+>>>
+>>> This commit adds a new start_srp_connection_detect callback to tcpc_dev and
+>>> when this is implemented calls this in place of start_drp_toggling for SRP devices.
+>>>
+>>> Fixes: ea3b4d5523bc("usb: typec: fusb302: Resolve fixed power role ...")
+>>> Cc: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
+>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>>> ---
+>>>   drivers/usb/typec/tcpm/tcpm.c | 8 ++++++++
+>>>   include/linux/usb/tcpm.h      | 6 ++++++
+>>>   2 files changed, 14 insertions(+)
+>>>
+>>> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+>>> index a2233d72ae7c..1af54af90b50 100644
+>>> --- a/drivers/usb/typec/tcpm/tcpm.c
+>>> +++ b/drivers/usb/typec/tcpm/tcpm.c
+>>> @@ -2553,6 +2553,14 @@ static bool tcpm_start_drp_toggling(struct tcpm_port
+>>> *port,
+>>>               return true;
+>>>       }
+>>>
+>>> +    if (port->tcpc->start_srp_connection_detect &&
+>>> +        port->port_type != TYPEC_PORT_DRP) {
+>>> +        tcpm_log_force(port, "Start SRP connection detection");
+>>> +        ret = port->tcpc->start_srp_connection_detect(port->tcpc, cc);
+>>> +        if (!ret)
+>>> +            return true;
+>>> +    }
+>>> +
+>>
+>> Is it a little misleading when reading the state machine code that we're calling
+>> tcpm_start_drp_toggling() to actually start SRP detection? Maybe we could rename
+>> this function and the associated state to cover both SRP and DRP, or
+>> alternatively add a new state for SRP_DETECTION, just to keep logging and code
+>> readability clear and then move the above code to a different function just for
+>> SRP?
+> 
+> I'm not in fan of adding a separate state for this. Even though connection
+> detection is not really toggling, I've considered changing
+> tcpm_start_drp_toggling to tcpm_start_toggling and rename the state to match.
+> I think that if we want to drop drp/DRP from the names, that using
+> tcpm_start_toggling / TOGGLING is the best solution.
+> 
+> Also note that on the fusb302, which is the tcpc which needs SRP connection
+> detection, this is done using the toggling engine. So just changing the
+> names from drp-toggling to toggling seems best.
+> 
+Agreed.
 
-Latest NVIDIA GPUs support VirtualLink device. Since USBIF
-has not assigned a Standard ID (SID) for VirtualLink
-so using NVIDA VID 0x955 as SVID.
+Guenter
 
-Signed-off-by: Ajay Gupta <ajayg@nvidia.com>
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
- drivers/usb/typec/altmodes/Kconfig  | 10 +++++++
- drivers/usb/typec/altmodes/Makefile |  2 ++
- drivers/usb/typec/altmodes/nvidia.c | 44 +++++++++++++++++++++++++++++
- drivers/usb/typec/ucsi/ucsi.c       |  4 ++-
- include/linux/usb/typec_dp.h        |  5 ++++
- 5 files changed, 64 insertions(+), 1 deletion(-)
- create mode 100644 drivers/usb/typec/altmodes/nvidia.c
-
-diff --git a/drivers/usb/typec/altmodes/Kconfig b/drivers/usb/typec/altmodes/Kconfig
-index ef2226eb7a33..187690fd1a5b 100644
---- a/drivers/usb/typec/altmodes/Kconfig
-+++ b/drivers/usb/typec/altmodes/Kconfig
-@@ -12,4 +12,14 @@ config TYPEC_DP_ALTMODE
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called typec_displayport.
- 
-+config TYPEC_NVIDIA_ALTMODE
-+	tristate "NVIDIA Alternate Mode driver"
-+	depends on TYPEC_DP_ALTMODE
-+	help
-+	  Latest NVIDIA GPUs support VirtualLink devices. Select this
-+	  to enable support for VirtualLink devices with NVIDIA GPUs.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called typec_displayport.
-+
- endmenu
-diff --git a/drivers/usb/typec/altmodes/Makefile b/drivers/usb/typec/altmodes/Makefile
-index eda8456f1c92..45717548b396 100644
---- a/drivers/usb/typec/altmodes/Makefile
-+++ b/drivers/usb/typec/altmodes/Makefile
-@@ -2,3 +2,5 @@
- 
- obj-$(CONFIG_TYPEC_DP_ALTMODE)		+= typec_displayport.o
- typec_displayport-y			:= displayport.o
-+obj-$(CONFIG_TYPEC_NVIDIA_ALTMODE)	+= typec_nvidia.o
-+typec_nvidia-y				:= nvidia.o
-diff --git a/drivers/usb/typec/altmodes/nvidia.c b/drivers/usb/typec/altmodes/nvidia.c
-new file mode 100644
-index 000000000000..c36769736405
---- /dev/null
-+++ b/drivers/usb/typec/altmodes/nvidia.c
-@@ -0,0 +1,44 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2019 NVIDIA Corporation. All rights reserved.
-+ *
-+ * NVIDIA USB Type-C Alt Mode Driver
-+ */
-+#include <linux/module.h>
-+#include <linux/usb/typec_altmode.h>
-+#include <linux/usb/typec_dp.h>
-+#include "displayport.h"
-+
-+static int nvidia_altmode_probe(struct typec_altmode *alt)
-+{
-+	if (alt->svid == USB_TYPEC_NVIDIA_VLINK_SID)
-+		return dp_altmode_probe(alt);
-+	else
-+		return -ENOTSUPP;
-+}
-+
-+static void nvidia_altmode_remove(struct typec_altmode *alt)
-+{
-+	if (alt->svid == USB_TYPEC_NVIDIA_VLINK_SID)
-+		dp_altmode_remove(alt);
-+}
-+
-+static const struct typec_device_id nvidia_typec_id[] = {
-+	{ USB_TYPEC_NVIDIA_VLINK_SID, TYPEC_ANY_MODE },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(typec, nvidia_typec_id);
-+
-+static struct typec_altmode_driver nvidia_altmode_driver = {
-+	.id_table = nvidia_typec_id,
-+	.probe = nvidia_altmode_probe,
-+	.remove = nvidia_altmode_remove,
-+	.driver = {
-+		.name = "typec_nvidia",
-+		.owner = THIS_MODULE,
-+	},
-+};
-+module_typec_altmode_driver(nvidia_altmode_driver);
-+
-+MODULE_LICENSE("GPL v2");
-+MODULE_DESCRIPTION("NVIDIA USB Type-C Alt Mode Driver");
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 22fb956687de..999ae50d6e49 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -310,6 +310,7 @@ static int ucsi_register_altmode(struct ucsi_connector *con,
- 
- 		switch (desc->svid) {
- 		case USB_TYPEC_DP_SID:
-+		case USB_TYPEC_NVIDIA_VLINK_SID:
- 			alt = ucsi_register_displayport(con, override, i, desc);
- 			break;
- 		default:
-@@ -428,7 +429,8 @@ static void ucsi_unregister_altmodes(struct ucsi_connector *con, u8 recipient)
- 
- 	while (adev[i]) {
- 		if (recipient == UCSI_RECIPIENT_SOP &&
--		    adev[i]->svid == USB_TYPEC_DP_SID) {
-+		    (adev[i]->svid == USB_TYPEC_DP_SID ||
-+			adev[i]->svid == USB_TYPEC_NVIDIA_VLINK_SID)) {
- 			pdev = typec_altmode_get_partner(adev[i]);
- 			ucsi_displayport_remove_partner((void *)pdev);
- 		}
-diff --git a/include/linux/usb/typec_dp.h b/include/linux/usb/typec_dp.h
-index 7fa12ef8d09a..fc4c7edb2e8a 100644
---- a/include/linux/usb/typec_dp.h
-+++ b/include/linux/usb/typec_dp.h
-@@ -5,6 +5,11 @@
- #include <linux/usb/typec_altmode.h>
- 
- #define USB_TYPEC_DP_SID	0xff01
-+/* USB IF has not assigned a Standard ID (SID) for VirtualLink,
-+ * so the manufacturers of VirtualLink adapters use their Vendor
-+ * IDs as the SVID.
-+ */
-+#define USB_TYPEC_NVIDIA_VLINK_SID	0x955	/* NVIDIA VirtualLink */
- #define USB_TYPEC_DP_MODE	1
- 
- /*
--- 
-2.20.1
+> Regards,
+> 
+> Hans
+> 
+> 
+> 
+>>
+>> Functionally though, the change makes sense to me.
+>>
+>>>       return false;
+>>>   }
+>>>
+>>> diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h index
+>>> 0c532ca3f079..bf2bbbf2e2b2 100644
+>>> --- a/include/linux/usb/tcpm.h
+>>> +++ b/include/linux/usb/tcpm.h
+>>> @@ -125,6 +125,10 @@ struct tcpc_config {
+>>>    *        Optional; if supported by hardware, called to start DRP
+>>>    *        toggling. DRP toggling is stopped automatically if
+>>>    *        a connection is established.
+>>> + * @start_srp_connection_detect:
+>>> + *        Optional; if supported by hardware, called to start connection
+>>> + *        detection for single role ports. Connection detection is stopped
+>>> + *        automatically if a connection is established.
+>>>    * @try_role:    Optional; called to set a preferred role
+>>>    * @pd_transmit:Called to transmit PD message
+>>>    * @mux:    Pointer to multiplexer data
+>>> @@ -149,6 +153,8 @@ struct tcpc_dev {
+>>>                enum typec_role role, enum typec_data_role data);
+>>>       int (*start_drp_toggling)(struct tcpc_dev *dev,
+>>>                     enum typec_cc_status cc);
+>>> +    int (*start_srp_connection_detect)(struct tcpc_dev *dev,
+>>> +                       enum typec_cc_status cc);
+>>>       int (*try_role)(struct tcpc_dev *dev, int role);
+>>>       int (*pd_transmit)(struct tcpc_dev *dev, enum tcpm_transmit_type
+>>> type,
+>>>                  const struct pd_message *msg);
+>>> -- 
+>>> 2.21.0
+> 
 
