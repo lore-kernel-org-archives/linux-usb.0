@@ -2,157 +2,170 @@ Return-Path: <SRS0=TXFt=SR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4251FC10F0E
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 06:55:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABF40C10F0E
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 07:58:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0BF0120693
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 06:55:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E1D520833
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 07:58:55 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="LMpsI7NV";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.onmicrosoft.com header.i=@synopsys.onmicrosoft.com header.b="wki7thKM"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726047AbfDOGzG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Apr 2019 02:55:06 -0400
-Received: from mail-it1-f200.google.com ([209.85.166.200]:56038 "EHLO
-        mail-it1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725798AbfDOGzG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Apr 2019 02:55:06 -0400
-Received: by mail-it1-f200.google.com with SMTP id g184so15531526ita.5
-        for <linux-usb@vger.kernel.org>; Sun, 14 Apr 2019 23:55:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=ZemaBQEK2j6NfWyJ+bikcyU88hEbBD2R/oNX89YYc68=;
-        b=Tso30XJOxQ0zIS/XyiK4K/tiIau0VOvOOsgc0CBXz5pOwnGPduVQ/VjEVbG/SLWv6L
-         JEkVHhroVpYNabq2a10Ou5Wk0vX4jlQBWARagDoxuAMb8GbabW5jhA+OaTTVFhckyL63
-         G9oaWhIXW6mxPJ+HEBx78sP7eYPACzNVH9lqrIl3p5DlljTBaN2qk2m9S4x1V0ADrFdr
-         rb3MzxZ7bvGIwwv7kZrVgGXppPIOVWAFCebzfASffivRI9h5mqLrfkn14sc0OkxeyG9A
-         PogXNcC6RFvZPmXMHb+3wGvbKrHMImAzlRx7kQB13Tvp2Omtaa/CADxmmlsrTbV2MRqi
-         IrNw==
-X-Gm-Message-State: APjAAAWi0GyaQLRNtp5Bii7KXvurBUQ1dKU+aXJx0emwIZzPIF/yb20F
-        F0k+R3Y+9HXew2t2PKKHw3elXAA7bSIXLan0kWf+aGNaFuvR
-X-Google-Smtp-Source: APXvYqxxc3P7WiRN6Gw3NuJf9fjKIgqME5N9ryQO8gQ3sNMCmNB693eydNjSwlcXyk6SCQXbtXHGyr9sVssLcDffToMpyqpgjWIy
+        id S1726095AbfDOH6y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Apr 2019 03:58:54 -0400
+Received: from us01smtprelay-2.synopsys.com ([198.182.60.111]:56992 "EHLO
+        smtprelay.synopsys.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725796AbfDOH6y (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Apr 2019 03:58:54 -0400
+Received: from mailhost.synopsys.com (dc2-mailhost2.synopsys.com [10.12.135.162])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay.synopsys.com (Postfix) with ESMTPS id 9434110C2A47;
+        Mon, 15 Apr 2019 00:58:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1555315133; bh=YaX9I1Av+AzYSmHWebZ3CcqRtzBOMZ62OruGTRpooY4=;
+        h=From:To:CC:Subject:Date:References:From;
+        b=LMpsI7NViAbBZy6lV3ky0ReHbXy3NS8X8j/C8boznGHHh0OA4kEPq5WJom+k7ob5P
+         gwpuTTx+qfke71ue09I71LxhCv9eSZGr+FvpuXzc8En1tM387dZvZ7IAaiHU9jcXhZ
+         X8Y8VNU2y40DPK0X97YNjYy+0jKLOLRFsKdz5N3HJ2KhraKk4zglkU6QmxwGKIxF9i
+         wphI73ta2A+GWslfTGh9qmGd9zSWHEHE2UBOCNnNWrwQ0v7on7uwY5E7uClV3YBcfC
+         EHvtnHNPYlwDI1ACKm4iIxcTdUjssBSYGX1dPQnyR96qkzfDderbIY4PtidhDetNsa
+         bPvovyeOuyMVg==
+Received: from US01WXQAHTC1.internal.synopsys.com (us01wxqahtc1.internal.synopsys.com [10.12.238.230])
+        (using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPS id D9096A00A8;
+        Mon, 15 Apr 2019 07:58:52 +0000 (UTC)
+Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
+ US01WXQAHTC1.internal.synopsys.com (10.12.238.230) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Mon, 15 Apr 2019 00:58:52 -0700
+Received: from NAM03-BY2-obe.outbound.protection.outlook.com (10.13.134.195)
+ by mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Mon, 15 Apr 2019 00:58:52 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=synopsys.onmicrosoft.com; s=selector1-synopsys-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XbuEnb+urs8AkayMvUrzlRzMNICsgb+hDP4ELNjJ/VQ=;
+ b=wki7thKMGyLpDNse3Ed9liTYa9sViiZiZPEFMZkpRaNu4ISYi5POjBedGfk5fz9gxBJ1pCh9fiMDU3XqojtO6BBYeAoD9dGzr6rJ/brki0ErKgy9v1S4861azddmKgjUWZQBG/K2mVbls9vHW7GRfFnYitxMqzJXL78CG9b+Cg8=
+Received: from SN1PR12MB2431.namprd12.prod.outlook.com (52.132.195.146) by
+ SN1PR12MB2352.namprd12.prod.outlook.com (52.132.194.141) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1792.19; Mon, 15 Apr 2019 07:58:50 +0000
+Received: from SN1PR12MB2431.namprd12.prod.outlook.com
+ ([fe80::5ca6:ee5f:1147:df5a]) by SN1PR12MB2431.namprd12.prod.outlook.com
+ ([fe80::5ca6:ee5f:1147:df5a%4]) with mapi id 15.20.1792.018; Mon, 15 Apr 2019
+ 07:58:50 +0000
+From:   Artur Petrosyan <arthur.petrosyan@synopsys.com>
+To:     Jules Maselbas <jmaselbas@kalray.eu>,
+        Artur Petrosyan <arthur.petrosyan@synopsys.com>
+CC:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Minas Harutyunyan <minas.harutyunyan@synopsys.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        John Youn <john.youn@synopsys.com>
+Subject: Re: [PATCH 03/14] usb: dwc2: Fix wakeup detected and session request
+ interrupt handlers.
+Thread-Topic: [PATCH 03/14] usb: dwc2: Fix wakeup detected and session request
+ interrupt handlers.
+Thread-Index: AQHU8TUTrNB2kRZJNkiYNB9jBPLdtw==
+Date:   Mon, 15 Apr 2019 07:58:50 +0000
+Message-ID:
+ <SN1PR12MB24312BEEBE4CDE8196D117BAA72B0@SN1PR12MB2431.namprd12.prod.outlook.com>
+References: <cover.1555075927.git.arturp@synopsys.com>
+ <8f99e3ceb45ede4526363bd9b44d417a6b6ff5cd.1555075928.git.arturp@synopsys.com>
+ <20190412142044.e3lojhrhpwe3d7pe@tellis.lin.mbt.kalray.eu>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=arturp@synopsys.com; 
+x-originating-ip: [46.162.196.54]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ab8d9109-cd1f-481d-7298-08d6c17832a0
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600140)(711020)(4605104)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:SN1PR12MB2352;
+x-ms-traffictypediagnostic: SN1PR12MB2352:
+x-microsoft-antispam-prvs: <SN1PR12MB235299352CD5BAC43FDC6A4AA72B0@SN1PR12MB2352.namprd12.prod.outlook.com>
+x-forefront-prvs: 000800954F
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(396003)(39830400003)(376002)(136003)(346002)(199004)(189003)(86362001)(186003)(106356001)(53546011)(102836004)(26005)(76176011)(105586002)(486006)(25786009)(97736004)(446003)(14454004)(7696005)(74316002)(5660300002)(476003)(6506007)(478600001)(6246003)(2906002)(107886003)(8936002)(81166006)(81156014)(8676002)(53936002)(66066001)(9686003)(52536014)(6436002)(6116002)(3846002)(54906003)(7736002)(305945005)(33656002)(4326008)(68736007)(229853002)(71190400001)(14444005)(71200400001)(256004)(316002)(99286004)(55016002)(110136005);DIR:OUT;SFP:1102;SCL:1;SRVR:SN1PR12MB2352;H:SN1PR12MB2431.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: synopsys.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 1v31rCjIyHJwd+ABGnuQiAVcpyj0MbzimYExPmGG6VTFdX7z94HwxwmMksHRxnjl3TZaM2nB9LwbkJtcvthXBrtf2W9fhjekiO7J18BEq4Innp2+VK7VgAX1s02+Yf8ck3pqQIkbyZzcgYptIW3DEEk+Xx0Ei0QPJPLuBq1lmWbzu0NyROQ4raT/HMxFdoWHdVjc2GXcVqmoyaSaxuCFwHm6HWBkoSJgFkwwfbIJYtHUpWaqJBXFH6tQmsxuRGUhbUPKLQoqgedPm/T9CL82fTvdtsE/Ry8qc6+rn4G87462fMzYIjw0doxv5F0Tg0Il108GKMcGVqFMJAwRFBnBLC1a8Wb2wxMl+YrbJHGnQgbTGu+GmbwmYC2N+UocQyRR28NtZhvP/FgH2j9w5hcKs1VYyDPnKT24UMlNdrQmUHQ=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Received: by 2002:a5d:8c8f:: with SMTP id g15mr721488ion.36.1555311305158;
- Sun, 14 Apr 2019 23:55:05 -0700 (PDT)
-Date:   Sun, 14 Apr 2019 23:55:05 -0700
-In-Reply-To: <0000000000008706a1058653d950@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000dbf5a105868c21c7@google.com>
-Subject: Re: WARNING: proc registration bug in snd_info_register
-From:   syzbot <syzbot+4d729bd9da724d0282dd@syzkaller.appspotmail.com>
-To:     alsa-devel-owner@alsa-project.org, alsa-devel@alsa-project.org,
-        andreyknvl@google.com, joe@perches.com,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        perex@perex.cz, syzkaller-bugs@googlegroups.com, tiwai@suse.com,
-        vkoul@kernel.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab8d9109-cd1f-481d-7298-08d6c17832a0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Apr 2019 07:58:50.8285
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2352
+X-OriginatorOrg: synopsys.com
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190415075850.dfon6cvLKR61M6rqasJljFolFFstzGapGdOpKJXNnuk@z>
 
-syzbot has found a reproducer for the following crash on:
-
-HEAD commit:    9a33b369 usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=147d659f200000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
-dashboard link: https://syzkaller.appspot.com/bug?extid=4d729bd9da724d0282dd
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=144ab07b200000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1559d1e3200000
-
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+4d729bd9da724d0282dd@syzkaller.appspotmail.com
-
-snd_usb_toneport 1-1:0.0: Line 6 POD Studio UX2 now attached
-usb 1-1: USB disconnect, device number 11
-snd_usb_toneport 5-1:0.0: read request failed (error -110)
-------------[ cut here ]------------
-proc_dir_entry 'asound/card4' already registered
-WARNING: CPU: 0 PID: 5572 at fs/proc/generic.c:359  
-proc_register+0x3d9/0x550 fs/proc/generic.c:359
-Kernel panic - not syncing: panic_on_warn set ...
-CPU: 0 PID: 5572 Comm: kworker/0:2 Not tainted 5.1.0-rc4-319354-g9a33b36 #3
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-usb 2-1: Using ep0 maxpacket: 8
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xe8/0x16e lib/dump_stack.c:113
-  panic+0x29d/0x5f2 kernel/panic.c:214
-usb 3-1: Using ep0 maxpacket: 8
-  __warn.cold+0x20/0x48 kernel/panic.c:571
-  report_bug+0x262/0x2a0 lib/bug.c:186
-  fixup_bug arch/x86/kernel/traps.c:179 [inline]
-  fixup_bug arch/x86/kernel/traps.c:174 [inline]
-  do_error_trap+0x130/0x1f0 arch/x86/kernel/traps.c:272
-  do_invalid_op+0x37/0x40 arch/x86/kernel/traps.c:291
-snd_usb_toneport 5-1:0.0: read request failed (error -110)
-  invalid_op+0x14/0x20 arch/x86/entry/entry_64.S:973
-RIP: 0010:proc_register+0x3d9/0x550 fs/proc/generic.c:359
-Code: ff df 48 89 f9 48 c1 e9 03 80 3c 01 00 0f 85 61 01 00 00 48 8b 04 24  
-48 c7 c7 e0 a0 79 8e 48 8b b0 d0 00 00 00 e8 a7 9e 71 ff <0f> 0b 48 c7 c7  
-a0 90 91 91 e8 b9 10 34 0c 48 8b 4c 24 28 48 b8 00
-RSP: 0018:ffff88809176f040 EFLAGS: 00010282
-RAX: 0000000000000000 RBX: ffff88809cf2f700 RCX: 0000000000000000
-usb 2-1: config 0 interface 0 has no altsetting 0
-RDX: 0000000000000000 RSI: ffffffff815b1e42 RDI: ffffed10122eddfa
-RBP: ffff8880a00f3140 R08: ffff88809738e200 R09: ffffed1015a03edb
-R10: ffffed1015a03eda R11: ffff8880ad01f6d7 R12: 0000000000000000
-R13: dffffc0000000000 R14: ffff8880933340b8 R15: 0000000000000005
-  proc_mkdir_data+0x17b/0x230 fs/proc/generic.c:475
-usb 2-1: New USB device found, idVendor=0e41, idProduct=4151,  
-bcdDevice=7a.8f
-  __snd_info_register sound/core/info.c:814 [inline]
-  snd_info_register+0x2f8/0x3e0 sound/core/info.c:854
-  create_subdir+0x69/0xa0 sound/core/info.c:458
-  snd_info_card_create+0xcf/0x230 sound/core/info.c:528
-  snd_card_new+0x61d/0x920 sound/core/init.c:255
-  line6_probe+0x135/0x1150 sound/usb/line6/driver.c:736
-usb 2-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-  usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
-usb 2-1: config 0 descriptor??
-  really_probe+0x2da/0xb10 drivers/base/dd.c:509
-  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
-  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
-  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
-  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
-  device_add+0xad2/0x16e0 drivers/base/core.c:2106
-usb 3-1: config 0 interface 0 has no altsetting 0
-  usb_set_configuration+0xdf7/0x1740 drivers/usb/core/message.c:2021
-  generic_probe+0xa2/0xda drivers/usb/core/generic.c:210
-usb 3-1: New USB device found, idVendor=0e41, idProduct=4151,  
-bcdDevice=7a.8f
-  usb_probe_device+0xc0/0x150 drivers/usb/core/driver.c:266
-  really_probe+0x2da/0xb10 drivers/base/dd.c:509
-  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
-  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
-  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
-usb 3-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-snd_usb_toneport 5-1:0.0: write request failed (error -110)
-  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
-  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
-usb 3-1: config 0 descriptor??
-  device_add+0xad2/0x16e0 drivers/base/core.c:2106
-usb 5-1: send failed (error -110)
-  usb_new_device.cold+0x537/0xccf drivers/usb/core/hub.c:2534
-  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0x138e/0x3b00 drivers/usb/core/hub.c:5432
-  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
-usb 5-1: send failed (error -110)
-  process_scheduled_works kernel/workqueue.c:2331 [inline]
-  worker_thread+0x7b0/0xe20 kernel/workqueue.c:2417
-  kthread+0x313/0x420 kernel/kthread.c:253
-  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
-
+Hi Jules,=0A=
+=0A=
+On 4/12/2019 18:21, Jules Maselbas wrote:=0A=
+> Hi Artur,=0A=
+> =0A=
+> On Fri, Apr 12, 2019 at 01:38:56PM +0000, Artur Petrosyan wrote:=0A=
+>> In host mode port power must be turned on when wakeup=0A=
+>> detected or session request interrupt is detected.=0A=
+>> Because, otherwise core wouldn't exit form partial=0A=
+>> power down.=0A=
+>>=0A=
+>> - Turned on the port power by setting HPRT0_PWR bit.=0A=
+>>=0A=
+>> - Called dwc2_hcd_connect() function after enabling=0A=
+>>    the power of the port.=0A=
+>>=0A=
+>> Signed-off-by: Artur Petrosyan <arturp@synopsys.com>=0A=
+>> ---=0A=
+>>   drivers/usb/dwc2/core_intr.c | 24 +++++++++++++++++++++---=0A=
+>>   1 file changed, 21 insertions(+), 3 deletions(-)=0A=
+>>=0A=
+>> diff --git a/drivers/usb/dwc2/core_intr.c b/drivers/usb/dwc2/core_intr.c=
+=0A=
+>> index 19ae2595f1c3..ce523fd2b1b4 100644=0A=
+>> --- a/drivers/usb/dwc2/core_intr.c=0A=
+>> +++ b/drivers/usb/dwc2/core_intr.c=0A=
+>> @@ -312,6 +312,7 @@ static void dwc2_handle_conn_id_status_change_intr(s=
+truct dwc2_hsotg *hsotg)=0A=
+>>   static void dwc2_handle_session_req_intr(struct dwc2_hsotg *hsotg)=0A=
+>>   {=0A=
+>>   	int ret;=0A=
+>> +	u32 hprt0;=0A=
+>>   =0A=
+>>   	/* Clear interrupt */=0A=
+>>   	dwc2_writel(hsotg, GINTSTS_SESSREQINT, GINTSTS);=0A=
+>> @@ -320,7 +321,8 @@ static void dwc2_handle_session_req_intr(struct dwc2=
+_hsotg *hsotg)=0A=
+>>   		hsotg->lx_state);=0A=
+>>   =0A=
+>>   	if (dwc2_is_device_mode(hsotg)) {=0A=
+>> -		if (hsotg->lx_state =3D=3D DWC2_L2) {=0A=
+>> +		if (hsotg->lx_state =3D=3D DWC2_L2 &&=0A=
+>> +		    hsotg->params.power_down =3D=3D 1) {=0A=
+> I think you can replace 1 with DWC2_POWER_DOWN_PARAM_PARTIAL.=0A=
+=0A=
+Thank you for the review. Yeah, you are right it should be updated.=0A=
+=0A=
+> =0A=
+> [snip]=0A=
+> =0A=
+> ---=0A=
+> Best,=0A=
+> Jules=0A=
+> =0A=
+> =0A=
+=0A=
