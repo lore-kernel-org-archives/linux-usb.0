@@ -2,114 +2,105 @@ Return-Path: <SRS0=TXFt=SR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.9 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39D21C282DA
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 11:12:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B579C10F0E
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 12:09:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 15B2820880
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 11:12:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 60CFB2075B
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 12:09:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727311AbfDOLMk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Apr 2019 07:12:40 -0400
-Received: from mx2.suse.de ([195.135.220.15]:42172 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726298AbfDOLMj (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 15 Apr 2019 07:12:39 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 00DD0B05E;
-        Mon, 15 Apr 2019 11:12:37 +0000 (UTC)
-Message-ID: <1555326745.13626.10.camel@suse.com>
-Subject: Re: KASAN: use-after-free Read in dvb_usb_device_exit
-From:   Oliver Neukum <oneukum@suse.com>
-To:     syzbot <syzbot+26ec41e9f788b3eba396@syzkaller.appspotmail.com>,
-        andreyknvl@google.com, syzkaller-bugs@googlegroups.com,
-        mchehab@kernel.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org
-Date:   Mon, 15 Apr 2019 13:12:25 +0200
-In-Reply-To: <000000000000789d3d058653d9bb@google.com>
-References: <000000000000789d3d058653d9bb@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1727117AbfDOMJe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Apr 2019 08:09:34 -0400
+Received: from mga12.intel.com ([192.55.52.136]:10510 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726095AbfDOMJd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 15 Apr 2019 08:09:33 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Apr 2019 05:09:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,353,1549958400"; 
+   d="scan'208";a="164850768"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 15 Apr 2019 05:09:32 -0700
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Ajay Gupta <ajayg@nvidia.com>, linux-usb@vger.kernel.org
+Subject: [PATCH v2 0/7] usb: typec: Remaining changes for v5.2
+Date:   Mon, 15 Apr 2019 15:09:24 +0300
+Message-Id: <20190415120931.61328-1-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190415111225.77bO4ccF1T_620IQZVA4dNb7oJruraKWqsrUeZFlVMU@z>
 
-On Fr, 2019-04-12 at 04:46 -0700, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following crash on:
-> 
-> HEAD commit:    9a33b369 usb-fuzzer: main usb gadget fuzzer driver
-> git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-> console output: https://syzkaller.appspot.com/x/log.txt?x=1643974b200000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
-> dashboard link: https://syzkaller.appspot.com/bug?extid=26ec41e9f788b3eba396
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12f5efa7200000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1395a0f3200000
-> 
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+26ec41e9f788b3eba396@syzkaller.appspotmail.com
-> 
-> dvb-usb: schedule remote query interval to 150 msecs.
-> dw2102: su3000_power_ctrl: 0, initialized 1
-> dvb-usb: TeVii S421 PCI successfully initialized and connected.
-> usb 1-1: USB disconnect, device number 2
+Hi Greg,
 
-Hi,
+This is the second version of this series. The sparse warning, that
+was the only issue with the first version, is now fixed. The fix was
+made by adding the first patch ("i2c: nvidia-gpu: Supply CCGx driver
+the fw build info"). It add a device property for the CCGx device
+that the CCGx driver can use to identify the required firmware build.
 
-proposed fix. If nobody objects, I will submit it.
+I also decided to include two extra patches from Ajay where NVIDIA
+probing driver is added for the DisplayPort alternate mode:
+https://www.spinics.net/lists/linux-usb/msg178847.html
 
-	Regards
-		Oliver
+v1 commit message:
 
-From d6097d205ac61745334b79639d3b8b910ae66c71 Mon Sep 17 00:00:00 2001
-From: Oliver Neukum <oneukum@suse.com>
-Date: Mon, 15 Apr 2019 13:06:01 +0200
-Subject: [PATCH] dvb: usb: fix use after free in dvb_usb_device_exit
+Here are the remaining patches from me and Ajay for the UCSI driver. I
+took the liberty of collecting them for you, and resending everything
+together.
 
-dvb_usb_device_exit() frees and uses teh device name in that order
-Fix by storing the name in a buffer before freeing it
+There are two patches from Ajay adding support for firmware upgrading
+with the Cypress CCGx controllers [1], and two patches from me
+enabling DisplayPort alt mode with the UCSI driver [2].
 
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
-Reported-by: syzbot+26ec41e9f788b3eba396@syzkaller.appspotmail.com
----
- drivers/media/usb/dvb-usb/dvb-usb-init.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+[1] https://marc.info/?l=linux-usb&m=154957412422108&w=2
+[2] https://www.spinics.net/lists/linux-usb/msg178192.html
 
-diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
-index 99951e02a880..2e1670cc3903 100644
---- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
-+++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
-@@ -288,13 +288,18 @@ void dvb_usb_device_exit(struct usb_interface *intf)
- {
- 	struct dvb_usb_device *d = usb_get_intfdata(intf);
- 	const char *name = "generic DVB-USB module";
-+	char identifier[40];
- 
- 	usb_set_intfdata(intf, NULL);
- 	if (d != NULL && d->desc != NULL) {
- 		name = d->desc->name;
-+		memcpy(identifier, name, 39);
-+		identifier[39] = NULL;
- 		dvb_usb_exit(d);
-+	} else {
-+		memcpy(identifier, name, 39);
- 	}
--	info("%s successfully deinitialized and disconnected.", name);
-+	info("%s successfully deinitialized and disconnected.", identifier);
- 
- }
- EXPORT_SYMBOL(dvb_usb_device_exit);
+Let us know if you want anything to be changed.
+
+thanks,
+
+--
+heikki
+
+Ajay Gupta (5):
+  i2c: nvidia-gpu: Supply CCGx driver the fw build info
+  usb: typec: ucsi: ccg: add get_fw_info function
+  usb: typec: ucsi: ccg: add firmware flashing support
+  usb: typec: displayport: Export probe and remove functions
+  usb: typec: Add driver for NVIDIA Alt Modes
+
+Heikki Krogerus (2):
+  usb: typec: ucsi: Preliminary support for alternate modes
+  usb: typec: ucsi: Support for DisplayPort alt mode
+
+ drivers/i2c/busses/i2c-nvidia-gpu.c      |   7 +
+ drivers/usb/typec/altmodes/Kconfig       |  10 +
+ drivers/usb/typec/altmodes/Makefile      |   2 +
+ drivers/usb/typec/altmodes/displayport.c |  12 +-
+ drivers/usb/typec/altmodes/nvidia.c      |  44 ++
+ drivers/usb/typec/ucsi/Makefile          |  15 +-
+ drivers/usb/typec/ucsi/displayport.c     | 305 ++++++++
+ drivers/usb/typec/ucsi/trace.c           |  12 +
+ drivers/usb/typec/ucsi/trace.h           |  26 +
+ drivers/usb/typec/ucsi/ucsi.c            | 377 ++++++++--
+ drivers/usb/typec/ucsi/ucsi.h            |  93 +++
+ drivers/usb/typec/ucsi/ucsi_ccg.c        | 895 ++++++++++++++++++++++-
+ include/linux/usb/typec_dp.h             |   5 +
+ 13 files changed, 1717 insertions(+), 86 deletions(-)
+ create mode 100644 drivers/usb/typec/altmodes/nvidia.c
+ create mode 100644 drivers/usb/typec/ucsi/displayport.c
+
 -- 
-2.16.4
+2.20.1
 
