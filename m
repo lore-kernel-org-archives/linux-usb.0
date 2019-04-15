@@ -2,131 +2,129 @@ Return-Path: <SRS0=TXFt=SR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9648CC10F12
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 16:22:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88B05C10F12
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 17:19:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6475E2075B
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 16:22:35 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=cogentembedded-com.20150623.gappssmtp.com header.i=@cogentembedded-com.20150623.gappssmtp.com header.b="fDhLY4Eg"
+	by mail.kernel.org (Postfix) with ESMTP id 620DB218A1
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 17:19:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727747AbfDOQWe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Apr 2019 12:22:34 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:42320 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726298AbfDOQWd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Apr 2019 12:22:33 -0400
-Received: by mail-lj1-f196.google.com with SMTP id v22so16228489lje.9
-        for <linux-usb@vger.kernel.org>; Mon, 15 Apr 2019 09:22:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:references:from:organization:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=w+tDuZqaqdzYfTQNvruROpEVJ+Nl3iAAOw59oxXlT98=;
-        b=fDhLY4EgNp0rEvmmWYIDwvSTz86PV622/ZbPx8Nydj/91f5ap9awAqU44vHpR/qsml
-         +3fZbv8B9sGerxHheki0s0DY3o9I6mpMwznGOaATX+/Iw0G6FOdjJc5IEEDit8Q0TXVQ
-         bbJqOLg1y8LaULIiClN43T9p4KcJC0GJOtwF0uWprg+fwrU2udXX4nY+EuhK18qIMvje
-         Nt9HxfOXgyMFxeSmKXon+RmXKBvrN7WBCj8oSdJ8dgK5Sw4fLYwnGpOUkkmAdfvCK8qW
-         wNLs497JhyVZhG8CdmclxLWuOz05lgn5YZg+T3SEqGpfCN6Sw8G4/5qKJ822yqiy0Pbd
-         29xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=w+tDuZqaqdzYfTQNvruROpEVJ+Nl3iAAOw59oxXlT98=;
-        b=nl5fokjVCKILMzV0SAvfb4bUvUU3dXJZZpprLrGL5vVEkOxamLBipLhtQ0SuPmeKVe
-         RdtZ5bvX/KhoWEdI/37PSBvrQGapUZrFCGhlwW2mcg6nXybGzKDG2qhP3l95ZRcJVu3u
-         jFbeY/hkRqzzEHUmSGrEMkNKqWd0eu4xFvj+CPZKtnUbs+uSq4aZ5AhgCWw4Sld/I7IP
-         WffqY1coQ0iyA3WLAX55frSkEjbDF7B2fH4wNHhDIzY4T4jAwf2FdWuqcyuHz5sX4utf
-         GPJr03NpA0wYBXkHOyYHk342bAf5eXnzb1gi3IyeVHmqof6+kbDVdSiea02drKUqlws1
-         5blg==
-X-Gm-Message-State: APjAAAWVBmGNQEM6+PqBT2FicI/M0AD9mw9POxr5CNt4bsDsXIuDbw9J
-        ReEtQ5i0L33efyXIzJ+TqfrH7bPKr6M=
-X-Google-Smtp-Source: APXvYqw47gKudrEWEzYdf9hRdvuBBSXHXF2Nhii39dT9CsXBYIOV46XriMlCbOVjdnpxCrDf45A+Kg==
-X-Received: by 2002:a2e:8156:: with SMTP id t22mr19961789ljg.77.1555345351659;
-        Mon, 15 Apr 2019 09:22:31 -0700 (PDT)
-Received: from wasted.cogentembedded.com ([31.173.85.61])
-        by smtp.gmail.com with ESMTPSA id b78sm2132187lfg.38.2019.04.15.09.22.30
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Apr 2019 09:22:30 -0700 (PDT)
-Subject: Re: KASAN: use-after-free Read in dvb_usb_device_exit
-To:     Oliver Neukum <oneukum@suse.com>,
-        syzbot <syzbot+26ec41e9f788b3eba396@syzkaller.appspotmail.com>,
-        andreyknvl@google.com, syzkaller-bugs@googlegroups.com,
-        mchehab@kernel.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org
-References: <000000000000789d3d058653d9bb@google.com>
- <1555326745.13626.10.camel@suse.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Organization: Cogent Embedded
-Message-ID: <1e782001-7f5c-623e-f4c6-6e1e0fc90598@cogentembedded.com>
-Date:   Mon, 15 Apr 2019 19:22:29 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+        id S1727821AbfDORT1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Apr 2019 13:19:27 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:39768 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726516AbfDORT1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Apr 2019 13:19:27 -0400
+Received: (qmail 5796 invoked by uid 2102); 15 Apr 2019 13:19:25 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 15 Apr 2019 13:19:25 -0400
+Date:   Mon, 15 Apr 2019 13:19:25 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Greg KH <greg@kroah.com>
+cc:     Seth Bollinger <Seth.Bollinger@digi.com>,
+        Ming Lei <tom.leiming@gmail.com>,
+        Oliver Neukum <oneukum@suse.com>,
+        USB list <linux-usb@vger.kernel.org>,
+        USB Storage list <usb-storage@lists.one-eyed-alien.net>
+Subject: [PATCH] usb-storage: Set virt_boundary_mask to avoid SG overflows
+Message-ID: <Pine.LNX.4.44L0.1904151315320.1575-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-In-Reply-To: <1555326745.13626.10.camel@suse.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-MW
-Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190415162229.iGErhiI3jOO-d64JcQH3Ma_K2Lmg1DcTVLPfByoUCjs@z>
+Message-ID: <20190415171925.Ogm2j3YY1r8-YoX2jhtfRdfOfDjkHWJRTj7PG4gZgTI@z>
 
-Hello!
+The USB subsystem has always had an unusual requirement for its
+scatter-gather transfers: Each element in the scatterlist (except the
+last one) must have a length divisible by the bulk maxpacket size.
+This is a particular issue for USB mass storage, which uses SG lists
+created by the block layer rather than setting up its own.
 
-On 04/15/2019 02:12 PM, Oliver Neukum wrote:
+So far we have scraped by okay because most devices have a logical
+block size of 512 bytes or larger, and the bulk maxpacket sizes for
+USB 2 and below are all <= 512.  However, USB 3 has a bulk maxpacket
+size of 1024.  Since the xhci-hcd driver includes native SG support,
+this hasn't mattered much.  But now people are trying to use USB-3
+mass storage devices with USBIP, and the vhci-hcd driver currently
+does not have full SG support.
 
-[...]
-> From d6097d205ac61745334b79639d3b8b910ae66c71 Mon Sep 17 00:00:00 2001
-> From: Oliver Neukum <oneukum@suse.com>
-> Date: Mon, 15 Apr 2019 13:06:01 +0200
-> Subject: [PATCH] dvb: usb: fix use after free in dvb_usb_device_exit
-> 
-> dvb_usb_device_exit() frees and uses teh device name in that order
+The result is an overflow error, when the driver attempts to implement
+an SG transfer of 63 512-byte blocks as a single
+3584-byte (7 blocks) transfer followed by seven 4096-byte (8 blocks)
+transfers.  The device instead sends 31 1024-byte packets followed by
+a 512-byte packet, and this overruns the first SG buffer.
 
-   s/teh/the/.
+Ideally this would be fixed by adding better SG support to vhci-hcd.
+But for now it appears we can work around the problem by
+asking the block layer to respect the maxpacket limitation, through
+the use of the virt_boundary_mask.
 
-> Fix by storing the name in a buffer before freeing it
-> 
-> Signed-off-by: Oliver Neukum <oneukum@suse.com>
-> Reported-by: syzbot+26ec41e9f788b3eba396@syzkaller.appspotmail.com
-> ---
->  drivers/media/usb/dvb-usb/dvb-usb-init.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
-> index 99951e02a880..2e1670cc3903 100644
-> --- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
-> +++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
-> @@ -288,13 +288,18 @@ void dvb_usb_device_exit(struct usb_interface *intf)
->  {
->  	struct dvb_usb_device *d = usb_get_intfdata(intf);
->  	const char *name = "generic DVB-USB module";
-> +	char identifier[40];
->  
->  	usb_set_intfdata(intf, NULL);
->  	if (d != NULL && d->desc != NULL) {
->  		name = d->desc->name;
-> +		memcpy(identifier, name, 39);
-> +		identifier[39] = NULL;
+Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+Reported-by: Seth Bollinger <Seth.Bollinger@digi.com>
+Tested-by: Seth Bollinger <Seth.Bollinger@digi.com>
+CC: Ming Lei <tom.leiming@gmail.com>
 
-   NULL is for pointers, no?
+---
 
->  		dvb_usb_exit(d);
-> +	} else {
-> +		memcpy(identifier, name, 39);
->  	}
-> -	info("%s successfully deinitialized and disconnected.", name);
-> +	info("%s successfully deinitialized and disconnected.", identifier);
->  
->  }
->  EXPORT_SYMBOL(dvb_usb_device_exit);
+uas should get a similar change.  Oliver said he would take care of 
+it.
 
-MBR, Sergei
+
+[as1886]
+
+
+ drivers/usb/storage/scsiglue.c |   26 ++++++++++++--------------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
+
+Index: usb-devel/drivers/usb/storage/scsiglue.c
+===================================================================
+--- usb-devel.orig/drivers/usb/storage/scsiglue.c
++++ usb-devel/drivers/usb/storage/scsiglue.c
+@@ -65,6 +65,7 @@ static const char* host_info(struct Scsi
+ static int slave_alloc (struct scsi_device *sdev)
+ {
+ 	struct us_data *us = host_to_us(sdev->host);
++	int maxp;
+ 
+ 	/*
+ 	 * Set the INQUIRY transfer length to 36.  We don't use any of
+@@ -74,20 +75,17 @@ static int slave_alloc (struct scsi_devi
+ 	sdev->inquiry_len = 36;
+ 
+ 	/*
+-	 * USB has unusual DMA-alignment requirements: Although the
+-	 * starting address of each scatter-gather element doesn't matter,
+-	 * the length of each element except the last must be divisible
+-	 * by the Bulk maxpacket value.  There's currently no way to
+-	 * express this by block-layer constraints, so we'll cop out
+-	 * and simply require addresses to be aligned at 512-byte
+-	 * boundaries.  This is okay since most block I/O involves
+-	 * hardware sectors that are multiples of 512 bytes in length,
+-	 * and since host controllers up through USB 2.0 have maxpacket
+-	 * values no larger than 512.
+-	 *
+-	 * But it doesn't suffice for Wireless USB, where Bulk maxpacket
+-	 * values can be as large as 2048.  To make that work properly
+-	 * will require changes to the block layer.
++	 * USB has unusual scatter-gather requirements: the length of each
++	 * scatterlist element except the last must be divisible by the
++	 * Bulk maxpacket value.  Fortunately this value is always a
++	 * power of 2.  Inform the block layer about this requirement.
++	 */
++	maxp = usb_maxpacket(us->pusb_dev, us->recv_bulk_pipe, 0);
++	blk_queue_virt_boundary(sdev->request_queue, maxp - 1);
++
++	/*
++	 * Some host controllers may have alignment requirements.
++	 * We'll play it safe by requiring 512-byte alignment always.
+ 	 */
+ 	blk_queue_update_dma_alignment(sdev->request_queue, (512 - 1));
+ 
+
+
