@@ -2,141 +2,165 @@ Return-Path: <SRS0=TXFt=SR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_PASS,T_DKIMWL_WL_MED,URIBL_BLOCKED,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B1EDC10F0E
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 19:30:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A333C10F0E
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 19:35:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D8C2C2075B
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 19:30:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EADFF20818
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 19:35:28 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="h3/ILorc"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728256AbfDOTaA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Apr 2019 15:30:00 -0400
-Received: from mail.lolchat.de ([212.58.75.196]:58335 "EHLO mail.lolchat.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728349AbfDOTB5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 15 Apr 2019 15:01:57 -0400
-Received: from [192.168.255.180] (mini [192.168.255.180])
-        (authenticated bits=0)
-        by mail.lolchat.de (8.15.2/8.15.2/Debian-12) with ESMTPSA id x3FJ1dLJ019241
-        (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT);
-        Mon, 15 Apr 2019 21:01:40 +0200
-Subject: Re: Problem with USB2 devices connected to a hub
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
-        linux-usb@vger.kernel.org
-References: <Pine.LNX.4.44L0.1904151407490.1575-100000@iolanthe.rowland.org>
-From:   Georg Chini <georg@chini.tk>
-Message-ID: <e9786675-d78d-9e2c-e096-931e67e135d4@chini.tk>
-Date:   Mon, 15 Apr 2019 21:01:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+        id S1728816AbfDOTf1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Apr 2019 15:35:27 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:38379 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728349AbfDOTfU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Apr 2019 15:35:20 -0400
+Received: by mail-pl1-f196.google.com with SMTP id f36so9071469plb.5
+        for <linux-usb@vger.kernel.org>; Mon, 15 Apr 2019 12:35:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+ls/GUTFHxmWqNfbL8nZPHO/mEsZK+0BWBT3eOnQ4Qs=;
+        b=h3/ILorcTzTxllmLWIGP0BOGGDDA73Gwspt4hAlZrWzW4MCVkvokEi/eeXwp+0WPpc
+         +p/MQ30G89WjUmX/muWwWpO1A9Wdj1RfY5YT0NEqXpDTikCPGj2pKFb8ssUkh6BrI0cJ
+         DiIU4TsB+ko2elGnsPnQIvdPVe7Yg95X2PlCQpAowzj/O3O/nX96gb9cRP17TGlUh00G
+         9skfECkbRINt6+ZjxPpanM+V/udpVtXOym01rAqSLLOpebeAC2Do+s1fEgVzArIGiKev
+         8sE/CJBZ/76iZEIfaPOe9haJzcX10esIBCaF9tjwMciYa+iblqnvN5+P7ZbW29pDrHsb
+         VJRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+ls/GUTFHxmWqNfbL8nZPHO/mEsZK+0BWBT3eOnQ4Qs=;
+        b=BYK/spI42nRy1X0YwkKvjaxQiIu6FH3bd3cNgg6cH7jYyldI7FybXJqGiJp1InxVwA
+         XunGWVviMS0G1kkyhGKixx0s+ycAc+dGIoR2e3dWxhazqssXVJpIxQXJI1A4wZWnCE/h
+         Aofp/cqi7i+iXyXRGwYyaO3rSpxANd28uaS3nRtA+Y5h9ZBAjOZvJWz9x/BMQmW6F6by
+         XrfiWYuD7C1qyH7kCFcCIhRk+C3jfOpX5nMynt7Y2MdGCA3hzwFeszfr8jBruK0QVhw8
+         uM9D4Hy4KPz3ofsenF+GykBfxeTlvtHvjpqVnKbddU4ZVsT620uXojj2Qj6FNGucYa0E
+         kseQ==
+X-Gm-Message-State: APjAAAW23rfH22pKPqXtzzvPEqik/Nf/R2YSEyijbClT24Y7v+uOxhDW
+        yu8S1aHUdyf8dt9XhdIyIegGakaAGhyXnL1H9SXxeQ==
+X-Google-Smtp-Source: APXvYqz8HDSJaoiNXjgVa9if3F4CzpMv18WCnMzhEjEajxJp+JjMXa6KXRAW0hf6jqctigS8e/kcyP8nXbY/EOjiK/Y=
+X-Received: by 2002:a17:902:b48c:: with SMTP id y12mr75396478plr.280.1555356919335;
+ Mon, 15 Apr 2019 12:35:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <Pine.LNX.4.44L0.1904151407490.1575-100000@iolanthe.rowland.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <0000000000006f1596058653d991@google.com> <Pine.LNX.4.44L0.1904121540001.1283-100000@iolanthe.rowland.org>
+ <CAAeHK+wrF8Oh7ur+BcuyARvm2sx6KNVGFxqKHoyajApN+tOA_g@mail.gmail.com>
+ <52ac871b-ac61-432e-3a85-47b8e97233d2@embeddedor.com> <20190415190054.GA10359@kroah.com>
+In-Reply-To: <20190415190054.GA10359@kroah.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Mon, 15 Apr 2019 21:35:08 +0200
+Message-ID: <CAAeHK+wgB+HsA_aAtL=ddJB51BNjkkRBHnK8NQ0ke94SLZ+Sqw@mail.gmail.com>
+Subject: Re: INFO: task hung in usb_kill_urb
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Kernel development list <linux-kernel@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 15.04.19 20:10, Alan Stern wrote:
-> On Mon, 15 Apr 2019, Georg Chini wrote:
+On Mon, Apr 15, 2019 at 9:09 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
 >
->> On 15.04.19 17:17, Mathias Nyman wrote:
->>> On 12.4.2019 22.48, Georg Chini wrote:
->>>> On 08.04.19 08:46, Georg Chini wrote:
->>>>> On 02.04.19 16:52, Mathias Nyman wrote:
->>>>>> On 28.3.2019 15.41, Mathias Nyman wrote:
->>>>>>>>> The issue happens when only a single hub and a single device is
->>>>>>>>> connected to the
->>>>>>>>> USB subsystem. On my previous board, I had two USB dongles and
->>>>>>>>> two sound
->>>>>>>>> devices connected to the same hub and it worked without issues.
->>>>>>>>> So I guess it
->>>>>>>>> is not a real bandwidth limit. Somehow the hub seems to eat the
->>>>>>>>> bandwidth.
->>>>>>>>
->>>>>>> git://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git
->>>>>>> bandwidth-debug
->>>>>>>
->>>>>>> New traces using the bandwidth-debug testbranch could be useful,
->>>>>>> even without the "available bandwidth"
->>>>>>> support
->>>>>>>
->>>> Here are the traces. In the beginning, there is no USB device
->>>> connected. Then I connect a hub
->>>> (this time a simple 4 port USB 2.0 hub). After that I connect an USB
->>>> sound device to the hub.
->>>>
->>>> Hope it helps.
->>>>
->>> Traces show secondary bandwidth error response from xHC hardware when
->>> adding ISOC OUT endpoint 1:
->>>
->>> 321.773182: xhci_add_endpoint: State disabled mult 1 max P. Streams 0
->>> interval 1000 us max ESIT payload 200 CErr 0 Type Isoc OUT burst 0
->>> maxp 200 deq 00000000fffb2001 avg trb len 200
->>> 321.773198: xhci_configure_endpoint_ctrl_ctx: Add: slot 1out
->>> 321.773199: xhci_configure_endpoint: RS 00001 full-speed multi-TT Ctx
->>> Entries 7 MEL 0 us Port# 2/0 [TT Slot 7 Port# 1 TTT 0 Intr 0] Addr 0
->>> State enabled/disabled
->>> 321.773200: xhci_queue_trb: CMD: Configure Endpoint Command: ctx
->>> 00000000fffaf000 slot 8 flags d:C
->>> 321.773380: xhci_handle_event: EVENT: TRB 00000000ffffeb60 status
->>> 'Secondary Bandwidth Error' len 0 slot 8 ep 0 type 'Command Completion
->>> Event' flags e:c
->>>
->>> That endpoint only moves 200 bytes every 1ms (every FS frame), which
->>> is 1.6Mbit/s.
->>> There was another periodic endpoint added before this one, but it only
->>> moves 4 bytes every 32ms, equals ~1kbit/s
->>>
->>> which together are still far from the ~12Mbit/s supported by FS bus,
->>> even with the TT think time etc.
->>> Traces doesn't show any incorrect values being given to xHC hw in the
->>> context either.
->>>
->>> Only thing I can think of is that there are other parameters affecting
->>> the available bandwidth calculations,
->>> such as the average TRB length, and Link powermanagement related exit
->>> latencies.
->>>
->>> xhci specs say:
->>>
->>> The xHC uses the value of the Average TRB Length field in the Endpoint
->>> Context as a metric to help
->>> compute the system bus bandwidth requirements of an endpoint. The
->>> accuracy of this parameter is
->>> particularly important for periodic endpoints. An xHC will use the
->>> Average TRB Length and other metrics to
->>> allocate/distribute system bus bandwidth to endpoints. These “other”
->>> metrics are xHC implementation
->>> specific and outside the scope of this specification.
->>>
->>> I'm out for a week, so response will be slow.
->>>
->>> -Mathias
->> So what you are saying is that it's a "bug" or "feature" of the C3858
->> CPU and can't be fixed, right?
-> An unfortunate feature of the xHCI design is that bandwidth
-> computations are all done internally by the xHC controller.  There's no
-> way to tell _how_ they were done, what the results were in detail, or
-> to fix any mistakes.
+> On Mon, Apr 15, 2019 at 01:39:57PM -0500, Gustavo A. R. Silva wrote:
+> >
+> >
+> > On 4/15/19 12:48 PM, Andrey Konovalov wrote:
+> > > On Fri, Apr 12, 2019 at 9:46 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+> > >>
+> > >> Andrey:
+> > >>
+> > >> It's really hard to tell just what's going on here.
+> > >>
+> > >> On Fri, 12 Apr 2019, syzbot wrote:
+> > >>
+> > >>> Hello,
+> > >>>
+> > >>> syzbot found the following crash on:
+> > >>>
+> > >>> HEAD commit:    9a33b369 usb-fuzzer: main usb gadget fuzzer driver
+> > >>> git tree:       https://github.com/google/kasan/tree/usb-fuzzer
+> > >>> console output: https://syzkaller.appspot.com/x/log.txt?x=14c4c1af200000
+> > >>> kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
+> > >>> dashboard link: https://syzkaller.appspot.com/bug?extid=d919b0f29d7b5a4994b9
+> > >>> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> > >>> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14410dbb200000
+> > >>> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12f0acd3200000
+> > >>>
+> > >>> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> > >>> Reported-by: syzbot+d919b0f29d7b5a4994b9@syzkaller.appspotmail.com
+> > >>>
+> > >>> usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
+> > >>> usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
+> > >>> usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
+> > >>> usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
+> > >>> usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
+> > >>> INFO: task kworker/0:2:532 blocked for more than 143 seconds.
+> > >>>        Not tainted 5.1.0-rc4-319354-g9a33b36 #3
+> > >>> "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+> > >>> kworker/0:2     D26656   532      2 0x80000000
+> > >>> Workqueue: usb_hub_wq hub_event
+> > >>> Call Trace:
+> > >>>   schedule+0x8f/0x180 kernel/sched/core.c:3562
+> > >>>   usb_kill_urb drivers/usb/core/urb.c:695 [inline]
+> > >>>   usb_kill_urb+0x22a/0x2c0 drivers/usb/core/urb.c:687
+> > >>>   usb_start_wait_urb+0x257/0x4d0 drivers/usb/core/message.c:63
+> > >>>   usb_internal_control_msg drivers/usb/core/message.c:101 [inline]
+> > >>>   usb_control_msg+0x321/0x4a0 drivers/usb/core/message.c:152
+> > >>
+> > >> It looks like something is stuck waiting for usb_kill_urb() to finish.
+> > >> But what happened before that?
+> > >
+> > > This crash is somewhat special. It happens quite often during USB
+> > > fuzzing, but at the same time it's a hang, which makes it a bit harder
+> > > debug. I initially thought that is somehow related to my custom USB
+> > > fuzzing kernel patches, but then I saw that someone else hit this
+> > > issue while doing USB fuzzing in a completely different way that
+> > > doesn't require kernel modifications. So it might be an actual issue
+> > > in the kernel.
+> > >
+> > > The full console output is provided by the syzbot, but I guess it's
+> > > not very useful in this case. I've just made sure that this issue is
+> > > manually reproducible, so we can easily retest it with debug patches
+> > > (syzbot should be also able to do that via the syz test command). Or
+> > > is there a way to turn on some verbose mode to see some USB debug
+> > > messages?
+> > >
+> > >>
+> > >> I can't tell from the reproducer source, because it uses a bunch of
+> > >> special stuff you added in your usb-fuzzer tree.
+> > >>
+> > >> Alan Stern
+> > >>
+> > >
+> > > I understand, for now I guess the simpler way to debug this is to run
+> > > the reproducer. I'll write you and Greg a separate email regarding all
+> > > that special stuff that I added.
+> > >
+> >
+> > Hi Andrey,
+> >
+> > Please, CC me on that email too.
 >
-> Alan Stern
+> Please cc: all of linux-usb@vger.kernel.org, no need to keep anything
+> private.
 
-So what you are saying is still that the CPU has a bug because the 
-controller
-seems to be integrated on the CPU:
+Sure!
 
-00:15.0 USB controller: Intel Corporation Atom Processor C3000 Series 
-USB 3.0 xHCI Controller (rev 11)
-
-Or can it be a firmware/board issue as well?
-
-Georg
-
+>
+> thanks,
+>
+> greg k-h
+>
