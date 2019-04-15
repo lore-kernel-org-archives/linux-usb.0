@@ -3,133 +3,128 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_PASS autolearn=unavailable
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50E68C10F12
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 18:07:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A26AC10F0E
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 18:10:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 274C6218D3
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 18:07:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7034F218A1
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 18:10:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727841AbfDOSG7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Apr 2019 14:06:59 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:39916 "HELO
+        id S1727413AbfDOSKB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Apr 2019 14:10:01 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:39924 "HELO
         iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1727746AbfDOSG7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Apr 2019 14:06:59 -0400
-Received: (qmail 6419 invoked by uid 2102); 15 Apr 2019 14:06:58 -0400
+        with SMTP id S1726740AbfDOSKB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Apr 2019 14:10:01 -0400
+Received: (qmail 6428 invoked by uid 2102); 15 Apr 2019 14:10:00 -0400
 Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 15 Apr 2019 14:06:58 -0400
-Date:   Mon, 15 Apr 2019 14:06:58 -0400 (EDT)
+  by localhost with SMTP; 15 Apr 2019 14:10:00 -0400
+Date:   Mon, 15 Apr 2019 14:10:00 -0400 (EDT)
 From:   Alan Stern <stern@rowland.harvard.edu>
 X-X-Sender: stern@iolanthe.rowland.org
-To:     Andrey Konovalov <andreyknvl@google.com>
-cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <gustavo@embeddedor.com>,
-        Kernel development list <linux-kernel@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Subject: Re: INFO: task hung in usb_kill_urb
-In-Reply-To: <CAAeHK+wrF8Oh7ur+BcuyARvm2sx6KNVGFxqKHoyajApN+tOA_g@mail.gmail.com>
-Message-ID: <Pine.LNX.4.44L0.1904151357540.1575-100000@iolanthe.rowland.org>
+To:     Georg Chini <georg@chini.tk>
+cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
+        <linux-usb@vger.kernel.org>
+Subject: Re: Problem with USB2 devices connected to a hub
+In-Reply-To: <33a1722e-dd48-2d44-328c-66dd40995edf@chini.tk>
+Message-ID: <Pine.LNX.4.44L0.1904151407490.1575-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: TEXT/PLAIN; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, 15 Apr 2019, Andrey Konovalov wrote:
+On Mon, 15 Apr 2019, Georg Chini wrote:
 
-> On Fri, Apr 12, 2019 at 9:46 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+> On 15.04.19 17:17, Mathias Nyman wrote:
+> > On 12.4.2019 22.48, Georg Chini wrote:
+> >> On 08.04.19 08:46, Georg Chini wrote:
+> >>> On 02.04.19 16:52, Mathias Nyman wrote:
+> >>>> On 28.3.2019 15.41, Mathias Nyman wrote:
+> >>>>>
+> >>>>>>> The issue happens when only a single hub and a single device is 
+> >>>>>>> connected to the
+> >>>>>>> USB subsystem. On my previous board, I had two USB dongles and 
+> >>>>>>> two sound
+> >>>>>>> devices connected to the same hub and it worked without issues. 
+> >>>>>>> So I guess it
+> >>>>>>> is not a real bandwidth limit. Somehow the hub seems to eat the 
+> >>>>>>> bandwidth.
+> >>>>>>
+> >>>>>>
+> >>>>> git://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git 
+> >>>>> bandwidth-debug
+> >>>>>
+> >>>>> New traces using the bandwidth-debug testbranch could be useful, 
+> >>>>> even without the "available bandwidth"
+> >>>>> support
+> >>>>>
+> >> Here are the traces. In the beginning, there is no USB device 
+> >> connected. Then I connect a hub
+> >> (this time a simple 4 port USB 2.0 hub). After that I connect an USB 
+> >> sound device to the hub.
+> >>
+> >> Hope it helps.
+> >>
 > >
-> > Andrey:
+> > Traces show secondary bandwidth error response from xHC hardware when 
+> > adding ISOC OUT endpoint 1:
 > >
-> > It's really hard to tell just what's going on here.
+> > 321.773182: xhci_add_endpoint: State disabled mult 1 max P. Streams 0 
+> > interval 1000 us max ESIT payload 200 CErr 0 Type Isoc OUT burst 0 
+> > maxp 200 deq 00000000fffb2001 avg trb len 200
+> > 321.773198: xhci_configure_endpoint_ctrl_ctx: Add: slot 1out
+> > 321.773199: xhci_configure_endpoint: RS 00001 full-speed multi-TT Ctx 
+> > Entries 7 MEL 0 us Port# 2/0 [TT Slot 7 Port# 1 TTT 0 Intr 0] Addr 0 
+> > State enabled/disabled
+> > 321.773200: xhci_queue_trb: CMD: Configure Endpoint Command: ctx 
+> > 00000000fffaf000 slot 8 flags d:C
+> > 321.773380: xhci_handle_event: EVENT: TRB 00000000ffffeb60 status 
+> > 'Secondary Bandwidth Error' len 0 slot 8 ep 0 type 'Command Completion 
+> > Event' flags e:c
 > >
-> > On Fri, 12 Apr 2019, syzbot wrote:
+> > That endpoint only moves 200 bytes every 1ms (every FS frame), which 
+> > is 1.6Mbit/s.
+> > There was another periodic endpoint added before this one, but it only 
+> > moves 4 bytes every 32ms, equals ~1kbit/s
 > >
-> > > Hello,
-> > >
-> > > syzbot found the following crash on:
-> > >
-> > > HEAD commit:    9a33b369 usb-fuzzer: main usb gadget fuzzer driver
-> > > git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-> > > console output: https://syzkaller.appspot.com/x/log.txt?x=14c4c1af200000
-> > > kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
-> > > dashboard link: https://syzkaller.appspot.com/bug?extid=d919b0f29d7b5a4994b9
-> > > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> > > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14410dbb200000
-> > > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12f0acd3200000
-> > >
-> > > IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> > > Reported-by: syzbot+d919b0f29d7b5a4994b9@syzkaller.appspotmail.com
-> > >
-> > > usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-> > > usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-> > > usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-> > > usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-> > > usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-> > > INFO: task kworker/0:2:532 blocked for more than 143 seconds.
-> > >        Not tainted 5.1.0-rc4-319354-g9a33b36 #3
-> > > "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-> > > kworker/0:2     D26656   532      2 0x80000000
-> > > Workqueue: usb_hub_wq hub_event
-> > > Call Trace:
-> > >   schedule+0x8f/0x180 kernel/sched/core.c:3562
-> > >   usb_kill_urb drivers/usb/core/urb.c:695 [inline]
-> > >   usb_kill_urb+0x22a/0x2c0 drivers/usb/core/urb.c:687
-> > >   usb_start_wait_urb+0x257/0x4d0 drivers/usb/core/message.c:63
-> > >   usb_internal_control_msg drivers/usb/core/message.c:101 [inline]
-> > >   usb_control_msg+0x321/0x4a0 drivers/usb/core/message.c:152
+> > which together are still far from the ~12Mbit/s supported by FS bus, 
+> > even with the TT think time etc.
+> > Traces doesn't show any incorrect values being given to xHC hw in the 
+> > context either.
 > >
-> > It looks like something is stuck waiting for usb_kill_urb() to finish.
-> > But what happened before that?
+> > Only thing I can think of is that there are other parameters affecting 
+> > the available bandwidth calculations,
+> > such as the average TRB length, and Link powermanagement related exit 
+> > latencies.
+> >
+> > xhci specs say:
+> >
+> > The xHC uses the value of the Average TRB Length field in the Endpoint 
+> > Context as a metric to help
+> > compute the system bus bandwidth requirements of an endpoint. The 
+> > accuracy of this parameter is
+> > particularly important for periodic endpoints. An xHC will use the 
+> > Average TRB Length and other metrics to
+> > allocate/distribute system bus bandwidth to endpoints. These “other” 
+> > metrics are xHC implementation
+> > specific and outside the scope of this specification.
+> >
+> > I'm out for a week, so response will be slow.
+> >
+> > -Mathias
 > 
-> This crash is somewhat special. It happens quite often during USB
-> fuzzing, but at the same time it's a hang, which makes it a bit harder
-> debug. I initially thought that is somehow related to my custom USB
-> fuzzing kernel patches, but then I saw that someone else hit this
-> issue while doing USB fuzzing in a completely different way that
-> doesn't require kernel modifications. So it might be an actual issue
-> in the kernel.
-> 
-> The full console output is provided by the syzbot, but I guess it's
-> not very useful in this case. I've just made sure that this issue is
-> manually reproducible, so we can easily retest it with debug patches
-> (syzbot should be also able to do that via the syz test command). Or
-> is there a way to turn on some verbose mode to see some USB debug
-> messages?
+> So what you are saying is that it's a "bug" or "feature" of the C3858 
+> CPU and can't be fixed, right?
 
-If I were doing this manually, I would run the following commands after
-loading the dummy-hcd driver but before starting the main test
-(requires CONFIG_USB_MON; you can skip the modprobe if
-CONFIG_USB_MON=y):
+An unfortunate feature of the xHCI design is that bandwidth 
+computations are all done internally by the xHC controller.  There's no 
+way to tell _how_ they were done, what the results were in detail, or 
+to fix any mistakes.
 
-	modprobe usbmon
-	cat /sys/kernel/debug/usb/usbmon/Nu >/tmp/mon.out &
-
-where N is the USB bus number corresponding to the dummy-hcd bus.  
-Then after the test hangs, on another VT kill the "cat" process and
-examine the contents of /tmp/mon.out.
-
-Maybe you can do the equivalent with syzkaller?  If necessary, you can 
-start the "cat" before loading dummy-hcd and specify a bus number of 0.
-That will capture data for all the USB buses, including the dummy-hcd 
-bus when it gets added (I think -- I haven't actually tried it).
-
-Alan
-
-> > I can't tell from the reproducer source, because it uses a bunch of
-> > special stuff you added in your usb-fuzzer tree.
-> >
-> > Alan Stern
-> >
-> 
-> I understand, for now I guess the simpler way to debug this is to run
-> the reproducer. I'll write you and Greg a separate email regarding all
-> that special stuff that I added.
-> 
-> Thanks!
+Alan Stern
 
