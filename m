@@ -2,191 +2,131 @@ Return-Path: <SRS0=TXFt=SR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.9 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C966C10F0E
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 15:56:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9648CC10F12
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 16:22:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 590522087C
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 15:56:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6475E2075B
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 16:22:35 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=cogentembedded-com.20150623.gappssmtp.com header.i=@cogentembedded-com.20150623.gappssmtp.com header.b="fDhLY4Eg"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727373AbfDOP4G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Apr 2019 11:56:06 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:39618 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726034AbfDOP4G (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Apr 2019 11:56:06 -0400
-Received: (qmail 5451 invoked by uid 2102); 15 Apr 2019 11:56:05 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 15 Apr 2019 11:56:05 -0400
-Date:   Mon, 15 Apr 2019 11:56:05 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Raul E Rangel <rrangel@chromium.org>
-cc:     USB list <linux-usb@vger.kernel.org>, <groeck@chromium.org>,
-        Oliver Neukum <oneukum@suse.com>, <djkurtz@chromium.org>,
-        <zwisler@chromium.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Dmitry Torokhov <dtor@chromium.org>,
-        Suwan Kim <suwan.kim027@gmail.com>,
-        Kernel development list <linux-kernel@vger.kernel.org>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Johan Hovold <johan@kernel.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: [PATCH v2] usb/hcd: Send a uevent signaling that the host
- controller has died
-In-Reply-To: <20190411185211.235940-1-rrangel@chromium.org>
-Message-ID: <Pine.LNX.4.44L0.1904151152390.1575-100000@iolanthe.rowland.org>
+        id S1727747AbfDOQWe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Apr 2019 12:22:34 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:42320 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726298AbfDOQWd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Apr 2019 12:22:33 -0400
+Received: by mail-lj1-f196.google.com with SMTP id v22so16228489lje.9
+        for <linux-usb@vger.kernel.org>; Mon, 15 Apr 2019 09:22:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:references:from:organization:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=w+tDuZqaqdzYfTQNvruROpEVJ+Nl3iAAOw59oxXlT98=;
+        b=fDhLY4EgNp0rEvmmWYIDwvSTz86PV622/ZbPx8Nydj/91f5ap9awAqU44vHpR/qsml
+         +3fZbv8B9sGerxHheki0s0DY3o9I6mpMwznGOaATX+/Iw0G6FOdjJc5IEEDit8Q0TXVQ
+         bbJqOLg1y8LaULIiClN43T9p4KcJC0GJOtwF0uWprg+fwrU2udXX4nY+EuhK18qIMvje
+         Nt9HxfOXgyMFxeSmKXon+RmXKBvrN7WBCj8oSdJ8dgK5Sw4fLYwnGpOUkkmAdfvCK8qW
+         wNLs497JhyVZhG8CdmclxLWuOz05lgn5YZg+T3SEqGpfCN6Sw8G4/5qKJ822yqiy0Pbd
+         29xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=w+tDuZqaqdzYfTQNvruROpEVJ+Nl3iAAOw59oxXlT98=;
+        b=nl5fokjVCKILMzV0SAvfb4bUvUU3dXJZZpprLrGL5vVEkOxamLBipLhtQ0SuPmeKVe
+         RdtZ5bvX/KhoWEdI/37PSBvrQGapUZrFCGhlwW2mcg6nXybGzKDG2qhP3l95ZRcJVu3u
+         jFbeY/hkRqzzEHUmSGrEMkNKqWd0eu4xFvj+CPZKtnUbs+uSq4aZ5AhgCWw4Sld/I7IP
+         WffqY1coQ0iyA3WLAX55frSkEjbDF7B2fH4wNHhDIzY4T4jAwf2FdWuqcyuHz5sX4utf
+         GPJr03NpA0wYBXkHOyYHk342bAf5eXnzb1gi3IyeVHmqof6+kbDVdSiea02drKUqlws1
+         5blg==
+X-Gm-Message-State: APjAAAWVBmGNQEM6+PqBT2FicI/M0AD9mw9POxr5CNt4bsDsXIuDbw9J
+        ReEtQ5i0L33efyXIzJ+TqfrH7bPKr6M=
+X-Google-Smtp-Source: APXvYqw47gKudrEWEzYdf9hRdvuBBSXHXF2Nhii39dT9CsXBYIOV46XriMlCbOVjdnpxCrDf45A+Kg==
+X-Received: by 2002:a2e:8156:: with SMTP id t22mr19961789ljg.77.1555345351659;
+        Mon, 15 Apr 2019 09:22:31 -0700 (PDT)
+Received: from wasted.cogentembedded.com ([31.173.85.61])
+        by smtp.gmail.com with ESMTPSA id b78sm2132187lfg.38.2019.04.15.09.22.30
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 15 Apr 2019 09:22:30 -0700 (PDT)
+Subject: Re: KASAN: use-after-free Read in dvb_usb_device_exit
+To:     Oliver Neukum <oneukum@suse.com>,
+        syzbot <syzbot+26ec41e9f788b3eba396@syzkaller.appspotmail.com>,
+        andreyknvl@google.com, syzkaller-bugs@googlegroups.com,
+        mchehab@kernel.org, corbet@lwn.net, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org
+References: <000000000000789d3d058653d9bb@google.com>
+ <1555326745.13626.10.camel@suse.com>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <1e782001-7f5c-623e-f4c6-6e1e0fc90598@cogentembedded.com>
+Date:   Mon, 15 Apr 2019 19:22:29 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
+In-Reply-To: <1555326745.13626.10.camel@suse.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190415155605.M-ruTUmy3Avugm84EHJTiKGJ1G_qzKqNefZXK_9MwDg@z>
+Message-ID: <20190415162229.iGErhiI3jOO-d64JcQH3Ma_K2Lmg1DcTVLPfByoUCjs@z>
 
-On Thu, 11 Apr 2019, Raul E Rangel wrote:
+Hello!
 
-> This change will send a CHANGE event to udev with the DEAD environment
-> variable set when the HC dies. I chose this instead of any of the other
-> udev events because it's representing a state change in the host
-> controller. The only other event that might have fit was OFFLINE, but
-> that seems to be used for hot-removal and it implies the device could
-> come ONLINE again.
+On 04/15/2019 02:12 PM, Oliver Neukum wrote:
+
+[...]
+> From d6097d205ac61745334b79639d3b8b910ae66c71 Mon Sep 17 00:00:00 2001
+> From: Oliver Neukum <oneukum@suse.com>
+> Date: Mon, 15 Apr 2019 13:06:01 +0200
+> Subject: [PATCH] dvb: usb: fix use after free in dvb_usb_device_exit
 > 
-> By notifying user space the appropriate policies can be applied.
-> i.e.,
->  * Collect error logs.
->  * Notify the user that USB is no longer functional.
->  * Perform a graceful reboot.
+> dvb_usb_device_exit() frees and uses teh device name in that order
+
+   s/teh/the/.
+
+> Fix by storing the name in a buffer before freeing it
 > 
-> Signed-off-by: Raul E Rangel <rrangel@chromium.org>
+> Signed-off-by: Oliver Neukum <oneukum@suse.com>
+> Reported-by: syzbot+26ec41e9f788b3eba396@syzkaller.appspotmail.com
 > ---
-> I wasn't able to find any good examples of other drivers sending a dead
-> notification.
+>  drivers/media/usb/dvb-usb/dvb-usb-init.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 > 
-> Use an EVENT= format
-> https://github.com/torvalds/linux/blob/master/drivers/acpi/dock.c#L302
-> https://github.com/torvalds/linux/blob/master/drivers/net/wireless/ath/wil6210/interrupt.c#L497
-> 
-> Uses SDEV_MEDIA_CHANGE=
-> https://github.com/torvalds/linux/blob/master/drivers/scsi/scsi_lib.c#L2318
-> 
-> Uses ERROR=1.
-> https://chromium.googlesource.com/chromiumos/third_party/kernel/+/7f6d8aec5803aac44192f03dce5637b66cda7abf/drivers/input/touchscreen/atmel_mxt_ts.c#1581
-> I'm not a fan because it doesn't signal what the error was.
-> 
-> We could change the DEAD=1 event to maybe ERROR=1?
-> 
-> Also where would be a good place to document this?
-> 
-> Also thanks for the review. This is my first kernel patch so forgive me
-> if I get the workflow wrong.
-> 
-> Changes in v2:
-> - Check that the root hub still exists before sending the uevent.
-> - Ensure died_work has completed before deallocating.
-> 
->  drivers/usb/core/hcd.c  | 32 ++++++++++++++++++++++++++++++++
->  include/linux/usb/hcd.h |  1 +
->  2 files changed, 33 insertions(+)
-
-Technically this patch looks okay to me.  However, Greg KH may have
-some comments regarding the new uevent this introduces.
-
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-
-Alan Stern
-
-
-> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-> index 975d7c1288e3..7835f1a3647d 100644
-> --- a/drivers/usb/core/hcd.c
-> +++ b/drivers/usb/core/hcd.c
-> @@ -2343,6 +2343,27 @@ int hcd_bus_resume(struct usb_device *rhdev, pm_message_t msg)
->  	return status;
->  }
->  
-> +
-> +/**
-> + * hcd_died_work - Workqueue routine for root-hub has died.
-> + * @hcd: primary host controller for this root hub.
-> + *
-> + * Do not call with the shared_hcd.
-> + * */
-> +static void hcd_died_work(struct work_struct *work)
-> +{
-> +	struct usb_hcd *hcd = container_of(work, struct usb_hcd, died_work);
-> +
-> +	mutex_lock(&usb_bus_idr_lock);
-> +
-> +	if (hcd->self.root_hub)
-> +		/* Notify user space that the host controller has died */
-> +		kobject_uevent_env(&hcd->self.root_hub->dev.kobj, KOBJ_CHANGE,
-> +				   (char *[]){ "DEAD=1", NULL });
-> +
-> +	mutex_unlock(&usb_bus_idr_lock);
-> +}
-> +
->  /* Workqueue routine for root-hub remote wakeup */
->  static void hcd_resume_work(struct work_struct *work)
+> diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+> index 99951e02a880..2e1670cc3903 100644
+> --- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
+> +++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+> @@ -288,13 +288,18 @@ void dvb_usb_device_exit(struct usb_interface *intf)
 >  {
-> @@ -2488,6 +2509,13 @@ void usb_hc_died (struct usb_hcd *hcd)
->  			usb_kick_hub_wq(hcd->self.root_hub);
->  		}
->  	}
-> +
-> +	/* Handle the case where this function gets called with a shared HCD */
-> +	if (usb_hcd_is_primary_hcd(hcd))
-> +		schedule_work(&hcd->died_work);
-> +	else
-> +		schedule_work(&hcd->primary_hcd->died_work);
-> +
->  	spin_unlock_irqrestore (&hcd_root_hub_lock, flags);
->  	/* Make sure that the other roothub is also deallocated. */
->  }
-> @@ -2555,6 +2583,8 @@ struct usb_hcd *__usb_create_hcd(const struct hc_driver *driver,
->  	INIT_WORK(&hcd->wakeup_work, hcd_resume_work);
->  #endif
+>  	struct dvb_usb_device *d = usb_get_intfdata(intf);
+>  	const char *name = "generic DVB-USB module";
+> +	char identifier[40];
 >  
-> +	INIT_WORK(&hcd->died_work, hcd_died_work);
-> +
->  	hcd->driver = driver;
->  	hcd->speed = driver->flags & HCD_MASK;
->  	hcd->product_desc = (driver->product_desc) ? driver->product_desc :
-> @@ -2908,6 +2938,7 @@ int usb_add_hcd(struct usb_hcd *hcd,
->  #ifdef CONFIG_PM
->  	cancel_work_sync(&hcd->wakeup_work);
->  #endif
-> +	cancel_work_sync(&hcd->died_work);
->  	mutex_lock(&usb_bus_idr_lock);
->  	usb_disconnect(&rhdev);		/* Sets rhdev to NULL */
->  	mutex_unlock(&usb_bus_idr_lock);
-> @@ -2968,6 +2999,7 @@ void usb_remove_hcd(struct usb_hcd *hcd)
->  #ifdef CONFIG_PM
->  	cancel_work_sync(&hcd->wakeup_work);
->  #endif
-> +	cancel_work_sync(&hcd->died_work);
->  
->  	mutex_lock(&usb_bus_idr_lock);
->  	usb_disconnect(&rhdev);		/* Sets rhdev to NULL */
-> diff --git a/include/linux/usb/hcd.h b/include/linux/usb/hcd.h
-> index 695931b03684..ae51d5bd1dfc 100644
-> --- a/include/linux/usb/hcd.h
-> +++ b/include/linux/usb/hcd.h
-> @@ -98,6 +98,7 @@ struct usb_hcd {
->  #ifdef CONFIG_PM
->  	struct work_struct	wakeup_work;	/* for remote wakeup */
->  #endif
-> +	struct work_struct	died_work;	/* for dying */
->  
->  	/*
->  	 * hardware info/state
-> 
+>  	usb_set_intfdata(intf, NULL);
+>  	if (d != NULL && d->desc != NULL) {
+>  		name = d->desc->name;
+> +		memcpy(identifier, name, 39);
+> +		identifier[39] = NULL;
 
+   NULL is for pointers, no?
+
+>  		dvb_usb_exit(d);
+> +	} else {
+> +		memcpy(identifier, name, 39);
+>  	}
+> -	info("%s successfully deinitialized and disconnected.", name);
+> +	info("%s successfully deinitialized and disconnected.", identifier);
+>  
+>  }
+>  EXPORT_SYMBOL(dvb_usb_device_exit);
+
+MBR, Sergei
