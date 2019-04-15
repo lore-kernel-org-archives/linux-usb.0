@@ -2,407 +2,157 @@ Return-Path: <SRS0=TXFt=SR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7C1CC282CE
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 02:24:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4251FC10F0E
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 06:55:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6D9C320848
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 02:24:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0BF0120693
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 06:55:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726178AbfDOCYG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 14 Apr 2019 22:24:06 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:9848 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725789AbfDOCYF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 14 Apr 2019 22:24:05 -0400
-X-UUID: 540df32760c9495cb2ea24fee074a7d6-20190415
-X-UUID: 540df32760c9495cb2ea24fee074a7d6-20190415
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 1841856273; Mon, 15 Apr 2019 10:23:58 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31DR.mediatek.inc
- (172.27.6.102) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Mon, 15 Apr
- 2019 10:23:56 +0800
-Received: from [10.17.3.153] (172.27.4.253) by MTKCAS32.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Mon, 15 Apr 2019 10:23:56 +0800
-Message-ID: <1555295036.10179.192.camel@mhfsdcap03>
-Subject: Re: [PATCH V3 3/7] usb: typec: driver for TI HD3SS3220 USB Type-C
- DRP port controller
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Biju Das <biju.das@bp.renesas.com>
-CC:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>, <linux-usb@vger.kernel.org>,
-        Simon Horman <horms@verge.net.au>,
-        "Yoshihiro Shimoda" <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        <linux-renesas-soc@vger.kernel.org>
-Date:   Mon, 15 Apr 2019 10:23:56 +0800
-In-Reply-To: <1555064179-15626-4-git-send-email-biju.das@bp.renesas.com>
-References: <1555064179-15626-1-git-send-email-biju.das@bp.renesas.com>
-         <1555064179-15626-4-git-send-email-biju.das@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Content-Transfer-Encoding: 7bit
+        id S1726047AbfDOGzG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Apr 2019 02:55:06 -0400
+Received: from mail-it1-f200.google.com ([209.85.166.200]:56038 "EHLO
+        mail-it1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725798AbfDOGzG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Apr 2019 02:55:06 -0400
+Received: by mail-it1-f200.google.com with SMTP id g184so15531526ita.5
+        for <linux-usb@vger.kernel.org>; Sun, 14 Apr 2019 23:55:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=ZemaBQEK2j6NfWyJ+bikcyU88hEbBD2R/oNX89YYc68=;
+        b=Tso30XJOxQ0zIS/XyiK4K/tiIau0VOvOOsgc0CBXz5pOwnGPduVQ/VjEVbG/SLWv6L
+         JEkVHhroVpYNabq2a10Ou5Wk0vX4jlQBWARagDoxuAMb8GbabW5jhA+OaTTVFhckyL63
+         G9oaWhIXW6mxPJ+HEBx78sP7eYPACzNVH9lqrIl3p5DlljTBaN2qk2m9S4x1V0ADrFdr
+         rb3MzxZ7bvGIwwv7kZrVgGXppPIOVWAFCebzfASffivRI9h5mqLrfkn14sc0OkxeyG9A
+         PogXNcC6RFvZPmXMHb+3wGvbKrHMImAzlRx7kQB13Tvp2Omtaa/CADxmmlsrTbV2MRqi
+         IrNw==
+X-Gm-Message-State: APjAAAWi0GyaQLRNtp5Bii7KXvurBUQ1dKU+aXJx0emwIZzPIF/yb20F
+        F0k+R3Y+9HXew2t2PKKHw3elXAA7bSIXLan0kWf+aGNaFuvR
+X-Google-Smtp-Source: APXvYqxxc3P7WiRN6Gw3NuJf9fjKIgqME5N9ryQO8gQ3sNMCmNB693eydNjSwlcXyk6SCQXbtXHGyr9sVssLcDffToMpyqpgjWIy
 MIME-Version: 1.0
-X-MTK:  N
+X-Received: by 2002:a5d:8c8f:: with SMTP id g15mr721488ion.36.1555311305158;
+ Sun, 14 Apr 2019 23:55:05 -0700 (PDT)
+Date:   Sun, 14 Apr 2019 23:55:05 -0700
+In-Reply-To: <0000000000008706a1058653d950@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000dbf5a105868c21c7@google.com>
+Subject: Re: WARNING: proc registration bug in snd_info_register
+From:   syzbot <syzbot+4d729bd9da724d0282dd@syzkaller.appspotmail.com>
+To:     alsa-devel-owner@alsa-project.org, alsa-devel@alsa-project.org,
+        andreyknvl@google.com, joe@perches.com,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        perex@perex.cz, syzkaller-bugs@googlegroups.com, tiwai@suse.com,
+        vkoul@kernel.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190415022356.l8gJ1v5VuBNPvtSXhk_zD5xmidca-BTkh0Gvgi0zOU4@z>
 
-Hi,
-On Fri, 2019-04-12 at 11:16 +0100, Biju Das wrote:
-> Driver for TI HD3SS3220 USB Type-C DRP port controller.
-> 
-> The driver currently registers the port and supports data role swapping.
-> 
-> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-> ---
->  Note: This patch has compilation dependency on 
->  https://patchwork.kernel.org/patch/10882555/
->  
->  V2-->V3
->    * Used the new api "usb_role_switch by node" for getting
->      remote endpoint associated with Type-C USB DRP port
->      controller devices.
->  V1-->V2
->    * Driver uses usb role class instead of extcon for dual role switch
->      and also handles connect/disconnect events.
-> ---
->  drivers/usb/typec/Kconfig     |  10 ++
->  drivers/usb/typec/Makefile    |   1 +
->  drivers/usb/typec/hd3ss3220.c | 278 ++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 289 insertions(+)
->  create mode 100644 drivers/usb/typec/hd3ss3220.c
-> 
-> diff --git a/drivers/usb/typec/Kconfig b/drivers/usb/typec/Kconfig
-> index 89d9193..92a3717 100644
-> --- a/drivers/usb/typec/Kconfig
-> +++ b/drivers/usb/typec/Kconfig
-> @@ -50,6 +50,16 @@ source "drivers/usb/typec/tcpm/Kconfig"
->  
->  source "drivers/usb/typec/ucsi/Kconfig"
->  
-> +config TYPEC_HD3SS3220
-> +	tristate "TI HD3SS3220 Type-C DRP Port controller driver"
-> +	depends on I2C
-> +	help
-> +	  Say Y or M here if your system has TI HD3SS3220 Type-C DRP Port
-> +	  controller driver.
-> +
-> +	  If you choose to build this driver as a dynamically linked module, the
-> +	  module will be called hd3ss3220.ko.
-> +
->  config TYPEC_TPS6598X
->  	tristate "TI TPS6598x USB Power Delivery controller driver"
->  	depends on I2C
-> diff --git a/drivers/usb/typec/Makefile b/drivers/usb/typec/Makefile
-> index 6696b72..7753a5c3 100644
-> --- a/drivers/usb/typec/Makefile
-> +++ b/drivers/usb/typec/Makefile
-> @@ -4,5 +4,6 @@ typec-y				:= class.o mux.o bus.o
->  obj-$(CONFIG_TYPEC)		+= altmodes/
->  obj-$(CONFIG_TYPEC_TCPM)	+= tcpm/
->  obj-$(CONFIG_TYPEC_UCSI)	+= ucsi/
-> +obj-$(CONFIG_TYPEC_HD3SS3220)	+= hd3ss3220.o
->  obj-$(CONFIG_TYPEC_TPS6598X)	+= tps6598x.o
->  obj-$(CONFIG_TYPEC)		+= mux/
-> diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
-> new file mode 100644
-> index 0000000..b5cb42c
-> --- /dev/null
-> +++ b/drivers/usb/typec/hd3ss3220.c
-> @@ -0,0 +1,278 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * TI HD3SS3220 Type-C DRP Port Controller Driver
-> + *
-> + * Copyright (C) 2019 Renesas Electronics Corp.
-> + */
-> +
-> +#include <linux/module.h>
-> +#include <linux/i2c.h>
-> +#include <linux/usb/role.h>
-> +#include <linux/irqreturn.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/module.h>
-> +#include <linux/of_graph.h>
-> +#include <linux/regmap.h>
-> +#include <linux/slab.h>
-> +#include <linux/usb/typec.h>
-> +#include <linux/delay.h>
-> +
-> +#define HD3SS3220_REG_CN_STAT_CTRL	0x09
-> +#define HD3SS3220_REG_GEN_CTRL		0x0A
-> +#define HD3SS3220_REG_DEV_REV		0xA0
-> +
-> +/* Register HD3SS3220_REG_CN_STAT_CTRL*/
-> +#define HD3SS3220_REG_CN_STAT_CTRL_ATTACHED_STATE_MASK	(BIT(7) | BIT(6))
-> +#define HD3SS3220_REG_CN_STAT_CTRL_AS_DFP		BIT(6)
-> +#define HD3SS3220_REG_CN_STAT_CTRL_AS_UFP		BIT(7)
-> +#define HD3SS3220_REG_CN_STAT_CTRL_TO_ACCESSORY		(BIT(7) | BIT(6))
-> +#define HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS		BIT(4)
-> +
-> +/* Register HD3SS3220_REG_GEN_CTRL*/
-> +#define HD3SS3220_REG_GEN_CTRL_SRC_PREF_MASK		(BIT(2) | BIT(1))
-> +#define HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_DEFAULT	0x00
-> +#define HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SNK	BIT(1)
-> +#define HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SRC	(BIT(2) | BIT(1))
-> +
-> +struct hd3ss3220 {
-> +	struct device *dev;
-> +	struct regmap *regmap;
-> +	struct usb_role_switch	*role_sw;
-> +	struct typec_port *port;
-> +	struct typec_capability typec_cap;
-> +};
-> +
-> +static int hd3ss3220_set_source_pref(struct hd3ss3220 *hd3ss3220, int src_pref)
-> +{
-> +	unsigned int reg_val;
-> +	int ret;
-> +
-> +	ret = regmap_read(hd3ss3220->regmap, HD3SS3220_REG_GEN_CTRL, &reg_val);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	reg_val &= ~HD3SS3220_REG_GEN_CTRL_SRC_PREF_MASK;
-> +	reg_val |= src_pref;
-> +
-> +	return regmap_write(hd3ss3220->regmap, HD3SS3220_REG_GEN_CTRL, reg_val);
-use regmap_update_bits()?
-> +}
-> +
-> +static enum usb_role hd3ss3220_get_attached_state(struct hd3ss3220 *hd3ss3220)
-> +{
-> +	unsigned int reg_val;
-> +	enum usb_role attached_state;
-> +	int ret;
-> +
-> +	ret = regmap_read(hd3ss3220->regmap, HD3SS3220_REG_CN_STAT_CTRL,
-> +			  &reg_val);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	switch (reg_val & HD3SS3220_REG_CN_STAT_CTRL_ATTACHED_STATE_MASK) {
-> +	case HD3SS3220_REG_CN_STAT_CTRL_AS_DFP:
-> +		attached_state = USB_ROLE_HOST;
-> +	break;
-> +	case HD3SS3220_REG_CN_STAT_CTRL_AS_UFP:
-> +		attached_state = USB_ROLE_DEVICE;
-> +	break;
-> +	default:
-> +		attached_state = USB_ROLE_NONE;
-> +	}
-> +
-> +	return attached_state;
-> +}
-> +
-> +static int hd3ss3220_dr_set(const struct typec_capability *cap,
-> +			    enum typec_data_role role)
-> +{
-> +	struct hd3ss3220 *hd3ss3220 = container_of(cap, struct hd3ss3220,
-> +						   typec_cap);
-> +	enum usb_role role_val;
-> +	int pref, ret = 0;
-> +
-> +	if (role == TYPEC_HOST) {
-> +		role_val = USB_ROLE_HOST;
-> +		pref = HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SRC;
-> +	} else {
-> +		role_val = USB_ROLE_DEVICE;
-> +		pref = HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SNK;
-> +	}
-> +
-> +	ret = hd3ss3220_set_source_pref(hd3ss3220, pref);
-> +	usleep_range(10, 100);
-> +
-> +	usb_role_switch_set_role(hd3ss3220->role_sw, role_val);
-> +	typec_set_data_role(hd3ss3220->port, role);
-> +
-> +	return ret;
-> +}
-> +
-> +static void hd3ss3220_set_role(struct hd3ss3220 *hd3ss3220)
-> +{
-> +	enum usb_role role_state = hd3ss3220_get_attached_state(hd3ss3220);
-> +
-> +	usb_role_switch_set_role(hd3ss3220->role_sw, role_state);
-> +	if (role_state == USB_ROLE_NONE)
-> +		hd3ss3220_set_source_pref(hd3ss3220,
-> +				HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_DEFAULT);
-> +
-> +	switch (role_state) {
-> +	case USB_ROLE_HOST:
-> +		typec_set_data_role(hd3ss3220->port, TYPEC_HOST);
-> +		break;
-> +	case USB_ROLE_DEVICE:
-> +		typec_set_data_role(hd3ss3220->port, TYPEC_DEVICE);
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +}
-> +
-> +irqreturn_t hd3ss3220_irq(struct hd3ss3220 *hd3ss3220)
-> +{
-> +	int err;
-> +	unsigned int data;
-> +
-> +	hd3ss3220_set_role(hd3ss3220);
-> +
-> +	err = regmap_read(hd3ss3220->regmap, HD3SS3220_REG_CN_STAT_CTRL, &data);
-> +	if (err < 0)
-> +		return IRQ_NONE;
-> +
-> +	err = regmap_write(hd3ss3220->regmap, HD3SS3220_REG_CN_STAT_CTRL,
-> +			   data | HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS);
-> +	if (err < 0)
-> +		return IRQ_NONE;
-use regmap_xxx_bits() if possible?
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static irqreturn_t hd3ss3220_irq_handler(int irq, void *data)
-> +{
-> +	struct i2c_client *client = to_i2c_client(data);
-> +	struct hd3ss3220 *hd3ss3220 = i2c_get_clientdata(client);
-> +
-> +	return hd3ss3220_irq(hd3ss3220);
-> +}
-> +
-> +static const struct regmap_config config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +	.max_register = 0x0A,
-> +};
-> +
-> +static int hd3ss3220_probe(struct i2c_client *client,
-> +		const struct i2c_device_id *id)
-> +{
-> +	struct hd3ss3220 *hd3ss3220;
-> +	struct device_node *np;
-> +	struct device_node *parent;
-> +	struct device_node *child;
-> +	int ret;
-> +	unsigned int data;
-> +
-> +	hd3ss3220 = devm_kzalloc(&client->dev, sizeof(struct hd3ss3220),
-> +				 GFP_KERNEL);
-> +	if (!hd3ss3220)
-> +		return -ENOMEM;
-> +
-> +	i2c_set_clientdata(client, hd3ss3220);
-> +
-> +	hd3ss3220->dev = &client->dev;
-> +	hd3ss3220->regmap = devm_regmap_init_i2c(client, &config);
-> +	if (IS_ERR(hd3ss3220->regmap))
-> +		return PTR_ERR(hd3ss3220->regmap);
-> +
-> +	hd3ss3220_set_source_pref(hd3ss3220,
-> +				  HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_DEFAULT);
-> +	np = hd3ss3220->dev->of_node;
-> +	child = of_graph_get_endpoint_by_regs(np, -1, 0);
-> +	parent = of_graph_get_remote_port_parent(child);
-> +	hd3ss3220->role_sw = fwnode_usb_role_switch_get(of_fwnode_handle(parent));
-> +	if (IS_ERR_OR_NULL(hd3ss3220->role_sw)) {
-> +		of_node_put(child);
-> +		of_node_put(parent);
-> +		return PTR_ERR(hd3ss3220->role_sw);
-> +	}
-> +
-> +	of_node_put(child);
-> +	of_node_put(parent);
-> +
-> +	hd3ss3220->typec_cap.prefer_role = TYPEC_NO_PREFERRED_ROLE;
-> +	hd3ss3220->typec_cap.dr_set = hd3ss3220_dr_set;
-> +	hd3ss3220->typec_cap.type = TYPEC_PORT_DRP;
-> +	hd3ss3220->typec_cap.data = TYPEC_PORT_DRD;
-> +
-> +	hd3ss3220->port = typec_register_port(&client->dev,
-> +					      &hd3ss3220->typec_cap);
-> +	if (IS_ERR(hd3ss3220->port))
-> +		return PTR_ERR(hd3ss3220->port);
-> +
-> +	hd3ss3220_set_role(hd3ss3220);
-> +	if (client->irq > 0) {
-> +		ret = regmap_read(hd3ss3220->regmap, HD3SS3220_REG_CN_STAT_CTRL,
-> +				  &data);
-> +		if (ret < 0)
-> +			goto error;
-> +
-> +		if (data & HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS) {
-> +			ret = regmap_write(hd3ss3220->regmap,
-> +				HD3SS3220_REG_CN_STAT_CTRL,
-> +				data | HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS);
-> +			if (ret < 0)
-> +				goto error;
-> +		}
-> +
-> +		ret = devm_request_threaded_irq(&client->dev, client->irq, NULL,
-> +					hd3ss3220_irq_handler,
-> +					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-> +					"hd3ss3220", &client->dev);
-> +		if (ret)
-> +			goto error;
-> +	}
-> +
-> +	ret = i2c_smbus_read_byte_data(client, HD3SS3220_REG_DEV_REV);
-> +	if (ret < 0)
-> +		goto error;
-> +
-> +	dev_info(&client->dev, "probed revision=0x%x\n", ret);
-> +
-> +	return 0;
-> +error:
-> +	typec_unregister_port(hd3ss3220->port);
-> +	usb_role_switch_put(hd3ss3220->role_sw);
-> +
-> +	return ret;
-> +}
-> +
-> +static int hd3ss3220_remove(struct i2c_client *client)
-> +{
-> +	struct hd3ss3220 *hd3ss3220 = i2c_get_clientdata(client);
-> +
-> +	typec_unregister_port(hd3ss3220->port);
-> +	usb_role_switch_put(hd3ss3220->role_sw);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id dev_ids[] = {
-> +	{ .compatible = "ti,hd3ss3220"},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, dev_ids);
-> +
-> +static struct i2c_driver hd3ss3220_driver = {
-> +	.driver = {
-> +		.name = "hd3ss3220",
-> +		.owner = THIS_MODULE,
-no need set .owner
+syzbot has found a reproducer for the following crash on:
 
-> +		.of_match_table = of_match_ptr(dev_ids),
-> +	},
-> +	.probe = hd3ss3220_probe,
-> +	.remove =  hd3ss3220_remove,
-> +};
-> +
-> +module_i2c_driver(hd3ss3220_driver);
-> +
-> +MODULE_AUTHOR("Biju Das <biju.das@bp.renesas.com>");
-> +MODULE_DESCRIPTION("TI HD3SS3220 DRP Port Controller Driver");
-> +MODULE_LICENSE("GPL");
+HEAD commit:    9a33b369 usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan/tree/usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=147d659f200000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
+dashboard link: https://syzkaller.appspot.com/bug?extid=4d729bd9da724d0282dd
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=144ab07b200000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1559d1e3200000
 
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+4d729bd9da724d0282dd@syzkaller.appspotmail.com
+
+snd_usb_toneport 1-1:0.0: Line 6 POD Studio UX2 now attached
+usb 1-1: USB disconnect, device number 11
+snd_usb_toneport 5-1:0.0: read request failed (error -110)
+------------[ cut here ]------------
+proc_dir_entry 'asound/card4' already registered
+WARNING: CPU: 0 PID: 5572 at fs/proc/generic.c:359  
+proc_register+0x3d9/0x550 fs/proc/generic.c:359
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 0 PID: 5572 Comm: kworker/0:2 Not tainted 5.1.0-rc4-319354-g9a33b36 #3
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+usb 2-1: Using ep0 maxpacket: 8
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xe8/0x16e lib/dump_stack.c:113
+  panic+0x29d/0x5f2 kernel/panic.c:214
+usb 3-1: Using ep0 maxpacket: 8
+  __warn.cold+0x20/0x48 kernel/panic.c:571
+  report_bug+0x262/0x2a0 lib/bug.c:186
+  fixup_bug arch/x86/kernel/traps.c:179 [inline]
+  fixup_bug arch/x86/kernel/traps.c:174 [inline]
+  do_error_trap+0x130/0x1f0 arch/x86/kernel/traps.c:272
+  do_invalid_op+0x37/0x40 arch/x86/kernel/traps.c:291
+snd_usb_toneport 5-1:0.0: read request failed (error -110)
+  invalid_op+0x14/0x20 arch/x86/entry/entry_64.S:973
+RIP: 0010:proc_register+0x3d9/0x550 fs/proc/generic.c:359
+Code: ff df 48 89 f9 48 c1 e9 03 80 3c 01 00 0f 85 61 01 00 00 48 8b 04 24  
+48 c7 c7 e0 a0 79 8e 48 8b b0 d0 00 00 00 e8 a7 9e 71 ff <0f> 0b 48 c7 c7  
+a0 90 91 91 e8 b9 10 34 0c 48 8b 4c 24 28 48 b8 00
+RSP: 0018:ffff88809176f040 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: ffff88809cf2f700 RCX: 0000000000000000
+usb 2-1: config 0 interface 0 has no altsetting 0
+RDX: 0000000000000000 RSI: ffffffff815b1e42 RDI: ffffed10122eddfa
+RBP: ffff8880a00f3140 R08: ffff88809738e200 R09: ffffed1015a03edb
+R10: ffffed1015a03eda R11: ffff8880ad01f6d7 R12: 0000000000000000
+R13: dffffc0000000000 R14: ffff8880933340b8 R15: 0000000000000005
+  proc_mkdir_data+0x17b/0x230 fs/proc/generic.c:475
+usb 2-1: New USB device found, idVendor=0e41, idProduct=4151,  
+bcdDevice=7a.8f
+  __snd_info_register sound/core/info.c:814 [inline]
+  snd_info_register+0x2f8/0x3e0 sound/core/info.c:854
+  create_subdir+0x69/0xa0 sound/core/info.c:458
+  snd_info_card_create+0xcf/0x230 sound/core/info.c:528
+  snd_card_new+0x61d/0x920 sound/core/init.c:255
+  line6_probe+0x135/0x1150 sound/usb/line6/driver.c:736
+usb 2-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+  usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
+usb 2-1: config 0 descriptor??
+  really_probe+0x2da/0xb10 drivers/base/dd.c:509
+  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+  device_add+0xad2/0x16e0 drivers/base/core.c:2106
+usb 3-1: config 0 interface 0 has no altsetting 0
+  usb_set_configuration+0xdf7/0x1740 drivers/usb/core/message.c:2021
+  generic_probe+0xa2/0xda drivers/usb/core/generic.c:210
+usb 3-1: New USB device found, idVendor=0e41, idProduct=4151,  
+bcdDevice=7a.8f
+  usb_probe_device+0xc0/0x150 drivers/usb/core/driver.c:266
+  really_probe+0x2da/0xb10 drivers/base/dd.c:509
+  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+usb 3-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+snd_usb_toneport 5-1:0.0: write request failed (error -110)
+  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+usb 3-1: config 0 descriptor??
+  device_add+0xad2/0x16e0 drivers/base/core.c:2106
+usb 5-1: send failed (error -110)
+  usb_new_device.cold+0x537/0xccf drivers/usb/core/hub.c:2534
+  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+  port_event drivers/usb/core/hub.c:5350 [inline]
+  hub_event+0x138e/0x3b00 drivers/usb/core/hub.c:5432
+  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
+usb 5-1: send failed (error -110)
+  process_scheduled_works kernel/workqueue.c:2331 [inline]
+  worker_thread+0x7b0/0xe20 kernel/workqueue.c:2417
+  kthread+0x313/0x420 kernel/kthread.c:253
+  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+Kernel Offset: disabled
+Rebooting in 86400 seconds..
 
