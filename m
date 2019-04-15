@@ -2,196 +2,199 @@ Return-Path: <SRS0=TXFt=SR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF640C10F0E
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 13:29:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56FFCC282DA
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 14:36:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A0B9120825
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 13:29:22 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=dialogsemiconductor.onmicrosoft.com header.i=@dialogsemiconductor.onmicrosoft.com header.b="PtA4LB4Q"
+	by mail.kernel.org (Postfix) with ESMTP id 2807C218A1
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Apr 2019 14:36:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727252AbfDON3W (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Apr 2019 09:29:22 -0400
-Received: from mail1.bemta25.messagelabs.com ([195.245.230.3]:32518 "EHLO
-        mail1.bemta25.messagelabs.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727186AbfDON3V (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Apr 2019 09:29:21 -0400
-Received: from [46.226.52.104] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-        by server-3.bemta.az-a.eu-west-1.aws.symcld.net id 2C/7C-23123-B2784BC5; Mon, 15 Apr 2019 13:29:15 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA1VSWUwTURTt60ynAzLyKGivCCbWJXFppS60aqL
-  G+FGjRjQaE0VxoENb05am0yqaaOoCKKRBI2pECygoiW1ECCa4oeJaotFAjDuRWBUX3GrciEun
-  U1z+zr3n3HvOe7k0oeigUmmu0MU57axVRcWT5glx09XjSpqzM3Z0jdZvrW2g9G+u7ZPqS/2nS
-  H3rh+NS/eGjRYQ+dOiGdBZlqGlyG6qCiwznfQG54V3rHcpw6otHbgg3Dcuilsss9tyCwtUyc9
-  Nbr9TRpyn0VQ/2oICmFMXTJG4g4FxFn0woFHiPFHZXlVNi0Y3Ae+JkpIijKayH3defRIkU/Bx
-  Be4dfXopomsArYH9nuqBJxkvgRGVALuAUvBR2FO0jRTwbQjfC0T0kHgWN3q6ohsEsfHpQj0Sz
-  iwj8Xa+jojg8A7YFz0SHEU6HT5v9hIAJrIQHoWqpgAFjqDt7ixDxIHj59KdM1HMQ3HIPif3xc
-  PNuCAk5AQ8H7xNSbKdDR3VZrL0AerxpQgTAjxCUH/ks6x/tPL4rZqWHurKi2KwDPtb2xjRpsP
-  3qj5iVh4JH3xkBK3AevPfdlIv9YXDM202KBrcJePG4mRD/bQw0nJ6wE42p/OdllX8ZsT0cKsq
-  65ZXR30qC4P4QWYPIY0iX67SYzC4ba7GqtRkZaq12olo7dYpal6lhN6hZDedWr+N4l1qrYdfx
-  Gn69Lc9q1Ng5VxOKXJbRcWl+C+qqN7WhIbRUNYhpdDdnKwbmFhjXm1nenON0Wzm+DaXRtAqY9
-  qIIl+TkTFxhvsUaOc9+GugEVQrjFGiGd7A23mISqXY0ib5wuNtH0L0XX/gIBWkvsHOpSiYsSL
-  EgNbvtfxb1n3oHSk9NZpBEIlEkODinzeL6n3+FlDRSJTPlwpYEi931x+9VJIo0EqVivF+I4mL
-  /UqketEsXmqO7v7KzZOjc195SSfXGl1kLe0ft3FoxIjFHlz10sXtelXvT6hnFwdpipXGbPHCn
-  /sDMnGVX8s8ltlLXwiUXilOULcsyJQMvfz30bI42kLDWGP/B1PPZvoTwtLX02C7vDU/O8/yaN
-  npk8aWjQ/q+hVadzRywaFNm3pqD5/Pjvj1coyJ5M6sdSzh59jdYZRu15QMAAA==
-X-Env-Sender: Adam.Thomson.Opensource@diasemi.com
-X-Msg-Ref: server-19.tower-268.messagelabs.com!1555334954!5375015!1
-X-Originating-IP: [104.47.9.59]
-X-SYMC-ESS-Client-Auth: mailfrom-relay-check=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.31.5; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 31787 invoked from network); 15 Apr 2019 13:29:15 -0000
-Received: from mail-ve1eur03lp2059.outbound.protection.outlook.com (HELO EUR03-VE1-obe.outbound.protection.outlook.com) (104.47.9.59)
-  by server-19.tower-268.messagelabs.com with AES256-SHA256 encrypted SMTP; 15 Apr 2019 13:29:15 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dialogsemiconductor.onmicrosoft.com; s=selector1-diasemi-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZvQKfKaeg6u2pCQXLp/bzpFrYvovrdzdE4BtQLxizXA=;
- b=PtA4LB4QyPn5z+FOtCPW0O7/PUuYt6skAajkX0PFMDzGZV2GDx/DvuvAb+J3S8lRfJAh3W4qML37r3Q2psCe/cj2aQnTognYgmlBKIjkZpVsYDiOMqWh5/omNgsCzmosMe64lovb+zfJIf4E4h/otO+kYrkqIhYYW6OC8XQQZaI=
-Received: from AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM (10.169.154.136) by
- AM5PR1001MB1011.EURPRD10.PROD.OUTLOOK.COM (10.169.154.22) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1792.14; Mon, 15 Apr 2019 13:28:51 +0000
-Received: from AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::45b2:d8a8:e1c:b971]) by AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::45b2:d8a8:e1c:b971%4]) with mapi id 15.20.1792.018; Mon, 15 Apr 2019
- 13:28:51 +0000
-From:   Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-CC:     Kyle Tso <kyletso@google.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: RE: [PATCH 1/3] usb: typec: tcpm: Add start_srp_connection_detect
- callback
-Thread-Topic: [PATCH 1/3] usb: typec: tcpm: Add start_srp_connection_detect
- callback
-Thread-Index: AQHU8jkUQ4gr3hBo80qiT37u564Y7KY9CBxggAACAACAAC82IA==
-Date:   Mon, 15 Apr 2019 13:28:50 +0000
-Message-ID:
- <AM5PR1001MB099485208A9BF446332A38C3802B0@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
-References: <20190413203955.10788-1-hdegoede@redhat.com>
- <AM5PR1001MB0994B21356503AC1041171E7802B0@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
- <5bf45d6e-3b72-4b99-b05d-54fe96d11a48@redhat.com>
-In-Reply-To: <5bf45d6e-3b72-4b99-b05d-54fe96d11a48@redhat.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [165.225.80.50]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8b0c2397-4a19-4dfb-e338-08d6c1a64c73
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600140)(711020)(4605104)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:AM5PR1001MB1011;
-x-ms-traffictypediagnostic: AM5PR1001MB1011:
-x-ms-exchange-sharedmailbox-routingagent-processed: True
-x-microsoft-antispam-prvs: <AM5PR1001MB10116F431756128EC334E394A72B0@AM5PR1001MB1011.EURPRD10.PROD.OUTLOOK.COM>
-x-forefront-prvs: 000800954F
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(376002)(136003)(346002)(39850400004)(366004)(396003)(51444003)(51914003)(199004)(189003)(6116002)(3846002)(72206003)(14454004)(74316002)(6436002)(33656002)(25786009)(7696005)(6506007)(305945005)(446003)(7736002)(11346002)(2906002)(229853002)(476003)(102836004)(53546011)(55236004)(186003)(5660300002)(486006)(105586002)(76176011)(478600001)(26005)(106356001)(256004)(14444005)(6246003)(86362001)(71190400001)(71200400001)(54906003)(53936002)(8936002)(68736007)(81166006)(99286004)(4326008)(110136005)(81156014)(316002)(52536014)(66066001)(9686003)(55016002)(97736004)(8676002);DIR:OUT;SFP:1101;SCL:1;SRVR:AM5PR1001MB1011;H:AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
-received-spf: None (protection.outlook.com: diasemi.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: LMV9MPfREVgY0Dp7OnKQY4MSSqCxJwmZqGEqviic91znkKcvt7KS5JfLeAhDY8YIamN+o0OP0c0yEKXIw1WL/mFNxffvSRFNOADDClIxsCU1QMArndINjmJbXdgVIBopEsaaQmCeMUyzQLgfwP01p8bQt8EQTfIhMtsUoJL7MktzQ3R44G+bmvWH0mFQuAKMkGwi36e1/8PdGh8TR5MkWJqF9qvunHeSKa0pCfZ9lkAzIL+CDem8v4EYDD93oPx8MF4j3824K5QqpKr5u0lrHBYN1RH2e0IIKxw5JBgLKBDaAEu+9Nmr6z20rEIdd1iWTUY4NJYnVyRwimLzpGmiqfCV+KksSI53FCpSxjgaeU0M8uI23K4IzHvpLAiy791TADuDtr7grSJNiArgPcb8LAXufsEES1LUNpCKVnO78uw=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+        id S1727595AbfDOOgH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Apr 2019 10:36:07 -0400
+Received: from mail-io1-f71.google.com ([209.85.166.71]:42639 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727490AbfDOOgG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Apr 2019 10:36:06 -0400
+Received: by mail-io1-f71.google.com with SMTP id i1so14360755ioq.9
+        for <linux-usb@vger.kernel.org>; Mon, 15 Apr 2019 07:36:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=maroSdYVUcko5p9go8boJX6HfFuqP/DlI4KskCe4Yk4=;
+        b=lkiS33WShU6O1QkCP/lJk3sl9cIlwjUATxDlYqYHkoa+lPTKI+7TM+pgyRREtBYUYJ
+         GX1nBrJNlkHYp/o24JLBCdytndhhH3gurqipFzYX0eIdo9Ksz6XgF+gDyAmkIjAX2Thz
+         b+uy6q+oJTMW64uzS3FISBpG2yHHw6gO1s2zRYzkQp/JVlzzX1vcqLnrfTpDeV9PrZeT
+         xNNQmF2+1mgCFg9yo2CZkFGoYSFZhAalo+rjqO4uLdmqanIPTz/hRsklsTd/cock5+hc
+         WoE1MVOtJfeiV8QbnsSlH8WrigfBG5zKiXTK98Xp603UL+upOwDfzlje1+IolvlXB0ly
+         l6GA==
+X-Gm-Message-State: APjAAAUw3anTxO7Y9WgkR37MidpknM0UJqrx7BNZUh8upGGOKAVn08V/
+        xr1nRkfnz/WrnqbtwqCBeBrfZywVSDD9lMB1O9N+JGZNcUBt
+X-Google-Smtp-Source: APXvYqznctK1xYlXchcuvJaWDX+fCGu3z9Zj+TFrwWRO14cCLDWIa8kI+GFaFoM60q2LUjyiC1pGCbV6DBVZcagPmwMVlFo0XFrk
 MIME-Version: 1.0
-X-OriginatorOrg: diasemi.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b0c2397-4a19-4dfb-e338-08d6c1a64c73
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Apr 2019 13:28:51.0038
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR1001MB1011
+X-Received: by 2002:a24:408e:: with SMTP id n136mr6613893ita.16.1555338965216;
+ Mon, 15 Apr 2019 07:36:05 -0700 (PDT)
+Date:   Mon, 15 Apr 2019 07:36:05 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000086f7f20586929239@google.com>
+Subject: KASAN: use-after-free Read in v4l2_release
+From:   syzbot <syzbot+a4387f5b6b799f6becbf@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, brian.warner@samsung.com,
+        ezequiel@collabora.com, hans.verkuil@cisco.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, mchehab@kernel.org,
+        niklas.soderlund+renesas@ragnatech.se,
+        sakari.ailus@linux.intel.com, sque@chromium.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190415132850.0FwmGs00pElgQoneEBV02A0keXdtMiIyS2M9uOMiLy0@z>
 
-T24gMTUgQXByaWwgMjAxOSAxMTozOCwgSGFucyBkZSBHb2VkZSB3cm90ZToNCg0KPiBPbiAxNS0w
-NC0xOSAxMjozMSwgQWRhbSBUaG9tc29uIHdyb3RlOg0KPiA+IE9uIDEzIEFwcmlsIDIwMTkgMjE6
-NDAsIEhhbnMgZGUgR29lZGUgd3JvdGU6DQo+ID4NCj4gPj4gU29tZSB0Y3BjIGRldmljZS1kcml2
-ZXJzIG5lZWQgdG8gZXhwbGljaXRseSBiZSB0b2xkIHRvIHdhdGNoIGZvcg0KPiA+PiBjb25uZWN0
-aW9uIGV2ZW50cywgb3RoZXJ3aXNlIHRoZSB0Y3BjIHdpbGwgbm90IGdlbmVyYXRlIGFueQ0KPiA+
-PiBUQ1BNX0NDX0VWRU5UcyBhbmQgZGV2aWNlcyBiZWluZyBwbHVnZ2VkIGludG8gdGhlIFR5cGUt
-QyBwb3J0IHdpbGwgbm90IGJlDQo+IG5vdGljZWQuDQo+ID4+DQo+ID4+IEZvciBkdWFsLXJvbGUg
-cG9ydHMgdGNwbV9zdGFydF9kcnBfdG9nZ2xpbmcoKSBpcyB1c2VkIHRvIHRlbGwgdGhlDQo+ID4+
-IHRjcGMgdG8gd2F0Y2ggZm9yIGNvbm5lY3Rpb24gZXZlbnRzLiBCdXQgZm9yIHNpbmdsZS1yb2xl
-IHBvcnRzIHdlJ3ZlDQo+ID4+IHNvIGZhciBiZWVuIGZhbGxpbmcgYmFjayB0byBqdXN0IGNhbGxp
-bmcgdGNwbV9zZXRfY2MoKS4gRm9yIHNvbWUNCj4gPj4gdGNwYy1zIHN1Y2ggYXMgdGhlDQo+ID4+
-IGZ1c2IzMDIgdGhpcyBpcyBub3QgZW5vdWdoIGFuZCBubyBUQ1BNX0NDX0VWRU5UIHdpbGwgYmUg
-Z2VuZXJhdGVkLg0KPiA+Pg0KPiA+PiBUaGlzIGNvbW1pdCBhZGRzIGEgbmV3IHN0YXJ0X3NycF9j
-b25uZWN0aW9uX2RldGVjdCBjYWxsYmFjayB0bw0KPiA+PiB0Y3BjX2RldiBhbmQgd2hlbiB0aGlz
-IGlzIGltcGxlbWVudGVkIGNhbGxzIHRoaXMgaW4gcGxhY2Ugb2Ygc3RhcnRfZHJwX3RvZ2dsaW5n
-DQo+IGZvciBTUlAgZGV2aWNlcy4NCj4gPj4NCj4gPj4gRml4ZXM6IGVhM2I0ZDU1MjNiYygidXNi
-OiB0eXBlYzogZnVzYjMwMjogUmVzb2x2ZSBmaXhlZCBwb3dlciByb2xlDQo+ID4+IC4uLiIpDQo+
-ID4+IENjOiBBZGFtIFRob21zb24gPEFkYW0uVGhvbXNvbi5PcGVuc291cmNlQGRpYXNlbWkuY29t
-Pg0KPiA+PiBTaWduZWQtb2ZmLWJ5OiBIYW5zIGRlIEdvZWRlIDxoZGVnb2VkZUByZWRoYXQuY29t
-Pg0KPiA+PiAtLS0NCj4gPj4gICBkcml2ZXJzL3VzYi90eXBlYy90Y3BtL3RjcG0uYyB8IDggKysr
-KysrKysNCj4gPj4gICBpbmNsdWRlL2xpbnV4L3VzYi90Y3BtLmggICAgICB8IDYgKysrKysrDQo+
-ID4+ICAgMiBmaWxlcyBjaGFuZ2VkLCAxNCBpbnNlcnRpb25zKCspDQo+ID4+DQo+ID4+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL3VzYi90eXBlYy90Y3BtL3RjcG0uYw0KPiA+PiBiL2RyaXZlcnMvdXNi
-L3R5cGVjL3RjcG0vdGNwbS5jIGluZGV4IGEyMjMzZDcyYWU3Yy4uMWFmNTRhZjkwYjUwDQo+ID4+
-IDEwMDY0NA0KPiA+PiAtLS0gYS9kcml2ZXJzL3VzYi90eXBlYy90Y3BtL3RjcG0uYw0KPiA+PiAr
-KysgYi9kcml2ZXJzL3VzYi90eXBlYy90Y3BtL3RjcG0uYw0KPiA+PiBAQCAtMjU1Myw2ICsyNTUz
-LDE0IEBAIHN0YXRpYyBib29sIHRjcG1fc3RhcnRfZHJwX3RvZ2dsaW5nKHN0cnVjdA0KPiA+PiB0
-Y3BtX3BvcnQgKnBvcnQsDQo+ID4+ICAgCQkJcmV0dXJuIHRydWU7DQo+ID4+ICAgCX0NCj4gPj4N
-Cj4gPj4gKwlpZiAocG9ydC0+dGNwYy0+c3RhcnRfc3JwX2Nvbm5lY3Rpb25fZGV0ZWN0ICYmDQo+
-ID4+ICsJICAgIHBvcnQtPnBvcnRfdHlwZSAhPSBUWVBFQ19QT1JUX0RSUCkgew0KPiA+PiArCQl0
-Y3BtX2xvZ19mb3JjZShwb3J0LCAiU3RhcnQgU1JQIGNvbm5lY3Rpb24gZGV0ZWN0aW9uIik7DQo+
-ID4+ICsJCXJldCA9IHBvcnQtPnRjcGMtPnN0YXJ0X3NycF9jb25uZWN0aW9uX2RldGVjdChwb3J0
-LT50Y3BjLCBjYyk7DQo+ID4+ICsJCWlmICghcmV0KQ0KPiA+PiArCQkJcmV0dXJuIHRydWU7DQo+
-ID4+ICsJfQ0KPiA+PiArDQo+ID4NCj4gPiBJcyBpdCBhIGxpdHRsZSBtaXNsZWFkaW5nIHdoZW4g
-cmVhZGluZyB0aGUgc3RhdGUgbWFjaGluZSBjb2RlIHRoYXQNCj4gPiB3ZSdyZSBjYWxsaW5nDQo+
-ID4gdGNwbV9zdGFydF9kcnBfdG9nZ2xpbmcoKSB0byBhY3R1YWxseSBzdGFydCBTUlAgZGV0ZWN0
-aW9uPyBNYXliZSB3ZQ0KPiA+IGNvdWxkIHJlbmFtZSB0aGlzIGZ1bmN0aW9uIGFuZCB0aGUgYXNz
-b2NpYXRlZCBzdGF0ZSB0byBjb3ZlciBib3RoIFNSUA0KPiA+IGFuZCBEUlAsIG9yIGFsdGVybmF0
-aXZlbHkgYWRkIGEgbmV3IHN0YXRlIGZvciBTUlBfREVURUNUSU9OLCBqdXN0IHRvDQo+ID4ga2Vl
-cCBsb2dnaW5nIGFuZCBjb2RlIHJlYWRhYmlsaXR5IGNsZWFyIGFuZCB0aGVuIG1vdmUgdGhlIGFi
-b3ZlIGNvZGUNCj4gPiB0byBhIGRpZmZlcmVudCBmdW5jdGlvbiBqdXN0IGZvciBTUlA/DQo+IA0K
-PiBJJ20gbm90IGluIGZhbiBvZiBhZGRpbmcgYSBzZXBhcmF0ZSBzdGF0ZSBmb3IgdGhpcy4gRXZl
-biB0aG91Z2ggY29ubmVjdGlvbg0KPiBkZXRlY3Rpb24gaXMgbm90IHJlYWxseSB0b2dnbGluZywg
-SSd2ZSBjb25zaWRlcmVkIGNoYW5naW5nIHRjcG1fc3RhcnRfZHJwX3RvZ2dsaW5nDQo+IHRvIHRj
-cG1fc3RhcnRfdG9nZ2xpbmcgYW5kIHJlbmFtZSB0aGUgc3RhdGUgdG8gbWF0Y2guDQo+IEkgdGhp
-bmsgdGhhdCBpZiB3ZSB3YW50IHRvIGRyb3AgZHJwL0RSUCBmcm9tIHRoZSBuYW1lcywgdGhhdCB1
-c2luZw0KPiB0Y3BtX3N0YXJ0X3RvZ2dsaW5nIC8gVE9HR0xJTkcgaXMgdGhlIGJlc3Qgc29sdXRp
-b24uDQo+IA0KPiBBbHNvIG5vdGUgdGhhdCBvbiB0aGUgZnVzYjMwMiwgd2hpY2ggaXMgdGhlIHRj
-cGMgd2hpY2ggbmVlZHMgU1JQIGNvbm5lY3Rpb24NCj4gZGV0ZWN0aW9uLCB0aGlzIGlzIGRvbmUg
-dXNpbmcgdGhlIHRvZ2dsaW5nIGVuZ2luZS4gU28ganVzdCBjaGFuZ2luZyB0aGUgbmFtZXMgZnJv
-bQ0KPiBkcnAtdG9nZ2xpbmcgdG8gdG9nZ2xpbmcgc2VlbXMgYmVzdC4NCg0KWWVwLCB0aGF0J3Mg
-ZmluZSB3aXRoIG1lLiBUaGFua3MgZm9yIHRoZSBlZmZvcnRzIG9uIHRoaXMuDQoNCj4gDQo+IFJl
-Z2FyZHMsDQo+IA0KPiBIYW5zDQo+IA0KPiANCj4gDQo+ID4NCj4gPiBGdW5jdGlvbmFsbHkgdGhv
-dWdoLCB0aGUgY2hhbmdlIG1ha2VzIHNlbnNlIHRvIG1lLg0KPiA+DQo+ID4+ICAgCXJldHVybiBm
-YWxzZTsNCj4gPj4gICB9DQo+ID4+DQo+ID4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L3Vz
-Yi90Y3BtLmggYi9pbmNsdWRlL2xpbnV4L3VzYi90Y3BtLmgNCj4gPj4gaW5kZXgNCj4gPj4gMGM1
-MzJjYTNmMDc5Li5iZjJiYmJmMmUyYjIgMTAwNjQ0DQo+ID4+IC0tLSBhL2luY2x1ZGUvbGludXgv
-dXNiL3RjcG0uaA0KPiA+PiArKysgYi9pbmNsdWRlL2xpbnV4L3VzYi90Y3BtLmgNCj4gPj4gQEAg
-LTEyNSw2ICsxMjUsMTAgQEAgc3RydWN0IHRjcGNfY29uZmlnIHsNCj4gPj4gICAgKgkJT3B0aW9u
-YWw7IGlmIHN1cHBvcnRlZCBieSBoYXJkd2FyZSwgY2FsbGVkIHRvIHN0YXJ0IERSUA0KPiA+PiAg
-ICAqCQl0b2dnbGluZy4gRFJQIHRvZ2dsaW5nIGlzIHN0b3BwZWQgYXV0b21hdGljYWxseSBpZg0K
-PiA+PiAgICAqCQlhIGNvbm5lY3Rpb24gaXMgZXN0YWJsaXNoZWQuDQo+ID4+ICsgKiBAc3RhcnRf
-c3JwX2Nvbm5lY3Rpb25fZGV0ZWN0Og0KPiA+PiArICoJCU9wdGlvbmFsOyBpZiBzdXBwb3J0ZWQg
-YnkgaGFyZHdhcmUsIGNhbGxlZCB0byBzdGFydCBjb25uZWN0aW9uDQo+ID4+ICsgKgkJZGV0ZWN0
-aW9uIGZvciBzaW5nbGUgcm9sZSBwb3J0cy4gQ29ubmVjdGlvbiBkZXRlY3Rpb24gaXMgc3RvcHBl
-ZA0KPiA+PiArICoJCWF1dG9tYXRpY2FsbHkgaWYgYSBjb25uZWN0aW9uIGlzIGVzdGFibGlzaGVk
-Lg0KPiA+PiAgICAqIEB0cnlfcm9sZToJT3B0aW9uYWw7IGNhbGxlZCB0byBzZXQgYSBwcmVmZXJy
-ZWQgcm9sZQ0KPiA+PiAgICAqIEBwZF90cmFuc21pdDpDYWxsZWQgdG8gdHJhbnNtaXQgUEQgbWVz
-c2FnZQ0KPiA+PiAgICAqIEBtdXg6CVBvaW50ZXIgdG8gbXVsdGlwbGV4ZXIgZGF0YQ0KPiA+PiBA
-QCAtMTQ5LDYgKzE1Myw4IEBAIHN0cnVjdCB0Y3BjX2RldiB7DQo+ID4+ICAgCQkJIGVudW0gdHlw
-ZWNfcm9sZSByb2xlLCBlbnVtIHR5cGVjX2RhdGFfcm9sZSBkYXRhKTsNCj4gPj4gICAJaW50ICgq
-c3RhcnRfZHJwX3RvZ2dsaW5nKShzdHJ1Y3QgdGNwY19kZXYgKmRldiwNCj4gPj4gICAJCQkJICBl
-bnVtIHR5cGVjX2NjX3N0YXR1cyBjYyk7DQo+ID4+ICsJaW50ICgqc3RhcnRfc3JwX2Nvbm5lY3Rp
-b25fZGV0ZWN0KShzdHJ1Y3QgdGNwY19kZXYgKmRldiwNCj4gPj4gKwkJCQkJICAgZW51bSB0eXBl
-Y19jY19zdGF0dXMgY2MpOw0KPiA+PiAgIAlpbnQgKCp0cnlfcm9sZSkoc3RydWN0IHRjcGNfZGV2
-ICpkZXYsIGludCByb2xlKTsNCj4gPj4gICAJaW50ICgqcGRfdHJhbnNtaXQpKHN0cnVjdCB0Y3Bj
-X2RldiAqZGV2LCBlbnVtIHRjcG1fdHJhbnNtaXRfdHlwZQ0KPiA+PiB0eXBlLA0KPiA+PiAgIAkJ
-CSAgIGNvbnN0IHN0cnVjdCBwZF9tZXNzYWdlICptc2cpOw0KPiA+PiAtLQ0KPiA+PiAyLjIxLjAN
-Cg==
+Hello,
+
+syzbot found the following crash on:
+
+HEAD commit:    9a33b369 usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan/tree/usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=14ab47ed200000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
+dashboard link: https://syzkaller.appspot.com/bug?extid=a4387f5b6b799f6becbf
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+
+Unfortunately, I don't have any reproducer for this crash yet.
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+a4387f5b6b799f6becbf@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: use-after-free in v4l2_release+0x322/0x390  
+drivers/media/v4l2-core/v4l2-dev.c:453
+Read of size 8 at addr ffff88809ccf23e0 by task v4l_id/8258
+
+CPU: 1 PID: 8258 Comm: v4l_id Not tainted 5.1.0-rc4-319354-g9a33b36 #3
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Call Trace:
+usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xe8/0x16e lib/dump_stack.c:113
+  print_address_description+0x6c/0x236 mm/kasan/report.c:187
+  kasan_report.cold+0x1a/0x3c mm/kasan/report.c:317
+  v4l2_release+0x322/0x390 drivers/media/v4l2-core/v4l2-dev.c:453
+  __fput+0x2df/0x8c0 fs/file_table.c:278
+  task_work_run+0x149/0x1c0 kernel/task_work.c:113
+  tracehook_notify_resume include/linux/tracehook.h:188 [inline]
+  exit_to_usermode_loop+0x243/0x270 arch/x86/entry/common.c:166
+  prepare_exit_to_usermode arch/x86/entry/common.c:197 [inline]
+  syscall_return_slowpath arch/x86/entry/common.c:268 [inline]
+  do_syscall_64+0x40c/0x4f0 arch/x86/entry/common.c:293
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x7fd2e34df2b0
+Code: 40 75 0b 31 c0 48 83 c4 08 e9 0c ff ff ff 48 8d 3d c5 32 08 00 e8 c0  
+07 02 00 83 3d 45 a3 2b 00 00 75 10 b8 03 00 00 00 0f 05 <48> 3d 01 f0 ff  
+ff 73 31 c3 48 83 ec 08 e8 ce 8a 01 00 48 89 04 24
+RSP: 002b:00007ffcfd4e8d68 EFLAGS: 00000246 ORIG_RAX: 0000000000000003
+RAX: 0000000000000000 RBX: 0000000000000003 RCX: 00007fd2e34df2b0
+RDX: 00007fd2e3795df0 RSI: 0000000000000001 RDI: 0000000000000003
+RBP: 0000000000000000 R08: 00007fd2e3795df0 R09: 000000000000000a
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000400884
+R13: 00007ffcfd4e8ec0 R14: 0000000000000000 R15: 0000000000000000
+
+Allocated by task 5665:
+  set_track mm/kasan/common.c:87 [inline]
+  __kasan_kmalloc mm/kasan/common.c:497 [inline]
+  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:470
+  slab_post_alloc_hook mm/slab.h:437 [inline]
+  slab_alloc_node mm/slub.c:2756 [inline]
+  __kmalloc_node_track_caller+0xf3/0x320 mm/slub.c:4372
+  alloc_dr drivers/base/devres.c:103 [inline]
+  devm_kmalloc+0x8c/0x190 drivers/base/devres.c:793
+  devm_kzalloc include/linux/device.h:679 [inline]
+  usb_raremono_probe+0x34/0x235 drivers/media/radio/radio-raremono.c:298
+  usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
+  really_probe+0x2da/0xb10 drivers/base/dd.c:509
+  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+  device_add+0xad2/0x16e0 drivers/base/core.c:2106
+  usb_set_configuration+0xdf7/0x1740 drivers/usb/core/message.c:2021
+  generic_probe+0xa2/0xda drivers/usb/core/generic.c:210
+  usb_probe_device+0xc0/0x150 drivers/usb/core/driver.c:266
+  really_probe+0x2da/0xb10 drivers/base/dd.c:509
+  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+  device_add+0xad2/0x16e0 drivers/base/core.c:2106
+  usb_new_device.cold+0x537/0xccf drivers/usb/core/hub.c:2534
+  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+  port_event drivers/usb/core/hub.c:5350 [inline]
+  hub_event+0x138e/0x3b00 drivers/usb/core/hub.c:5432
+  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
+  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
+  kthread+0x313/0x420 kernel/kthread.c:253
+  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+
+Freed by task 5665:
+  set_track mm/kasan/common.c:87 [inline]
+  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:459
+  slab_free_hook mm/slub.c:1429 [inline]
+  slab_free_freelist_hook+0x5e/0x140 mm/slub.c:1456
+  slab_free mm/slub.c:3003 [inline]
+  kfree+0xce/0x290 mm/slub.c:3958
+  release_nodes+0x4ac/0x920 drivers/base/devres.c:508
+  devres_release_all+0x79/0xc8 drivers/base/devres.c:529
+  __device_release_driver drivers/base/dd.c:1086 [inline]
+  device_release_driver_internal+0x23a/0x4f0 drivers/base/dd.c:1113
+  bus_remove_device+0x302/0x5c0 drivers/base/bus.c:556
+  device_del+0x467/0xb90 drivers/base/core.c:2269
+  usb_disable_device+0x242/0x790 drivers/usb/core/message.c:1235
+  usb_disconnect+0x298/0x870 drivers/usb/core/hub.c:2197
+  hub_port_connect drivers/usb/core/hub.c:4940 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+  port_event drivers/usb/core/hub.c:5350 [inline]
+  hub_event+0xcd2/0x3b00 drivers/usb/core/hub.c:5432
+  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
+  process_scheduled_works kernel/workqueue.c:2331 [inline]
+  worker_thread+0x7b0/0xe20 kernel/workqueue.c:2417
+  kthread+0x313/0x420 kernel/kthread.c:253
+  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+
+The buggy address belongs to the object at ffff88809ccf2200
+  which belongs to the cache kmalloc-4k of size 4096
+The buggy address is located 480 bytes inside of
+  4096-byte region [ffff88809ccf2200, ffff88809ccf3200)
+The buggy address belongs to the page:
+page:ffffea0002733c00 count:1 mapcount:0 mapping:ffff88812c3f4600 index:0x0  
+compound_mapcount: 0
+flags: 0xfff00000010200(slab|head)
+raw: 00fff00000010200 dead000000000100 dead000000000200 ffff88812c3f4600
+raw: 0000000000000000 0000000000070007 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+  ffff88809ccf2280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffff88809ccf2300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ffff88809ccf2380: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                                        ^
+  ffff88809ccf2400: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffff88809ccf2480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
