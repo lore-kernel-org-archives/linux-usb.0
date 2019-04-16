@@ -2,108 +2,83 @@ Return-Path: <SRS0=lM5t=SS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0C4EC10F13
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 14:50:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89BC4C10F13
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 15:00:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C30862077C
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 14:50:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 55A9320652
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 15:00:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729048AbfDPOuC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Apr 2019 10:50:02 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:42672 "HELO
+        id S1729921AbfDPPAk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Apr 2019 11:00:40 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:42774 "HELO
         iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1728759AbfDPOuC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Apr 2019 10:50:02 -0400
-Received: (qmail 4996 invoked by uid 2102); 16 Apr 2019 10:50:01 -0400
+        with SMTP id S1729773AbfDPPAg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Apr 2019 11:00:36 -0400
+Received: (qmail 5287 invoked by uid 2102); 16 Apr 2019 11:00:35 -0400
 Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 16 Apr 2019 10:50:01 -0400
-Date:   Tue, 16 Apr 2019 10:50:01 -0400 (EDT)
+  by localhost with SMTP; 16 Apr 2019 11:00:35 -0400
+Date:   Tue, 16 Apr 2019 11:00:35 -0400 (EDT)
 From:   Alan Stern <stern@rowland.harvard.edu>
 X-X-Sender: stern@iolanthe.rowland.org
-To:     Greg KH <greg@kroah.com>
-cc:     Kento Kobayashi <Kento.A.Kobayashi@sony.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Jacky Cao <Jacky.Cao@sony.com>,
-        USB list <linux-usb@vger.kernel.org>
-Subject: [PATCH] USB: core: Don't unbind interfaces following device reset
- failure
-Message-ID: <Pine.LNX.4.44L0.1904151313300.1575-100000@iolanthe.rowland.org>
+To:     Jesse Hathaway <jesse@mbuki-mvuki.org>
+cc:     Bjorn Helgaas <helgaas@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-usb@vger.kernel.org>
+Subject: Re: Regression causes a hang on boot with a Comtrol PCI card
+In-Reply-To: <CANSNSoVpnK6fyfFct7cLNRJAvdLWh0ac=isnPOkOAp4LV+WoSw@mail.gmail.com>
+Message-ID: <Pine.LNX.4.44L0.1904161054060.1605-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190416145001.ZgRkzGWhYquzMnpN-lniPDONj_wXr2rLwExiXUHTpzk@z>
 
-The SCSI core does not like to have devices or hosts unregistered
-while error recovery is in progress.  Trying to do so can lead to
-self-deadlock: Part of the removal code tries to obtain a lock already
-held by the error handler.
+On Mon, 15 Apr 2019, Jesse Hathaway wrote:
 
-This can cause problems for the usb-storage and uas drivers, because
-their error handler routines perform a USB reset, and if the reset
-fails then the USB core automatically goes on to unbind all drivers
-from the device's interfaces -- all while still in the context of the
-SCSI error handler.
+> On Sat, Apr 6, 2019 at 10:32 AM Alan Stern <stern@rowland.harvard.edu> wrote:
+> > Well, at least that's forward progress.  I don't know what pstore is or
+> > what connection it has to the USB subsystem.  Does the machine hang
+> > similarly if you boot without the Comtrol PCI card present?
+> 
+> Yes the box boots fine when the Comtrol PCI card is *not* present.
+> 
+> > For that matter, what happens if you remove EHCI from the kernel
+> > configuration completely?
+> 
+> If I remove USB support, the box still hangs after registering the pstore, but
+> if I remove pstore support and APEI support from the kernel then the box boots
+> without issue.
+> 
+> > As for how the PCI card affects the USB handoff, it depends on how the
+> > BIOS behaves.  Normally the BIOS will take control of all the available
+> > EHCI controllers during bootup (so that it can use them to communicate
+> > with a USB keyboard or mouse), including controllers on add-on PCI
+> > cards as well as those on the motherboard.  When the kernel starts up,
+> > it tries to take ownership of the controllers away from the BIOS
+> > (that's the handoff) so that Linux can use them.  However, if the BIOS
+> > was never tested for handoff of USB controllers on add-on PCI cards, it
+> > could easily have a bug that would crash the machine.
+> 
+> The Comtrol card provides 32 serial ports, via a breakout box, but it has
+> no USB functionality, which was why I was surprised that its presence
+> somehow breaks the USB hand off.
 
-As it turns out, practically all the scenarios leading to a USB reset
-failure end up causing a device disconnect (the main error pathway in
-usb_reset_and_verify_device(), at the end of the routine, calls
-hub_port_logical_disconnect() before returning).  As a result, the
-hub_wq thread will soon become aware of the problem and will unbind
-all the device's drivers in its own context, not in the
-error-handler's context.
+Well, I am completely mystified.  Nor do I understand how the commits
+you identified could be related, although maybe the relationship is
+very indirect.
 
-This means that usb_reset_device() does not need to call
-usb_unbind_and_rebind_marked_interfaces() in cases where
-usb_reset_and_verify_device() has returned an error, because hub_wq
-will take care of everything anyway.
+Whatever the source of the problem, I don't think you're going to find 
+it by looking at the USB code.  Perhaps the early initialization of the 
+functions that _are_ present on the Comtrol card somehow messes up 
+other parts of the system.
 
-This particular problem was observed in somewhat artificial
-circumstances, by using usbfs to tell a hub to power-down a port
-connected to a USB-3 mass storage device using the UAS protocol.  With
-the port turned off, the currently executing command timed out and the
-error handler started running.  The USB reset naturally failed,
-because the hub port was off, and the error handler deadlocked as
-described above.  Not carrying out the call to
-usb_unbind_and_rebind_marked_interfaces() fixes this issue.
-
-Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-Reported-by: Kento Kobayashi <Kento.A.Kobayashi@sony.com>
-Tested-by: Kento Kobayashi <Kento.A.Kobayashi@sony.com>
-CC: Bart Van Assche <bvanassche@acm.org>
-CC: Martin K. Petersen <martin.petersen@oracle.com>
-CC: Jacky Cao <Jacky.Cao@sony.com>
-
----
-
-
-[as1885]
-
-
- drivers/usb/core/hub.c |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-Index: usb-4.x/drivers/usb/core/hub.c
-===================================================================
---- usb-4.x.orig/drivers/usb/core/hub.c
-+++ usb-4.x/drivers/usb/core/hub.c
-@@ -5902,7 +5902,10 @@ int usb_reset_device(struct usb_device *
- 					cintf->needs_binding = 1;
- 			}
- 		}
--		usb_unbind_and_rebind_marked_interfaces(udev);
-+
-+		/* If the reset failed, hub_wq will unbind drivers later */
-+		if (ret == 0)
-+			usb_unbind_and_rebind_marked_interfaces(udev);
- 	}
- 
- 	usb_autosuspend_device(udev);
+Alan Stern
 
