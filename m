@@ -7,50 +7,50 @@ X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD4D4C10F14
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 21:54:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97A15C10F13
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 21:54:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8E6A920693
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 21:54:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 649DC20693
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 21:54:30 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ejBtaPnR"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jet7qqlV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728806AbfDPVy1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Apr 2019 17:54:27 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:44103 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730715AbfDPVyR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Apr 2019 17:54:17 -0400
-Received: by mail-pg1-f195.google.com with SMTP id i2so10967987pgj.11
-        for <linux-usb@vger.kernel.org>; Tue, 16 Apr 2019 14:54:17 -0700 (PDT)
+        id S1730725AbfDPVyR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Apr 2019 17:54:17 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:36898 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730677AbfDPVyQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Apr 2019 17:54:16 -0400
+Received: by mail-pl1-f193.google.com with SMTP id w23so10994012ply.4
+        for <linux-usb@vger.kernel.org>; Tue, 16 Apr 2019 14:54:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=cWXcwUO99R4dLB/IuZUC9gJlZE5FQWRDL44srQDPsqk=;
-        b=ejBtaPnR9q05b/fAPX24cAvnXMkUKl8dv74zXRQ/flOfxwW2g+52dgsY64NuNdME22
-         uPRaVNQIDZwDLbenk3fXkr5sCpbUoQQx3iz6VI/N4wTVQq5I+lf9isXR5BnHdcl04m0i
-         qMRY/ItYRRoO2Pj+l2mtAwkwcK8tNs2AKNPyA=
+        bh=JQcpLLY5KK4GVOCCGHD2Lb4pmJlBo3NKSgPvy82sxxs=;
+        b=jet7qqlVkuzSyJBHgzdOZoBdkDRzb97FPPvS6OsfblhPaOgPly4QVhABda+QsNoBQK
+         jSX0iOEXcTriDz+NlJkB35upNjg0ZfCLEuDRTmv+qErSFyncQ4yXwxyteneTHds73VxI
+         +R8BqVW1892eo6PNlyEr32+pD7W05ojOAxm8w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=cWXcwUO99R4dLB/IuZUC9gJlZE5FQWRDL44srQDPsqk=;
-        b=ZFYqeteurCn5YjBSUh5evTUtO5Cd+8kPvVRqFWg9mxOYgs/VstzksuYjp68za5xCVB
-         lma+jTiiW1tgS3caowvXgYQj2Kq2n5lsLR3HTqfouJxh/gwZ6uRB1I1iV3pSKOp7S5w3
-         A9qJUrpZas//ORv98Dg7ZqGf7mg2jKFfAnQnHwGjHLbisi0is48qSx2nlroeMikZQI+4
-         qlWrwdZbKbhpWJDzfdCCdVbtk/LIUUbAqaWIdZc2z/Q5Xaqq1x9OGLlFR3yHcanKV2iu
-         K2EvcF7shlsTs2Bu7lsZW0mXucuzd3qHromeeAHNz/CcDq1RI1wmfHiMY20kEtVxLOnX
-         XkbA==
-X-Gm-Message-State: APjAAAXOGupIJgkZl0ig3yP6HY606bT0kjv68QLPT5WXYXPt1h2uNuZ0
-        +jHFV+9z2fpwzYZnVrRjNWwpzw==
-X-Google-Smtp-Source: APXvYqxxdYR0fLJUpsHaTgteMM1jkatPh1TgL1h1tZn2iyQSTF5t4CnY+DzCpefDu9PaKb6nKGydpA==
-X-Received: by 2002:a63:af0a:: with SMTP id w10mr54056203pge.67.1555451656875;
-        Tue, 16 Apr 2019 14:54:16 -0700 (PDT)
+        bh=JQcpLLY5KK4GVOCCGHD2Lb4pmJlBo3NKSgPvy82sxxs=;
+        b=Y6Vd8XgC42FgSuLuNljaCLQIlEO/2wxM9JLkIo5Q6GIpqjTPjqngoQ0x95XwOR1Vgd
+         UnkLFDBScfPUl72oP1bXAx3G1yRLw9bTHuTvYh9rwGX2fIP3Cx9luAvOOvBVWSEUDFyi
+         ag7/shkdXzF6k0ccMTYoFpwPQbVHRPGXciM4E4MJpD6Ob92xmOY5XU0zHfx6An/dff2A
+         U75npo7GYKxxJZVOnFSeFtLDU1PlMQ1Y7SurvK2VHM9ONG44P+iGZ1DLrB4R3iXTrqaW
+         Zoz8wQ54Xsz/biCuRxXvDoj58nLqm2Lhf5deBgoWgpT26c94l3RC3GYEQTt3npmq0xsE
+         v9MA==
+X-Gm-Message-State: APjAAAWea5kXYpZhWdh0ZFzLd5m020pwwEI8xyZRSBRqeiXX+WIeTZlm
+        +UZXxwpGAG6uJZFBcRHizppo1I6Ja10=
+X-Google-Smtp-Source: APXvYqwe5Q3sUUtcLGPdwFIhZi1gZhbtsybtUcA04et5Y4lRysaMcw+0xjOT5eMBQpQRdD8EFX89zg==
+X-Received: by 2002:a17:902:e302:: with SMTP id cg2mr81457671plb.285.1555451655465;
+        Tue, 16 Apr 2019 14:54:15 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com ([2620:15c:202:1:24fa:e766:52c9:e3b2])
-        by smtp.gmail.com with ESMTPSA id b6sm8156770pgt.58.2019.04.16.14.54.15
+        by smtp.gmail.com with ESMTPSA id b6sm8156770pgt.58.2019.04.16.14.54.14
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 16 Apr 2019 14:54:16 -0700 (PDT)
+        Tue, 16 Apr 2019 14:54:14 -0700 (PDT)
 From:   Douglas Anderson <dianders@chromium.org>
 To:     Rob Herring <robh+dt@kernel.org>,
         Minas Harutyunyan <hminas@synopsys.com>,
@@ -64,9 +64,9 @@ Cc:     amstan@chromium.org, linux-rockchip@lists.infradead.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Mark Rutland <mark.rutland@arm.com>,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 4/4] ARM: dts: rockchip: Add quirk for resetting rk3288's dwc2 host on wakeup
-Date:   Tue, 16 Apr 2019 14:53:51 -0700
-Message-Id: <20190416215351.242246-5-dianders@chromium.org>
+Subject: [PATCH v2 3/4] ARM: dts: rockchip: Hook resets up to USB PHYs on rk3288.
+Date:   Tue, 16 Apr 2019 14:53:50 -0700
+Message-Id: <20190416215351.242246-4-dianders@chromium.org>
 X-Mailer: git-send-email 2.21.0.593.g511ec345e18-goog
 In-Reply-To: <20190416215351.242246-1-dianders@chromium.org>
 References: <20190416215351.242246-1-dianders@chromium.org>
@@ -77,33 +77,51 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190416215351.fCaez3B1ynX149-rkNvGsYStS1ixLQXGE3E2jiqAoW4@z>
+Message-ID: <20190416215350.rjW7mblaPgPQQfpiHR2wqw7noIhLgvez2cm14XnMFso@z>
 
-The "host" USB port on rk3288 has a hardware errata where we've got to
-assert a PHY reset whenever we see a remote wakeup.  Add that quirk
-property to the device tree.
+Let's hook up the resets to the three USB PHYs on rk3288 as per the
+bindings.  This is in preparation for a future patch that will set the
+"snps,reset-phy-on-wake" on the host port.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
-Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
 ---
 
 Changes in v2: None
 
- arch/arm/boot/dts/rk3288.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm/boot/dts/rk3288.dtsi | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/arch/arm/boot/dts/rk3288.dtsi b/arch/arm/boot/dts/rk3288.dtsi
-index 7e70ecf2b95a..aa017abf4f42 100644
+index 74c9517c4f92..7e70ecf2b95a 100644
 --- a/arch/arm/boot/dts/rk3288.dtsi
 +++ b/arch/arm/boot/dts/rk3288.dtsi
-@@ -621,6 +621,7 @@
- 		dr_mode = "host";
- 		phys = <&usbphy2>;
- 		phy-names = "usb2-phy";
-+		snps,reset-phy-on-wake;
- 		status = "disabled";
- 	};
+@@ -909,6 +909,8 @@
+ 				clocks = <&cru SCLK_OTGPHY0>;
+ 				clock-names = "phyclk";
+ 				#clock-cells = <0>;
++				resets = <&cru SRST_USBOTG_PHY>;
++				reset-names = "phy-reset";
+ 			};
  
+ 			usbphy1: usb-phy@334 {
+@@ -917,6 +919,8 @@
+ 				clocks = <&cru SCLK_OTGPHY1>;
+ 				clock-names = "phyclk";
+ 				#clock-cells = <0>;
++				resets = <&cru SRST_USBHOST0_PHY>;
++				reset-names = "phy-reset";
+ 			};
+ 
+ 			usbphy2: usb-phy@348 {
+@@ -925,6 +929,8 @@
+ 				clocks = <&cru SCLK_OTGPHY2>;
+ 				clock-names = "phyclk";
+ 				#clock-cells = <0>;
++				resets = <&cru SRST_USBHOST1_PHY>;
++				reset-names = "phy-reset";
+ 			};
+ 		};
+ 	};
 -- 
 2.21.0.593.g511ec345e18-goog
 
