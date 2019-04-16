@@ -1,22 +1,33 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v4,1/6] dt-bindings: connector: add optional properties for Type-B
-From: Rob Herring <robh+dt@kernel.org>
-Message-Id: <CAL_Jsq+2jWJHm3-5BU6NUqFsSN=K15douOyYWeKoKseqhPDysw@mail.gmail.com>
-Date: Fri, 26 Apr 2019 08:19:40 -0500
-To: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, Mark Rutland <mark.rutland@arm.com>, Matthias Brugger <matthias.bgg@gmail.com>, Adam Thomson <Adam.Thomson.Opensource@diasemi.com>, Li Jun <jun.li@nxp.com>, Badhri Jagan Sridharan <badhri@google.com>, Hans de Goede <hdegoede@redhat.com>, Andy Shevchenko <andy.shevchenko@gmail.com>, Min Guo <min.guo@mediatek.com>, devicetree@vger.kernel.org, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>, "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, Biju Das <biju.das@bp.renesas.com>, Linus Walleij <linus.walleij@linaro.org>
+Subject: [v2,1/4] dt-bindings: usb: dwc2: Document quirk to reset PHY upon wakeup
+From: Doug Anderson <dianders@chromium.org>
+Message-Id: <20190416215351.242246-2-dianders@chromium.org>
+Date: Tue, 16 Apr 2019 14:53:48 -0700
+To: Rob Herring <robh+dt@kernel.org>, Minas Harutyunyan <hminas@synopsys.com>, Heiko Stuebner <heiko@sntech.de>, Felipe Balbi <felipe.balbi@linux.intel.com>
+Cc: amstan@chromium.org, linux-rockchip@lists.infradead.org, linux-usb@vger.kernel.org, Randy Li <ayaka@soulik.info>, mka@chromium.org, ryandcase@chromium.org, jwerner@chromium.org, Elaine Zhang <zhangqing@rock-chips.com>, Douglas Anderson <dianders@chromium.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mark Rutland <mark.rutland@arm.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCBBcHIgMjYsIDIwMTkgYXQgMTo0NyBBTSBDaHVuZmVuZyBZdW4gPGNodW5mZW5nLnl1
-bkBtZWRpYXRlay5jb20+IHdyb3RlOgo+Cj4gQWRkIGlkLWdwaW9zLCB2YnVzLWdwaW9zLCB2YnVz
-LXN1cHBseSBhbmQgcGluY3RybCBwcm9wZXJ0aWVzIGZvcgo+IHVzYi1iLWNvbm5lY3Rvcgo+Cj4g
-U2lnbmVkLW9mZi1ieTogQ2h1bmZlbmcgWXVuIDxjaHVuZmVuZy55dW5AbWVkaWF0ZWsuY29tPgo+
-IC0tLQo+IHY0IG5vIGNoYW5nZXMKPgo+IHYzIGNoYW5nZXM6Cj4gIDEuIGFkZCBHUElPIGRpcmVj
-dGlvbiwgYW5kIHVzZSBmaXhlZC1yZWd1bGF0b3IgZm9yIEdQSU8gY29udHJvbGxlZAo+ICAgICBW
-QlVTIHJlZ3VsYXRvciBzdWdnZXN0ZWQgYnkgUm9iOwo+Cj4gdjIgY2hhbmdlczoKPiAgIDEuIGRl
-c2NyaWJlIG1vcmUgY2xlYXIgZm9yIHZidXMtZ3Bpb3MgYW5kIHZidXMtc3VwcGx5IHN1Z2dlc3Rl
-ZCBieSBIYW5zCj4gLS0tCj4gIC4uLi9iaW5kaW5ncy9jb25uZWN0b3IvdXNiLWNvbm5lY3Rvci50
-eHQgICAgICAgICAgIHwgMTQgKysrKysrKysrKysrKysKPiAgMSBmaWxlIGNoYW5nZWQsIDE0IGlu
-c2VydGlvbnMoKykKClJldmlld2VkLWJ5OiBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPgo=
+T24gUm9ja2NoaXAgcmszMjg4IHRoZXJlJ3MgYSBoYXJkd2FyZSBxdWlyayB3aGVyZSB3ZSBuZWVk
+IHRvIGFzc2VydAp0aGUgcmVzZXQgc2lnbmFsIHRvIHRoZSBQSFkgd2hlbiB3ZSBnZXQgYSByZW1v
+dGUgd2FrZXVwIG9uIG9uZSBvZiB0aGUKdHdvIHBvcnRzLiAgRG9jdW1lbnQgdGhpcyBxdWlyayBp
+biB0aGUgYmluZGluZ3MuCgpTaWduZWQtb2ZmLWJ5OiBEb3VnbGFzIEFuZGVyc29uIDxkaWFuZGVy
+c0BjaHJvbWl1bS5vcmc+ClJldmlld2VkLWJ5OiBNYXR0aGlhcyBLYWVobGNrZSA8bWthQGNocm9t
+aXVtLm9yZz4KLS0tCgpDaGFuZ2VzIGluIHYyOiBOb25lCgogRG9jdW1lbnRhdGlvbi9kZXZpY2V0
+cmVlL2JpbmRpbmdzL3VzYi9kd2MyLnR4dCB8IDIgKysKIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2Vy
+dGlvbnMoKykKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
+dXNiL2R3YzIudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9kd2My
+LnR4dAppbmRleCA2ZGMzYzRhMzQ0ODMuLmY3MGYzYWVlNGJmYyAxMDA2NDQKLS0tIGEvRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9kd2MyLnR4dAorKysgYi9Eb2N1bWVudGF0
+aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL2R3YzIudHh0CkBAIC0zNyw2ICszNyw4IEBAIFJl
+ZmVyIHRvIHBoeS9waHktYmluZGluZ3MudHh0IGZvciBnZW5lcmljIHBoeSBjb25zdW1lciBwcm9w
+ZXJ0aWVzCiAtIGctcngtZmlmby1zaXplOiBzaXplIG9mIHJ4IGZpZm8gc2l6ZSBpbiBnYWRnZXQg
+bW9kZS4KIC0gZy1ucC10eC1maWZvLXNpemU6IHNpemUgb2Ygbm9uLXBlcmlvZGljIHR4IGZpZm8g
+c2l6ZSBpbiBnYWRnZXQgbW9kZS4KIC0gZy10eC1maWZvLXNpemU6IHNpemUgb2YgcGVyaW9kaWMg
+dHggZmlmbyBwZXIgZW5kcG9pbnQgKGV4Y2VwdCBlcDApIGluIGdhZGdldCBtb2RlLgorLSBzbnBz
+LHJlc2V0LXBoeS1vbi13YWtlOiBJZiBwcmVzZW50IGluZGljYXRlcyB0aGF0IHdlIG5lZWQgdG8g
+cmVzZXQgdGhlIFBIWSB3aGVuCisgICAgICAgICAgICAgICAgICAgICAgICAgIHdlIGRldGVjdCBh
+IHdha2V1cC4gIFRoaXMgaXMgZHVlIHRvIGEgaGFyZHdhcmUgZXJyYXRhLgogCiBEZXByZWNhdGVk
+IHByb3BlcnRpZXM6CiAtIGctdXNlLWRtYTogZ2FkZ2V0IERNQSBtb2RlIGlzIGF1dG9tYXRpY2Fs
+bHkgZGV0ZWN0ZWQK
