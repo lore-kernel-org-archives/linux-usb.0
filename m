@@ -2,81 +2,103 @@ Return-Path: <SRS0=lM5t=SS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED autolearn=ham
+X-Spam-Status: No, score=-2.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DE95C10F13
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 08:44:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5A99C282DA
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 09:44:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 53F5020868
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 08:44:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9025220684
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 09:44:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728608AbfDPIoD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Apr 2019 04:44:03 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:35255 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726208AbfDPIoD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Apr 2019 04:44:03 -0400
-Received: by mail-ed1-f67.google.com with SMTP id y67so3878188ede.2;
-        Tue, 16 Apr 2019 01:44:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rW0ln/owuAupu2zpCW2fZdNQMfO6p4rtnIyiMVieUGU=;
-        b=AZDDOQXenhaAiCM67rl/d77ZUN9HT6iUrbwZmu7iQf4qheoVXO8j7FMIUPSialZU5b
-         xvWB56LZN1Ii0Dql7jPk876myz2d6WWXXh8hsWTqB8I7rbAWNDZ7J2nkZm9hlxwHOS+v
-         N2lna297RJ/MWAtJYIFrOyfWBwUvBWh4WevwKtD8CrvJz9iw7o1MzLLeQjOd2dKEBCjr
-         9zyaUexyAF5UHGx4dbNkTDHX9w6BcewRM3uztdeI0gMHrpUB4Cr2e4cHGNrwRIsBrAvu
-         yKGQzkRmDtuTE+EZpm6NQ74gK1kUKgE/FLXJhHOEA2CMrYMksRW7qwDR2rq/KIo8Ao2y
-         KNvg==
-X-Gm-Message-State: APjAAAWFOR1KX5R17II2XB4CxC4Y4ahAQ+s/9t44RAsN6C9u3U6NkhHM
-        GXfRnzWodcDibXwzsYBHA+4jAt7A4h8=
-X-Google-Smtp-Source: APXvYqyrI4AY9HuXhGElPc9igJjOdffUMhuCnK+P54KoyG2o1MxsKN3vGKPifCEWcnEAeLCRFQjfNA==
-X-Received: by 2002:a50:b2e1:: with SMTP id p88mr50283347edd.62.1555404241342;
-        Tue, 16 Apr 2019 01:44:01 -0700 (PDT)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com. [209.85.128.52])
-        by smtp.gmail.com with ESMTPSA id j18sm15821311edj.92.2019.04.16.01.44.00
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 16 Apr 2019 01:44:00 -0700 (PDT)
-Received: by mail-wm1-f52.google.com with SMTP id h18so24156307wml.1;
-        Tue, 16 Apr 2019 01:44:00 -0700 (PDT)
-X-Received: by 2002:a7b:c76c:: with SMTP id x12mr25932284wmk.97.1555404240275;
- Tue, 16 Apr 2019 01:44:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <d930537cfe3124de37b8ecf4eaa02b68ec94cb40.1555403233.git-series.maxime.ripard@bootlin.com>
- <587c094b69f88c2b534e1de5b441cf823ecf4d8e.1555403233.git-series.maxime.ripard@bootlin.com>
-In-Reply-To: <587c094b69f88c2b534e1de5b441cf823ecf4d8e.1555403233.git-series.maxime.ripard@bootlin.com>
-From:   Chen-Yu Tsai <wens@csie.org>
-Date:   Tue, 16 Apr 2019 16:43:48 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64AP6MurTo7c0y+MvjMKm-TT6Jxxgiz=UMLCk26mr7VFg@mail.gmail.com>
-Message-ID:
- <CAGb2v64AP6MurTo7c0y+MvjMKm-TT6Jxxgiz=UMLCk26mr7VFg@mail.gmail.com>
-Subject: Re: [PATCH 6/6] arm64: dts: allwinner: Remove useless phy-names from
- EHCI and OHCI
-To:     Maxime Ripard <maxime.ripard@bootlin.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        linux-usb <linux-usb@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1728494AbfDPJow (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Apr 2019 05:44:52 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:10628 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726895AbfDPJow (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Apr 2019 05:44:52 -0400
+X-IronPort-AV: E=Sophos;i="5.60,357,1549897200"; 
+   d="scan'208";a="13414210"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 16 Apr 2019 18:44:49 +0900
+Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 38C534038498;
+        Tue, 16 Apr 2019 18:44:46 +0900 (JST)
+From:   Biju Das <biju.das@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Cc:     Biju Das <biju.das@bp.renesas.com>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, Simon Horman <horms@verge.net.au>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH V4 0/7] Add USB3.0 and TI HD3SS3220 driver support
+Date:   Tue, 16 Apr 2019 10:38:00 +0100
+Message-Id: <1555407487-35394-1-git-send-email-biju.das@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190416084348.2Jv4DBtz9yBuXKQAoYMIt8TLrPZLh_n56nB6RMMXaVc@z>
 
-On Tue, Apr 16, 2019 at 4:28 PM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
->
-> Neither the OHCI or EHCI bindings are using the phy-names property, so we
-> can just drop it.
->
-> Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
+This series adds USB 3.0 support for the CAT874 platform, including a
+new driver for the TI HD3SS3220 USB Type-C DRP port controller.
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
+This patch series supports:
+1) Host hotplug operation
+2) Device hot plug operation
+3) USB type-C data_role switch
+   (Tested with 2 RZ/G2E boards connected with a Type-C cable)
 
-for all the DT patches in this series.
+This patchset is based on linux_next next-20190411 branch.
+V3-->V4
+  * Incorporated Chunfeng Yun's review comment
+    (https://patchwork.kernel.org/project/linux-usb/list/?submitter=133171)
+  * Used fwnode API's to get roleswitch handle
+
+V2-->V3
+  * Used the new API to usb_role_switch by node to find the remote endpoint
+    (https://patchwork.kernel.org/patch/10882555/)
+  * Added renesas,usb-role-switch property
+  * Incorporated shimoda-san's review comment
+    (https://patchwork.kernel.org/patch/10852507/)
+
+V1-->V2
+  * Use USB role class instead of extcon to receive connect and disconnect
+    events and also for the dual role switch.
+  * Dropped patch 6
+  * Squashed patch 8 and patch 9
+  * https://patchwork.kernel.org/cover/10840641/
+
+
+Biju Das (7):
+  dt-bindings: usb: hd3ss3220 device tree binding document
+  dt-bindings: usb: renesas_usb3: Add renesas,usb-role-switch property
+  usb: typec: driver for TI HD3SS3220 USB Type-C DRP port controller
+  usb: gadget: udc: renesas_usb3: Use usb_role_switch framework
+  arm64: defconfig: enable TYPEC_HD3SS3220 config option
+  arm64: dts: renesas: r8a774c0-cat874: Enable USB3.0 host/peripheral
+    device node
+  arm64: dts: renesas: r8a774c0-cat874: Enable usb role switch support
+
+ .../devicetree/bindings/usb/renesas_usb3.txt       |  22 ++
+ .../devicetree/bindings/usb/ti,hd3ss3220.txt       |  37 +++
+ arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts    |  56 +++++
+ arch/arm64/configs/defconfig                       |   2 +
+ drivers/usb/gadget/udc/renesas_usb3.c              | 126 ++++++++--
+ drivers/usb/typec/Kconfig                          |  10 +
+ drivers/usb/typec/Makefile                         |   1 +
+ drivers/usb/typec/hd3ss3220.c                      | 263 +++++++++++++++++++++
+ 8 files changed, 495 insertions(+), 22 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/ti,hd3ss3220.txt
+ create mode 100644 drivers/usb/typec/hd3ss3220.c
+
+-- 
+2.7.4
+
