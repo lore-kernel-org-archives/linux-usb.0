@@ -2,479 +2,108 @@ Return-Path: <SRS0=lM5t=SS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87F6CC282DA
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 21:53:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD4D4C10F14
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 21:54:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 60BBB21741
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 21:53:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8E6A920693
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 21:54:29 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ejBtaPnR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728277AbfDPVxC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Apr 2019 17:53:02 -0400
-Received: from mail-io1-f69.google.com ([209.85.166.69]:47665 "EHLO
-        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727136AbfDPVxB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Apr 2019 17:53:01 -0400
-Received: by mail-io1-f69.google.com with SMTP id b199so17855120iof.14
-        for <linux-usb@vger.kernel.org>; Tue, 16 Apr 2019 14:53:01 -0700 (PDT)
+        id S1728806AbfDPVy1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Apr 2019 17:54:27 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:44103 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730715AbfDPVyR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Apr 2019 17:54:17 -0400
+Received: by mail-pg1-f195.google.com with SMTP id i2so10967987pgj.11
+        for <linux-usb@vger.kernel.org>; Tue, 16 Apr 2019 14:54:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=cWXcwUO99R4dLB/IuZUC9gJlZE5FQWRDL44srQDPsqk=;
+        b=ejBtaPnR9q05b/fAPX24cAvnXMkUKl8dv74zXRQ/flOfxwW2g+52dgsY64NuNdME22
+         uPRaVNQIDZwDLbenk3fXkr5sCpbUoQQx3iz6VI/N4wTVQq5I+lf9isXR5BnHdcl04m0i
+         qMRY/ItYRRoO2Pj+l2mtAwkwcK8tNs2AKNPyA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=Rl5YAuXxdXE8dlgSKJmWdL6YL/Z87eEN8fFR1y/Y0Z8=;
-        b=GM3reCiEx981wHQYUxhWyKwtYOQOIJvNY8F1Mvkf7pTQMz8aF1PA4ivKR4b+aWfSmO
-         VxugwmaWKBpAdrzPGcVC7cjMMNyEy+chwuY0vB6stvts19RLMDPoj4gWWyIMpUfvArrz
-         baYYpcQaGTtn7fPsPD5DeMp1VnxP4QuMDV0VNTji7GuZ9ImfvmXvWcQRabp0U2d7DV8v
-         YQNUe99y2DliQ5s2l2KduCHLagrzr9qtEQxnbZNI5xZQkMz/XjupXddt8pTmnXuEazWE
-         kUDYNovoo3PInQO5tnHTps/9OhHKdq0ZieCjhH2woGBs4EosS+MpGr6GJEYnNB++7/4h
-         rwaw==
-X-Gm-Message-State: APjAAAVRFWciLCnwK1Orzuwn0PPCtsBwODNROtHtxkfrMVrA69x7m/9p
-        cZi5rv1oQR1AYOhtgz3MCJjnmS2VN9Fjgu3rgQRsJF2guDi7
-X-Google-Smtp-Source: APXvYqxKAdRcwuIA9a3u3/y3LcYpI9x90bUjbhk2EXunt+vgHD0f9tJvqP5qXRN0+2SfqIdwPfE7EQk0jxqWdKke31/lVGLfnEQN
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=cWXcwUO99R4dLB/IuZUC9gJlZE5FQWRDL44srQDPsqk=;
+        b=ZFYqeteurCn5YjBSUh5evTUtO5Cd+8kPvVRqFWg9mxOYgs/VstzksuYjp68za5xCVB
+         lma+jTiiW1tgS3caowvXgYQj2Kq2n5lsLR3HTqfouJxh/gwZ6uRB1I1iV3pSKOp7S5w3
+         A9qJUrpZas//ORv98Dg7ZqGf7mg2jKFfAnQnHwGjHLbisi0is48qSx2nlroeMikZQI+4
+         qlWrwdZbKbhpWJDzfdCCdVbtk/LIUUbAqaWIdZc2z/Q5Xaqq1x9OGLlFR3yHcanKV2iu
+         K2EvcF7shlsTs2Bu7lsZW0mXucuzd3qHromeeAHNz/CcDq1RI1wmfHiMY20kEtVxLOnX
+         XkbA==
+X-Gm-Message-State: APjAAAXOGupIJgkZl0ig3yP6HY606bT0kjv68QLPT5WXYXPt1h2uNuZ0
+        +jHFV+9z2fpwzYZnVrRjNWwpzw==
+X-Google-Smtp-Source: APXvYqxxdYR0fLJUpsHaTgteMM1jkatPh1TgL1h1tZn2iyQSTF5t4CnY+DzCpefDu9PaKb6nKGydpA==
+X-Received: by 2002:a63:af0a:: with SMTP id w10mr54056203pge.67.1555451656875;
+        Tue, 16 Apr 2019 14:54:16 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:202:1:24fa:e766:52c9:e3b2])
+        by smtp.gmail.com with ESMTPSA id b6sm8156770pgt.58.2019.04.16.14.54.15
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 16 Apr 2019 14:54:16 -0700 (PDT)
+From:   Douglas Anderson <dianders@chromium.org>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Minas Harutyunyan <hminas@synopsys.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>
+Cc:     amstan@chromium.org, linux-rockchip@lists.infradead.org,
+        linux-usb@vger.kernel.org, Randy Li <ayaka@soulik.info>,
+        mka@chromium.org, ryandcase@chromium.org, jwerner@chromium.org,
+        Elaine Zhang <zhangqing@rock-chips.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 4/4] ARM: dts: rockchip: Add quirk for resetting rk3288's dwc2 host on wakeup
+Date:   Tue, 16 Apr 2019 14:53:51 -0700
+Message-Id: <20190416215351.242246-5-dianders@chromium.org>
+X-Mailer: git-send-email 2.21.0.593.g511ec345e18-goog
+In-Reply-To: <20190416215351.242246-1-dianders@chromium.org>
+References: <20190416215351.242246-1-dianders@chromium.org>
 MIME-Version: 1.0
-X-Received: by 2002:a6b:bc06:: with SMTP id m6mr1132864iof.18.1555451580638;
- Tue, 16 Apr 2019 14:53:00 -0700 (PDT)
-Date:   Tue, 16 Apr 2019 14:53:00 -0700
-In-Reply-To: <Pine.LNX.4.44L0.1904161707210.1605-100000@iolanthe.rowland.org>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000edf1630586acca2b@google.com>
-Subject: Re: INFO: task hung in usb_kill_urb
-From:   syzbot <syzbot+d919b0f29d7b5a4994b9@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
-        gustavo@embeddedor.com, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, stern@rowland.harvard.edu,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; delsp="yes"; format="flowed"
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190416215300.q5lXxJ5m9BiPRvu8mPeal1gcgqIFY1kbXiPNWqXDkn8@z>
+Content-Type: text/plain; charset="UTF-8"
+Message-ID: <20190416215351.fCaez3B1ynX149-rkNvGsYStS1ixLQXGE3E2jiqAoW4@z>
 
-Hello,
+The "host" USB port on rk3288 has a hardware errata where we've got to
+assert a PHY reset whenever we see a remote wakeup.  Add that quirk
+property to the device tree.
 
-syzbot has tested the proposed patch but the reproducer still triggered  
-crash:
-INFO: task hung in usb_kill_urb
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
+---
 
-usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-dummy_hcd dummy_hcd.0: Unsupported driver max speed 0
-usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-dummy_hcd dummy_hcd.0: Unsupported driver max speed 0
-usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-INFO: task kworker/1:1:21 blocked for more than 143 seconds.
-       Not tainted 5.1.0-rc4-g9a33b36-dirty #1
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-kworker/1:1     D26512    21      2 0x80000000
-Workqueue: usb_hub_wq hub_event
-Call Trace:
-  schedule+0x8f/0x180 kernel/sched/core.c:3562
-  usb_kill_urb drivers/usb/core/urb.c:695 [inline]
-  usb_kill_urb+0x22a/0x2c0 drivers/usb/core/urb.c:687
-dummy_hcd dummy_hcd.0: Unsupported driver max speed 0
-usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-  usb_start_wait_urb+0x257/0x4d0 drivers/usb/core/message.c:63
-  usb_internal_control_msg drivers/usb/core/message.c:101 [inline]
-  usb_control_msg+0x321/0x4a0 drivers/usb/core/message.c:152
-  hub_port_init+0x81d/0x2d30 drivers/usb/core/hub.c:4655
-  hub_port_connect drivers/usb/core/hub.c:5021 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0x11b8/0x3b00 drivers/usb/core/hub.c:5432
-  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
-  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
-  kthread+0x313/0x420 kernel/kthread.c:253
-  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-INFO: task kworker/1:2:533 blocked for more than 143 seconds.
-       Not tainted 5.1.0-rc4-g9a33b36-dirty #1
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-kworker/1:2     D25760   533      2 0x80000000
-Workqueue: usb_hub_wq hub_event
-Call Trace:
-  schedule+0x8f/0x180 kernel/sched/core.c:3562
-  usb_kill_urb drivers/usb/core/urb.c:695 [inline]
-  usb_kill_urb+0x22a/0x2c0 drivers/usb/core/urb.c:687
-  usb_start_wait_urb+0x257/0x4d0 drivers/usb/core/message.c:63
-  usb_internal_control_msg drivers/usb/core/message.c:101 [inline]
-  usb_control_msg+0x321/0x4a0 drivers/usb/core/message.c:152
-  hub_port_init+0x81d/0x2d30 drivers/usb/core/hub.c:4655
-dummy_hcd dummy_hcd.0: Unsupported driver max speed 0
-  hub_port_connect drivers/usb/core/hub.c:5021 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0x11b8/0x3b00 drivers/usb/core/hub.c:5432
-usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
-  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
-  kthread+0x313/0x420 kernel/kthread.c:253
-  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-INFO: task kworker/1:3:5711 blocked for more than 143 seconds.
-       Not tainted 5.1.0-rc4-g9a33b36-dirty #1
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-kworker/1:3     D26656  5711      2 0x80000000
-Workqueue: usb_hub_wq hub_event
-Call Trace:
-  schedule+0x8f/0x180 kernel/sched/core.c:3562
-  usb_kill_urb drivers/usb/core/urb.c:695 [inline]
-  usb_kill_urb+0x22a/0x2c0 drivers/usb/core/urb.c:687
-  usb_start_wait_urb+0x257/0x4d0 drivers/usb/core/message.c:63
-  usb_internal_control_msg drivers/usb/core/message.c:101 [inline]
-  usb_control_msg+0x321/0x4a0 drivers/usb/core/message.c:152
-  hub_port_init+0x81d/0x2d30 drivers/usb/core/hub.c:4655
-  hub_port_connect drivers/usb/core/hub.c:5021 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0x11b8/0x3b00 drivers/usb/core/hub.c:5432
-  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
-  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
-  kthread+0x313/0x420 kernel/kthread.c:253
-  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-INFO: task kworker/1:4:5815 blocked for more than 143 seconds.
-       Not tainted 5.1.0-rc4-g9a33b36-dirty #1
-dummy_hcd dummy_hcd.0: Unsupported driver max speed 0
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-kworker/1:4     D27416  5815      2 0x80000000
-Workqueue: usb_hub_wq hub_event
-usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-Call Trace:
-  schedule+0x8f/0x180 kernel/sched/core.c:3562
-  usb_kill_urb drivers/usb/core/urb.c:695 [inline]
-  usb_kill_urb+0x22a/0x2c0 drivers/usb/core/urb.c:687
-  usb_start_wait_urb+0x257/0x4d0 drivers/usb/core/message.c:63
-  usb_internal_control_msg drivers/usb/core/message.c:101 [inline]
-  usb_control_msg+0x321/0x4a0 drivers/usb/core/message.c:152
-  hub_port_init+0x81d/0x2d30 drivers/usb/core/hub.c:4655
-  hub_port_connect drivers/usb/core/hub.c:5021 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0x11b8/0x3b00 drivers/usb/core/hub.c:5432
-  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
-  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
-  kthread+0x313/0x420 kernel/kthread.c:253
-  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-INFO: task kworker/1:5:5854 blocked for more than 144 seconds.
-       Not tainted 5.1.0-rc4-g9a33b36-dirty #1
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-kworker/1:5     D27008  5854      2 0x80000000
-Workqueue: usb_hub_wq hub_event
-Call Trace:
-  schedule+0x8f/0x180 kernel/sched/core.c:3562
-  usb_kill_urb drivers/usb/core/urb.c:695 [inline]
-  usb_kill_urb+0x22a/0x2c0 drivers/usb/core/urb.c:687
-dummy_hcd dummy_hcd.0: Unsupported driver max speed 0
-  usb_start_wait_urb+0x257/0x4d0 drivers/usb/core/message.c:63
-usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-  usb_internal_control_msg drivers/usb/core/message.c:101 [inline]
-  usb_control_msg+0x321/0x4a0 drivers/usb/core/message.c:152
-  hub_port_init+0x81d/0x2d30 drivers/usb/core/hub.c:4655
-  hub_port_connect drivers/usb/core/hub.c:5021 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0x11b8/0x3b00 drivers/usb/core/hub.c:5432
-  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
-  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
-  kthread+0x313/0x420 kernel/kthread.c:253
-  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-INFO: task kworker/1:6:5953 blocked for more than 144 seconds.
-       Not tainted 5.1.0-rc4-g9a33b36-dirty #1
-"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-kworker/1:6     D28144  5953      2 0x80000000
-Workqueue: usb_hub_wq hub_event
-Call Trace:
-  schedule+0x8f/0x180 kernel/sched/core.c:3562
-  usb_kill_urb drivers/usb/core/urb.c:695 [inline]
-  usb_kill_urb+0x22a/0x2c0 drivers/usb/core/urb.c:687
-  usb_start_wait_urb+0x257/0x4d0 drivers/usb/core/message.c:63
-  usb_internal_control_msg drivers/usb/core/message.c:101 [inline]
-  usb_control_msg+0x321/0x4a0 drivers/usb/core/message.c:152
-  hub_port_init+0x81d/0x2d30 drivers/usb/core/hub.c:4655
-  hub_port_connect drivers/usb/core/hub.c:5021 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0x11b8/0x3b00 drivers/usb/core/hub.c:5432
-dummy_hcd dummy_hcd.0: Unsupported driver max speed 0
-usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
-  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
-  kthread+0x313/0x420 kernel/kthread.c:253
-  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+Changes in v2: None
 
-Showing all locks held in the system:
-5 locks held by kworker/1:1/21:
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-__write_once_size include/linux/compiler.h:220 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-arch_atomic64_set arch/x86/include/asm/atomic64_64.h:34 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at: atomic64_set  
-include/asm-generic/atomic-instrumented.h:855 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-atomic_long_set include/asm-generic/atomic-long.h:40 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at: set_work_data  
-kernel/workqueue.c:619 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-set_work_pool_and_clear_pending kernel/workqueue.c:646 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-process_one_work+0x81f/0x1580 kernel/workqueue.c:2240
-  #1: 0000000066a57f62 ((work_completion)(&hub->events)){+.+.}, at:  
-process_one_work+0x853/0x1580 kernel/workqueue.c:2244
-  #2: 000000008061858c (&dev->mutex){....}, at: device_lock  
-include/linux/device.h:1207 [inline]
-  #2: 000000008061858c (&dev->mutex){....}, at: hub_event+0x18a/0x3b00  
-drivers/usb/core/hub.c:5378
-  #3: 00000000e9c2b745 (&port_dev->status_lock){+.+.}, at: usb_lock_port  
-drivers/usb/core/hub.c:2994 [inline]
-  #3: 00000000e9c2b745 (&port_dev->status_lock){+.+.}, at: hub_port_connect  
-drivers/usb/core/hub.c:5020 [inline]
-  #3: 00000000e9c2b745 (&port_dev->status_lock){+.+.}, at:  
-hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  #3: 00000000e9c2b745 (&port_dev->status_lock){+.+.}, at: port_event  
-drivers/usb/core/hub.c:5350 [inline]
-  #3: 00000000e9c2b745 (&port_dev->status_lock){+.+.}, at:  
-hub_event+0x11a3/0x3b00 drivers/usb/core/hub.c:5432
-  #4: 0000000074a9c1da (hcd->address0_mutex){+.+.}, at:  
-hub_port_init+0x1bb/0x2d30 drivers/usb/core/hub.c:4529
-1 lock held by khungtaskd/23:
-  #0: 000000009a7c2fe9 (rcu_read_lock){....}, at:  
-debug_show_all_locks+0x53/0x269 kernel/locking/lockdep.c:5059
-5 locks held by kworker/1:2/533:
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-__write_once_size include/linux/compiler.h:220 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-arch_atomic64_set arch/x86/include/asm/atomic64_64.h:34 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at: atomic64_set  
-include/asm-generic/atomic-instrumented.h:855 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-atomic_long_set include/asm-generic/atomic-long.h:40 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at: set_work_data  
-kernel/workqueue.c:619 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-set_work_pool_and_clear_pending kernel/workqueue.c:646 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-process_one_work+0x81f/0x1580 kernel/workqueue.c:2240
-  #1: 0000000086e8eaf1 ((work_completion)(&hub->events)){+.+.}, at:  
-process_one_work+0x853/0x1580 kernel/workqueue.c:2244
-  #2: 000000006469b3a5 (&dev->mutex){....}, at: device_lock  
-include/linux/device.h:1207 [inline]
-  #2: 000000006469b3a5 (&dev->mutex){....}, at: hub_event+0x18a/0x3b00  
-drivers/usb/core/hub.c:5378
-  #3: 000000007f0b56f7 (&port_dev->status_lock){+.+.}, at: usb_lock_port  
-drivers/usb/core/hub.c:2994 [inline]
-  #3: 000000007f0b56f7 (&port_dev->status_lock){+.+.}, at: hub_port_connect  
-drivers/usb/core/hub.c:5020 [inline]
-  #3: 000000007f0b56f7 (&port_dev->status_lock){+.+.}, at:  
-hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  #3: 000000007f0b56f7 (&port_dev->status_lock){+.+.}, at: port_event  
-drivers/usb/core/hub.c:5350 [inline]
-  #3: 000000007f0b56f7 (&port_dev->status_lock){+.+.}, at:  
-hub_event+0x11a3/0x3b00 drivers/usb/core/hub.c:5432
-  #4: 00000000f92a9577 (hcd->address0_mutex){+.+.}, at:  
-hub_port_init+0x1bb/0x2d30 drivers/usb/core/hub.c:4529
-1 lock held by rsyslogd/5452:
-  #0: 0000000078f4a532 (&f->f_pos_lock){+.+.}, at: __fdget_pos+0xe8/0x100  
-fs/file.c:801
-2 locks held by getty/5542:
-  #0: 0000000023afba58 (&tty->ldisc_sem){++++}, at:  
-tty_ldisc_ref_wait+0x27/0x80 drivers/tty/tty_ldisc.c:272
-  #1: 00000000bc10d82a (&ldata->atomic_read_lock){+.+.}, at:  
-n_tty_read+0x21c/0x1a60 drivers/tty/n_tty.c:2156
-2 locks held by getty/5543:
-  #0: 00000000a6ab1d25 (&tty->ldisc_sem){++++}, at:  
-tty_ldisc_ref_wait+0x27/0x80 drivers/tty/tty_ldisc.c:272
-  #1: 00000000d5a44554 (&ldata->atomic_read_lock){+.+.}, at:  
-n_tty_read+0x21c/0x1a60 drivers/tty/n_tty.c:2156
-dummy_hcd dummy_hcd.0: Unsupported driver max speed 0
-2 locks held by getty/5544:
-usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-  #0: 0000000098fc4771 (&tty->ldisc_sem){++++}, at:  
-tty_ldisc_ref_wait+0x27/0x80 drivers/tty/tty_ldisc.c:272
-  #1: 0000000017060772 (&ldata->atomic_read_lock){+.+.}, at:  
-n_tty_read+0x21c/0x1a60 drivers/tty/n_tty.c:2156
-2 locks held by getty/5545:
-  #0: 000000005fca8b56 (&tty->ldisc_sem){++++}, at:  
-tty_ldisc_ref_wait+0x27/0x80 drivers/tty/tty_ldisc.c:272
-  #1: 000000005a5319f8 (&ldata->atomic_read_lock){+.+.}, at:  
-n_tty_read+0x21c/0x1a60 drivers/tty/n_tty.c:2156
-2 locks held by getty/5546:
-  #0: 00000000e590919f (&tty->ldisc_sem){++++}, at:  
-tty_ldisc_ref_wait+0x27/0x80 drivers/tty/tty_ldisc.c:272
-  #1: 000000004775329f (&ldata->atomic_read_lock){+.+.}, at:  
-n_tty_read+0x21c/0x1a60 drivers/tty/n_tty.c:2156
-2 locks held by getty/5547:
-  #0: 00000000179d4d0b (&tty->ldisc_sem){++++}, at:  
-tty_ldisc_ref_wait+0x27/0x80 drivers/tty/tty_ldisc.c:272
-  #1: 000000002922a30b (&ldata->atomic_read_lock){+.+.}, at:  
-n_tty_read+0x21c/0x1a60 drivers/tty/n_tty.c:2156
-2 locks held by getty/5548:
-  #0: 000000006c2e3908 (&tty->ldisc_sem){++++}, at:  
-tty_ldisc_ref_wait+0x27/0x80 drivers/tty/tty_ldisc.c:272
-  #1: 000000009cdeb0bf (&ldata->atomic_read_lock){+.+.}, at:  
-n_tty_read+0x21c/0x1a60 drivers/tty/n_tty.c:2156
-5 locks held by kworker/1:3/5711:
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-__write_once_size include/linux/compiler.h:220 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-arch_atomic64_set arch/x86/include/asm/atomic64_64.h:34 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at: atomic64_set  
-include/asm-generic/atomic-instrumented.h:855 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-atomic_long_set include/asm-generic/atomic-long.h:40 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at: set_work_data  
-kernel/workqueue.c:619 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-set_work_pool_and_clear_pending kernel/workqueue.c:646 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-process_one_work+0x81f/0x1580 kernel/workqueue.c:2240
-  #1: 000000008f65d948 ((work_completion)(&hub->events)){+.+.}, at:  
-process_one_work+0x853/0x1580 kernel/workqueue.c:2244
-  #2: 00000000d16a6c1c (&dev->mutex){....}, at: device_lock  
-include/linux/device.h:1207 [inline]
-  #2: 00000000d16a6c1c (&dev->mutex){....}, at: hub_event+0x18a/0x3b00  
-drivers/usb/core/hub.c:5378
-  #3: 00000000df89ca19 (&port_dev->status_lock){+.+.}, at: usb_lock_port  
-drivers/usb/core/hub.c:2994 [inline]
-  #3: 00000000df89ca19 (&port_dev->status_lock){+.+.}, at: hub_port_connect  
-drivers/usb/core/hub.c:5020 [inline]
-  #3: 00000000df89ca19 (&port_dev->status_lock){+.+.}, at:  
-hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  #3: 00000000df89ca19 (&port_dev->status_lock){+.+.}, at: port_event  
-drivers/usb/core/hub.c:5350 [inline]
-  #3: 00000000df89ca19 (&port_dev->status_lock){+.+.}, at:  
-hub_event+0x11a3/0x3b00 drivers/usb/core/hub.c:5432
-  #4: 000000007284a231 (hcd->address0_mutex){+.+.}, at:  
-hub_port_init+0x1bb/0x2d30 drivers/usb/core/hub.c:4529
-5 locks held by kworker/1:4/5815:
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-__write_once_size include/linux/compiler.h:220 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-arch_atomic64_set arch/x86/include/asm/atomic64_64.h:34 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at: atomic64_set  
-include/asm-generic/atomic-instrumented.h:855 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-atomic_long_set include/asm-generic/atomic-long.h:40 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at: set_work_data  
-kernel/workqueue.c:619 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-set_work_pool_and_clear_pending kernel/workqueue.c:646 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-process_one_work+0x81f/0x1580 kernel/workqueue.c:2240
-  #1: 00000000b6e140d2 ((work_completion)(&hub->events)){+.+.}, at:  
-process_one_work+0x853/0x1580 kernel/workqueue.c:2244
-  #2: 0000000054730851 (&dev->mutex){....}, at: device_lock  
-include/linux/device.h:1207 [inline]
-  #2: 0000000054730851 (&dev->mutex){....}, at: hub_event+0x18a/0x3b00  
-drivers/usb/core/hub.c:5378
-  #3: 00000000e19c14b6 (&port_dev->status_lock){+.+.}, at: usb_lock_port  
-drivers/usb/core/hub.c:2994 [inline]
-  #3: 00000000e19c14b6 (&port_dev->status_lock){+.+.}, at: hub_port_connect  
-drivers/usb/core/hub.c:5020 [inline]
-  #3: 00000000e19c14b6 (&port_dev->status_lock){+.+.}, at:  
-hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  #3: 00000000e19c14b6 (&port_dev->status_lock){+.+.}, at: port_event  
-drivers/usb/core/hub.c:5350 [inline]
-  #3: 00000000e19c14b6 (&port_dev->status_lock){+.+.}, at:  
-hub_event+0x11a3/0x3b00 drivers/usb/core/hub.c:5432
-  #4: 000000001c7bddbf (hcd->address0_mutex){+.+.}, at:  
-hub_port_init+0x1bb/0x2d30 drivers/usb/core/hub.c:4529
-5 locks held by kworker/1:5/5854:
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-__write_once_size include/linux/compiler.h:220 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-arch_atomic64_set arch/x86/include/asm/atomic64_64.h:34 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at: atomic64_set  
-include/asm-generic/atomic-instrumented.h:855 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-atomic_long_set include/asm-generic/atomic-long.h:40 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at: set_work_data  
-kernel/workqueue.c:619 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-set_work_pool_and_clear_pending kernel/workqueue.c:646 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-process_one_work+0x81f/0x1580 kernel/workqueue.c:2240
-dummy_hcd dummy_hcd.0: Unsupported driver max speed 0
-  #1: 00000000357ce4fb ((work_completion)(&hub->events)){+.+.}, at:  
-process_one_work+0x853/0x1580 kernel/workqueue.c:2244
-  #2: 000000009d868e2d (&dev->mutex){....}, at: device_lock  
-include/linux/device.h:1207 [inline]
-  #2: 000000009d868e2d (&dev->mutex){....}, at: hub_event+0x18a/0x3b00  
-drivers/usb/core/hub.c:5378
-usb-fuzzer-gadget dummy_udc.0: failed to start USB fuzzer: -22
-  #3: 00000000938a6414 (&port_dev->status_lock){+.+.}, at: usb_lock_port  
-drivers/usb/core/hub.c:2994 [inline]
-  #3: 00000000938a6414 (&port_dev->status_lock){+.+.}, at: hub_port_connect  
-drivers/usb/core/hub.c:5020 [inline]
-  #3: 00000000938a6414 (&port_dev->status_lock){+.+.}, at:  
-hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  #3: 00000000938a6414 (&port_dev->status_lock){+.+.}, at: port_event  
-drivers/usb/core/hub.c:5350 [inline]
-  #3: 00000000938a6414 (&port_dev->status_lock){+.+.}, at:  
-hub_event+0x11a3/0x3b00 drivers/usb/core/hub.c:5432
-  #4: 0000000050760949 (hcd->address0_mutex){+.+.}, at:  
-hub_port_init+0x1bb/0x2d30 drivers/usb/core/hub.c:4529
-5 locks held by kworker/1:6/5953:
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-__write_once_size include/linux/compiler.h:220 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-arch_atomic64_set arch/x86/include/asm/atomic64_64.h:34 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at: atomic64_set  
-include/asm-generic/atomic-instrumented.h:855 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-atomic_long_set include/asm-generic/atomic-long.h:40 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at: set_work_data  
-kernel/workqueue.c:619 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-set_work_pool_and_clear_pending kernel/workqueue.c:646 [inline]
-  #0: 00000000b3ad1415 ((wq_completion)usb_hub_wq){+.+.}, at:  
-process_one_work+0x81f/0x1580 kernel/workqueue.c:2240
-  #1: 00000000d3b00b82 ((work_completion)(&hub->events)){+.+.}, at:  
-process_one_work+0x853/0x1580 kernel/workqueue.c:2244
-  #2: 000000008af22eae (&dev->mutex){....}, at: device_lock  
-include/linux/device.h:1207 [inline]
-  #2: 000000008af22eae (&dev->mutex){....}, at: hub_event+0x18a/0x3b00  
-drivers/usb/core/hub.c:5378
-  #3: 000000007f7b7ee0 (&port_dev->status_lock){+.+.}, at: usb_lock_port  
-drivers/usb/core/hub.c:2994 [inline]
-  #3: 000000007f7b7ee0 (&port_dev->status_lock){+.+.}, at: hub_port_connect  
-drivers/usb/core/hub.c:5020 [inline]
-  #3: 000000007f7b7ee0 (&port_dev->status_lock){+.+.}, at:  
-hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  #3: 000000007f7b7ee0 (&port_dev->status_lock){+.+.}, at: port_event  
-drivers/usb/core/hub.c:5350 [inline]
-  #3: 000000007f7b7ee0 (&port_dev->status_lock){+.+.}, at:  
-hub_event+0x11a3/0x3b00 drivers/usb/core/hub.c:5432
-  #4: 0000000090909ece (hcd->address0_mutex){+.+.}, at:  
-hub_port_init+0x1bb/0x2d30 drivers/usb/core/hub.c:4529
+ arch/arm/boot/dts/rk3288.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
-=============================================
-
-NMI backtrace for cpu 0
-CPU: 0 PID: 23 Comm: khungtaskd Not tainted 5.1.0-rc4-g9a33b36-dirty #1
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xe8/0x16e lib/dump_stack.c:113
-  nmi_cpu_backtrace.cold+0x48/0x87 lib/nmi_backtrace.c:101
-  nmi_trigger_cpumask_backtrace+0x1a6/0x1bd lib/nmi_backtrace.c:62
-  trigger_all_cpu_backtrace include/linux/nmi.h:146 [inline]
-  check_hung_uninterruptible_tasks kernel/hung_task.c:204 [inline]
-  watchdog+0x98e/0xe20 kernel/hung_task.c:288
-  kthread+0x313/0x420 kernel/kthread.c:253
-  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-Sending NMI from CPU 0 to CPUs 1:
-NMI backtrace for cpu 1 skipped: idling at native_safe_halt+0x2/0x10  
-arch/x86/include/asm/irqflags.h:57
-
-
-Tested on:
-
-commit:         9a33b369 usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=10b5e057200000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=131dca6b200000
+diff --git a/arch/arm/boot/dts/rk3288.dtsi b/arch/arm/boot/dts/rk3288.dtsi
+index 7e70ecf2b95a..aa017abf4f42 100644
+--- a/arch/arm/boot/dts/rk3288.dtsi
++++ b/arch/arm/boot/dts/rk3288.dtsi
+@@ -621,6 +621,7 @@
+ 		dr_mode = "host";
+ 		phys = <&usbphy2>;
+ 		phy-names = "usb2-phy";
++		snps,reset-phy-on-wake;
+ 		status = "disabled";
+ 	};
+ 
+-- 
+2.21.0.593.g511ec345e18-goog
 
