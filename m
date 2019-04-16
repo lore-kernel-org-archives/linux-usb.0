@@ -1,31 +1,24 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v1,13/14] usb: dwc2: Clear GINTSTS_RESTOREDONE bit after restore is generated.
-From: Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
-Message-Id: <73d2c9aca58e7cac50d02bbbd853c23ab0463b48.1555672441.git.arturp@synopsys.com>
-Date: Fri, 19 Apr 2019 11:25:38 +0000
-To: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Cc: John Youn <John.Youn@synopsys.com>, Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
+Subject: [V4,5/7] arm64: defconfig: enable TYPEC_HD3SS3220 config option
+From: Biju Das <biju.das@bp.renesas.com>
+Message-Id: <1555407487-35394-6-git-send-email-biju.das@bp.renesas.com>
+Date: Tue, 16 Apr 2019 10:38:05 +0100
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Biju Das <biju.das@bp.renesas.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org, Simon Horman <horms@verge.net.au>, Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Chris Paterson <Chris.Paterson2@renesas.com>, Fabrizio Castro <fabrizio.castro@bp.renesas.com>, linux-renesas-soc@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-V2hlbiBoaWJlcm5hdGlvbiBleGl0IGlzIHBlcmZvcm1lZCB0aGUgZHdjMl9oaWJfcmVzdG9yZV9j
-b21tb24oKQ0KZnVuY3Rpb24gaXMgY2FsbGVkLiBJbiB0aGF0IGZ1bmN0aW9uIHdlIHdhaXQgdW50
-aWwgR0lOVFNUU19SRVNUT1JFRE9ORQ0KYml0IGlzIHNldC4gSG93ZXZlciwgYWZ0ZXIgdGhlIHNl
-dHRpbmcgb2YgdGhhdCBiaXQgd2UgZ2V0IGEgbG90IG9mDQooZHdjMl9oc290Z19pcnE6KSBpbnRl
-cnJ1cHRzIHdoaWNoIGluZGljYXRlcyB0aGF0IChHSU5UU1RTLlJzdHJEb25lSW50KQ0KcmVzdG9y
-ZSBkb25lIGludGVycnVwdCBpcyBhc3NlcnRlZC4NCg0KVG8gYXZvaWQgcmVzdG9yZSBkb25lIGlu
-dGVycnVwdCBzdG9ybSBhZnRlciByZXN0b3JlIGlzIGdlbmVyYXRlZA0KY2xlYXIgR0lOVFNUU19S
-RVNUT1JFRE9ORSBiaXQgaW4gR0lOVFNUUyByZWdpc3Rlci4NCg0KU2lnbmVkLW9mZi1ieTogQXJ0
-dXIgUGV0cm9zeWFuIDxhcnR1cnBAc3lub3BzeXMuY29tPg0KLS0tDQogZHJpdmVycy91c2IvZHdj
-Mi9jb3JlLmMgfCA2ICsrKysrKw0KIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykNCg0K
-LS0gDQoyLjExLjAKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9kd2MyL2NvcmUuYyBiL2RyaXZl
-cnMvdXNiL2R3YzIvY29yZS5jDQppbmRleCBmYmJkNmEyZjEwYWQuLjE4ZWEwZDg5NmUxMiAxMDA2
-NDQNCi0tLSBhL2RyaXZlcnMvdXNiL2R3YzIvY29yZS5jDQorKysgYi9kcml2ZXJzL3VzYi9kd2My
-L2NvcmUuYw0KQEAgLTM4Miw2ICszODIsMTIgQEAgdm9pZCBkd2MyX2hpYl9yZXN0b3JlX2NvbW1v
-bihzdHJ1Y3QgZHdjMl9oc290ZyAqaHNvdGcsIGludCByZW1fd2FrZXVwLA0KIAkJCV9fZnVuY19f
-KTsNCiAJfSBlbHNlIHsNCiAJCWRldl9kYmcoaHNvdGctPmRldiwgInJlc3RvcmUgZG9uZSAgZ2Vu
-ZXJhdGVkIGhlcmVcbiIpOw0KKw0KKwkJLyoNCisJCSAqIFRvIGF2b2lkIHJlc3RvcmUgZG9uZSBp
-bnRlcnJ1cHQgc3Rvcm0gYWZ0ZXIgcmVzdG9yZSBpcw0KKwkJICogZ2VuZXJhdGVkIGNsZWFyIEdJ
-TlRTVFNfUkVTVE9SRURPTkUgYml0Lg0KKwkJICovDQorCQlkd2MyX3dyaXRlbChoc290ZywgR0lO
-VFNUU19SRVNUT1JFRE9ORSwgR0lOVFNUUyk7DQogCX0NCiB9DQogDQo=
+RW5hYmxlIHN1cHBvcnQgZm9yIHRoZSBUSSBIRDNTUzMyMCBVU0IgVHlwZS1DIERSUCBQb3J0IGNv
+bnRyb2xsZXIgZHJpdmVyCmJ5IHR1cm5pbmcgb24gQ09ORklHX1RZUEVDIGFuZCBDT05GSUdfVFlQ
+RUNfSEQzU1MzMjIwIGFzIG1vZHVsZXMuCgpTaWduZWQtb2ZmLWJ5OiBCaWp1IERhcyA8YmlqdS5k
+YXNAYnAucmVuZXNhcy5jb20+Ci0tLQpWMy0tPlY0CiAgKiBObyBjaGFuZ2UKVjItLT5WMwogICog
+Tm8gY2hhbmdlClYxLS0+VjIKICAqIE5vIGNoYW5nZQotLS0KIGFyY2gvYXJtNjQvY29uZmlncy9k
+ZWZjb25maWcgfCAyICsrCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCgpkaWZmIC0t
+Z2l0IGEvYXJjaC9hcm02NC9jb25maWdzL2RlZmNvbmZpZyBiL2FyY2gvYXJtNjQvY29uZmlncy9k
+ZWZjb25maWcKaW5kZXggZDA2ODI1Zi4uMTZjYjY4NyAxMDA2NDQKLS0tIGEvYXJjaC9hcm02NC9j
+b25maWdzL2RlZmNvbmZpZworKysgYi9hcmNoL2FybTY0L2NvbmZpZ3MvZGVmY29uZmlnCkBAIC01
+NzgsNiArNTc4LDggQEAgQ09ORklHX1VTQl9VTFBJPXkKIENPTkZJR19VU0JfR0FER0VUPXkKIENP
+TkZJR19VU0JfUkVORVNBU19VU0JIU19VREM9bQogQ09ORklHX1VTQl9SRU5FU0FTX1VTQjM9bQor
+Q09ORklHX1RZUEVDPW0KK0NPTkZJR19UWVBFQ19IRDNTUzMyMjA9bQogQ09ORklHX01NQz15CiBD
+T05GSUdfTU1DX0JMT0NLX01JTk9SUz0zMgogQ09ORklHX01NQ19BUk1NTUNJPXkK
