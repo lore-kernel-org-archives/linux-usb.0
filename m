@@ -6,47 +6,46 @@ X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
 	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9503BC10F13
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 11:16:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A146AC10F13
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 11:26:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 62E8C20857
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 11:16:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6C58E2075B
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 11:26:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728230AbfDPLQH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Apr 2019 07:16:07 -0400
-Received: from mail-it1-f198.google.com ([209.85.166.198]:50865 "EHLO
-        mail-it1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726838AbfDPLQH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Apr 2019 07:16:07 -0400
-Received: by mail-it1-f198.google.com with SMTP id k8so19079938itd.0
-        for <linux-usb@vger.kernel.org>; Tue, 16 Apr 2019 04:16:06 -0700 (PDT)
+        id S1728758AbfDPL0H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Apr 2019 07:26:07 -0400
+Received: from mail-io1-f72.google.com ([209.85.166.72]:41576 "EHLO
+        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726816AbfDPL0H (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Apr 2019 07:26:07 -0400
+Received: by mail-io1-f72.google.com with SMTP id e126so16308344ioa.8
+        for <linux-usb@vger.kernel.org>; Tue, 16 Apr 2019 04:26:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=8nuO6ldXJk2LHqGy3vCiV7UMltsyhJ7zqhsq6tdPLPM=;
-        b=LSVraC+R+UUKpayPuhfk0VhdYJ2rdfRRv0nzy2EppAL6VQ3B1uqHCtAZW2MtZynsMj
-         ZbwMpEg1ieLTTwl4bGqObGUXG6JJdNlswqKJ7LX3sSpYlmSqjkLscM2mTEJJCv9+eAN6
-         1kDhsXsh3q/JBNkTG2jsGkgjj6qYoO7z8qS0xxU8nNcqo0s7XGZHkIa9M7XOG/9damFO
-         PneAUTn1WzhUuRuOM/A6qr+lc/WvoD+bMi+k80QJ2vs3CD7Oplkx4NK//cYS494ezmjk
-         ly9G6i8DbSFQp54vDOlnt97zM7BfWVNQw6+8dsalRTaXHaKaHN/ZzHvw0Vyywx/neT22
-         VaSQ==
-X-Gm-Message-State: APjAAAU486rKd+2AB251YutduQyTtUILZk5sivNCoihSViExF/UTQIqo
-        Job5Kie3drDSk9i7bUjZuD4N/q4W/nDz0e70ViXVi70F6zbW
-X-Google-Smtp-Source: APXvYqwDWdlk/AxkIdwYO2kbqZWF8p5WnPZhwwskesZzbpejC2AjdaYt7zT3CZ+/cQB7mARZ28bjHqqRUqoaMw9lYXsbNiYrkhfb
+        bh=rWAII6ry7LnmqzA/JDIGhgBWz9zXn7xNNlI7irJaTAE=;
+        b=iLuIw1OislH5583VRcCl3PRpN3vElyQqF3bk45lctCbbcUG8GhTdxgWqUsF6CJ6Nk9
+         o2hv2SiOxJQDNy0l+XgZ6lDw4Eqa4UUpsqJSxIEQoUfiZbn82CtIrCgzCMYX7+8s6trv
+         Kgp+FYKEWvqqdoUMVQAiGm7mfOEK8c6qlh8MyUxQBLYdTOfeC/02VZV0bX1WExkyR4B+
+         QVf7of7LGQA9eAiQOiqUI1njUqyPMfwNvHgVkXLan13HDHsp0VlEdGQFAtMRw1Xt1Rgh
+         Fd9AbsSBP5gqRIdg8us41hvdmRPsuOhVpcDyJO2AbWszQ98d6WzHsoRbJNBWMsJ1i0Gg
+         m26w==
+X-Gm-Message-State: APjAAAVxGqlvKt0WKXXOrl9njPcJN8F26r101/+YR7Z3exSll/jYDZ4o
+        xw+kX7HBI6Vx+mk3KN/nArHMvwjmm1lOg896/P+UMqZVE/2e
+X-Google-Smtp-Source: APXvYqwblYTmVIF5MJKShnPZV46uiqNS0mMi33DXoZXEOBaH0ZN8wTKAzgtQKNapGh9BKxWGl44yxOTaBhL4Ve0RgS6yvyXdIV8K
 MIME-Version: 1.0
-X-Received: by 2002:a24:9986:: with SMTP id a128mr6487193ite.21.1555413366340;
- Tue, 16 Apr 2019 04:16:06 -0700 (PDT)
-Date:   Tue, 16 Apr 2019 04:16:06 -0700
+X-Received: by 2002:a5e:8a07:: with SMTP id d7mr857676iok.7.1555413966153;
+ Tue, 16 Apr 2019 04:26:06 -0700 (PDT)
+Date:   Tue, 16 Apr 2019 04:26:06 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000002e03f40586a3e512@google.com>
-Subject: KASAN: use-after-free Read in cpia2_usb_disconnect
-From:   syzbot <syzbot+0c90fc937c84f97d0aa6@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, hverkuil-cisco@xs4all.nl,
-        keescook@chromium.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        syzkaller-bugs@googlegroups.com
+Message-ID: <000000000000ee717d0586a40863@google.com>
+Subject: BUG: corrupted list in snd_info_create_entry
+From:   syzbot <syzbot+8016c844427ade041774@syzkaller.appspotmail.com>
+To:     alsa-devel@alsa-project.org, andreyknvl@google.com,
+        joe@perches.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, perex@perex.cz,
+        syzkaller-bugs@googlegroups.com, tiwai@suse.com, vkoul@kernel.org
 Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
@@ -59,68 +58,63 @@ syzbot found the following crash on:
 
 HEAD commit:    9a33b369 usb-fuzzer: main usb gadget fuzzer driver
 git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=1463a267200000
+console output: https://syzkaller.appspot.com/x/log.txt?x=15c1a387200000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
-dashboard link: https://syzkaller.appspot.com/bug?extid=0c90fc937c84f97d0aa6
+dashboard link: https://syzkaller.appspot.com/bug?extid=8016c844427ade041774
 compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13af9c23200000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=179a01b7200000
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+0c90fc937c84f97d0aa6@syzkaller.appspotmail.com
+Reported-by: syzbot+8016c844427ade041774@syzkaller.appspotmail.com
 
-cpia2: Control message failed, err val = -19
-cpia2: Message: request = 0x1, start = 0xA9
-cpia2: Message: count = 1, register[0] = 0x0
-cpia2: Unexpected error: -19
-==================================================================
-BUG: KASAN: use-after-free in cpia2_usb_disconnect+0x1a9/0x1c0  
-drivers/media/usb/cpia2/cpia2_usb.c:907
-Read of size 8 at addr ffff8880a09f0a58 by task kworker/0:1/12
-
-CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.1.0-rc4-319354-g9a33b36 #3
+usb 2-1: USB disconnect, device number 16
+list_add corruption. prev->next should be next (ffff8880a8672358), but was  
+ffff8880a4cde0e8. (prev=ffff8880a4cde868).
+snd_usb_toneport 4-1:0.0: Line 6 POD Studio UX2 found
+------------[ cut here ]------------
+usb 6-1: USB disconnect, device number 16
+kernel BUG at lib/list_debug.c:26!
+invalid opcode: 0000 [#1] SMP KASAN PTI
+CPU: 0 PID: 5 Comm: kworker/0:0 Not tainted 5.1.0-rc4-319354-g9a33b36 #3
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
 Google 01/01/2011
 Workqueue: usb_hub_wq hub_event
+RIP: 0010:__list_add_valid.cold+0x3a/0x3c lib/list_debug.c:26
+Code: 0b 48 89 f2 4c 89 e1 48 89 ee 48 c7 c7 80 94 b3 8e e8 69 e7 e9 fd 0f  
+0b 48 89 f1 48 c7 c7 00 94 b3 8e 4c 89 e6 e8 55 e7 e9 fd <0f> 0b 48 89 ee  
+48 c7 c7 a0 95 b3 8e e8 44 e7 e9 fd 0f 0b 4c 89 ea
+RSP: 0018:ffff8880a846f110 EFLAGS: 00010286
+RAX: 0000000000000075 RBX: ffff8880a8672280 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff815b1e42 RDI: ffffed101508de14
+RBP: ffff8880a52679a8 R08: 0000000000000075 R09: ffffed1015a04fc9
+R10: ffffed1015a04fc8 R11: ffff8880ad027e47 R12: ffff8880a8672358
+R13: ffff8880a4cde868 R14: ffff8880a52679b0 R15: ffff8880a8672358
+FS:  0000000000000000(0000) GS:ffff8880ad000000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000625208 CR3: 00000000958dc000 CR4: 00000000001406f0
 Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xe8/0x16e lib/dump_stack.c:113
-  print_address_description+0x6c/0x236 mm/kasan/report.c:187
-  kasan_report.cold+0x1a/0x3c mm/kasan/report.c:317
-  cpia2_usb_disconnect+0x1a9/0x1c0 drivers/media/usb/cpia2/cpia2_usb.c:907
-  usb_unbind_interface+0x1c9/0x980 drivers/usb/core/driver.c:423
-  __device_release_driver drivers/base/dd.c:1082 [inline]
-  device_release_driver_internal+0x436/0x4f0 drivers/base/dd.c:1113
-  bus_remove_device+0x302/0x5c0 drivers/base/bus.c:556
-  device_del+0x467/0xb90 drivers/base/core.c:2269
-  usb_disable_device+0x242/0x790 drivers/usb/core/message.c:1235
-  usb_disconnect+0x298/0x870 drivers/usb/core/hub.c:2197
-  hub_port_connect drivers/usb/core/hub.c:4940 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0xcd2/0x3b00 drivers/usb/core/hub.c:5432
-  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
-  process_scheduled_works kernel/workqueue.c:2331 [inline]
-  worker_thread+0x7b0/0xe20 kernel/workqueue.c:2417
-  kthread+0x313/0x420 kernel/kthread.c:253
-  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-
-Allocated by task 12:
-  set_track mm/kasan/common.c:87 [inline]
-  __kasan_kmalloc mm/kasan/common.c:497 [inline]
-  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:470
-  kmalloc include/linux/slab.h:547 [inline]
-  kzalloc include/linux/slab.h:742 [inline]
-  cpia2_init_camera_struct+0x45/0x110  
-drivers/media/usb/cpia2/cpia2_core.c:2185
-  cpia2_usb_probe.cold+0x37/0x45a drivers/media/usb/cpia2/cpia2_usb.c:842
+  __list_add include/linux/list.h:60 [inline]
+  list_add_tail include/linux/list.h:93 [inline]
+  snd_info_create_entry+0x25f/0x400 sound/core/info.c:717
+  snd_info_create_module_entry sound/core/info.c:737 [inline]
+  create_subdir+0x27/0xa0 sound/core/info.c:454
+  snd_info_card_create+0xcf/0x230 sound/core/info.c:528
+  snd_card_new+0x61d/0x920 sound/core/init.c:255
+snd_usb_toneport 3-1:0.0: set_interface failed
+  line6_probe+0x135/0x1150 sound/usb/line6/driver.c:736
+snd_usb_toneport 3-1:0.0: Line 6 POD Studio UX2 now disconnected
   usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
   really_probe+0x2da/0xb10 drivers/base/dd.c:509
   driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+snd_usb_toneport: probe of 3-1:0.0 failed with error -71
   __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
   bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+snd_usb_toneport 4-1:0.0: set_interface failed
   __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+snd_usb_toneport 4-1:0.0: Line 6 POD Studio UX2 now disconnected
   bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
   device_add+0xad2/0x16e0 drivers/base/core.c:2106
+snd_usb_toneport: probe of 4-1:0.0 failed with error -71
   usb_set_configuration+0xdf7/0x1740 drivers/usb/core/message.c:2021
   generic_probe+0xa2/0xda drivers/usb/core/generic.c:210
   usb_probe_device+0xc0/0x150 drivers/usb/core/driver.c:266
@@ -128,67 +122,38 @@ drivers/media/usb/cpia2/cpia2_core.c:2185
   driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
   __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
   bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+usb 3-1: USB disconnect, device number 16
+usb 4-1: USB disconnect, device number 16
   __device_attach+0x223/0x3a0 drivers/base/dd.c:844
   bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
   device_add+0xad2/0x16e0 drivers/base/core.c:2106
+usb 2-1: new high-speed USB device number 17 using dummy_hcd
   usb_new_device.cold+0x537/0xccf drivers/usb/core/hub.c:2534
   hub_port_connect drivers/usb/core/hub.c:5089 [inline]
   hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
   port_event drivers/usb/core/hub.c:5350 [inline]
   hub_event+0x138e/0x3b00 drivers/usb/core/hub.c:5432
-  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
-  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
-  kthread+0x313/0x420 kernel/kthread.c:253
-  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-
-Freed by task 12:
-  set_track mm/kasan/common.c:87 [inline]
-  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:459
-  slab_free_hook mm/slub.c:1429 [inline]
-  slab_free_freelist_hook+0x5e/0x140 mm/slub.c:1456
-  slab_free mm/slub.c:3003 [inline]
-  kfree+0xce/0x290 mm/slub.c:3958
-  v4l2_device_release drivers/media/v4l2-core/v4l2-device.c:67 [inline]
-  kref_put include/linux/kref.h:67 [inline]
-  v4l2_device_put+0x7e/0xa0 drivers/media/v4l2-core/v4l2-device.c:72
-  cpia2_usb_disconnect+0x7e/0x1c0 drivers/media/usb/cpia2/cpia2_usb.c:905
-  usb_unbind_interface+0x1c9/0x980 drivers/usb/core/driver.c:423
-  __device_release_driver drivers/base/dd.c:1082 [inline]
-  device_release_driver_internal+0x436/0x4f0 drivers/base/dd.c:1113
-  bus_remove_device+0x302/0x5c0 drivers/base/bus.c:556
-  device_del+0x467/0xb90 drivers/base/core.c:2269
-  usb_disable_device+0x242/0x790 drivers/usb/core/message.c:1235
-  usb_disconnect+0x298/0x870 drivers/usb/core/hub.c:2197
-  hub_port_connect drivers/usb/core/hub.c:4940 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0xcd2/0x3b00 drivers/usb/core/hub.c:5432
+usb 6-1: new high-speed USB device number 17 using dummy_hcd
   process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
   process_scheduled_works kernel/workqueue.c:2331 [inline]
   worker_thread+0x7b0/0xe20 kernel/workqueue.c:2417
   kthread+0x313/0x420 kernel/kthread.c:253
   ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-
-The buggy address belongs to the object at ffff8880a09f0000
-  which belongs to the cache kmalloc-4k of size 4096
-The buggy address is located 2648 bytes inside of
-  4096-byte region [ffff8880a09f0000, ffff8880a09f1000)
-The buggy address belongs to the page:
-page:ffffea0002827c00 count:1 mapcount:0 mapping:ffff88812c3f4600 index:0x0  
-compound_mapcount: 0
-flags: 0xfff00000010200(slab|head)
-raw: 00fff00000010200 dead000000000100 dead000000000200 ffff88812c3f4600
-raw: 0000000000000000 0000000000070007 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
-  ffff8880a09f0900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff8880a09f0980: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> ffff8880a09f0a00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                                     ^
-  ffff8880a09f0a80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff8880a09f0b00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
+Modules linked in:
+---[ end trace 152fc83c1caf10d9 ]---
+RIP: 0010:__list_add_valid.cold+0x3a/0x3c lib/list_debug.c:26
+Code: 0b 48 89 f2 4c 89 e1 48 89 ee 48 c7 c7 80 94 b3 8e e8 69 e7 e9 fd 0f  
+0b 48 89 f1 48 c7 c7 00 94 b3 8e 4c 89 e6 e8 55 e7 e9 fd <0f> 0b 48 89 ee  
+48 c7 c7 a0 95 b3 8e e8 44 e7 e9 fd 0f 0b 4c 89 ea
+RSP: 0018:ffff8880a846f110 EFLAGS: 00010286
+RAX: 0000000000000075 RBX: ffff8880a8672280 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff815b1e42 RDI: ffffed101508de14
+RBP: ffff8880a52679a8 R08: 0000000000000075 R09: ffffed1015a04fc9
+R10: ffffed1015a04fc8 R11: ffff8880ad027e47 R12: ffff8880a8672358
+R13: ffff8880a4cde868 R14: ffff8880a52679b0 R15: ffff8880a8672358
+FS:  0000000000000000(0000) GS:ffff8880ad000000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000625208 CR3: 00000000958dc000 CR4: 00000000001406f0
 
 
 ---
