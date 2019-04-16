@@ -6,22 +6,23 @@ X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5884FC10F14
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 08:28:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 161A7C10F13
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 08:28:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2F36A2073F
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 08:28:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA1CF2073F
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 08:28:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728541AbfDPI2P (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Apr 2019 04:28:15 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:55145 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726713AbfDPI2O (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Apr 2019 04:28:14 -0400
+        id S1728686AbfDPI2U (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Apr 2019 04:28:20 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:57841 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728543AbfDPI2U (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Apr 2019 04:28:20 -0400
+X-Originating-IP: 90.88.18.121
 Received: from localhost (aaubervilliers-681-1-63-121.w90-88.abo.wanadoo.fr [90.88.18.121])
         (Authenticated sender: maxime.ripard@bootlin.com)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 02494100010;
-        Tue, 16 Apr 2019 08:28:10 +0000 (UTC)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 54B811BF215;
+        Tue, 16 Apr 2019 08:28:13 +0000 (UTC)
 From:   Maxime Ripard <maxime.ripard@bootlin.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Mark Rutland <mark.rutland@arm.com>,
@@ -30,10 +31,10 @@ Cc:     Mark Rutland <mark.rutland@arm.com>,
         linux-usb@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
         Maxime Ripard <maxime.ripard@bootlin.com>,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 3/6] dt-bindings: usb: Convert the generic EHCI binding to YAML
-Date:   Tue, 16 Apr 2019 10:27:59 +0200
+Subject: [PATCH 4/6] ARM: dts: sunxi: Remove useless phy-names from EHCI and OHCI
+Date:   Tue, 16 Apr 2019 10:28:00 +0200
 Message-Id:
- <727ef2282a2243ed5bd9eddb6c0f6d35371b792d.1555403233.git-series.maxime.ripard@bootlin.com>
+ <b7c3e6ebb9a98458b50f66323f8aa15f7af1772e.1555403233.git-series.maxime.ripard@bootlin.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <d930537cfe3124de37b8ecf4eaa02b68ec94cb40.1555403233.git-series.maxime.ripard@bootlin.com>
 References: <d930537cfe3124de37b8ecf4eaa02b68ec94cb40.1555403233.git-series.maxime.ripard@bootlin.com>
@@ -44,174 +45,278 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190416082759.3FlfMG3Vr6WLW6LjRmHf_BErGy3gq2r4kP58ntC8DOk@z>
+Message-ID: <20190416082800.L4fkfo_w9Lilq3NN-1h0jTlijIirWsQETMhUlJa7nCY@z>
 
-The generic EHCI binding is used by many controllers that are using the
-EHCI spec.
-
-Convert that binding to a YAML description to enable the validation on all
-the nodes using that binding.
+Neither the OHCI or EHCI bindings are using the phy-names property, so we
+can just drop it.
 
 Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
 ---
- Documentation/devicetree/bindings/usb/generic-ehci.yaml | 95 ++++++++++-
- Documentation/devicetree/bindings/usb/usb-ehci.txt      | 46 +-----
- 2 files changed, 95 insertions(+), 46 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/usb/generic-ehci.yaml
- delete mode 100644 Documentation/devicetree/bindings/usb/usb-ehci.txt
+ arch/arm/boot/dts/sun4i-a10.dtsi     | 4 ----
+ arch/arm/boot/dts/sun5i.dtsi         | 2 --
+ arch/arm/boot/dts/sun6i-a31.dtsi     | 4 ----
+ arch/arm/boot/dts/sun7i-a20.dtsi     | 4 ----
+ arch/arm/boot/dts/sun8i-a23-a33.dtsi | 2 --
+ arch/arm/boot/dts/sun8i-a83t.dtsi    | 3 ---
+ arch/arm/boot/dts/sun8i-r40.dtsi     | 4 ----
+ arch/arm/boot/dts/sun9i-a80.dtsi     | 5 -----
+ 8 files changed, 28 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-new file mode 100644
-index 000000000000..d3b4f6415920
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-@@ -0,0 +1,95 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/generic-ehci.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: USB EHCI Controller Device Tree Bindings
-+
-+allOf:
-+  - $ref: "usb-hcd.yaml"
-+
-+maintainers:
-+  - Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-+
-+properties:
-+  compatible:
-+    contains:
-+      const: generic-ehci
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  resets:
-+    minItems: 1
-+    maxItems: 4
-+
-+  clocks:
-+    minItems: 1
-+    maxItems: 4
-+    description: |
-+      In case the Renesas R-Car Gen3 SoCs:
-+        - if a host only channel: first clock should be host.
-+        - if a USB DRD channel: first clock should be host and second
-+          one should be peripheral
-+
-+  big-endian:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description:
-+      Set this flag for HCDs with big endian descriptors and big
-+      endian registers.
-+
-+  big-endian-desc:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description:
-+      Set this flag for HCDs with big endian descriptors.
-+
-+  big-endian-regs:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description:
-+      Set this flag for HCDs with big endian registers.
-+
-+  has-transaction-translator:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description:
-+      Set this flag if EHCI has a Transaction Translator built into
-+      the root hub.
-+
-+  needs-reset-on-resume:
-+    $ref: /schemas/types.yaml#/definitions/flag
-+    description:
-+      Set this flag to force EHCI reset after resume.
-+
-+  phys: true
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    ehci@e0000300 {
-+        compatible = "ibm,usb-ehci-440epx", "generic-ehci";
-+        interrupt-parent = <&UIC0>;
-+        interrupts = <0x1a 4>;
-+        reg = <0 0xe0000300 90 0 0xe0000390 70>;
-+        big-endian;
-+    };
-+
-+  - |
-+    ehci0: usb@1c14000 {
-+        compatible = "allwinner,sun4i-a10-ehci", "generic-ehci";
-+        reg = <0x01c14000 0x100>;
-+        interrupts = <39>;
-+        clocks = <&ahb_gates 1>;
-+        phys = <&usbphy 1>;
-+        phy-names = "usb";
-+    };
-+
-+...
-diff --git a/Documentation/devicetree/bindings/usb/usb-ehci.txt b/Documentation/devicetree/bindings/usb/usb-ehci.txt
-deleted file mode 100644
-index 406252d14c6b..000000000000
---- a/Documentation/devicetree/bindings/usb/usb-ehci.txt
-+++ /dev/null
-@@ -1,46 +0,0 @@
--USB EHCI controllers
--
--Required properties:
--  - compatible : should be "generic-ehci".
--  - reg : should contain at least address and length of the standard EHCI
--    register set for the device. Optional platform-dependent registers
--    (debug-port or other) can be also specified here, but only after
--    definition of standard EHCI registers.
--  - interrupts : one EHCI interrupt should be described here.
--
--Optional properties:
-- - big-endian-regs : boolean, set this for hcds with big-endian registers
-- - big-endian-desc : boolean, set this for hcds with big-endian descriptors
-- - big-endian : boolean, for hcds with big-endian-regs + big-endian-desc
-- - needs-reset-on-resume : boolean, set this to force EHCI reset after resume
-- - has-transaction-translator : boolean, set this if EHCI have a Transaction
--				Translator built into the root hub.
-- - clocks : a list of phandle + clock specifier pairs. In case of Renesas
--	    R-Car Gen3 SoCs:
--	    - if a host only channel: first clock should be host.
--	    - if a USB DRD channel: first clock should be host and second one
--				    should be peripheral.
-- - phys : see usb-hcd.txt in the current directory
-- - resets : phandle + reset specifier pair
--
--additionally the properties from usb-hcd.txt (in the current directory) are
--supported.
--
--Example (Sequoia 440EPx):
--    ehci@e0000300 {
--	   compatible = "ibm,usb-ehci-440epx", "usb-ehci";
--	   interrupt-parent = <&UIC0>;
--	   interrupts = <1a 4>;
--	   reg = <0 e0000300 90 0 e0000390 70>;
--	   big-endian;
--   };
--
--Example (Allwinner sun4i A10 SoC):
--   ehci0: usb@1c14000 {
--	   compatible = "allwinner,sun4i-a10-ehci", "generic-ehci";
--	   reg = <0x01c14000 0x100>;
--	   interrupts = <39>;
--	   clocks = <&ahb_gates 1>;
--	   phys = <&usbphy 1>;
--	   phy-names = "usb";
--   };
+diff --git a/arch/arm/boot/dts/sun4i-a10.dtsi b/arch/arm/boot/dts/sun4i-a10.dtsi
+index ef6ec526f394..e88daa4ef1af 100644
+--- a/arch/arm/boot/dts/sun4i-a10.dtsi
++++ b/arch/arm/boot/dts/sun4i-a10.dtsi
+@@ -520,7 +520,6 @@
+ 			interrupts = <39>;
+ 			clocks = <&ccu CLK_AHB_EHCI0>;
+ 			phys = <&usbphy 1>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -530,7 +529,6 @@
+ 			interrupts = <64>;
+ 			clocks = <&ccu CLK_USB_OHCI0>, <&ccu CLK_AHB_OHCI0>;
+ 			phys = <&usbphy 1>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -610,7 +608,6 @@
+ 			interrupts = <40>;
+ 			clocks = <&ccu CLK_AHB_EHCI1>;
+ 			phys = <&usbphy 2>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -620,7 +617,6 @@
+ 			interrupts = <65>;
+ 			clocks = <&ccu CLK_USB_OHCI1>, <&ccu CLK_AHB_OHCI1>;
+ 			phys = <&usbphy 2>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+diff --git a/arch/arm/boot/dts/sun5i.dtsi b/arch/arm/boot/dts/sun5i.dtsi
+index cb820bd7974c..0d71b01967a3 100644
+--- a/arch/arm/boot/dts/sun5i.dtsi
++++ b/arch/arm/boot/dts/sun5i.dtsi
+@@ -391,7 +391,6 @@
+ 			interrupts = <39>;
+ 			clocks = <&ccu CLK_AHB_EHCI>;
+ 			phys = <&usbphy 1>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -401,7 +400,6 @@
+ 			interrupts = <40>;
+ 			clocks = <&ccu CLK_USB_OHCI>, <&ccu CLK_AHB_OHCI>;
+ 			phys = <&usbphy 1>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+diff --git a/arch/arm/boot/dts/sun6i-a31.dtsi b/arch/arm/boot/dts/sun6i-a31.dtsi
+index fa983f9ff5f5..c04efad81bbc 100644
+--- a/arch/arm/boot/dts/sun6i-a31.dtsi
++++ b/arch/arm/boot/dts/sun6i-a31.dtsi
+@@ -543,7 +543,6 @@
+ 			clocks = <&ccu CLK_AHB1_EHCI0>;
+ 			resets = <&ccu RST_AHB1_EHCI0>;
+ 			phys = <&usbphy 1>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -554,7 +553,6 @@
+ 			clocks = <&ccu CLK_AHB1_OHCI0>, <&ccu CLK_USB_OHCI0>;
+ 			resets = <&ccu RST_AHB1_OHCI0>;
+ 			phys = <&usbphy 1>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -565,7 +563,6 @@
+ 			clocks = <&ccu CLK_AHB1_EHCI1>;
+ 			resets = <&ccu RST_AHB1_EHCI1>;
+ 			phys = <&usbphy 2>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -576,7 +573,6 @@
+ 			clocks = <&ccu CLK_AHB1_OHCI1>, <&ccu CLK_USB_OHCI1>;
+ 			resets = <&ccu RST_AHB1_OHCI1>;
+ 			phys = <&usbphy 2>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+diff --git a/arch/arm/boot/dts/sun7i-a20.dtsi b/arch/arm/boot/dts/sun7i-a20.dtsi
+index 794c915f504b..9ad8e445b240 100644
+--- a/arch/arm/boot/dts/sun7i-a20.dtsi
++++ b/arch/arm/boot/dts/sun7i-a20.dtsi
+@@ -612,7 +612,6 @@
+ 			interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&ccu CLK_AHB_EHCI0>;
+ 			phys = <&usbphy 1>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -622,7 +621,6 @@
+ 			interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&ccu CLK_USB_OHCI0>, <&ccu CLK_AHB_OHCI0>;
+ 			phys = <&usbphy 1>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -705,7 +703,6 @@
+ 			interrupts = <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&ccu CLK_AHB_EHCI1>;
+ 			phys = <&usbphy 2>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -715,7 +712,6 @@
+ 			interrupts = <GIC_SPI 65 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&ccu CLK_USB_OHCI1>, <&ccu CLK_AHB_OHCI1>;
+ 			phys = <&usbphy 2>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+diff --git a/arch/arm/boot/dts/sun8i-a23-a33.dtsi b/arch/arm/boot/dts/sun8i-a23-a33.dtsi
+index f76aad0c5d4d..af2fa694a467 100644
+--- a/arch/arm/boot/dts/sun8i-a23-a33.dtsi
++++ b/arch/arm/boot/dts/sun8i-a23-a33.dtsi
+@@ -307,7 +307,6 @@
+ 			clocks = <&ccu CLK_BUS_EHCI>;
+ 			resets = <&ccu RST_BUS_EHCI>;
+ 			phys = <&usbphy 1>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -318,7 +317,6 @@
+ 			clocks = <&ccu CLK_BUS_OHCI>, <&ccu CLK_USB_OHCI>;
+ 			resets = <&ccu RST_BUS_OHCI>;
+ 			phys = <&usbphy 1>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8i-a83t.dtsi
+index b105a85467b3..392b0cabbf0d 100644
+--- a/arch/arm/boot/dts/sun8i-a83t.dtsi
++++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
+@@ -632,7 +632,6 @@
+ 			clocks = <&ccu CLK_BUS_EHCI0>;
+ 			resets = <&ccu RST_BUS_EHCI0>;
+ 			phys = <&usbphy 1>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -644,7 +643,6 @@
+ 			clocks = <&ccu CLK_BUS_OHCI0>, <&ccu CLK_USB_OHCI0>;
+ 			resets = <&ccu RST_BUS_OHCI0>;
+ 			phys = <&usbphy 1>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -656,7 +654,6 @@
+ 			clocks = <&ccu CLK_BUS_EHCI1>;
+ 			resets = <&ccu RST_BUS_EHCI1>;
+ 			phys = <&usbphy 2>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r40.dtsi
+index 56c6885b02d1..bb856e53b806 100644
+--- a/arch/arm/boot/dts/sun8i-r40.dtsi
++++ b/arch/arm/boot/dts/sun8i-r40.dtsi
+@@ -273,7 +273,6 @@
+ 			clocks = <&ccu CLK_BUS_EHCI1>;
+ 			resets = <&ccu RST_BUS_EHCI1>;
+ 			phys = <&usbphy 1>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -285,7 +284,6 @@
+ 				 <&ccu CLK_USB_OHCI1>;
+ 			resets = <&ccu RST_BUS_OHCI1>;
+ 			phys = <&usbphy 1>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -296,7 +294,6 @@
+ 			clocks = <&ccu CLK_BUS_EHCI2>;
+ 			resets = <&ccu RST_BUS_EHCI2>;
+ 			phys = <&usbphy 2>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -308,7 +305,6 @@
+ 				 <&ccu CLK_USB_OHCI2>;
+ 			resets = <&ccu RST_BUS_OHCI2>;
+ 			phys = <&usbphy 2>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+diff --git a/arch/arm/boot/dts/sun9i-a80.dtsi b/arch/arm/boot/dts/sun9i-a80.dtsi
+index c1aa26db44ae..0c1eec9000e3 100644
+--- a/arch/arm/boot/dts/sun9i-a80.dtsi
++++ b/arch/arm/boot/dts/sun9i-a80.dtsi
+@@ -342,7 +342,6 @@
+ 			clocks = <&usb_clocks CLK_BUS_HCI0>;
+ 			resets = <&usb_clocks RST_USB0_HCI>;
+ 			phys = <&usbphy1>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -354,7 +353,6 @@
+ 				 <&usb_clocks CLK_USB_OHCI0>;
+ 			resets = <&usb_clocks RST_USB0_HCI>;
+ 			phys = <&usbphy1>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -376,7 +374,6 @@
+ 			clocks = <&usb_clocks CLK_BUS_HCI1>;
+ 			resets = <&usb_clocks RST_USB1_HCI>;
+ 			phys = <&usbphy2>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -406,7 +403,6 @@
+ 			clocks = <&usb_clocks CLK_BUS_HCI2>;
+ 			resets = <&usb_clocks RST_USB2_HCI>;
+ 			phys = <&usbphy3>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
+@@ -418,7 +414,6 @@
+ 				 <&usb_clocks CLK_USB_OHCI2>;
+ 			resets = <&usb_clocks RST_USB2_HCI>;
+ 			phys = <&usbphy3>;
+-			phy-names = "usb";
+ 			status = "disabled";
+ 		};
+ 
 -- 
 git-series 0.9.1
