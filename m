@@ -2,130 +2,122 @@ Return-Path: <SRS0=lM5t=SS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
-	T_DKIMWL_WL_HIGH,USER_AGENT_MUTT autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_PASS,
+	T_DKIMWL_WL_HIGH,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 198C1C10F13
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 11:33:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74903C10F13
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 11:43:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D9F062077C
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 11:33:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 473A420675
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 11:43:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1555414426;
-	bh=MlxSTPGFW2Tay5rjzFaS6Q9MzzskYlaWLTny8l5AxMg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=hikD6qnT9z4fHrY3iIfMO7lufzd/PIT3QxxQVNbrgahSaQuI/2QliU9XogdSAaY8b
-	 b9Z8hQkjmd+Yu8A1KTDHNsdGquwbySVMDWBlAoctecuYMVnpV0WwcYzjhKOtLreIsY
-	 yU4mxIdchdaDyT/x5RpdmWR4nfCIrjl9q79ucPik=
+	s=default; t=1555415022;
+	bh=SDxhI0cHtXT8CGPUcKV1Fds9SU9qN3MLgWu8GoM6j7k=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=mbcLUjAwwx17nasYug5bxNG8RRdBzVRuhVN9yuUka3u/bdbUAurUyhUFLuK8mD4Yu
+	 KB8LLI45kK1r5gF35jm3EBSSxl3VkGwmG+xwFKxGSVDZzzXK/ekJfX8pNzH0vCchqe
+	 vDwnxphpUGehoCy4DA53iogW0/qeHDXP05rX1bKw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729102AbfDPLdl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Apr 2019 07:33:41 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:45050 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726241AbfDPLdl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Apr 2019 07:33:41 -0400
-Received: by mail-lf1-f65.google.com with SMTP id h18so15705301lfj.11;
-        Tue, 16 Apr 2019 04:33:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=CS4NO5XoAVBszCZuPPtAOq5Inz9Vw8UIugRH0CNHl4U=;
-        b=HZ0Nrt0xLDPlRsgOCTljC+9yQG+yxnmA8T7Ne8326nVzMGYRwar1HgtBzR8jY5gA66
-         xuGlv2WCtDfn0j3MixA1SFPAT7szUF6NLNM8Ifm9CTnqEohvx6lGmmMs94CWkZBSVRI9
-         olf65RPO7Nd723Xc/rf6bG7inkwZh37vErCXJa/Num1bcw2OOTWWuW7Vx9vd03M9Hv0r
-         BEyMx2MTGqbAsTON7am4EvW/NKNQeRyVlFT/cCBYT1yjtVICHM4bgsBP7LaoT8Bu3lEd
-         ztyXapMrOEDWWq2zrz0j0beuvaBeRxnBRzYMyYVnz+L/+sYrmCx+cD7+XGtZD27LW8Vo
-         Z2Qg==
-X-Gm-Message-State: APjAAAXXcvWMRC0WBygHn1Y4Sw/teKgHz0BhJKPyiqW9pxKS6KDQhYGt
-        L29n+Ip3lqhP1aBHVQJiUCs=
-X-Google-Smtp-Source: APXvYqzMgAu7ahq6a5UL4Ej/0GSD4KNsUnU7Oh6tPqpMpoRSWSp8qhp5QPpgx1xfCnPV9l69APKFqQ==
-X-Received: by 2002:ac2:5088:: with SMTP id f8mr19541978lfm.107.1555414419069;
-        Tue, 16 Apr 2019 04:33:39 -0700 (PDT)
-Received: from xi.terra (c-74bee655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.190.116])
-        by smtp.gmail.com with ESMTPSA id z16sm820265lfi.9.2019.04.16.04.33.37
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 16 Apr 2019 04:33:38 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.91)
-        (envelope-from <johan@kernel.org>)
-        id 1hGMLP-0006z4-Oe; Tue, 16 Apr 2019 13:33:43 +0200
-Date:   Tue, 16 Apr 2019 13:33:43 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Young Xiao <92siuyang@gmail.com>
-Cc:     linux-usb@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, greg@kroah.com, mchehab@kernel.org,
-        keescook@chromium.org, hans.verkuil@cisco.com,
-        Young Xiao <YangX92@hotmail.com>
-Subject: Re: [PATCH] USB: s2255 & stkwebcam: fix oops with malicious USB
- descriptors
-Message-ID: <20190416113343.GJ775@localhost>
-References: <1554958452-29794-1-git-send-email-92siuyang@gmail.com>
- <20190416112645.GI775@localhost>
+        id S1729154AbfDPLnh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Apr 2019 07:43:37 -0400
+Received: from casper.infradead.org ([85.118.1.10]:58130 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728706AbfDPLnh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Apr 2019 07:43:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=pwSiZYvIqAnueGaDNcL1fXNSQ+1wKaAhSA0jh0cQoN8=; b=B5m/0kf20v9afSgg/Mw50xX6cA
+        DBKW6+r9nqzeoNLM4VcN6NM7+FvgNAqMUJga8h2OM1O+f1XwtA0tNd2WeDRwDMGJIQh6nL13QCoyC
+        w1/und9MnSspC/R+QrNtlH22Zqq1ANMX05mUx9NGct/+M/B73554xVND0+5OBo9pWoW3SF4a++QBG
+        cYJvdNEZi7h6PF7DB/U0QQvSAsfv2OboOQZYsgQBLzwXpk3Y3hoJySA24tdrm1W8z+MRmMISGinEK
+        cUaiNe+up+6+6oGl/r4oCHnQw9yiVqaU8Sp3at0Y3igD/SXHPFtjdN0bKPRqgv2X66IoRGdJK0HmS
+        xBmJZSjw==;
+Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hGMUv-00082H-2W; Tue, 16 Apr 2019 11:43:33 +0000
+Date:   Tue, 16 Apr 2019 08:43:28 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Felipe Balbi <felipe.balbi@linux.intel.com>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH 36/57] docs: usb: convert documents to ReST
+Message-ID: <20190416084328.380de91e@coco.lan>
+In-Reply-To: <874l6ya373.fsf@linux.intel.com>
+References: <cover.1555382110.git.mchehab+samsung@kernel.org>
+        <eaafc5741ccfe3b96ab2a9ef799c537c49ab20e5.1555382110.git.mchehab+samsung@kernel.org>
+        <874l6ya373.fsf@linux.intel.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190416112645.GI775@localhost>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190416113343.dXFTHV7WBCJGrT9fkdsZIh5DYTEtM7SwbABaI4lZZqc@z>
+Message-ID: <20190416114328.c6JrDX_WLCRoNDy2L4BvM6phtBXafsxvfQ5MLcf_5C8@z>
 
-On Tue, Apr 16, 2019 at 01:26:45PM +0200, Johan Hovold wrote:
-> On Thu, Apr 11, 2019 at 12:54:12PM +0800, Young Xiao wrote:
-> > From: Young Xiao <YangX92@hotmail.com>
-> > 
-> > The driver expects at least one valid endpoint. If given
-> > malicious descriptors that specify 0 for the number of endpoints,
-> > it will crash in the probe function.  Ensure there is at least
-> > one endpoint on the interface before using it.
-> 
-> Why do claim it will crash?
+Em Tue, 16 Apr 2019 09:12:32 +0300
+Felipe Balbi <felipe.balbi@linux.intel.com> escreveu:
 
-Ok, I see now that Björn already pointed this out to you in your
-updated version of this patch.
-
-> > This vulnerability is same as CVE-2016-2188.
+> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> writes:
 > 
-> Note that the "fix" for this CVE that you're now copying was incomplete.
-> Here's the proper fix:
-> 
-> 	b7321e81fc36 ("USB: iowarrior: fix NULL-deref at probe")
-> 
-> > Signed-off-by: Young Xiao <YangX92@hotmail.com>
+> > Convert USB documents to ReST, in order to prepare for adding it
+> > to the kernel API book, as most of the stuff there are driver or
+> > subsystem-related.
+> >
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 > > ---
-> >  drivers/media/usb/s2255/s2255drv.c       | 7 +++++++
-> >  drivers/media/usb/stkwebcam/stk-webcam.c | 6 ++++++
-> >  2 files changed, 13 insertions(+)
-> > 
-> > diff --git a/drivers/media/usb/s2255/s2255drv.c b/drivers/media/usb/s2255/s2255drv.c
-> > index 5b3e54b..7fdf159 100644
-> > --- a/drivers/media/usb/s2255/s2255drv.c
-> > +++ b/drivers/media/usb/s2255/s2255drv.c
-> > @@ -2263,6 +2263,13 @@ static int s2255_probe(struct usb_interface *interface,
-> >  	iface_desc = interface->cur_altsetting;
-> >  	dev_dbg(&interface->dev, "num EP: %d\n",
-> >  		iface_desc->desc.bNumEndpoints);
-> > +
-> > +	if (iface_desc->desc.bNumEndpoints < 1) {
-> > +		dev_err(&interface->dev, "Invalid number of endpoints\n");
-> > +		retval = -EINVAL;
-> > +		goto error;
-> > +	}
-> > +
-> >  	for (i = 0; i < iface_desc->desc.bNumEndpoints; ++i) {
+> >  Documentation/usb/WUSB-Design-overview.txt |  56 +-
+> >  Documentation/usb/acm.txt                  | 156 +++---
+> >  Documentation/usb/authorization.txt        |  75 +--
+> >  Documentation/usb/chipidea.txt             | 101 ++--
+> >  Documentation/usb/dwc3.txt                 |  12 +-
+> >  Documentation/usb/ehci.txt                 |  42 +-
+> >  Documentation/usb/functionfs.txt           |  17 +-
+> >  Documentation/usb/gadget-testing.txt       | 609 ++++++++++++---------
+> >  Documentation/usb/gadget_configfs.txt      | 302 +++++-----
+> >  Documentation/usb/gadget_hid.txt           | 175 +++---
+> >  Documentation/usb/gadget_multi.txt         |  43 +-
+> >  Documentation/usb/gadget_printer.txt       | 155 +++---
+> >  Documentation/usb/gadget_serial.txt        |  73 +--
+> >  Documentation/usb/iuu_phoenix.txt          |  34 +-
+> >  Documentation/usb/mass-storage.txt         |  19 +-
+> >  Documentation/usb/misc_usbsevseg.txt       |   9 +-
+> >  Documentation/usb/mtouchusb.txt            |  42 +-
+> >  Documentation/usb/ohci.txt                 |   5 +-
+> >  Documentation/usb/rio.txt                  |  83 +--
+> >  Documentation/usb/usb-help.txt             |  21 +-
+> >  Documentation/usb/usb-serial.txt           | 203 ++++---
+> >  Documentation/usb/usbip_protocol.txt       | 552 ++++++++++---------
+> >  Documentation/usb/usbmon.txt               | 100 ++--  
 > 
-> Besides that you didn't even bother compile-testing this, there is no
-> bug here to fix to begin with.
-> 
-> If bNumEndpoints is zero this loop will execute and the driver bails out
-> just after since dev->read_endpoint is NULL.
+> should you change extension to .rst while at that?
 
-That was meant to read "will never execute".
+I did that on a first version (not submitted):
 
-Johan
+	https://git.linuxtv.org/mchehab/experimental.git/commit/?h=all_with_indexes&id=d7eec4678dbfeb1a40c58bca7a157c8a4c39fa04
+
+but I opted do the postpone the rename to a new series yet to be
+sent.
+
+The problem is that renaming it will make Sphinx to try to build them,
+causing lots of warnings because they won't be inside an index file.
+Adding index would touch Documentation/index (or Documentation/drivers-api),
+with would cause merge conflicts.
+
+Once this patch gets merged upstream, a renaming patch can happen
+anytime. It probably makes sense to do all renames at once, late
+at a merge window.
+
+
+Thanks,
+Mauro
