@@ -2,189 +2,252 @@ Return-Path: <SRS0=lM5t=SS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5032C10F13
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 20:08:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05913C10F13
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 20:22:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B363D20868
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 20:08:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BEF0A20663
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 20:22:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728550AbfDPUIC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Apr 2019 16:08:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51826 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727136AbfDPUIC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 16 Apr 2019 16:08:02 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 753F45277E;
-        Tue, 16 Apr 2019 20:08:01 +0000 (UTC)
-Received: from shalem.localdomain.com (ovpn-116-56.ams2.redhat.com [10.36.116.56])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 172AF5D9D3;
-        Tue, 16 Apr 2019 20:07:59 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
-        Kyle Tso <kyletso@google.com>, linux-usb@vger.kernel.org
-Subject: [PATCH v2 3/3] usb: typec: fusb302: Revert "Resolve fixed power role contract setup"
-Date:   Tue, 16 Apr 2019 22:07:54 +0200
-Message-Id: <20190416200754.2826-3-hdegoede@redhat.com>
-In-Reply-To: <20190416200754.2826-1-hdegoede@redhat.com>
-References: <20190416200754.2826-1-hdegoede@redhat.com>
+        id S1730670AbfDPUVm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Apr 2019 16:21:42 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:48463 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730022AbfDPUVj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Apr 2019 16:21:39 -0400
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.129]) with ESMTPA (Nemesis) id
+ 1MK5BG-1hYhwa1x9y-00LYy0; Tue, 16 Apr 2019 22:20:34 +0200
+From:   Arnd Bergmann <arnd@arndb.de>
+To:     Alexander Viro <viro@zeniv.linux.org.uk>
+Cc:     linux-fsdevel@vger.kernel.org, y2038@lists.linaro.org,
+        linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Karsten Keil <isdn@linux-pingi.de>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Marcel Holtmann <marcel@holtmann.org>, netdev@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-integrity@vger.kernel.org,
+        qat-linux@intel.com, linux-crypto@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux1394-devel@lists.sourceforge.net,
+        amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-ide@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-mtd@lists.infradead.org, linux-ppp@vger.kernel.org,
+        linux-nvme@lists.infradead.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, linux-wireless@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Subject: [PATCH v3 00/26] compat_ioctl: cleanups
+Date:   Tue, 16 Apr 2019 22:19:38 +0200
+Message-Id: <20190416202013.4034148-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.29]); Tue, 16 Apr 2019 20:08:01 +0000 (UTC)
+X-Provags-ID: V03:K1:mvmRBVqmcY1mhupTDI+zdTPTOsWPDzdt5BCk66I7Xg6IdvERZEQ
+ hRpELhbiULHqPfrFcKxAriH7V1lp/edkgqwfhvhGT7toE1JGZlBQqZQbzlO+eWCP2ER4sRI
+ in0P9PUn+JskXwI/0DeODFTzggwqBwkA2RyOC6uS1Bny6OQqf072778J9AqViE858nJkb+Q
+ eFCv7b9/d64u+uVjuBSrw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:4YXF1UI2n5Q=:2lrB6KN7HwAQtli1cWDOA1
+ ltGxgBmWd8Fqoc71LQ8VzLwWLaNvj+CW12qPzYpO1l8AZdyrYZyP0N4PsQEdUAbJF5uuHUksh
+ n1DDxCihVRi61gQcMVsrO1pG1YPKFaPQzVTeaYOpxWoNb8K7HJ6r7ksA8P1//8F3tGpjLIpsr
+ 2uGXhdguNTKZ6RC0DDjnP6sKO4k4wGK3n2+VH2IapXNqay1Rnxy7n/3KNpwoEzu7pus3KhjDx
+ trDD0YdU4bzJfV+eAUb2FrbQXzjNf2xES3GuI7loJs5iR+V11xnIRGXgjJCR0qspPApVJfBmX
+ neVC6QfvFYilQE6IOSF/4bAOsLC5A4r2kszz8FpAuwQjmxBVdxeXF7FMMjiFg8BnAKBbvAC1T
+ xhQmG9hQmHoOtQ/Yr6HU7Tfy/zeLAVW4SVL/VydRuFf8DXue+RdSJDb3hpccGIeb63LIO0G1v
+ e4XgL55OxAPj4vXQqm4d1WoYV+utT6+JgILxp13ecCuEqq3MqpBOPkc8XNWr+Ry55jDDjAt8C
+ aP7iHyI2Tqmu7o1RFZ5HsozgGiVuoCefRN8AJnp/570z1fB0aVB4uY6jaGNmZfRjyOtrb1EjF
+ HD/vjiujlkTbHo3Fk9GP+W2YVhzzod6JubIkdRkIipbXVKbSLHv0aXWv5TVkWWJriq1edvctS
+ KJqDn2/1AHnjJ2I6pcNw1jOdZrwlt0opNSNamI11DM7UpEi4Woh+mGm9U1Ei44E6M0mpM6Xnl
+ pi7O5Ccuju0WtClcha6vz7mVFLqKwYrWB1kFcA==
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190416200754.w8T3Acf1QAKYk08CoIBkhCWOh2CxwTnz0D4Zd7-Hc0Y@z>
 
-Some tcpc device-drivers need to explicitly be told to watch for connection
-events, otherwise the tcpc will not generate any TCPM_CC_EVENTs and devices
-being plugged into the Type-C port will not be noticed.
+Hi Al,
 
-For dual-role ports tcpm_start_drp_toggling() is used to tell the tcpc to
-watch for connection events. But for single-role ports we've so far been
-falling back to just calling tcpm_set_cc(). For some tcpc-s such as the
-fusb302 this is not enough and no TCPM_CC_EVENT will be generated.
+It took me way longer than I had hoped to revisit this series, see
+https://lore.kernel.org/lkml/20180912150142.157913-1-arnd@arndb.de/
+for the previously posted version.
 
-Commit ea3b4d5523bc ("usb: typec: fusb302: Resolve fixed power role
-contract setup") fixed SRPs not working because of this by making the
-fusb302 driver start connection detection on every tcpm_set_cc() call.
-It turns out this breaks src->snk power-role swapping because during the
-swap we first set the Cc pins to Rp, calling set_cc, and then send a PS_RDY
-message. But the fusb302 cannot send PD messages while its toggling engine
-is active, so sending the PS_RDY message fails.
+I've come to the point where all conversion handlers and most
+COMPATIBLE_IOCTL() entries are gone from this file, but for
+now, this series only has the parts that have either been reviewed
+previously, or that are simple enough to include.
 
-Struct tcpc_dev now has a new start_srp_connection_detect callback and
-fusb302.c now implements this. This callback gets called when we the
-fusb302 needs to start connection detection, fixing fusb302 SRPs not
-seeing connected devices.
+The main missing piece is the SG_IO/SG_GET_REQUEST_TABLE conversion.
+I'll post the patches I made for that later, as they need more
+testing and review from the scsi maintainers.
 
-This allows us to revert the changes to fusb302's set_cc implementation,
-making it once again purely setup the Cc-s and matching disconnect
-detection, fixing src->snk power-role swapping no longer working.
+I hope you can still take these for the coming merge window, unless
+new problems come up.
 
-Note that since the code was refactored in between, codewise this is not a
-straight forward revert. Functionality wise this is a straight revert and
-the original functionality is fully restored.
+      Arnd
 
-Fixes: ea3b4d5523bc ("usb: typec: fusb302: Resolve fixed power role ...")
-Cc: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
-Changes in v2:
--No changes
----
- drivers/usb/typec/tcpm/fusb302.c | 55 ++++++++++++++++++++++++++------
- 1 file changed, 46 insertions(+), 9 deletions(-)
+Arnd Bergmann (26):
+  compat_ioctl: pppoe: fix PPPOEIOCSFWD handling
+  compat_ioctl: move simple ppp command handling into driver
+  compat_ioctl: avoid unused function warning for do_ioctl
+  compat_ioctl: move PPPIOCSCOMPRESS32 to ppp-generic.c
+  compat_ioctl: move PPPIOCSPASS32/PPPIOCSACTIVE32 to ppp_generic.c
+  compat_ioctl: handle PPPIOCGIDLE for 64-bit time_t
+  compat_ioctl: move rtc handling into rtc-dev.c
+  compat_ioctl: add compat_ptr_ioctl()
+  compat_ioctl: move drivers to compat_ptr_ioctl
+  compat_ioctl: use correct compat_ptr() translation in drivers
+  ceph: fix compat_ioctl for ceph_dir_operations
+  compat_ioctl: move more drivers to compat_ptr_ioctl
+  compat_ioctl: move tape handling into drivers
+  compat_ioctl: move ATYFB_CLK handling to atyfb driver
+  compat_ioctl: move isdn/capi ioctl translation into driver
+  compat_ioctl: move rfcomm handlers into driver
+  compat_ioctl: move hci_sock handlers into driver
+  compat_ioctl: remove HCIUART handling
+  compat_ioctl: remove HIDIO translation
+  compat_ioctl: remove translation for sound ioctls
+  compat_ioctl: remove IGNORE_IOCTL()
+  compat_ioctl: remove /dev/random commands
+  compat_ioctl: remove joystick ioctl translation
+  compat_ioctl: remove PCI ioctl translation
+  compat_ioctl: remove /dev/raw ioctl translation
+  compat_ioctl: remove last RAID handling code
 
-diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
-index ba030b03d156..4328a6cbfb69 100644
---- a/drivers/usb/typec/tcpm/fusb302.c
-+++ b/drivers/usb/typec/tcpm/fusb302.c
-@@ -606,19 +606,16 @@ static int tcpm_set_cc(struct tcpc_dev *dev, enum typec_cc_status cc)
- 			    FUSB_REG_SWITCHES0_CC2_PU_EN |
- 			    FUSB_REG_SWITCHES0_CC1_PD_EN |
- 			    FUSB_REG_SWITCHES0_CC2_PD_EN;
--	u8 switches0_data = 0x00;
-+	u8 rd_mda, switches0_data = 0x00;
- 	int ret = 0;
--	enum toggling_mode mode;
- 
- 	mutex_lock(&chip->lock);
- 	switch (cc) {
- 	case TYPEC_CC_OPEN:
--		mode = TOGGLING_MODE_OFF;
- 		break;
- 	case TYPEC_CC_RD:
- 		switches0_data |= FUSB_REG_SWITCHES0_CC1_PD_EN |
- 				  FUSB_REG_SWITCHES0_CC2_PD_EN;
--		mode = TOGGLING_MODE_SNK;
- 		break;
- 	case TYPEC_CC_RP_DEF:
- 	case TYPEC_CC_RP_1_5:
-@@ -626,7 +623,6 @@ static int tcpm_set_cc(struct tcpc_dev *dev, enum typec_cc_status cc)
- 		switches0_data |= (chip->cc_polarity == TYPEC_POLARITY_CC1) ?
- 				  FUSB_REG_SWITCHES0_CC1_PU_EN :
- 				  FUSB_REG_SWITCHES0_CC2_PU_EN;
--		mode = TOGGLING_MODE_SRC;
- 		break;
- 	default:
- 		fusb302_log(chip, "unsupported cc value %s",
-@@ -637,6 +633,12 @@ static int tcpm_set_cc(struct tcpc_dev *dev, enum typec_cc_status cc)
- 
- 	fusb302_log(chip, "cc := %s", typec_cc_status_name[cc]);
- 
-+	ret = fusb302_set_toggling(chip, TOGGLING_MODE_OFF);
-+	if (ret < 0) {
-+		fusb302_log(chip, "cannot set toggling mode, ret=%d", ret);
-+		goto done;
-+	}
-+
- 	ret = fusb302_i2c_mask_write(chip, FUSB_REG_SWITCHES0,
- 				     switches0_mask, switches0_data);
- 	if (ret < 0) {
-@@ -655,10 +657,45 @@ static int tcpm_set_cc(struct tcpc_dev *dev, enum typec_cc_status cc)
- 		goto done;
- 	}
- 
--	ret = fusb302_set_toggling(chip, mode);
--	if (ret < 0)
--		fusb302_log(chip, "cannot set toggling mode, ret=%d", ret);
--
-+	/* enable/disable interrupts, BC_LVL for SNK and COMP_CHNG for SRC */
-+	switch (cc) {
-+	case TYPEC_CC_RP_DEF:
-+	case TYPEC_CC_RP_1_5:
-+	case TYPEC_CC_RP_3_0:
-+		rd_mda = rd_mda_value[cc_src_current[cc]];
-+		ret = fusb302_i2c_write(chip, FUSB_REG_MEASURE, rd_mda);
-+		if (ret < 0) {
-+			fusb302_log(chip,
-+				    "cannot set SRC measure value, ret=%d",
-+				    ret);
-+			goto done;
-+		}
-+		ret = fusb302_i2c_mask_write(chip, FUSB_REG_MASK,
-+					     FUSB_REG_MASK_BC_LVL |
-+					     FUSB_REG_MASK_COMP_CHNG,
-+					     FUSB_REG_MASK_COMP_CHNG);
-+		if (ret < 0) {
-+			fusb302_log(chip, "cannot set SRC interrupt, ret=%d",
-+				    ret);
-+			goto done;
-+		}
-+		chip->intr_comp_chng = true;
-+		break;
-+	case TYPEC_CC_RD:
-+		ret = fusb302_i2c_mask_write(chip, FUSB_REG_MASK,
-+					     FUSB_REG_MASK_BC_LVL |
-+					     FUSB_REG_MASK_COMP_CHNG,
-+					     FUSB_REG_MASK_BC_LVL);
-+		if (ret < 0) {
-+			fusb302_log(chip, "cannot set SRC interrupt, ret=%d",
-+				    ret);
-+			goto done;
-+		}
-+		chip->intr_bc_lvl = true;
-+		break;
-+	default:
-+		break;
-+	}
- done:
- 	mutex_unlock(&chip->lock);
- 
+ Documentation/networking/ppp_generic.txt    |   2 +
+ arch/um/drivers/hostaudio_kern.c            |   1 +
+ drivers/android/binder.c                    |   2 +-
+ drivers/char/ppdev.c                        |  12 +-
+ drivers/char/random.c                       |   1 +
+ drivers/char/tpm/tpm_vtpm_proxy.c           |  12 +-
+ drivers/crypto/qat/qat_common/adf_ctl_drv.c |   2 +-
+ drivers/dma-buf/dma-buf.c                   |   4 +-
+ drivers/dma-buf/sw_sync.c                   |   2 +-
+ drivers/dma-buf/sync_file.c                 |   2 +-
+ drivers/firewire/core-cdev.c                |  12 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_chardev.c    |   2 +-
+ drivers/hid/hidraw.c                        |   4 +-
+ drivers/hid/usbhid/hiddev.c                 |  11 +-
+ drivers/hwtracing/stm/core.c                |  12 +-
+ drivers/ide/ide-tape.c                      |  31 +-
+ drivers/iio/industrialio-core.c             |   2 +-
+ drivers/infiniband/core/uverbs_main.c       |   4 +-
+ drivers/isdn/capi/capi.c                    |  31 +
+ drivers/isdn/i4l/isdn_ppp.c                 |  14 +-
+ drivers/media/rc/lirc_dev.c                 |   4 +-
+ drivers/mfd/cros_ec_dev.c                   |   4 +-
+ drivers/misc/cxl/flash.c                    |   8 +-
+ drivers/misc/genwqe/card_dev.c              |  23 +-
+ drivers/misc/mei/main.c                     |  22 +-
+ drivers/misc/vmw_vmci/vmci_host.c           |   2 +-
+ drivers/mtd/ubi/cdev.c                      |  36 +-
+ drivers/net/ppp/ppp_generic.c               |  99 +++-
+ drivers/net/ppp/pppoe.c                     |   7 +
+ drivers/net/ppp/pptp.c                      |   3 +
+ drivers/net/tap.c                           |  12 +-
+ drivers/nvdimm/bus.c                        |   4 +-
+ drivers/nvme/host/core.c                    |   2 +-
+ drivers/pci/switch/switchtec.c              |   2 +-
+ drivers/platform/x86/wmi.c                  |   2 +-
+ drivers/rpmsg/rpmsg_char.c                  |   4 +-
+ drivers/rtc/dev.c                           |  13 +-
+ drivers/rtc/rtc-vr41xx.c                    |  10 +
+ drivers/s390/char/tape_char.c               |  41 +-
+ drivers/sbus/char/display7seg.c             |   2 +-
+ drivers/sbus/char/envctrl.c                 |   4 +-
+ drivers/scsi/3w-xxxx.c                      |   4 +-
+ drivers/scsi/cxlflash/main.c                |   2 +-
+ drivers/scsi/esas2r/esas2r_main.c           |   2 +-
+ drivers/scsi/megaraid/megaraid_mm.c         |  28 +-
+ drivers/scsi/osst.c                         |  34 +-
+ drivers/scsi/pmcraid.c                      |   4 +-
+ drivers/scsi/st.c                           |  35 +-
+ drivers/staging/android/ion/ion.c           |   4 +-
+ drivers/staging/pi433/pi433_if.c            |  12 +-
+ drivers/staging/vme/devices/vme_user.c      |   2 +-
+ drivers/tee/tee_core.c                      |   2 +-
+ drivers/usb/class/cdc-wdm.c                 |   2 +-
+ drivers/usb/class/usbtmc.c                  |   4 +-
+ drivers/usb/core/devio.c                    |  16 +-
+ drivers/usb/gadget/function/f_fs.c          |  12 +-
+ drivers/vfio/vfio.c                         |  39 +-
+ drivers/vhost/net.c                         |  12 +-
+ drivers/vhost/scsi.c                        |  12 +-
+ drivers/vhost/test.c                        |  12 +-
+ drivers/vhost/vsock.c                       |  12 +-
+ drivers/video/fbdev/aty/atyfb_base.c        |  12 +-
+ drivers/virt/fsl_hypervisor.c               |   2 +-
+ fs/btrfs/super.c                            |   2 +-
+ fs/ceph/dir.c                               |   1 +
+ fs/ceph/file.c                              |   2 +-
+ fs/compat_ioctl.c                           | 602 +-------------------
+ fs/fat/file.c                               |  13 +-
+ fs/fuse/dev.c                               |   2 +-
+ fs/notify/fanotify/fanotify_user.c          |   2 +-
+ fs/userfaultfd.c                            |   2 +-
+ include/linux/fs.h                          |   7 +
+ include/linux/if_pppox.h                    |   2 +
+ include/linux/mtio.h                        |  58 ++
+ include/uapi/linux/ppp-ioctl.h              |   2 +
+ include/uapi/linux/ppp_defs.h               |  14 +
+ net/bluetooth/hci_sock.c                    |  21 +-
+ net/bluetooth/rfcomm/sock.c                 |  14 +-
+ net/l2tp/l2tp_ppp.c                         |   3 +
+ net/rfkill/core.c                           |   2 +-
+ sound/core/oss/pcm_oss.c                    |   4 +
+ sound/oss/dmasound/dmasound_core.c          |   2 +
+ 82 files changed, 452 insertions(+), 1034 deletions(-)
+ create mode 100644 include/linux/mtio.h
+
 -- 
-2.21.0
+2.20.0
 
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Karsten Keil <isdn@linux-pingi.de>
+Cc: "James E.J. Bottomley" <jejb@linux.ibm.com>
+Cc: "Martin K. Petersen" <martin.petersen@oracle.com>
+Cc: Marcel Holtmann <marcel@holtmann.org>
+Cc: netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: devel@driverdev.osuosl.org
+Cc: linux-integrity@vger.kernel.org
+Cc: qat-linux@intel.com
+Cc: linux-crypto@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux1394-devel@lists.sourceforge.net
+Cc: amd-gfx@lists.freedesktop.org
+Cc: linux-input@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-ide@vger.kernel.org
+Cc: linux-iio@vger.kernel.org
+Cc: linux-rdma@vger.kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-mtd@lists.infradead.org
+Cc: linux-ppp@vger.kernel.org
+Cc: linux-nvme@lists.infradead.org
+Cc: platform-driver-x86@vger.kernel.org
+Cc: linux-remoteproc@vger.kernel.org
+Cc: linux-rtc@vger.kernel.org
+Cc: linux-s390@vger.kernel.org
+Cc: sparclinux@vger.kernel.org
+Cc: linux-scsi@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: linux-btrfs@vger.kernel.org
+Cc: ceph-devel@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-bluetooth@vger.kernel.org
+Cc: linux-wireless@vger.kernel.org
+Cc: alsa-devel@alsa-project.org
+Cc: y2038@lists.linaro.org
