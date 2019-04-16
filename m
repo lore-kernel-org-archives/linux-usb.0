@@ -6,26 +6,26 @@ X-Spam-Status: No, score=-6.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7B4AC10F13
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 20:07:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA36CC10F13
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 20:08:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A3AC820880
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 20:07:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A9ADE20868
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 20:08:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728032AbfDPUH7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Apr 2019 16:07:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38498 "EHLO mx1.redhat.com"
+        id S1728401AbfDPUIA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Apr 2019 16:08:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49458 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
         id S1727136AbfDPUH7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Tue, 16 Apr 2019 16:07:59 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 2C1C02D7F9;
-        Tue, 16 Apr 2019 20:07:58 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id C8763C04959F;
+        Tue, 16 Apr 2019 20:07:59 +0000 (UTC)
 Received: from shalem.localdomain.com (ovpn-116-56.ams2.redhat.com [10.36.116.56])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9DCA15D9D3;
-        Tue, 16 Apr 2019 20:07:56 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6E2A85D9D3;
+        Tue, 16 Apr 2019 20:07:58 +0000 (UTC)
 From:   Hans de Goede <hdegoede@redhat.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Guenter Roeck <linux@roeck-us.net>,
@@ -33,275 +33,76 @@ To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc:     Hans de Goede <hdegoede@redhat.com>,
         Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
         Kyle Tso <kyletso@google.com>, linux-usb@vger.kernel.org
-Subject: [PATCH v2 1/3] usb: typec: tcpm: Notify the tcpc to start connection-detection for SRPs
-Date:   Tue, 16 Apr 2019 22:07:52 +0200
-Message-Id: <20190416200754.2826-1-hdegoede@redhat.com>
+Subject: [PATCH v2 2/3] usb: typec: fusb302: Implement start_toggling for all port-types
+Date:   Tue, 16 Apr 2019 22:07:53 +0200
+Message-Id: <20190416200754.2826-2-hdegoede@redhat.com>
+In-Reply-To: <20190416200754.2826-1-hdegoede@redhat.com>
+References: <20190416200754.2826-1-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Tue, 16 Apr 2019 20:07:58 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.31]); Tue, 16 Apr 2019 20:07:59 +0000 (UTC)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190416200752.axYw2q_qt3I1DQCt5jcrFylIC4Kd2tsaqvsryhl2t3g@z>
+Message-ID: <20190416200753.pCUVp__YJtV1EGLejofVfu4O57Iss6nMDUS9hNYYX_8@z>
 
-Some tcpc device-drivers need to explicitly be told to watch for connection
-events, otherwise the tcpc will not generate any TCPM_CC_EVENTs and devices
-being plugged into the Type-C port will not be noticed.
+When in single-role port mode, we must start single-role toggling to
+get an interrupt when a device / cable gets plugged into the port.
 
-For dual-role ports tcpm_start_drp_toggling() is used to tell the tcpc to
-watch for connection events. Sofar we lack a similar callback to the tcpc
-for single-role ports. With some tcpc-s such as the fusb302 this means
-no TCPM_CC_EVENTs will be generated when the port is configured as a
-single-role port.
-
-This commit renames start_drp_toggling to start_toggling and since the
-device-properties are parsed by the tcpm-core, adds a port_type parameter
-to the start_toggling callback so that the tcpc_dev driver knows the
-port-type and can act accordingly when it starts toggling.
-
-The new start_toggling callback now always gets called if defined, instead
-of only being called for DRP ports.
-
-To avoid this causing undesirable functional changes all existing
-start_drp_toggling implementations are not only renamed to start_toggling,
-but also get a port_type check added and return -EOPNOTSUPP when port_type
-is not DRP.
+This commit modifies the fusb302 start_toggling implementation to
+start toggling for all port-types, so that connection-detection works
+on single-role ports too.
 
 Fixes: ea3b4d5523bc("usb: typec: fusb302: Resolve fixed power role ...")
 Cc: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
 Changes in v2:
--Rename start_drp_toggling to start_toggling and make it multi-purpose,
- rather then adding a new start_srp_connection_detect callback
+-Adjust for the tcpm core renaming start_drp_toggling to start_toggling,
+ instead of adding a new start_srp_connection_detect callback
 ---
- drivers/usb/typec/tcpm/fusb302.c | 10 +++++++---
- drivers/usb/typec/tcpm/tcpci.c   | 10 +++++++---
- drivers/usb/typec/tcpm/tcpm.c    | 32 ++++++++++++++------------------
- drivers/usb/typec/tcpm/wcove.c   | 10 +++++++---
- include/linux/usb/tcpm.h         | 13 +++++++------
- 5 files changed, 42 insertions(+), 33 deletions(-)
+ drivers/usb/typec/tcpm/fusb302.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
-index 6ea6199caafa..6d83891cc895 100644
+index 6d83891cc895..ba030b03d156 100644
 --- a/drivers/usb/typec/tcpm/fusb302.c
 +++ b/drivers/usb/typec/tcpm/fusb302.c
-@@ -876,13 +876,17 @@ static int tcpm_set_roles(struct tcpc_dev *dev, bool attached,
- 	return ret;
- }
- 
--static int tcpm_start_drp_toggling(struct tcpc_dev *dev,
--				   enum typec_cc_status cc)
-+static int tcpm_start_toggling(struct tcpc_dev *dev,
-+			       enum typec_port_type port_type,
-+			       enum typec_cc_status cc)
+@@ -882,10 +882,20 @@ static int tcpm_start_toggling(struct tcpc_dev *dev,
  {
  	struct fusb302_chip *chip = container_of(dev, struct fusb302_chip,
  						 tcpc_dev);
++	enum toggling_mode mode = TOGGLING_MODE_OFF;
  	int ret = 0;
  
-+	if (port_type != TYPEC_PORT_DRP)
-+		return -EOPNOTSUPP;
-+
+-	if (port_type != TYPEC_PORT_DRP)
+-		return -EOPNOTSUPP;
++	switch (port_type) {
++	case TYPEC_PORT_SRC:
++		mode = TOGGLING_MODE_SRC;
++		break;
++	case TYPEC_PORT_SNK:
++		mode = TOGGLING_MODE_SNK;
++		break;
++	case TYPEC_PORT_DRP:
++		mode = TOGGLING_MODE_DRP;
++		break;
++	}
+ 
  	mutex_lock(&chip->lock);
  	ret = fusb302_set_src_current(chip, cc_src_current[cc]);
+@@ -894,7 +904,7 @@ static int tcpm_start_toggling(struct tcpc_dev *dev,
+ 			    typec_cc_status_name[cc], ret);
+ 		goto done;
+ 	}
+-	ret = fusb302_set_toggling(chip, TOGGLING_MODE_DRP);
++	ret = fusb302_set_toggling(chip, mode);
  	if (ret < 0) {
-@@ -1094,7 +1098,7 @@ static void init_tcpc_dev(struct tcpc_dev *fusb302_tcpc_dev)
- 	fusb302_tcpc_dev->set_vbus = tcpm_set_vbus;
- 	fusb302_tcpc_dev->set_pd_rx = tcpm_set_pd_rx;
- 	fusb302_tcpc_dev->set_roles = tcpm_set_roles;
--	fusb302_tcpc_dev->start_drp_toggling = tcpm_start_drp_toggling;
-+	fusb302_tcpc_dev->start_toggling = tcpm_start_toggling;
- 	fusb302_tcpc_dev->pd_transmit = tcpm_pd_transmit;
- }
- 
-diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
-index ac6b418b15f1..c1f7073a56de 100644
---- a/drivers/usb/typec/tcpm/tcpci.c
-+++ b/drivers/usb/typec/tcpm/tcpci.c
-@@ -100,13 +100,17 @@ static int tcpci_set_cc(struct tcpc_dev *tcpc, enum typec_cc_status cc)
- 	return 0;
- }
- 
--static int tcpci_start_drp_toggling(struct tcpc_dev *tcpc,
--				    enum typec_cc_status cc)
-+static int tcpci_start_toggling(struct tcpc_dev *tcpc,
-+				enum typec_port_type port_type,
-+				enum typec_cc_status cc)
- {
- 	int ret;
- 	struct tcpci *tcpci = tcpc_to_tcpci(tcpc);
- 	unsigned int reg = TCPC_ROLE_CTRL_DRP;
- 
-+	if (port_type != TYPEC_PORT_DRP)
-+		return -EOPNOTSUPP;
-+
- 	/* Handle vendor drp toggling */
- 	if (tcpci->data->start_drp_toggling) {
- 		ret = tcpci->data->start_drp_toggling(tcpci, tcpci->data, cc);
-@@ -511,7 +515,7 @@ struct tcpci *tcpci_register_port(struct device *dev, struct tcpci_data *data)
- 	tcpci->tcpc.get_cc = tcpci_get_cc;
- 	tcpci->tcpc.set_polarity = tcpci_set_polarity;
- 	tcpci->tcpc.set_vconn = tcpci_set_vconn;
--	tcpci->tcpc.start_drp_toggling = tcpci_start_drp_toggling;
-+	tcpci->tcpc.start_toggling = tcpci_start_toggling;
- 
- 	tcpci->tcpc.set_pd_rx = tcpci_set_pd_rx;
- 	tcpci->tcpc.set_roles = tcpci_set_roles;
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index a2233d72ae7c..fba32d84e578 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -31,7 +31,7 @@
- 
- #define FOREACH_STATE(S)			\
- 	S(INVALID_STATE),			\
--	S(DRP_TOGGLING),			\
-+	S(TOGGLING),			\
- 	S(SRC_UNATTACHED),			\
- 	S(SRC_ATTACH_WAIT),			\
- 	S(SRC_ATTACHED),			\
-@@ -472,7 +472,7 @@ static void tcpm_log(struct tcpm_port *port, const char *fmt, ...)
- 	/* Do not log while disconnected and unattached */
- 	if (tcpm_port_is_disconnected(port) &&
- 	    (port->state == SRC_UNATTACHED || port->state == SNK_UNATTACHED ||
--	     port->state == DRP_TOGGLING))
-+	     port->state == TOGGLING))
- 		return;
- 
- 	va_start(args, fmt);
-@@ -2540,20 +2540,16 @@ static int tcpm_set_charge(struct tcpm_port *port, bool charge)
- 	return 0;
- }
- 
--static bool tcpm_start_drp_toggling(struct tcpm_port *port,
--				    enum typec_cc_status cc)
-+static bool tcpm_start_toggling(struct tcpm_port *port, enum typec_cc_status cc)
- {
- 	int ret;
- 
--	if (port->tcpc->start_drp_toggling &&
--	    port->port_type == TYPEC_PORT_DRP) {
--		tcpm_log_force(port, "Start DRP toggling");
--		ret = port->tcpc->start_drp_toggling(port->tcpc, cc);
--		if (!ret)
--			return true;
--	}
-+	if (!port->tcpc->start_toggling)
-+		return false;
- 
--	return false;
-+	tcpm_log_force(port, "Start toggling");
-+	ret = port->tcpc->start_toggling(port->tcpc, port->port_type, cc);
-+	return ret == 0;
- }
- 
- static void tcpm_set_cc(struct tcpm_port *port, enum typec_cc_status cc)
-@@ -2847,15 +2843,15 @@ static void run_state_machine(struct tcpm_port *port)
- 
- 	port->enter_state = port->state;
- 	switch (port->state) {
--	case DRP_TOGGLING:
-+	case TOGGLING:
- 		break;
- 	/* SRC states */
- 	case SRC_UNATTACHED:
- 		if (!port->non_pd_role_swap)
- 			tcpm_swap_complete(port, -ENOTCONN);
- 		tcpm_src_detach(port);
--		if (tcpm_start_drp_toggling(port, tcpm_rp_cc(port))) {
--			tcpm_set_state(port, DRP_TOGGLING, 0);
-+		if (tcpm_start_toggling(port, tcpm_rp_cc(port))) {
-+			tcpm_set_state(port, TOGGLING, 0);
- 			break;
- 		}
- 		tcpm_set_cc(port, tcpm_rp_cc(port));
-@@ -3053,8 +3049,8 @@ static void run_state_machine(struct tcpm_port *port)
- 			tcpm_swap_complete(port, -ENOTCONN);
- 		tcpm_pps_complete(port, -ENOTCONN);
- 		tcpm_snk_detach(port);
--		if (tcpm_start_drp_toggling(port, TYPEC_CC_RD)) {
--			tcpm_set_state(port, DRP_TOGGLING, 0);
-+		if (tcpm_start_toggling(port, TYPEC_CC_RD)) {
-+			tcpm_set_state(port, TOGGLING, 0);
- 			break;
- 		}
- 		tcpm_set_cc(port, TYPEC_CC_RD);
-@@ -3621,7 +3617,7 @@ static void _tcpm_cc_change(struct tcpm_port *port, enum typec_cc_status cc1,
- 						       : "connected");
- 
- 	switch (port->state) {
--	case DRP_TOGGLING:
-+	case TOGGLING:
- 		if (tcpm_port_is_debug(port) || tcpm_port_is_audio(port) ||
- 		    tcpm_port_is_source(port))
- 			tcpm_set_state(port, SRC_ATTACH_WAIT, 0);
-diff --git a/drivers/usb/typec/tcpm/wcove.c b/drivers/usb/typec/tcpm/wcove.c
-index 6770afd40765..f1f8f45e2f3d 100644
---- a/drivers/usb/typec/tcpm/wcove.c
-+++ b/drivers/usb/typec/tcpm/wcove.c
-@@ -416,12 +416,16 @@ static int wcove_pd_transmit(struct tcpc_dev *tcpc,
- 	return regmap_write(wcove->regmap, USBC_TXCMD, cmd | USBC_TXCMD_START);
- }
- 
--static int wcove_start_drp_toggling(struct tcpc_dev *tcpc,
--				    enum typec_cc_status cc)
-+static int wcove_start_toggling(struct tcpc_dev *tcpc,
-+				enum typec_port_type port_type,
-+				enum typec_cc_status cc)
- {
- 	struct wcove_typec *wcove = tcpc_to_wcove(tcpc);
- 	unsigned int usbc_ctrl;
- 
-+	if (port_type != TYPEC_PORT_DRP)
-+		return -EOPNOTSUPP;
-+
- 	usbc_ctrl = USBC_CONTROL1_MODE_DRP | USBC_CONTROL1_DRPTOGGLE_RANDOM;
- 
- 	switch (cc) {
-@@ -642,7 +646,7 @@ static int wcove_typec_probe(struct platform_device *pdev)
- 	wcove->tcpc.set_polarity = wcove_set_polarity;
- 	wcove->tcpc.set_vconn = wcove_set_vconn;
- 	wcove->tcpc.set_current_limit = wcove_set_current_limit;
--	wcove->tcpc.start_drp_toggling = wcove_start_drp_toggling;
-+	wcove->tcpc.start_toggling = wcove_start_toggling;
- 
- 	wcove->tcpc.set_pd_rx = wcove_set_pd_rx;
- 	wcove->tcpc.set_roles = wcove_set_roles;
-diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
-index 0c532ca3f079..36a15dcadc53 100644
---- a/include/linux/usb/tcpm.h
-+++ b/include/linux/usb/tcpm.h
-@@ -121,10 +121,10 @@ struct tcpc_config {
-  *		with partner.
-  * @set_pd_rx:	Called to enable or disable reception of PD messages
-  * @set_roles:	Called to set power and data roles
-- * @start_drp_toggling:
-- *		Optional; if supported by hardware, called to start DRP
-- *		toggling. DRP toggling is stopped automatically if
-- *		a connection is established.
-+ * @start_toggling:
-+ *		Optional; if supported by hardware, called to start dual-role
-+ *		toggling or single-role connection detection. Toggling stops
-+ *		automatically if a connection is established.
-  * @try_role:	Optional; called to set a preferred role
-  * @pd_transmit:Called to transmit PD message
-  * @mux:	Pointer to multiplexer data
-@@ -147,8 +147,9 @@ struct tcpc_dev {
- 	int (*set_pd_rx)(struct tcpc_dev *dev, bool on);
- 	int (*set_roles)(struct tcpc_dev *dev, bool attached,
- 			 enum typec_role role, enum typec_data_role data);
--	int (*start_drp_toggling)(struct tcpc_dev *dev,
--				  enum typec_cc_status cc);
-+	int (*start_toggling)(struct tcpc_dev *dev,
-+			      enum typec_port_type port_type,
-+			      enum typec_cc_status cc);
- 	int (*try_role)(struct tcpc_dev *dev, int role);
- 	int (*pd_transmit)(struct tcpc_dev *dev, enum tcpm_transmit_type type,
- 			   const struct pd_message *msg);
+ 		fusb302_log(chip,
+ 			    "unable to start drp toggling, ret=%d", ret);
 -- 
 2.21.0
 
