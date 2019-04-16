@@ -2,122 +2,87 @@ Return-Path: <SRS0=lM5t=SS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_PASS,
-	T_DKIMWL_WL_HIGH,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74903C10F13
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 11:43:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2468FC10F13
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 12:25:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 473A420675
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 11:43:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1555415022;
-	bh=SDxhI0cHtXT8CGPUcKV1Fds9SU9qN3MLgWu8GoM6j7k=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=mbcLUjAwwx17nasYug5bxNG8RRdBzVRuhVN9yuUka3u/bdbUAurUyhUFLuK8mD4Yu
-	 KB8LLI45kK1r5gF35jm3EBSSxl3VkGwmG+xwFKxGSVDZzzXK/ekJfX8pNzH0vCchqe
-	 vDwnxphpUGehoCy4DA53iogW0/qeHDXP05rX1bKw=
+	by mail.kernel.org (Postfix) with ESMTP id F257F206BA
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 12:25:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729154AbfDPLnh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Apr 2019 07:43:37 -0400
-Received: from casper.infradead.org ([85.118.1.10]:58130 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728706AbfDPLnh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Apr 2019 07:43:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=pwSiZYvIqAnueGaDNcL1fXNSQ+1wKaAhSA0jh0cQoN8=; b=B5m/0kf20v9afSgg/Mw50xX6cA
-        DBKW6+r9nqzeoNLM4VcN6NM7+FvgNAqMUJga8h2OM1O+f1XwtA0tNd2WeDRwDMGJIQh6nL13QCoyC
-        w1/und9MnSspC/R+QrNtlH22Zqq1ANMX05mUx9NGct/+M/B73554xVND0+5OBo9pWoW3SF4a++QBG
-        cYJvdNEZi7h6PF7DB/U0QQvSAsfv2OboOQZYsgQBLzwXpk3Y3hoJySA24tdrm1W8z+MRmMISGinEK
-        cUaiNe+up+6+6oGl/r4oCHnQw9yiVqaU8Sp3at0Y3igD/SXHPFtjdN0bKPRqgv2X66IoRGdJK0HmS
-        xBmJZSjw==;
-Received: from 177.205.118.176.dynamic.adsl.gvt.net.br ([177.205.118.176] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hGMUv-00082H-2W; Tue, 16 Apr 2019 11:43:33 +0000
-Date:   Tue, 16 Apr 2019 08:43:28 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Felipe Balbi <felipe.balbi@linux.intel.com>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH 36/57] docs: usb: convert documents to ReST
-Message-ID: <20190416084328.380de91e@coco.lan>
-In-Reply-To: <874l6ya373.fsf@linux.intel.com>
-References: <cover.1555382110.git.mchehab+samsung@kernel.org>
-        <eaafc5741ccfe3b96ab2a9ef799c537c49ab20e5.1555382110.git.mchehab+samsung@kernel.org>
-        <874l6ya373.fsf@linux.intel.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728149AbfDPMZr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Apr 2019 08:25:47 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:55245 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726241AbfDPMZq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Apr 2019 08:25:46 -0400
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue109 [212.227.15.145]) with ESMTPA (Nemesis) id
+ 1MBUuP-1h8ymA11DD-00Cvb6; Tue, 16 Apr 2019 14:25:41 +0200
+From:   Arnd Bergmann <arnd@arndb.de>
+To:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Dmitry Osipenko <digetx@gmail.com>,
+        Anders Roxell <anders.roxell@linaro.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: gadget: fsl: fix link error against usb-gadget module
+Date:   Tue, 16 Apr 2019 14:25:32 +0200
+Message-Id: <20190416122540.3222314-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Z4JFO1al4yfSeyJC5wJvaU8oqEG+h5zWrHcjZ9c6Ssu2yjAVBAr
+ ThIugfScLvblwnGiSRGC035AhzKBggc7kSlIl78J21iJCaBy6yH9+qib4NRuoHL0ohjaln9
+ Yt3IMODEbPE+NjYoHZYf+0EGGUeUIHcVAc6adrvMaw1nceaLXtftb42l2uEpuwtmiarHTgm
+ 0j4inZ97tjJhfgqn1CXUA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7jqD/e/gBYQ=:7qJWDYZ662F5UrEt1A33CS
+ 6R37CMcqiVU4ykjOj0GXK4oq4taWNstVQxoS7qwZ68/X8w0+XMfsthgwNWXn+5oOu5r7t/t33
+ aobcyYCn9n911nDzjEpQ5rh+NRsJNWjz9UtrwXuYJOqxZ+yBkn5uafgHU7zaQe47vsT8DeY3N
+ Tuac9tsfiGklUHDvIn+y1Ccti2W3H8kqSPe6MKXh/4lVuXZLjdrioHmCfqQ6hMdWdaKExsa/V
+ SOQ0VOLPjhXTkGqfy0CP569HW/mYFG6hB82CkPf5QAPl/iewQ7M5oo6/kyM8Fk2JqSq2R8J+u
+ pjd3nIzWRzj8paS1PDxdc3j0m9HYExFpb5tECmmpVYN2OkC5a6nB0mGQjxbu0Nw+tQov3xxk0
+ JjwDIhpI0I8lHWPANrA9btZksNuJozgZMeuO+yXho5p1rDuQPZ28Vm62YAAjmDMO10OcVmBIV
+ k2j41w3+UsfQZxbJVtqZmzg2ZV1jH5PFW44Js79fUzhFgpggvpfBqyiF+7np8cIGEFYEcYsBo
+ WS9RqHTHBDv0Z5MSk9yzT5nGZefv6wdr2ce0PqlKCfMW8VJrQQeCnQTgzM6AFXQp/9A4y1KFz
+ d6ub3sN5PCC5vDm8lXVlS3odkDuMRn2sdpYf10Y0Sn0cV7aqmNua8HuuJdSAKLzVCFS1FOh05
+ NAzy6dsDOzwZuv9MXod2yoPuUH+SKWLNqoGXgyVkq5Ac+ws07Svy563v5uUzzWm4Jj+JJQBrB
+ OV1YOw5Btxlkn9+ze5BKRiP88lt9i+oTVbu3ow==
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190416114328.c6JrDX_WLCRoNDy2L4BvM6phtBXafsxvfQ5MLcf_5C8@z>
+Content-Type: text/plain; charset="UTF-8"
+Message-ID: <20190416122532.Zb0-oQx-0J9Nipraut2HH5Nc1vlFyduAu-1j6a9ZZMg@z>
 
-Em Tue, 16 Apr 2019 09:12:32 +0300
-Felipe Balbi <felipe.balbi@linux.intel.com> escreveu:
+The dependency to ensure this driver links correctly fails since
+it can not be a loadable module:
 
-> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> writes:
-> 
-> > Convert USB documents to ReST, in order to prepare for adding it
-> > to the kernel API book, as most of the stuff there are driver or
-> > subsystem-related.
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > ---
-> >  Documentation/usb/WUSB-Design-overview.txt |  56 +-
-> >  Documentation/usb/acm.txt                  | 156 +++---
-> >  Documentation/usb/authorization.txt        |  75 +--
-> >  Documentation/usb/chipidea.txt             | 101 ++--
-> >  Documentation/usb/dwc3.txt                 |  12 +-
-> >  Documentation/usb/ehci.txt                 |  42 +-
-> >  Documentation/usb/functionfs.txt           |  17 +-
-> >  Documentation/usb/gadget-testing.txt       | 609 ++++++++++++---------
-> >  Documentation/usb/gadget_configfs.txt      | 302 +++++-----
-> >  Documentation/usb/gadget_hid.txt           | 175 +++---
-> >  Documentation/usb/gadget_multi.txt         |  43 +-
-> >  Documentation/usb/gadget_printer.txt       | 155 +++---
-> >  Documentation/usb/gadget_serial.txt        |  73 +--
-> >  Documentation/usb/iuu_phoenix.txt          |  34 +-
-> >  Documentation/usb/mass-storage.txt         |  19 +-
-> >  Documentation/usb/misc_usbsevseg.txt       |   9 +-
-> >  Documentation/usb/mtouchusb.txt            |  42 +-
-> >  Documentation/usb/ohci.txt                 |   5 +-
-> >  Documentation/usb/rio.txt                  |  83 +--
-> >  Documentation/usb/usb-help.txt             |  21 +-
-> >  Documentation/usb/usb-serial.txt           | 203 ++++---
-> >  Documentation/usb/usbip_protocol.txt       | 552 ++++++++++---------
-> >  Documentation/usb/usbmon.txt               | 100 ++--  
-> 
-> should you change extension to .rst while at that?
+drivers/usb/phy/phy-fsl-usb.o: In function `fsl_otg_set_peripheral':
+phy-fsl-usb.c:(.text+0x2224): undefined reference to `usb_gadget_vbus_disconnect'
 
-I did that on a first version (not submitted):
+Make the option 'tristate' so it can work correctly.
 
-	https://git.linuxtv.org/mchehab/experimental.git/commit/?h=all_with_indexes&id=d7eec4678dbfeb1a40c58bca7a157c8a4c39fa04
+Fixes: 5a8d651a2bde ("usb: gadget: move gadget API functions to udc-core")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/usb/phy/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-but I opted do the postpone the rename to a new series yet to be
-sent.
+diff --git a/drivers/usb/phy/Kconfig b/drivers/usb/phy/Kconfig
+index 8c509b060c09..24b4f091acb8 100644
+--- a/drivers/usb/phy/Kconfig
++++ b/drivers/usb/phy/Kconfig
+@@ -21,7 +21,7 @@ config AB8500_USB
+ 	  in host mode, low speed.
+ 
+ config FSL_USB2_OTG
+-	bool "Freescale USB OTG Transceiver Driver"
++	tristate "Freescale USB OTG Transceiver Driver"
+ 	depends on USB_EHCI_FSL && USB_FSL_USB2 && USB_OTG_FSM=y && PM
+ 	depends on USB_GADGET || !USB_GADGET # if USB_GADGET=m, this can't be 'y'
+ 	select USB_PHY
+-- 
+2.20.0
 
-The problem is that renaming it will make Sphinx to try to build them,
-causing lots of warnings because they won't be inside an index file.
-Adding index would touch Documentation/index (or Documentation/drivers-api),
-with would cause merge conflicts.
-
-Once this patch gets merged upstream, a renaming patch can happen
-anytime. It probably makes sense to do all renames at once, late
-at a merge window.
-
-
-Thanks,
-Mauro
