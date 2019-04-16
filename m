@@ -2,87 +2,83 @@ Return-Path: <SRS0=lM5t=SS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_MUTT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2468FC10F13
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 12:25:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC528C10F13
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 13:44:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F257F206BA
-	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 12:25:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C889221924
+	for <linux-usb@archiver.kernel.org>; Tue, 16 Apr 2019 13:44:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728149AbfDPMZr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 16 Apr 2019 08:25:47 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:55245 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726241AbfDPMZq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 16 Apr 2019 08:25:46 -0400
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue109 [212.227.15.145]) with ESMTPA (Nemesis) id
- 1MBUuP-1h8ymA11DD-00Cvb6; Tue, 16 Apr 2019 14:25:41 +0200
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Dmitry Osipenko <digetx@gmail.com>,
-        Anders Roxell <anders.roxell@linaro.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: gadget: fsl: fix link error against usb-gadget module
-Date:   Tue, 16 Apr 2019 14:25:32 +0200
-Message-Id: <20190416122540.3222314-1-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
+        id S1726875AbfDPNon (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 16 Apr 2019 09:44:43 -0400
+Received: from mga09.intel.com ([134.134.136.24]:21483 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726037AbfDPNon (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 16 Apr 2019 09:44:43 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Apr 2019 06:44:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,357,1549958400"; 
+   d="scan'208";a="165211341"
+Received: from kuha.fi.intel.com ([10.237.72.189])
+  by fmsmga001.fm.intel.com with SMTP; 16 Apr 2019 06:44:40 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 16 Apr 2019 16:44:39 +0300
+Date:   Tue, 16 Apr 2019 16:44:39 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Guenter Roeck <linux@roeck-us.net>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 1/8] usb: typec: fusb302: Make fusb302_set_cc_polarity
+ also set pull ups / downs
+Message-ID: <20190416134439.GD1747@kuha.fi.intel.com>
+References: <20190222141205.7621-1-hdegoede@redhat.com>
+ <20190416101953.GA4243@kroah.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Z4JFO1al4yfSeyJC5wJvaU8oqEG+h5zWrHcjZ9c6Ssu2yjAVBAr
- ThIugfScLvblwnGiSRGC035AhzKBggc7kSlIl78J21iJCaBy6yH9+qib4NRuoHL0ohjaln9
- Yt3IMODEbPE+NjYoHZYf+0EGGUeUIHcVAc6adrvMaw1nceaLXtftb42l2uEpuwtmiarHTgm
- 0j4inZ97tjJhfgqn1CXUA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7jqD/e/gBYQ=:7qJWDYZ662F5UrEt1A33CS
- 6R37CMcqiVU4ykjOj0GXK4oq4taWNstVQxoS7qwZ68/X8w0+XMfsthgwNWXn+5oOu5r7t/t33
- aobcyYCn9n911nDzjEpQ5rh+NRsJNWjz9UtrwXuYJOqxZ+yBkn5uafgHU7zaQe47vsT8DeY3N
- Tuac9tsfiGklUHDvIn+y1Ccti2W3H8kqSPe6MKXh/4lVuXZLjdrioHmCfqQ6hMdWdaKExsa/V
- SOQ0VOLPjhXTkGqfy0CP569HW/mYFG6hB82CkPf5QAPl/iewQ7M5oo6/kyM8Fk2JqSq2R8J+u
- pjd3nIzWRzj8paS1PDxdc3j0m9HYExFpb5tECmmpVYN2OkC5a6nB0mGQjxbu0Nw+tQov3xxk0
- JjwDIhpI0I8lHWPANrA9btZksNuJozgZMeuO+yXho5p1rDuQPZ28Vm62YAAjmDMO10OcVmBIV
- k2j41w3+UsfQZxbJVtqZmzg2ZV1jH5PFW44Js79fUzhFgpggvpfBqyiF+7np8cIGEFYEcYsBo
- WS9RqHTHBDv0Z5MSk9yzT5nGZefv6wdr2ce0PqlKCfMW8VJrQQeCnQTgzM6AFXQp/9A4y1KFz
- d6ub3sN5PCC5vDm8lXVlS3odkDuMRn2sdpYf10Y0Sn0cV7aqmNua8HuuJdSAKLzVCFS1FOh05
- NAzy6dsDOzwZuv9MXod2yoPuUH+SKWLNqoGXgyVkq5Ac+ws07Svy563v5uUzzWm4Jj+JJQBrB
- OV1YOw5Btxlkn9+ze5BKRiP88lt9i+oTVbu3ow==
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20190416101953.GA4243@kroah.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190416122532.Zb0-oQx-0J9Nipraut2HH5Nc1vlFyduAu-1j6a9ZZMg@z>
+Message-ID: <20190416134439.s0zCJ0D_jVDma_y3NZztvHqfZowW6oQ2HBGiW8I_1qQ@z>
 
-The dependency to ensure this driver links correctly fails since
-it can not be a loadable module:
+On Tue, Apr 16, 2019 at 12:19:53PM +0200, Greg Kroah-Hartman wrote:
+> On Fri, Feb 22, 2019 at 03:11:58PM +0100, Hans de Goede wrote:
+> > The 2 callers of fusb302_set_cc_polarity both call fusb302_set_cc_pull
+> > directly before calling fusb302_set_cc_polarity, this is not ideal for
+> > 2 reasons:
+> > 
+> > 1) fusb302_set_cc_pull uses the cached polarity when applying pull-ups,
+> > which maybe changed immediately afterwards, to fix this set_cc_polarity
+> > already does the pull-up setting.
+> > 
+> > 2) Both touch the SWITCHES0 register in a r-w-modify cycle, this leads to
+> > read reg, write reg, read reg, write reg. If we fold the setting of
+> > the pull-downs into fusb302_set_cc_polarity then not only can we avoid
+> > doing the reads / writes twice, at this point we set all bits, so we
+> > can skip the read, turning 4 (slowish) i2c-transfers into 1.
+> > 
+> > Doing this also avoids the need to cache the pull_up state in
+> > struct fusb302_chip.
+> > 
+> > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> > ---
+> >  drivers/usb/typec/tcpm/fusb302.c | 48 +++++++++++---------------------
+> >  1 file changed, 16 insertions(+), 32 deletions(-)
+> 
+> It would be nice to get some people to review/ack this series before I
+> take it (hint...)
 
-drivers/usb/phy/phy-fsl-usb.o: In function `fsl_otg_set_peripheral':
-phy-fsl-usb.c:(.text+0x2224): undefined reference to `usb_gadget_vbus_disconnect'
+Hans send second and third version of these. These are already in.
 
-Make the option 'tristate' so it can work correctly.
+thanks,
 
-Fixes: 5a8d651a2bde ("usb: gadget: move gadget API functions to udc-core")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- drivers/usb/phy/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/phy/Kconfig b/drivers/usb/phy/Kconfig
-index 8c509b060c09..24b4f091acb8 100644
---- a/drivers/usb/phy/Kconfig
-+++ b/drivers/usb/phy/Kconfig
-@@ -21,7 +21,7 @@ config AB8500_USB
- 	  in host mode, low speed.
- 
- config FSL_USB2_OTG
--	bool "Freescale USB OTG Transceiver Driver"
-+	tristate "Freescale USB OTG Transceiver Driver"
- 	depends on USB_EHCI_FSL && USB_FSL_USB2 && USB_OTG_FSM=y && PM
- 	depends on USB_GADGET || !USB_GADGET # if USB_GADGET=m, this can't be 'y'
- 	select USB_PHY
 -- 
-2.20.0
-
+heikki
