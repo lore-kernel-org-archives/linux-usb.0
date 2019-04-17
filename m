@@ -2,135 +2,183 @@ Return-Path: <SRS0=xlna=ST=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_PASS,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5433C282DA
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:16:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAB95C282DC
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:26:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9173A206BA
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:16:46 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="n4nsODDN"
+	by mail.kernel.org (Postfix) with ESMTP id 99C6E206BA
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:26:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731841AbfDQLQl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Apr 2019 07:16:41 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:39182 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731499AbfDQLQl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Apr 2019 07:16:41 -0400
-Received: by mail-pg1-f194.google.com with SMTP id k3so11865593pga.6
-        for <linux-usb@vger.kernel.org>; Wed, 17 Apr 2019 04:16:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DAhaUckrpoxHtyYXB6W9rqZ88dFeqr0QxEv6Qcjpc7E=;
-        b=n4nsODDNdeTbJBwTDUwqHsjg7tTq1wDovUzp/3Ps5JJOHsmgB8vvaD3CJGB8FXP5oS
-         ekWMPIBa4yITCfzNikroyOxKK8HO1837Q/RfZpkgbDdOA1efgGEREisUJlFdZs3gnQtT
-         5IJFZ/Zh/23n/wj1TqS/PjaDOpmHhR3HqF+I9SiLBWoFiK4xb9MgPzU8Mwt7IKQ/AyS0
-         o8mDLtHbNPGBVBLjW5zbdpp+qfz0bP1qK6c5J/816zmc8R1jf98SRLWlvZkHlPi1sXPA
-         9GlYTJvpLmkt2vv/2WSjQgyb3CjmbwqX2v2j4F+yqoDyW82UTBPwePjYupe+aXXFfTOV
-         Mq6Q==
+        id S1731926AbfDQL0G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Apr 2019 07:26:06 -0400
+Received: from mail-it1-f197.google.com ([209.85.166.197]:44587 "EHLO
+        mail-it1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731704AbfDQL0G (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Apr 2019 07:26:06 -0400
+Received: by mail-it1-f197.google.com with SMTP id v193so2161696itv.9
+        for <linux-usb@vger.kernel.org>; Wed, 17 Apr 2019 04:26:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DAhaUckrpoxHtyYXB6W9rqZ88dFeqr0QxEv6Qcjpc7E=;
-        b=IJYfv6WFN2BLdr58X5K/NgQOP9sxjU7ilOTRWRU+L9LETlc4Xzy/9WeCdRTI/W57Lc
-         xL/Y3UWz8xMeLhWa8pAdbkR0O3ol7topaqAyvgjyVP5mGZiSVPjHiRvl4jHKj70A/Djq
-         PcvtBqXSfUqATkhgk9K9KZ+dV6wAhuGVc7+DrA/+n45+g055CRkybvSIaQdmbylD9bvZ
-         fOq89sy2hrC0bUxRDHEy6uQajWaIf+hwEnQ2VsLxnxpIl9U6mNTQRrV/H7iCl4BBMOwc
-         Cvpm91h5AoWKD0jsWZ13gXO3KvyYxJBTq9Iy2vPYT8db4Rjuz7wvI2F/4ThtTncjahag
-         nN5Q==
-X-Gm-Message-State: APjAAAX8AT/hpzsTGDZ/BWbPRRzwIMhRlscVt0boBP3wWoksLBWWFxFg
-        uSXYkZ6L41nKHvZpDwcRhgBCEhCbCievjBLJU4CJfQ==
-X-Google-Smtp-Source: APXvYqxHVLwGqIgZv7++lctI75Hz2Q/rX2w9jOZ9PftD0dp1WgmNTvAVnzqB+4CoubtY/ipYVX2jNcH+2I5thet27Vo=
-X-Received: by 2002:a63:cf0d:: with SMTP id j13mr82112417pgg.34.1555499799534;
- Wed, 17 Apr 2019 04:16:39 -0700 (PDT)
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=guTkmJID0G/19PsmYWGrhUQ3zTZQr9xdQ7bmU4AFgEY=;
+        b=iTNVPxq5N+Tta4Nr0VI/7IoJevs0DUxNZ4ehswGhSEdXAECFUdUCrMKhtA0e+RVSSB
+         ZflOZ5fPDhsSi3e9NMyMJFpyPIICcTMW0Q1fI7SNTYbeRlYxHfDlu8YTPntiYQI9LYR1
+         GF84w7HhxYgB1K8et8Fys5Z/jCBOLMqvdiLgbw4as6UQ/KmHaiS5fxpo3ev7+KnxX3S4
+         G5MCmPTdtQCjKtectRB7mU09iY/OWVmT7AAT779j2zZzDKyeVo6dVtE7ZPmww+8Jc+YW
+         eywJSrvClCLJdaK5pbVHpME9Qll4NzB69nAXUCXO//RctbIFr27bSuT+yB8FM/zp6Hg8
+         /W+Q==
+X-Gm-Message-State: APjAAAXb0J32WxMqcI4EjoyIlEpAoqCk8Oh0/a3igb2t1E2z78W5iGY4
+        f0HOBixzCtiUb956JEJvlrtN7gYDeKfGjz9aMhiKP4/VQbCT
+X-Google-Smtp-Source: APXvYqzv8RS9kLNHTsA1hpbidYVunrcf+k4930OijXWo/xrF5bWjdW9mwHDKfWyyW2I+mIcbJpbvz+2HCUbMJTm9OySQms7V252l
 MIME-Version: 1.0
-References: <0000000000007380f90586a82005@google.com> <Pine.LNX.4.44L0.1904161421530.1605-100000@iolanthe.rowland.org>
-In-Reply-To: <Pine.LNX.4.44L0.1904161421530.1605-100000@iolanthe.rowland.org>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Wed, 17 Apr 2019 13:16:27 +0200
-Message-ID:
- <CAAeHK+zCwXpAb02vaPuanStYCp_x8g92HDEvm_LTN_F+Y_wOfQ@mail.gmail.com>
-Subject: Re: INFO: task hung in usb_kill_urb
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     syzbot <syzbot+d919b0f29d7b5a4994b9@syzkaller.appspotmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Received: by 2002:a24:2f42:: with SMTP id j63mr33434243itj.108.1555500365400;
+ Wed, 17 Apr 2019 04:26:05 -0700 (PDT)
+Date:   Wed, 17 Apr 2019 04:26:05 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000ba57420586b82623@google.com>
+Subject: KASAN: slab-out-of-bounds Read in ds_probe
+From:   syzbot <syzbot+d65f673b847a1a96cdba@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, florian.harbecke@fau.de,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, passt@h-hofmeier.de,
+        syzkaller-bugs@googlegroups.com, zbr@ioremap.net
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190417111627.Igc1OG7h65hzkK_8UNZb5gxOlNegcI-Lpw9jaluMUNI@z>
 
-On Tue, Apr 16, 2019 at 8:25 PM Alan Stern <stern@rowland.harvard.edu> wrote:
->
-> On Tue, 16 Apr 2019, syzbot wrote:
->
-> > Hello,
-> >
-> > syzbot has tested the proposed patch but the reproducer still triggered
-> > crash:
-> > INFO: task hung in usb_kill_urb
->
-> Okay, I think I found the problem.  dummy-hcd doesn't check for
-> unsupported speeds until it is too late.  Andrey, what values does your
-> usb-fuzzer gadget driver set for its max_speed field?
+Hello,
 
-It's passed from userspace without any validation :( I'll fix this!
-Thanks for looking into it!
+syzbot found the following crash on:
 
-I wonder why other people saw this hang as well, they didn't use the
-dummy hcd module for sure. I guess there are might be other reasons.
+HEAD commit:    9a33b369 usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan/tree/usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=13eb726b200000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
+dashboard link: https://syzkaller.appspot.com/bug?extid=d65f673b847a1a96cdba
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1340b55b200000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12e436f3200000
 
->
-> Anyway, if I'm right then this patch should fix the bug.
->
-> Alan Stern
->
-> #syz test: https://github.com/google/kasan.git usb-fuzzer
->
-> --- a/drivers/usb/gadget/udc/dummy_hcd.c
-> +++ b/drivers/usb/gadget/udc/dummy_hcd.c
-> @@ -979,8 +979,18 @@ static int dummy_udc_start(struct usb_ga
->         struct dummy_hcd        *dum_hcd = gadget_to_dummy_hcd(g);
->         struct dummy            *dum = dum_hcd->dum;
->
-> -       if (driver->max_speed == USB_SPEED_UNKNOWN)
-> +       switch (driver->max_speed) {
-> +       /* All the speeds we support */
-> +       case USB_SPEED_LOW:
-> +       case USB_SPEED_FULL:
-> +       case USB_SPEED_HIGH:
-> +       case USB_SPEED_SUPER:
-> +               break;
-> +       default:
-> +               dev_err(dummy_dev(dum_hcd), "bogus driver max_speed %d\n",
-> +                               driver->max_speed);
->                 return -EINVAL;
-> +       }
->
->         /*
->          * SLAVE side init ... the layer above hardware, which
-> @@ -1785,7 +1795,8 @@ static void dummy_timer(struct timer_lis
->                 total = 490000;
->                 break;
->         default:
-> -               dev_err(dummy_dev(dum_hcd), "bogus device speed\n");
-> +               dev_err(dummy_dev(dum_hcd), "bogus device speed %d\n",
-> +                               dum->gadget.speed);
->                 return;
->         }
->
->
->
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+d65f673b847a1a96cdba@syzkaller.appspotmail.com
+
+usb 1-1: config 0 has no interface number 0
+usb 1-1: New USB device found, idVendor=04fa, idProduct=2490,  
+bcdDevice=74.f9
+usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+usb 1-1: config 0 descriptor??
+==================================================================
+BUG: KASAN: slab-out-of-bounds in ds_probe+0x604/0x760  
+drivers/w1/masters/ds2490.c:1019
+Read of size 1 at addr ffff8880a7c45fe2 by task kworker/0:1/12
+
+CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.1.0-rc4-319354-g9a33b36 #3
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xe8/0x16e lib/dump_stack.c:113
+  print_address_description+0x6c/0x236 mm/kasan/report.c:187
+  kasan_report.cold+0x1a/0x3c mm/kasan/report.c:317
+  ds_probe+0x604/0x760 drivers/w1/masters/ds2490.c:1019
+  usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
+  really_probe+0x2da/0xb10 drivers/base/dd.c:509
+  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+  device_add+0xad2/0x16e0 drivers/base/core.c:2106
+  usb_set_configuration+0xdf7/0x1740 drivers/usb/core/message.c:2021
+  generic_probe+0xa2/0xda drivers/usb/core/generic.c:210
+  usb_probe_device+0xc0/0x150 drivers/usb/core/driver.c:266
+  really_probe+0x2da/0xb10 drivers/base/dd.c:509
+  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+  device_add+0xad2/0x16e0 drivers/base/core.c:2106
+  usb_new_device.cold+0x537/0xccf drivers/usb/core/hub.c:2534
+  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+  port_event drivers/usb/core/hub.c:5350 [inline]
+  hub_event+0x138e/0x3b00 drivers/usb/core/hub.c:5432
+  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
+  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
+  kthread+0x313/0x420 kernel/kthread.c:253
+  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+
+Allocated by task 12:
+  set_track mm/kasan/common.c:87 [inline]
+  __kasan_kmalloc mm/kasan/common.c:497 [inline]
+  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:470
+  kmalloc include/linux/slab.h:552 [inline]
+  kzalloc include/linux/slab.h:742 [inline]
+  usb_parse_configuration drivers/usb/core/config.c:710 [inline]
+  usb_get_configuration+0xc4c/0x32b0 drivers/usb/core/config.c:882
+  usb_enumerate_device drivers/usb/core/hub.c:2367 [inline]
+  usb_new_device+0x2fe/0x450 drivers/usb/core/hub.c:2503
+  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+  port_event drivers/usb/core/hub.c:5350 [inline]
+  hub_event+0x138e/0x3b00 drivers/usb/core/hub.c:5432
+  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
+  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
+  kthread+0x313/0x420 kernel/kthread.c:253
+  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+
+Freed by task 1258:
+  set_track mm/kasan/common.c:87 [inline]
+  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:459
+  slab_free_hook mm/slub.c:1429 [inline]
+  slab_free_freelist_hook+0x5e/0x140 mm/slub.c:1456
+  slab_free mm/slub.c:3003 [inline]
+  kfree+0xce/0x290 mm/slub.c:3958
+  security_task_free+0x9a/0xf0 security/security.c:1470
+  __put_task_struct+0xec/0x4d0 kernel/fork.c:724
+  put_task_struct include/linux/sched/task.h:98 [inline]
+  delayed_put_task_struct+0x189/0x290 kernel/exit.c:181
+  __rcu_reclaim kernel/rcu/rcu.h:227 [inline]
+  rcu_do_batch kernel/rcu/tree.c:2475 [inline]
+  invoke_rcu_callbacks kernel/rcu/tree.c:2788 [inline]
+  rcu_core+0x83b/0x1a80 kernel/rcu/tree.c:2769
+  __do_softirq+0x22a/0x8cd kernel/softirq.c:293
+
+The buggy address belongs to the object at ffff8880a7c45f60
+  which belongs to the cache kmalloc-64 of size 64
+The buggy address is located 66 bytes to the right of
+  64-byte region [ffff8880a7c45f60, ffff8880a7c45fa0)
+The buggy address belongs to the page:
+page:ffffea00029f1140 count:1 mapcount:0 mapping:ffff88812c3f5600 index:0x0
+flags: 0xfff00000000200(slab)
+raw: 00fff00000000200 ffffea00025f69c0 0000000500000005 ffff88812c3f5600
+raw: 0000000000000000 00000000802a002a 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+  ffff8880a7c45e80: fc fc fc fc 00 00 00 00 00 00 00 fc fc fc fc fc
+  ffff8880a7c45f00: fb fb fb fb fb fb fb fb fc fc fc fc 00 00 00 00
+> ffff8880a7c45f80: 00 00 fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+                                                        ^
+  ffff8880a7c46000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  ffff8880a7c46080: 00 00 00 00 fc fc fc fc fc fc fc fc 00 00 00 00
+==================================================================
+
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
