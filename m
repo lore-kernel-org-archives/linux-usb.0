@@ -6,33 +6,33 @@ X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B69D7C282DC
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:48:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 073A6C282DA
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:48:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 80FFE20835
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:48:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D41F220835
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:48:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731933AbfDQLsD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Apr 2019 07:48:03 -0400
+        id S1731959AbfDQLsE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Apr 2019 07:48:04 -0400
 Received: from mga11.intel.com ([192.55.52.93]:21129 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729522AbfDQLsC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 17 Apr 2019 07:48:02 -0400
+        id S1729522AbfDQLsD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 17 Apr 2019 07:48:03 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Apr 2019 04:48:01 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Apr 2019 04:48:03 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.60,361,1549958400"; 
-   d="scan'208";a="165504317"
+   d="scan'208";a="165504326"
 Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 17 Apr 2019 04:48:00 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 17 Apr 2019 04:48:02 -0700
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Ajay Gupta <ajayg@nvidia.com>, linux-usb@vger.kernel.org
-Subject: [PATCH v3 5/7] usb: typec: ucsi: Support for DisplayPort alt mode
-Date:   Wed, 17 Apr 2019 14:47:48 +0300
-Message-Id: <20190417114750.21420-6-heikki.krogerus@linux.intel.com>
+Subject: [PATCH v3 6/7] usb: typec: displayport: Export probe and remove functions
+Date:   Wed, 17 Apr 2019 14:47:49 +0300
+Message-Id: <20190417114750.21420-7-heikki.krogerus@linux.intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190417114750.21420-1-heikki.krogerus@linux.intel.com>
 References: <20190417114750.21420-1-heikki.krogerus@linux.intel.com>
@@ -43,457 +43,110 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190417114748.PURCvjy96CF7nX022yyIh2XS3qjz3q3VDSgU8Jt_ejs@z>
+Message-ID: <20190417114749.qo-qonliImMDBawYdICda82v2yE2tNvvAbocfRiWWV4@z>
 
-This makes it possible to bind a driver to a DisplayPort
-alt mode adapter devices.
+From: Ajay Gupta <ajayg@nvidia.com>
 
-The driver attempts to cope with the limitations of UCSI by
-"emulating" behaviour and attempting to guess things when
-ever possible in order to satisfy the requirements the
-standard DisplayPort alt mode driver has.
+VirtualLink standard extends the DisplayPort Alt Mode by
+utilizing also the USB 2 pins on the USB Type-C connector.
+It uses the same messages as DisplayPort, but not the DP
+SVID. At the time of writing, USB IF has not assigned a
+Standard ID (SID) for VirtualLink, so the manufacturers of
+VirtualLink adapters use their Vendor IDs as the SVID.
 
-Tested-by: Ajay Gupta <ajayg@nvidia.com>
+Since the SVID specific communication is exactly the same as
+with DisplayPort alternate mode, there is no need to
+implement separate driver for VirtualLink. We'll handle the
+current VirtualLink adapters with probe drivers, and once
+there is SVID assigned for it, we add it to the displayport
+alt mode driver.
+
+To support probing drivers, exporting the probe and remove
+functions, and also changing the DP_HEADER helper macro to
+use the SVID of the alternate mode device instead of the
+DisplayPort alt mode SVID.
+
+Suggested-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Signed-off-by: Ajay Gupta <ajayg@nvidia.com>
 Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
- drivers/usb/typec/ucsi/Makefile      |  15 +-
- drivers/usb/typec/ucsi/displayport.c | 306 +++++++++++++++++++++++++++
- drivers/usb/typec/ucsi/ucsi.c        |  21 +-
- drivers/usb/typec/ucsi/ucsi.h        |  21 ++
- 4 files changed, 355 insertions(+), 8 deletions(-)
- create mode 100644 drivers/usb/typec/ucsi/displayport.c
+ drivers/usb/typec/altmodes/displayport.c | 12 +++++++-----
+ drivers/usb/typec/altmodes/displayport.h |  8 ++++++++
+ 2 files changed, 15 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/usb/typec/altmodes/displayport.h
 
-diff --git a/drivers/usb/typec/ucsi/Makefile b/drivers/usb/typec/ucsi/Makefile
-index 2f4900b26210..b35e15a1f02c 100644
---- a/drivers/usb/typec/ucsi/Makefile
-+++ b/drivers/usb/typec/ucsi/Makefile
-@@ -1,12 +1,15 @@
- # SPDX-License-Identifier: GPL-2.0
--CFLAGS_trace.o			:= -I$(src)
-+CFLAGS_trace.o				:= -I$(src)
+diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+index 1b2afeb1eeb6..4092248a5936 100644
+--- a/drivers/usb/typec/altmodes/displayport.c
++++ b/drivers/usb/typec/altmodes/displayport.c
+@@ -14,7 +14,7 @@
+ #include <linux/usb/pd_vdo.h>
+ #include <linux/usb/typec_dp.h>
  
--obj-$(CONFIG_TYPEC_UCSI)	+= typec_ucsi.o
-+obj-$(CONFIG_TYPEC_UCSI)		+= typec_ucsi.o
+-#define DP_HEADER(cmd)			(VDO(USB_TYPEC_DP_SID, 1, cmd) | \
++#define DP_HEADER(_dp, cmd)		(VDO((_dp)->alt->svid, 1, cmd) | \
+ 					 VDO_OPOS(USB_TYPEC_DP_MODE))
  
--typec_ucsi-y			:= ucsi.o
-+typec_ucsi-y				:= ucsi.o
+ enum {
+@@ -155,7 +155,7 @@ static int dp_altmode_configured(struct dp_altmode *dp)
  
--typec_ucsi-$(CONFIG_TRACING)	+= trace.o
-+typec_ucsi-$(CONFIG_TRACING)		+= trace.o
- 
--obj-$(CONFIG_UCSI_ACPI)		+= ucsi_acpi.o
-+ifneq ($(CONFIG_TYPEC_DP_ALTMODE),)
-+	typec_ucsi-y			+= displayport.o
-+endif
- 
--obj-$(CONFIG_UCSI_CCG)		+= ucsi_ccg.o
-+obj-$(CONFIG_UCSI_ACPI)			+= ucsi_acpi.o
-+obj-$(CONFIG_UCSI_CCG)			+= ucsi_ccg.o
-diff --git a/drivers/usb/typec/ucsi/displayport.c b/drivers/usb/typec/ucsi/displayport.c
-new file mode 100644
-index 000000000000..2bc8f4c3d91e
---- /dev/null
-+++ b/drivers/usb/typec/ucsi/displayport.c
-@@ -0,0 +1,306 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * UCSI DisplayPort Alternate Mode Support
-+ *
-+ * Copyright (C) 2018, Intel Corporation
-+ * Author: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-+ */
-+
-+#include <linux/usb/typec_dp.h>
-+#include <linux/usb/pd_vdo.h>
-+
-+#include "ucsi.h"
-+
-+#define UCSI_CMD_SET_NEW_CAM(_con_num_, _enter_, _cam_, _am_)		\
-+	 (UCSI_SET_NEW_CAM | ((_con_num_) << 16) | ((_enter_) << 23) |	\
-+	  ((_cam_) << 24) | ((u64)(_am_) << 32))
-+
-+struct ucsi_dp {
-+	struct typec_displayport_data data;
-+	struct ucsi_connector *con;
-+	struct typec_altmode *alt;
-+	struct work_struct work;
-+	int offset;
-+
-+	bool override;
-+	bool initialized;
-+
-+	u32 header;
-+	u32 *vdo_data;
-+	u8 vdo_size;
-+};
-+
-+/*
-+ * Note. Alternate mode control is optional feature in UCSI. It means that even
-+ * if the system supports alternate modes, the OS may not be aware of them.
-+ *
-+ * In most cases however, the OS will be able to see the supported alternate
-+ * modes, but it may still not be able to configure them, not even enter or exit
-+ * them. That is because UCSI defines alt mode details and alt mode "overriding"
-+ * as separate options.
-+ *
-+ * In case alt mode details are supported, but overriding is not, the driver
-+ * will still display the supported pin assignments and configuration, but any
-+ * changes the user attempts to do will lead into failure with return value of
-+ * -EOPNOTSUPP.
-+ */
-+
-+static int ucsi_displayport_enter(struct typec_altmode *alt)
-+{
-+	struct ucsi_dp *dp = typec_altmode_get_drvdata(alt);
-+	struct ucsi_control ctrl;
-+	u8 cur = 0;
-+
-+	mutex_lock(&dp->con->lock);
-+
-+	if (!dp->override && dp->initialized) {
-+		const struct typec_altmode *p = typec_altmode_get_partner(alt);
-+
-+		dev_warn(&p->dev,
-+			 "firmware doesn't support alternate mode overriding\n");
-+		mutex_unlock(&dp->con->lock);
-+		return -EOPNOTSUPP;
-+	}
-+
-+	UCSI_CMD_GET_CURRENT_CAM(ctrl, dp->con->num);
-+	ucsi_send_command(dp->con->ucsi, &ctrl, &cur, sizeof(cur));
-+	if (cur == 0xff) {
-+		mutex_unlock(&dp->con->lock);
-+		return -EBUSY;
-+	}
-+
-+	/*
-+	 * We can't send the New CAM command yet to the PPM as it needs the
-+	 * configuration value as well. Pretending that we have now entered the
-+	 * mode, and letting the alt mode driver continue.
-+	 */
-+
-+	dp->header = VDO(USB_TYPEC_DP_SID, 1, CMD_ENTER_MODE);
-+	dp->header |= VDO_OPOS(USB_TYPEC_DP_MODE);
-+	dp->header |= VDO_CMDT(CMDT_RSP_ACK);
-+
-+	dp->vdo_data = NULL;
-+	dp->vdo_size = 1;
-+
-+	schedule_work(&dp->work);
-+
-+	mutex_unlock(&dp->con->lock);
-+
-+	return 0;
-+}
-+
-+static int ucsi_displayport_exit(struct typec_altmode *alt)
-+{
-+	struct ucsi_dp *dp = typec_altmode_get_drvdata(alt);
-+	struct ucsi_control ctrl;
-+	int ret = 0;
-+
-+	mutex_lock(&dp->con->lock);
-+
-+	if (!dp->override) {
-+		const struct typec_altmode *p = typec_altmode_get_partner(alt);
-+
-+		dev_warn(&p->dev,
-+			 "firmware doesn't support alternate mode overriding\n");
-+		ret = -EOPNOTSUPP;
-+		goto out_unlock;
-+	}
-+
-+	ctrl.raw_cmd = UCSI_CMD_SET_NEW_CAM(dp->con->num, 0, dp->offset, 0);
-+	ret = ucsi_send_command(dp->con->ucsi, &ctrl, NULL, 0);
-+	if (ret < 0)
-+		goto out_unlock;
-+
-+	dp->header = VDO(USB_TYPEC_DP_SID, 1, CMD_EXIT_MODE);
-+	dp->header |= VDO_OPOS(USB_TYPEC_DP_MODE);
-+	dp->header |= VDO_CMDT(CMDT_RSP_ACK);
-+
-+	dp->vdo_data = NULL;
-+	dp->vdo_size = 1;
-+
-+	schedule_work(&dp->work);
-+
-+out_unlock:
-+	mutex_unlock(&dp->con->lock);
-+
-+	return ret;
-+}
-+
-+/*
-+ * We do not actually have access to the Status Update VDO, so we have to guess
-+ * things.
-+ */
-+static int ucsi_displayport_status_update(struct ucsi_dp *dp)
-+{
-+	u32 cap = dp->alt->vdo;
-+
-+	dp->data.status = DP_STATUS_ENABLED;
-+
-+	/*
-+	 * If pin assignement D is supported, claiming always
-+	 * that Multi-function is preferred.
-+	 */
-+	if (DP_CAP_CAPABILITY(cap) & DP_CAP_UFP_D) {
-+		dp->data.status |= DP_STATUS_CON_UFP_D;
-+
-+		if (DP_CAP_UFP_D_PIN_ASSIGN(cap) & BIT(DP_PIN_ASSIGN_D))
-+			dp->data.status |= DP_STATUS_PREFER_MULTI_FUNC;
-+	} else {
-+		dp->data.status |= DP_STATUS_CON_DFP_D;
-+
-+		if (DP_CAP_DFP_D_PIN_ASSIGN(cap) & BIT(DP_PIN_ASSIGN_D))
-+			dp->data.status |= DP_STATUS_PREFER_MULTI_FUNC;
-+	}
-+
-+	dp->vdo_data = &dp->data.status;
-+	dp->vdo_size = 2;
-+
-+	return 0;
-+}
-+
-+static int ucsi_displayport_configure(struct ucsi_dp *dp)
-+{
-+	u32 pins = DP_CONF_GET_PIN_ASSIGN(dp->data.conf);
-+	struct ucsi_control ctrl;
-+
-+	if (!dp->override)
-+		return 0;
-+
-+	ctrl.raw_cmd = UCSI_CMD_SET_NEW_CAM(dp->con->num, 1, dp->offset, pins);
-+
-+	return ucsi_send_command(dp->con->ucsi, &ctrl, NULL, 0);
-+}
-+
-+static int ucsi_displayport_vdm(struct typec_altmode *alt,
-+				u32 header, const u32 *data, int count)
-+{
-+	struct ucsi_dp *dp = typec_altmode_get_drvdata(alt);
-+	int cmd_type = PD_VDO_CMDT(header);
-+	int cmd = PD_VDO_CMD(header);
-+
-+	mutex_lock(&dp->con->lock);
-+
-+	if (!dp->override && dp->initialized) {
-+		const struct typec_altmode *p = typec_altmode_get_partner(alt);
-+
-+		dev_warn(&p->dev,
-+			 "firmware doesn't support alternate mode overriding\n");
-+		mutex_unlock(&dp->con->lock);
-+		return -EOPNOTSUPP;
-+	}
-+
-+	switch (cmd_type) {
-+	case CMDT_INIT:
-+		dp->header = VDO(USB_TYPEC_DP_SID, 1, cmd);
-+		dp->header |= VDO_OPOS(USB_TYPEC_DP_MODE);
-+
-+		switch (cmd) {
-+		case DP_CMD_STATUS_UPDATE:
-+			if (ucsi_displayport_status_update(dp))
-+				dp->header |= VDO_CMDT(CMDT_RSP_NAK);
-+			else
-+				dp->header |= VDO_CMDT(CMDT_RSP_ACK);
-+			break;
-+		case DP_CMD_CONFIGURE:
-+			dp->data.conf = *data;
-+			if (ucsi_displayport_configure(dp)) {
-+				dp->header |= VDO_CMDT(CMDT_RSP_NAK);
-+			} else {
-+				dp->header |= VDO_CMDT(CMDT_RSP_ACK);
-+				if (dp->initialized)
-+					ucsi_altmode_update_active(dp->con);
-+				else
-+					dp->initialized = true;
-+			}
-+			break;
-+		default:
-+			dp->header |= VDO_CMDT(CMDT_RSP_ACK);
-+			break;
-+		}
-+
-+		schedule_work(&dp->work);
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	mutex_unlock(&dp->con->lock);
-+
-+	return 0;
-+}
-+
-+static const struct typec_altmode_ops ucsi_displayport_ops = {
-+	.enter = ucsi_displayport_enter,
-+	.exit = ucsi_displayport_exit,
-+	.vdm = ucsi_displayport_vdm,
-+};
-+
-+static void ucsi_displayport_work(struct work_struct *work)
-+{
-+	struct ucsi_dp *dp = container_of(work, struct ucsi_dp, work);
-+	int ret;
-+
-+	mutex_lock(&dp->con->lock);
-+
-+	ret = typec_altmode_vdm(dp->alt, dp->header,
-+				dp->vdo_data, dp->vdo_size);
-+	if (ret)
-+		dev_err(&dp->alt->dev, "VDM 0x%x failed\n", dp->header);
-+
-+	dp->vdo_data = NULL;
-+	dp->vdo_size = 0;
-+	dp->header = 0;
-+
-+	mutex_unlock(&dp->con->lock);
-+}
-+
-+void ucsi_displayport_remove_partner(struct typec_altmode *alt)
-+{
-+	struct ucsi_dp *dp;
-+
-+	if (!alt)
-+		return;
-+
-+	dp = typec_altmode_get_drvdata(alt);
-+	dp->data.conf = 0;
-+	dp->data.status = 0;
-+	dp->initialized = false;
-+}
-+
-+struct typec_altmode *ucsi_register_displayport(struct ucsi_connector *con,
-+						bool override, int offset,
-+						struct typec_altmode_desc *desc)
-+{
-+	u8 all_assignments = BIT(DP_PIN_ASSIGN_C) | BIT(DP_PIN_ASSIGN_D) |
-+			     BIT(DP_PIN_ASSIGN_E);
-+	struct typec_altmode *alt;
-+	struct ucsi_dp *dp;
-+
-+	/* We can't rely on the firmware with the capabilities. */
-+	desc->vdo |= DP_CAP_DP_SIGNALING | DP_CAP_RECEPTACLE;
-+
-+	/* Claiming that we support all pin assignments */
-+	desc->vdo |= all_assignments << 8;
-+	desc->vdo |= all_assignments << 16;
-+
-+	alt = typec_port_register_altmode(con->port, desc);
-+	if (IS_ERR(alt))
-+		return alt;
-+
-+	dp = devm_kzalloc(&alt->dev, sizeof(*dp), GFP_KERNEL);
-+	if (!dp) {
-+		typec_unregister_altmode(alt);
-+		return ERR_PTR(-ENOMEM);
-+	}
-+
-+	INIT_WORK(&dp->work, ucsi_displayport_work);
-+	dp->override = override;
-+	dp->offset = offset;
-+	dp->con = con;
-+	dp->alt = alt;
-+
-+	alt->ops = &ucsi_displayport_ops;
-+	typec_altmode_set_drvdata(alt, dp);
-+
-+	return alt;
-+}
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 585ab04be940..22fb956687de 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -12,7 +12,7 @@
- #include <linux/module.h>
- #include <linux/delay.h>
- #include <linux/slab.h>
--#include <linux/usb/typec_altmode.h>
-+#include <linux/usb/typec_dp.h>
- 
- #include "ucsi.h"
- #include "trace.h"
-@@ -291,9 +291,12 @@ static int ucsi_register_altmode(struct ucsi_connector *con,
- 				 u8 recipient)
+ static int dp_altmode_configure_vdm(struct dp_altmode *dp, u32 conf)
  {
- 	struct typec_altmode *alt;
-+	bool override;
+-	u32 header = DP_HEADER(DP_CMD_CONFIGURE);
++	u32 header = DP_HEADER(dp, DP_CMD_CONFIGURE);
  	int ret;
- 	int i;
  
-+	override = !!(con->ucsi->cap.features & UCSI_CAP_ALT_MODE_OVERRIDE);
-+
- 	switch (recipient) {
- 	case UCSI_RECIPIENT_CON:
- 		i = ucsi_next_altmode(con->port_altmode);
-@@ -305,7 +308,15 @@ static int ucsi_register_altmode(struct ucsi_connector *con,
- 		desc->mode = ucsi_altmode_next_mode(con->port_altmode,
- 						    desc->svid);
+ 	ret = typec_altmode_notify(dp->alt, TYPEC_STATE_SAFE, &dp->data);
+@@ -193,7 +193,7 @@ static void dp_altmode_work(struct work_struct *work)
+ 			dev_err(&dp->alt->dev, "failed to enter mode\n");
+ 		break;
+ 	case DP_STATE_UPDATE:
+-		header = DP_HEADER(DP_CMD_STATUS_UPDATE);
++		header = DP_HEADER(dp, DP_CMD_STATUS_UPDATE);
+ 		vdo = 1;
+ 		ret = typec_altmode_vdm(dp->alt, header, &vdo, 2);
+ 		if (ret)
+@@ -507,7 +507,7 @@ static const struct attribute_group dp_altmode_group = {
+ 	.attrs = dp_altmode_attrs,
+ };
  
--		alt = typec_port_register_altmode(con->port, desc);
-+		switch (desc->svid) {
-+		case USB_TYPEC_DP_SID:
-+			alt = ucsi_register_displayport(con, override, i, desc);
-+			break;
-+		default:
-+			alt = typec_port_register_altmode(con->port, desc);
-+			break;
-+		}
-+
- 		if (IS_ERR(alt)) {
- 			ret = PTR_ERR(alt);
- 			goto err;
-@@ -400,6 +411,7 @@ static int ucsi_register_altmodes(struct ucsi_connector *con, u8 recipient)
- 
- static void ucsi_unregister_altmodes(struct ucsi_connector *con, u8 recipient)
+-static int dp_altmode_probe(struct typec_altmode *alt)
++int dp_altmode_probe(struct typec_altmode *alt)
  {
-+	const struct typec_altmode *pdev;
- 	struct typec_altmode **adev;
- 	int i = 0;
+ 	const struct typec_altmode *port = typec_altmode_get_partner(alt);
+ 	struct dp_altmode *dp;
+@@ -545,14 +545,16 @@ static int dp_altmode_probe(struct typec_altmode *alt)
  
-@@ -415,6 +427,11 @@ static void ucsi_unregister_altmodes(struct ucsi_connector *con, u8 recipient)
- 	}
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(dp_altmode_probe);
  
- 	while (adev[i]) {
-+		if (recipient == UCSI_RECIPIENT_SOP &&
-+		    adev[i]->svid == USB_TYPEC_DP_SID) {
-+			pdev = typec_altmode_get_partner(adev[i]);
-+			ucsi_displayport_remove_partner((void *)pdev);
-+		}
- 		typec_unregister_altmode(adev[i]);
- 		adev[i++] = NULL;
- 	}
-diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-index c416bae4b5ca..036ebf256cdd 100644
---- a/drivers/usb/typec/ucsi/ucsi.h
-+++ b/drivers/usb/typec/ucsi/ucsi.h
-@@ -406,4 +406,25 @@ int ucsi_send_command(struct ucsi *ucsi, struct ucsi_control *ctrl,
+-static void dp_altmode_remove(struct typec_altmode *alt)
++void dp_altmode_remove(struct typec_altmode *alt)
+ {
+ 	struct dp_altmode *dp = typec_altmode_get_drvdata(alt);
  
- void ucsi_altmode_update_active(struct ucsi_connector *con);
+ 	sysfs_remove_group(&alt->dev.kobj, &dp_altmode_group);
+ 	cancel_work_sync(&dp->work);
+ }
++EXPORT_SYMBOL_GPL(dp_altmode_remove);
  
+ static const struct typec_device_id dp_typec_id[] = {
+ 	{ USB_TYPEC_DP_SID, USB_TYPEC_DP_MODE },
+diff --git a/drivers/usb/typec/altmodes/displayport.h b/drivers/usb/typec/altmodes/displayport.h
+new file mode 100644
+index 000000000000..e120364da9fd
+--- /dev/null
++++ b/drivers/usb/typec/altmodes/displayport.h
+@@ -0,0 +1,8 @@
++/* SPDX-License-Identifier: GPL-2.0 */
 +#if IS_ENABLED(CONFIG_TYPEC_DP_ALTMODE)
-+struct typec_altmode *
-+ucsi_register_displayport(struct ucsi_connector *con,
-+			  bool override, int offset,
-+			  struct typec_altmode_desc *desc);
-+
-+void ucsi_displayport_remove_partner(struct typec_altmode *adev);
-+
++int dp_altmode_probe(struct typec_altmode *alt);
++void dp_altmode_remove(struct typec_altmode *alt);
 +#else
-+static inline struct typec_altmode *
-+ucsi_register_displayport(struct ucsi_connector *con,
-+			  bool override, int offset,
-+			  struct typec_altmode_desc *desc)
-+{
-+	return NULL;
-+}
-+
-+static inline void
-+ucsi_displayport_remove_partner(struct typec_altmode *adev) { }
++int dp_altmode_probe(struct typec_altmode *alt) { return -ENOTSUPP; }
++void dp_altmode_remove(struct typec_altmode *alt) { }
 +#endif /* CONFIG_TYPEC_DP_ALTMODE */
-+
- #endif /* __DRIVER_USB_TYPEC_UCSI_H */
 -- 
 2.20.1
 
