@@ -2,30 +2,34 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2] usb/hcd: Send a uevent signaling that the host controller has died
-From: Alan Stern <stern@rowland.harvard.edu>
-Message-Id: <Pine.LNX.4.44L0.1904171419260.1400-100000@iolanthe.rowland.org>
-Date: Wed, 17 Apr 2019 14:24:06 -0400 (EDT)
-To: Raul Rangel <rrangel@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, groeck@chromium.org, oneukum@suse.com, djkurtz@chromium.org, zwisler@chromium.org, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Dmitry Torokhov <dtor@chromium.org>, Suwan Kim <suwan.kim027@gmail.com>, linux-kernel@vger.kernel.org, "Gustavo A. R. Silva" <gustavo@embeddedor.com>, Miquel Raynal <miquel.raynal@bootlin.com>, Johan Hovold <johan@kernel.org>, Mathias Nyman <mathias.nyman@linux.intel.com>
+From: Raul E Rangel <rrangel@chromium.org>
+Message-Id: <20190417183152.GA118957@google.com>
+Date: Wed, 17 Apr 2019 12:31:52 -0600
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, groeck@chromium.org, oneukum@suse.com, djkurtz@chromium.org, zwisler@chromium.org, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Dmitry Torokhov <dtor@chromium.org>, Suwan Kim <suwan.kim027@gmail.com>, linux-kernel@vger.kernel.org, "Gustavo A. R. Silva" <gustavo@embeddedor.com>, Miquel Raynal <miquel.raynal@bootlin.com>, Johan Hovold <johan@kernel.org>, Mathias Nyman <mathias.nyman@linux.intel.com>, Raul Rangel <rrangel@chromium.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCAxNyBBcHIgMjAxOSwgUmF1bCBSYW5nZWwgd3JvdGU6Cgo+ID4gPiBBbHNvIHdoZXJl
-IHdvdWxkIGJlIGEgZ29vZCBwbGFjZSB0byBkb2N1bWVudCB0aGlzPwo+ID4gCj4gPiBEb2N1bWVu
-dGF0aW9uL0FCSS8gaXMgYSBnb29kIHN0YXJ0Lgo+IEknbGwgYWRkIHNvbWV0aGluZyB0byBEb2N1
-bWVudGF0aW9uL0FCSS90ZXN0aW5nL3hoY2ktdWV2ZW50CgpZb3VyIHBhdGNoIHdpbGwgYXBwbHkg
-dG8gYWxsIGhvc3QgY29udHJvbGxlcnMsIG5vdCBqdXN0IHhoY2kuICBUaGUKZG9jdW1lbnRhdGlv
-biBmaWxlbmFtZSBzaG91bGQgcmVmbGVjdCB0aGlzLiAgUGVyaGFwcyAidXNiLXVldmVudCI/Cgo+
-ID4gV2h5IGRvIHlvdSBuZWVkIHRvIGxvY2sgc29tZXRoaW5nIHRoYXQgaXMgImRlYWQiPyAgQW5k
-IHdoeSBpcyB0aGUgaWRyCj4gPiBsb2NrIHRoZSBjb3JyZWN0IG9uZSBoZXJlPwo+IFdlIG5lZWQg
-dG8gZW5zdXJlIHRoYXQgcm9vdF9odWIgaXMgbm90IG51bGwuIFRob3VnaCBJJ20gbm90IHN1cmUg
-dGhlCj4gbG9jayBpcyBlbnRpcmVseSBuZWNlc3NhcnkgaW4gdGhpcyBjYXNlLiB1c2JfcmVtb3Zl
-X2hjZCBzdG9wcyB0aGUgd29yawo+IGl0ZW0gYmVmb3JlIGl0IHNldHMgdGhlIHJoZGV2IHRvIG51
-bGwuIFRoZSByZWFzb24gSSBwaWNrZWQKPiB1c2JfYnVzX2lkcl9sb2NrIHdhcyBiZWNhdXNlIGl0
-J3MgdGhlIHNhbWUgbG9jayB0aGF0IHVzYl9yZW1vdmVfaGNkIHVzZXMKPiB3aGVuIHNldHRpbmcg
-cmhkZXYgPSBOVUxMLgo+IAo+IEFsYW4sIHdoYXQgZG8geW91IHRoaW5rPyBTaG91bGQgSSByZW1v
-dmUgdGhlIGxvY2s/CgpZb3UncmUgYm90aCByaWdodDsgdGhlIGxvY2sgaXNuJ3QgbmVlZGVkIGJl
-Y2F1c2UgdGhlIHdvcmsgaXMgc3RvcHBlZApiZWZvcmUgdGhlIHJvb3QgaHViIGdldHMgcmVtb3Zl
-ZC4gIEFjcXVpcmluZyB0aGUgbG9jayBkb2Vzbid0IGRvIGFueQpoYXJtLCBidXQgaXQgaXNuJ3Qg
-bmVlZGVkIHNvIHlvdSBwcm9iYWJseSBzaG91bGQgcmVtb3ZlIGl0LiAgSW4gZmFjdCwgCnlvdSBk
-b24ndCBldmVuIG5lZWQgdG8gdGVzdCBmb3Igd2hldGhlciBoY2QtPnNlbGYucm9vdF9odWIgaXMg
-Cm5vbi1OVUxMLgoKQWxhbiBTdGVybgo=
+T24gV2VkLCBBcHIgMTcsIDIwMTkgYXQgMDI6MjQ6MDZQTSAtMDQwMCwgQWxhbiBTdGVybiB3cm90
+ZToKPiBPbiBXZWQsIDE3IEFwciAyMDE5LCBSYXVsIFJhbmdlbCB3cm90ZToKPiAKPiA+ID4gPiBB
+bHNvIHdoZXJlIHdvdWxkIGJlIGEgZ29vZCBwbGFjZSB0byBkb2N1bWVudCB0aGlzPwo+ID4gPiAK
+PiA+ID4gRG9jdW1lbnRhdGlvbi9BQkkvIGlzIGEgZ29vZCBzdGFydC4KPiA+IEknbGwgYWRkIHNv
+bWV0aGluZyB0byBEb2N1bWVudGF0aW9uL0FCSS90ZXN0aW5nL3hoY2ktdWV2ZW50Cj4gCj4gWW91
+ciBwYXRjaCB3aWxsIGFwcGx5IHRvIGFsbCBob3N0IGNvbnRyb2xsZXJzLCBub3QganVzdCB4aGNp
+LiAgVGhlCj4gZG9jdW1lbnRhdGlvbiBmaWxlbmFtZSBzaG91bGQgcmVmbGVjdCB0aGlzLiAgUGVy
+aGFwcyAidXNiLXVldmVudCI/CkkgcmVhbGl6ZWQgdGhhdCBhZnRlciBJIGhhZCBzZW50IHRoZSBl
+bWFpbCA6KSBJJ2xsIGRvIHVzYi11ZXZlbnQuCj4gCj4gPiA+IFdoeSBkbyB5b3UgbmVlZCB0byBs
+b2NrIHNvbWV0aGluZyB0aGF0IGlzICJkZWFkIj8gIEFuZCB3aHkgaXMgdGhlIGlkcgo+ID4gPiBs
+b2NrIHRoZSBjb3JyZWN0IG9uZSBoZXJlPwo+ID4gV2UgbmVlZCB0byBlbnN1cmUgdGhhdCByb290
+X2h1YiBpcyBub3QgbnVsbC4gVGhvdWdoIEknbSBub3Qgc3VyZSB0aGUKPiA+IGxvY2sgaXMgZW50
+aXJlbHkgbmVjZXNzYXJ5IGluIHRoaXMgY2FzZS4gdXNiX3JlbW92ZV9oY2Qgc3RvcHMgdGhlIHdv
+cmsKPiA+IGl0ZW0gYmVmb3JlIGl0IHNldHMgdGhlIHJoZGV2IHRvIG51bGwuIFRoZSByZWFzb24g
+SSBwaWNrZWQKPiA+IHVzYl9idXNfaWRyX2xvY2sgd2FzIGJlY2F1c2UgaXQncyB0aGUgc2FtZSBs
+b2NrIHRoYXQgdXNiX3JlbW92ZV9oY2QgdXNlcwo+ID4gd2hlbiBzZXR0aW5nIHJoZGV2ID0gTlVM
+TC4KPiA+IAo+ID4gQWxhbiwgd2hhdCBkbyB5b3UgdGhpbms/IFNob3VsZCBJIHJlbW92ZSB0aGUg
+bG9jaz8KPiAKPiBZb3UncmUgYm90aCByaWdodDsgdGhlIGxvY2sgaXNuJ3QgbmVlZGVkIGJlY2F1
+c2UgdGhlIHdvcmsgaXMgc3RvcHBlZAo+IGJlZm9yZSB0aGUgcm9vdCBodWIgZ2V0cyByZW1vdmVk
+LiAgQWNxdWlyaW5nIHRoZSBsb2NrIGRvZXNuJ3QgZG8gYW55Cj4gaGFybSwgYnV0IGl0IGlzbid0
+IG5lZWRlZCBzbyB5b3UgcHJvYmFibHkgc2hvdWxkIHJlbW92ZSBpdC4gIEluIGZhY3QsIAo+IHlv
+dSBkb24ndCBldmVuIG5lZWQgdG8gdGVzdCBmb3Igd2hldGhlciBoY2QtPnNlbGYucm9vdF9odWIg
+aXMgCj4gbm9uLU5VTEwuClNvdW5kcyBnb29kLCBJJ2xsIGNsZWFuIGl0IHVwLgo+IAo+IEFsYW4g
+U3Rlcm4KPiAKPgo=
