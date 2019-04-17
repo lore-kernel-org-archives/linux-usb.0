@@ -2,156 +2,124 @@ Return-Path: <SRS0=xlna=ST=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 024CBC10F12
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 08:29:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92089C282DC
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 09:35:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CC28F2176F
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 08:29:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D5362173C
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 09:35:02 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=preh.de header.i=@preh.de header.b="L2eUYxFV"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729519AbfDQI2g (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Apr 2019 04:28:36 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:5599 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727177AbfDQI2g (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Apr 2019 04:28:36 -0400
-X-UUID: afdf65d152914621a311a6ebc93f2c16-20190417
-X-UUID: afdf65d152914621a311a6ebc93f2c16-20190417
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 44844121; Wed, 17 Apr 2019 16:28:27 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Wed, 17 Apr 2019 16:28:25 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas09.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Wed, 17 Apr 2019 16:28:24 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Mathias Nyman <mathias.nyman@intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>
-Subject: [PATCH v3 2/6] usb: host: xhci-plat: get optional clock by devm_clk_get_optional()
-Date:   Wed, 17 Apr 2019 16:28:17 +0800
-Message-ID:
- <b61f41ecccde4f4fee4796a1da67a1c8bf8bbbcb.1555488276.git.chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <bacafa9a60c2f437e2be0ccdf504492343fc0a66.1555488276.git.chunfeng.yun@mediatek.com>
-References: <bacafa9a60c2f437e2be0ccdf504492343fc0a66.1555488276.git.chunfeng.yun@mediatek.com>
-MIME-Version: 1.0
+        id S1731554AbfDQJfA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Apr 2019 05:35:00 -0400
+Received: from mail01.preh.com ([80.149.130.22]:44396 "EHLO mail01.preh.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726237AbfDQJfA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 17 Apr 2019 05:35:00 -0400
+X-Greylist: delayed 929 seconds by postgrey-1.27 at vger.kernel.org; Wed, 17 Apr 2019 05:34:59 EDT
+From:   Kloetzke Jan <Jan.Kloetzke@preh.de>
+To:     Oliver Neukum <oneukum@suse.com>
+CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Kloetzke Jan <Jan.Kloetzke@preh.de>
+Subject: [PATCH] usbnet: fix kernel crash after disconnect
+Thread-Topic: [PATCH] usbnet: fix kernel crash after disconnect
+Thread-Index: AQHU9P6lIDgQA+tBpkOiuoVbyUaoWQ==
+Date:   Wed, 17 Apr 2019 09:19:23 +0000
+Message-ID: <20190417091849.7475-1-Jan.Kloetzke@preh.de>
+Accept-Language: de-DE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-tm-snts-smtp: A940182EE188A4C241382CD2142F148E71D043F46A6CD468FBFAF518982B91002000:8
+x-exclaimer-md-config: 142fe46c-4d13-4ac1-9970-1f36f118897a
 Content-Type: text/plain; charset="UTF-8"
-X-MTK:  N
+Content-ID: <1B8A8FEC626BD24192E23718C9ED5163@preh.de>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; d=preh.de; s=key1; c=relaxed/relaxed;
+ h=from:to:cc:subject:date:message-id:content-type:mime-version;
+ bh=GVsCNfhKQBgWC1L0q8/3Y6m0fTFU5KoRT1heU3f2xjw=;
+ b=L2eUYxFVLvs8Abd+EdCDi8mBY5ZMkCNLF+mSmEBsqUFsisDRnSjBVFQScJy6DrcJ7FxV9dt9+d/B
+        AWQaGQeQ+L5p1BDDnGW8ShwdL1kQHB9ZYfAq5CExlt/r05NA/9pwpARMVgQg/CABuzuETRWw7b1R
+        GCz8mAvFGfpDsg9DDucZpBDpVZJz92tv6XMaxX8jK5YjfT5Vuw6d5Ixivwzt6tWUMySsZ7MQ2h4q
+        2LYzjWjE2cqTXtS5CpoyEfwmAZQ6J6DIkDg3ocrmXiof0Du6JVzbJeeMmyU6m/QKYB7ZYplGOS5G
+        2zy2cpkVchoaZK6IYESILU7AA6B+NzuKaTWs2Q==
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190417082817.EOrnX9FEoQ4nCJGHNpFnhGR9b7N03XoZ0Q2c0qFNUM0@z>
+Message-ID: <20190417091923.Ts2zdsu4CbBkgAG6X_bA_G0Jps8JLg94dQhIAbm9Ka4@z>
 
-When the driver tries to get optional clock, it ignores all errors except
--EPROBE_DEFER, but if only ignores -ENOENT, it will cover some real errors,
-such as -ENOMEM, so use devm_clk_get_optional() to get optional clock.
-
-Cc: Mathias Nyman <mathias.nyman@intel.com>
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
-v3: modify changelog comment
-v2: no changes
----
- drivers/usb/host/xhci-plat.c | 39 +++++++++++++++++-------------------
- 1 file changed, 18 insertions(+), 21 deletions(-)
-
-diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
-index 0ac4ec975547..998241f5fce3 100644
---- a/drivers/usb/host/xhci-plat.c
-+++ b/drivers/usb/host/xhci-plat.c
-@@ -165,8 +165,6 @@ static int xhci_plat_probe(struct platform_device *pdev)
- 	struct xhci_hcd		*xhci;
- 	struct resource         *res;
- 	struct usb_hcd		*hcd;
--	struct clk              *clk;
--	struct clk              *reg_clk;
- 	int			ret;
- 	int			irq;
- 
-@@ -235,31 +233,32 @@ static int xhci_plat_probe(struct platform_device *pdev)
- 	hcd->rsrc_start = res->start;
- 	hcd->rsrc_len = resource_size(res);
- 
-+	xhci = hcd_to_xhci(hcd);
-+
- 	/*
- 	 * Not all platforms have clks so it is not an error if the
- 	 * clock do not exist.
- 	 */
--	reg_clk = devm_clk_get(&pdev->dev, "reg");
--	if (!IS_ERR(reg_clk)) {
--		ret = clk_prepare_enable(reg_clk);
--		if (ret)
--			goto put_hcd;
--	} else if (PTR_ERR(reg_clk) == -EPROBE_DEFER) {
--		ret = -EPROBE_DEFER;
-+	xhci->reg_clk = devm_clk_get_optional(&pdev->dev, "reg");
-+	if (IS_ERR(xhci->reg_clk)) {
-+		ret = PTR_ERR(xhci->reg_clk);
- 		goto put_hcd;
- 	}
- 
--	clk = devm_clk_get(&pdev->dev, NULL);
--	if (!IS_ERR(clk)) {
--		ret = clk_prepare_enable(clk);
--		if (ret)
--			goto disable_reg_clk;
--	} else if (PTR_ERR(clk) == -EPROBE_DEFER) {
--		ret = -EPROBE_DEFER;
-+	ret = clk_prepare_enable(xhci->reg_clk);
-+	if (ret)
-+		goto put_hcd;
-+
-+	xhci->clk = devm_clk_get_optional(&pdev->dev, NULL);
-+	if (IS_ERR(xhci->clk)) {
-+		ret = PTR_ERR(xhci->clk);
- 		goto disable_reg_clk;
- 	}
- 
--	xhci = hcd_to_xhci(hcd);
-+	ret = clk_prepare_enable(xhci->clk);
-+	if (ret)
-+		goto disable_reg_clk;
-+
- 	priv_match = of_device_get_match_data(&pdev->dev);
- 	if (priv_match) {
- 		struct xhci_plat_priv *priv = hcd_to_xhci_priv(hcd);
-@@ -271,8 +270,6 @@ static int xhci_plat_probe(struct platform_device *pdev)
- 
- 	device_wakeup_enable(hcd->self.controller);
- 
--	xhci->clk = clk;
--	xhci->reg_clk = reg_clk;
- 	xhci->main_hcd = hcd;
- 	xhci->shared_hcd = __usb_create_hcd(driver, sysdev, &pdev->dev,
- 			dev_name(&pdev->dev), hcd);
-@@ -348,10 +345,10 @@ static int xhci_plat_probe(struct platform_device *pdev)
- 	usb_put_hcd(xhci->shared_hcd);
- 
- disable_clk:
--	clk_disable_unprepare(clk);
-+	clk_disable_unprepare(xhci->clk);
- 
- disable_reg_clk:
--	clk_disable_unprepare(reg_clk);
-+	clk_disable_unprepare(xhci->reg_clk);
- 
- put_hcd:
- 	usb_put_hcd(hcd);
--- 
-2.21.0
-
+V2hlbiBkaXNjb25uZWN0aW5nIGNkY19uY20gdGhlIGtlcm5lbCBzcG9yYWRpY2FsbHkgY3Jhc2hl
+cyBzaG9ydGx5DQphZnRlciB0aGUgZGlzY29ubmVjdDoNCg0KICBbICAgNTcuODY4ODEyXSBVbmFi
+bGUgdG8gaGFuZGxlIGtlcm5lbCBOVUxMIHBvaW50ZXIgZGVyZWZlcmVuY2UgYXQgdmlydHVhbCBh
+ZGRyZXNzIDAwMDAwMDAwDQogIC4uLg0KICBbICAgNTguMDA2NjUzXSBQQyBpcyBhdCAweDANCiAg
+WyAgIDU4LjAwOTIwMl0gTFIgaXMgYXQgY2FsbF90aW1lcl9mbisweGVjLzB4MWI0DQogIFsgICA1
+OC4wMTM1NjddIHBjIDogWzwwMDAwMDAwMDAwMDAwMDAwPl0gbHIgOiBbPGZmZmZmZjgwMDgwZjUx
+MzA+XSBwc3RhdGU6IDAwMDAwMTQ1DQogIFsgICA1OC4wMjA5NzZdIHNwIDogZmZmZmZmODAwODAw
+M2RhMA0KICBbICAgNTguMDI0Mjk1XSB4Mjk6IGZmZmZmZjgwMDgwMDNkYTAgeDI4OiAwMDAwMDAw
+MDAwMDAwMDAxDQogIFsgICA1OC4wMjk2MThdIHgyNzogMDAwMDAwMDAwMDAwMDAwYSB4MjY6IDAw
+MDAwMDAwMDAwMDAxMDANCiAgWyAgIDU4LjAzNDk0MV0geDI1OiAwMDAwMDAwMDAwMDAwMDAwIHgy
+NDogZmZmZmZmODAwODAwM2U2OA0KICBbICAgNTguMDQwMjYzXSB4MjM6IDAwMDAwMDAwMDAwMDAw
+MDAgeDIyOiAwMDAwMDAwMDAwMDAwMDAwDQogIFsgICA1OC4wNDU1ODddIHgyMTogMDAwMDAwMDAw
+MDAwMDAwMCB4MjA6IGZmZmZmZmM2OGZhYzE4MDgNCiAgWyAgIDU4LjA1MDkxMF0geDE5OiAwMDAw
+MDAwMDAwMDAwMTAwIHgxODogMDAwMDAwMDAwMDAwMDAwMA0KICBbICAgNTguMDU2MjMyXSB4MTc6
+IDAwMDAwMDdmODg1YWZmOGMgeDE2OiAwMDAwMDA3Zjg4M2E5ZjEwDQogIFsgICA1OC4wNjE1NTZd
+IHgxNTogMDAwMDAwMDAwMDAwMDAwMSB4MTQ6IDAwMDAwMDAwMDAwMDAwNmUNCiAgWyAgIDU4LjA2
+Njg3OF0geDEzOiAwMDAwMDAwMDAwMDAwMDAwIHgxMjogMDAwMDAwMDAwMDAwMDBiYQ0KICBbICAg
+NTguMDcyMjAxXSB4MTE6IGZmZmZmZmM2OWZmMWRiMzAgeDEwOiAwMDAwMDAwMDAwMDAwMDIwDQog
+IFsgICA1OC4wNzc1MjRdIHg5IDogODAwMDEwMDAwODAwMTAwMCB4OCA6IDAwMDAwMDAwMDAwMDAw
+MDENCiAgWyAgIDU4LjA4Mjg0N10geDcgOiAwMDAwMDAwMDAwMDAwODAwIHg2IDogZmZmZmZmODAw
+ODAwM2U3MA0KICBbICAgNTguMDg4MTY5XSB4NSA6IGZmZmZmZmM2OWZmMTdhMjggeDQgOiAwMDAw
+MDAwMGZmZmYxMzhiDQogIFsgICA1OC4wOTM0OTJdIHgzIDogMDAwMDAwMDAwMDAwMDAwMCB4MiA6
+IDAwMDAwMDAwMDAwMDAwMDANCiAgWyAgIDU4LjA5ODgxNF0geDEgOiAwMDAwMDAwMDAwMDAwMDAw
+IHgwIDogMDAwMDAwMDAwMDAwMDAwMA0KICAuLi4NCiAgWyAgIDU4LjIwNTgwMF0gWzwgICAgICAg
+ICAgKG51bGwpPl0gICAgICAgICAgIChudWxsKQ0KICBbICAgNTguMjEwNTIxXSBbPGZmZmZmZjgw
+MDgwZjUyOTg+XSBleHBpcmVfdGltZXJzKzB4YTAvMHgxNGMNCiAgWyAgIDU4LjIxNTkzN10gWzxm
+ZmZmZmY4MDA4MGY1NDJjPl0gcnVuX3RpbWVyX3NvZnRpcnErMHhlOC8weDEyOA0KICBbICAgNTgu
+MjIxNzAyXSBbPGZmZmZmZjgwMDgwODExMjA+XSBfX2RvX3NvZnRpcnErMHgyOTgvMHgzNDgNCiAg
+WyAgIDU4LjIyNzExOF0gWzxmZmZmZmY4MDA4MGE2MzA0Pl0gaXJxX2V4aXQrMHg3NC8weGJjDQog
+IFsgICA1OC4yMzIwMDldIFs8ZmZmZmZmODAwODBlMTdkYz5dIF9faGFuZGxlX2RvbWFpbl9pcnEr
+MHg3OC8weGFjDQogIFsgICA1OC4yMzc4NTddIFs8ZmZmZmZmODAwODA4MGNmND5dIGdpY19oYW5k
+bGVfaXJxKzB4ODAvMHhhYw0KICAuLi4NCg0KVGhlIGNyYXNoIGhhcHBlbnMgcm91Z2hseSAxMjUu
+LjEzMG1zIGFmdGVyIHRoZSBkaXNjb25uZWN0LiBUaGlzDQpjb3JyZWxhdGVzIHdpdGggdGhlICdk
+ZWxheScgdGltZXIgdGhhdCBpcyBzdGFydGVkIG9uIGNlcnRhaW4gVVNCIHR4L3J4DQplcnJvcnMg
+aW4gdGhlIFVSQiBjb21wbGV0aW9uIGhhbmRsZXIuDQoNClRoZSBzdXNwZWN0ZWQgcHJvYmxlbSBp
+cyBhIHJhY2Ugb2YgdXNibmV0X3N0b3AoKSB3aXRoDQp1c2JuZXRfc3RhcnRfeG1pdCgpLiBJbiB1
+c2JuZXRfc3RvcCgpIHdlIGNhbGwgdXNibmV0X3Rlcm1pbmF0ZV91cmJzKCkNCnRvIGNhbmNlbCBh
+bGwgVVJCcyBpbiBmbGlnaHQuIFRoaXMgb25seSBtYWtlcyBzZW5zZSBpZiBubyBuZXcgVVJCcyBh
+cmUNCnN1Ym1pdHRlZCBjb25jdXJyZW50bHksIHRob3VnaC4gQnV0IHRoZSB1c2JuZXRfc3RhcnRf
+eG1pdCgpIGNhbiBydW4gYXQNCnRoZSBzYW1lIHRpbWUgb24gYW5vdGhlciBDUFUgd2hpY2ggYWxt
+b3N0IHVuY29uZGl0aW9uYWxseSBzdWJtaXRzIGFuDQpVUkIuIFRoZSBlcnJvciBjYWxsYmFjayBv
+ZiB0aGUgbmV3IFVSQiB3aWxsIHRoZW4gc2NoZWR1bGUgdGhlIHRpbWVyDQphZnRlciBpdCB3YXMg
+YWxyZWFkeSBzdG9wcGVkLg0KDQpUaGUgZml4IGFkZHMgYSBjaGVjayBpZiB0aGUgdHggcXVldWUg
+aXMgc3RvcHBlZCBhZnRlciB0aGUgdHggbGlzdCBsb2NrDQpoYXMgYmVlbiB0YWtlbi4gVGhpcyBz
+aG91bGQgcmVsaWFibHkgcHJldmVudCB0aGUgc3VibWlzc2lvbiBvZiBuZXcgVVJCcw0Kd2hpbGUg
+dXNibmV0X3Rlcm1pbmF0ZV91cmJzKCkgZG9lcyBpdHMgam9iLiBUaGUgc2FtZSB0aGluZyBpcyBk
+b25lIG9uDQp0aGUgcnggc2lkZSBldmVuIHRob3VnaCBpdCBtaWdodCBiZSBzYWZlIGR1ZSB0byBv
+dGhlciBmbGFncyB0aGF0IGFyZQ0KY2hlY2tlZCB0aGVyZS4NCg0KU2lnbmVkLW9mZi1ieTogSmFu
+IEtsw7Z0emtlIDxKYW4uS2xvZXR6a2VAcHJlaC5kZT4NCi0tLQ0KIGRyaXZlcnMvbmV0L3VzYi91
+c2JuZXQuYyB8IDYgKysrKysrDQogMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKQ0KDQpk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9uZXQvdXNiL3VzYm5ldC5jIGIvZHJpdmVycy9uZXQvdXNiL3Vz
+Ym5ldC5jDQppbmRleCA1MDQyODJhZjI3ZTUuLjkyMWNjMDU3MWJkMCAxMDA2NDQNCi0tLSBhL2Ry
+aXZlcnMvbmV0L3VzYi91c2JuZXQuYw0KKysrIGIvZHJpdmVycy9uZXQvdXNiL3VzYm5ldC5jDQpA
+QCAtNTA2LDYgKzUwNiw3IEBAIHN0YXRpYyBpbnQgcnhfc3VibWl0IChzdHJ1Y3QgdXNibmV0ICpk
+ZXYsIHN0cnVjdCB1cmIgKnVyYiwgZ2ZwX3QgZmxhZ3MpDQogDQogCWlmIChuZXRpZl9ydW5uaW5n
+IChkZXYtPm5ldCkgJiYNCiAJICAgIG5ldGlmX2RldmljZV9wcmVzZW50IChkZXYtPm5ldCkgJiYN
+CisJICAgIHRlc3RfYml0KEVWRU5UX0RFVl9PUEVOLCAmZGV2LT5mbGFncykgJiYNCiAJICAgICF0
+ZXN0X2JpdCAoRVZFTlRfUlhfSEFMVCwgJmRldi0+ZmxhZ3MpICYmDQogCSAgICAhdGVzdF9iaXQg
+KEVWRU5UX0RFVl9BU0xFRVAsICZkZXYtPmZsYWdzKSkgew0KIAkJc3dpdGNoIChyZXR2YWwgPSB1
+c2Jfc3VibWl0X3VyYiAodXJiLCBHRlBfQVRPTUlDKSkgew0KQEAgLTE0MzEsNiArMTQzMiwxMSBA
+QCBuZXRkZXZfdHhfdCB1c2JuZXRfc3RhcnRfeG1pdCAoc3RydWN0IHNrX2J1ZmYgKnNrYiwNCiAJ
+CXNwaW5fdW5sb2NrX2lycXJlc3RvcmUoJmRldi0+dHhxLmxvY2ssIGZsYWdzKTsNCiAJCWdvdG8g
+ZHJvcDsNCiAJfQ0KKwlpZiAobmV0aWZfcXVldWVfc3RvcHBlZChuZXQpKSB7DQorCQl1c2JfYXV0
+b3BtX3B1dF9pbnRlcmZhY2VfYXN5bmMoZGV2LT5pbnRmKTsNCisJCXNwaW5fdW5sb2NrX2lycXJl
+c3RvcmUoJmRldi0+dHhxLmxvY2ssIGZsYWdzKTsNCisJCWdvdG8gZHJvcDsNCisJfQ0KIA0KICNp
+ZmRlZiBDT05GSUdfUE0NCiAJLyogaWYgdGhpcyB0cmlnZ2VycyB0aGUgZGV2aWNlIGlzIHN0aWxs
+IGEgc2xlZXAgKi8NCi0tIA0KMi4xMS4wDQo=
