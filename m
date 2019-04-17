@@ -2,147 +2,114 @@ Return-Path: <SRS0=xlna=ST=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F768C282DA
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:26:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77070C282DA
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:47:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 134A9206BA
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:26:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4FDCA20835
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:47:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731745AbfDQL0Q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Apr 2019 07:26:16 -0400
-Received: from mail-io1-f70.google.com ([209.85.166.70]:50482 "EHLO
-        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731743AbfDQL0G (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Apr 2019 07:26:06 -0400
-Received: by mail-io1-f70.google.com with SMTP id s24so18915269ioe.17
-        for <linux-usb@vger.kernel.org>; Wed, 17 Apr 2019 04:26:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=CiNG3QcYd2NaOcGlrHf/53lOaTBmL2Vq16/ZLUz4bHg=;
-        b=UNoK3r7w+u78p34yT3kNLNrNMgKQXTqGf1mrBJWAAAHR7u+dfZ8BgrMjmZzvCBrI4w
-         p/H+ntEDBzAfL0vyduRqZd+qphblNseCsfA/ShqaIt2cYs7mn0fe3WmvNTmmQvtjOBnU
-         VUmHaaE1nUF+dAbmDMqr5bLBnclQa2hGt0+NMD8TWEvw05Gq3hryUeZg1qcXUO+xViIC
-         kmte1G34N+lVb/Yl6iFWD5icpCQ25iylcSEUo1UyQtss/VKOWBVs1ZRA3DWjp11qkwgR
-         PSs67fs+8oSXOglX/3GRvzkgE9eAMJ2eGQdZ1NnNaTV43CG9DhOp4eAowQ3RkxnYlrel
-         BFUg==
-X-Gm-Message-State: APjAAAXQqXZBErKAsBqVjAFdWVxJe9m8995x0FaZVMmJloGii69A0pPm
-        b25kiZLDzYAZqtq4xXEKHzuVl3O82o/nKW3e/ijpcCA38rPd
-X-Google-Smtp-Source: APXvYqwshny4lDrmH4Yoj2Jx1K+sZTS6wXUGCZSYE6AunHkP8YCKV9WxbBEiclmalkZtrUhDm7PNQ3DlIrinjfmtAPGz7OhJLpjW
+        id S1731520AbfDQLrx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Apr 2019 07:47:53 -0400
+Received: from mga11.intel.com ([192.55.52.93]:21129 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729522AbfDQLrx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 17 Apr 2019 07:47:53 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Apr 2019 04:47:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,361,1549958400"; 
+   d="scan'208";a="165504287"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 17 Apr 2019 04:47:51 -0700
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Ajay Gupta <ajayg@nvidia.com>, linux-usb@vger.kernel.org
+Subject: [PATCH v3 0/7] usb: typec: ucsi: Remaining changes for v5.2
+Date:   Wed, 17 Apr 2019 14:47:43 +0300
+Message-Id: <20190417114750.21420-1-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Received: by 2002:a24:68c2:: with SMTP id v185mr35037535itb.94.1555500365626;
- Wed, 17 Apr 2019 04:26:05 -0700 (PDT)
-Date:   Wed, 17 Apr 2019 04:26:05 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000bdc2e30586b826ce@google.com>
-Subject: general protection fault in __dev_printk
-From:   syzbot <syzbot+2eb9121678bdb36e6d57@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        rafael@kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+Hi Greg,
 
-syzbot found the following crash on:
+This is the third version of this collection of UCSI driver related
+changes. I fixed the header problem I caused in Ajay's patch adding the
+NVIDIA alt mode support (patch 7/7), and I also took the liberty of
+writing the missing ABI documentation for the extra sysfs file that's
+created in the driver for Cypress CCGx Type-C controller (ucsi_ccg.c).
 
-HEAD commit:    9a33b369 usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=1014aacb200000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
-dashboard link: https://syzkaller.appspot.com/bug?extid=2eb9121678bdb36e6d57
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1339c81d200000
+v2 cover letter
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+2eb9121678bdb36e6d57@syzkaller.appspotmail.com
+This is the second version of this series. The sparse warning, that
+was the only issue with the first version, is now fixed. The fix was
+made by adding the first patch ("i2c: nvidia-gpu: Supply CCGx driver
+the fw build info"). It add a device property for the CCGx device
+that the CCGx driver can use to identify the required firmware build.
 
-usb 2-1: USB disconnect, device number 5
-usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-yurex 2-1:0.150: yurex_interrupt - unknown status received: -71
-kasan: CONFIG_KASAN_INLINE enabled
-kasan: GPF could be caused by NULL-ptr deref or user memory access
-general protection fault: 0000 [#1] SMP KASAN PTI
-CPU: 1 PID: 5497 Comm: kworker/u4:7 Not tainted 5.1.0-rc4-319354-g9a33b36 #3
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Workqueue: bat_events batadv_nc_worker
-RIP: 0010:dev_name include/linux/device.h:1087 [inline]
-RIP: 0010:__dev_printk+0x3f/0x215 drivers/base/core.c:3208
-Code: 89 f5 53 e8 6e fe 1b fc 48 85 ed 0f 84 c9 01 00 00 e8 60 fe 1b fc 48  
-8d 7d 50 b8 ff ff 37 00 48 89 fa 48 c1 e0 2a 48 c1 ea 03 <80> 3c 02 00 74  
-05 e8 11 0f 53 fc 4c 8b 7d 50 4d 85 ff 75 28 e8 33
-RSP: 0018:ffff8880ad107970 EFLAGS: 00010002
-RAX: dffffc0000000000 RBX: ffffed1015a20f35 RCX: 00000000ffffffed
-RDX: 0000000000000010 RSI: ffffffff8555c710 RDI: 0000000000000080
-RBP: 0000000000000030 R08: ffff8880997ae200 R09: ffffed1015a24fc9
-R10: ffffed1015a24fc8 R11: ffff8880ad127e47 R12: ffffffff8f031080
-R13: ffff8880ad1079c8 R14: 0000000000000000 R15: ffff88809b373700
-FS:  0000000000000000(0000) GS:ffff8880ad100000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f3b5b78b000 CR3: 00000000a496c000 CR4: 00000000001406e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
-  <IRQ>
-  _dev_err+0xdc/0x10e drivers/base/core.c:3251
-  yurex_interrupt.cold+0x12e/0x13d drivers/usb/misc/yurex.c:183
-  __usb_hcd_giveback_urb+0x1f4/0x470 drivers/usb/core/hcd.c:1758
-  usb_hcd_giveback_urb+0x346/0x400 drivers/usb/core/hcd.c:1823
-  dummy_timer+0x100b/0x32c0 drivers/usb/gadget/udc/dummy_hcd.c:1968
-  call_timer_fn+0x161/0x5f0 kernel/time/timer.c:1325
-  expire_timers kernel/time/timer.c:1362 [inline]
-  __run_timers kernel/time/timer.c:1681 [inline]
-  __run_timers kernel/time/timer.c:1649 [inline]
-  run_timer_softirq+0x58b/0x1400 kernel/time/timer.c:1694
-  __do_softirq+0x22a/0x8cd kernel/softirq.c:293
-  do_softirq_own_stack+0x2a/0x40 arch/x86/entry/entry_64.S:1027
-  </IRQ>
-  do_softirq.part.0+0x60/0x70 kernel/softirq.c:338
-  do_softirq kernel/softirq.c:330 [inline]
-  __local_bh_enable_ip+0x183/0x1b0 kernel/softirq.c:190
-  spin_unlock_bh include/linux/spinlock.h:374 [inline]
-  batadv_nc_purge_paths+0x26b/0x380 net/batman-adv/network-coding.c:482
-  batadv_nc_worker+0x2d4/0x770 net/batman-adv/network-coding.c:733
-  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
-  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
-  kthread+0x313/0x420 kernel/kthread.c:253
-  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-Modules linked in:
----[ end trace 0f952022fa10fc7b ]---
-RIP: 0010:dev_name include/linux/device.h:1087 [inline]
-RIP: 0010:__dev_printk+0x3f/0x215 drivers/base/core.c:3208
-Code: 89 f5 53 e8 6e fe 1b fc 48 85 ed 0f 84 c9 01 00 00 e8 60 fe 1b fc 48  
-8d 7d 50 b8 ff ff 37 00 48 89 fa 48 c1 e0 2a 48 c1 ea 03 <80> 3c 02 00 74  
-05 e8 11 0f 53 fc 4c 8b 7d 50 4d 85 ff 75 28 e8 33
-RSP: 0018:ffff8880ad107970 EFLAGS: 00010002
-RAX: dffffc0000000000 RBX: ffffed1015a20f35 RCX: 00000000ffffffed
-RDX: 0000000000000010 RSI: ffffffff8555c710 RDI: 0000000000000080
-RBP: 0000000000000030 R08: ffff8880997ae200 R09: ffffed1015a24fc9
-R10: ffffed1015a24fc8 R11: ffff8880ad127e47 R12: ffffffff8f031080
-R13: ffff8880ad1079c8 R14: 0000000000000000 R15: ffff88809b373700
-FS:  0000000000000000(0000) GS:ffff8880ad100000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f3b5b78b000 CR3: 00000000a496c000 CR4: 00000000001406e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+I also decided to include two extra patches from Ajay where NVIDIA
+probing driver is added for the DisplayPort alternate mode:
+https://www.spinics.net/lists/linux-usb/msg178847.html
 
+v1 cover letter:
 
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Here are the remaining patches from me and Ajay for the UCSI driver. I
+took the liberty of collecting them for you, and resending everything
+together.
 
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+There are two patches from Ajay adding support for firmware upgrading
+with the Cypress CCGx controllers [1], and two patches from me
+enabling DisplayPort alt mode with the UCSI driver [2].
+
+[1] https://marc.info/?l=linux-usb&m=154957412422108&w=2
+[2] https://www.spinics.net/lists/linux-usb/msg178192.html
+
+Let us know if you want anything to be changed.
+
+thanks,
+
+Ajay Gupta (5):
+  usb: typec: ucsi: ccg: add get_fw_info function
+  i2c: nvidia-gpu: Supply CCGx driver the fw build info
+  usb: typec: ucsi: ccg: add firmware flashing support
+  usb: typec: displayport: Export probe and remove functions
+  usb: typec: Add driver for NVIDIA Alt Modes
+
+Heikki Krogerus (2):
+  usb: typec: ucsi: Preliminary support for alternate modes
+  usb: typec: ucsi: Support for DisplayPort alt mode
+
+ .../ABI/testing/sysfs-driver-ucsi-ccg         |   6 +
+ drivers/i2c/busses/i2c-nvidia-gpu.c           |   7 +
+ drivers/usb/typec/altmodes/Kconfig            |  10 +
+ drivers/usb/typec/altmodes/Makefile           |   2 +
+ drivers/usb/typec/altmodes/displayport.c      |  12 +-
+ drivers/usb/typec/altmodes/displayport.h      |   8 +
+ drivers/usb/typec/altmodes/nvidia.c           |  44 +
+ drivers/usb/typec/ucsi/Makefile               |  15 +-
+ drivers/usb/typec/ucsi/displayport.c          | 306 ++++++
+ drivers/usb/typec/ucsi/trace.c                |  12 +
+ drivers/usb/typec/ucsi/trace.h                |  26 +
+ drivers/usb/typec/ucsi/ucsi.c                 | 377 ++++++--
+ drivers/usb/typec/ucsi/ucsi.h                 |  93 ++
+ drivers/usb/typec/ucsi/ucsi_ccg.c             | 883 +++++++++++++++++-
+ include/linux/usb/typec_dp.h                  |   5 +
+ 15 files changed, 1720 insertions(+), 86 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-driver-ucsi-ccg
+ create mode 100644 drivers/usb/typec/altmodes/displayport.h
+ create mode 100644 drivers/usb/typec/altmodes/nvidia.c
+ create mode 100644 drivers/usb/typec/ucsi/displayport.c
+
+-- 
+2.20.1
+
