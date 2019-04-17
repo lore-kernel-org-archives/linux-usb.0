@@ -6,33 +6,33 @@ X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 073A6C282DA
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:48:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 316A2C282DC
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:48:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D41F220835
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:48:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0BBB220835
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:48:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731959AbfDQLsE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Apr 2019 07:48:04 -0400
+        id S1731965AbfDQLsF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Apr 2019 07:48:05 -0400
 Received: from mga11.intel.com ([192.55.52.93]:21129 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729522AbfDQLsD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 17 Apr 2019 07:48:03 -0400
+        id S1729522AbfDQLsF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 17 Apr 2019 07:48:05 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Apr 2019 04:48:03 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Apr 2019 04:48:05 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.60,361,1549958400"; 
-   d="scan'208";a="165504326"
+   d="scan'208";a="165504335"
 Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 17 Apr 2019 04:48:02 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 17 Apr 2019 04:48:03 -0700
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Ajay Gupta <ajayg@nvidia.com>, linux-usb@vger.kernel.org
-Subject: [PATCH v3 6/7] usb: typec: displayport: Export probe and remove functions
-Date:   Wed, 17 Apr 2019 14:47:49 +0300
-Message-Id: <20190417114750.21420-7-heikki.krogerus@linux.intel.com>
+Subject: [PATCH v3 7/7] usb: typec: Add driver for NVIDIA Alt Modes
+Date:   Wed, 17 Apr 2019 14:47:50 +0300
+Message-Id: <20190417114750.21420-8-heikki.krogerus@linux.intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190417114750.21420-1-heikki.krogerus@linux.intel.com>
 References: <20190417114750.21420-1-heikki.krogerus@linux.intel.com>
@@ -43,110 +43,142 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190417114749.qo-qonliImMDBawYdICda82v2yE2tNvvAbocfRiWWV4@z>
+Message-ID: <20190417114750.k9h4AsI5CBcN0mm7svc3eXjmK651NfvvTc95AoSrN_g@z>
 
 From: Ajay Gupta <ajayg@nvidia.com>
 
-VirtualLink standard extends the DisplayPort Alt Mode by
-utilizing also the USB 2 pins on the USB Type-C connector.
-It uses the same messages as DisplayPort, but not the DP
-SVID. At the time of writing, USB IF has not assigned a
-Standard ID (SID) for VirtualLink, so the manufacturers of
-VirtualLink adapters use their Vendor IDs as the SVID.
+Latest NVIDIA GPUs support VirtualLink device. Since USBIF
+has not assigned a Standard ID (SID) for VirtualLink
+so using NVIDA VID 0x955 as SVID.
 
-Since the SVID specific communication is exactly the same as
-with DisplayPort alternate mode, there is no need to
-implement separate driver for VirtualLink. We'll handle the
-current VirtualLink adapters with probe drivers, and once
-there is SVID assigned for it, we add it to the displayport
-alt mode driver.
-
-To support probing drivers, exporting the probe and remove
-functions, and also changing the DP_HEADER helper macro to
-use the SVID of the alternate mode device instead of the
-DisplayPort alt mode SVID.
-
-Suggested-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Signed-off-by: Ajay Gupta <ajayg@nvidia.com>
 Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
- drivers/usb/typec/altmodes/displayport.c | 12 +++++++-----
- drivers/usb/typec/altmodes/displayport.h |  8 ++++++++
- 2 files changed, 15 insertions(+), 5 deletions(-)
- create mode 100644 drivers/usb/typec/altmodes/displayport.h
+ drivers/usb/typec/altmodes/Kconfig  | 10 +++++++
+ drivers/usb/typec/altmodes/Makefile |  2 ++
+ drivers/usb/typec/altmodes/nvidia.c | 44 +++++++++++++++++++++++++++++
+ drivers/usb/typec/ucsi/ucsi.c       |  4 ++-
+ include/linux/usb/typec_dp.h        |  5 ++++
+ 5 files changed, 64 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/usb/typec/altmodes/nvidia.c
 
-diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
-index 1b2afeb1eeb6..4092248a5936 100644
---- a/drivers/usb/typec/altmodes/displayport.c
-+++ b/drivers/usb/typec/altmodes/displayport.c
-@@ -14,7 +14,7 @@
- #include <linux/usb/pd_vdo.h>
- #include <linux/usb/typec_dp.h>
+diff --git a/drivers/usb/typec/altmodes/Kconfig b/drivers/usb/typec/altmodes/Kconfig
+index ef2226eb7a33..187690fd1a5b 100644
+--- a/drivers/usb/typec/altmodes/Kconfig
++++ b/drivers/usb/typec/altmodes/Kconfig
+@@ -12,4 +12,14 @@ config TYPEC_DP_ALTMODE
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called typec_displayport.
  
--#define DP_HEADER(cmd)			(VDO(USB_TYPEC_DP_SID, 1, cmd) | \
-+#define DP_HEADER(_dp, cmd)		(VDO((_dp)->alt->svid, 1, cmd) | \
- 					 VDO_OPOS(USB_TYPEC_DP_MODE))
++config TYPEC_NVIDIA_ALTMODE
++	tristate "NVIDIA Alternate Mode driver"
++	depends on TYPEC_DP_ALTMODE
++	help
++	  Latest NVIDIA GPUs support VirtualLink devices. Select this
++	  to enable support for VirtualLink devices with NVIDIA GPUs.
++
++	  To compile this driver as a module, choose M here: the
++	  module will be called typec_displayport.
++
+ endmenu
+diff --git a/drivers/usb/typec/altmodes/Makefile b/drivers/usb/typec/altmodes/Makefile
+index eda8456f1c92..45717548b396 100644
+--- a/drivers/usb/typec/altmodes/Makefile
++++ b/drivers/usb/typec/altmodes/Makefile
+@@ -2,3 +2,5 @@
  
- enum {
-@@ -155,7 +155,7 @@ static int dp_altmode_configured(struct dp_altmode *dp)
- 
- static int dp_altmode_configure_vdm(struct dp_altmode *dp, u32 conf)
- {
--	u32 header = DP_HEADER(DP_CMD_CONFIGURE);
-+	u32 header = DP_HEADER(dp, DP_CMD_CONFIGURE);
- 	int ret;
- 
- 	ret = typec_altmode_notify(dp->alt, TYPEC_STATE_SAFE, &dp->data);
-@@ -193,7 +193,7 @@ static void dp_altmode_work(struct work_struct *work)
- 			dev_err(&dp->alt->dev, "failed to enter mode\n");
- 		break;
- 	case DP_STATE_UPDATE:
--		header = DP_HEADER(DP_CMD_STATUS_UPDATE);
-+		header = DP_HEADER(dp, DP_CMD_STATUS_UPDATE);
- 		vdo = 1;
- 		ret = typec_altmode_vdm(dp->alt, header, &vdo, 2);
- 		if (ret)
-@@ -507,7 +507,7 @@ static const struct attribute_group dp_altmode_group = {
- 	.attrs = dp_altmode_attrs,
- };
- 
--static int dp_altmode_probe(struct typec_altmode *alt)
-+int dp_altmode_probe(struct typec_altmode *alt)
- {
- 	const struct typec_altmode *port = typec_altmode_get_partner(alt);
- 	struct dp_altmode *dp;
-@@ -545,14 +545,16 @@ static int dp_altmode_probe(struct typec_altmode *alt)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(dp_altmode_probe);
- 
--static void dp_altmode_remove(struct typec_altmode *alt)
-+void dp_altmode_remove(struct typec_altmode *alt)
- {
- 	struct dp_altmode *dp = typec_altmode_get_drvdata(alt);
- 
- 	sysfs_remove_group(&alt->dev.kobj, &dp_altmode_group);
- 	cancel_work_sync(&dp->work);
- }
-+EXPORT_SYMBOL_GPL(dp_altmode_remove);
- 
- static const struct typec_device_id dp_typec_id[] = {
- 	{ USB_TYPEC_DP_SID, USB_TYPEC_DP_MODE },
-diff --git a/drivers/usb/typec/altmodes/displayport.h b/drivers/usb/typec/altmodes/displayport.h
+ obj-$(CONFIG_TYPEC_DP_ALTMODE)		+= typec_displayport.o
+ typec_displayport-y			:= displayport.o
++obj-$(CONFIG_TYPEC_NVIDIA_ALTMODE)	+= typec_nvidia.o
++typec_nvidia-y				:= nvidia.o
+diff --git a/drivers/usb/typec/altmodes/nvidia.c b/drivers/usb/typec/altmodes/nvidia.c
 new file mode 100644
-index 000000000000..e120364da9fd
+index 000000000000..c36769736405
 --- /dev/null
-+++ b/drivers/usb/typec/altmodes/displayport.h
-@@ -0,0 +1,8 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#if IS_ENABLED(CONFIG_TYPEC_DP_ALTMODE)
-+int dp_altmode_probe(struct typec_altmode *alt);
-+void dp_altmode_remove(struct typec_altmode *alt);
-+#else
-+int dp_altmode_probe(struct typec_altmode *alt) { return -ENOTSUPP; }
-+void dp_altmode_remove(struct typec_altmode *alt) { }
-+#endif /* CONFIG_TYPEC_DP_ALTMODE */
++++ b/drivers/usb/typec/altmodes/nvidia.c
+@@ -0,0 +1,44 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2019 NVIDIA Corporation. All rights reserved.
++ *
++ * NVIDIA USB Type-C Alt Mode Driver
++ */
++#include <linux/module.h>
++#include <linux/usb/typec_altmode.h>
++#include <linux/usb/typec_dp.h>
++#include "displayport.h"
++
++static int nvidia_altmode_probe(struct typec_altmode *alt)
++{
++	if (alt->svid == USB_TYPEC_NVIDIA_VLINK_SID)
++		return dp_altmode_probe(alt);
++	else
++		return -ENOTSUPP;
++}
++
++static void nvidia_altmode_remove(struct typec_altmode *alt)
++{
++	if (alt->svid == USB_TYPEC_NVIDIA_VLINK_SID)
++		dp_altmode_remove(alt);
++}
++
++static const struct typec_device_id nvidia_typec_id[] = {
++	{ USB_TYPEC_NVIDIA_VLINK_SID, TYPEC_ANY_MODE },
++	{ },
++};
++MODULE_DEVICE_TABLE(typec, nvidia_typec_id);
++
++static struct typec_altmode_driver nvidia_altmode_driver = {
++	.id_table = nvidia_typec_id,
++	.probe = nvidia_altmode_probe,
++	.remove = nvidia_altmode_remove,
++	.driver = {
++		.name = "typec_nvidia",
++		.owner = THIS_MODULE,
++	},
++};
++module_typec_altmode_driver(nvidia_altmode_driver);
++
++MODULE_LICENSE("GPL v2");
++MODULE_DESCRIPTION("NVIDIA USB Type-C Alt Mode Driver");
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index 22fb956687de..999ae50d6e49 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -310,6 +310,7 @@ static int ucsi_register_altmode(struct ucsi_connector *con,
+ 
+ 		switch (desc->svid) {
+ 		case USB_TYPEC_DP_SID:
++		case USB_TYPEC_NVIDIA_VLINK_SID:
+ 			alt = ucsi_register_displayport(con, override, i, desc);
+ 			break;
+ 		default:
+@@ -428,7 +429,8 @@ static void ucsi_unregister_altmodes(struct ucsi_connector *con, u8 recipient)
+ 
+ 	while (adev[i]) {
+ 		if (recipient == UCSI_RECIPIENT_SOP &&
+-		    adev[i]->svid == USB_TYPEC_DP_SID) {
++		    (adev[i]->svid == USB_TYPEC_DP_SID ||
++			adev[i]->svid == USB_TYPEC_NVIDIA_VLINK_SID)) {
+ 			pdev = typec_altmode_get_partner(adev[i]);
+ 			ucsi_displayport_remove_partner((void *)pdev);
+ 		}
+diff --git a/include/linux/usb/typec_dp.h b/include/linux/usb/typec_dp.h
+index 7fa12ef8d09a..fc4c7edb2e8a 100644
+--- a/include/linux/usb/typec_dp.h
++++ b/include/linux/usb/typec_dp.h
+@@ -5,6 +5,11 @@
+ #include <linux/usb/typec_altmode.h>
+ 
+ #define USB_TYPEC_DP_SID	0xff01
++/* USB IF has not assigned a Standard ID (SID) for VirtualLink,
++ * so the manufacturers of VirtualLink adapters use their Vendor
++ * IDs as the SVID.
++ */
++#define USB_TYPEC_NVIDIA_VLINK_SID	0x955	/* NVIDIA VirtualLink */
+ #define USB_TYPEC_DP_MODE	1
+ 
+ /*
 -- 
 2.20.1
 
