@@ -6,33 +6,33 @@ X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB3EBC282DC
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:47:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70DE7C282DC
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:48:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 84EAF20835
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:47:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3251920835
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:48:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731790AbfDQLr7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Apr 2019 07:47:59 -0400
+        id S1731926AbfDQLsA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Apr 2019 07:48:00 -0400
 Received: from mga11.intel.com ([192.55.52.93]:21129 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729522AbfDQLr6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 17 Apr 2019 07:47:58 -0400
+        id S1729522AbfDQLsA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 17 Apr 2019 07:48:00 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Apr 2019 04:47:58 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Apr 2019 04:48:00 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.60,361,1549958400"; 
-   d="scan'208";a="165504295"
+   d="scan'208";a="165504307"
 Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 17 Apr 2019 04:47:56 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 17 Apr 2019 04:47:58 -0700
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Ajay Gupta <ajayg@nvidia.com>, linux-usb@vger.kernel.org
-Subject: [PATCH v3 3/7] usb: typec: ucsi: ccg: add firmware flashing support
-Date:   Wed, 17 Apr 2019 14:47:46 +0300
-Message-Id: <20190417114750.21420-4-heikki.krogerus@linux.intel.com>
+Subject: [PATCH v3 4/7] usb: typec: ucsi: Preliminary support for alternate modes
+Date:   Wed, 17 Apr 2019 14:47:47 +0300
+Message-Id: <20190417114750.21420-5-heikki.krogerus@linux.intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190417114750.21420-1-heikki.krogerus@linux.intel.com>
 References: <20190417114750.21420-1-heikki.krogerus@linux.intel.com>
@@ -43,960 +43,743 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190417114746.y6MWnYC9hq5IWJIaU4S1GQXDVkbwvZ95BZBLjk1TaGQ@z>
+Message-ID: <20190417114747.PUTyNIzvq10NMp3m5a6sO0d2sHo0tnLq0woHFYJ2Aj0@z>
 
-From: Ajay Gupta <ajayg@nvidia.com>
+With UCSI the alternate modes, just like everything else
+related to USB Type-C connectors, are handled in firmware.
+The operating system can see the status and is allowed to
+request certain things, for example entering and exiting the
+modes, but the support for alternate modes is very limited
+in UCSI. The feature is also optional, which means that even
+when the platform supports alternate modes, the operating
+system may not be even made aware of them.
 
-CCGx has two copies of the firmware in addition to the bootloader.
-If the device is running FW1, FW2 can be updated with the new version.
-Dual firmware mode allows the CCG device to stay in a PD contract and
-support USB PD and Type-C functionality while a firmware update is in
-progress.
+UCSI does not support direct VDM reading or writing.
+Instead, alternate modes can be entered and exited using a
+single custom command which takes also an optional SVID
+specific configuration value as parameter. That means every
+supported alternate mode has to be handled separately in
+UCSI driver.
 
-First we read the currently flashed firmware version of both
-primary and secondary firmware and then compare it with
-version of firmware file to determine if flashing is required.
+This commit does not include support for any specific
+alternate mode. The discovered alternate modes are now
+registered, but binding a driver to an alternate mode will
+not be possible until support for that alternate mode is
+added to the UCSI driver.
 
-Command framework is added to support sending commands to CCGx
-controller. We wait for response after sending the command and then
-read the response from RAB_RESPONSE register.
-
-Below commands are supported,
-	- ENTER_FLASHING
-	- RESET
-	- PDPORT_ENABLE
-	- JUMP_TO_BOOT
-	- FLASH_ROW_RW
-	- VALIDATE_FW
-
-Command specific mutex lock is also added to sync between driver
-and user threads.
-
-PD port number information is added which is required while sending
-PD_PORT_ENABLE command
-
-Signed-off-by: Ajay Gupta <ajayg@nvidia.com>
-[ heikki: Added ABI documentation. ]
+Tested-by: Ajay Gupta <ajayg@nvidia.com>
 Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
- .../ABI/testing/sysfs-driver-ucsi-ccg         |   6 +
- drivers/usb/typec/ucsi/ucsi_ccg.c             | 827 +++++++++++++++++-
- 2 files changed, 820 insertions(+), 13 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-driver-ucsi-ccg
+ drivers/usb/typec/ucsi/trace.c |  12 ++
+ drivers/usb/typec/ucsi/trace.h |  26 +++
+ drivers/usb/typec/ucsi/ucsi.c  | 358 +++++++++++++++++++++++++++------
+ drivers/usb/typec/ucsi/ucsi.h  |  72 +++++++
+ 4 files changed, 403 insertions(+), 65 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-driver-ucsi-ccg b/Documentation/ABI/testing/sysfs-driver-ucsi-ccg
-new file mode 100644
-index 000000000000..45cf62ad89e9
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-driver-ucsi-ccg
-@@ -0,0 +1,6 @@
-+What:		/sys/bus/i2c/drivers/ucsi_ccg/.../do_flash
-+Date:		May 2019
-+Contact:	Ajay Gupta <ajayg@nvidia.com>
-+Description:
-+		Tell the driver for Cypress CCGx Type-C controller to attempt
-+		firmware upgrade by writing [Yy1] to the file.
-diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-index 3884fb41c72e..4632b91a04a6 100644
---- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-+++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-@@ -9,6 +9,7 @@
-  */
- #include <linux/acpi.h>
- #include <linux/delay.h>
-+#include <linux/firmware.h>
- #include <linux/i2c.h>
+diff --git a/drivers/usb/typec/ucsi/trace.c b/drivers/usb/typec/ucsi/trace.c
+index ffa3b4c3f338..1dabafb74320 100644
+--- a/drivers/usb/typec/ucsi/trace.c
++++ b/drivers/usb/typec/ucsi/trace.c
+@@ -60,3 +60,15 @@ const char *ucsi_cci_str(u32 cci)
+ 
+ 	return "";
+ }
++
++static const char * const ucsi_recipient_strs[] = {
++	[UCSI_RECIPIENT_CON]		= "port",
++	[UCSI_RECIPIENT_SOP]		= "partner",
++	[UCSI_RECIPIENT_SOP_P]		= "plug (prime)",
++	[UCSI_RECIPIENT_SOP_PP]		= "plug (double prime)",
++};
++
++const char *ucsi_recipient_str(u8 recipient)
++{
++	return ucsi_recipient_strs[recipient];
++}
+diff --git a/drivers/usb/typec/ucsi/trace.h b/drivers/usb/typec/ucsi/trace.h
+index 5e2906df2db7..783ec9c72055 100644
+--- a/drivers/usb/typec/ucsi/trace.h
++++ b/drivers/usb/typec/ucsi/trace.h
+@@ -7,6 +7,7 @@
+ #define __UCSI_TRACE_H
+ 
+ #include <linux/tracepoint.h>
++#include <linux/usb/typec_altmode.h>
+ 
+ const char *ucsi_cmd_str(u64 raw_cmd);
+ const char *ucsi_ack_str(u8 ack);
+@@ -134,6 +135,31 @@ DEFINE_EVENT(ucsi_log_connector_status, ucsi_register_port,
+ 	TP_ARGS(port, status)
+ );
+ 
++DECLARE_EVENT_CLASS(ucsi_log_register_altmode,
++	TP_PROTO(u8 recipient, struct typec_altmode *alt),
++	TP_ARGS(recipient, alt),
++	TP_STRUCT__entry(
++		__field(u8, recipient)
++		__field(u16, svid)
++		__field(u8, mode)
++		__field(u32, vdo)
++	),
++	TP_fast_assign(
++		__entry->recipient = recipient;
++		__entry->svid = alt->svid;
++		__entry->mode = alt->mode;
++		__entry->vdo = alt->vdo;
++	),
++	TP_printk("%s alt mode: svid %04x, mode %d vdo %x",
++		  ucsi_recipient_str(__entry->recipient), __entry->svid,
++		  __entry->mode, __entry->vdo)
++);
++
++DEFINE_EVENT(ucsi_log_register_altmode, ucsi_register_altmode,
++	TP_PROTO(u8 recipient, struct typec_altmode *alt),
++	TP_ARGS(recipient, alt)
++);
++
+ #endif /* __UCSI_TRACE_H */
+ 
+ /* This part must be outside protection */
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index 8d0a6fe748bd..585ab04be940 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -12,7 +12,7 @@
  #include <linux/module.h>
- #include <linux/pci.h>
-@@ -24,6 +25,73 @@ enum enum_fw_mode {
- 	FW_INVALID,
+ #include <linux/delay.h>
+ #include <linux/slab.h>
+-#include <linux/usb/typec.h>
++#include <linux/usb/typec_altmode.h>
+ 
+ #include "ucsi.h"
+ #include "trace.h"
+@@ -45,22 +45,6 @@ enum ucsi_status {
+ 	UCSI_ERROR,
  };
  
-+#define CCGX_RAB_DEVICE_MODE			0x0000
-+#define CCGX_RAB_INTR_REG			0x0006
-+#define  DEV_INT				BIT(0)
-+#define  PORT0_INT				BIT(1)
-+#define  PORT1_INT				BIT(2)
-+#define  UCSI_READ_INT				BIT(7)
-+#define CCGX_RAB_JUMP_TO_BOOT			0x0007
-+#define  TO_BOOT				'J'
-+#define  TO_ALT_FW				'A'
-+#define CCGX_RAB_RESET_REQ			0x0008
-+#define  RESET_SIG				'R'
-+#define  CMD_RESET_I2C				0x0
-+#define  CMD_RESET_DEV				0x1
-+#define CCGX_RAB_ENTER_FLASHING			0x000A
-+#define  FLASH_ENTER_SIG			'P'
-+#define CCGX_RAB_VALIDATE_FW			0x000B
-+#define CCGX_RAB_FLASH_ROW_RW			0x000C
-+#define  FLASH_SIG				'F'
-+#define  FLASH_RD_CMD				0x0
-+#define  FLASH_WR_CMD				0x1
-+#define  FLASH_FWCT1_WR_CMD			0x2
-+#define  FLASH_FWCT2_WR_CMD			0x3
-+#define  FLASH_FWCT_SIG_WR_CMD			0x4
-+#define CCGX_RAB_READ_ALL_VER			0x0010
-+#define CCGX_RAB_READ_FW2_VER			0x0020
-+#define CCGX_RAB_UCSI_CONTROL			0x0039
-+#define CCGX_RAB_UCSI_CONTROL_START		BIT(0)
-+#define CCGX_RAB_UCSI_CONTROL_STOP		BIT(1)
-+#define CCGX_RAB_UCSI_DATA_BLOCK(offset)	(0xf000 | ((offset) & 0xff))
-+#define REG_FLASH_RW_MEM        0x0200
-+#define DEV_REG_IDX				CCGX_RAB_DEVICE_MODE
-+#define CCGX_RAB_PDPORT_ENABLE			0x002C
-+#define  PDPORT_1		BIT(0)
-+#define  PDPORT_2		BIT(1)
-+#define CCGX_RAB_RESPONSE			0x007E
-+#define  ASYNC_EVENT				BIT(7)
-+
-+/* CCGx events & async msg codes */
-+#define RESET_COMPLETE		0x80
-+#define EVENT_INDEX		RESET_COMPLETE
-+#define PORT_CONNECT_DET	0x84
-+#define PORT_DISCONNECT_DET	0x85
-+#define ROLE_SWAP_COMPELETE	0x87
-+
-+/* ccg firmware */
-+#define CYACD_LINE_SIZE         527
-+#define CCG4_ROW_SIZE           256
-+#define FW1_METADATA_ROW        0x1FF
-+#define FW2_METADATA_ROW        0x1FE
-+#define FW_CFG_TABLE_SIG_SIZE	256
-+
-+static int secondary_fw_min_ver = 41;
-+
-+enum enum_flash_mode {
-+	SECONDARY_BL,	/* update secondary using bootloader */
-+	PRIMARY,	/* update primary using secondary */
-+	SECONDARY,	/* update secondary using primary */
-+	FLASH_NOT_NEEDED,	/* update not required */
-+	FLASH_INVALID,
-+};
-+
-+static const char * const ccg_fw_names[] = {
-+	"ccg_boot.cyacd",
-+	"ccg_primary.cyacd",
-+	"ccg_secondary.cyacd"
-+};
-+
- struct ccg_dev_info {
- #define CCG_DEVINFO_FWMODE_SHIFT (0)
- #define CCG_DEVINFO_FWMODE_MASK (0x3 << CCG_DEVINFO_FWMODE_SHIFT)
-@@ -50,6 +118,50 @@ struct version_info {
- 	struct version_format app;
- };
- 
-+struct fw_config_table {
-+	u32 identity;
-+	u16 table_size;
-+	u8 fwct_version;
-+	u8 is_key_change;
-+	u8 guid[16];
-+	struct version_format base;
-+	struct version_format app;
-+	u8 primary_fw_digest[32];
-+	u32 key_exp_length;
-+	u8 key_modulus[256];
-+	u8 key_exp[4];
-+};
-+
-+/* CCGx response codes */
-+enum ccg_resp_code {
-+	CMD_NO_RESP             = 0x00,
-+	CMD_SUCCESS             = 0x02,
-+	FLASH_DATA_AVAILABLE    = 0x03,
-+	CMD_INVALID             = 0x05,
-+	FLASH_UPDATE_FAIL       = 0x07,
-+	INVALID_FW              = 0x08,
-+	INVALID_ARG             = 0x09,
-+	CMD_NOT_SUPPORT         = 0x0A,
-+	TRANSACTION_FAIL        = 0x0C,
-+	PD_CMD_FAIL             = 0x0D,
-+	UNDEF_ERROR             = 0x0F,
-+	INVALID_RESP		= 0x10,
-+};
-+
-+#define CCG_EVENT_MAX	(EVENT_INDEX + 43)
-+
-+struct ccg_cmd {
-+	u16 reg;
-+	u32 data;
-+	int len;
-+	u32 delay; /* ms delay for cmd timeout  */
-+};
-+
-+struct ccg_resp {
-+	u8 code;
-+	u8 length;
-+};
-+
- struct ucsi_ccg {
- 	struct device *dev;
- 	struct ucsi *ucsi;
-@@ -58,16 +170,20 @@ struct ucsi_ccg {
- 	struct ccg_dev_info info;
- 	/* version info for boot, primary and secondary */
- 	struct version_info version[FW2 + 1];
+-struct ucsi_connector {
+-	int num;
+-
+-	struct ucsi *ucsi;
+-	struct work_struct work;
+-	struct completion complete;
+-
+-	struct typec_port *port;
+-	struct typec_partner *partner;
+-
+-	struct typec_capability typec_cap;
+-
+-	struct ucsi_connector_status status;
+-	struct ucsi_connector_capability cap;
 -};
-+	/* CCG HPI communication flags */
-+	unsigned long flags;
-+#define RESET_PENDING	0
-+#define DEV_CMD_PENDING	1
-+	struct ccg_resp dev_resp;
-+	u8 cmd_resp;
-+	int port_num;
-+	int irq;
-+	struct work_struct work;
-+	struct mutex lock; /* to sync between user and driver thread */
- 
--#define CCGX_RAB_DEVICE_MODE			0x0000
--#define CCGX_RAB_INTR_REG			0x0006
--#define CCGX_RAB_READ_ALL_VER			0x0010
--#define CCGX_RAB_READ_FW2_VER			0x0020
--#define CCGX_RAB_UCSI_CONTROL			0x0039
--#define CCGX_RAB_UCSI_CONTROL_START		BIT(0)
--#define CCGX_RAB_UCSI_CONTROL_STOP		BIT(1)
--#define CCGX_RAB_UCSI_DATA_BLOCK(offset)	(0xf000 | ((offset) & 0xff))
-+	/* fw build with vendor information */
-+	u16 fw_build;
-+};
- 
- static int ccg_read(struct ucsi_ccg *uc, u16 rab, u8 *data, u32 len)
- {
-@@ -276,6 +392,669 @@ static int get_fw_info(struct ucsi_ccg *uc)
- 	return 0;
+-
+ struct ucsi {
+ 	struct device *dev;
+ 	struct ucsi_ppm *ppm;
+@@ -238,8 +222,204 @@ static int ucsi_run_command(struct ucsi *ucsi, struct ucsi_control *ctrl,
+ 	return ret;
  }
  
-+static inline bool invalid_async_evt(int code)
++int ucsi_send_command(struct ucsi *ucsi, struct ucsi_control *ctrl,
++		      void *retval, size_t size)
 +{
-+	return (code >= CCG_EVENT_MAX) || (code < EVENT_INDEX);
-+}
-+
-+static void ccg_process_response(struct ucsi_ccg *uc)
-+{
-+	struct device *dev = uc->dev;
-+
-+	if (uc->dev_resp.code & ASYNC_EVENT) {
-+		if (uc->dev_resp.code == RESET_COMPLETE) {
-+			if (test_bit(RESET_PENDING, &uc->flags))
-+				uc->cmd_resp = uc->dev_resp.code;
-+			get_fw_info(uc);
-+		}
-+		if (invalid_async_evt(uc->dev_resp.code))
-+			dev_err(dev, "invalid async evt %d\n",
-+				uc->dev_resp.code);
-+	} else {
-+		if (test_bit(DEV_CMD_PENDING, &uc->flags)) {
-+			uc->cmd_resp = uc->dev_resp.code;
-+			clear_bit(DEV_CMD_PENDING, &uc->flags);
-+		} else {
-+			dev_err(dev, "dev resp 0x%04x but no cmd pending\n",
-+				uc->dev_resp.code);
-+		}
-+	}
-+}
-+
-+static int ccg_read_response(struct ucsi_ccg *uc)
-+{
-+	unsigned long target = jiffies + msecs_to_jiffies(1000);
-+	struct device *dev = uc->dev;
-+	u8 intval;
-+	int status;
-+
-+	/* wait for interrupt status to get updated */
-+	do {
-+		status = ccg_read(uc, CCGX_RAB_INTR_REG, &intval,
-+				  sizeof(intval));
-+		if (status < 0)
-+			return status;
-+
-+		if (intval & DEV_INT)
-+			break;
-+		usleep_range(500, 600);
-+	} while (time_is_after_jiffies(target));
-+
-+	if (time_is_before_jiffies(target)) {
-+		dev_err(dev, "response timeout error\n");
-+		return -ETIME;
-+	}
-+
-+	status = ccg_read(uc, CCGX_RAB_RESPONSE, (u8 *)&uc->dev_resp,
-+			  sizeof(uc->dev_resp));
-+	if (status < 0)
-+		return status;
-+
-+	status = ccg_write(uc, CCGX_RAB_INTR_REG, &intval, sizeof(intval));
-+	if (status < 0)
-+		return status;
-+
-+	return 0;
-+}
-+
-+/* Caller must hold uc->lock */
-+static int ccg_send_command(struct ucsi_ccg *uc, struct ccg_cmd *cmd)
-+{
-+	struct device *dev = uc->dev;
 +	int ret;
 +
-+	switch (cmd->reg & 0xF000) {
-+	case DEV_REG_IDX:
-+		set_bit(DEV_CMD_PENDING, &uc->flags);
++	mutex_lock(&ucsi->ppm_lock);
++	ret = ucsi_run_command(ucsi, ctrl, retval, size);
++	mutex_unlock(&ucsi->ppm_lock);
++
++	return ret;
++}
++
+ /* -------------------------------------------------------------------------- */
+ 
++void ucsi_altmode_update_active(struct ucsi_connector *con)
++{
++	const struct typec_altmode *altmode = NULL;
++	struct ucsi_control ctrl;
++	int ret;
++	u8 cur;
++	int i;
++
++	UCSI_CMD_GET_CURRENT_CAM(ctrl, con->num);
++	ret = ucsi_run_command(con->ucsi, &ctrl, &cur, sizeof(cur));
++	if (ret < 0) {
++		if (con->ucsi->ppm->data->version > 0x0100) {
++			dev_err(con->ucsi->dev,
++				"GET_CURRENT_CAM command failed\n");
++			return;
++		}
++		cur = 0xff;
++	}
++
++	if (cur < UCSI_MAX_ALTMODES)
++		altmode = typec_altmode_get_partner(con->port_altmode[cur]);
++
++	for (i = 0; con->partner_altmode[i]; i++)
++		typec_altmode_update_active(con->partner_altmode[i],
++					    con->partner_altmode[i] == altmode);
++}
++
++static u8 ucsi_altmode_next_mode(struct typec_altmode **alt, u16 svid)
++{
++	u8 mode = 1;
++	int i;
++
++	for (i = 0; alt[i]; i++)
++		if (alt[i]->svid == svid)
++			mode++;
++
++	return mode;
++}
++
++static int ucsi_next_altmode(struct typec_altmode **alt)
++{
++	int i = 0;
++
++	for (i = 0; i < UCSI_MAX_ALTMODES; i++)
++		if (!alt[i])
++			return i;
++
++	return -ENOENT;
++}
++
++static int ucsi_register_altmode(struct ucsi_connector *con,
++				 struct typec_altmode_desc *desc,
++				 u8 recipient)
++{
++	struct typec_altmode *alt;
++	int ret;
++	int i;
++
++	switch (recipient) {
++	case UCSI_RECIPIENT_CON:
++		i = ucsi_next_altmode(con->port_altmode);
++		if (i < 0) {
++			ret = i;
++			goto err;
++		}
++
++		desc->mode = ucsi_altmode_next_mode(con->port_altmode,
++						    desc->svid);
++
++		alt = typec_port_register_altmode(con->port, desc);
++		if (IS_ERR(alt)) {
++			ret = PTR_ERR(alt);
++			goto err;
++		}
++
++		con->port_altmode[i] = alt;
++		break;
++	case UCSI_RECIPIENT_SOP:
++		i = ucsi_next_altmode(con->partner_altmode);
++		if (i < 0) {
++			ret = i;
++			goto err;
++		}
++
++		desc->mode = ucsi_altmode_next_mode(con->partner_altmode,
++						    desc->svid);
++
++		alt = typec_partner_register_altmode(con->partner, desc);
++		if (IS_ERR(alt)) {
++			ret = PTR_ERR(alt);
++			goto err;
++		}
++
++		con->partner_altmode[i] = alt;
 +		break;
 +	default:
-+		dev_err(dev, "invalid cmd register\n");
++		return -EINVAL;
++	}
++
++	trace_ucsi_register_altmode(recipient, alt);
++
++	return 0;
++
++err:
++	dev_err(con->ucsi->dev, "failed to registers svid 0x%04x mode %d\n",
++		desc->svid, desc->mode);
++
++	return ret;
++}
++
++static int ucsi_register_altmodes(struct ucsi_connector *con, u8 recipient)
++{
++	int max_altmodes = UCSI_MAX_ALTMODES;
++	struct typec_altmode_desc desc;
++	struct ucsi_altmode alt[2];
++	struct ucsi_control ctrl;
++	int num = 1;
++	int ret;
++	int len;
++	int j;
++	int i;
++
++	if (!(con->ucsi->cap.features & UCSI_CAP_ALT_MODE_DETAILS))
++		return 0;
++
++	if (recipient == UCSI_RECIPIENT_CON)
++		max_altmodes = con->ucsi->cap.num_alt_modes;
++
++	for (i = 0; i < max_altmodes;) {
++		memset(alt, 0, sizeof(alt));
++		UCSI_CMD_GET_ALTERNATE_MODES(ctrl, recipient, con->num, i, 1);
++		len = ucsi_run_command(con->ucsi, &ctrl, alt, sizeof(alt));
++		if (len <= 0)
++			return len;
++
++		/*
++		 * This code is requesting one alt mode at a time, but some PPMs
++		 * may still return two. If that happens both alt modes need be
++		 * registered and the offset for the next alt mode has to be
++		 * incremented.
++		 */
++		num = len / sizeof(alt[0]);
++		i += num;
++
++		for (j = 0; j < num; j++) {
++			if (!alt[j].svid)
++				return 0;
++
++			memset(&desc, 0, sizeof(desc));
++			desc.vdo = alt[j].mid;
++			desc.svid = alt[j].svid;
++			desc.roles = TYPEC_PORT_DRD;
++
++			ret = ucsi_register_altmode(con, &desc, recipient);
++			if (ret)
++				return ret;
++		}
++	}
++
++	return 0;
++}
++
++static void ucsi_unregister_altmodes(struct ucsi_connector *con, u8 recipient)
++{
++	struct typec_altmode **adev;
++	int i = 0;
++
++	switch (recipient) {
++	case UCSI_RECIPIENT_CON:
++		adev = con->port_altmode;
++		break;
++	case UCSI_RECIPIENT_SOP:
++		adev = con->partner_altmode;
++		break;
++	default:
++		return;
++	}
++
++	while (adev[i]) {
++		typec_unregister_altmode(adev[i]);
++		adev[i++] = NULL;
++	}
++}
++
+ static void ucsi_pwr_opmode_change(struct ucsi_connector *con)
+ {
+ 	switch (con->status.pwr_op_mode) {
+@@ -299,10 +479,46 @@ static void ucsi_unregister_partner(struct ucsi_connector *con)
+ 	if (!con->partner)
+ 		return;
+ 
++	ucsi_unregister_altmodes(con, UCSI_RECIPIENT_SOP);
+ 	typec_unregister_partner(con->partner);
+ 	con->partner = NULL;
+ }
+ 
++static void ucsi_partner_change(struct ucsi_connector *con)
++{
++	int ret;
++
++	if (!con->partner)
++		return;
++
++	switch (con->status.partner_type) {
++	case UCSI_CONSTAT_PARTNER_TYPE_UFP:
++		typec_set_data_role(con->port, TYPEC_HOST);
++		break;
++	case UCSI_CONSTAT_PARTNER_TYPE_DFP:
++		typec_set_data_role(con->port, TYPEC_DEVICE);
++		break;
++	default:
 +		break;
 +	}
 +
-+	ret = ccg_write(uc, cmd->reg, (u8 *)&cmd->data, cmd->len);
-+	if (ret < 0)
-+		return ret;
-+
-+	msleep(cmd->delay);
-+
-+	ret = ccg_read_response(uc);
-+	if (ret < 0) {
-+		dev_err(dev, "response read error\n");
-+		switch (cmd->reg & 0xF000) {
-+		case DEV_REG_IDX:
-+			clear_bit(DEV_CMD_PENDING, &uc->flags);
-+			break;
-+		default:
-+			dev_err(dev, "invalid cmd register\n");
-+			break;
-+		}
-+		return -EIO;
-+	}
-+	ccg_process_response(uc);
-+
-+	return uc->cmd_resp;
-+}
-+
-+static int ccg_cmd_enter_flashing(struct ucsi_ccg *uc)
-+{
-+	struct ccg_cmd cmd;
-+	int ret;
-+
-+	cmd.reg = CCGX_RAB_ENTER_FLASHING;
-+	cmd.data = FLASH_ENTER_SIG;
-+	cmd.len = 1;
-+	cmd.delay = 50;
-+
-+	mutex_lock(&uc->lock);
-+
-+	ret = ccg_send_command(uc, &cmd);
-+
-+	mutex_unlock(&uc->lock);
-+
-+	if (ret != CMD_SUCCESS) {
-+		dev_err(uc->dev, "enter flashing failed ret=%d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int ccg_cmd_reset(struct ucsi_ccg *uc)
-+{
-+	struct ccg_cmd cmd;
-+	u8 *p;
-+	int ret;
-+
-+	p = (u8 *)&cmd.data;
-+	cmd.reg = CCGX_RAB_RESET_REQ;
-+	p[0] = RESET_SIG;
-+	p[1] = CMD_RESET_DEV;
-+	cmd.len = 2;
-+	cmd.delay = 5000;
-+
-+	mutex_lock(&uc->lock);
-+
-+	set_bit(RESET_PENDING, &uc->flags);
-+
-+	ret = ccg_send_command(uc, &cmd);
-+	if (ret != RESET_COMPLETE)
-+		goto err_clear_flag;
-+
-+	ret = 0;
-+
-+err_clear_flag:
-+	clear_bit(RESET_PENDING, &uc->flags);
-+
-+	mutex_unlock(&uc->lock);
-+
-+	return ret;
-+}
-+
-+static int ccg_cmd_port_control(struct ucsi_ccg *uc, bool enable)
-+{
-+	struct ccg_cmd cmd;
-+	int ret;
-+
-+	cmd.reg = CCGX_RAB_PDPORT_ENABLE;
-+	if (enable)
-+		cmd.data = (uc->port_num == 1) ?
-+			    PDPORT_1 : (PDPORT_1 | PDPORT_2);
-+	else
-+		cmd.data = 0x0;
-+	cmd.len = 1;
-+	cmd.delay = 10;
-+
-+	mutex_lock(&uc->lock);
-+
-+	ret = ccg_send_command(uc, &cmd);
-+
-+	mutex_unlock(&uc->lock);
-+
-+	if (ret != CMD_SUCCESS) {
-+		dev_err(uc->dev, "port control failed ret=%d\n", ret);
-+		return ret;
-+	}
-+	return 0;
-+}
-+
-+static int ccg_cmd_jump_boot_mode(struct ucsi_ccg *uc, int bl_mode)
-+{
-+	struct ccg_cmd cmd;
-+	int ret;
-+
-+	cmd.reg = CCGX_RAB_JUMP_TO_BOOT;
-+
-+	if (bl_mode)
-+		cmd.data = TO_BOOT;
-+	else
-+		cmd.data = TO_ALT_FW;
-+
-+	cmd.len = 1;
-+	cmd.delay = 100;
-+
-+	mutex_lock(&uc->lock);
-+
-+	set_bit(RESET_PENDING, &uc->flags);
-+
-+	ret = ccg_send_command(uc, &cmd);
-+	if (ret != RESET_COMPLETE)
-+		goto err_clear_flag;
-+
-+	ret = 0;
-+
-+err_clear_flag:
-+	clear_bit(RESET_PENDING, &uc->flags);
-+
-+	mutex_unlock(&uc->lock);
-+
-+	return ret;
-+}
-+
-+static int
-+ccg_cmd_write_flash_row(struct ucsi_ccg *uc, u16 row,
-+			const void *data, u8 fcmd)
-+{
-+	struct i2c_client *client = uc->client;
-+	struct ccg_cmd cmd;
-+	u8 buf[CCG4_ROW_SIZE + 2];
-+	u8 *p;
-+	int ret;
-+
-+	/* Copy the data into the flash read/write memory. */
-+	put_unaligned_le16(REG_FLASH_RW_MEM, buf);
-+
-+	memcpy(buf + 2, data, CCG4_ROW_SIZE);
-+
-+	mutex_lock(&uc->lock);
-+
-+	ret = i2c_master_send(client, buf, CCG4_ROW_SIZE + 2);
-+	if (ret != CCG4_ROW_SIZE + 2) {
-+		dev_err(uc->dev, "REG_FLASH_RW_MEM write fail %d\n", ret);
-+		return ret < 0 ? ret : -EIO;
-+	}
-+
-+	/* Use the FLASH_ROW_READ_WRITE register to trigger */
-+	/* writing of data to the desired flash row */
-+	p = (u8 *)&cmd.data;
-+	cmd.reg = CCGX_RAB_FLASH_ROW_RW;
-+	p[0] = FLASH_SIG;
-+	p[1] = fcmd;
-+	put_unaligned_le16(row, &p[2]);
-+	cmd.len = 4;
-+	cmd.delay = 50;
-+	if (fcmd == FLASH_FWCT_SIG_WR_CMD)
-+		cmd.delay += 400;
-+	if (row == 510)
-+		cmd.delay += 220;
-+	ret = ccg_send_command(uc, &cmd);
-+
-+	mutex_unlock(&uc->lock);
-+
-+	if (ret != CMD_SUCCESS) {
-+		dev_err(uc->dev, "write flash row failed ret=%d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int ccg_cmd_validate_fw(struct ucsi_ccg *uc, unsigned int fwid)
-+{
-+	struct ccg_cmd cmd;
-+	int ret;
-+
-+	cmd.reg = CCGX_RAB_VALIDATE_FW;
-+	cmd.data = fwid;
-+	cmd.len = 1;
-+	cmd.delay = 500;
-+
-+	mutex_lock(&uc->lock);
-+
-+	ret = ccg_send_command(uc, &cmd);
-+
-+	mutex_unlock(&uc->lock);
-+
-+	if (ret != CMD_SUCCESS)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static bool ccg_check_vendor_version(struct ucsi_ccg *uc,
-+				     struct version_format *app,
-+				     struct fw_config_table *fw_cfg)
-+{
-+	struct device *dev = uc->dev;
-+
-+	/* Check if the fw build is for supported vendors */
-+	if (le16_to_cpu(app->build) != uc->fw_build) {
-+		dev_info(dev, "current fw is not from supported vendor\n");
-+		return false;
-+	}
-+
-+	/* Check if the new fw build is for supported vendors */
-+	if (le16_to_cpu(fw_cfg->app.build) != uc->fw_build) {
-+		dev_info(dev, "new fw is not from supported vendor\n");
-+		return false;
-+	}
-+	return true;
-+}
-+
-+static bool ccg_check_fw_version(struct ucsi_ccg *uc, const char *fw_name,
-+				 struct version_format *app)
-+{
-+	const struct firmware *fw = NULL;
-+	struct device *dev = uc->dev;
-+	struct fw_config_table fw_cfg;
-+	u32 cur_version, new_version;
-+	bool is_later = false;
-+
-+	if (request_firmware(&fw, fw_name, dev) != 0) {
-+		dev_err(dev, "error: Failed to open cyacd file %s\n", fw_name);
-+		return false;
-+	}
-+
-+	/*
-+	 * check if signed fw
-+	 * last part of fw image is fw cfg table and signature
-+	 */
-+	if (fw->size < sizeof(fw_cfg) + FW_CFG_TABLE_SIG_SIZE)
-+		goto out_release_firmware;
-+
-+	memcpy((uint8_t *)&fw_cfg, fw->data + fw->size -
-+	       sizeof(fw_cfg) - FW_CFG_TABLE_SIG_SIZE, sizeof(fw_cfg));
-+
-+	if (fw_cfg.identity != ('F' | 'W' << 8 | 'C' << 16 | 'T' << 24)) {
-+		dev_info(dev, "not a signed image\n");
-+		goto out_release_firmware;
-+	}
-+
-+	/* compare input version with FWCT version */
-+	cur_version = le16_to_cpu(app->build) | app->patch << 16 |
-+			app->ver << 24;
-+
-+	new_version = le16_to_cpu(fw_cfg.app.build) | fw_cfg.app.patch << 16 |
-+			fw_cfg.app.ver << 24;
-+
-+	if (!ccg_check_vendor_version(uc, app, &fw_cfg))
-+		goto out_release_firmware;
-+
-+	if (new_version > cur_version)
-+		is_later = true;
-+
-+out_release_firmware:
-+	release_firmware(fw);
-+	return is_later;
-+}
-+
-+static int ccg_fw_update_needed(struct ucsi_ccg *uc,
-+				enum enum_flash_mode *mode)
-+{
-+	struct device *dev = uc->dev;
-+	int err;
-+	struct version_info version[3];
-+
-+	err = ccg_read(uc, CCGX_RAB_DEVICE_MODE, (u8 *)(&uc->info),
-+		       sizeof(uc->info));
-+	if (err) {
-+		dev_err(dev, "read device mode failed\n");
-+		return err;
-+	}
-+
-+	err = ccg_read(uc, CCGX_RAB_READ_ALL_VER, (u8 *)version,
-+		       sizeof(version));
-+	if (err) {
-+		dev_err(dev, "read device mode failed\n");
-+		return err;
-+	}
-+
-+	if (memcmp(&version[FW1], "\0\0\0\0\0\0\0\0",
-+		   sizeof(struct version_info)) == 0) {
-+		dev_info(dev, "secondary fw is not flashed\n");
-+		*mode = SECONDARY_BL;
-+	} else if (le16_to_cpu(version[FW1].base.build) <
-+		secondary_fw_min_ver) {
-+		dev_info(dev, "secondary fw version is too low (< %d)\n",
-+			 secondary_fw_min_ver);
-+		*mode = SECONDARY;
-+	} else if (memcmp(&version[FW2], "\0\0\0\0\0\0\0\0",
-+		   sizeof(struct version_info)) == 0) {
-+		dev_info(dev, "primary fw is not flashed\n");
-+		*mode = PRIMARY;
-+	} else if (ccg_check_fw_version(uc, ccg_fw_names[PRIMARY],
-+		   &version[FW2].app)) {
-+		dev_info(dev, "found primary fw with later version\n");
-+		*mode = PRIMARY;
-+	} else {
-+		dev_info(dev, "secondary and primary fw are the latest\n");
-+		*mode = FLASH_NOT_NEEDED;
-+	}
-+	return 0;
-+}
-+
-+static int do_flash(struct ucsi_ccg *uc, enum enum_flash_mode mode)
-+{
-+	struct device *dev = uc->dev;
-+	const struct firmware *fw = NULL;
-+	const char *p, *s;
-+	const char *eof;
-+	int err, row, len, line_sz, line_cnt = 0;
-+	unsigned long start_time = jiffies;
-+	struct fw_config_table  fw_cfg;
-+	u8 fw_cfg_sig[FW_CFG_TABLE_SIG_SIZE];
-+	u8 *wr_buf;
-+
-+	err = request_firmware(&fw, ccg_fw_names[mode], dev);
-+	if (err) {
-+		dev_err(dev, "request %s failed err=%d\n",
-+			ccg_fw_names[mode], err);
-+		return err;
-+	}
-+
-+	if (((uc->info.mode & CCG_DEVINFO_FWMODE_MASK) >>
-+			CCG_DEVINFO_FWMODE_SHIFT) == FW2) {
-+		err = ccg_cmd_port_control(uc, false);
-+		if (err < 0)
-+			goto release_fw;
-+		err = ccg_cmd_jump_boot_mode(uc, 0);
-+		if (err < 0)
-+			goto release_fw;
-+	}
-+
-+	eof = fw->data + fw->size;
-+
-+	/*
-+	 * check if signed fw
-+	 * last part of fw image is fw cfg table and signature
-+	 */
-+	if (fw->size < sizeof(fw_cfg) + sizeof(fw_cfg_sig))
-+		goto not_signed_fw;
-+
-+	memcpy((uint8_t *)&fw_cfg, fw->data + fw->size -
-+	       sizeof(fw_cfg) - sizeof(fw_cfg_sig), sizeof(fw_cfg));
-+
-+	if (fw_cfg.identity != ('F' | ('W' << 8) | ('C' << 16) | ('T' << 24))) {
-+		dev_info(dev, "not a signed image\n");
-+		goto not_signed_fw;
-+	}
-+	eof = fw->data + fw->size - sizeof(fw_cfg) - sizeof(fw_cfg_sig);
-+
-+	memcpy((uint8_t *)&fw_cfg_sig,
-+	       fw->data + fw->size - sizeof(fw_cfg_sig), sizeof(fw_cfg_sig));
-+
-+	/* flash fw config table and signature first */
-+	err = ccg_cmd_write_flash_row(uc, 0, (u8 *)&fw_cfg,
-+				      FLASH_FWCT1_WR_CMD);
-+	if (err)
-+		goto release_fw;
-+
-+	err = ccg_cmd_write_flash_row(uc, 0, (u8 *)&fw_cfg + CCG4_ROW_SIZE,
-+				      FLASH_FWCT2_WR_CMD);
-+	if (err)
-+		goto release_fw;
-+
-+	err = ccg_cmd_write_flash_row(uc, 0, &fw_cfg_sig,
-+				      FLASH_FWCT_SIG_WR_CMD);
-+	if (err)
-+		goto release_fw;
-+
-+not_signed_fw:
-+	wr_buf = kzalloc(CCG4_ROW_SIZE + 4, GFP_KERNEL);
-+	if (!wr_buf)
-+		return -ENOMEM;
-+
-+	err = ccg_cmd_enter_flashing(uc);
-+	if (err)
-+		goto release_mem;
-+
-+	/*****************************************************************
-+	 * CCG firmware image (.cyacd) file line format
-+	 *
-+	 * :00rrrrllll[dd....]cc/r/n
-+	 *
-+	 * :00   header
-+	 * rrrr is row number to flash				(4 char)
-+	 * llll is data len to flash				(4 char)
-+	 * dd   is a data field represents one byte of data	(512 char)
-+	 * cc   is checksum					(2 char)
-+	 * \r\n newline
-+	 *
-+	 * Total length: 3 + 4 + 4 + 512 + 2 + 2 = 527
-+	 *
-+	 *****************************************************************/
-+
-+	p = strnchr(fw->data, fw->size, ':');
-+	while (p < eof) {
-+		s = strnchr(p + 1, eof - p - 1, ':');
-+
-+		if (!s)
-+			s = eof;
-+
-+		line_sz = s - p;
-+
-+		if (line_sz != CYACD_LINE_SIZE) {
-+			dev_err(dev, "Bad FW format line_sz=%d\n", line_sz);
-+			err =  -EINVAL;
-+			goto release_mem;
-+		}
-+
-+		if (hex2bin(wr_buf, p + 3, CCG4_ROW_SIZE + 4)) {
-+			err =  -EINVAL;
-+			goto release_mem;
-+		}
-+
-+		row = get_unaligned_be16(wr_buf);
-+		len = get_unaligned_be16(&wr_buf[2]);
-+
-+		if (len != CCG4_ROW_SIZE) {
-+			err =  -EINVAL;
-+			goto release_mem;
-+		}
-+
-+		err = ccg_cmd_write_flash_row(uc, row, wr_buf + 4,
-+					      FLASH_WR_CMD);
-+		if (err)
-+			goto release_mem;
-+
-+		line_cnt++;
-+		p = s;
-+	}
-+
-+	dev_info(dev, "total %d row flashed. time: %dms\n",
-+		 line_cnt, jiffies_to_msecs(jiffies - start_time));
-+
-+	err = ccg_cmd_validate_fw(uc, (mode == PRIMARY) ? FW2 :  FW1);
-+	if (err)
-+		dev_err(dev, "%s validation failed err=%d\n",
-+			(mode == PRIMARY) ? "FW2" :  "FW1", err);
-+	else
-+		dev_info(dev, "%s validated\n",
-+			 (mode == PRIMARY) ? "FW2" :  "FW1");
-+
-+	err = ccg_cmd_port_control(uc, false);
-+	if (err < 0)
-+		goto release_mem;
-+
-+	err = ccg_cmd_reset(uc);
-+	if (err < 0)
-+		goto release_mem;
-+
-+	err = ccg_cmd_port_control(uc, true);
-+	if (err < 0)
-+		goto release_mem;
-+
-+release_mem:
-+	kfree(wr_buf);
-+
-+release_fw:
-+	release_firmware(fw);
-+	return err;
-+}
-+
-+/*******************************************************************************
-+ * CCG4 has two copies of the firmware in addition to the bootloader.
-+ * If the device is running FW1, FW2 can be updated with the new version.
-+ * Dual firmware mode allows the CCG device to stay in a PD contract and support
-+ * USB PD and Type-C functionality while a firmware update is in progress.
-+ ******************************************************************************/
-+static int ccg_fw_update(struct ucsi_ccg *uc, enum enum_flash_mode flash_mode)
-+{
-+	int err;
-+
-+	while (flash_mode != FLASH_NOT_NEEDED) {
-+		err = do_flash(uc, flash_mode);
-+		if (err < 0)
-+			return err;
-+		err = ccg_fw_update_needed(uc, &flash_mode);
-+		if (err < 0)
-+			return err;
-+	}
-+	dev_info(uc->dev, "CCG FW update successful\n");
-+
-+	return err;
-+}
-+
-+static int ccg_restart(struct ucsi_ccg *uc)
-+{
-+	struct device *dev = uc->dev;
-+	int status;
-+
-+	status = ucsi_ccg_init(uc);
-+	if (status < 0) {
-+		dev_err(dev, "ucsi_ccg_start fail, err=%d\n", status);
-+		return status;
-+	}
-+
-+	status = request_threaded_irq(uc->irq, NULL, ccg_irq_handler,
-+				      IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
-+				      dev_name(dev), uc);
-+	if (status < 0) {
-+		dev_err(dev, "request_threaded_irq failed - %d\n", status);
-+		return status;
-+	}
-+
-+	uc->ucsi = ucsi_register_ppm(dev, &uc->ppm);
-+	if (IS_ERR(uc->ucsi)) {
-+		dev_err(uc->dev, "ucsi_register_ppm failed\n");
-+		return PTR_ERR(uc->ucsi);
-+	}
-+
-+	return 0;
-+}
-+
-+static void ccg_update_firmware(struct work_struct *work)
-+{
-+	struct ucsi_ccg *uc = container_of(work, struct ucsi_ccg, work);
-+	enum enum_flash_mode flash_mode;
-+	int status;
-+
-+	status = ccg_fw_update_needed(uc, &flash_mode);
-+	if (status < 0)
++	/* Complete pending data role swap */
++	if (!completion_done(&con->complete))
++		complete(&con->complete);
++
++	if (con->partner_altmode[0])
 +		return;
 +
-+	if (flash_mode != FLASH_NOT_NEEDED) {
-+		ucsi_unregister_ppm(uc->ucsi);
-+		free_irq(uc->irq, uc);
-+
-+		ccg_fw_update(uc, flash_mode);
-+		ccg_restart(uc);
-+	}
++	/* Can't rely on Partner Flags field. Always checking the alt modes. */
++	ret = ucsi_register_altmodes(con, UCSI_RECIPIENT_SOP);
++	if (ret)
++		dev_err(con->ucsi->dev,
++			"con%d: failed to register partner alternate modes\n",
++			con->num);
++	else
++		ucsi_altmode_update_active(con);
 +}
 +
-+static ssize_t do_flash_store(struct device *dev,
-+			      struct device_attribute *attr,
-+			      const char *buf, size_t n)
-+{
-+	struct ucsi_ccg *uc = i2c_get_clientdata(to_i2c_client(dev));
-+	bool flash;
-+
-+	if (kstrtobool(buf, &flash))
-+		return -EINVAL;
-+
-+	if (!flash)
-+		return n;
-+
-+	if (uc->fw_build == 0x0) {
-+		dev_err(dev, "fail to flash FW due to missing FW build info\n");
-+		return -EINVAL;
+ static void ucsi_connector_change(struct work_struct *work)
+ {
+ 	struct ucsi_connector *con = container_of(work, struct ucsi_connector,
+@@ -311,10 +527,10 @@ static void ucsi_connector_change(struct work_struct *work)
+ 	struct ucsi_control ctrl;
+ 	int ret;
+ 
+-	mutex_lock(&ucsi->ppm_lock);
++	mutex_lock(&con->lock);
+ 
+ 	UCSI_CMD_GET_CONNECTOR_STATUS(ctrl, con->num);
+-	ret = ucsi_run_command(ucsi, &ctrl, &con->status, sizeof(con->status));
++	ret = ucsi_send_command(ucsi, &ctrl, &con->status, sizeof(con->status));
+ 	if (ret < 0) {
+ 		dev_err(ucsi->dev, "%s: GET_CONNECTOR_STATUS failed (%d)\n",
+ 			__func__, ret);
+@@ -332,23 +548,6 @@ static void ucsi_connector_change(struct work_struct *work)
+ 			complete(&con->complete);
+ 	}
+ 
+-	if (con->status.change & UCSI_CONSTAT_PARTNER_CHANGE) {
+-		switch (con->status.partner_type) {
+-		case UCSI_CONSTAT_PARTNER_TYPE_UFP:
+-			typec_set_data_role(con->port, TYPEC_HOST);
+-			break;
+-		case UCSI_CONSTAT_PARTNER_TYPE_DFP:
+-			typec_set_data_role(con->port, TYPEC_DEVICE);
+-			break;
+-		default:
+-			break;
+-		}
+-
+-		/* Complete pending data role swap */
+-		if (!completion_done(&con->complete))
+-			complete(&con->complete);
+-	}
+-
+ 	if (con->status.change & UCSI_CONSTAT_CONNECT_CHANGE) {
+ 		typec_set_pwr_role(con->port, con->status.pwr_dir);
+ 
+@@ -369,6 +568,19 @@ static void ucsi_connector_change(struct work_struct *work)
+ 			ucsi_unregister_partner(con);
+ 	}
+ 
++	if (con->status.change & UCSI_CONSTAT_CAM_CHANGE) {
++		/*
++		 * We don't need to know the currently supported alt modes here.
++		 * Running GET_CAM_SUPPORTED command just to make sure the PPM
++		 * does not get stuck in case it assumes we do so.
++		 */
++		UCSI_CMD_GET_CAM_SUPPORTED(ctrl, con->num);
++		ucsi_run_command(con->ucsi, &ctrl, NULL, 0);
 +	}
 +
-+	schedule_work(&uc->work);
-+	return n;
++	if (con->status.change & UCSI_CONSTAT_PARTNER_CHANGE)
++		ucsi_partner_change(con);
++
+ 	ret = ucsi_ack(ucsi, UCSI_ACK_EVENT);
+ 	if (ret)
+ 		dev_err(ucsi->dev, "%s: ACK failed (%d)", __func__, ret);
+@@ -377,7 +589,7 @@ static void ucsi_connector_change(struct work_struct *work)
+ 
+ out_unlock:
+ 	clear_bit(EVENT_PENDING, &ucsi->flags);
+-	mutex_unlock(&ucsi->ppm_lock);
++	mutex_unlock(&con->lock);
+ }
+ 
+ /**
+@@ -427,7 +639,7 @@ static int ucsi_reset_connector(struct ucsi_connector *con, bool hard)
+ 
+ 	UCSI_CMD_CONNECTOR_RESET(ctrl, con, hard);
+ 
+-	return ucsi_run_command(con->ucsi, &ctrl, NULL, 0);
++	return ucsi_send_command(con->ucsi, &ctrl, NULL, 0);
+ }
+ 
+ static int ucsi_reset_ppm(struct ucsi *ucsi)
+@@ -481,15 +693,17 @@ static int ucsi_role_cmd(struct ucsi_connector *con, struct ucsi_control *ctrl)
+ {
+ 	int ret;
+ 
+-	ret = ucsi_run_command(con->ucsi, ctrl, NULL, 0);
++	ret = ucsi_send_command(con->ucsi, ctrl, NULL, 0);
+ 	if (ret == -ETIMEDOUT) {
+ 		struct ucsi_control c;
+ 
+ 		/* PPM most likely stopped responding. Resetting everything. */
++		mutex_lock(&con->ucsi->ppm_lock);
+ 		ucsi_reset_ppm(con->ucsi);
++		mutex_unlock(&con->ucsi->ppm_lock);
+ 
+ 		UCSI_CMD_SET_NTFY_ENABLE(c, UCSI_ENABLE_NTFY_ALL);
+-		ucsi_run_command(con->ucsi, &c, NULL, 0);
++		ucsi_send_command(con->ucsi, &c, NULL, 0);
+ 
+ 		ucsi_reset_connector(con, true);
+ 	}
+@@ -504,10 +718,12 @@ ucsi_dr_swap(const struct typec_capability *cap, enum typec_data_role role)
+ 	struct ucsi_control ctrl;
+ 	int ret = 0;
+ 
+-	if (!con->partner)
+-		return -ENOTCONN;
++	mutex_lock(&con->lock);
+ 
+-	mutex_lock(&con->ucsi->ppm_lock);
++	if (!con->partner) {
++		ret = -ENOTCONN;
++		goto out_unlock;
++	}
+ 
+ 	if ((con->status.partner_type == UCSI_CONSTAT_PARTNER_TYPE_DFP &&
+ 	     role == TYPEC_DEVICE) ||
+@@ -520,18 +736,14 @@ ucsi_dr_swap(const struct typec_capability *cap, enum typec_data_role role)
+ 	if (ret < 0)
+ 		goto out_unlock;
+ 
+-	mutex_unlock(&con->ucsi->ppm_lock);
+-
+ 	if (!wait_for_completion_timeout(&con->complete,
+ 					msecs_to_jiffies(UCSI_SWAP_TIMEOUT_MS)))
+-		return -ETIMEDOUT;
+-
+-	return 0;
++		ret = -ETIMEDOUT;
+ 
+ out_unlock:
+-	mutex_unlock(&con->ucsi->ppm_lock);
++	mutex_unlock(&con->lock);
+ 
+-	return ret;
++	return ret < 0 ? ret : 0;
+ }
+ 
+ static int
+@@ -541,10 +753,12 @@ ucsi_pr_swap(const struct typec_capability *cap, enum typec_role role)
+ 	struct ucsi_control ctrl;
+ 	int ret = 0;
+ 
+-	if (!con->partner)
+-		return -ENOTCONN;
++	mutex_lock(&con->lock);
+ 
+-	mutex_lock(&con->ucsi->ppm_lock);
++	if (!con->partner) {
++		ret = -ENOTCONN;
++		goto out_unlock;
++	}
+ 
+ 	if (con->status.pwr_dir == role)
+ 		goto out_unlock;
+@@ -554,13 +768,11 @@ ucsi_pr_swap(const struct typec_capability *cap, enum typec_role role)
+ 	if (ret < 0)
+ 		goto out_unlock;
+ 
+-	mutex_unlock(&con->ucsi->ppm_lock);
+-
+ 	if (!wait_for_completion_timeout(&con->complete,
+-					msecs_to_jiffies(UCSI_SWAP_TIMEOUT_MS)))
+-		return -ETIMEDOUT;
+-
+-	mutex_lock(&con->ucsi->ppm_lock);
++				msecs_to_jiffies(UCSI_SWAP_TIMEOUT_MS))) {
++		ret = -ETIMEDOUT;
++		goto out_unlock;
++	}
+ 
+ 	/* Something has gone wrong while swapping the role */
+ 	if (con->status.pwr_op_mode != UCSI_CONSTAT_PWR_OPMODE_PD) {
+@@ -569,7 +781,7 @@ ucsi_pr_swap(const struct typec_capability *cap, enum typec_role role)
+ 	}
+ 
+ out_unlock:
+-	mutex_unlock(&con->ucsi->ppm_lock);
++	mutex_unlock(&con->lock);
+ 
+ 	return ret;
+ }
+@@ -595,6 +807,7 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
+ 
+ 	INIT_WORK(&con->work, ucsi_connector_change);
+ 	init_completion(&con->complete);
++	mutex_init(&con->lock);
+ 	con->num = index + 1;
+ 	con->ucsi = ucsi;
+ 
+@@ -636,6 +849,12 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
+ 	if (IS_ERR(con->port))
+ 		return PTR_ERR(con->port);
+ 
++	/* Alternate modes */
++	ret = ucsi_register_altmodes(con, UCSI_RECIPIENT_CON);
++	if (ret)
++		dev_err(ucsi->dev, "con%d: failed to register alt modes\n",
++			con->num);
++
+ 	/* Get the status */
+ 	UCSI_CMD_GET_CONNECTOR_STATUS(ctrl, con->num);
+ 	ret = ucsi_run_command(ucsi, &ctrl, &con->status, sizeof(con->status));
+@@ -662,6 +881,16 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
+ 	if (con->status.connected)
+ 		ucsi_register_partner(con);
+ 
++	if (con->partner) {
++		ret = ucsi_register_altmodes(con, UCSI_RECIPIENT_SOP);
++		if (ret)
++			dev_err(ucsi->dev,
++				"con%d: failed to register alternate modes\n",
++				con->num);
++		else
++			ucsi_altmode_update_active(con);
++	}
++
+ 	trace_ucsi_register_port(con->num, &con->status);
+ 
+ 	return 0;
+@@ -730,6 +959,7 @@ static void ucsi_init(struct work_struct *work)
+ err_unregister:
+ 	for (con = ucsi->connector; con->port; con++) {
+ 		ucsi_unregister_partner(con);
++		ucsi_unregister_altmodes(con, UCSI_RECIPIENT_CON);
+ 		typec_unregister_port(con->port);
+ 		con->port = NULL;
+ 	}
+@@ -788,17 +1018,15 @@ void ucsi_unregister_ppm(struct ucsi *ucsi)
+ 	/* Make sure that we are not in the middle of driver initialization */
+ 	cancel_work_sync(&ucsi->work);
+ 
+-	mutex_lock(&ucsi->ppm_lock);
+-
+ 	/* Disable everything except command complete notification */
+ 	UCSI_CMD_SET_NTFY_ENABLE(ctrl, UCSI_ENABLE_NTFY_CMD_COMPLETE)
+-	ucsi_run_command(ucsi, &ctrl, NULL, 0);
+-
+-	mutex_unlock(&ucsi->ppm_lock);
++	ucsi_send_command(ucsi, &ctrl, NULL, 0);
+ 
+ 	for (i = 0; i < ucsi->cap.num_connectors; i++) {
+ 		cancel_work_sync(&ucsi->connector[i].work);
+ 		ucsi_unregister_partner(&ucsi->connector[i]);
++		ucsi_unregister_altmodes(&ucsi->connector[i],
++					 UCSI_RECIPIENT_CON);
+ 		typec_unregister_port(ucsi->connector[i].port);
+ 	}
+ 
+diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
+index 53b80f40a908..c416bae4b5ca 100644
+--- a/drivers/usb/typec/ucsi/ucsi.h
++++ b/drivers/usb/typec/ucsi/ucsi.h
+@@ -6,6 +6,7 @@
+ #include <linux/bitops.h>
+ #include <linux/device.h>
+ #include <linux/types.h>
++#include <linux/usb/typec.h>
+ 
+ /* -------------------------------------------------------------------------- */
+ 
+@@ -60,6 +61,20 @@ struct ucsi_uor_cmd {
+ 	u16:6; /* reserved */
+ } __packed;
+ 
++/* Get Alternate Modes Command structure */
++struct ucsi_altmode_cmd {
++	u8 cmd;
++	u8 length;
++	u8 recipient;
++#define UCSI_RECIPIENT_CON			0
++#define UCSI_RECIPIENT_SOP			1
++#define UCSI_RECIPIENT_SOP_P			2
++#define UCSI_RECIPIENT_SOP_PP			3
++	u8 con_num;
++	u8 offset;
++	u8 num_altmodes;
++} __packed;
++
+ struct ucsi_control {
+ 	union {
+ 		u64 raw_cmd;
+@@ -67,6 +82,7 @@ struct ucsi_control {
+ 		struct ucsi_uor_cmd uor;
+ 		struct ucsi_ack_cmd ack;
+ 		struct ucsi_con_rst con_rst;
++		struct ucsi_altmode_cmd alt;
+ 	};
+ };
+ 
+@@ -112,6 +128,30 @@ struct ucsi_control {
+ 	(_ctrl_).cmd.data = _con_;					\
+ }
+ 
++/* Helper for preparing ucsi_control for GET_ALTERNATE_MODES command. */
++#define UCSI_CMD_GET_ALTERNATE_MODES(_ctrl_, _r_, _con_num_, _o_, _num_)\
++{									\
++	__UCSI_CMD((_ctrl_), UCSI_GET_ALTERNATE_MODES)			\
++	_ctrl_.alt.recipient = (_r_);					\
++	_ctrl_.alt.con_num = (_con_num_);				\
++	_ctrl_.alt.offset = (_o_);					\
++	_ctrl_.alt.num_altmodes = (_num_) - 1;				\
 +}
 +
-+static DEVICE_ATTR_WO(do_flash);
++/* Helper for preparing ucsi_control for GET_CAM_SUPPORTED command. */
++#define UCSI_CMD_GET_CAM_SUPPORTED(_ctrl_, _con_)			\
++{									\
++	__UCSI_CMD((_ctrl_), UCSI_GET_CAM_SUPPORTED)			\
++	_ctrl_.cmd.data = (_con_);					\
++}
 +
-+static struct attribute *ucsi_ccg_sysfs_attrs[] = {
-+	&dev_attr_do_flash.attr,
-+	NULL,
++/* Helper for preparing ucsi_control for GET_CAM_SUPPORTED command. */
++#define UCSI_CMD_GET_CURRENT_CAM(_ctrl_, _con_)			\
++{									\
++	__UCSI_CMD((_ctrl_), UCSI_GET_CURRENT_CAM)			\
++	_ctrl_.cmd.data = (_con_);					\
++}
++
+ /* Helper for preparing ucsi_control for GET_CONNECTOR_STATUS command. */
+ #define UCSI_CMD_GET_CONNECTOR_STATUS(_ctrl_, _con_)			\
+ {									\
+@@ -334,4 +374,36 @@ struct ucsi *ucsi_register_ppm(struct device *dev, struct ucsi_ppm *ppm);
+ void ucsi_unregister_ppm(struct ucsi *ucsi);
+ void ucsi_notify(struct ucsi *ucsi);
+ 
++/* -------------------------------------------------------------------------- */
++
++struct ucsi;
++
++#define UCSI_MAX_SVID		5
++#define UCSI_MAX_ALTMODES	(UCSI_MAX_SVID * 6)
++
++struct ucsi_connector {
++	int num;
++
++	struct ucsi *ucsi;
++	struct mutex lock; /* port lock */
++	struct work_struct work;
++	struct completion complete;
++
++	struct typec_port *port;
++	struct typec_partner *partner;
++
++	struct typec_altmode *port_altmode[UCSI_MAX_ALTMODES];
++	struct typec_altmode *partner_altmode[UCSI_MAX_ALTMODES];
++
++	struct typec_capability typec_cap;
++
++	struct ucsi_connector_status status;
++	struct ucsi_connector_capability cap;
 +};
 +
-+static struct attribute_group ucsi_ccg_attr_group = {
-+	.attrs = ucsi_ccg_sysfs_attrs,
-+};
++int ucsi_send_command(struct ucsi *ucsi, struct ucsi_control *ctrl,
++		      void *retval, size_t size);
 +
- static int ucsi_ccg_probe(struct i2c_client *client,
- 			  const struct i2c_device_id *id)
- {
-@@ -296,6 +1075,14 @@ static int ucsi_ccg_probe(struct i2c_client *client,
- 	uc->ppm.sync = ucsi_ccg_sync;
- 	uc->dev = dev;
- 	uc->client = client;
-+	mutex_init(&uc->lock);
-+	INIT_WORK(&uc->work, ccg_update_firmware);
++void ucsi_altmode_update_active(struct ucsi_connector *con);
 +
-+	/* Only fail FW flashing when FW build information is not provided */
-+	status = device_property_read_u16(dev, "ccgx,firmware-build",
-+					  &uc->fw_build);
-+	if (status)
-+		dev_err(uc->dev, "failed to get FW build information\n");
- 
- 	/* reset ccg device and initialize ucsi */
- 	status = ucsi_ccg_init(uc);
-@@ -310,15 +1097,21 @@ static int ucsi_ccg_probe(struct i2c_client *client,
- 		return status;
- 	}
- 
--	status = devm_request_threaded_irq(dev, client->irq, NULL,
--					   ccg_irq_handler,
--					   IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
--					   dev_name(dev), uc);
-+	uc->port_num = 1;
-+
-+	if (uc->info.mode & CCG_DEVINFO_PDPORTS_MASK)
-+		uc->port_num++;
-+
-+	status = request_threaded_irq(client->irq, NULL, ccg_irq_handler,
-+				      IRQF_ONESHOT | IRQF_TRIGGER_HIGH,
-+				      dev_name(dev), uc);
- 	if (status < 0) {
- 		dev_err(uc->dev, "request_threaded_irq failed - %d\n", status);
- 		return status;
- 	}
- 
-+	uc->irq = client->irq;
-+
- 	uc->ucsi = ucsi_register_ppm(dev, &uc->ppm);
- 	if (IS_ERR(uc->ucsi)) {
- 		dev_err(uc->dev, "ucsi_register_ppm failed\n");
-@@ -335,6 +1128,11 @@ static int ucsi_ccg_probe(struct i2c_client *client,
- 	}
- 
- 	i2c_set_clientdata(client, uc);
-+
-+	status = sysfs_create_group(&uc->dev->kobj, &ucsi_ccg_attr_group);
-+	if (status)
-+		dev_err(uc->dev, "cannot create sysfs group: %d\n", status);
-+
- 	return 0;
- }
- 
-@@ -342,7 +1140,10 @@ static int ucsi_ccg_remove(struct i2c_client *client)
- {
- 	struct ucsi_ccg *uc = i2c_get_clientdata(client);
- 
-+	cancel_work_sync(&uc->work);
- 	ucsi_unregister_ppm(uc->ucsi);
-+	free_irq(uc->irq, uc);
-+	sysfs_remove_group(&uc->dev->kobj, &ucsi_ccg_attr_group);
- 
- 	return 0;
- }
+ #endif /* __DRIVER_USB_TYPEC_UCSI_H */
 -- 
 2.20.1
 
