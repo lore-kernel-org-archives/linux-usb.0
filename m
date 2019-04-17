@@ -2,183 +2,79 @@ Return-Path: <SRS0=xlna=ST=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 316A2C282DC
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:48:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84B12C282DC
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 13:45:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0BBB220835
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:48:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5C89F20872
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 13:45:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731965AbfDQLsF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Apr 2019 07:48:05 -0400
-Received: from mga11.intel.com ([192.55.52.93]:21129 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729522AbfDQLsF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 17 Apr 2019 07:48:05 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Apr 2019 04:48:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,361,1549958400"; 
-   d="scan'208";a="165504335"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 17 Apr 2019 04:48:03 -0700
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Ajay Gupta <ajayg@nvidia.com>, linux-usb@vger.kernel.org
-Subject: [PATCH v3 7/7] usb: typec: Add driver for NVIDIA Alt Modes
-Date:   Wed, 17 Apr 2019 14:47:50 +0300
-Message-Id: <20190417114750.21420-8-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190417114750.21420-1-heikki.krogerus@linux.intel.com>
-References: <20190417114750.21420-1-heikki.krogerus@linux.intel.com>
+        id S1732300AbfDQNpG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Apr 2019 09:45:06 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:47895 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1732240AbfDQNpG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Apr 2019 09:45:06 -0400
+Received: (qmail 28054 invoked by uid 500); 17 Apr 2019 09:45:04 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 17 Apr 2019 09:45:04 -0400
+Date:   Wed, 17 Apr 2019 09:45:04 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@netrider.rowland.org
+To:     "zhuyan (M)" <zhuyan34@huawei.com>
+cc:     Greg KH <gregkh@linuxfoundation.org>,
+        "anton@enomsg.org" <anton@enomsg.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] usb:host: fix divide-by-zero in function fhci_queue_urb
+In-Reply-To: <cb1b585652b54d3d9ff8ef6548094d3b@huawei.com>
+Message-ID: <Pine.LNX.4.44L0.1904170942530.27339-100000@netrider.rowland.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190417114750.k9h4AsI5CBcN0mm7svc3eXjmK651NfvvTc95AoSrN_g@z>
 
-From: Ajay Gupta <ajayg@nvidia.com>
+On Wed, 17 Apr 2019, zhuyan (M) wrote:
 
-Latest NVIDIA GPUs support VirtualLink device. Since USBIF
-has not assigned a Standard ID (SID) for VirtualLink
-so using NVIDA VID 0x955 as SVID.
+> On Tue, 16 Apr 2019 11:07:56 -0400, Alan Stern wrote:
+> 
+> > On Tue, 16 Apr 2019, zhuyan (M) wrote:
+> > > On Tue, 16 Apr 2019 at 11:45:45 +0200, Greg KH wrote:
+> > > > On Tue, Apr 09, 2019 at 10:37:12PM +0800, zhuyan wrote:
+> > > > > In function fhci_queue_urb, the divisor of expression 
+> > > > > (urb->transfer_buffer_length % usb_maxpacket(urb->dev, urb->pipe,
+> > > > > usb_pipeout(urb->pipe))) may be zero.
+> > > > 
+> > > > How can you hit that?
+> > > > 
+> > > > > When it is zero, unexpected results may occur, so it is necessary 
+> > > > > to ensure that the divisor is not zero.
+> > > > > 
+> > > > > Signed-off-by: zhuyan <zhuyan34@huawei.com>
+> > > > 
+> > > > I need a "Full" name here, not just a single name.  Whatever you use to sign documents is good.
+> > > > 
+> > > > thanks,
+> > > > 
+> > > > greg k-h
+> > > 
+> > > In function usb_maxpacket, when ep is NULL, its return value is 0.  
+> > 
+> > fhci_queue_urb() shouldn't use urb->pipe to compute the maxpacket size 
+> > anyway.  It should use usb_endpoint_maxp(&urb->ep->desc).
+> 
+> Currently, fhci_queue_urb(), call usb_maxpacket() multiple times to calculate
+>  the maxpacket size. The usb_maxpacket() will call usb_endpoint_maxp() to 
+> compute the maxpacket size.
 
-Signed-off-by: Ajay Gupta <ajayg@nvidia.com>
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
----
- drivers/usb/typec/altmodes/Kconfig  | 10 +++++++
- drivers/usb/typec/altmodes/Makefile |  2 ++
- drivers/usb/typec/altmodes/nvidia.c | 44 +++++++++++++++++++++++++++++
- drivers/usb/typec/ucsi/ucsi.c       |  4 ++-
- include/linux/usb/typec_dp.h        |  5 ++++
- 5 files changed, 64 insertions(+), 1 deletion(-)
- create mode 100644 drivers/usb/typec/altmodes/nvidia.c
+I know that.  What fhci_queue_urb() is doing is wrong.  You should
+change it: Make it call usb_endpoint_maxp directly instead of calling
+usb_maxpacket.
 
-diff --git a/drivers/usb/typec/altmodes/Kconfig b/drivers/usb/typec/altmodes/Kconfig
-index ef2226eb7a33..187690fd1a5b 100644
---- a/drivers/usb/typec/altmodes/Kconfig
-+++ b/drivers/usb/typec/altmodes/Kconfig
-@@ -12,4 +12,14 @@ config TYPEC_DP_ALTMODE
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called typec_displayport.
- 
-+config TYPEC_NVIDIA_ALTMODE
-+	tristate "NVIDIA Alternate Mode driver"
-+	depends on TYPEC_DP_ALTMODE
-+	help
-+	  Latest NVIDIA GPUs support VirtualLink devices. Select this
-+	  to enable support for VirtualLink devices with NVIDIA GPUs.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called typec_displayport.
-+
- endmenu
-diff --git a/drivers/usb/typec/altmodes/Makefile b/drivers/usb/typec/altmodes/Makefile
-index eda8456f1c92..45717548b396 100644
---- a/drivers/usb/typec/altmodes/Makefile
-+++ b/drivers/usb/typec/altmodes/Makefile
-@@ -2,3 +2,5 @@
- 
- obj-$(CONFIG_TYPEC_DP_ALTMODE)		+= typec_displayport.o
- typec_displayport-y			:= displayport.o
-+obj-$(CONFIG_TYPEC_NVIDIA_ALTMODE)	+= typec_nvidia.o
-+typec_nvidia-y				:= nvidia.o
-diff --git a/drivers/usb/typec/altmodes/nvidia.c b/drivers/usb/typec/altmodes/nvidia.c
-new file mode 100644
-index 000000000000..c36769736405
---- /dev/null
-+++ b/drivers/usb/typec/altmodes/nvidia.c
-@@ -0,0 +1,44 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2019 NVIDIA Corporation. All rights reserved.
-+ *
-+ * NVIDIA USB Type-C Alt Mode Driver
-+ */
-+#include <linux/module.h>
-+#include <linux/usb/typec_altmode.h>
-+#include <linux/usb/typec_dp.h>
-+#include "displayport.h"
-+
-+static int nvidia_altmode_probe(struct typec_altmode *alt)
-+{
-+	if (alt->svid == USB_TYPEC_NVIDIA_VLINK_SID)
-+		return dp_altmode_probe(alt);
-+	else
-+		return -ENOTSUPP;
-+}
-+
-+static void nvidia_altmode_remove(struct typec_altmode *alt)
-+{
-+	if (alt->svid == USB_TYPEC_NVIDIA_VLINK_SID)
-+		dp_altmode_remove(alt);
-+}
-+
-+static const struct typec_device_id nvidia_typec_id[] = {
-+	{ USB_TYPEC_NVIDIA_VLINK_SID, TYPEC_ANY_MODE },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(typec, nvidia_typec_id);
-+
-+static struct typec_altmode_driver nvidia_altmode_driver = {
-+	.id_table = nvidia_typec_id,
-+	.probe = nvidia_altmode_probe,
-+	.remove = nvidia_altmode_remove,
-+	.driver = {
-+		.name = "typec_nvidia",
-+		.owner = THIS_MODULE,
-+	},
-+};
-+module_typec_altmode_driver(nvidia_altmode_driver);
-+
-+MODULE_LICENSE("GPL v2");
-+MODULE_DESCRIPTION("NVIDIA USB Type-C Alt Mode Driver");
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 22fb956687de..999ae50d6e49 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -310,6 +310,7 @@ static int ucsi_register_altmode(struct ucsi_connector *con,
- 
- 		switch (desc->svid) {
- 		case USB_TYPEC_DP_SID:
-+		case USB_TYPEC_NVIDIA_VLINK_SID:
- 			alt = ucsi_register_displayport(con, override, i, desc);
- 			break;
- 		default:
-@@ -428,7 +429,8 @@ static void ucsi_unregister_altmodes(struct ucsi_connector *con, u8 recipient)
- 
- 	while (adev[i]) {
- 		if (recipient == UCSI_RECIPIENT_SOP &&
--		    adev[i]->svid == USB_TYPEC_DP_SID) {
-+		    (adev[i]->svid == USB_TYPEC_DP_SID ||
-+			adev[i]->svid == USB_TYPEC_NVIDIA_VLINK_SID)) {
- 			pdev = typec_altmode_get_partner(adev[i]);
- 			ucsi_displayport_remove_partner((void *)pdev);
- 		}
-diff --git a/include/linux/usb/typec_dp.h b/include/linux/usb/typec_dp.h
-index 7fa12ef8d09a..fc4c7edb2e8a 100644
---- a/include/linux/usb/typec_dp.h
-+++ b/include/linux/usb/typec_dp.h
-@@ -5,6 +5,11 @@
- #include <linux/usb/typec_altmode.h>
- 
- #define USB_TYPEC_DP_SID	0xff01
-+/* USB IF has not assigned a Standard ID (SID) for VirtualLink,
-+ * so the manufacturers of VirtualLink adapters use their Vendor
-+ * IDs as the SVID.
-+ */
-+#define USB_TYPEC_NVIDIA_VLINK_SID	0x955	/* NVIDIA VirtualLink */
- #define USB_TYPEC_DP_MODE	1
- 
- /*
--- 
-2.20.1
+Alan Stern
 
