@@ -2,63 +2,131 @@ Return-Path: <SRS0=xlna=ST=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_MUTT autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
+	T_DKIMWL_WL_HIGH,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FA0CC282DA
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 14:40:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A74BC282DA
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 14:43:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0884320645
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 14:40:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0BB0520663
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 14:43:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1555512203;
+	bh=TjoCet4SUdHLl6Wp5fPXa7Tc/ci7wKaxu5Nvv2sWkj8=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:List-ID:From;
+	b=ro3yJfddy5AB1ljpvBSVsOciKq5cLlu+t58UN7xZ5bzPxvOKFmTBmHonvE8mS2a9s
+	 F1pD/HxGwefRJfAIkZCM7ZKSE/qZz+FQ5uREIhZML4krhQde0HqKDCepMqmdPA1V3I
+	 IOFsUJ3IymHlf5sQIH2HjdctWbKkXieKHUbSFU/o=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731565AbfDQOkF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Apr 2019 10:40:05 -0400
-Received: from mga18.intel.com ([134.134.136.126]:12709 "EHLO mga18.intel.com"
+        id S1732278AbfDQOnW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Apr 2019 10:43:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51590 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729395AbfDQOkF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 17 Apr 2019 10:40:05 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Apr 2019 07:40:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,362,1549958400"; 
-   d="scan'208";a="165544808"
-Received: from kuha.fi.intel.com ([10.237.72.189])
-  by fmsmga001.fm.intel.com with SMTP; 17 Apr 2019 07:40:02 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 17 Apr 2019 17:40:01 +0300
-Date:   Wed, 17 Apr 2019 17:40:01 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Ajay Gupta <ajayg@nvidia.com>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 0/7] usb: typec: ucsi: Remaining changes for v5.2
-Message-ID: <20190417144001.GA3336@kuha.fi.intel.com>
-References: <20190417114750.21420-1-heikki.krogerus@linux.intel.com>
+        id S1731454AbfDQOnV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 17 Apr 2019 10:43:21 -0400
+Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id AA54620663;
+        Wed, 17 Apr 2019 14:43:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1555512201;
+        bh=TjoCet4SUdHLl6Wp5fPXa7Tc/ci7wKaxu5Nvv2sWkj8=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=WnaCyzlw0hAvSgdL1MzzxITKhZ3vts2t96vM199i1eCTWcs4e//mw6QGi6O5iFBQm
+         shr+3smuIDFQ9MJMjHzEZJnIr+mLPX9ouXoh+gCDwdeQqdQcbArjqxkLpkftV8SiHy
+         4xs6v5LrPDuFfdwRAPH94QC+mduniFqR0XDggbno=
+Date:   Wed, 17 Apr 2019 16:43:17 +0200 (CEST)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     Andrej Shadura <andrew.shadura@collabora.co.uk>
+cc:     Benjamin Tissoires <benjamin.tissoires@gmail.com>,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-usb@vger.kernel.org,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        kernel@collabora.com, linux-crypto@vger.kernel.org
+Subject: Re: [PATCH v3] HID: add driver for U2F Zero built-in LED and RNG
+In-Reply-To: <d33b8772-bae6-1d20-8ff0-3397095f6e4b@collabora.co.uk>
+Message-ID: <nycvar.YFH.7.76.1904171642020.9803@cbobk.fhfr.pm>
+References: <20190401124200.17331-1-andrew.shadura@collabora.co.uk> <nycvar.YFH.7.76.1904101400520.9803@cbobk.fhfr.pm> <CAN+gG=H6TGtB68-XJ+Pg53EhL_M2m8MG1z33Yenvd9PhXJ=Oqw@mail.gmail.com> <nycvar.YFH.7.76.1904111234080.9803@cbobk.fhfr.pm>
+ <d33b8772-bae6-1d20-8ff0-3397095f6e4b@collabora.co.uk>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190417114750.21420-1-heikki.krogerus@linux.intel.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190417144317.BsD7Mq6qEBCPaTxGmr2QVTCnUuCP74wdPDp1FOF_CTU@z>
 
-On Wed, Apr 17, 2019 at 02:47:43PM +0300, Heikki Krogerus wrote:
-> Hi Greg,
+On Thu, 11 Apr 2019, Andrej Shadura wrote:
+
+> >>> So I still am not really happy about this being wired up into generic HID
+> >>> although it's really a USB driver, but we've discussed that already, and I
+> >>> don't see any option that'd work substantially better in this case,
+> >>> especially from the UX point of view. Oh well. Applied to for-5.2/u2fzero,
+> >>> thanks!
+> >>>
+> >>
+> >> Hi wish I were CC-ed on these threads.
+> > 
+> > Gah, for some reason I was convinced you were.
+> > 
+> >> My CI script now fails because hid-u2fzero.ko needs devm_hwrng_register 
+> >> and the Kconfig doesn't force pulling the right dependency.
 > 
-> This is the third version of this collection of UCSI driver related
-> changes. I fixed the header problem I caused in Ajay's patch adding the
-> NVIDIA alt mode support (patch 7/7), and I also took the liberty of
-> writing the missing ABI documentation for the extra sysfs file that's
-> created in the driver for Cypress CCGx Type-C controller (ucsi_ccg.c).
+> >> Also, you probably want to add in .probe() a check for the actual 
+> >> transport driver (`hid_is_using_ll_driver(hdev, &usb_hid_driver)`) or 
+> >> you can not use the usbhid functions without crashing the kernel.
+> 
+> Thanks, that’s very useful.
+> 
+> > Benjamin, I love your CI :)
+> > 
+> > Andrej, could you please send fixups on top of the applied patch?
+> 
+> Sure, will do.
 
-Ajay reported one more issue with one of the patches :-(
+I didn't receive any followup; the Kconfig dependency has already been 
+fixed by Mao Wenan, and I've just queued the patch below on top of that as 
+well.
 
-I need to do one more version.
 
-thanks,
+
+
+From: Jiri Kosina <jkosina@suse.cz>
+Subject: [PATCH] HID: u2fzero: fail probe if not using USB transport
+
+u2fzero driver is USB-only. Therefore we have to give up in ->probe()
+callback in case we're called with non-USB transport driver bound,
+otherwise the kernel will crash trying to use USBHID API on a non-USB
+transport.
+
+Fixes: 42337b9d4d958("HID: add driver for U2F Zero built-in LED and RNG")
+Reported-by: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.cz>
+---
+ drivers/hid/hid-u2fzero.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/hid/hid-u2fzero.c b/drivers/hid/hid-u2fzero.c
+index d11a5cb56a0d..95e0807878c7 100644
+--- a/drivers/hid/hid-u2fzero.c
++++ b/drivers/hid/hid-u2fzero.c
+@@ -286,6 +286,9 @@ static int u2fzero_probe(struct hid_device *hdev,
+ 	unsigned int minor;
+ 	int ret;
+ 
++	if (!hid_is_using_ll_driver(hdev, &usb_hid_driver))
++		return -EINVAL;
++
+ 	dev = devm_kzalloc(&hdev->dev, sizeof(*dev), GFP_KERNEL);
+ 	if (dev == NULL)
+ 		return -ENOMEM;
 
 -- 
-heikki
+Jiri Kosina
+SUSE Labs
+
