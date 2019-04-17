@@ -2,80 +2,132 @@ Return-Path: <SRS0=xlna=ST=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A1EFC282DA
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 20:39:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D9B3C282DA
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 20:59:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EA2DA204FD
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 20:39:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 03A87217D7
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 20:59:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729794AbfDQUjY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Apr 2019 16:39:24 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:59422 "HELO
+        id S1733309AbfDQU7V (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Apr 2019 16:59:21 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:55254 "HELO
         iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1727340AbfDQUjY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Apr 2019 16:39:24 -0400
-Received: (qmail 5106 invoked by uid 2102); 17 Apr 2019 16:39:23 -0400
+        with SMTP id S1733222AbfDQU7V (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Apr 2019 16:59:21 -0400
+Received: (qmail 1328 invoked by uid 2102); 17 Apr 2019 16:59:20 -0400
 Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 17 Apr 2019 16:39:23 -0400
-Date:   Wed, 17 Apr 2019 16:39:23 -0400 (EDT)
+  by localhost with SMTP; 17 Apr 2019 16:59:20 -0400
+Date:   Wed, 17 Apr 2019 16:59:20 -0400 (EDT)
 From:   Alan Stern <stern@rowland.harvard.edu>
 X-X-Sender: stern@iolanthe.rowland.org
-To:     Raul Rangel <rrangel@chromium.org>
-cc:     linux-usb@vger.kernel.org, <groeck@chromium.org>,
-        <oneukum@suse.com>, <djkurtz@chromium.org>, <zwisler@chromium.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Dmitry Torokhov <dtor@chromium.org>,
-        <linux-kernel@vger.kernel.org>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Johan Hovold <johan@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: [PATCH v3] usb/hcd: Send a uevent signaling that the host
- controller had died
-In-Reply-To: <20190417202017.GA204974@google.com>
-Message-ID: <Pine.LNX.4.44L0.1904171635460.1400-100000@iolanthe.rowland.org>
+To:     syzbot <syzbot+7634edaea4d0b341c625@syzkaller.appspotmail.com>
+cc:     andreyknvl@google.com, <linux-usb@vger.kernel.org>,
+        <syzkaller-bugs@googlegroups.com>
+Subject: Re: WARNING in usb_submit_urb (4)
+In-Reply-To: <00000000000021301c0586ac31f4@google.com>
+Message-ID: <Pine.LNX.4.44L0.1904171657370.1320-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190417203923.EH-QEdFBdVzTeOBMUKffn8yOWHIjUMpRu3fCbCiRMws@z>
+Message-ID: <20190417205920.zZj5RRhn_fIEWDKNDgVnLAk24IbApfj2ffNTlFX6WIE@z>
 
-On Wed, 17 Apr 2019, Raul Rangel wrote:
+On Tue, 16 Apr 2019, syzbot wrote:
 
-> On Wed, Apr 17, 2019 at 03:14:14PM -0400, Alan Stern wrote:
-> > On Wed, 17 Apr 2019, Raul E Rangel wrote:
-> > 
-> > > +/* Workqueue routine for when the root-hub has died. */
-> > > +static void hcd_died_work(struct work_struct *work)
-> > > +{
-> > > +	struct usb_hcd *hcd = container_of(work, struct usb_hcd, died_work);
-> > > +	char *env[] = {
-> > > +		"ERROR=DEAD",
-> > > +		NULL
-> > > +	};
-> > 
-> > This can now be
-> > 
-> > 	static const char *env[] = ...
-> > 
-> > right?  There's no need for the array to be reinitialized every time 
-> > the routine runs.
-> I originally tried to make it const, but kobject_uevent_env doesn't
-> declare the parameter as const, so the compiler yelled at me. I could
-> make it static, but a static without a const makes me wary. I can add it
-> if you think it's fine.
+> Hello,
+> 
+> syzbot has tested the proposed patch but the reproducer still triggered  
+> crash:
+> WARNING in usb_submit_urb
+> 
+> hub 3-0:1.0: 0000000090da6a2e hub_activate type 4 discon 0
+> hub 3-0:1.0: 0000000090da6a2e Submitting status URB
+> hub 3-0:1.0: 0000000090da6a2e Submitting status URB
+> ------------[ cut here ]------------
+> URB 000000000612b84f submitted while active
+> WARNING: CPU: 1 PID: 3403 at drivers/usb/core/urb.c:363  
+> usb_submit_urb+0x1110/0x1400 drivers/usb/core/urb.c:363
 
-This sounds like a golden opportunity!  Submit a separate patch making 
-the parameter to kobject_uevent_env be const (actually const char * 
-const []), then submit this patch on top of that one.
+I'm still having trouble understanding this.  Here's some more 
+debugging.
 
 Alan Stern
+
+#syz test: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git e12e00e388de
+
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -1016,6 +1016,9 @@ static void hub_activate(struct usb_hub
+ 	bool need_debounce_delay = false;
+ 	unsigned delay;
+ 
++	dev_info(hub->intfdev, "%p %s type %d discon %d\n",
++			hub, __func__, type, hub->disconnected);
++
+ 	/* Continue a partial initialization */
+ 	if (type == HUB_INIT2 || type == HUB_INIT3) {
+ 		device_lock(&hdev->dev);
+@@ -1299,6 +1302,8 @@ static void hub_quiesce(struct usb_hub *
+ 	unsigned long flags;
+ 	int i;
+ 
++	dev_info(hub->intfdev, "%p %s type %d\n", hub, __func__, type);
++
+ 	/* hub_wq and related activity won't re-trigger */
+ 	spin_lock_irqsave(&hub->irq_urb_lock, flags);
+ 	hub->quiescing = 1;
+@@ -3711,7 +3716,9 @@ static int hub_suspend(struct usb_interf
+ 		}
+ 	}
+ 
+-	dev_dbg(&intf->dev, "%s\n", __func__);
++	dev_info(&intf->dev, "%p %s usage %d\n",
++			hub, __func__,
++			atomic_read(&intf->dev.power.usage_count));
+ 
+ 	/* stop hub_wq and related activity */
+ 	hub_quiesce(hub, HUB_SUSPEND);
+@@ -3756,7 +3763,7 @@ static int hub_resume(struct usb_interfa
+ {
+ 	struct usb_hub *hub = usb_get_intfdata(intf);
+ 
+-	dev_dbg(&intf->dev, "%s\n", __func__);
++	dev_info(&intf->dev, "%p %s\n", hub, __func__);
+ 	hub_activate(hub, HUB_RESUME);
+ 
+ 	/*
+Index: usb-devel/drivers/usb/core/driver.c
+===================================================================
+--- usb-devel.orig/drivers/usb/core/driver.c
++++ usb-devel/drivers/usb/core/driver.c
+@@ -358,7 +358,11 @@ static int usb_probe_interface(struct de
+ 		intf->needs_altsetting0 = 0;
+ 	}
+ 
++	dev_info(dev, "pre-probe usage %d\n",
++			atomic_read(&intf->dev.power.usage_count));
+ 	error = driver->probe(intf, id);
++	dev_info(dev, "post-probe usage %d\n",
++			atomic_read(&intf->dev.power.usage_count));
+ 	if (error)
+ 		goto err;
+ 
+@@ -420,7 +424,11 @@ static int usb_unbind_interface(struct d
+ 	if (!driver->soft_unbind || udev->state == USB_STATE_NOTATTACHED)
+ 		usb_disable_interface(udev, intf, false);
+ 
++	dev_info(dev, "pre-discon usage %d\n",
++			atomic_read(&intf->dev.power.usage_count));
+ 	driver->disconnect(intf);
++	dev_info(dev, "post-discon usage %d\n",
++			atomic_read(&intf->dev.power.usage_count));
+ 
+ 	/* Free streams */
+ 	for (i = 0, j = 0; i < intf->cur_altsetting->desc.bNumEndpoints; i++) {
 
