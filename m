@@ -2,232 +2,116 @@ Return-Path: <SRS0=xlna=ST=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09294C282DA
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 19:03:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C529C282DC
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 19:09:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BE886206BA
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 19:03:34 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SPfI7ONs"
+	by mail.kernel.org (Postfix) with ESMTP id 633CC206BA
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 19:09:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732749AbfDQTDd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Apr 2019 15:03:33 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:37216 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729779AbfDQTDd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Apr 2019 15:03:33 -0400
-Received: by mail-io1-f68.google.com with SMTP id x7so21513935ioh.4
-        for <linux-usb@vger.kernel.org>; Wed, 17 Apr 2019 12:03:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=u37q2PdjPmsH+zxnPWwd7CvdWLV3S+cZA+PAcW+7ldE=;
-        b=SPfI7ONsVKaNi89TQRHsgWcCCFRAUJciaromL3MbBrBzcqnmMwnrwz+jKkmbmGXlVl
-         GbFrEDIHbTuTK+Z559uMzJiTxoTspuugUs9pJWHbNr5jKf18RTDy+kQLsmrf0++tsxag
-         TadMvyWgMLa/y2aNGrUXEhOEgXIjkc2k04X6k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=u37q2PdjPmsH+zxnPWwd7CvdWLV3S+cZA+PAcW+7ldE=;
-        b=EvBsa/nIRPjbmI6USo3SwEmXaWf7f4s51kegIlhy3mcV2epQZzltuJIw7+PDIHDrYV
-         yTQzD7uq3/+F5Wu81CB1DnOIlAP+q4W2RgiXE+HZQVvPjMXKATOUBZS0OUO8RBcR3BAr
-         z5A6CGzvUpw22O6cCfmLjnqgZ2P6ccr+UhXL6UNIrIkWLhh6BSaevUIkS7zwXxeIT4iD
-         ahOOTywf11OuLn795yQtQIHoo5OCILHeoZBlTncMO6Byt6b5XAyci9MVHrekCdzuB/3P
-         gSHgBN4YF5b1g+58NoEEY77cTvygM3dlrRVlVADBZjTIvVLQrmeVybWHtB6EgDA7YQtN
-         s+kw==
-X-Gm-Message-State: APjAAAVXklXyj2PZgENydFkCg0Jylb6XTdW7J4y+5lpbMAEdQTYAHauE
-        8ALpTvDJFzZMEa/8nCLSRq2+8qb2dMwEtA==
-X-Google-Smtp-Source: APXvYqz18F6zPQqwl5lXk4ymPKRgbEtgXzEdLOSFmCta2sA/hyBafnpHLB03uErGPmArkXTQGPylsA==
-X-Received: by 2002:a6b:5118:: with SMTP id f24mr23994987iob.62.1555527812351;
-        Wed, 17 Apr 2019 12:03:32 -0700 (PDT)
-Received: from localhost ([2620:15c:183:0:20b8:dee7:5447:d05])
-        by smtp.gmail.com with ESMTPSA id y17sm2632087ita.2.2019.04.17.12.03.30
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 17 Apr 2019 12:03:31 -0700 (PDT)
-From:   Raul E Rangel <rrangel@chromium.org>
-To:     linux-usb@vger.kernel.org
-Cc:     groeck@chromium.org, oneukum@suse.com, djkurtz@chromium.org,
-        zwisler@chromium.org, Raul E Rangel <rrangel@chromium.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Dmitry Torokhov <dtor@chromium.org>,
-        linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Johan Hovold <johan@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH v3] usb/hcd: Send a uevent signaling that the host controller had died
-Date:   Wed, 17 Apr 2019 13:03:16 -0600
-Message-Id: <20190417190316.10032-1-rrangel@chromium.org>
-X-Mailer: git-send-email 2.21.0.392.gf8f6787159e-goog
+        id S1732917AbfDQTJp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Apr 2019 15:09:45 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:59194 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1729291AbfDQTJp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Apr 2019 15:09:45 -0400
+Received: (qmail 4087 invoked by uid 2102); 17 Apr 2019 15:09:44 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 17 Apr 2019 15:09:44 -0400
+Date:   Wed, 17 Apr 2019 15:09:44 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     syzbot <syzbot+d919b0f29d7b5a4994b9@syzkaller.appspotmail.com>
+cc:     andreyknvl@google.com, <gregkh@linuxfoundation.org>,
+        <gustavo@embeddedor.com>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <syzkaller-bugs@googlegroups.com>
+Subject: Re: INFO: task hung in usb_kill_urb
+In-Reply-To: <000000000000edf1630586acca2b@google.com>
+Message-ID: <Pine.LNX.4.44L0.1904171503410.1400-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190417190316.PThVNzh8Hp0Crw4ow6OFMPvrRXTKfBKs5EnSxVqpC7Q@z>
+Message-ID: <20190417190944.PdgDlXNXAaMDAdvvuz9T5F3OYQUJxYUXw-Oq_QX66k0@z>
 
-This change will send an OFFLINE event to udev with the ERROR=DEAD
-environment variable set when the HC dies.
+On Tue, 16 Apr 2019, syzbot wrote:
 
-By notifying user space the appropriate policies can be applied.
-i.e.,
- * Collect error logs.
- * Notify the user that USB is no longer functional.
- * Perform a graceful reboot.
+> Hello,
+> 
+> syzbot has tested the proposed patch but the reproducer still triggered  
+> crash:
+> INFO: task hung in usb_kill_urb
 
-Signed-off-by: Raul E Rangel <rrangel@chromium.org>
----
-I wasn't able to find any good examples of other drivers sending a dead
-notification.
+That's surprising.  This patch was awfully similar to the previous one,
+which did prevent the crash earlier.
 
-Use an EVENT= format
-https://github.com/torvalds/linux/blob/master/drivers/acpi/dock.c#L302
-https://github.com/torvalds/linux/blob/master/drivers/net/wireless/ath/wil6210/interrupt.c#L497
+> Tested on:
+> 
+> commit:         9a33b369 usb-fuzzer: main usb gadget fuzzer driver
+> git tree:       https://github.com/google/kasan/tree/usb-fuzzer
+> console output: https://syzkaller.appspot.com/x/log.txt?x=10b5e057200000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> patch:          https://syzkaller.appspot.com/x/patch.diff?x=131dca6b200000
 
-Uses SDEV_MEDIA_CHANGE=
-https://github.com/torvalds/linux/blob/master/drivers/scsi/scsi_lib.c#L2318
+Andrey, is there any way to increase the console output buffer size?  
+The link above doesn't go all the way back to the beginning of the test
+(it starts at timestamp 486.614697).
 
-Uses ERROR=1.
-https://chromium.googlesource.com/chromiumos/third_party/kernel/+/7f6d8aec5803aac44192f03dce5637b66cda7abf/drivers/input/touchscreen/atmel_mxt_ts.c#1581
-I'm not a fan because it doesn't signal what the error was.
+Also, here's a slightly revised patch for testing.
+
+Alan Stern
 
 
-Changes in v3:
-- Added documentation
-- Removed use of lock and null check
-- Changed event to OFFLINE + ERROR=DEAD
+#syz test: https://github.com/google/kasan.git usb-fuzzer
 
-Changes in v2:
-- Check that the root hub still exists before sending the uevent.
-- Ensure died_work has completed before deallocating.
-
- Documentation/ABI/testing/usb-uevent | 27 +++++++++++++++++++++++++++
- drivers/usb/core/hcd.c               | 25 +++++++++++++++++++++++++
- include/linux/usb/hcd.h              |  1 +
- 3 files changed, 53 insertions(+)
- create mode 100644 Documentation/ABI/testing/usb-uevent
-
-diff --git a/Documentation/ABI/testing/usb-uevent b/Documentation/ABI/testing/usb-uevent
-new file mode 100644
-index 000000000000..d35c3cad892c
---- /dev/null
-+++ b/Documentation/ABI/testing/usb-uevent
-@@ -0,0 +1,27 @@
-+What:		Raise a uevent when a USB Host Controller has died
-+Date:		2019-04-17
-+KernelVersion:	5.2
-+Contact:	linux-usb@vger.kernel.org
-+Description:	When the USB Host Controller has entered a state where it is no
-+		longer functional a uevent will be raised. The uevent will
-+		contain ACTION=offline and ERROR=DEAD.
-+
-+		Here is an example taken using udevadm monitor -p:
-+
-+		KERNEL[130.428945] offline  /devices/pci0000:00/0000:00:10.0/usb2 (usb)
-+		ACTION=offline
-+		BUSNUM=002
-+		DEVNAME=/dev/bus/usb/002/001
-+		DEVNUM=001
-+		DEVPATH=/devices/pci0000:00/0000:00:10.0/usb2
-+		DEVTYPE=usb_device
-+		DRIVER=usb
-+		ERROR=DEAD
-+		MAJOR=189
-+		MINOR=128
-+		PRODUCT=1d6b/2/414
-+		SEQNUM=2168
-+		SUBSYSTEM=usb
-+		TYPE=9/0/1
-+
-+Users:		chromium-os-dev@chromium.org
-diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-index 975d7c1288e3..145b058705fe 100644
---- a/drivers/usb/core/hcd.c
-+++ b/drivers/usb/core/hcd.c
-@@ -2343,6 +2343,20 @@ int hcd_bus_resume(struct usb_device *rhdev, pm_message_t msg)
- 	return status;
- }
+--- a/drivers/usb/gadget/udc/dummy_hcd.c
++++ b/drivers/usb/gadget/udc/dummy_hcd.c
+@@ -979,8 +979,18 @@ static int dummy_udc_start(struct usb_ga
+ 	struct dummy_hcd	*dum_hcd = gadget_to_dummy_hcd(g);
+ 	struct dummy		*dum = dum_hcd->dum;
  
-+
-+/* Workqueue routine for when the root-hub has died. */
-+static void hcd_died_work(struct work_struct *work)
-+{
-+	struct usb_hcd *hcd = container_of(work, struct usb_hcd, died_work);
-+	char *env[] = {
-+		"ERROR=DEAD",
-+		NULL
-+	};
-+
-+	/* Notify user space that the host controller has died */
-+	kobject_uevent_env(&hcd->self.root_hub->dev.kobj, KOBJ_OFFLINE, env);
-+}
-+
- /* Workqueue routine for root-hub remote wakeup */
- static void hcd_resume_work(struct work_struct *work)
- {
-@@ -2488,6 +2502,13 @@ void usb_hc_died (struct usb_hcd *hcd)
- 			usb_kick_hub_wq(hcd->self.root_hub);
- 		}
- 	}
-+
-+	/* Handle the case where this function gets called with a shared HCD */
-+	if (usb_hcd_is_primary_hcd(hcd))
-+		schedule_work(&hcd->died_work);
-+	else
-+		schedule_work(&hcd->primary_hcd->died_work);
-+
- 	spin_unlock_irqrestore (&hcd_root_hub_lock, flags);
- 	/* Make sure that the other roothub is also deallocated. */
- }
-@@ -2555,6 +2576,8 @@ struct usb_hcd *__usb_create_hcd(const struct hc_driver *driver,
- 	INIT_WORK(&hcd->wakeup_work, hcd_resume_work);
- #endif
- 
-+	INIT_WORK(&hcd->died_work, hcd_died_work);
-+
- 	hcd->driver = driver;
- 	hcd->speed = driver->flags & HCD_MASK;
- 	hcd->product_desc = (driver->product_desc) ? driver->product_desc :
-@@ -2908,6 +2931,7 @@ int usb_add_hcd(struct usb_hcd *hcd,
- #ifdef CONFIG_PM
- 	cancel_work_sync(&hcd->wakeup_work);
- #endif
-+	cancel_work_sync(&hcd->died_work);
- 	mutex_lock(&usb_bus_idr_lock);
- 	usb_disconnect(&rhdev);		/* Sets rhdev to NULL */
- 	mutex_unlock(&usb_bus_idr_lock);
-@@ -2968,6 +2992,7 @@ void usb_remove_hcd(struct usb_hcd *hcd)
- #ifdef CONFIG_PM
- 	cancel_work_sync(&hcd->wakeup_work);
- #endif
-+	cancel_work_sync(&hcd->died_work);
- 
- 	mutex_lock(&usb_bus_idr_lock);
- 	usb_disconnect(&rhdev);		/* Sets rhdev to NULL */
-diff --git a/include/linux/usb/hcd.h b/include/linux/usb/hcd.h
-index 695931b03684..66a24b13e2ab 100644
---- a/include/linux/usb/hcd.h
-+++ b/include/linux/usb/hcd.h
-@@ -98,6 +98,7 @@ struct usb_hcd {
- #ifdef CONFIG_PM
- 	struct work_struct	wakeup_work;	/* for remote wakeup */
- #endif
-+	struct work_struct	died_work;	/* for when the device dies */
+-	if (driver->max_speed == USB_SPEED_UNKNOWN)
++	switch (g->speed) {
++	/* All the speeds we support */
++	case USB_SPEED_LOW:
++	case USB_SPEED_FULL:
++	case USB_SPEED_HIGH:
++	case USB_SPEED_SUPER:
++		break;
++	default:
++		dev_err(dummy_dev(dum_hcd), "Unsupported driver max speed %d\n",
++				driver->max_speed);
+ 		return -EINVAL;
++	}
  
  	/*
- 	 * hardware info/state
--- 
-2.21.0.392.gf8f6787159e-goog
+ 	 * SLAVE side init ... the layer above hardware, which
+@@ -1784,9 +1794,10 @@ static void dummy_timer(struct timer_lis
+ 		/* Bus speed is 500000 bytes/ms, so use a little less */
+ 		total = 490000;
+ 		break;
+-	default:
++	default:	/* Can't happen */
+ 		dev_err(dummy_dev(dum_hcd), "bogus device speed\n");
+-		return;
++		total = 0;
++		break;
+ 	}
+ 
+ 	/* FIXME if HZ != 1000 this will probably misbehave ... */
+@@ -1828,7 +1839,7 @@ restart:
+ 
+ 		/* Used up this frame's bandwidth? */
+ 		if (total <= 0)
+-			break;
++			continue;
+ 
+ 		/* find the gadget's ep for this request (if configured) */
+ 		address = usb_pipeendpoint (urb->pipe);
 
