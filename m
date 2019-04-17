@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91F38C282DA
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 08:29:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 024CBC10F12
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 08:29:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5D87F2176F
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 08:29:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CC28F2176F
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 08:29:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731337AbfDQI2m (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Apr 2019 04:28:42 -0400
-Received: from mailgw02.mediatek.com ([1.203.163.81]:29693 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727177AbfDQI2m (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Apr 2019 04:28:42 -0400
-X-UUID: 9f20facb5542416ea0c07cf66b6475c8-20190417
-X-UUID: 9f20facb5542416ea0c07cf66b6475c8-20190417
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        id S1729519AbfDQI2g (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Apr 2019 04:28:36 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:5599 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727177AbfDQI2g (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Apr 2019 04:28:36 -0400
+X-UUID: afdf65d152914621a311a6ebc93f2c16-20190417
+X-UUID: afdf65d152914621a311a6ebc93f2c16-20190417
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 848568013; Wed, 17 Apr 2019 16:28:30 +0800
+        with ESMTP id 44844121; Wed, 17 Apr 2019 16:28:27 +0800
 Received: from mtkcas09.mediatek.inc (172.21.101.178) by
  MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Wed, 17 Apr 2019 16:28:29 +0800
+ 15.0.1395.4; Wed, 17 Apr 2019 16:28:25 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas09.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Wed, 17 Apr 2019 16:28:28 +0800
+ Transport; Wed, 17 Apr 2019 16:28:24 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     Mathias Nyman <mathias.nyman@intel.com>,
@@ -39,12 +39,11 @@ CC:     Mathias Nyman <mathias.nyman@intel.com>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
         <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Minas Harutyunyan <hminas@synopsys.com>
-Subject: [PATCH v3 4/6] usb: dwc2: get optional clock by devm_clk_get_optional()
-Date:   Wed, 17 Apr 2019 16:28:19 +0800
+        <linux-mediatek@lists.infradead.org>
+Subject: [PATCH v3 2/6] usb: host: xhci-plat: get optional clock by devm_clk_get_optional()
+Date:   Wed, 17 Apr 2019 16:28:17 +0800
 Message-ID:
- <39be1493f7760c3c06858046f64d02e7cb86884e.1555488276.git.chunfeng.yun@mediatek.com>
+ <b61f41ecccde4f4fee4796a1da67a1c8bf8bbbcb.1555488276.git.chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <bacafa9a60c2f437e2be0ccdf504492343fc0a66.1555488276.git.chunfeng.yun@mediatek.com>
 References: <bacafa9a60c2f437e2be0ccdf504492343fc0a66.1555488276.git.chunfeng.yun@mediatek.com>
@@ -55,40 +54,104 @@ Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190417082819.Myu7GEeT0lfLdY9J5VGnd5PXJWbVd3U0fJUAkaKxBzA@z>
+Message-ID: <20190417082817.EOrnX9FEoQ4nCJGHNpFnhGR9b7N03XoZ0Q2c0qFNUM0@z>
 
-When the driver tries to get optional clock, it ignores all errors,
-but if only ignores -ENOENT, it will cover some real errors, such as
--EPROBE_DEFER, so use devm_clk_get_optional() to get optional clock.
+When the driver tries to get optional clock, it ignores all errors except
+-EPROBE_DEFER, but if only ignores -ENOENT, it will cover some real errors,
+such as -ENOMEM, so use devm_clk_get_optional() to get optional clock.
 
-Cc: Minas Harutyunyan <hminas@synopsys.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Acked-by: Minas Harutyunyan <hminas@synopsys.com>
 ---
 v3: modify changelog comment
-v2: add Acked-by Minas Harutyunyan
+v2: no changes
 ---
- drivers/usb/dwc2/platform.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/usb/host/xhci-plat.c | 39 +++++++++++++++++-------------------
+ 1 file changed, 18 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
-index c0b64d483552..9aa9682a5cd2 100644
---- a/drivers/usb/dwc2/platform.c
-+++ b/drivers/usb/dwc2/platform.c
-@@ -284,10 +284,10 @@ static int dwc2_lowlevel_hw_init(struct dwc2_hsotg *hsotg)
+diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
+index 0ac4ec975547..998241f5fce3 100644
+--- a/drivers/usb/host/xhci-plat.c
++++ b/drivers/usb/host/xhci-plat.c
+@@ -165,8 +165,6 @@ static int xhci_plat_probe(struct platform_device *pdev)
+ 	struct xhci_hcd		*xhci;
+ 	struct resource         *res;
+ 	struct usb_hcd		*hcd;
+-	struct clk              *clk;
+-	struct clk              *reg_clk;
+ 	int			ret;
+ 	int			irq;
+ 
+@@ -235,31 +233,32 @@ static int xhci_plat_probe(struct platform_device *pdev)
+ 	hcd->rsrc_start = res->start;
+ 	hcd->rsrc_len = resource_size(res);
+ 
++	xhci = hcd_to_xhci(hcd);
++
+ 	/*
+ 	 * Not all platforms have clks so it is not an error if the
+ 	 * clock do not exist.
+ 	 */
+-	reg_clk = devm_clk_get(&pdev->dev, "reg");
+-	if (!IS_ERR(reg_clk)) {
+-		ret = clk_prepare_enable(reg_clk);
+-		if (ret)
+-			goto put_hcd;
+-	} else if (PTR_ERR(reg_clk) == -EPROBE_DEFER) {
+-		ret = -EPROBE_DEFER;
++	xhci->reg_clk = devm_clk_get_optional(&pdev->dev, "reg");
++	if (IS_ERR(xhci->reg_clk)) {
++		ret = PTR_ERR(xhci->reg_clk);
+ 		goto put_hcd;
  	}
  
- 	/* Clock */
--	hsotg->clk = devm_clk_get(hsotg->dev, "otg");
-+	hsotg->clk = devm_clk_get_optional(hsotg->dev, "otg");
- 	if (IS_ERR(hsotg->clk)) {
--		hsotg->clk = NULL;
--		dev_dbg(hsotg->dev, "cannot get otg clock\n");
-+		dev_err(hsotg->dev, "cannot get otg clock\n");
-+		return PTR_ERR(hsotg->clk);
+-	clk = devm_clk_get(&pdev->dev, NULL);
+-	if (!IS_ERR(clk)) {
+-		ret = clk_prepare_enable(clk);
+-		if (ret)
+-			goto disable_reg_clk;
+-	} else if (PTR_ERR(clk) == -EPROBE_DEFER) {
+-		ret = -EPROBE_DEFER;
++	ret = clk_prepare_enable(xhci->reg_clk);
++	if (ret)
++		goto put_hcd;
++
++	xhci->clk = devm_clk_get_optional(&pdev->dev, NULL);
++	if (IS_ERR(xhci->clk)) {
++		ret = PTR_ERR(xhci->clk);
+ 		goto disable_reg_clk;
  	}
  
- 	/* Regulators */
+-	xhci = hcd_to_xhci(hcd);
++	ret = clk_prepare_enable(xhci->clk);
++	if (ret)
++		goto disable_reg_clk;
++
+ 	priv_match = of_device_get_match_data(&pdev->dev);
+ 	if (priv_match) {
+ 		struct xhci_plat_priv *priv = hcd_to_xhci_priv(hcd);
+@@ -271,8 +270,6 @@ static int xhci_plat_probe(struct platform_device *pdev)
+ 
+ 	device_wakeup_enable(hcd->self.controller);
+ 
+-	xhci->clk = clk;
+-	xhci->reg_clk = reg_clk;
+ 	xhci->main_hcd = hcd;
+ 	xhci->shared_hcd = __usb_create_hcd(driver, sysdev, &pdev->dev,
+ 			dev_name(&pdev->dev), hcd);
+@@ -348,10 +345,10 @@ static int xhci_plat_probe(struct platform_device *pdev)
+ 	usb_put_hcd(xhci->shared_hcd);
+ 
+ disable_clk:
+-	clk_disable_unprepare(clk);
++	clk_disable_unprepare(xhci->clk);
+ 
+ disable_reg_clk:
+-	clk_disable_unprepare(reg_clk);
++	clk_disable_unprepare(xhci->reg_clk);
+ 
+ put_hcd:
+ 	usb_put_hcd(hcd);
 -- 
 2.21.0
 
