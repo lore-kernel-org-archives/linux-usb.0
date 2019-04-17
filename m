@@ -2,122 +2,73 @@ Return-Path: <SRS0=xlna=ST=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
-	T_DKIMWL_WL_HIGH,USER_AGENT_MUTT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65119C282DA
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 19:49:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF0ECC282DC
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 19:56:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2EA6E205C9
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 19:49:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1555530552;
-	bh=LIfKUoGrsM+QwrdYm+u54524zcfDJvUPW/bsafPuppo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=FJEkF4lsdXFy7KknxnV3mMer2kHx+d9Zmtipfco97o1yesn8Vw9lTrJu4bdL4eJlg
-	 PIaFH5NAu8edb8kR0GXAqpnBLC19Q014RRXBAUWtl78SL6OMEW2JPyE7TympISYGzO
-	 VXTB6XAwiW02ww2RS/mB/VR77sDLCQXzs593yUaE=
+	by mail.kernel.org (Postfix) with ESMTP id B0AC0205C9
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 19:56:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732913AbfDQTtG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Apr 2019 15:49:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50098 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729779AbfDQTtG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 17 Apr 2019 15:49:06 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 17793205C9;
-        Wed, 17 Apr 2019 19:49:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1555530545;
-        bh=LIfKUoGrsM+QwrdYm+u54524zcfDJvUPW/bsafPuppo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KtAHVKGesQ1yT67p//eq3tjBwVuozoJkYYJalUHQ2sdLn4PjfhGU/07OrqtO/dqas
-         50fKhzhRxrU7h5zARGrMFxkC4LSm1nKPpplSiQbV8Q7ULXtQJ0bnVkvAoopGOCwiDk
-         lNwohGRvhGR5iHYSTG5/Dssp0ArdYvPS1rWsizHQ=
-Date:   Wed, 17 Apr 2019 21:49:03 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     "zhuyan (M)" <zhuyan34@huawei.com>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        "anton@enomsg.org" <anton@enomsg.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] usb:host: fix divide-by-zero in function
- fhci_queue_urb
-Message-ID: <20190417194903.GD28125@kroah.com>
-References: <63401dc56ae64aa3a428c4bb8a84034e@huawei.com>
+        id S1729779AbfDQT4C (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Apr 2019 15:56:02 -0400
+Received: from mail-it1-f200.google.com ([209.85.166.200]:57272 "EHLO
+        mail-it1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726751AbfDQT4B (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Apr 2019 15:56:01 -0400
+Received: by mail-it1-f200.google.com with SMTP id s21so3598334ite.6
+        for <linux-usb@vger.kernel.org>; Wed, 17 Apr 2019 12:56:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=4EnWXPRDU1/SXQUQsehK72eVw6iHGNpMYvY1Rbcgl/I=;
+        b=d+9GhrtFKzTGYZkU1Bp86sXRENH1jC0E8Y+qEqj0Rpp1wIyrSiYbOFwdxRFzGHYSWr
+         umebYn9PFbk4b8YN6P/iNzYxwmcghOX0os6QItDRkW5gim/aCUCTaLGdtKE7xD2wZGQo
+         nYbYEz9n8Di4VOot3AEN8gQH2ZHOex6jG9EsB/K64Uz2PpGgTl3zM8erubxXZmKHiziS
+         eRC/RBYYp2/tBLq/EFgTlTPDM0NC6C0BkbXYXxy/ZKKIGGIKdaMHfMkjYnWLFJFTg7+h
+         pQrssQ7mllnklt6NMnONyqrqJba3wdRqfR5DqTHXW69xAGy6qAkwRiDehIVlfpjjNuOy
+         vWIQ==
+X-Gm-Message-State: APjAAAU/IHDIHE4QjeNDe5imHtlGExXnYubIULA/NEkwHPK+6lRbr/6u
+        SaIeHp9mq40K5w/48BzJv2XwJC1roMQBYZx64WKXay/hQrsq
+X-Google-Smtp-Source: APXvYqyXfphPPaOIWtxONYOTAnUuTpGkklcans3tSg21nOoaUgTrlyKYQUlUQ1d/fpsKgqbNYFkWsiNxx6yvQr7CC50zY83Ju4/k
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <63401dc56ae64aa3a428c4bb8a84034e@huawei.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Received: by 2002:a24:7b4f:: with SMTP id q76mr315710itc.142.1555530960395;
+ Wed, 17 Apr 2019 12:56:00 -0700 (PDT)
+Date:   Wed, 17 Apr 2019 12:56:00 -0700
+In-Reply-To: <Pine.LNX.4.44L0.1904171503410.1400-100000@iolanthe.rowland.org>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000054e5e70586bf46cc@google.com>
+Subject: Re: INFO: task hung in usb_kill_urb
+From:   syzbot <syzbot+d919b0f29d7b5a4994b9@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
+        gustavo@embeddedor.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, stern@rowland.harvard.edu,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; delsp="yes"; format="flowed"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190417194903.d43b0ZECoEFUJL8sxykC_lV8U-UZDzywOa-vgCH_ioU@z>
+Message-ID: <20190417195600.OIzf1njsgxYDT72Tv0dG1hc6fjbT8jZE7VfwfZL5xIs@z>
 
-On Wed, Apr 17, 2019 at 05:05:33PM +0000, zhuyan (M) wrote:
-> On Wed, 17 Apr 2019, Alan Stern wrote:
-> 
-> > On Wed, 17 Apr 2019, zhuyan (M) wrote:
-> > 
-> > > On Tue, 16 Apr 2019 11:07:56 -0400, Alan Stern wrote:
-> > > 
-> > > > On Tue, 16 Apr 2019, zhuyan (M) wrote:
-> > > > > On Tue, 16 Apr 2019 at 11:45:45 +0200, Greg KH wrote:
-> > > > > > On Tue, Apr 09, 2019 at 10:37:12PM +0800, zhuyan wrote:
-> > > > > > > In function fhci_queue_urb, the divisor of expression 
-> > > > > > > (urb->transfer_buffer_length % usb_maxpacket(urb->dev, 
-> > > > > > > urb->pipe,
-> > > > > > > usb_pipeout(urb->pipe))) may be zero.
-> > > > > > 
-> > > > > > How can you hit that?
-> > > > > > 
-> > > > > > > When it is zero, unexpected results may occur, so it is 
-> > > > > > > necessary to ensure that the divisor is not zero.
-> > > > > > > 
-> > > > > > > Signed-off-by: zhuyan <zhuyan34@huawei.com>
-> > > > > > 
-> > > > > > I need a "Full" name here, not just a single name.  Whatever you use to sign documents is good.
-> > > > > > 
-> > > > > > thanks,
-> > > > > > 
-> > > > > > greg k-h
-> > > > > 
-> > > > > In function usb_maxpacket, when ep is NULL, its return value is 0.  
-> > > > 
-> > > > fhci_queue_urb() shouldn't use urb->pipe to compute the maxpacket 
-> > > > size anyway.  It should use usb_endpoint_maxp(&urb->ep->desc).
-> > > 
-> > > Currently, fhci_queue_urb(), call usb_maxpacket() multiple times to 
-> > > calculate  the maxpacket size. The usb_maxpacket() will call 
-> > > usb_endpoint_maxp() to compute the maxpacket size.
-> > 
-> > I know that.  What fhci_queue_urb() is doing is wrong.  You should change it: 
-> > Make it call usb_endpoint_maxp directly instead of calling usb_maxpacket.
-> > 
-> 
-> >From 1996456d0cc17b5ff7746a598ff355b25d13db3e Mon Sep 17 00:00:00 2001
-> From: zhuyan <zhuyan34@huawei.com>
-> Date: Thu, 18 Apr 2019 00:53:03 +0800
-> Subject: [PATCH] usb: host: fix divide-by-zero in function fhci_queue_urb
-> 
-> fhci_queue_urb() shouldn't use urb->pipe to compute the maxpacket
-> size anyway.It should use usb_endpoint_maxp(&urb->ep->desc).
-> 
-> In function fhci_queue_urb, the divisor of expression
-> (urb->transfer_buffer_length % usb_maxpacket(urb->dev, urb->pipe,
-> usb_pipeout(urb->pipe))) may be zero. When it is zero, unexpected results
-> may occur, so it is necessary to ensure that the divisor is not zero.
-> 
-> Signed-off-by: zhuyan <zhuyan34@huawei.com>
+Hello,
 
-I still need a full name here and on the From: line :(
+syzbot has tested the proposed patch and the reproducer did not trigger  
+crash:
 
-thanks,
+Reported-and-tested-by:  
+syzbot+d919b0f29d7b5a4994b9@syzkaller.appspotmail.com
 
-greg k-h
+Tested on:
+
+commit:         d34f9519 usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan/tree/usb-fuzzer
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c73d1bb5aeaeae20
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=12a17dfd200000
+
+Note: testing is done by a robot and is best-effort only.
