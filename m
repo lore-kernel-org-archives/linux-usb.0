@@ -4,271 +4,488 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02A3EC10F12
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 10:53:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43632C282DC
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:07:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B022F20821
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 10:53:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 110E12064A
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Apr 2019 11:07:16 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=dialogsemiconductor.onmicrosoft.com header.i=@dialogsemiconductor.onmicrosoft.com header.b="G98ABKMr"
+	dkim=pass (1024-bit key) header.d=renesasgroup.onmicrosoft.com header.i=@renesasgroup.onmicrosoft.com header.b="kBDjKX+K"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731472AbfDQKxN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Apr 2019 06:53:13 -0400
-Received: from mail1.bemta25.messagelabs.com ([195.245.230.2]:34801 "EHLO
-        mail1.bemta25.messagelabs.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730926AbfDQKxM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Apr 2019 06:53:12 -0400
-Received: from [46.226.52.104] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-        by server-2.bemta.az-a.eu-west-1.aws.symcld.net id FE/53-23457-49507BC5; Wed, 17 Apr 2019 10:53:08 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA1VSa0wTWRjtnZkOAzJ6LRA+KxBtYtZVplLIJmP
-  84w+zabIaH4nRIK5O6dh2U0rttAIaI2jqA6PrrhoeyhtxBbIG0EWCPP1Ba5bVRQ1KcJdiE3yQ
-  1fpMCBI7TFH33/nOOfee8yUfQ2r+orWMmO8WXQ7BrqNjKOsqeg13Tt2eldbwKIk/UneV5icHS
-  gi+uKmD4rtDvxN8bYOX5IM1fxJraWN1q8dY6d9s7KlojjK+7H5AGzs+FEYZ37SmbKIz1TaHKT
-  d/t9p68UiIcpasyPdNjqBCVKorRjEMha+SMD1QGSUPGnyegHcPKghlCCD42F4WVqIZGvNw1jd
-  GyzgetyAoD6bKJhL/HDbdD5DFiGHisAk6e2IUTzZ4b16iZToep0PT0wSZpvAyuF5aT8g0iwUo
-  ubZepjXYDOenbpAyjg4nBbqezaYinAxvi5pmeRInwkiwipAxYAz1N++QCk6AZ09m1IpfBP/hh
-  0jhU2FwOIjkKMBL4dQYpdDJMFR1MmLZAE/vDM1uC3gUQWPoKDn39peLxyMPeKg/6Y1gJ7zvGY
-  3gJCge74v0mVRDbdFiZZdseFUxGKXwKdB4KkApAXdJaKgaoJRlUqG68zV9Bn1b/tVu5V9JCl4
-  JDTUvSBmzeCH4y4JUNaIaEW9y2SxWd45gs3OGtDTOYEjnDKu/49IzeL2wnxP0oofLEyU3Z9AL
-  eZJeKsjJtpv1DtHdisK3ZXbe+u8GGrps6UeLGEKXwM6E/sjSzDflmgusgmTd5fLYRakfJTGMD
-  tjHZHuWZqFLtIj5e2z28IHOycDE6uLZjVRYZiWnkCPZLIp0G3FMb22ggtRQjlyHqE1ka2QTlk
-  1Wj+PzF3NnPoSStXEsUqlUmlin6Mqxuf+vP0eJDNLFsXVyk1ibw/056Xm4BBEucS61SS7hFr5
-  I2kKkvrWjS+v70Htl+JvT0XfFf73byxKX/Gj+u/23V10Liup2TLUcOBjrzes7cbvUMfwD91PK
-  6IWjjRmDpkxxWpXgi743OdE88mad4B6fObGsrK25oHsizYOrJ+Zl+v/ZfmVXYdX32/LUh/ouH
-  xNUmezW0PKZnb6dHb/uy+7c4n+UYWne26ajJKtgWEG6JOET4UoWJeEDAAA=
-X-Env-Sender: Adam.Thomson.Opensource@diasemi.com
-X-Msg-Ref: server-9.tower-268.messagelabs.com!1555498387!5523604!1
-X-Originating-IP: [104.47.6.59]
-X-SYMC-ESS-Client-Auth: mailfrom-relay-check=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.31.5; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 25918 invoked from network); 17 Apr 2019 10:53:08 -0000
-Received: from mail-ve1eur02lp2059.outbound.protection.outlook.com (HELO EUR02-VE1-obe.outbound.protection.outlook.com) (104.47.6.59)
-  by server-9.tower-268.messagelabs.com with AES256-SHA256 encrypted SMTP; 17 Apr 2019 10:53:08 -0000
+        id S1731717AbfDQLHP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Apr 2019 07:07:15 -0400
+Received: from mail-eopbgr1410133.outbound.protection.outlook.com ([40.107.141.133]:43904
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726695AbfDQLHP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 17 Apr 2019 07:07:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dialogsemiconductor.onmicrosoft.com; s=selector1-diasemi-com;
+ d=renesasgroup.onmicrosoft.com; s=selector1-bp-renesas-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WRIoi4ExiBOWAwLZtuXjbRxNh3UgluhzFkMFxP4LlNs=;
- b=G98ABKMrs8FT15y96STBwEhQfBB+5r6tTKVIiIXQoCY+h08TedkjAmFFB/72KSuEplsO6IY1GfPIOaec93yQ/OhCZ4T18+bbta9oumiKvGTdxHuuxYrjEa2Vi2hsJOQmi4OeeEAzrnMMyyvYqRQZoLx5tfvRYHe4VLBF16UFq88=
-Received: from AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM (10.169.154.136) by
- AM5PR1001MB1124.EURPRD10.PROD.OUTLOOK.COM (10.169.155.17) with Microsoft SMTP
+ bh=2Ia8b6ip+joXKZpP0gl1qcT0Q4BTMKGNGZJjt69saME=;
+ b=kBDjKX+KLs3x3zxs1QXqwKSaHf+DHOqaiMz2BD+aYs8pqLTXCk/X+O2Dn/ALC1iz54rb+VW/IS/jDiwOLtncHPv1OLbTPADj+EKvod0F1ZXdqUlD6uu4V8KrFXCIydrbmcEDpliTVVydmgKLscAALdf54akki2UFO43LbeM24hw=
+Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com (52.134.242.17) by
+ OSBPR01MB3606.jpnprd01.prod.outlook.com (20.178.97.208) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1813.12; Wed, 17 Apr 2019 10:53:02 +0000
-Received: from AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::45b2:d8a8:e1c:b971]) by AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::45b2:d8a8:e1c:b971%5]) with mapi id 15.20.1813.011; Wed, 17 Apr 2019
- 10:53:02 +0000
-From:   Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
-To:     Hans de Goede <hdegoede@redhat.com>,
+ 15.20.1792.19; Wed, 17 Apr 2019 11:07:04 +0000
+Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com
+ ([fe80::6d2c:bd11:88b0:c53a]) by OSBPR01MB2103.jpnprd01.prod.outlook.com
+ ([fe80::6d2c:bd11:88b0:c53a%3]) with mapi id 15.20.1813.011; Wed, 17 Apr 2019
+ 11:07:04 +0000
+From:   Biju Das <biju.das@bp.renesas.com>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-CC:     Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
-        Kyle Tso <kyletso@google.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: RE: [PATCH v2 3/3] usb: typec: fusb302: Revert "Resolve fixed power
- role contract setup"
-Thread-Topic: [PATCH v2 3/3] usb: typec: fusb302: Revert "Resolve fixed power
- role contract setup"
-Thread-Index: AQHU9JAbDWar11dBHEmG59yGPE9eaKZALhXQ
-Date:   Wed, 17 Apr 2019 10:53:02 +0000
+        Felipe Balbi <balbi@kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Simon Horman <horms@verge.net.au>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH V4 3/7] usb: typec: driver for TI HD3SS3220 USB Type-C DRP
+ port controller
+Thread-Topic: [PATCH V4 3/7] usb: typec: driver for TI HD3SS3220 USB Type-C
+ DRP port controller
+Thread-Index: AQHU9DkQ+BlzEObLzUax/HuXZFKjkaZAH4AAgAARQHA=
+Date:   Wed, 17 Apr 2019 11:07:04 +0000
 Message-ID:
- <AM5PR1001MB0994FCC6577712F0C38EE37480250@AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM>
-References: <20190416200754.2826-1-hdegoede@redhat.com>
- <20190416200754.2826-3-hdegoede@redhat.com>
-In-Reply-To: <20190416200754.2826-3-hdegoede@redhat.com>
+ <OSBPR01MB21035AD6E8F0A3C0B9544756B8250@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+References: <1555407487-35394-1-git-send-email-biju.das@bp.renesas.com>
+ <1555407487-35394-4-git-send-email-biju.das@bp.renesas.com>
+ <20190417095732.GP1747@kuha.fi.intel.com>
+In-Reply-To: <20190417095732.GP1747@kuha.fi.intel.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [165.225.80.50]
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=biju.das@bp.renesas.com; 
+x-originating-ip: [193.141.220.21]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5ca1584d-3224-4383-9d69-08d6c322dd27
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(5600140)(711020)(4605104)(2017052603328)(7193020);SRVR:AM5PR1001MB1124;
-x-ms-traffictypediagnostic: AM5PR1001MB1124:
-x-ms-exchange-sharedmailbox-routingagent-processed: True
-x-microsoft-antispam-prvs: <AM5PR1001MB1124199BE1B240C4477B3F23A7250@AM5PR1001MB1124.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-office365-filtering-correlation-id: 6f3b4e59-2bf4-4db9-61b3-08d6c324d314
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600140)(711020)(4605104)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:OSBPR01MB3606;
+x-ms-traffictypediagnostic: OSBPR01MB3606:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <OSBPR01MB36069F0639CA850D6258C3F2B8250@OSBPR01MB3606.jpnprd01.prod.outlook.com>
 x-forefront-prvs: 0010D93EFE
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(376002)(366004)(396003)(39850400004)(346002)(199004)(189003)(106356001)(476003)(486006)(11346002)(446003)(55016002)(6436002)(9686003)(97736004)(316002)(71200400001)(71190400001)(53936002)(86362001)(8936002)(4326008)(229853002)(52536014)(6246003)(5660300002)(74316002)(14444005)(68736007)(81166006)(110136005)(54906003)(256004)(81156014)(105586002)(14454004)(7736002)(478600001)(72206003)(2906002)(305945005)(7696005)(99286004)(8676002)(66066001)(26005)(53546011)(6506007)(55236004)(76176011)(186003)(33656002)(25786009)(6116002)(102836004)(3846002);DIR:OUT;SFP:1101;SCL:1;SRVR:AM5PR1001MB1124;H:AM5PR1001MB0994.EURPRD10.PROD.OUTLOOK.COM;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
-received-spf: None (protection.outlook.com: diasemi.com does not designate
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(346002)(376002)(396003)(136003)(366004)(51914003)(199004)(189003)(8676002)(6916009)(229853002)(102836004)(86362001)(186003)(97736004)(14444005)(5024004)(5660300002)(6116002)(2906002)(486006)(6436002)(3846002)(52536014)(256004)(4326008)(33656002)(966005)(478600001)(53936002)(44832011)(316002)(74316002)(6306002)(25786009)(6246003)(76176011)(30864003)(71190400001)(99286004)(81156014)(14454004)(71200400001)(26005)(446003)(7736002)(7696005)(305945005)(55016002)(54906003)(105586002)(11346002)(476003)(8936002)(81166006)(106356001)(68736007)(9686003)(6506007)(66066001);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB3606;H:OSBPR01MB2103.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
+received-spf: None (protection.outlook.com: bp.renesas.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: b/fYKaWFiH7Y4wh7V1zWKl/GQaH9lnOF2ygm8xVEIQUd1KF119KTtptSF9J47U15qQZb+sqI7VU3kVMXDXQVxUuPBQx7qRwoQcCcTyETYwSlw4bAJmdtsPoYl3ZWi7mByAlMBYF2lHBY763th3hGg3ttS85l9MyxTFcb46mR29zZwJXzgYKKKpodQGhPtycRVPy2Mrubb+zNATVt+SQjzem/3VJfT+ggLV7FC4yndWhbk6RRaXouRhTaHu/aOdI7nhIs2LbiMGiNAFcYa/mldEXB1q5Td4LmqMVVJ+uajHR5SjVnQn77HSLlp5zIEBQv7tw77F/iSeWRQxoAi0mJjhnIGO4yNBoz3Dc4tJHv/RVt5fdxz+Sn9OjkZWgykXwDDQ7iJtclmk3l+ODeEVGKR1Gt2vQpIqd5edDghpFNIo0=
+x-microsoft-antispam-message-info: 8MBR5u/T6W7FDnnwTJZmBrSU1iyDb83If/gk88RJAbrfzmUKutf3kTWeB2v/37KxLfrf89c2DGa3S80JmHI/s31/O5NN73vwQgU++RXdl6TGcHncVEw9t8iGFMB77Msj7/uXvriH9EeIBwgehj1/CBvQ2ovlCeGHqLvzHp+D+Yf3QSTBiJFhyC9bW8fV+ZibV4b5aDpsks/jWei/+rTlLAhL4WBtTRfgr9oZB0wcYb3aeqXFCP5YW/qOMHMIMJv9pKG6BQ9vNiGeFruX1IX8KUrTn5gTZdA3wyISzMXC0M1furHSbUnBuAStQ+mXTDsreeDru/Nfuf9m8lyPyqSNghQe0eGLeNA3OmMZOkteEeeGQ1jC7qnku6Fr4TLmQjKXt8Bh84f1YXOBvPlGShuzpepv1pmqWi1WKSduqmpA/vw=
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: diasemi.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ca1584d-3224-4383-9d69-08d6c322dd27
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Apr 2019 10:53:02.4437
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f3b4e59-2bf4-4db9-61b3-08d6c324d314
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Apr 2019 11:07:04.4219
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR1001MB1124
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB3606
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190417105302.6ul4wbI4p4HesyFnmoOBa6h5CxWsZiE6X3m-jfwE4Mc@z>
+Message-ID: <20190417110704.eOwiG9TVBPE6uSYmSD9pyJFXmsmvJkGW2BxaBto-AZI@z>
 
-On 16 April 2019 21:08, Hans de Goede wrote:
+Hi Heikki,
 
-> Some tcpc device-drivers need to explicitly be told to watch for connecti=
-on
-> events, otherwise the tcpc will not generate any TCPM_CC_EVENTs and devic=
-es
-> being plugged into the Type-C port will not be noticed.
->=20
-> For dual-role ports tcpm_start_drp_toggling() is used to tell the tcpc to
-> watch for connection events. But for single-role ports we've so far been
-> falling back to just calling tcpm_set_cc(). For some tcpc-s such as the
-> fusb302 this is not enough and no TCPM_CC_EVENT will be generated.
->=20
-> Commit ea3b4d5523bc ("usb: typec: fusb302: Resolve fixed power role
-> contract setup") fixed SRPs not working because of this by making the
-> fusb302 driver start connection detection on every tcpm_set_cc() call.
-> It turns out this breaks src->snk power-role swapping because during the
-> swap we first set the Cc pins to Rp, calling set_cc, and then send a PS_R=
-DY
-> message. But the fusb302 cannot send PD messages while its toggling engin=
-e
-> is active, so sending the PS_RDY message fails.
->=20
-> Struct tcpc_dev now has a new start_srp_connection_detect callback and
-> fusb302.c now implements this. This callback gets called when we the
-> fusb302 needs to start connection detection, fixing fusb302 SRPs not
-> seeing connected devices.
->=20
-> This allows us to revert the changes to fusb302's set_cc implementation,
-> making it once again purely setup the Cc-s and matching disconnect
-> detection, fixing src->snk power-role swapping no longer working.
->=20
-> Note that since the code was refactored in between, codewise this is not =
-a
-> straight forward revert. Functionality wise this is a straight revert and
-> the original functionality is fully restored.
->=20
-> Fixes: ea3b4d5523bc ("usb: typec: fusb302: Resolve fixed power role ...")
-> Cc: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Thanks for the feedback.
 
-For DRP & Sink only toggling scenarios, with FUSB302 TCPC:
+> Subject: Re: [PATCH V4 3/7] usb: typec: driver for TI HD3SS3220 USB Type-=
+C
+> DRP port controller
+>=20
+> On Tue, Apr 16, 2019 at 10:38:03AM +0100, Biju Das wrote:
+> > Driver for TI HD3SS3220 USB Type-C DRP port controller.
+> >
+> > The driver currently registers the port and supports data role swapping=
+.
+> >
+> > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+>=20
+> It's too bad they call it "port controller" even though it's not Port Con=
+troller
+> Interface compliant. I put a few minor nitpicks below.
+> Otherwise this looks okay to me, so if there are no other comments:
+>=20
+> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+>=20
+> > ---
+> >  Note: This patch has compilation dependency on
+> > https://patchwork.kernel.org/patch/10882555/
+> >
+> >  V3-->V4
+> >    * Incorporated Chunfeng Yun's review comment
+> >    * Used fwnode API's to get usb role switch handle.
+> >
+> >  V2-->V3
+> >    * Used the new api "usb_role_switch by node" for getting
+> >      remote endpoint associated with Type-C USB DRP port
+> >      controller devices.
+> >  V1-->V2
+> >    * Driver uses usb role class instead of extcon for dual role switch
+> >      and also handles connect/disconnect events.
+> > ---
+> >  drivers/usb/typec/Kconfig     |  10 ++
+> >  drivers/usb/typec/Makefile    |   1 +
+> >  drivers/usb/typec/hd3ss3220.c | 263
+> > ++++++++++++++++++++++++++++++++++++++++++
+> >  3 files changed, 274 insertions(+)
+> >  create mode 100644 drivers/usb/typec/hd3ss3220.c
+> >
+> > diff --git a/drivers/usb/typec/Kconfig b/drivers/usb/typec/Kconfig
+> > index 89d9193..92a3717 100644
+> > --- a/drivers/usb/typec/Kconfig
+> > +++ b/drivers/usb/typec/Kconfig
+> > @@ -50,6 +50,16 @@ source "drivers/usb/typec/tcpm/Kconfig"
+> >
+> >  source "drivers/usb/typec/ucsi/Kconfig"
+> >
+> > +config TYPEC_HD3SS3220
+> > +	tristate "TI HD3SS3220 Type-C DRP Port controller driver"
+> > +	depends on I2C
+> > +	help
+> > +	  Say Y or M here if your system has TI HD3SS3220 Type-C DRP Port
+> > +	  controller driver.
+> > +
+> > +	  If you choose to build this driver as a dynamically linked module, =
+the
+> > +	  module will be called hd3ss3220.ko.
+> > +
+> >  config TYPEC_TPS6598X
+> >  	tristate "TI TPS6598x USB Power Delivery controller driver"
+> >  	depends on I2C
+> > diff --git a/drivers/usb/typec/Makefile b/drivers/usb/typec/Makefile
+> > index 6696b72..7753a5c3 100644
+> > --- a/drivers/usb/typec/Makefile
+> > +++ b/drivers/usb/typec/Makefile
+> > @@ -4,5 +4,6 @@ typec-y				:=3D class.o mux.o bus.o
+> >  obj-$(CONFIG_TYPEC)		+=3D altmodes/
+> >  obj-$(CONFIG_TYPEC_TCPM)	+=3D tcpm/
+> >  obj-$(CONFIG_TYPEC_UCSI)	+=3D ucsi/
+> > +obj-$(CONFIG_TYPEC_HD3SS3220)	+=3D hd3ss3220.o
+> >  obj-$(CONFIG_TYPEC_TPS6598X)	+=3D tps6598x.o
+> >  obj-$(CONFIG_TYPEC)		+=3D mux/
+> > diff --git a/drivers/usb/typec/hd3ss3220.c
+> > b/drivers/usb/typec/hd3ss3220.c new file mode 100644 index
+> > 0000000..e98a38f
+> > --- /dev/null
+> > +++ b/drivers/usb/typec/hd3ss3220.c
+> > @@ -0,0 +1,263 @@
+> > +// SPDX-License-Identifier: GPL-2.0+
+> > +/*
+> > + * TI HD3SS3220 Type-C DRP Port Controller Driver
+> > + *
+> > + * Copyright (C) 2019 Renesas Electronics Corp.
+> > + */
+> > +
+> > +#include <linux/module.h>
+> > +#include <linux/i2c.h>
+> > +#include <linux/usb/role.h>
+> > +#include <linux/irqreturn.h>
+> > +#include <linux/interrupt.h>
+> > +#include <linux/module.h>
+> > +#include <linux/regmap.h>
+> > +#include <linux/slab.h>
+> > +#include <linux/usb/typec.h>
+> > +#include <linux/delay.h>
+> > +
+> > +#define HD3SS3220_REG_CN_STAT_CTRL	0x09
+> > +#define HD3SS3220_REG_GEN_CTRL		0x0A
+> > +#define HD3SS3220_REG_DEV_REV		0xA0
+> > +
+> > +/* Register HD3SS3220_REG_CN_STAT_CTRL*/
+> > +#define HD3SS3220_REG_CN_STAT_CTRL_ATTACHED_STATE_MASK
+> 	(BIT(7) | BIT(6))
+> > +#define HD3SS3220_REG_CN_STAT_CTRL_AS_DFP		BIT(6)
+> > +#define HD3SS3220_REG_CN_STAT_CTRL_AS_UFP		BIT(7)
+> > +#define HD3SS3220_REG_CN_STAT_CTRL_TO_ACCESSORY
+> 	(BIT(7) | BIT(6))
+> > +#define HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS		BIT(4)
+> > +
+> > +/* Register HD3SS3220_REG_GEN_CTRL*/
+> > +#define HD3SS3220_REG_GEN_CTRL_SRC_PREF_MASK
+> 	(BIT(2) | BIT(1))
+> > +#define HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_DEFAULT	0x00
+> > +#define HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SNK	BIT(1)
+> > +#define HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SRC
+> 	(BIT(2) | BIT(1))
+> > +
+> > +struct hd3ss3220 {
+> > +	struct device *dev;
+> > +	struct regmap *regmap;
+> > +	struct usb_role_switch	*role_sw;
+> > +	struct typec_port *port;
+> > +	struct typec_capability typec_cap;
+> > +};
+> > +
+> > +static int hd3ss3220_set_source_pref(struct hd3ss3220 *hd3ss3220, int
+> > +src_pref) {
+> > +	return regmap_update_bits(hd3ss3220->regmap,
+> HD3SS3220_REG_GEN_CTRL,
+> > +
+> HD3SS3220_REG_GEN_CTRL_SRC_PREF_MASK,
+> > +				  src_pref);
+> > +}
+> > +
+> > +static enum usb_role hd3ss3220_get_attached_state(struct hd3ss3220
+> > +*hd3ss3220) {
+> > +	unsigned int reg_val;
+> > +	enum usb_role attached_state;
+> > +	int ret;
+> > +
+> > +	ret =3D regmap_read(hd3ss3220->regmap,
+> HD3SS3220_REG_CN_STAT_CTRL,
+> > +			  &reg_val);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	switch (reg_val &
+> HD3SS3220_REG_CN_STAT_CTRL_ATTACHED_STATE_MASK) {
+> > +	case HD3SS3220_REG_CN_STAT_CTRL_AS_DFP:
+> > +		attached_state =3D USB_ROLE_HOST;
+> > +	break;
+> > +	case HD3SS3220_REG_CN_STAT_CTRL_AS_UFP:
+> > +		attached_state =3D USB_ROLE_DEVICE;
+> > +	break;
+>=20
+> It looks like your line indentation has collapsed here. I pretty sure
+> scripts/checkpatch.pl would have found these.
 
-Tested-by: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
+OK. Will fix this in V5. I have ran Check patch before sending the patch an=
+d it didn't complain this.
 
-> ---
-> Changes in v2:
-> -No changes
-> ---
->  drivers/usb/typec/tcpm/fusb302.c | 55 ++++++++++++++++++++++++++------
->  1 file changed, 46 insertions(+), 9 deletions(-)
+> > +	default:
+> > +		attached_state =3D USB_ROLE_NONE;
+> > +	}
+> > +
+> > +	return attached_state;
+> > +}
+> > +
+> > +static int hd3ss3220_dr_set(const struct typec_capability *cap,
+> > +			    enum typec_data_role role)
+> > +{
+> > +	struct hd3ss3220 *hd3ss3220 =3D container_of(cap, struct hd3ss3220,
+> > +						   typec_cap);
+> > +	enum usb_role role_val;
+> > +	int pref, ret =3D 0;
+> > +
+> > +	if (role =3D=3D TYPEC_HOST) {
+> > +		role_val =3D USB_ROLE_HOST;
+> > +		pref =3D
+> HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SRC;
+> > +	} else {
+> > +		role_val =3D USB_ROLE_DEVICE;
+> > +		pref =3D
+> HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SNK;
+> > +	}
+> > +
+> > +	ret =3D hd3ss3220_set_source_pref(hd3ss3220, pref);
+> > +	usleep_range(10, 100);
+> > +
+> > +	usb_role_switch_set_role(hd3ss3220->role_sw, role_val);
+> > +	typec_set_data_role(hd3ss3220->port, role);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static void hd3ss3220_set_role(struct hd3ss3220 *hd3ss3220) {
+> > +	enum usb_role role_state =3D
+> hd3ss3220_get_attached_state(hd3ss3220);
+> > +
+> > +	usb_role_switch_set_role(hd3ss3220->role_sw, role_state);
+> > +	if (role_state =3D=3D USB_ROLE_NONE)
+> > +		hd3ss3220_set_source_pref(hd3ss3220,
+> > +
+> 	HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_DEFAULT);
+> > +
+> > +	switch (role_state) {
+> > +	case USB_ROLE_HOST:
+> > +		typec_set_data_role(hd3ss3220->port, TYPEC_HOST);
+> > +		break;
+> > +	case USB_ROLE_DEVICE:
+> > +		typec_set_data_role(hd3ss3220->port, TYPEC_DEVICE);
+> > +		break;
+> > +	default:
+> > +		break;
+> > +	}
+> > +}
+> > +
+> > +irqreturn_t hd3ss3220_irq(struct hd3ss3220 *hd3ss3220) {
+> > +	int err;
+> > +
+> > +	hd3ss3220_set_role(hd3ss3220);
+> > +	err =3D regmap_update_bits_base(hd3ss3220->regmap,
+> > +				      HD3SS3220_REG_CN_STAT_CTRL,
+> > +
+> HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS,
+> > +
+> HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS,
+> > +				      NULL, false, true);
+> > +	if (err < 0)
+> > +		return IRQ_NONE;
+> > +
+> > +	return IRQ_HANDLED;
+> > +}
+> > +
+> > +static irqreturn_t hd3ss3220_irq_handler(int irq, void *data) {
+> > +	struct i2c_client *client =3D to_i2c_client(data);
+> > +	struct hd3ss3220 *hd3ss3220 =3D i2c_get_clientdata(client);
+> > +
+> > +	return hd3ss3220_irq(hd3ss3220);
+> > +}
+> > +
+> > +static const struct regmap_config config =3D {
+> > +	.reg_bits =3D 8,
+> > +	.val_bits =3D 8,
+> > +	.max_register =3D 0x0A,
+> > +};
+> > +
+> > +static int hd3ss3220_probe(struct i2c_client *client,
+> > +		const struct i2c_device_id *id)
+> > +{
+> > +	struct hd3ss3220 *hd3ss3220;
+> > +	struct fwnode_handle *parent, *child;
+> > +	int ret;
+> > +	unsigned int data;
+> > +
+> > +	hd3ss3220 =3D devm_kzalloc(&client->dev, sizeof(struct hd3ss3220),
+> > +				 GFP_KERNEL);
+> > +	if (!hd3ss3220)
+> > +		return -ENOMEM;
+> > +
+> > +	i2c_set_clientdata(client, hd3ss3220);
+> > +
+> > +	hd3ss3220->dev =3D &client->dev;
+> > +	hd3ss3220->regmap =3D devm_regmap_init_i2c(client, &config);
+> > +	if (IS_ERR(hd3ss3220->regmap))
+> > +		return PTR_ERR(hd3ss3220->regmap);
+> > +
+> > +	hd3ss3220_set_source_pref(hd3ss3220,
+> > +
+> HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_DEFAULT);
+> > +	child =3D fwnode_graph_get_next_endpoint(dev_fwnode(hd3ss3220-
+> >dev),
+> > +					       NULL);
+> > +	parent =3D fwnode_graph_get_remote_port_parent(child);
+> > +	hd3ss3220->role_sw =3D fwnode_usb_role_switch_get(parent);
+> > +	if (IS_ERR_OR_NULL(hd3ss3220->role_sw)) {
+> > +		fwnode_handle_put(child);
+> > +		fwnode_handle_put(parent);
+> > +		return PTR_ERR(hd3ss3220->role_sw);
+> > +	}
+> > +
+> > +	fwnode_handle_put(child);
+> > +	fwnode_handle_put(parent);
+> > +
+> > +	hd3ss3220->typec_cap.prefer_role =3D TYPEC_NO_PREFERRED_ROLE;
+> > +	hd3ss3220->typec_cap.dr_set =3D hd3ss3220_dr_set;
+> > +	hd3ss3220->typec_cap.type =3D TYPEC_PORT_DRP;
+> > +	hd3ss3220->typec_cap.data =3D TYPEC_PORT_DRD;
+> > +
+> > +	hd3ss3220->port =3D typec_register_port(&client->dev,
+> > +					      &hd3ss3220->typec_cap);
+> > +	if (IS_ERR(hd3ss3220->port))
+> > +		return PTR_ERR(hd3ss3220->port);
+> > +
+> > +	hd3ss3220_set_role(hd3ss3220);
+> > +	if (client->irq > 0) {
+> > +		ret =3D regmap_read(hd3ss3220->regmap,
+> HD3SS3220_REG_CN_STAT_CTRL,
+> > +				  &data);
+> > +		if (ret < 0)
+> > +			goto error;
+> > +
+> > +		if (data & HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS) {
+> > +			ret =3D regmap_write(hd3ss3220->regmap,
+> > +				HD3SS3220_REG_CN_STAT_CTRL,
+> > +				data |
+> HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS);
+> > +			if (ret < 0)
+> > +				goto error;
+> > +		}
+> > +		if (data & HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS) {
+> > +			ret =3D regmap_write(hd3ss3220->regmap,
+> > +				HD3SS3220_REG_CN_STAT_CTRL,
+> > +				data |
+> HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS);
+> > +			if (ret < 0)
+> > +				goto error;
+> > +		}
+> > +
+> > +		ret =3D devm_request_threaded_irq(&client->dev, client->irq,
+> NULL,
+> > +					hd3ss3220_irq_handler,
+> > +					IRQF_TRIGGER_FALLING |
+> IRQF_ONESHOT,
+> > +					"hd3ss3220", &client->dev);
+> > +		if (ret)
+> > +			goto error;
+> > +	}
 >=20
-> diff --git a/drivers/usb/typec/tcpm/fusb302.c
-> b/drivers/usb/typec/tcpm/fusb302.c
-> index ba030b03d156..4328a6cbfb69 100644
-> --- a/drivers/usb/typec/tcpm/fusb302.c
-> +++ b/drivers/usb/typec/tcpm/fusb302.c
-> @@ -606,19 +606,16 @@ static int tcpm_set_cc(struct tcpc_dev *dev, enum
-> typec_cc_status cc)
->  			    FUSB_REG_SWITCHES0_CC2_PU_EN |
->  			    FUSB_REG_SWITCHES0_CC1_PD_EN |
->  			    FUSB_REG_SWITCHES0_CC2_PD_EN;
-> -	u8 switches0_data =3D 0x00;
-> +	u8 rd_mda, switches0_data =3D 0x00;
->  	int ret =3D 0;
-> -	enum toggling_mode mode;
+> I would move the above if (client->irq > 0) case to it's own function.
+
+OK. Will fix this in V5.
+
+Regards,
+Biju
+
+> > +	ret =3D i2c_smbus_read_byte_data(client, HD3SS3220_REG_DEV_REV);
+> > +	if (ret < 0)
+> > +		goto error;
+> > +
+> > +	dev_info(&client->dev, "probed revision=3D0x%x\n", ret);
+> > +
+> > +	return 0;
+> > +error:
+> > +	typec_unregister_port(hd3ss3220->port);
+> > +	usb_role_switch_put(hd3ss3220->role_sw);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static int hd3ss3220_remove(struct i2c_client *client) {
+> > +	struct hd3ss3220 *hd3ss3220 =3D i2c_get_clientdata(client);
+> > +
+> > +	typec_unregister_port(hd3ss3220->port);
+> > +	usb_role_switch_put(hd3ss3220->role_sw);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct of_device_id dev_ids[] =3D {
+> > +	{ .compatible =3D "ti,hd3ss3220"},
+> > +	{}
+> > +};
+> > +MODULE_DEVICE_TABLE(of, dev_ids);
+> > +
+> > +static struct i2c_driver hd3ss3220_driver =3D {
+> > +	.driver =3D {
+> > +		.name =3D "hd3ss3220",
+> > +		.of_match_table =3D of_match_ptr(dev_ids),
+> > +	},
+> > +	.probe =3D hd3ss3220_probe,
+> > +	.remove =3D  hd3ss3220_remove,
+> > +};
+> > +
+> > +module_i2c_driver(hd3ss3220_driver);
+> > +
+> > +MODULE_AUTHOR("Biju Das <biju.das@bp.renesas.com>");
+> > +MODULE_DESCRIPTION("TI HD3SS3220 DRP Port Controller Driver");
+> > +MODULE_LICENSE("GPL");
+> > --
+> > 2.7.4
 >=20
->  	mutex_lock(&chip->lock);
->  	switch (cc) {
->  	case TYPEC_CC_OPEN:
-> -		mode =3D TOGGLING_MODE_OFF;
->  		break;
->  	case TYPEC_CC_RD:
->  		switches0_data |=3D FUSB_REG_SWITCHES0_CC1_PD_EN |
->  				  FUSB_REG_SWITCHES0_CC2_PD_EN;
-> -		mode =3D TOGGLING_MODE_SNK;
->  		break;
->  	case TYPEC_CC_RP_DEF:
->  	case TYPEC_CC_RP_1_5:
-> @@ -626,7 +623,6 @@ static int tcpm_set_cc(struct tcpc_dev *dev, enum
-> typec_cc_status cc)
->  		switches0_data |=3D (chip->cc_polarity =3D=3D TYPEC_POLARITY_CC1) ?
->  				  FUSB_REG_SWITCHES0_CC1_PU_EN :
->  				  FUSB_REG_SWITCHES0_CC2_PU_EN;
-> -		mode =3D TOGGLING_MODE_SRC;
->  		break;
->  	default:
->  		fusb302_log(chip, "unsupported cc value %s",
-> @@ -637,6 +633,12 @@ static int tcpm_set_cc(struct tcpc_dev *dev, enum
-> typec_cc_status cc)
->=20
->  	fusb302_log(chip, "cc :=3D %s", typec_cc_status_name[cc]);
->=20
-> +	ret =3D fusb302_set_toggling(chip, TOGGLING_MODE_OFF);
-> +	if (ret < 0) {
-> +		fusb302_log(chip, "cannot set toggling mode, ret=3D%d", ret);
-> +		goto done;
-> +	}
-> +
->  	ret =3D fusb302_i2c_mask_write(chip, FUSB_REG_SWITCHES0,
->  				     switches0_mask, switches0_data);
->  	if (ret < 0) {
-> @@ -655,10 +657,45 @@ static int tcpm_set_cc(struct tcpc_dev *dev, enum
-> typec_cc_status cc)
->  		goto done;
->  	}
->=20
-> -	ret =3D fusb302_set_toggling(chip, mode);
-> -	if (ret < 0)
-> -		fusb302_log(chip, "cannot set toggling mode, ret=3D%d", ret);
-> -
-> +	/* enable/disable interrupts, BC_LVL for SNK and COMP_CHNG for SRC
-> */
-> +	switch (cc) {
-> +	case TYPEC_CC_RP_DEF:
-> +	case TYPEC_CC_RP_1_5:
-> +	case TYPEC_CC_RP_3_0:
-> +		rd_mda =3D rd_mda_value[cc_src_current[cc]];
-> +		ret =3D fusb302_i2c_write(chip, FUSB_REG_MEASURE, rd_mda);
-> +		if (ret < 0) {
-> +			fusb302_log(chip,
-> +				    "cannot set SRC measure value, ret=3D%d",
-> +				    ret);
-> +			goto done;
-> +		}
-> +		ret =3D fusb302_i2c_mask_write(chip, FUSB_REG_MASK,
-> +					     FUSB_REG_MASK_BC_LVL |
-> +					     FUSB_REG_MASK_COMP_CHNG,
-> +					     FUSB_REG_MASK_COMP_CHNG);
-> +		if (ret < 0) {
-> +			fusb302_log(chip, "cannot set SRC interrupt, ret=3D%d",
-> +				    ret);
-> +			goto done;
-> +		}
-> +		chip->intr_comp_chng =3D true;
-> +		break;
-> +	case TYPEC_CC_RD:
-> +		ret =3D fusb302_i2c_mask_write(chip, FUSB_REG_MASK,
-> +					     FUSB_REG_MASK_BC_LVL |
-> +					     FUSB_REG_MASK_COMP_CHNG,
-> +					     FUSB_REG_MASK_BC_LVL);
-> +		if (ret < 0) {
-> +			fusb302_log(chip, "cannot set SRC interrupt, ret=3D%d",
-> +				    ret);
-> +			goto done;
-> +		}
-> +		chip->intr_bc_lvl =3D true;
-> +		break;
-> +	default:
-> +		break;
-> +	}
->  done:
->  	mutex_unlock(&chip->lock);
+> thanks,
 >=20
 > --
-> 2.21.0
-
+> heikki
