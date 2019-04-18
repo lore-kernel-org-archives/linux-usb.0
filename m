@@ -2,72 +2,118 @@ Return-Path: <SRS0=JW0E=SU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AE8CC10F0E
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 18:29:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C784C10F14
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 18:31:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7288A217D7
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 18:29:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 033052064A
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 18:31:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1555612295;
+	bh=5V62lUEdLmCtaS+NBlXGPV8GZQJwJkOClSPYavQmJNY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=Qo8DXUju9mEG1iEmJTg9f/HCEzqKNz8jzP/keOnzKKiVq86BMTWSMUmcEeXVHmMtv
+	 5XvOvqywn4DORt7PANj1Z53NLpmv4XHS2+FzlgpMvv4CbDsBZZqIUkjzGiw7BBM1Ym
+	 ly0bfa56QNur6jmOKKMVCmNAImUfrqIU6h1MeIhI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391021AbfDRS3B (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Apr 2019 14:29:01 -0400
-Received: from mail-io1-f72.google.com ([209.85.166.72]:35352 "EHLO
-        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390215AbfDRS3B (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Apr 2019 14:29:01 -0400
-Received: by mail-io1-f72.google.com with SMTP id k2so2697300ioj.2
-        for <linux-usb@vger.kernel.org>; Thu, 18 Apr 2019 11:29:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=BU1SsEMdAzv7X0W9Kg2IG+F4HPH+CSCzZboTZS2QsC8=;
-        b=dPVeix6z3FuCoQEEtma+zi2UyjhieIrxr1dLEpGs4HcnEDl925+MYITEj+UoHRMKtM
-         PRF8okQcDl/GDezy6Ofst7q7VC9dKpTzV48UAajMK6clNx5KZ9nhscr+5WXxNh2DXaqB
-         mV+STLfZswMtJ6JaXw+Hf3iCVz8SxZLimXp1M7pzn+0ZKPG6hnVwTdHrUb3W+P06D8+g
-         WDWbnTym+FvfDGUJUBK8AFexeJtW59kySvjO8uO03RvkGnFZcF/QK+FER+2c/oxS5EgP
-         sXZ8bFGSU/91QjYnFRco4Nl8tTdXERBKDtMMddZRpOurzgojecCM9JvKLklqCnSX18Oz
-         i58g==
-X-Gm-Message-State: APjAAAV+Ien83CGN6fGzcodzk5f7gUh/fCVcepY6GokAYMiKIQ3aQTmP
-        4qTlxg84DbHgvLz92P/rRgO9COukkHbdBfHgrdfAp3C8nVAs
-X-Google-Smtp-Source: APXvYqwvfJD0b5aBWpD2uzjmdB2PCMFSp2fj8NKFHC4vFo/eQp2KHqL/G2dLDERJVHgxCJb+YK1P+qo2gu9YUNnpleDwoZcN+Pu4
+        id S2390456AbfDRSA5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Apr 2019 14:00:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56380 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390451AbfDRSA4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 18 Apr 2019 14:00:56 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 66B76206B6;
+        Thu, 18 Apr 2019 18:00:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1555610455;
+        bh=5V62lUEdLmCtaS+NBlXGPV8GZQJwJkOClSPYavQmJNY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=L7ewULW1AvD5aL22SsHNzw6vNFJtzQpa57Svvf2Sbo//lsN2gw0P67P1oOLtYSGPg
+         3Hb1YveolDJyL43t3NNVIInU1UJ64YGJYN3aj6Y7VElF6SqNTb4h8qhxyjkWIBr0/U
+         b9XEoKSPkXJjKxqqdrWcqLXxfsIIOtsF89xM6cII=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Jonathan Dieter <jdieter@gmail.com>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        Shuah Khan <shuah@kernel.org>, linux-usb@vger.kernel.org,
+        =?UTF-8?q?Maciej=20=C5=BBenczykowski?= <zenczykowski@gmail.com>,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 4.19 069/110] usbip: fix vhci_hcd controller counting
+Date:   Thu, 18 Apr 2019 19:56:58 +0200
+Message-Id: <20190418160444.880926530@linuxfoundation.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190418160437.484158340@linuxfoundation.org>
+References: <20190418160437.484158340@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-X-Received: by 2002:a24:7bcb:: with SMTP id q194mr4514267itc.173.1555612140806;
- Thu, 18 Apr 2019 11:29:00 -0700 (PDT)
-Date:   Thu, 18 Apr 2019 11:29:00 -0700
-In-Reply-To: <Pine.LNX.4.44L0.1904181405430.1303-100000@iolanthe.rowland.org>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000000fa8360586d22dd5@google.com>
-Subject: Re: WARNING in usb_submit_urb (4)
-From:   syzbot <syzbot+7634edaea4d0b341c625@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, linux-usb@vger.kernel.org,
-        stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; delsp="yes"; format="flowed"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190418182900.xYf91C2MPx3waONCw1w4Enjt9V_KMupf4g5SSqLXdFw@z>
+Message-ID: <20190418175658.OoUwzVb0kOV4bRepZzabgVYIuqYHYp5bYDHZDeSzB1U@z>
 
-Hello,
+[ Upstream commit e0a2e73e501c77037c8756137e87b12c7c3c9793 ]
 
-syzbot has tested the proposed patch and the reproducer did not trigger  
-crash:
+Without this usbip fails on a machine with devices
+that lexicographically come after vhci_hcd.
 
-Reported-and-tested-by:  
-syzbot+7634edaea4d0b341c625@syzkaller.appspotmail.com
+ie.
+  $ ls -l /sys/devices/platform
+  ...
+  drwxr-xr-x. 4 root root    0 Sep 19 16:21 serial8250
+  -rw-r--r--. 1 root root 4096 Sep 19 23:50 uevent
+  drwxr-xr-x. 6 root root    0 Sep 20 13:15 vhci_hcd.0
+  drwxr-xr-x. 4 root root    0 Sep 19 16:22 w83627hf.656
 
-Tested on:
+Because it detects 'w83627hf.656' as another vhci_hcd controller,
+and then fails to be able to talk to it.
 
-commit:         e12e00e3 Merge tag 'kbuild-fixes-v4.20' of git://git.kerne..
-git tree:        
-git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-kernel config:  https://syzkaller.appspot.com/x/.config?x=69667e62a5e247a7
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=17a7eaa0a00000
+Note: this doesn't actually fix usbip's support for multiple
+controllers... that's still broken for other reasons
+("vhci_hcd.0" is hardcoded in a string macro), but is enough to
+actually make it work on the above machine.
 
-Note: testing is done by a robot and is best-effort only.
+See also:
+  https://bugzilla.redhat.com/show_bug.cgi?id=1631148
+
+Cc: Jonathan Dieter <jdieter@gmail.com>
+Cc: Valentina Manea <valentina.manea.m@gmail.com>
+Cc: Shuah Khan <shuah@kernel.org>
+Cc: linux-usb@vger.kernel.org
+Signed-off-by: Maciej Żenczykowski <zenczykowski@gmail.com>
+Acked-by: Shuah Khan (Samsung OSG) <shuah@kernel.org>
+Tested-by: Jonathan Dieter <jdieter@gmail.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ tools/usb/usbip/libsrc/vhci_driver.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/usb/usbip/libsrc/vhci_driver.c b/tools/usb/usbip/libsrc/vhci_driver.c
+index 4204359c9fee..8159fd98680b 100644
+--- a/tools/usb/usbip/libsrc/vhci_driver.c
++++ b/tools/usb/usbip/libsrc/vhci_driver.c
+@@ -150,7 +150,7 @@ static int get_nports(struct udev_device *hc_device)
+ 
+ static int vhci_hcd_filter(const struct dirent *dirent)
+ {
+-	return strcmp(dirent->d_name, "vhci_hcd") >= 0;
++	return !strncmp(dirent->d_name, "vhci_hcd.", 9);
+ }
+ 
+ static int get_ncontrollers(void)
+-- 
+2.19.1
+
+
+
