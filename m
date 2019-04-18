@@ -2,104 +2,132 @@ Return-Path: <SRS0=JW0E=SU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
-	T_DKIMWL_WL_HIGH,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA62EC10F0E
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 16:20:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04EABC10F0E
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 16:53:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7AD83206B6
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 16:20:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1555604420;
-	bh=K5GE9K66X3rAFYUZw5S1KfAXRzOdlgQTSxFEA/NsJig=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=VwLxPnce//VOyVX5Mii7vUUPI/fEF3vglcOxSyASzp514l/3HePoMs9HMAkHXJ88Q
-	 ElWzZHalqrVBEemBjeKHrdDvoUaIb6TZS96aB8lrt18bKKk1Wa7fanx9fD6JlCDeqM
-	 E3CBlfE4jDv85ndg3EipWHbq/ReZ8oYmMmBQt6as=
+	by mail.kernel.org (Postfix) with ESMTP id CA855217FA
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 16:53:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389005AbfDRQUT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Apr 2019 12:20:19 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:43984 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725888AbfDRQUT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Apr 2019 12:20:19 -0400
-Received: by mail-lf1-f67.google.com with SMTP id i68so2070205lfi.10
-        for <linux-usb@vger.kernel.org>; Thu, 18 Apr 2019 09:20:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VKIh/3zfog5t/yt1HIBidUiXFtzBet2TRIjomD6FHZk=;
-        b=f2G+1pUtRPNp2rvCYHPPuCdcQ9Bo4LkTXw12zy32YFdRCaMGCDQRErcnwUavisjV2D
-         5+Rs7miP8Z27ztZtWYU7hpnzlO88pdM6nejKuBy0+T7NGxIddBtTchV5zovNt4T24jdC
-         l4Sfn6+hiU5SOQaqjgVbIftTwjkioB0XEPTA8lKENVLa2SgOjrgPMOrEbGNjKzntLadN
-         /1jcaCPb3a1IPzAUFnYMhvzYI0IVuyEfsLdr3jifbx5mE4FGEgxQjcWqI+st5quKP+L/
-         xsTG5zSqhIwthQAF7zXrz6v6yekmqkMT7M5qb5vwYLlr1ONAbZf6qXJr8wYU0UT/36Nf
-         OpNw==
-X-Gm-Message-State: APjAAAUAemMpqs8uUYUeewNz3mctMlQtizOZuWUAuDa64udQm1emGBnE
-        HKWG54SxIhOeIAWqU2aU6Z8ibgIe
-X-Google-Smtp-Source: APXvYqwrsBRdmrWbUMp68O9p1S9inQCOWlImyfg5tioJ3YzooqUwpYvrhdAd3K3e8dKzBRis0sVfHQ==
-X-Received: by 2002:a19:c018:: with SMTP id q24mr52514832lff.38.1555604417125;
-        Thu, 18 Apr 2019 09:20:17 -0700 (PDT)
-Received: from xi.terra (c-74bee655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.190.116])
-        by smtp.gmail.com with ESMTPSA id p18sm504130ljp.1.2019.04.18.09.20.15
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 18 Apr 2019 09:20:15 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.91)
-        (envelope-from <johan@xi.terra>)
-        id 1hH9lx-00068r-6d; Thu, 18 Apr 2019 18:20:25 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     linux-usb@vger.kernel.org
-Cc:     Johan Hovold <johan@kernel.org>
-Subject: [PATCH 1/2] USB: serial: digi_acceleport: clean up modem-control handling
-Date:   Thu, 18 Apr 2019 18:20:19 +0200
-Message-Id: <20190418162020.23566-1-johan@kernel.org>
-X-Mailer: git-send-email 2.21.0
+        id S2388450AbfDRQxF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Apr 2019 12:53:05 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:48532 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1733067AbfDRQxF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Apr 2019 12:53:05 -0400
+Received: (qmail 1954 invoked by uid 2102); 18 Apr 2019 12:53:04 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 18 Apr 2019 12:53:04 -0400
+Date:   Thu, 18 Apr 2019 12:53:04 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     syzbot <syzbot+7634edaea4d0b341c625@syzkaller.appspotmail.com>
+cc:     andreyknvl@google.com, <linux-usb@vger.kernel.org>,
+        <syzkaller-bugs@googlegroups.com>
+Subject: Re: WARNING in usb_submit_urb (4)
+In-Reply-To: <Pine.LNX.4.44L0.1904181159410.1513-100000@iolanthe.rowland.org>
+Message-ID: <Pine.LNX.4.44L0.1904181247380.1303-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190418162019.p9yIbgPD5LfiEWf6LgoMmaDocNKousNHlk9K_PgB_fI@z>
+Message-ID: <20190418165304.h2pWaaYUKcCkK77Se-ivUr5rByzlViWCsPMm33kzPXU@z>
 
-Clean up modem-control handling somewhat by adding missing whitespace
-around operators and splitting a long statement in two.
+On Thu, 18 Apr 2019, Alan Stern wrote:
 
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/serial/digi_acceleport.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> On Wed, 17 Apr 2019, Alan Stern wrote:
+> 
+> > I'm still having trouble understanding this.  Here's some more 
+> > debugging.
+> 
+> Let's try this again.  The patch format was wrong.
 
-diff --git a/drivers/usb/serial/digi_acceleport.c b/drivers/usb/serial/digi_acceleport.c
-index e7f244cf2c07..4699e114f617 100644
---- a/drivers/usb/serial/digi_acceleport.c
-+++ b/drivers/usb/serial/digi_acceleport.c
-@@ -569,9 +569,9 @@ static int digi_set_modem_signals(struct usb_serial_port *port,
- 	ret = usb_submit_urb(oob_port->write_urb, GFP_ATOMIC);
- 	if (ret == 0) {
- 		oob_priv->dp_write_urb_in_use = 1;
--		port_priv->dp_modem_signals =
--			(port_priv->dp_modem_signals&~(TIOCM_DTR|TIOCM_RTS))
--			| (modem_signals&(TIOCM_DTR|TIOCM_RTS));
-+		port_priv->dp_modem_signals &= ~(TIOCM_DTR | TIOCM_RTS);
-+		port_priv->dp_modem_signals |=
-+				modem_signals & (TIOCM_DTR | TIOCM_RTS);
- 	}
- 	spin_unlock(&port_priv->dp_port_lock);
- 	spin_unlock_irqrestore(&oob_priv->dp_port_lock, flags);
-@@ -1084,7 +1084,7 @@ static int digi_chars_in_buffer(struct tty_struct *tty)
- static void digi_dtr_rts(struct usb_serial_port *port, int on)
- {
- 	/* Adjust DTR and RTS */
--	digi_set_modem_signals(port, on * (TIOCM_DTR|TIOCM_RTS), 1);
-+	digi_set_modem_signals(port, on * (TIOCM_DTR | TIOCM_RTS), 1);
- }
+One more try, this time with the syz command line.
+
+Incidentally, the console log from the last test had a very troubling
+entry showing the runtime PM usage counter for the hub interface was
+set to -4!  Whatever caused the counter to go negative is probably also
+the reason for this bug.
+
+Alan Stern
+
+
+#syz test: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git e12e00e388de
+
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -1016,6 +1016,9 @@ static void hub_activate(struct usb_hub
+ 	bool need_debounce_delay = false;
+ 	unsigned delay;
  
- static int digi_open(struct tty_struct *tty, struct usb_serial_port *port)
--- 
-2.21.0
++	dev_info(hub->intfdev, "%p %s type %d discon %d\n",
++			hub, __func__, type, hub->disconnected);
++
+ 	/* Continue a partial initialization */
+ 	if (type == HUB_INIT2 || type == HUB_INIT3) {
+ 		device_lock(&hdev->dev);
+@@ -1299,6 +1302,8 @@ static void hub_quiesce(struct usb_hub *
+ 	unsigned long flags;
+ 	int i;
+ 
++	dev_info(hub->intfdev, "%p %s type %d\n", hub, __func__, type);
++
+ 	/* hub_wq and related activity won't re-trigger */
+ 	spin_lock_irqsave(&hub->irq_urb_lock, flags);
+ 	hub->quiescing = 1;
+@@ -3711,7 +3716,9 @@ static int hub_suspend(struct usb_interf
+ 		}
+ 	}
+ 
+-	dev_dbg(&intf->dev, "%s\n", __func__);
++	dev_info(&intf->dev, "%p %s usage %d\n",
++			hub, __func__,
++			atomic_read(&intf->dev.power.usage_count));
+ 
+ 	/* stop hub_wq and related activity */
+ 	hub_quiesce(hub, HUB_SUSPEND);
+@@ -3756,7 +3763,7 @@ static int hub_resume(struct usb_interfa
+ {
+ 	struct usb_hub *hub = usb_get_intfdata(intf);
+ 
+-	dev_dbg(&intf->dev, "%s\n", __func__);
++	dev_info(&intf->dev, "%p %s\n", hub, __func__);
+ 	hub_activate(hub, HUB_RESUME);
+ 
+ 	/*
+--- a/drivers/usb/core/driver.c
++++ b/drivers/usb/core/driver.c
+@@ -358,7 +358,11 @@ static int usb_probe_interface(struct de
+ 		intf->needs_altsetting0 = 0;
+ 	}
+ 
++	dev_info(dev, "pre-probe usage %d\n",
++			atomic_read(&intf->dev.power.usage_count));
+ 	error = driver->probe(intf, id);
++	dev_info(dev, "post-probe usage %d\n",
++			atomic_read(&intf->dev.power.usage_count));
+ 	if (error)
+ 		goto err;
+ 
+@@ -420,7 +424,11 @@ static int usb_unbind_interface(struct d
+ 	if (!driver->soft_unbind || udev->state == USB_STATE_NOTATTACHED)
+ 		usb_disable_interface(udev, intf, false);
+ 
++	dev_info(dev, "pre-discon usage %d\n",
++			atomic_read(&intf->dev.power.usage_count));
+ 	driver->disconnect(intf);
++	dev_info(dev, "post-discon usage %d\n",
++			atomic_read(&intf->dev.power.usage_count));
+ 
+ 	/* Free streams */
+ 	for (i = 0, j = 0; i < intf->cur_altsetting->desc.bNumEndpoints; i++) {
+
+
+
+
 
