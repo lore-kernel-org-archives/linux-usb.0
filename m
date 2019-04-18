@@ -7,50 +7,50 @@ X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5C33C282DC
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 00:15:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8DCCC282DC
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 00:15:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7D2D72183E
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 00:15:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AF71321850
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 00:15:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IVSeUaSO"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IxvwAG/F"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387791AbfDRAPB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Apr 2019 20:15:01 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:46161 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387782AbfDRAPB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Apr 2019 20:15:01 -0400
-Received: by mail-pg1-f195.google.com with SMTP id q1so284834pgv.13
-        for <linux-usb@vger.kernel.org>; Wed, 17 Apr 2019 17:15:00 -0700 (PDT)
+        id S2387855AbfDRAPR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Apr 2019 20:15:17 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:43408 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387687AbfDRAO7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Apr 2019 20:14:59 -0400
+Received: by mail-pf1-f196.google.com with SMTP id c8so224304pfd.10
+        for <linux-usb@vger.kernel.org>; Wed, 17 Apr 2019 17:14:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8a+BZEe7v/lxE++Jk26DJvDIeRtcgS+edmxjVgSar6E=;
-        b=IVSeUaSONgbK9dI1ta/UwuOc1HRfMQvPSCtcNOmVBdiHzUEh6REoeZBCONmL+PZwSV
-         gdii0s7Vx/s52jH8A1PQYwkkHw9YqXyjHxrrr/jGLWyyR7H1KXSZpkgeusUpVeqsGy6D
-         hURXqfMjL0W5jtLLmOK6G1hVPp3iOLlOrIF3A=
+        bh=FEymG5YLHbrDDzFxo52pdSm6cWs0XYbMN/p1plON6hw=;
+        b=IxvwAG/FD+h3vReXVkO8WN6TgoWmn5hmjEDHCWUqYGymihVRS6a5o1mVUT3QNKxtUS
+         s8WcGVHZle2CbosV4XoPgSRF+m5tBlUbQOt2yAkreM99lgKyKUsc0Fkuy3JlX/HFQ/4d
+         bdAJoUwFWOoAEIZttOkK4YpGJT2cIkcGbSuHs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8a+BZEe7v/lxE++Jk26DJvDIeRtcgS+edmxjVgSar6E=;
-        b=BmCSoLXeZzvZgfjcHbivHOSqGqYNapG6CyWM6AYhHolZi/K5hUMGyAx2JwnEEhbi3t
-         /ThZ4ZupItdmMbqMHg5guLdm5emqIocSO9eZtXuLEXexRYbXj7Efcg1sf/btek0Vu77M
-         pHe/18u7xooD6odPDmzxFKkMDQuZIOdrLUirQAIoPFD19fu81Tjt79lfUzhX7WZAqjc0
-         qT4VFlegtlpJ6DSwNLPnZOwvVi6Sws6HOC7+dLvkncy+h9/yHLycTcKdKQjggylkGEVU
-         WuKD93dssy9eWfP18+BYVhOXy+54KGJ5Ho12rlBtxoIF2iS22e9gap1MNqKYyXq8F3KE
-         CH1w==
-X-Gm-Message-State: APjAAAVwnpyAVgs2jX3HjNdV2hmtyG7O4FQOKASOuPIBGWAqcnqARRM+
-        KLBmBwA20Ldc5HbttCDVXmgzGg==
-X-Google-Smtp-Source: APXvYqxYqSg78iVNlYmCW86sspNg6ANcr7iduniZLCDqL6dcz9Jy0fjB/9qbeZkfU6namPKEZg5IPQ==
-X-Received: by 2002:a62:6fc6:: with SMTP id k189mr74302179pfc.154.1555546500578;
-        Wed, 17 Apr 2019 17:15:00 -0700 (PDT)
+        bh=FEymG5YLHbrDDzFxo52pdSm6cWs0XYbMN/p1plON6hw=;
+        b=l3EouFYzIhru0xbi4cfofZS6ip8Srpgkj3/681BezGq20/Vlr/UpK/3AvusAI/lAj2
+         yYHt105gK0sNCI113358EjtG7JTzUiFsFMEd8+dBPmUAH5eHo5V0T1PVkfNzmGD/jFoV
+         m/ZhndKD5Wf7NPscrPCTZ4iUPfx4eCpCV3dGUnxw2l/hsW5VT3i+m2XgloQt33v9rw/+
+         lZIFkxkDLzL14PcSSInQqibpMZxIOPZwLv0gYAw44xCSgXjX9keK5L5MHjcPyHj/wfO0
+         eq+VkVYpFq12WsnF1MOQAy7XMA5Yr78f114JgEmUxJao3hbLQcPqpCqjr63Rk/B9VFhk
+         nN/A==
+X-Gm-Message-State: APjAAAXqdB09IS+LXly4H+8mD9UYobMEoJ+Nqot25wnhPxEWts9QUrTR
+        VWn+0gHG9F6yMU8smWkSbs9IaQ==
+X-Google-Smtp-Source: APXvYqzyMQB6DofPsR3ROmeLa7d3NvmAdljo4RKmr1talzLCVFturW2bHncz7YNf+WhFu2sdhPQ5/g==
+X-Received: by 2002:a62:aa06:: with SMTP id e6mr2953350pff.254.1555546499283;
+        Wed, 17 Apr 2019 17:14:59 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com ([2620:15c:202:1:24fa:e766:52c9:e3b2])
-        by smtp.gmail.com with ESMTPSA id q5sm447668pff.97.2019.04.17.17.14.59
+        by smtp.gmail.com with ESMTPSA id q5sm447668pff.97.2019.04.17.17.14.57
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 17 Apr 2019 17:15:00 -0700 (PDT)
+        Wed, 17 Apr 2019 17:14:58 -0700 (PDT)
 From:   Douglas Anderson <dianders@chromium.org>
 To:     Minas Harutyunyan <hminas@synopsys.com>,
         Felipe Balbi <felipe.balbi@linux.intel.com>, heiko@sntech.de
@@ -65,13 +65,16 @@ Cc:     Alan Stern <stern@rowland.harvard.edu>,
         dinguyen@opensource.altera.com,
         Elaine Zhang <zhangqing@rock-chips.com>,
         Douglas Anderson <dianders@chromium.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        linux-kernel@vger.kernel.org,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Jon Flatley <jflat@chromium.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Subject: [PATCH v2 3/5] Documentation: dt-bindings: Add snps,need-phy-for-wake for dwc2 USB
-Date:   Wed, 17 Apr 2019 17:13:54 -0700
-Message-Id: <20190418001356.124334-4-dianders@chromium.org>
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [PATCH v2 2/5] USB: Export usb_wakeup_enabled_descendants()
+Date:   Wed, 17 Apr 2019 17:13:53 -0700
+Message-Id: <20190418001356.124334-3-dianders@chromium.org>
 X-Mailer: git-send-email 2.21.0.593.g511ec345e18-goog
 In-Reply-To: <20190418001356.124334-1-dianders@chromium.org>
 References: <20190418001356.124334-1-dianders@chromium.org>
@@ -82,62 +85,88 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190418001354.2ZgW0wE-HkIbQKtBAEHc0CuaQ1OPE6vouTDqr8Unh0M@z>
+Message-ID: <20190418001353.iWi5HJRm79FLW0GlFvCxGwrEM2TLw-qk6NX0gdkhV88@z>
 
-Some SoCs with a dwc2 USB controller may need to keep the PHY on to
-support remote wakeup.  Allow specifying this as a device tree
-property.
+In (e583d9d USB: global suspend and remote wakeup don't mix) we
+introduced wakeup_enabled_descendants() as a static function.  We'd
+like to use this function in USB controller drivers to know if we
+should keep the controller on during suspend time, since doing so has
+a power impact.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 ---
-For relevant prior discussion on this patch, see:
+For relevant prior discussion of this idea, see:
 
-https://lkml.kernel.org/r/1435017144-2971-3-git-send-email-dianders@chromium.org
+https://lkml.kernel.org/r/1436207224-21849-4-git-send-email-dianders@chromium.org
 
-I didn't make any changes from the prior version since I never found
-out what Rob thought of my previous arguments.  If folks want a
-change, perhaps they could choose from these options:
-
-1. Assume that all dwc2 hosts would like to keep their PHY on for
-   suspend if there's a USB wakeup enabled, thus we totally drop this
-   binding.  This doesn't seem super great to me since I'd bet that
-   many devices that use dwc2 weren't designed for USB wakeup (they
-   may not keep enough clocks or rails on) so we might be wasting
-   power for nothing.
-2. Rename this property to "snps,wakeup-from-suspend-with-phy" to make
-   it more obvious that this property is intended both to document
-   that wakeup from suspend is possible and that we need the PHY for
-   said wakeup.
-3. Rename this property to "snps,can-wakeup-from-suspend" and assume
-   it's implicit that if we can wakeup from suspend that we need to
-   keep the PHY on.  If/when someone shows that a device exists using
-   dwc2 where we can wakeup from suspend without the PHY they can add
-   a new property.
+If I'm reading all the responses correctly folks were of the opinion
+that this patch is still the right way to go.
 
 Changes in v2: None
 
- Documentation/devicetree/bindings/usb/dwc2.txt | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/usb/core/hub.c  | 7 ++++---
+ include/linux/usb/hcd.h | 5 +++++
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/dwc2.txt b/Documentation/devicetree/bindings/usb/dwc2.txt
-index f70f3aee4bfc..1c5e29d23c51 100644
---- a/Documentation/devicetree/bindings/usb/dwc2.txt
-+++ b/Documentation/devicetree/bindings/usb/dwc2.txt
-@@ -37,6 +37,8 @@ Refer to phy/phy-bindings.txt for generic phy consumer properties
- - g-rx-fifo-size: size of rx fifo size in gadget mode.
- - g-np-tx-fifo-size: size of non-periodic tx fifo size in gadget mode.
- - g-tx-fifo-size: size of periodic tx fifo per endpoint (except ep0) in gadget mode.
-+- snps,need-phy-for-wake: If present indicates that the phy needs to be left
-+                          on for remote wakeup during suspend.
- - snps,reset-phy-on-wake: If present indicates that we need to reset the PHY when
-                           we detect a wakeup.  This is due to a hardware errata.
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 8d4631c81b9f..5e8f3fa7ae5a 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -3174,13 +3174,14 @@ static int usb_disable_remote_wakeup(struct usb_device *udev)
+ }
  
-@@ -53,4 +55,5 @@ Example:
- 		clock-names = "otg";
- 		phys = <&usbphy>;
- 		phy-names = "usb2-phy";
-+		snps,need-phy-for-wake;
-         };
+ /* Count of wakeup-enabled devices at or below udev */
+-static unsigned wakeup_enabled_descendants(struct usb_device *udev)
++unsigned usb_wakeup_enabled_descendants(struct usb_device *udev)
+ {
+ 	struct usb_hub *hub = usb_hub_to_struct_hub(udev);
+ 
+ 	return udev->do_remote_wakeup +
+ 			(hub ? hub->wakeup_enabled_descendants : 0);
+ }
++EXPORT_SYMBOL_GPL(usb_wakeup_enabled_descendants);
+ 
+ /*
+  * usb_port_suspend - suspend a usb device's upstream port
+@@ -3282,7 +3283,7 @@ int usb_port_suspend(struct usb_device *udev, pm_message_t msg)
+ 	 * Therefore we will turn on the suspend feature if udev or any of its
+ 	 * descendants is enabled for remote wakeup.
+ 	 */
+-	else if (PMSG_IS_AUTO(msg) || wakeup_enabled_descendants(udev) > 0)
++	else if (PMSG_IS_AUTO(msg) || usb_wakeup_enabled_descendants(udev) > 0)
+ 		status = set_port_feature(hub->hdev, port1,
+ 				USB_PORT_FEAT_SUSPEND);
+ 	else {
+@@ -3687,7 +3688,7 @@ static int hub_suspend(struct usb_interface *intf, pm_message_t msg)
+ 		}
+ 		if (udev)
+ 			hub->wakeup_enabled_descendants +=
+-					wakeup_enabled_descendants(udev);
++					usb_wakeup_enabled_descendants(udev);
+ 	}
+ 
+ 	if (hdev->do_remote_wakeup && hub->quirk_check_port_auto_suspend) {
+diff --git a/include/linux/usb/hcd.h b/include/linux/usb/hcd.h
+index 695931b03684..ed4fbbd1b35f 100644
+--- a/include/linux/usb/hcd.h
++++ b/include/linux/usb/hcd.h
+@@ -652,11 +652,16 @@ extern wait_queue_head_t usb_kill_urb_queue;
+ #define usb_endpoint_out(ep_dir)	(!((ep_dir) & USB_DIR_IN))
+ 
+ #ifdef CONFIG_PM
++extern unsigned usb_wakeup_enabled_descendants(struct usb_device *udev);
+ extern void usb_root_hub_lost_power(struct usb_device *rhdev);
+ extern int hcd_bus_suspend(struct usb_device *rhdev, pm_message_t msg);
+ extern int hcd_bus_resume(struct usb_device *rhdev, pm_message_t msg);
+ extern void usb_hcd_resume_root_hub(struct usb_hcd *hcd);
+ #else
++static inline unsigned usb_wakeup_enabled_descendants(struct usb_device *udev)
++{
++	return 0;
++}
+ static inline void usb_hcd_resume_root_hub(struct usb_hcd *hcd)
+ {
+ 	return;
 -- 
 2.21.0.593.g511ec345e18-goog
 
