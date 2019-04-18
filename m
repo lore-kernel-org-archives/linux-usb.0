@@ -2,125 +2,131 @@ Return-Path: <SRS0=JW0E=SU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,T_DKIMWL_WL_HIGH,
-	URIBL_BLOCKED,USER_AGENT_MUTT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76346C10F0B
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 06:51:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 572B9C10F0B
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 08:03:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4684221850
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 06:51:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1555570314;
-	bh=o6LIY6vTs/6i7DC083ZG9ubmbx647t5RSiTUOMQj2hc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=rBNioYwAWUwgLuaZFhlKCbcUMg+afpYLCYceRpPeLzg36X8vi9+HcrB4EK7D92ipS
-	 FVgvgn421sCw1g0Zn1e46YtMlpnkQ6cjGpE1XYVp3UaCuNp2yPCRCuWtgQaGWo97kV
-	 lzGj0qVwjebKTkvoTpntcbIrl4yz+STaVTt2eBYU=
+	by mail.kernel.org (Postfix) with ESMTP id 24AEC214DA
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 08:03:13 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=preh.de header.i=@preh.de header.b="NNc9QkM3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388036AbfDRGvt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Apr 2019 02:51:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41632 "EHLO mail.kernel.org"
+        id S2388188AbfDRIDJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Apr 2019 04:03:09 -0400
+Received: from mail01.preh.com ([80.149.130.22]:57254 "EHLO mail01.preh.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725836AbfDRGvt (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 18 Apr 2019 02:51:49 -0400
-Received: from localhost (ip-213-127-62-114.ip.prioritytelecom.net [213.127.62.114])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 68EC420821;
-        Thu, 18 Apr 2019 06:51:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1555570308;
-        bh=o6LIY6vTs/6i7DC083ZG9ubmbx647t5RSiTUOMQj2hc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rMw25KgGfciF0hakANf+3JC6mZgdQz2r5hwzh+6/7khvTVTvCrxoW+jYUyX8qPfQq
-         0JYA7C0MT1jl7ADDyhJAkL47SLlYu/NB8cQ7ZhAO090/XL47ooMMU8S/FEma0C0j1/
-         O1LYUtEqXuwDROKZStLwPkL1pGXjws69L0Q9NhMM=
-Date:   Thu, 18 Apr 2019 08:51:41 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Guenter Roeck <groeck@google.com>
-Cc:     Raul Rangel <rrangel@chromium.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        linux-usb@vger.kernel.org, Guenter Roeck <groeck@chromium.org>,
-        Oliver Neukum <oneukum@suse.com>,
-        Daniel Kurtz <djkurtz@chromium.org>, zwisler@chromium.org,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Dmitry Torokhov <dtor@chromium.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Johan Hovold <johan@kernel.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: [PATCH v3] usb/hcd: Send a uevent signaling that the host
- controller had died
-Message-ID: <20190418065141.GB12503@kroah.com>
-References: <20190417202017.GA204974@google.com>
- <Pine.LNX.4.44L0.1904171635460.1400-100000@iolanthe.rowland.org>
- <CAHQZ30B3+gzuw0=tofwW3yUwJ_MkN6GWPgVg0Qq_6S2tJHkcFQ@mail.gmail.com>
- <CABXOdTcjr6zw9sceC-i_Za3uOaOVmKGFaJsyMxhLUPEhtKn_Jg@mail.gmail.com>
- <20190417224129.GA255388@google.com>
- <CABXOdTeR_91AnhmRoEvVQWMb7_ibWeSuLb=Hwsrnj-swCr7G_w@mail.gmail.com>
-MIME-Version: 1.0
+        id S1726873AbfDRIDJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 18 Apr 2019 04:03:09 -0400
+From:   Kloetzke Jan <Jan.Kloetzke@preh.de>
+To:     "oneukum@suse.com" <oneukum@suse.com>
+CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "jan@kloetzke.net" <jan@kloetzke.net>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH] usbnet: fix kernel crash after disconnect
+Thread-Topic: [PATCH] usbnet: fix kernel crash after disconnect
+Thread-Index: AQHU9P6lIDgQA+tBpkOiuoVbyUaoWaZBVvAAgAAX0AA=
+Date:   Thu, 18 Apr 2019 08:02:59 +0000
+Message-ID: <1555574578.4173.215.camel@preh.de>
+References: <20190417091849.7475-1-Jan.Kloetzke@preh.de>
+         <1555569464.7835.4.camel@suse.com>
+In-Reply-To: <1555569464.7835.4.camel@suse.com>
+Accept-Language: de-DE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-tm-snts-smtp: 90C63F4CF35663E050CF5B6A00D3126C025306EC0BC6340CE9FD1D8888E9011A2000:8
+x-exclaimer-md-config: 142fe46c-4d13-4ac1-9970-1f36f118897a
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CABXOdTeR_91AnhmRoEvVQWMb7_ibWeSuLb=Hwsrnj-swCr7G_w@mail.gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-ID: <D9D08F9655840A4B9110073094EAC2AC@preh.de>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; d=preh.de; s=key1; c=relaxed/relaxed;
+ h=from:to:cc:subject:date:message-id:references:content-type:mime-version;
+ bh=BwCIWxnxAIPyUKT5QqfU1Xo67SlY+FEqaWxA4MZpqXU=;
+ b=NNc9QkM3rX5jw0Qze2BJn3crzEeEtGfNuQTMEszgJ9D+VPKAiwdsRNLe0g4DTY09iX/LYo/aILXI
+        th2ixmfyeOG3VFzntb0DoO+DTCGwuMjRylr7sFox9B4F9e/oRmTj8V5LY0ojl2kIZ5hc9cVfBucR
+        oBNCsB5kcvuVOGIXmMArV5oWQV37w9bGj2gf/jeS9aBuGrKkK3KUTcI1raFP+rZAW/D8G86Brbvk
+        nLICjSj2SEtqx1Vmlr7tMqi45NL+27AS6t1Mmio5iFUV6qZogFev600DHgzVTfRYj1gVXi/OgQuc
+        j2+DU89qB0ZVee9jDWI3AinWs2quZPVwuZhEuA==
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190418065141.YJBasySHTf_e_mlP2ScmldYIs9kWaTq0G-kFk3C-lBA@z>
+Message-ID: <20190418080259.kgoJwz5_Sud60QZ512yZ_8L-IUCNz5-AhqSBxKiqruw@z>
 
-On Wed, Apr 17, 2019 at 04:20:09PM -0700, Guenter Roeck wrote:
-> On Wed, Apr 17, 2019 at 3:41 PM Raul Rangel <rrangel@chromium.org> wrote:
-> >
-> > On Wed, Apr 17, 2019 at 03:23:52PM -0700, Guenter Roeck wrote:
-> > > On Wed, Apr 17, 2019 at 3:11 PM Raul Rangel <rrangel@chromium.org> wrote:
-> > > >
-> > > > On Wed, Apr 17, 2019 at 04:39:23PM -0400, Alan Stern wrote:
-> > > > >
-> > > > > This sounds like a golden opportunity!  Submit a separate patch making
-> > > > > the parameter to kobject_uevent_env be const (actually const char *
-> > > > > const []), then submit this patch on top of that one.
-> > > > So there are other parts of the code base that dynamically create their
-> > > > array values. So by making the function take const, it breaks :(
-> > >
-> > > Confused. The calling code can still be non-const. I don't see the
-> > > parameter modified in kobject_uevent_env(), so declaring it const
-> > > should be possible. Can you give an example of code that no longer
-> > > works ?
-> > static int notify_user_space(struct thermal_zone_device *tz, int trip)
-> > {
-> >         char *thermal_prop[5];
-> >         int i;
-> >
-> >         mutex_lock(&tz->lock);
-> >         thermal_prop[0] = kasprintf(GFP_KERNEL, "NAME=%s", tz->type);
-> >         thermal_prop[1] = kasprintf(GFP_KERNEL, "TEMP=%d", tz->temperature);
-> >         thermal_prop[2] = kasprintf(GFP_KERNEL, "TRIP=%d", trip);
-> >         thermal_prop[3] = kasprintf(GFP_KERNEL, "EVENT=%d", tz->notify_event);
-> >         thermal_prop[4] = NULL;
-> >         kobject_uevent_env(&tz->device.kobj, KOBJ_CHANGE, thermal_prop);
-> >         for (i = 0; i < 4; ++i)
-> >                 kfree(thermal_prop[i]);
-> >         mutex_unlock(&tz->lock);
-> >         return 0;
-> > }
-> >
-> > drivers/thermal/user_space.c:48:52: error: passing 'char *[5]' to parameter of type 'const char *const *' discards qualifiers in nested pointer types [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-> >         kobject_uevent_env(&tz->device.kobj, KOBJ_CHANGE, thermal_prop);
-> >                                                           ^~~~~~~~~~~~
-> > include/linux/kobject.h:238:22: note: passing argument to parameter 'envp' here
-> >                         const char *const envp[]);
-> >                                           ^
-> >
-> > http://c-faq.com/ansi/constmismatch.html explains why it fails.
-> >
-> Interesting. One never stops learning. So the best you could do would
-> be char * const envp[], but I guess that doesn't help much.
-
-Yeah, I went down this path a year or so ago and had to give it up as
-well :(
+SGksDQoNCkFtIERvbm5lcnN0YWcsIGRlbiAxOC4wNC4yMDE5LCAwODozNyArMDIwMCBzY2hyaWVi
+IE9saXZlciBOZXVrdW06DQo+IE9uIE1pLCAyMDE5LTA0LTE3IGF0IDA5OjE5ICswMDAwLCBLbG9l
+dHprZSBKYW4gd3JvdGU6DQo+ID4gV2hlbiBkaXNjb25uZWN0aW5nIGNkY19uY20gdGhlIGtlcm5l
+bCBzcG9yYWRpY2FsbHkgY3Jhc2hlcyBzaG9ydGx5DQo+ID4gYWZ0ZXIgdGhlIGRpc2Nvbm5lY3Q6
+DQo+ID4gDQo+ID4gwqAgW8KgwqDCoDU3Ljg2ODgxMl0gVW5hYmxlIHRvIGhhbmRsZSBrZXJuZWwg
+TlVMTCBwb2ludGVyIGRlcmVmZXJlbmNlDQo+ID4gYXQgdmlydHVhbCBhZGRyZXNzIDAwMDAwMDAw
+DQo+ID4gwqAgLi4uDQo+ID4gwqAgW8KgwqDCoDU4LjAwNjY1M10gUEMgaXMgYXQgMHgwDQo+ID4g
+wqAgW8KgwqDCoDU4LjAwOTIwMl0gTFIgaXMgYXQgY2FsbF90aW1lcl9mbisweGVjLzB4MWI0DQo+
+ID4gwqAgW8KgwqDCoDU4LjAxMzU2N10gcGMgOiBbPDAwMDAwMDAwMDAwMDAwMDA+XSBsciA6DQo+
+ID4gWzxmZmZmZmY4MDA4MGY1MTMwPl0gcHN0YXRlOiAwMDAwMDE0NQ0KPiA+IMKgIFvCoMKgwqA1
+OC4wMjA5NzZdIHNwIDogZmZmZmZmODAwODAwM2RhMA0KPiA+IMKgIFvCoMKgwqA1OC4wMjQyOTVd
+IHgyOTogZmZmZmZmODAwODAwM2RhMCB4Mjg6IDAwMDAwMDAwMDAwMDAwMDENCj4gPiDCoCBbwqDC
+oMKgNTguMDI5NjE4XSB4Mjc6IDAwMDAwMDAwMDAwMDAwMGEgeDI2OiAwMDAwMDAwMDAwMDAwMTAw
+DQo+ID4gwqAgW8KgwqDCoDU4LjAzNDk0MV0geDI1OiAwMDAwMDAwMDAwMDAwMDAwIHgyNDogZmZm
+ZmZmODAwODAwM2U2OA0KPiA+IMKgIFvCoMKgwqA1OC4wNDAyNjNdIHgyMzogMDAwMDAwMDAwMDAw
+MDAwMCB4MjI6IDAwMDAwMDAwMDAwMDAwMDANCj4gPiDCoCBbwqDCoMKgNTguMDQ1NTg3XSB4MjE6
+IDAwMDAwMDAwMDAwMDAwMDAgeDIwOiBmZmZmZmZjNjhmYWMxODA4DQo+ID4gwqAgW8KgwqDCoDU4
+LjA1MDkxMF0geDE5OiAwMDAwMDAwMDAwMDAwMTAwIHgxODogMDAwMDAwMDAwMDAwMDAwMA0KPiA+
+IMKgIFvCoMKgwqA1OC4wNTYyMzJdIHgxNzogMDAwMDAwN2Y4ODVhZmY4YyB4MTY6IDAwMDAwMDdm
+ODgzYTlmMTANCj4gPiDCoCBbwqDCoMKgNTguMDYxNTU2XSB4MTU6IDAwMDAwMDAwMDAwMDAwMDEg
+eDE0OiAwMDAwMDAwMDAwMDAwMDZlDQo+ID4gwqAgW8KgwqDCoDU4LjA2Njg3OF0geDEzOiAwMDAw
+MDAwMDAwMDAwMDAwIHgxMjogMDAwMDAwMDAwMDAwMDBiYQ0KPiA+IMKgIFvCoMKgwqA1OC4wNzIy
+MDFdIHgxMTogZmZmZmZmYzY5ZmYxZGIzMCB4MTA6IDAwMDAwMDAwMDAwMDAwMjANCj4gPiDCoCBb
+wqDCoMKgNTguMDc3NTI0XSB4OSA6IDgwMDAxMDAwMDgwMDEwMDAgeDggOiAwMDAwMDAwMDAwMDAw
+MDAxDQo+ID4gwqAgW8KgwqDCoDU4LjA4Mjg0N10geDcgOiAwMDAwMDAwMDAwMDAwODAwIHg2IDog
+ZmZmZmZmODAwODAwM2U3MA0KPiA+IMKgIFvCoMKgwqA1OC4wODgxNjldIHg1IDogZmZmZmZmYzY5
+ZmYxN2EyOCB4NCA6IDAwMDAwMDAwZmZmZjEzOGINCj4gPiDCoCBbwqDCoMKgNTguMDkzNDkyXSB4
+MyA6IDAwMDAwMDAwMDAwMDAwMDAgeDIgOiAwMDAwMDAwMDAwMDAwMDAwDQo+ID4gwqAgW8KgwqDC
+oDU4LjA5ODgxNF0geDEgOiAwMDAwMDAwMDAwMDAwMDAwIHgwIDogMDAwMDAwMDAwMDAwMDAwMA0K
+PiA+IMKgIC4uLg0KPiA+IMKgIFvCoMKgwqA1OC4yMDU4MDBdIFs8wqDCoMKgwqDCoMKgwqDCoMKg
+wqAobnVsbCk+XcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAobnVsbCkNCj4gPiDCoCBbwqDCoMKgNTgu
+MjEwNTIxXSBbPGZmZmZmZjgwMDgwZjUyOTg+XSBleHBpcmVfdGltZXJzKzB4YTAvMHgxNGMNCj4g
+PiDCoCBbwqDCoMKgNTguMjE1OTM3XSBbPGZmZmZmZjgwMDgwZjU0MmM+XSBydW5fdGltZXJfc29m
+dGlycSsweGU4LzB4MTI4DQo+ID4gwqAgW8KgwqDCoDU4LjIyMTcwMl0gWzxmZmZmZmY4MDA4MDgx
+MTIwPl0gX19kb19zb2Z0aXJxKzB4Mjk4LzB4MzQ4DQo+ID4gwqAgW8KgwqDCoDU4LjIyNzExOF0g
+WzxmZmZmZmY4MDA4MGE2MzA0Pl0gaXJxX2V4aXQrMHg3NC8weGJjDQo+ID4gwqAgW8KgwqDCoDU4
+LjIzMjAwOV0gWzxmZmZmZmY4MDA4MGUxN2RjPl0gX19oYW5kbGVfZG9tYWluX2lycSsweDc4LzB4
+YWMNCj4gPiDCoCBbwqDCoMKgNTguMjM3ODU3XSBbPGZmZmZmZjgwMDgwODBjZjQ+XSBnaWNfaGFu
+ZGxlX2lycSsweDgwLzB4YWMNCj4gPiDCoCAuLi4NCj4gPiANCj4gPiBUaGUgY3Jhc2ggaGFwcGVu
+cyByb3VnaGx5IDEyNS4uMTMwbXMgYWZ0ZXIgdGhlIGRpc2Nvbm5lY3QuIFRoaXMNCj4gPiBjb3Jy
+ZWxhdGVzIHdpdGggdGhlICdkZWxheScgdGltZXIgdGhhdCBpcyBzdGFydGVkIG9uIGNlcnRhaW4g
+VVNCDQo+ID4gdHgvcngNCj4gPiBlcnJvcnMgaW4gdGhlIFVSQiBjb21wbGV0aW9uIGhhbmRsZXIu
+DQo+ID4gDQo+ID4gVGhlIHN1c3BlY3RlZCBwcm9ibGVtIGlzIGEgcmFjZSBvZiB1c2JuZXRfc3Rv
+cCgpIHdpdGgNCj4gPiB1c2JuZXRfc3RhcnRfeG1pdCgpLiBJbiB1c2JuZXRfc3RvcCgpIHdlIGNh
+bGwNCj4gPiB1c2JuZXRfdGVybWluYXRlX3VyYnMoKQ0KPiA+IHRvIGNhbmNlbCBhbGwgVVJCcyBp
+biBmbGlnaHQuIFRoaXMgb25seSBtYWtlcyBzZW5zZSBpZiBubyBuZXcgVVJCcw0KPiA+IGFyZQ0K
+PiA+IHN1Ym1pdHRlZCBjb25jdXJyZW50bHksIHRob3VnaC4gQnV0IHRoZSB1c2JuZXRfc3RhcnRf
+eG1pdCgpIGNhbiBydW4NCj4gPiBhdA0KPiA+IHRoZSBzYW1lIHRpbWUgb24gYW5vdGhlciBDUFUg
+d2hpY2ggYWxtb3N0IHVuY29uZGl0aW9uYWxseSBzdWJtaXRzDQo+ID4gYW4NCj4gPiBVUkIuIFRo
+ZSBlcnJvciBjYWxsYmFjayBvZiB0aGUgbmV3IFVSQiB3aWxsIHRoZW4gc2NoZWR1bGUgdGhlIHRp
+bWVyDQo+ID4gYWZ0ZXIgaXQgd2FzIGFscmVhZHkgc3RvcHBlZC4NCj4gDQo+IEhpLA0KPiANCj4g
+aW50ZXJlc3RpbmcuIEhvdyBzdXJlIGFyZSB5b3Ugb2YgdGhlIGRldGFpbHMgb2YgeW91ciBhbmFs
+eXNpcz8NCg0KV2UgaGF2ZSBzZWVuIHRoZSBpc3N1ZSBzcG9yYWRpY2FsbHksIG1heWJlIG9uY2Ug
+YSBtb250aCwgb24gb3VyIElWSQ0Kc3lzdGVtIHdpdGggZG96ZW5zIG9mIHVuaXRzIGJlaW5nIHRl
+c3RlZCBhbGwgZGF5IGxvbmcuIFdlIGhhdmUgdGhlIGZpeA0KaW4gdGhlIGZpZWxkIHNpbmNlIHRo
+cmVlIG1vbnRocyBhbmQgZ290IG5vIGZ1cnRoZXIgcmVwb3J0cyBzbyBmYXIuIFNvDQpJJ20gcmVs
+YXRpdmVseSBvcHRpbWlzdGljIHRoYXQgdGhlIHBhdGNoIHNvbHZlcyB0aGUgcHJvYmxlbS4NCg0K
+PiBJIGFtIGFza2luZyBiZWNhdXNlIHVzYm5ldF9zdG9wKCkgZG9lcyBhIGRlbF90aW1lcl9zeW5j
+KCkuDQo+IEl0IGlzIGluZGVlZCB3cml0dGVuIHVuZGVyIHRoZSBhc3N1bXB0aW9uIHRoYXQgdGhl
+IHVwcGVyIGxheWVyDQo+IHdpbGwgaGF2ZSBjZWFzZWQgdHJhbnNtaXNzaW9uIHdoZW4gaXQgc3Rv
+cHMgYW4gaW50ZXJmYWNlLg0KDQpJIHRoaW5rIHRoaXMgYXNzdW1wdGlvbiBpcyBub3QgY29ycmVj
+dC4gQXMgZmFyIGFzIEkgdW5kZXJzdGFuZCB0aGUNCm5ldHdvcmtpbmcgY29kZSBpdCBpcyBzdGls
+bCBwb3NzaWJsZSB0aGF0IHRoZSBuZG9fc3RhcnRfeG1pdCBjYWxsYmFjaw0KaXMgY2FsbGVkIHdo
+aWxlIG5kb19zdG9wIGlzIHJ1bm5pbmcgYW5kIGV2ZW4gYWZ0ZXIgbmRvX3N0b3AgaGFzDQpyZXR1
+cm5lZC4gWW91IGNhbiBvbmx5IGJlIHN1cmUgYWZ0ZXIgdW5yZWdpc3Rlcl9uZXRkZXYoKSBoYXMg
+cmV0dXJuZWQuDQpNYXliZSBzb21lIG5ldHdvcmtpbmcgZm9sa3MgY2FuIGNvbW1lbnQgb24gdGhh
+dC4NCg0KPiBTbyBJIGFtIHdvbmRlcmluZyB3aGV0aGVyIHRoZSBjb3JyZWN0IGZpeCB3b3VsZCBu
+b3QgYmUgdG8gbWFrZQ0KPiBzdXJlIHRoZSB0aW1lciBpcyBzdGFydGVkLg0KDQpJIHRoaW5rIHRo
+ZSByZWFsIHByb2JsZW0gaXMgdGhhdCBuZXcgVVJCcyBhcmUgc3VibWl0dGVkIGNvbmN1cnJlbnRs
+eS4NClRoZSB0aW1lciBpcyBqdXN0IGEgc2Vjb25kYXJ5IHByb2JsZW0gdGhhdCBibG93cyB1cCBs
+YXRlci4gQnV0IGlmIG15DQphYm92ZSBhc3N1bXB0aW9uIHdydC4gbmRvX3N0b3AvbmRvX3N0YXJ0
+X3htaXQgaXMgbm90IGNvcnJlY3QgdGhlbiB0aGUNCnBhdGNoIHdvdWxkIGJlIGluZGVlZCB3cm9u
+Zy4NCg0KUmVnYXJkcywNCkphbg==
