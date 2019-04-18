@@ -2,132 +2,154 @@ Return-Path: <SRS0=JW0E=SU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04EABC10F0E
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 16:53:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0C40C10F14
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 17:07:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CA855217FA
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 16:53:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A095E2171F
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 17:07:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388450AbfDRQxF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Apr 2019 12:53:05 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:48532 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1733067AbfDRQxF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Apr 2019 12:53:05 -0400
-Received: (qmail 1954 invoked by uid 2102); 18 Apr 2019 12:53:04 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 18 Apr 2019 12:53:04 -0400
-Date:   Thu, 18 Apr 2019 12:53:04 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     syzbot <syzbot+7634edaea4d0b341c625@syzkaller.appspotmail.com>
-cc:     andreyknvl@google.com, <linux-usb@vger.kernel.org>,
-        <syzkaller-bugs@googlegroups.com>
-Subject: Re: WARNING in usb_submit_urb (4)
-In-Reply-To: <Pine.LNX.4.44L0.1904181159410.1513-100000@iolanthe.rowland.org>
-Message-ID: <Pine.LNX.4.44L0.1904181247380.1303-100000@iolanthe.rowland.org>
+        id S2388347AbfDRRHI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Apr 2019 13:07:08 -0400
+Received: from mail-it1-f197.google.com ([209.85.166.197]:35171 "EHLO
+        mail-it1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733067AbfDRRHH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Apr 2019 13:07:07 -0400
+Received: by mail-it1-f197.google.com with SMTP id a64so2871524ith.0
+        for <linux-usb@vger.kernel.org>; Thu, 18 Apr 2019 10:07:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=elZ0CuNd87Fgxl68cPLOE/hKxhs+pPd6TQtRUVUsyyQ=;
+        b=kizdiWMUZTKGQgONt861a3FAf2IgnobaLRJF3rgtvuzkZ1tIa6ee1lOC+AEdYERSXs
+         KKNjM5mfalfw6BYhTZRUEXuWm6Knx6Dq8Pz3um7cwGiyzaKuxNQzS7d2TQ5L4Gi+MaQw
+         yV4k3LJrtojnpB/ZX+QpqUbUeYtXF7HbB2UmTssArCWQdJ6mp4uzXF62BGRT8E60EPlT
+         PIEkxA3LtX70qqmbj+f+zUPCloCyRkSiYPweYF+nP4S2fM5jMKnjF1YlqGF50Q2KZo1j
+         g9/1ivcjouvpcFStFFWn9YIkKd51QgVDAE8uWJXfpIV3QQbDXeenYjbAEC/TaNy2zGi8
+         HWcg==
+X-Gm-Message-State: APjAAAUCb0TJS+VEZWN8druHGHIv60OsMYaHsEMAOZF64a79MyTgM+RB
+        TfzkWAH/X0OoaNjrJMi/Vl51o+p7/IxJmwAdN6fuGi6h5H6j
+X-Google-Smtp-Source: APXvYqxLeUDRqFjsF1nSbDJBr0kqv5ZFRHhsGRhikB2vAmrudNBpQTCfh/ffF6QC5dJ5Q4SfDy9bYXqQoeP1B+QPwfuYKOgvu17I
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+X-Received: by 2002:a24:e208:: with SMTP id q8mr3426260ith.145.1555607226760;
+ Thu, 18 Apr 2019 10:07:06 -0700 (PDT)
+Date:   Thu, 18 Apr 2019 10:07:06 -0700
+In-Reply-To: <000000000000bdc2e30586b826ce@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000029431d0586d10813@google.com>
+Subject: Re: general protection fault in __dev_printk
+From:   syzbot <syzbot+2eb9121678bdb36e6d57@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        rafael@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190418165304.h2pWaaYUKcCkK77Se-ivUr5rByzlViWCsPMm33kzPXU@z>
 
-On Thu, 18 Apr 2019, Alan Stern wrote:
+syzbot has found a reproducer for the following crash on:
 
-> On Wed, 17 Apr 2019, Alan Stern wrote:
-> 
-> > I'm still having trouble understanding this.  Here's some more 
-> > debugging.
-> 
-> Let's try this again.  The patch format was wrong.
+HEAD commit:    d34f9519 usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan/tree/usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=10adfe6b200000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c73d1bb5aeaeae20
+dashboard link: https://syzkaller.appspot.com/bug?extid=2eb9121678bdb36e6d57
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=145cb7e3200000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17f8bd2d200000
 
-One more try, this time with the syz command line.
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+2eb9121678bdb36e6d57@syzkaller.appspotmail.com
 
-Incidentally, the console log from the last test had a very troubling
-entry showing the runtime PM usage counter for the hub interface was
-set to -4!  Whatever caused the counter to go negative is probably also
-the reason for this bug.
-
-Alan Stern
-
-
-#syz test: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git e12e00e388de
-
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -1016,6 +1016,9 @@ static void hub_activate(struct usb_hub
- 	bool need_debounce_delay = false;
- 	unsigned delay;
- 
-+	dev_info(hub->intfdev, "%p %s type %d discon %d\n",
-+			hub, __func__, type, hub->disconnected);
-+
- 	/* Continue a partial initialization */
- 	if (type == HUB_INIT2 || type == HUB_INIT3) {
- 		device_lock(&hdev->dev);
-@@ -1299,6 +1302,8 @@ static void hub_quiesce(struct usb_hub *
- 	unsigned long flags;
- 	int i;
- 
-+	dev_info(hub->intfdev, "%p %s type %d\n", hub, __func__, type);
-+
- 	/* hub_wq and related activity won't re-trigger */
- 	spin_lock_irqsave(&hub->irq_urb_lock, flags);
- 	hub->quiescing = 1;
-@@ -3711,7 +3716,9 @@ static int hub_suspend(struct usb_interf
- 		}
- 	}
- 
--	dev_dbg(&intf->dev, "%s\n", __func__);
-+	dev_info(&intf->dev, "%p %s usage %d\n",
-+			hub, __func__,
-+			atomic_read(&intf->dev.power.usage_count));
- 
- 	/* stop hub_wq and related activity */
- 	hub_quiesce(hub, HUB_SUSPEND);
-@@ -3756,7 +3763,7 @@ static int hub_resume(struct usb_interfa
- {
- 	struct usb_hub *hub = usb_get_intfdata(intf);
- 
--	dev_dbg(&intf->dev, "%s\n", __func__);
-+	dev_info(&intf->dev, "%p %s\n", hub, __func__);
- 	hub_activate(hub, HUB_RESUME);
- 
- 	/*
---- a/drivers/usb/core/driver.c
-+++ b/drivers/usb/core/driver.c
-@@ -358,7 +358,11 @@ static int usb_probe_interface(struct de
- 		intf->needs_altsetting0 = 0;
- 	}
- 
-+	dev_info(dev, "pre-probe usage %d\n",
-+			atomic_read(&intf->dev.power.usage_count));
- 	error = driver->probe(intf, id);
-+	dev_info(dev, "post-probe usage %d\n",
-+			atomic_read(&intf->dev.power.usage_count));
- 	if (error)
- 		goto err;
- 
-@@ -420,7 +424,11 @@ static int usb_unbind_interface(struct d
- 	if (!driver->soft_unbind || udev->state == USB_STATE_NOTATTACHED)
- 		usb_disable_interface(udev, intf, false);
- 
-+	dev_info(dev, "pre-discon usage %d\n",
-+			atomic_read(&intf->dev.power.usage_count));
- 	driver->disconnect(intf);
-+	dev_info(dev, "post-discon usage %d\n",
-+			atomic_read(&intf->dev.power.usage_count));
- 
- 	/* Free streams */
- 	for (i = 0, j = 0; i < intf->cur_altsetting->desc.bNumEndpoints; i++) {
-
-
-
-
+yurex 1-1:0.150: yurex_interrupt - unknown status received: -71
+usb 1-1: USB disconnect, device number 112
+yurex 1-1:0.150: yurex_interrupt - unknown status received: -71
+kasan: CONFIG_KASAN_INLINE enabled
+kasan: GPF could be caused by NULL-ptr deref or user memory access
+general protection fault: 0000 [#1] SMP KASAN PTI
+CPU: 1 PID: 5402 Comm: udevd Not tainted 5.1.0-rc5-319617-gd34f951 #4
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+RIP: 0010:dev_name include/linux/device.h:1087 [inline]
+RIP: 0010:__dev_printk+0x3f/0x215 drivers/base/core.c:3208
+Code: 89 f5 53 e8 1e 24 1c fc 48 85 ed 0f 84 c9 01 00 00 e8 10 24 1c fc 48  
+8d 7d 50 b8 ff ff 37 00 48 89 fa 48 c1 e0 2a 48 c1 ea 03 <80> 3c 02 00 74  
+05 e8 31 39 53 fc 4c 8b 7d 50 4d 85 ff 75 28 e8 e3
+RSP: 0018:ffff8880ad107930 EFLAGS: 00010002
+RAX: dffffc0000000000 RBX: ffffed1015a20f2d RCX: 00000000ffffffed
+RDX: 0000000000000010 RSI: ffffffff85559bf0 RDI: 0000000000000080
+RBP: 0000000000000030 R08: ffff888091578000 R09: ffffed1015a24fc9
+R10: ffffed1015a24fc8 R11: ffff8880ad127e47 R12: ffffffff8f031a00
+R13: ffff8880ad107988 R14: 0000000000000000 R15: ffff88809b9b1600
+FS:  00007fcff04907a0(0000) GS:ffff8880ad100000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fcff0496000 CR3: 0000000097678000 CR4: 00000000001406e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+  <IRQ>
+  _dev_err+0xdc/0x10e drivers/base/core.c:3251
+  yurex_interrupt.cold+0x12e/0x13d drivers/usb/misc/yurex.c:183
+  __usb_hcd_giveback_urb+0x1f4/0x470 drivers/usb/core/hcd.c:1758
+  usb_hcd_giveback_urb+0x346/0x400 drivers/usb/core/hcd.c:1823
+  dummy_timer+0x100b/0x32c0 drivers/usb/gadget/udc/dummy_hcd.c:1968
+  call_timer_fn+0x161/0x5f0 kernel/time/timer.c:1325
+  expire_timers kernel/time/timer.c:1362 [inline]
+  __run_timers kernel/time/timer.c:1681 [inline]
+  __run_timers kernel/time/timer.c:1649 [inline]
+  run_timer_softirq+0x58b/0x1400 kernel/time/timer.c:1694
+  __do_softirq+0x22a/0x8cd kernel/softirq.c:293
+  invoke_softirq kernel/softirq.c:374 [inline]
+  irq_exit+0x187/0x1b0 kernel/softirq.c:414
+  exiting_irq arch/x86/include/asm/apic.h:536 [inline]
+  smp_apic_timer_interrupt+0xfe/0x4a0 arch/x86/kernel/apic/apic.c:1062
+  apic_timer_interrupt+0xf/0x20 arch/x86/entry/entry_64.S:807
+  </IRQ>
+RIP: 0010:__read_once_size include/linux/compiler.h:193 [inline]
+RIP: 0010:syscall_return_slowpath arch/x86/entry/common.c:250 [inline]
+RIP: 0010:do_syscall_64+0x115/0x4f0 arch/x86/entry/common.c:293
+Code: 03 00 00 48 89 45 50 e8 99 2c 71 00 48 b8 00 00 00 00 00 fc ff df 65  
+48 8b 1c 25 00 ee 01 00 48 89 da 48 c1 ea 03 80 3c 02 00 <0f> 85 6f 03 00  
+00 4c 8b 23 9c 58 0f 1f 44 00 00 25 00 02 00 00 31
+RSP: 0018:ffff88809fceff28 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff13
+RAX: dffffc0000000000 RBX: ffff888091578000 RCX: 1ffff11013f9dff5
+RDX: 1ffff110122af000 RSI: ffffffff81009367 RDI: ffff88809fceffa8
+RBP: ffff88809fceff58 R08: 0000000000000000 R09: 0000000000000001
+R10: ffffed1015a25c27 R11: ffff8880ad12e13b R12: 0000000000000000
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x7fcfefb99577
+Code: f0 ff ff 77 02 f3 c3 48 8b 15 bd 38 2b 00 f7 d8 64 89 02 83 c8 ff c3  
+90 90 90 90 90 90 90 90 90 90 90 90 b8 59 00 00 00 0f 05 <48> 3d 01 f0 ff  
+ff 73 01 c3 48 8b 0d 91 38 2b 00 31 d2 48 29 c2 64
+RSP: 002b:00007ffe20473c28 EFLAGS: 00000246 ORIG_RAX: 0000000000000059
+RAX: ffffffffffffffea RBX: 0000000000626250 RCX: 00007fcfefb99577
+RDX: 0000000000000400 RSI: 00007ffe20473c30 RDI: 00007ffe20474110
+RBP: 0000000000635fd0 R08: 0000000000635fd0 R09: 75642f6d726f6674
+R10: 2e6364755f796d6d R11: 0000000000000246 R12: 00007ffe20474110
+R13: 0000000000000400 R14: 0000000000626250 R15: 000000000000000b
+Modules linked in:
+---[ end trace 9119e43ae4e6c65e ]---
+RIP: 0010:dev_name include/linux/device.h:1087 [inline]
+RIP: 0010:__dev_printk+0x3f/0x215 drivers/base/core.c:3208
+Code: 89 f5 53 e8 1e 24 1c fc 48 85 ed 0f 84 c9 01 00 00 e8 10 24 1c fc 48  
+8d 7d 50 b8 ff ff 37 00 48 89 fa 48 c1 e0 2a 48 c1 ea 03 <80> 3c 02 00 74  
+05 e8 31 39 53 fc 4c 8b 7d 50 4d 85 ff 75 28 e8 e3
+RSP: 0018:ffff8880ad107930 EFLAGS: 00010002
+RAX: dffffc0000000000 RBX: ffffed1015a20f2d RCX: 00000000ffffffed
+RDX: 0000000000000010 RSI: ffffffff85559bf0 RDI: 0000000000000080
+RBP: 0000000000000030 R08: ffff888091578000 R09: ffffed1015a24fc9
+R10: ffffed1015a24fc8 R11: ffff8880ad127e47 R12: ffffffff8f031a00
+R13: ffff8880ad107988 R14: 0000000000000000 R15: ffff88809b9b1600
+FS:  00007fcff04907a0(0000) GS:ffff8880ad100000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fcff0496000 CR3: 0000000097678000 CR4: 00000000001406e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 
