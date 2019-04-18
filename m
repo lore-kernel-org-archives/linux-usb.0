@@ -2,102 +2,125 @@ Return-Path: <SRS0=JW0E=SU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,T_DKIMWL_WL_HIGH,
+	URIBL_BLOCKED,USER_AGENT_MUTT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E7D5C10F0E
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 06:50:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76346C10F0B
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 06:51:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 290722184B
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 06:50:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4684221850
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 06:51:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1555570314;
+	bh=o6LIY6vTs/6i7DC083ZG9ubmbx647t5RSiTUOMQj2hc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=rBNioYwAWUwgLuaZFhlKCbcUMg+afpYLCYceRpPeLzg36X8vi9+HcrB4EK7D92ipS
+	 FVgvgn421sCw1g0Zn1e46YtMlpnkQ6cjGpE1XYVp3UaCuNp2yPCRCuWtgQaGWo97kV
+	 lzGj0qVwjebKTkvoTpntcbIrl4yz+STaVTt2eBYU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388070AbfDRGuF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Apr 2019 02:50:05 -0400
-Received: from mx2.suse.de ([195.135.220.15]:50574 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725886AbfDRGuF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 18 Apr 2019 02:50:05 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id D413EAF96;
-        Thu, 18 Apr 2019 06:50:03 +0000 (UTC)
-Message-ID: <1555569464.7835.4.camel@suse.com>
-Subject: Re: [PATCH] usbnet: fix kernel crash after disconnect
-From:   Oliver Neukum <oneukum@suse.com>
-To:     Kloetzke Jan <Jan.Kloetzke@preh.de>
-Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-Date:   Thu, 18 Apr 2019 08:37:44 +0200
-In-Reply-To: <20190417091849.7475-1-Jan.Kloetzke@preh.de>
-References: <20190417091849.7475-1-Jan.Kloetzke@preh.de>
+        id S2388036AbfDRGvt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Apr 2019 02:51:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41632 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725836AbfDRGvt (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 18 Apr 2019 02:51:49 -0400
+Received: from localhost (ip-213-127-62-114.ip.prioritytelecom.net [213.127.62.114])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 68EC420821;
+        Thu, 18 Apr 2019 06:51:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1555570308;
+        bh=o6LIY6vTs/6i7DC083ZG9ubmbx647t5RSiTUOMQj2hc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rMw25KgGfciF0hakANf+3JC6mZgdQz2r5hwzh+6/7khvTVTvCrxoW+jYUyX8qPfQq
+         0JYA7C0MT1jl7ADDyhJAkL47SLlYu/NB8cQ7ZhAO090/XL47ooMMU8S/FEma0C0j1/
+         O1LYUtEqXuwDROKZStLwPkL1pGXjws69L0Q9NhMM=
+Date:   Thu, 18 Apr 2019 08:51:41 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Guenter Roeck <groeck@google.com>
+Cc:     Raul Rangel <rrangel@chromium.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        linux-usb@vger.kernel.org, Guenter Roeck <groeck@chromium.org>,
+        Oliver Neukum <oneukum@suse.com>,
+        Daniel Kurtz <djkurtz@chromium.org>, zwisler@chromium.org,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Dmitry Torokhov <dtor@chromium.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Johan Hovold <johan@kernel.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH v3] usb/hcd: Send a uevent signaling that the host
+ controller had died
+Message-ID: <20190418065141.GB12503@kroah.com>
+References: <20190417202017.GA204974@google.com>
+ <Pine.LNX.4.44L0.1904171635460.1400-100000@iolanthe.rowland.org>
+ <CAHQZ30B3+gzuw0=tofwW3yUwJ_MkN6GWPgVg0Qq_6S2tJHkcFQ@mail.gmail.com>
+ <CABXOdTcjr6zw9sceC-i_Za3uOaOVmKGFaJsyMxhLUPEhtKn_Jg@mail.gmail.com>
+ <20190417224129.GA255388@google.com>
+ <CABXOdTeR_91AnhmRoEvVQWMb7_ibWeSuLb=Hwsrnj-swCr7G_w@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <CABXOdTeR_91AnhmRoEvVQWMb7_ibWeSuLb=Hwsrnj-swCr7G_w@mail.gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190418063744.-hOf6Y6TgJgV1-IDMWvQzwYpvYmxvaNMG6yLQ8_tgmo@z>
+Message-ID: <20190418065141.YJBasySHTf_e_mlP2ScmldYIs9kWaTq0G-kFk3C-lBA@z>
 
-On Mi, 2019-04-17 at 09:19 +0000, Kloetzke Jan wrote:
-> When disconnecting cdc_ncm the kernel sporadically crashes shortly
-> after the disconnect:
-> 
->   [   57.868812] Unable to handle kernel NULL pointer dereference at virtual address 00000000
->   ...
->   [   58.006653] PC is at 0x0
->   [   58.009202] LR is at call_timer_fn+0xec/0x1b4
->   [   58.013567] pc : [<0000000000000000>] lr : [<ffffff80080f5130>] pstate: 00000145
->   [   58.020976] sp : ffffff8008003da0
->   [   58.024295] x29: ffffff8008003da0 x28: 0000000000000001
->   [   58.029618] x27: 000000000000000a x26: 0000000000000100
->   [   58.034941] x25: 0000000000000000 x24: ffffff8008003e68
->   [   58.040263] x23: 0000000000000000 x22: 0000000000000000
->   [   58.045587] x21: 0000000000000000 x20: ffffffc68fac1808
->   [   58.050910] x19: 0000000000000100 x18: 0000000000000000
->   [   58.056232] x17: 0000007f885aff8c x16: 0000007f883a9f10
->   [   58.061556] x15: 0000000000000001 x14: 000000000000006e
->   [   58.066878] x13: 0000000000000000 x12: 00000000000000ba
->   [   58.072201] x11: ffffffc69ff1db30 x10: 0000000000000020
->   [   58.077524] x9 : 8000100008001000 x8 : 0000000000000001
->   [   58.082847] x7 : 0000000000000800 x6 : ffffff8008003e70
->   [   58.088169] x5 : ffffffc69ff17a28 x4 : 00000000ffff138b
->   [   58.093492] x3 : 0000000000000000 x2 : 0000000000000000
->   [   58.098814] x1 : 0000000000000000 x0 : 0000000000000000
->   ...
->   [   58.205800] [<          (null)>]           (null)
->   [   58.210521] [<ffffff80080f5298>] expire_timers+0xa0/0x14c
->   [   58.215937] [<ffffff80080f542c>] run_timer_softirq+0xe8/0x128
->   [   58.221702] [<ffffff8008081120>] __do_softirq+0x298/0x348
->   [   58.227118] [<ffffff80080a6304>] irq_exit+0x74/0xbc
->   [   58.232009] [<ffffff80080e17dc>] __handle_domain_irq+0x78/0xac
->   [   58.237857] [<ffffff8008080cf4>] gic_handle_irq+0x80/0xac
->   ...
-> 
-> The crash happens roughly 125..130ms after the disconnect. This
-> correlates with the 'delay' timer that is started on certain USB tx/rx
-> errors in the URB completion handler.
-> 
-> The suspected problem is a race of usbnet_stop() with
-> usbnet_start_xmit(). In usbnet_stop() we call usbnet_terminate_urbs()
-> to cancel all URBs in flight. This only makes sense if no new URBs are
-> submitted concurrently, though. But the usbnet_start_xmit() can run at
-> the same time on another CPU which almost unconditionally submits an
-> URB. The error callback of the new URB will then schedule the timer
-> after it was already stopped.
+On Wed, Apr 17, 2019 at 04:20:09PM -0700, Guenter Roeck wrote:
+> On Wed, Apr 17, 2019 at 3:41 PM Raul Rangel <rrangel@chromium.org> wrote:
+> >
+> > On Wed, Apr 17, 2019 at 03:23:52PM -0700, Guenter Roeck wrote:
+> > > On Wed, Apr 17, 2019 at 3:11 PM Raul Rangel <rrangel@chromium.org> wrote:
+> > > >
+> > > > On Wed, Apr 17, 2019 at 04:39:23PM -0400, Alan Stern wrote:
+> > > > >
+> > > > > This sounds like a golden opportunity!  Submit a separate patch making
+> > > > > the parameter to kobject_uevent_env be const (actually const char *
+> > > > > const []), then submit this patch on top of that one.
+> > > > So there are other parts of the code base that dynamically create their
+> > > > array values. So by making the function take const, it breaks :(
+> > >
+> > > Confused. The calling code can still be non-const. I don't see the
+> > > parameter modified in kobject_uevent_env(), so declaring it const
+> > > should be possible. Can you give an example of code that no longer
+> > > works ?
+> > static int notify_user_space(struct thermal_zone_device *tz, int trip)
+> > {
+> >         char *thermal_prop[5];
+> >         int i;
+> >
+> >         mutex_lock(&tz->lock);
+> >         thermal_prop[0] = kasprintf(GFP_KERNEL, "NAME=%s", tz->type);
+> >         thermal_prop[1] = kasprintf(GFP_KERNEL, "TEMP=%d", tz->temperature);
+> >         thermal_prop[2] = kasprintf(GFP_KERNEL, "TRIP=%d", trip);
+> >         thermal_prop[3] = kasprintf(GFP_KERNEL, "EVENT=%d", tz->notify_event);
+> >         thermal_prop[4] = NULL;
+> >         kobject_uevent_env(&tz->device.kobj, KOBJ_CHANGE, thermal_prop);
+> >         for (i = 0; i < 4; ++i)
+> >                 kfree(thermal_prop[i]);
+> >         mutex_unlock(&tz->lock);
+> >         return 0;
+> > }
+> >
+> > drivers/thermal/user_space.c:48:52: error: passing 'char *[5]' to parameter of type 'const char *const *' discards qualifiers in nested pointer types [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+> >         kobject_uevent_env(&tz->device.kobj, KOBJ_CHANGE, thermal_prop);
+> >                                                           ^~~~~~~~~~~~
+> > include/linux/kobject.h:238:22: note: passing argument to parameter 'envp' here
+> >                         const char *const envp[]);
+> >                                           ^
+> >
+> > http://c-faq.com/ansi/constmismatch.html explains why it fails.
+> >
+> Interesting. One never stops learning. So the best you could do would
+> be char * const envp[], but I guess that doesn't help much.
 
-Hi,
-
-interesting. How sure are you of the details of your analysis?
-I am asking because usbnet_stop() does a del_timer_sync().
-It is indeed written under the assumption that the upper layer
-will have ceased transmission when it stops an interface.
-
-So I am wondering whether the correct fix would not be to make
-sure the timer is started.
-
-	Regards
-		Oliver
-
+Yeah, I went down this path a year or so ago and had to give it up as
+well :(
