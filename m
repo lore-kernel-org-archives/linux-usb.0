@@ -2,118 +2,212 @@ Return-Path: <SRS0=JW0E=SU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-5.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C784C10F14
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 18:31:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00901C10F0E
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 20:04:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 033052064A
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 18:31:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1555612295;
-	bh=5V62lUEdLmCtaS+NBlXGPV8GZQJwJkOClSPYavQmJNY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Qo8DXUju9mEG1iEmJTg9f/HCEzqKNz8jzP/keOnzKKiVq86BMTWSMUmcEeXVHmMtv
-	 5XvOvqywn4DORt7PANj1Z53NLpmv4XHS2+FzlgpMvv4CbDsBZZqIUkjzGiw7BBM1Ym
-	 ly0bfa56QNur6jmOKKMVCmNAImUfrqIU6h1MeIhI=
+	by mail.kernel.org (Postfix) with ESMTP id C4A0920663
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 20:04:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390456AbfDRSA5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Apr 2019 14:00:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56380 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390451AbfDRSA4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 18 Apr 2019 14:00:56 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 66B76206B6;
-        Thu, 18 Apr 2019 18:00:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1555610455;
-        bh=5V62lUEdLmCtaS+NBlXGPV8GZQJwJkOClSPYavQmJNY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=L7ewULW1AvD5aL22SsHNzw6vNFJtzQpa57Svvf2Sbo//lsN2gw0P67P1oOLtYSGPg
-         3Hb1YveolDJyL43t3NNVIInU1UJ64YGJYN3aj6Y7VElF6SqNTb4h8qhxyjkWIBr0/U
-         b9XEoKSPkXJjKxqqdrWcqLXxfsIIOtsF89xM6cII=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Jonathan Dieter <jdieter@gmail.com>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>, linux-usb@vger.kernel.org,
-        =?UTF-8?q?Maciej=20=C5=BBenczykowski?= <zenczykowski@gmail.com>,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.19 069/110] usbip: fix vhci_hcd controller counting
-Date:   Thu, 18 Apr 2019 19:56:58 +0200
-Message-Id: <20190418160444.880926530@linuxfoundation.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190418160437.484158340@linuxfoundation.org>
-References: <20190418160437.484158340@linuxfoundation.org>
-User-Agent: quilt/0.66
+        id S2390090AbfDRUEH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Apr 2019 16:04:07 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:48956 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726581AbfDRUEH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Apr 2019 16:04:07 -0400
+Received: (qmail 13929 invoked by uid 2102); 18 Apr 2019 16:04:05 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 18 Apr 2019 16:04:05 -0400
+Date:   Thu, 18 Apr 2019 16:04:05 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     syzbot <syzbot+7634edaea4d0b341c625@syzkaller.appspotmail.com>
+cc:     andreyknvl@google.com, <linux-usb@vger.kernel.org>,
+        <syzkaller-bugs@googlegroups.com>
+Subject: Re: WARNING in usb_submit_urb (4)
+In-Reply-To: <0000000000000fa8360586d22dd5@google.com>
+Message-ID: <Pine.LNX.4.44L0.1904181600330.1303-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190418175658.OoUwzVb0kOV4bRepZzabgVYIuqYHYp5bYDHZDeSzB1U@z>
+Message-ID: <20190418200405.EzjhvF0KkX8fP6roM4xgUJobQytEp1J-3FcjCKG7vG4@z>
 
-[ Upstream commit e0a2e73e501c77037c8756137e87b12c7c3c9793 ]
+On Thu, 18 Apr 2019, syzbot wrote:
 
-Without this usbip fails on a machine with devices
-that lexicographically come after vhci_hcd.
+> Hello,
+> 
+> syzbot has tested the proposed patch and the reproducer did not trigger  
+> crash:
+> 
+> Reported-and-tested-by:  
+> syzbot+7634edaea4d0b341c625@syzkaller.appspotmail.com
+> 
+> Tested on:
+> 
+> commit:         e12e00e3 Merge tag 'kbuild-fixes-v4.20' of git://git.kerne..
+> git tree:        
+> git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=69667e62a5e247a7
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> patch:          https://syzkaller.appspot.com/x/patch.diff?x=17a7eaa0a00000
+> 
+> Note: testing is done by a robot and is best-effort only.
 
-ie.
-  $ ls -l /sys/devices/platform
-  ...
-  drwxr-xr-x. 4 root root    0 Sep 19 16:21 serial8250
-  -rw-r--r--. 1 root root 4096 Sep 19 23:50 uevent
-  drwxr-xr-x. 6 root root    0 Sep 20 13:15 vhci_hcd.0
-  drwxr-xr-x. 4 root root    0 Sep 19 16:22 w83627hf.656
+Great!  Okay, let's try one more time, with the patch I will actually 
+submit.
 
-Because it detects 'w83627hf.656' as another vhci_hcd controller,
-and then fails to be able to talk to it.
+Alan Stern
 
-Note: this doesn't actually fix usbip's support for multiple
-controllers... that's still broken for other reasons
-("vhci_hcd.0" is hardcoded in a string macro), but is enough to
-actually make it work on the above machine.
 
-See also:
-  https://bugzilla.redhat.com/show_bug.cgi?id=1631148
+#syz test: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git e12e00e388de
 
-Cc: Jonathan Dieter <jdieter@gmail.com>
-Cc: Valentina Manea <valentina.manea.m@gmail.com>
-Cc: Shuah Khan <shuah@kernel.org>
-Cc: linux-usb@vger.kernel.org
-Signed-off-by: Maciej Żenczykowski <zenczykowski@gmail.com>
-Acked-by: Shuah Khan (Samsung OSG) <shuah@kernel.org>
-Tested-by: Jonathan Dieter <jdieter@gmail.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- tools/usb/usbip/libsrc/vhci_driver.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tools/usb/usbip/libsrc/vhci_driver.c b/tools/usb/usbip/libsrc/vhci_driver.c
-index 4204359c9fee..8159fd98680b 100644
---- a/tools/usb/usbip/libsrc/vhci_driver.c
-+++ b/tools/usb/usbip/libsrc/vhci_driver.c
-@@ -150,7 +150,7 @@ static int get_nports(struct udev_device *hc_device)
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -200,7 +200,6 @@ usb_find_last_int_out_endpoint(struct us
+  * @dev: driver model's view of this device
+  * @usb_dev: if an interface is bound to the USB major, this will point
+  *	to the sysfs representation for that device.
+- * @pm_usage_cnt: PM usage counter for this interface
+  * @reset_ws: Used for scheduling resets from atomic context.
+  * @resetting_device: USB core reset the device, so use alt setting 0 as
+  *	current; needs bandwidth alloc after reset.
+@@ -257,7 +256,6 @@ struct usb_interface {
  
- static int vhci_hcd_filter(const struct dirent *dirent)
- {
--	return strcmp(dirent->d_name, "vhci_hcd") >= 0;
-+	return !strncmp(dirent->d_name, "vhci_hcd.", 9);
+ 	struct device dev;		/* interface specific device info */
+ 	struct device *usb_dev;
+-	atomic_t pm_usage_cnt;		/* usage counter for autosuspend */
+ 	struct work_struct reset_ws;	/* for resets in atomic context */
+ };
+ #define	to_usb_interface(d) container_of(d, struct usb_interface, dev)
+--- a/drivers/usb/core/driver.c
++++ b/drivers/usb/core/driver.c
+@@ -473,11 +473,6 @@ static int usb_unbind_interface(struct d
+ 		pm_runtime_disable(dev);
+ 	pm_runtime_set_suspended(dev);
+ 
+-	/* Undo any residual pm_autopm_get_interface_* calls */
+-	for (r = atomic_read(&intf->pm_usage_cnt); r > 0; --r)
+-		usb_autopm_put_interface_no_suspend(intf);
+-	atomic_set(&intf->pm_usage_cnt, 0);
+-
+ 	if (!error)
+ 		usb_autosuspend_device(udev);
+ 
+@@ -1633,7 +1628,6 @@ void usb_autopm_put_interface(struct usb
+ 	int			status;
+ 
+ 	usb_mark_last_busy(udev);
+-	atomic_dec(&intf->pm_usage_cnt);
+ 	status = pm_runtime_put_sync(&intf->dev);
+ 	dev_vdbg(&intf->dev, "%s: cnt %d -> %d\n",
+ 			__func__, atomic_read(&intf->dev.power.usage_count),
+@@ -1662,7 +1656,6 @@ void usb_autopm_put_interface_async(stru
+ 	int			status;
+ 
+ 	usb_mark_last_busy(udev);
+-	atomic_dec(&intf->pm_usage_cnt);
+ 	status = pm_runtime_put(&intf->dev);
+ 	dev_vdbg(&intf->dev, "%s: cnt %d -> %d\n",
+ 			__func__, atomic_read(&intf->dev.power.usage_count),
+@@ -1684,7 +1677,6 @@ void usb_autopm_put_interface_no_suspend
+ 	struct usb_device	*udev = interface_to_usbdev(intf);
+ 
+ 	usb_mark_last_busy(udev);
+-	atomic_dec(&intf->pm_usage_cnt);
+ 	pm_runtime_put_noidle(&intf->dev);
  }
+ EXPORT_SYMBOL_GPL(usb_autopm_put_interface_no_suspend);
+@@ -1715,8 +1707,6 @@ int usb_autopm_get_interface(struct usb_
+ 	status = pm_runtime_get_sync(&intf->dev);
+ 	if (status < 0)
+ 		pm_runtime_put_sync(&intf->dev);
+-	else
+-		atomic_inc(&intf->pm_usage_cnt);
+ 	dev_vdbg(&intf->dev, "%s: cnt %d -> %d\n",
+ 			__func__, atomic_read(&intf->dev.power.usage_count),
+ 			status);
+@@ -1750,8 +1740,6 @@ int usb_autopm_get_interface_async(struc
+ 	status = pm_runtime_get(&intf->dev);
+ 	if (status < 0 && status != -EINPROGRESS)
+ 		pm_runtime_put_noidle(&intf->dev);
+-	else
+-		atomic_inc(&intf->pm_usage_cnt);
+ 	dev_vdbg(&intf->dev, "%s: cnt %d -> %d\n",
+ 			__func__, atomic_read(&intf->dev.power.usage_count),
+ 			status);
+@@ -1775,7 +1763,6 @@ void usb_autopm_get_interface_no_resume(
+ 	struct usb_device	*udev = interface_to_usbdev(intf);
  
- static int get_ncontrollers(void)
--- 
-2.19.1
-
-
+ 	usb_mark_last_busy(udev);
+-	atomic_inc(&intf->pm_usage_cnt);
+ 	pm_runtime_get_noresume(&intf->dev);
+ }
+ EXPORT_SYMBOL_GPL(usb_autopm_get_interface_no_resume);
+--- a/Documentation/driver-api/usb/power-management.rst
++++ b/Documentation/driver-api/usb/power-management.rst
+@@ -370,11 +370,15 @@ autosuspend the interface's device.  Whe
+ then the interface is considered to be idle, and the kernel may
+ autosuspend the device.
+ 
+-Drivers need not be concerned about balancing changes to the usage
+-counter; the USB core will undo any remaining "get"s when a driver
+-is unbound from its interface.  As a corollary, drivers must not call
+-any of the ``usb_autopm_*`` functions after their ``disconnect``
+-routine has returned.
++Drivers must be careful to balance their overall changes to the usage
++counter.  Unbalanced "get"s will remain in effect when a driver is
++unbound from its interface, preventing the device from going into
++runtime suspend should the interface be bound to a driver again.  On
++the other hand, drivers are allowed to achieve this balance by calling
++the ``usb_autopm_*`` functions even after their ``disconnect`` routine
++has returned -- say from within a work-queue routine -- provided they
++retain an active reference to the interface (via ``usb_get_intf`` and
++``usb_put_intf``).
+ 
+ Drivers using the async routines are responsible for their own
+ synchronization and mutual exclusion.
+--- a/drivers/usb/storage/realtek_cr.c
++++ b/drivers/usb/storage/realtek_cr.c
+@@ -763,18 +763,16 @@ static void rts51x_suspend_timer_fn(stru
+ 		break;
+ 	case RTS51X_STAT_IDLE:
+ 	case RTS51X_STAT_SS:
+-		usb_stor_dbg(us, "RTS51X_STAT_SS, intf->pm_usage_cnt:%d, power.usage:%d\n",
+-			     atomic_read(&us->pusb_intf->pm_usage_cnt),
++		usb_stor_dbg(us, "RTS51X_STAT_SS, power.usage:%d\n",
+ 			     atomic_read(&us->pusb_intf->dev.power.usage_count));
+ 
+-		if (atomic_read(&us->pusb_intf->pm_usage_cnt) > 0) {
++		if (atomic_read(&us->pusb_intf->dev.power.usage_count) > 0) {
+ 			usb_stor_dbg(us, "Ready to enter SS state\n");
+ 			rts51x_set_stat(chip, RTS51X_STAT_SS);
+ 			/* ignore mass storage interface's children */
+ 			pm_suspend_ignore_children(&us->pusb_intf->dev, true);
+ 			usb_autopm_put_interface_async(us->pusb_intf);
+-			usb_stor_dbg(us, "RTS51X_STAT_SS 01, intf->pm_usage_cnt:%d, power.usage:%d\n",
+-				     atomic_read(&us->pusb_intf->pm_usage_cnt),
++			usb_stor_dbg(us, "RTS51X_STAT_SS 01, power.usage:%d\n",
+ 				     atomic_read(&us->pusb_intf->dev.power.usage_count));
+ 		}
+ 		break;
+@@ -807,11 +805,10 @@ static void rts51x_invoke_transport(stru
+ 	int ret;
+ 
+ 	if (working_scsi(srb)) {
+-		usb_stor_dbg(us, "working scsi, intf->pm_usage_cnt:%d, power.usage:%d\n",
+-			     atomic_read(&us->pusb_intf->pm_usage_cnt),
++		usb_stor_dbg(us, "working scsi, power.usage:%d\n",
+ 			     atomic_read(&us->pusb_intf->dev.power.usage_count));
+ 
+-		if (atomic_read(&us->pusb_intf->pm_usage_cnt) <= 0) {
++		if (atomic_read(&us->pusb_intf->dev.power.usage_count) <= 0) {
+ 			ret = usb_autopm_get_interface(us->pusb_intf);
+ 			usb_stor_dbg(us, "working scsi, ret=%d\n", ret);
+ 		}
 
