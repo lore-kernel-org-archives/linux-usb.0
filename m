@@ -2,174 +2,115 @@ Return-Path: <SRS0=JW0E=SU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_PASS,T_DKIMWL_WL_HIGH
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08495C10F14
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 12:42:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EB13C10F14
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 14:21:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BD8CE2183E
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 12:42:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1555591376;
-	bh=h9qyoCxbFTiFLg18zOHH1LOvqUQw+0hkZKUNirVyBWA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
-	b=hlbis5w3VyBRtxyQ9lpru+xXFJL5zCEBNFqlbpEntwge0oyR0HLp1EBc0c+7/rS2m
-	 Ck0lboeyJX18LqIPIzuq30osfhsbGxrp95Ta5R0DSi0unHAM+DIYH5HpGLvv9enqxp
-	 zPjSqRXHOwtG572miROi4UDYECoj1rWhaiXCJEb0=
+	by mail.kernel.org (Postfix) with ESMTP id 2A06720675
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 14:21:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388530AbfDRMmn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Apr 2019 08:42:43 -0400
-Received: from casper.infradead.org ([85.118.1.10]:49308 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726162AbfDRMmm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Apr 2019 08:42:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=FVaqqPnygq1+XAL2fV0XyKGzQwLVOq4vtfOZzXdI+DY=; b=mhYX69b7VKfQqcoKdU0MCUDY48
-        wz7J5q7ip7jfFijvK+A2ZbRvvIroxJe506D3ZMQrb3CoLvm9xyPHHWa/5V6VVBpMznpOnG3TfkBul
-        kz42uT6vbsEoSWFDuxWpELrhXI3brxwrB2rUkFxbS3l/dQ1clL/hYTVu4waRAQlFVAZ3+DkBqFnzm
-        gqZN/EwyZolsR5K1343i6maSxSww63KZgfyNN3MAFzgqy9B9T+AHfzMgzbhHjdvpwUt4XzdVhma0k
-        h/lt7McRzt4geBfeCA+wuguIFyeSB89NrhZTxPp/AqEhMrzdLLhaX7EmpBQ/MpRtZ2kCWwpclFQTQ
-        +L6+vL3A==;
-Received: from 177.132.233.55.dynamic.adsl.gvt.net.br ([177.132.233.55] helo=coco.lan)
-        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
-        id 1hH6N8-0000gI-FO; Thu, 18 Apr 2019 12:42:35 +0000
-Date:   Thu, 18 Apr 2019 09:42:23 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-fbdev@vger.kernel.org, linux-s390@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-watchdog@vger.kernel.org, xdp-newbies@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com, bpf@vger.kernel.org,
-        linux-ide@vger.kernel.org, linux-pm@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-scsi@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        x86@kernel.org, dm-devel@redhat.com, target-devel@vger.kernel.org,
-        netdev@vger.kernel.org, kexec@lists.infradead.org,
-        linux-fpga@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
-        linux-security-module@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Avoiding merge conflicts while adding new docs - Was: Re: [PATCH
- 00/57] Convert files to ReST
-Message-ID: <20190418091526.00e074d1@coco.lan>
-In-Reply-To: <cover.1555382110.git.mchehab+samsung@kernel.org>
-References: <cover.1555382110.git.mchehab+samsung@kernel.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S2389250AbfDROVe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Apr 2019 10:21:34 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:50268 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S2388819AbfDROVd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Apr 2019 10:21:33 -0400
+Received: (qmail 2927 invoked by uid 2102); 18 Apr 2019 10:21:32 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 18 Apr 2019 10:21:32 -0400
+Date:   Thu, 18 Apr 2019 10:21:32 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+cc:     Guenter Roeck <groeck@google.com>,
+        Raul Rangel <rrangel@chromium.org>,
+        <linux-usb@vger.kernel.org>, Guenter Roeck <groeck@chromium.org>,
+        Oliver Neukum <oneukum@suse.com>,
+        Daniel Kurtz <djkurtz@chromium.org>, <zwisler@chromium.org>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Dmitry Torokhov <dtor@chromium.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Johan Hovold <johan@kernel.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH v3] usb/hcd: Send a uevent signaling that the host
+ controller had died
+In-Reply-To: <20190418065141.GB12503@kroah.com>
+Message-ID: <Pine.LNX.4.44L0.1904181011020.1513-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190418142132.vqPQdvFr7GGfU1-FDKj8kh7Et8uyFeTOiFWhqFKGFfM@z>
 
-Jon,
+On Thu, 18 Apr 2019, Greg Kroah-Hartman wrote:
 
-Em Mon, 15 Apr 2019 23:55:25 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
+> On Wed, Apr 17, 2019 at 04:20:09PM -0700, Guenter Roeck wrote:
+> > On Wed, Apr 17, 2019 at 3:41 PM Raul Rangel <rrangel@chromium.org> wrote:
+> > >
+> > > On Wed, Apr 17, 2019 at 03:23:52PM -0700, Guenter Roeck wrote:
+> > > > On Wed, Apr 17, 2019 at 3:11 PM Raul Rangel <rrangel@chromium.org> wrote:
+> > > > >
+> > > > > On Wed, Apr 17, 2019 at 04:39:23PM -0400, Alan Stern wrote:
+> > > > > >
+> > > > > > This sounds like a golden opportunity!  Submit a separate patch making
+> > > > > > the parameter to kobject_uevent_env be const (actually const char *
+> > > > > > const []), then submit this patch on top of that one.
+> > > > > So there are other parts of the code base that dynamically create their
+> > > > > array values. So by making the function take const, it breaks :(
+> > > >
+> > > > Confused. The calling code can still be non-const. I don't see the
+> > > > parameter modified in kobject_uevent_env(), so declaring it const
+> > > > should be possible. Can you give an example of code that no longer
+> > > > works ?
+> > > static int notify_user_space(struct thermal_zone_device *tz, int trip)
+> > > {
+> > >         char *thermal_prop[5];
+> > >         int i;
+> > >
+> > >         mutex_lock(&tz->lock);
+> > >         thermal_prop[0] = kasprintf(GFP_KERNEL, "NAME=%s", tz->type);
+> > >         thermal_prop[1] = kasprintf(GFP_KERNEL, "TEMP=%d", tz->temperature);
+> > >         thermal_prop[2] = kasprintf(GFP_KERNEL, "TRIP=%d", trip);
+> > >         thermal_prop[3] = kasprintf(GFP_KERNEL, "EVENT=%d", tz->notify_event);
+> > >         thermal_prop[4] = NULL;
+> > >         kobject_uevent_env(&tz->device.kobj, KOBJ_CHANGE, thermal_prop);
+> > >         for (i = 0; i < 4; ++i)
+> > >                 kfree(thermal_prop[i]);
+> > >         mutex_unlock(&tz->lock);
+> > >         return 0;
+> > > }
+> > >
+> > > drivers/thermal/user_space.c:48:52: error: passing 'char *[5]' to parameter of type 'const char *const *' discards qualifiers in nested pointer types [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+> > >         kobject_uevent_env(&tz->device.kobj, KOBJ_CHANGE, thermal_prop);
+> > >                                                           ^~~~~~~~~~~~
+> > > include/linux/kobject.h:238:22: note: passing argument to parameter 'envp' here
+> > >                         const char *const envp[]);
+> > >                                           ^
+> > >
+> > > http://c-faq.com/ansi/constmismatch.html explains why it fails.
+> > >
+> > Interesting. One never stops learning. So the best you could do would
+> > be char * const envp[], but I guess that doesn't help much.
+> 
+> Yeah, I went down this path a year or so ago and had to give it up as
+> well :(
 
-> I have a separate patch series with do the actual rename and
-> adjustment of references. I opted to submit this first, as it
-> sounds easier to merge this way, as each subsystem maintainer
-> can apply the conversion directly on their trees (or at docs
-> tree), avoiding merge conflects.
+Well, the signature could still be changed as Guenter suggests.
 
-Based on the number of feedbacks we have about this, I'm
-considering to submit a second version of my conversion patch
-series that would be doing the rename together with each patch,
-adding the rst files to an index file.
+And the array being added in the new code could still be static.  
+After all, there isn't really any danger that the contents of those
+strings will be modified, right?  It's just that the const modifiers
+weren't put in until it was too late and there were too many existing
+callers.  Perhaps a comment about this could be included in the 
+kerneldoc for kobject_uevent_env.
 
-However, doing that would produce lots of warnings. We have
-already lots of those at linux-next:
+Alan Stern
 
-	checking consistency... 
-
-	docs/Documentation/accelerators/ocxl.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/admin-guide/mm/numaperf.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/allocators.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/attributes.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/bigalloc.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/bitmaps.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/blockgroup.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/blocks.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/checksums.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/directory.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/eainode.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/group_descr.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/ifork.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/inlinedata.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/inodes.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/journal.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/mmp.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/special_inodes.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/filesystems/ext4/super.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/fmc/index.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/gpu/msm-crash-dump.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/interconnect/interconnect.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/laptops/lg-laptop.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/virtual/kvm/amd-memory-encryption.rst: WARNING: document isn't included in any toctree
-	docs/Documentation/virtual/kvm/vcpu-requests.rst: WARNING: document isn't included in any toctree
-
-After thinking a little bit and doing some tests, I think a good solution
-would be to add ":orphan:" markup to the new .rst files that were not
-added yet into the main body (e. g. something like the enclosed example).
-
-That will make Sphinx suppress the:
-	"WARNING: document isn't included in any toctree"
-warning for the new files, while they're not included at the main indexes.
-
-This way, maintainers can do all the hard work of doing/applying the ReST
-file conversion/addition patch series on their own trees, and, once
-everything gets merged, submit a patch against the latest docs-next
-tree, removing the :orphan: tag and add them to the common index.rst
-files.
-
-That should largely avoid merging conflicts.
-
-For example, assuming that someone converts the stuff at
-Documentation/accounting and rename the text files there to
-RST (I'm actually doing that), he could add the enclosed change on
-the top of its index file:
-
-	diff --git a/Documentation/accounting/index.rst b/Documentation/accounting/index.rst
-	index e7dda5afa73f..e1f6284b5ff3 100644
-	--- a/Documentation/accounting/index.rst
-	+++ b/Documentation/accounting/index.rst
-	@@ -1,3 +1,5 @@
-	+:orphan:
-	+
-	 ==========
-	 Accounting
-	 ==========
-
-With would make Sphinx to ignore the subdir index file while
-reporting errors. It will still build the documentation, allowing
-the developer to test the changes.
-
-One of the advantages is that checking the orphaned docs is as
-easy as running:
-
-	$ git grep -l ":orphan:" Documentation/
-	...
-	Documentation/accounting/index.rst
-	...
-
-Making easy for people to check the orphaned files and send a fixup
-patch if something got orphaned after the merge window and send a
-fixes patches to be applied upstream.
-
-What do you think?
-
-Regards,
-Mauro
