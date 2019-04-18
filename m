@@ -2,157 +2,157 @@ Return-Path: <SRS0=JW0E=SU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51E88C282DD
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 12:36:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F1FEC10F0E
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 12:41:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2909121850
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 12:36:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 22B0A21479
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 12:41:20 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="ahUqNLlR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388686AbfDRMgG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Apr 2019 08:36:06 -0400
-Received: from mail-it1-f200.google.com ([209.85.166.200]:55451 "EHLO
-        mail-it1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727807AbfDRMgG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Apr 2019 08:36:06 -0400
-Received: by mail-it1-f200.google.com with SMTP id g184so2055964ita.5
-        for <linux-usb@vger.kernel.org>; Thu, 18 Apr 2019 05:36:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=i+tomZsCMzsnHr3874poPaxJCpmgaqjJEfGN6uwmJv0=;
-        b=Q4ov6wckV6iFPg6+Ov/IWcguAmxt/XFzPb1HC1V4VxDwpSNMXsXDMezl45Oiu84Qu0
-         K1gBuYZbGGYUXWRTO/S/9eKakzcP0cDhNisi4KW7qwLcZUbb9yQZwN6EyCgUA+W4GXse
-         GG0VSAuNxKQXzeSd3Oo0g0DvvGVqovphJoUcFepD5ajHforgRZSUmBzFjiBf2KUOoA7g
-         jFb/7yhs1Q10F/Ump/jDeXRinuOeH3AnXKwJPgP9b/Q96U8RJiJix9h1enQYZ/839F91
-         xHovpfvNOTf9+GBHPxnl+Nc7YEPqRpR/pMRJg1sjvWUX9nJgNraTkcVYrJSe8ADNY2RM
-         Z7Ow==
-X-Gm-Message-State: APjAAAW1RnLSDs8ZgL8ohC+l3JvxZxBkhib9lpx+HpGiF1es1wAVDu6r
-        pb1u35oVXeAjpPo3SDwOZc/jzGAAUWiNqpOqfyZd2nKwh61D
-X-Google-Smtp-Source: APXvYqxNc5aU67epG4FuCxsatGM/4m1OETB/YtPcWPEF5e6Rzc4NdVhbYtgiItDICqxkcrTJ3kkGle02EMYEDf7nNg9b3juDh6xn
+        id S2388392AbfDRMlT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Apr 2019 08:41:19 -0400
+Received: from dc2-smtprelay2.synopsys.com ([198.182.61.142]:55192 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726162AbfDRMlT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Apr 2019 08:41:19 -0400
+Received: from mailhost.synopsys.com (dc2-mailhost1.synopsys.com [10.12.135.161])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 98140C0BD6;
+        Thu, 18 Apr 2019 12:41:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1555591277; bh=/SRF7vOFBYb7QKHQsQeAwXWHui+Sqh2bBLp+mK68XqQ=;
+        h=From:Subject:To:Cc:References:Date:In-Reply-To:From;
+        b=ahUqNLlRbGcJpAjV4ccdLZ1S6loytY5MXF2jMxlqYeIDyG1lEk6vX1Sxc9r4ypXTr
+         eSD836xPbNzXC2zQvv20Y90y71G5ecKil7A2PdJe6xMg1K2BAHmjTO7CMD5UWVhmt+
+         0Ss6Y5uIO9oGhFgyJdteJxpkgLXMpRtRZZdtibqVRQSZIouYMkYs/0T6AotQ8lr2Ah
+         +o3sWXltVbXYbjiGnyDoMe9HYcV9WBiraosJBXdrdcaew/fHoe8Yl4IRK6WjqJir4w
+         ypi6vjyDO/K3sn0sOCXwg+O6Ucgu+SABjIXR7o45Wh3d5rYIaPE0azSuG7g0Fak8Ap
+         q34SAJCnmZgRQ==
+Received: from [10.116.70.132] (hminas-7480.internal.synopsys.com [10.116.70.132])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPSA id 5A8BCA005A;
+        Thu, 18 Apr 2019 12:40:59 +0000 (UTC)
+From:   Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
+Subject: Re: [PATCH v2 0/5] USB: dwc2: Allow wakeup from suspend; enable for
+ rk3288-veyron
+To:     Douglas Anderson <dianders@chromium.org>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        "heiko@sntech.de" <heiko@sntech.de>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
+        "amstan@chromium.org" <amstan@chromium.org>,
+        "linux-rockchip@lists.infradead.org" 
+        <linux-rockchip@lists.infradead.org>,
+        William Wu <william.wu@rock-chips.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Randy Li <ayaka@soulik.info>,
+        "zyw@rock-chips.com" <zyw@rock-chips.com>,
+        "mka@chromium.org" <mka@chromium.org>,
+        "ryandcase@chromium.org" <ryandcase@chromium.org>,
+        Amelie Delaunay <amelie.delaunay@st.com>,
+        "jwerner@chromium.org" <jwerner@chromium.org>,
+        "dinguyen@opensource.altera.com" <dinguyen@opensource.altera.com>,
+        Elaine Zhang <zhangqing@rock-chips.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Jon Flatley <jflat@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+References: <20190418001356.124334-1-dianders@chromium.org>
+Message-ID: <e4b3cd69-1c91-dfbe-bea7-bbca89ca1348@synopsys.com>
+Date:   Thu, 18 Apr 2019 16:40:51 +0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-Received: by 2002:a6b:7108:: with SMTP id q8mr3957038iog.85.1555590965482;
- Thu, 18 Apr 2019 05:36:05 -0700 (PDT)
-Date:   Thu, 18 Apr 2019 05:36:05 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000e9e1990586cd3e40@google.com>
-Subject: BUG: unable to handle kernel paging request in osq_lock
-From:   syzbot <syzbot+e5c9afc3e1eed1dfc2b0@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, brad@nextdimension.cc,
-        hans.verkuil@cisco.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+In-Reply-To: <20190418001356.124334-1-dianders@chromium.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+Hi Douglas,
 
-syzbot found the following crash on:
+On 4/18/2019 4:15 AM, Douglas Anderson wrote:
+> This re-hashes two older series I posted a long time ago, re-basing
+> them to mainline.  ...well, technically, atop another dwc2 series I
+> recently posted:
+> 
+> * usb: dwc2: Another attempt handling rk3288's remote wake quirk
+>    https://urldefense.proofpoint.com/v2/url?u=https-3A__lkml.kernel.org_r_20190416215351.242246-2D1-2Ddianders-40chromium.org&d=DwIDAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=cQBKt4q-qzNVC53rNAwuwplH23V61rHQhhULvdLA0U8&m=tZD-jhA4bSymns9pwqhaT0Ico1SVCYevQaaQclHX8jY&s=b-IYjc3cgFyZYC_B9zSA_xbSLE2ODwAZX0Png-G4SwA&e=
+>    https://urldefense.proofpoint.com/v2/url?u=https-3A__lore.kernel.org_patchwork_cover_1062972_&d=DwIDAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=cQBKt4q-qzNVC53rNAwuwplH23V61rHQhhULvdLA0U8&m=tZD-jhA4bSymns9pwqhaT0Ico1SVCYevQaaQclHX8jY&s=VCNBuDGf2VeFFWUUyE3wUdn-sDnUu0nFipeNpyWPXts&e=
+> 
+> In general I've tried to add links to each patch pointing to relevant
+> older discussion.  Here are overall links to the cover letters though.
+> Note that for the previous "allow wakeup" series the discussion was
+> scattered a bit between the original post and the repost.
+> 
+> * usb: dwc2: bus suspend/resume that's not hibernate
+>    https://urldefense.proofpoint.com/v2/url?u=https-3A__lkml.kernel.org_r_1446237173-2D15263-2D1-2Dgit-2Dsend-2Demail-2Ddianders-40chromium.org&d=DwIDAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=cQBKt4q-qzNVC53rNAwuwplH23V61rHQhhULvdLA0U8&m=tZD-jhA4bSymns9pwqhaT0Ico1SVCYevQaaQclHX8jY&s=FSVMrPFuSM--uXrAZN9GzCEXP60Li7miMsC4ydv6oDQ&e=
+>    https://urldefense.proofpoint.com/v2/url?u=https-3A__lore.kernel.org_patchwork_patch_613761_&d=DwIDAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=cQBKt4q-qzNVC53rNAwuwplH23V61rHQhhULvdLA0U8&m=tZD-jhA4bSymns9pwqhaT0Ico1SVCYevQaaQclHX8jY&s=omRYPw4XVgY8Rq2UgJhApk2poeKXWCBc5QsYMlQkqk4&e=
+> 
+> * dwc2 patches to allow wakeup on Rockchip rk3288
+>    https://urldefense.proofpoint.com/v2/url?u=https-3A__lkml.kernel.org_r_1435017144-2D2971-2D1-2Dgit-2Dsend-2Demail-2Ddianders-40chromium.org&d=DwIDAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=cQBKt4q-qzNVC53rNAwuwplH23V61rHQhhULvdLA0U8&m=tZD-jhA4bSymns9pwqhaT0Ico1SVCYevQaaQclHX8jY&s=ep7GoHZcPlQbiOkXlwy9xXZEKdbd4o2erhLSblDL5Rg&e=
+>    https://urldefense.proofpoint.com/v2/url?u=https-3A__lore.kernel.org_patchwork_cover_572944_&d=DwIDAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=cQBKt4q-qzNVC53rNAwuwplH23V61rHQhhULvdLA0U8&m=tZD-jhA4bSymns9pwqhaT0Ico1SVCYevQaaQclHX8jY&s=hq4errAA9YvVpHJaVoWGTIHnlwiq1iuadWW1WJavtCI&e=
+> 
+> * dwc2 patches to allow wakeup on Rockchip rk3288 (REPOST)
+>    https://urldefense.proofpoint.com/v2/url?u=https-3A__lkml.kernel.org_r_1436207224-2D21849-2D1-2Dgit-2Dsend-2Demail-2Ddianders-40chromium.org&d=DwIDAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=cQBKt4q-qzNVC53rNAwuwplH23V61rHQhhULvdLA0U8&m=tZD-jhA4bSymns9pwqhaT0Ico1SVCYevQaaQclHX8jY&s=n-nD8EdqtgTyPdPPJ06t2pxyjC1M65g5aXLT1OiuouY&e=
+>    https://urldefense.proofpoint.com/v2/url?u=https-3A__lore.kernel.org_patchwork_cover_576120_&d=DwIDAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=cQBKt4q-qzNVC53rNAwuwplH23V61rHQhhULvdLA0U8&m=tZD-jhA4bSymns9pwqhaT0Ico1SVCYevQaaQclHX8jY&s=YkisA-u9q0yewqaRoOWWpps9E2QFh1asgnwkbM1B7mc&e=
+> 
+> I'm hoping there's a better chance of these things landing this time
+> around, but I guess we'll see.  ;-)
+> 
+> In case it's helpful I've put what I tested (which is based on Heiko's
+> for-next branch and includes patches to enable deep suspend plus two
+> other s2r fixes) at:
+> 
+> https://urldefense.proofpoint.com/v2/url?u=https-3A__chromium.googlesource.com_chromiumos_third-5Fparty_kernel_-2Blog_refs_sandbox_dianders_190417-2Dtesting-2Ddwc2-2Dwakeup&d=DwIDAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=cQBKt4q-qzNVC53rNAwuwplH23V61rHQhhULvdLA0U8&m=tZD-jhA4bSymns9pwqhaT0Ico1SVCYevQaaQclHX8jY&s=ws6kQVDDGxYJnhR693pQP9fYL-PH_TUGzSVmD4u-S9Q&e=
+> 
+> Changes in v2:
+> - Rebased to mainline atop rk3288 remote wake quirk series.
+> - rk3288-veyron dts patch new for v2.
+> 
+> Douglas Anderson (5):
+>    usb: dwc2: bus suspend/resume for hosts with
+>      DWC2_POWER_DOWN_PARAM_NONE
+>    USB: Export usb_wakeup_enabled_descendants()
+>    Documentation: dt-bindings: Add snps,need-phy-for-wake for dwc2 USB
+>    USB: dwc2: Don't turn off the usbphy in suspend if wakeup is enabled
+>    ARM: dts: rockchip: Allow wakeup from rk3288-veyron's dwc2 USB ports
+> 
+>   .../devicetree/bindings/usb/dwc2.txt          |  3 +
+>   arch/arm/boot/dts/rk3288-veyron.dtsi          |  2 +
+>   drivers/usb/core/hub.c                        |  7 +-
+>   drivers/usb/dwc2/core.h                       |  5 ++
+>   drivers/usb/dwc2/hcd.c                        | 84 ++++++++++++-------
+>   drivers/usb/dwc2/platform.c                   | 43 +++++++++-
+>   include/linux/usb/hcd.h                       |  5 ++
+>   7 files changed, 113 insertions(+), 36 deletions(-)
+> 
 
-HEAD commit:    d34f9519 usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=1338d3e3200000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c73d1bb5aeaeae20
-dashboard link: https://syzkaller.appspot.com/bug?extid=e5c9afc3e1eed1dfc2b0
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+Did you consider/reviewed patch series from Artur Petrosyan "[PATCH 
+00/14] usb: dwc2: Fix and improve power saving modes" (submitted on 
+April 12) which fixing partial power down and hibernation flows for both 
+modes: host and device?
+I suspect that this both patch series can be in conflict.
 
-Unfortunately, I don't have any reproducer for this crash yet.
+Thanks,
+Minas
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+e5c9afc3e1eed1dfc2b0@syzkaller.appspotmail.com
-
-au0828: recv_control_msg() Failed receiving control message, error -71.
-au8522_writereg: writereg error (reg == 0x106, val == 0x0001, ret == -5)
-usb 1-1: selecting invalid altsetting 5
-au0828: Failure setting usb interface0 to as5
-au0828: au0828_usb_probe() au0828_analog_register failed to register on V4L2
-BUG: unable to handle kernel paging request at fffffffc45040758
-#PF error: [normal kernel read fault]
-PGD 1167e067 P4D 1167e067 PUD 0
-Oops: 0000 [#1] SMP KASAN PTI
-CPU: 0 PID: 5 Comm: kworker/0:0 Not tainted 5.1.0-rc5-319617-gd34f951 #4
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:decode_cpu kernel/locking/osq_lock.c:34 [inline]
-RIP: 0010:osq_lock+0xfd/0x5a0 kernel/locking/osq_lock.c:111
-Code: 48 63 e8 48 b8 00 00 00 00 00 fc ff df 48 8d 3c ed 60 c0 39 91 48 89  
-f9 48 c1 e9 03 80 3c 01 00 0f 85 2c 04 00 00 48 8d 53 08 <4c> 03 2c ed 60  
-c0 39 91 48 b8 00 00 00 00 00 fc ff df 48 89 d6 48
-RSP: 0018:ffff8880a846f0e8 EFLAGS: 00010246
-RAX: dffffc0000000000 RBX: ffff8880ad02dfc0 RCX: 1fffffff88a080eb
-RDX: ffff8880ad02dfc8 RSI: 0000000000000004 RDI: fffffffc45040758
-RBP: ffffffff967948df R08: 0000000000000000 R09: ffffed1012299b1e
-R10: ffffed1012299b1d R11: ffff8880914cd8eb R12: ffff8880ad02dfd0
-R13: 000000000002dfc0 R14: ffff8880a8443100 R15: ffff8880914cd8e8
-FS:  0000000000000000(0000) GS:ffff8880ad000000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: fffffffc45040758 CR3: 000000009f4ac000 CR4: 00000000001406f0
-Call Trace:
-  mutex_optimistic_spin kernel/locking/mutex.c:630 [inline]
-  __mutex_lock_common kernel/locking/mutex.c:928 [inline]
-  __mutex_lock+0x27d/0x12b0 kernel/locking/mutex.c:1072
-  au0828_usb_disconnect+0xa3/0x130 drivers/media/usb/au0828/au0828-core.c:194
-  au0828_usb_probe.cold+0x121/0x7d8  
-drivers/media/usb/au0828/au0828-core.c:661
-  usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
-  really_probe+0x2da/0xb10 drivers/base/dd.c:509
-  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
-  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
-  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
-  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
-  device_add+0xad2/0x16e0 drivers/base/core.c:2106
-  usb_set_configuration+0xdf7/0x1740 drivers/usb/core/message.c:2021
-  generic_probe+0xa2/0xda drivers/usb/core/generic.c:210
-  usb_probe_device+0xc0/0x150 drivers/usb/core/driver.c:266
-  really_probe+0x2da/0xb10 drivers/base/dd.c:509
-  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
-  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
-  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
-  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
-  device_add+0xad2/0x16e0 drivers/base/core.c:2106
-  usb_new_device.cold+0x537/0xccf drivers/usb/core/hub.c:2534
-  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0x1398/0x3b00 drivers/usb/core/hub.c:5432
-  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
-  process_scheduled_works kernel/workqueue.c:2331 [inline]
-  worker_thread+0x7b0/0xe20 kernel/workqueue.c:2417
-  kthread+0x313/0x420 kernel/kthread.c:253
-  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-Modules linked in:
-CR2: fffffffc45040758
----[ end trace 41843cb8c360ab9e ]---
-RIP: 0010:decode_cpu kernel/locking/osq_lock.c:34 [inline]
-RIP: 0010:osq_lock+0xfd/0x5a0 kernel/locking/osq_lock.c:111
-Code: 48 63 e8 48 b8 00 00 00 00 00 fc ff df 48 8d 3c ed 60 c0 39 91 48 89  
-f9 48 c1 e9 03 80 3c 01 00 0f 85 2c 04 00 00 48 8d 53 08 <4c> 03 2c ed 60  
-c0 39 91 48 b8 00 00 00 00 00 fc ff df 48 89 d6 48
-RSP: 0018:ffff8880a846f0e8 EFLAGS: 00010246
-RAX: dffffc0000000000 RBX: ffff8880ad02dfc0 RCX: 1fffffff88a080eb
-RDX: ffff8880ad02dfc8 RSI: 0000000000000004 RDI: fffffffc45040758
-RBP: ffffffff967948df R08: 0000000000000000 R09: ffffed1012299b1e
-R10: ffffed1012299b1d R11: ffff8880914cd8eb R12: ffff8880ad02dfd0
-R13: 000000000002dfc0 R14: ffff8880a8443100 R15: ffff8880914cd8e8
-FS:  0000000000000000(0000) GS:ffff8880ad000000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: fffffffc45040758 CR3: 000000009f4ac000 CR4: 00000000001406f0
-
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
