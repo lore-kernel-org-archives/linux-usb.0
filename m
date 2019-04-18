@@ -2,91 +2,159 @@ Return-Path: <SRS0=JW0E=SU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED,USER_AGENT_MUTT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FE88C10F0E
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 15:28:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F2B7C10F14
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 15:29:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C9A6520869
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 15:28:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1F4FF20869
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 15:29:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388457AbfDRP2k (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Apr 2019 11:28:40 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:6645 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2388299AbfDRP2k (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 18 Apr 2019 11:28:40 -0400
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 35162D8CB0041C3F437E;
-        Thu, 18 Apr 2019 23:28:32 +0800 (CST)
-Received: from suse12-sp2.huawei.com (10.67.189.94) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.408.0; Thu, 18 Apr 2019 23:28:23 +0800
-From:   zhuyan <zhuyan34@huawei.com>
-To:     <stern@rowland.harvard.edu>, <gregkh@linuxfoundation.org>,
-        <zhuyan34@huawei.com>
-CC:     <anton@enomsg.org>, <linux-usb@vger.kernel.org>
-Subject: [PATCH v3] usb: host: use usb_endpoint_maxp instead of usb_maxpacket
-Date:   Thu, 18 Apr 2019 23:25:21 +0800
-Message-ID: <1555601121-81611-1-git-send-email-zhuyan34@huawei.com>
-X-Mailer: git-send-email 1.8.5.6
+        id S2388535AbfDRP3L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Apr 2019 11:29:11 -0400
+Received: from mail-it1-f194.google.com ([209.85.166.194]:55532 "EHLO
+        mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388299AbfDRP3L (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Apr 2019 11:29:11 -0400
+Received: by mail-it1-f194.google.com with SMTP id y134so3901331itc.5
+        for <linux-usb@vger.kernel.org>; Thu, 18 Apr 2019 08:29:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=PTV7w2sFD53HDQMqtsdrCsqIcgw/TVT2YeOyBYCnr5o=;
+        b=jKoEgIII4x6CZjjOrH/feEM38iAHfK62wKcY2mq4dF9C/coEFFzaACHehoLnj/eNNe
+         0FWXANDFrPAPEuf8Vm20/kxlChdIgJoa0E1DtEW3PAo790uFxKESr2r0ms8lweG2zNvn
+         Li2RIDe6emntgI8Ed86kQfqFlAlpxxwmhbZp5qCwujCe7o8YOE2NGARta/wm86patAEE
+         tzf7Pf91udtPSglxAV3A6A25B9OcwZ1Sbpn6jP3QAIeV9W/4XmbrshmHjTknMrZ/4wbj
+         8ITdrCffRfbA5grcKqBb5JoHTTcakDrAXkZml7d8ASokKQh5s6JbCrnL3s0cidCuaPB2
+         0FBQ==
+X-Gm-Message-State: APjAAAXli9LQbXRM6WP0m3lQmh51aAXl5VcDFn7Lcqc9/ZXAqHfBxEYq
+        uVwJOWyO6Dp5ej0zH30oc6HFrA==
+X-Google-Smtp-Source: APXvYqyvcfVGNOGMK+GZbb7AZqNZCVjS9j6kjjivsM+QlsoZ2vEDj70m8h4QmgUxsDxZt9+Op2eLlg==
+X-Received: by 2002:a05:660c:12ce:: with SMTP id k14mr3743232itd.23.1555601348493;
+        Thu, 18 Apr 2019 08:29:08 -0700 (PDT)
+Received: from google.com ([2620:15c:183:0:20b8:dee7:5447:d05])
+        by smtp.gmail.com with ESMTPSA id p17sm790420iol.69.2019.04.18.08.29.06
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 18 Apr 2019 08:29:07 -0700 (PDT)
+Date:   Thu, 18 Apr 2019 09:29:02 -0600
+From:   Raul Rangel <rrangel@chromium.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Guenter Roeck <groeck@google.com>, linux-usb@vger.kernel.org,
+        Guenter Roeck <groeck@chromium.org>,
+        Oliver Neukum <oneukum@suse.com>,
+        Daniel Kurtz <djkurtz@chromium.org>, zwisler@chromium.org,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Dmitry Torokhov <dtor@chromium.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Johan Hovold <johan@kernel.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Raul Rangel <rrangel@chromium.org>
+Subject: Re: [PATCH v3] usb/hcd: Send a uevent signaling that the host
+ controller had died
+Message-ID: <20190418152902.GA185502@google.com>
+References: <20190418065141.GB12503@kroah.com>
+ <Pine.LNX.4.44L0.1904181011020.1513-100000@iolanthe.rowland.org>
+ <20190418143048.GA11555@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.67.189.94]
-X-CFilter-Loop: Reflected
+Content-Disposition: inline
+In-Reply-To: <20190418143048.GA11555@kroah.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190418152521.lRe5FRNME726J5QGvym5eFCuPGQ3t96RAuE6EQbZO4s@z>
+Message-ID: <20190418152902.EbOs-z9PHLmkqnsLhi8BmX-QP3WVheE3d4mScAAwqrw@z>
 
-From: Yan Zhu <zhuyan34@huawei.com>
+On Thu, Apr 18, 2019 at 04:30:48PM +0200, Greg Kroah-Hartman wrote:
+> On Thu, Apr 18, 2019 at 10:21:32AM -0400, Alan Stern wrote:
+> > On Thu, 18 Apr 2019, Greg Kroah-Hartman wrote:
+> > 
+> > > On Wed, Apr 17, 2019 at 04:20:09PM -0700, Guenter Roeck wrote:
+> > > > On Wed, Apr 17, 2019 at 3:41 PM Raul Rangel <rrangel@chromium.org> wrote:
+> > > > >
+> > > > > On Wed, Apr 17, 2019 at 03:23:52PM -0700, Guenter Roeck wrote:
+> > > > > > On Wed, Apr 17, 2019 at 3:11 PM Raul Rangel <rrangel@chromium.org> wrote:
+> > > > > > >
+> > > > > > > On Wed, Apr 17, 2019 at 04:39:23PM -0400, Alan Stern wrote:
+> > > > > > > >
+> > > > > > > > This sounds like a golden opportunity!  Submit a separate patch making
+> > > > > > > > the parameter to kobject_uevent_env be const (actually const char *
+> > > > > > > > const []), then submit this patch on top of that one.
+> > > > > > > So there are other parts of the code base that dynamically create their
+> > > > > > > array values. So by making the function take const, it breaks :(
+> > > > > >
+> > > > > > Confused. The calling code can still be non-const. I don't see the
+> > > > > > parameter modified in kobject_uevent_env(), so declaring it const
+> > > > > > should be possible. Can you give an example of code that no longer
+> > > > > > works ?
+> > > > > static int notify_user_space(struct thermal_zone_device *tz, int trip)
+> > > > > {
+> > > > >         char *thermal_prop[5];
+> > > > >         int i;
+> > > > >
+> > > > >         mutex_lock(&tz->lock);
+> > > > >         thermal_prop[0] = kasprintf(GFP_KERNEL, "NAME=%s", tz->type);
+> > > > >         thermal_prop[1] = kasprintf(GFP_KERNEL, "TEMP=%d", tz->temperature);
+> > > > >         thermal_prop[2] = kasprintf(GFP_KERNEL, "TRIP=%d", trip);
+> > > > >         thermal_prop[3] = kasprintf(GFP_KERNEL, "EVENT=%d", tz->notify_event);
+> > > > >         thermal_prop[4] = NULL;
+> > > > >         kobject_uevent_env(&tz->device.kobj, KOBJ_CHANGE, thermal_prop);
+> > > > >         for (i = 0; i < 4; ++i)
+> > > > >                 kfree(thermal_prop[i]);
+> > > > >         mutex_unlock(&tz->lock);
+> > > > >         return 0;
+> > > > > }
+> > > > >
+> > > > > drivers/thermal/user_space.c:48:52: error: passing 'char *[5]' to parameter of type 'const char *const *' discards qualifiers in nested pointer types [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+> > > > >         kobject_uevent_env(&tz->device.kobj, KOBJ_CHANGE, thermal_prop);
+> > > > >                                                           ^~~~~~~~~~~~
+> > > > > include/linux/kobject.h:238:22: note: passing argument to parameter 'envp' here
+> > > > >                         const char *const envp[]);
+> > > > >                                           ^
+> > > > >
+> > > > > http://c-faq.com/ansi/constmismatch.html explains why it fails.
+> > > > >
+> > > > Interesting. One never stops learning. So the best you could do would
+> > > > be char * const envp[], but I guess that doesn't help much.
+> > > 
+> > > Yeah, I went down this path a year or so ago and had to give it up as
+> > > well :(
+> > 
+> > Well, the signature could still be changed as Guenter suggests.
+> > 
+> > And the array being added in the new code could still be static.  
+> > After all, there isn't really any danger that the contents of those
+> > strings will be modified, right?  It's just that the const modifiers
+> > weren't put in until it was too late and there were too many existing
+> > callers.  Perhaps a comment about this could be included in the 
+> > kerneldoc for kobject_uevent_env.
+> 
+> I am all for changing this, but I remember I tried to, and somehow
+> failed, but I don't remember the full details sorry, it was a while ago.
+> If someone figures out how to make this all const, I will gladly take
+> that patch.
+> 
+Well we could use varargs...
+int kobject_uevent_env(struct kobject *kobj,
+		       enum kobject_action action,
+		       ...);
 
-fhci_queue_urb() shouldn't use urb->pipe to compute the maxpacket
-size anyway.It should use usb_endpoint_maxp(&urb->ep->desc).
+This will accept both const char* and char *.
 
-Signed-off-by: Yan Zhu <zhuyan34@huawei.com>
----
- drivers/usb/host/fhci-sched.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+Example https://repl.it/@RaulRangel/Const-char-var-args
 
-diff --git a/drivers/usb/host/fhci-sched.c b/drivers/usb/host/fhci-sched.c
-index 3d12cdd..3235d53 100644
---- a/drivers/usb/host/fhci-sched.c
-+++ b/drivers/usb/host/fhci-sched.c
-@@ -727,8 +727,7 @@ void fhci_queue_urb(struct fhci_hcd *fhci, struct urb *urb)
- 		}
- 		ed->speed = (urb->dev->speed == USB_SPEED_LOW) ?
- 			FHCI_LOW_SPEED : FHCI_FULL_SPEED;
--		ed->max_pkt_size = usb_maxpacket(urb->dev,
--			urb->pipe, usb_pipeout(urb->pipe));
-+		ed->max_pkt_size = usb_endpoint_maxp(&urb->ep->desc);
- 		urb->ep->hcpriv = ed;
- 		fhci_dbg(fhci, "new ep speed=%d max_pkt_size=%d\n",
- 			 ed->speed, ed->max_pkt_size);
-@@ -768,8 +767,7 @@ void fhci_queue_urb(struct fhci_hcd *fhci, struct urb *urb)
- 		if (urb->transfer_flags & URB_ZERO_PACKET &&
- 				urb->transfer_buffer_length > 0 &&
- 				((urb->transfer_buffer_length %
--				usb_maxpacket(urb->dev, urb->pipe,
--				usb_pipeout(urb->pipe))) == 0))
-+				usb_endpoint_maxp(&urb->ep->desc)) == 0))
- 			urb_state = US_BULK0;
- 		while (data_len > 4096) {
- 			td = fhci_td_fill(fhci, urb, urb_priv, ed, cnt,
-@@ -807,8 +805,8 @@ void fhci_queue_urb(struct fhci_hcd *fhci, struct urb *urb)
- 		break;
- 	case FHCI_TF_CTRL:
- 		ed->dev_addr = usb_pipedevice(urb->pipe);
--		ed->max_pkt_size = usb_maxpacket(urb->dev, urb->pipe,
--			usb_pipeout(urb->pipe));
-+		ed->max_pkt_size = usb_endpoint_maxp(&urb->ep->desc);
-+
- 		/* setup stage */
- 		td = fhci_td_fill(fhci, urb, urb_priv, ed, cnt++, FHCI_TA_SETUP,
- 			USB_TD_TOGGLE_DATA0, urb->setup_packet, 8, 0, 0, true);
--- 
-1.8.5.6
+It seems like most callers have a fixed number of env params, so you
+wouldn't need a function that takes a list.
 
+> thanks,
+> 
+> greg k-h
