@@ -2,131 +2,182 @@ Return-Path: <SRS0=JW0E=SU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS
+X-Spam-Status: No, score=-6.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 572B9C10F0B
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 08:03:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58D43C10F14
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 09:32:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 24AEC214DA
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 08:03:13 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=preh.de header.i=@preh.de header.b="NNc9QkM3"
+	by mail.kernel.org (Postfix) with ESMTP id 33F01214DA
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 09:32:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388188AbfDRIDJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Apr 2019 04:03:09 -0400
-Received: from mail01.preh.com ([80.149.130.22]:57254 "EHLO mail01.preh.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726873AbfDRIDJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 18 Apr 2019 04:03:09 -0400
-From:   Kloetzke Jan <Jan.Kloetzke@preh.de>
-To:     "oneukum@suse.com" <oneukum@suse.com>
-CC:     "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "jan@kloetzke.net" <jan@kloetzke.net>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH] usbnet: fix kernel crash after disconnect
-Thread-Topic: [PATCH] usbnet: fix kernel crash after disconnect
-Thread-Index: AQHU9P6lIDgQA+tBpkOiuoVbyUaoWaZBVvAAgAAX0AA=
-Date:   Thu, 18 Apr 2019 08:02:59 +0000
-Message-ID: <1555574578.4173.215.camel@preh.de>
-References: <20190417091849.7475-1-Jan.Kloetzke@preh.de>
-         <1555569464.7835.4.camel@suse.com>
-In-Reply-To: <1555569464.7835.4.camel@suse.com>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
+        id S2388304AbfDRJcD convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Apr 2019 05:32:03 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2920 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2387971AbfDRJcC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 18 Apr 2019 05:32:02 -0400
+Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.55])
+        by Forcepoint Email with ESMTP id 07B72AB7A4E782B37099;
+        Thu, 18 Apr 2019 17:31:59 +0800 (CST)
+Received: from dggeme762-chm.china.huawei.com (10.3.19.108) by
+ DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
+ id 14.3.408.0; Thu, 18 Apr 2019 17:31:58 +0800
+Received: from dggeme762-chm.china.huawei.com (10.3.19.108) by
+ dggeme762-chm.china.huawei.com (10.3.19.108) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1591.10; Thu, 18 Apr 2019 17:31:58 +0800
+Received: from dggeme762-chm.china.huawei.com ([10.8.68.53]) by
+ dggeme762-chm.china.huawei.com ([10.8.68.53]) with mapi id 15.01.1591.008;
+ Thu, 18 Apr 2019 17:31:58 +0800
+From:   "zhuyan (M)" <zhuyan34@huawei.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+CC:     Greg KH <gregkh@linuxfoundation.org>,
+        "anton@enomsg.org" <anton@enomsg.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] usb:host: fix divide-by-zero in function
+ fhci_queue_urb
+Thread-Topic: [PATCH v2] usb:host: fix divide-by-zero in function
+ fhci_queue_urb
+Thread-Index: AdT1yXpqg6Rr/q0XRBeXbW3Dz7nOAw==
+Date:   Thu, 18 Apr 2019 09:31:58 +0000
+Message-ID: <2e3a7b4df8744b508b866db40bb8cf28@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-tm-snts-smtp: 90C63F4CF35663E050CF5B6A00D3126C025306EC0BC6340CE9FD1D8888E9011A2000:8
-x-exclaimer-md-config: 142fe46c-4d13-4ac1-9970-1f36f118897a
-Content-Type: text/plain; charset="UTF-8"
-Content-ID: <D9D08F9655840A4B9110073094EAC2AC@preh.de>
-Content-Transfer-Encoding: base64
+x-originating-ip: [10.40.99.186]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; d=preh.de; s=key1; c=relaxed/relaxed;
- h=from:to:cc:subject:date:message-id:references:content-type:mime-version;
- bh=BwCIWxnxAIPyUKT5QqfU1Xo67SlY+FEqaWxA4MZpqXU=;
- b=NNc9QkM3rX5jw0Qze2BJn3crzEeEtGfNuQTMEszgJ9D+VPKAiwdsRNLe0g4DTY09iX/LYo/aILXI
-        th2ixmfyeOG3VFzntb0DoO+DTCGwuMjRylr7sFox9B4F9e/oRmTj8V5LY0ojl2kIZ5hc9cVfBucR
-        oBNCsB5kcvuVOGIXmMArV5oWQV37w9bGj2gf/jeS9aBuGrKkK3KUTcI1raFP+rZAW/D8G86Brbvk
-        nLICjSj2SEtqx1Vmlr7tMqi45NL+27AS6t1Mmio5iFUV6qZogFev600DHgzVTfRYj1gVXi/OgQuc
-        j2+DU89qB0ZVee9jDWI3AinWs2quZPVwuZhEuA==
+X-CFilter-Loop: Reflected
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190418080259.kgoJwz5_Sud60QZ512yZ_8L-IUCNz5-AhqSBxKiqruw@z>
 
-SGksDQoNCkFtIERvbm5lcnN0YWcsIGRlbiAxOC4wNC4yMDE5LCAwODozNyArMDIwMCBzY2hyaWVi
-IE9saXZlciBOZXVrdW06DQo+IE9uIE1pLCAyMDE5LTA0LTE3IGF0IDA5OjE5ICswMDAwLCBLbG9l
-dHprZSBKYW4gd3JvdGU6DQo+ID4gV2hlbiBkaXNjb25uZWN0aW5nIGNkY19uY20gdGhlIGtlcm5l
-bCBzcG9yYWRpY2FsbHkgY3Jhc2hlcyBzaG9ydGx5DQo+ID4gYWZ0ZXIgdGhlIGRpc2Nvbm5lY3Q6
-DQo+ID4gDQo+ID4gwqAgW8KgwqDCoDU3Ljg2ODgxMl0gVW5hYmxlIHRvIGhhbmRsZSBrZXJuZWwg
-TlVMTCBwb2ludGVyIGRlcmVmZXJlbmNlDQo+ID4gYXQgdmlydHVhbCBhZGRyZXNzIDAwMDAwMDAw
-DQo+ID4gwqAgLi4uDQo+ID4gwqAgW8KgwqDCoDU4LjAwNjY1M10gUEMgaXMgYXQgMHgwDQo+ID4g
-wqAgW8KgwqDCoDU4LjAwOTIwMl0gTFIgaXMgYXQgY2FsbF90aW1lcl9mbisweGVjLzB4MWI0DQo+
-ID4gwqAgW8KgwqDCoDU4LjAxMzU2N10gcGMgOiBbPDAwMDAwMDAwMDAwMDAwMDA+XSBsciA6DQo+
-ID4gWzxmZmZmZmY4MDA4MGY1MTMwPl0gcHN0YXRlOiAwMDAwMDE0NQ0KPiA+IMKgIFvCoMKgwqA1
-OC4wMjA5NzZdIHNwIDogZmZmZmZmODAwODAwM2RhMA0KPiA+IMKgIFvCoMKgwqA1OC4wMjQyOTVd
-IHgyOTogZmZmZmZmODAwODAwM2RhMCB4Mjg6IDAwMDAwMDAwMDAwMDAwMDENCj4gPiDCoCBbwqDC
-oMKgNTguMDI5NjE4XSB4Mjc6IDAwMDAwMDAwMDAwMDAwMGEgeDI2OiAwMDAwMDAwMDAwMDAwMTAw
-DQo+ID4gwqAgW8KgwqDCoDU4LjAzNDk0MV0geDI1OiAwMDAwMDAwMDAwMDAwMDAwIHgyNDogZmZm
-ZmZmODAwODAwM2U2OA0KPiA+IMKgIFvCoMKgwqA1OC4wNDAyNjNdIHgyMzogMDAwMDAwMDAwMDAw
-MDAwMCB4MjI6IDAwMDAwMDAwMDAwMDAwMDANCj4gPiDCoCBbwqDCoMKgNTguMDQ1NTg3XSB4MjE6
-IDAwMDAwMDAwMDAwMDAwMDAgeDIwOiBmZmZmZmZjNjhmYWMxODA4DQo+ID4gwqAgW8KgwqDCoDU4
-LjA1MDkxMF0geDE5OiAwMDAwMDAwMDAwMDAwMTAwIHgxODogMDAwMDAwMDAwMDAwMDAwMA0KPiA+
-IMKgIFvCoMKgwqA1OC4wNTYyMzJdIHgxNzogMDAwMDAwN2Y4ODVhZmY4YyB4MTY6IDAwMDAwMDdm
-ODgzYTlmMTANCj4gPiDCoCBbwqDCoMKgNTguMDYxNTU2XSB4MTU6IDAwMDAwMDAwMDAwMDAwMDEg
-eDE0OiAwMDAwMDAwMDAwMDAwMDZlDQo+ID4gwqAgW8KgwqDCoDU4LjA2Njg3OF0geDEzOiAwMDAw
-MDAwMDAwMDAwMDAwIHgxMjogMDAwMDAwMDAwMDAwMDBiYQ0KPiA+IMKgIFvCoMKgwqA1OC4wNzIy
-MDFdIHgxMTogZmZmZmZmYzY5ZmYxZGIzMCB4MTA6IDAwMDAwMDAwMDAwMDAwMjANCj4gPiDCoCBb
-wqDCoMKgNTguMDc3NTI0XSB4OSA6IDgwMDAxMDAwMDgwMDEwMDAgeDggOiAwMDAwMDAwMDAwMDAw
-MDAxDQo+ID4gwqAgW8KgwqDCoDU4LjA4Mjg0N10geDcgOiAwMDAwMDAwMDAwMDAwODAwIHg2IDog
-ZmZmZmZmODAwODAwM2U3MA0KPiA+IMKgIFvCoMKgwqA1OC4wODgxNjldIHg1IDogZmZmZmZmYzY5
-ZmYxN2EyOCB4NCA6IDAwMDAwMDAwZmZmZjEzOGINCj4gPiDCoCBbwqDCoMKgNTguMDkzNDkyXSB4
-MyA6IDAwMDAwMDAwMDAwMDAwMDAgeDIgOiAwMDAwMDAwMDAwMDAwMDAwDQo+ID4gwqAgW8KgwqDC
-oDU4LjA5ODgxNF0geDEgOiAwMDAwMDAwMDAwMDAwMDAwIHgwIDogMDAwMDAwMDAwMDAwMDAwMA0K
-PiA+IMKgIC4uLg0KPiA+IMKgIFvCoMKgwqA1OC4yMDU4MDBdIFs8wqDCoMKgwqDCoMKgwqDCoMKg
-wqAobnVsbCk+XcKgwqDCoMKgwqDCoMKgwqDCoMKgwqAobnVsbCkNCj4gPiDCoCBbwqDCoMKgNTgu
-MjEwNTIxXSBbPGZmZmZmZjgwMDgwZjUyOTg+XSBleHBpcmVfdGltZXJzKzB4YTAvMHgxNGMNCj4g
-PiDCoCBbwqDCoMKgNTguMjE1OTM3XSBbPGZmZmZmZjgwMDgwZjU0MmM+XSBydW5fdGltZXJfc29m
-dGlycSsweGU4LzB4MTI4DQo+ID4gwqAgW8KgwqDCoDU4LjIyMTcwMl0gWzxmZmZmZmY4MDA4MDgx
-MTIwPl0gX19kb19zb2Z0aXJxKzB4Mjk4LzB4MzQ4DQo+ID4gwqAgW8KgwqDCoDU4LjIyNzExOF0g
-WzxmZmZmZmY4MDA4MGE2MzA0Pl0gaXJxX2V4aXQrMHg3NC8weGJjDQo+ID4gwqAgW8KgwqDCoDU4
-LjIzMjAwOV0gWzxmZmZmZmY4MDA4MGUxN2RjPl0gX19oYW5kbGVfZG9tYWluX2lycSsweDc4LzB4
-YWMNCj4gPiDCoCBbwqDCoMKgNTguMjM3ODU3XSBbPGZmZmZmZjgwMDgwODBjZjQ+XSBnaWNfaGFu
-ZGxlX2lycSsweDgwLzB4YWMNCj4gPiDCoCAuLi4NCj4gPiANCj4gPiBUaGUgY3Jhc2ggaGFwcGVu
-cyByb3VnaGx5IDEyNS4uMTMwbXMgYWZ0ZXIgdGhlIGRpc2Nvbm5lY3QuIFRoaXMNCj4gPiBjb3Jy
-ZWxhdGVzIHdpdGggdGhlICdkZWxheScgdGltZXIgdGhhdCBpcyBzdGFydGVkIG9uIGNlcnRhaW4g
-VVNCDQo+ID4gdHgvcngNCj4gPiBlcnJvcnMgaW4gdGhlIFVSQiBjb21wbGV0aW9uIGhhbmRsZXIu
-DQo+ID4gDQo+ID4gVGhlIHN1c3BlY3RlZCBwcm9ibGVtIGlzIGEgcmFjZSBvZiB1c2JuZXRfc3Rv
-cCgpIHdpdGgNCj4gPiB1c2JuZXRfc3RhcnRfeG1pdCgpLiBJbiB1c2JuZXRfc3RvcCgpIHdlIGNh
-bGwNCj4gPiB1c2JuZXRfdGVybWluYXRlX3VyYnMoKQ0KPiA+IHRvIGNhbmNlbCBhbGwgVVJCcyBp
-biBmbGlnaHQuIFRoaXMgb25seSBtYWtlcyBzZW5zZSBpZiBubyBuZXcgVVJCcw0KPiA+IGFyZQ0K
-PiA+IHN1Ym1pdHRlZCBjb25jdXJyZW50bHksIHRob3VnaC4gQnV0IHRoZSB1c2JuZXRfc3RhcnRf
-eG1pdCgpIGNhbiBydW4NCj4gPiBhdA0KPiA+IHRoZSBzYW1lIHRpbWUgb24gYW5vdGhlciBDUFUg
-d2hpY2ggYWxtb3N0IHVuY29uZGl0aW9uYWxseSBzdWJtaXRzDQo+ID4gYW4NCj4gPiBVUkIuIFRo
-ZSBlcnJvciBjYWxsYmFjayBvZiB0aGUgbmV3IFVSQiB3aWxsIHRoZW4gc2NoZWR1bGUgdGhlIHRp
-bWVyDQo+ID4gYWZ0ZXIgaXQgd2FzIGFscmVhZHkgc3RvcHBlZC4NCj4gDQo+IEhpLA0KPiANCj4g
-aW50ZXJlc3RpbmcuIEhvdyBzdXJlIGFyZSB5b3Ugb2YgdGhlIGRldGFpbHMgb2YgeW91ciBhbmFs
-eXNpcz8NCg0KV2UgaGF2ZSBzZWVuIHRoZSBpc3N1ZSBzcG9yYWRpY2FsbHksIG1heWJlIG9uY2Ug
-YSBtb250aCwgb24gb3VyIElWSQ0Kc3lzdGVtIHdpdGggZG96ZW5zIG9mIHVuaXRzIGJlaW5nIHRl
-c3RlZCBhbGwgZGF5IGxvbmcuIFdlIGhhdmUgdGhlIGZpeA0KaW4gdGhlIGZpZWxkIHNpbmNlIHRo
-cmVlIG1vbnRocyBhbmQgZ290IG5vIGZ1cnRoZXIgcmVwb3J0cyBzbyBmYXIuIFNvDQpJJ20gcmVs
-YXRpdmVseSBvcHRpbWlzdGljIHRoYXQgdGhlIHBhdGNoIHNvbHZlcyB0aGUgcHJvYmxlbS4NCg0K
-PiBJIGFtIGFza2luZyBiZWNhdXNlIHVzYm5ldF9zdG9wKCkgZG9lcyBhIGRlbF90aW1lcl9zeW5j
-KCkuDQo+IEl0IGlzIGluZGVlZCB3cml0dGVuIHVuZGVyIHRoZSBhc3N1bXB0aW9uIHRoYXQgdGhl
-IHVwcGVyIGxheWVyDQo+IHdpbGwgaGF2ZSBjZWFzZWQgdHJhbnNtaXNzaW9uIHdoZW4gaXQgc3Rv
-cHMgYW4gaW50ZXJmYWNlLg0KDQpJIHRoaW5rIHRoaXMgYXNzdW1wdGlvbiBpcyBub3QgY29ycmVj
-dC4gQXMgZmFyIGFzIEkgdW5kZXJzdGFuZCB0aGUNCm5ldHdvcmtpbmcgY29kZSBpdCBpcyBzdGls
-bCBwb3NzaWJsZSB0aGF0IHRoZSBuZG9fc3RhcnRfeG1pdCBjYWxsYmFjaw0KaXMgY2FsbGVkIHdo
-aWxlIG5kb19zdG9wIGlzIHJ1bm5pbmcgYW5kIGV2ZW4gYWZ0ZXIgbmRvX3N0b3AgaGFzDQpyZXR1
-cm5lZC4gWW91IGNhbiBvbmx5IGJlIHN1cmUgYWZ0ZXIgdW5yZWdpc3Rlcl9uZXRkZXYoKSBoYXMg
-cmV0dXJuZWQuDQpNYXliZSBzb21lIG5ldHdvcmtpbmcgZm9sa3MgY2FuIGNvbW1lbnQgb24gdGhh
-dC4NCg0KPiBTbyBJIGFtIHdvbmRlcmluZyB3aGV0aGVyIHRoZSBjb3JyZWN0IGZpeCB3b3VsZCBu
-b3QgYmUgdG8gbWFrZQ0KPiBzdXJlIHRoZSB0aW1lciBpcyBzdGFydGVkLg0KDQpJIHRoaW5rIHRo
-ZSByZWFsIHByb2JsZW0gaXMgdGhhdCBuZXcgVVJCcyBhcmUgc3VibWl0dGVkIGNvbmN1cnJlbnRs
-eS4NClRoZSB0aW1lciBpcyBqdXN0IGEgc2Vjb25kYXJ5IHByb2JsZW0gdGhhdCBibG93cyB1cCBs
-YXRlci4gQnV0IGlmIG15DQphYm92ZSBhc3N1bXB0aW9uIHdydC4gbmRvX3N0b3AvbmRvX3N0YXJ0
-X3htaXQgaXMgbm90IGNvcnJlY3QgdGhlbiB0aGUNCnBhdGNoIHdvdWxkIGJlIGluZGVlZCB3cm9u
-Zy4NCg0KUmVnYXJkcywNCkphbg==
+On Wed, 17 Apr 2019 14:59:27 -0400, Alan Stern wrote:
+> 
+> On Wed, 17 Apr 2019, zhuyan (M) wrote:
+> 
+> > On Wed, 17 Apr 2019, Alan Stern wrote:
+> > 
+> > > On Wed, 17 Apr 2019, zhuyan (M) wrote:
+> > > 
+> > > > On Tue, 16 Apr 2019 11:07:56 -0400, Alan Stern wrote:
+> > > > 
+> > > > > On Tue, 16 Apr 2019, zhuyan (M) wrote:
+> > > > > > On Tue, 16 Apr 2019 at 11:45:45 +0200, Greg KH wrote:
+> > > > > > > On Tue, Apr 09, 2019 at 10:37:12PM +0800, zhuyan wrote:
+> > > > > > > > In function fhci_queue_urb, the divisor of expression 
+> > > > > > > > (urb->transfer_buffer_length % usb_maxpacket(urb->dev,
+> > > > > > > > urb->pipe,
+> > > > > > > > usb_pipeout(urb->pipe))) may be zero.
+> > > > > > > 
+> > > > > > > How can you hit that?
+> > > > > > > 
+> > > > > > > > When it is zero, unexpected results may occur, so it is 
+> > > > > > > > necessary to ensure that the divisor is not zero.
+> > > > > > > > 
+> > > > > > > > Signed-off-by: zhuyan <zhuyan34@huawei.com>
+> > > > > > > 
+> > > > > > > I need a "Full" name here, not just a single name.  Whatever you use to sign documents is good.
+> > > > > > > 
+> > > > > > > thanks,
+> > > > > > > 
+> > > > > > > greg k-h
+> > > > > > 
+> > > > > > In function usb_maxpacket, when ep is NULL, its return value is 0.  
+> > > > > 
+> > > > > fhci_queue_urb() shouldn't use urb->pipe to compute the 
+> > > > > maxpacket size anyway.  It should use usb_endpoint_maxp(&urb->ep->desc).
+> > > > 
+> > > > Currently, fhci_queue_urb(), call usb_maxpacket() multiple times 
+> > > > to calculate  the maxpacket size. The usb_maxpacket() will call
+> > > > usb_endpoint_maxp() to compute the maxpacket size.
+> > > 
+> > > I know that.  What fhci_queue_urb() is doing is wrong.  You should change it: 
+> > > Make it call usb_endpoint_maxp directly instead of calling usb_maxpacket.
+> > > 
+> > 
+> > From 1996456d0cc17b5ff7746a598ff355b25d13db3e Mon Sep 17 00:00:00 2001
+> > From: zhuyan <zhuyan34@huawei.com>
+> > Date: Thu, 18 Apr 2019 00:53:03 +0800
+> > Subject: [PATCH] usb: host: fix divide-by-zero in function 
+> > fhci_queue_urb
+> > 
+> > fhci_queue_urb() shouldn't use urb->pipe to compute the maxpacket size 
+> > anyway.It should use usb_endpoint_maxp(&urb->ep->desc).
+> > 
+> > In function fhci_queue_urb, the divisor of expression 
+> > (urb->transfer_buffer_length % usb_maxpacket(urb->dev, urb->pipe,
+> > usb_pipeout(urb->pipe))) may be zero. When it is zero, unexpected 
+> > results may occur, so it is necessary to ensure that the divisor is not zero.
+> > 
+> > Signed-off-by: zhuyan <zhuyan34@huawei.com>
+> > ---
+> >  drivers/usb/host/fhci-sched.c | 13 +++++++------
+> >  1 file changed, 7 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/usb/host/fhci-sched.c 
+> > b/drivers/usb/host/fhci-sched.c index 3d12cdd..7dcfe22 100644
+> > --- a/drivers/usb/host/fhci-sched.c
+> > +++ b/drivers/usb/host/fhci-sched.c
+> > @@ -704,6 +704,7 @@ void fhci_queue_urb(struct fhci_hcd *fhci, struct urb *urb)
+> >  	struct td *td;
+> >  	u8 *data;
+> >  	u16 cnt = 0;
+> > +	u16 max_pkt_size = 0;
+> >  
+> >  	if (ed == NULL) {
+> >  		ed = fhci_get_empty_ed(fhci);
+> > @@ -727,8 +728,7 @@ void fhci_queue_urb(struct fhci_hcd *fhci, struct urb *urb)
+> >  		}
+> >  		ed->speed = (urb->dev->speed == USB_SPEED_LOW) ?
+> >  			FHCI_LOW_SPEED : FHCI_FULL_SPEED;
+> > -		ed->max_pkt_size = usb_maxpacket(urb->dev,
+> > -			urb->pipe, usb_pipeout(urb->pipe));
+> > +		ed->max_pkt_size = usb_endpoint_maxp(&urb->ep->desc);
+> >  		urb->ep->hcpriv = ed;
+> >  		fhci_dbg(fhci, "new ep speed=%d max_pkt_size=%d\n",
+> >  			 ed->speed, ed->max_pkt_size);
+> > @@ -765,11 +765,12 @@ void fhci_queue_urb(struct fhci_hcd *fhci, 
+> > struct urb *urb)
+> >  
+> >  	switch (ed->mode) {
+> >  	case FHCI_TF_BULK:
+> > +		max_pkt_size = usb_endpoint_maxp(&urb->ep->desc);
+> >  		if (urb->transfer_flags & URB_ZERO_PACKET &&
+> >  				urb->transfer_buffer_length > 0 &&
+> > +				(max_pkt_size != 0) &&
+> 
+> Now you shouldn't need to add this extra test.
+> 
+> Alan Stern
+> 
+> >  				((urb->transfer_buffer_length %
+> > -				usb_maxpacket(urb->dev, urb->pipe,
+> > -				usb_pipeout(urb->pipe))) == 0))
+> > +				max_pkt_size) == 0))
+> >  			urb_state = US_BULK0;
+> >  		while (data_len > 4096) {
+> >  			td = fhci_td_fill(fhci, urb, urb_priv, ed, cnt, @@ -807,8 +808,8 
+> > @@ void fhci_queue_urb(struct fhci_hcd *fhci, struct urb *urb)
+> >  		break;
+> >  	case FHCI_TF_CTRL:
+> >  		ed->dev_addr = usb_pipedevice(urb->pipe);
+> > -		ed->max_pkt_size = usb_maxpacket(urb->dev, urb->pipe,
+> > -			usb_pipeout(urb->pipe));
+> > +		ed->max_pkt_size = usb_endpoint_maxp(&urb->ep->desc);
+> > +
+> >  		/* setup stage */
+> >  		td = fhci_td_fill(fhci, urb, urb_priv, ed, cnt++, FHCI_TA_SETUP,
+> >  			USB_TD_TOGGLE_DATA0, urb->setup_packet, 8, 0, 0, true);
+
+But the return value of usb_endpoint_maxp() may be 0. 
+Do we need to take protective measures?
+
+Yan Zhu
