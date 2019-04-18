@@ -2,153 +2,156 @@ Return-Path: <SRS0=JW0E=SU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_PASS,T_DKIMWL_WL_MED,URIBL_BLOCKED,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3CC3C10F14
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 12:06:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBE25C10F0E
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 12:22:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AD47121871
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 12:06:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E61C217D7
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 12:22:00 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="knVBa7D2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388911AbfDRMGF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Apr 2019 08:06:05 -0400
-Received: from mail-io1-f70.google.com ([209.85.166.70]:45670 "EHLO
-        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388874AbfDRMGF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Apr 2019 08:06:05 -0400
-Received: by mail-io1-f70.google.com with SMTP id r21so1769711iod.12
-        for <linux-usb@vger.kernel.org>; Thu, 18 Apr 2019 05:06:04 -0700 (PDT)
+        id S2388946AbfDRMVz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Apr 2019 08:21:55 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:40816 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727807AbfDRMVz (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Apr 2019 08:21:55 -0400
+Received: by mail-pg1-f195.google.com with SMTP id d31so1131332pgl.7
+        for <linux-usb@vger.kernel.org>; Thu, 18 Apr 2019 05:21:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1SYKp7+MfElXRd1sO4ET6eRMz9V6tyIBHsQE06h7vZE=;
+        b=knVBa7D2GK6+IVYWe87tEasDbQE6ueo+Kwxp0FCbYULPfZmphTeVj/chyphkT0VxKD
+         Hf4ixPul1+kOVFyzemdEb5ex6hClEXQipSJrwlsE7P7iYWLgWEhqSNISgHPPf5OsoERZ
+         cdz3E4LE4XWbT08mDB19MgOyj2GycnfY77jXxo9lkG2DQEwsy+Dg41wDOeJcfbz0FdfL
+         L3vktzL8p8N/KSczzuXNRJpXtBwO0m+g/3VH26MXm4emsmkmFRuXypJG0/DZiaqiPm7o
+         URIMV3cWx8JlEmzHj7BBhzd1S8Edyu76rIsnm+8muYd0iR4925nj2Y+FIvo1pSB1WeE8
+         Ds6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=pHHuI0Fl17MZy+KxmjhlNEhzsGLmuNye/r1aZZrWAEY=;
-        b=J6b+U9TvGQ7vhXJrwLrdQlKBbjvzx+Q/ugT1FRj6eY9+satdZZljq6O6M/tlfzMlff
-         xKAPEx0VT9UmpunR6kD1UcgaJuzOpsiGuaO/O3kuRyEsRghqWVJCu3Y6DiIRM0praLOI
-         /T8883XU536rZNU9aU8/4datZ83idljuy6TR/0ZuhQhyFbW/0lk3cl2qPAaeN9KFGaf2
-         ZoXxWSk/Nf+1JXu690d8xc3K5/ifEzKl2Il60GeE6SpOL8NgeONzTDBcmv4GRZdDxCVb
-         ZsterJCiTjYTBvTxs+a2c03pczJNXv6t3tNiGsDoKPYkBI4RV4YWvhM8mKHWRdlXOvIU
-         wsMA==
-X-Gm-Message-State: APjAAAXZOrXsdgEVOHLqd6pr2fZouFhdFrK7l0vMTieyBBCVmVepzMcV
-        2OwUvU6RmexzWz7owupsEwFv9gdjmS+itQak0lbpg/X+v6Hh
-X-Google-Smtp-Source: APXvYqxLo5lwcEJvl3VlKaguDqhorqYSWEpsTjrRwvvlzF3lGBdcMLdq4Mh62JRphoJChl7FgOjxKeN+76ujAQ00yyiyEHXnPvnj
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1SYKp7+MfElXRd1sO4ET6eRMz9V6tyIBHsQE06h7vZE=;
+        b=Xz2MksBXOpd+xDqdXUW7MspJh1iQ+PQaJXz6/0Q3moHYInVoZVjNPImrFgZ66Yn1S2
+         tvESGpsS3+aAaocVwnER4WxNVAktyEJoWXnC7LtxgzXL/81dNuk7nI77ydkaNNoRqHZh
+         aFG5YmE53tdppOr/1dYGWnnsMvnZjDfLdXoAgfGxuoIdBGWoFjWpNtiUrgxw+gcvFMdI
+         R5HjwtJdEG2GOPhJ2y5G4U6+wCreDdspWI8j4rUj80JlBoEcGVVqyZlpUFOtoopyBN3h
+         i1gI/TA+YJZDGisqGK9fWy6IGj43qWLpP0AsQahEMDHK9ohhnrkFIQJvOfCaQvaMIQ+D
+         o/yA==
+X-Gm-Message-State: APjAAAUc7/u0cd+d/0M1dSAbGXNIWRIWCcyxUs+qj1+D9bz9tqIv3i5F
+        8ZQXxQiJdX4B/71UPDQEQ0lu0RK/ymdIZndEuPCm8w==
+X-Google-Smtp-Source: APXvYqxMY7xayTEGCSlvqcfHS8kYinoea8A+SA/x7b8pMqB9rGwTn+iiMXKIAER/Be9oMWthsDKZMOZDYffJkRJ2Wzs=
+X-Received: by 2002:a63:5b4b:: with SMTP id l11mr58047437pgm.95.1555590114070;
+ Thu, 18 Apr 2019 05:21:54 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a02:5144:: with SMTP id s65mr8175189jaa.27.1555589164269;
- Thu, 18 Apr 2019 05:06:04 -0700 (PDT)
-Date:   Thu, 18 Apr 2019 05:06:04 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000008d89900586ccd37b@google.com>
-Subject: general protection fault in smsusb_init_device
-From:   syzbot <syzbot+53f029db71c19a47325a@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, syzkaller-bugs@googlegroups.com,
-        wen.yang99@zte.com.cn
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+References: <000000000000edf1630586acca2b@google.com> <Pine.LNX.4.44L0.1904171503410.1400-100000@iolanthe.rowland.org>
+In-Reply-To: <Pine.LNX.4.44L0.1904171503410.1400-100000@iolanthe.rowland.org>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Thu, 18 Apr 2019 14:21:42 +0200
+Message-ID:
+ <CAAeHK+yPfrbM4id7dft3aDfvNh46LVsFGB9JAaDN-AxV45H_8A@mail.gmail.com>
+Subject: Re: INFO: task hung in usb_kill_urb
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     syzbot <syzbot+d919b0f29d7b5a4994b9@syzkaller.appspotmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190418122142.85n0Ira7N4tO_-ae9zdDWkVFZCQUjBwF0MJKfWj8dA4@z>
 
-Hello,
+On Wed, Apr 17, 2019 at 9:09 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+>
+> On Tue, 16 Apr 2019, syzbot wrote:
+>
+> > Hello,
+> >
+> > syzbot has tested the proposed patch but the reproducer still triggered
+> > crash:
+> > INFO: task hung in usb_kill_urb
+>
+> That's surprising.  This patch was awfully similar to the previous one,
+> which did prevent the crash earlier.
+>
+> > Tested on:
+> >
+> > commit:         9a33b369 usb-fuzzer: main usb gadget fuzzer driver
+> > git tree:       https://github.com/google/kasan/tree/usb-fuzzer
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=10b5e057200000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
+> > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> > patch:          https://syzkaller.appspot.com/x/patch.diff?x=131dca6b200000
+>
+> Andrey, is there any way to increase the console output buffer size?
 
-syzbot found the following crash on:
+Hm, I'm not sure why it got truncated here, the previous one was full.
+I would try running the syz test command again in this case.
 
-HEAD commit:    d34f9519 usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=128ec3fd200000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c73d1bb5aeaeae20
-dashboard link: https://syzkaller.appspot.com/bug?extid=53f029db71c19a47325a
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16138e67200000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=128dddbf200000
-
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+53f029db71c19a47325a@syzkaller.appspotmail.com
-
-usb 1-1: config 0 descriptor??
-usb 1-1: string descriptor 0 read error: -71
-smsusb:smsusb_probe: board id=18, interface number 0
-kasan: CONFIG_KASAN_INLINE enabled
-kasan: GPF could be caused by NULL-ptr deref or user memory access
-general protection fault: 0000 [#1] SMP KASAN PTI
-CPU: 1 PID: 22 Comm: kworker/1:1 Not tainted 5.1.0-rc5-319617-gd34f951 #4
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:smsusb_init_device+0x366/0x937  
-drivers/media/usb/siano/smsusb.c:429
-Code: 48 c1 ea 03 80 3c 02 00 74 05 e8 24 1e 66 f7 4d 8b b6 f0 04 00 00 b8  
-ff ff 37 00 48 c1 e0 2a 49 8d 7e 04 48 89 fa 48 c1 ea 03 <8a> 14 02 48 89  
-f8 83 e0 07 ff c0 38 d0 7c 09 84 d2 74 05 e8 b1 1d
-RSP: 0018:ffff8880a86570d0 EFLAGS: 00010247
-RAX: dffffc0000000000 RBX: ffff88809a81b300 RCX: ffffffff8a42b5b3
-RDX: 0000000000000000 RSI: ffffffff8a42b6a3 RDI: 0000000000000004
-RBP: ffff88808ca70000 R08: ffff8880a8503100 R09: ffff8880a8657130
-R10: ffffed10150cae34 R11: ffff8880a86571a7 R12: ffff88809a81be54
-R13: ffff88809a81be5c R14: 0000000000000000 R15: ffff88808ca70000
-FS:  0000000000000000(0000) GS:ffff8880ad100000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f1ad259d000 CR3: 000000009a3aa000 CR4: 00000000001406e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
-  smsusb_probe+0xd64/0xe08 drivers/media/usb/siano/smsusb.c:570
-  usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
-  really_probe+0x2da/0xb10 drivers/base/dd.c:509
-  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
-  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
-  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
-  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
-  device_add+0xad2/0x16e0 drivers/base/core.c:2106
-  usb_set_configuration+0xdf7/0x1740 drivers/usb/core/message.c:2021
-  generic_probe+0xa2/0xda drivers/usb/core/generic.c:210
-  usb_probe_device+0xc0/0x150 drivers/usb/core/driver.c:266
-  really_probe+0x2da/0xb10 drivers/base/dd.c:509
-  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
-  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
-  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
-  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
-  device_add+0xad2/0x16e0 drivers/base/core.c:2106
-  usb_new_device.cold+0x537/0xccf drivers/usb/core/hub.c:2534
-  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0x1398/0x3b00 drivers/usb/core/hub.c:5432
-  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
-  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
-  kthread+0x313/0x420 kernel/kthread.c:253
-  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-Modules linked in:
----[ end trace 6175778b99b10882 ]---
-RIP: 0010:smsusb_init_device+0x366/0x937  
-drivers/media/usb/siano/smsusb.c:429
-Code: 48 c1 ea 03 80 3c 02 00 74 05 e8 24 1e 66 f7 4d 8b b6 f0 04 00 00 b8  
-ff ff 37 00 48 c1 e0 2a 49 8d 7e 04 48 89 fa 48 c1 ea 03 <8a> 14 02 48 89  
-f8 83 e0 07 ff c0 38 d0 7c 09 84 d2 74 05 e8 b1 1d
-RSP: 0018:ffff8880a86570d0 EFLAGS: 00010247
-RAX: dffffc0000000000 RBX: ffff88809a81b300 RCX: ffffffff8a42b5b3
-RDX: 0000000000000000 RSI: ffffffff8a42b6a3 RDI: 0000000000000004
-RBP: ffff88808ca70000 R08: ffff8880a8503100 R09: ffff8880a8657130
-R10: ffffed10150cae34 R11: ffff8880a86571a7 R12: ffff88809a81be54
-R13: ffff88809a81be5c R14: 0000000000000000 R15: ffff88808ca70000
-FS:  0000000000000000(0000) GS:ffff8880ad100000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f1ad259d000 CR3: 000000009a3aa000 CR4: 00000000001406e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+> The link above doesn't go all the way back to the beginning of the test
+> (it starts at timestamp 486.614697).
+>
+> Also, here's a slightly revised patch for testing.
+>
+> Alan Stern
+>
+>
+> #syz test: https://github.com/google/kasan.git usb-fuzzer
+>
+> --- a/drivers/usb/gadget/udc/dummy_hcd.c
+> +++ b/drivers/usb/gadget/udc/dummy_hcd.c
+> @@ -979,8 +979,18 @@ static int dummy_udc_start(struct usb_ga
+>         struct dummy_hcd        *dum_hcd = gadget_to_dummy_hcd(g);
+>         struct dummy            *dum = dum_hcd->dum;
+>
+> -       if (driver->max_speed == USB_SPEED_UNKNOWN)
+> +       switch (g->speed) {
+> +       /* All the speeds we support */
+> +       case USB_SPEED_LOW:
+> +       case USB_SPEED_FULL:
+> +       case USB_SPEED_HIGH:
+> +       case USB_SPEED_SUPER:
+> +               break;
+> +       default:
+> +               dev_err(dummy_dev(dum_hcd), "Unsupported driver max speed %d\n",
+> +                               driver->max_speed);
+>                 return -EINVAL;
+> +       }
+>
+>         /*
+>          * SLAVE side init ... the layer above hardware, which
+> @@ -1784,9 +1794,10 @@ static void dummy_timer(struct timer_lis
+>                 /* Bus speed is 500000 bytes/ms, so use a little less */
+>                 total = 490000;
+>                 break;
+> -       default:
+> +       default:        /* Can't happen */
+>                 dev_err(dummy_dev(dum_hcd), "bogus device speed\n");
+> -               return;
+> +               total = 0;
+> +               break;
+>         }
+>
+>         /* FIXME if HZ != 1000 this will probably misbehave ... */
+> @@ -1828,7 +1839,7 @@ restart:
+>
+>                 /* Used up this frame's bandwidth? */
+>                 if (total <= 0)
+> -                       break;
+> +                       continue;
+>
+>                 /* find the gadget's ep for this request (if configured) */
+>                 address = usb_pipeendpoint (urb->pipe);
+>
