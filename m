@@ -2,157 +2,174 @@ Return-Path: <SRS0=JW0E=SU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_PASS,T_DKIMWL_WL_HIGH
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F1FEC10F0E
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 12:41:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08495C10F14
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 12:42:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 22B0A21479
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 12:41:20 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="ahUqNLlR"
+	by mail.kernel.org (Postfix) with ESMTP id BD8CE2183E
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 12:42:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1555591376;
+	bh=h9qyoCxbFTiFLg18zOHH1LOvqUQw+0hkZKUNirVyBWA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=hlbis5w3VyBRtxyQ9lpru+xXFJL5zCEBNFqlbpEntwge0oyR0HLp1EBc0c+7/rS2m
+	 Ck0lboeyJX18LqIPIzuq30osfhsbGxrp95Ta5R0DSi0unHAM+DIYH5HpGLvv9enqxp
+	 zPjSqRXHOwtG572miROi4UDYECoj1rWhaiXCJEb0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388392AbfDRMlT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Apr 2019 08:41:19 -0400
-Received: from dc2-smtprelay2.synopsys.com ([198.182.61.142]:55192 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726162AbfDRMlT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Apr 2019 08:41:19 -0400
-Received: from mailhost.synopsys.com (dc2-mailhost1.synopsys.com [10.12.135.161])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 98140C0BD6;
-        Thu, 18 Apr 2019 12:41:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1555591277; bh=/SRF7vOFBYb7QKHQsQeAwXWHui+Sqh2bBLp+mK68XqQ=;
-        h=From:Subject:To:Cc:References:Date:In-Reply-To:From;
-        b=ahUqNLlRbGcJpAjV4ccdLZ1S6loytY5MXF2jMxlqYeIDyG1lEk6vX1Sxc9r4ypXTr
-         eSD836xPbNzXC2zQvv20Y90y71G5ecKil7A2PdJe6xMg1K2BAHmjTO7CMD5UWVhmt+
-         0Ss6Y5uIO9oGhFgyJdteJxpkgLXMpRtRZZdtibqVRQSZIouYMkYs/0T6AotQ8lr2Ah
-         +o3sWXltVbXYbjiGnyDoMe9HYcV9WBiraosJBXdrdcaew/fHoe8Yl4IRK6WjqJir4w
-         ypi6vjyDO/K3sn0sOCXwg+O6Ucgu+SABjIXR7o45Wh3d5rYIaPE0azSuG7g0Fak8Ap
-         q34SAJCnmZgRQ==
-Received: from [10.116.70.132] (hminas-7480.internal.synopsys.com [10.116.70.132])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPSA id 5A8BCA005A;
-        Thu, 18 Apr 2019 12:40:59 +0000 (UTC)
-From:   Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
-Subject: Re: [PATCH v2 0/5] USB: dwc2: Allow wakeup from suspend; enable for
- rk3288-veyron
-To:     Douglas Anderson <dianders@chromium.org>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        "heiko@sntech.de" <heiko@sntech.de>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
-        "amstan@chromium.org" <amstan@chromium.org>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        William Wu <william.wu@rock-chips.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Randy Li <ayaka@soulik.info>,
-        "zyw@rock-chips.com" <zyw@rock-chips.com>,
-        "mka@chromium.org" <mka@chromium.org>,
-        "ryandcase@chromium.org" <ryandcase@chromium.org>,
-        Amelie Delaunay <amelie.delaunay@st.com>,
-        "jwerner@chromium.org" <jwerner@chromium.org>,
-        "dinguyen@opensource.altera.com" <dinguyen@opensource.altera.com>,
-        Elaine Zhang <zhangqing@rock-chips.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Jon Flatley <jflat@chromium.org>,
+        id S2388530AbfDRMmn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Apr 2019 08:42:43 -0400
+Received: from casper.infradead.org ([85.118.1.10]:49308 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726162AbfDRMmm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Apr 2019 08:42:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=FVaqqPnygq1+XAL2fV0XyKGzQwLVOq4vtfOZzXdI+DY=; b=mhYX69b7VKfQqcoKdU0MCUDY48
+        wz7J5q7ip7jfFijvK+A2ZbRvvIroxJe506D3ZMQrb3CoLvm9xyPHHWa/5V6VVBpMznpOnG3TfkBul
+        kz42uT6vbsEoSWFDuxWpELrhXI3brxwrB2rUkFxbS3l/dQ1clL/hYTVu4waRAQlFVAZ3+DkBqFnzm
+        gqZN/EwyZolsR5K1343i6maSxSww63KZgfyNN3MAFzgqy9B9T+AHfzMgzbhHjdvpwUt4XzdVhma0k
+        h/lt7McRzt4geBfeCA+wuguIFyeSB89NrhZTxPp/AqEhMrzdLLhaX7EmpBQ/MpRtZ2kCWwpclFQTQ
+        +L6+vL3A==;
+Received: from 177.132.233.55.dynamic.adsl.gvt.net.br ([177.132.233.55] helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hH6N8-0000gI-FO; Thu, 18 Apr 2019 12:42:35 +0000
+Date:   Thu, 18 Apr 2019 09:42:23 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-fbdev@vger.kernel.org, linux-s390@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-References: <20190418001356.124334-1-dianders@chromium.org>
-Message-ID: <e4b3cd69-1c91-dfbe-bea7-bbca89ca1348@synopsys.com>
-Date:   Thu, 18 Apr 2019 16:40:51 +0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        linux-watchdog@vger.kernel.org, xdp-newbies@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com, bpf@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-pm@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-scsi@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        x86@kernel.org, dm-devel@redhat.com, target-devel@vger.kernel.org,
+        netdev@vger.kernel.org, kexec@lists.infradead.org,
+        linux-fpga@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        linux-security-module@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Avoiding merge conflicts while adding new docs - Was: Re: [PATCH
+ 00/57] Convert files to ReST
+Message-ID: <20190418091526.00e074d1@coco.lan>
+In-Reply-To: <cover.1555382110.git.mchehab+samsung@kernel.org>
+References: <cover.1555382110.git.mchehab+samsung@kernel.org>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190418001356.124334-1-dianders@chromium.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Douglas,
+Jon,
 
-On 4/18/2019 4:15 AM, Douglas Anderson wrote:
-> This re-hashes two older series I posted a long time ago, re-basing
-> them to mainline.  ...well, technically, atop another dwc2 series I
-> recently posted:
-> 
-> * usb: dwc2: Another attempt handling rk3288's remote wake quirk
->    https://urldefense.proofpoint.com/v2/url?u=https-3A__lkml.kernel.org_r_20190416215351.242246-2D1-2Ddianders-40chromium.org&d=DwIDAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=cQBKt4q-qzNVC53rNAwuwplH23V61rHQhhULvdLA0U8&m=tZD-jhA4bSymns9pwqhaT0Ico1SVCYevQaaQclHX8jY&s=b-IYjc3cgFyZYC_B9zSA_xbSLE2ODwAZX0Png-G4SwA&e=
->    https://urldefense.proofpoint.com/v2/url?u=https-3A__lore.kernel.org_patchwork_cover_1062972_&d=DwIDAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=cQBKt4q-qzNVC53rNAwuwplH23V61rHQhhULvdLA0U8&m=tZD-jhA4bSymns9pwqhaT0Ico1SVCYevQaaQclHX8jY&s=VCNBuDGf2VeFFWUUyE3wUdn-sDnUu0nFipeNpyWPXts&e=
-> 
-> In general I've tried to add links to each patch pointing to relevant
-> older discussion.  Here are overall links to the cover letters though.
-> Note that for the previous "allow wakeup" series the discussion was
-> scattered a bit between the original post and the repost.
-> 
-> * usb: dwc2: bus suspend/resume that's not hibernate
->    https://urldefense.proofpoint.com/v2/url?u=https-3A__lkml.kernel.org_r_1446237173-2D15263-2D1-2Dgit-2Dsend-2Demail-2Ddianders-40chromium.org&d=DwIDAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=cQBKt4q-qzNVC53rNAwuwplH23V61rHQhhULvdLA0U8&m=tZD-jhA4bSymns9pwqhaT0Ico1SVCYevQaaQclHX8jY&s=FSVMrPFuSM--uXrAZN9GzCEXP60Li7miMsC4ydv6oDQ&e=
->    https://urldefense.proofpoint.com/v2/url?u=https-3A__lore.kernel.org_patchwork_patch_613761_&d=DwIDAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=cQBKt4q-qzNVC53rNAwuwplH23V61rHQhhULvdLA0U8&m=tZD-jhA4bSymns9pwqhaT0Ico1SVCYevQaaQclHX8jY&s=omRYPw4XVgY8Rq2UgJhApk2poeKXWCBc5QsYMlQkqk4&e=
-> 
-> * dwc2 patches to allow wakeup on Rockchip rk3288
->    https://urldefense.proofpoint.com/v2/url?u=https-3A__lkml.kernel.org_r_1435017144-2D2971-2D1-2Dgit-2Dsend-2Demail-2Ddianders-40chromium.org&d=DwIDAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=cQBKt4q-qzNVC53rNAwuwplH23V61rHQhhULvdLA0U8&m=tZD-jhA4bSymns9pwqhaT0Ico1SVCYevQaaQclHX8jY&s=ep7GoHZcPlQbiOkXlwy9xXZEKdbd4o2erhLSblDL5Rg&e=
->    https://urldefense.proofpoint.com/v2/url?u=https-3A__lore.kernel.org_patchwork_cover_572944_&d=DwIDAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=cQBKt4q-qzNVC53rNAwuwplH23V61rHQhhULvdLA0U8&m=tZD-jhA4bSymns9pwqhaT0Ico1SVCYevQaaQclHX8jY&s=hq4errAA9YvVpHJaVoWGTIHnlwiq1iuadWW1WJavtCI&e=
-> 
-> * dwc2 patches to allow wakeup on Rockchip rk3288 (REPOST)
->    https://urldefense.proofpoint.com/v2/url?u=https-3A__lkml.kernel.org_r_1436207224-2D21849-2D1-2Dgit-2Dsend-2Demail-2Ddianders-40chromium.org&d=DwIDAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=cQBKt4q-qzNVC53rNAwuwplH23V61rHQhhULvdLA0U8&m=tZD-jhA4bSymns9pwqhaT0Ico1SVCYevQaaQclHX8jY&s=n-nD8EdqtgTyPdPPJ06t2pxyjC1M65g5aXLT1OiuouY&e=
->    https://urldefense.proofpoint.com/v2/url?u=https-3A__lore.kernel.org_patchwork_cover_576120_&d=DwIDAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=cQBKt4q-qzNVC53rNAwuwplH23V61rHQhhULvdLA0U8&m=tZD-jhA4bSymns9pwqhaT0Ico1SVCYevQaaQclHX8jY&s=YkisA-u9q0yewqaRoOWWpps9E2QFh1asgnwkbM1B7mc&e=
-> 
-> I'm hoping there's a better chance of these things landing this time
-> around, but I guess we'll see.  ;-)
-> 
-> In case it's helpful I've put what I tested (which is based on Heiko's
-> for-next branch and includes patches to enable deep suspend plus two
-> other s2r fixes) at:
-> 
-> https://urldefense.proofpoint.com/v2/url?u=https-3A__chromium.googlesource.com_chromiumos_third-5Fparty_kernel_-2Blog_refs_sandbox_dianders_190417-2Dtesting-2Ddwc2-2Dwakeup&d=DwIDAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=cQBKt4q-qzNVC53rNAwuwplH23V61rHQhhULvdLA0U8&m=tZD-jhA4bSymns9pwqhaT0Ico1SVCYevQaaQclHX8jY&s=ws6kQVDDGxYJnhR693pQP9fYL-PH_TUGzSVmD4u-S9Q&e=
-> 
-> Changes in v2:
-> - Rebased to mainline atop rk3288 remote wake quirk series.
-> - rk3288-veyron dts patch new for v2.
-> 
-> Douglas Anderson (5):
->    usb: dwc2: bus suspend/resume for hosts with
->      DWC2_POWER_DOWN_PARAM_NONE
->    USB: Export usb_wakeup_enabled_descendants()
->    Documentation: dt-bindings: Add snps,need-phy-for-wake for dwc2 USB
->    USB: dwc2: Don't turn off the usbphy in suspend if wakeup is enabled
->    ARM: dts: rockchip: Allow wakeup from rk3288-veyron's dwc2 USB ports
-> 
->   .../devicetree/bindings/usb/dwc2.txt          |  3 +
->   arch/arm/boot/dts/rk3288-veyron.dtsi          |  2 +
->   drivers/usb/core/hub.c                        |  7 +-
->   drivers/usb/dwc2/core.h                       |  5 ++
->   drivers/usb/dwc2/hcd.c                        | 84 ++++++++++++-------
->   drivers/usb/dwc2/platform.c                   | 43 +++++++++-
->   include/linux/usb/hcd.h                       |  5 ++
->   7 files changed, 113 insertions(+), 36 deletions(-)
-> 
+Em Mon, 15 Apr 2019 23:55:25 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
 
-Did you consider/reviewed patch series from Artur Petrosyan "[PATCH 
-00/14] usb: dwc2: Fix and improve power saving modes" (submitted on 
-April 12) which fixing partial power down and hibernation flows for both 
-modes: host and device?
-I suspect that this both patch series can be in conflict.
+> I have a separate patch series with do the actual rename and
+> adjustment of references. I opted to submit this first, as it
+> sounds easier to merge this way, as each subsystem maintainer
+> can apply the conversion directly on their trees (or at docs
+> tree), avoiding merge conflects.
 
-Thanks,
-Minas
+Based on the number of feedbacks we have about this, I'm
+considering to submit a second version of my conversion patch
+series that would be doing the rename together with each patch,
+adding the rst files to an index file.
 
+However, doing that would produce lots of warnings. We have
+already lots of those at linux-next:
+
+	checking consistency... 
+
+	docs/Documentation/accelerators/ocxl.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/admin-guide/mm/numaperf.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/filesystems/ext4/allocators.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/filesystems/ext4/attributes.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/filesystems/ext4/bigalloc.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/filesystems/ext4/bitmaps.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/filesystems/ext4/blockgroup.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/filesystems/ext4/blocks.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/filesystems/ext4/checksums.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/filesystems/ext4/directory.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/filesystems/ext4/eainode.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/filesystems/ext4/group_descr.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/filesystems/ext4/ifork.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/filesystems/ext4/inlinedata.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/filesystems/ext4/inodes.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/filesystems/ext4/journal.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/filesystems/ext4/mmp.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/filesystems/ext4/special_inodes.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/filesystems/ext4/super.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/fmc/index.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/gpu/msm-crash-dump.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/interconnect/interconnect.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/laptops/lg-laptop.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/virtual/kvm/amd-memory-encryption.rst: WARNING: document isn't included in any toctree
+	docs/Documentation/virtual/kvm/vcpu-requests.rst: WARNING: document isn't included in any toctree
+
+After thinking a little bit and doing some tests, I think a good solution
+would be to add ":orphan:" markup to the new .rst files that were not
+added yet into the main body (e. g. something like the enclosed example).
+
+That will make Sphinx suppress the:
+	"WARNING: document isn't included in any toctree"
+warning for the new files, while they're not included at the main indexes.
+
+This way, maintainers can do all the hard work of doing/applying the ReST
+file conversion/addition patch series on their own trees, and, once
+everything gets merged, submit a patch against the latest docs-next
+tree, removing the :orphan: tag and add them to the common index.rst
+files.
+
+That should largely avoid merging conflicts.
+
+For example, assuming that someone converts the stuff at
+Documentation/accounting and rename the text files there to
+RST (I'm actually doing that), he could add the enclosed change on
+the top of its index file:
+
+	diff --git a/Documentation/accounting/index.rst b/Documentation/accounting/index.rst
+	index e7dda5afa73f..e1f6284b5ff3 100644
+	--- a/Documentation/accounting/index.rst
+	+++ b/Documentation/accounting/index.rst
+	@@ -1,3 +1,5 @@
+	+:orphan:
+	+
+	 ==========
+	 Accounting
+	 ==========
+
+With would make Sphinx to ignore the subdir index file while
+reporting errors. It will still build the documentation, allowing
+the developer to test the changes.
+
+One of the advantages is that checking the orphaned docs is as
+easy as running:
+
+	$ git grep -l ":orphan:" Documentation/
+	...
+	Documentation/accounting/index.rst
+	...
+
+Making easy for people to check the orphaned files and send a fixup
+patch if something got orphaned after the merge window and send a
+fixes patches to be applied upstream.
+
+What do you think?
+
+Regards,
+Mauro
