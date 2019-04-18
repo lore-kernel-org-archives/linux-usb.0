@@ -2,141 +2,77 @@ Return-Path: <SRS0=JW0E=SU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,T_DKIMWL_WL_HIGH,
-	USER_AGENT_MUTT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43C3CC10F0E
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 14:31:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C159C10F14
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 14:33:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0FF99217FA
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 14:31:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1555597860;
-	bh=zNtfE5MZLzW55yElNMuX9dHAFRjpwpLv7UYLaSQyUSA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=yfzT3YRWkm6Fmjcu40F1MulISdZ9Z04Nk8wjIqnbsmrKokW/bdKmwxJCFaCbTRFY+
-	 p1i209UEk+EHuoZvmfEceNf8wkKN5640ZmgUwjtPoDrh/RFcuftsg5Ppiy0cQo2vlK
-	 w5D+VPnIz6RSUjvY1Bk7mjxPs/UmiS9gQDcYyod0=
+	by mail.kernel.org (Postfix) with ESMTP id 787F121479
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 14:33:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388898AbfDROax (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Apr 2019 10:30:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32868 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388375AbfDROax (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 18 Apr 2019 10:30:53 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B1F7721479;
-        Thu, 18 Apr 2019 14:30:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1555597852;
-        bh=zNtfE5MZLzW55yElNMuX9dHAFRjpwpLv7UYLaSQyUSA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=B4Se5ABmcEzAUFxV+4pGnw6Ti31BJ1+FHvbyqmD4bfvHJG79TEhQbDEdfgcvB1Cii
-         yx4+gALJoDULI6iodgf+snnFHd6C7BpJ7BIfDPbH319Fvr4sec5uTszhqdNXND53Ti
-         rgRhEUxRW7AXK0eVVpfRxsaft/j0sZrM3Ra1B/68=
-Date:   Thu, 18 Apr 2019 16:30:48 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Guenter Roeck <groeck@google.com>,
-        Raul Rangel <rrangel@chromium.org>, linux-usb@vger.kernel.org,
-        Guenter Roeck <groeck@chromium.org>,
-        Oliver Neukum <oneukum@suse.com>,
-        Daniel Kurtz <djkurtz@chromium.org>, zwisler@chromium.org,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Dmitry Torokhov <dtor@chromium.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Johan Hovold <johan@kernel.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: Re: [PATCH v3] usb/hcd: Send a uevent signaling that the host
- controller had died
-Message-ID: <20190418143048.GA11555@kroah.com>
-References: <20190418065141.GB12503@kroah.com>
- <Pine.LNX.4.44L0.1904181011020.1513-100000@iolanthe.rowland.org>
+        id S2388301AbfDROdx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Apr 2019 10:33:53 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:50310 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S2388073AbfDROdx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Apr 2019 10:33:53 -0400
+Received: (qmail 3140 invoked by uid 2102); 18 Apr 2019 10:33:52 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 18 Apr 2019 10:33:52 -0400
+Date:   Thu, 18 Apr 2019 10:33:52 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     "zhuyan (M)" <zhuyan34@huawei.com>
+cc:     Greg KH <gregkh@linuxfoundation.org>,
+        "anton@enomsg.org" <anton@enomsg.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] usb:host: fix divide-by-zero in function fhci_queue_urb
+In-Reply-To: <2e3a7b4df8744b508b866db40bb8cf28@huawei.com>
+Message-ID: <Pine.LNX.4.44L0.1904181022320.1513-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <Pine.LNX.4.44L0.1904181011020.1513-100000@iolanthe.rowland.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190418143048.oY2uAyaX8Qw-n2FI4AiHuLK0tIV-p2edBD2X9VqX1sM@z>
 
-On Thu, Apr 18, 2019 at 10:21:32AM -0400, Alan Stern wrote:
-> On Thu, 18 Apr 2019, Greg Kroah-Hartman wrote:
-> 
-> > On Wed, Apr 17, 2019 at 04:20:09PM -0700, Guenter Roeck wrote:
-> > > On Wed, Apr 17, 2019 at 3:41 PM Raul Rangel <rrangel@chromium.org> wrote:
-> > > >
-> > > > On Wed, Apr 17, 2019 at 03:23:52PM -0700, Guenter Roeck wrote:
-> > > > > On Wed, Apr 17, 2019 at 3:11 PM Raul Rangel <rrangel@chromium.org> wrote:
-> > > > > >
-> > > > > > On Wed, Apr 17, 2019 at 04:39:23PM -0400, Alan Stern wrote:
-> > > > > > >
-> > > > > > > This sounds like a golden opportunity!  Submit a separate patch making
-> > > > > > > the parameter to kobject_uevent_env be const (actually const char *
-> > > > > > > const []), then submit this patch on top of that one.
-> > > > > > So there are other parts of the code base that dynamically create their
-> > > > > > array values. So by making the function take const, it breaks :(
-> > > > >
-> > > > > Confused. The calling code can still be non-const. I don't see the
-> > > > > parameter modified in kobject_uevent_env(), so declaring it const
-> > > > > should be possible. Can you give an example of code that no longer
-> > > > > works ?
-> > > > static int notify_user_space(struct thermal_zone_device *tz, int trip)
-> > > > {
-> > > >         char *thermal_prop[5];
-> > > >         int i;
-> > > >
-> > > >         mutex_lock(&tz->lock);
-> > > >         thermal_prop[0] = kasprintf(GFP_KERNEL, "NAME=%s", tz->type);
-> > > >         thermal_prop[1] = kasprintf(GFP_KERNEL, "TEMP=%d", tz->temperature);
-> > > >         thermal_prop[2] = kasprintf(GFP_KERNEL, "TRIP=%d", trip);
-> > > >         thermal_prop[3] = kasprintf(GFP_KERNEL, "EVENT=%d", tz->notify_event);
-> > > >         thermal_prop[4] = NULL;
-> > > >         kobject_uevent_env(&tz->device.kobj, KOBJ_CHANGE, thermal_prop);
-> > > >         for (i = 0; i < 4; ++i)
-> > > >                 kfree(thermal_prop[i]);
-> > > >         mutex_unlock(&tz->lock);
-> > > >         return 0;
-> > > > }
-> > > >
-> > > > drivers/thermal/user_space.c:48:52: error: passing 'char *[5]' to parameter of type 'const char *const *' discards qualifiers in nested pointer types [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-> > > >         kobject_uevent_env(&tz->device.kobj, KOBJ_CHANGE, thermal_prop);
-> > > >                                                           ^~~~~~~~~~~~
-> > > > include/linux/kobject.h:238:22: note: passing argument to parameter 'envp' here
-> > > >                         const char *const envp[]);
-> > > >                                           ^
-> > > >
-> > > > http://c-faq.com/ansi/constmismatch.html explains why it fails.
-> > > >
-> > > Interesting. One never stops learning. So the best you could do would
-> > > be char * const envp[], but I guess that doesn't help much.
+On Thu, 18 Apr 2019, zhuyan (M) wrote:
+
+> > > @@ -765,11 +765,12 @@ void fhci_queue_urb(struct fhci_hcd *fhci, 
+> > > struct urb *urb)
+> > >  
+> > >  	switch (ed->mode) {
+> > >  	case FHCI_TF_BULK:
+> > > +		max_pkt_size = usb_endpoint_maxp(&urb->ep->desc);
+> > >  		if (urb->transfer_flags & URB_ZERO_PACKET &&
+> > >  				urb->transfer_buffer_length > 0 &&
+> > > +				(max_pkt_size != 0) &&
 > > 
-> > Yeah, I went down this path a year or so ago and had to give it up as
-> > well :(
-> 
-> Well, the signature could still be changed as Guenter suggests.
-> 
-> And the array being added in the new code could still be static.  
-> After all, there isn't really any danger that the contents of those
-> strings will be modified, right?  It's just that the const modifiers
-> weren't put in until it was too late and there were too many existing
-> callers.  Perhaps a comment about this could be included in the 
-> kerneldoc for kobject_uevent_env.
+> > Now you shouldn't need to add this extra test.
+> > 
+> > Alan Stern
 
-I am all for changing this, but I remember I tried to, and somehow
-failed, but I don't remember the full details sorry, it was a while ago.
-If someone figures out how to make this all const, I will gladly take
-that patch.
+> But the return value of usb_endpoint_maxp() may be 0. 
+> Do we need to take protective measures?
 
-thanks,
+Yes, we do.  But the protective measures don't belong in the fhci 
+driver.
 
-greg k-h
+They should go in core/config.c:usb_parse_endpoint().  That routine 
+already has code to check for maxpacket sizes that are too large; you 
+can add code that checks for maxpacket sizes that are too small.
+
+In theory an interrupt or isochronous endpoint might have maxpacket set
+to 0 -- we could warn about these and accept them -- but this is not
+allowed for bulk endpoints (see section 5.8.3 of the USB 2.0
+specification).  In fact, bulk endpoints are not allowed to have
+maxpacket size smaller than 8.
+
+Maybe if you make this change then fhci-hcd won't need any
+modifications at all.
+
+Alan Stern
+
