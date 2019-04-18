@@ -2,100 +2,153 @@ Return-Path: <SRS0=JW0E=SU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB731C10F0E
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 11:45:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3CC3C10F14
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 12:06:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BB5862183E
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 11:45:54 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="d15Kg8jk"
+	by mail.kernel.org (Postfix) with ESMTP id AD47121871
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 12:06:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388856AbfDRLpx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 18 Apr 2019 07:45:53 -0400
-Received: from dc2-smtprelay2.synopsys.com ([198.182.61.142]:53252 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727807AbfDRLpx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Apr 2019 07:45:53 -0400
-X-Greylist: delayed 302 seconds by postgrey-1.27 at vger.kernel.org; Thu, 18 Apr 2019 07:45:53 EDT
-Received: from mailhost.synopsys.com (dc2-mailhost2.synopsys.com [10.12.135.162])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 6F206C0B6C;
-        Thu, 18 Apr 2019 11:40:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1555587650; bh=BDlZTLLxZY1nOl7McSORdouo2nHJxoSOT8mcMBh50r8=;
-        h=Date:From:Subject:To:Cc:From;
-        b=d15Kg8jk++uQovjFN3XOAzDToNCJcmAxJA/XujahGvMCbRZla7VR5UHANvtP2cOk1
-         4IzE98HTHMGL0PBvbxw8w3d9ydO4Ct37UU6OftXB2/i1r1GcXEHuRXxzOpvcAYIOoH
-         VyHmi39ApdJHLa9ri6xco/36m5yfo0fblY/6t9l8OEuuSX6f6dK5LwBtc0QiBuoAfF
-         l93EPG2E0Xe5ECM/6VLAXOBAiyvP2Prexm3qMQ86WLtWD8VlmDJ4kmTsMY8kS8A6Ty
-         ccDFENGPr+Jqq7kxpzO1ZGSoSTkMuwxFvZ0KzB5jE/mxaFaiRiBigcEusIBskemdXE
-         l2DWHmnlfn4rA==
-Received: from hminas-z420 (hminas-z420.internal.synopsys.com [10.116.126.211])
-        (using TLSv1 with cipher AES128-SHA (128/128 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPSA id 7EB3DA009D;
-        Thu, 18 Apr 2019 11:40:48 +0000 (UTC)
-Received: by hminas-z420 (sSMTP sendmail emulation); Thu, 18 Apr 2019 15:40:43 +0400
-Date:   Thu, 18 Apr 2019 15:40:43 +0400
-Message-Id:
- <b729b2ca09edc379aa83c03cf7c8a0a10a838bca.1555578524.git.hminas@synopsys.com>
-From:   Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
-Subject: [PATCH] usb: dwc2: gadget: Reject LPM token during Control transfers
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>,
-        linux-usb@vger.kernel.org
-Cc:     John Youn <John.Youn@synopsys.com>
+        id S2388911AbfDRMGF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Apr 2019 08:06:05 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70]:45670 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388874AbfDRMGF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 18 Apr 2019 08:06:05 -0400
+Received: by mail-io1-f70.google.com with SMTP id r21so1769711iod.12
+        for <linux-usb@vger.kernel.org>; Thu, 18 Apr 2019 05:06:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=pHHuI0Fl17MZy+KxmjhlNEhzsGLmuNye/r1aZZrWAEY=;
+        b=J6b+U9TvGQ7vhXJrwLrdQlKBbjvzx+Q/ugT1FRj6eY9+satdZZljq6O6M/tlfzMlff
+         xKAPEx0VT9UmpunR6kD1UcgaJuzOpsiGuaO/O3kuRyEsRghqWVJCu3Y6DiIRM0praLOI
+         /T8883XU536rZNU9aU8/4datZ83idljuy6TR/0ZuhQhyFbW/0lk3cl2qPAaeN9KFGaf2
+         ZoXxWSk/Nf+1JXu690d8xc3K5/ifEzKl2Il60GeE6SpOL8NgeONzTDBcmv4GRZdDxCVb
+         ZsterJCiTjYTBvTxs+a2c03pczJNXv6t3tNiGsDoKPYkBI4RV4YWvhM8mKHWRdlXOvIU
+         wsMA==
+X-Gm-Message-State: APjAAAXZOrXsdgEVOHLqd6pr2fZouFhdFrK7l0vMTieyBBCVmVepzMcV
+        2OwUvU6RmexzWz7owupsEwFv9gdjmS+itQak0lbpg/X+v6Hh
+X-Google-Smtp-Source: APXvYqxLo5lwcEJvl3VlKaguDqhorqYSWEpsTjrRwvvlzF3lGBdcMLdq4Mh62JRphoJChl7FgOjxKeN+76ujAQ00yyiyEHXnPvnj
+MIME-Version: 1.0
+X-Received: by 2002:a02:5144:: with SMTP id s65mr8175189jaa.27.1555589164269;
+ Thu, 18 Apr 2019 05:06:04 -0700 (PDT)
+Date:   Thu, 18 Apr 2019 05:06:04 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000008d89900586ccd37b@google.com>
+Subject: general protection fault in smsusb_init_device
+From:   syzbot <syzbot+53f029db71c19a47325a@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com,
+        wen.yang99@zte.com.cn
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190418114043.3aKvRzB7x0h0RMj651JMFWYGsw-nplu0LE98TqP1V4k@z>
 
-Avoiding switch to L1 state in any stage of control transfers.
-Send NYET handshake to LPM token.
+Hello,
 
-Renamed GLPMCFG_LPM_ACCEPT_CTRL_ISOC to GLPMCFG_LPM_REJECT_CTRL_CONTROL
-because by setting this bit core reject LPM token.
+syzbot found the following crash on:
 
-Signed-off-by: Minas Harutyunyan <hminas@synopsys.com>
+HEAD commit:    d34f9519 usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan/tree/usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=128ec3fd200000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c73d1bb5aeaeae20
+dashboard link: https://syzkaller.appspot.com/bug?extid=53f029db71c19a47325a
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16138e67200000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=128dddbf200000
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+53f029db71c19a47325a@syzkaller.appspotmail.com
+
+usb 1-1: config 0 descriptor??
+usb 1-1: string descriptor 0 read error: -71
+smsusb:smsusb_probe: board id=18, interface number 0
+kasan: CONFIG_KASAN_INLINE enabled
+kasan: GPF could be caused by NULL-ptr deref or user memory access
+general protection fault: 0000 [#1] SMP KASAN PTI
+CPU: 1 PID: 22 Comm: kworker/1:1 Not tainted 5.1.0-rc5-319617-gd34f951 #4
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:smsusb_init_device+0x366/0x937  
+drivers/media/usb/siano/smsusb.c:429
+Code: 48 c1 ea 03 80 3c 02 00 74 05 e8 24 1e 66 f7 4d 8b b6 f0 04 00 00 b8  
+ff ff 37 00 48 c1 e0 2a 49 8d 7e 04 48 89 fa 48 c1 ea 03 <8a> 14 02 48 89  
+f8 83 e0 07 ff c0 38 d0 7c 09 84 d2 74 05 e8 b1 1d
+RSP: 0018:ffff8880a86570d0 EFLAGS: 00010247
+RAX: dffffc0000000000 RBX: ffff88809a81b300 RCX: ffffffff8a42b5b3
+RDX: 0000000000000000 RSI: ffffffff8a42b6a3 RDI: 0000000000000004
+RBP: ffff88808ca70000 R08: ffff8880a8503100 R09: ffff8880a8657130
+R10: ffffed10150cae34 R11: ffff8880a86571a7 R12: ffff88809a81be54
+R13: ffff88809a81be5c R14: 0000000000000000 R15: ffff88808ca70000
+FS:  0000000000000000(0000) GS:ffff8880ad100000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f1ad259d000 CR3: 000000009a3aa000 CR4: 00000000001406e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+  smsusb_probe+0xd64/0xe08 drivers/media/usb/siano/smsusb.c:570
+  usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
+  really_probe+0x2da/0xb10 drivers/base/dd.c:509
+  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+  device_add+0xad2/0x16e0 drivers/base/core.c:2106
+  usb_set_configuration+0xdf7/0x1740 drivers/usb/core/message.c:2021
+  generic_probe+0xa2/0xda drivers/usb/core/generic.c:210
+  usb_probe_device+0xc0/0x150 drivers/usb/core/driver.c:266
+  really_probe+0x2da/0xb10 drivers/base/dd.c:509
+  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+  device_add+0xad2/0x16e0 drivers/base/core.c:2106
+  usb_new_device.cold+0x537/0xccf drivers/usb/core/hub.c:2534
+  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+  port_event drivers/usb/core/hub.c:5350 [inline]
+  hub_event+0x1398/0x3b00 drivers/usb/core/hub.c:5432
+  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
+  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
+  kthread+0x313/0x420 kernel/kthread.c:253
+  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+Modules linked in:
+---[ end trace 6175778b99b10882 ]---
+RIP: 0010:smsusb_init_device+0x366/0x937  
+drivers/media/usb/siano/smsusb.c:429
+Code: 48 c1 ea 03 80 3c 02 00 74 05 e8 24 1e 66 f7 4d 8b b6 f0 04 00 00 b8  
+ff ff 37 00 48 c1 e0 2a 49 8d 7e 04 48 89 fa 48 c1 ea 03 <8a> 14 02 48 89  
+f8 83 e0 07 ff c0 38 d0 7c 09 84 d2 74 05 e8 b1 1d
+RSP: 0018:ffff8880a86570d0 EFLAGS: 00010247
+RAX: dffffc0000000000 RBX: ffff88809a81b300 RCX: ffffffff8a42b5b3
+RDX: 0000000000000000 RSI: ffffffff8a42b6a3 RDI: 0000000000000004
+RBP: ffff88808ca70000 R08: ffff8880a8503100 R09: ffff8880a8657130
+R10: ffffed10150cae34 R11: ffff8880a86571a7 R12: ffff88809a81be54
+R13: ffff88809a81be5c R14: 0000000000000000 R15: ffff88808ca70000
+FS:  0000000000000000(0000) GS:ffff8880ad100000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f1ad259d000 CR3: 000000009a3aa000 CR4: 00000000001406e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+
+
 ---
- drivers/usb/dwc2/gadget.c | 1 +
- drivers/usb/dwc2/hw.h     | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
-index 6812a8a3a98b..6ac850d6ad44 100644
---- a/drivers/usb/dwc2/gadget.c
-+++ b/drivers/usb/dwc2/gadget.c
-@@ -5073,6 +5073,7 @@ void dwc2_gadget_init_lpm(struct dwc2_hsotg *hsotg)
- 	val |= hsotg->params.lpm_clock_gating ? GLPMCFG_ENBLSLPM : 0;
- 	val |= hsotg->params.hird_threshold << GLPMCFG_HIRD_THRES_SHIFT;
- 	val |= hsotg->params.besl ? GLPMCFG_ENBESL : 0;
-+	val |= GLPMCFG_LPM_REJECT_CTRL_CONTROL;
- 	val |= GLPMCFG_LPM_ACCEPT_CTRL_ISOC;
- 	dwc2_writel(hsotg, val, GLPMCFG);
- 	dev_dbg(hsotg->dev, "GLPMCFG=0x%08x\n", dwc2_readl(hsotg, GLPMCFG));
-diff --git a/drivers/usb/dwc2/hw.h b/drivers/usb/dwc2/hw.h
-index 98af924a9a5c..1bc394dcfa9d 100644
---- a/drivers/usb/dwc2/hw.h
-+++ b/drivers/usb/dwc2/hw.h
-@@ -333,7 +333,7 @@
- #define GLPMCFG_SNDLPM			BIT(24)
- #define GLPMCFG_RETRY_CNT_MASK		(0x7 << 21)
- #define GLPMCFG_RETRY_CNT_SHIFT		21
--#define GLPMCFG_LPM_ACCEPT_CTRL_CONTROL	BIT(21)
-+#define GLPMCFG_LPM_REJECT_CTRL_CONTROL	BIT(21)
- #define GLPMCFG_LPM_ACCEPT_CTRL_ISOC	BIT(22)
- #define GLPMCFG_LPM_CHNL_INDX_MASK	(0xf << 17)
- #define GLPMCFG_LPM_CHNL_INDX_SHIFT	17
--- 
-2.11.0
-
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
