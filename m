@@ -2,145 +2,102 @@ Return-Path: <SRS0=JW0E=SU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
-	T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21C5DC282DA
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 00:15:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E7D5C10F0E
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 06:50:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E6B0221850
-	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 00:15:24 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LVGQpggD"
+	by mail.kernel.org (Postfix) with ESMTP id 290722184B
+	for <linux-usb@archiver.kernel.org>; Thu, 18 Apr 2019 06:50:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387565AbfDRAO5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Apr 2019 20:14:57 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:38807 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729500AbfDRAO5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Apr 2019 20:14:57 -0400
-Received: by mail-pf1-f194.google.com with SMTP id 10so235931pfo.5
-        for <linux-usb@vger.kernel.org>; Wed, 17 Apr 2019 17:14:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=c9oThqOPQYRE9+j5YBe3T7HRFD4v17lP81JvPeWNUJo=;
-        b=LVGQpggDxObbMay+0kK1xkAClUgU3QUKZ2zeyJjh8Xnrx4z9dJPNi9TUp+f8RTd0Ck
-         d9NpEkly65of7S0zxErJ85rX495+moDdrKFtuN1ondPtJB3MHKsle748/lx4Hfmml3CZ
-         hTOUOxgkvb0vw0HpArE9TW/ArB1KEhj1U94VI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=c9oThqOPQYRE9+j5YBe3T7HRFD4v17lP81JvPeWNUJo=;
-        b=NoKt2RJqJCjQK5JbhiAhqsrMLkz/wZVL0jZjMH9I2GReyUIn08tKm4qHmhs1bYvH5A
-         964LDsxgCupmsQUVzp7dDk7v9fvUflzDGwAwUDksRQbBg80Sp8kls0EHw2Ph4u110ykk
-         HGwwkNObQefehumlmwZQ9XmvnILZnEPqQ6lYHIREn0vORcYZBXMrJlfxNe1C58UMzSRV
-         85JAi/3trxFDim98yEOJ2sWH/fdowfFq85YtGtijdyOUS91WqIlxPcIeV8V5siipnEx7
-         RYzCNEjPs+6YwBWP87G8U1BCEsxj31R5/pF1bCpGFhX9DpESUcfuQwEKimQOFtp34GGi
-         LBjg==
-X-Gm-Message-State: APjAAAV3TW7WBW0CSfTfDfFUcahtwI1/NtTedPUAg7n5/cqgYIRk6nnQ
-        bIZVXHTkRcKwgWSXuF5QJy6vzg==
-X-Google-Smtp-Source: APXvYqxBrq6dTjS91CHRbsI1bTnxxtQbGFSU4OZmJFaPtT8QQp4Fl3rumYe7P87zkpZ1XvLPGPB3XQ==
-X-Received: by 2002:a62:7603:: with SMTP id r3mr93273266pfc.32.1555546496404;
-        Wed, 17 Apr 2019 17:14:56 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com ([2620:15c:202:1:24fa:e766:52c9:e3b2])
-        by smtp.gmail.com with ESMTPSA id q5sm447668pff.97.2019.04.17.17.14.54
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 17 Apr 2019 17:14:55 -0700 (PDT)
-From:   Douglas Anderson <dianders@chromium.org>
-To:     Minas Harutyunyan <hminas@synopsys.com>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>, heiko@sntech.de
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
-        amstan@chromium.org, linux-rockchip@lists.infradead.org,
-        William Wu <william.wu@rock-chips.com>,
-        linux-usb@vger.kernel.org, Stefan Wahren <stefan.wahren@i2se.com>,
-        Randy Li <ayaka@soulik.info>, zyw@rock-chips.com,
-        mka@chromium.org, ryandcase@chromium.org,
-        Amelie Delaunay <amelie.delaunay@st.com>, jwerner@chromium.org,
-        dinguyen@opensource.altera.com,
-        Elaine Zhang <zhangqing@rock-chips.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Jon Flatley <jflat@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Subject: [PATCH v2 0/5] USB: dwc2: Allow wakeup from suspend; enable for rk3288-veyron
-Date:   Wed, 17 Apr 2019 17:13:51 -0700
-Message-Id: <20190418001356.124334-1-dianders@chromium.org>
-X-Mailer: git-send-email 2.21.0.593.g511ec345e18-goog
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S2388070AbfDRGuF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 18 Apr 2019 02:50:05 -0400
+Received: from mx2.suse.de ([195.135.220.15]:50574 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725886AbfDRGuF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 18 Apr 2019 02:50:05 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id D413EAF96;
+        Thu, 18 Apr 2019 06:50:03 +0000 (UTC)
+Message-ID: <1555569464.7835.4.camel@suse.com>
+Subject: Re: [PATCH] usbnet: fix kernel crash after disconnect
+From:   Oliver Neukum <oneukum@suse.com>
+To:     Kloetzke Jan <Jan.Kloetzke@preh.de>
+Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Date:   Thu, 18 Apr 2019 08:37:44 +0200
+In-Reply-To: <20190417091849.7475-1-Jan.Kloetzke@preh.de>
+References: <20190417091849.7475-1-Jan.Kloetzke@preh.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190418063744.-hOf6Y6TgJgV1-IDMWvQzwYpvYmxvaNMG6yLQ8_tgmo@z>
 
-This re-hashes two older series I posted a long time ago, re-basing
-them to mainline.  ...well, technically, atop another dwc2 series I
-recently posted:
+On Mi, 2019-04-17 at 09:19 +0000, Kloetzke Jan wrote:
+> When disconnecting cdc_ncm the kernel sporadically crashes shortly
+> after the disconnect:
+> 
+>   [   57.868812] Unable to handle kernel NULL pointer dereference at virtual address 00000000
+>   ...
+>   [   58.006653] PC is at 0x0
+>   [   58.009202] LR is at call_timer_fn+0xec/0x1b4
+>   [   58.013567] pc : [<0000000000000000>] lr : [<ffffff80080f5130>] pstate: 00000145
+>   [   58.020976] sp : ffffff8008003da0
+>   [   58.024295] x29: ffffff8008003da0 x28: 0000000000000001
+>   [   58.029618] x27: 000000000000000a x26: 0000000000000100
+>   [   58.034941] x25: 0000000000000000 x24: ffffff8008003e68
+>   [   58.040263] x23: 0000000000000000 x22: 0000000000000000
+>   [   58.045587] x21: 0000000000000000 x20: ffffffc68fac1808
+>   [   58.050910] x19: 0000000000000100 x18: 0000000000000000
+>   [   58.056232] x17: 0000007f885aff8c x16: 0000007f883a9f10
+>   [   58.061556] x15: 0000000000000001 x14: 000000000000006e
+>   [   58.066878] x13: 0000000000000000 x12: 00000000000000ba
+>   [   58.072201] x11: ffffffc69ff1db30 x10: 0000000000000020
+>   [   58.077524] x9 : 8000100008001000 x8 : 0000000000000001
+>   [   58.082847] x7 : 0000000000000800 x6 : ffffff8008003e70
+>   [   58.088169] x5 : ffffffc69ff17a28 x4 : 00000000ffff138b
+>   [   58.093492] x3 : 0000000000000000 x2 : 0000000000000000
+>   [   58.098814] x1 : 0000000000000000 x0 : 0000000000000000
+>   ...
+>   [   58.205800] [<          (null)>]           (null)
+>   [   58.210521] [<ffffff80080f5298>] expire_timers+0xa0/0x14c
+>   [   58.215937] [<ffffff80080f542c>] run_timer_softirq+0xe8/0x128
+>   [   58.221702] [<ffffff8008081120>] __do_softirq+0x298/0x348
+>   [   58.227118] [<ffffff80080a6304>] irq_exit+0x74/0xbc
+>   [   58.232009] [<ffffff80080e17dc>] __handle_domain_irq+0x78/0xac
+>   [   58.237857] [<ffffff8008080cf4>] gic_handle_irq+0x80/0xac
+>   ...
+> 
+> The crash happens roughly 125..130ms after the disconnect. This
+> correlates with the 'delay' timer that is started on certain USB tx/rx
+> errors in the URB completion handler.
+> 
+> The suspected problem is a race of usbnet_stop() with
+> usbnet_start_xmit(). In usbnet_stop() we call usbnet_terminate_urbs()
+> to cancel all URBs in flight. This only makes sense if no new URBs are
+> submitted concurrently, though. But the usbnet_start_xmit() can run at
+> the same time on another CPU which almost unconditionally submits an
+> URB. The error callback of the new URB will then schedule the timer
+> after it was already stopped.
 
-* usb: dwc2: Another attempt handling rk3288's remote wake quirk
-  https://lkml.kernel.org/r/20190416215351.242246-1-dianders@chromium.org
-  https://lore.kernel.org/patchwork/cover/1062972/
+Hi,
 
-In general I've tried to add links to each patch pointing to relevant
-older discussion.  Here are overall links to the cover letters though.
-Note that for the previous "allow wakeup" series the discussion was
-scattered a bit between the original post and the repost.
+interesting. How sure are you of the details of your analysis?
+I am asking because usbnet_stop() does a del_timer_sync().
+It is indeed written under the assumption that the upper layer
+will have ceased transmission when it stops an interface.
 
-* usb: dwc2: bus suspend/resume that's not hibernate
-  https://lkml.kernel.org/r/1446237173-15263-1-git-send-email-dianders@chromium.org
-  https://lore.kernel.org/patchwork/patch/613761/
+So I am wondering whether the correct fix would not be to make
+sure the timer is started.
 
-* dwc2 patches to allow wakeup on Rockchip rk3288
-  https://lkml.kernel.org/r/1435017144-2971-1-git-send-email-dianders@chromium.org
-  https://lore.kernel.org/patchwork/cover/572944/
-
-* dwc2 patches to allow wakeup on Rockchip rk3288 (REPOST)
-  https://lkml.kernel.org/r/1436207224-21849-1-git-send-email-dianders@chromium.org
-  https://lore.kernel.org/patchwork/cover/576120/
-
-I'm hoping there's a better chance of these things landing this time
-around, but I guess we'll see.  ;-)
-
-In case it's helpful I've put what I tested (which is based on Heiko's
-for-next branch and includes patches to enable deep suspend plus two
-other s2r fixes) at:
-
-https://chromium.googlesource.com/chromiumos/third_party/kernel/+log/refs/sandbox/dianders/190417-testing-dwc2-wakeup
-
-Changes in v2:
-- Rebased to mainline atop rk3288 remote wake quirk series.
-- rk3288-veyron dts patch new for v2.
-
-Douglas Anderson (5):
-  usb: dwc2: bus suspend/resume for hosts with
-    DWC2_POWER_DOWN_PARAM_NONE
-  USB: Export usb_wakeup_enabled_descendants()
-  Documentation: dt-bindings: Add snps,need-phy-for-wake for dwc2 USB
-  USB: dwc2: Don't turn off the usbphy in suspend if wakeup is enabled
-  ARM: dts: rockchip: Allow wakeup from rk3288-veyron's dwc2 USB ports
-
- .../devicetree/bindings/usb/dwc2.txt          |  3 +
- arch/arm/boot/dts/rk3288-veyron.dtsi          |  2 +
- drivers/usb/core/hub.c                        |  7 +-
- drivers/usb/dwc2/core.h                       |  5 ++
- drivers/usb/dwc2/hcd.c                        | 84 ++++++++++++-------
- drivers/usb/dwc2/platform.c                   | 43 +++++++++-
- include/linux/usb/hcd.h                       |  5 ++
- 7 files changed, 113 insertions(+), 36 deletions(-)
-
--- 
-2.21.0.593.g511ec345e18-goog
+	Regards
+		Oliver
 
