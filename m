@@ -2,123 +2,133 @@ Return-Path: <SRS0=lmIm=SV=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=0.3 required=3.0 tests=DATE_IN_PAST_03_06,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
+	USER_AGENT_MUTT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7F77C282DA
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Apr 2019 19:11:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D36E8C282DA
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Apr 2019 19:17:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B30BE20821
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Apr 2019 19:11:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 954D9204FD
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Apr 2019 19:17:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qn1sNW11"
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="fsi9nnwl";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="K5U41Hz1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727852AbfDSTLi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 19 Apr 2019 15:11:38 -0400
-Received: from mail-io1-f47.google.com ([209.85.166.47]:39969 "EHLO
-        mail-io1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726634AbfDSTLh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 19 Apr 2019 15:11:37 -0400
-Received: by mail-io1-f47.google.com with SMTP id i21so4557117iol.7;
-        Fri, 19 Apr 2019 12:11:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=YX1+LC6ogeciedQzxSK5Z/nE7MwrJJYpFIy+EY18FBU=;
-        b=qn1sNW11MBGs+jOB+vH7Ybf6UZgc5j2sNJ8hbRZeHcvyN4TAESYbXq82vFC3fA30E7
-         gyzbIG49YGXHhd/0ipTy9VN2Ew57C4xpBpFhezrlmEL/6K3WdX8PM9/LQamEhKGoi+0h
-         A9gOTmTgQO+2vfacz0bgkP6KqYcpLhCeXPtIxOPzBB5AbpGwQwhz+5YQ+hjKUDHDf6fZ
-         zC8Ve91AtUPuUFhFP1RY6nXmVQcI18VP8Q7gHJoBsrvxJsIj8URrsrTx5i7/ziv+fGdN
-         RVL7E4AZnB//CDMRky0UhAP4eRC2cEw116b5SJ8tRD4xYKaQ8QRcfWUZPeuh48Dz7wnM
-         hwbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=YX1+LC6ogeciedQzxSK5Z/nE7MwrJJYpFIy+EY18FBU=;
-        b=N+BZ5D0eO2k1wZfOelCLyXHPBpNlk9i3QAGoAYzOXarZxkr6kP9UYfpcHmy6OeB5Dw
-         /vzsxJgh4WwOadvAgviwW528KFp1dZZl0Vmu1sP9733/zNjRfZ+vrD5R1GpE2j9jRtq+
-         wdn5lEdOHqLluJse50oC5vUEI7TCQdzsR5h14lTdgFy/XEdKs89ELD3IcAKsfMjPyUT/
-         9hBZ/VxVqWqrUZ8e/KJ1XCyfDXz+QQrhdCKYXI2vyRTxJhlkvDDOPZxykTwbk7QIQkMh
-         oXz0XVw8DtfkL51FoS6xxB2BgIxH+8TltAIglCofm/a1avOoYhpsF7mbsI8V9v5HUA/V
-         uAJg==
-X-Gm-Message-State: APjAAAXq9o6JKKxqesl00+ps2n1dHUKoKlF+gE9UrIBFlvV37UUixyqF
-        1IdJQVzh3pljVKmEY/KJIP1CLlEHTak9M60hsVTyR4/yzLxJfA==
-X-Google-Smtp-Source: APXvYqzXnVAh1BvMXSYknDvK4uhT+Ux1IpjBT3M3VMSd9bP2RzudU0VN0EQSETTaTKzJFMz3WOmKTiB3S3eTooNYzfs=
-X-Received: by 2002:a5d:9d46:: with SMTP id k6mr177227iok.12.1555679863690;
- Fri, 19 Apr 2019 06:17:43 -0700 (PDT)
+        id S1727547AbfDSTRj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 19 Apr 2019 15:17:39 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:51359 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726280AbfDSTRj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 19 Apr 2019 15:17:39 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailout.nyi.internal (Postfix) with ESMTP id 5A8B1220A5;
+        Fri, 19 Apr 2019 15:17:38 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Fri, 19 Apr 2019 15:17:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=m/UNKjgwZ3IyV6twhiVmmfCxIdg
+        I2jJXsG7hvOdNJDg=; b=fsi9nnwl5eveVB4qfbELhBSt1irPSaTBiGmbWUUbJ77
+        4kvZ2So5EkFpfi/4a/7obCW9R+RNPVKlJ4+xrj81FdpuADHI7ybdfgbi1cAg7P03
+        PmZVWqmm8qXhk803d5ROGPhB1tMykIVAIrh8h9gC9CwAtmtxfaXsX7fLp+AQMSlQ
+        QBI4NQFtbTwxPcYplpgB3nu1yShimyH98m6uWoCNao8f2mjVwuNdebfIdB68sLVe
+        nHYR3o4NXlvvz2VfgjY/9pELa3Gcv+HbnZj4FxjzBa3OI/eUZZPePMHgX5SPQswb
+        58rluK0DtFB8uSmSXf2tffYV/2DBWegcQBdziYW1v5A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=m/UNKj
+        gwZ3IyV6twhiVmmfCxIdgI2jJXsG7hvOdNJDg=; b=K5U41Hz1AVBMoXWPBCnpL+
+        HsuetBRgLIimvQw7krqDdRjhxYwXQXD/TMK0gaNBo2cZlToURvCR/jMJLa0wCdwX
+        Sh2UAybjxj2ULUDznPq5zA0/Ov4OWKnW+xtGC+40ukNu7zGkF4lh+NgLDs+LHzsO
+        15TlVyUcIhr7cCeFAQ/3z0CqMuCtFDwAatLBsGkjO0PqfziNzQi0ur2PSIxeNLHh
+        FWmRK74vfa+ihm+7/gf6qPlu2EkulKj3xjl9ThWlZVmETnGUKhc4McAtXlnmv/Ar
+        7SZ59xtM9vW/miOJqI1Rb+cJT1QbEiThKHcMM6IbP2ohRJFRpNrAXqDKMTpoFqXA
+        ==
+X-ME-Sender: <xms:0h66XN9C8pV0cXYrCK7LQcgmsSv79CcIswC6miAbv2bE8hRPKzz_cA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrfeekgddvjecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujggfsehttdertddtredvnecuhfhrohhmpefirhgvghcu
+    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucfkphepkeefrdekiedrkeelrddutd
+    ejnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomhenucev
+    lhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:0h66XITA9Reu9sPcaDWLPvsZTprYZq0qWkpngvVtUT2rIN0iA4XbTA>
+    <xmx:0h66XHwlTeAEy0JPzbQAEvm6lkJkA6NYjCeAVBD9Te_mhACnIEPp3g>
+    <xmx:0h66XKFIOYlllxF-5q7CR-wasTNABC3ym8ZOWv1oKXKJ3vv5O4w38A>
+    <xmx:0h66XDQfvB1agsjQwmhhwiVQiDz4wevKS-E2qXWub2JylVU6OY9OpA>
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 577ECE4122;
+        Fri, 19 Apr 2019 15:17:37 -0400 (EDT)
+Date:   Fri, 19 Apr 2019 21:17:35 +0200
+From:   Greg KH <greg@kroah.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     syzkaller-bugs@googlegroups.com,
+        USB list <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH] USB: core: Fix bug caused by duplicate interface PM
+ usage counter
+Message-ID: <20190419191735.GA5970@kroah.com>
+References: <Pine.LNX.4.44L0.1904191348580.1406-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-From:   Eric Curtin <ericcurtin17@gmail.com>
-Date:   Fri, 19 Apr 2019 14:17:31 +0100
-Message-ID: <CANpvso7JHdKUSyt0c5L_hXR6us39Or112t0NPvhJ6w5m07JYkA@mail.gmail.com>
-Subject: Microphone volume low on linux driver
-To:     USB list <linux-usb@vger.kernel.org>, linux-sound@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <Pine.LNX.4.44L0.1904191348580.1406-100000@iolanthe.rowland.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190419191735.hwqGJHZT_IlTPl2vAuy0wpUjXQdFNJFJzJVvMt8_oxU@z>
 
-Hi Guys,
+On Fri, Apr 19, 2019 at 01:52:38PM -0400, Alan Stern wrote:
+> The syzkaller fuzzer reported a bug in the USB hub driver which turned
+> out to be caused by a negative runtime-PM usage counter.  This allowed
+> a hub to be runtime suspended at a time when the driver did not expect
+> it.  The symptom is a WARNING issued because the hub's status URB is
+> submitted while it is already active:
+> 
+> 	URB 0000000031fb463e submitted while active
+> 	WARNING: CPU: 0 PID: 2917 at drivers/usb/core/urb.c:363  
+> 
+> The negative runtime-PM usage count was caused by an unfortunate
+> design decision made when runtime PM was first implemented for USB.
+> At that time, USB class drivers were allowed to unbind from their
+> interfaces without balancing the usage counter (i.e., leaving it with
+> a positive count).  The core code would take care of setting the
+> counter back to 0 before allowing another driver to bind to the
+> interface.
+> 
+> Later on when runtime PM was implemented for the entire kernel, the
+> opposite decision was made: Drivers were required to balance their
+> runtime-PM get and put calls.  In order to maintain backward
+> compatibility, however, the USB subsystem adapted to the new
+> implementation by keeping an independent usage counter for each
+> interface and using it to automatically adjust the normal usage
+> counter back to 0 whenever a driver was unbound.
+> 
+> This approach involves duplicating information, but what is worse, it
+> doesn't work properly in cases where a USB class driver delays
+> decrementing the usage counter until after the driver's disconnect()
+> routine has returned and the counter has been adjusted back to 0.
+> Doing so would cause the usage counter to become negative.  There's
+> even a warning about this in the USB power management documentation!
+> 
+> As it happens, this is exactly what the hub driver does.  The
+> kick_hub_wq() routine increments the runtime-PM usage counter, and the
+> corresponding decrement is carried out by hub_event() in the context
+> of the hub_wq work-queue thread.  This work routine may sometimes run
+> after the driver has been unbound from its interface, and when it does
+> it causes the usage counter to go negative.
+> 
+> It is not possible for hub_disconnect() to wait for a pending
+> hub_event() call to finish, because hub_disconnect() is called with
+> the device lock held and hub_event() acquires that lock.  The only
+> feasible fix is to reverse the original design decision: remove the
+> duplicate interface-specific usage counter and require USB drivers to
+> balance their runtime PM gets and puts.  As far as I know, all
+> existing drivers currently do this.
 
-I have a headset, Linux recognizes it as "HyperX Virtual Surround Sound
-Digital Stereo", I have it set to 150% recording volume. It's a "HyperX
-Cloud II" headset, the Windows seems to work fine. I also tried
-"Digital Stereo (IEC958) Input" mode.
+Nice work, that took a lot of debugging, thanks for resolving this.
 
-Is there a quirk or similar in the kernel I can set in order to
-increase the recording volume of this device specifically?
-
-Some details about my system (it's xubuntu):
-
-username@hp-zbook-15-g5 14:13:12
-~/>dpkg -l | grep -i pulseaud
-ii  gstreamer1.0-pulseaudio:amd64
-1.14.1-1ubuntu1~ubuntu18.04.1
-     amd64        GStreamer plugin for PulseAudio
-ii  libcanberra-pulse:amd64                       0.30-5ubuntu1
-                                                       amd64
-PulseAudio backend for libcanberra
-ii  libpulse-mainloop-glib0:amd64                 1:11.1-1ubuntu7.2
-                                                       amd64
-PulseAudio client libraries (glib support)
-ii  libpulse0:amd64                               1:11.1-1ubuntu7.2
-                                                       amd64
-PulseAudio client libraries
-rc  libpulse0:i386                                1:11.1-1ubuntu7.2
-                                                       i386
-PulseAudio client libraries
-ii  libpulsedsp:amd64                             1:11.1-1ubuntu7.2
-                                                       amd64
-PulseAudio OSS pre-load library
-ii  pavucontrol                                   3.0-4
-                                                       amd64
-PulseAudio Volume Control
-ii  pulseaudio                                    1:11.1-1ubuntu7.2
-                                                       amd64
-PulseAudio sound server
-ii  pulseaudio-module-bluetooth                   1:11.1-1ubuntu7.2
-                                                       amd64
-Bluetooth module for PulseAudio sound server
-ii  pulseaudio-utils                              1:11.1-1ubuntu7.2
-                                                       amd64
-Command line tools for the PulseAudio sound server
-ii  xfce4-pulseaudio-plugin:amd64                 0.4.1-0ubuntu1
-                                                       amd64
-Xfce4 panel plugin to control pulseaudio
-username@hp-zbook-15-g5 14:13:15
-~/git/Domino>lsb_release -a
-No LSB modules are available.
-Distributor ID: Ubuntu
-Description: Ubuntu 18.04.2 LTS
-Release: 18.04
-Codename: bionic
-username@hp-zbook-15-g5 14:13:20
-~/git/Domino>uname -a
-Linux hp-zbook-15-g5 4.18.0-17-generic #18~18.04.1-Ubuntu SMP Fri Mar
-15 15:27:12 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
-
-Regards,
-
-Eric
+greg k-h
