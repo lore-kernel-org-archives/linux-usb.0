@@ -2,74 +2,105 @@ Return-Path: <SRS0=lmIm=SV=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4BE32C282E1
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Apr 2019 20:17:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CA6DC282DF
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Apr 2019 20:29:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 14C0B20821
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Apr 2019 20:17:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CC731205C9
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Apr 2019 20:29:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726804AbfDSURB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 19 Apr 2019 16:17:01 -0400
-Received: from mail-it1-f200.google.com ([209.85.166.200]:43385 "EHLO
-        mail-it1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725961AbfDSURB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 19 Apr 2019 16:17:01 -0400
-Received: by mail-it1-f200.google.com with SMTP id m192so6486347ita.8
-        for <linux-usb@vger.kernel.org>; Fri, 19 Apr 2019 13:17:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=My6TLiUyIB4RpVyrnFfTz4dPloCToKlSYn2hrxlbJP8=;
-        b=nMbryPHZD6dr7wR6j98gszciT6Qyce+fv08ejvdOdoZMNmQOHsmxenxrbyQKd88IZj
-         hCH21oKWJzKLIytwzdXJ7nZILlcfxEOqo8JRBrZQqdmV82WErTQwr4rs/khAXHGi2v/S
-         nymzOXOT2H1QN2r9TXNkyZqD/eZeOkHzDIDL1uUfAMff1aF0rmphTsJWD3g05z0Xw+SA
-         LDclYgtXxAS1Um2z0nlMDMTb2cbqcyNiyesDQUv9hUDSOIf2f0YIh1N/y/+rAe++sIPs
-         jIL/FotFmawbebD7da7RDDYLxNIB5WZ1HnN0ITXpTbXA9cWoEC1WWMgs9emZK3hdKh0n
-         W4Ww==
-X-Gm-Message-State: APjAAAVsMwKtyvYDYsK4JCxLLTBeFacoARdKI9H1DKUm+lEB/5RVEdOe
-        QDHod/mPHSx4vUXDNCldMmzyv9w2gCfBwn+dLhd70jOVzrF3
-X-Google-Smtp-Source: APXvYqx8KuFa/vJu6es15l/7LDOmqu5Y8zPXTq0Us9V+5WFGcfbA3aMs5K1XJlogv/KQMl9ZqOG+zSoyf9Vx2+2VuLiNenb/2R0q
+        id S1726807AbfDSU3d (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 19 Apr 2019 16:29:33 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:32974 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1725897AbfDSU3d (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 19 Apr 2019 16:29:33 -0400
+Received: (qmail 8731 invoked by uid 2102); 19 Apr 2019 16:29:32 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 19 Apr 2019 16:29:32 -0400
+Date:   Fri, 19 Apr 2019 16:29:32 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     syzbot <syzbot+53f029db71c19a47325a@syzkaller.appspotmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+cc:     andreyknvl@google.com,
+        Kernel development list <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        <syzkaller-bugs@googlegroups.com>, <wen.yang99@zte.com.cn>
+Subject: Re: general protection fault in smsusb_init_device
+In-Reply-To: <0000000000008d89900586ccd37b@google.com>
+Message-ID: <Pine.LNX.4.44L0.1904191624050.1406-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-X-Received: by 2002:a24:46cc:: with SMTP id j195mr4418112itb.161.1555705020776;
- Fri, 19 Apr 2019 13:17:00 -0700 (PDT)
-Date:   Fri, 19 Apr 2019 13:17:00 -0700
-In-Reply-To: <Pine.LNX.4.44L0.1904191536310.1406-100000@iolanthe.rowland.org>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000002385b50586e7cddb@google.com>
-Subject: Re: KASAN: slab-out-of-bounds Read in ds_probe
-From:   syzbot <syzbot+d65f673b847a1a96cdba@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, florian.harbecke@fau.de,
-        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, passt@h-hofmeier.de,
-        stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com,
-        zbr@ioremap.net
-Content-Type: text/plain; charset="UTF-8"; delsp="yes"; format="flowed"
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190419201700.8WCb_l37VawWOxP8oGLXzXOUv514SShakJHSsANLyHo@z>
 
-Hello,
+On Thu, 18 Apr 2019, syzbot wrote:
 
-syzbot has tested the proposed patch and the reproducer did not trigger  
-crash:
+> Hello,
+> 
+> syzbot found the following crash on:
+> 
+> HEAD commit:    d34f9519 usb-fuzzer: main usb gadget fuzzer driver
+> git tree:       https://github.com/google/kasan/tree/usb-fuzzer
+> console output: https://syzkaller.appspot.com/x/log.txt?x=128ec3fd200000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=c73d1bb5aeaeae20
+> dashboard link: https://syzkaller.appspot.com/bug?extid=53f029db71c19a47325a
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16138e67200000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=128dddbf200000
+> 
+> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> Reported-by: syzbot+53f029db71c19a47325a@syzkaller.appspotmail.com
+> 
+> usb 1-1: config 0 descriptor??
+> usb 1-1: string descriptor 0 read error: -71
+> smsusb:smsusb_probe: board id=18, interface number 0
+> kasan: CONFIG_KASAN_INLINE enabled
+> kasan: GPF could be caused by NULL-ptr deref or user memory access
+> general protection fault: 0000 [#1] SMP KASAN PTI
+> CPU: 1 PID: 22 Comm: kworker/1:1 Not tainted 5.1.0-rc5-319617-gd34f951 #4
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+> Google 01/01/2011
+> Workqueue: usb_hub_wq hub_event
+> RIP: 0010:smsusb_init_device+0x366/0x937  
+> drivers/media/usb/siano/smsusb.c:429
+> Code: 48 c1 ea 03 80 3c 02 00 74 05 e8 24 1e 66 f7 4d 8b b6 f0 04 00 00 b8  
+> ff ff 37 00 48 c1 e0 2a 49 8d 7e 04 48 89 fa 48 c1 ea 03 <8a> 14 02 48 89  
+> f8 83 e0 07 ff c0 38 d0 7c 09 84 d2 74 05 e8 b1 1d
+> RSP: 0018:ffff8880a86570d0 EFLAGS: 00010247
+> RAX: dffffc0000000000 RBX: ffff88809a81b300 RCX: ffffffff8a42b5b3
+> RDX: 0000000000000000 RSI: ffffffff8a42b6a3 RDI: 0000000000000004
+> RBP: ffff88808ca70000 R08: ffff8880a8503100 R09: ffff8880a8657130
+> R10: ffffed10150cae34 R11: ffff8880a86571a7 R12: ffff88809a81be54
+> R13: ffff88809a81be5c R14: 0000000000000000 R15: ffff88808ca70000
+> FS:  0000000000000000(0000) GS:ffff8880ad100000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007f1ad259d000 CR3: 000000009a3aa000 CR4: 00000000001406e0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> Call Trace:
+>   smsusb_probe+0xd64/0xe08 drivers/media/usb/siano/smsusb.c:570
 
-Reported-and-tested-by:  
-syzbot+d65f673b847a1a96cdba@syzkaller.appspotmail.com
+The reason for this bug is clear.  The code in smsusb_probe() at line
+429 does this:
 
-Tested on:
+		dev->response_alignment =
+		    le16_to_cpu(dev->udev->ep_in[1]->desc.wMaxPacketSize) -
+		    sizeof(struct sms_msg_hdr);
 
-commit:         d34f9519 usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c73d1bb5aeaeae20
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=1588b96b200000
+which assumes there really is an ep1-IN endpoint.  If there isn't, the 
+code crashes.
 
-Note: testing is done by a robot and is best-effort only.
+Testing that the endpoint exists is easy enough, but I'm not sure how 
+this test should be integrated with the rest of the function.  Someone 
+who knows the code better ought to be able to do it with no trouble.
+
+Alan Stern
+
