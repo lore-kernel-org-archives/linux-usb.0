@@ -2,74 +2,238 @@ Return-Path: <SRS0=lmIm=SV=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9088AC282DA
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Apr 2019 19:24:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EADE8C282DA
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Apr 2019 19:25:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 65D9D20821
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Apr 2019 19:24:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A57A420821
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Apr 2019 19:25:39 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Ge6rIrGT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727287AbfDSTYn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 19 Apr 2019 15:24:43 -0400
-Received: from ns.iliad.fr ([212.27.33.1]:47168 "EHLO ns.iliad.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726103AbfDSTYn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 19 Apr 2019 15:24:43 -0400
-Received: from ns.iliad.fr (localhost [127.0.0.1])
-        by ns.iliad.fr (Postfix) with ESMTP id 42F4520BCD;
-        Fri, 19 Apr 2019 11:59:08 +0200 (CEST)
-Received: from [192.168.108.49] (freebox.vlq16.iliad.fr [213.36.7.13])
-        by ns.iliad.fr (Postfix) with ESMTP id 24A1B20B53;
-        Fri, 19 Apr 2019 11:59:08 +0200 (CEST)
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb <linux-usb@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Manu Gautam <mgautam@codeaurora.org>,
-        Jeffrey Hugo <jhugo@codeaurora.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Lee Jones <lee.jones@linaro.org>
-From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
-Subject: [PATCH] usb: dwc3: Allow building USB_DWC3_QCOM without EXTCON
-Message-ID: <b2846f91-90ba-8ffa-9afe-ab9e719ed780@free.fr>
-Date:   Fri, 19 Apr 2019 11:59:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726824AbfDSTZj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 19 Apr 2019 15:25:39 -0400
+Received: from mail-it1-f194.google.com ([209.85.166.194]:40110 "EHLO
+        mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726613AbfDSTZi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 19 Apr 2019 15:25:38 -0400
+Received: by mail-it1-f194.google.com with SMTP id k64so9678559itb.5
+        for <linux-usb@vger.kernel.org>; Fri, 19 Apr 2019 12:25:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YKWEDrnvCdyRWAnFLasiRHuGQzenMHBfJfoegR52b1M=;
+        b=Ge6rIrGTEyI5//vCluYLLXYM0BEHOS19zEBgywv4BZxZYxX/OQ7uKA9yn9lRjtnUDS
+         Q/4HkGooOrD1jwkLdPah8cam33xajQVheRHc2b9QjXlFNEblj09iAPZNhNOVzv4oGS51
+         9HCGCmtSjvZC+OEC0E05MwjKUayT8nUjEZn0M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YKWEDrnvCdyRWAnFLasiRHuGQzenMHBfJfoegR52b1M=;
+        b=WYJS41hZzG7B2o/PvPeQQgdOR3e/2yTr+7+f2K3lQnFac8/Mp8mW8DIMXUkzd+Il38
+         X6xB8I9BUxulD64yPRUP8cIwNDY09ru/Ha4nH0H3INnm84N3WzKyUWHvxmZc7eo2xQCx
+         g4MWgHyyw/Y0GRxHMrMNHo2+ZiBLMNeVZlbnsFKsiPWUilnMAGE7CXusTmRme+NSJLNw
+         +FoYyvGXxuGGVtBT3lmlZXAkPnl9wjq4lxYTzxFudlDVyzSv/bDs3jGdOGEoCHxjLrk3
+         9QriZSaYbyf29BIxgXMl/Nx/7Tf1wyyQDjs58zHjdRONM+K76MOTgdNwWujKV4TBVWCU
+         L1uw==
+X-Gm-Message-State: APjAAAXdWSUem3AXEs7+Yz3PWx7qZ0zSQ8jdyKylD0+rDBKYOtqdwHOt
+        WM25RucZEhtg+JzJ77L7L042m07S/rmCbQ==
+X-Google-Smtp-Source: APXvYqzN6lSIeY2ZE2UqGzI4o49epjvJrVuNaIz8W46J9s6R/Sn31ow/JPlS0cf9iIVnaDKggwUBDw==
+X-Received: by 2002:a02:7829:: with SMTP id p41mr1364847jac.120.1555687826775;
+        Fri, 19 Apr 2019 08:30:26 -0700 (PDT)
+Received: from localhost ([2620:15c:183:0:20b8:dee7:5447:d05])
+        by smtp.gmail.com with ESMTPSA id h133sm2561832itb.34.2019.04.19.08.30.25
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 19 Apr 2019 08:30:25 -0700 (PDT)
+From:   Raul E Rangel <rrangel@chromium.org>
+To:     linux-usb@vger.kernel.org
+Cc:     groeck@chromium.org, oneukum@suse.com, djkurtz@chromium.org,
+        zwisler@chromium.org, Raul E Rangel <rrangel@chromium.org>,
+        kbuild test robot <lkp@intel.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Dmitry Torokhov <dtor@chromium.org>,
+        linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Roger Quadros <rogerq@ti.com>
+Subject: [PATCH v4] usb/hcd: Send a uevent signaling that the host controller had died
+Date:   Fri, 19 Apr 2019 09:30:22 -0600
+Message-Id: <20190419153022.107358-1-rrangel@chromium.org>
+X-Mailer: git-send-email 2.21.0.392.gf8f6787159e-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: ClamAV using ClamSMTP ; ns.iliad.fr ; Fri Apr 19 11:59:08 2019 +0200 (CEST)
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190419095908.FRfIp1AyypT3no5fpiBm3mdtjx1ooI1sDsQDRrvPwMI@z>
+Content-Type: text/plain; charset="UTF-8"
+Message-ID: <20190419153022.QAT3E50A_uOxDAq8k05gTgvLjtnhKiq6TvbA5xN57sU@z>
 
-Keep EXTCON support optional, since some platforms do not need it.
+This change will send an OFFLINE event to udev with the ERROR=DEAD
+environment variable set when the HC dies.
 
-Fixes: 3def4031b3e3 ("usb: dwc3: add EXTCON dependency for qcom")
-Signed-off-by: Marc Gonzalez <marc.w.gonzalez@free.fr>
+By notifying user space the appropriate policies can be applied.
+i.e.,
+ * Collect error logs.
+ * Notify the user that USB is no longer functional.
+ * Perform a graceful reboot.
+
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Raul E Rangel <rrangel@chromium.org>
 ---
- drivers/usb/dwc3/Kconfig | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I wasn't able to find any good examples of other drivers sending a dead
+notification.
 
-diff --git a/drivers/usb/dwc3/Kconfig b/drivers/usb/dwc3/Kconfig
-index 2b1494460d0c..6bd1a28c535f 100644
---- a/drivers/usb/dwc3/Kconfig
-+++ b/drivers/usb/dwc3/Kconfig
-@@ -115,7 +115,8 @@ config USB_DWC3_ST
+Use an EVENT= format
+https://github.com/torvalds/linux/blob/master/drivers/acpi/dock.c#L302
+https://github.com/torvalds/linux/blob/master/drivers/net/wireless/ath/wil6210/interrupt.c#L497
+
+Uses SDEV_MEDIA_CHANGE=
+https://github.com/torvalds/linux/blob/master/drivers/scsi/scsi_lib.c#L2318
+
+Uses ERROR=1.
+https://chromium.googlesource.com/chromiumos/third_party/kernel/+/7f6d8aec5803aac44192f03dce5637b66cda7abf/drivers/input/touchscreen/atmel_mxt_ts.c#1581
+I'm not a fan because it doesn't signal what the error was.
+
+
+Changes in v4:
+- Move hcd_died_work out of CONFIG_PM ifdef
+- Make env static, but not const
+
+Changes in v3:
+- Added documentation
+- Removed use of lock and null check
+- Changed event to OFFLINE + ERROR=DEAD
+
+Changes in v2:
+- Check that the root hub still exists before sending the uevent.
+- Ensure died_work has completed before deallocating.
+
+ Documentation/ABI/testing/usb-uevent | 27 +++++++++++++++++++++++++++
+ drivers/usb/core/hcd.c               | 24 ++++++++++++++++++++++++
+ include/linux/usb/hcd.h              |  1 +
+ 3 files changed, 52 insertions(+)
+ create mode 100644 Documentation/ABI/testing/usb-uevent
+
+diff --git a/Documentation/ABI/testing/usb-uevent b/Documentation/ABI/testing/usb-uevent
+new file mode 100644
+index 000000000000..d35c3cad892c
+--- /dev/null
++++ b/Documentation/ABI/testing/usb-uevent
+@@ -0,0 +1,27 @@
++What:		Raise a uevent when a USB Host Controller has died
++Date:		2019-04-17
++KernelVersion:	5.2
++Contact:	linux-usb@vger.kernel.org
++Description:	When the USB Host Controller has entered a state where it is no
++		longer functional a uevent will be raised. The uevent will
++		contain ACTION=offline and ERROR=DEAD.
++
++		Here is an example taken using udevadm monitor -p:
++
++		KERNEL[130.428945] offline  /devices/pci0000:00/0000:00:10.0/usb2 (usb)
++		ACTION=offline
++		BUSNUM=002
++		DEVNAME=/dev/bus/usb/002/001
++		DEVNUM=001
++		DEVPATH=/devices/pci0000:00/0000:00:10.0/usb2
++		DEVTYPE=usb_device
++		DRIVER=usb
++		ERROR=DEAD
++		MAJOR=189
++		MINOR=128
++		PRODUCT=1d6b/2/414
++		SEQNUM=2168
++		SUBSYSTEM=usb
++		TYPE=9/0/1
++
++Users:		chromium-os-dev@chromium.org
+diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+index 975d7c1288e3..0c0fd574bab5 100644
+--- a/drivers/usb/core/hcd.c
++++ b/drivers/usb/core/hcd.c
+@@ -2448,6 +2448,19 @@ EXPORT_SYMBOL_GPL(usb_hcd_irq);
  
- config USB_DWC3_QCOM
- 	tristate "Qualcomm Platform"
--	depends on EXTCON && (ARCH_QCOM || COMPILE_TEST)
-+	depends on ARCH_QCOM || COMPILE_TEST
-+	depends on EXTCON || !EXTCON
- 	depends on OF
- 	default USB_DWC3
- 	help
+ /*-------------------------------------------------------------------------*/
+ 
++/* Workqueue routine for when the root-hub has died. */
++static void hcd_died_work(struct work_struct *work)
++{
++	struct usb_hcd *hcd = container_of(work, struct usb_hcd, died_work);
++	static char *env[] = {
++		"ERROR=DEAD",
++		NULL
++	};
++
++	/* Notify user space that the host controller has died */
++	kobject_uevent_env(&hcd->self.root_hub->dev.kobj, KOBJ_OFFLINE, env);
++}
++
+ /**
+  * usb_hc_died - report abnormal shutdown of a host controller (bus glue)
+  * @hcd: pointer to the HCD representing the controller
+@@ -2488,6 +2501,13 @@ void usb_hc_died (struct usb_hcd *hcd)
+ 			usb_kick_hub_wq(hcd->self.root_hub);
+ 		}
+ 	}
++
++	/* Handle the case where this function gets called with a shared HCD */
++	if (usb_hcd_is_primary_hcd(hcd))
++		schedule_work(&hcd->died_work);
++	else
++		schedule_work(&hcd->primary_hcd->died_work);
++
+ 	spin_unlock_irqrestore (&hcd_root_hub_lock, flags);
+ 	/* Make sure that the other roothub is also deallocated. */
+ }
+@@ -2555,6 +2575,8 @@ struct usb_hcd *__usb_create_hcd(const struct hc_driver *driver,
+ 	INIT_WORK(&hcd->wakeup_work, hcd_resume_work);
+ #endif
+ 
++	INIT_WORK(&hcd->died_work, hcd_died_work);
++
+ 	hcd->driver = driver;
+ 	hcd->speed = driver->flags & HCD_MASK;
+ 	hcd->product_desc = (driver->product_desc) ? driver->product_desc :
+@@ -2908,6 +2930,7 @@ int usb_add_hcd(struct usb_hcd *hcd,
+ #ifdef CONFIG_PM
+ 	cancel_work_sync(&hcd->wakeup_work);
+ #endif
++	cancel_work_sync(&hcd->died_work);
+ 	mutex_lock(&usb_bus_idr_lock);
+ 	usb_disconnect(&rhdev);		/* Sets rhdev to NULL */
+ 	mutex_unlock(&usb_bus_idr_lock);
+@@ -2968,6 +2991,7 @@ void usb_remove_hcd(struct usb_hcd *hcd)
+ #ifdef CONFIG_PM
+ 	cancel_work_sync(&hcd->wakeup_work);
+ #endif
++	cancel_work_sync(&hcd->died_work);
+ 
+ 	mutex_lock(&usb_bus_idr_lock);
+ 	usb_disconnect(&rhdev);		/* Sets rhdev to NULL */
+diff --git a/include/linux/usb/hcd.h b/include/linux/usb/hcd.h
+index 695931b03684..66a24b13e2ab 100644
+--- a/include/linux/usb/hcd.h
++++ b/include/linux/usb/hcd.h
+@@ -98,6 +98,7 @@ struct usb_hcd {
+ #ifdef CONFIG_PM
+ 	struct work_struct	wakeup_work;	/* for remote wakeup */
+ #endif
++	struct work_struct	died_work;	/* for when the device dies */
+ 
+ 	/*
+ 	 * hardware info/state
 -- 
-2.17.1
+2.21.0.392.gf8f6787159e-goog
+
