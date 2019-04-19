@@ -2,184 +2,135 @@ Return-Path: <SRS0=lmIm=SV=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA4AAC282DF
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Apr 2019 20:06:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FEC0C282DF
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Apr 2019 20:06:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 69D9F2171F
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Apr 2019 20:06:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1E96B2171F
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Apr 2019 20:06:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="mTQ9/CNW";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.onmicrosoft.com header.i=@synopsys.onmicrosoft.com header.b="ttYS2x9M"
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="O67LjOsC";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.onmicrosoft.com header.i=@synopsys.onmicrosoft.com header.b="jKoP+W9U"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728157AbfDSUF4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1728120AbfDSUF4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Fri, 19 Apr 2019 16:05:56 -0400
-Received: from dc8-smtprelay2.synopsys.com ([198.182.47.102]:36786 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727711AbfDSUFw (ORCPT
+Received: from dc8-smtprelay2.synopsys.com ([198.182.47.102]:36838 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728068AbfDSUFw (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Fri, 19 Apr 2019 16:05:52 -0400
-Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com [10.192.0.17])
+Received: from mailhost.synopsys.com (dc8-mailhost2.synopsys.com [10.13.135.210])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 5925EC120D;
-        Fri, 19 Apr 2019 11:43:31 +0000 (UTC)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id B1D3BC1209;
+        Fri, 19 Apr 2019 11:25:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1555674213; bh=t00lRfH995ruO0MXmqUf+94IRkyHL6i2PnMjFBQvnLY=;
-        h=From:To:CC:Subject:Date:References:From;
-        b=mTQ9/CNWn5SzNC8NAAQzjn/lGa2igL3aZ2Cybe112Na9PXB60Gb1nXuWkkuFDVYyJ
-         9xX3uoDKwd/VW1gSNKBjgHONxwsS9hvwp1h2zQg8sEv13HTec3mKBo1mV2b41MyLuS
-         GpBfQ4+a6lSZAQtdzURBSY0JpatdqEvk2Rtptp1Ri2nMY4kkTnLpREvBAiYTaEd7FK
-         yAWmJ4gwZEi4qskctbgVal/ghaPUn1+x/Dddw4MSFgkx1Aabbe4Y11eSF5MXqRoZ8Q
-         nxjlYJUqMHe8/Mp1dmV+XcjMYYJOHfVYBijRQnsxXRtNw8kZ8us2I4HfulB8Q0cLK2
-         dkd13opeKgtLQ==
-Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
+        t=1555673131; bh=4+S92Ayez9OQURkxLcIuAowTTX2V5zeHy2PCgCHR/9g=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=O67LjOsCwfJ4Ky47+PeXd7IktU7Ubntk0pM1iFUcxBbQRqX/ccRLwoLdK4SVq8dhi
+         VTWFf0GbANJwI8a4At0FUV/yrGwSXgUI423lTUoR5hPniXZhjTYI+ef7ABWmr+0N+j
+         TiU/NbIbk+QItns+dg5NpaPwr383WRhPcM2nn6j3IZLmOR13Pvl1yEDkV3LTMIb6bf
+         lKqk4zn7UgqzR8pzG3nrk+FhfP5YtZqeS/vhRjZ5hPEtkSHFIk2M3Q8LrQbxl2OU77
+         Ywha4bEp5zzxyp3XqTXvvCkhLpTJILxR7yDvOmDF0bDvG+DmWb2xrJRaA8xmh9+nX1
+         bhyJ2ODnIlGKw==
+Received: from us01wehtc1.internal.synopsys.com (us01wehtc1-vip.internal.synopsys.com [10.12.239.236])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPS id 3CB50A008D;
-        Fri, 19 Apr 2019 11:43:24 +0000 (UTC)
+        by mailhost.synopsys.com (Postfix) with ESMTPS id 0D2ABA0065;
+        Fri, 19 Apr 2019 11:25:31 +0000 (UTC)
 Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Fri, 19 Apr 2019 04:43:15 -0700
-Received: from NAM05-DM3-obe.outbound.protection.outlook.com (10.13.134.195)
+ us01wehtc1.internal.synopsys.com (10.12.239.235) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Fri, 19 Apr 2019 04:25:30 -0700
+Received: from NAM03-CO1-obe.outbound.protection.outlook.com (10.13.134.195)
  by mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Fri, 19 Apr 2019 04:43:15 -0700
+ 14.3.408.0; Fri, 19 Apr 2019 04:25:30 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=synopsys.onmicrosoft.com; s=selector1-synopsys-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0XrFBfoBniPXSfbdrz/Ft1BkBA1oMY9sHzvQa0AzTPc=;
- b=ttYS2x9MfG6patwpBuY2BbrOKZPyKJuWc+L9gsIaDkKdhhN8vwFQtG9DbZTOCJRBOUkLE/Y95KhLkkRi3YK6ru47D1O0iv8N/M1KRYDourS3BCW3qOZjYKNX2XqvDR2/t/ZW3g0wUfo2w0Vfh+Cpin81CqhP+atW8UH87v4/nbQ=
+ bh=4+S92Ayez9OQURkxLcIuAowTTX2V5zeHy2PCgCHR/9g=;
+ b=jKoP+W9UWTKCkk3a4yoiuzdq70tqh19+nqJ4i/0nywxmG0zB1gOjpyuBR4KiuMy43Awt4ziJzjUdgxoJC1VdBeWuHvwprcG3T+BsD77MvocJeTZDUao9V3Ic7NBHv5cBPacQBVTdHsc/fc6O+WaySFM7FkxGoABFFHnD4IpAVFU=
 Received: from SN1PR12MB2431.namprd12.prod.outlook.com (52.132.195.146) by
- SN1PR12MB0893.namprd12.prod.outlook.com (10.164.27.19) with Microsoft SMTP
+ SN1PR12MB2383.namprd12.prod.outlook.com (52.132.194.152) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1813.12; Fri, 19 Apr 2019 11:43:11 +0000
+ 15.20.1813.14; Fri, 19 Apr 2019 11:25:29 +0000
 Received: from SN1PR12MB2431.namprd12.prod.outlook.com
  ([fe80::5ca6:ee5f:1147:df5a]) by SN1PR12MB2431.namprd12.prod.outlook.com
  ([fe80::5ca6:ee5f:1147:df5a%4]) with mapi id 15.20.1813.013; Fri, 19 Apr 2019
- 11:43:11 +0000
+ 11:25:29 +0000
 From:   Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
-To:     Doug Anderson <dianders@chromium.org>,
-        Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
-CC:     Felipe Balbi <felipe.balbi@linux.intel.com>,
-        "heiko@sntech.de" <heiko@sntech.de>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        "amstan@chromium.org" <amstan@chromium.org>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        William Wu <william.wu@rock-chips.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Randy Li <ayaka@soulik.info>,
-        "zyw@rock-chips.com" <zyw@rock-chips.com>,
-        "mka@chromium.org" <mka@chromium.org>,
-        "ryandcase@chromium.org" <ryandcase@chromium.org>,
-        Amelie Delaunay <amelie.delaunay@st.com>,
-        "jwerner@chromium.org" <jwerner@chromium.org>,
-        Elaine Zhang <zhangqing@rock-chips.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "Nicolas Boichat" <drinkcat@chromium.org>,
-        Jon Flatley <jflat@chromium.org>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "Nicolas Saenz Julienne" <nsaenzjulienne@suse.de>
-Subject: Re: [PATCH v2 0/5] USB: dwc2: Allow wakeup from suspend; enable for
- rk3288-veyron
-Thread-Topic: [PATCH v2 0/5] USB: dwc2: Allow wakeup from suspend; enable for
- rk3288-veyron
-Thread-Index: AQHU9XvT28uFwzx7lkKfey+49nOavg==
-Date:   Fri, 19 Apr 2019 11:43:11 +0000
-Message-ID: <SN1PR12MB2431F918E4731FAA50A373B6A7270@SN1PR12MB2431.namprd12.prod.outlook.com>
-References: <20190418001356.124334-1-dianders@chromium.org>
- <e4b3cd69-1c91-dfbe-bea7-bbca89ca1348@synopsys.com>
- <CAD=FV=XDLqcdq_BypUYsJHKX+DY0VWvCACYgZiHeG8E3Dbwxcw@mail.gmail.com>
+To:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+CC:     John Youn <John.Youn@synopsys.com>,
+        Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
+Subject: [PATCH v1 12/14] usb: dwc2: Clear fifo_map when resetting core.
+Thread-Topic: [PATCH v1 12/14] usb: dwc2: Clear fifo_map when resetting core.
+Thread-Index: AQHU9qKXjJ2vykcArkSxArt/WbmDZg==
+Date:   Fri, 19 Apr 2019 11:25:29 +0000
+Message-ID:
+ <abd6b3cf465aac7c4e0dd3274ab1549980601c6d.1555672441.git.arturp@synopsys.com>
+References: <cover.1555672441.git.arturp@synopsys.com>
+In-Reply-To: <cover.1555672441.git.arturp@synopsys.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
+x-clientproxiedby: VI1PR08CA0185.eurprd08.prod.outlook.com
+ (2603:10a6:800:d2::15) To SN1PR12MB2431.namprd12.prod.outlook.com
+ (2603:10b6:802:27::18)
 authentication-results: spf=none (sender IP is )
  smtp.mailfrom=arturp@synopsys.com; 
-x-originating-ip: [84.53.141.196]
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [84.53.141.189]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9443cb60-059d-4f42-8d46-08d6c4bc336c
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);SRVR:SN1PR12MB0893;
-x-ms-traffictypediagnostic: SN1PR12MB0893:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <SN1PR12MB0893248E16E93D3683C2F20EA7270@SN1PR12MB0893.namprd12.prod.outlook.com>
+x-ms-office365-filtering-correlation-id: 10650e2b-c238-406a-dc63-08d6c4b9b948
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600141)(711020)(4605104)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:SN1PR12MB2383;
+x-ms-traffictypediagnostic: SN1PR12MB2383:
+x-microsoft-antispam-prvs: <SN1PR12MB23831F0E07BDA73570626850A7270@SN1PR12MB2383.namprd12.prod.outlook.com>
 x-forefront-prvs: 0012E6D357
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39850400004)(346002)(136003)(366004)(396003)(376002)(199004)(189003)(53936002)(6246003)(6306002)(9686003)(55016002)(4326008)(97736004)(25786009)(7696005)(2906002)(6636002)(26005)(6506007)(102836004)(53546011)(76176011)(6436002)(99286004)(68736007)(229853002)(86362001)(6116002)(54906003)(33656002)(3846002)(110136005)(66066001)(316002)(66446008)(64756008)(66556008)(66476007)(66946007)(8676002)(81156014)(81166006)(73956011)(8936002)(7416002)(5660300002)(71190400001)(71200400001)(91956017)(76116006)(52536014)(476003)(7736002)(305945005)(446003)(186003)(74316002)(478600001)(14454004)(486006)(256004);DIR:OUT;SFP:1102;SCL:1;SRVR:SN1PR12MB0893;H:SN1PR12MB2431.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(136003)(39850400004)(396003)(376002)(346002)(189003)(199004)(6436002)(102836004)(486006)(26005)(186003)(386003)(4326008)(305945005)(2906002)(6506007)(446003)(76176011)(7736002)(97736004)(5660300002)(81156014)(66476007)(11346002)(81166006)(66556008)(6486002)(476003)(256004)(14444005)(53936002)(25786009)(107886003)(71190400001)(71200400001)(86362001)(6512007)(99286004)(54906003)(110136005)(316002)(2616005)(68736007)(8676002)(66066001)(6116002)(36756003)(14454004)(478600001)(2501003)(8936002)(118296001)(3846002)(66446008)(52116002)(64756008)(66946007)(73956011);DIR:OUT;SFP:1102;SCL:1;SRVR:SN1PR12MB2383;H:SN1PR12MB2431.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 received-spf: None (protection.outlook.com: synopsys.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: KEpWoRzUErLt+lbC+0jCDKfnYXQVM8SkabbWoiBi+FkHiI240GVndMQawQlG8/e+qIhuEbBkcjj5lKCTRbxCxniAGUaMKxH/7nbuiO/D+9pMDCvjV0nCsWLv+vq9usC9qzz6PjaEl/+IOmluI1K/Wb7FrJ8lAMjqtK3k6hb3ux0Uzcx4o1FYm31NH4UWtoRg6PaZka5A+LvEu9gJjWcIkTikp39Vck3LJbIMgxhP2+fQ4oLMjbzeBBzHGKhNFIhbEF7GN6PwCiUPtrqSKUovwK6CJ5p5iVIiPoB3cUJJLjlMwuovFnW/DehlVj/atvIqoaHeuXi8wGDxGp8qPgXNqe397eGygT9BH7F/OmGMfef+9KCKBMwqaPVvS5hmz7mJjLsfqo1/+Eaqw9B/tDNcyFRNuGJaMuGhGD5tFm9myEI=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+x-microsoft-antispam-message-info: eEDIC+ELmC8FxNod97/gMtmf3cbSR/LHfVGpFqPsfUGYANc5vn31wZYJmlxso+yvltbW+CGMdyNf7wrt/sZcpft6VNl1gsad+masIHw3/cwfzIqqjmHyh45yzSkDmDFcMOeTND7YS1ESo/jYIDteX0+CMfLU1hE6L/054eQF04jh42HywF8H45zcJsPNMhSTgtA2imG2ik/FVlpqRACktxq7cbQaGCUQa+UXaltzWTuLnsrkpgeQioPr8MyW1uUrBz4L5xkRz7lQZJjmCpmQEq9hItI4rya69AnULPccAH6alIL82r5cmxmQgJKdQQOkPBoMbro+OdRS3X87gH+9sUXiMMIvcRDH9ZL2cK7zsCjTbTgWvEku8ooxB1cZ69ZbIb0UDyHVK2oHigG11PHfWJo09Ur3UFzlS5jOp7Ib/go=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9443cb60-059d-4f42-8d46-08d6c4bc336c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Apr 2019 11:43:11.2519
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10650e2b-c238-406a-dc63-08d6c4b9b948
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Apr 2019 11:25:29.0848
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB0893
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2383
 X-OriginatorOrg: synopsys.com
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190419112529.fcu4m1UdXwnVXYN0Lm7n7FXIuaFLSPnhF10ijjjQ-2k@z>
 
-Hi,=0A=
-=0A=
-On 4/18/2019 19:55, Doug Anderson wrote:=0A=
-> Hi,=0A=
-> =0A=
-> On Thu, Apr 18, 2019 at 5:41 AM Minas Harutyunyan=0A=
-> <Minas.Harutyunyan@synopsys.com> wrote:=0A=
->> Did you consider/reviewed patch series from Artur Petrosyan "[PATCH=0A=
->> 00/14] usb: dwc2: Fix and improve power saving modes" (submitted on=0A=
->> April 12) which fixing partial power down and hibernation flows for both=
-=0A=
->> modes: host and device?=0A=
->> I suspect that this both patch series can be in conflict.=0A=
-> =0A=
-> No, I wasn't aware of them.  I'd like to try them out, but it looks=0A=
-> like it's currently impossible because they're not archived anywhere=0A=
-> that I can find.=0A=
-> =0A=
-> 1. LKML wasn't copied, so I can't find them on lore.kernel.org.  It is=0A=
-> suggested to CC LKML on all patches.=0A=
-> =0A=
-> 2. The Linux USB patchwork only has the cover letter plus the first 6=0A=
-> patches.  See <https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__pat=
-chwork.kernel.org_cover_10898333_&d=3DDwIBaQ&c=3DDPL6_X_6JkXFx7AXWqB0tg&r=
-=3D9hPBFKCJ_nBjJhGVrrlYOeOQjP_HlVzYqrC_D7niMJI&m=3DrJbofHXqjP3sUBgEikaZ89fR=
-WtsquvhFUkhSPguCiWw&s=3D_CrI0uolquXIYC5SuoZ1vBs7BM19VfCceI96qZm9kAY&e=3D>=
-=0A=
-> =0A=
-> 3. Searching my own archives I only see the cover letter plus the=0A=
-> first 6 patches.=0A=
-> =0A=
-> Maybe you have some other pointer to how I can retrieve them?  I guess=0A=
-> I could try the first 6 patches without the later 8 but I'd rather get=0A=
-> the whole set...=0A=
-> =0A=
-> =0A=
-> -Doug=0A=
->=0A=
-=0A=
-=0A=
-I have resend the patch set. You can find it with cover letter=0A=
-"[PATCH v1 00/14] usb: dwc2: Fix and improve power saving modes."=0A=
-=0A=
-Let me know if you need any help.=0A=
-=0A=
--- =0A=
-Regards,=0A=
-Artur=0A=
+SWYgY29yZSBlbnRlcnMgaG9zdCBoaWJlcm5hdGlvbiB3aGVuIHN3aXRjaGluZyBmcm9tDQpkZXZp
+Y2UgbW9kZSB0byBob3N0IG1vZGUgZGlzY29ubmVjdGlvbiBvZiBob3N0IGNhYmxlDQphc3NlcnRz
+IGEgV0FSTklORyBpbiBkd2MyX2hzb3RnX2luaXRfZmlmbygpIHRoYXQNCmZpZm9fbWFwIGlzIG5v
+dCBjbGVhcmVkLg0KDQpUbyBhdm9pZCB0aGUgV0FSTklORywgZmlmb19tYXAgc2hvdWxkIGJlIGNs
+ZWFyZWQNCmluIGR3YzJfY29yZV9yZXNldCgpIGZ1bmN0aW9uLg0KDQotIENsZWFyZWQgZmlmb19t
+YXAgd2hlbiByZXNldHRpbmcgdGhlIGNvcmUuDQoNClNpZ25lZC1vZmYtYnk6IEFydHVyIFBldHJv
+c3lhbiA8YXJ0dXJwQHN5bm9wc3lzLmNvbT4NCi0tLQ0KIGRyaXZlcnMvdXNiL2R3YzIvY29yZS5j
+IHwgNiArKysrKysNCiAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspDQoNCmRpZmYgLS1n
+aXQgYS9kcml2ZXJzL3VzYi9kd2MyL2NvcmUuYyBiL2RyaXZlcnMvdXNiL2R3YzIvY29yZS5jDQpp
+bmRleCBmYjQ3MWQxOGEzZGUuLmZiYmQ2YTJmMTBhZCAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvdXNi
+L2R3YzIvY29yZS5jDQorKysgYi9kcml2ZXJzL3VzYi9kd2MyL2NvcmUuYw0KQEAgLTUzMiw2ICs1
+MzIsMTIgQEAgaW50IGR3YzJfY29yZV9yZXNldChzdHJ1Y3QgZHdjMl9oc290ZyAqaHNvdGcsIGJv
+b2wgc2tpcF93YWl0KQ0KIAlncmVzZXQgfD0gR1JTVENUTF9DU0ZUUlNUOw0KIAlkd2MyX3dyaXRl
+bChoc290ZywgZ3Jlc2V0LCBHUlNUQ1RMKTsNCiANCisJLyogQ2xlYXIgZmlmb19tYXAgKi8NCisJ
+I2lmIElTX0VOQUJMRUQoQ09ORklHX1VTQl9EV0MyX1BFUklQSEVSQUwpIHx8IFwNCisJCUlTX0VO
+QUJMRUQoQ09ORklHX1VTQl9EV0MyX0RVQUxfUk9MRSkNCisJaHNvdGctPmZpZm9fbWFwID0gMDsN
+CisJI2VuZGlmIC8qIENPTkZJR19VU0JfRFdDMl9QRVJJUEhFUkFMIHx8IENPTkZJR19VU0JfRFdD
+Ml9EVUFMX1JPTEUgKi8NCisNCiAJaWYgKGR3YzJfaHNvdGdfd2FpdF9iaXRfY2xlYXIoaHNvdGcs
+IEdSU1RDVEwsIEdSU1RDVExfQ1NGVFJTVCwgNTApKSB7DQogCQlkZXZfd2Fybihoc290Zy0+ZGV2
+LCAiJXM6IEhBTkchIFNvZnQgUmVzZXQgdGltZW91dCBHUlNUQ1RMIEdSU1RDVExfQ1NGVFJTVFxu
+IiwNCiAJCQkgX19mdW5jX18pOw0KLS0gDQoyLjExLjANCg0K
