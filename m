@@ -1,44 +1,33 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3,12/26] compat_ioctl: move more drivers to compat_ptr_ioctl
-From: Arnd Bergmann <arnd@arndb.de>
-Message-Id: <CAK8P3a3CzKLvpUiVV_k__kkaZ=wg2fqnFEzWYL9qNwBfxMKZ9w@mail.gmail.com>
-Date: Fri, 26 Apr 2019 09:46:13 +0200
-To: Johannes Berg <johannes@sipsolutions.net>
-Cc: Al Viro <viro@zeniv.linux.org.uk>, Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>, y2038 Mailman List <y2038@lists.linaro.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Jason Gunthorpe <jgg@mellanox.com>, Daniel Vetter <daniel.vetter@ffwll.ch>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, David Sterba <dsterba@suse.com>, Darren Hart <dvhart@infradead.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, Bjorn Andersson <bjorn.andersson@linaro.org>, driverdevel <devel@driverdev.osuosl.org>, qat-linux@intel.com, "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" <linux-crypto@vger.kernel.org>, Linux Media Mailing List <linux-media@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org, "open list:HID CORE LAYER" <linux-input@vger.kernel.org>, linux-iio@vger.kernel.org, linux-rdma <linux-rdma@vger.kernel.org>, linux-nvdimm@lists.01.org, linux-nvme@lists.infradead.org, linux-pci <linux-pci@vger.kernel.org>, Platform Driver <platform-driver-x86@vger.kernel.org>, linux-remoteproc@vger.kernel.org, sparclinux <sparclinux@vger.kernel.org>, linux-scsi <linux-scsi@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>, linux-btrfs <linux-btrfs@vger.kernel.org>, ceph-devel <ceph-devel@vger.kernel.org>, linux-wireless <linux-wireless@vger.kernel.org>, Networking <netdev@vger.kernel.org>, Sean Young <sean@mess.org>
+Subject: [v1,01/14] usb: dwc2: Fix dwc2_restore_device_registers() function.
+From: Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
+Message-Id: <b4129291df7b2d061e93c03862c081b6a35b2e7f.1555672441.git.arturp@synopsys.com>
+Date: Fri, 19 Apr 2019 11:23:38 +0000
+To: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Cc: John Youn <John.Youn@synopsys.com>, Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gVGh1LCBBcHIgMjUsIDIwMTkgYXQgMTE6MjUgUE0gSm9oYW5uZXMgQmVyZwo8am9oYW5uZXNA
-c2lwc29sdXRpb25zLm5ldD4gd3JvdGU6Cj4gT24gVGh1LCAyMDE5LTA0LTI1IGF0IDE3OjU1ICsw
-MjAwLCBBcm5kIEJlcmdtYW5uIHdyb3RlOgo+ID4gT24gVGh1LCBBcHIgMjUsIDIwMTkgYXQgNToz
-NSBQTSBBbCBWaXJvIDx2aXJvQHplbml2LmxpbnV4Lm9yZy51az4gd3JvdGU6Cj4gPiA+Cj4gPiA+
-IE9uIFRodSwgQXByIDI1LCAyMDE5IGF0IDEyOjIxOjUzUE0gLTAzMDAsIE1hdXJvIENhcnZhbGhv
-IENoZWhhYiB3cm90ZToKPiA+ID4KPiA+ID4gPiBJZiBJIHVuZGVyc3RhbmQgeW91ciBwYXRjaCBk
-ZXNjcmlwdGlvbiB3ZWxsLCB1c2luZyBjb21wYXRfcHRyX2lvY3RsCj4gPiA+ID4gb25seSB3b3Jr
-cyBpZiB0aGUgZHJpdmVyIGlzIG5vdCBmb3IgczM5MCwgcmlnaHQ/Cj4gPiA+Cj4gPiA+IE5vOyBz
-MzkwIGlzIHdoZXJlICJvaCwganVzdCBzZXQgLT5jb21wYXRfaW9jdGwgc2FtZSBhcyAtPnVubG9j
-a2VkX2lvY3RsCj4gPiA+IGFuZCBiZSBkb25lIHdpdGggdGhhdDsgY29tcGF0X3B0cigpIGlzIGEg
-bm8tb3AgYW55d2F5IiBicmVha3MuICBJT1csCj4gPiA+IHMzOTAgaXMgdGhlIHJlYXNvbiBmb3Ig
-aGF2aW5nIGNvbXBhdF9wdHJfaW9jdGwoKSBpbiB0aGUgZmlyc3QgcGxhY2U7Cj4gPiA+IHRoYXQg
-dGhpbmcgd29ya3Mgb24gYWxsIGJpYXJjaCBhcmNoaXRlY3R1cmVzLCBhcyBsb25nIGFzIGFsbCBz
-dHVmZgo+ID4gPiBoYW5kbGVkIGJ5IC0+aW9jdGwoKSB0YWtlcyBwb2ludGVyIHRvIGFyY2gtaW5k
-ZXBlbmRlbnQgb2JqZWN0IGFzCj4gPiA+IGFyZ3VtZW50LiAgSU9XLAo+ID4gPiAgICAgICAgIGFy
-Z3VtZW50IGlnbm9yZWQgPT4gT0sKPiA+ID4gICAgICAgICBhbnkgYXJpdGhtZXRpY2FsIHR5cGUg
-PT4gbm8gZ28sIGNvbXBhdF9wdHIoKSB3b3VsZCBidWdnZXIgaXQKPiA+ID4gICAgICAgICBwb2lu
-dGVyIHRvIGludCA9PiBPSwo+ID4gPiAgICAgICAgIHBvaW50ZXIgdG8gc3RyaW5nID0+IE9LCj4g
-PiA+ICAgICAgICAgcG9pbnRlciB0byB1NjQgPT4gT0sKPiA+ID4gICAgICAgICBwb2ludGVyIHRv
-IHN0cnVjdCB7dTY0IGFkZHI7IGNoYXIgc1sxMV07fSA9PiBPSwo+ID4KPiA+IFRvIGJlIGV4dHJh
-IHBlZGFudGljLCB0aGUgJ3N0cnVjdCB7dTY0IGFkZHI7IGNoYXIgc1sxMV07fSAnCj4gPiBjYXNl
-IGlzIGFsc28gYnJva2VuIG9uIHg4NiwgYmVjYXVzZSBzaXplb2YgKG9iaikgaXMgc21hbGxlcgo+
-ID4gb24gaTM4NiwgZXZlbiB0aG91Z2ggdGhlIGxvY2F0aW9uIG9mIHRoZSBtZW1iZXJzIGFyZQo+
-ID4gdGhlIHNhbWUuIGkuZS4geW91IGNhbiBjb3B5X2Zyb21fdXNlcigpIHRoaXMKPgo+IEFjdHVh
-bGx5LCB5b3UgY2FuJ3QgZXZlbiBkbyB0aGF0IGJlY2F1c2UgdGhlIHN0cnVjdCBtaWdodCBzaXQg
-YXQgdGhlIGVuZAo+IG9mIGEgcGFnZSBhbmQgdGhlbiB5b3UnZCBlcnJvbmVvdXNseSBmYXVsdCBp
-biB0aGlzIGNhc2UuCj4KPiBXZSBoYWQgdGhpcyBhIHdoaWxlIGFnbyB3aXRoIHN0cnVjdCBpZnJl
-cSwgc2VlIGNvbW1pdCA5ODQwNjEzM2RkIGFuZCBpdHMKPiBwYXJlbnRzLgoKWWVzLCB5b3UgYXJl
-IHJpZ2h0LiBWZXJ5IHJhcmUgdG8gaGl0IHdpdGggcmVhbC1saWZlIGNvZGUsIGJ1dCBlYXNpbHkK
-cmVwcm9kdWNlZCBieSBpbnRlbnRpb25hbGx5IGhpdHRpbmcgaXQgYW5kIGNsZWFybHkgYSBidWcu
-CgpBcyB0aGUgc2F5aW5nIGdvZXMKCiAgfCB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuICJhbHdheXMg
-d29ya3MiIGFuZCAiYWxtb3N0IGFsd2F5cyB3b3JrcyIKICB8IGlzIGNhbGxlZCBkYXRhIGNvcnJ1
-cHRpb24KCmhlcmUgdGhlIGRpZmZlcmVuY2UgaXMgYW4gLUVGQVVMVC4KCiAgICAgIEFybmQK
+LSBBZGRlZCBiYWNrdXAgb2YgRENGRyByZWdpc3Rlci4NCi0gQWRkZWQgU2V0IHRoZSBQb3dlci1P
+biBQcm9ncmFtbWluZyBkb25lIGJpdC4NCg0KU2lnbmVkLW9mZi1ieTogQXJ0dXIgUGV0cm9zeWFu
+IDxhcnR1cnBAc3lub3BzeXMuY29tPg0KLS0tDQogZHJpdmVycy91c2IvZHdjMi9nYWRnZXQuYyB8
+IDEwICsrKysrKysrKysNCiAxIGZpbGUgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKQ0KDQotLSAN
+CjIuMTEuMAoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2R3YzIvZ2FkZ2V0LmMgYi9kcml2ZXJz
+L3VzYi9kd2MyL2dhZGdldC5jDQppbmRleCA2ODEyYThhM2E5OGIuLmRjYjBmYmI4YmM0MiAxMDA2
+NDQNCi0tLSBhL2RyaXZlcnMvdXNiL2R3YzIvZ2FkZ2V0LmMNCisrKyBiL2RyaXZlcnMvdXNiL2R3
+YzIvZ2FkZ2V0LmMNCkBAIC01MDA0LDYgKzUwMDQsNyBAQCBpbnQgZHdjMl9yZXN0b3JlX2Rldmlj
+ZV9yZWdpc3RlcnMoc3RydWN0IGR3YzJfaHNvdGcgKmhzb3RnLCBpbnQgcmVtb3RlX3dha2V1cCkN
+CiB7DQogCXN0cnVjdCBkd2MyX2RyZWdzX2JhY2t1cCAqZHI7DQogCWludCBpOw0KKwl1MzIgZGN0
+bDsNCiANCiAJZGV2X2RiZyhoc290Zy0+ZGV2LCAiJXNcbiIsIF9fZnVuY19fKTsNCiANCkBAIC01
+MDE5LDYgKzUwMjAsMTUgQEAgaW50IGR3YzJfcmVzdG9yZV9kZXZpY2VfcmVnaXN0ZXJzKHN0cnVj
+dCBkd2MyX2hzb3RnICpoc290ZywgaW50IHJlbW90ZV93YWtldXApDQogCWlmICghcmVtb3RlX3dh
+a2V1cCkNCiAJCWR3YzJfd3JpdGVsKGhzb3RnLCBkci0+ZGN0bCwgRENUTCk7DQogDQorCWlmICho
+c290Zy0+cGFyYW1zLnBvd2VyX2Rvd24gPT0gRFdDMl9QT1dFUl9ET1dOX1BBUkFNX1BBUlRJQUwp
+IHsNCisJCWR3YzJfd3JpdGVsKGhzb3RnLCBkci0+ZGNmZywgRENGRyk7DQorDQorCQkvKiBTZXQg
+dGhlIFBvd2VyLU9uIFByb2dyYW1taW5nIGRvbmUgYml0ICovDQorCQlkY3RsID0gZHdjMl9yZWFk
+bChoc290ZywgRENUTCk7DQorCQlkY3RsIHw9IERDVExfUFdST05QUkdET05FOw0KKwkJZHdjMl93
+cml0ZWwoaHNvdGcsIGRjdGwsIERDVEwpOw0KKwl9DQorDQogCWR3YzJfd3JpdGVsKGhzb3RnLCBk
+ci0+ZGFpbnRtc2ssIERBSU5UTVNLKTsNCiAJZHdjMl93cml0ZWwoaHNvdGcsIGRyLT5kaWVwbXNr
+LCBESUVQTVNLKTsNCiAJZHdjMl93cml0ZWwoaHNvdGcsIGRyLT5kb2VwbXNrLCBET0VQTVNLKTsN
+Cg==
