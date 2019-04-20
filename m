@@ -6,24 +6,24 @@ X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78710C282DD
-	for <linux-usb@archiver.kernel.org>; Sat, 20 Apr 2019 06:41:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDF5BC282DD
+	for <linux-usb@archiver.kernel.org>; Sat, 20 Apr 2019 06:41:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5115A2186A
-	for <linux-usb@archiver.kernel.org>; Sat, 20 Apr 2019 06:41:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A92DA2087F
+	for <linux-usb@archiver.kernel.org>; Sat, 20 Apr 2019 06:41:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727940AbfDTGkj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 20 Apr 2019 02:40:39 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:39396 "EHLO huawei.com"
+        id S1727838AbfDTGkh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 20 Apr 2019 02:40:37 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:39404 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727273AbfDTGkj (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 20 Apr 2019 02:40:39 -0400
+        id S1725832AbfDTGkh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 20 Apr 2019 02:40:37 -0400
 Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 5FF6A20016B86DFC1026;
+        by Forcepoint Email with ESMTP id 6B1019216819B50265F4;
         Sat, 20 Apr 2019 14:40:34 +0800 (CST)
 Received: from vm100-107-113-134.huawei.com (100.107.113.134) by
  DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.408.0; Sat, 20 Apr 2019 14:40:23 +0800
+ 14.3.408.0; Sat, 20 Apr 2019 14:40:24 +0800
 From:   Yu Chen <chenyu56@huawei.com>
 To:     <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
@@ -35,12 +35,14 @@ CC:     <john.stultz@linaro.org>, <suzhuangluan@hisilicon.com>,
         <xuyiping@hisilicon.com>, <xuyoujun4@huawei.com>,
         <yudongbin@hisilicon.com>, <zangleigang@hisilicon.com>,
         Yu Chen <chenyu56@huawei.com>,
+        "Kishon Vijay Abraham I" <kishon@ti.com>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+        "Mark Rutland" <mark.rutland@arm.com>,
         Binghui Wang <wangbinghui@hisilicon.com>
-Subject: [PATCH v6 01/13] dt-bindings: phy: Add support for HiSilicon's hi3660 USB PHY
-Date:   Sat, 20 Apr 2019 14:40:07 +0800
-Message-ID: <20190420064019.57522-2-chenyu56@huawei.com>
+Subject: [PATCH v6 02/13] dt-bindings: misc: Add bindings for HiSilicon usb hub and data role switch functionality on HiKey960
+Date:   Sat, 20 Apr 2019 14:40:08 +0800
+Message-ID: <20190420064019.57522-3-chenyu56@huawei.com>
 X-Mailer: git-send-email 2.15.0-rc2
 In-Reply-To: <20190420064019.57522-1-chenyu56@huawei.com>
 References: <20190420064019.57522-1-chenyu56@huawei.com>
@@ -52,62 +54,93 @@ Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190420064007.J9OTn6vje8xBPcw2bt_xTnsxWb6TOZ7EGgq9Eu4khY8@z>
+Message-ID: <20190420064008.FSV21xF0l8ZQAK9TxaXAh-etlFqppE_v_UWu36qNZ78@z>
 
-This patch adds binding documentation for supporting the hi3660 usb
-phy on boards like the HiKey960.
+This patch adds binding documentation to support usb hub and usb
+data role switch of Hisilicon HiKey960 Board.
 
+Cc: Kishon Vijay Abraham I <kishon@ti.com>
+Cc: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
 Cc: Rob Herring <robh+dt@kernel.org>
 Cc: Mark Rutland <mark.rutland@arm.com>
 Cc: John Stultz <john.stultz@linaro.org>
 Cc: Binghui Wang <wangbinghui@hisilicon.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Yu Chen <chenyu56@huawei.com>
 ---
 v1:
-* Fix some format error as suggested by Rob.
+* Fix some format errors as suggested by Sergei.
+* Modify gpio description to use gpiod API.
 v2:
-* Change hi3660 usb PHY to hi3660 USB PHY
+* Remove information about Hikey.
+* Fix gpio description.
+* Remove device_type of endpoint.
 v3:
-* Make device node a subnode of usb3_otg_bc register.
-v4:
-* Remove "hisilicon,usb3-otg-bc-syscon" property
+* Remove property typec-vbus-enable-val.
+* Add description of pinctrl-names.
+* Add example for "hisilicon,gpio-hubv1"
+* Add flag in gpiod properties.
 ---
 ---
- .../devicetree/bindings/phy/phy-hi3660-usb3.txt    | 26 ++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/phy/phy-hi3660-usb3.txt
+ .../bindings/misc/hisilicon-hikey-usb.txt          | 52 ++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.txt
 
-diff --git a/Documentation/devicetree/bindings/phy/phy-hi3660-usb3.txt b/Documentation/devicetree/bindings/phy/phy-hi3660-usb3.txt
+diff --git a/Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.txt b/Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.txt
 new file mode 100644
-index 000000000000..e88ba7d92dcb
+index 000000000000..422e844df719
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/phy/phy-hi3660-usb3.txt
-@@ -0,0 +1,26 @@
-+Hisilicon hi3660 USB PHY
-+-----------------------
++++ b/Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.txt
+@@ -0,0 +1,52 @@
++Support usb hub and usb data role switch of Hisilicon HiKey960 Board.
++
++-----------------------------
 +
 +Required properties:
-+- compatible: should be "hisilicon,hi3660-usb-phy"
-+- #phy-cells: must be 0
-+- hisilicon,pericrg-syscon: phandle of syscon used to control phy.
-+- hisilicon,pctrl-syscon: phandle of syscon used to control phy.
-+- hisilicon,eye-diagram-param: parameter set for phy
-+Refer to phy/phy-bindings.txt for the generic PHY binding properties
++- compatible: "hisilicon,gpio-hubv1","hisilicon,hikey960-usb"
++- typec-vbus-gpios: gpio to control the vbus of typeC port
++- otg-switch-gpios: gpio to switch DP & DM between the hub and typeC port
++- hub-vdd33-en-gpios: gpio to enable the power of hub
++- pinctrl-names: pin configuration state name ("default")
++- pinctrl-0: pinctrl config
 +
-+This is a subnode of usb3_otg_bc register node.
++Example
++-----
 +
-+Example:
-+	usb3_otg_bc: usb3_otg_bc@ff200000 {
-+		compatible = "syscon", "simple-mfd";
-+		reg = <0x0 0xff200000 0x0 0x1000>;
++	hisi_hikey_usb: hisi_hikey_usb {
++		compatible = "hisilicon,hikey960-usb";
++		typec-vbus-gpios = <&gpio25 2 GPIO_ACTIVE_HIGH>;
++		otg-switch-gpios = <&gpio25 6 GPIO_ACTIVE_HIGH>;
++		hub-vdd33-en-gpios = <&gpio5 6 GPIO_ACTIVE_HIGH>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&usbhub5734_pmx_func>;
 +
-+		usb-phy {
-+			compatible = "hisilicon,hi3660-usb-phy";
-+			#phy-cells = <0>;
-+			hisilicon,pericrg-syscon = <&crg_ctrl>;
-+			hisilicon,pctrl-syscon = <&pctrl>;
-+			hisilicon,eye-diagram-param = <0x22466e4>;
++		port {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			hikey_usb_ep: endpoint@0 {
++				reg = <0>;
++				remote-endpoint = <&dwc3_role_switch_notify>;
++			};
++		};
++	};
++
++	hisi_hikey_usb: hisi_hikey_usb {
++		compatible = "hisilicon,gpio-hubv1";
++		typec-vbus-gpios = <&gpio25 2 GPIO_ACTIVE_LOW>;
++		otg-switch-gpios = <&gpio25 6 GPIO_ACTIVE_HIGH>;
++		hub-vdd33-en-gpios = <&gpio5 6 GPIO_ACTIVE_HIGH>;
++		pinctrl-names = "default";
++		pinctrl-0 = <&usbhub5734_pmx_func>;
++
++		port {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			hikey_usb_ep: endpoint@0 {
++				reg = <0>;
++				remote-endpoint = <&dwc3_role_switch_notify>;
++			};
 +		};
 +	};
 -- 
