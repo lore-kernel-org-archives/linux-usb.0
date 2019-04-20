@@ -3,27 +3,27 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED6A3C282E2
-	for <linux-usb@archiver.kernel.org>; Sat, 20 Apr 2019 06:41:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA98DC282E2
+	for <linux-usb@archiver.kernel.org>; Sat, 20 Apr 2019 06:41:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C9CA7218A1
-	for <linux-usb@archiver.kernel.org>; Sat, 20 Apr 2019 06:41:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AE01C21855
+	for <linux-usb@archiver.kernel.org>; Sat, 20 Apr 2019 06:41:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728046AbfDTGkm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 20 Apr 2019 02:40:42 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:39400 "EHLO huawei.com"
+        id S1728312AbfDTGlZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 20 Apr 2019 02:41:25 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:39644 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727873AbfDTGkm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 20 Apr 2019 02:40:42 -0400
+        id S1728308AbfDTGlY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 20 Apr 2019 02:41:24 -0400
 Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id 65A47A8F5B3ED9EA00AB;
-        Sat, 20 Apr 2019 14:40:34 +0800 (CST)
+        by Forcepoint Email with ESMTP id 6B28A591AFA00F114309;
+        Sat, 20 Apr 2019 14:40:44 +0800 (CST)
 Received: from vm100-107-113-134.huawei.com (100.107.113.134) by
  DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.408.0; Sat, 20 Apr 2019 14:40:27 +0800
+ 14.3.408.0; Sat, 20 Apr 2019 14:40:34 +0800
 From:   Yu Chen <chenyu56@huawei.com>
 To:     <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
@@ -39,9 +39,9 @@ CC:     <john.stultz@linaro.org>, <suzhuangluan@hisilicon.com>,
         Felipe Balbi <balbi@kernel.org>,
         "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
         Binghui Wang <wangbinghui@hisilicon.com>
-Subject: [PATCH v6 05/13] usb: dwc3: Execute GCTL Core Soft Reset while switch mdoe for Hisilicon Kirin Soc
-Date:   Sat, 20 Apr 2019 14:40:11 +0800
-Message-ID: <20190420064019.57522-6-chenyu56@huawei.com>
+Subject: [PATCH v6 12/13] usb: gadget: Add configfs attribuite for controling match_existing_only
+Date:   Sat, 20 Apr 2019 14:40:18 +0800
+Message-ID: <20190420064019.57522-13-chenyu56@huawei.com>
 X-Mailer: git-send-email 2.15.0-rc2
 In-Reply-To: <20190420064019.57522-1-chenyu56@huawei.com>
 References: <20190420064019.57522-1-chenyu56@huawei.com>
@@ -53,10 +53,18 @@ Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190420064011.2t_Qi-mHErPFI8P0qv88ay3Ogu6YkGQNWF86igbBN7Y@z>
+Message-ID: <20190420064018.WB20MgXs-X7tWQ3PmdCmMQ7CL1KlqDpgcyvorGBuIks@z>
 
-A GCTL soft reset should be executed when switch mode for dwc3 core
-of Hisilicon Kirin Soc.
+Currently the "match_existing_only" of usb_gadget_driver in configfs is
+set to one which is not flexible.
+Dwc3 udc will be removed when usb core switch to host mode. This causes
+failure of writing name of dwc3 udc to configfs's UDC attribuite.
+To fix this we need to add a way to change the config of
+"match_existing_only".
+There are systems like Android do not support udev, so adding
+"match_existing_only" attribute to allow configuration by user is cost little.
+This patch adds a configfs attribuite for controling match_existing_only
+which allow user to config "match_existing_only".
 
 Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc: Felipe Balbi <balbi@kernel.org>
@@ -65,78 +73,66 @@ Cc: John Stultz <john.stultz@linaro.org>
 Cc: Binghui Wang <wangbinghui@hisilicon.com>
 Signed-off-by: Yu Chen <chenyu56@huawei.com>
 ---
-v4:
-* Add description for 'gctl_reset_quirk'.
----
----
- drivers/usb/dwc3/core.c | 19 +++++++++++++++++++
- drivers/usb/dwc3/core.h |  2 ++
- 2 files changed, 21 insertions(+)
+ drivers/usb/gadget/configfs.c | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index c3ef6bd2b0d4..fd581d72794a 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -112,6 +112,19 @@ void dwc3_set_prtcap(struct dwc3 *dwc, u32 mode)
- 	dwc->current_dr_role = mode;
+diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
+index 025129942894..be85104bfab9 100644
+--- a/drivers/usb/gadget/configfs.c
++++ b/drivers/usb/gadget/configfs.c
+@@ -291,6 +291,36 @@ static ssize_t gadget_dev_desc_UDC_store(struct config_item *item,
+ 	return ret;
  }
  
-+static void dwc3_gctl_core_soft_reset(struct dwc3 *dwc)
++static ssize_t gadget_driver_match_existing_only_store(struct config_item *item,
++		const char *page, size_t len)
 +{
-+	u32 reg;
++	struct gadget_info *gi = to_gadget_info(item);
++	struct usb_gadget_driver *gadget_driver = &(gi->composite.gadget_driver);
++	bool match_existing_only;
++	int ret;
 +
-+	reg = dwc3_readl(dwc->regs, DWC3_GCTL);
-+	reg |= DWC3_GCTL_CORESOFTRESET;
-+	dwc3_writel(dwc->regs, DWC3_GCTL, reg);
++	ret = kstrtobool(page, &match_existing_only);
++	if (ret)
++		return ret;
 +
-+	reg = dwc3_readl(dwc->regs, DWC3_GCTL);
-+	reg &= ~DWC3_GCTL_CORESOFTRESET;
-+	dwc3_writel(dwc->regs, DWC3_GCTL, reg);
++	if (match_existing_only)
++		gadget_driver->match_existing_only = 1;
++	else
++		gadget_driver->match_existing_only = 0;
++
++	return len;
 +}
 +
- static void __dwc3_set_mode(struct work_struct *work)
- {
- 	struct dwc3 *dwc = work_to_dwc(work);
-@@ -157,6 +170,10 @@ static void __dwc3_set_mode(struct work_struct *work)
- 
- 	dwc3_set_prtcap(dwc, dwc->desired_dr_role);
- 
-+	/* Execute a GCTL Core Soft Reset when switch mode */
-+	if (dwc->gctl_reset_quirk)
-+		dwc3_gctl_core_soft_reset(dwc);
++static ssize_t gadget_driver_match_existing_only_show(struct config_item *item,
++		char *page)
++{
++	struct gadget_info *gi = to_gadget_info(item);
++	struct usb_gadget_driver *gadget_driver = &(gi->composite.gadget_driver);
++	bool match_existing_only = !!gadget_driver->match_existing_only;
 +
- 	spin_unlock_irqrestore(&dwc->lock, flags);
++	return sprintf(page, "%s\n", match_existing_only ? "true" : "false");
++}
++
+ CONFIGFS_ATTR(gadget_dev_desc_, bDeviceClass);
+ CONFIGFS_ATTR(gadget_dev_desc_, bDeviceSubClass);
+ CONFIGFS_ATTR(gadget_dev_desc_, bDeviceProtocol);
+@@ -300,6 +330,7 @@ CONFIGFS_ATTR(gadget_dev_desc_, idProduct);
+ CONFIGFS_ATTR(gadget_dev_desc_, bcdDevice);
+ CONFIGFS_ATTR(gadget_dev_desc_, bcdUSB);
+ CONFIGFS_ATTR(gadget_dev_desc_, UDC);
++CONFIGFS_ATTR(gadget_, driver_match_existing_only);
  
- 	switch (dwc->desired_dr_role) {
-@@ -1314,6 +1331,8 @@ static void dwc3_get_properties(struct dwc3 *dwc)
- 
- 	dwc->dis_split_quirk = device_property_read_bool(dev,
- 				"snps,dis-split-quirk");
-+	dwc->gctl_reset_quirk = device_property_read_bool(dev,
-+				"snps,gctl-reset-quirk");
- 
- 	dwc->lpm_nyet_threshold = lpm_nyet_threshold;
- 	dwc->tx_de_emphasis = tx_de_emphasis;
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 28475e301ad9..6a050d663ec7 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -1035,6 +1035,7 @@ struct dwc3_scratchpad_array {
-  * 	3	- Reserved
-  * @dis_metastability_quirk: set to disable metastability quirk.
-  * @dis_split_quirk: set to disable split boundary.
-+ * @gctl_reset_quirk: set to do a gctl soft-reset while switch operation mode.
-  * @imod_interval: set the interrupt moderation interval in 250ns
-  *                 increments or 0 to disable.
-  */
-@@ -1222,6 +1223,7 @@ struct dwc3 {
- 	unsigned		dis_metastability_quirk:1;
- 
- 	unsigned		dis_split_quirk:1;
-+	unsigned		gctl_reset_quirk:1;
- 
- 	u16			imod_interval;
+ static struct configfs_attribute *gadget_root_attrs[] = {
+ 	&gadget_dev_desc_attr_bDeviceClass,
+@@ -311,6 +342,7 @@ static struct configfs_attribute *gadget_root_attrs[] = {
+ 	&gadget_dev_desc_attr_bcdDevice,
+ 	&gadget_dev_desc_attr_bcdUSB,
+ 	&gadget_dev_desc_attr_UDC,
++	&gadget_attr_driver_match_existing_only,
+ 	NULL,
  };
+ 
 -- 
 2.15.0-rc2
 
