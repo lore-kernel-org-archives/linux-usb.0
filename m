@@ -1,21 +1,28 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3] usb/hcd: Send a uevent signaling that the host controller had died
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Message-Id: <20190419121624.GA12209@kroah.com>
-Date: Fri, 19 Apr 2019 14:16:24 +0200
-To: Raul E Rangel <rrangel@chromium.org>
-Cc: linux-usb@vger.kernel.org, groeck@chromium.org, oneukum@suse.com, djkurtz@chromium.org, zwisler@chromium.org, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Alan Stern <stern@rowland.harvard.edu>, Dmitry Torokhov <dtor@chromium.org>, linux-kernel@vger.kernel.org, "Gustavo A. R. Silva" <gustavo@embeddedor.com>, Miquel Raynal <miquel.raynal@bootlin.com>, Johan Hovold <johan@kernel.org>, Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [7/9] USB: serial: iuu_phoenix: simplify init_termios
+From: Johan Hovold <johan@kernel.org>
+Message-Id: <20190421122154.26465-8-johan@kernel.org>
+Date: Sun, 21 Apr 2019 14:21:52 +0200
+To: linux-usb@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Johan Hovold <johan@kernel.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gV2VkLCBBcHIgMTcsIDIwMTkgYXQgMDE6MDM6MTZQTSAtMDYwMCwgUmF1bCBFIFJhbmdlbCB3
-cm90ZToKPiBUaGlzIGNoYW5nZSB3aWxsIHNlbmQgYW4gT0ZGTElORSBldmVudCB0byB1ZGV2IHdp
-dGggdGhlIEVSUk9SPURFQUQKPiBlbnZpcm9ubWVudCB2YXJpYWJsZSBzZXQgd2hlbiB0aGUgSEMg
-ZGllcy4KPiAKPiBCeSBub3RpZnlpbmcgdXNlciBzcGFjZSB0aGUgYXBwcm9wcmlhdGUgcG9saWNp
-ZXMgY2FuIGJlIGFwcGxpZWQuCj4gaS5lLiwKPiAgKiBDb2xsZWN0IGVycm9yIGxvZ3MuCj4gICog
-Tm90aWZ5IHRoZSB1c2VyIHRoYXQgVVNCIGlzIG5vIGxvbmdlciBmdW5jdGlvbmFsLgo+ICAqIFBl
-cmZvcm0gYSBncmFjZWZ1bCByZWJvb3QuCj4gCj4gU2lnbmVkLW9mZi1ieTogUmF1bCBFIFJhbmdl
-bCA8cnJhbmdlbEBjaHJvbWl1bS5vcmc+CgpJJ2xsIHdhaXQgZm9yIGEgdjQgdG8gZml4IHVwIHRo
-ZSBidWdzIDAtZGF5IGZvdW5kIGluIHRoaXMgYmVmb3JlCnJldmlld2luZyA6KQoKdGhhbmtzLAoK
-Z3JlZyBrLWgK
+T3ZlcnJpZGUgdGhlIGluaXRpYWwgdGVybWluYWwgc2V0dGluZ3MgcHJvdmlkZWQgYnkgY29yZSBk
+aXJlY3RseSBpbnN0ZWFkCm9mIGZpcnN0IHJlc2V0dGluZyB0aGVtIHRvIHR0eV9zdGRfdGVybWlv
+cy4KCkFsc28gcmVvcmRlciB0aGUgY2ZsYWdzIGFzIHRoZXkgYXJlIHVzdWFsbHkgc2VlbiAoaW4g
+Yml0IG9yZGVyKS4KClNpZ25lZC1vZmYtYnk6IEpvaGFuIEhvdm9sZCA8am9oYW5Aa2VybmVsLm9y
+Zz4KLS0tCiBkcml2ZXJzL3VzYi9zZXJpYWwvaXV1X3Bob2VuaXguYyB8IDMgKy0tCiAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJp
+dmVycy91c2Ivc2VyaWFsL2l1dV9waG9lbml4LmMgYi9kcml2ZXJzL3VzYi9zZXJpYWwvaXV1X3Bo
+b2VuaXguYwppbmRleCA5Mzc2M2QzZDVlNTYuLmQ1YmZmNjliMTc2OSAxMDA2NDQKLS0tIGEvZHJp
+dmVycy91c2Ivc2VyaWFsL2l1dV9waG9lbml4LmMKKysrIGIvZHJpdmVycy91c2Ivc2VyaWFsL2l1
+dV9waG9lbml4LmMKQEAgLTk0Miw4ICs5NDIsNyBAQCBzdGF0aWMgdm9pZCBpdXVfY2xvc2Uoc3Ry
+dWN0IHVzYl9zZXJpYWxfcG9ydCAqcG9ydCkKIAogc3RhdGljIHZvaWQgaXV1X2luaXRfdGVybWlv
+cyhzdHJ1Y3QgdHR5X3N0cnVjdCAqdHR5KQogewotCXR0eS0+dGVybWlvcyA9IHR0eV9zdGRfdGVy
+bWlvczsKLQl0dHktPnRlcm1pb3MuY19jZmxhZyA9IENMT0NBTCB8IENSRUFEIHwgQ1M4IHwgQjk2
+MDAgfCBDU1RPUEIgfCBQQVJFTkI7CisJdHR5LT50ZXJtaW9zLmNfY2ZsYWcgPSBCOTYwMCB8IENT
+OCB8IENTVE9QQiB8IENSRUFEIHwgUEFSRU5CIHwgQ0xPQ0FMOwogCXR0eS0+dGVybWlvcy5jX2lz
+cGVlZCA9IDk2MDA7CiAJdHR5LT50ZXJtaW9zLmNfb3NwZWVkID0gOTYwMDsKIAl0dHktPnRlcm1p
+b3MuY19sZmxhZyA9IDA7Cg==
