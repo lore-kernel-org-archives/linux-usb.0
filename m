@@ -2,99 +2,110 @@ Return-Path: <SRS0=vzMr=SX=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_PASS,T_DKIMWL_WL_HIGH,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
+	T_DKIMWL_WL_HIGH,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ABB5C10F14
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4B04C10F14
 	for <linux-usb@archiver.kernel.org>; Sun, 21 Apr 2019 12:22:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2B7C120859
+	by mail.kernel.org (Postfix) with ESMTP id 9520420859
 	for <linux-usb@archiver.kernel.org>; Sun, 21 Apr 2019 12:22:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1555849324;
-	bh=PokM204nuNECq8832ACoeCca1ao8W8MvbUjfCFG4a+w=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=VRqOOcBzyecGnHQRmR67AurQqmYK5r49DKuhTnpFWCJoWTBFDEE01IhZVCH6pnvil
-	 9iSx5+FlVjO2aIrIwwF2Y0Bo5TF/LiGr2P9RXycIdoQZle8JqfLZCLH9frpLjRYwQs
-	 UWKmAGSGT65TfejSwjONHZZ6adIC/ffKon6mr+vE=
+	bh=K5VJC7NAiSSVnpVJD+QRLIwIScd8HIhLRwSjNGOIDt8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=Am/NeqMcy7HsVZLL7csk62j1fY1BIVFg+sreN2lEDXMGlrsh3P6clBV2nqIYbCz4i
+	 VYPEkaDbwRbzPNz59TNkCzTB7XfrFrurhOetTMmZZWJpRy/ZBrpZysT5synSrbaU1S
+	 7o+K/hUqpCcvSZ3RkJg8UAINI+FLvUVeps94lot4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727494AbfDUMWC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 21 Apr 2019 08:22:02 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:36048 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727395AbfDUMWB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 21 Apr 2019 08:22:01 -0400
-Received: by mail-lj1-f194.google.com with SMTP id r24so8196842ljg.3
-        for <linux-usb@vger.kernel.org>; Sun, 21 Apr 2019 05:22:00 -0700 (PDT)
+        id S1727512AbfDUMWD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 21 Apr 2019 08:22:03 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:36018 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725963AbfDUMWC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 21 Apr 2019 08:22:02 -0400
+Received: by mail-lf1-f68.google.com with SMTP id u17so7139767lfi.3
+        for <linux-usb@vger.kernel.org>; Sun, 21 Apr 2019 05:22:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5DkDW6SbNK5EKHDNifOFjN3gc0DDOLciSSwYorFUw7Q=;
-        b=KoIXvcAI8Asl8b8fW8TEDqUgOtnxjYNSq7B6NOSV0OKL7cGrGHp1rX3cBBhvdEpS42
-         xyEa3HWiER4e9zDKjn4ubQsKgLTTfnTeYaO5Pgg1tUEIaQgdNzqB+FaxjBl0qI1BFNa/
-         sSO8HLGdPAOfiIYKJULgbnQ2UkMz1H2B/SvcYqLB0rhMN4kcgToY0aOozLc+F87r3SDz
-         aZWdy54BPeoFmX/98V3HGs8TYslp2D4uSbfzIO4yreJLaGnLqzO0B9YUgAYhvD8650CC
-         FNdas9S8DF12fh0CSaOGK/YWfmZW2Y6ierNzEcPWLAuVSqt+Vk29qmwks0uQ7NYmIisZ
-         tnpA==
-X-Gm-Message-State: APjAAAUXsG9bXmLFNjVi4u36VIks1y8Uxi0mhs7YGMGOyVG6NFJv4Rt1
-        CyURNB8/syFU7Xm4AJQj9I+Dfi5f
-X-Google-Smtp-Source: APXvYqxBewDOQ+V2X/Ers9gcghteLg1XhIlBQj9WAaISvWB0P+i7nR5cd9bFacasWIIj0z+E/4+AgA==
-X-Received: by 2002:a2e:b016:: with SMTP id y22mr7472174ljk.133.1555849319097;
-        Sun, 21 Apr 2019 05:21:59 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=cR4oDQjCgqBi5JCazU5MJ8A8IH0Qnc6AMKYJ6RQ6BpY=;
+        b=FUu1xAtLAa8Gjs5dnONSL0vJlkqVxQR+Jdy8L60pfVZxQbqfze1jMMv7lghMv4kGq3
+         pod2dP2LNmUuRoVoVs9ry2FzX0mKJtfdfcQWPbNwom6Ih3KwLxPR9ZLXUO0ER0/HLDKN
+         5ddWA9wuFfUBiTFuro185a2du5Q9JMq7oTy9+e9RHKKK7h23pYSRo9adcSUHpzyCYyGT
+         J48HYTMDRhKThCqatf0w/lRPeljZg+F89n1FWh4oXeRX0eF8rQCbJ9XGv33p0Fmkq113
+         H7V2yX/zCn2r9DMHGHFkuYA9VJKjsru4W+NPI7TLClXPBNPTYdIRmc58azZAi1J3f49T
+         S42Q==
+X-Gm-Message-State: APjAAAWDY+qPJYtoe4EZQPFYkbczgri74O3NMEVKo9P735ZnwC2vqaRu
+        oZis2P3qm/c9he3Xy63h+Urzu2wT
+X-Google-Smtp-Source: APXvYqxIi4S0fuvp8QDZQ/+C8jQGetRggkVyvlZOVZdJDDsrN+33ZbI+C02TGeviRlRasBGQb0peXw==
+X-Received: by 2002:ac2:5501:: with SMTP id j1mr7380117lfk.89.1555849320155;
+        Sun, 21 Apr 2019 05:22:00 -0700 (PDT)
 Received: from xi.terra (c-74bee655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.190.116])
-        by smtp.gmail.com with ESMTPSA id x72sm2447768lfa.58.2019.04.21.05.21.54
+        by smtp.gmail.com with ESMTPSA id m23sm2245702ljh.93.2019.04.21.05.21.54
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
         Sun, 21 Apr 2019 05:21:55 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.91)
         (envelope-from <johan@xi.terra>)
-        id 1hIBTs-0006th-3L; Sun, 21 Apr 2019 14:22:00 +0200
+        id 1hIBTs-0006tp-9i; Sun, 21 Apr 2019 14:22:00 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     linux-usb@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Johan Hovold <johan@kernel.org>
-Subject: [PATCH 0/9] USB: serial: fix initial-termios handling
-Date:   Sun, 21 Apr 2019 14:21:45 +0200
-Message-Id: <20190421122154.26465-1-johan@kernel.org>
+Subject: [PATCH 2/9] USB: serial: ark3116: drop redundant init_termios
+Date:   Sun, 21 Apr 2019 14:21:47 +0200
+Message-Id: <20190421122154.26465-3-johan@kernel.org>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190421122154.26465-1-johan@kernel.org>
+References: <20190421122154.26465-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Message-ID: <20190421122147.Cs54vSGYPCli7nVf1mVBICVnQJETrM2ftb16zanC7Bg@z>
 
-A few drivers override the default initial termios settings provided by
-USB serial core, but due to a long-standing bug, the terminal settings
-were being reset on every (first) open rather than on first use after
-probe as intended.
+The initial terminal settings set by the driver matches the default
+settings provided by core so drop the redundant init_termios callback.
 
-This series fixes the bug and cleans up the various init_termios
-implementations somewhat.
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/ark3116.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-Johan
-
-
-Johan Hovold (9):
-  USB: serial: fix initial-termios handling
-  USB: serial: ark3116: drop redundant init_termios
-  USB: serial: cypress_m8: drop unused driver data flag
-  USB: serial: cypress_m8: drop unused termios
-  USB: serial: cypress_m8: clean up initial-termios handling
-  USB: serial: iuu_phoenix: drop bogus initial cflag
-  USB: serial: iuu_phoenix: simplify init_termios
-  USB: serial: oti6858: simplify init_termios
-  USB: serial: spcp8x5: simplify init_termios
-
- drivers/usb/serial/ark3116.c     | 11 -------
- drivers/usb/serial/cypress_m8.c  | 49 ++++++--------------------------
- drivers/usb/serial/iuu_phoenix.c |  4 +--
- drivers/usb/serial/oti6858.c     |  5 +---
- drivers/usb/serial/spcp8x5.c     |  5 +---
- drivers/usb/serial/usb-serial.c  | 11 ++++---
- 6 files changed, 18 insertions(+), 67 deletions(-)
-
+diff --git a/drivers/usb/serial/ark3116.c b/drivers/usb/serial/ark3116.c
+index ff38aa8963cf..71a9206ea1e2 100644
+--- a/drivers/usb/serial/ark3116.c
++++ b/drivers/usb/serial/ark3116.c
+@@ -189,16 +189,6 @@ static int ark3116_port_remove(struct usb_serial_port *port)
+ 	return 0;
+ }
+ 
+-static void ark3116_init_termios(struct tty_struct *tty)
+-{
+-	struct ktermios *termios = &tty->termios;
+-	*termios = tty_std_termios;
+-	termios->c_cflag = B9600 | CS8
+-				      | CREAD | HUPCL | CLOCAL;
+-	termios->c_ispeed = 9600;
+-	termios->c_ospeed = 9600;
+-}
+-
+ static void ark3116_set_termios(struct tty_struct *tty,
+ 				struct usb_serial_port *port,
+ 				struct ktermios *old_termios)
+@@ -645,7 +635,6 @@ static struct usb_serial_driver ark3116_device = {
+ 	.port_probe =		ark3116_port_probe,
+ 	.port_remove =		ark3116_port_remove,
+ 	.set_termios =		ark3116_set_termios,
+-	.init_termios =		ark3116_init_termios,
+ 	.get_serial =		ark3116_get_serial_info,
+ 	.tiocmget =		ark3116_tiocmget,
+ 	.tiocmset =		ark3116_tiocmset,
 -- 
 2.21.0
 
