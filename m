@@ -6,57 +6,57 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
 	T_DKIMWL_WL_HIGH,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45716C10F14
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2DFDC282E1
 	for <linux-usb@archiver.kernel.org>; Sun, 21 Apr 2019 12:22:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0750F20859
+	by mail.kernel.org (Postfix) with ESMTP id B8CF620859
 	for <linux-usb@archiver.kernel.org>; Sun, 21 Apr 2019 12:22:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1555849326;
-	bh=sAYQIFUPeigVwBrgw4lUiW535h84FpVnUKSjeqBYXQg=;
+	bh=Qhp/CwVaFqPjuh86c8oUG3+BYAfidFJ0LwKb321S7Io=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=xxkbn5bW3RmMSV5yTB5vuSWYzJ3+sQDWeM4TaPfrQHgoV9tA58IYjjhxJwtLTEUqz
-	 gGNAt9n8ecpZ7SxcCNJCrwEfG+E9DZwdxVrAs6ClTVMJRZ/jn4dI1agJfUHhNmww56
-	 xD3MEvBsIhXNgnPbyatUF1cmqarBgXpqY6lk+vyw=
+	b=zV0Z4gK317sbcwyAncvAvCHnHMGi+CbGsMKS9b2h0LAaarE0E52jUida/vpQWPalR
+	 Sxh0/RzljgkLq4qCAnGmywUTqSaWkbdPSYM3Etiv+oOVFL6SwEuXH0MvJhQFzTXSYi
+	 TfMTPslEIirMdt6oF/FLWhe7lPeqoTyMxNObf4k0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727502AbfDUMWD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 21 Apr 2019 08:22:03 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:34993 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727394AbfDUMWA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 21 Apr 2019 08:22:00 -0400
-Received: by mail-lj1-f194.google.com with SMTP id t4so8185471ljc.2
-        for <linux-usb@vger.kernel.org>; Sun, 21 Apr 2019 05:21:59 -0700 (PDT)
+        id S1727514AbfDUMWF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 21 Apr 2019 08:22:05 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:33405 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727495AbfDUMWE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 21 Apr 2019 08:22:04 -0400
+Received: by mail-lf1-f65.google.com with SMTP id j11so7136771lfm.0
+        for <linux-usb@vger.kernel.org>; Sun, 21 Apr 2019 05:22:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=p5bWSJsEz+ddv2Q+fw+xPBri0Ahm6avFqe4fG8KjMJU=;
-        b=TJtQVoyQSI7SHAqkiXeYF0GovAOXp6aDjlRZJlGGnvj0Kq33mW+yTT+HwWvu0U9x4C
-         SVja1OAeS2rK7MxLu5NyFCFTPhqYIqhBeaACVGpBn1VbPmR/i4YIKfMOD1vgGmLRGNZE
-         8sBpKNqc7Bf0D/aESD4+8s3BmYa3n134yI7nwNLHoZIULGl7cRpzFjnnbtCYfqvSWoW0
-         n3kTH2Vwmaq+ylGywRJCF0SmN3qaxAawi9TkVB5fZ1o+FPE7PzGd6uFHXERcwHQRmrz/
-         npE8ssljYLXvHtUXN41WaAqtiSiy8xipJ2bSm0NWd8JfJE71FCFlfhHpL3DtBZolXYvd
-         ypmA==
-X-Gm-Message-State: APjAAAV9+rzSL8c0mDLXZg09u4UGMqA+x6BD/xox5+g8VjHK+tZnbouH
-        SXFC2P/4RE3dp4HgMw/uCrYA8dge
-X-Google-Smtp-Source: APXvYqxpKDSAAZJdbZ1hr79s9rrUcgPSTXkpmVQIMbPThcsRwTjhVmekJeVUH0svGbU7pTTnDjNsBw==
-X-Received: by 2002:a2e:8050:: with SMTP id p16mr7406683ljg.160.1555849318548;
-        Sun, 21 Apr 2019 05:21:58 -0700 (PDT)
+        bh=lEsJXvjwb/PGf4av9Kna2ZrjEm18j4+1PhbIO6niJ8o=;
+        b=muKhPTJkfQ4BvjPF8QFm3lj8Dh3MA0RL127PPmYxkUEX3qUVm64087aCzMc8DeUC+F
+         yojmedf/3Sc5fw7Lnjre8qAa7TP5aDa1FEANCvzyTfPDKKSJ2KBg5b72DMYM/GC+MPZW
+         gPrR2o3+f1tnQMwI1e84IrY3kBQL/ntZ32ANUXAZfpjFhe1G8WEB5L51DLI4ip8AE31P
+         TqNMnUFnuPCobuQAr4g83GE/HUoWFoEr9d6e4uCHAAOtxDpPgU/7r2pdPeVF3DE7nbq9
+         xsqsvw/8FYfl7Ab9T64GjFAaXSB0PofjH24vSfJ3luRxmG/JMmoMiZn9L+aSA59iUoI2
+         MbIg==
+X-Gm-Message-State: APjAAAV3iBhdbOCb+VRCZGDMC2acciZn4M1nNmQKrL6NfDvNCWDZKojN
+        Vlv98bdlUsanpEjtRcAMK2NvOUN0
+X-Google-Smtp-Source: APXvYqxbV2gy/SI7rV1Tpzm2vmiye0w2jrTo0CVWo+Pgtk5G31JtIxcQCVrAKn5tDZYKpY8udpqmeA==
+X-Received: by 2002:a19:1dc7:: with SMTP id d190mr7569632lfd.48.1555849321660;
+        Sun, 21 Apr 2019 05:22:01 -0700 (PDT)
 Received: from xi.terra (c-74bee655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.190.116])
-        by smtp.gmail.com with ESMTPSA id f21sm2233538ljk.94.2019.04.21.05.21.54
+        by smtp.gmail.com with ESMTPSA id k25sm2221230ljc.14.2019.04.21.05.21.54
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
         Sun, 21 Apr 2019 05:21:55 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.91)
         (envelope-from <johan@xi.terra>)
-        id 1hIBTs-0006uE-MI; Sun, 21 Apr 2019 14:22:00 +0200
+        id 1hIBTs-0006uJ-PB; Sun, 21 Apr 2019 14:22:00 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     linux-usb@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Johan Hovold <johan@kernel.org>
-Subject: [PATCH 7/9] USB: serial: iuu_phoenix: simplify init_termios
-Date:   Sun, 21 Apr 2019 14:21:52 +0200
-Message-Id: <20190421122154.26465-8-johan@kernel.org>
+Subject: [PATCH 8/9] USB: serial: oti6858: simplify init_termios
+Date:   Sun, 21 Apr 2019 14:21:53 +0200
+Message-Id: <20190421122154.26465-9-johan@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190421122154.26465-1-johan@kernel.org>
 References: <20190421122154.26465-1-johan@kernel.org>
@@ -67,32 +67,32 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190421122152.iOVhOe1KU3V5Rprp38ObwikTBzyHEmZqNTss8asVHDw@z>
+Message-ID: <20190421122153.C5G-2aqOlBKrkWyuGRXRLbfNLVSxcIrG37UnnL7CvSQ@z>
 
-Override the initial terminal settings provided by core directly instead
-of first resetting them to tty_std_termios.
-
-Also reorder the cflags as they are usually seen (in bit order).
+Simplify init_termios which is only used to override the initial
+baudrate.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/iuu_phoenix.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/usb/serial/oti6858.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/usb/serial/iuu_phoenix.c b/drivers/usb/serial/iuu_phoenix.c
-index 93763d3d5e56..d5bff69b1769 100644
---- a/drivers/usb/serial/iuu_phoenix.c
-+++ b/drivers/usb/serial/iuu_phoenix.c
-@@ -942,8 +942,7 @@ static void iuu_close(struct usb_serial_port *port)
+diff --git a/drivers/usb/serial/oti6858.c b/drivers/usb/serial/oti6858.c
+index ae9cb15ee02d..38ae0fc826cc 100644
+--- a/drivers/usb/serial/oti6858.c
++++ b/drivers/usb/serial/oti6858.c
+@@ -393,10 +393,7 @@ static int oti6858_chars_in_buffer(struct tty_struct *tty)
  
- static void iuu_init_termios(struct tty_struct *tty)
+ static void oti6858_init_termios(struct tty_struct *tty)
  {
 -	tty->termios = tty_std_termios;
--	tty->termios.c_cflag = CLOCAL | CREAD | CS8 | B9600 | CSTOPB | PARENB;
-+	tty->termios.c_cflag = B9600 | CS8 | CSTOPB | CREAD | PARENB | CLOCAL;
- 	tty->termios.c_ispeed = 9600;
- 	tty->termios.c_ospeed = 9600;
- 	tty->termios.c_lflag = 0;
+-	tty->termios.c_cflag = B38400 | CS8 | CREAD | HUPCL | CLOCAL;
+-	tty->termios.c_ispeed = 38400;
+-	tty->termios.c_ospeed = 38400;
++	tty_encode_baud_rate(tty, 38400, 38400);
+ }
+ 
+ static void oti6858_set_termios(struct tty_struct *tty,
 -- 
 2.21.0
 
