@@ -7,45 +7,46 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92F71C10F11
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:55:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57689C10F11
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:56:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 55C11204EC
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:55:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 06521204EC
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:56:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1555962908;
-	bh=5yrX+NZnk/srg8xIsuMK1Wz8yeCcevL7p2sb+rBER+s=;
+	s=default; t=1555962961;
+	bh=B7UXBVKsX0M/tjDFGSm0t6De/poLRniZDfNTAQwwv+4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Qul0QQBg1Zmsb4R8E0WwP1BYQ3EwXRsSXnHGOjsqubtQGW/tcudm0I5/Hv2V04iXU
-	 BXRVr5rAJl/8DfLMw5wRZL4Si3ActKr9bwCLpo2O4S0rqPbHHZiHQUNaXsZjwULM03
-	 aHmlPIiLHEuZZjVIzonRL9MDFoWmDly1ddtrCSrY=
+	b=IC5SPqZBo+t5kw6fxFZfzv+iHB95O5ASp8GHz9PaBT19NnEbtJBcnPr314jNG2y7N
+	 CUl4GvAr8F+yFayeqTZxV7CwMFVRK1TQ9OGMxhOoITruuuUs0V9NBvJt9nt7sCTwdY
+	 L0qGi/3Wy7NxXx9PEyCclzSNSQfJrAQi2q/nMp/g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730882AbfDVTtf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Apr 2019 15:49:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53330 "EHLO mail.kernel.org"
+        id S1730735AbfDVTtH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Apr 2019 15:49:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52730 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730867AbfDVTtc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 22 Apr 2019 15:49:32 -0400
+        id S1730706AbfDVTtH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 22 Apr 2019 15:49:07 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8C90E2175B;
-        Mon, 22 Apr 2019 19:49:31 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E57E7218FE;
+        Mon, 22 Apr 2019 19:49:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1555962572;
-        bh=5yrX+NZnk/srg8xIsuMK1Wz8yeCcevL7p2sb+rBER+s=;
+        s=default; t=1555962546;
+        bh=B7UXBVKsX0M/tjDFGSm0t6De/poLRniZDfNTAQwwv+4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=uPs4c35i4ZfOrUSJbPuqe5xgAZTATVS5d5E1iMKLM7k1i77JyY9u0dMLE2eXkIccL
-         IuTpdUK5k1cIsLhgl6s+kT7kgFngJkHxYL2LqunI3PKFuH5vktxv49DQlzORUgB1QB
-         lJCwRzFACS6A/8Tj10MIHQpabFPERb8oaEXwa1nM=
+        b=SAcOExSrKz18N1HG0LfOHhMKGg6Flvd0GmKkIIpG/3LjIPAJXCYN8ZgIIlhUTFEz4
+         zV1F/4qodzjKr16y/qNAA354JeARt1iboQaOWM/B3A25152ZC7V4RLzsh9gZlv6Wv1
+         UEWaeh6+oCLX/iTOBOlCoo6P/HlMtEmAChVaaNpc=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mukesh Ojha <mojha@codeaurora.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc:     Guido Kiener <guido@kiener-muenchen.de>,
+        Guido Kiener <guido.kiener@rohde-schwarz.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 22/29] usb: u132-hcd: fix resource leak
-Date:   Mon, 22 Apr 2019 15:48:41 -0400
-Message-Id: <20190422194848.13049-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 10/29] usb: gadget: net2272: Fix net2272_dequeue()
+Date:   Mon, 22 Apr 2019 15:48:29 -0400
+Message-Id: <20190422194848.13049-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20190422194848.13049-1-sashal@kernel.org>
 References: <20190422194848.13049-1-sashal@kernel.org>
@@ -58,34 +59,41 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Mukesh Ojha <mojha@codeaurora.org>
+From: Guido Kiener <guido@kiener-muenchen.de>
 
-[ Upstream commit f276e002793cdb820862e8ea8f76769d56bba575 ]
+[ Upstream commit 091dacc3cc10979ab0422f0a9f7fcc27eee97e69 ]
 
-if platform_driver_register fails, cleanup the allocated resource
-gracefully.
+Restore the status of ep->stopped in function net2272_dequeue().
 
-Signed-off-by: Mukesh Ojha <mojha@codeaurora.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+When the given request is not found in the endpoint queue
+the function returns -EINVAL without restoring the state of
+ep->stopped. Thus the endpoint keeps blocked and does not transfer
+any data anymore.
+
+This fix is only compile-tested, since we do not have a
+corresponding hardware. An analogous fix was tested in the sibling
+driver. See "usb: gadget: net2280: Fix net2280_dequeue()"
+
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Guido Kiener <guido.kiener@rohde-schwarz.com>
+Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
 Signed-off-by: Sasha Levin (Microsoft) <sashal@kernel.org>
 ---
- drivers/usb/host/u132-hcd.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/usb/gadget/udc/net2272.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/host/u132-hcd.c b/drivers/usb/host/u132-hcd.c
-index 43618976d68a..3efb7b0e8269 100644
---- a/drivers/usb/host/u132-hcd.c
-+++ b/drivers/usb/host/u132-hcd.c
-@@ -3208,6 +3208,9 @@ static int __init u132_hcd_init(void)
- 	printk(KERN_INFO "driver %s\n", hcd_name);
- 	workqueue = create_singlethread_workqueue("u132");
- 	retval = platform_driver_register(&u132_platform_driver);
-+	if (retval)
-+		destroy_workqueue(workqueue);
-+
- 	return retval;
- }
- 
+diff --git a/drivers/usb/gadget/udc/net2272.c b/drivers/usb/gadget/udc/net2272.c
+index 40396a265a3f..f57d293a1791 100644
+--- a/drivers/usb/gadget/udc/net2272.c
++++ b/drivers/usb/gadget/udc/net2272.c
+@@ -958,6 +958,7 @@ net2272_dequeue(struct usb_ep *_ep, struct usb_request *_req)
+ 			break;
+ 	}
+ 	if (&req->req != _req) {
++		ep->stopped = stopped;
+ 		spin_unlock_irqrestore(&ep->dev->lock, flags);
+ 		return -EINVAL;
+ 	}
 -- 
 2.19.1
 
