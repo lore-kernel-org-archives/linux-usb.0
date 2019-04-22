@@ -7,46 +7,44 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D3CEC10F11
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 20:03:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D028BC282E1
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 20:03:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 06B54204EC
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 20:03:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9262120643
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 20:03:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1555963408;
-	bh=L1aehz1EFWzPIIRniZGjnB9/I8mVEb7GpixGNpjL9aA=;
+	s=default; t=1555963409;
+	bh=AugjpwPcIUqsJmF/AYrlVBLBuSDQk+fEb5wdIVgnD0Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=IFozZ/B8KycTsvd7DfPQDltmAz4wo3xqgOGhLudEkJ8FPezCMI1yHx4+3tS7j0d1M
-	 hoNIzvDTc8cLYcuIqUfh8qLYfKsGYyHJANjyyK+qmzLU+T29DU4/50W7CKXFIhb0lQ
-	 m7hg9W6EB2JuG1D9weQJNUfCAXfgvZ4tniKAqFWs=
+	b=FmpNJCN0jkYa2JqBIgen7ony+cxzE28GqVH+wF5iVdxBCSChM/2lmymege6MKywxq
+	 TV81ecXEdoLb1h9aEIirQc5ObzvNqsb/p+Otj4DsbwfXq4Hkmhb1Tu4NPTEMzXDWh2
+	 yxr98EIIXeuZfDuz0cQcnugE4ODDN5BOebgMa9NM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732100AbfDVUDW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Apr 2019 16:03:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48012 "EHLO mail.kernel.org"
+        id S1729894AbfDVTp7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Apr 2019 15:45:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47936 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729049AbfDVTqA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 22 Apr 2019 15:46:00 -0400
+        id S1729885AbfDVTp5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 22 Apr 2019 15:45:57 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7A8E1218D9;
-        Mon, 22 Apr 2019 19:45:58 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0552F21901;
+        Mon, 22 Apr 2019 19:45:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1555962359;
-        bh=L1aehz1EFWzPIIRniZGjnB9/I8mVEb7GpixGNpjL9aA=;
+        s=default; t=1555962356;
+        bh=AugjpwPcIUqsJmF/AYrlVBLBuSDQk+fEb5wdIVgnD0Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iCmPbVZj5FBnm5PTZZNbN7efRDx0qTUdwmdhjpUVThmWkOxnydb9ceb2VsRNSQWOl
-         9O3PvKU+hQCzgOPdE96gP3Y6Mq+eq9sFUH4T8rn5Pm9/Y83EST6xbQdt2hZBnASXDh
-         PzMktfML0ksx1UhNs0x0bZwIQmCbWLMXOM8uxRck=
+        b=U6W5/egX7EFhvX0f0cir7y7PXCzV5nnDf1YGOWan+/xLNfOzTvEpOaAxdN7V7WVLp
+         P8imiUI89GZuP6pLOvNWcPyJUzphd3QPnr9xXDr+zIDwzf7hMjaUUPxCO8U5uQ3ugC
+         SkjZC1B4cgNgBid40HHjL0ulRhOY4BwEiHyE+uZk=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Guido Kiener <guido@kiener-muenchen.de>,
-        Guido Kiener <guido.kiener@rohde-schwarz.com>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
+Cc:     Felipe Balbi <felipe.balbi@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 22/68] usb: gadget: net2280: Fix overrun of OUT messages
-Date:   Mon, 22 Apr 2019 15:44:30 -0400
-Message-Id: <20190422194516.11634-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 21/68] usb: dwc3: pci: add support for Comet Lake PCH ID
+Date:   Mon, 22 Apr 2019 15:44:29 -0400
+Message-Id: <20190422194516.11634-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20190422194516.11634-1-sashal@kernel.org>
 References: <20190422194516.11634-1-sashal@kernel.org>
@@ -59,62 +57,40 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Guido Kiener <guido@kiener-muenchen.de>
+From: Felipe Balbi <felipe.balbi@linux.intel.com>
 
-[ Upstream commit 9d6a54c1430647355a5e23434881b2ca3d192b48 ]
+[ Upstream commit 7ae622c978db6b2e28b4fced6ecd2a174492059d ]
 
-The OUT endpoint normally blocks (NAK) subsequent packets when a
-short packet was received and returns an incomplete queue entry to
-the gadget driver. Thereby the gadget driver can detect a short packet
-when reading queue entries with a length that is not equal to a
-multiple of packet size.
+This patch simply adds a new PCI Device ID
 
-The start_queue() function enables receiving OUT packets regardless of
-the content of the OUT FIFO. This results in a race: With the current
-code, it's possible that the "!ep->is_in && (readl(&ep->regs->ep_stat)
-& BIT(NAK_OUT_PACKETS))" test in start_dma() will fail, then a short
-packet will be received, and then start_queue() will call
-stop_out_naking(). That's what we don't want (OUT naking gets turned
-off while there is data in the FIFO) because then the next driver
-request might receive a mixture of old and new packets.
-
-With the patch, this race can't occur because the FIFO's state is
-tested after we know that OUT naking is already turned on, and OUT
-naking is stopped only when both of the conditions are met.  This
-ensures that all received data is delivered to the gadget driver,
-which can detect a short packet now before new packets are appended
-to the last short packet.
-
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Guido Kiener <guido.kiener@rohde-schwarz.com>
 Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
 Signed-off-by: Sasha Levin (Microsoft) <sashal@kernel.org>
 ---
- drivers/usb/gadget/udc/net2280.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/usb/dwc3/dwc3-pci.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/usb/gadget/udc/net2280.c b/drivers/usb/gadget/udc/net2280.c
-index b02ab2a8d927..c57046b1da0e 100644
---- a/drivers/usb/gadget/udc/net2280.c
-+++ b/drivers/usb/gadget/udc/net2280.c
-@@ -866,9 +866,6 @@ static void start_queue(struct net2280_ep *ep, u32 dmactl, u32 td_dma)
- 	(void) readl(&ep->dev->pci->pcimstctl);
+diff --git a/drivers/usb/dwc3/dwc3-pci.c b/drivers/usb/dwc3/dwc3-pci.c
+index fdc6e4e403e8..8cced3609e24 100644
+--- a/drivers/usb/dwc3/dwc3-pci.c
++++ b/drivers/usb/dwc3/dwc3-pci.c
+@@ -29,6 +29,7 @@
+ #define PCI_DEVICE_ID_INTEL_BXT_M		0x1aaa
+ #define PCI_DEVICE_ID_INTEL_APL			0x5aaa
+ #define PCI_DEVICE_ID_INTEL_KBP			0xa2b0
++#define PCI_DEVICE_ID_INTEL_CMLH		0x02ee
+ #define PCI_DEVICE_ID_INTEL_GLK			0x31aa
+ #define PCI_DEVICE_ID_INTEL_CNPLP		0x9dee
+ #define PCI_DEVICE_ID_INTEL_CNPH		0xa36e
+@@ -305,6 +306,9 @@ static const struct pci_device_id dwc3_pci_id_table[] = {
+ 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_MRFLD),
+ 	  (kernel_ulong_t) &dwc3_pci_mrfld_properties, },
  
- 	writel(BIT(DMA_START), &dma->dmastat);
--
--	if (!ep->is_in)
--		stop_out_naking(ep);
- }
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_CMLH),
++	  (kernel_ulong_t) &dwc3_pci_intel_properties, },
++
+ 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_SPTLP),
+ 	  (kernel_ulong_t) &dwc3_pci_intel_properties, },
  
- static void start_dma(struct net2280_ep *ep, struct net2280_request *req)
-@@ -907,6 +904,7 @@ static void start_dma(struct net2280_ep *ep, struct net2280_request *req)
- 			writel(BIT(DMA_START), &dma->dmastat);
- 			return;
- 		}
-+		stop_out_naking(ep);
- 	}
- 
- 	tmp = dmactl_default;
 -- 
 2.19.1
 
