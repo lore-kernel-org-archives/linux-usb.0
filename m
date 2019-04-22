@@ -1,105 +1,125 @@
-Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=5Qiu=SY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B121C04AAA
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0E28C10F11
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 20:40:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1E3AD20830
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ACF7B20859
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 20:40:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dLAdp4Vv"
+	dkim=pass (2048-bit key) header.d=netronome-com.20150623.gappssmtp.com header.i=@netronome-com.20150623.gappssmtp.com header.b="1VXDcldX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726363AbfEFJDW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 May 2019 05:03:22 -0400
-Received: from mail-ed1-f47.google.com ([209.85.208.47]:35967 "EHLO
-        mail-ed1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726282AbfEFJDV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:03:21 -0400
-Received: by mail-ed1-f47.google.com with SMTP id a8so14504207edx.3
-        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:03:20 -0700 (PDT)
+        id S1729742AbfDVUjy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Apr 2019 16:39:54 -0400
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:46468 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728823AbfDVUjx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Apr 2019 16:39:53 -0400
+Received: by mail-qk1-f193.google.com with SMTP id w73so5082905qkb.13
+        for <linux-usb@vger.kernel.org>; Mon, 22 Apr 2019 13:39:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=4g2fz+lhg0ZYXSPDhdu5BPPMfft69rvVxH//Z3CzWcI=;
-        b=dLAdp4Vvr6CR3MAHXlBQIuuYsd8Xot3UIqLvbu94TCGGNjZN1106zUBR5rgcShyBW/
-         IUO2TYiLL7enXY5Wmfato/9PCOugozI9rJ0mrDCDHEuwjaTipn7B6dAzAFajGN398lJR
-         qsWuLwTMNvUY5+/arN1x6YnpIF0losXKWq9Y5vjo8AAWxVlBorY84UjzjUsmrtElw2ro
-         b65XoT1naoFU9kNiNW3l3ooSvuzdIqVW/b0WZQlBS5GcS3WSts0YYzJZM/VclsoLN5Vs
-         UUJqmwPc4BSeSHIQ8J2sOh0tlal6UpVma7wnJ18TrRNkRL/9lT7kVttM5tHM/VsLp4Ru
-         3sgQ==
+        d=netronome-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :organization:mime-version:content-transfer-encoding;
+        bh=12fGXN1MFQ+YN+G4XSb4RzcfVfa/2mWdTJAL++9CrHM=;
+        b=1VXDcldXfMsrHV8Pp0/Sk0toBAD+1gmbJC4HOzA+XvXapT92yh03vjSTDkaYZg9k5C
+         WYSyk+IWPxwyecO4ddcZQr+TK4f4pG90GMSQVKo/5QNaUUk+rY9UnUZAHJ5Y/fHOACOf
+         eDS0UmsjpIBdWwklgUIxbKQRRu4G8GD5eFwCSxBOJlOSPEOSZoO3Rkr9PdsdqPqQjb6N
+         d3Y5BzmH0RNwZTEBcz//RUReSBXVfmzx9UyiNGXpWgugYI3g+JAs0UTVDh44jVVIbHnn
+         NEWyHgCxELfQJdv7fqpKlux/uoRcnZbkHc4K+TUqZFwdNfAZldGJKz75M58t5E/F6I8b
+         F7Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=4g2fz+lhg0ZYXSPDhdu5BPPMfft69rvVxH//Z3CzWcI=;
-        b=qVlOralFokra+TqQ7YMmUpbr3XZMtbfV7hf9U/Hn1mjq2lmbq01MPwvrWGevZwlC3a
-         n0iFNRCO1WOkaCRJUHIEx3KQunjZ5YM2s4HI1rZb6lCUQ5iJhtom+ZElEdnvgPJFRZHt
-         6z+BcWy2OoUdIbWgy68sEBlI+MDbl4LcQCFloSt9Utx37QehHVErSMZgzfec/LLc9o1w
-         YKCP1t4tzhxr9pQ7B/Xm04ow3qIYxXafmkAIPPwc7+tbnOha6vzcYMqDjca2y0Dp81ZX
-         /sV752elZildNXgQXeich8/EEtU6X9rUr/GU0cHUT99W08tlVNq8sqk6L3npoRDqkfaB
-         3ijw==
-X-Gm-Message-State: APjAAAWT8RGDmcNQWzQmq2u7kOQ5DWL+jQPHkaRyHtDpvIymyrSs3BWK
-        n5yvDpg/n2+nZUQ5d4ffvJOvz3XSwGo=
-X-Google-Smtp-Source: APXvYqzadgs9jyOQ1/dscK5/1/lR2VFmf2MVoLe5fAHiqsuD4dQGhwoBzjyS3BK70bxPkFjFoEcIfg==
-X-Received: by 2002:a17:906:d92e:: with SMTP id rn14mr6821213ejb.249.1557133398909;
-        Mon, 06 May 2019 02:03:18 -0700 (PDT)
-Received: from localhost (frost.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
-        by smtp.gmail.com with ESMTPSA id h10sm2879181ede.21.2019.05.06.02.03.17
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:organization:mime-version:content-transfer-encoding;
+        bh=12fGXN1MFQ+YN+G4XSb4RzcfVfa/2mWdTJAL++9CrHM=;
+        b=OHs55zqf8zpPx0t94cZ4z7aGcfiPzKOj6UfEJC/nPOYY98HBhb5oxtP1JxUsC1uR4y
+         NcRNXZ7nnBWC7T2iEF8XHEEdjCQFtUfctk2T7r7M02SR0uwmH0269z8LXuw1A9ThWoHC
+         0H8clnwPGHInxtnjiCUzi0NjrCN77Twyznuou8tpm8zK1Efq6aiLcUDYjtYN8alOtDtG
+         mEwbwo5vVJMkLJQUuApSGQnGJWJbGogjnltiuw1s+5rJpIWUp2Yr0KBPMRJOrRBByZqb
+         Pur3wgQkabzcm5mAEJWKajJPRG9eoO/mXtWgykb3A+tu2XcVWVeMKn+XI/9KUrozbkQ7
+         iM4A==
+X-Gm-Message-State: APjAAAVT4zuBtOwfi2vmUpXp+DC2YeNl0JM8SAMt0zwGJNWM6Kgsi8S/
+        QgiLkGjNNG20dvTgjHIhseWLLQ==
+X-Google-Smtp-Source: APXvYqzLnYo9jgh8YaoFBhDul8IRdTI5NaV7gRqh0pYzHDo9lvz5RB9w1HbMao/ZPjUJfucltdOxWw==
+X-Received: by 2002:a37:69c3:: with SMTP id e186mr16173321qkc.308.1555965592828;
+        Mon, 22 Apr 2019 13:39:52 -0700 (PDT)
+Received: from cakuba.netronome.com ([66.60.152.14])
+        by smtp.gmail.com with ESMTPSA id 13sm4529282qtm.52.2019.04.22.13.39.50
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 06 May 2019 02:03:18 -0700 (PDT)
-From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
-To:     linux-usb@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org,
-        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
-Subject: [PATCH 02/34] lsusb.py: sort toplevel entries
-Date:   Mon,  6 May 2019 12:02:09 +0300
-Message-Id: <20190506090241.169665-3-grawity@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190506090241.169665-1-grawity@gmail.com>
-References: <20190506090241.169665-1-grawity@gmail.com>
+        Mon, 22 Apr 2019 13:39:52 -0700 (PDT)
+Date:   Mon, 22 Apr 2019 13:39:47 -0700
+From:   Jakub Kicinski <jakub.kicinski@netronome.com>
+To:     crag0715@gmail.com
+Cc:     linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, hayeswang@realtek.com,
+        mario_limonciello@dell.com, "Crag.Wang" <crag.wang@dell.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Simon Glass <sjg@chromium.org>,
+        Grant Grundler <grundler@chromium.org>,
+        Sean Paul <seanpaul@chromium.org>,
+        David Chen <david.chen7@dell.com>,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Charles Hyde <charles.hyde@dell.corp-partner.google.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        zhong jiang <zhongjiang@huawei.com>
+Subject: Re: [PATCH v2 1/1] r8152: sync sa_family with the media type of
+ network device
+Message-ID: <20190422133947.0b6aaf82@cakuba.netronome.com>
+In-Reply-To: <20190422050344.24513-1-crag0715@gmail.com>
+References: <20190422050344.24513-1-crag0715@gmail.com>
+Organization: Netronome Systems, Ltd.
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190422203947.e8XQN1SwO3XYlEE53VOwHTLbn2NYQq1UXHfYlrFimic@z>
 
-Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
----
- lsusb.py.in | 4 ++++
- 1 file changed, 4 insertions(+)
+On Mon, 22 Apr 2019 13:03:43 +0800, crag0715@gmail.com wrote:
+> From: "Crag.Wang" <crag.wang@dell.com>
+> 
+> Without this patch the socket address family sporadically gets wrong
+> value ends up the dev_set_mac_address() fails to set the desired MAC
+> address.
+> 
+> Signed-off-by: Crag.Wang <crag.wang@dell.com>
 
-diff --git a/lsusb.py.in b/lsusb.py.in
-index ccbfadb..278980d 100644
---- a/lsusb.py.in
-+++ b/lsusb.py.in
-@@ -580,6 +580,7 @@ def usage():
- 
- def read_usb():
- 	"Read toplevel USB entries and print"
-+	root_hubs = []
- 	for dirent in os.listdir(prefix):
- 		#print(dirent,)
- 		if not dirent[0:3] == "usb":
-@@ -587,6 +588,9 @@ def read_usb():
- 		usbdev = UsbDevice(None, 0)
- 		usbdev.read(dirent)
- 		usbdev.readchildren()
-+		root_hubs.append(usbdev)
-+	root_hubs.sort(key=lambda x: int(x.fname[3:]))
-+	for usbdev in root_hubs:
- 		os.write(sys.stdout.fileno(), str.encode(usbdev.__str__()))
- 		#print(usbdev.__str__())
- 
--- 
-2.21.0
+Code looks reasonable.  This must have been caused by:
+
+Fixes: 25766271e42f ("r8152: Refresh MAC address during USBDEVFS_RESET")
+
+which is still in net-next.  In the future please make sure you read:
+
+https://www.kernel.org/doc/html/latest/networking/netdev-FAQ.html
+
+In particular:
+
+https://www.kernel.org/doc/html/latest/networking/netdev-FAQ.html#q-how-do-i-indicate-which-tree-net-vs-net-next-my-patch-should-be-in
+
+To assure smooth flow of your patches into the tree :)
+
+Reviewed-by: Jakub Kicinski <jakub.kicinski@netronome.com>
+
+> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+> index 4c63b40d5e00..41fb39ce69c9 100644
+> --- a/drivers/net/usb/r8152.c
+> +++ b/drivers/net/usb/r8152.c
+> @@ -1225,6 +1225,8 @@ static int determine_ethernet_addr(struct r8152 *tp, struct sockaddr *sa)
+>  	struct net_device *dev = tp->netdev;
+>  	int ret;
+>  
+> +	sa->sa_family = dev->type;
+> +
+>  	if (tp->version == RTL_VER_01) {
+>  		ret = pla_ocp_read(tp, PLA_IDR, 8, sa->sa_data);
+>  	} else {
 
