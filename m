@@ -7,49 +7,48 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EB0DC10F11
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:56:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EA9DC10F11
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:57:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E0B0B204EC
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:56:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C8B8020643
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:57:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1555962971;
-	bh=uFaFfWbHb2QOhn3oGv6WzKolxXUhnxgKmGcjDHwTUd4=;
+	s=default; t=1555963067;
+	bh=zVLT+shqz30hEIKp4PmR2RPYN544gBgZ/FPVorhLtiE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=HhjjpQ1omkfBoVOWSM8s4XdyWBzF6M2oLeGvbycv2OsD1Xw23DKFZWWW4sUZjEV6b
-	 vOM6gCq0ScysePx/wh4LD9zrRM0r/MnwbSlpubshPn1Yw5HPks9XUT0xDoPjkysnAI
-	 MtJDlSDlMQ57ScZ+Ltq/mpXMxDOpk6JSn59DmW64=
+	b=Twhr8tdSVCSG76RsjCGqixFi/vR0qDUMiE9b1OpbaH2OYy1L/FdesGBY2PO1qnKt8
+	 ekYogwjuKgNS3Jz864swGN2TNEqraViq/IlnsNRPlGrsC+i4mZyhALdKUt7kSNSiAw
+	 +Sl0X+6oBqekq6t73kC2xFN/iVpKn6GYJpEdDAks=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731157AbfDVT4F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Apr 2019 15:56:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52632 "EHLO mail.kernel.org"
+        id S1730570AbfDVTse (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Apr 2019 15:48:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51870 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730176AbfDVTtB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 22 Apr 2019 15:49:01 -0400
+        id S1730561AbfDVTsd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 22 Apr 2019 15:48:33 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7E2BA21907;
-        Mon, 22 Apr 2019 19:49:00 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B03AC21915;
+        Mon, 22 Apr 2019 19:48:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1555962541;
-        bh=uFaFfWbHb2QOhn3oGv6WzKolxXUhnxgKmGcjDHwTUd4=;
+        s=default; t=1555962512;
+        bh=zVLT+shqz30hEIKp4PmR2RPYN544gBgZ/FPVorhLtiE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=C6FdsY84jDaXOTr+QtILdw5T6rBEgZ8B09xUY2d0ke4T8gosG2dIHOpJ0dncN+2rr
-         d0zmFEDcmt6MNg2HKk65lNQ2NVI90gaYlniPOk05RLZ5mHTEiSf317ViUtnT5EGrxO
-         BlrSQzU932TJ/Jo/OzcHMq0xaiWChj4PXXlPKJyE=
+        b=Fu/8iMKcNJCyyzArraym5owB8x2pOfAG5vkVng3/g3djz51j5GQXPYHMLDDu/Rc4+
+         AA7QZ65FJr2D7CH/xcZYBlSGEHnQNu1csYzvt7ZkBVaKEb/We50cH/KLpJXVIZJx/n
+         Y10VxAVlGmjQCGG9WCR2kLq0byqiSYgYlSc71XmI=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Guido Kiener <guido@kiener-muenchen.de>,
-        Guido Kiener <guido.kiener@rohde-schwarz.com>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
+Cc:     Aditya Pakki <pakki001@umn.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 08/29] usb: gadget: net2280: Fix overrun of OUT messages
-Date:   Mon, 22 Apr 2019 15:48:27 -0400
-Message-Id: <20190422194848.13049-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 33/43] usb: usb251xb: fix to avoid potential NULL pointer dereference
+Date:   Mon, 22 Apr 2019 15:47:17 -0400
+Message-Id: <20190422194727.12495-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190422194848.13049-1-sashal@kernel.org>
-References: <20190422194848.13049-1-sashal@kernel.org>
+In-Reply-To: <20190422194727.12495-1-sashal@kernel.org>
+References: <20190422194727.12495-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -59,62 +58,34 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Guido Kiener <guido@kiener-muenchen.de>
+From: Aditya Pakki <pakki001@umn.edu>
 
-[ Upstream commit 9d6a54c1430647355a5e23434881b2ca3d192b48 ]
+[ Upstream commit 41f00e6e9e55546390031996b773e7f3c1d95928 ]
 
-The OUT endpoint normally blocks (NAK) subsequent packets when a
-short packet was received and returns an incomplete queue entry to
-the gadget driver. Thereby the gadget driver can detect a short packet
-when reading queue entries with a length that is not equal to a
-multiple of packet size.
+of_match_device in usb251xb_probe can fail and returns a NULL pointer.
+The patch avoids a potential NULL pointer dereference in this scenario.
 
-The start_queue() function enables receiving OUT packets regardless of
-the content of the OUT FIFO. This results in a race: With the current
-code, it's possible that the "!ep->is_in && (readl(&ep->regs->ep_stat)
-& BIT(NAK_OUT_PACKETS))" test in start_dma() will fail, then a short
-packet will be received, and then start_queue() will call
-stop_out_naking(). That's what we don't want (OUT naking gets turned
-off while there is data in the FIFO) because then the next driver
-request might receive a mixture of old and new packets.
-
-With the patch, this race can't occur because the FIFO's state is
-tested after we know that OUT naking is already turned on, and OUT
-naking is stopped only when both of the conditions are met.  This
-ensures that all received data is delivered to the gadget driver,
-which can detect a short packet now before new packets are appended
-to the last short packet.
-
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Guido Kiener <guido.kiener@rohde-schwarz.com>
-Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
+Signed-off-by: Aditya Pakki <pakki001@umn.edu>
+Reviewed-by: Richard Leitner <richard.leitner@skidata.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin (Microsoft) <sashal@kernel.org>
 ---
- drivers/usb/gadget/udc/net2280.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/usb/misc/usb251xb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/udc/net2280.c b/drivers/usb/gadget/udc/net2280.c
-index 7a8c36642293..57b88f4f49c5 100644
---- a/drivers/usb/gadget/udc/net2280.c
-+++ b/drivers/usb/gadget/udc/net2280.c
-@@ -870,9 +870,6 @@ static void start_queue(struct net2280_ep *ep, u32 dmactl, u32 td_dma)
- 	(void) readl(&ep->dev->pci->pcimstctl);
+diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
+index 135c91c434bf..ba8fcdb377e8 100644
+--- a/drivers/usb/misc/usb251xb.c
++++ b/drivers/usb/misc/usb251xb.c
+@@ -530,7 +530,7 @@ static int usb251xb_probe(struct usb251xb *hub)
+ 							   dev);
+ 	int err;
  
- 	writel(BIT(DMA_START), &dma->dmastat);
--
--	if (!ep->is_in)
--		stop_out_naking(ep);
- }
- 
- static void start_dma(struct net2280_ep *ep, struct net2280_request *req)
-@@ -911,6 +908,7 @@ static void start_dma(struct net2280_ep *ep, struct net2280_request *req)
- 			writel(BIT(DMA_START), &dma->dmastat);
- 			return;
- 		}
-+		stop_out_naking(ep);
- 	}
- 
- 	tmp = dmactl_default;
+-	if (np) {
++	if (np && of_id) {
+ 		err = usb251xb_get_ofdata(hub,
+ 					  (struct usb251xb_data *)of_id->data);
+ 		if (err) {
 -- 
 2.19.1
 
