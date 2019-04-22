@@ -2,445 +2,2324 @@ Return-Path: <SRS0=5Qiu=SY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS
+X-Spam-Status: No, score=-12.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLACK,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 342EAC282E2
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 05:33:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F6F3C282CE
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 13:30:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CB79B20859
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 05:33:07 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microchiptechnology.onmicrosoft.com header.i=@microchiptechnology.onmicrosoft.com header.b="O/Cnj78A"
+	by mail.kernel.org (Postfix) with ESMTP id CC92C2064A
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 13:30:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1555939843;
+	bh=7XcDrqT2xuqquOBL0BDd1vl/WCk2ddQJuQfpRgY6k2M=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=sKvD3veA/yUIk/oVxntkx8idlSOcFE5etXAyAhhW950/1JuXMM8bmlrbR3RS2PvjC
+	 vonubGDbtjhffNdjrMnBDkBToo9iRRJcD+oDSgsQXx8GJCbqRv0R2k9LZeFBHV/kCt
+	 6mxmb3a+NluBx72WeSh1HskDOAwsKFM1peKsBKHw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726619AbfDVFdB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Apr 2019 01:33:01 -0400
-Received: from esa6.microchip.iphmx.com ([216.71.154.253]:45761 "EHLO
-        esa6.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725914AbfDVFdB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Apr 2019 01:33:01 -0400
-X-IronPort-AV: E=Sophos;i="5.60,380,1549954800"; 
-   d="scan'208";a="27860658"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 21 Apr 2019 22:32:57 -0700
-Received: from NAM01-SN1-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.76.105) with Microsoft SMTP Server (TLS) id
- 14.3.352.0; Sun, 21 Apr 2019 22:32:55 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector1-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=03AmjjGBXAKnAq31KDeVZd5e85zop/glGPzypScN2RE=;
- b=O/Cnj78Au8laR5icWeLTOMoWdIqqQykcit+KrH0qqtI4OmBjIYrVkQVVqNScnm7SHgmzsnCcuh/qhnrKdSisc5cTQn7L8oUsqdOl7TP+utm1/u2qB5hZKh0EEfTfxzq5TKS3rnWa7BVYnb02ZqQoXnPTVmF8mTCRMuk78tzZjDY=
-Received: from BN6PR11MB3953.namprd11.prod.outlook.com (10.255.130.88) by
- BN6PR11MB1281.namprd11.prod.outlook.com (10.173.31.137) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1813.16; Mon, 22 Apr 2019 05:32:50 +0000
-Received: from BN6PR11MB3953.namprd11.prod.outlook.com
- ([fe80::9ce5:1a4:db0a:c0c7]) by BN6PR11MB3953.namprd11.prod.outlook.com
- ([fe80::9ce5:1a4:db0a:c0c7%5]) with mapi id 15.20.1813.017; Mon, 22 Apr 2019
- 05:32:50 +0000
-From:   <RaghuramChary.Jallipalli@microchip.com>
-To:     <Jisheng.Zhang@synaptics.com>
-CC:     <andrew@lunn.ch>, <f.fainelli@gmail.com>, <marc.zyngier@arm.com>,
-        <Woojung.Huh@microchip.com>, <UNGLinuxDriver@microchip.com>,
-        <davem@davemloft.net>, <netdev@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] net: lan78xx: fix "enabled interrupts" warninig
-Thread-Topic: [PATCH] net: lan78xx: fix "enabled interrupts" warninig
-Thread-Index: AQHU7dHV0yp6Fa7I5USr12hPuITf3qYx3ZMggAALEoCAACApYIABBMYAgAIM3VCAABB3AIAKmGiQgABOVoCAB6rrUA==
-Date:   Mon, 22 Apr 2019 05:32:50 +0000
-Message-ID:
- <BN6PR11MB39534B3F881478B3C16B66699F220@BN6PR11MB3953.namprd11.prod.outlook.com>
-References: <20190408140301.3dcbccdd@xhacker.debian>
-        <BL0PR11MB33292EC33542F7D4FE5208469F2C0@BL0PR11MB3329.namprd11.prod.outlook.com>
-        <20190408155947.3efcb1eb@xhacker.debian>
-        <BL0PR11MB3329824981AAA87127C157C69F2C0@BL0PR11MB3329.namprd11.prod.outlook.com>
-        <20190409092753.39961390@xhacker.debian>
-        <BL0PR11MB3329C59EEA6073D8073D23ED9F2E0@BL0PR11MB3329.namprd11.prod.outlook.com>
-        <20190410174538.5ebe1787@xhacker.debian>
-        <BN6PR11MB39530B69C9BD75927F1F61B89F250@BN6PR11MB3953.namprd11.prod.outlook.com>
- <20190417161357.4e29fedd@xhacker.debian>
-In-Reply-To: <20190417161357.4e29fedd@xhacker.debian>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=RaghuramChary.Jallipalli@microchip.com; 
-x-originating-ip: [118.185.82.6]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7508f3c7-2297-47c3-15f7-08d6c6e3f5ec
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(49563074)(7193020);SRVR:BN6PR11MB1281;
-x-ms-traffictypediagnostic: BN6PR11MB1281:
-x-microsoft-antispam-prvs: <BN6PR11MB128142831D5D446492A6F8D99F220@BN6PR11MB1281.namprd11.prod.outlook.com>
-x-forefront-prvs: 00159D1518
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(346002)(39850400004)(366004)(136003)(376002)(189003)(199004)(6916009)(66066001)(4744005)(66556008)(478600001)(6246003)(73956011)(54906003)(4326008)(81156014)(99936001)(76176011)(81166006)(6506007)(72206003)(26005)(97736004)(64756008)(486006)(66476007)(66946007)(66616009)(5024004)(14454004)(33656002)(25786009)(66446008)(93886005)(76116006)(256004)(476003)(5660300002)(6436002)(11346002)(446003)(8676002)(102836004)(8936002)(68736007)(99286004)(71200400001)(86362001)(55016002)(186003)(316002)(2906002)(229853002)(3846002)(52536014)(74316002)(7696005)(9686003)(305945005)(71190400001)(7736002)(6116002)(53936002);DIR:OUT;SFP:1101;SCL:1;SRVR:BN6PR11MB1281;H:BN6PR11MB3953.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: microchip.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: IAXkIKvwAjryghpE9lpA2yAl2XWcrYWUviS/jG38fBkmTqhN5JlVZGJ6BGgjIu1gPwEpKqurVwocg4eOTWpaV0lb/2dQcDQUKEAVyNc0XgXhuvLVC0vQ4Xl9mc+xF1A/X6lLzfr0ODmyk58HiDTNJZ9iTNEX4sOLDpvsywTz0BTZQJh0FzNCHPm07hyOC3DnsrQN/uDN0FvDNipgcn2Qfz581LOcTYivlO3cNf0WxlmH73Cig0ZSojYxn9Q9a9dQrcbOE7MmW2Gf6aNQ5Y7+8UpK4lG4Bf4IPAVZo7GaCSxwYhJkl9dLfrRdTAbU7I4xEC5gkH9+6yCIcCAbzZLfL3v/BZNSJP/BonMxZSSqxMhoNrolpnjvDuAqHXriAOFw1YERMFLPHnFZuMQICqXhwyeaL0p8HcawM1Vbb0q6964=
-Content-Type: multipart/mixed;
-        boundary="_002_BN6PR11MB39534B3F881478B3C16B66699F220BN6PR11MB3953namp_"
+        id S1727693AbfDVNaa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Apr 2019 09:30:30 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:37746 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727552AbfDVN2X (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Apr 2019 09:28:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
+        To:From:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=vtktnCLv916WLDmhNAkr45ZMiAEz0f0XZ9eblFG9bXo=; b=LsnXbpEPUA46S4YhGKWWlWgbcA
+        1beOLrCxsQV3/nnikm0QGeX/oHqOX4VKp4uiOGo3PpG/sdVRZXfZTRPKRXrJfapvSDhYD5lIxniiF
+        OSqRkFvWfVOdT7uKrxDl4k4NkfKPlzwDfyKP2R/Tq+SBsfqfJUuZa7bdVKW9gMA74m8c3nRRVML2i
+        UVfHExf5oeGsKXXOAgYR4kZD2TluxpWLnX4OBNfPwUyeGAApaVOoie1wX1B9BqpYrc8jcww9ctKJw
+        0GPk5enmRKUNl2PzKtzXzBUGx6P3oNtv/QRiTnYU4u+Pz5So768b1uxap9qi6TrOkrqxL+ehgew3O
+        D/FVCEKw==;
+Received: from 179.176.125.229.dynamic.adsl.gvt.net.br ([179.176.125.229] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hIYza-0005Hw-5x; Mon, 22 Apr 2019 13:28:19 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1hIYzU-0005oF-3g; Mon, 22 Apr 2019 10:28:12 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Jiri Kosina <jikos@kernel.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: [PATCH v2 59/79] docs: hid: convert to ReST
+Date:   Mon, 22 Apr 2019 10:27:48 -0300
+Message-Id:
+ <d3afdc396fe7cb92334cda3ed4d55f12b52c0fa1.1555938376.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1555938375.git.mchehab+samsung@kernel.org>
+References: <cover.1555938375.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7508f3c7-2297-47c3-15f7-08d6c6e3f5ec
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Apr 2019 05:32:50.3778
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB1281
-X-OriginatorOrg: microchip.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190422053250.79ngm3CyBwB2YDJky2Ek-SSI6U1tP9P05QAXP8uN_nw@z>
+Message-ID: <20190422132748.QEXvFzD0uTa0D7xLz5HFgZNJ19lEqX7WcQS0xodbOto@z>
 
---_002_BN6PR11MB39534B3F881478B3C16B66699F220BN6PR11MB3953namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Rename the HID documentation files to ReST, add an
+index for them and adjust in order to produce a nice html
+output via the Sphinx build system.
 
-> I believe this is another bug in lan78xx driver: after phy_disconnect() i=
-f
-> there's intr urb coming, we will call phy_mac_interrupt, so trigger
-> phy_state_machine(), but now the phydev->attached_dev is NULL, so NULL
-> pointer deference. Can you please try below patch:
->=20
-Thanks Jisheng.
-I still see the call trace even with updated patch. Log attached.
+While here, fix the sysfs example from hid-sensor.txt, that
+has a lot of "?" instead of the proper UTF-8 characters that
+are produced by the tree command.
 
-Thanks.=20
+At its new index.rst, let's add a :orphan: while this is not linked to
+the main index.rst file, in order to avoid build warnings.
 
---_002_BN6PR11MB39534B3F881478B3C16B66699F220BN6PR11MB3953namp_
-Content-Type: application/octet-stream; name="log7800_updated_patch"
-Content-Description: log7800_updated_patch
-Content-Disposition: attachment; filename="log7800_updated_patch"; size=18247;
-	creation-date="Mon, 22 Apr 2019 05:28:26 GMT";
-	modification-date="Mon, 22 Apr 2019 05:30:36 GMT"
-Content-Transfer-Encoding: base64
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ .../hid/{hid-alps.txt => hid-alps.rst}        |  85 ++-
+ .../hid/{hid-sensor.txt => hid-sensor.rst}    | 192 +++----
+ .../{hid-transport.txt => hid-transport.rst}  |  82 ++-
+ Documentation/hid/{hiddev.txt => hiddev.rst}  | 130 +++--
+ Documentation/hid/{hidraw.txt => hidraw.rst}  |  53 +-
+ Documentation/hid/index.rst                   |  18 +
+ Documentation/hid/intel-ish-hid.rst           | 485 ++++++++++++++++++
+ Documentation/hid/intel-ish-hid.txt           | 454 ----------------
+ Documentation/hid/{uhid.txt => uhid.rst}      |  46 +-
+ Documentation/input/input.rst                 |   2 +-
+ MAINTAINERS                                   |   2 +-
+ 11 files changed, 885 insertions(+), 664 deletions(-)
+ rename Documentation/hid/{hid-alps.txt => hid-alps.rst} (64%)
+ rename Documentation/hid/{hid-sensor.txt => hid-sensor.rst} (61%)
+ rename Documentation/hid/{hid-transport.txt => hid-transport.rst} (93%)
+ rename Documentation/hid/{hiddev.txt => hiddev.rst} (80%)
+ rename Documentation/hid/{hidraw.txt => hidraw.rst} (89%)
+ create mode 100644 Documentation/hid/index.rst
+ create mode 100644 Documentation/hid/intel-ish-hid.rst
+ delete mode 100644 Documentation/hid/intel-ish-hid.txt
+ rename Documentation/hid/{uhid.txt => uhid.rst} (94%)
 
-cmFnaHVAcmFnaHU6fiQgc3VkbyBkbWVzZyAKWyAxNDIzLjE4Nzk5NF0gdXNiY29yZTogZGVyZWdp
-c3RlcmluZyBpbnRlcmZhY2UgZHJpdmVyIGxhbjc4eHgKWyAxNDIzLjE4Nzk5OF0gYnVzOiAndXNi
-JzogcmVtb3ZlIGRyaXZlciBsYW43OHh4ClsgMTQyMy4xOTAwNjBdIFBNOiBSZW1vdmluZyBpbmZv
-IGZvciBObyBCdXM6ZW54MDA4MDBmNzgwMDAwClsgMTQyMy4yMzg2OTNdIGJ1czogJ21kaW9fYnVz
-JzogcmVtb3ZlIGRldmljZSB1c2ItMDAyOjAwMjowMQpbIDE0MjMuMjM4NzA4XSBQTTogUmVtb3Zp
-bmcgaW5mbyBmb3IgbWRpb19idXM6dXNiLTAwMjowMDI6MDEKWyAxNDIzLjIzODcxN10gUE06IFJl
-bW92aW5nIGluZm8gZm9yIE5vIEJ1czp1c2ItMDAyOjAwMgpbIDE0MjMuMjM5MDA5XSBkcml2ZXI6
-ICdsYW43OHh4JzogZHJpdmVyX3JlbGVhc2UKWyAxNDMzLjcyOTE1OV0gbGFuNzh4eDogbW9kdWxl
-IHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHNpZ25hdHVyZSBhbmQvb3IgcmVxdWlyZWQga2V5IG1pc3Np
-bmcgLSB0YWludGluZyBrZXJuZWwKWyAxNDMzLjcyOTk3OV0gYnVzOiAndXNiJzogYWRkIGRyaXZl
-ciBsYW43OHh4ClsgMTQzMy43Mjk5ODRdIGJ1czogJ3VzYic6IGRyaXZlcl9wcm9iZV9kZXZpY2U6
-IG1hdGNoZWQgZGV2aWNlIDItMToxLjAgd2l0aCBkcml2ZXIgbGFuNzh4eApbIDE0MzMuNzI5OTg1
-XSBidXM6ICd1c2InOiByZWFsbHlfcHJvYmU6IHByb2JpbmcgZHJpdmVyIGxhbjc4eHggd2l0aCBk
-ZXZpY2UgMi0xOjEuMApbIDE0MzMuNzI5OTg4XSBsYW43OHh4IDItMToxLjA6IG5vIGRlZmF1bHQg
-cGluY3RybCBzdGF0ZQpbIDE0MzQuMDEzNjU5XSBkZXZpY2U6ICd1c2ItMDAyOjAwMic6IGRldmlj
-ZV9hZGQKWyAxNDM0LjAxMzY2OF0gUE06IEFkZGluZyBpbmZvIGZvciBObyBCdXM6dXNiLTAwMjow
-MDIKWyAxNDM0LjAxNDYxNV0gZGV2aWNlOiAndXNiLTAwMjowMDI6MDEnOiBkZXZpY2VfYWRkClsg
-MTQzNC4wMTQ2MTldIGJ1czogJ21kaW9fYnVzJzogYWRkIGRldmljZSB1c2ItMDAyOjAwMjowMQpb
-IDE0MzQuMDE0NjI1XSBQTTogQWRkaW5nIGluZm8gZm9yIG1kaW9fYnVzOnVzYi0wMDI6MDAyOjAx
-ClsgMTQzNC4wMTQ2MzNdIGJ1czogJ21kaW9fYnVzJzogZHJpdmVyX3Byb2JlX2RldmljZTogbWF0
-Y2hlZCBkZXZpY2UgdXNiLTAwMjowMDI6MDEgd2l0aCBkcml2ZXIgTWljcm9jaGlwIExBTjg4eHgK
-WyAxNDM0LjAxNDYzNF0gYnVzOiAnbWRpb19idXMnOiByZWFsbHlfcHJvYmU6IHByb2JpbmcgZHJp
-dmVyIE1pY3JvY2hpcCBMQU44OHh4IHdpdGggZGV2aWNlIHVzYi0wMDI6MDAyOjAxClsgMTQzNC4w
-MTQ2MzZdIE1pY3JvY2hpcCBMQU44OHh4IHVzYi0wMDI6MDAyOjAxOiBubyBkZWZhdWx0IHBpbmN0
-cmwgc3RhdGUKWyAxNDM0LjAxNjE1MV0gZHJpdmVyOiAnTWljcm9jaGlwIExBTjg4eHgnOiBkcml2
-ZXJfYm91bmQ6IGJvdW5kIHRvIGRldmljZSAndXNiLTAwMjowMDI6MDEnClsgMTQzNC4wMTYxNjJd
-IGJ1czogJ21kaW9fYnVzJzogcmVhbGx5X3Byb2JlOiBib3VuZCBkZXZpY2UgdXNiLTAwMjowMDI6
-MDEgdG8gZHJpdmVyIE1pY3JvY2hpcCBMQU44OHh4ClsgMTQzNC4wMTYxNjRdIGxpYnBoeTogbGFu
-Nzh4eC1tZGlvYnVzOiBwcm9iZWQKWyAxNDM0LjAxNjE4N10gZGV2aWNlOiAnZXRoMCc6IGRldmlj
-ZV9hZGQKWyAxNDM0LjAxNjIxMV0gUE06IEFkZGluZyBpbmZvIGZvciBObyBCdXM6ZXRoMApbIDE0
-MzQuMDUzODk5XSBkcml2ZXI6ICdsYW43OHh4JzogZHJpdmVyX2JvdW5kOiBib3VuZCB0byBkZXZp
-Y2UgJzItMToxLjAnClsgMTQzNC4wNTM5MzldIGJ1czogJ3VzYic6IHJlYWxseV9wcm9iZTogYm91
-bmQgZGV2aWNlIDItMToxLjAgdG8gZHJpdmVyIGxhbjc4eHgKWyAxNDM0LjA1Mzk2OF0gdXNiY29y
-ZTogcmVnaXN0ZXJlZCBuZXcgaW50ZXJmYWNlIGRyaXZlciBsYW43OHh4ClsgMTQzNC4wNTUwNjBd
-IGxhbjc4eHggMi0xOjEuMCBlbngwMDgwMGY3ODAwMDA6IHJlbmFtZWQgZnJvbSBldGgwClsgMTQz
-NC4wNTUwNjVdIG5ldCBldGgwOiByZW5hbWluZyB0byBlbngwMDgwMGY3ODAwMDAKWyAxNDM0LjEw
-NTE5MF0gIyMjIyMjIyBSYWdodSAjIyMjIyMjIyBsaW5rIHN0YXR1cyAKWyAxNDM2LjE5NTQ1MF0g
-IyMjIyMjIyBSYWdodSAjIyMjIyMjIyBsaW5rIHN0YXR1cyAKWyAxNDM2LjE5NTQ3MV0gSVB2Njog
-QUREUkNPTkYoTkVUREVWX0NIQU5HRSk6IGVueDAwODAwZjc4MDAwMDogbGluayBiZWNvbWVzIHJl
-YWR5ClsgMTQ4OS42Njc4MzhdIHVzYmNvcmU6IGRlcmVnaXN0ZXJpbmcgaW50ZXJmYWNlIGRyaXZl
-ciBsYW43OHh4ClsgMTQ4OS42Njc4NDNdIGJ1czogJ3VzYic6IHJlbW92ZSBkcml2ZXIgbGFuNzh4
-eApbIDE0ODkuNjY4NDE2XSAjIyMjIyMjIFJhZ2h1ICMjIyMjIyMjIGxpbmsgc3RhdHVzIApbIDE0
-ODkuNjY5NTg0XSBQTTogUmVtb3ZpbmcgaW5mbyBmb3IgTm8gQnVzOmVueDAwODAwZjc4MDAwMApb
-IDE0ODkuNzA2Nzk4XSBidXM6ICdtZGlvX2J1cyc6IHJlbW92ZSBkZXZpY2UgdXNiLTAwMjowMDI6
-MDEKWyAxNDg5LjcwNjgzNF0gUE06IFJlbW92aW5nIGluZm8gZm9yIG1kaW9fYnVzOnVzYi0wMDI6
-MDAyOjAxClsgMTQ4OS43MDY4NThdIFBNOiBSZW1vdmluZyBpbmZvIGZvciBObyBCdXM6dXNiLTAw
-MjowMDIKWyAxNDg5LjcwNzU5NV0gZHJpdmVyOiAnbGFuNzh4eCc6IGRyaXZlcl9yZWxlYXNlClsg
-MTQ4OS43NTk2MDRdIGJ1czogJ3VzYic6IGFkZCBkcml2ZXIgbGFuNzh4eApbIDE0ODkuNzU5NjEx
-XSBidXM6ICd1c2InOiBkcml2ZXJfcHJvYmVfZGV2aWNlOiBtYXRjaGVkIGRldmljZSAyLTE6MS4w
-IHdpdGggZHJpdmVyIGxhbjc4eHgKWyAxNDg5Ljc1OTYxM10gYnVzOiAndXNiJzogcmVhbGx5X3By
-b2JlOiBwcm9iaW5nIGRyaXZlciBsYW43OHh4IHdpdGggZGV2aWNlIDItMToxLjAKWyAxNDg5Ljc1
-OTYxNl0gbGFuNzh4eCAyLTE6MS4wOiBubyBkZWZhdWx0IHBpbmN0cmwgc3RhdGUKWyAxNDkwLjA0
-MzMxNF0gZGV2aWNlOiAndXNiLTAwMjowMDInOiBkZXZpY2VfYWRkClsgMTQ5MC4wNDMzMjNdIFBN
-OiBBZGRpbmcgaW5mbyBmb3IgTm8gQnVzOnVzYi0wMDI6MDAyClsgMTQ5MC4wNDQ0MTBdIGRldmlj
-ZTogJ3VzYi0wMDI6MDAyOjAxJzogZGV2aWNlX2FkZApbIDE0OTAuMDQ0NDI3XSBidXM6ICdtZGlv
-X2J1cyc6IGFkZCBkZXZpY2UgdXNiLTAwMjowMDI6MDEKWyAxNDkwLjA0NDQzMl0gUE06IEFkZGlu
-ZyBpbmZvIGZvciBtZGlvX2J1czp1c2ItMDAyOjAwMjowMQpbIDE0OTAuMDQ0NDQwXSBidXM6ICdt
-ZGlvX2J1cyc6IGRyaXZlcl9wcm9iZV9kZXZpY2U6IG1hdGNoZWQgZGV2aWNlIHVzYi0wMDI6MDAy
-OjAxIHdpdGggZHJpdmVyIE1pY3JvY2hpcCBMQU44OHh4ClsgMTQ5MC4wNDQ0NDFdIGJ1czogJ21k
-aW9fYnVzJzogcmVhbGx5X3Byb2JlOiBwcm9iaW5nIGRyaXZlciBNaWNyb2NoaXAgTEFOODh4eCB3
-aXRoIGRldmljZSB1c2ItMDAyOjAwMjowMQpbIDE0OTAuMDQ0NDQzXSBNaWNyb2NoaXAgTEFOODh4
-eCB1c2ItMDAyOjAwMjowMTogbm8gZGVmYXVsdCBwaW5jdHJsIHN0YXRlClsgMTQ5MC4wNDU3Mjhd
-IGRyaXZlcjogJ01pY3JvY2hpcCBMQU44OHh4JzogZHJpdmVyX2JvdW5kOiBib3VuZCB0byBkZXZp
-Y2UgJ3VzYi0wMDI6MDAyOjAxJwpbIDE0OTAuMDQ1NzM3XSBidXM6ICdtZGlvX2J1cyc6IHJlYWxs
-eV9wcm9iZTogYm91bmQgZGV2aWNlIHVzYi0wMDI6MDAyOjAxIHRvIGRyaXZlciBNaWNyb2NoaXAg
-TEFOODh4eApbIDE0OTAuMDQ1NzM4XSBsaWJwaHk6IGxhbjc4eHgtbWRpb2J1czogcHJvYmVkClsg
-MTQ5MC4wNDU3NDddIGRldmljZTogJ2V0aDAnOiBkZXZpY2VfYWRkClsgMTQ5MC4wNDU3NjhdIFBN
-OiBBZGRpbmcgaW5mbyBmb3IgTm8gQnVzOmV0aDAKWyAxNDkwLjA4MjgxNV0gZHJpdmVyOiAnbGFu
-Nzh4eCc6IGRyaXZlcl9ib3VuZDogYm91bmQgdG8gZGV2aWNlICcyLTE6MS4wJwpbIDE0OTAuMDgy
-ODU4XSBidXM6ICd1c2InOiByZWFsbHlfcHJvYmU6IGJvdW5kIGRldmljZSAyLTE6MS4wIHRvIGRy
-aXZlciBsYW43OHh4ClsgMTQ5MC4wODI4ODRdIHVzYmNvcmU6IHJlZ2lzdGVyZWQgbmV3IGludGVy
-ZmFjZSBkcml2ZXIgbGFuNzh4eApbIDE0OTAuMDgzOTE2XSBsYW43OHh4IDItMToxLjAgZW54MDA4
-MDBmNzgwMDAwOiByZW5hbWVkIGZyb20gZXRoMApbIDE0OTAuMDgzOTIxXSBuZXQgZXRoMDogcmVu
-YW1pbmcgdG8gZW54MDA4MDBmNzgwMDAwClsgMTQ5MC4xMTk0ODVdIHVzYmNvcmU6IGRlcmVnaXN0
-ZXJpbmcgaW50ZXJmYWNlIGRyaXZlciBsYW43OHh4ClsgMTQ5MC4xMTk1MDFdIGJ1czogJ3VzYic6
-IHJlbW92ZSBkcml2ZXIgbGFuNzh4eApbIDE0OTAuMTIxNDg0XSBQTTogUmVtb3ZpbmcgaW5mbyBm
-b3IgTm8gQnVzOmVueDAwODAwZjc4MDAwMApbIDE0OTAuMTYzMDEzXSBidXM6ICdtZGlvX2J1cyc6
-IHJlbW92ZSBkZXZpY2UgdXNiLTAwMjowMDI6MDEKWyAxNDkwLjE2MzA2Nl0gUE06IFJlbW92aW5n
-IGluZm8gZm9yIG1kaW9fYnVzOnVzYi0wMDI6MDAyOjAxClsgMTQ5MC4xNjMxMDJdIFBNOiBSZW1v
-dmluZyBpbmZvIGZvciBObyBCdXM6dXNiLTAwMjowMDIKWyAxNDkwLjE2Mzk3Ml0gZHJpdmVyOiAn
-bGFuNzh4eCc6IGRyaXZlcl9yZWxlYXNlClsgMTQ5MC4yMDkyNjVdIGJ1czogJ3VzYic6IGFkZCBk
-cml2ZXIgbGFuNzh4eApbIDE0OTAuMjA5MjgxXSBidXM6ICd1c2InOiBkcml2ZXJfcHJvYmVfZGV2
-aWNlOiBtYXRjaGVkIGRldmljZSAyLTE6MS4wIHdpdGggZHJpdmVyIGxhbjc4eHgKWyAxNDkwLjIw
-OTI4NV0gYnVzOiAndXNiJzogcmVhbGx5X3Byb2JlOiBwcm9iaW5nIGRyaXZlciBsYW43OHh4IHdp
-dGggZGV2aWNlIDItMToxLjAKWyAxNDkwLjIwOTI5MV0gbGFuNzh4eCAyLTE6MS4wOiBubyBkZWZh
-dWx0IHBpbmN0cmwgc3RhdGUKWyAxNDkwLjQ5MjY0N10gZGV2aWNlOiAndXNiLTAwMjowMDInOiBk
-ZXZpY2VfYWRkClsgMTQ5MC40OTI2NTddIFBNOiBBZGRpbmcgaW5mbyBmb3IgTm8gQnVzOnVzYi0w
-MDI6MDAyClsgMTQ5MC40OTM3NzNdIGRldmljZTogJ3VzYi0wMDI6MDAyOjAxJzogZGV2aWNlX2Fk
-ZApbIDE0OTAuNDkzNzc2XSBidXM6ICdtZGlvX2J1cyc6IGFkZCBkZXZpY2UgdXNiLTAwMjowMDI6
-MDEKWyAxNDkwLjQ5Mzc5NV0gUE06IEFkZGluZyBpbmZvIGZvciBtZGlvX2J1czp1c2ItMDAyOjAw
-MjowMQpbIDE0OTAuNDkzODE1XSBidXM6ICdtZGlvX2J1cyc6IGRyaXZlcl9wcm9iZV9kZXZpY2U6
-IG1hdGNoZWQgZGV2aWNlIHVzYi0wMDI6MDAyOjAxIHdpdGggZHJpdmVyIE1pY3JvY2hpcCBMQU44
-OHh4ClsgMTQ5MC40OTM4MTddIGJ1czogJ21kaW9fYnVzJzogcmVhbGx5X3Byb2JlOiBwcm9iaW5n
-IGRyaXZlciBNaWNyb2NoaXAgTEFOODh4eCB3aXRoIGRldmljZSB1c2ItMDAyOjAwMjowMQpbIDE0
-OTAuNDkzODE5XSBNaWNyb2NoaXAgTEFOODh4eCB1c2ItMDAyOjAwMjowMTogbm8gZGVmYXVsdCBw
-aW5jdHJsIHN0YXRlClsgMTQ5MC40OTUxMzldIGRyaXZlcjogJ01pY3JvY2hpcCBMQU44OHh4Jzog
-ZHJpdmVyX2JvdW5kOiBib3VuZCB0byBkZXZpY2UgJ3VzYi0wMDI6MDAyOjAxJwpbIDE0OTAuNDk1
-MTQ4XSBidXM6ICdtZGlvX2J1cyc6IHJlYWxseV9wcm9iZTogYm91bmQgZGV2aWNlIHVzYi0wMDI6
-MDAyOjAxIHRvIGRyaXZlciBNaWNyb2NoaXAgTEFOODh4eApbIDE0OTAuNDk1MTUwXSBsaWJwaHk6
-IGxhbjc4eHgtbWRpb2J1czogcHJvYmVkClsgMTQ5MC40OTUxNTldIGRldmljZTogJ2V0aDAnOiBk
-ZXZpY2VfYWRkClsgMTQ5MC40OTUxODZdIFBNOiBBZGRpbmcgaW5mbyBmb3IgTm8gQnVzOmV0aDAK
-WyAxNDkwLjUzMTYzNl0gZHJpdmVyOiAnbGFuNzh4eCc6IGRyaXZlcl9ib3VuZDogYm91bmQgdG8g
-ZGV2aWNlICcyLTE6MS4wJwpbIDE0OTAuNTMxNjgyXSBidXM6ICd1c2InOiByZWFsbHlfcHJvYmU6
-IGJvdW5kIGRldmljZSAyLTE6MS4wIHRvIGRyaXZlciBsYW43OHh4ClsgMTQ5MC41MzE3MjVdIHVz
-YmNvcmU6IHJlZ2lzdGVyZWQgbmV3IGludGVyZmFjZSBkcml2ZXIgbGFuNzh4eApbIDE0OTAuNTMy
-NjI1XSBsYW43OHh4IDItMToxLjAgZW54MDA4MDBmNzgwMDAwOiByZW5hbWVkIGZyb20gZXRoMApb
-IDE0OTAuNTMyNjMwXSBuZXQgZXRoMDogcmVuYW1pbmcgdG8gZW54MDA4MDBmNzgwMDAwClsgMTQ5
-MC41NjY5NDJdIHVzYmNvcmU6IGRlcmVnaXN0ZXJpbmcgaW50ZXJmYWNlIGRyaXZlciBsYW43OHh4
-ClsgMTQ5MC41NjY5NTVdIGJ1czogJ3VzYic6IHJlbW92ZSBkcml2ZXIgbGFuNzh4eApbIDE0OTAu
-NTY5MDQxXSBQTTogUmVtb3ZpbmcgaW5mbyBmb3IgTm8gQnVzOmVueDAwODAwZjc4MDAwMApbIDE0
-OTAuNjE5MDU2XSBidXM6ICdtZGlvX2J1cyc6IHJlbW92ZSBkZXZpY2UgdXNiLTAwMjowMDI6MDEK
-WyAxNDkwLjYxOTEwOF0gUE06IFJlbW92aW5nIGluZm8gZm9yIG1kaW9fYnVzOnVzYi0wMDI6MDAy
-OjAxClsgMTQ5MC42MTkxNDVdIFBNOiBSZW1vdmluZyBpbmZvIGZvciBObyBCdXM6dXNiLTAwMjow
-MDIKWyAxNDkwLjYxOTk0N10gZHJpdmVyOiAnbGFuNzh4eCc6IGRyaXZlcl9yZWxlYXNlClsgMTQ5
-MC42NjYxMTJdIGJ1czogJ3VzYic6IGFkZCBkcml2ZXIgbGFuNzh4eApbIDE0OTAuNjY2MTI4XSBi
-dXM6ICd1c2InOiBkcml2ZXJfcHJvYmVfZGV2aWNlOiBtYXRjaGVkIGRldmljZSAyLTE6MS4wIHdp
-dGggZHJpdmVyIGxhbjc4eHgKWyAxNDkwLjY2NjEzMl0gYnVzOiAndXNiJzogcmVhbGx5X3Byb2Jl
-OiBwcm9iaW5nIGRyaXZlciBsYW43OHh4IHdpdGggZGV2aWNlIDItMToxLjAKWyAxNDkwLjY2NjEz
-OF0gbGFuNzh4eCAyLTE6MS4wOiBubyBkZWZhdWx0IHBpbmN0cmwgc3RhdGUKWyAxNDkwLjk1MDEx
-MV0gZGV2aWNlOiAndXNiLTAwMjowMDInOiBkZXZpY2VfYWRkClsgMTQ5MC45NTAxMjBdIFBNOiBB
-ZGRpbmcgaW5mbyBmb3IgTm8gQnVzOnVzYi0wMDI6MDAyClsgMTQ5MC45NTEzMjldIGRldmljZTog
-J3VzYi0wMDI6MDAyOjAxJzogZGV2aWNlX2FkZApbIDE0OTAuOTUxMzMzXSBidXM6ICdtZGlvX2J1
-cyc6IGFkZCBkZXZpY2UgdXNiLTAwMjowMDI6MDEKWyAxNDkwLjk1MTM1M10gUE06IEFkZGluZyBp
-bmZvIGZvciBtZGlvX2J1czp1c2ItMDAyOjAwMjowMQpbIDE0OTAuOTUxMzYxXSBidXM6ICdtZGlv
-X2J1cyc6IGRyaXZlcl9wcm9iZV9kZXZpY2U6IG1hdGNoZWQgZGV2aWNlIHVzYi0wMDI6MDAyOjAx
-IHdpdGggZHJpdmVyIE1pY3JvY2hpcCBMQU44OHh4ClsgMTQ5MC45NTEzNjJdIGJ1czogJ21kaW9f
-YnVzJzogcmVhbGx5X3Byb2JlOiBwcm9iaW5nIGRyaXZlciBNaWNyb2NoaXAgTEFOODh4eCB3aXRo
-IGRldmljZSB1c2ItMDAyOjAwMjowMQpbIDE0OTAuOTUxMzY1XSBNaWNyb2NoaXAgTEFOODh4eCB1
-c2ItMDAyOjAwMjowMTogbm8gZGVmYXVsdCBwaW5jdHJsIHN0YXRlClsgMTQ5MC45NTI3MDJdIGRy
-aXZlcjogJ01pY3JvY2hpcCBMQU44OHh4JzogZHJpdmVyX2JvdW5kOiBib3VuZCB0byBkZXZpY2Ug
-J3VzYi0wMDI6MDAyOjAxJwpbIDE0OTAuOTUyNzExXSBidXM6ICdtZGlvX2J1cyc6IHJlYWxseV9w
-cm9iZTogYm91bmQgZGV2aWNlIHVzYi0wMDI6MDAyOjAxIHRvIGRyaXZlciBNaWNyb2NoaXAgTEFO
-ODh4eApbIDE0OTAuOTUyNzEzXSBsaWJwaHk6IGxhbjc4eHgtbWRpb2J1czogcHJvYmVkClsgMTQ5
-MC45NTI3MjNdIGRldmljZTogJ2V0aDAnOiBkZXZpY2VfYWRkClsgMTQ5MC45NTI3NDldIFBNOiBB
-ZGRpbmcgaW5mbyBmb3IgTm8gQnVzOmV0aDAKWyAxNDkwLjk5MDEyOF0gZHJpdmVyOiAnbGFuNzh4
-eCc6IGRyaXZlcl9ib3VuZDogYm91bmQgdG8gZGV2aWNlICcyLTE6MS4wJwpbIDE0OTAuOTkwMTY4
-XSBidXM6ICd1c2InOiByZWFsbHlfcHJvYmU6IGJvdW5kIGRldmljZSAyLTE6MS4wIHRvIGRyaXZl
-ciBsYW43OHh4ClsgMTQ5MC45OTAyMDJdIHVzYmNvcmU6IHJlZ2lzdGVyZWQgbmV3IGludGVyZmFj
-ZSBkcml2ZXIgbGFuNzh4eApbIDE0OTAuOTkxMDE1XSBsYW43OHh4IDItMToxLjAgZW54MDA4MDBm
-NzgwMDAwOiByZW5hbWVkIGZyb20gZXRoMApbIDE0OTAuOTkxMDE5XSBuZXQgZXRoMDogcmVuYW1p
-bmcgdG8gZW54MDA4MDBmNzgwMDAwClsgMTQ5MS4wMjA2NTldIHVzYmNvcmU6IGRlcmVnaXN0ZXJp
-bmcgaW50ZXJmYWNlIGRyaXZlciBsYW43OHh4ClsgMTQ5MS4wMjA2NjldIGJ1czogJ3VzYic6IHJl
-bW92ZSBkcml2ZXIgbGFuNzh4eApbIDE0OTEuMDIxNjg4XSBQTTogUmVtb3ZpbmcgaW5mbyBmb3Ig
-Tm8gQnVzOmVueDAwODAwZjc4MDAwMApbIDE0OTEuMDU4NzczXSBidXM6ICdtZGlvX2J1cyc6IHJl
-bW92ZSBkZXZpY2UgdXNiLTAwMjowMDI6MDEKWyAxNDkxLjA1ODgwMl0gUE06IFJlbW92aW5nIGlu
-Zm8gZm9yIG1kaW9fYnVzOnVzYi0wMDI6MDAyOjAxClsgMTQ5MS4wNTg4MjZdIFBNOiBSZW1vdmlu
-ZyBpbmZvIGZvciBObyBCdXM6dXNiLTAwMjowMDIKWyAxNDkxLjA1OTUzNF0gZHJpdmVyOiAnbGFu
-Nzh4eCc6IGRyaXZlcl9yZWxlYXNlClsgMTQ5MS4xMDY2OTZdIGJ1czogJ3VzYic6IGFkZCBkcml2
-ZXIgbGFuNzh4eApbIDE0OTEuMTA2NzA5XSBidXM6ICd1c2InOiBkcml2ZXJfcHJvYmVfZGV2aWNl
-OiBtYXRjaGVkIGRldmljZSAyLTE6MS4wIHdpdGggZHJpdmVyIGxhbjc4eHgKWyAxNDkxLjEwNjcx
-Ml0gYnVzOiAndXNiJzogcmVhbGx5X3Byb2JlOiBwcm9iaW5nIGRyaXZlciBsYW43OHh4IHdpdGgg
-ZGV2aWNlIDItMToxLjAKWyAxNDkxLjEwNjcxN10gbGFuNzh4eCAyLTE6MS4wOiBubyBkZWZhdWx0
-IHBpbmN0cmwgc3RhdGUKWyAxNDkxLjM5MDczOF0gZGV2aWNlOiAndXNiLTAwMjowMDInOiBkZXZp
-Y2VfYWRkClsgMTQ5MS4zOTA3NDddIFBNOiBBZGRpbmcgaW5mbyBmb3IgTm8gQnVzOnVzYi0wMDI6
-MDAyClsgMTQ5MS4zOTE4MDVdIGRldmljZTogJ3VzYi0wMDI6MDAyOjAxJzogZGV2aWNlX2FkZApb
-IDE0OTEuMzkxODA4XSBidXM6ICdtZGlvX2J1cyc6IGFkZCBkZXZpY2UgdXNiLTAwMjowMDI6MDEK
-WyAxNDkxLjM5MTgzMF0gUE06IEFkZGluZyBpbmZvIGZvciBtZGlvX2J1czp1c2ItMDAyOjAwMjow
-MQpbIDE0OTEuMzkxODM3XSBidXM6ICdtZGlvX2J1cyc6IGRyaXZlcl9wcm9iZV9kZXZpY2U6IG1h
-dGNoZWQgZGV2aWNlIHVzYi0wMDI6MDAyOjAxIHdpdGggZHJpdmVyIE1pY3JvY2hpcCBMQU44OHh4
-ClsgMTQ5MS4zOTE4MzhdIGJ1czogJ21kaW9fYnVzJzogcmVhbGx5X3Byb2JlOiBwcm9iaW5nIGRy
-aXZlciBNaWNyb2NoaXAgTEFOODh4eCB3aXRoIGRldmljZSB1c2ItMDAyOjAwMjowMQpbIDE0OTEu
-MzkxODQxXSBNaWNyb2NoaXAgTEFOODh4eCB1c2ItMDAyOjAwMjowMTogbm8gZGVmYXVsdCBwaW5j
-dHJsIHN0YXRlClsgMTQ5MS4zOTMxNTddIGRyaXZlcjogJ01pY3JvY2hpcCBMQU44OHh4JzogZHJp
-dmVyX2JvdW5kOiBib3VuZCB0byBkZXZpY2UgJ3VzYi0wMDI6MDAyOjAxJwpbIDE0OTEuMzkzMTY2
-XSBidXM6ICdtZGlvX2J1cyc6IHJlYWxseV9wcm9iZTogYm91bmQgZGV2aWNlIHVzYi0wMDI6MDAy
-OjAxIHRvIGRyaXZlciBNaWNyb2NoaXAgTEFOODh4eApbIDE0OTEuMzkzMTY4XSBsaWJwaHk6IGxh
-bjc4eHgtbWRpb2J1czogcHJvYmVkClsgMTQ5MS4zOTMxNzddIGRldmljZTogJ2V0aDAnOiBkZXZp
-Y2VfYWRkClsgMTQ5MS4zOTMyMDVdIFBNOiBBZGRpbmcgaW5mbyBmb3IgTm8gQnVzOmV0aDAKWyAx
-NDkxLjQzMTY5MF0gZHJpdmVyOiAnbGFuNzh4eCc6IGRyaXZlcl9ib3VuZDogYm91bmQgdG8gZGV2
-aWNlICcyLTE6MS4wJwpbIDE0OTEuNDMxNzA5XSBidXM6ICd1c2InOiByZWFsbHlfcHJvYmU6IGJv
-dW5kIGRldmljZSAyLTE6MS4wIHRvIGRyaXZlciBsYW43OHh4ClsgMTQ5MS40MzE3MjBdIHVzYmNv
-cmU6IHJlZ2lzdGVyZWQgbmV3IGludGVyZmFjZSBkcml2ZXIgbGFuNzh4eApbIDE0OTEuNDMyMjE4
-XSBsYW43OHh4IDItMToxLjAgZW54MDA4MDBmNzgwMDAwOiByZW5hbWVkIGZyb20gZXRoMApbIDE0
-OTEuNDMyMjIwXSBuZXQgZXRoMDogcmVuYW1pbmcgdG8gZW54MDA4MDBmNzgwMDAwClsgMTQ5MS40
-NjU0MzNdIHVzYmNvcmU6IGRlcmVnaXN0ZXJpbmcgaW50ZXJmYWNlIGRyaXZlciBsYW43OHh4Clsg
-MTQ5MS40NjU0NDBdIGJ1czogJ3VzYic6IHJlbW92ZSBkcml2ZXIgbGFuNzh4eApbIDE0OTEuNDY2
-OTQ3XSBQTTogUmVtb3ZpbmcgaW5mbyBmb3IgTm8gQnVzOmVueDAwODAwZjc4MDAwMApbIDE0OTEu
-NTAyODgyXSBidXM6ICdtZGlvX2J1cyc6IHJlbW92ZSBkZXZpY2UgdXNiLTAwMjowMDI6MDEKWyAx
-NDkxLjUwMjkyNV0gUE06IFJlbW92aW5nIGluZm8gZm9yIG1kaW9fYnVzOnVzYi0wMDI6MDAyOjAx
-ClsgMTQ5MS41MDI5NTddIFBNOiBSZW1vdmluZyBpbmZvIGZvciBObyBCdXM6dXNiLTAwMjowMDIK
-WyAxNDkxLjUwMzU5NF0gZHJpdmVyOiAnbGFuNzh4eCc6IGRyaXZlcl9yZWxlYXNlClsgMTQ5MS41
-NTE4NjldIGJ1czogJ3VzYic6IGFkZCBkcml2ZXIgbGFuNzh4eApbIDE0OTEuNTUxODg1XSBidXM6
-ICd1c2InOiBkcml2ZXJfcHJvYmVfZGV2aWNlOiBtYXRjaGVkIGRldmljZSAyLTE6MS4wIHdpdGgg
-ZHJpdmVyIGxhbjc4eHgKWyAxNDkxLjU1MTg4OV0gYnVzOiAndXNiJzogcmVhbGx5X3Byb2JlOiBw
-cm9iaW5nIGRyaXZlciBsYW43OHh4IHdpdGggZGV2aWNlIDItMToxLjAKWyAxNDkxLjU1MTg5NF0g
-bGFuNzh4eCAyLTE6MS4wOiBubyBkZWZhdWx0IHBpbmN0cmwgc3RhdGUKWyAxNDkxLjgzNTcxNF0g
-ZGV2aWNlOiAndXNiLTAwMjowMDInOiBkZXZpY2VfYWRkClsgMTQ5MS44MzU3MjRdIFBNOiBBZGRp
-bmcgaW5mbyBmb3IgTm8gQnVzOnVzYi0wMDI6MDAyClsgMTQ5MS44MzY4NjddIGRldmljZTogJ3Vz
-Yi0wMDI6MDAyOjAxJzogZGV2aWNlX2FkZApbIDE0OTEuODM2ODcyXSBidXM6ICdtZGlvX2J1cyc6
-IGFkZCBkZXZpY2UgdXNiLTAwMjowMDI6MDEKWyAxNDkxLjgzNjg5M10gUE06IEFkZGluZyBpbmZv
-IGZvciBtZGlvX2J1czp1c2ItMDAyOjAwMjowMQpbIDE0OTEuODM2OTAyXSBidXM6ICdtZGlvX2J1
-cyc6IGRyaXZlcl9wcm9iZV9kZXZpY2U6IG1hdGNoZWQgZGV2aWNlIHVzYi0wMDI6MDAyOjAxIHdp
-dGggZHJpdmVyIE1pY3JvY2hpcCBMQU44OHh4ClsgMTQ5MS44MzY5MjBdIGJ1czogJ21kaW9fYnVz
-JzogcmVhbGx5X3Byb2JlOiBwcm9iaW5nIGRyaXZlciBNaWNyb2NoaXAgTEFOODh4eCB3aXRoIGRl
-dmljZSB1c2ItMDAyOjAwMjowMQpbIDE0OTEuODM2OTIyXSBNaWNyb2NoaXAgTEFOODh4eCB1c2It
-MDAyOjAwMjowMTogbm8gZGVmYXVsdCBwaW5jdHJsIHN0YXRlClsgMTQ5MS44Mzg0ODJdIGRyaXZl
-cjogJ01pY3JvY2hpcCBMQU44OHh4JzogZHJpdmVyX2JvdW5kOiBib3VuZCB0byBkZXZpY2UgJ3Vz
-Yi0wMDI6MDAyOjAxJwpbIDE0OTEuODM4NDkwXSBidXM6ICdtZGlvX2J1cyc6IHJlYWxseV9wcm9i
-ZTogYm91bmQgZGV2aWNlIHVzYi0wMDI6MDAyOjAxIHRvIGRyaXZlciBNaWNyb2NoaXAgTEFOODh4
-eApbIDE0OTEuODM4NDkxXSBsaWJwaHk6IGxhbjc4eHgtbWRpb2J1czogcHJvYmVkClsgMTQ5MS44
-Mzg1MDBdIGRldmljZTogJ2V0aDAnOiBkZXZpY2VfYWRkClsgMTQ5MS44Mzg1MjJdIFBNOiBBZGRp
-bmcgaW5mbyBmb3IgTm8gQnVzOmV0aDAKWyAxNDkxLjg3NTcxNl0gZHJpdmVyOiAnbGFuNzh4eCc6
-IGRyaXZlcl9ib3VuZDogYm91bmQgdG8gZGV2aWNlICcyLTE6MS4wJwpbIDE0OTEuODc1NzU5XSBi
-dXM6ICd1c2InOiByZWFsbHlfcHJvYmU6IGJvdW5kIGRldmljZSAyLTE6MS4wIHRvIGRyaXZlciBs
-YW43OHh4ClsgMTQ5MS44NzU3OTFdIHVzYmNvcmU6IHJlZ2lzdGVyZWQgbmV3IGludGVyZmFjZSBk
-cml2ZXIgbGFuNzh4eApbIDE0OTEuODc2NzU4XSBsYW43OHh4IDItMToxLjAgZW54MDA4MDBmNzgw
-MDAwOiByZW5hbWVkIGZyb20gZXRoMApbIDE0OTEuODc2NzYyXSBuZXQgZXRoMDogcmVuYW1pbmcg
-dG8gZW54MDA4MDBmNzgwMDAwClsgMTQ5MS45MTgzNzldIHVzYmNvcmU6IGRlcmVnaXN0ZXJpbmcg
-aW50ZXJmYWNlIGRyaXZlciBsYW43OHh4ClsgMTQ5MS45MTgzOTJdIGJ1czogJ3VzYic6IHJlbW92
-ZSBkcml2ZXIgbGFuNzh4eApbIDE0OTEuOTIwNDg0XSBQTTogUmVtb3ZpbmcgaW5mbyBmb3IgTm8g
-QnVzOmVueDAwODAwZjc4MDAwMApbIDE0OTEuOTUwNzk1XSBidXM6ICdtZGlvX2J1cyc6IHJlbW92
-ZSBkZXZpY2UgdXNiLTAwMjowMDI6MDEKWyAxNDkxLjk1MDgzNF0gUE06IFJlbW92aW5nIGluZm8g
-Zm9yIG1kaW9fYnVzOnVzYi0wMDI6MDAyOjAxClsgMTQ5MS45NTA4NjJdIFBNOiBSZW1vdmluZyBp
-bmZvIGZvciBObyBCdXM6dXNiLTAwMjowMDIKWyAxNDkxLjk1MTI4MF0gZHJpdmVyOiAnbGFuNzh4
-eCc6IGRyaXZlcl9yZWxlYXNlClsgMTQ5MS45OTk3MDZdIGJ1czogJ3VzYic6IGFkZCBkcml2ZXIg
-bGFuNzh4eApbIDE0OTEuOTk5NzIxXSBidXM6ICd1c2InOiBkcml2ZXJfcHJvYmVfZGV2aWNlOiBt
-YXRjaGVkIGRldmljZSAyLTE6MS4wIHdpdGggZHJpdmVyIGxhbjc4eHgKWyAxNDkxLjk5OTcyNV0g
-YnVzOiAndXNiJzogcmVhbGx5X3Byb2JlOiBwcm9iaW5nIGRyaXZlciBsYW43OHh4IHdpdGggZGV2
-aWNlIDItMToxLjAKWyAxNDkxLjk5OTczMV0gbGFuNzh4eCAyLTE6MS4wOiBubyBkZWZhdWx0IHBp
-bmN0cmwgc3RhdGUKWyAxNDkyLjI4MzUwN10gZGV2aWNlOiAndXNiLTAwMjowMDInOiBkZXZpY2Vf
-YWRkClsgMTQ5Mi4yODM1MTZdIFBNOiBBZGRpbmcgaW5mbyBmb3IgTm8gQnVzOnVzYi0wMDI6MDAy
-ClsgMTQ5Mi4yODQ1MzFdIGRldmljZTogJ3VzYi0wMDI6MDAyOjAxJzogZGV2aWNlX2FkZApbIDE0
-OTIuMjg0NTM0XSBidXM6ICdtZGlvX2J1cyc6IGFkZCBkZXZpY2UgdXNiLTAwMjowMDI6MDEKWyAx
-NDkyLjI4NDUzOV0gUE06IEFkZGluZyBpbmZvIGZvciBtZGlvX2J1czp1c2ItMDAyOjAwMjowMQpb
-IDE0OTIuMjg0NTQ2XSBidXM6ICdtZGlvX2J1cyc6IGRyaXZlcl9wcm9iZV9kZXZpY2U6IG1hdGNo
-ZWQgZGV2aWNlIHVzYi0wMDI6MDAyOjAxIHdpdGggZHJpdmVyIE1pY3JvY2hpcCBMQU44OHh4Clsg
-MTQ5Mi4yODQ1NDddIGJ1czogJ21kaW9fYnVzJzogcmVhbGx5X3Byb2JlOiBwcm9iaW5nIGRyaXZl
-ciBNaWNyb2NoaXAgTEFOODh4eCB3aXRoIGRldmljZSB1c2ItMDAyOjAwMjowMQpbIDE0OTIuMjg0
-NTQ5XSBNaWNyb2NoaXAgTEFOODh4eCB1c2ItMDAyOjAwMjowMTogbm8gZGVmYXVsdCBwaW5jdHJs
-IHN0YXRlClsgMTQ5Mi4yODU5MjhdIGRyaXZlcjogJ01pY3JvY2hpcCBMQU44OHh4JzogZHJpdmVy
-X2JvdW5kOiBib3VuZCB0byBkZXZpY2UgJ3VzYi0wMDI6MDAyOjAxJwpbIDE0OTIuMjg1OTM3XSBi
-dXM6ICdtZGlvX2J1cyc6IHJlYWxseV9wcm9iZTogYm91bmQgZGV2aWNlIHVzYi0wMDI6MDAyOjAx
-IHRvIGRyaXZlciBNaWNyb2NoaXAgTEFOODh4eApbIDE0OTIuMjg1OTM4XSBsaWJwaHk6IGxhbjc4
-eHgtbWRpb2J1czogcHJvYmVkClsgMTQ5Mi4yODU5NDddIGRldmljZTogJ2V0aDAnOiBkZXZpY2Vf
-YWRkClsgMTQ5Mi4yODU5NjhdIFBNOiBBZGRpbmcgaW5mbyBmb3IgTm8gQnVzOmV0aDAKWyAxNDky
-LjMyMjg2MF0gZHJpdmVyOiAnbGFuNzh4eCc6IGRyaXZlcl9ib3VuZDogYm91bmQgdG8gZGV2aWNl
-ICcyLTE6MS4wJwpbIDE0OTIuMzIyOTAzXSBidXM6ICd1c2InOiByZWFsbHlfcHJvYmU6IGJvdW5k
-IGRldmljZSAyLTE6MS4wIHRvIGRyaXZlciBsYW43OHh4ClsgMTQ5Mi4zMjI5MzJdIHVzYmNvcmU6
-IHJlZ2lzdGVyZWQgbmV3IGludGVyZmFjZSBkcml2ZXIgbGFuNzh4eApbIDE0OTIuMzI0MDczXSBs
-YW43OHh4IDItMToxLjAgZW54MDA4MDBmNzgwMDAwOiByZW5hbWVkIGZyb20gZXRoMApbIDE0OTIu
-MzI0MDc4XSBuZXQgZXRoMDogcmVuYW1pbmcgdG8gZW54MDA4MDBmNzgwMDAwClsgMTQ5Mi4zNTk1
-OTRdIHVzYmNvcmU6IGRlcmVnaXN0ZXJpbmcgaW50ZXJmYWNlIGRyaXZlciBsYW43OHh4ClsgMTQ5
-Mi4zNTk2MDddIGJ1czogJ3VzYic6IHJlbW92ZSBkcml2ZXIgbGFuNzh4eApbIDE0OTIuMzYyOTc0
-XSBQTTogUmVtb3ZpbmcgaW5mbyBmb3IgTm8gQnVzOmVueDAwODAwZjc4MDAwMApbIDE0OTIuMzY0
-MDg4XSBCVUc6IHVuYWJsZSB0byBoYW5kbGUga2VybmVsIE5VTEwgcG9pbnRlciBkZXJlZmVyZW5j
-ZSBhdCAwMDAwMDAwMDAwMDAwMDQ4ClsgMTQ5Mi4zNjQwOTddICNQRiBlcnJvcjogW1dSSVRFXQpb
-IDE0OTIuMzY0MTAyXSBQR0QgODAwMDAwMDdlMmJhNDA2NyBQNEQgODAwMDAwMDdlMmJhNDA2NyBQ
-VUQgODM2YmI2MDY3IFBNRCAwIApbIDE0OTIuMzY0MTE0XSBPb3BzOiAwMDAyIFsjMV0gU01QIFBU
-SQpbIDE0OTIuMzY0MTIyXSBDUFU6IDQgUElEOiA4MzE5IENvbW06IGt3b3JrZXIvdTE2OjAgVGFp
-bnRlZDogRyAgICAgICAgICAgIEUgICAgIDUuMS4wLXJjNCsgIzEKWyAxNDkyLjM2NDEyN10gSGFy
-ZHdhcmUgbmFtZTogRGVsbCBJbmMuIE9wdGlQbGV4IDcwNTAvMEQyNE04LCBCSU9TIDEuNy45IDAx
-LzMwLzIwMTgKWyAxNDkyLjM2NDEzOF0gV29ya3F1ZXVlOiBldmVudHNfcG93ZXJfZWZmaWNpZW50
-IHBoeV9zdGF0ZV9tYWNoaW5lClsgMTQ5Mi4zNjQxNTBdIFJJUDogMDAxMDpuZXRpZl9jYXJyaWVy
-X29mZisweDUvMHgzMApbIDE0OTIuMzY0MTU3XSBDb2RlOiA1YiA1ZCA0MSA1YyA0MSA1ZCBjMyA0
-OCBjNyAwMCAwMCAwMCAwMCAwMCA1YiA1ZCA0MSA1YyA0MSA1ZCBlOSBiYyA2NSA4OSBmZiA2NiA5
-MCA2NiAyZSAwZiAxZiA4NCAwMCAwMCAwMCAwMCAwMCAwZiAxZiA0NCAwMCAwMCA8ZjA+IDQ4IDBm
-IGJhIDZmIDQ4IDAyIDcyIDA5IDgwIGJmIGQwIDA0IDAwIDAwIDAwIDc1IDAyIGYzIGMzIGYwIGZm
-ClsgMTQ5Mi4zNjQxNjNdIFJTUDogMDAxODpmZmZmYTVlZTU2NDlmZGY4IEVGTEFHUzogMDAwMTAy
-NDYKWyAxNDkyLjM2NDE3MF0gUkFYOiAwMDAwMDAwMDAwMDAwMDAwIFJCWDogZmZmZjkwMmZlMzFl
-NzAwMCBSQ1g6IGZmZmZmZmZmYmMwZGYyMzAKWyAxNDkyLjM2NDE3NF0gUkRYOiAwMDAwMDAwMDAw
-MDAwMDAxIFJTSTogMDAwMDAwMDAwMDAwMDAwMCBSREk6IDAwMDAwMDAwMDAwMDAwMDAKWyAxNDky
-LjM2NDE3OV0gUkJQOiAwMDAwMDAwMDAwMDAwMDAwIFIwODogMDAwMDAwMDAwMDAwMDAwMCBSMDk6
-IDAwMDAwMDAwMDAwMDAwMDAKWyAxNDkyLjM2NDE4M10gUjEwOiAwMDAwMDAwMDAwMDAwMDAxIFIx
-MTogMDAwMDAwMDAwMDAwMDAwMSBSMTI6IGZmZmY5MDJmZTMxZTc0MjAKWyAxNDkyLjM2NDE4OF0g
-UjEzOiBmZmZmOTAyZmUzMWU3MDAwIFIxNDogZmZmZjkwMmZlMGM4Mjg0MCBSMTU6IDBmZmZmOTAz
-MDNkNDU2NDAKWyAxNDkyLjM2NDE5NF0gRlM6ICAwMDAwMDAwMDAwMDAwMDAwKDAwMDApIEdTOmZm
-ZmY5MDMwM2RiMDAwMDAoMDAwMCkga25sR1M6MDAwMDAwMDAwMDAwMDAwMApbIDE0OTIuMzY0MjAw
-XSBDUzogIDAwMTAgRFM6IDAwMDAgRVM6IDAwMDAgQ1IwOiAwMDAwMDAwMDgwMDUwMDMzClsgMTQ5
-Mi4zNjQyMDVdIENSMjogMDAwMDAwMDAwMDAwMDA0OCBDUjM6IDAwMDAwMDA3ZTFkYjQwMDEgQ1I0
-OiAwMDAwMDAwMDAwMzYwNmUwClsgMTQ5Mi4zNjQyMTBdIERSMDogMDAwMDAwMDAwMDAwMDAwMCBE
-UjE6IDAwMDAwMDAwMDAwMDAwMDAgRFIyOiAwMDAwMDAwMDAwMDAwMDAwClsgMTQ5Mi4zNjQyMTVd
-IERSMzogMDAwMDAwMDAwMDAwMDAwMCBEUjY6IDAwMDAwMDAwZmZmZTBmZjAgRFI3OiAwMDAwMDAw
-MDAwMDAwNDAwClsgMTQ5Mi4zNjQyMThdIENhbGwgVHJhY2U6ClsgMTQ5Mi4zNjQyMzBdICBwaHlf
-bGlua19jaGFuZ2UrMHgyMi8weDUwClsgMTQ5Mi4zNjQyMzldICBwaHlfY2hlY2tfbGlua19zdGF0
-dXMrMHg4YS8weGUwClsgMTQ5Mi4zNjQyNDZdICBwaHlfc3RhcnRfYW5lZysweGUyLzB4MTIwClsg
-MTQ5Mi4zNjQyNTNdICBwaHlfc3RhdGVfbWFjaGluZSsweDgxLzB4MjMwClsgMTQ5Mi4zNjQyNjNd
-ICBwcm9jZXNzX29uZV93b3JrKzB4MTVlLzB4M2YwClsgMTQ5Mi4zNjQyNzJdICB3b3JrZXJfdGhy
-ZWFkKzB4NGMvMHg0NDAKWyAxNDkyLjM2NDI4MV0gID8gcmVzY3Vlcl90aHJlYWQrMHgzNTAvMHgz
-NTAKWyAxNDkyLjM2NDI4OF0gIGt0aHJlYWQrMHhmOC8weDEzMApbIDE0OTIuMzY0Mjk1XSAgPyBr
-dGhyZWFkX2Rlc3Ryb3lfd29ya2VyKzB4NDAvMHg0MApbIDE0OTIuMzY0MzAzXSAgcmV0X2Zyb21f
-Zm9yaysweDM1LzB4NDAKWyAxNDkyLjM2NDMxMF0gTW9kdWxlcyBsaW5rZWQgaW46IGxhbjc4eHgo
-RS0pIG1pY3JvY2hpcCBzbmRfaGRhX2NvZGVjX2hkbWkgaW50ZWxfcmFwbCB4ODZfcGtnX3RlbXBf
-dGhlcm1hbCBpbnRlbF9wb3dlcmNsYW1wIGNvcmV0ZW1wIGt2bV9pbnRlbCBzbmRfaGRhX2NvZGVj
-X3JlYWx0ZWsgc25kX2hkYV9jb2RlY19nZW5lcmljIGxlZHRyaWdfYXVkaW8ga3ZtIHNuZF9oZGFf
-aW50ZWwgc25kX2hkYV9jb2RlYyBzbmRfaGRhX2NvcmUgaXJxYnlwYXNzIGlucHV0X2xlZHMgc25k
-X2h3ZGVwIHNuZF9wY20gY3JjdDEwZGlmX3BjbG11bCBzbmRfc2VxX21pZGkgY3JjMzJfcGNsbXVs
-IHNuZF9zZXFfbWlkaV9ldmVudCBnaGFzaF9jbG11bG5pX2ludGVsIGFlc25pX2ludGVsIHNuZF9y
-YXdtaWRpIGFlc194ODZfNjQgc25kX3NlcSBjcnlwdG9fc2ltZCBpMmNfZGVzaWdud2FyZV9wbGF0
-Zm9ybSBjcnlwdGQgZ2x1ZV9oZWxwZXIgc25kX3NlcV9kZXZpY2UgaTJjX2Rlc2lnbndhcmVfY29y
-ZSBzbmRfdGltZXIgaW50ZWxfY3N0YXRlIHNuZCBpbnRlbF9yYXBsX3BlcmYgc291bmRjb3JlIGRl
-bGxfd21pIGlkbWE2NCBkZWxsX3NtYmlvcyBzZXJpb19yYXcgdmlydF9kbWEgZGVsbF93bWlfYWlv
-IGRjZGJhcyBtZWlfbWUgc3BhcnNlX2tleW1hcCBpbnRlbF9scHNzX3BjaSBtZWkgbWFjX2hpZCBk
-ZWxsX3dtaV9kZXNjcmlwdG9yIHdtaV9ibW9mIGludGVsX2xwc3MgYWNwaV9wYWQgcGFycG9ydF9w
-YyBwcGRldiBzdW5ycGMgbHAgcGFycG9ydCBhdXRvZnM0IGk5MTUgaGlkX2dlbmVyaWMgdXNiaGlk
-IGhpZCBpMmNfYWxnb19iaXQgZHJtX2ttc19oZWxwZXIgc3lzY29weWFyZWEgc3lzZmlsbHJlY3Qg
-c3lzaW1nYmx0IGZiX3N5c19mb3BzIGRybSBlMTAwMGUgcHNtb3VzZSBhaGNpIHB0cCBsaWJhaGNp
-IHBwc19jb3JlIHdtaSB2aWRlbyBbbGFzdCB1bmxvYWRlZDogbGFuNzh4eF0KWyAxNDkyLjM2NDM5
-MF0gQ1IyOiAwMDAwMDAwMDAwMDAwMDQ4ClsgMTQ5Mi4zNjQzOTddIC0tLVsgZW5kIHRyYWNlIDY5
-Yzk3OTkxODk1YmVlZjYgXS0tLQpbIDE0OTIuMzY0NDA2XSBSSVA6IDAwMTA6bmV0aWZfY2Fycmll
-cl9vZmYrMHg1LzB4MzAKWyAxNDkyLjM2NDQxMV0gQ29kZTogNWIgNWQgNDEgNWMgNDEgNWQgYzMg
-NDggYzcgMDAgMDAgMDAgMDAgMDAgNWIgNWQgNDEgNWMgNDEgNWQgZTkgYmMgNjUgODkgZmYgNjYg
-OTAgNjYgMmUgMGYgMWYgODQgMDAgMDAgMDAgMDAgMDAgMGYgMWYgNDQgMDAgMDAgPGYwPiA0OCAw
-ZiBiYSA2ZiA0OCAwMiA3MiAwOSA4MCBiZiBkMCAwNCAwMCAwMCAwMCA3NSAwMiBmMyBjMyBmMCBm
-ZgpbIDE0OTIuMzY0NDE3XSBSU1A6IDAwMTg6ZmZmZmE1ZWU1NjQ5ZmRmOCBFRkxBR1M6IDAwMDEw
-MjQ2ClsgMTQ5Mi4zNjQ0MjJdIFJBWDogMDAwMDAwMDAwMDAwMDAwMCBSQlg6IGZmZmY5MDJmZTMx
-ZTcwMDAgUkNYOiBmZmZmZmZmZmJjMGRmMjMwClsgMTQ5Mi4zNjQ0MjZdIFJEWDogMDAwMDAwMDAw
-MDAwMDAwMSBSU0k6IDAwMDAwMDAwMDAwMDAwMDAgUkRJOiAwMDAwMDAwMDAwMDAwMDAwClsgMTQ5
-Mi4zNjQ0MzBdIFJCUDogMDAwMDAwMDAwMDAwMDAwMCBSMDg6IDAwMDAwMDAwMDAwMDAwMDAgUjA5
-OiAwMDAwMDAwMDAwMDAwMDAwClsgMTQ5Mi4zNjQ0MzRdIFIxMDogMDAwMDAwMDAwMDAwMDAwMSBS
-MTE6IDAwMDAwMDAwMDAwMDAwMDEgUjEyOiBmZmZmOTAyZmUzMWU3NDIwClsgMTQ5Mi4zNjQ0Mzld
-IFIxMzogZmZmZjkwMmZlMzFlNzAwMCBSMTQ6IGZmZmY5MDJmZTBjODI4NDAgUjE1OiAwZmZmZjkw
-MzAzZDQ1NjQwClsgMTQ5Mi4zNjQ0NDRdIEZTOiAgMDAwMDAwMDAwMDAwMDAwMCgwMDAwKSBHUzpm
-ZmZmOTAzMDNkYjAwMDAwKDAwMDApIGtubEdTOjAwMDAwMDAwMDAwMDAwMDAKWyAxNDkyLjM2NDQ0
-OV0gQ1M6ICAwMDEwIERTOiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAwMDA4MDA1MDAzMwpbIDE0
-OTIuMzY0NDU0XSBDUjI6IDAwMDAwMDAwMDAwMDAwNDggQ1IzOiAwMDAwMDAwN2UxZGI0MDAxIENS
-NDogMDAwMDAwMDAwMDM2MDZlMApbIDE0OTIuMzY0NDU4XSBEUjA6IDAwMDAwMDAwMDAwMDAwMDAg
-RFIxOiAwMDAwMDAwMDAwMDAwMDAwIERSMjogMDAwMDAwMDAwMDAwMDAwMApbIDE0OTIuMzY0NDYz
-XSBEUjM6IDAwMDAwMDAwMDAwMDAwMDAgRFI2OiAwMDAwMDAwMGZmZmUwZmYwIERSNzogMDAwMDAw
-MDAwMDAwMDQwMApbIDE0OTIuMzk4OTQzXSBidXM6ICdtZGlvX2J1cyc6IHJlbW92ZSBkZXZpY2Ug
-dXNiLTAwMjowMDI6MDEKcmFnaHVAcmFnaHU6fiQgCnJhZ2h1QHJhZ2h1On4kIApyYWdodUByYWdo
-dTp+JCAKCg==
+diff --git a/Documentation/hid/hid-alps.txt b/Documentation/hid/hid-alps.rst
+similarity index 64%
+rename from Documentation/hid/hid-alps.txt
+rename to Documentation/hid/hid-alps.rst
+index 6b02a2447c77..e2f4c4c11e3f 100644
+--- a/Documentation/hid/hid-alps.txt
++++ b/Documentation/hid/hid-alps.rst
+@@ -1,19 +1,26 @@
++==========================
+ ALPS HID Touchpad Protocol
+-----------------------
++==========================
+ 
+ Introduction
+ ------------
+ Currently ALPS HID driver supports U1 Touchpad device.
+ 
+-U1 devuce basic information.
++U1 device basic information.
++
++==========	======
+ Vender ID	0x044E
+ Product ID	0x120B
+ Version ID	0x0121
++==========	======
+ 
+ 
+ HID Descriptor
+-------------
++--------------
++
++=======	====================	=====	=======================================
+ Byte	Field			Value	Notes
++=======	====================	=====	=======================================
+ 0	wHIDDescLength		001E	Length of HID Descriptor : 30 bytes
+ 2	bcdVersion		0100	Compliant with Version 1.00
+ 4	wReportDescLength	00B2	Report Descriptor is 178 Bytes (0x00B2)
+@@ -28,32 +35,42 @@ Byte	Field			Value	Notes
+ 22	wProductID		120B	Product ID 0x120B
+ 24	wVersionID		0121	Version 01.21
+ 26	RESERVED		0000	RESERVED
++=======	====================	=====	=======================================
+ 
+ 
+ Report ID
+-------------
+-ReportID-1	(Input Reports)	(HIDUsage-Mouse) for TP&SP
+-ReportID-2	(Input Reports)	(HIDUsage-keyboard) for TP
+-ReportID-3	(Input Reports)	(Vendor Usage: Max 10 finger data) for TP
+-ReportID-4	(Input Reports)	(Vendor Usage: ON bit data) for GP
+-ReportID-5	(Feature Reports)	Feature Reports
+-ReportID-6	(Input Reports)	(Vendor Usage: StickPointer data) for SP
+-ReportID-7	(Feature Reports)	Flash update (Bootloader)
++---------
++
++==========	=================  =========================================
++ReportID-1	(Input Reports)	   (HIDUsage-Mouse) for TP&SP
++ReportID-2	(Input Reports)	   (HIDUsage-keyboard) for TP
++ReportID-3	(Input Reports)	   (Vendor Usage: Max 10 finger data) for TP
++ReportID-4	(Input Reports)	   (Vendor Usage: ON bit data) for GP
++ReportID-5	(Feature Reports)  Feature Reports
++ReportID-6	(Input Reports)	   (Vendor Usage: StickPointer data) for SP
++ReportID-7	(Feature Reports)  Flash update (Bootloader)
++==========	=================  =========================================
+ 
+ 
+ Data pattern
+ ------------
++
++=====	==========	=====	=================
+ Case1	ReportID_1	TP/SP	Relative/Relative
+ Case2	ReportID_3	TP	Absolute
+ 	ReportID_6	SP	Absolute
++=====	==========	=====	=================
+ 
+ 
+ Command Read/Write
+ ------------------
+ To read/write to RAM, need to send a commands to the device.
++
+ The command format is as below.
+ 
+ DataByte(SET_REPORT)
++
++=====	======================
+ Byte1	Command Byte
+ Byte2	Address - Byte 0 (LSB)
+ Byte3	Address - Byte 1
+@@ -61,13 +78,19 @@ Byte4	Address - Byte 2
+ Byte5	Address - Byte 3 (MSB)
+ Byte6	Value Byte
+ Byte7	Checksum
++=====	======================
+ 
+ Command Byte is read=0xD1/write=0xD2 .
++
+ Address is read/write RAM address.
++
+ Value Byte is writing data when you send the write commands.
++
+ When you read RAM, there is no meaning.
+ 
+ DataByte(GET_REPORT)
++
++=====	======================
+ Byte1	Response Byte
+ Byte2	Address - Byte 0 (LSB)
+ Byte3	Address - Byte 1
+@@ -75,6 +98,7 @@ Byte4	Address - Byte 2
+ Byte5	Address - Byte 3 (MSB)
+ Byte6	Value Byte
+ Byte7	Checksum
++=====	======================
+ 
+ Read value is stored in Value Byte.
+ 
+@@ -82,7 +106,11 @@ Read value is stored in Value Byte.
+ Packet Format
+ Touchpad data byte
+ ------------------
+-	b7	b6	b5	b4	b3	b2	b1	b0
++
++
++======= ======= ======= ======= ======= ======= ======= ======= =====
++-	b7	b6	b5	b4	b3	b2	b1	b0
++======= ======= ======= ======= ======= ======= ======= ======= =====
+ 1	0	0	SW6	SW5	SW4	SW3	SW2	SW1
+ 2	0	0	0	Fcv	Fn3	Fn2	Fn1	Fn0
+ 3	Xa0_7	Xa0_6	Xa0_5	Xa0_4	Xa0_3	Xa0_2	Xa0_1	Xa0_0
+@@ -114,17 +142,25 @@ Touchpad data byte
+ 25	Ya4_7	Ya4_6	Ya4_5	Ya4_4	Ya4_3	Ya4_2	Ya4_1	Ya4_0
+ 26	Ya4_15	Ya4_14	Ya4_13	Ya4_12	Ya4_11	Ya4_10	Ya4_9	Ya4_8
+ 27	LFB4	Zs4_6	Zs4_5	Zs4_4	Zs4_3	Zs4_2	Zs4_1	Zs4_0
++======= ======= ======= ======= ======= ======= ======= ======= =====
+ 
+ 
+-SW1-SW6:	SW ON/OFF status
+-Xan_15-0(16bit):X Absolute data of the "n"th finger
+-Yan_15-0(16bit):Y Absolute data of the "n"th finger
+-Zsn_6-0(7bit):	Operation area of the "n"th finger
++SW1-SW6:
++	SW ON/OFF status
++Xan_15-0(16bit):
++	X Absolute data of the "n"th finger
++Yan_15-0(16bit):
++	Y Absolute data of the "n"th finger
++Zsn_6-0(7bit):
++	Operation area of the "n"th finger
+ 
+ 
+ StickPointer data byte
+-------------------
+-	b7	b6	b5	b4	b3	b2	b1	b0
++----------------------
++
++======= ======= ======= ======= ======= ======= ======= ======= =====
++-	b7	b6	b5	b4	b3	b2	b1	b0
++======= ======= ======= ======= ======= ======= ======= ======= =====
+ Byte1	1	1	1	0	1	SW3	SW2	SW1
+ Byte2	X7	X6	X5	X4	X3	X2	X1	X0
+ Byte3	X15	X14	X13	X12	X11	X10	X9	X8
+@@ -132,8 +168,13 @@ Byte4	Y7	Y6	Y5	Y4	Y3	Y2	Y1	Y0
+ Byte5	Y15	Y14	Y13	Y12	Y11	Y10	Y9	Y8
+ Byte6	Z7	Z6	Z5	Z4	Z3	Z2	Z1	Z0
+ Byte7	T&P	Z14	Z13	Z12	Z11	Z10	Z9	Z8
++======= ======= ======= ======= ======= ======= ======= ======= =====
+ 
+-SW1-SW3:	SW ON/OFF status
+-Xn_15-0(16bit):X Absolute data
+-Yn_15-0(16bit):Y Absolute data
+-Zn_14-0(15bit):Z
++SW1-SW3:
++	SW ON/OFF status
++Xn_15-0(16bit):
++	X Absolute data
++Yn_15-0(16bit):
++	Y Absolute data
++Zn_14-0(15bit):
++	Z
+diff --git a/Documentation/hid/hid-sensor.txt b/Documentation/hid/hid-sensor.rst
+similarity index 61%
+rename from Documentation/hid/hid-sensor.txt
+rename to Documentation/hid/hid-sensor.rst
+index b287752a31cd..758972e34971 100644
+--- a/Documentation/hid/hid-sensor.txt
++++ b/Documentation/hid/hid-sensor.rst
+@@ -1,6 +1,6 @@
+-
++=====================
+ HID Sensors Framework
+-======================
++=====================
+ HID sensor framework provides necessary interfaces to implement sensor drivers,
+ which are connected to a sensor hub. The sensor hub is a HID device and it provides
+ a report descriptor conforming to HID 1.12 sensor usage tables.
+@@ -15,22 +15,22 @@ the drivers themselves."
+ This specification describes many usage IDs, which describe the type of sensor
+ and also the individual data fields. Each sensor can have variable number of
+ data fields. The length and order is specified in the report descriptor. For
+-example a part of report descriptor can look like:
++example a part of report descriptor can look like::
+ 
+-   INPUT(1)[INPUT]
+- ..
+-    Field(2)
+-      Physical(0020.0073)
+-      Usage(1)
+-        0020.045f
+-      Logical Minimum(-32767)
+-      Logical Maximum(32767)
+-      Report Size(8)
+-      Report Count(1)
+-      Report Offset(16)
+-      Flags(Variable Absolute)
+-..
+-..
++     INPUT(1)[INPUT]
++   ..
++      Field(2)
++        Physical(0020.0073)
++        Usage(1)
++          0020.045f
++        Logical Minimum(-32767)
++        Logical Maximum(32767)
++        Report Size(8)
++        Report Count(1)
++        Report Offset(16)
++        Flags(Variable Absolute)
++  ..
++  ..
+ 
+ The report is indicating "sensor page (0x20)" contains an accelerometer-3D (0x73).
+ This accelerometer-3D has some fields. Here for example field 2 is motion intensity
+@@ -40,13 +40,14 @@ data will use this format.
+ 
+ 
+ Implementation
+-=================
++==============
+ 
+ This specification defines many different types of sensors with different sets of
+ data fields. It is difficult to have a common input event to user space applications,
+ for different sensors. For example an accelerometer can send X,Y and Z data, whereas
+ an ambient light sensor can send illumination data.
+ So the implementation has two parts:
++
+ - Core hid driver
+ - Individual sensor processing part (sensor drivers)
+ 
+@@ -55,8 +56,11 @@ Core driver
+ The core driver registers (hid-sensor-hub) registers as a HID driver. It parses
+ report descriptors and identifies all the sensors present. It adds an MFD device
+ with name HID-SENSOR-xxxx (where xxxx is usage id from the specification).
+-For example
++
++For example:
++
+ HID-SENSOR-200073 is registered for an Accelerometer 3D driver.
++
+ So if any driver with this name is inserted, then the probe routine for that
+ function will be called. So an accelerometer processing driver can register
+ with this name and will be probed if there is an accelerometer-3D detected.
+@@ -66,7 +70,8 @@ drivers to register and get events for that usage id. Also it provides parsing
+ functions, which get and set each input/feature/output report.
+ 
+ Individual sensor processing part (sensor drivers)
+------------
++--------------------------------------------------
++
+ The processing driver will use an interface provided by the core driver to parse
+ the report and get the indexes of the fields and also can get events. This driver
+ can use IIO interface to use the standard ABI defined for a type of sensor.
+@@ -75,31 +80,34 @@ can use IIO interface to use the standard ABI defined for a type of sensor.
+ Core driver Interface
+ =====================
+ 
+-Callback structure:
+-Each processing driver can use this structure to set some callbacks.
++Callback structure::
++
++  Each processing driver can use this structure to set some callbacks.
+ 	int (*suspend)(..): Callback when HID suspend is received
+ 	int (*resume)(..): Callback when HID resume is received
+ 	int (*capture_sample)(..): Capture a sample for one of its data fields
+ 	int (*send_event)(..): One complete event is received which can have
+                                multiple data fields.
+ 
+-Registration functions:
+-int sensor_hub_register_callback(struct hid_sensor_hub_device *hsdev,
++Registration functions::
++
++  int sensor_hub_register_callback(struct hid_sensor_hub_device *hsdev,
+ 			u32 usage_id,
+ 			struct hid_sensor_hub_callbacks *usage_callback):
+ 
+ Registers callbacks for an usage id. The callback functions are not allowed
+-to sleep.
++to sleep::
+ 
+ 
+-int sensor_hub_remove_callback(struct hid_sensor_hub_device *hsdev,
++  int sensor_hub_remove_callback(struct hid_sensor_hub_device *hsdev,
+ 			u32 usage_id):
+ 
+ Removes callbacks for an usage id.
+ 
+ 
+-Parsing function:
+-int sensor_hub_input_get_attribute_info(struct hid_sensor_hub_device *hsdev,
++Parsing function::
++
++  int sensor_hub_input_get_attribute_info(struct hid_sensor_hub_device *hsdev,
+ 			u8 type,
+ 			u32 usage_id, u32 attr_usage_id,
+ 			struct hid_sensor_hub_attribute_info *info);
+@@ -110,26 +118,27 @@ so that fields can be set or get individually.
+ These indexes avoid searching every time and getting field index to get or set.
+ 
+ 
+-Set Feature report
+-int sensor_hub_set_feature(struct hid_sensor_hub_device *hsdev, u32 report_id,
++Set Feature report::
++
++  int sensor_hub_set_feature(struct hid_sensor_hub_device *hsdev, u32 report_id,
+ 			u32 field_index, s32 value);
+ 
+ This interface is used to set a value for a field in feature report. For example
+ if there is a field report_interval, which is parsed by a call to
+-sensor_hub_input_get_attribute_info before, then it can directly set that individual
+-field.
++sensor_hub_input_get_attribute_info before, then it can directly set that
++individual field::
+ 
+ 
+-int sensor_hub_get_feature(struct hid_sensor_hub_device *hsdev, u32 report_id,
++  int sensor_hub_get_feature(struct hid_sensor_hub_device *hsdev, u32 report_id,
+ 			u32 field_index, s32 *value);
+ 
+ This interface is used to get a value for a field in input report. For example
+ if there is a field report_interval, which is parsed by a call to
+-sensor_hub_input_get_attribute_info before, then it can directly get that individual
+-field value.
++sensor_hub_input_get_attribute_info before, then it can directly get that
++individual field value::
+ 
+ 
+-int sensor_hub_input_attr_get_raw_value(struct hid_sensor_hub_device *hsdev,
++  int sensor_hub_input_attr_get_raw_value(struct hid_sensor_hub_device *hsdev,
+ 			u32 usage_id,
+ 			u32 attr_usage_id, u32 report_id);
+ 
+@@ -143,6 +152,8 @@ registered callback function to process the sample.
+ ----------
+ 
+ HID Custom and generic Sensors
++------------------------------
++
+ 
+ HID Sensor specification defines two special sensor usage types. Since they
+ don't represent a standard sensor, it is not possible to define using Linux IIO
+@@ -158,66 +169,73 @@ keyboard attached/detached or lid open/close.
+ To allow application to utilize these sensors, here they are exported uses sysfs
+ attribute groups, attributes and misc device interface.
+ 
+-An example of this representation on sysfs:
+-/sys/devices/pci0000:00/INT33C2:00/i2c-0/i2c-INT33D1:00/0018:8086:09FA.0001/HID-SENSOR-2000e1.6.auto$ tree -R
+-.
+-????????? enable_sensor
+-????????? feature-0-200316
+-??????? ????????? feature-0-200316-maximum
+-??????? ????????? feature-0-200316-minimum
+-??????? ????????? feature-0-200316-name
+-??????? ????????? feature-0-200316-size
+-??????? ????????? feature-0-200316-unit-expo
+-??????? ????????? feature-0-200316-units
+-??????? ????????? feature-0-200316-value
+-????????? feature-1-200201
+-??????? ????????? feature-1-200201-maximum
+-??????? ????????? feature-1-200201-minimum
+-??????? ????????? feature-1-200201-name
+-??????? ????????? feature-1-200201-size
+-??????? ????????? feature-1-200201-unit-expo
+-??????? ????????? feature-1-200201-units
+-??????? ????????? feature-1-200201-value
+-????????? input-0-200201
+-??????? ????????? input-0-200201-maximum
+-??????? ????????? input-0-200201-minimum
+-??????? ????????? input-0-200201-name
+-??????? ????????? input-0-200201-size
+-??????? ????????? input-0-200201-unit-expo
+-??????? ????????? input-0-200201-units
+-??????? ????????? input-0-200201-value
+-????????? input-1-200202
+-??????? ????????? input-1-200202-maximum
+-??????? ????????? input-1-200202-minimum
+-??????? ????????? input-1-200202-name
+-??????? ????????? input-1-200202-size
+-??????? ????????? input-1-200202-unit-expo
+-??????? ????????? input-1-200202-units
+-??????? ????????? input-1-200202-value
++An example of this representation on sysfs::
++
++  /sys/devices/pci0000:00/INT33C2:00/i2c-0/i2c-INT33D1:00/0018:8086:09FA.0001/HID-SENSOR-2000e1.6.auto$ tree -R
++  .
++  │   ├──  enable_sensor
++  │   │   ├── feature-0-200316
++  │   │   │   ├── feature-0-200316-maximum
++  │   │   │   ├── feature-0-200316-minimum
++  │   │   │   ├── feature-0-200316-name
++  │   │   │   ├── feature-0-200316-size
++  │   │   │   ├── feature-0-200316-unit-expo
++  │   │   │   ├── feature-0-200316-units
++  │   │   │   ├── feature-0-200316-value
++  │   │   ├── feature-1-200201
++  │   │   │   ├── feature-1-200201-maximum
++  │   │   │   ├── feature-1-200201-minimum
++  │   │   │   ├── feature-1-200201-name
++  │   │   │   ├── feature-1-200201-size
++  │   │   │   ├── feature-1-200201-unit-expo
++  │   │   │   ├── feature-1-200201-units
++  │   │   │   ├── feature-1-200201-value
++  │   │   ├── input-0-200201
++  │   │   │   ├── input-0-200201-maximum
++  │   │   │   ├── input-0-200201-minimum
++  │   │   │   ├── input-0-200201-name
++  │   │   │   ├── input-0-200201-size
++  │   │   │   ├── input-0-200201-unit-expo
++  │   │   │   ├── input-0-200201-units
++  │   │   │   ├── input-0-200201-value
++  │   │   ├── input-1-200202
++  │   │   │   ├── input-1-200202-maximum
++  │   │   │   ├── input-1-200202-minimum
++  │   │   │   ├── input-1-200202-name
++  │   │   │   ├── input-1-200202-size
++  │   │   │   ├── input-1-200202-unit-expo
++  │   │   │   ├── input-1-200202-units
++  │   │   │   ├── input-1-200202-value
+ 
+ Here there is a custom sensors with four fields, two feature and two inputs.
+ Each field is represented by a set of attributes. All fields except the "value"
+ are read only. The value field is a RW field.
+-Example
+-/sys/bus/platform/devices/HID-SENSOR-2000e1.6.auto/feature-0-200316$ grep -r . *
+-feature-0-200316-maximum:6
+-feature-0-200316-minimum:0
+-feature-0-200316-name:property-reporting-state
+-feature-0-200316-size:1
+-feature-0-200316-unit-expo:0
+-feature-0-200316-units:25
+-feature-0-200316-value:1
++
++Example::
++
++  /sys/bus/platform/devices/HID-SENSOR-2000e1.6.auto/feature-0-200316$ grep -r . *
++  feature-0-200316-maximum:6
++  feature-0-200316-minimum:0
++  feature-0-200316-name:property-reporting-state
++  feature-0-200316-size:1
++  feature-0-200316-unit-expo:0
++  feature-0-200316-units:25
++  feature-0-200316-value:1
+ 
+ How to enable such sensor?
++^^^^^^^^^^^^^^^^^^^^^^^^^^
++
+ By default sensor can be power gated. To enable sysfs attribute "enable" can be
+-used.
+-$ echo 1 > enable_sensor
++used::
++
++	$ echo 1 > enable_sensor
+ 
+ Once enabled and powered on, sensor can report value using HID reports.
+-These reports are pushed using misc device interface in a FIFO order.
+-/dev$ tree | grep HID-SENSOR-2000e1.6.auto
+-??????? ????????? 10:53 -> ../HID-SENSOR-2000e1.6.auto
+-????????? HID-SENSOR-2000e1.6.auto
++These reports are pushed using misc device interface in a FIFO order::
++
++	/dev$ tree | grep HID-SENSOR-2000e1.6.auto
++	│   │   │   ├── 10:53 -> ../HID-SENSOR-2000e1.6.auto
++	│   ├──  HID-SENSOR-2000e1.6.auto
+ 
+ Each reports can be of variable length preceded by a header. This header
+ consist of a 32 bit usage id, 64 bit time stamp and 32 bit length field of raw
+diff --git a/Documentation/hid/hid-transport.txt b/Documentation/hid/hid-transport.rst
+similarity index 93%
+rename from Documentation/hid/hid-transport.txt
+rename to Documentation/hid/hid-transport.rst
+index 3dcba9fd4a3a..6f3aaa86ce7b 100644
+--- a/Documentation/hid/hid-transport.txt
++++ b/Documentation/hid/hid-transport.rst
+@@ -1,5 +1,6 @@
+-                          HID I/O Transport Drivers
+-                         ===========================
++=========================
++HID I/O Transport Drivers
++=========================
+ 
+ The HID subsystem is independent of the underlying transport driver. Initially,
+ only USB was supported, but other specifications adopted the HID design and
+@@ -16,6 +17,8 @@ transport and device setup/management. HID core is responsible of
+ report-parsing, report interpretation and the user-space API. Device specifics
+ and quirks are handled by all layers depending on the quirk.
+ 
++::
++
+  +-----------+  +-----------+            +-----------+  +-----------+
+  | Device #1 |  | Device #i |            | Device #j |  | Device #k |
+  +-----------+  +-----------+            +-----------+  +-----------+
+@@ -42,8 +45,9 @@ and quirks are handled by all layers depending on the quirk.
+  +----------------+  +-----------+  +------------------+  +------------------+
+ 
+ Example Drivers:
+-  I/O: USB, I2C, Bluetooth-l2cap
+-  Transport: USB-HID, I2C-HID, BT-HIDP
++
++  - I/O: USB, I2C, Bluetooth-l2cap
++  - Transport: USB-HID, I2C-HID, BT-HIDP
+ 
+ Everything below "HID Core" is simplified in this graph as it is only of
+ interest to HID device drivers. Transport drivers do not need to know the
+@@ -183,7 +187,7 @@ Other ctrl-channel requests are supported by USB-HID but are not available
+ -------------------
+ 
+ Transport drivers normally use the following procedure to register a new device
+-with HID core:
++with HID core::
+ 
+ 	struct hid_device *hid;
+ 	int ret;
+@@ -215,7 +219,7 @@ Once hid_add_device() is entered, HID core might use the callbacks provided in
+ "custom_ll_driver". Note that fields like "country" can be ignored by underlying
+ transport-drivers if not supported.
+ 
+-To unregister a device, use:
++To unregister a device, use::
+ 
+ 	hid_destroy_device(hid);
+ 
+@@ -226,73 +230,110 @@ driver callbacks.
+ -----------------------------
+ 
+ The available HID callbacks are:
+- - int (*start) (struct hid_device *hdev)
++
++   ::
++
++      int (*start) (struct hid_device *hdev)
++
+    Called from HID device drivers once they want to use the device. Transport
+    drivers can choose to setup their device in this callback. However, normally
+    devices are already set up before transport drivers register them to HID core
+    so this is mostly only used by USB-HID.
+ 
+- - void (*stop) (struct hid_device *hdev)
++   ::
++
++      void (*stop) (struct hid_device *hdev)
++
+    Called from HID device drivers once they are done with a device. Transport
+    drivers can free any buffers and deinitialize the device. But note that
+    ->start() might be called again if another HID device driver is loaded on the
+    device.
++
+    Transport drivers are free to ignore it and deinitialize devices after they
+    destroyed them via hid_destroy_device().
+ 
+- - int (*open) (struct hid_device *hdev)
++   ::
++
++      int (*open) (struct hid_device *hdev)
++
+    Called from HID device drivers once they are interested in data reports.
+    Usually, while user-space didn't open any input API/etc., device drivers are
+    not interested in device data and transport drivers can put devices asleep.
+    However, once ->open() is called, transport drivers must be ready for I/O.
+    ->open() calls are nested for each client that opens the HID device.
+ 
+- - void (*close) (struct hid_device *hdev)
++   ::
++
++      void (*close) (struct hid_device *hdev)
++
+    Called from HID device drivers after ->open() was called but they are no
+    longer interested in device reports. (Usually if user-space closed any input
+    devices of the driver).
++
+    Transport drivers can put devices asleep and terminate any I/O of all
+    ->open() calls have been followed by a ->close() call. However, ->start() may
+    be called again if the device driver is interested in input reports again.
+ 
+- - int (*parse) (struct hid_device *hdev)
++   ::
++
++      int (*parse) (struct hid_device *hdev)
++
+    Called once during device setup after ->start() has been called. Transport
+    drivers must read the HID report-descriptor from the device and tell HID core
+    about it via hid_parse_report().
+ 
+- - int (*power) (struct hid_device *hdev, int level)
++   ::
++
++      int (*power) (struct hid_device *hdev, int level)
++
+    Called by HID core to give PM hints to transport drivers. Usually this is
+    analogical to the ->open() and ->close() hints and redundant.
+ 
+- - void (*request) (struct hid_device *hdev, struct hid_report *report,
+-                    int reqtype)
++   ::
++
++      void (*request) (struct hid_device *hdev, struct hid_report *report,
++		       int reqtype)
++
+    Send an HID request on the ctrl channel. "report" contains the report that
+    should be sent and "reqtype" the request type. Request-type can be
+    HID_REQ_SET_REPORT or HID_REQ_GET_REPORT.
++
+    This callback is optional. If not provided, HID core will assemble a raw
+    report following the HID specs and send it via the ->raw_request() callback.
+    The transport driver is free to implement this asynchronously.
+ 
+- - int (*wait) (struct hid_device *hdev)
++   ::
++
++      int (*wait) (struct hid_device *hdev)
++
+    Used by HID core before calling ->request() again. A transport driver can use
+    it to wait for any pending requests to complete if only one request is
+    allowed at a time.
+ 
+- - int (*raw_request) (struct hid_device *hdev, unsigned char reportnum,
+-                       __u8 *buf, size_t count, unsigned char rtype,
+-                       int reqtype)
++   ::
++
++      int (*raw_request) (struct hid_device *hdev, unsigned char reportnum,
++                          __u8 *buf, size_t count, unsigned char rtype,
++                          int reqtype)
++
+    Same as ->request() but provides the report as raw buffer. This request shall
+    be synchronous. A transport driver must not use ->wait() to complete such
+    requests. This request is mandatory and hid core will reject the device if
+    it is missing.
+ 
+- - int (*output_report) (struct hid_device *hdev, __u8 *buf, size_t len)
++   ::
++
++      int (*output_report) (struct hid_device *hdev, __u8 *buf, size_t len)
++
+    Send raw output report via intr channel. Used by some HID device drivers
+    which require high throughput for outgoing requests on the intr channel. This
+    must not cause SET_REPORT calls! This must be implemented as asynchronous
+    output report on the intr channel!
+ 
+- - int (*idle) (struct hid_device *hdev, int report, int idle, int reqtype)
++   ::
++
++      int (*idle) (struct hid_device *hdev, int report, int idle, int reqtype)
++
+    Perform SET/GET_IDLE request. Only used by USB-HID, do not implement!
+ 
+ 2.3) Data Path
+@@ -314,4 +355,5 @@ transport driver and not passed to hid_input_report().
+ Acknowledgements to SET_REPORT requests are not of interest to HID core.
+ 
+ ----------------------------------------------------
++
+ Written 2013, David Herrmann <dh.herrmann@gmail.com>
+diff --git a/Documentation/hid/hiddev.txt b/Documentation/hid/hiddev.rst
+similarity index 80%
+rename from Documentation/hid/hiddev.txt
+rename to Documentation/hid/hiddev.rst
+index 638448707aa2..16c663530db2 100644
+--- a/Documentation/hid/hiddev.txt
++++ b/Documentation/hid/hiddev.rst
+@@ -1,6 +1,9 @@
++================================================
+ Care and feeding of your Human Interface Devices
++================================================
+ 
+-INTRODUCTION
++Introduction
++============
+ 
+ In addition to the normal input type HID devices, USB also uses the
+ human interface device protocols for things that are not really human
+@@ -16,7 +19,7 @@ normalised event interface - see Documentation/input/input.rst
+ * the hiddev interface, which provides fairly raw HID events
+ 
+ The data flow for a HID event produced by a device is something like
+-the following :
++the following::
+ 
+  usb.c ---> hid-core.c  ----> hid-input.c ----> [keyboard/mouse/joystick/event]
+                          |
+@@ -27,27 +30,29 @@ In addition, other subsystems (apart from USB) can potentially feed
+ events into the input subsystem, but these have no effect on the hid
+ device interface.
+ 
+-USING THE HID DEVICE INTERFACE
++Using the HID Device Interface
++==============================
+ 
+ The hiddev interface is a char interface using the normal USB major,
+ with the minor numbers starting at 96 and finishing at 111. Therefore,
+-you need the following commands:
+-mknod /dev/usb/hiddev0 c 180 96
+-mknod /dev/usb/hiddev1 c 180 97
+-mknod /dev/usb/hiddev2 c 180 98
+-mknod /dev/usb/hiddev3 c 180 99
+-mknod /dev/usb/hiddev4 c 180 100
+-mknod /dev/usb/hiddev5 c 180 101
+-mknod /dev/usb/hiddev6 c 180 102
+-mknod /dev/usb/hiddev7 c 180 103
+-mknod /dev/usb/hiddev8 c 180 104
+-mknod /dev/usb/hiddev9 c 180 105
+-mknod /dev/usb/hiddev10 c 180 106
+-mknod /dev/usb/hiddev11 c 180 107
+-mknod /dev/usb/hiddev12 c 180 108
+-mknod /dev/usb/hiddev13 c 180 109
+-mknod /dev/usb/hiddev14 c 180 110
+-mknod /dev/usb/hiddev15 c 180 111
++you need the following commands::
++
++	mknod /dev/usb/hiddev0 c 180 96
++	mknod /dev/usb/hiddev1 c 180 97
++	mknod /dev/usb/hiddev2 c 180 98
++	mknod /dev/usb/hiddev3 c 180 99
++	mknod /dev/usb/hiddev4 c 180 100
++	mknod /dev/usb/hiddev5 c 180 101
++	mknod /dev/usb/hiddev6 c 180 102
++	mknod /dev/usb/hiddev7 c 180 103
++	mknod /dev/usb/hiddev8 c 180 104
++	mknod /dev/usb/hiddev9 c 180 105
++	mknod /dev/usb/hiddev10 c 180 106
++	mknod /dev/usb/hiddev11 c 180 107
++	mknod /dev/usb/hiddev12 c 180 108
++	mknod /dev/usb/hiddev13 c 180 109
++	mknod /dev/usb/hiddev14 c 180 110
++	mknod /dev/usb/hiddev15 c 180 111
+ 
+ So you point your hiddev compliant user-space program at the correct
+ interface for your device, and it all just works.
+@@ -56,7 +61,9 @@ Assuming that you have a hiddev compliant user-space program, of
+ course. If you need to write one, read on.
+ 
+ 
+-THE HIDDEV API
++The HIDDEV API
++==============
++
+ This description should be read in conjunction with the HID
+ specification, freely available from http://www.usb.org, and
+ conveniently linked of http://www.linux-usb.org.
+@@ -69,12 +76,14 @@ each of which can have one or more "usages".  In the hid-core,
+ each one of these usages has a single signed 32 bit value.
+ 
+ read():
++-------
++
+ This is the event interface.  When the HID device's state changes,
+ it performs an interrupt transfer containing a report which contains
+ the changed value.  The hid-core.c module parses the report, and
+ returns to hiddev.c the individual usages that have changed within
+ the report.  In its basic mode, the hiddev will make these individual
+-usage changes available to the reader using a struct hiddev_event:
++usage changes available to the reader using a struct hiddev_event::
+ 
+        struct hiddev_event {
+            unsigned hid;
+@@ -91,12 +100,18 @@ ioctl() described below.
+ 
+ 
+ ioctl(): 
++--------
++
+ This is the control interface. There are a number of controls: 
+ 
+-HIDIOCGVERSION - int (read)
+-Gets the version code out of the hiddev driver.
++HIDIOCGVERSION
++  - int (read)
++
++ Gets the version code out of the hiddev driver.
++
++HIDIOCAPPLICATION
++  - (none)
+ 
+-HIDIOCAPPLICATION - (none)
+ This ioctl call returns the HID application usage associated with the
+ hid device. The third argument to ioctl() specifies which application
+ index to get. This is useful when the device has more than one
+@@ -106,7 +121,9 @@ returns -1. You can find out beforehand how many application
+ collections the device has from the num_applications field from the
+ hiddev_devinfo structure. 
+ 
+-HIDIOCGCOLLECTIONINFO - struct hiddev_collection_info (read/write)
++HIDIOCGCOLLECTIONINFO
++  - struct hiddev_collection_info (read/write)
++
+ This returns a superset of the information above, providing not only
+ application collections, but all the collections the device has.  It
+ also returns the level the collection lives in the hierarchy.
+@@ -115,14 +132,20 @@ field set to the index that should be returned.  The ioctl fills in
+ the other fields.  If the index is larger than the last collection 
+ index, the ioctl returns -1 and sets errno to -EINVAL.
+ 
+-HIDIOCGDEVINFO - struct hiddev_devinfo (read)
++HIDIOCGDEVINFO
++  - struct hiddev_devinfo (read)
++
+ Gets a hiddev_devinfo structure which describes the device.
+ 
+-HIDIOCGSTRING - struct hiddev_string_descriptor (read/write)
++HIDIOCGSTRING
++  - struct hiddev_string_descriptor (read/write)
++
+ Gets a string descriptor from the device. The caller must fill in the
+ "index" field to indicate which descriptor should be returned.
+ 
+-HIDIOCINITREPORT - (none)
++HIDIOCINITREPORT
++  - (none)
++
+ Instructs the kernel to retrieve all input and feature report values
+ from the device. At this point, all the usage structures will contain
+ current values for the device, and will maintain it as the device
+@@ -130,21 +153,29 @@ changes.  Note that the use of this ioctl is unnecessary in general,
+ since later kernels automatically initialize the reports from the
+ device at attach time.
+ 
+-HIDIOCGNAME - string (variable length)
++HIDIOCGNAME
++  - string (variable length)
++
+ Gets the device name
+ 
+-HIDIOCGREPORT - struct hiddev_report_info (write)
++HIDIOCGREPORT
++  - struct hiddev_report_info (write)
++
+ Instructs the kernel to get a feature or input report from the device,
+ in order to selectively update the usage structures (in contrast to
+ INITREPORT).
+ 
+-HIDIOCSREPORT - struct hiddev_report_info (write)
++HIDIOCSREPORT
++  - struct hiddev_report_info (write)
++
+ Instructs the kernel to send a report to the device. This report can
+ be filled in by the user through HIDIOCSUSAGE calls (below) to fill in
+ individual usage values in the report before sending the report in full
+ to the device. 
+ 
+-HIDIOCGREPORTINFO - struct hiddev_report_info (read/write)
++HIDIOCGREPORTINFO
++  - struct hiddev_report_info (read/write)
++
+ Fills in a hiddev_report_info structure for the user. The report is
+ looked up by type (input, output or feature) and id, so these fields
+ must be filled in by the user. The ID can be absolute -- the actual
+@@ -156,19 +187,25 @@ use the relative IDs above to enumerate the valid IDs. The ioctl
+ returns non-zero when there is no more next ID. The real report ID is
+ filled into the returned hiddev_report_info structure. 
+ 
+-HIDIOCGFIELDINFO - struct hiddev_field_info (read/write)
++HIDIOCGFIELDINFO
++  - struct hiddev_field_info (read/write)
++
+ Returns the field information associated with a report in a
+ hiddev_field_info structure. The user must fill in report_id and
+ report_type in this structure, as above. The field_index should also
+ be filled in, which should be a number from 0 and maxfield-1, as
+ returned from a previous HIDIOCGREPORTINFO call. 
+ 
+-HIDIOCGUCODE - struct hiddev_usage_ref (read/write)
++HIDIOCGUCODE
++  - struct hiddev_usage_ref (read/write)
++
+ Returns the usage_code in a hiddev_usage_ref structure, given that
+ given its report type, report id, field index, and index within the
+ field have already been filled into the structure.
+ 
+-HIDIOCGUSAGE - struct hiddev_usage_ref (read/write)
++HIDIOCGUSAGE
++  - struct hiddev_usage_ref (read/write)
++
+ Returns the value of a usage in a hiddev_usage_ref structure. The
+ usage to be retrieved can be specified as above, or the user can
+ choose to fill in the report_type field and specify the report_id as
+@@ -176,28 +213,37 @@ HID_REPORT_ID_UNKNOWN. In this case, the hiddev_usage_ref will be
+ filled in with the report and field information associated with this
+ usage if it is found. 
+ 
+-HIDIOCSUSAGE - struct hiddev_usage_ref (write)
++HIDIOCSUSAGE
++  - struct hiddev_usage_ref (write)
++
+ Sets the value of a usage in an output report.  The user fills in
+ the hiddev_usage_ref structure as above, but additionally fills in
+ the value field.
+ 
+-HIDIOGCOLLECTIONINDEX - struct hiddev_usage_ref (write)
++HIDIOGCOLLECTIONINDEX
++  - struct hiddev_usage_ref (write)
++
+ Returns the collection index associated with this usage.  This
+ indicates where in the collection hierarchy this usage sits.
+ 
+-HIDIOCGFLAG - int (read)
+-HIDIOCSFLAG - int (write)
++HIDIOCGFLAG
++  - int (read)
++HIDIOCSFLAG
++  - int (write)
++
+ These operations respectively inspect and replace the mode flags
+ that influence the read() call above.  The flags are as follows:
+ 
+-    HIDDEV_FLAG_UREF - read() calls will now return 
++    HIDDEV_FLAG_UREF
++      - read() calls will now return
+         struct hiddev_usage_ref instead of struct hiddev_event.
+         This is a larger structure, but in situations where the
+         device has more than one usage in its reports with the
+         same usage code, this mode serves to resolve such
+         ambiguity.
+ 
+-    HIDDEV_FLAG_REPORT - This flag can only be used in conjunction
++    HIDDEV_FLAG_REPORT
++      - This flag can only be used in conjunction
+         with HIDDEV_FLAG_UREF.  With this flag set, when the device
+         sends a report, a struct hiddev_usage_ref will be returned
+         to read() filled in with the report_type and report_id, but 
+diff --git a/Documentation/hid/hidraw.txt b/Documentation/hid/hidraw.rst
+similarity index 89%
+rename from Documentation/hid/hidraw.txt
+rename to Documentation/hid/hidraw.rst
+index c8436e354f44..4a4a0ba1f362 100644
+--- a/Documentation/hid/hidraw.txt
++++ b/Documentation/hid/hidraw.rst
+@@ -1,5 +1,6 @@
+-      HIDRAW - Raw Access to USB and Bluetooth Human Interface Devices
+-     ==================================================================
++================================================================
++HIDRAW - Raw Access to USB and Bluetooth Human Interface Devices
++================================================================
+ 
+ The hidraw driver provides a raw interface to USB and Bluetooth Human
+ Interface Devices (HIDs).  It differs from hiddev in that reports sent and
+@@ -31,6 +32,7 @@ directly under /dev (eg: /dev/hidraw0).  As this location is distribution-
+ and udev rule-dependent, applications should use libudev to locate hidraw
+ devices attached to the system.  There is a tutorial on libudev with a
+ working example at:
++
+ 	http://www.signal11.us/oss/udev/
+ 
+ The HIDRAW API
+@@ -51,7 +53,7 @@ byte.  For devices which do not use numbered reports, the report data
+ will begin at the first byte.
+ 
+ write()
+---------
++-------
+ The write() function will write a report to the device. For USB devices, if
+ the device has an INTERRUPT OUT endpoint, the report will be sent on that
+ endpoint. If it does not, the report will be sent over the control endpoint,
+@@ -62,38 +64,52 @@ number.  If the device does not use numbered reports, the first byte should
+ be set to 0. The report data itself should begin at the second byte.
+ 
+ ioctl()
+---------
++-------
+ Hidraw supports the following ioctls:
+ 
+-HIDIOCGRDESCSIZE: Get Report Descriptor Size
++HIDIOCGRDESCSIZE:
++	Get Report Descriptor Size
++
+ This ioctl will get the size of the device's report descriptor.
+ 
+-HIDIOCGRDESC: Get Report Descriptor
++HIDIOCGRDESC:
++	Get Report Descriptor
++
+ This ioctl returns the device's report descriptor using a
+ hidraw_report_descriptor struct.  Make sure to set the size field of the
+ hidraw_report_descriptor struct to the size returned from HIDIOCGRDESCSIZE.
+ 
+-HIDIOCGRAWINFO: Get Raw Info
++HIDIOCGRAWINFO:
++	Get Raw Info
++
+ This ioctl will return a hidraw_devinfo struct containing the bus type, the
+ vendor ID (VID), and product ID (PID) of the device. The bus type can be one
+-of:
+-	BUS_USB
+-	BUS_HIL
+-	BUS_BLUETOOTH
+-	BUS_VIRTUAL
++of::
++
++	- BUS_USB
++	- BUS_HIL
++	- BUS_BLUETOOTH
++	- BUS_VIRTUAL
++
+ which are defined in uapi/linux/input.h.
+ 
+-HIDIOCGRAWNAME(len): Get Raw Name
++HIDIOCGRAWNAME(len):
++	Get Raw Name
++
+ This ioctl returns a string containing the vendor and product strings of
+ the device.  The returned string is Unicode, UTF-8 encoded.
+ 
+-HIDIOCGRAWPHYS(len): Get Physical Address
++HIDIOCGRAWPHYS(len):
++	Get Physical Address
++
+ This ioctl returns a string representing the physical address of the device.
+ For USB devices, the string contains the physical path to the device (the
+ USB controller, hubs, ports, etc).  For Bluetooth devices, the string
+ contains the hardware (MAC) address of the device.
+ 
+-HIDIOCSFEATURE(len): Send a Feature Report
++HIDIOCSFEATURE(len):
++	Send a Feature Report
++
+ This ioctl will send a feature report to the device.  Per the HID
+ specification, feature reports are always sent using the control endpoint.
+ Set the first byte of the supplied buffer to the report number.  For devices
+@@ -101,7 +117,9 @@ which do not use numbered reports, set the first byte to 0. The report data
+ begins in the second byte. Make sure to set len accordingly, to one more
+ than the length of the report (to account for the report number).
+ 
+-HIDIOCGFEATURE(len): Get a Feature Report
++HIDIOCGFEATURE(len):
++	Get a Feature Report
++
+ This ioctl will request a feature report from the device using the control
+ endpoint.  The first byte of the supplied buffer should be set to the report
+ number of the requested report.  For devices which do not use numbered
+@@ -109,11 +127,12 @@ reports, set the first byte to 0.  The report will be returned starting at
+ the first byte of the buffer (ie: the report number is not returned).
+ 
+ Example
+----------
++-------
+ In samples/, find hid-example.c, which shows examples of read(), write(),
+ and all the ioctls for hidraw.  The code may be used by anyone for any
+ purpose, and can serve as a starting point for developing applications using
+ hidraw.
+ 
+ Document by:
++
+ 	Alan Ott <alan@signal11.us>, Signal 11 Software
+diff --git a/Documentation/hid/index.rst b/Documentation/hid/index.rst
+new file mode 100644
+index 000000000000..af4324902622
+--- /dev/null
++++ b/Documentation/hid/index.rst
+@@ -0,0 +1,18 @@
++:orphan:
++
++=============================
++Human Interface Devices (HID)
++=============================
++
++.. toctree::
++   :maxdepth: 1
++
++   hiddev
++   hidraw
++   hid-sensor
++   hid-transport
++
++   uhid
++
++   hid-alps
++   intel-ish-hid
+diff --git a/Documentation/hid/intel-ish-hid.rst b/Documentation/hid/intel-ish-hid.rst
+new file mode 100644
+index 000000000000..cccbf4be17d7
+--- /dev/null
++++ b/Documentation/hid/intel-ish-hid.rst
+@@ -0,0 +1,485 @@
++=================================
++Intel Integrated Sensor Hub (ISH)
++=================================
++
++A sensor hub enables the ability to offload sensor polling and algorithm
++processing to a dedicated low power co-processor. This allows the core
++processor to go into low power modes more often, resulting in the increased
++battery life.
++
++There are many vendors providing external sensor hubs confirming to HID
++Sensor usage tables, and used in several tablets, 2 in 1 convertible laptops
++and embedded products. Linux had this support since Linux 3.9.
++
++Intel® introduced integrated sensor hubs as a part of the SoC starting from
++Cherry Trail and now supported on multiple generations of CPU packages. There
++are many commercial devices already shipped with Integrated Sensor Hubs (ISH).
++These ISH also comply to HID sensor specification, but the  difference is the
++transport protocol used for communication. The current external sensor hubs
++mainly use HID over i2C or USB. But ISH doesn't use either i2c or USB.
++
++1. Overview
++===========
++
++Using a analogy with a usbhid implementation, the ISH follows a similar model
++for a very high speed communication::
++
++	-----------------		----------------------
++	|    USB HID	|	-->	|    ISH HID	     |
++	-----------------		----------------------
++	-----------------		----------------------
++	|  USB protocol	|	-->	|    ISH Transport   |
++	-----------------		----------------------
++	-----------------		----------------------
++	|  EHCI/XHCI	|	-->	|    ISH IPC	     |
++	-----------------		----------------------
++	      PCI				 PCI
++	-----------------		----------------------
++        |Host controller|	-->	|    ISH processor   |
++	-----------------		----------------------
++	     USB Link
++	-----------------		----------------------
++	| USB End points|	-->	|    ISH Clients     |
++	-----------------		----------------------
++
++Like USB protocol provides a method for device enumeration, link management
++and user data encapsulation, the ISH also provides similar services. But it is
++very light weight tailored to manage and communicate with ISH client
++applications implemented in the firmware.
++
++The ISH allows multiple sensor management applications executing in the
++firmware. Like USB endpoints the messaging can be to/from a client. As part of
++enumeration process, these clients are identified. These clients can be simple
++HID sensor applications, sensor calibration application or senor firmware
++update application.
++
++The implementation model is similar, like USB bus, ISH transport is also
++implemented as a bus. Each client application executing in the ISH processor
++is registered as a device on this bus. The driver, which binds each device
++(ISH HID driver) identifies the device type and registers with the hid core.
++
++2. ISH Implementation: Block Diagram
++====================================
++
++::
++
++	 ---------------------------
++	|  User Space Applications  |
++	 ---------------------------
++
++  ----------------IIO ABI----------------
++	 --------------------------
++	|  IIO Sensor Drivers	  |
++	 --------------------------
++	 --------------------------
++	|	 IIO core	  |
++	 --------------------------
++	 --------------------------
++	|   HID Sensor Hub MFD	  |
++	 --------------------------
++	 --------------------------
++	|       HID Core	  |
++	 --------------------------
++	 --------------------------
++	|   HID over ISH Client   |
++	 --------------------------
++	 --------------------------
++	|   ISH Transport (ISHTP) |
++	 --------------------------
++	 --------------------------
++	|      IPC Drivers	  |
++	 --------------------------
++  OS
++  ---------------- PCI -----------------
++  Hardware + Firmware
++	 ----------------------------
++	| ISH Hardware/Firmware(FW) |
++	 ----------------------------
++
++3. High level processing in above blocks
++========================================
++
++3.1 Hardware Interface
++----------------------
++
++The ISH is exposed as "Non-VGA unclassified PCI device" to the host. The PCI
++product and vendor IDs are changed from different generations of processors. So
++the source code which enumerate drivers needs to update from generation to
++generation.
++
++3.2 Inter Processor Communication (IPC) driver
++----------------------------------------------
++
++Location: drivers/hid/intel-ish-hid/ipc
++
++The IPC message used memory mapped I/O. The registers are defined in
++hw-ish-regs.h.
++
++3.2.1 IPC/FW message types
++^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++There are two types of messages, one for management of link and other messages
++are to and from transport layers.
++
++TX and RX of Transport messages
++...............................
++
++A set of memory mapped register offers support of multi byte messages TX and
++RX (E.g.IPC_REG_ISH2HOST_MSG, IPC_REG_HOST2ISH_MSG). The IPC layer maintains
++internal queues to sequence messages and send them in order to the FW.
++Optionally the caller can register handler to get notification of completion.
++A door bell mechanism is used in messaging to trigger processing in host and
++client firmware side. When ISH interrupt handler is called, the ISH2HOST
++doorbell register is used by host drivers to determine that the interrupt
++is for ISH.
++
++Each side has 32 32-bit message registers and a 32-bit doorbell. Doorbell
++register has the following format:
++Bits 0..6: fragment length (7 bits are used)
++Bits 10..13: encapsulated protocol
++Bits 16..19: management command (for IPC management protocol)
++Bit 31: doorbell trigger (signal H/W interrupt to the other side)
++Other bits are reserved, should be 0.
++
++3.2.2 Transport layer interface
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++To abstract HW level IPC communication, a set of callbacks are registered.
++The transport layer uses them to send and receive messages.
++Refer to  struct ishtp_hw_ops for callbacks.
++
++3.3 ISH Transport layer
++-----------------------
++
++Location: drivers/hid/intel-ish-hid/ishtp/
++
++3.3.1 A Generic Transport Layer
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++The transport layer is a bi-directional protocol, which defines:
++- Set of commands to start, stop, connect, disconnect and flow control
++(ishtp/hbm.h) for details
++- A flow control mechanism to avoid buffer overflows
++
++This protocol resembles bus messages described in the following document:
++http://www.intel.com/content/dam/www/public/us/en/documents/technical-\
++specifications/dcmi-hi-1-0-spec.pdf "Chapter 7: Bus Message Layer"
++
++3.3.2 Connection and Flow Control Mechanism
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Each FW client and a protocol is identified by an UUID. In order to communicate
++to a FW client, a connection must be established using connect request and
++response bus messages. If successful, a pair (host_client_id and fw_client_id)
++will identify the connection.
++
++Once connection is established, peers send each other flow control bus messages
++independently. Every peer may send a message only if it has received a
++flow-control credit before. Once it sent a message, it may not send another one
++before receiving the next flow control credit.
++Either side can send disconnect request bus message to end communication. Also
++the link will be dropped if major FW reset occurs.
++
++3.3.3 Peer to Peer data transfer
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Peer to Peer data transfer can happen with or without using DMA. Depending on
++the sensor bandwidth requirement DMA can be enabled by using module parameter
++ishtp_use_dma under intel_ishtp.
++
++Each side (host and FW) manages its DMA transfer memory independently. When an
++ISHTP client from either host or FW side wants to send something, it decides
++whether to send over IPC or over DMA; for each transfer the decision is
++independent. The sending side sends DMA_XFER message when the message is in
++the respective host buffer (TX when host client sends, RX when FW client
++sends). The recipient of DMA message responds with DMA_XFER_ACK, indicating
++the sender that the memory region for that message may be reused.
++
++DMA initialization is started with host sending DMA_ALLOC_NOTIFY bus message
++(that includes RX buffer) and FW responds with DMA_ALLOC_NOTIFY_ACK.
++Additionally to DMA address communication, this sequence checks capabilities:
++if thw host doesn't support DMA, then it won't send DMA allocation, so FW can't
++send DMA; if FW doesn't support DMA then it won't respond with
++DMA_ALLOC_NOTIFY_ACK, in which case host will not use DMA transfers.
++Here ISH acts as busmaster DMA controller. Hence when host sends DMA_XFER,
++it's request to do host->ISH DMA transfer; when FW sends DMA_XFER, it means
++that it already did DMA and the message resides at host. Thus, DMA_XFER
++and DMA_XFER_ACK act as ownership indicators.
++
++At initial state all outgoing memory belongs to the sender (TX to host, RX to
++FW), DMA_XFER transfers ownership on the region that contains ISHTP message to
++the receiving side, DMA_XFER_ACK returns ownership to the sender. A sender
++needs not wait for previous DMA_XFER to be ack'ed, and may send another message
++as long as remaining continuous memory in its ownership is enough.
++In principle, multiple DMA_XFER and DMA_XFER_ACK messages may be sent at once
++(up to IPC MTU), thus allowing for interrupt throttling.
++Currently, ISH FW decides to send over DMA if ISHTP message is more than 3 IPC
++fragments and via IPC otherwise.
++
++3.3.4 Ring Buffers
++^^^^^^^^^^^^^^^^^^
++
++When a client initiate a connection, a ring or RX and TX buffers are allocated.
++The size of ring can be specified by the client. HID client set 16 and 32 for
++TX and RX buffers respectively. On send request from client, the data to be
++sent is copied to one of the send ring buffer and scheduled to be sent using
++bus message protocol. These buffers are required because the FW may have not
++have processed the last message and may not have enough flow control credits
++to send. Same thing holds true on receive side and flow control is required.
++
++3.3.5 Host Enumeration
++^^^^^^^^^^^^^^^^^^^^^^
++
++The host enumeration bus command allow discovery of clients present in the FW.
++There can be multiple sensor clients and clients for calibration function.
++
++To ease in implantation and allow independent driver handle each client
++this transport layer takes advantage of Linux Bus driver model. Each
++client is registered as device on the the transport bus (ishtp bus).
++
++Enumeration sequence of messages:
++
++- Host sends HOST_START_REQ_CMD, indicating that host ISHTP layer is up.
++- FW responds with HOST_START_RES_CMD
++- Host sends HOST_ENUM_REQ_CMD (enumerate FW clients)
++- FW responds with HOST_ENUM_RES_CMD that includes bitmap of available FW
++  client IDs
++- For each FW ID found in that bitmap host sends
++  HOST_CLIENT_PROPERTIES_REQ_CMD
++- FW responds with HOST_CLIENT_PROPERTIES_RES_CMD. Properties include UUID,
++  max ISHTP message size, etc.
++- Once host received properties for that last discovered client, it considers
++  ISHTP device fully functional (and allocates DMA buffers)
++
++3.4 HID over ISH Client
++-----------------------
++
++Location: drivers/hid/intel-ish-hid
++
++The ISHTP client driver is responsible for:
++
++- enumerate HID devices under FW ISH client
++- Get Report descriptor
++- Register with HID core as a LL driver
++- Process Get/Set feature request
++- Get input reports
++
++3.5 HID Sensor Hub MFD and IIO sensor drivers
++---------------------------------------------
++
++The functionality in these drivers is the same as an external sensor hub.
++Refer to
++Documentation/hid/hid-sensor.rst for HID sensor
++Documentation/ABI/testing/sysfs-bus-iio for IIO ABIs to user space
++
++3.6 End to End HID transport Sequence Diagram
++---------------------------------------------
++
++::
++
++  HID-ISH-CLN                    ISHTP                    IPC                             HW
++          |                        |                       |                               |
++          |                        |                       |-----WAKE UP------------------>|
++          |                        |                       |                               |
++          |                        |                       |-----HOST READY--------------->|
++          |                        |                       |                               |
++          |                        |                       |<----MNG_RESET_NOTIFY_ACK----- |
++          |                        |                       |                               |
++          |                        |<----ISHTP_START------ |                               |
++          |                        |                       |                               |
++          |                        |<-----------------HOST_START_RES_CMD-------------------|
++          |                        |                       |                               |
++          |                        |------------------QUERY_SUBSCRIBER-------------------->|
++          |                        |                       |                               |
++          |                        |------------------HOST_ENUM_REQ_CMD------------------->|
++          |                        |                       |                               |
++          |                        |<-----------------HOST_ENUM_RES_CMD--------------------|
++          |                        |                       |                               |
++          |                        |------------------HOST_CLIENT_PROPERTIES_REQ_CMD------>|
++          |                        |                       |                               |
++          |                        |<-----------------HOST_CLIENT_PROPERTIES_RES_CMD-------|
++          |       Create new device on in ishtp bus        |                               |
++          |                        |                       |                               |
++          |                        |------------------HOST_CLIENT_PROPERTIES_REQ_CMD------>|
++          |                        |                       |                               |
++          |                        |<-----------------HOST_CLIENT_PROPERTIES_RES_CMD-------|
++          |       Create new device on in ishtp bus        |                               |
++          |                        |                       |                               |
++          |                        |--Repeat HOST_CLIENT_PROPERTIES_REQ_CMD-till last one--|
++          |                        |                       |                               |
++       probed()
++          |----ishtp_cl_connect--->|----------------- CLIENT_CONNECT_REQ_CMD-------------->|
++          |                        |                       |                               |
++          |                        |<----------------CLIENT_CONNECT_RES_CMD----------------|
++          |                        |                       |                               |
++          |register event callback |                       |                               |
++          |                        |                       |                               |
++          |ishtp_cl_send(
++          HOSTIF_DM_ENUM_DEVICES)  |----------fill ishtp_msg_hdr struct write to HW-----  >|
++          |                        |                       |                               |
++          |                        |                       |<-----IRQ(IPC_PROTOCOL_ISHTP---|
++          |                        |                       |                               |
++          |<--ENUM_DEVICE RSP------|                       |                               |
++          |                        |                       |                               |
++  for each enumerated device
++          |ishtp_cl_send(
++          HOSTIF_GET_HID_DESCRIPTOR|----------fill ishtp_msg_hdr struct write to HW-----  >|
++          |                        |                       |                               |
++          ...Response
++          |                        |                       |                               |
++  for each enumerated device
++          |ishtp_cl_send(
++       HOSTIF_GET_REPORT_DESCRIPTOR|--------------fill ishtp_msg_hdr struct write to HW-- >|
++          |                        |                       |                               |
++          |                        |                       |                               |
++   hid_allocate_device
++          |                        |                       |                               |
++   hid_add_device                  |                       |                               |
++          |                        |                       |                               |
++
++
++3.7 ISH Debugging
++-----------------
++
++To debug ISH, event tracing mechanism is used. To enable debug logs
++echo 1 > /sys/kernel/debug/tracing/events/intel_ish/enable
++cat sys/kernel/debug/tracing/trace
++
++3.8 ISH IIO sysfs Example on Lenovo thinkpad Yoga 260
++-----------------------------------------------------
++
++::
++
++  root@otcpl-ThinkPad-Yoga-260:~# tree -l /sys/bus/iio/devices/
++  /sys/bus/iio/devices/
++  ├── iio:device0 -> ../../../devices/0044:8086:22D8.0001/HID-SENSOR-200073.9.auto/iio:device0
++  │   ├── buffer
++  │   │   ├── enable
++  │   │   ├── length
++  │   │   └── watermark
++  ...
++  │   ├── in_accel_hysteresis
++  │   ├── in_accel_offset
++  │   ├── in_accel_sampling_frequency
++  │   ├── in_accel_scale
++  │   ├── in_accel_x_raw
++  │   ├── in_accel_y_raw
++  │   ├── in_accel_z_raw
++  │   ├── name
++  │   ├── scan_elements
++  │   │   ├── in_accel_x_en
++  │   │   ├── in_accel_x_index
++  │   │   ├── in_accel_x_type
++  │   │   ├── in_accel_y_en
++  │   │   ├── in_accel_y_index
++  │   │   ├── in_accel_y_type
++  │   │   ├── in_accel_z_en
++  │   │   ├── in_accel_z_index
++  │   │   └── in_accel_z_type
++  ...
++  │   │   ├── devices
++  │   │   │   │   ├── buffer
++  │   │   │   │   │   ├── enable
++  │   │   │   │   │   ├── length
++  │   │   │   │   │   └── watermark
++  │   │   │   │   ├── dev
++  │   │   │   │   ├── in_intensity_both_raw
++  │   │   │   │   ├── in_intensity_hysteresis
++  │   │   │   │   ├── in_intensity_offset
++  │   │   │   │   ├── in_intensity_sampling_frequency
++  │   │   │   │   ├── in_intensity_scale
++  │   │   │   │   ├── name
++  │   │   │   │   ├── scan_elements
++  │   │   │   │   │   ├── in_intensity_both_en
++  │   │   │   │   │   ├── in_intensity_both_index
++  │   │   │   │   │   └── in_intensity_both_type
++  │   │   │   │   ├── trigger
++  │   │   │   │   │   └── current_trigger
++  ...
++  │   │   │   │   ├── buffer
++  │   │   │   │   │   ├── enable
++  │   │   │   │   │   ├── length
++  │   │   │   │   │   └── watermark
++  │   │   │   │   ├── dev
++  │   │   │   │   ├── in_magn_hysteresis
++  │   │   │   │   ├── in_magn_offset
++  │   │   │   │   ├── in_magn_sampling_frequency
++  │   │   │   │   ├── in_magn_scale
++  │   │   │   │   ├── in_magn_x_raw
++  │   │   │   │   ├── in_magn_y_raw
++  │   │   │   │   ├── in_magn_z_raw
++  │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_raw
++  │   │   │   │   ├── in_rot_hysteresis
++  │   │   │   │   ├── in_rot_offset
++  │   │   │   │   ├── in_rot_sampling_frequency
++  │   │   │   │   ├── in_rot_scale
++  │   │   │   │   ├── name
++  ...
++  │   │   │   │   ├── scan_elements
++  │   │   │   │   │   ├── in_magn_x_en
++  │   │   │   │   │   ├── in_magn_x_index
++  │   │   │   │   │   ├── in_magn_x_type
++  │   │   │   │   │   ├── in_magn_y_en
++  │   │   │   │   │   ├── in_magn_y_index
++  │   │   │   │   │   ├── in_magn_y_type
++  │   │   │   │   │   ├── in_magn_z_en
++  │   │   │   │   │   ├── in_magn_z_index
++  │   │   │   │   │   ├── in_magn_z_type
++  │   │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_en
++  │   │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_index
++  │   │   │   │   │   └── in_rot_from_north_magnetic_tilt_comp_type
++  │   │   │   │   ├── trigger
++  │   │   │   │   │   └── current_trigger
++  ...
++  │   │   │   │   ├── buffer
++  │   │   │   │   │   ├── enable
++  │   │   │   │   │   ├── length
++  │   │   │   │   │   └── watermark
++  │   │   │   │   ├── dev
++  │   │   │   │   ├── in_anglvel_hysteresis
++  │   │   │   │   ├── in_anglvel_offset
++  │   │   │   │   ├── in_anglvel_sampling_frequency
++  │   │   │   │   ├── in_anglvel_scale
++  │   │   │   │   ├── in_anglvel_x_raw
++  │   │   │   │   ├── in_anglvel_y_raw
++  │   │   │   │   ├── in_anglvel_z_raw
++  │   │   │   │   ├── name
++  │   │   │   │   ├── scan_elements
++  │   │   │   │   │   ├── in_anglvel_x_en
++  │   │   │   │   │   ├── in_anglvel_x_index
++  │   │   │   │   │   ├── in_anglvel_x_type
++  │   │   │   │   │   ├── in_anglvel_y_en
++  │   │   │   │   │   ├── in_anglvel_y_index
++  │   │   │   │   │   ├── in_anglvel_y_type
++  │   │   │   │   │   ├── in_anglvel_z_en
++  │   │   │   │   │   ├── in_anglvel_z_index
++  │   │   │   │   │   └── in_anglvel_z_type
++  │   │   │   │   ├── trigger
++  │   │   │   │   │   └── current_trigger
++  ...
++  │   │   │   │   ├── buffer
++  │   │   │   │   │   ├── enable
++  │   │   │   │   │   ├── length
++  │   │   │   │   │   └── watermark
++  │   │   │   │   ├── dev
++  │   │   │   │   ├── in_anglvel_hysteresis
++  │   │   │   │   ├── in_anglvel_offset
++  │   │   │   │   ├── in_anglvel_sampling_frequency
++  │   │   │   │   ├── in_anglvel_scale
++  │   │   │   │   ├── in_anglvel_x_raw
++  │   │   │   │   ├── in_anglvel_y_raw
++  │   │   │   │   ├── in_anglvel_z_raw
++  │   │   │   │   ├── name
++  │   │   │   │   ├── scan_elements
++  │   │   │   │   │   ├── in_anglvel_x_en
++  │   │   │   │   │   ├── in_anglvel_x_index
++  │   │   │   │   │   ├── in_anglvel_x_type
++  │   │   │   │   │   ├── in_anglvel_y_en
++  │   │   │   │   │   ├── in_anglvel_y_index
++  │   │   │   │   │   ├── in_anglvel_y_type
++  │   │   │   │   │   ├── in_anglvel_z_en
++  │   │   │   │   │   ├── in_anglvel_z_index
++  │   │   │   │   │   └── in_anglvel_z_type
++  │   │   │   │   ├── trigger
++  │   │   │   │   │   └── current_trigger
++  ...
+diff --git a/Documentation/hid/intel-ish-hid.txt b/Documentation/hid/intel-ish-hid.txt
+deleted file mode 100644
+index d48b21c71ddd..000000000000
+--- a/Documentation/hid/intel-ish-hid.txt
++++ /dev/null
+@@ -1,454 +0,0 @@
+-Intel Integrated Sensor Hub (ISH)
+-===============================
+-
+-A sensor hub enables the ability to offload sensor polling and algorithm
+-processing to a dedicated low power co-processor. This allows the core
+-processor to go into low power modes more often, resulting in the increased
+-battery life.
+-
+-There are many vendors providing external sensor hubs confirming to HID
+-Sensor usage tables, and used in several tablets, 2 in 1 convertible laptops
+-and embedded products. Linux had this support since Linux 3.9.
+-
+-Intel® introduced integrated sensor hubs as a part of the SoC starting from
+-Cherry Trail and now supported on multiple generations of CPU packages. There
+-are many commercial devices already shipped with Integrated Sensor Hubs (ISH).
+-These ISH also comply to HID sensor specification, but the  difference is the
+-transport protocol used for communication. The current external sensor hubs
+-mainly use HID over i2C or USB. But ISH doesn't use either i2c or USB.
+-
+-1. Overview
+-
+-Using a analogy with a usbhid implementation, the ISH follows a similar model
+-for a very high speed communication:
+-
+-	-----------------		----------------------
+-	|    USB HID	|	-->	|    ISH HID	     |
+-	-----------------		----------------------
+-	-----------------		----------------------
+-	|  USB protocol	|	-->	|    ISH Transport   |
+-	-----------------		----------------------
+-	-----------------		----------------------
+-	|  EHCI/XHCI	|	-->	|    ISH IPC	     |
+-	-----------------		----------------------
+-	      PCI				 PCI
+-	-----------------		----------------------
+-        |Host controller|	-->	|    ISH processor   |
+-	-----------------		----------------------
+-	     USB Link
+-	-----------------		----------------------
+-	| USB End points|	-->	|    ISH Clients     |
+-	-----------------		----------------------
+-
+-Like USB protocol provides a method for device enumeration, link management
+-and user data encapsulation, the ISH also provides similar services. But it is
+-very light weight tailored to manage and communicate with ISH client
+-applications implemented in the firmware.
+-
+-The ISH allows multiple sensor management applications executing in the
+-firmware. Like USB endpoints the messaging can be to/from a client. As part of
+-enumeration process, these clients are identified. These clients can be simple
+-HID sensor applications, sensor calibration application or senor firmware
+-update application.
+-
+-The implementation model is similar, like USB bus, ISH transport is also
+-implemented as a bus. Each client application executing in the ISH processor
+-is registered as a device on this bus. The driver, which binds each device
+-(ISH HID driver) identifies the device type and registers with the hid core.
+-
+-2. ISH Implementation: Block Diagram
+-
+-	 ---------------------------
+-	|  User Space Applications  |
+-	 ---------------------------
+-
+-----------------IIO ABI----------------
+-	 --------------------------
+-	|  IIO Sensor Drivers	  |
+-	 --------------------------
+-	 --------------------------
+-	|	 IIO core	  |
+-	 --------------------------
+-	 --------------------------
+-	|   HID Sensor Hub MFD	  |
+-	 --------------------------
+-	 --------------------------
+-	|       HID Core	  |
+-	 --------------------------
+-	 --------------------------
+-	|   HID over ISH Client   |
+-	 --------------------------
+-	 --------------------------
+-	|   ISH Transport (ISHTP) |
+-	 --------------------------
+-	 --------------------------
+-	|      IPC Drivers	  |
+-	 --------------------------
+-OS
+-----------------   PCI -----------------
+-Hardware + Firmware
+-	 ----------------------------
+-	| ISH Hardware/Firmware(FW) |
+-	 ----------------------------
+-
+-3. High level processing in above blocks
+-
+-3.1 Hardware Interface
+-
+-The ISH is exposed as "Non-VGA unclassified PCI device" to the host. The PCI
+-product and vendor IDs are changed from different generations of processors. So
+-the source code which enumerate drivers needs to update from generation to
+-generation.
+-
+-3.2 Inter Processor Communication (IPC) driver
+-Location: drivers/hid/intel-ish-hid/ipc
+-
+-The IPC message used memory mapped I/O. The registers are defined in
+-hw-ish-regs.h.
+-
+-3.2.1 IPC/FW message types
+-
+-There are two types of messages, one for management of link and other messages
+-are to and from transport layers.
+-
+-TX and RX of Transport messages
+-
+-A set of memory mapped register offers support of multi byte messages TX and
+-RX (E.g.IPC_REG_ISH2HOST_MSG, IPC_REG_HOST2ISH_MSG). The IPC layer maintains
+-internal queues to sequence messages and send them in order to the FW.
+-Optionally the caller can register handler to get notification of completion.
+-A door bell mechanism is used in messaging to trigger processing in host and
+-client firmware side. When ISH interrupt handler is called, the ISH2HOST
+-doorbell register is used by host drivers to determine that the interrupt
+-is for ISH.
+-
+-Each side has 32 32-bit message registers and a 32-bit doorbell. Doorbell
+-register has the following format:
+-Bits 0..6: fragment length (7 bits are used)
+-Bits 10..13: encapsulated protocol
+-Bits 16..19: management command (for IPC management protocol)
+-Bit 31: doorbell trigger (signal H/W interrupt to the other side)
+-Other bits are reserved, should be 0.
+-
+-3.2.2 Transport layer interface
+-
+-To abstract HW level IPC communication, a set of callbacks are registered.
+-The transport layer uses them to send and receive messages.
+-Refer to  struct ishtp_hw_ops for callbacks.
+-
+-3.3 ISH Transport layer
+-Location: drivers/hid/intel-ish-hid/ishtp/
+-
+-3.3.1 A Generic Transport Layer
+-
+-The transport layer is a bi-directional protocol, which defines:
+-- Set of commands to start, stop, connect, disconnect and flow control
+-(ishtp/hbm.h) for details
+-- A flow control mechanism to avoid buffer overflows
+-
+-This protocol resembles bus messages described in the following document:
+-http://www.intel.com/content/dam/www/public/us/en/documents/technical-\
+-specifications/dcmi-hi-1-0-spec.pdf "Chapter 7: Bus Message Layer"
+-
+-3.3.2 Connection and Flow Control Mechanism
+-
+-Each FW client and a protocol is identified by an UUID. In order to communicate
+-to a FW client, a connection must be established using connect request and
+-response bus messages. If successful, a pair (host_client_id and fw_client_id)
+-will identify the connection.
+-
+-Once connection is established, peers send each other flow control bus messages
+-independently. Every peer may send a message only if it has received a
+-flow-control credit before. Once it sent a message, it may not send another one
+-before receiving the next flow control credit.
+-Either side can send disconnect request bus message to end communication. Also
+-the link will be dropped if major FW reset occurs.
+-
+-3.3.3 Peer to Peer data transfer
+-
+-Peer to Peer data transfer can happen with or without using DMA. Depending on
+-the sensor bandwidth requirement DMA can be enabled by using module parameter
+-ishtp_use_dma under intel_ishtp.
+-
+-Each side (host and FW) manages its DMA transfer memory independently. When an
+-ISHTP client from either host or FW side wants to send something, it decides
+-whether to send over IPC or over DMA; for each transfer the decision is
+-independent. The sending side sends DMA_XFER message when the message is in
+-the respective host buffer (TX when host client sends, RX when FW client
+-sends). The recipient of DMA message responds with DMA_XFER_ACK, indicating
+-the sender that the memory region for that message may be reused.
+-
+-DMA initialization is started with host sending DMA_ALLOC_NOTIFY bus message
+-(that includes RX buffer) and FW responds with DMA_ALLOC_NOTIFY_ACK.
+-Additionally to DMA address communication, this sequence checks capabilities:
+-if thw host doesn't support DMA, then it won't send DMA allocation, so FW can't
+-send DMA; if FW doesn't support DMA then it won't respond with
+-DMA_ALLOC_NOTIFY_ACK, in which case host will not use DMA transfers.
+-Here ISH acts as busmaster DMA controller. Hence when host sends DMA_XFER,
+-it's request to do host->ISH DMA transfer; when FW sends DMA_XFER, it means
+-that it already did DMA and the message resides at host. Thus, DMA_XFER
+-and DMA_XFER_ACK act as ownership indicators.
+-
+-At initial state all outgoing memory belongs to the sender (TX to host, RX to
+-FW), DMA_XFER transfers ownership on the region that contains ISHTP message to
+-the receiving side, DMA_XFER_ACK returns ownership to the sender. A sender
+-needs not wait for previous DMA_XFER to be ack'ed, and may send another message
+-as long as remaining continuous memory in its ownership is enough.
+-In principle, multiple DMA_XFER and DMA_XFER_ACK messages may be sent at once
+-(up to IPC MTU), thus allowing for interrupt throttling.
+-Currently, ISH FW decides to send over DMA if ISHTP message is more than 3 IPC
+-fragments and via IPC otherwise.
+-
+-3.3.4 Ring Buffers
+-
+-When a client initiate a connection, a ring or RX and TX buffers are allocated.
+-The size of ring can be specified by the client. HID client set 16 and 32 for
+-TX and RX buffers respectively. On send request from client, the data to be
+-sent is copied to one of the send ring buffer and scheduled to be sent using
+-bus message protocol. These buffers are required because the FW may have not
+-have processed the last message and may not have enough flow control credits
+-to send. Same thing holds true on receive side and flow control is required.
+-
+-3.3.5 Host Enumeration
+-
+-The host enumeration bus command allow discovery of clients present in the FW.
+-There can be multiple sensor clients and clients for calibration function.
+-
+-To ease in implantation and allow independent driver handle each client
+-this transport layer takes advantage of Linux Bus driver model. Each
+-client is registered as device on the the transport bus (ishtp bus).
+-
+-Enumeration sequence of messages:
+-- Host sends HOST_START_REQ_CMD, indicating that host ISHTP layer is up.
+-- FW responds with HOST_START_RES_CMD
+-- Host sends HOST_ENUM_REQ_CMD (enumerate FW clients)
+-- FW responds with HOST_ENUM_RES_CMD that includes bitmap of available FW
+-client IDs
+-- For each FW ID found in that bitmap host sends
+-HOST_CLIENT_PROPERTIES_REQ_CMD
+-- FW responds with HOST_CLIENT_PROPERTIES_RES_CMD. Properties include UUID,
+-max ISHTP message size, etc.
+-- Once host received properties for that last discovered client, it considers
+-ISHTP device fully functional (and allocates DMA buffers)
+-
+-3.4 HID over ISH Client
+-Location: drivers/hid/intel-ish-hid
+-
+-The ISHTP client driver is responsible for:
+-- enumerate HID devices under FW ISH client
+-- Get Report descriptor
+-- Register with HID core as a LL driver
+-- Process Get/Set feature request
+-- Get input reports
+-
+-3.5 HID Sensor Hub MFD and IIO sensor drivers
+-
+-The functionality in these drivers is the same as an external sensor hub.
+-Refer to
+-Documentation/hid/hid-sensor.txt for HID sensor
+-Documentation/ABI/testing/sysfs-bus-iio for IIO ABIs to user space
+-
+-3.6 End to End HID transport Sequence Diagram
+-
+-HID-ISH-CLN			ISHTP			IPC				HW
+-	|			|			|				|
+-	|			|			|-----WAKE UP------------------>|
+-	|			|			|				|
+-	|			|			|-----HOST READY--------------->|
+-	|			|			|				|
+-	|			|			|<----MNG_RESET_NOTIFY_ACK----- |
+-	|			|			|				|
+-	|			|<----ISHTP_START------ |				|
+-	|			|			|				|
+-	|			|<-----------------HOST_START_RES_CMD-------------------|
+-	|			|			|				|
+-	|			|------------------QUERY_SUBSCRIBER-------------------->|
+-	|			|			|				|
+-	|			|------------------HOST_ENUM_REQ_CMD------------------->|
+-	|			|			|				|
+-	|			|<-----------------HOST_ENUM_RES_CMD--------------------|
+-	|			|			|				|
+-	|			|------------------HOST_CLIENT_PROPERTIES_REQ_CMD------>|
+-	|			|			|				|
+-	|			|<-----------------HOST_CLIENT_PROPERTIES_RES_CMD-------|
+-	|	Create new device on in ishtp bus	|				|
+-	|			|			|				|
+-	|			|------------------HOST_CLIENT_PROPERTIES_REQ_CMD------>|
+-	|			|			|				|
+-	|			|<-----------------HOST_CLIENT_PROPERTIES_RES_CMD-------|
+-	|	Create new device on in ishtp bus	|				|
+-	|			|			|				|
+-	|			|--Repeat HOST_CLIENT_PROPERTIES_REQ_CMD-till last one--|
+-	|			|			|				|
+-     probed()
+-	|----ishtp_cl_connect-->|----------------- CLIENT_CONNECT_REQ_CMD-------------->|
+-	|			|			|				|
+-	|			|<----------------CLIENT_CONNECT_RES_CMD----------------|
+-	|			|			|				|
+-	|register event callback|			|				|
+-	|			|			|				|
+-	|ishtp_cl_send(
+-	HOSTIF_DM_ENUM_DEVICES) |----------fill ishtp_msg_hdr struct write to HW-----  >|
+-	|			|			|				|
+-	|			|			|<-----IRQ(IPC_PROTOCOL_ISHTP---|
+-	|			|			|				|
+-	|<--ENUM_DEVICE RSP-----|			|				|
+-	|			|			|				|
+-for each enumerated device
+-	|ishtp_cl_send(
+-	HOSTIF_GET_HID_DESCRIPTOR |----------fill ishtp_msg_hdr struct write to HW---  >|
+-	|			|			|				|
+-	...Response
+-	|			|			|				|
+-for each enumerated device
+-	|ishtp_cl_send(
+-	HOSTIF_GET_REPORT_DESCRIPTOR |----------fill ishtp_msg_hdr struct write to HW- >|
+-	|			|			|				|
+-	|			|			|				|
+- hid_allocate_device
+-	|			|			|				|
+- hid_add_device			|			|				|
+-	|			|			|				|
+-
+-
+-3.7 ISH Debugging
+-
+-To debug ISH, event tracing mechanism is used. To enable debug logs
+-echo 1 > /sys/kernel/debug/tracing/events/intel_ish/enable
+-cat sys/kernel/debug/tracing/trace
+-
+-3.8 ISH IIO sysfs Example on Lenovo thinkpad Yoga 260
+-
+-root@otcpl-ThinkPad-Yoga-260:~# tree -l /sys/bus/iio/devices/
+-/sys/bus/iio/devices/
+-├── iio:device0 -> ../../../devices/0044:8086:22D8.0001/HID-SENSOR-200073.9.auto/iio:device0
+-│   ├── buffer
+-│   │   ├── enable
+-│   │   ├── length
+-│   │   └── watermark
+-...
+-│   ├── in_accel_hysteresis
+-│   ├── in_accel_offset
+-│   ├── in_accel_sampling_frequency
+-│   ├── in_accel_scale
+-│   ├── in_accel_x_raw
+-│   ├── in_accel_y_raw
+-│   ├── in_accel_z_raw
+-│   ├── name
+-│   ├── scan_elements
+-│   │   ├── in_accel_x_en
+-│   │   ├── in_accel_x_index
+-│   │   ├── in_accel_x_type
+-│   │   ├── in_accel_y_en
+-│   │   ├── in_accel_y_index
+-│   │   ├── in_accel_y_type
+-│   │   ├── in_accel_z_en
+-│   │   ├── in_accel_z_index
+-│   │   └── in_accel_z_type
+-...
+-│   │   ├── devices
+-│   │   │   │   ├── buffer
+-│   │   │   │   │   ├── enable
+-│   │   │   │   │   ├── length
+-│   │   │   │   │   └── watermark
+-│   │   │   │   ├── dev
+-│   │   │   │   ├── in_intensity_both_raw
+-│   │   │   │   ├── in_intensity_hysteresis
+-│   │   │   │   ├── in_intensity_offset
+-│   │   │   │   ├── in_intensity_sampling_frequency
+-│   │   │   │   ├── in_intensity_scale
+-│   │   │   │   ├── name
+-│   │   │   │   ├── scan_elements
+-│   │   │   │   │   ├── in_intensity_both_en
+-│   │   │   │   │   ├── in_intensity_both_index
+-│   │   │   │   │   └── in_intensity_both_type
+-│   │   │   │   ├── trigger
+-│   │   │   │   │   └── current_trigger
+-...
+-│   │   │   │   ├── buffer
+-│   │   │   │   │   ├── enable
+-│   │   │   │   │   ├── length
+-│   │   │   │   │   └── watermark
+-│   │   │   │   ├── dev
+-│   │   │   │   ├── in_magn_hysteresis
+-│   │   │   │   ├── in_magn_offset
+-│   │   │   │   ├── in_magn_sampling_frequency
+-│   │   │   │   ├── in_magn_scale
+-│   │   │   │   ├── in_magn_x_raw
+-│   │   │   │   ├── in_magn_y_raw
+-│   │   │   │   ├── in_magn_z_raw
+-│   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_raw
+-│   │   │   │   ├── in_rot_hysteresis
+-│   │   │   │   ├── in_rot_offset
+-│   │   │   │   ├── in_rot_sampling_frequency
+-│   │   │   │   ├── in_rot_scale
+-│   │   │   │   ├── name
+-...
+-│   │   │   │   ├── scan_elements
+-│   │   │   │   │   ├── in_magn_x_en
+-│   │   │   │   │   ├── in_magn_x_index
+-│   │   │   │   │   ├── in_magn_x_type
+-│   │   │   │   │   ├── in_magn_y_en
+-│   │   │   │   │   ├── in_magn_y_index
+-│   │   │   │   │   ├── in_magn_y_type
+-│   │   │   │   │   ├── in_magn_z_en
+-│   │   │   │   │   ├── in_magn_z_index
+-│   │   │   │   │   ├── in_magn_z_type
+-│   │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_en
+-│   │   │   │   │   ├── in_rot_from_north_magnetic_tilt_comp_index
+-│   │   │   │   │   └── in_rot_from_north_magnetic_tilt_comp_type
+-│   │   │   │   ├── trigger
+-│   │   │   │   │   └── current_trigger
+-...
+-│   │   │   │   ├── buffer
+-│   │   │   │   │   ├── enable
+-│   │   │   │   │   ├── length
+-│   │   │   │   │   └── watermark
+-│   │   │   │   ├── dev
+-│   │   │   │   ├── in_anglvel_hysteresis
+-│   │   │   │   ├── in_anglvel_offset
+-│   │   │   │   ├── in_anglvel_sampling_frequency
+-│   │   │   │   ├── in_anglvel_scale
+-│   │   │   │   ├── in_anglvel_x_raw
+-│   │   │   │   ├── in_anglvel_y_raw
+-│   │   │   │   ├── in_anglvel_z_raw
+-│   │   │   │   ├── name
+-│   │   │   │   ├── scan_elements
+-│   │   │   │   │   ├── in_anglvel_x_en
+-│   │   │   │   │   ├── in_anglvel_x_index
+-│   │   │   │   │   ├── in_anglvel_x_type
+-│   │   │   │   │   ├── in_anglvel_y_en
+-│   │   │   │   │   ├── in_anglvel_y_index
+-│   │   │   │   │   ├── in_anglvel_y_type
+-│   │   │   │   │   ├── in_anglvel_z_en
+-│   │   │   │   │   ├── in_anglvel_z_index
+-│   │   │   │   │   └── in_anglvel_z_type
+-│   │   │   │   ├── trigger
+-│   │   │   │   │   └── current_trigger
+-...
+-│   │   │   │   ├── buffer
+-│   │   │   │   │   ├── enable
+-│   │   │   │   │   ├── length
+-│   │   │   │   │   └── watermark
+-│   │   │   │   ├── dev
+-│   │   │   │   ├── in_anglvel_hysteresis
+-│   │   │   │   ├── in_anglvel_offset
+-│   │   │   │   ├── in_anglvel_sampling_frequency
+-│   │   │   │   ├── in_anglvel_scale
+-│   │   │   │   ├── in_anglvel_x_raw
+-│   │   │   │   ├── in_anglvel_y_raw
+-│   │   │   │   ├── in_anglvel_z_raw
+-│   │   │   │   ├── name
+-│   │   │   │   ├── scan_elements
+-│   │   │   │   │   ├── in_anglvel_x_en
+-│   │   │   │   │   ├── in_anglvel_x_index
+-│   │   │   │   │   ├── in_anglvel_x_type
+-│   │   │   │   │   ├── in_anglvel_y_en
+-│   │   │   │   │   ├── in_anglvel_y_index
+-│   │   │   │   │   ├── in_anglvel_y_type
+-│   │   │   │   │   ├── in_anglvel_z_en
+-│   │   │   │   │   ├── in_anglvel_z_index
+-│   │   │   │   │   └── in_anglvel_z_type
+-│   │   │   │   ├── trigger
+-│   │   │   │   │   └── current_trigger
+-...
+diff --git a/Documentation/hid/uhid.txt b/Documentation/hid/uhid.rst
+similarity index 94%
+rename from Documentation/hid/uhid.txt
+rename to Documentation/hid/uhid.rst
+index 958fff945304..b18cb96c885f 100644
+--- a/Documentation/hid/uhid.txt
++++ b/Documentation/hid/uhid.rst
+@@ -1,5 +1,6 @@
+-      UHID - User-space I/O driver support for HID subsystem
+-     ========================================================
++======================================================
++UHID - User-space I/O driver support for HID subsystem
++======================================================
+ 
+ UHID allows user-space to implement HID transport drivers. Please see
+ hid-transport.txt for an introduction into HID transport drivers. This document
+@@ -22,9 +23,9 @@ If a new device is detected by your HID I/O Driver and you want to register this
+ device with the HID subsystem, then you need to open /dev/uhid once for each
+ device you want to register. All further communication is done by read()'ing or
+ write()'ing "struct uhid_event" objects. Non-blocking operations are supported
+-by setting O_NONBLOCK.
++by setting O_NONBLOCK::
+ 
+-struct uhid_event {
++  struct uhid_event {
+         __u32 type;
+         union {
+                 struct uhid_create2_req create2;
+@@ -32,7 +33,7 @@ struct uhid_event {
+                 struct uhid_input2_req input2;
+                 ...
+         } u;
+-};
++  };
+ 
+ The "type" field contains the ID of the event. Depending on the ID different
+ payloads are sent. You must not split a single event across multiple read()'s or
+@@ -86,31 +87,31 @@ the request was handled successfully. O_NONBLOCK does not affect write() as
+ writes are always handled immediately in a non-blocking fashion. Future requests
+ might make use of O_NONBLOCK, though.
+ 
+-  UHID_CREATE2:
++UHID_CREATE2:
+   This creates the internal HID device. No I/O is possible until you send this
+   event to the kernel. The payload is of type struct uhid_create2_req and
+   contains information about your device. You can start I/O now.
+ 
+-  UHID_DESTROY:
++UHID_DESTROY:
+   This destroys the internal HID device. No further I/O will be accepted. There
+   may still be pending messages that you can receive with read() but no further
+   UHID_INPUT events can be sent to the kernel.
+   You can create a new device by sending UHID_CREATE2 again. There is no need to
+   reopen the character device.
+ 
+-  UHID_INPUT2:
++UHID_INPUT2:
+   You must send UHID_CREATE2 before sending input to the kernel! This event
+   contains a data-payload. This is the raw data that you read from your device
+   on the interrupt channel. The kernel will parse the HID reports.
+ 
+-  UHID_GET_REPORT_REPLY:
++UHID_GET_REPORT_REPLY:
+   If you receive a UHID_GET_REPORT request you must answer with this request.
+   You  must copy the "id" field from the request into the answer. Set the "err"
+   field to 0 if no error occurred or to EIO if an I/O error occurred.
+   If "err" is 0 then you should fill the buffer of the answer with the results
+   of the GET_REPORT request and set "size" correspondingly.
+ 
+-  UHID_SET_REPORT_REPLY:
++UHID_SET_REPORT_REPLY:
+   This is the SET_REPORT equivalent of UHID_GET_REPORT_REPLY. Unlike GET_REPORT,
+   SET_REPORT never returns a data buffer, therefore, it's sufficient to set the
+   "id" and "err" fields correctly.
+@@ -120,16 +121,18 @@ read()
+ read() will return a queued output report. No reaction is required to any of
+ them but you should handle them according to your needs.
+ 
+-  UHID_START:
++UHID_START:
+   This is sent when the HID device is started. Consider this as an answer to
+   UHID_CREATE2. This is always the first event that is sent. Note that this
+   event might not be available immediately after write(UHID_CREATE2) returns.
+   Device drivers might required delayed setups.
+   This event contains a payload of type uhid_start_req. The "dev_flags" field
+   describes special behaviors of a device. The following flags are defined:
+-      UHID_DEV_NUMBERED_FEATURE_REPORTS:
+-      UHID_DEV_NUMBERED_OUTPUT_REPORTS:
+-      UHID_DEV_NUMBERED_INPUT_REPORTS:
++
++      - UHID_DEV_NUMBERED_FEATURE_REPORTS
++      - UHID_DEV_NUMBERED_OUTPUT_REPORTS
++      - UHID_DEV_NUMBERED_INPUT_REPORTS
++
+           Each of these flags defines whether a given report-type uses numbered
+           reports. If numbered reports are used for a type, all messages from
+           the kernel already have the report-number as prefix. Otherwise, no
+@@ -137,33 +140,35 @@ them but you should handle them according to your needs.
+           For messages sent by user-space to the kernel, you must adjust the
+           prefixes according to these flags.
+ 
+-  UHID_STOP:
++UHID_STOP:
+   This is sent when the HID device is stopped. Consider this as an answer to
+   UHID_DESTROY.
++
+   If you didn't destroy your device via UHID_DESTROY, but the kernel sends an
+   UHID_STOP event, this should usually be ignored. It means that the kernel
+   reloaded/changed the device driver loaded on your HID device (or some other
+   maintenance actions happened).
++
+   You can usually ignored any UHID_STOP events safely.
+ 
+-  UHID_OPEN:
++UHID_OPEN:
+   This is sent when the HID device is opened. That is, the data that the HID
+   device provides is read by some other process. You may ignore this event but
+   it is useful for power-management. As long as you haven't received this event
+   there is actually no other process that reads your data so there is no need to
+   send UHID_INPUT2 events to the kernel.
+ 
+-  UHID_CLOSE:
++UHID_CLOSE:
+   This is sent when there are no more processes which read the HID data. It is
+   the counterpart of UHID_OPEN and you may as well ignore this event.
+ 
+-  UHID_OUTPUT:
++UHID_OUTPUT:
+   This is sent if the HID device driver wants to send raw data to the I/O
+   device on the interrupt channel. You should read the payload and forward it to
+   the device. The payload is of type "struct uhid_output_req".
+   This may be received even though you haven't received UHID_OPEN, yet.
+ 
+-  UHID_GET_REPORT:
++UHID_GET_REPORT:
+   This event is sent if the kernel driver wants to perform a GET_REPORT request
+   on the control channeld as described in the HID specs. The report-type and
+   report-number are available in the payload.
+@@ -177,11 +182,12 @@ them but you should handle them according to your needs.
+   timed out, the kernel will ignore the response silently. The "id" field is
+   never re-used, so conflicts cannot happen.
+ 
+-  UHID_SET_REPORT:
++UHID_SET_REPORT:
+   This is the SET_REPORT equivalent of UHID_GET_REPORT. On receipt, you shall
+   send a SET_REPORT request to your hid device. Once it replies, you must tell
+   the kernel about it via UHID_SET_REPORT_REPLY.
+   The same restrictions as for UHID_GET_REPORT apply.
+ 
+ ----------------------------------------------------
++
+ Written 2012, David Herrmann <dh.herrmann@gmail.com>
+diff --git a/Documentation/input/input.rst b/Documentation/input/input.rst
+index 47f86a4bf16c..0eb61e67a7b7 100644
+--- a/Documentation/input/input.rst
++++ b/Documentation/input/input.rst
+@@ -188,7 +188,7 @@ LCDs and many other purposes.
+ 
+ The monitor and speaker controls should be easy to add to the hid/input
+ interface, but for the UPSs and LCDs it doesn't make much sense. For this,
+-the hiddev interface was designed. See Documentation/hid/hiddev.txt
++the hiddev interface was designed. See Documentation/hid/hiddev.rst
+ for more information about it.
+ 
+ The usage of the usbhid module is very simple, it takes no parameters,
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 66bcec263dbf..4e1e598a32d9 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -16165,7 +16165,7 @@ M:	Benjamin Tissoires <benjamin.tissoires@redhat.com>
+ L:	linux-usb@vger.kernel.org
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
+ S:	Maintained
+-F:	Documentation/hid/hiddev.txt
++F:	Documentation/hid/hiddev.rst
+ F:	drivers/hid/usbhid/
+ 
+ USB INTEL XHCI ROLE MUX DRIVER
+-- 
+2.20.1
 
---_002_BN6PR11MB39534B3F881478B3C16B66699F220BN6PR11MB3953namp_--
