@@ -2,24 +2,12 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v2,1/1] r8152: sync sa_family with the media type of network device
-From: crag0715@gmail.com
-Message-Id: <20190422022307.19616-1-crag0715@gmail.com>
-Date: Mon, 22 Apr 2019 10:23:06 +0800
-To: linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, hayeswang@realtek.com, mario_limonciello@dell.com, crag0715@gmail.com, "Crag.Wang" <crag.wang@dell.com>, "David S. Miller" <davem@davemloft.net>, Simon Glass <sjg@chromium.org>, Sean Paul <seanpaul@chromium.org>, Grant Grundler <grundler@chromium.org>, David Chen <david.chen7@dell.com>, Florian Fainelli <f.fainelli@gmail.com>, Jiri Slaby <jslaby@suse.cz>, "Gustavo A. R. Silva" <gustavo@embeddedor.com>, Charles Hyde <charles.hyde@dell.corp-partner.google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, zhong jiang <zhongjiang@huawei.com>
+From: David Miller <davem@davemloft.net>
+Message-Id: <20190421.194453.2169045719820345607.davem@davemloft.net>
+Date: Sun, 21 Apr 2019 19:44:53 -0700 (PDT)
+To: crag0715@gmail.com
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, hayeswang@realtek.com, mario_limonciello@dell.com, crag.wang@dell.com, sjg@chromium.org, seanpaul@chromium.org, grundler@chromium.org, david.chen7@dell.com, f.fainelli@gmail.com, jslaby@suse.cz, gustavo@embeddedor.com, charles.hyde@dell.corp-partner.google.com, bigeasy@linutronix.de, zhongjiang@huawei.com
 List-ID: <linux-usb.vger.kernel.org>
 
-RnJvbTogIkNyYWcuV2FuZyIgPGNyYWcud2FuZ0BkZWxsLmNvbT4KCldpdGhvdXQgdGhpcyBwYXRj
-aCB0aGUgc29ja2V0IGFkZHJlc3MgZmFtaWx5IHNwb3JhZGljYWxseSBnZXRzIHdyb25nCnZhbHVl
-IGVuZHMgdXAgdGhlIGRldl9zZXRfbWFjX2FkZHJlc3MoKSBmYWlscyB0byBzZXQgdGhlIGRlc2ly
-ZWQgTUFDCmFkZHJlc3MuCgpTaWduZWQtb2ZmLWJ5OiBDcmFnLldhbmcgPGNyYWcud2FuZ0BkZWxs
-LmNvbT4KLS0tCiBkcml2ZXJzL25ldC91c2IvcjgxNTIuYyB8IDIgKysKIDEgZmlsZSBjaGFuZ2Vk
-LCAyIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL25ldC91c2IvcjgxNTIuYyBi
-L2RyaXZlcnMvbmV0L3VzYi9yODE1Mi5jCmluZGV4IDRjNjNiNDBkNWUwMC4uNDFmYjM5Y2U2OWM5
-IDEwMDY0NAotLS0gYS9kcml2ZXJzL25ldC91c2IvcjgxNTIuYworKysgYi9kcml2ZXJzL25ldC91
-c2IvcjgxNTIuYwpAQCAtMTIyNSw2ICsxMjI1LDggQEAgc3RhdGljIGludCBkZXRlcm1pbmVfZXRo
-ZXJuZXRfYWRkcihzdHJ1Y3QgcjgxNTIgKnRwLCBzdHJ1Y3Qgc29ja2FkZHIgKnNhKQogCXN0cnVj
-dCBuZXRfZGV2aWNlICpkZXYgPSB0cC0+bmV0ZGV2OwogCWludCByZXQ7CiAKKwlzYS0+c2FfZmFt
-aWx5ID0gZGV2LT50eXBlOworCiAJaWYgKHRwLT52ZXJzaW9uID09IFJUTF9WRVJfMDEpIHsKIAkJ
-cmV0ID0gcGxhX29jcF9yZWFkKHRwLCBQTEFfSURSLCA4LCBzYS0+c2FfZGF0YSk7CiAJfSBlbHNl
-IHsK
+TmV0d29ya2luZyBkcml2ZXIgcGF0Y2hlcyBub3Qgc2VudCB0byBuZXRkZXZAdmdlci5rZXJuZWwu
+b3JnIGFyZSB2ZXJ5IHVubGlrZWx5CnRvIGJlIGludGVncmF0ZWQuCgpUaGFuayB5b3UuCg==
