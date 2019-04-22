@@ -7,45 +7,45 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49B21C282E1
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 20:00:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20CADC10F11
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 20:01:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 100BB2075A
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 20:00:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DBE2C204EC
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 20:01:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1555963259;
-	bh=okBKAVgy5/JgWzgyhzkFghh0wqimS1gM5WiB6aBHrIg=;
+	s=default; t=1555963281;
+	bh=/5rFM4ws/Ncm0eZbxq4IxZB2/4HtWhMNvmaLbccqTDc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=T32OHu9QedMc+5G0iPKhAxX1ZYpAfIWAtTNAJie+p1woACJUou5Hi85Tqb1PT54IB
-	 Mp8ll1TXc/BL484P3+mHLZ7JAuQFWzLrwreNW/g8h0J+fs1u2hHyMYM6B23ZN9owwe
-	 P4Y/iKaRg5jMXh9hU79T28LzUAOp95JztW/TcGz0=
+	b=AnGj9f6RyG1kJohDUmL2FUphyWkBn33IIZx1KmnTygwD36m7TGbzxMIi+28XdoQvs
+	 sP641v1RJNce4IfGsAmhSBoVbJfnQPpML6Ik3xVEdRWmHWvLaxqPfs7nCDEcuqqDyc
+	 ytGzFB1MHLmY/eoboal+pID+mINJF9tCjZZibvoM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730169AbfDVTrH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Apr 2019 15:47:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49736 "EHLO mail.kernel.org"
+        id S1731963AbfDVUBT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Apr 2019 16:01:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49560 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729682AbfDVTrG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 22 Apr 2019 15:47:06 -0400
+        id S1729350AbfDVTq7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 22 Apr 2019 15:46:59 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 39AF721908;
-        Mon, 22 Apr 2019 19:47:05 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B7AAF21906;
+        Mon, 22 Apr 2019 19:46:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1555962425;
-        bh=okBKAVgy5/JgWzgyhzkFghh0wqimS1gM5WiB6aBHrIg=;
+        s=default; t=1555962418;
+        bh=/5rFM4ws/Ncm0eZbxq4IxZB2/4HtWhMNvmaLbccqTDc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MzDN3AWm+qo3JstQ38BmtziSbZInzvj7wNz3NyBUC9vcDZJn9+/HywJeTVmjFQ6QW
-         +g/Ul1ox38xjcgvjwOjAD+ldgFsIzo1CR9XzyB+TX8xaInha4aNnWpvAZR6Ce2cBJX
-         gBYET+LVggJ0DGMTZ+ppmYRYVVjn9tjjqJLtMfj4=
+        b=2hpNq4y1en7Zu6rqgvTdOBK6T18YQ9oPi8LYdYrpomWeoClG/ybEvgbotHVUmRihB
+         PUT0Iyz/iF1itUCbk09hvXeawPp63HMTdFm47tP0Rrftvowreid63i4ikBzgQNlONH
+         Th3L2ymm8mMiGa42GjxlQAR83pYXYoNBosw66Twk=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mukesh Ojha <mojha@codeaurora.org>,
+Cc:     Aditya Pakki <pakki001@umn.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 55/68] usb: u132-hcd: fix resource leak
-Date:   Mon, 22 Apr 2019 15:45:03 -0400
-Message-Id: <20190422194516.11634-55-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 52/68] usb: usb251xb: fix to avoid potential NULL pointer dereference
+Date:   Mon, 22 Apr 2019 15:45:00 -0400
+Message-Id: <20190422194516.11634-52-sashal@kernel.org>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20190422194516.11634-1-sashal@kernel.org>
 References: <20190422194516.11634-1-sashal@kernel.org>
@@ -58,34 +58,34 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Mukesh Ojha <mojha@codeaurora.org>
+From: Aditya Pakki <pakki001@umn.edu>
 
-[ Upstream commit f276e002793cdb820862e8ea8f76769d56bba575 ]
+[ Upstream commit 41f00e6e9e55546390031996b773e7f3c1d95928 ]
 
-if platform_driver_register fails, cleanup the allocated resource
-gracefully.
+of_match_device in usb251xb_probe can fail and returns a NULL pointer.
+The patch avoids a potential NULL pointer dereference in this scenario.
 
-Signed-off-by: Mukesh Ojha <mojha@codeaurora.org>
+Signed-off-by: Aditya Pakki <pakki001@umn.edu>
+Reviewed-by: Richard Leitner <richard.leitner@skidata.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin (Microsoft) <sashal@kernel.org>
 ---
- drivers/usb/host/u132-hcd.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/usb/misc/usb251xb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/u132-hcd.c b/drivers/usb/host/u132-hcd.c
-index 5b8a3d9530c4..5cac83aaeac3 100644
---- a/drivers/usb/host/u132-hcd.c
-+++ b/drivers/usb/host/u132-hcd.c
-@@ -3202,6 +3202,9 @@ static int __init u132_hcd_init(void)
- 	printk(KERN_INFO "driver %s\n", hcd_name);
- 	workqueue = create_singlethread_workqueue("u132");
- 	retval = platform_driver_register(&u132_platform_driver);
-+	if (retval)
-+		destroy_workqueue(workqueue);
-+
- 	return retval;
- }
+diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
+index a6efb9a72939..5f7734c729b1 100644
+--- a/drivers/usb/misc/usb251xb.c
++++ b/drivers/usb/misc/usb251xb.c
+@@ -601,7 +601,7 @@ static int usb251xb_probe(struct usb251xb *hub)
+ 							   dev);
+ 	int err;
  
+-	if (np) {
++	if (np && of_id) {
+ 		err = usb251xb_get_ofdata(hub,
+ 					  (struct usb251xb_data *)of_id->data);
+ 		if (err) {
 -- 
 2.19.1
 
