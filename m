@@ -7,49 +7,48 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 048CBC282CE
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:54:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92F71C10F11
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:55:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C5B892177B
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:54:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 55C11204EC
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:55:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1555962840;
-	bh=0c4dEatAuCpYjQ7UTh/qAyxG+qfGKh9hC5sp6buVrxU=;
+	s=default; t=1555962908;
+	bh=5yrX+NZnk/srg8xIsuMK1Wz8yeCcevL7p2sb+rBER+s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=XiskRo9JfBW61UEt8P/u+TIWd7+EPUYtZsX+hqo1usYzhRvkhH6BBHMiciK13zL/U
-	 zk/Egg/T2KDHWtfk95/zL9+ho4mZitOwUUWxTH5C03nKk2xLl2AZJBRyBWUzvs/qku
-	 9YBsgclrDejLEwbsVRLEmSDnuEVCDrSra5YcnY+s=
+	b=Qul0QQBg1Zmsb4R8E0WwP1BYQ3EwXRsSXnHGOjsqubtQGW/tcudm0I5/Hv2V04iXU
+	 BXRVr5rAJl/8DfLMw5wRZL4Si3ActKr9bwCLpo2O4S0rqPbHHZiHQUNaXsZjwULM03
+	 aHmlPIiLHEuZZjVIzonRL9MDFoWmDly1ddtrCSrY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731426AbfDVTxz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Apr 2019 15:53:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53684 "EHLO mail.kernel.org"
+        id S1730882AbfDVTtf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Apr 2019 15:49:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53330 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730937AbfDVTtt (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 22 Apr 2019 15:49:49 -0400
+        id S1730867AbfDVTtc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 22 Apr 2019 15:49:32 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 45672204EC;
-        Mon, 22 Apr 2019 19:49:48 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8C90E2175B;
+        Mon, 22 Apr 2019 19:49:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1555962589;
-        bh=0c4dEatAuCpYjQ7UTh/qAyxG+qfGKh9hC5sp6buVrxU=;
+        s=default; t=1555962572;
+        bh=5yrX+NZnk/srg8xIsuMK1Wz8yeCcevL7p2sb+rBER+s=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tsuB9Uux/yeEMGnqmVif2rlUab/Epf6xSmh/lmH3VbeV1IcrQsmD57NSrSCZsGte6
-         IduFCabuesJfzxG9/y4oZ10GTRvL+gU1QiyHbFdf4m6jxOab4yluw2YI0B/jtSuod/
-         qs+yhFQvMO5uh9IqrxjTO/4lvKuPj5vIgm9MlwMY=
+        b=uPs4c35i4ZfOrUSJbPuqe5xgAZTATVS5d5E1iMKLM7k1i77JyY9u0dMLE2eXkIccL
+         IuTpdUK5k1cIsLhgl6s+kT7kgFngJkHxYL2LqunI3PKFuH5vktxv49DQlzORUgB1QB
+         lJCwRzFACS6A/8Tj10MIHQpabFPERb8oaEXwa1nM=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Guido Kiener <guido@kiener-muenchen.de>,
-        Guido Kiener <guido.kiener@rohde-schwarz.com>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
+Cc:     Mukesh Ojha <mojha@codeaurora.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 04/21] usb: gadget: net2280: Fix overrun of OUT messages
-Date:   Mon, 22 Apr 2019 15:49:24 -0400
-Message-Id: <20190422194941.13433-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 22/29] usb: u132-hcd: fix resource leak
+Date:   Mon, 22 Apr 2019 15:48:41 -0400
+Message-Id: <20190422194848.13049-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190422194941.13433-1-sashal@kernel.org>
-References: <20190422194941.13433-1-sashal@kernel.org>
+In-Reply-To: <20190422194848.13049-1-sashal@kernel.org>
+References: <20190422194848.13049-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -59,62 +58,34 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Guido Kiener <guido@kiener-muenchen.de>
+From: Mukesh Ojha <mojha@codeaurora.org>
 
-[ Upstream commit 9d6a54c1430647355a5e23434881b2ca3d192b48 ]
+[ Upstream commit f276e002793cdb820862e8ea8f76769d56bba575 ]
 
-The OUT endpoint normally blocks (NAK) subsequent packets when a
-short packet was received and returns an incomplete queue entry to
-the gadget driver. Thereby the gadget driver can detect a short packet
-when reading queue entries with a length that is not equal to a
-multiple of packet size.
+if platform_driver_register fails, cleanup the allocated resource
+gracefully.
 
-The start_queue() function enables receiving OUT packets regardless of
-the content of the OUT FIFO. This results in a race: With the current
-code, it's possible that the "!ep->is_in && (readl(&ep->regs->ep_stat)
-& BIT(NAK_OUT_PACKETS))" test in start_dma() will fail, then a short
-packet will be received, and then start_queue() will call
-stop_out_naking(). That's what we don't want (OUT naking gets turned
-off while there is data in the FIFO) because then the next driver
-request might receive a mixture of old and new packets.
-
-With the patch, this race can't occur because the FIFO's state is
-tested after we know that OUT naking is already turned on, and OUT
-naking is stopped only when both of the conditions are met.  This
-ensures that all received data is delivered to the gadget driver,
-which can detect a short packet now before new packets are appended
-to the last short packet.
-
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Guido Kiener <guido.kiener@rohde-schwarz.com>
-Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
+Signed-off-by: Mukesh Ojha <mojha@codeaurora.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin (Microsoft) <sashal@kernel.org>
 ---
- drivers/usb/gadget/udc/net2280.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/usb/host/u132-hcd.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/usb/gadget/udc/net2280.c b/drivers/usb/gadget/udc/net2280.c
-index 8efeadf30b4d..fc94a09e2a5a 100644
---- a/drivers/usb/gadget/udc/net2280.c
-+++ b/drivers/usb/gadget/udc/net2280.c
-@@ -870,9 +870,6 @@ static void start_queue(struct net2280_ep *ep, u32 dmactl, u32 td_dma)
- 	(void) readl(&ep->dev->pci->pcimstctl);
- 
- 	writel(BIT(DMA_START), &dma->dmastat);
--
--	if (!ep->is_in)
--		stop_out_naking(ep);
+diff --git a/drivers/usb/host/u132-hcd.c b/drivers/usb/host/u132-hcd.c
+index 43618976d68a..3efb7b0e8269 100644
+--- a/drivers/usb/host/u132-hcd.c
++++ b/drivers/usb/host/u132-hcd.c
+@@ -3208,6 +3208,9 @@ static int __init u132_hcd_init(void)
+ 	printk(KERN_INFO "driver %s\n", hcd_name);
+ 	workqueue = create_singlethread_workqueue("u132");
+ 	retval = platform_driver_register(&u132_platform_driver);
++	if (retval)
++		destroy_workqueue(workqueue);
++
+ 	return retval;
  }
  
- static void start_dma(struct net2280_ep *ep, struct net2280_request *req)
-@@ -911,6 +908,7 @@ static void start_dma(struct net2280_ep *ep, struct net2280_request *req)
- 			writel(BIT(DMA_START), &dma->dmastat);
- 			return;
- 		}
-+		stop_out_naking(ep);
- 	}
- 
- 	tmp = dmactl_default;
 -- 
 2.19.1
 
