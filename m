@@ -1,86 +1,120 @@
-Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=5Qiu=SY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
+	T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C35C3C04AAA
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 048CBC282CE
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:54:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6CC1520830
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:01 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SPk9UbqN"
+	by mail.kernel.org (Postfix) with ESMTP id C5B892177B
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:54:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1555962840;
+	bh=0c4dEatAuCpYjQ7UTh/qAyxG+qfGKh9hC5sp6buVrxU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=XiskRo9JfBW61UEt8P/u+TIWd7+EPUYtZsX+hqo1usYzhRvkhH6BBHMiciK13zL/U
+	 zk/Egg/T2KDHWtfk95/zL9+ho4mZitOwUUWxTH5C03nKk2xLl2AZJBRyBWUzvs/qku
+	 9YBsgclrDejLEwbsVRLEmSDnuEVCDrSra5YcnY+s=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725886AbfEFJDA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 May 2019 05:03:00 -0400
-Received: from mail-ed1-f49.google.com ([209.85.208.49]:34142 "EHLO
-        mail-ed1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725830AbfEFJDA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:03:00 -0400
-Received: by mail-ed1-f49.google.com with SMTP id w35so12826121edd.1
-        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:02:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Qk2JoXMn4xFUELTZzmeIesazSLXtyS+86vxNenYt/i0=;
-        b=SPk9UbqNHVEhkIvctbOKpuT/NH5RDJXML+2QgUNuhkCo9P2N/o9h4Qr7TbGh/rOq00
-         +iAmtkSyxqYn/yLPM4Q67vqQlgxvPFuQ+etwZjCrfK17jzCFFYzdQL3Hf3N/xujzCsYf
-         8jC4+t4r/KpmyoAs6TN8RWM+O9bHga6uDfxfdXyguscZf3rBbgVt3JdDz6j/lj9yaJ5Y
-         /KbV9z7rhX7R6LwCjcCytP4VMtOJIyIGbmxiD9WLUl8/dloHanaDZ2zScsgttPl5LaY1
-         Py0X46D3dDt0HNXvjMbL7u0NDWiFX4h4xuGN58KBcCbXIZlxA4SQvcdxmHXLHZVmb+lw
-         sQ3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Qk2JoXMn4xFUELTZzmeIesazSLXtyS+86vxNenYt/i0=;
-        b=Rol6PSJ80dj15PpJpnrf9ieIN0twC+p2p7NHfjycE5p0RLsDpw6idAbj5Z+Tkx2r1x
-         DQBYw6lRG+Hno5U9SpFKbLWEo34lDDxIRVGxYvTjw4shJfqMt0KBQiIOpq8K8lGT5WU+
-         vGfvxQZUVcOyrldiS490vb+SowcSL+xDWmlxG1ygeCN9x21X42Qe3q6OtWehP+ZWb0P8
-         v3etN6EVggTiFeDwQBRftyXjJXTTSYmKH4lUL4M6QpcF/GwGQgKJLixqAP6UTsDh6xi5
-         flGmldj9Cw+9m8fkNsgA0wXeAaUGysf52GAaTphI5qPRL3JlTfQpb7NVJjXKLUefKk1K
-         uMzg==
-X-Gm-Message-State: APjAAAVlfw1o7Kk0R3haILCVKN28GMQG2jr/GXYymh0gHo79CNaUn1p0
-        g+vywmRbz+HOhTySq0VeRH46AJbZdGM=
-X-Google-Smtp-Source: APXvYqxDJFkziYrv6ESUV2igf661eziyJaRVJBoKjAmHaXEbOovdX16dUdv7GKDbIn2gntb7cUkcrA==
-X-Received: by 2002:a17:906:60a:: with SMTP id s10mr17808330ejb.198.1557133378428;
-        Mon, 06 May 2019 02:02:58 -0700 (PDT)
-Received: from localhost (frost.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
-        by smtp.gmail.com with ESMTPSA id c49sm5335eda.58.2019.05.06.02.02.56
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 06 May 2019 02:02:57 -0700 (PDT)
-From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
-To:     linux-usb@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org
-Subject: usbutils - various patches to the lsusb.py script
-Date:   Mon,  6 May 2019 12:02:07 +0300
-Message-Id: <20190506090241.169665-1-grawity@gmail.com>
-X-Mailer: git-send-email 2.21.0
+        id S1731426AbfDVTxz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Apr 2019 15:53:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53684 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730937AbfDVTtt (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 22 Apr 2019 15:49:49 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 45672204EC;
+        Mon, 22 Apr 2019 19:49:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1555962589;
+        bh=0c4dEatAuCpYjQ7UTh/qAyxG+qfGKh9hC5sp6buVrxU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=tsuB9Uux/yeEMGnqmVif2rlUab/Epf6xSmh/lmH3VbeV1IcrQsmD57NSrSCZsGte6
+         IduFCabuesJfzxG9/y4oZ10GTRvL+gU1QiyHbFdf4m6jxOab4yluw2YI0B/jtSuod/
+         qs+yhFQvMO5uh9IqrxjTO/4lvKuPj5vIgm9MlwMY=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Guido Kiener <guido@kiener-muenchen.de>,
+        Guido Kiener <guido.kiener@rohde-schwarz.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.4 04/21] usb: gadget: net2280: Fix overrun of OUT messages
+Date:   Mon, 22 Apr 2019 15:49:24 -0400
+Message-Id: <20190422194941.13433-4-sashal@kernel.org>
+X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20190422194941.13433-1-sashal@kernel.org>
+References: <20190422194941.13433-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+From: Guido Kiener <guido@kiener-muenchen.de>
 
-I accidentally ended up hacking on the lsusb.py script and now have an
-assorted collection of patches:
+[ Upstream commit 9d6a54c1430647355a5e23434881b2ca3d192b48 ]
 
-- Output (controllers, hubs, etc.) sorted numerically.
-- Color enabled by default when on a tty.
-- Added --long-options.
-- Replaced hand-rolled binary search with ordinary dict lookups;
-  lost the -w (--warn-if-unsorted) option in the process.
-- Cosmetic changes to make it look more like Python and less like C.
-- Some changes to the output formatting that I liked to have in my own
-  local version.
+The OUT endpoint normally blocks (NAK) subsequent packets when a
+short packet was received and returns an incomplete queue entry to
+the gadget driver. Thereby the gadget driver can detect a short packet
+when reading queue entries with a length that is not equal to a
+multiple of packet size.
 
+The start_queue() function enables receiving OUT packets regardless of
+the content of the OUT FIFO. This results in a race: With the current
+code, it's possible that the "!ep->is_in && (readl(&ep->regs->ep_stat)
+& BIT(NAK_OUT_PACKETS))" test in start_dma() will fail, then a short
+packet will be received, and then start_queue() will call
+stop_out_naking(). That's what we don't want (OUT naking gets turned
+off while there is data in the FIFO) because then the next driver
+request might receive a mixture of old and new packets.
+
+With the patch, this race can't occur because the FIFO's state is
+tested after we know that OUT naking is already turned on, and OUT
+naking is stopped only when both of the conditions are met.  This
+ensures that all received data is delivered to the gadget driver,
+which can detect a short packet now before new packets are appended
+to the last short packet.
+
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Guido Kiener <guido.kiener@rohde-schwarz.com>
+Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
+Signed-off-by: Sasha Levin (Microsoft) <sashal@kernel.org>
+---
+ drivers/usb/gadget/udc/net2280.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/drivers/usb/gadget/udc/net2280.c b/drivers/usb/gadget/udc/net2280.c
+index 8efeadf30b4d..fc94a09e2a5a 100644
+--- a/drivers/usb/gadget/udc/net2280.c
++++ b/drivers/usb/gadget/udc/net2280.c
+@@ -870,9 +870,6 @@ static void start_queue(struct net2280_ep *ep, u32 dmactl, u32 td_dma)
+ 	(void) readl(&ep->dev->pci->pcimstctl);
+ 
+ 	writel(BIT(DMA_START), &dma->dmastat);
+-
+-	if (!ep->is_in)
+-		stop_out_naking(ep);
+ }
+ 
+ static void start_dma(struct net2280_ep *ep, struct net2280_request *req)
+@@ -911,6 +908,7 @@ static void start_dma(struct net2280_ep *ep, struct net2280_request *req)
+ 			writel(BIT(DMA_START), &dma->dmastat);
+ 			return;
+ 		}
++		stop_out_naking(ep);
+ 	}
+ 
+ 	tmp = dmactl_default;
+-- 
+2.19.1
 
