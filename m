@@ -1,38 +1,25 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v1,12/14] usb: dwc2: Clear fifo_map when resetting core.
-From: Doug Anderson <dianders@chromium.org>
-Message-Id: <CAD=FV=UV1X35rK7URehcicwnRnwPgjiXuxa=i-DY_Hx=P=52yQ@mail.gmail.com>
-Date: Fri, 26 Apr 2019 13:51:36 -0700
-To: Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
-Cc: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, John Youn <John.Youn@synopsys.com>
+Subject: [v2,1/1] r8152: sync sa_family with the media type of network device
+From: crag0715@gmail.com
+Message-Id: <20190422050344.24513-1-crag0715@gmail.com>
+Date: Mon, 22 Apr 2019 13:03:43 +0800
+To: linux-usb@vger.kernel.org, netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, hayeswang@realtek.com, mario_limonciello@dell.com, crag0715@gmail.com, "Crag.Wang" <crag.wang@dell.com>, "David S. Miller" <davem@davemloft.net>, Simon Glass <sjg@chromium.org>, Grant Grundler <grundler@chromium.org>, Sean Paul <seanpaul@chromium.org>, David Chen <david.chen7@dell.com>, Kai-Heng Feng <kai.heng.feng@canonical.com>, "Gustavo A. R. Silva" <gustavo@embeddedor.com>, Charles Hyde <charles.hyde@dell.corp-partner.google.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, zhong jiang <zhongjiang@huawei.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGksCgpPbiBGcmksIEFwciAxOSwgMjAxOSBhdCAxOjA2IFBNIEFydHVyIFBldHJvc3lhbgo8QXJ0
-aHVyLlBldHJvc3lhbkBzeW5vcHN5cy5jb20+IHdyb3RlOgo+Cj4gSWYgY29yZSBlbnRlcnMgaG9z
-dCBoaWJlcm5hdGlvbiB3aGVuIHN3aXRjaGluZyBmcm9tCj4gZGV2aWNlIG1vZGUgdG8gaG9zdCBt
-b2RlIGRpc2Nvbm5lY3Rpb24gb2YgaG9zdCBjYWJsZQo+IGFzc2VydHMgYSBXQVJOSU5HIGluIGR3
-YzJfaHNvdGdfaW5pdF9maWZvKCkgdGhhdAo+IGZpZm9fbWFwIGlzIG5vdCBjbGVhcmVkLgo+Cj4g
-VG8gYXZvaWQgdGhlIFdBUk5JTkcsIGZpZm9fbWFwIHNob3VsZCBiZSBjbGVhcmVkCj4gaW4gZHdj
-Ml9jb3JlX3Jlc2V0KCkgZnVuY3Rpb24uCj4KPiAtIENsZWFyZWQgZmlmb19tYXAgd2hlbiByZXNl
-dHRpbmcgdGhlIGNvcmUuCj4KPiBTaWduZWQtb2ZmLWJ5OiBBcnR1ciBQZXRyb3N5YW4gPGFydHVy
-cEBzeW5vcHN5cy5jb20+Cj4gLS0tCj4gIGRyaXZlcnMvdXNiL2R3YzIvY29yZS5jIHwgNiArKysr
-KysKPiAgMSBmaWxlIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygrKQo+Cj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvdXNiL2R3YzIvY29yZS5jIGIvZHJpdmVycy91c2IvZHdjMi9jb3JlLmMKPiBpbmRleCBm
-YjQ3MWQxOGEzZGUuLmZiYmQ2YTJmMTBhZCAxMDA2NDQKPiAtLS0gYS9kcml2ZXJzL3VzYi9kd2My
-L2NvcmUuYwo+ICsrKyBiL2RyaXZlcnMvdXNiL2R3YzIvY29yZS5jCj4gQEAgLTUzMiw2ICs1MzIs
-MTIgQEAgaW50IGR3YzJfY29yZV9yZXNldChzdHJ1Y3QgZHdjMl9oc290ZyAqaHNvdGcsIGJvb2wg
-c2tpcF93YWl0KQo+ICAgICAgICAgZ3Jlc2V0IHw9IEdSU1RDVExfQ1NGVFJTVDsKPiAgICAgICAg
-IGR3YzJfd3JpdGVsKGhzb3RnLCBncmVzZXQsIEdSU1RDVEwpOwo+Cj4gKyAgICAgICAvKiBDbGVh
-ciBmaWZvX21hcCAqLwo+ICsgICAgICAgI2lmIElTX0VOQUJMRUQoQ09ORklHX1VTQl9EV0MyX1BF
-UklQSEVSQUwpIHx8IFwKPiArICAgICAgICAgICAgICAgSVNfRU5BQkxFRChDT05GSUdfVVNCX0RX
-QzJfRFVBTF9ST0xFKQo+ICsgICAgICAgaHNvdGctPmZpZm9fbWFwID0gMDsKPiArICAgICAgICNl
-bmRpZiAvKiBDT05GSUdfVVNCX0RXQzJfUEVSSVBIRVJBTCB8fCBDT05GSUdfVVNCX0RXQzJfRFVB
-TF9ST0xFICovCgpQbGVhc2UgcGxlYXNlIG5vIHNwcmlua2xpbmcgIiNpZiIgc3RhdGVtZW50cyBp
-biBjb2RlIGxpa2UgdGhpcy4gIEhlcmUKbGllcyB0aGUgd2F5IHRvIG1hZG5lc3MuICBUaGUgcmln
-aHQgd2F5IHRvIGRvIHRoaXMgaW4gdGhlIHN0eWxlIG9mIHRoZQpMaW51eCBrZXJuZWwgaXMgdG8g
-YWRkIGEgZnVuY3Rpb24gdGhhdCBpcyBhICJzdGF0aWMgaW5saW5lIiBuby1vcCB3aGVuCnRoZSBv
-cHRpb25zIGFyZSBjb21waWxlZCBvdXQuCgpBcyBvbmUgZXhhbXBsZSB5b3UgY2FuIHNlZSBteSBy
-ZWNlbnQgcGF0Y2g6CgpodHRwczovL2xrbWwua2VybmVsLm9yZy9yLzIwMTkwNDI1MTU0MDIxLjQ0
-NjUtMS1kaWFuZGVyc0BjaHJvbWl1bS5vcmcKCgoKLURvdWcK
+RnJvbTogIkNyYWcuV2FuZyIgPGNyYWcud2FuZ0BkZWxsLmNvbT4KCldpdGhvdXQgdGhpcyBwYXRj
+aCB0aGUgc29ja2V0IGFkZHJlc3MgZmFtaWx5IHNwb3JhZGljYWxseSBnZXRzIHdyb25nCnZhbHVl
+IGVuZHMgdXAgdGhlIGRldl9zZXRfbWFjX2FkZHJlc3MoKSBmYWlscyB0byBzZXQgdGhlIGRlc2ly
+ZWQgTUFDCmFkZHJlc3MuCgpTaWduZWQtb2ZmLWJ5OiBDcmFnLldhbmcgPGNyYWcud2FuZ0BkZWxs
+LmNvbT4KLS0tCiBkcml2ZXJzL25ldC91c2IvcjgxNTIuYyB8IDIgKysKIDEgZmlsZSBjaGFuZ2Vk
+LCAyIGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9kcml2ZXJzL25ldC91c2IvcjgxNTIuYyBi
+L2RyaXZlcnMvbmV0L3VzYi9yODE1Mi5jCmluZGV4IDRjNjNiNDBkNWUwMC4uNDFmYjM5Y2U2OWM5
+IDEwMDY0NAotLS0gYS9kcml2ZXJzL25ldC91c2IvcjgxNTIuYworKysgYi9kcml2ZXJzL25ldC91
+c2IvcjgxNTIuYwpAQCAtMTIyNSw2ICsxMjI1LDggQEAgc3RhdGljIGludCBkZXRlcm1pbmVfZXRo
+ZXJuZXRfYWRkcihzdHJ1Y3QgcjgxNTIgKnRwLCBzdHJ1Y3Qgc29ja2FkZHIgKnNhKQogCXN0cnVj
+dCBuZXRfZGV2aWNlICpkZXYgPSB0cC0+bmV0ZGV2OwogCWludCByZXQ7CiAKKwlzYS0+c2FfZmFt
+aWx5ID0gZGV2LT50eXBlOworCiAJaWYgKHRwLT52ZXJzaW9uID09IFJUTF9WRVJfMDEpIHsKIAkJ
+cmV0ID0gcGxhX29jcF9yZWFkKHRwLCBQTEFfSURSLCA4LCBzYS0+c2FfZGF0YSk7CiAJfSBlbHNl
+IHsK
