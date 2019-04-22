@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42F88C10F11
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:43:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67CADC10F11
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:47:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 077F42177B
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:43:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2B20421906
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:47:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1555962186;
-	bh=6Ui+mNxebeUcMct9JOd+3C8FA4FTpDJkta54H57FEFU=;
+	s=default; t=1555962470;
+	bh=TCBvTTRKZHS3c6gaxnl+fS+JAr0sXq8FdcBmO+KAwho=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=dc5iE/c5p/K8Op6PKgds6zrp9dyJpHeSGcA6KHxqtRRJEOTi2Jpb3wNApqoyLHt2D
-	 P09moLtqNlmTm+sEUsHIe1BuvOsbXQXGDHYd26aQckifAR9QZ12dp+Tf9J9vUWiOWY
-	 WyALudom3YE19RKNamY8TFPf/ft+/WjoKl7XZmpc=
+	b=BdHcQCA/oDZRGon4XRctQA+OGZ1WwgDbxhgCer7qC7CoKVPrbQm56GhIbWQQGvfNx
+	 Ve91ZMhAvM9HOQXTJr0ZKs1h62Ve+McfQEydwI71yQfid9wFfD31omys0bPejplXih
+	 a8f8nYoKZTD8iQnhQm+sUnnf4qp6vp2ZfJYEbItg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729073AbfDVTnE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Apr 2019 15:43:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43556 "EHLO mail.kernel.org"
+        id S1730371AbfDVTrs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Apr 2019 15:47:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50730 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729036AbfDVTnD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 22 Apr 2019 15:43:03 -0400
+        id S1730368AbfDVTrr (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 22 Apr 2019 15:47:47 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 964AA2177B;
-        Mon, 22 Apr 2019 19:43:01 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C3F5A218FD;
+        Mon, 22 Apr 2019 19:47:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1555962182;
-        bh=6Ui+mNxebeUcMct9JOd+3C8FA4FTpDJkta54H57FEFU=;
+        s=default; t=1555962466;
+        bh=TCBvTTRKZHS3c6gaxnl+fS+JAr0sXq8FdcBmO+KAwho=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=xCo2EyAJbBX6mRHRTT5gNJWPin2OaEA6NujyGkkmZc6ZYiUHpHVIcf41vLRhfrSQe
-         Ar1dEXDdph8oBR8amastyOnZn4Y1eKXPZLabw02ncCI43vExAc3rVrXPYtTNZxbvRJ
-         JgXBSFzm/96URLPfKCXbaXBEAeLXnpMMdlQ+m4Z0=
+        b=whekB88LN/d6/tByH0+7N/VSXZeHNKjjeVls5EZYryyU/dBwOpSkqHikEM0FR7/n7
+         hg2s8r4wH33sniatoaTZfNKLENns8wiMDZ8Tv+iIMm3G+jRyr8zsAlsKa8axXH7/9j
+         7UdbPg9raC940KXwrn6wV9IosumFQjVALl8So4BY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Guido Kiener <guido@kiener-muenchen.de>,
         Guido Kiener <guido.kiener@rohde-schwarz.com>,
         Felipe Balbi <felipe.balbi@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.0 33/98] usb: gadget: net2272: Fix net2272_dequeue()
-Date:   Mon, 22 Apr 2019 15:41:00 -0400
-Message-Id: <20190422194205.10404-33-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 11/43] usb: gadget: net2280: Fix net2280_dequeue()
+Date:   Mon, 22 Apr 2019 15:46:55 -0400
+Message-Id: <20190422194727.12495-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190422194205.10404-1-sashal@kernel.org>
-References: <20190422194205.10404-1-sashal@kernel.org>
+In-Reply-To: <20190422194727.12495-1-sashal@kernel.org>
+References: <20190422194727.12495-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -61,39 +61,41 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Guido Kiener <guido@kiener-muenchen.de>
 
-[ Upstream commit 091dacc3cc10979ab0422f0a9f7fcc27eee97e69 ]
+[ Upstream commit f1d3fba17cd4eeea20397f1324b7b9c69a6a935c ]
 
-Restore the status of ep->stopped in function net2272_dequeue().
-
-When the given request is not found in the endpoint queue
-the function returns -EINVAL without restoring the state of
-ep->stopped. Thus the endpoint keeps blocked and does not transfer
-any data anymore.
-
-This fix is only compile-tested, since we do not have a
-corresponding hardware. An analogous fix was tested in the sibling
-driver. See "usb: gadget: net2280: Fix net2280_dequeue()"
+When a request must be dequeued with net2280_dequeue() e.g. due
+to a device clear action and the same request is finished by the
+function scan_dma_completions() then the function net2280_dequeue()
+does not find the request in the following search loop and
+returns the error -EINVAL without restoring the status ep->stopped.
+Thus the endpoint keeps blocked and does not receive any data
+anymore.
+This fix restores the status and does not issue an error message.
 
 Acked-by: Alan Stern <stern@rowland.harvard.edu>
 Signed-off-by: Guido Kiener <guido.kiener@rohde-schwarz.com>
 Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
 Signed-off-by: Sasha Levin (Microsoft) <sashal@kernel.org>
 ---
- drivers/usb/gadget/udc/net2272.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/gadget/udc/net2280.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/net2272.c b/drivers/usb/gadget/udc/net2272.c
-index b77f3126580e..c2011cd7df8c 100644
---- a/drivers/usb/gadget/udc/net2272.c
-+++ b/drivers/usb/gadget/udc/net2272.c
-@@ -945,6 +945,7 @@ net2272_dequeue(struct usb_ep *_ep, struct usb_request *_req)
+diff --git a/drivers/usb/gadget/udc/net2280.c b/drivers/usb/gadget/udc/net2280.c
+index a071ab0c163b..170327f84ea1 100644
+--- a/drivers/usb/gadget/udc/net2280.c
++++ b/drivers/usb/gadget/udc/net2280.c
+@@ -1277,9 +1277,9 @@ static int net2280_dequeue(struct usb_ep *_ep, struct usb_request *_req)
  			break;
  	}
  	if (&req->req != _req) {
 +		ep->stopped = stopped;
  		spin_unlock_irqrestore(&ep->dev->lock, flags);
+-		dev_err(&ep->dev->pdev->dev, "%s: Request mismatch\n",
+-								__func__);
++		ep_dbg(ep->dev, "%s: Request mismatch\n", __func__);
  		return -EINVAL;
  	}
+ 
 -- 
 2.19.1
 
