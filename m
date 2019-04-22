@@ -2,82 +2,98 @@ Return-Path: <SRS0=5Qiu=SY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
+	T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFBE9C10F11
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 17:53:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42F88C10F11
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:43:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 87BCC20B1F
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 17:53:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 077F42177B
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:43:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1555962186;
+	bh=6Ui+mNxebeUcMct9JOd+3C8FA4FTpDJkta54H57FEFU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=dc5iE/c5p/K8Op6PKgds6zrp9dyJpHeSGcA6KHxqtRRJEOTi2Jpb3wNApqoyLHt2D
+	 P09moLtqNlmTm+sEUsHIe1BuvOsbXQXGDHYd26aQckifAR9QZ12dp+Tf9J9vUWiOWY
+	 WyALudom3YE19RKNamY8TFPf/ft+/WjoKl7XZmpc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728247AbfDVRxS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Apr 2019 13:53:18 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:38300 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1727478AbfDVRxS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Apr 2019 13:53:18 -0400
-Received: (qmail 6556 invoked by uid 2102); 22 Apr 2019 13:53:17 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 22 Apr 2019 13:53:17 -0400
-Date:   Mon, 22 Apr 2019 13:53:17 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     syzbot <syzbot+2eb9121678bdb36e6d57@syzkaller.appspotmail.com>
-cc:     andreyknvl@google.com, <gregkh@linuxfoundation.org>,
-        Kernel development list <linux-kernel@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>, <rafael@kernel.org>,
-        <syzkaller-bugs@googlegroups.com>
-Subject: Re: general protection fault in __dev_printk
-In-Reply-To: <00000000000029431d0586d10813@google.com>
-Message-ID: <Pine.LNX.4.44L0.1904221344550.1384-100000@iolanthe.rowland.org>
+        id S1729073AbfDVTnE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Apr 2019 15:43:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43556 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729036AbfDVTnD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 22 Apr 2019 15:43:03 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 964AA2177B;
+        Mon, 22 Apr 2019 19:43:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1555962182;
+        bh=6Ui+mNxebeUcMct9JOd+3C8FA4FTpDJkta54H57FEFU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=xCo2EyAJbBX6mRHRTT5gNJWPin2OaEA6NujyGkkmZc6ZYiUHpHVIcf41vLRhfrSQe
+         Ar1dEXDdph8oBR8amastyOnZn4Y1eKXPZLabw02ncCI43vExAc3rVrXPYtTNZxbvRJ
+         JgXBSFzm/96URLPfKCXbaXBEAeLXnpMMdlQ+m4Z0=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Guido Kiener <guido@kiener-muenchen.de>,
+        Guido Kiener <guido.kiener@rohde-schwarz.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.0 33/98] usb: gadget: net2272: Fix net2272_dequeue()
+Date:   Mon, 22 Apr 2019 15:41:00 -0400
+Message-Id: <20190422194205.10404-33-sashal@kernel.org>
+X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20190422194205.10404-1-sashal@kernel.org>
+References: <20190422194205.10404-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, 18 Apr 2019, syzbot wrote:
+From: Guido Kiener <guido@kiener-muenchen.de>
 
-> syzbot has found a reproducer for the following crash on:
-> 
-> HEAD commit:    d34f9519 usb-fuzzer: main usb gadget fuzzer driver
-> git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-> console output: https://syzkaller.appspot.com/x/log.txt?x=10adfe6b200000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=c73d1bb5aeaeae20
-> dashboard link: https://syzkaller.appspot.com/bug?extid=2eb9121678bdb36e6d57
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=145cb7e3200000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17f8bd2d200000
-> 
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+2eb9121678bdb36e6d57@syzkaller.appspotmail.com
-> 
-> yurex 1-1:0.150: yurex_interrupt - unknown status received: -71
-> usb 1-1: USB disconnect, device number 112
-> yurex 1-1:0.150: yurex_interrupt - unknown status received: -71
-> kasan: CONFIG_KASAN_INLINE enabled
-> kasan: GPF could be caused by NULL-ptr deref or user memory access
-> general protection fault: 0000 [#1] SMP KASAN PTI
+[ Upstream commit 091dacc3cc10979ab0422f0a9f7fcc27eee97e69 ]
 
-Andrey:
+Restore the status of ep->stopped in function net2272_dequeue().
 
-This original bug report included a "USB disconnect" line, as shown
-above.  The newer results, for runs with my patches added, do not.  At
-least, if such a line was present, it didn't show up in the console
-output files -- the most recent one contains nothing but repeats of
-that "yurex_interrupt - unknown status received: -71" line, although
-for devices on multiple buses.
+When the given request is not found in the endpoint queue
+the function returns -EINVAL without restoring the state of
+ep->stopped. Thus the endpoint keeps blocked and does not transfer
+any data anymore.
 
-Is there any way to get more information about what's happening, such 
-as a complete kernel log?  And perhaps to run the test with just a 
-single dummy-hcd bus instead of 6?
+This fix is only compile-tested, since we do not have a
+corresponding hardware. An analogous fix was tested in the sibling
+driver. See "usb: gadget: net2280: Fix net2280_dequeue()"
 
-At this point, I suspect the original general protection fault in
-the yurex driver has been fixed, but something else in dummy-hcd may be
-causing the rcu-detected stalls.
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Guido Kiener <guido.kiener@rohde-schwarz.com>
+Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
+Signed-off-by: Sasha Levin (Microsoft) <sashal@kernel.org>
+---
+ drivers/usb/gadget/udc/net2272.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Alan Stern
+diff --git a/drivers/usb/gadget/udc/net2272.c b/drivers/usb/gadget/udc/net2272.c
+index b77f3126580e..c2011cd7df8c 100644
+--- a/drivers/usb/gadget/udc/net2272.c
++++ b/drivers/usb/gadget/udc/net2272.c
+@@ -945,6 +945,7 @@ net2272_dequeue(struct usb_ep *_ep, struct usb_request *_req)
+ 			break;
+ 	}
+ 	if (&req->req != _req) {
++		ep->stopped = stopped;
+ 		spin_unlock_irqrestore(&ep->dev->lock, flags);
+ 		return -EINVAL;
+ 	}
+-- 
+2.19.1
 
