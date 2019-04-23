@@ -1,99 +1,202 @@
-Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=tIEv=SZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-8.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5DB4C04AAA
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F0B5C10F14
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 08:51:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8078320830
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 34B2720843
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 08:51:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G88l682d"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="NFxNZ2q1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726371AbfEFJDd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 May 2019 05:03:33 -0400
-Received: from mail-ed1-f50.google.com ([209.85.208.50]:41101 "EHLO
-        mail-ed1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725890AbfEFJDc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:03:32 -0400
-Received: by mail-ed1-f50.google.com with SMTP id m4so14500865edd.8
-        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:03:31 -0700 (PDT)
+        id S1727010AbfDWIvg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Apr 2019 04:51:36 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:34269 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726502AbfDWIvf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Apr 2019 04:51:35 -0400
+Received: by mail-wr1-f68.google.com with SMTP id c6so13410962wrm.1
+        for <linux-usb@vger.kernel.org>; Tue, 23 Apr 2019 01:51:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=PlkR8zEhx2Qim5Zs0mqHecGcHRL4gqAzc2uemQftQuo=;
-        b=G88l682d6c+rzYW3sw0YmM96Zvhogqjj78uKowL+cua9BHmHJIFGyb15IEmvGFT2g4
-         BQaoIRCsHf0wKhDTK9N0uYAkJv2B/10nQoaQgGc5SyVAdPQnUgFTiR5CFXZJrHqfpymk
-         u/FW+EM3b/n7zL60Z0GLaKA6WIymPhg/WwWHExbLpQ3PPptxVZUCjsJkfkohTUal3v6R
-         GtkOC8lZUb/tgtAqJ6l5aCn1+EjwxHC4WBVpHUpUdhcBwg9MOBBsCkR3ewVkGfOMltz9
-         I83QPaPjADZzr8XA54kB+xC8yLcwTezoKxY28cDLYGfm2rWue2bSbKoYUIpJbfLtZ8sf
-         wLTA==
+        bh=2eRvrsWl11jM2CeP6qjHv6pCX8ts9ZzW3hyQekHEmZg=;
+        b=NFxNZ2q15C/vPadP8pQ/wqkRWfwbF8oj5aMRWlrjab/n/RYtvEokoBJPhzat+nnly3
+         TZJFVAItm8wG6AvwCp3hRgFfaKafRR1Tf8chFM6wxjUdSRGeE4hQjxAJdsCezVpiUNeU
+         BLYJ4dCLa3XY8p0zXytJtVowyJrL5HLCrXPnViF2FW/0BseGumfot5QI/jxWgEO2f4nu
+         xBnoLtxdSH8Mk0VFFNBNxPEP0aEukt3LR2MSmHj9ukZjo4QE85awN30KhYMjWtpZH5Z2
+         fqkddNkmJ0ZNfW3Q0RCaKLjnZ3s5/o06I41s9XdomxLI0GyUhBq5c5kob1xjGJ+ZM2Kj
+         Q5WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PlkR8zEhx2Qim5Zs0mqHecGcHRL4gqAzc2uemQftQuo=;
-        b=UygF6XSKoMsoX/8xx+3KLgv7CERqqaybVTWt3cyFFDobAMQ+Jj2OwG+3NL8CaoQNJJ
-         SEVK195cTi8WOE1uHr5V+oblKnBO4/MJpW2D4F9XR44CRpJem3OL4BdsGBEKqotJI1Wc
-         gOPWRtWL3E8zAxsUDR6hRVQcXLvpAR4dPozoyoNRLeRog5vf0Mb3rlYHnT1ACQCEc8/d
-         FmWGVsTt/eEbcCnJ6AE2xp1qDoI7C2OcJvZc+WE/snR1AtII7//lf29R4NXJ3s66fghL
-         08TL4ZYw9WLNB1xMwQR98pZ/jd0uZDA42y2XKXit4F7jlzpYRcM4uv5BIXmL8ThOhGkU
-         mICQ==
-X-Gm-Message-State: APjAAAUTBztrY/UeosYI8G/uc+ZwGsePt4okj/rnrQyvaS6ozNOL4Kzk
-        dMTdkBOldY+1dc5gVPB4FWNmLGSLwrQ=
-X-Google-Smtp-Source: APXvYqyZo7oZ4EG/sPn5x3xamMgomwO5+0szzMTC+yyPc5mZZQ64RL+nPYDFssxQvDjho7n/TY96XA==
-X-Received: by 2002:a17:906:3601:: with SMTP id q1mr18532076ejb.163.1557133410338;
-        Mon, 06 May 2019 02:03:30 -0700 (PDT)
-Received: from localhost (frost.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
-        by smtp.gmail.com with ESMTPSA id b4sm2905482edc.16.2019.05.06.02.03.29
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 06 May 2019 02:03:29 -0700 (PDT)
-From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
-To:     linux-usb@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org,
-        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
-Subject: [PATCH 08/34] lsusb.py: do not entirely hide usb.ids exceptions
-Date:   Mon,  6 May 2019 12:02:15 +0300
-Message-Id: <20190506090241.169665-9-grawity@gmail.com>
+        bh=2eRvrsWl11jM2CeP6qjHv6pCX8ts9ZzW3hyQekHEmZg=;
+        b=O22t8DK6Fr5Fc7/qZmSJLwBjxgldO6FnKgw5pRdCUxPKRKu0rCbKW1mfUu5L8KILAM
+         hh1NRbQ6qpWPPMlMafhS1ciDAPz9nlf+/+zamZT3VkdBe0dsjBsJxNRmU4+Uf85aA1Hq
+         Nif/GgyilSJ4duM7GBwN7zIGmIVAEX4HCZPxP8/Ki0viByeYyKn1VQUuVRyvRhRcHTSX
+         bXNlSvOLOxm9/8LKt3ygDI9VEh7/ZXp9eBQQAfsZ3mznb2KP8EvBKJKzSqHORokX55e6
+         sdS9GmSgsl2wMHcj3fJDh5dixBfetWjZkWN2nv/RTFy+HKhoew4+TGMP2Jwqw1Yhu0s7
+         rL9g==
+X-Gm-Message-State: APjAAAUJjvjVuz5xToibMbSWecjeixS2bHQunNUaVLYZfA5R6AaCWDsr
+        eriQVq7cNGKpfZgSYYLHCTntUQ==
+X-Google-Smtp-Source: APXvYqxxzoajGmQ1hMWGbD+YMXI75HgSK2kM6eXk2ENdEpvOEUn3dUDT26PABekTmPBqCQjkTRcKOg==
+X-Received: by 2002:adf:9051:: with SMTP id h75mr1539366wrh.115.1556009493067;
+        Tue, 23 Apr 2019 01:51:33 -0700 (PDT)
+Received: from bender.baylibre.local (lmontsouris-657-1-212-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id b8sm12515566wrr.64.2019.04.23.01.51.31
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Tue, 23 Apr 2019 01:51:32 -0700 (PDT)
+From:   Neil Armstrong <narmstrong@baylibre.com>
+To:     gregkh@linuxfoundation.org, hminas@synopsys.com, balbi@kernel.org,
+        kishon@ti.com, devicetree@vger.kernel.org,
+        chunfeng.yun@mediatek.com
+Cc:     Neil Armstrong <narmstrong@baylibre.com>,
+        linux-amlogic@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v6 2/4] dt-bindings: usb: dwc3: Add Amlogic G12A DWC3 Glue Bindings
+Date:   Tue, 23 Apr 2019 10:51:25 +0200
+Message-Id: <20190423085127.3863-3-narmstrong@baylibre.com>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190506090241.169665-1-grawity@gmail.com>
-References: <20190506090241.169665-1-grawity@gmail.com>
+In-Reply-To: <20190423085127.3863-1-narmstrong@baylibre.com>
+References: <20190423085127.3863-1-narmstrong@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Message-ID: <20190423085125.XmOKvF28F_HPjf0JCGT3kirySqPNAlNl5S49BMVgp30@z>
 
-Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
+Adds the bindings for the Amlogic G12A USB Glue HW.
+
+The Amlogic G12A SoC Family embeds 2 USB Controllers :
+- a DWC3 IP configured as Host for USB2 and USB3
+- a DWC2 IP configured as Peripheral USB2 Only
+
+A glue connects these both controllers to 2 USB2 PHYs,
+and optionnally to an USB3+PCIE Combo PHY shared with the PCIE controller.
+
+The Glue configures the UTMI 8bit interfaces for the USB2 PHYs, including
+routing of the OTG PHY between the DWC3 and DWC2 controllers, and
+setups the on-chip OTG mode selection for this PHY.
+
+The PHYs phandles are passed  to the Glue node since the Glue controls the
+interface with the PHY, not the DWC3 controller.
+
+Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- lsusb.py.in | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ .../devicetree/bindings/usb/amlogic,dwc3.txt  | 88 +++++++++++++++++++
+ 1 file changed, 88 insertions(+)
 
-diff --git a/lsusb.py.in b/lsusb.py.in
-index f9e273d..0d7ff95 100644
---- a/lsusb.py.in
-+++ b/lsusb.py.in
-@@ -610,9 +610,8 @@ def main(argv):
- 	if usbids[0]:
- 		try:
- 			parse_usb_ids()
--		except:
--			print(" WARNING: Failure to read usb.ids", file=sys.stderr)
--			#print(sys.exc_info(), file=sys.stderr)
-+		except IOError as e:
-+			print("Warning: Failure to read usb.ids:", e, file=sys.stderr)
- 	read_usb()
- 
- # Entry point
+diff --git a/Documentation/devicetree/bindings/usb/amlogic,dwc3.txt b/Documentation/devicetree/bindings/usb/amlogic,dwc3.txt
+index 9a8b631904fd..b9f04e617eb7 100644
+--- a/Documentation/devicetree/bindings/usb/amlogic,dwc3.txt
++++ b/Documentation/devicetree/bindings/usb/amlogic,dwc3.txt
+@@ -40,3 +40,91 @@ Example device nodes:
+ 				phy-names = "usb2-phy", "usb3-phy";
+ 			};
+ 		};
++
++Amlogic Meson G12A DWC3 USB SoC Controller Glue
++
++The Amlogic G12A embeds a DWC3 USB IP Core configured for USB2 and USB3
++in host-only mode, and a DWC2 IP Core configured for USB2 peripheral mode
++only.
++
++A glue connects the DWC3 core to USB2 PHYs and optionnaly to an USB3 PHY.
++
++One of the USB2 PHY can be re-routed in peripheral mode to a DWC2 USB IP.
++
++The DWC3 Glue controls the PHY routing and power, an interrupt line is
++connected to the Glue to serve as OTG ID change detection.
++
++Required properties:
++- compatible:	Should be "amlogic,meson-g12a-usb-ctrl"
++- clocks:	a handle for the "USB" clock
++- resets:	a handle for the shared "USB" reset line
++- reg:		The base address and length of the registers
++- interrupts:	the interrupt specifier for the OTG detection
++- phys: 	handle to used PHYs on the system
++	- a <0> phandle can be used if a PHY is not used
++- phy-names:	names of the used PHYs on the system :
++	- "usb2-phy0" for USB2 PHY0 if USBHOST_A port is used
++	- "usb2-phy1" for USB2 PHY1 if USBOTG_B port is used
++	- "usb3-phy0" for USB3 PHY if USB3_0 is used
++- dr_mode:	should be "host", "peripheral", or "otg" depending on
++	the usage and configuration of the OTG Capable port.
++	- "host" and "peripheral" means a fixed Host or Device only connection
++	- "otg" means the port can be used as both Host or Device and
++	  be switched automatically using the OTG ID pin.
++
++Optional properties:
++- vbus-supply:	should be a phandle to the regulator controlling the VBUS
++		power supply when used in OTG switchable mode
++
++Required child nodes:
++
++A child node must exist to represent the core DWC3 IP block. The name of
++the node is not important. The content of the node is defined in dwc3.txt.
++
++A child node must exist to represent the core DWC2 IP block. The name of
++the node is not important. The content of the node is defined in dwc2.txt.
++
++PHY documentation is provided in the following places:
++- Documentation/devicetree/bindings/phy/meson-g12a-usb2-phy.txt
++- Documentation/devicetree/bindings/phy/meson-g12a-usb3-pcie-phy.txt
++
++Example device nodes:
++	usb: usb@ffe09000 {
++			compatible = "amlogic,meson-g12a-usb-ctrl";
++			reg = <0x0 0xffe09000 0x0 0xa0>;
++			interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
++			#address-cells = <2>;
++			#size-cells = <2>;
++			ranges;
++
++			clocks = <&clkc CLKID_USB>;
++			resets = <&reset RESET_USB>;
++
++			dr_mode = "otg";
++
++			phys = <&usb2_phy0>, <&usb2_phy1>,
++			       <&usb3_pcie_phy PHY_TYPE_USB3>;
++			phy-names = "usb2-phy0", "usb2-phy1", "usb3-phy0";
++
++			dwc2: usb@ff400000 {
++				compatible = "amlogic,meson-g12a-usb", "snps,dwc2";
++				reg = <0x0 0xff400000 0x0 0x40000>;
++				interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
++				clocks = <&clkc CLKID_USB1_DDR_BRIDGE>;
++				clock-names = "ddr";
++				phys = <&usb2_phy1>;
++				dr_mode = "peripheral";
++				g-rx-fifo-size = <192>;
++				g-np-tx-fifo-size = <128>;
++				g-tx-fifo-size = <128 128 16 16 16>;
++			};
++
++			dwc3: usb@ff500000 {
++				compatible = "snps,dwc3";
++				reg = <0x0 0xff500000 0x0 0x100000>;
++				interrupts = <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>;
++				dr_mode = "host";
++				snps,dis_u2_susphy_quirk;
++				snps,quirk-frame-length-adjustment;
++			};
++	};
 -- 
 2.21.0
 
