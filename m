@@ -2,63 +2,86 @@ Return-Path: <SRS0=tIEv=SZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2E22C282DD
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 05:15:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACE36C10F14
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 07:40:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9B9A521841
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 05:15:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 85ABD21738
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 07:40:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726029AbfDWFPh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Apr 2019 01:15:37 -0400
-Received: from shards.monkeyblade.net ([23.128.96.9]:59600 "EHLO
-        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725882AbfDWFPh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Apr 2019 01:15:37 -0400
-Received: from localhost (unknown [IPv6:2601:601:9f80:35cd::d71])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 22BB7108BD789;
-        Mon, 22 Apr 2019 22:15:36 -0700 (PDT)
-Date:   Mon, 22 Apr 2019 22:15:35 -0700 (PDT)
-Message-Id: <20190422.221535.1229436130411690227.davem@davemloft.net>
-To:     crag0715@gmail.com
-Cc:     linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, hayeswang@realtek.com,
-        mario_limonciello@dell.com, crag.wang@dell.com, sjg@chromium.org,
-        grundler@chromium.org, seanpaul@chromium.org, david.chen7@dell.com,
-        kai.heng.feng@canonical.com, gustavo@embeddedor.com,
-        charles.hyde@dell.corp-partner.google.com, bigeasy@linutronix.de,
-        zhongjiang@huawei.com
-Subject: Re: [PATCH v2 1/1] r8152: sync sa_family with the media type of
- network device
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <20190422050344.24513-1-crag0715@gmail.com>
-References: <20190422050344.24513-1-crag0715@gmail.com>
-X-Mailer: Mew version 6.8 on Emacs 26.1
-Mime-Version: 1.0
+        id S1726847AbfDWHkk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Apr 2019 03:40:40 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:7230 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726491AbfDWHk1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 23 Apr 2019 03:40:27 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 5C8582AB8605C2C66D24;
+        Tue, 23 Apr 2019 15:40:22 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
+ 14.3.439.0; Tue, 23 Apr 2019 15:40:16 +0800
+From:   Kefeng Wang <wangkefeng.wang@huawei.com>
+To:     <linux-kernel@vger.kernel.org>
+CC:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Bin Liu <b-liu@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-usb@vger.kernel.org>
+Subject: [PATCH next 24/25] usb: musb: dsps: Use dev_get_drvdata()
+Date:   Tue, 23 Apr 2019 15:50:19 +0800
+Message-ID: <20190423075020.173734-25-wangkefeng.wang@huawei.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190423075020.173734-1-wangkefeng.wang@huawei.com>
+References: <20190423075020.173734-1-wangkefeng.wang@huawei.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Mon, 22 Apr 2019 22:15:36 -0700 (PDT)
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190423051535.uXaDPcHWqyfRZqYfpK9V2yDEhvk6EwlTSRPaYn8I8qY@z>
+Message-ID: <20190423075019.vW_w7I-g7baQ3ido--6VYxnN3mfnxnw9WxAkY0A3Qt8@z>
 
-From: crag0715@gmail.com
-Date: Mon, 22 Apr 2019 13:03:43 +0800
+Using dev_get_drvdata directly.
 
-> From: "Crag.Wang" <crag.wang@dell.com>
-> 
-> Without this patch the socket address family sporadically gets wrong
-> value ends up the dev_set_mac_address() fails to set the desired MAC
-> address.
-> 
-> Signed-off-by: Crag.Wang <crag.wang@dell.com>
+Cc: Bin Liu <b-liu@ti.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+---
+ drivers/usb/musb/musb_dsps.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-Applied to net-next with Fixes: tag added.
+diff --git a/drivers/usb/musb/musb_dsps.c b/drivers/usb/musb/musb_dsps.c
+index 403eb97915f8..327d4f7baaf7 100644
+--- a/drivers/usb/musb/musb_dsps.c
++++ b/drivers/usb/musb/musb_dsps.c
+@@ -168,8 +168,7 @@ static void dsps_mod_timer_optional(struct dsps_glue *glue)
+ static void dsps_musb_enable(struct musb *musb)
+ {
+ 	struct device *dev = musb->controller;
+-	struct platform_device *pdev = to_platform_device(dev->parent);
+-	struct dsps_glue *glue = platform_get_drvdata(pdev);
++	struct dsps_glue *glue = dev_get_drvdata(dev->parent);
+ 	const struct dsps_musb_wrapper *wrp = glue->wrp;
+ 	void __iomem *reg_base = musb->ctrl_base;
+ 	u32 epmask, coremask;
+@@ -195,8 +194,7 @@ static void dsps_musb_enable(struct musb *musb)
+ static void dsps_musb_disable(struct musb *musb)
+ {
+ 	struct device *dev = musb->controller;
+-	struct platform_device *pdev = to_platform_device(dev->parent);
+-	struct dsps_glue *glue = platform_get_drvdata(pdev);
++	struct dsps_glue *glue = dev_get_drvdata(dev->parent);
+ 	const struct dsps_musb_wrapper *wrp = glue->wrp;
+ 	void __iomem *reg_base = musb->ctrl_base;
+ 
+-- 
+2.20.1
+
