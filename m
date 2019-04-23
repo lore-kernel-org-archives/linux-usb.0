@@ -1,205 +1,221 @@
-Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=tIEv=SZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC5F1C04AAA
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84761C10F03
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 16:12:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BF31420830
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:57 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T3Ta1+1u"
+	by mail.kernel.org (Postfix) with ESMTP id 5345E20811
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 16:12:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726425AbfEFJD5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 May 2019 05:03:57 -0400
-Received: from mail-ed1-f53.google.com ([209.85.208.53]:37689 "EHLO
-        mail-ed1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726439AbfEFJD4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:03:56 -0400
-Received: by mail-ed1-f53.google.com with SMTP id w37so14496936edw.4
-        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:03:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=iIq2Yi+7vpIWQsgTfDhCTURtpMBh22kuG0Wc9/8Cwng=;
-        b=T3Ta1+1uYcwnpVENHolx2f5ljyhA3TpAFb5XAfDCH/zUC88BUfBZspVbi4S4qcML04
-         vEOWwx/lVJnBGtOzNgvdci4CvspT91v0Q1mqrNIIX9+ct0oVH14dNf+DaR8ZhAyocGZU
-         3/gcTuCcX6rULx8bStqp9UN2pE/MsmhbwcYKbnEreNBUP8k8lP28cQJPg2yt3yIzMSLD
-         DHtZEgfin4kcxVE0yrS7np3e4tQYEOqMT7T8JXVQmocYw6nRTcRUKQiHfR3dBrqBT2+Y
-         GKUd2tROREhPlMeOsTXQHTQgaVyHjbLU0caBpxaCUOy5LQomXKc+3q65jwNEs+sQfkft
-         LeoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=iIq2Yi+7vpIWQsgTfDhCTURtpMBh22kuG0Wc9/8Cwng=;
-        b=nMMdtxJkuar04vfu1CBWGKcBBpyf8AAL+ybj2Zu8AD/aPi1JXF1UoFwPy5hNoPHeE4
-         mKnjZ4ND6LVH5PbfQ21nFY3dV3hlvD2ncMYqR9M01wS2zY7KM3znlUB35oFe4TodueRQ
-         zY71e9fgIYtZnmc9fc3FeG+sXbCL4FKolP3cDpPNpQ9GqWtD2Gr1N9fBow40yOfJ3WdX
-         8XrA15hab+OrUXUSis3jewQmWDZJzP9SCATpOGzCzCXRWfKIMo8tAbEh+E6oS7Qf5+4X
-         N+xDO+yz8KvrQNmbf4+459PvU4rLI9j2gFLOv2XmnUyEe07PXePbFsOcAcGQvdDYLhzy
-         kW5Q==
-X-Gm-Message-State: APjAAAXtGjLuxSO6ZC3py/RxAkejZaFpOK85NBezjvAs6b8CKiVd+AtU
-        GqfZLlfvaVpBlWWSMs1VXPLrrEHNSPQ=
-X-Google-Smtp-Source: APXvYqwDhvVE6wtuFG42FXVmwLBod1xPP8fum0ZWORz06ORqjP/JFFtJzAfzipZ4PAK31jII1owp8A==
-X-Received: by 2002:a17:906:3154:: with SMTP id e20mr18058578eje.263.1557133434231;
-        Mon, 06 May 2019 02:03:54 -0700 (PDT)
-Received: from localhost (frost.work.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
-        by smtp.gmail.com with ESMTPSA id z4sm1469562ejm.8.2019.05.06.02.03.53
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 06 May 2019 02:03:53 -0700 (PDT)
-From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
-To:     linux-usb@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org,
-        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
-Subject: [PATCH 23/34] lsusb.py: Usb* classes: call read() automatically from constructor
-Date:   Mon,  6 May 2019 12:02:30 +0300
-Message-Id: <20190506090241.169665-24-grawity@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190506090241.169665-1-grawity@gmail.com>
-References: <20190506090241.169665-1-grawity@gmail.com>
+        id S1727737AbfDWQMq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Apr 2019 12:12:46 -0400
+Received: from mx0b-001ae601.pphosted.com ([67.231.152.168]:51854 "EHLO
+        mx0b-001ae601.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726655AbfDWQMq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Apr 2019 12:12:46 -0400
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+        by mx0b-001ae601.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x3NG9oEd014513;
+        Tue, 23 Apr 2019 11:12:36 -0500
+Authentication-Results: ppops.net;
+        spf=none smtp.mailfrom=mkulkarni@opensource.cirrus.com
+Received: from mail3.cirrus.com ([87.246.76.56])
+        by mx0b-001ae601.pphosted.com with ESMTP id 2ryyukmd2k-1;
+        Tue, 23 Apr 2019 11:12:35 -0500
+Received: from EDIEX01.ad.cirrus.com (ediex01.ad.cirrus.com [198.61.84.80])
+        by mail3.cirrus.com (Postfix) with ESMTP id 2A3D46255C4A;
+        Tue, 23 Apr 2019 11:13:07 -0500 (CDT)
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1591.10; Tue, 23 Apr
+ 2019 17:12:34 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.1.1591.10 via Frontend
+ Transport; Tue, 23 Apr 2019 17:12:34 +0100
+Received: from londnb751274.ad.cirrus.com (unknown [198.90.238.37])
+        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id CBCA144;
+        Tue, 23 Apr 2019 17:12:34 +0100 (BST)
+Message-ID: <1556035954.6050.1.camel@opensource.cirrus.com>
+Subject: Re: Query on usb/core/devio.c
+From:   Mayuresh Kulkarni <mkulkarni@opensource.cirrus.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+CC:     USB list <linux-usb@vger.kernel.org>
+Date:   Tue, 23 Apr 2019 17:12:34 +0100
+In-Reply-To: <Pine.LNX.4.44L0.1904011620370.1506-100000@iolanthe.rowland.org>
+References: <Pine.LNX.4.44L0.1904011620370.1506-100000@iolanthe.rowland.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1904230110
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
----
- lsusb.py.in | 41 +++++++++++++++++++++--------------------
- 1 file changed, 21 insertions(+), 20 deletions(-)
+On Mon, 2019-04-01 at 16:22 -0400, Alan Stern wrote:
+> Mayuresh:
+> 
+> Whatever happened to this discussion?  Did you reach a decision on 
+> whether the proposed API addition would suit your needs?
+> 
+> Alan Stern
 
-diff --git a/lsusb.py.in b/lsusb.py.in
-index e9e18dc..09363d3 100644
---- a/lsusb.py.in
-+++ b/lsusb.py.in
-@@ -238,16 +238,18 @@ def find_dev(driver, usbname):
- 
- class UsbEndpoint:
- 	"Container for USB endpoint info"
--	def __init__(self, parent = None, indent = 18):
-+	def __init__(self, parent, fname, indent=18):
- 		self.parent = parent
- 		self.indent = indent
--		self.fname = ""
-+		self.fname = fname
- 		self.epaddr = 0
- 		self.len = 0
- 		self.ival = ""
- 		self.type = ""
- 		self.attr = 0
- 		self.max = 0
-+		if self.fname:
-+			self.read(self.fname)
- 
- 	def read(self, fname):
- 		fullpath = ""
-@@ -271,11 +273,11 @@ class UsbEndpoint:
- 
- class UsbInterface:
- 	"Container for USB interface info"
--	def __init__(self, parent = None, level = 1):
-+	def __init__(self, parent, fname, level=1):
- 		self.parent = parent
- 		self.level = level
- 		self.fullpath = ""
--		self.fname = ""
-+		self.fname = fname
- 		self.iclass = 0
- 		self.isclass = 0
- 		self.iproto = 0
-@@ -284,6 +286,9 @@ class UsbInterface:
- 		self.devname = ""
- 		self.protoname = ""
- 		self.eps = []
-+		if self.fname:
-+			self.read(self.fname)
-+
- 	def read(self, fname):
- 		fullpath = ""
- 		if self.parent:
-@@ -302,10 +307,9 @@ class UsbInterface:
- 			pass
- 		self.protoname = find_usb_class(self.iclass, self.isclass, self.iproto)
- 		if showeps:
--			for epfnm in os.listdir(prefix + fullpath):
--				if epfnm[:3] == "ep_":
--					ep = UsbEndpoint(self, self.level+len(self.fname))
--					ep.read(epfnm)
-+			for dirent in os.listdir(prefix + fullpath):
-+				if dirent[:3] == "ep_":
-+					ep = UsbEndpoint(self, dirent, self.level + len(self.fname))
- 					self.eps.append(ep)
- 
- 	def __str__(self):
-@@ -326,10 +330,10 @@ class UsbInterface:
- 
- class UsbDevice:
- 	"Container for USB device info"
--	def __init__(self, parent = None, level = 0):
-+	def __init__(self, parent, fname, level=0):
- 		self.parent = parent
- 		self.level = level
--		self.fname = ""
-+		self.fname = fname
- 		self.fullpath = ""
- 		self.iclass = 0
- 		self.isclass = 0
-@@ -346,6 +350,9 @@ class UsbDevice:
- 		self.devname = ""
- 		self.interfaces = []
- 		self.children = []
-+		if self.fname:
-+			self.read(self.fname)
-+			self.readchildren()
- 
- 	def read(self, fname):
- 		self.fname = fname
-@@ -402,13 +409,10 @@ class UsbDevice:
- 			if not dirent[0:1].isdigit():
- 				continue
- 			if os.access(prefix + dirent + "/bInterfaceClass", os.R_OK):
--				iface = UsbInterface(self, self.level+1)
--				iface.read(dirent)
-+				iface = UsbInterface(self, dirent, self.level+1)
- 				self.interfaces.append(iface)
- 			else:
--				usbdev = UsbDevice(self, self.level+1)
--				usbdev.read(dirent)
--				usbdev.readchildren()
-+				usbdev = UsbDevice(self, dirent, self.level+1)
- 				self.children.append(usbdev)
- 		usbsortkey = lambda obj: [int(x) for x in re.split(r"[-:.]", obj.fname)]
- 		self.interfaces.sort(key=usbsortkey)
-@@ -438,8 +442,7 @@ class UsbDevice:
- 			else:
- 				strg += "\n"
- 				if showeps:
--					ep = UsbEndpoint(self, self.level+len(self.fname))
--					ep.read("ep_00")
-+					ep = UsbEndpoint(self, "ep_00", self.level+len(self.fname))
- 					strg += str(ep)
- 				if showint:	
- 					for iface in self.interfaces:
-@@ -472,9 +475,7 @@ def read_usb():
- 	for dirent in os.listdir(prefix):
- 		if not dirent[0:3] == "usb":
- 			continue
--		usbdev = UsbDevice(None, 0)
--		usbdev.read(dirent)
--		usbdev.readchildren()
-+		usbdev = UsbDevice(None, dirent, 0)
- 		root_hubs.append(usbdev)
- 	root_hubs.sort(key=lambda x: int(x.fname[3:]))
- 	for usbdev in root_hubs:
--- 
-2.21.0
+Hi Alan,
 
+Apologies for not being able to respond to this email thread before.
+Around mid-Dec of 2018, I got allocated to some other completely different
+project for couple of months.
+
+Just at the of start of Apr 2019, I am back to the USB-audio project and this
+discussion.
+So almost perfect timing for your nudge.
+
+I am in process of setting up my environment and should have some result at-
+most 
+by early next week. I am attempting to verify the use-case of suspend/resume
+with: host wake and remote wake.
+
+Thanks again for your nudge.
+
+> 
+> 
+> On Tue, 20 Nov 2018, Mayuresh Kulkarni wrote:
+> 
+> > 
+> > On Fri, 2018-11-16 at 11:08 -0500, Alan Stern wrote:
+> > > 
+> > > On Fri, 16 Nov 2018, Mayuresh Kulkarni wrote:
+> > > 
+> > > > 
+> > > > 
+> > > > Thanks for the comments. Based on the info so far, attempting to
+> > > > summarize
+> > > > the
+> > > > probable solution, to ensure that I understand it clearly -
+> > > > 
+> > > > Facts -
+> > > > 1. USBFS driver grabs a PM ref-count in .open and drops it in .close
+> > > > which
+> > > > means
+> > > > USB device cannot suspend untill user-space closes it (even if all
+> > > > interface
+> > > > drivers report "idle" to usb-core).
+> > > > 2. Since the .ioctl "knows" that .open has ensured to keep device
+> > > > active, it
+> > > > does not call PM runtime APIs.
+> > > > 
+> > > > Proposal -
+> > > > 1. Add new ioctl: suspend & wait-for-resume
+> > > > 2. suspend ioctl: decrements PM ref count and return
+> > > > 3. wait-for-resume ioctl: wait for resume or timeout or signal
+> > > Do you really want to have a timeout for this ioctl?  Maybe it isn't 
+> > > important -- I don't know.
+> > > 
+> > Agreed, the timeout probably is not needed in this proposal.
+> > 
+> > > 
+> > > > 
+> > > > 
+> > > > 4. Modify .ioctl implementation to do PM runtime calls except for above
+> > > > "new"
+> > > > ioctl calls (so pm_runtime_get_sync -> ioctl -> response ->
+> > > > pm_runtime_put_sync). This also means, pm runtime get/put will be in
+> > > > both
+> > > > .open/.close.
+> > > That's not exactly what I had in mind.  Open will do:
+> > > 
+> > > 	ps->runtime_active = true;
+> > > 
+> > > The new suspend ioctl will do this:
+> > > 
+> > > 	if (ps->runtime_active) {
+> > > 		usb_autosuspend_device(ps->dev);
+> > > 		ps->runtime_active = false;
+> > > 	}
+> > > 
+> > > and the old ioctls (and close) will do this at the start:
+> > > 
+> > > 	if (!ps->runtime_active) {
+> > > 		if (usb_autoresume_device(ps->dev))
+> > > 			return -EIO;	/* Could not resume */
+> > > 		ps->runtime_active = true;
+> > > 	}		
+> > > 
+> > > This means that after any interaction with the device, you will have to 
+> > > call the suspend ioctl again if you want the device to go back to 
+> > > sleep.
+> > > 
+> > Thanks, looks good.
+> > 
+> > > 
+> > > > 
+> > > > 
+> > > > Use-case analysis -
+> > > > 1. Remote-wake: Due to device's remote wake, wait-for-resume will return
+> > > > successfully. The user space caller then need to queue a request to
+> > > > "know"
+> > > > the
+> > > > reason of remote-wake.
+> > > > 2. Host-wake: The user-space caller issues any ioctl supported by .ioctl
+> > > > method.
+> > > > Due to (4) above, the device will be resumed and the ioctl will be
+> > > > performed.
+> > > Correct.
+> > > 
+> > > > 
+> > > > 
+> > > > For (2) in use-case analysis, the user-space caller's wait-for-resume
+> > > > will
+> > > > also
+> > > > return, but since it knows that it has initiated the ioctl, it may or
+> > > > may
+> > > > not
+> > > > decide to queue a request. Instead, when ioctl returns it can call wait-
+> > > > for-
+> > > > resume again.
+> > > Yes.  Of course, your app will have some way to check for user
+> > > interaction with the device.  Doing these checks while the device is
+> > > suspended would be counter-productive, since the check itself would
+> > > wake up the device.  So you will probably want to do a check as soon as
+> > > you know the device has woken up, regardless of the cause.  If you 
+> > > don't, you run the risk of not noticing a user interaction.
+> > > 
+> > > > 
+> > > > 
+> > > > Am I getting in sync with your comments?
+> > > > 
+> > > > What issue(s) you anticipate in above proposal due to inherent race
+> > > > condition
+> > > > between host and remote-wake?
+> > > Only what I mentioned above, that your program should check for user 
+> > > interaction whenever it knows the device has woken up.
+> > > 
+> > Thanks, looks good.
+> > 
+> > > 
+> > > > 
+> > > > 
+> > > > Based on my meagre understanding of usb-core, it feels
+> > > > like usb_lock_device/usb_unlock_device calls around remote-wake and
+> > > > usbfs
+> > > > ioctl
+> > > > should help with race condition, right?
+> > > No, they will not help.  This is not a race between two different parts
+> > > of the kernel both trying to communicate with the device; it is a race
+> > > between the kernel and the user.  usb_lock_device doesn't prevent the 
+> > > user from interacting with the device.  :-)
+> > > 
+> > > Alan Stern
+> > I will go back and review this proposal internally. Possibly also attempt to
+> > implement a quick version of it and see how it behaves. Will keep this email
+> > thread posted with relevant updates.
+> > 
+> > Thanks Alan and Oliver for the all inputs and comments so far.
