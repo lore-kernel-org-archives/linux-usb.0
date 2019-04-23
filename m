@@ -1,147 +1,837 @@
-Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=tIEv=SZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91503C04AAA
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95035C282DD
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 14:22:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 61DF720830
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:47 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A3r1o8YU"
+	by mail.kernel.org (Postfix) with ESMTP id 5B9ED214AE
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 14:22:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726418AbfEFJDq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 May 2019 05:03:46 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:38525 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726406AbfEFJDq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:03:46 -0400
-Received: by mail-ed1-f67.google.com with SMTP id w11so14499289edl.5
-        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:03:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=uBMN0crpS7ytOu7c5Dj91u7O5WFlNLACAuPS/rtkits=;
-        b=A3r1o8YUw2x+4h4KVcmEfJHaRErygmtaJheNCr1535KyUx3MCZ+Ul3HirAxo5GVcbB
-         faFw8z8r0IaW9nwu/7hmdrP3+EOddZHtamdcI1D+M2XMkrTItNAR+Hpp4950sN9eQcdJ
-         C4SSb+TmmpPy1R8gG4XVYZtMovvlXrqhnlgpH81SiyqDR2vXRPhnq0su/2NTGyEnus3v
-         yj9cPs/nUTIyWznrS50nKVuEy1NsQ6JLQoLugIZUM4BZ9GRbfbxtIMF1ss97MNI9bDhS
-         ezKuYlrUMQZecivfkp5MdUxuZ+Y6ByWvvYYEl8qBWpma67Qdd6uslyjGYU/AbepvrZ13
-         NMeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=uBMN0crpS7ytOu7c5Dj91u7O5WFlNLACAuPS/rtkits=;
-        b=Mj9MU/sVFlv3ycyYzB7WyvR1rpBHeAd+tjp3xq18weGw/t/aTHD9HGVvAPtmhkXR+h
-         sTr9kUZJjomZNP3j4Zmn1vCKkq/UczJ7A+Fsu5tNqbb48qlhFvA24oypPN7sA6Hraj6h
-         U47D9NYuK/5F1bd7bwjR+hNuS3af1lMbbh39wjrDO0VWINPSfEwaIxIrFU43lvxl5G7D
-         JuhAHxfY3i00tXhA/0bcxTgmBXfws1VcVr6ZheGhT4nzPLMrJq0ZQmR5C5yPmSlJ5o66
-         uVewKaGZ4YIt6yV358+YUoVDcy9/4dOidaYAiFjAuSQasvGZ9mGD+32ZVqPgNGtr2lhB
-         y5UA==
-X-Gm-Message-State: APjAAAUY6IflP2clUJsXvKBlbeK9KDbG9sRB5E9hQA2PfWPnCrBs+ND5
-        1REk1GbHe6SiT5wH8lR9a7mU7Z9fICg=
-X-Google-Smtp-Source: APXvYqyZ2EJg3ASBfbMK6SCZxGOu2z+RU0OWq06PqGg1Vb5iT6zBtJVkOLR4GD4AhH6Poj89hJ778A==
-X-Received: by 2002:a50:99ca:: with SMTP id n10mr24795574edb.279.1557133424550;
-        Mon, 06 May 2019 02:03:44 -0700 (PDT)
-Received: from localhost (frost.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
-        by smtp.gmail.com with ESMTPSA id m4sm2893784ede.0.2019.05.06.02.03.43
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 06 May 2019 02:03:43 -0700 (PDT)
-From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
-To:     linux-usb@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org,
-        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
-Subject: [PATCH 17/34] lsusb.py: cosmetic - replace tuples-as-"immutable lists" with regular lists
-Date:   Mon,  6 May 2019 12:02:24 +0300
-Message-Id: <20190506090241.169665-18-grawity@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190506090241.169665-1-grawity@gmail.com>
-References: <20190506090241.169665-1-grawity@gmail.com>
+        id S1728144AbfDWOWB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Apr 2019 10:22:01 -0400
+Received: from mga01.intel.com ([192.55.52.88]:63190 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726659AbfDWOWB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 23 Apr 2019 10:22:01 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Apr 2019 07:22:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,386,1549958400"; 
+   d="scan'208";a="167140005"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 23 Apr 2019 07:21:59 -0700
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Ajay Gupta <ajayg@nvidia.com>, linux-usb@vger.kernel.org
+Subject: [PATCH v4 4/7] usb: typec: ucsi: Preliminary support for alternate modes
+Date:   Tue, 23 Apr 2019 17:21:48 +0300
+Message-Id: <20190423142151.26135-5-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190423142151.26135-1-heikki.krogerus@linux.intel.com>
+References: <20190423142151.26135-1-heikki.krogerus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Message-ID: <20190423142148.srnpWMtoKt6o5G3rE0pTjm2F4tI-APQ8MrD1Js-TG_E@z>
 
-Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
+With UCSI the alternate modes, just like everything else
+related to USB Type-C connectors, are handled in firmware.
+The operating system can see the status and is allowed to
+request certain things, for example entering and exiting the
+modes, but the support for alternate modes is very limited
+in UCSI. The feature is also optional, which means that even
+when the platform supports alternate modes, the operating
+system may not be even made aware of them.
+
+UCSI does not support direct VDM reading or writing.
+Instead, alternate modes can be entered and exited using a
+single custom command which takes also an optional SVID
+specific configuration value as parameter. That means every
+supported alternate mode has to be handled separately in
+UCSI driver.
+
+This commit does not include support for any specific
+alternate mode. The discovered alternate modes are now
+registered, but binding a driver to an alternate mode will
+not be possible until support for that alternate mode is
+added to the UCSI driver.
+
+Tested-by: Ajay Gupta <ajayg@nvidia.com>
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
- lsusb.py.in | 39 ++++++++++++++++++++++-----------------
- 1 file changed, 22 insertions(+), 17 deletions(-)
+ drivers/usb/typec/ucsi/trace.c |  12 +
+ drivers/usb/typec/ucsi/trace.h |  26 +++
+ drivers/usb/typec/ucsi/ucsi.c  | 385 +++++++++++++++++++++++++--------
+ drivers/usb/typec/ucsi/ucsi.h  |  97 +++++++++
+ 4 files changed, 428 insertions(+), 92 deletions(-)
 
-diff --git a/lsusb.py.in b/lsusb.py.in
-index 73b4e67..f19401c 100644
---- a/lsusb.py.in
-+++ b/lsusb.py.in
-@@ -22,7 +22,12 @@ nohub = False
- showeps = False
+diff --git a/drivers/usb/typec/ucsi/trace.c b/drivers/usb/typec/ucsi/trace.c
+index ffa3b4c3f338..1dabafb74320 100644
+--- a/drivers/usb/typec/ucsi/trace.c
++++ b/drivers/usb/typec/ucsi/trace.c
+@@ -60,3 +60,15 @@ const char *ucsi_cci_str(u32 cci)
  
- prefix = "/sys/bus/usb/devices/"
--usbids = ("@usbids@", "/usr/share/usb.ids", "/usr/share/libosinfo/usb.ids", "/usr/share/kcmusb/usb.ids", )
-+usbids = [
-+	"@usbids@",
-+	"/usr/share/usb.ids",
-+	"/usr/share/libosinfo/usb.ids",
-+	"/usr/share/kcmusb/usb.ids",
-+]
+ 	return "";
+ }
++
++static const char * const ucsi_recipient_strs[] = {
++	[UCSI_RECIPIENT_CON]		= "port",
++	[UCSI_RECIPIENT_SOP]		= "partner",
++	[UCSI_RECIPIENT_SOP_P]		= "plug (prime)",
++	[UCSI_RECIPIENT_SOP_PP]		= "plug (double prime)",
++};
++
++const char *ucsi_recipient_str(u8 recipient)
++{
++	return ucsi_recipient_strs[recipient];
++}
+diff --git a/drivers/usb/typec/ucsi/trace.h b/drivers/usb/typec/ucsi/trace.h
+index 5e2906df2db7..783ec9c72055 100644
+--- a/drivers/usb/typec/ucsi/trace.h
++++ b/drivers/usb/typec/ucsi/trace.h
+@@ -7,6 +7,7 @@
+ #define __UCSI_TRACE_H
  
- esc = chr(27)
- norm = esc + "[0;0m"
-@@ -145,20 +150,21 @@ def find_usb_class(cid, sid, pid):
- 	return ""
+ #include <linux/tracepoint.h>
++#include <linux/usb/typec_altmode.h>
  
+ const char *ucsi_cmd_str(u64 raw_cmd);
+ const char *ucsi_ack_str(u8 ack);
+@@ -134,6 +135,31 @@ DEFINE_EVENT(ucsi_log_connector_status, ucsi_register_port,
+ 	TP_ARGS(port, status)
+ );
  
--devlst = (	'host', 	# usb-storage
--		'video4linux/video', 	# uvcvideo et al.
--		'sound/card',	# snd-usb-audio 
--		'net/', 	# cdc_ether, ...
--		'input/input',	# usbhid
--		'usb:hiddev',	# usb hid
--		'bluetooth/hci',	# btusb
--		'ttyUSB',	# btusb
--		'tty/',		# cdc_acm
--		'usb:lp',	# usblp
--		#'usb/lp',	# usblp 
--		'usb/',		# hiddev, usblp
--		#'usbhid',	# hidraw
--	)
-+devlst = [
-+	'host',			# usb-storage
-+	'video4linux/video',	# uvcvideo et al.
-+	'sound/card',		# snd-usb-audio
-+	'net/',			# cdc_ether, ...
-+	'input/input',		# usbhid
-+	'usb:hiddev',		# usb hid
-+	'bluetooth/hci',	# btusb
-+	'ttyUSB',		# btusb
-+	'tty/',			# cdc_acm
-+	'usb:lp',		# usblp
-+	#'usb/lp',		# usblp
-+	'usb/',			# hiddev, usblp
-+	#'usbhid',		# hidraw
-+]
++DECLARE_EVENT_CLASS(ucsi_log_register_altmode,
++	TP_PROTO(u8 recipient, struct typec_altmode *alt),
++	TP_ARGS(recipient, alt),
++	TP_STRUCT__entry(
++		__field(u8, recipient)
++		__field(u16, svid)
++		__field(u8, mode)
++		__field(u32, vdo)
++	),
++	TP_fast_assign(
++		__entry->recipient = recipient;
++		__entry->svid = alt->svid;
++		__entry->mode = alt->mode;
++		__entry->vdo = alt->vdo;
++	),
++	TP_printk("%s alt mode: svid %04x, mode %d vdo %x",
++		  ucsi_recipient_str(__entry->recipient), __entry->svid,
++		  __entry->mode, __entry->vdo)
++);
++
++DEFINE_EVENT(ucsi_log_register_altmode, ucsi_register_altmode,
++	TP_PROTO(u8 recipient, struct typec_altmode *alt),
++	TP_ARGS(recipient, alt)
++);
++
+ #endif /* __UCSI_TRACE_H */
  
- def find_storage(hostno):
- 	"Return SCSI block dev names for host"
-@@ -528,8 +534,7 @@ def main(argv):
- 			print("Warning: option -w is no longer supported", file=sys.stderr)
- 			continue
- 		if opt[0] in {"-f", "--usbids-path"}:
--			#usbids = (opt[1], *usbids)
--			usbids = (opt[1],)
-+			usbids = [opt[1]]
- 			continue
- 		if opt[0] in {"-e", "--endpoints"}:
- 			showeps = True
+ /* This part must be outside protection */
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index 8d0a6fe748bd..fcb9434f218a 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -12,7 +12,7 @@
+ #include <linux/module.h>
+ #include <linux/delay.h>
+ #include <linux/slab.h>
+-#include <linux/usb/typec.h>
++#include <linux/usb/typec_altmode.h>
+ 
+ #include "ucsi.h"
+ #include "trace.h"
+@@ -39,49 +39,6 @@
+  */
+ #define UCSI_SWAP_TIMEOUT_MS	5000
+ 
+-enum ucsi_status {
+-	UCSI_IDLE = 0,
+-	UCSI_BUSY,
+-	UCSI_ERROR,
+-};
+-
+-struct ucsi_connector {
+-	int num;
+-
+-	struct ucsi *ucsi;
+-	struct work_struct work;
+-	struct completion complete;
+-
+-	struct typec_port *port;
+-	struct typec_partner *partner;
+-
+-	struct typec_capability typec_cap;
+-
+-	struct ucsi_connector_status status;
+-	struct ucsi_connector_capability cap;
+-};
+-
+-struct ucsi {
+-	struct device *dev;
+-	struct ucsi_ppm *ppm;
+-
+-	enum ucsi_status status;
+-	struct completion complete;
+-	struct ucsi_capability cap;
+-	struct ucsi_connector *connector;
+-
+-	struct work_struct work;
+-
+-	/* PPM Communication lock */
+-	struct mutex ppm_lock;
+-
+-	/* PPM communication flags */
+-	unsigned long flags;
+-#define EVENT_PENDING	0
+-#define COMMAND_PENDING	1
+-#define ACK_PENDING	2
+-};
+-
+ static inline int ucsi_sync(struct ucsi *ucsi)
+ {
+ 	if (ucsi->ppm && ucsi->ppm->sync)
+@@ -238,8 +195,207 @@ static int ucsi_run_command(struct ucsi *ucsi, struct ucsi_control *ctrl,
+ 	return ret;
+ }
+ 
++int ucsi_send_command(struct ucsi *ucsi, struct ucsi_control *ctrl,
++		      void *retval, size_t size)
++{
++	int ret;
++
++	mutex_lock(&ucsi->ppm_lock);
++	ret = ucsi_run_command(ucsi, ctrl, retval, size);
++	mutex_unlock(&ucsi->ppm_lock);
++
++	return ret;
++}
++
+ /* -------------------------------------------------------------------------- */
+ 
++void ucsi_altmode_update_active(struct ucsi_connector *con)
++{
++	const struct typec_altmode *altmode = NULL;
++	struct ucsi_control ctrl;
++	int ret;
++	u8 cur;
++	int i;
++
++	UCSI_CMD_GET_CURRENT_CAM(ctrl, con->num);
++	ret = ucsi_run_command(con->ucsi, &ctrl, &cur, sizeof(cur));
++	if (ret < 0) {
++		if (con->ucsi->ppm->data->version > 0x0100) {
++			dev_err(con->ucsi->dev,
++				"GET_CURRENT_CAM command failed\n");
++			return;
++		}
++		cur = 0xff;
++	}
++
++	if (cur < UCSI_MAX_ALTMODES)
++		altmode = typec_altmode_get_partner(con->port_altmode[cur]);
++
++	for (i = 0; con->partner_altmode[i]; i++)
++		typec_altmode_update_active(con->partner_altmode[i],
++					    con->partner_altmode[i] == altmode);
++}
++
++static u8 ucsi_altmode_next_mode(struct typec_altmode **alt, u16 svid)
++{
++	u8 mode = 1;
++	int i;
++
++	for (i = 0; alt[i]; i++)
++		if (alt[i]->svid == svid)
++			mode++;
++
++	return mode;
++}
++
++static int ucsi_next_altmode(struct typec_altmode **alt)
++{
++	int i = 0;
++
++	for (i = 0; i < UCSI_MAX_ALTMODES; i++)
++		if (!alt[i])
++			return i;
++
++	return -ENOENT;
++}
++
++static int ucsi_register_altmode(struct ucsi_connector *con,
++				 struct typec_altmode_desc *desc,
++				 u8 recipient)
++{
++	struct typec_altmode *alt;
++	int ret;
++	int i;
++
++	switch (recipient) {
++	case UCSI_RECIPIENT_CON:
++		i = ucsi_next_altmode(con->port_altmode);
++		if (i < 0) {
++			ret = i;
++			goto err;
++		}
++
++		desc->mode = ucsi_altmode_next_mode(con->port_altmode,
++						    desc->svid);
++
++		alt = typec_port_register_altmode(con->port, desc);
++		if (IS_ERR(alt)) {
++			ret = PTR_ERR(alt);
++			goto err;
++		}
++
++		con->port_altmode[i] = alt;
++		break;
++	case UCSI_RECIPIENT_SOP:
++		i = ucsi_next_altmode(con->partner_altmode);
++		if (i < 0) {
++			ret = i;
++			goto err;
++		}
++
++		desc->mode = ucsi_altmode_next_mode(con->partner_altmode,
++						    desc->svid);
++
++		alt = typec_partner_register_altmode(con->partner, desc);
++		if (IS_ERR(alt)) {
++			ret = PTR_ERR(alt);
++			goto err;
++		}
++
++		con->partner_altmode[i] = alt;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	trace_ucsi_register_altmode(recipient, alt);
++
++	return 0;
++
++err:
++	dev_err(con->ucsi->dev, "failed to registers svid 0x%04x mode %d\n",
++		desc->svid, desc->mode);
++
++	return ret;
++}
++
++static int ucsi_register_altmodes(struct ucsi_connector *con, u8 recipient)
++{
++	int max_altmodes = UCSI_MAX_ALTMODES;
++	struct typec_altmode_desc desc;
++	struct ucsi_altmode alt[2];
++	struct ucsi_control ctrl;
++	int num = 1;
++	int ret;
++	int len;
++	int j;
++	int i;
++
++	if (!(con->ucsi->cap.features & UCSI_CAP_ALT_MODE_DETAILS))
++		return 0;
++
++	if (recipient == UCSI_RECIPIENT_SOP && con->partner_altmode[0])
++		return 0;
++
++	if (recipient == UCSI_RECIPIENT_CON)
++		max_altmodes = con->ucsi->cap.num_alt_modes;
++
++	for (i = 0; i < max_altmodes;) {
++		memset(alt, 0, sizeof(alt));
++		UCSI_CMD_GET_ALTERNATE_MODES(ctrl, recipient, con->num, i, 1);
++		len = ucsi_run_command(con->ucsi, &ctrl, alt, sizeof(alt));
++		if (len <= 0)
++			return len;
++
++		/*
++		 * This code is requesting one alt mode at a time, but some PPMs
++		 * may still return two. If that happens both alt modes need be
++		 * registered and the offset for the next alt mode has to be
++		 * incremented.
++		 */
++		num = len / sizeof(alt[0]);
++		i += num;
++
++		for (j = 0; j < num; j++) {
++			if (!alt[j].svid)
++				return 0;
++
++			memset(&desc, 0, sizeof(desc));
++			desc.vdo = alt[j].mid;
++			desc.svid = alt[j].svid;
++			desc.roles = TYPEC_PORT_DRD;
++
++			ret = ucsi_register_altmode(con, &desc, recipient);
++			if (ret)
++				return ret;
++		}
++	}
++
++	return 0;
++}
++
++static void ucsi_unregister_altmodes(struct ucsi_connector *con, u8 recipient)
++{
++	struct typec_altmode **adev;
++	int i = 0;
++
++	switch (recipient) {
++	case UCSI_RECIPIENT_CON:
++		adev = con->port_altmode;
++		break;
++	case UCSI_RECIPIENT_SOP:
++		adev = con->partner_altmode;
++		break;
++	default:
++		return;
++	}
++
++	while (adev[i]) {
++		typec_unregister_altmode(adev[i]);
++		adev[i++] = NULL;
++	}
++}
++
+ static void ucsi_pwr_opmode_change(struct ucsi_connector *con)
+ {
+ 	switch (con->status.pwr_op_mode) {
+@@ -299,10 +455,43 @@ static void ucsi_unregister_partner(struct ucsi_connector *con)
+ 	if (!con->partner)
+ 		return;
+ 
++	ucsi_unregister_altmodes(con, UCSI_RECIPIENT_SOP);
+ 	typec_unregister_partner(con->partner);
+ 	con->partner = NULL;
+ }
+ 
++static void ucsi_partner_change(struct ucsi_connector *con)
++{
++	int ret;
++
++	if (!con->partner)
++		return;
++
++	switch (con->status.partner_type) {
++	case UCSI_CONSTAT_PARTNER_TYPE_UFP:
++		typec_set_data_role(con->port, TYPEC_HOST);
++		break;
++	case UCSI_CONSTAT_PARTNER_TYPE_DFP:
++		typec_set_data_role(con->port, TYPEC_DEVICE);
++		break;
++	default:
++		break;
++	}
++
++	/* Complete pending data role swap */
++	if (!completion_done(&con->complete))
++		complete(&con->complete);
++
++	/* Can't rely on Partner Flags field. Always checking the alt modes. */
++	ret = ucsi_register_altmodes(con, UCSI_RECIPIENT_SOP);
++	if (ret)
++		dev_err(con->ucsi->dev,
++			"con%d: failed to register partner alternate modes\n",
++			con->num);
++	else
++		ucsi_altmode_update_active(con);
++}
++
+ static void ucsi_connector_change(struct work_struct *work)
+ {
+ 	struct ucsi_connector *con = container_of(work, struct ucsi_connector,
+@@ -311,10 +500,10 @@ static void ucsi_connector_change(struct work_struct *work)
+ 	struct ucsi_control ctrl;
+ 	int ret;
+ 
+-	mutex_lock(&ucsi->ppm_lock);
++	mutex_lock(&con->lock);
+ 
+ 	UCSI_CMD_GET_CONNECTOR_STATUS(ctrl, con->num);
+-	ret = ucsi_run_command(ucsi, &ctrl, &con->status, sizeof(con->status));
++	ret = ucsi_send_command(ucsi, &ctrl, &con->status, sizeof(con->status));
+ 	if (ret < 0) {
+ 		dev_err(ucsi->dev, "%s: GET_CONNECTOR_STATUS failed (%d)\n",
+ 			__func__, ret);
+@@ -332,23 +521,6 @@ static void ucsi_connector_change(struct work_struct *work)
+ 			complete(&con->complete);
+ 	}
+ 
+-	if (con->status.change & UCSI_CONSTAT_PARTNER_CHANGE) {
+-		switch (con->status.partner_type) {
+-		case UCSI_CONSTAT_PARTNER_TYPE_UFP:
+-			typec_set_data_role(con->port, TYPEC_HOST);
+-			break;
+-		case UCSI_CONSTAT_PARTNER_TYPE_DFP:
+-			typec_set_data_role(con->port, TYPEC_DEVICE);
+-			break;
+-		default:
+-			break;
+-		}
+-
+-		/* Complete pending data role swap */
+-		if (!completion_done(&con->complete))
+-			complete(&con->complete);
+-	}
+-
+ 	if (con->status.change & UCSI_CONSTAT_CONNECT_CHANGE) {
+ 		typec_set_pwr_role(con->port, con->status.pwr_dir);
+ 
+@@ -369,6 +541,19 @@ static void ucsi_connector_change(struct work_struct *work)
+ 			ucsi_unregister_partner(con);
+ 	}
+ 
++	if (con->status.change & UCSI_CONSTAT_CAM_CHANGE) {
++		/*
++		 * We don't need to know the currently supported alt modes here.
++		 * Running GET_CAM_SUPPORTED command just to make sure the PPM
++		 * does not get stuck in case it assumes we do so.
++		 */
++		UCSI_CMD_GET_CAM_SUPPORTED(ctrl, con->num);
++		ucsi_run_command(con->ucsi, &ctrl, NULL, 0);
++	}
++
++	if (con->status.change & UCSI_CONSTAT_PARTNER_CHANGE)
++		ucsi_partner_change(con);
++
+ 	ret = ucsi_ack(ucsi, UCSI_ACK_EVENT);
+ 	if (ret)
+ 		dev_err(ucsi->dev, "%s: ACK failed (%d)", __func__, ret);
+@@ -377,7 +562,7 @@ static void ucsi_connector_change(struct work_struct *work)
+ 
+ out_unlock:
+ 	clear_bit(EVENT_PENDING, &ucsi->flags);
+-	mutex_unlock(&ucsi->ppm_lock);
++	mutex_unlock(&con->lock);
+ }
+ 
+ /**
+@@ -427,7 +612,7 @@ static int ucsi_reset_connector(struct ucsi_connector *con, bool hard)
+ 
+ 	UCSI_CMD_CONNECTOR_RESET(ctrl, con, hard);
+ 
+-	return ucsi_run_command(con->ucsi, &ctrl, NULL, 0);
++	return ucsi_send_command(con->ucsi, &ctrl, NULL, 0);
+ }
+ 
+ static int ucsi_reset_ppm(struct ucsi *ucsi)
+@@ -481,15 +666,17 @@ static int ucsi_role_cmd(struct ucsi_connector *con, struct ucsi_control *ctrl)
+ {
+ 	int ret;
+ 
+-	ret = ucsi_run_command(con->ucsi, ctrl, NULL, 0);
++	ret = ucsi_send_command(con->ucsi, ctrl, NULL, 0);
+ 	if (ret == -ETIMEDOUT) {
+ 		struct ucsi_control c;
+ 
+ 		/* PPM most likely stopped responding. Resetting everything. */
++		mutex_lock(&con->ucsi->ppm_lock);
+ 		ucsi_reset_ppm(con->ucsi);
++		mutex_unlock(&con->ucsi->ppm_lock);
+ 
+ 		UCSI_CMD_SET_NTFY_ENABLE(c, UCSI_ENABLE_NTFY_ALL);
+-		ucsi_run_command(con->ucsi, &c, NULL, 0);
++		ucsi_send_command(con->ucsi, &c, NULL, 0);
+ 
+ 		ucsi_reset_connector(con, true);
+ 	}
+@@ -504,10 +691,12 @@ ucsi_dr_swap(const struct typec_capability *cap, enum typec_data_role role)
+ 	struct ucsi_control ctrl;
+ 	int ret = 0;
+ 
+-	if (!con->partner)
+-		return -ENOTCONN;
++	mutex_lock(&con->lock);
+ 
+-	mutex_lock(&con->ucsi->ppm_lock);
++	if (!con->partner) {
++		ret = -ENOTCONN;
++		goto out_unlock;
++	}
+ 
+ 	if ((con->status.partner_type == UCSI_CONSTAT_PARTNER_TYPE_DFP &&
+ 	     role == TYPEC_DEVICE) ||
+@@ -520,18 +709,14 @@ ucsi_dr_swap(const struct typec_capability *cap, enum typec_data_role role)
+ 	if (ret < 0)
+ 		goto out_unlock;
+ 
+-	mutex_unlock(&con->ucsi->ppm_lock);
+-
+ 	if (!wait_for_completion_timeout(&con->complete,
+ 					msecs_to_jiffies(UCSI_SWAP_TIMEOUT_MS)))
+-		return -ETIMEDOUT;
+-
+-	return 0;
++		ret = -ETIMEDOUT;
+ 
+ out_unlock:
+-	mutex_unlock(&con->ucsi->ppm_lock);
++	mutex_unlock(&con->lock);
+ 
+-	return ret;
++	return ret < 0 ? ret : 0;
+ }
+ 
+ static int
+@@ -541,10 +726,12 @@ ucsi_pr_swap(const struct typec_capability *cap, enum typec_role role)
+ 	struct ucsi_control ctrl;
+ 	int ret = 0;
+ 
+-	if (!con->partner)
+-		return -ENOTCONN;
++	mutex_lock(&con->lock);
+ 
+-	mutex_lock(&con->ucsi->ppm_lock);
++	if (!con->partner) {
++		ret = -ENOTCONN;
++		goto out_unlock;
++	}
+ 
+ 	if (con->status.pwr_dir == role)
+ 		goto out_unlock;
+@@ -554,13 +741,11 @@ ucsi_pr_swap(const struct typec_capability *cap, enum typec_role role)
+ 	if (ret < 0)
+ 		goto out_unlock;
+ 
+-	mutex_unlock(&con->ucsi->ppm_lock);
+-
+ 	if (!wait_for_completion_timeout(&con->complete,
+-					msecs_to_jiffies(UCSI_SWAP_TIMEOUT_MS)))
+-		return -ETIMEDOUT;
+-
+-	mutex_lock(&con->ucsi->ppm_lock);
++				msecs_to_jiffies(UCSI_SWAP_TIMEOUT_MS))) {
++		ret = -ETIMEDOUT;
++		goto out_unlock;
++	}
+ 
+ 	/* Something has gone wrong while swapping the role */
+ 	if (con->status.pwr_op_mode != UCSI_CONSTAT_PWR_OPMODE_PD) {
+@@ -569,7 +754,7 @@ ucsi_pr_swap(const struct typec_capability *cap, enum typec_role role)
+ 	}
+ 
+ out_unlock:
+-	mutex_unlock(&con->ucsi->ppm_lock);
++	mutex_unlock(&con->lock);
+ 
+ 	return ret;
+ }
+@@ -595,6 +780,7 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
+ 
+ 	INIT_WORK(&con->work, ucsi_connector_change);
+ 	init_completion(&con->complete);
++	mutex_init(&con->lock);
+ 	con->num = index + 1;
+ 	con->ucsi = ucsi;
+ 
+@@ -636,6 +822,12 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
+ 	if (IS_ERR(con->port))
+ 		return PTR_ERR(con->port);
+ 
++	/* Alternate modes */
++	ret = ucsi_register_altmodes(con, UCSI_RECIPIENT_CON);
++	if (ret)
++		dev_err(ucsi->dev, "con%d: failed to register alt modes\n",
++			con->num);
++
+ 	/* Get the status */
+ 	UCSI_CMD_GET_CONNECTOR_STATUS(ctrl, con->num);
+ 	ret = ucsi_run_command(ucsi, &ctrl, &con->status, sizeof(con->status));
+@@ -662,6 +854,16 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
+ 	if (con->status.connected)
+ 		ucsi_register_partner(con);
+ 
++	if (con->partner) {
++		ret = ucsi_register_altmodes(con, UCSI_RECIPIENT_SOP);
++		if (ret)
++			dev_err(ucsi->dev,
++				"con%d: failed to register alternate modes\n",
++				con->num);
++		else
++			ucsi_altmode_update_active(con);
++	}
++
+ 	trace_ucsi_register_port(con->num, &con->status);
+ 
+ 	return 0;
+@@ -730,6 +932,7 @@ static void ucsi_init(struct work_struct *work)
+ err_unregister:
+ 	for (con = ucsi->connector; con->port; con++) {
+ 		ucsi_unregister_partner(con);
++		ucsi_unregister_altmodes(con, UCSI_RECIPIENT_CON);
+ 		typec_unregister_port(con->port);
+ 		con->port = NULL;
+ 	}
+@@ -788,17 +991,15 @@ void ucsi_unregister_ppm(struct ucsi *ucsi)
+ 	/* Make sure that we are not in the middle of driver initialization */
+ 	cancel_work_sync(&ucsi->work);
+ 
+-	mutex_lock(&ucsi->ppm_lock);
+-
+ 	/* Disable everything except command complete notification */
+ 	UCSI_CMD_SET_NTFY_ENABLE(ctrl, UCSI_ENABLE_NTFY_CMD_COMPLETE)
+-	ucsi_run_command(ucsi, &ctrl, NULL, 0);
+-
+-	mutex_unlock(&ucsi->ppm_lock);
++	ucsi_send_command(ucsi, &ctrl, NULL, 0);
+ 
+ 	for (i = 0; i < ucsi->cap.num_connectors; i++) {
+ 		cancel_work_sync(&ucsi->connector[i].work);
+ 		ucsi_unregister_partner(&ucsi->connector[i]);
++		ucsi_unregister_altmodes(&ucsi->connector[i],
++					 UCSI_RECIPIENT_CON);
+ 		typec_unregister_port(ucsi->connector[i].port);
+ 	}
+ 
+diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
+index 53b80f40a908..6cafa6b4a60a 100644
+--- a/drivers/usb/typec/ucsi/ucsi.h
++++ b/drivers/usb/typec/ucsi/ucsi.h
+@@ -6,6 +6,7 @@
+ #include <linux/bitops.h>
+ #include <linux/device.h>
+ #include <linux/types.h>
++#include <linux/usb/typec.h>
+ 
+ /* -------------------------------------------------------------------------- */
+ 
+@@ -60,6 +61,20 @@ struct ucsi_uor_cmd {
+ 	u16:6; /* reserved */
+ } __packed;
+ 
++/* Get Alternate Modes Command structure */
++struct ucsi_altmode_cmd {
++	u8 cmd;
++	u8 length;
++	u8 recipient;
++#define UCSI_RECIPIENT_CON			0
++#define UCSI_RECIPIENT_SOP			1
++#define UCSI_RECIPIENT_SOP_P			2
++#define UCSI_RECIPIENT_SOP_PP			3
++	u8 con_num;
++	u8 offset;
++	u8 num_altmodes;
++} __packed;
++
+ struct ucsi_control {
+ 	union {
+ 		u64 raw_cmd;
+@@ -67,6 +82,7 @@ struct ucsi_control {
+ 		struct ucsi_uor_cmd uor;
+ 		struct ucsi_ack_cmd ack;
+ 		struct ucsi_con_rst con_rst;
++		struct ucsi_altmode_cmd alt;
+ 	};
+ };
+ 
+@@ -112,6 +128,30 @@ struct ucsi_control {
+ 	(_ctrl_).cmd.data = _con_;					\
+ }
+ 
++/* Helper for preparing ucsi_control for GET_ALTERNATE_MODES command. */
++#define UCSI_CMD_GET_ALTERNATE_MODES(_ctrl_, _r_, _con_num_, _o_, _num_)\
++{									\
++	__UCSI_CMD((_ctrl_), UCSI_GET_ALTERNATE_MODES)			\
++	_ctrl_.alt.recipient = (_r_);					\
++	_ctrl_.alt.con_num = (_con_num_);				\
++	_ctrl_.alt.offset = (_o_);					\
++	_ctrl_.alt.num_altmodes = (_num_) - 1;				\
++}
++
++/* Helper for preparing ucsi_control for GET_CAM_SUPPORTED command. */
++#define UCSI_CMD_GET_CAM_SUPPORTED(_ctrl_, _con_)			\
++{									\
++	__UCSI_CMD((_ctrl_), UCSI_GET_CAM_SUPPORTED)			\
++	_ctrl_.cmd.data = (_con_);					\
++}
++
++/* Helper for preparing ucsi_control for GET_CAM_SUPPORTED command. */
++#define UCSI_CMD_GET_CURRENT_CAM(_ctrl_, _con_)			\
++{									\
++	__UCSI_CMD((_ctrl_), UCSI_GET_CURRENT_CAM)			\
++	_ctrl_.cmd.data = (_con_);					\
++}
++
+ /* Helper for preparing ucsi_control for GET_CONNECTOR_STATUS command. */
+ #define UCSI_CMD_GET_CONNECTOR_STATUS(_ctrl_, _con_)			\
+ {									\
+@@ -334,4 +374,61 @@ struct ucsi *ucsi_register_ppm(struct device *dev, struct ucsi_ppm *ppm);
+ void ucsi_unregister_ppm(struct ucsi *ucsi);
+ void ucsi_notify(struct ucsi *ucsi);
+ 
++/* -------------------------------------------------------------------------- */
++
++enum ucsi_status {
++	UCSI_IDLE = 0,
++	UCSI_BUSY,
++	UCSI_ERROR,
++};
++
++struct ucsi {
++	struct device *dev;
++	struct ucsi_ppm *ppm;
++
++	enum ucsi_status status;
++	struct completion complete;
++	struct ucsi_capability cap;
++	struct ucsi_connector *connector;
++
++	struct work_struct work;
++
++	/* PPM Communication lock */
++	struct mutex ppm_lock;
++
++	/* PPM communication flags */
++	unsigned long flags;
++#define EVENT_PENDING	0
++#define COMMAND_PENDING	1
++#define ACK_PENDING	2
++};
++
++#define UCSI_MAX_SVID		5
++#define UCSI_MAX_ALTMODES	(UCSI_MAX_SVID * 6)
++
++struct ucsi_connector {
++	int num;
++
++	struct ucsi *ucsi;
++	struct mutex lock; /* port lock */
++	struct work_struct work;
++	struct completion complete;
++
++	struct typec_port *port;
++	struct typec_partner *partner;
++
++	struct typec_altmode *port_altmode[UCSI_MAX_ALTMODES];
++	struct typec_altmode *partner_altmode[UCSI_MAX_ALTMODES];
++
++	struct typec_capability typec_cap;
++
++	struct ucsi_connector_status status;
++	struct ucsi_connector_capability cap;
++};
++
++int ucsi_send_command(struct ucsi *ucsi, struct ucsi_control *ctrl,
++		      void *retval, size_t size);
++
++void ucsi_altmode_update_active(struct ucsi_connector *con);
++
+ #endif /* __DRIVER_USB_TYPEC_UCSI_H */
 -- 
-2.21.0
+2.20.1
 
