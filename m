@@ -2,141 +2,246 @@ Return-Path: <SRS0=tIEv=SZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_PASS,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02F89C282DD
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 15:05:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5148C10F03
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 15:06:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C4DA5206BA
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 15:05:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 76D72206BA
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 15:06:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="P/gkTfFf"
+	dkim=pass (1024-bit key) header.d=renesasgroup.onmicrosoft.com header.i=@renesasgroup.onmicrosoft.com header.b="sn87QXSN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728218AbfDWPFn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Apr 2019 11:05:43 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:33736 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727754AbfDWPFm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Apr 2019 11:05:42 -0400
-Received: by mail-pl1-f194.google.com with SMTP id t16so7689320plo.0
-        for <linux-usb@vger.kernel.org>; Tue, 23 Apr 2019 08:05:42 -0700 (PDT)
+        id S1727745AbfDWPG4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Apr 2019 11:06:56 -0400
+Received: from mail-eopbgr1410114.outbound.protection.outlook.com ([40.107.141.114]:30296
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727673AbfDWPG4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 23 Apr 2019 11:06:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OD+RZV04VouyQVp1GzCs1QA3xxiEWeSzMkM54So/b1E=;
-        b=P/gkTfFf/IvM4b2jKbyt7svwWoM8xvT8fBn07/PS/H2K5eVPxwxs0B3K491rZsdR4T
-         liBRFWfFFbnkRImFaZKn0XYKl49935OnVwDspPBXJJVfPdy2VMU1gkyUFLq+H/0Es7SG
-         ChbvlSo/H6mPh/ti2aXubOQOQmgWebjklgmojczusppy2BocA17DikVCWC0OKaqiAOaw
-         ns7sn/qvMsRXZZLh613YJq0MDCdlxEdXhJJiuXe7/95u1FIb9O8t0QZ5t6eFLcL0sRmm
-         ZOj+vRVhQmetCdE5eHiG2y+e+czKSpClT8eSHTqUFhBFWDvk3gcbZhyLpXelkI4XDzDO
-         39Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OD+RZV04VouyQVp1GzCs1QA3xxiEWeSzMkM54So/b1E=;
-        b=gARUTL5PDvJuXtHHQVqDqiHUjgmJlf2bn3OwA+JJdGTBti76HAVoCCzxhjeVgZMZg3
-         XQZe65YSvBuLWKZudwbXuRNDxt0RYCu1+pyD96eL9cgwbL8PXR0ENKewx4kWLhrmr/Ny
-         vMpJVN2ly+sCja9rsOWLRN1BiqfgEGg1fWjNg2AU1E+haE4OMmZuXVPf1tZbjOdwGqTD
-         ppf9w4XXFYsBf8ySnFNnhye0JOta+jyxnDYKhCyG8pH5xEkaw0wzUgaxgdXwo/ppYJZJ
-         bMyoLTPKXqLYK+eAYyCo/ljwiZqJBRWTjPp4KQQbY8EN3RDQEwtwQEuwbS2XDT4exat3
-         5hkg==
-X-Gm-Message-State: APjAAAW5Yqwc6QdcMEnG44asWvbVcHwtX4nsz8us9lRi+QKPKH3y2MTb
-        sTZXCAm/3/KBwHD1R9bjokWp+7iPD49gGuSK+k1TVQ==
-X-Google-Smtp-Source: APXvYqxD0jWt64GjYbWfNRXykoTSI3tXj/XFafdavhMsZqvORYGpMFssNpaGA8SGXLZQIehqHM06Z6ZmSbBSXcjw7kM=
-X-Received: by 2002:a17:902:2b89:: with SMTP id l9mr25383680plb.329.1556031941580;
- Tue, 23 Apr 2019 08:05:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <00000000000029431d0586d10813@google.com> <Pine.LNX.4.44L0.1904221344550.1384-100000@iolanthe.rowland.org>
-In-Reply-To: <Pine.LNX.4.44L0.1904221344550.1384-100000@iolanthe.rowland.org>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Tue, 23 Apr 2019 17:05:30 +0200
-Message-ID: <CAAeHK+zUiv+CSip7OwrQ6FKxwE_+Wh0LTmGW86ipQ5QkaAOT8w@mail.gmail.com>
-Subject: Re: general protection fault in __dev_printk
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     syzbot <syzbot+2eb9121678bdb36e6d57@syzkaller.appspotmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kernel development list <linux-kernel@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>, rafael@kernel.org,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Dmitry Vyukov <dvyukov@google.com>
+ d=renesasgroup.onmicrosoft.com; s=selector1-bp-renesas-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5oJH+4oyiZbDY9z20wBzKFb35/kFSzoWBhw3QfS3jsI=;
+ b=sn87QXSNihYuVuiaa62ETqHew7JRF1ycGQ8GQ4UVsWCMWD9fLJkp64EU1xdx0VlQkrPbaP5FoIem1FEt52g44HkE9cKBFvMgJMr5V9PDKCdKhq3Ev/XeI5a50tUVxUQTAqY9E+/vJIExKpgLSgC8pjMlzFkxndtv/4Lk0I+ETo8=
+Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com (52.134.242.17) by
+ OSBPR01MB4661.jpnprd01.prod.outlook.com (20.179.181.151) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1813.14; Tue, 23 Apr 2019 15:06:49 +0000
+Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com
+ ([fe80::6d2c:bd11:88b0:c53a]) by OSBPR01MB2103.jpnprd01.prod.outlook.com
+ ([fe80::6d2c:bd11:88b0:c53a%3]) with mapi id 15.20.1813.017; Tue, 23 Apr 2019
+ 15:06:49 +0000
+From:   Biju Das <biju.das@bp.renesas.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Kees Cook <keescook@chromium.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Felipe Balbi <balbi@kernel.org>
+Subject: RE: [PATCH V4 4/7] usb: gadget: udc: renesas_usb3: Use
+ usb_role_switch framework
+Thread-Topic: [PATCH V4 4/7] usb: gadget: udc: renesas_usb3: Use
+ usb_role_switch framework
+Thread-Index: AQHU9DkRMINJdSoeck6dgd5isJEyu6ZJD9eAgABlx+CAAClUgIAAQ/sg
+Date:   Tue, 23 Apr 2019 15:06:49 +0000
+Message-ID:
+ <OSBPR01MB21035E6C1BCB59C8CE49B3B5B8230@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+References: <1555407487-35394-1-git-send-email-biju.das@bp.renesas.com>
+ <1555407487-35394-5-git-send-email-biju.das@bp.renesas.com>
+ <OSBPR01MB17335B483D7585AB1F27B61DD8230@OSBPR01MB1733.jpnprd01.prod.outlook.com>
+ <OSBPR01MB21037040E074CBC79E3E780EB8230@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+ <OSBPR01MB1733A56D1362592022C8EFFAD8230@OSBPR01MB1733.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSBPR01MB1733A56D1362592022C8EFFAD8230@OSBPR01MB1733.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=biju.das@bp.renesas.com; 
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2d9f016f-dc37-4ecd-7574-08d6c7fd4fd1
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600141)(711020)(4605104)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:OSBPR01MB4661;
+x-ms-traffictypediagnostic: OSBPR01MB4661:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <OSBPR01MB4661F956EAB52EDBD13539F7B8230@OSBPR01MB4661.jpnprd01.prod.outlook.com>
+x-forefront-prvs: 0016DEFF96
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(346002)(136003)(39860400002)(376002)(366004)(189003)(199004)(51914003)(446003)(11346002)(54906003)(476003)(14444005)(33656002)(256004)(99286004)(316002)(486006)(9686003)(44832011)(3846002)(6862004)(93886005)(86362001)(6246003)(2906002)(52536014)(6116002)(5660300002)(6506007)(53936002)(102836004)(55016002)(6306002)(76176011)(186003)(26005)(8676002)(8936002)(7696005)(25786009)(71190400001)(81166006)(71200400001)(81156014)(66066001)(74316002)(14454004)(64756008)(66946007)(7736002)(73956011)(66446008)(66476007)(229853002)(76116006)(66556008)(68736007)(97736004)(478600001)(6436002)(305945005)(4326008);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB4661;H:OSBPR01MB2103.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
+received-spf: None (protection.outlook.com: bp.renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: kS0ygpLhBy8GUm2tlYaJtuUPgWeZNCLh2hWHOc/erhpkCXbwqaevE3MtQ2VDglKl6/eAJHWxNSxX1FKytp+RdVAOAsfCHtgwk0gRf+GN/Iqcc4XNwBMP5lWNoitZWFpqMRt2j2nU75gJE+kTof6KcKyDwt4tkP40ScrKOmFF9lBjkQ6Gj8Rc2CtlA1mpF2CtVr9XlXxs2rqOJHOXuTuWjSfE2glzWzMza4AfRDkSctaPiAtQ/3vyPYiQFMuMRo+r05/TCct8T59leZBZCjKGAhq2w4jLb4GLUJjprOeC5DyiQx9WvAqw4krR22bAux2/OkJTnB/pB8fZdd2jShH3eMzEhrEJ77FOSc/y9isrftspAr5jcr2S5EAiXeu/ektTzlN/QxyYZgvqH2pSijW0VeKWH7251IW96D+BEfS75VA=
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d9f016f-dc37-4ecd-7574-08d6c7fd4fd1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Apr 2019 15:06:49.8473
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB4661
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190423150649.anB1u93zf-wLBH3ZLLOO2PoSJuqrs5uG4LeWzt1iLGM@z>
 
-On Mon, Apr 22, 2019 at 7:53 PM Alan Stern <stern@rowland.harvard.edu> wrote:
->
-> On Thu, 18 Apr 2019, syzbot wrote:
->
-> > syzbot has found a reproducer for the following crash on:
+Hi Shimoda-San,
+
+Thanks for the feedback.
+
+> Subject: RE: [PATCH V4 4/7] usb: gadget: udc: renesas_usb3: Use
+> usb_role_switch framework
+>=20
+> Hi Biju-san,
+>=20
+> > From: Biju Das, Sent: Tuesday, April 23, 2019 6:08 PM
 > >
-> > HEAD commit:    d34f9519 usb-fuzzer: main usb gadget fuzzer driver
-> > git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=10adfe6b200000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=c73d1bb5aeaeae20
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=2eb9121678bdb36e6d57
-> > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=145cb7e3200000
-> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17f8bd2d200000
+> > Hi Shimoda-San,
 > >
-> > IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> > Reported-by: syzbot+2eb9121678bdb36e6d57@syzkaller.appspotmail.com
+> > Thanks for the feedback.
 > >
-> > yurex 1-1:0.150: yurex_interrupt - unknown status received: -71
-> > usb 1-1: USB disconnect, device number 112
-> > yurex 1-1:0.150: yurex_interrupt - unknown status received: -71
-> > kasan: CONFIG_KASAN_INLINE enabled
-> > kasan: GPF could be caused by NULL-ptr deref or user memory access
-> > general protection fault: 0000 [#1] SMP KASAN PTI
->
-> Andrey:
->
-> This original bug report included a "USB disconnect" line, as shown
-> above.  The newer results, for runs with my patches added, do not.  At
-> least, if such a line was present, it didn't show up in the console
-> output files -- the most recent one contains nothing but repeats of
-> that "yurex_interrupt - unknown status received: -71" line, although
-> for devices on multiple buses.
->
-> Is there any way to get more information about what's happening, such
-> as a complete kernel log?
+> > > Subject: RE: [PATCH V4 4/7] usb: gadget: udc: renesas_usb3: Use
+> > > usb_role_switch framework
+> > >
+> > > Hi Biju-san,
+> > >
+> > > Thank you for the patch!
+> > >
+> > > > From: Biju Das, Sent: Tuesday, April 16, 2019 6:38 PM
+> > > >
+> > > > RZ/G2E cat874 board is capable of detecting cable connect and
+> > > > disconnect events. Add support for renesas_usb3 to receive connect
+> > > > and disconnect events and support dual-role switch using
+> > > > usb-role-switch
+> > > framework.
+> > > >
+> > > > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> > > > ---
+> > > >  V3-->V4
+> > > >    * No Change
+> > > >  V2-->V3
+> > > >    * Incorporated Shimoda-san's review comment
+> > > >      (https://patchwork.kernel.org/patch/10852507/)
+> > > >    * Used renesas,usb-role-switch property for differentiating USB
+> > > >      role switch associated with Type-C port controller driver.
+> > > >  V1-->V2
+> > > >    * Driver uses usb role clas for handling dual role switch and ha=
+ndling
+> > > >      connect/disconnect events instead of extcon.
+> > > <snip>
+> > >
+> > > > +static void usb3_check_vbus(struct renesas_usb3 *usb3) {
+> > > > +	if (usb3->workaround_for_vbus) {
+> > > > +		if (usb3->usb_role_switch_property) {
+> > > > +			if (usb3->connection_state =3D=3D USB_ROLE_DEVICE) {
+> > > > +				usb3_mode_config(usb3, false, false);
+> > >
+> > > I should have pointed it out the previous version though, why does
+> > > this
+> > > usb3_mode_config() calling need?
+> > > My guess is:
+> > >  - renesas_usb3_start() calls renesas_usb3_init_controller().
+> > >  -- renesas_usb3_init_controller() calls usb3_check_id() and then
+> > > usb_check_vbus().
+> > >  --- usb_check_id() calls usb3_mode_config(usb3, true, true) and
+> > > then the HW acts as host mode.
+> > >  ----> So, you'd like the HW to acts as peripheral mode when the
+> > > connection_state is USB_ROLE_DEVICE,
+> > >        you added that the usb3_check_vbus() calls
+> > > usb3_mode_config(usb3, false, false).
+> > >
+> > > Is my guess correct? If so, I'd like to add such code into
+> > > usb3_check_id() like
+> > > below:
+> >
+> > Yes, it is almost correct. The scenario I am trying is
+> >
+> > [1] USB type C  cable connected to a Host Machine(TI chip identifies
+> > as Device connection. But we haven't installed Gadget module for
+> > Device operation)
+> >
+> > [2] After that trying to install gadget module. In this case,  it
+> > calls usb_check_id() as mentioned above and configure it as Host mode.
+>=20
+> Thank you for the explanation.
+>=20
+> > > 	if ((usb3->extcon_host && !usb3->forced_b_device) ||
+> > > 	    (usb3->usb_role_switch_property &&
+> > > 	     usb3->connection_state =3D=3D USB_ROLE_HOST))
+> > > 		usb3_mode_config(usb3, true, true);
+> > > 	else
+> > > 		usb3_mode_config(usb3, false, false);
+> > >
+> > > What do you think?
+> >
+> > Since as per [1], usb3->extcon_host=3D1 and !usb3->forced_b_device =3D=
+=3D1
+> > ,  The above code always enter into Host Mode configuration.
+>=20
+> Oops. Thank you for the pointed it out.
+>=20
+> > To make it work,  I need to update  " usb3->forced_b_device" based on
+> > connection_state from TI chip. So the new code look like
+>=20
+> Since the forced_b_device is related to debug purpose (controlled by
+> debugfs), I don't want to use the value for type-c.
+>=20
+> > 1) There is no change in usb_check_id() call.
+> >
+> > if (usb3->extcon_host && !usb3->forced_b_device)
+> >     usb3_mode_config(usb3, true, true);
+> >    else
+> >     usb3_mode_config(usb3, false, false);
+> >
+> > 2) Update "usb3->forced_b_device" variable  based on connection_state.
+> >
+> > @@ -2370,6 +2376,7 @@ static void handle_ext_role_switch_states(struct
+> device *dev,
+> >                 usb3_vbus_out(usb3, false);
+> >                 break;
+> >         case USB_ROLE_DEVICE:
+> > +               usb3->forced_b_device =3D true;
+> >                 if (usb3->connection_state =3D=3D USB_ROLE_NONE) {
+> >                         usb3->connection_state =3D USB_ROLE_DEVICE;
+> >                         usb3_set_mode(usb3, false); @@ -2384,6 +2391,7
+> > @@ static void handle_ext_role_switch_states(struct device *dev,
+> >                 usb3_vbus_out(usb3, false);
+> >                 break;
+> >         case USB_ROLE_HOST:
+> > +               usb3->forced_b_device =3D false;
+> >
+> > Can you please confirm are you ok with this changes? Or do you prefer t=
+he
+> previous one?
+>=20
+> I'd like to change usb3_check_id() somehow.
+> How about the following conditions? In type-c environment, since usb3-
+> >usb_role_switch_property is true, it should be OK for it.
+>=20
+> 	if ((!usb3->usb_role_switch_property &&
+> 	     usb3->extcon_host && !usb3->forced_b_device) ||
+> 	    (usb3->usb_role_switch_property &&
+> 	     usb3->connection_state =3D=3D USB_ROLE_HOST))
+> 		usb3_mode_config(usb3, true, true);
+> 	else
+> 		usb3_mode_config(usb3, false, false);
+>=20
 
-It should be possible to provide the full log for the result of the
-"syz test" command. I'll talk to Dmitry about this when he's back from
-vacation next week.
+OK. I will send V5 with this changes.
 
-> And perhaps to run the test with just a
-> single dummy-hcd bus instead of 6?
-
-Hm, it might be possible to implement overriding of syz-execprog flags
-and provide them via "syz test". It's not implemented right now
-though.
-
-Running the reproducer manually is the most flexible way to make
-changes to the way it's ran or to make changes to the environment. In
-this case I haven't managed to reproduce the hang manually though :(
-
-I see two ways to deal with this right now:
-
-1. Submit your fix (it fixes the original issue for me) and wait until
-it gets into the usb-fuzzer tree. Then maybe syzbot will report the
-hang and provide a better reproducer.
-
-2. Change the testing patch to also suppress those "yurex_interrupt -
-unknown status received: -71" messages and rerun the "syz test"
-command. Hopefully then syzbot will provide the full kernel log.
-
->
-> At this point, I suspect the original general protection fault in
-> the yurex driver has been fixed, but something else in dummy-hcd may be
-> causing the rcu-detected stalls.
->
-> Alan Stern
->
+Regards,
+Biju
