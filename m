@@ -1,112 +1,252 @@
-Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=tIEv=SZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06311C04AAA
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F05A6C282DD
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 11:00:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CCA6820830
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C03AD2175B
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 11:00:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pVbGKwTi"
+	dkim=pass (1024-bit key) header.d=renesasgroup.onmicrosoft.com header.i=@renesasgroup.onmicrosoft.com header.b="fTcG6U4u"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726402AbfEFJDj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 May 2019 05:03:39 -0400
-Received: from mail-ed1-f54.google.com ([209.85.208.54]:41116 "EHLO
-        mail-ed1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725890AbfEFJDj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:03:39 -0400
-Received: by mail-ed1-f54.google.com with SMTP id m4so14501196edd.8
-        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:03:37 -0700 (PDT)
+        id S1727440AbfDWLAH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Apr 2019 07:00:07 -0400
+Received: from mail-eopbgr1400122.outbound.protection.outlook.com ([40.107.140.122]:15343
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726150AbfDWLAH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 23 Apr 2019 07:00:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ioyYgtRSWwZfgGBK06FVcuhb/YX76eFCJh3r9OTvubA=;
-        b=pVbGKwTiv+xNUv1qxeKW/D368jt15VO51ZNIrZWlRJV3OC/Hd4MSRrB7AHizHyIUZp
-         6E4bnaIbrWVbLfqrQckTUOeeSwpIK+2+vtj8YXS8UoFSlDQfDsY+lrCdjb0menoxrJQI
-         mSAmkgPnXjdJVNGnfZU8KLdAAR1FtxmNN9XYdNuc49FvexAxoYurYU3z6Biiy9TaGOLl
-         /mTOjBd2tZcgGs7JNTlLA7/JRLrBpZ/cFCcJU1GdBOclOVUAwlvGfL1uot0xxQqbjaSU
-         qstdImHNKAc/spdrhvfNFUILm/S0fyYuIFF7L0Yb5B3Qid5/v/jqIb+30niVZoGVX+/+
-         FIQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ioyYgtRSWwZfgGBK06FVcuhb/YX76eFCJh3r9OTvubA=;
-        b=BB3LhOE3XjnXqpcrq/kvp8/mYh/tm9xfTw7rDQs3numOhzqJaYOLKdMUg4NsS9k4DZ
-         +v50vVKyYLoc9CEsBzuryDLZLHvXxdTxnLYRjla32i4jDGIhm4v5VYW7luQelslxbBmi
-         ybd20JuuejLD0kNRRQtFf+urA8fbDEDmid9IA929/SRdMUFqCgU2QWwvbELt1/XJ9Ryi
-         +jypDUKaRxTImDwwyzJeEM+E5ayog7iOgJOQrCaZPPJIKs0nOQRbM7YOb65U0wCdd090
-         gh2XA6o4KqF3lLQD5Vse7SeEpuVBtHgX9mPmnuYqDIifl8GJ8eZbCK/mbZYUjDUF+ddq
-         4ujA==
-X-Gm-Message-State: APjAAAWxXtZ/pO8ZeCyIa95KvgRprmcnNNplkMwD1iuzVZZN92di+szo
-        NHySqR56ZAE+A2QW1y9mr3GfGIPZmyA=
-X-Google-Smtp-Source: APXvYqz7qG/46KxHoCfTUVtidnRwCaNOxb4ZCHkFhNZB0d73kmp7Q6OnealbFyi8Gmc0nuBoj661gQ==
-X-Received: by 2002:a50:8818:: with SMTP id b24mr24983710edb.28.1557133416858;
-        Mon, 06 May 2019 02:03:36 -0700 (PDT)
-Received: from localhost (frost.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
-        by smtp.gmail.com with ESMTPSA id f1sm53658edi.34.2019.05.06.02.03.35
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 06 May 2019 02:03:36 -0700 (PDT)
-From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
-To:     linux-usb@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org,
-        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
-Subject: [PATCH 12/34] lsusb.py: remove now-unused bin_search()
-Date:   Mon,  6 May 2019 12:02:19 +0300
-Message-Id: <20190506090241.169665-13-grawity@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190506090241.169665-1-grawity@gmail.com>
-References: <20190506090241.169665-1-grawity@gmail.com>
+ d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GHJ9O1hcKIG69V8lnRWQ6s+MrrMpE09DofPMqOYeJxw=;
+ b=fTcG6U4uFTVozYqtLGktpT1pNk4LGjLv3u4HTdOjZIdNKCiWiZfwCgFUD7EHTc5yA42FmC57q2/yNUFW5NHDGDAUGKgyn7+6comaqPYi+xB2N03P4BvjgaXnmEiIClOb2uY1uaqDldcTws+E/2RIKwRKbx2d6CaTTcy8t8lL00s=
+Received: from OSBPR01MB1733.jpnprd01.prod.outlook.com (52.134.227.22) by
+ OSBPR01MB3416.jpnprd01.prod.outlook.com (20.178.99.17) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1835.12; Tue, 23 Apr 2019 11:00:01 +0000
+Received: from OSBPR01MB1733.jpnprd01.prod.outlook.com
+ ([fe80::902e:1148:6b6d:8280]) by OSBPR01MB1733.jpnprd01.prod.outlook.com
+ ([fe80::902e:1148:6b6d:8280%3]) with mapi id 15.20.1813.017; Tue, 23 Apr 2019
+ 11:00:01 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Biju Das <biju.das@bp.renesas.com>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Kees Cook <keescook@chromium.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Felipe Balbi <balbi@kernel.org>
+Subject: RE: [PATCH V4 4/7] usb: gadget: udc: renesas_usb3: Use
+ usb_role_switch framework
+Thread-Topic: [PATCH V4 4/7] usb: gadget: udc: renesas_usb3: Use
+ usb_role_switch framework
+Thread-Index: AQHU9DkRq+R3PL3OeUiWbh22/w5vtKZJDA1QgABziQCAABt+kA==
+Date:   Tue, 23 Apr 2019 11:00:01 +0000
+Message-ID:
+ <OSBPR01MB1733A56D1362592022C8EFFAD8230@OSBPR01MB1733.jpnprd01.prod.outlook.com>
+References: <1555407487-35394-1-git-send-email-biju.das@bp.renesas.com>
+ <1555407487-35394-5-git-send-email-biju.das@bp.renesas.com>
+ <OSBPR01MB17335B483D7585AB1F27B61DD8230@OSBPR01MB1733.jpnprd01.prod.outlook.com>
+ <OSBPR01MB21037040E074CBC79E3E780EB8230@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSBPR01MB21037040E074CBC79E3E780EB8230@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [118.238.235.108]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d3417ac5-7577-41f4-d477-08d6c7dad589
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB3416;
+x-ms-traffictypediagnostic: OSBPR01MB3416:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <OSBPR01MB341689411C8A021AA0CC3A56D8230@OSBPR01MB3416.jpnprd01.prod.outlook.com>
+x-forefront-prvs: 0016DEFF96
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(979002)(376002)(396003)(346002)(39860400002)(366004)(136003)(51914003)(199004)(189003)(53936002)(6306002)(9686003)(4326008)(68736007)(25786009)(55016002)(86362001)(74316002)(478600001)(7736002)(6246003)(6862004)(305945005)(14454004)(66066001)(7696005)(76176011)(6506007)(99286004)(54906003)(52536014)(66476007)(3846002)(64756008)(229853002)(33656002)(6116002)(66446008)(66946007)(5660300002)(73956011)(66556008)(76116006)(81166006)(316002)(8936002)(81156014)(8676002)(93886005)(97736004)(71190400001)(71200400001)(186003)(256004)(486006)(6436002)(14444005)(102836004)(11346002)(2906002)(446003)(26005)(476003)(969003)(989001)(999001)(1009001)(1019001);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB3416;H:OSBPR01MB1733.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: RmMIpXtZHSEU7IQzjtwRYIjzruGG/LRUi5POF5xxwV2YvW8z+zqTJOaxk25dR987VHXg44zBHyd1ptIxfJMahPsfQopJqBbH1qF9AOTMbmjDJtCiTmaC+HNfuxddrqfD8ZpM/LL3bDgOzItkiMPaibrsVH/DKFAVPEQ/wlXZ2Bu8DUp2/+JCigetQQr6og8Ks5tDGtQStxKaee1TWwphgvtiK+IgYTfBrtyM6z9f7PwETnU9wpHEn/xnRrTQCVyAgyiXuf/q2H+JUSOePnft7AV3yFiG1r2EhWTmfIsjGQ/MyZtq2nQxIyzAerdoDwTJxmbQk+MasMi480G5cnD5mgQO5DaQ1P5mSpu1/KM/Wt7VxyJAdEyBuvTkaKX+45A4HLfnkXy7phQVv2ur+kWQhaMCG+Bh/1aiMzmuKJ68X4c=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d3417ac5-7577-41f4-d477-08d6c7dad589
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Apr 2019 11:00:01.7230
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB3416
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190423110001.V97SgGwSJyNkCnm4iNdf3KQChy2sB9UcENf7v-1J_68@z>
 
-Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
----
- lsusb.py.in | 19 -------------------
- 1 file changed, 19 deletions(-)
+Hi Biju-san,
 
-diff --git a/lsusb.py.in b/lsusb.py.in
-index 26ab745..a8f18ab 100644
---- a/lsusb.py.in
-+++ b/lsusb.py.in
-@@ -157,25 +157,6 @@ def parse_usb_ids():
- 			continue
- 		mode = modes.Misc
- 
--def bin_search(first, last, item, list):
--	"binary search on list, returns -1 on fail, match idx otherwise, recursive"
--	#print("bin_search(%i,%i)" % (first, last))
--	if first == last:
--		return -1
--	if first == last-1:
--		if item == list[first]:
--			return first
--		else:
--			return -1
--	mid = (first+last) // 2
--	if item == list[mid]:
--		return mid
--	elif item < list[mid]:
--		return bin_search(first, mid, item, list)
--	else:
--		return bin_search(mid, last, item, list)
--
--
- def find_usb_prod(vid, pid):
- 	"Return device name from USB Vendor:Product list"
- 	strg = ""
--- 
-2.21.0
+> From: Biju Das, Sent: Tuesday, April 23, 2019 6:08 PM
+>=20
+> Hi Shimoda-San,
+>=20
+> Thanks for the feedback.
+>=20
+> > Subject: RE: [PATCH V4 4/7] usb: gadget: udc: renesas_usb3: Use
+> > usb_role_switch framework
+> >
+> > Hi Biju-san,
+> >
+> > Thank you for the patch!
+> >
+> > > From: Biju Das, Sent: Tuesday, April 16, 2019 6:38 PM
+> > >
+> > > RZ/G2E cat874 board is capable of detecting cable connect and
+> > > disconnect events. Add support for renesas_usb3 to receive connect an=
+d
+> > > disconnect events and support dual-role switch using usb-role-switch
+> > framework.
+> > >
+> > > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> > > ---
+> > >  V3-->V4
+> > >    * No Change
+> > >  V2-->V3
+> > >    * Incorporated Shimoda-san's review comment
+> > >      (https://patchwork.kernel.org/patch/10852507/)
+> > >    * Used renesas,usb-role-switch property for differentiating USB
+> > >      role switch associated with Type-C port controller driver.
+> > >  V1-->V2
+> > >    * Driver uses usb role clas for handling dual role switch and hand=
+ling
+> > >      connect/disconnect events instead of extcon.
+> > <snip>
+> >
+> > > +static void usb3_check_vbus(struct renesas_usb3 *usb3) {
+> > > +	if (usb3->workaround_for_vbus) {
+> > > +		if (usb3->usb_role_switch_property) {
+> > > +			if (usb3->connection_state =3D=3D USB_ROLE_DEVICE) {
+> > > +				usb3_mode_config(usb3, false, false);
+> >
+> > I should have pointed it out the previous version though, why does this
+> > usb3_mode_config() calling need?
+> > My guess is:
+> >  - renesas_usb3_start() calls renesas_usb3_init_controller().
+> >  -- renesas_usb3_init_controller() calls usb3_check_id() and then
+> > usb_check_vbus().
+> >  --- usb_check_id() calls usb3_mode_config(usb3, true, true) and then t=
+he
+> > HW acts as host mode.
+> >  ----> So, you'd like the HW to acts as peripheral mode when the
+> > connection_state is USB_ROLE_DEVICE,
+> >        you added that the usb3_check_vbus() calls usb3_mode_config(usb3=
+,
+> > false, false).
+> >
+> > Is my guess correct? If so, I'd like to add such code into usb3_check_i=
+d() like
+> > below:
+>=20
+> Yes, it is almost correct. The scenario I am trying is
+>=20
+> [1] USB type C  cable connected to a Host Machine(TI chip identifies as D=
+evice connection. But we haven't installed Gadget
+> module for Device operation)
+>=20
+> [2] After that trying to install gadget module. In this case,  it calls u=
+sb_check_id() as mentioned above
+> and configure it as Host mode.
+
+Thank you for the explanation.
+
+> > 	if ((usb3->extcon_host && !usb3->forced_b_device) ||
+> > 	    (usb3->usb_role_switch_property &&
+> > 	     usb3->connection_state =3D=3D USB_ROLE_HOST))
+> > 		usb3_mode_config(usb3, true, true);
+> > 	else
+> > 		usb3_mode_config(usb3, false, false);
+> >
+> > What do you think?
+>=20
+> Since as per [1], usb3->extcon_host=3D1 and !usb3->forced_b_device =3D=3D=
+1  ,  The above code always enter into Host Mode
+> configuration.
+
+Oops. Thank you for the pointed it out.
+
+> To make it work,  I need to update  " usb3->forced_b_device" based on con=
+nection_state from TI chip. So the new code look
+> like
+
+Since the forced_b_device is related to debug purpose (controlled by debugf=
+s), I don't want to use the value for type-c.
+
+> 1) There is no change in usb_check_id() call.
+>=20
+> if (usb3->extcon_host && !usb3->forced_b_device)
+>     usb3_mode_config(usb3, true, true);
+>    else
+>     usb3_mode_config(usb3, false, false);
+>=20
+> 2) Update "usb3->forced_b_device" variable  based on connection_state.
+>=20
+> @@ -2370,6 +2376,7 @@ static void handle_ext_role_switch_states(struct de=
+vice *dev,
+>                 usb3_vbus_out(usb3, false);
+>                 break;
+>         case USB_ROLE_DEVICE:
+> +               usb3->forced_b_device =3D true;
+>                 if (usb3->connection_state =3D=3D USB_ROLE_NONE) {
+>                         usb3->connection_state =3D USB_ROLE_DEVICE;
+>                         usb3_set_mode(usb3, false);
+> @@ -2384,6 +2391,7 @@ static void handle_ext_role_switch_states(struct de=
+vice *dev,
+>                 usb3_vbus_out(usb3, false);
+>                 break;
+>         case USB_ROLE_HOST:
+> +               usb3->forced_b_device =3D false;
+>=20
+> Can you please confirm are you ok with this changes? Or do you prefer the=
+ previous one?
+
+I'd like to change usb3_check_id() somehow.
+How about the following conditions? In type-c environment,
+since usb3->usb_role_switch_property is true, it should be OK for it.
+
+	if ((!usb3->usb_role_switch_property &&
+	     usb3->extcon_host && !usb3->forced_b_device) ||
+	    (usb3->usb_role_switch_property &&
+	     usb3->connection_state =3D=3D USB_ROLE_HOST))
+		usb3_mode_config(usb3, true, true);
+	else
+		usb3_mode_config(usb3, false, false);
+
+Best regards,
+Yoshihiro Shimoda
+
+> Note:-
+>  I have done only sanity testing with this changes.
+>=20
+> Regards,
+> Biju
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
 
