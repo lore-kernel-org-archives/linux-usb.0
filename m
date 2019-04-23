@@ -1,105 +1,142 @@
-Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=tIEv=SZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_PASS,T_DKIMWL_WL_MED,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FD1DC04AAC
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02F89C282DD
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 15:05:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 408CB2087F
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4DA5206BA
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 15:05:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hJen0wYb"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="P/gkTfFf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726435AbfEFJDv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 May 2019 05:03:51 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:46265 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726425AbfEFJDv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:03:51 -0400
-Received: by mail-ed1-f68.google.com with SMTP id f37so14459440edb.13
-        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:03:50 -0700 (PDT)
+        id S1728218AbfDWPFn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Apr 2019 11:05:43 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:33736 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727754AbfDWPFm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Apr 2019 11:05:42 -0400
+Received: by mail-pl1-f194.google.com with SMTP id t16so7689320plo.0
+        for <linux-usb@vger.kernel.org>; Tue, 23 Apr 2019 08:05:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=IOTxIu9UU7W+66H/k/UHJQRfeAApKOj9rT8/wHVrDlU=;
-        b=hJen0wYbaKlBgTVCq/u8HCHHCjK1ivT2y3ThQTikE3nfJK3g6LnweqfuqZcPwzAH7X
-         J73qmQhjsAdy/FXLOAZsDciSWbN5mu1ouOkOuPDX2jhuSMisO8Sqg4e8fEwsL6q0Hu2r
-         r0ONYQxZTr3Z7/3vQmtZ5F/BZxtvOfbeb7iN93XHzsLO2Y5Qy5NpCxC7nhyL1+qdrTl7
-         YFuET5wBxVnAegx3reSpNm+Pe4g702FPTU0rnZJYpcSfdTg/M4X33ZvAaC3JQUUA4D/x
-         /dWLkB5MR6wkIu8CxfdTOrkVL2PoH2verYNOuRevSs0v6A7IX2oNlwLJV9ocDXgUfqGG
-         0nOg==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OD+RZV04VouyQVp1GzCs1QA3xxiEWeSzMkM54So/b1E=;
+        b=P/gkTfFf/IvM4b2jKbyt7svwWoM8xvT8fBn07/PS/H2K5eVPxwxs0B3K491rZsdR4T
+         liBRFWfFFbnkRImFaZKn0XYKl49935OnVwDspPBXJJVfPdy2VMU1gkyUFLq+H/0Es7SG
+         ChbvlSo/H6mPh/ti2aXubOQOQmgWebjklgmojczusppy2BocA17DikVCWC0OKaqiAOaw
+         ns7sn/qvMsRXZZLh613YJq0MDCdlxEdXhJJiuXe7/95u1FIb9O8t0QZ5t6eFLcL0sRmm
+         ZOj+vRVhQmetCdE5eHiG2y+e+czKSpClT8eSHTqUFhBFWDvk3gcbZhyLpXelkI4XDzDO
+         39Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=IOTxIu9UU7W+66H/k/UHJQRfeAApKOj9rT8/wHVrDlU=;
-        b=R45q7IVwpfxXV/ddvERraTZkIG4MT7ziUaTnG9VvC1jj+C7voQFxUYlyWMS73KgKzz
-         QMYx4/sRr6sC7Dq7+7e2mQrGoOjQWh+HJb16uU0S5B/Igv7DYQGKoyXRr5l8tii/43/B
-         /HXyFMJDDaSo0LiaLG/anxVZpsdAqtfr6wfcZnExSlftYlF8nNSbMjl6giPmHeJzNK3/
-         8C63BPUTeD2+QoPb9FCND6BP9X7dnhKHwUtGPHa/FMQUu4Kl4fL1sG7CBxE1kL0EZMjI
-         RK5eHTbkrmPry9d4JbWMh2nqAkVJGny+alZNEAl7qMMIZAEq0Sv7JIwNsDQFYKmfcEQD
-         mj4w==
-X-Gm-Message-State: APjAAAXYNHpDiu2hS9kMWB/KtMnOlgUl2jEd8scZT3gdxBTyz/XGHrAP
-        Tf3xaX5rna+v0lmPpMH6MVHFN9Dw0gc=
-X-Google-Smtp-Source: APXvYqz7VXQsDhdiTvzXLEq4xEiXXreMmYSxWRGQODUyHGHLD4ebjCBjpMV4JuDGPd6Sgy4OosoyEg==
-X-Received: by 2002:a50:8803:: with SMTP id b3mr24965453edb.153.1557133429404;
-        Mon, 06 May 2019 02:03:49 -0700 (PDT)
-Received: from localhost (frost.work.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
-        by smtp.gmail.com with ESMTPSA id q5sm1456716ejm.63.2019.05.06.02.03.48
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 06 May 2019 02:03:48 -0700 (PDT)
-From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
-To:     linux-usb@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org,
-        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
-Subject: [PATCH 20/34] lsusb.py: move unrelated code out of try..except
-Date:   Mon,  6 May 2019 12:02:27 +0300
-Message-Id: <20190506090241.169665-21-grawity@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190506090241.169665-1-grawity@gmail.com>
-References: <20190506090241.169665-1-grawity@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OD+RZV04VouyQVp1GzCs1QA3xxiEWeSzMkM54So/b1E=;
+        b=gARUTL5PDvJuXtHHQVqDqiHUjgmJlf2bn3OwA+JJdGTBti76HAVoCCzxhjeVgZMZg3
+         XQZe65YSvBuLWKZudwbXuRNDxt0RYCu1+pyD96eL9cgwbL8PXR0ENKewx4kWLhrmr/Ny
+         vMpJVN2ly+sCja9rsOWLRN1BiqfgEGg1fWjNg2AU1E+haE4OMmZuXVPf1tZbjOdwGqTD
+         ppf9w4XXFYsBf8ySnFNnhye0JOta+jyxnDYKhCyG8pH5xEkaw0wzUgaxgdXwo/ppYJZJ
+         bMyoLTPKXqLYK+eAYyCo/ljwiZqJBRWTjPp4KQQbY8EN3RDQEwtwQEuwbS2XDT4exat3
+         5hkg==
+X-Gm-Message-State: APjAAAW5Yqwc6QdcMEnG44asWvbVcHwtX4nsz8us9lRi+QKPKH3y2MTb
+        sTZXCAm/3/KBwHD1R9bjokWp+7iPD49gGuSK+k1TVQ==
+X-Google-Smtp-Source: APXvYqxD0jWt64GjYbWfNRXykoTSI3tXj/XFafdavhMsZqvORYGpMFssNpaGA8SGXLZQIehqHM06Z6ZmSbBSXcjw7kM=
+X-Received: by 2002:a17:902:2b89:: with SMTP id l9mr25383680plb.329.1556031941580;
+ Tue, 23 Apr 2019 08:05:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <00000000000029431d0586d10813@google.com> <Pine.LNX.4.44L0.1904221344550.1384-100000@iolanthe.rowland.org>
+In-Reply-To: <Pine.LNX.4.44L0.1904221344550.1384-100000@iolanthe.rowland.org>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Tue, 23 Apr 2019 17:05:30 +0200
+Message-ID: <CAAeHK+zUiv+CSip7OwrQ6FKxwE_+Wh0LTmGW86ipQ5QkaAOT8w@mail.gmail.com>
+Subject: Re: general protection fault in __dev_printk
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     syzbot <syzbot+2eb9121678bdb36e6d57@syzkaller.appspotmail.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kernel development list <linux-kernel@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>, rafael@kernel.org,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        Dmitry Vyukov <dvyukov@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
----
- lsusb.py.in | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+On Mon, Apr 22, 2019 at 7:53 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+>
+> On Thu, 18 Apr 2019, syzbot wrote:
+>
+> > syzbot has found a reproducer for the following crash on:
+> >
+> > HEAD commit:    d34f9519 usb-fuzzer: main usb gadget fuzzer driver
+> > git tree:       https://github.com/google/kasan/tree/usb-fuzzer
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=10adfe6b200000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=c73d1bb5aeaeae20
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=2eb9121678bdb36e6d57
+> > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=145cb7e3200000
+> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17f8bd2d200000
+> >
+> > IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> > Reported-by: syzbot+2eb9121678bdb36e6d57@syzkaller.appspotmail.com
+> >
+> > yurex 1-1:0.150: yurex_interrupt - unknown status received: -71
+> > usb 1-1: USB disconnect, device number 112
+> > yurex 1-1:0.150: yurex_interrupt - unknown status received: -71
+> > kasan: CONFIG_KASAN_INLINE enabled
+> > kasan: GPF could be caused by NULL-ptr deref or user memory access
+> > general protection fault: 0000 [#1] SMP KASAN PTI
+>
+> Andrey:
+>
+> This original bug report included a "USB disconnect" line, as shown
+> above.  The newer results, for runs with my patches added, do not.  At
+> least, if such a line was present, it didn't show up in the console
+> output files -- the most recent one contains nothing but repeats of
+> that "yurex_interrupt - unknown status received: -71" line, although
+> for devices on multiple buses.
+>
+> Is there any way to get more information about what's happening, such
+> as a complete kernel log?
 
-diff --git a/lsusb.py.in b/lsusb.py.in
-index fc3e7a6..823cc8a 100644
---- a/lsusb.py.in
-+++ b/lsusb.py.in
-@@ -356,14 +356,12 @@ class UsbDevice:
- 		try:
- 			self.name = readattr(fname, "manufacturer") + " " \
- 				  + readattr(fname, "product")
--			if self.name[:5] == "Linux":
--				rx = re.compile(r"Linux [^ ]* (.hci_hcd) .HCI Host Controller")
--				mch = rx.match(self.name)
--				if mch:
--					self.name = mch.group(1)
--
- 		except:
- 			pass
-+		if self.name and self.name[:5] == "Linux":
-+			mch = re.match(r"Linux [^ ]* (.hci_hcd) .HCI Host Controller", self.name)
-+			if mch:
-+				self.name = mch.group(1)
- 		if not self.name:
- 			self.name = find_usb_prod(self.vid, self.pid)
- 		# Some USB Card readers have a better name then Generic ...
--- 
-2.21.0
+It should be possible to provide the full log for the result of the
+"syz test" command. I'll talk to Dmitry about this when he's back from
+vacation next week.
 
+> And perhaps to run the test with just a
+> single dummy-hcd bus instead of 6?
+
+Hm, it might be possible to implement overriding of syz-execprog flags
+and provide them via "syz test". It's not implemented right now
+though.
+
+Running the reproducer manually is the most flexible way to make
+changes to the way it's ran or to make changes to the environment. In
+this case I haven't managed to reproduce the hang manually though :(
+
+I see two ways to deal with this right now:
+
+1. Submit your fix (it fixes the original issue for me) and wait until
+it gets into the usb-fuzzer tree. Then maybe syzbot will report the
+hang and provide a better reproducer.
+
+2. Change the testing patch to also suppress those "yurex_interrupt -
+unknown status received: -71" messages and rerun the "syz test"
+command. Hopefully then syzbot will provide the full kernel log.
+
+>
+> At this point, I suspect the original general protection fault in
+> the yurex driver has been fixed, but something else in dummy-hcd may be
+> causing the rcu-detected stalls.
+>
+> Alan Stern
+>
