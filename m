@@ -1,144 +1,225 @@
-Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=tIEv=SZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7B87C04AAA
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3467C10F14
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 12:36:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 79BD620830
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:41 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lom28Qm1"
+	by mail.kernel.org (Postfix) with ESMTP id 9A354204EC
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 12:36:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726404AbfEFJDl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 May 2019 05:03:41 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:45460 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725890AbfEFJDk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:03:40 -0400
-Received: by mail-ed1-f68.google.com with SMTP id g57so14464162edc.12
-        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:03:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=IRzPMnypx3CdBAGkIgMJxrqdf/w5qRpxQKai+pzgHZ4=;
-        b=Lom28Qm11F3iIt5QvZF52nb3333DpgyBP3eGkRcmn230TPDFutxlwp8EkIaioxG5Tp
-         H/3LimGzqvQfbLKIBbQCmQoqs5mJbIRnXG025ZRNg9znYjB1UXiHB9mL849nANWMwLCF
-         /pdXN0JvM0LB4X0+tPUmCbgywqWATwEkxa7XPmE+2B3FhKUS3mu1VGvnwiG9gh6Vl7lZ
-         7bU05QStpsKGJ6YEve6ps7kNc3i7Grx3PQ+nB2R8xAhEp4jo5HXnI7DYC/ALRnrLYl1l
-         +2wVh6PhWFOwhJ16/xckTY8s/BFuzJPavBcM+m2Ql1G+g92TYfP+r64BZ7n/Kewa9XUa
-         zwsw==
+        id S1727774AbfDWMgQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Apr 2019 08:36:16 -0400
+Received: from mail-it1-f200.google.com ([209.85.166.200]:52147 "EHLO
+        mail-it1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727750AbfDWMgL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Apr 2019 08:36:11 -0400
+Received: by mail-it1-f200.google.com with SMTP id y127so15252910itb.1
+        for <linux-usb@vger.kernel.org>; Tue, 23 Apr 2019 05:36:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=IRzPMnypx3CdBAGkIgMJxrqdf/w5qRpxQKai+pzgHZ4=;
-        b=uUnLrySzHy5uzV4p7eoJUric/HXrzbue/AUuclTQ2dBoI2D0zOHP0K/C+zAdXxSNuE
-         BmqReWO/dyP6yBl+u0VQOFtuniiR7hcuhEozwxHWgcAHG96lGVb6vdx8nK4t/jEF5mvG
-         aYs5TyA7fv+US1ZRgHzZerH7enzWKGeNGBe8lXBiTiCUCU9ETl8O/77R9ZrKALjhE758
-         F1ABVB6h2c14kL4/byPJop/uSZWC7ilGDcu8P0IZiZDHUkQ7QAo+33KjzphOfRY1dK4r
-         tL+DAdtFlvSqieG3l6makfPNxJVB2+1Tb86zgiDpDZijbEs+z/s3DFrjT7dkXcL5VG7M
-         J9zw==
-X-Gm-Message-State: APjAAAU+8GcjQFpBoWvAAU0CC6PP4pfoiL22cwygaicKPzegDcVG7SsV
-        zLRdyOZ9okJ2mxJxWg9Pof/Wds87sdk=
-X-Google-Smtp-Source: APXvYqyUOEB8zVRJ083xY9APig0CmzJMgKmqw8Qr3pxTtWHqft/a/qHgR/QjX1Rv0Yh0hovmYLAgUQ==
-X-Received: by 2002:a17:906:11d2:: with SMTP id o18mr17887136eja.123.1557133418467;
-        Mon, 06 May 2019 02:03:38 -0700 (PDT)
-Received: from localhost (frost.work.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
-        by smtp.gmail.com with ESMTPSA id bz12sm1028281ejb.59.2019.05.06.02.03.37
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 06 May 2019 02:03:37 -0700 (PDT)
-From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
-To:     linux-usb@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org,
-        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
-Subject: [PATCH 13/34] lsusb.py: avoid manual calls to __foo__()
-Date:   Mon,  6 May 2019 12:02:20 +0300
-Message-Id: <20190506090241.169665-14-grawity@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190506090241.169665-1-grawity@gmail.com>
-References: <20190506090241.169665-1-grawity@gmail.com>
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=LFoGPFtYgGfzZbv4YukFVx1QbzRdWIcXb0v+NmiVzSA=;
+        b=QFMeX+Zdjj7PCBqFK5uUxtX+8EzRTN+xN4dyTXQUG0f7yevm+88p1Kjr2Qx+MZ3xLf
+         pia8ARa73ZJLnFAeqNzyOrrKwnFqLVjJhonAX3RyExrGZiNF9xzQuQoi94KOsYcYJWHF
+         XFCkenyXGUmHFY3QYPGjX+9QFRLUP6Yng8i14gsy3EPUl6fZ5NiVxcwrFP1WUl/vdG3p
+         p6vkYw0JZlsasu73banv5PeY6OJ1P6jZQf8boP9CwKKg2X+25WxcpmPWUNEOVlNvn+FQ
+         SxYxMabnwlG4m6uHUWv3ogKRmf9NvOkFwMnFqOfMWVIImc3dR5+iiUhiGQkjgptGFuhT
+         F2lg==
+X-Gm-Message-State: APjAAAXb6t7IjJ4P71jnNv84ytOHKxp1E1ALFeowLHcRvwH/6kZYnOCk
+        2ztaEOH4G5NMvlNOmRH5YFKxTShMrBxpQoVg0okbjctiaoCv
+X-Google-Smtp-Source: APXvYqwDsQ41Kdl1Iq3KGbCYp8bPy+Zbx0AOGIqWtWmtHmIFyAvGJpfoyGIpMpv6YMZqrhi1NlEwGGHY8N6CkqKz+mX0gskBm0ri
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a24:10c6:: with SMTP id 189mr1663880ity.40.1556022969420;
+ Tue, 23 Apr 2019 05:36:09 -0700 (PDT)
+Date:   Tue, 23 Apr 2019 05:36:09 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000005ae4cd058731d407@google.com>
+Subject: KASAN: invalid-free in rsi_91x_deinit
+From:   syzbot <syzbot+7c72edfb407b2bd866ce@syzkaller.appspotmail.com>
+To:     amitkarwar@gmail.com, andreyknvl@google.com, davem@davemloft.net,
+        kvalo@codeaurora.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        netdev@vger.kernel.org, siva8118@gmail.com,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
+Hello,
+
+syzbot found the following crash on:
+
+HEAD commit:    d34f9519 usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan/tree/usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=14a79403200000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c73d1bb5aeaeae20
+dashboard link: https://syzkaller.appspot.com/bug?extid=7c72edfb407b2bd866ce
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17547247200000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=147b3a1d200000
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+7c72edfb407b2bd866ce@syzkaller.appspotmail.com
+
+usb 1-1: config 252 interface 115 altsetting 0 has 1 endpoint descriptor,  
+different from the interface descriptor's value: 4
+usb 1-1: New USB device found, idVendor=1618, idProduct=9113,  
+bcdDevice=32.21
+usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+rsi_91x: rsi_probe: Failed to init usb interface
+==================================================================
+BUG: KASAN: double-free or invalid-free in slab_free mm/slub.c:3003 [inline]
+BUG: KASAN: double-free or invalid-free in kfree+0xce/0x280 mm/slub.c:3958
+
+CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.1.0-rc5-319617-gd34f951 #4
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xe8/0x16e lib/dump_stack.c:113
+  print_address_description+0x6c/0x236 mm/kasan/report.c:187
+  kasan_report_invalid_free+0x66/0xa0 mm/kasan/report.c:278
+  __kasan_slab_free+0x162/0x180 mm/kasan/common.c:438
+  slab_free_hook mm/slub.c:1429 [inline]
+  slab_free_freelist_hook+0x5e/0x140 mm/slub.c:1456
+  slab_free mm/slub.c:3003 [inline]
+  kfree+0xce/0x280 mm/slub.c:3958
+  rsi_91x_deinit+0x27b/0x300 drivers/net/wireless/rsi/rsi_91x_main.c:407
+  rsi_probe+0xdf3/0x140d drivers/net/wireless/rsi/rsi_91x_sdio.c:1178
+  usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
+  really_probe+0x2da/0xb10 drivers/base/dd.c:509
+  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+  device_add+0xad2/0x16e0 drivers/base/core.c:2106
+  usb_set_configuration+0xdf7/0x1740 drivers/usb/core/message.c:2021
+  generic_probe+0xa2/0xda drivers/usb/core/generic.c:210
+  usb_probe_device+0xc0/0x150 drivers/usb/core/driver.c:266
+  really_probe+0x2da/0xb10 drivers/base/dd.c:509
+  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+  device_add+0xad2/0x16e0 drivers/base/core.c:2106
+  usb_new_device.cold+0x537/0xccf drivers/usb/core/hub.c:2534
+  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+  port_event drivers/usb/core/hub.c:5350 [inline]
+  hub_event+0x1398/0x3b00 drivers/usb/core/hub.c:5432
+  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
+  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
+  kthread+0x313/0x420 kernel/kthread.c:253
+  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+
+Allocated by task 12:
+  set_track mm/kasan/common.c:87 [inline]
+  __kasan_kmalloc mm/kasan/common.c:497 [inline]
+  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:470
+  rsi_init_sdio_interface drivers/net/wireless/rsi/rsi_91x_sdio.c:853  
+[inline]
+  rsi_probe+0x11a/0x140d drivers/net/wireless/rsi/rsi_91x_sdio.c:965
+  usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
+  really_probe+0x2da/0xb10 drivers/base/dd.c:509
+  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+  device_add+0xad2/0x16e0 drivers/base/core.c:2106
+  usb_set_configuration+0xdf7/0x1740 drivers/usb/core/message.c:2021
+  generic_probe+0xa2/0xda drivers/usb/core/generic.c:210
+  usb_probe_device+0xc0/0x150 drivers/usb/core/driver.c:266
+  really_probe+0x2da/0xb10 drivers/base/dd.c:509
+  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+  device_add+0xad2/0x16e0 drivers/base/core.c:2106
+  usb_new_device.cold+0x537/0xccf drivers/usb/core/hub.c:2534
+  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+  port_event drivers/usb/core/hub.c:5350 [inline]
+  hub_event+0x1398/0x3b00 drivers/usb/core/hub.c:5432
+  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
+  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
+  kthread+0x313/0x420 kernel/kthread.c:253
+  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+
+Freed by task 12:
+  set_track mm/kasan/common.c:87 [inline]
+  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:459
+  slab_free_hook mm/slub.c:1429 [inline]
+  slab_free_freelist_hook+0x5e/0x140 mm/slub.c:1456
+  slab_free mm/slub.c:3003 [inline]
+  kfree+0xce/0x280 mm/slub.c:3958
+  rsi_probe+0xf04/0x140d drivers/net/wireless/rsi/rsi_91x_sdio.c:1196
+  usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
+  really_probe+0x2da/0xb10 drivers/base/dd.c:509
+  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+  device_add+0xad2/0x16e0 drivers/base/core.c:2106
+  usb_set_configuration+0xdf7/0x1740 drivers/usb/core/message.c:2021
+  generic_probe+0xa2/0xda drivers/usb/core/generic.c:210
+  usb_probe_device+0xc0/0x150 drivers/usb/core/driver.c:266
+  really_probe+0x2da/0xb10 drivers/base/dd.c:509
+  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+  device_add+0xad2/0x16e0 drivers/base/core.c:2106
+  usb_new_device.cold+0x537/0xccf drivers/usb/core/hub.c:2534
+  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+  port_event drivers/usb/core/hub.c:5350 [inline]
+  hub_event+0x1398/0x3b00 drivers/usb/core/hub.c:5432
+  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
+  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
+  kthread+0x313/0x420 kernel/kthread.c:253
+  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+
+The buggy address belongs to the object at ffff888214af0c80
+  which belongs to the cache kmalloc-512 of size 512
+The buggy address is located 0 bytes inside of
+  512-byte region [ffff888214af0c80, ffff888214af0e80)
+The buggy address belongs to the page:
+page:ffffea000852bc00 count:1 mapcount:0 mapping:ffff88812c3f4c00  
+index:0xffff888214af1180 compound_mapcount: 0
+flags: 0x57ff00000010200(slab|head)
+raw: 057ff00000010200 ffffea00086b3780 0000000800000008 ffff88812c3f4c00
+raw: ffff888214af1180 00000000800c000a 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+  ffff888214af0b80: 00 00 00 00 00 00 00 00 00 00 00 fc fc fc fc fc
+  ffff888214af0c00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+> ffff888214af0c80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                    ^
+  ffff888214af0d00: fb fb fb fb fb fb f
+
+
 ---
- lsusb.py.in | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/lsusb.py.in b/lsusb.py.in
-index a8f18ab..79d6cd6 100644
---- a/lsusb.py.in
-+++ b/lsusb.py.in
-@@ -162,12 +162,12 @@ def find_usb_prod(vid, pid):
- 	strg = ""
- 	vendor = usbvendors.get(vid)
- 	if vendor:
--		strg = vendor.__repr__()
-+		strg = repr(vendor)
- 	else:
- 		return ""
- 	product = usbproducts.get((vid, pid))
- 	if product:
--		return strg + " " + product.__repr__()
-+		return strg + " " + repr(product)
- 	return strg
- 
- def find_usb_class(cid, sid, pid):
-@@ -177,13 +177,13 @@ def find_usb_class(cid, sid, pid):
- 	lnlst = len(usbclasses)
- 	cls = usbclasses.get((cid, sid, pid))
- 	if cls:
--		return cls.__repr__()
-+		return repr(cls)
- 	cls = usbclasses.get((cid, sid, -1))
- 	if cls:
--		return cls.__repr__()
-+		return repr(cls)
- 	cls = usbclasses.get((cid, -1, -1))
- 	if cls:
--		return cls.__repr__()
-+		return repr(cls)
- 	return ""
- 
- 
-@@ -355,7 +355,7 @@ class UsbInterface:
- 			 cols[4], self.devname, cols[0])
- 		if showeps and self.eps:
- 			for ep in self.eps:
--				strg += ep.__str__()
-+				strg += str(ep)
- 		return strg
- 
- class UsbDevice:
-@@ -483,12 +483,12 @@ class UsbDevice:
- 				if showeps:
- 					ep = UsbEndpoint(self, self.level+len(self.fname))
- 					ep.read("ep_00")
--					strg += ep.__str__()
-+					strg += str(ep)
- 				if showint:	
- 					for iface in self.interfaces:
--						strg += iface.__str__()
-+						strg += str(iface)
- 		for child in self.children:
--			strg += child.__str__()
-+			strg += str(child)
- 		return strg
- 
- 
--- 
-2.21.0
-
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
