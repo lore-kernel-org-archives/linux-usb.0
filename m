@@ -2,171 +2,91 @@ Return-Path: <SRS0=e+xf=S2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13A01C10F11
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 18:12:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06929C282CE
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 18:33:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DC5E220652
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 18:12:28 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mork.no header.i=@mork.no header.b="kJ/Nzrrf"
+	by mail.kernel.org (Postfix) with ESMTP id D226721773
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 18:33:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388099AbfDXSMZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Apr 2019 14:12:25 -0400
-Received: from canardo.mork.no ([148.122.252.1]:52907 "EHLO canardo.mork.no"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387745AbfDXRM5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 24 Apr 2019 13:12:57 -0400
-Received: from miraculix.mork.no (miraculix.mork.no [IPv6:2001:4641:0:2:7627:374e:db74:e353])
-        (authenticated bits=0)
-        by canardo.mork.no (8.15.2/8.15.2) with ESMTPSA id x3OHCsjx000853
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Wed, 24 Apr 2019 19:12:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
-        t=1556125975; bh=0VnTOzW9sHjKZ5KdnrR5oiEnUugY6MpprBJunBE6Ji8=;
-        h=From:To:Cc:Subject:Date:Message-Id:From;
-        b=kJ/NzrrfpnSB9JiJEdsHRDLRJQ647c+HZWA9VIbZR/vNn9f4d0rFMH/vimNhyjf/8
-         45n1AvmduoxaLTJqqBXHiimq+991Z6BkBB7/9ixtftlRbmmAZFAt9fEpi9bVDIafCw
-         nvkEfMFma9/V1dIQ6WySXCbMYu5ecdfWKyARKKhQ=
-Received: from bjorn by miraculix.mork.no with local (Exim 4.89)
-        (envelope-from <bjorn@miraculix.mork.no>)
-        id 1hJLS2-0001Cl-MU; Wed, 24 Apr 2019 19:12:54 +0200
-From:   =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
-To:     netdev@vger.kernel.org
-Cc:     linux-usb@vger.kernel.org, Lars Melin <larsm17@gmail.com>,
-        =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
-Subject: [PATCH net] qmi_wwan: new Wistron, ZTE and D-Link devices
-Date:   Wed, 24 Apr 2019 19:12:46 +0200
-Message-Id: <20190424171246.4589-1-bjorn@mork.no>
-X-Mailer: git-send-email 2.11.0
+        id S2387817AbfDXSdu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 24 Apr 2019 14:33:50 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:37522 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1733024AbfDXSdu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Apr 2019 14:33:50 -0400
+Received: (qmail 6754 invoked by uid 2102); 24 Apr 2019 14:33:48 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 24 Apr 2019 14:33:48 -0400
+Date:   Wed, 24 Apr 2019 14:33:48 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     "Claus H. Stovgaard" <cst@phaseone.com>
+cc:     "balbi@kernel.org" <balbi@kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "mnarani@xilinx.com" <mnarani@xilinx.com>,
+        Michal Simek <michal.simek@xilinx.com>
+Subject: Re: Use device tree to disable U1/U2 in gadget devices based on DWC3
+In-Reply-To: <DB8PR01MB60273B2E42CF5FBD2E54ADCBDA3C0@DB8PR01MB6027.eurprd01.prod.exchangelabs.com>
+Message-ID: <Pine.LNX.4.44L0.1904241423540.1443-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.100.3 at canardo
-X-Virus-Status: Clean
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190424171246.RVo9OTSmp98H6P2bA5yJk-RIccKDYm2ZWuDqdvXjgy4@z>
 
-Adding device entries found in vendor modified versions of this
-driver.  Function maps for some of the devices follow:
+On Wed, 24 Apr 2019, Claus H. Stovgaard wrote:
 
-WNC D16Q1, D16Q5, D18Q1 LTE CAT3 module (1435:0918)
+> Hi Balbi and other USB developers.
+> 
+> I am developing camera devices based on Xilinx ZynqMP, using the
+> gadget framework and the build-in dwc3 core of the ZynqMP as USB3
+> controller and the build-in Cirrus SERDES as phy.
+> Testing with a number of hosts and Windows 7, has shown sporadic
+> reconnects when leaving U2/U1, caused by failing link training, where
+> the host resets the bus. Sometime it also means it reconnect via
+> USB2.
+> 
+> So to overcome this, I will like to have the option for disabling
+> U1/U2 on the core when working with those hosts.
+> 
+> Currently I have made a hack in ep0.c where I return EINVAL in
+> dwc3_ep0_handle_u1 and dwc3_ep0_handle_u2 together with not setting
+> DWC3_DCTL_ACCEPTU1ENA and DWC3_DCTL_ACCEPTU2ENA in
+> dwc3_ep0_set_config
+> Will though prefer a solution possible to upstream, so was thinking
+> about adding two devicetree bindings.
+> 
+> * snps,u1_disable_as_gadget: When set the core will not enable U1 if
+> requested from host, nor initiate U1.
+> * snps,u2_disable_as_gadget: When set the core will not enable U2 if
+> requested from host, nor initiate U2.
+> 
+> If you think this might be something which can be upstreamed I will
+> prepare the code and send a patch for discussion.
+> On the other hand, if you think that disabling U1/U2 via device tree
+> as suggested should not be a feature no need for me to try making it
+> a feature.
 
-MI_00 Qualcomm HS-USB Diagnostics
-MI_01 Android Debug interface
-MI_02 Qualcomm HS-USB Modem
-MI_03 Qualcomm Wireless HS-USB Ethernet Adapter
-MI_04 Qualcomm Wireless HS-USB Ethernet Adapter
-MI_05 Qualcomm Wireless HS-USB Ethernet Adapter
-MI_06 USB Mass Storage Device
+Speaking as an interested bystander, I would first wonder why your
+hardware fails during link training.  If it is properly designed, that
+should not happen.  The fact that it does happen suggests your devices
+might also experience problems during normal data transport.
 
- T:  Bus=02 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  2 Spd=480 MxCh= 0
- D:  Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
- P:  Vendor=1435 ProdID=0918 Rev= 2.32
- S:  Manufacturer=Android
- S:  Product=Android
- S:  SerialNumber=0123456789ABCDEF
- C:* #Ifs= 7 Cfg#= 1 Atr=80 MxPwr=500mA
- I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
- E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
- E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
- I:* If#= 1 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
- E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
- E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
- I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
- E:  Ad=84(I) Atr=03(Int.) MxPS=  64 Ivl=32ms
- E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
- E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
- I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
- E:  Ad=86(I) Atr=03(Int.) MxPS=  64 Ivl=32ms
- E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
- E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
- I:* If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
- E:  Ad=88(I) Atr=03(Int.) MxPS=  64 Ivl=32ms
- E:  Ad=87(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
- I:* If#= 5 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
- E:  Ad=8a(I) Atr=03(Int.) MxPS=  64 Ivl=32ms
- E:  Ad=89(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
- E:  Ad=06(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+Second, the bindings you suggested would not be accepted by the 
+devicetree maintainers.  The whole idea behind devicetree is that it 
+describes the hardware, not the software.  Things like 
+u1_disable_as_gadget are software concepts and so do not belong in a 
+devicetree description.
 
-WNC D18 LTE CAT3 module (1435:d182)
+You might be better off creating sysfs attribute files for disabling
+entry into U1 and U2.  Alternatively, if you really want to do it
+through devicetree, you should create a binding that does describe your
+hardware properties, such as "u1-and-u2-are-broken", or
+"broken-link-training", or something else along those lines.
 
-MI_00 Qualcomm HS-USB Diagnostics
-MI_01 Androd Debug interface
-MI_02 Qualcomm HS-USB Modem
-MI_03 Qualcomm HS-USB NMEA
-MI_04 Qualcomm Wireless HS-USB Ethernet Adapter
-MI_05 Qualcomm Wireless HS-USB Ethernet Adapter
-MI_06 USB Mass Storage Device
-
-ZM8510/ZM8620/ME3960 (19d2:0396)
-
-MI_00 ZTE Mobile Broadband Diagnostics Port
-MI_01 ZTE Mobile Broadband AT Port
-MI_02 ZTE Mobile Broadband Modem
-MI_03 ZTE Mobile Broadband NDIS Port (qmi_wwan)
-MI_04 ZTE Mobile Broadband ADB Port
-
-ME3620_X (19d2:1432)
-
-MI_00 ZTE Diagnostics Device
-MI_01 ZTE UI AT Interface
-MI_02 ZTE Modem Device
-MI_03 ZTE Mobile Broadband Network Adapter
-MI_04 ZTE Composite ADB Interface
-
-Reported-by: Lars Melin <larsm17@gmail.com>
-Signed-off-by: Bjørn Mork <bjorn@mork.no>
----
- drivers/net/usb/qmi_wwan.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 9195f3476b1d..679e404a5224 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -1122,9 +1122,16 @@ static const struct usb_device_id products[] = {
- 	{QMI_FIXED_INTF(0x0846, 0x68d3, 8)},	/* Netgear Aircard 779S */
- 	{QMI_FIXED_INTF(0x12d1, 0x140c, 1)},	/* Huawei E173 */
- 	{QMI_FIXED_INTF(0x12d1, 0x14ac, 1)},	/* Huawei E1820 */
-+	{QMI_FIXED_INTF(0x1435, 0x0918, 3)},	/* Wistron NeWeb D16Q1 */
-+	{QMI_FIXED_INTF(0x1435, 0x0918, 4)},	/* Wistron NeWeb D16Q1 */
-+	{QMI_FIXED_INTF(0x1435, 0x0918, 5)},	/* Wistron NeWeb D16Q1 */
-+	{QMI_FIXED_INTF(0x1435, 0x3185, 4)},	/* Wistron NeWeb M18Q5 */
-+	{QMI_FIXED_INTF(0x1435, 0xd111, 4)},	/* M9615A DM11-1 D51QC */
- 	{QMI_FIXED_INTF(0x1435, 0xd181, 3)},	/* Wistron NeWeb D18Q1 */
- 	{QMI_FIXED_INTF(0x1435, 0xd181, 4)},	/* Wistron NeWeb D18Q1 */
- 	{QMI_FIXED_INTF(0x1435, 0xd181, 5)},	/* Wistron NeWeb D18Q1 */
-+	{QMI_FIXED_INTF(0x1435, 0xd182, 4)},	/* Wistron NeWeb D18 */
-+	{QMI_FIXED_INTF(0x1435, 0xd182, 5)},	/* Wistron NeWeb D18 */
- 	{QMI_FIXED_INTF(0x1435, 0xd191, 4)},	/* Wistron NeWeb D19Q1 */
- 	{QMI_QUIRK_SET_DTR(0x1508, 0x1001, 4)},	/* Fibocom NL668 series */
- 	{QMI_FIXED_INTF(0x16d8, 0x6003, 0)},	/* CMOTech 6003 */
-@@ -1180,6 +1187,7 @@ static const struct usb_device_id products[] = {
- 	{QMI_FIXED_INTF(0x19d2, 0x0265, 4)},	/* ONDA MT8205 4G LTE */
- 	{QMI_FIXED_INTF(0x19d2, 0x0284, 4)},	/* ZTE MF880 */
- 	{QMI_FIXED_INTF(0x19d2, 0x0326, 4)},	/* ZTE MF821D */
-+	{QMI_FIXED_INTF(0x19d2, 0x0396, 3)},	/* ZTE ZM8620 */
- 	{QMI_FIXED_INTF(0x19d2, 0x0412, 4)},	/* Telewell TW-LTE 4G */
- 	{QMI_FIXED_INTF(0x19d2, 0x1008, 4)},	/* ZTE (Vodafone) K3570-Z */
- 	{QMI_FIXED_INTF(0x19d2, 0x1010, 4)},	/* ZTE (Vodafone) K3571-Z */
-@@ -1200,7 +1208,9 @@ static const struct usb_device_id products[] = {
- 	{QMI_FIXED_INTF(0x19d2, 0x1425, 2)},
- 	{QMI_FIXED_INTF(0x19d2, 0x1426, 2)},	/* ZTE MF91 */
- 	{QMI_FIXED_INTF(0x19d2, 0x1428, 2)},	/* Telewell TW-LTE 4G v2 */
-+	{QMI_FIXED_INTF(0x19d2, 0x1432, 3)},	/* ZTE ME3620 */
- 	{QMI_FIXED_INTF(0x19d2, 0x2002, 4)},	/* ZTE (Vodafone) K3765-Z */
-+	{QMI_FIXED_INTF(0x2001, 0x7e16, 3)},	/* D-Link DWM-221 */
- 	{QMI_FIXED_INTF(0x2001, 0x7e19, 4)},	/* D-Link DWM-221 B1 */
- 	{QMI_FIXED_INTF(0x2001, 0x7e35, 4)},	/* D-Link DWM-222 */
- 	{QMI_FIXED_INTF(0x2020, 0x2031, 4)},	/* Olicard 600 */
--- 
-2.11.0
+Alan Stern
 
