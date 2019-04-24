@@ -2,114 +2,162 @@ Return-Path: <SRS0=e+xf=S2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,T_DKIMWL_WL_HIGH,
-	URIBL_BLOCKED,USER_AGENT_MUTT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.9 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,UPPERCASE_50_75,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58563C10F11
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 16:51:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D570C10F11
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 17:58:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 26C3E206A3
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 16:51:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1556124669;
-	bh=KHWGGy0jMAuVixt+Qml8P+H7UayHUqAzgqVvZJvRnpE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=CWToXgqabzEPn17m7UDwu9Jh09ZT9eLjQ8xuJVWt03cozMrtZ4YbDmOgnrtExoiAz
-	 zT8WuwFDcq6Xal4rzOW6bFbnwsr+dbevixurhEZ9kElVzx2Lt7Xwc+/HnvFcaeHOXH
-	 huDHVddeL95ehe6T6VghDX2MayfvTIcBmZAWdfqg=
+	by mail.kernel.org (Postfix) with ESMTP id 3BBBB20685
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 17:58:36 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B9nfmrx7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732863AbfDXQu7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Apr 2019 12:50:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56958 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732242AbfDXQu4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 24 Apr 2019 12:50:56 -0400
-Received: from localhost (62-193-50-229.as16211.net [62.193.50.229])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B3C7C206A3;
-        Wed, 24 Apr 2019 16:50:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1556124655;
-        bh=KHWGGy0jMAuVixt+Qml8P+H7UayHUqAzgqVvZJvRnpE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fE0RcAy7jYUiopBT0sYH4VUqxy4DUVUCqo/yHL/CfjYODRbRmkE0SGnlv7Drse2pW
-         Gr0OztmCg02ob2MQ2iV67Yp+MAa+ddSLbbxAWB4XRWqoz1DlkSLWS6H5Ml9xC+QnEN
-         ung2og8p46XfAl7sGMc6qVXAkfV+6DLz8QvI+jbI=
-Date:   Wed, 24 Apr 2019 18:50:52 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     John Stultz <john.stultz@linaro.org>
-Cc:     "Yang, Fei" <fei.yang@intel.com>, Felipe Balbi <balbi@kernel.org>,
-        andrzej.p@collabora.com, Vincent Pelletier <plr.vincent@gmail.com>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>, Josh Gao <jmgao@google.com>,
-        Alistair Strachan <astrachan@google.com>,
-        Shen Jing <jingx.shen@intel.com>,
-        Alan Stern <stern@rowland.harvard.edu>
-Subject: Re: [PATCH V2] usb: gadget: f_fs: don't free buffer prematurely
-Message-ID: <20190424165052.GF21916@kroah.com>
-References: <1553059940-127038-1-git-send-email-fei.yang@intel.com>
- <CALAqxLUW9XCq0WqTzpYGZ7B_4CVdsXY6t_dyuwhnOTJ7HajrwQ@mail.gmail.com>
- <CALAqxLUwB4vYiCM1Yi2CizMu-FvEoBB-eNqwaTFi2b=gnvCCZQ@mail.gmail.com>
- <CALAqxLXE2Be_a3utjDP2+0mCfHeEypw_PqJPwkoyDM-F2F=jBA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CALAqxLXE2Be_a3utjDP2+0mCfHeEypw_PqJPwkoyDM-F2F=jBA@mail.gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+        id S2391738AbfDXR63 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 24 Apr 2019 13:58:29 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:37576 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388525AbfDXR62 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Apr 2019 13:58:28 -0400
+Received: by mail-pf1-f194.google.com with SMTP id 8so9707655pfr.4;
+        Wed, 24 Apr 2019 10:58:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id;
+        bh=/xDhSicF8xawoGp/6Nqhl26HBrv+qJ+TJrCqTKo/J4M=;
+        b=B9nfmrx7RcEBmUBfjhefWEKnT7QLO7+X838eLVdOfaR6AxrAJTl1YhlxkwW5DYr27m
+         D0V1QGMF5W4Sow3axB3Swc06JxxEh7Kk9YD6QXSKhy+LuiKVdvwuuq2Rb3J+MUvCuj1x
+         KEHV5cDRWteAWbFB4g8fqMutwySFvF7BNh6FsbPCGYAlCCtFPXUqhCXS86+RaYa3KwWC
+         viWAylt6He9V1ZA6fmBE6lACwUw3HnZjFsn4UBW0UMew26OIMyqjtQjdqf/gjQf6WsIz
+         6TyPhHtEQs/n9AxiOz6TRki1SndiLCOwpRTt7iEKLAjCHp8enp2wliwSYlbKLpqK4Vny
+         3qyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+        bh=/xDhSicF8xawoGp/6Nqhl26HBrv+qJ+TJrCqTKo/J4M=;
+        b=PEdVcjgOodFgFYv2tscJq8tJX1PsyNqgOh6MAFUQEojWWKUbFK9lN/g6Y7O4p6Ho+M
+         cydYrmrH6Dmf2x7mVPLq746jVFNpBqR/x589WwBPpSOcQ5UWtGpxSke6kyWDOqtlcbYU
+         wfTmqvungVOF/JExJk95SQwh43wDh5UuBX11YYKy1e7Nl0JSQIRaiWGn/UhRAAv1jznU
+         fp4tqhMremIYQVXMPao9mvDWBH5U/Nlmr9uTLIiCmGjD12VHNCcg6RSTn17+nvEVIAcu
+         VNY0Bla4I3nABoQ2Jt18z8YiuRrEtzfBZ3KKXsNnhVy7ecpDb9cMghxQMK/dMKwjPlic
+         2KsA==
+X-Gm-Message-State: APjAAAXgPDYbMF0txKmFGpLkuhRUJqCOJC5sJyQ+82QCVJLZLNLL3WtL
+        0SpeBcIwDhodwaqSfVdI13I=
+X-Google-Smtp-Source: APXvYqwkQTpbtpxW+mebTAeRrqwoJmvhZ8KE4drOCh5UtDIg4DEG5bGgSUvd7wWUTgykoEc3ABgEZw==
+X-Received: by 2002:aa7:9aaa:: with SMTP id x10mr8262039pfi.225.1556128707935;
+        Wed, 24 Apr 2019 10:58:27 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id o9sm12735822pgh.68.2019.04.24.10.58.26
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 24 Apr 2019 10:58:26 -0700 (PDT)
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     "David S . Miller" <davem@davemloft.net>
+Cc:     linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>
+Subject: [PATCH] usbnet: ipheth: Simplify device detection
+Date:   Wed, 24 Apr 2019 10:58:24 -0700
+Message-Id: <1556128704-10831-1-git-send-email-linux@roeck-us.net>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190424165052.I0F5YPBKTqapK2YHGLCWt6bbo1NA1ueyIZmxhm9PeMM@z>
+Content-Type: text/plain; charset="UTF-8"
+Message-ID: <20190424175824.q5NuYaINACGQNNTimNaEDvw-aQ8X4l4Mv6INvV4oiyw@z>
 
-On Tue, Apr 02, 2019 at 10:26:51AM +0700, John Stultz wrote:
-> On Wed, Mar 20, 2019 at 11:21 AM John Stultz <john.stultz@linaro.org> wrote:
-> > On Wed, Mar 20, 2019 at 9:40 AM John Stultz <john.stultz@linaro.org> wrote:
-> > > On Tue, Mar 19, 2019 at 10:32 PM <fei.yang@intel.com> wrote:
-> > > Elsewhere it seems the ffs driver takes effort to drop any locks
-> > > before calling usb_ep_dequeue(), so this seems like that should be
-> > > addressed, but it also seems like recent change to the dwc3 driver has
-> > > been made to avoid sleeping in that path (see fec9095bdef4 ("usb:
-> > > dwc3: gadget: remove wait_end_transfer")), which may be why I'm not
-> > > seeing the problem with mainline (and your patch here, of coarse).
-> > > But that also doesn't clarify if its still a potential issue w/
-> > > non-dwc3 platforms.
-> >
-> > Felipe: Given Alan's point, does it make sense to mark the commits
-> > that remove the possible sleep from wait_event_lock_irq() in
-> > dwc3_gadget_ep_dequeue()  for -stable?
-> >
-> > Against 4.19.30, the following set manages to cherry-pick cleanly:
-> > git cherry-pick 1a22ec643580626f439c8583edafdcc73798f2fb
-> > git cherry-pick 09fe1f8d7e2f461275b1cdd832f2cfa5e9be346d
-> > git cherry-pick c3acd59014148470dc58519870fbc779785b4bf7
-> > git cherry-pick 7746a8dfb3f9c91b3a0b63a1d5c2664410e6498d
-> > git cherry-pick d5443bbf5fc8f8389cce146b1fc2987cdd229d12
-> > git cherry-pick d4f1afe5e896c18ae01099a85dab5e1a198bd2a8
-> > git cherry-pick fec9095bdef4e7c988adb603d0d4f92ee735d4a1
-> > # To get things building, revert modified -stable fix
-> > git revert 25ad17d
-> > #pick actual upstream fix replacing the previous
-> > git cherry-pick bd6742249b9ca918565e4e3abaa06665e587f4b5
-> >
-> > (Though I'm always a bit hesitant with -stable backports on subsystems
-> > I don't know well. So I'm not sure if this set is fully correct.)
-> >
-> > This set seems to avoid the crash on reboot I was seeing.
-> >
-> > And of course, I'm sure getting that set backported to 4.14 and 4.9
-> > (and maybe even 4.4, I need to check) will be less clean.
-> 
-> Also,  I just wanted to follow up on this as well. Does the above set
-> of cherry-picks look ok to others for 4.19-stable?  Does anyone have
-> suggestions on how they'd like to see backports to 4.14, 4.9 and 4.4?
+All Apple products use the same protocol for tethering over USB.
+To simplify the code and make it future proof, use
+USB_VENDOR_AND_INTERFACE_INFO() instead of
+USB_DEVICE_AND_INTERFACE_INFO() to automatically detect and support
+all existing and future Apple products using the same interface.
 
-If they are ok, can someone send me the commits as a series of patches,
-as doing the above really doesn't help much :)
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+Tested with various iPads and iPhones up to X. iPhone 6 and later
+up to and including X all use product ID 0x12a8, so this patch is
+not strictly required, but it does simplify the code.
 
-thanks,
+ drivers/net/usb/ipheth.c | 58 +++---------------------------------------------
+ 1 file changed, 3 insertions(+), 55 deletions(-)
 
-greg k-h
+diff --git a/drivers/net/usb/ipheth.c b/drivers/net/usb/ipheth.c
+index 3d8a70d3ea9b..a01a71a7e48d 100644
+--- a/drivers/net/usb/ipheth.c
++++ b/drivers/net/usb/ipheth.c
+@@ -54,17 +54,6 @@
+ #include <linux/workqueue.h>
+ 
+ #define USB_VENDOR_APPLE        0x05ac
+-#define USB_PRODUCT_IPHONE      0x1290
+-#define USB_PRODUCT_IPHONE_3G   0x1292
+-#define USB_PRODUCT_IPHONE_3GS  0x1294
+-#define USB_PRODUCT_IPHONE_4	0x1297
+-#define USB_PRODUCT_IPAD 0x129a
+-#define USB_PRODUCT_IPAD_2	0x12a2
+-#define USB_PRODUCT_IPAD_3	0x12a6
+-#define USB_PRODUCT_IPAD_MINI    0x12ab
+-#define USB_PRODUCT_IPHONE_4_VZW 0x129c
+-#define USB_PRODUCT_IPHONE_4S	0x12a0
+-#define USB_PRODUCT_IPHONE_5	0x12a8
+ 
+ #define IPHETH_USBINTF_CLASS    255
+ #define IPHETH_USBINTF_SUBCLASS 253
+@@ -88,50 +77,9 @@
+ #define IPHETH_CARRIER_ON       0x04
+ 
+ static const struct usb_device_id ipheth_table[] = {
+-	{ USB_DEVICE_AND_INTERFACE_INFO(
+-		USB_VENDOR_APPLE, USB_PRODUCT_IPHONE,
+-		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
+-		IPHETH_USBINTF_PROTO) },
+-	{ USB_DEVICE_AND_INTERFACE_INFO(
+-		USB_VENDOR_APPLE, USB_PRODUCT_IPHONE_3G,
+-		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
+-		IPHETH_USBINTF_PROTO) },
+-	{ USB_DEVICE_AND_INTERFACE_INFO(
+-		USB_VENDOR_APPLE, USB_PRODUCT_IPHONE_3GS,
+-		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
+-		IPHETH_USBINTF_PROTO) },
+-	{ USB_DEVICE_AND_INTERFACE_INFO(
+-		USB_VENDOR_APPLE, USB_PRODUCT_IPHONE_4,
+-		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
+-		IPHETH_USBINTF_PROTO) },
+-	{ USB_DEVICE_AND_INTERFACE_INFO(
+-		USB_VENDOR_APPLE, USB_PRODUCT_IPAD,
+-		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
+-		IPHETH_USBINTF_PROTO) },
+-	{ USB_DEVICE_AND_INTERFACE_INFO(
+-		USB_VENDOR_APPLE, USB_PRODUCT_IPAD_2,
+-		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
+-		IPHETH_USBINTF_PROTO) },
+-	{ USB_DEVICE_AND_INTERFACE_INFO(
+-		USB_VENDOR_APPLE, USB_PRODUCT_IPAD_3,
+-		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
+-		IPHETH_USBINTF_PROTO) },
+-	{ USB_DEVICE_AND_INTERFACE_INFO(
+-		USB_VENDOR_APPLE, USB_PRODUCT_IPAD_MINI,
+-		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
+-		IPHETH_USBINTF_PROTO) },
+-	{ USB_DEVICE_AND_INTERFACE_INFO(
+-		USB_VENDOR_APPLE, USB_PRODUCT_IPHONE_4_VZW,
+-		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
+-		IPHETH_USBINTF_PROTO) },
+-	{ USB_DEVICE_AND_INTERFACE_INFO(
+-		USB_VENDOR_APPLE, USB_PRODUCT_IPHONE_4S,
+-		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
+-		IPHETH_USBINTF_PROTO) },
+-	{ USB_DEVICE_AND_INTERFACE_INFO(
+-		USB_VENDOR_APPLE, USB_PRODUCT_IPHONE_5,
+-		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
+-		IPHETH_USBINTF_PROTO) },
++	{ USB_VENDOR_AND_INTERFACE_INFO(USB_VENDOR_APPLE, IPHETH_USBINTF_CLASS,
++					IPHETH_USBINTF_SUBCLASS,
++					IPHETH_USBINTF_PROTO) },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(usb, ipheth_table);
+-- 
+2.7.4
+
