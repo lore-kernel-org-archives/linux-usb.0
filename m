@@ -2,25 +2,28 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: usb: dwc3: Allow building USB_DWC3_QCOM without EXTCON
-From: Marc Gonzalez <marc.w.gonzalez@free.fr>
-Message-Id: <7844b06a-c332-38bb-1d3a-a206a828e991@free.fr>
-Date: Wed, 24 Apr 2019 11:58:44 +0200
-To: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb <linux-usb@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>, Manu Gautam <mgautam@codeaurora.org>, Jeffrey Hugo <jhugo@codeaurora.org>, Bjorn Andersson <bjorn.andersson@linaro.org>, Lee Jones <lee.jones@linaro.org>, MSM <linux-arm-msm@vger.kernel.org>
+From: Arnd Bergmann <arnd@arndb.de>
+Message-Id: <CAK8P3a3_Gkv7bgpYCs9Xog1EB0uXXs=d89OojZ9TaASN-tvJsQ@mail.gmail.com>
+Date: Wed, 24 Apr 2019 14:30:26 +0200
+To: Marc Gonzalez <marc.w.gonzalez@free.fr>
+Cc: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb <linux-usb@vger.kernel.org>, Manu Gautam <mgautam@codeaurora.org>, Jeffrey Hugo <jhugo@codeaurora.org>, Bjorn Andersson <bjorn.andersson@linaro.org>, Lee Jones <lee.jones@linaro.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gMTkvMDQvMjAxOSAxMTo1OSwgTWFyYyBHb256YWxleiB3cm90ZToKCj4gS2VlcCBFWFRDT04g
-c3VwcG9ydCBvcHRpb25hbCwgc2luY2Ugc29tZSBwbGF0Zm9ybXMgZG8gbm90IG5lZWQgaXQuCj4g
-Cj4gRml4ZXM6IDNkZWY0MDMxYjNlMyAoInVzYjogZHdjMzogYWRkIEVYVENPTiBkZXBlbmRlbmN5
-IGZvciBxY29tIikKPiBTaWduZWQtb2ZmLWJ5OiBNYXJjIEdvbnphbGV6IDxtYXJjLncuZ29uemFs
-ZXpAZnJlZS5mcj4KPiAtLS0KPiAgZHJpdmVycy91c2IvZHdjMy9LY29uZmlnIHwgMyArKy0KPiAg
-MSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQo+IAo+IGRpZmYg
-LS1naXQgYS9kcml2ZXJzL3VzYi9kd2MzL0tjb25maWcgYi9kcml2ZXJzL3VzYi9kd2MzL0tjb25m
-aWcKPiBpbmRleCAyYjE0OTQ0NjBkMGMuLjZiZDFhMjhjNTM1ZiAxMDA2NDQKPiAtLS0gYS9kcml2
-ZXJzL3VzYi9kd2MzL0tjb25maWcKPiArKysgYi9kcml2ZXJzL3VzYi9kd2MzL0tjb25maWcKPiBA
-QCAtMTE1LDcgKzExNSw4IEBAIGNvbmZpZyBVU0JfRFdDM19TVAo+ICAKPiAgY29uZmlnIFVTQl9E
-V0MzX1FDT00KPiAgCXRyaXN0YXRlICJRdWFsY29tbSBQbGF0Zm9ybSIKPiAtCWRlcGVuZHMgb24g
-RVhUQ09OICYmIChBUkNIX1FDT00gfHwgQ09NUElMRV9URVNUKQo+ICsJZGVwZW5kcyBvbiBBUkNI
-X1FDT00gfHwgQ09NUElMRV9URVNUCj4gKwlkZXBlbmRzIG9uIEVYVENPTiB8fCAhRVhUQ09OCj4g
-IAlkZXBlbmRzIG9uIE9GCj4gIAlkZWZhdWx0IFVTQl9EV0MzCj4gIAloZWxwCgpDYW4gSSBnZXQg
-YW4gYW1lbj8gOi0pCgpBcm5kPyBHcmVnPyBNb20/Cg==
+T24gRnJpLCBBcHIgMTksIDIwMTkgYXQgMTE6NTkgQU0gTWFyYyBHb256YWxleiA8bWFyYy53Lmdv
+bnphbGV6QGZyZWUuZnI+IHdyb3RlOgo+Cj4gS2VlcCBFWFRDT04gc3VwcG9ydCBvcHRpb25hbCwg
+c2luY2Ugc29tZSBwbGF0Zm9ybXMgZG8gbm90IG5lZWQgaXQuCj4KPiBGaXhlczogM2RlZjQwMzFi
+M2UzICgidXNiOiBkd2MzOiBhZGQgRVhUQ09OIGRlcGVuZGVuY3kgZm9yIHFjb20iKQo+IFNpZ25l
+ZC1vZmYtYnk6IE1hcmMgR29uemFsZXogPG1hcmMudy5nb256YWxlekBmcmVlLmZyPgoKVGhlIHBh
+dGNoIGxvb2tzIGdvb2QsIGJ1dCBwbGVhc2Uga2VlcCB0aGlzIGluIHN5bmMgd2l0aCB0aGUgVEkg
+ZHJpdmVyCnRoYXQgZG9lcyB0aGUgc2FtZSB0aGluZywgc28gYmV0dGVyIGNvbnZlcnQgdGhlbSBi
+b3RoIGluIG9uZSBwYXRjaC4KCj4gLS0tCj4gIGRyaXZlcnMvdXNiL2R3YzMvS2NvbmZpZyB8IDMg
+KystCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkKPgo+
+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9kd2MzL0tjb25maWcgYi9kcml2ZXJzL3VzYi9kd2Mz
+L0tjb25maWcKPiBpbmRleCAyYjE0OTQ0NjBkMGMuLjZiZDFhMjhjNTM1ZiAxMDA2NDQKPiAtLS0g
+YS9kcml2ZXJzL3VzYi9kd2MzL0tjb25maWcKPiArKysgYi9kcml2ZXJzL3VzYi9kd2MzL0tjb25m
+aWcKPiBAQCAtMTE1LDcgKzExNSw4IEBAIGNvbmZpZyBVU0JfRFdDM19TVAo+Cj4gIGNvbmZpZyBV
+U0JfRFdDM19RQ09NCj4gICAgICAgICB0cmlzdGF0ZSAiUXVhbGNvbW0gUGxhdGZvcm0iCj4gLSAg
+ICAgICBkZXBlbmRzIG9uIEVYVENPTiAmJiAoQVJDSF9RQ09NIHx8IENPTVBJTEVfVEVTVCkKPiAr
+ICAgICAgIGRlcGVuZHMgb24gQVJDSF9RQ09NIHx8IENPTVBJTEVfVEVTVAo+ICsgICAgICAgZGVw
+ZW5kcyBvbiBFWFRDT04gfHwgIUVYVENPTgo+ICAgICAgICAgZGVwZW5kcyBvbiBPRgo+ICAgICAg
+ICAgZGVmYXVsdCBVU0JfRFdDMwo+ICAgICAgICAgaGVscAo+IC0tCj4gMi4xNy4xCg==
