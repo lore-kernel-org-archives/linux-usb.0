@@ -1,142 +1,386 @@
-Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=e+xf=S2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 925D4C04AAA
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:04:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A8E9C282E1
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 09:29:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6659020830
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:04:12 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FBvknOVn"
+	by mail.kernel.org (Postfix) with ESMTP id 724B8218B0
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 09:29:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726489AbfEFJEL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 May 2019 05:04:11 -0400
-Received: from mail-ed1-f53.google.com ([209.85.208.53]:34257 "EHLO
-        mail-ed1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726485AbfEFJEK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:04:10 -0400
-Received: by mail-ed1-f53.google.com with SMTP id w35so12829569edd.1
-        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:04:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Uxja2ki1JGEhbEbbyqD/3v2K77rNFNejJCKxXP5YgsA=;
-        b=FBvknOVnUQMwnkpxRga0UyiFnIuqeu4NpU6BRi+j2x1UAJEO8ATuNovlL6lPqHBWtV
-         K0Q67FqJ8c1xMBX/snJpjeVWpaIHe9tprYy5ngzjPnJDCyY1Jdd41VsYtlkuzrHE2uAX
-         GQUKerOloMW7t6Elmxl5TLBlQ1koer1d7e+nW8X+5a7GizvlplJM2HkM+n0oDak5SyNS
-         4IObJvLCR6VNnAtLA/oZayUnn5m4+1xGA/u6D5DT96HdaIlbrHqfVH+LztaFG2My2g89
-         thErDAE8cwofzs2VEcsbdYqGJrD9GLq4ArPFyRYQ6a3StGLpT+fM5VVOSLqQLrdG8njR
-         X8RQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Uxja2ki1JGEhbEbbyqD/3v2K77rNFNejJCKxXP5YgsA=;
-        b=Re+yo7O0hWDlbQgIxm2997+cTsGl+tvZ8EfJLoCdcWOLOVIntMRneXV50FUQv/SAxY
-         ebdq4NsEQIQLzDq7ddmFV8/U7VxFZ1hh1OxXGohFsPnsB/Ix3ZHupajDAwu6zWO/lJEZ
-         EwOZ5hq8YPYodSxn/1uxNcPrWvdBNKagGdwuP1EfoWBH9XkDZq4z3sn19ZXgk/IpWBh7
-         FBBu8VHcwrUnl0gGQzPCIBh/3Vvmy9cG3tZ4L0J3vbFRnfrG62ctwvNrqVct+FL9HXJe
-         Ltezm+oY0YspuUXQUpTNWVGxE35c9q6jow/3Hx7Y4gRD3Qw7SwSQFHmbY0G8xqzk5sFb
-         kqZA==
-X-Gm-Message-State: APjAAAUGQvPkw4GsYZkGS4SbFaUhyxp3Rr4UOMs3Lk/rxEtNkraM22BH
-        rAkJ2FPidzfK52t4VSen0RCrrX/Vo/o=
-X-Google-Smtp-Source: APXvYqzHGTNF3cvOQJgf/65OLaIXu+MRYCGHPNa7OGXQ8qKh2XrF7UNfkDXYnmyMe1OYjkrgL/+Q5Q==
-X-Received: by 2002:a50:ad77:: with SMTP id z52mr7018925edc.174.1557133448560;
-        Mon, 06 May 2019 02:04:08 -0700 (PDT)
-Received: from localhost (frost.work.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
-        by smtp.gmail.com with ESMTPSA id n3sm1497212eja.70.2019.05.06.02.04.07
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 06 May 2019 02:04:07 -0700 (PDT)
-From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
-To:     linux-usb@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org,
-        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
-Subject: [PATCH 31/34] lsusb.py: use color by default
-Date:   Mon,  6 May 2019 12:02:38 +0300
-Message-Id: <20190506090241.169665-32-grawity@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190506090241.169665-1-grawity@gmail.com>
-References: <20190506090241.169665-1-grawity@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        id S1728092AbfDXJ3g (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 24 Apr 2019 05:29:36 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:35911 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726176AbfDXJ3g (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Apr 2019 05:29:36 -0400
+X-IronPort-AV: E=Sophos;i="5.60,389,1549897200"; 
+   d="scan'208";a="14200213"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 24 Apr 2019 18:29:34 +0900
+Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 76F5742A0824;
+        Wed, 24 Apr 2019 18:29:31 +0900 (JST)
+From:   Biju Das <biju.das@bp.renesas.com>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+Cc:     Biju Das <biju.das@bp.renesas.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        linux-usb@vger.kernel.org, Simon Horman <horms@verge.net.au>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH V5 5/9] usb: typec: driver for TI HD3SS3220 USB Type-C DRP port controller
+Date:   Wed, 24 Apr 2019 10:22:19 +0100
+Message-Id: <1556097743-12717-6-git-send-email-biju.das@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1556097743-12717-1-git-send-email-biju.das@bp.renesas.com>
+References: <1556097743-12717-1-git-send-email-biju.das@bp.renesas.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Message-ID: <20190424092219.8uT2g4Oq-XuJtHhHH9n3CIiZ6I7wF8ni73cqLhi0e0o@z>
 
-Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
+Driver for TI HD3SS3220 USB Type-C DRP port controller.
+
+The driver currently registers the port and supports data role swapping.
+
+Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
- lsusb.py.in | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ V4-->V5
+   * Incorporated Heikki's review comment
+     (https://patchwork.kernel.org/patch/10902531/)
+   * Added Heikki's Reviewed-by tag
+ V3-->V4
+   * Incorporated Chunfeng Yun's review comment
+   * Used fwnode API's to get usb role switch handle.
+ 
+ V2-->V3
+   * Used the new api "usb_role_switch by node" for getting
+     remote endpoint associated with Type-C USB DRP port
+     controller devices.
+ V1-->V2
+   * Driver uses usb role class instead of extcon for dual role switch
+     and also handles connect/disconnect events.
+---
+ drivers/usb/typec/Kconfig     |  10 ++
+ drivers/usb/typec/Makefile    |   1 +
+ drivers/usb/typec/hd3ss3220.c | 263 ++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 274 insertions(+)
+ create mode 100644 drivers/usb/typec/hd3ss3220.c
 
-diff --git a/lsusb.py.in b/lsusb.py.in
-index a9559ce..7fa5493 100644
---- a/lsusb.py.in
-+++ b/lsusb.py.in
-@@ -456,6 +456,7 @@ def usage():
- 	print("  -u, --hide-empty-hubs suppress empty hubs")
- 	print("  -U, --hide-hubs       suppress all hubs")
- 	print("  -c, --color           use colors")
-+	print("  -C, --no-color        disable colors")
- 	print("  -e, --endpoints       display endpoint info")
- 	print("  -f FILE, --usbids-path FILE")
- 	print("                        override filename for /usr/share/usb.ids")
-@@ -478,6 +479,7 @@ def main(argv):
- 	"main entry point"
- 	global showint, showhubint, noemptyhub, nohub
- 	global cols, usbids, showeps
-+	usecols = None
+diff --git a/drivers/usb/typec/Kconfig b/drivers/usb/typec/Kconfig
+index 89d9193..92a3717 100644
+--- a/drivers/usb/typec/Kconfig
++++ b/drivers/usb/typec/Kconfig
+@@ -50,6 +50,16 @@ source "drivers/usb/typec/tcpm/Kconfig"
  
- 	long_options = [
- 		"help",
-@@ -486,12 +488,13 @@ def main(argv):
- 		"hide-empty-hubs",
- 		"hide-hubs",
- 		"color",
-+		"no-color",
- 		"usbids-path=",
- 		"endpoints",
- 	]
+ source "drivers/usb/typec/ucsi/Kconfig"
  
- 	try:
--		(optlist, args) = getopt.gnu_getopt(argv[1:], "hiIuUwcef:", long_options)
-+		(optlist, args) = getopt.gnu_getopt(argv[1:], "hiIuUwcCef:", long_options)
- 	except getopt.GetoptError as exc:
- 		print("Error:", exc, file=sys.stderr)
- 		sys.exit(2)
-@@ -510,7 +513,9 @@ def main(argv):
- 			noemptyhub = True
- 			nohub = True
- 		elif opt[0] in {"-c", "--color"}:
--			cols = (norm, bold, red, green, amber, blue)
-+			usecols = True
-+		elif opt[0] in {"-C", "--no-color"}:
-+			usecols = False
- 		elif opt[0] == "-w":
- 			print("Warning: option -w is no longer supported", file=sys.stderr)
- 		elif opt[0] in {"-f", "--usbids-path"}:
-@@ -521,6 +526,12 @@ def main(argv):
- 		print("Error: excess args %s ..." % args[0], file=sys.stderr)
- 		sys.exit(2)
- 
-+	if usecols is None:
-+		usecols = sys.stdout.isatty() and os.environ.get("TERM", "dumb") != "dumb"
++config TYPEC_HD3SS3220
++	tristate "TI HD3SS3220 Type-C DRP Port controller driver"
++	depends on I2C
++	help
++	  Say Y or M here if your system has TI HD3SS3220 Type-C DRP Port
++	  controller driver.
 +
-+	if usecols:
-+		cols = (norm, bold, red, green, amber, blue)
++	  If you choose to build this driver as a dynamically linked module, the
++	  module will be called hd3ss3220.ko.
 +
- 	if usbids[0]:
- 		try:
- 			parse_usb_ids()
+ config TYPEC_TPS6598X
+ 	tristate "TI TPS6598x USB Power Delivery controller driver"
+ 	depends on I2C
+diff --git a/drivers/usb/typec/Makefile b/drivers/usb/typec/Makefile
+index 6696b72..7753a5c3 100644
+--- a/drivers/usb/typec/Makefile
++++ b/drivers/usb/typec/Makefile
+@@ -4,5 +4,6 @@ typec-y				:= class.o mux.o bus.o
+ obj-$(CONFIG_TYPEC)		+= altmodes/
+ obj-$(CONFIG_TYPEC_TCPM)	+= tcpm/
+ obj-$(CONFIG_TYPEC_UCSI)	+= ucsi/
++obj-$(CONFIG_TYPEC_HD3SS3220)	+= hd3ss3220.o
+ obj-$(CONFIG_TYPEC_TPS6598X)	+= tps6598x.o
+ obj-$(CONFIG_TYPEC)		+= mux/
+diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
+new file mode 100644
+index 0000000..7ef7e85
+--- /dev/null
++++ b/drivers/usb/typec/hd3ss3220.c
+@@ -0,0 +1,263 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * TI HD3SS3220 Type-C DRP Port Controller Driver
++ *
++ * Copyright (C) 2019 Renesas Electronics Corp.
++ */
++
++#include <linux/module.h>
++#include <linux/i2c.h>
++#include <linux/usb/role.h>
++#include <linux/irqreturn.h>
++#include <linux/interrupt.h>
++#include <linux/module.h>
++#include <linux/regmap.h>
++#include <linux/slab.h>
++#include <linux/usb/typec.h>
++#include <linux/delay.h>
++
++#define HD3SS3220_REG_CN_STAT_CTRL	0x09
++#define HD3SS3220_REG_GEN_CTRL		0x0A
++#define HD3SS3220_REG_DEV_REV		0xA0
++
++/* Register HD3SS3220_REG_CN_STAT_CTRL*/
++#define HD3SS3220_REG_CN_STAT_CTRL_ATTACHED_STATE_MASK	(BIT(7) | BIT(6))
++#define HD3SS3220_REG_CN_STAT_CTRL_AS_DFP		BIT(6)
++#define HD3SS3220_REG_CN_STAT_CTRL_AS_UFP		BIT(7)
++#define HD3SS3220_REG_CN_STAT_CTRL_TO_ACCESSORY		(BIT(7) | BIT(6))
++#define HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS		BIT(4)
++
++/* Register HD3SS3220_REG_GEN_CTRL*/
++#define HD3SS3220_REG_GEN_CTRL_SRC_PREF_MASK		(BIT(2) | BIT(1))
++#define HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_DEFAULT	0x00
++#define HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SNK	BIT(1)
++#define HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SRC	(BIT(2) | BIT(1))
++
++struct hd3ss3220 {
++	struct device *dev;
++	struct regmap *regmap;
++	struct usb_role_switch	*role_sw;
++	struct typec_port *port;
++	struct typec_capability typec_cap;
++};
++
++static int hd3ss3220_set_source_pref(struct hd3ss3220 *hd3ss3220, int src_pref)
++{
++	return regmap_update_bits(hd3ss3220->regmap, HD3SS3220_REG_GEN_CTRL,
++				  HD3SS3220_REG_GEN_CTRL_SRC_PREF_MASK,
++				  src_pref);
++}
++
++static enum usb_role hd3ss3220_get_attached_state(struct hd3ss3220 *hd3ss3220)
++{
++	unsigned int reg_val;
++	enum usb_role attached_state;
++	int ret;
++
++	ret = regmap_read(hd3ss3220->regmap, HD3SS3220_REG_CN_STAT_CTRL,
++			  &reg_val);
++	if (ret < 0)
++		return ret;
++
++	switch (reg_val & HD3SS3220_REG_CN_STAT_CTRL_ATTACHED_STATE_MASK) {
++	case HD3SS3220_REG_CN_STAT_CTRL_AS_DFP:
++		attached_state = USB_ROLE_HOST;
++		break;
++	case HD3SS3220_REG_CN_STAT_CTRL_AS_UFP:
++		attached_state = USB_ROLE_DEVICE;
++		break;
++	default:
++		attached_state = USB_ROLE_NONE;
++		break;
++	}
++
++	return attached_state;
++}
++
++static int hd3ss3220_dr_set(const struct typec_capability *cap,
++			    enum typec_data_role role)
++{
++	struct hd3ss3220 *hd3ss3220 = container_of(cap, struct hd3ss3220,
++						   typec_cap);
++	enum usb_role role_val;
++	int pref, ret = 0;
++
++	if (role == TYPEC_HOST) {
++		role_val = USB_ROLE_HOST;
++		pref = HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SRC;
++	} else {
++		role_val = USB_ROLE_DEVICE;
++		pref = HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SNK;
++	}
++
++	ret = hd3ss3220_set_source_pref(hd3ss3220, pref);
++	usleep_range(10, 100);
++
++	usb_role_switch_set_role(hd3ss3220->role_sw, role_val);
++	typec_set_data_role(hd3ss3220->port, role);
++
++	return ret;
++}
++
++static void hd3ss3220_set_role(struct hd3ss3220 *hd3ss3220)
++{
++	enum usb_role role_state = hd3ss3220_get_attached_state(hd3ss3220);
++
++	usb_role_switch_set_role(hd3ss3220->role_sw, role_state);
++	if (role_state == USB_ROLE_NONE)
++		hd3ss3220_set_source_pref(hd3ss3220,
++				HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_DEFAULT);
++
++	switch (role_state) {
++	case USB_ROLE_HOST:
++		typec_set_data_role(hd3ss3220->port, TYPEC_HOST);
++		break;
++	case USB_ROLE_DEVICE:
++		typec_set_data_role(hd3ss3220->port, TYPEC_DEVICE);
++		break;
++	default:
++		break;
++	}
++}
++
++irqreturn_t hd3ss3220_irq(struct hd3ss3220 *hd3ss3220)
++{
++	int err;
++
++	hd3ss3220_set_role(hd3ss3220);
++	err = regmap_update_bits_base(hd3ss3220->regmap,
++				      HD3SS3220_REG_CN_STAT_CTRL,
++				      HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS,
++				      HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS,
++				      NULL, false, true);
++	if (err < 0)
++		return IRQ_NONE;
++
++	return IRQ_HANDLED;
++}
++
++static irqreturn_t hd3ss3220_irq_handler(int irq, void *data)
++{
++	struct i2c_client *client = to_i2c_client(data);
++	struct hd3ss3220 *hd3ss3220 = i2c_get_clientdata(client);
++
++	return hd3ss3220_irq(hd3ss3220);
++}
++
++static const struct regmap_config config = {
++	.reg_bits = 8,
++	.val_bits = 8,
++	.max_register = 0x0A,
++};
++
++static int hd3ss3220_probe(struct i2c_client *client,
++		const struct i2c_device_id *id)
++{
++	struct hd3ss3220 *hd3ss3220;
++	struct fwnode_handle *parent, *child;
++	int ret;
++	unsigned int data;
++
++	hd3ss3220 = devm_kzalloc(&client->dev, sizeof(struct hd3ss3220),
++				 GFP_KERNEL);
++	if (!hd3ss3220)
++		return -ENOMEM;
++
++	i2c_set_clientdata(client, hd3ss3220);
++
++	hd3ss3220->dev = &client->dev;
++	hd3ss3220->regmap = devm_regmap_init_i2c(client, &config);
++	if (IS_ERR(hd3ss3220->regmap))
++		return PTR_ERR(hd3ss3220->regmap);
++
++	hd3ss3220_set_source_pref(hd3ss3220,
++				  HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_DEFAULT);
++	child = fwnode_graph_get_next_endpoint(dev_fwnode(hd3ss3220->dev),
++					       NULL);
++	parent = fwnode_graph_get_remote_port_parent(child);
++	hd3ss3220->role_sw = fwnode_usb_role_switch_get(parent);
++	if (IS_ERR_OR_NULL(hd3ss3220->role_sw)) {
++		fwnode_handle_put(child);
++		fwnode_handle_put(parent);
++		return PTR_ERR(hd3ss3220->role_sw);
++	}
++
++	fwnode_handle_put(child);
++	fwnode_handle_put(parent);
++
++	hd3ss3220->typec_cap.prefer_role = TYPEC_NO_PREFERRED_ROLE;
++	hd3ss3220->typec_cap.dr_set = hd3ss3220_dr_set;
++	hd3ss3220->typec_cap.type = TYPEC_PORT_DRP;
++	hd3ss3220->typec_cap.data = TYPEC_PORT_DRD;
++
++	hd3ss3220->port = typec_register_port(&client->dev,
++					      &hd3ss3220->typec_cap);
++	if (IS_ERR(hd3ss3220->port))
++		return PTR_ERR(hd3ss3220->port);
++
++	hd3ss3220_set_role(hd3ss3220);
++	ret = regmap_read(hd3ss3220->regmap, HD3SS3220_REG_CN_STAT_CTRL, &data);
++	if (ret < 0)
++		goto error;
++
++	if (data & HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS) {
++		ret = regmap_write(hd3ss3220->regmap,
++				HD3SS3220_REG_CN_STAT_CTRL,
++				data | HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS);
++		if (ret < 0)
++			goto error;
++	}
++
++	if (client->irq > 0) {
++		ret = devm_request_threaded_irq(&client->dev, client->irq, NULL,
++					hd3ss3220_irq_handler,
++					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
++					"hd3ss3220", &client->dev);
++		if (ret)
++			goto error;
++	}
++
++	ret = i2c_smbus_read_byte_data(client, HD3SS3220_REG_DEV_REV);
++	if (ret < 0)
++		goto error;
++
++	dev_info(&client->dev, "probed revision=0x%x\n", ret);
++
++	return 0;
++error:
++	typec_unregister_port(hd3ss3220->port);
++	usb_role_switch_put(hd3ss3220->role_sw);
++
++	return ret;
++}
++
++static int hd3ss3220_remove(struct i2c_client *client)
++{
++	struct hd3ss3220 *hd3ss3220 = i2c_get_clientdata(client);
++
++	typec_unregister_port(hd3ss3220->port);
++	usb_role_switch_put(hd3ss3220->role_sw);
++
++	return 0;
++}
++
++static const struct of_device_id dev_ids[] = {
++	{ .compatible = "ti,hd3ss3220"},
++	{}
++};
++MODULE_DEVICE_TABLE(of, dev_ids);
++
++static struct i2c_driver hd3ss3220_driver = {
++	.driver = {
++		.name = "hd3ss3220",
++		.of_match_table = of_match_ptr(dev_ids),
++	},
++	.probe = hd3ss3220_probe,
++	.remove =  hd3ss3220_remove,
++};
++
++module_i2c_driver(hd3ss3220_driver);
++
++MODULE_AUTHOR("Biju Das <biju.das@bp.renesas.com>");
++MODULE_DESCRIPTION("TI HD3SS3220 DRP Port Controller Driver");
++MODULE_LICENSE("GPL");
 -- 
-2.21.0
+2.7.4
 
