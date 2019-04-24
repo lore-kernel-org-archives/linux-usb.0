@@ -1,174 +1,102 @@
-Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=e+xf=S2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,UNPARSEABLE_RELAY,USER_AGENT_MUTT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E6C7C04AAB
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:04:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90CBCC10F11
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 09:56:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DE51F20830
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:04:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 59C5B2148D
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 09:56:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KqGMKcD4"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="ps+DjKLv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726494AbfEFJEN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 May 2019 05:04:13 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:40320 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726487AbfEFJEM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:04:12 -0400
-Received: by mail-ed1-f66.google.com with SMTP id e56so14478717ede.7
-        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:04:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=gxVMYZHqVFdGkYPGDVHKQfc02dS9WrFd4TukRLCYULA=;
-        b=KqGMKcD40gKoK7ERAKxgyQUy7UIE3q8iMhjr7VQjXVikLx1kaPr/d8hmbcEzaFwZ93
-         5kNpDS2gdRHYxHO0UiUl961utubaWJ2q0kdHsCCOCCy2XrChDMucha70Ym1UYFBX+Mz/
-         3qMbzeW84rjh0bA2fXLeC2pEdYMIB/S7toNqlafo28TspoQm4+JIi3oHDhtLUVm3S+3e
-         5gm78l/01iQiiCpknBhtvJG0DJx60SX+Gw8jSvIQnXTUrwd0KJqe7HcLJ0BTAJ0uklWp
-         vO6pGlJGKl1TogJmGWBJLozx526z4tWeYn01XCKzXNOT8cH5Qg/iQzS+PAXMEUyN7s10
-         mcxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=gxVMYZHqVFdGkYPGDVHKQfc02dS9WrFd4TukRLCYULA=;
-        b=NU+NrP4aDIRmyFRU9qjuRWBdT4kI1x4flFtVYSuMUNnzWGIc0d70RcLHr0yYaoO6sL
-         iKeWf9SekSVdvwJjzB/fIEcOPaEDkUBSlGtrESvhVAXZ38klXqlzCC8eJGGqpzGUYMwB
-         Jr9bQRmSAGrnIJ5GNkshEpeBB6syDlI5USwfEaKmlrrzKNuhHqYBoYvQCB/WP3WlstxG
-         mLGYfUPw4qg3nRLD5B2kRr1jUUIfk/VarRSmKI4ArAFub34RgIO3Jc22e22pHpHmVn85
-         CHM6bZeezI8D5CSDF2svZ4/5xugUc4AS5idNZr9kTtP+fDgnABT3kpNXBZXYaYaOZK1E
-         6s5g==
-X-Gm-Message-State: APjAAAVfwuQI/dGO4W3b4COLiaRjwNn9cMRbsgBCNPtzKhEg39i4Z8d7
-        zzR6S37lXbP/Urye8TLBcSYzaYGM1y8=
-X-Google-Smtp-Source: APXvYqz3UGrkoltwO8XkyiQXhft6xYDl4Khaf0xG4KgsfgnDbFbNW6Lo/pYkNAczQk2jIs7rW6KUog==
-X-Received: by 2002:a17:906:c669:: with SMTP id ew9mr6051367ejb.2.1557133450062;
-        Mon, 06 May 2019 02:04:10 -0700 (PDT)
-Received: from localhost (frost.work.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
-        by smtp.gmail.com with ESMTPSA id d8sm1454888ejm.29.2019.05.06.02.04.09
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 06 May 2019 02:04:09 -0700 (PDT)
-From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
-To:     linux-usb@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org,
-        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
-Subject: [PATCH 32/34] lsusb.py: rework output for more consistent indent of both columns
-Date:   Mon,  6 May 2019 12:02:39 +0300
-Message-Id: <20190506090241.169665-33-grawity@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190506090241.169665-1-grawity@gmail.com>
-References: <20190506090241.169665-1-grawity@gmail.com>
+        id S1726451AbfDXJ4g (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 24 Apr 2019 05:56:36 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:52284 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726181AbfDXJ4f (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Apr 2019 05:56:35 -0400
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x3O9nJbf031189;
+        Wed, 24 Apr 2019 09:56:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2018-07-02;
+ bh=t/qU/kN1iAaIhNkzVgYDAUCwZgnrQzUxa/stNV4KGH8=;
+ b=ps+DjKLvCNxMD0Fnn1FgB9znFy8c3YyHvE5PTheJYIFZLky4DfnKqfgp6JBzU4z+zWVp
+ XxdnL2ngg0o6WWpfgUuAxiaTyOGLx9fR2SA8OdsPOA2DuBrRi8M39zxQ7Livybpqpwst
+ ai+hEMbsXymm0CfZkHg2CuWTfxcbvRD56d3V9/2pyAn+0GxV6Hp88IEVKqt+avm6rm0/
+ zs1WyyvH74WBb7tWGEydQSAKoUm7AHXGpgUUiJElhf48XXb390OsDiHGTKm44rmQkATG
+ E7purpO7RdqUHzEnYCgNPWAn9+AzKy5AaMEA6EAT5eZMpFYUAxND7COvEscSN9fAhZQW 8Q== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by aserp2130.oracle.com with ESMTP id 2ryrxd1g6c-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 24 Apr 2019 09:56:28 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x3O9sSHx194957;
+        Wed, 24 Apr 2019 09:54:28 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3020.oracle.com with ESMTP id 2s0fv3fvhx-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 24 Apr 2019 09:54:28 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x3O9sOwG020038;
+        Wed, 24 Apr 2019 09:54:24 GMT
+Received: from mwanda (/105.55.12.114)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 24 Apr 2019 02:54:23 -0700
+Date:   Wed, 24 Apr 2019 12:54:14 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Valentina Manea <valentina.manea.m@gmail.com>
+Cc:     Shuah Khan <shuah@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] usbip: stub_rx: tidy the indenting in is_clear_halt_cmd()
+Message-ID: <20190424095414.GB16664@mwanda>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9236 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=810
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1904240083
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9236 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=839 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1904240083
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190424095414.O-LTXNu-KU2JDaRK3ptj512vCavuylzc-bM9GO_N0X8@z>
 
-Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
----
- lsusb.py.in | 54 ++++++++++++++++++++++++++++-------------------------
- 1 file changed, 29 insertions(+), 25 deletions(-)
+There is an extra space character before the return statement.
 
-diff --git a/lsusb.py.in b/lsusb.py.in
-index 7fa5493..648a734 100644
---- a/lsusb.py.in
-+++ b/lsusb.py.in
-@@ -46,6 +46,9 @@ usbvendors = {}
- usbproducts = {}
- usbclasses = {}
- 
-+def colorize(num, text):
-+	return cols[num] + str(text) + cols[0]
-+
- def ishexdigit(str):
- 	"return True if all digits are valid hex digits"
- 	for dg in str:
-@@ -262,10 +265,13 @@ class UsbEndpoint(UsbObject):
- 		return "<UsbEndpoint[%r]>" % self.fname
- 
- 	def __str__(self):
--		indent = self.level + len(self.parent.fname)
--		return "%-17s  %s(EP) %02x: %s %s attr %02x len %02x max %03x%s\n" % \
--			(" " * indent, cols[5], self.epaddr, self.type,
--			 self.ival, self.attr, self.len, self.max, cols[0])
-+		indent = "  " * self.level
-+		#name = "%s/ep_%02X" % (self.parent.fname, self.epaddr)
-+		name = ""
-+		body = "(EP) %02x: %s %s attr %02x len %02x max %03x" % \
-+			(self.epaddr, self.type, self.ival, self.attr, self.len, self.max)
-+		body = colorize(5, body)
-+		return "%-17s %s\n" % (indent + name, indent + body)
- 
- 
- class UsbInterface(UsbObject):
-@@ -309,13 +315,13 @@ class UsbInterface(UsbObject):
- 		return "<UsbInterface[%r]>" % self.fname
- 
- 	def __str__(self):
-+		indent = "  " * self.level
-+		name = self.fname
- 		plural = (" " if self.noep == 1 else "s")
--		strg = "%-17s (IF) %02x:%02x:%02x %iEP%s (%s) %s%s %s%s%s\n" % \
--			(" " * self.level+self.fname, self.iclass,
--			 self.isclass, self.iproto, self.noep,
--			 plural, self.protoname, 
--			 cols[3], self.driver,
--			 cols[4], self.devname, cols[0])
-+		body = "(IF) %02x:%02x:%02x %iEP%s (%s) %s %s" % \
-+			(self.iclass, self.isclass, self.iproto, self.noep, plural,
-+			 self.protoname, colorize(3, self.driver), colorize(4, self.devname))
-+		strg = "%-17s %s\n" % (indent + name, indent + body)
- 		if showeps and self.eps:
- 			for ep in self.eps:
- 				strg += str(ep)
-@@ -415,25 +421,23 @@ class UsbDevice(UsbObject):
- 		return "<UsbDevice[%r]>" % self.fname
- 
- 	def __str__(self):
--		if self.iclass == HUB_ICLASS:
--			col = cols[2]
-+		is_hub = (self.iclass == HUB_ICLASS)
-+		if is_hub:
- 			if noemptyhub and len(self.children) == 0:
- 				return ""
--			if nohub:
--				strg = ""
--		else:
--			col = cols[1]
--		if not nohub or self.iclass != HUB_ICLASS:
-+		strg = ""
-+		if not (nohub and is_hub):
-+			indent = "  " * self.level
-+			name = self.fname
- 			plural = (" " if self.nointerfaces == 1 else "s")
--			strg = "%-16s %s%04x:%04x%s %02x %s%6sMbit/s %5s %iIF%s (%s%s%s)" % \
--				(" " * self.level + self.fname, 
--				 cols[1], self.vid, self.pid, cols[0],
-+			body = "%s %02x %s%5sMBit/s %s %iIF%s (%s) %s" % \
-+				(colorize(1, "%04x:%04x" % (self.vid, self.pid)),
- 				 self.iclass, self.usbver, self.speed, self.maxpower,
--				 self.nointerfaces, plural, col, self.name, cols[0])
--			if self.iclass == HUB_ICLASS and not showhubint:
--				strg += " %shub%s\n" % (cols[2], cols[0])
--			else:
--				strg += "\n"
-+				 self.nointerfaces, plural,
-+				 colorize(2 if is_hub else 1, self.name),
-+				 colorize(2, "hub") if is_hub else "")
-+			strg = "%-17s %s\n" % (indent + name, indent + body)
-+			if not (is_hub and not showhubint):
- 				if showeps:
- 					ep = UsbEndpoint(self, "ep_00", self.level+1)
- 					strg += str(ep)
--- 
-2.21.0
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+diff --git a/drivers/usb/usbip/stub_rx.c b/drivers/usb/usbip/stub_rx.c
+index 97b09a42a10c..f3230bed18af 100644
+--- a/drivers/usb/usbip/stub_rx.c
++++ b/drivers/usb/usbip/stub_rx.c
+@@ -17,9 +17,9 @@ static int is_clear_halt_cmd(struct urb *urb)
+ 
+ 	req = (struct usb_ctrlrequest *) urb->setup_packet;
+ 
+-	 return (req->bRequest == USB_REQ_CLEAR_FEATURE) &&
+-		 (req->bRequestType == USB_RECIP_ENDPOINT) &&
+-		 (req->wValue == USB_ENDPOINT_HALT);
++	return (req->bRequest == USB_REQ_CLEAR_FEATURE) &&
++	       (req->bRequestType == USB_RECIP_ENDPOINT) &&
++	       (req->wValue == USB_ENDPOINT_HALT);
+ }
+ 
+ static int is_set_interface_cmd(struct urb *urb)
