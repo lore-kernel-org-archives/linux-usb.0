@@ -2,162 +2,171 @@ Return-Path: <SRS0=e+xf=S2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.9 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,UPPERCASE_50_75,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D570C10F11
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 17:58:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13A01C10F11
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 18:12:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3BBBB20685
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 17:58:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DC5E220652
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 18:12:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B9nfmrx7"
+	dkim=pass (1024-bit key) header.d=mork.no header.i=@mork.no header.b="kJ/Nzrrf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391738AbfDXR63 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Apr 2019 13:58:29 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:37576 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388525AbfDXR62 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Apr 2019 13:58:28 -0400
-Received: by mail-pf1-f194.google.com with SMTP id 8so9707655pfr.4;
-        Wed, 24 Apr 2019 10:58:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id;
-        bh=/xDhSicF8xawoGp/6Nqhl26HBrv+qJ+TJrCqTKo/J4M=;
-        b=B9nfmrx7RcEBmUBfjhefWEKnT7QLO7+X838eLVdOfaR6AxrAJTl1YhlxkwW5DYr27m
-         D0V1QGMF5W4Sow3axB3Swc06JxxEh7Kk9YD6QXSKhy+LuiKVdvwuuq2Rb3J+MUvCuj1x
-         KEHV5cDRWteAWbFB4g8fqMutwySFvF7BNh6FsbPCGYAlCCtFPXUqhCXS86+RaYa3KwWC
-         viWAylt6He9V1ZA6fmBE6lACwUw3HnZjFsn4UBW0UMew26OIMyqjtQjdqf/gjQf6WsIz
-         6TyPhHtEQs/n9AxiOz6TRki1SndiLCOwpRTt7iEKLAjCHp8enp2wliwSYlbKLpqK4Vny
-         3qyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-        bh=/xDhSicF8xawoGp/6Nqhl26HBrv+qJ+TJrCqTKo/J4M=;
-        b=PEdVcjgOodFgFYv2tscJq8tJX1PsyNqgOh6MAFUQEojWWKUbFK9lN/g6Y7O4p6Ho+M
-         cydYrmrH6Dmf2x7mVPLq746jVFNpBqR/x589WwBPpSOcQ5UWtGpxSke6kyWDOqtlcbYU
-         wfTmqvungVOF/JExJk95SQwh43wDh5UuBX11YYKy1e7Nl0JSQIRaiWGn/UhRAAv1jznU
-         fp4tqhMremIYQVXMPao9mvDWBH5U/Nlmr9uTLIiCmGjD12VHNCcg6RSTn17+nvEVIAcu
-         VNY0Bla4I3nABoQ2Jt18z8YiuRrEtzfBZ3KKXsNnhVy7ecpDb9cMghxQMK/dMKwjPlic
-         2KsA==
-X-Gm-Message-State: APjAAAXgPDYbMF0txKmFGpLkuhRUJqCOJC5sJyQ+82QCVJLZLNLL3WtL
-        0SpeBcIwDhodwaqSfVdI13I=
-X-Google-Smtp-Source: APXvYqwkQTpbtpxW+mebTAeRrqwoJmvhZ8KE4drOCh5UtDIg4DEG5bGgSUvd7wWUTgykoEc3ABgEZw==
-X-Received: by 2002:aa7:9aaa:: with SMTP id x10mr8262039pfi.225.1556128707935;
-        Wed, 24 Apr 2019 10:58:27 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id o9sm12735822pgh.68.2019.04.24.10.58.26
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 24 Apr 2019 10:58:26 -0700 (PDT)
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     "David S . Miller" <davem@davemloft.net>
-Cc:     linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>
-Subject: [PATCH] usbnet: ipheth: Simplify device detection
-Date:   Wed, 24 Apr 2019 10:58:24 -0700
-Message-Id: <1556128704-10831-1-git-send-email-linux@roeck-us.net>
-X-Mailer: git-send-email 2.7.4
+        id S2388099AbfDXSMZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 24 Apr 2019 14:12:25 -0400
+Received: from canardo.mork.no ([148.122.252.1]:52907 "EHLO canardo.mork.no"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387745AbfDXRM5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 24 Apr 2019 13:12:57 -0400
+Received: from miraculix.mork.no (miraculix.mork.no [IPv6:2001:4641:0:2:7627:374e:db74:e353])
+        (authenticated bits=0)
+        by canardo.mork.no (8.15.2/8.15.2) with ESMTPSA id x3OHCsjx000853
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Wed, 24 Apr 2019 19:12:54 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
+        t=1556125975; bh=0VnTOzW9sHjKZ5KdnrR5oiEnUugY6MpprBJunBE6Ji8=;
+        h=From:To:Cc:Subject:Date:Message-Id:From;
+        b=kJ/NzrrfpnSB9JiJEdsHRDLRJQ647c+HZWA9VIbZR/vNn9f4d0rFMH/vimNhyjf/8
+         45n1AvmduoxaLTJqqBXHiimq+991Z6BkBB7/9ixtftlRbmmAZFAt9fEpi9bVDIafCw
+         nvkEfMFma9/V1dIQ6WySXCbMYu5ecdfWKyARKKhQ=
+Received: from bjorn by miraculix.mork.no with local (Exim 4.89)
+        (envelope-from <bjorn@miraculix.mork.no>)
+        id 1hJLS2-0001Cl-MU; Wed, 24 Apr 2019 19:12:54 +0200
+From:   =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
+To:     netdev@vger.kernel.org
+Cc:     linux-usb@vger.kernel.org, Lars Melin <larsm17@gmail.com>,
+        =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
+Subject: [PATCH net] qmi_wwan: new Wistron, ZTE and D-Link devices
+Date:   Wed, 24 Apr 2019 19:12:46 +0200
+Message-Id: <20190424171246.4589-1-bjorn@mork.no>
+X-Mailer: git-send-email 2.11.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.100.3 at canardo
+X-Virus-Status: Clean
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190424175824.q5NuYaINACGQNNTimNaEDvw-aQ8X4l4Mv6INvV4oiyw@z>
+Message-ID: <20190424171246.RVo9OTSmp98H6P2bA5yJk-RIccKDYm2ZWuDqdvXjgy4@z>
 
-All Apple products use the same protocol for tethering over USB.
-To simplify the code and make it future proof, use
-USB_VENDOR_AND_INTERFACE_INFO() instead of
-USB_DEVICE_AND_INTERFACE_INFO() to automatically detect and support
-all existing and future Apple products using the same interface.
+Adding device entries found in vendor modified versions of this
+driver.  Function maps for some of the devices follow:
 
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+WNC D16Q1, D16Q5, D18Q1 LTE CAT3 module (1435:0918)
+
+MI_00 Qualcomm HS-USB Diagnostics
+MI_01 Android Debug interface
+MI_02 Qualcomm HS-USB Modem
+MI_03 Qualcomm Wireless HS-USB Ethernet Adapter
+MI_04 Qualcomm Wireless HS-USB Ethernet Adapter
+MI_05 Qualcomm Wireless HS-USB Ethernet Adapter
+MI_06 USB Mass Storage Device
+
+ T:  Bus=02 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  2 Spd=480 MxCh= 0
+ D:  Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
+ P:  Vendor=1435 ProdID=0918 Rev= 2.32
+ S:  Manufacturer=Android
+ S:  Product=Android
+ S:  SerialNumber=0123456789ABCDEF
+ C:* #Ifs= 7 Cfg#= 1 Atr=80 MxPwr=500mA
+ I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
+ E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+ E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+ I:* If#= 1 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
+ E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+ E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+ I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+ E:  Ad=84(I) Atr=03(Int.) MxPS=  64 Ivl=32ms
+ E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+ E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+ I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
+ E:  Ad=86(I) Atr=03(Int.) MxPS=  64 Ivl=32ms
+ E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+ E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+ I:* If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
+ E:  Ad=88(I) Atr=03(Int.) MxPS=  64 Ivl=32ms
+ E:  Ad=87(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+ I:* If#= 5 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
+ E:  Ad=8a(I) Atr=03(Int.) MxPS=  64 Ivl=32ms
+ E:  Ad=89(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+ E:  Ad=06(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+
+WNC D18 LTE CAT3 module (1435:d182)
+
+MI_00 Qualcomm HS-USB Diagnostics
+MI_01 Androd Debug interface
+MI_02 Qualcomm HS-USB Modem
+MI_03 Qualcomm HS-USB NMEA
+MI_04 Qualcomm Wireless HS-USB Ethernet Adapter
+MI_05 Qualcomm Wireless HS-USB Ethernet Adapter
+MI_06 USB Mass Storage Device
+
+ZM8510/ZM8620/ME3960 (19d2:0396)
+
+MI_00 ZTE Mobile Broadband Diagnostics Port
+MI_01 ZTE Mobile Broadband AT Port
+MI_02 ZTE Mobile Broadband Modem
+MI_03 ZTE Mobile Broadband NDIS Port (qmi_wwan)
+MI_04 ZTE Mobile Broadband ADB Port
+
+ME3620_X (19d2:1432)
+
+MI_00 ZTE Diagnostics Device
+MI_01 ZTE UI AT Interface
+MI_02 ZTE Modem Device
+MI_03 ZTE Mobile Broadband Network Adapter
+MI_04 ZTE Composite ADB Interface
+
+Reported-by: Lars Melin <larsm17@gmail.com>
+Signed-off-by: Bjørn Mork <bjorn@mork.no>
 ---
-Tested with various iPads and iPhones up to X. iPhone 6 and later
-up to and including X all use product ID 0x12a8, so this patch is
-not strictly required, but it does simplify the code.
+ drivers/net/usb/qmi_wwan.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
- drivers/net/usb/ipheth.c | 58 +++---------------------------------------------
- 1 file changed, 3 insertions(+), 55 deletions(-)
-
-diff --git a/drivers/net/usb/ipheth.c b/drivers/net/usb/ipheth.c
-index 3d8a70d3ea9b..a01a71a7e48d 100644
---- a/drivers/net/usb/ipheth.c
-+++ b/drivers/net/usb/ipheth.c
-@@ -54,17 +54,6 @@
- #include <linux/workqueue.h>
- 
- #define USB_VENDOR_APPLE        0x05ac
--#define USB_PRODUCT_IPHONE      0x1290
--#define USB_PRODUCT_IPHONE_3G   0x1292
--#define USB_PRODUCT_IPHONE_3GS  0x1294
--#define USB_PRODUCT_IPHONE_4	0x1297
--#define USB_PRODUCT_IPAD 0x129a
--#define USB_PRODUCT_IPAD_2	0x12a2
--#define USB_PRODUCT_IPAD_3	0x12a6
--#define USB_PRODUCT_IPAD_MINI    0x12ab
--#define USB_PRODUCT_IPHONE_4_VZW 0x129c
--#define USB_PRODUCT_IPHONE_4S	0x12a0
--#define USB_PRODUCT_IPHONE_5	0x12a8
- 
- #define IPHETH_USBINTF_CLASS    255
- #define IPHETH_USBINTF_SUBCLASS 253
-@@ -88,50 +77,9 @@
- #define IPHETH_CARRIER_ON       0x04
- 
- static const struct usb_device_id ipheth_table[] = {
--	{ USB_DEVICE_AND_INTERFACE_INFO(
--		USB_VENDOR_APPLE, USB_PRODUCT_IPHONE,
--		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
--		IPHETH_USBINTF_PROTO) },
--	{ USB_DEVICE_AND_INTERFACE_INFO(
--		USB_VENDOR_APPLE, USB_PRODUCT_IPHONE_3G,
--		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
--		IPHETH_USBINTF_PROTO) },
--	{ USB_DEVICE_AND_INTERFACE_INFO(
--		USB_VENDOR_APPLE, USB_PRODUCT_IPHONE_3GS,
--		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
--		IPHETH_USBINTF_PROTO) },
--	{ USB_DEVICE_AND_INTERFACE_INFO(
--		USB_VENDOR_APPLE, USB_PRODUCT_IPHONE_4,
--		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
--		IPHETH_USBINTF_PROTO) },
--	{ USB_DEVICE_AND_INTERFACE_INFO(
--		USB_VENDOR_APPLE, USB_PRODUCT_IPAD,
--		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
--		IPHETH_USBINTF_PROTO) },
--	{ USB_DEVICE_AND_INTERFACE_INFO(
--		USB_VENDOR_APPLE, USB_PRODUCT_IPAD_2,
--		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
--		IPHETH_USBINTF_PROTO) },
--	{ USB_DEVICE_AND_INTERFACE_INFO(
--		USB_VENDOR_APPLE, USB_PRODUCT_IPAD_3,
--		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
--		IPHETH_USBINTF_PROTO) },
--	{ USB_DEVICE_AND_INTERFACE_INFO(
--		USB_VENDOR_APPLE, USB_PRODUCT_IPAD_MINI,
--		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
--		IPHETH_USBINTF_PROTO) },
--	{ USB_DEVICE_AND_INTERFACE_INFO(
--		USB_VENDOR_APPLE, USB_PRODUCT_IPHONE_4_VZW,
--		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
--		IPHETH_USBINTF_PROTO) },
--	{ USB_DEVICE_AND_INTERFACE_INFO(
--		USB_VENDOR_APPLE, USB_PRODUCT_IPHONE_4S,
--		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
--		IPHETH_USBINTF_PROTO) },
--	{ USB_DEVICE_AND_INTERFACE_INFO(
--		USB_VENDOR_APPLE, USB_PRODUCT_IPHONE_5,
--		IPHETH_USBINTF_CLASS, IPHETH_USBINTF_SUBCLASS,
--		IPHETH_USBINTF_PROTO) },
-+	{ USB_VENDOR_AND_INTERFACE_INFO(USB_VENDOR_APPLE, IPHETH_USBINTF_CLASS,
-+					IPHETH_USBINTF_SUBCLASS,
-+					IPHETH_USBINTF_PROTO) },
- 	{ }
- };
- MODULE_DEVICE_TABLE(usb, ipheth_table);
+diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
+index 9195f3476b1d..679e404a5224 100644
+--- a/drivers/net/usb/qmi_wwan.c
++++ b/drivers/net/usb/qmi_wwan.c
+@@ -1122,9 +1122,16 @@ static const struct usb_device_id products[] = {
+ 	{QMI_FIXED_INTF(0x0846, 0x68d3, 8)},	/* Netgear Aircard 779S */
+ 	{QMI_FIXED_INTF(0x12d1, 0x140c, 1)},	/* Huawei E173 */
+ 	{QMI_FIXED_INTF(0x12d1, 0x14ac, 1)},	/* Huawei E1820 */
++	{QMI_FIXED_INTF(0x1435, 0x0918, 3)},	/* Wistron NeWeb D16Q1 */
++	{QMI_FIXED_INTF(0x1435, 0x0918, 4)},	/* Wistron NeWeb D16Q1 */
++	{QMI_FIXED_INTF(0x1435, 0x0918, 5)},	/* Wistron NeWeb D16Q1 */
++	{QMI_FIXED_INTF(0x1435, 0x3185, 4)},	/* Wistron NeWeb M18Q5 */
++	{QMI_FIXED_INTF(0x1435, 0xd111, 4)},	/* M9615A DM11-1 D51QC */
+ 	{QMI_FIXED_INTF(0x1435, 0xd181, 3)},	/* Wistron NeWeb D18Q1 */
+ 	{QMI_FIXED_INTF(0x1435, 0xd181, 4)},	/* Wistron NeWeb D18Q1 */
+ 	{QMI_FIXED_INTF(0x1435, 0xd181, 5)},	/* Wistron NeWeb D18Q1 */
++	{QMI_FIXED_INTF(0x1435, 0xd182, 4)},	/* Wistron NeWeb D18 */
++	{QMI_FIXED_INTF(0x1435, 0xd182, 5)},	/* Wistron NeWeb D18 */
+ 	{QMI_FIXED_INTF(0x1435, 0xd191, 4)},	/* Wistron NeWeb D19Q1 */
+ 	{QMI_QUIRK_SET_DTR(0x1508, 0x1001, 4)},	/* Fibocom NL668 series */
+ 	{QMI_FIXED_INTF(0x16d8, 0x6003, 0)},	/* CMOTech 6003 */
+@@ -1180,6 +1187,7 @@ static const struct usb_device_id products[] = {
+ 	{QMI_FIXED_INTF(0x19d2, 0x0265, 4)},	/* ONDA MT8205 4G LTE */
+ 	{QMI_FIXED_INTF(0x19d2, 0x0284, 4)},	/* ZTE MF880 */
+ 	{QMI_FIXED_INTF(0x19d2, 0x0326, 4)},	/* ZTE MF821D */
++	{QMI_FIXED_INTF(0x19d2, 0x0396, 3)},	/* ZTE ZM8620 */
+ 	{QMI_FIXED_INTF(0x19d2, 0x0412, 4)},	/* Telewell TW-LTE 4G */
+ 	{QMI_FIXED_INTF(0x19d2, 0x1008, 4)},	/* ZTE (Vodafone) K3570-Z */
+ 	{QMI_FIXED_INTF(0x19d2, 0x1010, 4)},	/* ZTE (Vodafone) K3571-Z */
+@@ -1200,7 +1208,9 @@ static const struct usb_device_id products[] = {
+ 	{QMI_FIXED_INTF(0x19d2, 0x1425, 2)},
+ 	{QMI_FIXED_INTF(0x19d2, 0x1426, 2)},	/* ZTE MF91 */
+ 	{QMI_FIXED_INTF(0x19d2, 0x1428, 2)},	/* Telewell TW-LTE 4G v2 */
++	{QMI_FIXED_INTF(0x19d2, 0x1432, 3)},	/* ZTE ME3620 */
+ 	{QMI_FIXED_INTF(0x19d2, 0x2002, 4)},	/* ZTE (Vodafone) K3765-Z */
++	{QMI_FIXED_INTF(0x2001, 0x7e16, 3)},	/* D-Link DWM-221 */
+ 	{QMI_FIXED_INTF(0x2001, 0x7e19, 4)},	/* D-Link DWM-221 B1 */
+ 	{QMI_FIXED_INTF(0x2001, 0x7e35, 4)},	/* D-Link DWM-222 */
+ 	{QMI_FIXED_INTF(0x2020, 0x2031, 4)},	/* Olicard 600 */
 -- 
-2.7.4
+2.11.0
 
