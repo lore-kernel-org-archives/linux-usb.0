@@ -2,58 +2,58 @@ Return-Path: <SRS0=e+xf=S2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CBD1C10F11
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 21:13:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F56AC282CE
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 21:13:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CF9B7217D7
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 21:13:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F8D4217D7
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 21:13:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hcQzvsRp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZGTn/dHy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387871AbfDXVNg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Apr 2019 17:13:36 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:46087 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727791AbfDXVNf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Apr 2019 17:13:35 -0400
-Received: by mail-lf1-f67.google.com with SMTP id k18so15781004lfj.13;
-        Wed, 24 Apr 2019 14:13:34 -0700 (PDT)
+        id S2388400AbfDXVNm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 24 Apr 2019 17:13:42 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:41147 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733089AbfDXVNh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Apr 2019 17:13:37 -0400
+Received: by mail-lf1-f65.google.com with SMTP id t30so15803226lfd.8;
+        Wed, 24 Apr 2019 14:13:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6APf5odZec6P6x0YRNRDRCj5a3L6TwNF2nxCHmgiq/k=;
-        b=hcQzvsRppWmHiS8+WhO1Y0up2V2m2c++KPts/bK0SV7Sjgdg8xir8sLd9IsjsxEWwk
-         sM3IQKJ5uFp4tojS8sVn+TBZk4Hru0pkPaIoCt5XruqamNSFdv5Lp5cJlZThG9uD9x9A
-         9s6tNas0VOkmNGdPTmmb6LuD0DvF6Vc1atS4rt3xTRFq7fNTDLqx/K+uV3ac+oWHRpyf
-         YkMpq+eTuGiQaWy6xfKozas71vbbNbIgOmt1pAa7HsweHQl7EdARvtHlxlsBrCdI62Qe
-         O7E7qBXwlWUDjZ6CS1aDMCr3aoRha8qvBQX+a+nWQGuBv5R7aE9R6OQpXXeBz7Q9cXr6
-         7v+w==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=5KhsaICucBSzIi6pewqFTD0VbH13k2SXqO4xc5eabvQ=;
+        b=ZGTn/dHyWO9Gx2gdgM7KVXB0ZSwP+cwl9ETPZMYpSdbQIB1/8NHjcF64SpIP8CvAWV
+         2L19ZIKjafS/Ho6ZMLeTU8cx4XhBf25l0AxjgjY63sq2VBPlnlkGUixOzG8BXYDCuoW3
+         cVWQAniDFtABn0nybUfTG6AW82YgjGzMAF6fEgNSY5E/CajJhUNNp80FSlKbb3nWWNvK
+         LqpW3fdn6JTzAPIRjBVqN5zQId2TqBteh2xYVMW+osABZqherxIUlm30tl9V28bhz5yU
+         1q/M4Rs4lo1CNIzKu0hGvq8rRg08oC5DQN/+hbK8pezPmljsnKI6pnywmboeyCRXOuOu
+         FgCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6APf5odZec6P6x0YRNRDRCj5a3L6TwNF2nxCHmgiq/k=;
-        b=k/9xL4a20W7vH/GVXu4ZzSVNtVNcRGvhQU/6T/qAaf1BSOZbHOLw5P+TRE07Ez2USx
-         Tw/04Vm7eTS51mX1y1VYrV0EWsOOLdarNECw9qGfx4NH42ktUW8n5tcCttsAXDpEuXbp
-         kOxADlNrNNLBwcWfL6iS7ysEhUr3p3eFzZsqTl0vsic0f55NYM1wnWaKipmhDOE35t6P
-         yseNZpOkmihcIu3jmfqeDykxXZMAtUJxh+f5e9DX6NNb3aKUjIyS/EPQhcSHzkuPqfXI
-         nBQKN6rsHbWEB2KckastfRNWWrLW4bH17qlPYCFdlxS1Ti9Bt5BBUayjp/sC3JnrpP92
-         9tYA==
-X-Gm-Message-State: APjAAAUuhfUwacMaUwUtN8FAt3J1k9IMYoxj5d5r0Lcxi7w4y5pPAhPQ
-        SbSXoMQxAg4diuD4e4f/nNQ=
-X-Google-Smtp-Source: APXvYqyY/N3cRAN+WSNd5fobvNeWFfl8s4LWCMdmZEKuKfoMl9WpSKbKxiSR9geChh3hdMZrk0IkmQ==
-X-Received: by 2002:a19:f703:: with SMTP id z3mr18750645lfe.119.1556140413161;
-        Wed, 24 Apr 2019 14:13:33 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=5KhsaICucBSzIi6pewqFTD0VbH13k2SXqO4xc5eabvQ=;
+        b=jY053dcsBwoF8nn8ZbyfIf34tVukJzYpAAoqrP2D9Tp4K4MN9K7mEP/tggDGeT1Z+g
+         H59BbDFqKr2w1p8LO8OrZgeRlDpFIRu9z4m4hE/H9R23Z+E1KLFh/SLlYmDuvO//45b6
+         /5FiZnmHaxNSGYX7GkigGD2n8H1LmmvO3/Ss/HbOhLsR3vEbEt5+NF3XJMVzXCk2L4LR
+         c8PlJT32ROq2Ir6QdCtd6ns9g/4QM9eWV1ahodRUz46UQOxcWfT4zJYtfzoQNQEaLn7a
+         Hdy6b8yYjsWhJz/Sa7UNjtrqNvHFszjQ5lIBQvS6AbtEtTbAwJj0M5ediWcWFEaeGFP8
+         TaAw==
+X-Gm-Message-State: APjAAAXp/Frin2IlN85AocXAvZm9Y1If0LW5r7d/jOplik9nIhbHVXRy
+        2IERgPQLm8hhlM7PxbCB08A=
+X-Google-Smtp-Source: APXvYqz3jkwKHMkN+3DBn3mIqQAkYt0FNl1kCkLC+6au9GLE2u46bh2FX0DM89GvtAaYleliKEMUYg==
+X-Received: by 2002:ac2:598b:: with SMTP id w11mr19531195lfn.62.1556140414975;
+        Wed, 24 Apr 2019 14:13:34 -0700 (PDT)
 Received: from localhost.localdomain ([5.164.240.123])
-        by smtp.gmail.com with ESMTPSA id m3sm4540248lfh.94.2019.04.24.14.13.31
+        by smtp.gmail.com with ESMTPSA id m3sm4540248lfh.94.2019.04.24.14.13.33
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 24 Apr 2019 14:13:32 -0700 (PDT)
+        Wed, 24 Apr 2019 14:13:34 -0700 (PDT)
 From:   Serge Semin <fancer.lancer@gmail.com>
 To:     Richard Leitner <richard.leitner@skidata.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -62,58 +62,47 @@ To:     Richard Leitner <richard.leitner@skidata.com>,
 Cc:     Serge Semin <Sergey.Semin@t-platforms.ru>,
         linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 0/3] usb: usb251xb: Add upstream port lanes polarity inversion
-Date:   Thu, 25 Apr 2019 00:12:04 +0300
-Message-Id: <20190424211208.17499-1-fancer.lancer@gmail.com>
+Subject: [PATCH 1/3] usb: usb251xb: Add US lanes inversion dts-bindings
+Date:   Thu, 25 Apr 2019 00:12:05 +0300
+Message-Id: <20190424211208.17499-2-fancer.lancer@gmail.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190424211208.17499-1-fancer.lancer@gmail.com>
+References: <20190424211208.17499-1-fancer.lancer@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Message-ID: <20190424211205.vwZRuoaThG6i1VEg22viEKdh66VWeiU_ynOcQAW13FY@z>
 
-A while ago I created an original patchset with functionality of any ports
-inversion setting implemented. But while I was busy with another work,
-Marco' version of the similar code has already been upstreamed.
-So I decided to at least refactor my patchset extracting alterations,
-which I think might be useful in the driver.
+Since a separate US ports lanes polarity inversion property is going to
+be available the bindings doc-file should be updated with information
+about swap-us-lanes bool property, which will be responsible for it.
 
-Even though the Marco' implementation was correct in general, it lacked a
-small specific detail. The polarity inversion property might be setup for
-downstream and upstream ports. Both of these cases are covered by current
-'swap-dx-lanes' property implementation, but there is no any mentioning
-about number 0 being considered as Upstream port of the hub. This might be
-confusing seeing the rest of the port-related properties accept
-only the ports starting from 1 (which is starting number of downstream
-ports) and don't support number 0. So in order to unify the 'swap-dx-lanes'
-property with the rest port-related ones, I'd suggest to make it being
-responsible for downstream ports only, while upstream port lanes inversion
-would be enabled by setting a new 'swap-us-lanes' boolean property. Current
-property names mnemonic also fits quiet well for this update.
+Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
+---
+ Documentation/devicetree/bindings/usb/usb251xb.txt | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-In addition the usb251xb_get_ofdata() method is getting to be too
-complicated with obvious identical peaces of code. In particular it
-concerns the ports-related properties like 'non-removable-ports',
-'sp-disabled-ports' and 'bp-disabled-ports'. We can simplify the code
-responsible for the properties handling by moving a common part into
-a dedicated method. Needless to say that in case if the suggestion made
-above regarding the 'swap-dx-lanes' property alteration is accepted,
-the same could be done for parsing it' code as well.
-
-So all of these updates are implemented in the patches of this small
-series.
-
-
-Serge Semin (3):
-  usb: usb251xb: Add US lanes inversion dts-bindings
-  usb: usb251xb: Create a ports field collector method
-  usb: usb251xb: Add US port lanes inversion property
-
- .../devicetree/bindings/usb/usb251xb.txt      |  6 +-
- drivers/usb/misc/usb251xb.c                   | 73 +++++++------------
- 2 files changed, 32 insertions(+), 47 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/usb/usb251xb.txt b/Documentation/devicetree/bindings/usb/usb251xb.txt
+index 17915f64b8ee..bc7945e9dbfe 100644
+--- a/Documentation/devicetree/bindings/usb/usb251xb.txt
++++ b/Documentation/devicetree/bindings/usb/usb251xb.txt
+@@ -64,8 +64,10 @@ Optional properties :
+  - power-on-time-ms : Specifies the time it takes from the time the host
+ 	initiates the power-on sequence to a port until the port has adequate
+ 	power. The value is given in ms in a 0 - 510 range (default is 100ms).
+- - swap-dx-lanes : Specifies the ports which will swap the differential-pair
+-	(D+/D-), default is not-swapped.
++ - swap-dx-lanes : Specifies the downstream ports which will swap the
++	differential-pair (D+/D-), default is not-swapped.
++ - swap-us-lanes : Selects the upstream port differential-pair (D+/D-)
++	swapping (boolean, default is not-swapped)
+ 
+ Examples:
+ 	usb2512b@2c {
 -- 
 2.21.0
 
