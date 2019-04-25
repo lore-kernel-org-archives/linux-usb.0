@@ -2,90 +2,102 @@ Return-Path: <SRS0=WMKl=S3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_NEOMUTT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A562C43219
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 15:33:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2D5EC43219
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 15:34:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 613D320895
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 15:33:45 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kalray.eu header.i=@kalray.eu header.b="AUex10Vf"
+	by mail.kernel.org (Postfix) with ESMTP id 39CC1205ED
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 15:34:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730311AbfDYPdn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Apr 2019 11:33:43 -0400
-Received: from zimbra2.kalray.eu ([92.103.151.219]:55380 "EHLO
-        zimbra2.kalray.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730280AbfDYPdm (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 11:33:42 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTP id F1BE627E0512;
-        Thu, 25 Apr 2019 17:33:40 +0200 (CEST)
-Received: from zimbra2.kalray.eu ([127.0.0.1])
-        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id TucJfq8Cslpx; Thu, 25 Apr 2019 17:33:40 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTP id AFAF927E0510;
-        Thu, 25 Apr 2019 17:33:40 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu AFAF927E0510
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
-        s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1556206420;
-        bh=J8h5RtvO5J7W+OxBUM9HcxK6n2n/Q0wLsJmkZU9/SVs=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=AUex10VfkKRA9urs4y8U2cC0qXRilQntdEDMzx5zrH7GDbZIC8gClUrc3q++qsKY/
-         qzmdGJ9QHqafRubhJ1GkQ1YQsAOaaA8PxKuZzCQWjfgM32SlXA7/6DTWSrpID1Im1X
-         3UrvNNJe4C9NMQk9IX8vV9jGKOalMwCYBw16dmEc=
-X-Virus-Scanned: amavisd-new at zimbra2.kalray.eu
-Received: from zimbra2.kalray.eu ([127.0.0.1])
-        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id jW7i5dibTftq; Thu, 25 Apr 2019 17:33:40 +0200 (CEST)
-Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206])
-        by zimbra2.kalray.eu (Postfix) with ESMTPSA id 920B227E0309;
-        Thu, 25 Apr 2019 17:33:40 +0200 (CEST)
-Date:   Thu, 25 Apr 2019 17:33:32 +0200
-From:   Jules Maselbas <jmaselbas@kalray.eu>
-To:     Felipe Balbi <felipe.balbi@linux.intel.com>
-Cc:     Minas Harutyunyan <hminas@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Pierre-Yves Kerbrat <pkerbrat@kalray.eu>,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH 1/5] usb: dwc2: Move UTMI_PHY_DATA defines closer
-Message-ID: <20190425153018.a6npobdvje2o4mld@tellis.lin.mbt.kalray.eu>
-References: <20190402103922.16729-1-jmaselbas@kalray.eu>
- <20190402103922.16729-2-jmaselbas@kalray.eu>
- <87ef5qs0vz.fsf@linux.intel.com>
+        id S1729643AbfDYPc2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Apr 2019 11:32:28 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:44074 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387593AbfDYPcZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 11:32:25 -0400
+Received: by mail-qt1-f196.google.com with SMTP id s10so504701qtc.11;
+        Thu, 25 Apr 2019 08:32:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vnOK55Hhpegmo/fnJEz+TCVV+Rtg/rYKGc4878e+cQM=;
+        b=UKuOoUy+U/DhO1lrIpJzV4Ph/CephrAcf/jKCSeUIeDvoHjzvpEnXC65Ukf9h1Ml3O
+         /s3B+ucBFA/SCZiwvcG8m44SU5vaLq+cSoUpr+v97MybACPI8xSw+tBqbMtGey3O/dwh
+         7k6dvRZqNSLErq6sAvUOfdrbS3QsRH/LAtzQL7ZCp3VEV4Xa+tJDCKHFqhG4eUmFBOoA
+         TdH5uTW+6TRa6B8E0jLoEj97uvssKvZFAGT30Y1GHSjPupev46xs0A2EzYdpKp1K0Cnc
+         ECJ5zIKvJo3lKjWIAoD4lKDuRognkIEVFH3Eb+w7nBaxIUaAv8axd6sFg84VH9IhHe+7
+         WZ5Q==
+X-Gm-Message-State: APjAAAWLh3mra7FsjsrItm2wXSJLHGYq1pNo9wSfDkOc4Mfvr6JR7F6K
+        S2gD/7PIlEI9SIS02upAVCHeANw0CRkAyRlXWeA=
+X-Google-Smtp-Source: APXvYqwxk/2uu8237YdCHmRUJfKvMCqEAFuyKk69MJnoHNCwVO4ijAI41YQVvxcBEABnP8bt18E+q4gxBK6hSfckd+U=
+X-Received: by 2002:ac8:2924:: with SMTP id y33mr30625898qty.212.1556206343098;
+ Thu, 25 Apr 2019 08:32:23 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190416202013.4034148-1-arnd@arndb.de> <20190416202701.127745-1-arnd@arndb.de>
+ <20190425122153.450fc094@coco.lan>
+In-Reply-To: <20190425122153.450fc094@coco.lan>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Thu, 25 Apr 2019 17:32:05 +0200
+Message-ID:
+ <CAK8P3a1qCQJEkne3uAw-Ep-taNU9t5Y2ZmgoiCGmOz1BSwmzEw@mail.gmail.com>
+Subject: Re: [PATCH v3 12/26] compat_ioctl: move more drivers to compat_ptr_ioctl
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Alexander Viro <viro@zeniv.linux.org.uk>,
+        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
+        y2038 Mailman List <y2038@lists.linaro.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jason Gunthorpe <jgg@mellanox.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Sterba <dsterba@suse.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        driverdevel <devel@driverdev.osuosl.org>, qat-linux@intel.com,
+        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
+        <linux-crypto@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+        "open list:HID CORE LAYER" <linux-input@vger.kernel.org>,
+        linux-iio@vger.kernel.org, linux-rdma <linux-rdma@vger.kernel.org>,
+        linux-nvdimm@lists.01.org, linux-nvme@lists.infradead.org,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Platform Driver <platform-driver-x86@vger.kernel.org>,
+        linux-remoteproc@vger.kernel.org,
+        sparclinux <sparclinux@vger.kernel.org>,
+        linux-scsi <linux-scsi@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        linux-btrfs <linux-btrfs@vger.kernel.org>,
+        ceph-devel <ceph-devel@vger.kernel.org>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        Networking <netdev@vger.kernel.org>, Sean Young <sean@mess.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <87ef5qs0vz.fsf@linux.intel.com>
-User-Agent: NeoMutt/20180716-1557-a6ba22
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190425153332.D3WeNL8_9cMKqaYgrJFa89Mfn7xWW-2ivGWX_zXoVD4@z>
+Message-ID: <20190425153205.0Q-faHVBxPk9ZMM5-mahXzxS2WRd403oLOU137UHXF8@z>
 
-Hi Felipe,
+On Thu, Apr 25, 2019 at 5:22 PM Mauro Carvalho Chehab
+<mchehab+samsung@kernel.org> wrote:
+> Em Tue, 16 Apr 2019 22:25:33 +0200 Arnd Bergmann <arnd@arndb.de> escreveu:
+>
+> If I understand your patch description well, using compat_ptr_ioctl
+> only works if the driver is not for s390, right?
 
-On Thu, Apr 25, 2019 at 03:52:16PM +0300, Felipe Balbi wrote:
-> Jules Maselbas <jmaselbas@kalray.eu> writes:
-> 
-> > Makes GHWCFG4_UTMI_PHY_DATA* defines closer to their relative shift and
-> > mask defines to improve readability.
-> >
-> > Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
-> 
-> Doesn't apply. Please make sure to rebase on testing/next
+No, the purpose of compat_ptr_ioctl() is to make sure it works
+everywhere including s390.
 
-I've applied this patch serie on v5.1-rc6 and I didn't saw any problems.
-I also found that theses patchs are already included in testing/next.
-Did I miss something? 
+Even on s390 it tends to work most of the time, but for correctness
+the upper bit of a 32-bit pointer needs to be cleared, as
+compat_ptr_ioctl does, in case some application passes a pointer
+with that bit set. [IIRC, in the instruction pointer, the high bit is set, in
+data references it is ignored but usually cleared, but it may be left
+on for IP-relative address generation]
 
-
-Regards,
---
-Jules
-
+       Arnd
