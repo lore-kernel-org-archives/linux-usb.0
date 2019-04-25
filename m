@@ -2,211 +2,97 @@ Return-Path: <SRS0=WMKl=S3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_MUTT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41A07C43218
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 22:33:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 256E5C43218
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 22:45:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 560FF20717
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 22:33:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4111A2067C
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 22:45:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ip5euGH5"
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=codeaurora.org header.i=@codeaurora.org header.b="jKwc2LB9";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=codeaurora.org header.i=@codeaurora.org header.b="ifjGKyAk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726326AbfDYWdj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Apr 2019 18:33:39 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:44538 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726040AbfDYWdi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 18:33:38 -0400
-Received: by mail-lf1-f65.google.com with SMTP id h18so834511lfj.11;
-        Thu, 25 Apr 2019 15:33:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=pnwO3ii3JkeNPr1hcPvBi2/3rAZyjNVc0qQJMLcBg4g=;
-        b=Ip5euGH5ClT6AoUA5raCFKXkbcxLmgokJBIzGPetkjCvSyh5LUm+5Z4/znxyoCTBkB
-         pFPNA8XT+sXH8Ilsngg8XjNO5NCeCsd1aPC3SkGgf5d8utzFj3I2Y2sduj374kdyj5GK
-         gz5WaB4lK55ytGG18Dcg9olkULhHEqrrUuNtnY7vzPmNfaTD7s2YLCoJU19mxbpxh0Bg
-         Ekzx7RtMMYQJ7/1IdwaC7X+xPdAC/z7w+V1LfT/AycK+/AIksQdFmBXLVB5CvExv0vtF
-         IiQVvhd07S3UHi3wB2M5o2BUd4Yj3hiVS34IXQ9br346v8Q+LJpeMnvIpae2rL2EEOzT
-         4xCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=pnwO3ii3JkeNPr1hcPvBi2/3rAZyjNVc0qQJMLcBg4g=;
-        b=ia3APpy1zO2A1hGtSF+7eChJPPUhJBY1aYWy8uanepkraUwvMTinzwvLPL8dBBjejB
-         ge/OetlIoYEZd2uVXepMhlh7eqfEFaDqopHfNaNIRruKfnW21f2591z3oODPTjcYt5Rc
-         W0Vyq5id7A1aD4l6S+WkmJPrmDIbrM+x7sQR4Ckzi2lSiZrbJZp6yO3j0PKf4Hqx7MdH
-         0xv9neowEyDLtAyMkVFJ9m07Jmx6wXOZ3uQ+xBJt6szKjHq5IACGj5HM4S1mYVpQdLEb
-         78TId9C6XtMJDaloFFRutlJeZNHLD6uqld/hw0Hn6Ke5xP7v+rECffYOmBg/ukOh3f7r
-         vo2A==
-X-Gm-Message-State: APjAAAXdE0OegSuIhsCvjMc83D4CA2mrtJbr8uzx49UBD+6hPt+xB5V2
-        hNi8aLV8UvWOmM9vZKvvEik=
-X-Google-Smtp-Source: APXvYqxXdekO9jgCOogXP8lb3phLNHUabTl1NErTJUk8047mQrXyHuF3/yms97bic05946xEgMMx8g==
-X-Received: by 2002:ac2:533c:: with SMTP id f28mr19303555lfh.73.1556231615812;
-        Thu, 25 Apr 2019 15:33:35 -0700 (PDT)
-Received: from localhost.localdomain ([5.164.240.123])
-        by smtp.gmail.com with ESMTPSA id m21sm5257382lfj.47.2019.04.25.15.33.33
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Apr 2019 15:33:34 -0700 (PDT)
-From:   Serge Semin <fancer.lancer@gmail.com>
-To:     Richard Leitner <richard.leitner@skidata.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Serge Semin <Sergey.Semin@t-platforms.ru>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] usb: usb251xb: Lock i2c-bus segment the hub resides
-Date:   Fri, 26 Apr 2019 01:32:56 +0300
-Message-Id: <20190425223256.20270-1-fancer.lancer@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: 20190424144914.10580-1-fancer.lancer@gmail.com
-References: 
+        id S1726611AbfDYWpC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Apr 2019 18:45:02 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:53624 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726380AbfDYWpC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 18:45:02 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id 4BE136076C; Thu, 25 Apr 2019 22:45:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1556232301;
+        bh=sUFW4bRZZ6HrxuGuV5e8nZUxAjd+JMjlKCqFibB9yK0=;
+        h=Date:From:To:Subject:References:In-Reply-To:From;
+        b=jKwc2LB9yIiwSFirp4lacc77ehCjJgPIsUUuejDrRrkW3of/qoIjEZu04+CNnGOxd
+         m6J8F/u73G1OMn86pORguATh+XvYi7Gaynv9k4OR0tqeaxFgrAo+rMAx4evE97ttb/
+         k+2JRsSGd009N9ho1lyGSIH5N3SMCgesVgcLJU+g=
+Received: from jackp-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: jackp@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id A1A7560388;
+        Thu, 25 Apr 2019 22:45:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1556232300;
+        bh=sUFW4bRZZ6HrxuGuV5e8nZUxAjd+JMjlKCqFibB9yK0=;
+        h=Date:From:To:Subject:References:In-Reply-To:From;
+        b=ifjGKyAkS5twBN2epBRyQumpQppGGSmIFZWrWfScWMVuN5q7wcasGxNHgtSheAYy8
+         C9hVfN5APVlMSMx8C/aX0R8slwBriX7vlS+ocYf8BH13MsogRXyKENOGU6tnvc539t
+         xkzkAF+BcSpYgUAEeHTvrrtihGh4/yeFI5PxDAVE=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org A1A7560388
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=jackp@codeaurora.org
+Date:   Thu, 25 Apr 2019 15:44:57 -0700
+From:   Jack Pham <jackp@codeaurora.org>
+To:     Bin Liu <b-liu@ti.com>, linux-usb@vger.kernel.org,
+        Felipe Balbi <balbi@kernel.org>
+Subject: Re: configfs on dwc3: msc enum failed if three functions defined
+Message-ID: <20190425224456.GA27553@jackp-linux.qualcomm.com>
+References: <20190422134357.GA2071@uda0271908>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190422134357.GA2071@uda0271908>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190425223256.f5lBr9nPm-YTz0hTHcO3ktQZlia1lVIfHjDR6Y9oZhg@z>
 
-SMBus slave configuration is activated by CFG_SEL[1:0]=0x1 pins
-state. This is the mode the hub is supposed to be to let this driver
-work correctly. But a race condition might happen right after reset
-is cleared due to CFG_SEL[0] pin being multiplexed with SMBus SCL
-function. In case if the reset pin is handled by a i2c GPIO expander,
-which is also placed at the same i2c-bus segment as the usb251x
-SMB-interface connected to, then the hub reset clearance might
-cause the CFG_SEL[0] being latched in unpredictable state. So
-sometimes the hub configuration mode might be 0x1 (as expected),
-but sometimes being 0x0, which doesn't imply to have the hub SMBus-slave
-interface activated and consequently causes this driver failure.
+Hi Bin,
 
-In order to fix the problem we must make sure the GPIO-reset chip doesn't
-reside the same i2c-bus segment as the SMBus-interface of the hub. If
-it doesn't, we can safely block the segment for the time the reset is
-cleared to prevent anyone generating a traffic at the i2c-bus SCL lane
-connected to the CFG_SEL[0] pin. But if it does, nothing we can do, so
-just return an error. If we locked the i2c-bus segment and tried to
-communicate with the GPIO-expander, it would cause a deadlock. If we didn't
-lock the i2c-bus segment, it would randomly cause the CFG_SEL[0] bit flip.
+On Mon, Apr 22, 2019 at 08:43:57AM -0500, Bin Liu wrote:
+> Hi Felipe,
+> 
+> I am having an issue with dwc3 on TI AM57x device, and would like to ask
+> for your comments.
+> 
+> I use configfs to create a multi-function gadget on dwc3, mass_storage
+> is the last function, it seems if I create 3 functions, the mass_storage
+> enumeration will fail on the host. It works fine if only create 2
+> functions.
+> 
+> The dwc3 tracepoints log shows after all the ep0 transfers for
+> mass_storage, the very first epXin transfer is not complete - dwc3
+> programmed the urb, but never generates RX completion event. This also
+> matches the bus analyzer trace - dwc3 NAKs the very first IN token for
+> ever.
+> 
+> I use the attached script to create the gadget, The macro FUNCS in the
+> beginning of the script defines the functions to be created.
+> 
+> Any comments are appreciated.
 
-Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+A stab in the dark here but what is the value of GTXFIFOSIZ(X)[15:0]
+for epXin on your device? Is it at least wMaxPacketSize? Depending on
+the default hardware values it might be deficient as compared to the
+working endpoint that gets assigned in your 2-function config.
 
----
-Changelog v2
-- Execute the check code only if GPIOLIB is enabled (reported by
-  a build robot).
-
----
- drivers/usb/misc/usb251xb.c | 62 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
-
-diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
-index 04684849d683..cdc80e8c2d8a 100644
---- a/drivers/usb/misc/usb251xb.c
-+++ b/drivers/usb/misc/usb251xb.c
-@@ -12,6 +12,7 @@
- 
- #include <linux/delay.h>
- #include <linux/gpio/consumer.h>
-+#include <linux/gpio/driver.h>
- #include <linux/i2c.h>
- #include <linux/module.h>
- #include <linux/nls.h>
-@@ -222,11 +223,51 @@ static const struct usb251xb_data usb2517i_data = {
- 	.product_str = "USB2517i",
- };
- 
-+#ifdef CONFIG_GPIOLIB
-+static int usb251xb_check_dev_children(struct device *dev, void *child)
-+{
-+	if (dev->type == &i2c_adapter_type) {
-+		return device_for_each_child(dev, child,
-+					     usb251xb_check_dev_children);
-+	}
-+
-+	return (dev == child);
-+}
-+
-+static int usb251x_check_gpio_chip(struct usb251xb *hub)
-+{
-+	struct gpio_chip *gc = gpiod_to_chip(hub->gpio_reset);
-+	struct i2c_adapter *adap = hub->i2c->adapter;
-+	int ret;
-+
-+	if (!hub->gpio_reset)
-+		return 0;
-+
-+	if (!gc)
-+		return -EINVAL;
-+
-+	ret = usb251xb_check_dev_children(&adap->dev, gc->parent);
-+	if (ret) {
-+		dev_err(hub->dev, "Reset GPIO chip is at the same i2c-bus\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+#else
-+static int usb251x_check_gpio_chip(struct usb251xb *hub)
-+{
-+	return 0;
-+}
-+#endif
-+
- static void usb251xb_reset(struct usb251xb *hub, int state)
- {
- 	if (!hub->gpio_reset)
- 		return;
- 
-+	i2c_lock_bus(hub->i2c->adapter, I2C_LOCK_SEGMENT);
-+
- 	gpiod_set_value_cansleep(hub->gpio_reset, state);
- 
- 	/* wait for hub recovery/stabilization */
-@@ -234,6 +275,8 @@ static void usb251xb_reset(struct usb251xb *hub, int state)
- 		usleep_range(500, 750);	/* >=500us at power on */
- 	else
- 		usleep_range(1, 10);	/* >=1us at power down */
-+
-+	i2c_unlock_bus(hub->i2c->adapter, I2C_LOCK_SEGMENT);
- }
- 
- static int usb251xb_connect(struct usb251xb *hub)
-@@ -621,6 +664,25 @@ static int usb251xb_probe(struct usb251xb *hub)
- 		}
- 	}
- 
-+	/*
-+	 * usb251x SMBus-slave SCL lane is muxed with CFG_SEL0 pin. So if anyone
-+	 * tries to work with the bus at the moment the hub reset is released,
-+	 * it may cause an invalid config being latched by usb251x. Particularly
-+	 * one of the config modes makes the hub loading a default registers
-+	 * value without SMBus-slave interface activation. If the hub
-+	 * accidentally gets this mode, this will cause the driver SMBus-
-+	 * functions failure. Normally we could just lock the SMBus-segment the
-+	 * hub i2c-interface resides for the device-specific reset timing. But
-+	 * the GPIO controller, which is used to handle the hub reset, might be
-+	 * placed at the same i2c-bus segment. In this case an error should be
-+	 * returned since we can't safely use the GPIO controller to clear the
-+	 * reset state (it may affect the hub configuration) and we can't lock
-+	 * the i2c-bus segment (it will cause a deadlock).
-+	 */
-+	err = usb251x_check_gpio_chip(hub);
-+	if (err)
-+		return err;
-+
- 	err = usb251xb_connect(hub);
- 	if (err) {
- 		dev_err(dev, "Failed to connect hub (%d)\n", err);
+Jack
 -- 
-2.21.0
-
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
