@@ -2,182 +2,140 @@ Return-Path: <SRS0=WMKl=S3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
-	T_DKIMWL_WL_HIGH,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66F7AC43219
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 16:06:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE193C43218
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 16:19:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AE61E2088F
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 16:06:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1556208364;
-	bh=gOBgAvrGs36c+m4K79C8LadHIZyXWDmeQTI6yBpmHcA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=emD0H4mfL9zxjFIl8Iatu0vjPlffyFgfaVmDC8UDSvSCg2tKwSHfIP2BpdcLJSLz5
-	 thiWGk/lPWjsZJ/nyT0OOubhbMJz1xkEiTV8rIpSCwdho3az1B8DITz2hIYk8sARUG
-	 7gXYitdDRZK+BMUpa5tZm14WidZWDxowWn/7AJKo=
+	by mail.kernel.org (Postfix) with ESMTP id 232CE20651
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 16:19:50 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Yd3nwLI+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726402AbfDYQGD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Apr 2019 12:06:03 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:39346 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726859AbfDYQGC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 12:06:02 -0400
-Received: by mail-lf1-f66.google.com with SMTP id d12so180212lfk.6
-        for <linux-usb@vger.kernel.org>; Thu, 25 Apr 2019 09:06:00 -0700 (PDT)
+        id S1726555AbfDYQTt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Apr 2019 12:19:49 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:51823 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725900AbfDYQTs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 12:19:48 -0400
+Received: by mail-wm1-f66.google.com with SMTP id 4so68583wmf.1
+        for <linux-usb@vger.kernel.org>; Thu, 25 Apr 2019 09:19:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=faM1InmyeOdb2yNMEACfdEXFAtAUUsb1+rlhyP3bugc=;
+        b=Yd3nwLI+kZOG8X4b6oe9d3qrLLkersbOpxgr+x7IsZG0C52uVDN644i4saM905Elyr
+         NYIonG0wPyQyUALJL21nz8xWokjOLp1GrUmTUNFw91/mbIi1O/hMxadSPzntw1oD7El6
+         N8qiKyIYUlomYDDwyK20kYpIFyU/K+l4GObI+I9n3gJkwj2Cvq2xUF6AqK7weJFVfHlC
+         rcSIiprkdo847l0UKs970UA/J3mTWRLU9YNv/e7DDSUYmlUTqx83jLXurRpivp9hf31J
+         FzFDJLwzQr1abTHpMvZhYpG6LOY6yr72YnK3ONSBeLDHdxCUIIDhn0X2W/lLfLEV8tWl
+         5yIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=jCrLocsed8C23l/Qz2ceGAv+q7KSLARapoD49XZWHrQ=;
-        b=iovlPOjODV4vxWQrn3RW2HU+TJP6scdGSFr/OpDMux3KrA0s+ZGzOZN7qsTvLu3JeW
-         s40nan/Uv9ze5IVzOkaslSRrDAAOc1N2dxFdSvfVwvQM8hzfCoOYw864IQnI++2CloyQ
-         Shcnb71nK0p2H3HbY4pacmY0WJXhF0xCwAAHyKYgVecVjSIzZK5JnScYwQ3vYLbA03zs
-         8cEGJq9FVSLvW2ihOl7mMCuwctbeqi2d1YVmvOZv6BYfOyiGtqGaURv1xmf/rVkdv2KI
-         LZpCjpzgVFe+RpbqmkXbWqJpAVjiNwWcXRyy3YYFakGP1+q6F05+qxXLyuaNE6gLQHfT
-         stYQ==
-X-Gm-Message-State: APjAAAWVUFF2h7QTYkvpqdnDIxBEQlCFwyMuVs+KbU0GJkxuNBZBXy3Z
-        brGUBCiiq1tN2ePiEVqtQZs=
-X-Google-Smtp-Source: APXvYqzsI6XUtV5eu1qIxgC62mhxzk54ojfu5u/J12gYUrY1ZvdurG1U4EaGK6nxAwIUMe60LA+Nqg==
-X-Received: by 2002:ac2:558d:: with SMTP id v13mr14895265lfg.76.1556208359981;
-        Thu, 25 Apr 2019 09:05:59 -0700 (PDT)
-Received: from xi.terra (c-74bee655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.190.116])
-        by smtp.gmail.com with ESMTPSA id l16sm4733160ljb.24.2019.04.25.09.05.55
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Apr 2019 09:05:57 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.91)
-        (envelope-from <johan@xi.terra>)
-        id 1hJgsl-0002d3-UK; Thu, 25 Apr 2019 18:05:55 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Alan Stern <stern@rowland.harvard.edu>,
-        Oliver Neukum <oneukum@suse.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 5/5] USB: cdc-acm: clean up throttle handling
-Date:   Thu, 25 Apr 2019 18:05:40 +0200
-Message-Id: <20190425160540.10036-6-johan@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190425160540.10036-1-johan@kernel.org>
-References: <20190425160540.10036-1-johan@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=faM1InmyeOdb2yNMEACfdEXFAtAUUsb1+rlhyP3bugc=;
+        b=HMFGMxIUNLm+m4qKEX1i0YZTS7XhSvBGB4q6weEYssoX/6wiYF41r4PSGkxmrWfKbL
+         JqhOrLCpwcXy27ClBnHNmXG7Yi2UCghtJrb5iwe4kofL0jtjrpVU8WhZz2mAu+OXNTkf
+         JUxdZCP1qqWRC9Q15DbiL8Hc9ys4lnIpL8e+83RF3TN3zVZt6YczCcQOPZOQZy/sNv7y
+         KhpY6WgRXeLHbhs0GLZanDe4R9TzBMK2wPt8j57EA15D3+Sk521jBtzeTIcEyYmv1m3f
+         4izWmPknl43SZBvI+7klWoOV5AEfIvBqiNeb8KZheHky+9M8L5XQLNB3Snadf2wiRnfM
+         xCBQ==
+X-Gm-Message-State: APjAAAWYs9+GIfoy9QKSkqiX1jGTpdHuoh6+r6pQv60UyL+yJvC3IRXf
+        UruBvteOJzgP0y+2AT8i+W/V2mxxDiLw+K3wpQajMA==
+X-Google-Smtp-Source: APXvYqweCVVwWKMcMh7R6lL6oyjugVmanYW1WCmAPQEgYvt9qJD8qHMIx0covpvEew7H82h/NZdcNIbmBz5jA6Ggvu8=
+X-Received: by 2002:a7b:c00b:: with SMTP id c11mr3964532wmb.23.1556209186700;
+ Thu, 25 Apr 2019 09:19:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1553059940-127038-1-git-send-email-fei.yang@intel.com>
+ <CALAqxLUW9XCq0WqTzpYGZ7B_4CVdsXY6t_dyuwhnOTJ7HajrwQ@mail.gmail.com>
+ <CALAqxLUwB4vYiCM1Yi2CizMu-FvEoBB-eNqwaTFi2b=gnvCCZQ@mail.gmail.com>
+ <CALAqxLXE2Be_a3utjDP2+0mCfHeEypw_PqJPwkoyDM-F2F=jBA@mail.gmail.com>
+ <20190424165052.GF21916@kroah.com> <CALAqxLXwoTaWLgw9u_Z6H6fW-a-6DzXAcZkaGBKpkEJAbBtJ5w@mail.gmail.com>
+ <02E7334B1630744CBDC55DA8586225837F82FB35@ORSMSX102.amr.corp.intel.com>
+In-Reply-To: <02E7334B1630744CBDC55DA8586225837F82FB35@ORSMSX102.amr.corp.intel.com>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Thu, 25 Apr 2019 09:19:34 -0700
+Message-ID:
+ <CALAqxLXqn4jtdJgH56mnbnGFuD4ei8zHmB5Q5QnbaLLux9fpHA@mail.gmail.com>
+Subject: Re: [PATCH V2] usb: gadget: f_fs: don't free buffer prematurely
+To:     "Yang, Fei" <fei.yang@intel.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        "andrzej.p@collabora.com" <andrzej.p@collabora.com>,
+        Vincent Pelletier <plr.vincent@gmail.com>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>, Josh Gao <jmgao@google.com>,
+        Alistair Strachan <astrachan@google.com>,
+        "Shen, JingX" <jingx.shen@intel.com>,
+        Alan Stern <stern@rowland.harvard.edu>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190425160540.2RkjxLSb7ydhrd8t0-typaBnS4-ITdK6aQEcUZmaBSc@z>
+Message-ID: <20190425161934.e9sZCHpMNogmUnOveS-g2XybZoBqQEMxs8D5-asoCL4@z>
 
-Clean up the throttle implementation by dropping the redundant
-throttle_req flag which was a remnant from back when USB serial had only
-a single read URB, something which was later carried over to cdc-acm.
+On Thu, Apr 25, 2019 at 9:01 AM Yang, Fei <fei.yang@intel.com> wrote:
+>
+> > On Wed, Apr 24, 2019 at 9:50 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+> > >
+> > > On Tue, Apr 02, 2019 at 10:26:51AM +0700, John Stultz wrote:
+> > > > On Wed, Mar 20, 2019 at 11:21 AM John Stultz <john.stultz@linaro.org> wrote:
+> > > > > On Wed, Mar 20, 2019 at 9:40 AM John Stultz <john.stultz@linaro.org> wrote:
+> > > > > > On Tue, Mar 19, 2019 at 10:32 PM <fei.yang@intel.com> wrote:
+> > > > > > Elsewhere it seems the ffs driver takes effort to drop any locks
+> > > > > > before calling usb_ep_dequeue(), so this seems like that should
+> > > > > > be addressed, but it also seems like recent change to the dwc3
+> > > > > > driver has been made to avoid sleeping in that path (see fec9095bdef4 ("usb:
+> > > > > > dwc3: gadget: remove wait_end_transfer")), which may be why I'm
+> > > > > > not seeing the problem with mainline (and your patch here, of coarse).
+> > > > > > But that also doesn't clarify if its still a potential issue w/
+> > > > > > non-dwc3 platforms.
+> > > > >
+> > > > > Felipe: Given Alan's point, does it make sense to mark the commits
+> > > > > that remove the possible sleep from wait_event_lock_irq() in
+> > > > > dwc3_gadget_ep_dequeue()  for -stable?
+> > > > >
+> > > > > Against 4.19.30, the following set manages to cherry-pick cleanly:
+> > > > > git cherry-pick 1a22ec643580626f439c8583edafdcc73798f2fb
+> > > > > git cherry-pick 09fe1f8d7e2f461275b1cdd832f2cfa5e9be346d
+> > > > > git cherry-pick c3acd59014148470dc58519870fbc779785b4bf7
+> > > > > git cherry-pick 7746a8dfb3f9c91b3a0b63a1d5c2664410e6498d
+> > > > > git cherry-pick d5443bbf5fc8f8389cce146b1fc2987cdd229d12
+> > > > > git cherry-pick d4f1afe5e896c18ae01099a85dab5e1a198bd2a8
+> > > > > git cherry-pick fec9095bdef4e7c988adb603d0d4f92ee735d4a1
+> > > > > # To get things building, revert modified -stable fix git revert
+> > > > > 25ad17d #pick actual upstream fix replacing the previous git
+> > > > > cherry-pick bd6742249b9ca918565e4e3abaa06665e587f4b5
+> > > > >
+> > > > > (Though I'm always a bit hesitant with -stable backports on
+> > > > > subsystems I don't know well. So I'm not sure if this set is fully
+> > > > > correct.)
+> > > > >
+> > > > > This set seems to avoid the crash on reboot I was seeing.
+> > > > >
+> > > > > And of course, I'm sure getting that set backported to 4.14 and
+> > > > > 4.9 (and maybe even 4.4, I need to check) will be less clean.
+> > > >
+> > > > Also,  I just wanted to follow up on this as well. Does the above
+> > > > set of cherry-picks look ok to others for 4.19-stable?  Does anyone
+> > > > have suggestions on how they'd like to see backports to 4.14, 4.9 and 4.4?
+> > >
+> > > If they are ok, can someone send me the commits as a series of
+> > > patches, as doing the above really doesn't help much :)
+> >
+> > Yea, so I'm happy to send that set to you for 4.19, assuming Felipe or someone else OKs it.
+> > I'm still at a bit of a loss for what to do for older (4.14/4.9/4.4) -stable kernels, as its going to be difficult to backport those.
+>
+> The patch mentioned in the title of this thread doesn't apply to older kernels. The kernel panic was introduced in 5.0-rcX.
 
-Also convert the throttled flag to an atomic bit flag.
+Right. On older kernels there was a separate issue that seems to be
+dwc3 specific that was biting me in a similar way. That's what the sha
+list above references.
 
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/class/cdc-acm.c | 33 ++++++++-------------------------
- drivers/usb/class/cdc-acm.h |  3 +--
- 2 files changed, 9 insertions(+), 27 deletions(-)
-
-diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-index c03aa8550980..183b41753c98 100644
---- a/drivers/usb/class/cdc-acm.c
-+++ b/drivers/usb/class/cdc-acm.c
-@@ -468,7 +468,6 @@ static void acm_read_bulk_callback(struct urb *urb)
- {
- 	struct acm_rb *rb = urb->context;
- 	struct acm *acm = rb->instance;
--	unsigned long flags;
- 	int status = urb->status;
- 	bool stopped = false;
- 	bool stalled = false;
-@@ -525,15 +524,10 @@ static void acm_read_bulk_callback(struct urb *urb)
- 		return;
- 	}
- 
--	/* throttle device if requested by tty */
--	spin_lock_irqsave(&acm->read_lock, flags);
--	acm->throttled = acm->throttle_req;
--	if (!acm->throttled) {
--		spin_unlock_irqrestore(&acm->read_lock, flags);
--		acm_submit_read_urb(acm, rb->index, GFP_ATOMIC);
--	} else {
--		spin_unlock_irqrestore(&acm->read_lock, flags);
--	}
-+	if (test_bit(ACM_THROTTLED, &acm->flags))
-+		return;
-+
-+	acm_submit_read_urb(acm, rb->index, GFP_ATOMIC);
- }
- 
- /* data interface wrote those outgoing bytes */
-@@ -670,10 +664,7 @@ static int acm_port_activate(struct tty_port *port, struct tty_struct *tty)
- 	/*
- 	 * Unthrottle device in case the TTY was closed while throttled.
- 	 */
--	spin_lock_irq(&acm->read_lock);
--	acm->throttled = 0;
--	acm->throttle_req = 0;
--	spin_unlock_irq(&acm->read_lock);
-+	clear_bit(ACM_THROTTLED, &acm->flags);
- 
- 	retval = acm_submit_read_urbs(acm, GFP_KERNEL);
- 	if (retval)
-@@ -841,27 +832,19 @@ static void acm_tty_throttle(struct tty_struct *tty)
- {
- 	struct acm *acm = tty->driver_data;
- 
--	spin_lock_irq(&acm->read_lock);
--	acm->throttle_req = 1;
--	spin_unlock_irq(&acm->read_lock);
-+	set_bit(ACM_THROTTLED, &acm->flags);
- }
- 
- static void acm_tty_unthrottle(struct tty_struct *tty)
- {
- 	struct acm *acm = tty->driver_data;
--	unsigned int was_throttled;
- 
--	spin_lock_irq(&acm->read_lock);
--	was_throttled = acm->throttled;
--	acm->throttled = 0;
--	acm->throttle_req = 0;
--	spin_unlock_irq(&acm->read_lock);
-+	clear_bit(ACM_THROTTLED, &acm->flags);
- 
- 	/* Matches the smp_mb__after_atomic() in acm_read_bulk_callback(). */
- 	smp_mb();
- 
--	if (was_throttled)
--		acm_submit_read_urbs(acm, GFP_KERNEL);
-+	acm_submit_read_urbs(acm, GFP_KERNEL);
- }
- 
- static int acm_tty_break_ctl(struct tty_struct *tty, int state)
-diff --git a/drivers/usb/class/cdc-acm.h b/drivers/usb/class/cdc-acm.h
-index 515aad0847ee..ca1c026382c2 100644
---- a/drivers/usb/class/cdc-acm.h
-+++ b/drivers/usb/class/cdc-acm.h
-@@ -108,6 +108,7 @@ struct acm {
- 	unsigned long flags;
- #		define EVENT_TTY_WAKEUP	0
- #		define EVENT_RX_STALL	1
-+#		define ACM_THROTTLED	2
- 	struct usb_cdc_line_coding line;		/* bits, stop, parity */
- 	struct work_struct work;			/* work queue entry for line discipline waking up */
- 	unsigned int ctrlin;				/* input control lines (DCD, DSR, RI, break, overruns) */
-@@ -122,8 +123,6 @@ struct acm {
- 	unsigned int ctrl_caps;				/* control capabilities from the class specific header */
- 	unsigned int susp_count;			/* number of suspended interfaces */
- 	unsigned int combined_interfaces:1;		/* control and data collapsed */
--	unsigned int throttled:1;			/* actually throttled */
--	unsigned int throttle_req:1;			/* throttle requested */
- 	u8 bInterval;
- 	struct usb_anchor delayed;			/* writes queued for a device about to be woken */
- 	unsigned long quirks;
--- 
-2.21.0
-
+thanks
+-john
