@@ -2,15 +2,20 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/5] usb: dwc2: Move UTMI_PHY_DATA defines closer
-From: Felipe Balbi <felipe.balbi@linux.intel.com>
-Message-Id: <87ef5qs0vz.fsf@linux.intel.com>
-Date: Thu, 25 Apr 2019 15:52:16 +0300
-To: Jules Maselbas <jmaselbas@kalray.eu>, Minas Harutyunyan <hminas@synopsys.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Pierre-Yves Kerbrat <pkerbrat@kalray.eu>, linux-usb@vger.kernel.org
+From: Jules Maselbas <jmaselbas@kalray.eu>
+Message-Id: <20190425153018.a6npobdvje2o4mld@tellis.lin.mbt.kalray.eu>
+Date: Thu, 25 Apr 2019 17:33:32 +0200
+To: Felipe Balbi <felipe.balbi@linux.intel.com>
+Cc: Minas Harutyunyan <hminas@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Pierre-Yves Kerbrat <pkerbrat@kalray.eu>, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-SnVsZXMgTWFzZWxiYXMgPGptYXNlbGJhc0BrYWxyYXkuZXU+IHdyaXRlczoKCj4gTWFrZXMgR0hX
-Q0ZHNF9VVE1JX1BIWV9EQVRBKiBkZWZpbmVzIGNsb3NlciB0byB0aGVpciByZWxhdGl2ZSBzaGlm
-dCBhbmQKPiBtYXNrIGRlZmluZXMgdG8gaW1wcm92ZSByZWFkYWJpbGl0eS4KPgo+IFNpZ25lZC1v
-ZmYtYnk6IEp1bGVzIE1hc2VsYmFzIDxqbWFzZWxiYXNAa2FscmF5LmV1PgoKRG9lc24ndCBhcHBs
-eS4gUGxlYXNlIG1ha2Ugc3VyZSB0byByZWJhc2Ugb24gdGVzdGluZy9uZXh0Cg==
+SGkgRmVsaXBlLAoKT24gVGh1LCBBcHIgMjUsIDIwMTkgYXQgMDM6NTI6MTZQTSArMDMwMCwgRmVs
+aXBlIEJhbGJpIHdyb3RlOgo+IEp1bGVzIE1hc2VsYmFzIDxqbWFzZWxiYXNAa2FscmF5LmV1PiB3
+cml0ZXM6Cj4gCj4gPiBNYWtlcyBHSFdDRkc0X1VUTUlfUEhZX0RBVEEqIGRlZmluZXMgY2xvc2Vy
+IHRvIHRoZWlyIHJlbGF0aXZlIHNoaWZ0IGFuZAo+ID4gbWFzayBkZWZpbmVzIHRvIGltcHJvdmUg
+cmVhZGFiaWxpdHkuCj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogSnVsZXMgTWFzZWxiYXMgPGptYXNl
+bGJhc0BrYWxyYXkuZXU+Cj4gCj4gRG9lc24ndCBhcHBseS4gUGxlYXNlIG1ha2Ugc3VyZSB0byBy
+ZWJhc2Ugb24gdGVzdGluZy9uZXh0CgpJJ3ZlIGFwcGxpZWQgdGhpcyBwYXRjaCBzZXJpZSBvbiB2
+NS4xLXJjNiBhbmQgSSBkaWRuJ3Qgc2F3IGFueSBwcm9ibGVtcy4KSSBhbHNvIGZvdW5kIHRoYXQg
+dGhlc2VzIHBhdGNocyBhcmUgYWxyZWFkeSBpbmNsdWRlZCBpbiB0ZXN0aW5nL25leHQuCkRpZCBJ
+IG1pc3Mgc29tZXRoaW5nPyAKCgpSZWdhcmRzLAotLS0KSnVsZXMK
