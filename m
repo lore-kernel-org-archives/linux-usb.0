@@ -2,90 +2,135 @@ Return-Path: <SRS0=WMKl=S3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_MUTT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA4EDC43219
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 15:35:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94E0AC43219
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 15:40:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 171F9206C0
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 15:35:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C8555206C1
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 15:40:48 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AXvyrbrZ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728412AbfDYPfs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Apr 2019 11:35:48 -0400
-Received: from zeniv.linux.org.uk ([195.92.253.2]:47236 "EHLO
-        ZenIV.linux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726229AbfDYPfr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 11:35:47 -0400
-Received: from viro by ZenIV.linux.org.uk with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1hJgPO-0002EI-Tp; Thu, 25 Apr 2019 15:35:35 +0000
-Date:   Thu, 25 Apr 2019 16:35:34 +0100
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, linux-fsdevel@vger.kernel.org,
-        y2038@lists.linaro.org, linux-kernel@vger.kernel.org,
-        Jason Gunthorpe <jgg@mellanox.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        id S1726282AbfDYPkr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Apr 2019 11:40:47 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:45655 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725942AbfDYPkr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 11:40:47 -0400
+Received: by mail-pf1-f195.google.com with SMTP id e24so86046pfi.12
+        for <linux-usb@vger.kernel.org>; Thu, 25 Apr 2019 08:40:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=c9Y7B+CeLYhx3Q0s+6+K+1WBb1zBEwhZDiIr8GtHvto=;
+        b=AXvyrbrZwlrD48HT5WD5NUZnt5xXqnZnQNBABQU/t2W7a8lP9YG+5m1l8w+KytSbCw
+         /H6lMMo4es7fbOmLfiDyZNiIEtNy4Nbl+L1EAV+CbsuBkSTA42g42GlEUwCcQahQpgss
+         /ItIvK9ypHOoO7hJRk7fjTq5LZndyQVZT0/W4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=c9Y7B+CeLYhx3Q0s+6+K+1WBb1zBEwhZDiIr8GtHvto=;
+        b=hUaus3ElQHrthDz3FZkfOk7z70XBJ2i+QNIYp8YBdPtaJwa/wVGYlTdTI/b1L1kiMH
+         Ju9Vs6rpZqhVRgjZktIKDWxI5HKb7d9qhmxo8eRcVs5KIbu/tWjLd1f/sQVPvolKhatR
+         we+TQ7r7+ePjnN0h/d8due0nwrynnayXLrN2h4smxgfKtd3YIRy9y1qSf39iTv7Q8BUx
+         WWsc++BF4hM6SshMsTGtoOMWFeRCuIlA36LHfMOv2KCk0SDiWWVMy05kvGoE/RrkY/I3
+         LmTdLBxraECqqJTfu3uPM4nlWrLdL7s/HWHd3Sj1N8MmJCNkUOlzLzFiHXGZ7WLnlok6
+         gRgQ==
+X-Gm-Message-State: APjAAAVp98xJi1xLRC3Af0idBiTbcE9Esbl1k5UgY59LtWP/jno/LXuo
+        ivcZgEceSvMKX9qmYX43EEP4Ig==
+X-Google-Smtp-Source: APXvYqzQnDnl7mNs9HRmGlyygBTArTSR9rk+i9bJ8k6dviK9WGY2nAvBBtYp0aXc7qqkLpzqfvbg1A==
+X-Received: by 2002:aa7:9116:: with SMTP id 22mr33822675pfh.165.1556206846715;
+        Thu, 25 Apr 2019 08:40:46 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:202:1:24fa:e766:52c9:e3b2])
+        by smtp.gmail.com with ESMTPSA id j9sm49948689pfc.43.2019.04.25.08.40.45
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 25 Apr 2019 08:40:46 -0700 (PDT)
+From:   Douglas Anderson <dianders@chromium.org>
+To:     Minas Harutyunyan <hminas@synopsys.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>
+Cc:     Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
+        amstan@chromium.org, Heiko Stuebner <heiko@sntech.de>,
+        linux-rockchip@lists.infradead.org, linux-usb@vger.kernel.org,
+        Randy Li <ayaka@soulik.info>, mka@chromium.org,
+        ryandcase@chromium.org, jwerner@chromium.org,
+        Elaine Zhang <zhangqing@rock-chips.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        kbuild test robot <lkp@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Sterba <dsterba@suse.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        devel@driverdev.osuosl.org, qat-linux@intel.com,
-        linux-crypto@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-nvdimm@lists.01.org, linux-nvme@lists.infradead.org,
-        linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        Sean Young <sean@mess.org>
-Subject: Re: [PATCH v3 12/26] compat_ioctl: move more drivers to
- compat_ptr_ioctl
-Message-ID: <20190425153534.GS2217@ZenIV.linux.org.uk>
-References: <20190416202013.4034148-1-arnd@arndb.de>
- <20190416202701.127745-1-arnd@arndb.de>
- <20190425122153.450fc094@coco.lan>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: dwc2: Fix phy_reset_work compile error for peripheral-only config
+Date:   Thu, 25 Apr 2019 08:40:20 -0700
+Message-Id: <20190425154021.4465-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.21.0.593.g511ec345e18-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20190425122153.450fc094@coco.lan>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190425153534.SuaSrDqHG55-vmFXgrIeEe5U-oOwys1idY5bC8eUibU@z>
+Content-Type: text/plain; charset="UTF-8"
+Message-ID: <20190425154020.VkiuXpf5jnAzbnT4FwOfZ78RI1Oav1vngGSLTLE32P0@z>
 
-On Thu, Apr 25, 2019 at 12:21:53PM -0300, Mauro Carvalho Chehab wrote:
+In commit a0a493835f9a ("usb: dwc2: optionally assert phy reset when
+waking up") I added to code that is compiled in both the host and
+peripheral configs but it referenced a structure member that I added
+to a section that was only there for host or dual-mode configs.  That
+led to the compile error:
 
-> If I understand your patch description well, using compat_ptr_ioctl
-> only works if the driver is not for s390, right?
+>> drivers/usb/dwc2/core_intr.c:448:25: error: 'struct dwc2_hsotg' has no member named 'phy_reset_work'
 
-No; s390 is where "oh, just set ->compat_ioctl same as ->unlocked_ioctl
-and be done with that; compat_ptr() is a no-op anyway" breaks.  IOW,
-s390 is the reason for having compat_ptr_ioctl() in the first place;
-that thing works on all biarch architectures, as long as all stuff
-handled by ->ioctl() takes pointer to arch-independent object as
-argument.  IOW,
-	argument ignored => OK
-	any arithmetical type => no go, compat_ptr() would bugger it
-	pointer to int => OK
-	pointer to string => OK
-	pointer to u64 => OK
-	pointer to struct {u64 addr; char s[11];} => OK
-	pointer to long => needs explicit handler
-	pointer to struct {void *addr; char s[11];} => needs explicit handler
-	pointer to struct {int x; u64 y;} => needs explicit handler on amd64
-For "just use ->unlocked_ioctl for ->ioctl" we have
-	argument ignored => OK
-	any arithmetical type => OK
-	any pointer => instant breakage on s390, in addtion to cases that break
-with compat_ptr_ioctl().
+We'll add a little helper function to schedule the work and then we
+can have a dummy version of that helper in peripheral-only mode.
 
-Probably some form of that ought to go into commit message for compat_ptr_ioctl()
-introduction...
+Fixes: a0a493835f9a ("usb: dwc2: optionally assert phy reset when waking up")
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+
+ drivers/usb/dwc2/core.h      | 3 +++
+ drivers/usb/dwc2/core_intr.c | 2 +-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/dwc2/core.h b/drivers/usb/dwc2/core.h
+index 6698c7097499..152ac41dfb2d 100644
+--- a/drivers/usb/dwc2/core.h
++++ b/drivers/usb/dwc2/core.h
+@@ -1438,6 +1438,8 @@ int dwc2_restore_host_registers(struct dwc2_hsotg *hsotg);
+ int dwc2_host_enter_hibernation(struct dwc2_hsotg *hsotg);
+ int dwc2_host_exit_hibernation(struct dwc2_hsotg *hsotg,
+ 			       int rem_wakeup, int reset);
++static inline void dwc2_host_schedule_phy_reset(struct dwc2_hsotg *hsotg)
++{ schedule_work(&hsotg->phy_reset_work); }
+ #else
+ static inline int dwc2_hcd_get_frame_number(struct dwc2_hsotg *hsotg)
+ { return 0; }
+@@ -1461,6 +1463,7 @@ static inline int dwc2_host_enter_hibernation(struct dwc2_hsotg *hsotg)
+ static inline int dwc2_host_exit_hibernation(struct dwc2_hsotg *hsotg,
+ 					     int rem_wakeup, int reset)
+ { return 0; }
++static inline void dwc2_host_schedule_phy_reset(struct dwc2_hsotg *hsotg) {}
+ 
+ #endif
+ 
+diff --git a/drivers/usb/dwc2/core_intr.c b/drivers/usb/dwc2/core_intr.c
+index 16ff33574116..6af6add3d4c0 100644
+--- a/drivers/usb/dwc2/core_intr.c
++++ b/drivers/usb/dwc2/core_intr.c
+@@ -445,7 +445,7 @@ static void dwc2_handle_wakeup_detected_intr(struct dwc2_hsotg *hsotg)
+ 			 * schedule it for later.
+ 			 */
+ 			if (hsotg->reset_phy_on_wake)
+-				schedule_work(&hsotg->phy_reset_work);
++				dwc2_host_schedule_phy_reset(hsotg);
+ 
+ 			mod_timer(&hsotg->wkp_timer,
+ 				  jiffies + msecs_to_jiffies(71));
+-- 
+2.21.0.593.g511ec345e18-goog
+
