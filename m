@@ -2,150 +2,102 @@ Return-Path: <SRS0=WMKl=S3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,T_DKIMWL_WL_HIGH,
-	URIBL_BLOCKED,USER_AGENT_MUTT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A93E4C43219
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 14:25:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D8FEC43218
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 14:30:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A36392077C
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 14:25:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1556202354;
-	bh=rTeAolsAvvk41cjk44y1F4qpwyBD7MAORyG56/7wJYs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=Z+0Y9nafQnL6swPjVsmg2iG6lGdQyGLjc0g+N8DHTlLJy8mpVkCA9R1iBkKeq5hd5
-	 K38W4M0ZzBa+oM74Aoro38QAN0FAzTRr8fr3BPDVqsvHC5H9UDTMz/5ySixyeyoNsE
-	 4MLH1oj7UPOlpS3kAl1tSNqOgxHh9QYyzZF+gdAg=
+	by mail.kernel.org (Postfix) with ESMTP id 8B78620717
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 14:30:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726048AbfDYOZy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Apr 2019 10:25:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37930 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725959AbfDYOZx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 25 Apr 2019 10:25:53 -0400
-Received: from localhost (62-193-50-229.as16211.net [62.193.50.229])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 208C6206C1;
-        Thu, 25 Apr 2019 14:25:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1556202352;
-        bh=rTeAolsAvvk41cjk44y1F4qpwyBD7MAORyG56/7wJYs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eB/0Ync1khk47r+blPiIMlXSDCJriZOfQT++/he3myBEzXZ3t+TnUEGUZWqfurH3F
-         hw63WNGJWnx2xSgHV6rbuxMunIM5ncrBUqTrLvu72EgX9chVamw2ns3V5EffOj6AdS
-         7Xf/Zau0daaVTYbqMu8UTOdFu+2dnWnQVibSXKxc=
-Date:   Thu, 25 Apr 2019 16:25:16 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Andrey Konovalov <andreyknvl@google.com>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        USB list <linux-usb@vger.kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Alexander Potapenko <glider@google.com>
-Subject: Re: USB fuzzing with syzbot
-Message-ID: <20190425142516.GA28336@kroah.com>
-References: <CAAeHK+z+d=Gh4j1VSsEtLuYUpd7-T3Cu1ww0-5otSE5kDTgMGA@mail.gmail.com>
- <20190419083529.GD28648@kroah.com>
- <CAAeHK+zOg=SKynp85f9xQm56V1NzDrECaxBBu8UcBj_HBj9=+Q@mail.gmail.com>
- <CAAeHK+xGGfK03UqNKhXsogTer3dBNbvEEOk4y3dN0Y-xkcOz8Q@mail.gmail.com>
+        id S1726058AbfDYOan convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Apr 2019 10:30:43 -0400
+Received: from mail1.bemta24.messagelabs.com ([67.219.250.5]:41392 "EHLO
+        mail1.bemta24.messagelabs.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726039AbfDYOan (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 10:30:43 -0400
+Received: from [67.219.250.101] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+        by server-5.bemta.az-a.us-west-2.aws.symcld.net id A6/61-26731-194C1CC5; Thu, 25 Apr 2019 14:30:41 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrOKsWRWlGSWpSXmKPExsXi5LtOQHfikYM
+  xBmsuMFssWtbKbDH1701Giwm/L7A5MHvsnHWX3WP23R+MHp83yQUwR7Fm5iXlVySwZtxbpliw
+  jbPiZu98tgbGFexdjJwcQgJ7GSXuno0DsdkEDCXObXkLFhcR0JLY3PSSGcRmFvCT+HSkmxXEF
+  hYwl/j5rpkJosZCYt/yZVC2lUT7ucNsIDaLgKrE3K3rwObwClhLXP7ewwaxy0fiwq5GsDmcAr
+  4Sd350gdmMAmIS30+tYYLYJS5x68l8MFtCQEBiyZ7zzBC2qMTLx/9YIWwFieYFC9kh6nUkFuz
+  +xAZhm0tsfL0Rao62xLKFr5khbhCUODnzCcsERpFZSFbMQtI+C0n7LCTts5C0L2BkXcVokVSU
+  mZ5RkpuYmaNraGCga2hopGtobKhrZGCsl1ilm6hXWqxbnlpcomukl1herFdcmZuck6KXl1qyi
+  REYcSkFzad3MF5tST/EKMnBpCTKWz39YIwQX1J+SmVGYnFGfFFpTmrxIUYZDg4lCd7UQ0A5wa
+  LU9NSKtMwcYOzDpCU4eJREeF0OA6V5iwsSc4sz0yFSpxgtOQ4sejiXmePewedAcsHNX/OYhVj
+  y8vNSpcR52UEaBEAaMkrz4MbB0tMlRlkpYV5GBgYGIZ6C1KLczBJU+VeM4hyMSsK8S0Cm8GTm
+  lcBtfQV0EBPQQfUWB0AOKklESEk1MEZafl14qPR9tf6kKctZu/ikQ9TlA3YU/toj1hHPoqZ2Q
+  31C1sm35gW7OrSnB1ruUOjUdzv0LXzWjI6ci1WGH+TWhiZ/XrRqloVtdpb51t3i05Zf8fQ0D9
+  nxX0X9Xu7kemYWsUk3VcT9Z5+qeZPw7dqch4u6/h96FHSsif3gDn33G3sZj5T/PKLEUpyRaKj
+  FXFScCAB2PU9BSgMAAA==
+X-Env-Sender: Seth.Bollinger@digi.com
+X-Msg-Ref: server-15.tower-325.messagelabs.com!1556202640!8831468!1
+X-Originating-IP: [66.77.174.16]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.31.5; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 28170 invoked from network); 25 Apr 2019 14:30:40 -0000
+Received: from owa.digi.com (HELO MCL-VMS-XCH01.digi.com) (66.77.174.16)
+  by server-15.tower-325.messagelabs.com with SMTP; 25 Apr 2019 14:30:40 -0000
+Received: from MTK-SMS-XCH01.digi.com ([fe80::cca7:5299:c88e:1c40]) by
+ MCL-VMS-XCH01.digi.com ([fe80::5587:821d:f8e4:6578%13]) with mapi id
+ 14.03.0439.000; Thu, 25 Apr 2019 09:30:40 -0500
+From:   "Bollinger, Seth" <Seth.Bollinger@digi.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+CC:     USB list <linux-usb@vger.kernel.org>,
+        Seth Bollinger <seth.boll@gmail.com>
+Subject: Re: Command ring abort xhci_handshake question
+Thread-Topic: Command ring abort xhci_handshake question
+Thread-Index: AQHU+2rlrmvb0LXs+0WHTNi8akADJ6ZNQZmAgAACS4A=
+Date:   Thu, 25 Apr 2019 14:30:39 +0000
+Message-ID: <1CE041A0-34AC-4660-B9A1-14CEA66DC257@digi.com>
+References: <Pine.LNX.4.44L0.1904251021290.1503-100000@iolanthe.rowland.org>
+In-Reply-To: <Pine.LNX.4.44L0.1904251021290.1503-100000@iolanthe.rowland.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.27.1.153]
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <40FE70BBD78C6C4696AD585C24387D66@digi.com>
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAeHK+xGGfK03UqNKhXsogTer3dBNbvEEOk4y3dN0Y-xkcOz8Q@mail.gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Apr 25, 2019 at 02:44:11PM +0200, Andrey Konovalov wrote:
-> On Wed, Apr 24, 2019 at 6:05 PM Andrey Konovalov <andreyknvl@google.com> wrote:
-> >
-> > On Fri, Apr 19, 2019 at 10:35 AM Greg Kroah-Hartman
-> > <gregkh@linuxfoundation.org> wrote:
-> > >
-> > > > 2. Is there an easy way to figure out which config options enable
-> > > > drivers reachable over USB?
-> > >
-> > > Looking for all options that depend on USB is a good start.
-> > >
-> > > > Right now our kernel config is based on one of the Debian kernel
-> > > > configs, that supposedly enables enough relevant USB drivers. At the
-> > > > same time it enables a lot of other unnecessary stuff, which makes the
-> > > > kernel big and long to compile. Ideally, we would to have a way to
-> > > > auto-generate a kernel config that enables all the relevant (enabled
-> > > > by at least one of the distros) USB drivers. I've looked at whether
-> > > > it's possible to figure out which particular options in some kernel
-> > > > config are related to USB, but it seems that neither the option names,
-> > > > nor the way they are grouped in the config file, are representative
-> > > > enough.
-> > >
-> > > Yeah, it's hard to just carve out this type of configuration, but here's
-> > > what I have done in the past to try to be sure I enabled all USB drivers
-> > > in my kernel configuration.
-> > >
-> > > First, start with a "minimally working configuration" by running:
-> > >         make localmodconfig
-> > > on a working system, with the needed modules for booting and operating
-> > > properly already loaded.
-> > >
-> > > That gives you a .config file that should take only minutes to build,
-> > > compared to much longer for the normal distro configuration (also be
-> > > sure to disable some debugging options so you don't spend extra time
-> > > building and stripping symbols).
-> > >
-> > > Boot and make sure that configuration works.
-> > >
-> > > Then, take that .config and do:
-> > >         - disable USB from the configuration by deleting the:
-> > >                 CONFIG_USB_SUPPORT=y
-> > >           option from your .config
-> > >         - run 'make oldconfig' to disable all USB drivers
-> > >         - turn USB back on by setting CONFIG_USB_SUPPORT=y back on in
-> > >           your .config
-> > >         - run 'make oldconfig' and answer 'y' or 'm' to all of the
-> > >           driver options you are presented with.
-> > >
-> > > That usually catches almost all of them.  Sometimes you need to make
-> > > sure you have some other subsystem enabled (like SCSI), but odds are, if
-> > > you start with a "normally stripped down" configuration that works, you
-> > > should be fine.
-> >
-> > I suspect that make localmodconfig (+ switching CONFIG_USB_SUPPORT off
-> > and on) would likely include a lot of stuff that we don't need (there
-> > are many options that are =y, but not related to USB at all), but it
-> > definitely sounds better than what I have right now (converting almost
-> > all =m into =y). I'll give it a shot, thanks!
-> 
-> I've tried this and unfortunately it doesn't work as desired. The
-> reason is that localmodconfig will only enable options for the modules
-> that are currently loaded, and if a module that some USB driver
-> depends on is not loaded, then this driver won't be enabled after yes
-> | make oldconfig. For example my machine didn't have the cfg80211
-> module loaded, and thus e.g. CONFIG_AT76C50X_USB didn't get enabled
-> after oldconfig. However when I plug in a wireless USB adapter,
-> cfg80211 gets loaded together with the USB driver for that adapter. I
-> guess the same applies to other kinds of dependency modules (e.g.
-> bluetooth). So this would only work if all the dependency modules are
-> already loaded.
+> On Apr 25, 2019, at 9:22 AM, Alan Stern <stern@rowland.harvard.edu> wrote:
+>
+> Are you certain that those places with the very long timeouts are 
+> called with interrupts disabled?
 
-Yes, sorry, I thought I said that with:
+I must admit, I have not reviewed all uses of the long xhci_handshakes.  :)  I have reviewed the following instance.
 
-> > > First, start with a "minimally working configuration" by running:
-> > >         make localmodconfig
-> > > on a working system, with the needed modules for booting and operating
-> > > properly already loaded.
+In usb/host/xhci-ring.c:xhci_abort_cmd_ring():
 
-I guess "working system" implied everything that you _knew_ you wanted
-to have loaded :)
+    ret = xhci_handshake(&xhci->op_regs->cmd_ring,
+            CMD_RING_RUNNING, 0, 5 * 1000 * 1000);
+    if (ret < 0) {
+        xhci_err(xhci, "Abort failed to stop command ring: %d\n", ret);
+        xhci_halt(xhci);
+        xhci_hc_died(xhci);
+        return ret;
+    }
+    /*
+     * Writing the CMD_RING_ABORT bit should cause a cmd completion event,
+     * however on some host hw the CMD_RING_RUNNING bit is correctly cleared
+     * but the completion event in never sent. Wait 2 secs (arbitrary
+     * number) to handle those cases after negation of CMD_RING_RUNNING.
+     */
+    spin_unlock_irqrestore(&xhci->lock, flags);
 
-Sorry about the dependancy mess, hopefully you have sorted this out
-better now.
+The spin_unlock occurs before the completion wait, so I assume that interrupts are disabled in the spin above.  Also, the system does nothing during this period.  No SSH, no serial, no log messages, etc.
 
-thanks,
+Seth
 
-greg k-h
