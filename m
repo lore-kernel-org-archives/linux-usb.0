@@ -7,64 +7,65 @@ X-Spam-Status: No, score=-4.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2232BC43218
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 18:10:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 251DAC43219
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 19:58:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A6D0320685
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 18:10:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 27609206BA
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 19:58:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fndoZu57"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="G/9crnaE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727159AbfDYSKP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Apr 2019 14:10:15 -0400
-Received: from mail-ua1-f66.google.com ([209.85.222.66]:34954 "EHLO
-        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726758AbfDYSKO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 14:10:14 -0400
-Received: by mail-ua1-f66.google.com with SMTP id g16so300340uad.2
-        for <linux-usb@vger.kernel.org>; Thu, 25 Apr 2019 11:10:14 -0700 (PDT)
+        id S1730086AbfDYT60 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Apr 2019 15:58:26 -0400
+Received: from mail-vs1-f67.google.com ([209.85.217.67]:46681 "EHLO
+        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726125AbfDYT60 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 15:58:26 -0400
+Received: by mail-vs1-f67.google.com with SMTP id e2so571491vsc.13
+        for <linux-usb@vger.kernel.org>; Thu, 25 Apr 2019 12:58:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=TQLgG97dgP+LAcJARy+HeEVPUWpQAXRDJse4J8Yqksc=;
-        b=fndoZu57/uSjDnDsOB8vKFRDbouEL0l5f/xch1VjgyLz9v1vZ5DmF7dh1EeXxqzMHt
-         MEINOdPyCer56YQiGTGCzyIgIVwjUQiYOzRX8tyBbXB2Q0+5iaOXps3DuqZpLC3rLFIU
-         YewgAH2ZA4cLnl0GCLlvS1LHbf8unD/6+sj0k=
+        bh=1iwN7Z7FCvjRO1zWepxXWRLEDswXrQAlZY84YrkKRyk=;
+        b=G/9crnaExz4j3NUZrA1xwUhpt8QUCnwHzOkmKV8ElWAiiYe0eua9gA/8IX3aJQeDtf
+         aI+0qGisF0X1Sukvr/Z77t5NN9wi5HLTQ4m5PHknalRy4FrrZSIL2N79D1ELF+7y5Dks
+         criecb8jD7mHKbvky3N2NvcPGXtP5nGyekU5c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=TQLgG97dgP+LAcJARy+HeEVPUWpQAXRDJse4J8Yqksc=;
-        b=fbKcEHqFowQ9yGKiCIvMZTdmW4Z6ZjKcYYKY5Of2DnX31J30fm8FVbpkZRoI6ShO+x
-         p3aPlSdwe6I+lc/MLYFLFGo4UDo8HG7s430wj9dtAMKlMEGPsJV4NM3JR1Hw6mELDhDM
-         O0tmEubb9374SrBSy+MxvC0I5r4WcPWmtgUapPiZXkpe8hjedxixkUWFZL6yYGn7HvDa
-         ylIfyS4qyOhcsZqjnICuCY+wf5ILNdQgD5LNOR4gB2iikIzi7b0UQ2S/Nk/Va6COtCmw
-         DB8kJ00CVS+M6xDsCJI+JKqwrVHWmS/9jDrYObAO285j3eHAsmSO7oYGqSlEHSrQl2RP
-         w27A==
-X-Gm-Message-State: APjAAAUK+hllotdkzhyswj7o//oDOPHVVoWou4I43HKfbRLxoS1Tkj2W
-        +EAbXOnj8ww9iOguBwJwLf4Gb6HVdUo=
-X-Google-Smtp-Source: APXvYqxhMSwE6eDZCsYyDPUkdCNhNIZAF9j/U3Jy41xvv38dbuudIlnMq9P7VwyYnVh2N9CFWMhXRg==
-X-Received: by 2002:a9f:360c:: with SMTP id r12mr1073351uad.51.1556215813670;
-        Thu, 25 Apr 2019 11:10:13 -0700 (PDT)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
-        by smtp.gmail.com with ESMTPSA id r21sm4331178uao.12.2019.04.25.11.10.11
+        bh=1iwN7Z7FCvjRO1zWepxXWRLEDswXrQAlZY84YrkKRyk=;
+        b=qvu+L+UXcZiKFZj/1z6VKFw7JLuteGKNhX71PHVZ1Ooqa0RxNWB6nR4DS1bufbbnJ0
+         /9TCx+ombaTUEpafuLDDxvpRq3uaVve3/QqZdEs0PZymDiU7tzJZhxKb+bTAGM6qbCtm
+         LmrYsNzsPPFa4mCWbjpn3hOqIn4g9jjjrluKaC8n3Kf8S1C+UrWDSvdcJTyrQoLnFcOx
+         USHAZSaLXSa8/lUWs+H6v6LA95apqkCXHZw+iTL1RizZSnzLrqLnNkv05RpIIZqQdwIV
+         A/I2AEI/+C6omTk8tTC7x+P6bscn+BRjkpPzGWLNGMKLAIbFgfrqWiUppUjEG3Dz7osu
+         I3Cw==
+X-Gm-Message-State: APjAAAXoaUz3Qo9bJaceaho5CJI0ntMhL1ZeGiJ0Czyde6BWNRJp45J+
+        pMgNes6KWxvYfQt//ncms1nPk06vz1Y=
+X-Google-Smtp-Source: APXvYqzQRAPEEFNsXeQq5RtpdnxU76uk4ocyGFHHtimiAjLE3RqPS2Qeq4yqhKMdkk8xPlOf/P85xg==
+X-Received: by 2002:a67:ea0b:: with SMTP id g11mr1329043vso.130.1556222305299;
+        Thu, 25 Apr 2019 12:58:25 -0700 (PDT)
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com. [209.85.221.182])
+        by smtp.gmail.com with ESMTPSA id g19sm5904128vkf.33.2019.04.25.12.58.22
         for <linux-usb@vger.kernel.org>
         (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Apr 2019 11:10:11 -0700 (PDT)
-Received: by mail-ua1-f45.google.com with SMTP id p13so279961uaa.11
-        for <linux-usb@vger.kernel.org>; Thu, 25 Apr 2019 11:10:11 -0700 (PDT)
-X-Received: by 2002:a9f:204a:: with SMTP id 68mr2037252uam.19.1556215810968;
- Thu, 25 Apr 2019 11:10:10 -0700 (PDT)
+        Thu, 25 Apr 2019 12:58:22 -0700 (PDT)
+Received: by mail-vk1-f182.google.com with SMTP id 195so248723vkx.9
+        for <linux-usb@vger.kernel.org>; Thu, 25 Apr 2019 12:58:22 -0700 (PDT)
+X-Received: by 2002:a1f:9991:: with SMTP id b139mr21625257vke.73.1556222301650;
+ Thu, 25 Apr 2019 12:58:21 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190418001356.124334-1-dianders@chromium.org>
  <20190418001356.124334-4-dianders@chromium.org> <87pnpas1fx.fsf@linux.intel.com>
-In-Reply-To: <87pnpas1fx.fsf@linux.intel.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Thu, 25 Apr 2019 11:09:59 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=V=6dUkXAsX0+XR2y=688VcyDa8aPvD8JkKHTFZrs=YDg@mail.gmail.com>
-Message-ID:
  <CAD=FV=V=6dUkXAsX0+XR2y=688VcyDa8aPvD8JkKHTFZrs=YDg@mail.gmail.com>
+In-Reply-To: <CAD=FV=V=6dUkXAsX0+XR2y=688VcyDa8aPvD8JkKHTFZrs=YDg@mail.gmail.com>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Thu, 25 Apr 2019 12:58:10 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WA07+gUkVvsikN=iDHZLUJQtzjkKtiBHAEDw4gLNWY7w@mail.gmail.com>
+Message-ID:
+ <CAD=FV=WA07+gUkVvsikN=iDHZLUJQtzjkKtiBHAEDw4gLNWY7w@mail.gmail.com>
 Subject: Re: [PATCH v2 3/5] Documentation: dt-bindings: Add
  snps,need-phy-for-wake for dwc2 USB
 To:     Felipe Balbi <felipe.balbi@linux.intel.com>
@@ -92,61 +93,116 @@ Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190425180959.N6XZzFTvq81a54XoNsBwacRiqxb9dvjOBQEVEFVrljg@z>
+Message-ID: <20190425195810.LEHArwppV-updvu1MfZb64O8iYmSpA44ZBVB0IIjexY@z>
 
 Hi,
 
-On Thu, Apr 25, 2019 at 5:40 AM Felipe Balbi
-<felipe.balbi@linux.intel.com> wrote:
+On Thu, Apr 25, 2019 at 11:09 AM Doug Anderson <dianders@chromium.org> wrote:
 >
-> Douglas Anderson <dianders@chromium.org> writes:
+> Hi,
 >
-> > Some SoCs with a dwc2 USB controller may need to keep the PHY on to
-> > support remote wakeup.  Allow specifying this as a device tree
-> > property.
+> On Thu, Apr 25, 2019 at 5:40 AM Felipe Balbi
+> <felipe.balbi@linux.intel.com> wrote:
 > >
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> > ---
-> > For relevant prior discussion on this patch, see:
+> > Douglas Anderson <dianders@chromium.org> writes:
 > >
-> > https://lkml.kernel.org/r/1435017144-2971-3-git-send-email-dianders@chromium.org
+> > > Some SoCs with a dwc2 USB controller may need to keep the PHY on to
+> > > support remote wakeup.  Allow specifying this as a device tree
+> > > property.
+> > >
+> > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> > > ---
+> > > For relevant prior discussion on this patch, see:
+> > >
+> > > https://lkml.kernel.org/r/1435017144-2971-3-git-send-email-dianders@chromium.org
+> > >
+> > > I didn't make any changes from the prior version since I never found
+> > > out what Rob thought of my previous arguments.  If folks want a
+> > > change, perhaps they could choose from these options:
+> > >
+> > > 1. Assume that all dwc2 hosts would like to keep their PHY on for
+> > >    suspend if there's a USB wakeup enabled, thus we totally drop this
+> > >    binding.  This doesn't seem super great to me since I'd bet that
+> > >    many devices that use dwc2 weren't designed for USB wakeup (they
+> > >    may not keep enough clocks or rails on) so we might be wasting
+> > >    power for nothing.
+> > > 2. Rename this property to "snps,wakeup-from-suspend-with-phy" to make
+> > >    it more obvious that this property is intended both to document
+> > >    that wakeup from suspend is possible and that we need the PHY for
+> > >    said wakeup.
+> > > 3. Rename this property to "snps,can-wakeup-from-suspend" and assume
+> > >    it's implicit that if we can wakeup from suspend that we need to
+> > >    keep the PHY on.  If/when someone shows that a device exists using
+> > >    dwc2 where we can wakeup from suspend without the PHY they can add
+> > >    a new property.
+> > >
+> > > Changes in v2: None
+> > >
+> > >  Documentation/devicetree/bindings/usb/dwc2.txt | 3 +++
+> > >  1 file changed, 3 insertions(+)
 > >
-> > I didn't make any changes from the prior version since I never found
-> > out what Rob thought of my previous arguments.  If folks want a
-> > change, perhaps they could choose from these options:
-> >
-> > 1. Assume that all dwc2 hosts would like to keep their PHY on for
-> >    suspend if there's a USB wakeup enabled, thus we totally drop this
-> >    binding.  This doesn't seem super great to me since I'd bet that
-> >    many devices that use dwc2 weren't designed for USB wakeup (they
-> >    may not keep enough clocks or rails on) so we might be wasting
-> >    power for nothing.
-> > 2. Rename this property to "snps,wakeup-from-suspend-with-phy" to make
-> >    it more obvious that this property is intended both to document
-> >    that wakeup from suspend is possible and that we need the PHY for
-> >    said wakeup.
-> > 3. Rename this property to "snps,can-wakeup-from-suspend" and assume
-> >    it's implicit that if we can wakeup from suspend that we need to
-> >    keep the PHY on.  If/when someone shows that a device exists using
-> >    dwc2 where we can wakeup from suspend without the PHY they can add
-> >    a new property.
-> >
-> > Changes in v2: None
-> >
-> >  Documentation/devicetree/bindings/usb/dwc2.txt | 3 +++
-> >  1 file changed, 3 insertions(+)
+> > checking file Documentation/devicetree/bindings/usb/dwc2.txt
+> > Hunk #1 FAILED at 37.
+> > Hunk #2 succeeded at 52 (offset -1 lines).
+> > 1 out of 2 hunks FAILED
 >
-> checking file Documentation/devicetree/bindings/usb/dwc2.txt
-> Hunk #1 FAILED at 37.
-> Hunk #2 succeeded at 52 (offset -1 lines).
-> 1 out of 2 hunks FAILED
+> Yeah, as Minas pointed out in the cover letter [1] my series conflicts
+> with Artur's.  I have it on my list to try out his series and see if,
+> perhaps, it allows me to enable the partial power down and also just
+> generally rebase.  It's fairly high on my list to do that--hopefully
+> in the next week.
+>
+> [1] https://lkml.kernel.org/r/e4b3cd69-1c91-dfbe-bea7-bbca89ca1348@synopsys.com
 
-Yeah, as Minas pointed out in the cover letter [1] my series conflicts
-with Artur's.  I have it on my list to try out his series and see if,
-perhaps, it allows me to enable the partial power down and also just
-generally rebase.  It's fairly high on my list to do that--hopefully
-in the next week.
+Oh, it looks like you didn't apply Artur's patches, though.
+Presumably you applied mine first and they won the race and thus I
+guess it's up to Artur to rebase his patches atop mine.  This probably
+explains why you told him the patches didn't apply.  I'll reply to
+that thread.
 
-[1] https://lkml.kernel.org/r/e4b3cd69-1c91-dfbe-bea7-bbca89ca1348@synopsys.com
+...so it turns out that when I try now my patches apply fine [2].  I'm
+guessing that you perhaps tried to apply these patches before my
+"rk3288's remote wake quirk" which would indeed cause conflicts.  I
+mentioned the dependency in my cover letter [1] but totally understand
+that it's easy to miss stuff like that.  :-)
+
+I'm going to assume you can just go-ahead and try applying patches 3,
+4, and 5 in this series again.  If you want me to repost them then
+please let me know.
+
+Thanks, and sorry for the hassle.
+
+[1] https://lkml.kernel.org/r/20190418001356.124334-1-dianders@chromium.org
+
+[2] Showing that patches currently apply:
+
+dianders@tictac2:v4.19 ((2e3cfcbbb140...))$ git checkout
+linux_usb_balbi/testing/next
+HEAD is now at 2e3cfcbbb140 dwc2: gadget: Fix completed transfer size
+calculation in DDMA
+
+dianders@tictac2:v4.19 ((2e3cfcbbb140...))$ curl -L
+https://lore.kernel.org/patchwork/patch/1063477/mbox | git am
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100  7273  100  7273    0     0  35827      0 --:--:-- --:--:-- --:--:-- 35827
+Applying: Documentation: dt-bindings: Add snps,need-phy-for-wake for dwc2 USB
+
+dianders@tictac2:v4.19 ((84c34d7b9647...))$ curl -L
+https://lore.kernel.org/patchwork/patch/1063478/mbox | git am
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100  9587  100  9587    0     0  46538      0 --:--:-- --:--:-- --:--:-- 46538
+Applying: USB: dwc2: Don't turn off the usbphy in suspend if wakeup is enabled
+
+dianders@tictac2:v4.19 ((ff5ab1cb16ab...))$ curl -L
+https://lore.kernel.org/patchwork/patch/1063479/mbox | git am
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100  6045  100  6045    0     0  29778      0 --:--:-- --:--:-- --:--:-- 29778
+Applying: ARM: dts: rockchip: Allow wakeup from rk3288-veyron's dwc2 USB ports
 
 -Doug
