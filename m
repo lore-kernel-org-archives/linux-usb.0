@@ -6,58 +6,58 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
 	T_DKIMWL_WL_HIGH,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70905C43219
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 16:06:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC677C43218
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 16:06:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B95BE2088F
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 16:06:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1F4212088F
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 16:06:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1556208360;
-	bh=3JgZsCuvaheDUdPCK8Du9Mbq3Ry3153ruW4FcGJ6cPc=;
+	s=default; t=1556208362;
+	bh=OnldwEDCa9Bdn9AaOXVhHn9jv1MkhISIRiZMMVt21hA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=vVphttptNfmJ6WwQT+mbJt9w/RsfmoB9N1iRnuNNKhSA6OAcEzKVjIsqSG2YwFV7z
-	 3fS3dIk6kLzGebtUfxQjImskQiEregiH/csTHA4aTEIbPiwQ07DDB0cdPbv4/5oVXI
-	 kdU11XZriX0CSMJJ9Iy+mG2glgmGdTP39HJU7OyQ=
+	b=vRnU0wmHdA266kiDAFFs8P+KH04DPMuIb7RL+RbYk7+Farv29W+vYsXEOnl4yNjK8
+	 yeUg8xN6HL7z+p1scdiUeZxmaNNm4UZcXXGi58oJ5dqdRoQX6QrsxOa9EtIVLKpwlu
+	 Jy4ZCJp2Nxab3PPGXyuqc8DBUJC1cjSTNtSzlqjo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726896AbfDYQF7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Apr 2019 12:05:59 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:35886 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726402AbfDYQF7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 12:05:59 -0400
-Received: by mail-lf1-f65.google.com with SMTP id u17so197192lfi.3
-        for <linux-usb@vger.kernel.org>; Thu, 25 Apr 2019 09:05:57 -0700 (PDT)
+        id S1726924AbfDYQGA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Apr 2019 12:06:00 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:35810 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726058AbfDYQGA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 12:06:00 -0400
+Received: by mail-lf1-f66.google.com with SMTP id j20so201286lfh.2
+        for <linux-usb@vger.kernel.org>; Thu, 25 Apr 2019 09:05:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jH+B5GnM61cAUeL6Upm3Ak3lJ7oLat4CM9piCjk6n50=;
-        b=iNBSYhHPamRcbCgXc+KAxdYMMPWKF1ByH5EEw0ZM0L6hCZOcdR9+CD1/tFW3g/qisR
-         BLXi9jAQvUHjuv2BRC9JybrBywMHlQ8YNkNcFPiY4rNtsmZ0eJcwTqzvQGvyiDb31e/M
-         lD7TGB1Snmf+QOqvjNM5nod6TEfjS4qyL53NSY0KGvk2XU/CALnEa582OxLdRseSdigO
-         vzQUkn75Y4GKXgBLrpwbOHYIrIMsK7qqfqseVZRZMWtEX2lgZ80aXJm90Dz1AKY69alo
-         2YBHNWBfRYQR1r/MNditkuiMmIdbJKMkmEsRl8pw756JPBq2Tuci2C+e9MFv+czpFoB5
-         E40A==
-X-Gm-Message-State: APjAAAWj8umivpHFGywsDAVcAlA8Zic39rLbQaGGLwd0gFnkoZcRDQu3
-        BSa2wQDm5ktRXYL2qKRYZLs=
-X-Google-Smtp-Source: APXvYqw/c1hJwjfjGJRhwG5s42NHZJMYY0m5YpteZ+is7Zw0Cl0C8wpUh1C7WUVy82Htgxs1r/y6Cw==
-X-Received: by 2002:ac2:4301:: with SMTP id l1mr5318832lfh.54.1556208357086;
+        bh=njCj2//bdeddp1PVnNNWH8PanEmLZ08pHEu90xXrCjg=;
+        b=WB4OYwQd+jbumoHRpWgjHs5re78QB7FmG8Mc+3vNjadtIsTyDbPTaGLt1NkswMMdu7
+         PxLlOeIlnkDHWYK3q+4G8vZL4B3KIC1/rUJyWZCg0E40K568Zv4D58+SOTvg21P10EPR
+         xdgHT1OZgqzadIDt4n2T67gFCAhAgmlQE8LPtHxdabiF5jV+pmWOFVANPp53dnsyIby9
+         UHXh+08MSevTzSviD2fZdseEQ4fQmCWX2k+EBGdcwWJk0etBIK92S5DtxnMI2rVYv2CD
+         B9zdc+V2/Z4CQ/DgtI3x/nNqjGLpzPQsb2wMcbTsSwVTnVLjf6DNNzBQmgMHY+P67Mis
+         0lBA==
+X-Gm-Message-State: APjAAAXqjrIniGxfSGuhrSjy9xdxuhLLUcy+5dZ33Z66VCRzuMry7DdT
+        qfxeNSVphACt2AmOvRUyBy4=
+X-Google-Smtp-Source: APXvYqyD8MPhip/tE4oFNK3U/TQBu9W/MSEOvY8jeg3OVNs9cTtxMWfuH1a3cFGpWa8ZZMt8ARkuHQ==
+X-Received: by 2002:a19:5507:: with SMTP id n7mr10694lfe.140.1556208357892;
         Thu, 25 Apr 2019 09:05:57 -0700 (PDT)
 Received: from xi.terra (c-74bee655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.190.116])
-        by smtp.gmail.com with ESMTPSA id w22sm4636730ljd.42.2019.04.25.09.05.55
+        by smtp.gmail.com with ESMTPSA id j6sm5863103ljc.0.2019.04.25.09.05.55
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
         Thu, 25 Apr 2019 09:05:55 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.91)
         (envelope-from <johan@xi.terra>)
-        id 1hJgsl-0002ci-Iq; Thu, 25 Apr 2019 18:05:55 +0200
+        id 1hJgsl-0002co-M9; Thu, 25 Apr 2019 18:05:55 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Alan Stern <stern@rowland.harvard.edu>,
         Oliver Neukum <oneukum@suse.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 1/5] USB: serial: fix unthrottle races
-Date:   Thu, 25 Apr 2019 18:05:36 +0200
-Message-Id: <20190425160540.10036-2-johan@kernel.org>
+Subject: [PATCH 2/5] USB: serial: clean up throttle handling
+Date:   Thu, 25 Apr 2019 18:05:37 +0200
+Message-Id: <20190425160540.10036-3-johan@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190425160540.10036-1-johan@kernel.org>
 References: <20190425160540.10036-1-johan@kernel.org>
@@ -68,131 +68,132 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190425160536.lr2suO_m7yhzBE-DZrZyO_l07D-Qn-g-d-rPWJF45mk@z>
+Message-ID: <20190425160537.hShxciSxMoKv8X0_CqOsUhLOTgnL00vyHt13NQcLZL0@z>
 
-Fix two long-standing bugs which could potentially lead to memory
-corruption or leave the port throttled until it is reopened (on weakly
-ordered systems), respectively, when read-URB completion races with
-unthrottle().
+Clean up the throttle implementation by dropping the redundant
+throttle_req flag which was a remnant from back when there was only a
+single read URB.
 
-First, the URB must not be marked as free before processing is complete
-to prevent it from being submitted by unthrottle() on another CPU.
+Also convert the throttled flag to an atomic bit flag.
 
-	CPU 1				CPU 2
-	================		================
-	complete()			unthrottle()
-	  process_urb();
-	  smp_mb__before_atomic();
-	  set_bit(i, free);		  if (test_and_clear_bit(i, free))
-	  					  submit_urb();
-
-Second, the URB must be marked as free before checking the throttled
-flag to prevent unthrottle() on another CPU from failing to observe that
-the URB needs to be submitted if complete() sees that the throttled flag
-is set.
-
-	CPU 1				CPU 2
-	================		================
-	complete()			unthrottle()
-	  set_bit(i, free);		  throttled = 0;
-	  smp_mb__after_atomic();	  smp_mb();
-	  if (throttled)		  if (test_and_clear_bit(i, free))
-	  	  return;			  submit_urb();
-
-Note that test_and_clear_bit() only implies barriers when the test is
-successful. To handle the case where the URB is still in use an explicit
-barrier needs to be added to unthrottle() for the second race condition.
-
-Fixes: d83b405383c9 ("USB: serial: add support for multiple read urbs")
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/generic.c | 39 +++++++++++++++++++++++++++++-------
- 1 file changed, 32 insertions(+), 7 deletions(-)
+ drivers/usb/serial/generic.c | 34 ++++++++--------------------------
+ include/linux/usb/serial.h   |  5 +----
+ 2 files changed, 9 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/usb/serial/generic.c b/drivers/usb/serial/generic.c
-index 2274d9625f63..0fff4968ea1b 100644
+index 0fff4968ea1b..67cef3ef1e5f 100644
 --- a/drivers/usb/serial/generic.c
 +++ b/drivers/usb/serial/generic.c
-@@ -376,6 +376,7 @@ void usb_serial_generic_read_bulk_callback(struct urb *urb)
+@@ -106,12 +106,8 @@ void usb_serial_generic_deregister(void)
+ int usb_serial_generic_open(struct tty_struct *tty, struct usb_serial_port *port)
+ {
+ 	int result = 0;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&port->lock, flags);
+-	port->throttled = 0;
+-	port->throttle_req = 0;
+-	spin_unlock_irqrestore(&port->lock, flags);
++	clear_bit(USB_SERIAL_THROTTLED, &port->flags);
+ 
+ 	if (port->bulk_in_size)
+ 		result = usb_serial_generic_submit_read_urbs(port, GFP_KERNEL);
+@@ -375,7 +371,6 @@ void usb_serial_generic_read_bulk_callback(struct urb *urb)
+ {
  	struct usb_serial_port *port = urb->context;
  	unsigned char *data = urb->transfer_buffer;
- 	unsigned long flags;
-+	bool stopped = false;
+-	unsigned long flags;
+ 	bool stopped = false;
  	int status = urb->status;
  	int i;
+@@ -429,15 +424,10 @@ void usb_serial_generic_read_bulk_callback(struct urb *urb)
+ 	if (stopped)
+ 		return;
  
-@@ -383,33 +384,51 @@ void usb_serial_generic_read_bulk_callback(struct urb *urb)
- 		if (urb == port->read_urbs[i])
- 			break;
- 	}
--	set_bit(i, &port->read_urbs_free);
- 
- 	dev_dbg(&port->dev, "%s - urb %d, len %d\n", __func__, i,
- 							urb->actual_length);
- 	switch (status) {
- 	case 0:
-+		usb_serial_debug_data(&port->dev, __func__, urb->actual_length,
-+							data);
-+		port->serial->type->process_read_urb(urb);
- 		break;
- 	case -ENOENT:
- 	case -ECONNRESET:
- 	case -ESHUTDOWN:
- 		dev_dbg(&port->dev, "%s - urb stopped: %d\n",
- 							__func__, status);
--		return;
-+		stopped = true;
-+		break;
- 	case -EPIPE:
- 		dev_err(&port->dev, "%s - urb stopped: %d\n",
- 							__func__, status);
--		return;
-+		stopped = true;
-+		break;
- 	default:
- 		dev_dbg(&port->dev, "%s - nonzero urb status: %d\n",
- 							__func__, status);
--		goto resubmit;
-+		break;
- 	}
- 
--	usb_serial_debug_data(&port->dev, __func__, urb->actual_length, data);
--	port->serial->type->process_read_urb(urb);
-+	/*
-+	 * Make sure URB processing is done before marking as free to avoid
-+	 * racing with unthrottle() on another CPU. Matches the barriers
-+	 * implied by the test_and_clear_bit() in
-+	 * usb_serial_generic_submit_read_urb().
-+	 */
-+	smp_mb__before_atomic();
-+	set_bit(i, &port->read_urbs_free);
-+	/*
-+	 * Make sure URB is marked as free before checking the throttled flag
-+	 * to avoid racing with unthrottle() on another CPU. Matches the
-+	 * smp_mb() in unthrottle().
-+	 */
-+	smp_mb__after_atomic();
-+
-+	if (stopped)
+-	/* Throttle the device if requested by tty */
+-	spin_lock_irqsave(&port->lock, flags);
+-	port->throttled = port->throttle_req;
+-	if (!port->throttled) {
+-		spin_unlock_irqrestore(&port->lock, flags);
+-		usb_serial_generic_submit_read_urb(port, i, GFP_ATOMIC);
+-	} else {
+-		spin_unlock_irqrestore(&port->lock, flags);
+-	}
++	if (test_bit(USB_SERIAL_THROTTLED, &port->flags))
 +		return;
- 
--resubmit:
- 	/* Throttle the device if requested by tty */
- 	spin_lock_irqsave(&port->lock, flags);
- 	port->throttled = port->throttle_req;
-@@ -484,6 +503,12 @@ void usb_serial_generic_unthrottle(struct tty_struct *tty)
- 	port->throttled = port->throttle_req = 0;
- 	spin_unlock_irq(&port->lock);
- 
-+	/*
-+	 * Matches the smp_mb__after_atomic() in
-+	 * usb_serial_generic_read_bulk_callback().
-+	 */
-+	smp_mb();
 +
- 	if (was_throttled)
- 		usb_serial_generic_submit_read_urbs(port, GFP_KERNEL);
++	usb_serial_generic_submit_read_urb(port, i, GFP_ATOMIC);
  }
+ EXPORT_SYMBOL_GPL(usb_serial_generic_read_bulk_callback);
+ 
+@@ -485,23 +475,16 @@ EXPORT_SYMBOL_GPL(usb_serial_generic_write_bulk_callback);
+ void usb_serial_generic_throttle(struct tty_struct *tty)
+ {
+ 	struct usb_serial_port *port = tty->driver_data;
+-	unsigned long flags;
+ 
+-	spin_lock_irqsave(&port->lock, flags);
+-	port->throttle_req = 1;
+-	spin_unlock_irqrestore(&port->lock, flags);
++	set_bit(USB_SERIAL_THROTTLED, &port->flags);
+ }
+ EXPORT_SYMBOL_GPL(usb_serial_generic_throttle);
+ 
+ void usb_serial_generic_unthrottle(struct tty_struct *tty)
+ {
+ 	struct usb_serial_port *port = tty->driver_data;
+-	int was_throttled;
+ 
+-	spin_lock_irq(&port->lock);
+-	was_throttled = port->throttled;
+-	port->throttled = port->throttle_req = 0;
+-	spin_unlock_irq(&port->lock);
++	clear_bit(USB_SERIAL_THROTTLED, &port->flags);
+ 
+ 	/*
+ 	 * Matches the smp_mb__after_atomic() in
+@@ -509,8 +492,7 @@ void usb_serial_generic_unthrottle(struct tty_struct *tty)
+ 	 */
+ 	smp_mb();
+ 
+-	if (was_throttled)
+-		usb_serial_generic_submit_read_urbs(port, GFP_KERNEL);
++	usb_serial_generic_submit_read_urbs(port, GFP_KERNEL);
+ }
+ EXPORT_SYMBOL_GPL(usb_serial_generic_unthrottle);
+ 
+diff --git a/include/linux/usb/serial.h b/include/linux/usb/serial.h
+index 1c19f77ed541..d8bdab8f3c26 100644
+--- a/include/linux/usb/serial.h
++++ b/include/linux/usb/serial.h
+@@ -28,6 +28,7 @@
+ 
+ /* USB serial flags */
+ #define USB_SERIAL_WRITE_BUSY	0
++#define USB_SERIAL_THROTTLED	1
+ 
+ /**
+  * usb_serial_port: structure for the specific ports of a device.
+@@ -67,8 +68,6 @@
+  * @flags: usb serial port flags
+  * @write_wait: a wait_queue_head_t used by the port.
+  * @work: work queue entry for the line discipline waking up.
+- * @throttled: nonzero if the read urb is inactive to throttle the device
+- * @throttle_req: nonzero if the tty wants to throttle us
+  * @dev: pointer to the serial device
+  *
+  * This structure is used by the usb-serial core and drivers for the specific
+@@ -115,8 +114,6 @@ struct usb_serial_port {
+ 	unsigned long		flags;
+ 	wait_queue_head_t	write_wait;
+ 	struct work_struct	work;
+-	char			throttled;
+-	char			throttle_req;
+ 	unsigned long		sysrq; /* sysrq timeout */
+ 	struct device		dev;
+ };
 -- 
 2.21.0
 
