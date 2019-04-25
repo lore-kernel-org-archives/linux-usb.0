@@ -2,50 +2,43 @@ Return-Path: <SRS0=WMKl=S3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A346C10F03
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 12:44:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EB9FC10F03
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 12:52:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BC3CD205F4
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 12:44:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1556196294;
-	bh=oOjF8aMiS8MMadUw6Tk+I5TIAzqcfrYV3oUd0hRSh44=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=BSzmhNcIit+nCpIWdB19Arz2tuhBc1Lfgzlcw6pMKtsWiIBrrYZYsMSmodNHw470J
-	 CN/kMuaJtOvrFNGl6rPRBST8UiNP+EgL2e9xWAKOD4Gei2kR0QztwhTjdmhR8rtIg9
-	 g4PK1P4DjwEbrO2qnFH+dwWJkEzUyV+fUWY4hx2o=
+	by mail.kernel.org (Postfix) with ESMTP id 0B9AA20644
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 12:52:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387964AbfDYMoy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Apr 2019 08:44:54 -0400
-Received: from mga06.intel.com ([134.134.136.31]:41526 "EHLO mga06.intel.com"
+        id S1726790AbfDYMwW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Apr 2019 08:52:22 -0400
+Received: from mga14.intel.com ([192.55.52.115]:51244 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387943AbfDYMox (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 25 Apr 2019 08:44:53 -0400
-X-Amp-Result: UNSCANNABLE
+        id S1726074AbfDYMwW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 25 Apr 2019 08:52:22 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Apr 2019 05:44:53 -0700
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Apr 2019 05:52:21 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.60,393,1549958400"; 
-   d="asc'?scan'208";a="340690087"
+   d="asc'?scan'208";a="164766024"
 Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
-  by fmsmga005.fm.intel.com with ESMTP; 25 Apr 2019 05:44:51 -0700
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Artur Petrosyan <arthur.petrosyan@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Minas Harutyunyan <minas.harutyunyan@synopsys.com>,
-        "linux-usb\@vger.kernel.org" <linux-usb@vger.kernel.org>
-Cc:     John Youn <john.youn@synopsys.com>,
-        Artur Petrosyan <arthur.petrosyan@synopsys.com>
-Subject: Re: [PATCH 01/14] usb: dwc2: Fix dwc2_restore_device_registers() function.
-In-Reply-To: <b4129291df7b2d061e93c03862c081b6a35b2e7f.1555075927.git.arturp@synopsys.com>
-References: <cover.1555075927.git.arturp@synopsys.com> <b4129291df7b2d061e93c03862c081b6a35b2e7f.1555075927.git.arturp@synopsys.com>
-Date:   Thu, 25 Apr 2019 15:44:47 +0300
-Message-ID: <87h8ams18g.fsf@linux.intel.com>
+  by fmsmga002.fm.intel.com with ESMTP; 25 Apr 2019 05:52:19 -0700
+From:   Felipe Balbi <felipe.balbi@linux.intel.com>
+To:     Jules Maselbas <jmaselbas@kalray.eu>,
+        Minas Harutyunyan <hminas@synopsys.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Pierre-Yves Kerbrat <pkerbrat@kalray.eu>,
+        linux-usb@vger.kernel.org, Jules Maselbas <jmaselbas@kalray.eu>
+Subject: Re: [PATCH 1/5] usb: dwc2: Move UTMI_PHY_DATA defines closer
+In-Reply-To: <20190402103922.16729-2-jmaselbas@kalray.eu>
+References: <20190402103922.16729-1-jmaselbas@kalray.eu> <20190402103922.16729-2-jmaselbas@kalray.eu>
+Date:   Thu, 25 Apr 2019 15:52:16 +0300
+Message-ID: <87ef5qs0vz.fsf@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; boundary="=-=-=";
         micalg=pgp-sha256; protocol="application/pgp-signature"
@@ -53,21 +46,20 @@ Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190425124447.hR_Yn8kO1VV9MJ0hOvNNlaydSHqefxoMQLzfH1-Qd3E@z>
+Message-ID: <20190425125216.pKF0HreNcKu0YN72Ftifn_4JuW7AKQwheb-SFlnKY4w@z>
 
 --=-=-=
 Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
-Artur Petrosyan <arthur.petrosyan@synopsys.com> writes:
+Jules Maselbas <jmaselbas@kalray.eu> writes:
 
-> - Added backup of DCFG register.
-> - Added Set the Power-On Programming done bit.
+> Makes GHWCFG4_UTMI_PHY_DATA* defines closer to their relative shift and
+> mask defines to improve readability.
 >
-> Signed-off-by: Artur Petrosyan <arturp@synopsys.com>
+> Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
 
-won't apply.
-
+Doesn't apply. Please make sure to rebase on testing/next
 
 =2D-=20
 balbi
@@ -77,18 +69,18 @@ Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAlzBq78ACgkQzL64meEa
-mQahzg/9FWDKsC+xYyql8LB/bJfK1QE1BSjRVJKBOjTldrIgBW6/xSbqfT7isNnj
-2jYCncYYb/H8wnQAe0Jn2Y4OSGVDDl1QatDtG6xnpEKeR8BGNxukmQVuO2xN7ZOF
-8asfyn0XJsDnjEgjTBeZvNgIgpyJcpp/Ey56t3lxTKp0dxnmqds3lmXvxc6KG8zL
-BGWfRQEuF1ZkBR6cDF2jdsr5217hb2rwE03/TfUzfP5OO4QVC+c80nf0hqC7y7JR
-DFfolehX6aih702QuPZurXXk3UMPijrDzqT5Xwr4yVnzxEFkfJtKGZtsYECOuMAI
-V56zCYwZKIMMCRtRLcz1Y+FnPCAoVseA6y1tnAEefQU5fmDqt8a5v01+R/+ASpea
-fGfzrlGKqbUdeOS+7IKJJ36Zej5njm/Ohd2Z5K6kcd3UHSqYE6MK6g6VLSpZxQsa
-uZqcewhiZgJR2H7FnvfL7vm+XoMW/9TZUBeGrcr1x5aNUW1yC2KanUZwC+BrwPgw
-K/+0iOHg+NIIdJiR8LkJerjNpcGwqSgGrIjmLxkJfYp4V7lMkB0d7lyh/zFp5tNp
-PN7pgppEzWyI/4ft0R4vJolNySn3ER9VGiooKui+EKDZiWrjTMIYi3f5kCNcWW5t
-sFV6oLng+4rPk0jsXSK/m+E739MGV8fD39P0NzbLPGoxzY4DGvE=
-=G469
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAlzBrYAACgkQzL64meEa
+mQaUWw//R+ABcq2yhcRVULKy7eukzP30/eSgovDKTyI52VC6lTcsW6bs2s2V/USC
+mGYdqrYoEMR9Qs5AbxcDVBzHqqFHeYaM7edMROMSGa1pfSlRO5yiwmAKnYe9Q1lF
+CJPJ3WRjZ71rYcmM5gNd2e91S2d/e3kqm6swtaxkMXPE66uFmGugQuseYDKsJn+/
+XgvqzEbrtfruizRmarGmFJ3tz5rIZZY+5kUz3sLqtlfoAQ75zR2p+mIx8WberQR1
+67htwPSV+iWEZcKXuCcJmRyJJwXFnarsQHGdUwdmKV9Yd+ZV644LzAv9olIThDTJ
+4YvuZND5Ecve4iT7Gw5ewzVfqYZd3t+98zpNiWS0bVQi4IvyzVZXN6QR5Tt8nxDB
+HO8AoIZbMvzSUafFIODBgZfb2CS0EpW8wcpk/2iGk0xF/bxKmF0weG2VkG2IpwGj
+GZlGmz0OXPlImcrGvM6qQjvxECO5ooPtQKse+bfDGP51ORDGRv3nhtKL5NUCk9Ch
+Y9fAFN4Fr+1sURu8ar4ATKVudRXzvmIT43Ox3R0RRINr5E9scWGnwBGMUaYkmA2C
+ZMxfewoVnZmKhBj3PTaU65fGiRGZYUNhmiNF8KXx0X5XqFgsYZ5j42f8LaTjJ3yG
+SphQlD8TcFEqOLFcL4PbMC6qlTZ4zPGZtaNboNqMW1fHMCGsgOU=
+=BCVQ
 -----END PGP SIGNATURE-----
 --=-=-=--
