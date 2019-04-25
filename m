@@ -2,188 +2,120 @@ Return-Path: <SRS0=WMKl=S3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.9 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26A6EC43219
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 14:01:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E425C43218
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 14:09:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 03A0A206BA
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 14:01:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="G8acgpQ1";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.onmicrosoft.com header.i=@synopsys.onmicrosoft.com header.b="smnxbDTI"
+	by mail.kernel.org (Postfix) with ESMTP id 96A8F20644
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 14:09:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726608AbfDYOBE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Apr 2019 10:01:04 -0400
-Received: from dc8-smtprelay2.synopsys.com ([198.182.47.102]:35704 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726317AbfDYOBD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 10:01:03 -0400
-Received: from mailhost.synopsys.com (dc8-mailhost2.synopsys.com [10.13.135.210])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 35EB6C09DF;
-        Thu, 25 Apr 2019 14:01:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1556200865; bh=HXEJ9pIeR7cWh2eA5oHDdMg+CrTmHfu2CuK5RnhY7kA=;
-        h=From:To:CC:Subject:Date:References:From;
-        b=G8acgpQ1Sy6AtaBNdMjlDhesAvOOFLcpybbDs/x5anVaQIf6J1XJEUw7t/KHzbsUj
-         USczYAQMx0P5JP70DEZGZuijuFuqEhFTX7suHt4cfQOi3lPV3UeKQOnerpFDX/XIxR
-         Q7+pwyItM/u3uHI//79f5utHqje7FAioxYqpc0imDzE6S8x+gXpRDw60CMurrp17Sg
-         FBBgurWkjvV0gbVQ6FDEyrPc1fnNUUAjHb39MPtQ3Qi9dFb/bUxiPKoophfFw2UaMi
-         RsYPwgwpj99j+ZLUl/s8TI/gyYlQPnISfxHRqFX0hD36kRJUtWwFEQXwBKofNKxya9
-         QxTicAxpNvFdQ==
-Received: from us01wehtc1.internal.synopsys.com (us01wehtc1-vip.internal.synopsys.com [10.12.239.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPS id BDCF6A00B5;
-        Thu, 25 Apr 2019 14:01:02 +0000 (UTC)
-Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
- us01wehtc1.internal.synopsys.com (10.12.239.231) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Thu, 25 Apr 2019 07:01:02 -0700
-Received: from NAM05-BY2-obe.outbound.protection.outlook.com (10.13.134.195)
- by mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Thu, 25 Apr 2019 07:01:02 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=synopsys.onmicrosoft.com; s=selector1-synopsys-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E0mHbMuU4+EoZ6GMfOYf5vvjSnlqLoJbE06KrS7hwGg=;
- b=smnxbDTIUzWz5AIQ+igfKwVy/AQh/Vx6z1+iPPhoZWBQF7M7cVbqwwAXEkkh81o8sAXCgYJ4zlxmtVUzT0GU0PCg4c2EOWgEvp6npPK84k1tPE30ONaOTBZTqM5MEugMOZ0DGl0DQDMfro05/6BlY84lSQ7vuGvAIvprjcQwuDo=
-Received: from SN1PR12MB2431.namprd12.prod.outlook.com (52.132.195.146) by
- SN1PR12MB0656.namprd12.prod.outlook.com (10.163.208.26) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1813.16; Thu, 25 Apr 2019 14:00:59 +0000
-Received: from SN1PR12MB2431.namprd12.prod.outlook.com
- ([fe80::1982:4b45:2adf:9a1f]) by SN1PR12MB2431.namprd12.prod.outlook.com
- ([fe80::1982:4b45:2adf:9a1f%4]) with mapi id 15.20.1835.010; Thu, 25 Apr 2019
- 14:00:59 +0000
-From:   Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-CC:     John Youn <John.Youn@synopsys.com>
-Subject: Re: [PATCH v1 00/14] usb: dwc2: Fix and improve power saving modes.
-Thread-Topic: [PATCH v1 00/14] usb: dwc2: Fix and improve power saving modes.
-Thread-Index: AQHU9qJP9TPmzBH3xU6dprNhQakiQw==
-Date:   Thu, 25 Apr 2019 14:00:59 +0000
-Message-ID: <SN1PR12MB2431EB450993E07730C3672FA73D0@SN1PR12MB2431.namprd12.prod.outlook.com>
-References: <cover.1555672441.git.arturp@synopsys.com>
- <87k1fis1b5.fsf@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=arturp@synopsys.com; 
-x-originating-ip: [84.53.141.185]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7c4675bb-4008-4266-931d-08d6c986721d
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);SRVR:SN1PR12MB0656;
-x-ms-traffictypediagnostic: SN1PR12MB0656:
-x-microsoft-antispam-prvs: <SN1PR12MB0656DDA8198B518D0C6D5330A73D0@SN1PR12MB0656.namprd12.prod.outlook.com>
-x-forefront-prvs: 0018A2705B
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39850400004)(136003)(346002)(366004)(376002)(396003)(31014005)(199004)(189003)(5660300002)(316002)(52536014)(186003)(6506007)(110136005)(107886003)(33656002)(76176011)(53546011)(6246003)(446003)(68736007)(486006)(4326008)(97736004)(478600001)(229853002)(14454004)(25786009)(71190400001)(71200400001)(476003)(305945005)(9686003)(102836004)(6116002)(81156014)(14444005)(2501003)(7736002)(256004)(66946007)(26005)(8936002)(7696005)(3846002)(73956011)(66476007)(76116006)(91956017)(53936002)(8676002)(66446008)(64756008)(86362001)(66556008)(2906002)(6436002)(81166006)(66066001)(55016002)(74316002)(99286004);DIR:OUT;SFP:1102;SCL:1;SRVR:SN1PR12MB0656;H:SN1PR12MB2431.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: synopsys.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: q8ypzkiEXTOVnbcdTOzW0y8PXJGHtHCCVNzefOgsGWxOyD/eQuMX75UHnX0J8Ivbm0TiY+FXY3DjM6WOHN/tKtJPX9AYH2ISZSHdNbHJd5u5j9G2HKyoEh4Kudpo/5G+P6Qwj9ib+d8H1CJB2kFa3wKRfY9FoePm596dLusZERwvzYooxgNWPEbaeRKGau7XovFqeW/2A3hHPXqW2U+E9b09lk4wljS/lncd3uY0UuvfJ5ZqZdRs04mxHEqjRr5Ptdf/z9Lsggc2C+nvTukxb+3PJIMYfuAOlnbunbZ9G6vJSlz+H93UUcmwEIyJ7GC0LbVUqoKbRzzWKA77tdDb3vu9GTTDo0NYJC5i2uZKEV7obbyHMgk8GvGensHeJ9F12P0pkXNXGgyrj4kmkYUttUZ2ti10N8iZ3OslVP2H+Os=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c4675bb-4008-4266-931d-08d6c986721d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Apr 2019 14:00:59.5014
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB0656
-X-OriginatorOrg: synopsys.com
+        id S1727400AbfDYOJC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Apr 2019 10:09:02 -0400
+Received: from mx2.suse.de ([195.135.220.15]:50026 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725965AbfDYOJC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 25 Apr 2019 10:09:02 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 8F142ABCE;
+        Thu, 25 Apr 2019 14:09:00 +0000 (UTC)
+Message-ID: <1556201335.11912.6.camel@suse.com>
+Subject: Re: KASAN: use-after-free Read in dvb_usb_device_exit
+From:   Oliver Neukum <oneukum@suse.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>, andreyknvl@google.com,
+        syzkaller-bugs@googlegroups.com, mchehab@kernel.org,
+        corbet@lwn.net,
+        syzbot <syzbot+26ec41e9f788b3eba396@syzkaller.appspotmail.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Date:   Thu, 25 Apr 2019 16:08:55 +0200
+In-Reply-To: <9cfe433e-426e-19d1-9cb8-5bc2ba17145b@xs4all.nl>
+References: <000000000000789d3d058653d9bb@google.com>
+         <1555326745.13626.10.camel@suse.com>
+         <9cfe433e-426e-19d1-9cb8-5bc2ba17145b@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190425140855.8mfXwGJsZNEC6juW38E0UeNkKQOb_aaPCnygkwHMbM4@z>
 
-Hi,=0A=
-=0A=
-On 4/25/2019 16:43, Felipe Balbi wrote:=0A=
-> Artur Petrosyan <Arthur.Petrosyan@synopsys.com> writes:=0A=
->> This patch set, fixes and improves partial power down and hibernation po=
-wer=0A=
->> saving modes. Also, adds support for entering/exiting hibernation by=0A=
->> system issued suspend/resume.=0A=
->>=0A=
->> This series contains patches which were submitted to LKML. However, a pa=
-rt=0A=
->> of those patches didn't reach to LKML because of local issue related to=
-=0A=
->> smtp server.=0A=
->>=0A=
->> The patches which reached to LKML are:=0A=
->>=0A=
->> - usb: dwc2: Add part. power down exit from dwc2_conn_id_status_change()=
-.=0A=
->> - usb: dwc2: Add port conn. sts. checking in _dwc2_hcd_resume() function=
-.=0A=
->> - usb: dwc2: Fix suspend state in host mode for partial power down.=0A=
->> - usb: dwc2: Fix wakeup detected and session request interrupt handlers.=
-=0A=
->> - usb: dwc2: Add descriptive debug messages for Partial Power Down mode.=
-=0A=
->> - usb: dwc2: Fix dwc2_restore_device_registers() function.=0A=
->>=0A=
->> The patches which didn't reach to LKML are:=0A=
->>=0A=
->> - usb: dwc2: Add enter/exit hibernation from system issued suspend/resum=
-e=0A=
->> - usb: dwc2: Clear GINTSTS_RESTOREDONE bit after restore is generated.=
-=0A=
->> - usb: dwc2: Clear fifo_map when resetting core.=0A=
->> - usb: dwc2: Allow exiting hibernation from gpwrdn rst detect=0A=
->> - usb: dwc2: Fix hibernation between host and device modes.=0A=
->> - usb: dwc2: Update dwc2_handle_usb_suspend_intr function.=0A=
->> - usb: dwc2: Add default param to control power optimization.=0A=
->> - usb: dwc2: Reset DEVADDR after exiting gadget hibernation.=0A=
->>=0A=
->> Submitting all of the patches together in this version.=0A=
->>=0A=
->> Changes from V0:=0A=
->>   - Replaced 1 with DWC2_POWER_DOWN_PARAM_PARTIAL in commit=0A=
->>     "9eed02b9fe96 usb: dwc2: Fix wakeup detected and session request=0A=
->>     interrupt handlers.=0A=
->>=0A=
->>=0A=
->> Artur Petrosyan (14):=0A=
->>    usb: dwc2: Fix dwc2_restore_device_registers() function.=0A=
->>    usb: dwc2: Add descriptive debug messages for Partial Power Down mode=
-.=0A=
->>    usb: dwc2: Fix wakeup detected and session request interrupt handlers=
-.=0A=
->>    usb: dwc2: Fix suspend state in host mode for partial power down.=0A=
->>    usb: dwc2: Add port conn. sts. checking in _dwc2_hcd_resume()=0A=
->>      function.=0A=
->>    usb: dwc2: Add part. power down exit from=0A=
->>      dwc2_conn_id_status_change().=0A=
->>    usb: dwc2: Reset DEVADDR after exiting gadget hibernation.=0A=
->>    usb: dwc2: Add default param to control power optimization.=0A=
->>    usb: dwc2: Update dwc2_handle_usb_suspend_intr function.=0A=
->>    usb: dwc2: Fix hibernation between host and device modes.=0A=
->>    usb: dwc2: Allow exiting hibernation from gpwrdn rst detect=0A=
->>    usb: dwc2: Clear fifo_map when resetting core.=0A=
->>    usb: dwc2: Clear GINTSTS_RESTOREDONE bit after restore is generated.=
-=0A=
->>    usb: dwc2: Add enter/exit hibernation from system issued=0A=
->>      suspend/resume=0A=
-> =0A=
-> patches don't apply.=0A=
-> =0A=
-=0A=
-Do we need to wait for Minas's acknowledge or there is problem related =0A=
-to the patches?=0A=
-=0A=
--- =0A=
-Regards,=0A=
-Artur=0A=
+On Mi, 2019-04-24 at 16:09 +0200, Hans Verkuil wrote:
+> On 4/15/19 1:12 PM, Oliver Neukum wrote:
+> > On Fr, 2019-04-12 at 04:46 -0700, syzbot wrote:
+> > > Hello,
+> > > 
+> > > syzbot found the following crash on:
+> > > 
+> > > HEAD commit:    9a33b369 usb-fuzzer: main usb gadget fuzzer driver
+> > > git tree:       https://github.com/google/kasan/tree/usb-fuzzer
+> > > console output: https://syzkaller.appspot.com/x/log.txt?x=1643974b200000
+> > > kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
+> > > dashboard link: https://syzkaller.appspot.com/bug?extid=26ec41e9f788b3eba396
+> > > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> > > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12f5efa7200000
+> > > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1395a0f3200000
+> > > 
+> > > IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> > > Reported-by: syzbot+26ec41e9f788b3eba396@syzkaller.appspotmail.com
+> > > 
+> > > dvb-usb: schedule remote query interval to 150 msecs.
+> > > dw2102: su3000_power_ctrl: 0, initialized 1
+> > > dvb-usb: TeVii S421 PCI successfully initialized and connected.
+> > > usb 1-1: USB disconnect, device number 2
+> > 
+> > Hi,
+> > 
+> > proposed fix. If nobody objects, I will submit it.
+> > 
+> > 	Regards
+> > 		Oliver
+> > 
+> > From d6097d205ac61745334b79639d3b8b910ae66c71 Mon Sep 17 00:00:00 2001
+> > From: Oliver Neukum <oneukum@suse.com>
+> > Date: Mon, 15 Apr 2019 13:06:01 +0200
+> > Subject: [PATCH] dvb: usb: fix use after free in dvb_usb_device_exit
+> > 
+> > dvb_usb_device_exit() frees and uses teh device name in that order
+> > Fix by storing the name in a buffer before freeing it
+> > 
+> > Signed-off-by: Oliver Neukum <oneukum@suse.com>
+> > Reported-by: syzbot+26ec41e9f788b3eba396@syzkaller.appspotmail.com
+> > ---
+> >  drivers/media/usb/dvb-usb/dvb-usb-init.c | 7 ++++++-
+> >  1 file changed, 6 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+> > index 99951e02a880..2e1670cc3903 100644
+> > --- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
+> > +++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+> > @@ -288,13 +288,18 @@ void dvb_usb_device_exit(struct usb_interface *intf)
+> >  {
+> >  	struct dvb_usb_device *d = usb_get_intfdata(intf);
+> >  	const char *name = "generic DVB-USB module";
+> > +	char identifier[40];
+> >  
+> >  	usb_set_intfdata(intf, NULL);
+> >  	if (d != NULL && d->desc != NULL) {
+> >  		name = d->desc->name;
+> > +		memcpy(identifier, name, 39);
+> > +		identifier[39] = NULL;
+> >  		dvb_usb_exit(d);
+> 
+> Why not just move this to after the info()? You'll need to repeat the
+> 'if' in that case, but that way there is no need to memcpy anything.
+
+The info() would make the incorrect claim that something has been
+freed. It looks to me like it exists to guarantee that you know that
+nothing hung while freeing.
+
+	Regards
+		Oliver
+
