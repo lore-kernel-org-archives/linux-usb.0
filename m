@@ -2,32 +2,14 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [01/14] usb: dwc2: Fix dwc2_restore_device_registers() function.
-From: Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
-Message-Id: <b4129291df7b2d061e93c03862c081b6a35b2e7f.1555075927.git.arturp@synopsys.com>
-Date: Fri, 12 Apr 2019 13:38:30 +0000
-To: Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Minas Harutyunyan <minas.harutyunyan@synopsys.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Cc: John Youn <john.youn@synopsys.com>, Artur Petrosyan <arthur.petrosyan@synopsys.com>
+From: Felipe Balbi <balbi@kernel.org>
+Message-Id: <87h8ams18g.fsf@linux.intel.com>
+Date: Thu, 25 Apr 2019 15:44:47 +0300
+To: Artur Petrosyan <arthur.petrosyan@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Minas Harutyunyan <minas.harutyunyan@synopsys.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Cc: John Youn <john.youn@synopsys.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-LSBBZGRlZCBiYWNrdXAgb2YgRENGRyByZWdpc3Rlci4NCi0gQWRkZWQgU2V0IHRoZSBQb3dlci1P
-biBQcm9ncmFtbWluZyBkb25lIGJpdC4NCg0KU2lnbmVkLW9mZi1ieTogQXJ0dXIgUGV0cm9zeWFu
-IDxhcnR1cnBAc3lub3BzeXMuY29tPg0KLS0tDQogZHJpdmVycy91c2IvZHdjMi9nYWRnZXQuYyB8
-IDEwICsrKysrKysrKysNCiAxIGZpbGUgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKQ0KDQotLSAN
-CjIuMTEuMAoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2R3YzIvZ2FkZ2V0LmMgYi9kcml2ZXJz
-L3VzYi9kd2MyL2dhZGdldC5jDQppbmRleCA2ODEyYThhM2E5OGIuLmRjYjBmYmI4YmM0MiAxMDA2
-NDQNCi0tLSBhL2RyaXZlcnMvdXNiL2R3YzIvZ2FkZ2V0LmMNCisrKyBiL2RyaXZlcnMvdXNiL2R3
-YzIvZ2FkZ2V0LmMNCkBAIC01MDA0LDYgKzUwMDQsNyBAQCBpbnQgZHdjMl9yZXN0b3JlX2Rldmlj
-ZV9yZWdpc3RlcnMoc3RydWN0IGR3YzJfaHNvdGcgKmhzb3RnLCBpbnQgcmVtb3RlX3dha2V1cCkN
-CiB7DQogCXN0cnVjdCBkd2MyX2RyZWdzX2JhY2t1cCAqZHI7DQogCWludCBpOw0KKwl1MzIgZGN0
-bDsNCiANCiAJZGV2X2RiZyhoc290Zy0+ZGV2LCAiJXNcbiIsIF9fZnVuY19fKTsNCiANCkBAIC01
-MDE5LDYgKzUwMjAsMTUgQEAgaW50IGR3YzJfcmVzdG9yZV9kZXZpY2VfcmVnaXN0ZXJzKHN0cnVj
-dCBkd2MyX2hzb3RnICpoc290ZywgaW50IHJlbW90ZV93YWtldXApDQogCWlmICghcmVtb3RlX3dh
-a2V1cCkNCiAJCWR3YzJfd3JpdGVsKGhzb3RnLCBkci0+ZGN0bCwgRENUTCk7DQogDQorCWlmICho
-c290Zy0+cGFyYW1zLnBvd2VyX2Rvd24gPT0gRFdDMl9QT1dFUl9ET1dOX1BBUkFNX1BBUlRJQUwp
-IHsNCisJCWR3YzJfd3JpdGVsKGhzb3RnLCBkci0+ZGNmZywgRENGRyk7DQorDQorCQkvKiBTZXQg
-dGhlIFBvd2VyLU9uIFByb2dyYW1taW5nIGRvbmUgYml0ICovDQorCQlkY3RsID0gZHdjMl9yZWFk
-bChoc290ZywgRENUTCk7DQorCQlkY3RsIHw9IERDVExfUFdST05QUkdET05FOw0KKwkJZHdjMl93
-cml0ZWwoaHNvdGcsIGRjdGwsIERDVEwpOw0KKwl9DQorDQogCWR3YzJfd3JpdGVsKGhzb3RnLCBk
-ci0+ZGFpbnRtc2ssIERBSU5UTVNLKTsNCiAJZHdjMl93cml0ZWwoaHNvdGcsIGRyLT5kaWVwbXNr
-LCBESUVQTVNLKTsNCiAJZHdjMl93cml0ZWwoaHNvdGcsIGRyLT5kb2VwbXNrLCBET0VQTVNLKTsN
-Cg==
+QXJ0dXIgUGV0cm9zeWFuIDxhcnRodXIucGV0cm9zeWFuQHN5bm9wc3lzLmNvbT4gd3JpdGVzOgoK
+PiAtIEFkZGVkIGJhY2t1cCBvZiBEQ0ZHIHJlZ2lzdGVyLgo+IC0gQWRkZWQgU2V0IHRoZSBQb3dl
+ci1PbiBQcm9ncmFtbWluZyBkb25lIGJpdC4KPgo+IFNpZ25lZC1vZmYtYnk6IEFydHVyIFBldHJv
+c3lhbiA8YXJ0dXJwQHN5bm9wc3lzLmNvbT4KCndvbid0IGFwcGx5Lgo=
