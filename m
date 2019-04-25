@@ -2,203 +2,191 @@ Return-Path: <SRS0=WMKl=S3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_MUTT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_PASS,T_DKIMWL_WL_HIGH autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 180C5C43219
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 20:11:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0EE0C43219
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 20:12:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 11E7220717
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 20:11:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9831520717
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 20:12:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gnarbox-com.20150623.gappssmtp.com header.i=@gnarbox-com.20150623.gappssmtp.com header.b="XQbRENQo"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="HLnqbkZw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387465AbfDYULI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Apr 2019 16:11:08 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:46589 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726844AbfDYULH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 16:11:07 -0400
-Received: by mail-pl1-f194.google.com with SMTP id o7so315655pll.13
-        for <linux-usb@vger.kernel.org>; Thu, 25 Apr 2019 13:11:07 -0700 (PDT)
+        id S1730629AbfDYUMh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Apr 2019 16:12:37 -0400
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:34595 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725937AbfDYUMh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 16:12:37 -0400
+Received: by mail-vs1-f65.google.com with SMTP id n17so651437vsr.1
+        for <linux-usb@vger.kernel.org>; Thu, 25 Apr 2019 13:12:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gnarbox-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=laXzxFGdMgxLj7WUYtZBNsT/irBpR5fkL48ELS/EH+k=;
-        b=XQbRENQossYJbSvMg2c0HxMjqjojCCcNdT7gFwcHHbN3tAyes8is9VfIP8ougQV+Jm
-         FbeLqSJOJ0JxzvKyCVSKNAfu+fa/GOLA7qqpIp4nPuDUsU69w4opydPD7aPDBxKOM/3D
-         o06MogrD5Deyhh0sjrnJucNoutQl7rNdJcoCuxyuJAesdQLq1VfMpl9XRucFNmK7LtVQ
-         gtbcUKn/9F5Glx+YZRMdmgDyGymcjlwvZyp5wzk8CcT4SLj0FvkqPAUbXt+s6ANtlU5o
-         pC9HyJhpwRbZ83WroFPi8oabl1CMUYTRWqS5TnD4y5HKcOM2xao0MN7riR8/jbAm7Lkp
-         nzZA==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UfNCC4cNJiY3lAUAdfNHomLA3rntwN1qhSdX3fgdF8U=;
+        b=HLnqbkZwGIyYIxWOvDny5h/cIgWh9KBW/0awCRtKoyIvsow79Dykk74jMdsnNi+cMk
+         L/PHBYJfjM6HYdfi7jTF2ZdRU1tsBP/ek9ss4dn6D9MMnz3ZpugTfutJn7f5STfouONU
+         MfP44zMNQN3/TPuxiJyZj99PNzY1tlo992M1s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=laXzxFGdMgxLj7WUYtZBNsT/irBpR5fkL48ELS/EH+k=;
-        b=GX4YwluQlL8WrG/+MkiQe28EAUPQnECFq6n2XcjbBiQdhmwGLZHk4bWet3zyg4Q2Is
-         kc2QM+/GehcEqWMOc+gdgdrJrI6TnJmJiDhNPDS+x0KQcc6CMfICpF8R759YWxJdJoN/
-         MGAdT2rLfbKheu9gwNv3rYiQLo6cldjmp4ikwZZXlzK1ri+o/xFo+lNQPvuNYZBVQ7N5
-         j4f2PHR3ZILQsFtsQTh7qdIbnIvbPLtco+3vgJDEmvZ6/1VU/1bCaTZVQ0mfVt5FCfwx
-         ad9N/cQHcm1QycxL981+0cyXOUBGESLAtu93XDT1spLTtjvJRoJZ33pacmzI27kau5sn
-         CGeg==
-X-Gm-Message-State: APjAAAUaCtI7RSzk7iuFpLnTBGMPb7zp9xi77bF0GF2AxCa1skXX+XR6
-        uokEWDEuL747BoLVRyROCsTD5Q==
-X-Google-Smtp-Source: APXvYqxdAwVLBXFIxoVwXOjgNbrHX/yXKHSOwwXnt9hs5JirWtLKEUWuOkWZiLQSlV9i59OHx3P6Ag==
-X-Received: by 2002:a17:902:2b87:: with SMTP id l7mr41700164plb.130.1556223066706;
-        Thu, 25 Apr 2019 13:11:06 -0700 (PDT)
-Received: from coops ([47.180.176.91])
-        by smtp.gmail.com with ESMTPSA id t12sm44838228pfl.59.2019.04.25.13.11.05
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 25 Apr 2019 13:11:05 -0700 (PDT)
-Date:   Thu, 25 Apr 2019 13:11:03 -0700
-From:   Rob Weber <rob@gnarbox.com>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     "Claus H. Stovgaard" <cst@phaseone.com>,
-        "balbi@kernel.org" <balbi@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "mnarani@xilinx.com" <mnarani@xilinx.com>,
-        Michal Simek <michal.simek@xilinx.com>
-Subject: Re: Use device tree to disable U1/U2 in gadget devices based on DWC3
-Message-ID: <20190425201103.GA26402@coops>
-References: <DB8PR01MB60273B2E42CF5FBD2E54ADCBDA3C0@DB8PR01MB6027.eurprd01.prod.exchangelabs.com>
- <Pine.LNX.4.44L0.1904241423540.1443-100000@iolanthe.rowland.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UfNCC4cNJiY3lAUAdfNHomLA3rntwN1qhSdX3fgdF8U=;
+        b=Xa6+WACrg1wFezfWXurIZ6riIKRRZEX2iHxvlBqJdFIHJHDL4bfE2H7CEMaNcy9CBR
+         5DVQ0EO6s8Nc5RSuV5mEvKZ2MK0pNDOio1BzfweqXIJDc+PSWEoglCcirGTiXvW5MMYi
+         +KE3mKBVV16sJy8M4lWzNlpgADtqop0qVRX9mqOAR654Nmk13CPgKMpNDR+Wwowd1/Ho
+         cqNlPF0VinsXgEs/N41H0aEmcsREnK793NjOHJtmEsIeUvyKUXquCXR3nrEAG+QDZFRD
+         O+3v4NtbhZrPe6xbAl1JOUQIbS7J0CkZ9/dT6nDPJBC8X76rk/IS9RfiKGfa2wd0i2Dj
+         EFUQ==
+X-Gm-Message-State: APjAAAXyKFosZdpTGWYoOYqAqxvezBOxGANN0N8Vu/YkYVZdb8TKxSf2
+        JwDPu+zE/fpkWMk0yNbeEda6OQ8410U=
+X-Google-Smtp-Source: APXvYqypM7ofjXe6ZqAzlMvI9HaTIPP8MV4XQsUErTAOkI17f+wgJndiuEi1LYPqcTa1sBSmKwiRbg==
+X-Received: by 2002:a67:f353:: with SMTP id p19mr22699697vsm.114.1556223156222;
+        Thu, 25 Apr 2019 13:12:36 -0700 (PDT)
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
+        by smtp.gmail.com with ESMTPSA id y1sm15481677uai.0.2019.04.25.13.12.35
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Thu, 25 Apr 2019 13:12:35 -0700 (PDT)
+Received: by mail-vs1-f49.google.com with SMTP id n17so651401vsr.1
+        for <linux-usb@vger.kernel.org>; Thu, 25 Apr 2019 13:12:35 -0700 (PDT)
+X-Received: by 2002:a67:7b53:: with SMTP id w80mr22582363vsc.144.1556223154836;
+ Thu, 25 Apr 2019 13:12:34 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.1555672441.git.arturp@synopsys.com> <87k1fis1b5.fsf@linux.intel.com>
+ <SN1PR12MB2431EB450993E07730C3672FA73D0@SN1PR12MB2431.namprd12.prod.outlook.com>
+In-Reply-To: <SN1PR12MB2431EB450993E07730C3672FA73D0@SN1PR12MB2431.namprd12.prod.outlook.com>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Thu, 25 Apr 2019 13:12:23 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WKJMks9oCdUVS9vTKp9yD_VPE_uaAmTM9HgNoz8tt4pA@mail.gmail.com>
+Message-ID: <CAD=FV=WKJMks9oCdUVS9vTKp9yD_VPE_uaAmTM9HgNoz8tt4pA@mail.gmail.com>
+Subject: Re: [PATCH v1 00/14] usb: dwc2: Fix and improve power saving modes.
+To:     Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        John Youn <John.Youn@synopsys.com>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <Pine.LNX.4.44L0.1904241423540.1443-100000@iolanthe.rowland.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190425201103.xa0UURF4z2qQmFATCEQSKFsxcxDGy8IOpG5yF6cS4p0@z>
 
-Hi Everyone,
+Hi,
 
-On Wed, Apr 24, 2019 at 02:33:48PM -0400, Alan Stern wrote:
-> On Wed, 24 Apr 2019, Claus H. Stovgaard wrote:
-> 
-> > Hi Balbi and other USB developers.
-> > 
-> > I am developing camera devices based on Xilinx ZynqMP, using the
-> > gadget framework and the build-in dwc3 core of the ZynqMP as USB3
-> > controller and the build-in Cirrus SERDES as phy.
-> > Testing with a number of hosts and Windows 7, has shown sporadic
-> > reconnects when leaving U2/U1, caused by failing link training, where
-> > the host resets the bus. Sometime it also means it reconnect via
-> > USB2.
-> > 
-> > So to overcome this, I will like to have the option for disabling
-> > U1/U2 on the core when working with those hosts.
-> > 
-> > Currently I have made a hack in ep0.c where I return EINVAL in
-> > dwc3_ep0_handle_u1 and dwc3_ep0_handle_u2 together with not setting
-> > DWC3_DCTL_ACCEPTU1ENA and DWC3_DCTL_ACCEPTU2ENA in
-> > dwc3_ep0_set_config
-> > Will though prefer a solution possible to upstream, so was thinking
-> > about adding two devicetree bindings.
-> > 
-> > * snps,u1_disable_as_gadget: When set the core will not enable U1 if
-> > requested from host, nor initiate U1.
-> > * snps,u2_disable_as_gadget: When set the core will not enable U2 if
-> > requested from host, nor initiate U2.
-> > 
-> > If you think this might be something which can be upstreamed I will
-> > prepare the code and send a patch for discussion.
-> > On the other hand, if you think that disabling U1/U2 via device tree
-> > as suggested should not be a feature no need for me to try making it
-> > a feature.
-> 
-> Speaking as an interested bystander, I would first wonder why your
-> hardware fails during link training.  If it is properly designed, that
-> should not happen.  The fact that it does happen suggests your devices
-> might also experience problems during normal data transport.
+On Thu, Apr 25, 2019 at 7:01 AM Artur Petrosyan
+<Arthur.Petrosyan@synopsys.com> wrote:
+>
+> Hi,
+>
+> On 4/25/2019 16:43, Felipe Balbi wrote:
+> > Artur Petrosyan <Arthur.Petrosyan@synopsys.com> writes:
+> >> This patch set, fixes and improves partial power down and hibernation power
+> >> saving modes. Also, adds support for entering/exiting hibernation by
+> >> system issued suspend/resume.
+> >>
+> >> This series contains patches which were submitted to LKML. However, a part
+> >> of those patches didn't reach to LKML because of local issue related to
+> >> smtp server.
+> >>
+> >> The patches which reached to LKML are:
+> >>
+> >> - usb: dwc2: Add part. power down exit from dwc2_conn_id_status_change().
+> >> - usb: dwc2: Add port conn. sts. checking in _dwc2_hcd_resume() function.
+> >> - usb: dwc2: Fix suspend state in host mode for partial power down.
+> >> - usb: dwc2: Fix wakeup detected and session request interrupt handlers.
+> >> - usb: dwc2: Add descriptive debug messages for Partial Power Down mode.
+> >> - usb: dwc2: Fix dwc2_restore_device_registers() function.
+> >>
+> >> The patches which didn't reach to LKML are:
+> >>
+> >> - usb: dwc2: Add enter/exit hibernation from system issued suspend/resume
+> >> - usb: dwc2: Clear GINTSTS_RESTOREDONE bit after restore is generated.
+> >> - usb: dwc2: Clear fifo_map when resetting core.
+> >> - usb: dwc2: Allow exiting hibernation from gpwrdn rst detect
+> >> - usb: dwc2: Fix hibernation between host and device modes.
+> >> - usb: dwc2: Update dwc2_handle_usb_suspend_intr function.
+> >> - usb: dwc2: Add default param to control power optimization.
+> >> - usb: dwc2: Reset DEVADDR after exiting gadget hibernation.
+> >>
+> >> Submitting all of the patches together in this version.
+> >>
+> >> Changes from V0:
+> >>   - Replaced 1 with DWC2_POWER_DOWN_PARAM_PARTIAL in commit
+> >>     "9eed02b9fe96 usb: dwc2: Fix wakeup detected and session request
+> >>     interrupt handlers.
+> >>
+> >>
+> >> Artur Petrosyan (14):
+> >>    usb: dwc2: Fix dwc2_restore_device_registers() function.
+> >>    usb: dwc2: Add descriptive debug messages for Partial Power Down mode.
+> >>    usb: dwc2: Fix wakeup detected and session request interrupt handlers.
+> >>    usb: dwc2: Fix suspend state in host mode for partial power down.
+> >>    usb: dwc2: Add port conn. sts. checking in _dwc2_hcd_resume()
+> >>      function.
+> >>    usb: dwc2: Add part. power down exit from
+> >>      dwc2_conn_id_status_change().
+> >>    usb: dwc2: Reset DEVADDR after exiting gadget hibernation.
+> >>    usb: dwc2: Add default param to control power optimization.
+> >>    usb: dwc2: Update dwc2_handle_usb_suspend_intr function.
+> >>    usb: dwc2: Fix hibernation between host and device modes.
+> >>    usb: dwc2: Allow exiting hibernation from gpwrdn rst detect
+> >>    usb: dwc2: Clear fifo_map when resetting core.
+> >>    usb: dwc2: Clear GINTSTS_RESTOREDONE bit after restore is generated.
+> >>    usb: dwc2: Add enter/exit hibernation from system issued
+> >>      suspend/resume
+> >
+> > patches don't apply.
+> >
+>
+> Do we need to wait for Minas's acknowledge or there is problem related
+> to the patches?
 
-I was recently debugging a similar problem where my device would
-improperly transition from U2 to U0. This caused the connection to reset
-and the device to be re-enumerated as a USB2 device. Our design uses an
-Intel CherryTrail z8550 SoC that has an internal dwc3 USB device
-controller. I worked with Felipe a couple of weeks ago [1] to come up with
-the same workaround you mentioned above. I disable device-initiated U1/U2
-in ep0_set_config and also return -EINVAL when handling SetFeature
-requests from the USB host. I've attached my patch for kernel 4.9.115
-below for reference.
+It looks like the problem is that my patches won the race and Felipe
+applied them before yours.  Thus, presumably, it'll be up to you to
+rebase your patches atop mine and re-submit.  Specifically, you can
+do:
 
-Although we have applied this workaround, we still have not identified a
-root cause of the issue. Intel has no known errata related to the symptoms
-we are experiencing. We've done quite a bit of analysis on our design and
-are pretty confident we've followed all design guidelines for USB.
+git remote add linux_usb_balbi
+git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git
+git fetch linux_usb_balbi
+git checkout linux_usb_balbi/testing/next
 
-Cheers,
-Rob Weber
+If you do that and then try to apply your patches you'll find that
+they no longer apply.  AKA try running:
 
-[1] https://marc.info/?t=155349935600001&r=1&w=2
+for patch in 10909749 10909737 10909739 10909745 10909533 \
+   10909531 10909747 10909535 10909523 10909741 10909525 \
+   10909751 10909527 10909743; do
+  curl -L https://patchwork.kernel.org/patch/${patch}/mbox | git am
+done
 
----
-drivers/usb/dwc3/ep0.c | 26 ++++++++++++++++----------
-1 file changed, 16 insertions(+), 10 deletions(-)
+You'll see:
 
-diff --git a/drivers/usb/dwc3/ep0.c b/drivers/usb/dwc3/ep0.c
-index 2331469f943d..78b75d65b435 100644
---- a/drivers/usb/dwc3/ep0.c
-+++ b/drivers/usb/dwc3/ep0.c
-@@ -433,10 +433,13 @@ static int dwc3_ep0_handle_feature(struct dwc3 *dwc,
-                return -EINVAL;
+> Applying: usb: dwc2: Fix wakeup detected and session request interrupt handlers.
+> error: patch failed: drivers/usb/dwc2/core_intr.c:435
+> error: drivers/usb/dwc2/core_intr.c: patch does not apply
+> Patch failed at 0001 usb: dwc2: Fix wakeup detected and session request interrupt handlers.
 
-            reg = dwc3_readl(dwc->regs, DWC3_DCTL);
--            if (set)
--                reg |= DWC3_DCTL_INITU1ENA;
--            else
-+            if (set) {
-+                /* reg |= DWC3_DCTL_INITU1ENA; */
-+                dwc3_trace(trace_dwc3_ep0, "GBX: Skipping U1 Enable");
-+                return -EINVAL;
-+            } else {
-                reg &= ~DWC3_DCTL_INITU1ENA;
-+            }
-            dwc3_writel(dwc->regs, DWC3_DCTL, reg);
-            break;
+NOTE: before reposting it might be a good idea to apply the last 3
+patches in my series as per [1] before sending up your series.  Since
+Felipe has already applied patches #1 and #2 in that series presumably
+he'll also apply #3 - #5.
 
-@@ -448,10 +451,13 @@ static int dwc3_ep0_handle_feature(struct dwc3 *dwc,
-                return -EINVAL;
+I know it'a also up to me to try testing our your patches.  It's still
+on my list to give it a shot...
 
-            reg = dwc3_readl(dwc->regs, DWC3_DCTL);
--            if (set)
--                reg |= DWC3_DCTL_INITU2ENA;
--            else
-+            if (set) {
-+                /* reg |= DWC3_DCTL_INITU2ENA; */
-+                dwc3_trace(trace_dwc3_ep0, "GBX: Skipping U2 Enable");
-+                return -EINVAL;
-+            } else {
-                reg &= ~DWC3_DCTL_INITU2ENA;
-+            }
-            dwc3_writel(dwc->regs, DWC3_DCTL, reg);
-            break;
+[1] https://lkml.kernel.org/r/CAD=FV=WA07+gUkVvsikN=iDHZLUJQtzjkKtiBHAEDw4gLNWY7w@mail.gmail.com
 
-@@ -567,7 +573,7 @@ static int dwc3_ep0_set_config(struct dwc3 *dwc, struct usb_ctrlrequest *ctrl)
-    enum usb_device_state state = dwc->gadget.state;
-    u32 cfg;
-    int ret;
--    u32 reg;
-+    /* u32 reg; */
+P.S: It's helpful if you CC LKML on patches and discussions about
+them.  That allows the magic "permalink via message ID" on
+lkml.kernel.org and also allows your patches to be found on
+lore.kernel.org/patchwork/
 
-    cfg = le16_to_cpu(ctrl->wValue);
-
-@@ -594,9 +600,9 @@ static int dwc3_ep0_set_config(struct dwc3 *dwc, struct usb_ctrlrequest *ctrl)
-             * Enable transition to U1/U2 state when
-             * nothing is pending from application.
-             */
--            reg = dwc3_readl(dwc->regs, DWC3_DCTL);
--            reg |= (DWC3_DCTL_ACCEPTU1ENA | DWC3_DCTL_ACCEPTU2ENA);
--            dwc3_writel(dwc->regs, DWC3_DCTL, reg);
-+            /* reg = dwc3_readl(dwc->regs, DWC3_DCTL); */
-+            /* reg |= (DWC3_DCTL_ACCEPTU1ENA | DWC3_DCTL_ACCEPTU2ENA); */
-+            /* dwc3_writel(dwc->regs, DWC3_DCTL, reg); */
-        }
-        break;
-
---
+-Doug
