@@ -2,297 +2,211 @@ Return-Path: <SRS0=WMKl=S3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
-	T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_MUTT autolearn=unavailable
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC50FC43218
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 22:00:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41A07C43218
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 22:33:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B92FC206C1
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 22:00:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1556229625;
-	bh=mLSfOLHdA+9HCzwiSNTIsNhISiPs5vOjRPKB6VEpF2s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=NdJounk4xa15FGgRjIjaTSUr47cdO/1Tll/N3A78jVwESbeBUOcf+c+PnZWy654Np
-	 fNyXLcYKdj/LLufWggC4AEiUupOsPAiBHqbYRzIgbq3l5lcAXOl6iyh982FgfkmMV3
-	 8+HxnSxMPMbt2trodJPD9wQ0ixYeo79w2C5mInTQ=
+	by mail.kernel.org (Postfix) with ESMTP id 560FF20717
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 22:33:40 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ip5euGH5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730913AbfDYWAT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Apr 2019 18:00:19 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:34540 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729583AbfDYWAT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 18:00:19 -0400
-Received: by mail-ot1-f68.google.com with SMTP id u17so952773otj.1;
-        Thu, 25 Apr 2019 15:00:18 -0700 (PDT)
+        id S1726326AbfDYWdj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Apr 2019 18:33:39 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:44538 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726040AbfDYWdi (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 18:33:38 -0400
+Received: by mail-lf1-f65.google.com with SMTP id h18so834511lfj.11;
+        Thu, 25 Apr 2019 15:33:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=pnwO3ii3JkeNPr1hcPvBi2/3rAZyjNVc0qQJMLcBg4g=;
+        b=Ip5euGH5ClT6AoUA5raCFKXkbcxLmgokJBIzGPetkjCvSyh5LUm+5Z4/znxyoCTBkB
+         pFPNA8XT+sXH8Ilsngg8XjNO5NCeCsd1aPC3SkGgf5d8utzFj3I2Y2sduj374kdyj5GK
+         gz5WaB4lK55ytGG18Dcg9olkULhHEqrrUuNtnY7vzPmNfaTD7s2YLCoJU19mxbpxh0Bg
+         Ekzx7RtMMYQJ7/1IdwaC7X+xPdAC/z7w+V1LfT/AycK+/AIksQdFmBXLVB5CvExv0vtF
+         IiQVvhd07S3UHi3wB2M5o2BUd4Yj3hiVS34IXQ9br346v8Q+LJpeMnvIpae2rL2EEOzT
+         4xCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=whXKt4Pab5nmF5Mk6pUKSZ8aWVNzgM6bKw4nLSkqCv0=;
-        b=HdADnwkNIhj4VQL8S4m6xlF3AfrBdX8o4cWELIrtepPJMmRkq9tnWEGKRvQk99xEbk
-         lrX9T6O5rCnPcp0nn9R8VO8FxetsRu2i5ZApHphsUE1d3n3ATOLXhI/gxbE80HULUlW7
-         rqYY2ec8RCIhsgFIR+Ea5qQ7jw3r0JW5lfOB3ECARTKXgbM4/1h+eZlRjISG8dMQzutz
-         xibox0XQkotDUQO7Qn97gvE56nBAUOdr9znuMilTKdouzJ3O9GIoURRQUHihKkaoUzUU
-         TtSHrGxggRI2bPMJeyZGsriLTl40dop/zw2tRjWdGFgmYka8dYmVzNUe9Ygd/ufOSues
-         tJyg==
-X-Gm-Message-State: APjAAAUsROWnVJS7tri01YG24/Sxaq/dc+Vqbw/TUj3Vx89uLm9mNKR/
-        h7oBd+cF/2GlLAq7NbRLEw==
-X-Google-Smtp-Source: APXvYqyLRCB8Rg5MB86d3r5nWASw/Rrc8qjUWvL6B7NO5ZcIK/Q1TzNnddkNXY1mXN4RzsTF61kPlw==
-X-Received: by 2002:a9d:7f0b:: with SMTP id j11mr15588589otq.132.1556229618103;
-        Thu, 25 Apr 2019 15:00:18 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id u198sm10173424oie.26.2019.04.25.15.00.17
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 25 Apr 2019 15:00:17 -0700 (PDT)
-Date:   Thu, 25 Apr 2019 17:00:16 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Yu Chen <chenyu56@huawei.com>
-Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, john.stultz@linaro.org,
-        suzhuangluan@hisilicon.com, kongfei@hisilicon.com,
-        liuyu712@hisilicon.com, wanghu17@hisilicon.com,
-        butao@hisilicon.com, chenyao11@huawei.com,
-        fangshengzhou@hisilicon.com, lipengcheng8@huawei.com,
-        songxiaowei@hisilicon.com, xuyiping@hisilicon.com,
-        xuyoujun4@huawei.com, yudongbin@hisilicon.com,
-        zangleigang@hisilicon.com,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Wei Xu <xuwei5@hisilicon.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Binghui Wang <wangbinghui@hisilicon.com>
-Subject: Re: [PATCH v6 13/13] dts: hi3660: Add support for usb on Hikey960
-Message-ID: <20190425220016.GC32028@bogus>
-References: <20190420064019.57522-1-chenyu56@huawei.com>
- <20190420064019.57522-14-chenyu56@huawei.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=pnwO3ii3JkeNPr1hcPvBi2/3rAZyjNVc0qQJMLcBg4g=;
+        b=ia3APpy1zO2A1hGtSF+7eChJPPUhJBY1aYWy8uanepkraUwvMTinzwvLPL8dBBjejB
+         ge/OetlIoYEZd2uVXepMhlh7eqfEFaDqopHfNaNIRruKfnW21f2591z3oODPTjcYt5Rc
+         W0Vyq5id7A1aD4l6S+WkmJPrmDIbrM+x7sQR4Ckzi2lSiZrbJZp6yO3j0PKf4Hqx7MdH
+         0xv9neowEyDLtAyMkVFJ9m07Jmx6wXOZ3uQ+xBJt6szKjHq5IACGj5HM4S1mYVpQdLEb
+         78TId9C6XtMJDaloFFRutlJeZNHLD6uqld/hw0Hn6Ke5xP7v+rECffYOmBg/ukOh3f7r
+         vo2A==
+X-Gm-Message-State: APjAAAXdE0OegSuIhsCvjMc83D4CA2mrtJbr8uzx49UBD+6hPt+xB5V2
+        hNi8aLV8UvWOmM9vZKvvEik=
+X-Google-Smtp-Source: APXvYqxXdekO9jgCOogXP8lb3phLNHUabTl1NErTJUk8047mQrXyHuF3/yms97bic05946xEgMMx8g==
+X-Received: by 2002:ac2:533c:: with SMTP id f28mr19303555lfh.73.1556231615812;
+        Thu, 25 Apr 2019 15:33:35 -0700 (PDT)
+Received: from localhost.localdomain ([5.164.240.123])
+        by smtp.gmail.com with ESMTPSA id m21sm5257382lfj.47.2019.04.25.15.33.33
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 25 Apr 2019 15:33:34 -0700 (PDT)
+From:   Serge Semin <fancer.lancer@gmail.com>
+To:     Richard Leitner <richard.leitner@skidata.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Serge Semin <Sergey.Semin@t-platforms.ru>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] usb: usb251xb: Lock i2c-bus segment the hub resides
+Date:   Fri, 26 Apr 2019 01:32:56 +0300
+Message-Id: <20190425223256.20270-1-fancer.lancer@gmail.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: 20190424144914.10580-1-fancer.lancer@gmail.com
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20190420064019.57522-14-chenyu56@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190425220016.eQu7K51elA7ou5parHKJtV4R9-jKgYlG_YEFDRus57M@z>
+Content-Type: text/plain; charset="UTF-8"
+Message-ID: <20190425223256.f5lBr9nPm-YTz0hTHcO3ktQZlia1lVIfHjDR6Y9oZhg@z>
 
-On Sat, Apr 20, 2019 at 02:40:19PM +0800, Yu Chen wrote:
-> This patch adds support for usb on Hikey960.
-> 
-> Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> Cc: Wei Xu <xuwei5@hisilicon.com>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Mark Rutland <mark.rutland@arm.com>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: John Stultz <john.stultz@linaro.org>
-> Cc: Binghui Wang <wangbinghui@hisilicon.com>
-> Signed-off-by: Yu Chen <chenyu56@huawei.com>
-> ---
-> v2:
-> * Remove device_type property.
-> * Add property "usb-role-switch".
-> v3:
-> * Make node "usb_phy" a subnode of usb3_otg_bc register.
-> * Remove property "typec-vbus-enable-val" of hisi_hikey_usb.
-> v4:
-> * Remove property "hisilicon,usb3-otg-bc-syscon" of usb-phy.
-> ---
-> ---
->  arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts | 53 ++++++++++++++++
->  arch/arm64/boot/dts/hisilicon/hi3660.dtsi         | 73 +++++++++++++++++++++++
->  2 files changed, 126 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts b/arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts
-> index e035cf195b19..d4e11c56b250 100644
-> --- a/arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts
-> +++ b/arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts
-> @@ -13,6 +13,7 @@
->  #include <dt-bindings/gpio/gpio.h>
->  #include <dt-bindings/input/input.h>
->  #include <dt-bindings/interrupt-controller/irq.h>
-> +#include <dt-bindings/usb/pd.h>
->  
->  / {
->  	model = "HiKey960";
-> @@ -196,6 +197,26 @@
->  			method = "smc";
->  		};
->  	};
-> +
-> +	hisi_hikey_usb: hisi_hikey_usb {
-> +		compatible = "hisilicon,hikey960_usb";
-> +		typec-vbus-gpios = <&gpio25 2 GPIO_ACTIVE_HIGH>;
-> +		otg-switch-gpios = <&gpio25 6 GPIO_ACTIVE_HIGH>;
-> +		hub-vdd33-en-gpios = <&gpio5 6 GPIO_ACTIVE_HIGH>;
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&usbhub5734_pmx_func>;
-> +
-> +		port {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			hikey_usb_ep: endpoint@0 {
-> +				reg = <0>;
-> +				remote-endpoint = <&dwc3_role_switch_notify>;
-> +			};
-> +		};
-> +	};
-> +
->  };
->  
->  /*
-> @@ -526,6 +547,38 @@
->  &i2c1 {
->  	status = "okay";
->  
-> +	rt1711h: rt1711h@4e {
-> +		compatible = "richtek,rt1711h";
+SMBus slave configuration is activated by CFG_SEL[1:0]=0x1 pins
+state. This is the mode the hub is supposed to be to let this driver
+work correctly. But a race condition might happen right after reset
+is cleared due to CFG_SEL[0] pin being multiplexed with SMBus SCL
+function. In case if the reset pin is handled by a i2c GPIO expander,
+which is also placed at the same i2c-bus segment as the usb251x
+SMB-interface connected to, then the hub reset clearance might
+cause the CFG_SEL[0] being latched in unpredictable state. So
+sometimes the hub configuration mode might be 0x1 (as expected),
+but sometimes being 0x0, which doesn't imply to have the hub SMBus-slave
+interface activated and consequently causes this driver failure.
 
-The binding doc for this should state it should have a 'connector' node.
+In order to fix the problem we must make sure the GPIO-reset chip doesn't
+reside the same i2c-bus segment as the SMBus-interface of the hub. If
+it doesn't, we can safely block the segment for the time the reset is
+cleared to prevent anyone generating a traffic at the i2c-bus SCL lane
+connected to the CFG_SEL[0] pin. But if it does, nothing we can do, so
+just return an error. If we locked the i2c-bus segment and tried to
+communicate with the GPIO-expander, it would cause a deadlock. If we didn't
+lock the i2c-bus segment, it would randomly cause the CFG_SEL[0] bit flip.
 
-> +		reg = <0x4e>;
-> +		status = "ok";
+Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-Can drop this, it is the default.
+---
+Changelog v2
+- Execute the check code only if GPIOLIB is enabled (reported by
+  a build robot).
 
-> +		interrupt-parent = <&gpio27>;
-> +		interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&usb_cfg_func>;
-> +
-> +		usb_con: connector {
-> +			compatible = "usb-c-connector";
-> +			label = "USB-C";
-> +			data-role = "dual";
-> +			power-role = "dual";
-> +			try-power-role = "sink";
-> +			source-pdos = <PDO_FIXED(5000, 500, PDO_FIXED_USB_COMM)>;
-> +			sink-pdos = <PDO_FIXED(5000, 500, PDO_FIXED_USB_COMM)
-> +				PDO_VAR(5000, 5000, 1000)>;
-> +			op-sink-microwatt = <10000000>;
-> +		};
-> +
-> +		port {
+---
+ drivers/usb/misc/usb251xb.c | 62 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
 
-The connector node should have a 'ports' child with 'port@0' being the 
-HS connection.
+diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
+index 04684849d683..cdc80e8c2d8a 100644
+--- a/drivers/usb/misc/usb251xb.c
++++ b/drivers/usb/misc/usb251xb.c
+@@ -12,6 +12,7 @@
+ 
+ #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
++#include <linux/gpio/driver.h>
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+ #include <linux/nls.h>
+@@ -222,11 +223,51 @@ static const struct usb251xb_data usb2517i_data = {
+ 	.product_str = "USB2517i",
+ };
+ 
++#ifdef CONFIG_GPIOLIB
++static int usb251xb_check_dev_children(struct device *dev, void *child)
++{
++	if (dev->type == &i2c_adapter_type) {
++		return device_for_each_child(dev, child,
++					     usb251xb_check_dev_children);
++	}
++
++	return (dev == child);
++}
++
++static int usb251x_check_gpio_chip(struct usb251xb *hub)
++{
++	struct gpio_chip *gc = gpiod_to_chip(hub->gpio_reset);
++	struct i2c_adapter *adap = hub->i2c->adapter;
++	int ret;
++
++	if (!hub->gpio_reset)
++		return 0;
++
++	if (!gc)
++		return -EINVAL;
++
++	ret = usb251xb_check_dev_children(&adap->dev, gc->parent);
++	if (ret) {
++		dev_err(hub->dev, "Reset GPIO chip is at the same i2c-bus\n");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++#else
++static int usb251x_check_gpio_chip(struct usb251xb *hub)
++{
++	return 0;
++}
++#endif
++
+ static void usb251xb_reset(struct usb251xb *hub, int state)
+ {
+ 	if (!hub->gpio_reset)
+ 		return;
+ 
++	i2c_lock_bus(hub->i2c->adapter, I2C_LOCK_SEGMENT);
++
+ 	gpiod_set_value_cansleep(hub->gpio_reset, state);
+ 
+ 	/* wait for hub recovery/stabilization */
+@@ -234,6 +275,8 @@ static void usb251xb_reset(struct usb251xb *hub, int state)
+ 		usleep_range(500, 750);	/* >=500us at power on */
+ 	else
+ 		usleep_range(1, 10);	/* >=1us at power down */
++
++	i2c_unlock_bus(hub->i2c->adapter, I2C_LOCK_SEGMENT);
+ }
+ 
+ static int usb251xb_connect(struct usb251xb *hub)
+@@ -621,6 +664,25 @@ static int usb251xb_probe(struct usb251xb *hub)
+ 		}
+ 	}
+ 
++	/*
++	 * usb251x SMBus-slave SCL lane is muxed with CFG_SEL0 pin. So if anyone
++	 * tries to work with the bus at the moment the hub reset is released,
++	 * it may cause an invalid config being latched by usb251x. Particularly
++	 * one of the config modes makes the hub loading a default registers
++	 * value without SMBus-slave interface activation. If the hub
++	 * accidentally gets this mode, this will cause the driver SMBus-
++	 * functions failure. Normally we could just lock the SMBus-segment the
++	 * hub i2c-interface resides for the device-specific reset timing. But
++	 * the GPIO controller, which is used to handle the hub reset, might be
++	 * placed at the same i2c-bus segment. In this case an error should be
++	 * returned since we can't safely use the GPIO controller to clear the
++	 * reset state (it may affect the hub configuration) and we can't lock
++	 * the i2c-bus segment (it will cause a deadlock).
++	 */
++	err = usb251x_check_gpio_chip(hub);
++	if (err)
++		return err;
++
+ 	err = usb251xb_connect(hub);
+ 	if (err) {
+ 		dev_err(dev, "Failed to connect hub (%d)\n", err);
+-- 
+2.21.0
 
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			rt1711h_ep: endpoint@0 {
-> +				reg = <0>;
-> +				remote-endpoint = <&dwc3_role_switch>;
-> +			};
-> +		};
-> +	};
-> +
->  	adv7533: adv7533@39 {
->  		status = "ok";
->  		compatible = "adi,adv7533";
-> diff --git a/arch/arm64/boot/dts/hisilicon/hi3660.dtsi b/arch/arm64/boot/dts/hisilicon/hi3660.dtsi
-> index 2f19e0e5b7cf..173467505ada 100644
-> --- a/arch/arm64/boot/dts/hisilicon/hi3660.dtsi
-> +++ b/arch/arm64/boot/dts/hisilicon/hi3660.dtsi
-> @@ -355,6 +355,12 @@
->  			#clock-cells = <1>;
->  		};
->  
-> +		pmctrl: pmctrl@fff31000 {
-> +			compatible = "hisilicon,hi3660-pmctrl", "syscon";
-> +			reg = <0x0 0xfff31000 0x0 0x1000>;
-> +			#clock-cells = <1>;
-> +		};
-> +
->  		pmuctrl: crg_ctrl@fff34000 {
->  			compatible = "hisilicon,hi3660-pmuctrl", "syscon";
->  			reg = <0x0 0xfff34000 0x0 0x1000>;
-> @@ -1134,5 +1140,72 @@
->  				};
->  			};
->  		};
-> +
-> +		usb3_otg_bc: usb3_otg_bc@ff200000 {
-> +			compatible = "syscon", "simple-mfd";
-> +			reg = <0x0 0xff200000 0x0 0x1000>;
-> +
-> +			usb_phy: usb-phy {
-> +				compatible = "hisilicon,hi3660-usb-phy";
-> +				#phy-cells = <0>;
-> +				hisilicon,pericrg-syscon = <&crg_ctrl>;
-> +				hisilicon,pctrl-syscon = <&pctrl>;
-> +				hisilicon,eye-diagram-param = <0x22466e4>;
-> +			};
-> +		};
-> +
-> +		usb3: hisi_dwc3 {
-> +			compatible = "hisilicon,hi3660-dwc3";
-> +			#address-cells = <2>;
-> +			#size-cells = <2>;
-> +			ranges;
-
-If there are not any wrapper registers, then get rid of the hisi_dwc3 
-node. For just clocks and resets we just put everything in one node.
-
-> +
-> +			clocks = <&crg_ctrl HI3660_CLK_ABB_USB>,
-> +				 <&crg_ctrl HI3660_ACLK_GATE_USB3OTG>;
-> +			clock-names = "clk_usb3phy_ref", "aclk_usb3otg";
-> +
-> +			assigned-clocks = <&crg_ctrl HI3660_ACLK_GATE_USB3OTG>;
-> +			assigned-clock-rates = <229000000>;
-> +			resets = <&crg_rst 0x90 8>,
-> +				 <&crg_rst 0x90 7>,
-> +				 <&crg_rst 0x90 6>,
-> +				 <&crg_rst 0x90 5>;
-> +
-> +			dwc3: dwc3@ff100000 {
-> +				compatible = "snps,dwc3";
-> +				reg = <0x0 0xff100000 0x0 0x100000>;
-> +				interrupts = <0 159 4>, <0 161 4>;
-> +				phys = <&usb_phy>;
-> +				phy-names = "usb3-phy";
-> +				dr_mode = "otg";
-> +				maximum-speed = "super-speed";
-> +				phy_type = "utmi";
-> +				snps,dis-del-phy-power-chg-quirk;
-
-> +				snps,lfps_filter_quirk;
-> +				snps,dis_u2_susphy_quirk;
-> +				snps,dis_u3_susphy_quirk;
-> +				snps,tx_de_emphasis_quirk;
-> +				snps,tx_de_emphasis = <1>;
-> +				snps,dis_enblslpm_quirk;
-
-Pretty sure these aren't documented because we don't use '_' in property 
-names.
-
-> +				snps,gctl-reset-quirk;
-> +				usb-role-switch;
-> +				role-switch-default-host;
-> +
-> +				port {
-> +					#address-cells = <1>;
-> +					#size-cells = <0>;
-> +
-> +					dwc3_role_switch: endpoint@0 {
-> +						reg = <0>;
-> +						remote-endpoint = <&rt1711h_ep>;
-> +					};
-> +
-> +					dwc3_role_switch_notify: endpoint@1 {
-> +						reg = <1>;
-> +						remote-endpoint = <&hikey_usb_ep>;
-> +					};
-> +				};
-> +			};
-> +		};
->  	};
->  };
-> -- 
-> 2.15.0-rc2
-> 
