@@ -2,131 +2,115 @@ Return-Path: <SRS0=WMKl=S3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_PASS,T_DKIMWL_WL_HIGH,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2CBAC43218
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 16:01:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F1C4C43218
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 16:06:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F150B20878
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 16:01:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6822B20891
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 16:06:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1556208360;
+	bh=97GfkI7Z0EoemFzp01uXTD5kqptW5JDRG7piRsrcG8g=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=iMOLH47US1R9cG+d3FgYVDpq/s0BeaovDJn59JvC5AgHjhfouTXECvbCBfr3flWuA
+	 72ir7sEqius6vWnQcM7XLChrmb+9cBxMW3Dqll9DTPqXo6gGK+I/n2aOk7/icWJs0C
+	 D8zE1HKjytphvJc7VJUEzhk3rLNUvSf5QfHlj74g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726058AbfDYQBR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Apr 2019 12:01:17 -0400
-Received: from mga17.intel.com ([192.55.52.151]:55642 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725900AbfDYQBR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 25 Apr 2019 12:01:17 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Apr 2019 09:01:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,394,1549958400"; 
-   d="scan'208";a="134338718"
-Received: from orsmsx101.amr.corp.intel.com ([10.22.225.128])
-  by orsmga007.jf.intel.com with ESMTP; 25 Apr 2019 09:01:16 -0700
-Received: from orsmsx158.amr.corp.intel.com (10.22.240.20) by
- ORSMSX101.amr.corp.intel.com (10.22.225.128) with Microsoft SMTP Server (TLS)
- id 14.3.408.0; Thu, 25 Apr 2019 09:01:16 -0700
-Received: from orsmsx102.amr.corp.intel.com ([169.254.3.144]) by
- ORSMSX158.amr.corp.intel.com ([169.254.10.159]) with mapi id 14.03.0415.000;
- Thu, 25 Apr 2019 09:01:16 -0700
-From:   "Yang, Fei" <fei.yang@intel.com>
-To:     John Stultz <john.stultz@linaro.org>,
-        Greg KH <gregkh@linuxfoundation.org>
-CC:     Felipe Balbi <balbi@kernel.org>,
-        "andrzej.p@collabora.com" <andrzej.p@collabora.com>,
-        Vincent Pelletier <plr.vincent@gmail.com>,
-        "Linux USB List" <linux-usb@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>, Josh Gao <jmgao@google.com>,
-        Alistair Strachan <astrachan@google.com>,
-        "Shen, JingX" <jingx.shen@intel.com>,
-        Alan Stern <stern@rowland.harvard.edu>
-Subject: RE: [PATCH V2] usb: gadget: f_fs: don't free buffer prematurely
-Thread-Topic: [PATCH V2] usb: gadget: f_fs: don't free buffer prematurely
-Thread-Index: AQHU3t5XE8/CBxAewk+Cmpw9nrOH2aYVLtiAgAAcHQCAE3R5gIAjc+4AgAC5BwCAAFRHAA==
-Date:   Thu, 25 Apr 2019 16:01:15 +0000
-Message-ID:
- <02E7334B1630744CBDC55DA8586225837F82FB35@ORSMSX102.amr.corp.intel.com>
-References: <1553059940-127038-1-git-send-email-fei.yang@intel.com>
- <CALAqxLUW9XCq0WqTzpYGZ7B_4CVdsXY6t_dyuwhnOTJ7HajrwQ@mail.gmail.com>
- <CALAqxLUwB4vYiCM1Yi2CizMu-FvEoBB-eNqwaTFi2b=gnvCCZQ@mail.gmail.com>
- <CALAqxLXE2Be_a3utjDP2+0mCfHeEypw_PqJPwkoyDM-F2F=jBA@mail.gmail.com>
- <20190424165052.GF21916@kroah.com>
- <CALAqxLXwoTaWLgw9u_Z6H6fW-a-6DzXAcZkaGBKpkEJAbBtJ5w@mail.gmail.com>
-In-Reply-To: <CALAqxLXwoTaWLgw9u_Z6H6fW-a-6DzXAcZkaGBKpkEJAbBtJ5w@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiZGE4ODA0ZDQtZThiMy00NmI5LWFmNGYtMjNmMTBiNmI3Mzc5IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiaVpcLzJSZHkyRWlXZWprMFhzdnkrK2ZTU29oSXc5MUNyUHUyVGhWNCtMdmk4VjhHZVc4VmhyQllEcDJOeEVqRHAifQ==
-dlp-product: dlpe-windows
-dlp-version: 11.0.600.7
-dlp-reaction: no-action
-x-originating-ip: [10.22.254.138]
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+        id S1726790AbfDYQF6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Apr 2019 12:05:58 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:33689 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726386AbfDYQF6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 12:05:58 -0400
+Received: by mail-lj1-f195.google.com with SMTP id f23so176868ljc.0
+        for <linux-usb@vger.kernel.org>; Thu, 25 Apr 2019 09:05:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QN6tBvlAtrhr/T6Juk/q7Y5HcITxKSUT+ND3nLlMAJw=;
+        b=omM9EAw2SKETjOdslcHzmxZLFJpLxhJbrzLnxkqCTzA7+QkMbf1OXouYbWsdYcsBeM
+         y8hhwtUkJdxnY+0plyGIlTTZ9XoXLNd4BqjrZIkRPWA/Uo9/YB4Bzo0JuXfgKVh2KmsE
+         Iva6GojIqEDhvED3/wuCB+89BDBQ7IJCnPwhdNNDGXAAj948OFlRffGLHYCx7hsYvPPq
+         8QXiVztmC8p6EqjhvlTvqs3D7G3sXVqMHj8WqWSIrp69FJSEet/splaCHocD/ClQll2/
+         axGQ7WG114gcoUIh99j+sEgUInopY1WE9Ijcmoj6tgC1V18SAr2adhkFLM4B05ClFIu/
+         uccA==
+X-Gm-Message-State: APjAAAUmXt0yxcjNeroBOGZydGHE42srCuDTqY4qhVkwM13q1aKdFpwj
+        FR5intbDTF/SnIKGrjTvGBQ=
+X-Google-Smtp-Source: APXvYqydKULgejT3bItbjs9yzljLwEcRvR5Iz2DFiZBIrdrtTpokAqucPyRtzeBRFg0v/38q2RSJew==
+X-Received: by 2002:a2e:7e11:: with SMTP id z17mr7063155ljc.77.1556208356509;
+        Thu, 25 Apr 2019 09:05:56 -0700 (PDT)
+Received: from xi.terra (c-74bee655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.190.116])
+        by smtp.gmail.com with ESMTPSA id b14sm4803823ljf.53.2019.04.25.09.05.55
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 25 Apr 2019 09:05:55 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.91)
+        (envelope-from <johan@xi.terra>)
+        id 1hJgsl-0002cf-E8; Thu, 25 Apr 2019 18:05:55 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Alan Stern <stern@rowland.harvard.edu>,
+        Oliver Neukum <oneukum@suse.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: [PATCH 0/5] USB: fix tty unthrottle races
+Date:   Thu, 25 Apr 2019 18:05:35 +0200
+Message-Id: <20190425160540.10036-1-johan@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190425160115.FAbeHFx9KD02EWcRr-2G1xUHbp1IyeVTZ2jlq1sqEws@z>
 
-PiBPbiBXZWQsIEFwciAyNCwgMjAxOSBhdCA5OjUwIEFNIEdyZWcgS0ggPGdyZWdraEBsaW51eGZv
-dW5kYXRpb24ub3JnPiB3cm90ZToNCj4gPg0KPiA+IE9uIFR1ZSwgQXByIDAyLCAyMDE5IGF0IDEw
-OjI2OjUxQU0gKzA3MDAsIEpvaG4gU3R1bHR6IHdyb3RlOg0KPiA+ID4gT24gV2VkLCBNYXIgMjAs
-IDIwMTkgYXQgMTE6MjEgQU0gSm9obiBTdHVsdHogPGpvaG4uc3R1bHR6QGxpbmFyby5vcmc+IHdy
-b3RlOg0KPiA+ID4gPiBPbiBXZWQsIE1hciAyMCwgMjAxOSBhdCA5OjQwIEFNIEpvaG4gU3R1bHR6
-IDxqb2huLnN0dWx0ekBsaW5hcm8ub3JnPiB3cm90ZToNCj4gPiA+ID4gPiBPbiBUdWUsIE1hciAx
-OSwgMjAxOSBhdCAxMDozMiBQTSA8ZmVpLnlhbmdAaW50ZWwuY29tPiB3cm90ZToNCj4gPiA+ID4g
-PiBFbHNld2hlcmUgaXQgc2VlbXMgdGhlIGZmcyBkcml2ZXIgdGFrZXMgZWZmb3J0IHRvIGRyb3Ag
-YW55IGxvY2tzIA0KPiA+ID4gPiA+IGJlZm9yZSBjYWxsaW5nIHVzYl9lcF9kZXF1ZXVlKCksIHNv
-IHRoaXMgc2VlbXMgbGlrZSB0aGF0IHNob3VsZCANCj4gPiA+ID4gPiBiZSBhZGRyZXNzZWQsIGJ1
-dCBpdCBhbHNvIHNlZW1zIGxpa2UgcmVjZW50IGNoYW5nZSB0byB0aGUgZHdjMyANCj4gPiA+ID4g
-PiBkcml2ZXIgaGFzIGJlZW4gbWFkZSB0byBhdm9pZCBzbGVlcGluZyBpbiB0aGF0IHBhdGggKHNl
-ZSBmZWM5MDk1YmRlZjQgKCJ1c2I6DQo+ID4gPiA+ID4gZHdjMzogZ2FkZ2V0OiByZW1vdmUgd2Fp
-dF9lbmRfdHJhbnNmZXIiKSksIHdoaWNoIG1heSBiZSB3aHkgSSdtIA0KPiA+ID4gPiA+IG5vdCBz
-ZWVpbmcgdGhlIHByb2JsZW0gd2l0aCBtYWlubGluZSAoYW5kIHlvdXIgcGF0Y2ggaGVyZSwgb2Yg
-Y29hcnNlKS4NCj4gPiA+ID4gPiBCdXQgdGhhdCBhbHNvIGRvZXNuJ3QgY2xhcmlmeSBpZiBpdHMg
-c3RpbGwgYSBwb3RlbnRpYWwgaXNzdWUgdy8NCj4gPiA+ID4gPiBub24tZHdjMyBwbGF0Zm9ybXMu
-DQo+ID4gPiA+DQo+ID4gPiA+IEZlbGlwZTogR2l2ZW4gQWxhbidzIHBvaW50LCBkb2VzIGl0IG1h
-a2Ugc2Vuc2UgdG8gbWFyayB0aGUgY29tbWl0cyANCj4gPiA+ID4gdGhhdCByZW1vdmUgdGhlIHBv
-c3NpYmxlIHNsZWVwIGZyb20gd2FpdF9ldmVudF9sb2NrX2lycSgpIGluDQo+ID4gPiA+IGR3YzNf
-Z2FkZ2V0X2VwX2RlcXVldWUoKSAgZm9yIC1zdGFibGU/DQo+ID4gPiA+DQo+ID4gPiA+IEFnYWlu
-c3QgNC4xOS4zMCwgdGhlIGZvbGxvd2luZyBzZXQgbWFuYWdlcyB0byBjaGVycnktcGljayBjbGVh
-bmx5Og0KPiA+ID4gPiBnaXQgY2hlcnJ5LXBpY2sgMWEyMmVjNjQzNTgwNjI2ZjQzOWM4NTgzZWRh
-ZmRjYzczNzk4ZjJmYg0KPiA+ID4gPiBnaXQgY2hlcnJ5LXBpY2sgMDlmZTFmOGQ3ZTJmNDYxMjc1
-YjFjZGQ4MzJmMmNmYTVlOWJlMzQ2ZA0KPiA+ID4gPiBnaXQgY2hlcnJ5LXBpY2sgYzNhY2Q1OTAx
-NDE0ODQ3MGRjNTg1MTk4NzBmYmM3Nzk3ODViNGJmNw0KPiA+ID4gPiBnaXQgY2hlcnJ5LXBpY2sg
-Nzc0NmE4ZGZiM2Y5YzkxYjNhMGI2M2ExZDVjMjY2NDQxMGU2NDk4ZA0KPiA+ID4gPiBnaXQgY2hl
-cnJ5LXBpY2sgZDU0NDNiYmY1ZmM4ZjgzODljY2UxNDZiMWZjMjk4N2NkZDIyOWQxMg0KPiA+ID4g
-PiBnaXQgY2hlcnJ5LXBpY2sgZDRmMWFmZTVlODk2YzE4YWUwMTA5OWE4NWRhYjVlMWExOThiZDJh
-OA0KPiA+ID4gPiBnaXQgY2hlcnJ5LXBpY2sgZmVjOTA5NWJkZWY0ZTdjOTg4YWRiNjAzZDBkNGY5
-MmVlNzM1ZDRhMQ0KPiA+ID4gPiAjIFRvIGdldCB0aGluZ3MgYnVpbGRpbmcsIHJldmVydCBtb2Rp
-ZmllZCAtc3RhYmxlIGZpeCBnaXQgcmV2ZXJ0IA0KPiA+ID4gPiAyNWFkMTdkICNwaWNrIGFjdHVh
-bCB1cHN0cmVhbSBmaXggcmVwbGFjaW5nIHRoZSBwcmV2aW91cyBnaXQgDQo+ID4gPiA+IGNoZXJy
-eS1waWNrIGJkNjc0MjI0OWI5Y2E5MTg1NjVlNGUzYWJhYTA2NjY1ZTU4N2Y0YjUNCj4gPiA+ID4N
-Cj4gPiA+ID4gKFRob3VnaCBJJ20gYWx3YXlzIGEgYml0IGhlc2l0YW50IHdpdGggLXN0YWJsZSBi
-YWNrcG9ydHMgb24gDQo+ID4gPiA+IHN1YnN5c3RlbXMgSSBkb24ndCBrbm93IHdlbGwuIFNvIEkn
-bSBub3Qgc3VyZSBpZiB0aGlzIHNldCBpcyBmdWxseSANCj4gPiA+ID4gY29ycmVjdC4pDQo+ID4g
-PiA+DQo+ID4gPiA+IFRoaXMgc2V0IHNlZW1zIHRvIGF2b2lkIHRoZSBjcmFzaCBvbiByZWJvb3Qg
-SSB3YXMgc2VlaW5nLg0KPiA+ID4gPg0KPiA+ID4gPiBBbmQgb2YgY291cnNlLCBJJ20gc3VyZSBn
-ZXR0aW5nIHRoYXQgc2V0IGJhY2twb3J0ZWQgdG8gNC4xNCBhbmQgDQo+ID4gPiA+IDQuOSAoYW5k
-IG1heWJlIGV2ZW4gNC40LCBJIG5lZWQgdG8gY2hlY2spIHdpbGwgYmUgbGVzcyBjbGVhbi4NCj4g
-PiA+DQo+ID4gPiBBbHNvLCAgSSBqdXN0IHdhbnRlZCB0byBmb2xsb3cgdXAgb24gdGhpcyBhcyB3
-ZWxsLiBEb2VzIHRoZSBhYm92ZSANCj4gPiA+IHNldCBvZiBjaGVycnktcGlja3MgbG9vayBvayB0
-byBvdGhlcnMgZm9yIDQuMTktc3RhYmxlPyAgRG9lcyBhbnlvbmUgDQo+ID4gPiBoYXZlIHN1Z2dl
-c3Rpb25zIG9uIGhvdyB0aGV5J2QgbGlrZSB0byBzZWUgYmFja3BvcnRzIHRvIDQuMTQsIDQuOSBh
-bmQgNC40Pw0KPiA+DQo+ID4gSWYgdGhleSBhcmUgb2ssIGNhbiBzb21lb25lIHNlbmQgbWUgdGhl
-IGNvbW1pdHMgYXMgYSBzZXJpZXMgb2YgDQo+ID4gcGF0Y2hlcywgYXMgZG9pbmcgdGhlIGFib3Zl
-IHJlYWxseSBkb2Vzbid0IGhlbHAgbXVjaCA6KQ0KPiANCj4gWWVhLCBzbyBJJ20gaGFwcHkgdG8g
-c2VuZCB0aGF0IHNldCB0byB5b3UgZm9yIDQuMTksIGFzc3VtaW5nIEZlbGlwZSBvciBzb21lb25l
-IGVsc2UgT0tzIGl0Lg0KPiBJJ20gc3RpbGwgYXQgYSBiaXQgb2YgYSBsb3NzIGZvciB3aGF0IHRv
-IGRvIGZvciBvbGRlciAoNC4xNC80LjkvNC40KSAtc3RhYmxlIGtlcm5lbHMsIGFzIGl0cyBnb2lu
-ZyB0byBiZSBkaWZmaWN1bHQgdG8gYmFja3BvcnQgdGhvc2UuDQoNClRoZSBwYXRjaCBtZW50aW9u
-ZWQgaW4gdGhlIHRpdGxlIG9mIHRoaXMgdGhyZWFkIGRvZXNuJ3QgYXBwbHkgdG8gb2xkZXIga2Vy
-bmVscy4gVGhlIGtlcm5lbCBwYW5pYyB3YXMgaW50cm9kdWNlZCBpbiA1LjAtcmNYLg0KDQoNCg==
+This series fixes a couple of long-standing issues in USB serial and
+cdc-acm which essentially share the same implementation.
+
+As noted by Oliver a few years back, read-urb completion can race with
+unthrottle() running on another CPU and this can potentially lead to
+memory corruption. This particular bug in cdc-acm was unfortunately
+reintroduced a year later.
+
+There's also a second race due to missing memory barriers which could
+theoretically lead to the port staying throttled until reopened on
+weakly ordered systems. A second set of memory barriers should address
+that.
+
+I would appreciate your keen eyes on this one to make sure I got the
+barriers right.
+
+I noticed there's some on-going discussion about the atomic memory
+barriers that Alan's involved in, and I'll try to catch up on his
+data-race work as well. I'm still a little concerned about whether the
+smp_mb__before_atomic() is sufficient to prevent the compiler from
+messing things up without adding READ_ONCE().
+
+Note that none of these have stable tags as the issues have been there
+for eight years or so without anyone noticing (besides Oliver).
+
+Still feels good to clean up your own mess.
+
+Note that the cdc-acm patches have so far only been compile tested.
+
+Johan
+
+
+Johan Hovold (5):
+  USB: serial: fix unthrottle races
+  USB: serial: clean up throttle handling
+  USB: serial: generic: drop unnecessary goto
+  USB: cdc-acm: fix unthrottle races
+  USB: cdc-acm: clean up throttle handling
+
+ drivers/usb/class/cdc-acm.c  | 63 +++++++++++++++---------------
+ drivers/usb/class/cdc-acm.h  |  3 +-
+ drivers/usb/serial/generic.c | 76 +++++++++++++++++++-----------------
+ include/linux/usb/serial.h   |  5 +--
+ 4 files changed, 75 insertions(+), 72 deletions(-)
+
+-- 
+2.21.0
+
