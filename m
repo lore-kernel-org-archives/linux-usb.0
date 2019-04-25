@@ -2,103 +2,123 @@ Return-Path: <SRS0=WMKl=S3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
-	T_DKIMWL_WL_HIGH autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_PASS,T_DKIMWL_WL_HIGH
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A021C43218
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 15:42:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DC2EC4321A
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 15:53:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6F4072088F
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 15:42:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="m1HP5Jgx"
+	by mail.kernel.org (Postfix) with ESMTP id BBA212067D
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 15:53:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1556207610;
+	bh=ho5TyauY3lJuFVAthLKFJ6Y7hIL31mARg19a8JCHiUk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=cQ6UJLVjf8bwqt+DuI+Sd7VUg5/D+WIIGaOAnOAURDFJslYTL491A+sOsVoqsZbVa
+	 n/XJpVU895MBe94002AgbOrNv63rZ/yG4cdREytGLttZ6g58QeDGqr/xh10zOkHc8W
+	 PvzSQMutLvMws72+CQFklYCyL+lcBAQxhsUJytu4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727444AbfDYPmD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Apr 2019 11:42:03 -0400
-Received: from mail-vk1-f179.google.com ([209.85.221.179]:34278 "EHLO
-        mail-vk1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727210AbfDYPmD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 11:42:03 -0400
-Received: by mail-vk1-f179.google.com with SMTP id x84so75508vkd.1
-        for <linux-usb@vger.kernel.org>; Thu, 25 Apr 2019 08:42:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OJvh8f1BrQldnLltJiOjTYwDmvNCqLdheWtTZDr4MFA=;
-        b=m1HP5Jgxv3ItBuep0ImZAEWy5h+Qsdgbd33tsUxb66IBg/TL5im+3iDy9vNdyz/1Np
-         Wws1Dw5jnnuhqEmUnCXw5TVtdDSBgmcvwoPk4lSFzISRzaf467qH9is8bNnsnmxFMEUU
-         S3Juep6PHTfV/yfcL8pqyZ31bclmqTKx3U2O0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OJvh8f1BrQldnLltJiOjTYwDmvNCqLdheWtTZDr4MFA=;
-        b=ha+cZZYj+QN1N/TXlAv4lYZ+eW0NRRazfw4uGxsMZDrnT0bRY6wjVYnuFRhV7PhNby
-         iUdDCe9Mhl92Evybln/x/sQbFaf0GO23CNuFCkEY+cnNEgVjzd08MbDZ8QtgbueSK6S4
-         gHvDLvhBR1Ritks/LjbnK6jNvB1HDFfs24oHNsyLE2DEH1UfHcg5VvesW8X3goiLvQYS
-         HoM/5p+tB+bXTv4MNCEzY42bSYTH+8atR7ke7Jehd6E9XrDfcJenY76BmqKKkaEjLX6H
-         367dhLw0eBt6Kw3L5SP1AE+OjKZ1EAZYPDUUSwIksjbB++LwSLskOUyE6Tr6N9Kd6YPC
-         5D9w==
-X-Gm-Message-State: APjAAAV9P439cAiroSEQ0tOgeKBgF/tDnBljnHbAYNahU9a3PofNes0z
-        C7bw3CA2TSB6MU9Tr9lqFZ0vQTtn0EY=
-X-Google-Smtp-Source: APXvYqwWjLYCkbMRquyezNmwQFtsWcpA7ftRa2NMd0gPwNEpevkfO2SxgFe1rZaQFW/tAIC+OS+XYQ==
-X-Received: by 2002:a1f:ce07:: with SMTP id e7mr11662374vkg.23.1556206921864;
-        Thu, 25 Apr 2019 08:42:01 -0700 (PDT)
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com. [209.85.221.180])
-        by smtp.gmail.com with ESMTPSA id w69sm8899762vsc.8.2019.04.25.08.42.00
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Apr 2019 08:42:00 -0700 (PDT)
-Received: by mail-vk1-f180.google.com with SMTP id s80so53685vke.6
-        for <linux-usb@vger.kernel.org>; Thu, 25 Apr 2019 08:42:00 -0700 (PDT)
-X-Received: by 2002:a1f:8382:: with SMTP id f124mr5329214vkd.70.1556206919980;
- Thu, 25 Apr 2019 08:41:59 -0700 (PDT)
+        id S1728972AbfDYPxW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Apr 2019 11:53:22 -0400
+Received: from casper.infradead.org ([85.118.1.10]:44084 "EHLO
+        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726020AbfDYPxV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 11:53:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=E3NXYmNospchyn56GjhuUUM3hrUac73tHVKaHCldfOk=; b=Bonx4HPMYcr3a2nktGqFVhvpkC
+        Lm7Jv3Ti63Kv4EMBUFae5lI4ptDC5RAI5ElUhwvqH9DfP8HL3oLak9sqkNi1SrdMbInWhlezS4ZQv
+        TaB3dxTt/lLAd7hovrVYa5w4+CCJd72lsXCzDbUllvhVuoJLaU1Hl5+LKJVzv+MI7D167ykTh2GZK
+        d6OPs3hXZSnLAXf1R6CrpdOPA9x9rme1ywi76UowaMUx1f609U55StEwsjKOyqNJVxN4cMGncdYB6
+        KnVvdda0AmWSEMwWetcrVOOCMdnwjzCP88m9Y10yNoScW0lTGYk+7ZUQxJpbglecBDUogb5ukJzjR
+        1L7XLtaQ==;
+Received: from [179.95.39.209] (helo=coco.lan)
+        by casper.infradead.org with esmtpsa (Exim 4.90_1 #2 (Red Hat Linux))
+        id 1hJggS-0007pK-Bs; Thu, 25 Apr 2019 15:53:12 +0000
+Date:   Thu, 25 Apr 2019 12:53:01 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Arnd Bergmann <arnd@arndb.de>, linux-fsdevel@vger.kernel.org,
+        y2038@lists.linaro.org, linux-kernel@vger.kernel.org,
+        Jason Gunthorpe <jgg@mellanox.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Sterba <dsterba@suse.com>,
+        Darren Hart <dvhart@infradead.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        devel@driverdev.osuosl.org, qat-linux@intel.com,
+        linux-crypto@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        amd-gfx@lists.freedesktop.org, linux-input@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linux-nvdimm@lists.01.org, linux-nvme@lists.infradead.org,
+        linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        Sean Young <sean@mess.org>
+Subject: Re: [PATCH v3 12/26] compat_ioctl: move more drivers to
+ compat_ptr_ioctl
+Message-ID: <20190425125301.5165cf15@coco.lan>
+In-Reply-To: <20190425153534.GS2217@ZenIV.linux.org.uk>
+References: <20190416202013.4034148-1-arnd@arndb.de>
+        <20190416202701.127745-1-arnd@arndb.de>
+        <20190425122153.450fc094@coco.lan>
+        <20190425153534.GS2217@ZenIV.linux.org.uk>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <201904252107.obtIzehz%lkp@intel.com> <CAD=FV=XSm1T6dgkzgUac25CaCvk3A=KCNUaBSLs9uqEB=2ka-g@mail.gmail.com>
-In-Reply-To: <CAD=FV=XSm1T6dgkzgUac25CaCvk3A=KCNUaBSLs9uqEB=2ka-g@mail.gmail.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Thu, 25 Apr 2019 08:41:48 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Xfi-H-eknkYo6WoCGqk_r1jq2gX2BgA2L9xDLvGAjOBg@mail.gmail.com>
-Message-ID: <CAD=FV=Xfi-H-eknkYo6WoCGqk_r1jq2gX2BgA2L9xDLvGAjOBg@mail.gmail.com>
-Subject: Re: [balbi-usb:testing/next 19/42] drivers/usb/dwc2/core_intr.c:448:25:
- error: 'struct dwc2_hsotg' has no member named 'phy_reset_work'
-To:     Felipe Balbi <felipe.balbi@linux.intel.com>
-Cc:     kbuild-all@01.org, linux-usb@vger.kernel.org,
-        linux-omap <linux-omap@vger.kernel.org>,
-        kbuild test robot <lkp@intel.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190425155301.UBia0XVAX8va7SjrQzWzFgI781tlsn406yB0Alru1HU@z>
 
-Hi,
+Em Thu, 25 Apr 2019 16:35:34 +0100
+Al Viro <viro@zeniv.linux.org.uk> escreveu:
 
-On Thu, Apr 25, 2019 at 8:02 AM Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Thu, Apr 25, 2019 at 6:14 AM kbuild test robot <lkp@intel.com> wrote:
-> >
-> >    439                          /*
-> >    440                           * If we've got this quirk then the PHY is stuck upon
-> >    441                           * wakeup.  Assert reset.  This will propagate out and
-> >    442                           * eventually we'll re-enumerate the device.  Not great
-> >    443                           * but the best we can do.  We can't call phy_reset()
-> >    444                           * at interrupt time but there's no hurry, so we'll
-> >    445                           * schedule it for later.
-> >    446                           */
-> >    447                          if (hsotg->reset_phy_on_wake)
-> >  > 448                                  schedule_work(&hsotg->phy_reset_work);
->
-> Doh!  I didn't notice that the part of the structure I put this in has:
->
-> #if IS_ENABLED(CONFIG_USB_DWC2_HOST) || IS_ENABLED(CONFIG_USB_DWC2_DUAL_ROLE)
->
-> I'll whip something up real quick that should fix it.  Sorry about that!
+> On Thu, Apr 25, 2019 at 12:21:53PM -0300, Mauro Carvalho Chehab wrote:
+> 
+> > If I understand your patch description well, using compat_ptr_ioctl
+> > only works if the driver is not for s390, right?  
+> 
+> No; s390 is where "oh, just set ->compat_ioctl same as ->unlocked_ioctl
+> and be done with that; compat_ptr() is a no-op anyway" breaks.  IOW,
+> s390 is the reason for having compat_ptr_ioctl() in the first place;
+> that thing works on all biarch architectures, as long as all stuff
+> handled by ->ioctl() takes pointer to arch-independent object as
+> argument.  IOW,
+> 	argument ignored => OK
+> 	any arithmetical type => no go, compat_ptr() would bugger it
+> 	pointer to int => OK
 
-https://lkml.kernel.org/r/20190425154021.4465-1-dianders@chromium.org
+That's the case for all LIRC ioctls: they all use a pointer to u32
+argument.
 
--Doug
+> 	pointer to string => OK
+> 	pointer to u64 => OK
+> 	pointer to struct {u64 addr; char s[11];} => OK
+> 	pointer to long => needs explicit handler
+> 	pointer to struct {void *addr; char s[11];} => needs explicit handler
+> 	pointer to struct {int x; u64 y;} => needs explicit handler on amd64
+> For "just use ->unlocked_ioctl for ->ioctl" we have
+> 	argument ignored => OK
+> 	any arithmetical type => OK
+> 	any pointer => instant breakage on s390, in addtion to cases that break
+> with compat_ptr_ioctl().
+> 
+> Probably some form of that ought to go into commit message for compat_ptr_ioctl()
+> introduction...
+
+Agreed.
+
+Thanks,
+Mauro
