@@ -2,308 +2,129 @@ Return-Path: <SRS0=WMKl=S3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 268AEC282E1
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 11:26:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 070F4C282E1
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 12:40:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DABAC218DE
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 11:26:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 94B3320644
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Apr 2019 12:40:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727192AbfDYL0H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Apr 2019 07:26:07 -0400
-Received: from mail-it1-f200.google.com ([209.85.166.200]:51395 "EHLO
-        mail-it1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727179AbfDYL0H (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Apr 2019 07:26:07 -0400
-Received: by mail-it1-f200.google.com with SMTP id f196so4766465itf.1
-        for <linux-usb@vger.kernel.org>; Thu, 25 Apr 2019 04:26:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=/gkhunVa3g55a0c9i5WsQm7U5eGdl/bsD2OziaOLXQQ=;
-        b=DouMF/JgEx6QfEgmgqwF0MWLZX4IUEuQJPIfcfuEgNrh6zh/4849yIvN0S3rl/q9hp
-         n9FedNJYBduL3PqXpy6hD1YjYqDh3f1eQLhuVYGFeo854vtLGgzsYrtt+WLHiHY/bNRW
-         uW/+iyHmXnlueeO1WBYevCZADf21fhslxcxz30qqfyqB9K7IeKkQrxIj7ENprSK/Aanx
-         hayiPKee4HMn9ZPJQF373WaMRu5merrTeho1PtbtGojLGem4pY5JzE18pLmVPyElOsNH
-         aR8wBphfP9rGBl5GjwHWKxccHOkMRoJmuQpMh3ZQ81vIpLI6wR8SeBYPwAY3VFAO1WCa
-         zYjA==
-X-Gm-Message-State: APjAAAV/Mh3H3S1eauJMtSnreHW9fKoIuDNAbrvGdm0yvwIbjxjPRsEF
-        jvCpG3DAesILE3neDoIAG8Bwpc/OZ4HcDDfNmeYy/FcwHy0T
-X-Google-Smtp-Source: APXvYqwW5Xzoz2pVems9GFjTmveXWp2wMTNJ637hiTM8pWhjHdiFauMlc8StLrFS+kqRZsPjbyCzLQMNEutRTXx9oLO3JcYYEMpA
+        id S1728200AbfDYMka (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Apr 2019 08:40:30 -0400
+Received: from mga02.intel.com ([134.134.136.20]:20751 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725965AbfDYMka (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 25 Apr 2019 08:40:30 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Apr 2019 05:40:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,393,1549958400"; 
+   d="asc'?scan'208";a="138735172"
+Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
+  by orsmga006.jf.intel.com with ESMTP; 25 Apr 2019 05:40:22 -0700
+From:   Felipe Balbi <felipe.balbi@linux.intel.com>
+To:     Douglas Anderson <dianders@chromium.org>,
+        Minas Harutyunyan <hminas@synopsys.com>, heiko@sntech.de
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
+        amstan@chromium.org, linux-rockchip@lists.infradead.org,
+        William Wu <william.wu@rock-chips.com>,
+        linux-usb@vger.kernel.org, Stefan Wahren <stefan.wahren@i2se.com>,
+        Randy Li <ayaka@soulik.info>, zyw@rock-chips.com,
+        mka@chromium.org, ryandcase@chromium.org,
+        Amelie Delaunay <amelie.delaunay@st.com>, jwerner@chromium.org,
+        dinguyen@opensource.altera.com,
+        Elaine Zhang <zhangqing@rock-chips.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [PATCH v2 3/5] Documentation: dt-bindings: Add snps,need-phy-for-wake for dwc2 USB
+In-Reply-To: <20190418001356.124334-4-dianders@chromium.org>
+References: <20190418001356.124334-1-dianders@chromium.org> <20190418001356.124334-4-dianders@chromium.org>
+Date:   Thu, 25 Apr 2019 15:40:18 +0300
+Message-ID: <87pnpas1fx.fsf@linux.intel.com>
 MIME-Version: 1.0
-X-Received: by 2002:a6b:b989:: with SMTP id j131mr10532357iof.131.1556191565883;
- Thu, 25 Apr 2019 04:26:05 -0700 (PDT)
-Date:   Thu, 25 Apr 2019 04:26:05 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000007cb1ee0587591549@google.com>
-Subject: WARNING: suspicious RCU usage in line6_pcm_acquire
-From:   syzbot <syzbot+06b7a5a8c4acc0445995@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, cgroups@vger.kernel.org, hannes@cmpxchg.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-usb@vger.kernel.org, mhocko@kernel.org,
-        syzkaller-bugs@googlegroups.com, vdavydov.dev@gmail.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190425124018.4CV_QszuCaFSCPBrR00An8JTH8i-fOp_pWJGBXhXWgs@z>
 
-Hello,
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-syzbot found the following crash on:
+Douglas Anderson <dianders@chromium.org> writes:
 
-HEAD commit:    43151d6c usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan/tree/usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=11b5f9d4a00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=4183eeef650d1234
-dashboard link: https://syzkaller.appspot.com/bug?extid=06b7a5a8c4acc0445995
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> Some SoCs with a dwc2 USB controller may need to keep the PHY on to
+> support remote wakeup.  Allow specifying this as a device tree
+> property.
+>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> For relevant prior discussion on this patch, see:
+>
+> https://lkml.kernel.org/r/1435017144-2971-3-git-send-email-dianders@chrom=
+ium.org
+>
+> I didn't make any changes from the prior version since I never found
+> out what Rob thought of my previous arguments.  If folks want a
+> change, perhaps they could choose from these options:
+>
+> 1. Assume that all dwc2 hosts would like to keep their PHY on for
+>    suspend if there's a USB wakeup enabled, thus we totally drop this
+>    binding.  This doesn't seem super great to me since I'd bet that
+>    many devices that use dwc2 weren't designed for USB wakeup (they
+>    may not keep enough clocks or rails on) so we might be wasting
+>    power for nothing.
+> 2. Rename this property to "snps,wakeup-from-suspend-with-phy" to make
+>    it more obvious that this property is intended both to document
+>    that wakeup from suspend is possible and that we need the PHY for
+>    said wakeup.
+> 3. Rename this property to "snps,can-wakeup-from-suspend" and assume
+>    it's implicit that if we can wakeup from suspend that we need to
+>    keep the PHY on.  If/when someone shows that a device exists using
+>    dwc2 where we can wakeup from suspend without the PHY they can add
+>    a new property.
+>
+> Changes in v2: None
+>
+>  Documentation/devicetree/bindings/usb/dwc2.txt | 3 +++
+>  1 file changed, 3 insertions(+)
 
-Unfortunately, I don't have any reproducer for this crash yet.
+checking file Documentation/devicetree/bindings/usb/dwc2.txt
+Hunk #1 FAILED at 37.
+Hunk #2 succeeded at 52 (offset -1 lines).
+1 out of 2 hunks FAILED
+=2D-=20
+balbi
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+06b7a5a8c4acc0445995@syzkaller.appspotmail.com
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
-=============================
-WARNING: suspicious RCU usage
-5.1.0-rc3-319004-g43151d6 #6 Not tainted
------------------------------
-include/linux/rcupdate.h:267 Illegal context switch in RCU read-side  
-critical section!
+-----BEGIN PGP SIGNATURE-----
 
-other info that might help us debug this:
-
-
-rcu_scheduler_active = 2, debug_locks = 1
-2 locks held by syz-executor.4/5712:
-  #0: 0000000034ec6c83 (rcu_read_lock){....}, at: arch_static_branch  
-arch/x86/include/asm/jump_label.h:23 [inline]
-  #0: 0000000034ec6c83 (rcu_read_lock){....}, at: mem_cgroup_disabled  
-include/linux/memcontrol.h:333 [inline]
-  #0: 0000000034ec6c83 (rcu_read_lock){....}, at:  
-get_mem_cgroup_from_mm+0x66/0x570 mm/memcontrol.c:838
-  #1: 000000004e680701 ((&toneport->timer)){+.-.}, at: lockdep_copy_map  
-include/linux/lockdep.h:170 [inline]
-  #1: 000000004e680701 ((&toneport->timer)){+.-.}, at:  
-call_timer_fn+0xce/0x5f0 kernel/time/timer.c:1315
-
-stack backtrace:
-CPU: 0 PID: 5712 Comm: syz-executor.4 Not tainted 5.1.0-rc3-319004-g43151d6  
-#6
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Call Trace:
-  <IRQ>
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xe8/0x16e lib/dump_stack.c:113
-  rcu_preempt_sleep_check include/linux/rcupdate.h:267 [inline]
-  rcu_preempt_sleep_check include/linux/rcupdate.h:265 [inline]
-  ___might_sleep+0x1b6/0x280 kernel/sched/core.c:6155
-  __mutex_lock_common kernel/locking/mutex.c:908 [inline]
-  __mutex_lock+0xcd/0x12b0 kernel/locking/mutex.c:1072
-  line6_pcm_acquire+0x35/0x210 sound/usb/line6/pcm.c:311
-  call_timer_fn+0x161/0x5f0 kernel/time/timer.c:1325
-  expire_timers kernel/time/timer.c:1362 [inline]
-  __run_timers kernel/time/timer.c:1681 [inline]
-  __run_timers kernel/time/timer.c:1649 [inline]
-  run_timer_softirq+0x58b/0x1400 kernel/time/timer.c:1694
-  __do_softirq+0x22a/0x8cd kernel/softirq.c:293
-  invoke_softirq kernel/softirq.c:374 [inline]
-  irq_exit+0x187/0x1b0 kernel/softirq.c:414
-  exiting_irq arch/x86/include/asm/apic.h:536 [inline]
-  smp_apic_timer_interrupt+0xfe/0x4a0 arch/x86/kernel/apic/apic.c:1062
-  apic_timer_interrupt+0xf/0x20 arch/x86/entry/entry_64.S:807
-  </IRQ>
-RIP: 0010:arch_local_irq_restore arch/x86/include/asm/paravirt.h:767  
-[inline]
-RIP: 0010:lock_is_held_type+0x1df/0x250 kernel/locking/lockdep.c:4251
-Code: 48 c1 ea 03 0f b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 04 84 d2  
-75 6d c7 83 3c 08 00 00 00 00 00 00 48 8b 7c 24 08 57 9d <0f> 1f 44 00 00  
-48 83 c4 18 44 89 e8 5b 5d 41 5c 41 5d 41 5e 41 5f
-RSP: 0018:ffff888074387a60 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff13
-RAX: 0000000000000007 RBX: ffff88808c00e200 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff917d62e0 RDI: 0000000000000246
-RBP: ffff88808c00e200 R08: 00000000d2d39b7b R09: ffffed1015a05c28
-R10: ffffed1015a05c27 R11: ffff8880ad02e13b R12: ffff88808c00ea38
-R13: 0000000000000001 R14: ffff88808c00ea40 R15: ffffffff917d62e0
-  get_mem_cgroup_from_mm mm/memcontrol.c:851 [inline]
-  get_mem_cgroup_from_mm+0x3b6/0x570 mm/memcontrol.c:834
-  get_mem_cgroup_from_current mm/memcontrol.c:897 [inline]
-  memcg_kmem_get_cache+0x142/0x5d0 mm/memcontrol.c:2548
-  slab_pre_alloc_hook mm/slab.h:425 [inline]
-  slab_alloc_node mm/slub.c:2682 [inline]
-  slab_alloc mm/slub.c:2764 [inline]
-  kmem_cache_alloc+0x12f/0x270 mm/slub.c:2769
-  copy_sighand kernel/fork.c:1468 [inline]
-  copy_process.part.0+0x1e84/0x76b0 kernel/fork.c:1910
-  copy_process kernel/fork.c:1709 [inline]
-  _do_fork+0x234/0xed0 kernel/fork.c:2226
-  do_syscall_64+0xcf/0x4f0 arch/x86/entry/common.c:290
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x45736a
-Code: f7 d8 64 89 04 25 d4 02 00 00 64 4c 8b 0c 25 10 00 00 00 31 d2 4d 8d  
-91 d0 02 00 00 31 f6 bf 11 00 20 01 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff  
-ff 0f 87 f5 00 00 00 85 c0 41 89 c5 0f 85 fc 00 00
-RSP: 002b:00007fff80f37540 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
-RAX: ffffffffffffffda RBX: 00007fff80f37540 RCX: 000000000045736a
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000001200011
-RBP: 00007fff80f37580 R08: 0000000000000001 R09: 0000000000a57940
-R10: 0000000000a57c10 R11: 0000000000000246 R12: 0000000000000001
-R13: 0000000000000000 R14: 0000000000000000 R15: 00007fff80f375d0
-BUG: sleeping function called from invalid context at  
-kernel/locking/mutex.c:908
-in_atomic(): 1, irqs_disabled(): 0, pid: 5712, name: syz-executor.4
-2 locks held by syz-executor.4/5712:
-  #0: 0000000034ec6c83 (rcu_read_lock){....}, at: arch_static_branch  
-arch/x86/include/asm/jump_label.h:23 [inline]
-  #0: 0000000034ec6c83 (rcu_read_lock){....}, at: mem_cgroup_disabled  
-include/linux/memcontrol.h:333 [inline]
-  #0: 0000000034ec6c83 (rcu_read_lock){....}, at:  
-get_mem_cgroup_from_mm+0x66/0x570 mm/memcontrol.c:838
-  #1: 000000004e680701 ((&toneport->timer)){+.-.}, at: lockdep_copy_map  
-include/linux/lockdep.h:170 [inline]
-  #1: 000000004e680701 ((&toneport->timer)){+.-.}, at:  
-call_timer_fn+0xce/0x5f0 kernel/time/timer.c:1315
-CPU: 0 PID: 5712 Comm: syz-executor.4 Not tainted 5.1.0-rc3-319004-g43151d6  
-#6
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Call Trace:
-  <IRQ>
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xe8/0x16e lib/dump_stack.c:113
-  ___might_sleep.cold+0x11c/0x136 kernel/sched/core.c:6190
-  __mutex_lock_common kernel/locking/mutex.c:908 [inline]
-  __mutex_lock+0xcd/0x12b0 kernel/locking/mutex.c:1072
-  line6_pcm_acquire+0x35/0x210 sound/usb/line6/pcm.c:311
-  call_timer_fn+0x161/0x5f0 kernel/time/timer.c:1325
-  expire_timers kernel/time/timer.c:1362 [inline]
-  __run_timers kernel/time/timer.c:1681 [inline]
-  __run_timers kernel/time/timer.c:1649 [inline]
-  run_timer_softirq+0x58b/0x1400 kernel/time/timer.c:1694
-  __do_softirq+0x22a/0x8cd kernel/softirq.c:293
-  invoke_softirq kernel/softirq.c:374 [inline]
-  irq_exit+0x187/0x1b0 kernel/softirq.c:414
-  exiting_irq arch/x86/include/asm/apic.h:536 [inline]
-  smp_apic_timer_interrupt+0xfe/0x4a0 arch/x86/kernel/apic/apic.c:1062
-  apic_timer_interrupt+0xf/0x20 arch/x86/entry/entry_64.S:807
-  </IRQ>
-RIP: 0010:arch_local_irq_restore arch/x86/include/asm/paravirt.h:767  
-[inline]
-RIP: 0010:lock_is_held_type+0x1df/0x250 kernel/locking/lockdep.c:4251
-Code: 48 c1 ea 03 0f b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 04 84 d2  
-75 6d c7 83 3c 08 00 00 00 00 00 00 48 8b 7c 24 08 57 9d <0f> 1f 44 00 00  
-48 83 c4 18 44 89 e8 5b 5d 41 5c 41 5d 41 5e 41 5f
-RSP: 0018:ffff888074387a60 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff13
-RAX: 0000000000000007 RBX: ffff88808c00e200 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff917d62e0 RDI: 0000000000000246
-RBP: ffff88808c00e200 R08: 00000000d2d39b7b R09: ffffed1015a05c28
-R10: ffffed1015a05c27 R11: ffff8880ad02e13b R12: ffff88808c00ea38
-R13: 0000000000000001 R14: ffff88808c00ea40 R15: ffffffff917d62e0
-  get_mem_cgroup_from_mm mm/memcontrol.c:851 [inline]
-  get_mem_cgroup_from_mm+0x3b6/0x570 mm/memcontrol.c:834
-  get_mem_cgroup_from_current mm/memcontrol.c:897 [inline]
-  memcg_kmem_get_cache+0x142/0x5d0 mm/memcontrol.c:2548
-  slab_pre_alloc_hook mm/slab.h:425 [inline]
-  slab_alloc_node mm/slub.c:2682 [inline]
-  slab_alloc mm/slub.c:2764 [inline]
-  kmem_cache_alloc+0x12f/0x270 mm/slub.c:2769
-  copy_sighand kernel/fork.c:1468 [inline]
-  copy_process.part.0+0x1e84/0x76b0 kernel/fork.c:1910
-  copy_process kernel/fork.c:1709 [inline]
-  _do_fork+0x234/0xed0 kernel/fork.c:2226
-  do_syscall_64+0xcf/0x4f0 arch/x86/entry/common.c:290
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x45736a
-Code: f7 d8 64 89 04 25 d4 02 00 00 64 4c 8b 0c 25 10 00 00 00 31 d2 4d 8d  
-91 d0 02 00 00 31 f6 bf 11 00 20 01 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff  
-ff 0f 87 f5 00 00 00 85 c0 41 89 c5 0f 85 fc 00 00
-RSP: 002b:00007fff80f37540 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
-RAX: ffffffffffffffda RBX: 00007fff80f37540 RCX: 000000000045736a
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000001200011
-RBP: 00007fff80f37580 R08: 0000000000000001 R09: 0000000000a57940
-R10: 0000000000a57c10 R11: 0000000000000246 R12: 0000000000000001
-R13: 0000000000000000 R14: 0000000000000000 R15: 00007fff80f375d0
-==================================================================
-BUG: KASAN: null-ptr-deref in memset include/linux/string.h:337 [inline]
-BUG: KASAN: null-ptr-deref in submit_audio_out_urb+0x91e/0x1780  
-sound/usb/line6/playback.c:246
-Write of size 176 at addr 0000000000000010 by task syz-executor.4/5712
-
-CPU: 0 PID: 5712 Comm: syz-executor.4 Tainted: G        W          
-5.1.0-rc3-319004-g43151d6 #6
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Call Trace:
-  <IRQ>
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xe8/0x16e lib/dump_stack.c:113
-  kasan_report.cold+0x5/0x3c mm/kasan/report.c:321
-  memset+0x20/0x40 mm/kasan/common.c:115
-  memset include/linux/string.h:337 [inline]
-  submit_audio_out_urb+0x91e/0x1780 sound/usb/line6/playback.c:246
-  line6_submit_audio_out_all_urbs+0xce/0x120 sound/usb/line6/playback.c:295
-  line6_stream_start+0x15b/0x1f0 sound/usb/line6/pcm.c:199
-  line6_pcm_acquire+0x139/0x210 sound/usb/line6/pcm.c:322
-  call_timer_fn+0x161/0x5f0 kernel/time/timer.c:1325
-  expire_timers kernel/time/timer.c:1362 [inline]
-  __run_timers kernel/time/timer.c:1681 [inline]
-  __run_timers kernel/time/timer.c:1649 [inline]
-  run_timer_softirq+0x58b/0x1400 kernel/time/timer.c:1694
-  __do_softirq+0x22a/0x8cd kernel/softirq.c:293
-  invoke_softirq kernel/softirq.c:374 [inline]
-  irq_exit+0x187/0x1b0 kernel/softirq.c:414
-  exiting_irq arch/x86/include/asm/apic.h:536 [inline]
-  smp_apic_timer_interrupt+0xfe/0x4a0 arch/x86/kernel/apic/apic.c:1062
-  apic_timer_interrupt+0xf/0x20 arch/x86/entry/entry_64.S:807
-  </IRQ>
-RIP: 0010:arch_local_irq_restore arch/x86/include/asm/paravirt.h:767  
-[inline]
-RIP: 0010:lock_is_held_type+0x1df/0x250 kernel/locking/lockdep.c:4251
-Code: 48 c1 ea 03 0f b6 14 02 48 89 f8 83 e0 07 83 c0 03 38 d0 7c 04 84 d2  
-75 6d c7 83 3c 08 00 00 00 00 00 00 48 8b 7c 24 08 57 9d <0f> 1f 44 00 00  
-48 83 c4 18 44 89 e8 5b 5d 41 5c 41 5d 41 5e 41 5f
-RSP: 0018:ffff888074387a60 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff13
-RAX: 0000000000000007 RBX: ffff88808c00e200 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff917d62e0 RDI: 0000000000000246
-RBP: ffff88808c00e200 R08: 00000000d2d39b7b R09: ffffed1015a05c28
-R10: ffffed1015a05c27 R11: ffff8880ad02e13b R12: ffff88808c00ea38
-R13: 0000000000000001 R14: ffff88808c00ea40 R15: ffffffff917d62e0
-  get_mem_cgroup_from_mm mm/memcontrol.c:851 [inline]
-  get_mem_cgroup_from_mm+0x3b6/0x570 mm/memcontrol.c:834
-  get_mem_cgroup_from_current mm/memcontrol.c:897 [inline]
-  memcg_kmem_get_cache+0x142/0x5d0 mm/memcontrol.c:2548
-  slab_pre_alloc_hook mm/slab.h:425 [inline]
-  slab_alloc_node mm/slub.c:2682 [inline]
-  slab_alloc mm/slub.c:2764 [inline]
-  kmem_cache_alloc+0x12f/0x270 mm/slub.c:2769
-  copy_sighand kernel/fork.c:1468 [inline]
-  copy_process.part.0+0x1e84/0x76b0 kernel/fork.c:1910
-  copy_process kernel/fork.c:1709 [inline]
-  _do_fork+0x234/0xed0 kernel/fork.c:2226
-  do_syscall_64+0xcf/0x4f0 arch/x86/entry/common.c:290
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x45736a
-Code: f7 d8 64 89 04 25 d4 02 00 00 64 4c 8b 0c 25 10 00 00 00 31 d2 4d 8d  
-91 d0 02 00 00 31 f6 bf 11 00 20 01 b8 38 00 00 00 0f 05 <48> 3d 00 f0 ff  
-ff 0f 87 f5 00 00 00 85 c0 41 89 c5 0f 85 fc 00 00
-RSP: 002b:00007fff80f37540 EFLAGS: 00000246 ORIG_RAX: 0000000000000038
-RAX: ffffffffffffffda RBX: 00007fff80f37540 RCX: 000000000045736a
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000001200011
-RBP: 00007fff80f37580 R08: 0000000000000001 R09: 0000000000a57940
-R10: 0000000000a57c10 R11: 0000000000000246 R12: 0000000000000001
-R13: 0000000000000000 R14: 0000000000000000 R15: 00007fff80f375d0
-==================================================================
-
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAlzBqrIACgkQzL64meEa
+mQYE0w//cCr/Wc2ZD2abiUr+FHaO2iz3BvODX3EHdzur4BMpo/KZK9JnKw4m4RUa
+L0qSu3RYrcbBW0h/zU+cy41VXKz+WBMJVgpl3TWUJ4AiTLrfQHzDNLvEXssyukkd
+t3xocK2DAbDh6IMBriCDFsogXcLAuEQmPiuXZmj7fEtdFqymdCuFDijqT7GNCHNq
+toCH4ajwUlvtjWbutwAUEl+o4Hq91nQqyZfKRhHu6Q43fLXyqQzHdDFKn041J7+f
+5bxgb3TGihobUYBNX2cGRgJBXl36fn1E+PlhFIBk7e8/09ZmF+oQaP6eU1n+jbkC
+S2BSNRO2+Cvnnylp7XTrj88QUyNv+hqiSC3lkmWoyE7IbP7LphW0K0J8h0t70P0t
+yg+7/HG1m/AhJxSSrBqUXtHdgJeCBoLjOZgRzdNccDS4vzJVId8hsZX17und9Xmg
+UCuHgLwrF+69vqD4HgVBWhFlh/BawSwgxOmih/VskGPoVIObtyxCqKqflPoEiAYT
+DtF0S6fWKk0Ko+BfCaPTg548QecBuu3uo4DO0XOu3GaYAraV9Sn2VkoJYXTDF+ny
+lv5+dRw+cY3c7UVgg41kd7Tq1Hbhuuv/IFmIg1yR1qY0gSGuLOjEYKjooa4cIblB
+AE63sGvm4y81n9AChloTq4x3NabubgLpcr8GCFuSUiDz+zwHiiY=
+=tY5t
+-----END PGP SIGNATURE-----
+--=-=-=--
