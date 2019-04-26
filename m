@@ -7,65 +7,65 @@ X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 221E4C43218
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 20:44:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43634C43218
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 20:45:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D585F2084F
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 20:44:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 12AFA2084F
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 20:45:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="AWJ0zakL"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kkgHH93o"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726571AbfDZUos (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Apr 2019 16:44:48 -0400
-Received: from mail-vs1-f66.google.com ([209.85.217.66]:45716 "EHLO
-        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725966AbfDZUos (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Apr 2019 16:44:48 -0400
-Received: by mail-vs1-f66.google.com with SMTP id o10so2675071vsp.12
-        for <linux-usb@vger.kernel.org>; Fri, 26 Apr 2019 13:44:47 -0700 (PDT)
+        id S1726324AbfDZUpU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Apr 2019 16:45:20 -0400
+Received: from mail-ua1-f68.google.com ([209.85.222.68]:37572 "EHLO
+        mail-ua1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725966AbfDZUpU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Apr 2019 16:45:20 -0400
+Received: by mail-ua1-f68.google.com with SMTP id l17so1646490uar.4
+        for <linux-usb@vger.kernel.org>; Fri, 26 Apr 2019 13:45:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=qrAoWj7gvC8gD5vO2Wj33xyZmTXqIYBC9apK5Phh53w=;
-        b=AWJ0zakLHj/fWXUPH6TJTcHNAbRuoz+e4C/Znh7iChfSZRg6g6lLVsCw/5bDq3y658
-         I525C5ny4ehiW3FsM28A5FbBNdvhPYgA9oPfBQ40+lfKYDc+csTgKMk9bDg8qc/6gl4r
-         TxdqT1K9qpWe3Ljagk1VPrfNL4PnrjmE9LwUE=
+        bh=danbixtRkMpbGQOKC4rHtO5Bgk98IM8uNR/bclUh/IU=;
+        b=kkgHH93oLf2jvdv05Z77EwCEfEyEpkIa2Qivid1YtaW5V4gpo0lC0H6P13DylPCuZv
+         fmK3g+oqEy2Yu3rzmZWJe+73vvlw/xXJlXyYv7H0y77A7NCAIvKUyNNAJU03B+NU/h6X
+         ylSW8J+EjdlWc9VTB1xNniLgrEBqUClWq0Wq8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=qrAoWj7gvC8gD5vO2Wj33xyZmTXqIYBC9apK5Phh53w=;
-        b=EjRZtVvUIukep6QJTZs1qpQsAtxRAAcZmHl2m7GjMrx+onhq5ijZprxE+yh7lYgCbw
-         +O1XDJyjiuoCIFyHkKs8em98SfM7ndHLWLPUN30lXPKj953LJ+k6sceW2vaN8GJH5afX
-         Cc1EIHByrapBY28OS41PCOa/p11SHpVT8NeeLp950F9z1g3gjuA1g2z6AR7HEVrzOppP
-         5xPOg5jEdqQaRi3OUVm4Ugu448Fk+1vbEWwpS9+ZKSWE+8yvIaovwocitnjOD6CBsxEP
-         gGvI7NTusL+nVa6knXc6v5IwDuK2d9pc4gcDl+RgV5qd43MY1b5WEbChwsyAb0L3KNPZ
-         hMvA==
-X-Gm-Message-State: APjAAAVAUZcN7DMRp1aEuHADyLM3AZMrhqaLj+pfHSVIZ4rJa0Zmfxpm
-        AVzWqSgyYqK9qgc79z3glk1ClTT7MKw=
-X-Google-Smtp-Source: APXvYqzhSJZrFXHivB8EFM+IX5ek0b2H9GmSfMVJ4Sha8gI5YQ3spmP3Iwm1qcBOaxEycaj/jBCilw==
-X-Received: by 2002:a67:cf84:: with SMTP id g4mr26542630vsm.67.1556311487161;
-        Fri, 26 Apr 2019 13:44:47 -0700 (PDT)
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com. [209.85.217.50])
-        by smtp.gmail.com with ESMTPSA id z192sm16028227vkd.45.2019.04.26.13.44.46
+        bh=danbixtRkMpbGQOKC4rHtO5Bgk98IM8uNR/bclUh/IU=;
+        b=h1dAWGW6DfDKcEctUqvaMP1F9THYDTUrTpayT5qsR/pnvBU2J/mgTiyiWJ7msRudu1
+         KVjtA5feET8bMwumKThMInbkQHuTEv5fEryKuXAXk3ZZUPAZVO9hL/ivsFudDXcW5rWN
+         ubkyFmsLzBX2unqi+3YExS/qZAWhhHJJ/bhaeIeScHzGdPIA4DZ4dstXW14+Updl6GID
+         mkOhyjy8D1HDFPA7OyhmD8LulWrSxL22s0IUcrGcvfbqFnxoupDK2QD3hCOiMo1eGPCk
+         fzlhqQA956FqFNJuO5E94ubY5dVWdeAIKv15upGNKtFAvKeHvWdzFp+zeOGZJs1nr4gR
+         x2kA==
+X-Gm-Message-State: APjAAAWMojCBdQbX3osnCY5foqQMV/JY2j62lFpP49wh49pZQxwp8a8a
+        ewtYuxzZyj+ZNrVlDmIiHyPdxeXZ9OA=
+X-Google-Smtp-Source: APXvYqwqpiwDdiGmunTLVJ5xcf7hNOuXtA9tJ/l/3sCYYvVX4s9MDU/OlCEd/xRFLa1Lc26B4IJuFQ==
+X-Received: by 2002:a9f:31b2:: with SMTP id v47mr2912240uad.47.1556311519013;
+        Fri, 26 Apr 2019 13:45:19 -0700 (PDT)
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
+        by smtp.gmail.com with ESMTPSA id w184sm20376360vkd.0.2019.04.26.13.45.18
         for <linux-usb@vger.kernel.org>
         (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Apr 2019 13:44:46 -0700 (PDT)
-Received: by mail-vs1-f50.google.com with SMTP id e2so2671795vsc.13
-        for <linux-usb@vger.kernel.org>; Fri, 26 Apr 2019 13:44:46 -0700 (PDT)
-X-Received: by 2002:a67:ffce:: with SMTP id w14mr4267846vsq.111.1556311485955;
- Fri, 26 Apr 2019 13:44:45 -0700 (PDT)
+        Fri, 26 Apr 2019 13:45:18 -0700 (PDT)
+Received: by mail-vs1-f41.google.com with SMTP id r12so1788982vsp.7
+        for <linux-usb@vger.kernel.org>; Fri, 26 Apr 2019 13:45:18 -0700 (PDT)
+X-Received: by 2002:a67:e88c:: with SMTP id x12mr755410vsn.87.1556311517747;
+ Fri, 26 Apr 2019 13:45:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1555672441.git.arturp@synopsys.com> <0dc725c7e9956eedaf03bb5d68a7d5e856d8cb5a.1555672441.git.arturp@synopsys.com>
-In-Reply-To: <0dc725c7e9956eedaf03bb5d68a7d5e856d8cb5a.1555672441.git.arturp@synopsys.com>
+References: <cover.1555672441.git.arturp@synopsys.com> <ac07dae6922ad0110dbecffcab1dc495ce6a6cbc.1555672441.git.arturp@synopsys.com>
+In-Reply-To: <ac07dae6922ad0110dbecffcab1dc495ce6a6cbc.1555672441.git.arturp@synopsys.com>
 From:   Doug Anderson <dianders@chromium.org>
-Date:   Fri, 26 Apr 2019 13:44:34 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UjPPnGVjfch8En+S5UndTDK06HK-7QRHdK3oOr+kCiEw@mail.gmail.com>
+Date:   Fri, 26 Apr 2019 13:45:06 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WGJj1O2kbEYbSP7O-1pZ4F5LpwE=endPX-zmq-9WP6Tg@mail.gmail.com>
 Message-ID:
- <CAD=FV=UjPPnGVjfch8En+S5UndTDK06HK-7QRHdK3oOr+kCiEw@mail.gmail.com>
-Subject: Re: [PATCH v1 04/14] usb: dwc2: Fix suspend state in host mode for
- partial power down.
+ <CAD=FV=WGJj1O2kbEYbSP7O-1pZ4F5LpwE=endPX-zmq-9WP6Tg@mail.gmail.com>
+Subject: Re: [PATCH v1 05/14] usb: dwc2: Add port conn. sts. checking in
+ _dwc2_hcd_resume() function.
 To:     Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
 Cc:     Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -77,78 +77,41 @@ Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190426204434.jZt5-VIwSP9FGUTF6P9GVaRqdB9FtnQe0-EklurOGIs@z>
+Message-ID: <20190426204506.XLnMyGaaqGuZGFZYsEp5XgJwDXywb32BgvnGJCXjmu4@z>
 
 Hi,
 
-On Fri, Apr 19, 2019 at 1:05 PM Artur Petrosyan
+On Fri, Apr 19, 2019 at 11:53 AM Artur Petrosyan
 <Arthur.Petrosyan@synopsys.com> wrote:
 >
-> - In dwc2_port_suspend() function added waiting for the
->   HPRT0.PrtSusp register field to be set.
+> Added port connection status checking which prevents exiting from
+> Partial Power Down mode from _dwc2_hcd_resume() when no entering
+> to Partial Power Down mode happened.
 >
-> - In _dwc2_hcd_suspend() function added checking of
->   "hsotg->flags.b.port_connect_status" port connection
->   status if port connection status is 0 then skipping
->   power saving (entering partial power down mode).
->   Because if there is no device connected there would
->   be no need to enter partial power down mode.
->
-> - Added "hsotg->bus_suspended = true" beceuse after
-
-s/beceuse/because
-
->   entering partial power down in host mode the
->   bus_suspended flag must be set.
-
-The above statement sounds to me like trying to win an argument by
-saying "I'm right because I'm right."  Can you give more details about
-why "bus_suspended" must be set?  See below also.
-
-
 > Signed-off-by: Artur Petrosyan <arturp@synopsys.com>
 > ---
->  drivers/usb/dwc2/hcd.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
+>  drivers/usb/dwc2/hcd.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 >
 > diff --git a/drivers/usb/dwc2/hcd.c b/drivers/usb/dwc2/hcd.c
-> index dd82fa516f3f..1d18258b5ff8 100644
+> index 1d18258b5ff8..8367902a47eb 100644
 > --- a/drivers/usb/dwc2/hcd.c
 > +++ b/drivers/usb/dwc2/hcd.c
-> @@ -3479,6 +3479,10 @@ static void dwc2_port_suspend(struct dwc2_hsotg *hsotg, u16 windex)
->         hprt0 |= HPRT0_SUSP;
->         dwc2_writel(hsotg, hprt0, HPRT0);
->
-> +       /* Wait for the HPRT0.PrtSusp register field to be set */
-> +       if (dwc2_hsotg_wait_bit_set(hsotg, HPRT0, HPRT0_SUSP, 3000))
-> +               dev_warn(hsotg->dev, "Suspend wasn't generated\n");
+> @@ -4544,6 +4544,9 @@ static int _dwc2_hcd_resume(struct usb_hcd *hcd)
+>         struct dwc2_hsotg *hsotg = dwc2_hcd_to_hsotg(hcd);
+>         unsigned long flags;
+>         int ret = 0;
+> +       u32 hprt0;
 > +
->         hsotg->bus_suspended = true;
+> +       hprt0 = dwc2_read_hprt0(hsotg);
 >
->         /*
-> @@ -4488,7 +4492,8 @@ static int _dwc2_hcd_suspend(struct usb_hcd *hcd)
->         if (hsotg->op_state == OTG_STATE_B_PERIPHERAL)
->                 goto unlock;
->
-> -       if (hsotg->params.power_down != DWC2_POWER_DOWN_PARAM_PARTIAL)
-> +       if (hsotg->params.power_down != DWC2_POWER_DOWN_PARAM_PARTIAL ||
-> +           hsotg->flags.b.port_connect_status == 0)
->                 goto skip_power_saving;
->
->         /*
-> @@ -4514,6 +4519,8 @@ static int _dwc2_hcd_suspend(struct usb_hcd *hcd)
->                 goto skip_power_saving;
->         }
->
-> +       hsotg->bus_suspended = true;
-> +
+>         spin_lock_irqsave(&hsotg->lock, flags);
 
-I'm a bit unsure about this.  Specifically I note that
-_dwc2_hcd_resume() has a special case "if (hsotg->bus_suspended)".
-Does that now become dead code?
-
-...I talk about this a bit more in my review of ("usb: dwc2: Add
-enter/exit hibernation from system issued suspend/resume")
+In this patch you put the reading of hprt0 before the spinlock (which
+seems wrong) and then you move it after the spinlock in the last patch
+in the series, AKA ("usb: dwc2: Add enter/exit hibernation from system
+issued suspend/resume").  Can you just put it in the right place here
+so you don't need to move it in a later patch?
 
 
 -Doug
