@@ -2,39 +2,21 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [v4,1/6] dt-bindings: connector: add optional properties for Type-B
-From: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Message-Id: <1556261237-13823-2-git-send-email-chunfeng.yun@mediatek.com>
-Date: Fri, 26 Apr 2019 14:47:12 +0800
-To: Rob Herring <robh+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Mark Rutland <mark.rutland@arm.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, Adam Thomson <Adam.Thomson.Opensource@diasemi.com>, Li Jun <jun.li@nxp.com>, Badhri Jagan Sridharan <badhri@google.com>, Hans de Goede <hdegoede@redhat.com>, Andy Shevchenko <andy.shevchenko@gmail.com>, Min Guo <min.guo@mediatek.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, Biju Das <biju.das@bp.renesas.com>, Linus Walleij <linus.walleij@linaro.org>
+From: Rob Herring <robh+dt@kernel.org>
+Message-Id: <CAL_Jsq+2jWJHm3-5BU6NUqFsSN=K15douOyYWeKoKseqhPDysw@mail.gmail.com>
+Date: Fri, 26 Apr 2019 08:19:40 -0500
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>, Mark Rutland <mark.rutland@arm.com>, Matthias Brugger <matthias.bgg@gmail.com>, Adam Thomson <Adam.Thomson.Opensource@diasemi.com>, Li Jun <jun.li@nxp.com>, Badhri Jagan Sridharan <badhri@google.com>, Hans de Goede <hdegoede@redhat.com>, Andy Shevchenko <andy.shevchenko@gmail.com>, Min Guo <min.guo@mediatek.com>, devicetree@vger.kernel.org, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>, "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, Biju Das <biju.das@bp.renesas.com>, Linus Walleij <linus.walleij@linaro.org>
 List-ID: <linux-usb.vger.kernel.org>
 
-QWRkIGlkLWdwaW9zLCB2YnVzLWdwaW9zLCB2YnVzLXN1cHBseSBhbmQgcGluY3RybCBwcm9wZXJ0
-aWVzIGZvcgp1c2ItYi1jb25uZWN0b3IKClNpZ25lZC1vZmYtYnk6IENodW5mZW5nIFl1biA8Y2h1
-bmZlbmcueXVuQG1lZGlhdGVrLmNvbT4KLS0tCnY0IG5vIGNoYW5nZXMKCnYzIGNoYW5nZXM6CiAx
-LiBhZGQgR1BJTyBkaXJlY3Rpb24sIGFuZCB1c2UgZml4ZWQtcmVndWxhdG9yIGZvciBHUElPIGNv
-bnRyb2xsZWQKICAgIFZCVVMgcmVndWxhdG9yIHN1Z2dlc3RlZCBieSBSb2I7Cgp2MiBjaGFuZ2Vz
-OgogIDEuIGRlc2NyaWJlIG1vcmUgY2xlYXIgZm9yIHZidXMtZ3Bpb3MgYW5kIHZidXMtc3VwcGx5
-IHN1Z2dlc3RlZCBieSBIYW5zCi0tLQogLi4uL2JpbmRpbmdzL2Nvbm5lY3Rvci91c2ItY29ubmVj
-dG9yLnR4dCAgICAgICAgICAgfCAxNCArKysrKysrKysrKysrKwogMSBmaWxlIGNoYW5nZWQsIDE0
-IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
-ZGluZ3MvY29ubmVjdG9yL3VzYi1jb25uZWN0b3IudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0
-cmVlL2JpbmRpbmdzL2Nvbm5lY3Rvci91c2ItY29ubmVjdG9yLnR4dAppbmRleCBhOWEyZjJmYzQ0
-ZjIuLmU4ZjllODU0ZmQxMSAxMDA2NDQKLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
-bmRpbmdzL2Nvbm5lY3Rvci91c2ItY29ubmVjdG9yLnR4dAorKysgYi9Eb2N1bWVudGF0aW9uL2Rl
-dmljZXRyZWUvYmluZGluZ3MvY29ubmVjdG9yL3VzYi1jb25uZWN0b3IudHh0CkBAIC0xNyw2ICsx
-NywyMCBAQCBPcHRpb25hbCBwcm9wZXJ0aWVzOgogLSBzZWxmLXBvd2VyZWQ6IFNldCB0aGlzIHBy
-b3BlcnR5IGlmIHRoZSB1c2IgZGV2aWNlIHRoYXQgaGFzIGl0cyBvd24gcG93ZXIKICAgc291cmNl
-LgogCitPcHRpb25hbCBwcm9wZXJ0aWVzIGZvciB1c2ItYi1jb25uZWN0b3I6CistIGlkLWdwaW9z
-OiBhbiBpbnB1dCBncGlvIGZvciBVU0IgSUQgcGluLgorLSB2YnVzLWdwaW9zOiBhbiBpbnB1dCBn
-cGlvIGZvciBVU0IgVkJVUyBwaW4sIHVzZWQgdG8gZGV0ZWN0IHByZXNlbmNlIG9mCisgIFZCVVMg
-NVYuCisgIHNlZSBncGlvL2dwaW8udHh0LgorLSB2YnVzLXN1cHBseTogYSBwaGFuZGxlIHRvIHRo
-ZSByZWd1bGF0b3IgZm9yIFVTQiBWQlVTIGlmIG5lZWRlZCB3aGVuIGhvc3QKKyAgbW9kZSBvciBk
-dWFsIHJvbGUgbW9kZSBpcyBzdXBwb3J0ZWQuCisgIFBhcnRpY3VsYXJseSwgaWYgdXNlIGFuIG91
-dHB1dCBHUElPIHRvIGNvbnRyb2wgYSBWQlVTIHJlZ3VsYXRvciwgc2hvdWxkCisgIG1vZGVsIGl0
-IGFzIGEgcmVndWxhdG9yLgorICBzZWUgcmVndWxhdG9yL2ZpeGVkLXJlZ3VsYXRvci55YW1sCist
-IHBpbmN0cmwtbmFtZXMgOiBhIHBpbmN0cmwgc3RhdGUgbmFtZWQgImRlZmF1bHQiIGlzIG9wdGlv
-bmFsCistIHBpbmN0cmwtMCA6IHBpbiBjb250cm9sIGdyb3VwCisgIHNlZSBwaW5jdHJsL3BpbmN0
-cmwtYmluZGluZ3MudHh0CisKIE9wdGlvbmFsIHByb3BlcnRpZXMgZm9yIHVzYi1jLWNvbm5lY3Rv
-cjoKIC0gcG93ZXItcm9sZTogc2hvdWxkIGJlIG9uZSBvZiAic291cmNlIiwgInNpbmsiIG9yICJk
-dWFsIihEUlApIGlmIHR5cGVjCiAgIGNvbm5lY3RvciBoYXMgcG93ZXIgc3VwcG9ydC4K
+T24gRnJpLCBBcHIgMjYsIDIwMTkgYXQgMTo0NyBBTSBDaHVuZmVuZyBZdW4gPGNodW5mZW5nLnl1
+bkBtZWRpYXRlay5jb20+IHdyb3RlOgo+Cj4gQWRkIGlkLWdwaW9zLCB2YnVzLWdwaW9zLCB2YnVz
+LXN1cHBseSBhbmQgcGluY3RybCBwcm9wZXJ0aWVzIGZvcgo+IHVzYi1iLWNvbm5lY3Rvcgo+Cj4g
+U2lnbmVkLW9mZi1ieTogQ2h1bmZlbmcgWXVuIDxjaHVuZmVuZy55dW5AbWVkaWF0ZWsuY29tPgo+
+IC0tLQo+IHY0IG5vIGNoYW5nZXMKPgo+IHYzIGNoYW5nZXM6Cj4gIDEuIGFkZCBHUElPIGRpcmVj
+dGlvbiwgYW5kIHVzZSBmaXhlZC1yZWd1bGF0b3IgZm9yIEdQSU8gY29udHJvbGxlZAo+ICAgICBW
+QlVTIHJlZ3VsYXRvciBzdWdnZXN0ZWQgYnkgUm9iOwo+Cj4gdjIgY2hhbmdlczoKPiAgIDEuIGRl
+c2NyaWJlIG1vcmUgY2xlYXIgZm9yIHZidXMtZ3Bpb3MgYW5kIHZidXMtc3VwcGx5IHN1Z2dlc3Rl
+ZCBieSBIYW5zCj4gLS0tCj4gIC4uLi9iaW5kaW5ncy9jb25uZWN0b3IvdXNiLWNvbm5lY3Rvci50
+eHQgICAgICAgICAgIHwgMTQgKysrKysrKysrKysrKysKPiAgMSBmaWxlIGNoYW5nZWQsIDE0IGlu
+c2VydGlvbnMoKykKClJldmlld2VkLWJ5OiBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPgo=
