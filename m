@@ -2,340 +2,116 @@ Return-Path: <SRS0=7cGN=S4=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
+	T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_MUTT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4F2AC43218
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 16:02:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D8CCC4321A
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 18:14:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6D6702077B
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 16:02:14 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gpaxBozh"
+	by mail.kernel.org (Postfix) with ESMTP id 337A2208CA
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 18:14:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1556302449;
+	bh=OtrnvbpdQWt45+NmXvQTL+PalSePttTQBFOnzAYV62Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Ai+jN/sMo+KLFPOKVc4Tg3Ah5O+Fp9LG+O2dMO4Mf86LufJnEcUhHYnW5tQ6v7/vu
+	 iNWzQH4tIBTyhajOwDGQ5ZodNOTnf5JaIi+Y2arvi9dsHWHMBdMjVY2MpQNqw8V8bH
+	 IVWkBod7av7dXg4Gew36cgkrzFHCHyLOWrdohxgk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726295AbfDZQCN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Apr 2019 12:02:13 -0400
-Received: from mail-vs1-f67.google.com ([209.85.217.67]:42422 "EHLO
-        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725984AbfDZQCN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Apr 2019 12:02:13 -0400
-Received: by mail-vs1-f67.google.com with SMTP id w20so2208799vso.9
-        for <linux-usb@vger.kernel.org>; Fri, 26 Apr 2019 09:02:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=60+QVHHYWT7Sj6geC6fsnTlQcwWJwg2QCyHfyDCIv6E=;
-        b=gpaxBozhh7cLarDA+Ud1U6H+G1beniuYVeKOLf43eIpcG1xjM8tAmK/69//uLAZGbo
-         /oXpidUNgZ/SiKiDBCKGNwlQLqJUL9rMneMoS4hf5pLuSxwMgykNotnEADgxImnBnY4n
-         qPG9qpgYiyEaZzsWjqjHdsU9rl2QBkskqO4p8=
+        id S1726170AbfDZSOH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Apr 2019 14:14:07 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:37910 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726005AbfDZSOH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Apr 2019 14:14:07 -0400
+Received: by mail-oi1-f196.google.com with SMTP id a6so3664662oie.5;
+        Fri, 26 Apr 2019 11:14:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=60+QVHHYWT7Sj6geC6fsnTlQcwWJwg2QCyHfyDCIv6E=;
-        b=ocE0Sdk9RLNFifW5WHwkDwGTJU1+lNt2oxtOEAyEVXDXRE/kdpowfv1HZU5FqdZNX/
-         JBt4ntFtQNkdHlWcytVdxbaxycDwufmr6UnTXy+9Dw1VFjOYLXHj2MEwYFFzvY97m4oD
-         bdGqol/LY5+p5pNQjU75Wfw9wN0Cz8ADIS6CLLKU5bUF7+ioBpZchtAbNjSFP+sSG5nT
-         7krllEVMbN2V4NkAdhs50EylknHM0UrVN4NwxbSSq+6kprp0GRxhXw9Q2gfDxzUA+ewm
-         EIetUss3K5qL1IpZvDAvzHUrXLID8wX84inDDeDsYgJEawLkp5UWgMhSfCzNWtg4VncL
-         uuZQ==
-X-Gm-Message-State: APjAAAUqPUv8a3TAyFYIuridZ7kKDuFoxUDcUVsZxlKof+xd2qB4pIhR
-        69hTi9OWWPxFTsjSLlcrwN4NfCZdycE=
-X-Google-Smtp-Source: APXvYqwB/8VJzw+FrZX702dULmUnIThwb/94uM5q1ZB+Rslm3O5jKbHgQGy1i2m9hp+d/n1lty/z9g==
-X-Received: by 2002:a67:8dc4:: with SMTP id p187mr25443582vsd.157.1556294531332;
-        Fri, 26 Apr 2019 09:02:11 -0700 (PDT)
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com. [209.85.221.173])
-        by smtp.gmail.com with ESMTPSA id w184sm19600363vkd.0.2019.04.26.09.02.09
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Apr 2019 09:02:10 -0700 (PDT)
-Received: by mail-vk1-f173.google.com with SMTP id x2so871458vkx.13
-        for <linux-usb@vger.kernel.org>; Fri, 26 Apr 2019 09:02:09 -0700 (PDT)
-X-Received: by 2002:a1f:1e48:: with SMTP id e69mr16380274vke.16.1556294529011;
- Fri, 26 Apr 2019 09:02:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1555672441.git.arturp@synopsys.com> <87k1fis1b5.fsf@linux.intel.com>
- <SN1PR12MB2431EB450993E07730C3672FA73D0@SN1PR12MB2431.namprd12.prod.outlook.com>
- <CAD=FV=WKJMks9oCdUVS9vTKp9yD_VPE_uaAmTM9HgNoz8tt4pA@mail.gmail.com> <SN1PR12MB24312AEFA71B7EEF6FE4EB59A73E0@SN1PR12MB2431.namprd12.prod.outlook.com>
-In-Reply-To: <SN1PR12MB24312AEFA71B7EEF6FE4EB59A73E0@SN1PR12MB2431.namprd12.prod.outlook.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Fri, 26 Apr 2019 09:01:55 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WmtKYt5hn8s1PrjEgFcJqyc-8UWbyEmjPPVq0o4YgD5w@mail.gmail.com>
-Message-ID: <CAD=FV=WmtKYt5hn8s1PrjEgFcJqyc-8UWbyEmjPPVq0o4YgD5w@mail.gmail.com>
-Subject: Re: [PATCH v1 00/14] usb: dwc2: Fix and improve power saving modes.
-To:     Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
-Cc:     Felipe Balbi <balbi@kernel.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=l4fal+8ScWj1Z30fuoMdFGsjd+aE8RMmHMHUL3XwDpo=;
+        b=H8OZG3I1KtvEnp9R7DWumogD763wbDf+xUQWmAXum8jNQ5efodBvVOKnBU2MptdEVn
+         knPHqjzb1h4twtty4eua2sfBhFyHENAOR8sCY80jpBlad9rlaI/C0uBvu9gq4ZhrUiRi
+         RnQW6P8gzMvK054kIMcys5K+0PPYACtHxoA50n0KHAxpOmH2ByM2sYa8MR/UjExiYG5q
+         hrI1nNMeFPaUsPj6/qTideLJzDh/jjjeaJ6f9YHC2cmABXGMl08p1YGKt06rb2vRPz4o
+         ufcVUtYth3SuGwlce5bA4nJE/33i8ZpLR/5eeOSBylplVhE/0jKzZI2Tu4uAVB8oe94w
+         2V7w==
+X-Gm-Message-State: APjAAAVGdGgJUY7GSFHxh0PUs2B9jQa+l31V0uADrGiVjeufK21mW/DI
+        6kDUo4qPK4MKnOT3ux+8UQQ4Ox4=
+X-Google-Smtp-Source: APXvYqyO1D5kevIr0rRBHC3xR/akDQ1wNpTh3d89O46lZII2LoewgBly0zs/M6/Y5J+dUoARUI7Dpg==
+X-Received: by 2002:aca:8d3:: with SMTP id 202mr8006064oii.76.1556302446605;
+        Fri, 26 Apr 2019 11:14:06 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id 88sm12185945otj.3.2019.04.26.11.14.05
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 26 Apr 2019 11:14:05 -0700 (PDT)
+Date:   Fri, 26 Apr 2019 13:14:05 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        John Youn <John.Youn@synopsys.com>,
-        LKML <linux-kernel@vger.kernel.org>
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, Simon Horman <horms@verge.net.au>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH V5 4/9] dt-bindings: usb: renesas_usb3: Add
+ renesas,usb-role-switch property
+Message-ID: <20190426181405.GA1881@bogus>
+References: <1556097743-12717-1-git-send-email-biju.das@bp.renesas.com>
+ <1556097743-12717-5-git-send-email-biju.das@bp.renesas.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <1556097743-12717-5-git-send-email-biju.das@bp.renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190426181405.-2pyuYKrSVmSk-yuAoQgDxqjEBEcIfJ4ecznxDGQLyE@z>
 
-Hi,
+On Wed, Apr 24, 2019 at 10:22:18AM +0100, Biju Das wrote:
+> Add an optional property renesas,usb-role-switch to support
+> dual role switch for USB Type-C DRP port controller devices
+> using USB role switch class framework.
+> 
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> ---
+>  V4-->V5
+>   * No Change
+>  V3-->V4
+>   * No Change
+>  V2-->V3
+>   * Added optional renesas,usb-role-switch property.
+>  V1-->V2
+>   * Added usb-role-switch-property
+>   * Updated the example with usb-role-switch property.
+> ---
+>  .../devicetree/bindings/usb/renesas_usb3.txt       | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/renesas_usb3.txt b/Documentation/devicetree/bindings/usb/renesas_usb3.txt
+> index 35039e7..f1cb06a 100644
+> --- a/Documentation/devicetree/bindings/usb/renesas_usb3.txt
+> +++ b/Documentation/devicetree/bindings/usb/renesas_usb3.txt
+> @@ -22,6 +22,7 @@ Required properties:
+>  Optional properties:
+>    - phys: phandle + phy specifier pair
+>    - phy-names: must be "usb"
+> +  - renesas,usb-role-switch: use USB role switch to handle role switch events
 
-On Fri, Apr 26, 2019 at 12:11 AM Artur Petrosyan
-<Arthur.Petrosyan@synopsys.com> wrote:
->
-> Hi Doug,
->
-> On 4/26/2019 00:13, Doug Anderson wrote:
-> > Hi,
-> >
-> > On Thu, Apr 25, 2019 at 7:01 AM Artur Petrosyan
-> > <Arthur.Petrosyan@synopsys.com> wrote:
-> >>
-> >> Hi,
-> >>
-> >> On 4/25/2019 16:43, Felipe Balbi wrote:
-> >>> Artur Petrosyan <Arthur.Petrosyan@synopsys.com> writes:
-> >>>> This patch set, fixes and improves partial power down and hibernatio=
-n power
-> >>>> saving modes. Also, adds support for entering/exiting hibernation by
-> >>>> system issued suspend/resume.
-> >>>>
-> >>>> This series contains patches which were submitted to LKML. However, =
-a part
-> >>>> of those patches didn't reach to LKML because of local issue related=
- to
-> >>>> smtp server.
-> >>>>
-> >>>> The patches which reached to LKML are:
-> >>>>
-> >>>> - usb: dwc2: Add part. power down exit from dwc2_conn_id_status_chan=
-ge().
-> >>>> - usb: dwc2: Add port conn. sts. checking in _dwc2_hcd_resume() func=
-tion.
-> >>>> - usb: dwc2: Fix suspend state in host mode for partial power down.
-> >>>> - usb: dwc2: Fix wakeup detected and session request interrupt handl=
-ers.
-> >>>> - usb: dwc2: Add descriptive debug messages for Partial Power Down m=
-ode.
-> >>>> - usb: dwc2: Fix dwc2_restore_device_registers() function.
-> >>>>
-> >>>> The patches which didn't reach to LKML are:
-> >>>>
-> >>>> - usb: dwc2: Add enter/exit hibernation from system issued suspend/r=
-esume
-> >>>> - usb: dwc2: Clear GINTSTS_RESTOREDONE bit after restore is generate=
-d.
-> >>>> - usb: dwc2: Clear fifo_map when resetting core.
-> >>>> - usb: dwc2: Allow exiting hibernation from gpwrdn rst detect
-> >>>> - usb: dwc2: Fix hibernation between host and device modes.
-> >>>> - usb: dwc2: Update dwc2_handle_usb_suspend_intr function.
-> >>>> - usb: dwc2: Add default param to control power optimization.
-> >>>> - usb: dwc2: Reset DEVADDR after exiting gadget hibernation.
-> >>>>
-> >>>> Submitting all of the patches together in this version.
-> >>>>
-> >>>> Changes from V0:
-> >>>>    - Replaced 1 with DWC2_POWER_DOWN_PARAM_PARTIAL in commit
-> >>>>      "9eed02b9fe96 usb: dwc2: Fix wakeup detected and session reques=
-t
-> >>>>      interrupt handlers.
-> >>>>
-> >>>>
-> >>>> Artur Petrosyan (14):
-> >>>>     usb: dwc2: Fix dwc2_restore_device_registers() function.
-> >>>>     usb: dwc2: Add descriptive debug messages for Partial Power Down=
- mode.
-> >>>>     usb: dwc2: Fix wakeup detected and session request interrupt han=
-dlers.
-> >>>>     usb: dwc2: Fix suspend state in host mode for partial power down=
-.
-> >>>>     usb: dwc2: Add port conn. sts. checking in _dwc2_hcd_resume()
-> >>>>       function.
-> >>>>     usb: dwc2: Add part. power down exit from
-> >>>>       dwc2_conn_id_status_change().
-> >>>>     usb: dwc2: Reset DEVADDR after exiting gadget hibernation.
-> >>>>     usb: dwc2: Add default param to control power optimization.
-> >>>>     usb: dwc2: Update dwc2_handle_usb_suspend_intr function.
-> >>>>     usb: dwc2: Fix hibernation between host and device modes.
-> >>>>     usb: dwc2: Allow exiting hibernation from gpwrdn rst detect
-> >>>>     usb: dwc2: Clear fifo_map when resetting core.
-> >>>>     usb: dwc2: Clear GINTSTS_RESTOREDONE bit after restore is genera=
-ted.
-> >>>>     usb: dwc2: Add enter/exit hibernation from system issued
-> >>>>       suspend/resume
-> >>>
-> >>> patches don't apply.
-> >>>
-> >>
-> >> Do we need to wait for Minas's acknowledge or there is problem related
-> >> to the patches?
-> >
-> > It looks like the problem is that my patches won the race and Felipe
-> > applied them before yours.  Thus, presumably, it'll be up to you to
-> > rebase your patches atop mine and re-submit.  Specifically, you can
-> > do:
-> >
-> > git remote add linux_usb_balbi
-> > git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git
-> > git fetch linux_usb_balbi
-> > git checkout linux_usb_balbi/testing/next
-> >
-> > If you do that and then try to apply your patches you'll find that
-> > they no longer apply.  AKA try running:
-> >
-> > for patch in 10909749 10909737 10909739 10909745 10909533 \
-> >     10909531 10909747 10909535 10909523 10909741 10909525 \
-> >     10909751 10909527 10909743; do
-> >    curl -L https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__patch=
-work.kernel.org_patch_-24-257Bpatch-257D_mbox&d=3DDwIBaQ&c=3DDPL6_X_6JkXFx7=
-AXWqB0tg&r=3D9hPBFKCJ_nBjJhGVrrlYOeOQjP_HlVzYqrC_D7niMJI&m=3DgzzEDEbxflLMgk=
-9I-7Re9ytRMvyc_B8iZEmg2xGZN5E&s=3DaWT1hYtXeIeY8ClQ0sNYxwkmJFKDz4iaa4DchNwx3=
-_w&e=3D | git am
-> > done
-> >
-> > You'll see:
-> >
-> >> Applying: usb: dwc2: Fix wakeup detected and session request interrupt=
- handlers.
-> >> error: patch failed: drivers/usb/dwc2/core_intr.c:435
-> >> error: drivers/usb/dwc2/core_intr.c: patch does not apply
-> >> Patch failed at 0001 usb: dwc2: Fix wakeup detected and session reques=
-t interrupt handlers.
-> >
-> > NOTE: before reposting it might be a good idea to apply the last 3
-> > patches in my series as per [1] before sending up your series.  Since
-> > Felipe has already applied patches #1 and #2 in that series presumably
-> > he'll also apply #3 - #5.
-> >
-> > I know it'a also up to me to try testing our your patches.  It's still
-> > on my list to give it a shot...
-> >
-> > [1] https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lkml.kernel.=
-org_r_CAD-3DFV-3DWA07-2BgUkVvsikN-3DiDHZLUJQtzjkKtiBHAEDw4gLNWY7w-40mail.gm=
-ail.com&d=3DDwIBaQ&c=3DDPL6_X_6JkXFx7AXWqB0tg&r=3D9hPBFKCJ_nBjJhGVrrlYOeOQj=
-P_HlVzYqrC_D7niMJI&m=3DgzzEDEbxflLMgk9I-7Re9ytRMvyc_B8iZEmg2xGZN5E&s=3D9QP_=
-h5ZlnT7ayUE1_6EVEgu8FaI3_kWm9xuzs1qrvdI&e=3D
-> >
-> > P.S: It's helpful if you CC LKML on patches and discussions about
-> > them.  That allows the magic "permalink via message ID" on
-> > lkml.kernel.org and also allows your patches to be found on
-> > lore.kernel.org/patchwork/
-> >
-> > -Doug
-> >
->
-> Besides the issue that comes from the patch "usb: dwc2: Fix wakeup
-> detected and session request interrupt handlers." there is one more
-> serious conflict with one of your patches.
->
-> So the patch "usb: dwc2: bus suspend/resume for hosts with
-> DWC2_POWER_DOWN_PARAM_NONE" have had also been added to the
-> "balbi/testing/next" before my patch series which conflicts with two of
-> my patches.
->
-> 1. usb: dwc2: Fix suspend state in host mode for partial power down.
-> 2. usb: dwc2: Add enter/exit hibernation from system issued suspend/resum=
-e
->
-> This patch introduced by you "usb: dwc2: bus suspend/resume for hosts
-> with DWC2_POWER_DOWN_PARAM_NONE" got a little bit of issue. It
-> eliminates entering hibernation through system issued suspend by
-> checking "if (hsotg->params.power_down > DWC2_POWER_DOWN_PARAM_PARTIAL)"
+Mediatek and HiSilicon both have same or similar properties in patches 
+under review. Please coordinate and document a common property.
 
-To be fair, the patch does not make entering hibernation worse, does
-it?  Specifically, I'll point to this part of the diff:
+Really, I'm wondering why this is needed. Can't you walk the graph to 
+the connector and determine if dual role is supported by the connector 
+type?
 
-- if (hsotg->params.power_down !=3D DWC2_POWER_DOWN_PARAM_PARTIAL) {
-+ if (hsotg->params.power_down > DWC2_POWER_DOWN_PARAM_PARTIAL) {
-
-As you can see, if power_down =3D=3D DWC2_POWER_DOWN_PARAM_HIBERNATION the
-flow for this "if" test is exactly the same before and after my patch.
-
-
-> . As per the patch you mention that it fixes suspend/resume flow for
-> Altera SOCFPGA and Chrome OS 3.14 kernel tree. I assume that the board
-> has the Partial Power Down enabled core that is why it works out.
-
-I mentioned some of this in my cover letter [1].  To rehash, I said
-"Turning on partial power down on rk3288 doesn't "just work".  I don't
-get hotplug events.  This is despite dwc2 auto-detecting that we are
-power optimized."
-
-...it is certainly possible that partial power down would work on
-rk3288 if someone had the time to debug it.
-
-NOTE: I don't have an Altera SOCFPGA, but I'll mention that a previous
-iteration of my patch (written by Kever Yang at Rockchip) was reverted
-because it _broke_ Altera SOCFPGAS.  Given my requests to test the new
-version have been met with silence, I'm inclined to land this and hope
-it's all good.  If there are problems then hopefully some actual
-details can be provided.  Last time there were none provided.
-
-
-> However, we don't just support the Partial Power Down feature enabled
-> cores. We also support Hibernation feature enabled cores.
-
-Sure, but the code that is actually landed upstream (even before my
-series) almost certainly doesn't function for Hibernation.  As pointed
-out above the entire "_dwc2_hcd_suspend()" function had a great big:
-
-if (hsotg->params.power_down !=3D DWC2_POWER_DOWN_PARAM_PARTIAL)
-  goto skip_power_saving;
-
-...which, as far as I could tell, meant that Hibernation could not
-possible work.
-
-
-> The patch set that had been introduced by me which includes "usb: dwc2:
-> Add enter/exit hibernation from system issued suspend/resume" patch adds
-> support for both hibernation and Partial Power Down feature enabled
-> cores and fixes several of Partial Power Down and hibernation related
-> issues.
->
-> This patch set may fix all of the issues related with Altera SOCFPGA or
-> Chrome OS 3.14 kernel tree.
->
-> That is why we asked you to test the patch set before we could ACK or
-> have chance to debug your patch deeper to see the help of it and to
-> provide you information related to it.
-
-It may well fix my problems and maybe I can use partial power down
-now.  That'd be nice.  It was on my list and I would have worked on it
-last week except that your patches weren't on the mailing list then.
-...so I moved on to some other work.  To avoid context switching too
-much I needed to get to a stopping point before testing your patches.
-I was hoping to have some nice rebased patches from you to test today,
-but maybe I'll try a hand at rebasing them myself.
-
-NOTE also that though I ported this change from the Chrome OS 3.14
-kernel tree, I'm actually currently working on the Chrome OS 4.19
-tree.  I also made sure to test the changes on mainline Linux.
-
-
-> So now I can rebase my changes to the "balbi/testing/next" but I will
-> have to take the logic of skipping Hibernation out otherwise we will
-> have problems with hibernation enabled cores.
-
-As per above, please have a careful look at my patches and you'll see
-that I was not introducing code that skipped hibernation.  I was
-keeping the same flow as the old code that skipped hibernation.  So if
-you are making hibernation work there should be no problems removing
-that.
-
-
-> We can ask Balbi to permanently suspend adding of the patch "usb: dwc2:
-> bus suspend/resume for hosts with DWC2_POWER_DOWN_PARAM_NONE" and my
-> patch series to his "testing/next". After you can have a chance to test
-> my patch series we can see if the patches are acknowledged and ask Balbi
->   to add them.
-
-Personally I'd prefer if Felipe finished landing my series and then
-you rebased atop it.  As I said I'm convinced I'm not making your
-hibernation case any worse.  If you know of actual things that are
-made worse by my series then that would be a reason not to land it,
-but so far I haven't been convinced.
-
-
-[1] https://lkml.kernel.org/r/20190418001356.124334-2-dianders@chromium.org
+Rob
