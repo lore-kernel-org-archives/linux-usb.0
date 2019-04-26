@@ -2,183 +2,176 @@ Return-Path: <SRS0=7cGN=S4=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 915F4C43218
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 09:50:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 421DBC43219
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 10:41:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 57407206BA
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 09:50:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0657C206A3
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 10:41:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XrWnpOOw"
+	dkim=pass (2048-bit key) header.d=cadence.com header.i=@cadence.com header.b="FixlHnLp";
+	dkim=pass (1024-bit key) header.d=cadence.com header.i=@cadence.com header.b="sUyfXmtr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726423AbfDZJu0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Apr 2019 05:50:26 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:43299 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726048AbfDZJu0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Apr 2019 05:50:26 -0400
-Received: by mail-io1-f66.google.com with SMTP id v9so2417009iol.10
-        for <linux-usb@vger.kernel.org>; Fri, 26 Apr 2019 02:50:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=IdyajxHaAv2wMjQ4z5BGiDcCFa3VNkptmEqFue2wKoo=;
-        b=XrWnpOOwJwto5p1rcDluDVk1u2u1/4W7Pi2iUTNxiI/SokkYW9fPck4WdQyTPgO14B
-         G/bKgTnVUHFFrjgTB57VjzJtmRmxDNVn+Wki9p0idvD1HEbdQO9kfN8PAOveCOM0UvLS
-         qAyYd/BPStdeMInVeejjVZ6kmTeF0aojo9Nx2C/UQR/QGzyMDzYZr09+dmvF2er0AUTP
-         9QajgAqTHc6nLSLPkib8XAvQR8zOGy9FIBa0f0gAx/C91GwhyG9cThi9T5Xv5gOz7+UB
-         GZMXnCwUKZ3s8Dee9HQ7LAIkRdTbNu1w4oiI1iWKliOYK6ic19ZeDBJ9bF1+h17CdlL3
-         TNGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=IdyajxHaAv2wMjQ4z5BGiDcCFa3VNkptmEqFue2wKoo=;
-        b=BXlk2viSBVEwxy2O5TV7SN2J4BXndBBFC4RxS1fWAGf4Cv3YBQp/zWH/3hhmvNEd21
-         hrKcY0ACaB4TXIhm6edNRHfy5NKSeFLkdxH/hvazKXDWsY/WDg9wIhqDPnLbNL9abyC9
-         YVO9aUwco2SgWZydpjwVTEh9gEcdSATxkKeAVWIM7plmQYdl4o0fwZ7ZOBsjhVyY3cuS
-         9G79fIEFdSJwd0zxWtE0IdFb5CKDa1ymmqQMnQzJ1DfcvzZTAHQKIlf2xnN+wuGil1qm
-         4+u6lNVcW5qgayDoBdo4E1DQvti7Cy3sikPhAIp5NV2yCter49Nx2/KNVJyg98DKtd8R
-         tcpg==
-X-Gm-Message-State: APjAAAVCP+WbHKwPKE8py5ZXXgMb85Y+CYYd0p7M+0HwiSYMOnfv/5fL
-        cMF/Q+AUIaPw9ukroHZBTehtFyTPGThQtNNUAgWhs/s/KXU=
-X-Google-Smtp-Source: APXvYqxR8MFbk8fjohTvtgFgq1/6dxcTFCvmDLh+qyEz0c5Psm/XTVdPjAnhdKmo3CvRQmKoo0JWm59wryY6zip2Tvc=
-X-Received: by 2002:a6b:f008:: with SMTP id w8mr17627715ioc.251.1556272225349;
- Fri, 26 Apr 2019 02:50:25 -0700 (PDT)
-MIME-Version: 1.0
-From:   Christo Gouws <gouws.christo@gmail.com>
-Date:   Fri, 26 Apr 2019 11:50:14 +0200
-Message-ID: <CAPHvrskWo2yhtNRthWFMST-S_=afo06fZo7SmbBOKY7VXHWA-g@mail.gmail.com>
-Subject: Line6 podstudio UX1 - driver crash on usb_hcd_map_urb_for_dma
-To:     linux-usb@vger.kernel.org
+        id S1726120AbfDZKlM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Apr 2019 06:41:12 -0400
+Received: from mx0a-0014ca01.pphosted.com ([208.84.65.235]:38670 "EHLO
+        mx0a-0014ca01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725877AbfDZKlM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Apr 2019 06:41:12 -0400
+Received: from pps.filterd (m0042385.ppops.net [127.0.0.1])
+        by mx0a-0014ca01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x3QAWTp0015632;
+        Fri, 26 Apr 2019 03:39:55 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=proofpoint;
+ bh=vQSfKpxOvzcz8fO4CmbG5Q1LsflpqP3IYOOIh/9Gjms=;
+ b=FixlHnLpIAcIc1/iVQUoWIdgGT08LWMha/QE5k2wKfRig0oiXA61nnsspeBXCnayOrHK
+ FHqWXJR8NScCOii2BHSU5kfD82RnLU3bAVYdDHP2mvr7dSgQFtVCjBiHou2d2QPwMuMA
+ EabklXsxyCDmMqCy5TnfvGslNne3IY31L5FyCvAAXnJUIEwwO06V5/UWbAVtLE+kJCwy
+ 9p43T/0nRe3+o8YW6gvRSfC0uJOqStLy0RkI8ykwA1gcVMRYyB/PHt2K8qUDj1yNtRnF
+ u75gzjbFyoNv+Kcb1xZ2ez27KA4lQeDnYeJ1GWuqRlAyqck2kM0l/15PlBuIAoKGymAz 2Q== 
+Authentication-Results: cadence.com;
+        spf=pass smtp.mailfrom=pawell@cadence.com
+Received: from nam01-bn3-obe.outbound.protection.outlook.com (mail-bn3nam01lp2053.outbound.protection.outlook.com [104.47.33.53])
+        by mx0a-0014ca01.pphosted.com with ESMTP id 2s3fdybyy9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 26 Apr 2019 03:39:54 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vQSfKpxOvzcz8fO4CmbG5Q1LsflpqP3IYOOIh/9Gjms=;
+ b=sUyfXmtroY8a+OZJ4ZFeY0ns7WZRpZREmJyc8VJTDd2HfNmEhW7HLm0DJ+biuEscuHNKIbbgToyttE0LMDQsZeuP1RwRliFImE+voUwu/LVMb4jwOim+4ARYyxvXcEB9od7d/FwOpVhj7+wBSGf2fJmxxRLYtlVPfuQxreqyVo8=
+Received: from BYAPR07MB4709.namprd07.prod.outlook.com (52.135.204.159) by
+ BYAPR07MB4312.namprd07.prod.outlook.com (52.135.223.146) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1813.19; Fri, 26 Apr 2019 10:39:50 +0000
+Received: from BYAPR07MB4709.namprd07.prod.outlook.com
+ ([fe80::8103:c4f4:4659:cec7]) by BYAPR07MB4709.namprd07.prod.outlook.com
+ ([fe80::8103:c4f4:4659:cec7%3]) with mapi id 15.20.1835.010; Fri, 26 Apr 2019
+ 10:39:50 +0000
+From:   Pawel Laszczak <pawell@cadence.com>
+To:     Roger Quadros <rogerq@ti.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "felipe.balbi@linux.intel.com" <felipe.balbi@linux.intel.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "heikki.krogerus@linux.intel.com" <heikki.krogerus@linux.intel.com>,
+        "andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "jbergsagel@ti.com" <jbergsagel@ti.com>,
+        "nsekhar@ti.com" <nsekhar@ti.com>, "nm@ti.com" <nm@ti.com>,
+        Suresh Punnoose <sureshp@cadence.com>,
+        "peter.chen@nxp.com" <peter.chen@nxp.com>,
+        Rahul Kumar <kurahul@cadence.com>
+Subject: RE: [PATCH v6 1/6] dt-bindings: add binding for USBSS-DRD controller.
+Thread-Topic: [PATCH v6 1/6] dt-bindings: add binding for USBSS-DRD
+ controller.
+Thread-Index: AQHU73OXu7bjaKObFUKht0ybw179+aZORAWAgAAR8YA=
+Date:   Fri, 26 Apr 2019 10:39:49 +0000
+Message-ID:
+ <BYAPR07MB47095561D7C58860CD8C7400DD3E0@BYAPR07MB4709.namprd07.prod.outlook.com>
+References: <1554882504-9010-1-git-send-email-pawell@cadence.com>
+ <1554882504-9010-2-git-send-email-pawell@cadence.com>
+ <d7ca7260-9337-0779-459b-bfed15113db0@ti.com>
+In-Reply-To: <d7ca7260-9337-0779-459b-bfed15113db0@ti.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNccGF3ZWxsXGFwcGRhdGFccm9hbWluZ1wwOWQ4NDliNi0zMmQzLTRhNDAtODVlZS02Yjg0YmEyOWUzNWJcbXNnc1xtc2ctOWJmNDZhY2YtNjgwZi0xMWU5LTg3MzYtMWM0ZDcwMWRmYmE0XGFtZS10ZXN0XDliZjQ2YWQwLTY4MGYtMTFlOS04NzM2LTFjNGQ3MDFkZmJhNGJvZHkudHh0IiBzej0iMjc4NCIgdD0iMTMyMDA3NDg3ODcyMTA3Nzk5IiBoPSJ5TDNzVEh3OEdkOUthWTdvUThMenpTNWpMZVE9IiBpZD0iIiBibD0iMCIgYm89IjEiLz48L21ldGE+
+x-dg-rorf: 
+x-originating-ip: [185.217.253.59]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 743cd715-e952-459c-1c6f-08d6ca33827c
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);SRVR:BYAPR07MB4312;
+x-ms-traffictypediagnostic: BYAPR07MB4312:
+x-microsoft-antispam-prvs: <BYAPR07MB4312C59A7F06BF6AC2AEE15BDD3E0@BYAPR07MB4312.namprd07.prod.outlook.com>
+x-forefront-prvs: 001968DD50
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(136003)(376002)(346002)(396003)(366004)(36092001)(51444003)(199004)(189003)(76116006)(6246003)(107886003)(26005)(55016002)(478600001)(6506007)(71190400001)(71200400001)(256004)(102836004)(229853002)(7416002)(97736004)(4326008)(476003)(11346002)(66066001)(9686003)(6436002)(186003)(486006)(14454004)(68736007)(33656002)(2906002)(6116002)(7736002)(305945005)(3846002)(74316002)(81156014)(81166006)(7696005)(8936002)(76176011)(110136005)(99286004)(446003)(53936002)(54906003)(2501003)(5660300002)(66446008)(64756008)(66556008)(8676002)(73956011)(66476007)(66946007)(52536014)(316002)(86362001)(25786009);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR07MB4312;H:BYAPR07MB4709.namprd07.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: cadence.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: AKf9YVAtSK9kXoVny+G63hamCYk+H9i2gqwvFAQjAlLufubTwt0OHfmE0WHsFR+l/yuFPwazAp7YQdmYaC/eUYEbUs0pgqzJADFlD38A7oBpVadscFLuUIUaoJ6CmmEalTipVj9v/yg/PXGrIAklqnFwDxL6D1bv1vl4285AJRy29lV/+lVBkBwGPcbc146+SDS/H6BlkukVR7taSY4PO8ZcWoMyuPWwFXxNhg1KUQa74eYiUQf9X4Pta/boU08G60tyMP+qQzlsLBxcn9LL82FXm6qS6HfQcjtx4QnhYSvWZyZg0NO5RBEs9e8GufHMNGqwpLYgOuFZqYdKuDBQmUA1aBl1k/T/kz5YLfsrJbTQCH+ukzEzptiwQsb9fXocCeWdkMBCJWXpg287TTXXmjf1V2ST/iLw2Rwzpzn15Uk=
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: cadence.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 743cd715-e952-459c-1c6f-08d6ca33827c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Apr 2019 10:39:49.9277
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR07MB4312
+X-Proofpoint-SPF-Result: pass
+X-Proofpoint-SPF-Record: v=spf1 include:spf.smktg.jp include:_spf.salesforce.com
+ include:mktomail.com include:spf-0014ca01.pphosted.com
+ include:spf.protection.outlook.com include:auth.msgapp.com
+ include:spf.mandrillapp.com ~all
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-04-26_06:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0
+ priorityscore=1501 malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0
+ spamscore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1904260074
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190426103949.PehulUmHynKawrb7xvmQOLHtSem7YeVYNOOKO7KceCI@z>
 
-Hi,
-
-I have a Line6 Pod Studio UX1 card, but each time I plug it in, I get
-the following crash in dmesg on Ubuntu 18.04
-Linux my-pc 4.20.8-042008-generic #201902121544 SMP Tue Feb 12
-20:46:50 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
-
-I've also tested this with a Fedora 30 v5.0.6-300 kernel, but still
-seems to happen (using liveCD).
-
-
-The output on the card seems to work, but none of the inputs work.
-
-I've also now tested with latest kernel available on Arch Linux
-Linux my-pc 5.0.9-arch1-1-ARCH #1 SMP PREEMPT Sat Apr 20 15:00:46 UTC
-2019 x86_64 GNU/Linux
-
-After some further testing, I found that this issue cropped in beween
-v4.8.17 and v4.9-rc1.
-
-v4.8.17   - Works fine.
-v4.9-rc1+  - Produces crash
-
-[    5.114276] ------------[ cut here ]------------
-[    5.114277] transfer buffer not dma capable
-[    5.114293] WARNING: CPU: 1 PID: 429 at drivers/usb/core/hcd.c:1586
-usb_hcd_map_urb_for_dma+0x3eb/0x5a0
-[    5.114294] Modules linked in: snd_seq_oss(+) snd_usb_toneport(+)
-snd_usb_line6 videobuf2_common btusb snd_seq_midi btrtl irqbypass
-videodev btbcm snd_hda_codec_conexant drm_kms_helper xpad
-snd_seq_midi_event snd_hda_codec_generic media btintel cmdlinepart drm
-ff_memless bluetooth snd_hda_intel i2c_algo_bit
-drm_panel_orientation_quirks snd_rawmidi intel_spi_platform joydev
-ipmi_devintf ipmi_msghandler input_leds snd_hda_codec ecdh_generic
-cfg80211 cfbfillrect snd_hda_core cfbimgblt cfbcopyarea thinkpad_acpi
-snd_hwdep rtsx_pci_ms fb_sys_fops syscopyarea snd_seq sysfillrect
-sysimgblt intel_spi memstick mei_me spi_nor nvram fb snd_pcm mtd mei
-fbdev snd_seq_device snd_timer ie31200_edac snd soundcore mac_hid
-sch_fq_codel parport_pc ppdev lp sunrpc parport ip_tables x_tables
-autofs4 hid_generic usbhid hid rtsx_pci_sdmmc psmouse ahci i2c_core
-r8169 rtsx_pci libahci lpc_ich realtek wmi video
-[    5.114332] CPU: 1 PID: 429 Comm: systemd-udevd Not tainted
-4.20.8-042008-generic #201902121544
-[    5.114333] Hardware name: LENOVO 20C600HHZA/20C600HHZA, BIOS
-J9ET99WW (2.19 ) 05/05/2015
-[    5.114336] RIP: 0010:usb_hcd_map_urb_for_dma+0x3eb/0x5a0
-[    5.114337] Code: 48 01 f9 48 39 ce 73 7f 80 3d c6 03 eb 00 00 41
-bd f5 ff ff ff 75 a3 48 c7 c7 00 e1 d5 8d c6 05 b0 03 eb 00 01 e8 07
-32 95 ff <0f> 0b 8b 53 64 eb 89 81 4b 64 00 00 02 00 e9 40 fd ff ff 4c
-8b 05
-[    5.114339] RSP: 0018:ffffacc582077788 EFLAGS: 00010282
-[    5.114340] RAX: 0000000000000000 RBX: ffff9eb0282b7c00 RCX: 0000000000000006
-[    5.114341] RDX: 0000000000000007 RSI: 0000000000000092 RDI: ffff9eb02e056440
-[    5.114343] RBP: ffffacc5820777a8 R08: 0000000000000001 R09: 0000000000000361
-[    5.114344] R10: 0000000000000004 R11: 0000000000000000 R12: ffff9eb02bcde000
-[    5.114345] R13: 00000000fffffff5 R14: 0000000000600000 R15: 0000000000000200
-[    5.114347] FS:  00007fbbc4c6e8c0(0000) GS:ffff9eb02e040000(0000)
-knlGS:0000000000000000
-[    5.114348] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[    5.114349] CR2: 000055d1c2aa6008 CR3: 000000042abf2006 CR4: 00000000001606e0
-[    5.114350] Call Trace:
-[    5.114355]  usb_hcd_submit_urb+0x497/0xc70
-[    5.114358]  ? __switch_to_asm+0x40/0x70
-[    5.114360]  ? __switch_to_asm+0x34/0x70
-[    5.114362]  ? __switch_to_asm+0x40/0x70
-[    5.114364]  ? __switch_to_asm+0x34/0x70
-[    5.114367]  ? __switch_to+0x471/0x4e0
-[    5.114369]  ? __switch_to_asm+0x34/0x70
-[    5.114371]  ? usb_alloc_urb+0x1a/0x30
-[    5.114373]  usb_submit_urb+0x2f2/0x5a0
-[    5.114376]  usb_start_wait_urb+0x6e/0x180
-[    5.114378]  usb_control_msg+0xdc/0x140
-[    5.114383]  line6_read_data+0xec/0x200 [snd_usb_line6]
-[    5.114386]  line6_read_serial_number+0x1b/0x20 [snd_usb_line6]
-[    5.114389]  toneport_init+0x9a/0x220 [snd_usb_toneport]
-[    5.114393]  line6_probe+0x2f1/0x460 [snd_usb_line6]
-[    5.114395]  ? line6_toneport_disconnect+0x70/0x70 [snd_usb_toneport]
-[    5.114398]  toneport_probe+0x35/0x40 [snd_usb_toneport]
-[    5.114401]  usb_probe_interface+0xf1/0x300
-[    5.114405]  really_probe+0xfe/0x3b0
-[    5.114407]  driver_probe_device+0xba/0x100
-[    5.114409]  __driver_attach+0xe4/0x110
-[    5.114411]  ? driver_probe_device+0x100/0x100
-[    5.114413]  bus_for_each_dev+0x79/0xc0
-[    5.114417]  ? kmem_cache_alloc_trace+0x15e/0x1e0
-[    5.114419]  driver_attach+0x1e/0x20
-[    5.114422]  bus_add_driver+0x159/0x230
-[    5.114424]  driver_register+0x70/0xc0
-[    5.114426]  usb_register_driver+0x7f/0x140
-[    5.114428]  ? 0xffffffffc02f1000
-[    5.114431]  toneport_driver_init+0x23/0x1000 [snd_usb_toneport]
-[    5.114434]  do_one_initcall+0x4a/0x1c4
-[    5.114436]  ? _cond_resched+0x19/0x30
-[    5.114438]  ? kmem_cache_alloc_trace+0x15e/0x1e0
-[    5.114441]  do_init_module+0x60/0x220
-[    5.114444]  load_module+0x16bb/0x1920
-[    5.114447]  __do_sys_finit_module+0xbd/0x120
-[    5.114449]  ? __do_sys_finit_module+0xbd/0x120
-[    5.114452]  __x64_sys_finit_module+0x1a/0x20
-[    5.114454]  do_syscall_64+0x5a/0x110
-[    5.114456]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[    5.114458] RIP: 0033:0x7fbbc56f3219
-[    5.114460] Code: 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00
-00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24
-08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 47 fc 0c 00 f7 d8 64 89
-01 48
-[    5.114461] RSP: 002b:00007ffcd2692b38 EFLAGS: 00000246 ORIG_RAX:
-0000000000000139
-[    5.114463] RAX: ffffffffffffffda RBX: 000055b7b7649160 RCX: 00007fbbc56f3219
-[    5.114464] RDX: 0000000000000000 RSI: 00007fbbc55d7cad RDI: 000000000000000f
-[    5.114465] RBP: 00007fbbc55d7cad R08: 0000000000000000 R09: 0000000000000000
-[    5.114466] R10: 000000000000000f R11: 0000000000000246 R12: 0000000000000000
-[    5.114467] R13: 000055b7b7625220 R14: 0000000000020000 R15: 000055b7b7649160
-[    5.114470] ---[ end trace 4f385244c87aeb99 ]---
-[    5.114474] snd_usb_toneport 1-6:1.0: receive length failed (error -11)
-[    5.114779] snd_usb_toneport 1-6:1.0: read request failed (error -32)
-[    5.114783] snd_usb_toneport 1-6:1.0: write request failed (error -11)
-[    5.115836] snd_usb_toneport 1-6:1.0: Line 6 POD Studio UX1 now attached
-[    5.115876] usbcore: registered new interface driver snd_usb_toneport
-
-Kind Regards,
-Christo Gouws
+SGkgUm9nZXIsDQoNCj5PbiAxMC8wNC8yMDE5IDEwOjQ4LCBQYXdlbCBMYXN6Y3phayB3cm90ZToN
+Cj4+IFRoaXMgcGF0Y2ggYWltIGF0IGRvY3VtZW50aW5nIFVTQiByZWxhdGVkIGR0LWJpbmRpbmdz
+IGZvciB0aGUNCj4+IENhZGVuY2UgVVNCU1MtRFJEIGNvbnRyb2xsZXIuDQo+Pg0KPj4gU2lnbmVk
+LW9mZi1ieTogUGF3ZWwgTGFzemN6YWsgPHBhd2VsbEBjYWRlbmNlLmNvbT4NCj4+IFJldmlld2Vk
+LWJ5OiBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPg0KPj4NCj4+IC0tLQ0KPj4gIC4uLi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9jZG5zLXVzYjMudHh0ICAgICB8IDMwICsrKysrKysrKysr
+KysrKysrKysNCj4+ICAxIGZpbGUgY2hhbmdlZCwgMzAgaW5zZXJ0aW9ucygrKQ0KPj4gIGNyZWF0
+ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL2NkbnMt
+dXNiMy50eHQNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
+bmRpbmdzL3VzYi9jZG5zLXVzYjMudHh0IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL3VzYi9jZG5zLXVzYjMudHh0DQo+PiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPj4gaW5kZXgg
+MDAwMDAwMDAwMDAwLi4xZDJiNDQ5ZTNjYjQNCj4+IC0tLSAvZGV2L251bGwNCj4+ICsrKyBiL0Rv
+Y3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvY2Rucy11c2IzLnR4dA0KPj4gQEAg
+LTAsMCArMSwzMCBAQA0KPj4gK0JpbmRpbmcgZm9yIHRoZSBDYWRlbmNlIFVTQlNTLURSRCBjb250
+cm9sbGVyDQo+PiArDQo+PiArUmVxdWlyZWQgcHJvcGVydGllczoNCj4+ICsgIC0gcmVnOiBQaHlz
+aWNhbCBiYXNlIGFkZHJlc3MgYW5kIHNpemUgb2YgdGhlIGNvbnRyb2xsZXIncyByZWdpc3RlciBh
+cmVhcy4NCj4+ICsJIENvbnRyb2xsZXIgaGFzIDMgZGlmZmVyZW50IHJlZ2lvbnM6DQo+PiArCSBy
+ZWdpb24gMSAtIEhPU1QgcmVnaXN0ZXJzIGFyZWENCj4+ICsJIHJlZ2lvbiAyIC0gREVWSUNFIHJl
+Z2lzdGVycyBhcmVhDQo+PiArCSByZWdpb24gMyAtIE9URy9EUkQgcmVnaXN0ZXJzIGFyZWENCj4+
+ICsgIC0gcmVnLW5hbWVzIC0gcmVnaXN0ZXIgbWVtb3J5IGFyZWEgbmFtZXM6DQo+PiArCSJ4aGNp
+IiAtIGZvciBIT1NUIHJlZ2lzdGVycyBzcGFjZQ0KPj4gKwkiZGV2IiAtIGZvciBERVZJQ0UgcmVn
+aXN0ZXJzIHNwYWNlDQo+PiArCSJvdGciIC0gZm9yIE9URy9EUkQgcmVnaXN0ZXJzIHNwYWNlDQo+
+PiArICAtIGNvbXBhdGlibGU6IFNob3VsZCBjb250YWluOiAiY2Rucyx1c2IzLTEuMC4wIiBvciAi
+Y2Rucyx1c2IzLTEuMC4xIg0KPj4gKyAgLSBpbnRlcnJ1cHRzOiBJbnRlcnJ1cHRzIHVzZWQgYnkg
+Y2RuczMgY29udHJvbGxlci4NCj4+ICsNCj4+ICtPcHRpb25hbCBwcm9wZXJ0aWVzOg0KPj4gKyAt
+IG1heGltdW0tc3BlZWQgOiB2YWxpZCBhcmd1bWVudHMgYXJlICJzdXBlci1zcGVlZCIsICJoaWdo
+LXNwZWVkIiBhbmQNCj4+ICsgICAgICAgICAgICAgICAgICAgImZ1bGwtc3BlZWQiOyByZWZlciB0
+byB1c2IvZ2VuZXJpYy50eHQNCj4+ICsgLSBkcl9tb2RlOiBTaG91bGQgYmUgb25lIG9mICJob3N0
+IiwgInBlcmlwaGVyYWwiIG9yICJvdGciLg0KPj4gKyAtIHBoeXM6IHJlZmVyZW5jZSB0byB0aGUg
+VVNCIFBIWQ0KPg0KPkluIHlvdXIgdGVzdCBwbGF0Zm9ybSBpcyB0aGlzIGEgMi4wUEhZIG9yIDMu
+MFBIWT8gVHlwaWNhbCBwbGF0Zm9ybXMgd2lsbCBoYXZlIGJvdGguDQo+SXMgdGhlcmUgYW55IHBv
+d2VyLW9uIHNlcXVlbmNpbmcgcmVxdWlyZW1lbnRzIGZvciBwb3dlcmluZyB1cCB0aGVzZSBQSFlz
+IHZzIHBvd2VyaW5nIHVwIHRoZSBjb250cm9sbGVyPw0KPg0KR2VuZXJhbGx5LCBteSB0ZXN0aW5n
+IHBsYXRmb3JtIGlzIGJhc2VkIG9uIFBDSWUsIHNvIEkgZG9u4oCZdCB1c2UgZHRzLiBQSFkgaW5p
+dGlhbGl6YXRpb24gb24gbXkgdGVzdGluZyBwbGF0Zm9ybSANCmhhcyBiZWVuIGhpZGRlbiBpbiBG
+UEdBIGltcGxlbWVudGF0aW9uLiBXZSBhcmUgdXNpbmcgRFRTIGluIHNpbXVsYXRpb24gYnV0IHRo
+ZXJlIHdlIGRvbid0IGhhdmUgYSBQSFlzLiANCg0KSSB0aGluayB0aGF0IHlvdSBoYXZlIHJpZ2h0
+LCBhbmQgd2Ugc2hvdWxkIGhhdmUgaGVyZSB0d28gVVNCMi4wIGFuZCBVU0IzLjAgcGh5LiANCkkg
+aGF2ZSB0byBsb29rIGF0IGhvdyBpdCBsb29rcyBpbiBvdGhlciBkcml2ZXJzIGFuZCBpbXByb3Zl
+IHRoaXMgdGhpcyBmaWxlIGFuZCBtYXliZSBDRE5TMyBkcml2ZXIgdG9vLiANCg0KPj4gKw0KPj4g
+K0V4YW1wbGU6DQo+PiArCXVzYkBmMzAwMDAwMCB7DQo+PiArCQljb21wYXRpYmxlID0gImNkbnMs
+dXNiMy0xLjAuMSI7DQo+PiArCQlpbnRlcnJ1cHRzID0gPFVTQl9JUlEgIDcgSVJRX1RZUEVfTEVW
+RUxfSElHSD47DQo+PiArCQlyZWcgPSA8MHhmMzAwMDAwMCAweDEwMDAwCS8qIG1lbW9yeSBhcmVh
+IGZvciBIT1NUIHJlZ2lzdGVycyAqLw0KPj4gKwkJCTB4ZjMwMTAwMDAgMHgxMDAwMAkvKiBtZW1v
+cnkgYXJlYSBmb3IgREVWSUNFIHJlZ2lzdGVycyAqLw0KPj4gKwkJCTB4ZjMwMjAwMDAgMHgxMDAw
+MD47CS8qIG1lbW9yeSBhcmVhIGZvciBPVEcvRFJEIHJlZ2lzdGVycyAqLw0KPj4gKwkJcmVnLW5h
+bWVzID0gInhoY2kiLCAiZGV2IiwgIm90ZyI7DQo+PiArCX07DQo+Pg0KPg0KDQpjaGVlcnMsDQpQ
+YXdlbA0KDQo=
