@@ -2,101 +2,67 @@ Return-Path: <SRS0=7cGN=S4=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 312A0C43218
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 13:19:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EE02C43219
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 13:21:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0104C2077B
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 13:19:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1556284798;
-	bh=eQhNh7o6K93astaSV4v12phNB7KIxMx5xHVXdcTrKTw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=HmBNBiy1CSJzm3DUrv4bP/cX0oW8iipKQjFCc0hdFrsG6ECb9PohmQOdLLRrK69NE
-	 gZ8OfD4k0RIHXRf3jNNPYq8E7W/AZ4SJrMYRPskVDooilk5r5PPRU1dpH0uLtrpJDT
-	 twMCujHXXyj2GBPU/RJaQPacFwuyWQxsGwKfWDM4=
+	by mail.kernel.org (Postfix) with ESMTP id 67E4D2077B
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 13:21:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726193AbfDZNTx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Apr 2019 09:19:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51672 "EHLO mail.kernel.org"
+        id S1726069AbfDZNVH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Apr 2019 09:21:07 -0400
+Received: from mga03.intel.com ([134.134.136.65]:37097 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726154AbfDZNTx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 26 Apr 2019 09:19:53 -0400
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0465A20B7C;
-        Fri, 26 Apr 2019 13:19:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1556284792;
-        bh=eQhNh7o6K93astaSV4v12phNB7KIxMx5xHVXdcTrKTw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=KrmV5GwD2HeQ3x8B4CLyTijxlaJ/VNU/FRoh0bSztHU0Ot44VsGFpTxIqrUTpjVSr
-         rgHzhkx817SmeTU0+dd9tXWAohIDVKPn0m7h3u+cIWrPL+zefExDw+JeotDDkkm0rc
-         NSdYmpALqvOnhuiTw4rI/MmLhjxDCctKAdJnacr0=
-Received: by mail-qt1-f179.google.com with SMTP id s10so3958811qtc.11;
-        Fri, 26 Apr 2019 06:19:51 -0700 (PDT)
-X-Gm-Message-State: APjAAAWf9594wDYU/JUiaOlGsqfX4mwoUoOyrOIdUkJvDyg6xHhGMwuW
-        i+wrTHmk5P6zfIE/KLPM43Su5MvfuH1QC50cmg==
-X-Google-Smtp-Source: APXvYqyEDGc9XxkRrElLvLMqtGPLoQfG80HUApSg7bR+stCPSUrM6ibZOJJxdLiBMwAeNqjBvJnuGJqErr/1NunrnvE=
-X-Received: by 2002:ac8:7647:: with SMTP id i7mr35354952qtr.38.1556284791208;
- Fri, 26 Apr 2019 06:19:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <1556261237-13823-1-git-send-email-chunfeng.yun@mediatek.com> <1556261237-13823-2-git-send-email-chunfeng.yun@mediatek.com>
-In-Reply-To: <1556261237-13823-2-git-send-email-chunfeng.yun@mediatek.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Fri, 26 Apr 2019 08:19:40 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+2jWJHm3-5BU6NUqFsSN=K15douOyYWeKoKseqhPDysw@mail.gmail.com>
-Message-ID:
- <CAL_Jsq+2jWJHm3-5BU6NUqFsSN=K15douOyYWeKoKseqhPDysw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/6] dt-bindings: connector: add optional properties
- for Type-B
-To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
-        Li Jun <jun.li@nxp.com>,
-        Badhri Jagan Sridharan <badhri@google.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Min Guo <min.guo@mediatek.com>, devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726013AbfDZNVH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 26 Apr 2019 09:21:07 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Apr 2019 06:21:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,397,1549958400"; 
+   d="scan'208";a="168185687"
+Received: from mattu-haswell.fi.intel.com ([10.237.72.164])
+  by fmsmga001.fm.intel.com with ESMTP; 26 Apr 2019 06:21:05 -0700
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+To:     <gregkh@linuxfoundation.org>
+Cc:     <linux-usb@vger.kernel.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [PATCH 0/4] xhci features for usb-next
+Date:   Fri, 26 Apr 2019 16:23:28 +0300
+Message-Id: <1556285012-28186-1-git-send-email-mathias.nyman@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190426131940.IpH8qxSH86yHnZq_q3spp1NXnMEAXVpZwqIedqnVQFY@z>
 
-On Fri, Apr 26, 2019 at 1:47 AM Chunfeng Yun <chunfeng.yun@mediatek.com> wrote:
->
-> Add id-gpios, vbus-gpios, vbus-supply and pinctrl properties for
-> usb-b-connector
->
-> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> ---
-> v4 no changes
->
-> v3 changes:
->  1. add GPIO direction, and use fixed-regulator for GPIO controlled
->     VBUS regulator suggested by Rob;
->
-> v2 changes:
->   1. describe more clear for vbus-gpios and vbus-supply suggested by Hans
-> ---
->  .../bindings/connector/usb-connector.txt           | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+Hi Greg
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+A few features for usb next, mostly tracing and debugging features, but
+also support for Immediate Data Transfer for small (up to 8 bytes)
+data transfers
+
+-Mathias
+
+Mathias Nyman (3):
+  xhci: add port and bus number to port dynamic debugging
+  xhci: Add tracing for input control context
+  usb: xhci: add endpoint context tracing when an endpoint is added
+
+Nicolas Saenz Julienne (1):
+  usb: xhci: add Immediate Data Transfer support
+
+ drivers/usb/host/xhci-hub.c   | 44 +++++++++++++++++++++++++----------------
+ drivers/usb/host/xhci-ring.c  | 24 ++++++++++++++++++----
+ drivers/usb/host/xhci-trace.h | 30 ++++++++++++++++++++++++++++
+ drivers/usb/host/xhci.c       | 40 +++++++++++++++++++++++++++++++++----
+ drivers/usb/host/xhci.h       | 46 +++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 159 insertions(+), 25 deletions(-)
+
+-- 
+2.7.4
+
