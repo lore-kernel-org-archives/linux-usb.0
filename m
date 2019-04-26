@@ -2,167 +2,101 @@ Return-Path: <SRS0=7cGN=S4=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7704C43218
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 13:15:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 312A0C43218
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 13:19:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BB5FF2077B
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 13:15:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0104C2077B
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 13:19:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1556284798;
+	bh=eQhNh7o6K93astaSV4v12phNB7KIxMx5xHVXdcTrKTw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=HmBNBiy1CSJzm3DUrv4bP/cX0oW8iipKQjFCc0hdFrsG6ECb9PohmQOdLLRrK69NE
+	 gZ8OfD4k0RIHXRf3jNNPYq8E7W/AZ4SJrMYRPskVDooilk5r5PPRU1dpH0uLtrpJDT
+	 twMCujHXXyj2GBPU/RJaQPacFwuyWQxsGwKfWDM4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726120AbfDZNPG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Apr 2019 09:15:06 -0400
-Received: from mail1.bemta25.messagelabs.com ([195.245.230.132]:51383 "EHLO
-        mail1.bemta25.messagelabs.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726013AbfDZNPG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Apr 2019 09:15:06 -0400
-Received: from [46.226.53.55] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-        by server-4.bemta.az-c.eu-west-1.aws.symcld.net id 44/83-09106-75403CC5; Fri, 26 Apr 2019 13:15:03 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrFIsWRWlGSWpSXmKPExsUyo1hfUjec5XC
-  Mwdc/jBbH2p6wWyxa1sps8e5lhMXcfW9ZLC6u38loMeH3BTYHNo+upmZ2j02rOtk8Zt/9wejx
-  eZOcx97Pv1kCWKNYM/OS8isSWDMmf5nKWrBQpuLm32esDYyXxboYuTiEBNYySqxds5uxi5GTg
-  1fAWOJrywKmLkYODmEBX4npFxJATDYBXYmuO6YgFSIC7hJ/Zx1mBGllFtjOKLG85SAbSIJFQF
-  Xi07a5YDangLbE9GUzWCHmH2WU+PBhFth8ZgFNidbtv9lBbAkBDYkNN48xQewVlDg58wkLRI2
-  8RPPW2cwgi4UEZCWOXoqFKFeQOLtlIiOEnSRxrKmRcQKjwCwkU2chmTQLyaQFjMyrGM2SijLT
-  M0pyEzNzdA0NDHQNDY10jQwMdY31Eqt0k/VSS3XLU4tLdA31EsuL9Yorc5NzUvTyUks2MQLjI
-  aXgJPMOxmcr0g8xSnIwKYny1n86FCPEl5SfUpmRWJwRX1Sak1p8iFGGg0NJgreX+XCMkGBRan
-  pqRVpmDjAyYdISHDxKIrxXQdK8xQWJucWZ6RCpU4y6HDNnPp/LLMSSl5+XKiXOuxmkSACkKKM
-  0D24ELElcYpSVEuZlZGBgEOIpSC3KzSxBlX/FKM7BqCTMex1kCk9mXgncpldARzABHZGy8hDI
-  ESWJCCmpBsa9SxZLcdX+Xbejf1bYFRcV6cNPtvHw8ajG/RA9qNLY4y6+4+mbGPEbv3JsxXvOp
-  GtOf7i/WFaoM+Dh5jPW5cvP2oawVux21O/ZMuXfgZUT4wVLpf9cNbG5qbz2g8OR6ITcqMN+oU
-  Irwjd7fMvluMUTzNn+k2+WkejE46y715ypndj2x0g3crkSS3FGoqEWc1FxIgDte3ZTDQMAAA=
-  =
-X-Env-Sender: cst@phaseone.com
-X-Msg-Ref: server-12.tower-307.messagelabs.com!1556284502!6678856!1
-X-Originating-IP: [152.115.47.25]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.31.5; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 13687 invoked from network); 26 Apr 2019 13:15:02 -0000
-Received: from unknown (HELO Exchange2.phaseone.com) (152.115.47.25)
-  by server-12.tower-307.messagelabs.com with AES256-SHA encrypted SMTP; 26 Apr 2019 13:15:02 -0000
-Received: from cstu16.phaseone.com (172.16.2.207) by Exchange2.phaseone.com
- (172.16.1.180) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Fri, 26 Apr
- 2019 15:15:00 +0200
-Message-ID: <1556284501.6914.55.camel@phaseone.com>
-Subject: Re: Use device tree to disable U1/U2 in gadget devices based on DWC3
-From:   "Claus H. Stovgaard" <cst@phaseone.com>
-To:     Rob Weber <rob@gnarbox.com>, Alan Stern <stern@rowland.harvard.edu>
-CC:     "balbi@kernel.org" <balbi@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "mnarani@xilinx.com" <mnarani@xilinx.com>,
-        Michal Simek <michal.simek@xilinx.com>
-Date:   Fri, 26 Apr 2019 15:15:01 +0200
-In-Reply-To: <20190425201103.GA26402@coops>
-References: <DB8PR01MB60273B2E42CF5FBD2E54ADCBDA3C0@DB8PR01MB6027.eurprd01.prod.exchangelabs.com>
-         <Pine.LNX.4.44L0.1904241423540.1443-100000@iolanthe.rowland.org>
-         <20190425201103.GA26402@coops>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+        id S1726193AbfDZNTx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Apr 2019 09:19:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51672 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726154AbfDZNTx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 26 Apr 2019 09:19:53 -0400
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0465A20B7C;
+        Fri, 26 Apr 2019 13:19:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1556284792;
+        bh=eQhNh7o6K93astaSV4v12phNB7KIxMx5xHVXdcTrKTw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=KrmV5GwD2HeQ3x8B4CLyTijxlaJ/VNU/FRoh0bSztHU0Ot44VsGFpTxIqrUTpjVSr
+         rgHzhkx817SmeTU0+dd9tXWAohIDVKPn0m7h3u+cIWrPL+zefExDw+JeotDDkkm0rc
+         NSdYmpALqvOnhuiTw4rI/MmLhjxDCctKAdJnacr0=
+Received: by mail-qt1-f179.google.com with SMTP id s10so3958811qtc.11;
+        Fri, 26 Apr 2019 06:19:51 -0700 (PDT)
+X-Gm-Message-State: APjAAAWf9594wDYU/JUiaOlGsqfX4mwoUoOyrOIdUkJvDyg6xHhGMwuW
+        i+wrTHmk5P6zfIE/KLPM43Su5MvfuH1QC50cmg==
+X-Google-Smtp-Source: APXvYqyEDGc9XxkRrElLvLMqtGPLoQfG80HUApSg7bR+stCPSUrM6ibZOJJxdLiBMwAeNqjBvJnuGJqErr/1NunrnvE=
+X-Received: by 2002:ac8:7647:: with SMTP id i7mr35354952qtr.38.1556284791208;
+ Fri, 26 Apr 2019 06:19:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [172.16.2.207]
-X-ClientProxiedBy: Exchange2.phaseone.com (172.16.1.180) To
- Exchange2.phaseone.com (172.16.1.180)
+References: <1556261237-13823-1-git-send-email-chunfeng.yun@mediatek.com> <1556261237-13823-2-git-send-email-chunfeng.yun@mediatek.com>
+In-Reply-To: <1556261237-13823-2-git-send-email-chunfeng.yun@mediatek.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Fri, 26 Apr 2019 08:19:40 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+2jWJHm3-5BU6NUqFsSN=K15douOyYWeKoKseqhPDysw@mail.gmail.com>
+Message-ID:
+ <CAL_Jsq+2jWJHm3-5BU6NUqFsSN=K15douOyYWeKoKseqhPDysw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/6] dt-bindings: connector: add optional properties
+ for Type-B
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
+        Li Jun <jun.li@nxp.com>,
+        Badhri Jagan Sridharan <badhri@google.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Min Guo <min.guo@mediatek.com>, devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190426131501.BaHATuMCQWYrTY27_aYdj20DItd-vc1LEpFvOB8KdYE@z>
+Message-ID: <20190426131940.IpH8qxSH86yHnZq_q3spp1NXnMEAXVpZwqIedqnVQFY@z>
 
-On Thu, 2019-04-25 at 13:11 -0700, Rob Weber wrote:
-> Hi Everyone,
-> 
-> On Wed, Apr 24, 2019 at 02:33:48PM -0400, Alan Stern wrote:
-> > 
-> > On Wed, 24 Apr 2019, Claus H. Stovgaard wrote:
-> > 
-> > > 
-> > > Hi Balbi and other USB developers.
-> > > 
-> > > I am developing camera devices based on Xilinx ZynqMP, using the
-> > > gadget framework and the build-in dwc3 core of the ZynqMP as USB3
-> > > controller and the build-in Cirrus SERDES as phy.
-> > > Testing with a number of hosts and Windows 7, has shown sporadic
-> > > reconnects when leaving U2/U1, caused by failing link training,
-> > > where
-> > > the host resets the bus. Sometime it also means it reconnect via
-> > > USB2.
-> > > 
-> > > So to overcome this, I will like to have the option for disabling
-> > > U1/U2 on the core when working with those hosts.
-> > > 
-> > > Currently I have made a hack in ep0.c where I return EINVAL in
-> > > dwc3_ep0_handle_u1 and dwc3_ep0_handle_u2 together with not
-> > > setting
-> > > DWC3_DCTL_ACCEPTU1ENA and DWC3_DCTL_ACCEPTU2ENA in
-> > > dwc3_ep0_set_config
-> > > Will though prefer a solution possible to upstream, so was
-> > > thinking
-> > > about adding two devicetree bindings.
-> > > 
-> > > * snps,u1_disable_as_gadget: When set the core will not enable U1
-> > > if
-> > > requested from host, nor initiate U1.
-> > > * snps,u2_disable_as_gadget: When set the core will not enable U2
-> > > if
-> > > requested from host, nor initiate U2.
-> > > 
-> > > If you think this might be something which can be upstreamed I
-> > > will
-> > > prepare the code and send a patch for discussion.
-> > > On the other hand, if you think that disabling U1/U2 via device
-> > > tree
-> > > as suggested should not be a feature no need for me to try making
-> > > it
-> > > a feature.
-> > Speaking as an interested bystander, I would first wonder why your
-> > hardware fails during link training.  If it is properly designed,
-> > that
-> > should not happen.  The fact that it does happen suggests your
-> > devices
-> > might also experience problems during normal data transport.
-> I was recently debugging a similar problem where my device would
-> improperly transition from U2 to U0. This caused the connection to
-> reset
-> and the device to be re-enumerated as a USB2 device. Our design uses
-> an
-> Intel CherryTrail z8550 SoC that has an internal dwc3 USB device
-> controller. I worked with Felipe a couple of weeks ago [1] to come up
-> with
-> the same workaround you mentioned above. I disable device-initiated
-> U1/U2
-> in ep0_set_config and also return -EINVAL when handling SetFeature
-> requests from the USB host. I've attached my patch for kernel 4.9.115
-> below for reference.
-> 
-> Although we have applied this workaround, we still have not
-> identified a
-> root cause of the issue. Intel has no known errata related to the
-> symptoms
-> we are experiencing. We've done quite a bit of analysis on our design
-> and
-> are pretty confident we've followed all design guidelines for USB.
-> 
-> Cheers,
-> Rob Weber
-> 
-> [1] https://marc.info/?t=155349935600001&r=1&w=2
+On Fri, Apr 26, 2019 at 1:47 AM Chunfeng Yun <chunfeng.yun@mediatek.com> wrote:
+>
+> Add id-gpios, vbus-gpios, vbus-supply and pinctrl properties for
+> usb-b-connector
+>
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> ---
+> v4 no changes
+>
+> v3 changes:
+>  1. add GPIO direction, and use fixed-regulator for GPIO controlled
+>     VBUS regulator suggested by Rob;
+>
+> v2 changes:
+>   1. describe more clear for vbus-gpios and vbus-supply suggested by Hans
+> ---
+>  .../bindings/connector/usb-connector.txt           | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 
-Thanks for this info, reading through your thread and can see many
-similarities.
-FYI we are also using a Type-C interface (Using the Cypress CCG4 as
-controller), and using a redriver / mux. We are using the tusb1042i
-
-Have previously asked for information from Xilinx for the dwc3 core
-(the synopsys documentation), and info regarding the PHY. The serdes
-module used as phy is pretty undocumented in the Xilinx documentation,
-with many registers left undocumented.
-
-Please keep me posted if you find the root cause for your problem, and
-I will do the same.
-
-/Claus
+Reviewed-by: Rob Herring <robh@kernel.org>
