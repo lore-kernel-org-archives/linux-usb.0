@@ -4,139 +4,115 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
-	T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_MUTT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	T_DKIMWL_WL_HIGH,USER_AGENT_MUTT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84B76C43219
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 06:23:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D94AC43219
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 06:26:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5C3B020675
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 06:23:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 046E9206BA
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 06:26:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1556259802;
-	bh=NRlTn4ixG4dtv3tzgCreysO5tJr4PVNeW5zqitBMs+s=;
+	s=default; t=1556259977;
+	bh=CFjGkaQsEoaiuvKTV58G1thTut4BSrQtRbpHNh4hcxc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=urXyRspfb6uwdHlNIq9xxcLdxss62EBjd9109TAS5V8DCcsRm5LiNu+J5qca7wbNG
-	 kUwEcOVh5CCmyNxU+cNV3lrNCS0l5L5tmRa8XxgEKTaXn3uNQmAPeWcmuF47oU+wlV
-	 7I+3gLmfAB7NbWbYrVoEcMzRVtRXnRg1HjNKdkGA=
+	b=jvH5cu0jLLb9vggvD8BC7HTGIColnewy9sv/GYFbbwSuKq4CLZlX57hKweQPBZTz6
+	 DTzwHjrdXIE+NeRi9bKS38oIXtQeV/6tMePxolntgKRxfC6Ob8obSdKb4P/aeQTblp
+	 u3G9ApTV3o5jDl05k5RJJOKF4gjYSRiqF7JwhxDg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726005AbfDZGXQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Apr 2019 02:23:16 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:42058 "EHLO
+        id S1726119AbfDZG0L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Apr 2019 02:26:11 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:42232 "EHLO
         mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725800AbfDZGXQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Apr 2019 02:23:16 -0400
-Received: by mail-lf1-f65.google.com with SMTP id w23so1470121lfc.9;
-        Thu, 25 Apr 2019 23:23:15 -0700 (PDT)
+        with ESMTP id S1725800AbfDZG0L (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Apr 2019 02:26:11 -0400
+Received: by mail-lf1-f65.google.com with SMTP id w23so1474956lfc.9;
+        Thu, 25 Apr 2019 23:26:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=zp0hKrUQvX8Kab6K2VQ62FXiQKZQzPjRXrLcwYdpUdo=;
-        b=sMMuULXi0SlLHk04MtOZZXOEuO7Z8TLy5/c6MqqVVX9r7omVpRDwwEzl1gs/T6xgaW
-         UDp4tR+bPNRzJ7aprFIOwZndIzuC+pkIMijj6fSEzDmxXmz/NYfE9H+131BlZvRwML1V
-         z6dR1kh8hvp+tDkVkAyc/dzs1ZUZkSme9grD5Mga4F3vOzdAYuSEZ5MFY5lqTjvQ+lKN
-         bIKxIgJr6l/3whRI5TXUrmy5QIW51qihHWchYXlkx00gpyPfuCvJVhqVe52SVNNTHcLg
-         9vxpuOV13eIeLpKf/uRfa6jy9K5SpJQDHi2FtQQvemhNWmb3v4m62yc473bzRvU2lgUT
-         n5Tg==
-X-Gm-Message-State: APjAAAVZGL707AR0D7wfWLYzI7UtL+nJ1vLMC7xZL7hv0D4dQraZvBAi
-        hkPqxAUWvX5hC2dZ1QPLB8EPfmTJ
-X-Google-Smtp-Source: APXvYqz7AkaHrAAQ93SSzjKVpWpCLt7stSbrb+fPb8WJItSj9D+WE/ZedIXa2YChnc8Mi/n92ClX/Q==
-X-Received: by 2002:ac2:51d9:: with SMTP id u25mr11268500lfm.91.1556259794292;
-        Thu, 25 Apr 2019 23:23:14 -0700 (PDT)
+        bh=SdI3UOKM1gPsWsBd7nlkg/wn38GmZgSSZYPj8q0ITx0=;
+        b=DTlfoQE4AnF7datD/tV7aq9h2G+cHWRQIZxY+0DeJAtmKEeXosUyLtZ8pVY5UjFCff
+         +cTZpFEFq83j2kGnOp0X26yNbJRN55HmES8lcbWUcS2HK8+6ds/XbJ84heYVdQ9RX3vk
+         +Y9tzZlVCBUQJ17DR7rm3DOgk0zQrYII0vKoOw7Q5nbCoyg1QkdSv/0r1o8aRZlQEVPv
+         jXPeejlZKuYfOcDuPpCWQWq+B+d/nO/k1P9c5EmQv2m3po5bQjgBt1EKk2b1b8zo/FAB
+         g+14bcFi4tgGLLQxjd20jmAalkb488OFCDcIp1GlqyZIgH+qZBhhFU8UQRcurWpM8ZkV
+         nkWA==
+X-Gm-Message-State: APjAAAU84ziuo3O9z6rwoc7ZrfT5TuxjnS7VTQuFii2c0EJ+LBUfbDGh
+        mzCZBwiP/tufhoD1QiziH48=
+X-Google-Smtp-Source: APXvYqw2W+n5eieopgmz40wjUfOYycrEdh+38XlNyrVcId6Ckm4HNzMNImRswRK4PKClQfc7e9a0dQ==
+X-Received: by 2002:ac2:5928:: with SMTP id v8mr2773781lfi.157.1556259969701;
+        Thu, 25 Apr 2019 23:26:09 -0700 (PDT)
 Received: from xi.terra (c-74bee655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.190.116])
-        by smtp.gmail.com with ESMTPSA id p76sm6085456ljb.63.2019.04.25.23.23.12
+        by smtp.gmail.com with ESMTPSA id p19sm5322120lfc.48.2019.04.25.23.26.08
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Apr 2019 23:23:13 -0700 (PDT)
+        Thu, 25 Apr 2019 23:26:08 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.91)
         (envelope-from <johan@kernel.org>)
-        id 1hJuGO-0003kw-IX; Fri, 26 Apr 2019 08:23:12 +0200
-Date:   Fri, 26 Apr 2019 08:23:12 +0200
+        id 1hJuJE-0003lc-9E; Fri, 26 Apr 2019 08:26:08 +0200
+Date:   Fri, 26 Apr 2019 08:26:08 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     "Ji-Ze Hong (Peter Hong)" <hpeter@gmail.com>
 Cc:     peter_hong@fintek.com.tw, johan@kernel.org,
         gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org,
-        "Ji-Ze Hong (Peter Hong)" <hpeter+linux_kernel@gmail.com>,
-        Oliver Neukum <oneukum@suse.com>
-Subject: Re: [PATCH V8 1/4] USB: serial: f81232: clear overrun flag
-Message-ID: <20190426062312.GB12280@localhost>
+        "Ji-Ze Hong (Peter Hong)" <hpeter+linux_kernel@gmail.com>
+Subject: Re: [PATCH V8 2/4] USB: serial: f81232: fix interrupt worker not stop
+Message-ID: <20190426062608.GC12280@localhost>
 References: <1555641933-19336-1-git-send-email-hpeter+linux_kernel@gmail.com>
+ <1555641933-19336-2-git-send-email-hpeter+linux_kernel@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <1555641933-19336-1-git-send-email-hpeter+linux_kernel@gmail.com>
+In-Reply-To: <1555641933-19336-2-git-send-email-hpeter+linux_kernel@gmail.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190426062312.HG8mNehyFRe7H0IoGIaPWmUU4uOFUvCIr4NEu2VXZiM@z>
+Message-ID: <20190426062608.b-0BCkMBpV7snfwi9dSQ0NTxqVzbD0dfW0zpjlBnj6g@z>
 
-On Fri, Apr 19, 2019 at 10:45:30AM +0800, Ji-Ze Hong (Peter Hong) wrote:
-> The F81232 will report data and LSR with bulk like following format:
-> bulk-in data: [LSR(1Byte)+DATA(1Byte)][LSR(1Byte)+DATA(1Byte)]...
+On Fri, Apr 19, 2019 at 10:45:31AM +0800, Ji-Ze Hong (Peter Hong) wrote:
+> The F81232 will use LSR/Interrupt worker to handle LSR error & MSR
+> change. This patch will fix the interrupt work should stop in close()
+> and suspend().
 > 
-> LSR will auto clear frame/parity/break error flag when reading by H/W,
-> but overrrun will only cleared when reading LSR. So this patch add a
-> worker to read LSR when overrun and flush the worker on close() &
-> suspend().
-> 
-> Cc: Oliver Neukum <oneukum@suse.com>
+> Cc: Johan Hovold <johan@kernel.org>
 > Signed-off-by: Ji-Ze Hong (Peter Hong) <hpeter+linux_kernel@gmail.com>
 > ---
 > v8:
-> 	1: Fix usb_submit_urb() in f81232_resume() with GFP_NOIO, not
-> 	   GFP_KERNEL.
+> 	1: no change
 > 
 > v7:
-> 	1: Remove serial->suspending check
-> 	2: Add port priv is_port_open to save port open state. We'll
-> 	   register interrupt-in urb in f81232_resume() when port is
-> 	   opened.
-> 	3: Using usb_kill_urb for read/interrupt urb to ensure urb
-> 	   stopped.
-
->  drivers/usb/serial/f81232.c | 97 +++++++++++++++++++++++++++++++++++++++++----
->  1 file changed, 89 insertions(+), 8 deletions(-)
+> 	1: first introduce to this series patch.
+> 
+>  drivers/usb/serial/f81232.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/usb/serial/f81232.c b/drivers/usb/serial/f81232.c
-> index 0dcdcb4b2cde..1f0dd4087d79 100644
+> index 1f0dd4087d79..25ec47d7f318 100644
 > --- a/drivers/usb/serial/f81232.c
 > +++ b/drivers/usb/serial/f81232.c
-> @@ -41,12 +41,15 @@ MODULE_DEVICE_TABLE(usb, id_table);
->  #define FIFO_CONTROL_REGISTER		(0x02 + SERIAL_BASE_ADDRESS)
->  #define LINE_CONTROL_REGISTER		(0x03 + SERIAL_BASE_ADDRESS)
->  #define MODEM_CONTROL_REGISTER		(0x04 + SERIAL_BASE_ADDRESS)
-> +#define LINE_STATUS_REGISTER		(0x05 + SERIAL_BASE_ADDRESS)
->  #define MODEM_STATUS_REGISTER		(0x06 + SERIAL_BASE_ADDRESS)
+> @@ -576,6 +576,7 @@ static void f81232_close(struct usb_serial_port *port)
+>  	usb_serial_generic_close(port);
+>  	usb_kill_urb(port->interrupt_in_urb);
+>  	flush_work(&port_priv->lsr_work);
+> +	flush_work(&port_priv->interrupt_work);
+>  	port_priv->is_port_open = false;
 >  
->  struct f81232_private {
->  	struct mutex lock;
->  	u8 modem_control;
->  	u8 modem_status;
-> +	bool is_port_open;
+>  	mutex_unlock(&port_priv->lock);
+> @@ -679,8 +680,10 @@ static int f81232_suspend(struct usb_serial *serial, pm_message_t message)
+>  
+>  	usb_kill_urb(port->interrupt_in_urb);
+>  
+> -	if (port_priv)
+> +	if (port_priv) {
+>  		flush_work(&port_priv->lsr_work);
+> +		flush_work(&port_priv->interrupt_work);
+> +	}
 
-This patch can be simplified by using the tty_port_initialized() macro
-in resume instead of adding a new open flag. This is the common way USB
-serial drivers deal with this and will allow a lot the new locking to go
-away.
-
-> +static int f81232_resume(struct usb_serial *serial)
-> +{
-> +	struct usb_serial_port *port = serial->port[0];
-> +	struct f81232_private *port_priv = usb_get_serial_port_data(port);
-> +	int result = 0;
-> +
-> +	mutex_lock(&port_priv->lock);
-> +
-> +	if (port_priv && port_priv->is_port_open) {
-> +		result = usb_submit_urb(port->interrupt_in_urb, GFP_NOIO);
-> +		if (result) {
-> +			dev_err(&port->dev,
-> +					"%s: submit interrupt urb failed: %d",
-> +					__func__, result);
-
-Missing '\n', also please drop the function prefix.
+I think this one should go before the lsr_work() patch as it's fixing
+current functionality.
 
 Johan
