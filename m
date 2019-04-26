@@ -2,117 +2,92 @@ Return-Path: <SRS0=7cGN=S4=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
-	T_DKIMWL_WL_HIGH,USER_AGENT_MUTT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_PASS,T_DKIMWL_WL_HIGH,USER_AGENT_MUTT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D94AC43219
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 06:26:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70AF5C43218
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 06:40:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 046E9206BA
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 06:26:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 45ACD206DD
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 06:40:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1556259977;
-	bh=CFjGkaQsEoaiuvKTV58G1thTut4BSrQtRbpHNh4hcxc=;
+	s=default; t=1556260841;
+	bh=fxWPvDCAT7P1mazKn9Z9S7uGm1IRMvdOlq3Az2nkUjo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=jvH5cu0jLLb9vggvD8BC7HTGIColnewy9sv/GYFbbwSuKq4CLZlX57hKweQPBZTz6
-	 DTzwHjrdXIE+NeRi9bKS38oIXtQeV/6tMePxolntgKRxfC6Ob8obSdKb4P/aeQTblp
-	 u3G9ApTV3o5jDl05k5RJJOKF4gjYSRiqF7JwhxDg=
+	b=RigE/t2dQPg7FluhwCPZJ2vgALJ0qqd8CV7knyKjBY4rxIDIV2aCG6MVQlqN89cd3
+	 hY+ZxlqgoEZO36Xk/quXJKkae4eXP3CXwa1D4cgR1ch8jcuktOPNPmTRWYNa0vW26A
+	 ZbxKVRRPCYN/FObqHSghrQf6W3yFk/JGC6pseQQs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726119AbfDZG0L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Apr 2019 02:26:11 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:42232 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725800AbfDZG0L (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Apr 2019 02:26:11 -0400
-Received: by mail-lf1-f65.google.com with SMTP id w23so1474956lfc.9;
-        Thu, 25 Apr 2019 23:26:10 -0700 (PDT)
+        id S1726005AbfDZGkk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Apr 2019 02:40:40 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:35980 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725881AbfDZGkk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Apr 2019 02:40:40 -0400
+Received: by mail-lf1-f66.google.com with SMTP id u17so1636365lfi.3
+        for <linux-usb@vger.kernel.org>; Thu, 25 Apr 2019 23:40:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=SdI3UOKM1gPsWsBd7nlkg/wn38GmZgSSZYPj8q0ITx0=;
-        b=DTlfoQE4AnF7datD/tV7aq9h2G+cHWRQIZxY+0DeJAtmKEeXosUyLtZ8pVY5UjFCff
-         +cTZpFEFq83j2kGnOp0X26yNbJRN55HmES8lcbWUcS2HK8+6ds/XbJ84heYVdQ9RX3vk
-         +Y9tzZlVCBUQJ17DR7rm3DOgk0zQrYII0vKoOw7Q5nbCoyg1QkdSv/0r1o8aRZlQEVPv
-         jXPeejlZKuYfOcDuPpCWQWq+B+d/nO/k1P9c5EmQv2m3po5bQjgBt1EKk2b1b8zo/FAB
-         g+14bcFi4tgGLLQxjd20jmAalkb488OFCDcIp1GlqyZIgH+qZBhhFU8UQRcurWpM8ZkV
-         nkWA==
-X-Gm-Message-State: APjAAAU84ziuo3O9z6rwoc7ZrfT5TuxjnS7VTQuFii2c0EJ+LBUfbDGh
-        mzCZBwiP/tufhoD1QiziH48=
-X-Google-Smtp-Source: APXvYqw2W+n5eieopgmz40wjUfOYycrEdh+38XlNyrVcId6Ckm4HNzMNImRswRK4PKClQfc7e9a0dQ==
-X-Received: by 2002:ac2:5928:: with SMTP id v8mr2773781lfi.157.1556259969701;
-        Thu, 25 Apr 2019 23:26:09 -0700 (PDT)
+        bh=HWJlCEWD3Z11GGvYR+OPOoOGko1Un62OsCVEHCgGfac=;
+        b=he9VnEqO91XfED2QRWUtS4FfsMkuU09iddLSJ6sJbf6dTlpxuIuFAhTwQZCg4RIR3h
+         KMBtP2kRCUGMkbpWJl7+rM7eCQWrlERueleUIbNaC4SK+ablS4Abw3WdmkOSEqAZE8u6
+         laUykKfupwjl5PndMpJ915mvIov2mc6PqAXxXUgkuL/83hqyY5+Yj8+Kaz+6IPx+ACdB
+         0vTsWPkipS/TbxmWF2TzrmrJ1h4yeVMG1hlNmflIG7mbR38r4SF54O0+P3OFET3ytW6d
+         BMNakW0wiePt3NEm5KVjNUYtnFs5ShJ5/fNg/ZnPVae1/SOJmVChWSEy7H0kSeXI+hPU
+         DHOg==
+X-Gm-Message-State: APjAAAWPTvUTSTS5Ld/a/QsrDs4L9HQcUYNgwZGeha7HQXGrrkNrUTbc
+        qir0ihmpsVhd7U7fR3FH1YETie/k
+X-Google-Smtp-Source: APXvYqwK+h9ZvzRc/YrHylGvb1MkbjyW4GengaySSd2DP/s0T070xnUVGV0qyI8u2tmQgWsppslICQ==
+X-Received: by 2002:ac2:4566:: with SMTP id k6mr23716322lfm.22.1556260838280;
+        Thu, 25 Apr 2019 23:40:38 -0700 (PDT)
 Received: from xi.terra (c-74bee655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.190.116])
-        by smtp.gmail.com with ESMTPSA id p19sm5322120lfc.48.2019.04.25.23.26.08
+        by smtp.gmail.com with ESMTPSA id h26sm3281798lfm.11.2019.04.25.23.40.37
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Apr 2019 23:26:08 -0700 (PDT)
+        Thu, 25 Apr 2019 23:40:37 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.91)
         (envelope-from <johan@kernel.org>)
-        id 1hJuJE-0003lc-9E; Fri, 26 Apr 2019 08:26:08 +0200
-Date:   Fri, 26 Apr 2019 08:26:08 +0200
+        id 1hJuXE-00040k-MB; Fri, 26 Apr 2019 08:40:36 +0200
+Date:   Fri, 26 Apr 2019 08:40:36 +0200
 From:   Johan Hovold <johan@kernel.org>
-To:     "Ji-Ze Hong (Peter Hong)" <hpeter@gmail.com>
-Cc:     peter_hong@fintek.com.tw, johan@kernel.org,
-        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        "Ji-Ze Hong (Peter Hong)" <hpeter+linux_kernel@gmail.com>
-Subject: Re: [PATCH V8 2/4] USB: serial: f81232: fix interrupt worker not stop
-Message-ID: <20190426062608.GC12280@localhost>
-References: <1555641933-19336-1-git-send-email-hpeter+linux_kernel@gmail.com>
- <1555641933-19336-2-git-send-email-hpeter+linux_kernel@gmail.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Johan Hovold <johan@kernel.org>
+Subject: Re: [PATCH 0/9] USB: serial: fix initial-termios handling
+Message-ID: <20190426064036.GD12280@localhost>
+References: <20190421122154.26465-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1555641933-19336-2-git-send-email-hpeter+linux_kernel@gmail.com>
+In-Reply-To: <20190421122154.26465-1-johan@kernel.org>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190426062608.b-0BCkMBpV7snfwi9dSQ0NTxqVzbD0dfW0zpjlBnj6g@z>
 
-On Fri, Apr 19, 2019 at 10:45:31AM +0800, Ji-Ze Hong (Peter Hong) wrote:
-> The F81232 will use LSR/Interrupt worker to handle LSR error & MSR
-> change. This patch will fix the interrupt work should stop in close()
-> and suspend().
+On Sun, Apr 21, 2019 at 02:21:45PM +0200, Johan Hovold wrote:
+> A few drivers override the default initial termios settings provided by
+> USB serial core, but due to a long-standing bug, the terminal settings
+> were being reset on every (first) open rather than on first use after
+> probe as intended.
 > 
-> Cc: Johan Hovold <johan@kernel.org>
-> Signed-off-by: Ji-Ze Hong (Peter Hong) <hpeter+linux_kernel@gmail.com>
-> ---
-> v8:
-> 	1: no change
-> 
-> v7:
-> 	1: first introduce to this series patch.
-> 
->  drivers/usb/serial/f81232.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/serial/f81232.c b/drivers/usb/serial/f81232.c
-> index 1f0dd4087d79..25ec47d7f318 100644
-> --- a/drivers/usb/serial/f81232.c
-> +++ b/drivers/usb/serial/f81232.c
-> @@ -576,6 +576,7 @@ static void f81232_close(struct usb_serial_port *port)
->  	usb_serial_generic_close(port);
->  	usb_kill_urb(port->interrupt_in_urb);
->  	flush_work(&port_priv->lsr_work);
-> +	flush_work(&port_priv->interrupt_work);
->  	port_priv->is_port_open = false;
->  
->  	mutex_unlock(&port_priv->lock);
-> @@ -679,8 +680,10 @@ static int f81232_suspend(struct usb_serial *serial, pm_message_t message)
->  
->  	usb_kill_urb(port->interrupt_in_urb);
->  
-> -	if (port_priv)
-> +	if (port_priv) {
->  		flush_work(&port_priv->lsr_work);
-> +		flush_work(&port_priv->interrupt_work);
-> +	}
+> This series fixes the bug and cleans up the various init_termios
+> implementations somewhat.
 
-I think this one should go before the lsr_work() patch as it's fixing
-current functionality.
+> Johan Hovold (9):
+>   USB: serial: fix initial-termios handling
+>   USB: serial: ark3116: drop redundant init_termios
+>   USB: serial: cypress_m8: drop unused driver data flag
+>   USB: serial: cypress_m8: drop unused termios
+>   USB: serial: cypress_m8: clean up initial-termios handling
+>   USB: serial: iuu_phoenix: drop bogus initial cflag
+>   USB: serial: iuu_phoenix: simplify init_termios
+>   USB: serial: oti6858: simplify init_termios
+>   USB: serial: spcp8x5: simplify init_termios
+
+I have applied these now.
 
 Johan
