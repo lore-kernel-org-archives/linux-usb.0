@@ -2,69 +2,57 @@ Return-Path: <SRS0=7cGN=S4=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BE78C43219
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 15:34:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CA0EC43219
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 15:35:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 362052084F
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 15:34:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 47BEE2084F
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 15:35:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727123AbfDZPeE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Apr 2019 11:34:04 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:48585 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1727105AbfDZPeE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Apr 2019 11:34:04 -0400
-Received: (qmail 30040 invoked by uid 500); 26 Apr 2019 11:34:02 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 26 Apr 2019 11:34:02 -0400
-Date:   Fri, 26 Apr 2019 11:34:02 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@netrider.rowland.org
-To:     Jim Lin <jilin@nvidia.com>
-cc:     linux-usb@vger.kernel.org, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/6] usb: Add Clear_TT_Buffer support for XHCI
-In-Reply-To: <1556290130-9347-1-git-send-email-jilin@nvidia.com>
-Message-ID: <Pine.LNX.4.44L0.1904261128380.23806-100000@netrider.rowland.org>
-MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+        id S1727151AbfDZPeW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Apr 2019 11:34:22 -0400
+Received: from shards.monkeyblade.net ([23.128.96.9]:37766 "EHLO
+        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726334AbfDZPeV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Apr 2019 11:34:21 -0400
+Received: from localhost (unknown [12.154.31.190])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 7153E145E74FB;
+        Fri, 26 Apr 2019 08:34:20 -0700 (PDT)
+Date:   Fri, 26 Apr 2019 11:34:18 -0400 (EDT)
+Message-Id: <20190426.113418.432887547498785267.davem@davemloft.net>
+To:     linux@roeck-us.net
+Cc:     linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usbnet: ipheth: Simplify device detection
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <1556128704-10831-1-git-send-email-linux@roeck-us.net>
+References: <1556128704-10831-1-git-send-email-linux@roeck-us.net>
+X-Mailer: Mew version 6.8 on Emacs 26.1
+Mime-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Fri, 26 Apr 2019 08:34:20 -0700 (PDT)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190426153418.FDIN8oREftAEeUFz1WWWWstrnCuxJZeX58EEOcM9Kvg@z>
 
-On Fri, 26 Apr 2019, Jim Lin wrote:
+From: Guenter Roeck <linux@roeck-us.net>
+Date: Wed, 24 Apr 2019 10:58:24 -0700
 
-> Jim Lin (6):
->   usb: hub:Extend usb_hub_clear_tt_buffer parameter
->   usb: isp1760:Adjusted for usb_hub_clear_tt_buffer
->   usb: fotg210:Adjusted for usb_hub_clear_tt_buffer
->   usb: ehci: Adjusted for usb_hub_clear_tt_buffer
->   usb: dwc2: Adjusted for usb_hub_clear_tt_buffer
->   usb: xhci: Add Clear_TT_Buffer
+> All Apple products use the same protocol for tethering over USB.
+> To simplify the code and make it future proof, use
+> USB_VENDOR_AND_INTERFACE_INFO() instead of
+> USB_DEVICE_AND_INTERFACE_INFO() to automatically detect and support
+> all existing and future Apple products using the same interface.
 > 
->  drivers/usb/core/hub.c            |  5 +++--
->  drivers/usb/dwc2/hcd_intr.c       |  2 +-
->  drivers/usb/host/ehci-q.c         |  2 +-
->  drivers/usb/host/fotg210-hcd.c    |  2 +-
->  drivers/usb/host/xhci-ring.c      | 25 +++++++++++++++++++++++++
->  drivers/usb/host/xhci.c           |  7 +++++++
->  drivers/usb/host/xhci.h           |  3 +++
->  drivers/usb/isp1760/isp1760-hcd.c |  5 +++--
->  include/linux/usb/hcd.h           |  2 +-
->  9 files changed, 45 insertions(+), 8 deletions(-)
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 
-This doesn't explain anything.  After reading the patches, I could see 
-that patches 2-5 are needed in order to work with patch 1, but I don't 
-know why patch 1 was needed in the first place.  It looks like patch 1 
-forces callers to add an extra argument containing information that is 
-already available, so why is the extra argument needed?
-
-In any case, this is the sort of the thing you should explain to people
-instead of forcing them to figure it out for themselves.
-
-Alan Stern
-
+Applied to net-next, thanks.
