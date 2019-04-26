@@ -2,117 +2,213 @@ Return-Path: <SRS0=7cGN=S4=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 149E8C43219
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 06:48:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8FAEC43219
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 07:03:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E7C442084F
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 06:48:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A846B20652
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 07:03:14 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=renesasgroup.onmicrosoft.com header.i=@renesasgroup.onmicrosoft.com header.b="vCKRFrmw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726144AbfDZGrv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Apr 2019 02:47:51 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:64373 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725916AbfDZGru (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Apr 2019 02:47:50 -0400
-X-UUID: 8311bbaeec8b49098072af59107411af-20190426
-X-UUID: 8311bbaeec8b49098072af59107411af-20190426
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 802270669; Fri, 26 Apr 2019 14:47:39 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Fri, 26 Apr 2019 14:47:37 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 26 Apr 2019 14:47:36 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Rob Herring <robh+dt@kernel.org>,
+        id S1725921AbfDZHDJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Apr 2019 03:03:09 -0400
+Received: from mail-eopbgr1400138.outbound.protection.outlook.com ([40.107.140.138]:8881
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725877AbfDZHDI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 26 Apr 2019 03:03:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector1-bp-renesas-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xG7N6Jh9B4l5LKlnUjvZtDuc2QWNApI9gZDSp/H33z4=;
+ b=vCKRFrmwUqNuEoJYwfCXSDgAUNCd2+wI6poQSwK0U6fFPGOWRsQipdiJsU2g+Y3eRcawxDcmA30+eAUcCJcXBS485IM3KEncPV6KnjkpuZls2uDOuKUV51LJROAr9yowV2CxsCuzwAPui1FUQFo1y4CvYxgYWIZIHjBUI+py6kQ=
+Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com (52.134.242.17) by
+ OSBPR01MB1861.jpnprd01.prod.outlook.com (52.134.226.16) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1813.12; Fri, 26 Apr 2019 07:02:24 +0000
+Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com
+ ([fe80::6d2c:bd11:88b0:c53a]) by OSBPR01MB2103.jpnprd01.prod.outlook.com
+ ([fe80::6d2c:bd11:88b0:c53a%3]) with mapi id 15.20.1813.017; Fri, 26 Apr 2019
+ 07:02:24 +0000
+From:   Biju Das <biju.das@bp.renesas.com>
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>
 CC:     Mark Rutland <mark.rutland@arm.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
         Li Jun <jun.li@nxp.com>,
         Badhri Jagan Sridharan <badhri@google.com>,
         Hans de Goede <hdegoede@redhat.com>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Min Guo <min.guo@mediatek.com>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        Min Guo <min.guo@mediatek.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
         <linux-arm-kernel@lists.infradead.org>,
+        "linux-mediatek@lists.infradead.org" 
         <linux-mediatek@lists.infradead.org>,
-        Biju Das <biju.das@bp.renesas.com>,
         Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH v4 3/6] dt-bindings: usb: mtu3: add properties about USB Role Switch
-Date:   Fri, 26 Apr 2019 14:47:14 +0800
-Message-ID: <1556261237-13823-4-git-send-email-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1556261237-13823-1-git-send-email-chunfeng.yun@mediatek.com>
+Subject: RE: [PATCH v4 4/6] usb: roles: add API to get usb_role_switch by node
+Thread-Topic: [PATCH v4 4/6] usb: roles: add API to get usb_role_switch by
+ node
+Thread-Index: AQHU+/v2hRuAN8EyF0KCHtKYHfPyNqZN/+Aw
+Date:   Fri, 26 Apr 2019 07:02:24 +0000
+Message-ID:
+ <OSBPR01MB210350ED8C36423BBF4A8FDFB83E0@OSBPR01MB2103.jpnprd01.prod.outlook.com>
 References: <1556261237-13823-1-git-send-email-chunfeng.yun@mediatek.com>
-MIME-Version: 1.0
+ <1556261237-13823-5-git-send-email-chunfeng.yun@mediatek.com>
+In-Reply-To: <1556261237-13823-5-git-send-email-chunfeng.yun@mediatek.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=biju.das@bp.renesas.com; 
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 8cfeb751-e449-4cb0-b727-08d6ca1522c6
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB1861;
+x-ms-traffictypediagnostic: OSBPR01MB1861:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <OSBPR01MB18614F200B06D0D73F25F371B83E0@OSBPR01MB1861.jpnprd01.prod.outlook.com>
+x-forefront-prvs: 001968DD50
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(376002)(39860400002)(346002)(366004)(136003)(51914003)(199004)(189003)(74316002)(7736002)(305945005)(68736007)(97736004)(7416002)(256004)(2906002)(14454004)(6116002)(3846002)(33656002)(478600001)(966005)(8676002)(6506007)(26005)(76176011)(25786009)(44832011)(54906003)(229853002)(102836004)(110136005)(4326008)(6306002)(316002)(52536014)(76116006)(66946007)(6436002)(86362001)(73956011)(66066001)(446003)(8936002)(66476007)(66556008)(71190400001)(186003)(5660300002)(11346002)(81166006)(81156014)(486006)(476003)(9686003)(71200400001)(66446008)(64756008)(6246003)(55016002)(53936002)(99286004)(7696005);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB1861;H:OSBPR01MB2103.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
+received-spf: None (protection.outlook.com: bp.renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: nDfkaFBjZ6B66X3YgFiLpoigGpncz5flR2lGE0fUyafKW18Wm/N97wEqd2InWP1d3rdz9g1DkKRS4pfnJYCpJFScvK8rBXMQIrIWx+nXyVbXgRovCfV8uFlG6Ut+1365E9VyUPJozJeghuBazr2dCxRQA1qWnsy5Hz8t1o+2WahEtOVkNXR0mbdspl2/igZzu2Ba9ZL3hn8UdN/LZFdtOalnaLFawj2ACYLOJEpGElAHl5Sz84GQrxenrsQ2mIKkw5h2HTI1Xnkk4out5SCgAy+eMBBjugyzoh6PZc8j3sruI8Q3taWp1N7SJDomFuok8nMSn9LyKcJeWemXXdgjk3rQmeuwjxNmNhxMN4BW6IDLptS9/dmgIry0Iooy3mIuqPuee72kfcQyLwsbrsdt6+D0H7rWe94ArFy2yQ8k8z0=
 Content-Type: text/plain; charset="UTF-8"
-X-MTK:  N
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8cfeb751-e449-4cb0-b727-08d6ca1522c6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Apr 2019 07:02:24.4665
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB1861
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190426064714.S2D0p3nXtqmtPMc9NZYVFvuMyZ1qh_4O3L_tbSJnkGE@z>
+Message-ID: <20190426070224.BMQp8qnp6GUrtpBUya0wCbxkGv9Qa3NqEa0EDIk7QF8@z>
 
-Now the USB Role Switch is supported, so add properties about it
+Hi Chunfeng Yun,
 
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
-v4: no changes
-v3: no changes
+Thanks for the patch.
 
-v2 changes:
-  1. fix typo
-  2. refer new binding about connector property
----
- .../devicetree/bindings/usb/mediatek,mtu3.txt          | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+> Subject: [PATCH v4 4/6] usb: roles: add API to get usb_role_switch by nod=
+e
+>=20
+> Add fwnode_usb_role_switch_get() to make easier to get usb_role_switch
+> by fwnode which register it.
+> It's useful when there is not device_connection registered between two
+> drivers and only knows the fwnode which register usb_role_switch.
+>=20
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Tested-by: Biju Das <biju.das@bp.renesas.com>
+> ---
+> v4 changes:
+>   1. use switch_fwnode_match() to find fwnode suggested by Heikki
+>   2. this patch now depends on [1]
+>=20
+>  [1] [v6,08/13] usb: roles: Introduce stubs for the exiting functions in =
+role.h
+>     https://patchwork.kernel.org/patch/10909971/
+>=20
+> v3 changes:
+>   1. use fwnodes instead of node suggested by Andy
+>   2. rebuild the API suggested by Heikki
+>=20
+> v2 no changes
+> ---
+>  drivers/usb/roles/class.c | 25 +++++++++++++++++++++++++
+> include/linux/usb/role.h  |  8 ++++++++
+>  2 files changed, 33 insertions(+)
+>=20
+> diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c index
+> f45d8df5cfb8..994fcb979795 100644
+> --- a/drivers/usb/roles/class.c
+> +++ b/drivers/usb/roles/class.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/device.h>
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+> +#include <linux/of.h>
 
-diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.txt b/Documentation/devicetree/bindings/usb/mediatek,mtu3.txt
-index 3382b5cb471d..6e004c4a89af 100644
---- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.txt
-+++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.txt
-@@ -27,7 +27,9 @@ Optional properties:
-  - ranges : allows valid 1:1 translation between child's address space and
- 	parent's address space
-  - extcon : external connector for vbus and idpin changes detection, needed
--	when supports dual-role mode.
-+	when supports dual-role mode; it's consiedered valid for compatibility
-+	reasons, and not allowed for new bindings, use the property
-+	usb-role-switch instead.
-  - vbus-supply : reference to the VBUS regulator, needed when supports
- 	dual-role mode.
-  - pinctrl-names : a pinctrl state named "default" is optional, and need be
-@@ -36,7 +38,8 @@ Optional properties:
- 	is not set.
-  - pinctrl-0 : pin control group
- 	See: Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt
--
-+ - usb-role-switch : use USB Role Switch to support dual-role switch, but
-+	not extcon
-  - maximum-speed : valid arguments are "super-speed", "high-speed" and
- 	"full-speed"; refer to usb/generic.txt
-  - enable-manual-drd : supports manual dual-role switch via debugfs; usually
-@@ -61,6 +64,9 @@ The xhci should be added as subnode to mtu3 as shown in the following example
- if host mode is enabled. The DT binding details of xhci can be found in:
- Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.txt
- 
-+The port would be added as subnode if use usb-role-switch property
-+	see graph.txt
-+
- Example:
- ssusb: usb@11271000 {
- 	compatible = "mediatek,mt8173-mtu3";
--- 
-2.21.0
+Is it required?
+
+>  #include <linux/slab.h>
+>=20
+>  static struct class *role_class;
+> @@ -135,6 +136,30 @@ struct usb_role_switch *usb_role_switch_get(struct
+> device *dev)  }  EXPORT_SYMBOL_GPL(usb_role_switch_get);
+>=20
+> +/**
+> + * fwnode_usb_role_switch_get - Find USB role switch by it's parent
+> +fwnode
+> + * @fwnode: The fwnode that register USB role switch
+> + *
+> + * Finds and returns role switch registered by @fwnode. The reference
+> +count
+> + * for the found switch is incremented.
+> + */
+> +struct usb_role_switch *
+> +fwnode_usb_role_switch_get(struct fwnode_handle *fwnode) {
+> +	struct usb_role_switch *sw;
+> +	struct device *dev;
+> +
+> +	dev =3D class_find_device(role_class, NULL, fwnode,
+> switch_fwnode_match);
+> +	if (!dev)
+> +		return ERR_PTR(-EPROBE_DEFER);
+> +
+> +	sw =3D to_role_switch(dev);
+> +	WARN_ON(!try_module_get(sw->dev.parent->driver->owner));
+> +
+> +	return sw;
+> +}
+> +EXPORT_SYMBOL_GPL(fwnode_usb_role_switch_get);
+> +
+>  /**
+>   * usb_role_switch_put - Release handle to a switch
+>   * @sw: USB Role Switch
+> diff --git a/include/linux/usb/role.h b/include/linux/usb/role.h index
+> da2b9641b877..35d460f9ec40 100644
+> --- a/include/linux/usb/role.h
+> +++ b/include/linux/usb/role.h
+> @@ -48,6 +48,8 @@ int usb_role_switch_set_role(struct usb_role_switch
+> *sw, enum usb_role role);  enum usb_role usb_role_switch_get_role(struct
+> usb_role_switch *sw);  struct usb_role_switch *c(struct
+> device *dev);  void usb_role_switch_put(struct usb_role_switch *sw);
+> +struct usb_role_switch *
+> +fwnode_usb_role_switch_get(struct fwnode_handle *fwnode);
+
+>  struct usb_role_switch *
+>  usb_role_switch_register(struct device *parent, @@ -72,6 +74,12 @@ stati=
+c
+> inline struct usb_role_switch *usb_role_switch_get(struct device *dev)
+>=20
+>  static inline void usb_role_switch_put(struct usb_role_switch *sw) { }
+>=20
+> +static inline struct usb_role_switch *
+> +fwnode_usb_role_switch_get(struct fwnode_handle *fwnode) {
+> +	return ERR_PTR(-ENODEV);
+> +}
+> +
+
+>  static inline struct usb_role_switch *
+>  usb_role_switch_register(struct device *parent,
+>  			 const struct usb_role_switch_desc *desc)
+> --
+> 2.21.0
 
