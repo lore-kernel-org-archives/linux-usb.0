@@ -2,119 +2,153 @@ Return-Path: <SRS0=nhXQ=S5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
+	USER_AGENT_NEOMUTT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61B53C43218
-	for <linux-usb@archiver.kernel.org>; Sat, 27 Apr 2019 09:12:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE0DDC43219
+	for <linux-usb@archiver.kernel.org>; Sat, 27 Apr 2019 09:31:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2568F2077B
-	for <linux-usb@archiver.kernel.org>; Sat, 27 Apr 2019 09:12:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8CBAF208CB
+	for <linux-usb@archiver.kernel.org>; Sat, 27 Apr 2019 09:31:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GPZtb5a1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aoXcNhpj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725912AbfD0JMB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 27 Apr 2019 05:12:01 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:36382 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725857AbfD0JMB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 27 Apr 2019 05:12:01 -0400
-Received: by mail-lj1-f196.google.com with SMTP id l6so5092561ljb.3;
-        Sat, 27 Apr 2019 02:11:59 -0700 (PDT)
+        id S1725977AbfD0JbR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 27 Apr 2019 05:31:17 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:36972 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725871AbfD0JbR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 27 Apr 2019 05:31:17 -0400
+Received: by mail-lj1-f194.google.com with SMTP id b12so3912946lji.4;
+        Sat, 27 Apr 2019 02:31:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9xgHPH09YGJhCPvbuKiscLvKx1wCoR98FI2oDiSX2Ws=;
-        b=GPZtb5a1+GwwjAGS9GaB8QEvI6hF6Bt65vyDloU6bDMGmCnHoNGgR15bK5WFgNfkoS
-         S3g8qP/fSuGfP2wNkWcDJg+adnNQBv7jtMKf3ok5ovH6sxImCQKp422B+DAE3AZqdytr
-         XkeTQbmN1h/FVr+W7w6s0bXZQLLr/ZiupZADGyPjRt3+4ItZrLqUT+9Bd3fouBfTHy7G
-         W3RBwB+gJVkZri7phb5Rbca5lqhEJUFjTFBiKqNxieG18xXdYVtA75n9GkpGee+1Q5oC
-         zKOelxlzW2Sfo8LILpuF2zax/Eb9t9HdceNO2DdlrXURwmjd7drSWsEAxiYSxntwlNFv
-         H85A==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=2xtrX11scqh+cRzN2quAd0Uoqkpc+pKxeVEhGWEdubw=;
+        b=aoXcNhpjT/x3uR1XE+bhICtvbf+ZN/NP1Cbii0AZHiHz9ohC3e8/UdYH5KKV57avxT
+         U/s/rcz+9lOoKAgj9GJRF8jvgKL94FHNAwxKQyjt11ZUHFo3/IPgawMW048+iQzhW9Sg
+         HcPw0Siyh/8uVZ5Df/ur68YKbZNWtGNfHgajs8Jovv/I9IYWCj+xm842jfySLhn4DC8+
+         XidLCjC54PCKUZwf9NbBOo+7lbNcJzqyKEncUIoQn8RrsBnWrmNFjrfl4h7ZP2SaDpML
+         bAT18kND69zPruVZ58j8bwwU4+kKymY7gFlZUx7hbEQkkuH4TMHevsUUl7pmwfekfKQT
+         ThGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9xgHPH09YGJhCPvbuKiscLvKx1wCoR98FI2oDiSX2Ws=;
-        b=K3fjSCkfx1Xo2rgI1KJiuLeQ3VFR9TJIsKcL518huKXdkMC9exdP9ceX2tlf4dl0AM
-         RAinokqinNmTd0WBW+fWvsw9PcS7A+Iji4tESTlQST0/jT47aV7toXFmXzy3Rgf/qjte
-         1MjV5q8zPPaLzroXQmW+AS3qA0UxNcKlMfpS6JZpbNGhhNQfrUzeb5iFuguS2XZNpO2Z
-         6EOGEaW3D6rNsm4De+HO2DE3kRt1hrRRY8wLUU/3pum/KOVh3/x5BLXaEPL9YlUlpDFD
-         /YKrtfcpY7uUiqFRARzq33VyL9xdA9BAdG0WEDE0ODSPgQD8/ZT70KnZ4onib4k8AgjC
-         7fLw==
-X-Gm-Message-State: APjAAAXqDHo0Y6FThwLDUwlVpUDfPSnT8pC4e4oo5JIU1sh4j9nYS4oY
-        ks9J7iBbyEa12zqpphlvNpE=
-X-Google-Smtp-Source: APXvYqw18cwZVYJuGF92dcW9cRRa+taT9kDCNYZUbyaGu/ljvbZGakThDVuilREIwDGCs0TEwXF/jA==
-X-Received: by 2002:a2e:894e:: with SMTP id b14mr23758129ljk.158.1556356318675;
-        Sat, 27 Apr 2019 02:11:58 -0700 (PDT)
-Received: from localhost.localdomain ([5.164.240.123])
-        by smtp.gmail.com with ESMTPSA id y7sm6134228lfg.76.2019.04.27.02.11.57
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 27 Apr 2019 02:11:57 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=2xtrX11scqh+cRzN2quAd0Uoqkpc+pKxeVEhGWEdubw=;
+        b=N60sBI3vJPX5IVVSyhZPGI/yisOVZpNsubdRi2k9sKWZKQeGjnC+LFYrrwGD08Iey5
+         xz4vL8aAeI9bK1aR/Ej0yS17u7raqBnGIkIRvxBICH5txCbR8awYr2UqgBW31bLMwLtC
+         AEVnPF63rMUWDtgRFg5rR+3xO9X42saCw8SxQqbLNulMgiWaBztgGcsdJN6/ubmzMExj
+         N5sac3aGMaErdKePzQBjfyNU42kZENDfPJCiamppsY10V0uFvs34fd8yXI7HTldNXoiU
+         egoPhOAvtdQ1aA/IzQBTkDwmFoxFiuNu0kvvrbn6paEW59sZ5bs23AUf2w603GzR2401
+         YP6g==
+X-Gm-Message-State: APjAAAWVCnSFi6GhkQ8xsuPE3I2l4hzXElwjD8C1slAnmLO+wMOsl539
+        243wpi93aXVufzdgkKazRDM=
+X-Google-Smtp-Source: APXvYqwHzkqNjnZDV5DPpvHkGfvCAxFI/SoNZwQMwUhAU8am92FLbLJjiP8emlawSwnmFKPb3D1oZg==
+X-Received: by 2002:a2e:5dd2:: with SMTP id v79mr28021304lje.22.1556357473968;
+        Sat, 27 Apr 2019 02:31:13 -0700 (PDT)
+Received: from mobilestation ([5.164.240.123])
+        by smtp.gmail.com with ESMTPSA id h123sm5898839lfe.96.2019.04.27.02.31.12
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Sat, 27 Apr 2019 02:31:13 -0700 (PDT)
+Date:   Sat, 27 Apr 2019 12:31:11 +0300
 From:   Serge Semin <fancer.lancer@gmail.com>
-To:     Richard Leitner <richard.leitner@skidata.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Serge Semin <Sergey.Semin@t-platforms.ru>,
-        kbuild test robot <lkp@intel.com>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: usb251xb: Add an empty hub' i2c-bus segment checker
-Date:   Sat, 27 Apr 2019 12:06:44 +0300
-Message-Id: <20190427090645.30621-1-fancer.lancer@gmail.com>
-X-Mailer: git-send-email 2.21.0
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Richard Leitner <richard.leitner@skidata.com>,
+        Serge Semin <Sergey.Semin@t-platforms.ru>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usb: usb251xb: Lock i2c-bus segment the hub resides
+Message-ID: <20190427093110.3rx42ucv2zqjjnrp@mobilestation>
+References: <20190424144914.10580-1-fancer.lancer@gmail.com>
+ <20190426104650.30240-1-fancer.lancer@gmail.com>
+ <20190427070042.GD28250@kroah.com>
+ <20190427071025.hdrm3e5abnl4yock@mobilestation>
+ <20190427073200.GB30973@kroah.com>
+ <20190427073940.6yzhklfus4qd6ver@mobilestation>
+ <20190427075323.GA31478@kroah.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20190427075323.GA31478@kroah.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190427090644.06k3-8KhHWR7XBCPhPHtv9Tkkzglz3kpG8qYZLKodHU@z>
+Message-ID: <20190427093111.kx2Dp60jXHybb6tPlsIwvzhJm_nBe8rjAgsAcdNG4mI@z>
 
-It's pointless to scan the hub' i2c-bus segment if GPIOs aren't supported
-by the system, since no GPIO-driven reset could be cleared by the driver
-then. Moreover if CONFIG_GPIOLIB is disabled the gpio_chip structure
-definition won't be available, which causes the incomplete type pointer
-dereference compilation error. In order to fix this we need to create an
-empty usb251x_check_gpio_chip() method returning zero, so the driver would
-skip the i2c-bus segment checking and proceed with further probing in this
-case.
+On Sat, Apr 27, 2019 at 09:53:23AM +0200, Greg Kroah-Hartman wrote:
+> On Sat, Apr 27, 2019 at 10:39:41AM +0300, Serge Semin wrote:
+> > On Sat, Apr 27, 2019 at 09:32:00AM +0200, Greg Kroah-Hartman wrote:
+> > > On Sat, Apr 27, 2019 at 10:10:27AM +0300, Serge Semin wrote:
+> > > > On Sat, Apr 27, 2019 at 09:00:42AM +0200, Greg Kroah-Hartman wrote:
+> > > > > On Fri, Apr 26, 2019 at 01:46:50PM +0300, Serge Semin wrote:
+> > > > > > SMBus slave configuration is activated by CFG_SEL[1:0]=0x1 pins
+> > > > > > state. This is the mode the hub is supposed to be to let this driver
+> > > > > > work correctly. But a race condition might happen right after reset
+> > > > > > is cleared due to CFG_SEL[0] pin being multiplexed with SMBus SCL
+> > > > > > function. In case if the reset pin is handled by a i2c GPIO expander,
+> > > > > > which is also placed at the same i2c-bus segment as the usb251x
+> > > > > > SMB-interface connected to, then the hub reset clearance might
+> > > > > > cause the CFG_SEL[0] being latched in unpredictable state. So
+> > > > > > sometimes the hub configuration mode might be 0x1 (as expected),
+> > > > > > but sometimes being 0x0, which doesn't imply to have the hub SMBus-slave
+> > > > > > interface activated and consequently causes this driver failure.
+> > > > > > 
+> > > > > > In order to fix the problem we must make sure the GPIO-reset chip doesn't
+> > > > > > reside the same i2c-bus segment as the SMBus-interface of the hub. If
+> > > > > > it doesn't, we can safely block the segment for the time the reset is
+> > > > > > cleared to prevent anyone generating a traffic at the i2c-bus SCL lane
+> > > > > > connected to the CFG_SEL[0] pin. But if it does, nothing we can do, so
+> > > > > > just return an error. If we locked the i2c-bus segment and tried to
+> > > > > > communicate with the GPIO-expander, it would cause a deadlock. If we didn't
+> > > > > > lock the i2c-bus segment, it would randomly cause the CFG_SEL[0] bit flip.
+> > > > > > 
+> > > > > > Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
+> > > > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > > 
+> > > > > I signed off on this?  Where?  When?
+> > > > > 
+> > > > > never add a s-o-b line that you did not create, that implies a legal
+> > > > > agreement.
+> > > > > 
+> > > > 
+> > > > Ah, shit. Sorry. I should have added Acked-by. That's what I was going to do,
+> > > > since you already added the first version of this into linux-next tree. But
+> > > > apparently copy-pasted and left as is...
+> > > 
+> > > If I have already applied a patch, I can't apply it again (or a
+> > > different version.)  You need to send a fix-up patch for the reported
+> > > issue, not a whole new one as I can not go back in time and rewrite
+> > > history.
+> > > 
+> > > thanks,
+> > > 
+> > > greg k-h
+> > 
+> > Ok. Should I send it in reply to this patch or as a completely separate one?
+> 
+> A separate one.
 
-Fixes: 6e3c8beb4f92 ("usb: usb251xb: Lock i2c-bus segment the hub resides")
-Reported-by: kbuild test robot <lkp@intel.com>
-Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
----
- drivers/usb/misc/usb251xb.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Just did this.
 
-diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
-index 939b3bedd4c8..cdc80e8c2d8a 100644
---- a/drivers/usb/misc/usb251xb.c
-+++ b/drivers/usb/misc/usb251xb.c
-@@ -223,6 +223,7 @@ static const struct usb251xb_data usb2517i_data = {
- 	.product_str = "USB2517i",
- };
- 
-+#ifdef CONFIG_GPIOLIB
- static int usb251xb_check_dev_children(struct device *dev, void *child)
- {
- 	if (dev->type == &i2c_adapter_type) {
-@@ -253,6 +254,12 @@ static int usb251x_check_gpio_chip(struct usb251xb *hub)
- 
- 	return 0;
- }
-+#else
-+static int usb251x_check_gpio_chip(struct usb251xb *hub)
-+{
-+	return 0;
-+}
-+#endif
- 
- static void usb251xb_reset(struct usb251xb *hub, int state)
- {
--- 
-2.21.0
+Two more questions.
 
+Is there any online service or ready-to-use configs-gen-script to build
+patchsets locally with various kernel configs before sending them for review?
+By using this I'd most likely prevent such unfortunate mistakes in future
+patches.
+
+I suppose the situation like this isn't unique, and there are other patches
+submitted with possible compilation problems. In this case seeing the linux-next
+will be eventually integrated into the linux-stable, then at the point of those
+patches the kernel source code will be build-broken corresponding config.
+In this case wouldn't it be better to have some rebasable branch with build
+robot service and fix the problematic patches in-place instead of
+apply an incrementing commits? This also would keep the source code cleaner
+at that particular commits.
+
+-Sergey
