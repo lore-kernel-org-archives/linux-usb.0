@@ -2,87 +2,68 @@ Return-Path: <SRS0=nhXQ=S5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,T_DKIMWL_WL_HIGH,
-	USER_AGENT_MUTT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_MUTT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09CE6C43218
-	for <linux-usb@archiver.kernel.org>; Sat, 27 Apr 2019 12:56:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6C75C43218
+	for <linux-usb@archiver.kernel.org>; Sat, 27 Apr 2019 13:12:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CE2652087C
-	for <linux-usb@archiver.kernel.org>; Sat, 27 Apr 2019 12:56:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1556369786;
-	bh=VTEMkRxAEwAAhO8YkZ35ckyyOspKUqhkHhSKIJZnN28=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=jQGiGXAJ+UGemkQzfGVdaFXFz9UnlcuDcbXeSNH0mfLQNhY6/vItcJuZrjP2zafev
-	 AFGQfRVccrmBZGWtef15/rnRMvG3Hyhf+muLI/8qvcS1TtaH6ehZ9C2z4nivXddu4X
-	 BJG314Xu9AUAkUGlvGVCnYUlWhh5F1mw6T9ZaJNQ=
+	by mail.kernel.org (Postfix) with ESMTP id C05C1208C2
+	for <linux-usb@archiver.kernel.org>; Sat, 27 Apr 2019 13:12:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727545AbfD0M4K (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 27 Apr 2019 08:56:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57104 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727659AbfD0M4J (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 27 Apr 2019 08:56:09 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6EEA22087C;
-        Sat, 27 Apr 2019 12:56:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1556369768;
-        bh=VTEMkRxAEwAAhO8YkZ35ckyyOspKUqhkHhSKIJZnN28=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZFP7c9CJLoHipg0tqL/Y/MGUW3F5gGPjJVmDFER45me8zC4U8kDUnPput1M8W/wmX
-         j+uhlrb93vHMCPj4HrQfXusvDtrOiujFcDAR2Roz97eOHIqpdV2vTTHdU5zsM7SIsn
-         rGugvWpi1aSYPkoG+Gi8pLYLz8o9aTABwQu2xtwo=
-Date:   Sat, 27 Apr 2019 14:56:06 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Simon Horman <horms@verge.net.au>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "mathias.nyman@intel.com" <mathias.nyman@intel.com>
-Subject: Re: [PATCH] dt-bindings: usb-xhci: Add r8a774c0 support
-Message-ID: <20190427125606.GA25493@kroah.com>
-References: <1544732471-6730-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <TYXPR01MB1775A4A3AF86097F284C4A08C0760@TYXPR01MB1775.jpnprd01.prod.outlook.com>
- <20190301161624.GA19937@kroah.com>
- <TYXPR01MB17756DBAF2FD7A1F2A9B82B0C0760@TYXPR01MB1775.jpnprd01.prod.outlook.com>
- <TY1PR01MB1770DB45DCD263C6933B9210C0230@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+        id S1726446AbfD0NMu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 27 Apr 2019 09:12:50 -0400
+Received: from cassarossa.samfundet.no ([193.35.52.29]:57045 "EHLO
+        cassarossa.samfundet.no" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725942AbfD0NMu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 27 Apr 2019 09:12:50 -0400
+Received: from pannekake.samfundet.no ([2001:67c:29f4::50])
+        by cassarossa.samfundet.no with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <sesse@samfundet.no>)
+        id 1hKN87-0001tc-K7; Sat, 27 Apr 2019 15:12:36 +0200
+Received: from sesse by pannekake.samfundet.no with local (Exim 4.92)
+        (envelope-from <sesse@samfundet.no>)
+        id 1hKN87-00005t-B8; Sat, 27 Apr 2019 15:12:35 +0200
+Date:   Sat, 27 Apr 2019 15:12:35 +0200
+From:   "Steinar H. Gunderson" <sesse@debian.org>
+To:     Benjamin Drung <bdrung@posteo.de>, 918800@bugs.debian.org
+Cc:     Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
+Subject: Re: Bug#918800: PROBLEM: USB 3.0 NIC operates only at USB 2.0 speed
+ on Odroid HC1
+Message-ID: <20190427131235.GA40843@sesse.net>
+References: <154704226118.1322.1006713485599467999.reportbug@odroid.bdrung.de>
+ <154704226118.1322.1006713485599467999.reportbug@odroid.bdrung.de>
+ <d720bae86ab67d2387c32444c835cd52b2408e6e.camel@posteo.de>
+ <154704226118.1322.1006713485599467999.reportbug@odroid.bdrung.de>
+ <20190424112554.GA35824@sesse.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <TY1PR01MB1770DB45DCD263C6933B9210C0230@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190424112554.GA35824@sesse.net>
+X-Operating-System: Linux 5.0.6 on a x86_64
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190427125606.k9Fg0bHGB6OPWVHatwkpnitU1Zf7-uZ9uIm9R5MD5zk@z>
 
-On Tue, Apr 23, 2019 at 03:32:59PM +0000, Fabrizio Castro wrote:
-> Hello Simon,
-> 
-> I know you don't normally take this type of patches, but this one has
-> been around for more than 4 months now, and I am losing hope here...
-> 
-> Do you think you can this patch?
+On Wed, Apr 24, 2019 at 01:25:54PM +0200, Steinar H. Gunderson wrote:
+> I have the same problem with the ODROID XU4, which also includes a dwc3 and
+> an 8152 (it's probably dwc3-specific; the driver has been problematic
+> before). I haven't checked whether CONFIG_USB_XHCI_PLATFORM=y helps, though.
 
-I think this got dropped somehow, sorry about that.
+Now I have; I rebuilt the Debian kernel with
 
-Can you resend it, with the acks that have been given to it, and I will
-be glad to queue it up.
+  USB=y
+  USB_XHCI_HCD=y
+  CONFIG_USB_XHCI_PLATFORM=y
 
-thanks,
+and the NIC still comes up at 480M. So, no go.
 
-greg k-h
+/* Steinar */
+-- 
+Homepage: https://www.sesse.net/
