@@ -2,40 +2,18 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: dt-bindings: usb-xhci: Add r8a774c0 support
-From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Message-Id: <TY1PR01MB1770DB45DCD263C6933B9210C0230@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-Date: Tue, 23 Apr 2019 15:32:59 +0000
-To: Simon Horman <horms@verge.net.au>
-Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Chris Paterson <Chris.Paterson2@renesas.com>, Biju Das <biju.das@bp.renesas.com>, "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "mathias.nyman@intel.com" <mathias.nyman@intel.com>, Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Message-Id: <20190427125606.GA25493@kroah.com>
+Date: Sat, 27 Apr 2019 14:56:06 +0200
+To: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Cc: Simon Horman <horms@verge.net.au>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, Chris Paterson <Chris.Paterson2@renesas.com>, Biju Das <biju.das@bp.renesas.com>, "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>, "mathias.nyman@intel.com" <mathias.nyman@intel.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-SGVsbG8gU2ltb24sCgpJIGtub3cgeW91IGRvbid0IG5vcm1hbGx5IHRha2UgdGhpcyB0eXBlIG9m
-IHBhdGNoZXMsIGJ1dCB0aGlzIG9uZSBoYXMgYmVlbiBhcm91bmQgZm9yIG1vcmUgdGhhbiA0IG1v
-bnRocyBub3csIGFuZCBJIGFtIGxvc2luZyBob3BlIGhlcmUuLi4KCkRvIHlvdSB0aGluayB5b3Ug
-Y2FuIHRoaXMgcGF0Y2g/CgpUaGFua3MsCkZhYgoKPiBGcm9tOiBsaW51eC1rZXJuZWwtb3duZXJA
-dmdlci5rZXJuZWwub3JnIDxsaW51eC1rZXJuZWwtb3duZXJAdmdlci5rZXJuZWwub3JnPiBPbiBC
-ZWhhbGYgT2YgRmFicml6aW8gQ2FzdHJvCj4gU2VudDogMDEgTWFyY2ggMjAxOSAxNjozNwo+IFN1
-YmplY3Q6IFJFOiBbUEFUQ0hdIGR0LWJpbmRpbmdzOiB1c2IteGhjaTogQWRkIHI4YTc3NGMwIHN1
-cHBvcnQKPiAKPiBIZWxsbyBHcmVnLAo+IAo+IFRoYW5rIHlvdSBmb3IgeW91ciByZXBseSEKPiAK
-PiA+IEZyb206IEdyZWcgS3JvYWgtSGFydG1hbiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+
-Cj4gPiBTZW50OiAwMSBNYXJjaCAyMDE5IDE2OjE2Cj4gPiBUbzogRmFicml6aW8gQ2FzdHJvIDxm
-YWJyaXppby5jYXN0cm9AYnAucmVuZXNhcy5jb20+Cj4gPiBDYzogbGludXgtdXNiQHZnZXIua2Vy
-bmVsLm9yZzsgZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtl
-cm5lbC5vcmc7IFNpbW9uIEhvcm1hbiA8aG9ybXNAdmVyZ2UubmV0LmF1PjsKPiA+IEdlZXJ0IFV5
-dHRlcmhvZXZlbiA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIuYmU+OyBDaHJpcyBQYXRlcnNvbiA8Q2hy
-aXMuUGF0ZXJzb24yQHJlbmVzYXMuY29tPjsgQmlqdSBEYXMKPiA+IDxiaWp1LmRhc0BicC5yZW5l
-c2FzLmNvbT47IGxpbnV4LXJlbmVzYXMtc29jQHZnZXIua2VybmVsLm9yZzsgUm9iIEhlcnJpbmcg
-PHJvYmgrZHRAa2VybmVsLm9yZz47IE1hcmsgUnV0bGFuZAo+ID4gPG1hcmsucnV0bGFuZEBhcm0u
-Y29tPgo+ID4gU3ViamVjdDogUmU6IFtQQVRDSF0gZHQtYmluZGluZ3M6IHVzYi14aGNpOiBBZGQg
-cjhhNzc0YzAgc3VwcG9ydAo+ID4KPiA+IE9uIEZyaSwgTWFyIDAxLCAyMDE5IGF0IDExOjI1OjMz
-QU0gKzAwMDAsIEZhYnJpemlvIENhc3RybyB3cm90ZToKPiA+ID4gSGVsbG8gR3JlZywKPiA+ID4K
-PiA+ID4gSSBhbSBzb3JyeSB0byBib3RoZXIgeW91Lgo+ID4gPiBEbyB5b3UgdGhpbmsgeW91IHRh
-a2UgdGhpcyBwYXRjaD8KPiA+Cj4gPiBkZXZpY2UgdHJlZSBiaW5kaW5ncyBuZWVkIGFuIGFjayBm
-cm9tIHRoZSBEVCBtYWludGFpbmVycyBiZWZvcmUgSSBjYW4KPiA+IHRha2UgdGhlbS4gIEFsc28s
-IHRoaXMgaXMgZm9yIHhoY2ksIHRoZSB4aGNpIG1haW50YWluZXIgaXMgcmVzcG9uc2libGUKPiA+
-IGZvciB0aG9zZSwgbm90IG1lIDopCj4gCj4gSSBhbSBzbyBzb3JyeS4KPiAKPiBUaGUgcGF0Y2gg
-aGFzIGJlZW4gcmV2aWV3ZWQgYnkgR2VlcnQgVXl0dGVyaG9ldmVuLCBTaW1vbiBIb3JtYW4sIGFu
-ZCBSb2IgSGVycmluZyBhbHJlYWR5Lgo+IAo+IE1hdGhpYXMsIGFyZSB5b3UgdGhlIG9uZSB0YWtp
-bmcgdGhlIHBhdGNoZXMgZm9yIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2Iv
-dXNiLXhoY2kudHh0IG5vdz8KPiAKPiBUaGFua3MsCj4gRmFiCj4gCj4gPgo+ID4gdGhhbmtzLAo+
-ID4KPiA+IGdyZWcgay1oCg==
+T24gVHVlLCBBcHIgMjMsIDIwMTkgYXQgMDM6MzI6NTlQTSArMDAwMCwgRmFicml6aW8gQ2FzdHJv
+IHdyb3RlOgo+IEhlbGxvIFNpbW9uLAo+IAo+IEkga25vdyB5b3UgZG9uJ3Qgbm9ybWFsbHkgdGFr
+ZSB0aGlzIHR5cGUgb2YgcGF0Y2hlcywgYnV0IHRoaXMgb25lIGhhcwo+IGJlZW4gYXJvdW5kIGZv
+ciBtb3JlIHRoYW4gNCBtb250aHMgbm93LCBhbmQgSSBhbSBsb3NpbmcgaG9wZSBoZXJlLi4uCj4g
+Cj4gRG8geW91IHRoaW5rIHlvdSBjYW4gdGhpcyBwYXRjaD8KCkkgdGhpbmsgdGhpcyBnb3QgZHJv
+cHBlZCBzb21laG93LCBzb3JyeSBhYm91dCB0aGF0LgoKQ2FuIHlvdSByZXNlbmQgaXQsIHdpdGgg
+dGhlIGFja3MgdGhhdCBoYXZlIGJlZW4gZ2l2ZW4gdG8gaXQsIGFuZCBJIHdpbGwKYmUgZ2xhZCB0
+byBxdWV1ZSBpdCB1cC4KCnRoYW5rcywKCmdyZWcgay1oCg==
