@@ -1,374 +1,308 @@
-Return-Path: <SRS0=7cGN=S4=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=nhXQ=S5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0884EC43218
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 21:06:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D298C43218
+	for <linux-usb@archiver.kernel.org>; Sat, 27 Apr 2019 05:01:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B1EA3206E0
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Apr 2019 21:06:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 107132087F
+	for <linux-usb@archiver.kernel.org>; Sat, 27 Apr 2019 05:01:24 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FEts8fJn"
+	dkim=pass (2048-bit key) header.d=norrbonn-se.20150623.gappssmtp.com header.i=@norrbonn-se.20150623.gappssmtp.com header.b="aqhQg/RF"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726648AbfDZVGT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Apr 2019 17:06:19 -0400
-Received: from mail-vs1-f67.google.com ([209.85.217.67]:35299 "EHLO
-        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726119AbfDZVGS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 26 Apr 2019 17:06:18 -0400
-Received: by mail-vs1-f67.google.com with SMTP id d8so2760709vsp.2
-        for <linux-usb@vger.kernel.org>; Fri, 26 Apr 2019 14:06:18 -0700 (PDT)
+        id S1726112AbfD0FBW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 27 Apr 2019 01:01:22 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:37051 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725974AbfD0FBW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 27 Apr 2019 01:01:22 -0400
+Received: by mail-lf1-f66.google.com with SMTP id h126so3998506lfh.4
+        for <linux-usb@vger.kernel.org>; Fri, 26 Apr 2019 22:01:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=26+4vPIr0HgkK6TSeXXOR7r/N2MsWPtygsTJAak7fo0=;
-        b=FEts8fJnOm9wOpmTuq+vHE5H4i28mw+KOrrqpeUpPVZs/Zv6+vJlEpYanXNa4N9HRb
-         hsMZKZzJsA3heaUaNkqhln7bqPkYJ7hbpMUBeiUdN9N0L82MSwuUiWfsJh7dhWroCv4Z
-         BrQ5DGprFMn+FicbwyP8fWhdoGh6ic5o1uLlY=
+        d=norrbonn-se.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=AgjFQPs5u9IsR2iBdxUrrYVCcaQgzHfcLFwaMw57Ggk=;
+        b=aqhQg/RFxzurhFWl+BnUZG64haHbbAvTdtg641yO8pSZAOLjdb8LZr/xsB5Rr/sXPy
+         WVvmKLXftpvjSJFtImqeLE1Umf6/QgWV5oFlqeukUslwEmTyxFic28Gl7pujR3/1VaJ7
+         yYvzqACdj6QZnRjVlCgCLSx03r9hWrd/iWacGFE+RgP9BluMXR+54H3KRvRjTR88kYR0
+         KKLqrV29aoDv4+6/P1vy0pbw8igmyVKyx2auwlxnXIULNvR7HrrSj5n/jGgsfBGwvbsn
+         W+CbMftQ+16NFqe294X9Hs75B7D8ctvBlfNeUKPCH7y1HFuUvckS3j1mLei4C9Q/lvkb
+         K9Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=26+4vPIr0HgkK6TSeXXOR7r/N2MsWPtygsTJAak7fo0=;
-        b=Pp1i+CA9lwBhcjG3/NLyfVrQiF7hvo4au7lcnB1PCKCYOoP1DqvASSiMSCeu2TZMWl
-         if6eUEM6ecxxBhv6GGUn9NgMJ7nZ4duRnstyDNrAmmdnrGr2yW8gvKvW6ls3zfpjri3j
-         j3qlQhkLb7d9oYT+V0gmZ290FQ0fbh+soC49TVbKX26zHgQWM5WsQLK+IQc6EC7oOm0J
-         4H57acz9MWmDokGNsk2zg9cKiB738IHzdpL4nHQAl+5UqxTPIvttuFdrzPBxnHZLUHra
-         nvCbGDyScmv4RmVo4mS3ezWl05JvhyjESpgksNDEYkMPuZ5NTaBxcn/LLaeWI6Hl1wkx
-         maEg==
-X-Gm-Message-State: APjAAAUmTzvmVkUkYT2MidsfxQxJPtufEeFFJ/vxdUuQLMlQ0NNj/wL9
-        j7grGZ7pF0O+UQyZob94+T1HJAPpsHk=
-X-Google-Smtp-Source: APXvYqwZHnRdGVDxYQUelVG+CknSlpJJcpWQvIXaEOu87EcqbnY+b3EPt7aWe6BYgUKtMCiFuwO75Q==
-X-Received: by 2002:a67:ed82:: with SMTP id d2mr9222042vsp.229.1556312777301;
-        Fri, 26 Apr 2019 14:06:17 -0700 (PDT)
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com. [209.85.222.48])
-        by smtp.gmail.com with ESMTPSA id y1sm18761100uai.0.2019.04.26.14.06.16
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Fri, 26 Apr 2019 14:06:16 -0700 (PDT)
-Received: by mail-ua1-f48.google.com with SMTP id f9so542518ual.1
-        for <linux-usb@vger.kernel.org>; Fri, 26 Apr 2019 14:06:16 -0700 (PDT)
-X-Received: by 2002:ab0:2692:: with SMTP id t18mr25397456uao.106.1556312775694;
- Fri, 26 Apr 2019 14:06:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1555672441.git.arturp@synopsys.com> <87k1fis1b5.fsf@linux.intel.com>
- <SN1PR12MB2431EB450993E07730C3672FA73D0@SN1PR12MB2431.namprd12.prod.outlook.com>
- <CAD=FV=WKJMks9oCdUVS9vTKp9yD_VPE_uaAmTM9HgNoz8tt4pA@mail.gmail.com>
- <SN1PR12MB24312AEFA71B7EEF6FE4EB59A73E0@SN1PR12MB2431.namprd12.prod.outlook.com>
- <CAD=FV=WmtKYt5hn8s1PrjEgFcJqyc-8UWbyEmjPPVq0o4YgD5w@mail.gmail.com>
-In-Reply-To: <CAD=FV=WmtKYt5hn8s1PrjEgFcJqyc-8UWbyEmjPPVq0o4YgD5w@mail.gmail.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Fri, 26 Apr 2019 14:06:04 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WM7k-6moen+sgzZXnX-Zcw_BY9L=RTTrmt6pSHpXPLng@mail.gmail.com>
-Message-ID: <CAD=FV=WM7k-6moen+sgzZXnX-Zcw_BY9L=RTTrmt6pSHpXPLng@mail.gmail.com>
-Subject: Re: [PATCH v1 00/14] usb: dwc2: Fix and improve power saving modes.
-To:     Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
-Cc:     Felipe Balbi <balbi@kernel.org>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=AgjFQPs5u9IsR2iBdxUrrYVCcaQgzHfcLFwaMw57Ggk=;
+        b=lGQ1Shx7eM90P1XsVFM0gfH8JUkuOiSA7hV5F+MhPzZlayvQhzRDdjX6XaCOh35VpS
+         CvOCLCCuqS9AtgfnkXoa3WvfZGid+9KrqBlrFgobatbOjJ+PQCO46LLiIx9qXlQVqfUn
+         0g78KVr/f3jqpl+PvqmU6lRNZPNyWoiqWvaprE36eOBNydTNI2lkE1EyMjUtuQ04OUbS
+         lG4MfDjLoywZutFmt4hEC+4SlDxtA+F0+GLCnXpG0TKhOd+BPirC2N+6qK2TC7uJqRAJ
+         h55YfJMb105Ds4A646mQaKimmZg7FpurJwV0ZczizdnXIKJUoDFkXsDB0LACLaYbw0RJ
+         4fkg==
+X-Gm-Message-State: APjAAAWP5SigbH1N8t6PI374wlHMoQhr07dnLdgFoO3ge28KA9VEoUDb
+        XXqXPcJdiATyLZueJrffflcybg==
+X-Google-Smtp-Source: APXvYqz4xcQjYJmnlp9aZ25tICFVQmRafYeLGm13afQnwS9fYppsYQa5gD4CchWD7Zggs/wXv4Tpuw==
+X-Received: by 2002:a19:6619:: with SMTP id a25mr393108lfc.21.1556341279524;
+        Fri, 26 Apr 2019 22:01:19 -0700 (PDT)
+Received: from [192.168.1.169] (h-29-16.A159.priv.bahnhof.se. [79.136.29.16])
+        by smtp.gmail.com with ESMTPSA id o3sm6061022lfn.41.2019.04.26.22.01.17
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 26 Apr 2019 22:01:18 -0700 (PDT)
+Subject: Re: [PATCH 2/3] usb: gadget: atmel: support USB suspend
+To:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Cc:     Cristian Birsan <cristian.birsan@microchip.com>,
+        Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        John Youn <John.Youn@synopsys.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        linux-arm-kernel@lists.infradead.org
+References: <20190220122001.5713-1-jonas@norrbonn.se>
+ <20190220122001.5713-3-jonas@norrbonn.se>
+From:   Jonas Bonn <jonas@norrbonn.se>
+Message-ID: <eb302fcf-83b1-bed9-f2d3-201dc767a30b@norrbonn.se>
+Date:   Sat, 27 Apr 2019 07:01:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190220122001.5713-3-jonas@norrbonn.se>
+Content-Type: text/plain; charset="UTF-8"; format="flowed"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190427050117.yfLtRVw_JpVcBDSv-xyL0vyFBZrF6HSMem5uv317QNw@z>
 
-Hi,
+Ping.  Any feedback on this at all?  It's been over two months without a 
+single comment.
 
-On Fri, Apr 26, 2019 at 9:01 AM Doug Anderson <dianders@chromium.org> wrote=
-:
->
-> Hi,
->
-> On Fri, Apr 26, 2019 at 12:11 AM Artur Petrosyan
-> <Arthur.Petrosyan@synopsys.com> wrote:
-> >
-> > Hi Doug,
-> >
-> > On 4/26/2019 00:13, Doug Anderson wrote:
-> > > Hi,
-> > >
-> > > On Thu, Apr 25, 2019 at 7:01 AM Artur Petrosyan
-> > > <Arthur.Petrosyan@synopsys.com> wrote:
-> > >>
-> > >> Hi,
-> > >>
-> > >> On 4/25/2019 16:43, Felipe Balbi wrote:
-> > >>> Artur Petrosyan <Arthur.Petrosyan@synopsys.com> writes:
-> > >>>> This patch set, fixes and improves partial power down and hibernat=
-ion power
-> > >>>> saving modes. Also, adds support for entering/exiting hibernation =
-by
-> > >>>> system issued suspend/resume.
-> > >>>>
-> > >>>> This series contains patches which were submitted to LKML. However=
-, a part
-> > >>>> of those patches didn't reach to LKML because of local issue relat=
-ed to
-> > >>>> smtp server.
-> > >>>>
-> > >>>> The patches which reached to LKML are:
-> > >>>>
-> > >>>> - usb: dwc2: Add part. power down exit from dwc2_conn_id_status_ch=
-ange().
-> > >>>> - usb: dwc2: Add port conn. sts. checking in _dwc2_hcd_resume() fu=
-nction.
-> > >>>> - usb: dwc2: Fix suspend state in host mode for partial power down=
-.
-> > >>>> - usb: dwc2: Fix wakeup detected and session request interrupt han=
-dlers.
-> > >>>> - usb: dwc2: Add descriptive debug messages for Partial Power Down=
- mode.
-> > >>>> - usb: dwc2: Fix dwc2_restore_device_registers() function.
-> > >>>>
-> > >>>> The patches which didn't reach to LKML are:
-> > >>>>
-> > >>>> - usb: dwc2: Add enter/exit hibernation from system issued suspend=
-/resume
-> > >>>> - usb: dwc2: Clear GINTSTS_RESTOREDONE bit after restore is genera=
-ted.
-> > >>>> - usb: dwc2: Clear fifo_map when resetting core.
-> > >>>> - usb: dwc2: Allow exiting hibernation from gpwrdn rst detect
-> > >>>> - usb: dwc2: Fix hibernation between host and device modes.
-> > >>>> - usb: dwc2: Update dwc2_handle_usb_suspend_intr function.
-> > >>>> - usb: dwc2: Add default param to control power optimization.
-> > >>>> - usb: dwc2: Reset DEVADDR after exiting gadget hibernation.
-> > >>>>
-> > >>>> Submitting all of the patches together in this version.
-> > >>>>
-> > >>>> Changes from V0:
-> > >>>>    - Replaced 1 with DWC2_POWER_DOWN_PARAM_PARTIAL in commit
-> > >>>>      "9eed02b9fe96 usb: dwc2: Fix wakeup detected and session requ=
-est
-> > >>>>      interrupt handlers.
-> > >>>>
-> > >>>>
-> > >>>> Artur Petrosyan (14):
-> > >>>>     usb: dwc2: Fix dwc2_restore_device_registers() function.
-> > >>>>     usb: dwc2: Add descriptive debug messages for Partial Power Do=
-wn mode.
-> > >>>>     usb: dwc2: Fix wakeup detected and session request interrupt h=
-andlers.
-> > >>>>     usb: dwc2: Fix suspend state in host mode for partial power do=
-wn.
-> > >>>>     usb: dwc2: Add port conn. sts. checking in _dwc2_hcd_resume()
-> > >>>>       function.
-> > >>>>     usb: dwc2: Add part. power down exit from
-> > >>>>       dwc2_conn_id_status_change().
-> > >>>>     usb: dwc2: Reset DEVADDR after exiting gadget hibernation.
-> > >>>>     usb: dwc2: Add default param to control power optimization.
-> > >>>>     usb: dwc2: Update dwc2_handle_usb_suspend_intr function.
-> > >>>>     usb: dwc2: Fix hibernation between host and device modes.
-> > >>>>     usb: dwc2: Allow exiting hibernation from gpwrdn rst detect
-> > >>>>     usb: dwc2: Clear fifo_map when resetting core.
-> > >>>>     usb: dwc2: Clear GINTSTS_RESTOREDONE bit after restore is gene=
-rated.
-> > >>>>     usb: dwc2: Add enter/exit hibernation from system issued
-> > >>>>       suspend/resume
-> > >>>
-> > >>> patches don't apply.
-> > >>>
-> > >>
-> > >> Do we need to wait for Minas's acknowledge or there is problem relat=
-ed
-> > >> to the patches?
-> > >
-> > > It looks like the problem is that my patches won the race and Felipe
-> > > applied them before yours.  Thus, presumably, it'll be up to you to
-> > > rebase your patches atop mine and re-submit.  Specifically, you can
-> > > do:
-> > >
-> > > git remote add linux_usb_balbi
-> > > git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git
-> > > git fetch linux_usb_balbi
-> > > git checkout linux_usb_balbi/testing/next
-> > >
-> > > If you do that and then try to apply your patches you'll find that
-> > > they no longer apply.  AKA try running:
-> > >
-> > > for patch in 10909749 10909737 10909739 10909745 10909533 \
-> > >     10909531 10909747 10909535 10909523 10909741 10909525 \
-> > >     10909751 10909527 10909743; do
-> > >    curl -L https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__pat=
-chwork.kernel.org_patch_-24-257Bpatch-257D_mbox&d=3DDwIBaQ&c=3DDPL6_X_6JkXF=
-x7AXWqB0tg&r=3D9hPBFKCJ_nBjJhGVrrlYOeOQjP_HlVzYqrC_D7niMJI&m=3DgzzEDEbxflLM=
-gk9I-7Re9ytRMvyc_B8iZEmg2xGZN5E&s=3DaWT1hYtXeIeY8ClQ0sNYxwkmJFKDz4iaa4DchNw=
-x3_w&e=3D | git am
-> > > done
-> > >
-> > > You'll see:
-> > >
-> > >> Applying: usb: dwc2: Fix wakeup detected and session request interru=
-pt handlers.
-> > >> error: patch failed: drivers/usb/dwc2/core_intr.c:435
-> > >> error: drivers/usb/dwc2/core_intr.c: patch does not apply
-> > >> Patch failed at 0001 usb: dwc2: Fix wakeup detected and session requ=
-est interrupt handlers.
-> > >
-> > > NOTE: before reposting it might be a good idea to apply the last 3
-> > > patches in my series as per [1] before sending up your series.  Since
-> > > Felipe has already applied patches #1 and #2 in that series presumabl=
-y
-> > > he'll also apply #3 - #5.
-> > >
-> > > I know it'a also up to me to try testing our your patches.  It's stil=
-l
-> > > on my list to give it a shot...
-> > >
-> > > [1] https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lkml.kerne=
-l.org_r_CAD-3DFV-3DWA07-2BgUkVvsikN-3DiDHZLUJQtzjkKtiBHAEDw4gLNWY7w-40mail.=
-gmail.com&d=3DDwIBaQ&c=3DDPL6_X_6JkXFx7AXWqB0tg&r=3D9hPBFKCJ_nBjJhGVrrlYOeO=
-QjP_HlVzYqrC_D7niMJI&m=3DgzzEDEbxflLMgk9I-7Re9ytRMvyc_B8iZEmg2xGZN5E&s=3D9Q=
-P_h5ZlnT7ayUE1_6EVEgu8FaI3_kWm9xuzs1qrvdI&e=3D
-> > >
-> > > P.S: It's helpful if you CC LKML on patches and discussions about
-> > > them.  That allows the magic "permalink via message ID" on
-> > > lkml.kernel.org and also allows your patches to be found on
-> > > lore.kernel.org/patchwork/
-> > >
-> > > -Doug
-> > >
-> >
-> > Besides the issue that comes from the patch "usb: dwc2: Fix wakeup
-> > detected and session request interrupt handlers." there is one more
-> > serious conflict with one of your patches.
-> >
-> > So the patch "usb: dwc2: bus suspend/resume for hosts with
-> > DWC2_POWER_DOWN_PARAM_NONE" have had also been added to the
-> > "balbi/testing/next" before my patch series which conflicts with two of
-> > my patches.
-> >
-> > 1. usb: dwc2: Fix suspend state in host mode for partial power down.
-> > 2. usb: dwc2: Add enter/exit hibernation from system issued suspend/res=
-ume
-> >
-> > This patch introduced by you "usb: dwc2: bus suspend/resume for hosts
-> > with DWC2_POWER_DOWN_PARAM_NONE" got a little bit of issue. It
-> > eliminates entering hibernation through system issued suspend by
-> > checking "if (hsotg->params.power_down > DWC2_POWER_DOWN_PARAM_PARTIAL)=
-"
->
-> To be fair, the patch does not make entering hibernation worse, does
-> it?  Specifically, I'll point to this part of the diff:
->
-> - if (hsotg->params.power_down !=3D DWC2_POWER_DOWN_PARAM_PARTIAL) {
-> + if (hsotg->params.power_down > DWC2_POWER_DOWN_PARAM_PARTIAL) {
->
-> As you can see, if power_down =3D=3D DWC2_POWER_DOWN_PARAM_HIBERNATION th=
-e
-> flow for this "if" test is exactly the same before and after my patch.
->
->
-> > . As per the patch you mention that it fixes suspend/resume flow for
-> > Altera SOCFPGA and Chrome OS 3.14 kernel tree. I assume that the board
-> > has the Partial Power Down enabled core that is why it works out.
->
-> I mentioned some of this in my cover letter [1].  To rehash, I said
-> "Turning on partial power down on rk3288 doesn't "just work".  I don't
-> get hotplug events.  This is despite dwc2 auto-detecting that we are
-> power optimized."
->
-> ...it is certainly possible that partial power down would work on
-> rk3288 if someone had the time to debug it.
->
-> NOTE: I don't have an Altera SOCFPGA, but I'll mention that a previous
-> iteration of my patch (written by Kever Yang at Rockchip) was reverted
-> because it _broke_ Altera SOCFPGAS.  Given my requests to test the new
-> version have been met with silence, I'm inclined to land this and hope
-> it's all good.  If there are problems then hopefully some actual
-> details can be provided.  Last time there were none provided.
->
->
-> > However, we don't just support the Partial Power Down feature enabled
-> > cores. We also support Hibernation feature enabled cores.
->
-> Sure, but the code that is actually landed upstream (even before my
-> series) almost certainly doesn't function for Hibernation.  As pointed
-> out above the entire "_dwc2_hcd_suspend()" function had a great big:
->
-> if (hsotg->params.power_down !=3D DWC2_POWER_DOWN_PARAM_PARTIAL)
->   goto skip_power_saving;
->
-> ...which, as far as I could tell, meant that Hibernation could not
-> possible work.
->
->
-> > The patch set that had been introduced by me which includes "usb: dwc2:
-> > Add enter/exit hibernation from system issued suspend/resume" patch add=
-s
-> > support for both hibernation and Partial Power Down feature enabled
-> > cores and fixes several of Partial Power Down and hibernation related
-> > issues.
-> >
-> > This patch set may fix all of the issues related with Altera SOCFPGA or
-> > Chrome OS 3.14 kernel tree.
-> >
-> > That is why we asked you to test the patch set before we could ACK or
-> > have chance to debug your patch deeper to see the help of it and to
-> > provide you information related to it.
->
-> It may well fix my problems and maybe I can use partial power down
-> now.  That'd be nice.  It was on my list and I would have worked on it
-> last week except that your patches weren't on the mailing list then.
-> ...so I moved on to some other work.  To avoid context switching too
-> much I needed to get to a stopping point before testing your patches.
-> I was hoping to have some nice rebased patches from you to test today,
-> but maybe I'll try a hand at rebasing them myself.
->
-> NOTE also that though I ported this change from the Chrome OS 3.14
-> kernel tree, I'm actually currently working on the Chrome OS 4.19
-> tree.  I also made sure to test the changes on mainline Linux.
->
->
-> > So now I can rebase my changes to the "balbi/testing/next" but I will
-> > have to take the logic of skipping Hibernation out otherwise we will
-> > have problems with hibernation enabled cores.
->
-> As per above, please have a careful look at my patches and you'll see
-> that I was not introducing code that skipped hibernation.  I was
-> keeping the same flow as the old code that skipped hibernation.  So if
-> you are making hibernation work there should be no problems removing
-> that.
->
->
-> > We can ask Balbi to permanently suspend adding of the patch "usb: dwc2:
-> > bus suspend/resume for hosts with DWC2_POWER_DOWN_PARAM_NONE" and my
-> > patch series to his "testing/next". After you can have a chance to test
-> > my patch series we can see if the patches are acknowledged and ask Balb=
-i
-> >   to add them.
->
-> Personally I'd prefer if Felipe finished landing my series and then
-> you rebased atop it.  As I said I'm convinced I'm not making your
-> hibernation case any worse.  If you know of actual things that are
-> made worse by my series then that would be a reason not to land it,
-> but so far I haven't been convinced.
->
->
-> [1] https://lkml.kernel.org/r/20190418001356.124334-2-dianders@chromium.o=
-rg
+Thanks,
+Jonas
 
-To add a bit of breadcrumbs, I did the rebase atop my patches and also
-did some basic review of yours.  Other than a few nits I think I found
-at least one bug where you're unlocking a spinlock twice in the
-partial power down case.
-
-I continue to be convinced that the right thing to do is to finish
-landing my series and then once you've spun yours atop mine we can
-look at landing it.
-
-Here's all my picks atop Felipe's tree that show how I resolved
-things:  https://chromium.googlesource.com/chromiumos/third_party/kernel/+l=
-og/refs/sandbox/dianders/190426-dwc2-stuff
-
-
--Doug
+On 20/02/2019 13:20, Jonas Bonn wrote:
+> This patch adds support for USB suspend to the Atmel UDC.
+> 
+> When suspended, the UDC clock can be stopped, resulting in some power
+> savings.  The "wake up" interrupt will fire irregardless of whether the
+> clock is running or not, allowing the UDC clock to be restarted when the
+> USB master wants to wake the device again.
+> 
+> The IRQ state of this device is somewhat fiddly.  The "wake up" IRQ
+> seems to actually be a "bus activity" indicator; the IRQ is almost
+> continuously asserted so enabling this IRQ should only be done after a
+> suspend when the wake IRQ becomes relevant.  Similarly, the "suspend"
+> IRQ detects "bus inactivity" and may therefore fire together with a
+> "wake" if the two types of activity coincide during the period between
+> two IRQ handler invocations; therefore, it's important to ignore the
+> "suspend" IRQ while waiting for a wake-up.
+> 
+> This has been tested on a SAMA5D2 board.
+> 
+> Signed-off-by: Jonas Bonn <jonas@norrbonn.se>
+> CC: Cristian Birsan <cristian.birsan@microchip.com>
+> CC: Felipe Balbi <balbi@kernel.org>
+> CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> CC: Nicolas Ferre <nicolas.ferre@microchip.com>
+> CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> CC: Ludovic Desroches <ludovic.desroches@microchip.com>
+> CC: linux-arm-kernel@lists.infradead.org
+> CC: linux-usb@vger.kernel.org
+> ---
+>   drivers/usb/gadget/udc/atmel_usba_udc.c | 55 ++++++++++++++++++++++---
+>   drivers/usb/gadget/udc/atmel_usba_udc.h |  1 +
+>   2 files changed, 50 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/usb/gadget/udc/atmel_usba_udc.c b/drivers/usb/gadget/udc/atmel_usba_udc.c
+> index 9d18fdddd9b2..740cb9308a86 100644
+> --- a/drivers/usb/gadget/udc/atmel_usba_udc.c
+> +++ b/drivers/usb/gadget/udc/atmel_usba_udc.c
+> @@ -1703,6 +1703,9 @@ static void usba_dma_irq(struct usba_udc *udc, struct usba_ep *ep)
+>   	}
+>   }
+>   
+> +static int start_clock(struct usba_udc *udc);
+> +static void stop_clock(struct usba_udc *udc);
+> +
+>   static irqreturn_t usba_udc_irq(int irq, void *devid)
+>   {
+>   	struct usba_udc *udc = devid;
+> @@ -1720,10 +1723,13 @@ static irqreturn_t usba_udc_irq(int irq, void *devid)
+>   	DBG(DBG_INT, "irq, status=%#08x\n", status);
+>   
+>   	if (status & USBA_DET_SUSPEND) {
+> -		toggle_bias(udc, 0);
+> -		usba_writel(udc, INT_CLR, USBA_DET_SUSPEND);
+> +		usba_writel(udc, INT_CLR, USBA_DET_SUSPEND|USBA_WAKE_UP);
+>   		usba_int_enb_set(udc, USBA_WAKE_UP);
+> +		usba_int_enb_clear(udc, USBA_DET_SUSPEND);
+> +		udc->suspended = true;
+> +		toggle_bias(udc, 0);
+>   		udc->bias_pulse_needed = true;
+> +		stop_clock(udc);
+>   		DBG(DBG_BUS, "Suspend detected\n");
+>   		if (udc->gadget.speed != USB_SPEED_UNKNOWN
+>   				&& udc->driver && udc->driver->suspend) {
+> @@ -1734,14 +1740,17 @@ static irqreturn_t usba_udc_irq(int irq, void *devid)
+>   	}
+>   
+>   	if (status & USBA_WAKE_UP) {
+> +		start_clock(udc);
+>   		toggle_bias(udc, 1);
+>   		usba_writel(udc, INT_CLR, USBA_WAKE_UP);
+> -		usba_int_enb_clear(udc, USBA_WAKE_UP);
+>   		DBG(DBG_BUS, "Wake Up CPU detected\n");
+>   	}
+>   
+>   	if (status & USBA_END_OF_RESUME) {
+> +		udc->suspended = false;
+>   		usba_writel(udc, INT_CLR, USBA_END_OF_RESUME);
+> +		usba_int_enb_clear(udc, USBA_WAKE_UP);
+> +		usba_int_enb_set(udc, USBA_DET_SUSPEND);
+>   		generate_bias_pulse(udc);
+>   		DBG(DBG_BUS, "Resume detected\n");
+>   		if (udc->gadget.speed != USB_SPEED_UNKNOWN
+> @@ -1756,6 +1765,8 @@ static irqreturn_t usba_udc_irq(int irq, void *devid)
+>   	if (dma_status) {
+>   		int i;
+>   
+> +		usba_int_enb_set(udc, USBA_DET_SUSPEND);
+> +
+>   		for (i = 1; i <= USBA_NR_DMAS; i++)
+>   			if (dma_status & (1 << i))
+>   				usba_dma_irq(udc, &udc->usba_ep[i]);
+> @@ -1765,6 +1776,8 @@ static irqreturn_t usba_udc_irq(int irq, void *devid)
+>   	if (ep_status) {
+>   		int i;
+>   
+> +		usba_int_enb_set(udc, USBA_DET_SUSPEND);
+> +
+>   		for (i = 0; i < udc->num_ep; i++)
+>   			if (ep_status & (1 << i)) {
+>   				if (ep_is_control(&udc->usba_ep[i]))
+> @@ -1778,7 +1791,9 @@ static irqreturn_t usba_udc_irq(int irq, void *devid)
+>   		struct usba_ep *ep0, *ep;
+>   		int i, n;
+>   
+> -		usba_writel(udc, INT_CLR, USBA_END_OF_RESET);
+> +		usba_writel(udc, INT_CLR,
+> +			USBA_END_OF_RESET|USBA_END_OF_RESUME
+> +			|USBA_DET_SUSPEND|USBA_WAKE_UP);
+>   		generate_bias_pulse(udc);
+>   		reset_all_endpoints(udc);
+>   
+> @@ -1805,6 +1820,11 @@ static irqreturn_t usba_udc_irq(int irq, void *devid)
+>   				| USBA_BF(BK_NUMBER, USBA_BK_NUMBER_ONE)));
+>   		usba_ep_writel(ep0, CTL_ENB,
+>   				USBA_EPT_ENABLE | USBA_RX_SETUP);
+> +
+> +		/* If we get reset while suspended... */
+> +		udc->suspended = false;
+> +		usba_int_enb_clear(udc, USBA_WAKE_UP);
+> +
+>   		usba_int_enb_set(udc, USBA_BF(EPT_INT, 1) |
+>   				      USBA_DET_SUSPEND | USBA_END_OF_RESUME);
+>   
+> @@ -1872,9 +1892,19 @@ static int usba_start(struct usba_udc *udc)
+>   	if (ret)
+>   		return ret;
+>   
+> +	if (udc->suspended)
+> +		return 0;
+> +
+>   	spin_lock_irqsave(&udc->lock, flags);
+>   	toggle_bias(udc, 1);
+>   	usba_writel(udc, CTRL, USBA_ENABLE_MASK);
+> +	/* Clear all requested and pending interrupts... */
+> +	usba_writel(udc, INT_ENB, 0);
+> +	udc->int_enb_cache = 0;
+> +	usba_writel(udc, INT_CLR,
+> +		USBA_END_OF_RESET|USBA_END_OF_RESUME
+> +		|USBA_DET_SUSPEND|USBA_WAKE_UP);
+> +	/* ...and enable just 'reset' IRQ to get us started */
+>   	usba_int_enb_set(udc, USBA_END_OF_RESET);
+>   	spin_unlock_irqrestore(&udc->lock, flags);
+>   
+> @@ -1885,6 +1915,9 @@ static void usba_stop(struct usba_udc *udc)
+>   {
+>   	unsigned long flags;
+>   
+> +	if (udc->suspended)
+> +		return;
+> +
+>   	spin_lock_irqsave(&udc->lock, flags);
+>   	udc->gadget.speed = USB_SPEED_UNKNOWN;
+>   	reset_all_endpoints(udc);
+> @@ -1912,6 +1945,7 @@ static irqreturn_t usba_vbus_irq_thread(int irq, void *devid)
+>   		if (vbus) {
+>   			usba_start(udc);
+>   		} else {
+> +			udc->suspended = false;
+>   			usba_stop(udc);
+>   
+>   			if (udc->driver->disconnect)
+> @@ -1975,6 +2009,7 @@ static int atmel_usba_stop(struct usb_gadget *gadget)
+>   	if (fifo_mode == 0)
+>   		udc->configured_ep = 1;
+>   
+> +	udc->suspended = false;
+>   	usba_stop(udc);
+>   
+>   	udc->driver = NULL;
+> @@ -2288,6 +2323,7 @@ static int usba_udc_suspend(struct device *dev)
+>   	mutex_lock(&udc->vbus_mutex);
+>   
+>   	if (!device_may_wakeup(dev)) {
+> +		udc->suspended = false;
+>   		usba_stop(udc);
+>   		goto out;
+>   	}
+> @@ -2297,10 +2333,13 @@ static int usba_udc_suspend(struct device *dev)
+>   	 * to request vbus irq, assuming always on.
+>   	 */
+>   	if (udc->vbus_pin) {
+> +		/* FIXME: right to stop here...??? */
+>   		usba_stop(udc);
+>   		enable_irq_wake(gpiod_to_irq(udc->vbus_pin));
+>   	}
+>   
+> +	enable_irq_wake(udc->irq);
+> +
+>   out:
+>   	mutex_unlock(&udc->vbus_mutex);
+>   	return 0;
+> @@ -2314,8 +2353,12 @@ static int usba_udc_resume(struct device *dev)
+>   	if (!udc->driver)
+>   		return 0;
+>   
+> -	if (device_may_wakeup(dev) && udc->vbus_pin)
+> -		disable_irq_wake(gpiod_to_irq(udc->vbus_pin));
+> +	if (device_may_wakeup(dev)) {
+> +		if (udc->vbus_pin)
+> +			disable_irq_wake(gpiod_to_irq(udc->vbus_pin));
+> +
+> +		disable_irq_wake(udc->irq);
+> +	}
+>   
+>   	/* If Vbus is present, enable the controller and wait for reset */
+>   	mutex_lock(&udc->vbus_mutex);
+> diff --git a/drivers/usb/gadget/udc/atmel_usba_udc.h b/drivers/usb/gadget/udc/atmel_usba_udc.h
+> index 58c96730e32e..24e6fbd3bb99 100644
+> --- a/drivers/usb/gadget/udc/atmel_usba_udc.h
+> +++ b/drivers/usb/gadget/udc/atmel_usba_udc.h
+> @@ -331,6 +331,7 @@ struct usba_udc {
+>   	struct usba_ep *usba_ep;
+>   	bool bias_pulse_needed;
+>   	bool clocked;
+> +	bool suspended;
+>   
+>   	u16 devstatus;
+>   
+> 
