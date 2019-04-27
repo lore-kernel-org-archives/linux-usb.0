@@ -2,66 +2,50 @@ Return-Path: <SRS0=nhXQ=S5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
-	USER_AGENT_NEOMUTT autolearn=unavailable autolearn_force=no version=3.4.0
+	T_DKIMWL_WL_HIGH,USER_AGENT_MUTT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE0DDC43219
-	for <linux-usb@archiver.kernel.org>; Sat, 27 Apr 2019 09:31:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 988D9C43218
+	for <linux-usb@archiver.kernel.org>; Sat, 27 Apr 2019 10:45:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8CBAF208CB
-	for <linux-usb@archiver.kernel.org>; Sat, 27 Apr 2019 09:31:21 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aoXcNhpj"
+	by mail.kernel.org (Postfix) with ESMTP id 5D36E2087C
+	for <linux-usb@archiver.kernel.org>; Sat, 27 Apr 2019 10:45:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1556361910;
+	bh=flwco3je1Q/uKS+Nq99CsLoSDI9a68ilfeV6XvEgXDY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=ZVBFqE38ev0hd6XAzATKccGWajOsV30JhSpXLzgCb18sBKJ4EzBWrmH9qlzhR/BVg
+	 wYLDg1CQnBg6NMmkb//xZKaQ2cxVrZ+oiWQuIFIevYZn8FuNfDPyHwdlU77s1oTZ9D
+	 vU8Q6B9qsFnxCgRfY/T6aiunkeQIEG+nTtN1pFU0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725977AbfD0JbR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 27 Apr 2019 05:31:17 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:36972 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725871AbfD0JbR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 27 Apr 2019 05:31:17 -0400
-Received: by mail-lj1-f194.google.com with SMTP id b12so3912946lji.4;
-        Sat, 27 Apr 2019 02:31:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=2xtrX11scqh+cRzN2quAd0Uoqkpc+pKxeVEhGWEdubw=;
-        b=aoXcNhpjT/x3uR1XE+bhICtvbf+ZN/NP1Cbii0AZHiHz9ohC3e8/UdYH5KKV57avxT
-         U/s/rcz+9lOoKAgj9GJRF8jvgKL94FHNAwxKQyjt11ZUHFo3/IPgawMW048+iQzhW9Sg
-         HcPw0Siyh/8uVZ5Df/ur68YKbZNWtGNfHgajs8Jovv/I9IYWCj+xm842jfySLhn4DC8+
-         XidLCjC54PCKUZwf9NbBOo+7lbNcJzqyKEncUIoQn8RrsBnWrmNFjrfl4h7ZP2SaDpML
-         bAT18kND69zPruVZ58j8bwwU4+kKymY7gFlZUx7hbEQkkuH4TMHevsUUl7pmwfekfKQT
-         ThGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=2xtrX11scqh+cRzN2quAd0Uoqkpc+pKxeVEhGWEdubw=;
-        b=N60sBI3vJPX5IVVSyhZPGI/yisOVZpNsubdRi2k9sKWZKQeGjnC+LFYrrwGD08Iey5
-         xz4vL8aAeI9bK1aR/Ej0yS17u7raqBnGIkIRvxBICH5txCbR8awYr2UqgBW31bLMwLtC
-         AEVnPF63rMUWDtgRFg5rR+3xO9X42saCw8SxQqbLNulMgiWaBztgGcsdJN6/ubmzMExj
-         N5sac3aGMaErdKePzQBjfyNU42kZENDfPJCiamppsY10V0uFvs34fd8yXI7HTldNXoiU
-         egoPhOAvtdQ1aA/IzQBTkDwmFoxFiuNu0kvvrbn6paEW59sZ5bs23AUf2w603GzR2401
-         YP6g==
-X-Gm-Message-State: APjAAAWVCnSFi6GhkQ8xsuPE3I2l4hzXElwjD8C1slAnmLO+wMOsl539
-        243wpi93aXVufzdgkKazRDM=
-X-Google-Smtp-Source: APXvYqwHzkqNjnZDV5DPpvHkGfvCAxFI/SoNZwQMwUhAU8am92FLbLJjiP8emlawSwnmFKPb3D1oZg==
-X-Received: by 2002:a2e:5dd2:: with SMTP id v79mr28021304lje.22.1556357473968;
-        Sat, 27 Apr 2019 02:31:13 -0700 (PDT)
-Received: from mobilestation ([5.164.240.123])
-        by smtp.gmail.com with ESMTPSA id h123sm5898839lfe.96.2019.04.27.02.31.12
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Sat, 27 Apr 2019 02:31:13 -0700 (PDT)
-Date:   Sat, 27 Apr 2019 12:31:11 +0300
-From:   Serge Semin <fancer.lancer@gmail.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        id S1726019AbfD0KpF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 27 Apr 2019 06:45:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59278 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725912AbfD0KpF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 27 Apr 2019 06:45:05 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0E46B2087C;
+        Sat, 27 Apr 2019 10:45:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1556361903;
+        bh=flwco3je1Q/uKS+Nq99CsLoSDI9a68ilfeV6XvEgXDY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ET+o2mRrk7w2HBVR1EVzWcjZyA8pi6hkypugsCtgm50yGKrmpeCCpZbWeXloZzieU
+         RpG8ueOgAKOSY39GdswtldQ3NlpfZB4J4ezCYNe7iINVPoJE8ke73LCLvlEk/buc+A
+         ecNL36YBKTPEUY+Fk2tFGgycvK4jMhsVogIlEUTc=
+Date:   Sat, 27 Apr 2019 12:45:00 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Serge Semin <fancer.lancer@gmail.com>
 Cc:     Richard Leitner <richard.leitner@skidata.com>,
         Serge Semin <Sergey.Semin@t-platforms.ru>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2] usb: usb251xb: Lock i2c-bus segment the hub resides
-Message-ID: <20190427093110.3rx42ucv2zqjjnrp@mobilestation>
+Message-ID: <20190427104500.GA26765@kroah.com>
 References: <20190424144914.10580-1-fancer.lancer@gmail.com>
  <20190426104650.30240-1-fancer.lancer@gmail.com>
  <20190427070042.GD28250@kroah.com>
@@ -69,86 +53,100 @@ References: <20190424144914.10580-1-fancer.lancer@gmail.com>
  <20190427073200.GB30973@kroah.com>
  <20190427073940.6yzhklfus4qd6ver@mobilestation>
  <20190427075323.GA31478@kroah.com>
+ <20190427093110.3rx42ucv2zqjjnrp@mobilestation>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20190427075323.GA31478@kroah.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190427093110.3rx42ucv2zqjjnrp@mobilestation>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190427093111.kx2Dp60jXHybb6tPlsIwvzhJm_nBe8rjAgsAcdNG4mI@z>
+Message-ID: <20190427104500.Gy-_QM1YT1qVY9QJ_Q4DTIumNZRV3wXCLNuPJv4LPRA@z>
 
-On Sat, Apr 27, 2019 at 09:53:23AM +0200, Greg Kroah-Hartman wrote:
-> On Sat, Apr 27, 2019 at 10:39:41AM +0300, Serge Semin wrote:
-> > On Sat, Apr 27, 2019 at 09:32:00AM +0200, Greg Kroah-Hartman wrote:
-> > > On Sat, Apr 27, 2019 at 10:10:27AM +0300, Serge Semin wrote:
-> > > > On Sat, Apr 27, 2019 at 09:00:42AM +0200, Greg Kroah-Hartman wrote:
-> > > > > On Fri, Apr 26, 2019 at 01:46:50PM +0300, Serge Semin wrote:
-> > > > > > SMBus slave configuration is activated by CFG_SEL[1:0]=0x1 pins
-> > > > > > state. This is the mode the hub is supposed to be to let this driver
-> > > > > > work correctly. But a race condition might happen right after reset
-> > > > > > is cleared due to CFG_SEL[0] pin being multiplexed with SMBus SCL
-> > > > > > function. In case if the reset pin is handled by a i2c GPIO expander,
-> > > > > > which is also placed at the same i2c-bus segment as the usb251x
-> > > > > > SMB-interface connected to, then the hub reset clearance might
-> > > > > > cause the CFG_SEL[0] being latched in unpredictable state. So
-> > > > > > sometimes the hub configuration mode might be 0x1 (as expected),
-> > > > > > but sometimes being 0x0, which doesn't imply to have the hub SMBus-slave
-> > > > > > interface activated and consequently causes this driver failure.
+On Sat, Apr 27, 2019 at 12:31:11PM +0300, Serge Semin wrote:
+> On Sat, Apr 27, 2019 at 09:53:23AM +0200, Greg Kroah-Hartman wrote:
+> > On Sat, Apr 27, 2019 at 10:39:41AM +0300, Serge Semin wrote:
+> > > On Sat, Apr 27, 2019 at 09:32:00AM +0200, Greg Kroah-Hartman wrote:
+> > > > On Sat, Apr 27, 2019 at 10:10:27AM +0300, Serge Semin wrote:
+> > > > > On Sat, Apr 27, 2019 at 09:00:42AM +0200, Greg Kroah-Hartman wrote:
+> > > > > > On Fri, Apr 26, 2019 at 01:46:50PM +0300, Serge Semin wrote:
+> > > > > > > SMBus slave configuration is activated by CFG_SEL[1:0]=0x1 pins
+> > > > > > > state. This is the mode the hub is supposed to be to let this driver
+> > > > > > > work correctly. But a race condition might happen right after reset
+> > > > > > > is cleared due to CFG_SEL[0] pin being multiplexed with SMBus SCL
+> > > > > > > function. In case if the reset pin is handled by a i2c GPIO expander,
+> > > > > > > which is also placed at the same i2c-bus segment as the usb251x
+> > > > > > > SMB-interface connected to, then the hub reset clearance might
+> > > > > > > cause the CFG_SEL[0] being latched in unpredictable state. So
+> > > > > > > sometimes the hub configuration mode might be 0x1 (as expected),
+> > > > > > > but sometimes being 0x0, which doesn't imply to have the hub SMBus-slave
+> > > > > > > interface activated and consequently causes this driver failure.
+> > > > > > > 
+> > > > > > > In order to fix the problem we must make sure the GPIO-reset chip doesn't
+> > > > > > > reside the same i2c-bus segment as the SMBus-interface of the hub. If
+> > > > > > > it doesn't, we can safely block the segment for the time the reset is
+> > > > > > > cleared to prevent anyone generating a traffic at the i2c-bus SCL lane
+> > > > > > > connected to the CFG_SEL[0] pin. But if it does, nothing we can do, so
+> > > > > > > just return an error. If we locked the i2c-bus segment and tried to
+> > > > > > > communicate with the GPIO-expander, it would cause a deadlock. If we didn't
+> > > > > > > lock the i2c-bus segment, it would randomly cause the CFG_SEL[0] bit flip.
+> > > > > > > 
+> > > > > > > Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
+> > > > > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > > > > > > 
-> > > > > > In order to fix the problem we must make sure the GPIO-reset chip doesn't
-> > > > > > reside the same i2c-bus segment as the SMBus-interface of the hub. If
-> > > > > > it doesn't, we can safely block the segment for the time the reset is
-> > > > > > cleared to prevent anyone generating a traffic at the i2c-bus SCL lane
-> > > > > > connected to the CFG_SEL[0] pin. But if it does, nothing we can do, so
-> > > > > > just return an error. If we locked the i2c-bus segment and tried to
-> > > > > > communicate with the GPIO-expander, it would cause a deadlock. If we didn't
-> > > > > > lock the i2c-bus segment, it would randomly cause the CFG_SEL[0] bit flip.
+> > > > > > I signed off on this?  Where?  When?
 > > > > > > 
-> > > > > > Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
-> > > > > > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > > > > never add a s-o-b line that you did not create, that implies a legal
+> > > > > > agreement.
+> > > > > > 
 > > > > > 
-> > > > > I signed off on this?  Where?  When?
-> > > > > 
-> > > > > never add a s-o-b line that you did not create, that implies a legal
-> > > > > agreement.
-> > > > > 
+> > > > > Ah, shit. Sorry. I should have added Acked-by. That's what I was going to do,
+> > > > > since you already added the first version of this into linux-next tree. But
+> > > > > apparently copy-pasted and left as is...
 > > > > 
-> > > > Ah, shit. Sorry. I should have added Acked-by. That's what I was going to do,
-> > > > since you already added the first version of this into linux-next tree. But
-> > > > apparently copy-pasted and left as is...
+> > > > If I have already applied a patch, I can't apply it again (or a
+> > > > different version.)  You need to send a fix-up patch for the reported
+> > > > issue, not a whole new one as I can not go back in time and rewrite
+> > > > history.
+> > > > 
+> > > > thanks,
+> > > > 
+> > > > greg k-h
 > > > 
-> > > If I have already applied a patch, I can't apply it again (or a
-> > > different version.)  You need to send a fix-up patch for the reported
-> > > issue, not a whole new one as I can not go back in time and rewrite
-> > > history.
-> > > 
-> > > thanks,
-> > > 
-> > > greg k-h
+> > > Ok. Should I send it in reply to this patch or as a completely separate one?
 > > 
-> > Ok. Should I send it in reply to this patch or as a completely separate one?
+> > A separate one.
 > 
-> A separate one.
+> Just did this.
+> 
+> Two more questions.
+> 
+> Is there any online service or ready-to-use configs-gen-script to build
+> patchsets locally with various kernel configs before sending them for review?
+> By using this I'd most likely prevent such unfortunate mistakes in future
+> patches.
 
-Just did this.
+'make allmodconfig' works for me.  Also, the 0-day bot sometimes will
+test patches sent to the mailing list before they are applied, but that
+doesn't always work.
 
-Two more questions.
+> I suppose the situation like this isn't unique, and there are other patches
+> submitted with possible compilation problems. In this case seeing the linux-next
+> will be eventually integrated into the linux-stable, then at the point of those
+> patches the kernel source code will be build-broken corresponding config.
+> In this case wouldn't it be better to have some rebasable branch with build
+> robot service and fix the problematic patches in-place instead of
+> apply an incrementing commits? This also would keep the source code cleaner
+> at that particular commits.
 
-Is there any online service or ready-to-use configs-gen-script to build
-patchsets locally with various kernel configs before sending them for review?
-By using this I'd most likely prevent such unfortunate mistakes in future
-patches.
+As this passed the first round of 0-day testing in my rebasable branch,
+I assumed it was good enough.  But later testing found that not to be
+the case, which is pretty rare.  And I can't have public trees that are
+rebasable as people work off of them, so we can just live with fixing
+this up.
 
-I suppose the situation like this isn't unique, and there are other patches
-submitted with possible compilation problems. In this case seeing the linux-next
-will be eventually integrated into the linux-stable, then at the point of those
-patches the kernel source code will be build-broken corresponding config.
-In this case wouldn't it be better to have some rebasable branch with build
-robot service and fix the problematic patches in-place instead of
-apply an incrementing commits? This also would keep the source code cleaner
-at that particular commits.
+thanks,
 
--Sergey
+greg k-h
