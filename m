@@ -2,75 +2,69 @@ Return-Path: <SRS0=PkR+=S6=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS,SUBJ_ALL_CAPS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,T_DKIMWL_WL_HIGH,
+	USER_AGENT_MUTT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB6EBC43219
-	for <linux-usb@archiver.kernel.org>; Sun, 28 Apr 2019 13:46:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85B2FC43219
+	for <linux-usb@archiver.kernel.org>; Sun, 28 Apr 2019 16:01:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B21132075D
-	for <linux-usb@archiver.kernel.org>; Sun, 28 Apr 2019 13:46:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 547EA2067D
+	for <linux-usb@archiver.kernel.org>; Sun, 28 Apr 2019 16:01:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1556467262;
+	bh=lyFVnJwoc685vh4uov62zI2Wd+F1dnVR6Ybe3ukewL0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=W9eIP4g8rWm8TDC3xCr+xnTEnWitiTvBL3IR3+0auI49tSqkhaEOrT+5hP8bRBzhO
+	 OJZsWSiqRpX3waD+Jocr+4wcFCLase3aY5Tfu4wCaMvKZa0kW4ZZ5iz1y2o5aJ8vJp
+	 8Hz2RDkO3bfJWgu/9OTYGmk8sa+neyCFBNf0Y0MA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726674AbfD1Nqf convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 28 Apr 2019 09:46:35 -0400
-Received: from mail2.entrerios.gov.ar ([200.71.225.231]:52695 "EHLO
-        mail2.entrerios.gov.ar" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726606AbfD1Nqf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 28 Apr 2019 09:46:35 -0400
-X-Greylist: delayed 1620 seconds by postgrey-1.27 at vger.kernel.org; Sun, 28 Apr 2019 09:46:35 EDT
-Received: from mail2.entrerios.gov.ar (unknown [127.0.0.1])
-        by IMSVA80 (Postfix) with ESMTP id 887D4B2958
-        for <linux-usb@vger.kernel.org>; Sun, 28 Apr 2019 10:19:32 -0300 (ART)
-Received: from carpinchoris.entrerios.gov.ar (unknown [10.10.1.3])
-        by mail2.entrerios.gov.ar (Postfix) with ESMTP id 81F9DB27AA
-        for <linux-usb@vger.kernel.org>; Sun, 28 Apr 2019 10:19:32 -0300 (ART)
-Received: from localhost (localhost [127.0.0.1])
-        by carpinchoris.entrerios.gov.ar (Postfix) with ESMTP id 2A93F40613FDA
-        for <linux-usb@vger.kernel.org>; Sun, 28 Apr 2019 10:08:02 -0300 (ART)
-Received: from carpinchoris.entrerios.gov.ar ([127.0.0.1])
-        by localhost (carpinchoris.entrerios.gov.ar [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id ZEWs8sKZ9fe4 for <linux-usb@vger.kernel.org>;
-        Sun, 28 Apr 2019 10:08:02 -0300 (ART)
-Received: from localhost (localhost [127.0.0.1])
-        by carpinchoris.entrerios.gov.ar (Postfix) with ESMTP id 5E06840613FC7
-        for <linux-usb@vger.kernel.org>; Sun, 28 Apr 2019 09:39:23 -0300 (ART)
-X-Virus-Scanned: amavisd-new at entrerios.gov.ar
-Received: from carpinchoris.entrerios.gov.ar ([127.0.0.1])
-        by localhost (carpinchoris.entrerios.gov.ar [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 53mVkT4TgBHJ for <linux-usb@vger.kernel.org>;
-        Sun, 28 Apr 2019 09:39:23 -0300 (ART)
-Received: from DESKTOP-SDL0J0G.localdomain (unknown [129.205.113.142])
-        by carpinchoris.entrerios.gov.ar (Postfix) with ESMTPSA id 87D2440613FDC
-        for <linux-usb@vger.kernel.org>; Sun, 28 Apr 2019 09:17:31 -0300 (ART)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1726861AbfD1QBB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 28 Apr 2019 12:01:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52410 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726769AbfD1QBB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 28 Apr 2019 12:01:01 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3626E2067D;
+        Sun, 28 Apr 2019 16:01:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1556467260;
+        bh=lyFVnJwoc685vh4uov62zI2Wd+F1dnVR6Ybe3ukewL0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=2FWU6jB9i/fFRHIV2s9Keer8H/FYQ0NdPGF/LRYasaXq10JunXQHqd21Yeo/A50da
+         8NbqvUe3edI9tu4/DEbXYEtbwftl/l/kBpG/Phr4OO5UnfB1SfSdUdVzz/aQ+EtCn3
+         vi93pOfJddYaqO5tWNxF5UPBbJkkcJFrfYUuq8Tg=
+Date:   Sun, 28 Apr 2019 18:00:58 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Christo Gouws <gouws.christo@gmail.com>
+Cc:     Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org
+Subject: Re: Line6 podstudio UX1 - driver crash on usb_hcd_map_urb_for_dma
+Message-ID: <20190428160058.GC9546@kroah.com>
+References: <20190427070136.GE28250@kroah.com>
+ <Pine.LNX.4.44L0.1904271124490.17640-100000@netrider.rowland.org>
+ <20190427180728.GA3200@kroah.com>
+ <20190427182432.GA5213@kroah.com>
+ <20190427184244.GB5213@kroah.com>
+ <CAPHvrsnAeCwOm+ehW91zAi0f6cHD8yqx+vF5XJiLve-p9ahzEw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: JAPAN ORDER
-To:     linux-usb@vger.kernel.org
-From:   Danielle <acabeza@entrerios.gov.ar>
-Date:   Sun, 28 Apr 2019 05:17:32 -0700
-Reply-To: curamobhsales@hotmail.com
-Message-Id: <20190428121731.87D2440613FDC@carpinchoris.entrerios.gov.ar>
-X-TM-AS-Product-Ver: IMSVA-8.0.0.1304-6.5.0.1024-23530.004
-X-TM-AS-Result: No-3.231-5.0-31-10
-X-imss-scan-details: No-3.231-5.0-31-10
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-MatchedRID: Z8ADxlMzkMkgkIr3xQueNzQ60lWQoG0rnophrTcsI7Yu5Y/jIyp336PF
-        jJEFr+olqYB+kyCYtxS1FzwKlzn90Lxjzr7HVPO3zH6pmFIzmHpa6/HUZH507OUb0la9U1FcT25
-        l9Q9WT272rlHXaUDRDNYHLwbve+IT4TtkjGn67pxBsEGj9XlI99pebWNmikurl4pvUzL8NUWUTG
-        VAhB5EbQ==
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <CAPHvrsnAeCwOm+ehW91zAi0f6cHD8yqx+vF5XJiLve-p9ahzEw@mail.gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
+Message-ID: <20190428160058.FouMHCf59-lkJFF-gCTPMlqakKVE7mxtV0n4oQ4Euo4@z>
 
-Hello sirs,
-We are interested in some of your product. 
-pls send catalog asap. Thanks
+On Sun, Apr 28, 2019 at 12:50:04PM +0200, Christo Gouws wrote:
+> Hi,
+> 
+> Confirmed issue is fixed by patch.
 
-Danielle
-JAPAN Sales Dept.
+Wonderful, thanks for testing!  I'll go queue this up now, thanks.
+
+greg k-h
