@@ -1,33 +1,24 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v3,5/6] usb: chipidea: msm: get optional clock by devm_clk_get_optional()
-From: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Message-Id: <f298553253f74808ef49d40e71c9cf0624a4403a.1555488276.git.chunfeng.yun@mediatek.com>
-Date: Wed, 17 Apr 2019 16:28:20 +0800
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mathias Nyman <mathias.nyman@intel.com>, Matthias Brugger <matthias.bgg@gmail.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>, Marek Szyprowski <m.szyprowski@samsung.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, Peter Chen <Peter.Chen@nxp.com>
+Subject: [4/7] doc: dt-binding: usbmisc-imx: add compatible string for imx7ulp
+From: Peter Chen <peter.chen@nxp.com>
+Message-Id: <20190428024847.5046-5-peter.chen@nxp.com>
+Date: Sun, 28 Apr 2019 02:51:23 +0000
+To: "shawnguo@kernel.org" <shawnguo@kernel.org>, "balbi@kernel.org" <balbi@kernel.org>
+Cc: "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "kernel@pengutronix.de" <kernel@pengutronix.de>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "robh+dt@kernel.org" <robh+dt@kernel.org>, Aisheng Dong <aisheng.dong@nxp.com>, dl-linux-imx <linux-imx@nxp.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, Peter Chen <peter.chen@nxp.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-V2hlbiB0aGUgZHJpdmVyIHRyaWVzIHRvIGdldCBvcHRpb25hbCBjbG9jaywgaXQgaWdub3JlcyBh
-bGwgZXJyb3JzIGV4Y2VwdAotRVBST0JFX0RFRkVSLCBidXQgaWYgb25seSBpZ25vcmVzIC1FTk9F
-TlQsIGl0IHdpbGwgY292ZXIgc29tZSByZWFsIGVycm9ycywKc3VjaCBhcyAtRU5PTUVNLCBzbyB1
-c2UgZGV2bV9jbGtfZ2V0X29wdGlvbmFsKCkgdG8gZ2V0IG9wdGlvbmFsIGNsb2NrLgoKQ2M6IFBl
-dGVyIENoZW4gPFBldGVyLkNoZW5AbnhwLmNvbT4KU2lnbmVkLW9mZi1ieTogQ2h1bmZlbmcgWXVu
-IDxjaHVuZmVuZy55dW5AbWVkaWF0ZWsuY29tPgpBY2tlZC1ieTogUGV0ZXIgQ2hlbiA8UGV0ZXIu
-Q2hlbkBueHAuY29tPgotLS0KdjM6IG1vZGlmeSBjaGFuZ2Vsb2cgY29tbWVudAp2MjogYWRkIEFj
-a2VkLWJ5IFBldGVyIENoZW4KLS0tCiBkcml2ZXJzL3VzYi9jaGlwaWRlYS9jaV9oZHJjX21zbS5j
-IHwgOSArKystLS0tLS0KIDEgZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDYgZGVsZXRp
-b25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvY2hpcGlkZWEvY2lfaGRyY19tc20uYyBi
-L2RyaXZlcnMvdXNiL2NoaXBpZGVhL2NpX2hkcmNfbXNtLmMKaW5kZXggODgwMDA5OTg3NDYwLi5i
-OGIzY2FhZDg4OWMgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL2NoaXBpZGVhL2NpX2hkcmNfbXNt
-LmMKKysrIGIvZHJpdmVycy91c2IvY2hpcGlkZWEvY2lfaGRyY19tc20uYwpAQCAtMjA1LDEyICsy
-MDUsOSBAQCBzdGF0aWMgaW50IGNpX2hkcmNfbXNtX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZp
-Y2UgKnBkZXYpCiAJaWYgKElTX0VSUihjbGspKQogCQlyZXR1cm4gUFRSX0VSUihjbGspOwogCi0J
-Y2ktPmZzX2NsayA9IGNsayA9IGRldm1fY2xrX2dldCgmcGRldi0+ZGV2LCAiZnMiKTsKLQlpZiAo
-SVNfRVJSKGNsaykpIHsKLQkJaWYgKFBUUl9FUlIoY2xrKSA9PSAtRVBST0JFX0RFRkVSKQotCQkJ
-cmV0dXJuIC1FUFJPQkVfREVGRVI7Ci0JCWNpLT5mc19jbGsgPSBOVUxMOwotCX0KKwljaS0+ZnNf
-Y2xrID0gY2xrID0gZGV2bV9jbGtfZ2V0X29wdGlvbmFsKCZwZGV2LT5kZXYsICJmcyIpOworCWlm
-IChJU19FUlIoY2xrKSkKKwkJcmV0dXJuIFBUUl9FUlIoY2xrKTsKIAogCXJlcyA9IHBsYXRmb3Jt
-X2dldF9yZXNvdXJjZShwZGV2LCBJT1JFU09VUkNFX01FTSwgMSk7CiAJY2ktPmJhc2UgPSBkZXZt
-X2lvcmVtYXBfcmVzb3VyY2UoJnBkZXYtPmRldiwgcmVzKTsK
+QWRkIGNvbXBhdGlibGUgc3RyaW5nIGZvciBpbXg3dWxwDQoNClNpZ25lZC1vZmYtYnk6IFBldGVy
+IENoZW4gPHBldGVyLmNoZW5AbnhwLmNvbT4NCi0tLQ0KIERvY3VtZW50YXRpb24vZGV2aWNldHJl
+ZS9iaW5kaW5ncy91c2IvdXNibWlzYy1pbXgudHh0IHwgMSArDQogMSBmaWxlIGNoYW5nZWQsIDEg
+aW5zZXJ0aW9uKCspDQoNCi0tIA0KMi4xNC4xCgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi91c2JtaXNjLWlteC50eHQgYi9Eb2N1bWVudGF0aW9uL2Rl
+dmljZXRyZWUvYmluZGluZ3MvdXNiL3VzYm1pc2MtaW14LnR4dA0KaW5kZXggYTg1YTYzMWVjNDM0
+Li5iMzUzYjk4MTY0ODcgMTAwNjQ0DQotLS0gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
+ZGluZ3MvdXNiL3VzYm1pc2MtaW14LnR4dA0KKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
+L2JpbmRpbmdzL3VzYi91c2JtaXNjLWlteC50eHQNCkBAIC03LDYgKzcsNyBAQCBSZXF1aXJlZCBw
+cm9wZXJ0aWVzOg0KIAkiZnNsLHZmNjEwLXVzYm1pc2MiIGZvciBWeWJyaWQgdmY2MTANCiAJImZz
+bCxpbXg2c3gtdXNibWlzYyIgZm9yIGlteDZzeA0KIAkiZnNsLGlteDdkLXVzYm1pc2MiIGZvciBp
+bXg3ZA0KKwkiZnNsLGlteDd1bHAtdXNibWlzYyIgZm9yIGlteDd1bHANCiAtIHJlZzogU2hvdWxk
+IGNvbnRhaW4gcmVnaXN0ZXJzIGxvY2F0aW9uIGFuZCBsZW5ndGgNCiANCiBFeGFtcGxlczoNCg==
