@@ -2,140 +2,104 @@ Return-Path: <SRS0=PkR+=S6=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,UNPARSEABLE_RELAY
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,UNPARSEABLE_RELAY,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7E90C43218
-	for <linux-usb@archiver.kernel.org>; Sun, 28 Apr 2019 12:16:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27F72C4321A
+	for <linux-usb@archiver.kernel.org>; Sun, 28 Apr 2019 12:28:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A294C2075D
-	for <linux-usb@archiver.kernel.org>; Sun, 28 Apr 2019 12:16:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EF70420843
+	for <linux-usb@archiver.kernel.org>; Sun, 28 Apr 2019 12:28:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726638AbfD1MQi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 28 Apr 2019 08:16:38 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:56089 "EHLO
+        id S1726598AbfD1M2b (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 28 Apr 2019 08:28:31 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:55883 "EHLO
         mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726480AbfD1MQh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 28 Apr 2019 08:16:37 -0400
-X-UUID: 1f637e104eea43569a06ec1c775d2b48-20190428
-X-UUID: 1f637e104eea43569a06ec1c775d2b48-20190428
+        with ESMTP id S1726480AbfD1M2a (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 28 Apr 2019 08:28:30 -0400
+X-UUID: 7eb7ca1beb8443f9a0e3b1fb008f6573-20190428
+X-UUID: 7eb7ca1beb8443f9a0e3b1fb008f6573-20190428
 Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 1683014745; Sun, 28 Apr 2019 20:16:30 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31DR.mediatek.inc
- (172.27.6.102) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Sun, 28 Apr
- 2019 20:16:29 +0800
-Received: from [10.17.3.153] (172.27.4.253) by MTKCAS32.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Sun, 28 Apr 2019 20:16:28 +0800
-Message-ID: <1556453788.10179.224.camel@mhfsdcap03>
-Subject: Re: [PATCH v4 3/6] dt-bindings: usb: mtu3: add properties about USB
- Role Switch
+        with ESMTP id 1327980598; Sun, 28 Apr 2019 20:28:20 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+ MTKMBS31DR.mediatek.inc (172.27.6.102) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Sun, 28 Apr 2019 20:28:18 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas09.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Sun, 28 Apr 2019 20:28:17 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Rob Herring <robh@kernel.org>
+To:     Rob Herring <robh+dt@kernel.org>
 CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Mark Rutland <mark.rutland@arm.com>,
         Matthias Brugger <matthias.bgg@gmail.com>,
-        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
-        Li Jun <jun.li@nxp.com>,
-        "Badhri Jagan Sridharan" <badhri@google.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Min Guo <min.guo@mediatek.com>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>,
         Biju Das <biju.das@bp.renesas.com>,
-        Linus Walleij <linus.walleij@linaro.org>
-Date:   Sun, 28 Apr 2019 20:16:28 +0800
-In-Reply-To: <20190426204906.GB15074@bogus>
-References: <1556261237-13823-1-git-send-email-chunfeng.yun@mediatek.com>
-         <1556261237-13823-4-git-send-email-chunfeng.yun@mediatek.com>
-         <20190426204906.GB15074@bogus>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Content-Transfer-Encoding: 7bit
+        Yu Chen <chenyu56@huawei.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Min Guo <min.guo@mediatek.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>
+Subject: [PATCH] dt-binding: usb: add usb-role-switch property
+Date:   Sun, 28 Apr 2019 20:27:46 +0800
+Message-ID:
+ <5756e05930f5e6a3940ad9d019399c8e63d24f18.1556454324.git.chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 X-MTK:  N
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190428121628.j2Zf_6oRQWgfrdQwI3fAZSsGGqrlNEY9YgalSGxSEYc@z>
+Message-ID: <20190428122746.gi5-A5nUZ80jb3e43xq26iCPA5QPlso5GaFpz7XQHRw@z>
 
-On Fri, 2019-04-26 at 15:49 -0500, Rob Herring wrote:
-> On Fri, Apr 26, 2019 at 02:47:14PM +0800, Chunfeng Yun wrote:
-> > Now the USB Role Switch is supported, so add properties about it
-> > 
-> > Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> > ---
-> > v4: no changes
-> > v3: no changes
-> > 
-> > v2 changes:
-> >   1. fix typo
-> >   2. refer new binding about connector property
-> > ---
-> >  .../devicetree/bindings/usb/mediatek,mtu3.txt          | 10 ++++++++--
-> >  1 file changed, 8 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.txt b/Documentation/devicetree/bindings/usb/mediatek,mtu3.txt
-> > index 3382b5cb471d..6e004c4a89af 100644
-> > --- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.txt
-> > +++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.txt
-> > @@ -27,7 +27,9 @@ Optional properties:
-> >   - ranges : allows valid 1:1 translation between child's address space and
-> >  	parent's address space
-> >   - extcon : external connector for vbus and idpin changes detection, needed
-> > -	when supports dual-role mode.
-> > +	when supports dual-role mode; it's consiedered valid for compatibility
-> > +	reasons, and not allowed for new bindings, use the property
-> > +	usb-role-switch instead.
-> >   - vbus-supply : reference to the VBUS regulator, needed when supports
-> >  	dual-role mode.
-> >   - pinctrl-names : a pinctrl state named "default" is optional, and need be
-> > @@ -36,7 +38,8 @@ Optional properties:
-> >  	is not set.
-> >   - pinctrl-0 : pin control group
-> >  	See: Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt
-> > -
-> > + - usb-role-switch : use USB Role Switch to support dual-role switch, but
-> > +	not extcon
-> 
-> Coordinate with the Renesas and HiSilicon folks implementing the same 
-> thing and put this in a common spot. 
-I'll prepare a patch for it, and CC Biju and Yu
+Add a property usb-role-switch to tell Dual-Role controller driver
+that use USB Role Switch framework to handle the role switch between
+host mode and device mode, it's useful when the driver has already
+supported other ways, such as extcon framework etc.
 
-> However, I think this should not 
-> even be needed as knowing the controller capabilities (based on the 
-> compatible) and knowing the type of connector should be enough 
-> information to tell you if dual role is supported or not.
-Some Dual-Role controller drivers already used extcon framework to
-handle role switch, if try to support the new USB Role Switch framework,
-the driver may want to know which way will be used.
+Cc: Biju Das <biju.das@bp.renesas.com>
+Cc: Yu Chen <chenyu56@huawei.com>
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+---
+v1:
+the property is discussed in:
+[v2,2/7] dt-bindings: usb: renesas_usb3: add usb-role-switch property
+https://patchwork.kernel.org/patch/10852497/
 
-Sometimes users also want to use dual-role even use the type-A, such as
-use sys interface to handle role switch, so only knowing the connector
-type can't tell driver which way to use
-> 
-> >   - maximum-speed : valid arguments are "super-speed", "high-speed" and
-> >  	"full-speed"; refer to usb/generic.txt
-> >   - enable-manual-drd : supports manual dual-role switch via debugfs; usually
-> > @@ -61,6 +64,9 @@ The xhci should be added as subnode to mtu3 as shown in the following example
-> >  if host mode is enabled. The DT binding details of xhci can be found in:
-> >  Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.txt
-> >  
-> > +The port would be added as subnode if use usb-role-switch property
-> > +	see graph.txt
-> > +
-> >  Example:
-> >  ssusb: usb@11271000 {
-> >  	compatible = "mediatek,mt8173-mtu3";
-> > -- 
-> > 2.21.0
-> > 
+Mediatek and Hisilicon also try to use it:
+[v4,3/6] dt-bindings: usb: mtu3: add properties about USB Role Switch
+https://patchwork.kernel.org/patch/10918385/
+[v4,6/6] usb: mtu3: register a USB Role Switch for dual role mode
+https://patchwork.kernel.org/patch/10918367/
 
+[v6,10/13] usb: dwc3: Registering a role switch in the DRD code
+https://patchwork.kernel.org/patch/10909981/
+---
+ Documentation/devicetree/bindings/usb/generic.txt | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/usb/generic.txt b/Documentation/devicetree/bindings/usb/generic.txt
+index 0a74ab8dfdc2..c73950b72513 100644
+--- a/Documentation/devicetree/bindings/usb/generic.txt
++++ b/Documentation/devicetree/bindings/usb/generic.txt
+@@ -30,6 +30,9 @@ Optional properties:
+ 			optional for OTG device.
+  - adp-disable: tells OTG controllers we want to disable OTG ADP, ADP is
+ 			optional for OTG device.
++ - usb-role-switch: tells Dual-Role USB controller driver that we want to use
++			USB Role Switch framework to handle the role switch
++			between host mode and device mode.
+ 
+ This is an attribute to a USB controller such as:
+ 
+-- 
+2.21.0
 
