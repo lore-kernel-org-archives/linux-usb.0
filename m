@@ -2,21 +2,25 @@ Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Subject: [1/5] USB: serial: fix unthrottle races
-From: Oliver Neukum <oneukum@suse.com>
-Message-Id: <1556531458.20085.8.camel@suse.com>
-Date: Mon, 29 Apr 2019 11:50:58 +0200
-To: Johan Hovold <johan@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alan Stern <stern@rowland.harvard.edu>
-Cc: linux-usb@vger.kernel.org
+From: Johan Hovold <johan@kernel.org>
+Message-Id: <20190429100338.GJ26546@localhost>
+Date: Mon, 29 Apr 2019 12:03:38 +0200
+To: Oliver Neukum <oneukum@suse.com>
+Cc: Johan Hovold <johan@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRG8sIDIwMTktMDQtMjUgYXQgMTg6MDUgKzAyMDAsIEpvaGFuIEhvdm9sZCB3cm90ZToKPiBA
-QCAtNDg0LDYgKzUwMywxMiBAQCB2b2lkIHVzYl9zZXJpYWxfZ2VuZXJpY191bnRocm90dGxlKHN0
-cnVjdCB0dHlfc3RydWN0ICp0dHkpCj4gICAgICAgICBwb3J0LT50aHJvdHRsZWQgPSBwb3J0LT50
-aHJvdHRsZV9yZXEgPSAwOwo+ICAgICAgICAgc3Bpbl91bmxvY2tfaXJxKCZwb3J0LT5sb2NrKTsK
-PiAgCj4gKyAgICAgICAvKgo+ICsgICAgICAgICogTWF0Y2hlcyB0aGUgc21wX21iX19hZnRlcl9h
-dG9taWMoKSBpbgo+ICsgICAgICAgICogdXNiX3NlcmlhbF9nZW5lcmljX3JlYWRfYnVsa19jYWxs
-YmFjaygpLgo+ICsgICAgICAgICovCj4gKyAgICAgICBzbXBfbWIoKTsKPiArCj4gICAgICAgICBp
-ZiAod2FzX3Rocm90dGxlZCkKPiAgICAgICAgICAgICAgICAgdXNiX3NlcmlhbF9nZW5lcmljX3N1
-Ym1pdF9yZWFkX3VyYnMocG9ydCwgR0ZQX0tFUk5FTCk7CgoKRG9lc24ndCB0aGUgc3Bpbl91bmxv
-Y2tfaXJxKCkgaW1wbHkgc21wX21iKCk/Ck90aGVyd2lzZSBpdCBsb29rcyBjb3JyZWN0IHRvIG1l
-LgoKCVJlZ2FyZHMKCQlPbGl2ZXIK
+T24gTW9uLCBBcHIgMjksIDIwMTkgYXQgMTE6NTA6NThBTSArMDIwMCwgT2xpdmVyIE5ldWt1bSB3
+cm90ZToKPiBPbiBEbywgMjAxOS0wNC0yNSBhdCAxODowNSArMDIwMCwgSm9oYW4gSG92b2xkIHdy
+b3RlOgo+ID4gQEAgLTQ4NCw2ICs1MDMsMTIgQEAgdm9pZCB1c2Jfc2VyaWFsX2dlbmVyaWNfdW50
+aHJvdHRsZShzdHJ1Y3QgdHR5X3N0cnVjdCAqdHR5KQo+ID4gICAgICAgICBwb3J0LT50aHJvdHRs
+ZWQgPSBwb3J0LT50aHJvdHRsZV9yZXEgPSAwOwo+ID4gICAgICAgICBzcGluX3VubG9ja19pcnEo
+JnBvcnQtPmxvY2spOwo+ID4gIAo+ID4gKyAgICAgICAvKgo+ID4gKyAgICAgICAgKiBNYXRjaGVz
+IHRoZSBzbXBfbWJfX2FmdGVyX2F0b21pYygpIGluCj4gPiArICAgICAgICAqIHVzYl9zZXJpYWxf
+Z2VuZXJpY19yZWFkX2J1bGtfY2FsbGJhY2soKS4KPiA+ICsgICAgICAgICovCj4gPiArICAgICAg
+IHNtcF9tYigpOwo+ID4gKwo+ID4gICAgICAgICBpZiAod2FzX3Rocm90dGxlZCkKPiA+ICAgICAg
+ICAgICAgICAgICB1c2Jfc2VyaWFsX2dlbmVyaWNfc3VibWl0X3JlYWRfdXJicyhwb3J0LCBHRlBf
+S0VSTkVMKTsKPiAKPiAKPiBEb2Vzbid0IHRoZSBzcGluX3VubG9ja19pcnEoKSBpbXBseSBzbXBf
+bWIoKT8KPiBPdGhlcndpc2UgaXQgbG9va3MgY29ycmVjdCB0byBtZS4KCk5vLCBzcGluX3VubG9j
+a19pcnEoKSBpcyBvbmx5IGEgb25lLXdheSBiYXJyaWVyLCBhbmQgZG9lc24ndCBwcmV2ZW50Cmxh
+dGVyIGFjY2Vzc2VzIGZyb20gIm1vdmluZyIgaW50byB0aGUgbG9ja2VkIHNlY3Rpb24uCgpKb2hh
+bgo=
