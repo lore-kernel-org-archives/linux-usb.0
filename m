@@ -2,96 +2,239 @@ Return-Path: <SRS0=uOnc=S7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,T_DKIMWL_WL_HIGH,
-	USER_AGENT_MUTT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=FROM_EXCESS_BASE64,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95BB7C43219
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Apr 2019 09:06:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22351C43219
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Apr 2019 09:10:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 66F7F2075E
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Apr 2019 09:06:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1556528796;
-	bh=2DoERtex72gITa+joeCTe5vnBu5Qj/LMYKvp2UDvKAY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=pkS7Rs+0VUgRrTvUF7k49pcmJ24h6HjYc5ttSuNeinB1l9i8q+tng20w/OGE+90hl
-	 Fzl7V6g7OkLwwEksSlK2n7LkOSPTvq71A75h1oQ/XSyuBjQkLowyw8iM7ES367GrLj
-	 GR9LomdW5GHyTk0/GAlXg7BqeJGqUS/a6Jjppn78=
+	by mail.kernel.org (Postfix) with ESMTP id E30BF20578
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Apr 2019 09:10:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727368AbfD2JGb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Apr 2019 05:06:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35410 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727072AbfD2JGa (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 29 Apr 2019 05:06:30 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5605720673;
-        Mon, 29 Apr 2019 09:06:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1556528789;
-        bh=2DoERtex72gITa+joeCTe5vnBu5Qj/LMYKvp2UDvKAY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=0Yz74e4wEoC1m34GmNxOveFdY/SHeDfX7Wv40DMptQ0i6RU1MXQD1CC9c+lZNNkZW
-         LiotrF8s82E2KZ+Wpnlu7vJW7spPf9En7sl3LjDcwK8XfHC8csDoH/QIMBbXY5R3pH
-         +m1e8gAlaxnBV8XRic9G25t6TfedD3bKICHS1nRM=
-Date:   Mon, 29 Apr 2019 11:06:27 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Simon Horman <horms@verge.net.au>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "mathias.nyman@intel.com" <mathias.nyman@intel.com>
-Subject: Re: [PATCH] dt-bindings: usb-xhci: Add r8a774c0 support
-Message-ID: <20190429090627.GA10302@kroah.com>
-References: <1544732471-6730-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <TYXPR01MB1775A4A3AF86097F284C4A08C0760@TYXPR01MB1775.jpnprd01.prod.outlook.com>
- <20190301161624.GA19937@kroah.com>
- <TYXPR01MB17756DBAF2FD7A1F2A9B82B0C0760@TYXPR01MB1775.jpnprd01.prod.outlook.com>
- <TY1PR01MB1770DB45DCD263C6933B9210C0230@TY1PR01MB1770.jpnprd01.prod.outlook.com>
- <20190427125606.GA25493@kroah.com>
- <TY1PR01MB177019CA89AC165803270945C0390@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+        id S1727777AbfD2JKS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Apr 2019 05:10:18 -0400
+Received: from rila.superhosting.bg ([91.196.125.212]:54319 "EHLO
+        rila.superhosting.bg" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727764AbfD2JKR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Apr 2019 05:10:17 -0400
+X-Greylist: delayed 3418 seconds by postgrey-1.27 at vger.kernel.org; Mon, 29 Apr 2019 05:10:15 EDT
+Received: from [78.128.48.21] (port=60190 helo=[192.168.0.10])
+        by rila.superhosting.bg with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+        (Exim 4.91)
+        (envelope-from <help@roumenpetrov.info>)
+        id 1hL1PT-000CGG-Mb
+        for linux-usb@vger.kernel.org; Mon, 29 Apr 2019 11:13:14 +0300
+From:   =?UTF-8?B?0KDRg9C80LXQvSDQn9C10YLRgNC+0LI=?= 
+        <help@roumenpetrov.info>
+Subject: flash fail with mediatek device
+To:     linux-usb@vger.kernel.org
+Message-ID: <fa172514-38ed-71af-bc25-e035b8840807@roumenpetrov.info>
+Date:   Mon, 29 Apr 2019 11:13:12 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Firefox/52.0 SeaMonkey/2.49.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <TY1PR01MB177019CA89AC165803270945C0390@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-OutGoing-Spam-Status: No, score=0.7
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - rila.superhosting.bg
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roumenpetrov.info
+X-Get-Message-Sender-Via: rila.superhosting.bg: authenticated_id: master78@roumenpetrov.info
+X-Authenticated-Sender: rila.superhosting.bg: master78@roumenpetrov.info
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190429090627.gG7v214I_1-2UoeVgk2m-pNFXmaHhZGGC_Wayu_s7wU@z>
 
-On Mon, Apr 29, 2019 at 08:53:00AM +0000, Fabrizio Castro wrote:
-> > From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Sent: 27 April 2019 13:56
-> > Subject: Re: [PATCH] dt-bindings: usb-xhci: Add r8a774c0 support
-> > 
-> > On Tue, Apr 23, 2019 at 03:32:59PM +0000, Fabrizio Castro wrote:
-> > > Hello Simon,
-> > >
-> > > I know you don't normally take this type of patches, but this one has
-> > > been around for more than 4 months now, and I am losing hope here...
-> > >
-> > > Do you think you can this patch?
-> > 
-> > I think this got dropped somehow, sorry about that.
-> > 
-> > Can you resend it, with the acks that have been given to it, and I will
-> > be glad to queue it up.
-> 
-> Thank you Greg, I have sent it now.
+Hello,
 
-Now queued up, sorry about the delay.
+I would like to use  "SP Flash Tool"  to flash Android MediaTek. Process 
+ends with error S_FT_DA_NO_RESPONSE and I have no more ideas how to proceed.
+Internet has many clips on non-linux system that shows working "SP Flash 
+Tool" with specific CDC driver.
+Unfortunately is not clear configuration for working Linux version of 
+program.
 
-greg k-h
+Question is how to get it working.
+
+
+kernel:  4.4.176.  Remark: does not work with previous 4.4.* kernels.
+modules: cdc_acm loaded in advance.
+program: SP_Flash_Tool v5.1824 (Linux) . Remark: fail with previous as well.
+udev rule that stops ModemManaget exist (system) - ID_MM_DEVICE_IGNORE 
+is set
+udev rule that stops MTP probe added (host) -  MTP_NO_PROBE is set
+
+Device:
+lsusb
+...
+Bus 002 Device 004: ID 0e8d:2000 MediaTek Inc. MT65xx Preloader
+...
+
+When the program "SP Flash Tool" is in "download" mode, i.e. it has to 
+and device is plugged following is visible:
+
+On terminal:
+======================================================================
+Connecting to BROM...
+Scanning USB port...
+Search usb, timeout set as 3600000 ms
+add@/devices/pci0000:00/0000:00:13.2/usb4/4-3
+
+add@/devices/pci0000:00/0000:00:13.2/usb4/4-3/4-3:1.0
+
+add@/devices/pci0000:00/0000:00:13.2/usb4/4-3/4-3:1.1
+
+add@/devices/pci0000:00/0000:00:13.2/usb4/4-3/4-3:1.1/tty/ttyACM0
+
+vid is 0e8d
+
+device vid = 0e8d
+
+pid is 2000
+
+device pid = 2000
+
+com portName is: /dev/ttyACM0
+
+Total wait time = -1556345943.000000
+USB port is obtained. path name(/dev/ttyACM0), port name(/dev/ttyACM0)
+USB port detected: /dev/ttyACM0
+BROM connected
+Downloading & Connecting to DA...
+connect DA end stage: 2, enable DRAM in 1st DA: 0
+COM port is open. Trying to sync with the target...
+Failed to Connect DA: S_FT_DA_NO_RESPONSE
+Disconnect!
+BROM Exception! ( ERROR : S_FT_DA_NO_RESPONSE (4001)
+
+DA didn't send response data to FlashTool!
+
+======================================================================
+
+System log
+======================================================================
+...
+.. kernel: [...] usb 4-3: new high-speed USB device number 3 using ehci-pci
+.. kernel: [...] usb 4-3: New USB device found, idVendor=0e8d, 
+idProduct=2000
+.. kernel: [...] usb 4-3: New USB device strings: Mfr=1, Product=2, 
+SerialNumber=0
+.. kernel: [...] usb 4-3: Product: MT65xx Preloader
+.. kernel: [...] usb 4-3: Manufacturer: MediaTek
+.. kernel: [...] cdc_acm 4-3:1.1: ttyACM0: USB ACM device
+...
+======================================================================
+
+Remark: if "SP Flash Tool" is not in "download" mode device disconnects 
+immediately.
+
+Regards,
+Roumen Petrov
+
+P.S. verbose data for USB device.
+a) lsusb -v -s 002:004 (stderr):
+can't get device qualifier: Resource temporarily unavailable
+can't get debug descriptor: Resource temporarily unavailable
+cannot read device status, Resource temporarily unavailable (11)
+
+b) lsusb -v -s 002:004 (stdout):
+Bus 002 Device 004: ID 0e8d:2000 MediaTek Inc. MT65xx Preloader
+Device Descriptor:
+   bLength                18
+   bDescriptorType         1
+   bcdUSB               2.00
+   bDeviceClass            2 Communications
+   bDeviceSubClass         0
+   bDeviceProtocol         0
+   bMaxPacketSize0        64
+   idVendor           0x0e8d MediaTek Inc.
+   idProduct          0x2000 MT65xx Preloader
+   bcdDevice            1.00
+   iManufacturer           1 (error)
+   iProduct                2 (error)
+   iSerial                 0
+   bNumConfigurations      1
+   Configuration Descriptor:
+     bLength                 9
+     bDescriptorType         2
+     wTotalLength           70
+     bNumInterfaces          2
+     bConfigurationValue     1
+     iConfiguration          3 (error)
+     bmAttributes         0xc0
+       Self Powered
+     MaxPower              500mA
+     Interface Descriptor:
+       bLength                 9
+       bDescriptorType         4
+       bInterfaceNumber        0
+       bAlternateSetting       0
+       bNumEndpoints           2
+       bInterfaceClass        10 CDC Data
+       bInterfaceSubClass      0
+       bInterfaceProtocol      0
+       iInterface              4 (error)
+       Endpoint Descriptor:
+         bLength                 8
+         bDescriptorType         5
+         bEndpointAddress     0x01  EP 1 OUT
+         bmAttributes            2
+           Transfer Type            Bulk
+           Synch Type               None
+           Usage Type               Data
+         wMaxPacketSize     0x0200  1x 512 bytes
+         bInterval               0
+       Endpoint Descriptor:
+         bLength                 8
+         bDescriptorType         5
+         bEndpointAddress     0x81  EP 1 IN
+         bmAttributes            2
+           Transfer Type            Bulk
+           Synch Type               None
+           Usage Type               Data
+         wMaxPacketSize     0x0200  1x 512 bytes
+         bInterval               0
+     Interface Descriptor:
+       bLength                 9
+       bDescriptorType         4
+       bInterfaceNumber        1
+       bAlternateSetting       0
+       bNumEndpoints           1
+       bInterfaceClass         2 Communications
+       bInterfaceSubClass      2 Abstract (modem)
+       bInterfaceProtocol      1 AT-commands (v.25ter)
+       iInterface              5 (error)
+       CDC Header:
+         bcdCDC               1.10
+       CDC ACM:
+         bmCapabilities       0x0f
+           connection notifications
+           sends break
+           line coding and serial state
+           get/set/clear comm features
+       CDC Union:
+         bMasterInterface        1
+         bSlaveInterface         0
+       CDC Call Management:
+         bmCapabilities       0x03
+           call management
+           use DataInterface
+         bDataInterface          0
+       Endpoint Descriptor:
+         bLength                 8
+         bDescriptorType         5
+         bEndpointAddress     0x83  EP 3 IN
+         bmAttributes            3
+           Transfer Type            Interrupt
+           Synch Type               None
+           Usage Type               Data
+         wMaxPacketSize     0x0040  1x 64 bytes
+         bInterval              16
+
