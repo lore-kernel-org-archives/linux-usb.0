@@ -2,239 +2,155 @@ Return-Path: <SRS0=uOnc=S7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=FROM_EXCESS_BASE64,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22351C43219
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Apr 2019 09:10:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F868C04A6B
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Apr 2019 09:16:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E30BF20578
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Apr 2019 09:10:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D57E21473
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Apr 2019 09:16:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=renesasgroup.onmicrosoft.com header.i=@renesasgroup.onmicrosoft.com header.b="oTQ8U0Ns"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727777AbfD2JKS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Apr 2019 05:10:18 -0400
-Received: from rila.superhosting.bg ([91.196.125.212]:54319 "EHLO
-        rila.superhosting.bg" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727764AbfD2JKR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Apr 2019 05:10:17 -0400
-X-Greylist: delayed 3418 seconds by postgrey-1.27 at vger.kernel.org; Mon, 29 Apr 2019 05:10:15 EDT
-Received: from [78.128.48.21] (port=60190 helo=[192.168.0.10])
-        by rila.superhosting.bg with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.91)
-        (envelope-from <help@roumenpetrov.info>)
-        id 1hL1PT-000CGG-Mb
-        for linux-usb@vger.kernel.org; Mon, 29 Apr 2019 11:13:14 +0300
-From:   =?UTF-8?B?0KDRg9C80LXQvSDQn9C10YLRgNC+0LI=?= 
-        <help@roumenpetrov.info>
-Subject: flash fail with mediatek device
-To:     linux-usb@vger.kernel.org
-Message-ID: <fa172514-38ed-71af-bc25-e035b8840807@roumenpetrov.info>
-Date:   Mon, 29 Apr 2019 11:13:12 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Firefox/52.0 SeaMonkey/2.49.4
+        id S1727836AbfD2JQH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Apr 2019 05:16:07 -0400
+Received: from mail-eopbgr1410104.outbound.protection.outlook.com ([40.107.141.104]:19648
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727811AbfD2JQG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 29 Apr 2019 05:16:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector1-bp-renesas-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ktxhMTsqWp4eDOHBG8lCxXy1XCtqMBbRBLr+nJT4DWM=;
+ b=oTQ8U0Nsv06CxAYmMLwb8ZATzKGNHygpcRPjR/3rUWxoZE5XFk7qo+F1YuCyONRzj9eUlvLFnxb7LjB7fFDZJhsakq+67yoX0BE/CNjAHgZX8XBxAKXo1d9SOa1tMq1R6457IYzXWYNqon9bknMtMiv8brvHGs/CJ749XM1G+bA=
+Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com (52.134.242.17) by
+ OSBPR01MB4424.jpnprd01.prod.outlook.com (20.179.181.209) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1835.13; Mon, 29 Apr 2019 09:16:02 +0000
+Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com
+ ([fe80::6d2c:bd11:88b0:c53a]) by OSBPR01MB2103.jpnprd01.prod.outlook.com
+ ([fe80::6d2c:bd11:88b0:c53a%3]) with mapi id 15.20.1835.016; Mon, 29 Apr 2019
+ 09:16:02 +0000
+From:   Biju Das <biju.das@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>
+CC:     Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: RE: [PATCH V5 06/13] dt-bindings: usb: renesas_usbhs: Add support for
+ r8a77470
+Thread-Topic: [PATCH V5 06/13] dt-bindings: usb: renesas_usbhs: Add support
+ for r8a77470
+Thread-Index: AQHU7615caZNSqlYBUuAi+F7WtSCZKZS991g
+Date:   Mon, 29 Apr 2019 09:16:01 +0000
+Message-ID: <OSBPR01MB2103DD45B93A448E2C8C6911B8390@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+References: <1554907730-14792-1-git-send-email-biju.das@bp.renesas.com>
+ <1554907730-14792-7-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1554907730-14792-7-git-send-email-biju.das@bp.renesas.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=biju.das@bp.renesas.com; 
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: b08a4447-06de-4217-ba43-08d6cc834cce
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB4424;
+x-ms-traffictypediagnostic: OSBPR01MB4424:
+x-microsoft-antispam-prvs: <OSBPR01MB4424FA1A19C1BD416CF976E0B8390@OSBPR01MB4424.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2201;
+x-forefront-prvs: 0022134A87
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(979002)(136003)(346002)(366004)(396003)(376002)(39860400002)(13464003)(189003)(199004)(11346002)(26005)(53936002)(55016002)(8936002)(8676002)(102836004)(81156014)(7736002)(81166006)(9686003)(186003)(2906002)(33656002)(4326008)(256004)(71190400001)(66066001)(446003)(3846002)(6116002)(305945005)(6246003)(25786009)(74316002)(86362001)(316002)(71200400001)(52536014)(14454004)(5660300002)(54906003)(7416002)(478600001)(68736007)(7696005)(76176011)(110136005)(53546011)(6436002)(64756008)(476003)(97736004)(44832011)(66476007)(73956011)(66556008)(6506007)(66446008)(76116006)(66946007)(99286004)(486006)(229853002)(969003)(989001)(999001)(1009001)(1019001);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB4424;H:OSBPR01MB2103.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
+received-spf: None (protection.outlook.com: bp.renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: lfv9RUdaPxi1mprHiAXOGxRyQOgECvRZMzPZiuPeRuQDqFtibJ4KAIbP4o5G/a13NS/xYGUo9hn8rNrP+67kHcX+by054z6HKH8m6lFz6qzLaB4+NZZXZ4NhmVFbWijCL1XCuBEfSWlYcauy4NZNhEE3McYi9q1Jn5Ph1PGbRjA9pMVUUWWLD2aGsyqWpIXazNWz3DeUFj8g1uxBDFgZAtNcdt68hBZHn7mqNaNbg4TC3kiL7CRpIXVL1t3uKndx4fN49xNfCeQvUO1T0pwPGl3Zo3ya/u/BBObbO4jHnrMsS5Kru7kE218tnUdbK7CJEM7oUVTjXp5WvJTY2xpMbJjkFyVYlNpRIKfg4iVbwTuHYCQw1tjmivWgyy8ANKR5y+aPScrMssEvmQF6AtojeurPeIWX+/yH3hXFAc6xYNI=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-OutGoing-Spam-Status: No, score=0.7
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - rila.superhosting.bg
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roumenpetrov.info
-X-Get-Message-Sender-Via: rila.superhosting.bg: authenticated_id: master78@roumenpetrov.info
-X-Authenticated-Sender: rila.superhosting.bg: master78@roumenpetrov.info
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b08a4447-06de-4217-ba43-08d6cc834cce
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Apr 2019 09:16:01.9361
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB4424
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+Hi Greg,
 
-I would like to use  "SP Flash Tool"  to flash Android MediaTek. Process 
-ends with error S_FT_DA_NO_RESPONSE and I have no more ideas how to proceed.
-Internet has many clips on non-linux system that shows working "SP Flash 
-Tool" with specific CDC driver.
-Unfortunately is not clear configuration for working Linux version of 
-program.
-
-Question is how to get it working.
-
-
-kernel:  4.4.176.  Remark: does not work with previous 4.4.* kernels.
-modules: cdc_acm loaded in advance.
-program: SP_Flash_Tool v5.1824 (Linux) . Remark: fail with previous as well.
-udev rule that stops ModemManaget exist (system) - ID_MM_DEVICE_IGNORE 
-is set
-udev rule that stops MTP probe added (host) -  MTP_NO_PROBE is set
-
-Device:
-lsusb
-...
-Bus 002 Device 004: ID 0e8d:2000 MediaTek Inc. MT65xx Preloader
-...
-
-When the program "SP Flash Tool" is in "download" mode, i.e. it has to 
-and device is plugged following is visible:
-
-On terminal:
-======================================================================
-Connecting to BROM...
-Scanning USB port...
-Search usb, timeout set as 3600000 ms
-add@/devices/pci0000:00/0000:00:13.2/usb4/4-3
-
-add@/devices/pci0000:00/0000:00:13.2/usb4/4-3/4-3:1.0
-
-add@/devices/pci0000:00/0000:00:13.2/usb4/4-3/4-3:1.1
-
-add@/devices/pci0000:00/0000:00:13.2/usb4/4-3/4-3:1.1/tty/ttyACM0
-
-vid is 0e8d
-
-device vid = 0e8d
-
-pid is 2000
-
-device pid = 2000
-
-com portName is: /dev/ttyACM0
-
-Total wait time = -1556345943.000000
-USB port is obtained. path name(/dev/ttyACM0), port name(/dev/ttyACM0)
-USB port detected: /dev/ttyACM0
-BROM connected
-Downloading & Connecting to DA...
-connect DA end stage: 2, enable DRAM in 1st DA: 0
-COM port is open. Trying to sync with the target...
-Failed to Connect DA: S_FT_DA_NO_RESPONSE
-Disconnect!
-BROM Exception! ( ERROR : S_FT_DA_NO_RESPONSE (4001)
-
-DA didn't send response data to FlashTool!
-
-======================================================================
-
-System log
-======================================================================
-...
-.. kernel: [...] usb 4-3: new high-speed USB device number 3 using ehci-pci
-.. kernel: [...] usb 4-3: New USB device found, idVendor=0e8d, 
-idProduct=2000
-.. kernel: [...] usb 4-3: New USB device strings: Mfr=1, Product=2, 
-SerialNumber=0
-.. kernel: [...] usb 4-3: Product: MT65xx Preloader
-.. kernel: [...] usb 4-3: Manufacturer: MediaTek
-.. kernel: [...] cdc_acm 4-3:1.1: ttyACM0: USB ACM device
-...
-======================================================================
-
-Remark: if "SP Flash Tool" is not in "download" mode device disconnects 
-immediately.
+Does this patch looks ok to you?=20
 
 Regards,
-Roumen Petrov
+Biju
 
-P.S. verbose data for USB device.
-a) lsusb -v -s 002:004 (stderr):
-can't get device qualifier: Resource temporarily unavailable
-can't get debug descriptor: Resource temporarily unavailable
-cannot read device status, Resource temporarily unavailable (11)
-
-b) lsusb -v -s 002:004 (stdout):
-Bus 002 Device 004: ID 0e8d:2000 MediaTek Inc. MT65xx Preloader
-Device Descriptor:
-   bLength                18
-   bDescriptorType         1
-   bcdUSB               2.00
-   bDeviceClass            2 Communications
-   bDeviceSubClass         0
-   bDeviceProtocol         0
-   bMaxPacketSize0        64
-   idVendor           0x0e8d MediaTek Inc.
-   idProduct          0x2000 MT65xx Preloader
-   bcdDevice            1.00
-   iManufacturer           1 (error)
-   iProduct                2 (error)
-   iSerial                 0
-   bNumConfigurations      1
-   Configuration Descriptor:
-     bLength                 9
-     bDescriptorType         2
-     wTotalLength           70
-     bNumInterfaces          2
-     bConfigurationValue     1
-     iConfiguration          3 (error)
-     bmAttributes         0xc0
-       Self Powered
-     MaxPower              500mA
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        0
-       bAlternateSetting       0
-       bNumEndpoints           2
-       bInterfaceClass        10 CDC Data
-       bInterfaceSubClass      0
-       bInterfaceProtocol      0
-       iInterface              4 (error)
-       Endpoint Descriptor:
-         bLength                 8
-         bDescriptorType         5
-         bEndpointAddress     0x01  EP 1 OUT
-         bmAttributes            2
-           Transfer Type            Bulk
-           Synch Type               None
-           Usage Type               Data
-         wMaxPacketSize     0x0200  1x 512 bytes
-         bInterval               0
-       Endpoint Descriptor:
-         bLength                 8
-         bDescriptorType         5
-         bEndpointAddress     0x81  EP 1 IN
-         bmAttributes            2
-           Transfer Type            Bulk
-           Synch Type               None
-           Usage Type               Data
-         wMaxPacketSize     0x0200  1x 512 bytes
-         bInterval               0
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        1
-       bAlternateSetting       0
-       bNumEndpoints           1
-       bInterfaceClass         2 Communications
-       bInterfaceSubClass      2 Abstract (modem)
-       bInterfaceProtocol      1 AT-commands (v.25ter)
-       iInterface              5 (error)
-       CDC Header:
-         bcdCDC               1.10
-       CDC ACM:
-         bmCapabilities       0x0f
-           connection notifications
-           sends break
-           line coding and serial state
-           get/set/clear comm features
-       CDC Union:
-         bMasterInterface        1
-         bSlaveInterface         0
-       CDC Call Management:
-         bmCapabilities       0x03
-           call management
-           use DataInterface
-         bDataInterface          0
-       Endpoint Descriptor:
-         bLength                 8
-         bDescriptorType         5
-         bEndpointAddress     0x83  EP 3 IN
-         bmAttributes            3
-           Transfer Type            Interrupt
-           Synch Type               None
-           Usage Type               Data
-         wMaxPacketSize     0x0040  1x 64 bytes
-         bInterval              16
+> -----Original Message-----
+> From: Biju Das <biju.das@bp.renesas.com>
+> Sent: 10 April 2019 15:49
+> To: Rob Herring <robh+dt@kernel.org>; Mark Rutland
+> <mark.rutland@arm.com>
+> Cc: Biju Das <biju.das@bp.renesas.com>; Simon Horman
+> <horms@verge.net.au>; Magnus Damm <magnus.damm@gmail.com>;
+> linux-renesas-soc@vger.kernel.org; devicetree@vger.kernel.org; Geert
+> Uytterhoeven <geert+renesas@glider.be>; Yoshihiro Shimoda
+> <yoshihiro.shimoda.uh@renesas.com>; Chris Paterson
+> <Chris.Paterson2@renesas.com>; Fabrizio Castro
+> <fabrizio.castro@bp.renesas.com>
+> Subject: [PATCH V5 06/13] dt-bindings: usb: renesas_usbhs: Add support fo=
+r
+> r8a77470
+>=20
+> Document support for RZ/G1C (R8A77470) SoC.
+>=20
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+> v4-->v5
+>   * No change
+> v3-->v4
+>   * No change
+> V2-->V3
+>   * No change
+> V1-->V2
+>   * New patch
+> ---
+>  Documentation/devicetree/bindings/usb/renesas_usbhs.txt | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/usb/renesas_usbhs.txt
+> b/Documentation/devicetree/bindings/usb/renesas_usbhs.txt
+> index d93b6a1..b8acc2a 100644
+> --- a/Documentation/devicetree/bindings/usb/renesas_usbhs.txt
+> +++ b/Documentation/devicetree/bindings/usb/renesas_usbhs.txt
+> @@ -6,6 +6,7 @@ Required properties:
+>  	- "renesas,usbhs-r8a7743" for r8a7743 (RZ/G1M) compatible device
+>  	- "renesas,usbhs-r8a7744" for r8a7744 (RZ/G1N) compatible device
+>  	- "renesas,usbhs-r8a7745" for r8a7745 (RZ/G1E) compatible device
+> +	- "renesas,usbhs-r8a77470" for r8a77470 (RZ/G1C) compatible device
+>  	- "renesas,usbhs-r8a774a1" for r8a774a1 (RZ/G2M) compatible
+> device
+>  	- "renesas,usbhs-r8a774c0" for r8a774c0 (RZ/G2E) compatible device
+>  	- "renesas,usbhs-r8a7790" for r8a7790 (R-Car H2) compatible device
+> --
+> 2.7.4
 
