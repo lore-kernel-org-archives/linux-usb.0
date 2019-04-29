@@ -2,452 +2,206 @@ Return-Path: <SRS0=uOnc=S7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED2D8C43219
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Apr 2019 12:05:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9416C43219
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Apr 2019 12:06:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9E8302087B
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Apr 2019 12:05:33 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="BgVcqwvV";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.onmicrosoft.com header.i=@synopsys.onmicrosoft.com header.b="jI9qpTer"
+	by mail.kernel.org (Postfix) with ESMTP id 9927420656
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Apr 2019 12:06:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728002AbfD2MFc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Apr 2019 08:05:32 -0400
-Received: from dc8-smtprelay2.synopsys.com ([198.182.47.102]:36062 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727913AbfD2MFc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Apr 2019 08:05:32 -0400
-Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com [10.192.0.17])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 947A9C0021;
-        Mon, 29 Apr 2019 12:05:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1556539532; bh=c+QUALNkWW5wNzbd99cDz+XcgUCrztrwP9YNXR/jNIk=;
-        h=From:To:CC:Subject:Date:References:From;
-        b=BgVcqwvVStkuq02l6audyRA/mp7UgBIKPeNOiUw7+kn4K8RQ4hIJRjozeTKX2cqx+
-         mDWaP5gat8ozeFtk0ztno+K639/Hi5HJ0L8XXSW7cPez0PAUBwVOmkk7yw1kEj9yFE
-         6G7S1Ld5wI+U6Al3MrUGCHakUS3a4o2usNiUBS2BX6LwmuOBZVundohk8fVvzdHJfX
-         dgwJKD/vwyHPe0eRGiqFZIRZ3l4clXOvLad3+thGDhTXcvXk5BFmSKo+gEa8roEk4J
-         w9XQbB5miApANJeziHgNQbDeq6y4chu4F0zFveiYhKW1QY+FBs3+1AfYAYehza6UV5
-         AzQEysQpVqkcg==
-Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPS id 5783BA0071;
-        Mon, 29 Apr 2019 12:05:31 +0000 (UTC)
-Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Mon, 29 Apr 2019 05:05:31 -0700
-Received: from NAM03-BY2-obe.outbound.protection.outlook.com (10.13.134.195)
- by mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Mon, 29 Apr 2019 05:05:30 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=synopsys.onmicrosoft.com; s=selector1-synopsys-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Edmwkntly4fpfC9C6ZGu7zzsX/VrubJ6otNlVcodGVw=;
- b=jI9qpTer9B1v9Yky4ASHuuAqBV6RHC2y1ytjL0UoOlTe8s/WsrR6GEpEvrKnT0cJnQQ3Nwy2piEXv2SzyhhpMH7rB5rfMMl6TARZ2RgE2zKiWZwB//Bk2iabzvN8j2/S9EjBYmtlts4N7TipCCB/5q5x3LEUydFa+nlaj4VMACk=
-Received: from SN1PR12MB2431.namprd12.prod.outlook.com (52.132.195.146) by
- SN1PR12MB2351.namprd12.prod.outlook.com (52.132.194.32) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1835.13; Mon, 29 Apr 2019 12:05:29 +0000
-Received: from SN1PR12MB2431.namprd12.prod.outlook.com
- ([fe80::1982:4b45:2adf:9a1f]) by SN1PR12MB2431.namprd12.prod.outlook.com
- ([fe80::1982:4b45:2adf:9a1f%4]) with mapi id 15.20.1835.010; Mon, 29 Apr 2019
- 12:05:29 +0000
-From:   Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
-To:     Doug Anderson <dianders@chromium.org>
-CC:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        John Youn <John.Youn@synopsys.com>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v1 00/14] usb: dwc2: Fix and improve power saving modes.
-Thread-Topic: [PATCH v1 00/14] usb: dwc2: Fix and improve power saving modes.
-Thread-Index: AQHU9qJP9TPmzBH3xU6dprNhQakiQw==
-Date:   Mon, 29 Apr 2019 12:05:29 +0000
-Message-ID: <SN1PR12MB2431C9312AD486935C9B728AA7390@SN1PR12MB2431.namprd12.prod.outlook.com>
-References: <cover.1555672441.git.arturp@synopsys.com>
- <87k1fis1b5.fsf@linux.intel.com>
- <SN1PR12MB2431EB450993E07730C3672FA73D0@SN1PR12MB2431.namprd12.prod.outlook.com>
- <CAD=FV=WKJMks9oCdUVS9vTKp9yD_VPE_uaAmTM9HgNoz8tt4pA@mail.gmail.com>
- <SN1PR12MB24312AEFA71B7EEF6FE4EB59A73E0@SN1PR12MB2431.namprd12.prod.outlook.com>
- <CAD=FV=WmtKYt5hn8s1PrjEgFcJqyc-8UWbyEmjPPVq0o4YgD5w@mail.gmail.com>
- <CAD=FV=WM7k-6moen+sgzZXnX-Zcw_BY9L=RTTrmt6pSHpXPLng@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=arturp@synopsys.com; 
-x-originating-ip: [84.53.141.196]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9bbab8fd-136d-408f-0a0f-08d6cc9af91c
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);SRVR:SN1PR12MB2351;
-x-ms-traffictypediagnostic: SN1PR12MB2351:
-x-ms-exchange-purlcount: 4
-x-microsoft-antispam-prvs: <SN1PR12MB2351EC1C04AF8C6353ADADD7A7390@SN1PR12MB2351.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:849;
-x-forefront-prvs: 0022134A87
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(346002)(39850400004)(376002)(396003)(136003)(31014005)(199004)(189003)(8676002)(486006)(305945005)(71200400001)(71190400001)(7736002)(74316002)(66476007)(73956011)(66946007)(102836004)(316002)(478600001)(66556008)(64756008)(66446008)(186003)(76116006)(91956017)(93886005)(86362001)(33656002)(81156014)(81166006)(6916009)(68736007)(53546011)(26005)(66066001)(8936002)(6506007)(446003)(476003)(229853002)(53936002)(7696005)(99286004)(6306002)(76176011)(6246003)(30864003)(6436002)(9686003)(25786009)(52536014)(966005)(3846002)(6116002)(54906003)(256004)(14454004)(14444005)(2906002)(5660300002)(55016002)(4326008)(97736004);DIR:OUT;SFP:1102;SCL:1;SRVR:SN1PR12MB2351;H:SN1PR12MB2431.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: synopsys.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 5Wc1Y8YBXpoUhlqh9ACikeNiLM3jbvpnFDSLBoA016EpZ7BQDp29z+HkyrFRc03Tm+1Qjp4GSNTM96YXVkQ/GQcrhn92L25sEEtVR0x06J5P+aNHl4J6OaXb5dRbrmWHTRskxTfHEM3D6MF0FEDRFjpb8+YjKOhFZXFLl+2qMfe9/2Jadl7+hSQV8rrpZn5sf2cVkDXU268E9QTiU4/99Ll+hyYh+w/nqDHIYwJFLOSkMrFIt2/67yZpvnlVNR2MZpB6FdKds94iTFX/xAGhYelnInTmqUSRL2bzcj8j7m4hzYmLuacJMVSz0QZhBdX9fSpakeM3ZDyF4vQx4ib1wuzdlkoGzQJ1gQiST1yCuqg3F4HOyP3hiwfBXGgLCRl6pjUKTLrNwkODyPagyuuM0j2QSXOchzLz2fb3wNHEsuM=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1728198AbfD2MGI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Apr 2019 08:06:08 -0400
+Received: from mail-it1-f199.google.com ([209.85.166.199]:43420 "EHLO
+        mail-it1-f199.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727997AbfD2MGI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Apr 2019 08:06:08 -0400
+Received: by mail-it1-f199.google.com with SMTP id v7so97971itf.8
+        for <linux-usb@vger.kernel.org>; Mon, 29 Apr 2019 05:06:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=wj6fLx0DbQ6fBhMkAy+RVA3Qi0FbrV2Dz7SLdx6mXsY=;
+        b=VAekXsaPEtoLbv3wIxyVBaoptvYYmBPFFOCVAWOySqNtnvJOk/DE+IvJoiSTg7rDNh
+         4o5k/t/AEUgxy9ATNLclmxSjEfmdjDsoKje60tfo+1FiWNaj3E41Xlt8SvZaAOV37qcO
+         dmWO5tgrXF/oe36DqcAP+sDMQTPfZvz0+7Zeggx6CaUosVEyu9H+Q621lyq2hEUvnY4i
+         04fmKWsJGAn/EGkV6lhEmBAW7gP97psBwY4p3gX10PTRIEjHLlocr7DjVthNvQ3mvJMI
+         0UrwRpj3hkLUKcdzSdCkaTbgDACiFsSojc4us2AYmgNWUNPqIEGv/Ud1Lshr3V6UoRuJ
+         zmIg==
+X-Gm-Message-State: APjAAAXtnKHA0g9or+217tOU8C/mb58aw5VIHzknsYehieirAYKwElu0
+        eyuT8YcS3JHFApQjqT1yD5IHg7ri0uHt6V49N1tCrg3g6ns/
+X-Google-Smtp-Source: APXvYqyyrwio/l9VPnBGrCfTpcNZABNUSruyO028bEFLLyvoWMSoMYKDXEQhqESPhr1N5A/uKzEO5kcJdF3hNxoB0G1h889N74En
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9bbab8fd-136d-408f-0a0f-08d6cc9af91c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Apr 2019 12:05:29.4136
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2351
-X-OriginatorOrg: synopsys.com
+X-Received: by 2002:a24:50cc:: with SMTP id m195mr17995253itb.160.1556539567199;
+ Mon, 29 Apr 2019 05:06:07 -0700 (PDT)
+Date:   Mon, 29 Apr 2019 05:06:07 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000fb811f0587aa1b7f@google.com>
+Subject: KASAN: use-after-free Write in v4l2_device_release
+From:   syzbot <syzbot+62d0ec9a8d05fffcf12e@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, ezequiel@collabora.com,
+        hans.verkuil@cisco.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, niklas.soderlund+renesas@ragnatech.se,
+        sakari.ailus@linux.intel.com, sque@chromium.org,
+        syzkaller-bugs@googlegroups.com, tfiga@chromium.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,=0A=
-=0A=
-On 4/27/2019 01:06, Doug Anderson wrote:=0A=
-> Hi,=0A=
-> =0A=
-> On Fri, Apr 26, 2019 at 9:01 AM Doug Anderson <dianders@chromium.org> wro=
-te:=0A=
->>=0A=
->> Hi,=0A=
->>=0A=
->> On Fri, Apr 26, 2019 at 12:11 AM Artur Petrosyan=0A=
->> <Arthur.Petrosyan@synopsys.com> wrote:=0A=
->>>=0A=
->>> Hi Doug,=0A=
->>>=0A=
->>> On 4/26/2019 00:13, Doug Anderson wrote:=0A=
->>>> Hi,=0A=
->>>>=0A=
->>>> On Thu, Apr 25, 2019 at 7:01 AM Artur Petrosyan=0A=
->>>> <Arthur.Petrosyan@synopsys.com> wrote:=0A=
->>>>>=0A=
->>>>> Hi,=0A=
->>>>>=0A=
->>>>> On 4/25/2019 16:43, Felipe Balbi wrote:=0A=
->>>>>> Artur Petrosyan <Arthur.Petrosyan@synopsys.com> writes:=0A=
->>>>>>> This patch set, fixes and improves partial power down and hibernati=
-on power=0A=
->>>>>>> saving modes. Also, adds support for entering/exiting hibernation b=
-y=0A=
->>>>>>> system issued suspend/resume.=0A=
->>>>>>>=0A=
->>>>>>> This series contains patches which were submitted to LKML. However,=
- a part=0A=
->>>>>>> of those patches didn't reach to LKML because of local issue relate=
-d to=0A=
->>>>>>> smtp server.=0A=
->>>>>>>=0A=
->>>>>>> The patches which reached to LKML are:=0A=
->>>>>>>=0A=
->>>>>>> - usb: dwc2: Add part. power down exit from dwc2_conn_id_status_cha=
-nge().=0A=
->>>>>>> - usb: dwc2: Add port conn. sts. checking in _dwc2_hcd_resume() fun=
-ction.=0A=
->>>>>>> - usb: dwc2: Fix suspend state in host mode for partial power down.=
-=0A=
->>>>>>> - usb: dwc2: Fix wakeup detected and session request interrupt hand=
-lers.=0A=
->>>>>>> - usb: dwc2: Add descriptive debug messages for Partial Power Down =
-mode.=0A=
->>>>>>> - usb: dwc2: Fix dwc2_restore_device_registers() function.=0A=
->>>>>>>=0A=
->>>>>>> The patches which didn't reach to LKML are:=0A=
->>>>>>>=0A=
->>>>>>> - usb: dwc2: Add enter/exit hibernation from system issued suspend/=
-resume=0A=
->>>>>>> - usb: dwc2: Clear GINTSTS_RESTOREDONE bit after restore is generat=
-ed.=0A=
->>>>>>> - usb: dwc2: Clear fifo_map when resetting core.=0A=
->>>>>>> - usb: dwc2: Allow exiting hibernation from gpwrdn rst detect=0A=
->>>>>>> - usb: dwc2: Fix hibernation between host and device modes.=0A=
->>>>>>> - usb: dwc2: Update dwc2_handle_usb_suspend_intr function.=0A=
->>>>>>> - usb: dwc2: Add default param to control power optimization.=0A=
->>>>>>> - usb: dwc2: Reset DEVADDR after exiting gadget hibernation.=0A=
->>>>>>>=0A=
->>>>>>> Submitting all of the patches together in this version.=0A=
->>>>>>>=0A=
->>>>>>> Changes from V0:=0A=
->>>>>>>     - Replaced 1 with DWC2_POWER_DOWN_PARAM_PARTIAL in commit=0A=
->>>>>>>       "9eed02b9fe96 usb: dwc2: Fix wakeup detected and session requ=
-est=0A=
->>>>>>>       interrupt handlers.=0A=
->>>>>>>=0A=
->>>>>>>=0A=
->>>>>>> Artur Petrosyan (14):=0A=
->>>>>>>      usb: dwc2: Fix dwc2_restore_device_registers() function.=0A=
->>>>>>>      usb: dwc2: Add descriptive debug messages for Partial Power Do=
-wn mode.=0A=
->>>>>>>      usb: dwc2: Fix wakeup detected and session request interrupt h=
-andlers.=0A=
->>>>>>>      usb: dwc2: Fix suspend state in host mode for partial power do=
-wn.=0A=
->>>>>>>      usb: dwc2: Add port conn. sts. checking in _dwc2_hcd_resume()=
-=0A=
->>>>>>>        function.=0A=
->>>>>>>      usb: dwc2: Add part. power down exit from=0A=
->>>>>>>        dwc2_conn_id_status_change().=0A=
->>>>>>>      usb: dwc2: Reset DEVADDR after exiting gadget hibernation.=0A=
->>>>>>>      usb: dwc2: Add default param to control power optimization.=0A=
->>>>>>>      usb: dwc2: Update dwc2_handle_usb_suspend_intr function.=0A=
->>>>>>>      usb: dwc2: Fix hibernation between host and device modes.=0A=
->>>>>>>      usb: dwc2: Allow exiting hibernation from gpwrdn rst detect=0A=
->>>>>>>      usb: dwc2: Clear fifo_map when resetting core.=0A=
->>>>>>>      usb: dwc2: Clear GINTSTS_RESTOREDONE bit after restore is gene=
-rated.=0A=
->>>>>>>      usb: dwc2: Add enter/exit hibernation from system issued=0A=
->>>>>>>        suspend/resume=0A=
->>>>>>=0A=
->>>>>> patches don't apply.=0A=
->>>>>>=0A=
->>>>>=0A=
->>>>> Do we need to wait for Minas's acknowledge or there is problem relate=
-d=0A=
->>>>> to the patches?=0A=
->>>>=0A=
->>>> It looks like the problem is that my patches won the race and Felipe=
-=0A=
->>>> applied them before yours.  Thus, presumably, it'll be up to you to=0A=
->>>> rebase your patches atop mine and re-submit.  Specifically, you can=0A=
->>>> do:=0A=
->>>>=0A=
->>>> git remote add linux_usb_balbi=0A=
->>>> git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git=0A=
->>>> git fetch linux_usb_balbi=0A=
->>>> git checkout linux_usb_balbi/testing/next=0A=
->>>>=0A=
->>>> If you do that and then try to apply your patches you'll find that=0A=
->>>> they no longer apply.  AKA try running:=0A=
->>>>=0A=
->>>> for patch in 10909749 10909737 10909739 10909745 10909533 \=0A=
->>>>      10909531 10909747 10909535 10909523 10909741 10909525 \=0A=
->>>>      10909751 10909527 10909743; do=0A=
->>>>     curl -L https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__pat=
-chwork.kernel.org_patch_-24-257Bpatch-257D_mbox&d=3DDwIBaQ&c=3DDPL6_X_6JkXF=
-x7AXWqB0tg&r=3D9hPBFKCJ_nBjJhGVrrlYOeOQjP_HlVzYqrC_D7niMJI&m=3DgzzEDEbxflLM=
-gk9I-7Re9ytRMvyc_B8iZEmg2xGZN5E&s=3DaWT1hYtXeIeY8ClQ0sNYxwkmJFKDz4iaa4DchNw=
-x3_w&e=3D | git am=0A=
->>>> done=0A=
->>>>=0A=
->>>> You'll see:=0A=
->>>>=0A=
->>>>> Applying: usb: dwc2: Fix wakeup detected and session request interrup=
-t handlers.=0A=
->>>>> error: patch failed: drivers/usb/dwc2/core_intr.c:435=0A=
->>>>> error: drivers/usb/dwc2/core_intr.c: patch does not apply=0A=
->>>>> Patch failed at 0001 usb: dwc2: Fix wakeup detected and session reque=
-st interrupt handlers.=0A=
->>>>=0A=
->>>> NOTE: before reposting it might be a good idea to apply the last 3=0A=
->>>> patches in my series as per [1] before sending up your series.  Since=
-=0A=
->>>> Felipe has already applied patches #1 and #2 in that series presumably=
-=0A=
->>>> he'll also apply #3 - #5.=0A=
->>>>=0A=
->>>> I know it'a also up to me to try testing our your patches.  It's still=
-=0A=
->>>> on my list to give it a shot...=0A=
->>>>=0A=
->>>> [1] https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lkml.kernel=
-.org_r_CAD-3DFV-3DWA07-2BgUkVvsikN-3DiDHZLUJQtzjkKtiBHAEDw4gLNWY7w-40mail.g=
-mail.com&d=3DDwIBaQ&c=3DDPL6_X_6JkXFx7AXWqB0tg&r=3D9hPBFKCJ_nBjJhGVrrlYOeOQ=
-jP_HlVzYqrC_D7niMJI&m=3DgzzEDEbxflLMgk9I-7Re9ytRMvyc_B8iZEmg2xGZN5E&s=3D9QP=
-_h5ZlnT7ayUE1_6EVEgu8FaI3_kWm9xuzs1qrvdI&e=3D=0A=
->>>>=0A=
->>>> P.S: It's helpful if you CC LKML on patches and discussions about=0A=
->>>> them.  That allows the magic "permalink via message ID" on=0A=
->>>> lkml.kernel.org and also allows your patches to be found on=0A=
->>>> lore.kernel.org/patchwork/=0A=
->>>>=0A=
->>>> -Doug=0A=
->>>>=0A=
->>>=0A=
->>> Besides the issue that comes from the patch "usb: dwc2: Fix wakeup=0A=
->>> detected and session request interrupt handlers." there is one more=0A=
->>> serious conflict with one of your patches.=0A=
->>>=0A=
->>> So the patch "usb: dwc2: bus suspend/resume for hosts with=0A=
->>> DWC2_POWER_DOWN_PARAM_NONE" have had also been added to the=0A=
->>> "balbi/testing/next" before my patch series which conflicts with two of=
-=0A=
->>> my patches.=0A=
->>>=0A=
->>> 1. usb: dwc2: Fix suspend state in host mode for partial power down.=0A=
->>> 2. usb: dwc2: Add enter/exit hibernation from system issued suspend/res=
-ume=0A=
->>>=0A=
->>> This patch introduced by you "usb: dwc2: bus suspend/resume for hosts=
-=0A=
->>> with DWC2_POWER_DOWN_PARAM_NONE" got a little bit of issue. It=0A=
->>> eliminates entering hibernation through system issued suspend by=0A=
->>> checking "if (hsotg->params.power_down > DWC2_POWER_DOWN_PARAM_PARTIAL)=
-"=0A=
->>=0A=
->> To be fair, the patch does not make entering hibernation worse, does=0A=
->> it?  Specifically, I'll point to this part of the diff:=0A=
->>=0A=
->> - if (hsotg->params.power_down !=3D DWC2_POWER_DOWN_PARAM_PARTIAL) {=0A=
->> + if (hsotg->params.power_down > DWC2_POWER_DOWN_PARAM_PARTIAL) {=0A=
->>=0A=
->> As you can see, if power_down =3D=3D DWC2_POWER_DOWN_PARAM_HIBERNATION t=
-he=0A=
->> flow for this "if" test is exactly the same before and after my patch.=
-=0A=
->>=0A=
->>=0A=
->>> . As per the patch you mention that it fixes suspend/resume flow for=0A=
->>> Altera SOCFPGA and Chrome OS 3.14 kernel tree. I assume that the board=
-=0A=
->>> has the Partial Power Down enabled core that is why it works out.=0A=
->>=0A=
->> I mentioned some of this in my cover letter [1].  To rehash, I said=0A=
->> "Turning on partial power down on rk3288 doesn't "just work".  I don't=
-=0A=
->> get hotplug events.  This is despite dwc2 auto-detecting that we are=0A=
->> power optimized."=0A=
->>=0A=
->> ...it is certainly possible that partial power down would work on=0A=
->> rk3288 if someone had the time to debug it.=0A=
->>=0A=
->> NOTE: I don't have an Altera SOCFPGA, but I'll mention that a previous=
-=0A=
->> iteration of my patch (written by Kever Yang at Rockchip) was reverted=
-=0A=
->> because it _broke_ Altera SOCFPGAS.  Given my requests to test the new=
-=0A=
->> version have been met with silence, I'm inclined to land this and hope=
-=0A=
->> it's all good.  If there are problems then hopefully some actual=0A=
->> details can be provided.  Last time there were none provided.=0A=
->>=0A=
->>=0A=
->>> However, we don't just support the Partial Power Down feature enabled=
-=0A=
->>> cores. We also support Hibernation feature enabled cores.=0A=
->>=0A=
->> Sure, but the code that is actually landed upstream (even before my=0A=
->> series) almost certainly doesn't function for Hibernation.  As pointed=
-=0A=
->> out above the entire "_dwc2_hcd_suspend()" function had a great big:=0A=
->>=0A=
->> if (hsotg->params.power_down !=3D DWC2_POWER_DOWN_PARAM_PARTIAL)=0A=
->>    goto skip_power_saving;=0A=
->>=0A=
->> ...which, as far as I could tell, meant that Hibernation could not=0A=
->> possible work.=0A=
->>=0A=
->>=0A=
->>> The patch set that had been introduced by me which includes "usb: dwc2:=
-=0A=
->>> Add enter/exit hibernation from system issued suspend/resume" patch add=
-s=0A=
->>> support for both hibernation and Partial Power Down feature enabled=0A=
->>> cores and fixes several of Partial Power Down and hibernation related=
-=0A=
->>> issues.=0A=
->>>=0A=
->>> This patch set may fix all of the issues related with Altera SOCFPGA or=
-=0A=
->>> Chrome OS 3.14 kernel tree.=0A=
->>>=0A=
->>> That is why we asked you to test the patch set before we could ACK or=
-=0A=
->>> have chance to debug your patch deeper to see the help of it and to=0A=
->>> provide you information related to it.=0A=
->>=0A=
->> It may well fix my problems and maybe I can use partial power down=0A=
->> now.  That'd be nice.  It was on my list and I would have worked on it=
-=0A=
->> last week except that your patches weren't on the mailing list then.=0A=
->> ...so I moved on to some other work.  To avoid context switching too=0A=
->> much I needed to get to a stopping point before testing your patches.=0A=
->> I was hoping to have some nice rebased patches from you to test today,=
-=0A=
->> but maybe I'll try a hand at rebasing them myself.=0A=
->>=0A=
->> NOTE also that though I ported this change from the Chrome OS 3.14=0A=
->> kernel tree, I'm actually currently working on the Chrome OS 4.19=0A=
->> tree.  I also made sure to test the changes on mainline Linux.=0A=
->>=0A=
->>=0A=
->>> So now I can rebase my changes to the "balbi/testing/next" but I will=
-=0A=
->>> have to take the logic of skipping Hibernation out otherwise we will=0A=
->>> have problems with hibernation enabled cores.=0A=
->>=0A=
->> As per above, please have a careful look at my patches and you'll see=0A=
->> that I was not introducing code that skipped hibernation.  I was=0A=
->> keeping the same flow as the old code that skipped hibernation.  So if=
-=0A=
->> you are making hibernation work there should be no problems removing=0A=
->> that.=0A=
->>=0A=
->>=0A=
->>> We can ask Balbi to permanently suspend adding of the patch "usb: dwc2:=
-=0A=
->>> bus suspend/resume for hosts with DWC2_POWER_DOWN_PARAM_NONE" and my=0A=
->>> patch series to his "testing/next". After you can have a chance to test=
-=0A=
->>> my patch series we can see if the patches are acknowledged and ask Balb=
-i=0A=
->>>    to add them.=0A=
->>=0A=
->> Personally I'd prefer if Felipe finished landing my series and then=0A=
->> you rebased atop it.  As I said I'm convinced I'm not making your=0A=
->> hibernation case any worse.  If you know of actual things that are=0A=
->> made worse by my series then that would be a reason not to land it,=0A=
->> but so far I haven't been convinced.=0A=
->>=0A=
->>=0A=
->> [1] https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__lkml.kernel.o=
-rg_r_20190418001356.124334-2D2-2Ddianders-40chromium.org&d=3DDwIFaQ&c=3DDPL=
-6_X_6JkXFx7AXWqB0tg&r=3D9hPBFKCJ_nBjJhGVrrlYOeOQjP_HlVzYqrC_D7niMJI&m=3Dmdz=
--R9O5TUR_zXEeeCZO2341dvcwZro2cedCZzIIans&s=3D6qAU20vyvZqIWdkRGSUWEdiTr57arb=
-Jf2uHECkCuwQg&e=3D=0A=
-> =0A=
-> To add a bit of breadcrumbs, I did the rebase atop my patches and also=0A=
-> did some basic review of yours.  Other than a few nits I think I found=0A=
-> at least one bug where you're unlocking a spinlock twice in the=0A=
-> partial power down case.=0A=
-Yeah thank you so much for the review it really helps to make =0A=
-conclusions on the implementations. I have tested those patches on =0A=
-HAPS-DX platform and have not got any problem. Hibernation and partial =0A=
-power down flows are working ok.=0A=
-> =0A=
-> I continue to be convinced that the right thing to do is to finish=0A=
-> landing my series and then once you've spun yours atop mine we can=0A=
-> look at landing it.=0A=
-> =0A=
-> Here's all my picks atop Felipe's tree that show how I resolved=0A=
-> things:  https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__chromium.=
-googlesource.com_chromiumos_third-5Fparty_kernel_-2Blog_refs_sandbox_diande=
-rs_190426-2Ddwc2-2Dstuff&d=3DDwIFaQ&c=3DDPL6_X_6JkXFx7AXWqB0tg&r=3D9hPBFKCJ=
-_nBjJhGVrrlYOeOQjP_HlVzYqrC_D7niMJI&m=3Dmdz-R9O5TUR_zXEeeCZO2341dvcwZro2ced=
-CZzIIans&s=3DmVfBGtiMQg2XVHXmGCWcd584g0DYRH1JDVnEnJWE6P8&e=3D=0A=
-> =0A=
-> =0A=
-> -Doug=0A=
-> =0A=
-=0A=
-I will make my changes then will go ahead and rebase.=0A=
-=0A=
-=0A=
--- =0A=
-Regards,=0A=
-Artur=0A=
+Hello,
+
+syzbot found the following crash on:
+
+HEAD commit:    43151d6c usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan/tree/usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=13f56538a00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4183eeef650d1234
+dashboard link: https://syzkaller.appspot.com/bug?extid=62d0ec9a8d05fffcf12e
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+
+Unfortunately, I don't have any reproducer for this crash yet.
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+62d0ec9a8d05fffcf12e@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: use-after-free in v4l2_device_release+0x3ce/0x408  
+drivers/media/v4l2-core/v4l2-dev.c:197
+Write of size 8 at addr ffff88809a266c08 by task v4l_id/7544
+
+CPU: 1 PID: 7544 Comm: v4l_id Not tainted 5.1.0-rc3-319004-g43151d6 #6
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xe8/0x16e lib/dump_stack.c:113
+  print_address_description+0x6c/0x236 mm/kasan/report.c:187
+  kasan_report.cold+0x1a/0x3c mm/kasan/report.c:317
+  v4l2_device_release+0x3ce/0x408 drivers/media/v4l2-core/v4l2-dev.c:197
+  device_release+0x7d/0x210 drivers/base/core.c:1064
+  kobject_cleanup lib/kobject.c:662 [inline]
+  kobject_release lib/kobject.c:691 [inline]
+  kref_put include/linux/kref.h:67 [inline]
+  kobject_put+0x1df/0x4f0 lib/kobject.c:708
+  put_device+0x21/0x30 drivers/base/core.c:2205
+  video_put drivers/media/v4l2-core/v4l2-dev.c:174 [inline]
+  v4l2_release+0x2d1/0x390 drivers/media/v4l2-core/v4l2-dev.c:469
+  __fput+0x2df/0x8c0 fs/file_table.c:278
+  task_work_run+0x149/0x1c0 kernel/task_work.c:113
+  tracehook_notify_resume include/linux/tracehook.h:188 [inline]
+  exit_to_usermode_loop+0x243/0x270 arch/x86/entry/common.c:166
+  prepare_exit_to_usermode arch/x86/entry/common.c:197 [inline]
+  syscall_return_slowpath arch/x86/entry/common.c:268 [inline]
+  do_syscall_64+0x40c/0x4f0 arch/x86/entry/common.c:293
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x7fc1f5f952b0
+Code: 40 75 0b 31 c0 48 83 c4 08 e9 0c ff ff ff 48 8d 3d c5 32 08 00 e8 c0  
+07 02 00 83 3d 45 a3 2b 00 00 75 10 b8 03 00 00 00 0f 05 <48> 3d 01 f0 ff  
+ff 73 31 c3 48 83 ec 08 e8 ce 8a 01 00 48 89 04 24
+RSP: 002b:00007ffd270a0138 EFLAGS: 00000246 ORIG_RAX: 0000000000000003
+RAX: 0000000000000000 RBX: 0000000000000003 RCX: 00007fc1f5f952b0
+RDX: 00007fc1f624bdf0 RSI: 0000000000000001 RDI: 0000000000000003
+RBP: 0000000000000000 R08: 00007fc1f624bdf0 R09: 000000000000000a
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000400884
+R13: 00007ffd270a0290 R14: 0000000000000000 R15: 0000000000000000
+
+Allocated by task 5354:
+  set_track mm/kasan/common.c:87 [inline]
+  __kasan_kmalloc mm/kasan/common.c:497 [inline]
+  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:470
+  slab_post_alloc_hook mm/slab.h:437 [inline]
+  slab_alloc_node mm/slub.c:2756 [inline]
+  __kmalloc_node_track_caller+0xf3/0x320 mm/slub.c:4372
+  alloc_dr drivers/base/devres.c:103 [inline]
+  devm_kmalloc+0x8c/0x190 drivers/base/devres.c:793
+  devm_kzalloc include/linux/device.h:679 [inline]
+  usb_raremono_probe+0x34/0x235 drivers/media/radio/radio-raremono.c:298
+  usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
+  really_probe+0x2da/0xb10 drivers/base/dd.c:509
+  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+  device_add+0xad2/0x16e0 drivers/base/core.c:2106
+  usb_set_configuration+0xdf7/0x1740 drivers/usb/core/message.c:2023
+  generic_probe+0xa2/0xda drivers/usb/core/generic.c:210
+  usb_probe_device+0xc0/0x150 drivers/usb/core/driver.c:266
+  really_probe+0x2da/0xb10 drivers/base/dd.c:509
+  driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+  __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+  bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+  bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+  device_add+0xad2/0x16e0 drivers/base/core.c:2106
+  usb_new_device.cold+0x537/0xccf drivers/usb/core/hub.c:2534
+  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+  port_event drivers/usb/core/hub.c:5350 [inline]
+  hub_event+0x138e/0x3b00 drivers/usb/core/hub.c:5432
+  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
+  process_scheduled_works kernel/workqueue.c:2331 [inline]
+  worker_thread+0x7b0/0xe20 kernel/workqueue.c:2417
+  kthread+0x313/0x420 kernel/kthread.c:253
+  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+
+Freed by task 5354:
+  set_track mm/kasan/common.c:87 [inline]
+  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:459
+  slab_free_hook mm/slub.c:1429 [inline]
+  slab_free_freelist_hook+0x5e/0x140 mm/slub.c:1456
+  slab_free mm/slub.c:3003 [inline]
+  kfree+0xce/0x290 mm/slub.c:3958
+  release_nodes+0x4ac/0x920 drivers/base/devres.c:508
+  devres_release_all+0x79/0xc8 drivers/base/devres.c:529
+  __device_release_driver drivers/base/dd.c:1086 [inline]
+  device_release_driver_internal+0x23a/0x4f0 drivers/base/dd.c:1113
+  bus_remove_device+0x302/0x5c0 drivers/base/bus.c:556
+  device_del+0x467/0xb90 drivers/base/core.c:2269
+  usb_disable_device+0x242/0x790 drivers/usb/core/message.c:1237
+  usb_disconnect+0x298/0x870 drivers/usb/core/hub.c:2197
+  hub_port_connect drivers/usb/core/hub.c:4940 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+  port_event drivers/usb/core/hub.c:5350 [inline]
+  hub_event+0xcd2/0x3b00 drivers/usb/core/hub.c:5432
+  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
+  process_scheduled_works kernel/workqueue.c:2331 [inline]
+  worker_thread+0x7b0/0xe20 kernel/workqueue.c:2417
+  kthread+0x313/0x420 kernel/kthread.c:253
+  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+
+The buggy address belongs to the object at ffff88809a266600
+  which belongs to the cache kmalloc-4k of size 4096
+The buggy address is located 1544 bytes inside of
+  4096-byte region [ffff88809a266600, ffff88809a267600)
+The buggy address belongs to the page:
+page:ffffea0002689800 count:1 mapcount:0 mapping:ffff88812c3f4600 index:0x0  
+compound_mapcount: 0
+flags: 0xfff00000010200(slab|head)
+raw: 00fff00000010200 dead000000000100 dead000000000200 ffff88812c3f4600
+raw: 0000000000000000 0000000000070007 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+  ffff88809a266b00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffff88809a266b80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ffff88809a266c00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                       ^
+  ffff88809a266c80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffff88809a266d00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
