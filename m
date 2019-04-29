@@ -2,82 +2,77 @@ Return-Path: <SRS0=uOnc=S7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BCB8C43219
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Apr 2019 14:32:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35D51C43219
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Apr 2019 14:44:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 08244205ED
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Apr 2019 14:32:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F80420656
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Apr 2019 14:44:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728258AbfD2Oc4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Apr 2019 10:32:56 -0400
-Received: from mx2.suse.de ([195.135.220.15]:51580 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725838AbfD2Oc4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 29 Apr 2019 10:32:56 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 9093EAF22;
-        Mon, 29 Apr 2019 14:32:55 +0000 (UTC)
-Message-ID: <1556548362.20085.17.camel@suse.com>
-Subject: Re: [PATCH] UAS: fix alignment of scatter/gather segments
-From:   Oliver Neukum <oneukum@suse.com>
-To:     David Laight <David.Laight@ACULAB.COM>,
-        "gregKH@linuxfoundation.org" <gregKH@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Date:   Mon, 29 Apr 2019 16:32:42 +0200
-In-Reply-To: <e22543f3d87b4867aefdf9c71e2ec4a2@AcuMS.aculab.com>
-References: <20190429122026.4249-1-oneukum@suse.com>
-         <f378babbf2f349e59d98a5ab99958d78@AcuMS.aculab.com>
-         <1556545099.20085.14.camel@suse.com>
-         <e22543f3d87b4867aefdf9c71e2ec4a2@AcuMS.aculab.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1728395AbfD2Ood (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Apr 2019 10:44:33 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([146.101.78.151]:48686 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725838AbfD2Ood (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Apr 2019 10:44:33 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-45-jwDIhfeQPpe1TZfWbs-_nQ-1; Mon, 29 Apr 2019 15:44:29 +0100
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Mon, 29 Apr 2019 15:44:27 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Mon, 29 Apr 2019 15:44:27 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     "'Gustavo A. R. Silva'" <gustavo@embeddedor.com>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        Shuah Khan <shuah@kernel.org>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>
+Subject: RE: [PATCH] usbip: vhci_hcd: Mark expected switch fall-through
+Thread-Topic: [PATCH] usbip: vhci_hcd: Mark expected switch fall-through
+Thread-Index: AQHU/plu2318l/GBi0OLId5OVcMGj6ZTNpSw
+Date:   Mon, 29 Apr 2019 14:44:27 +0000
+Message-ID: <1daec8c8929e4d18b2059ab1dfbfdf4a@AcuMS.aculab.com>
+References: <20190429143957.GA6725@embeddedor>
+In-Reply-To: <20190429143957.GA6725@embeddedor>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+X-MC-Unique: jwDIhfeQPpe1TZfWbs-_nQ-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190429143242.2EbhBHZUh9b98MfeUFCrFvbMZ7OdLiG5i2daMTm0bcg@z>
 
-On Mo, 2019-04-29 at 14:19 +0000, David Laight wrote:
-> From: Oliver Neukum
-> > Sent: 29 April 2019 14:38
-> > On Mo, 2019-04-29 at 13:31 +0000, David Laight wrote:
-> > > From: Oliver Neukum
-> > > > 
-> > > > +	 * USB has unusual scatter-gather requirements: the length of each
-> > > > +	 * scatterlist element except the last must be divisible by the
-> > > > +	 * Bulk maxpacket value.  Fortunately this value is always a
-> > > > +	 * power of 2.  Inform the block layer about this requirement.
-> > > > +	 */
-> > > 
-> > > That isn't the correct restriction for XHCI.
-> > > It has its own perverse restrictions.
-> > > I think they are all handled within the xhci driver.
-> > 
-> > Yes, but that does not matter. You just cannot assume that only
-> > XHCI will be used with UAS. In particular virtual drivers will
-> > be used.
-> 
-> True, but there is no need to enforce a 2k (IIRC) alignment for XHCI.
-> Perhaps you need a different property from the controller.
-
-AFAICT controllers do not export that property.
-
-> Even if you decide the code is 'good enough' (I don't know what the
-> cost is of enforcing a 2k alignment instead of 512 bytes)
-> the comment is just plain wrong.
-
-Usually block IO will be pages. They are 4K aligned.
-In terms of performance this code is unlikely to matter.
-But it is needed for correctness.
-
-What would you want for the comment?
-
-	Regards
-		Oliver
+RnJvbTogR3VzdGF2byBBLiBSLiBTaWx2YQ0KPiBTZW50OiAyOSBBcHJpbCAyMDE5IDE1OjQwDQo+
+IEluIHByZXBhcmF0aW9uIHRvIGVuYWJsaW5nIC1XaW1wbGljaXQtZmFsbHRocm91Z2gsIG1hcmsg
+c3dpdGNoDQo+IGNhc2VzIHdoZXJlIHdlIGFyZSBleHBlY3RpbmcgdG8gZmFsbCB0aHJvdWdoLg0K
+Li4uDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi91c2JpcC92aGNpX2hjZC5jIGIvZHJpdmVy
+cy91c2IvdXNiaXAvdmhjaV9oY2QuYw0KPiBpbmRleCA2NjdkOWMwZWM5MDUuLjAwMGFiNzIyNTcx
+NyAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy91c2IvdXNiaXAvdmhjaV9oY2QuYw0KPiArKysgYi9k
+cml2ZXJzL3VzYi91c2JpcC92aGNpX2hjZC5jDQo+IEBAIC01MDgsNiArNTA4LDcgQEAgc3RhdGlj
+IGludCB2aGNpX2h1Yl9jb250cm9sKHN0cnVjdCB1c2JfaGNkICpoY2QsIHUxNiB0eXBlUmVxLCB1
+MTYgd1ZhbHVlLA0KPiAgCQljYXNlIFVTQl9QT1JUX0ZFQVRfVTFfVElNRU9VVDoNCj4gIAkJCXVz
+YmlwX2RiZ192aGNpX3JoKA0KPiAgCQkJCSIgU2V0UG9ydEZlYXR1cmU6IFVTQl9QT1JUX0ZFQVRf
+VTFfVElNRU9VVFxuIik7DQo+ICsJCQkvKiBGYWxsIHRocm91Z2ggKi8NCj4gIAkJY2FzZSBVU0Jf
+UE9SVF9GRUFUX1UyX1RJTUVPVVQ6DQo+ICAJCQl1c2JpcF9kYmdfdmhjaV9yaCgNCj4gIAkJCQki
+IFNldFBvcnRGZWF0dXJlOiBVU0JfUE9SVF9GRUFUX1UyX1RJTUVPVVRcbiIpOw0KDQpUaGF0IGRv
+ZXNuJ3QgbG9vayByaWdodCwgYm90aCBkZWJ1ZyBtZXNzYWdlcyBzZWVtIHRvIGdldCBwcmludGVk
+Lg0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBCcmFtbGV5IFJv
+YWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdpc3RyYXRpb24g
+Tm86IDEzOTczODYgKFdhbGVzKQ0K
 
