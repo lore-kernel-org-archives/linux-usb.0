@@ -1,26 +1,29 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [1/7] doc: dt-binding: mxs-usb-phy: add compatible for 7ulp
-From: Peter Chen <peter.chen@nxp.com>
-Message-Id: <20190428024847.5046-2-peter.chen@nxp.com>
-Date: Sun, 28 Apr 2019 02:51:13 +0000
-To: "shawnguo@kernel.org" <shawnguo@kernel.org>, "balbi@kernel.org" <balbi@kernel.org>
-Cc: "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "kernel@pengutronix.de" <kernel@pengutronix.de>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "robh+dt@kernel.org" <robh+dt@kernel.org>, Aisheng Dong <aisheng.dong@nxp.com>, dl-linux-imx <linux-imx@nxp.com>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, Peter Chen <peter.chen@nxp.com>
+Subject: [2/3] rio500: fix memeory leak in close after disconnect
+From: Oliver Neukum <oneukum@suse.com>
+Message-Id: <20190430142326.25815-2-oneukum@suse.com>
+Date: Tue, 30 Apr 2019 16:23:25 +0200
+To: gregKH@linuxfoundation.org, miquel@df.uba.ar, linux-usb@vger.kernel.org
+Cc: Oliver Neukum <oneukum@suse.com>
 List-ID: <linux-usb.vger.kernel.org>
 
-QWRkIGNvbXBhdGlibGUgZm9yIDd1bHAgVVNCIFBIWS4NCg0KU2lnbmVkLW9mZi1ieTogUGV0ZXIg
-Q2hlbiA8cGV0ZXIuY2hlbkBueHAuY29tPg0KLS0tDQogRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
-L2JpbmRpbmdzL3BoeS9teHMtdXNiLXBoeS50eHQgfCAxICsNCiAxIGZpbGUgY2hhbmdlZCwgMSBp
-bnNlcnRpb24oKykNCg0KLS0gDQoyLjE0LjEKCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2Rl
-dmljZXRyZWUvYmluZGluZ3MvcGh5L214cy11c2ItcGh5LnR4dCBiL0RvY3VtZW50YXRpb24vZGV2
-aWNldHJlZS9iaW5kaW5ncy9waHkvbXhzLXVzYi1waHkudHh0DQppbmRleCA2YWM5OGIzYjVmNTcu
-LjMyZGE4ZDE3NzU5YSAxMDA2NDQNCi0tLSBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
-aW5ncy9waHkvbXhzLXVzYi1waHkudHh0DQorKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
-YmluZGluZ3MvcGh5L214cy11c2ItcGh5LnR4dA0KQEAgLTcsNiArNyw3IEBAIFJlcXVpcmVkIHBy
-b3BlcnRpZXM6DQogCSogImZzbCxpbXg2c2wtdXNicGh5IiBmb3IgaW14NnNsDQogCSogImZzbCx2
-ZjYxMC11c2JwaHkiIGZvciBWeWJyaWQgdmY2MTANCiAJKiAiZnNsLGlteDZzeC11c2JwaHkiIGZv
-ciBpbXg2c3gNCisJKiAiZnNsLGlteDd1bHAtdXNicGh5IiBmb3IgaW14N3VscA0KICAgImZzbCxp
-bXgyMy11c2JwaHkiIGlzIHN0aWxsIGEgZmFsbGJhY2sgZm9yIG90aGVyIHN0cmluZ3MNCiAtIHJl
-ZzogU2hvdWxkIGNvbnRhaW4gcmVnaXN0ZXJzIGxvY2F0aW9uIGFuZCBsZW5ndGgNCiAtIGludGVy
-cnVwdHM6IFNob3VsZCBjb250YWluIHBoeSBpbnRlcnJ1cHQNCg==
+SWYgYSBkaXNjb25uZWN0ZWQgZGV2aWNlIGlzIGNsb3NlZCwgcmlvX2Nsb3NlKCkgbXVzdCBmcmVl
+CnRoZSBidWZmZXJzLgoKU2lnbmVkLW9mZi1ieTogT2xpdmVyIE5ldWt1bSA8b25ldWt1bUBzdXNl
+LmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9taXNjL3JpbzUwMC5jIHwgMTcgKysrKysrKysrKysrKysr
+LS0KIDEgZmlsZSBjaGFuZ2VkLCAxNSBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlm
+ZiAtLWdpdCBhL2RyaXZlcnMvdXNiL21pc2MvcmlvNTAwLmMgYi9kcml2ZXJzL3VzYi9taXNjL3Jp
+bzUwMC5jCmluZGV4IGE0YjZmYmVhOTc1Zi4uMjBjM2ViMGFmN2FkIDEwMDY0NAotLS0gYS9kcml2
+ZXJzL3VzYi9taXNjL3JpbzUwMC5jCisrKyBiL2RyaXZlcnMvdXNiL21pc2MvcmlvNTAwLmMKQEAg
+LTg2LDkgKzg2LDIyIEBAIHN0YXRpYyBpbnQgY2xvc2VfcmlvKHN0cnVjdCBpbm9kZSAqaW5vZGUs
+IHN0cnVjdCBmaWxlICpmaWxlKQogewogCXN0cnVjdCByaW9fdXNiX2RhdGEgKnJpbyA9ICZyaW9f
+aW5zdGFuY2U7CiAKLQlyaW8tPmlzb3BlbiA9IDA7CisJLyogYWdhaW5zdCBkaXNjb25uZWN0KCkg
+Ki8KKwltdXRleF9sb2NrKCZyaW81MDBfbXV0ZXgpOworCW11dGV4X2xvY2soJihyaW8tPmxvY2sp
+KTsKIAotCWRldl9pbmZvKCZyaW8tPnJpb19kZXYtPmRldiwgIlJpbyBjbG9zZWQuXG4iKTsKKwly
+aW8tPmlzb3BlbiA9IDA7CisJaWYgKCFyaW8tPnByZXNlbnQpIHsKKwkJLyogY2xlYW51cCBoYXMg
+YmVlbiBkZWxheWVkICovCisJCWtmcmVlKHJpby0+aWJ1Zik7CisJCWtmcmVlKHJpby0+b2J1Zik7
+CisJCXJpby0+aWJ1ZiA9IE5VTEw7CisJCXJpby0+b2J1ZiA9IE5VTEw7CisJfSBlbHNlIHsKKwkJ
+ZGV2X2luZm8oJnJpby0+cmlvX2Rldi0+ZGV2LCAiUmlvIGNsb3NlZC5cbiIpOworCX0KKwltdXRl
+eF91bmxvY2soJihyaW8tPmxvY2spKTsKKwltdXRleF91bmxvY2soJnJpbzUwMF9tdXRleCk7CiAJ
+cmV0dXJuIDA7CiB9CiAK
