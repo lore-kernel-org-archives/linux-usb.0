@@ -7,51 +7,51 @@ X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8295C43219
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Apr 2019 14:59:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDA62C43219
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Apr 2019 14:59:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6B1D620652
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Apr 2019 14:59:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E33A20652
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Apr 2019 14:59:47 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="yXaMQw2M"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="oBhU+OAu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726294AbfD3O7p (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1726373AbfD3O7p (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Tue, 30 Apr 2019 10:59:45 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:36736 "EHLO
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:36738 "EHLO
         lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726006AbfD3O7o (ORCPT
+        with ESMTP id S1726017AbfD3O7o (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 30 Apr 2019 10:59:44 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x3UExhZd103370;
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x3UExh7A103366;
         Tue, 30 Apr 2019 09:59:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
         s=ti-com-17Q1; t=1556636383;
-        bh=TKwqF1mn5UZq6Ne7irRh1Ifzitv+7iEKMhnWYsCLUI4=;
+        bh=W/nM9Sl2KNt5gekBds7/tgviM8tjcvwUIrDJkviBq0Q=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=yXaMQw2MswpLddt6NmjmNitBTfRVuggg3X3FintZGBzhH7q2mi2GhTfiXpD8djb8j
-         dTuQFb9iKJQD90TIuobnL8CsRCImaPrg94KwDN5rLhWhaHtBde/xrDXPXthqAtgFsM
-         8DwZzjJYh0RcffrQKSeUAxUmikY3ZXC5YqoHcsg8=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x3UExhqv045784
+        b=oBhU+OAuSyl35ULXVJE1mfA4rnqiE4ozAC1Dencd/OgQ2dJ/1tWTwgtMGF/WlyJg7
+         EmVJ1I7/y2PGVlz2zrzX7GKZl1HQqBcLjdWPjr3bZhwKwuf2xdMbVJ5rhte8T9K4wG
+         51Z+9W388K4hBECSLTvaR0QGPTkjGtPijvBLelCo=
+Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x3UExhKb035165
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
         Tue, 30 Apr 2019 09:59:43 -0500
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 30
  Apr 2019 09:59:42 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
  Frontend Transport; Tue, 30 Apr 2019 09:59:42 -0500
 Received: from uda0271908.am.dhcp.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x3UExgrF071248;
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x3UExgrC071248;
         Tue, 30 Apr 2019 09:59:42 -0500
 From:   Bin Liu <b-liu@ti.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>, Bin Liu <b-liu@ti.com>
-Subject: [PATCH 5/7] usb: musb: jz4740: Let the platform probe the PHY
-Date:   Tue, 30 Apr 2019 09:59:39 -0500
-Message-ID: <20190430145942.1128-6-b-liu@ti.com>
+Subject: [PATCH 2/7] usb: musb: omap2430: Add support for idling phy when musb is idle
+Date:   Tue, 30 Apr 2019 09:59:36 -0500
+Message-ID: <20190430145942.1128-3-b-liu@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190430145942.1128-1-b-liu@ti.com>
 References: <20190430145942.1128-1-b-liu@ti.com>
@@ -62,39 +62,54 @@ Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190430145939.fyHKJ5Kbb-V24hGclpEImRu3vVNWTFiVVDRTI94X2dI@z>
+Message-ID: <20190430145936.J4FlqBdth_vU9Q8wD6RH_uiqG2GCOcphK1aIvyKxqBI@z>
 
-From: Paul Cercueil <paul@crapouillou.net>
+From: Tony Lindgren <tony@atomide.com>
 
-By registering a generic USB PHY from within the driver, we may shadow
-the USB PHY registered by the platform, which might be different.
+I noticed that musb is blocking core retention for omap4 unlike for
+omap3. This is because for omap3 we have phy-twl4030-usb implement
+it's own PM runtime to handle errata "VUSB3V1 VBUS overvoltage
+debouncer not working when the PHY is powered down". That is done
+in order to keep the USB PHY powered when phy-twl4030-usb is loaded.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+For the other USB PHYs, we need to enable and disable the PHY based on
+musb PM runtime. With the session bit based PM runtime for musb core,
+we can now idle the USB PHY always when musb is idle.
+
+Note that adding these calls will not affect the twl4030 driver
+as it's phy functions will just query the PHY state without powering
+the PHY on or off.
+
+Signed-off-by: Tony Lindgren <tony@atomide.com>
 Signed-off-by: Bin Liu <b-liu@ti.com>
 ---
- drivers/usb/musb/jz4740.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/usb/musb/omap2430.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/usb/musb/jz4740.c b/drivers/usb/musb/jz4740.c
-index a60627bf7be3..ad35e09f90bd 100644
---- a/drivers/usb/musb/jz4740.c
-+++ b/drivers/usb/musb/jz4740.c
-@@ -74,7 +74,6 @@ static struct musb_hdrc_platform_data jz4740_musb_platform_data = {
+diff --git a/drivers/usb/musb/omap2430.c b/drivers/usb/musb/omap2430.c
+index b1dd81fb5f55..a3d2fef67746 100644
+--- a/drivers/usb/musb/omap2430.c
++++ b/drivers/usb/musb/omap2430.c
+@@ -531,6 +531,9 @@ static int omap2430_runtime_suspend(struct device *dev)
  
- static int jz4740_musb_init(struct musb *musb)
- {
--	usb_phy_generic_register();
- 	musb->xceiv = usb_get_phy(USB_PHY_TYPE_USB2);
- 	if (IS_ERR(musb->xceiv)) {
- 		pr_err("HS UDC: no transceiver configured\n");
-@@ -183,7 +182,6 @@ static int jz4740_remove(struct platform_device *pdev)
- 	struct jz4740_glue	*glue = platform_get_drvdata(pdev);
+ 	omap2430_low_level_exit(musb);
  
- 	platform_device_unregister(glue->musb);
--	usb_phy_generic_unregister(pdev);
- 	clk_disable_unprepare(glue->clk);
- 
++	phy_power_off(musb->phy);
++	phy_exit(musb->phy);
++
  	return 0;
+ }
+ 
+@@ -542,6 +545,9 @@ static int omap2430_runtime_resume(struct device *dev)
+ 	if (!musb)
+ 		return 0;
+ 
++	phy_init(musb->phy);
++	phy_power_on(musb->phy);
++
+ 	omap2430_low_level_init(musb);
+ 	musb_writel(musb->mregs, OTG_INTERFSEL,
+ 		    musb->context.otg_interfsel);
 -- 
 2.17.1
 
