@@ -2,108 +2,211 @@ Return-Path: <SRS0=zgiO=TA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
-	T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_MUTT autolearn=unavailable
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C341C43219
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Apr 2019 00:54:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBEE1C43219
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Apr 2019 01:22:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 28BB221670
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Apr 2019 00:54:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1556585646;
-	bh=pwOPf7JE3qQ83diIA8kkBNtmBZ74DTjDv4ET8TBgYa0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=bYPanYTZzzG6dfuJ2UrcjnqPCEI9C9Hkk9nhzQCHf526/fLN0NgqkbkReznelb6in
-	 txSZq65io0XVW3gU54IH25/H6+cYm0kUgAiEdJpXGWAhw2oT2c7knc1hsrtJjnrPOX
-	 PWT03LVCAGoZXG9ufnV0x4itW+Uz6/6v09rfnS6U=
+	by mail.kernel.org (Postfix) with ESMTP id A222921655
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Apr 2019 01:22:47 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J/pE20HB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729580AbfD3Ax7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Apr 2019 20:53:59 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:38248 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728997AbfD3Ax7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Apr 2019 20:53:59 -0400
-Received: by mail-oi1-f196.google.com with SMTP id t70so4356392oif.5;
-        Mon, 29 Apr 2019 17:53:59 -0700 (PDT)
+        id S1729791AbfD3BWq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Apr 2019 21:22:46 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:37915 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729238AbfD3BWp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Apr 2019 21:22:45 -0400
+Received: by mail-pf1-f196.google.com with SMTP id 10so6224870pfo.5;
+        Mon, 29 Apr 2019 18:22:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=/34HtZ0ItBu2q8PiQCCmitcY2PUSurP/IKvZz4bka9M=;
+        b=J/pE20HByyCtHTBS0K8ialHsJw49MhV1FCQBXAT8dgF5VJ/P9TMTmVGydpAmM3BXD6
+         cJ2H8/4ZhNzHF/w03baN6TTQWLvqV+9FWKZ2lq4tntBV2oOrr76LvRkmb3Y7wR/ZE5pV
+         V4AV49b2tZUiczidPJHQ9YCrR1oPQT3bqNFRCQVDZqiYFrFzu2tS9+e0khnhPyB6zU3L
+         Mu+dzyifzVS5FWjCgVJe/u4Kg8YWJmTD+rLs16BMZ7GBx+xQK5knl1gR3tWu4U7DBY/K
+         UKNocCw7KXUjFR6+ZLZCCdBBRJ01QP9NU2AaiXe0fUuJUeMKP2AHmn+KSxsVzVuoXqMb
+         iwVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=BmBzz+2LL/ow3G/3LbP1CmQvVguBPHTWsbFfuW3VYi4=;
-        b=aE6RrbJWoVfrrbRwtznuEfH3zLmPNbN607ZT1GNKb5rYuY8Nn55xPB27Y+j3IHvJ9Y
-         6Fqv+bnBkRKYIsQwBOJqCkgUEYwOi6qQUaKEUcCCg9SBuYLdwPpWFdgwBxsBoFKWoDwf
-         BT3IHHA/PV3tbCvBl226Sm24uG/xjoDtZBDI1/Nkut5H55+3JzYcXxJ45ZnqS1ZNusAt
-         THpmdTlTGKhXTuBkwjFjYHSssGU9hKjcSbYVyH7J9+VljKEhkF4yecn0TMvfslN/8zg4
-         TfeRUnEPDKmJ7mO7IK6wSHX1pwsRTOL4QUyAWQOS1mi6P1QhKSFOgblT5YFHp/n0mpJS
-         cT+w==
-X-Gm-Message-State: APjAAAUfjNt4QS8jUtEUWENZJQlMJg81a3b3mHrAZxnFeSRYCx1QvhyH
-        oU1o+eTrSW7xRSoLmeeloTDknCU=
-X-Google-Smtp-Source: APXvYqwW2Rhfv2aIAH2xrUFX3CT2pOl/jA3haakgGQC0mYloHqU/cAV20Ao2z2vhfN4cRxPrwiFV9g==
-X-Received: by 2002:aca:580a:: with SMTP id m10mr1383442oib.16.1556585638536;
-        Mon, 29 Apr 2019 17:53:58 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id s2sm3284079otq.28.2019.04.29.17.53.57
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 29 Apr 2019 17:53:57 -0700 (PDT)
-Date:   Mon, 29 Apr 2019 19:53:57 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Douglas Anderson <dianders@chromium.org>
-Cc:     Minas Harutyunyan <hminas@synopsys.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        amstan@chromium.org, linux-rockchip@lists.infradead.org,
-        linux-usb@vger.kernel.org, Randy Li <ayaka@soulik.info>,
-        mka@chromium.org, ryandcase@chromium.org, jwerner@chromium.org,
-        Elaine Zhang <zhangqing@rock-chips.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Subject: Re: [PATCH v2 1/4] dt-bindings: usb: dwc2: Document quirk to reset
- PHY upon wakeup
-Message-ID: <20190430005357.GA13695@bogus>
-References: <20190416215351.242246-1-dianders@chromium.org>
- <20190416215351.242246-2-dianders@chromium.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20190416215351.242246-2-dianders@chromium.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=/34HtZ0ItBu2q8PiQCCmitcY2PUSurP/IKvZz4bka9M=;
+        b=Gcv/rtGejbMdCVqn0WiRixRG0s0M4DSbzI4B2TL1oiSxCrw6qnH8tppvCD2ByOIkGR
+         BMdeH/VZXz7FxH/dlQbYCORIYwEzyPDd3qzkTfDzD3tvkoSrrCpnBHoJsekgoKhjZlhQ
+         d5DVduHVutMda3fvH6WE4zJp7riYCHbZ9sBeW6rLr5yhlj5714+FsR2gLjkIMF64XbRV
+         A+M0mgB7lxXhw+DpYOdIkvCk8TdLBsZJ1Iz+5OTCdaJiSOLcnamv5HHKQkFwkCX9kyx/
+         xve/6NZYJTrocSO5cPM70IEw4OxD1LC4hAYPnyupG1CJTOkqjOa2ZyLhShnwTcJnIsct
+         p1zA==
+X-Gm-Message-State: APjAAAUjlT89FaOpTY6z/zc8jaLBm+tyS4pz40lZpHgIUSrGbZPzgEgq
+        zjeAptrorFhDvtaS+F2WkHA=
+X-Google-Smtp-Source: APXvYqwc9yTp5jx88vjrv51gs13PdtFbfK3bdbaikArQGi2tAAdy+yEmclh1GV3Q5mK30ulNRfsyAw==
+X-Received: by 2002:aa7:8b11:: with SMTP id f17mr336712pfd.116.1556587364185;
+        Mon, 29 Apr 2019 18:22:44 -0700 (PDT)
+Received: from localhost (59-120-186-245.HINET-IP.hinet.net. [59.120.186.245])
+        by smtp.gmail.com with ESMTPSA id m8sm53912262pgn.59.2019.04.29.18.22.43
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 29 Apr 2019 18:22:43 -0700 (PDT)
+From:   "Ji-Ze Hong (Peter Hong)" <hpeter@gmail.com>
+X-Google-Original-From: "Ji-Ze Hong (Peter Hong)" <hpeter+linux_kernel@gmail.com>
+To:     peter_hong@fintek.com.tw, johan@kernel.org,
+        gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Ji-Ze Hong (Peter Hong)" <hpeter+linux_kernel@gmail.com>,
+        Oliver Neukum <oneukum@suse.com>
+Subject: [PATCH V9 2/4] USB: serial: f81232: clear overrun flag
+Date:   Tue, 30 Apr 2019 09:22:30 +0800
+Message-Id: <1556587352-19500-2-git-send-email-hpeter+linux_kernel@gmail.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1556587352-19500-1-git-send-email-hpeter+linux_kernel@gmail.com>
+References: <1556587352-19500-1-git-send-email-hpeter+linux_kernel@gmail.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190430005357.HuGUqin2up7_ILi5wPEmZz_clPD_gtBp3bhV6RPHq7M@z>
+Content-Type: text/plain; charset="UTF-8"
+Message-ID: <20190430012230.ZSmGDOiihMcjDKewt9Ebqkl_xzRayEobkcbORkyXedE@z>
 
-On Tue, Apr 16, 2019 at 02:53:48PM -0700, Douglas Anderson wrote:
-> On Rockchip rk3288 there's a hardware quirk where we need to assert
-> the reset signal to the PHY when we get a remote wakeup on one of the
-> two ports.  Document this quirk in the bindings.
-> 
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
-> ---
-> 
-> Changes in v2: None
-> 
->  Documentation/devicetree/bindings/usb/dwc2.txt | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/dwc2.txt b/Documentation/devicetree/bindings/usb/dwc2.txt
-> index 6dc3c4a34483..f70f3aee4bfc 100644
-> --- a/Documentation/devicetree/bindings/usb/dwc2.txt
-> +++ b/Documentation/devicetree/bindings/usb/dwc2.txt
-> @@ -37,6 +37,8 @@ Refer to phy/phy-bindings.txt for generic phy consumer properties
->  - g-rx-fifo-size: size of rx fifo size in gadget mode.
->  - g-np-tx-fifo-size: size of non-periodic tx fifo size in gadget mode.
->  - g-tx-fifo-size: size of periodic tx fifo per endpoint (except ep0) in gadget mode.
-> +- snps,reset-phy-on-wake: If present indicates that we need to reset the PHY when
-> +                          we detect a wakeup.  This is due to a hardware errata.
+The F81232 will report data and LSR with bulk like following format:
+bulk-in data: [LSR(1Byte)+DATA(1Byte)][LSR(1Byte)+DATA(1Byte)]...
 
-Synopsys or Rockchip errata?
+LSR will auto clear frame/parity/break error flag when reading by H/W,
+but overrrun will only cleared when reading LSR. So this patch add a
+worker to read LSR when overrun and flush the worker on close() &
+suspend().
 
-Ideally, this should be implied by the controller or phy compatible.
+Cc: Oliver Neukum <oneukum@suse.com>
+Signed-off-by: Ji-Ze Hong (Peter Hong) <hpeter+linux_kernel@gmail.com>
+---
+v9:
+	1: change the patch index from 1 to 2.
 
-Rob
+v8:
+	1: Fix usb_submit_urb() in f81232_resume() with GFP_NOIO, not
+	   GFP_KERNEL.
+
+v7:
+	1: Remove serial->suspending check
+	2: Add port priv is_port_open to save port open state. We'll
+	   register interrupt-in urb in f81232_resume() when port is
+	   opened.
+	3: Using usb_kill_urb for read/interrupt urb to ensure urb
+	   stopped.
+
+v6:
+	1: Add deferred_lsr_work_needed to re-trigger when f81232_resume()
+
+v5:
+	1: Source code base revert to v3 and remove all v4 changes.
+	2: Add serial->suspending check in f81232_process_read_urb()
+	   before schedule_work(&priv->lsr_work) to avoid race condition.
+
+v4:
+	1: Add serial->suspending check in f81232_lsr_worker() to avoid
+	   re-trigger
+	2: Add port_priv-lsr_work_resched to re-trigger LSR worker
+
+v3:
+	1: Add flush_work(&port_priv->lsr_work) in f81232_suspend().
+
+v2:
+	1: Add flush_work(&port_priv->lsr_work) in f81232_close().
+
+ drivers/usb/serial/f81232.c | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/serial/f81232.c b/drivers/usb/serial/f81232.c
+index d43ec999bc5e..f0de20a818cd 100644
+--- a/drivers/usb/serial/f81232.c
++++ b/drivers/usb/serial/f81232.c
+@@ -41,12 +41,14 @@ MODULE_DEVICE_TABLE(usb, id_table);
+ #define FIFO_CONTROL_REGISTER		(0x02 + SERIAL_BASE_ADDRESS)
+ #define LINE_CONTROL_REGISTER		(0x03 + SERIAL_BASE_ADDRESS)
+ #define MODEM_CONTROL_REGISTER		(0x04 + SERIAL_BASE_ADDRESS)
++#define LINE_STATUS_REGISTER		(0x05 + SERIAL_BASE_ADDRESS)
+ #define MODEM_STATUS_REGISTER		(0x06 + SERIAL_BASE_ADDRESS)
+ 
+ struct f81232_private {
+ 	struct mutex lock;
+ 	u8 modem_control;
+ 	u8 modem_status;
++	struct work_struct lsr_work;
+ 	struct work_struct interrupt_work;
+ 	struct usb_serial_port *port;
+ };
+@@ -282,6 +284,7 @@ static void f81232_read_int_callback(struct urb *urb)
+ static void f81232_process_read_urb(struct urb *urb)
+ {
+ 	struct usb_serial_port *port = urb->context;
++	struct f81232_private *priv = usb_get_serial_port_data(port);
+ 	unsigned char *data = urb->transfer_buffer;
+ 	char tty_flag;
+ 	unsigned int i;
+@@ -315,6 +318,7 @@ static void f81232_process_read_urb(struct urb *urb)
+ 
+ 			if (lsr & UART_LSR_OE) {
+ 				port->icount.overrun++;
++				schedule_work(&priv->lsr_work);
+ 				tty_insert_flip_char(&port->port, 0,
+ 						TTY_OVERRUN);
+ 			}
+@@ -562,6 +566,7 @@ static void f81232_close(struct usb_serial_port *port)
+ 	usb_serial_generic_close(port);
+ 	usb_kill_urb(port->interrupt_in_urb);
+ 	flush_work(&port_priv->interrupt_work);
++	flush_work(&port_priv->lsr_work);
+ }
+ 
+ static void f81232_dtr_rts(struct usb_serial_port *port, int on)
+@@ -606,6 +611,21 @@ static void  f81232_interrupt_work(struct work_struct *work)
+ 	f81232_read_msr(priv->port);
+ }
+ 
++static void f81232_lsr_worker(struct work_struct *work)
++{
++	struct f81232_private *priv;
++	struct usb_serial_port *port;
++	int status;
++	u8 tmp;
++
++	priv = container_of(work, struct f81232_private, lsr_work);
++	port = priv->port;
++
++	status = f81232_get_register(port, LINE_STATUS_REGISTER, &tmp);
++	if (status)
++		dev_warn(&port->dev, "read LSR failed: %d\n", status);
++}
++
+ static int f81232_port_probe(struct usb_serial_port *port)
+ {
+ 	struct f81232_private *priv;
+@@ -616,6 +636,7 @@ static int f81232_port_probe(struct usb_serial_port *port)
+ 
+ 	mutex_init(&priv->lock);
+ 	INIT_WORK(&priv->interrupt_work,  f81232_interrupt_work);
++	INIT_WORK(&priv->lsr_work, f81232_lsr_worker);
+ 
+ 	usb_set_serial_port_data(port, priv);
+ 
+@@ -646,8 +667,10 @@ static int f81232_suspend(struct usb_serial *serial, pm_message_t message)
+ 
+ 	usb_kill_urb(port->interrupt_in_urb);
+ 
+-	if (port_priv)
++	if (port_priv) {
+ 		flush_work(&port_priv->interrupt_work);
++		flush_work(&port_priv->lsr_work);
++	}
+ 
+ 	return 0;
+ }
+-- 
+2.7.4
+
