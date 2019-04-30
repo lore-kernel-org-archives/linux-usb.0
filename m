@@ -2,160 +2,123 @@ Return-Path: <SRS0=zgiO=TA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,
+	URIBL_BLOCKED,USER_AGENT_MUTT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23642C43219
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Apr 2019 01:23:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F8B9C43219
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Apr 2019 01:23:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E6C9F21655
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Apr 2019 01:23:04 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c7QlO3Pm"
+	by mail.kernel.org (Postfix) with ESMTP id D4A8421655
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Apr 2019 01:23:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1556587416;
+	bh=TNbkka32dDokHvEekZPM54zKlOh6IiXzyfGMUhlLNiE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=BWuSTe6efHxQCIybBsUCYW4u/JgrIf+9pZXbwbeSwx3IAlUECF9wg26Q0LZGiE++u
+	 nT/g4jygyS2RgyU1LXCRMI2DdWFDSSpm3mSXfhRqd9t1ydlW+xVuMHtwJSu4zCiMa/
+	 G8zWFbQIqgiygzQLBQIv7uqkJViMmkzA6w9/fLzI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729715AbfD3BWn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Apr 2019 21:22:43 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:42955 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729238AbfD3BWn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Apr 2019 21:22:43 -0400
-Received: by mail-pl1-f193.google.com with SMTP id x15so5932678pln.9;
-        Mon, 29 Apr 2019 18:22:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=EoMvgvSdq7xp2mVjAhF0hgkQM6qSVYMsPBoCdVngzjI=;
-        b=c7QlO3Pm+qLe5755G7xHlb6GhkRlzAhC70A+iC1eY4JRlIEANWoK/iDWrhbpzc0LMC
-         DgKZDg8E7TAdA461+vb7nL1RWYJNwnkHf3aalSXmz9b4cAvStJFzEouR2Gfo4FTsPPeh
-         T3vx6/uqECBqh64qGPU7efV0rOyA3QYS3A2ytwX0xgReD/g/36sJQOJHHphiIIfL7iEN
-         hNKoftGwFfcCtVGv9vOKz+L2TRKNS95s9m94/uw3Wlqtl+EVMFW4GwcylLN1owJ0WpqB
-         D+ehNtkz2gZIHnEHqjF4/TYW8lGET4f4ECWnjpgAKaY94N3XggTk8kXWK/OP/umUKsQY
-         kXTA==
+        id S1729860AbfD3BXb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Apr 2019 21:23:31 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:42495 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729801AbfD3BXb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Apr 2019 21:23:31 -0400
+Received: by mail-ot1-f65.google.com with SMTP id f23so10438638otl.9;
+        Mon, 29 Apr 2019 18:23:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=EoMvgvSdq7xp2mVjAhF0hgkQM6qSVYMsPBoCdVngzjI=;
-        b=b7OBGq6t1bYD7VNEwI0vcpIYfvrv/7B85MBnzZfWG4kTpGBzHCDttf87HqrrWjVxhu
-         trx+kpZPZeos/54+dsTN/zH0hHaBlSQZCBujjvAQ3uxnRaXkdvyBPEEmAXHD1zbPx4fF
-         z1n1jNojQLg54bln3/s9LWaZBRWmdfQPEi2BG6sAHSttjPjB9Tc31hsyEVIaFTl6H1NC
-         rp8IB44Bh7AzvhWOzRA8cNVPNO8C1TO3vwP5gbFNeIfVxnN+gcBa0nFWrYzQWfhQ86uH
-         zn/RYJJ7A1x8E44rX6D7KZAvBHoae3usGV0F6jePghRSpjDfCcOtT79MZuF8ZzIkOc7a
-         vgzA==
-X-Gm-Message-State: APjAAAXww0CE/HEp62vH/6VPq3ROFWCAFflkDgiX9KZVfPbNmRjUwvqU
-        ZqMuo1dsgMUtebybgmkyUhI=
-X-Google-Smtp-Source: APXvYqw/LEUE+KiL7EniyAU18MXAjpCPXJormtvvZLg/UGUm3s4DAWZritdQghy25tajK8dfJMFg7g==
-X-Received: by 2002:a17:902:7e04:: with SMTP id b4mr44288169plm.211.1556587362108;
-        Mon, 29 Apr 2019 18:22:42 -0700 (PDT)
-Received: from localhost (59-120-186-245.HINET-IP.hinet.net. [59.120.186.245])
-        by smtp.gmail.com with ESMTPSA id y3sm11207510pfe.9.2019.04.29.18.22.40
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 29 Apr 2019 18:22:41 -0700 (PDT)
-From:   "Ji-Ze Hong (Peter Hong)" <hpeter@gmail.com>
-X-Google-Original-From: "Ji-Ze Hong (Peter Hong)" <hpeter+linux_kernel@gmail.com>
-To:     peter_hong@fintek.com.tw, johan@kernel.org,
-        gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Ji-Ze Hong (Peter Hong)" <hpeter+linux_kernel@gmail.com>
-Subject: [PATCH V9 1/4] USB: serial: f81232: fix interrupt worker not stop
-Date:   Tue, 30 Apr 2019 09:22:29 +0800
-Message-Id: <1556587352-19500-1-git-send-email-hpeter+linux_kernel@gmail.com>
-X-Mailer: git-send-email 2.7.4
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=fLCNptbAqgGLbxmiV5m9esJWTcO9d7PGiLKbWNbQI4Y=;
+        b=pyInkl149oIz0fINvWOVMsdn8AcUZzZMsqlSa7v85gg4KE35r4uck69xNm/ho+Knq4
+         IzzSs7aMjmL5Eaj+6oFFGMJWvwrQoIb3956nOZPBgl3FX6H5fMKhpHk4dISx6fGnCukc
+         zWcgPF4nwZgI4lIXvZOm/tg7YfbuPlwiXFtfB2h/uxfRlZpdfJ/8UyWyA+fnAe3Ff7OC
+         QROaB0oudBdvbMfvRBtSD+tbC8do0lojlFgN9sX8VFKXonOOnxrqrUmwEr5RLCjdVOMu
+         BDIasEacD+4LbgEW4TtTbCw8lBLG5F3IVAHSYy+J1fDNCrHxwhSklxul5vl/eleUX3uo
+         4SXg==
+X-Gm-Message-State: APjAAAVREX0ePY2/L7rj+HhgwSdB4P5sCe+xd3U7Q/FVfRHH8h9196zA
+        u1H5Svz8POQS9r/0gW369Q==
+X-Google-Smtp-Source: APXvYqxr8Cm+FM9VThpkbETtAkluspE6CKnCHzDXX3Pa3YrGOQn38oLZRa/gk3PUp+5WlkzbxZyFuQ==
+X-Received: by 2002:a9d:6153:: with SMTP id c19mr5171001otk.110.1556587410598;
+        Mon, 29 Apr 2019 18:23:30 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id w13sm922030otl.26.2019.04.29.18.23.29
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 29 Apr 2019 18:23:29 -0700 (PDT)
+Date:   Mon, 29 Apr 2019 20:23:28 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Douglas Anderson <dianders@chromium.org>
+Cc:     Minas Harutyunyan <hminas@synopsys.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>, heiko@sntech.de,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
+        amstan@chromium.org, linux-rockchip@lists.infradead.org,
+        William Wu <william.wu@rock-chips.com>,
+        linux-usb@vger.kernel.org, Stefan Wahren <stefan.wahren@i2se.com>,
+        Randy Li <ayaka@soulik.info>, zyw@rock-chips.com,
+        mka@chromium.org, ryandcase@chromium.org,
+        Amelie Delaunay <amelie.delaunay@st.com>, jwerner@chromium.org,
+        dinguyen@opensource.altera.com,
+        Elaine Zhang <zhangqing@rock-chips.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [PATCH v2 3/5] Documentation: dt-bindings: Add
+ snps,need-phy-for-wake for dwc2 USB
+Message-ID: <20190430012328.GA25660@bogus>
+References: <20190418001356.124334-1-dianders@chromium.org>
+ <20190418001356.124334-4-dianders@chromium.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20190418001356.124334-4-dianders@chromium.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190430012229.5yFoxu4g1MmNiCdVqPTsCcpmFt1mB6GQ0AzN6wv93JA@z>
+Message-ID: <20190430012328.5yOS7iMRhJ9GkTkb3y9Q73Jx7bPCESiWvkq8FCTUER4@z>
 
-The F81232 will use interrupt worker to handle MSR change.
-This patch will fix the issue that interrupt work should stop
-in close() and suspend().
+On Wed, Apr 17, 2019 at 05:13:54PM -0700, Douglas Anderson wrote:
+> Some SoCs with a dwc2 USB controller may need to keep the PHY on to
+> support remote wakeup.  Allow specifying this as a device tree
+> property.
+> 
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+> For relevant prior discussion on this patch, see:
+> 
+> https://lkml.kernel.org/r/1435017144-2971-3-git-send-email-dianders@chromium.org
+> 
+> I didn't make any changes from the prior version since I never found
+> out what Rob thought of my previous arguments.  If folks want a
+> change, perhaps they could choose from these options:
+> 
+> 1. Assume that all dwc2 hosts would like to keep their PHY on for
+>    suspend if there's a USB wakeup enabled, thus we totally drop this
+>    binding.  This doesn't seem super great to me since I'd bet that
+>    many devices that use dwc2 weren't designed for USB wakeup (they
+>    may not keep enough clocks or rails on) so we might be wasting
+>    power for nothing.
 
-Cc: Johan Hovold <johan@kernel.org>
-Signed-off-by: Ji-Ze Hong (Peter Hong) <hpeter+linux_kernel@gmail.com>
----
-v9:
-	1: change the sequence from patch index from 2 to 1.
-	2: using tty_port_initialized() to determinate port open state.
+1b. Use SoC specific compatible strings to enable/disable remote 
+wake-up. We can debate what the default is I guess.
 
-v8:
-	1: no change
-
-v7:
-	1: first introduce to this series patch.
-
- drivers/usb/serial/f81232.c | 39 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
-
-diff --git a/drivers/usb/serial/f81232.c b/drivers/usb/serial/f81232.c
-index 0dcdcb4b2cde..d43ec999bc5e 100644
---- a/drivers/usb/serial/f81232.c
-+++ b/drivers/usb/serial/f81232.c
-@@ -556,9 +556,12 @@ static int f81232_open(struct tty_struct *tty, struct usb_serial_port *port)
- 
- static void f81232_close(struct usb_serial_port *port)
- {
-+	struct f81232_private *port_priv = usb_get_serial_port_data(port);
-+
- 	f81232_port_disable(port);
- 	usb_serial_generic_close(port);
- 	usb_kill_urb(port->interrupt_in_urb);
-+	flush_work(&port_priv->interrupt_work);
- }
- 
- static void f81232_dtr_rts(struct usb_serial_port *port, int on)
-@@ -632,6 +635,40 @@ static int f81232_port_remove(struct usb_serial_port *port)
- 	return 0;
- }
- 
-+static int f81232_suspend(struct usb_serial *serial, pm_message_t message)
-+{
-+	struct usb_serial_port *port = serial->port[0];
-+	struct f81232_private *port_priv = usb_get_serial_port_data(port);
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(port->read_urbs); ++i)
-+		usb_kill_urb(port->read_urbs[i]);
-+
-+	usb_kill_urb(port->interrupt_in_urb);
-+
-+	if (port_priv)
-+		flush_work(&port_priv->interrupt_work);
-+
-+	return 0;
-+}
-+
-+static int f81232_resume(struct usb_serial *serial)
-+{
-+	struct usb_serial_port *port = serial->port[0];
-+	int result;
-+
-+	if (tty_port_initialized(&port->port)) {
-+		result = usb_submit_urb(port->interrupt_in_urb, GFP_NOIO);
-+		if (result) {
-+			dev_err(&port->dev, "submit interrupt urb failed: %d",
-+					result);
-+			return result;
-+		}
-+	}
-+
-+	return usb_serial_generic_resume(serial);
-+}
-+
- static struct usb_serial_driver f81232_device = {
- 	.driver = {
- 		.owner =	THIS_MODULE,
-@@ -655,6 +692,8 @@ static struct usb_serial_driver f81232_device = {
- 	.read_int_callback =	f81232_read_int_callback,
- 	.port_probe =		f81232_port_probe,
- 	.port_remove =		f81232_port_remove,
-+	.suspend =		f81232_suspend,
-+	.resume =		f81232_resume,
- };
- 
- static struct usb_serial_driver * const serial_drivers[] = {
--- 
-2.7.4
-
+> 2. Rename this property to "snps,wakeup-from-suspend-with-phy" to make
+>    it more obvious that this property is intended both to document
+>    that wakeup from suspend is possible and that we need the PHY for
+>    said wakeup.
+> 3. Rename this property to "snps,can-wakeup-from-suspend" and assume
+>    it's implicit that if we can wakeup from suspend that we need to
+>    keep the PHY on.  If/when someone shows that a device exists using
+>    dwc2 where we can wakeup from suspend without the PHY they can add
+>    a new property.
+> 
+> Changes in v2: None
+> 
+>  Documentation/devicetree/bindings/usb/dwc2.txt | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
