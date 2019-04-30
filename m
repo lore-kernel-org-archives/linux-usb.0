@@ -2,114 +2,100 @@ Return-Path: <SRS0=zgiO=TA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
+	T_DKIMWL_WL_HIGH,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDA62C43219
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Apr 2019 14:59:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61A3EC43219
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Apr 2019 14:59:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9E33A20652
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Apr 2019 14:59:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 204C920652
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Apr 2019 14:59:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="oBhU+OAu"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Z0d3dLq3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726373AbfD3O7p (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 30 Apr 2019 10:59:45 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:36738 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726017AbfD3O7o (ORCPT
+        id S1726079AbfD3O7o (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 30 Apr 2019 10:59:44 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:33394 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725906AbfD3O7o (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 30 Apr 2019 10:59:44 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x3UExh7A103366;
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x3UExhhC080064;
         Tue, 30 Apr 2019 09:59:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
         s=ti-com-17Q1; t=1556636383;
-        bh=W/nM9Sl2KNt5gekBds7/tgviM8tjcvwUIrDJkviBq0Q=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=oBhU+OAuSyl35ULXVJE1mfA4rnqiE4ozAC1Dencd/OgQ2dJ/1tWTwgtMGF/WlyJg7
-         EmVJ1I7/y2PGVlz2zrzX7GKZl1HQqBcLjdWPjr3bZhwKwuf2xdMbVJ5rhte8T9K4wG
-         51Z+9W388K4hBECSLTvaR0QGPTkjGtPijvBLelCo=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x3UExhKb035165
+        bh=Sm+SogaFLPZcQfX6GJnUmolMpt4CVwO57Ukwu/wSXvE=;
+        h=From:To:CC:Subject:Date;
+        b=Z0d3dLq3uC4qmhYHzkExxTZtpY/QTvBrXwd95L204BHtKb6Ebw6vi08Gc6Ylhzh0V
+         s7rUaloBd3ph0Ar9lOAz9ERzs6bxp4a9651vHga7rnPvPN6ZvPEcQ+2jq6Iy17Cxam
+         hSd6vd4h64vMury1is/4YQlMlJHc8KcKVfL/fErE=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x3UExhOU045777
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
         Tue, 30 Apr 2019 09:59:43 -0500
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 30
  Apr 2019 09:59:42 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
  Frontend Transport; Tue, 30 Apr 2019 09:59:42 -0500
 Received: from uda0271908.am.dhcp.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x3UExgrC071248;
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x3UExgrA071248;
         Tue, 30 Apr 2019 09:59:42 -0500
 From:   Bin Liu <b-liu@ti.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>, Bin Liu <b-liu@ti.com>
-Subject: [PATCH 2/7] usb: musb: omap2430: Add support for idling phy when musb is idle
-Date:   Tue, 30 Apr 2019 09:59:36 -0500
-Message-ID: <20190430145942.1128-3-b-liu@ti.com>
+Subject: [PATCH 0/7] musb patches for v5.2-rc1
+Date:   Tue, 30 Apr 2019 09:59:34 -0500
+Message-ID: <20190430145942.1128-1-b-liu@ti.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190430145942.1128-1-b-liu@ti.com>
-References: <20190430145942.1128-1-b-liu@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190430145936.J4FlqBdth_vU9Q8wD6RH_uiqG2GCOcphK1aIvyKxqBI@z>
 
-From: Tony Lindgren <tony@atomide.com>
+Hi Greg,
 
-I noticed that musb is blocking core retention for omap4 unlike for
-omap3. This is because for omap3 we have phy-twl4030-usb implement
-it's own PM runtime to handle errata "VUSB3V1 VBUS overvoltage
-debouncer not working when the PHY is powered down". That is done
-in order to keep the USB PHY powered when phy-twl4030-usb is loaded.
+Here are the musb patches for v5.2 rc1. There are all small fixes or
+improvements. Please let me know if any change is needed.
 
-For the other USB PHYs, we need to enable and disable the PHY based on
-musb PM runtime. With the session bit based PM runtime for musb core,
-we can now idle the USB PHY always when musb is idle.
+There is one of the patches marked for stable. I will send it to stable
+tree later after they get into v5.2 rc.
 
-Note that adding these calls will not affect the twl4030 driver
-as it's phy functions will just query the PHY state without powering
-the PHY on or off.
-
-Signed-off-by: Tony Lindgren <tony@atomide.com>
-Signed-off-by: Bin Liu <b-liu@ti.com>
+Thanks,
+-Bin.
 ---
- drivers/usb/musb/omap2430.c | 6 ++++++
- 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/usb/musb/omap2430.c b/drivers/usb/musb/omap2430.c
-index b1dd81fb5f55..a3d2fef67746 100644
---- a/drivers/usb/musb/omap2430.c
-+++ b/drivers/usb/musb/omap2430.c
-@@ -531,6 +531,9 @@ static int omap2430_runtime_suspend(struct device *dev)
- 
- 	omap2430_low_level_exit(musb);
- 
-+	phy_power_off(musb->phy);
-+	phy_exit(musb->phy);
-+
- 	return 0;
- }
- 
-@@ -542,6 +545,9 @@ static int omap2430_runtime_resume(struct device *dev)
- 	if (!musb)
- 		return 0;
- 
-+	phy_init(musb->phy);
-+	phy_power_on(musb->phy);
-+
- 	omap2430_low_level_init(musb);
- 	musb_writel(musb->mregs, OTG_INTERFSEL,
- 		    musb->context.otg_interfsel);
+Kefeng Wang (1):
+  usb: musb: dsps: Use dev_get_drvdata()
+
+Paul Cercueil (4):
+  usb: musb: Silence error about blacklisting hubs if !CONFIG_USB
+  dt-bindings: usb: Add usb-phy property to the jz4740-musb node
+  usb: musb: jz4740: Let the platform probe the PHY
+  usb: musb: jz4740: obtain USB PHY from devicetree
+
+Samuel Holland (1):
+  soc: sunxi: Fix missing dependency on REGMAP_MMIO
+
+Tony Lindgren (1):
+  usb: musb: omap2430: Add support for idling phy when musb is idle
+
+ .../bindings/usb/ingenic,jz4740-musb.txt      |  8 ++++++++
+ drivers/soc/sunxi/Kconfig                     |  1 +
+ drivers/usb/musb/Kconfig                      |  2 +-
+ drivers/usb/musb/jz4740.c                     | 19 +++++++------------
+ drivers/usb/musb/musb_core.c                  |  9 +++++----
+ drivers/usb/musb/musb_dsps.c                  |  6 ++----
+ drivers/usb/musb/omap2430.c                   |  6 ++++++
+ 7 files changed, 30 insertions(+), 21 deletions(-)
+
 -- 
 2.17.1
 
