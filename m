@@ -3,61 +3,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-3.7 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A553C43219
-	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 05:49:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AF80C43219
+	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 05:49:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 14F6520873
-	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 05:49:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C29020873
+	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 05:49:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=skidata.com header.i=@skidata.com header.b="G3UXYcRX"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=skidata.com header.i=@skidata.com header.b="ckSN3bxz"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726209AbfEBFt1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 2 May 2019 01:49:27 -0400
-Received: from mail2.skidata.com ([91.230.2.91]:3041 "EHLO mail2.skidata.com"
+        id S1726321AbfEBFtf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 2 May 2019 01:49:35 -0400
+Received: from mail2.skidata.com ([91.230.2.91]:53825 "EHLO mail2.skidata.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725763AbfEBFt1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 2 May 2019 01:49:27 -0400
-X-Greylist: delayed 429 seconds by postgrey-1.27 at vger.kernel.org; Thu, 02 May 2019 01:49:25 EDT
+        id S1726291AbfEBFtf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 2 May 2019 01:49:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
-  t=1556776188; x=1588312188;
+  t=1556776197; x=1588312197;
   h=subject:to:cc:references:from:message-id:date:
    mime-version:in-reply-to:content-transfer-encoding;
-  bh=DNGA8ATHNl4B4R/J0+gK5wAt9PyZIJ+FJHVtdG/h1EY=;
-  b=G3UXYcRXReEFcYySJ4B3AFORt/HSy989mq5XaGGtiyit7mpJaaZhHhvT
-   XH9JjSGvHANMlntqDeOQPSkq6u3nMtnkB4pw0HTQCURclRxdYat2IL/Fv
-   VHTLkbdxfy6Cb9ChITEf7ZQn3VU48j+dRy5EM1+TEYtt5d/EOHnQfdY6h
-   5aNPQwJtB22mTBWemN8HcZ1ju2aWG1U9LPbUt+wG7ap/GlAkJJEKuMWKD
-   G7V4cOlqV6J/b6taRlrBskV+x4Mj+zSLgxkhQPoppabY/CBVNOEkK9aVt
-   qhmNV+aUGgIVlSGP2kZ4evnmrwcIKxCumtO4P6LkLtrWf+NUxjUDvEGgU
+  bh=cOnYhEx5pXVlfHn6Zs23yAt72R9SWUDC2PhFzOaJjEY=;
+  b=ckSN3bxz0mlcC03/i1dCvSSmUpvgM8zJQfcrT3tQ9OvOo4iXSDHy6Zuq
+   xCfv9fuVXcOQB/XOfkOWK9RzMC9JqAfcM53Cj26JbzhRw7BIE3vajC9/b
+   wTtAN4/idDQ9aIUMFPYld2icsk4bht1SWf5txTB8svKRY0STOIjOrN8W9
+   cIjDOtSztfRpsfdYM3N2a/Vo6p7e1c9GxxCzBH8wdBygicWfr8PxNX2fe
+   RKp6UvsHqBnBu9jBrryJhHgK/LyiNHhiZDZ6biRBDQ/TUsbe/bMinW7f9
+   J4SMdmBiblKur5TylIUsnDnTc5iC4UyDRjCrzevbrlYNhS5+OxoYF0T0k
    Q==;
-IronPort-SDR: xVpp3a9aOjNH8p9JpbhSs//rKufQHh423dPnYArVL9epL0F9J2XWzdu/1JBqtBih30w2Us3iDq
- hce+ofIfnbFjgxpfybAtlCBb0aHJh91rkZhWTPLy0+thDVEiXNCgBvv/Q9ULBFX+C2u5N6RZft
- Dqu4n1csxc42dDE3ON12m2/heU9ZtSELqxHzOwm/nrYubn5yabXt3EcVVnUsm2ntHINp4RwCKq
- FWIjpagulCba6Y4q0g1L+1s3TlaZiZ7EkbXfuw1aWZRD8FvyWmORiGiESCFGNKyhyQEAGFBSnn
- DeA=
+IronPort-SDR: MIy5BJHLa/U3XJG72jLA3Hk08QIcy/ZpWW7TH+Xo+qztfMList5auJAb99dkynpJbRZ9hA/C/z
+ Qpb1QVcslgR0it2eK2YrXqL3J5PaT3kipRP8BGivdlRVnEQV5cz/G/lyj4EO+KyOR1zn/Fl77K
+ Zef0Q5Bcey+m2ZMhagi7BRmd1MiHWuCGXoShJmJGtMTVGUElyPVkdKcwLuN0g+QctyjAG/q44A
+ PDbXv45HOMS2ssPDQOs5S2W6tXOt3d6pQon3BeTIWbzaR3q96zwwd71KqoeHitpno8TPWICfcj
+ IOE=
 X-IronPort-AV: E=Sophos;i="5.60,420,1549926000"; 
-   d="scan'208";a="2117529"
-Subject: Re: [PATCH 1/3] usb: usb251xb: Add US lanes inversion dts-bindings
+   d="scan'208";a="2117530"
+Subject: Re: [PATCH 3/3] usb: usb251xb: Add US port lanes inversion property
 To:     Serge Semin <fancer.lancer@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     Serge Semin <Sergey.Semin@t-platforms.ru>,
-        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 References: <20190424211208.17499-1-fancer.lancer@gmail.com>
- <20190424211208.17499-2-fancer.lancer@gmail.com>
+ <20190424211208.17499-4-fancer.lancer@gmail.com>
 From:   Richard Leitner <richard.leitner@skidata.com>
-Message-ID: <238927ae-c2c3-dcb5-b6c2-824fbf127759@skidata.com>
-Date:   Thu, 2 May 2019 07:42:14 +0200
+Message-ID: <74095a9d-5af3-1e1c-33c0-74c9784d3854@skidata.com>
+Date:   Thu, 2 May 2019 07:42:26 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190424211208.17499-2-fancer.lancer@gmail.com>
+In-Reply-To: <20190424211208.17499-4-fancer.lancer@gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format="flowed"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -68,18 +64,20 @@ Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190502054214.R5Qdzt6KQmc12vpPcv68CExwlkDj8-MoJXBSvZ65rMo@z>
+Message-ID: <20190502054226.e7uyJjwuo-oJ_KgoA5vCuzlbp2C_Fm20Be0TtDqW920@z>
+
 
 
 On 24/04/2019 23:12, Serge Semin wrote:
-> Since a separate US ports lanes polarity inversion property is going to
-> be available the bindings doc-file should be updated with information
-> about swap-us-lanes bool property, which will be responsible for it.
+> The driver bindings already declare the "swap-dx-lanes" property to
+> invert the downstream ports lanes polarity. The similar config
+> can be defined for a single upstream port - "swap-us-lanes". It's
+> going to be boolean since there is only one upstream port
+> on the hub.
 > 
 > Signed-off-by: Serge Semin <fancer.lancer@gmail.com>
 > ---
->   Documentation/devicetree/bindings/usb/usb251xb.txt | 6 ++++--
->   1 file changed, 4 insertions(+), 2 deletions(-)
-> 
+>   drivers/usb/misc/usb251xb.c | 2 ++
+>   1 file changed, 2 insertions(+)
 
 Acked-by: Richard Leitner <richard.leitner@skidata.com>
