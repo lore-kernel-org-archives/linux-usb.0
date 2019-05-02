@@ -2,138 +2,143 @@ Return-Path: <SRS0=x550=TC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
+	T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_MUTT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61FC3C43219
-	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 10:21:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA6D7C43219
+	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 10:26:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 261BE20656
-	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 10:21:06 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=xilinx.onmicrosoft.com header.i=@xilinx.onmicrosoft.com header.b="4xCgCWRd"
+	by mail.kernel.org (Postfix) with ESMTP id 799762133F
+	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 10:26:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1556792763;
+	bh=2zVXCERhoEhP203OeUU0UZWwpgbXOXZhQLrmdn8U0G0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=cPDiS9ZgFiIzuSCLJ/SYlF8Bp1tksK61uYeTutr1pHuHtSE1cbq5Ie+q9hYcVY1Pz
+	 EbJa0xdFfv81LvnCd8QBqfOk9mKLvYu2DM+gSonYZnb0LONfY2aQ2LCJZZ5tm8oq7C
+	 c9bsx76rmNLhGEwIO1W6rdHeXWcK67AhU0d5Z354=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726491AbfEBKVB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 2 May 2019 06:21:01 -0400
-Received: from mail-eopbgr760055.outbound.protection.outlook.com ([40.107.76.55]:20903
-        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726282AbfEBKUn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 2 May 2019 06:20:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uHWm5odc+KcTZH3YI654YZlYvxAInG4O9tjEbPeZFu0=;
- b=4xCgCWRd4/pPCxVm0gCy4/cDF6lt9HdhIIHAvGuSDyXD0FlySgwlLc8Rf+MM58c6pTDyAoENk0Q3VsUMTf27yMF375CvMbMNeg7rntOHMd/L77P/vo1ReH29+9NvUfm+MSpYu38fPW2OwhpNz50AuQHdbSifgdZ8T6IpUX3aXJ4=
-Received: from MWHPR02CA0056.namprd02.prod.outlook.com (2603:10b6:301:60::45)
- by SN1PR02MB1664.namprd02.prod.outlook.com (2a01:111:e400:5230::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1835.15; Thu, 2 May
- 2019 10:20:40 +0000
-Received: from BL2NAM02FT019.eop-nam02.prod.protection.outlook.com
- (2a01:111:f400:7e46::208) by MWHPR02CA0056.outlook.office365.com
- (2603:10b6:301:60::45) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1856.11 via Frontend
- Transport; Thu, 2 May 2019 10:20:39 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- BL2NAM02FT019.mail.protection.outlook.com (10.152.77.166) with Microsoft SMTP
- Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1856.11
- via Frontend Transport; Thu, 2 May 2019 10:20:39 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
-        by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
-        (envelope-from <anurag.kumar.vulisha@xilinx.com>)
-        id 1hM8pS-0004RY-Ay; Thu, 02 May 2019 03:20:38 -0700
-Received: from [127.0.0.1] (helo=localhost)
-        by xsj-pvapsmtp01 with smtp (Exim 4.63)
-        (envelope-from <anurag.kumar.vulisha@xilinx.com>)
-        id 1hM8pN-0001np-7G; Thu, 02 May 2019 03:20:33 -0700
-Received: from xsj-pvapsmtp01 (smtp-fallback.xilinx.com [149.199.38.66] (may be forged))
-        by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id x42AKPPE023310;
-        Thu, 2 May 2019 03:20:26 -0700
-Received: from [172.23.64.8] (helo=xhdvnc108.xilinx.com)
-        by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-        (envelope-from <anuragku@xilinx.com>)
-        id 1hM8pF-0001mh-JY; Thu, 02 May 2019 03:20:25 -0700
-Received: by xhdvnc108.xilinx.com (Postfix, from userid 15427)
-        id C4B46604DB; Thu,  2 May 2019 15:50:24 +0530 (IST)
-From:   Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Felipe Balbi <balbi@kernel.org>
-CC:     <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <v.anuragkumar@gmail.com>,
-        Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
-Subject: [PATCH 1/3] doc: dt: bindings: usb: dwc3: Update entries for disabling U1 and U2
-Date:   Thu, 2 May 2019 15:50:21 +0530
-Message-ID:
- <1556792423-4833-2-git-send-email-anurag.kumar.vulisha@xilinx.com>
-X-Mailer: git-send-email 2.1.1
-In-Reply-To: <1556792423-4833-1-git-send-email-anurag.kumar.vulisha@xilinx.com>
-References: <1556792423-4833-1-git-send-email-anurag.kumar.vulisha@xilinx.com>
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(376002)(396003)(346002)(136003)(39860400002)(2980300002)(199004)(189003)(356004)(36386004)(316002)(81166006)(126002)(16586007)(81156014)(5660300002)(50466002)(42186006)(486006)(6666004)(110136005)(106002)(54906003)(70586007)(11346002)(446003)(476003)(2616005)(76176011)(426003)(51416003)(4326008)(103686004)(48376002)(36756003)(50226002)(70206006)(15650500001)(63266004)(478600001)(6266002)(305945005)(26005)(107886003)(186003)(47776003)(2906002)(8676002)(90966002)(52956003)(336012)(14444005)(8936002)(42866002);DIR:OUT;SFP:1101;SCL:1;SRVR:SN1PR02MB1664;H:xsj-pvapsmtpgw01;FPR:;SPF:Pass;LANG:en;PTR:unknown-60-83.xilinx.com;A:1;MX:1;
+        id S1726270AbfEBK0C (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 2 May 2019 06:26:02 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:40625 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726231AbfEBK0C (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 May 2019 06:26:02 -0400
+Received: by mail-lf1-f68.google.com with SMTP id o16so1464876lfl.7;
+        Thu, 02 May 2019 03:26:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=h2cWxngpT20ZMfG3eOK3pNNe/GlsC/KIDAQpK5RfIwg=;
+        b=BIr6nPRwjadS7Rbnhlm4RxIdDabgyPyj7reDPc9MzQKBLxZLR9TAdhSKV6hLKxbiI5
+         Ind9JEz8+VJ83RW28e8TFjT9A1PiT0J2oq5uNap1S7pPuZ07iCB2plYtvYnoOULgfWzV
+         ePX98uXaRKb4uGMk6PE3s324XkjuZRv0AYNVDbIVCfCrIeiBQFU4Pd4902LzrmF6mLU8
+         m63XgSvQd6IhqoZfMCockysxRgZGnO/zI9PCZA/d5x8ydApkv6R0DVmORW6E2cj3xyxK
+         d3NbAiT2EMbHddOeEAexwxKjVdm75mJmo/1vXJ62Xe5rsNUGcegyp8wSuwZSrsFmcR1B
+         qhng==
+X-Gm-Message-State: APjAAAXDuCQpnnUA/Za56EbgPI5ykxW4zjyFaSjvIWr91tLOUc6UV/q+
+        gCBMPv88TO37DsXoowNQs+4=
+X-Google-Smtp-Source: APXvYqyLVM37TMfk9L9nCPHALYb1CpY8WCN2mVZesSegxWseGQ5TVBvqvuoedXc67VIzvMAl7Pg7Wg==
+X-Received: by 2002:ac2:4465:: with SMTP id y5mr1550419lfl.82.1556792760262;
+        Thu, 02 May 2019 03:26:00 -0700 (PDT)
+Received: from xi.terra (c-74bee655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.190.116])
+        by smtp.gmail.com with ESMTPSA id k4sm5931777lja.18.2019.05.02.03.25.59
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 02 May 2019 03:25:59 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.91)
+        (envelope-from <johan@kernel.org>)
+        id 1hM8um-0004gG-I2; Thu, 02 May 2019 12:26:09 +0200
+Date:   Thu, 2 May 2019 12:26:08 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Cc:     Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kees Cook <keescook@chromium.org>
+Subject: Re: [PATCH v2] USB: serial: io_edgeport: mark expected switch
+ fall-throughs
+Message-ID: <20190502102608.GS26546@localhost>
+References: <20190501213329.GA26972@embeddedor>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8ca6bb95-c26a-48ce-0140-08d6cee7d31b
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4709054)(2017052603328);SRVR:SN1PR02MB1664;
-X-MS-TrafficTypeDiagnostic: SN1PR02MB1664:
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-Microsoft-Antispam-PRVS: <SN1PR02MB16643D0FA3232BD0F086989EA7340@SN1PR02MB1664.namprd02.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-Forefront-PRVS: 0025434D2D
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: L0ifOevl715FSUgfmpVK2RxLYaIiY2JxpzOrIMt/TExFnELyfOhBEpPSPPcdzt8za94CPjG3qpUq3Bj6jhcLVt97h9QycX1yi6WcZBsMCFMcMrnZw06oAqTny5n3H6OI9fOad9zW4EvkiJ80lVz38CW8stkb5/nB8jKg4aTAvgrtGSUGzE4ZVpAMxOsxM763zrR1PCb9MMq8tl6g3GPLlkBFUPbwIE74mke8oNfnACwat+WKz9LfNUvCbnAp4GkDhIc2RQ4jyG88jWvK+KfeI+m23/SwWNHWa+3dlK/CV0Ic5QdJYVjRzLTWMX1huSvEeSCoYpEVqzPW5LaMUnSI0boTPePGTFADgcMN8+pGzm/Rzc7F2oujCVlcM4Yd/DQ+WHLZrOuUbYHEabsK0FWb2QdYt2fOY/3aNmHPF5cBylM=
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2019 10:20:39.2312
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ca6bb95-c26a-48ce-0140-08d6cee7d31b
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.60.83];Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR02MB1664
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190501213329.GA26972@embeddedor>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190502102021.iyPbxV0AhZyuISMZzbu6vbPEN5Q8DgRtu7rze5N7Pwk@z>
+Message-ID: <20190502102608.WeMjK3NsA4hKOvlD3a_u5Ky0VllP70U0tzOEx7gB6kk@z>
 
-This patch updates the documentation with the information related
-to the quirks that needs to be added for disabling the link entering
-into the U1 and U2 states
+On Wed, May 01, 2019 at 04:33:29PM -0500, Gustavo A. R. Silva wrote:
+> In preparation to enabling -Wimplicit-fallthrough, mark switch
+> cases where we are expecting to fall through.
+> 
+> This patch fixes the following warnings:
+> 
+> drivers/usb/serial/io_edgeport.c: In function ‘process_rcvd_data’:
+> drivers/usb/serial/io_edgeport.c:1750:7: warning: this statement may fall through [-Wimplicit-fallthrough=]
+>     if (bufferLength == 0) {
+>        ^
+> drivers/usb/serial/io_edgeport.c:1755:3: note: here
+>    case EXPECT_HDR2:
+>    ^~~~
+> drivers/usb/serial/io_edgeport.c:1810:8: warning: this statement may fall through [-Wimplicit-fallthrough=]
+>      if (bufferLength == 0) {
+>         ^
+> drivers/usb/serial/io_edgeport.c:1816:3: note: here
+>    case EXPECT_DATA: /* Expect data */
+>    ^~~~
+> 
+> Warning level 3 was used: -Wimplicit-fallthrough=3
+> 
+> Notice that, in this particular case, the code comments are modified
+> in accordance with what GCC is expecting to find.
+> 
+> This patch is part of the ongoing efforts to enable
+> -Wimplicit-fallthrough.
+> 
+> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+> ---
+> Changes in v2:
+>  - Warning level 3 is now used: -Wimplicit-fallthrough=3
+>    instead of warning level 2.
+>  - All warnings in the switch statement are addressed now.
+> 
+> Notice that these are the last remaining fall-through warnings
+> in the USB subsystem. :)
 
-Signed-off-by: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
----
- Documentation/devicetree/bindings/usb/dwc3.txt | 2 ++
- 1 file changed, 2 insertions(+)
+>  drivers/usb/serial/io_edgeport.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/serial/io_edgeport.c b/drivers/usb/serial/io_edgeport.c
+> index 4ca31c0e4174..7ad10328f4e2 100644
+> --- a/drivers/usb/serial/io_edgeport.c
+> +++ b/drivers/usb/serial/io_edgeport.c
+> @@ -1751,7 +1751,7 @@ static void process_rcvd_data(struct edgeport_serial *edge_serial,
+>  				edge_serial->rxState = EXPECT_HDR2;
+>  				break;
+>  			}
+> -			/* otherwise, drop on through */
+> +			/* Fall through - otherwise, drop on through */
+>  		case EXPECT_HDR2:
+>  			edge_serial->rxHeader2 = *buffer;
+>  			++buffer;
+> @@ -1813,6 +1813,7 @@ static void process_rcvd_data(struct edgeport_serial *edge_serial,
+>  				}
+>  				/* Else, drop through */
+>  			}
+> +			/* Fall through */
+>  		case EXPECT_DATA: /* Expect data */
 
-diff --git a/Documentation/devicetree/bindings/usb/dwc3.txt b/Documentation/devicetree/bindings/usb/dwc3.txt
-index 8e5265e..b087248 100644
---- a/Documentation/devicetree/bindings/usb/dwc3.txt
-+++ b/Documentation/devicetree/bindings/usb/dwc3.txt
-@@ -64,6 +64,8 @@ Optional properties:
-  - snps,dis_u2_susphy_quirk: when set core will disable USB2 suspend phy.
-  - snps,dis_enblslpm_quirk: when set clears the enblslpm in GUSB2PHYCFG,
- 			disabling the suspend signal to the PHY.
-+ - snps,dis_u1_entry_quirk: set if link entering into U1 needs to be disabled.
-+ - snps,dis_u2_entry_quirk: set if link entering into U2 needs to be disabled.
-  - snps,dis_rxdet_inp3_quirk: when set core will disable receiver detection
- 			in PHY P3 power state.
-  - snps,dis-u2-freeclk-exists-quirk: when set, clear the u2_freeclk_exists
--- 
-2.1.1
+Looks like you forgot to take the original review feedback you got into
+account:
 
+	https://lkml.kernel.org/r/87k1zf4k24.fsf@miraculix.mork.no
+
+Johan
