@@ -4,50 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,
-	USER_AGENT_MUTT autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_MUTT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DCBAC43219
-	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 19:46:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51C6EC43219
+	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 19:46:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6C582205F4
-	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 19:46:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 14CDB205F4
+	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 19:46:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1556826395;
-	bh=YsJl8ZbXjRE+N0RyzUnFj0oAbsw/ycofvjcpnjwpKn4=;
+	s=default; t=1556826408;
+	bh=xK5bZWOIY+4p6HFga9TE/W0ZKphdcwg4d6ApZDjnpk8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=MRtdPU7iaTajfStvaFOtVZfgmTS7c1jzxTAY6LlExQfT2uUyolCEzKqj/4GhwWZKo
-	 5LioYNtXWMibh0crMubcsbKzFtMbQbYrQ7T/Mf04Qv2t1hlnA2ApHPlkYrWRm/FJCt
-	 UD6SdV13X7EkZUSWAEyxyyyUSRnk3gIkUoxl7dvc=
+	b=KKJLLXHxNbwMafi96ez2ZZNdwREEyeUJzWnKRXT+L9NrfIUyity2WpFWf3roIuX0U
+	 VvXDFgB3SjKXm0h88vuArYabg/1QOp9wXyzHNgR7v50taCekHZLHRaFNNC0Nhm5FmB
+	 TTiNzYeqprptjlNKR23Fi/3fEywSfooiCfGd8FTI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726455AbfEBTqe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 2 May 2019 15:46:34 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:45876 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725962AbfEBTqc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 May 2019 15:46:32 -0400
-Received: by mail-ot1-f66.google.com with SMTP id a10so3197576otl.12;
-        Thu, 02 May 2019 12:46:31 -0700 (PDT)
+        id S1726487AbfEBTqr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 2 May 2019 15:46:47 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:38906 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725962AbfEBTqr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 May 2019 15:46:47 -0400
+Received: by mail-oi1-f193.google.com with SMTP id t70so2702400oif.5;
+        Thu, 02 May 2019 12:46:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wxtOkr3KGpgPZTAV1KtJFXkUF9r12ab9Mq01prC07Tw=;
-        b=SEGvCP+FvOD32gh1DF/pu5jM42gUoiE+YItgQHu/z4riZpKizU8B3Zk1jPSSlXbnE2
-         gyxD8GB2/rqddu084mbIQ8Bdf9Mn5p8I9ywBHpMs2NhOjXB4UFQNTSMvlufe2GpD9s+5
-         sWhd89/4vFZBVBl+d6/UdCfcilhQBt4fk/s0PtREcMruowy4ZOVLO4SCgRktSBkusxrz
-         GrbTBm5k/VBuM9K4BdMXLTGtbfmlQ1z1QdkrQPdK1LHhYF2Bed/R+j354rEgR/8NbyR1
-         b/Jmar0J+xIUBdOpwz9JNL2I/FWPzBmKIqi/PrgTQc5HLBHf0ObQyCdHpWLuG2kacnlF
-         TLCA==
-X-Gm-Message-State: APjAAAW40bouhGJKGvMpaLv8OMBsfFdf+HvPN0/OrjLu46Yd6HgjWxZ6
-        9V9ZNL0SImge/KOLcOTmng==
-X-Google-Smtp-Source: APXvYqyUqX9iXXgB8ggvWLANR9adKg4zUX0xV1DSbc275Yf7NL+qswC5/uihS1/Ue3gGOap5UosCzQ==
-X-Received: by 2002:a9d:4002:: with SMTP id m2mr4021772ote.325.1556826391290;
-        Thu, 02 May 2019 12:46:31 -0700 (PDT)
+        bh=ukaD/e1wsPHZwUHYPs4ExgkkIgYCdRZ6nP5LebCyPy8=;
+        b=DQND3BzHwLBNbmP5T3WL+7CW+Pf8jCTPHE7eNl2GNmfYBEdjM8wEycHLp80J04vWFB
+         uOv6vQvVZ7WNRIePs+E7Ut6YCtNONZ2XU0IqsmT1/4BuF3W/3cdt/3QGFKevXFT0IkYI
+         uFTFosKf7/msqBGG5CXRw8Yq78nHz2zcMm8RgPj3icjruYHh3P43/aJ3ouZmMaZ30jIw
+         NDlCG+s+YQBCkbKgOFNO7P3v1P1M7W1wt8FLw0CI+b3VXGKhq+XjLcQ7Cp8X+yXCOKP/
+         yhVrPrrUBj/q8IzDo8T6AXgmkCUqqFJ0/z2v8Tq8gQ1t9K2+DKSQSkI+Y8cCYsvSL13O
+         Cmuw==
+X-Gm-Message-State: APjAAAU2crEBGzNvd6SHZL9Gi7HCvQVtl4FFLhro3FZrHTIWkBgF02vX
+        d/QAGe+V8Nbzt6xdaf1EQA==
+X-Google-Smtp-Source: APXvYqzTtIOd2V14edKEnwXIDHP7nUB9TRcwqMxGmBTCC92ozeHhdBjGJlpAXqibAAn3eR5CtlYwIQ==
+X-Received: by 2002:aca:5809:: with SMTP id m9mr3685987oib.88.1556826406198;
+        Thu, 02 May 2019 12:46:46 -0700 (PDT)
 Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id u22sm17078072otk.49.2019.05.02.12.46.30
+        by smtp.gmail.com with ESMTPSA id r65sm85515oif.47.2019.05.02.12.46.44
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 02 May 2019 12:46:30 -0700 (PDT)
-Date:   Thu, 2 May 2019 14:46:30 -0500
+        Thu, 02 May 2019 12:46:45 -0700 (PDT)
+Date:   Thu, 2 May 2019 14:46:44 -0500
 From:   Rob Herring <robh@kernel.org>
 To:     Peter Chen <peter.chen@nxp.com>
 Cc:     "shawnguo@kernel.org" <shawnguo@kernel.org>,
@@ -61,28 +61,28 @@ Cc:     "shawnguo@kernel.org" <shawnguo@kernel.org>,
         dl-linux-imx <linux-imx@nxp.com>,
         "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
         Peter Chen <peter.chen@nxp.com>
-Subject: Re: [PATCH 3/7] doc: dt-binding: ci-hdrc-usb2: add compatible string
+Subject: Re: [PATCH 4/7] doc: dt-binding: usbmisc-imx: add compatible string
  for  imx7ulp
-Message-ID: <20190502194630.GA20293@bogus>
+Message-ID: <20190502194644.GA20807@bogus>
 References: <20190428024847.5046-1-peter.chen@nxp.com>
- <20190428024847.5046-4-peter.chen@nxp.com>
+ <20190428024847.5046-5-peter.chen@nxp.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20190428024847.5046-4-peter.chen@nxp.com>
+In-Reply-To: <20190428024847.5046-5-peter.chen@nxp.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190502194630.y3t4fcMRdyZeCdYyDbk0Hw3aQaxhziePHEhXKjRm_pI@z>
+Message-ID: <20190502194644.ojeg_7nzF01Ql2c8BVuIYjftKWg9CzazPqIQYIEQ4t0@z>
 
-On Sun, 28 Apr 2019 02:51:20 +0000, Peter Chen wrote:
-> Add compatible string for imx7ulp.
+On Sun, 28 Apr 2019 02:51:23 +0000, Peter Chen wrote:
+> Add compatible string for imx7ulp
 > 
 > Signed-off-by: Peter Chen <peter.chen@nxp.com>
 > ---
->  Documentation/devicetree/bindings/usb/ci-hdrc-usb2.txt | 1 +
+>  Documentation/devicetree/bindings/usb/usbmisc-imx.txt | 1 +
 >  1 file changed, 1 insertion(+)
 > 
 
