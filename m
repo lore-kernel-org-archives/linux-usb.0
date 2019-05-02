@@ -2,106 +2,120 @@ Return-Path: <SRS0=x550=TC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
+	T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_MUTT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00A0DC43219
-	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 19:47:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A986C43219
+	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 19:49:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C372E205F4
-	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 19:47:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6D49320651
+	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 19:49:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1556826468;
-	bh=tT3dxNpGuYBhbduvDygoS6CeszKx4PgZRS95HuVKCOE=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=0uDiiBxgdqdoaUrk7KFUBUV4kfVfTQIt4zj8LWSFx1RSJw5w7U0H+L8P91oGO2xFg
-	 x1MXmaCPNuXnbsT4kQa9YRr7qR7Ev2eGJT5M4Meb07I2btuiThe81gl/VUjFNDOjix
-	 zPqIAz7UuNeLiQ2MTIn4TlDSFlYM4DsnjkyHJ+6Y=
+	s=default; t=1556826553;
+	bh=JQ2yHnA+BjVC02StuEJhC50eoh4Q6GiWpbNzhkMQHPE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=HaFPCheDIJBp1cynnJQvhZuzUJhuvHk/PWR6rVfP12+q5912bwu9El9Df+AVFvhV6
+	 SbhnQrqxwQAkqH52Rw50pwfphtasPVL+YUMFq5a2jO/h82bwzuht7cFr6AS3SpPcgM
+	 m+MuX/T2H2vQVRR4m1ipSmLALKsEpZt4iYkMRf3U=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726520AbfEBTro (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 2 May 2019 15:47:44 -0400
-Received: from mail-it1-f196.google.com ([209.85.166.196]:34482 "EHLO
-        mail-it1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725962AbfEBTrn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 May 2019 15:47:43 -0400
-Received: by mail-it1-f196.google.com with SMTP id p18so6428431itm.1
-        for <linux-usb@vger.kernel.org>; Thu, 02 May 2019 12:47:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BlRlXXCdCQ8ojS85wg4oVL7jRwgqCApJr9d2CW9N/kk=;
-        b=hlmMwKaTwo8QkQ4w59AlaHa1gPjDqmFKP51ibnEIOqxvpVM4+UHLOj35EdfiGp9C1i
-         g7B7YmNkJtO8upmjc7K+jEym4Fyf4w+4UzkCuroDMQxsNLAS1DjyfCCM3mi9zNkZHmaX
-         W9BdloyTGe2xFOCDO8SMbUzbt1HoTTeAB47cI=
+        id S1726495AbfEBTtI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 2 May 2019 15:49:08 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:40512 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726209AbfEBTtI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 May 2019 15:49:08 -0400
+Received: by mail-ot1-f66.google.com with SMTP id w6so3238598otl.7;
+        Thu, 02 May 2019 12:49:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BlRlXXCdCQ8ojS85wg4oVL7jRwgqCApJr9d2CW9N/kk=;
-        b=W/1ea9SvRor/buiOYQ22CaO0m6PSEgcMB12Z6ty+e3t1dwkmAcMrpingsyVupKzXkJ
-         b28CRFGa5CFYK7Zue+DQI/ekrd2skjrhc1EjssGg+sfsm1zHA7qhoM5hLTojmu+Xuvnr
-         ODKlwwsFfmA3TtKZ9weErFgvg309E3HoP2TXs7uwR9+dFd5cbMyzdu5elTHpD/6rFCR+
-         BAoBmjGY9Va9jgT59P13kPQZ5O96TXmBXXgEYqCHZ1eE4XXNrva9+G605B8WtIbjo0D2
-         CE5kBZbQyKeEnVlTdNDAC1nttw0lvI/bfSg6SEfH411lxmGkVgt5pcms5m65LrtYgLSm
-         Ho4A==
-X-Gm-Message-State: APjAAAVX2GjUfFgqSupzPiSo1IFLkR4PZIsikcVHE6ByTBbNC3akG7JG
-        koSN5Tltbs65WjMniLS6+mFdyA==
-X-Google-Smtp-Source: APXvYqzxV1flOpU2yjAYsjvpcGQ06uNmg+YUXTWwTD4S3a4FvSgciwOuQPCWH1C2VXlxaZHzEYUFTg==
-X-Received: by 2002:a02:3b55:: with SMTP id i21mr4012523jaf.128.1556826463209;
-        Thu, 02 May 2019 12:47:43 -0700 (PDT)
-Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id n4sm14741ioh.52.2019.05.02.12.47.42
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 02 May 2019 12:47:42 -0700 (PDT)
-From:   Shuah Khan <skhan@linuxfoundation.org>
-To:     valentina.manea.m@gmail.com, shuah@kernel.org
-Cc:     Shuah Khan <skhan@linuxfoundation.org>, linux-usb@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] selftests: add sleep between detach and usbip list -l
-Date:   Thu,  2 May 2019 13:47:40 -0600
-Message-Id: <20190502194740.15344-1-skhan@linuxfoundation.org>
-X-Mailer: git-send-email 2.19.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=FGfxNsDw3M/Z12wiu2wAdnzAwwHu4M4I58DLCLbAH48=;
+        b=QQwHmsK8omy42O3otCY1DyojaqYe7wwKILP4sIpJpkug6TsiKo41S9vkcxVuMx3DNp
+         pU/7YjlwEUm15wLams8mSotUrYv8GT6MMhctiGx+qGOsFxbRaCbCZptmYmKDO5EwT8sW
+         qHiocKoAh7ejM9fYnAze+pslc3ne4tNElDfE7Ut0Pbwd9RgwbHKuYQYnIk04nxKW9yRr
+         fQxW5xFiPhXKYSMmnbDAY5XtCr+N7IAHEBRt/0rPnLM8FPNIMBR0kKDkKsACVufC3782
+         iAX1E5uXxyb+P8ooEGmOlNUybjfwxofWbYJWkdVUvatqX0i6MH4gYZWeNVaCgLH0vhZf
+         s/KA==
+X-Gm-Message-State: APjAAAUf3K+vUIO8dtx/wt5q6GVxI9wzUmMf/ugMtIn0Lioi3zBMcupL
+        5vRF01JBBNMS+Y4xSlhfFw==
+X-Google-Smtp-Source: APXvYqzYJ9AupEd9Umw0x6xgTlB7dtQUdfi0f3hYSCZGFwwsr29XCXUyJ7qIx36e0LDiOwYhqSkwBQ==
+X-Received: by 2002:a9d:73d9:: with SMTP id m25mr3984524otk.356.1556826546929;
+        Thu, 02 May 2019 12:49:06 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id 189sm89076oid.35.2019.05.02.12.49.05
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 02 May 2019 12:49:05 -0700 (PDT)
+Date:   Thu, 2 May 2019 14:49:05 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Biju Das <biju.das@bp.renesas.com>,
+        Yu Chen <chenyu56@huawei.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Min Guo <min.guo@mediatek.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>
+Subject: Re: [PATCH] dt-binding: usb: add usb-role-switch property
+Message-ID: <20190502194905.GA22144@bogus>
+References: <5756e05930f5e6a3940ad9d019399c8e63d24f18.1556454324.git.chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <5756e05930f5e6a3940ad9d019399c8e63d24f18.1556454324.git.chunfeng.yun@mediatek.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190502194740.dJP43oMyOGTmUxV_ULhc0D1IwCKuGHI4_qhCU2CyexQ@z>
+Message-ID: <20190502194905.hIvtArGNFgM7zRKAl02rElHAjPGMkgn1HHQngfaaN24@z>
 
-Add a sleep between detach and check for exportable devices to avoid
-the following segfault from libc-2.27.so
+On Sun, Apr 28, 2019 at 08:27:46PM +0800, Chunfeng Yun wrote:
+> Add a property usb-role-switch to tell Dual-Role controller driver
+> that use USB Role Switch framework to handle the role switch between
+> host mode and device mode, it's useful when the driver has already
+> supported other ways, such as extcon framework etc.
+> 
+> Cc: Biju Das <biju.das@bp.renesas.com>
+> Cc: Yu Chen <chenyu56@huawei.com>
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> ---
+> v1:
+> the property is discussed in:
+> [v2,2/7] dt-bindings: usb: renesas_usb3: add usb-role-switch property
+> https://patchwork.kernel.org/patch/10852497/
+> 
+> Mediatek and Hisilicon also try to use it:
+> [v4,3/6] dt-bindings: usb: mtu3: add properties about USB Role Switch
+> https://patchwork.kernel.org/patch/10918385/
+> [v4,6/6] usb: mtu3: register a USB Role Switch for dual role mode
+> https://patchwork.kernel.org/patch/10918367/
+> 
+> [v6,10/13] usb: dwc3: Registering a role switch in the DRD code
+> https://patchwork.kernel.org/patch/10909981/
+> ---
+>  Documentation/devicetree/bindings/usb/generic.txt | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/generic.txt b/Documentation/devicetree/bindings/usb/generic.txt
+> index 0a74ab8dfdc2..c73950b72513 100644
+> --- a/Documentation/devicetree/bindings/usb/generic.txt
+> +++ b/Documentation/devicetree/bindings/usb/generic.txt
+> @@ -30,6 +30,9 @@ Optional properties:
+>  			optional for OTG device.
+>   - adp-disable: tells OTG controllers we want to disable OTG ADP, ADP is
+>  			optional for OTG device.
+> + - usb-role-switch: tells Dual-Role USB controller driver that we want to use
+> +			USB Role Switch framework to handle the role switch
+> +			between host mode and device mode.
 
-[ 6268.136108] usbip[5565]: segfault at 0 ip 00007f2a947bddfd sp 00007ffd1a8705e8 error 4 in libc-2.27.so[7f2a94703000+1e7000]
+Please describe this in terms of h/w functionality, not drivers and 
+Linux things.
 
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
----
- tools/testing/selftests/drivers/usb/usbip/usbip_test.sh | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/tools/testing/selftests/drivers/usb/usbip/usbip_test.sh b/tools/testing/selftests/drivers/usb/usbip/usbip_test.sh
-index 128f0ab24307..beacf24a8df7 100755
---- a/tools/testing/selftests/drivers/usb/usbip/usbip_test.sh
-+++ b/tools/testing/selftests/drivers/usb/usbip/usbip_test.sh
-@@ -171,10 +171,14 @@ echo "Detach invalid port tests - expect invalid port error message";
- src/usbip detach -p 100;
- echo "=============================================================="
- 
-+# let detach complete. Avoid segfaults from libc-2.27.so
-+sleep 3;
-+
- echo "Expect to see export-able devices";
- src/usbip list -l;
- echo "=============================================================="
- 
-+
- echo "Remove usbip_host module";
- rmmod usbip_host;
- 
--- 
-2.17.1
-
+Rob
