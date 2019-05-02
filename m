@@ -2,245 +2,226 @@ Return-Path: <SRS0=x550=TC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=FROM_EXCESS_BASE64,
+X-Spam-Status: No, score=-8.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CB34C43219
-	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 05:51:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14AA5C43219
+	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 10:20:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1E33120873
-	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 05:51:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C023920656
+	for <linux-usb@archiver.kernel.org>; Thu,  2 May 2019 10:20:54 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=xilinx.onmicrosoft.com header.i=@xilinx.onmicrosoft.com header.b="AdrPn6Vf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725807AbfEBFu6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 2 May 2019 01:50:58 -0400
-Received: from mg.richtek.com ([220.130.44.152]:37624 "EHLO mg.richtek.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725772AbfEBFu5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 2 May 2019 01:50:57 -0400
-X-Greylist: delayed 358 seconds by postgrey-1.27 at vger.kernel.org; Thu, 02 May 2019 01:50:54 EDT
-X-MailGates: (compute_score:DELIVER,40,3)
-Received: from 192.168.8.21
-        by mg.richtek.com with MailGates ESMTP Server V3.0(24500:0:AUTH_RELAY)
-        (envelope-from <prvs=1021E68B79=shufan_lee@richtek.com>); Thu, 02 May 2019 13:47:38 +0800 (CST)
-X-MailGates: (compute_score:DELIVER,40,3)
-Received: from 192.168.8.45
-        by mg.richtek.com with MailGates ESMTP Server V5.0(19782:0:AUTH_RELAY)
-        (envelope-from <shufan_lee@richtek.com>); Thu, 02 May 2019 13:44:43 +0800 (CST)
-Received: from ex2.rt.l (192.168.8.45) by ex2.rt.l (192.168.8.45) with
- Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 2 May 2019 13:44:42 +0800
-Received: from ex2.rt.l ([fe80::c85:da76:a89f:3b4f]) by ex2.rt.l
- ([fe80::c85:da76:a89f:3b4f%13]) with mapi id 15.00.1347.000; Thu, 2 May 2019
- 13:44:42 +0800
-From:   =?utf-8?B?c2h1ZmFuX2xlZSjmnY7mm7jluIYp?= <shufan_lee@richtek.com>
-To:     Chen Yu <chenyu56@huawei.com>, Rob Herring <robh@kernel.org>
-CC:     "Liuyu (R)" <liuyu712@hisilicon.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "john.stultz@linaro.org" <john.stultz@linaro.org>,
-        "suzhuangluan@hisilicon.com" <suzhuangluan@hisilicon.com>,
-        "kongfei@hisilicon.com" <kongfei@hisilicon.com>,
-        "wanghu17@hisilicon.com" <wanghu17@hisilicon.com>,
-        "butao@hisilicon.com" <butao@hisilicon.com>,
-        "chenyao11@huawei.com" <chenyao11@huawei.com>,
-        "fangshengzhou@hisilicon.com" <fangshengzhou@hisilicon.com>,
-        "lipengcheng8@huawei.com" <lipengcheng8@huawei.com>,
-        "songxiaowei@hisilicon.com" <songxiaowei@hisilicon.com>,
-        "xuyiping@hisilicon.com" <xuyiping@hisilicon.com>,
-        "xuyoujun4@huawei.com" <xuyoujun4@huawei.com>,
-        "yudongbin@hisilicon.com" <yudongbin@hisilicon.com>,
-        "zangleigang@hisilicon.com" <zangleigang@hisilicon.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Wei Xu <xuwei5@hisilicon.com>,
+        id S1726444AbfEBKUo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 2 May 2019 06:20:44 -0400
+Received: from mail-eopbgr680042.outbound.protection.outlook.com ([40.107.68.42]:12258
+        "EHLO NAM04-BN3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726266AbfEBKUn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 2 May 2019 06:20:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DelSUgzr2E2GjnnLNTRfI/axJe2JT9QGJ4FoqYHMZz4=;
+ b=AdrPn6VfK+fJHyC/8FiOw1LcqX/Z+IhUNsEuxKnSl+TV4jJtuozqf7V6fak018b7i5hO2H8DF//5lRsgGj23hBlIH5cWGa8lKp9mzckAbKsjdEsg1G06F6VxUcgTrk0sHR2twD90M1JiUsjMCJCJrJvz+xQWGeQyIUDtBGFG2ZU=
+Received: from MWHPR02CA0014.namprd02.prod.outlook.com (2603:10b6:300:4b::24)
+ by DM5PR0201MB3397.namprd02.prod.outlook.com (2603:10b6:4:76::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1856.11; Thu, 2 May
+ 2019 10:20:40 +0000
+Received: from BL2NAM02FT003.eop-nam02.prod.protection.outlook.com
+ (2a01:111:f400:7e46::209) by MWHPR02CA0014.outlook.office365.com
+ (2603:10b6:300:4b::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1856.10 via Frontend
+ Transport; Thu, 2 May 2019 10:20:39 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.100)
+ smtp.mailfrom=xilinx.com; vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.100; helo=xsj-pvapsmtpgw02;
+Received: from xsj-pvapsmtpgw02 (149.199.60.100) by
+ BL2NAM02FT003.mail.protection.outlook.com (10.152.76.204) with Microsoft SMTP
+ Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1856.11
+ via Frontend Transport; Thu, 2 May 2019 10:20:38 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66]:60481 helo=xsj-pvapsmtp01)
+        by xsj-pvapsmtpgw02 with esmtp (Exim 4.63)
+        (envelope-from <anurag.kumar.vulisha@xilinx.com>)
+        id 1hM8pS-0006co-7J; Thu, 02 May 2019 03:20:38 -0700
+Received: from [127.0.0.1] (helo=localhost)
+        by xsj-pvapsmtp01 with smtp (Exim 4.63)
+        (envelope-from <anurag.kumar.vulisha@xilinx.com>)
+        id 1hM8pN-0001np-46; Thu, 02 May 2019 03:20:33 -0700
+Received: from xsj-pvapsmtp01 (smtp.xilinx.com [149.199.38.66])
+        by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id x42AKRAu023324;
+        Thu, 2 May 2019 03:20:27 -0700
+Received: from [172.23.64.8] (helo=xhdvnc108.xilinx.com)
+        by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+        (envelope-from <anuragku@xilinx.com>)
+        id 1hM8pG-0001mn-Gb; Thu, 02 May 2019 03:20:26 -0700
+Received: by xhdvnc108.xilinx.com (Postfix, from userid 15427)
+        id A950A604BC; Thu,  2 May 2019 15:50:25 +0530 (IST)
+From:   Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Binghui Wang <wangbinghui@hisilicon.com>
-Subject: RE: [PATCH v6 13/13] dts: hi3660: Add support for usb on Hikey960
-Thread-Topic: [PATCH v6 13/13] dts: hi3660: Add support for usb on Hikey960
-Thread-Index: AQHU/ySY82gaggFem0mlbNmJGdFK2aZXIn0Q
-Date:   Thu, 2 May 2019 05:44:42 +0000
-Message-ID: <5a0503388a5145639711d2a7c8a06ffb@ex2.rt.l>
-References: <20190420064019.57522-1-chenyu56@huawei.com>
- <20190420064019.57522-14-chenyu56@huawei.com> <20190425220016.GC32028@bogus>
- <6b5c219c-3941-5add-5e91-5efbd9b9d85c@huawei.com>
-In-Reply-To: <6b5c219c-3941-5add-5e91-5efbd9b9d85c@huawei.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.168.93.42]
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+        Felipe Balbi <balbi@kernel.org>
+CC:     <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <v.anuragkumar@gmail.com>,
+        Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
+Subject: [PATCH 3/3] usb: dwc3: gadget: Add support for disabling U1 and U2 entries
+Date:   Thu, 2 May 2019 15:50:23 +0530
+Message-ID:
+ <1556792423-4833-4-git-send-email-anurag.kumar.vulisha@xilinx.com>
+X-Mailer: git-send-email 2.1.1
+In-Reply-To: <1556792423-4833-1-git-send-email-anurag.kumar.vulisha@xilinx.com>
+References: <1556792423-4833-1-git-send-email-anurag.kumar.vulisha@xilinx.com>
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.100;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(39860400002)(136003)(346002)(376002)(396003)(2980300002)(189003)(199004)(8936002)(76176011)(36756003)(8676002)(81156014)(81166006)(90966002)(26005)(316002)(51416003)(14444005)(63266004)(106002)(5660300002)(54906003)(356004)(478600001)(50226002)(305945005)(336012)(2616005)(476003)(4326008)(126002)(107886003)(70206006)(426003)(70586007)(103686004)(6266002)(52956003)(36386004)(11346002)(446003)(486006)(48376002)(50466002)(186003)(47776003)(2906002)(16586007)(110136005)(42186006)(5001870100001);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR0201MB3397;H:xsj-pvapsmtpgw02;FPR:;SPF:Pass;LANG:en;PTR:xapps1.xilinx.com,unknown-60-100.xilinx.com;MX:1;A:1;
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7eb54a25-3e62-4eb9-cecc-08d6cee7d2f4
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4709054)(2017052603328);SRVR:DM5PR0201MB3397;
+X-MS-TrafficTypeDiagnostic: DM5PR0201MB3397:
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-Microsoft-Antispam-PRVS: <DM5PR0201MB339752D8D394F147022CD797A7340@DM5PR0201MB3397.namprd02.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Forefront-PRVS: 0025434D2D
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Message-Info: nlpRceHzRqY81nsIdArFOZrKAbu0duob81PEVYCiBesWiHvq2kZUPW4EiJAbhoOB0MiNisXntrs4M1cEbvcUtdZqF5Wg97me2C371migSCs2HLVRgIVaompXOpIAfEA+sXQRD0e06Go2Bi7mtJvLOalRMxLhUGisqg+J4yHimRQl9S0ztdY12BINKmuEkL68pY/uMFNAd1zNLiv+zyuU2aZgCanKOmvIuedKYb24k++R9S5/4jNEgEyDU3fBxBbETDPkVWquwoad5lpVfScMk/c4rSBdFtTHBvotsiS2Q8Gt7zu9EhAmUPXU7EN+OvIiMSaN7g9xNmMj9W9J3btnMncUD1wD+AzsQ8hOjJhav7Cc1gti4aIcqV10+Ns9qZZS9mlbFlwd05o6LHODa2cAVsohdGoYMCCeB745AH/kPlU=
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2019 10:20:38.9118
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7eb54a25-3e62-4eb9-cecc-08d6cee7d2f4
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.60.100];Helo=[xsj-pvapsmtpgw02]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR0201MB3397
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190502054442._KHSylz1Tf4x77lpThKSrjh-nQpZtHiAyPkNKQhS4Bk@z>
+Message-ID: <20190502102023.8bZkvt2mEBS9istZOBhyU0kqeLwbsniwXN8yO6mYEyE@z>
 
-SGkgWXUgQ2hlbiwNCg0KRnJvbTogQ2hlbiBZdSA8Y2hlbnl1NTZAaHVhd2VpLmNvbT4NClNlbnQ6
-IFR1ZXNkYXksIEFwcmlsIDMwLCAyMDE5IDM6MTYgUE0NClRvOiBSb2IgSGVycmluZyA8cm9iaEBr
-ZXJuZWwub3JnPg0KQ2M6IExpdXl1IChSKSA8bGl1eXU3MTJAaGlzaWxpY29uLmNvbT47IGxpbnV4
-LXVzYkB2Z2VyLmtlcm5lbC5vcmc7IGRldmljZXRyZWVAdmdlci5rZXJuZWwub3JnOyBsaW51eC1r
-ZXJuZWxAdmdlci5rZXJuZWwub3JnOyBqb2huLnN0dWx0ekBsaW5hcm8ub3JnOyBzdXpodWFuZ2x1
-YW5AaGlzaWxpY29uLmNvbTsga29uZ2ZlaUBoaXNpbGljb24uY29tOyB3YW5naHUxN0BoaXNpbGlj
-b24uY29tOyBidXRhb0BoaXNpbGljb24uY29tOyBjaGVueWFvMTFAaHVhd2VpLmNvbTsgZmFuZ3No
-ZW5nemhvdUBoaXNpbGljb24uY29tOyBsaXBlbmdjaGVuZzhAaHVhd2VpLmNvbTsgc29uZ3hpYW93
-ZWlAaGlzaWxpY29uLmNvbTsgeHV5aXBpbmdAaGlzaWxpY29uLmNvbTsgeHV5b3VqdW40QGh1YXdl
-aS5jb207IHl1ZG9uZ2JpbkBoaXNpbGljb24uY29tOyB6YW5nbGVpZ2FuZ0BoaXNpbGljb24uY29t
-OyBDaHVuZmVuZyBZdW4gPGNodW5mZW5nLnl1bkBtZWRpYXRlay5jb20+OyBXZWkgWHUgPHh1d2Vp
-NUBoaXNpbGljb24uY29tPjsgTWFyayBSdXRsYW5kIDxtYXJrLnJ1dGxhbmRAYXJtLmNvbT47IGxp
-bnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZzsgQmluZ2h1aSBXYW5nIDx3YW5nYmlu
-Z2h1aUBoaXNpbGljb24uY29tPjsgc2h1ZmFuX2xlZSjmnY7mm7jluIYpIDxzaHVmYW5fbGVlQHJp
-Y2h0ZWsuY29tPg0KU3ViamVjdDogUmU6IFtQQVRDSCB2NiAxMy8xM10gZHRzOiBoaTM2NjA6IEFk
-ZCBzdXBwb3J0IGZvciB1c2Igb24gSGlrZXk5NjANCg0KSGkgUm9iLA0KDQpPbiAyMDE5LzQvMjYg
-NjowMCwgUm9iIEhlcnJpbmcgd3JvdGU6DQo+PiBPbiBTYXQsIEFwciAyMCwgMjAxOSBhdCAwMjo0
-MDoxOVBNICswODAwLCBZdSBDaGVuIHdyb3RlOg0KPj4+IFRoaXMgcGF0Y2ggYWRkcyBzdXBwb3J0
-IGZvciB1c2Igb24gSGlrZXk5NjAuDQo+Pj4NCj4+PiBDYzogQ2h1bmZlbmcgWXVuIDxjaHVuZmVu
-Zy55dW5AbWVkaWF0ZWsuY29tPg0KPj4+IENjOiBXZWkgWHUgPHh1d2VpNUBoaXNpbGljb24uY29t
-Pg0KPj4+IENjOiBSb2IgSGVycmluZyA8cm9iaCtkdEBrZXJuZWwub3JnPg0KPj4+IENjOiBNYXJr
-IFJ1dGxhbmQgPG1hcmsucnV0bGFuZEBhcm0uY29tPg0KPj4+IENjOiBsaW51eC1hcm0ta2VybmVs
-QGxpc3RzLmluZnJhZGVhZC5vcmcNCj4+PiBDYzogSm9obiBTdHVsdHogPGpvaG4uc3R1bHR6QGxp
-bmFyby5vcmc+DQo+Pj4gQ2M6IEJpbmdodWkgV2FuZyA8d2FuZ2JpbmdodWlAaGlzaWxpY29uLmNv
-bT4NCj4+PiBTaWduZWQtb2ZmLWJ5OiBZdSBDaGVuIDxjaGVueXU1NkBodWF3ZWkuY29tPg0KPj4+
-IC0tLQ0KPj4+IHYyOg0KPj4+ICogUmVtb3ZlIGRldmljZV90eXBlIHByb3BlcnR5Lg0KPj4+ICog
-QWRkIHByb3BlcnR5ICJ1c2Itcm9sZS1zd2l0Y2giLg0KPj4gdjM6DQo+Pj4gKiBNYWtlIG5vZGUg
-InVzYl9waHkiIGEgc3Vibm9kZSBvZiB1c2IzX290Z19iYyByZWdpc3Rlci4NCj4+PiAqIFJlbW92
-ZSBwcm9wZXJ0eSAidHlwZWMtdmJ1cy1lbmFibGUtdmFsIiBvZiBoaXNpX2hpa2V5X3VzYi4NCj4+
-PiB2NDoNCj4+PiAqIFJlbW92ZSBwcm9wZXJ0eSAiaGlzaWxpY29uLHVzYjMtb3RnLWJjLXN5c2Nv
-biIgb2YgdXNiLXBoeS4NCj4+PiAtLS0NCj4+PiAtLS0NCj4+PiAgYXJjaC9hcm02NC9ib290L2R0
-cy9oaXNpbGljb24vaGkzNjYwLWhpa2V5OTYwLmR0cyB8IDUzICsrKysrKysrKysrKysrKysNCj4+
-PiAgYXJjaC9hcm02NC9ib290L2R0cy9oaXNpbGljb24vaGkzNjYwLmR0c2kgICAgICAgICB8IDcz
-ICsrKysrKysrKysrKysrKysrKysrKysrDQo+Pj4gIDIgZmlsZXMgY2hhbmdlZCwgMTI2IGluc2Vy
-dGlvbnMoKykNCj4+Pg0KPj4+IGRpZmYgLS1naXQgYS9hcmNoL2FybTY0L2Jvb3QvZHRzL2hpc2ls
-aWNvbi9oaTM2NjAtaGlrZXk5NjAuZHRzDQo+Pj4gYi9hcmNoL2FybTY0L2Jvb3QvZHRzL2hpc2ls
-aWNvbi9oaTM2NjAtaGlrZXk5NjAuZHRzDQo+Pj4gaW5kZXggZTAzNWNmMTk1YjE5Li5kNGUxMWM1
-NmIyNTAgMTAwNjQ0DQo+Pj4gLS0tIGEvYXJjaC9hcm02NC9ib290L2R0cy9oaXNpbGljb24vaGkz
-NjYwLWhpa2V5OTYwLmR0cw0KPj4+ICsrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvaGlzaWxpY29u
-L2hpMzY2MC1oaWtleTk2MC5kdHMNCj4+PiBAQCAtMTMsNiArMTMsNyBAQA0KPj4+ICAjaW5jbHVk
-ZSA8ZHQtYmluZGluZ3MvZ3Bpby9ncGlvLmg+DQo+Pj4gICNpbmNsdWRlIDxkdC1iaW5kaW5ncy9p
-bnB1dC9pbnB1dC5oPiAgI2luY2x1ZGUNCj4+PiA8ZHQtYmluZGluZ3MvaW50ZXJydXB0LWNvbnRy
-b2xsZXIvaXJxLmg+DQo+Pj4gKyNpbmNsdWRlIDxkdC1iaW5kaW5ncy91c2IvcGQuaD4NCj4+Pg0K
-Pj4+ICAvIHsNCj4+PiAgbW9kZWwgPSAiSGlLZXk5NjAiOw0KPj4+IEBAIC0xOTYsNiArMTk3LDI2
-IEBADQo+Pj4gIG1ldGhvZCA9ICJzbWMiOw0KPj4+ICB9Ow0KPj4+ICB9Ow0KPj4+ICsNCj4+PiAr
-aGlzaV9oaWtleV91c2I6IGhpc2lfaGlrZXlfdXNiIHsNCj4+PiArY29tcGF0aWJsZSA9ICJoaXNp
-bGljb24saGlrZXk5NjBfdXNiIjsNCj4+PiArdHlwZWMtdmJ1cy1ncGlvcyA9IDwmZ3BpbzI1IDIg
-R1BJT19BQ1RJVkVfSElHSD47DQo+Pj4gK290Zy1zd2l0Y2gtZ3Bpb3MgPSA8JmdwaW8yNSA2IEdQ
-SU9fQUNUSVZFX0hJR0g+Ow0KPj4+ICtodWItdmRkMzMtZW4tZ3Bpb3MgPSA8JmdwaW81IDYgR1BJ
-T19BQ1RJVkVfSElHSD47DQo+Pj4gK3BpbmN0cmwtbmFtZXMgPSAiZGVmYXVsdCI7DQo+Pj4gK3Bp
-bmN0cmwtMCA9IDwmdXNiaHViNTczNF9wbXhfZnVuYz47DQo+Pj4gKw0KPj4+ICtwb3J0IHsNCj4+
-PiArI2FkZHJlc3MtY2VsbHMgPSA8MT47DQo+Pj4gKyNzaXplLWNlbGxzID0gPDA+Ow0KPj4+ICsN
-Cj4+PiAraGlrZXlfdXNiX2VwOiBlbmRwb2ludEAwIHsNCj4+PiArcmVnID0gPDA+Ow0KPj4+ICty
-ZW1vdGUtZW5kcG9pbnQgPSA8JmR3YzNfcm9sZV9zd2l0Y2hfbm90aWZ5PjsNCj4+PiArfTsNCj4+
-PiArfTsNCj4+PiArfTsNCj4+PiArDQo+Pj4gIH07DQo+Pj4NCj4+PiAgLyoNCj4+PiBAQCAtNTI2
-LDYgKzU0NywzOCBAQA0KPj4+ICAmaTJjMSB7DQo+Pj4gIHN0YXR1cyA9ICJva2F5IjsNCj4+Pg0K
-Pj4+ICtydDE3MTFoOiBydDE3MTFoQDRlIHsNCj4+PiArY29tcGF0aWJsZSA9ICJyaWNodGVrLHJ0
-MTcxMWgiOw0KPj4NCj4+IFRoZSBiaW5kaW5nIGRvYyBmb3IgdGhpcyBzaG91bGQgc3RhdGUgaXQg
-c2hvdWxkIGhhdmUgYSAnY29ubmVjdG9yJyBub2RlLg0KPj4NCj4gSGkgc2h1ZmFuLA0KPiBJcyB0
-aGUgJ2Nvbm5lY3Rvcicgbm9kZSBhbiBlc3NlbnRpYWwgbm9kZSBvZiBydDE3MTFoPw0KPiBDdXJy
-ZW50bHkgaXQgaXMgbWlzc2luZyBpbiBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
-dXNiL3JpY2h0ZWsscnQxNzExaC50eHQuDQo+IERvIHlvdSB0aGluayB0aGUgJ2Nvbm5lY3Rvcicg
-bm9kZSBzaG91bGQgYWRkIGFzIHRoaXMgcGF0Y2ggaW4gdGhlIGJpbmRpbmcgZG9jPw0KDQpZZXMu
-DQpGb3IgcnQxNzExaCwgdGhlIHBhcnNpbmcgd29yayBpcyBkb25lIHdoZW4gY2FsbGluZyB0Y3Bj
-aV9yZWdpc3Rlcl9wb3J0IGFuZCB0Y3BtX3JlZ2lzdGVyX3BvcnQuDQpUaGUgcGFyc2luZyBmbG93
-IGlzIHVwbG9hZGVkIGJ5IEp1biBMaSBhZnRlciBydDE3MTFoIGlzIHVwbG9hZGVkLCBzbyByaWNo
-dGVrLHJ0MTcxMWgudHh0IGhhc24ndCBtb2RpZmllZCB5ZXQuDQpUbyBhZGQgcnQxNzExaCBub2Rl
-IGFuZCBtb2RpZnkgdGhlIGJpbmRpbmcgZG9jLCByaWNodGVrLHJ0MTcxMWgudHh0LCB5b3UgY2Fu
-IHJlZmVyIHRvIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy91c2IvdHlwZWMtdGNw
-Y2kudHh0DQoNCj4+PiArcmVnID0gPDB4NGU+Ow0KPj4+ICtzdGF0dXMgPSAib2siOw0KPj4NCj4+
-IENhbiBkcm9wIHRoaXMsIGl0IGlzIHRoZSBkZWZhdWx0Lg0KPj4NCj4gT0suDQoNCj4+PiAraW50
-ZXJydXB0LXBhcmVudCA9IDwmZ3BpbzI3PjsNCj4+PiAraW50ZXJydXB0cyA9IDwzIElSUV9UWVBF
-X0xFVkVMX0xPVz47DQo+Pj4gK3BpbmN0cmwtbmFtZXMgPSAiZGVmYXVsdCI7DQo+Pj4gK3BpbmN0
-cmwtMCA9IDwmdXNiX2NmZ19mdW5jPjsNCj4+PiArDQo+Pj4gK3VzYl9jb246IGNvbm5lY3RvciB7
-DQo+Pj4gK2NvbXBhdGlibGUgPSAidXNiLWMtY29ubmVjdG9yIjsNCj4+PiArbGFiZWwgPSAiVVNC
-LUMiOw0KPj4+ICtkYXRhLXJvbGUgPSAiZHVhbCI7DQo+Pj4gK3Bvd2VyLXJvbGUgPSAiZHVhbCI7
-DQo+Pj4gK3RyeS1wb3dlci1yb2xlID0gInNpbmsiOw0KPj4+ICtzb3VyY2UtcGRvcyA9IDxQRE9f
-RklYRUQoNTAwMCwgNTAwLCBQRE9fRklYRURfVVNCX0NPTU0pPjsNCj4+PiArc2luay1wZG9zID0g
-PFBET19GSVhFRCg1MDAwLCA1MDAsIFBET19GSVhFRF9VU0JfQ09NTSkNCj4+PiArUERPX1ZBUig1
-MDAwLCA1MDAwLCAxMDAwKT47DQo+Pj4gK29wLXNpbmstbWljcm93YXR0ID0gPDEwMDAwMDAwPjsN
-Cj4+PiArfTsNCj4+PiArDQo+Pj4gK3BvcnQgew0KPj4NCj4+IFRoZSBjb25uZWN0b3Igbm9kZSBz
-aG91bGQgaGF2ZSBhICdwb3J0cycgY2hpbGQgd2l0aCAncG9ydEAwJyBiZWluZyB0aGUNCj4+IEhT
-IGNvbm5lY3Rpb24uDQo+Pg0KPiBUaGlzIHBvcnQgYW5kIGVuZHBvaW50IG9mIHRoZSBwb3J0IGFy
-ZSB1c2VkIGZvciByb2xlX3N3aXRjaCBtYXRjaGluZyBieSBmd25vZGVfZ3JhcGhfZGV2Y29uX21h
-dGNoLiBJJ20gbm90IHRvbyBzdXJlIHRoZSAncG9ydHMnIHVuZGVyIGNvbm5lY3RvciBpcyB1c2Vk
-IGluIHJ0MTcxMWggZHJpdmVy77yfDQo+IEhpIHNodWZhbl9sZWUsDQo+ICAgICBDYW4geW91IGNv
-bmZpcm0gdGhpcz8NCg0KVGhlICdwb3J0cycgaXMgbm90IHVzZWQgaW4gcnQxNzExaCdzIGRyaXZl
-ci4NCkknbSBub3Qgc3VyZSBpZiB0aGlzIGlzIGhlbHBmdWwgYnV0IHRoZSB1c2FnZSBvZiAncG9y
-dHMnIG1heSByZWZlciB0byB0aGUgZm9sbG93aW5nIHBhdGNoLg0KaHR0cHM6Ly9sb3JlLmtlcm5l
-bC5vcmcvcGF0Y2h3b3JrL3BhdGNoLzg3OTk0NS8NCg0KPj4+ICsjYWRkcmVzcy1jZWxscyA9IDwx
-PjsNCj4+PiArI3NpemUtY2VsbHMgPSA8MD47DQo+Pj4gKw0KPj4+ICtydDE3MTFoX2VwOiBlbmRw
-b2ludEAwIHsNCj4+PiArcmVnID0gPDA+Ow0KPj4+ICtyZW1vdGUtZW5kcG9pbnQgPSA8JmR3YzNf
-cm9sZV9zd2l0Y2g+Ow0KPj4+ICt9Ow0KPj4+ICt9Ow0KPj4+ICt9Ow0KPj4+ICsNCj4+PiAgYWR2
-NzUzMzogYWR2NzUzM0AzOSB7DQo+Pj4gIHN0YXR1cyA9ICJvayI7DQo+Pj4gIGNvbXBhdGlibGUg
-PSAiYWRpLGFkdjc1MzMiOw0KPj4+IGRpZmYgLS1naXQgYS9hcmNoL2FybTY0L2Jvb3QvZHRzL2hp
-c2lsaWNvbi9oaTM2NjAuZHRzaQ0KPj4+IGIvYXJjaC9hcm02NC9ib290L2R0cy9oaXNpbGljb24v
-aGkzNjYwLmR0c2kNCj4+PiBpbmRleCAyZjE5ZTBlNWI3Y2YuLjE3MzQ2NzUwNWFkYSAxMDA2NDQN
-Cj4+PiAtLS0gYS9hcmNoL2FybTY0L2Jvb3QvZHRzL2hpc2lsaWNvbi9oaTM2NjAuZHRzaQ0KPj4+
-ICsrKyBiL2FyY2gvYXJtNjQvYm9vdC9kdHMvaGlzaWxpY29uL2hpMzY2MC5kdHNpDQo+Pj4gQEAg
-LTM1NSw2ICszNTUsMTIgQEANCj4+PiAgI2Nsb2NrLWNlbGxzID0gPDE+Ow0KPj4+ICB9Ow0KPj4+
-DQo+Pj4gK3BtY3RybDogcG1jdHJsQGZmZjMxMDAwIHsNCj4+PiArY29tcGF0aWJsZSA9ICJoaXNp
-bGljb24saGkzNjYwLXBtY3RybCIsICJzeXNjb24iOw0KPj4+ICtyZWcgPSA8MHgwIDB4ZmZmMzEw
-MDAgMHgwIDB4MTAwMD47DQo+Pj4gKyNjbG9jay1jZWxscyA9IDwxPjsNCj4+PiArfTsNCj4+PiAr
-DQo+Pj4gIHBtdWN0cmw6IGNyZ19jdHJsQGZmZjM0MDAwIHsNCj4+PiAgY29tcGF0aWJsZSA9ICJo
-aXNpbGljb24saGkzNjYwLXBtdWN0cmwiLCAic3lzY29uIjsNCj4+PiAgcmVnID0gPDB4MCAweGZm
-ZjM0MDAwIDB4MCAweDEwMDA+OyBAQCAtMTEzNCw1ICsxMTQwLDcyIEBADQo+Pj4gIH07DQo+Pj4g
-IH07DQo+Pj4gIH07DQo+Pj4gKw0KPj4+ICt1c2IzX290Z19iYzogdXNiM19vdGdfYmNAZmYyMDAw
-MDAgew0KPj4+ICtjb21wYXRpYmxlID0gInN5c2NvbiIsICJzaW1wbGUtbWZkIjsNCj4+PiArcmVn
-ID0gPDB4MCAweGZmMjAwMDAwIDB4MCAweDEwMDA+Ow0KPj4+ICsNCj4+PiArdXNiX3BoeTogdXNi
-LXBoeSB7DQo+Pj4gK2NvbXBhdGlibGUgPSAiaGlzaWxpY29uLGhpMzY2MC11c2ItcGh5IjsNCj4+
-PiArI3BoeS1jZWxscyA9IDwwPjsNCj4+PiAraGlzaWxpY29uLHBlcmljcmctc3lzY29uID0gPCZj
-cmdfY3RybD47DQo+Pj4gK2hpc2lsaWNvbixwY3RybC1zeXNjb24gPSA8JnBjdHJsPjsNCj4+PiAr
-aGlzaWxpY29uLGV5ZS1kaWFncmFtLXBhcmFtID0gPDB4MjI0NjZlND47DQo+Pj4gK307DQo+Pj4g
-K307DQo+Pj4gKw0KPj4+ICt1c2IzOiBoaXNpX2R3YzMgew0KPj4+ICtjb21wYXRpYmxlID0gImhp
-c2lsaWNvbixoaTM2NjAtZHdjMyI7DQo+Pj4gKyNhZGRyZXNzLWNlbGxzID0gPDI+Ow0KPj4+ICsj
-c2l6ZS1jZWxscyA9IDwyPjsNCj4+PiArcmFuZ2VzOw0KPj4NCj4+IElmIHRoZXJlIGFyZSBub3Qg
-YW55IHdyYXBwZXIgcmVnaXN0ZXJzLCB0aGVuIGdldCByaWQgb2YgdGhlIGhpc2lfZHdjMw0KPj4g
-bm9kZS4gRm9yIGp1c3QgY2xvY2tzIGFuZCByZXNldHMgd2UganVzdCBwdXQgZXZlcnl0aGluZyBp
-biBvbmUgbm9kZS4NCj4+DQo+IEkgd2lsbCB0cnkgdG8gZml4IHRoaXMuDQo+Pj4gKw0KPj4+ICtj
-bG9ja3MgPSA8JmNyZ19jdHJsIEhJMzY2MF9DTEtfQUJCX1VTQj4sDQo+Pj4gKyA8JmNyZ19jdHJs
-IEhJMzY2MF9BQ0xLX0dBVEVfVVNCM09URz47DQo+Pj4gK2Nsb2NrLW5hbWVzID0gImNsa191c2Iz
-cGh5X3JlZiIsICJhY2xrX3VzYjNvdGciOw0KPj4+ICsNCj4+PiArYXNzaWduZWQtY2xvY2tzID0g
-PCZjcmdfY3RybCBISTM2NjBfQUNMS19HQVRFX1VTQjNPVEc+Ow0KPj4+ICthc3NpZ25lZC1jbG9j
-ay1yYXRlcyA9IDwyMjkwMDAwMDA+Ow0KPj4+ICtyZXNldHMgPSA8JmNyZ19yc3QgMHg5MCA4PiwN
-Cj4+PiArIDwmY3JnX3JzdCAweDkwIDc+LA0KPj4+ICsgPCZjcmdfcnN0IDB4OTAgNj4sDQo+Pj4g
-KyA8JmNyZ19yc3QgMHg5MCA1PjsNCj4+PiArDQo+Pj4gK2R3YzM6IGR3YzNAZmYxMDAwMDAgew0K
-Pj4+ICtjb21wYXRpYmxlID0gInNucHMsZHdjMyI7DQo+Pj4gK3JlZyA9IDwweDAgMHhmZjEwMDAw
-MCAweDAgMHgxMDAwMDA+Ow0KPj4+ICtpbnRlcnJ1cHRzID0gPDAgMTU5IDQ+LCA8MCAxNjEgND47
-DQo+Pj4gK3BoeXMgPSA8JnVzYl9waHk+Ow0KPj4+ICtwaHktbmFtZXMgPSAidXNiMy1waHkiOw0K
-Pj4+ICtkcl9tb2RlID0gIm90ZyI7DQo+Pj4gK21heGltdW0tc3BlZWQgPSAic3VwZXItc3BlZWQi
-Ow0KPj4+ICtwaHlfdHlwZSA9ICJ1dG1pIjsNCj4+PiArc25wcyxkaXMtZGVsLXBoeS1wb3dlci1j
-aGctcXVpcms7DQo+Pg0KPj4+ICtzbnBzLGxmcHNfZmlsdGVyX3F1aXJrOw0KPj4+ICtzbnBzLGRp
-c191Ml9zdXNwaHlfcXVpcms7DQo+Pj4gK3NucHMsZGlzX3UzX3N1c3BoeV9xdWlyazsNCj4+PiAr
-c25wcyx0eF9kZV9lbXBoYXNpc19xdWlyazsNCj4+PiArc25wcyx0eF9kZV9lbXBoYXNpcyA9IDwx
-PjsNCj4+PiArc25wcyxkaXNfZW5ibHNscG1fcXVpcms7DQo+Pg0KPj4gUHJldHR5IHN1cmUgdGhl
-c2UgYXJlbid0IGRvY3VtZW50ZWQgYmVjYXVzZSB3ZSBkb24ndCB1c2UgJ18nIGluDQo+PiBwcm9w
-ZXJ0eSBuYW1lcy4NCj4+DQo+IERvIHlvdSBtZWFuIHByb3BlcnR5IGFzICJzbnBzLGRpc19lbmJs
-c2xwbV9xdWlyayI/IFRoZXNlIHByb3BlcnRpZXMgYXJlIGRvY3VtZW50ZWQgaW4gRG9jdW1lbnRh
-dGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi9kd2MzLnR4dC4NCg0KPj4+ICtzbnBzLGdjdGwt
-cmVzZXQtcXVpcms7DQo+Pj4gK3VzYi1yb2xlLXN3aXRjaDsNCj4+PiArcm9sZS1zd2l0Y2gtZGVm
-YXVsdC1ob3N0Ow0KPj4+ICsNCj4+PiArcG9ydCB7DQo+Pj4gKyNhZGRyZXNzLWNlbGxzID0gPDE+
-Ow0KPj4+ICsjc2l6ZS1jZWxscyA9IDwwPjsNCj4+PiArDQo+Pj4gK2R3YzNfcm9sZV9zd2l0Y2g6
-IGVuZHBvaW50QDAgew0KPj4+ICtyZWcgPSA8MD47DQo+Pj4gK3JlbW90ZS1lbmRwb2ludCA9IDwm
-cnQxNzExaF9lcD47DQo+Pj4gK307DQo+Pj4gKw0KPj4+ICtkd2MzX3JvbGVfc3dpdGNoX25vdGlm
-eTogZW5kcG9pbnRAMSB7DQo+Pj4gK3JlZyA9IDwxPjsNCj4+PiArcmVtb3RlLWVuZHBvaW50ID0g
-PCZoaWtleV91c2JfZXA+Ow0KPj4+ICt9Ow0KPj4+ICt9Ow0KPj4+ICt9Ow0KPj4+ICt9Ow0KPj4+
-ICB9Ow0KPj4+ICB9Ow0KPj4+IC0tDQo+Pj4gMi4xNS4wLXJjMg0KPj4+DQo+Pg0KPj4gLg0KPj4N
-Cg0KPiBUaGFua3MNCj4gLSBZdSBDaGVuDQoNCioqKioqKioqKioqKiogRW1haWwgQ29uZmlkZW50
-aWFsaXR5IE5vdGljZSAqKioqKioqKioqKioqKioqKioqKg0KDQpUaGUgaW5mb3JtYXRpb24gY29u
-dGFpbmVkIGluIHRoaXMgZS1tYWlsIG1lc3NhZ2UgKGluY2x1ZGluZyBhbnkgYXR0YWNobWVudHMp
-IG1heSBiZSBjb25maWRlbnRpYWwsIHByb3ByaWV0YXJ5LCBwcml2aWxlZ2VkLCBvciBvdGhlcndp
-c2UgZXhlbXB0IGZyb20gZGlzY2xvc3VyZSB1bmRlciBhcHBsaWNhYmxlIGxhd3MuIEl0IGlzIGlu
-dGVuZGVkIHRvIGJlIGNvbnZleWVkIG9ubHkgdG8gdGhlIGRlc2lnbmF0ZWQgcmVjaXBpZW50KHMp
-LiBBbnkgdXNlLCBkaXNzZW1pbmF0aW9uLCBkaXN0cmlidXRpb24sIHByaW50aW5nLCByZXRhaW5p
-bmcgb3IgY29weWluZyBvZiB0aGlzIGUtbWFpbCAoaW5jbHVkaW5nIGl0cyBhdHRhY2htZW50cykg
-YnkgdW5pbnRlbmRlZCByZWNpcGllbnQocykgaXMgc3RyaWN0bHkgcHJvaGliaXRlZCBhbmQgbWF5
-IGJlIHVubGF3ZnVsLiBJZiB5b3UgYXJlIG5vdCBhbiBpbnRlbmRlZCByZWNpcGllbnQgb2YgdGhp
-cyBlLW1haWwsIG9yIGJlbGlldmUgdGhhdCB5b3UgaGF2ZSByZWNlaXZlZCB0aGlzIGUtbWFpbCBp
-biBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIGltbWVkaWF0ZWx5IChieSByZXBseWlu
-ZyB0byB0aGlzIGUtbWFpbCksIGRlbGV0ZSBhbnkgYW5kIGFsbCBjb3BpZXMgb2YgdGhpcyBlLW1h
-aWwgKGluY2x1ZGluZyBhbnkgYXR0YWNobWVudHMpIGZyb20geW91ciBzeXN0ZW0sIGFuZCBkbyBu
-b3QgZGlzY2xvc2UgdGhlIGNvbnRlbnQgb2YgdGhpcyBlLW1haWwgdG8gYW55IG90aGVyIHBlcnNv
-bi4gVGhhbmsgeW91IQ0K
+Gadget applications may have a requirement to disable the U1 and U2
+entry based on the usecase. For example, when performing performance
+benchmarking on mass storage gadget the U1 and U2 entries can be disabled.
+Another example is when periodic transfers like ISOC transfers are used
+with bInterval of 1 which doesn't require the link to enter into U1 or U2
+state (since ping is issued from host for every uframe interval). In this
+case the U1 and U2 entry can be disabled. This can be done by setting
+U1DevExitLat and U2DevExitLat values to 0 in the BOS descriptor. Host on
+seeing 0 value for U1DevExitLat and U2DevExitLat, it doesn't send SET_SEL
+commands to the gadget. Thus entry of U1 and U2 states can be avioded.
+This patch updates the same
+
+Signed-off-by: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
+---
+ drivers/usb/dwc3/core.c   |  4 ++++
+ drivers/usb/dwc3/core.h   |  4 ++++
+ drivers/usb/dwc3/gadget.c | 19 +++++++++++++++++++
+ drivers/usb/dwc3/gadget.h |  6 ++++++
+ 4 files changed, 33 insertions(+)
+
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index a1b126f..4f0912c 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1285,6 +1285,10 @@ static void dwc3_get_properties(struct dwc3 *dwc)
+ 				"snps,dis_u2_susphy_quirk");
+ 	dwc->dis_enblslpm_quirk = device_property_read_bool(dev,
+ 				"snps,dis_enblslpm_quirk");
++	dwc->dis_u1_entry_quirk = device_property_read_bool(dev,
++				"snps,dis_u1_entry_quirk");
++	dwc->dis_u2_entry_quirk = device_property_read_bool(dev,
++				"snps,dis_u2_entry_quirk");
+ 	dwc->dis_rxdet_inp3_quirk = device_property_read_bool(dev,
+ 				"snps,dis_rxdet_inp3_quirk");
+ 	dwc->dis_u2_freeclk_exists_quirk = device_property_read_bool(dev,
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 1528d39..fa398e2 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -1015,6 +1015,8 @@ struct dwc3_scratchpad_array {
+  * @dis_u2_susphy_quirk: set if we disable usb2 suspend phy
+  * @dis_enblslpm_quirk: set if we clear enblslpm in GUSB2PHYCFG,
+  *                      disabling the suspend signal to the PHY.
++ * @dis_u1_entry_quirk: set if link entering into U1 state needs to be disabled.
++ * @dis_u2_entry_quirk: set if link entering into U2 state needs to be disabled.
+  * @dis_rxdet_inp3_quirk: set if we disable Rx.Detect in P3
+  * @dis_u2_freeclk_exists_quirk : set if we clear u2_freeclk_exists
+  *			in GUSB2PHYCFG, specify that USB2 PHY doesn't
+@@ -1206,6 +1208,8 @@ struct dwc3 {
+ 	unsigned		dis_u3_susphy_quirk:1;
+ 	unsigned		dis_u2_susphy_quirk:1;
+ 	unsigned		dis_enblslpm_quirk:1;
++	unsigned		dis_u1_entry_quirk:1;
++	unsigned		dis_u2_entry_quirk:1;
+ 	unsigned		dis_rxdet_inp3_quirk:1;
+ 	unsigned		dis_u2_freeclk_exists_quirk:1;
+ 	unsigned		dis_del_phy_power_chg_quirk:1;
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index e293400..f2d3112 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -2073,6 +2073,24 @@ static int dwc3_gadget_stop(struct usb_gadget *g)
+ 	return 0;
+ }
+ 
++static void dwc3_gadget_config_params(struct usb_gadget *g,
++				      struct usb_dcd_config_params *params)
++{
++	struct dwc3		*dwc = gadget_to_dwc(g);
++
++	/* U1 Device exit Latency */
++	if (dwc->dis_u1_entry_quirk)
++		params->bU1devExitLat = 0;
++	else
++		params->bU1devExitLat = DWC3_DEFAULT_U1_DEV_EXIT_LAT;
++
++	/* U2 Device exit Latency */
++	if (dwc->dis_u2_entry_quirk)
++		params->bU2DevExitLat = 0;
++	else
++		params->bU2DevExitLat = DWC3_DEFAULT_U2_DEV_EXIT_LAT;
++}
++
+ static void dwc3_gadget_set_speed(struct usb_gadget *g,
+ 				  enum usb_device_speed speed)
+ {
+@@ -2142,6 +2160,7 @@ static const struct usb_gadget_ops dwc3_gadget_ops = {
+ 	.udc_start		= dwc3_gadget_start,
+ 	.udc_stop		= dwc3_gadget_stop,
+ 	.udc_set_speed		= dwc3_gadget_set_speed,
++	.get_config_params	= dwc3_gadget_config_params,
+ };
+ 
+ /* -------------------------------------------------------------------------- */
+diff --git a/drivers/usb/dwc3/gadget.h b/drivers/usb/dwc3/gadget.h
+index 3ed738e..5faf4d1 100644
+--- a/drivers/usb/dwc3/gadget.h
++++ b/drivers/usb/dwc3/gadget.h
+@@ -48,6 +48,12 @@ struct dwc3;
+ /* DEPXFERCFG parameter 0 */
+ #define DWC3_DEPXFERCFG_NUM_XFER_RES(n)	((n) & 0xffff)
+ 
++/* U1 Device exit Latency */
++#define DWC3_DEFAULT_U1_DEV_EXIT_LAT	0x0A	/* Less then 10 microsec */
++
++/* U2 Device exit Latency */
++#define DWC3_DEFAULT_U2_DEV_EXIT_LAT	0x1FF	/* Less then 511 microsec */
++
+ /* -------------------------------------------------------------------------- */
+ 
+ #define to_dwc3_request(r)	(container_of(r, struct dwc3_request, request))
+-- 
+2.1.1
+
