@@ -1,27 +1,24 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: usbnet: ipheth: Remove unnecessary NULL pointer check
-From: Guenter Roeck <linux@roeck-us.net>
-Message-Id: <1556670933-755-1-git-send-email-linux@roeck-us.net>
-Date: Tue, 30 Apr 2019 17:35:33 -0700
-To: "David S . Miller" <davem@davemloft.net>
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>, "Gustavo A . R . Silva" <garsilva@embeddedor.com>
+Subject: [v2] xhci: Convert xhci_handshake() to use readl_poll_timeout_atomic()
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-Id: <c102196e-1250-307f-0b2e-d76c62a161a0@linux.intel.com>
+Date: Thu, 2 May 2019 15:17:17 +0300
+To: Raul Rangel <rrangel@chromium.org>, Andrey Smirnov <andrew.smirnov@gmail.com>
+Cc: linux-usb@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org
 List-ID: <linux-usb.vger.kernel.org>
 
-aXBoZXRoX2NhcnJpZXJfc2V0KCkgaXMgY2FsbGVkIGZyb20gdHdvIGxvY2F0aW9ucy4gSW4KaXBo
-ZXRoX2NhcnJpZXJfY2hlY2tfd29yaygpLCBpdHMgcGFyYW1ldGVyICdkZXYnIGlzIHNldCB3aXRo
-CmNvbnRhaW5lcl9vZih3b3JrLCAuLi4pIGFuZCBjYW4gbm90IGJlIE5VTEwuIEluIGlwaGV0aF9v
-cGVuKCksCmRldiBpcyBleHRyYWN0ZWQgZnJvbSBuZXRkZXZfcHJpdihuZXQpIGFuZCBkZXJlZmVy
-ZW5jZWQgYmVmb3JlCnRoZSBjYWxsIHRvIGlwaGV0aF9jYXJyaWVyX3NldCgpLiBUaGUgTlVMTCBw
-b2ludGVyIGNoZWNrIG9mIGRldgppbiBpcGhldGhfY2Fycmllcl9zZXQoKSBpcyB0aGVyZWZvcmUg
-dW5uZWNlc3NhcnkgYW5kIGNhbiBiZSByZW1vdmVkLgoKQ2M6IEd1c3Rhdm8gQS4gUi4gU2lsdmEg
-PGdhcnNpbHZhQGVtYmVkZGVkb3IuY29tPgpTaWduZWQtb2ZmLWJ5OiBHdWVudGVyIFJvZWNrIDxs
-aW51eEByb2Vjay11cy5uZXQ+Ci0tLQogZHJpdmVycy9uZXQvdXNiL2lwaGV0aC5jIHwgMiAtLQog
-MSBmaWxlIGNoYW5nZWQsIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9uZXQv
-dXNiL2lwaGV0aC5jIGIvZHJpdmVycy9uZXQvdXNiL2lwaGV0aC5jCmluZGV4IGEwMWE3MWE3ZTQ4
-ZC4uYzI0N2FlZDJkY2ViIDEwMDY0NAotLS0gYS9kcml2ZXJzL25ldC91c2IvaXBoZXRoLmMKKysr
-IGIvZHJpdmVycy9uZXQvdXNiL2lwaGV0aC5jCkBAIC0yNDEsOCArMjQxLDYgQEAgc3RhdGljIGlu
-dCBpcGhldGhfY2Fycmllcl9zZXQoc3RydWN0IGlwaGV0aF9kZXZpY2UgKmRldikKIAlzdHJ1Y3Qg
-dXNiX2RldmljZSAqdWRldjsKIAlpbnQgcmV0dmFsOwogCi0JaWYgKCFkZXYpCi0JCXJldHVybiAw
-OwogCWlmICghZGV2LT5jb25maXJtZWRfcGFpcmluZykKIAkJcmV0dXJuIDA7CiAK
+T24gMjkuNC4yMDE5IDIzLjA1LCBSYXVsIFJhbmdlbCB3cm90ZToKPiBPbiBUaHUsIEZlYiAwNywg
+MjAxOSBhdCAwNTo0ODoxNlBNIC0wODAwLCBBbmRyZXkgU21pcm5vdiB3cm90ZToKPj4gWGhjaV9o
+YW5kc2hha2UoKSBpbXBsZW1lbnRzIHRoZSBhbGdvcml0aG0gYWxyZWFkeSBjYXB0dXJlZCBieQo+
+PiByZWFkbF9wb2xsX3RpbWVvdXRfYXRvbWljKCkuIENvbnZlcnQgdGhlIGZvcm1lciB0byB1c2Ug
+dGhlIGxhdHRlciB0bwo+PiBhdm9pZCByZXBldGl0aW9uLgo+Pgo+PiBTaWduZWQtb2ZmLWJ5OiBB
+bmRyZXkgU21pcm5vdiA8YW5kcmV3LnNtaXJub3ZAZ21haWwuY29tPgo+IFRlc3RlZC1ieTogUmF1
+bCBFIFJhbmdlbCA8cnJhbmdlbEBjaHJvbWl1bS5vcmc+Cj4gUmV2aWV3ZWQtYnk6IFJhdWwgRSBS
+YW5nZWwgPHJyYW5nZWxAY2hyb21pdW0ub3JnPgo+IAo+IFRoaXMgZml4ZXMgYSBidWcgb24gdGhl
+IEFNRCBTdG9uZXlyaWRnZSBwbGF0Zm9ybS4gdXNsZWVwKDEpIHNvbWV0aW1lcwo+IHRha2VzIG92
+ZXIgMTBtcy4gVGhpcyBtZWFucyBhIDUgc2Vjb25kIHRpbWVvdXQgY2FuIGVhc2lseSB0YWtlIG92
+ZXIgMTUKPiBzZWNvbmRzIHdoaWNoIHdpbGwgdHJpZ2dlciB0aGUgd2F0Y2hkb2cgYW5kIHJlYm9v
+dCB0aGUgc3lzdGVtLgo+IAo+IFRoYW5rcyBmb3IgdGhlIHBhdGNoLgoKQWRkaW5nIHRvIHF1ZXVl
+CgotTWF0aGlhcwo=
