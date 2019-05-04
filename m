@@ -1,27 +1,22 @@
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Subject: [v2] USB:serial:pl2303:Add new PID to support PL2303HXN (TYPE_HXN)
-From: Johan Hovold <johan@kernel.org>
-Message-Id: <20190503085943.GD26546@localhost>
-Date: Fri, 3 May 2019 10:59:43 +0200
-To: Charles Yeh <charlesyeh522@gmail.com>
-Cc: Johan Hovold <johan@kernel.org>, Greg KH <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, =?utf-8?B?WWVoLkNoYXJsZXMgW+iRieamrumRq10=?= <charles-yeh@prolific.com.tw>
+Subject: usbnet: ipheth: Remove unnecessary NULL pointer check
+From: David Miller <davem@davemloft.net>
+Message-Id: <20190504.000001.652024295667504645.davem@davemloft.net>
+Date: Sat, 04 May 2019 00:00:01 -0400 (EDT)
+To: linux@roeck-us.net
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, garsilva@embeddedor.com
 List-ID: <linux-usb.vger.kernel.org>
 
-T24gRnJpLCBNYXkgMDMsIDIwMTkgYXQgMDQ6MjI6MDFQTSArMDgwMCwgQ2hhcmxlcyBZZWggd3Jv
-dGU6Cj4gSm9oYW4gSG92b2xkIDxqb2hhbkBrZXJuZWwub3JnPiDmlrwgMjAxOeW5tDXmnIgz5pel
-IOmAseS6lCDkuIvljYgzOjQx5a+r6YGT77yaCj4gCj4gPiBQZXJoYXBzIHlvdSBkaWQgbm90IHVz
-ZSB0aGUgdXNiLW5leHQgYnJhbmNoPyBUaGF0IGJyYW5jaCBoYXMgdGhlIGZvbGxvd2luZwo+ID4g
-Y29tbWl0Ogo+ID4KPiA+ICAgICAgICAgaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xp
-bnV4L2tlcm5lbC9naXQvam9oYW4vdXNiLXNlcmlhbC5naXQvY29tbWl0Lz9oPXVzYi1uZXh0Jmlk
-PWY2NGMzYWIyMzA2ODJlODM5NWE3ZmJkMDFmM2ViNTE0MGM4MzdkNGUKPiA+Cj4gCj4gT0ssIEkg
-d2lsbCBkbyBhbm90aGVyIHBhdGNoIHdpdGNoCj4gImh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHVi
-L3NjbS9saW51eC9rZXJuZWwvZ2l0L2pvaGFuL3VzYi1zZXJpYWwuZ2l0L3NuYXBzaG90L3VzYi1z
-ZXJpYWwtZjY0YzNhYjIzMDY4MmU4Mzk1YTdmYmQwMWYzZWI1MTQwYzgzN2Q0ZS50YXIuZ3oiCj4g
-Cj4gSSBhbHJlYWR5IGhhdmUgc2VlbiBwbDIzMDNfdXBkYXRlX3JlZyBpbiB0aGUgcGwyMzAzLmMg
-ZmlsZS4KCkl0J3MgYmV0dGVyIGlmIHlvdSB1c2UgdGhlIGZ1bGwgdXNiLW5leHQgYnJhbmNoLCBl
-LmcuCgoJZ2l0IGNsb25lIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJu
-ZWwvZ2l0L2pvaGFuL3VzYi1zZXJpYWwuZ2l0CgljZCB1c2Itc2VyaWFsCglnaXQgY2hlY2tvdXQg
-LWIgcGwyMzAzIHVzYi1uZXh0CgpvciBzaW1pbGFyLiBUaGF0IHdheSB5b3UgY2FuIGVhc2lseSBm
-ZXRjaCBhbnkgZnV0dXJlIGNoYW5nZXMuCgpKb2hhbgo=
+RnJvbTogR3VlbnRlciBSb2VjayA8bGludXhAcm9lY2stdXMubmV0PgpEYXRlOiBUdWUsIDMwIEFw
+ciAyMDE5IDE3OjM1OjMzIC0wNzAwCgo+IGlwaGV0aF9jYXJyaWVyX3NldCgpIGlzIGNhbGxlZCBm
+cm9tIHR3byBsb2NhdGlvbnMuIEluCj4gaXBoZXRoX2NhcnJpZXJfY2hlY2tfd29yaygpLCBpdHMg
+cGFyYW1ldGVyICdkZXYnIGlzIHNldCB3aXRoCj4gY29udGFpbmVyX29mKHdvcmssIC4uLikgYW5k
+IGNhbiBub3QgYmUgTlVMTC4gSW4gaXBoZXRoX29wZW4oKSwKPiBkZXYgaXMgZXh0cmFjdGVkIGZy
+b20gbmV0ZGV2X3ByaXYobmV0KSBhbmQgZGVyZWZlcmVuY2VkIGJlZm9yZQo+IHRoZSBjYWxsIHRv
+IGlwaGV0aF9jYXJyaWVyX3NldCgpLiBUaGUgTlVMTCBwb2ludGVyIGNoZWNrIG9mIGRldgo+IGlu
+IGlwaGV0aF9jYXJyaWVyX3NldCgpIGlzIHRoZXJlZm9yZSB1bm5lY2Vzc2FyeSBhbmQgY2FuIGJl
+IHJlbW92ZWQuCj4gCj4gQ2M6IEd1c3Rhdm8gQS4gUi4gU2lsdmEgPGdhcnNpbHZhQGVtYmVkZGVk
+b3IuY29tPgo+IFNpZ25lZC1vZmYtYnk6IEd1ZW50ZXIgUm9lY2sgPGxpbnV4QHJvZWNrLXVzLm5l
+dD4KCkFwcGxpZWQgdG8gbmV0LW5leHQuCg==
