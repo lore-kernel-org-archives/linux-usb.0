@@ -2,88 +2,60 @@ Return-Path: <SRS0=ZvjM=TF=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCA05C004C9
-	for <linux-usb@archiver.kernel.org>; Sun,  5 May 2019 06:03:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FEB4C46470
+	for <linux-usb@archiver.kernel.org>; Sun,  5 May 2019 07:46:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B79A5206DF
-	for <linux-usb@archiver.kernel.org>; Sun,  5 May 2019 06:03:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0D5A52082F
+	for <linux-usb@archiver.kernel.org>; Sun,  5 May 2019 07:46:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726313AbfEEGDG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 5 May 2019 02:03:06 -0400
-Received: from mailgw02.mediatek.com ([1.203.163.81]:8241 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726237AbfEEGDG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 5 May 2019 02:03:06 -0400
-X-UUID: c0116ebeeb2d43e7b72e33223f5be6e3-20190505
-X-UUID: c0116ebeeb2d43e7b72e33223f5be6e3-20190505
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 851347600; Sun, 05 May 2019 14:03:00 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Sun, 5 May 2019 14:02:58 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Sun, 5 May 2019 14:02:58 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Matthias Brugger <matthias.bgg@gmail.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [next PATCH] usb: mtu3: fix up undefined reference to usb_debug_root
-Date:   Sun, 5 May 2019 14:02:49 +0800
-Message-ID:
- <2b79c411c5d07a6846967c41803b328e300df8c6.1557035810.git.chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
+        id S1727582AbfEEHp5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 5 May 2019 03:45:57 -0400
+Received: from shards.monkeyblade.net ([23.128.96.9]:46422 "EHLO
+        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727492AbfEEHp5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 5 May 2019 03:45:57 -0400
+Received: from localhost (unknown [IPv6:2601:601:9f80:35cd::3d8])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id A5DCF14C043F5;
+        Sun,  5 May 2019 00:45:56 -0700 (PDT)
+Date:   Sun, 05 May 2019 00:45:56 -0700 (PDT)
+Message-Id: <20190505.004556.492323065607253635.davem@davemloft.net>
+To:     Jan.Kloetzke@preh.de
+Cc:     oneukum@suse.com, jan@kloetzke.net, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2] usbnet: fix kernel crash after disconnect
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <20190430141440.9469-1-Jan.Kloetzke@preh.de>
+References: <1556563688.20085.31.camel@suse.com>
+        <20190430141440.9469-1-Jan.Kloetzke@preh.de>
+X-Mailer: Mew version 6.8 on Emacs 26.1
+Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-MTK:  N
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Sun, 05 May 2019 00:45:56 -0700 (PDT)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190505060249.weGbh03t8EAGtndwWRVkdHJ-X8Fy3cvaL5xZpQ_xZAM@z>
+Message-ID: <20190505074556.gPD7sBsVgUSaumsb5Uep3O4wNQ2pWtO-uK7qfmgmCRE@z>
 
-When CONFIG_USB is not set, and CONFIG_USB_GADGET is set,
-there is an issue:
+From: Kloetzke Jan <Jan.Kloetzke@preh.de>
+Date: Tue, 30 Apr 2019 14:15:07 +0000
 
-ld:
-drivers/usb/mtu3/mtu3_debugfs.o: in function 'ssusb_debugfs_create_root':
-mtu3_debugfs.c:(.text+0xba3): undefined reference to 'usb_debug_root'
+> @@ -1431,6 +1432,11 @@ netdev_tx_t usbnet_start_xmit (struct sk_buff *skb,
+>  		spin_unlock_irqrestore(&dev->txq.lock, flags);
+>  		goto drop;
+>  	}
+> +	if (WARN_ON(netif_queue_stopped(net))) {
+> +		usb_autopm_put_interface_async(dev->intf);
+> +		spin_unlock_irqrestore(&dev->txq.lock, flags);
+> +		goto drop;
+> +	}
 
-usb_debug_root is only built when CONFIG_USB is enabled, so here drop it
-and use NULL instead.
-
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
----
- drivers/usb/mtu3/mtu3_debugfs.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/usb/mtu3/mtu3_debugfs.c b/drivers/usb/mtu3/mtu3_debugfs.c
-index c96e5dab0a48..3ed666f94dd9 100644
---- a/drivers/usb/mtu3/mtu3_debugfs.c
-+++ b/drivers/usb/mtu3/mtu3_debugfs.c
-@@ -528,8 +528,7 @@ void ssusb_dr_debugfs_init(struct ssusb_mtk *ssusb)
- 
- void ssusb_debugfs_create_root(struct ssusb_mtk *ssusb)
- {
--	ssusb->dbgfs_root =
--		debugfs_create_dir(dev_name(ssusb->dev), usb_debug_root);
-+	ssusb->dbgfs_root = debugfs_create_dir(dev_name(ssusb->dev), NULL);
- }
- 
- void ssusb_debugfs_remove_root(struct ssusb_mtk *ssusb)
--- 
-2.21.0
-
+If this is known to happen and is expected, then we should not warn.
