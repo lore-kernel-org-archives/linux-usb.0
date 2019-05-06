@@ -1,105 +1,194 @@
-Return-Path: <SRS0=tIEv=SZ=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F333DC282DD
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 08:51:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FE21C04AAA
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C2E6420843
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 08:51:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6395A20830
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="zDLfJXO3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ClWh2/XL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726966AbfDWIve (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Apr 2019 04:51:34 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:37656 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726645AbfDWIvd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Apr 2019 04:51:33 -0400
-Received: by mail-wm1-f65.google.com with SMTP id v14so17742040wmf.2
-        for <linux-usb@vger.kernel.org>; Tue, 23 Apr 2019 01:51:32 -0700 (PDT)
+        id S1726394AbfEFJDh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 May 2019 05:03:37 -0400
+Received: from mail-ed1-f48.google.com ([209.85.208.48]:35992 "EHLO
+        mail-ed1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725890AbfEFJDh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:03:37 -0400
+Received: by mail-ed1-f48.google.com with SMTP id a8so14504971edx.3
+        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:03:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1H3HhuutqaciX5XVa5YZyQWcZq+QYJmYc29n+3rNfQQ=;
-        b=zDLfJXO39CUmp95Ai/ksmyDI9XHay6nQzRnKtjQ2i8UHKXeEP28qNnthrBCPqTV4Uy
-         y/G1NORz8CVzk9Cu3mTyeTzg+7R+PwWGjtLX7L34SmMDghYjE0BfEhd50CGEGTVFUp7S
-         kGYdeldsWFA2dm0/bxlQLIJyBDFu6GkNkK89t5k2Hj09sr3L4tKuxOksYZLq3oYwRFTK
-         JOohS6Hr9Fb64gzVB/Q8ULzq1kA0pAlMW0LU5zLT00kp+DLcHCd49p/MBc7zEHAZ+xUG
-         RtbGZ2Cra3TB2hNpZ8vP+oMnBPGopX6EZsWb/5ox5neyRCCg5q5pfydTs7OIkJuyh4PE
-         PjaA==
+        bh=JDZQR05OK1riU31qrLbvijPaK7vQcBevecbMeDTYZg0=;
+        b=ClWh2/XLd8BvZuX6tCfQpmy91pghxWgBGyOUW1AM4mVwcDurhBZRqaIQmMDob3k4iP
+         53iw74Ao806MhaTIBiHqPNoaJ15APsjXqXZ6uSycbh9iU/qUSKhlirXZRFQzt7LoQrqi
+         ldX6UGlsbnQ3TU69RxyDVB7oEasshOX98A/nMiwpjkP+7d1Q7fHDa38EPCLlu+74DMPC
+         LmH46nC6vBg4maN6gLbtT9RA7LfktBO8n2DFdSrFwQ7P69pvNaGoAwV9OoDsK04DmCJS
+         61V/gPqU2dHYPSYkJNxD+8svwIwe2aWsvd/+LhH1GMFpM2au50aUvYu7jGWWk9yj33fo
+         +3mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1H3HhuutqaciX5XVa5YZyQWcZq+QYJmYc29n+3rNfQQ=;
-        b=r/E5y/Q0yarqWwgeuFjC7XtkqjxEAJfp4ROuzO+S3BtWjMIX90zIcPcOVFzJLG0roa
-         1rV3rU9//DxRHzPyggOwWLpieWODsQzqcdUDQwdNzHaccgWDqDNJXIE/YAwITOk4109K
-         +h8//MXuB05qnTXOmIiJtlHA3STujIN85/aHcEArgqTeoACEKhUAaIsvpIyMCKcIYW9W
-         BQhvLGB8qyXcLGLIStH4deOwyM6QfWn2UTRihVjQ575RHahlcc04EUKFMtLFpwD58TYj
-         GVGqfW/vN1P8iEKGN1Qveews532LlPcUmStMJb/W+uYyJWy+lfXQ4zVDxYDQ83AmJV5b
-         xzww==
-X-Gm-Message-State: APjAAAXIyNJ/wiXXNDojQlw+6RIt4Zqs6vwt2ft6ix3IG885+fqDbXHZ
-        wBZs7O0i4av/CC+wGlCMfitV9Q==
-X-Google-Smtp-Source: APXvYqz7WYQn3ddhxQGgEV0tPmUF4XhHH+DjXXbgvObw/DvJbVNAIQR7c5flZU8nKuvJ6DfIpMCjlg==
-X-Received: by 2002:a7b:c3c9:: with SMTP id t9mr1315184wmj.131.1556009491848;
-        Tue, 23 Apr 2019 01:51:31 -0700 (PDT)
-Received: from bender.baylibre.local (lmontsouris-657-1-212-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id b8sm12515566wrr.64.2019.04.23.01.51.30
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Tue, 23 Apr 2019 01:51:31 -0700 (PDT)
-From:   Neil Armstrong <narmstrong@baylibre.com>
-To:     gregkh@linuxfoundation.org, hminas@synopsys.com, balbi@kernel.org,
-        kishon@ti.com, devicetree@vger.kernel.org,
-        chunfeng.yun@mediatek.com
-Cc:     Neil Armstrong <narmstrong@baylibre.com>,
-        linux-amlogic@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v6 1/4] dt-bindings: usb: dwc2: Add Amlogic G12A DWC2 Compatible
-Date:   Tue, 23 Apr 2019 10:51:24 +0200
-Message-Id: <20190423085127.3863-2-narmstrong@baylibre.com>
+        bh=JDZQR05OK1riU31qrLbvijPaK7vQcBevecbMeDTYZg0=;
+        b=KrCIBGoLMY5TArv6aG0odcdgdZRYeO+tJ8pOQtDLWbIN9uZIPZOajx1nWkhoVOEAMk
+         KaHz7NRG29jbSvGctNhQQ73l/nVu/lTvqYHYFcQxIUMuA8CRxVlORHPsUQ8E9RVRLZqq
+         gorK8GryxsEWOO+EXXACDxAwWGpaQdxI82c+RxnfvB1zqvv+ljplLj3FtaGpb8NgCqeZ
+         uKJektG2hrFVpiBqyBZsdloRosRegKOMA/7j4J3LSWAnMCDgQ/SMDdGsIETr6id+CMEh
+         WJPz6Md8V2vYC+Q7NINtz1PN1Y1A7kaZUWCz48HHO1236YnziNUj5xVyKCENg4l9wtSx
+         ZaYg==
+X-Gm-Message-State: APjAAAUfef4GBYC/LZwOxwVDsuzIsj5wuL3K64iPal71ruOkAW6mvOKN
+        p1CFQMotUGJZshacyptFLga0RW02HI8=
+X-Google-Smtp-Source: APXvYqwfLLXMfrYOXdS4caxH1+rQiQ9b84yH74PCaPU0gLYBP3NgEThFvyfATctelnY5TBi2SZbE3A==
+X-Received: by 2002:a50:97ed:: with SMTP id f42mr24692382edb.141.1557133415110;
+        Mon, 06 May 2019 02:03:35 -0700 (PDT)
+Received: from localhost (frost.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
+        by smtp.gmail.com with ESMTPSA id b4sm2897592eda.9.2019.05.06.02.03.34
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 06 May 2019 02:03:34 -0700 (PDT)
+From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+To:     linux-usb@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org,
+        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+Subject: [PATCH 11/34] lsusb.py: replace usb.ids binary search with dict lookup
+Date:   Mon,  6 May 2019 12:02:18 +0300
+Message-Id: <20190506090241.169665-12-grawity@gmail.com>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190423085127.3863-1-narmstrong@baylibre.com>
-References: <20190423085127.3863-1-narmstrong@baylibre.com>
+In-Reply-To: <20190506090241.169665-1-grawity@gmail.com>
+References: <20190506090241.169665-1-grawity@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190423085124.RDbJlJ83VCAYWckN-RavNquw4fP7BocAo7LOLMUuzWo@z>
 
-Adds the specific compatible string for the DWC2 IP found in the
-Amlogic G12A SoC Family.
+There is no significant gain in reinventing the wheel here.
 
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-Reviewed-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
 ---
- Documentation/devicetree/bindings/usb/dwc2.txt | 1 +
- 1 file changed, 1 insertion(+)
+ lsusb.py.in | 53 +++++++++++++++++++++++------------------------------
+ 1 file changed, 23 insertions(+), 30 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/dwc2.txt b/Documentation/devicetree/bindings/usb/dwc2.txt
-index 6dc3c4a34483..e150b7b227c9 100644
---- a/Documentation/devicetree/bindings/usb/dwc2.txt
-+++ b/Documentation/devicetree/bindings/usb/dwc2.txt
-@@ -14,6 +14,7 @@ Required properties:
-   - "amlogic,meson8-usb": The DWC2 USB controller instance in Amlogic Meson8 SoCs;
-   - "amlogic,meson8b-usb": The DWC2 USB controller instance in Amlogic Meson8b SoCs;
-   - "amlogic,meson-gxbb-usb": The DWC2 USB controller instance in Amlogic S905 SoCs;
-+  - "amlogic,meson-g12a-usb": The DWC2 USB controller instance in Amlogic G12A SoCs;
-   - "amcc,dwc-otg": The DWC2 USB controller instance in AMCC Canyonlands 460EX SoCs;
-   - snps,dwc2: A generic DWC2 USB controller with default parameters.
-   - "st,stm32f4x9-fsotg": The DWC2 USB FS/HS controller instance in STM32F4x9 SoCs
+diff --git a/lsusb.py.in b/lsusb.py.in
+index 5338d82..26ab745 100644
+--- a/lsusb.py.in
++++ b/lsusb.py.in
+@@ -84,9 +84,9 @@ class UsbProduct:
+ 	def __eq__(self, oth):
+ 		return (self.vid, self.pid) == (oth.vid, oth.pid)
+ 
+-usbvendors = []
+-usbproducts = []
+-usbclasses = []
++usbvendors = {}
++usbproducts = {}
++usbclasses = {}
+ 
+ def ishexdigit(str):
+ 	"return True if all digits are valid hex digits"
+@@ -125,7 +125,7 @@ def parse_usb_ids():
+ 		if ishexdigit(ln[0:4]):
+ 			mode = modes.Vendor
+ 			vid = int(ln[:4], 16)
+-			usbvendors.append(UsbVendor(vid, ln[6:]))
++			usbvendors[vid] = UsbVendor(vid, ln[6:])
+ 			continue
+ 		if ln[0] == '\t' and ishexdigit(ln[1:3]):
+ 			# usb.ids has a device id of 01xy, sigh
+@@ -135,7 +135,7 @@ def parse_usb_ids():
+ 				did = int(ln[1:5], 16)
+ 			# USB devices
+ 			if mode == modes.Vendor:
+-				usbproducts.append(UsbProduct(vid, did, ln[7:]))
++				usbproducts[vid, did] = UsbProduct(vid, did, ln[7:])
+ 				continue
+ 			elif mode == modes.Class:
+ 				nm = ln[5:]
+@@ -143,17 +143,17 @@ def parse_usb_ids():
+ 					strg = cstrg + ":" + nm
+ 				else:
+ 					strg = cstrg + ":"
+-				usbclasses.append(UsbClass(vid, did, -1, strg))
++				usbclasses[vid, did, -1] = UsbClass(vid, did, -1, strg)
+ 				continue
+ 		if ln[0] == 'C':
+ 			mode = modes.Class
+ 			cid = int(ln[2:4], 16)
+ 			cstrg = ln[6:]
+-			usbclasses.append(UsbClass(cid, -1, -1, cstrg))
++			usbclasses[cid, -1, -1] = UsbClass(cid, -1, -1, cstrg)
+ 			continue
+ 		if mode == modes.Class and ln[0] == '\t' and ln[1] == '\t' and ishexdigit(ln[2:4]):
+ 			prid = int(ln[2:4], 16)
+-			usbclasses.append(UsbClass(cid, did, prid, strg + ":" + ln[6:]))
++			usbclasses[cid, did, prid] = UsbClass(cid, did, prid, strg + ":" + ln[6:])
+ 			continue
+ 		mode = modes.Misc
+ 
+@@ -179,18 +179,14 @@ def bin_search(first, last, item, list):
+ def find_usb_prod(vid, pid):
+ 	"Return device name from USB Vendor:Product list"
+ 	strg = ""
+-	dev = UsbVendor(vid, "")
+-	lnvend = len(usbvendors)
+-	ix = bin_search(0, lnvend, dev, usbvendors)
+-	if ix != -1:
+-		strg = usbvendors[ix].__repr__()
++	vendor = usbvendors.get(vid)
++	if vendor:
++		strg = vendor.__repr__()
+ 	else:
+ 		return ""
+-	dev = UsbProduct(vid, pid, "")
+-	lnprod = len(usbproducts)
+-	ix = bin_search(0, lnprod, dev, usbproducts)
+-	if ix != -1:
+-		return strg + " " + usbproducts[ix].__repr__()
++	product = usbproducts.get((vid, pid))
++	if product:
++		return strg + " " + product.__repr__()
+ 	return strg
+ 
+ def find_usb_class(cid, sid, pid):
+@@ -198,18 +194,15 @@ def find_usb_class(cid, sid, pid):
+ 	if cid == 0xff and sid == 0xff and pid == 0xff:
+ 		return "Vendor Specific"
+ 	lnlst = len(usbclasses)
+-	dev = UsbClass(cid, sid, pid, "")
+-	ix = bin_search(0, lnlst, dev, usbclasses)
+-	if ix != -1:
+-		return usbclasses[ix].__repr__()
+-	dev = UsbClass(cid, sid, -1, "")
+-	ix = bin_search(0, lnlst, dev, usbclasses)
+-	if ix != -1:
+-		return usbclasses[ix].__repr__()
+-	dev = UsbClass(cid, -1, -1, "")
+-	ix = bin_search(0, lnlst, dev, usbclasses)
+-	if ix != -1:
+-		return usbclasses[ix].__repr__()
++	cls = usbclasses.get((cid, sid, pid))
++	if cls:
++		return cls.__repr__()
++	cls = usbclasses.get((cid, sid, -1))
++	if cls:
++		return cls.__repr__()
++	cls = usbclasses.get((cid, -1, -1))
++	if cls:
++		return cls.__repr__()
+ 	return ""
+ 
+ 
 -- 
 2.21.0
 
