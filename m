@@ -2,78 +2,119 @@ Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4E29C04A6B
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 14:09:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ED2DC04AAD
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 14:53:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A940A2054F
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 14:09:04 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=akkea.ca header.i=@akkea.ca header.b="IELrROag";
-	dkim=pass (1024-bit key) header.d=akkea.ca header.i=@akkea.ca header.b="IELrROag"
+	by mail.kernel.org (Postfix) with ESMTP id 106C6205ED
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 14:53:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1557154424;
+	bh=DQalAwsQuS1MPX2uoEtNnTNau1g2oBTncVKLtCehE6g=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
+	b=DYJ1yRW0pdkBXQ1CnkTJ9i4Hs6EWmiSBehdX7Cq4L+0ETSNoxYuP0+zH6onkc61oH
+	 NrAUgHib9d66lMnZt72jbQKdSz2naq0xWYu8ntAjivffAWxNPfSBWSbvsEjQMeKik9
+	 /96FI5oFvGHIaoqcRTZwBjBWnaYIA845yvgtlOtg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726190AbfEFOIn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 May 2019 10:08:43 -0400
-Received: from node.akkea.ca ([192.155.83.177]:37900 "EHLO node.akkea.ca"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725994AbfEFOIn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 6 May 2019 10:08:43 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by node.akkea.ca (Postfix) with ESMTP id BCDD74E2050;
-        Mon,  6 May 2019 14:08:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akkea.ca; s=mail;
-        t=1557151722; bh=/mGCmvN54MxGyyYraVOw7L2iG5KRhP2JcxAHB9bIdHw=;
-        h=From:To:Cc:Subject:Date;
-        b=IELrROagDQlPcFzy2PfCSaa0xDZcCxqn2LgoFIqIOMKB0NwAEEsTog7aBm8e+D8Mq
-         RipcBvtHYvqQW7m9y3XnnDWIPgdqcJEFGTcpcRsQ+lF5loLcgpN6k4IdhvOe1EbbxV
-         ii5WKRtXzhg8ss+uguXNYm0nd1hNJ7kByz4kOoaE=
-X-Virus-Scanned: Debian amavisd-new at mail.akkea.ca
-Received: from node.akkea.ca ([127.0.0.1])
-        by localhost (mail.akkea.ca [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id xFsH-OpSSv4d; Mon,  6 May 2019 14:08:42 +0000 (UTC)
-Received: from localhost.localdomain (198-48-167-13.cpe.pppoe.ca [198.48.167.13])
-        by node.akkea.ca (Postfix) with ESMTPSA id CD80A4E204B;
-        Mon,  6 May 2019 14:08:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akkea.ca; s=mail;
-        t=1557151722; bh=/mGCmvN54MxGyyYraVOw7L2iG5KRhP2JcxAHB9bIdHw=;
-        h=From:To:Cc:Subject:Date;
-        b=IELrROagDQlPcFzy2PfCSaa0xDZcCxqn2LgoFIqIOMKB0NwAEEsTog7aBm8e+D8Mq
-         RipcBvtHYvqQW7m9y3XnnDWIPgdqcJEFGTcpcRsQ+lF5loLcgpN6k4IdhvOe1EbbxV
-         ii5WKRtXzhg8ss+uguXNYm0nd1hNJ7kByz4kOoaE=
-From:   "Angus Ainslie (Purism)" <angus@akkea.ca>
-To:     angus.ainslie@puri.sm
-Cc:     Guenter Roeck <linux@roeck-us.net>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Angus Ainslie (Purism)" <angus@akkea.ca>
-Subject: [PATCH 0/3] usb: typec: tcpm: Add some FAULT_STATUS processing
-Date:   Mon,  6 May 2019 08:08:27 -0600
-Message-Id: <20190506140830.25376-1-angus@akkea.ca>
-X-Mailer: git-send-email 2.17.1
+        id S1728951AbfEFOxn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 May 2019 10:53:43 -0400
+Received: from mail-it1-f194.google.com ([209.85.166.194]:53581 "EHLO
+        mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729285AbfEFOrS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 10:47:18 -0400
+Received: by mail-it1-f194.google.com with SMTP id l10so20673187iti.3
+        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 07:47:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=DpOTHTN61DNh0jzA3oEB6+Erb5rOcYNfwyvkegv2Kn0=;
+        b=YHXOsoSNPP+91o/8xFKA+1I+O1WnTJI+Pr6esCtIaRNNgKIicPD2Gh0yARBvQhzH0Y
+         BakP/wZbniH9i/FfRVNfXkbYa0M8K+BKP5yMHcKdDJoWja4VJaCdSZHiG1MuGKQCDZ64
+         ph3u/3UFn0JyCX0VYhubw5krtx5184RP3j64o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=DpOTHTN61DNh0jzA3oEB6+Erb5rOcYNfwyvkegv2Kn0=;
+        b=dmnkwTqczQrrOdGz/kU0zR3rWNIaRcqJrxySQvh5Mwuu9LuL2irqCA6fvcBPqI1wOL
+         qTleLPemjJwh2bg9qoEoTpF2f9QqdwIt0oU38nr14uJlxjeweipHusiEfGx6axTpN+KP
+         GxiiZTf9KeflQ+dWGMC9gDtyKFCelWaOjew+tYJHxlRAcO25NETO6bWtSi+mNGU3xodL
+         DpbbZmcvkzVRcoYOf0jfYw7T5p95J2CNObIzmlFMcTmXCJsCprRbLPLaTSpHMl0I/iYI
+         sgnf1QyC1+QqjS4bD9jZ/JAztro7UZq6zdFaTNdtTo69fszqC/9QcFRmiKCiyGbQwVOx
+         g+hA==
+X-Gm-Message-State: APjAAAV4OW8cswiZC+j4ZqiGOKiwu4/I74QZQ4mTExSUrnBYmLgEoNoT
+        r+xEaYF6+KTJOb2gy5KswX0lDw==
+X-Google-Smtp-Source: APXvYqxKSTCiJxdwYirrcVpxqxAb++n6X86LP1uUdw7zskem8MIedd+9DqDZSsQjNfBe0xXVMemvsw==
+X-Received: by 2002:a05:660c:799:: with SMTP id h25mr18380320itk.85.1557154037724;
+        Mon, 06 May 2019 07:47:17 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id q125sm3478606iod.88.2019.05.06.07.47.16
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 06 May 2019 07:47:16 -0700 (PDT)
+Subject: Re: [PATCH] selftests: add sleep between detach and usbip list -l
+To:     Greg KH <greg@kroah.com>
+Cc:     valentina.manea.m@gmail.com, shuah@kernel.org,
+        linux-usb@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20190502194740.15344-1-skhan@linuxfoundation.org>
+ <20190505091356.GB25646@kroah.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <ed0a3115-ee5a-97b6-b69c-073c9595d734@linuxfoundation.org>
+Date:   Mon, 6 May 2019 08:47:15 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190505091356.GB25646@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-A high number of interrupts were being generated by the tcpci driver.
-These patches put debugging info into the tcpm log and clear the
-interrupt condition.
+On 5/5/19 3:13 AM, Greg KH wrote:
+> On Thu, May 02, 2019 at 01:47:40PM -0600, Shuah Khan wrote:
+>> Add a sleep between detach and check for exportable devices to avoid
+>> the following segfault from libc-2.27.so
+>>
+>> [ 6268.136108] usbip[5565]: segfault at 0 ip 00007f2a947bddfd sp 00007ffd1a8705e8 error 4 in libc-2.27.so[7f2a94703000+1e7000]
+>>
+>> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+>> ---
+>>   tools/testing/selftests/drivers/usb/usbip/usbip_test.sh | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/tools/testing/selftests/drivers/usb/usbip/usbip_test.sh b/tools/testing/selftests/drivers/usb/usbip/usbip_test.sh
+>> index 128f0ab24307..beacf24a8df7 100755
+>> --- a/tools/testing/selftests/drivers/usb/usbip/usbip_test.sh
+>> +++ b/tools/testing/selftests/drivers/usb/usbip/usbip_test.sh
+>> @@ -171,10 +171,14 @@ echo "Detach invalid port tests - expect invalid port error message";
+>>   src/usbip detach -p 100;
+>>   echo "=============================================================="
+>>   
+>> +# let detach complete. Avoid segfaults from libc-2.27.so
+>> +sleep 3;
+> 
+> That feels very "arbitrary", why do we "know" it will take at most 3
+> seconds?  I guess there's not much else we can do here except maybe
+> somehow watch sysfs until the device is really gone?
+> 
 
-Angus Ainslie (Purism) (3):
-  usb: typec: tcpm: Export the logging function so it can be used by
-    tcpci
-  usb: typec: tcpm: Add functions to read the VBUS voltage
-  usb: typec: tcpm: Clear the fault status register
+Yeah. Number 3 is somewhat arbitrary. It helps the host process the
+detach request from the client and update the sysfs. Detach returns
+as soon as client side is done, and the test is running the next
+command on the host side. If I were run these commands manually, it
+gives enough settling time. I am looking for a quick way to allow
+settling time in this automated test.
 
- drivers/usb/typec/tcpm/tcpci.c | 56 ++++++++++++++++++++++++++++++++++
- drivers/usb/typec/tcpm/tcpm.c  |  3 +-
- include/linux/usb/tcpm.h       |  2 ++
- 3 files changed, 60 insertions(+), 1 deletion(-)
 
--- 
-2.17.1
-
+thanks,
+-- Shuah
