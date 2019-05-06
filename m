@@ -1,96 +1,105 @@
-Return-Path: <SRS0=5Qiu=SY=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
-	T_DKIMWL_WL_HIGH,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8A85C10F11
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 20:10:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B121C04AAA
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6C9D52064A
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 20:10:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1555963809;
-	bh=AugjpwPcIUqsJmF/AYrlVBLBuSDQk+fEb5wdIVgnD0Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=qIt4dXAXk5smxdVY5HwMUmkMdtj4jG34CbozAFzp5brhMLft4eOqbuh+ABLvyHOeY
-	 bWaoPFyiiKV6jYFJAGxP/XzCgJMgjw84R1qcPm5yLJwj3AZiYkm8XfaJEHUwukKdTd
-	 8Ant50OEw1ShVk11Ci0X7xCT76aocaIWR8rWSBwI=
+	by mail.kernel.org (Postfix) with ESMTP id 1E3AD20830
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:23 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dLAdp4Vv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729012AbfDVTmy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Apr 2019 15:42:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43364 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728879AbfDVTmx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 22 Apr 2019 15:42:53 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EB3812175B;
-        Mon, 22 Apr 2019 19:42:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1555962172;
-        bh=AugjpwPcIUqsJmF/AYrlVBLBuSDQk+fEb5wdIVgnD0Q=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ozNBM476gKMkYhUtiCoC3RM84Dhvr11Tmvf5Hetvw08wqvwFCuiDgX830MPz23xmM
-         7CpVcgEWjaPPWUQP9jiSuowJSCvWSzWkbXaetho//5AQZe0nrGNfZI785q0i8qNQNR
-         RohbtNdS7YjlLAkTMXuklCpUIfaw6Wv6cMMUaLHk=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Felipe Balbi <felipe.balbi@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.0 30/98] usb: dwc3: pci: add support for Comet Lake PCH ID
-Date:   Mon, 22 Apr 2019 15:40:57 -0400
-Message-Id: <20190422194205.10404-30-sashal@kernel.org>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190422194205.10404-1-sashal@kernel.org>
-References: <20190422194205.10404-1-sashal@kernel.org>
+        id S1726363AbfEFJDW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 May 2019 05:03:22 -0400
+Received: from mail-ed1-f47.google.com ([209.85.208.47]:35967 "EHLO
+        mail-ed1-f47.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726282AbfEFJDV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:03:21 -0400
+Received: by mail-ed1-f47.google.com with SMTP id a8so14504207edx.3
+        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:03:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=4g2fz+lhg0ZYXSPDhdu5BPPMfft69rvVxH//Z3CzWcI=;
+        b=dLAdp4Vvr6CR3MAHXlBQIuuYsd8Xot3UIqLvbu94TCGGNjZN1106zUBR5rgcShyBW/
+         IUO2TYiLL7enXY5Wmfato/9PCOugozI9rJ0mrDCDHEuwjaTipn7B6dAzAFajGN398lJR
+         qsWuLwTMNvUY5+/arN1x6YnpIF0losXKWq9Y5vjo8AAWxVlBorY84UjzjUsmrtElw2ro
+         b65XoT1naoFU9kNiNW3l3ooSvuzdIqVW/b0WZQlBS5GcS3WSts0YYzJZM/VclsoLN5Vs
+         UUJqmwPc4BSeSHIQ8J2sOh0tlal6UpVma7wnJ18TrRNkRL/9lT7kVttM5tHM/VsLp4Ru
+         3sgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=4g2fz+lhg0ZYXSPDhdu5BPPMfft69rvVxH//Z3CzWcI=;
+        b=qVlOralFokra+TqQ7YMmUpbr3XZMtbfV7hf9U/Hn1mjq2lmbq01MPwvrWGevZwlC3a
+         n0iFNRCO1WOkaCRJUHIEx3KQunjZ5YM2s4HI1rZb6lCUQ5iJhtom+ZElEdnvgPJFRZHt
+         6z+BcWy2OoUdIbWgy68sEBlI+MDbl4LcQCFloSt9Utx37QehHVErSMZgzfec/LLc9o1w
+         YKCP1t4tzhxr9pQ7B/Xm04ow3qIYxXafmkAIPPwc7+tbnOha6vzcYMqDjca2y0Dp81ZX
+         /sV752elZildNXgQXeich8/EEtU6X9rUr/GU0cHUT99W08tlVNq8sqk6L3npoRDqkfaB
+         3ijw==
+X-Gm-Message-State: APjAAAWT8RGDmcNQWzQmq2u7kOQ5DWL+jQPHkaRyHtDpvIymyrSs3BWK
+        n5yvDpg/n2+nZUQ5d4ffvJOvz3XSwGo=
+X-Google-Smtp-Source: APXvYqzadgs9jyOQ1/dscK5/1/lR2VFmf2MVoLe5fAHiqsuD4dQGhwoBzjyS3BK70bxPkFjFoEcIfg==
+X-Received: by 2002:a17:906:d92e:: with SMTP id rn14mr6821213ejb.249.1557133398909;
+        Mon, 06 May 2019 02:03:18 -0700 (PDT)
+Received: from localhost (frost.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
+        by smtp.gmail.com with ESMTPSA id h10sm2879181ede.21.2019.05.06.02.03.17
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 06 May 2019 02:03:18 -0700 (PDT)
+From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+To:     linux-usb@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org,
+        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+Subject: [PATCH 02/34] lsusb.py: sort toplevel entries
+Date:   Mon,  6 May 2019 12:02:09 +0300
+Message-Id: <20190506090241.169665-3-grawity@gmail.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190506090241.169665-1-grawity@gmail.com>
+References: <20190506090241.169665-1-grawity@gmail.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Felipe Balbi <felipe.balbi@linux.intel.com>
-
-[ Upstream commit 7ae622c978db6b2e28b4fced6ecd2a174492059d ]
-
-This patch simply adds a new PCI Device ID
-
-Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
-Signed-off-by: Sasha Levin (Microsoft) <sashal@kernel.org>
+Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
 ---
- drivers/usb/dwc3/dwc3-pci.c | 4 ++++
+ lsusb.py.in | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/drivers/usb/dwc3/dwc3-pci.c b/drivers/usb/dwc3/dwc3-pci.c
-index fdc6e4e403e8..8cced3609e24 100644
---- a/drivers/usb/dwc3/dwc3-pci.c
-+++ b/drivers/usb/dwc3/dwc3-pci.c
-@@ -29,6 +29,7 @@
- #define PCI_DEVICE_ID_INTEL_BXT_M		0x1aaa
- #define PCI_DEVICE_ID_INTEL_APL			0x5aaa
- #define PCI_DEVICE_ID_INTEL_KBP			0xa2b0
-+#define PCI_DEVICE_ID_INTEL_CMLH		0x02ee
- #define PCI_DEVICE_ID_INTEL_GLK			0x31aa
- #define PCI_DEVICE_ID_INTEL_CNPLP		0x9dee
- #define PCI_DEVICE_ID_INTEL_CNPH		0xa36e
-@@ -305,6 +306,9 @@ static const struct pci_device_id dwc3_pci_id_table[] = {
- 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_MRFLD),
- 	  (kernel_ulong_t) &dwc3_pci_mrfld_properties, },
+diff --git a/lsusb.py.in b/lsusb.py.in
+index ccbfadb..278980d 100644
+--- a/lsusb.py.in
++++ b/lsusb.py.in
+@@ -580,6 +580,7 @@ def usage():
  
-+	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_CMLH),
-+	  (kernel_ulong_t) &dwc3_pci_intel_properties, },
-+
- 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_SPTLP),
- 	  (kernel_ulong_t) &dwc3_pci_intel_properties, },
+ def read_usb():
+ 	"Read toplevel USB entries and print"
++	root_hubs = []
+ 	for dirent in os.listdir(prefix):
+ 		#print(dirent,)
+ 		if not dirent[0:3] == "usb":
+@@ -587,6 +588,9 @@ def read_usb():
+ 		usbdev = UsbDevice(None, 0)
+ 		usbdev.read(dirent)
+ 		usbdev.readchildren()
++		root_hubs.append(usbdev)
++	root_hubs.sort(key=lambda x: int(x.fname[3:]))
++	for usbdev in root_hubs:
+ 		os.write(sys.stdout.fileno(), str.encode(usbdev.__str__()))
+ 		#print(usbdev.__str__())
  
 -- 
-2.19.1
+2.21.0
 
