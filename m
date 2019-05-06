@@ -4,107 +4,104 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,USER_AGENT_NEOMUTT autolearn=unavailable
+	SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 919A2C04A6B
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 13:41:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B66D7C04A6B
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 14:08:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6345520675
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 13:41:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 898742054F
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 14:08:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kalray.eu header.i=@kalray.eu header.b="Lyg2tqnp"
+	dkim=pass (1024-bit key) header.d=akkea.ca header.i=@akkea.ca header.b="RpAM+Yk7";
+	dkim=pass (1024-bit key) header.d=akkea.ca header.i=@akkea.ca header.b="ZopaZgRK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726272AbfEFNlE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 May 2019 09:41:04 -0400
-Received: from zimbra2.kalray.eu ([92.103.151.219]:33120 "EHLO
-        zimbra2.kalray.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726016AbfEFNlD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 09:41:03 -0400
+        id S1726369AbfEFOIo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 May 2019 10:08:44 -0400
+Received: from node.akkea.ca ([192.155.83.177]:37922 "EHLO node.akkea.ca"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726201AbfEFOIn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 6 May 2019 10:08:43 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTP id 5E1B227E59D7;
-        Mon,  6 May 2019 15:41:02 +0200 (CEST)
-Received: from zimbra2.kalray.eu ([127.0.0.1])
-        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 981cAAX-GEZG; Mon,  6 May 2019 15:41:01 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTP id DB8E327E59D8;
-        Mon,  6 May 2019 15:41:01 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu DB8E327E59D8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
-        s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1557150061;
-        bh=OADeaGAz0uYT8nrQHJE7xV25+MHIPpYEzjS7hX9kLgY=;
-        h=Date:From:To:Message-ID:MIME-Version;
-        b=Lyg2tqnpiCgnNQPY5WQX+w281rq8W9T6Z47Chu1wjA3B+x/tjR7GSa6oSQH1Fkjl6
-         OEhgnaZhtJnOJOktCEQj0k77/nl6hI1svSvjuTt5LaYrT4uo3eaMMPFLYbk3U0RTwN
-         lSOv4j5zpQJC3OrXftYJkglhWDjeAsMNcIKCGxes=
-X-Virus-Scanned: amavisd-new at zimbra2.kalray.eu
-Received: from zimbra2.kalray.eu ([127.0.0.1])
-        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id FLou36KQFGDv; Mon,  6 May 2019 15:41:01 +0200 (CEST)
-Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206])
-        by zimbra2.kalray.eu (Postfix) with ESMTPSA id BB7B827E59D7;
-        Mon,  6 May 2019 15:41:01 +0200 (CEST)
-Date:   Mon, 6 May 2019 15:40:57 +0200
-From:   Jules Maselbas <jmaselbas@kalray.eu>
-To:     Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     linux-usb@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Minas Harutyunyan <hminas@synopsys.com>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH] usb: dwc2: Force 8bit UTMI width for Samsung Exynos SoCs
-Message-ID: <20190506134057.wdkq4owexgzi4r2h@tellis.lin.mbt.kalray.eu>
-References: <20190503204958.GA12532@kozik-lap>
- <CGME20190506130052eucas1p25afd4e15648e9efc6fd011e46081fbea@eucas1p2.samsung.com>
- <20190506130046.20898-1-m.szyprowski@samsung.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190506130046.20898-1-m.szyprowski@samsung.com>
-User-Agent: NeoMutt/20180716-1557-a6ba22
+        by node.akkea.ca (Postfix) with ESMTP id 370734E2051;
+        Mon,  6 May 2019 14:08:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akkea.ca; s=mail;
+        t=1557151723; bh=BLB0iTG9i/WddnImNISlddzl33hPIw2AJtO7OrjPOZs=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=RpAM+Yk7PPWWDRTO0UILYgWgRQgRzmQP3fc3o8YKLk/t8T1vvTEi5+Vfz5cc0bT7S
+         maAxEdgaAXEQ1/vrbl75lpjSlS/Kelg7Ks20mxvNM5PmrJUydHN3Dm0AhQl4jBiH2n
+         xpj8fnsFwEkpVwjU9ez/FKCyPYe70e7zi9BgHHU4=
+X-Virus-Scanned: Debian amavisd-new at mail.akkea.ca
+Received: from node.akkea.ca ([127.0.0.1])
+        by localhost (mail.akkea.ca [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id FGdMrYgHdczt; Mon,  6 May 2019 14:08:42 +0000 (UTC)
+Received: from localhost.localdomain (198-48-167-13.cpe.pppoe.ca [198.48.167.13])
+        by node.akkea.ca (Postfix) with ESMTPSA id 729A04E204D;
+        Mon,  6 May 2019 14:08:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akkea.ca; s=mail;
+        t=1557151722; bh=BLB0iTG9i/WddnImNISlddzl33hPIw2AJtO7OrjPOZs=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=ZopaZgRKnkWRjE0ctpSl8fj8l4NjsLlTqz3eHqmtOEhX8/NcCsjR+hq74JbIdL+P0
+         QNi8nEP/L//bSNVkwJDcaF+g1f2Ms76r+Q0fBnFXBH0wpOeKOoLGm9u+l86POnGt0R
+         5CmQPAPvgBOUCdB0lv0zP5jp9ObcRWz3NlFk20N0=
+From:   "Angus Ainslie (Purism)" <angus@akkea.ca>
+To:     angus.ainslie@puri.sm
+Cc:     Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Angus Ainslie (Purism)" <angus@akkea.ca>
+Subject: [PATCH 1/3] usb: typec: tcpm: Export the logging function so it can be used by tcpci
+Date:   Mon,  6 May 2019 08:08:28 -0600
+Message-Id: <20190506140830.25376-2-angus@akkea.ca>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190506140830.25376-1-angus@akkea.ca>
+References: <20190506140830.25376-1-angus@akkea.ca>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+Give the rest of the tcpm stack access to the logging function.
 
-On Mon, May 06, 2019 at 03:00:46PM +0200, Marek Szyprowski wrote:
-> Samsung Exynos SoCs require to force UTMI width to 8bit, otherwise the
-> host side of the shared USB2 PHY doesn't work.
-> 
-> Reported-by: Krzysztof Kozlowski <krzk@kernel.org>
-> Fixes: 707d80f0a3c5 ("usb: dwc2: gadget: Replace phyif with phy_utmi_width")
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> ---
->  drivers/usb/dwc2/params.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/usb/dwc2/params.c b/drivers/usb/dwc2/params.c
-> index 6900eea57526..9ece4affb9d4 100644
-> --- a/drivers/usb/dwc2/params.c
-> +++ b/drivers/usb/dwc2/params.c
-> @@ -76,6 +76,7 @@ static void dwc2_set_s3c6400_params(struct dwc2_hsotg *hsotg)
->  	struct dwc2_core_params *p = &hsotg->params;
->  
->  	p->power_down = 0;
-> +	p->phy_utmi_width = 8;
-
-Nice catch.
-
-I though that 8bits would be the default value, I am curious to know why it's not ny default at 8.
-
-Thanks.
-
-
+Signed-off-by: Angus Ainslie (Purism) <angus@akkea.ca>
 ---
-Jules
+ drivers/usb/typec/tcpm/tcpm.c | 3 ++-
+ include/linux/usb/tcpm.h      | 2 ++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
->  }
->  
->  static void dwc2_set_rk_params(struct dwc2_hsotg *hsotg)
-> -- 
-> 2.17.1
-> 
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index fba32d84e578..7c35cc1accae 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -465,7 +465,7 @@ static void _tcpm_log(struct tcpm_port *port, const char *fmt, va_list args)
+ }
+ 
+ __printf(2, 3)
+-static void tcpm_log(struct tcpm_port *port, const char *fmt, ...)
++void tcpm_log(struct tcpm_port *port, const char *fmt, ...)
+ {
+ 	va_list args;
+ 
+@@ -479,6 +479,7 @@ static void tcpm_log(struct tcpm_port *port, const char *fmt, ...)
+ 	_tcpm_log(port, fmt, args);
+ 	va_end(args);
+ }
++EXPORT_SYMBOL_GPL(tcpm_log);
+ 
+ __printf(2, 3)
+ static void tcpm_log_force(struct tcpm_port *port, const char *fmt, ...)
+diff --git a/include/linux/usb/tcpm.h b/include/linux/usb/tcpm.h
+index 36a15dcadc53..70bfffdf5760 100644
+--- a/include/linux/usb/tcpm.h
++++ b/include/linux/usb/tcpm.h
+@@ -169,4 +169,6 @@ void tcpm_pd_transmit_complete(struct tcpm_port *port,
+ void tcpm_pd_hard_reset(struct tcpm_port *port);
+ void tcpm_tcpc_reset(struct tcpm_port *port);
+ 
++void tcpm_log(struct tcpm_port *port, const char *fmt, ...);
++
+ #endif /* __LINUX_USB_TCPM_H */
+-- 
+2.17.1
+
