@@ -1,112 +1,142 @@
-Return-Path: <SRS0=e+xf=S2=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16E6DC282CE
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 09:29:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 925D4C04AAA
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:04:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DA05E20878
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 09:29:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6659020830
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:04:12 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FBvknOVn"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728033AbfDXJ3c (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Apr 2019 05:29:32 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:35911 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726176AbfDXJ3c (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Apr 2019 05:29:32 -0400
-X-IronPort-AV: E=Sophos;i="5.60,389,1549897200"; 
-   d="scan'208";a="14200204"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 24 Apr 2019 18:29:31 +0900
-Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id D3E3F42A0829;
-        Wed, 24 Apr 2019 18:29:27 +0900 (JST)
-From:   Biju Das <biju.das@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     Biju Das <biju.das@bp.renesas.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, Simon Horman <horms@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH V5 4/9] dt-bindings: usb: renesas_usb3: Add renesas,usb-role-switch property
-Date:   Wed, 24 Apr 2019 10:22:18 +0100
-Message-Id: <1556097743-12717-5-git-send-email-biju.das@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1556097743-12717-1-git-send-email-biju.das@bp.renesas.com>
-References: <1556097743-12717-1-git-send-email-biju.das@bp.renesas.com>
+        id S1726489AbfEFJEL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 May 2019 05:04:11 -0400
+Received: from mail-ed1-f53.google.com ([209.85.208.53]:34257 "EHLO
+        mail-ed1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726485AbfEFJEK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:04:10 -0400
+Received: by mail-ed1-f53.google.com with SMTP id w35so12829569edd.1
+        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:04:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Uxja2ki1JGEhbEbbyqD/3v2K77rNFNejJCKxXP5YgsA=;
+        b=FBvknOVnUQMwnkpxRga0UyiFnIuqeu4NpU6BRi+j2x1UAJEO8ATuNovlL6lPqHBWtV
+         K0Q67FqJ8c1xMBX/snJpjeVWpaIHe9tprYy5ngzjPnJDCyY1Jdd41VsYtlkuzrHE2uAX
+         GQUKerOloMW7t6Elmxl5TLBlQ1koer1d7e+nW8X+5a7GizvlplJM2HkM+n0oDak5SyNS
+         4IObJvLCR6VNnAtLA/oZayUnn5m4+1xGA/u6D5DT96HdaIlbrHqfVH+LztaFG2My2g89
+         thErDAE8cwofzs2VEcsbdYqGJrD9GLq4ArPFyRYQ6a3StGLpT+fM5VVOSLqQLrdG8njR
+         X8RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Uxja2ki1JGEhbEbbyqD/3v2K77rNFNejJCKxXP5YgsA=;
+        b=Re+yo7O0hWDlbQgIxm2997+cTsGl+tvZ8EfJLoCdcWOLOVIntMRneXV50FUQv/SAxY
+         ebdq4NsEQIQLzDq7ddmFV8/U7VxFZ1hh1OxXGohFsPnsB/Ix3ZHupajDAwu6zWO/lJEZ
+         EwOZ5hq8YPYodSxn/1uxNcPrWvdBNKagGdwuP1EfoWBH9XkDZq4z3sn19ZXgk/IpWBh7
+         FBBu8VHcwrUnl0gGQzPCIBh/3Vvmy9cG3tZ4L0J3vbFRnfrG62ctwvNrqVct+FL9HXJe
+         Ltezm+oY0YspuUXQUpTNWVGxE35c9q6jow/3Hx7Y4gRD3Qw7SwSQFHmbY0G8xqzk5sFb
+         kqZA==
+X-Gm-Message-State: APjAAAUGQvPkw4GsYZkGS4SbFaUhyxp3Rr4UOMs3Lk/rxEtNkraM22BH
+        rAkJ2FPidzfK52t4VSen0RCrrX/Vo/o=
+X-Google-Smtp-Source: APXvYqzHGTNF3cvOQJgf/65OLaIXu+MRYCGHPNa7OGXQ8qKh2XrF7UNfkDXYnmyMe1OYjkrgL/+Q5Q==
+X-Received: by 2002:a50:ad77:: with SMTP id z52mr7018925edc.174.1557133448560;
+        Mon, 06 May 2019 02:04:08 -0700 (PDT)
+Received: from localhost (frost.work.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
+        by smtp.gmail.com with ESMTPSA id n3sm1497212eja.70.2019.05.06.02.04.07
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 06 May 2019 02:04:07 -0700 (PDT)
+From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+To:     linux-usb@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org,
+        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+Subject: [PATCH 31/34] lsusb.py: use color by default
+Date:   Mon,  6 May 2019 12:02:38 +0300
+Message-Id: <20190506090241.169665-32-grawity@gmail.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190506090241.169665-1-grawity@gmail.com>
+References: <20190506090241.169665-1-grawity@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190424092218.qkkbywklU9b1TfSzKxtd03YjPC9_unW4CfwZh4vB2AQ@z>
 
-Add an optional property renesas,usb-role-switch to support
-dual role switch for USB Type-C DRP port controller devices
-using USB role switch class framework.
-
-Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
 ---
- V4-->V5
-  * No Change
- V3-->V4
-  * No Change
- V2-->V3
-  * Added optional renesas,usb-role-switch property.
- V1-->V2
-  * Added usb-role-switch-property
-  * Updated the example with usb-role-switch property.
----
- .../devicetree/bindings/usb/renesas_usb3.txt       | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ lsusb.py.in | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/renesas_usb3.txt b/Documentation/devicetree/bindings/usb/renesas_usb3.txt
-index 35039e7..f1cb06a 100644
---- a/Documentation/devicetree/bindings/usb/renesas_usb3.txt
-+++ b/Documentation/devicetree/bindings/usb/renesas_usb3.txt
-@@ -22,6 +22,7 @@ Required properties:
- Optional properties:
-   - phys: phandle + phy specifier pair
-   - phy-names: must be "usb"
-+  - renesas,usb-role-switch: use USB role switch to handle role switch events
+diff --git a/lsusb.py.in b/lsusb.py.in
+index a9559ce..7fa5493 100644
+--- a/lsusb.py.in
++++ b/lsusb.py.in
+@@ -456,6 +456,7 @@ def usage():
+ 	print("  -u, --hide-empty-hubs suppress empty hubs")
+ 	print("  -U, --hide-hubs       suppress all hubs")
+ 	print("  -c, --color           use colors")
++	print("  -C, --no-color        disable colors")
+ 	print("  -e, --endpoints       display endpoint info")
+ 	print("  -f FILE, --usbids-path FILE")
+ 	print("                        override filename for /usr/share/usb.ids")
+@@ -478,6 +479,7 @@ def main(argv):
+ 	"main entry point"
+ 	global showint, showhubint, noemptyhub, nohub
+ 	global cols, usbids, showeps
++	usecols = None
  
- Example of R-Car H3 ES1.x:
- 	usb3_peri0: usb@ee020000 {
-@@ -39,3 +40,24 @@ Example of R-Car H3 ES1.x:
- 		interrupts = <GIC_SPI 100 IRQ_TYPE_LEVEL_HIGH>;
- 		clocks = <&cpg CPG_MOD 327>;
- 	};
+ 	long_options = [
+ 		"help",
+@@ -486,12 +488,13 @@ def main(argv):
+ 		"hide-empty-hubs",
+ 		"hide-hubs",
+ 		"color",
++		"no-color",
+ 		"usbids-path=",
+ 		"endpoints",
+ 	]
+ 
+ 	try:
+-		(optlist, args) = getopt.gnu_getopt(argv[1:], "hiIuUwcef:", long_options)
++		(optlist, args) = getopt.gnu_getopt(argv[1:], "hiIuUwcCef:", long_options)
+ 	except getopt.GetoptError as exc:
+ 		print("Error:", exc, file=sys.stderr)
+ 		sys.exit(2)
+@@ -510,7 +513,9 @@ def main(argv):
+ 			noemptyhub = True
+ 			nohub = True
+ 		elif opt[0] in {"-c", "--color"}:
+-			cols = (norm, bold, red, green, amber, blue)
++			usecols = True
++		elif opt[0] in {"-C", "--no-color"}:
++			usecols = False
+ 		elif opt[0] == "-w":
+ 			print("Warning: option -w is no longer supported", file=sys.stderr)
+ 		elif opt[0] in {"-f", "--usbids-path"}:
+@@ -521,6 +526,12 @@ def main(argv):
+ 		print("Error: excess args %s ..." % args[0], file=sys.stderr)
+ 		sys.exit(2)
+ 
++	if usecols is None:
++		usecols = sys.stdout.isatty() and os.environ.get("TERM", "dumb") != "dumb"
 +
-+Example of RZ/G2E:
-+	usb3_peri0: usb@ee020000 {
-+		compatible = "renesas,r8a774c0-usb3-peri",
-+			     "renesas,rcar-gen3-usb3-peri";
-+		reg = <0 0xee020000 0 0x400>;
-+		interrupts = <GIC_SPI 104 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&cpg CPG_MOD 328>;
-+		companion = <&xhci0>;
-+		renesas,usb-role-switch;
++	if usecols:
++		cols = (norm, bold, red, green, amber, blue)
 +
-+		port {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			usb3peri_role_switch: endpoint@0 {
-+				reg = <0>;
-+				remote-endpoint = <&hd3ss3220_ep>;
-+			};
-+		};
-+	};
+ 	if usbids[0]:
+ 		try:
+ 			parse_usb_ids()
 -- 
-2.7.4
+2.21.0
 
