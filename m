@@ -1,122 +1,230 @@
-Return-Path: <SRS0=e+xf=S2=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4973DC282CE
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 09:29:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F4A0C04AAC
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:04:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2274620878
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 09:29:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 28C622087F
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:04:07 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RALwol/O"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727554AbfDXJ3T (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Apr 2019 05:29:19 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:57182 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726176AbfDXJ3S (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Apr 2019 05:29:18 -0400
-X-IronPort-AV: E=Sophos;i="5.60,389,1549897200"; 
-   d="scan'208";a="14200180"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 24 Apr 2019 18:29:16 +0900
-Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3FD0142A01BD;
-        Wed, 24 Apr 2019 18:29:13 +0900 (JST)
-From:   Biju Das <biju.das@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     Biju Das <biju.das@bp.renesas.com>, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, Simon Horman <horms@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH V5 0/9] Add USB3.0 and TI HD3SS3220 driver support
-Date:   Wed, 24 Apr 2019 10:22:14 +0100
-Message-Id: <1556097743-12717-1-git-send-email-biju.das@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
+        id S1726477AbfEFJED (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 May 2019 05:04:03 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:33833 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726128AbfEFJED (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:04:03 -0400
+Received: by mail-ed1-f65.google.com with SMTP id w35so12829192edd.1
+        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:04:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=rKB6206S4iffXZ65kSRcM5T1riqrlPgvwY+Qn2e8gBU=;
+        b=RALwol/OsdDmK4RasZ1AXz3k4t8g4jvGogr3wSXm2MUVVir9XOZRgwbtG/sNmMItiz
+         /eJb/irtr4KbUS4S5POsX+Twe3XJCny1Nqg+52HyGfexj4BHtMOXSTj4tkovpWWIrvem
+         UqT9hFBjpOJ71Fz5ibaNgoXqhOTna58ygOm/g3hQ5ZOnFhZm/9x3824pvC6KvPZ965vY
+         BfdElbSHKt5WzY2eHXaL8kW4a9+TU/2TunxZ/x2E4dAYr/mWQYh4hvk+XzgKx2pMVISA
+         M7HJoypcfHLzZS7DwIOXc2jglwncW06OL/taYDUQrrKD2Cq2DvqUNGdpEMnx4uLOpfeS
+         B9yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=rKB6206S4iffXZ65kSRcM5T1riqrlPgvwY+Qn2e8gBU=;
+        b=Y+Cii1uKACZRindlghIY3A4ZOxlPbIEIMoZK/JD8BUyhCe9g/YXCl1alQQ179USsBn
+         H3iepIwxDUYlmHGhCIT2tIkRMGcQCfUDYAgYJJreUDWf6j3SRjJw8G0BRj3BVO71rzJd
+         a5YyfUvWfhv99uKTu+jGZceJnGqpxxHldim9sp74y/TWuyf/LZQgSsKJm1RfVx7HRpt/
+         gnxvU1eXwvoOuk/vtmXIprHkKU7PlpaxwclMTjRGHlNfhjwU3k5XtXfxnQxm3ApoHDvR
+         GFTe7vFUD6HTHSoS5DmNCffvbH+4pkZJ8YvhgF54DZYS5QNcBMk/+AbhF8PlYlH16Dxf
+         0gNA==
+X-Gm-Message-State: APjAAAVciEhqriFKfyCqHSFEViAOjfJUJWSeMThqb0LXHQLHmnFHV2RB
+        2RRPVYGKQQK3uM/1iDrbFsiJH35l0AM=
+X-Google-Smtp-Source: APXvYqz4bak6562ebFgjIc4Uom/9PulWARRHmekAEY3VMIJELbLKrw141HfxHNynnbm77nJ105FDcg==
+X-Received: by 2002:a50:ad19:: with SMTP id y25mr24364522edc.216.1557133441066;
+        Mon, 06 May 2019 02:04:01 -0700 (PDT)
+Received: from localhost (frost.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
+        by smtp.gmail.com with ESMTPSA id x44sm2872778edb.51.2019.05.06.02.04.00
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 06 May 2019 02:04:00 -0700 (PDT)
+From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+To:     linux-usb@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org,
+        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+Subject: [PATCH 27/34] lsusb.py: give all Usb* objects a .path attribute
+Date:   Mon,  6 May 2019 12:02:34 +0300
+Message-Id: <20190506090241.169665-28-grawity@gmail.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190506090241.169665-1-grawity@gmail.com>
+References: <20190506090241.169665-1-grawity@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series adds USB 3.0 support for the CAT874 platform, including a
-new driver for the TI HD3SS3220 USB Type-C DRP port controller.
+Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
+---
+ lsusb.py.in | 77 +++++++++++++++++++++++++----------------------------
+ 1 file changed, 36 insertions(+), 41 deletions(-)
 
-This patch series supports:
-1) Host hotplug operation
-2) Device hot plug operation
-3) USB type-C data_role switch
-   (Tested with 2 RZ/G2E boards connected with a Type-C cable)
-
-This patchset is based on linux_next next-20190423 branch.
-V4-->V5
-  * Incorporated Heikki's review comment.
-    (https://patchwork.kernel.org/patch/10902531/)
-  * Patch 1 is a dependency patch to make the compilation successful.
-    (https://patchwork.kernel.org/patch/10909971/)
-  * Patch 2 is also dependency patch to make the compilation successful.
-    Rebased on top of Patch1 and fixed Heikki's review comments
-    (https://patchwork.kernel.org/patch/10882555/)
-  * Incorporated Shimoda-San's review comment.
-    (https://patchwork.kernel.org/patch/10902535/)
-V3-->V4
-  * Incorporated Chunfeng Yun's review comment
-    (https://patchwork.kernel.org/project/linux-usb/list/?submitter=133171)
-  * Used fwnode API's to get roleswitch handle
-
-V2-->V3
-  * Used the new API to usb_role_switch by node to find the remote endpoint
-    (https://patchwork.kernel.org/patch/10882555/)
-  * Added renesas,usb-role-switch property
-  * Incorporated shimoda-san's review comment
-    (https://patchwork.kernel.org/patch/10852507/)
-
-V1-->V2
-  * Use USB role class instead of extcon to receive connect and disconnect
-    events and also for the dual role switch.
-  * Dropped patch 6
-  * Squashed patch 8 and patch 9
-  * https://patchwork.kernel.org/cover/10840641/
-
-
-Biju Das (7):
-  dt-bindings: usb: hd3ss3220 device tree binding document
-  dt-bindings: usb: renesas_usb3: Add renesas,usb-role-switch property
-  usb: typec: driver for TI HD3SS3220 USB Type-C DRP port controller
-  usb: gadget: udc: renesas_usb3: Use usb_role_switch framework
-  arm64: defconfig: enable TYPEC_HD3SS3220 config option
-  arm64: dts: renesas: r8a774c0-cat874: Enable USB3.0 host/peripheral
-    device node
-  arm64: dts: renesas: r8a774c0-cat874: Enable usb role switch support
-
-Chunfeng Yun (1):
-  usb: roles: add API to get usb_role_switch by node
-
-Yu Chen (1):
-  usb: roles: Introduce stubs for the exiting functions in role.h.
-
- .../devicetree/bindings/usb/renesas_usb3.txt       |  22 ++
- .../devicetree/bindings/usb/ti,hd3ss3220.txt       |  37 +++
- arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts    |  56 +++++
- arch/arm64/configs/defconfig                       |   2 +
- drivers/usb/gadget/udc/renesas_usb3.c              |  92 ++++++-
- drivers/usb/roles/class.c                          |  25 ++
- drivers/usb/typec/Kconfig                          |  10 +
- drivers/usb/typec/Makefile                         |   1 +
- drivers/usb/typec/hd3ss3220.c                      | 263 +++++++++++++++++++++
- include/linux/usb/role.h                           |  38 +++
- 10 files changed, 539 insertions(+), 7 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/usb/ti,hd3ss3220.txt
- create mode 100644 drivers/usb/typec/hd3ss3220.c
-
+diff --git a/lsusb.py.in b/lsusb.py.in
+index eb00211..5720cd2 100644
+--- a/lsusb.py.in
++++ b/lsusb.py.in
+@@ -236,6 +236,7 @@ class UsbEndpoint:
+ 		self.parent = parent
+ 		self.level = level
+ 		self.fname = fname
++		self.path = ""
+ 		self.epaddr = 0
+ 		self.len = 0
+ 		self.ival = ""
+@@ -246,18 +247,16 @@ class UsbEndpoint:
+ 			self.read(self.fname)
+ 
+ 	def read(self, fname):
+-		fullpath = ""
+-		if self.parent:
+-			fullpath = self.parent.fullpath + "/"
+-		fullpath += fname
+-		self.epaddr = int(readattr(fullpath, "bEndpointAddress"), 16)
+-		ival = int(readattr(fullpath, "bInterval"), 16)
++		self.fname = fname
++		self.path = self.parent.path + "/" + fname
++		self.epaddr = int(readattr(self.path, "bEndpointAddress"), 16)
++		ival = int(readattr(self.path, "bInterval"), 16)
+ 		if ival:
+-			self.ival = "(%s)" % readattr(fullpath, "interval")
+-		self.len = int(readattr(fullpath, "bLength"), 16)
+-		self.type = readattr(fullpath, "type")
+-		self.attr = int(readattr(fullpath, "bmAttributes"), 16)
+-		self.max = int(readattr(fullpath, "wMaxPacketSize"), 16)
++			self.ival = "(%s)" % readattr(self.path, "interval")
++		self.len = int(readattr(self.path, "bLength"), 16)
++		self.type = readattr(self.path, "type")
++		self.attr = int(readattr(self.path, "bmAttributes"), 16)
++		self.max = int(readattr(self.path, "wMaxPacketSize"), 16)
+ 
+ 	def __str__(self):
+ 		indent = self.level + len(self.parent.fname)
+@@ -271,8 +270,8 @@ class UsbInterface:
+ 	def __init__(self, parent, fname, level=1):
+ 		self.parent = parent
+ 		self.level = level
+-		self.fullpath = ""
+ 		self.fname = fname
++		self.path = ""
+ 		self.iclass = 0
+ 		self.isclass = 0
+ 		self.iproto = 0
+@@ -285,24 +284,20 @@ class UsbInterface:
+ 			self.read(self.fname)
+ 
+ 	def read(self, fname):
+-		fullpath = ""
+-		if self.parent:
+-			fullpath += self.parent.fname + "/"
+-		fullpath += fname
+-		self.fullpath = fullpath
+ 		self.fname = fname
+-		self.iclass = int(readattr(fullpath, "bInterfaceClass"),16)
+-		self.isclass = int(readattr(fullpath, "bInterfaceSubClass"),16)
+-		self.iproto = int(readattr(fullpath, "bInterfaceProtocol"),16)
+-		self.noep = int(readattr(fullpath, "bNumEndpoints"))
++		self.path = self.parent.path + "/" + fname
++		self.iclass = int(readattr(self.path, "bInterfaceClass"),16)
++		self.isclass = int(readattr(self.path, "bInterfaceSubClass"),16)
++		self.iproto = int(readattr(self.path, "bInterfaceProtocol"),16)
++		self.noep = int(readattr(self.path, "bNumEndpoints"))
+ 		try:
+-			self.driver = readlink(fname, "driver")
+-			self.devname = find_dev(self.driver, fname)
++			self.driver = readlink(self.path, "driver")
++			self.devname = find_dev(self.driver, self.path)
+ 		except:
+ 			pass
+ 		self.protoname = find_usb_class(self.iclass, self.isclass, self.iproto)
+ 		if showeps:
+-			for dirent in os.listdir(prefix + fullpath):
++			for dirent in os.listdir(prefix + self.path):
+ 				if dirent.startswith("ep_"):
+ 					ep = UsbEndpoint(self, dirent, self.level+1)
+ 					self.eps.append(ep)
+@@ -326,7 +321,7 @@ class UsbDevice:
+ 		self.parent = parent
+ 		self.level = level
+ 		self.fname = fname
+-		self.fullpath = ""
++		self.path = ""
+ 		self.iclass = 0
+ 		self.isclass = 0
+ 		self.iproto = 0
+@@ -348,15 +343,15 @@ class UsbDevice:
+ 
+ 	def read(self, fname):
+ 		self.fname = fname
+-		self.fullpath = fname
+-		self.iclass = int(readattr(fname, "bDeviceClass"), 16)
+-		self.isclass = int(readattr(fname, "bDeviceSubClass"), 16)
+-		self.iproto = int(readattr(fname, "bDeviceProtocol"), 16)
+-		self.vid = int(readattr(fname, "idVendor"), 16)
+-		self.pid = int(readattr(fname, "idProduct"), 16)
++		self.path = fname
++		self.iclass = int(readattr(self.path, "bDeviceClass"), 16)
++		self.isclass = int(readattr(self.path, "bDeviceSubClass"), 16)
++		self.iproto = int(readattr(self.path, "bDeviceProtocol"), 16)
++		self.vid = int(readattr(self.path, "idVendor"), 16)
++		self.pid = int(readattr(self.path, "idProduct"), 16)
+ 		try:
+-			self.name = readattr(fname, "manufacturer") + " " \
+-				  + readattr(fname, "product")
++			self.name = readattr(self.path, "manufacturer") + " " \
++				  + readattr(self.path, "product")
+ 		except:
+ 			pass
+ 		if self.name:
+@@ -372,23 +367,23 @@ class UsbDevice:
+ 			if not self.name:
+ 				self.name = oldnm
+ 		try:
+-			ser = readattr(fname, "serial")
++			ser = readattr(self.path, "serial")
+ 			# Some USB devs report "serial" as serial no. suppress
+ 			if (ser and ser != "serial"):
+ 				self.name += " " + ser
+ 		except:
+ 			pass
+-		self.usbver = readattr(fname, "version")
+-		self.speed = readattr(fname, "speed")
+-		self.maxpower = readattr(fname, "bMaxPower")
+-		self.noports = int(readattr(fname, "maxchild"))
++		self.usbver = readattr(self.path, "version")
++		self.speed = readattr(self.path, "speed")
++		self.maxpower = readattr(self.path, "bMaxPower")
++		self.noports = int(readattr(self.path, "maxchild"))
+ 		try:
+-			self.nointerfaces = int(readattr(fname, "bNumInterfaces"))
++			self.nointerfaces = int(readattr(self.path, "bNumInterfaces"))
+ 		except:
+ 			self.nointerfaces = 0
+ 		try:
+-			self.driver = readlink(fname, "driver")
+-			self.devname = find_dev(self.driver, fname)
++			self.driver = readlink(self.path, "driver")
++			self.devname = find_dev(self.driver, self.path)
+ 		except:
+ 			pass
+ 
 -- 
-2.7.4
+2.21.0
 
