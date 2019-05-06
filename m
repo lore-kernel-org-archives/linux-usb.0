@@ -1,123 +1,152 @@
-Return-Path: <SRS0=tIEv=SZ=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15826C282DD
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 08:51:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C715BC04AAB
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D6E4220843
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 08:51:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 971FD20830
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:36 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="ihj+o2Zm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cj1y7k4Y"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727094AbfDWIvv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Apr 2019 04:51:51 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:38795 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726991AbfDWIvg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Apr 2019 04:51:36 -0400
-Received: by mail-wr1-f67.google.com with SMTP id f14so18525660wrj.5
-        for <linux-usb@vger.kernel.org>; Tue, 23 Apr 2019 01:51:35 -0700 (PDT)
+        id S1726381AbfEFJDg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 May 2019 05:03:36 -0400
+Received: from mail-ed1-f52.google.com ([209.85.208.52]:39687 "EHLO
+        mail-ed1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725890AbfEFJDf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:03:35 -0400
+Received: by mail-ed1-f52.google.com with SMTP id e24so14494322edq.6
+        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:03:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=coKjxKEGXPOOgyUNg/X4oYYa6DNUzfkR3oMZh6thI8k=;
-        b=ihj+o2ZmtmjS3IXh+DTe7xY3Q/wvndiKyf4IBEXxM3dQd4o8dwgq+d7GAfShEyu+Nz
-         4pL6CcLuTMiwugg8guG56xbbYfpzBnbkxmv3+P9ILJXDf8fTJsNVSi/iAbJq5+PM5N1w
-         Czj8BYpaIRv4O8+ATXw4kpI5ZUo5LfINnbscU2vZPI8WR3a33JmktoTZ6rXbAaGP1AeX
-         cyynp7snEhs9mvji0QMwPFC3uq9ynKKaI5zXJnI6NH7HlnB9bEeugWkpP5bW1EsbEbIz
-         XDyy2nqQZRgGCqjpCAEfty51r+0zICh5QjSIP2KyIrTzL6a2yzdZKJOXjiG2rbIdFaDO
-         VQTg==
+        bh=+clA/uLxzrbGv8CZw4s4OPLp17oMRzn1Ei0D2USaI50=;
+        b=cj1y7k4YRUc7VlDobtP5i6KJmJ8L+niQWdKV3Vh6Le6nuEM8gQa7u4n5hZVVOsgXqF
+         /S8QN4toICjp3C7CKsOANYWgQMt2RH1uowI/8j60pRhHfJQ1h0ILSI58Z+Vg+S68n+7U
+         Qqe6sS+AC2ukIM3zAONchYNJgJSb6aQntWixBPpGV663D2rvAu6IDYSOosONQzdpRS47
+         exu2PhVaiuTRFfbPJsH/IXjkM5zdNhdd+83zUU52jOEUgeSWXAAlJvY+2qsgwQlBtZbX
+         USRia0Umo2CH4Cxt7UpYs83A+gnLtSSAzOayDtBd56lOxgT368JvnHToZdDO1ZBgplT+
+         vHFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=coKjxKEGXPOOgyUNg/X4oYYa6DNUzfkR3oMZh6thI8k=;
-        b=cNOCC4cWCCVgHN7tyW/vbjhHklLjD9RNojRV7sl0KumcXe1G+Kd3Qjon6yQbQaB8Qi
-         x1XzTst05dtMc1MHVsXxoIp8dO+m4LEcjfPYX6aQ3DNCviz86t9UhK6suuddOrW+6SIx
-         TvnZY5ZFw5nu4UZ1XbbK/WR26qXMYRWLIutBqwFYfIe9Mo0GFcccDqqQfQEYFEVfYyvQ
-         X1k5mvEBz9QbbQxNuOkxCZ1Hh8OP8uA3mYIvxVoBxyGBRgQqUA17g5EXmd+UGk/jMwsY
-         7vHKjNb/rCgYGZoO/i4CfIgAMaBgRzd4A5ZbEvFKQrDqjxojMAUcFwhW94bjAEc2WRsD
-         mFzg==
-X-Gm-Message-State: APjAAAWVqdFkft0jBHhtNCMgpCrPL/7PnmkFM9pfXP9vl6eoPcZjPaeU
-        Ptm0nyA4P3HZZKI9XN5C2jHgSg==
-X-Google-Smtp-Source: APXvYqyW/gIU7AhNE1eDBER3np45Wvdh3xrRnMDM4D6q4COqDjzzUTJIN8//q+XpGVfl8Whe2SDRzQ==
-X-Received: by 2002:a5d:62cf:: with SMTP id o15mr9862063wrv.45.1556009494215;
-        Tue, 23 Apr 2019 01:51:34 -0700 (PDT)
-Received: from bender.baylibre.local (lmontsouris-657-1-212-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id b8sm12515566wrr.64.2019.04.23.01.51.33
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Tue, 23 Apr 2019 01:51:33 -0700 (PDT)
-From:   Neil Armstrong <narmstrong@baylibre.com>
-To:     gregkh@linuxfoundation.org, hminas@synopsys.com, balbi@kernel.org,
-        kishon@ti.com, chunfeng.yun@mediatek.com
-Cc:     Neil Armstrong <narmstrong@baylibre.com>,
-        linux-amlogic@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 3/4] usb: dwc2: Add Amlogic G12A DWC2 Params
-Date:   Tue, 23 Apr 2019 10:51:26 +0200
-Message-Id: <20190423085127.3863-4-narmstrong@baylibre.com>
+        bh=+clA/uLxzrbGv8CZw4s4OPLp17oMRzn1Ei0D2USaI50=;
+        b=dpN+WDedbjC4Re1HZStXbw/hT4jhdaXl7W0YgTdVJKJYs+uqtPQAyLD3vgAcoC3684
+         G3k6PibrjeIzrgZgBmSP2379llT1nbxRr7IxTbzWzBffzULr9KOmKu07TBb3s6HV4pPp
+         4/rvaAPLeLON9Bbaof1FfPw0LAyUuOJ/Rv0FZKaE7kyS4ZyLWfSx+xKxfmysVdfdOL5d
+         y96L7/oPk9uuRAWNlq9Z7oXADtTVrNONZodsyDGwvxT6xwPPNgKLt9Sil82tJBS+Eeo1
+         VYmX8O199pXIxvEdOssWHYk3o8kd76mFafEFF5ULc5+EkjIPmRhzfETxlgXORaiRHWfM
+         m9ig==
+X-Gm-Message-State: APjAAAUKr2ZvUHZ1JaUX/R7+TjF3723RhrJY1c0PmLN4ZC7rXvjJV8JU
+        6VPUpVuBjDWK7CrO3mr5vBUSDXnIRv0=
+X-Google-Smtp-Source: APXvYqx7tQS7wQ4Zwlh261WS5TsKYNyfJc6oZ/64bnqpV5oh4kesY+aZPqWe5hEUGA+SqPl/L646Lg==
+X-Received: by 2002:a50:9765:: with SMTP id d34mr24971431edb.195.1557133413511;
+        Mon, 06 May 2019 02:03:33 -0700 (PDT)
+Received: from localhost (frost.work.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
+        by smtp.gmail.com with ESMTPSA id i5sm1489172ejb.24.2019.05.06.02.03.32
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 06 May 2019 02:03:32 -0700 (PDT)
+From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+To:     linux-usb@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org,
+        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+Subject: [PATCH 10/34] lsusb.py: avoid shadowing Python's built-in 'str'
+Date:   Mon,  6 May 2019 12:02:17 +0300
+Message-Id: <20190506090241.169665-11-grawity@gmail.com>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190423085127.3863-1-narmstrong@baylibre.com>
-References: <20190423085127.3863-1-narmstrong@baylibre.com>
+In-Reply-To: <20190506090241.169665-1-grawity@gmail.com>
+References: <20190506090241.169665-1-grawity@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190423085126.r6HBqul4vLW9-_suyWgooROGv8qSsb1T6rQDmvOi79U@z>
 
-This patchs sets the params for the DWC2 Controller found in the
-Amlogic G12A SoC family.
-
-It mainly sets the settings reported incorrect by the driver,
-leaving the remaining detected automatically by the driver and
-provided by the DT node.
-
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-Acked-by: Minas Harutyunyan <hminas@synopsys.com>
+Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
 ---
- drivers/usb/dwc2/params.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ lsusb.py.in | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/usb/dwc2/params.c b/drivers/usb/dwc2/params.c
-index 24ff5f21cb25..442113246cba 100644
---- a/drivers/usb/dwc2/params.c
-+++ b/drivers/usb/dwc2/params.c
-@@ -121,6 +121,16 @@ static void dwc2_set_amlogic_params(struct dwc2_hsotg *hsotg)
- 	p->power_down = DWC2_POWER_DOWN_PARAM_NONE;
- }
+diff --git a/lsusb.py.in b/lsusb.py.in
+index 93fe6b5..5338d82 100644
+--- a/lsusb.py.in
++++ b/lsusb.py.in
+@@ -45,11 +45,11 @@ def readlink(path, name):
  
-+static void dwc2_set_amlogic_g12a_params(struct dwc2_hsotg *hsotg)
-+{
-+	struct dwc2_core_params *p = &hsotg->params;
-+
-+	p->lpm = false;
-+	p->lpm_clock_gating = false;
-+	p->besl = false;
-+	p->hird_threshold_en = false;
-+}
-+
- static void dwc2_set_amcc_params(struct dwc2_hsotg *hsotg)
- {
- 	struct dwc2_core_params *p = &hsotg->params;
-@@ -167,6 +177,8 @@ const struct of_device_id dwc2_of_match_table[] = {
- 	  .data = dwc2_set_amlogic_params },
- 	{ .compatible = "amlogic,meson-gxbb-usb",
- 	  .data = dwc2_set_amlogic_params },
-+	{ .compatible = "amlogic,meson-g12a-usb",
-+	  .data = dwc2_set_amlogic_g12a_params },
- 	{ .compatible = "amcc,dwc-otg", .data = dwc2_set_amcc_params },
- 	{ .compatible = "st,stm32f4x9-fsotg",
- 	  .data = dwc2_set_stm32f4x9_fsotg_params },
+ class UsbClass:
+ 	"Container for USB Class/Subclass/Protocol"
+-	def __init__(self, cl, sc, pr, str = ""):
++	def __init__(self, cl, sc, pr, strg = ""):
+ 		self.pclass = cl
+ 		self.subclass = sc
+ 		self.proto = pr
+-		self.desc = str
++		self.desc = strg
+ 	def __repr__(self):
+ 		return self.desc
+ 	def __lt__(self, oth):
+@@ -481,13 +481,13 @@ class UsbDevice:
+ 		self.children.sort(key=usbsortkey)
+ 
+ 	def __str__(self):
+-		#str = " " * self.level + self.fname
++		#strg = " " * self.level + self.fname
+ 		if self.iclass == 9:
+ 			col = cols[2]
+ 			if noemptyhub and len(self.children) == 0:
+ 				return ""
+ 			if nohub:
+-				str = ""
++				strg = ""
+ 		else:
+ 			col = cols[1]
+ 		if not nohub or self.iclass != 9:
+@@ -495,27 +495,27 @@ class UsbDevice:
+ 				plural = " "
+ 			else:
+ 				plural = "s"
+-			str = "%-16s %s%04x:%04x%s %02x %s%6sMbit/s %5s %iIF%s (%s%s%s)" % \
++			strg = "%-16s %s%04x:%04x%s %02x %s%6sMbit/s %5s %iIF%s (%s%s%s)" % \
+ 				(" " * self.level + self.fname, 
+ 				 cols[1], self.vid, self.pid, cols[0],
+ 				 self.iclass, self.usbver, self.speed, self.maxpower,
+ 				 self.nointerfaces, plural, col, self.name, cols[0])
+ 			#if self.driver != "usb":
+-			#	str += " %s" % self.driver
++			#	strg += " %s" % self.driver
+ 			if self.iclass == 9 and not showhubint:
+-				str += " %shub%s\n" % (cols[2], cols[0])
++				strg += " %shub%s\n" % (cols[2], cols[0])
+ 			else:
+-				str += "\n"
++				strg += "\n"
+ 				if showeps:
+ 					ep = UsbEndpoint(self, self.level+len(self.fname))
+ 					ep.read("ep_00")
+-					str += ep.__str__()
++					strg += ep.__str__()
+ 				if showint:	
+ 					for iface in self.interfaces:
+-						str += iface.__str__()
++						strg += iface.__str__()
+ 		for child in self.children:
+-			str += child.__str__()
+-		return str
++			strg += child.__str__()
++		return strg
+ 
+ 
+ def usage():
 -- 
 2.21.0
 
