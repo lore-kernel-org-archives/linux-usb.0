@@ -2,99 +2,125 @@ Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_PASS,T_DKIMWL_WL_HIGH,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E707C04A6B
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 12:57:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D30F6C04A6B
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 13:01:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 702FE206BF
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 12:57:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A1E81206BF
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 13:01:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ci7YCJu8"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="tfSz93eG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726296AbfEFM51 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 May 2019 08:57:27 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:41919 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726147AbfEFM51 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 08:57:27 -0400
-Received: by mail-pl1-f195.google.com with SMTP id d9so6342970pls.8;
-        Mon, 06 May 2019 05:57:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+F4BP6Z6pdgPYBmGiDkA2x8IUuujt5MWxpyaN1c1LKs=;
-        b=ci7YCJu8+XUKg2RH1l7XMjiZfMGXRlgke94KizZTcHgAu/4ILy9koavEnzpOFp6d3r
-         bnicWCemdUKK2FDI4I7bL2+Smk55v/5HqkV3SYS8/TxVGXTjAz3rVeCNvmXV2U+8yUso
-         xnbWkC7aO+qaROgZHWtU9/PbAkwGFxbNkUJDqPwDYVDghdWEpYy5ukkwFBV9Lgre1vlh
-         s3H3YsGq+6nafuECKlm6LkEeVLE7YNwFibHgzGwa1mExr+kYcyy2h6n2YpDuXCy45OQd
-         gIQv/pYHU7/d9/X7E9ancWi8L5uTFMNKWrE6L95rvMQSXjMMQ0JBpttEqkzMk3MpckWF
-         VPtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+F4BP6Z6pdgPYBmGiDkA2x8IUuujt5MWxpyaN1c1LKs=;
-        b=rJDQJpg3FZ6xf9mva4hQhTlyz8HKt4HJ6V2CCbZLc40kY6NdlyHWo1YkOsLGzVQ3+S
-         RMJs5crlJTVX6d4/SIlksVz4x5FKVYV8Gbgo+mgntIEKBugq4XUJK0jMPkzSapeMel0I
-         27aBk1cPQj9JqO886Z1n+rBV5ga+WPKGp6v6A9XPwwqEjoydg6SwIGYMZsFI6qjX4/Z2
-         jGqK2cnENJ3l0byz0L2ZzvqzDYIgmnoisKRI1auh12M3oIUPAHZgk5NjqZ6OW0c8MDQK
-         JUFcZTs5J5Ddu70ACgKOz36EnYO7owZy8T9I6e0vk/b013vEvU3XJKDFHaw4wcab3H9a
-         BPJQ==
-X-Gm-Message-State: APjAAAWVD8bbOqBb7PvwfNsJNLgglfbPA2+AdScPeg5Aw2A1q0tAgQdG
-        GpfomHtIV0PFLacPqNi8Ddk/Tefn05s=
-X-Google-Smtp-Source: APXvYqzptrCaNBB1gCCDzvNE3XVvaRMoRZesFUuCFxpdpCnucKJPfLFldDhcTXa/OCsExmHmkkUx8A==
-X-Received: by 2002:a17:902:9a48:: with SMTP id x8mr32230389plv.133.1557147446632;
-        Mon, 06 May 2019 05:57:26 -0700 (PDT)
-Received: from localhost.localdomain ([125.142.23.13])
-        by smtp.googlemail.com with ESMTPSA id a6sm13696382pfn.181.2019.05.06.05.57.24
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 06 May 2019 05:57:26 -0700 (PDT)
-From:   Suwan Kim <suwan.kim027@gmail.com>
-To:     shuah@kernel.org, valentina.manea.m@gmail.com,
-        gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Suwan Kim <suwan.kim027@gmail.com>
-Subject: [PATCH 2/2] usbip: Remove repeated setting of hcd->state in vhci_bus_resume()
-Date:   Mon,  6 May 2019 21:55:50 +0900
-Message-Id: <20190506125550.7826-2-suwan.kim027@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190506125550.7826-1-suwan.kim027@gmail.com>
-References: <20190506125550.7826-1-suwan.kim027@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726190AbfEFNA4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 May 2019 09:00:56 -0400
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:49285 "EHLO
+        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725886AbfEFNA4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 09:00:56 -0400
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20190506130053euoutp01e8ed9b968e78be2de6a5fb358ea574bb~cGYpqJLtZ1351013510euoutp018;
+        Mon,  6 May 2019 13:00:53 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20190506130053euoutp01e8ed9b968e78be2de6a5fb358ea574bb~cGYpqJLtZ1351013510euoutp018
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1557147653;
+        bh=Q6MAYfpfyHu8aSZ3bUWW5jR63Rk5nop3PVjLGiZRUjw=;
+        h=From:To:Cc:Subject:Date:In-reply-to:References:From;
+        b=tfSz93eGaCltC1t36KDopuaXIpUVAhXzIXFgaOuewyYMxCVu009Pvhw5XZEsvdmXv
+         RwYi82g1uRDVOfijLT3LCGRYpjbhF6ACUrLKHBDzneSgnEtyGbv7BPzxZ2NjXzBCZ2
+         8aI8Sha0wQgmvx1NfrktjQNnN7jgsvRTV9/FJ8Nw=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20190506130053eucas1p1eb3544a522d9225357c5d719ce96cdba~cGYpRpE8o2766527665eucas1p1c;
+        Mon,  6 May 2019 13:00:53 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges2new.samsung.com (EUCPMTA) with SMTP id B7.D2.04377.40030DC5; Mon,  6
+        May 2019 14:00:52 +0100 (BST)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20190506130052eucas1p25afd4e15648e9efc6fd011e46081fbea~cGYopf_4e2185021850eucas1p2F;
+        Mon,  6 May 2019 13:00:52 +0000 (GMT)
+X-AuditID: cbfec7f4-113ff70000001119-96-5cd030041958
+Received: from eusync4.samsung.com ( [203.254.199.214]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 6F.7B.04140.40030DC5; Mon,  6
+        May 2019 14:00:52 +0100 (BST)
+Received: from AMDC2765.DIGITAL.local ([106.120.51.73]) by
+        eusync4.samsung.com (Oracle Communications Messaging Server 7.0.5.31.0 64bit
+        (built May  5 2014)) with ESMTPA id <0PR300JEW2TC4H40@eusync4.samsung.com>;
+        Mon, 06 May 2019 14:00:52 +0100 (BST)
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+To:     linux-usb@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Minas Harutyunyan <hminas@synopsys.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Jules Maselbas <jmaselbas@kalray.eu>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH] usb: dwc2: Force 8bit UTMI width for Samsung Exynos SoCs
+Date:   Mon, 06 May 2019 15:00:46 +0200
+Message-id: <20190506130046.20898-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+In-reply-to: <20190503204958.GA12532@kozik-lap>
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrDIsWRmVeSWpSXmKPExsWy7djP87osBhdiDNoP61lsnLGe1WL+zSSL
+        xl972S1mzTjNanH+/AZ2i8u75rBZzDi/j8li0bJWZou1R+6yO3B6nF5/k9Fj06pONo95JwM9
+        +rasYvTYsv8zo8fnTXIBbFFcNimpOZllqUX6dglcGfs3TWUv2MZW8WLRSaYGxq2sXYycHBIC
+        JhIT5/5m72Lk4hASWMEo0dX9nBnC+cwo8eTQTCaYqhMHDjBCJJYxSqzueA9V9Z9R4tSDl8wg
+        VWwChhJdb7vYQGwRgQSJI5vfg8WZBfqYJO63a4LYwgKeEmvXfQGrYRFQlZh2+jbYHbwCthLn
+        Jy1hgdgmL7F6wwGwXk4BfYldCyaygSyTEJjDJnHr3Cx2iCIXiWev70I1yEhcntzNAlHUzCjx
+        8Nxadginh1HictMMRogqa4nDxy+yQpzEJzFp23SgFRxAcV6JjjYhiBIPiWdH+lkgXmtilOht
+        WsE6gVFiASPDKkbx1NLi3PTUYqO81HK94sTc4tK8dL3k/NxNjMA4PP3v+JcdjLv+JB1iFOBg
+        VOLhXaByPkaINbGsuDL3EKMEB7OSCG/is3MxQrwpiZVVqUX58UWlOanFhxilOViUxHmrGR5E
+        CwmkJ5akZqemFqQWwWSZODilGhjV6iqfbvr5faKvrVONe81qS1E9LjYO36Yz3z+pnjgruf+1
+        wISpx7L6bG46fVwfOcHSPFb7jd4tgzKz0O9d7/eX3v6XcfL1//hNUzkfHjF9evpkUcq1VUd3
+        WR/co3j+mCn/ZOuMU+/CVk9uL05Rrf3RoXS/6dpuqcUK2RnXtwXF7eO6kunUW39TiaU4I9FQ
+        i7moOBEA3NNlX78CAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKLMWRmVeSWpSXmKPExsVy+t/xa7osBhdiDHbdYLXYOGM9q8X8m0kW
+        jb/2slvMmnGa1eL8+Q3sFpd3zWGzmHF+H5PFomWtzBZrj9xld+D0OL3+JqPHplWdbB7zTgZ6
+        9G1ZxeixZf9nRo/Pm+QC2KK4bFJSczLLUov07RK4MvZvmspesI2t4sWik0wNjFtZuxg5OSQE
+        TCROHDjA2MXIxSEksIRRYvnkFawQTiOTxMMjjxlBqtgEDCW63naxgdgiAgkSS95uZgcpYhaY
+        wCSx58xjsISwgKfE2nVfwGwWAVWJaadvg63gFbCVOD9pCQvEOnmJ1RsOMIPYnAL6ErsWTASr
+        FxLQk9h7qYllAiPPAkaGVYwiqaXFuem5xUZ6xYm5xaV56XrJ+bmbGIGBte3Yzy07GLveBR9i
+        FOBgVOLh9VA6HyPEmlhWXJl7iFGCg1lJhDfx2bkYId6UxMqq1KL8+KLSnNTiQ4zSHCxK4rwd
+        AgdjhATSE0tSs1NTC1KLYLJMHJxSDYxaPqsrWh5MvPHds3s774XLejmTzqq22287WlsUZns3
+        dsXtfeksXOG7Z22b7nCuSKvt2q0Jly5e8T4z2X5SUXzwu/Xrl3323S3NKS45c+/v1c1ivy+Y
+        8EZOaMqIUkkLLXzDzPhGue/oHH5pEXMRKc7gNdNbN59476ISr3dVJ0/zcEiqg65r0WElluKM
+        REMt5qLiRABxH+vCKAIAAA==
+X-CMS-MailID: 20190506130052eucas1p25afd4e15648e9efc6fd011e46081fbea
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20190506130052eucas1p25afd4e15648e9efc6fd011e46081fbea
+References: <20190503204958.GA12532@kozik-lap>
+        <CGME20190506130052eucas1p25afd4e15648e9efc6fd011e46081fbea@eucas1p2.samsung.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When hcd resumes, hcd_bus_resume() calls vhci_bus_resume() which sets
-hcd->state as HC_STATE_RUNNING. But after calling vhci_bus_resume(),
-hcd_bus_resume() also sets hcd->state as HC_STATE_RUNNING. So, setting
-hcd->state in vhci_hcd_resume() is unnecessary.
+Samsung Exynos SoCs require to force UTMI width to 8bit, otherwise the
+host side of the shared USB2 PHY doesn't work.
 
-Signed-off-by: Suwan Kim <suwan.kim027@gmail.com>
+Reported-by: Krzysztof Kozlowski <krzk@kernel.org>
+Fixes: 707d80f0a3c5 ("usb: dwc2: gadget: Replace phyif with phy_utmi_width")
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 ---
- drivers/usb/usbip/vhci_hcd.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/usb/dwc2/params.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/usbip/vhci_hcd.c b/drivers/usb/usbip/vhci_hcd.c
-index e6f378d00fb6..335d61676fb4 100644
---- a/drivers/usb/usbip/vhci_hcd.c
-+++ b/drivers/usb/usbip/vhci_hcd.c
-@@ -1252,8 +1252,6 @@ static int vhci_bus_resume(struct usb_hcd *hcd)
- 	spin_lock_irqsave(&vhci->lock, flags);
- 	if (!HCD_HW_ACCESSIBLE(hcd))
- 		rc = -ESHUTDOWN;
--	else
--		hcd->state = HC_STATE_RUNNING;
- 	spin_unlock_irqrestore(&vhci->lock, flags);
+diff --git a/drivers/usb/dwc2/params.c b/drivers/usb/dwc2/params.c
+index 6900eea57526..9ece4affb9d4 100644
+--- a/drivers/usb/dwc2/params.c
++++ b/drivers/usb/dwc2/params.c
+@@ -76,6 +76,7 @@ static void dwc2_set_s3c6400_params(struct dwc2_hsotg *hsotg)
+ 	struct dwc2_core_params *p = &hsotg->params;
  
- 	return rc;
+ 	p->power_down = 0;
++	p->phy_utmi_width = 8;
+ }
+ 
+ static void dwc2_set_rk_params(struct dwc2_hsotg *hsotg)
 -- 
-2.20.1
+2.17.1
 
