@@ -1,99 +1,86 @@
-Return-Path: <SRS0=5Qiu=SY=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
-	T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29F7EC282CE
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:53:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C35C3C04AAA
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E0CA1204EC
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Apr 2019 19:53:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1555962834;
-	bh=OlE9EGt0JosUy4kibLPDfXLauPOGHRga+rH0DaTHdas=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ZBrk3iM+h74lkXTL8Ea9po3zVnKei3fr1/Q/N/SZAXAWrijOac2ASZlKparFnOBX4
-	 /uCnG4LdMzzjWj0DZfHzTp+PV4v2F1KuLopT5rPNsubYyKmE2sNNjdwfnEg7pC0Xfk
-	 P66WaY5J//NygMcCyJe+vhF7K1eN/8YCIY5Melqk=
+	by mail.kernel.org (Postfix) with ESMTP id 6CC1520830
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:01 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SPk9UbqN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730633AbfDVTxr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Apr 2019 15:53:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53768 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730956AbfDVTtz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 22 Apr 2019 15:49:55 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9F6B4204EC;
-        Mon, 22 Apr 2019 19:49:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1555962594;
-        bh=OlE9EGt0JosUy4kibLPDfXLauPOGHRga+rH0DaTHdas=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=K8EA11IFS2YjTNexVX4jcO8SvZMufWOUdZ5qOF7hHNm1gua0KP+KtYHWQMNAiQ5u0
-         MpzEpSAz/VhHSFeToKf0SYFQ+B7h2MBNg6fefHd8yqOEEoRo9YI+Q7z5KkzfLzTRwR
-         NpekPcZHx1kKs8wqsKoorE67wRK2xRC92R+6lu2A=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Guido Kiener <guido@kiener-muenchen.de>,
-        Guido Kiener <guido.kiener@rohde-schwarz.com>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 06/21] usb: gadget: net2272: Fix net2272_dequeue()
-Date:   Mon, 22 Apr 2019 15:49:26 -0400
-Message-Id: <20190422194941.13433-6-sashal@kernel.org>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190422194941.13433-1-sashal@kernel.org>
-References: <20190422194941.13433-1-sashal@kernel.org>
+        id S1725886AbfEFJDA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 May 2019 05:03:00 -0400
+Received: from mail-ed1-f49.google.com ([209.85.208.49]:34142 "EHLO
+        mail-ed1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725830AbfEFJDA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:03:00 -0400
+Received: by mail-ed1-f49.google.com with SMTP id w35so12826121edd.1
+        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:02:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Qk2JoXMn4xFUELTZzmeIesazSLXtyS+86vxNenYt/i0=;
+        b=SPk9UbqNHVEhkIvctbOKpuT/NH5RDJXML+2QgUNuhkCo9P2N/o9h4Qr7TbGh/rOq00
+         +iAmtkSyxqYn/yLPM4Q67vqQlgxvPFuQ+etwZjCrfK17jzCFFYzdQL3Hf3N/xujzCsYf
+         8jC4+t4r/KpmyoAs6TN8RWM+O9bHga6uDfxfdXyguscZf3rBbgVt3JdDz6j/lj9yaJ5Y
+         /KbV9z7rhX7R6LwCjcCytP4VMtOJIyIGbmxiD9WLUl8/dloHanaDZ2zScsgttPl5LaY1
+         Py0X46D3dDt0HNXvjMbL7u0NDWiFX4h4xuGN58KBcCbXIZlxA4SQvcdxmHXLHZVmb+lw
+         sQ3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Qk2JoXMn4xFUELTZzmeIesazSLXtyS+86vxNenYt/i0=;
+        b=Rol6PSJ80dj15PpJpnrf9ieIN0twC+p2p7NHfjycE5p0RLsDpw6idAbj5Z+Tkx2r1x
+         DQBYw6lRG+Hno5U9SpFKbLWEo34lDDxIRVGxYvTjw4shJfqMt0KBQiIOpq8K8lGT5WU+
+         vGfvxQZUVcOyrldiS490vb+SowcSL+xDWmlxG1ygeCN9x21X42Qe3q6OtWehP+ZWb0P8
+         v3etN6EVggTiFeDwQBRftyXjJXTTSYmKH4lUL4M6QpcF/GwGQgKJLixqAP6UTsDh6xi5
+         flGmldj9Cw+9m8fkNsgA0wXeAaUGysf52GAaTphI5qPRL3JlTfQpb7NVJjXKLUefKk1K
+         uMzg==
+X-Gm-Message-State: APjAAAVlfw1o7Kk0R3haILCVKN28GMQG2jr/GXYymh0gHo79CNaUn1p0
+        g+vywmRbz+HOhTySq0VeRH46AJbZdGM=
+X-Google-Smtp-Source: APXvYqxDJFkziYrv6ESUV2igf661eziyJaRVJBoKjAmHaXEbOovdX16dUdv7GKDbIn2gntb7cUkcrA==
+X-Received: by 2002:a17:906:60a:: with SMTP id s10mr17808330ejb.198.1557133378428;
+        Mon, 06 May 2019 02:02:58 -0700 (PDT)
+Received: from localhost (frost.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
+        by smtp.gmail.com with ESMTPSA id c49sm5335eda.58.2019.05.06.02.02.56
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 06 May 2019 02:02:57 -0700 (PDT)
+From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+To:     linux-usb@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org
+Subject: usbutils - various patches to the lsusb.py script
+Date:   Mon,  6 May 2019 12:02:07 +0300
+Message-Id: <20190506090241.169665-1-grawity@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Guido Kiener <guido@kiener-muenchen.de>
+Hi,
 
-[ Upstream commit 091dacc3cc10979ab0422f0a9f7fcc27eee97e69 ]
+I accidentally ended up hacking on the lsusb.py script and now have an
+assorted collection of patches:
 
-Restore the status of ep->stopped in function net2272_dequeue().
+- Output (controllers, hubs, etc.) sorted numerically.
+- Color enabled by default when on a tty.
+- Added --long-options.
+- Replaced hand-rolled binary search with ordinary dict lookups;
+  lost the -w (--warn-if-unsorted) option in the process.
+- Cosmetic changes to make it look more like Python and less like C.
+- Some changes to the output formatting that I liked to have in my own
+  local version.
 
-When the given request is not found in the endpoint queue
-the function returns -EINVAL without restoring the state of
-ep->stopped. Thus the endpoint keeps blocked and does not transfer
-any data anymore.
-
-This fix is only compile-tested, since we do not have a
-corresponding hardware. An analogous fix was tested in the sibling
-driver. See "usb: gadget: net2280: Fix net2280_dequeue()"
-
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Guido Kiener <guido.kiener@rohde-schwarz.com>
-Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
-Signed-off-by: Sasha Levin (Microsoft) <sashal@kernel.org>
----
- drivers/usb/gadget/udc/net2272.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/usb/gadget/udc/net2272.c b/drivers/usb/gadget/udc/net2272.c
-index 3b6e34fc032b..553922c3be85 100644
---- a/drivers/usb/gadget/udc/net2272.c
-+++ b/drivers/usb/gadget/udc/net2272.c
-@@ -962,6 +962,7 @@ net2272_dequeue(struct usb_ep *_ep, struct usb_request *_req)
- 			break;
- 	}
- 	if (&req->req != _req) {
-+		ep->stopped = stopped;
- 		spin_unlock_irqrestore(&ep->dev->lock, flags);
- 		return -EINVAL;
- 	}
--- 
-2.19.1
 
