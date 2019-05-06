@@ -3,35 +3,35 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBB71C04A6B
-	for <linux-usb@archiver.kernel.org>; Tue,  7 May 2019 00:02:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC925C04A6B
+	for <linux-usb@archiver.kernel.org>; Tue,  7 May 2019 00:04:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8D27D2054F
-	for <linux-usb@archiver.kernel.org>; Tue,  7 May 2019 00:02:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C207D20835
+	for <linux-usb@archiver.kernel.org>; Tue,  7 May 2019 00:04:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726444AbfEGACs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 May 2019 20:02:48 -0400
-Received: from pbmsgap01.intersil.com ([192.157.179.201]:33950 "EHLO
+        id S1726145AbfEGAE1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 May 2019 20:04:27 -0400
+Received: from pbmsgap01.intersil.com ([192.157.179.201]:34060 "EHLO
         pbmsgap01.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726046AbfEGACr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 20:02:47 -0400
+        with ESMTP id S1726046AbfEGAE1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 20:04:27 -0400
 Received: from pps.filterd (pbmsgap01.intersil.com [127.0.0.1])
-        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x46NiPQ6003045;
-        Mon, 6 May 2019 19:47:35 -0400
+        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x46NiMgJ003026;
+        Mon, 6 May 2019 19:48:03 -0400
 Received: from pbmxdp03.intersil.corp (pbmxdp03.pb.intersil.com [132.158.200.224])
-        by pbmsgap01.intersil.com with ESMTP id 2s96902259-1
+        by pbmsgap01.intersil.com with ESMTP id 2s96902268-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Mon, 06 May 2019 19:47:35 -0400
+        Mon, 06 May 2019 19:48:03 -0400
 Received: from pbmxdp01.intersil.corp (132.158.200.222) by
  pbmxdp03.intersil.corp (132.158.200.224) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Mon, 6 May 2019 19:47:34 -0400
+ 15.1.1531.3; Mon, 6 May 2019 19:48:01 -0400
 Received: from localhost.localdomain (132.158.202.108) by
  pbmxdp01.intersil.corp (132.158.200.222) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Mon, 6 May 2019 19:47:33 -0400
+ 15.1.1531.3 via Frontend Transport; Mon, 6 May 2019 19:48:01 -0400
 From:   Chris Brandt <chris.brandt@renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -41,9 +41,9 @@ To:     Rob Herring <robh+dt@kernel.org>,
 CC:     <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-renesas-soc@vger.kernel.org>,
         Chris Brandt <chris.brandt@renesas.com>
-Subject: [PATCH 02/10] dt-bindings: rcar-gen3-phy-usb2: Document uses_usb_x1
-Date:   Mon, 6 May 2019 18:46:23 -0500
-Message-ID: <20190506234631.113226-3-chris.brandt@renesas.com>
+Subject: [PATCH 05/10] dt-bindings: rcar-gen3-phy-usb2: Add r7s9210 support
+Date:   Mon, 6 May 2019 18:46:26 -0500
+Message-ID: <20190506234631.113226-6-chris.brandt@renesas.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20190506234631.113226-1-chris.brandt@renesas.com>
 References: <20190506234631.113226-1-chris.brandt@renesas.com>
@@ -52,7 +52,7 @@ Content-Type: text/plain
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-06_13:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=junk_notspam policy=junk score=0 suspectscore=2 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=742
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.0.1-1810050000 definitions=main-1905060179
 X-Proofpoint-Spam-Reason: mlx
@@ -61,26 +61,43 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Document the optional renesas,uses_usb_x1 property.
+Document RZ/A2 (R7S9210) SoC bindings.
 
 Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
 ---
- Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt b/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
-index d46188f450bf..26bf377102d3 100644
+index 646a1748d3c4..e7bbee43e268 100644
 --- a/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
 +++ b/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
-@@ -46,6 +46,8 @@ channel as USB OTG:
- 	       regulator will be managed during the PHY power on/off sequence.
- - renesas,no-otg-pins: boolean, specify when a board does not provide proper
- 		       otg pins.
-+- renesas,use_usb_x1: boolean, the dedicated 48MHz crystal inputs USB_X1 are
-+                      used for the PLL source
+@@ -1,10 +1,12 @@
+ * Renesas R-Car generation 3 USB 2.0 PHY
  
- Example (R-Car H3):
+ This file provides information on what the device node for the R-Car generation
+-3, RZ/G1C and RZ/G2 USB 2.0 PHY contain.
++3, RZ/G1C, RZ/G2 and RZ/A2 USB 2.0 PHY contain.
  
+ Required properties:
+-- compatible: "renesas,usb2-phy-r8a77470" if the device is a part of an R8A77470
++- compatible: "renesas,usb2-phy-r7s9210" if the device is a part of an R7S9210
++	      SoC.
++	      "renesas,usb2-phy-r8a77470" if the device is a part of an R8A77470
+ 	      SoC.
+ 	      "renesas,usb2-phy-r8a774a1" if the device is a part of an R8A774A1
+ 	      SoC.
+@@ -20,8 +22,8 @@ Required properties:
+ 	      R8A77990 SoC.
+ 	      "renesas,usb2-phy-r8a77995" if the device is a part of an
+ 	      R8A77995 SoC.
+-	      "renesas,rcar-gen3-usb2-phy" for a generic R-Car Gen3 or RZ/G2
+-	      compatible device.
++	      "renesas,rcar-gen3-usb2-phy" for a generic R-Car Gen3, RZ/G2 or
++	      RZ/A2 compatible device.
+ 
+ 	      When compatible with the generic version, nodes must list the
+ 	      SoC-specific version corresponding to the platform first
 -- 
 2.16.1
 
