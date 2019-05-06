@@ -2,134 +2,316 @@ Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F52C04A6B
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 21:29:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D061C04A6B
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 23:58:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 87ED62053B
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 21:29:42 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=microchiptechnology.onmicrosoft.com header.i=@microchiptechnology.onmicrosoft.com header.b="EzEITD7W"
+	by mail.kernel.org (Postfix) with ESMTP id 1B5FD20830
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 23:58:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726416AbfEFV3f (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 May 2019 17:29:35 -0400
-Received: from esa1.microchip.iphmx.com ([68.232.147.91]:12930 "EHLO
-        esa1.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726046AbfEFV3e (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 17:29:34 -0400
-Received-SPF: Pass (esa1.microchip.iphmx.com: domain of
-  Woojung.Huh@microchip.com designates 198.175.253.82 as
-  permitted sender) identity=mailfrom;
-  client-ip=198.175.253.82; receiver=esa1.microchip.iphmx.com;
-  envelope-from="Woojung.Huh@microchip.com";
-  x-sender="Woojung.Huh@microchip.com"; x-conformance=spf_only;
-  x-record-type="v=spf1"; x-record-text="v=spf1 mx
-  a:ushub1.microchip.com a:smtpout.microchip.com
-  a:mx1.microchip.iphmx.com a:mx2.microchip.iphmx.com
-  include:servers.mcsv.net include:mktomail.com
-  include:spf.protection.outlook.com ~all"
-Received-SPF: None (esa1.microchip.iphmx.com: no sender
-  authenticity information available from domain of
-  postmaster@email.microchip.com) identity=helo;
-  client-ip=198.175.253.82; receiver=esa1.microchip.iphmx.com;
-  envelope-from="Woojung.Huh@microchip.com";
-  x-sender="postmaster@email.microchip.com";
-  x-conformance=spf_only
-Authentication-Results: esa1.microchip.iphmx.com; spf=Pass smtp.mailfrom=Woojung.Huh@microchip.com; spf=None smtp.helo=postmaster@email.microchip.com; dkim=pass (signature verified) header.i=@microchiptechnology.onmicrosoft.com; dmarc=pass (p=none dis=none) d=microchip.com
-X-IronPort-AV: E=Sophos;i="5.60,439,1549954800"; 
-   d="scan'208";a="33461632"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 06 May 2019 14:29:33 -0700
-Received: from NAM03-CO1-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.76.49) with Microsoft SMTP Server (TLS) id
- 14.3.352.0; Mon, 6 May 2019 14:29:33 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector1-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Bz4unriP6vkqt6KG0HTVxImRo2Alxmy+fyKM0lqVdYU=;
- b=EzEITD7WFSU/qUi7DUDxXpXxWdolCW2/9zqRd0keoaX5xgJKkIhHdZc6xNlMhi+2zld1cDL09rJUTLODWBtdurAYnfo2jEh8HT2/6Ujm76HUJXX5Xv/SXjnM2XK9p3LWiK0d4XPLJf037An0DwTvGKK/OOf9Yejak6+osxfcxoc=
-Received: from DM5PR1101MB2139.namprd11.prod.outlook.com (10.174.104.136) by
- DM5PR1101MB2090.namprd11.prod.outlook.com (10.174.104.12) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1856.10; Mon, 6 May 2019 21:29:18 +0000
-Received: from DM5PR1101MB2139.namprd11.prod.outlook.com
- ([fe80::dcb0:6ce:8f02:9d65]) by DM5PR1101MB2139.namprd11.prod.outlook.com
- ([fe80::dcb0:6ce:8f02:9d65%3]) with mapi id 15.20.1856.012; Mon, 6 May 2019
- 21:29:18 +0000
-From:   <Woojung.Huh@microchip.com>
-To:     <ynezz@true.cz>, <netdev@vger.kernel.org>, <davem@davemloft.net>,
-        <steve.glendinning@shawell.net>, <UNGLinuxDriver@microchip.com>
-CC:     <andrew@lunn.ch>, <f.fainelli@gmail.com>, <hkallweit1@gmail.com>,
-        <frowand.list@gmail.com>, <devel@driverdev.osuosl.org>,
-        <linux-kernel@vger.kernel.org>, <gregkh@linuxfoundation.org>,
-        <maxime.ripard@bootlin.com>, <linux-usb@vger.kernel.org>
-Subject: RE: [PATCH net-next v2 4/4] net: usb: smsc: fix warning reported by
- kbuild test robot
-Thread-Topic: [PATCH net-next v2 4/4] net: usb: smsc: fix warning reported by
- kbuild test robot
-Thread-Index: AQHVBFKA7+FmJGtDekycg4kDQT61q6ZenKEg
-Date:   Mon, 6 May 2019 21:29:18 +0000
-Message-ID: <DM5PR1101MB21399FAD9C7E072F24207C14E7300@DM5PR1101MB2139.namprd11.prod.outlook.com>
-References: <1557177887-30446-1-git-send-email-ynezz@true.cz>
- <1557177887-30446-5-git-send-email-ynezz@true.cz>
-In-Reply-To: <1557177887-30446-5-git-send-email-ynezz@true.cz>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [47.19.18.123]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8d876469-f074-4f84-2d07-08d6d269e596
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);SRVR:DM5PR1101MB2090;
-x-ms-traffictypediagnostic: DM5PR1101MB2090:
-x-microsoft-antispam-prvs: <DM5PR1101MB2090F33ADC151AA37234D676E7300@DM5PR1101MB2090.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0029F17A3F
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(376002)(136003)(366004)(346002)(39860400002)(189003)(199004)(33656002)(7696005)(86362001)(229853002)(316002)(110136005)(14444005)(8676002)(256004)(72206003)(54906003)(478600001)(99286004)(52536014)(6636002)(76176011)(81166006)(6246003)(66476007)(7416002)(64756008)(55016002)(66446008)(66556008)(73956011)(66946007)(9686003)(4326008)(53936002)(8936002)(25786009)(6116002)(3846002)(6436002)(76116006)(68736007)(486006)(71200400001)(71190400001)(66574012)(66066001)(305945005)(14454004)(7736002)(81156014)(446003)(11346002)(476003)(5660300002)(6506007)(26005)(2501003)(74316002)(102836004)(2906002)(186003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR1101MB2090;H:DM5PR1101MB2139.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: microchip.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: jfM9JAw2WI01RYvQnbkGVl+fT2Qv4vi2ZotEaqeI8rnn+PU/Rthha5IDTxTGuh/SXtT+3Lm1unHb99oZISHDh9HtTCrN1/IGXWWOWXUKnSgyZdOvhcMjYFWMc7j0AI6QhjTytPmrUEfV4bRB0FAPeaXyBOpxsMA+GyjRqqSPnneGcjDjqcqTMMwrpuhXMzoyIW1+NMIrmqpK9Mk+jLHdA785025OSNOooBtTiv6SllFi5TGrBbL3Ugr8EdRxdMxBFu2bTbqRNvTVFFSyNJqSgLtTkba6xFgZn7MUXUm36tZ1AmHZkTaVNgOwKwaWzhHS1C6pg+csCJLo0t/5KCvCgKT0rwIaqwK0pWAe6lf6Bzw2PNW1KDD8ab7thAPMmnuYzft3skhfze1jqs+cy9W1tX8zAPY1ETJSZYOO+584lp0=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1726532AbfEFX6u (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 May 2019 19:58:50 -0400
+Received: from pbmsgap02.intersil.com ([192.157.179.202]:52390 "EHLO
+        pbmsgap02.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726046AbfEFX6t (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 19:58:49 -0400
+X-Greylist: delayed 686 seconds by postgrey-1.27 at vger.kernel.org; Mon, 06 May 2019 19:58:48 EDT
+Received: from pps.filterd (pbmsgap02.intersil.com [127.0.0.1])
+        by pbmsgap02.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x46NiZQY013618;
+        Mon, 6 May 2019 19:48:12 -0400
+Received: from pbmxdp01.intersil.corp (pbmxdp01.pb.intersil.com [132.158.200.222])
+        by pbmsgap02.intersil.com with ESMTP id 2s94wdt005-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Mon, 06 May 2019 19:48:12 -0400
+Received: from pbmxdp01.intersil.corp (132.158.200.222) by
+ pbmxdp01.intersil.corp (132.158.200.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.1531.3; Mon, 6 May 2019 19:48:10 -0400
+Received: from localhost.localdomain (132.158.202.108) by
+ pbmxdp01.intersil.corp (132.158.200.222) with Microsoft SMTP Server id
+ 15.1.1531.3 via Frontend Transport; Mon, 6 May 2019 19:48:10 -0400
+From:   Chris Brandt <chris.brandt@renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Simon Horman <horms@verge.net.au>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+CC:     <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>
+Subject: [PATCH 06/10] usb: renesas_usbhs: Add support for RZ/A2
+Date:   Mon, 6 May 2019 18:46:27 -0500
+Message-ID: <20190506234631.113226-7-chris.brandt@renesas.com>
+X-Mailer: git-send-email 2.16.1
+In-Reply-To: <20190506234631.113226-1-chris.brandt@renesas.com>
+References: <20190506234631.113226-1-chris.brandt@renesas.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d876469-f074-4f84-2d07-08d6d269e596
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 May 2019 21:29:18.3226
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1101MB2090
-X-OriginatorOrg: microchip.com
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-06_13:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=junk_notspam policy=junk score=0 suspectscore=2 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1905060179
+X-Proofpoint-Spam-Reason: mlx
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-PiBUaGlzIHBhdGNoIGZpeGVzIGZvbGxvd2luZyB3YXJuaW5nIHJlcG9ydGVkIGJ5IGtidWlsZCB0
-ZXN0IHJvYm90Og0KPiANCj4gIEluIGZ1bmN0aW9uIOKAmG1lbWNweeKAmSwNCj4gICAgICBpbmxp
-bmVkIGZyb20g4oCYc21zYzc1eHhfaW5pdF9tYWNfYWRkcmVzc+KAmSBhdCBkcml2ZXJzL25ldC91
-c2Ivc21zYzc1eHguYzo3Nzg6MywNCj4gICAgICBpbmxpbmVkIGZyb20g4oCYc21zYzc1eHhfYmlu
-ZOKAmSBhdCBkcml2ZXJzL25ldC91c2Ivc21zYzc1eHguYzoxNTAxOjI6DQo+ICAuL2luY2x1ZGUv
-bGludXgvc3RyaW5nLmg6MzU1Ojk6IHdhcm5pbmc6IGFyZ3VtZW50IDIgbnVsbCB3aGVyZSBub24t
-bnVsbCBleHBlY3RlZCBbLVdub25udWxsXQ0KPiAgICByZXR1cm4gX19idWlsdGluX21lbWNweShw
-LCBxLCBzaXplKTsNCj4gICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4NCj4g
-IGRyaXZlcnMvbmV0L3VzYi9zbXNjNzV4eC5jOiBJbiBmdW5jdGlvbiDigJhzbXNjNzV4eF9iaW5k
-4oCZOg0KPiAgLi9pbmNsdWRlL2xpbnV4L3N0cmluZy5oOjM1NTo5OiBub3RlOiBpbiBhIGNhbGwg
-dG8gYnVpbHQtaW4gZnVuY3Rpb24g4oCYX19idWlsdGluX21lbWNweeKAmQ0KPiANCj4gSSd2ZSBy
-ZXBsYWNlZCB0aGUgb2ZmZW5kaW5nIG1lbWNweSB3aXRoIGV0aGVyX2FkZHJfY29weSwgYmVjYXVz
-ZSBJJ20NCj4gMTAwJSBzdXJlLCB0aGF0IG9mX2dldF9tYWNfYWRkcmVzcyBjYW4ndCByZXR1cm4g
-TlVMTCBhcyBpdCByZXR1cm5zIHZhbGlkDQo+IHBvaW50ZXIgb3IgRVJSX1BUUiBlbmNvZGVkIHZh
-bHVlLCBub3RoaW5nIGVsc2UuDQo+IA0KPiBJJ20gaGVzaXRhbnQgdG8ganVzdCBjaGFuZ2UgSVNf
-RVJSIGludG8gSVNfRVJSX09SX05VTEwgY2hlY2ssIGFzIHRoaXMNCj4gd291bGQgbWFrZSB0aGUg
-d2FybmluZyBkaXNhcHBlYXIgYWxzbywgYnV0IGl0IHdvdWxkIGJlIGNvbmZ1c2luZyB0bw0KPiBj
-aGVjayBmb3IgaW1wb3NzaWJsZSByZXR1cm4gdmFsdWUganVzdCB0byBtYWtlIGEgY29tcGlsZXIg
-aGFwcHkuDQo+IA0KPiBGaXhlczogYWRmYjNjYjJjNTJlICgibmV0OiB1c2I6IHN1cHBvcnQgb2Zf
-Z2V0X21hY19hZGRyZXNzIG5ldyBFUlJfUFRSIGVycm9yIikNCj4gUmVwb3J0ZWQtYnk6IGtidWls
-ZCB0ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBQZXRyIMWgdGV0
-aWFyIDx5bmV6ekB0cnVlLmN6Pg0KPiAtLS0NCg0KUmV2aWV3ZWQtYnk6IFdvb2p1bmcgSHVoIDx3
-b29qdW5nLmh1aEBtaWNyb2NoaXAuY29tPg0KDQo=
+The RZ/A2 is similar to the R-Car Gen3 with some small differences.
+
+Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+---
+ drivers/usb/renesas_usbhs/Makefile |  2 +-
+ drivers/usb/renesas_usbhs/common.c | 27 +++++++++----
+ drivers/usb/renesas_usbhs/common.h | 13 ++++++
+ drivers/usb/renesas_usbhs/fifo.c   |  8 +++-
+ drivers/usb/renesas_usbhs/rza.h    |  1 +
+ drivers/usb/renesas_usbhs/rza2.c   | 82 ++++++++++++++++++++++++++++++++++++++
+ include/linux/usb/renesas_usbhs.h  |  1 +
+ 7 files changed, 124 insertions(+), 10 deletions(-)
+ create mode 100644 drivers/usb/renesas_usbhs/rza2.c
+
+diff --git a/drivers/usb/renesas_usbhs/Makefile b/drivers/usb/renesas_usbhs/Makefile
+index 5c5b51bb48ef..a1fed56b0957 100644
+--- a/drivers/usb/renesas_usbhs/Makefile
++++ b/drivers/usb/renesas_usbhs/Makefile
+@@ -5,7 +5,7 @@
+ 
+ obj-$(CONFIG_USB_RENESAS_USBHS)	+= renesas_usbhs.o
+ 
+-renesas_usbhs-y			:= common.o mod.o pipe.o fifo.o rcar2.o rcar3.o rza.o
++renesas_usbhs-y			:= common.o mod.o pipe.o fifo.o rcar2.o rcar3.o rza.o rza2.o
+ 
+ ifneq ($(CONFIG_USB_RENESAS_USBHS_HCD),)
+ 	renesas_usbhs-y		+= mod_host.o
+diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
+index 249fbee97f3f..8293f34b964a 100644
+--- a/drivers/usb/renesas_usbhs/common.c
++++ b/drivers/usb/renesas_usbhs/common.c
+@@ -44,13 +44,6 @@
+  */
+ 
+ 
+-#define USBHSF_RUNTIME_PWCTRL	(1 << 0)
+-
+-/* status */
+-#define usbhsc_flags_init(p)   do {(p)->flags = 0; } while (0)
+-#define usbhsc_flags_set(p, b) ((p)->flags |=  (b))
+-#define usbhsc_flags_clr(p, b) ((p)->flags &= ~(b))
+-#define usbhsc_flags_has(p, b) ((p)->flags &   (b))
+ 
+ /*
+  * platform call back
+@@ -123,6 +116,12 @@ void usbhs_sys_function_ctrl(struct usbhs_priv *priv, int enable)
+ 	u16 mask = DCFM | DRPD | DPRPU | HSE | USBE;
+ 	u16 val  = HSE | USBE;
+ 
++	/* CNEN bit is required for function operation */
++	if (usbhsc_flags_has(priv, USBHSF_HAS_CNEN)) {
++		mask |= CNEN;
++		val  |= CNEN;
++	}
++
+ 	/*
+ 	 * if enable
+ 	 *
+@@ -583,6 +582,10 @@ static const struct of_device_id usbhs_of_match[] = {
+ 		.compatible = "renesas,rza1-usbhs",
+ 		.data = (void *)USBHS_TYPE_RZA1,
+ 	},
++	{
++		.compatible = "renesas,rza2-usbhs",
++		.data = (void *)USBHS_TYPE_RZA2,
++	},
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, usbhs_of_match);
+@@ -620,6 +623,11 @@ static struct renesas_usbhs_platform_info *usbhs_parse_dt(struct device *dev)
+ 		dparam->pipe_size = ARRAY_SIZE(usbhsc_new_pipe);
+ 	}
+ 
++	if (dparam->type == USBHS_TYPE_RZA2) {
++		dparam->pipe_configs = usbhsc_new_pipe;
++		dparam->pipe_size = ARRAY_SIZE(usbhsc_new_pipe);
++	}
++
+ 	return info;
+ }
+ 
+@@ -689,6 +697,11 @@ static int usbhs_probe(struct platform_device *pdev)
+ 	case USBHS_TYPE_RZA1:
+ 		priv->pfunc = usbhs_rza1_ops;
+ 		break;
++	case USBHS_TYPE_RZA2:
++		priv->pfunc = usbhs_rza2_ops;
++		usbhsc_flags_set(priv, USBHSF_HAS_CNEN);
++		usbhsc_flags_set(priv, USBHSF_CFIFO_BYTE_ADDR);
++		break;
+ 	default:
+ 		if (!info->platform_callback.get_id) {
+ 			dev_err(&pdev->dev, "no platform callbacks");
+diff --git a/drivers/usb/renesas_usbhs/common.h b/drivers/usb/renesas_usbhs/common.h
+index 3777af848a35..5978c30c9993 100644
+--- a/drivers/usb/renesas_usbhs/common.h
++++ b/drivers/usb/renesas_usbhs/common.h
+@@ -104,6 +104,7 @@ struct usbhs_priv;
+ 
+ /* SYSCFG */
+ #define SCKE	(1 << 10)	/* USB Module Clock Enable */
++#define CNEN	(1 << 8)	/* Single-ended receiver operation Enable */
+ #define HSE	(1 << 7)	/* High-Speed Operation Enable */
+ #define DCFM	(1 << 6)	/* Controller Function Select */
+ #define DRPD	(1 << 5)	/* D+ Line/D- Line Resistance Control */
+@@ -339,4 +340,16 @@ struct usbhs_priv *usbhs_pdev_to_priv(struct platform_device *pdev);
+ #define usbhs_priv_to_dev(priv)		(&priv->pdev->dev)
+ #define usbhs_priv_to_lock(priv)	(&priv->lock)
+ 
++/*
++ * flags
++ */
++#define USBHSF_RUNTIME_PWCTRL	(1 << 0)
++#define USBHSF_HAS_CNEN		(1 << 1) /* Single-ended receiver */
++#define USBHSF_CFIFO_BYTE_ADDR	(1 << 2) /* Byte addressable */
++
++#define usbhsc_flags_init(p)   do {(p)->flags = 0; } while (0)
++#define usbhsc_flags_set(p, b) ((p)->flags |=  (b))
++#define usbhsc_flags_clr(p, b) ((p)->flags &= ~(b))
++#define usbhsc_flags_has(p, b) ((p)->flags &   (b))
++
+ #endif /* RENESAS_USB_DRIVER_H */
+diff --git a/drivers/usb/renesas_usbhs/fifo.c b/drivers/usb/renesas_usbhs/fifo.c
+index 39fa2fc1b8b7..9b8220c2c9cc 100644
+--- a/drivers/usb/renesas_usbhs/fifo.c
++++ b/drivers/usb/renesas_usbhs/fifo.c
+@@ -543,8 +543,12 @@ static int usbhsf_pio_try_push(struct usbhs_pkt *pkt, int *is_done)
+ 	}
+ 
+ 	/* the rest operation */
+-	for (i = 0; i < len; i++)
+-		iowrite8(buf[i], addr + (0x03 - (i & 0x03)));
++	if (usbhsc_flags_has(priv, USBHSF_CFIFO_BYTE_ADDR))
++		for (i = 0; i < len; i++)
++			iowrite8(buf[i], addr + (i & 0x03));
++	else
++		for (i = 0; i < len; i++)
++			iowrite8(buf[i], addr + (0x03 - (i & 0x03)));
+ 
+ 	/*
+ 	 * variable update
+diff --git a/drivers/usb/renesas_usbhs/rza.h b/drivers/usb/renesas_usbhs/rza.h
+index ca917ca54f6d..073a53d1d442 100644
+--- a/drivers/usb/renesas_usbhs/rza.h
++++ b/drivers/usb/renesas_usbhs/rza.h
+@@ -2,3 +2,4 @@
+ #include "common.h"
+ 
+ extern const struct renesas_usbhs_platform_callback usbhs_rza1_ops;
++extern const struct renesas_usbhs_platform_callback usbhs_rza2_ops;
+diff --git a/drivers/usb/renesas_usbhs/rza2.c b/drivers/usb/renesas_usbhs/rza2.c
+new file mode 100644
+index 000000000000..c0b5dfa4b85d
+--- /dev/null
++++ b/drivers/usb/renesas_usbhs/rza2.c
+@@ -0,0 +1,82 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Renesas USB driver RZ/A2 initialization and power control
++ *
++ * Copyright (C) 2019 Chris Brandt
++ * Copyright (C) 2019 Renesas Electronics Corporation
++ */
++
++#include <linux/delay.h>
++#include <linux/io.h>
++#include <linux/of_device.h>
++#include <linux/phy/phy.h>
++#include "common.h"
++#include "rza.h"
++
++
++static int usbhs_rza2_hardware_init(struct platform_device *pdev)
++{
++	struct usbhs_priv *priv = usbhs_pdev_to_priv(pdev);
++
++	if (IS_ENABLED(CONFIG_GENERIC_PHY)) {
++		struct phy *phy = phy_get(&pdev->dev, "usb");
++
++		if (IS_ERR(phy))
++			return PTR_ERR(phy);
++
++		priv->phy = phy;
++		return 0;
++	}
++	return -ENXIO;
++}
++
++static int usbhs_rza2_hardware_exit(struct platform_device *pdev)
++{
++	struct usbhs_priv *priv = usbhs_pdev_to_priv(pdev);
++
++	if (priv->phy) {
++		phy_put(priv->phy);
++		priv->phy = NULL;
++	}
++
++	return 0;
++}
++
++static int usbhs_rza2_power_ctrl(struct platform_device *pdev,
++				void __iomem *base, int enable)
++{
++	struct usbhs_priv *priv = usbhs_pdev_to_priv(pdev);
++	int retval = -ENODEV;
++
++	if (priv->phy) {
++		if (enable) {
++			retval = phy_init(priv->phy);
++			if (enable) {
++				usbhs_bset(priv, SUSPMODE, SUSPM, SUSPM);
++				/* Wait 100 usec for PLL to become stable */
++				udelay(100);
++			} else {
++				usbhs_bset(priv, SUSPMODE, SUSPM, 0);
++			}
++			if (!retval)
++				retval = phy_power_on(priv->phy);
++		} else {
++			phy_power_off(priv->phy);
++			phy_exit(priv->phy);
++			retval = 0;
++		}
++	}
++	return retval;
++}
++
++static int usbhs_rza2_get_id(struct platform_device *pdev)
++{
++	return USBHS_GADGET;
++}
++
++const struct renesas_usbhs_platform_callback usbhs_rza2_ops = {
++	.hardware_init = usbhs_rza2_hardware_init,
++	.hardware_exit = usbhs_rza2_hardware_exit,
++	.power_ctrl = usbhs_rza2_power_ctrl,
++	.get_id = usbhs_rza2_get_id,
++};
+diff --git a/include/linux/usb/renesas_usbhs.h b/include/linux/usb/renesas_usbhs.h
+index 53924f8e840c..39604c8b1eed 100644
+--- a/include/linux/usb/renesas_usbhs.h
++++ b/include/linux/usb/renesas_usbhs.h
+@@ -196,6 +196,7 @@ struct renesas_usbhs_driver_param {
+ #define USBHS_TYPE_RCAR_GEN3		2
+ #define USBHS_TYPE_RCAR_GEN3_WITH_PLL	3
+ #define USBHS_TYPE_RZA1			4
++#define USBHS_TYPE_RZA2			5
+ 
+ /*
+  * option:
+-- 
+2.16.1
+
