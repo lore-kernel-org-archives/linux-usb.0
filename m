@@ -1,88 +1,179 @@
-Return-Path: <SRS0=tIEv=SZ=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8E7BC282DD
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 14:21:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 436A0C04AAA
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A9F28214AE
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 14:21:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 16D9C20830
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gLoKk/8W"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728068AbfDWOV6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Apr 2019 10:21:58 -0400
-Received: from mga01.intel.com ([192.55.52.88]:63190 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726659AbfDWOV6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 23 Apr 2019 10:21:58 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Apr 2019 07:21:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,386,1549958400"; 
-   d="scan'208";a="167139973"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 23 Apr 2019 07:21:55 -0700
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Ajay Gupta <ajayg@nvidia.com>, linux-usb@vger.kernel.org
-Subject: [PATCH v4 2/7] i2c: nvidia-gpu: Supply CCGx driver the fw build info
-Date:   Tue, 23 Apr 2019 17:21:46 +0300
-Message-Id: <20190423142151.26135-3-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190423142151.26135-1-heikki.krogerus@linux.intel.com>
-References: <20190423142151.26135-1-heikki.krogerus@linux.intel.com>
+        id S1726415AbfEFJDp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 May 2019 05:03:45 -0400
+Received: from mail-ed1-f51.google.com ([209.85.208.51]:41123 "EHLO
+        mail-ed1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726406AbfEFJDp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:03:45 -0400
+Received: by mail-ed1-f51.google.com with SMTP id m4so14501457edd.8
+        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:03:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=2VVWSzAbtGbLro9aBOJESSRShmFIr4PlIcCfA3dpr9s=;
+        b=gLoKk/8W1NHMdff9GdVE7upLzenXJyOGuxgK1ZCrNWsPuIZKJ3U7z5SMHXYZ7rROh4
+         PKQvqThCMMXMyZA63ScSsnZpMk0E1CttOZc5qRDHyfF2WD+AGsyuCfAlcItPXsKbpKiZ
+         LyJ7JtltXtwEQsmML9QFRhuKzdeWZcGTTRifR820Vwb76yiR2NWdKJJy52Yig8VBJmc/
+         idbdu1zgNd153AeNVaIjUVC2qNVygbdEtG1iPjKKXWh6b2QyOmG4pB2OZEL6j6+uRLqm
+         kSOBay88je9+oj6s9UoajnO3Zec4Z08zxvE9SDRrx8srD6UGf26xQxDDAIVa0HF8mscL
+         lkeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=2VVWSzAbtGbLro9aBOJESSRShmFIr4PlIcCfA3dpr9s=;
+        b=enje+9M9oUMjBRyv22jHk5r0tTB2BJ2UOtmv/Btb8kypG0xO9+VXZOLqovhTsI8/wD
+         DVH+qQHaLGAWfu7FW08vhV0lnMzRQB3dyMeoYy82xobxh5vMJ62SmgpaaKr7JEhwhXQs
+         78MIT1BbuqMRlPUfIWxW8NKq0Jn28u63j2tL+czdHnAWl4w/UxGnw/nJONCrdODb8mcH
+         2TGQ92U4yWUy01QzrncQ68PTCT2JOZhZNqkyfRSXusY62rIV9KIwWKm/RnWfW7q6avsP
+         DUPROLDuEzYEnJLWeShbp98jKg4Nl2lRNTkdd1Ez393/a+NngTCGpSLbjkFEucq61NGr
+         4ekA==
+X-Gm-Message-State: APjAAAUncMt1WwXecNIcDO613NB/jO7OfKDMPIT3Xwu067ZCxQ5AN8Mp
+        vSR+KAzVGQnJwkO5afFjX97qAG8NXGM=
+X-Google-Smtp-Source: APXvYqwWFNElfIfHs4i2QmbnSevsbzor2kL1mvQ2IbFL8v0GqQdb/xaeNgg9nl2MxEf3ehwodf52Fg==
+X-Received: by 2002:a50:b557:: with SMTP id z23mr24944877edd.154.1557133422967;
+        Mon, 06 May 2019 02:03:42 -0700 (PDT)
+Received: from localhost (frost.work.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
+        by smtp.gmail.com with ESMTPSA id 1sm1489783eju.9.2019.05.06.02.03.42
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 06 May 2019 02:03:42 -0700 (PDT)
+From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+To:     linux-usb@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org,
+        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+Subject: [PATCH 16/34] lsusb.py: entirely remove Usb* classes
+Date:   Mon,  6 May 2019 12:02:23 +0300
+Message-Id: <20190506090241.169665-17-grawity@gmail.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190506090241.169665-1-grawity@gmail.com>
+References: <20190506090241.169665-1-grawity@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190423142146.YTBzNG3NPYFo2QWtVbO8dUWNa3SDIrVEJ6bzDlUILeY@z>
 
-From: Ajay Gupta <ajayg@nvidia.com>
+Their main purpose in life was to be sortable, which we no longer do.
 
-Adding device property "ccgx,firmware-build" for the CCGx
-device, so the CCGx driver knows which firmware binary to
-use for a specific vendor.
-
-Suggested-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Signed-off-by: Ajay Gupta <ajayg@nvidia.com>
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
 ---
- drivers/i2c/busses/i2c-nvidia-gpu.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ lsusb.py.in | 53 ++++++-----------------------------------------------
+ 1 file changed, 6 insertions(+), 47 deletions(-)
 
-diff --git a/drivers/i2c/busses/i2c-nvidia-gpu.c b/drivers/i2c/busses/i2c-nvidia-gpu.c
-index 4e67d5ed480e..1c8f708f212b 100644
---- a/drivers/i2c/busses/i2c-nvidia-gpu.c
-+++ b/drivers/i2c/busses/i2c-nvidia-gpu.c
-@@ -253,6 +253,12 @@ static const struct pci_device_id gpu_i2c_ids[] = {
- };
- MODULE_DEVICE_TABLE(pci, gpu_i2c_ids);
+diff --git a/lsusb.py.in b/lsusb.py.in
+index e1a30d7..73b4e67 100644
+--- a/lsusb.py.in
++++ b/lsusb.py.in
+@@ -43,47 +43,6 @@ def readlink(path, name):
+ 	"Read symlink and return basename"
+ 	return os.path.basename(os.readlink(prefix + path + "/" + name));
  
-+static const struct property_entry ccgx_props[] = {
-+	/* Use FW built for NVIDIA (nv) only */
-+	PROPERTY_ENTRY_U16("ccgx,firmware-build", ('n' << 8) | 'v'),
-+	{ }
-+};
-+
- static int gpu_populate_client(struct gpu_i2c_dev *i2cd, int irq)
- {
- 	struct i2c_client *ccgx_client;
-@@ -267,6 +273,7 @@ static int gpu_populate_client(struct gpu_i2c_dev *i2cd, int irq)
- 		sizeof(i2cd->gpu_ccgx_ucsi->type));
- 	i2cd->gpu_ccgx_ucsi->addr = 0x8;
- 	i2cd->gpu_ccgx_ucsi->irq = irq;
-+	i2cd->gpu_ccgx_ucsi->properties = ccgx_props;
- 	ccgx_client = i2c_new_device(&i2cd->adapter, i2cd->gpu_ccgx_ucsi);
- 	if (!ccgx_client)
- 		return -ENODEV;
+-class UsbClass:
+-	"Container for USB Class/Subclass/Protocol"
+-	def __init__(self, cl, sc, pr, strg = ""):
+-		self.pclass = cl
+-		self.subclass = sc
+-		self.proto = pr
+-		self.desc = strg
+-	def __str__(self):
+-		return self.desc
+-	def __lt__(self, oth):
+-		return (self.pclass, self.subclass, self.proto) < \
+-				(oth.pclass, oth.subclass, oth.proto)
+-	def __eq__(self, oth):
+-		return (self.pclass, self.subclass, self.proto) == \
+-				(oth.pclass, oth.subclass, oth.proto)
+-
+-class UsbVendor:
+-	"Container for USB Vendors"
+-	def __init__(self, vid, vname = ""):
+-		self.vid = vid
+-		self.vname = vname
+-	def __str__(self):
+-		return self.vname
+-	def __lt__(self, oth):
+-		return self.vid < oth.vid
+-	def __eq__(self, oth):
+-		return self.vid == oth.vid
+-
+-class UsbProduct:
+-	"Container for USB VID:PID devices"
+-	def __init__(self, vid, pid, pname = ""):
+-		self.vid = vid
+-		self.pid = pid
+-		self.pname = pname
+-	def __str__(self):
+-		return self.pname
+-	def __lt__(self, oth):
+-		return (self.vid, self.pid) < (oth.vid, oth.pid)
+-	def __eq__(self, oth):
+-		return (self.vid, self.pid) == (oth.vid, oth.pid)
+-
+ usbvendors = {}
+ usbproducts = {}
+ usbclasses = {}
+@@ -125,7 +84,7 @@ def parse_usb_ids():
+ 		if ishexdigit(ln[0:4]):
+ 			mode = modes.Vendor
+ 			vid = int(ln[:4], 16)
+-			usbvendors[vid] = UsbVendor(vid, ln[6:])
++			usbvendors[vid] = ln[6:]
+ 			continue
+ 		if ln[0] == '\t' and ishexdigit(ln[1:3]):
+ 			# usb.ids has a device id of 01xy, sigh
+@@ -135,7 +94,7 @@ def parse_usb_ids():
+ 				did = int(ln[1:5], 16)
+ 			# USB devices
+ 			if mode == modes.Vendor:
+-				usbproducts[vid, did] = UsbProduct(vid, did, ln[7:])
++				usbproducts[vid, did] = ln[7:]
+ 				continue
+ 			elif mode == modes.Class:
+ 				nm = ln[5:]
+@@ -143,20 +102,20 @@ def parse_usb_ids():
+ 					strg = cstrg + ":" + nm
+ 				else:
+ 					strg = cstrg + ":"
+-				usbclasses[vid, did, -1] = UsbClass(vid, did, -1, strg)
++				usbclasses[vid, did, -1] = strg
+ 				continue
+ 		if ln[0] == 'C':
+ 			mode = modes.Class
+ 			cid = int(ln[2:4], 16)
+ 			cstrg = ln[6:]
+-			usbclasses[cid, -1, -1] = UsbClass(cid, -1, -1, cstrg)
++			usbclasses[cid, -1, -1] = cstrg
+ 			continue
+ 		if mode == modes.Class and ln[0] == '\t' and ln[1] == '\t' and ishexdigit(ln[2:4]):
+ 			prid = int(ln[2:4], 16)
+-			usbclasses[cid, did, prid] = UsbClass(cid, did, prid, strg + ":" + ln[6:])
++			usbclasses[cid, did, prid] = ln[6:]
+ 			continue
+ 		mode = modes.Misc
+-	usbclasses[0xFF, 0xFF, 0xFF] = UsbClass(0xFF, 0xFF, 0xFF, "Vendor Specific")
++	usbclasses[0xFF, 0xFF, 0xFF] = "Vendor Specific"
+ 
+ def find_usb_prod(vid, pid):
+ 	"Return device name from USB Vendor:Product list"
 -- 
-2.20.1
+2.21.0
 
