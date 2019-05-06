@@ -1,122 +1,104 @@
-Return-Path: <SRS0=tIEv=SZ=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E033AC10F14
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 14:21:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91611C04AAA
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B811C214AE
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 14:21:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 65E9420830
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:44 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HRrZgN6w"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727762AbfDWOVy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Apr 2019 10:21:54 -0400
-Received: from mga01.intel.com ([192.55.52.88]:63190 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726659AbfDWOVy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 23 Apr 2019 10:21:54 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Apr 2019 07:21:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,386,1549958400"; 
-   d="scan'208";a="167139955"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 23 Apr 2019 07:21:52 -0700
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Ajay Gupta <ajayg@nvidia.com>, linux-usb@vger.kernel.org
-Subject: [PATCH v4 0/7] usb: typec: ucsi: Remaining changes for v5.2
-Date:   Tue, 23 Apr 2019 17:21:44 +0300
-Message-Id: <20190423142151.26135-1-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
+        id S1726412AbfEFJDn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 May 2019 05:03:43 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:33797 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726406AbfEFJDn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:03:43 -0400
+Received: by mail-ed1-f67.google.com with SMTP id w35so12828254edd.1
+        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:03:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=UJrQd8tuwULo7vs/XHd8Fzf5uhNHQyowUwB3UoVt+F4=;
+        b=HRrZgN6wj0vrjoE21Y/gLuz/l26htBdLhjsH0MnovElzN62xql+MSAM+R9+HWiHxcw
+         g5xvLJ43wVAv4css2pdhvVhmT2SYIYGKlWtgHVVnrFFhHRK8bhLHlz9fbOaP+TEboOPr
+         od9zsVy0VSaa0mVztKB6sz0lXHpFqECelTWZjnA7JK8EwH810WyvlbbxakPOnIh5pb3Q
+         tD2+mVK16v8VnbuXShCiB4hS86DrEeVQ0lDSdAAWZXxmuDWj/JRy7WdWCzPgEBVsWBEL
+         fI3mKvPAM8GJDGUYVqzXYKcTWwXUi9nCJkhCDTpv7xnfFdp7E/2W4IuaGFAQq8D0K6+Z
+         /CEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=UJrQd8tuwULo7vs/XHd8Fzf5uhNHQyowUwB3UoVt+F4=;
+        b=kHTkT6KdMRxeRMh4BtEAXssksGV6H7fzBZMvVPbxpZTZ/c7LySTuagAczhRf3e/Xnf
+         YPH4q+ispXQnRlHaWB2tTJl7xMlgqBHLjGC6yNgWBpz+Re9ifu+XKn2pFcFX5Oqcits0
+         miq6Vr2sjZvcuJIIREWJYgEPdlLppWE1H4cT9AGCYA/0TSpgWADEU9nxhFvN9OURh0VD
+         hOSQeriiQBcpXUTBU43brv0idq5HQmW4AlVZy4GyxiJ0ePlfk/fzJR+uhMgEwir23GdD
+         BCO2yEH0xn38KW1DOiNj51kXMaeTIN2EF8kayugEJwezuzHsJzbqiehbX/m5PrxMxJK2
+         tIkg==
+X-Gm-Message-State: APjAAAWKAgl61Xiu4lamUiCbC2vqOY/+Va/rnmD6t2vfxyh+hKXhLut5
+        gdwMTaBDnnVuQ7fCICudblYlA/WHHiY=
+X-Google-Smtp-Source: APXvYqwk5nEO649VugMJ1DRcqDFzgSSE6HURzMb6+w/ZN0YqkUb3+nVog7pp6rUQI1QPRnGvt0V+vQ==
+X-Received: by 2002:aa7:d144:: with SMTP id r4mr24430416edo.87.1557133421412;
+        Mon, 06 May 2019 02:03:41 -0700 (PDT)
+Received: from localhost (frost.work.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
+        by smtp.gmail.com with ESMTPSA id r18sm1497067ejh.92.2019.05.06.02.03.40
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 06 May 2019 02:03:40 -0700 (PDT)
+From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+To:     linux-usb@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org,
+        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+Subject: [PATCH 15/34] lsusb.py: insert class FF:FF:FF into usbclasses to avoid special casing
+Date:   Mon,  6 May 2019 12:02:22 +0300
+Message-Id: <20190506090241.169665-16-grawity@gmail.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190506090241.169665-1-grawity@gmail.com>
+References: <20190506090241.169665-1-grawity@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg,
+Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
+---
+ lsusb.py.in | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Ajay noticed that I was not considering earlier releases of the UCSI
-specification with a specific UCSI command, GET_CURRENT_CAM, in v3.
-The definition for the command was changed in UCSI specification v1.1.
-The issue is now fixed.
-
-v3 cover letter.
-
-This is the third version of this collection of UCSI driver related
-changes. I fixed the header problem I caused in Ajay's patch adding the
-NVIDIA alt mode support (patch 7/7), and I also took the liberty of
-writing the missing ABI documentation for the extra sysfs file that's
-created in the driver for Cypress CCGx Type-C controller (ucsi_ccg.c).
-
-v2 cover letter
-
-This is the second version of this series. The sparse warning, that
-was the only issue with the first version, is now fixed. The fix was
-made by adding the first patch ("i2c: nvidia-gpu: Supply CCGx driver
-the fw build info"). It add a device property for the CCGx device
-that the CCGx driver can use to identify the required firmware build.
-
-I also decided to include two extra patches from Ajay where NVIDIA
-probing driver is added for the DisplayPort alternate mode:
-https://www.spinics.net/lists/linux-usb/msg178847.html
-
-v1 cover letter:
-
-Here are the remaining patches from me and Ajay for the UCSI driver. I
-took the liberty of collecting them for you, and resending everything
-together.
-
-There are two patches from Ajay adding support for firmware upgrading
-with the Cypress CCGx controllers [1], and two patches from me
-enabling DisplayPort alt mode with the UCSI driver [2].
-
-[1] https://marc.info/?l=linux-usb&m=154957412422108&w=2
-[2] https://www.spinics.net/lists/linux-usb/msg178192.html
-
-Let us know if you want anything to be changed.
-
-thanks,
-
-Ajay Gupta (5):
-  usb: typec: ucsi: ccg: add get_fw_info function
-  i2c: nvidia-gpu: Supply CCGx driver the fw build info
-  usb: typec: ucsi: ccg: add firmware flashing support
-  usb: typec: displayport: Export probe and remove functions
-  usb: typec: Add driver for NVIDIA Alt Modes
-
-Heikki Krogerus (2):
-  usb: typec: ucsi: Preliminary support for alternate modes
-  usb: typec: ucsi: Support for DisplayPort alt mode
-
- .../ABI/testing/sysfs-driver-ucsi-ccg         |   6 +
- drivers/i2c/busses/i2c-nvidia-gpu.c           |   7 +
- drivers/usb/typec/altmodes/Kconfig            |  10 +
- drivers/usb/typec/altmodes/Makefile           |   2 +
- drivers/usb/typec/altmodes/displayport.c      |  12 +-
- drivers/usb/typec/altmodes/displayport.h      |   8 +
- drivers/usb/typec/altmodes/nvidia.c           |  44 +
- drivers/usb/typec/ucsi/Makefile               |  15 +-
- drivers/usb/typec/ucsi/displayport.c          | 315 +++++++
- drivers/usb/typec/ucsi/trace.c                |  12 +
- drivers/usb/typec/ucsi/trace.h                |  26 +
- drivers/usb/typec/ucsi/ucsi.c                 | 404 ++++++--
- drivers/usb/typec/ucsi/ucsi.h                 | 118 +++
- drivers/usb/typec/ucsi/ucsi_ccg.c             | 883 +++++++++++++++++-
- include/linux/usb/typec_dp.h                  |   5 +
- 15 files changed, 1754 insertions(+), 113 deletions(-)
- create mode 100644 Documentation/ABI/testing/sysfs-driver-ucsi-ccg
- create mode 100644 drivers/usb/typec/altmodes/displayport.h
- create mode 100644 drivers/usb/typec/altmodes/nvidia.c
- create mode 100644 drivers/usb/typec/ucsi/displayport.c
-
+diff --git a/lsusb.py.in b/lsusb.py.in
+index 83f9143..e1a30d7 100644
+--- a/lsusb.py.in
++++ b/lsusb.py.in
+@@ -156,6 +156,7 @@ def parse_usb_ids():
+ 			usbclasses[cid, did, prid] = UsbClass(cid, did, prid, strg + ":" + ln[6:])
+ 			continue
+ 		mode = modes.Misc
++	usbclasses[0xFF, 0xFF, 0xFF] = UsbClass(0xFF, 0xFF, 0xFF, "Vendor Specific")
+ 
+ def find_usb_prod(vid, pid):
+ 	"Return device name from USB Vendor:Product list"
+@@ -172,8 +173,6 @@ def find_usb_prod(vid, pid):
+ 
+ def find_usb_class(cid, sid, pid):
+ 	"Return USB protocol from usbclasses list"
+-	if cid == 0xff and sid == 0xff and pid == 0xff:
+-		return "Vendor Specific"
+ 	lnlst = len(usbclasses)
+ 	cls = usbclasses.get((cid, sid, pid))
+ 	if cls:
 -- 
-2.20.1
+2.21.0
 
