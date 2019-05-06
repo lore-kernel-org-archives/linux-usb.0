@@ -2,68 +2,71 @@ Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
+	T_DKIMWL_WL_HIGH,USER_AGENT_MUTT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F041DC04AAB
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 08:18:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B587EC04A6B
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 11:13:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CD5FA2087F
-	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 08:18:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8838A20830
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 11:13:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1557141182;
+	bh=HpAQERqnh17wmum/XwnKZLxADBCfCB/JY4llLeiGBWI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=RszdIwg186gFdxZuDfDrs4BJ4rUpEGz6w25VARUdt5PHD972l7yCGFx5+mdx3J36W
+	 rRE1KsqCRkKBfYEE0tzPm6FEwZC2uv6xQZose12UFi/k3embe/7UgXgdxVx/QtsPDD
+	 SmTfCgfPmHpIBbrBcdOdwn8hssi3oCq1eWHd+7iA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726277AbfEFISJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 May 2019 04:18:09 -0400
-Received: from mx2.suse.de ([195.135.220.15]:58314 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725836AbfEFISI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 6 May 2019 04:18:08 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 5DEC3AEE8;
-        Mon,  6 May 2019 08:18:07 +0000 (UTC)
-Message-ID: <1557130666.12778.3.camel@suse.com>
-Subject: Re: [PATCH v2] usbnet: fix kernel crash after disconnect
-From:   Oliver Neukum <oneukum@suse.com>
-To:     David Miller <davem@davemloft.net>, Jan.Kloetzke@preh.de
-Cc:     jan@kloetzke.net, linux-usb@vger.kernel.org, netdev@vger.kernel.org
-Date:   Mon, 06 May 2019 10:17:46 +0200
-In-Reply-To: <20190505.004556.492323065607253635.davem@davemloft.net>
-References: <1556563688.20085.31.camel@suse.com>
-         <20190430141440.9469-1-Jan.Kloetzke@preh.de>
-         <20190505.004556.492323065607253635.davem@davemloft.net>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1726276AbfEFLNB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 May 2019 07:13:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47428 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725852AbfEFLNB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 6 May 2019 07:13:01 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0E83820830;
+        Mon,  6 May 2019 11:12:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1557141180;
+        bh=HpAQERqnh17wmum/XwnKZLxADBCfCB/JY4llLeiGBWI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EVTtj8Qb+m0wRIKuQWZxjtkTq3O0XbS1V1rdXwnNAEfVDvDh5Fe9dyicDfY6/C09k
+         /imwfp1OYDyeGReyBDbMZl+1pnzf1JcbTMjsqkPJ9neCBKcy+9P0IQiBkH80QlA9af
+         WEPJFjzA7gnzipT1zsjsZW8Un+QUsxOPMhDrDOtM=
+Date:   Mon, 6 May 2019 13:12:57 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Mantas =?utf-8?Q?Mikul=C4=97nas?= <grawity@gmail.com>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [PATCH 05/34] lsusb.py: remove -w (warn if usb.ids not sorted)
+ option
+Message-ID: <20190506111257.GA20756@kroah.com>
+References: <20190506090241.169665-1-grawity@gmail.com>
+ <20190506090241.169665-6-grawity@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190506090241.169665-6-grawity@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On So, 2019-05-05 at 00:45 -0700, David Miller wrote:
-> From: Kloetzke Jan <Jan.Kloetzke@preh.de>
-> Date: Tue, 30 Apr 2019 14:15:07 +0000
-> 
-> > @@ -1431,6 +1432,11 @@ netdev_tx_t usbnet_start_xmit (struct sk_buff *skb,
-> >               spin_unlock_irqrestore(&dev->txq.lock, flags);
-> >               goto drop;
-> >       }
-> > +     if (WARN_ON(netif_queue_stopped(net))) {
-> > +             usb_autopm_put_interface_async(dev->intf);
-> > +             spin_unlock_irqrestore(&dev->txq.lock, flags);
-> > +             goto drop;
-> > +     }
-> 
-> If this is known to happen and is expected, then we should not warn.
-> 
+On Mon, May 06, 2019 at 12:02:12PM +0300, Mantas Mikulėnas wrote:
+> Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
+> ---
+>  lsusb.py.in | 45 ++-------------------------------------------
+>  1 file changed, 2 insertions(+), 43 deletions(-)
 
-Hi,
+Why remove this?  What's wrong with this option for people who want to
+work on usb.ids?
 
-yes this is the point. Can ndo_start_xmit() and ndo_stop() race?
-If not, why does the patch fix the observed issue and what
-prevents the race? Something is not clear here.
+thanks,
 
-	Regards
-		Oliver
-
+greg k-h
