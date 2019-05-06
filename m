@@ -1,82 +1,104 @@
-Return-Path: <SRS0=e+xf=S2=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
-	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27D0AC10F11
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 09:58:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 342CEC04AAA
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:04:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E4F2120684
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 09:58:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 06B8A20830
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:04:16 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LmYOYFs5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726610AbfDXJ6r (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Apr 2019 05:58:47 -0400
-Received: from ns.iliad.fr ([212.27.33.1]:47328 "EHLO ns.iliad.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726181AbfDXJ6q (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 24 Apr 2019 05:58:46 -0400
-Received: from ns.iliad.fr (localhost [127.0.0.1])
-        by ns.iliad.fr (Postfix) with ESMTP id E63D51FF4E;
-        Wed, 24 Apr 2019 11:58:44 +0200 (CEST)
-Received: from [192.168.108.49] (freebox.vlq16.iliad.fr [213.36.7.13])
-        by ns.iliad.fr (Postfix) with ESMTP id CABB71FF37;
-        Wed, 24 Apr 2019 11:58:44 +0200 (CEST)
-Subject: Re: [PATCH] usb: dwc3: Allow building USB_DWC3_QCOM without EXTCON
-From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb <linux-usb@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Manu Gautam <mgautam@codeaurora.org>,
-        Jeffrey Hugo <jhugo@codeaurora.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        MSM <linux-arm-msm@vger.kernel.org>
-References: <b2846f91-90ba-8ffa-9afe-ab9e719ed780@free.fr>
-Message-ID: <7844b06a-c332-38bb-1d3a-a206a828e991@free.fr>
-Date:   Wed, 24 Apr 2019 11:58:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726495AbfEFJEP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 May 2019 05:04:15 -0400
+Received: from mail-ed1-f44.google.com ([209.85.208.44]:46554 "EHLO
+        mail-ed1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726485AbfEFJEO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:04:14 -0400
+Received: by mail-ed1-f44.google.com with SMTP id f37so14460651edb.13
+        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:04:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=8nM/uYJzoMjbe2HZe7po/xn0RF5ZRwVV2Yqg+jH/nP8=;
+        b=LmYOYFs5G7zdBxkqLb9Rkf/xr8qC7JQJKbT0eLbpW1fX0fj4POLUXzlRX/Nm9D/UvH
+         McdnzlsBf/WTj6I8rLbRdqTd0+yfSLFW2pvgPX1tPFG+mFcktUBwVcNuRTUxW5vO/GZD
+         xiDDyAhcAXkEfjPmWwMw0FC9J2BleBBiq99IZCvzEOoAWQMDbk3W3NnMwEWHpztp05Mv
+         yPls9RNZqGx8uqxivsvW6jwtCWu5dRBKbg9h8ycUVxRmOmQK0gh5K1CrNPuz5YZlh9OA
+         q5Jpd2M2DOZvKf0tK+yNnv0BQ79KVQUA+aF2/W653OcQesvq0Pz+0izzpf0Kh0ElGnhn
+         JF+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=8nM/uYJzoMjbe2HZe7po/xn0RF5ZRwVV2Yqg+jH/nP8=;
+        b=CRm6ODwHETGIHl9H6MFylJx0ngRnAr8tsqEk5DqdKwjGdWXk8dzuOKci1SulBXHeQ+
+         uh25r889g1zx2uBRiFgctIJlo3gdzEWTQTAV8MruKUS+FfcHhKS7rTSAeQgXDTJVFgfE
+         tdpkWuIbYJN3VZLFvybt9isQt28X7Yhq0yiBseZUO1Mwi0YJ2QEK5g9kA/e/3bhsfjYG
+         0BS+o/RCxDPvgC2+4NUlq9A0fP7UBh3vWu0ohVFmA9woMcbRKGv4cj3yVFECNTkbg9a1
+         evnHaWIQrEPdSpyXAHY9rnIFdNIPI5EavURCyVx4qhVw/f05InMWG/+dfbqoWX6Add0F
+         41Kg==
+X-Gm-Message-State: APjAAAX518vTLsF5L8VuLg7OSpz00MlDhKnbE4y0sELcaPBQiHOIWa1c
+        5v5/0OJJnKHifYc+/oFdp7psh9Yizm0=
+X-Google-Smtp-Source: APXvYqyAPkLqCG5lIJUvPo2VNqBKf0uQeKsLDFr8j2AruznvkDvXuAo4woKrVmxZFz4NIMxPm0y8Jw==
+X-Received: by 2002:a17:906:b789:: with SMTP id dt9mr15671057ejb.244.1557133451715;
+        Mon, 06 May 2019 02:04:11 -0700 (PDT)
+Received: from localhost (frost.work.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
+        by smtp.gmail.com with ESMTPSA id e4sm1439973ejm.50.2019.05.06.02.04.10
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 06 May 2019 02:04:10 -0700 (PDT)
+From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+To:     linux-usb@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org,
+        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+Subject: [PATCH 33/34] lsusb.py: fix endpoint interval spacing
+Date:   Mon,  6 May 2019 12:02:40 +0300
+Message-Id: <20190506090241.169665-34-grawity@gmail.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190506090241.169665-1-grawity@gmail.com>
+References: <20190506090241.169665-1-grawity@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <b2846f91-90ba-8ffa-9afe-ab9e719ed780@free.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: ClamAV using ClamSMTP ; ns.iliad.fr ; Wed Apr 24 11:58:44 2019 +0200 (CEST)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Message-ID: <20190424095844.XquoaqcCcndfykCpKNLnROApGHNAO3-nO7aDStQv1QY@z>
 
-On 19/04/2019 11:59, Marc Gonzalez wrote:
+Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
+---
+ lsusb.py.in | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> Keep EXTCON support optional, since some platforms do not need it.
-> 
-> Fixes: 3def4031b3e3 ("usb: dwc3: add EXTCON dependency for qcom")
-> Signed-off-by: Marc Gonzalez <marc.w.gonzalez@free.fr>
-> ---
->  drivers/usb/dwc3/Kconfig | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/dwc3/Kconfig b/drivers/usb/dwc3/Kconfig
-> index 2b1494460d0c..6bd1a28c535f 100644
-> --- a/drivers/usb/dwc3/Kconfig
-> +++ b/drivers/usb/dwc3/Kconfig
-> @@ -115,7 +115,8 @@ config USB_DWC3_ST
->  
->  config USB_DWC3_QCOM
->  	tristate "Qualcomm Platform"
-> -	depends on EXTCON && (ARCH_QCOM || COMPILE_TEST)
-> +	depends on ARCH_QCOM || COMPILE_TEST
-> +	depends on EXTCON || !EXTCON
->  	depends on OF
->  	default USB_DWC3
->  	help
+diff --git a/lsusb.py.in b/lsusb.py.in
+index 648a734..c170ebb 100644
+--- a/lsusb.py.in
++++ b/lsusb.py.in
+@@ -255,7 +255,7 @@ class UsbEndpoint(UsbObject):
+ 		self.epaddr = int(self.read_attr("bEndpointAddress"), 16)
+ 		ival = int(self.read_attr("bInterval"), 16)
+ 		if ival:
+-			self.ival = "(%s)" % self.read_attr("interval")
++			self.ival = " (%s)" % self.read_attr("interval")
+ 		self.len = int(self.read_attr("bLength"), 16)
+ 		self.type = self.read_attr("type")
+ 		self.attr = int(self.read_attr("bmAttributes"), 16)
+@@ -268,7 +268,7 @@ class UsbEndpoint(UsbObject):
+ 		indent = "  " * self.level
+ 		#name = "%s/ep_%02X" % (self.parent.fname, self.epaddr)
+ 		name = ""
+-		body = "(EP) %02x: %s %s attr %02x len %02x max %03x" % \
++		body = "(EP) %02x: %s%s attr %02x len %02x max %03x" % \
+ 			(self.epaddr, self.type, self.ival, self.attr, self.len, self.max)
+ 		body = colorize(5, body)
+ 		return "%-17s %s\n" % (indent + name, indent + body)
+-- 
+2.21.0
 
-Can I get an amen? :-)
-
-Arnd? Greg? Mom?
