@@ -1,166 +1,174 @@
-Return-Path: <SRS0=tIEv=SZ=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61CDFC282DD
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 08:51:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FB03C04AAA
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 265FB20685
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Apr 2019 08:51:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E5DE120830
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:03:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="EHgRrK7f"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EticedEH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726747AbfDWIvd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Apr 2019 04:51:33 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:35603 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725946AbfDWIvc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Apr 2019 04:51:32 -0400
-Received: by mail-wm1-f68.google.com with SMTP id y197so17744648wmd.0
-        for <linux-usb@vger.kernel.org>; Tue, 23 Apr 2019 01:51:31 -0700 (PDT)
+        id S1726369AbfEFJDb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 May 2019 05:03:31 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:43908 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725890AbfEFJDb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:03:31 -0400
+Received: by mail-ed1-f65.google.com with SMTP id w33so12159726edb.10
+        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:03:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vxcOBoVoCEyqdET5OW32wKLb2a2q/DXbMFqOTJqKm+g=;
-        b=EHgRrK7f6Fkpzc7BY/skKQOuSMaCMXYDMM48lBKgDAEpc6OTz1+plpoQrMYKHvilm6
-         95ZqHWyUrsEhvhErNJ5Qo2Gt2ZIaK/UhD6T4TibH8JiXA90bg+VDub++TmjvxwR+77Qf
-         9oLJabIjIfUvGxLzG2EqglWiSQrRFKvnHJdVR1WEiBG8lyxp25lmxha4hZ1MXiuEPV0y
-         fH7fg4pSmivG2gxBpSveAXzGNHp7Qs5JOkHvk1Bn+5Cay0I9lXBSBUJnFjpYItzkCft3
-         N2+xJPcRshMP+GhP2H4hjS//ZRZMJKa6FjpI1qDDJlrRtvLPsoRbaLlRq4Ewyvhj1q3w
-         i0ig==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=4yz+s+2fTy3r5t4w3+3GvHAC5iEHvch9zSIFBySmEhA=;
+        b=EticedEHXoHx6LX0snf9vwtRNuAIlDSKmDlDGHWP6DRnvI4xn4sRpdNSCcStjVKt6G
+         DTJTWhd02SCkel2pu5zJ8BZ1gRMtW9Squ2+KWzHS8RmtlqfkZ7gnzr4MsVxTNjZJqpuz
+         VbKMOpNUfrSG88Cfw8kAuIfrqA2/ZAENsNcvkoypMr+ktz5AwJFdi8KpjZ8X9q29p7g7
+         y7/0RzjOZhqbYNcRdU+O2G/IloOoyxtvSKWC6bTcN8DUtB2aP8tmuOn/S3s0A2d5kVC0
+         OOyAuQGi/0TpBz6SKTyB2z+SQmlKJnQ+KwFt2PWpQ6A+68/gSZzia7aGV5Fe7BBOPd8m
+         lViA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vxcOBoVoCEyqdET5OW32wKLb2a2q/DXbMFqOTJqKm+g=;
-        b=l+AYHH/JoEUvaDdQw+PLZwQMkfLybQAVQD7scZSERKI5Db2yUNCQdEGRrzHKEzGiyL
-         mW5yTEA+RdxR69tnhepWB2WO5pIlYhL0Zwn2jTPpevmC0oKKqxcWLanSQ2cr6tYttsS4
-         HFDZSOIxCglmoiLgvGrlQp1VieEycgBQCn+3R+GOflXCymtaYX5/GIaniOEClIvor2yN
-         FDLqkcOacSFkanyEu9ykgni/S2fK17hQ9daSUi1ib+qov11zY9z4JfcoC2vbaArRt2Ow
-         qciMVyZBwaCIPm6CIhymVcUM7C0uavHeqs2HHbC3Ov9ql5AtO9GAzud8liJmmSUiq+EB
-         It0w==
-X-Gm-Message-State: APjAAAXXFhV4fSv7DAYR9zyuZKSVkxw3bU9R16HpclYXY4P6uM2Oo5CB
-        VxgqX5/AavrvBz84jMpER1nnnA==
-X-Google-Smtp-Source: APXvYqwWJ5RO1Go7EZGD3n/BLLiBj0PrbDoq+zJVIZWGTdNSJZ71OpNBeAEBv5SMArCfRfZChFIkhA==
-X-Received: by 2002:a7b:c769:: with SMTP id x9mr1433791wmk.103.1556009490768;
-        Tue, 23 Apr 2019 01:51:30 -0700 (PDT)
-Received: from bender.baylibre.local (lmontsouris-657-1-212-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id b8sm12515566wrr.64.2019.04.23.01.51.29
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Tue, 23 Apr 2019 01:51:30 -0700 (PDT)
-From:   Neil Armstrong <narmstrong@baylibre.com>
-To:     gregkh@linuxfoundation.org, hminas@synopsys.com, balbi@kernel.org,
-        kishon@ti.com, chunfeng.yun@mediatek.com
-Cc:     Neil Armstrong <narmstrong@baylibre.com>,
-        linux-amlogic@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 0/4] arm64: meson: Add support for USB on Amlogic G12A
-Date:   Tue, 23 Apr 2019 10:51:23 +0200
-Message-Id: <20190423085127.3863-1-narmstrong@baylibre.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=4yz+s+2fTy3r5t4w3+3GvHAC5iEHvch9zSIFBySmEhA=;
+        b=SUIBkg2NGlZkobVMj+OM8YBdxWhG2OxrkDPJJ6RvsUjx2ndlYleCtvOa9mjWCI/GSV
+         aPAJs+aboecAHNuKlRCbA5xAXZF+mNjG/t2EGHgIniCta73yJUgsTRCWSVZvWQwQIDsg
+         hnY84dF5EFQVwB33doxmFXMf9uak/Wm9wJikLI9lWm5H8ishEcUpzZ4OkM6i8DWnH4s+
+         yFVl4hpAzzYOYxQCz+c4HLW/V9O/8N49zrA5m6FmmqUC2IchYJYnkICKn9kXik2y8Po1
+         HyJFD6FSqVnUL/ZZz3bl7JZeX+JpCb+Uju1zYsBGMmKUuqIrQhoEXVYNPBFPAhUK66Vm
+         aIyw==
+X-Gm-Message-State: APjAAAUb56RROWwxQi5CrFBl/nuGfrfbToLD8PPaUHpDo61hTBo+p2bw
+        3u2kG4D3LID90/DjByEMcyCuXgz31oc=
+X-Google-Smtp-Source: APXvYqwltc4eKpnmkR3z0NxUB6EcAOvV14csKwysnsYHfHHkN80XdqHRxDlTeGPv3Shc6RQaFga7Lg==
+X-Received: by 2002:a17:906:11d2:: with SMTP id o18mr17886486eja.123.1557133408415;
+        Mon, 06 May 2019 02:03:28 -0700 (PDT)
+Received: from localhost (frost.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
+        by smtp.gmail.com with ESMTPSA id f1sm2824844edm.59.2019.05.06.02.03.27
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 06 May 2019 02:03:27 -0700 (PDT)
+From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+To:     linux-usb@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org,
+        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+Subject: [PATCH 07/34] lsusb.py: support long options
+Date:   Mon,  6 May 2019 12:02:14 +0300
+Message-Id: <20190506090241.169665-8-grawity@gmail.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190506090241.169665-1-grawity@gmail.com>
+References: <20190506090241.169665-1-grawity@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patchset adds support for USB on Amlogic G12A SoCs.
+Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
+---
+ lsusb.py.in | 48 ++++++++++++++++++++++++++++++------------------
+ 1 file changed, 30 insertions(+), 18 deletions(-)
 
-This patchset is composed with :
-- bindings of the PHYs
-- bindings of the USB Control Glue
-- PHY Drivers
-- USB Control Glue driver
-
-Device Tree nodes will be added in a separate patchset.
-
-The Amlogic G12A USB Complex is composed of :
-- 2 USB Controllers :
- * DWC3 for USB2 and USB3 Host functionality
- * DWC2 for USB2 Peripheral functionality
-- 2 USB2 OTG PHYs, only a single one will be routed to either DWC2 to DWC3
-- 1 USB3 PHY shared with PCIE funcionnality
-- A Glue to control PHY routing, setup and OTG detection
-
-The Glue configures the UTMI 8bit interfaces for the USB2 PHYs, including
-routing of the OTG PHY between the DWC3 and DWC2 controllers, and
-setups the on-chip OTG mode selection for this PHY.
-
-This drivers supports the on-probe setup of the OTG mode, and manually
-via the USB Role interface. The IRQ mode change detect is yet to be added
-in a future patchset, mainly due to lack of hardware to validate on.
-
-Changes since v5 at [4]:
-- Dropped already applied PHY patches
-- Added patch 3 ack by Minas
-
-Changes since v4 at [3]:
-- remove remaining phy_put/clk_put() of patch 8
-- handled phy_power_off/on() in suspend/resume
-- Collected review tag on patch 8
-
-Changes since v3 at [2]:
-- Documented and replaced magic values in USB2 PHY driver
-
-Changes since v2 at [1]:
-- Collected review tags
-- Removed syscon.h in usb2 phy driver
-- Added comment on the USB3/PCIe switch
-- Renamed dwc3_meson_g12a_usb_init_mode in glue driver
-- Changed indentation in dwc3_meson_g12a_role_set
-- Switched to of_get_compatible_child in glue code
-- Added devm_add_action_or_reset() to disable clock in case of probe failure
-- Checks priv->vbus before enabling regulator
-- Switched phy_init/phy_power_on
-- Removed priv->phys[i] NULL checks in suspend code
-- Removed clk_disable_unprepare/clk_put in remove code
-
-Changes since v1 at [0]:
- - USB2 PHY Bindings: collected tags and updated commit log
- - USB3/PCIE PHY Bindings: collected tag and updated reset list
- - DWC2 Compatible: collected tags
- - DWC3 Glue Bindings:
-   - removed clock-names and reset-names for single entries
-   - removed ports graph for PHYs and replaced by phys list with phy-names
-   - added dr_mode and optional vbus-supply
-   - fixed example
- - USB2 PHY Driver: removed USB_SUPPORT and otg.h include
- - USB3/PCIE PHY Driver: removed USB_SUPPORT, fixed comment and unused reg variable
- - USB Glue Driver:
-   - Moved debugfs I/F to USB_ROLE_SWITCH framework
-   - Integrated USB Glue Control Registers offset
-   - Removed of graph parsing to use devm_phy_optional_get()
-   - Fixed PHY mode handling and OTG switching
-   - Simplified PHY calls by removing the NULL test
-   - Added optional vbus regulator handling
-
-[0] https://lkml.kernel.org/r/20190212151413.24632-1-narmstrong@baylibre.com
-[1] https://lkml.kernel.org/r/20190304103846.2060-1-narmstrong@baylibre.com
-[2] https://lkml.kernel.org/r/20190318101153.7531-1-narmstrong@baylibre.com
-[3] https://lkml.kernel.org/r/20190318132655.30040-1-narmstrong@baylibre.com
-[4] https://lkml.kernel.org/r/20190325093943.29138-1-narmstrong@baylibre.com
-
-Neil Armstrong (4):
-  dt-bindings: usb: dwc2: Add Amlogic G12A DWC2 Compatible
-  dt-bindings: usb: dwc3: Add Amlogic G12A DWC3 Glue Bindings
-  usb: dwc2: Add Amlogic G12A DWC2 Params
-  usb: dwc3: Add Amlogic G12A DWC3 glue
-
- .../devicetree/bindings/usb/amlogic,dwc3.txt  |  88 +++
- .../devicetree/bindings/usb/dwc2.txt          |   1 +
- drivers/usb/dwc2/params.c                     |  12 +
- drivers/usb/dwc3/Kconfig                      |  10 +
- drivers/usb/dwc3/Makefile                     |   1 +
- drivers/usb/dwc3/dwc3-meson-g12a.c            | 604 ++++++++++++++++++
- 6 files changed, 716 insertions(+)
- create mode 100644 drivers/usb/dwc3/dwc3-meson-g12a.c
-
+diff --git a/lsusb.py.in b/lsusb.py.in
+index e09b4cf..f9e273d 100644
+--- a/lsusb.py.in
++++ b/lsusb.py.in
+@@ -523,15 +523,15 @@ def usage():
+ 	print("Usage: lsusb.py [options]")
+ 	print()
+ 	print("Options:")
+-	#     "|-------|-------|-------|-------|-------"
+-	print("  -h            display this help")
+-	print("  -i            display interface information")
+-	print("  -I            display interface information, even for hubs")
+-	print("  -u            suppress empty hubs")
+-	print("  -U            suppress all hubs")
+-	print("  -c            use colors")
+-	print("  -e            display endpoint info")
+-	print("  -f FILE       override filename for /usr/share/usb.ids")
++	print("  -h, --help            display this help")
++	print("  -i, --interfaces      display interface information")
++	print("  -I, --hub-interfaces  display interface information, even for hubs")
++	print("  -u, --hide-empty-hubs suppress empty hubs")
++	print("  -U, --hide-hubs       suppress all hubs")
++	print("  -c, --color           use colors")
++	print("  -e, --endpoints       display endpoint info")
++	print("  -f FILE, --usbids-path FILE")
++	print("                        override filename for /usr/share/usb.ids")
+ 	print()
+ 	print("Use lsusb.py -ciu to get a nice overview of your USB devices.")
+ 
+@@ -555,40 +555,52 @@ def main(argv):
+ 	"main entry point"
+ 	global showint, showhubint, noemptyhub, nohub
+ 	global cols, usbids, showeps
++
++	long_options = [
++		"help",
++		"interfaces",
++		"hub-interfaces",
++		"hide-empty-hubs",
++		"hide-hubs",
++		"color",
++		"usbids-path=",
++		"endpoints",
++	]
++
+ 	try:
+-		(optlist, args) = getopt.gnu_getopt(argv[1:], "hiIuUwcef:", ("help",))
++		(optlist, args) = getopt.gnu_getopt(argv[1:], "hiIuUwcef:", long_options)
+ 	except getopt.GetoptError as exc:
+ 		print("Error:", exc, file=sys.stderr)
+ 		sys.exit(2)
+ 	for opt in optlist:
+-		if opt[0] == "-h" or opt[0] == "--help":
++		if opt[0] in {"-h", "--help"}:
+ 			usage()
+ 			sys.exit(0)
+-		if opt[0] == "-i":
++		if opt[0] in {"-i", "--interfaces"}:
+ 			showint = True
+ 			continue
+-		if opt[0] == "-I":
++		if opt[0] in {"-I", "--hub-interfaces"}:
+ 			showint = True
+ 			showhubint = True
+ 			continue
+-		if opt[0] == "-u":
++		if opt[0] in {"-u", "--hide-empty-hubs"}:
+ 			noemptyhub = True
+ 			continue
+-		if opt[0] == "-U":
++		if opt[0] in {"-U", "--hide-hubs"}:
+ 			noemptyhub = True
+ 			nohub = True
+ 			continue
+-		if opt[0] == "-c":
++		if opt[0] in {"-c", "--color"}:
+ 			cols = (norm, bold, red, green, amber, blue)
+ 			continue
+ 		if opt[0] == "-w":
+ 			print("Warning: option -w is no longer supported", file=sys.stderr)
+ 			continue
+-		if opt[0] == "-f":
++		if opt[0] in {"-f", "--usbids-path"}:
+ 			#usbids = (opt[1], *usbids)
+ 			usbids = (opt[1],)
+ 			continue
+-		if opt[0] == "-e":
++		if opt[0] in {"-e", "--endpoints"}:
+ 			showeps = True
+ 			continue
+ 	if len(args) > 0:
 -- 
 2.21.0
 
