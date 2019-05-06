@@ -1,141 +1,117 @@
-Return-Path: <SRS0=e+xf=S2=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=wK4S=TG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A53DC10F11
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 09:29:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA651C04AAA
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:04:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E5EBC20878
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Apr 2019 09:29:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AF0652087F
+	for <linux-usb@archiver.kernel.org>; Mon,  6 May 2019 09:04:09 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sbC6ZDl6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727435AbfDXJ31 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Apr 2019 05:29:27 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:42799 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726176AbfDXJ31 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Apr 2019 05:29:27 -0400
-X-IronPort-AV: E=Sophos;i="5.60,389,1549897200"; 
-   d="scan'208";a="13992920"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 24 Apr 2019 18:29:23 +0900
-Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4050242A01A9;
-        Wed, 24 Apr 2019 18:29:20 +0900 (JST)
-From:   Biju Das <biju.das@bp.renesas.com>
-To:     Matthias Brugger <matthias.bgg@gmail.com>
-Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Jun Li <jun.li@nxp.com>, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH V5 2/9] usb: roles: add API to get usb_role_switch by node
-Date:   Wed, 24 Apr 2019 10:22:16 +0100
-Message-Id: <1556097743-12717-3-git-send-email-biju.das@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1556097743-12717-1-git-send-email-biju.das@bp.renesas.com>
-References: <1556097743-12717-1-git-send-email-biju.das@bp.renesas.com>
+        id S1726486AbfEFJEI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 May 2019 05:04:08 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:33840 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726482AbfEFJEG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 May 2019 05:04:06 -0400
+Received: by mail-ed1-f68.google.com with SMTP id w35so12829349edd.1
+        for <linux-usb@vger.kernel.org>; Mon, 06 May 2019 02:04:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=VOkR7Z9nRHzB4DVkXdaaQy9kKsDLhmTfOlmMXg9X74E=;
+        b=sbC6ZDl6B6bplDuKuogUIVIGoG6BMWKay9YlZBB9Qh6FgvXLMaZElmjHRtZW9X2Eom
+         orqygYfmHKTwSiRik/f8nVGjOjhFTNE2bRmjTYh1zZfikCU92W+Gr5TT9ULZuyE5sozz
+         YwSsJTNPQtZkTm/mxlHmfIQvjojp0KPYzaHpWCOL2/j1SR9EErZZjcOxZgkuKRqkDyBv
+         k1BmZbzWFgiWGvReVCNw9JDvv/II0ccp4VJSugl3dj/83THz7LEy5a6NWNjKAHBIguhj
+         MYDHAOYNKG4L5XRmdJq7a/dczk+hhKaP09+9AnVLT1brZTeZY8egSoo9I9TYwAM/L696
+         CRCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=VOkR7Z9nRHzB4DVkXdaaQy9kKsDLhmTfOlmMXg9X74E=;
+        b=bEJmGI/DnEb74c9UO/f7CjbPfuIHaXBbeTFs8qGS2Kd1iu0LUKLGwIzR7VfQk9qEM+
+         2UR0ziXxBrLFuTDeYM8M10kBW731p0pU63NIuCr5nWwkthbsRuTbx9Dmi/9jWMgC9Bni
+         +nXIrtVOWxE9ccmOGEyMkmJ1TEooXyhn2I1g9vJJOMp0d6aNQuwtPYJ+JaDVaPwGrX+6
+         PwHdHM9KJF5c48EiJ83jpG/5x61Z6agr12nmULXZ45m7cjWXc/ijnPvRKXeT8sqXVvf3
+         SEdeq19kpSqhE4PBKgxq1BpJTOH4ixzcCNExd9TEY5xHmindkIumWp7CFp/CK9NX867S
+         Uftg==
+X-Gm-Message-State: APjAAAUUG/4I4lJYd5dDcsPiGm7yHO1pnjO0qErD0F0fyw4lHYDORR9F
+        BY4y06WD2nVNQG3doTWCGoNh27tZ9Og=
+X-Google-Smtp-Source: APXvYqyQMcz6Pktq1YQl9Til6vW8VuRHJeB4AhRCM9DN3mWXkgRYvmIxsuCdhOfS8kT5Tambx7NuDQ==
+X-Received: by 2002:a50:8fa4:: with SMTP id y33mr24548822edy.197.1557133444418;
+        Mon, 06 May 2019 02:04:04 -0700 (PDT)
+Received: from localhost (frost.nullroute.eu.org. [2001:778:e27f:a23:36c4:e19f:3c1:8a8])
+        by smtp.gmail.com with ESMTPSA id w54sm2898881edw.40.2019.05.06.02.04.03
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 06 May 2019 02:04:03 -0700 (PDT)
+From:   =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+To:     linux-usb@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org,
+        =?UTF-8?q?Mantas=20Mikul=C4=97nas?= <grawity@gmail.com>
+Subject: [PATCH 29/34] lsusb.py: give all Usb* classes a superclass
+Date:   Mon,  6 May 2019 12:02:36 +0300
+Message-Id: <20190506090241.169665-30-grawity@gmail.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190506090241.169665-1-grawity@gmail.com>
+References: <20190506090241.169665-1-grawity@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Message-ID: <20190424092216.Ez_-JjvbIsFisH8OdF3WPft8NlXtRsucgpQoS9cl2Yk@z>
 
-From: Chunfeng Yun <chunfeng.yun@mediatek.com>
-
-Add fwnode_usb_role_switch_get() to make easier to get
-usb_role_switch by fwnode which register it.
-It's useful when there is not device_connection registered
-between two drivers and only knows the fwnode which register
-usb_role_switch.
-
-Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+Signed-off-by: Mantas Mikulėnas <grawity@gmail.com>
 ---
- * Rebased on top of patch1 in this series. Incorporated Heikki's review comments
-   (https://patchwork.kernel.org/patch/10882555/)
+ lsusb.py.in | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
- Note:- This patch is added to this series to avoid compilation issues.
----
- drivers/usb/roles/class.c | 25 +++++++++++++++++++++++++
- include/linux/usb/role.h  |  8 ++++++++
- 2 files changed, 33 insertions(+)
-
-diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
-index f45d8df..a0847a8 100644
---- a/drivers/usb/roles/class.c
-+++ b/drivers/usb/roles/class.c
-@@ -136,6 +136,31 @@ struct usb_role_switch *usb_role_switch_get(struct device *dev)
- EXPORT_SYMBOL_GPL(usb_role_switch_get);
+diff --git a/lsusb.py.in b/lsusb.py.in
+index 577eb0a..361615d 100644
+--- a/lsusb.py.in
++++ b/lsusb.py.in
+@@ -230,7 +230,10 @@ def find_dev(driver, usbname):
+ 	return res
  
- /**
-+ * fwnode_usb_role_switch_get - Find USB role switch by it's parent fwnode
-+ * @fwnode: The fwnode that register USB role switch
-+ *
-+ * Finds and returns role switch registered by @fwnode. The reference count
-+ * for the found switch is incremented.
-+ */
-+struct usb_role_switch *
-+fwnode_usb_role_switch_get(struct fwnode_handle *fwnode)
-+{
-+	struct usb_role_switch *sw;
-+	struct device *dev;
-+
-+	dev = class_find_device(role_class, NULL, fwnode,
-+				switch_fwnode_match);
-+	if (!dev)
-+		return ERR_PTR(-EPROBE_DEFER);
-+
-+	sw = to_role_switch(dev);
-+	WARN_ON(!try_module_get(sw->dev.parent->driver->owner));
-+
-+	return sw;
-+}
-+EXPORT_SYMBOL_GPL(fwnode_usb_role_switch_get);
-+
-+/**
-  * usb_role_switch_put - Release handle to a switch
-  * @sw: USB Role Switch
-  *
-diff --git a/include/linux/usb/role.h b/include/linux/usb/role.h
-index da2b964..0f6e2829 100644
---- a/include/linux/usb/role.h
-+++ b/include/linux/usb/role.h
-@@ -47,6 +47,8 @@ struct usb_role_switch_desc {
- int usb_role_switch_set_role(struct usb_role_switch *sw, enum usb_role role);
- enum usb_role usb_role_switch_get_role(struct usb_role_switch *sw);
- struct usb_role_switch *usb_role_switch_get(struct device *dev);
-+struct usb_role_switch *
-+fwnode_usb_role_switch_get(struct fwnode_handle *fwnode);
- void usb_role_switch_put(struct usb_role_switch *sw);
  
- struct usb_role_switch *
-@@ -70,6 +72,12 @@ static inline struct usb_role_switch *usb_role_switch_get(struct device *dev)
- 	return ERR_PTR(-ENODEV);
- }
- 
-+struct usb_role_switch *
-+fwnode_usb_role_switch_get(struct fwnode_handle *fwnode)
-+{
-+	return ERR_PTR(-ENODEV);
-+}
+-class UsbEndpoint:
++class UsbObject:
++	pass
 +
- static inline void usb_role_switch_put(struct usb_role_switch *sw) { }
++class UsbEndpoint(UsbObject):
+ 	"Container for USB endpoint info"
+ 	def __init__(self, parent, fname, level):
+ 		self.parent = parent
+@@ -268,7 +271,7 @@ class UsbEndpoint:
+ 			 self.ival, self.attr, self.len, self.max, cols[0])
  
- static inline struct usb_role_switch *
+ 
+-class UsbInterface:
++class UsbInterface(UsbObject):
+ 	"Container for USB interface info"
+ 	def __init__(self, parent, fname, level=1):
+ 		self.parent = parent
+@@ -321,7 +324,7 @@ class UsbInterface:
+ 				strg += str(ep)
+ 		return strg
+ 
+-class UsbDevice:
++class UsbDevice(UsbObject):
+ 	"Container for USB device info"
+ 	def __init__(self, parent, fname, level=0):
+ 		self.parent = parent
 -- 
-2.7.4
+2.21.0
 
