@@ -2,166 +2,137 @@ Return-Path: <SRS0=vU1U=TI=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59E18C04A6B
-	for <linux-usb@archiver.kernel.org>; Wed,  8 May 2019 07:55:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DCEDC04A6B
+	for <linux-usb@archiver.kernel.org>; Wed,  8 May 2019 08:11:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1B60320644
-	for <linux-usb@archiver.kernel.org>; Wed,  8 May 2019 07:55:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 01700214C6
+	for <linux-usb@archiver.kernel.org>; Wed,  8 May 2019 08:11:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=xilinx.onmicrosoft.com header.i=@xilinx.onmicrosoft.com header.b="C/wDZ53A"
+	dkim=pass (1024-bit key) header.d=xilinx.onmicrosoft.com header.i=@xilinx.onmicrosoft.com header.b="SxyHb3Hi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726808AbfEHHzx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 May 2019 03:55:53 -0400
-Received: from mail-eopbgr820082.outbound.protection.outlook.com ([40.107.82.82]:56288
-        "EHLO NAM01-SN1-obe.outbound.protection.outlook.com"
+        id S1726428AbfEHIK4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 May 2019 04:10:56 -0400
+Received: from mail-eopbgr740089.outbound.protection.outlook.com ([40.107.74.89]:28576
+        "EHLO NAM01-BN3-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726415AbfEHHzw (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 8 May 2019 03:55:52 -0400
+        id S1725778AbfEHIKz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 8 May 2019 04:10:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ntZ1DgLIHPzxyWjXS/i+t9vKfZShLt9v6y3eqbMIIEI=;
- b=C/wDZ53A3EZZcdOYBZhK++Eeo/df1P2N4YF4O3lp1+5OB6f1WE8Y9QUw8uAQQD6wsf7/d/Gu8EiQC58PwmYshhphL1L63K62Nqj2q6iyESqzTpBh2UARk58+eAFW/79GXajbQHFR3ov+PS8lg0eIG6WzsG29E+oUneb9QZS9xMQ=
-Received: from MN2PR02CA0032.namprd02.prod.outlook.com (2603:10b6:208:fc::45)
- by DM5PR02MB3830.namprd02.prod.outlook.com (2603:10b6:4:b0::29) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1856.12; Wed, 8 May
- 2019 07:55:10 +0000
-Received: from CY1NAM02FT054.eop-nam02.prod.protection.outlook.com
- (2a01:111:f400:7e45::206) by MN2PR02CA0032.outlook.office365.com
- (2603:10b6:208:fc::45) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1878.20 via Frontend
- Transport; Wed, 8 May 2019 07:55:09 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- CY1NAM02FT054.mail.protection.outlook.com (10.152.74.100) with Microsoft SMTP
- Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1856.11
- via Frontend Transport; Wed, 8 May 2019 07:55:08 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
-        by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
-        (envelope-from <anurag.kumar.vulisha@xilinx.com>)
-        id 1hOHPw-0004Y6-E8; Wed, 08 May 2019 00:55:08 -0700
-Received: from [127.0.0.1] (helo=localhost)
-        by xsj-pvapsmtp01 with smtp (Exim 4.63)
-        (envelope-from <anurag.kumar.vulisha@xilinx.com>)
-        id 1hOHPr-0005yM-9u; Wed, 08 May 2019 00:55:03 -0700
-Received: from xsj-pvapsmtp01 (maildrop.xilinx.com [149.199.38.66])
-        by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id x487sqF4027151;
-        Wed, 8 May 2019 00:54:53 -0700
-Received: from [172.23.64.8] (helo=xhdvnc108.xilinx.com)
-        by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-        (envelope-from <anuragku@xilinx.com>)
-        id 1hOHPg-0005s9-KO; Wed, 08 May 2019 00:54:52 -0700
-Received: by xhdvnc108.xilinx.com (Postfix, from userid 15427)
-        id C80BC604D8; Wed,  8 May 2019 13:24:51 +0530 (IST)
-From:   Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Felipe Balbi <balbi@kernel.org>,
+ bh=tZ3gxpjtpvAfC6f9c+Hwhla3AbSRGUq+dWyEU5aht8s=;
+ b=SxyHb3Hitt6I8UzqizjzNqLX8xLp6cwYTf3LT18uZvu34nMzmfovm2u2YrEhMrEQQm+IyCiKHae57D/svprL+VnZJzaPJOR8VVJ0ifhpL4odAaWJKyORwQpp4BFJuzphiVc9nO3+SWGdiR38NC1DNeBQU0Qrjr2IsiEFtcA6fc8=
+Received: from BYAPR02MB5591.namprd02.prod.outlook.com (20.177.230.89) by
+ BYAPR02MB4182.namprd02.prod.outlook.com (20.176.249.144) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1856.10; Wed, 8 May 2019 08:10:50 +0000
+Received: from BYAPR02MB5591.namprd02.prod.outlook.com
+ ([fe80::4158:f3a1:5e61:54a2]) by BYAPR02MB5591.namprd02.prod.outlook.com
+ ([fe80::4158:f3a1:5e61:54a2%2]) with mapi id 15.20.1856.012; Wed, 8 May 2019
+ 08:10:50 +0000
+From:   Anurag Kumar Vulisha <anuragku@xilinx.com>
+To:     "Claus H. Stovgaard" <cst@phaseone.com>,
         Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        "Claus H. Stovgaard" <cst@phaseone.com>
-CC:     <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <v.anuragkumar@gmail.com>,
-        Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
-Subject: [PATCH v2 0/3] usb: gadget: Add support for disabling U1 and U2 entries
-Date:   Wed, 8 May 2019 13:24:48 +0530
-Message-ID: <1557302091-7455-1-git-send-email-anurag.kumar.vulisha@xilinx.com>
-X-Mailer: git-send-email 2.1.1
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(376002)(39860400002)(346002)(136003)(396003)(2980300002)(199004)(189003)(63266004)(7416002)(47776003)(305945005)(356004)(6666004)(90966002)(81166006)(486006)(81156014)(103686004)(26005)(2616005)(186003)(8936002)(51416003)(426003)(8676002)(476003)(336012)(2906002)(50226002)(16586007)(126002)(4326008)(6266002)(316002)(6306002)(42186006)(110136005)(70586007)(5660300002)(70206006)(14444005)(107886003)(54906003)(106002)(478600001)(48376002)(966005)(52956003)(50466002)(36756003)(36386004)(6606295002);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR02MB3830;H:xsj-pvapsmtpgw01;FPR:;SPF:Pass;LANG:en;PTR:unknown-60-83.xilinx.com;A:1;MX:1;
-MIME-Version: 1.0
-Content-Type: text/plain
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2966770b-a25f-415a-a58a-08d6d38a7e36
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4709054)(2017052603328);SRVR:DM5PR02MB3830;
-X-MS-TrafficTypeDiagnostic: DM5PR02MB3830:
-X-MS-Exchange-PUrlCount: 1
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+CC:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] usb: gadget: configfs: Add lpm_Ux_disable
+Thread-Topic: [PATCH] usb: gadget: configfs: Add lpm_Ux_disable
+Thread-Index: AQHVBLh1NKHuOM5cT0ypNd70f8FPqaZgLlKAgACxpSA=
+Date:   Wed, 8 May 2019 08:10:50 +0000
+Message-ID: <BYAPR02MB559103E5E6C77B476A4B52F1A7320@BYAPR02MB5591.namprd02.prod.outlook.com>
+References: <1557220655-123090-1-git-send-email-cst@phaseone.com>
+         <1557221830.114189.8.camel@phaseone.com>
+         <30102591E157244384E984126FC3CB4F639E9057@us01wembx1.internal.synopsys.com>
+ <1557264537.26527.14.camel@phaseone.com>
+In-Reply-To: <1557264537.26527.14.camel@phaseone.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-Microsoft-Antispam-PRVS: <DM5PR02MB383097B712FB76222FB0FCE7A7320@DM5PR02MB3830.namprd02.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-Forefront-PRVS: 0031A0FFAF
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: 848ofKxSide2kz0vOQHCMH3F5BFB8QzXRUmztvYUI5DDh3yfMrecykWhNZZy/h4fd8zrzRXf/toxz7yXtnzDWnUs2RB1uyEHCvThIQ3pHSKdiBpKAKAZVy6o9xpZ2eXR2ARTspeeiacAnwlA0Wr4XzGcZM1KpmM3g18cZo9D0RXcCHLcWdm578TRK4cLllJ0/I0YdcNZDXUVjmM7p5NbGDvtvDGF3zehczVJfQL4L0NuPjKW5xEoDLo38MjDvO0xfKKokPgglP0SDrORCeoBaMNnxSLG6hav0J6JJ/93Y8ViLf7UVQZ0AR1lo1hAZetBr8F1N663viD5ZNnBCEa1oNEnMrZ1T/3f4lIP+6WLG9vjIeduJZLfdGaslAYgnki23k2/gbCx6xHknDr4GHrAH8uiB2zhZCWknHnZS70WSRI=
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=anuragku@xilinx.com; 
+x-originating-ip: [149.199.50.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5bee7229-906b-4716-6447-08d6d38caf1b
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:BYAPR02MB4182;
+x-ms-traffictypediagnostic: BYAPR02MB4182:
+x-ms-exchange-purlcount: 2
+x-ld-processed: 657af505-d5df-48d0-8300-c31994686c5c,ExtAddr
+x-microsoft-antispam-prvs: <BYAPR02MB4182ABD14031EE85D45332CEA7320@BYAPR02MB4182.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:935;
+x-forefront-prvs: 0031A0FFAF
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(376002)(396003)(136003)(346002)(39860400002)(366004)(189003)(199004)(13464003)(7696005)(76176011)(11346002)(476003)(446003)(6436002)(6506007)(71200400001)(71190400001)(486006)(102836004)(110136005)(54906003)(5660300002)(186003)(99286004)(26005)(55016002)(2501003)(478600001)(33656002)(14454004)(229853002)(966005)(86362001)(74316002)(7736002)(305945005)(53936002)(9686003)(6306002)(2906002)(6116002)(4326008)(25786009)(6246003)(66066001)(3846002)(256004)(66446008)(64756008)(66556008)(66476007)(66946007)(316002)(81166006)(8936002)(81156014)(8676002)(76116006)(52536014)(19627235002)(68736007)(73956011)(6606295002);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR02MB4182;H:BYAPR02MB5591.namprd02.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: xilinx.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: PyCjWnQBacnMbPU1XjyBOXEVY2/WWDqfubb2sYaSm2Eg/8yC6MK0nOExAaDvSRqZg349ZKWXa8TS2coaYpW5q2AjSwpO6SCpQSAqT7IZ68PVzMC3LSjM9I0m3r9SBlRWR5sqjJcczdy3QCCpWh5so//re8vy60mDDy8ybKE3CVQmqFsdcezfFuvPSUWHDBQwgLmHLILg9JkCtBTcZjtlzwVkda+Q4xsE9LxKDPGz8sqrPjAMyTTFdafLSqU+Ufzu59kEamjXGquNu6VJMZ0NDhWPWA1SJw/ob1N0q9vYDLKf6A7thS/mykhV9uJHnxpZ4sGU05CK3Lk0a+ii4r0n1f4O+JOU6K93f+1llclpJS4RaKXGVlmE8a5JGdOK7ghm4fRJujXpdfMO7g+Ccf6lMGb8LhIL2vuQlfXp2JkXtNA=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2019 07:55:08.9654
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5bee7229-906b-4716-6447-08d6d38caf1b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 May 2019 08:10:50.4742
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2966770b-a25f-415a-a58a-08d6d38a7e36
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.60.83];Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB3830
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4182
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Gadget applications may have a requirement to disable the U1 and U2
-entry based on the usecase. Below are few usecases where the disabling
-U1/U2 entries may be possible.
-
-Usecase 1:
-When combining dwc3 with an redriver for a USB Type-C device solution, it
-sometimes have problems with leaving U1/U2 for certain hosts, resulting in
-link training errors and reconnects. For this U1/U2 state entries may be
-avoided.
-
-Usecase 2:
-When performing performance benchmarking on mass storage gadget the
-U1 and U2 entries can be disabled.
-
-Usecase 3:
-When periodic transfers like ISOC transfers are used with bInterval
-of 1 which doesn't require the link to enter into U1 or U2 state entry
-(since ping is issued from host for every uframe interval). In this
-case the U1 and U2 entry can be disabled.
-
-Disablement of U1/U2 can be done by setting U1DevExitLat and U2DevExitLat
-values to 0 in the BOS descriptor. Host on seeing 0 value for U1DevExitLat
-and U2DevExitLat, it doesn't send SET_SEL requests to the gadget. There
-may be some hosts which may send SET_SEL requests even after seeing 0 in
-the UxDevExitLat of BOS descriptor. To aviod U1/U2 entries for these type
-of hosts, dwc3 controller can be programmed to reject those U1/U2 requests
-by not enabling ACCEPTUxENA bits in DCTL register.
-
-This patch series updates the same.
-
-Changes in v2:
-	1. As suggested by Thinh Nguyen changed the "snps,dis_u1_entry_quirk"
-	   to "snps,dis-u1-entry-quirk"
-	2. Merged the changes done by Claus H. Stovgaard in ep0.c for rejecting
-	   U1/U2 requests into this patch. Changes done by Claus can be found
-	   here https://marc.info/?l=linux-kernel&m=155722068820568&w=2
-
-Anurag Kumar Vulisha (3):
-  doc: dt: bindings: usb: dwc3: Update entries for disabling U1 and U2
-  usb: gadget: send usb_gadget as an argument in get_config_params
-  usb: dwc3: gadget: Add support for disabling U1 and U2 entries
-
- Documentation/devicetree/bindings/usb/dwc3.txt |  2 ++
- drivers/usb/dwc3/core.c                        |  4 ++++
- drivers/usb/dwc3/core.h                        |  4 ++++
- drivers/usb/dwc3/ep0.c                         |  9 ++++++++-
- drivers/usb/dwc3/gadget.c                      | 19 +++++++++++++++++++
- drivers/usb/dwc3/gadget.h                      |  6 ++++++
- drivers/usb/gadget/composite.c                 |  2 +-
- include/linux/usb/gadget.h                     |  3 ++-
- 8 files changed, 46 insertions(+), 3 deletions(-)
-
--- 
-2.1.1
-
+SGkgQ2xhdXMgJiBUaGluaCwNCg0KPi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTog
+Q2xhdXMgSC4gU3RvdmdhYXJkIFttYWlsdG86Y3N0QHBoYXNlb25lLmNvbV0NCj5TZW50OiBXZWRu
+ZXNkYXksIE1heSAwOCwgMjAxOSAyOjU5IEFNDQo+VG86IFRoaW5oIE5ndXllbiA8VGhpbmguTmd1
+eWVuQHN5bm9wc3lzLmNvbT47IGxpbnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmcNCj5DYzogRmVsaXBl
+IEJhbGJpIDxiYWxiaUBrZXJuZWwub3JnPjsgR3JlZyBLcm9haC1IYXJ0bWFuDQo+PGdyZWdraEBs
+aW51eGZvdW5kYXRpb24ub3JnPjsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsgQW51cmFn
+IEt1bWFyIFZ1bGlzaGENCj48YW51cmFna3VAeGlsaW54LmNvbT4NCj5TdWJqZWN0OiBSZTogW1BB
+VENIXSB1c2I6IGdhZGdldDogY29uZmlnZnM6IEFkZCBscG1fVXhfZGlzYWJsZQ0KPg0KPkhpIFRo
+aW5oDQo+DQo+T24gdGlyLCAyMDE5LTA1LTA3IGF0IDE4OjUzICswMDAwLCBUaGluaCBOZ3V5ZW4g
+d3JvdGU6DQo+PiBDbGF1cyBILiBTdG92Z2FhcmQgd3JvdGU6DQo+PiA+DQo+PiA+IFdoZXJlIEFu
+dXJhZ3MgcGF0Y2ggZm9jdXMgb24gc2V0dGluZyBVMS9VMiBsYXRlbmN5IGluIHRoZSBCT1MNCj4+
+ID4gZGVzY3JpcHRvciBmcm9tIHRoZSBkZXZpY2V0cmVlLCB0aGlzIHBhdGNoIGZvY3VzZXMgb24g
+aGF2aW5nIGENCj4+ID4gY29uZmlnZnMNCj4+ID4gaW50ZXJmYWNlIGZvciBmb3JjaW5nIHRoZSBV
+REMgKGhlcmUgdGhlIGR3YzMpIHRvIG5vdCBlbmFibGUgVTEvVTINCj4+ID4gYW5kDQo+PiA+IHJl
+amVjdCB0aGUgU0VUX1NFTChVMS9VMikuDQo+PiA+DQo+PiA+IExvb2tpbmcgZm9yd2FyZCB0byBp
+bnB1dC4NCj4+ID4NCj4+ID4gWzFdIGh0dHBzOi8vdXJsZGVmZW5zZS5wcm9vZnBvaW50LmNvbS92
+Mi91cmw/dT1odHRwcy0zQV9fd3d3LnNwaW5pYw0KPj4gPiBzLm5ldF9saXN0c19saW51eC0NCj4+
+ID4NCj4yRHVzYl9tc2cxNzk3MzIuaHRtbCZkPUR3SURhUSZjPURQTDZfWF82SmtYRng3QVhXcUIw
+dGcmcj11OUZZb3hLdHloDQo+PiA+IGpyR0ZjeWl4RllxVGp3MVpYMFZzRzJkOEZDbXprVFktDQo+
+PiA+DQo+dyZtPXdLZHlXbVlwYlc3OTFMQW03cll3dkZZeDVFMGJqRU55WFp6SHZLNHZ5Rm8mcz1l
+czdra2k2aXVMSlVwMnJKbg0KPj4gPiB6UDlhbFhLeWZKUE5TZnl4VFZDS0tEZF9yUSZlPQ0KPj4g
+PiBbMl0gaHR0cHM6Ly91cmxkZWZlbnNlLnByb29mcG9pbnQuY29tL3YyL3VybD91PWh0dHBzLTNB
+X193d3cuc3BpbmljDQo+PiA+IHMubmV0X2xpc3RzX2xpbnV4LQ0KPj4gPg0KPjJEdXNiX21zZzE3
+OTM5My5odG1sJmQ9RHdJRGFRJmM9RFBMNl9YXzZKa1hGeDdBWFdxQjB0ZyZyPXU5RllveEt0eWgN
+Cj4+ID4ganJHRmN5aXhGWXFUancxWlgwVnNHMmQ4RkNtemtUWS0NCj4+ID4NCj53Jm09d0tkeVdt
+WXBiVzc5MUxBbTdyWXd2Rll4NUUwYmpFTnlYWnpIdks0dnlGbyZzPWNGVG1POXdQZjdiNlRaeA0K
+PkZVDQo+PiA+IEFBSUpNMFpfd00xdHROSWMxcmN0MHVSNmNvJmU9DQo+PiA+DQo+PiA+DQo+Pg0K
+Pj4gSSdtIG5vdCBzdXJlIHdobyB3aWxsIHN1Ym1pdCB0aGUgcGF0Y2ggdG8gbWFrZSBjaGFuZ2Ug
+dG8gRFdDMyBmb3INCj4+IGRpc2FibGluZyBVMS9VMiAoQW51cmFnIG9yIHlvdSksIGJ1dCBjYW4g
+eW91IHNwbGl0IHlvdXIgcGF0Y2ggYmV0d2Vlbg0KPj4gZHdjMyBhbmQgY29uZmlnZnMuDQo+DQo+
+SGF2ZSBqdXN0IHdyaXR0ZW4gd2l0aCBBbnVyYWcsIGFuZCBoZSB3aWxsIHN1Ym1pdCBhIG5ldyBw
+YXRjaCBzZXQsDQo+d2hlcmUgaGUgaGFzIHRha2VuIHRoZSBjb250cm9sIGluIGVwMC5jIGZyb20g
+bXkgcGF0Y2gsIGFuZCBjb21iaW5lZA0KPndpdGggaGlzIGRldmljZXRyZWUgYmluZGluZ3MuIFNv
+IHRoZSBwbGFuIGlzIHRvIGRyb3AgdGhlIGNvbmZpZ2ZzDQo+aW50ZXJmYWNlIGNvbXBsZXRlbHks
+IGtlZXAgdGhlIGRldmljZXRyZWUgYmluZGluZyBuYW1lcyAoZGlzLXUxLWVudHJ5LQ0KPnF1aXJr
+KSBhbmQgbGV0IGl0IGRvIDMgdGhpbmdzLg0KPipTZXRzIHRoZSBsYXRlbmN5IHRvIDAgaW4gdGhl
+IEJPUw0KPipEaXNhYmxlIFUxL1UyIGFjY2VwdGVuY2UNCj4qRGlzYWJsZSBVMS9VMiBpbml0aWF0
+aW5nDQo+VGhpcyBhbHNvIGluY2x1ZGUgcmVqZWN0aW5nIFNFVF9TRUwuDQo+DQo+V2UgdGhpbmsg
+dGhpcyBpcyB0aGUgYmVzdCBvcHRpb24sIGFuZCB0aGVuIGRyb3BwaW5nIHRoaXMgcGF0Y2ggYXMg
+aXQNCj5pcy4NCj4NCj5JIHdpbGwganVzdCBzZW5kIGFuZCBlbWFpbCBsYXRlciBvbiB0aGlzIHRo
+cmVhZCwgd2hlbiB0aGUgcGF0Y2ggaXMNCj5hdmFpbGFibGUgb24gbWFyYy5pbmZvIGFzIGEgbGlu
+ayBmb3IgcmVmZXJlbmNlIHRvIHRoZSBmdXR1cmUuDQo+DQoNCkkgaGF2ZSBzZW50IHRoZSB2MiBw
+YXRjaCBzZXJpZXMgd2l0aCB0aGUgY2hhbmdlcyB0aGF0IENsYXVzIG1lbnRpb25lZCBhYm92ZS4N
+ClRoZSBwYXRjaCBjYW4gYmUgZm91bmQgaGVyZSBodHRwczovL21hcmMuaW5mby8/bD1saW51eC1r
+ZXJuZWwmbT0xNTU3MzAyMTI2MTgzODgmdz0yDQoNClRoYW5rcywNCkFudXJhZyBLdW1hciBWdWxp
+c2hhDQo=
