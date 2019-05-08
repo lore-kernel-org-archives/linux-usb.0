@@ -3,121 +3,151 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28808C04A6B
-	for <linux-usb@archiver.kernel.org>; Wed,  8 May 2019 15:27:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 175D4C04A6B
+	for <linux-usb@archiver.kernel.org>; Wed,  8 May 2019 16:22:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 03446204FD
-	for <linux-usb@archiver.kernel.org>; Wed,  8 May 2019 15:27:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E62F1204EC
+	for <linux-usb@archiver.kernel.org>; Wed,  8 May 2019 16:22:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726914AbfEHP1k convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 May 2019 11:27:40 -0400
-Received: from unicorn.mansr.com ([81.2.72.234]:36280 "EHLO unicorn.mansr.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726522AbfEHP1j (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 8 May 2019 11:27:39 -0400
-Received: by unicorn.mansr.com (Postfix, from userid 51770)
-        id CDBEB149B7; Wed,  8 May 2019 16:27:37 +0100 (BST)
-From:   =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>
-To:     Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     linux-usb@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Markus Reichl <m.reichl@fivetechno.de>,
-        Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH v2] usb: core: verify devicetree nodes for disabled interfaces
-References: <106fc58c-1a4f-6605-41d7-b6031c5751a3@samsung.com>
-        <CGME20190508104442eucas1p2ebdffa348465f2c28177601014614853@eucas1p2.samsung.com>
-        <20190508104434.3409-1-m.szyprowski@samsung.com>
-        <yw1xtve5uq1y.fsf@mansr.com>
-        <e7f32280-57ec-6298-1a5d-8d2d4dc26667@samsung.com>
-Date:   Wed, 08 May 2019 16:27:37 +0100
-In-Reply-To: <e7f32280-57ec-6298-1a5d-8d2d4dc26667@samsung.com> (Marek
-        Szyprowski's message of "Wed, 8 May 2019 15:49:22 +0200")
-Message-ID: <yw1xpnotufti.fsf@mansr.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.3 (gnu/linux)
+        id S1727977AbfEHQWU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 May 2019 12:22:20 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:40404 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1727971AbfEHQWS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 8 May 2019 12:22:18 -0400
+Received: (qmail 5576 invoked by uid 2102); 8 May 2019 12:22:17 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 8 May 2019 12:22:17 -0400
+Date:   Wed, 8 May 2019 12:22:17 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     EJ Hsu <ejh@nvidia.com>
+cc:     balbi@kernel.org, <linux-usb@vger.kernel.org>
+Subject: Re: [V2] usb: gadget: storage: Remove warning message
+In-Reply-To: <1557303384-69873-1-git-send-email-ejh@nvidia.com>
+Message-ID: <Pine.LNX.4.44L0.1905081203410.1699-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8BIT
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Marek Szyprowski <m.szyprowski@samsung.com> writes:
+On Wed, 8 May 2019, EJ Hsu wrote:
 
-> Hi
->
-> On 2019-05-08 13:46, Måns Rullgård wrote:
->> Marek Szyprowski <m.szyprowski@samsung.com> writes:
->>> Commit 01fdf179f4b0 ("usb: core: skip interfaces disabled in devicetree")
->>> add support for disabling given USB device interface by adding nodes to
->>> the USB host controller device. The mentioned commit however identifies
->>> the given USB interface node only by the 'reg' property in the host
->>> controller children nodes and then checks for their the 'status'. The USB
->>> device interface nodes however also has to have a 'compatible' property as
->>> described in Documentation/devicetree/bindings/usb/usb-device.txt. This is
->>> important, because USB host controller might have child-nodes for other
->>> purposes. For example, Exynos EHCI and OHCI drivers already define
->>> child-nodes for each physical root hub port and assigns respective PHY
->>> controller and parameters for them. This conflicts with the proposed
->>> approach and verifying for the presence of the compatible property fixes
->>> this issue without changing the bindings and the way the PHY controllers
->>> are handled by Exynos EHCI/OHCI drivers.
->>>
->>> Reported-by: Markus Reichl <m.reichl@fivetechno.de>
->>> Fixes: 01fdf179f4b0 ("usb: core: skip interfaces disabled in devicetree")
->>> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
->>> ---
->>>   drivers/usb/core/message.c | 1 +
->>>   1 file changed, 1 insertion(+)
->>>
->>> diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
->>> index e844bb7b5676..6f7d047392bd 100644
->>> --- a/drivers/usb/core/message.c
->>> +++ b/drivers/usb/core/message.c
->>> @@ -2009,6 +2009,7 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
->>>   		struct usb_interface *intf = cp->interface[i];
->>>
->>>   		if (intf->dev.of_node &&
->>> +		    of_find_property(intf->dev.of_node, "compatible", NULL) &&
->>>   		    !of_device_is_available(intf->dev.of_node)) {
->>>   			dev_info(&dev->dev, "skipping disabled interface %d\n",
->>>   				 intf->cur_altsetting->desc.bInterfaceNumber);
->>> -- 
->> I don't think this is the right approach.  We don't want to be adding
->> such checks everywhere the of_node is used.  A better way might be to
->> not set of_node at all in the absence of a proper "compatible" string.
->
-> Right, this will be a better approach. I've just checked the code and a 
-> simple check for 'compatible' property presence can be easily added in 
-> drivers/usb/core/of.c in usb_of_get_device_node() and 
-> usb_of_get_interface_node() functions.
->
-> The second check could be added in drivers/usb/core/hub.c in 
-> usb_new_device() - to ensure that the device's vid/pid matches of_node 
-> compatible string.
->
-> Is this okay? Or just add a latter one?
+> This change is to fix below warning message in following scenario:
+> usb_composite_setup_continue: Unexpected call
+> 
+> When system tried to enter suspend, the fsg_disable() will be called to
+> disable fsg driver and send a signal to fsg_main_thread. However, at
+> this point, the fsg_main_thread has already been frozen and can not
+> respond to this signal. So, this signal will be pended until
+> fsg_main_thread wakes up.
+> 
+> Once system resumes from suspend, fsg_main_thread will detect a signal
+> pended and do some corresponding action (in handle_exception()). Then,
+> host will send some setup requests (get descriptor, set configuration...)
+> to UDC driver trying to enumerate this device. During the handling of "set
+> configuration" request, it will try to sync up with fsg_main_thread by
+> sending a signal (which is the same as the signal sent by fsg_disable)
+> to it. In a similar manner, once the fsg_main_thread receives this
+> signal, it will call handle_exception() to handle the request.
+> 
+> However, if the fsg_main_thread wakes up from suspend a little late and
+> "set configuration" request from Host arrives a little earlier,
+> fsg_main_thread might come across the request from "set configuration"
+> when it handles the signal from fsg_disable(). In this case, it will
+> handle this request as well. So, when fsg_main_thread tries to handle
+> the signal sent from "set configuration" later, there will nothing left
+> to do and warning message "Unexpected call" is printed.
+> 
+> Signed-off-by: EJ Hsu <ejh@nvidia.com>
+> ---
+> v2: remove the copyright info
+> ---
+>  drivers/usb/gadget/function/f_mass_storage.c | 17 ++++++++++++++---
+>  drivers/usb/gadget/function/storage_common.h |  1 +
+>  2 files changed, 15 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/usb/gadget/function/f_mass_storage.c b/drivers/usb/gadget/function/f_mass_storage.c
+> index 043f97a..ba1d827 100644
+> --- a/drivers/usb/gadget/function/f_mass_storage.c
+> +++ b/drivers/usb/gadget/function/f_mass_storage.c
+> @@ -2294,7 +2294,7 @@ static void fsg_disable(struct usb_function *f)
+>  {
+>  	struct fsg_dev *fsg = fsg_from_func(f);
+>  	fsg->common->new_fsg = NULL;
 
-I'm not sure where the best place to check is.  Someone else will have
-to weigh in on that.
+That line is no longer needed.
 
->> Then there's the problem of how to resolve the incompatibility between
->> the generic USB and Exynos bindings.  One possible fix could be to use
->> a child node of the controller node to represent the root hub.  Since
->> the driver currently doesn't work at all if a devicetree has nodes for
->> USB devices, there should be no compatibility concerns.
->
-> So far we don't have any use case for adding devicetree nodes for usb 
-> devices under Exynos EHCI/OHCI hcd, so this shouldn't be a problem for now.
+> -	raise_exception(fsg->common, FSG_STATE_CONFIG_CHANGE);
+> +	raise_exception(fsg->common, FSG_STATE_DISCONNECT);
+>  }
+>  
+>  
+> @@ -2307,6 +2307,7 @@ static void handle_exception(struct fsg_common *common)
+>  	enum fsg_state		old_state;
+>  	struct fsg_lun		*curlun;
+>  	unsigned int		exception_req_tag;
+> +	struct fsg_dev		*fsg;
+>  
+>  	/*
+>  	 * Clear the existing signals.  Anything but SIGUSR1 is converted
+> @@ -2413,9 +2414,19 @@ static void handle_exception(struct fsg_common *common)
+>  		break;
+>  
+>  	case FSG_STATE_CONFIG_CHANGE:
+> -		do_set_interface(common, common->new_fsg);
+> -		if (common->new_fsg)
+> +		fsg = common->new_fsg;
+> +		/*
+> +		 * Add a check here to double confirm if a disconnect event
+> +		 * occurs and common->new_fsg has been cleared.
+> +		 */
+> +		if (fsg) {
+> +			do_set_interface(common, fsg);
+>  			usb_composite_setup_continue(common->cdev);
+> +		}
+> +		break;
+> +
+> +	case FSG_STATE_DISCONNECT:
+> +		do_set_interface(common, NULL);
+>  		break;
+>  
+>  	case FSG_STATE_EXIT:
+> diff --git a/drivers/usb/gadget/function/storage_common.h b/drivers/usb/gadget/function/storage_common.h
+> index e5e3a25..12687f7 100644
+> --- a/drivers/usb/gadget/function/storage_common.h
+> +++ b/drivers/usb/gadget/function/storage_common.h
+> @@ -161,6 +161,7 @@ enum fsg_state {
+>  	FSG_STATE_ABORT_BULK_OUT,
+>  	FSG_STATE_PROTOCOL_RESET,
+>  	FSG_STATE_CONFIG_CHANGE,
+> +	FSG_STATE_DISCONNECT,
+>  	FSG_STATE_EXIT,
+>  	FSG_STATE_TERMINATED
+>  };
 
-None that you know of, that is.  Regardless, the bindings are
-inconsistent, and that needs to be fixed.
+You forgot to change fsg_unbind() to use FSG_STATE_DISCONNECT.  And
+when that's done, it will no longer need to set common->new_fsg to NULL
+either.
 
--- 
-Måns Rullgård
+This is sort of a band-aid approach.  The real problem is that the
+original design of the driver never intended for there to be more than
+one outstanding CONFIG_CHANGE event, so naturally there are scenarios
+where it doesn't work right when that assumption is violated.  This
+patch addresses one of those scenarios, but there may be others
+remaining.
+
+Ultimately the problem boils down to synchronization with the composite
+core.  Some of the callbacks made by the core take time to fully
+process, so what should happen if the core makes a second callback 
+before the first one is completely processed?
+
+On the other hand, I can't think of anything better at the moment.
+
+Alan Stern
+
