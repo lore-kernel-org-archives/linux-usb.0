@@ -2,148 +2,97 @@ Return-Path: <SRS0=vU1U=TI=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68508C04A6B
-	for <linux-usb@archiver.kernel.org>; Wed,  8 May 2019 11:34:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D421C04A6B
+	for <linux-usb@archiver.kernel.org>; Wed,  8 May 2019 11:46:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 30A1D21019
-	for <linux-usb@archiver.kernel.org>; Wed,  8 May 2019 11:34:33 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=analog.onmicrosoft.com header.i=@analog.onmicrosoft.com header.b="h9DQ+GRs"
+	by mail.kernel.org (Postfix) with ESMTP id 7A53C20989
+	for <linux-usb@archiver.kernel.org>; Wed,  8 May 2019 11:46:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728115AbfEHLeX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 May 2019 07:34:23 -0400
-Received: from mail-eopbgr680051.outbound.protection.outlook.com ([40.107.68.51]:58180
-        "EHLO NAM04-BN3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727575AbfEHL3b (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 8 May 2019 07:29:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=analog.onmicrosoft.com; s=selector1-analog-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ej4TvjRJPb880Evlka3jGsq9toPstBngds/H7MSz+98=;
- b=h9DQ+GRsCQDxKqwstM007EbLcpBHqWjQ2MRqXq5cju0OtcgE40K257CUdmKTcLmNiFsVQ8TTUi5HLpjaCc0tXSIxEMkemV6E3tWUguwanL7bPvyn1MHBba2gc+TzvtAMCzfuHmsH9w9p/tFocvXacJIH4a0VqaLEN/p5NINwGK0=
-Received: from MWHPR03CA0013.namprd03.prod.outlook.com (10.175.133.151) by
- BN3PR03MB2260.namprd03.prod.outlook.com (10.166.73.153) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1856.12; Wed, 8 May 2019 11:29:27 +0000
-Received: from BL2NAM02FT056.eop-nam02.prod.protection.outlook.com
- (2a01:111:f400:7e46::203) by MWHPR03CA0013.outlook.office365.com
- (2603:10b6:300:117::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1856.11 via Frontend
- Transport; Wed, 8 May 2019 11:29:26 +0000
-Authentication-Results: spf=pass (sender IP is 137.71.25.57)
- smtp.mailfrom=analog.com; lists.freedesktop.org; dkim=none (message not
- signed) header.d=none;lists.freedesktop.org; dmarc=bestguesspass action=none
- header.from=analog.com;
-Received-SPF: Pass (protection.outlook.com: domain of analog.com designates
- 137.71.25.57 as permitted sender) receiver=protection.outlook.com;
- client-ip=137.71.25.57; helo=nwd2mta2.analog.com;
-Received: from nwd2mta2.analog.com (137.71.25.57) by
- BL2NAM02FT056.mail.protection.outlook.com (10.152.77.221) with Microsoft SMTP
- Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1856.11
- via Frontend Transport; Wed, 8 May 2019 11:29:26 +0000
-Received: from NWD2HUBCAS7.ad.analog.com (nwd2hubcas7.ad.analog.com [10.64.69.107])
-        by nwd2mta2.analog.com (8.13.8/8.13.8) with ESMTP id x48BTPmx016989
-        (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
-        Wed, 8 May 2019 04:29:25 -0700
-Received: from saturn.analog.com (10.50.1.244) by NWD2HUBCAS7.ad.analog.com
- (10.64.69.107) with Microsoft SMTP Server id 14.3.408.0; Wed, 8 May 2019
- 07:29:25 -0400
-From:   Alexandru Ardelean <alexandru.ardelean@analog.com>
-To:     <linuxppc-dev@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
-        <linux-ide@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-rpi-kernel@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-rockchip@lists.infradead.org>, <linux-pm@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <intel-gfx@lists.freedesktop.org>, <linux-omap@vger.kernel.org>,
-        <linux-mmc@vger.kernel.org>, <linux-wireless@vger.kernel.org>,
-        <netdev@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <devel@driverdev.osuosl.org>,
-        <linux-usb@vger.kernel.org>, <kvm@vger.kernel.org>,
-        <linux-fbdev@vger.kernel.org>, <linux-mtd@lists.infradead.org>,
-        <cgroups@vger.kernel.org>, <linux-mm@kvack.org>,
-        <linux-security-module@vger.kernel.org>,
-        <linux-integrity@vger.kernel.org>, <alsa-devel@alsa-project.org>
-CC:     <gregkh@linuxfoundation.org>, <andriy.shevchenko@linux.intel.com>,
-        Alexandru Ardelean <alexandru.ardelean@analog.com>
-Subject: [PATCH 01/16] lib: fix match_string() helper when array size is positive
-Date:   Wed, 8 May 2019 14:28:27 +0300
-Message-ID: <20190508112842.11654-3-alexandru.ardelean@analog.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190508112842.11654-1-alexandru.ardelean@analog.com>
-References: <20190508112842.11654-1-alexandru.ardelean@analog.com>
+        id S1728184AbfEHLqf convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 May 2019 07:46:35 -0400
+Received: from unicorn.mansr.com ([81.2.72.234]:35024 "EHLO unicorn.mansr.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727545AbfEHLqf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 8 May 2019 07:46:35 -0400
+Received: by unicorn.mansr.com (Postfix, from userid 51770)
+        id 2C80F149B7; Wed,  8 May 2019 12:46:33 +0100 (BST)
+From:   =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>
+To:     Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     linux-usb@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Markus Reichl <m.reichl@fivetechno.de>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v2] usb: core: verify devicetree nodes for disabled interfaces
+References: <106fc58c-1a4f-6605-41d7-b6031c5751a3@samsung.com>
+        <CGME20190508104442eucas1p2ebdffa348465f2c28177601014614853@eucas1p2.samsung.com>
+        <20190508104434.3409-1-m.szyprowski@samsung.com>
+Date:   Wed, 08 May 2019 12:46:33 +0100
+In-Reply-To: <20190508104434.3409-1-m.szyprowski@samsung.com> (Marek
+        Szyprowski's message of "Wed, 08 May 2019 12:44:34 +0200")
+Message-ID: <yw1xtve5uq1y.fsf@mansr.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.3 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ADIRoutedOnPrem: True
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:137.71.25.57;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(1496009)(346002)(376002)(39860400002)(396003)(136003)(2980300002)(189003)(199004)(246002)(8676002)(356004)(5660300002)(1076003)(8936002)(50226002)(53416004)(7416002)(305945005)(2441003)(47776003)(478600001)(7636002)(336012)(107886003)(77096007)(4326008)(186003)(446003)(26005)(44832011)(126002)(476003)(2616005)(11346002)(486006)(86362001)(76176011)(7696005)(51416003)(426003)(14444005)(36756003)(2201001)(48376002)(54906003)(70586007)(110136005)(70206006)(16586007)(316002)(50466002)(2906002)(106002)(921003)(2101003)(1121003)(83996005);DIR:OUT;SFP:1101;SCL:1;SRVR:BN3PR03MB2260;H:nwd2mta2.analog.com;FPR:;SPF:Pass;LANG:en;PTR:nwd2mail11.analog.com;MX:1;A:1;
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 06992cbe-c2a0-450f-a978-08d6d3a86d64
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4709054)(2017052603328);SRVR:BN3PR03MB2260;
-X-MS-TrafficTypeDiagnostic: BN3PR03MB2260:
-X-Microsoft-Antispam-PRVS: <BN3PR03MB22605D56BDEC0036712171DFF9320@BN3PR03MB2260.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-Forefront-PRVS: 0031A0FFAF
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: HMrFOjcKVNRTHDmX1/HvU/gXQlBl+uBSOtcwOD51vWmdyi5ZtZaq4HeTrVqglmQielk1qFJ8dbdhoPs7SBm2gQas++XsjhD055LJSrs5xjRibQaqSBcjHQ44wcFTrBpHBH89k3Ki8Yow3eXIUMpM+NlewIkNIJV3DPQLKY30RuyrOhfh8nkva9n/YB2AL2kQU6YR15UTz29qyv7g67oh8CMTWpMo3frw6vU81LMqNBFZ66OrPeZSiSJAkJBE/bMd3zQC4Hxw9oF5//2KgiJjBZpmuL6vm8U1PSkG8Dxc2tota5ciVE6wTr78/CN6CfJNaW+OzxN0iMIV1Ig8ZSn8zd4ymGDzX2XaqHB1wZ4OfMvmgpNKxP1+GEdfSFMqVRyw0npwgjP2wrgtmFovCAalytU1DI/oSEu8S/98Y5oQHkE=
-X-OriginatorOrg: analog.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2019 11:29:26.1629
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06992cbe-c2a0-450f-a978-08d6d3a86d64
-X-MS-Exchange-CrossTenant-Id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=eaa689b4-8f87-40e0-9c6f-7228de4d754a;Ip=[137.71.25.57];Helo=[nwd2mta2.analog.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR03MB2260
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8BIT
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The documentation the `_match_string()` helper mentions that `n`
-(size of the given array) should be:
- * @n: number of strings in the array or -1 for NULL terminated arrays
+Marek Szyprowski <m.szyprowski@samsung.com> writes:
 
-The behavior of the function is different, in the sense that it exits on
-the first NULL element in the array, regardless of whether `n` is -1 or a
-positive number.
+> Commit 01fdf179f4b0 ("usb: core: skip interfaces disabled in devicetree")
+> add support for disabling given USB device interface by adding nodes to
+> the USB host controller device. The mentioned commit however identifies
+> the given USB interface node only by the 'reg' property in the host
+> controller children nodes and then checks for their the 'status'. The USB
+> device interface nodes however also has to have a 'compatible' property as
+> described in Documentation/devicetree/bindings/usb/usb-device.txt. This is
+> important, because USB host controller might have child-nodes for other
+> purposes. For example, Exynos EHCI and OHCI drivers already define
+> child-nodes for each physical root hub port and assigns respective PHY
+> controller and parameters for them. This conflicts with the proposed
+> approach and verifying for the presence of the compatible property fixes
+> this issue without changing the bindings and the way the PHY controllers
+> are handled by Exynos EHCI/OHCI drivers.
+>
+> Reported-by: Markus Reichl <m.reichl@fivetechno.de>
+> Fixes: 01fdf179f4b0 ("usb: core: skip interfaces disabled in devicetree")
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> ---
+>  drivers/usb/core/message.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
+> index e844bb7b5676..6f7d047392bd 100644
+> --- a/drivers/usb/core/message.c
+> +++ b/drivers/usb/core/message.c
+> @@ -2009,6 +2009,7 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
+>  		struct usb_interface *intf = cp->interface[i];
+>
+>  		if (intf->dev.of_node &&
+> +		    of_find_property(intf->dev.of_node, "compatible", NULL) &&
+>  		    !of_device_is_available(intf->dev.of_node)) {
+>  			dev_info(&dev->dev, "skipping disabled interface %d\n",
+>  				 intf->cur_altsetting->desc.bInterfaceNumber);
+> -- 
 
-This patch changes the behavior, to exit the loop when a NULL element is
-found and n == -1. Essentially, this aligns the behavior with the
-doc-string.
+I don't think this is the right approach.  We don't want to be adding
+such checks everywhere the of_node is used.  A better way might be to
+not set of_node at all in the absence of a proper "compatible" string.
 
-There are currently many users of `match_string()`, and so, in order to go
-through them, the next patches in the series will focus on doing some
-cosmetic changes, which are aimed at grouping the users of
-`match_string()`.
+Then there's the problem of how to resolve the incompatibility between
+the generic USB and Exynos bindings.  One possible fix could be to use
+a child node of the controller node to represent the root hub.  Since
+the driver currently doesn't work at all if a devicetree has nodes for
+USB devices, there should be no compatibility concerns.
 
-Signed-off-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
----
- lib/string.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/lib/string.c b/lib/string.c
-index 3ab861c1a857..76edb7bf76cb 100644
---- a/lib/string.c
-+++ b/lib/string.c
-@@ -648,8 +648,11 @@ int match_string(const char * const *array, size_t n, const char *string)
- 
- 	for (index = 0; index < n; index++) {
- 		item = array[index];
--		if (!item)
-+		if (!item) {
-+			if (n != (size_t)-1)
-+				continue;
- 			break;
-+		}
- 		if (!strcmp(item, string))
- 			return index;
- 	}
 -- 
-2.17.1
-
+Måns Rullgård
