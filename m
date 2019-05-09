@@ -3,35 +3,35 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4210C04AB1
-	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 20:36:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E6C4C46470
+	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 20:37:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B1BEA21744
-	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 20:36:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DDF1321744
+	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 20:37:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727085AbfEIUgp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 May 2019 16:36:45 -0400
-Received: from pbmsgap01.intersil.com ([192.157.179.201]:34936 "EHLO
+        id S1726939AbfEIUhC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 May 2019 16:37:02 -0400
+Received: from pbmsgap01.intersil.com ([192.157.179.201]:34962 "EHLO
         pbmsgap01.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726959AbfEIUgk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 May 2019 16:36:40 -0400
+        with ESMTP id S1726796AbfEIUhB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 May 2019 16:37:01 -0400
 Received: from pps.filterd (pbmsgap01.intersil.com [127.0.0.1])
-        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x49KCa5n018263;
-        Thu, 9 May 2019 16:13:52 -0400
+        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x49KCQhW017964;
+        Thu, 9 May 2019 16:12:26 -0400
 Received: from pbmxdp02.intersil.corp (pbmxdp02.pb.intersil.com [132.158.200.223])
-        by pbmsgap01.intersil.com with ESMTP id 2scabqgu1j-1
+        by pbmsgap01.intersil.com with ESMTP id 2scabqgu0a-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Thu, 09 May 2019 16:13:51 -0400
+        Thu, 09 May 2019 16:12:26 -0400
 Received: from pbmxdp03.intersil.corp (132.158.200.224) by
  pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Thu, 9 May 2019 16:13:50 -0400
+ 15.1.1531.3; Thu, 9 May 2019 16:12:24 -0400
 Received: from localhost.localdomain (132.158.202.108) by
  pbmxdp03.intersil.corp (132.158.200.224) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Thu, 9 May 2019 16:13:49 -0400
+ 15.1.1531.3 via Frontend Transport; Thu, 9 May 2019 16:12:24 -0400
 From:   Chris Brandt <chris.brandt@renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -43,9 +43,9 @@ CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-renesas-soc@vger.kernel.org>,
         "Chris Brandt" <chris.brandt@renesas.com>
-Subject: [PATCH v2 10/15] usb: renesas_usbhs: support byte addressable CFIFO
-Date:   Thu, 9 May 2019 15:11:37 -0500
-Message-ID: <20190509201142.10543-11-chris.brandt@renesas.com>
+Subject: [PATCH v2 01/15] ARM: dts: r7s9210: Add USB clock
+Date:   Thu, 9 May 2019 15:11:28 -0500
+Message-ID: <20190509201142.10543-2-chris.brandt@renesas.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20190509201142.10543-1-chris.brandt@renesas.com>
 References: <20190509201142.10543-1-chris.brandt@renesas.com>
@@ -54,7 +54,7 @@ Content-Type: text/plain
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-09_02:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=junk_notspam policy=junk score=0 suspectscore=2 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=940
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=927
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.0.1-1810050000 definitions=main-1905090115
 X-Proofpoint-Spam-Reason: mlx
@@ -63,48 +63,31 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some SoC have a CFIFO register that is byte addressable. This means
-when the CFIFO access is set to 32-bit, you can write 8-bit values to
-addresses CFIFO+0, CFIFO+1, CFIFO+2, CFIFO+3.
+Add USB clock node. If present, this clock input must be 48MHz.
 
 Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
 ---
- drivers/usb/renesas_usbhs/common.h | 1 +
- drivers/usb/renesas_usbhs/fifo.c   | 9 +++++++--
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ arch/arm/boot/dts/r7s9210.dtsi | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/usb/renesas_usbhs/common.h b/drivers/usb/renesas_usbhs/common.h
-index 211ab8e741be..af4aec703ab1 100644
---- a/drivers/usb/renesas_usbhs/common.h
-+++ b/drivers/usb/renesas_usbhs/common.h
-@@ -345,6 +345,7 @@ struct usbhs_priv *usbhs_pdev_to_priv(struct platform_device *pdev);
-  */
- #define USBHSF_RUNTIME_PWCTRL	(1 << 0)
- #define USBHSF_HAS_CNEN		(1 << 1) /* Single-ended receiver */
-+#define USBHSF_CFIFO_BYTE_ADDR	(1 << 2) /* Byte addressable */
+diff --git a/arch/arm/boot/dts/r7s9210.dtsi b/arch/arm/boot/dts/r7s9210.dtsi
+index 2eaa5eeba509..73041f04fef5 100644
+--- a/arch/arm/boot/dts/r7s9210.dtsi
++++ b/arch/arm/boot/dts/r7s9210.dtsi
+@@ -30,6 +30,13 @@
+ 		clock-frequency = <0>;
+ 	};
  
- #define usbhsc_flags_init(p)   ((p)->flags = 0)
- #define usbhsc_flags_set(p, b) ((p)->flags |=  (b))
-diff --git a/drivers/usb/renesas_usbhs/fifo.c b/drivers/usb/renesas_usbhs/fifo.c
-index 39fa2fc1b8b7..b313ee637e53 100644
---- a/drivers/usb/renesas_usbhs/fifo.c
-+++ b/drivers/usb/renesas_usbhs/fifo.c
-@@ -543,8 +543,13 @@ static int usbhsf_pio_try_push(struct usbhs_pkt *pkt, int *is_done)
- 	}
- 
- 	/* the rest operation */
--	for (i = 0; i < len; i++)
--		iowrite8(buf[i], addr + (0x03 - (i & 0x03)));
-+	if (usbhsc_flags_has(priv, USBHSF_CFIFO_BYTE_ADDR)) {
-+		for (i = 0; i < len; i++)
-+			iowrite8(buf[i], addr + (i & 0x03));
-+	} else {
-+		for (i = 0; i < len; i++)
-+			iowrite8(buf[i], addr + (0x03 - (i & 0x03)));
-+	}
- 
- 	/*
- 	 * variable update
++	usb_x1_clk: usb_x1 {
++		#clock-cells = <0>;
++		compatible = "fixed-clock";
++		/* If clk present, value (48000000) must be set by board */
++		clock-frequency = <0>;
++	};
++
+ 	cpus {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
 -- 
 2.16.1
 
