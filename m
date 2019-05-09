@@ -2,134 +2,78 @@ Return-Path: <SRS0=8Dxc=TJ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 370E7C04AB1
-	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 09:16:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D926C04AB1
+	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 09:25:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F1A13206A3
-	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 09:16:12 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=kalray.eu header.i=@kalray.eu header.b="md1wceuH"
+	by mail.kernel.org (Postfix) with ESMTP id 4B83D21479
+	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 09:25:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725992AbfEIJQM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 May 2019 05:16:12 -0400
-Received: from zimbra2.kalray.eu ([92.103.151.219]:35756 "EHLO
-        zimbra2.kalray.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725963AbfEIJQM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 May 2019 05:16:12 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTP id 6088427E9907;
-        Thu,  9 May 2019 11:16:10 +0200 (CEST)
-Received: from zimbra2.kalray.eu ([127.0.0.1])
-        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id VZOBJmtAWNgE; Thu,  9 May 2019 11:16:05 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra2.kalray.eu (Postfix) with ESMTP id 0608B27E9902;
-        Thu,  9 May 2019 11:16:05 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra2.kalray.eu 0608B27E9902
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kalray.eu;
-        s=32AE1B44-9502-11E5-BA35-3734643DEF29; t=1557393365;
-        bh=T/oQ8CcZlfmQ0HlLaFjP4S9/qk0tYWvG+MJfvM+WTXQ=;
-        h=From:To:Date:Message-Id:MIME-Version;
-        b=md1wceuHkMyDq0pE5+tjJygNERMEoBLTYZLzv+Ov23vprLmBZbL5dNtBmbQOFYTIE
-         JQfGWNKp2QcspVRBGiadxH8VYIfOql24tnj6LGpx3Nej+V5IgHsU5o5b6HoOvWekCw
-         MxtBc9Ibp9hxKASAz8wxPzvlRfC0XHxJXkQOknlo=
-X-Virus-Scanned: amavisd-new at zimbra2.kalray.eu
-Received: from zimbra2.kalray.eu ([127.0.0.1])
-        by localhost (zimbra2.kalray.eu [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id bOkSSkui2tw7; Thu,  9 May 2019 11:16:04 +0200 (CEST)
-Received: from tellis.lin.mbt.kalray.eu (unknown [192.168.36.206])
-        by zimbra2.kalray.eu (Postfix) with ESMTPSA id E1A8227E98F8;
-        Thu,  9 May 2019 11:16:04 +0200 (CEST)
-From:   Jules Maselbas <jmaselbas@kalray.eu>
-To:     Minas Harutyunyan <hminas@synopsys.com>
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Markus Reichl <m.reichl@fivetechno.de>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, Jules Maselbas <jmaselbas@kalray.eu>
-Subject: [PATCH v2] usb: dwc2: Use generic PHY width in params setup
-Date:   Thu,  9 May 2019 11:15:28 +0200
-Message-Id: <20190509091528.28397-1-jmaselbas@kalray.eu>
-X-Mailer: git-send-email 2.21.0.196.g041f5ea
-In-Reply-To: <20190507100852.11263-2-jmaselbas@kalray.eu>
-References: <20190507100852.11263-2-jmaselbas@kalray.eu>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+        id S1726682AbfEIJZ3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 May 2019 05:25:29 -0400
+Received: from mx2.suse.de ([195.135.220.15]:52618 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726192AbfEIJZ3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 9 May 2019 05:25:29 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 84ECCBB9D;
+        Thu,  9 May 2019 09:25:28 +0000 (UTC)
+From:   Oliver Neukum <oneukum@suse.com>
+To:     miquel@df.uba.ar, gregKH@linuxfoundation.org,
+        linux-usb@vger.kernel.org
+Cc:     Oliver Neukum <oneukum@suse.com>
+Subject: [PATCH 2/4] rio500: fix memeory leak in close after disconnect
+Date:   Thu,  9 May 2019 11:24:54 +0200
+Message-Id: <20190509092456.10688-2-oneukum@suse.com>
+X-Mailer: git-send-email 2.16.4
+In-Reply-To: <20190509092456.10688-1-oneukum@suse.com>
+References: <20190509092456.10688-1-oneukum@suse.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Setting params.phy_utmi_width in dwc2_lowlevel_hw_init() is pointless sin=
-ce
-it's value will be overwritten by dwc2_init_params().
+If a disconnected device is closed, rio_close() must free
+the buffers.
 
-This change make sure to take in account the generic PHY width informatio=
-n
-during paraminitialisation, done in dwc2_set_param_phy_utmi_width().
-
-By doing so, the phy_utmi_width params can still be overrided by
-devicetree specific params and will also be checked against hardware
-capabilities.
-
-Fixes: 707d80f0a3c5 ("usb: dwc2: gadget: Replace phyif with phy_utmi_widt=
-h")
-Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Signed-off-by: Jules Maselbas <jmaselbas@kalray.eu>
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
-v2: Fix typo in commit message. Add Fixes and Tested-by tags.
----
- drivers/usb/dwc2/params.c   | 9 +++++++++
- drivers/usb/dwc2/platform.c | 9 ---------
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ drivers/usb/misc/rio500.c | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/dwc2/params.c b/drivers/usb/dwc2/params.c
-index 6900eea57526..5949262ff669 100644
---- a/drivers/usb/dwc2/params.c
-+++ b/drivers/usb/dwc2/params.c
-@@ -253,6 +253,15 @@ static void dwc2_set_param_phy_utmi_width(struct dwc=
-2_hsotg *hsotg)
- 	val =3D (hsotg->hw_params.utmi_phy_data_width =3D=3D
- 	       GHWCFG4_UTMI_PHY_DATA_WIDTH_8) ? 8 : 16;
-=20
-+	if (hsotg->phy) {
-+		/*
-+		 * If using the generic PHY framework, check if the PHY bus
-+		 * width is 8-bit and set the phyif appropriately.
-+		 */
-+		if (phy_get_bus_width(hsotg->phy) =3D=3D 8)
-+			val =3D 8;
+diff --git a/drivers/usb/misc/rio500.c b/drivers/usb/misc/rio500.c
+index fa921ae60ffa..a1832c195b5f 100644
+--- a/drivers/usb/misc/rio500.c
++++ b/drivers/usb/misc/rio500.c
+@@ -86,9 +86,22 @@ static int close_rio(struct inode *inode, struct file *file)
+ {
+ 	struct rio_usb_data *rio = &rio_instance;
+ 
+-	rio->isopen = 0;
++	/* against disconnect() */
++	mutex_lock(&rio500_mutex);
++	mutex_lock(&(rio->lock));
+ 
+-	dev_info(&rio->rio_dev->dev, "Rio closed.\n");
++	rio->isopen = 0;
++	if (!rio->present) {
++		/* cleanup has been delayed */
++		kfree(rio->ibuf);
++		kfree(rio->obuf);
++		rio->ibuf = NULL;
++		rio->obuf = NULL;
++	} else {
++		dev_info(&rio->rio_dev->dev, "Rio closed.\n");
 +	}
-+
- 	hsotg->params.phy_utmi_width =3D val;
++	mutex_unlock(&(rio->lock));
++	mutex_unlock(&rio500_mutex);
+ 	return 0;
  }
-=20
-diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
-index d10a7f8daec3..e98d7812da2d 100644
---- a/drivers/usb/dwc2/platform.c
-+++ b/drivers/usb/dwc2/platform.c
-@@ -271,15 +271,6 @@ static int dwc2_lowlevel_hw_init(struct dwc2_hsotg *=
-hsotg)
-=20
- 	hsotg->plat =3D dev_get_platdata(hsotg->dev);
-=20
--	if (hsotg->phy) {
--		/*
--		 * If using the generic PHY framework, check if the PHY bus
--		 * width is 8-bit and set the phyif appropriately.
--		 */
--		if (phy_get_bus_width(hsotg->phy) =3D=3D 8)
--			hsotg->params.phy_utmi_width =3D 8;
--	}
--
- 	/* Clock */
- 	hsotg->clk =3D devm_clk_get_optional(hsotg->dev, "otg");
- 	if (IS_ERR(hsotg->clk)) {
---=20
-2.21.0.196.g041f5ea
+ 
+-- 
+2.16.4
 
