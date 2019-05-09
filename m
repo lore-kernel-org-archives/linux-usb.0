@@ -3,32 +3,32 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D926C04AB1
-	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 09:25:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 009A5C04AB3
+	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 09:25:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4B83D21479
+	by mail.kernel.org (Postfix) with ESMTP id D15A021479
 	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 09:25:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726682AbfEIJZ3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 May 2019 05:25:29 -0400
-Received: from mx2.suse.de ([195.135.220.15]:52618 "EHLO mx1.suse.de"
+        id S1726686AbfEIJZa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 May 2019 05:25:30 -0400
+Received: from mx2.suse.de ([195.135.220.15]:52626 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726192AbfEIJZ3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1726195AbfEIJZ3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Thu, 9 May 2019 05:25:29 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 84ECCBB9D;
+        by mx1.suse.de (Postfix) with ESMTP id A4A88BBA0;
         Thu,  9 May 2019 09:25:28 +0000 (UTC)
 From:   Oliver Neukum <oneukum@suse.com>
 To:     miquel@df.uba.ar, gregKH@linuxfoundation.org,
         linux-usb@vger.kernel.org
 Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH 2/4] rio500: fix memeory leak in close after disconnect
-Date:   Thu,  9 May 2019 11:24:54 +0200
-Message-Id: <20190509092456.10688-2-oneukum@suse.com>
+Subject: [PATCH 4/4] USB: rio500: update Documentation
+Date:   Thu,  9 May 2019 11:24:56 +0200
+Message-Id: <20190509092456.10688-4-oneukum@suse.com>
 X-Mailer: git-send-email 2.16.4
 In-Reply-To: <20190509092456.10688-1-oneukum@suse.com>
 References: <20190509092456.10688-1-oneukum@suse.com>
@@ -37,42 +37,100 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If a disconnected device is closed, rio_close() must free
-the buffers.
+Added the newly added limit and updated the text a bit
 
 Signed-off-by: Oliver Neukum <oneukum@suse.com>
 ---
- drivers/usb/misc/rio500.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ Documentation/usb/rio.txt | 66 ++++++++++-------------------------------------
+ 1 file changed, 13 insertions(+), 53 deletions(-)
 
-diff --git a/drivers/usb/misc/rio500.c b/drivers/usb/misc/rio500.c
-index fa921ae60ffa..a1832c195b5f 100644
---- a/drivers/usb/misc/rio500.c
-+++ b/drivers/usb/misc/rio500.c
-@@ -86,9 +86,22 @@ static int close_rio(struct inode *inode, struct file *file)
- {
- 	struct rio_usb_data *rio = &rio_instance;
+diff --git a/Documentation/usb/rio.txt b/Documentation/usb/rio.txt
+index ca9adcf56355..ea73475471db 100644
+--- a/Documentation/usb/rio.txt
++++ b/Documentation/usb/rio.txt
+@@ -76,70 +76,30 @@ Additional Information and userspace tools
+ Requirements
+ ============
  
--	rio->isopen = 0;
-+	/* against disconnect() */
-+	mutex_lock(&rio500_mutex);
-+	mutex_lock(&(rio->lock));
+-A host with a USB port.  Ideally, either a UHCI (Intel) or OHCI
+-(Compaq and others) hardware port should work.
++A host with a USB port running a Linux kernel with RIO 500 support enabled.
  
--	dev_info(&rio->rio_dev->dev, "Rio closed.\n");
-+	rio->isopen = 0;
-+	if (!rio->present) {
-+		/* cleanup has been delayed */
-+		kfree(rio->ibuf);
-+		kfree(rio->obuf);
-+		rio->ibuf = NULL;
-+		rio->obuf = NULL;
-+	} else {
-+		dev_info(&rio->rio_dev->dev, "Rio closed.\n");
-+	}
-+	mutex_unlock(&(rio->lock));
-+	mutex_unlock(&rio500_mutex);
- 	return 0;
- }
+-A Linux development kernel (2.3.x) with USB support enabled or a
+-backported version to linux-2.2.x.  See http://www.linux-usb.org for
+-more information on accomplishing this.
++The driver is a module called rio500, which should be automatically loaded
++as you plug in your device. If that fails you can manually load it with
+ 
+-A Linux kernel with RIO 500 support enabled.
++  modprobe rio500
+ 
+-'lspci' which is only needed to determine the type of USB hardware
+-available in your machine.
+-
+-Configuration
+-
+-Using `lspci -v`, determine the type of USB hardware available.
+-
+-  If you see something like::
+-
+-    USB Controller: ......
+-    Flags: .....
+-    I/O ports at ....
+-
+-  Then you have a UHCI based controller.
+-
+-  If you see something like::
+-
+-     USB Controller: .....
+-     Flags: ....
+-     Memory at .....
+-
+-  Then you have a OHCI based controller.
+-
+-Using `make menuconfig` or your preferred method for configuring the
+-kernel, select 'Support for USB', 'OHCI/UHCI' depending on your
+-hardware (determined from the steps above), 'USB Diamond Rio500 support', and
+-'Preliminary USB device filesystem'.  Compile and install the modules
+-(you may need to execute `depmod -a` to update the module
+-dependencies).
+-
+-Add a device for the USB rio500::
++Udev should automatically create a device node as soon as plug in your device.
++If that fails, you can manually add a device for the USB rio500::
+ 
+   mknod /dev/usb/rio500 c 180 64
+ 
+-Set appropriate permissions for /dev/usb/rio500 (don't forget about
+-group and world permissions).  Both read and write permissions are
++In that case, set appropriate permissions for /dev/usb/rio500 (don't forget
++about group and world permissions).  Both read and write permissions are
+ required for proper operation.
+ 
+-Load the appropriate modules (if compiled as modules):
+-
+-  OHCI::
+-
+-    modprobe usbcore
+-    modprobe usb-ohci
+-    modprobe rio500
+-
+-  UHCI::
+-
+-    modprobe usbcore
+-    modprobe usb-uhci  (or uhci)
+-    modprobe rio500
+-
+ That's it.  The Rio500 Utils at: http://rio500.sourceforge.net should
+ be able to access the rio500.
+ 
++Limits
++======
++
++You can use only a single rio500 device at a time with your computer.
++
+ Bugs
+ ====
  
 -- 
 2.16.4
