@@ -2,128 +2,140 @@ Return-Path: <SRS0=8Dxc=TJ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-6.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBC8CC04AB1
-	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 20:43:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0190FC04AB1
+	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 21:24:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BF57E217D6
-	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 20:43:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C81B8217D6
+	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 21:24:03 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ntoALUF/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726792AbfEIUnA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 May 2019 16:43:00 -0400
-Received: from pbmsgap01.intersil.com ([192.157.179.201]:35388 "EHLO
-        pbmsgap01.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726749AbfEIUnA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 May 2019 16:43:00 -0400
-Received: from pps.filterd (pbmsgap01.intersil.com [127.0.0.1])
-        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x49K2vvK012618;
-        Thu, 9 May 2019 16:12:11 -0400
-Received: from pbmxdp03.intersil.corp (pbmxdp03.pb.intersil.com [132.158.200.224])
-        by pbmsgap01.intersil.com with ESMTP id 2scabqgtyy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Thu, 09 May 2019 16:12:11 -0400
-Received: from pbmxdp03.intersil.corp (132.158.200.224) by
- pbmxdp03.intersil.corp (132.158.200.224) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Thu, 9 May 2019 16:12:09 -0400
-Received: from localhost.localdomain (132.158.202.108) by
- pbmxdp03.intersil.corp (132.158.200.224) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Thu, 9 May 2019 16:12:08 -0400
-From:   Chris Brandt <chris.brandt@renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Simon Horman <horms@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        "Chris Brandt" <chris.brandt@renesas.com>
-Subject: [PATCH v2 00/15] usb: Add host and device support for RZ/A2
-Date:   Thu, 9 May 2019 15:11:27 -0500
-Message-ID: <20190509201142.10543-1-chris.brandt@renesas.com>
-X-Mailer: git-send-email 2.16.1
+        id S1726901AbfEIVX7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 May 2019 17:23:59 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:36235 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726608AbfEIVX7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 May 2019 17:23:59 -0400
+Received: by mail-wm1-f66.google.com with SMTP id j187so4904422wmj.1
+        for <linux-usb@vger.kernel.org>; Thu, 09 May 2019 14:23:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CR9C9z5AdFq92j3t78GsabgrWeXl10dvuT3JtPOaD1A=;
+        b=ntoALUF/JU3ofU0TKIgWzSKb9pRV9bI8FWErlamPKlSm0SQ6RANs6nELfUnpyo+NEP
+         UXG2Lp+1PyrZvrTLSrUwkosUXKh1sjT/utTSeMfdNZsVIPxzB3KiLC0PlQIz0kg4SZZ0
+         psG61f7nG8pSWv59IY6sh35d0gl3WkSIBbROPfL1pMeqctf/EGhvs1ELqqPR7vMXT6+3
+         y/ZEID3goR73Vg1ouVMu7BqPbUe8vT1cGu/CMOnSFY6GEFvJVzcHQYRxYiZ1DkDmpQaK
+         mIe6gFHtIWZVlfUsbhXt/vTWhzOzKKpdjWjjhfN3JDlvUSRDkeO2cisdRxvsm7KJ+CpS
+         ClPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CR9C9z5AdFq92j3t78GsabgrWeXl10dvuT3JtPOaD1A=;
+        b=MRMQhqk+OtaYNjFUaieN7rgkm504H2BcQZJVM8WmFWPSIm4k7uLcNZTtL14RMQ5Cji
+         AbPQr2x6h5trcE6UQ+5+cGKxYsAFcvTaXOS/VNVAabagIQT+QMFpOyB5uAdCBgBPJilH
+         5mgb170pL78F8JQXuT7T8t6PLSOxpjvUfShM/EVaxiqEAXozoj/tNZhYL0l9JDNTFjXh
+         wCgK++a62PTvIC4huaK1cxU1VR+37FB+aW9yCipUe9vgARQZg+ggXtgYkuEC+bcG6Kfz
+         xH+ut68w1lCFhTw6NlhswpyvRNtXQHHmb/RBD4B0cxDq1eInI9/Xm292gIebtvl5Drca
+         RJ4Q==
+X-Gm-Message-State: APjAAAXEdImsK1XmgBZGvouhmXBp9nN6BHxrKjA9HWspTVupnFByhlOz
+        VW2U9nmfkDHrVnSgUizvki/EjeJ5NBsWVcjS/h6VwQ==
+X-Google-Smtp-Source: APXvYqw4zUtQN7ytmBorNIoFIXqLjxW5iogMUT4wSwWIQ7ocfG1Y5VWjXe7SF2mrLHXGt+qNjG/aBtYSARjyzYXsikc=
+X-Received: by 2002:a7b:cb81:: with SMTP id m1mr4642556wmi.9.1557437036779;
+ Thu, 09 May 2019 14:23:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-09_02:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=junk_notspam policy=junk score=0 suspectscore=2 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1905090114
-X-Proofpoint-Spam-Reason: mlx
+References: <CALAqxLUMRaNxwTUi9QS7-Cy-Ve4+vteBm8-jW4yzZg_QTJVChA@mail.gmail.com>
+ <7caebeb2-ea96-2276-3078-1e53f09ce227@collabora.com> <CALAqxLUfJYUtmQDC_aDMxW7KcPUawGoRq-PNUfmzQuNKh97FmQ@mail.gmail.com>
+In-Reply-To: <CALAqxLUfJYUtmQDC_aDMxW7KcPUawGoRq-PNUfmzQuNKh97FmQ@mail.gmail.com>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Thu, 9 May 2019 14:23:44 -0700
+Message-ID: <CALAqxLVUFfrPVVjR74V3PhhtcCytfp=cUYjo=BcJ14D1fkVXTw@mail.gmail.com>
+Subject: Re: [REGRESSION] usb: gadget: f_fs: Allow scatter-gather buffers
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc:     Felipe Balbi <balbi@kernel.org>, "Yang, Fei" <fei.yang@intel.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Chen Yu <chenyu56@huawei.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        Amit Pundir <amit.pundir@linaro.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        "kernel@collabora.com" <kernel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-For the most part, the RZ/A2 has the same USB 2.0 host and device
-HW as the R-Car Gen3, so we can reuse a lot of the code.
+On Thu, May 9, 2019 at 11:25 AM John Stultz <john.stultz@linaro.org> wrote:
+>
+> On Thu, May 9, 2019 at 7:02 AM Andrzej Pietrasiewicz
+> <andrzej.p@collabora.com> wrote:
+> >
+> > Hi John,
+> > W dniu 08.05.2019 o 04:18, John Stultz pisze:
+> > > Since commit 772a7a724f69 ("usb: gadget: f_fs: Allow scatter-gather
+> > > buffers"), I've been seeing trouble with adb transfers in Android on
+> > > HiKey960, HiKey and now Dragonboard 845c.
+> > >
+> > > Sometimes things crash, but often the transfers just stop w/o any
+> > > obvious error messages.
+> > >
+> > > Initially I thought it was an issue with the HiKey960 dwc3 usb patches
+> > > being upstreamed, and was using the following hack workaround:
+> > >    https://git.linaro.org/people/john.stultz/android-dev.git/commit/?h=dev/hikey960-5.1&id=dcdadaaec9db7a7b78ea9b838dd1453359a2f388
+> > >
+> > > Then dwc2 added sg support, and I ended up having to revert it to get
+> > > by on HiKey:
+> > >    https://git.linaro.org/people/john.stultz/android-dev.git/commit/?h=dev/hikey-5.1&id=6e91b4c7bd1e94bdd835263403c53e85a677b848
+> > >
+> > > (See thread here: https://lkml.org/lkml/2019/3/8/765)
+> >
+> > So the thread says there are problems at boot, but here you mention about
+> > adb transfers, which must obviously be happening after the board has booted.
+> > Do you experience problems at boot or not?
+> >
+> > If a crash happens, what is in the log?
+>
+> So, yes.  Sorry, I am maybe muddling two issues (though they both seem
+> to be tied to f_fs sg).  On dwc2, with the current code, we often (but
+> not always) crash as soon as adb starts up in the boot process. Thus
+> I'm running with a revert of "usb: dwc2: gadget: Add scatter-gather
+> mode" to get by.
+>
+> As for example crashes, there is a crash in the thread linked above
+> (https://lkml.org/lkml/2019/3/8/765) and also the one I sent yesterday
+> when testing with your zlp patch. Let me know if you're looking for
+> something more specific.
+>
+> One thing I didn't do, but I should is run w/ the zlp + your
+> memset/kzalloc patch. See if that helps get dwc2 further along at
+> least.  I'll test that shortly here and get back to you.
 
-However, there are a couple extra register bits, and the CFIFO
-register 8-bit access works a little different..
+Ok. Apologies for earlier confusion.
 
-There is a dedicated DMAC for the RZ/A2 USB Device HW, but we
-have not been able to reliably get that working yet, so device
-operation is pio only at the moment.
+So the kzalloc/memset fix you sent for f_fs.c does seem to avoid the
+crash on bootup I was seeing w/  HiKey/dwc2 (previously I had only
+tested it on HiKey960/dwc3).
 
-On the RZ/A2M eval board, both USB channels can be used as either
-host or device. But, it's not set up for otg (ie, there are jumpers
-and separate connectors). Therefore, below is an example of what it
-would look like to enable USB channel 0 as a device instead of a host.
+However with that patch, I still see tranfer problems with adb, unless
+I comment out setting sg_supported in dwc2/gadget.c (in the same
+fashion I have to with HiKey960/dwc3).
 
-&usb2_phy0 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&usb0_pins>;
-	dr_mode = "peripheral";
-	status = "okay";
-};
+The dwc2 zlp patch doesn't seem to affect things much either way in my
+testing. But maybe I'm just not tripping on that issue yet.
 
-&usbhs0 {
-	status = "okay";
-};
+So yes, the kzalloc/memset patch is a clear improvement, as it avoids
+the bootup crash on dwc2, and seems like it should go in.
 
+However, there is still the outstanding issue w/  functionfs sg
+support stalling on larger transfers.
 
-
-
-
-
-Chris Brandt (15):
-  ARM: dts: r7s9210: Add USB clock
-  ARM: dts: rza2mevb: Add 48MHz USB clock
-  phy: renesas: rcar-gen3-usb2: detect usb_x1 clock
-  dt-bindings: rcar-gen3-phy-usb2: Document use of usb_x1
-  phy: renesas: rcar-gen3-usb2: Check dr_mode when not using OTG
-  dt-bindings: rcar-gen3-phy-usb2: Document dr_mode
-  dt-bindings: rcar-gen3-phy-usb2: Add r7s9210 support
-  usb: renesas_usbhs: move flags macros
-  usb: renesas_usbhs: add support for CNEN bit
-  usb: renesas_usbhs: support byte addressable CFIFO
-  usb: renesas_usbhs: Add support for RZ/A2
-  dt-bindings: usb: renesas_usbhs: Add support for r7s9210
-  ARM: dts: r7s9210: Add USB Host support
-  ARM: dts: r7s9210: Add USB Device support
-  ARM: dts: rza2mevb: Add USB host support
-
- .../devicetree/bindings/phy/rcar-gen3-phy-usb2.txt | 17 ++--
- .../devicetree/bindings/usb/renesas_usbhs.txt      |  2 +
- arch/arm/boot/dts/r7s9210-rza2mevb.dts             | 42 ++++++++++
- arch/arm/boot/dts/r7s9210.dtsi                     | 95 ++++++++++++++++++++++
- drivers/phy/renesas/phy-rcar-gen3-usb2.c           | 22 +++++
- drivers/usb/renesas_usbhs/Makefile                 |  2 +-
- drivers/usb/renesas_usbhs/common.c                 | 25 ++++--
- drivers/usb/renesas_usbhs/common.h                 | 13 +++
- drivers/usb/renesas_usbhs/fifo.c                   |  9 +-
- drivers/usb/renesas_usbhs/rza.h                    |  1 +
- drivers/usb/renesas_usbhs/rza2.c                   | 79 ++++++++++++++++++
- include/linux/usb/renesas_usbhs.h                  |  1 +
- 12 files changed, 292 insertions(+), 16 deletions(-)
- create mode 100644 drivers/usb/renesas_usbhs/rza2.c
-
--- 
-2.16.1
-
+thanks
+-john
