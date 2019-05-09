@@ -3,35 +3,35 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7433C04AB3
-	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 20:36:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ABFEC04AB2
+	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 20:36:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 84A2921744
-	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 20:36:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 43B7021744
+	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 20:36:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726996AbfEIUgk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 May 2019 16:36:40 -0400
+        id S1727051AbfEIUgl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 May 2019 16:36:41 -0400
 Received: from pbmsgap01.intersil.com ([192.157.179.201]:34924 "EHLO
         pbmsgap01.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726797AbfEIUgk (ORCPT
+        with ESMTP id S1726977AbfEIUgk (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 9 May 2019 16:36:40 -0400
 Received: from pps.filterd (pbmsgap01.intersil.com [127.0.0.1])
-        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x49KCa5m018263;
-        Thu, 9 May 2019 16:13:43 -0400
+        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x49KD5RH018305;
+        Thu, 9 May 2019 16:13:05 -0400
 Received: from pbmxdp02.intersil.corp (pbmxdp02.pb.intersil.com [132.158.200.223])
-        by pbmsgap01.intersil.com with ESMTP id 2scabqgu1f-1
+        by pbmsgap01.intersil.com with ESMTP id 2scabqgu10-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Thu, 09 May 2019 16:13:42 -0400
+        Thu, 09 May 2019 16:13:05 -0400
 Received: from pbmxdp03.intersil.corp (132.158.200.224) by
  pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Thu, 9 May 2019 16:13:41 -0400
+ 15.1.1531.3; Thu, 9 May 2019 16:13:04 -0400
 Received: from localhost.localdomain (132.158.202.108) by
  pbmxdp03.intersil.corp (132.158.200.224) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Thu, 9 May 2019 16:13:40 -0400
+ 15.1.1531.3 via Frontend Transport; Thu, 9 May 2019 16:13:03 -0400
 From:   Chris Brandt <chris.brandt@renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -43,9 +43,9 @@ CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-renesas-soc@vger.kernel.org>,
         "Chris Brandt" <chris.brandt@renesas.com>
-Subject: [PATCH v2 09/15] usb: renesas_usbhs: add support for CNEN bit
-Date:   Thu, 9 May 2019 15:11:36 -0500
-Message-ID: <20190509201142.10543-10-chris.brandt@renesas.com>
+Subject: [PATCH v2 05/15] phy: renesas: rcar-gen3-usb2: Check dr_mode when not using OTG
+Date:   Thu, 9 May 2019 15:11:32 -0500
+Message-ID: <20190509201142.10543-6-chris.brandt@renesas.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20190509201142.10543-1-chris.brandt@renesas.com>
 References: <20190509201142.10543-1-chris.brandt@renesas.com>
@@ -54,7 +54,7 @@ Content-Type: text/plain
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-09_02:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=junk_notspam policy=junk score=0 suspectscore=2 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=887
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=795
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.0.1-1810050000 definitions=main-1905090115
 X-Proofpoint-Spam-Reason: mlx
@@ -63,51 +63,45 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-For some SoC, CNEN must be set for USB Device mode operation.
+When not using OTG, the PHY will need to know if it should function as
+host or peripheral by checking dr_mode in the PHY node (not the parent
+controller node).
 
 Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
 ---
- drivers/usb/renesas_usbhs/common.c | 6 ++++++
- drivers/usb/renesas_usbhs/common.h | 2 ++
- 2 files changed, 8 insertions(+)
+v2:
+ * added braces to else statement
+ * check if dr_mode is "host"
+---
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
-index efb26ffd9809..820636fc4dc9 100644
---- a/drivers/usb/renesas_usbhs/common.c
-+++ b/drivers/usb/renesas_usbhs/common.c
-@@ -116,6 +116,12 @@ void usbhs_sys_function_ctrl(struct usbhs_priv *priv, int enable)
- 	u16 mask = DCFM | DRPD | DPRPU | HSE | USBE;
- 	u16 val  = HSE | USBE;
+diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+index 1ebb08f8323f..5e5e5e938f80 100644
+--- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
++++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+@@ -391,6 +391,7 @@ static int rcar_gen3_phy_usb2_init(struct phy *p)
+ 	struct rcar_gen3_phy *rphy = phy_get_drvdata(p);
+ 	struct rcar_gen3_chan *channel = rphy->ch;
+ 	void __iomem *usb2_base = channel->base;
++	enum usb_dr_mode mode;
+ 	u32 val;
  
-+	/* CNEN bit is required for function operation */
-+	if (usbhsc_flags_has(priv, USBHSF_HAS_CNEN)) {
-+		mask |= CNEN;
-+		val  |= CNEN;
-+	}
-+
- 	/*
- 	 * if enable
- 	 *
-diff --git a/drivers/usb/renesas_usbhs/common.h b/drivers/usb/renesas_usbhs/common.h
-index 1ca94b8f5508..211ab8e741be 100644
---- a/drivers/usb/renesas_usbhs/common.h
-+++ b/drivers/usb/renesas_usbhs/common.h
-@@ -104,6 +104,7 @@ struct usbhs_priv;
+ 	if (channel->uses_usb_x1)
+@@ -408,6 +409,13 @@ static int rcar_gen3_phy_usb2_init(struct phy *p)
+ 		if (rcar_gen3_needs_init_otg(channel))
+ 			rcar_gen3_init_otg(channel);
+ 		rphy->otg_initialized = true;
++	} else {
++		/* Not OTG, so dr_mode should be set in PHY node */
++		mode = usb_get_dr_mode(channel->dev);
++		if (mode == USB_DR_MODE_HOST)
++			writel(0x00000000, usb2_base + USB2_COMMCTRL);
++		else if (mode == USB_DR_MODE_PERIPHERAL)
++			writel(0x80000000, usb2_base + USB2_COMMCTRL);
+ 	}
  
- /* SYSCFG */
- #define SCKE	(1 << 10)	/* USB Module Clock Enable */
-+#define CNEN	(1 << 8)	/* Single-ended receiver operation Enable */
- #define HSE	(1 << 7)	/* High-Speed Operation Enable */
- #define DCFM	(1 << 6)	/* Controller Function Select */
- #define DRPD	(1 << 5)	/* D+ Line/D- Line Resistance Control */
-@@ -343,6 +344,7 @@ struct usbhs_priv *usbhs_pdev_to_priv(struct platform_device *pdev);
-  * flags
-  */
- #define USBHSF_RUNTIME_PWCTRL	(1 << 0)
-+#define USBHSF_HAS_CNEN		(1 << 1) /* Single-ended receiver */
- 
- #define usbhsc_flags_init(p)   ((p)->flags = 0)
- #define usbhsc_flags_set(p, b) ((p)->flags |=  (b))
+ 	rphy->initialized = true;
 -- 
 2.16.1
 
