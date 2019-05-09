@@ -2,36 +2,37 @@ Return-Path: <SRS0=8Dxc=TJ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
+	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28FBCC04AB3
-	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 20:38:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4724C04AB3
+	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 20:39:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 04936217D6
-	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 20:38:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7FE2D217D6
+	for <linux-usb@archiver.kernel.org>; Thu,  9 May 2019 20:39:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726799AbfEIUin (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 May 2019 16:38:43 -0400
-Received: from pbmsgap01.intersil.com ([192.157.179.201]:34932 "EHLO
+        id S1726831AbfEIUjg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 May 2019 16:39:36 -0400
+Received: from pbmsgap01.intersil.com ([192.157.179.201]:34796 "EHLO
         pbmsgap01.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726715AbfEIUin (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 May 2019 16:38:43 -0400
+        with ESMTP id S1726715AbfEIUjf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 May 2019 16:39:35 -0400
 Received: from pps.filterd (pbmsgap01.intersil.com [127.0.0.1])
-        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x49KCQhY017964;
-        Thu, 9 May 2019 16:13:24 -0400
+        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x49KD5RN018305;
+        Thu, 9 May 2019 16:14:39 -0400
 Received: from pbmxdp02.intersil.corp (pbmxdp02.pb.intersil.com [132.158.200.223])
-        by pbmsgap01.intersil.com with ESMTP id 2scabqgu15-1
+        by pbmsgap01.intersil.com with ESMTP id 2scabqgu2g-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Thu, 09 May 2019 16:13:24 -0400
+        Thu, 09 May 2019 16:14:38 -0400
 Received: from pbmxdp03.intersil.corp (132.158.200.224) by
  pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Thu, 9 May 2019 16:13:22 -0400
+ 15.1.1531.3; Thu, 9 May 2019 16:14:37 -0400
 Received: from localhost.localdomain (132.158.202.108) by
  pbmxdp03.intersil.corp (132.158.200.224) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Thu, 9 May 2019 16:13:22 -0400
+ 15.1.1531.3 via Frontend Transport; Thu, 9 May 2019 16:14:37 -0400
 From:   Chris Brandt <chris.brandt@renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -43,9 +44,9 @@ CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-renesas-soc@vger.kernel.org>,
         "Chris Brandt" <chris.brandt@renesas.com>
-Subject: [PATCH v2 07/15] dt-bindings: rcar-gen3-phy-usb2: Add r7s9210 support
-Date:   Thu, 9 May 2019 15:11:34 -0500
-Message-ID: <20190509201142.10543-8-chris.brandt@renesas.com>
+Subject: [PATCH v2 15/15] ARM: dts: rza2mevb: Add USB host support
+Date:   Thu, 9 May 2019 15:11:42 -0500
+Message-ID: <20190509201142.10543-16-chris.brandt@renesas.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20190509201142.10543-1-chris.brandt@renesas.com>
 References: <20190509201142.10543-1-chris.brandt@renesas.com>
@@ -54,7 +55,7 @@ Content-Type: text/plain
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-09_02:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=junk_notspam policy=junk score=0 suspectscore=2 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=541
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.0.1-1810050000 definitions=main-1905090115
 X-Proofpoint-Spam-Reason: mlx
@@ -63,43 +64,74 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Document RZ/A2 (R7S9210) SoC bindings.
+Enable USB Host support for both the Type-C connector on the CPU board
+and the Type-A plug on the sub board.
+
+Both boards are also capable of USB Device operation as well after the
+appropriate Device Tree modifications.
 
 Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
 ---
- Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+v2:
+ * added blank line between nodes
+ * removed 'r7s9210-' from patch title
+ * removed 'renesas,uses_usb_x1' property
+---
+ arch/arm/boot/dts/r7s9210-rza2mevb.dts | 37 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt b/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
-index d2bbfe577345..d6b48704e3f2 100644
---- a/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
-+++ b/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
-@@ -1,10 +1,12 @@
- * Renesas R-Car generation 3 USB 2.0 PHY
+diff --git a/arch/arm/boot/dts/r7s9210-rza2mevb.dts b/arch/arm/boot/dts/r7s9210-rza2mevb.dts
+index 7da409170db5..c0a4484a0bde 100644
+--- a/arch/arm/boot/dts/r7s9210-rza2mevb.dts
++++ b/arch/arm/boot/dts/r7s9210-rza2mevb.dts
+@@ -107,6 +107,18 @@
+ 		pinmux = <RZA2_PINMUX(PORT5, 4, 3)>,	/* SD1_CD */
+ 			 <RZA2_PINMUX(PORT5, 5, 3)>;	/* SD1_WP */
+ 	};
++
++	usb0_pins: usb0 {
++		pinmux = <RZA2_PINMUX(PORT5, 2, 3)>,	/* VBUSIN0 */
++			 <RZA2_PINMUX(PORTC, 6, 1)>,	/* VBUSEN0 */
++			 <RZA2_PINMUX(PORTC, 7, 1)>;	/* OVRCUR0 */
++	};
++
++	usb1_pins: usb1 {
++		pinmux = <RZA2_PINMUX(PORTC, 0, 1)>,	/* VBUSIN1 */
++			 <RZA2_PINMUX(PORTC, 5, 1)>,	/* VBUSEN1 */
++			 <RZA2_PINMUX(PORT7, 5, 5)>;	/* OVRCUR1 */
++	};
+ };
  
- This file provides information on what the device node for the R-Car generation
--3, RZ/G1C and RZ/G2 USB 2.0 PHY contain.
-+3, RZ/G1C, RZ/G2 and RZ/A2 USB 2.0 PHY contain.
- 
- Required properties:
--- compatible: "renesas,usb2-phy-r8a77470" if the device is a part of an R8A77470
-+- compatible: "renesas,usb2-phy-r7s9210" if the device is a part of an R7S9210
-+	      SoC.
-+	      "renesas,usb2-phy-r8a77470" if the device is a part of an R8A77470
- 	      SoC.
- 	      "renesas,usb2-phy-r8a774a1" if the device is a part of an R8A774A1
- 	      SoC.
-@@ -20,8 +22,8 @@ Required properties:
- 	      R8A77990 SoC.
- 	      "renesas,usb2-phy-r8a77995" if the device is a part of an
- 	      R8A77995 SoC.
--	      "renesas,rcar-gen3-usb2-phy" for a generic R-Car Gen3 or RZ/G2
--	      compatible device.
-+	      "renesas,rcar-gen3-usb2-phy" for a generic R-Car Gen3, RZ/G2 or
-+	      RZ/A2 compatible device.
- 
- 	      When compatible with the generic version, nodes must list the
- 	      SoC-specific version corresponding to the platform first
+ /* High resolution System tick timers */
+@@ -161,3 +173,28 @@
+ 	bus-width = <4>;
+ 	status = "okay";
+ };
++
++/* USB-0 as Host */
++/* NOTE: Requires JP3 to be fitted */
++&usb2_phy0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&usb0_pins>;
++	dr_mode = "host";
++	status = "okay";
++};
++
++&ehci0 {
++	status = "okay";
++};
++
++/* USB-1 as Host */
++&usb2_phy1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&usb1_pins>;
++	dr_mode = "host";
++	status = "okay";
++};
++
++&ehci1 {
++	status = "okay";
++};
 -- 
 2.16.1
 
