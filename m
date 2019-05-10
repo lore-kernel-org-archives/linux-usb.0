@@ -2,120 +2,124 @@ Return-Path: <SRS0=ungl=TK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_MUTT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E277C04AB3
-	for <linux-usb@archiver.kernel.org>; Fri, 10 May 2019 14:34:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22941C04A6B
+	for <linux-usb@archiver.kernel.org>; Fri, 10 May 2019 14:56:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 35970216C4
-	for <linux-usb@archiver.kernel.org>; Fri, 10 May 2019 14:34:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F23C92175B
+	for <linux-usb@archiver.kernel.org>; Fri, 10 May 2019 14:56:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727991AbfEJOeU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 10 May 2019 10:34:20 -0400
-Received: from mga14.intel.com ([192.55.52.115]:32461 "EHLO mga14.intel.com"
+        id S1727547AbfEJO4y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 10 May 2019 10:56:54 -0400
+Received: from inva020.nxp.com ([92.121.34.13]:35360 "EHLO inva020.nxp.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727248AbfEJOeT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 10 May 2019 10:34:19 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 May 2019 07:34:16 -0700
-X-ExtLoop1: 1
-Received: from smile.fi.intel.com (HELO smile) ([10.237.72.86])
-  by orsmga002.jf.intel.com with ESMTP; 10 May 2019 07:34:08 -0700
-Received: from andy by smile with local (Exim 4.92)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1hP6b9-0004Sg-Pc; Fri, 10 May 2019 17:34:07 +0300
-Date:   Fri, 10 May 2019 17:34:07 +0300
-From:   "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>
-To:     "Ardelean, Alexandru" <alexandru.Ardelean@analog.com>
-Cc:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-ide@vger.kernel.org" <linux-ide@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>,
-        "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-rpi-kernel@lists.infradead.org" 
-        <linux-rpi-kernel@lists.infradead.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-        "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>
-Subject: Re: [PATCH 03/16] lib,treewide: add new match_string() helper/macro
-Message-ID: <20190510143407.GA9224@smile.fi.intel.com>
-References: <20190508112842.11654-1-alexandru.ardelean@analog.com>
- <20190508112842.11654-5-alexandru.ardelean@analog.com>
- <20190508131128.GL9224@smile.fi.intel.com>
- <20190508131856.GB10138@kroah.com>
- <b2440bc9485456a7a90a488c528997587b22088b.camel@analog.com>
- <4df165bc4247e60aa4952fd55cb0c77e60712767.camel@analog.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4df165bc4247e60aa4952fd55cb0c77e60712767.camel@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1727492AbfEJO4x (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 10 May 2019 10:56:53 -0400
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id F1D5B1A0040;
+        Fri, 10 May 2019 16:56:51 +0200 (CEST)
+Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com [134.27.226.22])
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id E59971A00D0;
+        Fri, 10 May 2019 16:56:51 +0200 (CEST)
+Received: from fsr-ub1864-101.ea.freescale.net (fsr-ub1864-101.ea.freescale.net [10.171.82.13])
+        by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id 77957205ED;
+        Fri, 10 May 2019 16:56:51 +0200 (CEST)
+From:   laurentiu.tudor@nxp.com
+To:     hch@lst.de, stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, marex@denx.de
+Cc:     leoyang.li@nxp.com, linux-kernel@vger.kernel.org,
+        robin.murphy@arm.com, Laurentiu Tudor <laurentiu.tudor@nxp.com>
+Subject: [RFC PATCH 3/3] usb: host: ohci-tmio: init genalloc for local memory
+Date:   Fri, 10 May 2019 17:56:46 +0300
+Message-Id: <20190510145646.10078-4-laurentiu.tudor@nxp.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190510145646.10078-1-laurentiu.tudor@nxp.com>
+References: <20190510145646.10078-1-laurentiu.tudor@nxp.com>
+X-Virus-Scanned: ClamAV using ClamSMTP
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, May 10, 2019 at 09:15:27AM +0000, Ardelean, Alexandru wrote:
-> On Wed, 2019-05-08 at 16:22 +0300, Alexandru Ardelean wrote:
-> > On Wed, 2019-05-08 at 15:18 +0200, Greg KH wrote:
-> > > On Wed, May 08, 2019 at 04:11:28PM +0300, Andy Shevchenko wrote:
-> > > > On Wed, May 08, 2019 at 02:28:29PM +0300, Alexandru Ardelean wrote:
+From: Laurentiu Tudor <laurentiu.tudor@nxp.com>
 
-> > > > Can you split include/linux/ change from the rest?
-> > > 
-> > > That would break the build, why do you want it split out?  This makes
-> > > sense all as a single patch to me.
-> > > 
-> > 
-> > Not really.
-> > It would be just be the new match_string() helper/macro in a new commit.
-> > And the conversions of the simple users of match_string() (the ones using
-> > ARRAY_SIZE()) in another commit.
-> > 
-> 
-> I should have asked in my previous reply.
-> Leave this as-is or re-formulate in 2 patches ?
+In preparation for dropping the existing "coherent" dma mem declaration
+APIs, replace the current dma_declare_coherent_memory() based mechanism
+with the creation of a genalloc pool that will be used in the OHCI
+subsystem as replacement for the DMA APIs.
 
-Depends on on what you would like to spend your time: collecting Acks for all
-pieces in treewide patch or send new API first followed up by per driver /
-module update in next cycle.
+For context, see thread here: https://lkml.org/lkml/2019/4/22/357
 
-I also have no strong preference.
-And I think it's good to add Heikki Krogerus to Cc list for both patch series,
-since he is the author of sysfs variant and may have something to comment on
-the rest.
+Signed-off-by: Laurentiu Tudor <laurentiu.tudor@nxp.com>
+---
+ drivers/usb/host/ohci-tmio.c | 23 +++++++++++++++--------
+ 1 file changed, 15 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/usb/host/ohci-tmio.c b/drivers/usb/host/ohci-tmio.c
+index f88a0370659f..16ff99b56fd3 100644
+--- a/drivers/usb/host/ohci-tmio.c
++++ b/drivers/usb/host/ohci-tmio.c
+@@ -30,6 +30,7 @@
+ #include <linux/mfd/core.h>
+ #include <linux/mfd/tmio.h>
+ #include <linux/dma-mapping.h>
++#include <linux/genalloc.h>
+ 
+ /*-------------------------------------------------------------------------*/
+ 
+@@ -224,11 +225,6 @@ static int ohci_hcd_tmio_drv_probe(struct platform_device *dev)
+ 		goto err_ioremap_regs;
+ 	}
+ 
+-	ret = dma_declare_coherent_memory(&dev->dev, sram->start, sram->start,
+-				resource_size(sram));
+-	if (ret)
+-		goto err_dma_declare;
+-
+ 	if (cell->enable) {
+ 		ret = cell->enable(dev);
+ 		if (ret)
+@@ -239,6 +235,20 @@ static int ohci_hcd_tmio_drv_probe(struct platform_device *dev)
+ 	ohci = hcd_to_ohci(hcd);
+ 	ohci_hcd_init(ohci);
+ 
++	ohci->localmem_pool = devm_gen_pool_create(&dev->dev, PAGE_SHIFT,
++						   dev_to_node(&dev->dev),
++						   "ohci-sm501");
++	if (IS_ERR(ohci->localmem_pool)) {
++		ret = PTR_ERR(ohci->localmem_pool);
++		goto err_enable;
++	}
++	ret = gen_pool_add_virt(ohci->localmem_pool, sram->start, sram->start,
++				resource_size(sram), dev_to_node(&dev->dev));
++	if (ret < 0) {
++		dev_err(&dev->dev, "failed to add to pool: %d\n", ret);
++		goto err_enable;
++	}
++
+ 	ret = usb_add_hcd(hcd, irq, 0);
+ 	if (ret)
+ 		goto err_add_hcd;
+@@ -254,8 +264,6 @@ static int ohci_hcd_tmio_drv_probe(struct platform_device *dev)
+ 	if (cell->disable)
+ 		cell->disable(dev);
+ err_enable:
+-	dma_release_declared_memory(&dev->dev);
+-err_dma_declare:
+ 	iounmap(hcd->regs);
+ err_ioremap_regs:
+ 	iounmap(tmio->ccr);
+@@ -276,7 +284,6 @@ static int ohci_hcd_tmio_drv_remove(struct platform_device *dev)
+ 	tmio_stop_hc(dev);
+ 	if (cell->disable)
+ 		cell->disable(dev);
+-	dma_release_declared_memory(&dev->dev);
+ 	iounmap(hcd->regs);
+ 	iounmap(tmio->ccr);
+ 	usb_put_hcd(hcd);
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.17.1
 
