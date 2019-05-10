@@ -2,171 +2,298 @@ Return-Path: <SRS0=ungl=TK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89695C04A6B
-	for <linux-usb@archiver.kernel.org>; Fri, 10 May 2019 07:08:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F417BC04A6B
+	for <linux-usb@archiver.kernel.org>; Fri, 10 May 2019 07:27:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 51FC0217D6
-	for <linux-usb@archiver.kernel.org>; Fri, 10 May 2019 07:08:29 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=xilinx.onmicrosoft.com header.i=@xilinx.onmicrosoft.com header.b="nVsOJWSB"
+	by mail.kernel.org (Postfix) with ESMTP id B31AE217F4
+	for <linux-usb@archiver.kernel.org>; Fri, 10 May 2019 07:27:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727213AbfEJHIY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 10 May 2019 03:08:24 -0400
-Received: from mail-eopbgr780074.outbound.protection.outlook.com ([40.107.78.74]:8288
-        "EHLO NAM03-BY2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726934AbfEJHIX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 10 May 2019 03:08:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=idbeOJpMWWKVVxJsCC009CC1eowIPz22bWYhdNICMhI=;
- b=nVsOJWSBvwcHHDawAEO913WcQZOEchgihesEnwFAIg0MqmYKG7CfHUeOqCzyxFn7LXa4gssZhBAGVbwEjuzS7eErXwXyFijkY+QRs4F8/vRUQD2cgiqfrZ2Rak02kYn8G06CDI7zSQmg5oIUYkdchp8gtWmknluj59nc7F9UVkI=
-Received: from BYAPR02CA0048.namprd02.prod.outlook.com (2603:10b6:a03:54::25)
- by DM5PR02MB3832.namprd02.prod.outlook.com (2603:10b6:4:b1::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1878.22; Fri, 10 May
- 2019 07:07:40 +0000
-Received: from SN1NAM02FT003.eop-nam02.prod.protection.outlook.com
- (2a01:111:f400:7e44::204) by BYAPR02CA0048.outlook.office365.com
- (2603:10b6:a03:54::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1878.22 via Frontend
- Transport; Fri, 10 May 2019 07:07:40 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.100)
- smtp.mailfrom=xilinx.com; vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.100; helo=xsj-pvapsmtpgw02;
-Received: from xsj-pvapsmtpgw02 (149.199.60.100) by
- SN1NAM02FT003.mail.protection.outlook.com (10.152.73.29) with Microsoft SMTP
- Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1856.11
- via Frontend Transport; Fri, 10 May 2019 07:07:39 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66]:59126 helo=xsj-pvapsmtp01)
-        by xsj-pvapsmtpgw02 with esmtp (Exim 4.63)
-        (envelope-from <anurag.kumar.vulisha@xilinx.com>)
-        id 1hOzd5-0003Nt-FJ; Fri, 10 May 2019 00:07:39 -0700
-Received: from [127.0.0.1] (helo=localhost)
-        by xsj-pvapsmtp01 with smtp (Exim 4.63)
-        (envelope-from <anurag.kumar.vulisha@xilinx.com>)
-        id 1hOzd0-0004bk-B9; Fri, 10 May 2019 00:07:34 -0700
-Received: from xsj-pvapsmtp01 (mailhost.xilinx.com [149.199.38.66])
-        by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id x4A77TQZ004220;
-        Fri, 10 May 2019 00:07:30 -0700
-Received: from [172.23.64.8] (helo=xhdvnc108.xilinx.com)
-        by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-        (envelope-from <anuragku@xilinx.com>)
-        id 1hOzcv-0004aK-Ir; Fri, 10 May 2019 00:07:29 -0700
-Received: by xhdvnc108.xilinx.com (Postfix, from userid 15427)
-        id BB4A760509; Fri, 10 May 2019 12:37:28 +0530 (IST)
-From:   Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        "Claus H. Stovgaard" <cst@phaseone.com>
-CC:     <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <v.anuragkumar@gmail.com>,
-        Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
-Subject: [PATCH v3 0/3] usb: gadget: Add support for disabling U1 and U2 entries
-Date:   Fri, 10 May 2019 12:37:25 +0530
-Message-ID: <1557472048-10536-1-git-send-email-anurag.kumar.vulisha@xilinx.com>
-X-Mailer: git-send-email 2.1.1
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.100;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(396003)(39860400002)(136003)(346002)(376002)(2980300002)(189003)(199004)(50466002)(2616005)(7416002)(48376002)(47776003)(305945005)(16586007)(42186006)(63266004)(316002)(106002)(966005)(51416003)(478600001)(26005)(81166006)(8676002)(70206006)(81156014)(70586007)(8936002)(6266002)(107886003)(103686004)(6666004)(50226002)(110136005)(426003)(476003)(356004)(5660300002)(486006)(2906002)(14444005)(336012)(4326008)(36756003)(90966002)(54906003)(126002)(52956003)(6306002)(186003)(36386004)(5001870100001)(6606295002);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR02MB3832;H:xsj-pvapsmtpgw02;FPR:;SPF:Pass;LANG:en;PTR:unknown-60-100.xilinx.com,xapps1.xilinx.com;MX:1;A:1;
+        id S1727116AbfEJH1t (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 10 May 2019 03:27:49 -0400
+Received: from mga05.intel.com ([192.55.52.43]:22730 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726976AbfEJH1s (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 10 May 2019 03:27:48 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 May 2019 00:27:48 -0700
+X-ExtLoop1: 1
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.164]) ([10.237.72.164])
+  by FMSMGA003.fm.intel.com with ESMTP; 10 May 2019 00:27:45 -0700
+Subject: Re: [PATCH 1/4] usb: xhci: add Immediate Data Transfer support
+To:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+        'Linux Samsung SOC' <linux-samsung-soc@vger.kernel.org>
+References: <1556285012-28186-1-git-send-email-mathias.nyman@linux.intel.com>
+ <1556285012-28186-2-git-send-email-mathias.nyman@linux.intel.com>
+ <CGME20190509103220eucas1p1330f2827916b55e05b1b791504963630@eucas1p1.samsung.com>
+ <bc747768-7457-0df6-f57e-4aeac9c8bf0c@samsung.com>
+ <3fe85fcc-a202-f746-6cd6-d3f5523348f8@linux.intel.com>
+ <a369ba3931e3df113101ce9e52634e5c2ef0b957.camel@suse.de>
+ <b4e49d68-a94e-f6fb-6439-78ef0ff898ef@linux.intel.com>
+ <d5076a1a-b20e-8779-c38e-6bee0007b743@samsung.com>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-ID: <51cf2371-baf3-1788-a77c-bca84ec11c9f@linux.intel.com>
+Date:   Fri, 10 May 2019 10:30:21 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e344e7cd-9340-4893-57cb-08d6d51630b6
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4709054)(2017052603328);SRVR:DM5PR02MB3832;
-X-MS-TrafficTypeDiagnostic: DM5PR02MB3832:
-X-MS-Exchange-PUrlCount: 1
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-Microsoft-Antispam-PRVS: <DM5PR02MB3832A8947A32938D489F7CDCA70C0@DM5PR02MB3832.namprd02.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-Forefront-PRVS: 0033AAD26D
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: Zd9d9H5dq7+9mxsO4qW3GJ6R0T1AZPlTnYSoB4Ax87oEfxb+SG9UKltUZy3j2ZH7KJ92BwZt51uTgcVcjoAbecFp2/waOUKL6M3sp++0HEsBdRR81KvaDZQa0pwhj91zyokOFudrMueK0C/ChjWiOo/ZTJm0umU5GwnTUbnDfiWqvQUp+QRVoNgF0FMyTPC5URXufXvcGzGZ/13ExhmaXnRzwhgSQYXx2e3ztGxPSJXYbJSbVYz9NTL95rk4tV+T6fFgfYnLGxabbKa/lZ9olJ/K4J7FKjasFCopBchvxqA9wj7El933J5B3hutgLYB/adrXmUVxUCKZgsmCDqvkoDevjjzi1Ecy7rkKkQRlaeRanF9lbbUjjwWAuMDsP/qGr+Myz77FDObHM+LWzvGykehAJW+slo7/6GL/nDpOKWg=
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2019 07:07:39.8799
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e344e7cd-9340-4893-57cb-08d6d51630b6
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.60.100];Helo=[xsj-pvapsmtpgw02]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB3832
+In-Reply-To: <d5076a1a-b20e-8779-c38e-6bee0007b743@samsung.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Gadget applications may have a requirement to disable the U1 and U2
-entry based on the usecase. Below are few usecases where the disabling
-U1/U2 entries may be possible.
+On 10.5.2019 9.28, Marek Szyprowski wrote:
+> Hi Mathias,
+> 
+> On 2019-05-09 17:10, Mathias Nyman wrote:
+>> On 9.5.2019 14.51, Nicolas Saenz Julienne wrote:
+>>> On Thu, 2019-05-09 at 14:40 +0300, Mathias Nyman wrote:
+>>>> On 9.5.2019 13.32, Marek Szyprowski wrote:
+>>>>> Dear All,
+>>>>>
+>>>>> On 2019-04-26 15:23, Mathias Nyman wrote:
+>>>>>> From: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+>>>>>>
+>>>>>> Immediate data transfers (IDT) allow the HCD to copy small chunks of
+>>>>>> data (up to 8bytes) directly into its output transfer TRBs. This
+>>>>>> avoids
+>>>>>> the somewhat expensive DMA mappings that are performed by default on
+>>>>>> most URBs submissions.
+>>>>>>
+>>>>>> In the case an URB was suitable for IDT. The data is directly copied
+>>>>>> into the "Data Buffer Pointer" region of the TRB and the IDT flag is
+>>>>>> set. Instead of triggering memory accesses the HC will use the data
+>>>>>> directly.
+>>>>>>
+>>>>>> The implementation could cover all kind of output endpoints. Yet
+>>>>>> Isochronous endpoints are bypassed as I was unable to find one that
+>>>>>> matched IDT's constraints. As we try to bypass the default DMA
+>>>>>> mappings
+>>>>>> on URB buffers we'd need to find a Isochronous device with an
+>>>>>> urb->transfer_buffer_length <= 8 bytes.
+>>>>>>
+>>>>>> The implementation takes into account that the 8 byte buffers
+>>>>>> provided
+>>>>>> by the URB will never cross a 64KB boundary.
+>>>>>>
+>>>>>> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+>>>>>> Reviewed-by: Felipe Balbi <felipe.balbi@linux.intel.com>
+>>>>>> Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+>>>>>
+>>>>> I've noticed that this patch causes regression on various Samsung
+>>>>> Exynos
+>>>>> 5420/5422/5800 boards, which have USB3.0 host ports provided by
+>>>>> DWC3/XHCI hardware module. The regression can be observed with ASIX
+>>>>> USB
+>>>>> 2.0 ethernet dongle, which stops working after applying this patch
+>>>>> (eth0
+>>>>> interface is registered, but no packets are transmitted/received).
+>>>>> I can
+>>>>> provide more debugging information or do some tests, just let me know
+>>>>> what do you need. Reverting this commit makes ASIX USB ethernet dongle
+>>>>> operational again.
+>>>>>
+>>>>
+>>>> Thanks for reporting.
+>>>>
+>>>> Would it be possible to check if your ASIX ethernet dongle works on
+>>>> some
+>>>> desktop/laptop setup with this same IDT patch?
+>>>>
+>>>> Also Exynos xhci traces could help, they would show the content of
+>>>> the TRBs
+>>>> using IDT.
+>>>> Maybe byte order gets messed up?
+>>>>
+>>>> Take traces with:
+>>>>
+>>>> mount -t debugfs none /sys/kernel/debug
+>>>> echo 81920 > /sys/kernel/debug/tracing/buffer_size_kb
+>>>> echo 1 > /sys/kernel/debug/tracing/events/xhci-hcd/enable
+>>>>
+>>>> <connect ASIX eth dongle, try to use it>
+>>>>
+>>>> send /sys/kernel/debug/tracing/trace content to me
+>>>>
+>>>> If we can't get this fixed I'll revert the IDT patch
+>>>
+>>> Hi Matthias, thanks for your help.
+>>>
+>>> I'll also be looking into it, so please send me the logs too.
+>>>
+>>
+>> Got the logs off list, thanks
+>>
+>> The "Buffer" data in Control transfer Data stage look suspicious.
+>>
+>> grep "flags I:" trace_fail  | grep Data
+>> kworker/0:2-124   [000] d..1    63.092399: xhci_queue_trb: CTRL:
+>> Buffer 0000000018b65000 length 6 TD size 0 intr 0 type 'Data Stage'
+>> flags I:i:c:s:i:e:C
+>> ifconfig-1429  [005] d..1    93.181231: xhci_queue_trb: CTRL: Buffer
+>> 0000000018b65000 length 6 TD size 0 intr 0 type 'Data Stage' flags
+>> I:i:c:s:i:e:C
+>> ifconfig-1429  [007] dn.2    93.182050: xhci_queue_trb: CTRL: Buffer
+>> 0000000000000000 length 8 TD size 0 intr 0 type 'Data Stage' flags
+>> I:i:c:s:i:e:C
+>> ifconfig-1429  [007] d..2    93.182499: xhci_queue_trb: CTRL: Buffer
+>> 0000000080000000 length 8 TD size 0 intr 0 type 'Data Stage' flags
+>> I:i:c:s:i:e:C
+>> ifconfig-1429  [007] d..2    93.182736: xhci_queue_trb: CTRL: Buffer
+>> 0000000080000000 length 8 TD size 0 intr 0 type 'Data Stage' flags
+>> I:i:c:s:i:e:C
+>> kworker/0:3-1409  [000] d..3    93.382630: xhci_queue_trb: CTRL:
+>> Buffer 0000000080000000 length 8 TD size 0 intr 0 type 'Data Stage'
+>> flags I:i:c:s:i:e:C
+>>
+>> First guess would be that in case URB has URB_NO_TRANSFER_DMA_MAP set
+>> then data
+>> will be mapped and urb->transfer_dma is already set.
+>> The IDT patch uses urb->trabfer_dma as a temporary buffer, and copies the
+>> urb->transfer_buffer there.
+>> if transfer buffer is already dma mapped the urb->transfer_buffer can
+>> be garbage,
+>> (shouldn't, but it can be)
+>>
+>> Below code avoids IDT if URB_NO_TRANSFER_DMA_MAP is set, and doesn't
+>> touch
+>> urb->transfer_dma (patch attached)
+>> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+>> index fed3385..f080054 100644
+>> --- a/drivers/usb/host/xhci-ring.c
+>> +++ b/drivers/usb/host/xhci-ring.c
+>> @@ -3423,11 +3423,14 @@ int xhci_queue_ctrl_tx(struct xhci_hcd *xhci,
+>> gfp_t mem_flags,
+>>
+>>          if (urb->transfer_buffer_length > 0) {
+>>                  u32 length_field, remainder;
+>> +               u64 addr;
+>>
+>>                  if (xhci_urb_suitable_for_idt(urb)) {
+>> -                       memcpy(&urb->transfer_dma, urb->transfer_buffer,
+>> +                       memcpy(&addr, urb->transfer_buffer,
+>>                                 urb->transfer_buffer_length);
+>>                          field |= TRB_IDT;
+>> +               } else {
+>> +                       addr = (u64) urb->transfer_dma;
+>>                  }
+>>
+>>                  remainder = xhci_td_remainder(xhci, 0,
+>> @@ -3440,8 +3443,8 @@ int xhci_queue_ctrl_tx(struct xhci_hcd *xhci,
+>> gfp_t mem_flags,
+>>                  if (setup->bRequestType & USB_DIR_IN)
+>>                          field |= TRB_DIR_IN;
+>>                  queue_trb(xhci, ep_ring, true,
+>> - lower_32_bits(urb->transfer_dma),
+>> - upper_32_bits(urb->transfer_dma),
+>> +                               lower_32_bits(addr),
+>> +                               upper_32_bits(addr),
+>>                                  length_field,
+>>                                  field | ep_ring->cycle_state);
+>>          }
+>> diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+>> index a450a99..7f8b950 100644
+>> --- a/drivers/usb/host/xhci.h
+>> +++ b/drivers/usb/host/xhci.h
+>> @@ -2160,7 +2160,8 @@ static inline bool
+>> xhci_urb_suitable_for_idt(struct urb *urb)
+>>   {
+>>          if (!usb_endpoint_xfer_isoc(&urb->ep->desc) &&
+>> usb_urb_dir_out(urb) &&
+>>              usb_endpoint_maxp(&urb->ep->desc) >= TRB_IDT_MAX_SIZE &&
+>> -           urb->transfer_buffer_length <= TRB_IDT_MAX_SIZE)
+>> +           urb->transfer_buffer_length <= TRB_IDT_MAX_SIZE &&
+>> +           !(urb->transfer_flags & URB_NO_TRANSFER_DMA_MAP))
+>>                  return true;
+>>
+>>          return false;
+>>
+>   > If that doesn't help, then it's possible DATA trbs in control
+> transfer can't
+>> use IDT at all. IDT is supported for Normal TRBs, which have a
+>> different trb
+>> type than DATA trbs in control transfers.
+>>
+>> Also xhci specs 4.11.7 limit IDT usage:
+>>
+>> "If the IDT flag is set in one TRB of a TD, then it shall be the only
+>> Transfer
+>>   TRB of the TD"
+>>
+>> A whole control transfer is one TD, and it already contains a SETUP
+>> transfer TRB
+>> which is using the IDT flag.
+>>
+>> Following disables IDT for control transfers (testpatch attached as well)
+>>
+>> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+>> index fed3385..4c1c9ad 100644
+>> --- a/drivers/usb/host/xhci-ring.c
+>> +++ b/drivers/usb/host/xhci-ring.c
+>> @@ -3424,12 +3424,6 @@ int xhci_queue_ctrl_tx(struct xhci_hcd *xhci,
+>> gfp_t mem_flags,
+>>          if (urb->transfer_buffer_length > 0) {
+>>                  u32 length_field, remainder;
+>>
+>> -               if (xhci_urb_suitable_for_idt(urb)) {
+>> -                       memcpy(&urb->transfer_dma, urb->transfer_buffer,
+>> -                              urb->transfer_buffer_length);
+>> -                       field |= TRB_IDT;
+>> -               }
+>> -
+>>                  remainder = xhci_td_remainder(xhci, 0,
+>>                                  urb->transfer_buffer_length,
+>>                                  urb->transfer_buffer_length,
+>> diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+>> index a450a99..2e16ff7 100644
+>> --- a/drivers/usb/host/xhci.h
+>> +++ b/drivers/usb/host/xhci.h
+>> @@ -2158,9 +2158,11 @@ static inline struct xhci_ring
+>> *xhci_urb_to_transfer_ring(struct xhci_hcd *xhci,
+>>    */
+>>   static inline bool xhci_urb_suitable_for_idt(struct urb *urb)
+>>   {
+>> -       if (!usb_endpoint_xfer_isoc(&urb->ep->desc) &&
+>> usb_urb_dir_out(urb) &&
+>> +       if (!usb_endpoint_xfer_control(&urb->ep->desc) &&
+>> +           !usb_endpoint_xfer_isoc(&urb->ep->desc) &&
+>> usb_urb_dir_out(urb) &&
+>>              usb_endpoint_maxp(&urb->ep->desc) >= TRB_IDT_MAX_SIZE &&
+>> -           urb->transfer_buffer_length <= TRB_IDT_MAX_SIZE)
+>> +           urb->transfer_buffer_length <= TRB_IDT_MAX_SIZE &&
+>> +           !(urb->transfer_flags & URB_NO_TRANSFER_DMA_MAP))
+>>                  return true;
+>>
+>>          return false;
+>>
+>> -Mathias
+> 
+> 
+> Thanks for the patches to test! Both patches applied separately (without
+> the other one) fixes the issue with ASIX USB dongle, but from the
+> discussion I assume that the first one
+> (0001-xhci-don-t-use-IDT-transfer-buffer-is-already-dma-ma.patch) really
+> fixes the issue, while the second one is just a workaround.
+> 
+> You can add:
+> 
+> Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> 
+> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> 
 
-Usecase 1:
-When combining dwc3 with an redriver for a USB Type-C device solution, it
-sometimes have problems with leaving U1/U2 for certain hosts, resulting in
-link training errors and reconnects. For this U1/U2 state entries may be
-avoided.
+Great, thanks, I'll send the first patch forward after the merge window
 
-Usecase 2:
-When performing performance benchmarking on mass storage gadget the
-U1 and U2 entries can be disabled.
-
-Usecase 3:
-When periodic transfers like ISOC transfers are used with bInterval
-of 1 which doesn't require the link to enter into U1 or U2 state entry
-(since ping is issued from host for every uframe interval). In this
-case the U1 and U2 entry can be disabled.
-
-Disablement of U1/U2 can be done by setting U1DevExitLat and U2DevExitLat
-values to 0 in the BOS descriptor. Host on seeing 0 value for U1DevExitLat
-and U2DevExitLat, it doesn't send SET_SEL requests to the gadget. There
-may be some hosts which may send SET_SEL requests even after seeing 0 in
-the UxDevExitLat of BOS descriptor. To aviod U1/U2 entries for these type
-of hosts, dwc3 controller can be programmed to reject those U1/U2 requests
-by not enabling ACCEPTUxENA bits in DCTL register.
-
-This patch series updates the same.
-
-Changes in v3:
-	1. As suggested by Thinh Nguyen modified the logic for rejecting only
-	   SET_FEATURE(enable U1/U2) from host.
-	2. Used cpu_to_le16() before assigning the value to bU2DevExitLat.
-
-Changes in v2:
-	1. As suggested by Thinh Nguyen changed the "snps,dis_u1_entry_quirk"
-	   to "snps,dis-u1-entry-quirk"
-	2. Merged the changes done by Claus H. Stovgaard in ep0.c for rejecting
-	   U1/U2 requests into this patch. Changes done by Claus can be found
-	   here https://marc.info/?l=linux-kernel&m=155722068820568&w=2
-
-Anurag Kumar Vulisha (3):
-  doc: dt: bindings: usb: dwc3: Update entries for disabling U1 and U2
-  usb: gadget: send usb_gadget as an argument in get_config_params
-  usb: dwc3: gadget: Add support for disabling U1 and U2 entries
-
- Documentation/devicetree/bindings/usb/dwc3.txt |  2 ++
- drivers/usb/dwc3/core.c                        |  4 ++++
- drivers/usb/dwc3/core.h                        |  4 ++++
- drivers/usb/dwc3/ep0.c                         |  9 ++++++++-
- drivers/usb/dwc3/gadget.c                      | 20 ++++++++++++++++++++
- drivers/usb/dwc3/gadget.h                      |  6 ++++++
- drivers/usb/gadget/composite.c                 |  2 +-
- include/linux/usb/gadget.h                     |  3 ++-
- 8 files changed, 47 insertions(+), 3 deletions(-)
-
--- 
-2.1.1
-
+Mathias
