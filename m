@@ -2,40 +2,40 @@ Return-Path: <SRS0=kkDe=TN=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BF27C04AB4
-	for <linux-usb@archiver.kernel.org>; Mon, 13 May 2019 06:25:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE034C04AB4
+	for <linux-usb@archiver.kernel.org>; Mon, 13 May 2019 06:26:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CFDD720989
-	for <linux-usb@archiver.kernel.org>; Mon, 13 May 2019 06:25:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 80DCC20989
+	for <linux-usb@archiver.kernel.org>; Mon, 13 May 2019 06:26:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nifty.com header.i=@nifty.com header.b="MGuNVM4H"
+	dkim=pass (2048-bit key) header.d=nifty.com header.i=@nifty.com header.b="Ukcj8KGP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726259AbfEMGZS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 13 May 2019 02:25:18 -0400
-Received: from condef-10.nifty.com ([202.248.20.75]:57320 "EHLO
-        condef-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725866AbfEMGZR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 May 2019 02:25:17 -0400
-Received: from conuserg-10.nifty.com ([10.126.8.73])by condef-10.nifty.com with ESMTP id x4D6MeGB007299;
-        Mon, 13 May 2019 15:22:40 +0900
+        id S1726877AbfEMG0D (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 13 May 2019 02:26:03 -0400
+Received: from condef-03.nifty.com ([202.248.20.68]:35316 "EHLO
+        condef-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726486AbfEMG0D (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 May 2019 02:26:03 -0400
+Received: from conuserg-10.nifty.com ([10.126.8.73])by condef-03.nifty.com with ESMTP id x4D6MUP8016585;
+        Mon, 13 May 2019 15:22:30 +0900
 Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-10.nifty.com with ESMTP id x4D6MKMH031944;
-        Mon, 13 May 2019 15:22:24 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x4D6MKMH031944
+        by conuserg-10.nifty.com with ESMTP id x4D6MKMD031944;
+        Mon, 13 May 2019 15:22:21 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x4D6MKMD031944
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1557728546;
-        bh=OfIIhemlSrlQXaNMkfHqX67qd7jBRMPIHtESheuz9Xg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MGuNVM4HIJn3sGkIzCx0NaTE96qTKfhXUc4a/D58K2M1iRkcFfX8P2tF8AE2NGZJD
-         D1PPv7MLc7uTQo3h9ng9GAWKckObeJnnAPN+WGFJitVDzWkSRysrBoEYGdk1wYvmRM
-         s+c8yRHquRkzlJyY2Q8AsnOGT4QmMNN5w7lGIZxrOpE9wzZjEsHc2L6bHsceL2e8fs
-         v6DK5RAoFJy+JbCP/d0RwDMMph4APDu82HpeTu5xqXz39PlzCgg0FEmID4TWt4M8+4
-         K78FqMrTdboC53WryiUe08oETiyFMjLTjiEQzHDUYJscz5eI8NbjZl7ETLQjC04Ubo
-         NF2HmL3+14c4g==
+        s=dec2015msa; t=1557728542;
+        bh=swEZk/Cz28om8/f0Dg5Vc4B35GQqTxoFUbP1b15szx0=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Ukcj8KGPL9n5eGX37YX+59e9VBeS2YQuC2ctkglb/oRV9CSvYxQ46LPf030QpAX1n
+         FiBvQlvVtcYFSAYmziyEYqZTTJflZmchyBGt8wMfisMRFXsZfz5r5/P+3zx5IY6esv
+         eK1Ut+jP6Jmu4AvAZFOuIqXe4pCF0xMrI4C+uhLppzqYDbv5OZpF9b/YdISs+URE1c
+         QU1x/JlipyxnSVOsoFS6ZGlED+EOufNSh662uQPRRfz85fM143fhiXd43ZN9bYof/n
+         +4/86QmaRcOoFujKqBrgT6/4Ro0iBauFyDyyKmuXaaC6c46sVv5ts1rG6tffPFLPQ3
+         Ei0/PevcXe2Dg==
 X-Nifty-SrcIP: [153.142.97.92]
 From:   Masahiro Yamada <yamada.masahiro@socionext.com>
 To:     linux-kbuild@vger.kernel.org
@@ -44,146 +44,96 @@ Cc:     linux-kernel@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org, x86@kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 4/4] kbuild: remove 'addtree' and 'flags' magic for header search paths
-Date:   Mon, 13 May 2019 15:22:17 +0900
-Message-Id: <20190513062217.20750-5-yamada.masahiro@socionext.com>
+Subject: [PATCH 0/4] kbuild: remove 'addtree' and 'flags' magic
+Date:   Mon, 13 May 2019 15:22:13 +0900
+Message-Id: <20190513062217.20750-1-yamada.masahiro@socionext.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190513062217.20750-1-yamada.masahiro@socionext.com>
-References: <20190513062217.20750-1-yamada.masahiro@socionext.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The 'addtree' and 'flags' in scripts/Kbuild.include are so compilecated
-and ugly.
+The 'addtree' and 'flags' are longstanding PITA.
 
-As I mentioned in [1], Kbuild should stop automatic prefixing of header
-search path options.
+When we discussed this in kbuild ML,
+(https://patchwork.kernel.org/patch/9632347/)
+we agreed to get rid of this hack.
 
-Instead, in-kernel Makefiles should explicitly add $(srctree)/ to
-the search paths in the srctree.
+This required lots of efforts to send many fixups
+to each subsystem.
 
-Kbuild still caters to add $(srctree)/$(src) and $(objtree)/$(obj)
-to the header search path for O= building, but never touches extra
-compiler options from ccflags-y etc.
+I did it, all the per-subsystem fixups were merged
+except media subsystem.
 
-Going forward, in-kernel Makefiles should explicitly specify
-$(srctree)/ if extra search paths are needed.
+I will apply all the remaining fixups,
+and delete 'addtree' and 'flags' magic.
 
- Example)    ccflags-y += -I $(srctree)/foo/bar
+I have tested this series for a long time,
+and addressed all the reported issues.
 
-You do not have to change external module Makefiles because $(src)
-is already an absolute path for external modules.
 
- Example)    ccflags-y += -I $(src)/foo/bar
 
-[1]: https://patchwork.kernel.org/patch/9632347/
+Masahiro Yamada (4):
+  media: remove unneeded header search paths
+  media: prefix header search paths with $(srctree)/
+  treewide: prefix header search paths with $(srctree)/
+  kbuild: remove 'addtree' and 'flags' magic for header search paths
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
+ arch/mips/pnx833x/Platform                    |  2 +-
+ arch/powerpc/Makefile                         |  2 +-
+ arch/sh/Makefile                              |  4 +--
+ arch/x86/kernel/Makefile                      |  2 +-
+ arch/x86/mm/Makefile                          |  2 +-
+ arch/xtensa/boot/lib/Makefile                 |  2 +-
+ drivers/hid/intel-ish-hid/Makefile            |  2 +-
+ drivers/media/common/b2c2/Makefile            |  4 +--
+ drivers/media/dvb-frontends/cxd2880/Makefile  |  2 --
+ drivers/media/i2c/smiapp/Makefile             |  2 +-
+ drivers/media/mmc/siano/Makefile              |  3 +--
+ drivers/media/pci/b2c2/Makefile               |  2 +-
+ drivers/media/pci/bt8xx/Makefile              |  5 ++--
+ drivers/media/pci/cx18/Makefile               |  4 +--
+ drivers/media/pci/cx23885/Makefile            |  4 +--
+ drivers/media/pci/cx88/Makefile               |  4 +--
+ drivers/media/pci/ddbridge/Makefile           |  4 +--
+ drivers/media/pci/dm1105/Makefile             |  2 +-
+ drivers/media/pci/mantis/Makefile             |  2 +-
+ drivers/media/pci/netup_unidvb/Makefile       |  2 +-
+ drivers/media/pci/ngene/Makefile              |  4 +--
+ drivers/media/pci/pluto2/Makefile             |  2 +-
+ drivers/media/pci/pt1/Makefile                |  4 +--
+ drivers/media/pci/pt3/Makefile                |  4 +--
+ drivers/media/pci/smipcie/Makefile            |  5 ++--
+ drivers/media/pci/ttpci/Makefile              |  4 +--
+ drivers/media/platform/sti/c8sectpfe/Makefile |  5 ++--
+ drivers/media/radio/Makefile                  |  2 --
+ drivers/media/spi/Makefile                    |  4 +--
+ drivers/media/usb/as102/Makefile              |  2 +-
+ drivers/media/usb/au0828/Makefile             |  4 +--
+ drivers/media/usb/b2c2/Makefile               |  2 +-
+ drivers/media/usb/cx231xx/Makefile            |  5 ++--
+ drivers/media/usb/em28xx/Makefile             |  4 +--
+ drivers/media/usb/go7007/Makefile             |  2 +-
+ drivers/media/usb/pvrusb2/Makefile            |  4 +--
+ drivers/media/usb/siano/Makefile              |  2 +-
+ drivers/media/usb/tm6000/Makefile             |  4 +--
+ drivers/media/usb/ttusb-budget/Makefile       |  2 +-
+ drivers/media/usb/usbvision/Makefile          |  2 --
+ drivers/net/ethernet/chelsio/libcxgb/Makefile |  2 +-
+ drivers/target/iscsi/cxgbit/Makefile          |  6 ++---
+ drivers/usb/storage/Makefile                  |  2 +-
+ fs/ocfs2/dlm/Makefile                         |  3 +--
+ fs/ocfs2/dlmfs/Makefile                       |  2 +-
+ fs/xfs/Makefile                               |  4 +--
+ net/bpfilter/Makefile                         |  2 +-
+ scripts/Kbuild.include                        |  8 ------
+ scripts/Makefile.host                         | 12 ++++-----
+ scripts/Makefile.lib                          | 26 ++++++-------------
+ scripts/dtc/Makefile                          |  6 ++---
+ scripts/genksyms/Makefile                     |  4 +--
+ scripts/kconfig/Makefile                      |  4 +--
+ 53 files changed, 85 insertions(+), 119 deletions(-)
 
- scripts/Kbuild.include |  8 --------
- scripts/Makefile.host  | 12 +++++-------
- scripts/Makefile.lib   | 26 ++++++++------------------
- 3 files changed, 13 insertions(+), 33 deletions(-)
-
-diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
-index 7484b9d8272f..a675ce11a573 100644
---- a/scripts/Kbuild.include
-+++ b/scripts/Kbuild.include
-@@ -192,14 +192,6 @@ clean := -f $(srctree)/scripts/Makefile.clean obj
- # $(Q)$(MAKE) $(hdr-inst)=dir
- hdr-inst := -f $(srctree)/scripts/Makefile.headersinst obj
- 
--# Prefix -I with $(srctree) if it is not an absolute path.
--# skip if -I has no parameter
--addtree = $(if $(patsubst -I%,%,$(1)), \
--$(if $(filter-out -I/% -I./% -I../%,$(1)),$(patsubst -I%,-I$(srctree)/%,$(1)),$(1)),$(1))
--
--# Find all -I options and call addtree
--flags = $(foreach o,$($(1)),$(if $(filter -I%,$(o)),$(call addtree,$(o)),$(o)))
--
- # echo command.
- # Short version is used, if $(quiet) equals `quiet_', otherwise full one.
- echo-cmd = $(if $($(quiet)cmd_$(1)),\
-diff --git a/scripts/Makefile.host b/scripts/Makefile.host
-index 73b804197fca..b6a54bdf0965 100644
---- a/scripts/Makefile.host
-+++ b/scripts/Makefile.host
-@@ -67,18 +67,16 @@ _hostc_flags   = $(KBUILD_HOSTCFLAGS)   $(HOST_EXTRACFLAGS)   \
- _hostcxx_flags = $(KBUILD_HOSTCXXFLAGS) $(HOST_EXTRACXXFLAGS) \
-                  $(HOSTCXXFLAGS_$(basetarget).o)
- 
--__hostc_flags	= $(_hostc_flags)
--__hostcxx_flags	= $(_hostcxx_flags)
--
-+# $(objtree)/$(obj) for including generated headers from checkin source files
- ifeq ($(KBUILD_EXTMOD),)
- ifneq ($(srctree),.)
--__hostc_flags	= -I$(obj) $(call flags,_hostc_flags)
--__hostcxx_flags	= -I$(obj) $(call flags,_hostcxx_flags)
-+_hostc_flags   += -I $(objtree)/$(obj)
-+_hostcxx_flags += -I $(objtree)/$(obj)
- endif
- endif
- 
--hostc_flags    = -Wp,-MD,$(depfile) $(__hostc_flags)
--hostcxx_flags  = -Wp,-MD,$(depfile) $(__hostcxx_flags)
-+hostc_flags    = -Wp,-MD,$(depfile) $(_hostc_flags)
-+hostcxx_flags  = -Wp,-MD,$(depfile) $(_hostcxx_flags)
- 
- #####
- # Compile programs on the host
-diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
-index 41e98fa66b91..1b412d4394ae 100644
---- a/scripts/Makefile.lib
-+++ b/scripts/Makefile.lib
-@@ -137,36 +137,26 @@ _c_flags += $(if $(patsubst n%,, \
- 	$(CFLAGS_KCOV))
- endif
- 
--__c_flags	= $(_c_flags)
--__a_flags	= $(_a_flags)
--__cpp_flags     = $(_cpp_flags)
--
--# If building the kernel in a separate objtree expand all occurrences
--# of -Idir to -I$(srctree)/dir except for absolute paths (starting with '/').
-+# $(srctree)/$(src) for including checkin headers from generated source files
-+# $(objtree)/$(obj) for including generated headers from checkin source files
- ifeq ($(KBUILD_EXTMOD),)
- ifneq ($(srctree),.)
--
--# -I$(obj) locates generated .h files
--# $(call addtree,-I$(obj)) locates .h files in srctree, from generated .c files
--#   and locates generated .h files
--# FIXME: Replace both with specific CFLAGS* statements in the makefiles
--__c_flags	= $(if $(obj),$(call addtree,-I$(src)) -I$(obj)) \
--		  $(call flags,_c_flags)
--__a_flags	= $(call flags,_a_flags)
--__cpp_flags     = $(call flags,_cpp_flags)
-+_c_flags   += -I $(srctree)/$(src) -I $(objtree)/$(obj)
-+_a_flags   += -I $(srctree)/$(src) -I $(objtree)/$(obj)
-+_cpp_flags += -I $(srctree)/$(src) -I $(objtree)/$(obj)
- endif
- endif
- 
- c_flags        = -Wp,-MD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
- 		 -include $(srctree)/include/linux/compiler_types.h       \
--		 $(__c_flags) $(modkern_cflags)                           \
-+		 $(_c_flags) $(modkern_cflags)                           \
- 		 $(basename_flags) $(modname_flags)
- 
- a_flags        = -Wp,-MD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
--		 $(__a_flags) $(modkern_aflags)
-+		 $(_a_flags) $(modkern_aflags)
- 
- cpp_flags      = -Wp,-MD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
--		 $(__cpp_flags)
-+		 $(_cpp_flags)
- 
- ld_flags       = $(KBUILD_LDFLAGS) $(ldflags-y) $(LDFLAGS_$(@F))
- 
 -- 
 2.17.1
 
