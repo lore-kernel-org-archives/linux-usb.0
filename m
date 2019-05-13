@@ -2,265 +2,188 @@ Return-Path: <SRS0=kkDe=TN=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.9 required=3.0 tests=AC_FROM_MANY_DOTS,
+X-Spam-Status: No, score=-9.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_PASS,UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E83BC04AB4
-	for <linux-usb@archiver.kernel.org>; Mon, 13 May 2019 02:45:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BF27C04AB4
+	for <linux-usb@archiver.kernel.org>; Mon, 13 May 2019 06:25:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4FF19208C0
-	for <linux-usb@archiver.kernel.org>; Mon, 13 May 2019 02:45:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CFDD720989
+	for <linux-usb@archiver.kernel.org>; Mon, 13 May 2019 06:25:18 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nifty.com header.i=@nifty.com header.b="MGuNVM4H"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727478AbfEMCpH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 12 May 2019 22:45:07 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:15711 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727281AbfEMCpH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 12 May 2019 22:45:07 -0400
-X-IronPort-AV: E=Sophos;i="5.60,464,1549897200"; 
-   d="scan'208";a="15542001"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 13 May 2019 11:45:04 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2B8454156AED;
-        Mon, 13 May 2019 11:45:04 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v2] usb: renesas_usbhs: Use specific struct instead of USBHS_TYPE_* enums
-Date:   Mon, 13 May 2019 11:40:29 +0900
-Message-Id: <1557715229-13102-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+        id S1726259AbfEMGZS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 13 May 2019 02:25:18 -0400
+Received: from condef-10.nifty.com ([202.248.20.75]:57320 "EHLO
+        condef-10.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725866AbfEMGZR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 May 2019 02:25:17 -0400
+Received: from conuserg-10.nifty.com ([10.126.8.73])by condef-10.nifty.com with ESMTP id x4D6MeGB007299;
+        Mon, 13 May 2019 15:22:40 +0900
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-10.nifty.com with ESMTP id x4D6MKMH031944;
+        Mon, 13 May 2019 15:22:24 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-10.nifty.com x4D6MKMH031944
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1557728546;
+        bh=OfIIhemlSrlQXaNMkfHqX67qd7jBRMPIHtESheuz9Xg=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=MGuNVM4HIJn3sGkIzCx0NaTE96qTKfhXUc4a/D58K2M1iRkcFfX8P2tF8AE2NGZJD
+         D1PPv7MLc7uTQo3h9ng9GAWKckObeJnnAPN+WGFJitVDzWkSRysrBoEYGdk1wYvmRM
+         s+c8yRHquRkzlJyY2Q8AsnOGT4QmMNN5w7lGIZxrOpE9wzZjEsHc2L6bHsceL2e8fs
+         v6DK5RAoFJy+JbCP/d0RwDMMph4APDu82HpeTu5xqXz39PlzCgg0FEmID4TWt4M8+4
+         K78FqMrTdboC53WryiUe08oETiyFMjLTjiEQzHDUYJscz5eI8NbjZl7ETLQjC04Ubo
+         NF2HmL3+14c4g==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     linux-kbuild@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org, x86@kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH 4/4] kbuild: remove 'addtree' and 'flags' magic for header search paths
+Date:   Mon, 13 May 2019 15:22:17 +0900
+Message-Id: <20190513062217.20750-5-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190513062217.20750-1-yamada.masahiro@socionext.com>
+References: <20190513062217.20750-1-yamada.masahiro@socionext.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch adds a specific struct "usbhs_of_data" to add a new SoC
-data easily instead of code basis in the future.
+The 'addtree' and 'flags' in scripts/Kbuild.include are so compilecated
+and ugly.
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+As I mentioned in [1], Kbuild should stop automatic prefixing of header
+search path options.
+
+Instead, in-kernel Makefiles should explicitly add $(srctree)/ to
+the search paths in the srctree.
+
+Kbuild still caters to add $(srctree)/$(src) and $(objtree)/$(obj)
+to the header search path for O= building, but never touches extra
+compiler options from ccflags-y etc.
+
+Going forward, in-kernel Makefiles should explicitly specify
+$(srctree)/ if extra search paths are needed.
+
+ Example)    ccflags-y += -I $(srctree)/foo/bar
+
+You do not have to change external module Makefiles because $(src)
+is already an absolute path for external modules.
+
+ Example)    ccflags-y += -I $(src)/foo/bar
+
+[1]: https://patchwork.kernel.org/patch/9632347/
+
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 ---
- Changes from v1 [1]:
- - Use sizeof(variable) instead of sizeof(type).
- - Add Geert-san's reviewed-by (thanks!).
 
-[1]
-https://patchwork.kernel.org/patch/10938575/
+ scripts/Kbuild.include |  8 --------
+ scripts/Makefile.host  | 12 +++++-------
+ scripts/Makefile.lib   | 26 ++++++++------------------
+ 3 files changed, 13 insertions(+), 33 deletions(-)
 
- drivers/usb/renesas_usbhs/common.c | 112 +++++++++++++++++++++----------------
- drivers/usb/renesas_usbhs/common.h |   5 ++
- 2 files changed, 70 insertions(+), 47 deletions(-)
-
-diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
-index 249fbee..0ca89de 100644
---- a/drivers/usb/renesas_usbhs/common.c
-+++ b/drivers/usb/renesas_usbhs/common.c
-@@ -535,53 +535,92 @@ static int usbhsc_drvcllbck_notify_hotplug(struct platform_device *pdev)
- 	return 0;
- }
+diff --git a/scripts/Kbuild.include b/scripts/Kbuild.include
+index 7484b9d8272f..a675ce11a573 100644
+--- a/scripts/Kbuild.include
++++ b/scripts/Kbuild.include
+@@ -192,14 +192,6 @@ clean := -f $(srctree)/scripts/Makefile.clean obj
+ # $(Q)$(MAKE) $(hdr-inst)=dir
+ hdr-inst := -f $(srctree)/scripts/Makefile.headersinst obj
  
-+static const struct usbhs_of_data rcar_gen2_data = {
-+	.platform_callback = &usbhs_rcar2_ops,
-+	.param = {
-+		.type = USBHS_TYPE_RCAR_GEN2,
-+		.has_usb_dmac = 1,
-+		.pipe_configs = usbhsc_new_pipe,
-+		.pipe_size = ARRAY_SIZE(usbhsc_new_pipe),
-+	}
-+};
-+
-+static const struct usbhs_of_data rcar_gen3_data = {
-+	.platform_callback = &usbhs_rcar3_ops,
-+	.param = {
-+		.type = USBHS_TYPE_RCAR_GEN3,
-+		.has_usb_dmac = 1,
-+		.pipe_configs = usbhsc_new_pipe,
-+		.pipe_size = ARRAY_SIZE(usbhsc_new_pipe),
-+	}
-+};
-+
-+static const struct usbhs_of_data rcar_gen3_with_pll_data = {
-+	.platform_callback = &usbhs_rcar3_with_pll_ops,
-+	.param = {
-+		.type = USBHS_TYPE_RCAR_GEN3_WITH_PLL,
-+		.has_usb_dmac = 1,
-+		.pipe_configs = usbhsc_new_pipe,
-+		.pipe_size = ARRAY_SIZE(usbhsc_new_pipe),
-+	}
-+};
-+
-+static const struct usbhs_of_data rza1_data = {
-+	.platform_callback = &usbhs_rza1_ops,
-+	.param = {
-+		.type = USBHS_TYPE_RZA1,
-+		.pipe_configs = usbhsc_new_pipe,
-+		.pipe_size = ARRAY_SIZE(usbhsc_new_pipe),
-+	}
-+};
-+
- /*
-  *		platform functions
-  */
- static const struct of_device_id usbhs_of_match[] = {
- 	{
- 		.compatible = "renesas,usbhs-r8a774c0",
--		.data = (void *)USBHS_TYPE_RCAR_GEN3_WITH_PLL,
-+		.data = &rcar_gen3_with_pll_data,
- 	},
- 	{
- 		.compatible = "renesas,usbhs-r8a7790",
--		.data = (void *)USBHS_TYPE_RCAR_GEN2,
-+		.data = &rcar_gen2_data,
- 	},
- 	{
- 		.compatible = "renesas,usbhs-r8a7791",
--		.data = (void *)USBHS_TYPE_RCAR_GEN2,
-+		.data = &rcar_gen2_data,
- 	},
- 	{
- 		.compatible = "renesas,usbhs-r8a7794",
--		.data = (void *)USBHS_TYPE_RCAR_GEN2,
-+		.data = &rcar_gen2_data,
- 	},
- 	{
- 		.compatible = "renesas,usbhs-r8a7795",
--		.data = (void *)USBHS_TYPE_RCAR_GEN3,
-+		.data = &rcar_gen3_data,
- 	},
- 	{
- 		.compatible = "renesas,usbhs-r8a7796",
--		.data = (void *)USBHS_TYPE_RCAR_GEN3,
-+		.data = &rcar_gen3_data,
- 	},
- 	{
- 		.compatible = "renesas,usbhs-r8a77990",
--		.data = (void *)USBHS_TYPE_RCAR_GEN3_WITH_PLL,
-+		.data = &rcar_gen3_with_pll_data,
- 	},
- 	{
- 		.compatible = "renesas,usbhs-r8a77995",
--		.data = (void *)USBHS_TYPE_RCAR_GEN3_WITH_PLL,
-+		.data = &rcar_gen3_with_pll_data,
- 	},
- 	{
- 		.compatible = "renesas,rcar-gen2-usbhs",
--		.data = (void *)USBHS_TYPE_RCAR_GEN2,
-+		.data = &rcar_gen2_data,
- 	},
- 	{
- 		.compatible = "renesas,rcar-gen3-usbhs",
--		.data = (void *)USBHS_TYPE_RCAR_GEN3,
-+		.data = &rcar_gen3_data,
- 	},
- 	{
- 		.compatible = "renesas,rza1-usbhs",
--		.data = (void *)USBHS_TYPE_RZA1,
-+		.data = &rza1_data,
- 	},
- 	{ },
- };
-@@ -591,6 +630,7 @@ static struct renesas_usbhs_platform_info *usbhs_parse_dt(struct device *dev)
- {
- 	struct renesas_usbhs_platform_info *info;
- 	struct renesas_usbhs_driver_param *dparam;
-+	const struct usbhs_of_data *data;
- 	u32 tmp;
- 	int gpio;
- 
-@@ -598,8 +638,15 @@ static struct renesas_usbhs_platform_info *usbhs_parse_dt(struct device *dev)
- 	if (!info)
- 		return NULL;
- 
-+	data = of_device_get_match_data(dev);
-+	if (!data)
-+		return NULL;
-+
- 	dparam = &info->driver_param;
--	dparam->type = (uintptr_t)of_device_get_match_data(dev);
-+	memcpy(dparam, &data->param, sizeof(data->param));
-+	memcpy(&info->platform_callback, data->platform_callback,
-+	       sizeof(*data->platform_callback));
-+
- 	if (!of_property_read_u32(dev->of_node, "renesas,buswait", &tmp))
- 		dparam->buswait_bwait = tmp;
- 	gpio = of_get_named_gpio_flags(dev->of_node, "renesas,enable-gpio", 0,
-@@ -607,19 +654,6 @@ static struct renesas_usbhs_platform_info *usbhs_parse_dt(struct device *dev)
- 	if (gpio > 0)
- 		dparam->enable_gpio = gpio;
- 
--	if (dparam->type == USBHS_TYPE_RCAR_GEN2 ||
--	    dparam->type == USBHS_TYPE_RCAR_GEN3 ||
--	    dparam->type == USBHS_TYPE_RCAR_GEN3_WITH_PLL) {
--		dparam->has_usb_dmac = 1;
--		dparam->pipe_configs = usbhsc_new_pipe;
--		dparam->pipe_size = ARRAY_SIZE(usbhsc_new_pipe);
--	}
+-# Prefix -I with $(srctree) if it is not an absolute path.
+-# skip if -I has no parameter
+-addtree = $(if $(patsubst -I%,%,$(1)), \
+-$(if $(filter-out -I/% -I./% -I../%,$(1)),$(patsubst -I%,-I$(srctree)/%,$(1)),$(1)),$(1))
 -
--	if (dparam->type == USBHS_TYPE_RZA1) {
--		dparam->pipe_configs = usbhsc_new_pipe;
--		dparam->pipe_size = ARRAY_SIZE(usbhsc_new_pipe);
--	}
+-# Find all -I options and call addtree
+-flags = $(foreach o,$($(1)),$(if $(filter -I%,$(o)),$(call addtree,$(o)),$(o)))
 -
- 	return info;
- }
+ # echo command.
+ # Short version is used, if $(quiet) equals `quiet_', otherwise full one.
+ echo-cmd = $(if $($(quiet)cmd_$(1)),\
+diff --git a/scripts/Makefile.host b/scripts/Makefile.host
+index 73b804197fca..b6a54bdf0965 100644
+--- a/scripts/Makefile.host
++++ b/scripts/Makefile.host
+@@ -67,18 +67,16 @@ _hostc_flags   = $(KBUILD_HOSTCFLAGS)   $(HOST_EXTRACFLAGS)   \
+ _hostcxx_flags = $(KBUILD_HOSTCXXFLAGS) $(HOST_EXTRACXXFLAGS) \
+                  $(HOSTCXXFLAGS_$(basetarget).o)
  
-@@ -676,29 +710,13 @@ static int usbhs_probe(struct platform_device *pdev)
- 	       &info->driver_param,
- 	       sizeof(struct renesas_usbhs_driver_param));
+-__hostc_flags	= $(_hostc_flags)
+-__hostcxx_flags	= $(_hostcxx_flags)
+-
++# $(objtree)/$(obj) for including generated headers from checkin source files
+ ifeq ($(KBUILD_EXTMOD),)
+ ifneq ($(srctree),.)
+-__hostc_flags	= -I$(obj) $(call flags,_hostc_flags)
+-__hostcxx_flags	= -I$(obj) $(call flags,_hostcxx_flags)
++_hostc_flags   += -I $(objtree)/$(obj)
++_hostcxx_flags += -I $(objtree)/$(obj)
+ endif
+ endif
  
--	switch (priv->dparam.type) {
--	case USBHS_TYPE_RCAR_GEN2:
--		priv->pfunc = usbhs_rcar2_ops;
--		break;
--	case USBHS_TYPE_RCAR_GEN3:
--		priv->pfunc = usbhs_rcar3_ops;
--		break;
--	case USBHS_TYPE_RCAR_GEN3_WITH_PLL:
--		priv->pfunc = usbhs_rcar3_with_pll_ops;
--		break;
--	case USBHS_TYPE_RZA1:
--		priv->pfunc = usbhs_rza1_ops;
--		break;
--	default:
--		if (!info->platform_callback.get_id) {
--			dev_err(&pdev->dev, "no platform callbacks");
--			return -EINVAL;
--		}
--		memcpy(&priv->pfunc,
--		       &info->platform_callback,
--		       sizeof(struct renesas_usbhs_platform_callback));
--		break;
-+	if (!info->platform_callback.get_id) {
-+		dev_err(&pdev->dev, "no platform callbacks");
-+		return -EINVAL;
- 	}
-+	memcpy(&priv->pfunc,
-+	       &info->platform_callback,
-+	       sizeof(struct renesas_usbhs_platform_callback));
+-hostc_flags    = -Wp,-MD,$(depfile) $(__hostc_flags)
+-hostcxx_flags  = -Wp,-MD,$(depfile) $(__hostcxx_flags)
++hostc_flags    = -Wp,-MD,$(depfile) $(_hostc_flags)
++hostcxx_flags  = -Wp,-MD,$(depfile) $(_hostcxx_flags)
  
- 	/* set driver callback functions for platform */
- 	dfunc			= &info->driver_callback;
-diff --git a/drivers/usb/renesas_usbhs/common.h b/drivers/usb/renesas_usbhs/common.h
-index 3777af8..de1a663 100644
---- a/drivers/usb/renesas_usbhs/common.h
-+++ b/drivers/usb/renesas_usbhs/common.h
-@@ -282,6 +282,11 @@ struct usbhs_priv {
- 	struct clk *clks[2];
- };
+ #####
+ # Compile programs on the host
+diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
+index 41e98fa66b91..1b412d4394ae 100644
+--- a/scripts/Makefile.lib
++++ b/scripts/Makefile.lib
+@@ -137,36 +137,26 @@ _c_flags += $(if $(patsubst n%,, \
+ 	$(CFLAGS_KCOV))
+ endif
  
-+struct usbhs_of_data {
-+	const struct renesas_usbhs_platform_callback	*platform_callback;
-+	const struct renesas_usbhs_driver_param		param;
-+};
-+
- /*
-  * common
-  */
+-__c_flags	= $(_c_flags)
+-__a_flags	= $(_a_flags)
+-__cpp_flags     = $(_cpp_flags)
+-
+-# If building the kernel in a separate objtree expand all occurrences
+-# of -Idir to -I$(srctree)/dir except for absolute paths (starting with '/').
++# $(srctree)/$(src) for including checkin headers from generated source files
++# $(objtree)/$(obj) for including generated headers from checkin source files
+ ifeq ($(KBUILD_EXTMOD),)
+ ifneq ($(srctree),.)
+-
+-# -I$(obj) locates generated .h files
+-# $(call addtree,-I$(obj)) locates .h files in srctree, from generated .c files
+-#   and locates generated .h files
+-# FIXME: Replace both with specific CFLAGS* statements in the makefiles
+-__c_flags	= $(if $(obj),$(call addtree,-I$(src)) -I$(obj)) \
+-		  $(call flags,_c_flags)
+-__a_flags	= $(call flags,_a_flags)
+-__cpp_flags     = $(call flags,_cpp_flags)
++_c_flags   += -I $(srctree)/$(src) -I $(objtree)/$(obj)
++_a_flags   += -I $(srctree)/$(src) -I $(objtree)/$(obj)
++_cpp_flags += -I $(srctree)/$(src) -I $(objtree)/$(obj)
+ endif
+ endif
+ 
+ c_flags        = -Wp,-MD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
+ 		 -include $(srctree)/include/linux/compiler_types.h       \
+-		 $(__c_flags) $(modkern_cflags)                           \
++		 $(_c_flags) $(modkern_cflags)                           \
+ 		 $(basename_flags) $(modname_flags)
+ 
+ a_flags        = -Wp,-MD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
+-		 $(__a_flags) $(modkern_aflags)
++		 $(_a_flags) $(modkern_aflags)
+ 
+ cpp_flags      = -Wp,-MD,$(depfile) $(NOSTDINC_FLAGS) $(LINUXINCLUDE)     \
+-		 $(__cpp_flags)
++		 $(_cpp_flags)
+ 
+ ld_flags       = $(KBUILD_LDFLAGS) $(ldflags-y) $(LDFLAGS_$(@F))
+ 
 -- 
-2.7.4
+2.17.1
 
