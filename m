@@ -2,107 +2,136 @@ Return-Path: <SRS0=fHaM=TO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS,
+	USER_AGENT_MUTT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBC3FC04AB4
-	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:35:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 622C5C04AB4
+	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 16:55:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C8A7A20862
-	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:35:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 345062084A
+	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 16:55:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1557852921;
+	bh=8n63wOgL9cad2rIE8kZV4epVBMV8HjjuhWRqstNew/0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=lmwmpvi4/7/i+LFRMM/SqjBvIqepSsH4L60KlFVyKEHzBmearKxQ/pQ2cZIP1uOAC
+	 j+k1vjBeJxJSxMfBcFzC5194Xh6lQ0wNO9qbwAwURVzLB72DonQ3vEyu2RDi0aad9r
+	 AxgLtiIl9SwrthafhQECoM4+SwNqwJq/gXZdySYs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726211AbfENPfn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 May 2019 11:35:43 -0400
-Received: from pbmsgap01.intersil.com ([192.157.179.201]:53244 "EHLO
-        pbmsgap01.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726044AbfENPfn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 May 2019 11:35:43 -0400
-Received: from pps.filterd (pbmsgap01.intersil.com [127.0.0.1])
-        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4EEqfma026046;
-        Tue, 14 May 2019 10:57:17 -0400
-Received: from pbmxdp02.intersil.corp (pbmxdp02.pb.intersil.com [132.158.200.223])
-        by pbmsgap01.intersil.com with ESMTP id 2sdswyjjqq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Tue, 14 May 2019 10:57:17 -0400
-Received: from pbmxdp02.intersil.corp (132.158.200.223) by
- pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Tue, 14 May 2019 10:57:16 -0400
-Received: from localhost.localdomain (132.158.202.108) by
- pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Tue, 14 May 2019 10:57:15 -0400
-From:   Chris Brandt <chris.brandt@renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Simon Horman <horms@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        "Chris Brandt" <chris.brandt@renesas.com>
-Subject: [PATCH v3 05/15] phy: renesas: rcar-gen3-usb2: Check dr_mode when not using OTG
-Date:   Tue, 14 May 2019 09:55:55 -0500
-Message-ID: <20190514145605.19112-6-chris.brandt@renesas.com>
-X-Mailer: git-send-email 2.16.1
-In-Reply-To: <20190514145605.19112-1-chris.brandt@renesas.com>
-References: <20190514145605.19112-1-chris.brandt@renesas.com>
+        id S1726134AbfENQzP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 May 2019 12:55:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59750 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726013AbfENQzP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 14 May 2019 12:55:15 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CF79F2084A;
+        Tue, 14 May 2019 16:55:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1557852914;
+        bh=8n63wOgL9cad2rIE8kZV4epVBMV8HjjuhWRqstNew/0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ndf/+YurjqS3iWSoa4TtmCCyHbKxML1csn3QVzAQ8NzyZkeVHkcdvZRSLD9N2kIge
+         Gbq9WmCXuYBrzVgVxhC1AKXGAnsDeeJiExqP0/tq+U/sTb01im27Tzt7T3XfKjsr88
+         HvbDIx262CIjlbdTYmsxeYQm6JzgoDKTTyyJx9y0=
+Date:   Tue, 14 May 2019 18:55:11 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Jia-Ju Bai <baijiaju1990@gmail.com>
+Cc:     mathias.nyman@intel.com, linux-usb@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [BUG] usb: xhci: Possible resource leaks when xhci_run() fails
+Message-ID: <20190514165511.GA28266@kroah.com>
+References: <fd7610ec-5f14-7952-cd9a-e56adb4e1353@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-14_09:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=junk_notspam policy=junk score=0 suspectscore=2 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=987
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1905140106
-X-Proofpoint-Spam-Reason: mlx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fd7610ec-5f14-7952-cd9a-e56adb4e1353@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When not using OTG, the PHY will need to know if it should function as
-host or peripheral by checking dr_mode in the PHY node (not the parent
-controller node).
+On Tue, May 14, 2019 at 10:58:05PM +0800, Jia-Ju Bai wrote:
+> xhci_pci_setup() is assigned to hc_driver.reset;
+> xhci_run() is assigned to hc_driver.start();
+> xhci_stop() is assigned to hc_driver.stop().
+> 
+> xhci_pci_setup() calls xhci_gen_setup, which calls xhci_init(). And
+> xhci_init() calls xhci_mem_init() to allocate resources.
+> 
+> xhci_stop() calls xhci_mem_cleanup(), to release the resources allocated in
+> xhci_mem_init() (also namely xhci_pci_setup()).
+> 
+> xhci_run() can fail, because xhci_try_enable_msi() or xhci_alloc_command()
+> in this function can fail.
+> 
+> In drivers/usb/core/hcd.c:
+>     retval = hcd->driver->reset(hcd);
+>     if (retval < 0) {
+>         ......
+>         goto err_hcd_driver_setup;
+>     }
+>     ......
+>     retval = hcd->driver->start(hcd);
+>     if (retval < 0) {
+>         ......
+>         goto err_hcd_driver_start;
+>     }
+>     .......
+>     hcd->driver->stop(hcd);
+>     hcd->state = HC_STATE_HALT;
+>     clear_bit(HCD_FLAG_POLL_RH, &hcd->flags);
+>     del_timer_sync(&hcd->rh_timer);
+> err_hcd_driver_start:
+>     if (usb_hcd_is_primary_hcd(hcd) && hcd->irq > 0)
+>         free_irq(irqnum, hcd);
+> err_request_irq:
+> err_hcd_driver_setup:
+> err_set_rh_speed:
+>     usb_put_invalidate_rhdev(hcd);
+> err_allocate_root_hub:
+>     usb_deregister_bus(&hcd->self);
+> err_register_bus:
+>     hcd_buffer_destroy(hcd);
+> err_create_buf:
+>     usb_phy_roothub_power_off(hcd->phy_roothub);
+> err_usb_phy_roothub_power_on:
+>     usb_phy_roothub_exit(hcd->phy_roothub);
+> 
+> Thus, when hcd->driver->reset() succeeds and hcd->driver->start() fails,
+> hcd->driver->stop() is not called.
+> 
+> Namely, when xhci_pci_setup() successfully allocates resources, and
+> xhci_run() fails, xhci_stop() is not called to release the resources.
+> For this reason, resource leaks occur in this case.
+> 
+> I check the code of the ehci driver, uhci driver and ohci driver, and find
+> that they do not have such problem, because:
+> In the ehci driver, ehci_run() (namely hcd->driver->start()) never fails.
+> In the uhci driver, all the resources are allocated in uhci_start (namely
+> hcd->driver->start()), and no resources are allocated in uhci_pci_init()
+> (namely hcd->driver->reset()).
+> In the ohci driver, ohci_setup() (namely hcd->driver->reset()) also
+> allocates resources. But when ohci_start() (namely hcd->driver->start()) is
+> going to fail, ohci_stop() is directly called to release the resources
+> allocated by ohci_setup().
+> 
+> Thus, there are two possible ways of fixing bugs:
+> 1) Call xhci_stop() when xhci_run() is going to fail (like the ohci driver)
+> 2) Move all resource-allocation operations into xhci_run() (like the uhci
+> driver).
+> 
+> I am not sure whether these ways are correct, so I only report bugs.
 
-Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
----
-v3:
- * changed 'if' to 'switch'
- * use rcar_gen3_set_host_mode() instead of writel()
-v2:
- * added braces to else statement
- * check if dr_mode is "host"
----
- drivers/phy/renesas/phy-rcar-gen3-usb2.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Can you create a patch to show how you would fix this potential issue?
+Given that making this type of thing fail is pretty rare, it's not a
+real high priority to get to, so it might be a while for anyone here to
+look at it.
 
-diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index 06e0fc804226..29da9c46ad9b 100644
---- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-+++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -412,6 +412,18 @@ static int rcar_gen3_phy_usb2_init(struct phy *p)
- 		if (rcar_gen3_needs_init_otg(channel))
- 			rcar_gen3_init_otg(channel);
- 		rphy->otg_initialized = true;
-+	} else {
-+		/* Not OTG, so dr_mode should be set in PHY node */
-+		switch (usb_get_dr_mode(channel->dev)) {
-+		case USB_DR_MODE_HOST:
-+			rcar_gen3_set_host_mode(channel, 1);
-+			break;
-+		case USB_DR_MODE_PERIPHERAL:
-+			rcar_gen3_set_host_mode(channel, 0);
-+			break;
-+		default:
-+			break;
-+		}
- 	}
- 
- 	rphy->initialized = true;
--- 
-2.16.1
+thanks,
 
+greg k-h
