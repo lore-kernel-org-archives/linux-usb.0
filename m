@@ -3,35 +3,35 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86E0AC04AB4
-	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:15:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED7B7C04AB4
+	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:15:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5EF7B2085A
-	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:15:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C21C72085A
+	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:15:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726179AbfENPPe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 May 2019 11:15:34 -0400
+        id S1726277AbfENPPf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 May 2019 11:15:35 -0400
 Received: from pbmsgap01.intersil.com ([192.157.179.201]:51940 "EHLO
         pbmsgap01.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725854AbfENPPe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 May 2019 11:15:34 -0400
+        with ESMTP id S1726060AbfENPPf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 May 2019 11:15:35 -0400
 Received: from pps.filterd (pbmsgap01.intersil.com [127.0.0.1])
-        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4EEqbkj026036;
-        Tue, 14 May 2019 10:58:26 -0400
-Received: from pbmxdp01.intersil.corp (pbmxdp01.pb.intersil.com [132.158.200.222])
-        by pbmsgap01.intersil.com with ESMTP id 2sdswyjjrr-1
+        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4EEqbkc026036;
+        Tue, 14 May 2019 10:56:38 -0400
+Received: from pbmxdp02.intersil.corp (pbmxdp02.pb.intersil.com [132.158.200.223])
+        by pbmsgap01.intersil.com with ESMTP id 2sdswyjjq9-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Tue, 14 May 2019 10:58:26 -0400
+        Tue, 14 May 2019 10:56:38 -0400
 Received: from pbmxdp02.intersil.corp (132.158.200.223) by
- pbmxdp01.intersil.corp (132.158.200.222) with Microsoft SMTP Server
+ pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Tue, 14 May 2019 10:58:24 -0400
+ 15.1.1531.3; Tue, 14 May 2019 10:56:36 -0400
 Received: from localhost.localdomain (132.158.202.108) by
  pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Tue, 14 May 2019 10:58:24 -0400
+ 15.1.1531.3 via Frontend Transport; Tue, 14 May 2019 10:56:36 -0400
 From:   Chris Brandt <chris.brandt@renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -44,9 +44,9 @@ CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-renesas-soc@vger.kernel.org>,
         "Chris Brandt" <chris.brandt@renesas.com>
-Subject: [PATCH v3 14/15] ARM: dts: r7s9210: Add USB Device support
-Date:   Tue, 14 May 2019 09:56:04 -0500
-Message-ID: <20190514145605.19112-15-chris.brandt@renesas.com>
+Subject: [PATCH v3 01/15] ARM: dts: r7s9210: Add USB clock
+Date:   Tue, 14 May 2019 09:55:51 -0500
+Message-ID: <20190514145605.19112-2-chris.brandt@renesas.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20190514145605.19112-1-chris.brandt@renesas.com>
 References: <20190514145605.19112-1-chris.brandt@renesas.com>
@@ -64,59 +64,35 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add USB Device support for RZ/A2.
+Add USB clock node. If present, this clock input must be 48MHz.
 
 Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 ---
 v2:
- * changed to generic name usb@xxx
- * Add space between compatible strings
+ * added reviewed-by
 ---
- arch/arm/boot/dts/r7s9210.dtsi | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ arch/arm/boot/dts/r7s9210.dtsi | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/arch/arm/boot/dts/r7s9210.dtsi b/arch/arm/boot/dts/r7s9210.dtsi
-index c3a50206ff86..65a8d5b126b4 100644
+index 2eaa5eeba509..73041f04fef5 100644
 --- a/arch/arm/boot/dts/r7s9210.dtsi
 +++ b/arch/arm/boot/dts/r7s9210.dtsi
-@@ -362,6 +362,18 @@
- 			status = "disabled";
- 		};
+@@ -30,6 +30,13 @@
+ 		clock-frequency = <0>;
+ 	};
  
-+		usbhs0: usb@e8219000 {
-+			compatible = "renesas,usbhs-r7s9210", "renesas,rza2-usbhs";
-+			reg = <0xe8219000 0x724>;
-+			interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 61>;
-+			renesas,buswait = <7>;
-+			phys = <&usb2_phy0>;
-+			phy-names = "usb";
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
++	usb_x1_clk: usb_x1 {
++		#clock-cells = <0>;
++		compatible = "fixed-clock";
++		/* If clk present, value (48000000) must be set by board */
++		clock-frequency = <0>;
++	};
 +
- 		ohci1: usb@e821a000 {
- 			compatible = "generic-ohci";
- 			reg = <0xe821a000 0x100>;
-@@ -395,6 +407,18 @@
- 			status = "disabled";
- 		};
- 
-+		usbhs1: usb@e821b000 {
-+			compatible = "renesas,usbhs-r7s9210", "renesas,rza2-usbhs";
-+			reg = <0xe821b000 0x724>;
-+			interrupts = <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 60>;
-+			renesas,buswait = <7>;
-+			phys = <&usb2_phy1>;
-+			phy-names = "usb";
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
-+
- 		sdhi0: sd@e8228000 {
- 			compatible = "renesas,sdhi-r7s9210";
- 			reg = <0xe8228000 0x8c0>;
+ 	cpus {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
 -- 
 2.16.1
 
