@@ -2,36 +2,36 @@ Return-Path: <SRS0=fHaM=TO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7BE5C04AB7
-	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:09:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7149C04AB6
+	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:11:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A3A3021473
-	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:09:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 92A9A2085A
+	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:11:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726084AbfENPJ4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 May 2019 11:09:56 -0400
-Received: from pbmsgap02.intersil.com ([192.157.179.202]:35648 "EHLO
-        pbmsgap02.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725980AbfENPJ4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 May 2019 11:09:56 -0400
-Received: from pps.filterd (pbmsgap02.intersil.com [127.0.0.1])
-        by pbmsgap02.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4EEqp1c023055;
-        Tue, 14 May 2019 10:58:04 -0400
-Received: from pbmxdp03.intersil.corp (pbmxdp03.pb.intersil.com [132.158.200.224])
-        by pbmsgap02.intersil.com with ESMTP id 2sdrjcaby9-1
+        id S1726260AbfENPLj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 May 2019 11:11:39 -0400
+Received: from pbmsgap01.intersil.com ([192.157.179.201]:51608 "EHLO
+        pbmsgap01.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726036AbfENPLj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 May 2019 11:11:39 -0400
+Received: from pps.filterd (pbmsgap01.intersil.com [127.0.0.1])
+        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4EEqbkb026036;
+        Tue, 14 May 2019 10:56:23 -0400
+Received: from pbmxdp02.intersil.corp (pbmxdp02.pb.intersil.com [132.158.200.223])
+        by pbmsgap01.intersil.com with ESMTP id 2sdswyjjq5-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Tue, 14 May 2019 10:58:03 -0400
+        Tue, 14 May 2019 10:56:23 -0400
 Received: from pbmxdp02.intersil.corp (132.158.200.223) by
- pbmxdp03.intersil.corp (132.158.200.224) with Microsoft SMTP Server
+ pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Tue, 14 May 2019 10:58:02 -0400
+ 15.1.1531.3; Tue, 14 May 2019 10:56:22 -0400
 Received: from localhost.localdomain (132.158.202.108) by
  pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Tue, 14 May 2019 10:58:01 -0400
+ 15.1.1531.3 via Frontend Transport; Tue, 14 May 2019 10:56:21 -0400
 From:   Chris Brandt <chris.brandt@renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -44,12 +44,10 @@ CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-renesas-soc@vger.kernel.org>,
         "Chris Brandt" <chris.brandt@renesas.com>
-Subject: [PATCH v3 11/15] usb: renesas_usbhs: Add support for RZ/A2
-Date:   Tue, 14 May 2019 09:56:01 -0500
-Message-ID: <20190514145605.19112-12-chris.brandt@renesas.com>
+Subject: [PATCH v3 00/15] usb: Add host and device support for RZ/A2
+Date:   Tue, 14 May 2019 09:55:50 -0500
+Message-ID: <20190514145605.19112-1-chris.brandt@renesas.com>
 X-Mailer: git-send-email 2.16.1
-In-Reply-To: <20190514145605.19112-1-chris.brandt@renesas.com>
-References: <20190514145605.19112-1-chris.brandt@renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-14_09:,,
@@ -64,174 +62,73 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The RZ/A2 is similar to the R-Car Gen3 with some small differences.
 
-Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
----
-v3:
- * Removed check for CONFIG_GENERIC_PHY
- * rebase on top of Shimoda-san (v2) patch
-v2:
- * combined RZA1 and RZA2 for fifo setting
- * added braces to make code easier to read
- * fixed and clean up usbhs_rza2_power_ctrl()
----
- drivers/usb/renesas_usbhs/Makefile |  2 +-
- drivers/usb/renesas_usbhs/common.c | 15 ++++++++
- drivers/usb/renesas_usbhs/rza.h    |  1 +
- drivers/usb/renesas_usbhs/rza2.c   | 75 ++++++++++++++++++++++++++++++++++++++
- include/linux/usb/renesas_usbhs.h  |  1 +
- 5 files changed, 93 insertions(+), 1 deletion(-)
+NOTE:
+This series requires the follow patch from Shimoda-san.
+  [PATCH v2] usb: renesas_usbhs: Use specific struct instead of USBHS_TYPE_* enums
+
+
+For the most part, the RZ/A2 has the same USB 2.0 host and device
+HW as the R-Car Gen3, so we can reuse a lot of the code.
+
+However, there are a couple extra register bits, and the CFIFO
+register 8-bit access works a little different.
+
+There is a dedicated DMAC for the RZ/A2 USB Device HW, but we
+have not been able to reliably get that working yet, so device
+operation is pio only at the moment.
+
+On the RZ/A2M eval board, both USB channels can be used as either
+host or device. But, it's not set up for otg (ie, there are jumpers
+and separate connectors). Therefore, below is an example of what it
+would look like to enable USB channel 0 as a device instead of a host.
+
+&usb2_phy0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&usb0_pins>;
+	dr_mode = "peripheral";
+	status = "okay";
+};
+
+&usbhs0 {
+	status = "okay";
+};
+
+
+
+
+Chris Brandt (15):
+  ARM: dts: r7s9210: Add USB clock
+  ARM: dts: rza2mevb: Add 48MHz USB clock
+  phy: renesas: rcar-gen3-usb2: detect usb_x1 clock
+  dt-bindings: rcar-gen3-phy-usb2: Document use of usb_x1
+  phy: renesas: rcar-gen3-usb2: Check dr_mode when not using OTG
+  dt-bindings: rcar-gen3-phy-usb2: Document dr_mode
+  dt-bindings: rcar-gen3-phy-usb2: Add r7s9210 support
+  usb: renesas_usbhs: move flags to param
+  usb: renesas_usbhs: add support for CNEN bit
+  usb: renesas_usbhs: support byte addressable CFIFO
+  usb: renesas_usbhs: Add support for RZ/A2
+  dt-bindings: usb: renesas_usbhs: Add support for r7s9210
+  ARM: dts: r7s9210: Add USB Host support
+  ARM: dts: r7s9210: Add USB Device support
+  ARM: dts: rza2mevb: Add USB host support
+
+ .../devicetree/bindings/phy/rcar-gen3-phy-usb2.txt | 19 +++--
+ .../devicetree/bindings/usb/renesas_usbhs.txt      |  2 +
+ arch/arm/boot/dts/r7s9210-rza2mevb.dts             | 42 ++++++++++
+ arch/arm/boot/dts/r7s9210.dtsi                     | 97 ++++++++++++++++++++++
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c           | 26 ++++++
+ drivers/usb/renesas_usbhs/Makefile                 |  2 +-
+ drivers/usb/renesas_usbhs/common.c                 | 44 ++++++----
+ drivers/usb/renesas_usbhs/common.h                 |  3 +-
+ drivers/usb/renesas_usbhs/fifo.c                   |  9 +-
+ drivers/usb/renesas_usbhs/rza.h                    |  1 +
+ drivers/usb/renesas_usbhs/rza2.c                   | 75 +++++++++++++++++
+ include/linux/usb/renesas_usbhs.h                  |  4 +
+ 12 files changed, 298 insertions(+), 26 deletions(-)
  create mode 100644 drivers/usb/renesas_usbhs/rza2.c
 
-diff --git a/drivers/usb/renesas_usbhs/Makefile b/drivers/usb/renesas_usbhs/Makefile
-index 5c5b51bb48ef..a1fed56b0957 100644
---- a/drivers/usb/renesas_usbhs/Makefile
-+++ b/drivers/usb/renesas_usbhs/Makefile
-@@ -5,7 +5,7 @@
- 
- obj-$(CONFIG_USB_RENESAS_USBHS)	+= renesas_usbhs.o
- 
--renesas_usbhs-y			:= common.o mod.o pipe.o fifo.o rcar2.o rcar3.o rza.o
-+renesas_usbhs-y			:= common.o mod.o pipe.o fifo.o rcar2.o rcar3.o rza.o rza2.o
- 
- ifneq ($(CONFIG_USB_RENESAS_USBHS_HCD),)
- 	renesas_usbhs-y		+= mod_host.o
-diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
-index 734fb4e542c5..c7c9c5d75a56 100644
---- a/drivers/usb/renesas_usbhs/common.c
-+++ b/drivers/usb/renesas_usbhs/common.c
-@@ -571,6 +571,17 @@ static const struct usbhs_of_data rza1_data = {
- 	}
- };
- 
-+static const struct usbhs_of_data rza2_data = {
-+	.platform_callback = &usbhs_rza2_ops,
-+	.param = {
-+		.type = USBHS_TYPE_RZA2,
-+		.has_cnen = 1,
-+		.cfifo_byte_addr = 1,
-+		.pipe_configs = usbhsc_new_pipe,
-+		.pipe_size = ARRAY_SIZE(usbhsc_new_pipe),
-+	}
-+};
-+
- /*
-  *		platform functions
-  */
-@@ -619,6 +630,10 @@ static const struct of_device_id usbhs_of_match[] = {
- 		.compatible = "renesas,rza1-usbhs",
- 		.data = &rza1_data,
- 	},
-+	{
-+		.compatible = "renesas,rza2-usbhs",
-+		.data = &rza2_data,
-+	},
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, usbhs_of_match);
-diff --git a/drivers/usb/renesas_usbhs/rza.h b/drivers/usb/renesas_usbhs/rza.h
-index ca917ca54f6d..073a53d1d442 100644
---- a/drivers/usb/renesas_usbhs/rza.h
-+++ b/drivers/usb/renesas_usbhs/rza.h
-@@ -2,3 +2,4 @@
- #include "common.h"
- 
- extern const struct renesas_usbhs_platform_callback usbhs_rza1_ops;
-+extern const struct renesas_usbhs_platform_callback usbhs_rza2_ops;
-diff --git a/drivers/usb/renesas_usbhs/rza2.c b/drivers/usb/renesas_usbhs/rza2.c
-new file mode 100644
-index 000000000000..56409cbae33c
---- /dev/null
-+++ b/drivers/usb/renesas_usbhs/rza2.c
-@@ -0,0 +1,75 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Renesas USB driver RZ/A2 initialization and power control
-+ *
-+ * Copyright (C) 2019 Chris Brandt
-+ * Copyright (C) 2019 Renesas Electronics Corporation
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/io.h>
-+#include <linux/of_device.h>
-+#include <linux/phy/phy.h>
-+#include "common.h"
-+#include "rza.h"
-+
-+
-+static int usbhs_rza2_hardware_init(struct platform_device *pdev)
-+{
-+	struct usbhs_priv *priv = usbhs_pdev_to_priv(pdev);
-+	struct phy *phy = phy_get(&pdev->dev, "usb");
-+
-+	if (IS_ERR(phy))
-+		return PTR_ERR(phy);
-+
-+	priv->phy = phy;
-+	return 0;
-+}
-+
-+static int usbhs_rza2_hardware_exit(struct platform_device *pdev)
-+{
-+	struct usbhs_priv *priv = usbhs_pdev_to_priv(pdev);
-+
-+	if (priv->phy) {
-+		phy_put(priv->phy);
-+		priv->phy = NULL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int usbhs_rza2_power_ctrl(struct platform_device *pdev,
-+				void __iomem *base, int enable)
-+{
-+	struct usbhs_priv *priv = usbhs_pdev_to_priv(pdev);
-+	int retval = 0;
-+
-+	if (!priv->phy)
-+		return -ENODEV;
-+
-+	if (enable) {
-+		retval = phy_init(priv->phy);
-+		usbhs_bset(priv, SUSPMODE, SUSPM, SUSPM);
-+		udelay(100);	/* Wait for PLL to become stable */
-+		if (!retval)
-+			retval = phy_power_on(priv->phy);
-+	} else {
-+		usbhs_bset(priv, SUSPMODE, SUSPM, 0);
-+		phy_power_off(priv->phy);
-+		phy_exit(priv->phy);
-+	}
-+
-+	return retval;
-+}
-+
-+static int usbhs_rza2_get_id(struct platform_device *pdev)
-+{
-+	return USBHS_GADGET;
-+}
-+
-+const struct renesas_usbhs_platform_callback usbhs_rza2_ops = {
-+	.hardware_init = usbhs_rza2_hardware_init,
-+	.hardware_exit = usbhs_rza2_hardware_exit,
-+	.power_ctrl = usbhs_rza2_power_ctrl,
-+	.get_id = usbhs_rza2_get_id,
-+};
-diff --git a/include/linux/usb/renesas_usbhs.h b/include/linux/usb/renesas_usbhs.h
-index 87043fd21d54..3f53043fb56b 100644
---- a/include/linux/usb/renesas_usbhs.h
-+++ b/include/linux/usb/renesas_usbhs.h
-@@ -199,6 +199,7 @@ struct renesas_usbhs_driver_param {
- #define USBHS_TYPE_RCAR_GEN3		2
- #define USBHS_TYPE_RCAR_GEN3_WITH_PLL	3
- #define USBHS_TYPE_RZA1			4
-+#define USBHS_TYPE_RZA2			5
- 
- /*
-  * option:
 -- 
 2.16.1
 
