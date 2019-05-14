@@ -6,32 +6,32 @@ X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED7B7C04AB4
-	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:15:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F20C3C04AB7
+	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:15:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C21C72085A
-	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:15:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CE4ED2085A
+	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:15:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726277AbfENPPf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 May 2019 11:15:35 -0400
-Received: from pbmsgap01.intersil.com ([192.157.179.201]:51940 "EHLO
+        id S1726379AbfENPPy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 May 2019 11:15:54 -0400
+Received: from pbmsgap01.intersil.com ([192.157.179.201]:51954 "EHLO
         pbmsgap01.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726060AbfENPPf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 May 2019 11:15:35 -0400
+        with ESMTP id S1725854AbfENPPy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 May 2019 11:15:54 -0400
 Received: from pps.filterd (pbmsgap01.intersil.com [127.0.0.1])
-        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4EEqbkc026036;
-        Tue, 14 May 2019 10:56:38 -0400
+        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4EEqnba026054;
+        Tue, 14 May 2019 10:57:32 -0400
 Received: from pbmxdp02.intersil.corp (pbmxdp02.pb.intersil.com [132.158.200.223])
-        by pbmsgap01.intersil.com with ESMTP id 2sdswyjjq9-1
+        by pbmsgap01.intersil.com with ESMTP id 2sdswyjjr0-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Tue, 14 May 2019 10:56:38 -0400
+        Tue, 14 May 2019 10:57:32 -0400
 Received: from pbmxdp02.intersil.corp (132.158.200.223) by
  pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Tue, 14 May 2019 10:56:36 -0400
+ 15.1.1531.3; Tue, 14 May 2019 10:57:31 -0400
 Received: from localhost.localdomain (132.158.202.108) by
  pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Tue, 14 May 2019 10:56:36 -0400
+ 15.1.1531.3 via Frontend Transport; Tue, 14 May 2019 10:57:30 -0400
 From:   Chris Brandt <chris.brandt@renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -44,9 +44,9 @@ CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-renesas-soc@vger.kernel.org>,
         "Chris Brandt" <chris.brandt@renesas.com>
-Subject: [PATCH v3 01/15] ARM: dts: r7s9210: Add USB clock
-Date:   Tue, 14 May 2019 09:55:51 -0500
-Message-ID: <20190514145605.19112-2-chris.brandt@renesas.com>
+Subject: [PATCH v3 07/15] dt-bindings: rcar-gen3-phy-usb2: Add r7s9210 support
+Date:   Tue, 14 May 2019 09:55:57 -0500
+Message-ID: <20190514145605.19112-8-chris.brandt@renesas.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20190514145605.19112-1-chris.brandt@renesas.com>
 References: <20190514145605.19112-1-chris.brandt@renesas.com>
@@ -64,35 +64,43 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add USB clock node. If present, this clock input must be 48MHz.
+Document RZ/A2 (R7S9210) SoC bindings.
 
 Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 ---
-v2:
- * added reviewed-by
----
- arch/arm/boot/dts/r7s9210.dtsi | 7 +++++++
- 1 file changed, 7 insertions(+)
+ Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm/boot/dts/r7s9210.dtsi b/arch/arm/boot/dts/r7s9210.dtsi
-index 2eaa5eeba509..73041f04fef5 100644
---- a/arch/arm/boot/dts/r7s9210.dtsi
-+++ b/arch/arm/boot/dts/r7s9210.dtsi
-@@ -30,6 +30,13 @@
- 		clock-frequency = <0>;
- 	};
+diff --git a/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt b/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
+index d42e180d29b8..2eef669e78e3 100644
+--- a/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
++++ b/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
+@@ -1,10 +1,12 @@
+ * Renesas R-Car generation 3 USB 2.0 PHY
  
-+	usb_x1_clk: usb_x1 {
-+		#clock-cells = <0>;
-+		compatible = "fixed-clock";
-+		/* If clk present, value (48000000) must be set by board */
-+		clock-frequency = <0>;
-+	};
-+
- 	cpus {
- 		#address-cells = <1>;
- 		#size-cells = <0>;
+ This file provides information on what the device node for the R-Car generation
+-3, RZ/G1C and RZ/G2 USB 2.0 PHY contain.
++3, RZ/G1C, RZ/G2 and RZ/A2 USB 2.0 PHY contain.
+ 
+ Required properties:
+-- compatible: "renesas,usb2-phy-r8a77470" if the device is a part of an R8A77470
++- compatible: "renesas,usb2-phy-r7s9210" if the device is a part of an R7S9210
++	      SoC.
++	      "renesas,usb2-phy-r8a77470" if the device is a part of an R8A77470
+ 	      SoC.
+ 	      "renesas,usb2-phy-r8a774a1" if the device is a part of an R8A774A1
+ 	      SoC.
+@@ -20,8 +22,8 @@ Required properties:
+ 	      R8A77990 SoC.
+ 	      "renesas,usb2-phy-r8a77995" if the device is a part of an
+ 	      R8A77995 SoC.
+-	      "renesas,rcar-gen3-usb2-phy" for a generic R-Car Gen3 or RZ/G2
+-	      compatible device.
++	      "renesas,rcar-gen3-usb2-phy" for a generic R-Car Gen3, RZ/G2 or
++	      RZ/A2 compatible device.
+ 
+ 	      When compatible with the generic version, nodes must list the
+ 	      SoC-specific version corresponding to the platform first
 -- 
 2.16.1
 
