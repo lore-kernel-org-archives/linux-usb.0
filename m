@@ -2,150 +2,91 @@ Return-Path: <SRS0=fHaM=TO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C386C04AB6
-	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:15:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82965C04AB4
+	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:17:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0483A2085A
-	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:15:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 532FA2085A
+	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:17:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726394AbfENPP4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 May 2019 11:15:56 -0400
-Received: from pbmsgap01.intersil.com ([192.157.179.201]:51954 "EHLO
-        pbmsgap01.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726098AbfENPPz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 May 2019 11:15:55 -0400
-Received: from pps.filterd (pbmsgap01.intersil.com [127.0.0.1])
-        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4EEqbkf026036;
-        Tue, 14 May 2019 10:57:03 -0400
-Received: from pbmxdp02.intersil.corp (pbmxdp02.pb.intersil.com [132.158.200.223])
-        by pbmsgap01.intersil.com with ESMTP id 2sdswyjjqg-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Tue, 14 May 2019 10:57:03 -0400
-Received: from pbmxdp02.intersil.corp (132.158.200.223) by
- pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Tue, 14 May 2019 10:57:01 -0400
-Received: from localhost.localdomain (132.158.202.108) by
- pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Tue, 14 May 2019 10:57:01 -0400
-From:   Chris Brandt <chris.brandt@renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Simon Horman <horms@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        "Chris Brandt" <chris.brandt@renesas.com>
-Subject: [PATCH v3 03/15] phy: renesas: rcar-gen3-usb2: detect usb_x1 clock
-Date:   Tue, 14 May 2019 09:55:53 -0500
-Message-ID: <20190514145605.19112-4-chris.brandt@renesas.com>
-X-Mailer: git-send-email 2.16.1
-In-Reply-To: <20190514145605.19112-1-chris.brandt@renesas.com>
-References: <20190514145605.19112-1-chris.brandt@renesas.com>
+        id S1726548AbfENPRk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 May 2019 11:17:40 -0400
+Received: from foss.arm.com ([217.140.101.70]:57540 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725854AbfENPRj (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 14 May 2019 11:17:39 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 71362374;
+        Tue, 14 May 2019 08:17:39 -0700 (PDT)
+Received: from [10.1.196.75] (e110467-lin.cambridge.arm.com [10.1.196.75])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AFDAD3F703;
+        Tue, 14 May 2019 08:17:37 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 0/3] prerequisites for device reserved local mem
+ rework
+To:     laurentiu.tudor@nxp.com, hch@lst.de, stern@rowland.harvard.edu,
+        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        marex@denx.de, noring@nocrew.org, JuergenUrban@gmx.de
+Cc:     leoyang.li@nxp.com, linux-kernel@vger.kernel.org
+References: <20190514143807.7745-1-laurentiu.tudor@nxp.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <9d34015d-c219-179b-3141-4b0de3530ac3@arm.com>
+Date:   Tue, 14 May 2019 16:17:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-14_09:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=junk_notspam policy=junk score=0 suspectscore=2 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=925
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1905140106
-X-Proofpoint-Spam-Reason: mlx
+In-Reply-To: <20190514143807.7745-1-laurentiu.tudor@nxp.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The RZ/A2 has an optional dedicated 48MHz clock input for the PLL.
-If a clock node named 'usb_x1' exists and set to non-zero, then we can
-assume we want it use it.
++Fredrik, Juergen
 
-Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
----
-v3:
- * avoid magic number
- * use devm_clk_get and clk_get_rate
-v2:
- * use 'usb_x1' clock node instead of 'renesas,uses_usb_x1' property
----
- drivers/phy/renesas/phy-rcar-gen3-usb2.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+On 14/05/2019 15:38, laurentiu.tudor@nxp.com wrote:
+> From: Laurentiu Tudor <laurentiu.tudor@nxp.com>
+> 
+> For HCs that have local memory, replace the current DMA API usage
+> with a genalloc generic allocator to manage the mappings for these
+> devices.
+> This is in preparation for dropping the existing "coherent" dma
+> mem declaration APIs. Current implementation was relying on a short
+> circuit in the DMA API that in the end, was acting as an allocator
+> for these type of devices.
+> 
+> Only compiled tested, so any volunteers willing to test are most welcome.
 
-diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index 1322185a00a2..06e0fc804226 100644
---- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-+++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -12,6 +12,7 @@
- #include <linux/extcon-provider.h>
- #include <linux/interrupt.h>
- #include <linux/io.h>
-+#include <linux/clk.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_address.h>
-@@ -34,6 +35,7 @@
- #define USB2_VBCTRL		0x60c
- #define USB2_LINECTRL1		0x610
- #define USB2_ADPCTRL		0x630
-+#define USB2_PHYCLK_CTRL	0x644
- 
- /* INT_ENABLE */
- #define USB2_INT_ENABLE_UCOM_INTEN	BIT(3)
-@@ -75,6 +77,9 @@
- #define USB2_ADPCTRL_IDPULLUP		BIT(5)	/* 1 = ID sampling is enabled */
- #define USB2_ADPCTRL_DRVVBUS		BIT(4)
- 
-+/* PHYCLK_CTRL */
-+#define PHYCLK_CTRL_UCLKSEL		BIT(0)
-+
- #define NUM_OF_PHYS			4
- enum rcar_gen3_phy_index {
- 	PHY_INDEX_BOTH_HC,
-@@ -110,6 +115,7 @@ struct rcar_gen3_chan {
- 	bool extcon_host;
- 	bool is_otg_channel;
- 	bool uses_otg_pins;
-+	bool uses_usb_x1;
- };
- 
- /*
-@@ -391,6 +397,9 @@ static int rcar_gen3_phy_usb2_init(struct phy *p)
- 	void __iomem *usb2_base = channel->base;
- 	u32 val;
- 
-+	if (channel->uses_usb_x1)
-+		writel(PHYCLK_CTRL_UCLKSEL, usb2_base + USB2_PHYCLK_CTRL);
-+
- 	/* Initialize USB2 part */
- 	val = readl(usb2_base + USB2_INT_ENABLE);
- 	val |= USB2_INT_ENABLE_UCOM_INTEN | rphy->int_enable_bits;
-@@ -583,6 +592,7 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct rcar_gen3_chan *channel;
- 	struct phy_provider *provider;
-+	struct clk *usb_x1_clk;
- 	struct resource *res;
- 	const struct phy_ops *phy_usb2_ops;
- 	int irq, ret = 0, i;
-@@ -630,6 +640,10 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
- 		}
- 	}
- 
-+	usb_x1_clk = devm_clk_get(dev, "usb_x1");
-+	if (!IS_ERR(usb_x1_clk) && clk_get_rate(usb_x1_clk))
-+		channel->uses_usb_x1 = true;
-+
- 	/*
- 	 * devm_phy_create() will call pm_runtime_enable(&phy->dev);
- 	 * And then, phy-core will manage runtime pm for this device.
--- 
-2.16.1
+I recall an out-of-tree PlayStation 2 OHCI driver being another 
+HCD_LOCAL_MEM user - if Fredrik and Juergen are still active on that, 
+hopefully they might be able to comment on whether this approach can 
+work for them too. Patchwork link just in case: 
+https://patchwork.kernel.org/project/linux-usb/list/?series=117433
 
+Robin.
+
+> 
+> Thank you!
+> 
+> For context, see thread here: https://lkml.org/lkml/2019/4/22/357
+> 
+> Changes in v2:
+>   - use genalloc also in core usb (based on comment from Robin)
+>   - moved genpool decl to usb_hcd to be accesible from core usb
+> 
+> Laurentiu Tudor (3):
+>    USB: use genalloc for USB HCs with local memory
+>    usb: host: ohci-sm501: init genalloc for local memory
+>    usb: host: ohci-tmio: init genalloc for local memory
+> 
+>   drivers/usb/core/buffer.c     | 12 ++++++-
+>   drivers/usb/host/ohci-hcd.c   | 23 +++++++++++---
+>   drivers/usb/host/ohci-sm501.c | 60 +++++++++++++++++++----------------
+>   drivers/usb/host/ohci-tmio.c  | 23 +++++++++-----
+>   include/linux/usb/hcd.h       |  3 ++
+>   5 files changed, 80 insertions(+), 41 deletions(-)
+> 
