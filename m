@@ -2,91 +2,121 @@ Return-Path: <SRS0=fHaM=TO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82965C04AB4
-	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:17:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71679C04AB4
+	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:35:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 532FA2085A
-	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:17:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D68620862
+	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:35:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726548AbfENPRk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 May 2019 11:17:40 -0400
-Received: from foss.arm.com ([217.140.101.70]:57540 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725854AbfENPRj (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 14 May 2019 11:17:39 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 71362374;
-        Tue, 14 May 2019 08:17:39 -0700 (PDT)
-Received: from [10.1.196.75] (e110467-lin.cambridge.arm.com [10.1.196.75])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AFDAD3F703;
-        Tue, 14 May 2019 08:17:37 -0700 (PDT)
-Subject: Re: [RFC PATCH v2 0/3] prerequisites for device reserved local mem
- rework
-To:     laurentiu.tudor@nxp.com, hch@lst.de, stern@rowland.harvard.edu,
-        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        marex@denx.de, noring@nocrew.org, JuergenUrban@gmx.de
-Cc:     leoyang.li@nxp.com, linux-kernel@vger.kernel.org
-References: <20190514143807.7745-1-laurentiu.tudor@nxp.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <9d34015d-c219-179b-3141-4b0de3530ac3@arm.com>
-Date:   Tue, 14 May 2019 16:17:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1726148AbfENPfm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 May 2019 11:35:42 -0400
+Received: from pbmsgap01.intersil.com ([192.157.179.201]:53244 "EHLO
+        pbmsgap01.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725916AbfENPfm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 May 2019 11:35:42 -0400
+Received: from pps.filterd (pbmsgap01.intersil.com [127.0.0.1])
+        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4EEqfmd026046;
+        Tue, 14 May 2019 10:57:49 -0400
+Received: from pbmxdp02.intersil.corp (pbmxdp02.pb.intersil.com [132.158.200.223])
+        by pbmsgap01.intersil.com with ESMTP id 2sdswyjjr5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Tue, 14 May 2019 10:57:49 -0400
+Received: from pbmxdp02.intersil.corp (132.158.200.223) by
+ pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.1531.3; Tue, 14 May 2019 10:57:47 -0400
+Received: from localhost.localdomain (132.158.202.108) by
+ pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server id
+ 15.1.1531.3 via Frontend Transport; Tue, 14 May 2019 10:57:47 -0400
+From:   Chris Brandt <chris.brandt@renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Simon Horman <horms@verge.net.au>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        "Chris Brandt" <chris.brandt@renesas.com>
+Subject: [PATCH v3 09/15] usb: renesas_usbhs: add support for CNEN bit
+Date:   Tue, 14 May 2019 09:55:59 -0500
+Message-ID: <20190514145605.19112-10-chris.brandt@renesas.com>
+X-Mailer: git-send-email 2.16.1
+In-Reply-To: <20190514145605.19112-1-chris.brandt@renesas.com>
+References: <20190514145605.19112-1-chris.brandt@renesas.com>
 MIME-Version: 1.0
-In-Reply-To: <20190514143807.7745-1-laurentiu.tudor@nxp.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-14_09:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=junk_notspam policy=junk score=0 suspectscore=2 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=930
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1905140106
+X-Proofpoint-Spam-Reason: mlx
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-+Fredrik, Juergen
+For some SoC, CNEN must be set for USB Device mode operation.
 
-On 14/05/2019 15:38, laurentiu.tudor@nxp.com wrote:
-> From: Laurentiu Tudor <laurentiu.tudor@nxp.com>
-> 
-> For HCs that have local memory, replace the current DMA API usage
-> with a genalloc generic allocator to manage the mappings for these
-> devices.
-> This is in preparation for dropping the existing "coherent" dma
-> mem declaration APIs. Current implementation was relying on a short
-> circuit in the DMA API that in the end, was acting as an allocator
-> for these type of devices.
-> 
-> Only compiled tested, so any volunteers willing to test are most welcome.
+Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+---
+v2:
+ * options are now held in param
+---
+ drivers/usb/renesas_usbhs/common.c | 6 ++++++
+ drivers/usb/renesas_usbhs/common.h | 1 +
+ include/linux/usb/renesas_usbhs.h  | 1 +
+ 3 files changed, 8 insertions(+)
 
-I recall an out-of-tree PlayStation 2 OHCI driver being another 
-HCD_LOCAL_MEM user - if Fredrik and Juergen are still active on that, 
-hopefully they might be able to comment on whether this approach can 
-work for them too. Patchwork link just in case: 
-https://patchwork.kernel.org/project/linux-usb/list/?series=117433
+diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
+index 1de7a44f3415..734fb4e542c5 100644
+--- a/drivers/usb/renesas_usbhs/common.c
++++ b/drivers/usb/renesas_usbhs/common.c
+@@ -114,6 +114,12 @@ void usbhs_sys_function_ctrl(struct usbhs_priv *priv, int enable)
+ 	u16 mask = DCFM | DRPD | DPRPU | HSE | USBE;
+ 	u16 val  = HSE | USBE;
+ 
++	/* CNEN bit is required for function operation */
++	if (usbhs_get_dparam(priv, has_cnen)) {
++		mask |= CNEN;
++		val  |= CNEN;
++	}
++
+ 	/*
+ 	 * if enable
+ 	 *
+diff --git a/drivers/usb/renesas_usbhs/common.h b/drivers/usb/renesas_usbhs/common.h
+index 1fbffb7bbc8f..de74ebd1a347 100644
+--- a/drivers/usb/renesas_usbhs/common.h
++++ b/drivers/usb/renesas_usbhs/common.h
+@@ -104,6 +104,7 @@ struct usbhs_priv;
+ 
+ /* SYSCFG */
+ #define SCKE	(1 << 10)	/* USB Module Clock Enable */
++#define CNEN	(1 << 8)	/* Single-ended receiver operation Enable */
+ #define HSE	(1 << 7)	/* High-Speed Operation Enable */
+ #define DCFM	(1 << 6)	/* Controller Function Select */
+ #define DRPD	(1 << 5)	/* D+ Line/D- Line Resistance Control */
+diff --git a/include/linux/usb/renesas_usbhs.h b/include/linux/usb/renesas_usbhs.h
+index 17fae6e504cc..9097a38fcda8 100644
+--- a/include/linux/usb/renesas_usbhs.h
++++ b/include/linux/usb/renesas_usbhs.h
+@@ -190,6 +190,7 @@ struct renesas_usbhs_driver_param {
+ 	u32 has_sudmac:1; /* for SUDMAC */
+ 	u32 has_usb_dmac:1; /* for USB-DMAC */
+ 	u32 runtime_pwctrl:1;
++	u32 has_cnen:1;
+ #define USBHS_USB_DMAC_XFER_SIZE	32	/* hardcode the xfer size */
+ };
+ 
+-- 
+2.16.1
 
-Robin.
-
-> 
-> Thank you!
-> 
-> For context, see thread here: https://lkml.org/lkml/2019/4/22/357
-> 
-> Changes in v2:
->   - use genalloc also in core usb (based on comment from Robin)
->   - moved genpool decl to usb_hcd to be accesible from core usb
-> 
-> Laurentiu Tudor (3):
->    USB: use genalloc for USB HCs with local memory
->    usb: host: ohci-sm501: init genalloc for local memory
->    usb: host: ohci-tmio: init genalloc for local memory
-> 
->   drivers/usb/core/buffer.c     | 12 ++++++-
->   drivers/usb/host/ohci-hcd.c   | 23 +++++++++++---
->   drivers/usb/host/ohci-sm501.c | 60 +++++++++++++++++++----------------
->   drivers/usb/host/ohci-tmio.c  | 23 +++++++++-----
->   include/linux/usb/hcd.h       |  3 ++
->   5 files changed, 80 insertions(+), 41 deletions(-)
-> 
