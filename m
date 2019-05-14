@@ -2,37 +2,36 @@ Return-Path: <SRS0=fHaM=TO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,
-	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C28FFC46470
-	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:12:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ACC9C04AB7
+	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:13:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A14392085A
-	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:12:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D812E2085A
+	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 15:13:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726338AbfENPMb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 May 2019 11:12:31 -0400
-Received: from pbmsgap01.intersil.com ([192.157.179.201]:51672 "EHLO
+        id S1726142AbfENPNL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 May 2019 11:13:11 -0400
+Received: from pbmsgap01.intersil.com ([192.157.179.201]:51722 "EHLO
         pbmsgap01.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725980AbfENPMb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 May 2019 11:12:31 -0400
+        with ESMTP id S1725901AbfENPNK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 May 2019 11:13:10 -0400
 Received: from pps.filterd (pbmsgap01.intersil.com [127.0.0.1])
-        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4EEqouL026060;
-        Tue, 14 May 2019 10:58:33 -0400
+        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4EEqfmh026046;
+        Tue, 14 May 2019 10:58:18 -0400
 Received: from pbmxdp01.intersil.corp (pbmxdp01.pb.intersil.com [132.158.200.222])
-        by pbmsgap01.intersil.com with ESMTP id 2sdswyjjrt-1
+        by pbmsgap01.intersil.com with ESMTP id 2sdswyjjrm-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Tue, 14 May 2019 10:58:33 -0400
+        Tue, 14 May 2019 10:58:18 -0400
 Received: from pbmxdp02.intersil.corp (132.158.200.223) by
  pbmxdp01.intersil.corp (132.158.200.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Tue, 14 May 2019 10:58:32 -0400
+ 15.1.1531.3; Tue, 14 May 2019 10:58:17 -0400
 Received: from localhost.localdomain (132.158.202.108) by
  pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Tue, 14 May 2019 10:58:31 -0400
+ 15.1.1531.3 via Frontend Transport; Tue, 14 May 2019 10:58:16 -0400
 From:   Chris Brandt <chris.brandt@renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -45,9 +44,9 @@ CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-renesas-soc@vger.kernel.org>,
         "Chris Brandt" <chris.brandt@renesas.com>
-Subject: [PATCH v3 15/15] ARM: dts: rza2mevb: Add USB host support
-Date:   Tue, 14 May 2019 09:56:05 -0500
-Message-ID: <20190514145605.19112-16-chris.brandt@renesas.com>
+Subject: [PATCH v3 13/15] ARM: dts: r7s9210: Add USB Host support
+Date:   Tue, 14 May 2019 09:56:03 -0500
+Message-ID: <20190514145605.19112-14-chris.brandt@renesas.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20190514145605.19112-1-chris.brandt@renesas.com>
 References: <20190514145605.19112-1-chris.brandt@renesas.com>
@@ -56,7 +55,7 @@ Content-Type: text/plain
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-14_09:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=junk_notspam policy=junk score=0 suspectscore=2 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=547
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.0.1-1810050000 definitions=main-1905140106
 X-Proofpoint-Spam-Reason: mlx
@@ -65,74 +64,97 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Enable USB Host support for both the Type-C connector on the CPU board
-and the Type-A plug on the sub board.
-
-Both boards are also capable of USB Device operation as well after the
-appropriate Device Tree modifications.
+Add EHCI and OHCI host support for RZ/A2.
 
 Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
 ---
+v3:
+ * add usb_x1 as a clock source
+ * add clock-names
 v2:
- * added blank line between nodes
- * removed 'r7s9210-' from patch title
- * removed 'renesas,uses_usb_x1' property
+  * changed to generic name usb@xxx
+  * Add space between compatible strings
 ---
- arch/arm/boot/dts/r7s9210-rza2mevb.dts | 37 ++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ arch/arm/boot/dts/r7s9210.dtsi | 66 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 66 insertions(+)
 
-diff --git a/arch/arm/boot/dts/r7s9210-rza2mevb.dts b/arch/arm/boot/dts/r7s9210-rza2mevb.dts
-index 7da409170db5..c0a4484a0bde 100644
---- a/arch/arm/boot/dts/r7s9210-rza2mevb.dts
-+++ b/arch/arm/boot/dts/r7s9210-rza2mevb.dts
-@@ -107,6 +107,18 @@
- 		pinmux = <RZA2_PINMUX(PORT5, 4, 3)>,	/* SD1_CD */
- 			 <RZA2_PINMUX(PORT5, 5, 3)>;	/* SD1_WP */
- 	};
-+
-+	usb0_pins: usb0 {
-+		pinmux = <RZA2_PINMUX(PORT5, 2, 3)>,	/* VBUSIN0 */
-+			 <RZA2_PINMUX(PORTC, 6, 1)>,	/* VBUSEN0 */
-+			 <RZA2_PINMUX(PORTC, 7, 1)>;	/* OVRCUR0 */
-+	};
-+
-+	usb1_pins: usb1 {
-+		pinmux = <RZA2_PINMUX(PORTC, 0, 1)>,	/* VBUSIN1 */
-+			 <RZA2_PINMUX(PORTC, 5, 1)>,	/* VBUSEN1 */
-+			 <RZA2_PINMUX(PORT7, 5, 5)>;	/* OVRCUR1 */
-+	};
- };
+diff --git a/arch/arm/boot/dts/r7s9210.dtsi b/arch/arm/boot/dts/r7s9210.dtsi
+index 73041f04fef5..c3a50206ff86 100644
+--- a/arch/arm/boot/dts/r7s9210.dtsi
++++ b/arch/arm/boot/dts/r7s9210.dtsi
+@@ -329,6 +329,72 @@
+ 			status = "disabled";
+ 		};
  
- /* High resolution System tick timers */
-@@ -161,3 +173,28 @@
- 	bus-width = <4>;
- 	status = "okay";
- };
++		ohci0: usb@e8218000 {
++			compatible = "generic-ohci";
++			reg = <0xe8218000 0x100>;
++			interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 61>;
++			phys = <&usb2_phy0>;
++			phy-names = "usb";
++			power-domains = <&cpg>;
++			status = "disabled";
++		};
 +
-+/* USB-0 as Host */
-+/* NOTE: Requires JP3 to be fitted */
-+&usb2_phy0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&usb0_pins>;
-+	dr_mode = "host";
-+	status = "okay";
-+};
++		ehci0: usb@e8218100 {
++			compatible = "generic-ehci";
++			reg = <0xe8218100 0x100>;
++			interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 61>;
++			phys = <&usb2_phy0>;
++			phy-names = "usb";
++			power-domains = <&cpg>;
++			status = "disabled";
++		};
 +
-+&ehci0 {
-+	status = "okay";
-+};
++		usb2_phy0: usb-phy@e8218200 {
++			compatible = "renesas,usb2-phy-r7s9210", "renesas,rcar-gen3-usb2-phy";
++			reg = <0xe8218200 0x10>;
++			interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 61>, <&usb_x1_clk>;
++			clock-names = "fclk", "usb_x1";
++			power-domains = <&cpg>;
++			#phy-cells = <0>;
++			status = "disabled";
++		};
 +
-+/* USB-1 as Host */
-+&usb2_phy1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&usb1_pins>;
-+	dr_mode = "host";
-+	status = "okay";
-+};
++		ohci1: usb@e821a000 {
++			compatible = "generic-ohci";
++			reg = <0xe821a000 0x100>;
++			interrupts = <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 60>;
++			phys = <&usb2_phy1>;
++			phy-names = "usb";
++			power-domains = <&cpg>;
++			status = "disabled";
++		};
 +
-+&ehci1 {
-+	status = "okay";
-+};
++		ehci1: usb@e821a100 {
++			compatible = "generic-ehci";
++			reg = <0xe821a100 0x100>;
++			interrupts = <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 60>;
++			phys = <&usb2_phy1>;
++			phy-names = "usb";
++			power-domains = <&cpg>;
++			status = "disabled";
++		};
++
++		usb2_phy1: usb-phy@e821a200 {
++			compatible = "renesas,usb2-phy-r7s9210", "renesas,rcar-gen3-usb2-phy";
++			reg = <0xe821a200 0x10>;
++			interrupts = <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 60>, <&usb_x1_clk>;
++			clock-names = "fclk", "usb_x1";
++			power-domains = <&cpg>;
++			#phy-cells = <0>;
++			status = "disabled";
++		};
++
+ 		sdhi0: sd@e8228000 {
+ 			compatible = "renesas,sdhi-r7s9210";
+ 			reg = <0xe8228000 0x8c0>;
 -- 
 2.16.1
 
