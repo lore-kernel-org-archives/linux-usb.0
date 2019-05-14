@@ -2,78 +2,90 @@ Return-Path: <SRS0=fHaM=TO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_MUTT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2F44C04AB4
-	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 14:38:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4554AC04AB4
+	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 14:42:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 80ACF2085A
-	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 14:38:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 21348216B7
+	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 14:42:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726174AbfENOiM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 May 2019 10:38:12 -0400
-Received: from inva021.nxp.com ([92.121.34.21]:56938 "EHLO inva021.nxp.com"
+        id S1726427AbfENOmb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 May 2019 10:42:31 -0400
+Received: from verein.lst.de ([213.95.11.211]:46209 "EHLO newverein.lst.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725854AbfENOiM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 14 May 2019 10:38:12 -0400
-Received: from inva021.nxp.com (localhost [127.0.0.1])
-        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id B83F0200030;
-        Tue, 14 May 2019 16:38:10 +0200 (CEST)
-Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com [134.27.226.22])
-        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id AC05220022E;
-        Tue, 14 May 2019 16:38:10 +0200 (CEST)
-Received: from fsr-ub1864-101.ea.freescale.net (fsr-ub1864-101.ea.freescale.net [10.171.82.13])
-        by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id F37B82061C;
-        Tue, 14 May 2019 16:38:09 +0200 (CEST)
-From:   laurentiu.tudor@nxp.com
-To:     hch@lst.de, stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, marex@denx.de
-Cc:     leoyang.li@nxp.com, linux-kernel@vger.kernel.org,
-        robin.murphy@arm.com, Laurentiu Tudor <laurentiu.tudor@nxp.com>
-Subject: [RFC PATCH v2 0/3] prerequisites for device reserved local mem rework
-Date:   Tue, 14 May 2019 17:38:04 +0300
-Message-Id: <20190514143807.7745-1-laurentiu.tudor@nxp.com>
-X-Mailer: git-send-email 2.17.1
-X-Virus-Scanned: ClamAV using ClamSMTP
+        id S1725901AbfENOmb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 14 May 2019 10:42:31 -0400
+Received: by newverein.lst.de (Postfix, from userid 2407)
+        id 7826268B05; Tue, 14 May 2019 16:42:10 +0200 (CEST)
+Date:   Tue, 14 May 2019 16:42:10 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     laurentiu.tudor@nxp.com
+Cc:     hch@lst.de, stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, marex@denx.de, leoyang.li@nxp.com,
+        linux-kernel@vger.kernel.org, robin.murphy@arm.com
+Subject: Re: [RFC PATCH v2 1/3] USB: use genalloc for USB HCs with local
+ memory
+Message-ID: <20190514144210.GA14625@lst.de>
+References: <20190514143807.7745-1-laurentiu.tudor@nxp.com> <20190514143807.7745-2-laurentiu.tudor@nxp.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190514143807.7745-2-laurentiu.tudor@nxp.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Laurentiu Tudor <laurentiu.tudor@nxp.com>
+> @@ -136,6 +137,10 @@ void *hcd_buffer_alloc(
+>  		if (size <= pool_max[i])
+>  			return dma_pool_alloc(hcd->pool[i], mem_flags, dma);
+>  	}
+> +
+> +	if (hcd->driver->flags & HCD_LOCAL_MEM)
+> +		return gen_pool_dma_alloc(hcd->localmem_pool, size, dma);
 
-For HCs that have local memory, replace the current DMA API usage
-with a genalloc generic allocator to manage the mappings for these
-devices.
-This is in preparation for dropping the existing "coherent" dma
-mem declaration APIs. Current implementation was relying on a short
-circuit in the DMA API that in the end, was acting as an allocator
-for these type of devices.
+I think this check needs to be before the above code to use the dma
+pools, as we should always use the HCD local memory.  Probably all the
+way up just below the size == 0 check, that way we can also remove the
+other HCD_LOCAL_MEM check.
 
-Only compiled tested, so any volunteers willing to test are most welcome.
+> @@ -165,5 +170,10 @@ void hcd_buffer_free(
+>  			return;
+>  		}
+>  	}
+> -	dma_free_coherent(hcd->self.sysdev, size, addr, dma);
+> +
+> +	if (hcd->driver->flags & HCD_LOCAL_MEM)
+> +		gen_pool_free(hcd->localmem_pool, (unsigned long)addr,
+> +			      size);
+> +	else
+> +		dma_free_coherent(hcd->self.sysdev, size, addr, dma);
 
-Thank you!
+Same here.
 
-For context, see thread here: https://lkml.org/lkml/2019/4/22/357
+> @@ -505,8 +506,15 @@ static int ohci_init (struct ohci_hcd *ohci)
+>  	timer_setup(&ohci->io_watchdog, io_watchdog_func, 0);
+>  	ohci->prev_frame_no = IO_WATCHDOG_OFF;
+>  
+> -	ohci->hcca = dma_alloc_coherent (hcd->self.controller,
+> -			sizeof(*ohci->hcca), &ohci->hcca_dma, GFP_KERNEL);
+> +	if (hcd->driver->flags & HCD_LOCAL_MEM)
+> +		ohci->hcca = gen_pool_dma_alloc(hcd->localmem_pool,
+> +						sizeof(*ohci->hcca),
+> +						&ohci->hcca_dma);
+> +	else
+> +		ohci->hcca = dma_alloc_coherent(hcd->self.controller,
+> +						sizeof(*ohci->hcca),
+> +						&ohci->hcca_dma,
+> +						GFP_KERNEL);
 
-Changes in v2:
- - use genalloc also in core usb (based on comment from Robin)
- - moved genpool decl to usb_hcd to be accesible from core usb
+I wonder if we could just use hcd_buffer_alloc/free here, althought
+that would require them to be exported.  I'll leave that decision to
+the relevant maintainers, though.
 
-Laurentiu Tudor (3):
-  USB: use genalloc for USB HCs with local memory
-  usb: host: ohci-sm501: init genalloc for local memory
-  usb: host: ohci-tmio: init genalloc for local memory
-
- drivers/usb/core/buffer.c     | 12 ++++++-
- drivers/usb/host/ohci-hcd.c   | 23 +++++++++++---
- drivers/usb/host/ohci-sm501.c | 60 +++++++++++++++++++----------------
- drivers/usb/host/ohci-tmio.c  | 23 +++++++++-----
- include/linux/usb/hcd.h       |  3 ++
- 5 files changed, 80 insertions(+), 41 deletions(-)
-
--- 
-2.17.1
-
+Except for this the series looks exactly what I had envisioned to
+get rid of the device local dma_declare_coherent use case, thanks!
