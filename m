@@ -2,116 +2,110 @@ Return-Path: <SRS0=fHaM=TO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,UNPARSEABLE_RELAY,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BC49C04AB4
-	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 08:18:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14077C04AB4
+	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 08:47:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 747DA2084E
-	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 08:18:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E3DD521537
+	for <linux-usb@archiver.kernel.org>; Tue, 14 May 2019 08:47:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726007AbfENISz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 May 2019 04:18:55 -0400
-Received: from mga04.intel.com ([192.55.52.120]:63449 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725899AbfENISy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 14 May 2019 04:18:54 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 May 2019 01:18:54 -0700
-X-ExtLoop1: 1
-Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
-  by fmsmga001.fm.intel.com with ESMTP; 14 May 2019 01:18:53 -0700
-From:   Felipe Balbi <felipe.balbi@linux.intel.com>
-To:     evan@gnarbox.com
-Cc:     linux-usb@vger.kernel.org, rob@gnarbox.com
-Subject: Re: [BUG REPORT] usb: dwc3: "failed to enable ep0out" when enabling mass storage mode
-In-Reply-To: <20190513222517.LT4QsTQlr%evan@gnarbox.com>
-References: <20190513222517.LT4QsTQlr%evan@gnarbox.com>
-Date:   Tue, 14 May 2019 11:18:52 +0300
-Message-ID: <87r291a1oz.fsf@linux.intel.com>
+        id S1726467AbfENIrj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 May 2019 04:47:39 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:10586 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726078AbfENIrh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 May 2019 04:47:37 -0400
+X-UUID: cc2845e7ee2d4b2b9fa1068df750ea72-20190514
+X-UUID: cc2845e7ee2d4b2b9fa1068df750ea72-20190514
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 2009435210; Tue, 14 May 2019 16:47:29 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 14 May 2019 16:47:28 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 14 May 2019 16:47:26 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+CC:     Mark Rutland <mark.rutland@arm.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
+        Li Jun <jun.li@nxp.com>,
+        Badhri Jagan Sridharan <badhri@google.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Min Guo <min.guo@mediatek.com>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH v5 1/6] dt-bindings: connector: add optional properties for Type-B
+Date:   Tue, 14 May 2019 16:47:18 +0800
+Message-ID: <1557823643-8616-2-git-send-email-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1557823643-8616-1-git-send-email-chunfeng.yun@mediatek.com>
+References: <1557823643-8616-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
+X-MTK:  N
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Add id-gpios, vbus-gpios, vbus-supply and pinctrl properties for
+usb-b-connector
 
-Hi,
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+v5 no changes
+v4 no changes
 
-evan@gnarbox.com writes:
+v3 changes:
+ 1. add GPIO direction, and use fixed-regulator for GPIO controlled
+    VBUS regulator suggested by Rob;
 
-> Hi Felipe,
->
-> I'm picking up a bug my coworker Rob touched on in this thread:
-> https://marc.info/?l=linux-usb&m=155349928622570&w=2
->
-> We occasionally see the following dmesg when enabling mass storage mode:
->
-> 	dwc3 dwc3.1.auto: failed to enable ep0out
->
-> To reproduce after a clean boot:
->
-> 	Enable mass storage mode
-> 	Disable mass storage mode
-> 	Enable mass storage mode
->
-> I don't need to plug any devices, just switch modes.
->
-> The error does not happen every boot.  If I don't get the error on that
-> second enable, then as far as I can tell I won't get the error at all
-> during that boot.
->
-> I've attached the trace and regdump.  When capturing these I was running
-> a 4.9.115 kernel and using the g_mass_storage driver for simplicity.
-> Here is the shell session:
->
-> 	root@gnarbox-2:~# echo device > /sys/class/usb_role/intel_xhci_usb_sw-role-switch/role && modprobe g_mass_storage file=/dev/nvme0n1p7 iSerialNumber=90405
-> 	[  118.627628] Mass Storage Function, version: 2009/09/11
-> 	[  118.633426] LUN: removable file: (no medium)
-> 	[  118.638283] LUN: file: /dev/nvme0n1p7
-> 	[  118.642397] Number of LUNs=1
-> 	[  118.646080] g_mass_storage gadget: Mass Storage Gadget, version: 2009/09/11
-> 	[  118.653902] g_mass_storage gadget: g_mass_storage ready
-> 	root@gnarbox-2:~# modprobe -r g_mass_storage && echo host > /sys/class/usb_role/intel_xhci_usb_sw-role-switch/role 
-> 	root@gnarbox-2:~# echo device > /sys/class/usb_role/intel_xhci_usb_sw-role-switch/role && modprobe g_mass_storage file=/dev/nvme0n1p7 iSerialNumber=90405
-> 	[  123.416789] Mass Storage Function, version: 2009/09/11
-> 	[  123.422546] LUN: removable file: (no medium)
-> 	[  123.427386] LUN: file: /dev/nvme0n1p7
-> 	[  123.431531] Number of LUNs=1
-> 	[  123.435278] g_mass_storage gadget: Mass Storage Gadget, version: 2009/09/11
-> 	[  123.443168] g_mass_storage gadget: g_mass_storage ready
-> 	[  123.451998] dwc3 dwc3.1.auto: failed to enable ep0out
+v2 changes:
+  1. describe more clear for vbus-gpios and vbus-supply suggested by Hans
+---
+ .../bindings/connector/usb-connector.txt           | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-When this happens, I see this:
-
-        modprobe-1046  [001] d..1   123.450054: dwc3_gadget_ep_cmd: ep0out: cmd 'Start New Configuration' [9] params 00000000 00000000 00000000 --> status: Successful
-        modprobe-1046  [001] d..1   123.451990: dwc3_gadget_ep_cmd: ep0out: cmd 'Set Endpoint Transfer Resource' [2] params 00000001 00000000 00000000 --> status: Timed Out
-
-Why is that waiting only 1ms? Maybe your platform takes longer,
-sometimes, to complete xfer resource allocation?
-
-Try this:
-
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index d67655384eb2..ad1069fe3b8f 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -270,7 +270,7 @@ int dwc3_send_gadget_ep_cmd(struct dwc3_ep *dep, unsigned cmd,
- {
- 	const struct usb_endpoint_descriptor *desc = dep->endpoint.desc;
- 	struct dwc3		*dwc = dep->dwc;
--	u32			timeout = 1000;
-+	u32			timeout = 5000;
- 	u32			saved_config = 0;
- 	u32			reg;
+diff --git a/Documentation/devicetree/bindings/connector/usb-connector.txt b/Documentation/devicetree/bindings/connector/usb-connector.txt
+index a9a2f2fc44f2..e8f9e854fd11 100644
+--- a/Documentation/devicetree/bindings/connector/usb-connector.txt
++++ b/Documentation/devicetree/bindings/connector/usb-connector.txt
+@@ -17,6 +17,20 @@ Optional properties:
+ - self-powered: Set this property if the usb device that has its own power
+   source.
  
-Let me know if it helps or not. I guess it's also time to switch this
-block of code to readl_poll_timeout_atomic().
-
++Optional properties for usb-b-connector:
++- id-gpios: an input gpio for USB ID pin.
++- vbus-gpios: an input gpio for USB VBUS pin, used to detect presence of
++  VBUS 5V.
++  see gpio/gpio.txt.
++- vbus-supply: a phandle to the regulator for USB VBUS if needed when host
++  mode or dual role mode is supported.
++  Particularly, if use an output GPIO to control a VBUS regulator, should
++  model it as a regulator.
++  see regulator/fixed-regulator.yaml
++- pinctrl-names : a pinctrl state named "default" is optional
++- pinctrl-0 : pin control group
++  see pinctrl/pinctrl-bindings.txt
++
+ Optional properties for usb-c-connector:
+ - power-role: should be one of "source", "sink" or "dual"(DRP) if typec
+   connector has power support.
 -- 
-balbi
+2.21.0
+
