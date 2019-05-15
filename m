@@ -2,37 +2,36 @@ Return-Path: <SRS0=oy5M=TP=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6114C04E53
-	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 15:38:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1282BC04E87
+	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 15:39:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BF32B20873
-	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 15:38:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E37A520818
+	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 15:39:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728320AbfEOPiI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 May 2019 11:38:08 -0400
-Received: from pbmsgap02.intersil.com ([192.157.179.202]:51406 "EHLO
-        pbmsgap02.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726911AbfEOPiH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 May 2019 11:38:07 -0400
-X-Greylist: delayed 1000 seconds by postgrey-1.27 at vger.kernel.org; Wed, 15 May 2019 11:38:06 EDT
-Received: from pps.filterd (pbmsgap02.intersil.com [127.0.0.1])
-        by pbmsgap02.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4FFDKb9019725;
-        Wed, 15 May 2019 11:22:21 -0400
+        id S1727989AbfEOPjB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 May 2019 11:39:01 -0400
+Received: from pbmsgap01.intersil.com ([192.157.179.201]:47694 "EHLO
+        pbmsgap01.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726335AbfEOPjB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 May 2019 11:39:01 -0400
+Received: from pps.filterd (pbmsgap01.intersil.com [127.0.0.1])
+        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4FFDbIG024625;
+        Wed, 15 May 2019 11:21:04 -0400
 Received: from pbmxdp03.intersil.corp (pbmxdp03.pb.intersil.com [132.158.200.224])
-        by pbmsgap02.intersil.com with ESMTP id 2sdrjcb6hh-1
+        by pbmsgap01.intersil.com with ESMTP id 2sdswykhcu-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Wed, 15 May 2019 11:22:21 -0400
+        Wed, 15 May 2019 11:21:04 -0400
 Received: from pbmxdp01.intersil.corp (132.158.200.222) by
  pbmxdp03.intersil.corp (132.158.200.224) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Wed, 15 May 2019 11:22:20 -0400
+ 15.1.1531.3; Wed, 15 May 2019 11:21:03 -0400
 Received: from localhost.localdomain (132.158.202.108) by
  pbmxdp01.intersil.corp (132.158.200.222) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Wed, 15 May 2019 11:22:19 -0400
+ 15.1.1531.3 via Frontend Transport; Wed, 15 May 2019 11:21:02 -0400
 From:   Chris Brandt <chris.brandt@renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -46,12 +45,10 @@ CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-renesas-soc@vger.kernel.org>,
         "Chris Brandt" <chris.brandt@renesas.com>
-Subject: [PATCH v4 10/13] dt-bindings: usb: renesas_usbhs: Add support for r7s9210
-Date:   Wed, 15 May 2019 10:20:45 -0500
-Message-ID: <20190515152048.42363-11-chris.brandt@renesas.com>
+Subject: [PATCH v4 00/13] usb: Add host and device support for RZ/A2
+Date:   Wed, 15 May 2019 10:20:35 -0500
+Message-ID: <20190515152048.42363-1-chris.brandt@renesas.com>
 X-Mailer: git-send-email 2.16.1
-In-Reply-To: <20190515152048.42363-1-chris.brandt@renesas.com>
-References: <20190515152048.42363-1-chris.brandt@renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-15_10:,,
@@ -66,37 +63,74 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add support for r7s9210 (RZ/A2M) SoC
 
-Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
----
-v3:
- * added reviewed-by
-v2:
- * fixed typo from copy/paste of RZ/A1 line
----
- Documentation/devicetree/bindings/usb/renesas_usbhs.txt | 2 ++
- 1 file changed, 2 insertions(+)
+NOTE 1:
+This series requires the follow patch from Shimoda-san.
+  [PATCH v2] usb: renesas_usbhs: Use specific struct instead of USBHS_TYPE_* enums
 
-diff --git a/Documentation/devicetree/bindings/usb/renesas_usbhs.txt b/Documentation/devicetree/bindings/usb/renesas_usbhs.txt
-index b8acc2a994a8..e39255ea6e4f 100644
---- a/Documentation/devicetree/bindings/usb/renesas_usbhs.txt
-+++ b/Documentation/devicetree/bindings/usb/renesas_usbhs.txt
-@@ -20,9 +20,11 @@ Required properties:
- 	- "renesas,usbhs-r8a77990" for r8a77990 (R-Car E3) compatible device
- 	- "renesas,usbhs-r8a77995" for r8a77995 (R-Car D3) compatible device
- 	- "renesas,usbhs-r7s72100" for r7s72100 (RZ/A1) compatible device
-+	- "renesas,usbhs-r7s9210" for r7s9210 (RZ/A2) compatible device
- 	- "renesas,rcar-gen2-usbhs" for R-Car Gen2 or RZ/G1 compatible devices
- 	- "renesas,rcar-gen3-usbhs" for R-Car Gen3 or RZ/G2 compatible devices
- 	- "renesas,rza1-usbhs" for RZ/A1 compatible device
-+	- "renesas,rza2-usbhs" for RZ/A2 compatible device
- 
- 	When compatible with the generic version, nodes must list the
- 	SoC-specific version corresponding to the platform first followed
+
+NOTE 2:
+The first 2 patches from the V3 series (add USB_X1 clock) were removed from this
+V4 series because Simon already applied them.
+
+
+
+For the most part, the RZ/A2 has the same USB 2.0 host and device
+HW as the R-Car Gen3, so we can reuse a lot of the code.
+
+However, there are a couple extra register bits, and the CFIFO
+register 8-bit access works a little different.
+
+There is a dedicated DMAC for the RZ/A2 USB Device HW, but we
+have not been able to reliably get that working yet, so device
+operation is pio only at the moment.
+
+On the RZ/A2M eval board, both USB channels can be used as either
+host or device. But, it's not set up for otg (ie, there are jumpers
+and separate connectors). Therefore, below is an example of what it
+would look like to enable USB channel 0 as a device instead of a host.
+
+&usb2_phy0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&usb0_pins>;
+	dr_mode = "peripheral";
+	status = "okay";
+};
+
+&usbhs0 {
+	status = "okay";
+};
+
+Chris Brandt (13):
+  phy: renesas: rcar-gen3-usb2: detect usb_x1 clock
+  dt-bindings: rcar-gen3-phy-usb2: Document use of usb_x1
+  phy: renesas: rcar-gen3-usb2: Check dr_mode when not using OTG
+  dt-bindings: rcar-gen3-phy-usb2: Document dr_mode
+  dt-bindings: rcar-gen3-phy-usb2: Add r7s9210 support
+  usb: renesas_usbhs: move flags to param
+  usb: renesas_usbhs: add support for CNEN bit
+  usb: renesas_usbhs: support byte addressable CFIFO
+  usb: renesas_usbhs: Add support for RZ/A2
+  dt-bindings: usb: renesas_usbhs: Add support for r7s9210
+  ARM: dts: r7s9210: Add USB Host support
+  ARM: dts: r7s9210: Add USB Device support
+  ARM: dts: rza2mevb: Add USB Host support
+
+ .../devicetree/bindings/phy/rcar-gen3-phy-usb2.txt | 19 +++--
+ .../devicetree/bindings/usb/renesas_usbhs.txt      |  2 +
+ arch/arm/boot/dts/r7s9210-rza2mevb.dts             | 36 +++++++++
+ arch/arm/boot/dts/r7s9210.dtsi                     | 90 ++++++++++++++++++++++
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c           | 26 +++++++
+ drivers/usb/renesas_usbhs/Makefile                 |  2 +-
+ drivers/usb/renesas_usbhs/common.c                 | 44 +++++++----
+ drivers/usb/renesas_usbhs/common.h                 |  3 +-
+ drivers/usb/renesas_usbhs/fifo.c                   |  9 ++-
+ drivers/usb/renesas_usbhs/rza.h                    |  1 +
+ drivers/usb/renesas_usbhs/rza2.c                   | 72 +++++++++++++++++
+ include/linux/usb/renesas_usbhs.h                  |  4 +
+ 12 files changed, 282 insertions(+), 26 deletions(-)
+ create mode 100644 drivers/usb/renesas_usbhs/rza2.c
+
 -- 
 2.16.1
 
