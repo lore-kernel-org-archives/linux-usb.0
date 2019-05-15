@@ -4,34 +4,34 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E5DCC04E53
-	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 15:41:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B709C04E87
+	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 15:41:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5ED1420818
-	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 15:41:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0959320818
+	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 15:41:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728231AbfEOPlO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 May 2019 11:41:14 -0400
-Received: from pbmsgap02.intersil.com ([192.157.179.202]:51706 "EHLO
+        id S1728420AbfEOPlR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 May 2019 11:41:17 -0400
+Received: from pbmsgap02.intersil.com ([192.157.179.202]:51712 "EHLO
         pbmsgap02.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727454AbfEOPlN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 May 2019 11:41:13 -0400
+        with ESMTP id S1727454AbfEOPlQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 May 2019 11:41:16 -0400
 Received: from pps.filterd (pbmsgap02.intersil.com [127.0.0.1])
-        by pbmsgap02.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4FFCHJq019290;
-        Wed, 15 May 2019 11:21:29 -0400
+        by pbmsgap02.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4FFCHtx019293;
+        Wed, 15 May 2019 11:21:45 -0400
 Received: from pbmxdp02.intersil.corp (pbmxdp02.pb.intersil.com [132.158.200.223])
-        by pbmsgap02.intersil.com with ESMTP id 2sdrjcb6gr-1
+        by pbmsgap02.intersil.com with ESMTP id 2sdrjcb6h2-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Wed, 15 May 2019 11:21:29 -0400
+        Wed, 15 May 2019 11:21:44 -0400
 Received: from pbmxdp01.intersil.corp (132.158.200.222) by
  pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Wed, 15 May 2019 11:21:28 -0400
+ 15.1.1531.3; Wed, 15 May 2019 11:21:43 -0400
 Received: from localhost.localdomain (132.158.202.108) by
  pbmxdp01.intersil.corp (132.158.200.222) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Wed, 15 May 2019 11:21:27 -0400
+ 15.1.1531.3 via Frontend Transport; Wed, 15 May 2019 11:21:43 -0400
 From:   Chris Brandt <chris.brandt@renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -45,9 +45,9 @@ CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-renesas-soc@vger.kernel.org>,
         "Chris Brandt" <chris.brandt@renesas.com>
-Subject: [PATCH v4 03/13] phy: renesas: rcar-gen3-usb2: Check dr_mode when not using OTG
-Date:   Wed, 15 May 2019 10:20:38 -0500
-Message-ID: <20190515152048.42363-4-chris.brandt@renesas.com>
+Subject: [PATCH v4 05/13] dt-bindings: rcar-gen3-phy-usb2: Add r7s9210 support
+Date:   Wed, 15 May 2019 10:20:40 -0500
+Message-ID: <20190515152048.42363-6-chris.brandt@renesas.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20190515152048.42363-1-chris.brandt@renesas.com>
 References: <20190515152048.42363-1-chris.brandt@renesas.com>
@@ -65,49 +65,49 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When not using OTG, the PHY will need to know if it should function as
-host or peripheral by checking dr_mode in the PHY node (not the parent
-controller node).
+Document RZ/A2 (R7S9210) SoC bindings.
 
 Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 ---
-v4:
- * added reviewed-by
-v3:
- * changed 'if' to 'switch'
- * use rcar_gen3_set_host_mode() instead of writel()
 v2:
- * added braces to else statement
- * check if dr_mode is "host"
+ * added reviewed-by
 ---
- drivers/phy/renesas/phy-rcar-gen3-usb2.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index 06e0fc804226..29da9c46ad9b 100644
---- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-+++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -412,6 +412,18 @@ static int rcar_gen3_phy_usb2_init(struct phy *p)
- 		if (rcar_gen3_needs_init_otg(channel))
- 			rcar_gen3_init_otg(channel);
- 		rphy->otg_initialized = true;
-+	} else {
-+		/* Not OTG, so dr_mode should be set in PHY node */
-+		switch (usb_get_dr_mode(channel->dev)) {
-+		case USB_DR_MODE_HOST:
-+			rcar_gen3_set_host_mode(channel, 1);
-+			break;
-+		case USB_DR_MODE_PERIPHERAL:
-+			rcar_gen3_set_host_mode(channel, 0);
-+			break;
-+		default:
-+			break;
-+		}
- 	}
+diff --git a/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt b/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
+index fa58663b7641..7f7a2ed2c9b1 100644
+--- a/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
++++ b/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
+@@ -1,10 +1,12 @@
+ * Renesas R-Car generation 3 USB 2.0 PHY
  
- 	rphy->initialized = true;
+ This file provides information on what the device node for the R-Car generation
+-3, RZ/G1C and RZ/G2 USB 2.0 PHY contain.
++3, RZ/G1C, RZ/G2 and RZ/A2 USB 2.0 PHY contain.
+ 
+ Required properties:
+-- compatible: "renesas,usb2-phy-r8a77470" if the device is a part of an R8A77470
++- compatible: "renesas,usb2-phy-r7s9210" if the device is a part of an R7S9210
++	      SoC.
++	      "renesas,usb2-phy-r8a77470" if the device is a part of an R8A77470
+ 	      SoC.
+ 	      "renesas,usb2-phy-r8a774a1" if the device is a part of an R8A774A1
+ 	      SoC.
+@@ -20,8 +22,8 @@ Required properties:
+ 	      R8A77990 SoC.
+ 	      "renesas,usb2-phy-r8a77995" if the device is a part of an
+ 	      R8A77995 SoC.
+-	      "renesas,rcar-gen3-usb2-phy" for a generic R-Car Gen3 or RZ/G2
+-	      compatible device.
++	      "renesas,rcar-gen3-usb2-phy" for a generic R-Car Gen3, RZ/G2 or
++	      RZ/A2 compatible device.
+ 
+ 	      When compatible with the generic version, nodes must list the
+ 	      SoC-specific version corresponding to the platform first
 -- 
 2.16.1
 
