@@ -4,34 +4,34 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD160C04E84
-	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 15:39:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44FBCC04E53
+	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 15:39:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8A04920818
-	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 15:39:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 24C6820818
+	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 15:39:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728324AbfEOPjU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1728084AbfEOPjU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Wed, 15 May 2019 11:39:20 -0400
-Received: from pbmsgap02.intersil.com ([192.157.179.202]:51544 "EHLO
+Received: from pbmsgap02.intersil.com ([192.157.179.202]:51538 "EHLO
         pbmsgap02.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726335AbfEOPjU (ORCPT
+        with ESMTP id S1727248AbfEOPjU (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 15 May 2019 11:39:20 -0400
 Received: from pps.filterd (pbmsgap02.intersil.com [127.0.0.1])
-        by pbmsgap02.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4FFDKbA019725;
-        Wed, 15 May 2019 11:22:34 -0400
-Received: from pbmxdp02.intersil.corp (pbmxdp02.pb.intersil.com [132.158.200.223])
-        by pbmsgap02.intersil.com with ESMTP id 2sdrjcb6hp-1
+        by pbmsgap02.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4FFDKb5019725;
+        Wed, 15 May 2019 11:21:22 -0400
+Received: from pbmxdp03.intersil.corp (pbmxdp03.pb.intersil.com [132.158.200.224])
+        by pbmsgap02.intersil.com with ESMTP id 2sdrjcb6gp-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Wed, 15 May 2019 11:22:34 -0400
+        Wed, 15 May 2019 11:21:22 -0400
 Received: from pbmxdp01.intersil.corp (132.158.200.222) by
- pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server
+ pbmxdp03.intersil.corp (132.158.200.224) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Wed, 15 May 2019 11:22:33 -0400
+ 15.1.1531.3; Wed, 15 May 2019 11:21:21 -0400
 Received: from localhost.localdomain (132.158.202.108) by
  pbmxdp01.intersil.corp (132.158.200.222) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Wed, 15 May 2019 11:22:32 -0400
+ 15.1.1531.3 via Frontend Transport; Wed, 15 May 2019 11:21:20 -0400
 From:   Chris Brandt <chris.brandt@renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -45,9 +45,9 @@ CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-renesas-soc@vger.kernel.org>,
         "Chris Brandt" <chris.brandt@renesas.com>
-Subject: [PATCH v4 12/13] ARM: dts: r7s9210: Add USB Device support
-Date:   Wed, 15 May 2019 10:20:47 -0500
-Message-ID: <20190515152048.42363-13-chris.brandt@renesas.com>
+Subject: [PATCH v4 02/13] dt-bindings: rcar-gen3-phy-usb2: Document use of usb_x1
+Date:   Wed, 15 May 2019 10:20:37 -0500
+Message-ID: <20190515152048.42363-3-chris.brandt@renesas.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20190515152048.42363-1-chris.brandt@renesas.com>
 References: <20190515152048.42363-1-chris.brandt@renesas.com>
@@ -56,7 +56,7 @@ Content-Type: text/plain
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-15_10:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=junk_notspam policy=junk score=0 suspectscore=2 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=955
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.0.1-1810050000 definitions=main-1905150094
 X-Proofpoint-Spam-Reason: mlx
@@ -65,62 +65,46 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add USB Device support for RZ/A2.
+Document the USB_X1 input and add clock-names to identify
+functional and USB_X1 clocks.
 
 Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 ---
-v3:
+v4:
+ * 'Name' to 'Names'
+ * "fclk" to "fck"
  * added reviewed-by
+v3:
+ * added clock names
 v2:
- * changed to generic name usb@xxx
- * Add space between compatible strings
+ * removed 'use_usb_x1' option
+ * document that 'usb_x1' clock node will be detected to determine if
+   48MHz clock exists
 ---
- arch/arm/boot/dts/r7s9210.dtsi | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/boot/dts/r7s9210.dtsi b/arch/arm/boot/dts/r7s9210.dtsi
-index 066e6fed11aa..3d0bbc1f4543 100644
---- a/arch/arm/boot/dts/r7s9210.dtsi
-+++ b/arch/arm/boot/dts/r7s9210.dtsi
-@@ -362,6 +362,18 @@
- 			status = "disabled";
- 		};
+diff --git a/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt b/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
+index d46188f450bf..f05d2c39a556 100644
+--- a/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
++++ b/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
+@@ -28,7 +28,11 @@ Required properties:
+ 	      followed by the generic version.
  
-+		usbhs0: usb@e8219000 {
-+			compatible = "renesas,usbhs-r7s9210", "renesas,rza2-usbhs";
-+			reg = <0xe8219000 0x724>;
-+			interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 61>;
-+			renesas,buswait = <7>;
-+			phys = <&usb2_phy0>;
-+			phy-names = "usb";
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
-+
- 		ohci1: usb@e821a000 {
- 			compatible = "generic-ohci";
- 			reg = <0xe821a000 0x100>;
-@@ -395,6 +407,18 @@
- 			status = "disabled";
- 		};
+ - reg: offset and length of the partial USB 2.0 Host register block.
+-- clocks: clock phandle and specifier pair(s).
++- clocks: clock phandle and specifier pair(s). For SoCs that have a separate
++          dedicated USB_X1 input for the PLL, that is also listed.
++- clock-names: Names of the clocks. The functional clock shall be called "fck"
++	       and USB_X1 shall be called "usb_x1". If only one clock is listed,
++	       this property is not required.
+ - #phy-cells: see phy-bindings.txt in the same directory, must be <1> (and
+ 	      using <0> is deprecated).
  
-+		usbhs1: usb@e821b000 {
-+			compatible = "renesas,usbhs-r7s9210", "renesas,rza2-usbhs";
-+			reg = <0xe821b000 0x724>;
-+			interrupts = <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 60>;
-+			renesas,buswait = <7>;
-+			phys = <&usb2_phy1>;
-+			phy-names = "usb";
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
-+
- 		sdhi0: sd@e8228000 {
- 			compatible = "renesas,sdhi-r7s9210";
- 			reg = <0xe8228000 0x8c0>;
 -- 
 2.16.1
 
