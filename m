@@ -2,79 +2,60 @@ Return-Path: <SRS0=oy5M=TP=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,USER_AGENT_NEOMUTT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52BEFC04E53
-	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 08:02:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6DF4C04E53
+	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 08:05:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2EF0020675
-	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 08:02:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 91FEC20675
+	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 08:05:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726136AbfEOICw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 May 2019 04:02:52 -0400
-Received: from mail-vs1-f65.google.com ([209.85.217.65]:43990 "EHLO
-        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725876AbfEOICv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 May 2019 04:02:51 -0400
-Received: by mail-vs1-f65.google.com with SMTP id d128so1077530vsc.10;
-        Wed, 15 May 2019 01:02:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+mHqYN3auk8GZnQ52S6Ycmd1QTWcIjghTXl6+HXbvFU=;
-        b=XIG4B/n236X/NYkLbf8xQ9E9LXxLz1ZHEnvnXV1qHf9fwRB8Sm3aSPi9AncT4e4nSe
-         rZDjwps/pLkJizdnJmInMzIa1dC+crc4NVyZ7CfrMTFsmZTTky3W6hzmnjfICnA9QfxL
-         jz2QzD6PCIlyfovsExowf6f5Lmpo8s4NnPQM2pPVgkf3HtB0nZLd7Org8WRIsuzgAHzd
-         YcwM8O9TEpnMGJ3MtRkaHK8Zpg5ajIsQRxpmiFTGFWVkLH8KVcBnObWMnj4z979EJ1gW
-         xUw1eLi2q0jrvqwCRXMsYP4/W7heh1C24H0uzfL+j81Cw4mJJExlI3CDyd5eUAdgmK5w
-         jQiQ==
-X-Gm-Message-State: APjAAAWZ0dS++qnMpoGggibQiBjXOfCaCiMv5+px+lsxZqEbEjKbK+jT
-        S6tJA/t2w4FbPCSph6p7F/ElenA5Clzg4Po8s7U=
-X-Google-Smtp-Source: APXvYqyrDGZNtapcY3vdADfMf9TTlHOnr729sk5O2OgjZSf2L+gqEvMASzm+NPekmoAUxZCj8ioOBSN2X7T2bWBMDZs=
-X-Received: by 2002:a67:8e03:: with SMTP id q3mr19856307vsd.152.1557907370338;
- Wed, 15 May 2019 01:02:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190514145605.19112-1-chris.brandt@renesas.com> <20190514145605.19112-15-chris.brandt@renesas.com>
-In-Reply-To: <20190514145605.19112-15-chris.brandt@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 15 May 2019 10:02:38 +0200
-Message-ID: <CAMuHMdW4TXiGjAzjKPg5As8Ew2N7M-9tSf0Au-GAG_fFtypeCQ@mail.gmail.com>
-Subject: Re: [PATCH v3 14/15] ARM: dts: r7s9210: Add USB Device support
+        id S1726136AbfEOIFF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 May 2019 04:05:05 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:57690 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725876AbfEOIFF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 May 2019 04:05:05 -0400
+Received: from penelope.horms.nl (ip4dab7138.direct-adsl.nl [77.171.113.56])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 9E1D025AEAD;
+        Wed, 15 May 2019 18:05:02 +1000 (AEST)
+Received: by penelope.horms.nl (Postfix, from userid 7100)
+        id 6B5C5E21335; Wed, 15 May 2019 10:05:00 +0200 (CEST)
+Date:   Wed, 15 May 2019 10:05:00 +0200
+From:   Simon Horman <horms@verge.net.au>
 To:     Chris Brandt <chris.brandt@renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Simon Horman <horms@verge.net.au>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
         Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
         Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        USB list <linux-usb@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 10/15] usb: renesas_usbhs: support byte addressable
+ CFIFO
+Message-ID: <20190515080459.cumjv2ahv4hddhvk@verge.net.au>
+References: <20190514145605.19112-1-chris.brandt@renesas.com>
+ <20190514145605.19112-11-chris.brandt@renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190514145605.19112-11-chris.brandt@renesas.com>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, May 14, 2019 at 4:58 PM Chris Brandt <chris.brandt@renesas.com> wrote:
-> Add USB Device support for RZ/A2.
->
+On Tue, May 14, 2019 at 09:56:00AM -0500, Chris Brandt wrote:
+> Some SoC have a CFIFO register that is byte addressable. This means
+> when the CFIFO access is set to 32-bit, you can write 8-bit values to
+> addresses CFIFO+0, CFIFO+1, CFIFO+2, CFIFO+3.
+> 
 > Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
