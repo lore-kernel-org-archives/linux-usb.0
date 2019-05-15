@@ -2,174 +2,98 @@ Return-Path: <SRS0=oy5M=TP=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43D26C04E53
-	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 13:18:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E143AC04E87
+	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 13:38:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 203F920843
-	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 13:18:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AEE7F20881
+	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 13:38:52 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=renesasgroup.onmicrosoft.com header.i=@renesasgroup.onmicrosoft.com header.b="gzXE6cCD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727800AbfEONSc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 May 2019 09:18:32 -0400
-Received: from inva020.nxp.com ([92.121.34.13]:56464 "EHLO inva020.nxp.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727156AbfEONSb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 15 May 2019 09:18:31 -0400
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 5CE261A0079;
-        Wed, 15 May 2019 15:18:29 +0200 (CEST)
-Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com [134.27.226.22])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 454E91A0181;
-        Wed, 15 May 2019 15:18:29 +0200 (CEST)
-Received: from fsr-ub1864-101.ea.freescale.net (fsr-ub1864-101.ea.freescale.net [10.171.82.13])
-        by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id B9CD8205F4;
-        Wed, 15 May 2019 15:18:28 +0200 (CEST)
-From:   laurentiu.tudor@nxp.com
-To:     hch@lst.de, stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, marex@denx.de
-Cc:     leoyang.li@nxp.com, linux-kernel@vger.kernel.org,
-        robin.murphy@arm.com, noring@nocrew.org, JuergenUrban@gmx.de,
-        Laurentiu Tudor <laurentiu.tudor@nxp.com>
-Subject: [PATCH v3 1/3] USB: use genalloc for USB HCs with local memory
-Date:   Wed, 15 May 2019 16:18:04 +0300
-Message-Id: <20190515131806.2404-2-laurentiu.tudor@nxp.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190515131806.2404-1-laurentiu.tudor@nxp.com>
-References: <20190515131806.2404-1-laurentiu.tudor@nxp.com>
-X-Virus-Scanned: ClamAV using ClamSMTP
+        id S1727745AbfEONiv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 May 2019 09:38:51 -0400
+Received: from mail-eopbgr1410109.outbound.protection.outlook.com ([40.107.141.109]:32169
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726635AbfEONiv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 15 May 2019 09:38:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=arqU6Lvr5Sf26j9WAvt51gRgxm6iQ07EzJ2VtoyC/wU=;
+ b=gzXE6cCDY4X7cKH/qyJGoO32qdZ62Ulfx/WG1IwwhWxW3YyzQo1iSpdNGLKUOvKpc78OgY0CyOF1nrdgV21xVudmUOtIvf68F8L6RZoFYn8ebfNE1XPt80P7jLuV62D+TtTTR2UUfgaDYk7D++7ApjU3+sISHpN0OGfwCSAWVJA=
+Received: from TYXPR01MB1568.jpnprd01.prod.outlook.com (52.133.166.145) by
+ TYXPR01MB1485.jpnprd01.prod.outlook.com (52.133.165.142) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1900.16; Wed, 15 May 2019 13:38:46 +0000
+Received: from TYXPR01MB1568.jpnprd01.prod.outlook.com
+ ([fe80::c989:cb4d:b41e:2045]) by TYXPR01MB1568.jpnprd01.prod.outlook.com
+ ([fe80::c989:cb4d:b41e:2045%7]) with mapi id 15.20.1900.010; Wed, 15 May 2019
+ 13:38:46 +0000
+From:   Chris Brandt <Chris.Brandt@renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Simon Horman <horms@verge.net.au>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        USB list <linux-usb@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v3 13/15] ARM: dts: r7s9210: Add USB Host support
+Thread-Topic: [PATCH v3 13/15] ARM: dts: r7s9210: Add USB Host support
+Thread-Index: AQHVCmV5GV5gsTt0ME28rd2ixcAosqZr02QAgABcqCA=
+Date:   Wed, 15 May 2019 13:38:46 +0000
+Message-ID: <TYXPR01MB1568E1D79AFDB6FF4F5329568A090@TYXPR01MB1568.jpnprd01.prod.outlook.com>
+References: <20190514145605.19112-1-chris.brandt@renesas.com>
+ <20190514145605.19112-14-chris.brandt@renesas.com>
+ <CAMuHMdUU3EBFXHpvw8y_yYf3L1qNNH6HJw+RHP_ioSFwJcd3Vg@mail.gmail.com>
+In-Reply-To: <CAMuHMdUU3EBFXHpvw8y_yYf3L1qNNH6HJw+RHP_ioSFwJcd3Vg@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Chris.Brandt@renesas.com; 
+x-originating-ip: [75.60.247.61]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9bfea68c-3133-4fdf-1405-08d6d93aa7b8
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:TYXPR01MB1485;
+x-ms-traffictypediagnostic: TYXPR01MB1485:
+x-microsoft-antispam-prvs: <TYXPR01MB14858D5C930DD82BB6185D968A090@TYXPR01MB1485.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3631;
+x-forefront-prvs: 0038DE95A2
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(396003)(346002)(376002)(366004)(136003)(189003)(199004)(8936002)(316002)(8676002)(81166006)(81156014)(68736007)(4326008)(25786009)(86362001)(52536014)(446003)(11346002)(476003)(55016002)(9686003)(478600001)(2906002)(486006)(14454004)(3846002)(66066001)(6116002)(256004)(72206003)(5660300002)(26005)(71200400001)(54906003)(71190400001)(186003)(229853002)(305945005)(7736002)(6506007)(76176011)(7696005)(102836004)(7416002)(6246003)(99286004)(66946007)(76116006)(73956011)(66476007)(66556008)(64756008)(33656002)(66446008)(53936002)(558084003)(74316002)(6436002)(6916009);DIR:OUT;SFP:1102;SCL:1;SRVR:TYXPR01MB1485;H:TYXPR01MB1568.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: dTW7m6QCxsp/HUUwxQTgdeUu3E4PRB3f+qYQw+EdiHfr2o/mpc75AObdJ+yzxYWYyJBK02sxYtdd/BxVYeGYvZIsjpVq1VZUKy1TPVoLR2kaP3KcgTWFlCRwhekyYBH+hFKLQ8f6tb1sstxmpdfQ4JHuegeozKiKJtQP9+lfaYSbdozBexoawGVkADmQjwPmQ3V4lSIHmQKrkTCr+vLgP7T5xqxkQpSZQZiCPPyOjPwLkTr7mOlhHaRFHy3KCt6u2mIGUpIS9qk1IwM6kt/GokfqptLjJpYK3Ym6bpmBeL8Rd+6iZzARcoiDqzhDCvmM7AoI6pHtOXhx2OCAyctDMSmsPRFAIYZ53J2dgA8DFkqlnI/MDOIS83AGpDyJIHLLS9lOhKSt6+OzGHBo/Vc8g8/v6lAOKfK2yPMegeMbtOM=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9bfea68c-3133-4fdf-1405-08d6d93aa7b8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2019 13:38:46.3813
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYXPR01MB1485
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Laurentiu Tudor <laurentiu.tudor@nxp.com>
-
-For HCs that have local memory, replace the current DMA API usage
-with a genalloc generic allocator to manage the mappings for these
-devices.
-This is in preparation for dropping the existing "coherent" dma
-mem declaration APIs. Current implementation was relying on a short
-circuit in the DMA API that in the end, was acting as an allocator
-for these type of devices.
-
-For context, see thread here: https://lkml.org/lkml/2019/4/22/357
-
-Signed-off-by: Laurentiu Tudor <laurentiu.tudor@nxp.com>
----
- drivers/usb/core/buffer.c   | 16 ++++++++++++----
- drivers/usb/host/ohci-hcd.c | 23 ++++++++++++++++++-----
- include/linux/usb/hcd.h     |  3 +++
- 3 files changed, 33 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/usb/core/buffer.c b/drivers/usb/core/buffer.c
-index f641342cdec0..09669208b032 100644
---- a/drivers/usb/core/buffer.c
-+++ b/drivers/usb/core/buffer.c
-@@ -16,6 +16,7 @@
- #include <linux/io.h>
- #include <linux/dma-mapping.h>
- #include <linux/dmapool.h>
-+#include <linux/genalloc.h>
- #include <linux/usb.h>
- #include <linux/usb/hcd.h>
- 
-@@ -124,10 +125,12 @@ void *hcd_buffer_alloc(
- 	if (size == 0)
- 		return NULL;
- 
-+	if (hcd->driver->flags & HCD_LOCAL_MEM)
-+		return gen_pool_dma_alloc(hcd->localmem_pool, size, dma);
-+
- 	/* some USB hosts just use PIO */
- 	if (!IS_ENABLED(CONFIG_HAS_DMA) ||
--	    (!is_device_dma_capable(bus->sysdev) &&
--	     !(hcd->driver->flags & HCD_LOCAL_MEM))) {
-+	    !is_device_dma_capable(bus->sysdev)) {
- 		*dma = ~(dma_addr_t) 0;
- 		return kmalloc(size, mem_flags);
- 	}
-@@ -152,9 +155,14 @@ void hcd_buffer_free(
- 	if (!addr)
- 		return;
- 
-+	if (hcd->driver->flags & HCD_LOCAL_MEM) {
-+		gen_pool_free(hcd->localmem_pool, (unsigned long)addr,
-+			      size);
-+		return;
-+	}
-+
- 	if (!IS_ENABLED(CONFIG_HAS_DMA) ||
--	    (!is_device_dma_capable(bus->sysdev) &&
--	     !(hcd->driver->flags & HCD_LOCAL_MEM))) {
-+	    !is_device_dma_capable(bus->sysdev)) {
- 		kfree(addr);
- 		return;
- 	}
-diff --git a/drivers/usb/host/ohci-hcd.c b/drivers/usb/host/ohci-hcd.c
-index 210181fd98d2..f9462c372943 100644
---- a/drivers/usb/host/ohci-hcd.c
-+++ b/drivers/usb/host/ohci-hcd.c
-@@ -40,6 +40,7 @@
- #include <linux/dmapool.h>
- #include <linux/workqueue.h>
- #include <linux/debugfs.h>
-+#include <linux/genalloc.h>
- 
- #include <asm/io.h>
- #include <asm/irq.h>
-@@ -505,8 +506,15 @@ static int ohci_init (struct ohci_hcd *ohci)
- 	timer_setup(&ohci->io_watchdog, io_watchdog_func, 0);
- 	ohci->prev_frame_no = IO_WATCHDOG_OFF;
- 
--	ohci->hcca = dma_alloc_coherent (hcd->self.controller,
--			sizeof(*ohci->hcca), &ohci->hcca_dma, GFP_KERNEL);
-+	if (hcd->driver->flags & HCD_LOCAL_MEM)
-+		ohci->hcca = gen_pool_dma_alloc(hcd->localmem_pool,
-+						sizeof(*ohci->hcca),
-+						&ohci->hcca_dma);
-+	else
-+		ohci->hcca = dma_alloc_coherent(hcd->self.controller,
-+						sizeof(*ohci->hcca),
-+						&ohci->hcca_dma,
-+						GFP_KERNEL);
- 	if (!ohci->hcca)
- 		return -ENOMEM;
- 
-@@ -990,9 +998,14 @@ static void ohci_stop (struct usb_hcd *hcd)
- 	remove_debug_files (ohci);
- 	ohci_mem_cleanup (ohci);
- 	if (ohci->hcca) {
--		dma_free_coherent (hcd->self.controller,
--				sizeof *ohci->hcca,
--				ohci->hcca, ohci->hcca_dma);
-+		if (hcd->driver->flags & HCD_LOCAL_MEM)
-+			gen_pool_free(hcd->localmem_pool,
-+				      (unsigned long)ohci->hcca,
-+				      sizeof(*ohci->hcca));
-+		else
-+			dma_free_coherent(hcd->self.controller,
-+					  sizeof(*ohci->hcca),
-+					  ohci->hcca, ohci->hcca_dma);
- 		ohci->hcca = NULL;
- 		ohci->hcca_dma = 0;
- 	}
-diff --git a/include/linux/usb/hcd.h b/include/linux/usb/hcd.h
-index 695931b03684..0fee81ef5d52 100644
---- a/include/linux/usb/hcd.h
-+++ b/include/linux/usb/hcd.h
-@@ -215,6 +215,9 @@ struct usb_hcd {
- #define	HC_IS_RUNNING(state) ((state) & __ACTIVE)
- #define	HC_IS_SUSPENDED(state) ((state) & __SUSPEND)
- 
-+	/* allocator for HCs having local memory */
-+	struct gen_pool         *localmem_pool;
-+
- 	/* more shared queuing code would be good; it should support
- 	 * smarter scheduling, handle transaction translators, etc;
- 	 * input size of periodic table to an interrupt scheduler.
--- 
-2.17.1
-
+SGkgR2VlcnQsDQoNCk9uIFdlZCwgTWF5IDE1LCAyMDE5LCBHZWVydCBVeXR0ZXJob2V2ZW4gd3Jv
+dGU6DQoNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICByZWcgPSA8MHhlODIxODIwMCAweDEw
+PjsNCj4gDQo+IFdoYXQgYWJvdXQgdGhlIG90aGVyIHJlZ2lzdGVycz8NCj4gT24gUi1DYXIgR2Vu
+Mywgc2l6ZSBpcyAweDcwMC4NCj4gU2FtZSBmb3IgdXNiMl9waHkxLg0KDQpBaGhoLCBnb29kIGNh
+dGNoLg0KDQpDaHJpcw0KDQo=
