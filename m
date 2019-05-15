@@ -2,140 +2,141 @@ Return-Path: <SRS0=oy5M=TP=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55F8CC04E87
-	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 15:49:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BFA2C04E53
+	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 16:09:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 27D9920818
-	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 15:49:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D3BA220862
+	for <linux-usb@archiver.kernel.org>; Wed, 15 May 2019 16:09:42 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=cogentembedded-com.20150623.gappssmtp.com header.i=@cogentembedded-com.20150623.gappssmtp.com header.b="srskuAzY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727826AbfEOPtN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 May 2019 11:49:13 -0400
-Received: from pbmsgap02.intersil.com ([192.157.179.202]:52120 "EHLO
-        pbmsgap02.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726412AbfEOPtN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 May 2019 11:49:13 -0400
-Received: from pps.filterd (pbmsgap02.intersil.com [127.0.0.1])
-        by pbmsgap02.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4FFCHo2019287;
-        Wed, 15 May 2019 11:22:45 -0400
-Received: from pbmxdp03.intersil.corp (pbmxdp03.pb.intersil.com [132.158.200.224])
-        by pbmsgap02.intersil.com with ESMTP id 2sdrjcb6ht-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Wed, 15 May 2019 11:22:45 -0400
-Received: from pbmxdp01.intersil.corp (132.158.200.222) by
- pbmxdp03.intersil.corp (132.158.200.224) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Wed, 15 May 2019 11:22:43 -0400
-Received: from localhost.localdomain (132.158.202.108) by
- pbmxdp01.intersil.corp (132.158.200.222) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Wed, 15 May 2019 11:22:43 -0400
-From:   Chris Brandt <chris.brandt@renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
+        id S1727350AbfEOQJm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 May 2019 12:09:42 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:37831 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726731AbfEOQJm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 May 2019 12:09:42 -0400
+Received: by mail-lf1-f65.google.com with SMTP id q17so272610lfo.4
+        for <linux-usb@vger.kernel.org>; Wed, 15 May 2019 09:09:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=G6gVpku6HTmdux/4tz1klLiPEuMIod8NPcJXLdWTNAo=;
+        b=srskuAzYzXTAQCRjcRe3wVHJVTqDCpFMlG3/8iw/YOIErW2edPKL7YpmsrOBOyvh2E
+         XpiIHRmwaTRu0wzYQuGg8DqCBfBuid+4+tftxqT+CxY12A5R4iEr0hs06xneW+gEc1k8
+         bUYrAGN9hHoOecWCq31nUn1uzbFQqQ1epQ18ejMWV8pNCi2YPo3HlYKo/DwWT5X0/06C
+         TwG4g873ar5upL6fikUMFUHdshycJ62/FSVIKh2gMG1TMH89EowYNbMZL8RNz04Twxy1
+         Ofx4DlUTe7k2QmSF5EiPYFBIrOOFal9HneKB5mRVWFOX0aBtu9Q0lkZS2fwrHVECJHcn
+         SYYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=G6gVpku6HTmdux/4tz1klLiPEuMIod8NPcJXLdWTNAo=;
+        b=hLc7tkO/ahjEg0LNWEQgkJ73l7QlDvqJjlG7Ya1fd6H4TUgaepu+DrBbj0keGVpN/p
+         V5F0gUmNTnb9yOogTZPgWmmv3SJM0kEgr8uyY4YAnIHvvedGAAdCFaxac9aOiNGa/7Gw
+         gjjrB9MsbIkuNPuqsb8aC+Mqd+VRJxE4U6oGH+Q/ZVD0Q5VJmk3wUnDGX9nZf/XjDMsF
+         bYI80xybq3eCG7TT8apZ+kfng2LN7WFGYAcBr853vCIUbUFBEGcG88TI1/UvMFOiMRZk
+         cerICmCg8nrznZJ6oAoCUtP797oRRE7eu987t4P8em2M27dW8VBvQVGpVGHXw79SvI+j
+         hjwA==
+X-Gm-Message-State: APjAAAV0ORTToPbwr/7CK8qwmfYevL3NIXOlQ1R8BiEh3scMAWTb/fF3
+        ZC7tUnb42vxwFo/+p1AwaMHqGg==
+X-Google-Smtp-Source: APXvYqwhMmsX0NYKF8RCfm0n9MMzjHUjVtSjSPo58Wha0g+uEai7D6FuS82WLoK4GBwMloOLtxwe9A==
+X-Received: by 2002:ac2:43af:: with SMTP id t15mr11807306lfl.45.1557936580687;
+        Wed, 15 May 2019 09:09:40 -0700 (PDT)
+Received: from wasted.cogentembedded.com ([31.173.86.124])
+        by smtp.gmail.com with ESMTPSA id t23sm519589lfk.9.2019.05.15.09.09.38
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 15 May 2019 09:09:39 -0700 (PDT)
+Subject: Re: [PATCH v6 1/7] dt-bindings: usb: hd3ss3220 device tree binding
+ document
+To:     Biju Das <biju.das@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Simon Horman <horms@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        "Chris Brandt" <chris.brandt@renesas.com>
-Subject: [PATCH v4 13/13] ARM: dts: rza2mevb: Add USB Host support
-Date:   Wed, 15 May 2019 10:20:48 -0500
-Message-ID: <20190515152048.42363-14-chris.brandt@renesas.com>
-X-Mailer: git-send-email 2.16.1
-In-Reply-To: <20190515152048.42363-1-chris.brandt@renesas.com>
-References: <20190515152048.42363-1-chris.brandt@renesas.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, Simon Horman <horms@verge.net.au>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+References: <1557922152-16449-1-git-send-email-biju.das@bp.renesas.com>
+ <1557922152-16449-2-git-send-email-biju.das@bp.renesas.com>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <c9b3ee90-9292-320c-4e22-8f989d829497@cogentembedded.com>
+Date:   Wed, 15 May 2019 19:09:38 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-15_10:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=junk_notspam policy=junk score=0 suspectscore=2 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=628
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1905150094
-X-Proofpoint-Spam-Reason: mlx
+In-Reply-To: <1557922152-16449-2-git-send-email-biju.das@bp.renesas.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Enable USB Host support for both the Type-C connector on the CPU board
-and the Type-A plug on the sub board.
+Hello!
 
-Both boards are also capable of USB Device operation as well after the
-appropriate Device Tree modifications.
+On 05/15/2019 03:09 PM, Biju Das wrote:
 
-Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v3:
- * moved note about JP3
- * added reviewed-by
-v2:
- * added blank line between nodes
- * removed 'r7s9210-' from patch title
- * removed 'renesas,uses_usb_x1' property
----
- arch/arm/boot/dts/r7s9210-rza2mevb.dts | 36 ++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+> Add device tree binding document for TI HD3SS3220 Type-C DRP port
+> controller driver.
+> 
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+> V5-->V6
+>   * No change.
+> V4-->V5
+>   * No Change.
+> V3-->V4
+>   * No Change.
+> V2-->V3
+>   * Added Rob's Reviewed by tag.
+> V1-->V2
+>   * Added connector node.
+>   * updated the example with connector node.
+> ---
+>  .../devicetree/bindings/usb/ti,hd3ss3220.txt       | 37 ++++++++++++++++++++++
+>  1 file changed, 37 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/ti,hd3ss3220.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/ti,hd3ss3220.txt b/Documentation/devicetree/bindings/usb/ti,hd3ss3220.txt
+> new file mode 100644
+> index 0000000..7f41400
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/ti,hd3ss3220.txt
+> @@ -0,0 +1,37 @@
+> +TI HD3SS3220 TypeC DRP Port Controller.
+> +
+> +Required properties:
+> + - compatible: Must be "ti,hd3ss3220".
+> + - reg: I2C slave address, must be 0x47 or 0x67 based on ADDR pin.
+> + - interrupts: <a b> where a is the interrupt number and b represents an
+> +   encoding of the sense and level information for the interrupt.
 
-diff --git a/arch/arm/boot/dts/r7s9210-rza2mevb.dts b/arch/arm/boot/dts/r7s9210-rza2mevb.dts
-index 7da409170db5..3e1a8d943c17 100644
---- a/arch/arm/boot/dts/r7s9210-rza2mevb.dts
-+++ b/arch/arm/boot/dts/r7s9210-rza2mevb.dts
-@@ -107,6 +107,18 @@
- 		pinmux = <RZA2_PINMUX(PORT5, 4, 3)>,	/* SD1_CD */
- 			 <RZA2_PINMUX(PORT5, 5, 3)>;	/* SD1_WP */
- 	};
-+
-+	usb0_pins: usb0 {
-+		pinmux = <RZA2_PINMUX(PORT5, 2, 3)>,	/* VBUSIN0 */
-+			 <RZA2_PINMUX(PORTC, 6, 1)>,	/* VBUSEN0 */
-+			 <RZA2_PINMUX(PORTC, 7, 1)>;	/* OVRCUR0 */
-+	};
-+
-+	usb1_pins: usb1 {
-+		pinmux = <RZA2_PINMUX(PORTC, 0, 1)>,	/* VBUSIN1 */
-+			 <RZA2_PINMUX(PORTC, 5, 1)>,	/* VBUSEN1 */
-+			 <RZA2_PINMUX(PORT7, 5, 5)>;	/* OVRCUR1 */
-+	};
- };
- 
- /* High resolution System tick timers */
-@@ -161,3 +173,27 @@
- 	bus-width = <4>;
- 	status = "okay";
- };
-+
-+/* USB-0 as Host */
-+&usb2_phy0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&usb0_pins>;
-+	dr_mode = "host";	/* Requires JP3 to be fitted */
-+	status = "okay";
-+};
-+
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+/* USB-1 as Host */
-+&usb2_phy1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&usb1_pins>;
-+	dr_mode = "host";
-+	status = "okay";
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
--- 
-2.16.1
+   This depends on an interrupt controller used. I'd just said "an interrupt
+specifier", w/o further details.
 
+> +
+> +Required sub-node:
+> + - connector : The "usb-c-connector" attached to the hd3ss3220 chip. The
+> +   bindings of the connector node are specified in:
+> +
+> +	Documentation/devicetree/bindings/connector/usb-connector.txt
+> +
+[...]
+
+MBR, Sergei
