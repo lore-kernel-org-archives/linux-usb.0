@@ -2,109 +2,149 @@ Return-Path: <SRS0=aZz+=TQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00D80C04AAF
-	for <linux-usb@archiver.kernel.org>; Thu, 16 May 2019 14:41:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C04F2C46460
+	for <linux-usb@archiver.kernel.org>; Thu, 16 May 2019 14:56:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C972020848
-	for <linux-usb@archiver.kernel.org>; Thu, 16 May 2019 14:41:18 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="mKnvF0Rv"
+	by mail.kernel.org (Postfix) with ESMTP id 92F9F2082E
+	for <linux-usb@archiver.kernel.org>; Thu, 16 May 2019 14:56:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726962AbfEPOlF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 May 2019 10:41:05 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:15985 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726856AbfEPOlF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 May 2019 10:41:05 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5cdd767a0000>; Thu, 16 May 2019 07:41:00 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 16 May 2019 07:41:04 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 16 May 2019 07:41:04 -0700
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL104.nvidia.com
- (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 May
- 2019 14:41:02 +0000
-Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 16 May 2019 14:41:02 +0000
-Received: from jilin-desktop.nvidia.com (Not Verified[10.19.120.147]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5cdd767c0004>; Thu, 16 May 2019 07:41:02 -0700
-From:   Jim Lin <jilin@nvidia.com>
-To:     <gregkh@linuxfoundation.org>, <mathias.nyman@intel.com>,
-        <stern@rowland.harvard.edu>, <kai.heng.feng@canonical.com>,
-        <drinkcat@chromium.org>, <keescook@chromium.org>,
-        <nsaenzjulienne@suse.de>, <jflat@chromium.org>, <malat@debian.org>
-CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Jim Lin <jilin@nvidia.com>
-Subject: [PATCH v10 0/2] usb: xhci: Add Clear_TT_Buffer
-Date:   Thu, 16 May 2019 22:40:55 +0800
-Message-ID: <1558017657-13835-1-git-send-email-jilin@nvidia.com>
-X-Mailer: git-send-email 2.1.4
+        id S1727515AbfEPO4E (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 May 2019 10:56:04 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:40112 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1727461AbfEPO4E (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 May 2019 10:56:04 -0400
+Received: (qmail 2248 invoked by uid 2102); 16 May 2019 10:56:02 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 16 May 2019 10:56:02 -0400
+Date:   Thu, 16 May 2019 10:56:02 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Jim Lin <jilin@nvidia.com>
+cc:     gregkh@linuxfoundation.org, <mathias.nyman@intel.com>,
+        <kai.heng.feng@canonical.com>, <drinkcat@chromium.org>,
+        <keescook@chromium.org>, <nsaenzjulienne@suse.de>,
+        <jflat@chromium.org>, <malat@debian.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v10 1/2] usb: xhci : Add devaddr in struct usb_device
+In-Reply-To: <1558017657-13835-2-git-send-email-jilin@nvidia.com>
+Message-ID: <Pine.LNX.4.44L0.1905161054250.1280-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1558017660; bh=v2kdg0G9OB35EhsiUGeW5BB34SuON9Dmd2af6lTUn60=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         MIME-Version:Content-Type;
-        b=mKnvF0RvRwNv3ft+9LtXSA+tGcl9pG8thUaoFWxP0h+pNAax3tEW7WCK7DvWo260W
-         /hqBoGm91fR8n6C6ckPlbFmXXKBZWYrqAv6K3qAhaSk+/OOcrwCKA0YgrAEaz95Z0v
-         riB8/wlW0rm5KS7PwWDSqrCE5I4gFmBYgPIaPpSfslfwSyBaRDEWqMVeeTH1vrVvxf
-         tiuFxWRh4gzVGuQjAt738Z5G+dXco2LP7HJ5DzqZ/pvzTiEh0yNJQfsgu8GP31gaAs
-         dD0NmJqvaswtwzqOabgpnvXASWVYR45xKacp7/9SOabZiR4mkCCC4YklvD0J0/BrgR
-         wTmaou7KVmQAg==
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-USB 2.0 specification chapter 11.17.5 says "as part of endpoint halt
-processing for full-/low-speed endpoints connected via a TT, the host
-software must use the Clear_TT_Buffer request to the TT to ensure
-that the buffer is not in the busy state".
+On Thu, 16 May 2019, Jim Lin wrote:
 
-In our case, a full-speed speaker (ConferenceCam) is behind a high-
-speed hub (ConferenceCam Connect), sometimes once we get STALL on a
-request we may continue to get STALL with the folllowing requests,
-like Set_Interface.
+> The Clear_TT_Buffer request sent to the hub includes the address of
+> the LS/FS child device in wValue field. usb_hub_clear_tt_buffer()
+> uses udev->devnum to set the address wValue. This won't work for
+> devices connected to xHC.
+> 
+> For other host controllers udev->devnum is the same as the address of
+> the usb device, chosen and set by usb core. With xHC the controller
+> hardware assigns the address, and won't be the same as devnum.
+> 
+> Here we add devaddr in "struct usb_device" for
+> usb_hub_clear_tt_buffer() to use.
+> 
+> Signed-off-by: Jim Lin <jilin@nvidia.com>
+> ---
 
-Solution is to invoke usb_hub_clear_tt_buffer() to send
-Clear_TT_Buffer request to the hub of the device for the following
-Set_Interface requests to the device to get ACK successfully.
+Aside from the "xhci:" part of the Subject line (it's not really 
+appropriate because this is a modification of the USB core more than of 
+the xhci-hcd driver),
 
-The Clear_TT_Buffer request sent to the hub includes the address of
-the LS/FS child device in wValue field. usb_hub_clear_tt_buffer()
-uses udev->devnum to set the address wValue. This won't work for
-devices connected to xHC.
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
-For other host controllers udev->devnum is the same as the address of
-the usb device, chosen and set by usb core. With xHC the controller
-hardware assigns the address, and won't be the same as devnum.
 
-Here we have two patches.
-One is to add devaddr in struct usb_device for
-usb_hub_clear_tt_buffer() to use.
-Another is to invoke usb_hub_clear_tt_buffer() for halt processing.
- 
-Signed-off-by: Jim Lin <jilin@nvidia.com>
-
-Jim Lin (2):
-  usb: xhci : Add devaddr in struct usb_device
-  usb: xhci: Add Clear_TT_Buffer
-
- drivers/usb/core/hub.c       |  4 +++-
- drivers/usb/host/xhci-ring.c | 27 ++++++++++++++++++++++++++-
- drivers/usb/host/xhci.c      | 18 ++++++++++++++++++
- drivers/usb/host/xhci.h      |  5 +++++
- include/linux/usb.h          |  2 ++
- 5 files changed, 54 insertions(+), 2 deletions(-)
-
--- 
-2.1.4
+> v2: xhci_clear_tt_buffer_complete: add static, shorter indentation
+>     , remove its claiming in xhci.h
+> v3: Add description for clearing_tt (xhci.h)
+> v4: Remove clearing_tt flag because hub_tt_work has hub->tt.lock
+>     to protect for Clear_TT_Buffer to be run serially.
+>     Remove xhci_clear_tt_buffer_complete as it's not necessary.
+>     Same reason as the above.
+>     Extend usb_hub_clear_tt_buffer parameter
+> v5: Not extending usb_hub_clear_tt_buffer parameter
+>     Add description.
+> v6: Remove unused parameter slot_id from xhci_clear_hub_tt_buffer
+> v7: Add devaddr field in "struct usb_device"
+> v8: split as two patches, change type from int to u8 for devaddr.
+> v9: Use pahole to find place to put devaddr in struct usb_device.
+>     Remove space between type cast and variable.
+>     hub.c changed from v8
+>     clear->devinfo |= (u16) (udev->devaddr << 4);
+>     to 
+>     clear->devinfo |= ((u16)udev->devaddr) << 4;
+>     to solve a problem if devaddr is larger than 16.
+> v10 Initialize devaddr in xhci_setup_device()
+>     Move devaddr to be below "u8 level"
+> 
+>  drivers/usb/core/hub.c  | 4 +++-
+>  drivers/usb/host/xhci.c | 1 +
+>  include/linux/usb.h     | 2 ++
+>  3 files changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> index 15a2934dc29d..0d4b289be103 100644
+> --- a/drivers/usb/core/hub.c
+> +++ b/drivers/usb/core/hub.c
+> @@ -873,7 +873,7 @@ int usb_hub_clear_tt_buffer(struct urb *urb)
+>  	/* info that CLEAR_TT_BUFFER needs */
+>  	clear->tt = tt->multi ? udev->ttport : 1;
+>  	clear->devinfo = usb_pipeendpoint (pipe);
+> -	clear->devinfo |= udev->devnum << 4;
+> +	clear->devinfo |= ((u16)udev->devaddr) << 4;
+>  	clear->devinfo |= usb_pipecontrol(pipe)
+>  			? (USB_ENDPOINT_XFER_CONTROL << 11)
+>  			: (USB_ENDPOINT_XFER_BULK << 11);
+> @@ -2125,6 +2125,8 @@ static void update_devnum(struct usb_device *udev, int devnum)
+>  	/* The address for a WUSB device is managed by wusbcore. */
+>  	if (!udev->wusb)
+>  		udev->devnum = devnum;
+> +	if (!udev->devaddr)
+> +		udev->devaddr = (u8)devnum;
+>  }
+>  
+>  static void hub_free_dev(struct usb_device *udev)
+> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+> index 7fa58c99f126..68b393e5a453 100644
+> --- a/drivers/usb/host/xhci.c
+> +++ b/drivers/usb/host/xhci.c
+> @@ -4096,6 +4096,7 @@ static int xhci_setup_device(struct usb_hcd *hcd, struct usb_device *udev,
+>  	/* Zero the input context control for later use */
+>  	ctrl_ctx->add_flags = 0;
+>  	ctrl_ctx->drop_flags = 0;
+> +	udev->devaddr = (u8)(le32_to_cpu(slot_ctx->dev_state) & DEV_ADDR_MASK);
+>  
+>  	xhci_dbg_trace(xhci, trace_xhci_dbg_address,
+>  		       "Internal device address = %d",
+> diff --git a/include/linux/usb.h b/include/linux/usb.h
+> index 4229eb74bd2c..af68e31118f8 100644
+> --- a/include/linux/usb.h
+> +++ b/include/linux/usb.h
+> @@ -580,6 +580,7 @@ struct usb3_lpm_parameters {
+>   * @bus_mA: Current available from the bus
+>   * @portnum: parent port number (origin 1)
+>   * @level: number of USB hub ancestors
+> + * @devaddr: device address, XHCI: assigned by HW, others: same as devnum
+>   * @can_submit: URBs may be submitted
+>   * @persist_enabled:  USB_PERSIST enabled for this device
+>   * @have_langid: whether string_langid is valid
+> @@ -663,6 +664,7 @@ struct usb_device {
+>  	unsigned short bus_mA;
+>  	u8 portnum;
+>  	u8 level;
+> +	u8 devaddr;
+>  
+>  	unsigned can_submit:1;
+>  	unsigned persist_enabled:1;
+> 
 
