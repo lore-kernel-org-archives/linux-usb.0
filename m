@@ -2,188 +2,106 @@ Return-Path: <SRS0=aZz+=TQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D944C04AAF
-	for <linux-usb@archiver.kernel.org>; Thu, 16 May 2019 11:50:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34C76C46470
+	for <linux-usb@archiver.kernel.org>; Thu, 16 May 2019 12:31:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DED6920833
-	for <linux-usb@archiver.kernel.org>; Thu, 16 May 2019 11:50:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 07A412087B
+	for <linux-usb@archiver.kernel.org>; Thu, 16 May 2019 12:31:20 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="thC3f1iD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727808AbfEPLt6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 May 2019 07:49:58 -0400
-Received: from inva021.nxp.com ([92.121.34.21]:44390 "EHLO inva021.nxp.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727054AbfEPLt6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 16 May 2019 07:49:58 -0400
-Received: from inva021.nxp.com (localhost [127.0.0.1])
-        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 177252001D3;
-        Thu, 16 May 2019 13:49:56 +0200 (CEST)
-Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com [134.27.226.22])
-        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 09552200061;
-        Thu, 16 May 2019 13:49:56 +0200 (CEST)
-Received: from fsr-ub1864-101.ea.freescale.net (fsr-ub1864-101.ea.freescale.net [10.171.82.13])
-        by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id 7D9BF205CD;
-        Thu, 16 May 2019 13:49:55 +0200 (CEST)
-From:   laurentiu.tudor@nxp.com
-To:     hch@lst.de, stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, marex@denx.de
-Cc:     leoyang.li@nxp.com, linux-kernel@vger.kernel.org,
-        robin.murphy@arm.com, noring@nocrew.org, JuergenUrban@gmx.de,
-        Laurentiu Tudor <laurentiu.tudor@nxp.com>
-Subject: [PATCH v4 2/3] usb: host: ohci-sm501: init genalloc for local memory
-Date:   Thu, 16 May 2019 14:47:20 +0300
-Message-Id: <20190516114721.27694-3-laurentiu.tudor@nxp.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190516114721.27694-1-laurentiu.tudor@nxp.com>
-References: <20190516114721.27694-1-laurentiu.tudor@nxp.com>
-X-Virus-Scanned: ClamAV using ClamSMTP
+        id S1726703AbfEPMbT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 May 2019 08:31:19 -0400
+Received: from mail-wm1-f44.google.com ([209.85.128.44]:36498 "EHLO
+        mail-wm1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726513AbfEPMbT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 May 2019 08:31:19 -0400
+Received: by mail-wm1-f44.google.com with SMTP id j187so3297856wmj.1
+        for <linux-usb@vger.kernel.org>; Thu, 16 May 2019 05:31:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=irrf18TkAnIBwB/sk9ySrW1xPmg8nh248pMwpcOj6vw=;
+        b=thC3f1iDVZgRUtHibjDrwdsOXWSHr76v4O4wTGuAdeXHJTGtLP9jHX8SSD1Jy3ZgFr
+         CHwQCgEqkWMds3L6fBkwCB105+8ouKkF2l686QPfbsGYwnnmPOM80VW4J4VHousWmnfr
+         CPD+PDpaBIBedyR98yR/KWhbBeb0gAId5wOEzrMhyKAT/LqtXjdpVOprl7jrcjqiRZfM
+         7C/GjSmWmrc42hN+gm4+3UoUv0IPn+oqs5W4lsaeYbMzKeCeZdlZZw/mEja+nBmbWpw8
+         +Wt33Ed3HpB3uA3riiQn0WJb5BT6PQKQkJAv9D3byS0LZX18Pc6/zf1T24tXNGqreEGu
+         +N5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=irrf18TkAnIBwB/sk9ySrW1xPmg8nh248pMwpcOj6vw=;
+        b=Brye55+Y6Z8YZ4Xk9TObebmLYwVrRrVI+gVOhOuCMom7Eqr7c1XXACxxdgSOvtIePn
+         x9BHK9ZiiRB7auZ7WI80ufXb9adAOZBcc0mXOw1tgjYQ3Ox0Jm2fQd+MJHOb4AZlzowS
+         DRuOyfj4gWdQcnBH5n1Jnx9g48seCJ4QwXH7v9g3yGVJYr3EeIR3mhAShd8CjRQexL6n
+         H8NSud8LFPWDxNcFlHozIYktMdpQEacVuMQ987c7FUx4++C/aqDP7T/viZtN1ffnTlCf
+         xy0cv0SvwTWr52fv2Gy5YMirEgYYb1oyRu5PI8oebnzasSmPy6NyQE1dGjwtnpD6Dpfm
+         GX0Q==
+X-Gm-Message-State: APjAAAXtqcZWGwc8M8L/eI0WxK2o6a/dG+0lJ45hYJSLhyWlfJPlEzgg
+        UaDT8CNGNoQonxDJFMRPr8Q3mhtw2/o=
+X-Google-Smtp-Source: APXvYqzfdrxn81F0I8WiF0aHTKPNawHy9ngG+eXrZmJExhlx1p+O3dRKoolJHbwzcmRqomCK/B8E4Q==
+X-Received: by 2002:a1c:2d0e:: with SMTP id t14mr27129291wmt.33.1558009876799;
+        Thu, 16 May 2019 05:31:16 -0700 (PDT)
+Received: from [192.168.99.70] (mail.unidataz.cz. [193.165.148.130])
+        by smtp.googlemail.com with ESMTPSA id p14sm4563625wrt.53.2019.05.16.05.31.15
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 16 May 2019 05:31:15 -0700 (PDT)
+From:   "StarostaCZ@gmail.com" <starostacz@gmail.com>
+X-Google-Original-From: "StarostaCZ@gmail.com" <StarostaCZ@gmail.com>
+Subject: Re: Linux crash when using FTDI FT232R USB to serial converter on AMD
+ boards.
+To:     Oliver Neukum <oneukum@suse.com>, Joerg Roedel <joro@8bytes.org>,
+        Johan Hovold <johan@kernel.org>
+Cc:     Mathias Nyman <mathias.nyman@intel.com>,
+        iommu@lists.linux-foundation.org, linux-usb@vger.kernel.org
+References: <04503197-a0a9-8b35-6c65-c10f296aab57@gmail.com>
+ <20190429094847.GI26546@localhost> <20190503153716.GE11605@8bytes.org>
+ <8748125e-f360-ff0e-ea15-699bce9e7747@gmail.com>
+ <4e7f0267-eba8-81c3-4036-25924ea9df98@gmail.com>
+ <1557911856.2950.10.camel@suse.com>
+ <3e7ec2f2-ac47-a031-96ba-fa2b9f21ed2e@gmail.com>
+ <1557913582.2950.15.camel@suse.com>
+ <c57ccafd-7ad4-63e4-54c1-e1fb136ebeed@gmail.com>
+ <1557928483.2950.18.camel@suse.com>
+ <4a48a017-fbcb-619f-f2d5-4d627a673021@gmail.com>
+ <1557993530.14649.0.camel@suse.com>
+ <b4c3eba7-758d-7951-afd0-d90a261346e8@gmail.com>
+ <1557995692.14649.2.camel@suse.com>
+Message-ID: <e1f84b32-fb1f-8a47-612b-aa556981959f@gmail.com>
+Date:   Thu, 16 May 2019 14:29:41 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <1557995692.14649.2.camel@suse.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: cs
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Laurentiu Tudor <laurentiu.tudor@nxp.com>
+Dne 16.5.2019 v 10:34 Oliver Neukum napsal(a):
+> Mention
+>
+> 1. kernel version
+> 2. whether this is known to be a regression
+Sorry for question, can you more specify what you mean?
 
-In preparation for dropping the existing "coherent" dma mem declaration
-APIs, replace the current dma_declare_coherent_memory() based mechanism
-with the creation of a genalloc pool that will be used in the OHCI
-subsystem as replacement for the DMA APIs.
-
-For context, see thread here: https://lkml.org/lkml/2019/4/22/357
-
-Signed-off-by: Laurentiu Tudor <laurentiu.tudor@nxp.com>
----
- drivers/usb/host/ohci-sm501.c | 68 +++++++++++++++++++++--------------
- 1 file changed, 41 insertions(+), 27 deletions(-)
-
-diff --git a/drivers/usb/host/ohci-sm501.c b/drivers/usb/host/ohci-sm501.c
-index c26228c25f99..1a25f5396e3e 100644
---- a/drivers/usb/host/ohci-sm501.c
-+++ b/drivers/usb/host/ohci-sm501.c
-@@ -16,6 +16,7 @@
- #include <linux/jiffies.h>
- #include <linux/platform_device.h>
- #include <linux/dma-mapping.h>
-+#include <linux/genalloc.h>
- #include <linux/sm501.h>
- #include <linux/sm501-regs.h>
- 
-@@ -92,6 +93,7 @@ static int ohci_hcd_sm501_drv_probe(struct platform_device *pdev)
- 	struct resource	*res, *mem;
- 	int retval, irq;
- 	struct usb_hcd *hcd = NULL;
-+	void __iomem *local_mem;
- 
- 	irq = retval = platform_get_irq(pdev, 0);
- 	if (retval < 0)
-@@ -110,40 +112,18 @@ static int ohci_hcd_sm501_drv_probe(struct platform_device *pdev)
- 		goto err0;
- 	}
- 
--	/* The sm501 chip is equipped with local memory that may be used
--	 * by on-chip devices such as the video controller and the usb host.
--	 * This driver uses dma_declare_coherent_memory() to make sure
--	 * usb allocations with dma_alloc_coherent() allocate from
--	 * this local memory. The dma_handle returned by dma_alloc_coherent()
--	 * will be an offset starting from 0 for the first local memory byte.
--	 *
--	 * So as long as data is allocated using dma_alloc_coherent() all is
--	 * fine. This is however not always the case - buffers may be allocated
--	 * using kmalloc() - so the usb core needs to be told that it must copy
--	 * data into our local memory if the buffers happen to be placed in
--	 * regular memory. The HCD_LOCAL_MEM flag does just that.
--	 */
--
--	retval = dma_declare_coherent_memory(dev, mem->start,
--					 mem->start - mem->parent->start,
--					 resource_size(mem));
--	if (retval) {
--		dev_err(dev, "cannot declare coherent memory\n");
--		goto err1;
--	}
--
- 	/* allocate, reserve and remap resources for registers */
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	if (res == NULL) {
- 		dev_err(dev, "no resource definition for registers\n");
- 		retval = -ENOENT;
--		goto err2;
-+		goto err1;
- 	}
- 
- 	hcd = usb_create_hcd(driver, &pdev->dev, dev_name(&pdev->dev));
- 	if (!hcd) {
- 		retval = -ENOMEM;
--		goto err2;
-+		goto err1;
- 	}
- 
- 	hcd->rsrc_start = res->start;
-@@ -164,6 +144,43 @@ static int ohci_hcd_sm501_drv_probe(struct platform_device *pdev)
- 
- 	ohci_hcd_init(hcd_to_ohci(hcd));
- 
-+	/* The sm501 chip is equipped with local memory that may be used
-+	 * by on-chip devices such as the video controller and the usb host.
-+	 * This driver uses genalloc so that usb allocations with
-+	 * gen_pool_dma_alloc() allocate from this local memory. The dma_handle
-+	 * returned by gen_pool_dma_alloc() will be an offset starting from 0
-+	 * for the first local memory byte.
-+	 *
-+	 * So as long as data is allocated using gen_pool_dma_alloc() all is
-+	 * fine. This is however not always the case - buffers may be allocated
-+	 * using kmalloc() - so the usb core needs to be told that it must copy
-+	 * data into our local memory if the buffers happen to be placed in
-+	 * regular memory. The HCD_LOCAL_MEM flag does just that.
-+	 */
-+
-+	hcd->localmem_pool = devm_gen_pool_create(dev, PAGE_SHIFT,
-+						  dev_to_node(dev),
-+						  "ohci-sm501");
-+	if (IS_ERR(hcd->localmem_pool)) {
-+		retval = PTR_ERR(hcd->localmem_pool);
-+		goto err5;
-+	}
-+
-+	local_mem = devm_ioremap(dev, mem->start, resource_size(mem));
-+	if (!local_mem) {
-+		retval = -ENOMEM;
-+		goto err5;
-+	}
-+
-+	retval = gen_pool_add_virt(hcd->localmem_pool,
-+				   (unsigned long)local_mem,
-+				   mem->start - mem->parent->start,
-+				   resource_size(mem),
-+				   dev_to_node(dev));
-+	if (retval < 0) {
-+		dev_err(dev, "failed to add to pool: %d\n", retval);
-+		goto err5;
-+	}
- 	retval = usb_add_hcd(hcd, irq, IRQF_SHARED);
- 	if (retval)
- 		goto err5;
-@@ -181,8 +198,6 @@ static int ohci_hcd_sm501_drv_probe(struct platform_device *pdev)
- 	release_mem_region(hcd->rsrc_start, hcd->rsrc_len);
- err3:
- 	usb_put_hcd(hcd);
--err2:
--	dma_release_declared_memory(dev);
- err1:
- 	release_mem_region(mem->start, resource_size(mem));
- err0:
-@@ -197,7 +212,6 @@ static int ohci_hcd_sm501_drv_remove(struct platform_device *pdev)
- 	usb_remove_hcd(hcd);
- 	release_mem_region(hcd->rsrc_start, hcd->rsrc_len);
- 	usb_put_hcd(hcd);
--	dma_release_declared_memory(&pdev->dev);
- 	mem = platform_get_resource(pdev, IORESOURCE_MEM, 1);
- 	if (mem)
- 		release_mem_region(mem->start, resource_size(mem));
--- 
-2.17.1
-
+> 3. include the log with iommu disabled and mention that you disabled
+> the IOMMU
+> 4. Include the output of lsusb
+>
+> 	HTH
+> 		Oliver
+Thank you
+starosta
