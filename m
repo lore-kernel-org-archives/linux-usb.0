@@ -2,119 +2,224 @@ Return-Path: <SRS0=aZz+=TQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE24C04AAF
-	for <linux-usb@archiver.kernel.org>; Thu, 16 May 2019 14:31:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F24FC04E84
+	for <linux-usb@archiver.kernel.org>; Thu, 16 May 2019 14:41:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1CE362087B
-	for <linux-usb@archiver.kernel.org>; Thu, 16 May 2019 14:31:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3804120675
+	for <linux-usb@archiver.kernel.org>; Thu, 16 May 2019 14:41:12 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="H6p2Yf+o"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727037AbfEPObr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 May 2019 10:31:47 -0400
-Received: from mga11.intel.com ([192.55.52.93]:46288 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726742AbfEPObr (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 16 May 2019 10:31:47 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 May 2019 07:31:46 -0700
-X-ExtLoop1: 1
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.164]) ([10.237.72.164])
-  by FMSMGA003.fm.intel.com with ESMTP; 16 May 2019 07:31:45 -0700
-Subject: Re: Kernel crash with FTDI FT232R on AMD boards.
-To:     Johan Hovold <johan@kernel.org>,
-        "StarostaCZ@gmail.com" <starostacz@gmail.com>
-Cc:     linux-usb@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>
-References: <11678333-2e1a-8c0f-109f-a1aefa54ef9a@gmail.com>
- <20190516135612.GA28564@localhost>
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Message-ID: <0d499fe2-80df-cd6d-17a2-7725df240ee8@linux.intel.com>
-Date:   Thu, 16 May 2019 17:34:24 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+        id S1727429AbfEPOlK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 May 2019 10:41:10 -0400
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:14034 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726820AbfEPOlK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 May 2019 10:41:10 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5cdd765a0000>; Thu, 16 May 2019 07:40:26 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 16 May 2019 07:41:07 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 16 May 2019 07:41:07 -0700
+Received: from HQMAIL104.nvidia.com (172.18.146.11) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 16 May
+ 2019 14:41:07 +0000
+Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL104.nvidia.com
+ (172.18.146.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Thu, 16 May 2019 14:41:07 +0000
+Received: from jilin-desktop.nvidia.com (Not Verified[10.19.120.147]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5cdd7681000e>; Thu, 16 May 2019 07:41:07 -0700
+From:   Jim Lin <jilin@nvidia.com>
+To:     <gregkh@linuxfoundation.org>, <mathias.nyman@intel.com>,
+        <stern@rowland.harvard.edu>, <kai.heng.feng@canonical.com>,
+        <drinkcat@chromium.org>, <keescook@chromium.org>,
+        <nsaenzjulienne@suse.de>, <jflat@chromium.org>, <malat@debian.org>
+CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Jim Lin <jilin@nvidia.com>
+Subject: [PATCH v10 2/2] usb: xhci: Add Clear_TT_Buffer
+Date:   Thu, 16 May 2019 22:40:57 +0800
+Message-ID: <1558017657-13835-3-git-send-email-jilin@nvidia.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1558017657-13835-1-git-send-email-jilin@nvidia.com>
+References: <1558017657-13835-1-git-send-email-jilin@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20190516135612.GA28564@localhost>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1558017626; bh=z5hhf5kO9VobCdLONudYfxj6heFAre6ayYrvT2/LBCI=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         In-Reply-To:References:MIME-Version:Content-Type;
+        b=H6p2Yf+opYZd8EWSf24mV2G2IltzAyYxJuJktiSrtnA8X/GBlGuNur1hGihsLfuOr
+         Z3NUEtEpIJRgpJj/aqRQHQeoBhBMc/bN4MgGU2iyKg5xA2sXmG7o0rsWrPqafc8qWI
+         k7+n4sqyvLLyWjtNxMjeE0rHlydjeSjpF6AsOstuSu7F2NBr/wxXErpWd2o4Tqq3TD
+         45nYxPiUibt46XV9SeJAISgMSwCyHDUbxj2Y8JwaDjmQT/Z6hsbZQ+ZfbiIz1ic4jt
+         A+NayGSMt3iQ1Mv9Mm/Gh/GF2ou5PKUJsp8c77CD8e5IjywNIeKRrPDcTOAnFhxBDa
+         r3mVwtVw277GA==
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 16.5.2019 16.56, Johan Hovold wrote:
-> On Thu, May 16, 2019 at 03:35:42PM +0200, StarostaCZ@gmail.com wrote:
->> Hello,
->> when I try to read EEPROM memory from FT232R chip (USB to serial
->> converter), system crash after a seconds.
-> 
-> You should mention that you're using libusb and the vendor's ftdi
-> library. Specifically, the kernels ftdi_sio driver is not involved.
-> 
->> 1) Configuration
->> ASUS PRIME A320M-K, latest bios version 4801, default settings.
->> Ubuntu server 19.04 with kernel 5.1.1-050101-generic:
->> https://kernel.ubuntu.com/~kernel-ppa/mainline/v5.1.1/
->>
->> 2) lsusboutput
->> Bus 006 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
->> Bus 005 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
->> Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
->> Bus 003 Device 002: ID 04f3:0103 Elan Microelectronics Corp. ActiveJet
->> K-2024 Multimedia Keyboard
->> Bus 003 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
->> Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
->> Bus 001 Device 002: ID 0403:6001 Future Technology Devices
->> International, Ltd FT232 Serial (UART) IC
->> Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
->>
->> 3) kern.log with IOMMU disabled
->> https://paste.ee/p/nuCPp
-> 
-> Good that you were able to rule out the iommu, but you forgot to CC the
-> xhci maintainer (added Mathias again).
-> 
-> It could be good idea to include a link to thread with your initial
-> report as well:
-> 
-> 	https://lkml.kernel.org/r/04503197-a0a9-8b35-6c65-c10f296aab57@gmail.com
-> 
->> 4) Notes
->> - problem is, when FT232R is connected to USB2.0 port, when is connected
->> to USB3 port, this works fine
->> - another test - same hardware, Debian 9.8 with kernel 4.19 - system
->> crash too
->>
->> -- starosta
-> 
-> Including only the obviously relevant part of your log below.
-> 
->> May 16 15:06:45 test-ubnt kernel: [    0.000000] Linux version 5.1.1-050101-generic (kernel@kathleen) (gcc version 8.3.0 (Ubuntu 8.3.0-12ubuntu1)) #201905110631 SMP Sat May 11 06:33:50 UTC 2019
-> 
-> ...
-> 
->> May 16 15:07:03 test-ubnt kernel: [   30.042564] usbserial: USB Serial deregistering driver FTDI USB Serial Device
->> May 16 15:07:03 test-ubnt kernel: [   30.042759] ftdi_sio ttyUSB0: FTDI USB Serial Device converter now disconnected from ttyUSB0
->> May 16 15:07:03 test-ubnt kernel: [   30.042792] usbcore: deregistering interface driver ftdi_sio
->> May 16 15:07:03 test-ubnt kernel: [   30.042842] ftdi_sio 1-9:1.0: device disconnected
->> May 16 15:07:54 test-ubnt kernel: [   81.751630] xhci_hcd 0000:01:00.0: WARN Set TR Deq Ptr cmd failed due to incorrect slot or ep state.
+USB 2.0 specification chapter 11.17.5 says "as part of endpoint halt
+processing for full-/low-speed endpoints connected via a TT, the host
+software must use the Clear_TT_Buffer request to the TT to ensure
+that the buffer is not in the busy state".
 
-logs and traces from xhci could tell more details about what is going on,
-This line indicates a URB cancellation issues.
+In our case, a full-speed speaker (ConferenceCam) is behind a high-
+speed hub (ConferenceCam Connect), sometimes once we get STALL on a
+request we may continue to get STALL with the folllowing requests,
+like Set_Interface.
 
-To get xhci traces and logs please do:
+Here we invoke usb_hub_clear_tt_buffer() to send Clear_TT_Buffer
+request to the hub of the device for the following Set_Interface
+requests to the device to get ACK successfully.
 
-mount -t debugfs none /sys/kernel/debug
-echo 'module xhci_hcd =p' >/sys/kernel/debug/dynamic_debug/control
-echo 'module usbcore =p' >/sys/kernel/debug/dynamic_debug/control
-echo 81920 > /sys/kernel/debug/tracing/buffer_size_kb
-echo 1 > /sys/kernel/debug/tracing/events/xhci-hcd/enable
-< read EEPROM using the usb serial converter >
-Send output of dmesg
-Send content of /sys/kernel/debug/tracing/trace
+Signed-off-by: Jim Lin <jilin@nvidia.com>
+---
+v2: xhci_clear_tt_buffer_complete: add static, shorter indentation
+    , remove its claiming in xhci.h
+v3: Add description for clearing_tt (xhci.h)
+v4: Remove clearing_tt flag because hub_tt_work has hub->tt.lock
+    to protect for Clear_TT_Buffer to be run serially.
+    Remove xhci_clear_tt_buffer_complete as it's not necessary.
+    Same reason as the above.
+    Extend usb_hub_clear_tt_buffer parameter
+v5: Not extending usb_hub_clear_tt_buffer parameter
+    Add description.
+v6: Remove unused parameter slot_id from xhci_clear_hub_tt_buffer
+v7: Add devaddr field in "struct usb_device"
+v8: split as two patches
+v9: no change flag
+v10: Add EP_CLEARING_TT flag
 
--Mathias
+ drivers/usb/host/xhci-ring.c | 27 ++++++++++++++++++++++++++-
+ drivers/usb/host/xhci.c      | 17 +++++++++++++++++
+ drivers/usb/host/xhci.h      |  5 +++++
+ 3 files changed, 48 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 9215a28dad40..11d498b6c09b 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -399,7 +399,7 @@ void xhci_ring_ep_doorbell(struct xhci_hcd *xhci,
+ 	 * stream once the endpoint is on the HW schedule.
+ 	 */
+ 	if ((ep_state & EP_STOP_CMD_PENDING) || (ep_state & SET_DEQ_PENDING) ||
+-	    (ep_state & EP_HALTED))
++	    (ep_state & EP_HALTED) || (ep_state & EP_CLEARING_TT))
+ 		return;
+ 	writel(DB_VALUE(ep_index, stream_id), db_addr);
+ 	/* The CPU has better things to do at this point than wait for a
+@@ -433,6 +433,13 @@ static void ring_doorbell_for_active_rings(struct xhci_hcd *xhci,
+ 	}
+ }
+ 
++void xhci_ring_doorbell_for_active_rings(struct xhci_hcd *xhci,
++		unsigned int slot_id,
++		unsigned int ep_index)
++{
++	ring_doorbell_for_active_rings(xhci, slot_id, ep_index);
++}
++
+ /* Get the right ring for the given slot_id, ep_index and stream_id.
+  * If the endpoint supports streams, boundary check the URB's stream ID.
+  * If the endpoint doesn't support streams, return the singular endpoint ring.
+@@ -1786,6 +1793,23 @@ struct xhci_segment *trb_in_td(struct xhci_hcd *xhci,
+ 	return NULL;
+ }
+ 
++static void xhci_clear_hub_tt_buffer(struct xhci_hcd *xhci, struct xhci_td *td,
++		struct xhci_virt_ep *ep)
++{
++	/*
++	 * As part of low/full-speed endpoint-halt processing
++	 * we must clear the TT buffer (USB 2.0 specification 11.17.5).
++	 */
++	if (td->urb->dev->tt && !usb_pipeint(td->urb->pipe) &&
++	    (td->urb->dev->tt->hub != xhci_to_hcd(xhci)->self.root_hub) &&
++	    !(ep->ep_state & EP_CLEARING_TT)) {
++		ep->ep_state |= EP_CLEARING_TT;
++		td->urb->ep->hcpriv = td->urb->dev;
++		if (usb_hub_clear_tt_buffer(td->urb))
++			ep->ep_state &= ~EP_CLEARING_TT;
++	}
++}
++
+ static void xhci_cleanup_halted_endpoint(struct xhci_hcd *xhci,
+ 		unsigned int slot_id, unsigned int ep_index,
+ 		unsigned int stream_id, struct xhci_td *td,
+@@ -1804,6 +1828,7 @@ static void xhci_cleanup_halted_endpoint(struct xhci_hcd *xhci,
+ 	if (reset_type == EP_HARD_RESET) {
+ 		ep->ep_state |= EP_HARD_CLEAR_TOGGLE;
+ 		xhci_cleanup_stalled_ring(xhci, ep_index, stream_id, td);
++		xhci_clear_hub_tt_buffer(xhci, td, ep);
+ 	}
+ 	xhci_ring_cmd_db(xhci);
+ }
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 68b393e5a453..0dc108e61a89 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -5133,6 +5133,22 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
+ }
+ EXPORT_SYMBOL_GPL(xhci_gen_setup);
+ 
++static void xhci_clear_tt_buffer_complete(struct usb_hcd *hcd,
++		struct usb_host_endpoint *ep)
++{
++	struct xhci_hcd *xhci;
++	struct usb_device *udev;
++	unsigned int slot_id;
++	unsigned int ep_index;
++
++	xhci = hcd_to_xhci(hcd);
++	udev = (struct usb_device *)ep->hcpriv;
++	slot_id = udev->slot_id;
++	ep_index = xhci_get_endpoint_index(&ep->desc);
++	xhci->devs[slot_id]->eps[ep_index].ep_state &= ~EP_CLEARING_TT;
++	xhci_ring_doorbell_for_active_rings(xhci, slot_id, ep_index);
++}
++
+ static const struct hc_driver xhci_hc_driver = {
+ 	.description =		"xhci-hcd",
+ 	.product_desc =		"xHCI Host Controller",
+@@ -5193,6 +5209,7 @@ static const struct hc_driver xhci_hc_driver = {
+ 	.enable_usb3_lpm_timeout =	xhci_enable_usb3_lpm_timeout,
+ 	.disable_usb3_lpm_timeout =	xhci_disable_usb3_lpm_timeout,
+ 	.find_raw_port_number =	xhci_find_raw_port_number,
++	.clear_tt_buffer_complete = xhci_clear_tt_buffer_complete,
+ };
+ 
+ void xhci_init_driver(struct hc_driver *drv,
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 9334cdee382a..dbe7eb46c1d8 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -936,6 +936,8 @@ struct xhci_virt_ep {
+ #define EP_GETTING_NO_STREAMS	(1 << 5)
+ #define EP_HARD_CLEAR_TOGGLE	(1 << 6)
+ #define EP_SOFT_CLEAR_TOGGLE	(1 << 7)
++/* usb_hub_clear_tt_buffer is in progress */
++#define EP_CLEARING_TT		(1 << 8)
+ 	/* ----  Related to URB cancellation ---- */
+ 	struct list_head	cancelled_td_list;
+ 	/* Watchdog timer for stop endpoint command to cancel URBs */
+@@ -2100,6 +2102,9 @@ void xhci_handle_command_timeout(struct work_struct *work);
+ 
+ void xhci_ring_ep_doorbell(struct xhci_hcd *xhci, unsigned int slot_id,
+ 		unsigned int ep_index, unsigned int stream_id);
++void xhci_ring_doorbell_for_active_rings(struct xhci_hcd *xhci,
++		unsigned int slot_id,
++		unsigned int ep_index);
+ void xhci_cleanup_command_queue(struct xhci_hcd *xhci);
+ void inc_deq(struct xhci_hcd *xhci, struct xhci_ring *ring);
+ unsigned int count_trbs(u64 addr, u64 len);
+-- 
+2.1.4
+
