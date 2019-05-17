@@ -1,109 +1,89 @@
-Return-Path: <SRS0=aZz+=TQ=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=2+nI=TR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_MUTT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39603C46470
-	for <linux-usb@archiver.kernel.org>; Thu, 16 May 2019 23:00:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 911DEC04AB4
+	for <linux-usb@archiver.kernel.org>; Fri, 17 May 2019 07:42:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 09EE52087B
-	for <linux-usb@archiver.kernel.org>; Thu, 16 May 2019 23:00:21 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XqaResjb"
+	by mail.kernel.org (Postfix) with ESMTP id 5877C20848
+	for <linux-usb@archiver.kernel.org>; Fri, 17 May 2019 07:42:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1558078979;
+	bh=wq+XCTrbx1zUAET7hQKfed4RNF8HmxUCwP221XT7YzY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=aD8beLBpeoPXTwSHFQAKPMqWIt3dnsP9iuY9GEehgHDBawnU86WX6DIOhJEjG0rDL
+	 z4slc6kx/m/bC06MalczfzO9Z8P09wNFFNvcRGbf83Ou/qZULzGJRzBxXpFt1f90ad
+	 yUaL5BUBgNatcZtJqvbh+8+MPKSNDgJsuFQbA7+c=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726903AbfEPXAA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 May 2019 19:00:00 -0400
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:40867 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726880AbfEPXAA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 May 2019 19:00:00 -0400
-Received: by mail-pg1-f194.google.com with SMTP id d30so2273267pgm.7
-        for <linux-usb@vger.kernel.org>; Thu, 16 May 2019 15:59:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5SPI5RDPWdm7X3U8G9i9l916Umv8GEODUn9UXyetpFQ=;
-        b=XqaResjbamVa27eUZH0ReqyOeLnzGjESnU4sd5uP71Q5DjrC6Inen21If1TxNy1eAS
-         EUwh3Zd7mrs5/Cu5uCL878Xot+50PiUbvP8uAHxvZaDMO4L6wLl6b5Zn5TbkU/15oyDX
-         Ki3YSd8i7BuCoLoxD8NnkrNgGtzAexmc0Ni1I=
+        id S1728605AbfEQHmy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 17 May 2019 03:42:54 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:42043 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728540AbfEQHmy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 May 2019 03:42:54 -0400
+Received: by mail-lj1-f195.google.com with SMTP id 188so5378670ljf.9;
+        Fri, 17 May 2019 00:42:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5SPI5RDPWdm7X3U8G9i9l916Umv8GEODUn9UXyetpFQ=;
-        b=q5KzXcAHXhrmzcJ4g9hpSALozGz1l0pSehp/WVtPnSqfdcBgIIdKfzJ3UelS7QLFA/
-         yYGLwQKrt2LkKFPdEa7rKBEiN/iStyzeLcMJi3wUT2f0DAB4JdlgWaIMI4VINdDAwcIH
-         /debcQmOxi4/RlswaiT3nlYjjYA1YR+g5r8352TM+UESXnB+tcuflqxGSLqKI+tBtJkU
-         uek2oZQvHshZRp/ficfTFtb9nVxD6XP6OojaNp2gSkbp2tO3cSkHIxRmrgTmtwFxt6Ar
-         ENHmNSU9XlSRFLAZeUBDAQmudU0EWf8R31UpdkVqkioaP3C+KP/BAhTr56h+aXsC7xzz
-         8AYw==
-X-Gm-Message-State: APjAAAWVsGnEHObEeumYXjGz6RrVkhKCI09Gy40sVXTl/E+8lzDd67L0
-        T0xVNbcIkcja1/Ccn09dDeWOOw==
-X-Google-Smtp-Source: APXvYqyBwuyMUc16C5THCTCHLcAVBc5sfzm5Lo0F2Kp/4BxCcSub39P/7nmc9SsQxcSYnZOu+IhC3g==
-X-Received: by 2002:a63:6a4a:: with SMTP id f71mr52245653pgc.44.1558047599563;
-        Thu, 16 May 2019 15:59:59 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com ([2620:15c:202:1:24fa:e766:52c9:e3b2])
-        by smtp.gmail.com with ESMTPSA id j64sm1769506pfb.126.2019.05.16.15.59.58
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=oHNi3Q7jru9V7QHeQJrbcvrvhDMwQwJaNTkhpVbOPeY=;
+        b=nlZN5KR0N7jvQqLFbSGPTwgMqSKoaX1LPjdM6GeU9/GZuJbZP7lltcJdgPioCZUBg/
+         IM+F3bzOBkKSue/JToywsm4egduquenAUaHpVJpOt/xIuvEAyayMDk6Dbag9WRppVIRZ
+         leYQM+v4rN89e7x+HTUTWSjKnvp6iP4G+07Wphaw5BI5o4aay0mZqdGjzBJho34c+0fb
+         z1pES0fjwLPl9t5LgYLVVpHpavqzn1iF85ROkTGv9EGt9Kb+3mCK/OQ1FvJ/FhdoFWAn
+         7fF7t5bHcDv/+Psav4h//ww0Z+dSENcTYk/I7wdvsglM8FIrFxpH0lTIIKEb/JUzfENP
+         nl5A==
+X-Gm-Message-State: APjAAAV/PChIFX84d5kI1iqEHOozsWnn4I+hAptMkKRdGarAwdTydSPf
+        Ofdat4jGlhqHaKhDKUF5V/Mq+Czg
+X-Google-Smtp-Source: APXvYqxr66sn/KNjZu/bBP4IB6022Cmga4g3l932SwBwSoNm8SDJXM0CuwDynX5Xkv2GevcPszIh7Q==
+X-Received: by 2002:a2e:84a:: with SMTP id g10mr16425895ljd.98.1558078972663;
+        Fri, 17 May 2019 00:42:52 -0700 (PDT)
+Received: from xi.terra (c-74bee655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.190.116])
+        by smtp.gmail.com with ESMTPSA id k81sm1290928ljb.77.2019.05.17.00.42.51
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 16 May 2019 15:59:59 -0700 (PDT)
-From:   Douglas Anderson <dianders@chromium.org>
-To:     Minas Harutyunyan <hminas@synopsys.com>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>, heiko@sntech.de
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
-        amstan@chromium.org, linux-rockchip@lists.infradead.org,
-        William Wu <william.wu@rock-chips.com>,
-        linux-usb@vger.kernel.org, Stefan Wahren <stefan.wahren@i2se.com>,
-        Randy Li <ayaka@soulik.info>, zyw@rock-chips.com,
-        mka@chromium.org, ryandcase@chromium.org,
-        Amelie Delaunay <amelie.delaunay@st.com>, jwerner@chromium.org,
-        dinguyen@opensource.altera.com,
-        Elaine Zhang <zhangqing@rock-chips.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-arm-kernel@lists.infradead.org
-Subject: [REPOST PATCH v2 0/3] USB: dwc2: Allow wakeup from suspend; enable for rk3288-veyron
-Date:   Thu, 16 May 2019 15:59:38 -0700
-Message-Id: <20190516225941.170355-1-dianders@chromium.org>
-X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
+        Fri, 17 May 2019 00:42:51 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.91)
+        (envelope-from <johan@kernel.org>)
+        id 1hRXVw-0002Pt-Lr; Fri, 17 May 2019 09:42:48 +0200
+Date:   Fri, 17 May 2019 09:42:48 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     parna.naveenkumar@gmail.com
+Cc:     johan@kernel.org, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB: serial: mos7840: Prefer 'unsigned int' to bare use
+ of 'unsigned'
+Message-ID: <20190517074248.GD28564@localhost>
+References: <20190516130759.12996-1-parna.naveenkumar@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190516130759.12996-1-parna.naveenkumar@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This is a re-post of the last 3 patches of a series I posted earlier
-at:
-  https://lkml.kernel.org/r/20190418001356.124334-1-dianders@chromium.org
+On Thu, May 16, 2019 at 06:37:59PM +0530, parna.naveenkumar@gmail.com wrote:
+> From: Naveen Kumar Parna <parna.naveenkumar@gmail.com>
+> 
+> This fixes checkpatch.pl warning "WARNING: Prefer 'unsigned int' to
+> bare use of 'unsigned'".
 
-The first two patches were applied but the last three weren't because
-they didn't apply at the time.  They apply fine now so are ready to
-land.
+Please don't run checkpatch.pl on code that already in the kernel
+(possibly with the exception of staging). Use it on your own patches
+before you submit them if you want, and even then don't blindly follow
+what checkpatch says.
 
-Changes in v2:
-- Rebased to mainline atop rk3288 remote wake quirk series.
-- rk3288-veyron dts patch new for v2.
+Minor coding style issues are better left alone to avoid adding noise
+and making code forensic and backports harder.
 
-Douglas Anderson (3):
-  Documentation: dt-bindings: Add snps,need-phy-for-wake for dwc2 USB
-  USB: dwc2: Don't turn off the usbphy in suspend if wakeup is enabled
-  ARM: dts: rockchip: Allow wakeup from rk3288-veyron's dwc2 USB ports
+And in this case, there's not even anything wrong with the current code.
 
- .../devicetree/bindings/usb/dwc2.txt          |  3 ++
- arch/arm/boot/dts/rk3288-veyron.dtsi          |  2 +
- drivers/usb/dwc2/core.h                       |  5 +++
- drivers/usb/dwc2/platform.c                   | 43 ++++++++++++++++++-
- 4 files changed, 51 insertions(+), 2 deletions(-)
-
--- 
-2.21.0.1020.gf2820cf01a-goog
-
+Johan
