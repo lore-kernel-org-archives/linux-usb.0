@@ -2,95 +2,163 @@ Return-Path: <SRS0=RK/F=TS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97FDBC04AAF
-	for <linux-usb@archiver.kernel.org>; Sat, 18 May 2019 15:25:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5DD7C46460
+	for <linux-usb@archiver.kernel.org>; Sat, 18 May 2019 15:50:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 72F4F20872
-	for <linux-usb@archiver.kernel.org>; Sat, 18 May 2019 15:25:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B7E7520645
+	for <linux-usb@archiver.kernel.org>; Sat, 18 May 2019 15:50:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728531AbfERPZc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 18 May 2019 11:25:32 -0400
-Received: from out01.mta.xmission.com ([166.70.13.231]:58690 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728037AbfERPZb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 18 May 2019 11:25:31 -0400
-Received: from in02.mta.xmission.com ([166.70.13.52])
-        by out01.mta.xmission.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1hS1DG-0002hL-Hj; Sat, 18 May 2019 09:25:30 -0600
-Received: from ip72-206-97-68.om.om.cox.net ([72.206.97.68] helo=x220.xmission.com)
-        by in02.mta.xmission.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.87)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1hS1DF-0003iq-O1; Sat, 18 May 2019 09:25:30 -0600
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Oliver Neukum <oneukum@suse.com>,
-        <linux-kernel@vger.kernel.org>
-References: <Pine.LNX.4.44L0.1905181116330.7855-100000@netrider.rowland.org>
-Date:   Sat, 18 May 2019 10:25:05 -0500
-In-Reply-To: <Pine.LNX.4.44L0.1905181116330.7855-100000@netrider.rowland.org>
-        (Alan Stern's message of "Sat, 18 May 2019 11:20:47 -0400 (EDT)")
-Message-ID: <878sv3ss32.fsf@xmission.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.1 (gnu/linux)
+        id S1729395AbfERPuC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 18 May 2019 11:50:02 -0400
+Received: from mail-it1-f200.google.com ([209.85.166.200]:38270 "EHLO
+        mail-it1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729166AbfERPuC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 18 May 2019 11:50:02 -0400
+Received: by mail-it1-f200.google.com with SMTP id m20so9495828itn.3
+        for <linux-usb@vger.kernel.org>; Sat, 18 May 2019 08:50:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=XQeWzljs1DH6t0S4944Drg1GlykramoA+3gl7La3QNE=;
+        b=DeFqk5MdJS2kyTQlHRJVAT9dQql0KwB8M0/VFDiEgumzv37DKH/Ie0Ipyc/L8KQtrb
+         1Co8T6EbFiTv4A3HwT3PyBj/ZVJQ7RBsUucO29wkLL/icY19b6q3f17H4nj24WS8g4OB
+         aeJsLpHdJjNdgVP+DfPuDDc2yR2qCNREhXjo1xCtRYGNQimXkYY8Azo6ogRKVdSVEZii
+         +nV7z5MuGgpd2OoFPmEJkPdvSBc2Dc40HJYN1HXD4NUIuyU7dj6QHuii4k99r9U10fqf
+         pi5VQ3IpVP7OTcm3wQTiSPx4/v3SFAWYXqDw3gQ9qFD1SyZILtAJY1PRj5XiP+YNFUl8
+         7X0A==
+X-Gm-Message-State: APjAAAWB1HYnTl02g9FDNYzdlcG0Gu0LT7na02jHxHkH35waFRbiYIsP
+        /+/t0pnZwWvAJPMrCx+I1/LDxUImEo0Z8Fw8HZFTyA9jxDXZ
+X-Google-Smtp-Source: APXvYqw51fcH2Q6KSLNH5ltgMkDrRqU7TnuRZxCa6WlIJ2EhuAlm1c5bT30xYyjUbYZ5qPm8WvvdjptFx/es420dPOWE+4cY4Yux
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1hS1DF-0003iq-O1;;;mid=<878sv3ss32.fsf@xmission.com>;;;hst=in02.mta.xmission.com;;;ip=72.206.97.68;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX1/Vd8OIugNR8FtTsnNrJrJM9aHdGWcp/AY=
-X-SA-Exim-Connect-IP: 72.206.97.68
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-Subject: Re: [CFT][PATCH] signal/usb: Replace kill_pid_info_as_cred with kill_pid_usb_asyncio
-X-SA-Exim-Version: 4.2.1 (built Thu, 05 May 2016 13:38:54 -0600)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+X-Received: by 2002:a02:412:: with SMTP id 18mr5592188jab.82.1558194600923;
+ Sat, 18 May 2019 08:50:00 -0700 (PDT)
+Date:   Sat, 18 May 2019 08:50:00 -0700
+In-Reply-To: <Pine.LNX.4.44L0.1905181045400.7855-100000@netrider.rowland.org>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000add98105892b73ec@google.com>
+Subject: Re: KASAN: use-after-free Read in p54u_load_firmware_cb
+From:   syzbot <syzbot+200d4bb11b23d929335f@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, chunkeey@gmail.com, chunkeey@googlemail.com,
+        davem@davemloft.net, kvalo@codeaurora.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        oneukum@suse.com, stern@rowland.harvard.edu,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Alan Stern <stern@rowland.harvard.edu> writes:
+Hello,
 
-> On Fri, 17 May 2019, Eric W. Biederman wrote:
->
->> Wow I got a little distracted but now I am back to this.
->> 
->> Using your test program I was able to test the basics of this.
->> 
->> I found one bug in my patch where I was missing a memset.  So I have
->> corrected that, and reorganized the patch a little bit.
->> 
->> I have not figured out how to trigger a usb disconnect so I have not
->> tested that.
->
-> Heh.  Assuming the device file you tell the test program to use 
-> corresponds to an actual USB device, you can trigger a disconnect by 
-> literally unplugging the USB cable.  (Add a 10-second delay to the 
-> program to give yourself enough time.)
+syzbot has tested the proposed patch but the reproducer still triggered  
+crash:
+KASAN: slab-out-of-bounds Read in p54u_load_firmware_cb
 
-I have just been running this in qemu.  But yes.  I suppose the easy
-way would be to print a message asking the usb device to be unplugged
-and then just wait for the signal.  I might try that.
+usb 6-1: Direct firmware load for isl3887usb failed with error -2
+p54u_load_firmware_cb: priv->udev = ffff88809ad5bb80
+usb 6-1: Firmware not found.
+==================================================================
+BUG: KASAN: slab-out-of-bounds in p54u_load_firmware_cb+0x3c9/0x45f  
+drivers/net/wireless/intersil/p54/p54usb.c:937
+Read of size 8 at addr ffff88809abab588 by task kworker/1:8/5526
 
->> The big thing I have not been able to test is running a 64bit big-endian
->> kernel with a 32bit user space.  My modified version of your test
->> program should report "Bad" without my patch, and should report "Good"
->> with it.
->> 
->> Is there any chance you can test that configuration?  I could not figure
->> out how to get a 64bit big-endian system running in qemu, and I don't
->> have the necessary hardware so I was not able to test that at all.  As
->> that is the actual bug I am still hoping someone can test it.
->
-> Unfortunately, I don't have any big-endian systems either.
+CPU: 1 PID: 5526 Comm: kworker/1:8 Not tainted 5.1.0-rc3-g43151d6-dirty #1
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Workqueue: events request_firmware_work_func
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xe8/0x16e lib/dump_stack.c:113
+  print_address_description+0x6c/0x236 mm/kasan/report.c:187
+  kasan_report.cold+0x1a/0x3c mm/kasan/report.c:317
+  p54u_load_firmware_cb+0x3c9/0x45f  
+drivers/net/wireless/intersil/p54/p54usb.c:937
+  request_firmware_work_func+0x12d/0x249  
+drivers/base/firmware_loader/main.c:785
+  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
+  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
+  kthread+0x313/0x420 kernel/kthread.c:253
+  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
 
-That probably explains why the breakage in big-endian was never noticed.
-I am starting to wonder if anyone is actually doing big-endian for new
-systems anymore.
+Allocated by task 5503:
+  set_track mm/kasan/common.c:87 [inline]
+  __kasan_kmalloc mm/kasan/common.c:497 [inline]
+  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:470
+  slab_post_alloc_hook mm/slab.h:437 [inline]
+  slab_alloc_node mm/slub.c:2756 [inline]
+  __kmalloc_node_track_caller+0xf3/0x320 mm/slub.c:4372
+  __kmalloc_reserve.isra.0+0x3e/0xf0 net/core/skbuff.c:140
+  __alloc_skb+0xf4/0x5a0 net/core/skbuff.c:208
+  alloc_skb include/linux/skbuff.h:1058 [inline]
+  netlink_alloc_large_skb net/netlink/af_netlink.c:1182 [inline]
+  netlink_sendmsg+0x8db/0xcd0 net/netlink/af_netlink.c:1900
+  sock_sendmsg_nosec net/socket.c:651 [inline]
+  sock_sendmsg+0xda/0x130 net/socket.c:661
+  ___sys_sendmsg+0x80b/0x930 net/socket.c:2260
+  __sys_sendmsg+0xf1/0x1b0 net/socket.c:2298
+  do_syscall_64+0xcf/0x4f0 arch/x86/entry/common.c:290
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
 
-Eric
+Freed by task 5503:
+  set_track mm/kasan/common.c:87 [inline]
+  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:459
+  slab_free_hook mm/slub.c:1429 [inline]
+  slab_free_freelist_hook+0x5e/0x140 mm/slub.c:1456
+  slab_free mm/slub.c:3003 [inline]
+  kfree+0xce/0x290 mm/slub.c:3958
+  skb_free_head+0x90/0xb0 net/core/skbuff.c:557
+  skb_release_data+0x543/0x8b0 net/core/skbuff.c:577
+  skb_release_all+0x4b/0x60 net/core/skbuff.c:631
+  __kfree_skb net/core/skbuff.c:645 [inline]
+  consume_skb net/core/skbuff.c:705 [inline]
+  consume_skb+0xc5/0x2f0 net/core/skbuff.c:699
+  netlink_unicast_kernel net/netlink/af_netlink.c:1311 [inline]
+  netlink_unicast+0x4e2/0x690 net/netlink/af_netlink.c:1336
+  netlink_sendmsg+0x810/0xcd0 net/netlink/af_netlink.c:1925
+  sock_sendmsg_nosec net/socket.c:651 [inline]
+  sock_sendmsg+0xda/0x130 net/socket.c:661
+  ___sys_sendmsg+0x80b/0x930 net/socket.c:2260
+  __sys_sendmsg+0xf1/0x1b0 net/socket.c:2298
+  do_syscall_64+0xcf/0x4f0 arch/x86/entry/common.c:290
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+
+The buggy address belongs to the object at ffff88809abab180
+  which belongs to the cache kmalloc-1k of size 1024
+The buggy address is located 8 bytes to the right of
+  1024-byte region [ffff88809abab180, ffff88809abab580)
+The buggy address belongs to the page:
+page:ffffea00026aea00 count:1 mapcount:0 mapping:ffff88812c3f4a00 index:0x0  
+compound_mapcount: 0
+flags: 0xfff00000010200(slab|head)
+raw: 00fff00000010200 dead000000000100 dead000000000200 ffff88812c3f4a00
+raw: 0000000000000000 00000000000e000e 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+  ffff88809abab480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffff88809abab500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ffff88809abab580: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+                       ^
+  ffff88809abab600: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffff88809abab680: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
+
+Tested on:
+
+commit:         43151d6c usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=108a0108a00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4183eeef650d1234
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=1292f852a00000
+
