@@ -2,213 +2,124 @@ Return-Path: <SRS0=RXxr=TU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD63DC04AAC
-	for <linux-usb@archiver.kernel.org>; Mon, 20 May 2019 14:44:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6886EC04AAC
+	for <linux-usb@archiver.kernel.org>; Mon, 20 May 2019 15:31:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 891462054F
-	for <linux-usb@archiver.kernel.org>; Mon, 20 May 2019 14:44:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3E12E2081C
+	for <linux-usb@archiver.kernel.org>; Mon, 20 May 2019 15:31:24 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X42kXwws"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391958AbfETOoW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 May 2019 10:44:22 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:58814 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S2388396AbfETOoW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 May 2019 10:44:22 -0400
-Received: (qmail 2121 invoked by uid 2102); 20 May 2019 10:44:21 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 20 May 2019 10:44:21 -0400
-Date:   Mon, 20 May 2019 10:44:21 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Christian Lamparter <chunkeey@gmail.com>
-cc:     syzbot <syzbot+200d4bb11b23d929335f@syzkaller.appspotmail.com>,
-        <kvalo@codeaurora.org>, <davem@davemloft.net>,
-        <andreyknvl@google.com>, <syzkaller-bugs@googlegroups.com>,
-        Kernel development list <linux-kernel@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        <linux-wireless@vger.kernel.org>, <netdev@vger.kernel.org>
-Subject: [PATCH] network: wireless: p54u: Fix race between disconnect and
- firmware loading
-In-Reply-To: <5014675.0cgHOJIxtM@debian64>
-Message-ID: <Pine.LNX.4.44L0.1905201042110.1498-100000@iolanthe.rowland.org>
-MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+        id S2388789AbfETPbS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 May 2019 11:31:18 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:38417 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731262AbfETPbS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 May 2019 11:31:18 -0400
+Received: by mail-wm1-f65.google.com with SMTP id t5so12147902wmh.3;
+        Mon, 20 May 2019 08:31:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=U14r5RuHwz6CW9kWdqe1Yxv8qr6791SEzbYW5ZFfNqk=;
+        b=X42kXwwsyIepoPQ5+7f0C8mITSC9q9M4R3X6qzcOZJ+6VSrtBKWV3ZYEviRARRlQJ7
+         UzHjPebLhixIVOSb6DT/Ks5hOQjyBSeqOnR/Pc0iiBtpLvXdIdODVy0/sp1pEe51rCOS
+         WWHVhmU6BxArfJMfK1Fqh+5ntdjK84WS0UR++HrqeOd7SEBrkJqHt/uJEkd4eZNsXCPf
+         3LrdntUh6Oh5JlGtwXGyhR/epNkW0eM7fnBi/IvEZogP8tsvVqoVjJRZzb/jdBBr5WLn
+         glyCeIOZMlQUY7KZGZLi9Ce67PklCxkwKyJp37W5N1UEo/ZiLxqqA16zwla+l8dj3NfH
+         UWKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=U14r5RuHwz6CW9kWdqe1Yxv8qr6791SEzbYW5ZFfNqk=;
+        b=B0F1i/Mk4YyKX5j4CxOByeHD4dGEozyFE9C657Rc1Y74/jKOKro8ZO5wUaUJGPOEvg
+         slrs0rxkY/8s5b0SP2L205Cx01faeIP+wgJ1zZupGIDXjQwnNtPzetXAGeN7f8ivTm2h
+         +QPhjVmuzsnFIWlmdFGi/XshpUWY9BhavERX0vzQ8ulKDQxNRw3adMsZ9h/QLXLeu7z1
+         rofQarvsRu71aZo/OYH1aHXBW8UcH45R9L0btGBjlMELrXQz4GPKE/K0M93Pnuz+hzZA
+         MKGJ4YXgMKjBxXJPSfa/iOo74BhONlGDlSIFiD2e+KeLDbfRWa2bPBp0xML5VDgNQY4Q
+         NFnQ==
+X-Gm-Message-State: APjAAAXUdq0Sqt68kEm2eBGfIDAr5CncW1O+hsyU+gd6a2VnlBBD0ewE
+        tv+VZK7Nt/8391Z3dM0G8hhyYI7A
+X-Google-Smtp-Source: APXvYqzBLCxDCKBc93FboPBqTKnxofoRQHsgqJbVB8qp+LrOaxz2zsTmBoFWRhfw3rS0EiN1U5ZXVQ==
+X-Received: by 2002:a1c:7511:: with SMTP id o17mr5112701wmc.39.1558366276038;
+        Mon, 20 May 2019 08:31:16 -0700 (PDT)
+Received: from ubuntu.faroeurope.com (mail.faroeurope.com. [213.61.174.138])
+        by smtp.gmail.com with ESMTPSA id x1sm11666555wrp.35.2019.05.20.08.31.14
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Mon, 20 May 2019 08:31:15 -0700 (PDT)
+From:   Bernd Eckstein <3erndeckstein@gmail.com>
+X-Google-Original-From: Bernd Eckstein <3ernd.Eckstein@gmail.com>
+To:     davem@davemloft.net
+Cc:     linux@roeck-us.net, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corsac@corsac.net, Oliver.Zweigle@faro.com,
+        3ernd.Eckstein@gmail.com
+Subject: [PATCH] usbnet: ipheth: fix racing condition
+Date:   Mon, 20 May 2019 17:31:09 +0200
+Message-Id: <1558366269-17787-1-git-send-email-3ernd.Eckstein@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The syzbot fuzzer found a bug in the p54 USB wireless driver.  The
-issue involves a race between disconnect and the firmware-loader
-callback routine, and it has several aspects.
+Fix a racing condition in ipheth.c that can lead to slow performance.
 
-One big problem is that when the firmware can't be loaded, the
-callback routine tries to unbind the driver from the USB _device_ (by
-calling device_release_driver) instead of from the USB _interface_ to
-which it is actually bound (by calling usb_driver_release_interface).
+Bug: In ipheth_tx(), netif_wake_queue() may be called on the callback
+ipheth_sndbulk_callback(), _before_ netif_stop_queue() is called.
+When this happens, the queue is stopped longer than it needs to be,
+thus reducing network performance.
 
-The race involves access to the private data structure.  The driver's
-disconnect handler waits for a completion that is signalled by the
-firmware-loader callback routine.  As soon as the completion is
-signalled, you have to assume that the private data structure may have
-been deallocated by the disconnect handler -- even if the firmware was
-loaded without errors.  However, the callback routine does access the
-private data several times after that point.
+Fix: Move netif_stop_queue() in front of usb_submit_urb(). Now the order
+is always correct. In case, usb_submit_urb() fails, the queue is woken up
+again as callback will not fire.
 
-Another problem is that, in order to ensure that the USB device
-structure hasn't been freed when the callback routine runs, the driver
-takes a reference to it.  This isn't good enough any more, because now
-that the callback routine calls usb_driver_release_interface, it has
-to ensure that the interface structure hasn't been freed.
+Testing: This racing condition is usually not noticeable, as it has to
+occur very frequently to slowdown the network. The callback from the USB
+is usually triggered slow enough, so the situation does not appear.
+However, on a Ubuntu Linux on VMWare Workstation, running on Windows 10,
+the we loose the race quite often and the following speedup can be noticed:
 
-Finally, the driver takes an unnecessary reference to the USB device
-structure in the probe function and drops the reference in the
-disconnect handler.  This extra reference doesn't accomplish anything,
-because the USB core already guarantees that a device structure won't
-be deallocated while a driver is still bound to any of its interfaces.
+Without this patch: Download:  4.10 Mbit/s, Upload:  4.01 Mbit/s
+With this patch:    Download: 36.23 Mbit/s, Upload: 17.61 Mbit/s
 
-To fix these problems, this patch makes the following changes:
-
-	Call usb_driver_release_interface() rather than
-	device_release_driver().
-
-	Don't signal the completion until after the important
-	information has been copied out of the private data structure,
-	and don't refer to the private data at all thereafter.
-
-	Lock udev (the interface's parent) before unbinding the driver
-	instead of locking udev->parent.
-
-	During the firmware loading process, take a reference to the
-	USB interface instead of the USB device.
-
-	Don't take an unnecessary reference to the device during probe
-	(and then don't drop it during disconnect).
-
-Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-Reported-and-tested-by: syzbot+200d4bb11b23d929335f@syzkaller.appspotmail.com
-CC: <stable@vger.kernel.org>
+Signed-off-by: Oliver Zweigle <Oliver.Zweigle@faro.com>
+Signed-off-by: Bernd Eckstein <3ernd.Eckstein@gmail.com>
 
 ---
+ drivers/net/usb/ipheth.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-
-[as1899]
-
-
- drivers/net/wireless/intersil/p54/p54usb.c |   43 ++++++++++++-----------------
- 1 file changed, 18 insertions(+), 25 deletions(-)
-
-Index: usb-devel/drivers/net/wireless/intersil/p54/p54usb.c
-===================================================================
---- usb-devel.orig/drivers/net/wireless/intersil/p54/p54usb.c
-+++ usb-devel/drivers/net/wireless/intersil/p54/p54usb.c
-@@ -33,6 +33,8 @@ MODULE_ALIAS("prism54usb");
- MODULE_FIRMWARE("isl3886usb");
- MODULE_FIRMWARE("isl3887usb");
+diff --git a/drivers/net/usb/ipheth.c b/drivers/net/usb/ipheth.c
+index c247aed..8c01fbf 100644
+--- a/drivers/net/usb/ipheth.c
++++ b/drivers/net/usb/ipheth.c
+@@ -383,17 +383,18 @@ static int ipheth_tx(struct sk_buff *skb, struct net_device *net)
+ 			  dev);
+ 	dev->tx_urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
  
-+static struct usb_driver p54u_driver;
-+
- /*
-  * Note:
-  *
-@@ -921,9 +923,9 @@ static void p54u_load_firmware_cb(const
- {
- 	struct p54u_priv *priv = context;
- 	struct usb_device *udev = priv->udev;
-+	struct usb_interface *intf = priv->intf;
- 	int err;
- 
--	complete(&priv->fw_wait_load);
- 	if (firmware) {
- 		priv->fw = firmware;
- 		err = p54u_start_ops(priv);
-@@ -932,26 +934,22 @@ static void p54u_load_firmware_cb(const
- 		dev_err(&udev->dev, "Firmware not found.\n");
++	netif_stop_queue(net);
+ 	retval = usb_submit_urb(dev->tx_urb, GFP_ATOMIC);
+ 	if (retval) {
+ 		dev_err(&dev->intf->dev, "%s: usb_submit_urb: %d\n",
+ 			__func__, retval);
+ 		dev->net->stats.tx_errors++;
+ 		dev_kfree_skb_any(skb);
++		netif_wake_queue(net);
+ 	} else {
+ 		dev->net->stats.tx_packets++;
+ 		dev->net->stats.tx_bytes += skb->len;
+ 		dev_consume_skb_any(skb);
+-		netif_stop_queue(net);
  	}
  
--	if (err) {
--		struct device *parent = priv->udev->dev.parent;
--
--		dev_err(&udev->dev, "failed to initialize device (%d)\n", err);
--
--		if (parent)
--			device_lock(parent);
-+	complete(&priv->fw_wait_load);
-+	/*
-+	 * At this point p54u_disconnect may have already freed
-+	 * the "priv" context. Do not use it anymore!
-+	 */
-+	priv = NULL;
- 
--		device_release_driver(&udev->dev);
--		/*
--		 * At this point p54u_disconnect has already freed
--		 * the "priv" context. Do not use it anymore!
--		 */
--		priv = NULL;
-+	if (err) {
-+		dev_err(&intf->dev, "failed to initialize device (%d)\n", err);
- 
--		if (parent)
--			device_unlock(parent);
-+		usb_lock_device(udev);
-+		usb_driver_release_interface(&p54u_driver, intf);
-+		usb_unlock_device(udev);
- 	}
- 
--	usb_put_dev(udev);
-+	usb_put_intf(intf);
- }
- 
- static int p54u_load_firmware(struct ieee80211_hw *dev,
-@@ -972,14 +970,14 @@ static int p54u_load_firmware(struct iee
- 	dev_info(&priv->udev->dev, "Loading firmware file %s\n",
- 	       p54u_fwlist[i].fw);
- 
--	usb_get_dev(udev);
-+	usb_get_intf(intf);
- 	err = request_firmware_nowait(THIS_MODULE, 1, p54u_fwlist[i].fw,
- 				      device, GFP_KERNEL, priv,
- 				      p54u_load_firmware_cb);
- 	if (err) {
- 		dev_err(&priv->udev->dev, "(p54usb) cannot load firmware %s "
- 					  "(%d)!\n", p54u_fwlist[i].fw, err);
--		usb_put_dev(udev);
-+		usb_put_intf(intf);
- 	}
- 
- 	return err;
-@@ -1011,8 +1009,6 @@ static int p54u_probe(struct usb_interfa
- 	skb_queue_head_init(&priv->rx_queue);
- 	init_usb_anchor(&priv->submitted);
- 
--	usb_get_dev(udev);
--
- 	/* really lazy and simple way of figuring out if we're a 3887 */
- 	/* TODO: should just stick the identification in the device table */
- 	i = intf->altsetting->desc.bNumEndpoints;
-@@ -1053,10 +1049,8 @@ static int p54u_probe(struct usb_interfa
- 		priv->upload_fw = p54u_upload_firmware_net2280;
- 	}
- 	err = p54u_load_firmware(dev, intf);
--	if (err) {
--		usb_put_dev(udev);
-+	if (err)
- 		p54_free_common(dev);
--	}
- 	return err;
- }
- 
-@@ -1072,7 +1066,6 @@ static void p54u_disconnect(struct usb_i
- 	wait_for_completion(&priv->fw_wait_load);
- 	p54_unregister_common(dev);
- 
--	usb_put_dev(interface_to_usbdev(intf));
- 	release_firmware(priv->fw);
- 	p54_free_common(dev);
- }
+ 	return NETDEV_TX_OK;
+-- 
+2.7.4
 
