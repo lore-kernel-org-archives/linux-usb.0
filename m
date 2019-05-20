@@ -2,83 +2,149 @@ Return-Path: <SRS0=RXxr=TU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F17DEC04AAC
-	for <linux-usb@archiver.kernel.org>; Mon, 20 May 2019 17:17:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89EE5C04AAC
+	for <linux-usb@archiver.kernel.org>; Mon, 20 May 2019 17:56:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C760020815
-	for <linux-usb@archiver.kernel.org>; Mon, 20 May 2019 17:17:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5DD5C20863
+	for <linux-usb@archiver.kernel.org>; Mon, 20 May 2019 17:56:16 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MFNW8y7m"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392775AbfETRRK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 May 2019 13:17:10 -0400
-Received: from sauhun.de ([88.99.104.3]:52244 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390305AbfETRRK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 20 May 2019 13:17:10 -0400
-Received: from localhost (p54B333DA.dip0.t-ipconnect.de [84.179.51.218])
-        by pokefinder.org (Postfix) with ESMTPSA id 78D832C5DC5;
-        Mon, 20 May 2019 19:17:08 +0200 (CEST)
-Date:   Mon, 20 May 2019 19:17:08 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Ajay Gupta <ajayg@nvidia.com>
-Cc:     Ajay Gupta <ajaykuee@gmail.com>,
-        "heikki.krogerus@linux.intel.com" <heikki.krogerus@linux.intel.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
-Subject: Re: [PATCH 1/4] i2c: nvidia-gpu: add runtime pm support
-Message-ID: <20190520171708.GA4018@kunai>
-References: <20190517163818.5007-1-ajayg@nvidia.com>
- <20190517163818.5007-2-ajayg@nvidia.com>
- <20190519144704.GB7291@kunai>
- <BYAPR12MB272780E97D3D70EF46008E32DC060@BYAPR12MB2727.namprd12.prod.outlook.com>
+        id S1726793AbfETR4P (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 May 2019 13:56:15 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:39574 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726818AbfETR4O (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 May 2019 13:56:14 -0400
+Received: by mail-pg1-f194.google.com with SMTP id w22so7132432pgi.6
+        for <linux-usb@vger.kernel.org>; Mon, 20 May 2019 10:56:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=4CUjhStx9Q1czDRNZdSf4vceu5KbZk+h2BQP0hsuERo=;
+        b=MFNW8y7mNTo6N1VqA5T5Mo6RzW9jVYQYoQ6qYJl5we7NYdFnZFDyx0sLkY0ogXYLwn
+         enWsfvygO1Z23KozLJnz0N3qWtFlricRqhBNrAnq4nJz3++GH7QK0Drjjj2wHUSWnds0
+         fpeGcp4z76OpMh6bXOsowHGITGPi2pbzJqyJo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=4CUjhStx9Q1czDRNZdSf4vceu5KbZk+h2BQP0hsuERo=;
+        b=ersvZkT+qlmJeoJycelmqLxxQ0g9vLVWgsPGoBdaW+vYPVkq4KWIJ6fY3yIjgPzslU
+         BR55gctvhg0+kBKXXr+VuDkdk66xDPZ6Qob6xswphVBmdTOfQjLs5ZFugoSG+Sp9KZcr
+         +ctwjhkk36Ak1+kW2s2kptXTmer6A+cFhZKFUY+hTm/3zvDBAw4Gc3usqT4czGpTBdB+
+         waI7vLOxZksFHcejT3kZ0c+1XbYNMSUfuN3WMX38WrZtbJENf/0s2ZuCi41bn/MLqzkZ
+         SAoYFa5Rwf6G/jxpQ2aH7grHvMWiLApb9DhJKutCwwmmOjp3x2XtujJEdS6TqILY0TS2
+         X40w==
+X-Gm-Message-State: APjAAAX47PGjPU5o006jl42v5QF+NT6Cu7xZ2g6eA832U/O9YKby5XPy
+        CJ45lDc9kbEr2OsqnYWkIdLRIw==
+X-Google-Smtp-Source: APXvYqx8PLoZmRIV8cyPnbkbGG132pIi5rrVAVnCDXIAjwYFv8VXCCCG4c1elHrOmzAQBdfYcMChEw==
+X-Received: by 2002:a62:6341:: with SMTP id x62mr80813484pfb.63.1558374973618;
+        Mon, 20 May 2019 10:56:13 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:202:1:24fa:e766:52c9:e3b2])
+        by smtp.gmail.com with ESMTPSA id o2sm16852723pgq.1.2019.05.20.10.56.11
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 20 May 2019 10:56:12 -0700 (PDT)
+From:   Douglas Anderson <dianders@chromium.org>
+To:     Minas Harutyunyan <hminas@synopsys.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>, heiko@sntech.de
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
+        amstan@chromium.org, linux-rockchip@lists.infradead.org,
+        William Wu <william.wu@rock-chips.com>,
+        linux-usb@vger.kernel.org, Stefan Wahren <stefan.wahren@i2se.com>,
+        Randy Li <ayaka@soulik.info>, zyw@rock-chips.com,
+        mka@chromium.org, ryandcase@chromium.org,
+        Amelie Delaunay <amelie.delaunay@st.com>, jwerner@chromium.org,
+        Elaine Zhang <zhangqing@rock-chips.com>,
+        Douglas Anderson <dianders@chromium.org>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Subject: [PATCH v3 1/3] Documentation: dt-bindings: Add snps,need-phy-for-wake for dwc2 USB
+Date:   Mon, 20 May 2019 10:56:03 -0700
+Message-Id: <20190520175605.2405-2-dianders@chromium.org>
+X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
+In-Reply-To: <20190520175605.2405-1-dianders@chromium.org>
+References: <20190520175605.2405-1-dianders@chromium.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="IS0zKkzwUGydFO0o"
-Content-Disposition: inline
-In-Reply-To: <BYAPR12MB272780E97D3D70EF46008E32DC060@BYAPR12MB2727.namprd12.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Some SoCs with a dwc2 USB controller may need to keep the PHY on to
+support remote wakeup.  Allow specifying this as a device tree
+property.
 
---IS0zKkzwUGydFO0o
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+For relevant prior discussion on this patch, see:
+
+https://lkml.kernel.org/r/1435017144-2971-3-git-send-email-dianders@chromium.org
+
+I didn't make any changes from the prior version since I never found
+out what Rob thought of my previous arguments.  If folks want a
+change, perhaps they could choose from these options:
+
+1. Assume that all dwc2 hosts would like to keep their PHY on for
+   suspend if there's a USB wakeup enabled, thus we totally drop this
+   binding.  This doesn't seem super great to me since I'd bet that
+   many devices that use dwc2 weren't designed for USB wakeup (they
+   may not keep enough clocks or rails on) so we might be wasting
+   power for nothing.
+2. Rename this property to "snps,wakeup-from-suspend-with-phy" to make
+   it more obvious that this property is intended both to document
+   that wakeup from suspend is possible and that we need the PHY for
+   said wakeup.
+3. Rename this property to "snps,can-wakeup-from-suspend" and assume
+   it's implicit that if we can wakeup from suspend that we need to
+   keep the PHY on.  If/when someone shows that a device exists using
+   dwc2 where we can wakeup from suspend without the PHY they can add
+   a new property.
+
+NOTE FOR REPOST:
+- In v2 Rob said [1] he'd prefer something based on the SoC
+  compatibility string, but that doesn't work because not all boards
+  will have the regulator setup / board design / suspend logic
+  necessary to make this work.
+
+[1] https://lkml.kernel.org/r/20190430012328.GA25660@bogus
 
 
-> > I am not nacking this, yet the use of goto here seems too much for my taste. If
-> > you could try refactoring the whole code (dunno, maybe using a flag when to
-> > use stop?), I'd appreciate this.
-> Ok, I will add a local variable to make it more readable.
+Changes in v3: None
+Changes in v2: None
 
-I was brainstorming here, I am not sure if it will work or not. But you
-will see. Maybe you get other ideas on the way. However, thanks for
-trying out!
+ Documentation/devicetree/bindings/usb/dwc2.txt | 3 +++
+ 1 file changed, 3 insertions(+)
 
+diff --git a/Documentation/devicetree/bindings/usb/dwc2.txt b/Documentation/devicetree/bindings/usb/dwc2.txt
+index 49eac0dc86b0..aafff3a6904d 100644
+--- a/Documentation/devicetree/bindings/usb/dwc2.txt
++++ b/Documentation/devicetree/bindings/usb/dwc2.txt
+@@ -42,6 +42,8 @@ Refer to phy/phy-bindings.txt for generic phy consumer properties
+ - g-rx-fifo-size: size of rx fifo size in gadget mode.
+ - g-np-tx-fifo-size: size of non-periodic tx fifo size in gadget mode.
+ - g-tx-fifo-size: size of periodic tx fifo per endpoint (except ep0) in gadget mode.
++- snps,need-phy-for-wake: If present indicates that the phy needs to be left
++                          on for remote wakeup during suspend.
+ - snps,reset-phy-on-wake: If present indicates that we need to reset the PHY when
+                           we detect a wakeup.  This is due to a hardware errata.
+ 
+@@ -58,4 +60,5 @@ Example:
+ 		clock-names = "otg";
+ 		phys = <&usbphy>;
+ 		phy-names = "usb2-phy";
++		snps,need-phy-for-wake;
+         };
+-- 
+2.21.0.1020.gf2820cf01a-goog
 
---IS0zKkzwUGydFO0o
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlzi4RAACgkQFA3kzBSg
-Kba77Q/+LQoDOmt+a22fXm9b1ELau3gGmTQGOXeMLs34JHkKCkRmQiQQH3jCnTqu
-3iLB1delPjjFowEVDQVoTQ6+fWWJtPvItzyGhYNMEL59+kIwlbQ7VAUuhd6WV/Do
-q4ddPvP6AlawOgRPQSPF2MF2+pKC7m65OWbDsR7xK2cfZvyzRVjO9UV2ds9nOCL4
-ZVBw0W1jgKOdhe10E1sOp0Ol4nxrknGjY3Jw/aPPMQZNK7dIhIi8DDf12oEmGhtI
-v3fajfLxDu3GppPJqHNUdb8l/maFIhs7CBfiR4/yZdO1RysIqI5P+I8jXnBrtdbX
-yaijWo8MeNw9vfhBqXbuiAPbKJMRNlTwR2fnKSkqgb5ap9Mufewtjz/3STvoh/Fi
-OL4XF8RMkhnYUbGA/xxcnTir4yal+Xrfn6hXnm+NHyTe9Q5PAbsvswRzsr+jrFIB
-HAaL/NfxDETG6j3Q8OeIg43bQBUeJHasPgdg2FWgLB49JoFyZerwiIAiTwUi6zI1
-dyDuD+tVTCsnh9kP39+vYWzw/d6m79YE43mSwbMHsaOuRENseL1qDs4tH78bs5Zy
-W4uKm5VV5OChA5SGi+HtLaT4zCcu8Ziy3P3tFvNXY1AZ2luZl3aTJYkzckuBIX/a
-jKtBZG8FRwrJXCYRMN0lFZvw84mFcOt0gKIbozbGayadBN7aGXs=
-=0Smp
------END PGP SIGNATURE-----
-
---IS0zKkzwUGydFO0o--
