@@ -2,114 +2,69 @@ Return-Path: <SRS0=RXxr=TU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=0.1 required=3.0 tests=DATE_IN_PAST_03_06,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47F13C04E87
-	for <linux-usb@archiver.kernel.org>; Mon, 20 May 2019 17:56:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E77BC04AAC
+	for <linux-usb@archiver.kernel.org>; Mon, 20 May 2019 18:00:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2325020863
-	for <linux-usb@archiver.kernel.org>; Mon, 20 May 2019 17:56:32 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="V4AXEIv0"
+	by mail.kernel.org (Postfix) with ESMTP id 33126206B6
+	for <linux-usb@archiver.kernel.org>; Mon, 20 May 2019 18:00:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726794AbfETR4N (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 May 2019 13:56:13 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:37076 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726796AbfETR4M (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 May 2019 13:56:12 -0400
-Received: by mail-pg1-f193.google.com with SMTP id n27so4539948pgm.4
-        for <linux-usb@vger.kernel.org>; Mon, 20 May 2019 10:56:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=52yco9VK5RzDzN0Ze4QU/l0MYwJs+5CquMz8VBL6VQk=;
-        b=V4AXEIv08AJKozp2k60l6WH+FbxePpO4LTwIjjxSxtuTTGQq9J6Z94lUGUst3qQJQ0
-         gzqVaxKuD9EsnXxGRIJAA19oBZ5ie2qAalS6DvszK5vEF1nkOTgi0UW+OK0Eg3doRcqb
-         waYM/YGAhtSg0UmYZ5Z0OQJoZBrMBmKMhqCY0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=52yco9VK5RzDzN0Ze4QU/l0MYwJs+5CquMz8VBL6VQk=;
-        b=mj4Yggf4TA+g2e5oFMK+goYU/OMQAI75nXDD7OdsZLJpzVwwvXfq7z2ROcbvAGcUQ8
-         d23ci6Y1+st0p1dswpProhm4Tvl1pyfgUk46csbj7DVamYTeWr8qvAEjK+JA+v9dbIxi
-         cKvo1B8A9Z4Y+Fzan4AeJ0g4l54hORoyuUuknKZZac7ovUVV//Njx0zcC6j/NbrZaW8W
-         x8nsPzBsDk+pdYUG/h+ZdkYrJjbrVwD9VPE8v0ljt3uf8LbBRfMnCOUPK6SnhGRksKZt
-         7Wt1UsQJcYc7WQN16ID2EFzfczCSn9Z2s5OwLHsCGHZBo8a0nejQuWl0MGxsY/thupsV
-         VEvw==
-X-Gm-Message-State: APjAAAX7HWbrubbCg/RR+3XhjwjcNYc1sHGHZxk8m4LqeHCk2X3zowVM
-        2288OsypQbFEwRyWI7ol52TClg==
-X-Google-Smtp-Source: APXvYqzZDvPhaLQndJXX3Bt+sreJ+zs8jKeG3JkAK89Y9xuYz8Uqg1m2gbKwuR3Bid5ZcOye6FcIpw==
-X-Received: by 2002:a62:b40a:: with SMTP id h10mr74507778pfn.216.1558374971504;
-        Mon, 20 May 2019 10:56:11 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com ([2620:15c:202:1:24fa:e766:52c9:e3b2])
-        by smtp.gmail.com with ESMTPSA id o2sm16852723pgq.1.2019.05.20.10.56.09
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 20 May 2019 10:56:10 -0700 (PDT)
-From:   Douglas Anderson <dianders@chromium.org>
-To:     Minas Harutyunyan <hminas@synopsys.com>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>, heiko@sntech.de
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Artur Petrosyan <Arthur.Petrosyan@synopsys.com>,
-        amstan@chromium.org, linux-rockchip@lists.infradead.org,
-        William Wu <william.wu@rock-chips.com>,
-        linux-usb@vger.kernel.org, Stefan Wahren <stefan.wahren@i2se.com>,
-        Randy Li <ayaka@soulik.info>, zyw@rock-chips.com,
-        mka@chromium.org, ryandcase@chromium.org,
-        Amelie Delaunay <amelie.delaunay@st.com>, jwerner@chromium.org,
-        Elaine Zhang <zhangqing@rock-chips.com>,
-        Douglas Anderson <dianders@chromium.org>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3 0/3] USB: dwc2: Allow wakeup from suspend; enable for rk3288-veyron
-Date:   Mon, 20 May 2019 10:56:02 -0700
-Message-Id: <20190520175605.2405-1-dianders@chromium.org>
-X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
+        id S1726933AbfETSAv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 May 2019 14:00:51 -0400
+Received: from westpalmbeachmassagegroup.com ([45.35.221.60]:49865 "EHLO
+        wolfgangdigital.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727169AbfETSAv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 May 2019 14:00:51 -0400
+X-Greylist: delayed 11411 seconds by postgrey-1.27 at vger.kernel.org; Mon, 20 May 2019 14:00:50 EDT
+To:     linux-usb@vger.kernel.org
+Subject: Printing for your logo
+Message-ID: <7a1fd82f669928acd1845b797e6a930d@esquire.com>
+Date:   Mon, 20 May 2019 14:55:12 +0200
+From:   "Heather" <heather@usblogo.space>
+Reply-To: flashdrive@aliyun.com
 MIME-Version: 1.0
+Content-Type: text/plain; format=flowed; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This is a re-post of the last 3 patches of a series I posted earlier
-at:
-  https://lkml.kernel.org/r/20190418001356.124334-1-dianders@chromium.org
+Hi,
 
-The first two patches were applied but the last three weren't because
-they didn't apply at the time.  They apply fine now so are ready to
-land.
+I didn’t know if you had received my email from last week?
 
-Patch #2 has a slight difference in v3 here to fix build robot
-reported error.
+We manufacture ALL custom LOGO and branded products – over 300,000 to
+choose from.
 
-Changes in v3:
-- Fixed kbuild test robot error.
+The most asked about product that we make, is the custom printed USB flash
+drives!
+We can print your logo on them and load your digital images, videos and
+files!
 
-Changes in v2:
-- Rebased to mainline atop rk3288 remote wake quirk series.
-- rk3288-veyron dts patch new for v2.
+Here is what we include:
+-Any size memory you need: 64MB up to 128GB
+-We will print your logo on both sides, just ask!
+-Very Low Order Minimums
+-Need them quickly?  Not a problem, we offer Rush Service
 
-Douglas Anderson (3):
-  Documentation: dt-bindings: Add snps,need-phy-for-wake for dwc2 USB
-  USB: dwc2: Don't turn off the usbphy in suspend if wakeup is enabled
-  ARM: dts: rockchip: Allow wakeup from rk3288-veyron's dwc2 USB ports
+Email over a copy of your logo and we will create a design mock up for you
+at no cost!
 
- .../devicetree/bindings/usb/dwc2.txt          |  3 +++
- arch/arm/boot/dts/rk3288-veyron.dtsi          |  2 ++
- drivers/usb/dwc2/core.h                       |  8 +++++++
- drivers/usb/dwc2/hcd.c                        | 19 +++++++++++++++
- drivers/usb/dwc2/platform.c                   | 23 ++++++++++++++++---
- 5 files changed, 52 insertions(+), 3 deletions(-)
+Our higher memory sizes are a really good option right now!
 
--- 
-2.21.0.1020.gf2820cf01a-goog
+Pricing is low right now, so let us know what you need and we will get you
+a quick quote.
+
+We always offer great rates for schools and nonprofits as well.
+
+Let us know what you would like quoted?
+
+Regards,
+
+Heather Millons
+Custom USB Account Manager
 
