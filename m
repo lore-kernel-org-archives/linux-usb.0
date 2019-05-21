@@ -2,80 +2,128 @@ Return-Path: <SRS0=yIgR=TV=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E520C04AAF
-	for <linux-usb@archiver.kernel.org>; Tue, 21 May 2019 13:09:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26956C04AB4
+	for <linux-usb@archiver.kernel.org>; Tue, 21 May 2019 13:19:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4664B217D4
-	for <linux-usb@archiver.kernel.org>; Tue, 21 May 2019 13:09:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1558444160;
-	bh=UMiTSP3vE2C3S2QMDxEcaTerhYT+4tA555NRkGhW3Uk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=GUgtebRfohcfWRP39dPB5aGgsaGRo3Fhx+5F7S0U/MrBjXRCvVQbx5+o6tc6lTmqd
-	 PNtdJ/d58GhxWBXlPdrq1OqD6GfvEWD6PeBE96meG/PO8bGOrFYSwnHl+wVsfnIQpr
-	 7V7EgybYQUHRryi8BD3gpzuQeD2WN9t7BL9rYC0E=
+	by mail.kernel.org (Postfix) with ESMTP id EFD262173C
+	for <linux-usb@archiver.kernel.org>; Tue, 21 May 2019 13:19:01 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=preh.de header.i=@preh.de header.b="oGxj932i"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727976AbfEUNJT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 May 2019 09:09:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50886 "EHLO mail.kernel.org"
+        id S1728244AbfEUNTA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 May 2019 09:19:00 -0400
+Received: from mail01.preh.com ([80.149.130.22]:42938 "EHLO mail01.preh.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727812AbfEUNJT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 21 May 2019 09:09:19 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8F6902173C;
-        Tue, 21 May 2019 13:09:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558444159;
-        bh=UMiTSP3vE2C3S2QMDxEcaTerhYT+4tA555NRkGhW3Uk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cIeB0EEo/G7r4GRPeZaKjbu2Yxx10MGHqEVxGhh24XsyQNpg/7sCmXzJcgWeaPGE3
-         8djxcUX0UkNwDATSVlWUVLiE3b1moOa5H4Lqxj/LPRJqdxy/SsTv/Suude/gS0K33Q
-         i0VfhWKqVpVL3HbstcYJNdxFBsUBHG51AnITZnQM=
-Date:   Tue, 21 May 2019 15:09:13 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     kbuild test robot <lkp@intel.com>
-Cc:     Alan Stern <stern@rowland.harvard.edu>, kbuild-all@01.org,
-        linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: Re: [usb:usb-linus 3/10] drivers/media//usb/siano/smsusb.c:447:37:
- warning: 'in_maxp' may be used uninitialized in this function
-Message-ID: <20190521130913.GA7273@kroah.com>
-References: <201905211645.tumqhfAz%lkp@intel.com>
+        id S1726692AbfEUNS7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 21 May 2019 09:18:59 -0400
+From:   Kloetzke Jan <Jan.Kloetzke@preh.de>
+To:     Oliver Neukum <oneukum@suse.com>,
+        David Miller <davem@davemloft.net>
+CC:     =?utf-8?B?SmFuIEtsw7Z0emtl?= <jan@kloetzke.net>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Kloetzke Jan <Jan.Kloetzke@preh.de>
+Subject: [PATCH v3] usbnet: fix kernel crash after disconnect
+Thread-Topic: [PATCH v3] usbnet: fix kernel crash after disconnect
+Thread-Index: AQHVD9e0yfwldPJKrkOozCggfUiRSQ==
+Date:   Tue, 21 May 2019 13:18:40 +0000
+Message-ID: <20190521131826.30475-1-Jan.Kloetzke@preh.de>
+References: <1558438944.12672.13.camel@suse.com>
+In-Reply-To: <1558438944.12672.13.camel@suse.com>
+Accept-Language: de-DE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-tm-snts-smtp: 0057CAAE3B5C9ED69887D59E986334810166454D7D941CDCF57AE75E0021741E2000:8
+x-exclaimer-md-config: 142fe46c-4d13-4ac1-9970-1f36f118897a
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <7AD7AA868E63D944A5F07209F4FA09B3@preh.de>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <201905211645.tumqhfAz%lkp@intel.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; d=preh.de; s=key1; c=relaxed/relaxed;
+ h=from:to:cc:subject:date:message-id:references:content-type:mime-version;
+ bh=1jmU4MUGKrogGk+Rb1I7p4KEjxRh1MCE6RhCh5YD+AE=;
+ b=oGxj932i+4q9UjJ+ntwTPXCb3OmPnml8cTWwz1aAeK2QbO6XHlUsIninKjo35XbrCH6bYweeILxD
+        cz5W4UCRG8nERMxbzRaD+7CxoLJHfLn7LAlg5bFi0MogzdtTwlhDb7cKqfPJm46/ahlqlLp7p1vO
+        rp1li6d6Q2EFQjG2EeWe5R+Ts0dwRbYUS4D2zznPV0nnj1k7OlTRs+nqgd1NKx49T4KuOT46TApZ
+        oITopd5xIieL9lvgqQ23fr4yZBzLpJDR/LKXgnbuzW0PlOYEjiag4/mv/u+jCyjNOoFv9C8Yk1D/
+        GpsrZR2XkDJh2sZVRORhhweGg7QtiaEMLdDn0g==
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, May 21, 2019 at 04:48:47PM +0800, kbuild test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-linus
-> head:   53c7b63f797c96a30c21dd3b781fafaae096a12b
-> commit: 31e0456de5be379b10fea0fa94a681057114a96e [3/10] media: usb: siano: Fix general protection fault in smsusb
-> config: mips-allmodconfig (attached as .config)
-> compiler: mips-linux-gcc (GCC) 8.1.0
-> reproduce:
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         git checkout 31e0456de5be379b10fea0fa94a681057114a96e
->         # save the attached .config to linux build tree
->         GCC_VERSION=8.1.0 make.cross ARCH=mips 
-> 
-> If you fix the issue, kindly add following tag
-> Reported-by: kbuild test robot <lkp@intel.com>
-> 
-> Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-> http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
-
-False positive, gcc isn't smart enough here.
-
-greg k-h
+V2hlbiBkaXNjb25uZWN0aW5nIGNkY19uY20gdGhlIGtlcm5lbCBzcG9yYWRpY2FsbHkgY3Jhc2hl
+cyBzaG9ydGx5DQphZnRlciB0aGUgZGlzY29ubmVjdDoNCg0KICBbICAgNTcuODY4ODEyXSBVbmFi
+bGUgdG8gaGFuZGxlIGtlcm5lbCBOVUxMIHBvaW50ZXIgZGVyZWZlcmVuY2UgYXQgdmlydHVhbCBh
+ZGRyZXNzIDAwMDAwMDAwDQogIC4uLg0KICBbICAgNTguMDA2NjUzXSBQQyBpcyBhdCAweDANCiAg
+WyAgIDU4LjAwOTIwMl0gTFIgaXMgYXQgY2FsbF90aW1lcl9mbisweGVjLzB4MWI0DQogIFsgICA1
+OC4wMTM1NjddIHBjIDogWzwwMDAwMDAwMDAwMDAwMDAwPl0gbHIgOiBbPGZmZmZmZjgwMDgwZjUx
+MzA+XSBwc3RhdGU6IDAwMDAwMTQ1DQogIFsgICA1OC4wMjA5NzZdIHNwIDogZmZmZmZmODAwODAw
+M2RhMA0KICBbICAgNTguMDI0Mjk1XSB4Mjk6IGZmZmZmZjgwMDgwMDNkYTAgeDI4OiAwMDAwMDAw
+MDAwMDAwMDAxDQogIFsgICA1OC4wMjk2MThdIHgyNzogMDAwMDAwMDAwMDAwMDAwYSB4MjY6IDAw
+MDAwMDAwMDAwMDAxMDANCiAgWyAgIDU4LjAzNDk0MV0geDI1OiAwMDAwMDAwMDAwMDAwMDAwIHgy
+NDogZmZmZmZmODAwODAwM2U2OA0KICBbICAgNTguMDQwMjYzXSB4MjM6IDAwMDAwMDAwMDAwMDAw
+MDAgeDIyOiAwMDAwMDAwMDAwMDAwMDAwDQogIFsgICA1OC4wNDU1ODddIHgyMTogMDAwMDAwMDAw
+MDAwMDAwMCB4MjA6IGZmZmZmZmM2OGZhYzE4MDgNCiAgWyAgIDU4LjA1MDkxMF0geDE5OiAwMDAw
+MDAwMDAwMDAwMTAwIHgxODogMDAwMDAwMDAwMDAwMDAwMA0KICBbICAgNTguMDU2MjMyXSB4MTc6
+IDAwMDAwMDdmODg1YWZmOGMgeDE2OiAwMDAwMDA3Zjg4M2E5ZjEwDQogIFsgICA1OC4wNjE1NTZd
+IHgxNTogMDAwMDAwMDAwMDAwMDAwMSB4MTQ6IDAwMDAwMDAwMDAwMDAwNmUNCiAgWyAgIDU4LjA2
+Njg3OF0geDEzOiAwMDAwMDAwMDAwMDAwMDAwIHgxMjogMDAwMDAwMDAwMDAwMDBiYQ0KICBbICAg
+NTguMDcyMjAxXSB4MTE6IGZmZmZmZmM2OWZmMWRiMzAgeDEwOiAwMDAwMDAwMDAwMDAwMDIwDQog
+IFsgICA1OC4wNzc1MjRdIHg5IDogODAwMDEwMDAwODAwMTAwMCB4OCA6IDAwMDAwMDAwMDAwMDAw
+MDENCiAgWyAgIDU4LjA4Mjg0N10geDcgOiAwMDAwMDAwMDAwMDAwODAwIHg2IDogZmZmZmZmODAw
+ODAwM2U3MA0KICBbICAgNTguMDg4MTY5XSB4NSA6IGZmZmZmZmM2OWZmMTdhMjggeDQgOiAwMDAw
+MDAwMGZmZmYxMzhiDQogIFsgICA1OC4wOTM0OTJdIHgzIDogMDAwMDAwMDAwMDAwMDAwMCB4MiA6
+IDAwMDAwMDAwMDAwMDAwMDANCiAgWyAgIDU4LjA5ODgxNF0geDEgOiAwMDAwMDAwMDAwMDAwMDAw
+IHgwIDogMDAwMDAwMDAwMDAwMDAwMA0KICAuLi4NCiAgWyAgIDU4LjIwNTgwMF0gWzwgICAgICAg
+ICAgKG51bGwpPl0gICAgICAgICAgIChudWxsKQ0KICBbICAgNTguMjEwNTIxXSBbPGZmZmZmZjgw
+MDgwZjUyOTg+XSBleHBpcmVfdGltZXJzKzB4YTAvMHgxNGMNCiAgWyAgIDU4LjIxNTkzN10gWzxm
+ZmZmZmY4MDA4MGY1NDJjPl0gcnVuX3RpbWVyX3NvZnRpcnErMHhlOC8weDEyOA0KICBbICAgNTgu
+MjIxNzAyXSBbPGZmZmZmZjgwMDgwODExMjA+XSBfX2RvX3NvZnRpcnErMHgyOTgvMHgzNDgNCiAg
+WyAgIDU4LjIyNzExOF0gWzxmZmZmZmY4MDA4MGE2MzA0Pl0gaXJxX2V4aXQrMHg3NC8weGJjDQog
+IFsgICA1OC4yMzIwMDldIFs8ZmZmZmZmODAwODBlMTdkYz5dIF9faGFuZGxlX2RvbWFpbl9pcnEr
+MHg3OC8weGFjDQogIFsgICA1OC4yMzc4NTddIFs8ZmZmZmZmODAwODA4MGNmND5dIGdpY19oYW5k
+bGVfaXJxKzB4ODAvMHhhYw0KICAuLi4NCg0KVGhlIGNyYXNoIGhhcHBlbnMgcm91Z2hseSAxMjUu
+LjEzMG1zIGFmdGVyIHRoZSBkaXNjb25uZWN0LiBUaGlzDQpjb3JyZWxhdGVzIHdpdGggdGhlICdk
+ZWxheScgdGltZXIgdGhhdCBpcyBzdGFydGVkIG9uIGNlcnRhaW4gVVNCIHR4L3J4DQplcnJvcnMg
+aW4gdGhlIFVSQiBjb21wbGV0aW9uIGhhbmRsZXIuDQoNClRoZSBwcm9ibGVtIGlzIGEgcmFjZSBv
+ZiB1c2JuZXRfc3RvcCgpIHdpdGggdXNibmV0X3N0YXJ0X3htaXQoKS4gSW4NCnVzYm5ldF9zdG9w
+KCkgd2UgY2FsbCB1c2JuZXRfdGVybWluYXRlX3VyYnMoKSB0byBjYW5jZWwgYWxsIFVSQnMgaW4N
+CmZsaWdodC4gVGhpcyBvbmx5IG1ha2VzIHNlbnNlIGlmIG5vIG5ldyBVUkJzIGFyZSBzdWJtaXR0
+ZWQNCmNvbmN1cnJlbnRseSwgdGhvdWdoLiBCdXQgdGhlIHVzYm5ldF9zdGFydF94bWl0KCkgY2Fu
+IHJ1biBhdCB0aGUgc2FtZQ0KdGltZSBvbiBhbm90aGVyIENQVSB3aGljaCBhbG1vc3QgdW5jb25k
+aXRpb25hbGx5IHN1Ym1pdHMgYW4gVVJCLiBUaGUNCmVycm9yIGNhbGxiYWNrIG9mIHRoZSBuZXcg
+VVJCIHdpbGwgdGhlbiBzY2hlZHVsZSB0aGUgdGltZXIgYWZ0ZXIgaXQgd2FzDQphbHJlYWR5IHN0
+b3BwZWQuDQoNClRoZSBmaXggYWRkcyBhIGNoZWNrIGlmIHRoZSB0eCBxdWV1ZSBpcyBzdG9wcGVk
+IGFmdGVyIHRoZSB0eCBsaXN0IGxvY2sNCmhhcyBiZWVuIHRha2VuLiBUaGlzIHNob3VsZCByZWxp
+YWJseSBwcmV2ZW50IHRoZSBzdWJtaXNzaW9uIG9mIG5ldyBVUkJzDQp3aGlsZSB1c2JuZXRfdGVy
+bWluYXRlX3VyYnMoKSBkb2VzIGl0cyBqb2IuIFRoZSBzYW1lIHRoaW5nIGlzIGRvbmUgb24NCnRo
+ZSByeCBzaWRlIGV2ZW4gdGhvdWdoIGl0IG1pZ2h0IGJlIHNhZmUgZHVlIHRvIG90aGVyIGZsYWdz
+IHRoYXQgYXJlDQpjaGVja2VkIHRoZXJlLg0KDQpTaWduZWQtb2ZmLWJ5OiBKYW4gS2zDtnR6a2Ug
+PEphbi5LbG9ldHprZUBwcmVoLmRlPg0KLS0tDQoNCnYzOiByZW1vdmVkIFdBUk5fT04oKSBiZWNh
+dXNlIHRoZSByYWNlIGlzIGV4cGVjdGVkIHRvIGhhcHBlbg0KdjI6IGFkZCBXQVJOX09OKCkgYXMg
+b2YgT2xpdmVycyBzdWdnZXN0aW9uDQoNCiBkcml2ZXJzL25ldC91c2IvdXNibmV0LmMgfCA2ICsr
+KysrKw0KIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykNCg0KZGlmZiAtLWdpdCBhL2Ry
+aXZlcnMvbmV0L3VzYi91c2JuZXQuYyBiL2RyaXZlcnMvbmV0L3VzYi91c2JuZXQuYw0KaW5kZXgg
+NTA0MjgyYWYyN2U1Li45MjFjYzA1NzFiZDAgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL25ldC91c2Iv
+dXNibmV0LmMNCisrKyBiL2RyaXZlcnMvbmV0L3VzYi91c2JuZXQuYw0KQEAgLTUwNiw2ICs1MDYs
+NyBAQCBzdGF0aWMgaW50IHJ4X3N1Ym1pdCAoc3RydWN0IHVzYm5ldCAqZGV2LCBzdHJ1Y3QgdXJi
+ICp1cmIsIGdmcF90IGZsYWdzKQ0KIA0KIAlpZiAobmV0aWZfcnVubmluZyAoZGV2LT5uZXQpICYm
+DQogCSAgICBuZXRpZl9kZXZpY2VfcHJlc2VudCAoZGV2LT5uZXQpICYmDQorCSAgICB0ZXN0X2Jp
+dChFVkVOVF9ERVZfT1BFTiwgJmRldi0+ZmxhZ3MpICYmDQogCSAgICAhdGVzdF9iaXQgKEVWRU5U
+X1JYX0hBTFQsICZkZXYtPmZsYWdzKSAmJg0KIAkgICAgIXRlc3RfYml0IChFVkVOVF9ERVZfQVNM
+RUVQLCAmZGV2LT5mbGFncykpIHsNCiAJCXN3aXRjaCAocmV0dmFsID0gdXNiX3N1Ym1pdF91cmIg
+KHVyYiwgR0ZQX0FUT01JQykpIHsNCkBAIC0xNDMxLDYgKzE0MzIsMTEgQEAgbmV0ZGV2X3R4X3Qg
+dXNibmV0X3N0YXJ0X3htaXQgKHN0cnVjdCBza19idWZmICpza2IsDQogCQlzcGluX3VubG9ja19p
+cnFyZXN0b3JlKCZkZXYtPnR4cS5sb2NrLCBmbGFncyk7DQogCQlnb3RvIGRyb3A7DQogCX0NCisJ
+aWYgKG5ldGlmX3F1ZXVlX3N0b3BwZWQobmV0KSkgew0KKwkJdXNiX2F1dG9wbV9wdXRfaW50ZXJm
+YWNlX2FzeW5jKGRldi0+aW50Zik7DQorCQlzcGluX3VubG9ja19pcnFyZXN0b3JlKCZkZXYtPnR4
+cS5sb2NrLCBmbGFncyk7DQorCQlnb3RvIGRyb3A7DQorCX0NCiANCiAjaWZkZWYgQ09ORklHX1BN
+DQogCS8qIGlmIHRoaXMgdHJpZ2dlcnMgdGhlIGRldmljZSBpcyBzdGlsbCBhIHNsZWVwICovDQot
+LSANCjIuMTEuMA0K
