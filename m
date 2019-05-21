@@ -2,101 +2,107 @@ Return-Path: <SRS0=yIgR=TV=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ACD7C04AAF
-	for <linux-usb@archiver.kernel.org>; Tue, 21 May 2019 13:30:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4634C04AAF
+	for <linux-usb@archiver.kernel.org>; Tue, 21 May 2019 13:37:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EF0A12173C
-	for <linux-usb@archiver.kernel.org>; Tue, 21 May 2019 13:30:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C31CE208C3
+	for <linux-usb@archiver.kernel.org>; Tue, 21 May 2019 13:37:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728005AbfEUNaQ convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 May 2019 09:30:16 -0400
-Received: from unicorn.mansr.com ([81.2.72.234]:37392 "EHLO unicorn.mansr.com"
+        id S1728201AbfEUNhb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 May 2019 09:37:31 -0400
+Received: from mga04.intel.com ([192.55.52.120]:16047 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726995AbfEUNaQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 21 May 2019 09:30:16 -0400
-Received: by unicorn.mansr.com (Postfix, from userid 51770)
-        id 6E34217102; Tue, 21 May 2019 14:30:14 +0100 (BST)
-From:   =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>
-To:     Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     linux-usb@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Markus Reichl <m.reichl@fivetechno.de>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Peter Chen <peter.chen@nxp.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH 0/5] Exynos EHCI/OHCI: resolve conflict with the generic USB device bindings
-References: <CGME20190521120015eucas1p1da2f3f32d6b8af8cb550463686fd4e12@eucas1p1.samsung.com>
-        <20190521115849.9882-1-m.szyprowski@samsung.com>
-Date:   Tue, 21 May 2019 14:30:14 +0100
-In-Reply-To: <20190521115849.9882-1-m.szyprowski@samsung.com> (Marek
-        Szyprowski's message of "Tue, 21 May 2019 13:58:44 +0200")
-Message-ID: <yw1xk1ekszo9.fsf@mansr.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.3 (gnu/linux)
+        id S1727969AbfEUNhb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 21 May 2019 09:37:31 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 May 2019 06:37:31 -0700
+X-ExtLoop1: 1
+Received: from kuha.fi.intel.com ([10.237.72.189])
+  by fmsmga001.fm.intel.com with SMTP; 21 May 2019 06:37:28 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 21 May 2019 16:37:27 +0300
+Date:   Tue, 21 May 2019 16:37:27 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Ajay Gupta <ajaykuee@gmail.com>
+Cc:     wsa@the-dreams.de, linux-usb@vger.kernel.org,
+        linux-i2c@vger.kernel.org, Ajay Gupta <ajayg@nvidia.com>
+Subject: Re: [PATCH v2 3/5] usb: typec: ucsi: ccg: enable runtime pm support
+Message-ID: <20190521133727.GK1887@kuha.fi.intel.com>
+References: <20190520183750.2932-1-ajayg@nvidia.com>
+ <20190520183750.2932-4-ajayg@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190520183750.2932-4-ajayg@nvidia.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Marek Szyprowski <m.szyprowski@samsung.com> writes:
+Hi,
 
-> Dear All,
->
-> Commit 69bec7259853 ("USB: core: let USB device know device node") added
-> support for attaching devicetree node for USB devices. Those nodes are
-> children of their USB host controller. However Exynos EHCI and OHCI
-> driver bindings already define child-nodes for each physical root hub
-> port and assigns respective PHY controller and parameters to them. This
-> leads to the conflict. A workaround for it has been merged as commit
-> 01d4071486fe ("usb: exynos: add workaround for the USB device bindings
-> conflict"), but it disabled support for USB device binding for Exynos
-> EHCI/OHCI controllers.
->
-> This patchset tries to resolve this binding conflict by changing Exynos
-> EHCI/OHCI bindings: PHYs are moved from the sub-nodes to a standard array
-> under the 'phys' property. Such solution has been suggested by Måns
-> Rullgård in the following thread: https://lkml.org/lkml/2019/5/13/228
->
-> To keep everything working during the transitional time, the changes has
-> been split into 2 steps. First step (patches 1-3) need to be merged before
-> the second one (patches 4-5). Patches from each step can be merged to
-> respective trees without any dependencies - the only requirement is that
-> second step has to be merged after merging all patches from the first one.
->
-> This patchset has been tested on various Exynos4 boards with different
-> USB host controller configurations (Odroids family: X2, U3, XU3).
->
-> Best regards
-> Marek Szyprowski
-> Samsung R&D Institute Poland
->
-> Marek Szyprowski (5):
->   dt-bindings: switch Exynos EHCI/OHCI bindings to use array of generic
->     PHYs
->   ARM: dts: exynos: Add array of generic PHYs to EHCI/OHCI devices
->   usb: exynos: add support for getting PHYs from the standard dt array
->   ARM: dts: exynos: Remove obsolete port sub-nodes from EHCI/OHCI
->     devices
->   usb: exynos: Remove support for legacy PHY bindings
+On Mon, May 20, 2019 at 11:37:48AM -0700, Ajay Gupta wrote:
+> +static int ucsi_ccg_resume(struct device *dev)
+> +{
+> +	struct i2c_client *client = to_i2c_client(dev);
+> +	struct ucsi_ccg *uc = i2c_get_clientdata(client);
+> +	struct ucsi *ucsi = uc->ucsi;
+> +	struct ucsi_control c;
+> +	int ret;
+> +
+> +	/* restore UCSI notification enable mask */
+> +	UCSI_CMD_SET_NTFY_ENABLE(c, UCSI_ENABLE_NTFY_ALL);
+> +	ret = ucsi_send_command(ucsi, &c, NULL, 0);
+> +	if (ret < 0) {
+> +		dev_err(uc->dev, "%s: failed to set notification enable - %d\n",
+> +			__func__, ret);
+> +	}
+> +	return 0;
+> +}
 
-You could retain compatibility with old devicetrees (which may be
-useful) by using the "phys" property if it exists and falling back
-on the old method if it doesn't.  Then you would get this sequence
-of changes:
+I would prefer that we did this for all methods in ucsi.c, not just
+ccgx. Could you add resume callback to struct ucsi_ppm, and then call
+it here.
 
-1. Update binding definition.
-2. Support new binding in driver, with fallback to old.
-3. Switch dts files to new binding.
+> +static int ucsi_ccg_runtime_suspend(struct device *dev)
+> +{
+> +	return 0;
+> +}
+> +
+> +static int ucsi_ccg_runtime_resume(struct device *dev)
+> +{
+> +	return 0;
+> +}
+> +
+> +static int ucsi_ccg_runtime_idle(struct device *dev)
+> +{
+> +	return 0;
+> +}
+> +
+> +static const struct dev_pm_ops ucsi_ccg_pm = {
+> +	.suspend = ucsi_ccg_suspend,
+> +	.resume = ucsi_ccg_resume,
+> +	.runtime_suspend = ucsi_ccg_runtime_suspend,
+> +	.runtime_resume = ucsi_ccg_runtime_resume,
+> +	.runtime_idle = ucsi_ccg_runtime_idle,
+> +};
+> +
+>  static struct i2c_driver ucsi_ccg_driver = {
+>  	.driver = {
+>  		.name = "ucsi_ccg",
+> +		.pm = &ucsi_ccg_pm,
+>  	},
+>  	.probe = ucsi_ccg_probe,
+>  	.remove = ucsi_ccg_remove,
+
+thanks,
 
 -- 
-Måns Rullgård
+heikki
