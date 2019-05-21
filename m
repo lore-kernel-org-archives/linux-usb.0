@@ -2,211 +2,152 @@ Return-Path: <SRS0=yIgR=TV=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79B82C04AB4
-	for <linux-usb@archiver.kernel.org>; Tue, 21 May 2019 14:02:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83765C04AB4
+	for <linux-usb@archiver.kernel.org>; Tue, 21 May 2019 14:08:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 557B52075E
-	for <linux-usb@archiver.kernel.org>; Tue, 21 May 2019 14:02:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 633172173C
+	for <linux-usb@archiver.kernel.org>; Tue, 21 May 2019 14:08:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728539AbfEUOCo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 May 2019 10:02:44 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:33008 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1728317AbfEUOCo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 May 2019 10:02:44 -0400
-Received: (qmail 1899 invoked by uid 2102); 21 May 2019 10:02:43 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 21 May 2019 10:02:43 -0400
-Date:   Tue, 21 May 2019 10:02:43 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     "Eric W. Biederman" <ebiederm@xmission.com>
-cc:     linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Oliver Neukum <oneukum@suse.com>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] signal/usb: Replace kill_pid_info_as_cred with
- kill_pid_usb_asyncio
-In-Reply-To: <877eakou9o.fsf@xmission.com>
-Message-ID: <Pine.LNX.4.44L0.1905211000310.1634-100000@iolanthe.rowland.org>
-MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+        id S1728342AbfEUOH7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 May 2019 10:07:59 -0400
+Received: from inva021.nxp.com ([92.121.34.21]:48216 "EHLO inva021.nxp.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728202AbfEUOH7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 21 May 2019 10:07:59 -0400
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 049B72001BB;
+        Tue, 21 May 2019 16:07:56 +0200 (CEST)
+Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com [134.27.226.22])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id E95EB200020;
+        Tue, 21 May 2019 16:07:55 +0200 (CEST)
+Received: from fsr-ub1864-101.ea.freescale.net (fsr-ub1864-101.ea.freescale.net [10.171.82.13])
+        by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id 671A520612;
+        Tue, 21 May 2019 16:07:55 +0200 (CEST)
+From:   laurentiu.tudor@nxp.com
+To:     hch@lst.de, stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, marex@denx.de
+Cc:     leoyang.li@nxp.com, linux-kernel@vger.kernel.org,
+        robin.murphy@arm.com, noring@nocrew.org, JuergenUrban@gmx.de,
+        Laurentiu Tudor <laurentiu.tudor@nxp.com>
+Subject: [PATCH v5 3/5] usb: host: ohci-sm501: init genalloc for local memory
+Date:   Tue, 21 May 2019 17:07:46 +0300
+Message-Id: <20190521140748.20012-4-laurentiu.tudor@nxp.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190521140748.20012-1-laurentiu.tudor@nxp.com>
+References: <20190521140748.20012-1-laurentiu.tudor@nxp.com>
+X-Virus-Scanned: ClamAV using ClamSMTP
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 21 May 2019, Eric W. Biederman wrote:
+From: Laurentiu Tudor <laurentiu.tudor@nxp.com>
 
-> The usb support for asyncio encoded one of it's values in the wrong
-> field.  It should have used si_value but instead used si_addr which is
-> not present in the _rt union member of struct siginfo.
-> 
-> The practical result of this is that on a 64bit big endian kernel
-> when delivering a signal to a 32bit process the si_addr field
-> is set to NULL, instead of the expected pointer value.
-> 
-> This issue can not be fixed in copy_siginfo_to_user32 as the usb
-> usage of the the _sigfault (aka si_addr) member of the siginfo
-> union when SI_ASYNCIO is set is incompatible with the POSIX and
-> glibc usage of the _rt member of the siginfo union.
-> 
-> Therefore replace kill_pid_info_as_cred with kill_pid_usb_asyncio a
-> dedicated function for this one specific case.  There are no other
-> users of kill_pid_info_as_cred so this specialization should have no
-> impact on the amount of code in the kernel.  Have kill_pid_usb_asyncio
-> take instead of a siginfo_t which is difficult and error prone, 3
-> arguments, a signal number, an errno value, and an address enconded as
-> a sigval_t.  The encoding of the address as a sigval_t allows the
-> code that reads the userspace request for a signal to handle this
-> compat issue along with all of the other compat issues.
-> 
-> Add BUILD_BUG_ONs in kernel/signal.c to ensure that we can now place
-> the pointer value at the in si_pid (instead of si_addr).  That is the
-> code now verifies that si_pid and si_addr always occur at the same
-> location.  Further the code veries that for native structures a value
-> placed in si_pid and spilling into si_uid will appear in userspace in
-> si_addr (on a byte by byte copy of siginfo or a field by field copy of
-> siginfo).  The code also verifies that for a 64bit kernel and a 32bit
-> userspace the 32bit pointer will fit in si_pid.
-> 
-> I have used the usbsig.c program below written by Alan Stern and
-> slightly tweaked by me to run on a big endian machine to verify the
-> issue exists (on sparc64) and to confirm the patch below fixes the issue.
-> 
-> /* usbsig.c -- test USB async signal delivery */
-> 
-> static struct usbdevfs_urb urb;
-> static struct usbdevfs_disconnectsignal ds;
-> static volatile sig_atomic_t done = 0;
-> 
-> void urb_handler(int sig, siginfo_t *info , void *ucontext)
-> {
-> 	printf("Got signal %d, signo %d errno %d code %d addr: %p urb: %p\n",
-> 	       sig, info->si_signo, info->si_errno, info->si_code,
-> 	       info->si_addr, &urb);
-> 
-> 	printf("%s\n", (info->si_addr == &urb) ? "Good" : "Bad");
-> }
-> 
-> void ds_handler(int sig, siginfo_t *info , void *ucontext)
-> {
-> 	printf("Got signal %d, signo %d errno %d code %d addr: %p ds: %p\n",
-> 	       sig, info->si_signo, info->si_errno, info->si_code,
-> 	       info->si_addr, &ds);
-> 
-> 	printf("%s\n", (info->si_addr == &ds) ? "Good" : "Bad");
-> 	done = 1;
-> }
-> 
-> int main(int argc, char **argv)
-> {
-> 	char *devfilename;
-> 	int fd;
-> 	int rc;
-> 	struct sigaction act;
-> 	struct usb_ctrlrequest *req;
-> 	void *ptr;
-> 	char buf[80];
-> 
-> 	if (argc != 2) {
-> 		fprintf(stderr, "Usage: usbsig device-file-name\n");
-> 		return 1;
-> 	}
-> 
-> 	devfilename = argv[1];
-> 	fd = open(devfilename, O_RDWR);
-> 	if (fd == -1) {
-> 		perror("Error opening device file");
-> 		return 1;
-> 	}
-> 
-> 	act.sa_sigaction = urb_handler;
-> 	sigemptyset(&act.sa_mask);
-> 	act.sa_flags = SA_SIGINFO;
-> 
-> 	rc = sigaction(SIGUSR1, &act, NULL);
-> 	if (rc == -1) {
-> 		perror("Error in sigaction");
-> 		return 1;
-> 	}
-> 
-> 	act.sa_sigaction = ds_handler;
-> 	sigemptyset(&act.sa_mask);
-> 	act.sa_flags = SA_SIGINFO;
-> 
-> 	rc = sigaction(SIGUSR2, &act, NULL);
-> 	if (rc == -1) {
-> 		perror("Error in sigaction");
-> 		return 1;
-> 	}
-> 
-> 	memset(&urb, 0, sizeof(urb));
-> 	urb.type = USBDEVFS_URB_TYPE_CONTROL;
-> 	urb.endpoint = USB_DIR_IN | 0;
-> 	urb.buffer = buf;
-> 	urb.buffer_length = sizeof(buf);
-> 	urb.signr = SIGUSR1;
-> 
-> 	req = (struct usb_ctrlrequest *) buf;
-> 	req->bRequestType = USB_DIR_IN | USB_TYPE_STANDARD | USB_RECIP_DEVICE;
-> 	req->bRequest = USB_REQ_GET_DESCRIPTOR;
-> 	req->wValue = htole16(USB_DT_DEVICE << 8);
-> 	req->wIndex = htole16(0);
-> 	req->wLength = htole16(sizeof(buf) - sizeof(*req));
+In preparation for dropping the existing "coherent" dma mem declaration
+APIs, replace the current dma_declare_coherent_memory() based mechanism
+with the creation of a genalloc pool that will be used in the OHCI
+subsystem as replacement for the DMA APIs.
 
-In fact, these values are supposed to be in host-endian order, not 
-necessarily little-endian.  The USB core converts them if necessary.
+For context, see thread here: https://lkml.org/lkml/2019/4/22/357
 
-> 	rc = ioctl(fd, USBDEVFS_SUBMITURB, &urb);
-> 	if (rc == -1) {
-> 		perror("Error in SUBMITURB ioctl");
-> 		return 1;
-> 	}
-> 
-> 	rc = ioctl(fd, USBDEVFS_REAPURB, &ptr);
-> 	if (rc == -1) {
-> 		perror("Error in REAPURB ioctl");
-> 		return 1;
-> 	}
-> 
-> 	memset(&ds, 0, sizeof(ds));
-> 	ds.signr = SIGUSR2;
-> 	ds.context = &ds;
-> 	rc = ioctl(fd, USBDEVFS_DISCSIGNAL, &ds);
-> 	if (rc == -1) {
-> 		perror("Error in DISCSIGNAL ioctl");
-> 		return 1;
-> 	}
-> 
-> 	printf("Waiting for usb disconnect\n");
-> 	while (!done) {
-> 		sleep(1);
-> 	}
-> 
-> 	close(fd);
-> 	return 0;
-> }
-> 
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: linux-usb@vger.kernel.org
-> Cc: Alan Stern <stern@rowland.harvard.edu>
-> Cc: Oliver Neukum <oneukum@suse.com>
-> Fixes: v2.3.39
-> Cc: stable@vger.kernel.org
-> Signed-off-by: "Eric W. Biederman" <ebiederm@xmission.com>
-> ---
-> 
-> I managed to wrestle a sparc64 qemu to the ground so I could verify this
-> bug exists and the patch below fixes it.
-> 
-> Can I get an Ack from the usb side of things?
+Signed-off-by: Laurentiu Tudor <laurentiu.tudor@nxp.com>
+---
+ drivers/usb/host/ohci-sm501.c | 47 +++++++++++++++--------------------
+ 1 file changed, 20 insertions(+), 27 deletions(-)
 
-Give me some time to review the description and the changes.
-
-Alan Stern
+diff --git a/drivers/usb/host/ohci-sm501.c b/drivers/usb/host/ohci-sm501.c
+index c26228c25f99..b710e100aec9 100644
+--- a/drivers/usb/host/ohci-sm501.c
++++ b/drivers/usb/host/ohci-sm501.c
+@@ -110,40 +110,18 @@ static int ohci_hcd_sm501_drv_probe(struct platform_device *pdev)
+ 		goto err0;
+ 	}
+ 
+-	/* The sm501 chip is equipped with local memory that may be used
+-	 * by on-chip devices such as the video controller and the usb host.
+-	 * This driver uses dma_declare_coherent_memory() to make sure
+-	 * usb allocations with dma_alloc_coherent() allocate from
+-	 * this local memory. The dma_handle returned by dma_alloc_coherent()
+-	 * will be an offset starting from 0 for the first local memory byte.
+-	 *
+-	 * So as long as data is allocated using dma_alloc_coherent() all is
+-	 * fine. This is however not always the case - buffers may be allocated
+-	 * using kmalloc() - so the usb core needs to be told that it must copy
+-	 * data into our local memory if the buffers happen to be placed in
+-	 * regular memory. The HCD_LOCAL_MEM flag does just that.
+-	 */
+-
+-	retval = dma_declare_coherent_memory(dev, mem->start,
+-					 mem->start - mem->parent->start,
+-					 resource_size(mem));
+-	if (retval) {
+-		dev_err(dev, "cannot declare coherent memory\n");
+-		goto err1;
+-	}
+-
+ 	/* allocate, reserve and remap resources for registers */
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	if (res == NULL) {
+ 		dev_err(dev, "no resource definition for registers\n");
+ 		retval = -ENOENT;
+-		goto err2;
++		goto err1;
+ 	}
+ 
+ 	hcd = usb_create_hcd(driver, &pdev->dev, dev_name(&pdev->dev));
+ 	if (!hcd) {
+ 		retval = -ENOMEM;
+-		goto err2;
++		goto err1;
+ 	}
+ 
+ 	hcd->rsrc_start = res->start;
+@@ -164,6 +142,24 @@ static int ohci_hcd_sm501_drv_probe(struct platform_device *pdev)
+ 
+ 	ohci_hcd_init(hcd_to_ohci(hcd));
+ 
++	/* The sm501 chip is equipped with local memory that may be used
++	 * by on-chip devices such as the video controller and the usb host.
++	 * This driver uses genalloc so that usb allocations with
++	 * gen_pool_dma_alloc() allocate from this local memory. The dma_handle
++	 * returned by gen_pool_dma_alloc() will be an offset starting from 0
++	 * for the first local memory byte.
++	 *
++	 * So as long as data is allocated using gen_pool_dma_alloc() all is
++	 * fine. This is however not always the case - buffers may be allocated
++	 * using kmalloc() - so the usb core needs to be told that it must copy
++	 * data into our local memory if the buffers happen to be placed in
++	 * regular memory. The HCD_LOCAL_MEM flag does just that.
++	 */
++
++	if (usb_hcd_setup_local_mem(hcd, mem->start,
++				    mem->start - mem->parent->start,
++				    resource_size(mem)) < 0)
++		goto err5;
+ 	retval = usb_add_hcd(hcd, irq, IRQF_SHARED);
+ 	if (retval)
+ 		goto err5;
+@@ -181,8 +177,6 @@ static int ohci_hcd_sm501_drv_probe(struct platform_device *pdev)
+ 	release_mem_region(hcd->rsrc_start, hcd->rsrc_len);
+ err3:
+ 	usb_put_hcd(hcd);
+-err2:
+-	dma_release_declared_memory(dev);
+ err1:
+ 	release_mem_region(mem->start, resource_size(mem));
+ err0:
+@@ -197,7 +191,6 @@ static int ohci_hcd_sm501_drv_remove(struct platform_device *pdev)
+ 	usb_remove_hcd(hcd);
+ 	release_mem_region(hcd->rsrc_start, hcd->rsrc_len);
+ 	usb_put_hcd(hcd);
+-	dma_release_declared_memory(&pdev->dev);
+ 	mem = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+ 	if (mem)
+ 		release_mem_region(mem->start, resource_size(mem));
+-- 
+2.17.1
 
