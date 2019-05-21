@@ -2,133 +2,163 @@ Return-Path: <SRS0=yIgR=TV=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_MUTT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFAB9C04E87
-	for <linux-usb@archiver.kernel.org>; Tue, 21 May 2019 09:42:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7EF6C04AAF
+	for <linux-usb@archiver.kernel.org>; Tue, 21 May 2019 09:58:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 82BD321479
-	for <linux-usb@archiver.kernel.org>; Tue, 21 May 2019 09:42:54 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesasgroup.onmicrosoft.com header.i=@renesasgroup.onmicrosoft.com header.b="mnlJv2jE"
+	by mail.kernel.org (Postfix) with ESMTP id B76EA2173E
+	for <linux-usb@archiver.kernel.org>; Tue, 21 May 2019 09:58:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727179AbfEUJmx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 May 2019 05:42:53 -0400
-Received: from mail-eopbgr1410102.outbound.protection.outlook.com ([40.107.141.102]:5376
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726242AbfEUJmx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 21 May 2019 05:42:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0F+i24whTvt0i1uQMCTNnBmxnKlQ2oUAJOUaurMOMgk=;
- b=mnlJv2jEQdQbCuulkBpNOExfGL+EUPaCyVf/GLe3KSRqsD+juoj7Ywv+GaeA+lgmDkz9Uf83JE0uRuFvqYccJsgEGT0DYlZ5QR8/Lyc9XGFoLnS2QGfbhDAm7K86RhOIqwnDNL8aqVQxFGx/6WubFknRzXBksM5fFqET4P3SqKA=
-Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com (52.134.242.17) by
- OSBPR01MB3701.jpnprd01.prod.outlook.com (20.178.96.209) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1900.17; Tue, 21 May 2019 09:42:48 +0000
-Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com
- ([fe80::a146:39f0:5df9:11bc]) by OSBPR01MB2103.jpnprd01.prod.outlook.com
- ([fe80::a146:39f0:5df9:11bc%7]) with mapi id 15.20.1900.020; Tue, 21 May 2019
- 09:42:48 +0000
-From:   Biju Das <biju.das@bp.renesas.com>
-To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        id S1726417AbfEUJ6q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 May 2019 05:58:46 -0400
+Received: from mga02.intel.com ([134.134.136.20]:35815 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726242AbfEUJ6q (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 21 May 2019 05:58:46 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 May 2019 02:58:45 -0700
+X-ExtLoop1: 1
+Received: from kuha.fi.intel.com ([10.237.72.189])
+  by fmsmga001.fm.intel.com with SMTP; 21 May 2019 02:58:40 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 21 May 2019 12:58:39 +0300
+Date:   Tue, 21 May 2019 12:58:39 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
+        Li Jun <jun.li@nxp.com>,
+        Badhri Jagan Sridharan <badhri@google.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Min Guo <min.guo@mediatek.com>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Simon Horman <horms@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v6 1/7] dt-bindings: usb: hd3ss3220 device tree binding
- document
-Thread-Topic: [PATCH v6 1/7] dt-bindings: usb: hd3ss3220 device tree binding
- document
-Thread-Index: AQHVCxgM+eh9qHNmG0u9jtRSG8piA6ZsWwAAgAkAz+A=
-Date:   Tue, 21 May 2019 09:42:47 +0000
-Message-ID: <OSBPR01MB21033FCDE1A5965435AC4841B8070@OSBPR01MB2103.jpnprd01.prod.outlook.com>
-References: <1557922152-16449-1-git-send-email-biju.das@bp.renesas.com>
- <1557922152-16449-2-git-send-email-biju.das@bp.renesas.com>
- <c9b3ee90-9292-320c-4e22-8f989d829497@cogentembedded.com>
-In-Reply-To: <c9b3ee90-9292-320c-4e22-8f989d829497@cogentembedded.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=biju.das@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 68f60856-5fde-4ccd-b5ce-08d6ddd0af51
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB3701;
-x-ms-traffictypediagnostic: OSBPR01MB3701:
-x-microsoft-antispam-prvs: <OSBPR01MB37018C1D1D2F2B3958B03CEDB8070@OSBPR01MB3701.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
-x-forefront-prvs: 0044C17179
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(39860400002)(376002)(366004)(136003)(346002)(199004)(51914003)(189003)(76116006)(54906003)(14454004)(4326008)(73956011)(110136005)(68736007)(8936002)(11346002)(55016002)(52536014)(66556008)(64756008)(478600001)(9686003)(66446008)(53936002)(5660300002)(25786009)(229853002)(76176011)(66476007)(7696005)(66946007)(66066001)(6116002)(44832011)(7416002)(3846002)(6506007)(7736002)(26005)(33656002)(53546011)(99286004)(74316002)(305945005)(186003)(476003)(86362001)(102836004)(2906002)(8676002)(446003)(6436002)(81166006)(71200400001)(71190400001)(486006)(5024004)(256004)(81156014)(316002)(6246003);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB3701;H:OSBPR01MB2103.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: ktunc3c2uqyOT4pnQXAth5V525h7ZYIO7NMuQnToXW6M23oiu1BfLXH1V+CIK/Etdxh21syfXbEfZf19X8dYlPg+c+LtIm1mrRTJlwhUenjZ3IOI/fI5JSkdj7RA/Zbq+qqCAcjxhFpMpfSpUGuTSDvSUMhkMpoe5qpvJ0/U0yo6Fn3UzsO48uMIOz6PIBgKwNpkdBb50uVeji03Zv/6u+5omUXV9EMaAKnASrj0t9Fqdp+wwxPu6MffvV2Q0AiYABmqsM8GIh1qWUke06Kkp/qxOB0JSb5sHYBinDmYWDRnzyxhoI0NGWlLfXmn5g30FyVzt8xcTFT2JOT0+7iu5ykBDQY7w74JaOFXtE5WZKf9GOFV86nvaWHRKR5PiX/mZVAF5CNHqqUSOmJxi2N8bYJQFQB38IZX3Z8gP9nEbPg=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v5 4/6] usb: roles: add API to get usb_role_switch by node
+Message-ID: <20190521095839.GI1887@kuha.fi.intel.com>
+References: <1557823643-8616-1-git-send-email-chunfeng.yun@mediatek.com>
+ <1557823643-8616-5-git-send-email-chunfeng.yun@mediatek.com>
+ <20190517103736.GA1490@kuha.fi.intel.com>
+ <20190517130511.GA1887@kuha.fi.intel.com>
+ <1558319951.10179.352.camel@mhfsdcap03>
+ <20190520080359.GC1887@kuha.fi.intel.com>
+ <OSBPR01MB2103385D996762FA54F8E437B8060@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+ <20190520083601.GE1887@kuha.fi.intel.com>
+ <OSBPR01MB2103C4C8920C40E42BC1B2A9B8060@OSBPR01MB2103.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68f60856-5fde-4ccd-b5ce-08d6ddd0af51
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 May 2019 09:42:48.0389
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB3701
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <OSBPR01MB2103C4C8920C40E42BC1B2A9B8060@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-SGkgU2VyZ2VpLA0KDQpUaGFua3MgZm9yIHRoZSBmZWVkYmFjay4NCg0KPiBTdWJqZWN0OiBSZTog
-W1BBVENIIHY2IDEvN10gZHQtYmluZGluZ3M6IHVzYjogaGQzc3MzMjIwIGRldmljZSB0cmVlIGJp
-bmRpbmcNCj4gZG9jdW1lbnQNCj4gDQo+IEhlbGxvIQ0KPiANCj4gT24gMDUvMTUvMjAxOSAwMzow
-OSBQTSwgQmlqdSBEYXMgd3JvdGU6DQo+IA0KPiA+IEFkZCBkZXZpY2UgdHJlZSBiaW5kaW5nIGRv
-Y3VtZW50IGZvciBUSSBIRDNTUzMyMjAgVHlwZS1DIERSUCBwb3J0DQo+ID4gY29udHJvbGxlciBk
-cml2ZXIuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBCaWp1IERhcyA8YmlqdS5kYXNAYnAucmVu
-ZXNhcy5jb20+DQo+ID4gUmV2aWV3ZWQtYnk6IFJvYiBIZXJyaW5nIDxyb2JoQGtlcm5lbC5vcmc+
-DQo+ID4gLS0tDQo+ID4gVjUtLT5WNg0KPiA+ICAgKiBObyBjaGFuZ2UuDQo+ID4gVjQtLT5WNQ0K
-PiA+ICAgKiBObyBDaGFuZ2UuDQo+ID4gVjMtLT5WNA0KPiA+ICAgKiBObyBDaGFuZ2UuDQo+ID4g
-VjItLT5WMw0KPiA+ICAgKiBBZGRlZCBSb2IncyBSZXZpZXdlZCBieSB0YWcuDQo+ID4gVjEtLT5W
-Mg0KPiA+ICAgKiBBZGRlZCBjb25uZWN0b3Igbm9kZS4NCj4gPiAgICogdXBkYXRlZCB0aGUgZXhh
-bXBsZSB3aXRoIGNvbm5lY3RvciBub2RlLg0KPiA+IC0tLQ0KPiA+ICAuLi4vZGV2aWNldHJlZS9i
-aW5kaW5ncy91c2IvdGksaGQzc3MzMjIwLnR4dCAgICAgICB8IDM3DQo+ICsrKysrKysrKysrKysr
-KysrKysrKysNCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDM3IGluc2VydGlvbnMoKykNCj4gPiAgY3Jl
-YXRlIG1vZGUgMTAwNjQ0DQo+ID4gRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3Vz
-Yi90aSxoZDNzczMyMjAudHh0DQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9k
-ZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi90aSxoZDNzczMyMjAudHh0DQo+ID4gYi9Eb2N1bWVudGF0
-aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdXNiL3RpLGhkM3NzMzIyMC50eHQNCj4gPiBuZXcgZmls
-ZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAuLjdmNDE0MDANCj4gPiAtLS0gL2Rldi9u
-dWxsDQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3VzYi90aSxo
-ZDNzczMyMjAudHh0DQo+ID4gQEAgLTAsMCArMSwzNyBAQA0KPiA+ICtUSSBIRDNTUzMyMjAgVHlw
-ZUMgRFJQIFBvcnQgQ29udHJvbGxlci4NCj4gPiArDQo+ID4gK1JlcXVpcmVkIHByb3BlcnRpZXM6
-DQo+ID4gKyAtIGNvbXBhdGlibGU6IE11c3QgYmUgInRpLGhkM3NzMzIyMCIuDQo+ID4gKyAtIHJl
-ZzogSTJDIHNsYXZlIGFkZHJlc3MsIG11c3QgYmUgMHg0NyBvciAweDY3IGJhc2VkIG9uIEFERFIg
-cGluLg0KPiA+ICsgLSBpbnRlcnJ1cHRzOiA8YSBiPiB3aGVyZSBhIGlzIHRoZSBpbnRlcnJ1cHQg
-bnVtYmVyIGFuZCBiIHJlcHJlc2VudHMgYW4NCj4gPiArICAgZW5jb2Rpbmcgb2YgdGhlIHNlbnNl
-IGFuZCBsZXZlbCBpbmZvcm1hdGlvbiBmb3IgdGhlIGludGVycnVwdC4NCj4gDQo+ICAgIFRoaXMg
-ZGVwZW5kcyBvbiBhbiBpbnRlcnJ1cHQgY29udHJvbGxlciB1c2VkLiBJJ2QganVzdCBzYWlkICJh
-biBpbnRlcnJ1cHQNCj4gc3BlY2lmaWVyIiwgdy9vIGZ1cnRoZXIgZGV0YWlscy4NCg0KRmluZSAs
-IElmIGl0IGlzIG9rIGZvciBldmVyeW9uZS4gDQoNClJlZ2FyZHMsDQpCaWp1DQo+ID4gKw0KPiA+
-ICtSZXF1aXJlZCBzdWItbm9kZToNCj4gPiArIC0gY29ubmVjdG9yIDogVGhlICJ1c2ItYy1jb25u
-ZWN0b3IiIGF0dGFjaGVkIHRvIHRoZSBoZDNzczMyMjAgY2hpcC4gVGhlDQo+ID4gKyAgIGJpbmRp
-bmdzIG9mIHRoZSBjb25uZWN0b3Igbm9kZSBhcmUgc3BlY2lmaWVkIGluOg0KPiA+ICsNCj4gPiAr
-CURvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9jb25uZWN0b3IvdXNiLWNvbm5lY3Rv
-ci50eHQNCj4gPiArDQo+IFsuLi5dDQo+IA0KPiBNQlIsIFNlcmdlaQ0K
+On Mon, May 20, 2019 at 09:45:46AM +0000, Biju Das wrote:
+> 
+> 
+> Hi Heikki,
+> 
+> Thanks for the feedback.
+> 
+> > Subject: Re: [PATCH v5 4/6] usb: roles: add API to get usb_role_switch by
+> > node
+> > 
+> > On Mon, May 20, 2019 at 08:06:41AM +0000, Biju Das wrote:
+> > > Hi Heikki,
+> > >
+> > > > Subject: Re: [PATCH v5 4/6] usb: roles: add API to get
+> > > > usb_role_switch by node
+> > > >
+> > > > On Mon, May 20, 2019 at 10:39:11AM +0800, Chunfeng Yun wrote:
+> > > > > Hi,
+> > > > > On Fri, 2019-05-17 at 16:05 +0300, Heikki Krogerus wrote:
+> > > > > > Hi,
+> > > > > >
+> > > > > > On Fri, May 17, 2019 at 01:37:36PM +0300, Heikki Krogerus wrote:
+> > > > > > > On Tue, May 14, 2019 at 04:47:21PM +0800, Chunfeng Yun wrote:
+> > > > > > > > Add fwnode_usb_role_switch_get() to make easier to get
+> > > > > > > > usb_role_switch by fwnode which register it.
+> > > > > > > > It's useful when there is not device_connection registered
+> > > > > > > > between two drivers and only knows the fwnode which register
+> > > > > > > > usb_role_switch.
+> > > > > > > >
+> > > > > > > > Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> > > > > > > > Tested-by: Biju Das <biju.das@bp.renesas.com>
+> > > > > > >
+> > > > > > > Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > > > > >
+> > > > > > Hold on. I just noticed Rob's comment on patch 2/6, where he
+> > > > > > points out that you don't need to use device graph since the
+> > > > > > controller is the parent of the connector. Doesn't that mean you
+> > > > > > don't really need this API?
+> > > > > No, I still need it.
+> > > > > The change is about the way how to get fwnode; when use device
+> > > > > graph, get fwnode by of_graph_get_remote_node(); but now will get
+> > > > > fwnode by of_get_parent();
+> > > >
+> > > > OK, I get that, but I'm still not convinced about if something like
+> > > > this function is needed at all. I also have concerns regarding how
+> > > > you are using the function. I'll explain in comment to the patch 5/6 in this
+> > series...
+> > >
+> > > FYI, Currently  I am also using this api in my patch series.
+> > > https://patchwork.kernel.org/patch/10944637/
+> > 
+> > Yes, and I have the same question for you I jusb asked in comment I added
+> > to the patch 5/6 of this series. Why isn't usb_role_switch_get() enough?
+> 
+> Currently no issue. It will work with this api as well, since the port node is part of controller node.
+> For eg:-
+> https://patchwork.kernel.org/patch/10944627/
+> 
+> However if any one adds port node inside the connector node, then this api may won't work as expected.
+> Currently I get below error
+> 
+> [    2.299703] OF: graph: no port node found in /soc/i2c@e6500000/hd3ss3220@47
+
+We need to understand why is that happening?
+
+It looks like we have an issue somewhere in the code, and instead of
+fixing that, you are working around it. Let's not do that.
+
+> For eg:-
+> 
+> 	hd3ss3220@47 {
+> 		compatible = "ti,hd3ss3220";
+> 		...
+> 		....
+> 		usb_con: connector {
+>                                      ....
+>                                      ....
+> 			port {
+> 				hd3ss3220_ep: endpoint@0 {
+> 					reg = <0>;
+> 					remote-endpoint = <&usb3peri_role_switch>;
+> 				};
+> 			};
+> 		};
+> 	};
+> 
+> Regards,
+> Biju
+
+thanks,
+
+-- 
+heikki
