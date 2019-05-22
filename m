@@ -2,85 +2,71 @@ Return-Path: <SRS0=Sb/9=TW=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT autolearn=ham
+X-Spam-Status: No, score=-3.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74BE0C282CE
-	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 11:12:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1947C282CE
+	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 11:31:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5269B217D9
-	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 11:12:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C31D0217D4
+	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 11:31:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728835AbfEVLMx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 May 2019 07:12:53 -0400
-Received: from mga03.intel.com ([134.134.136.65]:32361 "EHLO mga03.intel.com"
+        id S1728536AbfEVLbi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 May 2019 07:31:38 -0400
+Received: from mga14.intel.com ([192.55.52.115]:39534 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728743AbfEVLMx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 22 May 2019 07:12:53 -0400
-X-Amp-Result: UNSCANNABLE
+        id S1728335AbfEVLbi (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 22 May 2019 07:31:38 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 May 2019 04:12:52 -0700
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 May 2019 04:31:37 -0700
 X-ExtLoop1: 1
-Received: from kuha.fi.intel.com ([10.237.72.189])
-  by fmsmga001.fm.intel.com with SMTP; 22 May 2019 04:12:49 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 22 May 2019 14:12:48 +0300
-Date:   Wed, 22 May 2019 14:12:48 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Ajay Gupta <ajayg@nvidia.com>
-Cc:     Ajay Gupta <ajaykuee@gmail.com>,
-        "wsa@the-dreams.de" <wsa@the-dreams.de>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
-Subject: Re: [PATCH v2 3/5] usb: typec: ucsi: ccg: enable runtime pm support
-Message-ID: <20190522111248.GM1887@kuha.fi.intel.com>
-References: <20190520183750.2932-1-ajayg@nvidia.com>
- <20190520183750.2932-4-ajayg@nvidia.com>
- <20190521133727.GK1887@kuha.fi.intel.com>
- <BYAPR12MB2727A21E3AB497C26BA699D2DC070@BYAPR12MB2727.namprd12.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BYAPR12MB2727A21E3AB497C26BA699D2DC070@BYAPR12MB2727.namprd12.prod.outlook.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Received: from mattu-haswell.fi.intel.com ([10.237.72.164])
+  by orsmga003.jf.intel.com with ESMTP; 22 May 2019 04:31:35 -0700
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+To:     <gregkh@linuxfoundation.org>
+Cc:     <linux-usb@vger.kernel.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [PATCH 0/5] xhci fixes for usb-linus
+Date:   Wed, 22 May 2019 14:33:56 +0300
+Message-Id: <1558524841-25397-1-git-send-email-mathias.nyman@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, May 21, 2019 at 05:44:50PM +0000, Ajay Gupta wrote:
-> Hi Heikki
-> 
-> > > +static int ucsi_ccg_resume(struct device *dev) {
-> > > +	struct i2c_client *client = to_i2c_client(dev);
-> > > +	struct ucsi_ccg *uc = i2c_get_clientdata(client);
-> > > +	struct ucsi *ucsi = uc->ucsi;
-> > > +	struct ucsi_control c;
-> > > +	int ret;
-> > > +
-> > > +	/* restore UCSI notification enable mask */
-> > > +	UCSI_CMD_SET_NTFY_ENABLE(c, UCSI_ENABLE_NTFY_ALL);
-> > > +	ret = ucsi_send_command(ucsi, &c, NULL, 0);
-> > > +	if (ret < 0) {
-> > > +		dev_err(uc->dev, "%s: failed to set notification enable - %d\n",
-> > > +			__func__, ret);
-> > > +	}
-> > > +	return 0;
-> > > +}
-> > 
-> > I would prefer that we did this for all methods in ucsi.c, not just ccgx. Could you
-> > add resume callback to struct ucsi_ppm, and then call it here.
-> struct ucsi_ppm currently have .sync() and .cmd() callback which is implemented by
-> ucsi_ccg and ucsi_acpi and invoked by usci.c. 
-> 
-> Is it okay to add a callback in this structure and implement inside ucsi.c and invoke
-> from ucsi_ccg and ucsi_acpi? OR we can just add a function in ucsi.c and export it
-> and use it from ucsi_ccg and ucsi_acpi?
+Hi Greg
 
-Right! Export the function. Sorry.
+A few fixes for usb-linus, including regression fix for xhci IDT support
+which was added to 5.2-rc1
 
-thanks,
+-Mathias
+
+Andrey Smirnov (1):
+  xhci: Convert xhci_handshake() to use readl_poll_timeout_atomic()
+
+Carsten Schmid (1):
+  usb: xhci: avoid null pointer deref when bos field is NULL
+
+Henry Lin (1):
+  xhci: update bounce buffer with correct sg num
+
+Jia-Ju Bai (1):
+  usb: xhci: Fix a potential null pointer dereference in
+    xhci_debugfs_create_endpoint()
+
+Mathias Nyman (1):
+  xhci: Fix immediate data transfer if buffer is already DMA mapped
+
+ drivers/usb/host/xhci-debugfs.c |  3 +++
+ drivers/usb/host/xhci-ring.c    | 26 +++++++++++++++++++-------
+ drivers/usb/host/xhci.c         | 24 +++++++++++-------------
+ drivers/usb/host/xhci.h         |  3 ++-
+ 4 files changed, 35 insertions(+), 21 deletions(-)
 
 -- 
-heikki
+2.7.4
+
