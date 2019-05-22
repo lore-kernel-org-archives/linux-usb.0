@@ -2,103 +2,128 @@ Return-Path: <SRS0=Sb/9=TW=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A91CC18E7D
-	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 10:54:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8614FC18E7D
+	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 10:54:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E2E4521479
-	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 10:54:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="sZEadPnZ"
+	by mail.kernel.org (Postfix) with ESMTP id 66AFD21479
+	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 10:54:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729155AbfEVKyG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 May 2019 06:54:06 -0400
-Received: from mail-eopbgr40088.outbound.protection.outlook.com ([40.107.4.88]:61924
-        "EHLO EUR03-DB5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728438AbfEVKyG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 22 May 2019 06:54:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X92+RpA5YfuPOXHavfDojHiu+IApqRwC0X4Hps7abpE=;
- b=sZEadPnZD7Tp55BSJYblfZLegRoyZWjqCNBfk9OV0EI2n1yIltx60C+mBF4bNHM8BqDenreFxyk1YtikzJVYVSGndU6NA0kvJe7jEmR7t+3HMt7IKe16x1qPdiMUpry0DJ5BNXEqQ8QVT4wXAFyoNAdXYasayqy2Q8+o6DS0KE0=
-Received: from VI1PR04MB5134.eurprd04.prod.outlook.com (20.177.50.159) by
- VI1PR04MB4319.eurprd04.prod.outlook.com (52.134.122.23) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1922.16; Wed, 22 May 2019 10:54:02 +0000
-Received: from VI1PR04MB5134.eurprd04.prod.outlook.com
- ([fe80::8d0e:de86:9b49:b40]) by VI1PR04MB5134.eurprd04.prod.outlook.com
- ([fe80::8d0e:de86:9b49:b40%7]) with mapi id 15.20.1900.020; Wed, 22 May 2019
- 10:54:02 +0000
-From:   Laurentiu Tudor <laurentiu.tudor@nxp.com>
-To:     Fredrik Noring <noring@nocrew.org>
-CC:     "hch@lst.de" <hch@lst.de>,
-        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "marex@denx.de" <marex@denx.de>, Leo Li <leoyang.li@nxp.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "robin.murphy@arm.com" <robin.murphy@arm.com>,
-        "JuergenUrban@gmx.de" <JuergenUrban@gmx.de>
-Subject: Re: [PATCH v5 2/5] USB: use genalloc for USB HCs with local memory
-Thread-Topic: [PATCH v5 2/5] USB: use genalloc for USB HCs with local memory
-Thread-Index: AQHVD96XE7hyjPzMhU2tA8mX94cqtKZ1s7qAgAFF3IA=
-Date:   Wed, 22 May 2019 10:54:02 +0000
-Message-ID: <afa2dd70-fdb6-cbcd-2100-210476f891bf@nxp.com>
-References: <20190521140748.20012-1-laurentiu.tudor@nxp.com>
- <20190521140748.20012-3-laurentiu.tudor@nxp.com> <20190521152743.GA4693@sx9>
-In-Reply-To: <20190521152743.GA4693@sx9>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=laurentiu.tudor@nxp.com; 
-x-originating-ip: [89.37.124.34]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 15ce8d6e-207c-469d-97bb-08d6dea3cd45
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:VI1PR04MB4319;
-x-ms-traffictypediagnostic: VI1PR04MB4319:
-x-microsoft-antispam-prvs: <VI1PR04MB4319562A265E9F66F9060370EC000@VI1PR04MB4319.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5236;
-x-forefront-prvs: 0045236D47
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(366004)(189003)(51444003)(199004)(68736007)(36756003)(64756008)(2906002)(66476007)(66556008)(5660300002)(71200400001)(66446008)(66946007)(4744005)(81166006)(81156014)(498600001)(31686004)(8676002)(8936002)(73956011)(71190400001)(6246003)(305945005)(7736002)(14454004)(53936002)(256004)(14444005)(25786009)(66066001)(4326008)(6486002)(6512007)(99286004)(6436002)(186003)(6916009)(54906003)(31696002)(26005)(86362001)(2616005)(11346002)(229853002)(3846002)(76116006)(91956017)(6116002)(6506007)(53546011)(476003)(446003)(486006)(102836004)(76176011)(44832011);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR04MB4319;H:VI1PR04MB5134.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 8XqPZpo5os8m87QgLBKOrhtgVKgbnFOPwX2jEagkmpqbJtawKahg2APybmaO9Z/bF7Aic7Rzk0VvicwbjaNeDfkgnTz6wfu6jc6qkyxZJ2hpOKzcViGwF9mCIWkqUMkNnaL9BBp7X+u/0U+sQTM/vbOrnRlgBe0n3FsVnEvr5IRQ2I/+o6ds13sMfM/yDOqdRruLH0eyDtHVhaH73LikTExWKHlWlMX6/PIeMk3t/8q5auXTknFluuypQG5IT4k/AkEMD3P3ccYNSM50jMRu8ak4Qqqar9oz50JNm33u3WzhzgAIhyug72Z5vVQcMXyzR8gHr7xXQV57q556rlPvrf1jVRMG4iLRShMXFLyNRMVIIM8JJcbDUJ3gxOytSankEeFaE/84hI1qXCGC6eI7iMSu0jg7OATK6mQJNZqIa9w=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <EA26C74C5953B346992E50485A75C9F4@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S1729265AbfEVKyk convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 May 2019 06:54:40 -0400
+Received: from unicorn.mansr.com ([81.2.72.234]:44464 "EHLO unicorn.mansr.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728925AbfEVKyk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 22 May 2019 06:54:40 -0400
+Received: by unicorn.mansr.com (Postfix, from userid 51770)
+        id 4946C17102; Wed, 22 May 2019 11:54:38 +0100 (BST)
+From:   =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>
+To:     Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     linux-usb@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Markus Reichl <m.reichl@fivetechno.de>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Peter Chen <peter.chen@nxp.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH 0/5] Exynos EHCI/OHCI: resolve conflict with the generic USB device bindings
+References: <CGME20190521120015eucas1p1da2f3f32d6b8af8cb550463686fd4e12@eucas1p1.samsung.com>
+        <20190521115849.9882-1-m.szyprowski@samsung.com>
+        <yw1xk1ekszo9.fsf@mansr.com>
+        <ff3f4b25-cbc0-4195-79b2-c00633f0c79c@samsung.com>
+Date:   Wed, 22 May 2019 11:54:38 +0100
+In-Reply-To: <ff3f4b25-cbc0-4195-79b2-c00633f0c79c@samsung.com> (Marek
+        Szyprowski's message of "Wed, 22 May 2019 08:01:28 +0200")
+Message-ID: <yw1x7eaiu5ch.fsf@mansr.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/25.3 (gnu/linux)
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 15ce8d6e-207c-469d-97bb-08d6dea3cd45
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 May 2019 10:54:02.3030
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB4319
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8BIT
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-DQpPbiAyMS4wNS4yMDE5IDE4OjI3LCBGcmVkcmlrIE5vcmluZyB3cm90ZToNCj4gVGhhbmtzIExh
-dXJlbnRpdSENCj4gDQo+PiAtLS0gYS9pbmNsdWRlL2xpbnV4L3VzYi9oY2QuaA0KPj4gKysrIGIv
-aW5jbHVkZS9saW51eC91c2IvaGNkLmgNCj4+IEBAIC0yMTYsNiArMjE2LDkgQEAgc3RydWN0IHVz
-Yl9oY2Qgew0KPj4gICAjZGVmaW5lCUhDX0lTX1JVTk5JTkcoc3RhdGUpICgoc3RhdGUpICYgX19B
-Q1RJVkUpDQo+PiAgICNkZWZpbmUJSENfSVNfU1VTUEVOREVEKHN0YXRlKSAoKHN0YXRlKSAmIF9f
-U1VTUEVORCkNCj4+ICAgDQo+PiArCS8qIGFsbG9jYXRvciBmb3IgSENzIGhhdmluZyBsb2NhbCBt
-ZW1vcnkgKi8NCj4+ICsJc3RydWN0IGdlbl9wb29sICAgICAgICAgKmxvY2FsbWVtX3Bvb2w7DQo+
-PiArDQo+IA0KPiBJIGhhdmUgdGVzdGVkIHBhdGNoZXMgMSwgMiBhbmQgNSwgYW5kIHRoZXkgc2Vl
-bSB0byB3b3JrLiBOaWNlISANCg0KR3JlYXQhIFRoYW5rcyBmb3IgdGVzdGluZy4gSSdsbCBhZGQg
-eW91ciBUZXN0ZWQtQnkgdGFncyBvbiB0aGUgcGF0Y2hlcyANCnlvdSBtZW50aW9uZWQuDQoNCj4g
-TWF5IEkgc3VnZ2VzdCBjbGFyaWZ5aW5nIHRoZSBOVUxMIHBvaW50ZXJzPyBJIHRoaW5rIHRoYXQg
-bWF5IGhlbHAgc29tZW9uZQ0KPiBkZWJ1Z2dpbmcgb3IgbWFpbnRhaW5pbmcgdGhpcyBpbiB0aGUg
-ZnV0dXJlLiBTb21ldGhpbmcgbGlrZSB0aGlzOg0KDQpTdXJlLCB3aWxsIGluY2x1ZGUgaW4gdjYu
-DQoNCi0tLQ0KQmVzdCBSZWdhcmRzLCBMYXVyZW50aXU=
+Marek Szyprowski <m.szyprowski@samsung.com> writes:
+
+> Hi Måns
+>
+> On 2019-05-21 15:30, Måns Rullgård wrote:
+>> Marek Szyprowski <m.szyprowski@samsung.com> writes:
+>>> Dear All,
+>>>
+>>> Commit 69bec7259853 ("USB: core: let USB device know device node") added
+>>> support for attaching devicetree node for USB devices. Those nodes are
+>>> children of their USB host controller. However Exynos EHCI and OHCI
+>>> driver bindings already define child-nodes for each physical root hub
+>>> port and assigns respective PHY controller and parameters to them. This
+>>> leads to the conflict. A workaround for it has been merged as commit
+>>> 01d4071486fe ("usb: exynos: add workaround for the USB device bindings
+>>> conflict"), but it disabled support for USB device binding for Exynos
+>>> EHCI/OHCI controllers.
+>>>
+>>> This patchset tries to resolve this binding conflict by changing Exynos
+>>> EHCI/OHCI bindings: PHYs are moved from the sub-nodes to a standard array
+>>> under the 'phys' property. Such solution has been suggested by Måns
+>>> Rullgård in the following thread: https://lkml.org/lkml/2019/5/13/228
+>>>
+>>> To keep everything working during the transitional time, the changes has
+>>> been split into 2 steps. First step (patches 1-3) need to be merged before
+>>> the second one (patches 4-5). Patches from each step can be merged to
+>>> respective trees without any dependencies - the only requirement is that
+>>> second step has to be merged after merging all patches from the first one.
+>>>
+>>> This patchset has been tested on various Exynos4 boards with different
+>>> USB host controller configurations (Odroids family: X2, U3, XU3).
+>>>
+>>> Best regards
+>>> Marek Szyprowski
+>>> Samsung R&D Institute Poland
+>>>
+>>> Marek Szyprowski (5):
+>>>    dt-bindings: switch Exynos EHCI/OHCI bindings to use array of generic
+>>>      PHYs
+>>>    ARM: dts: exynos: Add array of generic PHYs to EHCI/OHCI devices
+>>>    usb: exynos: add support for getting PHYs from the standard dt array
+>>>    ARM: dts: exynos: Remove obsolete port sub-nodes from EHCI/OHCI
+>>>      devices
+>>>    usb: exynos: Remove support for legacy PHY bindings
+>> You could retain compatibility with old devicetrees (which may be
+>> useful) by using the "phys" property if it exists and falling back
+>> on the old method if it doesn't.  Then you would get this sequence
+>> of changes:
+>>
+>> 1. Update binding definition.
+>> 2. Support new binding in driver, with fallback to old.
+>> 3. Switch dts files to new binding.
+>
+> This is exactly what I did in this patchset. Until Patch #5 is applied, 
+> Exynos EHCI/OHCI drivers supports both ways of getting PHYs and is fully 
+> compatible with existing DTBs. This last patch should be applied at 
+> least one release later that the first 3 patches to keep everything 
+> working during the -rcX time.
+
+I'm suggesting you keep the fallback in the driver.  It does no harm,
+and it's contained in one place.
+
+On the dts side, you're adding the new phys property without removing
+the old-style nodes at first.  If you put the driver change first, the
+dts could be switched to the new style in one patch without a confusing
+hybrid ever existing.
+
+> Compatibility with so called old DTBs is not so important, because there 
+> are no boards with Exynos4 and Exynos5 SoCs, which would not update DTB 
+> together with the kernel zImage. There have been already some 
+> significant compatibility breaks related to those SoCs during last years.
+
+You can't possibly know what's out there.  Besides, isn't the general
+policy to not break compatibility without a very good reason?
+
+-- 
+Måns Rullgård
