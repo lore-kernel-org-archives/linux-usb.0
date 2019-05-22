@@ -8,60 +8,60 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72AF7C282DD
-	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 18:33:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB343C282CE
+	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 18:33:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 418B92173C
-	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 18:33:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7BE7D2173C
+	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 18:33:45 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hzyvgh/5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="u4UVkg2q"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729649AbfEVSdm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 May 2019 14:33:42 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:34182 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729483AbfEVSdl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 May 2019 14:33:41 -0400
-Received: by mail-pf1-f196.google.com with SMTP id n19so1785387pfa.1;
-        Wed, 22 May 2019 11:33:41 -0700 (PDT)
+        id S1729656AbfEVSdo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 May 2019 14:33:44 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:43380 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729642AbfEVSdo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 May 2019 14:33:44 -0400
+Received: by mail-pl1-f195.google.com with SMTP id gn7so1468479plb.10;
+        Wed, 22 May 2019 11:33:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=u0JGhVsoc2MieyAr4lI6AVHWnT0CzecbZjFmC3a/a7E=;
-        b=Hzyvgh/5GPSYJz6KYvOnHjJyMEoteMMbFd0k2Q45/NMf6+2GwQx09TpMLxMj32qrgL
-         jhGY0l0+iiprx8tjNBJA5r9K/O837k3585n54DWZOE0iYf6A2DI7DLcJEgl4TeMXNk3q
-         +JlXVUXEm+jDWKVCaiN5tHJjewqcVV7aHvL0NryIrRpKQkt/3gkPSptPubWfLyMMRPqV
-         Y0j+Jb2H3TmjzzqJbB0MCv518XFMrGhJHgjKJ81ZKuUaSAn1b8XiLcKHvKvQ4jyCNdsw
-         OaHuE2FLpa03A5H+adfZcthvefxtQTepRm8gMfUDV/mF5L1P5eWMoM63Pubp9kF7fxGi
-         0xYg==
+        bh=BhC9WeOPHtKzs6wF/OAOSfwtaNdebLL5sTld3iXl2vA=;
+        b=u4UVkg2qDwlJs0wutP15S/yEDnSRvjLFKvMXuG50ItWQg6l9czyfVvSfq66iI8rS30
+         FdQPsjNufE+neb4C1mU4tGxRM18rLTpAIYxYUebQkFbBeWU0bXILiycRxZU4mSCF+BIY
+         TE6F2aj6ZZtYdjCbByb+z/PHTtk4y/oisgvk5G32HPDaFVILHJ6lCsl61JaEZUcI3g3Q
+         ml6k91j67m21yHA2RVbxB3iUFGxIzhjBlW34jyvoBsqkZ5Uaa1Veybv+b68h1i4Gboei
+         zSnCDknBdqoBPZM3MWdd1r7oFb/udC4JvZU7RbqDLpr36P9WTWWPdluVx06ot+RQH6U9
+         2EUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=u0JGhVsoc2MieyAr4lI6AVHWnT0CzecbZjFmC3a/a7E=;
-        b=OFaS2mrY/AykAqunRbAnY5kWy5mK9PcnRsMfoA13mZM/aOV1NM81TSEYN/jn2/6jn7
-         PLPZVgpv6WV1sQ5DOWcCAEC6COJjOO+6TuXv21J3RSu8f2X812snYeRyQkUODKMmOHeT
-         LGBKLsNu7iQu5fQipuG6x2E0j4sUdJMZkZFFKrAfZDBRegnIAQBeWXX/KmWAsbkTShBl
-         x5bIhU6V3WCK4pTvDCIQ3JBRhhS56BrVJQ8T4ge29V6Wzvi91qQ+gdc/k9ti7gV/A1+y
-         ZVYVr4APEYDv9vppyNIxNtf6xiPUNv9c+vYDR3OXYZxsjmnz/qEGNMtcXH0FyeUXkSNl
-         4wnA==
-X-Gm-Message-State: APjAAAWA0kKnVp9HjpEyTdwDLlKHgY+NIX+kIfWhqKTkxOfJkxAFP7Db
-        k1Hok40k8AYSNLESN3V/J0o=
-X-Google-Smtp-Source: APXvYqzvKyopck+vjCQshKq33RMAQc4ughKea+gQ6y0DA1xVZG0e2Uv0gbsZfc1FLRQ8zsPxJoJWxw==
-X-Received: by 2002:a62:7a8f:: with SMTP id v137mr96739769pfc.243.1558550020553;
-        Wed, 22 May 2019 11:33:40 -0700 (PDT)
+        bh=BhC9WeOPHtKzs6wF/OAOSfwtaNdebLL5sTld3iXl2vA=;
+        b=ZwXQzXQzKSBYcw6FYb+eNegtv9TTwkZ4hpLJzrL6G9ieRnEBKiTNMgHlwqE3YiVYBP
+         6RAVQYf48baDLKm0eqeRSlAMHIOpfMXMWrev9WJS//tsHG/BQnzeGbdObMNvGxjof5ne
+         fMsvNXieDayE3VwJZo+G3AO8f83Lfr4P60z93rfJut7vOX8pXgJ8fwPhMoGCM5gpWX0O
+         VIHWzlfjzv/geH8+Bqp/xIV3TTJaBnDdKu+vNRlI05bxKpUwtYhWnNr8UDaX8zc8m1Kn
+         ZXjiDa5oOoEkUSkPNPLCCQwAxtTV+vNP1dAIz3S3mzTmgckLLc9IFOJBAOfjzve92DBL
+         O0cw==
+X-Gm-Message-State: APjAAAUruQv0PlCcuYnjW1uL5tHNhaqrSiHUH8SkU2G495dLZoSUr+RU
+        xVqT3h4Dj0GQWDn4QZ6eEUw=
+X-Google-Smtp-Source: APXvYqyuRpl17Tc/hzadvQGMSbZ69rhjVIhec/Fiw4ulJqhce5s3pg9qU3IKhYH6lQOFOSgZeTSXFQ==
+X-Received: by 2002:a17:902:f081:: with SMTP id go1mr44935634plb.211.1558550022639;
+        Wed, 22 May 2019 11:33:42 -0700 (PDT)
 Received: from ajayg.nvidia.com (searspoint.nvidia.com. [216.228.112.21])
-        by smtp.gmail.com with ESMTPSA id c76sm46138294pfc.43.2019.05.22.11.33.39
+        by smtp.gmail.com with ESMTPSA id c76sm46138294pfc.43.2019.05.22.11.33.41
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 22 May 2019 11:33:39 -0700 (PDT)
+        Wed, 22 May 2019 11:33:41 -0700 (PDT)
 From:   Ajay Gupta <ajaykuee@gmail.com>
 X-Google-Original-From: Ajay Gupta <ajayg@nvidia.com>
 To:     heikki.krogerus@linux.intel.com, wsa@the-dreams.de
 Cc:     linux-usb@vger.kernel.org, linux-i2c@vger.kernel.org,
         Ajay Gupta <ajayg@nvidia.com>
-Subject: [PATCH v3 3/5] usb: typec: ucsi: ccg: enable runtime pm support
-Date:   Wed, 22 May 2019 11:31:40 -0700
-Message-Id: <20190522183142.11061-4-ajayg@nvidia.com>
+Subject: [PATCH v3 5/5] usb: typec: ucsi: ccg: add runtime pm workaround
+Date:   Wed, 22 May 2019 11:31:42 -0700
+Message-Id: <20190522183142.11061-6-ajayg@nvidia.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190522183142.11061-1-ajayg@nvidia.com>
 References: <20190522183142.11061-1-ajayg@nvidia.com>
@@ -73,167 +73,196 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Ajay Gupta <ajayg@nvidia.com>
 
-The change enables runtime pm support to UCSI CCG driver.
-Added ucsi_resume() function to enable notification after
-system reusme. Exported both ucsi_resume() and ucsi_send_command()
-symbols in ucsi.c for modular build.
+Cypress USB Type-C CCGx controller firmware version 3.1.10
+(which is being used in many NVIDIA GPU cards) has known issue of
+not triggering interrupt when a USB device is hot plugged to runtime
+resume the controller. If any GPU card gets latest kernel with runtime
+pm support but does not get latest fixed firmware then also it should
+continue to work and therefore a workaround is required to check for
+any connector change event.
+
+The workaround is that i2c bus driver will call pm_request_resume()
+to runtime resume ucsi_ccg driver. CCG driver will call the ISR
+for any connector change event for NVIDIA GPU card and only if it has
+old CCG firmware with the known issue.
 
 Signed-off-by: Ajay Gupta <ajayg@nvidia.com>
 ---
-Changes from v2->v3 : None
-	- Fixed comments from Heikki by adding ucsi_resume()
-	in ucsi.c and used it from ucsi_ccg.c
-	- Also removed ucsi_ccg_runtime_idle() and
-	ucsi_ccg_suspend() which were stubs and not needed.
-	- We still need stub fucntion ucsi_ccg_runtime_suspend
-	for runtime pm functionality
+Changes from v2->v3: None
 
- drivers/usb/typec/ucsi/ucsi.c     | 10 ++++++++
- drivers/usb/typec/ucsi/ucsi.h     |  1 +
- drivers/usb/typec/ucsi/ucsi_ccg.c | 38 +++++++++++++++++++++++++++++++
- 3 files changed, 49 insertions(+)
+ drivers/usb/typec/ucsi/ucsi_ccg.c | 80 +++++++++++++++++++++++++++++--
+ 1 file changed, 76 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 7850b851cecd..ba288b964dc8 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -206,7 +206,17 @@ int ucsi_send_command(struct ucsi *ucsi, struct ucsi_control *ctrl,
- 
- 	return ret;
- }
-+EXPORT_SYMBOL_GPL(ucsi_send_command);
- 
-+int ucsi_resume(struct ucsi *ucsi)
-+{
-+	struct ucsi_control ctrl;
-+
-+	/* Restore UCSI notification enable mask after system resume */
-+	UCSI_CMD_SET_NTFY_ENABLE(ctrl, UCSI_ENABLE_NTFY_ALL);
-+	return ucsi_send_command(ucsi, &ctrl, NULL, 0);
-+}
-+EXPORT_SYMBOL_GPL(ucsi_resume);
- /* -------------------------------------------------------------------------- */
- 
- void ucsi_altmode_update_active(struct ucsi_connector *con)
-diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-index 1e2981aef629..de87d0b8319d 100644
---- a/drivers/usb/typec/ucsi/ucsi.h
-+++ b/drivers/usb/typec/ucsi/ucsi.h
-@@ -430,6 +430,7 @@ int ucsi_send_command(struct ucsi *ucsi, struct ucsi_control *ctrl,
- 		      void *retval, size_t size);
- 
- void ucsi_altmode_update_active(struct ucsi_connector *con);
-+int ucsi_resume(struct ucsi *ucsi);
- 
- #if IS_ENABLED(CONFIG_TYPEC_DP_ALTMODE)
- struct typec_altmode *
 diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-index 9d46aa9e4e35..b15bc6c29c46 100644
+index b15bc6c29c46..a5b81c011148 100644
 --- a/drivers/usb/typec/ucsi/ucsi_ccg.c
 +++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-@@ -14,6 +14,8 @@
- #include <linux/module.h>
- #include <linux/pci.h>
- #include <linux/platform_device.h>
-+#include <linux/pm.h>
-+#include <linux/pm_runtime.h>
+@@ -109,12 +109,21 @@ struct version_format {
+ 	__le16 build;
+ 	u8 patch;
+ 	u8 ver;
++#define CCG_VERSION_PATCH(x) ((x) << 16)
++#define CCG_VERSION(x)	((x) << 24)
+ #define CCG_VERSION_MIN_SHIFT (0)
+ #define CCG_VERSION_MIN_MASK (0xf << CCG_VERSION_MIN_SHIFT)
+ #define CCG_VERSION_MAJ_SHIFT (4)
+ #define CCG_VERSION_MAJ_MASK (0xf << CCG_VERSION_MAJ_SHIFT)
+ } __packed;
  
- #include <asm/unaligned.h>
- #include "ucsi.h"
-@@ -210,6 +212,7 @@ static int ccg_read(struct ucsi_ccg *uc, u16 rab, u8 *data, u32 len)
++/*
++ * Firmware version 3.1.10 or earlier, built for NVIDIA has known issue
++ * of missing interrupt when a device is connected for runtime resume
++ */
++#define CCG_FW_BUILD_NVIDIA	(('n' << 8) | 'v')
++#define CCG_OLD_FW_VERSION	(CCG_VERSION(0x31) | CCG_VERSION_PATCH(10))
++
+ struct version_info {
+ 	struct version_format base;
+ 	struct version_format app;
+@@ -172,6 +181,7 @@ struct ucsi_ccg {
+ 	struct ccg_dev_info info;
+ 	/* version info for boot, primary and secondary */
+ 	struct version_info version[FW2 + 1];
++	u32 fw_version;
+ 	/* CCG HPI communication flags */
+ 	unsigned long flags;
+ #define RESET_PENDING	0
+@@ -185,6 +195,8 @@ struct ucsi_ccg {
+ 
+ 	/* fw build with vendor information */
+ 	u16 fw_build;
++	bool run_isr; /* flag to call ISR routine during resume */
++	struct work_struct pm_work;
+ };
+ 
+ static int ccg_read(struct ucsi_ccg *uc, u16 rab, u8 *data, u32 len)
+@@ -212,6 +224,18 @@ static int ccg_read(struct ucsi_ccg *uc, u16 rab, u8 *data, u32 len)
  	if (quirks && quirks->max_read_len)
  		max_read_len = quirks->max_read_len;
  
-+	pm_runtime_get_sync(uc->dev);
++	if (uc->fw_build == CCG_FW_BUILD_NVIDIA &&
++	    uc->fw_version <= CCG_OLD_FW_VERSION) {
++		mutex_lock(&uc->lock);
++		/*
++		 * Do not schedule pm_work to run ISR in
++		 * ucsi_ccg_runtime_resume() after pm_runtime_get_sync()
++		 * since we are already in ISR path.
++		 */
++		uc->run_isr = false;
++		mutex_unlock(&uc->lock);
++	}
++
+ 	pm_runtime_get_sync(uc->dev);
  	while (rem_len > 0) {
  		msgs[1].buf = &data[len - rem_len];
- 		rlen = min_t(u16, rem_len, max_read_len);
-@@ -218,12 +221,14 @@ static int ccg_read(struct ucsi_ccg *uc, u16 rab, u8 *data, u32 len)
- 		status = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
- 		if (status < 0) {
- 			dev_err(uc->dev, "i2c_transfer failed %d\n", status);
-+			pm_runtime_put_sync(uc->dev);
- 			return status;
- 		}
- 		rab += rlen;
- 		rem_len -= rlen;
- 	}
- 
-+	pm_runtime_put_sync(uc->dev);
- 	return 0;
- }
- 
-@@ -249,13 +254,16 @@ static int ccg_write(struct ucsi_ccg *uc, u16 rab, u8 *data, u32 len)
+@@ -254,6 +278,18 @@ static int ccg_write(struct ucsi_ccg *uc, u16 rab, u8 *data, u32 len)
  	msgs[0].len = len + sizeof(rab);
  	msgs[0].buf = buf;
  
-+	pm_runtime_get_sync(uc->dev);
++	if (uc->fw_build == CCG_FW_BUILD_NVIDIA &&
++	    uc->fw_version <= CCG_OLD_FW_VERSION) {
++		mutex_lock(&uc->lock);
++		/*
++		 * Do not schedule pm_work to run ISR in
++		 * ucsi_ccg_runtime_resume() after pm_runtime_get_sync()
++		 * since we are already in ISR path.
++		 */
++		uc->run_isr = false;
++		mutex_unlock(&uc->lock);
++	}
++
+ 	pm_runtime_get_sync(uc->dev);
  	status = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
  	if (status < 0) {
- 		dev_err(uc->dev, "i2c_transfer failed %d\n", status);
-+		pm_runtime_put_sync(uc->dev);
- 		kfree(buf);
- 		return status;
+@@ -383,6 +419,13 @@ static irqreturn_t ccg_irq_handler(int irq, void *data)
+ 	return IRQ_HANDLED;
+ }
+ 
++static void ccg_pm_workaround_work(struct work_struct *pm_work)
++{
++	struct ucsi_ccg *uc = container_of(pm_work, struct ucsi_ccg, pm_work);
++
++	ucsi_notify(uc->ucsi);
++}
++
+ static int get_fw_info(struct ucsi_ccg *uc)
+ {
+ 	int err;
+@@ -392,6 +435,9 @@ static int get_fw_info(struct ucsi_ccg *uc)
+ 	if (err < 0)
+ 		return err;
+ 
++	uc->fw_version = CCG_VERSION(uc->version[FW2].app.ver) |
++			CCG_VERSION_PATCH(uc->version[FW2].app.patch);
++
+ 	err = ccg_read(uc, CCGX_RAB_DEVICE_MODE, (u8 *)(&uc->info),
+ 		       sizeof(uc->info));
+ 	if (err < 0)
+@@ -740,11 +786,12 @@ static bool ccg_check_fw_version(struct ucsi_ccg *uc, const char *fw_name,
  	}
  
-+	pm_runtime_put_sync(uc->dev);
- 	kfree(buf);
- 	return 0;
- }
-@@ -1134,6 +1142,10 @@ static int ucsi_ccg_probe(struct i2c_client *client,
- 	if (status)
- 		dev_err(uc->dev, "cannot create sysfs group: %d\n", status);
+ 	/* compare input version with FWCT version */
+-	cur_version = le16_to_cpu(app->build) | app->patch << 16 |
+-			app->ver << 24;
++	cur_version = le16_to_cpu(app->build) | CCG_VERSION_PATCH(app->patch) |
++			CCG_VERSION(app->ver);
  
-+	pm_runtime_set_active(uc->dev);
-+	pm_runtime_enable(uc->dev);
-+	pm_runtime_idle(uc->dev);
-+
- 	return 0;
- }
+-	new_version = le16_to_cpu(fw_cfg.app.build) | fw_cfg.app.patch << 16 |
+-			fw_cfg.app.ver << 24;
++	new_version = le16_to_cpu(fw_cfg.app.build) |
++			CCG_VERSION_PATCH(fw_cfg.app.patch) |
++			CCG_VERSION(fw_cfg.app.ver);
  
-@@ -1143,6 +1155,7 @@ static int ucsi_ccg_remove(struct i2c_client *client)
+ 	if (!ccg_check_vendor_version(uc, app, &fw_cfg))
+ 		goto out_release_firmware;
+@@ -1084,8 +1131,10 @@ static int ucsi_ccg_probe(struct i2c_client *client,
+ 	uc->ppm.sync = ucsi_ccg_sync;
+ 	uc->dev = dev;
+ 	uc->client = client;
++	uc->run_isr = true;
+ 	mutex_init(&uc->lock);
+ 	INIT_WORK(&uc->work, ccg_update_firmware);
++	INIT_WORK(&uc->pm_work, ccg_pm_workaround_work);
  
+ 	/* Only fail FW flashing when FW build information is not provided */
+ 	status = device_property_read_u16(dev, "ccgx,firmware-build",
+@@ -1153,6 +1202,7 @@ static int ucsi_ccg_remove(struct i2c_client *client)
+ {
+ 	struct ucsi_ccg *uc = i2c_get_clientdata(client);
+ 
++	cancel_work_sync(&uc->pm_work);
  	cancel_work_sync(&uc->work);
  	ucsi_unregister_ppm(uc->ucsi);
-+	pm_runtime_disable(uc->dev);
- 	free_irq(uc->irq, uc);
- 	sysfs_remove_group(&uc->dev->kobj, &ucsi_ccg_attr_group);
+ 	pm_runtime_disable(uc->dev);
+@@ -1183,6 +1233,28 @@ static int ucsi_ccg_runtime_suspend(struct device *dev)
  
-@@ -1155,9 +1168,34 @@ static const struct i2c_device_id ucsi_ccg_device_id[] = {
- };
- MODULE_DEVICE_TABLE(i2c, ucsi_ccg_device_id);
- 
-+static int ucsi_ccg_resume(struct device *dev)
-+{
+ static int ucsi_ccg_runtime_resume(struct device *dev)
+ {
 +	struct i2c_client *client = to_i2c_client(dev);
 +	struct ucsi_ccg *uc = i2c_get_clientdata(client);
++	bool schedule = true;
 +
-+	return ucsi_resume(uc->ucsi);
-+}
++	/*
++	 * Firmware version 3.1.10 or earlier, built for NVIDIA has known issue
++	 * of missing interrupt when a device is connected for runtime resume.
++	 * Schedule a work to call ISR as a workaround.
++	 */
++	if (uc->fw_build == CCG_FW_BUILD_NVIDIA &&
++	    uc->fw_version <= CCG_OLD_FW_VERSION) {
++		mutex_lock(&uc->lock);
++		if (!uc->run_isr) {
++			uc->run_isr = true;
++			schedule = false;
++		}
++		mutex_unlock(&uc->lock);
 +
-+static int ucsi_ccg_runtime_suspend(struct device *dev)
-+{
-+	return 0;
-+}
++		if (schedule)
++			schedule_work(&uc->pm_work);
++	}
 +
-+static int ucsi_ccg_runtime_resume(struct device *dev)
-+{
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops ucsi_ccg_pm = {
-+	.resume = ucsi_ccg_resume,
-+	.runtime_suspend = ucsi_ccg_runtime_suspend,
-+	.runtime_resume = ucsi_ccg_runtime_resume,
-+};
-+
- static struct i2c_driver ucsi_ccg_driver = {
- 	.driver = {
- 		.name = "ucsi_ccg",
-+		.pm = &ucsi_ccg_pm,
- 	},
- 	.probe = ucsi_ccg_probe,
- 	.remove = ucsi_ccg_remove,
+ 	return 0;
+ }
+ 
 -- 
 2.17.1
 
