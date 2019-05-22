@@ -2,156 +2,138 @@ Return-Path: <SRS0=Sb/9=TW=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_MUTT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8F4AC282DD
-	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 20:02:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 168AEC282CE
+	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 20:52:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A9BA720821
-	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 20:02:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ADC2920675
+	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 20:52:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1558555349;
-	bh=6Hn5tdOXg3VLkL0x+vG12oDyBo+z47LO5zk51wE53MM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=eILrIyBJVpxEfekjGEeqAh43oKLy4iJXiN0/fOP90v3r62aRv2ctgVM4qOZXxlYJU
-	 EU5Z/3qmusELJbCb9B1a1GHsGdgYpYJ4WRNn5ihGwrsZYcK++MgA27MhfmuyD0kOVx
-	 vaW/DKNXr+v4rrLe8oe7rIk1FqXfPjaZyqlsxuEw=
+	s=default; t=1558558358;
+	bh=bhpBHeEEilTJAKuT5Mz1T+jvRriCi/QY/aaDhmaV7JI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=1Ib91bmmsC6WwR/xf1M7y1cktW1sArn17ZBDnYwDrcmSxZyd+N8U35CYU/luTn9Up
+	 wNoUrdghhQzTQYRCL/kSiUr7xDtV+F6iZQLMQ210nrXyR6xjVyuFIv8Pj3LrhB2sF6
+	 CYA+v8KzYMrwf58TKiSvvjp8ww60OrSsghEloXr4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730549AbfEVUCX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 May 2019 16:02:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42666 "EHLO mail.kernel.org"
+        id S1730136AbfEVUwe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 May 2019 16:52:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37892 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730244AbfEVTWA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 22 May 2019 15:22:00 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1729528AbfEVUwe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 22 May 2019 16:52:34 -0400
+Received: from localhost (unknown [69.71.4.100])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 84CE42177E;
-        Wed, 22 May 2019 19:21:58 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0B37220675;
+        Wed, 22 May 2019 20:52:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558552919;
-        bh=6Hn5tdOXg3VLkL0x+vG12oDyBo+z47LO5zk51wE53MM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VlzaXdjS9Kh6IP8doHhbDV1hbMMnJEvqEqlzkVfERzY4TmetRrfmUV9HBYqC5F1Qc
-         OLlq0hQgpgy5Up6vDHhUcB3II6hkX1ZabLi8UHo/3MoYNrs9ZuU4SIyMWnrCCLWst6
-         wYzIi/Asswpp+drvsFdybTKx4mrHrrY6vK1OtA6Q=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.1 030/375] usb: dwc3: move synchronize_irq() out of the spinlock protected block
-Date:   Wed, 22 May 2019 15:15:30 -0400
-Message-Id: <20190522192115.22666-30-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190522192115.22666-1-sashal@kernel.org>
-References: <20190522192115.22666-1-sashal@kernel.org>
+        s=default; t=1558558353;
+        bh=bhpBHeEEilTJAKuT5Mz1T+jvRriCi/QY/aaDhmaV7JI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ouHOrgyYGR6Ej2mSKFz/3tkEsldkGSNiCr50YNVhTymWt2/NSkU5IZLSv5wHzIHey
+         yfJCtejVdReX1qKpbB02KMuX1ladLoJjzMV47fSNX14NzIFTNC7O2HJsIfig+Dgxa+
+         EdwV7TDs99XEyF6g7uXFcv7KEVI02A4FvjQ/pdmU=
+Date:   Wed, 22 May 2019 15:52:31 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Kai Heng Feng <kai.heng.feng@canonical.com>,
+        Rafael Wysocki <rafael.j.wysocki@intel.com>,
+        linux-pci@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH] PCI / PM: Don't runtime suspend when device only
+ supports wakeup from D0
+Message-ID: <20190522205231.GD79339@google.com>
+References: <20190522181157.GC79339@google.com>
+ <Pine.LNX.4.44L0.1905221433310.1410-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <Pine.LNX.4.44L0.1905221433310.1410-100000@iolanthe.rowland.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Marek Szyprowski <m.szyprowski@samsung.com>
+On Wed, May 22, 2019 at 02:39:56PM -0400, Alan Stern wrote:
+> On Wed, 22 May 2019, Bjorn Helgaas wrote:
+> > On Wed, May 22, 2019 at 11:46:25PM +0800, Kai Heng Feng wrote:
+> > > > On May 22, 2019, at 9:48 PM, Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > > > On Wed, May 22, 2019 at 11:42:14AM +0800, Kai Heng Feng wrote:
+> > > >> at 6:23 AM, Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > > >>> On Wed, May 22, 2019 at 12:31:04AM +0800, Kai-Heng Feng wrote:
+> > > >>>> There's an xHC device that doesn't wake when a USB device gets plugged
+> > > >>>> to its USB port. The driver's own runtime suspend callback was called,
+> > > >>>> PME signaling was enabled, but it stays at PCI D0.
+> > 
+> > > > ...
+> > > > And I guess this patch basically means we wouldn't call the driver's
+> > > > suspend callback if we're merely going to stay at D0, so the driver
+> > > > would have no idea anything happened.  That might match
+> > > > Documentation/power/pci.txt better, because it suggests that the
+> > > > suspend callback is related to putting a device in a low-power state,
+> > > > and D0 is not a low-power state.
+> > > 
+> > > Yes, the patch is to let the device stay at D0 and don’t run driver’s own
+> > > runtime suspend routine.
+> > > 
+> > > I guess I’ll just proceed to send a V2 with updated commit message?
+> > 
+> > Now that I understand what "runtime suspended to D0" means, help me
+> > understand what's actually wrong.
+> 
+> Kai's point is that the xhci-hcd driver thinks the device is now in 
+> runtime suspend, because the runtime_suspend method has been executed.  
+> But in fact the device is still in D0, and as a result, PME signalling 
+> may not work correctly.
 
-[ Upstream commit 41a91c606e7d2b74358a944525267cc451c271e8 ]
+The device claims to be able to signal PME from D0 (this is from the lspci
+in https://bugzilla.kernel.org/show_bug.cgi?id=203673):
 
-dwc3_gadget_suspend() is called under dwc->lock spinlock. In such context
-calling synchronize_irq() is not allowed. Move the problematic call out
-of the protected block to fix the following kernel BUG during system
-suspend:
+  00:10.0 USB controller: Advanced Micro Devices, Inc. [AMD] FCH USB XHCI Controller (rev 20) (prog-if 30 [XHCI])
+    Capabilities: [50] Power Management version 3
+      Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0+,D1-,D2-,D3hot+,D3cold+)
 
-BUG: sleeping function called from invalid context at kernel/irq/manage.c:112
-in_atomic(): 1, irqs_disabled(): 128, pid: 1601, name: rtcwake
-6 locks held by rtcwake/1601:
- #0: f70ac2a2 (sb_writers#7){.+.+}, at: vfs_write+0x130/0x16c
- #1: b5fe1270 (&of->mutex){+.+.}, at: kernfs_fop_write+0xc0/0x1e4
- #2: 7e597705 (kn->count#60){.+.+}, at: kernfs_fop_write+0xc8/0x1e4
- #3: 8b3527d0 (system_transition_mutex){+.+.}, at: pm_suspend+0xc4/0xc04
- #4: fc7f1c42 (&dev->mutex){....}, at: __device_suspend+0xd8/0x74c
- #5: 4b36507e (&(&dwc->lock)->rlock){....}, at: dwc3_gadget_suspend+0x24/0x3c
-irq event stamp: 11252
-hardirqs last  enabled at (11251): [<c09c54a4>] _raw_spin_unlock_irqrestore+0x6c/0x74
-hardirqs last disabled at (11252): [<c09c4d44>] _raw_spin_lock_irqsave+0x1c/0x5c
-softirqs last  enabled at (9744): [<c0102564>] __do_softirq+0x3a4/0x66c
-softirqs last disabled at (9737): [<c0128528>] irq_exit+0x140/0x168
-Preemption disabled at:
-[<00000000>]   (null)
-CPU: 7 PID: 1601 Comm: rtcwake Not tainted
-5.0.0-rc3-next-20190122-00039-ga3f4ee4f8a52 #5252
-Hardware name: SAMSUNG EXYNOS (Flattened Device Tree)
-[<c01110f0>] (unwind_backtrace) from [<c010d120>] (show_stack+0x10/0x14)
-[<c010d120>] (show_stack) from [<c09a4d04>] (dump_stack+0x90/0xc8)
-[<c09a4d04>] (dump_stack) from [<c014c700>] (___might_sleep+0x22c/0x2c8)
-[<c014c700>] (___might_sleep) from [<c0189d68>] (synchronize_irq+0x28/0x84)
-[<c0189d68>] (synchronize_irq) from [<c05cbbf8>] (dwc3_gadget_suspend+0x34/0x3c)
-[<c05cbbf8>] (dwc3_gadget_suspend) from [<c05bd020>] (dwc3_suspend_common+0x154/0x410)
-[<c05bd020>] (dwc3_suspend_common) from [<c05bd34c>] (dwc3_suspend+0x14/0x2c)
-[<c05bd34c>] (dwc3_suspend) from [<c051c730>] (platform_pm_suspend+0x2c/0x54)
-[<c051c730>] (platform_pm_suspend) from [<c05285d4>] (dpm_run_callback+0xa4/0x3dc)
-[<c05285d4>] (dpm_run_callback) from [<c0528a40>] (__device_suspend+0x134/0x74c)
-[<c0528a40>] (__device_suspend) from [<c052c508>] (dpm_suspend+0x174/0x588)
-[<c052c508>] (dpm_suspend) from [<c0182134>] (suspend_devices_and_enter+0xc0/0xe74)
-[<c0182134>] (suspend_devices_and_enter) from [<c0183658>] (pm_suspend+0x770/0xc04)
-[<c0183658>] (pm_suspend) from [<c0180ddc>] (state_store+0x6c/0xcc)
-[<c0180ddc>] (state_store) from [<c09a9a70>] (kobj_attr_store+0x14/0x20)
-[<c09a9a70>] (kobj_attr_store) from [<c02d6800>] (sysfs_kf_write+0x4c/0x50)
-[<c02d6800>] (sysfs_kf_write) from [<c02d594c>] (kernfs_fop_write+0xfc/0x1e4)
-[<c02d594c>] (kernfs_fop_write) from [<c02593d8>] (__vfs_write+0x2c/0x160)
-[<c02593d8>] (__vfs_write) from [<c0259694>] (vfs_write+0xa4/0x16c)
-[<c0259694>] (vfs_write) from [<c0259870>] (ksys_write+0x40/0x8c)
-[<c0259870>] (ksys_write) from [<c0101000>] (ret_fast_syscall+0x0/0x28)
-Exception stack(0xed55ffa8 to 0xed55fff0)
-...
+From the xHCI spec r1.0, sec 4.15.2.3, it looks like a connect
+detected while in D0 should assert PME# if enabled (and WCE is set).
 
-Fixes: 01c10880d242 ("usb: dwc3: gadget: synchronize_irq dwc irq in suspend")
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/dwc3/core.c   | 2 ++
- drivers/usb/dwc3/gadget.c | 2 --
- 2 files changed, 2 insertions(+), 2 deletions(-)
+> On the other hand, it wasn't clear from the patch description whether
+> this actually causes a problem on real systems.  The description only
+> said that the problem was theoretical.
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index f944cea4056bc..72110a8c49d68 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -1600,6 +1600,7 @@ static int dwc3_suspend_common(struct dwc3 *dwc, pm_message_t msg)
- 		spin_lock_irqsave(&dwc->lock, flags);
- 		dwc3_gadget_suspend(dwc);
- 		spin_unlock_irqrestore(&dwc->lock, flags);
-+		synchronize_irq(dwc->irq_gadget);
- 		dwc3_core_exit(dwc);
- 		break;
- 	case DWC3_GCTL_PRTCAP_HOST:
-@@ -1632,6 +1633,7 @@ static int dwc3_suspend_common(struct dwc3 *dwc, pm_message_t msg)
- 			spin_lock_irqsave(&dwc->lock, flags);
- 			dwc3_gadget_suspend(dwc);
- 			spin_unlock_irqrestore(&dwc->lock, flags);
-+			synchronize_irq(dwc->irq_gadget);
- 		}
- 
- 		dwc3_otg_exit(dwc);
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index e293400cc6e95..2bb0ff9608d30 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -3384,8 +3384,6 @@ int dwc3_gadget_suspend(struct dwc3 *dwc)
- 	dwc3_disconnect_gadget(dwc);
- 	__dwc3_gadget_stop(dwc);
- 
--	synchronize_irq(dwc->irq_gadget);
--
- 	return 0;
- }
- 
--- 
-2.20.1
+Kai did say nothing happens when hot-adding a USB device, so I think
+there really is a problem.  This should be an obvious problem that
+lots of people would trip over, so I expect there should be reports in
+launchpad, etc.  I'd really like to have those bread crumbs.  Kai, can
+you add a complete dmesg log to the bugzilla?  Hints from the log,
+like the platform name, can help find related reports.
 
+> > The PCI core apparently *does* enable PME when we "suspend to D0".
+> > But somehow calling the xHCI runtime suspend callback makes the
+> > driver unable to notice when the PME is signaled?
+> 
+> According to Kai, PME signalling doesn't work in D0 -- or at least,
+> it is _documented_ not to work in D0 -- even though it is enabled
+> and the device claims to support it.
+
+I didn't understand this part.  From a PCI perspective, PME signaling
+while in D0 is an optional feature and should work if the device
+advertises support for it.  If it doesn't work on this device, we
+should have a quirk to indicate that.
+
+But I thought Kai said the device *can* signal PME from D0, but for
+some reason we don't handle it correctly if we have called the xHCI
+suspend callback.
+
+That's the part I don't understand.  Is this an xHCI driver issue?
+Should the suspend callback do something different if we're staying in
+D0?  I'm not sure the callback even knows what Dx state we're going
+to.
+
+Bjorn
