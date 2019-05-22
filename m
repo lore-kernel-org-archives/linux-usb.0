@@ -2,226 +2,105 @@ Return-Path: <SRS0=Sb/9=TW=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_MUTT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5E47C072A4
-	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 03:42:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7554C072A4
+	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 05:51:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A4D952054F
-	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 03:42:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E2FA21479
+	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 05:51:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1558504299;
+	bh=gcO+jmm8pP65WV+466wcnwrbKAgYbg8S77mfdMODnIc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=mb9KPao7cPyhAWhnjm4nv3nNmXZZLdKAnsXwmf4mpOgsDfsG17pRmhR3fvpHiBYhJ
+	 kDaSi0SnMB8XeeNagqYfmVxEfiHf+3FE5bg57cb1k4i8paUNxd6JzqMoUHvjL16jlK
+	 I8KELi7FWzIuspeuNrt7Rm/qb6aSedTUWAWwg21A=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728394AbfEVDmV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 May 2019 23:42:21 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:36544 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728150AbfEVDmV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 May 2019 23:42:21 -0400
-Received: from mail-pg1-f200.google.com ([209.85.215.200])
-        by youngberry.canonical.com with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-        (Exim 4.76)
-        (envelope-from <kai.heng.feng@canonical.com>)
-        id 1hTI8w-00045E-Tx
-        for linux-usb@vger.kernel.org; Wed, 22 May 2019 03:42:19 +0000
-Received: by mail-pg1-f200.google.com with SMTP id r191so763641pgr.23
-        for <linux-usb@vger.kernel.org>; Tue, 21 May 2019 20:42:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-         :content-transfer-encoding:message-id:references:to;
-        bh=NPTfaApxYhJLazeTc6j/yypjFDd8f8Hs9lpKwzlxSxg=;
-        b=Z46RZqbN+/+c2qBg44FAxfUUoLXTM3OZdTBX1o2x1Npa8d6yZ/ngjZz2QN8gHPLyhR
-         hOy2rB3L+Hna9ds3f7Uq/cpDR9ijvMP3UoWhuMhJtqN1nwRqt5cugErauATUP9l6VuPd
-         NCvXLQyWX6hYo4CguWxweCri9fpJm8lfrVCH6Mxasdf2+n/PkS0/6VOZpSe89OjTlcLX
-         /VaKLlxY7sRXMS9E/zrJig7JorQ4A3rSoBm4tSXJAEobOaLXHQRDD60woT5GFG6MET3N
-         XAyNONHUmYESptOlNOQZtfv66MJMrICOBfJlLOqnFnXuxHQDwHt/GYmFVM4LAhfoANN6
-         YLnQ==
-X-Gm-Message-State: APjAAAWsGvoLLckhZ1Nq8Ix2ZZDYVGmmngjF3F6yU+W8Kg/7zbTFkTgL
-        nqDML56S3W2gKlfgMceRjD+CWCBFwG4PVofpVl7lOB114QaRmKelvgoVcvPdG6Sk3JShJrpHkFn
-        2bvPvwfLU/8DscvNArFKyXH2sc7MMcYSHNRD+Kw==
-X-Received: by 2002:a63:fd4a:: with SMTP id m10mr86016124pgj.302.1558496537571;
-        Tue, 21 May 2019 20:42:17 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqx6Crm8I8i1AnlXR0t9YOt0OdN/qVVPqLZbTo6dRoYrFXqVPXoCm+7hvxVmOVPBRx5TFq/tKw==
-X-Received: by 2002:a63:fd4a:: with SMTP id m10mr86016105pgj.302.1558496537321;
-        Tue, 21 May 2019 20:42:17 -0700 (PDT)
-Received: from [10.101.46.168] (61-220-137-37.HINET-IP.hinet.net. [61.220.137.37])
-        by smtp.gmail.com with ESMTPSA id s134sm34046394pfc.110.2019.05.21.20.42.15
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 21 May 2019 20:42:16 -0700 (PDT)
-Content-Type: text/plain;
-        charset=utf-8;
-        delsp=yes;
-        format=flowed
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.8\))
-Subject: Re: [PATCH] PCI / PM: Don't runtime suspend when device only supports
- wakeup from D0
-From:   Kai Heng Feng <kai.heng.feng@canonical.com>
-In-Reply-To: <20190521222300.GG57618@google.com>
-Date:   Wed, 22 May 2019 11:42:14 +0800
-Cc:     Rafael Wysocki <rafael.j.wysocki@intel.com>,
-        linux-pci@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        linux-usb@vger.kernel.org
-Content-Transfer-Encoding: 8bit
-Message-Id: <AE3B21D0-5BD9-40A5-B5A1-3E9A8B8E1327@canonical.com>
-References: <20190521163104.15759-1-kai.heng.feng@canonical.com>
- <20190521222300.GG57618@google.com>
-To:     Bjorn Helgaas <helgaas@kernel.org>
-X-Mailer: Apple Mail (2.3445.104.8)
+        id S1727946AbfEVFvi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 May 2019 01:51:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37736 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726480AbfEVFvi (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 22 May 2019 01:51:38 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C126B20821;
+        Wed, 22 May 2019 05:51:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558504298;
+        bh=gcO+jmm8pP65WV+466wcnwrbKAgYbg8S77mfdMODnIc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WB6RGSRUcQwbYrz2T+qvLVwpU3AumxwPQZGp6UUEMTq7GPsRgbw7S7gce3Aph2CWT
+         VLBIlINbjm4Fd7Ob8zyRgrt1nHzO19J8ugxXf4JiOlOjPYdaTWuGTQZCGxwpbBgsnb
+         cWVmQYb70UyHk8+Tr6WWon3Q058APwk6JKcRqWpA=
+Date:   Wed, 22 May 2019 07:51:35 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Adam Gausmann <agausmann@fastmail.com>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: Raven Ridge xhci_hcd not working: "Refused to change power
+ state, currently in D3"
+Message-ID: <20190522055135.GB13702@kroah.com>
+References: <1b819641-609b-4e0e-86a3-afe81eb73efc@www.fastmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1b819641-609b-4e0e-86a3-afe81eb73efc@www.fastmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-at 6:23 AM, Bjorn Helgaas <helgaas@kernel.org> wrote:
+On Tue, May 21, 2019 at 04:49:14PM -0500, Adam Gausmann wrote:
+> On my ThinkPad E585, with a Ryzen 5 2500U, my XHCI driver crashes when plugging in a device after switching power states, or during switching itself.
+> 
+> Steps to Reproduce: 
+> 
+> - Unplug the AC power, or start the computer with AC unplugged. If the computer has AC power at boot, it will work properly, but plugging it in after running unplugged will not.
+> 
+> The xhci_hcd and xhci_pci modules remain loaded after the error. Reloading them appears to reset it, and the scenarios above still apply as if the computer was just started.
+> 
+> These tests were performed with laptop_mode disabled; enabling it alters the behavior. I will test that more later.
+> 
+> Results:
+> 
+> The USB device fails to register, and `lsusb` remains unchanged. No other errors will appear after the first one occurs.
+> One of two error messages will appear in kernel logs:
+> 
+> [   51.276650] xhci_hcd 0000:05:00.4: Refused to change power state, currently in D3
+> [   51.276658] xhci_hcd 0000:05:00.3: Refused to change power state, currently in D3
+> [   51.277051] xhci_hcd 0000:05:00.3: enabling device (0000 -> 0002)
+> [   51.277074] xhci_hcd 0000:05:00.3: WARN: xHC restore state timeout
+> [   51.277077] xhci_hcd 0000:05:00.3: PCI post-resume error -110!
+> [   51.279316] xhci_hcd 0000:05:00.3: HC died; cleaning up
+> [   51.288669] xhci_hcd 0000:05:00.4: enabling device (0000 -> 0002)
+> 
+> [ 5258.438021] xhci_hcd 0000:05:00.3: Refused to change power state, currently in D3
+> [ 5258.438328] xhci_hcd 0000:05:00.4: Refused to change power state, currently in D3
+> [ 5258.450026] xhci_hcd 0000:05:00.3: enabling device (0000 -> 0002)
+> [ 5258.450511] xhci_hcd 0000:05:00.4: enabling device (0000 -> 0002)
+> [ 5266.112941] xhci_hcd 0000:05:00.3: Error while assigning device slot ID
+> [ 5266.112952] xhci_hcd 0000:05:00.3: Max number of devices this xHCI host supports is 64.
+> [ 5266.112963] usb usb1-port2: couldn't allocate usb_device
+> [ 5280.960968] xhci_hcd 0000:05:00.3: Error while assigning device slot ID
+> [ 5280.960979] xhci_hcd 0000:05:00.3: Max number of devices this xHCI host supports is 64.
+> [ 5280.960993] usb usb1-port2: couldn't allocate usb_device
+> 
+> Expected results: 
+> 
+> Device connects, powers on, and registers properly, showing up in `lsusb`.
+> 
+> Build: 
+> 
+> Linux 4.19.44_1 #1 SMP PREEMPT Wed Mar 27 20:41:38 UTC 2019 x86_64 GNU/Linux, with firmware 20181218
 
-> [+cc Mathias, linux-usb]
->
-> On Wed, May 22, 2019 at 12:31:04AM +0800, Kai-Heng Feng wrote:
->> There's an xHC device that doesn't wake when a USB device gets plugged
->> to its USB port. The driver's own runtime suspend callback was called,
->> PME signaling was enabled, but it stays at PCI D0.
->
-> s/xHC/xHCI/ ?
->
-> This looks like it's fixing a bug?  If so, please include a link to
-> the bug report, and make sure the bug report has "lspci -vv" output
-> attached to it.
+4.19 is pretty old for xhci and normal desktop systems.  Can you please
+try 5.1 and see if that resolves the issue or not?
 
-Ok, I’ll update this in V2.
+thanks,
 
->
->> A PCI device can be runtime suspended to D0 when it supports D0 PME and
->> its _S0W reports D0. Theoratically this should work, but as [1]
->> specifies, D0 doesn't have wakeup capability.
->
-> s/Theoratically/Theoretically/
-
-Ok.
-
->
-> What does "runtime suspended to D0" mean?
-
-It’s runtime suspended by PCI core, but stays at D0.
-
->  Is that different from the regular "device is fully operational" sort of D0?
-
-Yes it's different to that.
-Because of _S0W reports D0 and the device has D0 PME support, so it’s  
-“suspended” to D0:
-
-00:10.0 USB controller [0c03]: Advanced Micro Devices, Inc. [AMD] FCH USB  
-XHCI Controller [1022:7914] (rev 20) (prog-if 30 [XHCI])
-         Subsystem: Dell FCH USB XHCI Controller [1028:096c]
-         Control: I/O- Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
-         Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
-         Interrupt: pin A routed to IRQ 18
-         Region 0: Memory at f0668000 (64-bit, non-prefetchable) [size=8K]
-         Capabilities: [50] Power Management version 3
-                 Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0+,D1-,D2-,D3hot+,D3cold+)
-                 Status: D0 NoSoftRst+ PME-Enable+ DSel=0 DScale=0 PME-
-         Capabilities: [70] MSI: Enable- Count=1/8 Maskable- 64bit+
-                 Address: 0000000000000000  Data: 0000
-         Capabilities: [90] MSI-X: Enable+ Count=8 Masked-
-                 Vector table: BAR=0 offset=00001000
-                 PBA: BAR=0 offset=00001080
-         Capabilities: [a0] Express (v2) Root Complex Integrated Endpoint, MSI 00
-                 DevCap: MaxPayload 128 bytes, PhantFunc 0
-                         ExtTag- RBE+
-                 DevCtl: Report errors: Correctable- Non-Fatal- Fatal- Unsupported-
-                         RlxdOrd- ExtTag- PhantFunc- AuxPwr- NoSnoop+
-                         MaxPayload 128 bytes, MaxReadReq 512 bytes
-                 DevSta: CorrErr- UncorrErr- FatalErr- UnsuppReq- AuxPwr+ TransPend-
-                 DevCap2: Completion Timeout: Not Supported, TimeoutDis+, LTR+, OBFF Not Supported
-                 DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis-, LTR-, OBFF Disabled
-         Capabilities: [100 v1] Latency Tolerance Reporting
-                 Max snoop latency: 0ns
-                 Max no snoop latency: 0ns
-         Kernel driver in use: xhci_hcd
-
-
-PME signaling is correctly enabled:
-Status: D0 NoSoftRst+ PME-Enable+ DSel=0 DScale=0 PME-
-
-> If so, what
-> distinguishes "runtime suspended D0" from "normal fully operational
-> D0”?
-
-The xHC’s own runtime suspend routine is called, but PCI core’s runtime  
-suspend routine decides it should stay at D0.
-So it’s technically runtime suspended to D0.
-
-Kai-Heng
-
->
->> To avoid this problematic situation, we should avoid runtime suspend if
->> D0 is the only state that can wake up the device.
->>
->> [1]  
->> https://docs.microsoft.com/en-us/windows-hardware/drivers/kernel/device-working-state-d0
->>
->> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
->> ---
->>  drivers/pci/pci-driver.c | 5 +++++
->>  drivers/pci/pci.c        | 2 +-
->>  include/linux/pci.h      | 3 +++
->>  3 files changed, 9 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
->> index cae630fe6387..15a6310c5d7b 100644
->> --- a/drivers/pci/pci-driver.c
->> +++ b/drivers/pci/pci-driver.c
->> @@ -1251,6 +1251,11 @@ static int pci_pm_runtime_suspend(struct device  
->> *dev)
->>  		return 0;
->>  	}
->>
->> +	if (pci_target_state(pci_dev, device_can_wakeup(dev)) == PCI_D0) {
->> +		dev_dbg(dev, "D0 doesn't have wakeup capability\n");
->> +		return -EBUSY;
->> +	}
->> +
->>  	pci_dev->state_saved = false;
->>  	if (pm && pm->runtime_suspend) {
->>  		error = pm->runtime_suspend(dev);
->> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
->> index 8abc843b1615..ceee6efbbcfe 100644
->> --- a/drivers/pci/pci.c
->> +++ b/drivers/pci/pci.c
->> @@ -2294,7 +2294,7 @@ EXPORT_SYMBOL(pci_wake_from_d3);
->>   * If the platform can't manage @dev, return the deepest state from which it
->>   * can generate wake events, based on any available PME info.
->>   */
->> -static pci_power_t pci_target_state(struct pci_dev *dev, bool wakeup)
->> +pci_power_t pci_target_state(struct pci_dev *dev, bool wakeup)
->>  {
->>  	pci_power_t target_state = PCI_D3hot;
->>
->> diff --git a/include/linux/pci.h b/include/linux/pci.h
->> index 4a5a84d7bdd4..91e8dc4d04aa 100644
->> --- a/include/linux/pci.h
->> +++ b/include/linux/pci.h
->> @@ -1188,6 +1188,7 @@ bool pci_pme_capable(struct pci_dev *dev,  
->> pci_power_t state);
->>  void pci_pme_active(struct pci_dev *dev, bool enable);
->>  int pci_enable_wake(struct pci_dev *dev, pci_power_t state, bool enable);
->>  int pci_wake_from_d3(struct pci_dev *dev, bool enable);
->> +pci_power_t pci_target_state(struct pci_dev *dev, bool wakeup);
->>  int pci_prepare_to_sleep(struct pci_dev *dev);
->>  int pci_back_from_sleep(struct pci_dev *dev);
->>  bool pci_dev_run_wake(struct pci_dev *dev);
->> @@ -1672,6 +1673,8 @@ static inline int pci_set_power_state(struct  
->> pci_dev *dev, pci_power_t state)
->>  { return 0; }
->>  static inline int pci_wake_from_d3(struct pci_dev *dev, bool enable)
->>  { return 0; }
->> +pci_power_t pci_target_state(struct pci_dev *dev, bool wakeup)
->> +{ return PCI_D0; }
->>  static inline pci_power_t pci_choose_state(struct pci_dev *dev,
->>  					   pm_message_t state)
->>  { return PCI_D0; }
->> -- 
->> 2.17.1
-
-
+greg k-h
