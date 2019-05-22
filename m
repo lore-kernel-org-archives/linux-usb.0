@@ -2,111 +2,130 @@ Return-Path: <SRS0=Sb/9=TW=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=0.1 required=3.0 tests=DATE_IN_PAST_06_12,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0965C282DE
-	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 19:52:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7077C282DC
+	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 19:54:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B9B6520856
-	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 19:52:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8983920856
+	for <linux-usb@archiver.kernel.org>; Wed, 22 May 2019 19:54:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1558554890;
+	bh=dwcs9Y0vxroOP9WzRELD7LmuEjDjG77KIt901BZw2uw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=x0DbKzK/hbxnIc95Pplswcwbb8L421PGhWfPFak3Cx0MvSNr8qaAeb/6nRXlaGFqi
+	 L8aR6Wjnn5Rsy2Sf0/ls+KgdPZa0cln1JLg/OgY7ECQiPUr6ZT/p8+by8npNMSv4f9
+	 yaaSQINT5Vp2DxQk2SzKXGUkobYnCRavZMGwP6cc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732378AbfEVTwa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 May 2019 15:52:30 -0400
-Received: from 107-174-234-49-host.colocrossing.com ([107.174.234.49]:43092
-        "EHLO venetian.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1730387AbfEVTwa (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 May 2019 15:52:30 -0400
-To:     linux-usb@vger.kernel.org
-Subject: Use logo on USB drive
-Message-ID: <fac47cf45107b07dd3cd948844079526@walgreens.com>
-Date:   Wed, 22 May 2019 13:28:05 +0200
-From:   "David" <david@usbcustom.site>
-Reply-To: jensanke@aliyun.com
+        id S1731669AbfEVTZi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 May 2019 15:25:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46980 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731660AbfEVTZh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 22 May 2019 15:25:37 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 925B221841;
+        Wed, 22 May 2019 19:25:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558553137;
+        bh=dwcs9Y0vxroOP9WzRELD7LmuEjDjG77KIt901BZw2uw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=zsqoQar/VWWl6bh98cjSnZVYnkOQ59XYo6x89OqaOO851JMjIX8mw7PK29j3ar1jo
+         PUYBxr0c3M1FreeBSO5vNrfrsbN6eQ3NJn1xlYnmBlzaUKmCMJd0TYgZ1Z9BdQazrg
+         ToqnBkc78zrjo2bbGEskluxkO/Srl5LbviqirjXg=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Johan Hovold <johan@kernel.org>, Sasha Levin <sashal@kernel.org>,
+        linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.0 067/317] USB: serial: fix initial-termios handling
+Date:   Wed, 22 May 2019 15:19:28 -0400
+Message-Id: <20190522192338.23715-67-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190522192338.23715-1-sashal@kernel.org>
+References: <20190522192338.23715-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+From: Johan Hovold <johan@kernel.org>
 
-Not sure if you received my last email?
+[ Upstream commit 579bebe5dd522580019e7b10b07daaf500f9fb1e ]
 
-Are you interested in purchasing your LOGO promotional and marketing
-products for your company?
-We produce USB Drives with your Logo Printed or artwork printed to be used
-for gifts or marketing.
-Here is more info from our website:
+The USB-serial driver init_termios callback is used to override the
+default initial terminal settings provided by USB-serial core.
 
-We can pre-load your media files, images, presentations and files onto the
-drives for you.
+After a bug was fixed in the original implementation introduced by
+commit fe1ae7fdd2ee ("tty: USB serial termios bits"), the init_termios
+callback was no longer called just once on first use as intended but
+rather on every (first) open.
 
-Some reasons to get the USB drives from us:
-We make Custom Shaped USB drives in the shape of your logo, product or
-anything you like.
-Our USB drives are Eco-friendly
-We supply USB drives to Fortune 100 companies.
-We have over 150 styles and colors to choose from.
-People will keep the USB drive you give them and show it to others
-increasing your marketing value
+This specifically meant that the terminal settings saved on (final)
+close were ignored when reopening a port for drivers overriding the
+initial settings.
 
-Please click
-to see all of our stock models and get a quote.
+Also update the outdated function header referring to the creation of
+termios objects.
 
-If you are nonprofit, have further discounts for schools and charities.
+Fixes: 7e29bb4b779f ("usb-serial: fix termios initialization logic")
+Signed-off-by: Johan Hovold <johan@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/usb/serial/usb-serial.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-Thanks,
-David
-USB Drive Specialist
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-http://walgreens.com/mail/link.php?M=26955744&N=3585&L=29&F=T
+diff --git a/drivers/usb/serial/usb-serial.c b/drivers/usb/serial/usb-serial.c
+index 7e89efbf2c284..676c296103a2f 100644
+--- a/drivers/usb/serial/usb-serial.c
++++ b/drivers/usb/serial/usb-serial.c
+@@ -164,9 +164,9 @@ void usb_serial_put(struct usb_serial *serial)
+  * @driver: the driver (USB in our case)
+  * @tty: the tty being created
+  *
+- * Create the termios objects for this tty.  We use the default
++ * Initialise the termios structure for this tty.  We use the default
+  * USB serial settings but permit them to be overridden by
+- * serial->type->init_termios.
++ * serial->type->init_termios on first open.
+  *
+  * This is the first place a new tty gets used.  Hence this is where we
+  * acquire references to the usb_serial structure and the driver module,
+@@ -178,6 +178,7 @@ static int serial_install(struct tty_driver *driver, struct tty_struct *tty)
+ 	int idx = tty->index;
+ 	struct usb_serial *serial;
+ 	struct usb_serial_port *port;
++	bool init_termios;
+ 	int retval = -ENODEV;
+ 
+ 	port = usb_serial_port_get_by_minor(idx);
+@@ -192,14 +193,16 @@ static int serial_install(struct tty_driver *driver, struct tty_struct *tty)
+ 	if (retval)
+ 		goto error_get_interface;
+ 
++	init_termios = (driver->termios[idx] == NULL);
++
+ 	retval = tty_standard_install(driver, tty);
+ 	if (retval)
+ 		goto error_init_termios;
+ 
+ 	mutex_unlock(&serial->disc_mutex);
+ 
+-	/* allow the driver to update the settings */
+-	if (serial->type->init_termios)
++	/* allow the driver to update the initial settings */
++	if (init_termios && serial->type->init_termios)
+ 		serial->type->init_termios(tty);
+ 
+ 	tty->driver_data = port;
+-- 
+2.20.1
 
