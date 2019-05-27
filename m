@@ -2,184 +2,158 @@ Return-Path: <SRS0=tmbE=T3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CCBBC04AB3
-	for <linux-usb@archiver.kernel.org>; Mon, 27 May 2019 11:38:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05658C04AB3
+	for <linux-usb@archiver.kernel.org>; Mon, 27 May 2019 11:50:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7298F208CA
-	for <linux-usb@archiver.kernel.org>; Mon, 27 May 2019 11:38:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C21BC20673
+	for <linux-usb@archiver.kernel.org>; Mon, 27 May 2019 11:50:21 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=cogentembedded-com.20150623.gappssmtp.com header.i=@cogentembedded-com.20150623.gappssmtp.com header.b="f47GmnwI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726206AbfE0LiH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 27 May 2019 07:38:07 -0400
-Received: from mail-io1-f71.google.com ([209.85.166.71]:42349 "EHLO
-        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726114AbfE0LiG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 27 May 2019 07:38:06 -0400
-Received: by mail-io1-f71.google.com with SMTP id v187so13442948ioe.9
-        for <linux-usb@vger.kernel.org>; Mon, 27 May 2019 04:38:06 -0700 (PDT)
+        id S1726106AbfE0LuV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 27 May 2019 07:50:21 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:40827 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726094AbfE0LuV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 27 May 2019 07:50:21 -0400
+Received: by mail-lf1-f68.google.com with SMTP id h13so11853593lfc.7
+        for <linux-usb@vger.kernel.org>; Mon, 27 May 2019 04:50:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=pp1HOfS6OCew4hOY4gEFNb0Q8jF2KOJSncUe3LIsm+E=;
+        b=f47GmnwIjwZrqaU7ErzymLfrdqvyrdyCmixvkkYF3dzWPX66Bb+EjcyzmV5wdPTAPv
+         C6S6wWFK6qYi1olY4pjCb4KR6WE/vFlSleCYArbDO7XtAodmS2iV7+Oye5h86ES/AaWH
+         7EFgUsE3f/L/s6qc0zPlSszcq6iaU+9hOOOnW08tB3pyOWvAGSZPsIDgrPqoPGUReUdX
+         eQNZ3OxdC6i8Uep+ZPWgdpN7f9XNSiMybIoj1SWvYx7Qyfqg7sULEPDRZUQ5Kjsvl0nB
+         DqXh6zrrAWjNc0wbsgcOs1yynW/ArR0BEofc23odR0fYDb+5ai3Dkp2ySEBfSt3RNm9R
+         4TVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=EvVlLBGL0bMbZSXnS0Gdmap9SOaSaRB3to/I0YZeZYM=;
-        b=Efz7Q5TVk/4+J4P4Klysy1vBeRWLXr0/1vV77H4q8AspVglYPixJ/YbuZ+75MTk+XX
-         w30iODSseRJaTE20Qtxi1KFixKAKNM7S/xoRo5Y3WqTwVYMYGV6EpEj+jChEGb1aMaI1
-         Na0AuhlOXrva9xXH3RlkiQ0wq5mkPn0FyRJcd9TZTDJVRwXAVY7ynzBu2o207vbTdEIR
-         txAL9bWia8ILk5OMGHqd61pfCKUMfBzI0v5CQrTeRlCM6lYl14Lme7JkZS0IJqy7Z7rl
-         d4Lh/g341w+zd8V9zYAnMeVYZCmibxki3wJUeerTuSNN1x+IhvTySegJY7yRjnusiVui
-         xvAg==
-X-Gm-Message-State: APjAAAXdJU//PZWw1y6pXcf5gids+rSovM+1TuFZUlDgYs0Ou1+0a4Ox
-        wpNjSbIiNsU2ceSptULAzfTxdWFyURVrygnisqS7IPz3Ijzx
-X-Google-Smtp-Source: APXvYqw/eeDZQun7I1CmQXRbxyLVKcB6Jf3epBqJ0cS4pB78gs07wdj63cO49WXjDImlFDN0BdrV+pHBsS8KPUysPrHHURkA9uS+
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=pp1HOfS6OCew4hOY4gEFNb0Q8jF2KOJSncUe3LIsm+E=;
+        b=DUI8ABntlU2HnAOlnEwtDyFjUMe1OWSusQ+O7C9mr8IFcaEU7grbRkyZ7mz1T3N5Lk
+         O06TQifoDlQvLaDfNrrx9BMXhOva6T2dUPoTZ4LQZUKZcf/cbzVPVzPhqz8HPrmvhCDx
+         +wpJZ+ssqCF7G4SaDJZvvYm53lek8tRguGEEHmsepOarIhuA/Nv/HKvPxF1fhLhFS2+M
+         Hk5m5wdZsnI3GVUy4atXx9014HxAFV8ONV1fGZp5DFCEQVkGNdzrttg5/9k8R7l56zk/
+         iX+r5lL/qGVnuOL87p6FA1pH4SvC5YZVDXR6OAuAhHO079q4PtUyGvPWzHrTmbXjxhGk
+         N4pA==
+X-Gm-Message-State: APjAAAWgfQCjFkIu4utI0EmImVuOSpsZdVHBaig9V2Cn4D8N7uAjJ/ZK
+        aIQyd7DUUq/YE2kmnZB0iTiv4g==
+X-Google-Smtp-Source: APXvYqyeghVw7Hlqyc73MevUBLPu49ZgfVRkkFi1ISP4HjS790w/5OwT2liWW8VlG9UnUuwgJce1kw==
+X-Received: by 2002:ac2:59c8:: with SMTP id x8mr8006293lfn.189.1558957818849;
+        Mon, 27 May 2019 04:50:18 -0700 (PDT)
+Received: from [192.168.0.199] ([31.173.80.152])
+        by smtp.gmail.com with ESMTPSA id y14sm2239532ljh.60.2019.05.27.04.50.15
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 27 May 2019 04:50:17 -0700 (PDT)
+Subject: Re: [PATCH 1/1] usb: chipidea: udc: workaround for endpoint conflict
+ issue
+To:     Peter Chen <hzpeterchen@gmail.com>
+Cc:     Peter Chen <peter.chen@nxp.com>, linux-usb@vger.kernel.org,
+        linux-imx@nxp.com, stable@vger.kernel.org, Jun Li <jun.li@nxp.com>
+References: <20190527074222.42970-1-peter.chen@nxp.com>
+ <64ff033b-7f7e-ad91-ac06-73ebd8565286@cogentembedded.com>
+ <CAL411-ouY92Yk2TGqdx9KuhT71p=qEcSC426JwmerBmFAXd+=A@mail.gmail.com>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Message-ID: <1ddc434b-5771-6af1-e63a-581ef11a21b5@cogentembedded.com>
+Date:   Mon, 27 May 2019 14:49:56 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-Received: by 2002:a6b:7a42:: with SMTP id k2mr1902229iop.214.1558957085973;
- Mon, 27 May 2019 04:38:05 -0700 (PDT)
-Date:   Mon, 27 May 2019 04:38:05 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000005463aa0589dcfb85@google.com>
-Subject: INFO: trying to register non-static key in usbtouch_reset_resume
-From:   syzbot <syzbot+933daad9be4e67ba91a9@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, dmitry.torokhov@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, rydberg@bitmath.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+In-Reply-To: <CAL411-ouY92Yk2TGqdx9KuhT71p=qEcSC426JwmerBmFAXd+=A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+On 27.05.2019 12:44, Peter Chen wrote:
 
-syzbot found the following crash on:
+>>> An endpoint conflict occurs when the USB is working in device mode
+>>> during an isochronous communication. When the endpointA IN direction
+>>> is an isochronous IN endpoint, and the host sends an IN token to
+>>> endpointA on another device, then the OUT transaction may be missed
+>>> regardless the OUT endpoint number. Generally, this occurs when the
+>>> device is connected to the host through a hub and other devices are
+>>> connected to the same hub.
+>>>
+>>> The affected OUT endpoint can be either control, bulk, isochronous, or
+>>> an interrupt endpoint. After the OUT endpoint is primed, if an IN token
+>>> to the same endpoint number on another device is received, then the OUT
+>>> endpoint may be unprimed (cannot be detected by software), which causes
+>>> this endpoint to no longer respond to the host OUT token, and thus, no
+>>> corresponding interrupt occurs.
+>>>
+>>> There is no good workaround for this issue, the only thing the software
+>>> could do is numbering isochronous IN from the highest endpoint since we
+>>> have observed most of device number endpoint from the lowest.
+>>>
+>>> Cc: <stable@vger.kernel.org> #v3.14+
+>>> Cc: Jun Li <jun.li@nxp.com>
+>>> Signed-off-by: Peter Chen <peter.chen@nxp.com>
+>>> ---
+>>>    drivers/usb/chipidea/udc.c | 24 ++++++++++++++++++++++++
+>>>    1 file changed, 24 insertions(+)
+>>>
+>>> diff --git a/drivers/usb/chipidea/udc.c b/drivers/usb/chipidea/udc.c
+>>> index 829e947cabf5..411d387a45c9 100644
+>>> --- a/drivers/usb/chipidea/udc.c
+>>> +++ b/drivers/usb/chipidea/udc.c
+>>> @@ -1622,6 +1622,29 @@ static int ci_udc_pullup(struct usb_gadget *_gadget, int is_on)
+>>>    static int ci_udc_start(struct usb_gadget *gadget,
+>>>                         struct usb_gadget_driver *driver);
+>>>    static int ci_udc_stop(struct usb_gadget *gadget);
+>>> +
+>>> +
+>>> +/* Match ISOC IN from the highest endpoint */
+>>> +static struct
+>>
+>>      Um, please break the line before the function's type is fully described.
 
-HEAD commit:    43151d6c usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=14a2b45ca00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=95aff7278e7ff25e
-dashboard link: https://syzkaller.appspot.com/bug?extid=933daad9be4e67ba91a9
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1776669aa00000
+    Mm, I meant to type "after". :-)
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+933daad9be4e67ba91a9@syzkaller.appspotmail.com
+>>
+>>> +usb_ep *ci_udc_match_ep(struct usb_gadget *gadget,
+>>> +                           struct usb_endpoint_descriptor *desc,
+>>> +                           struct usb_ss_ep_comp_descriptor *comp_desc)
+>>> +{
+>>> +     struct ci_hdrc *ci = container_of(gadget, struct ci_hdrc, gadget);
+>>> +     struct usb_ep *ep;
+>>> +     u8 type = desc->bmAttributes & USB_ENDPOINT_XFERTYPE_MASK;
+>>> +
+>>> +     if ((type == USB_ENDPOINT_XFER_ISOC) &&
+>>> +             (desc->bEndpointAddress & USB_DIR_IN)) {
+>>
+>>      Please add 1 more tab here, so that this line doesn't blend with the
+>> following statement.
+>>
+>>> +             list_for_each_entry_reverse(ep, &ci->gadget.ep_list, ep_list) {
+>>> +                     if (ep->caps.dir_in && !ep->claimed)
+>>> +                             return ep;
+>>> +             }
+>>> +     }
+>>> +
+>>> +     return NULL;
+>>> +}
+>>> +
+>>>    /**
+>>>     * Device operations part of the API to the USB controller hardware,
+>>>     * which don't involve endpoints (or i/o)
+> 
+> Will change both comments, thanks.
 
-usb 1-1: config 0 descriptor??
-usb 1-1: string descriptor 0 read error: -71
-hub 1-1:0.189: ignoring external hub
-input: USB Touchscreen 08f2:007f as  
-/devices/platform/dummy_hcd.0/usb1/1-1/1-1:0.189/input/input6
-usb 1-1: reset high-speed USB device number 3 using dummy_hcd
-usb 1-1: Using ep0 maxpacket: 8
-INFO: trying to register non-static key.
-the code is fine but needs lockdep annotation.
-turning off the locking correctness validator.
-CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.1.0-rc3+ #8
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xca/0x13e lib/dump_stack.c:113
-  assign_lock_key kernel/locking/lockdep.c:786 [inline]
-  register_lock_class+0x11ae/0x1240 kernel/locking/lockdep.c:1095
-  __lock_acquire+0xfb/0x37c0 kernel/locking/lockdep.c:3582
-  lock_acquire+0x100/0x2b0 kernel/locking/lockdep.c:4211
-  __mutex_lock_common kernel/locking/mutex.c:925 [inline]
-  __mutex_lock+0xf9/0x12b0 kernel/locking/mutex.c:1072
-  usbtouch_reset_resume+0xb3/0x170  
-drivers/input/touchscreen/usbtouchscreen.c:1624
-  usb_resume_interface drivers/usb/core/driver.c:1242 [inline]
-  usb_resume_interface.isra.0+0x187/0x3a0 drivers/usb/core/driver.c:1210
-  usb_resume_both+0x23d/0x780 drivers/usb/core/driver.c:1412
-  __rpm_callback+0x287/0x3c0 drivers/base/power/runtime.c:357
-  rpm_callback+0x18f/0x230 drivers/base/power/runtime.c:487
-  rpm_resume+0x10c2/0x1840 drivers/base/power/runtime.c:851
-  __pm_runtime_resume+0x103/0x180 drivers/base/power/runtime.c:1078
-  pm_runtime_get_sync include/linux/pm_runtime.h:227 [inline]
-  usb_autoresume_device+0x1e/0x60 drivers/usb/core/driver.c:1599
-  usb_remote_wakeup+0x7b/0xb0 drivers/usb/core/hub.c:3600
-  hub_port_connect_change drivers/usb/core/hub.c:5190 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0x23c9/0x35a0 drivers/usb/core/hub.c:5432
-  process_one_work+0x90a/0x1580 kernel/workqueue.c:2269
-  process_scheduled_works kernel/workqueue.c:2331 [inline]
-  worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
-  kthread+0x30e/0x420 kernel/kthread.c:253
-  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
-dummy_hcd dummy_hcd.0: port status 0x00010100 has changes
-usb 1-1: USB disconnect, device number 3
-usb usb1: dummy_bus_suspend
-usb usb1: dummy_bus_resume
-dummy_hcd dummy_hcd.0: port status 0x00010101 has changes
-dummy_hcd dummy_hcd.0: port status 0x00100503 has changes
-usb 1-1: new high-speed USB device number 4 using dummy_hcd
-dummy_hcd dummy_hcd.0: port status 0x00100503 has changes
-usb 1-1: Using ep0 maxpacket: 8
-usb 1-1: config 0 has an invalid interface number: 189 but max is 0
-usb 1-1: config 0 has an invalid descriptor of length 0, skipping remainder  
-of the config
-usb 1-1: config 0 has no interface number 0
-usb 1-1: config 0 interface 189 altsetting 0 endpoint 0x82 has an invalid  
-bInterval 0, changing to 7
-usb 1-1: New USB device found, idVendor=08f2, idProduct=007f,  
-bcdDevice=97.17
-usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-usb 1-1: config 0 descriptor??
-usb 1-1: string descriptor 0 read error: -71
-hub 1-1:0.189: ignoring external hub
-input: USB Touchscreen 08f2:007f as  
-/devices/platform/dummy_hcd.0/usb1/1-1/1-1:0.189/input/input7
-dummy_hcd dummy_hcd.0: port status 0x00010101 has changes
-dummy_hcd dummy_hcd.0: port status 0x00010101 has changes
-dummy_hcd dummy_hcd.0: port status 0x00100503 has changes
-usb 1-1: reset high-speed USB device number 4 using dummy_hcd
-dummy_hcd dummy_hcd.0: port status 0x00100503 has changes
-usb 1-1: Using ep0 maxpacket: 8
-usb usb1: dummy_bus_suspend
-usb usb1: dummy_bus_resume
-dummy_hcd dummy_hcd.0: port status 0x00010100 has changes
-usb 1-1: USB disconnect, device number 6
-usb usb1: dummy_bus_suspend
-usb usb1: dummy_bus_resume
-dummy_hcd dummy_hcd.0: port status 0x00010101 has changes
-dummy_hcd dummy_hcd.0: port status 0x00100503 has changes
-usb 1-1: new high-speed USB device number 7 using dummy_hcd
-dummy_hcd dummy_hcd.0: port status 0x00100503 has changes
-usb 1-1: Using ep0 maxpacket: 8
-usb 1-1: config 0 has an invalid interface number: 189 but max is 0
-usb 1-1: config 0 has an invalid descriptor of length 0, skipping remainder  
-of the config
-usb 1-1: config 0 has no interface number 0
-usb 1-1: config 0 interface 189 altsetting 0 endpoint 0x82 has an invalid  
-bInterval 0, changing to 7
-usb 1-1: New USB device found, idVendor=08f2, idProduct=007f,  
-bcdDevice=97.17
-usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-usb 1-1: config 0 descriptor??
-usb 1-1: string descriptor 0 read error: -71
-hub 1-1:0.189: ignoring external hub
-input: USB Touchscreen 08f2:007f as  
-/devices/platform/dummy_hcd.0/usb1/1-1/1-1:0.189/input/input10
-dummy_hcd dummy_hcd.0: port status 0x00010101 has changes
-dummy_hcd dummy_hcd.0: port status 0x00010101 has changes
-dummy_hcd dummy_hcd.0: port status 0x00100503 has changes
-usb 1-1: reset high-speed USB device number 7 using dummy_hcd
-dummy_hcd dummy_hcd.0: port status 0x00100503 has changes
-usb 1-1: Using ep0 maxpacket: 8
-usb usb1: dummy_bus_suspend
+    TIA.
 
+> Peter
 
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+MBR, Sergei
