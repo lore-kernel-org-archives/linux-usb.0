@@ -2,117 +2,161 @@ Return-Path: <SRS0=tmbE=T3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3D12C04AB3
-	for <linux-usb@archiver.kernel.org>; Mon, 27 May 2019 11:28:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBC32C07542
+	for <linux-usb@archiver.kernel.org>; Mon, 27 May 2019 11:38:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B230720859
-	for <linux-usb@archiver.kernel.org>; Mon, 27 May 2019 11:28:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BB2B12147A
+	for <linux-usb@archiver.kernel.org>; Mon, 27 May 2019 11:38:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726175AbfE0L2w (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 27 May 2019 07:28:52 -0400
-Received: from mx2.suse.de ([195.135.220.15]:36310 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726063AbfE0L2w (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 27 May 2019 07:28:52 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id C3A54ACFA;
-        Mon, 27 May 2019 11:28:50 +0000 (UTC)
-Message-ID: <e2dd83c5dbba1bb9bd300285285ab07135dc6166.camel@suse.de>
-Subject: Re: [PATCH] xhci: clear port_remote_wakeup after resume failure
-From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Mathias Nyman <mathias.nyman@intel.com>
-Cc:     oneukum@suse.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Mon, 27 May 2019 13:28:48 +0200
-In-Reply-To: <eb5d9252-1283-be73-96d6-c24a0fdf1eab@linux.intel.com>
-References: <20190524145231.6605-1-nsaenzjulienne@suse.de>
-         <eb5d9252-1283-be73-96d6-c24a0fdf1eab@linux.intel.com>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-f7bqoOZL4zNS+o7sGeVu"
-User-Agent: Evolution 3.32.2 
+        id S1726476AbfE0LiI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 27 May 2019 07:38:08 -0400
+Received: from mail-it1-f197.google.com ([209.85.166.197]:53978 "EHLO
+        mail-it1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725858AbfE0LiH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 27 May 2019 07:38:07 -0400
+Received: by mail-it1-f197.google.com with SMTP id m14so15678509itl.3
+        for <linux-usb@vger.kernel.org>; Mon, 27 May 2019 04:38:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=3ofJz0VOtKLU8MeevgDTLa64a60th9mQF2FKBUhaEfo=;
+        b=paDYKo/zKeKQv2gKnLSKuFDmAS9mCZkHDRGICcyyJIoBLPp3eHzP1AqphOFcgH8ZNu
+         Vy6yjpIh2cTubTjmgZFEWQKwBa6QmAi3H1453DceQDhofeZmNRfGJlp7ajb5f0eSUlzi
+         FlWr2MTvszbYe+e7nq7zrSplPv9VXiIpuIw0EzSJqx+D1zN/3+F03A7Lnr/qrgrapM+n
+         FiIFvVUYVRyfJ/q5H9pkvG11s+UyH057FxVa+cwcZhdV+8HcbskwZZiEnWa7FRZGuUN3
+         UnvlS7FgBy8u5lZyphHl53TKLJ2Wg4Lr/5vIPB4mWY/LW8152i/aS6VJyywCYkR/HeBd
+         gZww==
+X-Gm-Message-State: APjAAAWtcKGkr7vbQnxcRFXddWuBaPJ8VoeSbIEco1qny+U+2pbS0dyq
+        cpoHK6ocFRP4ps7hDnNrk/Cj6hD/pHOv/rz1NiDw4a7Yb5HA
+X-Google-Smtp-Source: APXvYqx3RE6uJKijGeIKhmkzojrhR8IqNMfF5lo/O5KVrJ1mEjMuBtHdWc7JwKkln31iNhl+Vphvgo3ijbgtwRp9AlqVFXgYeGkv
 MIME-Version: 1.0
+X-Received: by 2002:a6b:5812:: with SMTP id m18mr1656876iob.13.1558957086368;
+ Mon, 27 May 2019 04:38:06 -0700 (PDT)
+Date:   Mon, 27 May 2019 04:38:06 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000005a6b660589dcfb60@google.com>
+Subject: WARNING in line6_pcm_acquire
+From:   syzbot <syzbot+192a537b5c634febc6cf@syzkaller.appspotmail.com>
+To:     alsa-devel@alsa-project.org, andreyknvl@google.com,
+        keescook@chromium.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, perex@perex.cz,
+        syzkaller-bugs@googlegroups.com, tiwai@suse.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Hello,
 
---=-f7bqoOZL4zNS+o7sGeVu
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+syzbot found the following crash on:
 
-Hi Matthias,
-thanks for the review.
+HEAD commit:    43151d6c usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=169fe1f8a00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=95aff7278e7ff25e
+dashboard link: https://syzkaller.appspot.com/bug?extid=192a537b5c634febc6cf
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
 
-On Mon, 2019-05-27 at 14:16 +0300, Mathias Nyman wrote:
-> On 24.5.2019 17.52, Nicolas Saenz Julienne wrote:
-> > This was seen on a Dell Precision 5520 using it's WD15 dock. The dock's
-> > Ethernet device interfaces with the laptop through one of it's USB3
-> > ports. While idle, the Ethernet device and HCD are suspended by runtime
-> > PM, being the only device connected on the bus. Then, both are resumed =
-on
-> > behalf of the Ethernet device, which has remote wake-up capabilities.
-> >=20
-> > The Ethernet device was observed to randomly disconnect from the USB
-> > port shortly after submitting it's remote wake-up request. Probably a
-> > weird timing issue yet to be investigated. This causes runtime PM to
-> > busyloop causing some tangible CPU load. The reason is the port gets
-> > stuck in the middle of a remote wake-up operation, waiting for the
-> > device to switch to U0. This never happens, leaving "port_remote_wakeup=
-"
-> > enabled, and automatically triggering a failure on any further suspend
-> > operation.
-> >=20
-> > This patch clears "port_remote_wakeup" upon detecting a device with a
-> > wrong resuming port state (see Table 4-9 in 4.15.2.3). Making sure the
-> > above mentioned situation doesn't trigger a PM busyloop.
-> >=20
->=20
-> There was a similar case where the USB3 link had transitioned to a
-> lower power U1 or U2 state after resume, before driver read the state,
-> leaving port_remote_wakeup flag uncleared.
->=20
-> This was fixed in 5.1 kernel by commit:
->=20
-> 6cbcf59 xhci: Fix port resume done detection for SS ports with LPM enable
->=20
-> Can you check if you have it?
-> It should be in recent stable releases as well.
+Unfortunately, I don't have any reproducer for this crash yet.
 
-I was aware of that patch, unfortunately it doesn't address the same issue.=
- In
-my case I never get a second port status event (so no PLC =3D=3D 1 or any s=
-tate
-change seen in PLS). The device simply disconnects from the bus.
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+192a537b5c634febc6cf@syzkaller.appspotmail.com
 
-I did test both the issue and fix on top of last week's master branch.
+------------[ cut here ]------------
+do not call blocking ops when !TASK_RUNNING; state=1 set at  
+[<000000009424b595>] do_nanosleep+0x107/0x6a0 kernel/time/hrtimer.c:1675
+WARNING: CPU: 0 PID: 4661 at kernel/sched/core.c:6136  
+__might_sleep+0x135/0x190 kernel/sched/core.c:6136
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 0 PID: 4661 Comm: syz-executor.4 Not tainted 5.1.0-rc3+ #8
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Call Trace:
+  <IRQ>
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xca/0x13e lib/dump_stack.c:113
+  panic+0x292/0x5e1 kernel/panic.c:214
+  __warn.cold+0x20/0x53 kernel/panic.c:571
+  report_bug+0x262/0x2a0 lib/bug.c:186
+  fixup_bug arch/x86/kernel/traps.c:179 [inline]
+  fixup_bug arch/x86/kernel/traps.c:174 [inline]
+  do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:272
+  do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:291
+  invalid_op+0x14/0x20 arch/x86/entry/entry_64.S:973
+RIP: 0010:__might_sleep+0x135/0x190 kernel/sched/core.c:6136
+Code: 65 48 8b 1c 25 c0 de 01 00 48 8d 7b 10 48 89 fe 48 c1 ee 03 80 3c 06  
+00 75 2b 48 8b 73 10 48 c7 c7 c0 ec c5 85 e8 c6 4b f6 ff <0f> 0b e9 46 ff  
+ff ff e8 2f d0 45 00 e9 29 ff ff ff e8 25 d0 45 00
+RSP: 0018:ffff8881db207b48 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: ffff8881c7d71800 RCX: 0000000000000000
+RDX: 0000000000000100 RSI: ffffffff8127bbcd RDI: ffffed103b640f5b
+RBP: ffffffff85c622c0 R08: ffff8881c7d71800 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 000000000000038c
+R13: 0000000000000000 R14: 0000000000000000 R15: ffffffff849f6d40
+  __mutex_lock_common kernel/locking/mutex.c:908 [inline]
+  __mutex_lock+0xc8/0x12b0 kernel/locking/mutex.c:1072
+  line6_pcm_acquire+0x30/0x210 sound/usb/line6/pcm.c:311
+  call_timer_fn+0x15c/0x5e0 kernel/time/timer.c:1325
+  expire_timers kernel/time/timer.c:1362 [inline]
+  __run_timers kernel/time/timer.c:1681 [inline]
+  __run_timers kernel/time/timer.c:1649 [inline]
+  run_timer_softirq+0x586/0x1400 kernel/time/timer.c:1694
+  __do_softirq+0x21f/0x8bc kernel/softirq.c:293
+  invoke_softirq kernel/softirq.c:374 [inline]
+  irq_exit+0x17c/0x1a0 kernel/softirq.c:414
+  exiting_irq arch/x86/include/asm/apic.h:536 [inline]
+  smp_apic_timer_interrupt+0xf1/0x490 arch/x86/kernel/apic/apic.c:1062
+  apic_timer_interrupt+0xf/0x20 arch/x86/entry/entry_64.S:807
+  </IRQ>
+RIP: 0010:arch_local_irq_restore arch/x86/include/asm/irqflags.h:81 [inline]
+RIP: 0010:__raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:160  
+[inline]
+RIP: 0010:_raw_spin_unlock_irqrestore+0x40/0x50  
+kernel/locking/spinlock.c:184
+Code: e8 25 19 bc fb 48 89 ef e8 dd f7 bc fb f6 c7 02 75 11 53 9d e8 a1 fd  
+d8 fb 65 ff 0d 0a 59 99 7a 5b 5d c3 e8 d2 fb d8 fb 53 9d <eb> ed 0f 1f 40  
+00 66 2e 0f 1f 84 00 00 00 00 00 55 48 89 fd 65 ff
+RSP: 0018:ffff8881b13ffba8 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff13
+RAX: 0000000000000007 RBX: 0000000000000246 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000006 RDI: ffff8881c7d72034
+RBP: ffff8881db224a80 R08: ffff8881c7d71800 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: dffffc0000000000
+R13: ffff8881db224b00 R14: ffff8881db224b00 R15: ffff8881db224a80
+  unlock_hrtimer_base kernel/time/hrtimer.c:878 [inline]
+  hrtimer_start_range_ns+0x5b0/0xad0 kernel/time/hrtimer.c:1109
+  hrtimer_start_expires include/linux/hrtimer.h:409 [inline]
+  do_nanosleep+0x19b/0x6a0 kernel/time/hrtimer.c:1676
+  hrtimer_nanosleep+0x258/0x510 kernel/time/hrtimer.c:1733
+  __do_sys_nanosleep kernel/time/hrtimer.c:1767 [inline]
+  __se_sys_nanosleep kernel/time/hrtimer.c:1754 [inline]
+  __x64_sys_nanosleep+0x19d/0x220 kernel/time/hrtimer.c:1754
+  do_syscall_64+0xbd/0x500 arch/x86/entry/common.c:290
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x486570
+Code: 00 00 48 c7 c0 d4 ff ff ff 64 c7 00 16 00 00 00 31 c0 eb be 66 0f 1f  
+44 00 00 83 3d e1 01 5d 00 00 75 14 b8 23 00 00 00 0f 05 <48> 3d 01 f0 ff  
+ff 0f 83 b4 e0 f8 ff c3 48 83 ec 08 e8 ea 53 fd ff
+RSP: 002b:00007ffc588bb088 EFLAGS: 00000246 ORIG_RAX: 0000000000000023
+RAX: ffffffffffffffda RBX: 00000000000a95fa RCX: 0000000000486570
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00007ffc588bb090
+RBP: 00000000000002d5 R08: 0000000000000001 R09: 00000000027fc940
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000008
+R13: 00007ffc588bb0e0 R14: 00000000000a8e2a R15: 00007ffc588bb0f0
+Kernel Offset: disabled
+Rebooting in 86400 seconds..
 
-Regards,
-Nicolas
 
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
---=-f7bqoOZL4zNS+o7sGeVu
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAlzryfAACgkQlfZmHno8
-x/7FdQf/U6VLTEYpri+b7l4Jk/VsmleJAOXb709TIDyiCJPapRA7jo0DVWUtwIm9
-dPfI8mJlVXCnIvL04p/tzfv8zxH6TDa6rV7//+71CqiRpg3KsYHoZWxS2X9X/W5i
-Vuj6hJAa7ziaZI1M5UEhjWXAX+8WF9bABcy2Wyrk2U5V+neadU70Fod5ap3fkZRT
-qELPOLsHRTorYIl9/Kj5M7vHEpJehaBJ8DZTjfGCunvDdeSNfA2nROBMZ3s1k/gq
-be8/lAoh3xX7Iv3KInny9QihssiHsMBHNjCb1aPnkw3oMM5CxNJLoCGGIO5pkExV
-UfACpCWZb0bIrZjUbsaYpIDDerlbHg==
-=d8YU
------END PGP SIGNATURE-----
-
---=-f7bqoOZL4zNS+o7sGeVu--
-
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
