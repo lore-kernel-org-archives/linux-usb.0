@@ -2,102 +2,126 @@ Return-Path: <SRS0=ETIy=T5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,T_DKIMWL_WL_HIGH,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6A48C28CC0
-	for <linux-usb@archiver.kernel.org>; Wed, 29 May 2019 21:01:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 007EEC28CC0
+	for <linux-usb@archiver.kernel.org>; Wed, 29 May 2019 23:19:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8EF03241C8
-	for <linux-usb@archiver.kernel.org>; Wed, 29 May 2019 21:01:03 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MYnV6jPu"
+	by mail.kernel.org (Postfix) with ESMTP id C846624314
+	for <linux-usb@archiver.kernel.org>; Wed, 29 May 2019 23:19:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1559171954;
+	bh=65UEsmibtrs6StZm2XDZ/W94p9aic/O7pvQ6FRLnGZM=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
+	b=P0RwPCztRR2RkEl+zNGQmED81lAXKyPMTh9XvBoj4xtspWpG9DT5JX+6P9r77xWqA
+	 7JlH1cgy3lpnMUnwrEsMvV+ktwQyAXfqbUBs+nOC/rxarjrjEBLw6D/EdNTi4ZuYIz
+	 NOkCQe9YGt+z+vidu5CLjWNTzO3bz85UfielW6zc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726541AbfE2VBC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 29 May 2019 17:01:02 -0400
-Received: from mail-vs1-f66.google.com ([209.85.217.66]:33297 "EHLO
-        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726038AbfE2VBA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 May 2019 17:01:00 -0400
-Received: by mail-vs1-f66.google.com with SMTP id y6so2991902vsb.0
-        for <linux-usb@vger.kernel.org>; Wed, 29 May 2019 14:01:00 -0700 (PDT)
+        id S1726461AbfE2XTO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 29 May 2019 19:19:14 -0400
+Received: from mail-it1-f194.google.com ([209.85.166.194]:35011 "EHLO
+        mail-it1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726189AbfE2XTO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 May 2019 19:19:14 -0400
+Received: by mail-it1-f194.google.com with SMTP id u186so6439279ith.0
+        for <linux-usb@vger.kernel.org>; Wed, 29 May 2019 16:19:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tBUjmO48wu/hXLqovuR/vBZEzCJTLpXLZDjTGDnkOW0=;
-        b=MYnV6jPu3a4BZPAh5FXxalqN3ma14VPcQRvqY79POudpgHYhgJbyDkql8QqTIWTnNa
-         Ha96YuKY1DB0lO7JRbCKXd4dCUgk2VlapjcA+t7crTi3f995C9ZFomGjGZaLctZNMu1k
-         F5yQ+2gRo1ViDm7xJoYEYJTlzdj79aYtkhiRM=
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=gvVrNX9+KA12CZFtJXZ2Anjp6TlWxWYL3KFrzyQz0s4=;
+        b=hpACezGm+Av2ZqlIHxFN5c2QAR44g3WHweR58afFeC6kGL08n0I4QDcs5CiVrhbrZ/
+         Q5Mh5XWreWPZRqTNLXVRYwzxFjq6KAOheuYfdnSSVKqB+LHRhmgQGi1c3XGrDFX3MO1H
+         Ds2HX4uL++oSrI0+EG7/bN9U3yog4k4QMkBGY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tBUjmO48wu/hXLqovuR/vBZEzCJTLpXLZDjTGDnkOW0=;
-        b=Dts8IiIJ8A0pWmG38lDQjFYJsFaa9lLLPyP/ESpsGeti3URKXoVN3xLB1/DqChawIk
-         /zWM5Fu2RoHJqtGKwuKuZ8fEv1IKR9/K6g3kMNSs2o/6mgIosjEiYrUGVsDJVPYPujtA
-         /BWiByPNQlEdoDxYcyMQG1q1e+Z92ZX0WWuH6bZmJOLUDIn7tug3npOsOX44qtDCB58c
-         RJWgDAE7mdKld4MfGxwfCI5WuMudt5Qm+OzLlFWdKAXA5mVaV17SPvWEm8hge1t7283k
-         /uvQ/mDvrkEl2Udw26jKskdQo4z0XJb3Zl6ARVBhZxH9SlIjPdvVqeawCPRBW6lBxwCf
-         2zcQ==
-X-Gm-Message-State: APjAAAU+jJLXfuGCV8oVwi6NbvWNw4sj1xCZBxWfix88xNazyY0Vlv7p
-        o7rdiDjUA9FXrhOMGiqqrPH0DJwIBwI=
-X-Google-Smtp-Source: APXvYqyXq3HKdUybDZSqkdOZ3Yn6xwmuowW4ahJOgzuPMvG/vimq6bb43eWkqLzWOXBwLDDAFjLsUg==
-X-Received: by 2002:a67:ef99:: with SMTP id r25mr76435546vsp.101.1559163659425;
-        Wed, 29 May 2019 14:00:59 -0700 (PDT)
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com. [209.85.221.173])
-        by smtp.gmail.com with ESMTPSA id k70sm286098vke.20.2019.05.29.14.00.53
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Wed, 29 May 2019 14:00:56 -0700 (PDT)
-Received: by mail-vk1-f173.google.com with SMTP id p24so311492vki.5
-        for <linux-usb@vger.kernel.org>; Wed, 29 May 2019 14:00:53 -0700 (PDT)
-X-Received: by 2002:a1f:3692:: with SMTP id d140mr30303598vka.70.1559163653164;
- Wed, 29 May 2019 14:00:53 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=gvVrNX9+KA12CZFtJXZ2Anjp6TlWxWYL3KFrzyQz0s4=;
+        b=ZlHM9OqcP11EtTe+oD5rD1xAB8mrW7i66jZ8bLHVLdV5FSLRkE9qVP+o0xhCAiOH7L
+         z1kHJ6fivIGorG8uu5rvwCvvm/+CdD6B+R4vx3rrrXH1A2qBz8M7BCeeYu8k9rj3Dtj/
+         5fevVql1tkDGZxTDGRCaGgb4R20t2Nvh8WKI9D5Sz7vSZBdU3Bb7Sqo2X5WMFlQRItaw
+         nXbskBaQsLVeRRPa2LJx9Sv2vV+2sMfZXKmrGIjs2V2xkZ5PoRk5VN/Fe//S/GSWlLvm
+         Q81wdKAJ0/zedDNTD/APfeoW1pYQuq1IggXXTh4qqTDPD81jySx9JewDN2b+s7de+S52
+         QHag==
+X-Gm-Message-State: APjAAAX3DBdMI47B3HLpulb5p0/tp1uSBvc+xad0nCFgfthHIF7rloTw
+        T3JYfXjoo3BMuXYaJKSFqHe9dQ==
+X-Google-Smtp-Source: APXvYqzU1xUFaMBalwA0GtYXKzaxpry5fypYcyCY3susGO0nFSAjqjh4GCov9XeTJ7RNG6ZWqjK4dQ==
+X-Received: by 2002:a24:5252:: with SMTP id d79mr675333itb.14.1559171953454;
+        Wed, 29 May 2019 16:19:13 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id d71sm382566itc.18.2019.05.29.16.19.12
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 29 May 2019 16:19:12 -0700 (PDT)
+Subject: Re: [PATCH] usbip: usbip_host: fix stub_dev lock context imbalance
+ regression
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     valentina.manea.m@gmail.com, shuah@kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20190529194615.18765-1-skhan@linuxfoundation.org>
+ <20190529202557.GA27140@kroah.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <3243c1dc-d198-9733-d3d0-5963e14b2d85@linuxfoundation.org>
+Date:   Wed, 29 May 2019 17:19:11 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <1559163283-2429-1-git-send-email-linux@roeck-us.net>
-In-Reply-To: <1559163283-2429-1-git-send-email-linux@roeck-us.net>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Wed, 29 May 2019 14:00:41 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WaWf51QTzPAv68e8m-WZ287E63M_y2G=dVmowh91p9jg@mail.gmail.com>
-Message-ID: <CAD=FV=WaWf51QTzPAv68e8m-WZ287E63M_y2G=dVmowh91p9jg@mail.gmail.com>
-Subject: Re: [PATCH] Revert "usb: dwc2: host: Setting qtd to NULL after
- freeing it"
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Minas Harutyunyan <hminas@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Vardan Mikayelyan <mvardan@synopsys.com>,
-        John Youn <johnyoun@synopsys.com>,
-        Douglas Anderson <dianders@chromiun.org>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190529202557.GA27140@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+On 5/29/19 2:25 PM, Greg KH wrote:
+> On Wed, May 29, 2019 at 01:46:15PM -0600, Shuah Khan wrote:
+>> Fix the following sparse context imbalance regression introduced in
+>> a patch that fixed sleeping function called from invalid context bug.
+>>
+>> kbuild test robot reported on:
+>>
+>> tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git  usb-linus
+>>
+>> Regressions in current branch:
+>>
+>> drivers/usb/usbip/stub_dev.c:399:9: sparse: sparse: context imbalance in 'stub_probe' - different lock contexts for basic block
+>> drivers/usb/usbip/stub_dev.c:418:13: sparse: sparse: context imbalance in 'stub_disconnect' - different lock contexts for basic block
+>> drivers/usb/usbip/stub_dev.c:464:1-10: second lock on line 476
+>>
+>> Error ids grouped by kconfigs:
+>>
+>> recent_errors
+>> ├── i386-allmodconfig
+>> │   └── drivers-usb-usbip-stub_dev.c:second-lock-on-line
+>> ├── x86_64-allmodconfig
+>> │   ├── drivers-usb-usbip-stub_dev.c:sparse:sparse:context-imbalance-in-stub_disconnect-different-lock-contexts-for-basic-block
+>> │   └── drivers-usb-usbip-stub_dev.c:sparse:sparse:context-imbalance-in-stub_probe-different-lock-contexts-for-basic-block
+>> └── x86_64-allyesconfig
+>>      └── drivers-usb-usbip-stub_dev.c:second-lock-on-line
+>>
+>> This is a real problem in an error leg where spin_lock() is called on an
+>> already held lock.
+>>
+>> Fix the imbalance in stub_probe() and stub_disconnect().
+>>
+>> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+> 
+> I'll go add:
+> 
+> Fixes: 0c9e8b3cad65 ("usbip: usbip_host: fix BUG: sleeping function called from invalid context")
+> Cc: stable <stable@vger.kernel.org>
+> 
+> as the patch this fixes was tagged for stable.
+> 
 
-On Wed, May 29, 2019 at 1:54 PM Guenter Roeck <linux@roeck-us.net> wrote:
->
-> This reverts commit b0d659022e5c96ee5c4bd62d22d3da2d66de306b.
->
-> The reverted commit does nothing but adding two unnecessary lines
-> of code.  It sets a local variable to NULL in two functions, but
-> that variable is not used anywhere in the rest of those functions.
-> This is just confusing, so let's remove it.
->
-> Cc: Vardan Mikayelyan <mvardan@synopsys.com>
-> Cc: John Youn <johnyoun@synopsys.com>
-> Cc: Douglas Anderson <dianders@chromiun.org>
-> Cc: Felipe Balbi <felipe.balbi@linux.intel.com>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> ---
->  drivers/usb/dwc2/hcd.c | 1 -
->  drivers/usb/dwc2/hcd.h | 1 -
->  2 files changed, 2 deletions(-)
+Sounds good. Thanks.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+-- Shuah
+
