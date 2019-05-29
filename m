@@ -2,100 +2,153 @@ Return-Path: <SRS0=ETIy=T5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,T_DKIMWL_WL_HIGH,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA0B2C28CC0
-	for <linux-usb@archiver.kernel.org>; Wed, 29 May 2019 10:24:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CEF1C28CC2
+	for <linux-usb@archiver.kernel.org>; Wed, 29 May 2019 10:29:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A3B632070D
-	for <linux-usb@archiver.kernel.org>; Wed, 29 May 2019 10:24:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1559125485;
-	bh=Zn58nd8T5+65YqD1AnYvF1lnYwDjRaKzeQ7ag4xKOEY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=yrWsuAC6apaDz9u9DOSAo5YWIuh+KSksh0lIkd61e/7+UtfLxzRC2r3EewhRIOa6t
-	 Jw6jpk8w9VeNNLlLSHIyafgDgymLSl1o7VpCdHhh7v4qqyMKQD1dp3+JrwngqVnSK+
-	 wzTNX/eNZMNB90YeV4JPa0iz0iQJquxqgmwkonDE=
+	by mail.kernel.org (Postfix) with ESMTP id 508D520B1F
+	for <linux-usb@archiver.kernel.org>; Wed, 29 May 2019 10:29:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726118AbfE2KYl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 29 May 2019 06:24:41 -0400
-Received: from mga09.intel.com ([134.134.136.24]:11595 "EHLO mga09.intel.com"
+        id S1726856AbfE2K2z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 29 May 2019 06:28:55 -0400
+Received: from inva021.nxp.com ([92.121.34.21]:51894 "EHLO inva021.nxp.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725911AbfE2KYk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 29 May 2019 06:24:40 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 May 2019 03:24:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,526,1549958400"; 
-   d="scan'208";a="179534587"
-Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
-  by fmsmga002.fm.intel.com with ESMTP; 29 May 2019 03:24:38 -0700
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Ran Wang <ran.wang_1@nxp.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "open list\:DESIGNWARE USB3 DRD IP DRIVER" 
-        <linux-usb@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "devicetree\@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: RE: [PATCH] usb: dwc3: Enable the USB snooping
-In-Reply-To: <AM5PR0402MB2865AB6C2A50851B7EA4E653F11F0@AM5PR0402MB2865.eurprd04.prod.outlook.com>
-References: <20171115060459.45375-1-ran.wang_1@nxp.com> <87ineb9b5v.fsf@linux.intel.com> <VI1PR04MB1504776EF3D4D8C374F0C069F1290@VI1PR04MB1504.eurprd04.prod.outlook.com> <87shdfet90.fsf@linux.intel.com> <AM5PR0402MB28654EBE2D431CC2F8061CF8F11E0@AM5PR0402MB2865.eurprd04.prod.outlook.com> <87k1eaanjw.fsf@linux.intel.com> <AM5PR0402MB2865AB6C2A50851B7EA4E653F11F0@AM5PR0402MB2865.eurprd04.prod.outlook.com>
-Date:   Wed, 29 May 2019 13:24:37 +0300
-Message-ID: <874l5dr21m.fsf@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain
+        id S1726015AbfE2K2z (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 29 May 2019 06:28:55 -0400
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 5290E200296;
+        Wed, 29 May 2019 12:28:52 +0200 (CEST)
+Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com [134.27.226.22])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 41A1B2003F2;
+        Wed, 29 May 2019 12:28:52 +0200 (CEST)
+Received: from fsr-ub1864-101.ea.freescale.net (fsr-ub1864-101.ea.freescale.net [10.171.82.13])
+        by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id B6867205E4;
+        Wed, 29 May 2019 12:28:51 +0200 (CEST)
+From:   laurentiu.tudor@nxp.com
+To:     hch@lst.de, stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, marex@denx.de
+Cc:     leoyang.li@nxp.com, linux-kernel@vger.kernel.org,
+        robin.murphy@arm.com, noring@nocrew.org, JuergenUrban@gmx.de,
+        Laurentiu Tudor <laurentiu.tudor@nxp.com>
+Subject: [PATCH v7 3/5] usb: host: ohci-sm501: init genalloc for local memory
+Date:   Wed, 29 May 2019 13:28:41 +0300
+Message-Id: <20190529102843.13174-4-laurentiu.tudor@nxp.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190529102843.13174-1-laurentiu.tudor@nxp.com>
+References: <20190529102843.13174-1-laurentiu.tudor@nxp.com>
+X-Virus-Scanned: ClamAV using ClamSMTP
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+From: Laurentiu Tudor <laurentiu.tudor@nxp.com>
 
-Hi,
+In preparation for dropping the existing "coherent" dma mem declaration
+APIs, replace the current dma_declare_coherent_memory() based mechanism
+with the creation of a genalloc pool that will be used in the OHCI
+subsystem as replacement for the DMA APIs.
 
-Ran Wang <ran.wang_1@nxp.com> writes:
->> >> >> c) WHAT does this mean for PCI devices?
->
-> According to DWC3 data book, I think this (PCI) mean to the case of 'master bus type = Native'
-> The data book describes this feature as 'system bus DMA option for the master bus,
-> which may be configured as AHB, AXI, or Native.' On Table 6-5, it says when MBUS_TYPE
-> is Native, the definition of 4 transfer types control bits [3-0] is 'Same as AXI'.
->
-> However, as to the code implementation to be generic to both PCI and AXI,
-> I admit I don't have a perfect solution so far, only 2 proposals with concerns:
->
-> a. Create another module driver like dwc3-exynos.c (arch/arm/boot/dts/wxynos54xx.dtsi)
->     to contain above programming code. However, it will touch the same reg range of DWC3
->     I think this is not good.
+For context, see thread here: https://lkml.org/lkml/2019/4/22/357
 
-I'd prefer avoiding another glue :-)
+Signed-off-by: Laurentiu Tudor <laurentiu.tudor@nxp.com>
+---
+ drivers/usb/host/ohci-sm501.c | 47 +++++++++++++++--------------------
+ 1 file changed, 20 insertions(+), 27 deletions(-)
 
-> b. Add #ifdef CONFIG_ARCH_LAYERSCAPE in drivers/usb/dwc3/core.c to constrain hacking code
->    can only take effect for Layerscape (AXI case). I know it look ugly.
->
-> Do you have any better advice on this (besides changed power on default value from HW perspective)?
-
-Maybe we don't need to care, actually. Since this property will only be
-needed for RTL instantiation that didn't configure these defaults
-properly during coreConsultant.
-
->> >> >> Another question is: Why wasn't this setup properly during
->> >> >> coreConsultant instantiation of the RTL? Do you have devices on
->> >> >> the market already that need this or is this some early FPGA model
->> >> >> or test-only
->> >> ASIC?
->
-> Several Layerscape platforms like LS1043ARDB, LS1046ARDB, etc. are already on
-> the market and have this issue. So I have to work out a SW patch to fix them.
-
-Thank you, now I'm certain that this is not some temporary solution :-)
-
-Thanks for going through this again. Please refresh the patch so we can
-try to get it merged.
-
+diff --git a/drivers/usb/host/ohci-sm501.c b/drivers/usb/host/ohci-sm501.c
+index c26228c25f99..b710e100aec9 100644
+--- a/drivers/usb/host/ohci-sm501.c
++++ b/drivers/usb/host/ohci-sm501.c
+@@ -110,40 +110,18 @@ static int ohci_hcd_sm501_drv_probe(struct platform_device *pdev)
+ 		goto err0;
+ 	}
+ 
+-	/* The sm501 chip is equipped with local memory that may be used
+-	 * by on-chip devices such as the video controller and the usb host.
+-	 * This driver uses dma_declare_coherent_memory() to make sure
+-	 * usb allocations with dma_alloc_coherent() allocate from
+-	 * this local memory. The dma_handle returned by dma_alloc_coherent()
+-	 * will be an offset starting from 0 for the first local memory byte.
+-	 *
+-	 * So as long as data is allocated using dma_alloc_coherent() all is
+-	 * fine. This is however not always the case - buffers may be allocated
+-	 * using kmalloc() - so the usb core needs to be told that it must copy
+-	 * data into our local memory if the buffers happen to be placed in
+-	 * regular memory. The HCD_LOCAL_MEM flag does just that.
+-	 */
+-
+-	retval = dma_declare_coherent_memory(dev, mem->start,
+-					 mem->start - mem->parent->start,
+-					 resource_size(mem));
+-	if (retval) {
+-		dev_err(dev, "cannot declare coherent memory\n");
+-		goto err1;
+-	}
+-
+ 	/* allocate, reserve and remap resources for registers */
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	if (res == NULL) {
+ 		dev_err(dev, "no resource definition for registers\n");
+ 		retval = -ENOENT;
+-		goto err2;
++		goto err1;
+ 	}
+ 
+ 	hcd = usb_create_hcd(driver, &pdev->dev, dev_name(&pdev->dev));
+ 	if (!hcd) {
+ 		retval = -ENOMEM;
+-		goto err2;
++		goto err1;
+ 	}
+ 
+ 	hcd->rsrc_start = res->start;
+@@ -164,6 +142,24 @@ static int ohci_hcd_sm501_drv_probe(struct platform_device *pdev)
+ 
+ 	ohci_hcd_init(hcd_to_ohci(hcd));
+ 
++	/* The sm501 chip is equipped with local memory that may be used
++	 * by on-chip devices such as the video controller and the usb host.
++	 * This driver uses genalloc so that usb allocations with
++	 * gen_pool_dma_alloc() allocate from this local memory. The dma_handle
++	 * returned by gen_pool_dma_alloc() will be an offset starting from 0
++	 * for the first local memory byte.
++	 *
++	 * So as long as data is allocated using gen_pool_dma_alloc() all is
++	 * fine. This is however not always the case - buffers may be allocated
++	 * using kmalloc() - so the usb core needs to be told that it must copy
++	 * data into our local memory if the buffers happen to be placed in
++	 * regular memory. The HCD_LOCAL_MEM flag does just that.
++	 */
++
++	if (usb_hcd_setup_local_mem(hcd, mem->start,
++				    mem->start - mem->parent->start,
++				    resource_size(mem)) < 0)
++		goto err5;
+ 	retval = usb_add_hcd(hcd, irq, IRQF_SHARED);
+ 	if (retval)
+ 		goto err5;
+@@ -181,8 +177,6 @@ static int ohci_hcd_sm501_drv_probe(struct platform_device *pdev)
+ 	release_mem_region(hcd->rsrc_start, hcd->rsrc_len);
+ err3:
+ 	usb_put_hcd(hcd);
+-err2:
+-	dma_release_declared_memory(dev);
+ err1:
+ 	release_mem_region(mem->start, resource_size(mem));
+ err0:
+@@ -197,7 +191,6 @@ static int ohci_hcd_sm501_drv_remove(struct platform_device *pdev)
+ 	usb_remove_hcd(hcd);
+ 	release_mem_region(hcd->rsrc_start, hcd->rsrc_len);
+ 	usb_put_hcd(hcd);
+-	dma_release_declared_memory(&pdev->dev);
+ 	mem = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+ 	if (mem)
+ 		release_mem_region(mem->start, resource_size(mem));
 -- 
-balbi
+2.17.1
+
