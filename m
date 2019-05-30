@@ -2,95 +2,119 @@ Return-Path: <SRS0=nS7L=T6=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,T_DKIMWL_WL_HIGH,USER_AGENT_MUTT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61CC8C28CC0
-	for <linux-usb@archiver.kernel.org>; Thu, 30 May 2019 10:30:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9805C28CC0
+	for <linux-usb@archiver.kernel.org>; Thu, 30 May 2019 12:25:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0020A25741
-	for <linux-usb@archiver.kernel.org>; Thu, 30 May 2019 10:30:01 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="JfaWrNGv"
+	by mail.kernel.org (Postfix) with ESMTP id 91B45258D1
+	for <linux-usb@archiver.kernel.org>; Thu, 30 May 2019 12:25:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1559219150;
+	bh=tqtA7clOJM5AZ65r3KdPHuiSBsDSQNKZ4k0bzsmPEoQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=VBOQUIMA0/PmaDn+kWUJCyZG0q18wd1u94IFOduZn1KaldkcBFxCpDllPcIneCcQm
+	 kxn9jQ0V8N6EMcFnhZr2g1g+aDuFws7n0Vy82yVkoTgkLvOENE+mdkfb00Q5qLki0A
+	 FzFFVNUCi7bvQAzAFplRXqX5MY5iTMQJG9PwCD/E=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726320AbfE3KaB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 30 May 2019 06:30:01 -0400
-Received: from smtprelay-out1.synopsys.com ([198.182.47.102]:33224 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726029AbfE3KaB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 May 2019 06:30:01 -0400
-Received: from mailhost.synopsys.com (dc2-mailhost2.synopsys.com [10.12.135.162])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        id S1727163AbfE3MZt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 30 May 2019 08:25:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33670 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727147AbfE3MZt (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 30 May 2019 08:25:49 -0400
+Received: from localhost (ip67-88-213-2.z213-88-67.customer.algx.net [67.88.213.2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 7DE91C00FD;
-        Thu, 30 May 2019 10:30:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1559212209; bh=gg8NunW7XsIUu7tJ+B+7jsvCIrIgnJylMlUTpkU5OaY=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=JfaWrNGvxdfq5OVVVJUOyO/WniWH1ZwTN88+4vua73kUXzL+7qBWFF4VvxP0SXF7R
-         vxQjdu0KVs1Tuuwno7OB+6Ufbk6tjwcyfOw2xBn/O4AlQXpjfEGhUUV/6S9ZWzpPcI
-         Oov+LRE4fSq+mNF7PsYoBoM+aa4YJHfuFBj2ooWsjX57ZWkf/7lwWP9dXcClip586m
-         Xwp6kOvJX7K/v24iT7FH19sv9lHOMXui32/58RRgG/6/pTEmLEBEUhgspLymjgdggT
-         UI3i3awQlpTBf89CwDeFIV54HuaagwcEC/EFy2QyxuFBiFksAibqVvfsmU7jTsb9EW
-         MDh6ofLlrzIig==
-Received: from [10.116.70.206] (hminas-7480.internal.synopsys.com [10.116.70.206])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPSA id 62570A0093;
-        Thu, 30 May 2019 10:29:56 +0000 (UTC)
-Subject: Re: [PATCH] usb: dwc2: Fix DMA cache alignment issues
-To:     Doug Anderson <dianders@chromium.org>,
-        Martin Schiller <ms@dev.tdt.de>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?QW50dGkgU2VwcMOkbMOk?= <a.seppala@gmail.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>
-References: <20190218063730.26870-1-ms@dev.tdt.de>
- <CAD=FV=Viag00jL-QRLsnyDoXWT5KFyZ3TnMdTPSJ-dbuNNiFVQ@mail.gmail.com>
-From:   Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
-Message-ID: <7bf6f5dd-6f0f-4470-51c7-d024fc8ef4df@synopsys.com>
-Date:   Thu, 30 May 2019 14:29:31 +0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        by mail.kernel.org (Postfix) with ESMTPSA id C094A258B0;
+        Thu, 30 May 2019 12:25:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559219148;
+        bh=tqtA7clOJM5AZ65r3KdPHuiSBsDSQNKZ4k0bzsmPEoQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PpfTAeyg6eO7kT9Kxqx1jZnsYoc0Wk3CmIR51zzONeY+qThPIBd9pQRu+Z1EdZDOm
+         Fy+c2gS9pPppS1g2lJmoAZt3GzR2pIMa8NTcSelZVEmEE0ATEhTP2C7Ug+yuCGabez
+         esXgcqZlAOlYpUcWBtX9i7i5q1X2jmbRy8U2Gz5k=
+Date:   Thu, 30 May 2019 05:25:48 -0700
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Peter Chen <peter.chen@nxp.com>
+Cc:     linux-usb@vger.kernel.org, linux-imx@nxp.com,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        Jun Li <jun.li@nxp.com>
+Subject: Re: [PATCH v2 1/1] usb: chipidea: udc: workaround for endpoint
+ conflict issue
+Message-ID: <20190530122548.GA17070@kroah.com>
+References: <20190530085039.34557-1-peter.chen@nxp.com>
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=Viag00jL-QRLsnyDoXWT5KFyZ3TnMdTPSJ-dbuNNiFVQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190530085039.34557-1-peter.chen@nxp.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 5/29/2019 10:31 PM, Doug Anderson wrote:
-> Hi,
+On Thu, May 30, 2019 at 04:50:39PM +0800, Peter Chen wrote:
+> An endpoint conflict occurs when the USB is working in device mode
+> during an isochronous communication. When the endpointA IN direction
+> is an isochronous IN endpoint, and the host sends an IN token to
+> endpointA on another device, then the OUT transaction may be missed
+> regardless the OUT endpoint number. Generally, this occurs when the
+> device is connected to the host through a hub and other devices are
+> connected to the same hub.
 > 
-> On Sun, Feb 17, 2019 at 10:37 PM Martin Schiller <ms@dev.tdt.de> wrote:
->>
->> Insert a padding between data and the stored_xfer_buffer pointer to
->> ensure they are not on the same cache line.
->>
->> Otherwise, the stored_xfer_buffer gets corrupted for IN URBs on
->> non-cache-coherent systems. (In my case: Lantiq xRX200 MIPS)
->>
->> Fixes: 3bc04e28a030 ("usb: dwc2: host: Get aligned DMA in a more supported way")
->> Fixes: 56406e017a88 ("usb: dwc2: Fix DMA alignment to start at allocated boundary")
->> Signed-off-by: Martin Schiller <ms@dev.tdt.de>
->> ---
->>   drivers/usb/dwc2/hcd.c | 10 +++++++---
->>   1 file changed, 7 insertions(+), 3 deletions(-)
+> The affected OUT endpoint can be either control, bulk, isochronous, or
+> an interrupt endpoint. After the OUT endpoint is primed, if an IN token
+> to the same endpoint number on another device is received, then the OUT
+> endpoint may be unprimed (cannot be detected by software), which causes
+> this endpoint to no longer respond to the host OUT token, and thus, no
+> corresponding interrupt occurs.
 > 
-> This patch has been in the back of my mind for a while bug I never got
-> around to it.  Today I was debugging memory corruption problems when
-> using a webcam on dwc2 on rk3288-veyron-jerry.  This patch appears to
-> solve my problems nicely.  Thanks!
+> There is no good workaround for this issue, the only thing the software
+> could do is numbering isochronous IN from the highest endpoint since we
+> have observed most of device number endpoint from the lowest.
 > 
-> Tested-by: Douglas Anderson <dianders@chromium.org>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Cc: <stable@vger.kernel.org>
+> Cc: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+> Cc: Jun Li <jun.li@nxp.com>
+> Signed-off-by: Peter Chen <peter.chen@nxp.com>
+> ---
+> Changes for v2:
+> - Improve the code sytle
 > 
-Acked-by: Minas Harutyunyan <hminas@synopsys.com>
+>  drivers/usb/chipidea/udc.c | 23 +++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+> 
+> diff --git a/drivers/usb/chipidea/udc.c b/drivers/usb/chipidea/udc.c
+> index 829e947cabf5..21c1344bfc42 100644
+> --- a/drivers/usb/chipidea/udc.c
+> +++ b/drivers/usb/chipidea/udc.c
+> @@ -1622,6 +1622,28 @@ static int ci_udc_pullup(struct usb_gadget *_gadget, int is_on)
+>  static int ci_udc_start(struct usb_gadget *gadget,
+>  			 struct usb_gadget_driver *driver);
+>  static int ci_udc_stop(struct usb_gadget *gadget);
+> +
+> +
+> +/* Match ISOC IN from the highest endpoint */
+> +static struct usb_ep *ci_udc_match_ep(struct usb_gadget *gadget,
+> +			      struct usb_endpoint_descriptor *desc,
+> +			      struct usb_ss_ep_comp_descriptor *comp_desc)
+> +{
+> +	struct ci_hdrc *ci = container_of(gadget, struct ci_hdrc, gadget);
+> +	struct usb_ep *ep;
+> +	u8 type = desc->bmAttributes & USB_ENDPOINT_XFERTYPE_MASK;
+> +
+> +	if ((type == USB_ENDPOINT_XFER_ISOC) &&
+
+usb_endpoint_xfer_isoc()?
+
+> +			(desc->bEndpointAddress & USB_DIR_IN)) {
+
+usb_endpoint_dir_in()?
+
+thanks,
+
+greg k-h
