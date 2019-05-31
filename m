@@ -1,77 +1,140 @@
-Return-Path: <SRS0=nS7L=T6=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=yz8b=T7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-15.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,T_DKIMWL_WL_HIGH,
+	URIBL_BLOCKED,USER_AGENT_MUTT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 571D3C28CC2
-	for <linux-usb@archiver.kernel.org>; Thu, 30 May 2019 18:15:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BDEB2C28CC0
+	for <linux-usb@archiver.kernel.org>; Fri, 31 May 2019 01:46:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3E42E25F3D
-	for <linux-usb@archiver.kernel.org>; Thu, 30 May 2019 18:15:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 96A7226191
+	for <linux-usb@archiver.kernel.org>; Fri, 31 May 2019 01:46:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1559267203;
+	bh=KpPDgF37BI8PGuzKi/AA8C9Gf/dJFMJfPiiskVuyFmU=;
+	h=Date:From:To:Cc:Subject:List-ID:From;
+	b=sJF+AO+P6V0GlhRDy26tMLfOrv6P4k1Ej5sODB9F25qexI60hDWRFc4QbOVcAowQA
+	 hWFWj4eliDEpW/0Xdz5QucCwtopNbS6s68o3NEFvWsBvwlK51lVz8jsO4Ub1HmdkQE
+	 nMYgBNUn39StfncyBQZor7BrBxrwDP9vsedwZ/TI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726518AbfE3SPB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 30 May 2019 14:15:01 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:54163 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726328AbfE3SPB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 May 2019 14:15:01 -0400
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-        (Exim 4.76)
-        (envelope-from <colin.king@canonical.com>)
-        id 1hWPZq-0001NL-Td; Thu, 30 May 2019 18:14:59 +0000
-From:   Colin King <colin.king@canonical.com>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: gadget: net2272: remove redundant assignments to pointer 's'
-Date:   Thu, 30 May 2019 19:14:58 +0100
-Message-Id: <20190530181458.7488-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.20.1
+        id S1726799AbfEaBqj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 30 May 2019 21:46:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51140 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726576AbfEaBqj (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 30 May 2019 21:46:39 -0400
+Received: from localhost (ip67-88-213-2.z213-88-67.customer.algx.net [67.88.213.2])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EFC7126191;
+        Fri, 31 May 2019 01:46:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559267198;
+        bh=KpPDgF37BI8PGuzKi/AA8C9Gf/dJFMJfPiiskVuyFmU=;
+        h=Date:From:To:Cc:Subject:From;
+        b=EQXrIQVgFRXMTKfCDtHfH6Z409V3726d91GnWJ39dPSVwItU2MTlOxUbfgCG+sMYc
+         ldq5L2QiPYaF1vl22AhQSFd2Fz0R4svZAqvKHo1Ad+bceFXXtMpCBBBE0EQDgfpkn8
+         pClP1k7b10PYDw029XOG0kiPPAilEGcz3b8vZ9/0=
+Date:   Thu, 30 May 2019 18:46:37 -0700
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [GIT PULL] USB fixes for 5.2-rc3
+Message-ID: <20190531014637.GA30613@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.12.0 (2019-05-25)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
 
-The pointer 's' is being assigned however the pointer is
-never used with either of these values before it it reassigned much
-later on.  I suspect it was going to be used in the output of the
-main control registers scnprintf but was omitted.  The assignments
-of 's' to the driver name or the literal string are redundant and
-can be removed.
+  Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
 
-Addresses-Coverity: ("Unused value")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/usb/gadget/udc/net2272.c | 5 -----
- 1 file changed, 5 deletions(-)
+are available in the Git repository at:
 
-diff --git a/drivers/usb/gadget/udc/net2272.c b/drivers/usb/gadget/udc/net2272.c
-index 564aeee1a1fe..247de0faaeb7 100644
---- a/drivers/usb/gadget/udc/net2272.c
-+++ b/drivers/usb/gadget/udc/net2272.c
-@@ -1178,11 +1178,6 @@ registers_show(struct device *_dev, struct device_attribute *attr, char *buf)
- 	size = PAGE_SIZE;
- 	spin_lock_irqsave(&dev->lock, flags);
- 
--	if (dev->driver)
--		s = dev->driver->driver.name;
--	else
--		s = "(none)";
--
- 	/* Main Control Registers */
- 	t = scnprintf(next, size, "%s version %s,"
- 		"chiprev %02x, locctl %02x\n"
--- 
-2.20.1
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.2-rc3
 
+for you to fetch changes up to 3ea3091f1bd8586125848c62be295910e9802af0:
+
+  usbip: usbip_host: fix stub_dev lock context imbalance regression (2019-05-29 13:26:32 -0700)
+
+----------------------------------------------------------------
+USB fixes for 5.2-rc3
+
+Here are some tiny USB fixes for a number of reported issues for
+5.2-rc3.
+
+Nothing huge here, just a small collection of xhci and other driver bugs
+that syzbot has been finding in some drivers.  There is also a usbip fix
+and a fix for the usbip fix in here :)
+
+All have been in linux-next with no reported issues.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Alan Stern (3):
+      USB: Fix slab-out-of-bounds write in usb_get_bos_descriptor
+      media: usb: siano: Fix general protection fault in smsusb
+      media: usb: siano: Fix false-positive "uninitialized variable" warning
+
+Andrey Smirnov (1):
+      xhci: Convert xhci_handshake() to use readl_poll_timeout_atomic()
+
+Carsten Schmid (1):
+      usb: xhci: avoid null pointer deref when bos field is NULL
+
+Chunfeng Yun (1):
+      usb: mtu3: fix up undefined reference to usb_debug_root
+
+Fabio Estevam (1):
+      xhci: Use %zu for printing size_t type
+
+Henry Lin (1):
+      xhci: update bounce buffer with correct sg num
+
+Jia-Ju Bai (1):
+      usb: xhci: Fix a potential null pointer dereference in xhci_debugfs_create_endpoint()
+
+Mathias Nyman (1):
+      xhci: Fix immediate data transfer if buffer is already DMA mapped
+
+Mauro Carvalho Chehab (1):
+      media: smsusb: better handle optional alignment
+
+Maximilian Luz (1):
+      USB: Add LPM quirk for Surface Dock GigE adapter
+
+Oliver Neukum (5):
+      USB: sisusbvga: fix oops in error path of sisusb_probe
+      USB: rio500: refuse more than one device at a time
+      USB: rio500: fix memory leak in close after disconnect
+      USB: rio500: simplify locking
+      USB: rio500: update Documentation
+
+Shuah Khan (2):
+      usbip: usbip_host: fix BUG: sleeping function called from invalid context
+      usbip: usbip_host: fix stub_dev lock context imbalance regression
+
+ Documentation/usb/rio.txt           | 66 ++++++------------------------
+ drivers/media/usb/siano/smsusb.c    | 33 +++++++++------
+ drivers/usb/core/config.c           |  4 +-
+ drivers/usb/core/quirks.c           |  3 ++
+ drivers/usb/host/xhci-debugfs.c     |  3 ++
+ drivers/usb/host/xhci-ring.c        | 26 ++++++++----
+ drivers/usb/host/xhci.c             | 24 +++++------
+ drivers/usb/host/xhci.h             |  3 +-
+ drivers/usb/misc/rio500.c           | 80 ++++++++++++++++++++++---------------
+ drivers/usb/misc/sisusbvga/sisusb.c | 15 +++----
+ drivers/usb/mtu3/mtu3_debugfs.c     |  3 +-
+ drivers/usb/usbip/stub_dev.c        | 75 ++++++++++++++++++++++++----------
+ 12 files changed, 182 insertions(+), 153 deletions(-)
