@@ -2,116 +2,143 @@ Return-Path: <SRS0=yz8b=T7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21FE4C04AB6
-	for <linux-usb@archiver.kernel.org>; Fri, 31 May 2019 17:06:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83BF0C28CC3
+	for <linux-usb@archiver.kernel.org>; Fri, 31 May 2019 17:16:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EF88D26CCE
-	for <linux-usb@archiver.kernel.org>; Fri, 31 May 2019 17:06:12 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="RRh3soPn"
+	by mail.kernel.org (Postfix) with ESMTP id 67AEC24695
+	for <linux-usb@archiver.kernel.org>; Fri, 31 May 2019 17:16:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726847AbfEaRGM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 31 May 2019 13:06:12 -0400
-Received: from mail-eopbgr30073.outbound.protection.outlook.com ([40.107.3.73]:11438
-        "EHLO EUR03-AM5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726518AbfEaRGL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 31 May 2019 13:06:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=erj5BXKZmCrs/Bk6whxD2mtwcQ654jPz5QICLT+jH6w=;
- b=RRh3soPnpoxrC/onih4rEpm3fHmjTjig5/xZBFSUQYGR/O0sK4c2YWtVA6iZNvF6pAnoT1PAMH2JKRPMJuFaTDGHxZ5BtpbTgctGQKCrkVWz6Wa4ermhlucJcKytcPKfYLHYOtUjqEnj6jX2Z/HO2BUNh/gW3rrSGpG5yMTK/Xw=
-Received: from VI1PR04MB5134.eurprd04.prod.outlook.com (20.177.50.159) by
- VI1PR04MB5374.eurprd04.prod.outlook.com (20.178.120.148) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1922.17; Fri, 31 May 2019 17:06:07 +0000
-Received: from VI1PR04MB5134.eurprd04.prod.outlook.com
- ([fe80::8d0e:de86:9b49:b40]) by VI1PR04MB5134.eurprd04.prod.outlook.com
- ([fe80::8d0e:de86:9b49:b40%7]) with mapi id 15.20.1922.024; Fri, 31 May 2019
- 17:06:07 +0000
-From:   Laurentiu Tudor <laurentiu.tudor@nxp.com>
-To:     Christoph Hellwig <hch@lst.de>
-CC:     Greg KH <gregkh@linuxfoundation.org>,
-        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "marex@denx.de" <marex@denx.de>, Leo Li <leoyang.li@nxp.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "robin.murphy@arm.com" <robin.murphy@arm.com>,
-        "noring@nocrew.org" <noring@nocrew.org>,
-        "JuergenUrban@gmx.de" <JuergenUrban@gmx.de>
-Subject: RE: [PATCH v7 0/5] prerequisites for device reserved local mem rework
-Thread-Topic: [PATCH v7 0/5] prerequisites for device reserved local mem
- rework
-Thread-Index: AQHVFglQMB1lnLjYnE2Z8bn8+67UAKaB+N+AgAAA+wCAAClrAIADUJmAgAAFjIA=
-Date:   Fri, 31 May 2019 17:06:07 +0000
-Message-ID: <VI1PR04MB51345B1DD18AA4CB64BB086EEC190@VI1PR04MB5134.eurprd04.prod.outlook.com>
-References: <20190529102843.13174-1-laurentiu.tudor@nxp.com>
- <20190529113427.GC11952@kroah.com> <20190529113758.GA9399@lst.de>
- <5b8164b3-74a3-9ba4-8c28-61a14ec57a39@nxp.com>
- <20190531164327.GB27525@lst.de>
-In-Reply-To: <20190531164327.GB27525@lst.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=laurentiu.tudor@nxp.com; 
-x-originating-ip: [192.88.166.1]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 0cbb2c60-96c2-4ace-7f67-08d6e5ea45bf
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:VI1PR04MB5374;
-x-ms-traffictypediagnostic: VI1PR04MB5374:
-x-microsoft-antispam-prvs: <VI1PR04MB5374CB63F56581F49B11CF79EC190@VI1PR04MB5374.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 00540983E2
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(376002)(136003)(396003)(39860400002)(346002)(366004)(13464003)(189003)(199004)(48014003)(6916009)(68736007)(66946007)(73956011)(7736002)(316002)(2906002)(74316002)(55016002)(86362001)(66476007)(81166006)(229853002)(81156014)(33656002)(5660300002)(8676002)(8936002)(478600001)(305945005)(14454004)(99286004)(26005)(6436002)(4744005)(6116002)(4326008)(256004)(3846002)(186003)(9686003)(476003)(66556008)(76116006)(64756008)(44832011)(76176011)(7696005)(11346002)(66066001)(446003)(71190400001)(71200400001)(54906003)(25786009)(6246003)(102836004)(53936002)(52536014)(486006)(66446008)(6506007);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR04MB5374;H:VI1PR04MB5134.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: nxp.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: o6MvLg5i3RLPCUR4x948Rr7UUYGljhzFSHlQLmM40n/54jaEup+1nzUwbLi4vlfTioAyLHPpkq4O5K6d3QnNrZ0FVgREQ3RL73wjMNi0rZ9bo5buhsJBl0EqslLsVtKgLQbyP7cwpWTKMFBmGYWVObdaCROj+6nhfmIuSPum2i+wT6iX2WPCRqTN37cdeM4Gu+XYA3JOtjJ28H94tEc2gcYaHmvhzTpPkgUrofIZDs0roAmv/g8Zs+jvnCVc8gsfZR+XRPBZkpi7FCsZyBKSwfF2H8Sq/qZolMiBW45G0ck2q2Ta/frhp6X3K1ioFvSS22JnYXBIhTqgaQxYXVyl+wTGf+EiQpr9T1B0WaASCxqWnphPLJg+slghaoldfNS6rEGza6ynj7DyWTCRrk1Xtykaw9sf1Jp0eiYxemVMc5M=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1726555AbfEaRQ1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 31 May 2019 13:16:27 -0400
+Received: from crumpet.qq2.net ([80.247.17.44]:33386 "EHLO crumpet.qq2.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726483AbfEaRQ0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 31 May 2019 13:16:26 -0400
+X-Greylist: delayed 2147 seconds by postgrey-1.27 at vger.kernel.org; Fri, 31 May 2019 13:16:24 EDT
+Received: from mail-oi1-f177.google.com ([209.85.167.177])
+        by crumpet.qq2.net with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.84_2)
+        (envelope-from <geoff@defgeoff.co.uk>)
+        id 1hWka4-0000Gl-96
+        for linux-usb@vger.kernel.org ; Fri, 31 May 2019 17:40:36 +0100
+Received: by mail-oi1-f177.google.com with SMTP id b21so4237260oic.8
+        for <linux-usb@vger.kernel.org>; Fri, 31 May 2019 09:40:36 -0700 (PDT)
+X-Gm-Message-State: APjAAAV4bVawVTY2xWYY9V9h/BvlvhJveEHU43Tns7Z6P6qKPQoGdkuL
+        2NhGOS1rywXyzSJzks3S56zZJ5lX4CUTs9WmxQ==
+X-Google-Smtp-Source: APXvYqyMu/ZTHZfSTrDn1kRbw4LDtMq1P+k6FnZ6ozFaAC+JpxavOduUuAZ24PvQvTPygGP0cnlOVKKWYUR1O1KHWag=
+X-Received: by 2002:aca:3287:: with SMTP id y129mr6455931oiy.102.1559320834801;
+ Fri, 31 May 2019 09:40:34 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0cbb2c60-96c2-4ace-7f67-08d6e5ea45bf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 May 2019 17:06:07.3820
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: laurentiu.tudor@nxp.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5374
+From:   Geoff Winkless <geoff@defgeoff.co.uk>
+Date:   Fri, 31 May 2019 17:40:23 +0100
+X-Gmail-Original-Message-ID: <CAEzk6fe0+LHFbZgN4t8_NVS_fysj7wHFGerMB1fhoHmXsCogVw@mail.gmail.com>
+Message-ID: <CAEzk6fe0+LHFbZgN4t8_NVS_fysj7wHFGerMB1fhoHmXsCogVw@mail.gmail.com>
+To:     Linux-USB <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Subject: ehci support on old VIA vt82xxx disappeared around kernel 3.8.
+X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-> -----Original Message-----
-> From: Christoph Hellwig <hch@lst.de>
-> Sent: Friday, May 31, 2019 7:43 PM
->=20
-> On Wed, May 29, 2019 at 02:06:12PM +0000, Laurentiu Tudor wrote:
-> > Thanks, hope this time everything is fine.
->=20
-> I've applied it to the dma-mapping tree now.
->=20
-> > When you get the time, please let me know your ideas on the next steps.
->=20
-> I think the next step is to move the call to
-> dma_alloc_from_dev_coherent from dma_alloc_attrs into the ->alloc
-> instances.  The only onces that really need it for now are the
-> generic and legacy arm dma-direct code, and drivers/iommu/dma-iommu.c
-> as well as the ARM DMA API code, as those are the ones use for
-> architectures that declare coherent regions.  The other iommus are
-> not used on OF platforms (at least that's what my analysis said a while
-> ago, feel free to double check it)
+Hi
 
-Thanks. I'll start looking into it starting next week. Keep in touch.
+Apologies if this is the incorrect place to post this, if so please
+feel free to call me names and then suggest somewhere more appropriate
+:)
 
----
-Best Regards, Laurentiu
+We have an embedded device on an old EPIA Mini-ITX board that runs
+Linux 2.6. There are features in more recent (>3.10) kernels that
+would be useful to us, so I tried to build them for it; however while
+the kernel runs perfectly fine, ehci support simply fails, which is
+catastrophic for the device's use - we need USB2 speeds.
+
+I worked backwards and found that it runs normally on 3.7.9, but on
+3.7.10 it starts throwing up errors:
+
+usb 1-5: new high-speed USB device number 3 using ehci_hcd
+usb 1-5: device descriptor read/8, error -110
+usb 1-5: device descriptor read/8, error -110
+usb 1-5: new high-speed USB device number 4 using ehci_hcd
+usb 1-5: device not accepting address 4, error -110
+usb 1-5: new high-speed USB device number 5 using ehci_hcd
+
+By 3.8.0 ehci simply doesn't work, as if someone decided these errors
+were too hard to deal with and just disabled the device support.
+
+Chipset is VIA vt82xxx; the ID of the offending bus is 1106:3104
+
+I tried every combination of loading ehci before and after etc,
+setting the old_scheme_first value, disabling acpi/apm, basically
+anything I could find on the web that seems related to ehci problems,
+but nothing seems to make the ehci driver even recognise the device.
+
+/proc/bus/pci/devices shows
+
+0000 11063123 0  e6000008        0   0   0    0 0     0  400000
+0 0 0  0 0     0 agpgart-via
+0008 1106b091 0         0        0   0   0    0 0     0       0
+0 0 0  0 0     0
+0080 11063038 c         0        0   0   0 d001 0     0       0
+0 0 0 20 0     0 uhci_hcd
+0081 11063038 c         0        0   0   0 d401 0     0       0
+0 0 0 20 0     0 uhci_hcd
+0082 11063038 5         0        0   0   0 d801 0     0       0
+0 0 0 20 0     0 uhci_hcd
+0083 11063104 9  e6400000        0   0   0    0 0     0     100
+0 0 0  0 0     0
+0088 11063177 0         0        0   0   0    0 0     0       0
+0 0 0  0 0     0
+0089 11060571 0       1f0      3f6 170 376 dc01 0     0       8
+0 8 0 10 0     0 VIA_IDE
+008d 11063059 5      e001        0   0   0    0 0     0     100
+0 0 0  0 0     0 snd_via82xx
+0090 11063065 c      e801 e6401000   0   0    0 0     0     100
+100 0 0  0 0     0 via-rhine
+0100 11063122 c  e0000008 e4000000   0   0    0 0 c0002 4000000
+1000000 0 0  0 0 20000
+
+(apologies for the long lines, I cut down the spacing as much as I could).
+
+So you can see that the 11063104 line doesn't even have the ehci-hcd
+driver associated; on earlier kernel versions the line reads
+
+0083 11063104 9  e6400000 0 0 0 0 0 0 100 0 0 0 0 0 0 ehci_hcd
+
+Output from lsmod, just in case you're thinking I just haven't
+inserted the ehci driver...
+
+usbnet 10726 0 - Live 0xcfb4f000
+ohci_hcd 15520 0 - Live 0xcfad9000
+uhci_hcd 15679 0 - Live 0xcfa94000
+ehci_hcd 30853 0 - Live 0xcfa49000
+pl2303 6016 0 - Live 0xcf979000
+ftdi_sio 25410 0 - Live 0xcf940000
+option 18882 0 - Live 0xcf8e7000
+usb_wwan 4082 1 option, Live 0xcf8a2000
+
+I'm happy to dig for myself - I appreciate this is a fairly niche
+problem; I have getting on for 30 years' development experience in
+various platforms, including low-level hardware access in assembly
+when I was young, but all I've ever done with the kernel is modify in
+a very small way a few device drivers and I don't even know where to
+start with this so could do with some pointers.
+
+I tried running a diff on drivers/usb between 3.7.9 and 3.7.10, but
+other than a few changes around usbserial there doesn't seem to be
+much, which seems odd given that the behaviour clearly changed. The
+3.7.10 changelog only lists some usb-audio changes, a change for
+memory allocation for some urb blocks, and some fixes for usb-serial,
+so I guess something else changing has modified the way the USB core
+interacts with the hardware.
+
+Did we intentionally simply drop support for this chipset in 3.8?
+
+Thanks!
+
+Geoff
