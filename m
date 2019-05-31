@@ -2,143 +2,67 @@ Return-Path: <SRS0=yz8b=T7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	T_DKIMWL_WL_HIGH autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83BF0C28CC3
-	for <linux-usb@archiver.kernel.org>; Fri, 31 May 2019 17:16:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 010FCC04AB6
+	for <linux-usb@archiver.kernel.org>; Fri, 31 May 2019 17:25:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 67AEC24695
-	for <linux-usb@archiver.kernel.org>; Fri, 31 May 2019 17:16:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CF68726D1B
+	for <linux-usb@archiver.kernel.org>; Fri, 31 May 2019 17:25:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1559323526;
+	bh=AEzvWjXir+2Dk0leM7N37RhArXjppArK6Z97VxmT6H4=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:List-ID:From;
+	b=YgSBSkizAr6Y+dMSNQGpJeKOmZxboh2bZ2wjD1RG2I0OD5NrCuWfVNA//oWcTIIU2
+	 +NmD8oFQV3Be/Ne8A0fYrVzU+ZhgVfo4VUMTnJgj5McLcKriiFhEmYFLYfKhJW0/rK
+	 P9ieUoEIff0d1FFan4smZeYVT9Pr903/Y+WKGwCs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726555AbfEaRQ1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 31 May 2019 13:16:27 -0400
-Received: from crumpet.qq2.net ([80.247.17.44]:33386 "EHLO crumpet.qq2.net"
+        id S1726981AbfEaRZO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 31 May 2019 13:25:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34400 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726483AbfEaRQ0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 31 May 2019 13:16:26 -0400
-X-Greylist: delayed 2147 seconds by postgrey-1.27 at vger.kernel.org; Fri, 31 May 2019 13:16:24 EDT
-Received: from mail-oi1-f177.google.com ([209.85.167.177])
-        by crumpet.qq2.net with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.84_2)
-        (envelope-from <geoff@defgeoff.co.uk>)
-        id 1hWka4-0000Gl-96
-        for linux-usb@vger.kernel.org ; Fri, 31 May 2019 17:40:36 +0100
-Received: by mail-oi1-f177.google.com with SMTP id b21so4237260oic.8
-        for <linux-usb@vger.kernel.org>; Fri, 31 May 2019 09:40:36 -0700 (PDT)
-X-Gm-Message-State: APjAAAV4bVawVTY2xWYY9V9h/BvlvhJveEHU43Tns7Z6P6qKPQoGdkuL
-        2NhGOS1rywXyzSJzks3S56zZJ5lX4CUTs9WmxQ==
-X-Google-Smtp-Source: APXvYqyMu/ZTHZfSTrDn1kRbw4LDtMq1P+k6FnZ6ozFaAC+JpxavOduUuAZ24PvQvTPygGP0cnlOVKKWYUR1O1KHWag=
-X-Received: by 2002:aca:3287:: with SMTP id y129mr6455931oiy.102.1559320834801;
- Fri, 31 May 2019 09:40:34 -0700 (PDT)
-MIME-Version: 1.0
-From:   Geoff Winkless <geoff@defgeoff.co.uk>
-Date:   Fri, 31 May 2019 17:40:23 +0100
-X-Gmail-Original-Message-ID: <CAEzk6fe0+LHFbZgN4t8_NVS_fysj7wHFGerMB1fhoHmXsCogVw@mail.gmail.com>
-Message-ID: <CAEzk6fe0+LHFbZgN4t8_NVS_fysj7wHFGerMB1fhoHmXsCogVw@mail.gmail.com>
-To:     Linux-USB <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Subject: ehci support on old VIA vt82xxx disappeared around kernel 3.8.
-X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
+        id S1726959AbfEaRZO (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 31 May 2019 13:25:14 -0400
+Subject: Re: [GIT PULL] USB fixes for 5.2-rc3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559323513;
+        bh=AEzvWjXir+2Dk0leM7N37RhArXjppArK6Z97VxmT6H4=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=04JYd7tXQ9tqNh5EC7+5emHfPy90wDVCNAhqP6nOL+Md+vVAV99tFtLNtuSxFNF1z
+         zMd9nd9R4PN5+gzbf1lAlc5NLnwMVkrgYkEN1R3kE4eEuxmd5XXXM+hFgm1jR22HMC
+         lKBftCzTsxoY9VaL9kdyrYgsVaVEzPv84cmLxYTY=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20190531014637.GA30613@kroah.com>
+References: <20190531014637.GA30613@kroah.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20190531014637.GA30613@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.2-rc3
+X-PR-Tracked-Commit-Id: 3ea3091f1bd8586125848c62be295910e9802af0
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: e49c8547fb940982a04c98377bf5468a3b4a3fd4
+Message-Id: <155932351392.8550.1230418185782239205.pr-tracker-bot@kernel.org>
+Date:   Fri, 31 May 2019 17:25:13 +0000
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi
+The pull request you sent on Thu, 30 May 2019 18:46:37 -0700:
 
-Apologies if this is the incorrect place to post this, if so please
-feel free to call me names and then suggest somewhere more appropriate
-:)
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.2-rc3
 
-We have an embedded device on an old EPIA Mini-ITX board that runs
-Linux 2.6. There are features in more recent (>3.10) kernels that
-would be useful to us, so I tried to build them for it; however while
-the kernel runs perfectly fine, ehci support simply fails, which is
-catastrophic for the device's use - we need USB2 speeds.
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/e49c8547fb940982a04c98377bf5468a3b4a3fd4
 
-I worked backwards and found that it runs normally on 3.7.9, but on
-3.7.10 it starts throwing up errors:
+Thank you!
 
-usb 1-5: new high-speed USB device number 3 using ehci_hcd
-usb 1-5: device descriptor read/8, error -110
-usb 1-5: device descriptor read/8, error -110
-usb 1-5: new high-speed USB device number 4 using ehci_hcd
-usb 1-5: device not accepting address 4, error -110
-usb 1-5: new high-speed USB device number 5 using ehci_hcd
-
-By 3.8.0 ehci simply doesn't work, as if someone decided these errors
-were too hard to deal with and just disabled the device support.
-
-Chipset is VIA vt82xxx; the ID of the offending bus is 1106:3104
-
-I tried every combination of loading ehci before and after etc,
-setting the old_scheme_first value, disabling acpi/apm, basically
-anything I could find on the web that seems related to ehci problems,
-but nothing seems to make the ehci driver even recognise the device.
-
-/proc/bus/pci/devices shows
-
-0000 11063123 0  e6000008        0   0   0    0 0     0  400000
-0 0 0  0 0     0 agpgart-via
-0008 1106b091 0         0        0   0   0    0 0     0       0
-0 0 0  0 0     0
-0080 11063038 c         0        0   0   0 d001 0     0       0
-0 0 0 20 0     0 uhci_hcd
-0081 11063038 c         0        0   0   0 d401 0     0       0
-0 0 0 20 0     0 uhci_hcd
-0082 11063038 5         0        0   0   0 d801 0     0       0
-0 0 0 20 0     0 uhci_hcd
-0083 11063104 9  e6400000        0   0   0    0 0     0     100
-0 0 0  0 0     0
-0088 11063177 0         0        0   0   0    0 0     0       0
-0 0 0  0 0     0
-0089 11060571 0       1f0      3f6 170 376 dc01 0     0       8
-0 8 0 10 0     0 VIA_IDE
-008d 11063059 5      e001        0   0   0    0 0     0     100
-0 0 0  0 0     0 snd_via82xx
-0090 11063065 c      e801 e6401000   0   0    0 0     0     100
-100 0 0  0 0     0 via-rhine
-0100 11063122 c  e0000008 e4000000   0   0    0 0 c0002 4000000
-1000000 0 0  0 0 20000
-
-(apologies for the long lines, I cut down the spacing as much as I could).
-
-So you can see that the 11063104 line doesn't even have the ehci-hcd
-driver associated; on earlier kernel versions the line reads
-
-0083 11063104 9  e6400000 0 0 0 0 0 0 100 0 0 0 0 0 0 ehci_hcd
-
-Output from lsmod, just in case you're thinking I just haven't
-inserted the ehci driver...
-
-usbnet 10726 0 - Live 0xcfb4f000
-ohci_hcd 15520 0 - Live 0xcfad9000
-uhci_hcd 15679 0 - Live 0xcfa94000
-ehci_hcd 30853 0 - Live 0xcfa49000
-pl2303 6016 0 - Live 0xcf979000
-ftdi_sio 25410 0 - Live 0xcf940000
-option 18882 0 - Live 0xcf8e7000
-usb_wwan 4082 1 option, Live 0xcf8a2000
-
-I'm happy to dig for myself - I appreciate this is a fairly niche
-problem; I have getting on for 30 years' development experience in
-various platforms, including low-level hardware access in assembly
-when I was young, but all I've ever done with the kernel is modify in
-a very small way a few device drivers and I don't even know where to
-start with this so could do with some pointers.
-
-I tried running a diff on drivers/usb between 3.7.9 and 3.7.10, but
-other than a few changes around usbserial there doesn't seem to be
-much, which seems odd given that the behaviour clearly changed. The
-3.7.10 changelog only lists some usb-audio changes, a change for
-memory allocation for some urb blocks, and some fixes for usb-serial,
-so I guess something else changing has modified the way the USB core
-interacts with the hardware.
-
-Did we intentionally simply drop support for this chipset in 3.8?
-
-Thanks!
-
-Geoff
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
