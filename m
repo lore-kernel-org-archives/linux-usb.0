@@ -2,69 +2,62 @@ Return-Path: <SRS0=yz8b=T7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60CF2C04AB6
-	for <linux-usb@archiver.kernel.org>; Fri, 31 May 2019 13:53:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FB33C28CC3
+	for <linux-usb@archiver.kernel.org>; Fri, 31 May 2019 16:44:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4054C25063
-	for <linux-usb@archiver.kernel.org>; Fri, 31 May 2019 13:53:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3CA7026C5A
+	for <linux-usb@archiver.kernel.org>; Fri, 31 May 2019 16:44:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726613AbfEaNxu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 31 May 2019 09:53:50 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:47817 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726330AbfEaNxu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 31 May 2019 09:53:50 -0400
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-        (Exim 4.76)
-        (envelope-from <colin.king@canonical.com>)
-        id 1hWhyd-0008Q9-Oe; Fri, 31 May 2019 13:53:47 +0000
-From:   Colin King <colin.king@canonical.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-usb@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: cdc-wdm: remove redundant assignment to rv
-Date:   Fri, 31 May 2019 14:53:47 +0100
-Message-Id: <20190531135347.18026-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.20.1
+        id S1726676AbfEaQny (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 31 May 2019 12:43:54 -0400
+Received: from verein.lst.de ([213.95.11.211]:41831 "EHLO newverein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726531AbfEaQny (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 31 May 2019 12:43:54 -0400
+Received: by newverein.lst.de (Postfix, from userid 2407)
+        id 50CCA68AA6; Fri, 31 May 2019 18:43:28 +0200 (CEST)
+Date:   Fri, 31 May 2019 18:43:27 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Laurentiu Tudor <laurentiu.tudor@nxp.com>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "marex@denx.de" <marex@denx.de>, Leo Li <leoyang.li@nxp.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "robin.murphy@arm.com" <robin.murphy@arm.com>,
+        "noring@nocrew.org" <noring@nocrew.org>,
+        "JuergenUrban@gmx.de" <JuergenUrban@gmx.de>
+Subject: Re: [PATCH v7 0/5] prerequisites for device reserved local mem
+ rework
+Message-ID: <20190531164327.GB27525@lst.de>
+References: <20190529102843.13174-1-laurentiu.tudor@nxp.com> <20190529113427.GC11952@kroah.com> <20190529113758.GA9399@lst.de> <5b8164b3-74a3-9ba4-8c28-61a14ec57a39@nxp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5b8164b3-74a3-9ba4-8c28-61a14ec57a39@nxp.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+On Wed, May 29, 2019 at 02:06:12PM +0000, Laurentiu Tudor wrote:
+> Thanks, hope this time everything is fine.
 
-The variable rv is assigned with a value that is never read and
-it is re-assigned a new value on the next statement. The
-assignment is redundant and can be removed.
+I've applied it to the dma-mapping tree now.
 
-Addresses-Coverity: ("Unused value")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/usb/class/cdc-wdm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> When you get the time, please let me know your ideas on the next steps.
 
-diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
-index 9e9caff905d5..a7824a51f86d 100644
---- a/drivers/usb/class/cdc-wdm.c
-+++ b/drivers/usb/class/cdc-wdm.c
-@@ -949,7 +949,7 @@ struct usb_driver *usb_cdc_wdm_register(struct usb_interface *intf,
- 					int bufsize,
- 					int (*manage_power)(struct usb_interface *, int))
- {
--	int rv = -EINVAL;
-+	int rv;
- 
- 	rv = wdm_create(intf, ep, bufsize, manage_power);
- 	if (rv < 0)
--- 
-2.20.1
-
+I think the next step is to move the call to
+dma_alloc_from_dev_coherent from dma_alloc_attrs into the ->alloc
+instances.  The only onces that really need it for now are the
+generic and legacy arm dma-direct code, and drivers/iommu/dma-iommu.c
+as well as the ARM DMA API code, as those are the ones use for
+architectures that declare coherent regions.  The other iommus are
+not used on OF platforms (at least that's what my analysis said a while
+ago, feel free to double check it)
