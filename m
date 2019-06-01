@@ -2,84 +2,77 @@ Return-Path: <SRS0=AEFe=UA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_NEOMUTT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80E4EC28CC1
-	for <linux-usb@archiver.kernel.org>; Sat,  1 Jun 2019 10:11:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 065CDC28CC1
+	for <linux-usb@archiver.kernel.org>; Sat,  1 Jun 2019 10:50:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3A01F271D3
-	for <linux-usb@archiver.kernel.org>; Sat,  1 Jun 2019 10:11:42 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=zatta.me header.i=@zatta.me header.b="xxMHK7fp"
+	by mail.kernel.org (Postfix) with ESMTP id DD85C212F5
+	for <linux-usb@archiver.kernel.org>; Sat,  1 Jun 2019 10:50:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726142AbfFAKLl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 1 Jun 2019 06:11:41 -0400
-Received: from mx.zatta.me ([185.52.2.58]:60406 "EHLO mx.zatta.me"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726089AbfFAKLl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 1 Jun 2019 06:11:41 -0400
-Date:   Sat, 1 Jun 2019 12:11:37 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zatta.me;
-        s=myselector; t=1559383899;
-        bh=deaXTXvdHGXwh37M+oDQM17zgn2fvYB3CIB8Uqs1N68=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=xxMHK7fpsFFd8Umb+bHPAlYCXeXPDSQB+sbH1PxXupyY9fNSJVCF0fkOarGfw3U/h
-         sIrmIYe9NS8CTOCA0jSKTwaXfxMfEJOdxxt2COIBizFAVSJH+j4VeDNqv+lRKjo2RT
-         77x4BbckIYma9SjgnPKoIWsciICotzWHFaJ0SY3T1UucxPbsg4Bbtej9GmMgPrkac1
-         ZfTONWclFEiDO/3v0lmyW1CJWjqBeM2ucLfzMmPwcC4B23qW96Bn1trNvrf/DfbYr+
-         ka8+bEJGWpG1iOQFoc4BPA3MUNQXxteKLTCL0TdN3oLpxT8+lp34qULJuEkye2doA2
-         VxiTF406741/Q==
-From:   Marco Zatta <marco@zatta.me>
-To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+        id S1727196AbfFAKuM convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 1 Jun 2019 06:50:12 -0400
+Received: from Galois.linutronix.de ([146.0.238.70]:33266 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726109AbfFAKuM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 1 Jun 2019 06:50:12 -0400
+Received: from bigeasy by Galois.linutronix.de with local (Exim 4.80)
+        (envelope-from <bigeasy@linutronix.de>)
+        id 1hX1aS-0001h9-Ma; Sat, 01 Jun 2019 12:50:08 +0200
+Date:   Sat, 1 Jun 2019 12:50:08 +0200
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To:     Soeren Moch <smoch@web.de>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH] Fix chipmunk-like voice when using Logitech C270 for
- recording audio.
-Message-ID: <20190601101137.GA1988@jimmy.localdomain>
-References: <20190601075257.GA24550@jimmy.localdomain>
- <e77aaee7-ddcb-58ff-2dcf-d1fff21a9e07@cogentembedded.com>
-Content-Type: text/plain; charset=us-ascii
+        Alan Stern <stern@rowland.harvard.edu>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org
+Subject: Re: [PATCH] Revert "usb: core: remove local_irq_save() around
+ ->complete() handler"
+Message-ID: <20190601105008.zfqrtu6krw4mhisb@linutronix.de>
+References: <20190531215340.24539-1-smoch@web.de>
+ <20190531220535.GA16603@kroah.com>
+ <6c03445c-3607-9f33-afee-94613f8d6978@web.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e77aaee7-ddcb-58ff-2dcf-d1fff21a9e07@cogentembedded.com>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+Content-Transfer-Encoding: 8BIT
+In-Reply-To: <6c03445c-3607-9f33-afee-94613f8d6978@web.de>
+User-Agent: NeoMutt/20180716
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi!
-On Sat, Jun 01, 2019 at 12:33:06PM +0300, Sergei Shtylyov wrote:
-> Hello!
-> 
-> On 01.06.2019 10:52, Marco Zatta wrote:
-> 
-> > This patch fixes the chipmunk-like voice that manifets randomly when
-> > using the integrated mic of the Logitech Webcam HD C270.
-> > 
-> > The issue was solved initially for this device by commit
-> > 2394d67e446bf616a0885167d5f0d397bdacfdfc but it was then reintroduced by
-> > e387ef5c47ddeaeaa3cbdc54424cdb7a28dae2c0. This patch is to have the fix
-> 
->    It's not how you should cite the commits, see below:
-> 
-> <12-digit SHA1> ("<summary>")
-> 
+On 2019-06-01 01:02:37 [+0200], Soeren Moch wrote:
+> > Why not just fix that driver?  Wouldn't that be easier?
+> >
+> I suspect there are more drivers to fix. I only tested WIFI sticks so
+> far, RTL8188 drivers also seem to suffer from this. I'm not sure how to
+> fix all this properly, maybe Sebastian as original patch author can help
+> here.
 
-You are right, I am sorry about that. The commits are
-2394d67e446bf616a0885167d5f0d397bdacfdfc ("USB: add RESET_RESUME for
-webcams shown to be quirky") and
-e387ef5c47ddeaeaa3cbdc54424cdb7a28dae2c0 ("usb: Add
-USB_QUIRK_RESET_RESUME for all Logitech UVC webcams")
+Suspecting isn't helping here.
 
-> > back.
-> > 
-> > Signed-off-by: Marco Zatta <marco@zatta.me>
-> [...]
-> 
-> MBR, Sergei
+> This patch is mostly for -stable, to get an acceptable solution quickly.
+> It was really annoying to get such unstable WIFI connection over the
+> last three kernel releases to my development board.  Since my internet
+> service provider forcefully updated my router box 3 weeks ago, I
+> unfortunately see the same symptoms on my primary internet access.
+> That's even worse, I need to reset this router box every few days. I'm
+> not sure, however, that this is caused by the same problem, but it feels
+> like this.
+> So can we please fix this regression quickly and workout a proper fix
+> later? In the original patch there is no reason given, why this patch is
+> necessary. With this revert I at least see a stable connection.
 
-Best regards,
-Marco
+I will look into this. This patch got in in v4.20-rc1 and the final
+kernel was released by the end of 2018. This is the first report I am
+aware of over half year later…
+
+> Thanks,
+> Soeren
+
+Sebastian
