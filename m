@@ -4,77 +4,65 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A6CCC04AB5
-	for <linux-usb@archiver.kernel.org>; Mon,  3 Jun 2019 15:54:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C325CC04AB5
+	for <linux-usb@archiver.kernel.org>; Mon,  3 Jun 2019 16:20:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DE67F279F1
-	for <linux-usb@archiver.kernel.org>; Mon,  3 Jun 2019 15:54:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A17CE2711E
+	for <linux-usb@archiver.kernel.org>; Mon,  3 Jun 2019 16:20:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729038AbfFCPv2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 3 Jun 2019 11:51:28 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:53714 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729012AbfFCPv1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 3 Jun 2019 11:51:27 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E90101715;
-        Mon,  3 Jun 2019 08:51:26 -0700 (PDT)
-Received: from en101.cambridge.arm.com (en101.cambridge.arm.com [10.1.196.93])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8984C3F246;
-        Mon,  3 Jun 2019 08:51:25 -0700 (PDT)
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org, rafael@kernel.org,
-        suzuki.poulose@arm.com, Oliver Neukum <oneukum@suse.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        linux-usb@vger.kernel.org
-Subject: [RFC PATCH 19/57] drivers: usb: core: Use bus_find_device_by_devt helper
-Date:   Mon,  3 Jun 2019 16:49:45 +0100
-Message-Id: <1559577023-558-20-git-send-email-suzuki.poulose@arm.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1559577023-558-1-git-send-email-suzuki.poulose@arm.com>
-References: <1559577023-558-1-git-send-email-suzuki.poulose@arm.com>
+        id S1728435AbfFCQU6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 3 Jun 2019 12:20:58 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:57018 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728281AbfFCQU5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 3 Jun 2019 12:20:57 -0400
+Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+        (Exim 4.76)
+        (envelope-from <kai.heng.feng@canonical.com>)
+        id 1hXphc-0001ur-Rx; Mon, 03 Jun 2019 16:20:53 +0000
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+To:     stern@rowland.harvard.edu
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>
+Subject: [PATCH] USB: usb-storage: Add new ID to ums-realtek
+Date:   Tue,  4 Jun 2019 00:20:49 +0800
+Message-Id: <20190603162049.1863-1-kai.heng.feng@canonical.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Switch to using the bus_find_device_by_devt helper
+There is one more Realtek card reader requires ums-realtek to work
+correctly.
 
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Oliver Neukum <oneukum@suse.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-usb@vger.kernel.org
-Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+Add the device ID to support it.
+
+Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
 ---
- drivers/usb/core/devio.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ drivers/usb/storage/unusual_realtek.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
-index fa783531..28358a3 100644
---- a/drivers/usb/core/devio.c
-+++ b/drivers/usb/core/devio.c
-@@ -947,17 +947,11 @@ static int parse_usbdevfs_streams(struct usb_dev_state *ps,
- 	return ret;
- }
+diff --git a/drivers/usb/storage/unusual_realtek.h b/drivers/usb/storage/unusual_realtek.h
+index 6b2140f966ef..7e14c2d7cf73 100644
+--- a/drivers/usb/storage/unusual_realtek.h
++++ b/drivers/usb/storage/unusual_realtek.h
+@@ -17,6 +17,11 @@ UNUSUAL_DEV(0x0bda, 0x0138, 0x0000, 0x9999,
+ 		"USB Card Reader",
+ 		USB_SC_DEVICE, USB_PR_DEVICE, init_realtek_cr, 0),
  
--static int match_devt(struct device *dev, void *data)
--{
--	return dev->devt == (dev_t) (unsigned long) data;
--}
--
- static struct usb_device *usbdev_lookup_by_devt(dev_t devt)
- {
- 	struct device *dev;
- 
--	dev = bus_find_device(&usb_bus_type, NULL,
--			      (void *) (unsigned long) devt, match_devt);
-+	dev = bus_find_device_by_devt(&usb_bus_type, NULL, devt);
- 	if (!dev)
- 		return NULL;
- 	return to_usb_device(dev);
++UNUSUAL_DEV(0x0bda, 0x0153, 0x0000, 0x9999,
++		"Realtek",
++		"USB Card Reader",
++		USB_SC_DEVICE, USB_PR_DEVICE, init_realtek_cr, 0),
++
+ UNUSUAL_DEV(0x0bda, 0x0158, 0x0000, 0x9999,
+ 		"Realtek",
+ 		"USB Card Reader",
 -- 
-2.7.4
+2.17.1
 
