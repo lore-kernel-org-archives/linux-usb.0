@@ -2,70 +2,109 @@ Return-Path: <SRS0=TbY5=UC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBD8EC04AB5
-	for <linux-usb@archiver.kernel.org>; Mon,  3 Jun 2019 15:39:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07ACEC04AB5
+	for <linux-usb@archiver.kernel.org>; Mon,  3 Jun 2019 15:53:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8C344251AF
-	for <linux-usb@archiver.kernel.org>; Mon,  3 Jun 2019 15:39:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C9B45248D9
+	for <linux-usb@archiver.kernel.org>; Mon,  3 Jun 2019 15:53:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727150AbfFCPj0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 3 Jun 2019 11:39:26 -0400
-Received: from crumpet.qq2.net ([80.247.17.44]:41991 "EHLO crumpet.qq2.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726889AbfFCPjZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 3 Jun 2019 11:39:25 -0400
-Received: from mail-wr1-f48.google.com ([209.85.221.48])
-        by crumpet.qq2.net with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.84_2)
-        (envelope-from <geoff@defgeoff.co.uk>)
-        id 1hXp3S-0002SH-R6
-        for linux-usb@vger.kernel.org ; Mon, 03 Jun 2019 16:39:23 +0100
-Received: by mail-wr1-f48.google.com with SMTP id n4so7339772wrw.13
-        for <linux-usb@vger.kernel.org>; Mon, 03 Jun 2019 08:39:22 -0700 (PDT)
-X-Gm-Message-State: APjAAAVxLiqQM74lj4kcQTNUcjfam7VDf2549qpc9Km+PJaaTEUWuJz6
-        taR8VuhBBlICUYkFJy9nPDHSLlRh6CYyB7TPJQ==
-X-Google-Smtp-Source: APXvYqyoU2GhR/CkGgXF1WJc5hXQrGWRI55bcWvAkhklFALmS/pKiF6k8ZixuGOHIQvTV9rVLdm1c5kUHFkd/SUGDdo=
-X-Received: by 2002:a5d:6242:: with SMTP id m2mr3326340wrv.310.1559576362570;
- Mon, 03 Jun 2019 08:39:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAEzk6feqwwW9=9Wun0MjqLk09m7Qiuh4D=884Z70nSOgXX7VcA@mail.gmail.com>
- <Pine.LNX.4.44L0.1906031125380.1547-100000@iolanthe.rowland.org>
-In-Reply-To: <Pine.LNX.4.44L0.1906031125380.1547-100000@iolanthe.rowland.org>
-From:   Geoff Winkless <geoff@defgeoff.co.uk>
-Date:   Mon, 3 Jun 2019 16:39:11 +0100
-X-Gmail-Original-Message-ID: <CAEzk6fc_ZpM9izzRH+Q3uMPzV1voC3GjmJ3GHoGsXgtpYSXfMw@mail.gmail.com>
-Message-ID: <CAEzk6fc_ZpM9izzRH+Q3uMPzV1voC3GjmJ3GHoGsXgtpYSXfMw@mail.gmail.com>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Greg KH <greg@kroah.com>, Linux-USB <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Subject: Re: ehci support on old VIA vt82xxx disappeared around kernel 3.8.
-X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
+        id S1729511AbfFCPwG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 3 Jun 2019 11:52:06 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:53998 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729486AbfFCPwG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 3 Jun 2019 11:52:06 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F030D15AB;
+        Mon,  3 Jun 2019 08:52:05 -0700 (PDT)
+Received: from en101.cambridge.arm.com (en101.cambridge.arm.com [10.1.196.93])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id BD4693F246;
+        Mon,  3 Jun 2019 08:52:04 -0700 (PDT)
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org, rafael@kernel.org,
+        suzuki.poulose@arm.com,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        linux-usb@vger.kernel.org
+Subject: [RFC PATCH 44/57] drivers: usb : Use class_find_device_by_fwnode() helper
+Date:   Mon,  3 Jun 2019 16:50:10 +0100
+Message-Id: <1559577023-558-45-git-send-email-suzuki.poulose@arm.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1559577023-558-1-git-send-email-suzuki.poulose@arm.com>
+References: <1559577023-558-1-git-send-email-suzuki.poulose@arm.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, 3 Jun 2019 at 16:29, Alan Stern <stern@rowland.harvard.edu> wrote:
-> On Mon, 3 Jun 2019, Geoff Winkless wrote:
->
-> > Thanks (and also to Alan) for the help, apologies for wasting your time.
->
-> Just goes to show we all have our blind spots.  I didn't realize what
-> was going on either, and I should have.
+Reuse the generic helper to find a device by fwnode handle.
 
-You're too kind :)
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: linux-usb@vger.kernel.org
+Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+---
+ drivers/usb/roles/class.c | 8 +-------
+ drivers/usb/typec/class.c | 8 +-------
+ 2 files changed, 2 insertions(+), 14 deletions(-)
 
-> On the other hand, you mentioned that it was getting some errors even
-> under earlier kernels such as 3.7.10 (before ehci-pci was split off
-> into a separate module, or it would have failed completely).  Any idea
-> about that?
+diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
+index 3dc78cb..be9b70c 100644
+--- a/drivers/usb/roles/class.c
++++ b/drivers/usb/roles/class.c
+@@ -85,11 +85,6 @@ enum usb_role usb_role_switch_get_role(struct usb_role_switch *sw)
+ }
+ EXPORT_SYMBOL_GPL(usb_role_switch_get_role);
+ 
+-static int switch_fwnode_match(struct device *dev, const void *fwnode)
+-{
+-	return dev_fwnode(dev) == fwnode;
+-}
+-
+ static void *usb_role_switch_match(struct device_connection *con, int ep,
+ 				   void *data)
+ {
+@@ -99,8 +94,7 @@ static void *usb_role_switch_match(struct device_connection *con, int ep,
+ 		if (!fwnode_property_present(con->fwnode, con->id))
+ 			return NULL;
+ 
+-		dev = class_find_device(role_class, NULL, con->fwnode,
+-					switch_fwnode_match);
++		dev = class_find_device_by_fwnode(role_class, NULL, con->fwnode);
+ 	} else {
+ 		dev = class_find_device_by_name(role_class, NULL, con->endpoint[ep]);
+ 	}
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index c11cc5f..12f9759 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -205,11 +205,6 @@ static void typec_altmode_put_partner(struct altmode *altmode)
+ 	put_device(&adev->dev);
+ }
+ 
+-static int typec_port_fwnode_match(struct device *dev, const void *fwnode)
+-{
+-	return dev_fwnode(dev) == fwnode;
+-}
+-
+ static void *typec_port_match(struct device_connection *con, int ep, void *data)
+ {
+ 	struct device *dev;
+@@ -219,8 +214,7 @@ static void *typec_port_match(struct device_connection *con, int ep, void *data)
+ 	 * we need to return ERR_PTR(-PROBE_DEFER) when there is no device.
+ 	 */
+ 	if (con->fwnode)
+-		return class_find_device(typec_class, NULL, con->fwnode,
+-					 typec_port_fwnode_match);
++		return class_find_device_by_fwnode(typec_class, NULL, con->fwnode);
+ 
+ 	dev = class_find_device_by_name(typec_class, NULL, con->endpoint[ep]);
+ 
+-- 
+2.7.4
 
-Well I was going to go after that next (test script would be a bit
-more complicated), but given that those errors don't seem to be
-showing up on 4.x I'll probably just drop it, unless you care.
-
-Geoff
