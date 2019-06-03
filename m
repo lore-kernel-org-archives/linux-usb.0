@@ -7,29 +7,29 @@ X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 274DEC04AB5
-	for <linux-usb@archiver.kernel.org>; Mon,  3 Jun 2019 17:04:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A46DFC04AB5
+	for <linux-usb@archiver.kernel.org>; Mon,  3 Jun 2019 17:05:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EC88E27486
-	for <linux-usb@archiver.kernel.org>; Mon,  3 Jun 2019 17:04:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B8C2274B9
+	for <linux-usb@archiver.kernel.org>; Mon,  3 Jun 2019 17:05:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727450AbfFCREB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 3 Jun 2019 13:04:01 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:35460 "EHLO
+        id S1726822AbfFCRFe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 3 Jun 2019 13:05:34 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:35470 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726973AbfFCREB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 3 Jun 2019 13:04:01 -0400
+        with ESMTP id S1726272AbfFCRFe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 3 Jun 2019 13:05:34 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: andrzej.p)
-        with ESMTPSA id CC15027FDB2
+        with ESMTPSA id B24B827FDB2
 From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Felipe Balbi <balbi@kernel.org>,
         Michal Nazarewicz <mina86@mina86.com>, kernel@collabora.com,
-        Marek Szyprowski <mszyprow@samsung.com>
-Subject: [PATCH] usb: gadget: Zero ffs_io_data
-Date:   Mon,  3 Jun 2019 19:03:52 +0200
-Message-Id: <20190603170352.28625-1-andrzej.p@collabora.com>
+        Marek Szyprowski <m.szyprowski@samsung.com>
+Subject: [PATCH resend] usb: gadget: Zero ffs_io_data
+Date:   Mon,  3 Jun 2019 19:05:28 +0200
+Message-Id: <20190603170528.28733-1-andrzej.p@collabora.com>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
@@ -46,6 +46,9 @@ in non-aio case to properly initialize struct ffs_io_data.
 
 Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 ---
+
+This time I got Marek's address right.
+
  drivers/usb/gadget/function/f_fs.c | 6 ++++--
  1 file changed, 4 insertions(+), 2 deletions(-)
 
