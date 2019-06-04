@@ -2,206 +2,141 @@ Return-Path: <SRS0=VYZK=UD=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,T_DKIMWL_WL_HIGH,USER_AGENT_MUTT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45BAAC28CC3
-	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 11:40:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D34E6C282CE
+	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 11:59:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 26B0424A1A
-	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 11:40:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA3E224891
+	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 11:59:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1559649566;
+	bh=Z3XO3oNEi5/5cBT7blM/rDurAsFcvi2cI8yOPOcHAmg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=YAZE2sxvmZ+7R8C/gmrF8MSz5P0etsKmldisXyrENBIFAVUErNCAbdqZhxZ3HH2Qj
+	 ARaaqgQ5FZJpAZibRe8DqWhXHjfM8p8eFLuh9PDnJDNUZBJlkrLg7Ib+eUUb/O75ya
+	 fiFJ0RL9/IKH0yfYm7AwRFC05CS7EiZHPPljBE8g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727567AbfFDLkC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 4 Jun 2019 07:40:02 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:3539 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727299AbfFDLj6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 4 Jun 2019 07:39:58 -0400
-X-UUID: a9df798754234637915ecd8fe3b5bf50-20190604
-X-UUID: a9df798754234637915ecd8fe3b5bf50-20190604
-Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <min.guo@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 1845924163; Tue, 04 Jun 2019 19:39:50 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 4 Jun 2019 19:39:49 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 4 Jun 2019 19:39:48 +0800
-From:   <min.guo@mediatek.com>
-To:     Bin Liu <b-liu@ti.com>, Rob Herring <robh+dt@kernel.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+        id S1727553AbfFDL7W (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 4 Jun 2019 07:59:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57096 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727358AbfFDL7W (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 4 Jun 2019 07:59:22 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 18AD324891;
+        Tue,  4 Jun 2019 11:59:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559649561;
+        bh=Z3XO3oNEi5/5cBT7blM/rDurAsFcvi2cI8yOPOcHAmg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=q7T5sA/E2GlQZD03vvdIiG1CS2Ci9xcqsSsS+0uONfWAe/OFiA0jKN3FI43RbjxgS
+         LXDNCJ8E/Ic6Ci4r6t6wd69SKvUX66KvwdLm4fAhedRA46On0BZo83vPlN4YI5/Rpi
+         j9DHYqDnYoB33Z862/bycdkeBXJdp4J6Q2g/IvfI=
+Date:   Tue, 4 Jun 2019 13:59:19 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Felipe Balbi <felipe.balbi@linux.intel.com>
+Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
         Matthias Brugger <matthias.bgg@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        <chunfeng.yun@mediatek.com>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>, <tony@atomide.com>,
-        <hdegoede@redhat.com>, Min Guo <min.guo@mediatek.com>
-Subject: [PATCH v6 4/6] usb: musb: Add noirq type of dma create interface
-Date:   Tue, 4 Jun 2019 19:39:17 +0800
-Message-ID: <1559648359-6569-5-git-send-email-min.guo@mediatek.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1559648359-6569-1-git-send-email-min.guo@mediatek.com>
-References: <1559648359-6569-1-git-send-email-min.guo@mediatek.com>
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] USB: move usb debugfs directory creation to the usb
+ common core
+Message-ID: <20190604115919.GA24346@kroah.com>
+References: <20190604093258.GB30054@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190604093258.GB30054@kroah.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Min Guo <min.guo@mediatek.com>
+On Tue, Jun 04, 2019 at 11:32:58AM +0200, Greg Kroah-Hartman wrote:
+> The USB gadget subsystem wants to use the USB debugfs root directory, so
+> move it to the common "core" USB code so that it is properly initialized
+> and removed as needed.
+> 
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> 
+> ---
+> 
+> This should be the "correct" version of this, Chunfeng, can you test
+> this to verify it works for you?
+> 
+> 
+> diff --git a/drivers/usb/common/common.c b/drivers/usb/common/common.c
+> index 18f5dcf58b0d..3b5e4263ffef 100644
+> --- a/drivers/usb/common/common.c
+> +++ b/drivers/usb/common/common.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/usb/of.h>
+>  #include <linux/usb/otg.h>
+>  #include <linux/of_platform.h>
+> +#include <linux/debugfs.h>
+>  
+>  static const char *const ep_type_names[] = {
+>  	[USB_ENDPOINT_XFER_CONTROL] = "ctrl",
+> @@ -291,4 +292,21 @@ struct device *usb_of_get_companion_dev(struct device *dev)
+>  EXPORT_SYMBOL_GPL(usb_of_get_companion_dev);
+>  #endif
+>  
+> +struct dentry *usb_debug_root;
+> +EXPORT_SYMBOL_GPL(usb_debug_root);
+> +
+> +static int usb_common_init(void)
+> +{
+> +	usb_debug_root = debugfs_create_dir("usb", NULL);
+> +	return 0;
+> +}
+> +
+> +static void usb_common_exit(void)
+> +{
+> +	debugfs_remove_recursive(usb_debug_root);
+> +}
+> +
+> +module_init(usb_common_init);
+> +module_exit(usb_common_exit);
+> +
+>  MODULE_LICENSE("GPL");
+> diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
+> index 7fcb9f782931..f3d6b1ab80cb 100644
+> --- a/drivers/usb/core/usb.c
+> +++ b/drivers/usb/core/usb.c
+> @@ -1185,19 +1185,17 @@ static struct notifier_block usb_bus_nb = {
+>  	.notifier_call = usb_bus_notify,
+>  };
+>  
+> -struct dentry *usb_debug_root;
+> -EXPORT_SYMBOL_GPL(usb_debug_root);
+> +static struct dentry *usb_devices_root;
+>  
+>  static void usb_debugfs_init(void)
+>  {
+> -	usb_debug_root = debugfs_create_dir("usb", NULL);
+> -	debugfs_create_file("devices", 0444, usb_debug_root, NULL,
+> -			    &usbfs_devices_fops);
+> +	usb_devices_root = debugfs_create_file("devices", 0444, usb_debug_root,
+> +					       NULL, &usbfs_devices_fops);
+>  }
+>  
+>  static void usb_debugfs_cleanup(void)
+>  {
+> -	debugfs_remove_recursive(usb_debug_root);
+> +	debugfs_remove_recursive(usb_devices_root);
 
-Add noirq type of dma create interface for platform which do not
-have dedicated DMA interrupt line, move musbhsdma macro definition
-to musb_dma.h
+That should just be debugfs_remove();
 
-Signed-off-by: Min Guo <min.guo@mediatek.com>
----
-changes in v6:
-1. no changes
+I'll fix it up after someone tests this :)
 
-changes in v5:
-1. no changes
+thanks,
 
-new patch based on v4:
----
- drivers/usb/musb/musb_dma.h  |  9 ++++++++
- drivers/usb/musb/musbhsdma.c | 54 ++++++++++++++++++++++++++++++--------------
- 2 files changed, 46 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/usb/musb/musb_dma.h b/drivers/usb/musb/musb_dma.h
-index 8f60271..05103ea 100644
---- a/drivers/usb/musb/musb_dma.h
-+++ b/drivers/usb/musb/musb_dma.h
-@@ -35,6 +35,12 @@
-  *    whether shared with the Inventra core or separate.
-  */
- 
-+#define MUSB_HSDMA_BASE		0x200
-+#define MUSB_HSDMA_INTR		(MUSB_HSDMA_BASE + 0)
-+#define MUSB_HSDMA_CONTROL		0x4
-+#define MUSB_HSDMA_ADDRESS		0x8
-+#define MUSB_HSDMA_COUNT		0xc
-+
- #define	DMA_ADDR_INVALID	(~(dma_addr_t)0)
- 
- #ifdef CONFIG_MUSB_PIO_ONLY
-@@ -191,6 +197,9 @@ static inline void musb_dma_controller_destroy(struct dma_controller *d) { }
- extern struct dma_controller *
- musbhs_dma_controller_create(struct musb *musb, void __iomem *base);
- extern void musbhs_dma_controller_destroy(struct dma_controller *c);
-+extern struct dma_controller *
-+musbhs_dma_controller_create_noirq(struct musb *musb, void __iomem *base);
-+extern irqreturn_t dma_controller_irq(int irq, void *private_data);
- 
- extern struct dma_controller *
- tusb_dma_controller_create(struct musb *musb, void __iomem *base);
-diff --git a/drivers/usb/musb/musbhsdma.c b/drivers/usb/musb/musbhsdma.c
-index 5fc6825..d549c0b 100644
---- a/drivers/usb/musb/musbhsdma.c
-+++ b/drivers/usb/musb/musbhsdma.c
-@@ -10,12 +10,7 @@
- #include <linux/platform_device.h>
- #include <linux/slab.h>
- #include "musb_core.h"
--
--#define MUSB_HSDMA_BASE		0x200
--#define MUSB_HSDMA_INTR		(MUSB_HSDMA_BASE + 0)
--#define MUSB_HSDMA_CONTROL		0x4
--#define MUSB_HSDMA_ADDRESS		0x8
--#define MUSB_HSDMA_COUNT		0xc
-+#include "musb_dma.h"
- 
- #define MUSB_HSDMA_CHANNEL_OFFSET(_bchannel, _offset)		\
- 		(MUSB_HSDMA_BASE + (_bchannel << 4) + _offset)
-@@ -268,7 +263,7 @@ static int dma_channel_abort(struct dma_channel *channel)
- 	return 0;
- }
- 
--static irqreturn_t dma_controller_irq(int irq, void *private_data)
-+irqreturn_t dma_controller_irq(int irq, void *private_data)
- {
- 	struct musb_dma_controller *controller = private_data;
- 	struct musb *musb = controller->private_data;
-@@ -383,6 +378,7 @@ static irqreturn_t dma_controller_irq(int irq, void *private_data)
- 	spin_unlock_irqrestore(&musb->lock, flags);
- 	return retval;
- }
-+EXPORT_SYMBOL_GPL(dma_controller_irq);
- 
- void musbhs_dma_controller_destroy(struct dma_controller *c)
- {
-@@ -398,18 +394,10 @@ void musbhs_dma_controller_destroy(struct dma_controller *c)
- }
- EXPORT_SYMBOL_GPL(musbhs_dma_controller_destroy);
- 
--struct dma_controller *musbhs_dma_controller_create(struct musb *musb,
--						    void __iomem *base)
-+static struct musb_dma_controller *
-+dma_controller_alloc(struct musb *musb, void __iomem *base)
- {
- 	struct musb_dma_controller *controller;
--	struct device *dev = musb->controller;
--	struct platform_device *pdev = to_platform_device(dev);
--	int irq = platform_get_irq_byname(pdev, "dma");
--
--	if (irq <= 0) {
--		dev_err(dev, "No DMA interrupt line!\n");
--		return NULL;
--	}
- 
- 	controller = kzalloc(sizeof(*controller), GFP_KERNEL);
- 	if (!controller)
-@@ -423,6 +411,25 @@ struct dma_controller *musbhs_dma_controller_create(struct musb *musb,
- 	controller->controller.channel_release = dma_channel_release;
- 	controller->controller.channel_program = dma_channel_program;
- 	controller->controller.channel_abort = dma_channel_abort;
-+	return controller;
-+}
-+
-+struct dma_controller *
-+musbhs_dma_controller_create(struct musb *musb, void __iomem *base)
-+{
-+	struct musb_dma_controller *controller;
-+	struct device *dev = musb->controller;
-+	struct platform_device *pdev = to_platform_device(dev);
-+	int irq = platform_get_irq_byname(pdev, "dma");
-+
-+	if (irq <= 0) {
-+		dev_err(dev, "No DMA interrupt line!\n");
-+		return NULL;
-+	}
-+
-+	controller = dma_controller_alloc(musb, base);
-+	if (!controller)
-+		return NULL;
- 
- 	if (request_irq(irq, dma_controller_irq, 0,
- 			dev_name(musb->controller), &controller->controller)) {
-@@ -437,3 +444,16 @@ struct dma_controller *musbhs_dma_controller_create(struct musb *musb,
- 	return &controller->controller;
- }
- EXPORT_SYMBOL_GPL(musbhs_dma_controller_create);
-+
-+struct dma_controller *
-+musbhs_dma_controller_create_noirq(struct musb *musb, void __iomem *base)
-+{
-+	struct musb_dma_controller *controller;
-+
-+	controller = dma_controller_alloc(musb, base);
-+	if (!controller)
-+		return NULL;
-+
-+	return &controller->controller;
-+}
-+EXPORT_SYMBOL_GPL(musbhs_dma_controller_create_noirq);
--- 
-1.9.1
-
+greg k-h
