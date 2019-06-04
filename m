@@ -2,105 +2,110 @@ Return-Path: <SRS0=VYZK=UD=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBA51C282CE
-	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 13:50:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DF34C282CE
+	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 14:16:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BB22323CEB
-	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 13:50:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EE59C23BD2
+	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 14:16:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="RPPCHm7y"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727443AbfFDNux (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 4 Jun 2019 09:50:53 -0400
-Received: from mga02.intel.com ([134.134.136.20]:39344 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727129AbfFDNux (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 4 Jun 2019 09:50:53 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Jun 2019 06:50:52 -0700
-X-ExtLoop1: 1
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.164]) ([10.237.72.164])
-  by orsmga007.jf.intel.com with ESMTP; 04 Jun 2019 06:50:50 -0700
-Subject: Re: [PATCH] xhci: clear port_remote_wakeup after resume failure
-To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Mathias Nyman <mathias.nyman@intel.com>
-Cc:     oneukum@suse.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190524145231.6605-1-nsaenzjulienne@suse.de>
- <eb5d9252-1283-be73-96d6-c24a0fdf1eab@linux.intel.com>
- <e2dd83c5dbba1bb9bd300285285ab07135dc6166.camel@suse.de>
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Message-ID: <9286ec05-d2a2-bd23-3397-b6a3623cad8f@linux.intel.com>
-Date:   Tue, 4 Jun 2019 16:53:37 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
-MIME-Version: 1.0
-In-Reply-To: <e2dd83c5dbba1bb9bd300285285ab07135dc6166.camel@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
+        id S1727624AbfFDOQQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 4 Jun 2019 10:16:16 -0400
+Received: from mail-eopbgr20081.outbound.protection.outlook.com ([40.107.2.81]:7552
+        "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727287AbfFDOQQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 4 Jun 2019 10:16:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mP2uNhqziyf2SrorO4naRi812nTeSt/+EQtEN4LUSBs=;
+ b=RPPCHm7yxd0KiASeaJ+bRc/JWDgMD3+mf5fTa+1qlZijP7LT7V00W1LSiw2+GV/LWfgC4hL/hm2bVSK09HkzP0NKCueZRSq0DASl5chIyj7a5YjzcBaZgBshGphHtVcpq1L6OSRPFHr6XZWG/3hnIwOApStJCwmSNwAOV7W4zuE=
+Received: from VI1PR04MB5134.eurprd04.prod.outlook.com (20.177.50.159) by
+ VI1PR04MB5310.eurprd04.prod.outlook.com (20.177.52.11) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1965.12; Tue, 4 Jun 2019 14:16:11 +0000
+Received: from VI1PR04MB5134.eurprd04.prod.outlook.com
+ ([fe80::8d0e:de86:9b49:b40]) by VI1PR04MB5134.eurprd04.prod.outlook.com
+ ([fe80::8d0e:de86:9b49:b40%7]) with mapi id 15.20.1943.018; Tue, 4 Jun 2019
+ 14:16:11 +0000
+From:   Laurentiu Tudor <laurentiu.tudor@nxp.com>
+To:     Christoph Hellwig <hch@lst.de>
+CC:     Greg KH <gregkh@linuxfoundation.org>,
+        "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "marex@denx.de" <marex@denx.de>, Leo Li <leoyang.li@nxp.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "robin.murphy@arm.com" <robin.murphy@arm.com>,
+        "noring@nocrew.org" <noring@nocrew.org>,
+        "JuergenUrban@gmx.de" <JuergenUrban@gmx.de>
+Subject: Re: [PATCH v7 0/5] prerequisites for device reserved local mem rework
+Thread-Topic: [PATCH v7 0/5] prerequisites for device reserved local mem
+ rework
+Thread-Index: AQHVFglQMB1lnLjYnE2Z8bn8+67UAKaB+N+AgAAA+wCAAClrAIADUJmAgAYgLAA=
+Date:   Tue, 4 Jun 2019 14:16:11 +0000
+Message-ID: <014526bf-e3e9-bd94-a239-0ec1e7feaf72@nxp.com>
+References: <20190529102843.13174-1-laurentiu.tudor@nxp.com>
+ <20190529113427.GC11952@kroah.com> <20190529113758.GA9399@lst.de>
+ <5b8164b3-74a3-9ba4-8c28-61a14ec57a39@nxp.com>
+ <20190531164327.GB27525@lst.de>
+In-Reply-To: <20190531164327.GB27525@lst.de>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=laurentiu.tudor@nxp.com; 
+x-originating-ip: [89.37.124.34]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 92d539a7-3fda-4b67-b4a0-08d6e8f7325d
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:VI1PR04MB5310;
+x-ms-traffictypediagnostic: VI1PR04MB5310:
+x-microsoft-antispam-prvs: <VI1PR04MB531006D2B409E43E4F3B9DD2EC150@VI1PR04MB5310.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-forefront-prvs: 0058ABBBC7
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(376002)(39860400002)(366004)(396003)(136003)(346002)(189003)(199004)(51914003)(66066001)(4744005)(7736002)(478600001)(66556008)(229853002)(66446008)(64756008)(25786009)(66476007)(26005)(66946007)(14454004)(68736007)(36756003)(6916009)(6486002)(186003)(91956017)(2906002)(31696002)(73956011)(6512007)(76116006)(86362001)(3846002)(8936002)(6116002)(71200400001)(71190400001)(102836004)(4326008)(476003)(2616005)(81156014)(81166006)(53546011)(5660300002)(6506007)(31686004)(305945005)(8676002)(446003)(316002)(11346002)(44832011)(486006)(76176011)(99286004)(256004)(54906003)(6436002)(6246003)(53936002);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR04MB5310;H:VI1PR04MB5134.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: IALOywrHg9DS6hVVCmuW0CDKbK2fs5DUTRbfFLFFNaZpKA1lM8Cxd5PUyoSmR3L2pK6lXn7FB1HvNbLlc0IERHy5I7McSV0u0vxlQhvdA39u5wvsyfZW4n7Ga/xwGQlL0f/DbdK5F6voOKysrXKzDLcLHDPb9iZGcPVE5opRgzlA2baSymUN5qBYU+qH5GuhdQ5bkf4myGSgN3AQlzsKi3v7W1LkFbFMWMy4WWXtfe8uL59PF0JuEHO9c9TtpqlyjGQDiFtLl8sAQk2mQqwXv4eZ7WGz2QkGNSyG5N+RMFlScRJU0MWWMniY8P1fn5mTYrclwG9QvkGEfm1UG9bhyBd0Ldh5SZuda4OWGwB6EQQVoHC9bERJoIrUBq9iLC7gPTK9eh0pfftPccHKcxsuxze5QMSxNajRL2x7OOP9p38=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <8E2FA2478BFDE8439FF33B9FBC3DD2DF@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92d539a7-3fda-4b67-b4a0-08d6e8f7325d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jun 2019 14:16:11.7602
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: laurentiu.tudor@nxp.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5310
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 27.5.2019 14.28, Nicolas Saenz Julienne wrote:
-> Hi Matthias,
-> thanks for the review.
-> 
-> On Mon, 2019-05-27 at 14:16 +0300, Mathias Nyman wrote:
->> On 24.5.2019 17.52, Nicolas Saenz Julienne wrote:
->>> This was seen on a Dell Precision 5520 using it's WD15 dock. The dock's
->>> Ethernet device interfaces with the laptop through one of it's USB3
->>> ports. While idle, the Ethernet device and HCD are suspended by runtime
->>> PM, being the only device connected on the bus. Then, both are resumed on
->>> behalf of the Ethernet device, which has remote wake-up capabilities.
->>>
->>> The Ethernet device was observed to randomly disconnect from the USB
->>> port shortly after submitting it's remote wake-up request. Probably a
->>> weird timing issue yet to be investigated. This causes runtime PM to
->>> busyloop causing some tangible CPU load. The reason is the port gets
->>> stuck in the middle of a remote wake-up operation, waiting for the
->>> device to switch to U0. This never happens, leaving "port_remote_wakeup"
->>> enabled, and automatically triggering a failure on any further suspend
->>> operation.
->>>
->>> This patch clears "port_remote_wakeup" upon detecting a device with a
->>> wrong resuming port state (see Table 4-9 in 4.15.2.3). Making sure the
->>> above mentioned situation doesn't trigger a PM busyloop.
->>>
->>
->> There was a similar case where the USB3 link had transitioned to a
->> lower power U1 or U2 state after resume, before driver read the state,
->> leaving port_remote_wakeup flag uncleared.
->>
->> This was fixed in 5.1 kernel by commit:
->>
->> 6cbcf59 xhci: Fix port resume done detection for SS ports with LPM enable
->>
->> Can you check if you have it?
->> It should be in recent stable releases as well.
-> 
-> I was aware of that patch, unfortunately it doesn't address the same issue. In
-> my case I never get a second port status event (so no PLC == 1 or any state
-> change seen in PLS). The device simply disconnects from the bus.
-> 
-
-I see, ok, then we need to clear the flag in the hub thread.
-
-But to me it looks like this patch could cause a small race risk in the successful
-device initiated resume cases.
-
-If the hub thread, i.e. the get_port_status() function, notices the U0 state before
-the interrupt handler, i.e. handle_port_status() function, then port_remote_wakeup
-flag is cleared in the hub thread and the wakeup notification is never called from
-handle_port_status().
-
-Would it be enough to just check for (port_remote_wakeup flag && !PORT_CONNECT) in the hub thread?
-USB3 PORT_CONNECT bit is lost in most error cases.
-
--Mathias
+T24gMzEuMDUuMjAxOSAxOTo0MywgQ2hyaXN0b3BoIEhlbGx3aWcgd3JvdGU6DQo+IE9uIFdlZCwg
+TWF5IDI5LCAyMDE5IGF0IDAyOjA2OjEyUE0gKzAwMDAsIExhdXJlbnRpdSBUdWRvciB3cm90ZToN
+Cj4+IFRoYW5rcywgaG9wZSB0aGlzIHRpbWUgZXZlcnl0aGluZyBpcyBmaW5lLg0KPiANCj4gSSd2
+ZSBhcHBsaWVkIGl0IHRvIHRoZSBkbWEtbWFwcGluZyB0cmVlIG5vdy4NCj4gDQo+PiBXaGVuIHlv
+dSBnZXQgdGhlIHRpbWUsIHBsZWFzZSBsZXQgbWUga25vdyB5b3VyIGlkZWFzIG9uIHRoZSBuZXh0
+IHN0ZXBzLg0KPiANCj4gSSB0aGluayB0aGUgbmV4dCBzdGVwIGlzIHRvIG1vdmUgdGhlIGNhbGwg
+dG8NCj4gZG1hX2FsbG9jX2Zyb21fZGV2X2NvaGVyZW50IGZyb20gZG1hX2FsbG9jX2F0dHJzIGlu
+dG8gdGhlIC0+YWxsb2MNCj4gaW5zdGFuY2VzLiAgVGhlIG9ubHkgb25jZXMgdGhhdCByZWFsbHkg
+bmVlZCBpdCBmb3Igbm93IGFyZSB0aGUNCj4gZ2VuZXJpYyBhbmQgbGVnYWN5IGFybSBkbWEtZGly
+ZWN0IGNvZGUsIGFuZCBkcml2ZXJzL2lvbW11L2RtYS1pb21tdS5jDQo+IGFzIHdlbGwgYXMgdGhl
+IEFSTSBETUEgQVBJIGNvZGUsIGFzIHRob3NlIGFyZSB0aGUgb25lcyB1c2UgZm9yDQo+IGFyY2hp
+dGVjdHVyZXMgdGhhdCBkZWNsYXJlIGNvaGVyZW50IHJlZ2lvbnMuICBUaGUgb3RoZXIgaW9tbXVz
+IGFyZQ0KPiBub3QgdXNlZCBvbiBPRiBwbGF0Zm9ybXMgKGF0IGxlYXN0IHRoYXQncyB3aGF0IG15
+IGFuYWx5c2lzIHNhaWQgYSB3aGlsZQ0KPiBhZ28sIGZlZWwgZnJlZSB0byBkb3VibGUgY2hlY2sg
+aXQpDQoNClRoYW5rcyBmb3IgdGhlIGRldGFpbHMuIEknbGwgYmUgT09PIG5leHQgd2VlayBzbyBw
+cm9iYWJseSBJJ2xsIHN0YXJ0IA0KbG9va2luZyBpbnRvIGl0IG5leHQgbmV4dCB3ZWVrLg0KDQot
+LS0NCkJlc3QgUmVnYXJkcywgTGF1cmVudGl1
