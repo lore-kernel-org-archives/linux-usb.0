@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C7D0C282CE
-	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 23:26:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BFD0C282CE
+	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 23:26:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 750B0206C1
-	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 23:26:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 152A2206C1
+	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 23:26:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1559690772;
-	bh=7u/5WAQMZbc5TkreaeLjW0MfISjWR/sDS4GUnk1Atfg=;
+	s=default; t=1559690817;
+	bh=TRhb4bn5sZlQ1o7SrEF3J/f2N5alQl++5ijQez+ggKA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=u3fBR+yK5TIWCZYXacsdl7Dagphm3r777dHWOCw/jIzLY7gv85tbI4g/qhD6Py6DN
-	 FNy9IlOfHLu5Hr6reb7/C+mD2b52wukwz+ika8F5SHylQjJ7MhnneHjTPaRijjXO7U
-	 Nvb3Q16MG245RdACAX5q/uci+2xGDUW4fodGL0Bc=
+	b=QI4Y3ux2cX6Pgp3dIFpv1tSlAIM0rxG0d2s8vJDrL15/MRtOb3PFBe8CuCxOhfdEU
+	 9qA6ZFSE9KHtwpAAfiRf/bb8yv9sBvAHteK1dcYXTf+bQFguOaPFaI+uhV/Dh22QjN
+	 UH3q+rj53zQ3JRqwJrmuSw+kjUWkNOZzxWLWz6uU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728158AbfFDX0C (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 4 Jun 2019 19:26:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37722 "EHLO mail.kernel.org"
+        id S1728040AbfFDXZa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 4 Jun 2019 19:25:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37260 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726597AbfFDXZq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 4 Jun 2019 19:25:46 -0400
+        id S1728012AbfFDXZa (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 4 Jun 2019 19:25:30 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4072E2085A;
-        Tue,  4 Jun 2019 23:25:45 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id DABE12085A;
+        Tue,  4 Jun 2019 23:25:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559690746;
-        bh=7u/5WAQMZbc5TkreaeLjW0MfISjWR/sDS4GUnk1Atfg=;
+        s=default; t=1559690728;
+        bh=TRhb4bn5sZlQ1o7SrEF3J/f2N5alQl++5ijQez+ggKA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GId6dOHDggegOoWjrr1gR0jNvAPJisJXyxytRUkPpM2oDo0kTeh09V0XdyseIqp/E
-         doa2Nal4c3RgLnsLYdy3Q+s/uk9+QoJGCNVo+nGW7XmRwZ+KvSfpWImNfxIxa6OS+l
-         TPsMphMI6dko/NKezoCxWjPlKZqwui4qGJ9OZkcU=
+        b=X7dAFa301wbOeAptVNGitfi2KdpbzErm1z949HoogjT48hSx8M4a/XJsjwDo3yO1n
+         m6ukr29VwlN/ZX2EB2i7FHijWgwDiHfSpXfaIKkXb+i2I5kMtsSsfMHEOcF0SrAceL
+         JeTH7PwABwVwhCC17MmCOzfZ7EB1GHHHFPYuhZsc=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Kloetzke Jan <Jan.Kloetzke@preh.de>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 08/10] usbnet: fix kernel crash after disconnect
-Date:   Tue,  4 Jun 2019 19:25:29 -0400
-Message-Id: <20190604232532.7953-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 15/17] usbnet: fix kernel crash after disconnect
+Date:   Tue,  4 Jun 2019 19:24:56 -0400
+Message-Id: <20190604232459.7745-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190604232532.7953-1-sashal@kernel.org>
-References: <20190604232532.7953-1-sashal@kernel.org>
+In-Reply-To: <20190604232459.7745-1-sashal@kernel.org>
+References: <20190604232459.7745-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -124,10 +124,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+)
 
 diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
-index 9710cf71054a..2502681369cd 100644
+index 4ab82b998a0f..a5acbcb3c044 100644
 --- a/drivers/net/usb/usbnet.c
 +++ b/drivers/net/usb/usbnet.c
-@@ -499,6 +499,7 @@ static int rx_submit (struct usbnet *dev, struct urb *urb, gfp_t flags)
+@@ -508,6 +508,7 @@ static int rx_submit (struct usbnet *dev, struct urb *urb, gfp_t flags)
  
  	if (netif_running (dev->net) &&
  	    netif_device_present (dev->net) &&
@@ -135,7 +135,7 @@ index 9710cf71054a..2502681369cd 100644
  	    !test_bit (EVENT_RX_HALT, &dev->flags) &&
  	    !test_bit (EVENT_DEV_ASLEEP, &dev->flags)) {
  		switch (retval = usb_submit_urb (urb, GFP_ATOMIC)) {
-@@ -1385,6 +1386,11 @@ netdev_tx_t usbnet_start_xmit (struct sk_buff *skb,
+@@ -1394,6 +1395,11 @@ netdev_tx_t usbnet_start_xmit (struct sk_buff *skb,
  		spin_unlock_irqrestore(&dev->txq.lock, flags);
  		goto drop;
  	}
