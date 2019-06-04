@@ -7,52 +7,52 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86892C282CE
-	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 10:45:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 029B9C282CE
+	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 10:45:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5BA8D23406
-	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 10:45:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CFE6723406
+	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 10:45:38 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SrM3zAvH"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DHDjY8W7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727558AbfFDKpc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 4 Jun 2019 06:45:32 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:40984 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727438AbfFDKpF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 4 Jun 2019 06:45:05 -0400
-Received: by mail-wr1-f67.google.com with SMTP id c2so15282546wrm.8
-        for <linux-usb@vger.kernel.org>; Tue, 04 Jun 2019 03:45:04 -0700 (PDT)
+        id S1727422AbfFDKpD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 4 Jun 2019 06:45:03 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:46686 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727412AbfFDKpD (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 4 Jun 2019 06:45:03 -0400
+Received: by mail-wr1-f68.google.com with SMTP id n4so10021265wrw.13
+        for <linux-usb@vger.kernel.org>; Tue, 04 Jun 2019 03:45:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Ixa6PZM7Qd3yNTQ1/2lb9UJukHzNBYD4+3OM8ec4OSs=;
-        b=SrM3zAvHO7s4r4kfWRb3yKeFRE5PBTe75g4T6jp6QVLZ+DbjYiqMYZ/caaJl2svogL
-         Dho1YX4HBmmhcjNwienKNpKLHxULynaK4RwnoYB8aEOifJlkpTWldE/+L9a6CBOW2SBV
-         8TY+kVlRP8QzflACyJFTgmXnlx9rJAUzH4CNwmMUfhVqaznt97K1fxCP8/Zawp6/IgVv
-         nclsKzImAAkMxU8Y2NicxZ+aWSjqdzGCXD6Uy2EN7XkkhnMLxpGxX+mLyl/mAhj77crl
-         3OedRVGkpp68L5HrhDth6eUQCdIJppx09j67O+gWfpNvj+pXqJRqm3HD5nbQBk9OGfYV
-         t2xQ==
+        bh=A0dgN5hMyM5nxH9+M3vRRIGFYdtXHLmFGt167GY3zJI=;
+        b=DHDjY8W7XNwgZLrWs6Tbaf/vx11sNga7Bt6FMHM9T7hwa8GkndNSQBvuVNxuhwVnLC
+         CmSYL3dxuhqZfnAng9Fj6BbpLFcDcCeFXCKhWKDEHRJTllPxEK/xFxJLgnTVkupDLvQs
+         2+FLplp7gSQ1nlMo8mCnf+3tmok03BTwcuEtLI9n6LgUQ/RQVxhuS6PmOm35rtdI0uLj
+         MTJE0qn6O0nQecJCUQgO0dajMXH90s1mNhc9Ax9vsrvbd/7VnruOU44JAk3lClJF2uEY
+         XxCS1L4nRHo2Tdd1zgkaMv0onf2ZyNa9nq21lCWcHh/79BqgateHE8PYQwdpXhXWSi6B
+         00Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=Ixa6PZM7Qd3yNTQ1/2lb9UJukHzNBYD4+3OM8ec4OSs=;
-        b=btBanHZcJ3p9OHUfpqabblElAw0SU7uFXjg3IPTLwRIu54qpY+LBad8Aw0qHSxudIb
-         ntmUB/65Vws0i96h5MFnzNoLdJxkgktWCtdu+H7X8/wl9AQ8UEXkIYwfPCFQJxUzZuwI
-         lQbDfGrdF2gIT6WvrevtTG4LYv9/4iDjDk1yHCxsAS6O1HdeTG5QFbofoeo8IPMNTc1s
-         HpSDnwwJiLbIpXqyCOxqTTjyWuI1j0AfWTkUNNs7HC3QHlXNlc8pG2bEZyDFhteX9ifs
-         IEyvib3PTqiZheIIc+xvCkTpI8xklxzESyTK9/IgXd+GG1uMsr0bxFdfERjRnerXvRrl
-         8Kjw==
-X-Gm-Message-State: APjAAAUWxLkJryRjf9O0vHa4juJtYnjwInXuozcjVOZIReYKt2mP+HLl
-        5eaiRpbgyATNaEqdlMVmEkQDUQ==
-X-Google-Smtp-Source: APXvYqxeY6H93q1Bt0x5h2fNrnGLPGAkTcBxIAddnWtbIbwQwr3Fz5wwwK1XYktubxlpc0VDO1ZA7Q==
-X-Received: by 2002:adf:e286:: with SMTP id v6mr6228022wri.340.1559645103884;
-        Tue, 04 Jun 2019 03:45:03 -0700 (PDT)
+        bh=A0dgN5hMyM5nxH9+M3vRRIGFYdtXHLmFGt167GY3zJI=;
+        b=XD4QxpZNNfOyyM3aMCPaxZssRXjqDItMDb7cy6hZfPdy/H4gGH/eAOndO8NN5VxcxT
+         rOjkQNtyPPGZmjl5f1ippLbu27Fw/F4AvsbWokWe8u89jmbC+3nhpDiPvewUR5H7aJaD
+         m7f4TYBM1SlwhJsPPWWMNwdSSTGqAlw2ecsI1VN+BKXUQ4h1DONp1LHH26rLoOtmt9jc
+         5ViCKgRL7KXLTxw291UrYmAn+YQ7utvvJXeBRInq7VXTLpfEkpMdUJOtplc4UigohPKh
+         HcMNUC33pnp8apwqQicVSnxoODeICop38Oflz0PtEqKl9TshlkmlRogEMLql6HCeXEis
+         ImDw==
+X-Gm-Message-State: APjAAAXLTgICKduOnrMIRJ3l7mkNz4vGpXHm1YqfCi0rwGc6F0GgKyyR
+        C4JwvRw8Rhl2JTSVqLp02VJTQw==
+X-Google-Smtp-Source: APXvYqyfSmVLg+r7QIrO4AzYchY6fMxXo5LCqOKirQ0x3FpS7LhFRv57ogismPjwpMqYflYeC8wQFg==
+X-Received: by 2002:adf:ff88:: with SMTP id j8mr1508854wrr.317.1559645101648;
+        Tue, 04 Jun 2019 03:45:01 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.167.43])
-        by smtp.gmail.com with ESMTPSA id t140sm2718623wmt.0.2019.06.04.03.45.02
+        by smtp.gmail.com with ESMTPSA id t140sm2718623wmt.0.2019.06.04.03.45.00
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 04 Jun 2019 03:45:03 -0700 (PDT)
+        Tue, 04 Jun 2019 03:45:01 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     alokc@codeaurora.org, kramasub@codeaurora.org,
         andy.gross@linaro.org, david.brown@linaro.org,
@@ -63,9 +63,9 @@ Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         jlhugo@gmail.com, linux-i2c@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
         linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH 5/8] soc: qcom: geni: Add support for ACPI
-Date:   Tue,  4 Jun 2019 11:44:52 +0100
-Message-Id: <20190604104455.8877-5-lee.jones@linaro.org>
+Subject: [PATCH 3/8] pinctrl: msm: Add ability for drivers to supply a reserved GPIO list
+Date:   Tue,  4 Jun 2019 11:44:50 +0100
+Message-Id: <20190604104455.8877-3-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190604104455.8877-1-lee.jones@linaro.org>
 References: <20190604104455.8877-1-lee.jones@linaro.org>
@@ -74,70 +74,72 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When booting with ACPI as the active set of configuration tables,
-all; clocks, regulators, pin functions ect are expected to be at
-their ideal values/levels/rates, thus the associated frameworks
-are unavailable.  Ensure calls to these APIs are shielded when
-ACPI is enabled.
+When booting MSM based platforms with Device Tree or some ACPI
+implementations, it is possible to provide a list of reserved pins
+via the 'gpio-reserved-ranges' and 'gpios' properties respectively.
+However some ACPI tables are not populated with this information,
+thus it has to come from a knowledgable device driver instead.
+
+Here we provide the MSM common driver with additional support to
+parse this informtion and correctly populate the widely used
+'valid_mask'.
 
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/soc/qcom/qcom-geni-se.c | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
+ drivers/pinctrl/qcom/pinctrl-msm.c | 18 ++++++++++++++++++
+ drivers/pinctrl/qcom/pinctrl-msm.h |  1 +
+ 2 files changed, 19 insertions(+)
 
-diff --git a/drivers/soc/qcom/qcom-geni-se.c b/drivers/soc/qcom/qcom-geni-se.c
-index 6b8ef01472e9..cff0a413e59a 100644
---- a/drivers/soc/qcom/qcom-geni-se.c
-+++ b/drivers/soc/qcom/qcom-geni-se.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- // Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
- 
-+#include <linux/acpi.h>
- #include <linux/clk.h>
- #include <linux/slab.h>
- #include <linux/dma-mapping.h>
-@@ -450,6 +451,9 @@ int geni_se_resources_off(struct geni_se *se)
- {
+diff --git a/drivers/pinctrl/qcom/pinctrl-msm.c b/drivers/pinctrl/qcom/pinctrl-msm.c
+index ee8119879c4c..b77f22348907 100644
+--- a/drivers/pinctrl/qcom/pinctrl-msm.c
++++ b/drivers/pinctrl/qcom/pinctrl-msm.c
+@@ -607,8 +607,23 @@ static int msm_gpio_init_valid_mask(struct gpio_chip *chip)
  	int ret;
+ 	unsigned int len, i;
+ 	unsigned int max_gpios = pctrl->soc->ngpios;
++	const int *reserved = pctrl->soc->reserved_gpios;
+ 	u16 *tmp;
  
-+	if (ACPI_HANDLE(se->dev))
-+		return 0;
-+
- 	ret = pinctrl_pm_select_sleep_state(se->dev);
- 	if (ret)
- 		return ret;
-@@ -487,6 +491,9 @@ int geni_se_resources_on(struct geni_se *se)
- {
- 	int ret;
- 
-+	if (ACPI_HANDLE(se->dev))
-+		return 0;
-+
- 	ret = geni_se_clks_on(se);
- 	if (ret)
- 		return ret;
-@@ -724,12 +731,14 @@ static int geni_se_probe(struct platform_device *pdev)
- 	if (IS_ERR(wrapper->base))
- 		return PTR_ERR(wrapper->base);
- 
--	wrapper->ahb_clks[0].id = "m-ahb";
--	wrapper->ahb_clks[1].id = "s-ahb";
--	ret = devm_clk_bulk_get(dev, NUM_AHB_CLKS, wrapper->ahb_clks);
--	if (ret) {
--		dev_err(dev, "Err getting AHB clks %d\n", ret);
--		return ret;
-+	if (!ACPI_HANDLE(&pdev->dev)) {
-+		wrapper->ahb_clks[0].id = "m-ahb";
-+		wrapper->ahb_clks[1].id = "s-ahb";
-+		ret = devm_clk_bulk_get(dev, NUM_AHB_CLKS, wrapper->ahb_clks);
-+		if (ret) {
-+			dev_err(dev, "Err getting AHB clks %d\n", ret);
-+			return ret;
++	/* Driver provided reserved list overrides DT and ACPI */
++	if (reserved) {
++		bitmap_fill(chip->valid_mask, max_gpios);
++		for (i = 0; i < max_gpios && reserved[i] >= 0; i++) {
++			if (i >= max_gpios || reserved[i] >= max_gpios) {
++				dev_err(pctrl->dev, "invalid list of reserved GPIOs\n");
++				return -EINVAL;
++			}
++			clear_bit(reserved[i], chip->valid_mask);
 +		}
- 	}
++
++		return 0;
++	}
++
+ 	/* The number of GPIOs in the ACPI tables */
+ 	len = ret = device_property_read_u16_array(pctrl->dev, "gpios", NULL,
+ 						   0);
+@@ -964,6 +979,9 @@ static void msm_gpio_irq_handler(struct irq_desc *desc)
  
- 	dev_set_drvdata(dev, wrapper);
+ static bool msm_gpio_needs_valid_mask(struct msm_pinctrl *pctrl)
+ {
++	if (pctrl->soc->reserved_gpios)
++		return true;
++
+ 	return device_property_read_u16_array(pctrl->dev, "gpios", NULL, 0) > 0;
+ }
+ 
+diff --git a/drivers/pinctrl/qcom/pinctrl-msm.h b/drivers/pinctrl/qcom/pinctrl-msm.h
+index c12048e54a6f..23b93ae92269 100644
+--- a/drivers/pinctrl/qcom/pinctrl-msm.h
++++ b/drivers/pinctrl/qcom/pinctrl-msm.h
+@@ -121,6 +121,7 @@ struct msm_pinctrl_soc_data {
+ 	bool pull_no_keeper;
+ 	const char *const *tiles;
+ 	unsigned int ntiles;
++	const int *reserved_gpios;
+ };
+ 
+ extern const struct dev_pm_ops msm_pinctrl_dev_pm_ops;
 -- 
 2.17.1
 
