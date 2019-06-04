@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA519C282CE
-	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 23:24:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CDD5C28CC3
+	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 23:25:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 946AC206C1
-	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 23:24:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6687620866
+	for <linux-usb@archiver.kernel.org>; Tue,  4 Jun 2019 23:25:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1559690699;
-	bh=2A7cn2Sda4P0wHU74w42/T9BNRZ/O6FKBVZ/aM5WMm4=;
+	s=default; t=1559690747;
+	bh=xHZbjZKGwvdeTJRemHBIVesdOZlSKG+NWWZhLikmVVM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=yBlOgudFVAmLwyp8t7M4VSzIVpkjNQihUf0RxWjYPIABjfPjF0L4YB5Y+mUKvwmJ3
-	 /41uJGtDAbLyF0oq2WQVqoo0a69K+kYeWNvbyRCd7sE2BPS+kOrwRudlEXu2NMSBD5
-	 M7fn8OmeTJ90jairhbYsoSwmjjCJjCbrEoQuto48=
+	b=Oq4cpLBzbHQKwcug7xgizbb4AtSJd89fjehvEWk7GY/TRk0DfaYecGdWDMhnNnmZ/
+	 8sLZptotn25wx6CEwuTuDvIY/PSCIeIuZiYjOjl6JVDy0Z0QOU45sbGpLm8HDFfXA2
+	 8nBv85Ch71fyOQnn+QiCTPHl8HVKPcxgNaCch97k=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727822AbfFDXY6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 4 Jun 2019 19:24:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36228 "EHLO mail.kernel.org"
+        id S1728126AbfFDXZq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 4 Jun 2019 19:25:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37694 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727218AbfFDXYz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 4 Jun 2019 19:24:55 -0400
+        id S1727217AbfFDXZp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 4 Jun 2019 19:25:45 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B009F206C1;
-        Tue,  4 Jun 2019 23:24:53 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EA75F20859;
+        Tue,  4 Jun 2019 23:25:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559690694;
-        bh=2A7cn2Sda4P0wHU74w42/T9BNRZ/O6FKBVZ/aM5WMm4=;
+        s=default; t=1559690744;
+        bh=xHZbjZKGwvdeTJRemHBIVesdOZlSKG+NWWZhLikmVVM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KmUMnPD8jyPdV+YGx/pqYttZle67jVCBHstowm4BvfqfkykTM6bhOd1mR17wKXrmk
-         xAMUofwjFEFodiUaTIoBY3fIKItnuoW2tyPhJHQI29W30QpNb0yAr4C1fkmR17HShK
-         Wuo85loZiMZuTPOQ1DvlovIx3ggWznlDYT0+FryQ=
+        b=T12f+PmGi363ry9ObmA5799tpoZGzaXaBoanM8EmUSAgqLz84rVIrY2u33R/LQWQv
+         4XMALCSNJwLWQGMb8qK/yweOupJ8h6EHx6VYszNq7JwjUBH07wrHRryE/BJ8PqPpFU
+         weeYUzXeTaY/6QA6Uy6ETKUpvOJzwaN090j/QTxw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Bernd Eckstein <3erndeckstein@gmail.com>,
@@ -46,12 +46,12 @@ Cc:     Bernd Eckstein <3erndeckstein@gmail.com>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 21/24] usbnet: ipheth: fix racing condition
-Date:   Tue,  4 Jun 2019 19:24:12 -0400
-Message-Id: <20190604232416.7479-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 07/10] usbnet: ipheth: fix racing condition
+Date:   Tue,  4 Jun 2019 19:25:28 -0400
+Message-Id: <20190604232532.7953-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190604232416.7479-1-sashal@kernel.org>
-References: <20190604232416.7479-1-sashal@kernel.org>
+In-Reply-To: <20190604232532.7953-1-sashal@kernel.org>
+References: <20190604232532.7953-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -94,7 +94,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/usb/ipheth.c b/drivers/net/usb/ipheth.c
-index 3d8a70d3ea9b..3d71f1716390 100644
+index 01f95d192d25..2b16a5fed9de 100644
 --- a/drivers/net/usb/ipheth.c
 +++ b/drivers/net/usb/ipheth.c
 @@ -437,17 +437,18 @@ static int ipheth_tx(struct sk_buff *skb, struct net_device *net)
