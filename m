@@ -2,56 +2,57 @@ Return-Path: <SRS0=Cs7X=UE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0B01C28D18
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 11:43:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7112C28D18
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 11:43:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 85A5D20866
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 11:43:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 915632075C
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 11:43:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RH78oA+N"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="j2KSLfxv"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727219AbfFELnJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Jun 2019 07:43:09 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:37771 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727307AbfFELnJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Jun 2019 07:43:09 -0400
-Received: by mail-wr1-f66.google.com with SMTP id v14so1465505wrr.4
-        for <linux-usb@vger.kernel.org>; Wed, 05 Jun 2019 04:43:08 -0700 (PDT)
+        id S1727505AbfFELnM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Jun 2019 07:43:12 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:32796 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727410AbfFELnL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Jun 2019 07:43:11 -0400
+Received: by mail-wm1-f67.google.com with SMTP id v19so1588293wmh.0
+        for <linux-usb@vger.kernel.org>; Wed, 05 Jun 2019 04:43:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=nQjqkj1EN8NC8Ay0yEHmwn6X2HJX2TtkXyONunIjoOQ=;
-        b=RH78oA+NxoAk2QUd4m2HOQ8dyN2sCxrVo+FvNDasZKbmuqv5dUteK2nYHr3AU8dZY2
-         lL6O731jO9kBau+KvwCnnF2pv2zQNFqiUY9zOrc3A4LrxHgl9/zAkEPJlQwGcvHZMo/w
-         T5Q+bajSnI9mx+6X4Pf9VCvK19Rxr/TWdt13E2G4DlLn2iW89yA4kT0OaSSfHFXfqVw2
-         wsqz5uFfMcqQjg4rZ9X+5QJeBFThsy8V7siule0Y3MR04je8W6A0+CQYQsv0XPB0SH1t
-         zd6JjCDEnS9YTtARJbgAB90xZpf4QrVjQTx3SGk0eBWm1D1i41b7bUq302Rnt1ZCH8ac
-         ByZg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=slZHnEyI/3MoxuWJDHsmJjpXD82N/IlcEekyL2S9VGE=;
+        b=j2KSLfxvw6LpCJS/q1Nf891vaquUjMnjhjHXaXKoNlaNzIsTXGlKgIESq9y0v20BQr
+         ZrA//WM6B3HdAGlJ81JT9BHzbVGmBgirG05tlCUS9ecIsCh3FKd+KD9NlgCEok9awU0Z
+         Im1qfaKG6HeX/aXkgj5tg/rDIXO8cYV+PgRRyHkM/ELMWg3Msw5/a0JLuq1sYrG7Lqe6
+         qUQQCD4zZGB8cnfGOv0LIkW0y4ZT3RPbUPMMtH+MveZSRCaTP2svASVC6GvSh25s1oLW
+         3R4BK00UPLvxseS4xz8nb8pLNI7pAGEE1H7j+sTuvYEJWeC9wYe3recdfqkXnR2JG4rA
+         Zjig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=nQjqkj1EN8NC8Ay0yEHmwn6X2HJX2TtkXyONunIjoOQ=;
-        b=Xp+rCuwapjHj3PP9jojKAhnVB5EAagM1WYs0NG1Hk3AYBqLOvZHk4083Y3VUuAA7Qh
-         yY61Wjnd7q71CTnpjQHvb1R8nt3w6Zc3fexYKJLerk2jxJ+hpBrFmDpj8BIsHTzaTrxw
-         Bp9BJO/qj28gw+6NegNnP6n1uTfFZIbw5SaMStXrOh3/RACmD0RUjat0gxXkE4mqBFZq
-         jAv9huNeUYrrg3cYr+d0E+g3HmMyjwrIdj3Wf66LrtnJl5bCJZFo57I4KH409ou2m34d
-         O0sKItXkQ+zlTnF0LaBNeOZGuiV0M52Rpvj5TQEGVV2NHO6hwScBLJVh0DSMcwURLmNh
-         6EfA==
-X-Gm-Message-State: APjAAAUUJUV1bPDQGYGniqzouqgv/ETWc23bdEYMfxmLU/N0+wnYgcMG
-        hVUhkAc6mePniNqsd0ZsoeGNKA==
-X-Google-Smtp-Source: APXvYqzW/Zk1QYpnjxkfpZRt3FJnFpmA3XMOWzcM86U3SMvvL1uOdSy1dK3RIaWGRhxFidbFe5xSCw==
-X-Received: by 2002:a5d:5702:: with SMTP id a2mr9341914wrv.89.1559734987545;
-        Wed, 05 Jun 2019 04:43:07 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=slZHnEyI/3MoxuWJDHsmJjpXD82N/IlcEekyL2S9VGE=;
+        b=IIuwktP1kgX9htBfP75jeFaNn1KTE9L6MPF2gvLichHAece1UeJbikMeMtL+Xoqs6l
+         BkxIB99A/IJpPn1HrNPTZUTembFCz8Q+QAnlDK3uaH+C7FmZgiNWmLO7G6V7ASElItaP
+         Q3vnFoED7dQ8DI+KrrJgItarsOIfb7kqjVfgPZKk5VejwgLH6vlG+H2oNw7p+d6rjb/O
+         DmYpjxZug8jSdom+TlEDyxgoPOTCH4y8Dv8EBgLiEF7+bFRSz804QYxsQlFoZeJkSkKP
+         EDrkn7EBqDg3fJMwiVpvMI15OzEqMBld9tSV5//XXtVbtrqxy3vUsDihomZciAtxrfK+
+         lYcA==
+X-Gm-Message-State: APjAAAUp/F/E9ZuG57BWo1noQ3ogo4bPUoAt1H8QmdnQkTv/UM+tR9pR
+        p9v89B2tgyUIDE1PCZRS2nyARw==
+X-Google-Smtp-Source: APXvYqxVTptCcX2uGixf0N44Kl5OHSxzgZYUvfvy2V4qwpWpSrfBEjEmKdSrH6pQUVJdJFXxKpsnzw==
+X-Received: by 2002:a1c:3d82:: with SMTP id k124mr21709121wma.162.1559734989668;
+        Wed, 05 Jun 2019 04:43:09 -0700 (PDT)
 Received: from localhost.localdomain ([2.27.167.43])
-        by smtp.gmail.com with ESMTPSA id 34sm27718740wre.32.2019.06.05.04.43.06
+        by smtp.gmail.com with ESMTPSA id 34sm27718740wre.32.2019.06.05.04.43.08
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 05 Jun 2019 04:43:06 -0700 (PDT)
+        Wed, 05 Jun 2019 04:43:09 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     alokc@codeaurora.org, andy.gross@linaro.org,
         david.brown@linaro.org, wsa+renesas@sang-engineering.com,
@@ -61,87 +62,83 @@ Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         jlhugo@gmail.com, linux-i2c@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
         linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH 1/8] i2c: i2c-qcom-geni: Provide support for ACPI
-Date:   Wed,  5 Jun 2019 12:42:55 +0100
-Message-Id: <20190605114302.22509-1-lee.jones@linaro.org>
+Subject: [PATCH 3/8] pinctrl: msm: Add ability for drivers to supply a reserved GPIO list
+Date:   Wed,  5 Jun 2019 12:42:57 +0100
+Message-Id: <20190605114302.22509-3-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190605114302.22509-1-lee.jones@linaro.org>
+References: <20190605114302.22509-1-lee.jones@linaro.org>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a match table to allow automatic probing of ACPI device
-QCOM0220.  Ignore clock attainment errors.  Set default clock
-frequency value.
+When booting MSM based platforms with Device Tree or some ACPI
+implementations, it is possible to provide a list of reserved pins
+via the 'gpio-reserved-ranges' and 'gpios' properties respectively.
+However some ACPI tables are not populated with this information,
+thus it has to come from a knowledgable device driver instead.
+
+Here we provide the MSM common driver with additional support to
+parse this informtion and correctly populate the widely used
+'valid_mask'.
 
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/i2c/busses/i2c-qcom-geni.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+ drivers/pinctrl/qcom/pinctrl-msm.c | 18 ++++++++++++++++++
+ drivers/pinctrl/qcom/pinctrl-msm.h |  1 +
+ 2 files changed, 19 insertions(+)
 
-diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
-index db075bc0d952..0fa93b448e8d 100644
---- a/drivers/i2c/busses/i2c-qcom-geni.c
-+++ b/drivers/i2c/busses/i2c-qcom-geni.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- // Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
+diff --git a/drivers/pinctrl/qcom/pinctrl-msm.c b/drivers/pinctrl/qcom/pinctrl-msm.c
+index ee8119879c4c..3ac740b36508 100644
+--- a/drivers/pinctrl/qcom/pinctrl-msm.c
++++ b/drivers/pinctrl/qcom/pinctrl-msm.c
+@@ -607,8 +607,23 @@ static int msm_gpio_init_valid_mask(struct gpio_chip *chip)
+ 	int ret;
+ 	unsigned int len, i;
+ 	unsigned int max_gpios = pctrl->soc->ngpios;
++	const int *reserved = pctrl->soc->reserved_gpios;
+ 	u16 *tmp;
  
-+#include <linux/acpi.h>
- #include <linux/clk.h>
- #include <linux/dma-mapping.h>
- #include <linux/err.h>
-@@ -483,6 +484,12 @@ static const struct i2c_algorithm geni_i2c_algo = {
- 	.functionality	= geni_i2c_func,
- };
- 
-+static const struct acpi_device_id geni_i2c_acpi_match[] = {
-+	{ "QCOM0220"},
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(acpi, geni_i2c_acpi_match);
++	/* Driver provided reserved list overrides DT and ACPI */
++	if (reserved) {
++		bitmap_fill(chip->valid_mask, max_gpios);
++		for (i = 0; reserved[i] >= 0; i++) {
++			if (i >= max_gpios || reserved[i] >= max_gpios) {
++				dev_err(pctrl->dev, "invalid list of reserved GPIOs\n");
++				return -EINVAL;
++			}
++			clear_bit(reserved[i], chip->valid_mask);
++		}
 +
- static int geni_i2c_probe(struct platform_device *pdev)
- {
- 	struct geni_i2c_dev *gi2c;
-@@ -502,7 +509,7 @@ static int geni_i2c_probe(struct platform_device *pdev)
- 		return PTR_ERR(gi2c->se.base);
- 
- 	gi2c->se.clk = devm_clk_get(&pdev->dev, "se");
--	if (IS_ERR(gi2c->se.clk)) {
-+	if (IS_ERR(gi2c->se.clk) && !ACPI_HANDLE(&pdev->dev)) {
- 		ret = PTR_ERR(gi2c->se.clk);
- 		dev_err(&pdev->dev, "Err getting SE Core clk %d\n", ret);
- 		return ret;
-@@ -510,12 +517,19 @@ static int geni_i2c_probe(struct platform_device *pdev)
- 
- 	ret = device_property_read_u32(&pdev->dev, "clock-frequency",
- 							&gi2c->clk_freq_out);
--	if (ret) {
-+	if (ret && !ACPI_HANDLE(&pdev->dev)) {
- 		dev_info(&pdev->dev,
- 			"Bus frequency not specified, default to 100kHz.\n");
- 		gi2c->clk_freq_out = KHZ(100);
- 	}
- 
-+	if (ACPI_HANDLE(&pdev->dev)) {
-+		ACPI_COMPANION_SET(&gi2c->adap.dev, ACPI_COMPANION(&pdev->dev));
-+
-+		/* Using default, same as the !ACPI case above */
-+		gi2c->clk_freq_out = KHZ(100);
++		return 0;
 +	}
 +
- 	gi2c->irq = platform_get_irq(pdev, 0);
- 	if (gi2c->irq < 0) {
- 		dev_err(&pdev->dev, "IRQ error for i2c-geni\n");
-@@ -660,6 +674,7 @@ static struct platform_driver geni_i2c_driver = {
- 		.name = "geni_i2c",
- 		.pm = &geni_i2c_pm_ops,
- 		.of_match_table = geni_i2c_dt_match,
-+		.acpi_match_table = ACPI_PTR(geni_i2c_acpi_match),
- 	},
+ 	/* The number of GPIOs in the ACPI tables */
+ 	len = ret = device_property_read_u16_array(pctrl->dev, "gpios", NULL,
+ 						   0);
+@@ -964,6 +979,9 @@ static void msm_gpio_irq_handler(struct irq_desc *desc)
+ 
+ static bool msm_gpio_needs_valid_mask(struct msm_pinctrl *pctrl)
+ {
++	if (pctrl->soc->reserved_gpios)
++		return true;
++
+ 	return device_property_read_u16_array(pctrl->dev, "gpios", NULL, 0) > 0;
+ }
+ 
+diff --git a/drivers/pinctrl/qcom/pinctrl-msm.h b/drivers/pinctrl/qcom/pinctrl-msm.h
+index c12048e54a6f..23b93ae92269 100644
+--- a/drivers/pinctrl/qcom/pinctrl-msm.h
++++ b/drivers/pinctrl/qcom/pinctrl-msm.h
+@@ -121,6 +121,7 @@ struct msm_pinctrl_soc_data {
+ 	bool pull_no_keeper;
+ 	const char *const *tiles;
+ 	unsigned int ntiles;
++	const int *reserved_gpios;
  };
  
+ extern const struct dev_pm_ops msm_pinctrl_dev_pm_ops;
 -- 
 2.17.1
 
