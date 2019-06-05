@@ -2,101 +2,165 @@ Return-Path: <SRS0=Cs7X=UE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5216BC28CC6
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 07:03:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6F81C282DE
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 07:07:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 368AA20866
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 07:03:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7AAE620684
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 07:07:35 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="jF70+Es9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726663AbfFEHDW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Jun 2019 03:03:22 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:41036 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726086AbfFEHDW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Jun 2019 03:03:22 -0400
-Received: by mail-lj1-f194.google.com with SMTP id s21so11480494lji.8;
-        Wed, 05 Jun 2019 00:03:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=osYzYbwPlOcKrG/PC8H8GWv1Nj5R7QK9wL1yUwsonBc=;
-        b=YT9K87TS1L+r1EFiLLaUcKL8P/rkxIMlZ93iEwCfuAYiJnvNDcEs2wA2ZNyUqgCIVd
-         nEayUOWpuRmJzTs1Z8ua2vVuPkX5iPqZ+o/d9pCD5a4sZ+3sWiZQOTtaEjSQHFLLvPGb
-         Pcuv2hy2c/4qckaFv6e1SjjkRG0gUfwwTF/2+QbB1BWziPFmZ6H0OYsw7DB+/ZE0VUnI
-         d2nyjwOw1Bm5s5RCcZiS2QjRmyDS9eqtg+TnQ9BNqARq/p5dlJSQ6n28jZdurULaNTsK
-         ZqAio89WnFnkskA1tjPJCcG4jZcyeui7DwWZF2uc/XA+vQV6r9cP8vfvzHqd8rhQsvnB
-         rvtA==
-X-Gm-Message-State: APjAAAXM+1p2medbe9z2hpTbwWXCIR3N+4L3s9m558Agz+nYqPbufqZK
-        YNdLlhAp9O92ecGR47b051a011brEq7mjYvLW6KbAzwDfrI=
-X-Google-Smtp-Source: APXvYqzwh3fVGm1fjYzMw1AVnfNmxjP5Iwroc9j1hk1lhsXlBthTB4FsB5COji/H7zBPGwhpbTYrkhgAtBN8C7k+/Jw=
-X-Received: by 2002:a2e:6e01:: with SMTP id j1mr19452629ljc.135.1559718199961;
- Wed, 05 Jun 2019 00:03:19 -0700 (PDT)
+        id S1726613AbfFEHHe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Jun 2019 03:07:34 -0400
+Received: from mail-eopbgr20080.outbound.protection.outlook.com ([40.107.2.80]:62209
+        "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726536AbfFEHHe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 5 Jun 2019 03:07:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zLAAt3BL+sGQp4G4btulciJGZrB7AfgtnguDDX6EvfU=;
+ b=jF70+Es9DCcFZRI6sgfNHduCGIWgAHMXSlHiZ1EYssKN/kVYBJTqxNqQL9WwcR5mCiRLzkIBLaRki9XEqu+1mlEF7KyvMnOa0CRyJefRIezyxKfTd54U2LBxQherU7lGB4VY8NgBGbI2d2chdxzIlNPC7kBJQwoQGWKUw8q9aHI=
+Received: from VI1PR04MB5327.eurprd04.prod.outlook.com (20.177.52.16) by
+ VI1PR04MB4846.eurprd04.prod.outlook.com (20.177.49.15) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1943.22; Wed, 5 Jun 2019 07:07:30 +0000
+Received: from VI1PR04MB5327.eurprd04.prod.outlook.com
+ ([fe80::9891:c973:a697:3c7b]) by VI1PR04MB5327.eurprd04.prod.outlook.com
+ ([fe80::9891:c973:a697:3c7b%3]) with mapi id 15.20.1965.011; Wed, 5 Jun 2019
+ 07:07:30 +0000
+From:   Peter Chen <peter.chen@nxp.com>
+To:     Shawn Guo <shawnguo@kernel.org>
+CC:     "balbi@kernel.org" <balbi@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        Fabio Estevam <fabio.estevam@nxp.com>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Aisheng Dong <aisheng.dong@nxp.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "chunfeng.yun@mediatek.com" <chunfeng.yun@mediatek.com>
+Subject: RE: [PATCH v3 6/8] ARM: dts: imx7ulp: add imx7ulp USBOTG1 support
+Thread-Topic: [PATCH v3 6/8] ARM: dts: imx7ulp: add imx7ulp USBOTG1 support
+Thread-Index: AQHVFDjwJwcxVExAwkGmD5zag5gWjKaMpnEAgAALr+A=
+Date:   Wed, 5 Jun 2019 07:07:30 +0000
+Message-ID: <VI1PR04MB53274359CFCA91AE6A3681678B160@VI1PR04MB5327.eurprd04.prod.outlook.com>
+References: <20190527030616.44397-1-peter.chen@nxp.com>
+ <20190527030616.44397-7-peter.chen@nxp.com> <20190605062517.GF29853@dragon>
+In-Reply-To: <20190605062517.GF29853@dragon>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=peter.chen@nxp.com; 
+x-originating-ip: [119.31.174.66]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9bd2feaa-8643-4a11-da47-08d6e984799a
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:VI1PR04MB4846;
+x-ms-traffictypediagnostic: VI1PR04MB4846:
+x-microsoft-antispam-prvs: <VI1PR04MB484652FCA720ACD74FA66AA78B160@VI1PR04MB4846.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3826;
+x-forefront-prvs: 00594E8DBA
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(346002)(366004)(136003)(39860400002)(376002)(199004)(189003)(53936002)(14444005)(256004)(55016002)(6436002)(9686003)(7736002)(66066001)(74316002)(99286004)(229853002)(71190400001)(71200400001)(44832011)(25786009)(5660300002)(6116002)(486006)(6246003)(476003)(6916009)(3846002)(11346002)(446003)(4326008)(86362001)(52536014)(33656002)(73956011)(6506007)(66476007)(66946007)(66556008)(66446008)(64756008)(76116006)(76176011)(7696005)(54906003)(316002)(102836004)(2906002)(8936002)(305945005)(68736007)(8676002)(81156014)(81166006)(478600001)(26005)(186003)(14454004);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR04MB4846;H:VI1PR04MB5327.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: J6ZfiYXQEemDHuK223RWhdo6tBRF4MsNwEVinmU3LKjVDR+hY+qJoWPJ73M6zqvxWBEHSWNI+R3tRhw6MVAZDfxJJAtL8PS0bNgqHFAAxD2Ps76Wrs8tcultTp8Nap1SaoSdoYWYSCNWq9+GK5baEsAP20RQJvKkaKZwIH7n9kEputOwpUQz4JNBbXeDOKhSQTAQpl28yAnYcIc/+1Srx+xhgG22ia9F+sOogjUvdLTmgG43zH8/E51QwymS/rmYaP4HLmDYnm5M6HvhE5g9I1oI59FGkill3mbLPo60fmXDAEL2+w6YsdL1WuTTpPdntvPw/TxPBENbFQSl/fN0qI413dDq9aFQ+qHgJllmuemcvewHhGfTUGZ1V8v5jWbF/ZUYsnzYs8B3YGrDjsLo1EyCn62xbIl54feN41w36ls=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <CAMuHMdUObtKUVDohLT501TarPRC6eDnxBqqB5Tj_Tb+-4fwbkw@mail.gmail.com>
- <OSAPR01MB30890E4B76F9605F3726C676D8160@OSAPR01MB3089.jpnprd01.prod.outlook.com>
-In-Reply-To: <OSAPR01MB30890E4B76F9605F3726C676D8160@OSAPR01MB3089.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 5 Jun 2019 09:03:07 +0200
-Message-ID: <CAMuHMdXWsNfj1UYXDyh4ZJ0E2Z0jobug4jJ4uTpUa1X4d+Hocw@mail.gmail.com>
-Subject: Re: rcar_gen3_phy_usb2: unbalanced disables for USB20_VBUS0
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9bd2feaa-8643-4a11-da47-08d6e984799a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jun 2019 07:07:30.3660
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: peter.chen@nxp.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB4846
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Shimoda-san,
+=20
+> > Signed-off-by: Peter Chen <peter.chen@nxp.com>
+> > ---
+> >  arch/arm/boot/dts/imx7ulp.dtsi | 31 +++++++++++++++++++++++++++++++
+> >  1 file changed, 31 insertions(+)
+> >
+> > diff --git a/arch/arm/boot/dts/imx7ulp.dtsi
+> > b/arch/arm/boot/dts/imx7ulp.dtsi index fca6e50f37c8..37b058119505
+> > 100644
+> > --- a/arch/arm/boot/dts/imx7ulp.dtsi
+> > +++ b/arch/arm/boot/dts/imx7ulp.dtsi
+> > @@ -30,6 +30,7 @@
+> >  		serial1 =3D &lpuart5;
+> >  		serial2 =3D &lpuart6;
+> >  		serial3 =3D &lpuart7;
+> > +		usbphy0 =3D &usbphy1;
+> >  	};
+> >
+> >  	cpus {
+> > @@ -133,6 +134,36 @@
+> >  			clock-names =3D "ipg", "per";
+> >  		};
+> >
+> > +		usbotg1: usb@40330000 {
+> > +			compatible =3D "fsl,imx7ulp-usb", "fsl,imx6ul-usb",
+> > +				"fsl,imx27-usb";
+>=20
+> If "fsl,imx6ul-usb" is the one that imx7ulp device is compatible with and=
+ will match in
+> driver, "fsl,imx27-usb" can just be dropped.  Same comment on usbmisc and
+> usbphy below.
+>=20
 
-On Wed, Jun 5, 2019 at 6:06 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> > From: Geert Uytterhoeven, Sent: Wednesday, June 5, 2019 3:06 AM
-> > Using a tree based on renesas-drivers-2019-06-04-v5.2-rc3, I started seeing
-> > the following warning during a second system suspend (s2idle):
-> <snip>
-> > So far I've seen this on Salvator-X with R-Car H3 ES1.0 or M3-W, and
-> > on Salvator-XS with R-Car M3-N, but not (yet?) on H3 ES2.0.
->
-> I could reproduce this issue on R-Car H3 ES3.0 with Suspend-to-RAM.
-> # I'm silly but I could not use s2idle that didn't wake up by ravb.
-> # https://elinux.org/R-Car/Boards/Salvator-X#Suspend-to-Idle
+Ok, will change, thanks.
 
-With CONFIG_PM_DEBUG=y and CONFIG_PM_TEST_SUSPEND=y, you can use
+Peter
 
-     echo platform > /sys/power/pm_test
-
-to configure the system to wake up from s2idle after 5 seconds.
-This allows to loop s2idle without user intervention.
-
-> Thank you for trying it. I have investigated this issue and then I found the root cause.
->
-> After the following patch was applied, multiple phy devices are generated.
-> https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/drivers/phy/renesas/phy-rcar-gen3-usb2.c?h=renesas-drivers-2019-06-04-v5.2-rc3&id=549b6b55b00558183cef4af2c2bb61d4f2ffe508
->
-> But, on the power_on function, it should set the "powered" flag for any other phys anyway.
-> Otherwise, such a strange imbalance behavior happened.
-> The powered flag is needed to avoid multiple "PLL_RST" register setting.
-> # I think regulator_{en,dis}able() don't need such a condition though.
->
-> I'll submit a bugfix patch with your Reported-by tag later.
-
-Thank you very much!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> Shawn
+>=20
+> > +			reg =3D <0x40330000 0x200>;
+> > +			interrupts =3D <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>;
+> > +			clocks =3D <&pcc2 IMX7ULP_CLK_USB0>;
+> > +			phys =3D <&usbphy1>;
+> > +			fsl,usbmisc =3D <&usbmisc1 0>;
+> > +			ahb-burst-config =3D <0x0>;
+> > +			tx-burst-size-dword =3D <0x8>;
+> > +			rx-burst-size-dword =3D <0x8>;
+> > +			status =3D "disabled";
+> > +		};
+> > +
+> > +		usbmisc1: usbmisc@40330200 {
+> > +			compatible =3D "fsl,imx7ulp-usbmisc", "fsl,imx7d-usbmisc",
+> > +				"fsl,imx6q-usbmisc";
+> > +			#index-cells =3D <1>;
+> > +			reg =3D <0x40330200 0x200>;
+> > +		};
+> > +
+> > +		usbphy1: usbphy@0x40350000 {
+> > +			compatible =3D "fsl,imx7ulp-usbphy",
+> > +				"fsl,imx6ul-usbphy", "fsl,imx23-usbphy";
+> > +			reg =3D <0x40350000 0x1000>;
+> > +			interrupts =3D <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
+> > +			clocks =3D <&pcc2 IMX7ULP_CLK_USB_PHY>;
+> > +			#phy-cells =3D <0>;
+> > +		};
+> > +
+> >  		usdhc0: mmc@40370000 {
+> >  			compatible =3D "fsl,imx7ulp-usdhc", "fsl,imx6sx-usdhc";
+> >  			reg =3D <0x40370000 0x10000>;
+> > --
+> > 2.14.1
+> >
