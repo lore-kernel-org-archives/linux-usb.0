@@ -1,28 +1,28 @@
 Return-Path: <SRS0=Cs7X=UE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+X-Spam-Level: *
+X-Spam-Status: No, score=1.0 required=3.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
 	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	SPF_PASS,USB_DRIVES autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A9CEC28CC5
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 13:50:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24561C28CC5
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 14:00:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 768E420684
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 13:50:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 00B2C20693
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 14:00:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728003AbfFENun (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Jun 2019 09:50:43 -0400
-Received: from 313717.com ([176.126.78.19]:45411 "EHLO treehousetv.com"
+        id S1728205AbfFEOAm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Jun 2019 10:00:42 -0400
+Received: from 313717.com ([176.126.78.19]:39918 "EHLO treehousetv.com"
         rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727992AbfFENum (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 5 Jun 2019 09:50:42 -0400
-X-Greylist: delayed 3031 seconds by postgrey-1.27 at vger.kernel.org; Wed, 05 Jun 2019 09:50:41 EDT
+        id S1727883AbfFEOAm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 5 Jun 2019 10:00:42 -0400
+X-Greylist: delayed 3630 seconds by postgrey-1.27 at vger.kernel.org; Wed, 05 Jun 2019 10:00:39 EDT
 To:     linux-usb@vger.kernel.org
-Subject: custom printed logo
-Message-ID: <a6e0cbd6ceb0d181f0cef3ef186f065f@vecteezy.com>
-Date:   Wed, 05 Jun 2019 14:29:40 +0200
+Subject: USB drives with logos
+Message-ID: <933975e5e4efafd9be8eb2b9582635e9@vecteezy.com>
+Date:   Wed, 05 Jun 2019 14:21:36 +0200
 From:   "Stacy" <schssereutz@aol.jp>
 Reply-To: halsyid@sina.com
 MIME-Version: 1.0
