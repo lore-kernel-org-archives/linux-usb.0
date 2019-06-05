@@ -2,99 +2,211 @@ Return-Path: <SRS0=Cs7X=UE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,T_DKIMWL_WL_HIGH,
+	USER_AGENT_MUTT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDE5DC28CC5
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 11:46:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03503C28CC5
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 11:57:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B8437206DF
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 11:46:34 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Phzisd+T"
+	by mail.kernel.org (Postfix) with ESMTP id C0C712075B
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 11:57:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1559735852;
+	bh=pOJC3GeHUz1Mg6J9DuTR5RaVhxfBT9Uwdefo5hiwznI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=JJ5sCS6+f/Wu7LdlakCFMgHJC0I+T+vGeeZEFHGp4zZScxMfXB0h8fmuGPsJbJK7/
+	 lvSaIzc5nPxxo5IyZdWMb/CohxwaD3VkPoK9OC61znoFde34vHJxnQcHiy8lJ9Nwnk
+	 2VSelkljGSaPHkzQnYSDb5WP+E+m+KQsZxA0ZlaY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727416AbfFELqd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Jun 2019 07:46:33 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:54665 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727392AbfFELnK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Jun 2019 07:43:10 -0400
-Received: by mail-wm1-f68.google.com with SMTP id g135so1922009wme.4
-        for <linux-usb@vger.kernel.org>; Wed, 05 Jun 2019 04:43:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=jzlILgVOq+qa8QnWXtHWObcbjxta0J+JIjopEg5uUuk=;
-        b=Phzisd+Tdhfzrf2cnfJc7/3YsGZ48Ro4ChpgCOPMYGdsND4hfBtzYRbIro3IyIF/ok
-         d2VoAM0CSoZqsLeb7daN/0gWZRf5oYOfyq6HbGajovhrFh9+ylcx1OfSnJPxDyboNKNr
-         HMsHNOxcL/twPctqJndkmBghg6/cgcpivviP8tG3X6yJFC/6J1FDnX8ZMfAdcOoCwEOE
-         wYt3lEugdF3bWe3lo3j+YIfzADWTggVyqZI8qjFBFYZq7yYU/hEkxsZURtN7iMzbDiKy
-         SDGdToE7A6QwBNbr1y/nGX+1OFl/mOFABzdOKeAYX/+AtInl2tcDDgusYUFJjEOXiceF
-         NJYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=jzlILgVOq+qa8QnWXtHWObcbjxta0J+JIjopEg5uUuk=;
-        b=RlB8R2Sn/o6iYM4m2NN6LhfV7FVweFMuKYKulGEnvEMaDVNxJy4re2hGc4uMpwyGZ6
-         lEHSP56BpPu/9SUGZZMB/WAyYaBh+jxMrwCgbt4sO3QnZ6BDPdyqnWGCBIOOYxsA+dCA
-         0vVqTT01kqbbmsFtsbB3M5Y0rv2RE/GAFwf7vegX0YJolDEcmY2FutyUbkWS+cudVMnz
-         QlcjP2P5sDOwitsa1dNeZ8n05wSZqBdtspCaJk2PZhxSBKKySwg3bNE4YQ7lQv6uRCUq
-         VXb2xuDxwbQo+Lx3Au1vmztTuogOvaAD5AWoRg4KjjZxoPfMPBIcq7NsiunQ8ufyeQzs
-         Dg5Q==
-X-Gm-Message-State: APjAAAXV57boj9iDcrmaOesRllQ+fyW43kHx0ovDOWZQChNBH37vkJ/5
-        jNF7lb3ofsbWBoQu+pMpHqXUbA==
-X-Google-Smtp-Source: APXvYqyIKCzRjK5C2cfGwWv0aa6X+yD0CtMUNDQac+1g9TUKp+wHCO+xwEod0nMcftdvvIOKCPSkVg==
-X-Received: by 2002:a1c:acc8:: with SMTP id v191mr22806026wme.177.1559734988581;
-        Wed, 05 Jun 2019 04:43:08 -0700 (PDT)
-Received: from localhost.localdomain ([2.27.167.43])
-        by smtp.gmail.com with ESMTPSA id 34sm27718740wre.32.2019.06.05.04.43.07
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 05 Jun 2019 04:43:08 -0700 (PDT)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     alokc@codeaurora.org, andy.gross@linaro.org,
-        david.brown@linaro.org, wsa+renesas@sang-engineering.com,
-        bjorn.andersson@linaro.org, linus.walleij@linaro.org,
-        balbi@kernel.org, gregkh@linuxfoundation.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        jlhugo@gmail.com, linux-i2c@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH 2/8] i2c: i2c-qcom-geni: Signify successful driver probe
-Date:   Wed,  5 Jun 2019 12:42:56 +0100
-Message-Id: <20190605114302.22509-2-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190605114302.22509-1-lee.jones@linaro.org>
-References: <20190605114302.22509-1-lee.jones@linaro.org>
+        id S1727699AbfFEL52 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Jun 2019 07:57:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52770 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727183AbfFEL52 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 5 Jun 2019 07:57:28 -0400
+Received: from localhost (unknown [69.71.4.100])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 42D092075B;
+        Wed,  5 Jun 2019 11:57:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559735846;
+        bh=pOJC3GeHUz1Mg6J9DuTR5RaVhxfBT9Uwdefo5hiwznI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=166hd/QGEm5mnxjRiMGDaRmwNYuJNK4Li5kvh+BVZZrKIz0z/qcaRpGxBhRGmIhhU
+         MLtjAFE5Hgm2Mno7Slc5uTsuyFtRAsyqxspWxubBn6yVvL65/yP7JRdlarSfiPqiG+
+         mOom5ErwZabd+eR+WLYoVwVdg7mFnvjsMZ9HnEoQ=
+Date:   Wed, 5 Jun 2019 06:57:25 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Rafael Wysocki <rafael.j.wysocki@intel.com>,
+        linux-pci@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH] PCI / PM: Don't runtime suspend when device only
+ supports wakeup from D0
+Message-ID: <20190605115724.GE84290@google.com>
+References: <20190522181157.GC79339@google.com>
+ <Pine.LNX.4.44L0.1905221433310.1410-100000@iolanthe.rowland.org>
+ <20190522205231.GD79339@google.com>
+ <010C1D41-C66D-45C0-8AFF-6F746306CE29@canonical.com>
+ <20190527165747.GF79339@google.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190527165747.GF79339@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The Qualcomm Geni I2C driver currently probes silently which can be
-confusing when debugging potential issues.  Add a low level (INFO)
-print when each I2C controller is successfully initially set-up.
+On Mon, May 27, 2019 at 11:57:47AM -0500, Bjorn Helgaas wrote:
+> On Thu, May 23, 2019 at 12:39:23PM +0800, Kai-Heng Feng wrote:
+> > at 04:52, Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > > On Wed, May 22, 2019 at 02:39:56PM -0400, Alan Stern wrote:
+> > > > On Wed, 22 May 2019, Bjorn Helgaas wrote:
+> > > > > On Wed, May 22, 2019 at 11:46:25PM +0800, Kai Heng Feng wrote:
+> > > > > > > On May 22, 2019, at 9:48 PM, Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > > > > > > On Wed, May 22, 2019 at 11:42:14AM +0800, Kai Heng Feng wrote:
+> > > > > > > > at 6:23 AM, Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > > > > > > > > On Wed, May 22, 2019 at 12:31:04AM +0800, Kai-Heng Feng wrote:
+> > > > > > > > > > There's an xHC device that doesn't wake when
+> > > > > > > > > > a USB device gets plugged
+> > > > > > > > > > to its USB port. The driver's own runtime
+> > > > > > > > > > suspend callback was called,
+> > > > > > > > > > PME signaling was enabled, but it stays at PCI D0.
+> > > > > 
+> > > > > > > ...
+> > > > > > > And I guess this patch basically means we wouldn't call
+> > > > > > > the driver's suspend callback if we're merely going to
+> > > > > > > stay at D0, so the driver would have no idea anything
+> > > > > > > happened.  That might match Documentation/power/pci.txt
+> > > > > > > better, because it suggests that the suspend callback is
+> > > > > > > related to putting a device in a low-power state, and D0
+> > > > > > > is not a low-power state.
+> > > > > > 
+> > > > > > Yes, the patch is to let the device stay at D0 and don’t run
+> > > > > > driver’s own runtime suspend routine.
+> > > > > > 
+> > > > > > I guess I’ll just proceed to send a V2 with updated commit message?
+> > > > > 
+> > > > > Now that I understand what "runtime suspended to D0" means, help me
+> > > > > understand what's actually wrong.
+> > > > 
+> > > > Kai's point is that the xhci-hcd driver thinks the device is now
+> > > > in runtime suspend, because the runtime_suspend method has been
+> > > > executed.  But in fact the device is still in D0, and as a
+> > > > result, PME signalling may not work correctly.
+> > > 
+> > > The device claims to be able to signal PME from D0 (this is from the lspci
+> > > in https://bugzilla.kernel.org/show_bug.cgi?id=203673):
+> > > 
+> > >   00:10.0 USB controller: Advanced Micro Devices, Inc. [AMD] FCH USB XHCI Controller (rev 20) (prog-if 30 [XHCI])
+> > >     Capabilities: [50] Power Management version 3
+> > >       Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0+,D1-,D2-,D3hot+,D3cold+)
+> > > 
+> > > From the xHCI spec r1.0, sec 4.15.2.3, it looks like a connect
+> > > detected while in D0 should assert PME# if enabled (and WCE is
+> > > set).
+> > 
+> > I think section 4.15.2.3 is about S3 wake up, no S0 we are
+> > discussing here.
+> 
+> S0 and S3 are system-level ideas and have no meaning to an individual
+> PCI device.  The xHC is a PCI device and can't tell whether the system
+> as a whole is in S0 or S3.  If a PCI device claims to be able to
+> generate PME while in D0, that applies regardless of the system state.
+> 
+> xHCI r1.0, sec A.1 says "The host controller should be capable of
+> asserting PME# when in any supported device state."  In sec 4.19.2,
+> Figure 42 says PME# should be asserted whenever PMCSR.PME_En=1 and
+> WCE=1 and a connection is detected.
+> 
+> Figure 42 also shows that CSC (Connect Status Change) and related bits
+> feed into Port Status Change Event Generation.  So I assume the xhci
+> driver normally detects connect/disconnect via CSC, but the runtime
+> suspend method makes it use PME# instead?
+> 
+> And the way your patch works is by avoiding that xhci runtime suspend
+> method, so it *always* uses CSC and never uses PME#?  If that's the
+> case, we're just papering over a problem without really understanding
+> it.
+> 
+> I'm wondering if this platform has a firmware defect.  Here's my
+> thinking.  The xHC is a Root Complex Integrated Endpoint, so its PME
+> signaling is a little unusual.
+> 
+> The typical scenario is that a PCIe device is below a Root Port.  In
+> that case, it would send a PME Message upstream to the Root Port.  Per
+> PCIe r4.0, sec 6.1.6, when configured for native PME support (for ACPI
+> systems, I assume this means "when firmware has granted PME control to
+> the OS via _OSC"), the Root Port would generate a normal PCI INTx or
+> MSI interrupt:
+> 
+>   PCI Express-aware software can enable a mode where the Root Complex
+>   signals PME via an interrupt. When configured for native PME
+>   support, a Root Port receives the PME Message and sets the PME
+>   Status bit in its Root Status register. If software has set the PME
+>   Interrupt Enable bit in the Root Control register to 1b, the Root
+>   Port then generates an interrupt.
+> 
+> But on this platform the xHC is a Root Complex Integrated Endpoint, so
+> there is no Root Port upstream from it, and that mechanism can't be
+> used.  Per PCIe r4.0, sec 1.3.2.3, RCiEPs signal PME via "the same
+> mechanism as PCI systems" or via Root Complex Event Collectors:
+> 
+>   An RCiEP must signal PME and error conditions through the same
+>   mechanisms used on PCI systems. If a Root Complex Event Collector is
+>   implemented, an RCiEP may optionally signal PME and error conditions
+>   through a Root Complex Event Collector.
+> 
+> This platform has no Root Complex Event Collectors, so the xHC should
+> signal PME via the same mechanism as PCI systems, i.e., asserting a
+> PME# signal.  I think this means the OS cannot use native PCIe PME
+> control because it doesn't know what interrupt PME# is connected to.
+> The PCI Firmware Spec r3.2, sec 4.5.1 (also quoted in ACPI v6.2, sec
+> 6.2.11.3), says:
+> 
+>   PCI Express Native Power Management Events control
+> 
+>   The firmware sets this bit to 1 to grant control over PCI Express
+>   native power management event interrupts (PMEs). If firmware
+>   allows the operating system control of this feature, then in the
+>   context of the _OSC method, it must ensure that all PMEs are
+>   routed to root port interrupts as described in the PCI Express
+>   Base Specification.
+> 
+> This platform cannot route all PMEs to Root Port interrupts because
+> the xHC RCiEP cannot report PME via a Root Port, so I think its _OSC
+> method should not grant control of PCIe Native Power Management Events
+> to the OS, and I think that would mean we have to use the ACPI
+> mechanism for PME on this platform.
+> 
+> Can you confirm or deny any of this line of reasoning?  I'm wondering
+> if there's something wrong with the platform's _OSC, so Linux thinks
+> it can use native PME, but that doesn't work for this device.
+> 
+> > It’s a platform in development so the name can’t be disclosed.
+> 
+> Please attach a complete dmesg log to the bugzilla.  You can remove
+> identifying details like the platform name, but I want to see the
+> results of the _OSC negotiation.
 
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/i2c/busses/i2c-qcom-geni.c | 2 ++
- 1 file changed, 2 insertions(+)
+Thanks for the dmesg log
+(https://bugzilla.kernel.org/attachment.cgi?id=283109).  It shows:
 
-diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
-index 0fa93b448e8d..720131c40fe0 100644
---- a/drivers/i2c/busses/i2c-qcom-geni.c
-+++ b/drivers/i2c/busses/i2c-qcom-geni.c
-@@ -598,6 +598,8 @@ static int geni_i2c_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
-+	dev_dbg(&pdev->dev, "Geni-I2C adaptor successfully added\n");
-+
- 	return 0;
- }
- 
--- 
-2.17.1
+  acpi PNP0A08:00: _OSC: OS supports [ExtendedConfig ASPM ClockPM Segments MSI HPX-Type3]
+  acpi PNP0A08:00: _OSC: platform does not support [SHPCHotplug LTR]
+  acpi PNP0A08:00: _OSC: OS now controls [PCIeHotplug PME AER PCIeCapability]
 
+I think it is incorrect for the platform to give the OS native control
+over PME because the OS has no way to know how the RCiEP PMEs are
+routed.  But it would be interesting to know how BIOSes on other
+platforms with RCiEPs handle this, and I did post a question to the
+PCI-SIG to see if there's any guidance there.
+
+Bjorn
