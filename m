@@ -6,28 +6,29 @@ X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2766CC28CC5
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 12:58:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 157F4C28CC5
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 13:00:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 076EA20684
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 12:58:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E9EDC206DF
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 13:00:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727842AbfFEM6N (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Jun 2019 08:58:13 -0400
-Received: from mx2.suse.de ([195.135.220.15]:47396 "EHLO mx1.suse.de"
+        id S1727814AbfFENAC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Jun 2019 09:00:02 -0400
+Received: from mx2.suse.de ([195.135.220.15]:47644 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727769AbfFEM6N (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 5 Jun 2019 08:58:13 -0400
+        id S1727601AbfFENAC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 5 Jun 2019 09:00:02 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id F4061AEBD;
-        Wed,  5 Jun 2019 12:58:11 +0000 (UTC)
+        by mx1.suse.de (Postfix) with ESMTP id B21EAAEBD;
+        Wed,  5 Jun 2019 13:00:01 +0000 (UTC)
 From:   Oliver Neukum <oneukum@suse.com>
-To:     gregKH@linuxfoundation.org, linux-usb@vger.kernel.org
+To:     gregKH@linuxfoundation.org, linux-usb@vger.kernel.org,
+        stern@rowland.harvard.edu
 Cc:     Oliver Neukum <oneukum@suse.com>
 Subject: [PATCH] usb: hso: correct debug message
-Date:   Wed,  5 Jun 2019 14:57:52 +0200
-Message-Id: <20190605125752.26610-1-oneukum@suse.com>
+Date:   Wed,  5 Jun 2019 14:59:42 +0200
+Message-Id: <20190605125942.26696-1-oneukum@suse.com>
 X-Mailer: git-send-email 2.16.4
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
