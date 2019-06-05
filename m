@@ -2,178 +2,94 @@ Return-Path: <SRS0=Cs7X=UE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_MUTT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5330C282DE
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 08:35:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72AA9C282DE
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 08:37:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8CCFD2075B
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 08:35:03 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="duvNpDje"
+	by mail.kernel.org (Postfix) with ESMTP id 4CBBF206B8
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 08:37:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726721AbfFEIe6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Jun 2019 04:34:58 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:45951 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726626AbfFEIe6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Jun 2019 04:34:58 -0400
-Received: by mail-wr1-f67.google.com with SMTP id f9so3802204wre.12
-        for <linux-usb@vger.kernel.org>; Wed, 05 Jun 2019 01:34:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=8g/yZPWG+i1WVLfgMfiKNG8jFuss04L+NM2N8hvdwuU=;
-        b=duvNpDjeQMy8g7ArkYr8qMf4P0vqAOFHxA5m7OA3dSPpU8Whx3HYz22J+tcP5H7fOz
-         1ZznSkXdDIq1nnKilrD3TGhV6t0zrEzaOq/RDvyjaAgxf+XUcwJDO2lqoZatoK/3+uEv
-         E1ftDeSUC01zpeAkA7vyZLU2On3x8YyfiVJahVLLzeMbOahAR0cqVBbKFDa/Ugz1wHB3
-         UMHBitPjZbAQiG/2VorRB9SUdv0NGaqay8xKb1H1u2QaGjKA/kIoGylOE3Bfimw5OUx+
-         2Ymtzqpo1AFcxBExsqvimaZHp7e8G0QiKtMS1YsnBb+6XhWmqv39jUJRcnuuHgtAq/Ek
-         56Gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=8g/yZPWG+i1WVLfgMfiKNG8jFuss04L+NM2N8hvdwuU=;
-        b=PVErcrEzxFuKNaRlOxqisSdW+ekw0wirD+lzQTUA4WdVmG45HlKU7E1RiR92Lxpyah
-         Tx3ZsZpb3opY+x3uNQ1XcAz+fa6hYaKlmLVASWveNZEaTTAsp+JpMuCGY9EMDgR9F6Lf
-         DRp9opO6VCoa7wfWJTNxvlIgK0oI9M596O9fmiUFf9JuxBGRcA6NsYOygt0b1M6ugeUo
-         kfUEHyTr9SlEFDMfGKuSF+snnUhGYdho16JBLTf9KeQgd6mFkgcLzKjpq6XiPlqQpJAg
-         LzWjwYgILG779GcbLwSlJapJRRBFL6u7yei9W0tx0e2AVuJVXc9DTY6P/CbgbaImOhbr
-         Qv5Q==
-X-Gm-Message-State: APjAAAWn7QjD3dprxEw+nFcBS4SrJYM3dyyd/8xio4YEXwaDEigOwlfS
-        Q0cUlz4GA/B/oh+JOUTCaLZEqQ==
-X-Google-Smtp-Source: APXvYqzBuf1OKbs5PAYFvIiTv6Ji1rE3PaXYvKbhChwv5f9DahKjEOxWETTF4saSPngpiLUNQ3p1Qw==
-X-Received: by 2002:a5d:4e46:: with SMTP id r6mr8473126wrt.290.1559723696792;
-        Wed, 05 Jun 2019 01:34:56 -0700 (PDT)
-Received: from dell ([2.27.167.43])
-        by smtp.gmail.com with ESMTPSA id 128sm2231857wme.12.2019.06.05.01.34.55
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 05 Jun 2019 01:34:56 -0700 (PDT)
-Date:   Wed, 5 Jun 2019 09:34:54 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc:     alokc@codeaurora.org, kramasub@codeaurora.org,
-        andy.gross@linaro.org, david.brown@linaro.org,
-        wsa+renesas@sang-engineering.com, linus.walleij@linaro.org,
-        balbi@kernel.org, gregkh@linuxfoundation.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        jlhugo@gmail.com, linux-i2c@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH 7/8] usb: dwc3: qcom: Start USB in 'host mode' on the
- SDM845
-Message-ID: <20190605083454.GO4797@dell>
-References: <20190604104455.8877-1-lee.jones@linaro.org>
- <20190604104455.8877-7-lee.jones@linaro.org>
- <20190605070029.GN22737@tuxbook-pro>
+        id S1726851AbfFEIhQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Jun 2019 04:37:16 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:8564 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726777AbfFEIhQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Jun 2019 04:37:16 -0400
+X-UUID: a9760f9322f44717a95caaf2b6654d0c-20190605
+X-UUID: a9760f9322f44717a95caaf2b6654d0c-20190605
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 447371291; Wed, 05 Jun 2019 16:37:10 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N2.mediatek.inc
+ (172.27.4.87) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Wed, 5 Jun
+ 2019 16:37:08 +0800
+Received: from [10.17.3.153] (172.27.4.253) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Wed, 5 Jun 2019 16:37:08 +0800
+Message-ID: <1559723828.8487.103.camel@mhfsdcap03>
+Subject: Re: [PATCH] USB: move usb debugfs directory creation to the usb
+ common core
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Felipe Balbi <felipe.balbi@linux.intel.com>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>
+Date:   Wed, 5 Jun 2019 16:37:08 +0800
+In-Reply-To: <871s08ebjn.fsf@linux.intel.com>
+References: <20190604093258.GB30054@kroah.com>
+         <87tvd5illh.fsf@linux.intel.com> <20190604124349.GA10203@kroah.com>
+         <871s08ebjn.fsf@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190605070029.GN22737@tuxbook-pro>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-MTK:  N
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, 05 Jun 2019, Bjorn Andersson wrote:
-
-> On Tue 04 Jun 03:44 PDT 2019, Lee Jones wrote:
+On Wed, 2019-06-05 at 10:28 +0300, Felipe Balbi wrote:
+> Hi,
 > 
-> > When booting with Device Tree, the current default boot configuration
-> > table option, the request to boot via 'host mode' comes from the
-> > "dr_mode" property.
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
+> >> Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
+> >> > diff --git a/drivers/usb/core/usb.c b/drivers/usb/core/usb.c
+> >> > index 7fcb9f782931..f3d6b1ab80cb 100644
+> >> > --- a/drivers/usb/core/usb.c
+> >> > +++ b/drivers/usb/core/usb.c
+> >> > @@ -1185,19 +1185,17 @@ static struct notifier_block usb_bus_nb = {
+> >> >  	.notifier_call = usb_bus_notify,
+> >> >  };
+> >> >  
+> >> > -struct dentry *usb_debug_root;
+> >> > -EXPORT_SYMBOL_GPL(usb_debug_root);
+> >> > +static struct dentry *usb_devices_root;
+> >> >  
+> >> >  static void usb_debugfs_init(void)
+> >> >  {
+> >> > -	usb_debug_root = debugfs_create_dir("usb", NULL);
+> >> > -	debugfs_create_file("devices", 0444, usb_debug_root, NULL,
+> >> > -			    &usbfs_devices_fops);
+> >> > +	usb_devices_root = debugfs_create_file("devices", 0444, usb_debug_root,
+> >> 
+> >> don't we have a race now? Can usbcore ever probe before usb common?
+> >
+> > How can that happen if usb_debug_root is in usb common?  The module
+> > loader will not let that happen.  Or it shouldn't :)
 > 
-> This has been the default on the MTP, but this is changing as this is
-> causing issues when connected downstream from a hub (the typical
-> development case for the primary USB port of a phone like device) and
-> more importantly we don't have support for the PMIC blocks that control
-> VBUS.
+> argh, indeed. The very fact that usbcore tries to resolve usb_debug_root
+> already forces a dependency :-p
+When build as module, usbcore depend on usb-common, but when buildin,
+usbcore init before usb-common (use module_init)
 
-My point is not about which mode is currently chosen.  It's more about
-the capability of choosing which mode is appropriate for a given
-system via DT.
-
-> Once these issues are resolved the dr_mode would be "otg".
-
-OTG doesn't work on this H/W, so we need to specify "host" mode.
-
-> > A property of the same name can be used inside
-> > ACPI tables too.  However it is missing from the SDM845's ACPI tables
-> > so we have to supply this information using Platform Device Properites
-> > instead.
-> > 
 > 
-> Afaict this would install a fall-back property, so in the case that we
-> have specified dr_mode in DT (or ACPI) that would take precedence. So
 
-That's correct.
 
-> the commit message should reflect that this redefines the default choice
-> to be "host", rather than "otg".
-
-No problem.
-
-> Which is in conflict with what's described for dr_mode in
-> Documentation/devicetree/bindings/usb/generic.txt
-
-This implementation only affects ACPI based platforms.  When booting
-with DT, the description in that DT related document is still
-accurate.
-
-> And this driver is used on a range of different Qualcomm platforms, so I
-> don't think this is SDM845 specific.
-
-ACPI based platforms?
-
-All the ones I've seen use the XHCI USB driver directly ("PNP0D10").
- 
-> > Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> > ---
-> >  drivers/usb/dwc3/dwc3-qcom.c | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> > 
-> > diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-> > index 349bf549ee44..f21fdd6cdd1a 100644
-> > --- a/drivers/usb/dwc3/dwc3-qcom.c
-> > +++ b/drivers/usb/dwc3/dwc3-qcom.c
-> > @@ -468,6 +468,11 @@ static const struct acpi_device_id dwc3_qcom_acpi_match[] = {
-> >  };
-> >  MODULE_DEVICE_TABLE(acpi, dwc3_qcom_acpi_match);
-> >  
-> > +static const struct property_entry dwc3_qcom_acpi_properties[] = {
-> > +	PROPERTY_ENTRY_STRING("dr_mode", "host"),
-> > +	{}
-> > +};
-> > +
-> >  static int dwc3_qcom_probe(struct platform_device *pdev)
-> >  {
-> >  	struct device_node	*np = pdev->dev.of_node, *dwc3_np;
-> > @@ -603,6 +608,13 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
-> >  			goto platform_unalloc;
-> >  		}
-> >  
-> > +		ret = platform_device_add_properties(qcom->dwc3,
-> > +						     dwc3_qcom_acpi_properties);
-> > +		if (ret < 0) {
-> > +			dev_err(&pdev->dev, "failed to add properties\n");
-> > +			goto platform_unalloc;
-> > +		}
-> > +
-> >  		ret = platform_device_add(qcom->dwc3);
-> >  		if (ret) {
-> >  			dev_err(&pdev->dev, "failed to add device\n");
-
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
