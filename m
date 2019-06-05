@@ -2,61 +2,102 @@ Return-Path: <SRS0=Cs7X=UE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 157F4C28CC5
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 13:00:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE25C28CC5
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 13:07:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E9EDC206DF
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 13:00:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1DFD4206BA
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 13:07:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qIDWI9Rr"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727814AbfFENAC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Jun 2019 09:00:02 -0400
-Received: from mx2.suse.de ([195.135.220.15]:47644 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727601AbfFENAC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 5 Jun 2019 09:00:02 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id B21EAAEBD;
-        Wed,  5 Jun 2019 13:00:01 +0000 (UTC)
-From:   Oliver Neukum <oneukum@suse.com>
-To:     gregKH@linuxfoundation.org, linux-usb@vger.kernel.org,
-        stern@rowland.harvard.edu
-Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH] usb: hso: correct debug message
-Date:   Wed,  5 Jun 2019 14:59:42 +0200
-Message-Id: <20190605125942.26696-1-oneukum@suse.com>
-X-Mailer: git-send-email 2.16.4
+        id S1727933AbfFENHq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Jun 2019 09:07:46 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:42861 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727703AbfFENHq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Jun 2019 09:07:46 -0400
+Received: by mail-qt1-f194.google.com with SMTP id s15so17788205qtk.9
+        for <linux-usb@vger.kernel.org>; Wed, 05 Jun 2019 06:07:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=yJqruNXTj/RXlvfvMUUy2LoN5AXllV25xYGXgQTAKRY=;
+        b=qIDWI9RrRG5+clfEW5GXklyFrTVRNQzSezPSB5rmG7SYnYE8wulktu+NVxZOG8fOhj
+         G/ltA/QSiY9X4rdi0lDjjk0OQ9ZqJRZdivO0EV6jFUm6IVytZIiiGG92NySctFGsGHCW
+         1++/rtcHgFGfIF0P8thZuzUDbHNxrKWbvpSWh5U6WUaQIFEnnFPEJy2qxPKwBxIBezVe
+         48pgSuaOPeRRQ5UEwBRqwBHt8xljVWQc8x/Q+yzlv3xDqhaTDoBSJ8h7qVaLz0J6SQHp
+         TiHbsxh4hoRqdoe0OJAwsprgdQsRcVlW/QpB43r1ZZA/CiOoYcbc/lY9Iu1sV1IMzWv/
+         QSaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=yJqruNXTj/RXlvfvMUUy2LoN5AXllV25xYGXgQTAKRY=;
+        b=iPtCIs68nwej7hCELbmrh75UC/MS+Sd3NPkC2ijORXTg6DFJEj+X44/sae0yjCH3sf
+         dbQRXK1mrbajYNY5aWLU8/jYpBLf226LOH5q7XHVoFdzO+KAe8EkHA1+SyWk0z/itG3M
+         X+vf2+xTCKxCgjKO1vBvISNbHZidFLHLp15pqh6OHemRTzS65Mxe/oG8I6ALVgvgnOnR
+         D8NwRbmvRxj9DuUzRyjLKa4pDcrYWC/CF4Ro+wiqV8QZ+u7KRLwM1I3+JhGdbtCXy/C6
+         w5pZ84yok5qz7K179HTmFn2wAxgDEGUf3ZpBezdIuULPFXtk1HwZ7uBF08MWR48XEP4k
+         zjqw==
+X-Gm-Message-State: APjAAAWQng5TBq7wV/brInCWw7Dq11FHZLb6CL1FeTVP4W5hCXlnJFgb
+        yTDQt4l1Uvghmx/NeZ8JCzw=
+X-Google-Smtp-Source: APXvYqwb2KyTOSruRwvG1b4gL01qbbBG4K8TCrLvZubyhoDaxNDmXJjJP5Wx8lFiqnxDk5iutLgAPA==
+X-Received: by 2002:ac8:4601:: with SMTP id p1mr34688662qtn.181.1559740064907;
+        Wed, 05 Jun 2019 06:07:44 -0700 (PDT)
+Received: from fabio-Latitude-E5450.am.freescale.net ([2804:14c:482:3c8:56cb:1049:60d2:137b])
+        by smtp.gmail.com with ESMTPSA id c9sm14170935qtc.39.2019.06.05.06.07.42
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 05 Jun 2019 06:07:44 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     Peter.Chen@nxp.com
+Cc:     gregkh@linuxfoundation.org, johan@kernel.org,
+        linux-usb@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH v2] usb: chipidea: Use dev_err() instead of pr_err()
+Date:   Wed,  5 Jun 2019 10:07:23 -0300
+Message-Id: <20190605130723.9184-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If you do not find the OUT endpoint, you should say so,
-rather than copy the error message for the IN endpoint.
-Presumably a copy and paste error.
+dev_err() is more appropriate for printing error messages inside
+drivers, so switch to dev_err().
 
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
+While at it also add the missing newlines and remove 'device'
+string as the ci_role(ci)->name string will tell if it is host
+or gadget.
+
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
 ---
- drivers/net/usb/hso.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes since v1:
+- Add missing newlines (Johan)
+- Remove 'device' string
 
-diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
-index d6916f787fce..6a0ecddff310 100644
---- a/drivers/net/usb/hso.c
-+++ b/drivers/net/usb/hso.c
-@@ -2663,7 +2663,7 @@ static struct hso_device *hso_create_bulk_serial_device(
- 	if (!
- 	    (serial->out_endp =
- 	     hso_get_ep(interface, USB_ENDPOINT_XFER_BULK, USB_DIR_OUT))) {
--		dev_err(&interface->dev, "Failed to find BULK IN ep\n");
-+		dev_err(&interface->dev, "Failed to find BULK OUT ep\n");
- 		goto exit2;
+ drivers/usb/chipidea/core.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/chipidea/core.c b/drivers/usb/chipidea/core.c
+index 27749ace2d93..92132b35b7fd 100644
+--- a/drivers/usb/chipidea/core.c
++++ b/drivers/usb/chipidea/core.c
+@@ -523,8 +523,9 @@ int hw_device_reset(struct ci_hdrc *ci)
+ 	hw_write(ci, OP_USBMODE, USBMODE_SLOM, USBMODE_SLOM);
+ 
+ 	if (hw_read(ci, OP_USBMODE, USBMODE_CM) != USBMODE_CM_DC) {
+-		pr_err("cannot enter in %s device mode", ci_role(ci)->name);
+-		pr_err("lpm = %i", ci->hw_bank.lpm);
++		dev_err(ci->dev, "cannot enter in %s mode\n",
++			ci_role(ci)->name);
++		dev_err(ci->dev, "lpm = %i\n", ci->hw_bank.lpm);
+ 		return -ENODEV;
  	}
  
 -- 
-2.16.4
+2.17.1
 
