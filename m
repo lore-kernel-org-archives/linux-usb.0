@@ -2,63 +2,85 @@ Return-Path: <SRS0=Cs7X=UE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B210C28CC6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9973C46460
 	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 06:21:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3E037206BA
+	by mail.kernel.org (Postfix) with ESMTP id A3BCA206BA
 	for <linux-usb@archiver.kernel.org>; Wed,  5 Jun 2019 06:21:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726538AbfFEGVW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1726568AbfFEGVW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Wed, 5 Jun 2019 02:21:22 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:7955 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726050AbfFEGVW (ORCPT
+Received: from relmlor2.renesas.com ([210.160.252.172]:62280 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726263AbfFEGVW (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Jun 2019 02:21:22 -0400
 X-IronPort-AV: E=Sophos;i="5.60,550,1549897200"; 
-   d="scan'208";a="17858262"
+   d="scan'208";a="17654997"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 05 Jun 2019 15:21:20 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 05 Jun 2019 15:21:20 +0900
 Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1CD414005E37;
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 4D5E140062C7;
         Wed,  5 Jun 2019 15:21:20 +0900 (JST)
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v2 0/2] usb: renesas_usbhs: remove unused features
-Date:   Wed,  5 Jun 2019 15:16:20 +0900
-Message-Id: <1559715382-28390-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v2 2/2] usb: renesas_usbhs: remove controlling PWEN/EXTLP support
+Date:   Wed,  5 Jun 2019 15:16:22 +0900
+Message-Id: <1559715382-28390-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1559715382-28390-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+References: <1559715382-28390-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch series removes unused features of sudmac and controlling
-PWEN/EXTLP.
+Controlling PWMEN/EXTLP (named as "has_otg") was supported in v3.2,
+but the last user (kzm9g) was removed by the commit 30f8925a57d8ad49
+("ARM: shmobile: Remove legacy board code for KZM-A9-GT"). So, this
+patch remove it.
 
-Changes from v1 [1]:
- - Revise the commit log on both patch 1 and 2.
- - Remove an unused macro on patch 1.
- - Add Geert-san and Simon-san's Reviewed-by on both patch 1 and 2.
-
-[1]
-https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=126687
-
-
-Yoshihiro Shimoda (2):
-  usb: renesas_usbhs: remove sudmac support
-  usb: renesas_usbhs: remove controlling PWEN/EXTLP support
-
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+---
  drivers/usb/renesas_usbhs/common.c | 4 ----
- drivers/usb/renesas_usbhs/fifo.c   | 6 +-----
- include/linux/usb/renesas_usbhs.h  | 2 --
- 3 files changed, 1 insertion(+), 11 deletions(-)
+ include/linux/usb/renesas_usbhs.h  | 1 -
+ 2 files changed, 5 deletions(-)
 
+diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
+index c7c9c5d..a501ea6 100644
+--- a/drivers/usb/renesas_usbhs/common.c
++++ b/drivers/usb/renesas_usbhs/common.c
+@@ -95,10 +95,6 @@ void usbhs_sys_host_ctrl(struct usbhs_priv *priv, int enable)
+ {
+ 	u16 mask = DCFM | DRPD | DPRPU | HSE | USBE;
+ 	u16 val  = DCFM | DRPD | HSE | USBE;
+-	int has_otg = usbhs_get_dparam(priv, has_otg);
+-
+-	if (has_otg)
+-		usbhs_bset(priv, DVSTCTR, (EXTLP | PWEN), (EXTLP | PWEN));
+ 
+ 	/*
+ 	 * if enable
+diff --git a/include/linux/usb/renesas_usbhs.h b/include/linux/usb/renesas_usbhs.h
+index a2481f4d..b2cba7c 100644
+--- a/include/linux/usb/renesas_usbhs.h
++++ b/include/linux/usb/renesas_usbhs.h
+@@ -186,7 +186,6 @@ struct renesas_usbhs_driver_param {
+ 	/*
+ 	 * option:
+ 	 */
+-	u32 has_otg:1; /* for controlling PWEN/EXTLP */
+ 	u32 has_usb_dmac:1; /* for USB-DMAC */
+ 	u32 runtime_pwctrl:1;
+ 	u32 has_cnen:1;
 -- 
 2.7.4
 
