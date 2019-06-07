@@ -4,55 +4,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E57E9C2BCA1
-	for <linux-usb@archiver.kernel.org>; Fri,  7 Jun 2019 08:29:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64A6FC28CC3
+	for <linux-usb@archiver.kernel.org>; Fri,  7 Jun 2019 08:29:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BED91212F5
-	for <linux-usb@archiver.kernel.org>; Fri,  7 Jun 2019 08:29:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3819320B7C
+	for <linux-usb@archiver.kernel.org>; Fri,  7 Jun 2019 08:29:23 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cOSA5ceD"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qS6/gC3g"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727633AbfFGI3G (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 7 Jun 2019 04:29:06 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:42898 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727419AbfFGI3F (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 Jun 2019 04:29:05 -0400
-Received: by mail-wr1-f67.google.com with SMTP id x17so1218416wrl.9
-        for <linux-usb@vger.kernel.org>; Fri, 07 Jun 2019 01:29:05 -0700 (PDT)
+        id S1728060AbfFGI3O (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 7 Jun 2019 04:29:14 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:43246 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728029AbfFGI3M (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 Jun 2019 04:29:12 -0400
+Received: by mail-wr1-f65.google.com with SMTP id r18so1213712wrm.10
+        for <linux-usb@vger.kernel.org>; Fri, 07 Jun 2019 01:29:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=jzlILgVOq+qa8QnWXtHWObcbjxta0J+JIjopEg5uUuk=;
-        b=cOSA5ceD6DU90AczpWWeDFQqT7XMn1TslGtXrC+8Qgjy95ZdnObkBVL8UMmW9IYqFZ
-         ly1EA8Xk7mSCU+6Q97tX0JUm4+q68XTAiT5Mh8Stkx6bEhUsxeOx0qdEw45vNnkrBk/o
-         /RGAxiHMWRp1LjcUAV0QP4+SMHQaUjIfnlbdXIt5EEi3e6g1JqKnlSvd2p5n9IskMzYX
-         O5cxIdBRkHbuQletelSuTniO4lKcrqHCsUaTJOOH/wwIODiqHSs2BZLqtQUKArJK3uEh
-         3zDlBQREIzgp71Rt4d6nl5fPxN2UMvLeReBM/2nuGvF5iobsw4ccx3az8ignVslYorRA
-         pELA==
+        bh=FalRLEADzMPtGyW8NIPAA0F5olxzxXGnPVoGFb+myak=;
+        b=qS6/gC3g0ivDxQeYTAyAXWuKblhoYJyrn1fhCTmRyYAb/dWfOeXaEtzpJDpgr4/keC
+         y9YxUUGJsjTMzcLV0Xk+Gm3yNRHp+YTAA8eMqqZOxwkj8MByuQQdEKhqYlEO3weOrF7m
+         Jm8HKR9UNUcaw6GVDTJe18vTDeIrxL/txUdpmREfkl/zV1qCJggDJ0qvOs0oFjXzfDhX
+         QYmnCarRktfnHTYRBX9mOzCN0H8TbcO+skVCCW4zXhp9qmRFsbGuiOiABEgUZFpnmzsi
+         uv5c8stevPakNzYje7bhOZlX4YXx0QxavvOfiqJC9mF+9fxItWO/Uh3ILMCG9Vx4dVGM
+         pHYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=jzlILgVOq+qa8QnWXtHWObcbjxta0J+JIjopEg5uUuk=;
-        b=P7QASEC1l4XqUhyi0kjjRvytaPoYQH8IXhN4IuRSzIy+R5kIbgfIHSpogbl7dTOkhc
-         F5iZDJADgjeFrV4uux7L3jYywXAmlO9ZEIg+0CHUNsBEeX3gA5qBIg803waIZtOE3HoU
-         N9pPgFVEfM0m8RYeiALViTltV2Ga/3Ao2bLCoK2X4jsqIufM4djSzf9b9pxWtDAEVbn1
-         1KD2sUA/oXjLwVelzRne3lyr6/KwTK3ehNzJcrLhj+Ug5JqJVyEwSqsosnpYc4SYAXO2
-         yNfSFiambbj0ecRKdMemqIdq7dkDsvVwVxzj5VsDPR1wP5tOXT6JMLiRnL7iQgYqNaLx
-         7q2A==
-X-Gm-Message-State: APjAAAWMBSo3Ms75yFAWk45qeDAUFIoSbuBYs9m5QHlqMleyuBeVuNy7
-        9oIfvvRxXy1Xy+TOWEjod7iRTA==
-X-Google-Smtp-Source: APXvYqx1YuZGxxKFiVBuD7xZybj8kxKfRJulFeBpjaeUZaRQAyQoPtZmlBqhdZPXDhNc0hnte6SOyQ==
-X-Received: by 2002:adf:e344:: with SMTP id n4mr8538433wrj.192.1559896144520;
-        Fri, 07 Jun 2019 01:29:04 -0700 (PDT)
+        bh=FalRLEADzMPtGyW8NIPAA0F5olxzxXGnPVoGFb+myak=;
+        b=iZD+MmwpEz/qT4vW1Jhc7x8+9c7ozHHWk3iOWtMv3E4O7HRuVTiJbybvkn7eFbARuc
+         B+y6hXLDTTN2QgFEnTQFPNV3Nnz9UZ8F4HYEYhlRrXu84ke6JIQm9ftf1ZB5DBHrjusI
+         TjVHRiFk28ga/2kxV7hZZL8Fav5Unln6isqurHioAfGlxykAq9Z2rs4PEaLLB/S4dGk+
+         HjvO7d/nDwufKO4zCInl0hf8hDra3057zTMaVkVq9vTmLYAnSD+8I4SHDK/VJyOc3OIl
+         zaGotz8Z9Wu8mGOEcid2w3l9MlThJc+ZvqDdzbahLIXNPGuElaG5vmTghk4SKCLDWizN
+         zQrA==
+X-Gm-Message-State: APjAAAWxm+JXdnpuIXkuoiNnK89AuyZrXqPctj3pXbXD2nZ+QIACTDp9
+        6or2RkiMfHuprP/uv7V81fcSPF1NIB0=
+X-Google-Smtp-Source: APXvYqzSmJjzWO+MJ9nCzabQMhjV+5XfkNRztLbNtFMbdchLDJu2eVByL+7ShB6cmtMge7GBvY0Nug==
+X-Received: by 2002:adf:ce8f:: with SMTP id r15mr21014523wrn.122.1559896151288;
+        Fri, 07 Jun 2019 01:29:11 -0700 (PDT)
 Received: from localhost.localdomain ([2.31.167.229])
-        by smtp.gmail.com with ESMTPSA id a3sm1092946wmb.35.2019.06.07.01.29.03
+        by smtp.gmail.com with ESMTPSA id a3sm1092946wmb.35.2019.06.07.01.29.10
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Jun 2019 01:29:04 -0700 (PDT)
+        Fri, 07 Jun 2019 01:29:10 -0700 (PDT)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     alokc@codeaurora.org, andy.gross@linaro.org,
         david.brown@linaro.org, wsa+renesas@sang-engineering.com,
@@ -62,9 +62,9 @@ Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         jlhugo@gmail.com, linux-i2c@vger.kernel.org,
         linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
         linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v2 2/8] i2c: i2c-qcom-geni: Signify successful driver probe
-Date:   Fri,  7 Jun 2019 09:28:55 +0100
-Message-Id: <20190607082901.6491-2-lee.jones@linaro.org>
+Subject: [PATCH v2 8/8] usb: dwc3: qcom: Improve error handling
+Date:   Fri,  7 Jun 2019 09:29:01 +0100
+Message-Id: <20190607082901.6491-8-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190607082901.6491-1-lee.jones@linaro.org>
 References: <20190607082901.6491-1-lee.jones@linaro.org>
@@ -73,28 +73,32 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The Qualcomm Geni I2C driver currently probes silently which can be
-confusing when debugging potential issues.  Add a low level (INFO)
-print when each I2C controller is successfully initially set-up.
+dwc3_qcom_clk_init() is called with of_count_phandle_with_args() as an
+argument.  If of_count_phandle_with_args() returns an error, the number
+of clocks will be a negative value and will lead to undefined behaviour.
+
+Ensure we check for an error before attempting to blindly use the value.
 
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 ---
- drivers/i2c/busses/i2c-qcom-geni.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/usb/dwc3/dwc3-qcom.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
-index 0fa93b448e8d..720131c40fe0 100644
---- a/drivers/i2c/busses/i2c-qcom-geni.c
-+++ b/drivers/i2c/busses/i2c-qcom-geni.c
-@@ -598,6 +598,8 @@ static int geni_i2c_probe(struct platform_device *pdev)
- 		return ret;
- 	}
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index 55ba04254e38..e4dac82abd7d 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -409,6 +409,9 @@ static int dwc3_qcom_clk_init(struct dwc3_qcom *qcom, int count)
+ 	if (!np || !count)
+ 		return 0;
  
-+	dev_dbg(&pdev->dev, "Geni-I2C adaptor successfully added\n");
++	if (count < 0)
++		return count;
 +
- 	return 0;
- }
+ 	qcom->num_clocks = count;
  
+ 	qcom->clks = devm_kcalloc(dev, qcom->num_clocks,
 -- 
 2.17.1
 
