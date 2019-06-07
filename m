@@ -2,146 +2,83 @@ Return-Path: <SRS0=2ZMj=UG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB3A3C46476
-	for <linux-usb@archiver.kernel.org>; Fri,  7 Jun 2019 08:29:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE09FC28CC3
+	for <linux-usb@archiver.kernel.org>; Fri,  7 Jun 2019 08:33:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 81AC520B7C
-	for <linux-usb@archiver.kernel.org>; Fri,  7 Jun 2019 08:29:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jz5mKAbU"
+	by mail.kernel.org (Postfix) with ESMTP id 8F03F20B7C
+	for <linux-usb@archiver.kernel.org>; Fri,  7 Jun 2019 08:33:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727665AbfFGI3F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 7 Jun 2019 04:29:05 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:45053 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727117AbfFGI3F (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 Jun 2019 04:29:05 -0400
-Received: by mail-wr1-f66.google.com with SMTP id b17so1213338wrq.11
-        for <linux-usb@vger.kernel.org>; Fri, 07 Jun 2019 01:29:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=nQjqkj1EN8NC8Ay0yEHmwn6X2HJX2TtkXyONunIjoOQ=;
-        b=jz5mKAbUNpc/2XrbWWbZCNJngHPyu1CFGXMDH3jsY6dBNiylltjRxlPmEIjFvwWsHB
-         G1s9vbvPWlTLMh5h0UuE5dNLrvZd8+Wp+SJU3n9JXQdMMbvR7PNj6ikzJHB6SWy9kpgw
-         2Mbhc2hqW2YDw+8oPUxyi4UcJXUWflUNc9hFXsZ94aEJWUlNlJDXYQuOkr5ViQaBGfUO
-         Q/NM4GLddz0ePkHqkojIxiNV4cl1J5V09BxBngzM1H4LgO3x1dYkWq/fnUvODE4L8CQz
-         E2IOMdqvU91OVm2QCcLf6C6cvnHAO30XIzPYH8mVqqnIYhNEs6SVCDupXrCIZMxiYhz6
-         U6gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=nQjqkj1EN8NC8Ay0yEHmwn6X2HJX2TtkXyONunIjoOQ=;
-        b=jG1N7vhhDCle+sr872qZLratFU709pRhpojTjKBdvG29je/2uhHFntg0k+7sAzvdMV
-         MXTDa4wVrjv3dkm4NxfmRkD7QOD52+KnoTE04NBGyLiGCz+ozdNP4gvUZ90Sfv0PDy+v
-         0kS2pn5z+tTFX1KrCSxtTpw1oktm9HyKGzKuWJ4cAyPfZxF4ITclA0kX7OYsLx9akdW8
-         yfNfUdsFe9c//kKF1LarH0hFMzSk1LCW+FQ97UuCMATBGWF5S5D8b1xBLSJvPV8m8VHH
-         W3vYunqD+55s8MtDzreVFZf7z71y2J+EfU8IhCKuDy6m5NPoIwPOII9i7lyjTg7bNprd
-         m1ig==
-X-Gm-Message-State: APjAAAXSOmEAjI33QjAx4Oyl6VG1TvLem/GYjpk9fQXuz3fCO9yMb8xY
-        e/gyaXmG66XEuE1FgK/t5EMnNQ==
-X-Google-Smtp-Source: APXvYqw3tK85mPCJtNwImGvxXwtTRJVHn4uSWnyncRx2pOscbKR2RIrb27s86mnFP4xtyzHXWFKbKQ==
-X-Received: by 2002:adf:e691:: with SMTP id r17mr15939833wrm.67.1559896143573;
-        Fri, 07 Jun 2019 01:29:03 -0700 (PDT)
-Received: from localhost.localdomain ([2.31.167.229])
-        by smtp.gmail.com with ESMTPSA id a3sm1092946wmb.35.2019.06.07.01.29.02
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Jun 2019 01:29:02 -0700 (PDT)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     alokc@codeaurora.org, andy.gross@linaro.org,
-        david.brown@linaro.org, wsa+renesas@sang-engineering.com,
-        bjorn.andersson@linaro.org, linus.walleij@linaro.org,
-        balbi@kernel.org, gregkh@linuxfoundation.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        jlhugo@gmail.com, linux-i2c@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-usb@vger.kernel.org, Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v2 1/8] i2c: i2c-qcom-geni: Provide support for ACPI
-Date:   Fri,  7 Jun 2019 09:28:54 +0100
-Message-Id: <20190607082901.6491-1-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.17.1
+        id S1727047AbfFGIdT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 7 Jun 2019 04:33:19 -0400
+Received: from sauhun.de ([88.99.104.3]:41478 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726116AbfFGIdT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 7 Jun 2019 04:33:19 -0400
+Received: from localhost (p5486CE26.dip0.t-ipconnect.de [84.134.206.38])
+        by pokefinder.org (Postfix) with ESMTPSA id 2F7AE3E43BA;
+        Fri,  7 Jun 2019 10:33:17 +0200 (CEST)
+Date:   Fri, 7 Jun 2019 10:33:16 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Ajay Gupta <ajaykuee@gmail.com>
+Cc:     heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org,
+        linux-i2c@vger.kernel.org, Ajay Gupta <ajayg@nvidia.com>
+Subject: Re: [PATCH v4 2/5] i2c: nvidia-gpu: add runtime pm support
+Message-ID: <20190607083316.GB3360@kunai>
+References: <20190603170545.24004-1-ajayg@nvidia.com>
+ <20190603170545.24004-3-ajayg@nvidia.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="qcHopEYAB45HaUaB"
+Content-Disposition: inline
+In-Reply-To: <20190603170545.24004-3-ajayg@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a match table to allow automatic probing of ACPI device
-QCOM0220.  Ignore clock attainment errors.  Set default clock
-frequency value.
 
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/i2c/busses/i2c-qcom-geni.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+--qcHopEYAB45HaUaB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
-index db075bc0d952..0fa93b448e8d 100644
---- a/drivers/i2c/busses/i2c-qcom-geni.c
-+++ b/drivers/i2c/busses/i2c-qcom-geni.c
-@@ -1,6 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- // Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
- 
-+#include <linux/acpi.h>
- #include <linux/clk.h>
- #include <linux/dma-mapping.h>
- #include <linux/err.h>
-@@ -483,6 +484,12 @@ static const struct i2c_algorithm geni_i2c_algo = {
- 	.functionality	= geni_i2c_func,
- };
- 
-+static const struct acpi_device_id geni_i2c_acpi_match[] = {
-+	{ "QCOM0220"},
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(acpi, geni_i2c_acpi_match);
-+
- static int geni_i2c_probe(struct platform_device *pdev)
- {
- 	struct geni_i2c_dev *gi2c;
-@@ -502,7 +509,7 @@ static int geni_i2c_probe(struct platform_device *pdev)
- 		return PTR_ERR(gi2c->se.base);
- 
- 	gi2c->se.clk = devm_clk_get(&pdev->dev, "se");
--	if (IS_ERR(gi2c->se.clk)) {
-+	if (IS_ERR(gi2c->se.clk) && !ACPI_HANDLE(&pdev->dev)) {
- 		ret = PTR_ERR(gi2c->se.clk);
- 		dev_err(&pdev->dev, "Err getting SE Core clk %d\n", ret);
- 		return ret;
-@@ -510,12 +517,19 @@ static int geni_i2c_probe(struct platform_device *pdev)
- 
- 	ret = device_property_read_u32(&pdev->dev, "clock-frequency",
- 							&gi2c->clk_freq_out);
--	if (ret) {
-+	if (ret && !ACPI_HANDLE(&pdev->dev)) {
- 		dev_info(&pdev->dev,
- 			"Bus frequency not specified, default to 100kHz.\n");
- 		gi2c->clk_freq_out = KHZ(100);
- 	}
- 
-+	if (ACPI_HANDLE(&pdev->dev)) {
-+		ACPI_COMPANION_SET(&gi2c->adap.dev, ACPI_COMPANION(&pdev->dev));
-+
-+		/* Using default, same as the !ACPI case above */
-+		gi2c->clk_freq_out = KHZ(100);
-+	}
-+
- 	gi2c->irq = platform_get_irq(pdev, 0);
- 	if (gi2c->irq < 0) {
- 		dev_err(&pdev->dev, "IRQ error for i2c-geni\n");
-@@ -660,6 +674,7 @@ static struct platform_driver geni_i2c_driver = {
- 		.name = "geni_i2c",
- 		.pm = &geni_i2c_pm_ops,
- 		.of_match_table = geni_i2c_dt_match,
-+		.acpi_match_table = ACPI_PTR(geni_i2c_acpi_match),
- 	},
- };
- 
--- 
-2.17.1
 
+> +	pm_runtime_mark_last_busy(i2cd->dev);
+> +	pm_runtime_put_autosuspend(i2cd->dev);
+
+Much better to have this only once!
+
+> +/*
+> + * We need gpu_i2c_suspend() even if it is stub, for runtime pm to work
+> + * correctly. Without it, lspci shows runtime pm status as "D0" for the card.
+> + * Documentation/power/pci.txt also insists for driver to provide this:
+
+I'd think the comment up to here is enough and the rest can go. However,
+I leave this decision to you.
+
+
+--qcHopEYAB45HaUaB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlz6IUwACgkQFA3kzBSg
+Kbayuw//YoqrVxsInOgzDBmpVor1ssx26jYmc5NLKHY0ZzZYUsCp7EF19Ryq4rIU
+6chHjJXuh+FcjBbZSracgax4p3HoEqFCzySG1dHk5dgjR5/MLfMEQuzmB7QTxqNw
+4hLdw8KG9B2Nh6OCCqT9pEaaMyx5wGjY9fkUPBT5I1IPSY1lbvP0f+UlTAFU/7G1
+H1/EgWhmcQPRgX9nh4MNW/WR04rrh89IPzzt2vi6eR4b2o1hSG3m5rEpHySbby+V
+2bLJ31GGet75pEtO8mqu6RwhnP2h1+WXP71FaOShkBNu23EgHowRFcPdk5miiTiq
+x7mAIrK0MVoDGXU52xV05/0JeNXI4aRf/T8KKH9d/acmgPqzCgoPvj+5g5KrfvGB
+JJg9E3c/+i3CzrI6VOXsfd7WsbDFAtoTML2ZB3RyXqChg9px8c8joj1v6XQOXpJy
+/bLzvbw9H5U6KDyQf1w1dQGI6elI84vS+FvyYhjyOmDWgmgbtxn0ggUrk7XSutjW
+Zc559mQczVenavVLWbSkkqgbKgrEDJn9VmxBKtBHebti2R7NeLuEkgeJaYFqRWhC
+ZVB61b7+GEkCopZC739O+BYir6jZe0XKyAqgPcIipVhY/jcAP+Z0yXGrh3IkdZpt
+WdDxwhv78D7Ew2ZeWlahlzFXLNmcg9CT++hIVWD8KRGZ4+lRYyY=
+=Kubz
+-----END PGP SIGNATURE-----
+
+--qcHopEYAB45HaUaB--
