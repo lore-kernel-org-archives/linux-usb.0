@@ -2,155 +2,85 @@ Return-Path: <SRS0=2ZMj=UG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29D9BC28CC3
-	for <linux-usb@archiver.kernel.org>; Fri,  7 Jun 2019 06:33:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81534C28CC3
+	for <linux-usb@archiver.kernel.org>; Fri,  7 Jun 2019 06:37:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0855D208C0
-	for <linux-usb@archiver.kernel.org>; Fri,  7 Jun 2019 06:33:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 56CB92089E
+	for <linux-usb@archiver.kernel.org>; Fri,  7 Jun 2019 06:37:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726761AbfFGGdg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 7 Jun 2019 02:33:36 -0400
-Received: from mga09.intel.com ([134.134.136.24]:57657 "EHLO mga09.intel.com"
+        id S1727106AbfFGGht (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 7 Jun 2019 02:37:49 -0400
+Received: from mga09.intel.com ([134.134.136.24]:57977 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726248AbfFGGdg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 7 Jun 2019 02:33:36 -0400
-X-Amp-Result: UNSCANNABLE
+        id S1726048AbfFGGht (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 7 Jun 2019 02:37:49 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Jun 2019 23:33:35 -0700
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Jun 2019 23:37:48 -0700
 X-ExtLoop1: 1
-Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
-  by orsmga004.jf.intel.com with ESMTP; 06 Jun 2019 23:33:32 -0700
-From:   Felipe Balbi <felipe.balbi@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [GIT PULL] USB: fixes for v5.2-rc4
-Date:   Fri, 07 Jun 2019 09:33:29 +0300
-Message-ID: <87o939dhvq.fsf@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.63,562,1557212400"; 
+   d="scan'208";a="182572394"
+Received: from intel.iind.intel.com ([10.66.245.146])
+  by fmsmga002.fm.intel.com with ESMTP; 06 Jun 2019 23:37:44 -0700
+From:   Prabhat Chand Pandey <prabhat.chand.pandey@intel.com>
+To:     linux-usb@vger.kernel.org
+Cc:     mathias.nyman@intel.com, rajaram.regupathy@intel.com,
+        abhilash.k.v@intel.com, prabhat.chand.pandey@intel.com,
+        m.balaji@intel.com
+Subject: [PATCH 0/5] usb: xhci: dbc: make modular and add RAW interface
+Date:   Fri,  7 Jun 2019 12:03:01 +0530
+Message-Id: <20190607063306.5612-1-prabhat.chand.pandey@intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+This patch-set adds the following features to dbc driver:
+
+- show the active dbc function and dbc descriptors, allowing
+  user space to dynamically modify the descriptors.
+
+- modularize dbc core to enable it to expose different function
+  interfaces, till now only TTY interface was exposed.
+
+- use the new framework to expose RAW interface that can be
+  used by any user-space application to directly read from and 
+  write into dbc bulk end-points.
 
 
-Hi Greg,
+Abhilash K V (1):
+  usb: xhci: dbc: Add a dbc raw driver to provide a raw interface on DbC
 
-Here's my first set of fixes for this -rc cycle. Looks like most of what
-I have in my inbox these days are new features. Very little fixes. I
-guess folks are writing perfect code now :-p
+K V, Abhilash (1):
+  usb: xhci: dbc: Provide sysfs option to configure dbc descriptors
 
-Let me know if you want anything to be changed.
+Prabhat Chand Pandey (3):
+  usb: xhci: dbc: make DbC modular, introducing dbc_function structure
+  usb: xhci: dbc: DbC TTY driver to use new interface
+  usb: xhci: dbc: Document describe about dbc raw interface
 
-Cheers
+ .../testing/sysfs-bus-pci-drivers-xhci_hcd    | 112 ++++
+ Documentation/usb/dbc_raw.rst                 | 136 +++++
+ Documentation/usb/index.rst                   |  16 +
+ drivers/usb/host/Kconfig                      |  24 +-
+ drivers/usb/host/Makefile                     |   5 +-
+ drivers/usb/host/xhci-dbgcap.c                | 498 ++++++++++++++++--
+ drivers/usb/host/xhci-dbgcap.h                |  36 +-
+ drivers/usb/host/xhci-dbgraw.c                | 365 +++++++++++++
+ drivers/usb/host/xhci-dbgtty.c                |  81 ++-
+ 9 files changed, 1206 insertions(+), 67 deletions(-)
+ create mode 100644 Documentation/usb/dbc_raw.rst
+ create mode 100644 Documentation/usb/index.rst
+ create mode 100644 drivers/usb/host/xhci-dbgraw.c
 
- _________________________________=20
-< That's some perfect C, partner. >
- ---------------------------------=20
-        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
+-- 
+2.21.0
 
-The following changes since commit f2c7c76c5d0a443053e94adb9f0918fa2fb85c3a:
-
-  Linux 5.2-rc3 (2019-06-02 13:55:33 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git tags/fixes-fo=
-r-v5.2-rc4
-
-for you to fetch changes up to 42cc68868ce9d5f5277f561bb17b4746a332bb28:
-
-  usb: gadget: udc: lpc32xx: fix return value check in lpc32xx_udc_probe() =
-(2019-06-06 13:51:57 +0300)
-
-=2D---------------------------------------------------------------
-USB: fixes for v5.2-rc4
-
-DWC2 gets a fix for zlp handling which allows DWC2 to pass USBCV MSC
-tests.
-
-A memory leak in fusb300 was plugged.
-
-DWC2 also got a fix for wMaxPacketSize handling while acting as host
-which fixes a regression with USB Cameras.
-
-Apart from these, the usual set of minor fixes.
-
-Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
-
-=2D---------------------------------------------------------------
-Alexandre Belloni (1):
-      usb: gadget: udc: lpc32xx: allocate descriptor with GFP_ATOMIC
-
-Andrey Smirnov (1):
-      usb: phy: mxs: Disable external charger detect in mxs_phy_hw_init()
-
-Andrzej Pietrasiewicz (1):
-      usb: gadget: dwc2: fix zlp handling
-
-Douglas Anderson (1):
-      usb: dwc2: host: Fix wMaxPacketSize handling (fix webcam regression)
-
-Martin Schiller (1):
-      usb: dwc2: Fix DMA cache alignment issues
-
-Minas Harutyunyan (1):
-      usb: dwc2: Set actual frame number for completed ISOC transfer for no=
-ne DDMA
-
-Wei Yongjun (1):
-      usb: gadget: udc: lpc32xx: fix return value check in lpc32xx_udc_prob=
-e()
-
-Young Xiao (1):
-      usb: gadget: fusb300_udc: Fix memory leak of fusb300->ep[i]
-
- drivers/usb/dwc2/gadget.c            | 24 ++++++++++++++--------
- drivers/usb/dwc2/hcd.c               | 39 ++++++++++++++++++++++----------=
-----
- drivers/usb/dwc2/hcd.h               | 20 +++++++++---------
- drivers/usb/dwc2/hcd_intr.c          |  5 +++--
- drivers/usb/dwc2/hcd_queue.c         | 10 +++++----
- drivers/usb/gadget/udc/fusb300_udc.c |  5 +++++
- drivers/usb/gadget/udc/lpc32xx_udc.c |  7 +++----
- drivers/usb/phy/phy-mxs-usb.c        | 14 +++++++++++++
- 8 files changed, 82 insertions(+), 42 deletions(-)
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAlz6BTkACgkQzL64meEa
-mQYyVA/+OEFcEZAR73MrTYaiqoQnGS2KCGKiQXuIGEDUWSuE+mn6S2L6E+/4ibhg
-DWihKeG2vldhHIbm52OfM/UNa2EqLhCj95oRNTXLoC4frEUfFv6Yx91wu2CwANqn
-M69cqJp1Pi8Ib9QBdiLimJWyzJkZOaGl271SsrzNIeA8zrhtiFmINFzU2JvkscVz
-U/cj9Hxhf6Kkm9pM+zsckrRE+zC8ssJwwKZ2nZmIAqyLLYVK6L4edKw7JoHDDCEt
-YWL1OWDvuiq4IZ+9IZCd0RYestcrlshrmTv7+jQ0lH3Kro3gxy6EzFkhKHDBDpBM
-ZCXpqwgJGq/cE2sdrv/7DuojCDyLGp6x8GyjQdEl97NEMMBaEW2N7lLfo76lKvv0
-Xab62W6vjl/ZK/p8rkNQjwxuRr93qmTp8xnP66kErGqN0X0MQ/o2jSiDi+ExEvS8
-krW+uEJZ8SZCUMaBKa3HMdUy15l6+ofIPR1JMy0XwwjSW8ETbeu7/c1DLEa3YESP
-8n/WAnFuVzQYwLhuIHPYvLNHYydHkLfXL8sh4StzjIj4CEgjfhUvgEiR2e2cBL8Z
-wnwEZdcM1RTPKKjjkuwFSzZiTNm0QbMS4b3CIWVJCB5D8wXYXmmEJ6LEJs7xyBEM
-q97PYu8L/KsSzsG3ziesb16O58HkYWm4o6DIbszEX59AlqbYKh8=
-=hVcn
------END PGP SIGNATURE-----
---=-=-=--
