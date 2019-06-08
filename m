@@ -2,150 +2,216 @@ Return-Path: <SRS0=6ExK=UH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05E86C28CC5
-	for <linux-usb@archiver.kernel.org>; Sat,  8 Jun 2019 05:13:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AEF7C28CC5
+	for <linux-usb@archiver.kernel.org>; Sat,  8 Jun 2019 07:43:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C5B1B2089E
-	for <linux-usb@archiver.kernel.org>; Sat,  8 Jun 2019 05:13:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C2B882146E
+	for <linux-usb@archiver.kernel.org>; Sat,  8 Jun 2019 07:43:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RSOoZ5Ia"
+	dkim=pass (2048-bit key) header.d=unipv-it.20150623.gappssmtp.com header.i=@unipv-it.20150623.gappssmtp.com header.b="iudRtLU6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726083AbfFHFNq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 8 Jun 2019 01:13:46 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:36836 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725804AbfFHFNq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 8 Jun 2019 01:13:46 -0400
-Received: by mail-pf1-f193.google.com with SMTP id u22so2304264pfm.3
-        for <linux-usb@vger.kernel.org>; Fri, 07 Jun 2019 22:13:45 -0700 (PDT)
+        id S1726618AbfFHHnZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 8 Jun 2019 03:43:25 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:41024 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726042AbfFHHnZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 8 Jun 2019 03:43:25 -0400
+Received: by mail-wr1-f65.google.com with SMTP id c2so4232576wrm.8
+        for <linux-usb@vger.kernel.org>; Sat, 08 Jun 2019 00:43:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:subject:date:message-id:in-reply-to:references;
-        bh=R9VTYP9/7G32Whru1TU/7RuR3qM+5MQe8FDzCDdKFAw=;
-        b=RSOoZ5Iac9s1Q4lGwVAVCpSMT2Zc6qQkNQbP9qGOOzj7HFdolFSE+aWL+TWmw9bADw
-         M8QSWv3+et/pTO3gjuo8JKtB8W2a9KA3/fIupun/Mf3mJQU1zkAig1LcTC7EVeKriCLK
-         XAXeOMtrf9XV2vz3Ab3AUI0QnEFcMV3NdGvqYyIE2TvO5MxYVRI+8L2LNyTLGT1Gchcq
-         FzGZ8KthzV/bqjkbLRjLGgvXyEWPfIek+9WRJEcy1pgf5SXn0SN1uSGHq+8pX1mcmdGt
-         qD5LSoU+7a0qhZ6o+dnRUO+4WQRRBH5ycnMWpFREUdjMTA5usS4U4ZOYEQw3zcIrANVU
-         QbhA==
+        d=unipv-it.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QKqc0lzP47gMzHzMD6emb7W7zB5bOawpgd0Vsnvec/4=;
+        b=iudRtLU6O/K5MoUTfgrPaw4epasI3YCxKnb1oGvltkC1G6tEPW4a6JJAcQyZH664vc
+         LoqCuyuAlyaui2PQVSC0lWa/bhazRmS+qHaEBilFsL6qiIVufEEQULf31aDb/VRMI9to
+         gw/uxxy9pm/eea+nH8qEpigAWF6CnsjYhZjXoXjy7Pvh4Y7SNI8Zlqfg2HocO6QteCP0
+         3EO3Z7gltOFwCULDNUxT7IrdE7hfOMSBaF6f1O1DB53oYUGiVv7wexW4q67hYGOtWURE
+         NnW0Pcm3YJNMP2UE5Zwmxe4syk6o1UiEBlwo+fwt9vEfY+QAmWYc9ZpUtExmT66JNm5f
+         6qBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:subject:date:message-id
-         :in-reply-to:references;
-        bh=R9VTYP9/7G32Whru1TU/7RuR3qM+5MQe8FDzCDdKFAw=;
-        b=eFhJC16bhAfduTrPyhdcy5vo2wUEr2I1VNdkL1sMmrJbnVf9ybhrKmC5XuWzyqNwyh
-         tnM+i50dr7o9JoqubIwhuiIOPO7fSVm30O1rzRJWiW5ljZlh3DVEnFgrr/Ke+qcSbOLk
-         tURwXnlht3GMsSckkmxfX1bI2RTt7K21x/8BCSHkEj5d4ep/MA83Xiblxnj+0fzrpz8V
-         aBqAKOThSkM5yC9S1qJDAUbJ2BQAaKTvTi6kJo2X3+3nKc8h0gWZJtWRd1qqPJ+4KZ7L
-         eougU0XJdLg2T1MP4wvW/ALJ31XvwHOoHxXTzm7Gg7xYEOgyF8InVzN/vpu6HyhOn7gZ
-         HH0Q==
-X-Gm-Message-State: APjAAAX34WTaK4RAgis3zrCYAqz3tZOEHjSKvYEcbMNwKOMLkgAIqJdw
-        sx1ajdcHIuqxMq2BM+UIrkSe+WkudMY=
-X-Google-Smtp-Source: APXvYqw7HTC3a8U/x/PfSzSgw75YJIm/yKQL/4lkZfCy+GyxBc7FKzqb1TFf/MR26lKvcvP2Flhh0A==
-X-Received: by 2002:a63:3c9:: with SMTP id 192mr530384pgd.90.1559970824731;
-        Fri, 07 Jun 2019 22:13:44 -0700 (PDT)
-Received: from jontio-desktop.hub ([2407:7000:9c2a:7b00:58e6:a4f8:a6f6:4bfe])
-        by smtp.googlemail.com with ESMTPSA id 133sm216676pfa.92.2019.06.07.22.13.42
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Jun 2019 22:13:44 -0700 (PDT)
-From:   jontio <jontio@i4free.co.nz>
-To:     johan@kernel.org, linux-usb@vger.kernel.org, jontio@i4free.co.nz
-Subject: [PATCH] USB: serial: ch341: fix wrong baud rate setting calculation
-Date:   Sat,  8 Jun 2019 17:13:09 +1200
-Message-Id: <20190608051309.4689-1-jontio@i4free.co.nz>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <jontio@i4free.co.nz>
-References: <jontio@i4free.co.nz>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QKqc0lzP47gMzHzMD6emb7W7zB5bOawpgd0Vsnvec/4=;
+        b=D+8ziFlvo5gffEg2l9QpjYeidK0f4a1R1hsGz33N9aJSRW2i5hD6Sz0pQ8S+mmTEPh
+         V6Giholwb4puAZit6yZaXJ7WEqetDjCfLO0wpLhYQy9WwBUCeDCrUZCfMp5Dbazs9zj+
+         MuAXeIrgFT4mJ3ERT5C/TgwyaVuFr3Vm6cQheFIsQ3FVkhKDQp0LqrVAD8Cy6zBJ3ZWF
+         6GIVl7+84xtjMhMLjdvKMCcx+odRL8N575wcN6cDg+ECXr2eMfGjB1pSZtPfbUCQfolX
+         e9FgdFVtqHFWnmGzqtIwlzpi/oIhUlo7WRfgNk5+dETMQ3Hkkf/gPZVV16wCJNpLBXgi
+         t7YA==
+X-Gm-Message-State: APjAAAWG+UeN2XwD7W8yvHn5yibr4rb084KoLTPikjZKgBih8JgL4CU4
+        4cq2+c8KjVQ1QwPOkTYlmLtfTahp0BwAJdkHWcGX8nDpGDI=
+X-Google-Smtp-Source: APXvYqwVHkTTl2RtzFd3SNTiyl6Mtkz55AiLKBMcIwBqmlgsxBJAZvMghvJhtM2H68AISr2J0Qj9Px0vWtCZJt80u7E=
+X-Received: by 2002:adf:dd82:: with SMTP id x2mr12976555wrl.27.1559979803087;
+ Sat, 08 Jun 2019 00:43:23 -0700 (PDT)
+MIME-Version: 1.0
+References: <2a9e1be71a2c6c940dac904752fdd34129745444.camel@unipv.it>
+ <20190530132522.GA21005@kroah.com> <86676f40a8c1aa44bf5799eac6019183d6d33336.camel@unipv.it>
+ <20190604054300.GE1588@kroah.com> <9b013238be4e3c63e33181a954d1ecc3287d22e4.camel@unipv.it>
+ <20190605145525.GA28819@kroah.com> <0c2adde7154b0a6c8b2ad7fc5258916731b78775.camel@unipv.it>
+ <463fb315f901783543c3bd5284523912c3c31080.camel@unipv.it> <20190605173902.GE27700@kroah.com>
+ <b159e1518b670d4b0126c7671c30c8c3cb8fffbc.camel@unipv.it> <20190606144757.GA12356@kroah.com>
+In-Reply-To: <20190606144757.GA12356@kroah.com>
+From:   Andrea Vai <andrea.vai@unipv.it>
+Date:   Sat, 8 Jun 2019 09:43:11 +0200
+Message-ID: <CAOsYWL03ALs6xJxcbDeppwtY9Q3v-vW6ptjK18CzL0RtJfboBw@mail.gmail.com>
+Subject: Re: Slow I/O on USB media
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-For some wanted baud rates ch341_set_baudrate_lcr() calculates the "a"
-value such that it produces a significantly different baud rate than the
-desired one. This means some hardware can't communicate with the CH34x
-chip. Particularly obvious wrong baud rates are 256000 and 921600 which
-deviate by 2.3% and 7.4% respectively. This proposed patch will bring the
-errors for these baud rates to below 0.5%. This patch will significantly
-improve the error of some other unusual baud rates too (such as 1333333
-from 10% error to 0% error). Currently ch341_set_baudrate_lcr() will
-accept any baud rate and can produce a practically arbitrary large error
-(for example a 40% error for 5000000) this patch does not address this
-issue.
+Il giorno gio 6 giu 2019 alle ore 16:48 Greg KH
+<gregkh@linuxfoundation.org> ha scritto:
+>
+> On Thu, Jun 06, 2019 at 04:00:52PM +0200, Andrea Vai wrote:
+> > Il giorno mer, 05/06/2019 alle 19.39 +0200, Greg KH ha scritto:
+> > > On Wed, Jun 05, 2019 at 06:23:58PM +0200, Andrea Vai wrote:
+> > > [...]
+> > >
+> > > > Anyway, I know that I can do all of this in a better way, and will
+> > > let
+> > > > you know.
+> > >
+> > > Yes, please do so, your steps above do not show much.
+> >
+> > Here I am with another question.
+> > What I have done so far:
+> >
+> > - booted with the last kernel I know to be working (4.20.13-
+> > 200.fc29.x86_64, installed from Fedora repos), checked that test runs
+>
+> We have no idea what is in a random distro kernel, sorry.
+>
+> So I would start with a kernel.org kernel.  That keeps things at an even
+> level, and you are using a "known good" configuration as well.
+>
+> > fine (2min to copy)
+> > - marked "git bisect good v4.20.13"
+> > - built the latest stable version:
+> >   - git clone https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+> >   - cp -v /boot/config-$(uname -r) .config
+> >   - make -j4 && make modules_install && make install && grub2-mkconfig -o /boot/grub2/grub.cfg
+> >   - grubby --set-default /boot/vmlinuz-5.2.0-rc3 (the last regular file listed in "ls -lrt /boot/v*")
+> > - rebooted with kernel 5.2.0-rc3, ran the test, took 49min to copy
+> > (!), thus marked "git bisect bad"
+> > - built again, and it turns out to be 4.20.0 (why is it earlier than
+> > 4.20.13?), rebooted with 4.20.0, ran the test and it took more than 15
+> > minutes so I killed the cp process, and marked it BAD, and obtained:
+> >
+> > The merge base 8fe28cb58bcb235034b64cbbb7550a8a43fd88be is bad.
+> > This means the bug has been fixed between
+> > 8fe28cb58bcb235034b64cbbb7550a8a43fd88be and
+> > [0f7c162c1df596e0bba04c26fc9cc497983bf32b].
+> >
+> > The output of "git bisect log" is:
+> >
+> > git bisect start
+> > # good: [0f7c162c1df596e0bba04c26fc9cc497983bf32b] Linux 4.20.13
+> > git bisect good 0f7c162c1df596e0bba04c26fc9cc497983bf32b
+> > # bad: [f2c7c76c5d0a443053e94adb9f0918fa2fb85c3a] Linux 5.2-rc3
+> > git bisect bad f2c7c76c5d0a443053e94adb9f0918fa2fb85c3a
+> > # bad: [8fe28cb58bcb235034b64cbbb7550a8a43fd88be] Linux 4.20
+> > git bisect bad 8fe28cb58bcb235034b64cbbb7550a8a43fd88be
+> >
+> > I can understand that the bug was present before 4.20.13 (is that
+> > reasonable?), but how can I tell bisect to start at 4.20.13, which I
+> > know for sure to be working, and not from 4.20.0, which I actually
+> > don't care about?
+> >
+> > I am afraid I am missing something obvious, sorry
+>
+> As Alan said, 4.20 is older than 4.20.13.
+>
+> But, is the kernel.org version of 4.20.13 really "good" here?
+>
+> I would start with Linus's tree and stay away from the stable trees
+> for now.  As you end up with odd "leafs" that can confuse 'git bisect'
+> and everyone else.
+>
+> So start with 4.20.0.  Test that.  If it is "good", then great!
 
-Signed-off-by: jontio <jontio@i4free.co.nz>
----
- drivers/usb/serial/ch341.c | 45 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+Hi,
+  there is also something else I don't understand.
+Every time I build a kernel, then after booting it "uname -a" shows
+something like
 
-diff --git a/drivers/usb/serial/ch341.c b/drivers/usb/serial/ch341.c
-index 3bb1fff02bed..7cd1d6f70b56 100644
---- a/drivers/usb/serial/ch341.c
-+++ b/drivers/usb/serial/ch341.c
-@@ -54,6 +54,9 @@
- #define CH341_BAUDBASE_FACTOR 1532620800
- #define CH341_BAUDBASE_DIVMAX 3
- 
-+/* Chip frequency is 12Mhz. not quite the same as (CH341_BAUDBASE_FACTOR>>7) */
-+#define CH341_OSC_FREQUENCY 12000000
-+
- /* Break support - the information used to implement this was gleaned from
-  * the Net/FreeBSD uchcom.c driver by Takanori Watanabe.  Domo arigato.
-  */
-@@ -168,6 +171,48 @@ static int ch341_set_baudrate_lcr(struct usb_device *dev,
- 	factor = 0x10000 - factor;
- 	a = (factor & 0xff00) | divisor;
- 
-+	/*
-+	 * Calculate baud error using the 0,1,2,3 LSB and
-+	 * also the error without the divisor (LSB==7).
-+	 * Decide whether the divisor should be used.
-+	 */
-+	uint32_t msB = (a>>8) & 0xFF;
-+	uint32_t lsB = a & 0xFF;
-+	int32_t baud_wanted = priv->baud_rate;
-+	uint32_t denom = ((1<<(10-3*lsB))*(256-msB));
-+	/*
-+	 * baud_wanted==(CH341_OSC_FREQUENCY/256) implies MSB==0 for no divisor
-+	 * the 100 is for rounding.
-+	 */
-+	if (denom && ((baud_wanted+100) >= (((uint32_t)CH341_OSC_FREQUENCY)>>8))) {
-+
-+		/* Calculate error for divisor */
-+		int32_t baud_expected = ((uint32_t)CH341_OSC_FREQUENCY) / denom;
-+		uint32_t baud_error_difference = abs(baud_expected-baud_wanted);
-+
-+		/* Calculate a for no divisor */
-+		uint32_t a_no_divisor = ((0x10000-(((uint32_t)CH341_OSC_FREQUENCY)<<8) /
-+			baud_wanted+128) & 0xFF00) | 0x07;
-+
-+		/* a_no_divisor is only valid for MSB<248 */
-+		if ((a_no_divisor>>8) < 248) {
-+
-+			/* Calculate error for no divisor */
-+			int32_t baud_expected_no_divisor = ((uint32_t)CH341_OSC_FREQUENCY) /
-+				(256-(a_no_divisor>>8));
-+			uint32_t baud_error_difference_no_divisor =
-+				abs(baud_expected_no_divisor-baud_wanted);
-+
-+			/*
-+			 * If error using no divisor is less than using
-+			 * a divisor then use it instead for the "a" word.
-+			 */
-+			if (baud_error_difference_no_divisor < baud_error_difference)
-+				a = a_no_divisor;
-+		}
-+
-+	}
-+
- 	/*
- 	 * CH341A buffers data until a full endpoint-size packet (32 bytes)
- 	 * has been received unless bit 7 is set.
--- 
-2.17.1
+Linux [...] 4.19.0-rc5+ #12 SMP Sat Jun 8 00:26:42 CEST 2019 x86_64
+x86_64 x86_64 GNU/Linux
 
+where the number after "#" increments by 1 from the previous build.
+
+Now I have the same number (#12) after a new build, is it normal?
+Furthermore, "ls -lrt /boot/v*" shows the last lines to be
+
+-rw-r--r--. 1 root root 8648656  8 giu 00.35 /boot/vmlinuz-4.19.0-rc5+.old
+-rw-r--r--. 1 root root 8648656  8 giu 09.08 /boot/vmlinuz-4.19.0-rc5+
+
+and "diff /boot/vmlinuz-4.19.0-rc5+.old /boot/vmlinuz-4.19.0-rc5+"
+shows they are identical. Why? I expected that each bisect would lead
+to a different kernel.
+Assuming that the opposite can happen, does it mean that when I say
+i.e. "git bisect bad", then build a new kernel and see that is
+identical to the previous one I can run "git bisect bad" without
+booting into the new one and even making the test?
+
+Another thing I don't understand is that I told 4.20.0 to be good, so
+I would expect that I don't need to test any older version, but as far
+as I know 4.19.0-rc5+ is older than 4.20.0, so why is it involved in
+the bisection?
+
+I had to "git bisect skip" one time (the kernel did not boot), but as
+far as I know I don't think this could be related to my doubts.
+
+Current output of "git bisect log" is
+
+git bisect start
+# good: [8fe28cb58bcb235034b64cbbb7550a8a43fd88be] Linux 4.20
+git bisect good 8fe28cb58bcb235034b64cbbb7550a8a43fd88be
+# bad: [01047631df813f6247185547c3778c80af088a20] Merge tag
+'xfs-5.2-fixes-2' of git://git.kernel.org/pub/scm/fs/xfs/xfs-linux
+git bisect bad 01047631df813f6247185547c3778c80af088a20
+# bad: [bcd49c3dd172c38e14faf151adca63c8db4c9557] Merge branch
+'x86-cleanups-for-linus' of
+git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
+git bisect bad bcd49c3dd172c38e14faf151adca63c8db4c9557
+# bad: [fcf010449ebe1db0cb68b2c6410972a782f2bd14] Merge tag
+'kgdb-4.21-rc1' of
+git://git.kernel.org/pub/scm/linux/kernel/git/danielt/linux
+git bisect bad fcf010449ebe1db0cb68b2c6410972a782f2bd14
+# bad: [e0c38a4d1f196a4b17d2eba36afff8f656a4f1de] Merge
+git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next
+git bisect bad e0c38a4d1f196a4b17d2eba36afff8f656a4f1de
+# bad: [c2f1f3e0e17d94ab0c66d83e669492cb9e9a3698] Merge
+git://git.kernel.org/pub/scm/linux/kernel/git/davem/sparc-next
+git bisect bad c2f1f3e0e17d94ab0c66d83e669492cb9e9a3698
+# bad: [b3cc2bfe7244e848f5e8caa77bbdc72c04abd17c] Merge tag
+'i3c/for-4.21' of
+git://git.kernel.org/pub/scm/linux/kernel/git/i3c/linux
+git bisect bad b3cc2bfe7244e848f5e8caa77bbdc72c04abd17c
+# bad: [2ac5e38ea4203852d6e99edd3cf11f044b0a409f] Merge drm/drm-next
+into drm-intel-next-queued
+git bisect bad 2ac5e38ea4203852d6e99edd3cf11f044b0a409f
+# skip: [63ac3328f0d1d37f286e397b14d9596ed09d7ca5] drm/i915: fix
+broadwell EU computation
+git bisect skip 63ac3328f0d1d37f286e397b14d9596ed09d7ca5
+# bad: [ca05359f1e64cf8303ee532e50efe4ab7563d4a9] dma-buf: allow
+reserving more than one shared fence slot
+git bisect bad ca05359f1e64cf8303ee532e50efe4ab7563d4a9
+# bad: [21ebe615c16994f340fe2b6735aad31fd1d0014c] drm: Remove
+transitional helpers
+git bisect bad 21ebe615c16994f340fe2b6735aad31fd1d0014c
+# bad: [a0d4d42cb5854400baa47bf63d9aae65fa9f484e] drm/bochs: Replace
+drm_gem_object_unreference_unlocked with put function
+git bisect bad a0d4d42cb5854400baa47bf63d9aae65fa9f484e
+
+Many thanks,
+Andrea
