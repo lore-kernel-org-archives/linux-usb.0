@@ -2,156 +2,101 @@ Return-Path: <SRS0=6ExK=UH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,T_DKIMWL_WL_HIGH,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D8F7C468BC
-	for <linux-usb@archiver.kernel.org>; Sat,  8 Jun 2019 10:59:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5813C468BD
+	for <linux-usb@archiver.kernel.org>; Sat,  8 Jun 2019 11:43:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F29BA208E3
-	for <linux-usb@archiver.kernel.org>; Sat,  8 Jun 2019 10:59:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A56382168B
+	for <linux-usb@archiver.kernel.org>; Sat,  8 Jun 2019 11:43:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1559994192;
+	bh=lwKR71ZRj7Zr9zES63ArSSUXvbi1ImHyvWXs/ZGcBfk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=ZauKJKTNK3+tPAHk0yLUGCUt+/6vwqBTN2Vz6X2Qtpmy9i6wrpn9I9pKs94cb/RR3
+	 s9vrP8i6AJzaSPdCSf0hUcb24eng0+Lk07odA5jV44khPwaV+jhhpW+lTX3SvquaC1
+	 Nl1NNtBkompEfO5PeT1l2icghHg5l86cR04cCIHA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726968AbfFHK4q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 8 Jun 2019 06:56:46 -0400
-Received: from sauhun.de ([88.99.104.3]:51774 "EHLO pokefinder.org"
+        id S1728652AbfFHLnL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 8 Jun 2019 07:43:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60412 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726692AbfFHK4p (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 8 Jun 2019 06:56:45 -0400
-Received: from localhost (p5486CBCC.dip0.t-ipconnect.de [84.134.203.204])
-        by pokefinder.org (Postfix) with ESMTPSA id D0A142C3637;
-        Sat,  8 Jun 2019 12:56:40 +0200 (CEST)
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org, devel@driverdev.osuosl.org,
-        dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH 00/34] treewide: simplify getting the adapter of an I2C client
-Date:   Sat,  8 Jun 2019 12:55:39 +0200
-Message-Id: <20190608105619.593-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.19.1
+        id S1728640AbfFHLnK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 8 Jun 2019 07:43:10 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C96AD214AF;
+        Sat,  8 Jun 2019 11:43:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559994189;
+        bh=lwKR71ZRj7Zr9zES63ArSSUXvbi1ImHyvWXs/ZGcBfk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=XWb29LW2GOFLlDpTN/RBIbysS1d/eJQJ1CzDx9Yxh9p4Bs1lSLJV6gLVnFUQ/7RPd
+         eSUQYNfnuGV4lSJ0C4Jv1Le5gYb4eW1ITan6ONBXJHEXLjoHud54uqafVaNJ66mmwz
+         h8rxdRRboX/qt4Lz3JZeIb4A6w0VtE27yui3N4hI=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Jia-Ju Bai <baijiaju1990@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 10/49] usb: xhci: Fix a potential null pointer dereference in xhci_debugfs_create_endpoint()
+Date:   Sat,  8 Jun 2019 07:41:51 -0400
+Message-Id: <20190608114232.8731-10-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190608114232.8731-1-sashal@kernel.org>
+References: <20190608114232.8731-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-While preparing a refactoring series, I noticed that some drivers use a
-complicated way of determining the adapter of a client. The easy way is
-to use the intended pointer: client->adapter
+From: Jia-Ju Bai <baijiaju1990@gmail.com>
 
-These drivers do:
-	to_i2c_adapter(client->dev.parent);
+[ Upstream commit 5bce256f0b528624a34fe907db385133bb7be33e ]
 
-The I2C core populates the parent pointer as:
-	client->dev.parent = &client->adapter->dev;
+In xhci_debugfs_create_slot(), kzalloc() can fail and
+dev->debugfs_private will be NULL.
+In xhci_debugfs_create_endpoint(), dev->debugfs_private is used without
+any null-pointer check, and can cause a null pointer dereference.
 
-Now take into consideration that
-	to_i2c_adapter(&adapter->dev);
+To fix this bug, a null-pointer check is added in
+xhci_debugfs_create_endpoint().
 
-is a complicated way of saying 'adapter', then we can even formally
-prove that the complicated expression can be simplified by using
-client->adapter.
+This bug is found by a runtime fuzzing tool named FIZZER written by us.
 
-The conversion was done using a coccinelle script with some manual
-indentation fixes applied on top.
+[subjet line change change, add potential -Mathais]
+Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/usb/host/xhci-debugfs.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-To avoid a brown paper bag mistake, I double checked this on a Renesas
-Salvator-XS board (R-Car M3N) and verified both expression result in the
-same pointer. Other than that, the series is only build tested.
-
-A branch can be found here:
-
-git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/no_to_adapter
-
-Please apply the patches to the individual subsystem trees. There are no
-dependencies.
-
-Thanks and kind regards,
-
-   Wolfram
-
-
-Wolfram Sang (34):
-  clk: clk-cdce706: simplify getting the adapter of a client
-  gpu: drm: bridge: sii9234: simplify getting the adapter of a client
-  iio: light: bh1780: simplify getting the adapter of a client
-  leds: leds-pca955x: simplify getting the adapter of a client
-  leds: leds-tca6507: simplify getting the adapter of a client
-  media: i2c: ak881x: simplify getting the adapter of a client
-  media: i2c: mt9m001: simplify getting the adapter of a client
-  media: i2c: mt9m111: simplify getting the adapter of a client
-  media: i2c: mt9p031: simplify getting the adapter of a client
-  media: i2c: ov2640: simplify getting the adapter of a client
-  media: i2c: tw9910: simplify getting the adapter of a client
-  misc: fsa9480: simplify getting the adapter of a client
-  misc: isl29003: simplify getting the adapter of a client
-  misc: tsl2550: simplify getting the adapter of a client
-  mtd: maps: pismo: simplify getting the adapter of a client
-  power: supply: bq24190_charger: simplify getting the adapter of a client
-  power: supply: bq24257_charger: simplify getting the adapter of a client
-  power: supply: bq25890_charger: simplify getting the adapter of a client
-  power: supply: max14656_charger_detector: simplify getting the adapter
-    of a client
-  power: supply: max17040_battery: simplify getting the adapter of a client
-  power: supply: max17042_battery: simplify getting the adapter of a client
-  power: supply: rt5033_battery: simplify getting the adapter of a client
-  power: supply: rt9455_charger: simplify getting the adapter of a client
-  power: supply: sbs-manager: simplify getting the adapter of a client
-  regulator: max8952: simplify getting the adapter of a client
-  rtc: fm3130: simplify getting the adapter of a client
-  rtc: m41t80: simplify getting the adapter of a client
-  rtc: rv8803: simplify getting the adapter of a client
-  rtc: rx8010: simplify getting the adapter of a client
-  rtc: rx8025: simplify getting the adapter of a client
-  staging: media: soc_camera: imx074: simplify getting the adapter of a client
-  staging: media: soc_camera: mt9t031: simplify getting the adapter of a client
-  staging: media: soc_camera: soc_mt9v022: simplify getting the adapter
-    of a client
-  usb: typec: tcpm: fusb302: simplify getting the adapter of a client
-
- drivers/clk/clk-cdce706.c                        | 2 +-
- drivers/gpu/drm/bridge/sii9234.c                 | 4 ++--
- drivers/iio/light/bh1780.c                       | 2 +-
- drivers/leds/leds-pca955x.c                      | 2 +-
- drivers/leds/leds-tca6507.c                      | 2 +-
- drivers/media/i2c/ak881x.c                       | 2 +-
- drivers/media/i2c/mt9m001.c                      | 2 +-
- drivers/media/i2c/mt9m111.c                      | 2 +-
- drivers/media/i2c/mt9p031.c                      | 2 +-
- drivers/media/i2c/ov2640.c                       | 2 +-
- drivers/media/i2c/tw9910.c                       | 3 +--
- drivers/misc/fsa9480.c                           | 2 +-
- drivers/misc/isl29003.c                          | 2 +-
- drivers/misc/tsl2550.c                           | 2 +-
- drivers/mtd/maps/pismo.c                         | 2 +-
- drivers/power/supply/bq24190_charger.c           | 2 +-
- drivers/power/supply/bq24257_charger.c           | 2 +-
- drivers/power/supply/bq25890_charger.c           | 2 +-
- drivers/power/supply/max14656_charger_detector.c | 2 +-
- drivers/power/supply/max17040_battery.c          | 2 +-
- drivers/power/supply/max17042_battery.c          | 2 +-
- drivers/power/supply/rt5033_battery.c            | 2 +-
- drivers/power/supply/rt9455_charger.c            | 2 +-
- drivers/power/supply/sbs-manager.c               | 2 +-
- drivers/regulator/max8952.c                      | 2 +-
- drivers/rtc/rtc-fm3130.c                         | 8 +++-----
- drivers/rtc/rtc-m41t80.c                         | 2 +-
- drivers/rtc/rtc-rv8803.c                         | 2 +-
- drivers/rtc/rtc-rx8010.c                         | 2 +-
- drivers/rtc/rtc-rx8025.c                         | 2 +-
- drivers/staging/media/soc_camera/imx074.c        | 2 +-
- drivers/staging/media/soc_camera/mt9t031.c       | 2 +-
- drivers/staging/media/soc_camera/soc_mt9v022.c   | 2 +-
- drivers/usb/typec/tcpm/fusb302.c                 | 3 +--
- 34 files changed, 37 insertions(+), 41 deletions(-)
-
+diff --git a/drivers/usb/host/xhci-debugfs.c b/drivers/usb/host/xhci-debugfs.c
+index cadc01336bf8..7ba6afc7ef23 100644
+--- a/drivers/usb/host/xhci-debugfs.c
++++ b/drivers/usb/host/xhci-debugfs.c
+@@ -440,6 +440,9 @@ void xhci_debugfs_create_endpoint(struct xhci_hcd *xhci,
+ 	struct xhci_ep_priv	*epriv;
+ 	struct xhci_slot_priv	*spriv = dev->debugfs_private;
+ 
++	if (!spriv)
++		return;
++
+ 	if (spriv->eps[ep_index])
+ 		return;
+ 
 -- 
-2.19.1
+2.20.1
 
