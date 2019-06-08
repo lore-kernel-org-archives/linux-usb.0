@@ -2,93 +2,75 @@ Return-Path: <SRS0=6ExK=UH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDA46C28CC5
-	for <linux-usb@archiver.kernel.org>; Sat,  8 Jun 2019 10:21:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CE1BC28CC5
+	for <linux-usb@archiver.kernel.org>; Sat,  8 Jun 2019 10:57:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9A44C212F5
-	for <linux-usb@archiver.kernel.org>; Sat,  8 Jun 2019 10:21:25 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="pGCnBukm"
+	by mail.kernel.org (Postfix) with ESMTP id 6B879212F5
+	for <linux-usb@archiver.kernel.org>; Sat,  8 Jun 2019 10:57:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726777AbfFHKVY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 8 Jun 2019 06:21:24 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:51230 "EHLO
-        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726692AbfFHKVY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 8 Jun 2019 06:21:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1559989282; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=UHwp4EaKIApS7gi/29f6skCLdTCv8U5u1pmErrPTMLI=;
-        b=pGCnBukmxLAU2uMSE8Ka0VnpptlMtXGRYMwBXdpKjDMYfjAihdVNbK2MRxxmxfwvyZsZEe
-        TuuUOO4ul6WcDYTITpPuy/2E6dcWqT9+0PU8xcnjVknKdPr1hrAqN+ADoQshvWaC/la5zQ
-        tuxwfMpZ2/uoBxEGoHtxnBnz2r7aTSE=
-Date:   Sat, 08 Jun 2019 12:21:18 +0200
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH] usb: musb: jz4740: Make probe function __init_or_module
-To:     Bin Liu <b-liu@ti.com>
-Cc:     od@zcrc.me, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-Id: <1559989278.1815.4@crapouillou.net>
-In-Reply-To: <20190607155751.15778-1-paul@crapouillou.net>
-References: <20190607155751.15778-1-paul@crapouillou.net>
+        id S1727262AbfFHK5K (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 8 Jun 2019 06:57:10 -0400
+Received: from sauhun.de ([88.99.104.3]:51874 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727197AbfFHK5A (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 8 Jun 2019 06:57:00 -0400
+Received: from localhost (p5486CBCC.dip0.t-ipconnect.de [84.134.203.204])
+        by pokefinder.org (Postfix) with ESMTPSA id EE3A03E47A1;
+        Sat,  8 Jun 2019 12:56:58 +0200 (CEST)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 34/34] usb: typec: tcpm: fusb302: simplify getting the adapter of a client
+Date:   Sat,  8 Jun 2019 12:56:13 +0200
+Message-Id: <20190608105619.593-35-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20190608105619.593-1-wsa+renesas@sang-engineering.com>
+References: <20190608105619.593-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-I misunderstood what __init_or_module was for. Please ignore this patch.
+We have a dedicated pointer for that, so use it. Much easier to read and
+less computation involved.
 
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-Le ven. 7 juin 2019 =E0 17:57, Paul Cercueil <paul@crapouillou.net> a=20
-=E9crit :
-> This allows the probe function to be dropped after the kernel finished
-> its initialization, in the case where the driver was not compiled as a
-> module.
->=20
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
->  drivers/usb/musb/jz4740.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/usb/musb/jz4740.c b/drivers/usb/musb/jz4740.c
-> index 5261f8dfedec..c881f6d14752 100644
-> --- a/drivers/usb/musb/jz4740.c
-> +++ b/drivers/usb/musb/jz4740.c
-> @@ -105,7 +105,7 @@ static const struct musb_platform_ops=20
-> jz4740_musb_ops =3D {
->  	.init		=3D jz4740_musb_init,
->  };
->=20
-> -static int jz4740_probe(struct platform_device *pdev)
-> +static int __init_or_module jz4740_probe(struct platform_device=20
-> *pdev)
->  {
->  	struct musb_hdrc_platform_data	*pdata =3D &jz4740_musb_platform_data;
->  	struct platform_device		*musb;
-> @@ -174,7 +174,7 @@ static int jz4740_probe(struct platform_device=20
-> *pdev)
->  	return ret;
->  }
->=20
-> -static int jz4740_remove(struct platform_device *pdev)
-> +static int __exit jz4740_remove(struct platform_device *pdev)
->  {
->  	struct jz4740_glue	*glue =3D platform_get_drvdata(pdev);
->=20
-> --
-> 2.21.0.593.g511ec345e18
->=20
+Please apply to your subsystem tree.
 
-=
+ drivers/usb/typec/tcpm/fusb302.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
+index 7302f7501ec9..c524088246ee 100644
+--- a/drivers/usb/typec/tcpm/fusb302.c
++++ b/drivers/usb/typec/tcpm/fusb302.c
+@@ -1697,13 +1697,12 @@ static int fusb302_probe(struct i2c_client *client,
+ 			 const struct i2c_device_id *id)
+ {
+ 	struct fusb302_chip *chip;
+-	struct i2c_adapter *adapter;
++	struct i2c_adapter *adapter = client->adapter;
+ 	struct device *dev = &client->dev;
+ 	const char *name;
+ 	int ret = 0;
+ 	u32 v;
+ 
+-	adapter = to_i2c_adapter(client->dev.parent);
+ 	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_I2C_BLOCK)) {
+ 		dev_err(&client->dev,
+ 			"I2C/SMBus block functionality not supported!\n");
+-- 
+2.19.1
 
