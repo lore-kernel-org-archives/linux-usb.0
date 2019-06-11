@@ -2,36 +2,40 @@ Return-Path: <SRS0=mWAZ=UK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36D58C43218
-	for <linux-usb@archiver.kernel.org>; Tue, 11 Jun 2019 13:50:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94BA5C43218
+	for <linux-usb@archiver.kernel.org>; Tue, 11 Jun 2019 13:53:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 186B420896
-	for <linux-usb@archiver.kernel.org>; Tue, 11 Jun 2019 13:50:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6D99E206BB
+	for <linux-usb@archiver.kernel.org>; Tue, 11 Jun 2019 13:53:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391309AbfFKNul (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 11 Jun 2019 09:50:41 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:35660 "HELO
+        id S2391345AbfFKNxF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 11 Jun 2019 09:53:05 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:35672 "HELO
         iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S2391301AbfFKNul (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 11 Jun 2019 09:50:41 -0400
-Received: (qmail 1721 invoked by uid 2102); 11 Jun 2019 09:50:40 -0400
+        with SMTP id S1728982AbfFKNxE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 11 Jun 2019 09:53:04 -0400
+Received: (qmail 1733 invoked by uid 2102); 11 Jun 2019 09:53:03 -0400
 Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 11 Jun 2019 09:50:40 -0400
-Date:   Tue, 11 Jun 2019 09:50:40 -0400 (EDT)
+  by localhost with SMTP; 11 Jun 2019 09:53:03 -0400
+Date:   Tue, 11 Jun 2019 09:53:03 -0400 (EDT)
 From:   Alan Stern <stern@rowland.harvard.edu>
 X-X-Sender: stern@iolanthe.rowland.org
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <bleung@chromium.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <libusb-devel@lists.sourceforge.net>
-Subject: Re: [PATCH] USB: add usbfs ioctl to retrieve the connection parameters
-In-Reply-To: <20190610223658.GA162167@dtor-ws>
-Message-ID: <Pine.LNX.4.44L0.1906110950130.1535-100000@iolanthe.rowland.org>
+To:     Felipe Balbi <felipe.balbi@linux.intel.com>
+cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Howells <dhowells@redhat.com>, <viro@zeniv.linux.org.uk>,
+        <linux-usb@vger.kernel.org>, <raven@themaw.net>,
+        <linux-fsdevel@vger.kernel.org>, <linux-api@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <keyrings@vger.kernel.org>,
+        <linux-security-module@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 09/10] usb: Add USB subsystem notifications [ver #3]
+In-Reply-To: <875zpcfxfk.fsf@linux.intel.com>
+Message-ID: <Pine.LNX.4.44L0.1906110950440.1535-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
@@ -39,25 +43,36 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, 10 Jun 2019, Dmitry Torokhov wrote:
+On Tue, 11 Jun 2019, Felipe Balbi wrote:
 
-> Recently usfbs gained availability to retrieve device speed, but there
-> is sill no way to determine the bus number or list of ports the device
-> is connected to when using usbfs. While this information can be obtained
-> from sysfs, not all environments allow sysfs access. In a jailed
-> environment a program might be simply given an opened file descriptor to
-> usbfs device, and it is really important that all data can be gathered
-> from said file descriptor.
+> >> >> > So for "severe" issues, yes, we should do this, but perhaps not for all
+> >> >> > of the "normal" things we see when a device is yanked out of the system
+> >> >> > and the like.
+> >> >> 
+> >> >> Then what counts as a "severe" issue?  Anything besides enumeration 
+> >> >> failure?
+> >> >
+> >> > Not that I can think of at the moment, other than the other recently
+> >> > added KOBJ_CHANGE issue.  I'm sure we have other "hard failure" issues
+> >> > in the USB stack that people will want exposed over time.
+> >> 
+> >> From an XHCI standpoint, Transaction Errors might be one thing. They
+> >> happen rarely and are a strong indication that the bus itself is
+> >> bad. Either bad cable, misbehaving PHYs, improper power management, etc.
+> >
+> > Don't you also get transaction errors if the user unplugs a device in 
+> > the middle of a transfer?  That's not the sort of thing we want to sent 
+> > notifications about.
 > 
-> This patch introduces a new ioctl, USBDEVFS_CONNINFO_EX, which return
-> extended connection information for the device, including the bus
-> number, address, port list and speed. The API allows kernel to extend
-> amount of data returned by the ioctl and userspace has an option of
-> adjusting the amount of data it is willing to consume. A new capability,
-> USBDEVFS_CAP_CONNINFO_EX, is introduced to help userspace in determining
-> whether the kernel supports this new ioctl.
-> 
-> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Mathias, do we get Transaction Error if user removes cable during a
+> transfer? I thought we would just get Port Status Change with CC bit
+> cleared, no?
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Even if xHCI doesn't give Transaction Errors when a cable is unplugged 
+during a transfer, other host controllers do.  Sometimes quite a lot -- 
+they continue to occur until the kernel polls the parent hub's 
+interrupt ep and learns that the port is disconnected, which can take 
+up to 250 ms.
+
+Alan Stern
 
