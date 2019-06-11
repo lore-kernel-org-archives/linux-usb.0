@@ -2,186 +2,112 @@ Return-Path: <SRS0=mWAZ=UK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5AE4C4321A
-	for <linux-usb@archiver.kernel.org>; Tue, 11 Jun 2019 07:43:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CD00C4321A
+	for <linux-usb@archiver.kernel.org>; Tue, 11 Jun 2019 07:54:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8016D212F5
-	for <linux-usb@archiver.kernel.org>; Tue, 11 Jun 2019 07:43:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DBF3B208E3
+	for <linux-usb@archiver.kernel.org>; Tue, 11 Jun 2019 07:54:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404189AbfFKHnc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 11 Jun 2019 03:43:32 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:49150 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2403920AbfFKHnc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 11 Jun 2019 03:43:32 -0400
-X-UUID: 61b29e41fa6d47a7ae42b6bcebcd34f3-20190611
-X-UUID: 61b29e41fa6d47a7ae42b6bcebcd34f3-20190611
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 1932523170; Tue, 11 Jun 2019 15:43:11 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS32N1.mediatek.inc
- (172.27.4.71) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Tue, 11 Jun
- 2019 15:43:09 +0800
-Received: from [10.17.3.153] (172.27.4.253) by MTKCAS32.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 11 Jun 2019 15:43:09 +0800
-Message-ID: <1560238989.8487.122.camel@mhfsdcap03>
-Subject: Re: [Patch V4 4/8] dt-bindings: usb: Add NVIDIA Tegra XUSB device
- mode controller binding
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Nagarjuna Kristam <nkristam@nvidia.com>
-CC:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <mark.rutland@arm.com>, <robh+dt@kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-Date:   Tue, 11 Jun 2019 15:43:09 +0800
-In-Reply-To: <1560161949-26031-5-git-send-email-nkristam@nvidia.com>
-References: <1560161949-26031-1-git-send-email-nkristam@nvidia.com>
-         <1560161949-26031-5-git-send-email-nkristam@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Content-Transfer-Encoding: 7bit
+        id S2404519AbfFKHyf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 11 Jun 2019 03:54:35 -0400
+Received: from mga09.intel.com ([134.134.136.24]:32610 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2403815AbfFKHyf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 11 Jun 2019 03:54:35 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Jun 2019 00:54:34 -0700
+X-ExtLoop1: 1
+Received: from kuha.fi.intel.com ([10.237.72.189])
+  by fmsmga001.fm.intel.com with SMTP; 11 Jun 2019 00:54:32 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 11 Jun 2019 10:54:31 +0300
+Date:   Tue, 11 Jun 2019 10:54:31 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Vladimir Yerilov <openmindead@gmail.com>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: kernel NULL pointer dereference, ucsi bug
+Message-ID: <20190611075431.GB7918@kuha.fi.intel.com>
+References: <CAB31r6U3Ha+JrbjGC+wKj-+gJfQ7dk+LSoL1n0tQBxVTPb2mRQ@mail.gmail.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 1E83E09A0ACA320913AA3B54C7BF879C832F44EB01B88D683A1920F5C0F8E0812000:8
-X-MTK:  N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAB31r6U3Ha+JrbjGC+wKj-+gJfQ7dk+LSoL1n0tQBxVTPb2mRQ@mail.gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, 2019-06-10 at 15:49 +0530, Nagarjuna Kristam wrote:
-> Add device-tree binding documentation for the XUSB device mode controller
-> present on Tegra210 SoC. This controller supports the USB 3.0
-> specification.
+Hi Vladimir,
+
+On Sun, Jun 02, 2019 at 09:24:43PM +1000, Vladimir Yerilov wrote:
+> Good day,
 > 
-> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
-> Reviewed-by: JC Kuo <jckuo@nvidia.com>
-> ---
->  .../devicetree/bindings/usb/nvidia,tegra-xudc.txt  | 108 +++++++++++++++++++++
->  1 file changed, 108 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
+> There's a problem with ucsi starting from 5.2-rc1 (maybe earlier
+> versions of 5.2 are affected too).
+> Recently I've tried these versions of rc3 (commits), all have this issue:
+> 3ab4436f688c2d2f221793953cd05435ca84261c (05/31)
+> 3ea3091f1bd8586125848c62be295910e9802af0
+> cd6c84d8f0cdc911df435bb075ba22ce3c605b07 (rc2)
 > 
-> diff --git a/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
-> new file mode 100644
-> index 0000000..cde4e11
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
-> @@ -0,0 +1,108 @@
-> +Device tree binding for NVIDIA Tegra XUSB device mode controller (XUDC)
-> +=======================================================================
-> +
-> +The Tegra XUDC controller supports both USB 2.0 HighSpeed/FullSpeed and
-> +USB 3.0 SuperSpeed protocols.
-> +
-> +Required properties:
-> +--------------------
-> +- compatible: For Tegra210, must contain "nvidia,tegra210-xudc".
-> +- reg: Must contain the base and length of the XUSB device registers, XUSB device
-> +  PCI Config registers and XUSB device controller registers.
-> +- reg-names: Must include all the register names needed for the driver
-add names list?
+> These are lines from journal logs (more in the attachment):
+> Jun 01 16:17:27 kernel: BUG: kernel NULL pointer dereference, address:
+> 0000000000000368
+> Jun 01 16:17:27 kernel: #PF: supervisor read access in kernel mode
+> Jun 01 16:17:27 kernel: #PF: error_code(0x0000) - not-present page
+> Jun 01 16:17:27 kernel: Oops: 0000 [#1] PREEMPT SMP PTI
+> Jun 01 16:17:27 kernel: CPU: 7 PID: 252 Comm: kworker/7:2 Tainted: G
+>   U     OE     5.2.0-1-MANJARO #1
+> Jun 01 16:17:27 kernel: Hardware name: Timi TM1701/TM1701, BIOS
+> XMAKB5R0P0906 10/23/2018
+> Jun 01 16:17:27 kernel: Workqueue: events_long ucsi_init [typec_ucsi]
+> Jun 01 16:17:27 kernel: RIP: 0010:typec_altmode_get_partner+0x5/0x20 [typec]
+> Jun 01 16:17:27 kernel: Code: 85 c0 74 08 e9 3c 8a 78 e2 31 c0 c3 b8
+> a1 ff ff ff c3 b8 ed ff ff ff c3 66 66 2e 0f 1f 84 00 00 00 00 00 66
+> 90 0f 1f 44 00 00 <48> 8b 87 68 03 00 00 48 83 c0 08 c3 66 66 2e 0f 1f
+> 84 00 00 00 00
+> Jun 01 16:17:27 kernel: RSP: 0018:ffffa67542123e00 EFLAGS: 00010293
+> Jun 01 16:17:27 kernel: RAX: 0000000000000000 RBX: ffff8e9485a56800
+> RCX: 0000000000000000
+> Jun 01 16:17:27 kernel: RDX: 0000000000000000 RSI: 0000000000000246
+> RDI: 0000000000000000
+> Jun 01 16:17:27 kernel: RBP: 0000000000000000 R08: ffff8e949ebdbdc0
+> R09: 0000000000000000
+> Jun 01 16:17:27 kernel: R10: 0000000000000000 R11: 0000000000000000
+> R12: 0000000000000000
+> Jun 01 16:17:27 kernel: R13: ffff8e9499237540 R14: ffff8e9485a56ac0
+> R15: ffff8e9485a56800
+> Jun 01 16:17:27 kernel: FS:  0000000000000000(0000)
+> GS:ffff8e949ebc0000(0000) knlGS:0000000000000000
+> Jun 01 16:17:27 kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> Jun 01 16:17:27 kernel: CR2: 0000000000000368 CR3: 00000001c8a0a003
+> CR4: 00000000003606e0
+> Jun 01 16:17:27 kernel: Call Trace:
+> Jun 01 16:17:27 kernel:  ucsi_altmode_update_active+0x85/0x100 [typec_ucsi]
+> Jun 01 16:17:27 kernel:  ucsi_init+0x398/0x590 [typec_ucsi]
+> Jun 01 16:17:27 kernel:  process_one_work+0x1eb/0x410
+> Jun 01 16:17:27 kernel:  worker_thread+0x2d/0x3d0
+> Jun 01 16:17:27 kernel:  ? process_one_work+0x410/0x410
+> Jun 01 16:17:27 kernel:  kthread+0x112/0x130
+> Jun 01 16:17:27 kernel:  ? kthread_park+0x80/0x80
+> Jun 01 16:17:27 kernel:  ret_from_fork+0x35/0x40
 
-> +- interrupts: Must contain the XUSB device interrupt.
-> +- clocks: Must contain an entry for all clocks used.
-> +  See ../clock/clock-bindings.txt for details.
-> +- clock-names: Must include the following entries:
-> +   - dev: Clock to enable core XUSB dev clock.
-> +   - ss: Clock to enable XUSB super speed clock.
-> +   - ss_src: Clock to enable XUSB super speed dev clock.
-> +   - hs_src: Clock to enable XUSB high speed dev clock.
-> +   - fs_src: Clock to enable XUSB full speed dev clock.
-> +- nvidia,xusb-padctl: phandle to the XUSB pad controller that is used to
-> +  configure the USB pads used by the XUDC controller.
-> +- power-domains: A list of PM domain specifiers that reference each power-domain
-> +  used by the XUSB device mode controller. This list must comprise of a specifier
-> +  for the XUSBA and XUSBB power-domains. See ../power/power_domain.txt and
-> +  ../arm/tegra/nvidia,tegra20-pmc.txt for details.
-> +- power-domain-names: A list of names that represent each of the specifiers in
-> +  the 'power-domains' property. Must include 'ss' and 'dev'.
-> +- phys: Must contain an entry for each entry in phy-names.
-> +  See ../phy/phy-bindings.txt for details.
-> +- phy-names: Should include an entry for each PHY used by the controller.
-> +  Names must be "usb2", and "usb3" if support SuperSpeed device mode.
-> +  - "usb3" phy, SuperSpeed (SSTX+/SSTX-/SSRX+/SSRX-) data lines.
-> +  - "usb2" phy, USB 2.0 (D+/D-) data lines.
-> +
-> +For Tegra210:
-> +- avddio-usb-supply: PCIe/USB3 analog logic power supply. Must supply 1.05 V.
-> +- hvdd-usb-supply: USB controller power supply. Must supply 3.3 V.
-> +
-> +
-> +Optional properties:
-> +--------------------
-> +- usb-role-switch: boolean property to indicate use of USB Role Switch driver.
-> +
-> +Sub-nodes:
-> +----------
-> +- The port would be added as subnode if use "usb-role-switch" property.
-> +  see graph.txt.
-> +
-> +Example:
-> +--------
-> +	pmc: pmc@7000e400 {
-> +		compatible = "nvidia,tegra210-pmc";
-> +		reg = <0x0 0x7000e400 0x0 0x400>;
-> +		clocks = <&tegra_car TEGRA210_CLK_PCLK>, <&clk32k_in>;
-> +		clock-names = "pclk", "clk32k_in";
-> +
-> +		powergates {
-> +			pd_xusbss: xusba {
-> +				clocks = <&tegra_car TEGRA210_CLK_XUSB_SS>;
-> +				resets = <&tegra_car 156>;
-> +				#power-domain-cells = <0>;
-> +			};
-> +
-> +			pd_xusbdev: xusbb {
-> +				clocks = <&tegra_car TEGRA210_CLK_XUSB_DEV>;
-> +				resets = <&tegra_car 95>;
-> +				#power-domain-cells = <0>;
-> +			};
-> +		};
-> +	};
-> +
-> +	xudc@700d0000 {
-> +		compatible = "nvidia,tegra210-xudc";
-> +		reg = <0x0 0x700d0000 0x0 0x8000>,
-> +		      <0x0 0x700d8000 0x0 0x1000>,
-> +		      <0x0 0x700d9000 0x0 0x1000>;
-> +		reg-names = "base", "fpci", "ipfs";
-> +
-> +		interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +		clocks = <&tegra_car TEGRA210_CLK_XUSB_DEV>,
-> +			 <&tegra_car TEGRA210_CLK_XUSB_SS>,
-> +			 <&tegra_car TEGRA210_CLK_XUSB_SSP_SRC>,
-> +			 <&tegra_car TEGRA210_CLK_XUSB_HS_SRC>,
-> +			 <&tegra_car TEGRA210_CLK_XUSB_FS_SRC>;
-> +		clock-names = "dev", "ss", "ss_src", "hs_src", "fs_src";
-> +
-> +		power-domains = <&pd_xusbdev>, <&pd_xusbss>;
-> +		power-domain-names = "dev", "ss";
-> +
-> +		nvidia,xusb-padctl = <&padctl>;
-> +
-> +		phys = <&{/padctl@7009f000/pads/usb2/lanes/usb2-0}>;
-> +		phy-names = "usb2;
-> +
-> +		avddio-usb-supply = <&vdd_pex_1v05>;
-> +		hvdd-usb-supply = <&vdd_3v3_sys>;
-> +
-> +		usb-role-switch;
-> +		port {
-> +			usb_role_switch: endpoint@0 {
-> +				remote-endpoint = <&bconn_ep>;
-> +			};
-> +		};
-> +
-> +	};
+The firmware is reporting that an alt mode which does not exist is
+active? What do you have connected to the USB Type-C connectors on the
+machine when that happens?
 
+Can you use the machine normally when nothing is connected to the USB
+Type-C connectors, and does the issue happen always when you plug in
+some specific device?
 
+Is it possible to send complete dmesg output after that happened?
+
+thanks,
+
+-- 
+heikki
