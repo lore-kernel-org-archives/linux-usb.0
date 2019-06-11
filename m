@@ -2,171 +2,193 @@ Return-Path: <SRS0=mWAZ=UK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46B7CC4321A
-	for <linux-usb@archiver.kernel.org>; Tue, 11 Jun 2019 06:49:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45F4DC43218
+	for <linux-usb@archiver.kernel.org>; Tue, 11 Jun 2019 06:49:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1EC842089E
-	for <linux-usb@archiver.kernel.org>; Tue, 11 Jun 2019 06:49:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 09C772089E
+	for <linux-usb@archiver.kernel.org>; Tue, 11 Jun 2019 06:49:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=renesasgroup.onmicrosoft.com header.i=@renesasgroup.onmicrosoft.com header.b="m5e5K5VF"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="SY4md4uB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404078AbfFKGtR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 11 Jun 2019 02:49:17 -0400
-Received: from mail-eopbgr1400091.outbound.protection.outlook.com ([40.107.140.91]:20544
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        id S2404083AbfFKGtx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 11 Jun 2019 02:49:53 -0400
+Received: from mail-eopbgr80075.outbound.protection.outlook.com ([40.107.8.75]:21123
+        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2391233AbfFKGtR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 11 Jun 2019 02:49:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+        id S2390485AbfFKGtx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 11 Jun 2019 02:49:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3ZTXEMME8NnhGCouO7tCVCDEdyMs+irQ+11VbPTgvVo=;
- b=m5e5K5VFR0JNVHhH71YFwbP6Ur44rvXIj/MOd3rPg9DMyP+AprsKlc55x7Ue6ZmUmCW3kqdW8OP4P7FD7GE1fMzom4lg3rwGa/CS4Sr4ViagCJr5BLqb8iLUWdRgWLjxthUexiqoah8IfE/zhgSBHEy53ksYWu5opvQMQ1CuKjg=
-Received: from OSAPR01MB3089.jpnprd01.prod.outlook.com (52.134.247.150) by
- OSAPR01MB3666.jpnprd01.prod.outlook.com (20.178.128.11) with Microsoft SMTP
+ bh=pVF6nsxEQ9hmF8CQcRfI3/eq+nddHvTEqmR6ieDJaAM=;
+ b=SY4md4uB04MR19AIXRJRiQpq+SIWO0uUdU9cxm5V38SbEZgBkhr1r5nncDzhAZq52xFY52oe7UlqjSJHVNgHG1w9Z2dXAhR0b/D29kFAirctafNFUu4U/NUfSQUN7BIPHCisdUNvgkOdIViLzljzawHbTvETinsosp50m4Kw4JA=
+Received: from VI1PR04MB4158.eurprd04.prod.outlook.com (52.133.15.33) by
+ VI1PR04MB3982.eurprd04.prod.outlook.com (10.171.182.15) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1965.12; Tue, 11 Jun 2019 06:49:12 +0000
-Received: from OSAPR01MB3089.jpnprd01.prod.outlook.com
- ([fe80::19ad:b6ce:a287:dc85]) by OSAPR01MB3089.jpnprd01.prod.outlook.com
- ([fe80::19ad:b6ce:a287:dc85%7]) with mapi id 15.20.1965.017; Tue, 11 Jun 2019
- 06:49:12 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Alan Stern <stern@rowland.harvard.edu>,
-        Christoph Hellwig <hch@lst.de>
-CC:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: RE: How to resolve an issue in swiotlb environment?
-Thread-Topic: How to resolve an issue in swiotlb environment?
-Thread-Index: AdUZ1Qlk800+Qz0uSuO63mIBeXkktQDUe+5AAJUL5SAAA1kYAAANEESAABf845A=
-Date:   Tue, 11 Jun 2019 06:49:12 +0000
-Message-ID: <OSAPR01MB30899F6EE0ABD554B4A21E7FD8ED0@OSAPR01MB3089.jpnprd01.prod.outlook.com>
-References: <20190610123222.GA20985@lst.de>
- <Pine.LNX.4.44L0.1906101423200.1560-100000@iolanthe.rowland.org>
-In-Reply-To: <Pine.LNX.4.44L0.1906101423200.1560-100000@iolanthe.rowland.org>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
+ 15.20.1965.12; Tue, 11 Jun 2019 06:48:07 +0000
+Received: from VI1PR04MB4158.eurprd04.prod.outlook.com
+ ([fe80::adce:72e8:d327:a10]) by VI1PR04MB4158.eurprd04.prod.outlook.com
+ ([fe80::adce:72e8:d327:a10%7]) with mapi id 15.20.1965.011; Tue, 11 Jun 2019
+ 06:48:07 +0000
+From:   Yinbo Zhu <yinbo.zhu@nxp.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+CC:     Xiaobo Xie <xiaobo.xie@nxp.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ramneek Mehresh <ramneek.mehresh@freescale.com>,
+        Nikhil Badola <nikhil.badola@freescale.com>,
+        Ran Wang <ran.wang_1@nxp.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Jiafei Pan <jiafei.pan@nxp.com>
+Subject: RE: [EXT] Re: [PATCH v6 4/5] usb: host: Stops USB controller init if
+ PLL fails to lock
+Thread-Topic: [EXT] Re: [PATCH v6 4/5] usb: host: Stops USB controller init if
+ PLL fails to lock
+Thread-Index: AQHVG2JFHPrNwRzzI0qVTHZVwmHoiqaNHVEAgAELuXCAB+Fn0A==
+Date:   Tue, 11 Jun 2019 06:48:07 +0000
+Message-ID: <VI1PR04MB4158848A7F9C3E68948EBAACE9ED0@VI1PR04MB4158.eurprd04.prod.outlook.com>
+References: <20190605054952.34687-4-yinbo.zhu@nxp.com>
+ <Pine.LNX.4.44L0.1906051020540.1788-100000@iolanthe.rowland.org>
+ <VI1PR04MB4158822B3E935275A488FDA7E9170@VI1PR04MB4158.eurprd04.prod.outlook.com>
+In-Reply-To: <VI1PR04MB4158822B3E935275A488FDA7E9170@VI1PR04MB4158.eurprd04.prod.outlook.com>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
-x-originating-ip: [118.238.235.108]
+ smtp.mailfrom=yinbo.zhu@nxp.com; 
+x-originating-ip: [119.31.174.73]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 653fa7d6-1148-484d-afa6-08d6ee38e9e9
+x-ms-office365-filtering-correlation-id: 601cabe7-0658-4e97-feaa-08d6ee38c2ea
 x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:OSAPR01MB3666;
-x-ms-traffictypediagnostic: OSAPR01MB3666:
-x-microsoft-antispam-prvs: <OSAPR01MB3666C9700F08B92CD08E1272D8ED0@OSAPR01MB3666.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:VI1PR04MB3982;
+x-ms-traffictypediagnostic: VI1PR04MB3982:
+x-microsoft-antispam-prvs: <VI1PR04MB398224A5116FD362A008C36EE9ED0@VI1PR04MB3982.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
 x-forefront-prvs: 006546F32A
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(346002)(376002)(396003)(39860400002)(136003)(189003)(199004)(486006)(73956011)(66066001)(66946007)(33656002)(3846002)(110136005)(6246003)(25786009)(53936002)(4326008)(66446008)(76116006)(68736007)(86362001)(6116002)(305945005)(64756008)(316002)(54906003)(66556008)(2171002)(66476007)(14444005)(256004)(7696005)(8936002)(5660300002)(14454004)(7736002)(229853002)(11346002)(76176011)(6436002)(99286004)(2906002)(55016002)(52536014)(9686003)(81166006)(71200400001)(102836004)(476003)(71190400001)(478600001)(8676002)(26005)(6506007)(446003)(186003)(81156014)(74316002);DIR:OUT;SFP:1102;SCL:1;SRVR:OSAPR01MB3666;H:OSAPR01MB3089.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(376002)(136003)(366004)(396003)(346002)(39860400002)(189003)(199004)(13464003)(256004)(52536014)(99286004)(71190400001)(14444005)(73956011)(54906003)(5660300002)(71200400001)(66066001)(14454004)(2906002)(74316002)(6116002)(3846002)(33656002)(11346002)(86362001)(6506007)(229853002)(53936002)(446003)(102836004)(2171002)(486006)(26005)(68736007)(476003)(186003)(44832011)(55016002)(9686003)(6246003)(76116006)(66946007)(66476007)(64756008)(66446008)(53546011)(8936002)(25786009)(6916009)(6436002)(4326008)(76176011)(305945005)(8676002)(7696005)(478600001)(81166006)(66556008)(316002)(7736002)(81156014);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR04MB3982;H:VI1PR04MB4158.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: cLMle0Pje1Fic3R//UYSRBgca4Dc2cCwPkLi7lZHaR+iX1jz3oJXvSifQm/XlydGsup7aBWjLB8a65ylkYiR4KxQ97KaI/wfzPZBJ8PejbKLnjZomMEiCPOuS48vkU6rof4EHVL2eZ9H899G8o8JladlMlBjEqtpb0a5rx7ezcnvJ6q39KexTmDuHZYOIgm8b2x2pVCBrIW6fOeAZ4MZU/FsDXWRGSM/elOn5r73g48PycCQZ/jIsvATZ8vGJZDIMTImiGiW4BVZ39GLsd3QoKOWVS4whuuLcPD2+WGbQoJXP1zu++/GR9/XYfXN4dWGdaC4XVT+rw/5h48HX/vXg9kLx2ZBsdnai4RUAx/w/XjrnA/CiJ8GCDgwPV+l6z8402sr+BqKF50Q/Tx7COVjIXeFO2OHSrFq8qAg77A9yhA=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+x-microsoft-antispam-message-info: ybzZndxF4Bmd/X8JnJ7MxsnWc0hSd4ooO7ngGMBpGAv3EqoW0IEKafEtRS+N0OsUAZOsaG0sDtf2SpWnuq7Q8gAgN2wM9+ccQXWKH3COVF3mOUqNWQjouhoxh3B0Cwvtb3gYiwLQBb3YqgbotVqz882zyF6q9g5QZQukqnkpYAjhHnfg6zJFMt+1gNDiY4VimmWVLybL8BNqYaidb6pDN2Mk4ZI0d837J+MNl3cFkhAzF4jIrRQicQ7D/xbB62GCvhn8Y25h0telUdMap0OB27KjL3+xA+pKXHDLWL1OJs1I4iI/ys2z3zDE+xtOCBV0U/WBxX8cl18YDiWNVldGrf7XTg7weUHtyLlPj+fROBLtqhLVzZU7sbzudFAdcXWn1tMENrj6fLtpSEqlUKpm8utAD/pIlMBFqdDkTgXcbPA=
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 653fa7d6-1148-484d-afa6-08d6ee38e9e9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jun 2019 06:49:12.8499
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 601cabe7-0658-4e97-feaa-08d6ee38c2ea
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Jun 2019 06:48:07.3504
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yoshihiro.shimoda.uh@renesas.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB3666
+X-MS-Exchange-CrossTenant-userprincipalname: yinbo.zhu@nxp.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB3982
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Christoph, Alan,
-
-> From: Alan Stern, Sent: Tuesday, June 11, 2019 3:46 AM
->=20
-> On Mon, 10 Jun 2019, Christoph Hellwig wrote:
->=20
-> > Hi Yoshihiro,
-> >
-> > sorry for not taking care of this earlier, today is a public holiday
-> > here and thus I'm not working much over the long weekend.
-
-To Christoph:
-
-No worries.
-
-> > On Mon, Jun 10, 2019 at 11:13:07AM +0000, Yoshihiro Shimoda wrote:
-> > > I have another way to avoid the issue. But it doesn't seem that a goo=
-d way though...
-> > > According to the commit that adding blk_queue_virt_boundary() [3],
-> > > this is needed for vhci_hcd as a workaround so that if we avoid to ca=
-ll it
-> > > on xhci-hcd driver, the issue disappeared. What do you think?
-> > > JFYI, I pasted a tentative patch in the end of email [4].
-> >
-> > Oh, I hadn't even look at why USB uses blk_queue_virt_boundary, and it
-> > seems like the usage is wrong, as it doesn't follow the same rules as
-> > all the others.  I think your patch goes in the right direction,
-> > but instead of comparing a hcd name it needs to be keyed of a flag
-> > set by the driver (I suspect there is one indicating native SG support,
-> > but I can't quickly find it), and we need an alternative solution
-> > for drivers that don't see like vhci.  I suspect just limiting the
-> > entire transfer size to something that works for a single packet
-> > for them would be fine.
->=20
-> Christoph:
->=20
-> In most of the different kinds of USB host controllers, the hardware is
-> not capable of assembling a packet out of multiple buffers at arbitrary
-> addresses.  As a matter of fact, xHCI is the only kind that _can_ do
-> this.
->=20
-> In some cases, the hardware can assemble packets provided each buffer
-> other than the last ends at a page boundary and each buffer other than
-> the first starts at a page boundary (Intel would say the buffers are
-> "virtually contiguous"), but this is a rather complex rule and we don't
-> want to rely on it.  Plus, in other cases the hardware _can't_ do this.
->=20
-> Instead, we want the SG buffers to be set up so that each one (except
-> the last) is an exact multiple of the maximum packet size.  That way,
-> each packet can be assembled from the contents of a single buffer and
-> there's no problem.
-
-There is out of this topic though, if we prepare such an exact multiple
-of the maximum packet size (1024, 512 or 64), is it possible to cause
-trouble on IOMMU environment? IIUC, dma_map_sg() maps SG buffers as
-a single segment and then the segment buffer is not contiguous.
-
-> The maximum packet size depends on the type of USB connection.
-> Typical values are 1024, 512, or 64.  It's always a power of two and
-> it's smaller than 4096.  Therefore we simplify the problem even further
-> by requiring that each SG buffer in a scatterlist (except the last one)
-> be a multiple of the page size.  (It doesn't need to be aligned on a
-> page boundary, as far as I remember.)
->=20
-> That's why the blk_queue_virt_boundary usage was added to the USB code.
-> Perhaps it's not the right way of doing this; I'm not an expert on the
-> inner workings of the block layer.  If you can suggest a better way to
-> express our requirement, that would be great.
-
-Since I'm also not familiar with the block layer, I could not find a better
-way...
-
-Best regards,
-Yoshihiro Shimoda
-
-> Alan Stern
->=20
-> PS: There _is_ a flag saying whether an HCD supports SG.  But what it
-> means is that the driver can handle an SG list that meets the
-> requirement above; it doesn't mean that the driver can reassemble the
-> data from an SG list into a series of bounce buffers in order to meet
-> the requirement.  We very much want not to do that, especially since
-> the block layer should already be capable of doing it for us.
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogWWluYm8gWmh1DQo+IFNl
+bnQ6IDIwMTnE6jbUwjbI1SAxNDozNQ0KPiBUbzogQWxhbiBTdGVybiA8c3Rlcm5Acm93bGFuZC5o
+YXJ2YXJkLmVkdT4NCj4gQ2M6IFhpYW9ibyBYaWUgPHhpYW9iby54aWVAbnhwLmNvbT47IEdyZWcg
+S3JvYWgtSGFydG1hbg0KPiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+OyBSYW1uZWVrIE1l
+aHJlc2gNCj4gPHJhbW5lZWsubWVocmVzaEBmcmVlc2NhbGUuY29tPjsgTmlraGlsIEJhZG9sYQ0K
+PiA8bmlraGlsLmJhZG9sYUBmcmVlc2NhbGUuY29tPjsgUmFuIFdhbmcgPHJhbi53YW5nXzFAbnhw
+LmNvbT47DQo+IGxpbnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtl
+cm5lbC5vcmc7IEppYWZlaSBQYW4NCj4gPGppYWZlaS5wYW5AbnhwLmNvbT4NCj4gU3ViamVjdDog
+UkU6IFtFWFRdIFJlOiBbUEFUQ0ggdjYgNC81XSB1c2I6IGhvc3Q6IFN0b3BzIFVTQiBjb250cm9s
+bGVyIGluaXQgaWYgUExMDQo+IGZhaWxzIHRvIGxvY2sNCj4gDQo+IA0KPiANCj4gPiAtLS0tLU9y
+aWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+IEZyb206IEFsYW4gU3Rlcm4gW21haWx0bzpzdGVybkBy
+b3dsYW5kLmhhcnZhcmQuZWR1XQ0KPiA+IFNlbnQ6IDIwMTnE6jbUwjXI1SAyMjoyMg0KPiA+IFRv
+OiBZaW5ibyBaaHUgPHlpbmJvLnpodUBueHAuY29tPg0KPiA+IENjOiBYaWFvYm8gWGllIDx4aWFv
+Ym8ueGllQG54cC5jb20+OyBHcmVnIEtyb2FoLUhhcnRtYW4NCj4gPiA8Z3JlZ2toQGxpbnV4Zm91
+bmRhdGlvbi5vcmc+OyBSYW1uZWVrIE1laHJlc2gNCj4gPiA8cmFtbmVlay5tZWhyZXNoQGZyZWVz
+Y2FsZS5jb20+OyBOaWtoaWwgQmFkb2xhDQo+ID4gPG5pa2hpbC5iYWRvbGFAZnJlZXNjYWxlLmNv
+bT47IFJhbiBXYW5nIDxyYW4ud2FuZ18xQG54cC5jb20+Ow0KPiA+IGxpbnV4LXVzYkB2Z2VyLmtl
+cm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IEppYWZlaSBQYW4NCj4gPiA8
+amlhZmVpLnBhbkBueHAuY29tPg0KPiA+IFN1YmplY3Q6IFtFWFRdIFJlOiBbUEFUQ0ggdjYgNC81
+XSB1c2I6IGhvc3Q6IFN0b3BzIFVTQiBjb250cm9sbGVyIGluaXQNCj4gPiBpZiBQTEwgZmFpbHMg
+dG8gbG9jaw0KPiA+DQo+ID4gQ2F1dGlvbjogRVhUIEVtYWlsDQo+ID4NCj4gPiBPbiBXZWQsIDUg
+SnVuIDIwMTksIFlpbmJvIFpodSB3cm90ZToNCj4gPg0KPiA+ID4gRnJvbTogUmFtbmVlayBNZWhy
+ZXNoIDxyYW1uZWVrLm1laHJlc2hAZnJlZXNjYWxlLmNvbT4NCj4gPiA+DQo+ID4gPiBVU0IgZXJy
+YXR1bS1BMDA2OTE4IHdvcmthcm91bmQgdHJpZXMgdG8gc3RhcnQgaW50ZXJuYWwgUEhZIGluc2lk
+ZQ0KPiA+ID4gdWJvb3QgKHdoZW4gUExMIGZhaWxzIHRvIGxvY2spLiBIb3dldmVyLCBpZiB0aGUg
+d29ya2Fyb3VuZCBhbHNvDQo+ID4gPiBmYWlscywgdGhlbiBVU0IgaW5pdGlhbGl6YXRpb24gaXMg
+YWxzbyBzdG9wcGVkIGluc2lkZSBMaW51eC4NCj4gPiA+IEVycmF0dW0tQTAwNjkxOCB3b3JrYXJv
+dW5kIGZhaWx1cmUgY3JlYXRlcyAiZnNsLGVycmF0dW1fYTAwNjkxOCINCj4gPiA+IG5vZGUgaW4g
+ZGV2aWNlLXRyZWUuIFByZXNlbmNlIG9mIHRoaXMgbm9kZSBpbiBkZXZpY2UtdHJlZSBpcyB1c2Vk
+IHRvDQo+ID4gPiBzdG9wIFVTQiBjb250cm9sbGVyIGluaXRpYWxpemF0aW9uIGluIExpbnV4DQo+
+ID4gPg0KPiA+ID4gU2lnbmVkLW9mZi1ieTogUmFtbmVlayBNZWhyZXNoIDxyYW1uZWVrLm1laHJl
+c2hAZnJlZXNjYWxlLmNvbT4NCj4gPiA+IFNpZ25lZC1vZmYtYnk6IFN1cmVzaCBHdXB0YSA8c3Vy
+ZXNoLmd1cHRhQGZyZWVzY2FsZS5jb20+DQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBZaW5ibyBaaHUg
+PHlpbmJvLnpodUBueHAuY29tPg0KPiA+ID4gLS0tDQo+ID4gPiBDaGFuZ2UgaW4gdjY6DQo+ID4g
+PiAgICAgICAgICAgICAgIGFkZCBhICJGYWxsIHRocm91Z2giIGNvbW1lbnQNCj4gPiA+DQo+ID4g
+PiAgZHJpdmVycy91c2IvaG9zdC9laGNpLWZzbC5jICAgICAgfCAxMCArKysrKysrKystDQo+ID4g
+PiAgZHJpdmVycy91c2IvaG9zdC9mc2wtbXBoLWRyLW9mLmMgfCAgMyArKy0NCj4gPiA+ICAyIGZp
+bGVzIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+ID4gPg0KPiA+
+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNiL2hvc3QvZWhjaS1mc2wuYw0KPiA+ID4gYi9kcml2
+ZXJzL3VzYi9ob3N0L2VoY2ktZnNsLmMgaW5kZXggOGYzYmYzZWZiMDM4Li44NmFlMzcwODZhNzQN
+Cj4gPiA+IDEwMDY0NA0KPiA+ID4gLS0tIGEvZHJpdmVycy91c2IvaG9zdC9laGNpLWZzbC5jDQo+
+ID4gPiArKysgYi9kcml2ZXJzL3VzYi9ob3N0L2VoY2ktZnNsLmMNCj4gPiA+IEBAIC0yMzQsOCAr
+MjM0LDE2IEBAIHN0YXRpYyBpbnQgZWhjaV9mc2xfc2V0dXBfcGh5KHN0cnVjdCB1c2JfaGNkICpo
+Y2QsDQo+ID4gPiAgICAgICAgICAgICAgIGJyZWFrOw0KPiA+ID4gICAgICAgY2FzZSBGU0xfVVNC
+Ml9QSFlfVVRNSV9XSURFOg0KPiA+ID4gICAgICAgICAgICAgICBwb3J0c2MgfD0gUE9SVF9QVFNf
+UFRXOw0KPiA+ID4gLSAgICAgICAgICAgICAvKiBmYWxsIHRocm91Z2ggKi8NCj4gPiA+ICAgICAg
+IGNhc2UgRlNMX1VTQjJfUEhZX1VUTUk6DQo+ID4gPiArICAgICAgICAgICAgIC8qIFByZXNlbmNl
+IG9mIHRoaXMgbm9kZSAiaGFzX2ZzbF9lcnJhdHVtX2EwMDY5MTgiDQo+ID4gPiArICAgICAgICAg
+ICAgICAqIGluIGRldmljZS10cmVlIGlzIHVzZWQgdG8gc3RvcCBVU0IgY29udHJvbGxlcg0KPiA+
+ID4gKyAgICAgICAgICAgICAgKiBpbml0aWFsaXphdGlvbiBpbiBMaW51eA0KPiA+ID4gKyAgICAg
+ICAgICAgICAgKi8NCj4gPiA+ICsgICAgICAgICAgICAgaWYgKHBkYXRhLT5oYXNfZnNsX2VycmF0
+dW1fYTAwNjkxOCkgew0KPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgIGRldl93YXJuKGRldiwg
+IlVTQiBQSFkgY2xvY2sgaW52YWxpZFxuIik7DQo+ID4gPiArICAgICAgICAgICAgICAgICAgICAg
+cmV0dXJuIC1FSU5WQUw7DQo+ID4gPiArICAgICAgICAgICAgIH0NCj4gPiA+ICsNCj4gPiA+ICAg
+ICAgIGNhc2UgRlNMX1VTQjJfUEhZX1VUTUlfRFVBTDoNCj4gPg0KPiA+DQo+ID4gWW91IG5lZWQg
+dG8gYWRkIGEgIkZhbGwgdGhyb3VnaCIgY29tbWVudCBiZXR3ZWVuIHRoZXNlIHR3byBjYXNlcy4N
+Cj4gPiA+ICAgICAgIGNhc2UgRlNMX1VTQjJfUEhZX1VUTUlfRFVBTDoNCj4gPiA+ICAgICAgICAg
+ICAgICAgLyogUEhZX0NMS19WQUxJRCBiaXQgaXMgZGUtZmVhdHVyZWQgZnJvbSBhbGwgY29udHJv
+bGxlcg0KPiA+ID4gICAgICAgICAgICAgICAgKiB2ZXJzaW9ucyBiZWxvdyAyLjQgYW5kIGlzIHRv
+IGJlIGNoZWNrZWQgb25seSBmb3INCj4gPg0KPiA+IEFsYW4gU3Rlcm4NCj4gPiBIaSBBbGFuIFN0
+ZXJuLA0KPiA+DQo+ID4gWW91ciBtZWFuaW5nIGlzIHRvIHJlbW92ZSAiLyogZmFsbCB0aHJvdWdo
+Ki8iIG9yIGFkZCB0aGUgZXJyYXR1bSBjb21tb250DQo+IHJlcGxhY2UgIi8qIGZhbGwgdGhyb3Vn
+aCovIg0KPiA+DQo+ID4gUmVnYXJkcywNCj4gPiBZaW5ibw0KPiA+IFRoaXMgaXMgYmFkLiAgWW91
+IGdvdCByaWQgb2YgYSAiZmFsbCB0aHJvdWdoIiBjb21tZW50IHRoYXQgd2FzIG5lZWRlZCwNCj4g
+PiBhbmQgeW91IGZhaWxlZCB0byBhZGQgYW5vdGhlciBvbmUgd2hlcmUgaXQgd2FzIG5lZWRlZC4N
+Cj4gPg0KPiA+IEFsYW4gU3Rlcm4NCj4gSSBkb24ndCBnZXQgeW91ciBtZWFuaW5nLg0KPiBZaW5i
+bw0KSGkgQWxhbiwNCg0KWW91ciBtZWFuaW5nIGlzIGxpa2UgZm9sbG93aW5nIGNvZGUgY2hhbmdl
+LCBpc24ndCBpdD8gaWYgbm8sIGNvdWxkIHlvdSBnaXZlIGEgZXhhbXBsZQ0KICAgICAgICAgICAg
+ICAgIHBvcnRzYyB8PSBQT1JUX1BUU19QVFc7DQogICAgICAgICAgICAgICAgLyogZmFsbCB0aHJv
+dWdoICovDQogICAgICAgIGNhc2UgRlNMX1VTQjJfUEhZX1VUTUk6DQorICAgICAgICAgICAgICAg
+LyogUHJlc2VuY2Ugb2YgdGhpcyBub2RlICJoYXNfZnNsX2VycmF0dW1fYTAwNjkxOCINCisgICAg
+ICAgICAgICAgICAgKiBpbiBkZXZpY2UtdHJlZSBpcyB1c2VkIHRvIHN0b3AgVVNCIGNvbnRyb2xs
+ZXINCisgICAgICAgICAgICAgICAgKiBpbml0aWFsaXphdGlvbiBpbiBMaW51eA0KKyAgICAgICAg
+ICAgICAgICAqLw0KKyAgICAgICAgICAgICAgIGlmIChwZGF0YS0+aGFzX2ZzbF9lcnJhdHVtX2Ew
+MDY5MTgpIHsNCisgICAgICAgICAgICAgICAgICAgICAgIGRldl93YXJuKGRldiwgIlVTQiBQSFkg
+Y2xvY2sgaW52YWxpZFxuIik7DQorICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gLUVJTlZB
+TDsNCisgICAgICAgICAgICAgICB9DQorDQogICAgICAgIGNhc2UgRlNMX1VTQjJfUEhZX1VUTUlf
+RFVBTDoNCiAgICAgICAgICAgICAgICAvKiBQSFlfQ0xLX1ZBTElEIGJpdCBpcyBkZS1mZWF0dXJl
+ZCBmcm9tIGFsbCBjb250cm9sbGVyDQpSZWdhcmRzLA0KWWluYm8uDQoNCj4gPg0KPiA+ID4gICAg
+ICAgICAgICAgICAvKiBQSFlfQ0xLX1ZBTElEIGJpdCBpcyBkZS1mZWF0dXJlZCBmcm9tIGFsbCBj
+b250cm9sbGVyDQo+ID4gPiAgICAgICAgICAgICAgICAqIHZlcnNpb25zIGJlbG93IDIuNCBhbmQg
+aXMgdG8gYmUgY2hlY2tlZCBvbmx5IGZvcg0KPiA+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvdXNi
+L2hvc3QvZnNsLW1waC1kci1vZi5jDQo+ID4gPiBiL2RyaXZlcnMvdXNiL2hvc3QvZnNsLW1waC1k
+ci1vZi5jDQo+ID4gPiBpbmRleCA0ZjhiOGEwOGM5MTQuLjc2MmI5NzYwMGFiMCAxMDA2NDQNCj4g
+PiA+IC0tLSBhL2RyaXZlcnMvdXNiL2hvc3QvZnNsLW1waC1kci1vZi5jDQo+ID4gPiArKysgYi9k
+cml2ZXJzL3VzYi9ob3N0L2ZzbC1tcGgtZHItb2YuYw0KPiA+ID4gQEAgLTIyNCwxMyArMjI0LDE0
+IEBAIHN0YXRpYyBpbnQgZnNsX3VzYjJfbXBoX2RyX29mX3Byb2JlKHN0cnVjdA0KPiA+IHBsYXRm
+b3JtX2RldmljZSAqb2ZkZXYpDQo+ID4gPiAgICAgICAgICAgICAgIG9mX3Byb3BlcnR5X3JlYWRf
+Ym9vbChucCwgImZzbCx1c2ItZXJyYXR1bS1hMDA1Mjc1Iik7DQo+ID4gPiAgICAgICBwZGF0YS0+
+aGFzX2ZzbF9lcnJhdHVtX2EwMDU2OTcgPQ0KPiA+ID4gICAgICAgICAgICAgICBvZl9wcm9wZXJ0
+eV9yZWFkX2Jvb2wobnAsICJmc2wsdXNiX2VycmF0dW0tYTAwNTY5NyIpOw0KPiA+ID4gKyAgICAg
+cGRhdGEtPmhhc19mc2xfZXJyYXR1bV9hMDA2OTE4ID0NCj4gPiA+ICsgICAgICAgICAgICAgb2Zf
+cHJvcGVydHlfcmVhZF9ib29sKG5wLCAiZnNsLHVzYl9lcnJhdHVtLWEwMDY5MTgiKTsNCj4gPiA+
+DQo+ID4gPiAgICAgICBpZiAob2ZfZ2V0X3Byb3BlcnR5KG5wLCAiZnNsLHVzYl9lcnJhdHVtXzE0
+IiwgTlVMTCkpDQo+ID4gPiAgICAgICAgICAgICAgIHBkYXRhLT5oYXNfZnNsX2VycmF0dW1fMTQg
+PSAxOw0KPiA+ID4gICAgICAgZWxzZQ0KPiA+ID4gICAgICAgICAgICAgICBwZGF0YS0+aGFzX2Zz
+bF9lcnJhdHVtXzE0ID0gMDsNCj4gPiA+DQo+ID4gPiAtDQo+ID4gPiAgICAgICAvKg0KPiA+ID4g
+ICAgICAgICogRGV0ZXJtaW5lIHdoZXRoZXIgcGh5X2Nsa192YWxpZCBuZWVkcyB0byBiZSBjaGVj
+a2VkDQo+ID4gPiAgICAgICAgKiBieSByZWFkaW5nIHByb3BlcnR5IGluIGRldmljZSB0cmVlDQo+
+ID4gPg0KDQo=
