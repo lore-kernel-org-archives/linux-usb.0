@@ -2,353 +2,117 @@ Return-Path: <SRS0=Xh9D=UM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F077AC31E49
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Jun 2019 15:07:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6814EC31E45
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Jun 2019 15:08:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BF3AC21473
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Jun 2019 15:07:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3ACFD20B7C
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Jun 2019 15:08:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="i6UQnWpb"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732855AbfFMPHp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 13 Jun 2019 11:07:45 -0400
-Received: from mx0b-001ae601.pphosted.com ([67.231.152.168]:42478 "EHLO
-        mx0b-001ae601.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732387AbfFMOBO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Jun 2019 10:01:14 -0400
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-        by mx0b-001ae601.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5DDoP6f020568;
-        Thu, 13 Jun 2019 09:00:38 -0500
-Authentication-Results: ppops.net;
-        spf=none smtp.mailfrom=mkulkarni@opensource.cirrus.com
-Received: from mail2.cirrus.com (mail2.cirrus.com [141.131.128.20])
-        by mx0b-001ae601.pphosted.com with ESMTP id 2t09ep7fpv-1;
-        Thu, 13 Jun 2019 09:00:32 -0500
-Received: from EDIEX02.ad.cirrus.com (unknown [198.61.84.81])
-        by mail2.cirrus.com (Postfix) with ESMTP id 64FA2605A697;
-        Thu, 13 Jun 2019 09:00:32 -0500 (CDT)
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1591.10; Thu, 13 Jun
- 2019 15:00:31 +0100
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.1.1591.10 via Frontend
- Transport; Thu, 13 Jun 2019 15:00:31 +0100
-Received: from mkulkarni-laptop.ad.cirrus.com (mkulkarni-laptop.ad.cirrus.com [198.90.199.28])
-        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 5E05645;
-        Thu, 13 Jun 2019 15:00:31 +0100 (BST)
-Message-ID: <1560434431.11184.13.camel@opensource.cirrus.com>
-Subject: Re: [PATCH] usb: core: devio: add ioctls for suspend and resume
-From:   Mayuresh Kulkarni <mkulkarni@opensource.cirrus.com>
-To:     Alan Stern <stern@rowland.harvard.edu>,
-        Greg KH <gregkh@linuxfoundation.org>
-CC:     <linux-usb@vger.kernel.org>, <patches@opensource.cirrus.com>,
-        <oneukum@suse.com>
-Date:   Thu, 13 Jun 2019 15:00:31 +0100
-In-Reply-To: <Pine.LNX.4.44L0.1906051655310.1788-100000@iolanthe.rowland.org>
-References: <Pine.LNX.4.44L0.1906051655310.1788-100000@iolanthe.rowland.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
+        id S1732514AbfFMPIS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 13 Jun 2019 11:08:18 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:37826 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732381AbfFMPIQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Jun 2019 11:08:16 -0400
+Received: by mail-lj1-f193.google.com with SMTP id 131so18911606ljf.4
+        for <linux-usb@vger.kernel.org>; Thu, 13 Jun 2019 08:08:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=twuon1pV88N5w58du1ZMvPHHkTqfReQHTcWT0lfhbQ4=;
+        b=i6UQnWpbKkfGTO3PpH/etcs9Sy7BCg5VFKySFn9Abg2OC7ZT/83jRSCfTFBys0PqMo
+         m6T/0U0sfQIOnLI2MOz9YcFDzSegHoWZ/wqY4fLkOV+jj+FSkgoB78HmFaAwU0ROPvuo
+         MGxBNNZYq/73OEB+V+8Y/kjDJ8NLmZFzuYEVRSHqUDUvDhiYC5yB7B/44o4Z9WJInivJ
+         xC3h+oZynP0Evu2o+uvJyDWvLwvyebsq7Ht1C/ylwxNAceiPLb+I5Ua7ZGlz5pDwplHx
+         Mr0tCeW73+bbhxfaneILccTTXIaXTR4RfE5eIwF67mtyz9h2yu/vdrm88SsgUqLdN6FC
+         ePQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=twuon1pV88N5w58du1ZMvPHHkTqfReQHTcWT0lfhbQ4=;
+        b=AcoHs7f+30zF7XvmVcPSZ6/XMp1KUyjla0lKO0vwp5wLwHE3qPrRbd9xAz85lutWIQ
+         lyqUs3irNImzydnaNqpqFEyaPbQzKPNAGZ04VhdPET50vN3OLwFXU6xb83zqpQrPVTmu
+         ZjajP7jneThm1wXaVJRPLWiAhrGFNUmxJoCJgJm89Ch7CoiRXjpm2DxJDp0KJjSprWds
+         RRKsuKdR1f3QxF0FPXS+oPE5Kr62y8SQ92vJFLjgNs1EHt7XsVneTZ0XB0X7WE2/qfvQ
+         o8RgqQWR4v3mFk012Exlw7u26cjjM0Wp5N2a3UCTTs9zo0vG+EGMwoQGuikuO1Hc5ihi
+         VGLQ==
+X-Gm-Message-State: APjAAAWkpsdYuQ5Igj34CNNRMRSMm+ZsOYkv9ZnneUao0Gey5FXw8XF1
+        gFU9T0wTTZGkvH6oZWkbgpYStW8DqVw=
+X-Google-Smtp-Source: APXvYqwjR3wt2uNqTMYXdAu5zmxlWzSIqGVXVuuev2vRr8i1qGuokrmajON9xgk8Bo9k2V36JqQ4kQ==
+X-Received: by 2002:a2e:994:: with SMTP id 142mr17315487ljj.130.1560438495686;
+        Thu, 13 Jun 2019 08:08:15 -0700 (PDT)
+Received: from linux.local (c-d2cd225c.014-348-6c756e10.bbcust.telenor.se. [92.34.205.210])
+        by smtp.gmail.com with ESMTPSA id t3sm9114lfk.59.2019.06.13.08.08.14
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 13 Jun 2019 08:08:14 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Hans Ulli Kroll <ulli.kroll@googlemail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Linus Walleij <linus.walleij@linaro.org>
+Subject: [PATCH] usb: host: fotg2: add device tree probing
+Date:   Thu, 13 Jun 2019 17:07:35 +0200
+Message-Id: <20190613150735.27977-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906130106
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, 2019-06-05 at 17:02 -0400, Alan Stern wrote:
-> On Wed, 5 Jun 2019, Greg KH wrote:
-> 
-> > 
-> > On Fri, May 10, 2019 at 11:01:09AM +0100, Mayuresh Kulkarni wrote:
-> > > 
-> > > - The current driver increments the PM ref-count in its .open
-> > > API and decrements it in its .close API.
-> > > - Due to this, it is not possible for the usb_device to go into
-> > > suspend (L2) even if all of its interfaces report idle to usb-core.
-> > > - In order to allow the suspend, 2 new ioctls are added:
-> > > 1. USBDEVFS_SUSPEND: calls auto-suspend and indicates to usb/pm core
-> > > to attempt suspend, if appropriate. This is a non-blocking call.
-> > > 2. USBDEVFS_WAIT_RESUME: waits for resume. This is a blocking call.
-> > > The resume could happen due to:
-> > > host-wake (i.e.: any driver bound to interface(s) of device wants to
-> > > send/receive control/data)
-> > > OR
-> > > remote-wake (i.e.: when remote-wake enabled device generates a
-> > > remote-wake to host).
-> > > In both these conditions, this call will return.
-> > > - It is expected that:
-> > > 1. When user-space thinks the device is idle from its point-of-view,
-> > > it calls USBDEVFS_SUSPEND.
-> > > 2. After USBDEVFS_WAIT_RESUME call returns,
-> > > the callers queries the device/interface of its interest to see
-> > > what caused resume and take appropriate action on it.
-> > I'm going to make a bunch of random comments on this patch, some
-> > cosmetic...
-> > 
-> > First off, the above is horrible to try to read, please format things in
-> > a sane way such that we can understand it well.
-> > 
-> > > 
-> > > The link to relevant discussion about this patch on linux-usb is -
-> > > https://www.spinics.net/lists/linux-usb/msg173285.html
-> > You should not need to reference any external web site for a changelog
-> > entry, just put the needed information in the changelog itself.
-> > 
-> > > 
-> > > Signed-off-by: Mayuresh Kulkarni <mkulkarni@opensource.cirrus.com>
-> Mayuresh:
-> 
-> I'm sorry; I completely lost sight of this patch (distracted by too 
-> many other things).
-> 
+From: Hans Ulli Kroll <ulli.kroll@googlemail.com>
 
-Hi Alan,
+Add device tree probing to the fotg2 driver.
 
-Thanks for your review and apologies for late response from me. I was on PTO last week and then in a training this week.
+Signed-off-by: Hans Ulli Kroll <ulli.kroll@googlemail.com>
+[Drop DMA mask coercion, drivers/of/platform.c does the job]
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/usb/host/fotg210-hcd.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-> Aside from the issues Greg raised, it isn't right because it relies on 
-> the suspend and resume callbacks for individual interfaces, not for the 
-> whole device.  There are a few other things that should be changed as 
-> well.
+diff --git a/drivers/usb/host/fotg210-hcd.c b/drivers/usb/host/fotg210-hcd.c
+index 0da68df259c8..e835a22b12af 100644
+--- a/drivers/usb/host/fotg210-hcd.c
++++ b/drivers/usb/host/fotg210-hcd.c
+@@ -10,6 +10,7 @@
+  * Most of code borrowed from the Linux-3.7 EHCI driver
+  */
+ #include <linux/module.h>
++#include <linux/of.h>
+ #include <linux/device.h>
+ #include <linux/dmapool.h>
+ #include <linux/kernel.h>
+@@ -5669,9 +5670,18 @@ static int fotg210_hcd_remove(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++#ifdef CONFIG_OF
++static const struct of_device_id fotg210_of_match[] = {
++	{ .compatible = "faraday,fotg210" },
++	{},
++};
++MODULE_DEVICE_TABLE(of, fotg210_of_match);
++#endif
++
+ static struct platform_driver fotg210_hcd_driver = {
+ 	.driver = {
+ 		.name   = "fotg210-hcd",
++		.of_match_table = of_match_ptr(fotg210_of_match),
+ 	},
+ 	.probe  = fotg210_hcd_probe,
+ 	.remove = fotg210_hcd_remove,
+-- 
+2.21.0
 
-In our use-case, we open the USB device with our VID/PID and then using that fd
-we bind to our interface. So this approach probably worked for our use-case.
-
-> Below is my attempt at doing the same thing (not tested, and it doesn't
-> answer all of Greg's objections).  It is very similar to your patch.  
-> Does it work for your application?
-> 
-
-I am checking your code-changes and will get back to you on this by next week.
-
-> (Note: I imagine you might run into trouble because devices generally 
-> do not get put into runtime suspend immediately.  So if you call the 
-> USBDEVFS_SUSPEND ioctl and then the USBDEVFS_WAIT_FOR_RESUME ioctl, the 
-> wait will return immediately because the device hasn't yet been 
-> suspended.)
-> 
-
-For this point, I am suggesting below -
-How about we return "udev->dev.power.usage_count" from suspend ioctl?
-count = 0 -> suspend success so good to call wait-for-resume ioctl
-count != 0 -> don't call resume since suspend did not happen.
-
-Will that work?
-
-> Alan Stern
-> 
-> 
->  drivers/usb/core/devio.c          |   66 +++++++++++++++++++++++++++++++++++-
-> --
->  drivers/usb/core/generic.c        |    5 ++
->  drivers/usb/core/usb.h            |    3 +
->  include/uapi/linux/usbdevice_fs.h |    2 +
->  4 files changed, 72 insertions(+), 4 deletions(-)
-> 
-> Index: usb-devel/drivers/usb/core/devio.c
-> ===================================================================
-> --- usb-devel.orig/drivers/usb/core/devio.c
-> +++ usb-devel/drivers/usb/core/devio.c
-> @@ -60,14 +60,17 @@ struct usb_dev_state {
->  	struct list_head async_completed;
->  	struct list_head memory_list;
->  	wait_queue_head_t wait;     /* wake up if a request completed */
-> +	wait_queue_head_t wait_for_resume;   /* wake up upon runtime resume
-> */
->  	unsigned int discsignr;
->  	struct pid *disc_pid;
->  	const struct cred *cred;
->  	void __user *disccontext;
->  	unsigned long ifclaimed;
->  	u32 disabled_bulk_eps;
-> -	bool privileges_dropped;
->  	unsigned long interface_allowed_mask;
-> +	bool privileges_dropped;
-> +	bool is_suspended;
-> +	bool suspend_requested;
->  };
->  
->  struct usb_memory {
-> @@ -699,9 +702,7 @@ static void driver_disconnect(struct usb
->  	destroy_async_on_interface(ps, ifnum);
->  }
->  
-> -/* The following routines are merely placeholders.  There is no way
-> - * to inform a user task about suspend or resumes.
-> - */
-> +/* We don't care about suspend/resume of claimed interfaces */
->  static int driver_suspend(struct usb_interface *intf, pm_message_t msg)
->  {
->  	return 0;
-> @@ -712,12 +713,32 @@ static int driver_resume(struct usb_inte
->  	return 0;
->  }
->  
-> +/* The following routines apply to the entire device, not interfaces */
-> +void usbfs_notify_suspend(struct usb_device *udev)
-> +{
-> +	struct usb_dev_state *ps;
-> +
-> +	list_for_each_entry(ps, &udev->filelist, list)
-> +		ps->is_suspended = true;
-> +}
-> +
-> +void usbfs_notify_resume(struct usb_device *udev)
-> +{
-> +	struct usb_dev_state *ps;
-> +
-> +	list_for_each_entry(ps, &udev->filelist, list) {
-> +		ps->is_suspended = false;
-> +		wake_up_all(&ps->wait_for_resume);
-> +	}
-> +}
-> +
->  struct usb_driver usbfs_driver = {
->  	.name =		"usbfs",
->  	.probe =	driver_probe,
->  	.disconnect =	driver_disconnect,
->  	.suspend =	driver_suspend,
->  	.resume =	driver_resume,
-> +	.supports_autosuspend = 1,
->  };
->  
->  static int claimintf(struct usb_dev_state *ps, unsigned int ifnum)
-> @@ -1008,6 +1029,7 @@ static int usbdev_open(struct inode *ino
->  	INIT_LIST_HEAD(&ps->async_completed);
->  	INIT_LIST_HEAD(&ps->memory_list);
->  	init_waitqueue_head(&ps->wait);
-> +	init_waitqueue_head(&ps->wait_for_resume);
->  	ps->disc_pid = get_pid(task_pid(current));
->  	ps->cred = get_current_cred();
->  	smp_wmb();
-> @@ -1034,6 +1056,8 @@ static int usbdev_release(struct inode *
->  	struct async *as;
->  
->  	usb_lock_device(dev);
-> +	if (ps->suspend_requested)
-> +		usb_autoresume_device(dev);
->  	usb_hub_release_all_ports(dev, ps);
->  
->  	list_del_init(&ps->list);
-> @@ -2355,6 +2379,17 @@ static int proc_drop_privileges(struct u
->  	return 0;
->  }
->  
-> +static int proc_wait_for_resume(struct usb_dev_state *ps)
-> +{
-> +	int ret;
-> +
-> +	usb_unlock_device(ps->dev);
-> +	ret = wait_event_interruptible(ps->wait_for_resume, !ps-
-> >is_suspended);
-> +	usb_lock_device(ps->dev);
-> +
-> +	return ret;
-> +}
-> +
->  /*
->   * NOTE:  All requests here that have interface numbers as parameters
->   * are assuming that somehow the configuration has been prevented from
-> @@ -2373,6 +2408,17 @@ static long usbdev_do_ioctl(struct file
->  
->  	usb_lock_device(dev);
->  
-> +	/* Almost all operations require the device to be runtime-active */
-> +	if (cmd != USBDEVFS_SUSPEND && cmd != USBDEVFS_WAIT_FOR_RESUME &&
-> +			ps->suspend_requested) {
-> +		if (usb_autoresume_device(dev) == 0) {
-> +			ps->suspend_requested = false;
-> +		} else {
-> +			ret = -EIO;
-> +			goto done;
-> +		}
-> +	}
-> +
->  	/* Reap operations are allowed even after disconnection */
->  	switch (cmd) {
->  	case USBDEVFS_REAPURB:
-> @@ -2549,6 +2595,16 @@ static long usbdev_do_ioctl(struct file
->  	case USBDEVFS_GET_SPEED:
->  		ret = ps->dev->speed;
->  		break;
-> +	case USBDEVFS_SUSPEND:
-> +		if (!ps->suspend_requested) {
-> +			usb_autosuspend_device(dev);
-> +			ps->suspend_requested = true;
-> +		}
-> +		ret = 0;
-> +		break;
-> +	case USBDEVFS_WAIT_FOR_RESUME:
-> +		ret = proc_wait_for_resume(ps);
-> +		break;
->  	}
->  
->   done:
-> @@ -2620,6 +2676,8 @@ static void usbdev_remove(struct usb_dev
->  		ps = list_entry(udev->filelist.next, struct usb_dev_state,
-> list);
->  		destroy_all_async(ps);
->  		wake_up_all(&ps->wait);
-> +		ps->is_suspended = false;
-> +		wake_up_all(&ps->wait_for_resume);
->  		list_del_init(&ps->list);
->  		if (ps->discsignr) {
->  			clear_siginfo(&sinfo);
-> Index: usb-devel/drivers/usb/core/generic.c
-> ===================================================================
-> --- usb-devel.orig/drivers/usb/core/generic.c
-> +++ usb-devel/drivers/usb/core/generic.c
-> @@ -257,6 +257,8 @@ static int generic_suspend(struct usb_de
->  	else
->  		rc = usb_port_suspend(udev, msg);
->  
-> +	if (rc == 0)
-> +		usbfs_notify_suspend(udev);
->  	return rc;
->  }
->  
-> @@ -273,6 +275,9 @@ static int generic_resume(struct usb_dev
->  		rc = hcd_bus_resume(udev, msg);
->  	else
->  		rc = usb_port_resume(udev, msg);
-> +
-> +	if (rc == 0)
-> +		usbfs_notify_resume(udev);
->  	return rc;
->  }
->  
-> Index: usb-devel/drivers/usb/core/usb.h
-> ===================================================================
-> --- usb-devel.orig/drivers/usb/core/usb.h
-> +++ usb-devel/drivers/usb/core/usb.h
-> @@ -95,6 +95,9 @@ extern int usb_runtime_idle(struct devic
->  extern int usb_enable_usb2_hardware_lpm(struct usb_device *udev);
->  extern int usb_disable_usb2_hardware_lpm(struct usb_device *udev);
->  
-> +extern void usbfs_notify_suspend(struct usb_device *udev);
-> +extern void usbfs_notify_resume(struct usb_device *udev);
-> +
->  #else
->  
->  static inline int usb_port_suspend(struct usb_device *udev, pm_message_t msg)
-> Index: usb-devel/include/uapi/linux/usbdevice_fs.h
-> ===================================================================
-> --- usb-devel.orig/include/uapi/linux/usbdevice_fs.h
-> +++ usb-devel/include/uapi/linux/usbdevice_fs.h
-> @@ -197,5 +197,7 @@ struct usbdevfs_streams {
->  #define USBDEVFS_FREE_STREAMS      _IOR('U', 29, struct usbdevfs_streams)
->  #define USBDEVFS_DROP_PRIVILEGES   _IOW('U', 30, __u32)
->  #define USBDEVFS_GET_SPEED         _IO('U', 31)
-> +#define USBDEVFS_SUSPEND           _IO('U', 32)
-> +#define USBDEVFS_WAIT_FOR_RESUME   _IO('U', 33)
->  
->  #endif /* _UAPI_LINUX_USBDEVICE_FS_H */
-> 
