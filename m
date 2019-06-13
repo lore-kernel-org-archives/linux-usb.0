@@ -2,102 +2,91 @@ Return-Path: <SRS0=Xh9D=UM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_MUTT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFFE9C31E45
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Jun 2019 15:01:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DE80C31E4A
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Jun 2019 15:07:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8A31920B7C
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Jun 2019 15:01:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 24DD920B7C
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Jun 2019 15:07:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733009AbfFMPBQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 13 Jun 2019 11:01:16 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:54454 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733019AbfFMPBQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Jun 2019 11:01:16 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: eballetbo)
-        with ESMTPSA id D442A281A15
-From:   Enric Balletbo i Serra <enric.balletbo@collabora.com>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Collabora Kernel ML <kernel@collabora.com>,
-        Thinh Nguyen <thinhn@synopsys.com>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: dwc3: Fix core validation in probe, move after clocks are enabled
-Date:   Thu, 13 Jun 2019 17:01:07 +0200
-Message-Id: <20190613150107.7892-1-enric.balletbo@collabora.com>
-X-Mailer: git-send-email 2.20.1
+        id S2387700AbfFMPHV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 13 Jun 2019 11:07:21 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:48888 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387659AbfFMPHR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Jun 2019 11:07:17 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 0F8B73C00C6;
+        Thu, 13 Jun 2019 16:57:50 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id yUx7f7DGOYhW; Thu, 13 Jun 2019 16:57:44 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 80FA73C00BE;
+        Thu, 13 Jun 2019 16:57:44 +0200 (CEST)
+Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.439.0; Thu, 13 Jun
+ 2019 16:57:44 +0200
+Date:   Thu, 13 Jun 2019 16:57:41 +0200
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Jonas Stenvall <jonas.stenvall.umea@gmail.com>
+CC:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
+        <vladimir_zapolskiy@mentor.com>, <joshua_frkuska@mentor.com>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Eugeniu Rosca <rosca.eugeniu@gmail.com>
+Subject: Re: [PATCH] usb: gadget: u_audio: Fixed variable declaration coding
+ style issue
+Message-ID: <20190613145741.GA30884@vmlxhi-102.adit-jv.com>
+References: <20190613093433.GA3878@ub1>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20190613093433.GA3878@ub1>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.72.93.184]
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The required clocks needs to be enabled before the first register
-access. After commit fe8abf332b8f ("usb: dwc3: support clocks and resets
-for DWC3 core"), this happens when the dwc3_core_is_valid function is
-called, but the mentioned commit adds that call in the wrong place,
-before the clocks are enabled. So, move that call after the
-clk_bulk_enable() to ensure the clocks are enabled and the reset
-deasserted.
+Hi Jonas,
 
-I detected this while, as experiment, I tried to move the clocks and resets
-from the glue layer to the DWC3 core on a Samsung Chromebook Plus.
+On Thu, Jun 13, 2019 at 11:34:33AM +0200, Jonas Stenvall wrote:
+> Fixed a coding style issue, replacing unsigned with unsigned int.
 
-That was not detected before because, in most cases, the glue layer
-initializes SoC-specific things and then populates the child "snps,dwc3"
-with those clocks already enabled.
+No concerns on my side. FWIW, the 'bare use of unsigned' coding style
+inconsistency is quite common in the USB gadget framework [1-2].
 
-Fixes: b873e2d0ea1ef ("usb: dwc3: Do core validation early on probe")
-Signed-off-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
----
+Depending on the feedback from the maintainers, I see below potential
+outcomes for this patch (sorted by my personal estimation of chance):
+ - we take it and we fix the rest on best-effort basis.
+ - we kindly ask you to fix the issue globally in USB gadget space.
+ - we don't care, as this is not a functional issue. We rather prefer to
+   concentrate on functional problems.
 
- drivers/usb/dwc3/core.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+Deciding on the above is a matter of maintainer's preference.
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 4aff1d8dbc4f..6e9e172010fc 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -1423,11 +1423,6 @@ static int dwc3_probe(struct platform_device *pdev)
- 	dwc->regs	= regs;
- 	dwc->regs_size	= resource_size(&dwc_res);
- 
--	if (!dwc3_core_is_valid(dwc)) {
--		dev_err(dwc->dev, "this is not a DesignWare USB3 DRD Core\n");
--		return -ENODEV;
--	}
--
- 	dwc3_get_properties(dwc);
- 
- 	dwc->reset = devm_reset_control_get_optional_shared(dev, NULL);
-@@ -1460,6 +1455,12 @@ static int dwc3_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto unprepare_clks;
- 
-+	if (!dwc3_core_is_valid(dwc)) {
-+		dev_err(dwc->dev, "this is not a DesignWare USB3 DRD Core\n");
-+		ret = -ENODEV;
-+		goto disable_clks;
-+	}
-+
- 	platform_set_drvdata(pdev, dwc);
- 	dwc3_cache_hwparams(dwc);
- 
-@@ -1525,6 +1526,7 @@ static int dwc3_probe(struct platform_device *pdev)
- 	pm_runtime_put_sync(&pdev->dev);
- 	pm_runtime_disable(&pdev->dev);
- 
-+disable_clks:
- 	clk_bulk_disable(dwc->num_clks, dwc->clks);
- unprepare_clks:
- 	clk_bulk_unprepare(dwc->num_clks, dwc->clks);
+> 
+> Signed-off-by: Jonas Stenvall <jonas.stenvall.umea@gmail.com>
+> ---
+>  drivers/usb/gadget/function/u_audio.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+
+From my end:
+
+Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+
+[1] git grep -E "unsigned [^(int|short|char|long)]" -- drivers/usb/gadget/function | wc -l
+32
+[2] git grep -E "unsigned [^(int|short|char|long)]" -- drivers/usb/gadget | wc -l                    
+99
+
 -- 
-2.20.1
-
+Best Regards,
+Eugeniu.
