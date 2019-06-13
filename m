@@ -2,144 +2,101 @@ Return-Path: <SRS0=Xh9D=UM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=AC_FROM_MANY_DOTS,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF3FCC31E45
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Jun 2019 16:49:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3CC6C31E45
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Jun 2019 16:59:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C1A392082C
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Jun 2019 16:49:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9C0E720665
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Jun 2019 16:59:41 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="JM/zm087"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730399AbfFMQt0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 13 Jun 2019 12:49:26 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:2728 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726771AbfFMEf3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Jun 2019 00:35:29 -0400
-X-IronPort-AV: E=Sophos;i="5.62,368,1554735600"; 
-   d="scan'208";a="18346413"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 13 Jun 2019 13:35:27 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 16B164117758;
-        Thu, 13 Jun 2019 13:35:27 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org
-Cc:     hch@lst.de, linux-usb@vger.kernel.org,
-        usb-storage@lists.one-eyed-alien.net,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH] usb-storage: Add a limitation for blk_queue_max_hw_sectors()
-Date:   Thu, 13 Jun 2019 13:35:04 +0900
-Message-Id: <1560400504-26884-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+        id S1729992AbfFMQ7k (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 13 Jun 2019 12:59:40 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:41150 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729820AbfFMQ7k (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Jun 2019 12:59:40 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5DGrg6a146672;
+        Thu, 13 Jun 2019 16:59:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
+ from : references : date : in-reply-to : message-id : mime-version :
+ content-type; s=corp-2018-07-02;
+ bh=VB7BbCcx5CDFsG6/AylvYiYZjuNghhK4GPV3gIX6IgY=;
+ b=JM/zm087RQdix9tjZYqwsKtsL1r4oeg4m549rL34vFP7V7snV+V6jkMW32K6cszyFqwA
+ 4LAwbnYI7oNx6Cder0IYcyRig+6l/D5XoXA1WNj3W3i4BZ6SS9JNcU2+U4sz9Ilx21RF
+ m9yWqSzUQgzoMdBE7yH3XIoto5guc4o8ijARvGbDVEAkV33NZnSKZyPhcunGnyQZOg6D
+ gntIMHlm0W9RMbH9YcXv5nmx02cXJu4f8UcMUE/CPLCoFNupiHRYByCja362NG3+UA64
+ L3pcrl3it7g9J2N2cGoPCK+Lkrsj/lr1/Q03zQibiuskhzmeOuF3NAuinosmwPYef5Ov hA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2120.oracle.com with ESMTP id 2t05nr2uea-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 13 Jun 2019 16:59:26 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5DGuroV168293;
+        Thu, 13 Jun 2019 16:57:26 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3020.oracle.com with ESMTP id 2t1jpjnsf2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 13 Jun 2019 16:57:26 +0000
+Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5DGvOZm008225;
+        Thu, 13 Jun 2019 16:57:24 GMT
+Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 13 Jun 2019 09:57:23 -0700
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Oliver Neukum <oneukum@suse.com>,
+        "iommu\@lists.linux-foundation.org" 
+        <iommu@lists.linux-foundation.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "linux-block\@vger.kernel.org" <linux-block@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-usb\@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: How to resolve an issue in swiotlb environment?
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+References: <20190612120653.GA25285@lst.de>
+        <Pine.LNX.4.44L0.1906121038210.1557-100000@iolanthe.rowland.org>
+        <20190613073900.GC12093@lst.de>
+Date:   Thu, 13 Jun 2019 12:57:21 -0400
+In-Reply-To: <20190613073900.GC12093@lst.de> (Christoph Hellwig's message of
+        "Thu, 13 Jun 2019 09:39:00 +0200")
+Message-ID: <yq14l4ttocu.fsf@oracle.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9287 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=655
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1906130122
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9287 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=707 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906130123
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch fixes an issue that the following error happens on
-swiotlb environment:
 
-	xhci-hcd ee000000.usb: swiotlb buffer is full (sz: 524288 bytes), total 32768 (slots), used 1338 (slots)
+Christoph,
 
-On the kernel v5.1, block settings of a usb-storage with SuperSpeed
-were the following so that the block layer will allocate buffers
-up to 64 KiB, and then the issue didn't happen.
+> sd.c only supports a few specific sector size, and none of them is
+> < 512 bytes:
 
-	max_segment_size = 65536
-	max_hw_sectors_kb = 1024
+Yep, while sd.c in theory supported 256-byte logical blocks a while
+back, that code was removed since the block layer always operates on
+units of 512 bytes.
 
-After the commit 09324d32d2a0 ("block: force an unlimited segment
-size on queues with a virt boundary") is applied, the block settings
-are the following. So, the block layer will allocate buffers up to
-1024 KiB, and then the issue happens:
-
-	max_segment_size = 4294967295
-	max_hw_sectors_kb = 1024
-
-To fix the issue, the usb-storage driver checks the maximum size of
-a mapping for the device and then adjusts the max_hw_sectors_kb
-if required. After this patch is applied, the block settings will
-be the following, and then the issue doesn't happen.
-
-	max_segment_size = 4294967295
-	max_hw_sectors_kb = 256
-
-Fixes: 09324d32d2a0 ("block: force an unlimited segment size on queues with a virt boundary")
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- We investigated this issue on the following ML:
- https://marc.info/?l=linux-block&m=156033909218970&w=2
-
- drivers/usb/storage/scsiglue.c | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/usb/storage/scsiglue.c b/drivers/usb/storage/scsiglue.c
-index 59190d8..89c3640 100644
---- a/drivers/usb/storage/scsiglue.c
-+++ b/drivers/usb/storage/scsiglue.c
-@@ -28,6 +28,8 @@
-  * status of a command.
-  */
- 
-+#include <linux/blkdev.h>
-+#include <linux/dma-mapping.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
- 
-@@ -99,6 +101,7 @@ static int slave_alloc (struct scsi_device *sdev)
- static int slave_configure(struct scsi_device *sdev)
- {
- 	struct us_data *us = host_to_us(sdev->host);
-+	unsigned int max_sectors = 0;	/* 0 means no update required */
- 
- 	/*
- 	 * Many devices have trouble transferring more than 32KB at a time,
-@@ -106,26 +109,34 @@ static int slave_configure(struct scsi_device *sdev)
- 	 * are limiting both to 32K (64 sectores).
- 	 */
- 	if (us->fflags & (US_FL_MAX_SECTORS_64 | US_FL_MAX_SECTORS_MIN)) {
--		unsigned int max_sectors = 64;
-+		max_sectors = 64;
- 
- 		if (us->fflags & US_FL_MAX_SECTORS_MIN)
- 			max_sectors = PAGE_SIZE >> 9;
--		if (queue_max_hw_sectors(sdev->request_queue) > max_sectors)
--			blk_queue_max_hw_sectors(sdev->request_queue,
--					      max_sectors);
-+		if (queue_max_hw_sectors(sdev->request_queue) <= max_sectors)
-+			max_sectors = 0;
- 	} else if (sdev->type == TYPE_TAPE) {
- 		/*
- 		 * Tapes need much higher max_sector limits, so just
- 		 * raise it to the maximum possible (4 GB / 512) and
- 		 * let the queue segment size sort out the real limit.
- 		 */
--		blk_queue_max_hw_sectors(sdev->request_queue, 0x7FFFFF);
-+		max_sectors = 0x7FFFFF;
- 	} else if (us->pusb_dev->speed >= USB_SPEED_SUPER) {
- 		/*
- 		 * USB3 devices will be limited to 2048 sectors. This gives us
- 		 * better throughput on most devices.
- 		 */
--		blk_queue_max_hw_sectors(sdev->request_queue, 2048);
-+		max_sectors = 2048;
-+	}
-+
-+	if (max_sectors > 0) {
-+		struct device *dev = us->pusb_dev->bus->sysdev;
-+		size_t max_dma_sectors = dma_max_mapping_size(dev) >>
-+					 SECTOR_SHIFT;
-+
-+		max_sectors = min_t(size_t, max_sectors, max_dma_sectors);
-+		blk_queue_max_hw_sectors(sdev->request_queue, max_sectors);
- 	}
- 
- 	/*
 -- 
-2.7.4
-
+Martin K. Petersen	Oracle Linux Engineering
