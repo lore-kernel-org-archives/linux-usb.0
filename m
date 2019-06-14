@@ -2,170 +2,137 @@ Return-Path: <SRS0=M/7l=UN=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A331BC31E4B
-	for <linux-usb@archiver.kernel.org>; Fri, 14 Jun 2019 17:37:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91979C31E4B
+	for <linux-usb@archiver.kernel.org>; Fri, 14 Jun 2019 17:56:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 759F321473
-	for <linux-usb@archiver.kernel.org>; Fri, 14 Jun 2019 17:37:39 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lwRcv4V7"
+	by mail.kernel.org (Postfix) with ESMTP id 6F2102183E
+	for <linux-usb@archiver.kernel.org>; Fri, 14 Jun 2019 17:56:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726082AbfFNRhj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 14 Jun 2019 13:37:39 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:38072 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725859AbfFNRhi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 14 Jun 2019 13:37:38 -0400
-Received: by mail-pf1-f193.google.com with SMTP id a186so1868185pfa.5;
-        Fri, 14 Jun 2019 10:37:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id;
-        bh=UDa/dMlErc/w/xnjMIjE+h9jNB7ar19zHZIA0ksyjuQ=;
-        b=lwRcv4V7KPR49dGmmNMzJadXBBNBJbWDACSzpM5ITWo4q8F2R9DAmGU5kQV33qTHEV
-         nO1+/EhMbDxFhS+kTW2BRm/6P3fvAja9kKy/Pb2dVbyexfuUggi617DntHBnSZ5JtYKH
-         4pm3Ghppni3qMK5g90jl00FMHW7EpsRIn0xbpOQyCMm9itN7NfwuBgkVuXlEmvO2KOgL
-         ebaXumwVVG81HR8cM0xfPEB/u7SytmRWE45iHdHGUBZ7zS6jpoo7winz01PvFgm+l7wv
-         HAPCSOPSYFmB4a21g1OuxeoX/XHHGkhPtSDCAH2uQUXNI4Tl31kBt68Z2xB3kt/v6RBl
-         Zo0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-        bh=UDa/dMlErc/w/xnjMIjE+h9jNB7ar19zHZIA0ksyjuQ=;
-        b=t/DlmRXIrHwUPWRWvaFv26eqQjVgpq9CAiez8G9jqrvKKUUubYqMLDFhdMn0UzD3b2
-         CXeY8dDiC6kqlGGYt2ntWo1gnzhGs0iEia8GI22iIOMPhRS3AznjbAjCz8Np7GdhkIZw
-         WyHXFFFrDOME2LJ30IRO2Wb2u/7awN+qSf1tW0RsJQPLu5re2BGsb66/mZDvjZTEXjpy
-         PDje8jAl8Pn0tMDQaYw3DewtwRElt2Fcm4X1jKcUm2eJDVPbh4QsvJRaDbIPGIdQM6jO
-         3hrg3/tjqY7xcZOR/x7siZCimDucRyxh1y6P77tVQklGz1qIFFfO1rmeMkV0ScvriPzH
-         0dUQ==
-X-Gm-Message-State: APjAAAVtJ4rgwyF7r3wwd1P3jVwLEcO8xLkpuchQCGemYgtoiNWoc3RS
-        dQutt1P6gdJenuF3viZOKTQ=
-X-Google-Smtp-Source: APXvYqzSBQgH12dJfzAFGro+Q/GPrj/3PqGvjqwKB5y6MFgdWJrGw8eg9hOQZPo3rsj+kjhh+kS+NQ==
-X-Received: by 2002:a63:490d:: with SMTP id w13mr27886324pga.355.1560533857692;
-        Fri, 14 Jun 2019 10:37:37 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 24sm3332905pgn.32.2019.06.14.10.37.36
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 14 Jun 2019 10:37:36 -0700 (PDT)
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Peter Chen <Peter.Chen@nxp.com>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Guenter Roeck <linux@roeck-us.net>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Li Jun <jun.li@nxp.com>, Peter Chen <peter.chen@nxp.com>
-Subject: [PATCH] usb: chipidea: host: Only disable regulator if it was enabled
-Date:   Fri, 14 Jun 2019 10:37:33 -0700
-Message-Id: <1560533853-32574-1-git-send-email-linux@roeck-us.net>
+        id S1727628AbfFNRzW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 14 Jun 2019 13:55:22 -0400
+Received: from foss.arm.com ([217.140.110.172]:39624 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727611AbfFNRzW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 14 Jun 2019 13:55:22 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3124DCFC;
+        Fri, 14 Jun 2019 10:55:21 -0700 (PDT)
+Received: from en101.cambridge.arm.com (en101.cambridge.arm.com [10.1.196.93])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 1358C3F718;
+        Fri, 14 Jun 2019 10:55:19 -0700 (PDT)
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     gregkh@linuxfoundation.org, rafael@kernel.org,
+        suzuki.poulose@arm.com, linux-usb@vger.kernel.org,
+        Oliver Neukum <oneukum@suse.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Subject: [PATCH v2 19/28] drivers: Introduce bus_find_device_by_devt() helper
+Date:   Fri, 14 Jun 2019 18:54:14 +0100
+Message-Id: <1560534863-15115-20-git-send-email-suzuki.poulose@arm.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1560534863-15115-1-git-send-email-suzuki.poulose@arm.com>
+References: <1560534863-15115-1-git-send-email-suzuki.poulose@arm.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On some systems, the regulator is never enabled if power is controlled by
-ehci. This can happen since there is no explicit call to ehci_port_power()
-from ehci_run(), but there is one from ehci_stop().
+Add a wrapper to bus_find_device() to search for a device
+by the device type, reusing the generic match function.
+Also convert the existing users to make use of the new helper.
 
-This results in tracebacks on shutdown.
-
-WARNING: CPU: 0 PID: 182 at drivers/regulator/core.c:2597 _regulator_disable+0x190/0x1f8
-unbalanced disables for usb_otg2_vbus
-Modules linked in:
-CPU: 0 PID: 182 Comm: init Not tainted 5.2.0-rc4-00045-gc11fb13a117e-dirty #6
-Hardware name: Freescale i.MX7 Dual (Device Tree)
-[<c0312f58>] (unwind_backtrace) from [<c030d70c>] (show_stack+0x10/0x14)
-[<c030d70c>] (show_stack) from [<c114e4ec>] (dump_stack+0xd4/0x100)
-[<c114e4ec>] (dump_stack) from [<c0347918>] (__warn+0xf4/0x10c)
-[<c0347918>] (__warn) from [<c034797c>] (warn_slowpath_fmt+0x4c/0x70)
-[<c034797c>] (warn_slowpath_fmt) from [<c09d0b10>] (_regulator_disable+0x190/0x1f8)
-[<c09d0b10>] (_regulator_disable) from [<c09d0be0>] (regulator_disable+0x68/0xa8)
-[<c09d0be0>] (regulator_disable) from [<c0e34f0c>] (ehci_ci_portpower+0x58/0x104)
-[<c0e34f0c>] (ehci_ci_portpower) from [<c0df37e0>] (ehci_port_power+0x84/0xc8)
-[<c0df37e0>] (ehci_port_power) from [<c0df3998>] (ehci_silence_controller+0x5c/0xc4)
-[<c0df3998>] (ehci_silence_controller) from [<c0df5904>] (ehci_stop+0x3c/0xcc)
-[<c0df5904>] (ehci_stop) from [<c0d9c4bc>] (usb_remove_hcd+0xf4/0x1b0)
-[<c0d9c4bc>] (usb_remove_hcd) from [<c0e34978>] (host_stop+0x38/0xa8)
-[<c0e34978>] (host_stop) from [<c0e2fdb8>] (ci_hdrc_remove+0x40/0xe4)
-[<c0e2fdb8>] (ci_hdrc_remove) from [<c0b6a388>] (platform_drv_remove+0x20/0x40)
-[<c0b6a388>] (platform_drv_remove) from [<c0b68894>] (device_release_driver_internal+0xdc/0x1ac)
-[<c0b68894>] (device_release_driver_internal) from [<c0b6739c>] (bus_remove_device+0xd0/0xfc)
-[<c0b6739c>] (bus_remove_device) from [<c0b63884>] (device_del+0x148/0x36c)
-[<c0b63884>] (device_del) from [<c0b6a8a4>] (platform_device_del.part.3+0x10/0x74)
-[<c0b6a8a4>] (platform_device_del.part.3) from [<c0b6a938>] (platform_device_unregister+0x1c/0x28)
-[<c0b6a938>] (platform_device_unregister) from [<c0e2f394>] (ci_hdrc_remove_device+0xc/0x20)
-[<c0e2f394>] (ci_hdrc_remove_device) from [<c0e36980>] (ci_hdrc_imx_remove+0x20/0xc4)
-[<c0e36980>] (ci_hdrc_imx_remove) from [<c0b659d0>] (device_shutdown+0x17c/0x220)
-[<c0b659d0>] (device_shutdown) from [<c03730d4>] (kernel_restart+0xc/0x50)
-[<c03730d4>] (kernel_restart) from [<c03733c0>] (sys_reboot+0x15c/0x1ec)
-[<c03733c0>] (sys_reboot) from [<c0301000>] (ret_fast_syscall+0x0/0x28)
-
-The problem only affects imx7d systems, since all others set
-CI_HDRC_TURN_VBUS_EARLY_ON. The regulator on those systems is controlled
-by the chipidea driver and not by ehci.
-
-Only disable the regulator if it was previously enabled.
-
-Fixes: c8679a2fb8de ("usb: chipidea: host: add portpower override")
-Cc: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc: Li Jun <jun.li@nxp.com>
-Cc: Peter Chen <peter.chen@nxp.com>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Cc: linux-usb@vger.kernel.org
+Cc: Oliver Neukum <oneukum@suse.com>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 ---
-It might be better to implement a solution in ehci, but I have no idea how
-that would look like. Overall it seems odd that imx7d systems work in the
-first place, even though the regulator is never enabled. It may also be
-that the problem is somehow related to the mcimx7d-sabre emulation in qemu
-(which is where I see it), but I have no idea how that would affect
-behavior such that ehci_ci_portpower() is never called with enable=true.
+ drivers/hwtracing/intel_th/core.c | 10 +---------
+ drivers/usb/core/devio.c          |  8 +-------
+ include/linux/device.h            | 12 ++++++++++++
+ 3 files changed, 14 insertions(+), 16 deletions(-)
 
-Yet another possibility might be to set CI_HDRC_TURN_VBUS_EARLY_ON for
-imx7d, but that would effectively just hide the problem.
-
- drivers/usb/chipidea/host.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/usb/chipidea/host.c b/drivers/usb/chipidea/host.c
-index b45ceb91c735..3d63bf0e7c4b 100644
---- a/drivers/usb/chipidea/host.c
-+++ b/drivers/usb/chipidea/host.c
-@@ -26,6 +26,7 @@ static int (*orig_bus_suspend)(struct usb_hcd *hcd);
+diff --git a/drivers/hwtracing/intel_th/core.c b/drivers/hwtracing/intel_th/core.c
+index 5592289..d5c1821 100644
+--- a/drivers/hwtracing/intel_th/core.c
++++ b/drivers/hwtracing/intel_th/core.c
+@@ -789,12 +789,6 @@ static int intel_th_populate(struct intel_th *th)
+ 	return 0;
+ }
  
- struct ehci_ci_priv {
- 	struct regulator *reg_vbus;
-+	bool enabled;
- };
+-static int match_devt(struct device *dev, const void *data)
+-{
+-	dev_t devt = (dev_t)(unsigned long)(void *)data;
+-	return dev->devt == devt;
+-}
+-
+ static int intel_th_output_open(struct inode *inode, struct file *file)
+ {
+ 	const struct file_operations *fops;
+@@ -802,9 +796,7 @@ static int intel_th_output_open(struct inode *inode, struct file *file)
+ 	struct device *dev;
+ 	int err;
  
- static int ehci_ci_portpower(struct usb_hcd *hcd, int portnum, bool enable)
-@@ -43,16 +44,20 @@ static int ehci_ci_portpower(struct usb_hcd *hcd, int portnum, bool enable)
- 				"Not support multi-port regulator control\n");
- 			return 0;
- 		}
--		if (enable)
--			ret = regulator_enable(priv->reg_vbus);
--		else
--			ret = regulator_disable(priv->reg_vbus);
-+		if (enable) {
-+			if (!priv->enabled)
-+				ret = regulator_enable(priv->reg_vbus);
-+		} else {
-+			if (priv->enabled)
-+				ret = regulator_disable(priv->reg_vbus);
-+		}
- 		if (ret) {
- 			dev_err(dev,
- 				"Failed to %s vbus regulator, ret=%d\n",
- 				enable ? "enable" : "disable", ret);
- 			return ret;
- 		}
-+		priv->enabled = enable;
- 	}
+-	dev = bus_find_device(&intel_th_bus, NULL,
+-			      (void *)(unsigned long)inode->i_rdev,
+-			      match_devt);
++	dev = bus_find_device_by_devt(&intel_th_bus, inode->i_rdev);
+ 	if (!dev || !dev->driver)
+ 		return -ENODEV;
  
- 	if (enable && (ci->platdata->phy_mode == USBPHY_INTERFACE_MODE_HSIC)) {
+diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
+index 7bd7de7..4e83623 100644
+--- a/drivers/usb/core/devio.c
++++ b/drivers/usb/core/devio.c
+@@ -947,17 +947,11 @@ static int parse_usbdevfs_streams(struct usb_dev_state *ps,
+ 	return ret;
+ }
+ 
+-static int match_devt(struct device *dev, const void *data)
+-{
+-	return dev->devt == (dev_t)(unsigned long)(void *)data;
+-}
+-
+ static struct usb_device *usbdev_lookup_by_devt(dev_t devt)
+ {
+ 	struct device *dev;
+ 
+-	dev = bus_find_device(&usb_bus_type, NULL,
+-			      (void *) (unsigned long) devt, match_devt);
++	dev = bus_find_device_by_devt(&usb_bus_type, devt);
+ 	if (!dev)
+ 		return NULL;
+ 	return to_usb_device(dev);
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 576d84f..3c244ac 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -213,6 +213,18 @@ bus_find_device_by_fwnode(struct bus_type *bus, const struct fwnode_handle *fwno
+ 	return bus_find_device(bus, NULL, fwnode, device_match_fwnode);
+ }
+ 
++/**
++ * bus_find_device_by_devt : device iterator for locating a particular device
++ * matching the device type.
++ * @bus: bus type
++ * @devt: device type of the device to match.
++ */
++static inline struct device *bus_find_device_by_devt(struct bus_type *bus,
++						     dev_t devt)
++{
++	return bus_find_device(bus, NULL, &devt, device_match_devt);
++}
++
+ struct device *subsys_find_device_by_id(struct bus_type *bus, unsigned int id,
+ 					struct device *hint);
+ int bus_for_each_drv(struct bus_type *bus, struct device_driver *start,
 -- 
 2.7.4
 
