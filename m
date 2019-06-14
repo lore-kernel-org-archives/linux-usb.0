@@ -2,105 +2,100 @@ Return-Path: <SRS0=M/7l=UN=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_MUTT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 577A7C31E4B
-	for <linux-usb@archiver.kernel.org>; Fri, 14 Jun 2019 16:30:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE3C5C31E4B
+	for <linux-usb@archiver.kernel.org>; Fri, 14 Jun 2019 17:23:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3057421841
-	for <linux-usb@archiver.kernel.org>; Fri, 14 Jun 2019 16:30:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1560529847;
-	bh=DFAi12S9oejFOfr4uJyKXfFcIyLycifb9VLgPkuO3AM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=qrGa/HLDQOPXTewwyDa1eeuQjdzDFoDMB29Pllf0rGnyoSA+nKsktuan8aCPGa+ha
-	 8pZIxS+jrzJHbLAlPFGJnMtpKw09cHdtixA1PT61DZWc5wrHDwUpC++3tw0T8EQg+A
-	 0U3HDATTOQnfYyPVWI77DRGr237uZ3vgsKk+SIqs=
+	by mail.kernel.org (Postfix) with ESMTP id 907B9217F9
+	for <linux-usb@archiver.kernel.org>; Fri, 14 Jun 2019 17:23:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725996AbfFNQam (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 14 Jun 2019 12:30:42 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:39636 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725801AbfFNQam (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 14 Jun 2019 12:30:42 -0400
-Received: by mail-qt1-f193.google.com with SMTP id i34so3145702qta.6;
-        Fri, 14 Jun 2019 09:30:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=jMjniYLe1gr6/AMUsfiLEF+RmBgBhFISx6JTCsfFayw=;
-        b=dylpHzVutdtvz80h4E1MALMrkF9zOCisPlXnDYM9KgCx7i+2LHdHkYBzgFgEJ8dGXF
-         UAprhzVtH+tEIJKKWjuQUBEPBLWbjubMFjuWEnVEGzSfZcy5ywQol5zb/0PT/FA3/8nO
-         BARpeRjPtzZYf6+9scil6YIUZDHH+ESX2MZSu6HCIWUMbn+fIPglWbXbRdMf+S2oDptM
-         h18CtxctbbD74q7yImTnOpvHWJrDAWaJdgpcjHZy2ubt1TdU98VB7tnWCfrXj4/L/fF5
-         cJztCXgvrqa8CfeMCzTTmKWlzSEaKllFz22lJmLIWRYnOX+wNPXqlHuf1LpByJSujK68
-         n1Pw==
-X-Gm-Message-State: APjAAAVyEsBKlw6ZuY9CTXrRtZsfo62mJSEbkVWMuPMSnOvd2TiripqO
-        +j8rftSpTyBB9tz2Rfzjqhn5yt4jzg==
-X-Google-Smtp-Source: APXvYqyq8hzzFgEGvYC87jNq+3O710Dm+93YPe7JOG/z4/1WC3Xyz09BCnowTVLy+F+fmhIrcXUSQg==
-X-Received: by 2002:ac8:2ae8:: with SMTP id c37mr27905229qta.267.1560529840914;
-        Fri, 14 Jun 2019 09:30:40 -0700 (PDT)
-Received: from localhost ([64.188.179.243])
-        by smtp.gmail.com with ESMTPSA id s23sm2624864qtj.56.2019.06.14.09.30.39
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Fri, 14 Jun 2019 09:30:40 -0700 (PDT)
-Date:   Fri, 14 Jun 2019 10:30:39 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     linux-usb@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Markus Reichl <m.reichl@fivetechno.de>,
-        =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Peter Chen <peter.chen@nxp.com>,
-        Alan Stern <stern@rowland.harvard.edu>
-Subject: Re: [PATCH 1/5] dt-bindings: switch Exynos EHCI/OHCI bindings to use
- array of generic PHYs
-Message-ID: <20190614163039.GA24384@bogus>
-References: <20190521115849.9882-1-m.szyprowski@samsung.com>
- <CGME20190521120107eucas1p1a56efaa0e7f2117063e70683276edc10@eucas1p1.samsung.com>
- <20190521115849.9882-2-m.szyprowski@samsung.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190521115849.9882-2-m.szyprowski@samsung.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726353AbfFNRXM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 14 Jun 2019 13:23:12 -0400
+Received: from lnfm1.sai.msu.ru ([93.180.26.255]:50801 "EHLO lnfm1.sai.msu.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726298AbfFNRXL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 14 Jun 2019 13:23:11 -0400
+X-Greylist: delayed 2129 seconds by postgrey-1.27 at vger.kernel.org; Fri, 14 Jun 2019 13:23:05 EDT
+Received: from dragon.sai.msu.ru (dragon.sai.msu.ru [93.180.26.172])
+        by lnfm1.sai.msu.ru (8.14.1/8.12.8) with ESMTP id x5EGl6mP020151;
+        Fri, 14 Jun 2019 19:47:11 +0300
+Received: from oak.local (unknown [92.243.181.209])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (Client did not present a certificate)
+        by dragon.sai.msu.ru (Postfix) with ESMTPSA id E08B084C8E;
+        Fri, 14 Jun 2019 19:47:07 +0300 (MSK)
+From:   "Matwey V. Kornilov" <matwey@sai.msu.ru>
+To:     b-liu@ti.com, gregkh@linuxfoundation.org, stern@rowland.harvard.edu
+Cc:     matwey.kornilov@gmail.com,
+        "Matwey V. Kornilov" <matwey@sai.msu.ru>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 4/6] usb: musb: Rename musb_start_urb() to musb_start_next_urb()
+Date:   Fri, 14 Jun 2019 19:45:52 +0300
+Message-Id: <20190614164554.27679-5-matwey@sai.msu.ru>
+X-Mailer: git-send-email 2.16.4
+In-Reply-To: <20190614164554.27679-1-matwey@sai.msu.ru>
+References: <20190403185310.8437-1-matwey@sai.msu.ru>
+ <20190614164554.27679-1-matwey@sai.msu.ru>
+In-Reply-To: <20190403185310.8437-1-matwey@sai.msu.ru>
+References: <20190403185310.8437-1-matwey@sai.msu.ru>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, May 21, 2019 at 01:58:45PM +0200, Marek Szyprowski wrote:
-> Commit 69bec7259853 ("USB: core: let USB device know device node") added
-> support for attaching devicetree node for USB devices. Those nodes are
-> children of their USB host controller. However Exynos EHCI and OHCI
-> driver bindings already define child-nodes for each physical root hub
-> port and assigns respective PHY controller and parameters to them. This
-> leads to the conflict. A workaround for it has been merged as commit
-> 01d4071486fe ("usb: exynos: add workaround for the USB device bindings
-> conflict"), but it disabled support for USB device binding for Exynos
-> EHCI/OHCI controllers.
-> 
-> To resolve it properly, lets move PHYs from the sub-nodes to a standard
-> array under the 'phys' property.
-> 
-> Suggested-by: Måns Rullgård <mans@mansr.com>
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> ---
->  .../devicetree/bindings/usb/exynos-usb.txt    | 41 +++++++------------
->  1 file changed, 14 insertions(+), 27 deletions(-)
+In the following commit we introduce new musb_start_urb() function
+which will be able to start arbitrary urb. In order to have
+intuitive function names we rename musb_start_urb() to
+musb_start_next_urb().
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Matwey V. Kornilov <matwey@sai.msu.ru>
+---
+ drivers/usb/musb/musb_host.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-The old way would also conflict with the usb-connector binding as that 
-uses the graph binding.
+diff --git a/drivers/usb/musb/musb_host.c b/drivers/usb/musb/musb_host.c
+index 5d23c950a21b..3a202a2a521d 100644
+--- a/drivers/usb/musb/musb_host.c
++++ b/drivers/usb/musb/musb_host.c
+@@ -213,7 +213,7 @@ static struct musb_qh *musb_ep_get_qh(struct musb_hw_ep *ep, int is_in)
+  * Context: controller locked, irqs blocked
+  */
+ static void
+-musb_start_urb(struct musb *musb, int is_in, struct musb_qh *qh)
++musb_start_next_urb(struct musb *musb, int is_in, struct musb_qh *qh)
+ {
+ 	u32			len;
+ 	void __iomem		*mbase =  musb->mregs;
+@@ -403,7 +403,7 @@ static void musb_advance_schedule(struct musb *musb, struct urb *urb,
+ 	if (qh != NULL && qh->is_ready) {
+ 		musb_dbg(musb, "... next ep%d %cX urb %p",
+ 		    hw_ep->epnum, is_in ? 'R' : 'T', next_urb(qh));
+-		musb_start_urb(musb, is_in, qh);
++		musb_start_next_urb(musb, is_in, qh);
+ 	}
+ }
+ 
+@@ -1001,7 +1001,7 @@ static void musb_bulk_nak_timeout(struct musb *musb, struct musb_hw_ep *ep,
+ 		}
+ 
+ 		if (next_qh)
+-			musb_start_urb(musb, is_in, next_qh);
++			musb_start_next_urb(musb, is_in, next_qh);
+ 	}
+ }
+ 
+@@ -2141,7 +2141,7 @@ static int musb_schedule(
+ 	qh->hw_ep = hw_ep;
+ 	qh->hep->hcpriv = qh;
+ 	if (idle)
+-		musb_start_urb(musb, is_in, qh);
++		musb_start_next_urb(musb, is_in, qh);
+ 	return 0;
+ }
+ 
+-- 
+2.16.4
 
-Rob
