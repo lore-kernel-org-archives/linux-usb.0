@@ -2,94 +2,209 @@ Return-Path: <SRS0=M/7l=UN=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_MUTT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ED2DC31E4B
-	for <linux-usb@archiver.kernel.org>; Fri, 14 Jun 2019 17:56:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A8F3C31E4B
+	for <linux-usb@archiver.kernel.org>; Fri, 14 Jun 2019 18:32:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4B2F92183E
-	for <linux-usb@archiver.kernel.org>; Fri, 14 Jun 2019 17:56:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CBFE220850
+	for <linux-usb@archiver.kernel.org>; Fri, 14 Jun 2019 18:32:22 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="T71CzyYa"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727411AbfFNRzA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 14 Jun 2019 13:55:00 -0400
-Received: from foss.arm.com ([217.140.110.172]:39392 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727397AbfFNRzA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 14 Jun 2019 13:55:00 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9CA5C367;
-        Fri, 14 Jun 2019 10:54:59 -0700 (PDT)
-Received: from en101.cambridge.arm.com (en101.cambridge.arm.com [10.1.196.93])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2DFC23F718;
-        Fri, 14 Jun 2019 10:54:58 -0700 (PDT)
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     gregkh@linuxfoundation.org, rafael@kernel.org,
-        suzuki.poulose@arm.com, "David S. Miller" <davem@davemloft.net>,
-        Doug Ledford <dledford@redhat.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>, linux-usb@vger.kernel.org,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Joe Perches <joe@perches.com>
-Subject: [PATCH v2 07/28] drivers: Add generic helper to match by fwnode
-Date:   Fri, 14 Jun 2019 18:54:02 +0100
-Message-Id: <1560534863-15115-8-git-send-email-suzuki.poulose@arm.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1560534863-15115-1-git-send-email-suzuki.poulose@arm.com>
-References: <1560534863-15115-1-git-send-email-suzuki.poulose@arm.com>
+        id S1725886AbfFNScW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 14 Jun 2019 14:32:22 -0400
+Received: from mail-pf1-f177.google.com ([209.85.210.177]:33187 "EHLO
+        mail-pf1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725809AbfFNScV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 14 Jun 2019 14:32:21 -0400
+Received: by mail-pf1-f177.google.com with SMTP id x15so1956732pfq.0
+        for <linux-usb@vger.kernel.org>; Fri, 14 Jun 2019 11:32:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=HGCoVIRjEmqG61oMegqr7r3yd4XZdAs4EdJ3aivpW/k=;
+        b=T71CzyYaR5pPS04+6iy/aty4COZvz5D3FigaZfxnx/a4+niAebs8C9JoDjNhxvzYQo
+         y/sxd5aWLUFqogYhj1lqnjlIQnDk9Ac5Z3Cohbg6Vls1i7kqNWng/T3ZKpWbrgUTy7AN
+         1oOSVSfzfF1vXMGwB2FRmNmKFTu1gnmWUcEe7LOMcF8ewKmcjfA9TSF9r5wB3QWu49PP
+         ZB0C/CWSP+L+wjahV7ilcefr/cAuENLu2Tj01i2f1GAslHWrii/dK5D6Pk+aW65ZhZml
+         cQAoPaqXjpp7oA2Oqz/qxBEIPKqkWbbMHgL6aRICnd4Ycojk5k3y3ofsvNLUfNpnya1Y
+         Sw6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=HGCoVIRjEmqG61oMegqr7r3yd4XZdAs4EdJ3aivpW/k=;
+        b=HmhSH3AXHjvIdAeAmtCTUyXilvF1vGd5HZWFlpHXJTMf/h7j90Hql++VglaV59lLps
+         gTumcuZiQDwswjbYn3csj+9WzW9SHybZeLORS0gLd7JP22mjM5Mgy2663jq4UyWPzhVN
+         LTXcoFlmrfyEdL/XF0Pygq5yJ3ue+/mNTaIx41M5Z9D+YWbR6imil3ERpC0+R1jLWuBk
+         bCVPPDRd6it0me9RAqF+I9qsCJfaOCWRahlt/fBH0DjeO4mGpUu+ZmQtyjy3Is3aJpY2
+         1lUULlaPz3E4Gc2vFg9pazhW7m7UXw1ET4v2kgZ788iF4I2v31rfo6Gu2nkGACPNrMAz
+         hcmA==
+X-Gm-Message-State: APjAAAUv/un3zjfNk2Eurzvqd7lFOuISXQNqrgZLhSBc2FWnhFqYSvIF
+        40z0MSJo6ZIIETxQ2zRLG3i+
+X-Google-Smtp-Source: APXvYqwItCJJYwfaLZG36WF148Qa910FBc1J9QhPVpAA/wYK8gaAM9gDUPT6Ii1KFJGtGPQ/9p73jg==
+X-Received: by 2002:a17:90a:1904:: with SMTP id 4mr12893672pjg.116.1560537140466;
+        Fri, 14 Jun 2019 11:32:20 -0700 (PDT)
+Received: from Mani-XPS-13-9360 ([2409:4072:997:5d95:bdd9:1134:3bdd:7ab4])
+        by smtp.gmail.com with ESMTPSA id j2sm3370153pgq.13.2019.06.14.11.32.16
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 14 Jun 2019 11:32:19 -0700 (PDT)
+Date:   Sat, 15 Jun 2019 00:02:13 +0530
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     Felipe Balbi <balbi@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-actions@lists.infradead.org,
+        afaerber@suse.de
+Subject: DWC3 USB hub issue
+Message-ID: <20190614183213.GB29654@Mani-XPS-13-9360>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add a helper to match the firmware node handle of a device. This
-will be used later for generic look up by fwnode helpers for bus/class/driver.
+Hello,
 
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Doug Ledford <dledford@redhat.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: linux-usb@vger.kernel.org
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Joe Perches <joe@perches.com>
-Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
----
- drivers/base/core.c    | 6 ++++++
- include/linux/device.h | 1 +
- 2 files changed, 7 insertions(+)
+I'm trying to upstream Designware USB3 host driver present in the Actions
+Semi S900 SoC. It can successfully detect the USB hub but when any of the
+USB device got plugged in, it fails with following error:
 
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 9211908..efcdb96 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -3334,3 +3334,9 @@ int device_match_of_node(struct device *dev, const void *np)
- 	return dev->of_node == np;
- }
- EXPORT_SYMBOL_GPL(device_match_of_node);
-+
-+int device_match_fwnode(struct device *dev, const void *fwnode)
-+{
-+	return dev_fwnode(dev) == fwnode;
-+}
-+EXPORT_SYMBOL_GPL(device_match_fwnode);
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 7093085..08aa087 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -164,6 +164,7 @@ struct device *subsys_dev_iter_next(struct subsys_dev_iter *iter);
- void subsys_dev_iter_exit(struct subsys_dev_iter *iter);
- 
- int device_match_of_node(struct device *dev, const void *np);
-+int device_match_fwnode(struct device *dev, const void *fwnode);
- 
- int bus_for_each_dev(struct bus_type *bus, struct device *start, void *data,
- 		     int (*fn)(struct device *dev, void *data));
--- 
-2.7.4
+[    4.365566] usb usb1-port1: connect-debounce failed
 
+Full log can be found here: https://pastebin.ubuntu.com/p/PNff5fZkn6/
+
+Below is the output of, lsusb -v:
+
+Bus 002 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               3.00
+  bDeviceClass            9 Hub
+  bDeviceSubClass         0 Unused
+  bDeviceProtocol         3 
+  bMaxPacketSize0         9
+  idVendor           0x1d6b Linux Foundation
+  idProduct          0x0003 3.0 root hub
+  bcdDevice            5.02
+  iManufacturer           3 Linux 5.2.0-rc3-00032-gbd970cfc7a82-dirty xhci-hcd
+  iProduct                2 xHCI Host Controller
+  iSerial                 1 xhci-hcd.0.auto
+  bNumConfigurations      1
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength           31
+    bNumInterfaces          1
+    bConfigurationValue     1
+    iConfiguration          0 
+    bmAttributes         0xe0
+      Self Powered
+      Remote Wakeup
+    MaxPower                0mA
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           1
+      bInterfaceClass         9 Hub
+      bInterfaceSubClass      0 Unused
+      bInterfaceProtocol      0 Full speed (or root) hub
+      iInterface              0 
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0004  1x 4 bytes
+        bInterval              12
+        bMaxBurst               0
+Hub Descriptor:
+  bLength              12
+  bDescriptorType      42
+  nNbrPorts             1
+  wHubCharacteristic 0x000a
+    No power switching (usb 1.0)
+    Per-port overcurrent protection
+  bPwrOn2PwrGood       10 * 2 milli seconds
+  bHubContrCurrent      0 milli Ampere
+  bHubDecLat          0.0 micro seconds
+  wHubDelay             0 nano seconds
+  DeviceRemovable    0x00
+ Hub Port Status:
+   Port 1: 0000.02a0 5Gbps power Rx.Detect
+Binary Object Store Descriptor:
+  bLength                 5
+  bDescriptorType        15
+  wTotalLength           15
+  bNumDeviceCaps          1
+  SuperSpeed USB Device Capability:
+    bLength                10
+    bDescriptorType        16
+    bDevCapabilityType      3
+    bmAttributes         0x02
+      Latency Tolerance Messages (LTM) Supported
+    wSpeedsSupported   0x0008
+      Device can operate at SuperSpeed (5Gbps)
+    bFunctionalitySupport   3
+      Lowest fully-functional device speed is SuperSpeed (5Gbps)
+    bU1DevExitLat           0 micro seconds
+    bU2DevExitLat           0 micro seconds
+Device Status:     0x0001
+  Self Powered
+
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+
+Devicetree snippet:
+
+                usbdrd3_0: usb@e0400000 {
+                        compatible = "actions,s900-dwc3";
+                        clocks = <&cmu CLK_USB3_480MPLL0>,
+                                 <&cmu CLK_USB3_480MPHY0>,
+                                 <&cmu CLK_USB3_5GPHY>,
+                                 <&cmu CLK_USB3_CCE>,
+                                 <&cmu CLK_USB3_MAC>;
+                        clock-names = "usb3_480mpll0", "usb3_480mphy0",
+                                      "usb3_5gphy", "usb3_cce",
+                                      "usb3_mac";
+                        resets  = <&cmu RESET_USB3>;
+                        reset-names = "usb3";
+                        power-domains = <&sps S900_PD_USB3>;
+                        #address-cells = <2>;
+                        #size-cells = <2>;
+                        ranges;
+
+                        usbdrd_dwc3_0: dwc3 {
+                                compatible = "snps,dwc3";
+                                reg = <0x0 0xe0400000 0x0 0x100000>;
+                                interrupts = <GIC_SPI 23 IRQ_TYPE_LEVEL_HIGH>;
+                                usb-phy = <&usb2_phy>, <&usb3_phy>;
+                                dr_mode = "host";
+                                power-domains = <&sps S900_PD_USB3>;
+                                snps,hsphy_interface = "utmi";
+                        };
+                };
+
+After going through the mailing list looking for similar issue, found that
+some host controllers works with following quirk:
+
+snps,dis_u3_susphy_quirk;
+
+I tried that also but it didn't work. Can anyone shed some light on this?
+
+PS: USB3 is working fine with vendor kernel 3.10.
+
+Thanks,
+Mani
