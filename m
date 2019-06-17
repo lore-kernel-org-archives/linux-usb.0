@@ -1,136 +1,114 @@
-Return-Path: <SRS0=oI92=UP=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=mHtA=UQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8910C31E54
-	for <linux-usb@archiver.kernel.org>; Sun, 16 Jun 2019 18:25:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34996C31E50
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Jun 2019 01:14:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C656A20866
-	for <linux-usb@archiver.kernel.org>; Sun, 16 Jun 2019 18:25:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 06F0E2085A
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Jun 2019 01:14:37 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="J53VliZa"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="l7MxlT8w"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727140AbfFPSZb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 16 Jun 2019 14:25:31 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:37625 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726515AbfFPSZb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 16 Jun 2019 14:25:31 -0400
-Received: by mail-io1-f68.google.com with SMTP id e5so16555518iok.4
-        for <linux-usb@vger.kernel.org>; Sun, 16 Jun 2019 11:25:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=e3Arpmy1FqFbai2jFV7A32rIgKalw4zz1T4egHdTM1Q=;
-        b=J53VliZa7ga0/F1EcWr9clfaa8BGIvQt9D3/186ZMVYvachuFn8fsd0VZbtDA8wQm8
-         B/JeYzAHs6eAcs33hz65pcr0iQRP0Uwb24SAqbNBrRiPJP1xqGtqN2QSc9ULAi0B1/kt
-         c3LdZUo5buKngXLCPheb+CpKIJ+JWli/QQYC565PZzvYFugH1dSt/ukj+MCjwIAZBRkB
-         29lnyB+qm5AiaK2Fhp0oDk55Q7XX0V6B9pBBWHlFFNHX9voi0rMx+xKYKlzxc33RMVYh
-         gT4oIihT+1+8112DFzwy9Mds201jIImWQuMX2qNyupdxbGviyA+/H4JrlxprxZHOdgtS
-         q6wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=e3Arpmy1FqFbai2jFV7A32rIgKalw4zz1T4egHdTM1Q=;
-        b=V6ev5QTJuPslsxKq7P/sLAqqnDJBOkgsPXBxR4cU8+k1tUg5Ddt31LcPC1bLiGsSFD
-         diOcwD0lZSw2Vtj/2P4Dj+hucncskkVTo2iFlyriofmShInrWoKaYeERXptnXpIzSWPW
-         ZlbUT0WHhNjc2j9va4RVqUP3nMErnwvKYL6HaQfJK5Zx0OD4VjpzePBmAbRsCgCImzdW
-         55mm32pTV0uFAqx+Yy9ibv9lDL/A8hp1vmyfYIRNiWov+1Zr08efZOLuAAHQh8p6U6xD
-         ZOSt+BjWLsBApF958kzJrYnXzIo9eIGwwOFAufQnX1p+oETlvVYKSj5Qm01XC5nIM3Bg
-         z8lw==
-X-Gm-Message-State: APjAAAXwGX4C+wDg9TsHV3zaBx/DzsahqhUFTnADa2LBU176JXnsaiuR
-        xlyU7xlDxgmD6pRwKBJ0k0mvcjMmqCKuWX8Q+Fc8GA==
-X-Google-Smtp-Source: APXvYqzQ60Up5Foe2d3aljP1+cwPYln9V2X4zMlIB/LjUPLv4g7RKXCdRoKISpEotPV+vCs2qT3WzRaDY2w1eVy3h9I=
-X-Received: by 2002:a02:1a86:: with SMTP id 128mr80765506jai.95.1560709530418;
- Sun, 16 Jun 2019 11:25:30 -0700 (PDT)
+        id S1727382AbfFQBN6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 16 Jun 2019 21:13:58 -0400
+Received: from mail-eopbgr140085.outbound.protection.outlook.com ([40.107.14.85]:10999
+        "EHLO EUR01-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727235AbfFQBN5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 16 Jun 2019 21:13:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tKu/5AO3LYlUOafsJvWox9oW2htgTMMYAxeUYPHktgY=;
+ b=l7MxlT8wQCPgXiFdoFIimqzOfW/zxIBy4m73oD7o/OhqoE4Nnl8/qqXfTtLfuTcTKxF9flnnh67oU2n65hhhAvdF10hR+BH/aPbHZm6cOsNnD+rVZ/JtkWJJxmoeyilmF1n1wUmxknH/fTFBTWuxKN+a7FX+vet5n1MTBbE1xhU=
+Received: from VI1PR04MB5327.eurprd04.prod.outlook.com (20.177.52.16) by
+ VI1PR04MB4736.eurprd04.prod.outlook.com (20.177.48.205) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.13; Mon, 17 Jun 2019 01:13:53 +0000
+Received: from VI1PR04MB5327.eurprd04.prod.outlook.com
+ ([fe80::c1bf:7842:6630:b87a]) by VI1PR04MB5327.eurprd04.prod.outlook.com
+ ([fe80::c1bf:7842:6630:b87a%7]) with mapi id 15.20.1987.014; Mon, 17 Jun 2019
+ 01:13:53 +0000
+From:   Peter Chen <peter.chen@nxp.com>
+To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        "balbi@kernel.org" <balbi@kernel.org>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>
+CC:     "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        Fabio Estevam <fabio.estevam@nxp.com>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Aisheng Dong <aisheng.dong@nxp.com>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "chunfeng.yun@mediatek.com" <chunfeng.yun@mediatek.com>
+Subject: RE: [PATCH v4 6/8] ARM: dts: imx7ulp: add imx7ulp USBOTG1 support
+Thread-Topic: [PATCH v4 6/8] ARM: dts: imx7ulp: add imx7ulp USBOTG1 support
+Thread-Index: AQHVIpRSNr6mYKZVAEKkjfl1njA6J6acbVKAgAKdzIA=
+Date:   Mon, 17 Jun 2019 01:13:52 +0000
+Message-ID: <VI1PR04MB5327B9EF844F9C7505D337298BEB0@VI1PR04MB5327.eurprd04.prod.outlook.com>
+References: <20190614093544.11730-1-peter.chen@nxp.com>
+ <20190614093544.11730-7-peter.chen@nxp.com>
+ <0dbf01f9-7c5c-ce0b-4feb-378c9147f15a@cogentembedded.com>
+In-Reply-To: <0dbf01f9-7c5c-ce0b-4feb-378c9147f15a@cogentembedded.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=peter.chen@nxp.com; 
+x-originating-ip: [119.31.174.66]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2ccf280b-8dc0-4c49-0bfc-08d6f2c11011
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:VI1PR04MB4736;
+x-ms-traffictypediagnostic: VI1PR04MB4736:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <VI1PR04MB4736E098631B8C1C481902C88BEB0@VI1PR04MB4736.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-forefront-prvs: 0071BFA85B
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(136003)(366004)(346002)(376002)(396003)(189003)(199004)(9686003)(966005)(86362001)(186003)(256004)(26005)(14454004)(305945005)(33656002)(99286004)(2201001)(8676002)(229853002)(7736002)(74316002)(66066001)(4744005)(52536014)(478600001)(71200400001)(71190400001)(81156014)(81166006)(5660300002)(2501003)(8936002)(76176011)(6506007)(476003)(66446008)(64756008)(66556008)(66476007)(4326008)(7696005)(2906002)(68736007)(44832011)(486006)(446003)(11346002)(3846002)(6116002)(73956011)(6306002)(110136005)(54906003)(6246003)(76116006)(66946007)(6436002)(316002)(55016002)(25786009)(53936002)(102836004);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR04MB4736;H:VI1PR04MB5327.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: x+LAx2e/ycMS1MKCzNVnmLvs2Fa2XocWmf36F4pbK1Y9747xTRdei3QWfNQfbKjmAjo2961iCDJ6Gv2BipJzLtgB3+C9tlY5khrlkAVwp9eMVSFuM9qfNCJ57HBuNPkNCNqoYopSZ949OYJKBJeSfPbzhU5+1UOEnLSq7Ipw3+SXgJcufMYdMjrP25v7S82+h2mgv6FDJ1V71mm6vnwPryPc9Sp+Y72C29r+3/F1OM9xieS6r7IEGUxh00/Wpx5advpvxfWH5hOjQnIFkvJm9LBTA5e5w6oS6xavjp/75rUfo0FozVdRRpHRi12Dw/8StAv2SWwtQWLmJHD4lQgWWXsGjhISxDTPOpxvqnPWu/83XzQXLVxiOLhK4RaiZ1kfnfehtLAIzhGGMh4hN12NZYVmwW39oKMJu58yMrTjG2c=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20190615091745.3100-1-ard.biesheuvel@linaro.org>
- <20190616012056.GA698@sol.localdomain> <CAKv+Gu_j_y3oSPy8JbTdNYVjzsSw72gM+UcC6+u_WBtw6opX2Q@mail.gmail.com>
- <20190616071951.GC698@sol.localdomain>
-In-Reply-To: <20190616071951.GC698@sol.localdomain>
-From:   Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Date:   Sun, 16 Jun 2019 20:25:18 +0200
-Message-ID: <CAKv+Gu8ngYYHVTb3hzLo28_f2861SRX2yc5fFkp1k0PR=Zi4tQ@mail.gmail.com>
-Subject: Re: [PATCH v3] wusb: switch to cbcmac transform
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     linux-usb <linux-usb@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
-        <linux-crypto@vger.kernel.org>,
-        Herbert Xu <herbert@gondor.apana.org.au>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ccf280b-8dc0-4c49-0bfc-08d6f2c11011
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2019 01:13:53.0477
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: peter.chen@nxp.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB4736
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, 16 Jun 2019 at 09:19, Eric Biggers <ebiggers@kernel.org> wrote:
->
-> On Sun, Jun 16, 2019 at 08:52:32AM +0200, Ard Biesheuvel wrote:
-> > On Sun, 16 Jun 2019 at 03:20, Eric Biggers <ebiggers@kernel.org> wrote:
-> > >
-> > > On Sat, Jun 15, 2019 at 11:17:45AM +0200, Ard Biesheuvel wrote:
-> > > > The wusb code takes a very peculiar approach at implementing CBC-MAC,
-> > > > by using plain CBC into a scratch buffer, and taking the output IV
-> > > > as the MAC.
-> > > >
-> > > > We can clean up this code substantially by switching to the cbcmac
-> > > > shash, as exposed by the CCM template. To ensure that the module is
-> > > > loaded on demand, add the cbcmac template name as a module alias.
-> > > >
-> > > > Signed-off-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-> > > > ---
-> > > > v3: - add missing #include to fix build error spotted by kbuild test robot
-> > > > v2: - use finup()/digest() where possible, and process b0+b1 using a single
-> > > >       call to update()
-> > > >     - make 'stv_hsmic_hs' static const and remove comment regarding GCC 4.1
-> > > >
-> > > > NOTE: I don't have any hardware to test this, but the built-in selftest
-> > > >       still passes.
-> > > >
-> > > >  crypto/ccm.c                  |   1 +
-> > > >  drivers/usb/wusbcore/crypto.c | 169 +++++---------------
-> > > >  2 files changed, 45 insertions(+), 125 deletions(-)
-> > > >
-> > >
-> > > drivers/usb/wusbcore/Kconfig also needs to be updated:
-> > >
-> > > diff --git a/drivers/usb/wusbcore/Kconfig b/drivers/usb/wusbcore/Kconfig
-> > > index 12e89189ca7d..2ec17d6af1f8 100644
-> > > --- a/drivers/usb/wusbcore/Kconfig
-> > > +++ b/drivers/usb/wusbcore/Kconfig
-> > > @@ -6,9 +6,7 @@ config USB_WUSB
-> > >         tristate "Enable Wireless USB extensions"
-> > >         depends on UWB
-> > >          select CRYPTO
-> > > -        select CRYPTO_BLKCIPHER
-> > > -        select CRYPTO_CBC
-> > > -        select CRYPTO_MANAGER
-> >
-> > We'll need this one, as it isn't implied by any of the other ones, and
-> > cbcmac(aes) will be composed of the ccm template and the aes cipher on
-> > all architectures except arm64.
-> >
-> > > +        select CRYPTO_CCM
->
-> Are you talking about CRYPTO_MANAGER?  One of my recent patches added
-> 'select CRYPTO_MANAGER' to the templates that didn't already select it,
-> including CCM.  See in cryptodev.git:
->
->         commit c8a3315a5f691cc4be16421aeb0608495c9a33ba
->         Author: Eric Biggers <ebiggers@google.com>
->         Date:   Mon May 20 09:49:46 2019 -0700
->
->             crypto: make all templates select CRYPTO_MANAGER
->
-> So it shouldn't need to be selected here.
->
-
-Ah yes, thanks for pointing that out.
+IA0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogUGV0ZXIgQ2hlbiA8cGV0ZXIuY2hlbkBueHAuY29t
+Pg0KPiA+IC0tLQ0KPiA+ICAgYXJjaC9hcm0vYm9vdC9kdHMvaW14N3VscC5kdHNpIHwgMjggKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKw0KPiA+ICAgMSBmaWxlIGNoYW5nZWQsIDI4IGluc2Vy
+dGlvbnMoKykNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9hcmNoL2FybS9ib290L2R0cy9pbXg3dWxw
+LmR0c2kNCj4gPiBiL2FyY2gvYXJtL2Jvb3QvZHRzL2lteDd1bHAuZHRzaSBpbmRleCBmY2E2ZTUw
+ZjM3YzguLjUxMTVlNDc3MTVjMw0KPiA+IDEwMDY0NA0KPiA+IC0tLSBhL2FyY2gvYXJtL2Jvb3Qv
+ZHRzL2lteDd1bHAuZHRzaQ0KPiA+ICsrKyBiL2FyY2gvYXJtL2Jvb3QvZHRzL2lteDd1bHAuZHRz
+aQ0KPiA+IEBAIC0zMCw2ICszMCw3IEBADQo+ID4gICAJCXNlcmlhbDEgPSAmbHB1YXJ0NTsNCj4g
+PiAgIAkJc2VyaWFsMiA9ICZscHVhcnQ2Ow0KPiA+ICAgCQlzZXJpYWwzID0gJmxwdWFydDc7DQo+
+ID4gKwkJdXNicGh5MCA9ICZ1c2JwaHkxOw0KPiANCj4gICAgIElzIHRoYXQgcmVhbGx5IG5lZWRl
+ZD8NCj4gDQoNClllcywgc2luY2UgdGhlIGRyaXZlciBjb2RlIHVzZXMgYWxpZ25lZCBpZCwgYW5k
+IHRoZSBjb250cm9sbGVyIG51bWJlciBpcyBmcm9tIDAgYXQgdGhlIGNvZGUuDQpJIGNvbW1lbnRl
+ZCBpdCBoZXJlOiBbMV0NCg0KPiBbLi4uXQ0KPiA+IEBAIC0xMzMsNiArMTM0LDMzIEBADQo+IFsu
+Li5dDQo+ID4gKwkJdXNicGh5MTogdXNicGh5QDB4NDAzNTAwMDAgew0KPiANCj4gICAgIE5hbWUg
+aXQgInVzYi1waHlANDAzNTAwMDAiIHBsZWFzZS4NCj4gDQoNCldvdWxkIHlvdSBwbGVhc2UgbGlz
+dCBiaW5kaW5nIGRvYyBmb3IgeW91ciBzdWdnZXN0aW9uPw0KDQpUaGFua3MsDQpQZXRlcg0KDQpb
+MV0gaHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wYXRjaC8xMDkyMDU5OS8NCg==
