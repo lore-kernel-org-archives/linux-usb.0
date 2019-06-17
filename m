@@ -2,25 +2,25 @@ Return-Path: <SRS0=mHtA=UQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0332DC31E53
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Jun 2019 08:23:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A197BC31E44
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Jun 2019 08:24:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D6A57218A0
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Jun 2019 08:23:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 81950218A0
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Jun 2019 08:24:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727617AbfFQIXY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Jun 2019 04:23:24 -0400
-Received: from verein.lst.de ([213.95.11.211]:33958 "EHLO newverein.lst.de"
+        id S1725973AbfFQIYw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Jun 2019 04:24:52 -0400
+Received: from verein.lst.de ([213.95.11.211]:33991 "EHLO newverein.lst.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725862AbfFQIXY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 17 Jun 2019 04:23:24 -0400
+        id S1725837AbfFQIYw (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 17 Jun 2019 04:24:52 -0400
 Received: by newverein.lst.de (Postfix, from userid 2407)
-        id 9043C68B20; Mon, 17 Jun 2019 10:22:55 +0200 (CEST)
-Date:   Mon, 17 Jun 2019 10:22:55 +0200
+        id 6DC6F68BFE; Mon, 17 Jun 2019 10:24:23 +0200 (CEST)
+Date:   Mon, 17 Jun 2019 10:24:23 +0200
 From:   Christoph Hellwig <hch@lst.de>
 To:     Ming Lei <ming.lei@redhat.com>
 Cc:     linux-scsi@vger.kernel.org,
@@ -40,31 +40,32 @@ Cc:     linux-scsi@vger.kernel.org,
         devel@driverdev.osuosl.org, linux-usb@vger.kernel.org,
         Dan Carpenter <dan.carpenter@oracle.com>,
         Benjamin Block <bblock@linux.ibm.com>
-Subject: Re: [PATCH V4 04/16] scsi: mvumi: use sg helper to operate
+Subject: Re: [PATCH V4 05/16] scsi: ipr: use sg helper to operate
  scatterlist
-Message-ID: <20190617082255.GD7455@lst.de>
-References: <20190617030349.26415-1-ming.lei@redhat.com> <20190617030349.26415-5-ming.lei@redhat.com>
+Message-ID: <20190617082423.GE7455@lst.de>
+References: <20190617030349.26415-1-ming.lei@redhat.com> <20190617030349.26415-6-ming.lei@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190617030349.26415-5-ming.lei@redhat.com>
+In-Reply-To: <20190617030349.26415-6-ming.lei@redhat.com>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jun 17, 2019 at 11:03:37AM +0800, Ming Lei wrote:
-> Use the scatterlist iterators and remove direct indexing of the
-> scatterlist array.
-> 
-> This way allows us to pre-allocate one small scatterlist, which can be
-> chained with one runtime allocated scatterlist if the pre-allocated one
-> isn't enough for the whole request.
-> 
-> Reviewed-by: Ewan D. Milne <emilne@redhat.com>
-> Signed-off-by: Ming Lei <ming.lei@redhat.com>
+> -	for (i = 0; i < (len / bsize_elem); i++, buffer += bsize_elem) {
+> -		struct page *page = sg_page(&scatterlist[i]);
+> +	for (i = 0; i < (len / bsize_elem); i++, sg = sg_next(sg), buffer += bsize_elem) {
 
-Looks good,
+Please split the overly long line.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+> +		struct page *page = sg_page(sg);
+>  
+>  		kaddr = kmap(page);
+>  		memcpy(kaddr, buffer, bsize_elem);
+>  		kunmap(page);
+
+Not new in this patch, but this is buggy as scatterlists could have
+offsets.  This should probably use the scatterlist.c copy helper
+eventually.
