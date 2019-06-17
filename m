@@ -2,446 +2,183 @@ Return-Path: <SRS0=mHtA=UQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5617AC31E59
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Jun 2019 12:51:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4477C31E5C
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Jun 2019 12:53:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1A10F20861
-	for <linux-usb@archiver.kernel.org>; Mon, 17 Jun 2019 12:51:36 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r5dCfxbv"
+	by mail.kernel.org (Postfix) with ESMTP id 79F642089E
+	for <linux-usb@archiver.kernel.org>; Mon, 17 Jun 2019 12:53:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1560775980;
+	bh=Lw4H+apTPqBmAWFUYxz+C05aM8XYDHNRGlPEvefR3u0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
+	b=dBtIc+SUpGS3n8v2bvgkiFlygj2KQBrIlOtHWH6QpW28R6MeLMiytr4zuIkuO0Drq
+	 tOBzVdqhEc0OfygIOsDU0UEwO2akEV8Ig6xVCNmOxBkkcY30qVNSI7yzvwOHBDOjVj
+	 kH2U4JTsXP5sxV1doUg+00m+zbc3b5uVZAAKvVoU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728018AbfFQMvZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Jun 2019 08:51:25 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:43217 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727829AbfFQMvN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 17 Jun 2019 08:51:13 -0400
-Received: by mail-wr1-f66.google.com with SMTP id p13so9793318wru.10
-        for <linux-usb@vger.kernel.org>; Mon, 17 Jun 2019 05:51:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=ZYares2Zb0CMG5aj1Aq17AxyznnInv9luLnQDrDhVlk=;
-        b=r5dCfxbvH3U5b5C4s33cPxDL1vD/tiW6V96ulvZngp0n/hqT3oktaEclOpyvDC+R58
-         SUfga9aWqbblZtMjr1jj22q46oZc0+qKFJJy1aIwr4ioiZXw8JKRWjnzTglMlhSmvRNj
-         FVCMZY11tsUacCETtgDReiUPN8Om7954wN6SXEkjDtExGnUmuVdTekdpD4US9VRnT5QK
-         i9DLIIfQpyKMQ7VZs5zCI/sBlpMqVBcEZB+9OtVbGIefAMiOnHCEX5mS3c7uu2R1dWb5
-         ggotZKzJpFMA5Mmyzcjj0yPYPWAlMpFx7OZ+P1ZMGP9dwu1u4tj4YPT/IVry3dFV/Yv8
-         YuZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=ZYares2Zb0CMG5aj1Aq17AxyznnInv9luLnQDrDhVlk=;
-        b=E6ehI5RV6W+xz9Xw9J+v7Eb9S5gnL7N2dRun/IC1FFfAO3JBD8BT+YEO/yfdUW33yn
-         TO8X4NyriZ5k9EFzucCGpnI/mAIb8fNQ0Clo1B+4MfRqZZv8Ndjtncrt8v8p60uEAbv0
-         ZGZZf90KzE8T+T9s658PMqcX0jp7dTgrJluPXdMAEMdgrlZRUkvaxzINhxsEA1TAgOQ5
-         GLSTZOE0DHuoWO4JU0tFAyRAKp3TJcwvuaSF9+ny5Vjp14JQmlQvQx2pBSrO9VgAD+Ed
-         VvqGEoyT1QkGYhLq2di/1rwqVG72l1ekQfmrgGS8o6mz+yXlG6Q+hXpDZlle8pPRSpeQ
-         XKzQ==
-X-Gm-Message-State: APjAAAXiYQL53qGSjn5LGAf0LfK6vf7RJSvbGe3meiSD2YA3ff+ah/P7
-        H2dzw+LN2xMxJkJcyLwzXsRRaQ==
-X-Google-Smtp-Source: APXvYqw4tU4zKvNxRkTtQHBbmrMwW6oDHDoXraOjSJrJg7Vgc+uuvKDECbAHi2x2yB80DzNCJv6ODQ==
-X-Received: by 2002:a5d:5386:: with SMTP id d6mr24077969wrv.207.1560775870686;
-        Mon, 17 Jun 2019 05:51:10 -0700 (PDT)
-Received: from dell.watershed.co.uk ([2.27.35.243])
-        by smtp.gmail.com with ESMTPSA id o11sm10477852wmh.37.2019.06.17.05.51.09
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 17 Jun 2019 05:51:10 -0700 (PDT)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     alokc@codeaurora.org, agross@kernel.org, david.brown@linaro.org,
-        bjorn.andersson@linaro.org, balbi@kernel.org,
-        gregkh@linuxfoundation.org, ard.biesheuvel@linaro.org,
-        jlhugo@gmail.com, linux-arm-msm@vger.kernel.org,
-        linux-usb@vger.kernel.org, felipe.balbi@linux.intel.com
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Lee Jones <lee.jones@linaro.org>
-Subject: [RESEND v4 2/4] usb: dwc3: qcom: Add support for booting with ACPI
-Date:   Mon, 17 Jun 2019 13:51:03 +0100
-Message-Id: <20190617125105.6186-3-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190617125105.6186-1-lee.jones@linaro.org>
-References: <20190617125105.6186-1-lee.jones@linaro.org>
+        id S1728056AbfFQMxA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Jun 2019 08:53:00 -0400
+Received: from mga01.intel.com ([192.55.52.88]:13071 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727763AbfFQMw7 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 17 Jun 2019 08:52:59 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Jun 2019 05:52:58 -0700
+X-ExtLoop1: 1
+Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
+  by orsmga006.jf.intel.com with ESMTP; 17 Jun 2019 05:52:56 -0700
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Ran Wang <ran.wang_1@nxp.com>, Rob Herring <robh+dt@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "open list\:DESIGNWARE USB3 DRD IP DRIVER" 
+        <linux-usb@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        "devicetree\@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Leo Li <leoyang.li@nxp.com>
+Subject: RE: [PATCH] usb: dwc3: Enable the USB snooping
+In-Reply-To: <AM5PR0402MB2865D0F0E2B4F65C86D051F8F1140@AM5PR0402MB2865.eurprd04.prod.outlook.com>
+References: <20171115060459.45375-1-ran.wang_1@nxp.com> <87ineb9b5v.fsf@linux.intel.com> <VI1PR04MB1504776EF3D4D8C374F0C069F1290@VI1PR04MB1504.eurprd04.prod.outlook.com> <87shdfet90.fsf@linux.intel.com> <AM5PR0402MB28654EBE2D431CC2F8061CF8F11E0@AM5PR0402MB2865.eurprd04.prod.outlook.com> <87k1eaanjw.fsf@linux.intel.com> <AM5PR0402MB2865F3735D808E1BC9F67968F1180@AM5PR0402MB2865.eurprd04.prod.outlook.com> <AM5PR0402MB2865D0F0E2B4F65C86D051F8F1140@AM5PR0402MB2865.eurprd04.prod.outlook.com>
+Date:   Mon, 17 Jun 2019 15:52:52 +0300
+Message-ID: <87o92wgyqj.fsf@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In Linux, the DWC3 core exists as its own independent platform device.
-Thus when describing relationships in Device Tree, the current default
-boot configuration table option, the DWC3 core often resides as a child
-of the platform specific node.  Both of which are given their own
-address space descriptions and the drivers can be mostly agnostic to
-each other.
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-However, other Operating Systems have taken a more monolithic approach,
-which is evident in the configuration ACPI tables for the Qualcomm
-Snapdragon SDM850, where all DWC3 (core and platform) components are
-described under a single IO memory region.
 
-To ensure successful booting using the supplied ACPI tables, we need to
-devise a way to chop up the address regions provided and subsequently
-register the DWC3 core with the resultant information, which is
-precisely what this patch aims to achieve.
+Hi,
 
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
----
- drivers/usb/dwc3/Kconfig     |   2 +-
- drivers/usb/dwc3/dwc3-qcom.c | 206 ++++++++++++++++++++++++++++++-----
- 2 files changed, 179 insertions(+), 29 deletions(-)
+Ran Wang <ran.wang_1@nxp.com> writes:
+> Hi Felipe,
+>
+> On Thursday, May 30, 2019 17:09, Ran Wang wrote:
+>>=20
+>> <snip>
+>> > >> >> >  /* Global Debug Queue/FIFO Space Available Register */
+>> > >> >> >  #define DWC3_GDBGFIFOSPACE_NUM(n)	((n) & 0x1f)
+>> > >> >> >  #define DWC3_GDBGFIFOSPACE_TYPE(n)	(((n) << 5) & 0x1e0)
+>> > >> >> > @@ -859,6 +867,7 @@ struct dwc3_scratchpad_array {
+>> > >> >> >   * 	3	- Reserved
+>> > >> >> >   * @imod_interval: set the interrupt moderation interval in 2=
+50ns
+>> > >> >> >   *                 increments or 0 to disable.
+>> > >> >> > + * @dma_coherent: set if enable dma-coherent.
+>> > >> >>
+>> > >> >> you're not enabling dma coherency, you're enabling cache snoopin=
+g.
+>> > >> >> And this property should describe that. Also, keep in mind that
+>> > >> >> different devices may want different cache types for each of
+>> > >> >> those fields, so your property would have to be a lot more
+>> > >> >> complex. Something
+>> > like:
+>> > >> >>
+>> > >> >> 	snps,cache-type =3D <foobar "cacheable">, <baz "cacheable">, ...
+>> > >> >>
+>> > >> >> Then driver would have to parse this properly to setup GSBUSCFG0.
+>> > >
+>> > > According to the DesignWare Cores SuperSpeed USB 3.0 Controller
+>> > > Databook (v2.60a), it has described Type Bit Assignments for all
+>> > > supported
+>> > master bus type:
+>> > > AHB, AXI3, AXI4 and Native. I found the bit definition are different
+>> > > among
+>> > them.
+>> > > So, for the example you gave above, feel a little bit confused.
+>> > > Did you mean:
+>> > >     snps,cache-type =3D <DATA_RD  "write allocate">, <DESC_RD
+>> > > "cacheable">, <DATA_WR  "bufferable">, <DESC_WR  "read allocate">
+>> >
+>> > yeah, something like that.
+>>=20
+>> I think DATA_RD  should be a macro, right? So, where I can put its defin=
+e?
+>> Create a dwc3.h in include/dt-bindings/usb/ ?
+>
+> Could you please give me some advice here? I'd like to prepare next versi=
+on patch after
+> getting this settled.
+>
+>> Another question about this remain open is: DWC3 data book's Table 6-5 C=
+ache
+>> Type Bit Assignments show that bits definition will differ per MBUS_TYPE=
+s as
+>> below:
+>> ----------------------------------------------------------------
+>>  MBUS_TYPE| bit[3]       |bit[2]       |bit[1]     |bit[0]
+>>  ----------------------------------------------------------------
+>>  AHB      |Cacheable     |Bufferable   |Privilegge |Data
+>>  AXI3     |Write Allocate|Read Allocate|Cacheable  |Bufferable
+>>  AXI4     |Allocate Other|Allocate     |Modifiable |Bufferable
+>>  AXI4     |Other Allocate|Allocate     |Modifiable |Bufferable
+>>  Native   |Same as AXI   |Same as AXI  |Same as AXI|Same as AXI
+>>  ----------------------------------------------------------------
+>>  Note: The AHB, AXI3, AXI4, and PCIe busses use different names for cert=
+ain
+>>  signals, which have the same meaning:
+>>    Bufferable =3D Posted
+>>    Cacheable =3D Modifiable =3D Snoop (negation of No Snoop)
+>>=20
+>> For Layerscape SoCs, MBUS_TYPE is AXI3. So I am not sure how to use
+>> snps,cache-type =3D <DATA_RD  "write allocate">, to cover all MBUS_TYPE?
+>> (you can notice that AHB and AXI3's cacheable are on different bit) Or I=
+ just need
+>> to handle AXI3 case?
+>
+> Also on this open. Thank you in advance.
 
-diff --git a/drivers/usb/dwc3/Kconfig b/drivers/usb/dwc3/Kconfig
-index 4a62045cc812..89abc6078703 100644
---- a/drivers/usb/dwc3/Kconfig
-+++ b/drivers/usb/dwc3/Kconfig
-@@ -128,7 +128,7 @@ config USB_DWC3_QCOM
- 	tristate "Qualcomm Platform"
- 	depends on ARCH_QCOM || COMPILE_TEST
- 	depends on EXTCON || !EXTCON
--	depends on OF
-+	depends on (OF || ACPI)
- 	default USB_DWC3
- 	help
- 	  Some Qualcomm SoCs use DesignWare Core IP for USB2/3
-diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index 184df4daa590..0cb63f6c92d9 100644
---- a/drivers/usb/dwc3/dwc3-qcom.c
-+++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -4,6 +4,7 @@
-  * Inspired by dwc3-of-simple.c
-  */
- 
-+#include <linux/acpi.h>
- #include <linux/io.h>
- #include <linux/of.h>
- #include <linux/clk.h>
-@@ -38,6 +39,20 @@
- #define PWR_EVNT_LPM_IN_L2_MASK			BIT(4)
- #define PWR_EVNT_LPM_OUT_L2_MASK		BIT(5)
- 
-+#define SDM845_QSCRATCH_BASE_OFFSET		0xf8800
-+#define SDM845_QSCRATCH_SIZE			0x400
-+#define SDM845_DWC3_CORE_SIZE			0xcd00
-+
-+struct dwc3_acpi_pdata {
-+	u32			qscratch_base_offset;
-+	u32			qscratch_base_size;
-+	u32			dwc3_core_base_size;
-+	int			hs_phy_irq_index;
-+	int			dp_hs_phy_irq_index;
-+	int			dm_hs_phy_irq_index;
-+	int			ss_phy_irq_index;
-+};
-+
- struct dwc3_qcom {
- 	struct device		*dev;
- 	void __iomem		*qscratch_base;
-@@ -56,6 +71,8 @@ struct dwc3_qcom {
- 	struct notifier_block	vbus_nb;
- 	struct notifier_block	host_nb;
- 
-+	const struct dwc3_acpi_pdata *acpi_pdata;
-+
- 	enum usb_dr_mode	mode;
- 	bool			is_suspended;
- 	bool			pm_suspended;
-@@ -300,12 +317,27 @@ static void dwc3_qcom_select_utmi_clk(struct dwc3_qcom *qcom)
- 			  PIPE_UTMI_CLK_DIS);
- }
- 
-+static int dwc3_qcom_get_irq(struct platform_device *pdev,
-+			     const char *name, int num)
-+{
-+	struct device_node *np = pdev->dev.of_node;
-+	int ret;
-+
-+	if (np)
-+		ret = platform_get_irq_byname(pdev, name);
-+	else
-+		ret = platform_get_irq(pdev, num);
-+
-+	return ret;
-+}
-+
- static int dwc3_qcom_setup_irq(struct platform_device *pdev)
- {
- 	struct dwc3_qcom *qcom = platform_get_drvdata(pdev);
-+	const struct dwc3_acpi_pdata *pdata = qcom->acpi_pdata;
- 	int irq, ret;
--
--	irq = platform_get_irq_byname(pdev, "hs_phy_irq");
-+	irq = dwc3_qcom_get_irq(pdev, "hs_phy_irq",
-+				pdata ? pdata->hs_phy_irq_index : -1);
- 	if (irq > 0) {
- 		/* Keep wakeup interrupts disabled until suspend */
- 		irq_set_status_flags(irq, IRQ_NOAUTOEN);
-@@ -320,7 +352,8 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
- 		qcom->hs_phy_irq = irq;
- 	}
- 
--	irq = platform_get_irq_byname(pdev, "dp_hs_phy_irq");
-+	irq = dwc3_qcom_get_irq(pdev, "dp_hs_phy_irq",
-+				pdata ? pdata->dp_hs_phy_irq_index : -1);
- 	if (irq > 0) {
- 		irq_set_status_flags(irq, IRQ_NOAUTOEN);
- 		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
-@@ -334,7 +367,8 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
- 		qcom->dp_hs_phy_irq = irq;
- 	}
- 
--	irq = platform_get_irq_byname(pdev, "dm_hs_phy_irq");
-+	irq = dwc3_qcom_get_irq(pdev, "dm_hs_phy_irq",
-+				pdata ? pdata->dm_hs_phy_irq_index : -1);
- 	if (irq > 0) {
- 		irq_set_status_flags(irq, IRQ_NOAUTOEN);
- 		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
-@@ -348,7 +382,8 @@ static int dwc3_qcom_setup_irq(struct platform_device *pdev)
- 		qcom->dm_hs_phy_irq = irq;
- 	}
- 
--	irq = platform_get_irq_byname(pdev, "ss_phy_irq");
-+	irq = dwc3_qcom_get_irq(pdev, "ss_phy_irq",
-+				pdata ? pdata->ss_phy_irq_index : -1);
- 	if (irq > 0) {
- 		irq_set_status_flags(irq, IRQ_NOAUTOEN);
- 		ret = devm_request_threaded_irq(qcom->dev, irq, NULL,
-@@ -371,11 +406,11 @@ static int dwc3_qcom_clk_init(struct dwc3_qcom *qcom, int count)
- 	struct device_node	*np = dev->of_node;
- 	int			i;
- 
--	qcom->num_clocks = count;
--
--	if (!count)
-+	if (!np || !count)
- 		return 0;
- 
-+	qcom->num_clocks = count;
-+
- 	qcom->clks = devm_kcalloc(dev, qcom->num_clocks,
- 				  sizeof(struct clk *), GFP_KERNEL);
- 	if (!qcom->clks)
-@@ -409,12 +444,103 @@ static int dwc3_qcom_clk_init(struct dwc3_qcom *qcom, int count)
- 	return 0;
- }
- 
--static int dwc3_qcom_probe(struct platform_device *pdev)
-+static int dwc3_qcom_acpi_register_core(struct platform_device *pdev)
- {
-+	struct dwc3_qcom 	*qcom = platform_get_drvdata(pdev);
-+	struct device		*dev = &pdev->dev;
-+	struct resource		*res, *child_res = NULL;
-+	int			irq;
-+	int			ret;
-+
-+	qcom->dwc3 = platform_device_alloc("dwc3", PLATFORM_DEVID_AUTO);
-+	if (!qcom->dwc3)
-+		return -ENOMEM;
-+
-+	qcom->dwc3->dev.parent = dev;
-+	qcom->dwc3->dev.type = dev->type;
-+	qcom->dwc3->dev.dma_mask = dev->dma_mask;
-+	qcom->dwc3->dev.dma_parms = dev->dma_parms;
-+	qcom->dwc3->dev.coherent_dma_mask = dev->coherent_dma_mask;
-+
-+	child_res = kcalloc(2, sizeof(*child_res), GFP_KERNEL);
-+	if (!child_res)
-+		return -ENOMEM;
-+
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!res) {
-+		dev_err(&pdev->dev, "failed to get memory resource\n");
-+		ret = -ENODEV;
-+		goto out;
-+	}
-+
-+	child_res[0].flags = res->flags;
-+	child_res[0].start = res->start;
-+	child_res[0].end = child_res[0].start +
-+		qcom->acpi_pdata->dwc3_core_base_size;
-+
-+	irq = platform_get_irq(pdev, 0);
-+	child_res[1].flags = IORESOURCE_IRQ;
-+	child_res[1].start = child_res[1].end = irq;
-+
-+	ret = platform_device_add_resources(qcom->dwc3, child_res, 2);
-+	if (ret) {
-+		dev_err(&pdev->dev, "failed to add resources\n");
-+		goto out;
-+	}
-+
-+	ret = platform_device_add(qcom->dwc3);
-+	if (ret)
-+		dev_err(&pdev->dev, "failed to add device\n");
-+
-+out:
-+	kfree(child_res);
-+	return ret;
-+}
-+
-+static int dwc3_qcom_of_register_core(struct platform_device *pdev)
-+{
-+	struct dwc3_qcom 	*qcom = platform_get_drvdata(pdev);
- 	struct device_node	*np = pdev->dev.of_node, *dwc3_np;
- 	struct device		*dev = &pdev->dev;
-+	int			ret;
-+
-+	dwc3_np = of_get_child_by_name(np, "dwc3");
-+	if (!dwc3_np) {
-+		dev_err(dev, "failed to find dwc3 core child\n");
-+		return -ENODEV;
-+	}
-+
-+	ret = of_platform_populate(np, NULL, NULL, dev);
-+	if (ret) {
-+		dev_err(dev, "failed to register dwc3 core - %d\n", ret);
-+		return ret;
-+	}
-+
-+	qcom->dwc3 = of_find_device_by_node(dwc3_np);
-+	if (!qcom->dwc3) {
-+		dev_err(dev, "failed to get dwc3 platform device\n");
-+		return -ENODEV;
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct dwc3_acpi_pdata sdm845_acpi_pdata = {
-+	.qscratch_base_offset = SDM845_QSCRATCH_BASE_OFFSET,
-+	.qscratch_base_size = SDM845_QSCRATCH_SIZE,
-+	.dwc3_core_base_size = SDM845_DWC3_CORE_SIZE,
-+	.hs_phy_irq_index = 1,
-+	.dp_hs_phy_irq_index = 4,
-+	.dm_hs_phy_irq_index = 3,
-+	.ss_phy_irq_index = 2
-+};
-+
-+static int dwc3_qcom_probe(struct platform_device *pdev)
-+{
-+	struct device_node	*np = pdev->dev.of_node;
-+	struct device		*dev = &pdev->dev;
- 	struct dwc3_qcom	*qcom;
--	struct resource		*res;
-+	struct resource		*res, *parent_res = NULL;
- 	int			ret, i;
- 	bool			ignore_pipe_clk;
- 
-@@ -425,6 +551,14 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, qcom);
- 	qcom->dev = &pdev->dev;
- 
-+	if (has_acpi_companion(dev)) {
-+		qcom->acpi_pdata = acpi_device_get_match_data(dev);
-+		if (!qcom->acpi_pdata) {
-+			dev_err(&pdev->dev, "no supporting ACPI device data\n");
-+			return -EINVAL;
-+		}
-+	}
-+
- 	qcom->resets = devm_reset_control_array_get_optional_exclusive(dev);
- 	if (IS_ERR(qcom->resets)) {
- 		ret = PTR_ERR(qcom->resets);
-@@ -454,7 +588,21 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
- 	}
- 
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	qcom->qscratch_base = devm_ioremap_resource(dev, res);
-+
-+	if (np) {
-+		parent_res = res;
-+	} else {
-+		parent_res = kmemdup(res, sizeof(struct resource), GFP_KERNEL);
-+		if (!parent_res)
-+			return -ENOMEM;
-+
-+		parent_res->start = res->start +
-+			qcom->acpi_pdata->qscratch_base_offset;
-+		parent_res->end = parent_res->start +
-+			qcom->acpi_pdata->qscratch_base_size;
-+	}
-+
-+	qcom->qscratch_base = devm_ioremap_resource(dev, parent_res);
- 	if (IS_ERR(qcom->qscratch_base)) {
- 		dev_err(dev, "failed to map qscratch, err=%d\n", ret);
- 		ret = PTR_ERR(qcom->qscratch_base);
-@@ -462,13 +610,8 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
- 	}
- 
- 	ret = dwc3_qcom_setup_irq(pdev);
--	if (ret)
--		goto clk_disable;
--
--	dwc3_np = of_get_child_by_name(np, "dwc3");
--	if (!dwc3_np) {
--		dev_err(dev, "failed to find dwc3 core child\n");
--		ret = -ENODEV;
-+	if (ret) {
-+		dev_err(dev, "failed to setup IRQs, err=%d\n", ret);
- 		goto clk_disable;
- 	}
- 
-@@ -481,16 +624,13 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
- 	if (ignore_pipe_clk)
- 		dwc3_qcom_select_utmi_clk(qcom);
- 
--	ret = of_platform_populate(np, NULL, NULL, dev);
--	if (ret) {
--		dev_err(dev, "failed to register dwc3 core - %d\n", ret);
--		goto clk_disable;
--	}
-+	if (np)
-+		ret = dwc3_qcom_of_register_core(pdev);
-+	else
-+		ret = dwc3_qcom_acpi_register_core(pdev);
- 
--	qcom->dwc3 = of_find_device_by_node(dwc3_np);
--	if (!qcom->dwc3) {
--		dev_err(&pdev->dev, "failed to get dwc3 platform device\n");
--		ret = -ENODEV;
-+	if (ret) {
-+		dev_err(dev, "failed to register DWC3 Core, err=%d\n", ret);
- 		goto depopulate;
- 	}
- 
-@@ -514,7 +654,10 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
- 	return 0;
- 
- depopulate:
--	of_platform_depopulate(&pdev->dev);
-+	if (np)
-+		of_platform_depopulate(&pdev->dev);
-+	else
-+		platform_device_put(pdev);
- clk_disable:
- 	for (i = qcom->num_clocks - 1; i >= 0; i--) {
- 		clk_disable_unprepare(qcom->clks[i]);
-@@ -601,6 +744,12 @@ static const struct of_device_id dwc3_qcom_of_match[] = {
- };
- MODULE_DEVICE_TABLE(of, dwc3_qcom_of_match);
- 
-+static const struct acpi_device_id dwc3_qcom_acpi_match[] = {
-+	{ "QCOM2430", (unsigned long)&sdm845_acpi_pdata },
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(acpi, dwc3_qcom_acpi_match);
-+
- static struct platform_driver dwc3_qcom_driver = {
- 	.probe		= dwc3_qcom_probe,
- 	.remove		= dwc3_qcom_remove,
-@@ -608,6 +757,7 @@ static struct platform_driver dwc3_qcom_driver = {
- 		.name	= "dwc3-qcom",
- 		.pm	= &dwc3_qcom_dev_pm_ops,
- 		.of_match_table	= dwc3_qcom_of_match,
-+		.acpi_match_table = ACPI_PTR(dwc3_qcom_acpi_match),
- 	},
- };
- 
--- 
-2.17.1
+You could pass two strings and let the driver process them. Something
+like:
 
+	snps,cache_type =3D <"data_wr" "write allocate">, <"desc_rd" "cacheable">.=
+..
+
+And so on. The only thing missing is for the mbus_type to be known by
+the driver. Is that something we can figure out on any of the HWPARAMS
+registers or does it have to be told explicitly?
+
+Another option would be to pass a string followed by one hex digit for
+the bits:
+
+	snps,cache_type =3D <"data_wr" 0x8>, <"desc_rd" 0x2>...;
+
+Then we don't need to describe mbus_type since the bits are what matters.
+
+Rob, any comments?
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl0HjSQACgkQzL64meEa
+mQbg7g/+Lx8yM+keMyEm6/45HFbt8dj+svzOYxh0bbIrId4/UkgiphoH7tOEvT/m
+daGDtnccJ8ec6pGl1gHMweog+R7WEkFjf43hBoJjjGWqExeeNDaP6cKD60v2fU2v
+fpDbfEs4Y5HKxxaBu65MmRwBbtAg+O0ZXEC2RY5jan9GE/HbuqD5xorbRCtIdo1r
+a5f5CgMUgIglqJiQ+r9dH2M3BjlCBl+2h9YHs0IuLN9+wtRmE9V82s+b1egjot/N
+fsp9eB/YCCpuvsw38pis00SyN2KiYB1TSBYKFplZon9j1dPrUomP7dg6CUlp+UGf
+T3jlokigmXQKNK7vrBjm76fdtTAKLEuXLnVGMxFM+sn/vh95bVamyS6MNYTY/XdA
+q/0KA4Z3tpPXIF0jDV4H92sKt2qXfDjj0vt8oSpWMB4yLOpkKQtvOcpRqd3AYsbD
++xvIOipBs6dtdp6wpvmK7BbobggCUxAObAYiJI4FoaqZbWWWnzd2piXWH5bAGkIp
+u14xAKyE7Nz20RuARpD+TchfbeAZUnrTF+PJ6LcRNshiGoPWBrRT2oCYjqN9XcE7
+K8sd6hxcXXwA4vPmo3faq4s1oiq/ACZWJPeGwCyF4yB+Y7b/I2aEicVSbOV49aiC
+j6yHlveZA9Z/GX8hVlxmkKLdhR5Uki6HP8wG5Bn2dlBK6tA2Kvk=
+=7tqt
+-----END PGP SIGNATURE-----
+--=-=-=--
