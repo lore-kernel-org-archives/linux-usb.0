@@ -6,26 +6,26 @@ X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6E43C31E5B
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 01:39:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7D7AC31E5B
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 01:39:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A43952082C
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 01:39:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 80A652084B
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 01:39:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726642AbfFRBjB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 17 Jun 2019 21:39:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33478 "EHLO mx1.redhat.com"
+        id S1727450AbfFRBjH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 17 Jun 2019 21:39:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47124 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726151AbfFRBjB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 17 Jun 2019 21:39:01 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        id S1726331AbfFRBjH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 17 Jun 2019 21:39:07 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id C99D93086205;
-        Tue, 18 Jun 2019 01:38:55 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id E3403309265C;
+        Tue, 18 Jun 2019 01:39:06 +0000 (UTC)
 Received: from localhost (ovpn-8-17.pek2.redhat.com [10.72.8.17])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id C286C7DF63;
-        Tue, 18 Jun 2019 01:38:51 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A483A3781;
+        Tue, 18 Jun 2019 01:39:03 +0000 (UTC)
 From:   Ming Lei <ming.lei@redhat.com>
 To:     linux-scsi@vger.kernel.org,
         "Martin K . Petersen" <martin.petersen@oracle.com>
@@ -45,16 +45,16 @@ Cc:     James Bottomley <James.Bottomley@HansenPartnership.com>,
         Dan Carpenter <dan.carpenter@oracle.com>,
         Benjamin Block <bblock@linux.ibm.com>,
         Ming Lei <ming.lei@redhat.com>,
-        Oliver Neukum <oliver@neukum.org>
-Subject: [PATCH V5 07/16] usb: image: microtek: use sg helper to operate scatterlist
-Date:   Tue, 18 Jun 2019 09:37:48 +0800
-Message-Id: <20190618013757.22401-8-ming.lei@redhat.com>
+        Kim Bradley <kim.jamie.bradley@gmail.com>
+Subject: [PATCH V5 09/16] staging: rtsx: use sg helper to operate scatterlist
+Date:   Tue, 18 Jun 2019 09:37:50 +0800
+Message-Id: <20190618013757.22401-10-ming.lei@redhat.com>
 In-Reply-To: <20190618013757.22401-1-ming.lei@redhat.com>
 References: <20190618013757.22401-1-ming.lei@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.42]); Tue, 18 Jun 2019 01:39:01 +0000 (UTC)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Tue, 18 Jun 2019 01:39:07 +0000 (UTC)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
@@ -67,87 +67,169 @@ This way allows us to pre-allocate one small scatterlist, which can be
 chained with one runtime allocated scatterlist if the pre-allocated one
 isn't enough for the whole request.
 
-Cc: Oliver Neukum <oliver@neukum.org>
+Cc: Kim Bradley <kim.jamie.bradley@gmail.com>
+Cc: devel@driverdev.osuosl.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Reviewed-by: Bart Van Assche <bvanassche@acm.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 Signed-off-by: Ming Lei <ming.lei@redhat.com>
 ---
- drivers/usb/image/microtek.c | 20 ++++++++------------
- drivers/usb/image/microtek.h |  2 +-
- 2 files changed, 9 insertions(+), 13 deletions(-)
+ drivers/staging/rts5208/rtsx_transport.c | 32 +++++++++++-------------
+ drivers/staging/rts5208/rtsx_transport.h |  2 +-
+ drivers/staging/rts5208/spi.c            | 14 ++++++-----
+ 3 files changed, 24 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/usb/image/microtek.c b/drivers/usb/image/microtek.c
-index 607be1f4fe27..0a57c2cc8e5a 100644
---- a/drivers/usb/image/microtek.c
-+++ b/drivers/usb/image/microtek.c
-@@ -488,7 +488,6 @@ static void mts_command_done( struct urb *transfer )
- 
- static void mts_do_sg (struct urb* transfer)
+diff --git a/drivers/staging/rts5208/rtsx_transport.c b/drivers/staging/rts5208/rtsx_transport.c
+index 8277d7895608..7a9f42ccebec 100644
+--- a/drivers/staging/rts5208/rtsx_transport.c
++++ b/drivers/staging/rts5208/rtsx_transport.c
+@@ -32,7 +32,7 @@
+ unsigned int rtsx_stor_access_xfer_buf(unsigned char *buffer,
+ 				       unsigned int buflen,
+ 				       struct scsi_cmnd *srb,
+-				       unsigned int *index,
++				       struct scatterlist **sg,
+ 				       unsigned int *offset,
+ 				       enum xfer_buf_dir dir)
  {
--	struct scatterlist * sg;
- 	int status = transfer->status;
- 	MTS_INT_INIT();
- 
-@@ -500,13 +499,12 @@ static void mts_do_sg (struct urb* transfer)
- 		mts_transfer_cleanup(transfer);
-         }
- 
--	sg = scsi_sglist(context->srb);
--	context->fragment++;
-+	context->curr_sg = sg_next(context->curr_sg);
- 	mts_int_submit_urb(transfer,
- 			   context->data_pipe,
--			   sg_virt(&sg[context->fragment]),
--			   sg[context->fragment].length,
--			   context->fragment + 1 == scsi_sg_count(context->srb) ?
-+			   sg_virt(context->curr_sg),
-+			   context->curr_sg->length,
-+			   sg_is_last(context->curr_sg) ?
- 			   mts_data_done : mts_do_sg);
- }
- 
-@@ -526,22 +524,20 @@ static void
- mts_build_transfer_context(struct scsi_cmnd *srb, struct mts_desc* desc)
- {
- 	int pipe;
--	struct scatterlist * sg;
--	
-+
- 	MTS_DEBUG_GOT_HERE();
- 
- 	desc->context.instance = desc;
- 	desc->context.srb = srb;
--	desc->context.fragment = 0;
- 
- 	if (!scsi_bufflen(srb)) {
- 		desc->context.data = NULL;
- 		desc->context.data_length = 0;
- 		return;
+@@ -60,23 +60,20 @@ unsigned int rtsx_stor_access_xfer_buf(unsigned char *buffer,
+ 	 * each page has to be kmap()'ed separately.
+ 	 */
  	} else {
--		sg = scsi_sglist(srb);
--		desc->context.data = sg_virt(&sg[0]);
--		desc->context.data_length = sg[0].length;
-+		desc->context.curr_sg = scsi_sglist(srb);
-+		desc->context.data = sg_virt(desc->context.curr_sg);
-+		desc->context.data_length = desc->context.curr_sg->length;
- 	}
+-		struct scatterlist *sg =
+-				(struct scatterlist *)scsi_sglist(srb)
+-				+ *index;
+-
+ 		/*
+ 		 * This loop handles a single s-g list entry, which may
+ 		 * include multiple pages.  Find the initial page structure
+ 		 * and the starting offset within the page, and update
+-		 * the *offset and *index values for the next loop.
++		 * the *offset and current sg for the next loop.
+ 		 */
+ 		cnt = 0;
+-		while (cnt < buflen && *index < scsi_sg_count(srb)) {
+-			struct page *page = sg_page(sg) +
+-					((sg->offset + *offset) >> PAGE_SHIFT);
+-			unsigned int poff = (sg->offset + *offset) &
++		while (cnt < buflen && *sg) {
++			struct page *page = sg_page(*sg) +
++					(((*sg)->offset + *offset) >>
++					 PAGE_SHIFT);
++			unsigned int poff = ((*sg)->offset + *offset) &
+ 					    (PAGE_SIZE - 1);
+-			unsigned int sglen = sg->length - *offset;
++			unsigned int sglen = (*sg)->length - *offset;
  
+ 			if (sglen > buflen - cnt) {
+ 				/* Transfer ends within this s-g entry */
+@@ -85,8 +82,7 @@ unsigned int rtsx_stor_access_xfer_buf(unsigned char *buffer,
+ 			} else {
+ 				/* Transfer continues to next s-g entry */
+ 				*offset = 0;
+-				++*index;
+-				++sg;
++				*sg = sg_next(*sg);
+ 			}
  
-diff --git a/drivers/usb/image/microtek.h b/drivers/usb/image/microtek.h
-index 66685e59241a..7bd5f4639c4a 100644
---- a/drivers/usb/image/microtek.h
-+++ b/drivers/usb/image/microtek.h
-@@ -21,7 +21,7 @@ struct mts_transfer_context
- 	void *data;
- 	unsigned data_length;
- 	int data_pipe;
--	int fragment;
-+	struct scatterlist *curr_sg;
+ 			while (sglen > 0) {
+@@ -120,9 +116,10 @@ unsigned int rtsx_stor_access_xfer_buf(unsigned char *buffer,
+ void rtsx_stor_set_xfer_buf(unsigned char *buffer,
+ 			    unsigned int buflen, struct scsi_cmnd *srb)
+ {
+-	unsigned int index = 0, offset = 0;
++	unsigned int offset = 0;
++	struct scatterlist *sg = scsi_sglist(srb);
  
- 	u8 *scsi_status; /* status returned from ep_response after command completion */
- };
+-	rtsx_stor_access_xfer_buf(buffer, buflen, srb, &index, &offset,
++	rtsx_stor_access_xfer_buf(buffer, buflen, srb, &sg, &offset,
+ 				  TO_XFER_BUF);
+ 	if (buflen < scsi_bufflen(srb))
+ 		scsi_set_resid(srb, scsi_bufflen(srb) - buflen);
+@@ -131,9 +128,10 @@ void rtsx_stor_set_xfer_buf(unsigned char *buffer,
+ void rtsx_stor_get_xfer_buf(unsigned char *buffer,
+ 			    unsigned int buflen, struct scsi_cmnd *srb)
+ {
+-	unsigned int index = 0, offset = 0;
++	unsigned int offset = 0;
++	struct scatterlist *sg = scsi_sglist(srb);
+ 
+-	rtsx_stor_access_xfer_buf(buffer, buflen, srb, &index, &offset,
++	rtsx_stor_access_xfer_buf(buffer, buflen, srb, &sg, &offset,
+ 				  FROM_XFER_BUF);
+ 	if (buflen < scsi_bufflen(srb))
+ 		scsi_set_resid(srb, scsi_bufflen(srb) - buflen);
+diff --git a/drivers/staging/rts5208/rtsx_transport.h b/drivers/staging/rts5208/rtsx_transport.h
+index 097efed24b79..e3ebc3759d92 100644
+--- a/drivers/staging/rts5208/rtsx_transport.h
++++ b/drivers/staging/rts5208/rtsx_transport.h
+@@ -20,7 +20,7 @@
+ unsigned int rtsx_stor_access_xfer_buf(unsigned char *buffer,
+ 				       unsigned int buflen,
+ 				       struct scsi_cmnd *srb,
+-				       unsigned int *index,
++				       struct scatterlist **sg,
+ 				       unsigned int *offset,
+ 				       enum xfer_buf_dir dir);
+ void rtsx_stor_set_xfer_buf(unsigned char *buffer, unsigned int buflen,
+diff --git a/drivers/staging/rts5208/spi.c b/drivers/staging/rts5208/spi.c
+index f1e9e80044ed..af10916ff00b 100644
+--- a/drivers/staging/rts5208/spi.c
++++ b/drivers/staging/rts5208/spi.c
+@@ -554,7 +554,8 @@ int spi_read_flash_id(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+ int spi_read_flash(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+ {
+ 	int retval;
+-	unsigned int index = 0, offset = 0;
++	unsigned int offset = 0;
++	struct scatterlist *sg = scsi_sglist(srb);
+ 	u8 ins, slow_read;
+ 	u32 addr;
+ 	u16 len;
+@@ -631,7 +632,7 @@ int spi_read_flash(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+ 			return STATUS_FAIL;
+ 		}
+ 
+-		rtsx_stor_access_xfer_buf(buf, pagelen, srb, &index, &offset,
++		rtsx_stor_access_xfer_buf(buf, pagelen, srb, &sg, &offset,
+ 					  TO_XFER_BUF);
+ 
+ 		addr += pagelen;
+@@ -651,7 +652,8 @@ int spi_write_flash(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+ 	u32 addr;
+ 	u16 len;
+ 	u8 *buf;
+-	unsigned int index = 0, offset = 0;
++	unsigned int offset = 0;
++	struct scatterlist *sg = scsi_sglist(srb);
+ 
+ 	spi_set_err_code(chip, SPI_NO_ERR);
+ 
+@@ -679,7 +681,7 @@ int spi_write_flash(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+ 				return STATUS_FAIL;
+ 			}
+ 
+-			rtsx_stor_access_xfer_buf(buf, 1, srb, &index, &offset,
++			rtsx_stor_access_xfer_buf(buf, 1, srb, &sg, &offset,
+ 						  FROM_XFER_BUF);
+ 
+ 			rtsx_init_cmd(chip);
+@@ -722,7 +724,7 @@ int spi_write_flash(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+ 			return STATUS_ERROR;
+ 
+ 		while (len) {
+-			rtsx_stor_access_xfer_buf(buf, 1, srb, &index, &offset,
++			rtsx_stor_access_xfer_buf(buf, 1, srb, &sg, &offset,
+ 						  FROM_XFER_BUF);
+ 
+ 			rtsx_init_cmd(chip);
+@@ -788,7 +790,7 @@ int spi_write_flash(struct scsi_cmnd *srb, struct rtsx_chip *chip)
+ 
+ 			rtsx_send_cmd_no_wait(chip);
+ 
+-			rtsx_stor_access_xfer_buf(buf, pagelen, srb, &index,
++			rtsx_stor_access_xfer_buf(buf, pagelen, srb, &sg,
+ 						  &offset, FROM_XFER_BUF);
+ 
+ 			retval = rtsx_transfer_data(chip, 0, buf, pagelen, 0,
 -- 
 2.20.1
 
