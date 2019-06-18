@@ -2,106 +2,62 @@ Return-Path: <SRS0=9UCG=UR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B60AC31E5D
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 14:25:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D138C31E5B
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 14:26:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 24C31213F2
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 14:25:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0EB50213F2
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 14:26:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729370AbfFROZE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 Jun 2019 10:25:04 -0400
-Received: from mga07.intel.com ([134.134.136.100]:24098 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728982AbfFROZD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 18 Jun 2019 10:25:03 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Jun 2019 07:25:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,389,1557212400"; 
-   d="scan'208";a="243006671"
-Received: from mattu-haswell.fi.intel.com ([10.237.72.164])
-  by orsmga001.jf.intel.com with ESMTP; 18 Jun 2019 07:25:01 -0700
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-To:     <gregkh@linuxfoundation.org>
-Cc:     <linux-usb@vger.kernel.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        "# v4 . 18+" <stable@vger.kernel.org>
-Subject: [PATCH 2/2] xhci: detect USB 3.2 capable host controllers correctly
-Date:   Tue, 18 Jun 2019 17:27:48 +0300
-Message-Id: <1560868068-2583-3-git-send-email-mathias.nyman@linux.intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1560868068-2583-1-git-send-email-mathias.nyman@linux.intel.com>
-References: <1560868068-2583-1-git-send-email-mathias.nyman@linux.intel.com>
+        id S1728881AbfFRO0Y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 Jun 2019 10:26:24 -0400
+Received: from mx2.suse.de ([195.135.220.15]:34364 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725919AbfFRO0Y (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 18 Jun 2019 10:26:24 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 516BFAC2D;
+        Tue, 18 Jun 2019 14:26:23 +0000 (UTC)
+Message-ID: <1560867168.3184.8.camel@suse.com>
+Subject: possible deadlock in 3b6054da68f9b0d5ed6a7ed0f42a79e61904352c ("usb
+ hub: send clear_tt_buffer_complete events when canceling TT clear work")
+From:   Oliver Neukum <oneukum@suse.com>
+To:     Octavian Purdila <octavian.purdila@intel.com>,
+        Alan Stern <stern@rowland.harvard.edu>
+Cc:     linux-usb@vger.kernel.org
+Date:   Tue, 18 Jun 2019 16:12:48 +0200
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-USB 3.2 capability in a host can be detected from the
-xHCI Supported Protocol Capability major and minor revision fields.
+Hi,
 
-If major is 0x3 and minor 0x20 then the host is USB 3.2 capable.
+looking at this code,  which fixed a deadlock,it looks to me
+like it has introduced another deadlock.
 
-For USB 3.2 capable hosts set the root hub lane count to 2.
+[assume a storage device on a hub being suspended]
 
-The Major Revision and Minor Revision fields contain a BCD version number.
-The value of the Major Revision field is JJh and the value of the Minor
-Revision field is MNh for version JJ.M.N, where JJ = major revision number,
-M - minor version number, N = sub-minor version number,
-e.g. version 3.1 is represented with a value of 0310h.
+hub_suspend() -> hub_quiesce() -> flush_work(&hub->tt.clear_work) ->
 
-Also fix the extra whitespace printed out when announcing regular
-SuperSpeed hosts.
+/* note that tt.clear_work is not on its own queue, it uses
+simple schedule_work(). Hence the work lands on system_wq,
+shared with arbitrary works */
 
-Cc: <stable@vger.kernel.org> # v4.18+
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
----
- drivers/usb/host/xhci.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+kmalloc(... , GFP_KERNEL) -> usb_storage or uas ->
+usb_autopm_get_interface() -> DEADLOCK
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 78a2a93..3f79f35 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -5065,16 +5065,26 @@ int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks)
- 	} else {
- 		/*
- 		 * Some 3.1 hosts return sbrn 0x30, use xhci supported protocol
--		 * minor revision instead of sbrn
-+		 * minor revision instead of sbrn. Minor revision is a two digit
-+		 * BCD containing minor and sub-minor numbers, only show minor.
- 		 */
--		minor_rev = xhci->usb3_rhub.min_rev;
--		if (minor_rev) {
-+		minor_rev = xhci->usb3_rhub.min_rev / 0x10;
-+
-+		switch (minor_rev) {
-+		case 2:
-+			hcd->speed = HCD_USB32;
-+			hcd->self.root_hub->speed = USB_SPEED_SUPER_PLUS;
-+			hcd->self.root_hub->rx_lanes = 2;
-+			hcd->self.root_hub->tx_lanes = 2;
-+			break;
-+		case 1:
- 			hcd->speed = HCD_USB31;
- 			hcd->self.root_hub->speed = USB_SPEED_SUPER_PLUS;
-+			break;
- 		}
--		xhci_info(xhci, "Host supports USB 3.%x %s SuperSpeed\n",
-+		xhci_info(xhci, "Host supports USB 3.%x %sSuperSpeed\n",
- 			  minor_rev,
--			  minor_rev ? "Enhanced" : "");
-+			  minor_rev ? "Enhanced " : "");
- 
- 		xhci->usb3_rhub.hcd = hcd;
- 		/* xHCI private pointer was set in xhci_pci_probe for the second
--- 
-2.7.4
+I think you need to use a dedicated workqueue for the hub driver.
+
+	Regards
+		Oliver
+
 
