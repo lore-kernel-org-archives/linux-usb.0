@@ -2,90 +2,72 @@ Return-Path: <SRS0=9UCG=UR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC9DCC46477
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 15:28:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53F9BC31E5B
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 15:29:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7A09120B1F
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 15:28:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1560871718;
-	bh=cBZbIGQ+cjyD2YCVRDOXcoe7z6QzrPpzbzN0znS/Ylg=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
-	b=Rf+8WkBZbmz6IpZCer7cxXcA87LemaxlwZ9li91VfzJeIqxB2boVmg3dIhJXFpdCe
-	 N2h+I/ar3IAIMs9sr7jq+KyGFzGr7wIWlIMnWRRtw9MoRjd2FWfF7S08tQgh28jyG5
-	 jps6dn1zwgHBhGk5qNEauZCnynmu+jKpJikruUBE=
+	by mail.kernel.org (Postfix) with ESMTP id 346112085A
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 15:29:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729412AbfFRP2h (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 Jun 2019 11:28:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55228 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729247AbfFRP2h (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 18 Jun 2019 11:28:37 -0400
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 031B92085A;
-        Tue, 18 Jun 2019 15:28:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560871716;
-        bh=cBZbIGQ+cjyD2YCVRDOXcoe7z6QzrPpzbzN0znS/Ylg=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=1637osodxbXA+dd8NcCz7z4PZoJd2L4ooz5xgXaHLyVoXzk6mzzxCFsnF70fvSYaj
-         rxwiYsehj0Nwqj96sUhbw7/ewZ6peonITYgoV53cZ0Lc/Fz3dnxXt5nuaECF1D648A
-         wRwkpNFXQQ0FTiqYqUEkbxk32ximtj+bSI7AepPk=
-Subject: Re: How to resolve an issue in swiotlb environment?
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        Oliver Neukum <oneukum@suse.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        shuah <shuah@kernel.org>
-References: <Pine.LNX.4.44L0.1906141043530.24571-100000@netrider.rowland.org>
-From:   shuah <shuah@kernel.org>
-Message-ID: <20684ef6-7da7-90ed-4cd6-3bc46202de6d@kernel.org>
-Date:   Tue, 18 Jun 2019 09:28:35 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1729308AbfFRP3h (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 Jun 2019 11:29:37 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:40196 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1729209AbfFRP3h (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 Jun 2019 11:29:37 -0400
+Received: (qmail 5727 invoked by uid 2102); 18 Jun 2019 11:29:36 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 18 Jun 2019 11:29:36 -0400
+Date:   Tue, 18 Jun 2019 11:29:36 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Oliver Neukum <oneukum@suse.com>
+cc:     linux-usb@vger.kernel.org
+Subject: Re: [RFC] deadlock with flush_work() in UAS
+In-Reply-To: <1560869625.3184.11.camel@suse.com>
+Message-ID: <Pine.LNX.4.44L0.1906181120550.1659-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-In-Reply-To: <Pine.LNX.4.44L0.1906141043530.24571-100000@netrider.rowland.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 6/14/19 8:44 AM, Alan Stern wrote:
-> On Thu, 13 Jun 2019, shuah wrote:
-> 
->>> Great!  So all we have to do is fix vhci-hcd.  Then we can remove all
->>> the virt_boundary_mask stuff from usb-storage and uas entirely.
->>>
->>> (I'm assuming wireless USB isn't a genuine issue.  As far as I know, it
->>> is pretty much abandoned at this point.)
->>>
->>> Valentina and Shua: Adding SG support to vhci-hcd shouldn't be too
->>> hard.  It ought to be possible even without changing the network
->>> protocol.
->>>
->>
->> I will start taking a look at this. Is there a target release in plan
->> to drop virt_boundary_mask stuff?
-> 
-> Not yet.  But since it doesn't do what we want anyway, this should be
-> fixed quickly.
-> 
+On Tue, 18 Jun 2019, Oliver Neukum wrote:
 
-Sounds good. I am working on it.
+> Hi,
+> 
+> looking at those deadlocks it looks to me like UAS can
+> deadlock on itself. What do you think?
+> 
+> 	Regards
+> 		Oliver
+> 
+> From 2d497f662e6c03fe9e0a75e05b64d52514e890b3 Mon Sep 17 00:00:00 2001
+> From: Oliver Neukum <oneukum@suse.com>
+> Date: Tue, 18 Jun 2019 15:03:56 +0200
+> Subject: [PATCH] UAS: fix deadlock in error handling and PM flushing work
+> 
+> A SCSI error handler and block runtime PM must not allocate
+> memory with GFP_KERNEL. Furthermore they must not wait for
+> tasks allocating memory with GFP_KERNEL.
+> That means that they cannot share a workqueue with arbitrary tasks.
+> 
+> Fix this for UAS using a private workqueue.
 
-thanks,
--- Shuah
+I'm not so sure that one long-running task in a workqueue will block 
+other tasks.  Workqueues have variable numbers of threads, added and 
+removed on demand.  (On the other hand, when new threads need to be 
+added the workqueue manager probably uses GFP_KERNEL.)
+
+Even if you disagree, perhaps we should have a global workqueue with a
+permanently set noio flag.  It could be shared among multiple drivers
+such as uas and the hub driver for purposes like this.  (In fact, the 
+hub driver already has its own dedicated workqueue.)
+
+Alan Stern
+
+
