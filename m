@@ -2,212 +2,130 @@ Return-Path: <SRS0=9UCG=UR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_MUTT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C75FAC31E51
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 06:57:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E87EFC31E51
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 07:03:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8E18520665
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 06:57:41 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="YohMhObU"
+	by mail.kernel.org (Postfix) with ESMTP id B6F3F2080C
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 07:03:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1560841399;
+	bh=llqDQOaabgA4LoUF+l+Zv2639AhP35mJ+WTahE9pEqY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=FKuG2fxr8pZt5IwzSUMLree65CG7uZTpkNM16JciEDndtkIsROnj3Md0QwquHDmnk
+	 Z/EYFQftj5TcaDaukkfHmcd2n/eo5muyvIQhGCYDyJwLs5roD4B8Adzpm9sfJyXRDO
+	 gdd/jopAdI8lgj71NvmQGxBMN9wXm0HJrtJyDcJA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728846AbfFRG5l (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 Jun 2019 02:57:41 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:11119 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728817AbfFRG5k (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 Jun 2019 02:57:40 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d0881f80000>; Mon, 17 Jun 2019 23:17:28 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 17 Jun 2019 23:17:28 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 17 Jun 2019 23:17:28 -0700
-Received: from [10.24.193.7] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 18 Jun
- 2019 06:17:26 +0000
-Subject: Re: [Patch V3 4/8] dt-bindings: usb: Add NVIDIA Tegra XUSB device
- mode controller binding
-To:     Rob Herring <robh@kernel.org>
-CC:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <mark.rutland@arm.com>, <linux-tegra@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>
-References: <1557988772-15406-1-git-send-email-nkristam@nvidia.com>
- <1557988772-15406-5-git-send-email-nkristam@nvidia.com>
- <20190613213209.GA27327@bogus>
-X-Nvconfidentiality: public
-From:   Nagarjuna Kristam <nkristam@nvidia.com>
-Message-ID: <7b4e52cc-8e25-ac0a-99e4-6e9705741b74@nvidia.com>
-Date:   Tue, 18 Jun 2019 11:48:36 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1728869AbfFRHDT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 Jun 2019 03:03:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33652 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725919AbfFRHDS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 18 Jun 2019 03:03:18 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C285B20665;
+        Tue, 18 Jun 2019 07:03:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1560841397;
+        bh=llqDQOaabgA4LoUF+l+Zv2639AhP35mJ+WTahE9pEqY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=D6P4TRyLL5ubkD14ULgJICR/xWIZZywSwWwxotIi3lz7kJ6EX4HpKE0R4DmxDfyLK
+         YYOEKIe5AwLsVKRnDq41NevjhBZNcHo9TQp+Aan0M8UrkKcOZw6wTwR9LJOZyUqjZy
+         pwJ2kYMzRhqrCridYbdEX3gHUkNtd9F1qiVIuKBc=
+Date:   Tue, 18 Jun 2019 09:03:15 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Simon Horman <horms@verge.net.au>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v7 3/7] usb: typec: driver for TI HD3SS3220 USB Type-C
+ DRP port controller
+Message-ID: <20190618070315.GA9160@kroah.com>
+References: <1559296800-5610-1-git-send-email-biju.das@bp.renesas.com>
+ <1559296800-5610-4-git-send-email-biju.das@bp.renesas.com>
+ <20190618064743.GA22269@kroah.com>
+ <OSBPR01MB2103613A152597DF83BC18D0B8EA0@OSBPR01MB2103.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20190613213209.GA27327@bogus>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1560838648; bh=W5qSrFsU+0cihIEXCv+34HOOIKLTxkvpxWE5NXLmZd0=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=YohMhObUvfhShPexDhjjYsNUXwfwuc5MkkHLa1XYHlUakKw8w7AqR1YBy/hI6p/Qj
-         X8Barg5UF7UMwRbJ2YfKe2dT28GgqSSNrxhd4hXZJNKcaWkXaMqk1sH1CePHcvReMq
-         RcqbvRfBBjF4AX7eguNvy59Oj1IbhahQEt4EB4Mx5wqjN0dWe9o12CjF1a5nzRCb1+
-         2xPTPdhOh56jRhLqm88So66Zc4/f6lmzyV+wdgfzCyCP+PE9PahDrKZb0qSDRE1SOk
-         GhSHaBrolLXsvK0qNG61HHZvBDblbF/N47XFlx5hzCcvUEm5VbKacC8HtYCyu53+Xy
-         7ps3xxg3SWDdg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <OSBPR01MB2103613A152597DF83BC18D0B8EA0@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-
-
-On 14-06-2019 03:02, Rob Herring wrote:
-> On Thu, May 16, 2019 at 12:09:28PM +0530, Nagarjuna Kristam wrote:
->> Add device-tree binding documentation for the XUSB device mode controller
->> present on Tegra210 SoC. This controller supports the USB 3.0
->> specification.
->>
->> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
->> ---
->>  .../devicetree/bindings/usb/nvidia,tegra-xudc.txt  | 101 +++++++++++++++++++++
->>  1 file changed, 101 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
->>
->> diff --git a/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
->> new file mode 100644
->> index 0000000..d78b436
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.txt
->> @@ -0,0 +1,101 @@
->> +Device tree binding for NVIDIA Tegra XUSB device mode controller (XUDC)
->> +=======================================================================
->> +
->> +The Tegra XUDC controller supports both USB 2.0 HighSpeed/FullSpeed and
->> +USB 3.0 SuperSpeed protocols.
->> +
->> +Required properties:
->> +--------------------
->> +- compatible: For Tegra210, must contain "nvidia,tegra210-xudc".
->> +- reg: Must contain the base and length of the XUSB device registers, XUSB device
->> +  PCI Config registers and XUSB device controller registers.
->> +- interrupts: Must contain the XUSB device interrupt.
->> +- clocks: Must contain an entry for all clocks used.
->> +  See ../clock/clock-bindings.txt for details.
->> +- clock-names: Must include the following entries:
->> +   - dev: Clock to enable core XUSB dev clock.
->> +   - ss: Clock to enable XUSB super speed clock.
->> +   - ss_src: Clock to enable XUSB super speed dev clock.
->> +   - hs_src: Clock to enable XUSB high Speed dev clock.
->> +   - fs_src: Clock to enable XUSB full Speed dev clock.
->> +- nvidia,xusb-padctl: phandle to the XUSB pad controller that is used to
->> +  configure the USB pads used by the XUDC controller.
->> +- power-domains: A list of PM domain specifiers that reference each power-domain
->> +  used by the XUSB device mode controller. This list must comprise of a specifier
->> +  for the XUSBA and XUSBB power-domains. See ../power/power_domain.txt and
->> +  ../arm/tegra/nvidia,tegra20-pmc.txt for details.
->> +- power-domain-names: A list of names that represent each of the specifiers in
->> +  the 'power-domains' property. Must include 'ss' and 'dev'.
->> +
->> +For Tegra210:
->> +- avddio-usb-supply: PCIe/USB3 analog logic power supply. Must supply 1.05 V.
+On Tue, Jun 18, 2019 at 06:57:31AM +0000, Biju Das wrote:
+> Hi Greg,
 > 
-> Wouldn't an analog supply belong in the phy node?
+> Thanks for the feedback.
 > 
-
-This is USB controller power supply and hence added it part of controller driver node.
-Will correct documentation accordingly.
-
->> +- hvdd-usb-supply: USB controller power supply. Must supply 3.3 V.
->> +
->> +- phys: Must contain an entry for each entry in phy-names.
->> +  See ../phy/phy-bindings.txt for details.
->> +- phy-names: Should include an entry for each PHY used by the controller.
->> +  Names must be "usb2", and "usb3" if support SuperSpeed device mode.
->> +  - "usb3" phy, SuperSpeed (SSTX+/SSTX-/SSRX+/SSRX-) data lines.
->> +  - "usb2" phy, USB 2.0 (D+/D-) data lines.
->> +
->> +- extcon: Must contains an extcon entry which detects USB VBUS pin.
->> +  See ../extcon/extcon-usb-gpio.txt for details.
+> > -----Original Message-----
+> > From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Sent: Tuesday, June 18, 2019 7:48 AM
+> > To: Biju Das <biju.das@bp.renesas.com>
+> > Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>; Matthias Brugger
+> > <matthias.bgg@gmail.com>; Rob Herring <robh+dt@kernel.org>; Felipe Balbi
+> > <balbi@kernel.org>; Chunfeng Yun <chunfeng.yun@mediatek.com>; linux-
+> > usb@vger.kernel.org; Simon Horman <horms@verge.net.au>; Yoshihiro
+> > Shimoda <yoshihiro.shimoda.uh@renesas.com>; Geert Uytterhoeven
+> > <geert+renesas@glider.be>; Chris Paterson
+> > <Chris.Paterson2@renesas.com>; Fabrizio Castro
+> > <fabrizio.castro@bp.renesas.com>; linux-renesas-soc@vger.kernel.org
+> > Subject: Re: [PATCH v7 3/7] usb: typec: driver for TI HD3SS3220 USB Type-C
+> > DRP port controller
+> > 
+> > On Fri, May 31, 2019 at 10:59:56AM +0100, Biju Das wrote:
+> > > Driver for TI HD3SS3220 USB Type-C DRP port controller.
+> > >
+> > > The driver currently registers the port and supports data role swapping.
+> > >
+> > > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> > > Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > > ---
+> > 
+> > I tried to apply this, but get the following build error:
+> > 
+> > drivers/usb/typec/hd3ss3220.c: In function hd3ss3220_probe:
+> > drivers/usb/typec/hd3ss3220.c:179:23: error: implicit declaration of function
+> > fwnode_usb_role_switch_get; did you mean usb_role_switch_get? [-
+> > Werror=implicit-function-declaration]
+> >   hd3ss3220->role_sw = fwnode_usb_role_switch_get(connector);
+> >                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+> >                        usb_role_switch_get
+> > drivers/usb/typec/hd3ss3220.c:179:21: warning: assignment to struct
+> > usb_role_switch * from int makes pointer from integer without a cast [-Wint-
+> > conversion]
+> >   hd3ss3220->role_sw = fwnode_usb_role_switch_get(connector);
+> >                      ^
+> > 
+> > You might want to fix that so the series can be applied :(
 > 
-> Use the usb-connector binding for new bindings.
+> This patch depend upon the  below commit[1] which introduced the new API "fwnode_usb_role_switch_get()"
 > 
+> [1] https://patchwork.kernel.org/patch/10986227/ ("usb: roles: Add fwnode_usb_role_switch_get() function")
 
-already taken care in V4 series of this patch.
+Ok, then I guess I will have to wait to merge this until that is
+accepted.
 
-Thanks,
-Nagarjuna
->> +
->> +Example:
->> +--------
->> +	pmc: pmc@7000e400 {
->> +		compatible = "nvidia,tegra210-pmc";
->> +		reg = <0x0 0x7000e400 0x0 0x400>;
->> +		clocks = <&tegra_car TEGRA210_CLK_PCLK>, <&clk32k_in>;
->> +		clock-names = "pclk", "clk32k_in";
->> +
->> +		powergates {
->> +			pd_xusbss: xusba {
->> +				clocks = <&tegra_car TEGRA210_CLK_XUSB_SS>;
->> +				resets = <&tegra_car TEGRA210_CLK_XUSB_SS>;
->> +				#power-domain-cells = <0>;
->> +			};
->> +
->> +			pd_xusbdev: xusbb {
->> +				clocks = <&tegra_car TEGRA210_CLK_XUSB_DEV>;
->> +				resets = <&tegra_car 95>;
->> +				#power-domain-cells = <0>;
->> +			};
->> +		};
->> +	};
->> +
->> +	xudc@700d0000 {
->> +		compatible = "nvidia,tegra210-xudc";
->> +		reg = <0x0 0x700d0000 0x0 0x8000>,
->> +			<0x0 0x700d8000 0x0 0x1000>,
->> +			<0x0 0x700d9000 0x0 0x1000>;
->> +
->> +		interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
->> +
->> +		clocks = <&tegra_car TEGRA210_CLK_XUSB_DEV>,
->> +			<&tegra_car TEGRA210_CLK_XUSB_SS>,
->> +			<&tegra_car TEGRA210_CLK_XUSB_SSP_SRC>,
->> +			<&tegra_car TEGRA210_CLK_XUSB_HS_SRC>,
->> +			<&tegra_car TEGRA210_CLK_XUSB_FS_SRC>;
->> +		clock-names = "dev", "ss", "ss_src",
->> +			      "hs_src", "fs_src";
->> +
->> +		power-domains = <&pd_xusbdev>, <&pd_xusbss>;
->> +		power-domain-names = "dev", "ss";
->> +
->> +		nvidia,xusb-padctl = <&padctl>;
->> +
->> +		phys = <&{/padctl@7009f000/pads/usb2/lanes/usb2-0}>;
->> +		phy-names = "usb2;
->> +
->> +		avddio-usb-supply = <&vdd_pex_1v05>;
->> +		hvdd-usb-supply = <&vdd_3v3_sys>;
->> +
->> +		extcon = <&extcon_usb>;
->> +	};
->> +
->> +	extcon_usb: extcon_vbus {
->> +		compatible = "linux,extcon-usb-gpio";
->> +		vbus-gpio = <&gpio TEGRA_GPIO(Z, 0) GPIO_ACTIVE_LOW>;
->> +	};
->> +
->> -- 
->> 2.7.4
->>
+Please resend when that happens.
+
+thanks,
+
+greg k-h
