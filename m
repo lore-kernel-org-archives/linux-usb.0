@@ -2,167 +2,172 @@ Return-Path: <SRS0=9UCG=UR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD343C31E5B
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 17:22:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 642A1C31E5B
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 18:13:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 81E252084D
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 17:22:55 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GeISfIKa"
+	by mail.kernel.org (Postfix) with ESMTP id 4030A206B7
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 18:13:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1560881610;
+	bh=EPSt8WDDZhgEgBISU36mG1L9HTFFk7NID4KgfUFh5HI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Sejuy1+1W3uPPApBX4wOyeMQLlNlEyrg3C3/L5fZePLCkgiu4tMgrrRCE/F+7/xG4
+	 iDNF754ar5yZnj41eE9fdbNBbVJEpLILtEVYFVQM4YffgkYOQJiv67idEy5kmH2A8W
+	 f4TB9AWS3N+qHtvE1/Oj7OiuJktHHKhg9E1m0Chg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729395AbfFRRWz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 Jun 2019 13:22:55 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:42457 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728572AbfFRRWy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 Jun 2019 13:22:54 -0400
-Received: by mail-pf1-f195.google.com with SMTP id q10so8042396pff.9
-        for <linux-usb@vger.kernel.org>; Tue, 18 Jun 2019 10:22:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:references:user-agent:from:to:cc:subject:organization
-         :in-reply-to:reply-to:address:date:message-id:mime-version;
-        bh=Tyq9sHkG+NecWTMMmpvHboVQxez7d53xOYYFhpSlnWQ=;
-        b=GeISfIKaqs+ZRzKy5NKtOVKz5a/OY17rDNiWbZk8aPJtzOgtbHTQ1rAjXvSoo4ogoA
-         HPw9ULmqPd7XAmvbzxSa3wcE3AiAF/U36MmVNgk59Qo3ppNNWGMJyTnm3KQwyTjr86P0
-         eoLTt4VWny0qCOhcY8a6N6Fork9Pr4W0kMaLTBSZVCJS/O2Tp/bjRIyyZQhRLi+13uqC
-         vHmEaExce7+rhaGZPxRU6NbHPz6UTTXWpCHC5ZzXh33V8xP6Iggsddd4p9UkZfm2egQc
-         vadbtppDUr3+tVkQtwr//AfvGDtzEMkZIyGA89arWOI5CIYcdD0E/EsbSaLSJDyCrhtE
-         VNIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:references:user-agent:from:to:cc:subject
-         :organization:in-reply-to:reply-to:address:date:message-id
-         :mime-version;
-        bh=Tyq9sHkG+NecWTMMmpvHboVQxez7d53xOYYFhpSlnWQ=;
-        b=PEC1H/x34cy7BilhIwZiTnrwKjKKhJy1jfjCyOLr2X38AIGk3NAzr1KLb/w8NEpZnv
-         Q2z8Ov+H4lRq/6YplQuSMVxOb9SROcaCSkGx6p/PddC7xQWaPTCGUF7BeX+94RfyivO+
-         v8xNvpGfBSL4j1354OQz1mNXuuRTtSPHDB3vnzJGQfsLiDjjKflF26yAkCTE52lUWACv
-         XqvKGGhfqPNFDUxLDpVx7yEdZVP1x3cY/pbh23rLZ8ijabCjerYUvdF2VV8daegUlDb+
-         /U4q3xA5+gYcuy2e8hPTTThO/BKJHtgDw+/nORzT0wi0UFoENc8F+P1SOmra1tpfM9M8
-         czjg==
-X-Gm-Message-State: APjAAAV9DKDvyXXiTLY6NA7xF6KI0uaK5x+8f2GM0hzfq20HwKendMl2
-        PNCrzCYpLdoQknsKNkspKD2ZHBwG0MM=
-X-Google-Smtp-Source: APXvYqwNBvIoygS0BsSlKTQ7AfcJGI84354z6grOmFMJQoiwU0mttaR2NYPzoNooQVyUkoPf/og3qQ==
-X-Received: by 2002:aa7:9407:: with SMTP id x7mr79469347pfo.163.1560878574025;
-        Tue, 18 Jun 2019 10:22:54 -0700 (PDT)
-Received: from mn.cs.uvic.ca (S01061cabc0a516f3.gv.shawcable.net. [24.69.190.94])
-        by smtp.gmail.com with ESMTPSA id g13sm15311508pfi.93.2019.06.18.10.22.53
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 18 Jun 2019 10:22:53 -0700 (PDT)
-Received: by mn.cs.uvic.ca (Postfix, from userid 1000)
-        id 8FDA54650F3; Tue, 18 Jun 2019 10:22:52 -0700 (PDT)
-References: <20190618153529.11418-1-dmg@turingmachine.org> <20190618160658.GA27611@kroah.com>
-User-agent: mu4e 1.0; emacs 26.1
-From:   dmg <dmg@turingmachine.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
+        id S1729951AbfFRSN3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 Jun 2019 14:13:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48528 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727616AbfFRSN3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 18 Jun 2019 14:13:29 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E70DA206B7;
+        Tue, 18 Jun 2019 18:13:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1560881608;
+        bh=EPSt8WDDZhgEgBISU36mG1L9HTFFk7NID4KgfUFh5HI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hFfUvMURX5LaVW7l8nKkR4NwH6xTmq7nKIYT9E6RvjteeXwfWEsdYl2OqOjGlfM05
+         yTxt8rS1Ygq4ya4UmWQRlOT8Ohs7Gi02uQc4KB6vKjXv68LNEsUNTgmLsrxF92LL2C
+         VMoIMl6SbLCmXv4NldaExvU0P4bHnaezTyyfRMZ0=
+Date:   Tue, 18 Jun 2019 20:13:26 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     dmg <dmg@turingmachine.org>
 Cc:     linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: Replace a < b ? a : b construct with min_t(type, a, b) in adutux driver
-Organization: turingMachine
-In-reply-to: <20190618160658.GA27611@kroah.com>
-Reply-To: dmg@turingmachine.org
-Address: dmg@turingmachine.org
-Date:   Tue, 18 Jun 2019 10:22:52 -0700
-Message-ID: <87imt2kdub.fsf@mn.cs.uvic.ca>
+Subject: Re: [PATCH] usb: Replace a < b ? a : b construct with min_t(type, a,
+ b) in adutux driver
+Message-ID: <20190618181326.GA19012@kroah.com>
+References: <20190618153529.11418-1-dmg@turingmachine.org>
+ <20190618160658.GA27611@kroah.com>
+ <87imt2kdub.fsf@mn.cs.uvic.ca>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87imt2kdub.fsf@mn.cs.uvic.ca>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+On Tue, Jun 18, 2019 at 10:22:52AM -0700, dmg wrote:
+> 
+> Greg KH <gregkh@linuxfoundation.org> writes:
+> 
+> >> diff --git a/drivers/usb/misc/adutux.c b/drivers/usb/misc/adutux.c
+> >> index 9465fb95d70a..4a9fa3152f2a 100644
+> >> --- a/drivers/usb/misc/adutux.c
+> >> +++ b/drivers/usb/misc/adutux.c
+> >> @@ -379,7 +379,7 @@ static ssize_t adu_read(struct file *file, __user char *buffer, size_t count,
+> >>
+> >>  		if (data_in_secondary) {
+> >>  			/* drain secondary buffer */
+> >> -			int amount = bytes_to_read < data_in_secondary ? bytes_to_read : data_in_secondary;
+> >> +			int amount = min_t(size_t, bytes_to_read, data_in_secondary);
+> >
+> > Shouldn't amount and data_in_secondary be of size_t type?  Then you can
+> > just use min() here, right?
+> 
+> 
+> I looked at the code.
+> 
+> there is an implicit assertion that
+> 
+>    dev->secondary_tail >=  dev->secondary_head
+> 
+> 
+> (which are pointers to the secondary buffer)
 
-Greg KH <gregkh@linuxfoundation.org> writes:
+No, those are integers for the buffer, secondary_tail seems just to be
+the "length" of the buffer, and secondary_head is the current "start" of
+the buffer that has not been sent yet.
 
->> diff --git a/drivers/usb/misc/adutux.c b/drivers/usb/misc/adutux.c
->> index 9465fb95d70a..4a9fa3152f2a 100644
->> --- a/drivers/usb/misc/adutux.c
->> +++ b/drivers/usb/misc/adutux.c
->> @@ -379,7 +379,7 @@ static ssize_t adu_read(struct file *file, __user char *buffer, size_t count,
->>
->>  		if (data_in_secondary) {
->>  			/* drain secondary buffer */
->> -			int amount = bytes_to_read < data_in_secondary ? bytes_to_read : data_in_secondary;
->> +			int amount = min_t(size_t, bytes_to_read, data_in_secondary);
->
-> Shouldn't amount and data_in_secondary be of size_t type?  Then you can
-> just use min() here, right?
+So these can not ever "wrap", thank goodness.
 
+But really, ick ick ick, this code is odd.  Seems like they are trying
+to go with a "flip buffer" scheme when there are many simpler ways to do
+all of this...
 
-I looked at the code.
+Oh well, we deal with what we have...
 
-there is an implicit assertion that
+> 	while (bytes_to_read) {
+> 		int data_in_secondary = dev->secondary_tail - dev->secondary_head;
+> 		dev_dbg(&dev->udev->dev,
+> 			"%s : while, data_in_secondary=%d, status=%d\n",
+> 			__func__, data_in_secondary,
+> 			dev->interrupt_in_urb->status);
+> 
+> 		if (data_in_secondary) {
+> 			/* drain secondary buffer */
+> 			int amount = bytes_to_read < data_in_secondary ? bytes_to_read : data_in_secondary;
+> 			i = copy_to_user(buffer, dev->read_buffer_secondary+dev->secondary_head, amount);
+> 			if (i) {
+> 				retval = -EFAULT;
+> 				goto exit;
+> 			}
+> 			dev->secondary_head += (amount - i);
+> 			bytes_read += (amount - i);
+> 			bytes_to_read -= (amount - i);
+> 		} else {
+> 			/* we check the primary buffer */
+> 
+> As computed, data_in_secondary is the number of bytes left in the secondary
+> buffer and hence, it should always be larger or equal 0.
 
-   dev->secondary_tail >=  dev->secondary_head
+Yes.
 
+> The if statement seems to imply this fact. There is no handling of the case
+> where data_in_secondary is negative--if that was the case, copy_to_user will be
+> called with a negative number, which I assume will return an error.
 
-(which are pointers to the secondary buffer)
+Looking at the code, it never can be.
 
-	while (bytes_to_read) {
-		int data_in_secondary = dev->secondary_tail - dev->secondary_head;
-		dev_dbg(&dev->udev->dev,
-			"%s : while, data_in_secondary=%d, status=%d\n",
-			__func__, data_in_secondary,
-			dev->interrupt_in_urb->status);
+And no, copy_to_user() with a negative number is just a really BIG
+number, and bad things happen, we never want to do that as it's usually
+a security issue then.
 
-		if (data_in_secondary) {
-			/* drain secondary buffer */
-			int amount = bytes_to_read < data_in_secondary ? bytes_to_read : data_in_secondary;
-			i = copy_to_user(buffer, dev->read_buffer_secondary+dev->secondary_head, amount);
-			if (i) {
-				retval = -EFAULT;
-				goto exit;
-			}
-			dev->secondary_head += (amount - i);
-			bytes_read += (amount - i);
-			bytes_to_read -= (amount - i);
-		} else {
-			/* we check the primary buffer */
+> This is interesting. It means that if the pointers are incorrect (head points
+> after tail), the current code will probably be able to recover from the bug with
+> an error (i assume copy_to_user will return != 0 if called with a negative
+> number).
+> 
+> If we change data_in_secondary to size_t, and the head points after the tail,
+> the data_in_secondary will be invalid (but positive) and copy_to_user will try
+> to read those number of bytes. I don't know what would happen in that case.
 
-As computed, data_in_secondary is the number of bytes left in the secondary
-buffer and hence, it should always be larger or equal 0.
+Looking at the code, I do not see how this can happen, do you?
 
-The if statement seems to imply this fact. There is no handling of the case
-where data_in_secondary is negative--if that was the case, copy_to_user will be
-called with a negative number, which I assume will return an error.
+> Amount is number of bytes to read from this buffer, so it does not make sense for it to be
+> negative. So it being size_t sounds ok.
+> 
+> Barring that potential bug in the values of the pointers of the head and the
+> tail,  it appears it is safe to change the type of both data_in_secondary and
+> amount to size_t, and use min instead. It will also require to change the printf-style
+> modifier  (%d => %lu)
+> 
+> Also,  note the use of "amount -i" the end of the if statement. At this point i
+> is equal to zero. the "- i" can be dropped from all these computations.
 
-This is interesting. It means that if the pointers are incorrect (head points
-after tail), the current code will probably be able to recover from the bug with
-an error (i assume copy_to_user will return != 0 if called with a negative
-number).
+That is someone who did not know what copy_to_user() returned and
+assumed it was the number of bytes copied :(
 
-If we change data_in_secondary to size_t, and the head points after the tail,
-the data_in_secondary will be invalid (but positive) and copy_to_user will try
-to read those number of bytes. I don't know what would happen in that case.
+> please let me know if this is something that sounds ok, and I'll prepare it and
+> submit a new patch.
 
-Amount is number of bytes to read from this buffer, so it does not make sense for it to be
-negative. So it being size_t sounds ok.
+It sounds ok.  And if you want to fix anything else up here in this
+mess, it's always appreciated.  Odds are no one uses this driver
+anymore, but that's no reason to keep it being such a mess :)
 
-Barring that potential bug in the values of the pointers of the head and the
-tail,  it appears it is safe to change the type of both data_in_secondary and
-amount to size_t, and use min instead. It will also require to change the printf-style
-modifier  (%d => %lu)
+Oh, and great report, that was nicely done.
 
-Also,  note the use of "amount -i" the end of the if statement. At this point i
-is equal to zero. the "- i" can be dropped from all these computations.
+thanks,
 
-please let me know if this is something that sounds ok, and I'll prepare it and
-submit a new patch.
-
->
-> thanks,
->
-> greg k-h
-
-
---
-Daniel M. German                  "The fear is not losing.
-   Phil Jackson ->                 The fear is not producing the effort needed."
-http://turingmachine.org/
-http://silvernegative.com/
-dmg (at) uvic (dot) ca
-replace (at) with @ and (dot) with .
+greg k-h
