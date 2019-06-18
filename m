@@ -2,164 +2,142 @@ Return-Path: <SRS0=9UCG=UR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_MUTT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DC77C31E5D
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 14:31:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70735C31E5B
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 15:00:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1709A21479
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 14:31:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1560868285;
-	bh=UV59SeBxW7bqdNA0Gejmu0RGLg2MSGF1f5p4HUOQXnM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=D/N80ofKeBWmq9WvEpQ02jEs6vfF7Wh5qA1ZtimhDwIDGxth/mhanwGvoGobLbvar
-	 aJmaYjZtBkn7L0S1oUPFiqC0e4oBB31fs6LG8WANeQTJ+WYAzKsOk10MrXZBBcNteK
-	 kNpUhzLKy44q/MynSDrQHD3D+GpX9AF3pWCEBPB0=
+	by mail.kernel.org (Postfix) with ESMTP id 451B321479
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 15:00:33 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lI33axV7"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729370AbfFRObY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 Jun 2019 10:31:24 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:35219 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725919AbfFRObX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 Jun 2019 10:31:23 -0400
-Received: by mail-lf1-f66.google.com with SMTP id a25so9461074lfg.2;
-        Tue, 18 Jun 2019 07:31:22 -0700 (PDT)
+        id S1729356AbfFRPAc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 Jun 2019 11:00:32 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:34103 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729042AbfFRPAc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 18 Jun 2019 11:00:32 -0400
+Received: by mail-pg1-f194.google.com with SMTP id p10so7859521pgn.1
+        for <linux-usb@vger.kernel.org>; Tue, 18 Jun 2019 08:00:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:references:user-agent:from:to:cc:subject:organization
+         :in-reply-to:reply-to:address:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pRN1/TUPKjEezaLj5P0gr5AykiqYiZwYuN1OnEUTX9s=;
+        b=lI33axV7DzHCdzlgY2M88nw5TqQbHqMFSAGDFsXaaF2HzOX5BpGQZXoDlBEmhVkxHk
+         sNL1Em3x8g5s0MhWQsvLu4Qjda3pIn2u9O8Pfe50gIlZWKjLAxdNZEMWuDC4TCNXfZ3b
+         Uce4ztsJb0Q/P9tY2R7GfZgcoVL6STjiH6GaeQ0n/Hh8EbL6Iz5cy0YDyUTejpVnLVEk
+         suLkiQ/qtOaIXqfPvt+e3qdLAILvr5UDyihxKs59i4orbTQNLMXRHQi45ayiICPzSJKG
+         g6TRvfcZjk8kOgLdZWhZqn7V+Jpc/R7iwA/Vk6xLfNLp+SMKhrX0V6z7Z2FHYHlzsEHF
+         mGVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=KS72y9tYRBol5/KnOsvhBghl9/3z1sLdxINCtK5+heI=;
-        b=J2UqlpY0VhOSeTS4dgxMAgAd6hBDiaCwTNzVxmJ2VZms8tyJE1a2Hve0Puner0kfOd
-         ZAMMtWFn46WtQdtU4tl2k13xmKFY0Xml/uCz1v5LzpkugSlVqT1zOiICh2ieleaTf/qz
-         /enwofIAuzpBQY3ricVfXQW468TKkAiky3Az0g8FQIWwc/YYwBuxHhGCWHCNHQatQ5S1
-         Sb4Ri/styKtyt8TRLcvBAmwRq+G55VaMTwk5DOzkyKCs6KKfgTFMg/dd1Zyy6Yafp5g+
-         N54VlgF9uQ5OW/mBVBZA8GWGkwCXFzLuC0HlgMOexu8poRnSmX1qwrLXT380LFQ54LTM
-         QNXA==
-X-Gm-Message-State: APjAAAX5QO/ZjTxaCtrh+PXixjYH1ARNg8BepWF6zOwx8is7OeqxhV3+
-        YbDdXXN9hC4cjd1sENh4NEmy2UXt
-X-Google-Smtp-Source: APXvYqyfQKY0PhE0ARY+YledqeQb5c9mIdNB9g3MFnizu9PXBdrn2bxvwPxlsY4fnyHI5bAoigjZ0A==
-X-Received: by 2002:a19:6703:: with SMTP id b3mr59753084lfc.153.1560868282087;
-        Tue, 18 Jun 2019 07:31:22 -0700 (PDT)
-Received: from xi.terra (c-74bee655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.190.116])
-        by smtp.gmail.com with ESMTPSA id z12sm2222078lfg.67.2019.06.18.07.31.20
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 18 Jun 2019 07:31:20 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.92)
-        (envelope-from <johan@kernel.org>)
-        id 1hdF8q-0007ep-Te; Tue, 18 Jun 2019 16:31:20 +0200
-Date:   Tue, 18 Jun 2019 16:31:20 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Felipe Balbi <felipe.balbi@linux.intel.com>
-Cc:     Johan Hovold <johan@kernel.org>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        linux-usb@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] usb: xhci: dbc: get rid of global pointer
-Message-ID: <20190618143120.GI31871@localhost>
-References: <20190611172416.12473-1-felipe.balbi@linux.intel.com>
- <20190614145236.GB3849@localhost>
- <877e9kiuew.fsf@linux.intel.com>
+        h=x-gm-message-state:sender:references:user-agent:from:to:cc:subject
+         :organization:in-reply-to:reply-to:address:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=pRN1/TUPKjEezaLj5P0gr5AykiqYiZwYuN1OnEUTX9s=;
+        b=tAoG7wEVzgeWvtoxbxdBvpM9c0j6J5rC01MFosxt1rLXIbpRQ5GWWj0OiGI/ozCNOD
+         +s7TYCifex/NB4o4F/fwACoAuWeYtvZvYQ7xNbdZ/tauUKtyhMK3ZY3mx1ifLeI4WoYQ
+         TtN1Nb463T+E3Tyf4KdqTKuQQWz7Xye+4bQnqG/Xnup+Egya2nrdSkBtQ/2y5C0xTW61
+         Zt3Ed4Agp8S323d18/FPQYD9htNHKUUz346P7PjZOJhcEkGI3Pg7BOXvWJBoRWfD5xyO
+         R+DworkEzrGshsn+rILqrtMIUA5Q7I7vg2VCreSfpE3zDQZ0K6ZNRZmnODFripsJGMKK
+         KsUw==
+X-Gm-Message-State: APjAAAVIhtbhMKoAXybmsPsYFZ/zc72Ewj32Ps92Hw+bXg/s9+hxt1By
+        RhtCpMlB493Ow+zyuGproV4=
+X-Google-Smtp-Source: APXvYqwPcKmzy4pRkiOzixpk6wQLDC+XP5LO+jCa5OzDZaonVkQqazQ0aTJsxbdW79aiBjNtY8yNTA==
+X-Received: by 2002:a62:a509:: with SMTP id v9mr119137331pfm.82.1560870031594;
+        Tue, 18 Jun 2019 08:00:31 -0700 (PDT)
+Received: from mn.cs.uvic.ca (S01061cabc0a516f3.gv.shawcable.net. [24.69.190.94])
+        by smtp.gmail.com with ESMTPSA id w4sm15674411pfw.97.2019.06.18.08.00.29
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Tue, 18 Jun 2019 08:00:29 -0700 (PDT)
+Received: by mn.cs.uvic.ca (Postfix, from userid 1000)
+        id AA19C4650F3; Tue, 18 Jun 2019 08:00:28 -0700 (PDT)
+References: <20190617233050.21409-1-dmg@turingmachine.org> <20190618064905.GA22457@kroah.com>
+User-agent: mu4e 1.0; emacs 26.1
+From:   dmg <dmg@turingmachine.org>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: Replace a < b ? a : b construct with min_t(type, a, b) in drivers/usb
+Organization: turingMachine
+In-reply-to: <20190618064905.GA22457@kroah.com>
+Reply-To: dmg@turingmachine.org
+Address: dmg@turingmachine.org
+Date:   Tue, 18 Jun 2019 08:00:28 -0700
+Message-ID: <87pnnbj5v7.fsf@mn.cs.uvic.ca>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ZGiS0Q5IWpPtfppv"
-Content-Disposition: inline
-In-Reply-To: <877e9kiuew.fsf@linux.intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 
---ZGiS0Q5IWpPtfppv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Greg KH <gregkh@linuxfoundation.org> writes:
 
-On Mon, Jun 17, 2019 at 09:43:19AM +0300, Felipe Balbi wrote:
->=20
-> Hi,
->=20
-> Johan Hovold <johan@kernel.org> writes:
-> > On Tue, Jun 11, 2019 at 08:24:16PM +0300, Felipe Balbi wrote:
-> >> If we happen to have two XHCI controllers with DbC capability, then
-> >> there's no hope this will ever work as the global pointer will be
-> >> overwritten by the controller that probes last.
-> >>=20
-> >> Avoid this problem by keeping the tty_driver struct pointer inside
-> >> struct xhci_dbc.
-> >
-> > How did you test this patch?
->=20
-> by running it on a machine that actually has two DbCs
->=20
-> >> @@ -279,52 +279,52 @@ static const struct tty_operations dbc_tty_ops =
-=3D {
-> >>  	.unthrottle		=3D dbc_tty_unthrottle,
-> >>  };
-> >> =20
-> >> -static struct tty_driver *dbc_tty_driver;
-> >> -
-> >>  int xhci_dbc_tty_register_driver(struct xhci_hcd *xhci)
-> >>  {
-> >>  	int			status;
-> >>  	struct xhci_dbc		*dbc =3D xhci->dbc;
-> >> =20
-> >> -	dbc_tty_driver =3D tty_alloc_driver(1, TTY_DRIVER_REAL_RAW |
-> >> +	dbc->tty_driver =3D tty_alloc_driver(1, TTY_DRIVER_REAL_RAW |
-> >>  					  TTY_DRIVER_DYNAMIC_DEV);
-> >> -	if (IS_ERR(dbc_tty_driver)) {
-> >> -		status =3D PTR_ERR(dbc_tty_driver);
-> >> -		dbc_tty_driver =3D NULL;
-> >> +	if (IS_ERR(dbc->tty_driver)) {
-> >> +		status =3D PTR_ERR(dbc->tty_driver);
-> >> +		dbc->tty_driver =3D NULL;
-> >>  		return status;
-> >>  	}
-> >> =20
-> >> -	dbc_tty_driver->driver_name =3D "dbc_serial";
-> >> -	dbc_tty_driver->name =3D "ttyDBC";
-> >> +	dbc->tty_driver->driver_name =3D "dbc_serial";
-> >> +	dbc->tty_driver->name =3D "ttyDBC";
-> >
-> > You're now registering multiple drivers for the same thing (and wasting
-> > a major number for each) and specifically using the same name, which
-> > should lead to name clashes when registering the second port.
->=20
-> No warnings were printed while running this, actually. Odd
+> On Mon, Jun 17, 2019 at 04:30:50PM -0700, dmg@turingmachine.org wrote:
+>> From: Daniel M German <dmg@turingmachine.org>
+>>
+>> Use min_t to find the minimum of two values instead of using the ?: oper=
+ator.
+>
+> Why is min_t() needed for all of these and not just min()?
 
-Odd indeed. I get the expected warning from sysfs when trying to
-register a second tty using an already registered name:
+The use of min triggers a compilation warning (see below), which min_t is s=
+upposed to
+address (from min_t comment: 'min()/max() macros that also do strict type-c=
+hecking.. See the
+"unnecessary" pointer comparison.", from include/linux/kernel')
 
-[  643.360555] sysfs: cannot create duplicate filename '/class/tty/ttyS0'
-[  643.360637] CPU: 1 PID: 2383 Comm: modprobe Not tainted 5.2.0-rc1 #2
-[  643.360702] Hardware name:  /D34010WYK, BIOS WYLPT10H.86A.0051.2019.0322=
-=2E1320 03/22/2019
-[  643.360784] Call Trace:
-[  643.360823]  dump_stack+0x46/0x60
-[  643.360865]  sysfs_warn_dup.cold.3+0x17/0x2f
-[  643.360914]  sysfs_do_create_link_sd.isra.2+0xa6/0xc0
-[  643.360961]  device_add+0x30d/0x660
-[  643.360987]  tty_register_device_attr+0xdd/0x1d0
-[  643.361018]  ? sysfs_create_file_ns+0x5d/0x90
-[  643.361049]  usb_serial_device_probe+0x72/0xf0 [usbserial]
-=2E..
+   In file included from drivers/usb/misc/adutux.c:19:
+   drivers/usb/misc/adutux.c: In function =E2=80=98adu_read=E2=80=99:
+   ./include/linux/kernel.h:818:29: warning: comparison of distinct pointer=
+ types lacks a cast
+      (!!(sizeof((typeof(x) *)1 =3D=3D (typeof(y) *)1)))
+                                ^~
+   ./include/linux/kernel.h:832:4: note: in expansion of macro =E2=80=98__t=
+ypecheck=E2=80=99
+      (__typecheck(x, y) && __no_side_effects(x, y))
+       ^~~~~~~~~~~
+   ./include/linux/kernel.h:842:24: note: in expansion of macro =E2=80=98__=
+safe_cmp=E2=80=99
+     __builtin_choose_expr(__safe_cmp(x, y), \
+                           ^~~~~~~~~~
+   ./include/linux/kernel.h:851:19: note: in expansion of macro =E2=80=98__=
+careful_cmp=E2=80=99
+    #define min(x, y) __careful_cmp(x, y, <)
+                      ^~~~~~~~~~~~~
+   drivers/usb/misc/adutux.c:382:34: note: in expansion of macro =E2=80=98m=
+in=E2=80=99
+                        int amount =3D min(bytes_to_read, data_in_secondary=
+);
+                                     ^~~
 
-Are you sure you actually did register two xhci debug ttys?
+[...]
 
-Johan
+> Can you break this up into one patch per driver?  That way you can
+> include the proper maintainers/reviewers when you resend them.
+>
 
---ZGiS0Q5IWpPtfppv
-Content-Type: application/pgp-signature; name="signature.asc"
+I will split the patch as instructed.
 
------BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQQHbPq+cpGvN/peuzMLxc3C7H1lCAUCXQj1qwAKCRALxc3C7H1l
-CL/OAQCsHyez+eOKy5J2+gS1uwdz4rgQpPM/wj8cQMuU/MEFgQD+L8qQ89I/nF6X
-wI5NDR8tbnOfR3r5l5QF9t2SRZiVgwY=
-=4XXc
------END PGP SIGNATURE-----
 
---ZGiS0Q5IWpPtfppv--
+> thanks,
+>
+> greg k-h
+
+
+--
+Daniel M. German                  "Beauty is the first test; there is no
+                                   permanent place in the world for ugly
+   G. H. Hardy ->                  mathematics."
+http://turingmachine.org/
+http://silvernegative.com/
+dmg (at) uvic (dot) ca
+replace (at) with @ and (dot) with .
