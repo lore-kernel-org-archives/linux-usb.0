@@ -2,93 +2,138 @@ Return-Path: <SRS0=9UCG=UR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT autolearn=unavailable
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A2D4C31E5E
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 07:17:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8298FC31E5E
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 07:20:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 103E620679
-	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 07:17:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1560842245;
-	bh=3Mwkc0cWOSStWWOJIiMxyqSyyjL9711lqq0yY8nG0XI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=L8R3jOeO8hDOx9f0ffl3BLtvJHCYdMDRfEpExA/BOLnqoyMbx9zgJZ6/WFCY2a8PF
-	 Fa3/DJ6tH+opxFzQU1RHtw7vAOxw1XR61FBXDO+ikFUJkfc39MxB5dH3ccYU/quTwI
-	 wYouQUqK55uVCHk8PK+kN01IbabVfeH46H6KTmv4=
+	by mail.kernel.org (Postfix) with ESMTP id 646D320873
+	for <linux-usb@archiver.kernel.org>; Tue, 18 Jun 2019 07:20:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726233AbfFRHRY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 18 Jun 2019 03:17:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40942 "EHLO mail.kernel.org"
+        id S1728779AbfFRHUJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 18 Jun 2019 03:20:09 -0400
+Received: from mga14.intel.com ([192.55.52.115]:57805 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725955AbfFRHRY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 18 Jun 2019 03:17:24 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4B50720873;
-        Tue, 18 Jun 2019 05:59:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560837557;
-        bh=3Mwkc0cWOSStWWOJIiMxyqSyyjL9711lqq0yY8nG0XI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GpiVw4xA/7I8NFtBB+gLGvaRiWU2uSRicLLFUMbSH4aygcKwTIoZK+1cgjTyuzlrP
-         X9tzBGaqUyxVM/9FEIq11Hvvnv2/YGFYJyQgO4RiXjpM/XzcdxQ4JrobjcI52mO2Qt
-         vlo3hznJ9kzczqTBAipptV2MXdGH1ydtWmnzWZIE=
-Date:   Tue, 18 Jun 2019 07:59:15 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] usb: renesas_usbhs: Use struct assignment instead of
- memcpy()
-Message-ID: <20190618055915.GA5904@kroah.com>
-References: <1560424728-13929-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        id S1726091AbfFRHUJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 18 Jun 2019 03:20:09 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Jun 2019 00:20:09 -0700
+X-ExtLoop1: 1
+Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
+  by fmsmga004.fm.intel.com with ESMTP; 18 Jun 2019 00:20:07 -0700
+From:   Felipe Balbi <felipe.balbi@linux.intel.com>
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        John Youn <John.Youn@synopsys.com>,
+        John Youn <John.Youn@synopsys.com>
+Cc:     "linux-usb\@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: [RFC] Sorting out dwc3 ISOC endpoints once and for all
+In-Reply-To: <30102591E157244384E984126FC3CB4F63A11B8A@us01wembx1.internal.synopsys.com>
+References: <87a7etd8s7.fsf@linux.intel.com> <2B3535C5ECE8B5419E3ECBE30077290902E78AF3D7@us01wembx1.internal.synopsys.com> <30102591E157244384E984126FC3CB4F63A11B8A@us01wembx1.internal.synopsys.com>
+Date:   Tue, 18 Jun 2019 10:20:03 +0300
+Message-ID: <87fto7gy1o.fsf@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1560424728-13929-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Jun 13, 2019 at 08:18:48PM +0900, Yoshihiro Shimoda wrote:
-> To avoid the error-proneness of calls to sizeof() in the memcpy,
-> this patch uses struct assignment instead of memcpy.
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  This patch is based on Greg's linux-usb.git / usb-next branch.
->  Note that mod_host.c also has memcpy but we cannot use struct assignment
->  for it because the type of urb->setup_patcket is just "unsigned char *".
-> 
->  drivers/usb/renesas_usbhs/common.c | 13 ++++---------
->  1 file changed, 4 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
-> index a501ea6..ebbe322 100644
-> --- a/drivers/usb/renesas_usbhs/common.c
-> +++ b/drivers/usb/renesas_usbhs/common.c
-> @@ -651,9 +651,8 @@ static struct renesas_usbhs_platform_info *usbhs_parse_dt(struct device *dev)
->  		return NULL;
->  
->  	dparam = &info->driver_param;
-> -	memcpy(dparam, &data->param, sizeof(data->param));
-> -	memcpy(&info->platform_callback, data->platform_callback,
-> -	       sizeof(*data->platform_callback));
-> +	*dparam = data->param;
-> +	info->platform_callback = *data->platform_callback;
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-How are the original calls here "error-prone"?  Yes, the compiler will
-end up calling memcpy somehow with this change, but it feels "wrong" to
-hide a memory copy like this.
 
-So are you _sure_ you want this change?
+Hi,
 
-thanks,
+Thinh Nguyen <Thinh.Nguyen@synopsys.com> writes:
+>>>
+>>>  static int __dwc3_gadget_ep_queue(struct dwc3_ep *dep, struct
+>>> dwc3_request *req)
+>>>
+>>>
+>>> Would there be any obvious draw-back to going down this route? The thing
+>>> is that, as it is, it seems like we will *always* have some corner case
+>>> where we can't guarantee that we can even start a transfer since there's
+>>> no upper-bound between XferNotReady and gadget driver finally queueing a
+>>> request. Also, I can't simply read DSTS for the frame number because of
+>>> top-most 2 bits.
+>>>
+>> For non-affected version of the IP, the xfernotready -> starttransfer
+>> time will have to be off by more than a couple seconds for the driver
+>> to produce an incorrect 16-bit frame number. If you're seeing errors
+>> here, maybe we just need to code review the relevant sections to make
+>> sure the 14/16-bit and rollover conditions are all handled correctly.
+>
+> I think what Felipe may see is some delay in the system that causes the
+> SW to not handle XferNotReady event in time. We already have the "retry"
+> method handle that to a certain extend.
+>
+>> But I can't think of any obvious drawbacks of the quirk, other than
+>> doing some unnecessary work, which shouldn't produce any bad
+>> side-effects. But we haven't really tested that.
+>>
+>
+> The workaround for the isoc_quirk requires 2 tries sending
+> START_TRANSFER command. This means that you have to account the delay of
+> that command completion plus potentially 1 more END_TRANSFER completion.
+> That's why the quirk gives a buffer of at least 4 uframes of the
+> scheduled isoc frame. So, it cannot schedule immediately on the next
+> uframe, that's one of the drawbacks.
+>
+>
+> Hi Felipe,
+>
+> Since you're asking this, it means you're still seeing issue with your
+> setup despite retrying to send START_TRANSFER command 5 times. What's
+> the worse delay responding to XferNotReady you're seeing in your setup?
 
-greg k-h
+There's no upper-bound on how long the gadget will take to enqueue a
+request. We see problems with UVC gadget all the time. It can take a lot
+of time to decide to enqueue data.
+
+Usually I hear this from folks using UVC gadget with a real sensor on
+the background.
+
+I've seen gadget enqueueing as far as 20 intervals in the future. But
+remember, there's no upper-bound. And that's the problem. If we could
+just read the frame number from DSTS and use that, we wouldn't have any
+issues. But since DSTS only contains 14 our of the 16 bits the
+controller needs, then we can't really use that.
+
+To me, it seems like this part of the controller wasn't well
+thought-out. These extra two bits, perhaps, should be internal to the
+controller and SW should have no knowledge that they exist.
+
+In any case, this is the biggest sort of issues in DWC3 right now :-)
+
+Anything else seems to behave nicely without any problems.
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl0IkKMACgkQzL64meEa
+mQb5lxAAuaSQWwTg0WyHUd0pKVcI1qXFNxGhrH05cKzSzud7HM1drNTqoLK40HEm
+lMUBJFKEBfzyBDoMAUR4YjrB9dfWitL29t/BAzIFosPt+LWjRAmbuwxRZO+VXmxO
+E4A5bqfQEnLWE8T28lr64gQbuFRo0ilatKF6IaXXKLHqYts0Nx1itnfq55nkQ9md
+7JnXB/FyEh0Le1EBiYinq9uPfy/6PXXNNBkvB1A2GTlwnEjjO7RejIXUsv7ErFFk
+WfUhvbtKDfup+kjyN4DP2C4C/TNMGVSnyc2m89fCCde72m+Bvi5LipuMVzaQ1nnr
+PApVLTDDw2ZeNHyen2xgPbQ2GweqStx8Ip1GMI89hw14oTDT7RqHw0Vy2qZHsbTn
+KLlY9roXDmCPNpiTE4ATM2ndz8v/oPOZl1EyE2tvMkBp9HZOSUgvVrMb1bbJ8aln
+u7HrX6FmgOwBUBNVqViFyS4rMrrLirzhVqKlbeyfzcQb9TjqNcRbWki05D8aTcrg
+2MSvGjiJbjwKvHbNHp01U9srinYFALRJAL5wkx3EirlPDkmhhxLCUGKuqhYmKLyj
+r4Wcp2W71ZTqadegXOzgRAhsme2bG4UeUksgSBfNB2A9O3EbN9YCgVLSV4IpjHim
+F0BJw9WMFjtdpkE9l8CrftKEcv3v4lqNiQhVDm9E4DiaNaJ1MI4=
+=VNep
+-----END PGP SIGNATURE-----
+--=-=-=--
