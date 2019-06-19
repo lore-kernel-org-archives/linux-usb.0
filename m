@@ -2,106 +2,119 @@ Return-Path: <SRS0=8+e4=US=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B17AC31E49
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Jun 2019 14:40:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD985C31E5E
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Jun 2019 14:45:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0994A20679
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Jun 2019 14:40:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 94475214AF
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Jun 2019 14:45:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1560955509;
+	bh=HaIXSIJztvuF4RBXkMjrzM6Eq31PGzAjTZAXhdct3ZI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=a1/w/1hkfUObga6qlqIW9rpD3PmpOvevrFS5CR+3vU4jx+FOJL7LpFyomuQuGpQQa
+	 6ygP/O1B1+TVFaDI6dEImuX2pk0zStfPKKt6Gv73/MjTRq2QwUy5lUdjbKygZS0W/l
+	 VhhO6c32fGtWz2GX1Up3dckXeUj6ArmM9RoWaRAQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727315AbfFSOk6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 19 Jun 2019 10:40:58 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:54344 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726865AbfFSOk6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Jun 2019 10:40:58 -0400
-Received: (qmail 3582 invoked by uid 2102); 19 Jun 2019 10:40:57 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 19 Jun 2019 10:40:57 -0400
-Date:   Wed, 19 Jun 2019 10:40:57 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Oliver Neukum <oneukum@suse.com>
-cc:     Mayuresh Kulkarni <mkulkarni@opensource.cirrus.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        <patches@opensource.cirrus.com>, <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH] usb: core: devio: add ioctls for suspend and resume
-In-Reply-To: <1560935981.4587.10.camel@suse.com>
-Message-ID: <Pine.LNX.4.44L0.1906191024150.1596-100000@iolanthe.rowland.org>
+        id S1729501AbfFSOpF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 19 Jun 2019 10:45:05 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:42718 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726332AbfFSOpE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Jun 2019 10:45:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=2QmJmFe3IBdUY4osXNYAJypH6UhyPcID9zSOw7B/q78=; b=NMNGndtAeTjI+iNhm2ZJjponQ
+        Nej1ObgElN7yV99l4Esqat501fUM6L8OaWi2iTKn+aAemKHt74bbj+5XKLDfJ/Lq8dXqmBWlUYGl9
+        xkBCvvCSUU6L3e9NWORe2FlgolB4tzm7w8rPScLZWJggTGqRGXBKijdeIBc5Ma17Y9b9GRiM09tAh
+        AxtgA0lS4Yz/FXiyvlBq4cYCQB0OpQQlHCW7lLBCNxYZC8uVcujYCPCd2eNPe4K3uOlkrytr+d7pE
+        PXqKd9b1ov6zWYofCA/nojLa6NavPD3wpHW94MTl9SXv1arBHTqiZsXInf/JCaRIjkO/zGQ/VlseM
+        gFhCN7HWA==;
+Received: from 177.133.86.196.dynamic.adsl.gvt.net.br ([177.133.86.196] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1hdbpe-0000LT-Tr; Wed, 19 Jun 2019 14:45:03 +0000
+Date:   Wed, 19 Jun 2019 11:44:58 -0300
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        linux-media@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Mike Isely <isely@pobox.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        syzbot <syzbot+af8f8d2ac0d39b0ed3a0@syzkaller.appspotmail.com>,
+        syzbot <syzbot+170a86bf206dd2c6217e@syzkaller.appspotmail.com>
+Subject: Re: [PATCH] media: pvrusb2: use a different format for warnings
+Message-ID: <20190619114458.52474694@coco.lan>
+In-Reply-To: <CAAeHK+w9xGtaQ5oSCq-=1YNk_11T2Tz9LKehkL7ZsAz-XwKajw@mail.gmail.com>
+References: <b3761c6479a49b60316325ebc22da904e36d4538.1556813333.git.andreyknvl@google.com>
+        <20190502163907.GA14995@kroah.com>
+        <CAAeHK+w9xGtaQ5oSCq-=1YNk_11T2Tz9LKehkL7ZsAz-XwKajw@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, 19 Jun 2019, Oliver Neukum wrote:
+Em Wed, 19 Jun 2019 16:30:01 +0200
+Andrey Konovalov <andreyknvl@google.com> escreveu:
 
-> Am Dienstag, den 18.06.2019, 11:50 -0400 schrieb Alan Stern:
-> > On Tue, 18 Jun 2019, Mayuresh Kulkarni wrote:
-> > 
-> > > > You're right that the program needs to know when the device is about
-> > > > to 
-> > > > be suspended.  But waiting for an ioctl to return isn't a good way 
-> > > > to do it; this needs to be a callback of some sort.  That is, the 
-> > > > kernel also needs to know when the program is ready for the suspend.
-> > > > 
-> > > > I don't know what is the best approach.
-> > > 
-> > > This is becoming tricky now.
-> > 
-> > Yes.  There probably are mechanisms already in use in other parts of 
-> > the kernel that would be suitable here, but I don't know what they are.  
-> > We could try asking some other people for advice.
+> On Thu, May 2, 2019 at 6:39 PM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Thu, May 02, 2019 at 06:09:26PM +0200, Andrey Konovalov wrote:  
+> > > When the pvrusb2 driver detects that there's something wrong with the
+> > > device, it prints a warning message. Right now those message are
+> > > printed in two different formats:
+> > >
+> > > 1. ***WARNING*** message here
+> > > 2. WARNING: message here
+> > >
+> > > There's an issue with the second format. Syzkaller recognizes it as a
+> > > message produced by a WARN_ON(), which is used to indicate a bug in the
+> > > kernel. However pvrusb2 prints those warnings to indicate an issue with
+> > > the device, not the bug in the kernel.
+> > >
+> > > This patch changes the pvrusb2 driver to consistently use the first
+> > > warning message format. This will unblock syzkaller testing of this
+> > > driver.
+> > >
+> > > Reported-by: syzbot+af8f8d2ac0d39b0ed3a0@syzkaller.appspotmail.com
+> > > Reported-by: syzbot+170a86bf206dd2c6217e@syzkaller.appspotmail.com
+> > > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>  
+> >
+> > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>  
 > 
-> Waiting for an ioctl() is horrible. If you really want to do this
-> poll() would be the obvious API. It is made for waiting for changes
-> of states.
-> 
-> [..]
-> > The suspend callback is _not_ responsible for actually suspending the
-> > device; that is handled by the USB subsystem core.
-> > 
-> > These ideas are indeed applicable to programs using usbfs.  The kernel
-> 
-> Not fully. Usbfs has the same issue as FUSE here. Drivers are per
-> interface but power management is per device. Hence every driver
-> is in the block IO path for these issues. You cannot do block IO
-> in user space. The best you can do is notify of state changes,
-> but you cannot wait for them.
+> I don't think I see this patch picked up anywhere. Should this fix go
+> through the USB or some media tree?
 
-usbfs access is per-device, not per-interface, but your point remains 
-valid.
+Media drivers go via the media tree. You should notice that we are
+currently receiving around 100 patches per week there. It may take
+some time for people to review, but the patches are queued at
+patchwork, so sooner or later someone will review and apply, if nobody
+did it already:
 
-> > needs to have a way to inform the program that the device is about
-> > enter (or has just left) a low-power state, so that the program can
-> > stop (or start) trying to communicate with the device.  And the kernel 
-> > needs to know when the program is ready for the state change.
-> 
-> That has difficulties based in fundamental issues. We can let user
-> space block power transitions. We can notify it. But we cannot
-> block on it.
-> 
-> It would be easiest to export the usb_autopm_* API to user space.
+	https://patchwork.linuxtv.org/project/linux-media/list/
 
-But ->suspend and ->resume callbacks are part of that API, and as you 
-say, it is not feasible to have these callbacks run in userspace.
+That's said, I'm not seeing this patch there:
 
-The only solution I can think of is for the userspace program to first
-set the device's autosuspend delay to 0.  Then whenever the
-WAIT_FOR_RESUME ioctl returns -- even if it returns immediately -- the
-program should assume the suspend is over or is not going to happen.  
-Then the program can run normally for a short while (10 seconds,
-perhaps) before making another attempt to suspend.
+	https://patchwork.linuxtv.org/project/linux-media/list/?series=&submitter=&state=*&q=pvrusb2&archive=&delegate=
 
-The only change I would make to the patch posted earlier is to have 
-proc_wait_for_resume() call usb_autoresume_device() and set 
-ps->suspend_requested = false before returning.
+It sounds that, for whatever reason, the patch never arrived
+patchwork. Please re-submit it and check if media patchwork got it.
 
-Mayuresh, how does that sound?
-
-Alan Stern
-
+If not, perhaps you just found a bug with patchwork 2.1 :-)
+(we upgraded from version 1.0 to 2.1 at the beginning of this
+month)
+Thanks,
+Mauro
