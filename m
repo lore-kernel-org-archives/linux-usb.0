@@ -2,89 +2,115 @@ Return-Path: <SRS0=8+e4=US=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_MUTT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E2A9C31E49
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Jun 2019 09:19:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA3F6C31E5E
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Jun 2019 11:03:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 639DE20B1F
-	for <linux-usb@archiver.kernel.org>; Wed, 19 Jun 2019 09:19:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 93C02215EA
+	for <linux-usb@archiver.kernel.org>; Wed, 19 Jun 2019 11:03:18 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=ragnatech-se.20150623.gappssmtp.com header.i=@ragnatech-se.20150623.gappssmtp.com header.b="suXYxAMj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731166AbfFSJTo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 19 Jun 2019 05:19:44 -0400
-Received: from mx2.suse.de ([195.135.220.15]:34356 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1731293AbfFSJTo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 19 Jun 2019 05:19:44 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 91AB1ADCF;
-        Wed, 19 Jun 2019 09:19:43 +0000 (UTC)
-Message-ID: <1560935981.4587.10.camel@suse.com>
-Subject: Re: [PATCH] usb: core: devio: add ioctls for suspend and resume
-From:   Oliver Neukum <oneukum@suse.com>
-To:     Alan Stern <stern@rowland.harvard.edu>,
-        Mayuresh Kulkarni <mkulkarni@opensource.cirrus.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        patches@opensource.cirrus.com, linux-usb@vger.kernel.org
-Date:   Wed, 19 Jun 2019 11:19:41 +0200
-In-Reply-To: <Pine.LNX.4.44L0.1906181133570.1659-100000@iolanthe.rowland.org>
-References: <Pine.LNX.4.44L0.1906181133570.1659-100000@iolanthe.rowland.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1726751AbfFSLDR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 19 Jun 2019 07:03:17 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:45814 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727067AbfFSLDR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 19 Jun 2019 07:03:17 -0400
+Received: by mail-lj1-f196.google.com with SMTP id m23so2768611lje.12
+        for <linux-usb@vger.kernel.org>; Wed, 19 Jun 2019 04:03:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=Luu+5rYK+UBQnap9xN87KqCbR3KAr2ZJr7v5Aor7Sgw=;
+        b=suXYxAMjz59lvhJQHLgFctHetXVze4fq6LJGfaHu6u7dSe6wuf8VLeA1vMnT0cU6rf
+         Z9pxXFNyqsVWBeGLKWj8hm4bYSCwh3SRygkdWUtJZ4pXHbDi1x83/66f4loPVQRUtUdo
+         X5RpmJ+T37cPHdZZ2syt9SQ8iMdI5qv4Ygyn8kmrVNopPOome4/wjVWlCoMw+e5ujuxp
+         F70SQkw9/wHNU4Y7qJNWVd30IopBNYHLRey89xb8qieITXXlaBBns4l+ac3+c8G0wVEd
+         reHNjtFKFKOlNoKOngYOc8Q0wNNwtQVfWG27aJHuhnhn7xLH/rHIbg/p+TDnt1GiPpnD
+         +NCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=Luu+5rYK+UBQnap9xN87KqCbR3KAr2ZJr7v5Aor7Sgw=;
+        b=O63u/8Nbv/Eod9m3KNRNGWAg5HKYqZmhWJNHCWq8cIYQjWrbEFaDLrNCsmt0tdM1Cb
+         5oy2nafo7ewUoSnsUTB0J/HD32ATBIW8ljx9sDnV6sCQazesGqEaPHbwJxJL6rT4ah79
+         n+N1H8vHoerUe21/xhhlZadsgJas2c0u71Ffx+rbwHi3Apr+O3GI1l1zy3EXEs5OgqUy
+         3V3g/SCwieWgrd+J+/G918NMROpYz2kLhvWG2bU8goPW+Tlzg5jna60PD1fxlUCuHdIx
+         515sAdYfWu34r2/uwNW27dfmtSZWByUIw/UatcAxfnzY870Yso4Z97FFpsLIym9qTnHx
+         kpAQ==
+X-Gm-Message-State: APjAAAWkWH9bWrksVSxfBLkBr/O4lr53n+Lov8MslgX5r+y1MYcdxg/D
+        MoZ1X8W7oImvLYgOzpy4ZMo5Mg==
+X-Google-Smtp-Source: APXvYqxZ9IA0ppIbwUalwcRBMLFQVzuYiFSFtfCmTlzFHAB17QSbWvFXviSuBgZd2h5m1cAPIFzY6A==
+X-Received: by 2002:a2e:9b84:: with SMTP id z4mr36740332lji.75.1560942195085;
+        Wed, 19 Jun 2019 04:03:15 -0700 (PDT)
+Received: from localhost (89-233-230-99.cust.bredband2.com. [89.233.230.99])
+        by smtp.gmail.com with ESMTPSA id x19sm3062896ljb.6.2019.06.19.04.03.14
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Wed, 19 Jun 2019 04:03:14 -0700 (PDT)
+Date:   Wed, 19 Jun 2019 13:03:14 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Simon Horman <horms+renesas@verge.net.au>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>, linux-usb@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org
+Subject: Re: [PATCH 0/2] dt-bindings: usb: renease_{usbhs,gen3} Rename
+ bindings documentation files
+Message-ID: <20190619110314.GC18708@bigcity.dyn.berto.se>
+References: <20190617090603.8449-1-horms+renesas@verge.net.au>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190617090603.8449-1-horms+renesas@verge.net.au>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Am Dienstag, den 18.06.2019, 11:50 -0400 schrieb Alan Stern:
-> On Tue, 18 Jun 2019, Mayuresh Kulkarni wrote:
+Hi Simon,
+
+Thanks for your work.
+
+On 2019-06-17 11:06:01 +0200, Simon Horman wrote:
+> Hi,
 > 
-> > > You're right that the program needs to know when the device is about
-> > > to 
-> > > be suspended.  But waiting for an ioctl to return isn't a good way 
-> > > to do it; this needs to be a callback of some sort.  That is, the 
-> > > kernel also needs to know when the program is ready for the suspend.
-> > > 
-> > > I don't know what is the best approach.
-> > 
-> > This is becoming tricky now.
+> For consistency with the naming of (most) other documentation files for DT
+> bindings for Renesas IP blocks rename the Renesas USBHS and USB 3.0
+> peripheral documentation files.
+
+With Shimoda-sans comment on 2/2 fixed for the whole series,
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
 > 
-> Yes.  There probably are mechanisms already in use in other parts of 
-> the kernel that would be suitable here, but I don't know what they are.  
-> We could try asking some other people for advice.
-
-Waiting for an ioctl() is horrible. If you really want to do this
-poll() would be the obvious API. It is made for waiting for changes
-of states.
-
-[..]
-> The suspend callback is _not_ responsible for actually suspending the
-> device; that is handled by the USB subsystem core.
+> Simon Horman (2):
+>   dt-bindings: usb: renesas_usbhs: Rename bindings documentation file
+>   dt-bindings: usb: renesas_gen3: Rename bindings documentation file
 > 
-> These ideas are indeed applicable to programs using usbfs.  The kernel
+>  .../devicetree/bindings/usb/{renesas_usb3.txt => renesas,usb3.txt}        | 0
+>  .../devicetree/bindings/usb/{renesas_usbhs.txt => renesas,usbhs.txt}      | 0
+>  2 files changed, 0 insertions(+), 0 deletions(-)
+>  rename Documentation/devicetree/bindings/usb/{renesas_usb3.txt => renesas,usb3.txt} (100%)
+>  rename Documentation/devicetree/bindings/usb/{renesas_usbhs.txt => renesas,usbhs.txt} (100%)
+> 
+> -- 
+> 2.11.0
 
-Not fully. Usbfs has the same issue as FUSE here. Drivers are per
-interface but power management is per device. Hence every driver
-is in the block IO path for these issues. You cannot do block IO
-in user space. The best you can do is notify of state changes,
-but you cannot wait for them.
-
-> needs to have a way to inform the program that the device is about
-> enter (or has just left) a low-power state, so that the program can
-> stop (or start) trying to communicate with the device.  And the kernel 
-> needs to know when the program is ready for the state change.
-
-That has difficulties based in fundamental issues. We can let user
-space block power transitions. We can notify it. But we cannot
-block on it.
-
-It would be easiest to export the usb_autopm_* API to user space.
-
-	Regards
-		Oliver
-
+-- 
+Regards,
+Niklas Söderlund
