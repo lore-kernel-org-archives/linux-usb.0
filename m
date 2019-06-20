@@ -7,49 +7,50 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EDA2C48BE2
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Jun 2019 10:25:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24442C43613
+	for <linux-usb@archiver.kernel.org>; Thu, 20 Jun 2019 10:25:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6EFEF206BA
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Jun 2019 10:25:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F03D4206BA
+	for <linux-usb@archiver.kernel.org>; Thu, 20 Jun 2019 10:25:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1561026343;
-	bh=ZMO3E1NHKLnlSANuAXZNZaebnQjSpdZfZHeRXmUkNQs=;
+	s=default; t=1561026345;
+	bh=bMFEtRD2ARI+TnVHI4RUbFrHwt4f96e0NOvwkXeBIs0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=IQW+HnqfdXC1Osh2UNARIcnYu47uSiSH7SSfDoS2F0mzYEQhL+iqAFddQOv8jBge+
-	 kanYJgLUu06gx+iLzomjoU/XfDqtQBAosYpb5qY/mWobEV0QmG4JUi4Jc0tWPyPi29
-	 OtK3YgYcG9xKGKZRR+AeUrOdFJ6MU2FDGU0AODso=
+	b=1b/2NHu6d44wQEW6+O5wwgQASGUwwyQJdh83eV1Rhu/Hcea6ODxc0HbubXi8sPboo
+	 YK5XAq9PQK4dqtcVXgQUT8jX8Y2WjkThdLycf1o7zb7M1jmbWsGN7y9aKhMjBZwKX9
+	 P22bXadN+F/hcZA4O1wMepnuLCSlXa6AGifaKmu4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731448AbfFTKZd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 20 Jun 2019 06:25:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49976 "EHLO mail.kernel.org"
+        id S1731262AbfFTKZZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 20 Jun 2019 06:25:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49834 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726124AbfFTKZb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 20 Jun 2019 06:25:31 -0400
+        id S1726124AbfFTKZY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 20 Jun 2019 06:25:24 -0400
 Received: from localhost.localdomain (unknown [106.201.116.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4D8CA2082C;
-        Thu, 20 Jun 2019 10:25:27 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7BDBF2083B;
+        Thu, 20 Jun 2019 10:25:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561026330;
-        bh=ZMO3E1NHKLnlSANuAXZNZaebnQjSpdZfZHeRXmUkNQs=;
+        s=default; t=1561026323;
+        bh=bMFEtRD2ARI+TnVHI4RUbFrHwt4f96e0NOvwkXeBIs0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ciVAzBA5FyI7nuXJCenHyNl+Aa1yguuaXarIs2kkHoVwJ8VOdYEYMiw/6MDURsoiW
-         aY/G8Lsy0qzgEc4LWai9cwlWv/miiYWQ6NOVACV6w49bUGR8JSPk2Hgb707J8ttFJI
-         eMB6QOg7ETYgPlT+169L9Ar0QYUM2i2pzkaj26Ks=
+        b=Mi5h4sy2R7fT1NanTk/LjVdWcPT9Vl5FJuv7LUekQRJEMuJzHguB7jGGfPz5gkiqT
+         ZCpBip5rn1UXRmkl+ATXBbJdPGCua+tWGNxC7fVpUSzVaLrvB2tVhKRWWj6oCMkOda
+         7gVb5WpO4ouy3HCz0CQt4zi5o0+t0a2+3GSjlGMA=
 From:   Vinod Koul <vkoul@kernel.org>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-arm-msm@vger.kernel.org,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Vinod Koul <vkoul@kernel.org>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
+        Christian Lamparter <chunkeey@googlemail.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Christian Lamparter <chunkeey@googlemail.com>
-Subject: [PATCH 4/5] usb: xhci: Add ROM loader for uPD720201
-Date:   Thu, 20 Jun 2019 15:51:53 +0530
-Message-Id: <20190620102154.20805-5-vkoul@kernel.org>
+        Christian Lamparter <chunkeey@gmail.com>,
+        Vinod Koul <vkoul@kernel.org>
+Subject: [PATCH 2/5] usb: xhci: handle uPD720201 and uPD720202 w/o ROM
+Date:   Thu, 20 Jun 2019 15:51:51 +0530
+Message-Id: <20190620102154.20805-3-vkoul@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190620102154.20805-1-vkoul@kernel.org>
 References: <20190620102154.20805-1-vkoul@kernel.org>
@@ -60,423 +61,116 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-uPD720201 supports ROM and allows software to program the ROM and boot
-from it. Add support for detecting if ROM is present, if so load the ROM
-if not programmed earlier.
+From: Christian Lamparter <chunkeey@googlemail.com>
 
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
+This patch adds a firmware check for the uPD720201K8-711-BAC-A
+and uPD720202K8-711-BAA-A variant. Both of these chips are listed
+in Renesas' R19UH0078EJ0500 Rev.5.00 "User's Manual: Hardware" as
+devices which need a firmware in order to work as they do not have
+support to load the firmware from an external ROM.
+
+Currently, the xhci-pci driver is unable to initialize the hcd in
+this case. Instead it will wait for 30 seconds and cause a timeout
+in xhci_handshake() and fails.
+
+[    5.116990] xhci_hcd 0000:45:00.0: new USB bus registered ...
+[   32.335215] xhci_hcd 0000:45:00.0: can't setup: -110
+[   32.340179] xhci_hcd 0000:45:00.0: USB bus 2 deregistered
+[   32.345587] xhci_hcd 0000:45:00.0: init 0000:45:00.0 fail, -110
+[   32.351496] xhci_hcd: probe of 0000:45:00.0 failed with error -110
+
 Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: Christian Lamparter <chunkeey@googlemail.com>
+Signed-off-by: Christian Lamparter <chunkeey@gmail.com>
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
 ---
- drivers/usb/host/xhci-pci.c | 358 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 358 insertions(+)
+ drivers/usb/host/xhci-pci.c | 59 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
 
 diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index a9497c6e3568..3574afac44c5 100644
+index a400cf7b39da..38a56128c1ee 100644
 --- a/drivers/usb/host/xhci-pci.c
 +++ b/drivers/usb/host/xhci-pci.c
-@@ -78,6 +78,20 @@
- #define RENESAS_FW_STATUS_SET_DATA0			BIT(8)
- #define RENESAS_FW_STATUS_SET_DATA1			BIT(9)
- 
-+#define RENESAS_ROM_STATUS_ACCESS			BIT(0)
-+#define RENESAS_ROM_STATUS_ERASE			BIT(1)
-+#define RENESAS_ROM_STATUS_RELOAD			BIT(2)
-+#define RENESAS_ROM_STATUS_RESULT			GENMASK(6, 4)
-+  #define RENESAS_ROM_STATUS_INVALID			0
-+  #define RENESAS_ROM_STATUS_SUCCESS			BIT(4)
-+  #define RENESAS_ROM_STATUS_ERROR			BIT(5)
-+#define RENESAS_ROM_STATUS_SET_DATA0			BIT(8)
-+#define RENESAS_ROM_STATUS_SET_DATA1			BIT(9)
-+#define RENESAS_ROM_STATUS_ROM_EXISTS			BIT(15)
-+
-+#define RENESAS_ROM_ERASE_MAGIC				0x5A65726F
-+#define RENESAS_ROM_WRITE_MAGIC				0x53524F4D
-+
- static const char hcd_name[] = "xhci_hcd";
- 
- static struct hc_driver __read_mostly xhci_pci_hc_driver;
-@@ -453,11 +467,75 @@ static int renesas_fw_verify(struct pci_dev *dev,
- 	return 0;
+@@ -733,6 +733,55 @@ static int renesas_fw_download_to_hw(struct pci_dev *pdev,
+ 	return 1;
  }
  
-+static int renesas_check_rom_state(struct pci_dev *pdev)
++static int renesas_check_if_fw_dl_is_needed(struct pci_dev *pdev)
 +{
-+	const struct renesas_fw_entry *entry;
-+	u16 rom_state;
-+	u32 version;
-+	bool valid_version = false;
-+	int err, i;
-+
-+	/* check FW version */
-+	err = pci_read_config_dword(pdev, RENESAS_FW_VERSION, &version);
-+	if (err)
-+		return pcibios_err_to_errno(err);
-+
-+	version &= RENESAS_FW_VERSION_FIELD;
-+	version = version >> RENESAS_FW_VERSION_OFFSET;
-+	dev_dbg(&pdev->dev, "Found FW version loaded is %x\n", version);
-+
-+	/* treat version in renesas_fw_table as correct ones */
-+	for (i = 0; i < ARRAY_SIZE(renesas_fw_table); i++) {
-+		entry = &renesas_fw_table[i];
-+		if (version == entry->expected_version) {
-+			dev_dbg(&pdev->dev, "Detected valid ROM version..\n");
-+			valid_version = true;
-+		}
-+	}
-+
-+	/*
-+	 * Test if ROM is present and loaded, if so we can skip everything
-+	 */
-+	err = pci_read_config_word(pdev, RENESAS_ROM_STATUS, &rom_state);
-+	if (err)
-+		return pcibios_err_to_errno(err);
-+
-+	if (rom_state & BIT(15)) {
-+		/* ROM exists */
-+		dev_dbg(&pdev->dev, "ROM exists\n");
-+
-+		/* Check the "Result Code" Bits (6:4) and act accordingly */
-+		switch (rom_state & RENESAS_ROM_STATUS_RESULT) {
-+		case RENESAS_ROM_STATUS_SUCCESS:
-+			dev_dbg(&pdev->dev, "Success ROM load...");
-+			/* we have valid version and status so success */
-+			if (valid_version)
-+				return 0;
-+		case RENESAS_ROM_STATUS_INVALID: /* No result yet */
-+			dev_dbg(&pdev->dev, "No result as it is ROM...");
-+			/* we have valid version and status so success */
-+			if (valid_version)
-+				return 0;
-+		case RENESAS_ROM_STATUS_ERROR: /* Error State */
-+		default: /* All other states are marked as "Reserved states" */
-+			dev_err(&pdev->dev, "Invalid ROM..");
-+			break;
-+		}
-+	}
-+
-+	return -EIO;
-+}
-+
- static int renesas_fw_check_running(struct pci_dev *pdev)
- {
- 	int err;
- 	u8 fw_state;
- 
-+	/* Check if device has ROM and loaded, if so skip everything */
-+	err = renesas_check_rom_state(pdev);
-+	if (!err)
-+		return err;
-+
- 	/*
- 	 * Test if the device is actually needing the firmware. As most
- 	 * BIOSes will initialize the device for us. If the device is
-@@ -650,17 +728,292 @@ struct renesas_fw_ctx {
- static int xhci_pci_probe(struct pci_dev *pdev,
- 			  const struct pci_device_id *id);
- 
-+static bool renesas_check_rom(struct pci_dev *pdev)
-+{
-+	u16 rom_status;
-+	int retval;
-+
-+	/* 1. Check if external ROM exists */
-+	retval = pci_read_config_word(pdev, RENESAS_ROM_STATUS, &rom_status);
-+	if (retval)
-+		return false;
-+
-+	rom_status &= RENESAS_ROM_STATUS_ROM_EXISTS;
-+	if (rom_status) {
-+		dev_dbg(&pdev->dev, "External ROM exists\n");
-+		return true; /* External ROM exists */
-+	}
-+
-+	return false;
-+}
-+
-+static void renesas_rom_erase(struct pci_dev *pdev)
-+{
-+	int retval, i;
-+	u8 status;
-+
-+	dev_dbg(&pdev->dev, "Performing ROM Erase...\n");
-+	retval = pci_write_config_dword(pdev, RENESAS_DATA0,
-+					RENESAS_ROM_ERASE_MAGIC);
-+	if (retval) {
-+		dev_err(&pdev->dev, "ROM erase, magic word write failed: %d\n",
-+			pcibios_err_to_errno(retval));
-+		return;
-+	}
-+
-+	retval = pci_read_config_byte(pdev, RENESAS_ROM_STATUS, &status);
-+	if (retval) {
-+		dev_err(&pdev->dev, "ROM status read failed: %d\n",
-+			pcibios_err_to_errno(retval));
-+		return;
-+	}
-+	status |= RENESAS_ROM_STATUS_ERASE;
-+	retval = pci_write_config_byte(pdev, RENESAS_ROM_STATUS, status);
-+	if (retval) {
-+		dev_err(&pdev->dev, "ROM erase set word write failed\n");
-+		return;
-+	}
-+
-+	/* sleep a bit while ROM is erased */
-+	msleep(20);
-+
-+	for (i = 0; i < 10000; i++) {
-+		retval = pci_read_config_byte(pdev, RENESAS_ROM_STATUS,
-+					      &status);
-+		status &= RENESAS_ROM_STATUS_ERASE;
-+		if (!status)
-+			break;
-+
-+		mdelay(10);
-+	}
-+
-+	if (i == 10000)
-+		dev_dbg(&pdev->dev, "Chip erase timedout: %x\n", status);
-+
-+	dev_dbg(&pdev->dev, "ROM Erase... Done success\n");
-+}
-+
-+static bool renesas_download_rom(struct pci_dev *pdev,
-+				 const u32 *fw, size_t step)
-+{
-+	bool data0_or_data1;
-+	u8 fw_status;
-+	size_t i;
 +	int err;
++	u8 fw_state;
 +
 +	/*
-+	 * The hardware does alternate between two 32-bit pages.
-+	 * (This is because each row of the firmware is 8 bytes).
++	 * Only the uPD720201K8-711-BAC-A or uPD720202K8-711-BAA-A
++	 * are listed in R19UH0078EJ0500 Rev.5.00 as devices which
++	 * need a firmware in order to work.
 +	 *
-+	 * for even steps we use DATA0, for odd steps DATA1.
++	 *  - uPD720202 ES 2.0 sample & CS sample & Mass product, ID is 2.
++	 *  - uPD720201 ES 2.0 sample whose revision ID is 2.
++	 *  - uPD720201 ES 2.1 sample & CS sample & Mass product, ID is 3.
 +	 */
-+	data0_or_data1 = (step & 1) == 1;
-+
-+	/* Read "Set DATAX" and confirm it is cleared. */
-+	for (i = 0; i < 10000; i++) {
-+		err = pci_read_config_byte(pdev, RENESAS_ROM_STATUS_MSB,
-+					   &fw_status);
-+		if (err) {
-+			dev_err(&pdev->dev, "Read ROM Status failed: %d\n",
-+				pcibios_err_to_errno(err));
-+			return false;
-+		}
-+		if (!(fw_status & BIT(data0_or_data1)))
-+			break;
-+
-+		udelay(100);
-+	}
-+	if (i == 10000) {
-+		dev_err(&pdev->dev, "Timeout for Set DATAX step: %zd\n", step);
-+		return false;
-+	}
++	if (!((pdev->vendor == PCI_VENDOR_ID_RENESAS) &&
++		((pdev->device == 0x0015 && pdev->revision == 0x02) ||
++		 (pdev->device == 0x0014 &&
++		  (pdev->revision == 0x02 || pdev->revision == 0x03)))))
++		return 0;
 +
 +	/*
-+	 * Write FW data to "DATAX".
-+	 * "LSB is left" => force little endian
++	 * Test if the firmware was uploaded and is running.
++	 * As most BIOSes will initialize the device for us.
 +	 */
-+	err = pci_write_config_dword(pdev, data0_or_data1 ?
-+				     RENESAS_DATA1 : RENESAS_DATA0,
-+				     (__force u32)cpu_to_le32(fw[step]));
-+	if (err) {
-+		dev_err(&pdev->dev, "Write to DATAX failed: %d\n",
-+			pcibios_err_to_errno(err));
-+		return false;
++	err = pci_read_config_byte(pdev, 0xf4, &fw_state);
++	if (err)
++		return pcibios_err_to_errno(err);
++
++	/* Check the "Result Code" Bits (6:4) and act accordingly */
++	switch (fw_state & 0x70) {
++	case 0: /* No result yet */
++		dev_err(&pdev->dev, "FW is not ready/loaded yet.");
++		return -ENODEV;
++
++	case BIT(4): /* Success, device should be working. */
++		dev_dbg(&pdev->dev, "FW is ready.");
++		return 0;
++
++	case BIT(5): /* Error State */
++		dev_err(&pdev->dev, "HW is in an error state.");
++		return -ENODEV;
++
++	default: /* All other states are marked as "Reserved states" */
++		dev_err(&pdev->dev, "HW is in an invalid state (%x).",
++			(fw_state & 0x70) >> 4);
++		return -EINVAL;
 +	}
-+
-+	udelay(100);
-+
-+	/* Set "Set DATAX". */
-+	err = pci_write_config_byte(pdev, RENESAS_ROM_STATUS_MSB,
-+				    BIT(data0_or_data1));
-+	if (err) {
-+		dev_err(&pdev->dev, "Write config for DATAX failed: %d\n",
-+			pcibios_err_to_errno(err));
-+		return false;
-+	}
-+
-+	return true;
 +}
 +
-+static bool renesas_setup_rom(struct pci_dev *pdev, const struct firmware *fw)
-+{
-+	const u32 *fw_data = (const u32 *)fw->data;
-+	int err, i;
-+	u8 status;
-+
-+	/* 2. Write magic word to Data0 */
-+	err = pci_write_config_dword(pdev, RENESAS_DATA0,
-+				     RENESAS_ROM_WRITE_MAGIC);
-+	if (err)
-+		return false;
-+
-+	/* 3. Set External ROM access */
-+	err = pci_write_config_byte(pdev, RENESAS_ROM_STATUS,
-+				    RENESAS_ROM_STATUS_ACCESS);
-+	if (err)
-+		goto remove_bypass;
-+
-+	/* 4. Check the result */
-+	err = pci_read_config_byte(pdev, RENESAS_ROM_STATUS, &status);
-+	if (err)
-+		goto remove_bypass;
-+	status &= GENMASK(6, 4);
-+	if (status) {
-+		dev_err(&pdev->dev,
-+			"setting external rom failed: %x\n", status);
-+		goto remove_bypass;
-+	}
-+
-+	/* 5 to 16 Write FW to DATA0/1 while checking SetData0/1 */
-+	for (i = 0; i < fw->size / 4; i++) {
-+		err = renesas_download_rom(pdev, fw_data, i);
-+		if (!err) {
-+			dev_err(&pdev->dev,
-+				"ROM Download Step %d failed at position %d bytes\n",
-+				 i, i * 4);
-+			goto remove_bypass;
-+		}
-+	}
-+
-+	/*
-+	 * wait till DATA0/1 is cleared
-+	 */
-+	for (i = 0; i < 1000; i++) {
-+		err = pci_read_config_byte(pdev, RENESAS_ROM_STATUS_MSB,
-+					   &status);
-+		if (err)
-+			goto remove_bypass;
-+		if (!(status & (BIT(0) | BIT(1))))
-+			break;
-+
-+		udelay(10);
-+	}
-+	if (i == 1000) {
-+		dev_err(&pdev->dev, "Final Firmware ROM Download step timed out\n");
-+		goto remove_bypass;
-+	}
-+
-+	/* 17. Remove bypass */
-+	err = pci_write_config_byte(pdev, RENESAS_ROM_STATUS, 0);
-+	if (err)
-+		return false;
-+
-+	udelay(10);
-+
-+	/* 18. check result */
-+	for (i = 0; i < 10000; i++) {
-+		err = pci_read_config_byte(pdev, RENESAS_ROM_STATUS, &status);
-+		if (err) {
-+			dev_err(&pdev->dev, "Read ROM status failed:%d\n",
-+				pcibios_err_to_errno(err));
-+			return false;
-+		}
-+		status &= RENESAS_ROM_STATUS_RESULT;
-+		if (status ==  RENESAS_ROM_STATUS_SUCCESS) {
-+			dev_dbg(&pdev->dev, "Download ROM success\n");
-+			break;
-+		}
-+		udelay(100);
-+	}
-+	if (i == 10000) { /* Timed out */
-+		dev_err(&pdev->dev,
-+			"Download to external ROM TO: %x\n", status);
-+		return false;
-+	}
-+
-+	dev_dbg(&pdev->dev, "Download to external ROM scuceeded\n");
-+
-+	/* Last step set Reload */
-+	err = pci_write_config_byte(pdev, RENESAS_ROM_STATUS,
-+				    RENESAS_ROM_STATUS_RELOAD);
-+	if (err) {
-+		dev_err(&pdev->dev, "Set ROM execute failed: %d\n",
-+			pcibios_err_to_errno(err));
-+		return false;
-+	}
-+
-+	/*
-+	 * wait till Reload is cleared
-+	 */
-+	for (i = 0; i < 10000; i++) {
-+		err = pci_read_config_byte(pdev, RENESAS_ROM_STATUS, &status);
-+		if (err)
-+			return false;
-+		if (!(status & RENESAS_ROM_STATUS_RELOAD))
-+			break;
-+
-+		udelay(1);
-+	}
-+	if (i == 10000) {
-+		dev_err(&pdev->dev, "ROM Exec timed out: %x\n", status);
-+		return false;
-+	}
-+
-+	return true;
-+
-+remove_bypass:
-+	pci_write_config_byte(pdev, RENESAS_ROM_STATUS, 0);
-+	return false;
-+}
-+
- static void renesas_fw_callback(const struct firmware *fw,
- 				void *context)
+ /* called during probe() after chip reset completes */
+ static int xhci_pci_setup(struct usb_hcd *hcd)
  {
- 	struct renesas_fw_ctx *ctx = context;
- 	struct pci_dev *pdev = ctx->pdev;
- 	struct device *parent = pdev->dev.parent;
-+	bool rom;
- 	int err = -ENOENT;
+@@ -787,6 +836,11 @@ static int xhci_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
+ 		return retval;
+ 	};
  
- 	if (fw) {
- 		err = renesas_fw_verify(pdev, fw->data, fw->size);
- 		if (!err) {
-+			/* Check if the device has external ROM */
-+			rom = renesas_check_rom(pdev);
-+			if (rom) {
-+				/* perfrom chip erase first */
-+				renesas_rom_erase(pdev);
++	/* Check if this device is a RENESAS uPD720201/2 device. */
++	retval = renesas_check_if_fw_dl_is_needed(dev);
++	if (retval)
++		return retval;
 +
-+				/* lets try loading fw on ROM first */
-+				rom = renesas_setup_rom(pdev, fw);
-+				if (!rom) {
-+					dev_err(&pdev->dev, "ROM load failed, falling back on FW load\n");
-+				} else {
-+					dev_dbg(&pdev->dev, "ROM load done..\n");
-+
-+					release_firmware(fw);
-+					if (ctx->resume)
-+						return;
-+
-+					err = xhci_pci_probe(pdev, ctx->id);
-+					if (!err) {
-+						/* everything worked */
-+						devm_kfree(&pdev->dev, ctx);
-+						return;
-+					}
-+				}
-+			}
-+
- 			err = renesas_fw_download(pdev, fw, 0);
- 			release_firmware(fw);
- 			if (!err) {
-@@ -779,6 +1132,11 @@ static int renesas_check_if_fw_dl_is_needed(struct pci_dev *pdev)
- 		  (pdev->revision == 0x02 || pdev->revision == 0x03)))))
- 		return 0;
+ 	driver = (struct hc_driver *)id->driver_data;
  
-+	/* Check if device has ROM and loaded, if so skip everything */
-+	err = renesas_check_rom_state(pdev);
-+	if (!err)
-+		return err;
+ 	/* Prevent runtime suspending between USB-2 and USB-3 initialization */
+@@ -988,6 +1042,11 @@ static int xhci_pci_resume(struct usb_hcd *hcd, bool hibernated)
+ 	if (pdev->vendor == PCI_VENDOR_ID_INTEL)
+ 		usb_enable_intel_xhci_ports(pdev);
+ 
++	/* Check if this device is a RENESAS uPD720201/2 device. */
++	retval = renesas_check_if_fw_dl_is_needed(pdev);
++	if (retval)
++		return retval;
 +
- 	/*
- 	 * Test if the firmware was uploaded and is running.
- 	 * As most BIOSes will initialize the device for us.
+ 	if (xhci->quirks & XHCI_SSIC_PORT_UNUSED)
+ 		xhci_ssic_port_unused_quirk(hcd, false);
+ 
 -- 
 2.20.1
 
