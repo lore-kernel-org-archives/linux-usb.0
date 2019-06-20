@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98CEAC48BE1
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Jun 2019 10:25:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFC0CC48BE1
+	for <linux-usb@archiver.kernel.org>; Thu, 20 Jun 2019 10:25:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5D9C62082C
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Jun 2019 10:25:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C7824206BA
+	for <linux-usb@archiver.kernel.org>; Thu, 20 Jun 2019 10:25:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1561026333;
-	bh=2fqzrfsRBQ8KnKJ/swh/DnGQFYUFATDpDON4Zvhh24I=;
+	s=default; t=1561026336;
+	bh=wDwRd0hEpSkvmEKJfBABhPciAsp8oGwr7W3yIBEHFAQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=cEqwkxZsSi5lsb2jZf51mRbfkZmc66LqLYV4wM9Q18+IMKNAI/T+b+oPttiA7W1Je
-	 4+LJD2I7K+Y7Ku3knk2edukVNu1nbqgA1E4ct2XPPX0rhk8oWNC1iI3b+/TtBBu2aS
-	 +wSiEsm1V2uIe4/4n+cw9SdZ1EOGZZgLzIwVB6s8=
+	b=1TGi1EyMJXLGgkNiSHitOQTSnA3xdgNBxBJdfLPiGKB/MNHLNi6lhnweh4Ud8KhWM
+	 bE5shDjIqTwI2J4tth21cE7XRk07d61UFj7cu4XXc5O7klNgP6Xrt1LyKsPaAkGVfj
+	 Yf8saKf6sT67PDl8YmyLbJJ2dgynfQ+eSB2P3mRc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731386AbfFTKZ3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 20 Jun 2019 06:25:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49906 "EHLO mail.kernel.org"
+        id S1731511AbfFTKZf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 20 Jun 2019 06:25:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50048 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726124AbfFTKZ1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 20 Jun 2019 06:25:27 -0400
+        id S1731491AbfFTKZe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 20 Jun 2019 06:25:34 -0400
 Received: from localhost.localdomain (unknown [106.201.116.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 08171206BA;
-        Thu, 20 Jun 2019 10:25:23 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 91C7E206BA;
+        Thu, 20 Jun 2019 10:25:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561026326;
-        bh=2fqzrfsRBQ8KnKJ/swh/DnGQFYUFATDpDON4Zvhh24I=;
+        s=default; t=1561026333;
+        bh=wDwRd0hEpSkvmEKJfBABhPciAsp8oGwr7W3yIBEHFAQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=wW7vweI93EYNRGxqkhxRulUSB8M5NCLdI9twUKZLBurQ5dKirzopiOISVh0vtcck6
-         9CEH93JgGPHvHJ2KJXo8ycdAhBmyxVLjxLUzNKyBVleMRqibRYuM8NehaESxdkOWIg
-         M5b+uKKNGkyf46wlD2ONeU5WkQHH4mIAA5OK+rdY=
+        b=zNC8vD1Dn7oboJiVKACw/UYh/Fc4TiqQG/Vf5XOuVjiKc7FNv0AVEC/0bWOrcdeJY
+         BV9vV8bhqA9n61R8/GD2QyJxAXagQflKF/lZVRjJBOWw4rnV8i9YFYcCQ/wtrX6Apt
+         HH/4CMv1S488q0egYKrgyxQQQ055FC73DgPk7F/Y=
 From:   Vinod Koul <vkoul@kernel.org>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -47,9 +47,9 @@ Cc:     linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Christian Lamparter <chunkeey@googlemail.com>
-Subject: [PATCH 3/5] usb: xhci: Use register defined and field names
-Date:   Thu, 20 Jun 2019 15:51:52 +0530
-Message-Id: <20190620102154.20805-4-vkoul@kernel.org>
+Subject: [PATCH 5/5] usb: xhci: allow multiple firmware versions
+Date:   Thu, 20 Jun 2019 15:51:54 +0530
+Message-Id: <20190620102154.20805-6-vkoul@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190620102154.20805-1-vkoul@kernel.org>
 References: <20190620102154.20805-1-vkoul@kernel.org>
@@ -60,203 +60,104 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Instead of using register values and fields lets define them and
-use in the driver.
+Allow multiple firmware file versions in table and load them in
+increasing order as we find them in the file system.
 
 Signed-off-by: Vinod Koul <vkoul@kernel.org>
 Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc: Christian Lamparter <chunkeey@googlemail.com>
 ---
- drivers/usb/host/xhci-pci.c | 68 +++++++++++++++++++++++++------------
- 1 file changed, 47 insertions(+), 21 deletions(-)
+ drivers/usb/host/xhci-pci.c | 39 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
 diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index 38a56128c1ee..a9497c6e3568 100644
+index 3574afac44c5..2ee9e6bbabcb 100644
 --- a/drivers/usb/host/xhci-pci.c
 +++ b/drivers/usb/host/xhci-pci.c
-@@ -57,6 +57,27 @@
- #define PCI_DEVICE_ID_AMD_PROMONTORYA_1			0x43bc
- #define PCI_DEVICE_ID_ASMEDIA_1042A_XHCI		0x1142
- 
-+#define RENESAS_FW_VERSION				0x6C
-+#define RENESAS_ROM_CONFIG				0xF0
-+#define RENESAS_FW_STATUS				0xF4
-+#define RENESAS_FW_STATUS_MSB				0xF5
-+#define RENESAS_ROM_STATUS				0xF6
-+#define RENESAS_ROM_STATUS_MSB				0xF7
-+#define RENESAS_DATA0					0xF8
-+#define RENESAS_DATA1					0xFC
-+
-+#define RENESAS_FW_VERSION_FIELD			GENMASK(23, 7)
-+#define RENESAS_FW_VERSION_OFFSET			8
-+
-+#define RENESAS_FW_STATUS_DOWNLOAD_ENABLE		BIT(0)
-+#define RENESAS_FW_STATUS_LOCK				BIT(1)
-+#define RENESAS_FW_STATUS_RESULT			GENMASK(6, 4)
-+  #define RENESAS_FW_STATUS_INVALID			0
-+  #define RENESAS_FW_STATUS_SUCCESS			BIT(4)
-+  #define RENESAS_FW_STATUS_ERROR			BIT(5)
-+#define RENESAS_FW_STATUS_SET_DATA0			BIT(8)
-+#define RENESAS_FW_STATUS_SET_DATA1			BIT(9)
-+
- static const char hcd_name[] = "xhci_hcd";
- 
- static struct hc_driver __read_mostly xhci_pci_hc_driver;
-@@ -342,7 +363,8 @@ static int renesas_fw_download_image(struct pci_dev *dev,
- 
- 	/* step+1. Read "Set DATAX" and confirm it is cleared. */
- 	for (i = 0; i < 10000; i++) {
--		err = pci_read_config_byte(dev, 0xF5, &fw_status);
-+		err = pci_read_config_byte(dev, RENESAS_FW_STATUS_MSB,
-+					   &fw_status);
- 		if (err)
- 			return pcibios_err_to_errno(err);
- 		if (!(fw_status & BIT(data0_or_data1)))
-@@ -357,7 +379,8 @@ static int renesas_fw_download_image(struct pci_dev *dev,
- 	 * step+2. Write FW data to "DATAX".
- 	 * "LSB is left" => force little endian
+@@ -333,9 +333,12 @@ static const struct renesas_fw_entry {
+ 	 *  - uPD720201 ES 2.0 sample whose revision ID is 2.
+ 	 *  - uPD720201 ES 2.1 sample & CS sample & Mass product, ID is 3.
+ 	 *  - uPD720202 ES 2.0 sample & CS sample & Mass product, ID is 2.
++	 *
++	 *  Entry expected_version should be kept in increasing order
  	 */
--	err = pci_write_config_dword(dev, data0_or_data1 ? 0xFC : 0xF8,
-+	err = pci_write_config_dword(dev, data0_or_data1 ?
-+				     RENESAS_DATA1 : RENESAS_DATA0,
- 				     (__force u32) cpu_to_le32(fw[step]));
- 	if (err)
- 		return pcibios_err_to_errno(err);
-@@ -365,7 +388,8 @@ static int renesas_fw_download_image(struct pci_dev *dev,
- 	udelay(100);
+ 	{ "K2013080.mem", 0x0014, 0x02, 0x2013 },
+ 	{ "K2013080.mem", 0x0014, 0x03, 0x2013 },
++	{ "K2026090.mem", 0x0014, 0x03, 0x2026 },
+ 	{ "K2013080.mem", 0x0015, 0x02, 0x2013 },
+ };
  
- 	/* step+3. Set "Set DATAX". */
--	err = pci_write_config_byte(dev, 0xF5, BIT(data0_or_data1));
-+	err = pci_write_config_byte(dev, RENESAS_FW_STATUS_MSB,
-+				    BIT(data0_or_data1));
- 	if (err)
- 		return pcibios_err_to_errno(err);
- 
-@@ -439,7 +463,7 @@ static int renesas_fw_check_running(struct pci_dev *pdev)
- 	 * BIOSes will initialize the device for us. If the device is
- 	 * initialized.
- 	 */
--	err = pci_read_config_byte(pdev, 0xF4, &fw_state);
-+	err = pci_read_config_byte(pdev, RENESAS_FW_STATUS, &fw_state);
- 	if (err)
- 		return pcibios_err_to_errno(err);
- 
-@@ -448,10 +472,10 @@ static int renesas_fw_check_running(struct pci_dev *pdev)
- 	 * ready we can simply continue. If the FW is not ready, we have
- 	 * to give up.
- 	 */
--	if (fw_state & BIT(1)) {
-+	if (fw_state & RENESAS_FW_STATUS_LOCK) {
- 		dev_dbg(&pdev->dev, "FW Download Lock is engaged.");
- 
--		if (fw_state & BIT(4))
-+		if (fw_state & RENESAS_FW_STATUS_SUCCESS)
- 			return 0;
- 
- 		dev_err(&pdev->dev, "FW Download Lock is set and FW is not ready. Giving Up.");
-@@ -463,30 +487,30 @@ static int renesas_fw_check_running(struct pci_dev *pdev)
- 	 * with it and it can't be resetted, we have to give up too... and
- 	 * ask for a forgiveness and a reboot.
- 	 */
--	if (fw_state & BIT(0)) {
-+	if (fw_state & RENESAS_FW_STATUS_DOWNLOAD_ENABLE) {
- 		dev_err(&pdev->dev, "FW Download Enable is stale. Giving Up (poweroff/reboot needed).");
- 		return -EIO;
- 	}
- 
- 	/* Otherwise, Check the "Result Code" Bits (6:4) and act accordingly */
--	switch ((fw_state & 0x70)) {
-+	switch (fw_state & RENESAS_FW_STATUS_RESULT) {
- 	case 0: /* No result yet */
- 		dev_dbg(&pdev->dev, "FW is not ready/loaded yet.");
- 
- 		/* tell the caller, that this device needs the firmware. */
- 		return 1;
- 
--	case BIT(4): /* Success, device should be working. */
-+	case RENESAS_FW_STATUS_SUCCESS: /* Success, device should be working. */
- 		dev_dbg(&pdev->dev, "FW is ready.");
- 		return 0;
- 
--	case BIT(5): /* Error State */
-+	case RENESAS_FW_STATUS_ERROR: /* Error State */
- 		dev_err(&pdev->dev, "hardware is in an error state. Giving up (poweroff/reboot needed).");
- 		return -ENODEV;
- 
- 	default: /* All other states are marked as "Reserved states" */
--		dev_err(&pdev->dev, "hardware is in an invalid state %x. Giving up (poweroff/reboot needed).",
--			(fw_state & 0x70) >> 4);
-+		dev_err(&pdev->dev, "hardware is in an invalid state %lx. Giving up (poweroff/reboot needed).",
-+			(fw_state & RENESAS_FW_STATUS_RESULT) >> 4);
- 		return -EINVAL;
- 	}
+@@ -358,6 +361,24 @@ static const struct renesas_fw_entry *renesas_needs_fw_dl(struct pci_dev *dev)
+ 	return NULL;
  }
-@@ -530,7 +554,8 @@ static int renesas_fw_download(struct pci_dev *pdev,
- 	 * 0. Set "FW Download Enable" bit in the
- 	 * "FW Download Control & Status Register" at 0xF4
- 	 */
--	err = pci_write_config_byte(pdev, 0xF4, BIT(0));
-+	err = pci_write_config_byte(pdev, RENESAS_FW_STATUS,
-+				    RENESAS_FW_STATUS_DOWNLOAD_ENABLE);
- 	if (err)
- 		return pcibios_err_to_errno(err);
  
-@@ -550,7 +575,8 @@ static int renesas_fw_download(struct pci_dev *pdev,
- 	 * is cleared by the hardware beforehand.
- 	 */
- 	for (i = 0; i < 10000; i++) {
--		err = pci_read_config_byte(pdev, 0xF5, &fw_status);
-+		err = pci_read_config_byte(pdev, RENESAS_FW_STATUS_MSB,
-+					   &fw_status);
- 		if (err)
- 			return pcibios_err_to_errno(err);
- 		if (!(fw_status & (BIT(0) | BIT(1))))
-@@ -565,16 +591,16 @@ static int renesas_fw_download(struct pci_dev *pdev,
- 	 * 11. After finishing writing the last data of FW, the
- 	 * System Software must clear "FW Download Enable"
- 	 */
--	err = pci_write_config_byte(pdev, 0xF4, 0);
-+	err = pci_write_config_byte(pdev, RENESAS_FW_STATUS, 0);
- 	if (err)
- 		return pcibios_err_to_errno(err);
++static const struct
++renesas_fw_entry *renesas_get_next_entry(struct pci_dev *dev,
++					 const struct renesas_fw_entry *entry)
++{
++	const struct renesas_fw_entry *next_entry;
++	size_t i;
++
++	for (i = 0; i < ARRAY_SIZE(renesas_fw_table); i++) {
++		next_entry = &renesas_fw_table[i];
++		if (next_entry->device == dev->device &&
++		    next_entry->revision == dev->revision &&
++		    next_entry->expected_version > entry->expected_version)
++			return next_entry;
++	}
++
++	return NULL;
++}
++
+ static int renesas_fw_download_image(struct pci_dev *dev,
+ 				     const u32 *fw,
+ 				     size_t step)
+@@ -723,6 +744,7 @@ struct renesas_fw_ctx {
+ 	struct pci_dev *pdev;
+ 	const struct pci_device_id *id;
+ 	bool resume;
++	const struct renesas_fw_entry *entry;
+ };
  
- 	/* 12. Read "Result Code" and confirm it is good. */
- 	for (i = 0; i < 10000; i++) {
--		err = pci_read_config_byte(pdev, 0xF4, &fw_status);
-+		err = pci_read_config_byte(pdev, RENESAS_FW_STATUS, &fw_status);
- 		if (err)
- 			return pcibios_err_to_errno(err);
--		if (fw_status & BIT(4))
-+		if (fw_status & RENESAS_FW_STATUS_SUCCESS)
- 			break;
+ static int xhci_pci_probe(struct pci_dev *pdev,
+@@ -982,6 +1004,7 @@ static void renesas_fw_callback(const struct firmware *fw,
+ 	struct renesas_fw_ctx *ctx = context;
+ 	struct pci_dev *pdev = ctx->pdev;
+ 	struct device *parent = pdev->dev.parent;
++	const struct renesas_fw_entry *next_entry;
+ 	bool rom;
+ 	int err = -ENOENT;
  
- 		udelay(1);
-@@ -757,21 +783,21 @@ static int renesas_check_if_fw_dl_is_needed(struct pci_dev *pdev)
- 	 * Test if the firmware was uploaded and is running.
- 	 * As most BIOSes will initialize the device for us.
- 	 */
--	err = pci_read_config_byte(pdev, 0xf4, &fw_state);
-+	err = pci_read_config_byte(pdev, RENESAS_FW_STATUS, &fw_state);
- 	if (err)
- 		return pcibios_err_to_errno(err);
+@@ -1035,6 +1058,21 @@ static void renesas_fw_callback(const struct firmware *fw,
+ 		}
+ 	} else {
+ 		dev_err(&pdev->dev, "firmware failed to load (%d).", err);
++		/*
++		 * we didn't find firmware, check if we have another
++		 * entry for this device
++		 */
++		next_entry = renesas_get_next_entry(ctx->pdev, ctx->entry);
++		if (next_entry) {
++			ctx->entry = next_entry;
++			dev_dbg(&pdev->dev, "Found next entry, requesting: %s\n",
++				next_entry->firmware_name);
++			request_firmware_nowait(THIS_MODULE, 1,
++						next_entry->firmware_name,
++						&pdev->dev, GFP_KERNEL,
++						ctx, renesas_fw_callback);
++			return;
++		}
+ 	}
  
- 	/* Check the "Result Code" Bits (6:4) and act accordingly */
--	switch (fw_state & 0x70) {
-+	switch (fw_state & RENESAS_FW_STATUS_RESULT) {
- 	case 0: /* No result yet */
- 		dev_err(&pdev->dev, "FW is not ready/loaded yet.");
- 		return -ENODEV;
+ 	dev_info(&pdev->dev, "Unloading driver");
+@@ -1096,6 +1134,7 @@ static int renesas_fw_download_to_hw(struct pci_dev *pdev,
+ 	ctx->pdev = pdev;
+ 	ctx->resume = do_resume;
+ 	ctx->id = id;
++	ctx->entry = entry;
  
--	case BIT(4): /* Success, device should be working. */
-+	case RENESAS_FW_STATUS_SUCCESS:
- 		dev_dbg(&pdev->dev, "FW is ready.");
- 		return 0;
- 
--	case BIT(5): /* Error State */
-+	case RENESAS_FW_STATUS_ERROR:
- 		dev_err(&pdev->dev, "HW is in an error state.");
- 		return -ENODEV;
- 
+ 	pci_dev_get(pdev);
+ 	err = request_firmware_nowait(THIS_MODULE, 1, entry->firmware_name,
 -- 
 2.20.1
 
