@@ -2,103 +2,142 @@ Return-Path: <SRS0=PF15=UT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_MUTT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BB37C43613
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Jun 2019 14:10:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0058C43613
+	for <linux-usb@archiver.kernel.org>; Thu, 20 Jun 2019 14:35:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 61F0F2084A
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Jun 2019 14:10:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1561039809;
-	bh=In4iPzMtA12SlLlIsTZg3dyDk6G1l8NLDcEXnix/BLk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=kAnFI6CgcWRy6+vJr5EGRxO8yOV2VSljKR15W5X91TNW5jBtzBAPhJh46Pi5+f1vz
-	 +uvFzhCLeg/pYHY81O9Eo7+dj4PDdUo8NclNuaidSd07C1jtpYa6J1+ECZc9e+STkM
-	 zDt+owOyJvQcOjYhw+LaBuVKJ+0xLewcYaG1bkMk=
+	by mail.kernel.org (Postfix) with ESMTP id C02372064B
+	for <linux-usb@archiver.kernel.org>; Thu, 20 Jun 2019 14:35:33 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=cirrus.com header.i=@cirrus.com header.b="oBY2bZhT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726786AbfFTOKE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 20 Jun 2019 10:10:04 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:33809 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726562AbfFTOKE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Jun 2019 10:10:04 -0400
-Received: by mail-pf1-f196.google.com with SMTP id c85so1763472pfc.1;
-        Thu, 20 Jun 2019 07:10:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=lCea24nGIZCu7ydKVsC+l/7geTYb5i00s0rd6yWS+Lo=;
-        b=IWe8EDOoK2wLDjqbj0Q5/jydeaDsHVyB9wekftRSAfWJT9rXjLQbWXWfgQVqkmTAON
-         Pkh5w12/Qbk8ywybCXAes9aRTnj0/CVDTJlOHgtFSaObrK8Tg+iWLnl+xP6E6P70ZyU0
-         NUvXvIJkgxm1DNoPCrYGWXkyzEzgeNWmuUpLXvwJBOPSNAtsKdp4Cyv4ujTrWU+ns7ag
-         +FvvsUK/Fx3fOzQQ0TGFCKqtZm8XxmiYQ1AFK5ZhnyOMtdBaTECVvndIgna8S0cKxUZh
-         DOnco2bN23vOj+4CqKWqGno7Ka9gU24ZMgOxJKyap/SHvXiRoR2ydSewJmFHRYEe2kTW
-         4nyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=lCea24nGIZCu7ydKVsC+l/7geTYb5i00s0rd6yWS+Lo=;
-        b=ZiA+kS+eCTd8SUnE4iZsghJtRWF0TqE82pNwMO6tzTFz41C+yErzJ4veFRJNuWgvJr
-         P7kjpGL5gImh/ktfKG3zo+GD28PAHh7Ej1UnWDN7MIehOAtriUheIf6huqyD+osB581j
-         kN4ECfL1wTJpl1LdEejnmZqiLnJtBojwOUE2rf8mL855xi6zCTmbIU8f7GKaGkahd0Mg
-         9o0MFX/qTR8YmXUM9IfzmfwhdlQ+Ri3dlza9o4JYB4uNHn4uWDV6JV4SwzMg2ynzVn0m
-         TkwVrLipXfQphAjZyNdnWGCXxl9alyoQCsCQyPD5uo32kAfNPC007T089sdpu2uxO154
-         mcrA==
-X-Gm-Message-State: APjAAAXUpspHkdJs/O6UCiFxGMYm8vC3IU3KFdgw6jak5mtnW+CVJZeu
-        XfTBGveGrB6G5lhnyaw3TmCQqdy6mJE=
-X-Google-Smtp-Source: APXvYqxNob875mJkUZ2u3rUWNFdkn3jBRyn2WGNqnLD+JtO5vQY5bk0YhhB3Uo3P1Dr8kFVmA+R10Q==
-X-Received: by 2002:a17:90a:8a15:: with SMTP id w21mr3334565pjn.134.1561039803189;
-        Thu, 20 Jun 2019 07:10:03 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:200::2:a5e4])
-        by smtp.gmail.com with ESMTPSA id d132sm23393702pfd.61.2019.06.20.07.10.02
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 20 Jun 2019 07:10:02 -0700 (PDT)
-Date:   Thu, 20 Jun 2019 07:10:00 -0700
-From:   Tejun Heo <tj@kernel.org>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Oliver Neukum <oneukum@suse.com>,
-        USB list <linux-usb@vger.kernel.org>,
-        Kernel development list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC] deadlock with flush_work() in UAS
-Message-ID: <20190620140937.GJ657710@devbig004.ftw2.facebook.com>
-References: <1560871774.3184.16.camel@suse.com>
- <Pine.LNX.4.44L0.1906181156370.1659-100000@iolanthe.rowland.org>
+        id S1726654AbfFTOfd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 20 Jun 2019 10:35:33 -0400
+Received: from mx0a-001ae601.pphosted.com ([67.231.149.25]:46684 "EHLO
+        mx0b-001ae601.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726404AbfFTOfc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Jun 2019 10:35:32 -0400
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+        by mx0a-001ae601.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5KEStMB025647;
+        Thu, 20 Jun 2019 09:34:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=message-id : subject
+ : from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=PODMain02222019;
+ bh=pUwY5A+qP1OGkjq5BgFMrfclmi60HnMUS/pYtDGJ/3Q=;
+ b=oBY2bZhTigmDkOkkjQIYsx9rIBoKZjWNRjMSpPW1gYK51YEFhDFRdVVXDPt8NnyOkrzp
+ jf78XCYCCneG8sihqgoMZgr8zo37k//nIwzGL5L+lQlxL30onb5FBlwKY4AoQiXwQ/Ds
+ A3N45PLbqUjnrbo5JTbIKm1l6Mohc7MMRBmyhsIdxehSgYHPPsFK60GpYfsuCwU8x0/O
+ 2aS8PwWVAVWMzsT4zKLgI/A5rCG0M8YD1TT6GU3FdCspfgHmssjeCb0oNFkM+qpn9Fvi
+ VQMvxKdy9V46L49seS+bP5b1VwIqjqnAWsDukByMX6ElkEPWOm5LDA5BoZ5HO981o548 OQ== 
+Authentication-Results: ppops.net;
+        spf=none smtp.mailfrom=mkulkarni@opensource.cirrus.com
+Received: from mail3.cirrus.com ([87.246.76.56])
+        by mx0a-001ae601.pphosted.com with ESMTP id 2t780gjt6k-1;
+        Thu, 20 Jun 2019 09:34:57 -0500
+Received: from EDIEX02.ad.cirrus.com (ediex02.ad.cirrus.com [198.61.84.81])
+        by mail3.cirrus.com (Postfix) with ESMTP id 7F851614C9F3;
+        Thu, 20 Jun 2019 09:35:43 -0500 (CDT)
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1591.10; Thu, 20 Jun
+ 2019 15:34:56 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.1.1591.10 via Frontend
+ Transport; Thu, 20 Jun 2019 15:34:56 +0100
+Received: from mkulkarni-laptop.ad.cirrus.com (mkulkarni-laptop.ad.cirrus.com [198.90.199.28])
+        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 16C7244;
+        Thu, 20 Jun 2019 15:34:56 +0100 (BST)
+Message-ID: <1561041295.20348.4.camel@opensource.cirrus.com>
+Subject: Re: [PATCH] usb: core: devio: add ioctls for suspend and resume
+From:   Mayuresh Kulkarni <mkulkarni@opensource.cirrus.com>
+To:     Oliver Neukum <oneukum@suse.com>,
+        Alan Stern <stern@rowland.harvard.edu>
+CC:     Greg KH <gregkh@linuxfoundation.org>,
+        <patches@opensource.cirrus.com>, <linux-usb@vger.kernel.org>
+Date:   Thu, 20 Jun 2019 15:34:55 +0100
+In-Reply-To: <1560935981.4587.10.camel@suse.com>
+References: <Pine.LNX.4.44L0.1906181133570.1659-100000@iolanthe.rowland.org>
+         <1560935981.4587.10.camel@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Pine.LNX.4.44L0.1906181156370.1659-100000@iolanthe.rowland.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906200107
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
-
-On Tue, Jun 18, 2019 at 11:59:39AM -0400, Alan Stern wrote:
-> > > Even if you disagree, perhaps we should have a global workqueue with a
-> > > permanently set noio flag.  It could be shared among multiple drivers
-> > > such as uas and the hub driver for purposes like this.  (In fact, the 
-> > > hub driver already has its own dedicated workqueue.)
+On Wed, 2019-06-19 at 11:19 +0200, Oliver Neukum wrote:
+> Am Dienstag, den 18.06.2019, 11:50 -0400 schrieb Alan Stern:
 > > 
-> > That is a good idea. But does UAS need WQ_MEM_RECLAIM?
+> > On Tue, 18 Jun 2019, Mayuresh Kulkarni wrote:
+> > 
+> > > 
+> > > > 
+> > > > You're right that the program needs to know when the device is
+> > > > about
+> > > > to 
+> > > > be suspended.  But waiting for an ioctl to return isn't a good
+> > > > way 
+> > > > to do it; this needs to be a callback of some sort.  That is,
+> > > > the 
+> > > > kernel also needs to know when the program is ready for the
+> > > > suspend.
+> > > > 
+> > > > I don't know what is the best approach.
+> > > This is becoming tricky now.
+> > Yes.  There probably are mechanisms already in use in other parts
+> > of 
+> > the kernel that would be suitable here, but I don't know what they
+> > are.  
+> > We could try asking some other people for advice.
+> Waiting for an ioctl() is horrible. If you really want to do this
+> poll() would be the obvious API. It is made for waiting for changes
+> of states.
 > 
-> These are good questions, and I don't have the answers.  Perhaps Tejun 
-> or someone else on LKML can help.
 
-Any device which may host a filesystem or swap needs to use
-WQ_MEM_RECLAIM workqueues on anything which may be used during normal
-IOs including e.g. error handling which may be invoked.  One
-WQ_MEM_RECLAIM workqueue guarantees one level of concurrency for all
-its tasks regardless of memory situation, so as long as there's no
-interdependence between work items, the workqueue can be shared.
+Understood and agreed.
 
-Thanks.
+> [..]
+> > 
+> > The suspend callback is _not_ responsible for actually suspending
+> > the
+> > device; that is handled by the USB subsystem core.
+> > 
+> > These ideas are indeed applicable to programs using usbfs.  The
+> > kernel
+> Not fully. Usbfs has the same issue as FUSE here. Drivers are per
+> interface but power management is per device. Hence every driver
+> is in the block IO path for these issues. You cannot do block IO
+> in user space. The best you can do is notify of state changes,
+> but you cannot wait for them.
+> 
+> > 
+> > needs to have a way to inform the program that the device is about
+> > enter (or has just left) a low-power state, so that the program can
+> > stop (or start) trying to communicate with the device.  And the
+> > kernel 
+> > needs to know when the program is ready for the state change.
+> That has difficulties based in fundamental issues. We can let user
+> space block power transitions. We can notify it. But we cannot
+> block on it.
+> 
+> It would be easiest to export the usb_autopm_* API to user space.
 
--- 
-tejun
+AFAIU, usb_autopm_* API operate on interface rather than on device.
+Due to this, they are *indirectly* exposed by appropriate class drivers
+to the user-space class drivers cater to. E.g.: USB audio class driver
+calls usb_autopm_* APIs when user space calls pcm_open(playback_stream).
+
+> 
+> 	Regards
+> 		Oliver
+> 
