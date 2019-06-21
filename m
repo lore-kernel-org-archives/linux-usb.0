@@ -2,54 +2,58 @@ Return-Path: <SRS0=nMyb=UU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3FDDC43613
-	for <linux-usb@archiver.kernel.org>; Fri, 21 Jun 2019 09:02:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36B60C48BE3
+	for <linux-usb@archiver.kernel.org>; Fri, 21 Jun 2019 09:02:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 737C721655
-	for <linux-usb@archiver.kernel.org>; Fri, 21 Jun 2019 09:02:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 10C3921537
+	for <linux-usb@archiver.kernel.org>; Fri, 21 Jun 2019 09:02:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1561107757;
-	bh=6Fsldr5ySj7ombUaOz/6PYPhO3cHLQdyQZ5gwcAdiNo=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=EviB+PPrkrWvODnSrQDlXpWpqRELJqfrLvNndIqejK+hzek2G5z5R1y7iW4Lcw4hS
-	 iwnGSGzJ5jeXijvkZ9dy2yGEjP324L4vE9wun/ZM8frTcgT38bMIO63OC0+cMOMyJK
-	 2Zn2biGqY3qHkZPZyNnFMNRISHghRNlHe663mrj8=
+	s=default; t=1561107762;
+	bh=HPuu6qn99OJuGej92r5a0RCVoKbz0adjX409gX5Fu4A=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=KgqO9Je37yN151MXnFdalXTDx55ggFFfoFyvxPixMYyICyoxolb3CRzLBTUZsiDAp
+	 /n27oYQaEDCoWZxjW1Yc0aDvjnS4MjgUplDV+wFfQObUyd+kQU4iy8tdp/Xaj3xIwt
+	 Qo6Ssf3Sph6Xzduq+aFJocCo+dVqAuePgAHLB++M=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726289AbfFUJCc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 21 Jun 2019 05:02:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39138 "EHLO mail.kernel.org"
+        id S1726529AbfFUJCl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 21 Jun 2019 05:02:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39246 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726055AbfFUJCc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 21 Jun 2019 05:02:32 -0400
+        id S1726055AbfFUJCk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 21 Jun 2019 05:02:40 -0400
 Received: from localhost.localdomain (unknown [106.201.116.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BF2AE20673;
-        Fri, 21 Jun 2019 09:02:28 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id F0DED21537;
+        Fri, 21 Jun 2019 09:02:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561107751;
-        bh=6Fsldr5ySj7ombUaOz/6PYPhO3cHLQdyQZ5gwcAdiNo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=lPEynh4Mgr2RjzIZPl0bAO1eC375blSNspKB7UcsMp2GkV3un+KGosvRNWsqHOP8Q
-         jVQq8d5BEgLK+API8yDXTVn36aUQYD81leGlLBEn0uwGqPBhiyOKu6URQ0XnKWio0z
-         aPNMn7iph7x0jdROzaJGM2NEp1LUwjP4cmgOOn2k=
+        s=default; t=1561107759;
+        bh=HPuu6qn99OJuGej92r5a0RCVoKbz0adjX409gX5Fu4A=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=oJqsQtTBFs6HYV8lb86iyIgWaWG3Inwh63l1x9u2JYCujVBUdUUI7TKHvMAbedV3B
+         IBFpBc7/9MoEWus7Eap2Dbe25qAqdCUaXzkct3NeQMOKupdyUI8aED4f2R8cY9nl7b
+         LtC5goceXr94fNES98FbhP7Ul0slEhwL9ABd+lCA=
 From:   Vinod Koul <vkoul@kernel.org>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-arm-msm@vger.kernel.org,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Vinod Koul <vkoul@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Christian Lamparter <chunkeey@googlemail.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/5]  usb: xhci: Add support for Renesas USB controllers
-Date:   Fri, 21 Jun 2019 14:29:08 +0530
-Message-Id: <20190621085913.8722-1-vkoul@kernel.org>
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Christian Lamparter <chunkeey@gmail.com>,
+        Vinod Koul <vkoul@kernel.org>
+Subject: [PATCH v2 2/5] usb: xhci: handle uPD720201 and uPD720202 w/o ROM
+Date:   Fri, 21 Jun 2019 14:29:10 +0530
+Message-Id: <20190621085913.8722-3-vkoul@kernel.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190621085913.8722-1-vkoul@kernel.org>
+References: <20190621085913.8722-1-vkoul@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -57,33 +61,116 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series add support for Renesas USB controllers uPD720201 and uPD720202.
-These require firmware to be loaded and in case devices have ROM those can
-also be programmed if empty. If ROM is programmed, it runs from ROM as well.
+From: Christian Lamparter <chunkeey@googlemail.com>
 
-This includes two patches from Christian which supported these controllers
-w/o ROM and later my patches for ROM support and multiple firmware versions.
+This patch adds a firmware check for the uPD720201K8-711-BAC-A
+and uPD720202K8-711-BAA-A variant. Both of these chips are listed
+in Renesas' R19UH0078EJ0500 Rev.5.00 "User's Manual: Hardware" as
+devices which need a firmware in order to work as they do not have
+support to load the firmware from an external ROM.
 
-Changes in v2:
-  used macros for timeout count and delay
-  removed renesas_fw_alive_check
-  cleaned renesas_fw_callback
-  removed recurion for renesas_fw_download
-  added MODULE_FIRMWARE
-  added comment for multiple fw order
+Currently, the xhci-pci driver is unable to initialize the hcd in
+this case. Instead it will wait for 30 seconds and cause a timeout
+in xhci_handshake() and fails.
 
-Christian Lamparter (2):
-  usb: xhci: add firmware loader for uPD720201 and uPD720202 w/o ROM
-  usb: xhci: handle uPD720201 and uPD720202 w/o ROM
+[    5.116990] xhci_hcd 0000:45:00.0: new USB bus registered ...
+[   32.335215] xhci_hcd 0000:45:00.0: can't setup: -110
+[   32.340179] xhci_hcd 0000:45:00.0: USB bus 2 deregistered
+[   32.345587] xhci_hcd 0000:45:00.0: init 0000:45:00.0 fail, -110
+[   32.351496] xhci_hcd: probe of 0000:45:00.0 failed with error -110
 
-Vinod Koul (3):
-  usb: xhci: Use register defined and field names
-  usb: xhci: Add ROM loader for uPD720201
-  usb: xhci: allow multiple firmware versions
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Signed-off-by: Christian Lamparter <chunkeey@gmail.com>
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Signed-off-by: Vinod Koul <vkoul@kernel.org>
+---
+ drivers/usb/host/xhci-pci.c | 59 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
 
- drivers/usb/host/xhci-pci.c | 942 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 942 insertions(+)
-
+diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+index 724d0f567d98..65de5e961892 100644
+--- a/drivers/usb/host/xhci-pci.c
++++ b/drivers/usb/host/xhci-pci.c
+@@ -711,6 +711,55 @@ static int renesas_fw_download_to_hw(struct pci_dev *pdev,
+ 	return 1;
+ }
+ 
++static int renesas_check_if_fw_dl_is_needed(struct pci_dev *pdev)
++{
++	int err;
++	u8 fw_state;
++
++	/*
++	 * Only the uPD720201K8-711-BAC-A or uPD720202K8-711-BAA-A
++	 * are listed in R19UH0078EJ0500 Rev.5.00 as devices which
++	 * need a firmware in order to work.
++	 *
++	 *  - uPD720202 ES 2.0 sample & CS sample & Mass product, ID is 2.
++	 *  - uPD720201 ES 2.0 sample whose revision ID is 2.
++	 *  - uPD720201 ES 2.1 sample & CS sample & Mass product, ID is 3.
++	 */
++	if (!((pdev->vendor == PCI_VENDOR_ID_RENESAS) &&
++	    ((pdev->device == 0x0015 && pdev->revision == 0x02) ||
++	    (pdev->device == 0x0014 &&
++	    (pdev->revision == 0x02 || pdev->revision == 0x03)))))
++		return 0;
++
++	/*
++	 * Test if the firmware was uploaded and is running.
++	 * As most BIOSes will initialize the device for us.
++	 */
++	err = pci_read_config_byte(pdev, 0xf4, &fw_state);
++	if (err)
++		return pcibios_err_to_errno(err);
++
++	/* Check the "Result Code" Bits (6:4) and act accordingly */
++	switch (fw_state & 0x70) {
++	case 0: /* No result yet */
++		dev_err(&pdev->dev, "FW is not ready/loaded yet.");
++		return -ENODEV;
++
++	case BIT(4): /* Success, device should be working. */
++		dev_dbg(&pdev->dev, "FW is ready.");
++		return 0;
++
++	case BIT(5): /* Error State */
++		dev_err(&pdev->dev, "HW is in an error state.");
++		return -ENODEV;
++
++	default: /* All other states are marked as "Reserved states" */
++		dev_err(&pdev->dev, "HW is in an invalid state (%x).",
++			(fw_state & 0x70) >> 4);
++		return -EINVAL;
++	}
++}
++
+ /* called during probe() after chip reset completes */
+ static int xhci_pci_setup(struct usb_hcd *hcd)
+ {
+@@ -765,6 +814,11 @@ static int xhci_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
+ 		return retval;
+ 	};
+ 
++	/* Check if this device is a RENESAS uPD720201/2 device. */
++	retval = renesas_check_if_fw_dl_is_needed(dev);
++	if (retval)
++		return retval;
++
+ 	driver = (struct hc_driver *)id->driver_data;
+ 
+ 	/* Prevent runtime suspending between USB-2 and USB-3 initialization */
+@@ -966,6 +1020,11 @@ static int xhci_pci_resume(struct usb_hcd *hcd, bool hibernated)
+ 	if (pdev->vendor == PCI_VENDOR_ID_INTEL)
+ 		usb_enable_intel_xhci_ports(pdev);
+ 
++	/* Check if this device is a RENESAS uPD720201/2 device. */
++	retval = renesas_check_if_fw_dl_is_needed(pdev);
++	if (retval)
++		return retval;
++
+ 	if (xhci->quirks & XHCI_SSIC_PORT_UNUSED)
+ 		xhci_ssic_port_unused_quirk(hcd, false);
+ 
 -- 
 2.20.1
 
