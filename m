@@ -1,104 +1,204 @@
-Return-Path: <SRS0=PF15=UT=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=nMyb=UU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_MUTT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EBBDC48BE3
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Jun 2019 21:10:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5B5FC4646B
+	for <linux-usb@archiver.kernel.org>; Fri, 21 Jun 2019 04:45:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D79DE2070B
-	for <linux-usb@archiver.kernel.org>; Thu, 20 Jun 2019 21:10:46 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QjHUnmYd"
+	by mail.kernel.org (Postfix) with ESMTP id 7F03B2089E
+	for <linux-usb@archiver.kernel.org>; Fri, 21 Jun 2019 04:45:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1561092358;
+	bh=Mhw2ACRYptcCFbtFmoBv2yAE619tqf6iPtrxajbwUZ0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=s/BVLpjVn6pGUiei1BZm8JUtNgNZMUyVTLrCR2/ATaYV/UZMyDv1kSVRkLXVzVREU
+	 JSydHt+hcFU9RJl6rOtqIdcxKTi55FwfYdggGOxDbiwgYXA5CUJ7kBbForoVzrUSGX
+	 B046dmn6dg2NUqgOcDBztjnpg1LeT7cCCjZXdgpU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726431AbfFTVKL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 20 Jun 2019 17:10:11 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:44900 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725958AbfFTVKL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 20 Jun 2019 17:10:11 -0400
-Received: by mail-pf1-f193.google.com with SMTP id t16so2342157pfe.11;
-        Thu, 20 Jun 2019 14:10:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=n2SpWI1yibR3pZui+zsA5SWkFvXjKqrr9tlPiUDopnI=;
-        b=QjHUnmYdROWMRYkxYVPmuYVPNDV1DbWvIZdcfWSL55ySQ0MctwPQ9kYZxtuXgqp1WN
-         EiEtZTikp/OrBL78jp7ZsaUlGVGvvU2GhjHeSxPORWHhACye+nvo/3LszmRKEV9cA7Q5
-         egtZ2bn2jLsOfpLFDWD43lWgiS4k0/U3ZcdpvfDAfhGWrr8/Q8G1uS/Lxe3zz5Xyk77b
-         0rEmNWPpy1awuYwCEZ9j1MBHCK53Gcsqld1OOY6ErSXX5okAvXyKv/zAwFmK3J1iTJX0
-         9xovg3LrnJ7ssWLnc1wdc5IdyFN3adPCq7qNSLjRYp4bDD6aT2HOWUVZ5fMChUYmNXvM
-         WVSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=n2SpWI1yibR3pZui+zsA5SWkFvXjKqrr9tlPiUDopnI=;
-        b=RCEPSJnt5KolhyWgB/zVisQoopjWtcIu7WLs58uIKeFGEbFUoLN/BjrJlVRl5va/Wi
-         jGbZd58bTIEs1cXYqfchdrOo32HMcfspVTx3YAwJw6zQe5V8Jc1HuQpZjLFXkmPLzGYw
-         QrRtPFO3v3pxbeexW3q+UGdqA6nldlpAgen4cf/sJ9TEFYmdDRXK37kRfi4JyDihij+w
-         OBn3vknX8HUg+Aqbis8FSN5F4b5w3BwB2hFLGR3h7Wc+hACPK+2RidCnrVGC1B2jVCa7
-         j8dN1tTH2N7HL9ey79fQ0xyWolTp8c7FNngDgxx2V0+3nWPAN+P7+ktuA/KUcgM2/zt1
-         927g==
-X-Gm-Message-State: APjAAAWO0zgXTCqAOvgQd+G6cweMGB+WBsd7ZWkd7lQtqnT+R2rEz9fq
-        cbJlbFIp1G3KpRzyez8lWz0JGrBp9WY=
-X-Google-Smtp-Source: APXvYqyqTjMPZxbB9dUfZRknPAWnuMOyFhDiYUlVPyNhviWwjbGwPMxDXClY5RvgmUGxxVByRgYZCA==
-X-Received: by 2002:a17:90a:4803:: with SMTP id a3mr1775554pjh.58.1561065009830;
-        Thu, 20 Jun 2019 14:10:09 -0700 (PDT)
-Received: from stbsrv-and-3.and.broadcom.com ([192.19.231.250])
-        by smtp.gmail.com with ESMTPSA id p1sm386805pff.74.2019.06.20.14.10.08
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 20 Jun 2019 14:10:09 -0700 (PDT)
-From:   Al Cooper <alcooperx@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Al Cooper <alcooperx@gmail.com>, devicetree@vger.kernel.org,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, Luis Chamberlain <mcgrof@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 1/6] usb: bdc: driver runs out of buffer descriptors on large ADB transfers
-Date:   Thu, 20 Jun 2019 17:09:46 -0400
-Message-Id: <1561064991-16874-2-git-send-email-alcooperx@gmail.com>
-X-Mailer: git-send-email 1.9.0.138.g2de3478
-In-Reply-To: <1561064991-16874-1-git-send-email-alcooperx@gmail.com>
-References: <1561064991-16874-1-git-send-email-alcooperx@gmail.com>
+        id S1726074AbfFUEpy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 21 Jun 2019 00:45:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37344 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725832AbfFUEpy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 21 Jun 2019 00:45:54 -0400
+Received: from localhost (unknown [106.201.116.189])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3365F2083B;
+        Fri, 21 Jun 2019 04:45:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1561092352;
+        bh=Mhw2ACRYptcCFbtFmoBv2yAE619tqf6iPtrxajbwUZ0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=q0IPszvkSKTbvzSTsC/RZHyy+SqY6C+g5XHtTFfT1RrgVZK/gSs3/gyq20TSOOmSL
+         M39OaieIlhYsty+eRXMDjvwZDfmwrbUkd22+YWil+mSd+xdy/eE48VbQkF2fmx4Z0c
+         DEYyshSCPE4kqhNpWQD0LuECpywKZ/evzLtPUXR4=
+Date:   Fri, 21 Jun 2019 10:12:42 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Christian Lamparter <chunkeey@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        linux-arm-msm@vger.kernel.org,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Christian Lamparter <chunkeey@googlemail.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH 1/5] usb: xhci: add firmware loader for uPD720201 and
+ uPD720202 w/o ROM
+Message-ID: <20190621044242.GQ2962@vkoul-mobl>
+References: <20190620102154.20805-1-vkoul@kernel.org>
+ <20190620121902.GD19295@kroah.com>
+ <20190620170358.GO2962@vkoul-mobl>
+ <2465888.R7Jb3LzrEU@debian64>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2465888.R7Jb3LzrEU@debian64>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Version v1.0.40 of the Android host ADB software increased maximum
-transfer sizes from 256K to 1M. Since the STB ADB gadget driver
-requests only 16K at a time, the BDC driver ran out of buffer
-descriptors (BDs) if the queuing happens faster than the incoming
-16K transfers. This issue is fixed by doubling the number of BDs
-that can be queued so that the entire 1M request can be queued
-without running out of buffers.
+On 20-06-19, 21:12, Christian Lamparter wrote:
+> On Thursday, June 20, 2019 7:03:58 PM CEST Vinod Koul wrote:
+> > On 20-06-19, 14:19, Greg Kroah-Hartman wrote:
+> > > On Thu, Jun 20, 2019 at 03:51:50PM +0530, Vinod Koul wrote:
+> > > > From: Christian Lamparter <chunkeey@googlemail.com>
+> > > > 
+> > > > This patch adds a firmware loader for the uPD720201K8-711-BAC-A
+> > > > and uPD720202K8-711-BAA-A variant. Both of these chips are listed
+> > > > in Renesas' R19UH0078EJ0500 Rev.5.00 "User's Manual: Hardware" as
+> > > > devices which need the firmware loader on page 2 in order to
+> > > > work as they "do not support the External ROM".
+> > > > 
+> > > > The "Firmware Download Sequence" is describe in chapter
+> > > > "7.1 FW Download Interface" R19UH0078EJ0500 Rev.5.00 page 131.
+> > > > 
+> > > > The firmware "K2013080.mem" is available from a USB3.0 Host to
+> > > > PCIe Adapter (PP2U-E card) "Firmware download" archive. An
+> > > > alternative version can be sourced from Netgear's WNDR4700 GPL
+> > > > archives.
+> > > > 
+> > > > The release notes of the PP2U-E's "Firmware Download" ver 2.0.1.3
+> > > > (2012-06-15) state that the firmware is for the following devices:
+> > > >  - uPD720201 ES 2.0 sample whose revision ID is 2.
+> > > >  - uPD720201 ES 2.1 sample & CS sample & Mass product, ID is 3.
+> > > >  - uPD720202 ES 2.0 sample & CS sample & Mass product, ID is 2.
+> > > > 
+> > > > If someone from Renesas is listening: It would be great, if these
+> > > > firmwares could be added to linux-firmware.git.
+> > > 
+> > > That paragraph does not need to be in the changelog :)
+> > 
+> > Sure will drop :)
+> 
+> ... those this mean that there is a firmware now? Do you have a link to it?
 
-Signed-off-by: Al Cooper <alcooperx@gmail.com>
----
- drivers/usb/gadget/udc/bdc/bdc.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Unfortunately it is not public yet!
 
-diff --git a/drivers/usb/gadget/udc/bdc/bdc.h b/drivers/usb/gadget/udc/bdc/bdc.h
-index 6e1e881dc51e..ac75e25c3b6a 100644
---- a/drivers/usb/gadget/udc/bdc/bdc.h
-+++ b/drivers/usb/gadget/udc/bdc/bdc.h
-@@ -44,7 +44,7 @@
- #define NUM_SR_ENTRIES	64
- 
- /* Num of bds per table */
--#define NUM_BDS_PER_TABLE	32
-+#define NUM_BDS_PER_TABLE	64
- 
- /* Num of tables in bd list for control,bulk and Int ep */
- #define NUM_TABLES	2
+> > > >  #include <linux/slab.h>
+> > > >  #include <linux/module.h>
+> > > >  #include <linux/acpi.h>
+> > > > +#include <linux/firmware.h>
+> > > > +#include <asm/unaligned.h>
+> > > 
+> > > asm/ in a driver?  Are you sure???
+> > 
+> > Not sure :D, will check and remove
+> 
+> I think, as long as there is a "get_unaligned_le16" defined somewhere
+> it should be fine.
+> 
+> This was a loong ago, the loader was developped on a PowerPC 464, but
+> from what I remember it was checkpatch that didn't like the "unaligned"
+> poking around in the firmware below.
+
+It seems we have this in include/linux/unaligned/access_ok.h, so I will
+add that instead
+
+> > > > +static int renesas_fw_download_image(struct pci_dev *dev,
+> > > > +				     const u32 *fw,
+> > > > +				     size_t step)
+> > > > +{
+> > > > +	size_t i;
+> > > > +	int err;
+> > > > +	u8 fw_status;
+> > > > +	bool data0_or_data1;
+> > > > +
+> > > > +	/*
+> > > > +	 * The hardware does alternate between two 32-bit pages.
+> > > > +	 * (This is because each row of the firmware is 8 bytes).
+> > > > +	 *
+> > > > +	 * for even steps we use DATA0, for odd steps DATA1.
+> > > > +	 */
+> > > > +	data0_or_data1 = (step & 1) == 1;
+> > > > +
+> > > > +	/* step+1. Read "Set DATAX" and confirm it is cleared. */
+> > > > +	for (i = 0; i < 10000; i++) {
+> > > > +		err = pci_read_config_byte(dev, 0xF5, &fw_status);
+> > > > +		if (err)
+> > > > +			return pcibios_err_to_errno(err);
+> > > > +		if (!(fw_status & BIT(data0_or_data1)))
+> > > > +			break;
+> > > > +
+> > > > +		udelay(1);
+> > > > +	}
+> > > > +	if (i == 10000)
+> > > > +		return -ETIMEDOUT;
+> > > > +
+> > > > +	/*
+> > > > +	 * step+2. Write FW data to "DATAX".
+> > > > +	 * "LSB is left" => force little endian
+> > > > +	 */
+> > > > +	err = pci_write_config_dword(dev, data0_or_data1 ? 0xFC : 0xF8,
+> > > > +				     (__force u32) cpu_to_le32(fw[step]));
+> > > > +	if (err)
+> > > > +		return pcibios_err_to_errno(err);
+> > > > +
+> > > > +	udelay(100);
+> > > > +
+> > > > +	/* step+3. Set "Set DATAX". */
+> > > > +	err = pci_write_config_byte(dev, 0xF5, BIT(data0_or_data1));
+> > > > +	if (err)
+> > > > +		return pcibios_err_to_errno(err);
+> > > > +
+> > > 
+> > > Shouldn't you just do a read after the write to be sure the write
+> > > actually went out on the wire?  Then you shouldn't have to do the
+> > > udelay, right?
+> > 
+> > Well I am not sure that is how it works. The register is a DATA register
+> > on the controller. We are writing to the memory of the controller here
+> > and after writing DATA0 and DATA1 we check the Set DATA0 & Set DATA1
+> > bits and write subsequenly only when controller is ready to accept more
+> > data.
+> > 
+> > I do recall at least for ROM load (writing to NOR flash attached to
+> > controller), we need to wait considerably more before the SetData0/1 was
+> > set and ready for subsequent write
+> 
+> OffTopic: There's some leeway here. From what I remember you could just push
+> the data through DATA0 and cut down on the logic. But this was slower than
+> using both DATA0 and DATA1.
+> 
+> The udelay was placed because I vaguely remember that polling SET DATA0
+> over and over slowed down the firmware download.
+> So the intention was to have the 100µs as a baseline and then we don't
+> slow down and waste more cycles in "step+1".
+
+Yes I have seen that as well, lesser polling helps. I will reduce cycles
+and add delay.
+
+Btw would it be possible for you to test the series?
+
+Thanks for quick reply, will post v2 shortly
+
 -- 
-1.9.0.138.g2de3478
-
+~Vinod
