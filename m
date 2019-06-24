@@ -2,116 +2,277 @@ Return-Path: <SRS0=P9S4=UX=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8134C43613
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 12:56:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C070C43613
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 12:59:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A872E20679
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 12:56:13 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="uWG74qSO"
+	by mail.kernel.org (Postfix) with ESMTP id 4E14C213F2
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 12:59:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727861AbfFXM4M (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Jun 2019 08:56:12 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:34918 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726557AbfFXM4M (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Jun 2019 08:56:12 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5OCsH8T142990;
-        Mon, 24 Jun 2019 12:54:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
- from : references : date : in-reply-to : message-id : mime-version :
- content-type; s=corp-2018-07-02;
- bh=qBtE7sGwA87+xuHMqYneEv1QZDMB/76C0feGN55wyx0=;
- b=uWG74qSOevMqS3+3gY+xVCFUKT/S2CjrcyT8GpbVO7o4lS51CYzqQe3TPv2Q9/jDqh7M
- T1VtuMC79SxAgwvQgBGyCRV3E8PfZqxbAstE1fZC1zD5fV+LphmQqhwEvo7Ux5R4hUwD
- z337eR1PywfoYftfamjxIBKxI/yiOflJbDrqQ+6ZJdTSVZNp8G5E04g76HrdfzYF+yqy
- v6yszWVTJ+6ifeKFtNnOIIDT/NA9DGsQUw0Y6x3TKIUYI+e5+GbPzIwmDhvxj5pWezMq
- znoIjDt3Zo55K2FRiOSU73wk1J+RfB8rUw7YeoLwQQ+RKHKjLnaZZyyapt67QT2t75p+ jg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by userp2120.oracle.com with ESMTP id 2t9cyq666q-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 24 Jun 2019 12:54:50 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5OCrn9W105054;
-        Mon, 24 Jun 2019 12:54:49 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3030.oracle.com with ESMTP id 2t99f38p0u-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 24 Jun 2019 12:54:49 +0000
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x5OCsiOw018764;
-        Mon, 24 Jun 2019 12:54:45 GMT
-Received: from ca-mkp.ca.oracle.com (/10.159.214.123)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 24 Jun 2019 05:54:43 -0700
-To:     Ming Lei <tom.leiming@gmail.com>
-Cc:     "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Ming Lei <ming.lei@redhat.com>,
-        Linux SCSI List <linux-scsi@vger.kernel.org>,
-        James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Hannes Reinecke <hare@suse.com>,
-        Christoph Hellwig <hch@lst.de>, Jim Gill <jgill@vmware.com>,
-        Cathy Avery <cavery@redhat.com>,
-        "Ewan D . Milne" <emilne@redhat.com>,
-        Brian King <brking@us.ibm.com>,
-        James Smart <james.smart@broadcom.com>,
-        "Juergen E . Fischer" <fischer@norbit.de>,
-        Michael Schmitz <schmitzmic@gmail.com>,
-        Finn Thain <fthain@telegraphics.com.au>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "open list\:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
-        linux-usb <linux-usb@vger.kernel.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Benjamin Block <bblock@linux.ibm.com>
-Subject: Re: [PATCH V5 00/16] use sg helper to operate scatterlist
-From:   "Martin K. Petersen" <martin.petersen@oracle.com>
-Organization: Oracle Corporation
-References: <20190618013757.22401-1-ming.lei@redhat.com>
-        <yq11rzqzacx.fsf@oracle.com>
-        <3df71d64-78fb-c6fc-f456-a0b626abff3b@acm.org>
-        <yq1wohhs62v.fsf@oracle.com>
-        <CACVXFVM2ZiSwqy9QpE2A2VDWY5-dny-H=Lw2J0bEh7zuA5aj5Q@mail.gmail.com>
-Date:   Mon, 24 Jun 2019 08:54:39 -0400
-In-Reply-To: <CACVXFVM2ZiSwqy9QpE2A2VDWY5-dny-H=Lw2J0bEh7zuA5aj5Q@mail.gmail.com>
-        (Ming Lei's message of "Mon, 24 Jun 2019 20:40:15 +0800")
-Message-ID: <yq1pnn3nnxs.fsf@oracle.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1.92 (gnu/linux)
+        id S1728138AbfFXM7V (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Jun 2019 08:59:21 -0400
+Received: from ste-pvt-msa1.bahnhof.se ([213.80.101.70]:11206 "EHLO
+        ste-pvt-msa1.bahnhof.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728070AbfFXM7V (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Jun 2019 08:59:21 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTP id 840FE3F669;
+        Mon, 24 Jun 2019 14:59:18 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+Received: from ste-pvt-msa1.bahnhof.se ([127.0.0.1])
+        by localhost (ste-pvt-msa1.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 1ArtfnyGGGGw; Mon, 24 Jun 2019 14:59:18 +0200 (CEST)
+Received: from localhost (h-41-252.A163.priv.bahnhof.se [46.59.41.252])
+        (Authenticated sender: mb547485)
+        by ste-pvt-msa1.bahnhof.se (Postfix) with ESMTPA id 32B2C3F4E9;
+        Mon, 24 Jun 2019 14:59:17 +0200 (CEST)
+Date:   Mon, 24 Jun 2019 14:59:16 +0200
+From:   Fredrik Noring <noring@nocrew.org>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Guenter Roeck <linux@roeck-us.net>, laurentiu.tudor@nxp.com,
+        stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, marex@denx.de, leoyang.li@nxp.com,
+        linux-kernel@vger.kernel.org, robin.murphy@arm.com,
+        JuergenUrban@gmx.de
+Subject: Re: [PATCH v7 3/5] usb: host: ohci-sm501: init genalloc for local
+ memory
+Message-ID: <20190624125916.GA2516@sx9>
+References: <20190605214622.GA22254@roeck-us.net>
+ <20190611133223.GA30054@roeck-us.net>
+ <20190611172654.GA2602@sx9>
+ <20190611190343.GA18459@roeck-us.net>
+ <20190613134033.GA2489@sx9>
+ <bdfd2178-9e3c-dc15-6aa1-ec1f1fbcb191@roeck-us.net>
+ <20190613153414.GA909@sx9>
+ <3f2164cd-7655-b7cc-ec57-d8751886728c@roeck-us.net>
+ <20190614142816.GA2574@sx9>
+ <20190624063515.GA3296@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9297 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=677
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1906240105
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9297 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=726 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
- definitions=main-1906240105
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190624063515.GA3296@lst.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Hi Christoph,
 
-Ming,
+> Can you send me the patch formally so that I can queue it up for the
+> dma-mapping tree?
 
-> Today I found the whole patchset disappears from 5.3/scsi-queue, seems
-> something is wrong?
+That patch would be detrimental to local memory devices, as previously
+discussed, so I would like to suggest a much better approach, as shown below,
+where allocations are aligned as required but not necessarily much more than
+that.
 
-Your changes are in 5.3/scsi-sg. I put them in a separate branch to
-avoid having to rebase the rest of the queue in case we find more
-issues.
+Fredrik
 
-My for-next branch is based on 5.3/scsi-queue and 5.3/scsi-sg.
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+--- a/drivers/usb/core/hcd.c
++++ b/drivers/usb/core/hcd.c
+@@ -3014,7 +3014,7 @@ int usb_hcd_setup_local_mem(struct usb_hcd *hcd, phys_addr_t phys_addr,
+ 	int err;
+ 	void __iomem *local_mem;
+ 
+-	hcd->localmem_pool = devm_gen_pool_create(hcd->self.sysdev, PAGE_SHIFT,
++	hcd->localmem_pool = devm_gen_pool_create(hcd->self.sysdev, 4,
+ 						  dev_to_node(hcd->self.sysdev),
+ 						  dev_name(hcd->self.sysdev));
+ 	if (IS_ERR(hcd->localmem_pool))
+diff --git a/drivers/usb/host/ohci-hcd.c b/drivers/usb/host/ohci-hcd.c
+--- a/drivers/usb/host/ohci-hcd.c
++++ b/drivers/usb/host/ohci-hcd.c
+@@ -507,9 +507,9 @@ static int ohci_init (struct ohci_hcd *ohci)
+ 	ohci->prev_frame_no = IO_WATCHDOG_OFF;
+ 
+ 	if (hcd->localmem_pool)
+-		ohci->hcca = gen_pool_dma_alloc(hcd->localmem_pool,
++		ohci->hcca = gen_pool_dma_alloc_align(hcd->localmem_pool,
+ 						sizeof(*ohci->hcca),
+-						&ohci->hcca_dma);
++						&ohci->hcca_dma, 256);
+ 	else
+ 		ohci->hcca = dma_alloc_coherent(hcd->self.controller,
+ 						sizeof(*ohci->hcca),
+diff --git a/drivers/usb/host/ohci-mem.c b/drivers/usb/host/ohci-mem.c
+--- a/drivers/usb/host/ohci-mem.c
++++ b/drivers/usb/host/ohci-mem.c
+@@ -94,7 +94,8 @@ td_alloc (struct ohci_hcd *hc, gfp_t mem_flags)
+ 	struct usb_hcd	*hcd = ohci_to_hcd(hc);
+ 
+ 	if (hcd->localmem_pool)
+-		td = gen_pool_dma_zalloc(hcd->localmem_pool, sizeof(*td), &dma);
++		td = gen_pool_dma_zalloc_align(hcd->localmem_pool,
++				sizeof(*td), &dma, 32);
+ 	else
+ 		td = dma_pool_zalloc(hc->td_cache, mem_flags, &dma);
+ 	if (td) {
+@@ -137,7 +138,8 @@ ed_alloc (struct ohci_hcd *hc, gfp_t mem_flags)
+ 	struct usb_hcd	*hcd = ohci_to_hcd(hc);
+ 
+ 	if (hcd->localmem_pool)
+-		ed = gen_pool_dma_zalloc(hcd->localmem_pool, sizeof(*ed), &dma);
++		ed = gen_pool_dma_zalloc_align(hcd->localmem_pool,
++				sizeof(*ed), &dma, 16);
+ 	else
+ 		ed = dma_pool_zalloc(hc->ed_cache, mem_flags, &dma);
+ 	if (ed) {
+diff --git a/include/linux/genalloc.h b/include/linux/genalloc.h
+--- a/include/linux/genalloc.h
++++ b/include/linux/genalloc.h
+@@ -121,7 +121,15 @@ extern unsigned long gen_pool_alloc_algo(struct gen_pool *, size_t,
+ 		genpool_algo_t algo, void *data);
+ extern void *gen_pool_dma_alloc(struct gen_pool *pool, size_t size,
+ 		dma_addr_t *dma);
+-void *gen_pool_dma_zalloc(struct gen_pool *pool, size_t size, dma_addr_t *dma);
++extern void *gen_pool_dma_alloc_algo(struct gen_pool *pool, size_t size,
++		dma_addr_t *dma, genpool_algo_t algo, void *data);
++extern void *gen_pool_dma_alloc_align(struct gen_pool *pool, size_t size,
++		dma_addr_t *dma, int align);
++extern void *gen_pool_dma_zalloc(struct gen_pool *pool, size_t size, dma_addr_t *dma);
++extern void *gen_pool_dma_zalloc_algo(struct gen_pool *pool, size_t size,
++		dma_addr_t *dma, genpool_algo_t algo, void *data);
++extern void *gen_pool_dma_zalloc_align(struct gen_pool *pool, size_t size,
++		dma_addr_t *dma, int align);
+ extern void gen_pool_free(struct gen_pool *, unsigned long, size_t);
+ extern void gen_pool_for_each_chunk(struct gen_pool *,
+ 	void (*)(struct gen_pool *, struct gen_pool_chunk *, void *), void *);
+diff --git a/lib/genalloc.c b/lib/genalloc.c
+--- a/lib/genalloc.c
++++ b/lib/genalloc.c
+@@ -347,13 +347,33 @@ EXPORT_SYMBOL(gen_pool_alloc_algo);
+  * Return: virtual address of the allocated memory, or %NULL on failure
+  */
+ void *gen_pool_dma_alloc(struct gen_pool *pool, size_t size, dma_addr_t *dma)
++{
++	return gen_pool_dma_alloc_algo(pool, size, dma, pool->algo, pool->data);
++}
++EXPORT_SYMBOL(gen_pool_dma_alloc);
++
++/**
++ * gen_pool_dma_alloc_algo - allocate special memory from the pool for DMA
++ * usage with the given pool algorithm
++ * @pool: pool to allocate from
++ * @size: number of bytes to allocate from the pool
++ * @dma: dma-view physical address return value.  Use NULL if unneeded.
++ * @algo: algorithm passed from caller
++ * @data: data passed to algorithm
++ *
++ * Allocate the requested number of bytes from the specified pool. Uses the
++ * given pool allocation function. Can not be used in NMI handler on
++ * architectures without NMI-safe cmpxchg implementation.
++ */
++void *gen_pool_dma_alloc_algo(struct gen_pool *pool, size_t size,
++		dma_addr_t *dma, genpool_algo_t algo, void *data)
+ {
+ 	unsigned long vaddr;
+ 
+ 	if (!pool)
+ 		return NULL;
+ 
+-	vaddr = gen_pool_alloc(pool, size);
++	vaddr = gen_pool_alloc_algo(pool, size, algo, data);
+ 	if (!vaddr)
+ 		return NULL;
+ 
+@@ -362,7 +382,31 @@ void *gen_pool_dma_alloc(struct gen_pool *pool, size_t size, dma_addr_t *dma)
+ 
+ 	return (void *)vaddr;
+ }
+-EXPORT_SYMBOL(gen_pool_dma_alloc);
++EXPORT_SYMBOL(gen_pool_dma_alloc_algo);
++
++/**
++ * gen_pool_dma_zalloc_align - allocate special from the pool for DMA usage
++ * with the given alignment
++ * @pool: pool to allocate from
++ * @size: number of bytes to allocate from the pool
++ * @dma: dma-view physical address return value.  Use %NULL if unneeded.
++ * @align: alignment in bytes for starting address
++ *
++ * Allocate the requested number bytes from the specified pool, with the given
++ * alignment restriction. Can not be used in NMI handler on architectures
++ * without NMI-safe cmpxchg implementation.
++ *
++ * Return: virtual address of the allocated memory, or %NULL on failure
++ */
++void *gen_pool_dma_alloc_align(struct gen_pool *pool, size_t size,
++		dma_addr_t *dma, int align)
++{
++	struct genpool_data_align data = { .align = align };
++
++	return gen_pool_dma_alloc_algo(pool, size, dma,
++			gen_pool_first_fit_align, &data);
++}
++EXPORT_SYMBOL(gen_pool_dma_alloc_align);
+ 
+ /**
+  * gen_pool_dma_zalloc - allocate special zeroed memory from the pool for
+@@ -380,14 +424,60 @@ EXPORT_SYMBOL(gen_pool_dma_alloc);
+  */
+ void *gen_pool_dma_zalloc(struct gen_pool *pool, size_t size, dma_addr_t *dma)
+ {
+-	void *vaddr = gen_pool_dma_alloc(pool, size, dma);
++	return gen_pool_dma_zalloc_algo(pool, size, dma, pool->algo, pool->data);
++}
++EXPORT_SYMBOL(gen_pool_dma_zalloc);
++
++/**
++ * gen_pool_dma_zalloc_algo - allocate special zeroed memory from the pool for
++ * DMA usage with the given pool algorithm
++ * @pool: pool to allocate from
++ * @size: number of bytes to allocate from the pool
++ * @dma: dma-view physical address return value.  Use %NULL if unneeded.
++ * @algo: algorithm passed from caller
++ * @data: data passed to algorithm
++ *
++ * Allocate the requested number of zeroed bytes from the specified pool. Uses
++ * the pool allocation function. Can not be used in NMI handler on
++ * architectures without NMI-safe cmpxchg implementation.
++ *
++ * Return: virtual address of the allocated zeroed memory, or %NULL on failure
++ */
++void *gen_pool_dma_zalloc_algo(struct gen_pool *pool, size_t size,
++		dma_addr_t *dma, genpool_algo_t algo, void *data)
++{
++	void *vaddr = gen_pool_dma_alloc_algo(pool, size, dma, algo, data);
+ 
+ 	if (vaddr)
+ 		memset(vaddr, 0, size);
+ 
+ 	return vaddr;
+ }
+-EXPORT_SYMBOL(gen_pool_dma_zalloc);
++EXPORT_SYMBOL(gen_pool_dma_zalloc_algo);
++
++/**
++ * gen_pool_dma_zalloc_align - allocate special zeroed memory from the pool for
++ * DMA usage with the given alignment
++ * @pool: pool to allocate from
++ * @size: number of bytes to allocate from the pool
++ * @dma: dma-view physical address return value.  Use %NULL if unneeded.
++ * @align: alignment in bytes for starting address
++ *
++ * Allocate the requested number of zeroed bytes from the specified pool,
++ * with the given alignment restriction. Can not be used in NMI handler on
++ * architectures without NMI-safe cmpxchg implementation.
++ *
++ * Return: virtual address of the allocated zeroed memory, or %NULL on failure
++ */
++void *gen_pool_dma_zalloc_align(struct gen_pool *pool, size_t size,
++		dma_addr_t *dma, int align)
++{
++	struct genpool_data_align data = { .align = align };
++
++	return gen_pool_dma_zalloc_algo(pool, size, dma,
++			gen_pool_first_fit_align, &data);
++}
++EXPORT_SYMBOL(gen_pool_dma_zalloc_align);
+ 
+ /**
+  * gen_pool_free - free allocated special memory back to the pool
