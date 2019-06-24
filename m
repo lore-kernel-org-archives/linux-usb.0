@@ -2,155 +2,192 @@ Return-Path: <SRS0=P9S4=UX=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5B74C43613
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 12:59:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 723D9C48BE8
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 13:24:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AF547212F5
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 12:59:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 40906212F5
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 13:24:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mork.no header.i=@mork.no header.b="NFec1O8O"
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=codeaurora.org header.i=@codeaurora.org header.b="H06CjTkx";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=codeaurora.org header.i=@codeaurora.org header.b="gqG7Ynqd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730483AbfFXM7f (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Jun 2019 08:59:35 -0400
-Received: from canardo.mork.no ([148.122.252.1]:34121 "EHLO canardo.mork.no"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728070AbfFXM7f (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 24 Jun 2019 08:59:35 -0400
-Received: from miraculix.mork.no ([IPv6:2a02:2121:282:c0c6:2870:15ff:fe87:c238])
-        (authenticated bits=0)
-        by canardo.mork.no (8.15.2/8.15.2) with ESMTPSA id x5OCxGG2006893
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Mon, 24 Jun 2019 14:59:17 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
-        t=1561381158; bh=XQsUYIbtGV5iLBtEMGinbcXCCB2jfmy7MxU1fU6ua0E=;
-        h=From:To:Cc:Subject:References:Date:Message-ID:From;
-        b=NFec1O8OFGN9c5A8nkGrqjIpmLTHJO9Q0DGVTC2jYIVhCNIkS8MJGaVONb6L+caha
-         EYyp1Vo1/sf6IDv2WP4xQVnRDiQOJVr0k/hVFTjmyuGOGq/BOHdD/krguQzXjzQHVU
-         JNt8Z/ZueCsQzPQ/dyQncu9JhJ/fPL3kSF26llJA=
-Received: from bjorn by miraculix.mork.no with local (Exim 4.89)
-        (envelope-from <bjorn@mork.no>)
-        id 1hfOYx-0007Ao-Fm; Mon, 24 Jun 2019 14:59:11 +0200
-From:   =?utf-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
-To:     Kristian Evensen <kristian.evensen@gmail.com>
-Cc:     syzbot <syzbot+b68605d7fadd21510de1@syzkaller.appspotmail.com>,
-        andreyknvl@google.com, davem@davemloft.net,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: KASAN: global-out-of-bounds Read in qmi_wwan_probe
-Organization: m
-References: <0000000000008f19f7058c10a633@google.com>
-Date:   Mon, 24 Jun 2019 14:59:11 +0200
-In-Reply-To: <0000000000008f19f7058c10a633@google.com> (syzbot's message of
-        "Mon, 24 Jun 2019 05:07:05 -0700")
-Message-ID: <871rzj6sww.fsf@miraculix.mork.no>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S1731072AbfFXNYe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Jun 2019 09:24:34 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:39994 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728635AbfFXNYd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 24 Jun 2019 09:24:33 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id A2B2D60D35; Mon, 24 Jun 2019 13:24:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1561382672;
+        bh=nFcGEbZcTkvmOSyEkEviWoSgX4LYhTdkIGi80b7j/pE=;
+        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+        b=H06CjTkxt7ZLBbVY5ZjRqN54RzrMndZHgmNV5H3VeSNr3xXlzHf6g5jfRIdp/58a/
+         hgvsi2DuTJQ0eLZrprg32HrZUs/9LR9sllERlpOa+5dcKIrsDeTl4Oanm77mHVsFuc
+         v9CFN12qLPWm+7NcUdEAFx9gAr/N8EjcIWHJC3SM=
+Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi [88.114.240.156])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: kvalo@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 14E3F607DE;
+        Mon, 24 Jun 2019 13:24:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1561382669;
+        bh=nFcGEbZcTkvmOSyEkEviWoSgX4LYhTdkIGi80b7j/pE=;
+        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+        b=gqG7YnqdeXqEoCkwnT9mzxN9E9OmD+C52BZr7/1ToNn09m04ST35+RShL2Ie6YeY0
+         BzjYnXOC58v2XBtPgneIeD7wApDSX07rTUNMHm0djr2OXkRjH+bL6q+RM7skjmMm19
+         jMlZEKi9FABS8nidUEy3eenOdVDHdbF8MVV/Bh0M=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 14E3F607DE
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=kvalo@codeaurora.org
+From:   Kalle Valo <kvalo@codeaurora.org>
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Christian Lamparter <chunkeey@gmail.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        syzbot <syzbot+6d237e74cdc13f036473@syzkaller.appspotmail.com>,
+        Christian Lamparter <chunkeey@googlemail.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Kernel development list <linux-kernel@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        linux-wireless@vger.kernel.org, netdev <netdev@vger.kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Subject: Re: KASAN: slab-out-of-bounds Read in p54u_load_firmware_cb
+References: <Pine.LNX.4.44L0.1906201544001.1346-100000@iolanthe.rowland.org>
+        <3232861.cjm3rXpEJU@debian64>
+        <CAAeHK+zhcgmBQT=rdHaCMu7XWPz4o1gwzCJQEXiTEW9_iUUauA@mail.gmail.com>
+Date:   Mon, 24 Jun 2019 16:24:23 +0300
+In-Reply-To: <CAAeHK+zhcgmBQT=rdHaCMu7XWPz4o1gwzCJQEXiTEW9_iUUauA@mail.gmail.com>
+        (Andrey Konovalov's message of "Mon, 24 Jun 2019 13:51:29 +0200")
+Message-ID: <87d0j3t8u0.fsf@kamboji.qca.qualcomm.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.5 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Virus-Scanned: clamav-milter 0.100.3 at canardo
-X-Virus-Status: Clean
+Content-Type: text/plain
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-syzbot <syzbot+b68605d7fadd21510de1@syzkaller.appspotmail.com> writes:
+Andrey Konovalov <andreyknvl@google.com> writes:
 
-> Hello,
+> On Thu, Jun 20, 2019 at 9:56 PM Christian Lamparter <chunkeey@gmail.com> wrote:
+>>
+>> On Thursday, June 20, 2019 9:46:32 PM CEST Alan Stern wrote:
+>> > On Wed, 19 Jun 2019, syzbot wrote:
+>> >
+>> > > syzbot has found a reproducer for the following crash on:
+>> > >
+>> > > HEAD commit:    9939f56e usb-fuzzer: main usb gadget fuzzer driver
+>> > > git tree:       https://github.com/google/kasan.git usb-fuzzer
+>> > > console output: https://syzkaller.appspot.com/x/log.txt?x=135e29faa00000
+>> > > kernel config:  https://syzkaller.appspot.com/x/.config?x=df134eda130bb43a
+>> > > dashboard link: https://syzkaller.appspot.com/bug?extid=6d237e74cdc13f036473
+>> > > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+>> > > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=175d946ea00000
+>> > >
+>> > > IMPORTANT: if you fix the bug, please add the following tag to the commit:
+>> > > Reported-by: syzbot+6d237e74cdc13f036473@syzkaller.appspotmail.com
+>> > >
+>> > > usb 3-1: Direct firmware load for isl3887usb failed with error -2
+>> > > usb 3-1: Firmware not found.
+>> > > ==================================================================
+>> > > BUG: KASAN: slab-out-of-bounds in p54u_load_firmware_cb.cold+0x97/0x13d
+>> > > drivers/net/wireless/intersil/p54/p54usb.c:936
+>> > > Read of size 8 at addr ffff8881c9cf7588 by task kworker/1:5/2759
+>> > >
+>> > > CPU: 1 PID: 2759 Comm: kworker/1:5 Not tainted 5.2.0-rc5+ #11
+>> > > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+>> > > Google 01/01/2011
+>> > > Workqueue: events request_firmware_work_func
+>> > > Call Trace:
+>> > >   __dump_stack lib/dump_stack.c:77 [inline]
+>> > >   dump_stack+0xca/0x13e lib/dump_stack.c:113
+>> > >   print_address_description+0x67/0x231 mm/kasan/report.c:188
+>> > >   __kasan_report.cold+0x1a/0x32 mm/kasan/report.c:317
+>> > >   kasan_report+0xe/0x20 mm/kasan/common.c:614
+>> > >   p54u_load_firmware_cb.cold+0x97/0x13d
+>> > > drivers/net/wireless/intersil/p54/p54usb.c:936
+>> > >   request_firmware_work_func+0x126/0x242
+>> > > drivers/base/firmware_loader/main.c:785
+>> > >   process_one_work+0x905/0x1570 kernel/workqueue.c:2269
+>> > >   worker_thread+0x96/0xe20 kernel/workqueue.c:2415
+>> > >   kthread+0x30b/0x410 kernel/kthread.c:255
+>> > >   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+>> > >
+>> > > Allocated by task 1612:
+>> > >   save_stack+0x1b/0x80 mm/kasan/common.c:71
+>> > >   set_track mm/kasan/common.c:79 [inline]
+>> > >   __kasan_kmalloc mm/kasan/common.c:489 [inline]
+>> > >   __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:462
+>> > >   kmalloc include/linux/slab.h:547 [inline]
+>> > >   syslog_print kernel/printk/printk.c:1346 [inline]
+>> > >   do_syslog kernel/printk/printk.c:1519 [inline]
+>> > >   do_syslog+0x4f4/0x12e0 kernel/printk/printk.c:1493
+>> > >   kmsg_read+0x8a/0xb0 fs/proc/kmsg.c:40
+>> > >   proc_reg_read+0x1c1/0x280 fs/proc/inode.c:221
+>> > >   __vfs_read+0x76/0x100 fs/read_write.c:425
+>> > >   vfs_read+0x18e/0x3d0 fs/read_write.c:461
+>> > >   ksys_read+0x127/0x250 fs/read_write.c:587
+>> > >   do_syscall_64+0xb7/0x560 arch/x86/entry/common.c:301
+>> > >   entry_SYSCALL_64_after_hwframe+0x49/0xbe
+>> > >
+>> > > Freed by task 1612:
+>> > >   save_stack+0x1b/0x80 mm/kasan/common.c:71
+>> > >   set_track mm/kasan/common.c:79 [inline]
+>> > >   __kasan_slab_free+0x130/0x180 mm/kasan/common.c:451
+>> > >   slab_free_hook mm/slub.c:1421 [inline]
+>> > >   slab_free_freelist_hook mm/slub.c:1448 [inline]
+>> > >   slab_free mm/slub.c:2994 [inline]
+>> > >   kfree+0xd7/0x280 mm/slub.c:3949
+>> > >   syslog_print kernel/printk/printk.c:1405 [inline]
+>> > >   do_syslog kernel/printk/printk.c:1519 [inline]
+>> > >   do_syslog+0xff3/0x12e0 kernel/printk/printk.c:1493
+>> > >   kmsg_read+0x8a/0xb0 fs/proc/kmsg.c:40
+>> > >   proc_reg_read+0x1c1/0x280 fs/proc/inode.c:221
+>> > >   __vfs_read+0x76/0x100 fs/read_write.c:425
+>> > >   vfs_read+0x18e/0x3d0 fs/read_write.c:461
+>> > >   ksys_read+0x127/0x250 fs/read_write.c:587
+>> > >   do_syscall_64+0xb7/0x560 arch/x86/entry/common.c:301
+>> > >   entry_SYSCALL_64_after_hwframe+0x49/0xbe
+>> > >
+>> > > The buggy address belongs to the object at ffff8881c9cf7180
+>> > >   which belongs to the cache kmalloc-1k of size 1024
+>> > > The buggy address is located 8 bytes to the right of
+>> > >   1024-byte region [ffff8881c9cf7180, ffff8881c9cf7580)
+>> > > The buggy address belongs to the page:
+>> > > page:ffffea0007273d00 refcount:1 mapcount:0 mapping:ffff8881dac02a00
+>> > > index:0x0 compound_mapcount: 0
+>> > > flags: 0x200000000010200(slab|head)
+>> > > raw: 0200000000010200 dead000000000100 dead000000000200 ffff8881dac02a00
+>> > > raw: 0000000000000000 00000000000e000e 00000001ffffffff 0000000000000000
+>> > > page dumped because: kasan: bad access detected
+>> > >
+>> > > Memory state around the buggy address:
+>> > >   ffff8881c9cf7480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>> > >   ffff8881c9cf7500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>> > > > ffff8881c9cf7580: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>> > >                        ^
+>> > >   ffff8881c9cf7600: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>> > >   ffff8881c9cf7680: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>> > > ==================================================================
+>> >
+>> > Isn't this the same as syzkaller bug 200d4bb11b23d929335f ?  Doesn't
+>> > the same patch fix it?
+>> >
+>> I think Kalle hasn't applied it yet? It's still sitting on the patchwork queue:
+>> <https://patchwork.kernel.org/patch/10951527/>
 >
-> syzbot found the following crash on:
->
-> HEAD commit:    9939f56e usb-fuzzer: main usb gadget fuzzer driver
-> git tree:       https://github.com/google/kasan.git usb-fuzzer
-> console output: https://syzkaller.appspot.com/x/log.txt?x=3D1615a669a00000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=3Ddf134eda130bb=
-43a
-> dashboard link: https://syzkaller.appspot.com/bug?extid=3Db68605d7fadd215=
-10de1
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D10630af6a00=
-000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D1127da69a00000
->
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+b68605d7fadd21510de1@syzkaller.appspotmail.com
->
-> usb 1-1: new high-speed USB device number 2 using dummy_hcd
-> usb 1-1: Using ep0 maxpacket: 8
-> usb 1-1: New USB device found, idVendor=3D12d1, idProduct=3D14f1,
-> bcdDevice=3Dd4.d9
-> usb 1-1: New USB device strings: Mfr=3D0, Product=3D0, SerialNumber=3D0
-> usb 1-1: config 0 descriptor??
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> BUG: KASAN: global-out-of-bounds in qmi_wwan_probe+0x342/0x360
-> drivers/net/usb/qmi_wwan.c:1417
-> Read of size 8 at addr ffffffff8618c140 by task kworker/1:1/22
->
-> CPU: 1 PID: 22 Comm: kworker/1:1 Not tainted 5.2.0-rc5+ #11
-> Hardware name: Google Google Compute Engine/Google Compute Engine,
-> BIOS Google 01/01/2011
-> Workqueue: usb_hub_wq hub_event
-> Call Trace:
->  __dump_stack lib/dump_stack.c:77 [inline]
->  dump_stack+0xca/0x13e lib/dump_stack.c:113
->  print_address_description+0x67/0x231 mm/kasan/report.c:188
->  __kasan_report.cold+0x1a/0x32 mm/kasan/report.c:317
->  kasan_report+0xe/0x20 mm/kasan/common.c:614
->  qmi_wwan_probe+0x342/0x360 drivers/net/usb/qmi_wwan.c:1417
->  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
->  really_probe+0x281/0x660 drivers/base/dd.c:509
->  driver_probe_device+0x104/0x210 drivers/base/dd.c:670
->  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
->  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
->
+> Yes, until this patch is in the tree that is being tested (which is
+> based on the usb-linus branch; I update it every few weeks), syzbot
+> considers this bug as open.
 
-Hello Kristian!
+I'm hoping to apply this today or tomorrow.
 
-I need some help understanding this...  IIUC syzbot is claiming an
-out-of-bounds access at line 1417 in v5.2-rc5.  Or whatever - I'm having
-a hard time deciphering what kernel version the bot is actually
-testing. The claimed HEAD is not a kernel commit.  At least not in my
-kernel...
-
-
-But if this is correct, then it points to the info->data access you
-recently added:
-
-822e44b45eb99 (Kristian Evensen        2019-03-02 13:32:26 +0100 1409)  /* =
-Several Quectel modems supports dynamic interface configuration, so
-7c5cca3588545 (Kristian Evensen        2018-09-08 13:50:48 +0200 1410)   * =
-we need to match on class/subclass/protocol. These values are
-7c5cca3588545 (Kristian Evensen        2018-09-08 13:50:48 +0200 1411)   * =
-identical for the diagnostic- and QMI-interface, but bNumEndpoints is
-7c5cca3588545 (Kristian Evensen        2018-09-08 13:50:48 +0200 1412)   * =
-different. Ignore the current interface if the number of endpoints
-e4bf63482c309 (Kristian Evensen        2019-04-07 15:39:09 +0200 1413)   * =
-equals the number for the diag interface (two).
-7c5cca3588545 (Kristian Evensen        2018-09-08 13:50:48 +0200 1414)   */
-e4bf63482c309 (Kristian Evensen        2019-04-07 15:39:09 +0200 1415)  inf=
-o =3D (void *)&id->driver_info;
-e4bf63482c309 (Kristian Evensen        2019-04-07 15:39:09 +0200 1416)=20
-e4bf63482c309 (Kristian Evensen        2019-04-07 15:39:09 +0200 1417)  if =
-(info->data & QMI_WWAN_QUIRK_QUECTEL_DYNCFG) {
-e4bf63482c309 (Kristian Evensen        2019-04-07 15:39:09 +0200 1418)     =
-     if (desc->bNumEndpoints =3D=3D 2)
-e4bf63482c309 (Kristian Evensen        2019-04-07 15:39:09 +0200 1419)     =
-             return -ENODEV;
-e4bf63482c309 (Kristian Evensen        2019-04-07 15:39:09 +0200 1420)  }
-
-
-I must be blind. I cannot see how this could end up failing.
-id->driver_info is always set to one of qmi_wwan_info,
-qmi_wwan_info_quirk_dtr or qmi_wwan_info_quirk_quectel_dyncfg at this
-point.  How does that end up out-of-bounds?
-
-
-
-Bj=C3=B8rn
+-- 
+Kalle Valo
