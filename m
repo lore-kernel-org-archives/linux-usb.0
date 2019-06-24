@@ -6,27 +6,27 @@ X-Spam-Status: No, score=-8.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6A62C4646C
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 02:01:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 292F1C43613
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 02:01:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A0B4E208C3
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 02:01:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 034A120679
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 02:01:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726811AbfFXCBU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 23 Jun 2019 22:01:20 -0400
-Received: from inva020.nxp.com ([92.121.34.13]:55434 "EHLO inva020.nxp.com"
+        id S1726711AbfFXCBQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 23 Jun 2019 22:01:16 -0400
+Received: from inva020.nxp.com ([92.121.34.13]:55266 "EHLO inva020.nxp.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726574AbfFXCBU (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 23 Jun 2019 22:01:20 -0400
+        id S1726438AbfFXCBP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 23 Jun 2019 22:01:15 -0400
 Received: from inva020.nxp.com (localhost [127.0.0.1])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 4D4D21A0ED4;
-        Mon, 24 Jun 2019 04:01:18 +0200 (CEST)
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 082D31A04F6;
+        Mon, 24 Jun 2019 04:01:14 +0200 (CEST)
 Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id A37261A1022;
-        Mon, 24 Jun 2019 04:01:11 +0200 (CEST)
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 5F3641A0EDF;
+        Mon, 24 Jun 2019 04:01:07 +0200 (CEST)
 Received: from mega.ap.freescale.net (mega.ap.freescale.net [10.192.208.232])
-        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 5DE844030F;
-        Mon, 24 Jun 2019 10:01:03 +0800 (SGT)
+        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 8024D40313;
+        Mon, 24 Jun 2019 10:00:59 +0800 (SGT)
 From:   Peter Chen <peter.chen@nxp.com>
 To:     balbi@kernel.org, shawnguo@kernel.org
 Cc:     robh+dt@kernel.org, fabio.estevam@nxp.com, kernel@pengutronix.de,
@@ -34,9 +34,9 @@ Cc:     robh+dt@kernel.org, fabio.estevam@nxp.com, kernel@pengutronix.de,
         linux-imx@nxp.com, linux-arm-kernel@lists.infradead.org,
         linux-usb@vger.kernel.org, chunfeng.yun@mediatek.com,
         sergei.shtylyov@cogentembedded.com, Peter Chen <peter.chen@nxp.com>
-Subject: [PATCH v5 7/8] ARM: dts: imx7ulp-evk: enable USBOTG1 support
-Date:   Mon, 24 Jun 2019 10:02:57 +0800
-Message-Id: <20190624020258.21690-8-peter.chen@nxp.com>
+Subject: [PATCH v5 4/8] doc: dt-binding: usbmisc-imx: add compatible string for imx7ulp
+Date:   Mon, 24 Jun 2019 10:02:54 +0800
+Message-Id: <20190624020258.21690-5-peter.chen@nxp.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190624020258.21690-1-peter.chen@nxp.com>
 References: <20190624020258.21690-1-peter.chen@nxp.com>
@@ -46,74 +46,26 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Enable USBOTG1 support for evk board, it is dual-role function
-port.
+Add compatible string for imx7ulp
 
+Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Peter Chen <peter.chen@nxp.com>
 ---
- arch/arm/boot/dts/imx7ulp-evk.dts | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ Documentation/devicetree/bindings/usb/usbmisc-imx.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm/boot/dts/imx7ulp-evk.dts b/arch/arm/boot/dts/imx7ulp-evk.dts
-index a09026a6d22e..c8a56a2ae9a5 100644
---- a/arch/arm/boot/dts/imx7ulp-evk.dts
-+++ b/arch/arm/boot/dts/imx7ulp-evk.dts
-@@ -22,6 +22,17 @@
- 		reg = <0x60000000 0x40000000>;
- 	};
+diff --git a/Documentation/devicetree/bindings/usb/usbmisc-imx.txt b/Documentation/devicetree/bindings/usb/usbmisc-imx.txt
+index a85a631ec434..b353b9816487 100644
+--- a/Documentation/devicetree/bindings/usb/usbmisc-imx.txt
++++ b/Documentation/devicetree/bindings/usb/usbmisc-imx.txt
+@@ -7,6 +7,7 @@ Required properties:
+ 	"fsl,vf610-usbmisc" for Vybrid vf610
+ 	"fsl,imx6sx-usbmisc" for imx6sx
+ 	"fsl,imx7d-usbmisc" for imx7d
++	"fsl,imx7ulp-usbmisc" for imx7ulp
+ - reg: Should contain registers location and length
  
-+	reg_usb_otg1_vbus: regulator-usb-otg1-vbus {
-+		compatible = "regulator-fixed";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_usbotg1_vbus>;
-+		regulator-name = "usb_otg1_vbus";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		gpio = <&gpio_ptc 0 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+	};
-+
- 	reg_vsd_3v3: regulator-vsd-3v3 {
- 		compatible = "regulator-fixed";
- 		regulator-name = "VSD_3V3";
-@@ -40,6 +51,17 @@
- 	status = "okay";
- };
- 
-+&usbotg1 {
-+	vbus-supply = <&reg_usb_otg1_vbus>;
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&pinctrl_usbotg1_id>;
-+	srp-disable;
-+	hnp-disable;
-+	adp-disable;
-+	over-current-active-low;
-+	status = "okay";
-+};
-+
- &usdhc0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&pinctrl_usdhc0>;
-@@ -57,6 +79,19 @@
- 		bias-pull-up;
- 	};
- 
-+	pinctrl_usbotg1_vbus: otg1vbusgrp {
-+		fsl,pins = <
-+			IMX7ULP_PAD_PTC0__PTC0		0x20000
-+		>;
-+	};
-+
-+	pinctrl_usbotg1_id: otg1idgrp {
-+		fsl,pins = <
-+			IMX7ULP_PAD_PTC13__USB0_ID	0x10003
-+			IMX7ULP_PAD_PTC16__USB1_OC2	0x10003
-+		>;
-+	};
-+
- 	pinctrl_usdhc0: usdhc0grp {
- 		fsl,pins = <
- 			IMX7ULP_PAD_PTD1__SDHC0_CMD	0x43
+ Examples:
 -- 
 2.14.1
 
