@@ -2,154 +2,103 @@ Return-Path: <SRS0=P9S4=UX=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D50FCC43613
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 05:58:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73B86C43613
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 06:12:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A3FD52083D
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 05:58:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1561355904;
-	bh=AvXQB0CV4vJHJQNcor1z9L7HYmP2PloOeDMNIxwYSTw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=DpOIsnXMS0SlhxlByYccL69YnBln7sZMFwptFnFRZ61NUPDK5rOAUqvLn7a+Jf6ql
-	 j03/JIPqbKVDE3b2N/uHZnilomOtkV3Jk+Bp7g57/5/XX25sDefrGv0VCouGQ2N1UJ
-	 H79yjlbfThudKslahyDDm1UoPrX6kWujrCDlICyI=
+	by mail.kernel.org (Postfix) with ESMTP id 483A920663
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 06:12:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726399AbfFXF6U (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Jun 2019 01:58:20 -0400
-Received: from mga11.intel.com ([192.55.52.93]:34567 "EHLO mga11.intel.com"
+        id S1726587AbfFXGMd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Jun 2019 02:12:33 -0400
+Received: from mga04.intel.com ([192.55.52.120]:54256 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725782AbfFXF6U (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 24 Jun 2019 01:58:20 -0400
+        id S1726472AbfFXGMd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 24 Jun 2019 02:12:33 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Jun 2019 22:58:19 -0700
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Jun 2019 23:12:32 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.63,411,1557212400"; 
-   d="scan'208";a="161523545"
-Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Jun 2019 22:58:17 -0700
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Ran Wang <ran.wang_1@nxp.com>, Rob Herring <robh+dt@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "open list\:DESIGNWARE USB3 DRD IP DRIVER" 
-        <linux-usb@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "devicetree\@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Leo Li <leoyang.li@nxp.com>
-Subject: RE: [PATCH] usb: dwc3: Enable the USB snooping
-In-Reply-To: <VE1PR04MB66557834D3588FC8B558950AF1E00@VE1PR04MB6655.eurprd04.prod.outlook.com>
-References: <20171115060459.45375-1-ran.wang_1@nxp.com> <87ineb9b5v.fsf@linux.intel.com> <VI1PR04MB1504776EF3D4D8C374F0C069F1290@VI1PR04MB1504.eurprd04.prod.outlook.com> <87shdfet90.fsf@linux.intel.com> <AM5PR0402MB28654EBE2D431CC2F8061CF8F11E0@AM5PR0402MB2865.eurprd04.prod.outlook.com> <87k1eaanjw.fsf@linux.intel.com> <AM5PR0402MB2865F3735D808E1BC9F67968F1180@AM5PR0402MB2865.eurprd04.prod.outlook.com> <AM5PR0402MB2865D0F0E2B4F65C86D051F8F1140@AM5PR0402MB2865.eurprd04.prod.outlook.com> <87o92wgyqj.fsf@linux.intel.com> <VE1PR04MB66557834D3588FC8B558950AF1E00@VE1PR04MB6655.eurprd04.prod.outlook.com>
-Date:   Mon, 24 Jun 2019 08:58:16 +0300
-Message-ID: <87v9wvsex3.fsf@linux.intel.com>
+   d="scan'208";a="151853564"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.164]) ([10.237.72.164])
+  by orsmga007.jf.intel.com with ESMTP; 23 Jun 2019 23:12:31 -0700
+Subject: Re: xHCI Driver Compliance Test Support
+To:     Rob Weber <rob@gnarbox.com>, mathias.nyman@intel.com
+Cc:     linux-usb@vger.kernel.org
+References: <20190619190307.GA18466@coops>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-ID: <fc2609bc-2441-0293-1eca-3781af410414@linux.intel.com>
+Date:   Mon, 24 Jun 2019 09:15:24 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.4.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20190619190307.GA18466@coops>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Hi
 
-Hi,
+On 19.6.2019 22.03, Rob Weber wrote:
+> Hi Mathias,
+> 
+> I am working on running our custom USB dual-role product through some
+> compliance testing. It seems that the SoC and host controller are
+> not responding to the LFPS signaling and timeout that is supposed to
+> automatically begin the compliance test sequence.
+> 
+> I'm currently running a 4.9.115 kernel, and I'm afraid I might be
+> missing some critical patches for compliance test support. I noticed
+> these two patches came up in a google search:
+> 
+> https://patchwork.kernel.org/patch/10415345/
+> https://www.spinics.net/lists/linux-usb/msg160002.html
+> 
+> Besides these patches, is there anything else that comes to mind that I
+> might need to do to start compliance testing? I'm about to build a more
+> recent kernel to see if that improves my situation as well.
 
-Ran Wang <ran.wang_1@nxp.com> writes:
->> >> > >> >> >  /* Global Debug Queue/FIFO Space Available Register */
->> >> > >> >> >  #define DWC3_GDBGFIFOSPACE_NUM(n)	((n) & 0x1f)
->> >> > >> >> >  #define DWC3_GDBGFIFOSPACE_TYPE(n)	(((n) << 5) & 0x1e0)
->> >> > >> >> > @@ -859,6 +867,7 @@ struct dwc3_scratchpad_array {
->> >> > >> >> >   * 	3	- Reserved
->> >> > >> >> >   * @imod_interval: set the interrupt moderation interval in 250ns
->> >> > >> >> >   *                 increments or 0 to disable.
->> >> > >> >> > + * @dma_coherent: set if enable dma-coherent.
->> >> > >> >>
->> >> > >> >> you're not enabling dma coherency, you're enabling cache snooping.
->> >> > >> >> And this property should describe that. Also, keep in mind
->> >> > >> >> that different devices may want different cache types for
->> >> > >> >> each of those fields, so your property would have to be a lot
->> >> > >> >> more complex. Something
->> >> > like:
->> >> > >> >>
->> >> > >> >> 	snps,cache-type = <foobar "cacheable">, <baz "cacheable">, ...
->> >> > >> >>
->> >> > >> >> Then driver would have to parse this properly to setup GSBUSCFG0.
->> >> > >
->> >> > > According to the DesignWare Cores SuperSpeed USB 3.0 Controller
->> >> > > Databook (v2.60a), it has described Type Bit Assignments for all
->> >> > > supported
->> >> > master bus type:
->> >> > > AHB, AXI3, AXI4 and Native. I found the bit definition are
->> >> > > different among
->> >> > them.
->> >> > > So, for the example you gave above, feel a little bit confused.
->> >> > > Did you mean:
->> >> > >     snps,cache-type = <DATA_RD  "write allocate">, <DESC_RD
->> >> > > "cacheable">, <DATA_WR  "bufferable">, <DESC_WR  "read allocate">
->> >> >
->> >> > yeah, something like that.
->> >>
->> >> I think DATA_RD  should be a macro, right? So, where I can put its define?
->> >> Create a dwc3.h in include/dt-bindings/usb/ ?
->> >
->> > Could you please give me some advice here? I'd like to prepare next
->> > version patch after getting this settled.
->> >
->> >> Another question about this remain open is: DWC3 data book's Table
->> >> 6-5 Cache Type Bit Assignments show that bits definition will differ
->> >> per MBUS_TYPEs as
->> >> below:
->> >> ----------------------------------------------------------------
->> >>  MBUS_TYPE| bit[3]       |bit[2]       |bit[1]     |bit[0]
->> >>  ----------------------------------------------------------------
->> >>  AHB      |Cacheable     |Bufferable   |Privilegge |Data
->> >>  AXI3     |Write Allocate|Read Allocate|Cacheable  |Bufferable
->> >>  AXI4     |Allocate Other|Allocate     |Modifiable |Bufferable
->> >>  AXI4     |Other Allocate|Allocate     |Modifiable |Bufferable
->> >>  Native   |Same as AXI   |Same as AXI  |Same as AXI|Same as AXI
->> >>  ----------------------------------------------------------------
->> >>  Note: The AHB, AXI3, AXI4, and PCIe busses use different names for
->> >> certain  signals, which have the same meaning:
->> >>    Bufferable = Posted
->> >>    Cacheable = Modifiable = Snoop (negation of No Snoop)
->> >>
->> >> For Layerscape SoCs, MBUS_TYPE is AXI3. So I am not sure how to use
->> >> snps,cache-type = <DATA_RD  "write allocate">, to cover all MBUS_TYPE?
->> >> (you can notice that AHB and AXI3's cacheable are on different bit)
->> >> Or I just need to handle AXI3 case?
->> >
->> > Also on this open. Thank you in advance.
->> 
->> You could pass two strings and let the driver process them. Something
->> like:
->> 
->> 	snps,cache_type = <"data_wr" "write allocate">, <"desc_rd"
->> "cacheable">...
->> 
->> And so on. The only thing missing is for the mbus_type to be known by the driver.
->> Is that something we can figure out on any of the HWPARAMS registers or does
->> it have to be told explicitly?
->
-> I have checked Layerscape Reference manual, HWPARAMS0~8 doesn't contain mbus_type
-> Info, and I didn't know where have declared it explicitly.
->
->> Another option would be to pass a string followed by one hex digit for the bits:
->> 
->> 	snps,cache_type = <"data_wr" 0x8>, <"desc_rd" 0x2>...;
->> 
->> Then we don't need to describe mbus_type since the bits are what matters.
->
-> Yes, it's also what we prefer to use, it will be more flexible, I can add above Table
-> 6-5 Cache Type Bit Assignments in binding to help user decide which value they
-> would use.
->
-> I would submit another version of patch for further review, thank you very much.
+If xHC hw has a "Compliance Transition Capability" (CTC) bit set in the
+HCCPARAMS2 register then ports won't go to compliance unless software
+specifically allows it.
 
-cool, thanks
+see xhci spec section 4.19.1.2.4.1 for more details.
 
--- 
-balbi
+Compliance can be allowed either with a SetPortFeature(PORT_LINK_STATE) request,
+or via debugfs.
+
+To allow compliance using debugfs, first check port is in disabled state:
+
+# cat /sys/kernel/debug/usb/xhci/0000:00:15.0/ports/port01/portsc
+Powered Not-connected Disabled Link:RxDetect PortSpeed:0 Change: Wake:
+
+enable compliance by writing "compliance" to the port:
+# echo compliance > /sys/kernel/debug/usb/xhci/0000:00:15.0/ports/port01/portsc
+
+This needs to be done for that specific port, and after every port warm reset.
+
+After 1st LFPS timeout the port should go to compliance, can be read from portsc
+
+Also make sure you don't have XHCI_COMP_MODE_QUIRK or XHCI_MISSING_CAS quirks set,
+these try to recover ports that accidentally enter compliance mode in normal use.
+
+> 
+> Just for reference, our product uses an intel atom z8550 SoC that uses
+> an xHCI host controller and a dwc3 device controller. Our platform also
+> uses a USB 3.0 redriver. The datasheet for this redriver (tusb542)
+> indicates that it's internal LFPS controller supports full USB 3.0
+> compliance requirements.
+> 
+
+z8550 is Cherry Trail? I unfortunately don't have those around anymore.
+
+-Mathias
