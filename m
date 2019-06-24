@@ -2,103 +2,94 @@ Return-Path: <SRS0=P9S4=UX=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73B86C43613
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 06:12:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B394C43613
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 06:15:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 483A920663
-	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 06:12:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DEC172146F
+	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 06:14:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1561356900;
+	bh=SSajmWbvqgmbGWzL+sIpdibtzxavz5ikcOIKoAusBVk=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=U4+cFwpS0WzHMgBh5fnjZxEUgd3j8cWMVWwWsPH/65AxeNB1GbmnuIoN/DjnKLE08
+	 oaWQUev+H4i03g2aNCH+XbMK8ggr9zVOauJQpN7TdBiGfpYbvGKK1d2xYeUDmZiFuX
+	 neai2DBPGsO/E/6uDX3iGgb0flGZpcFLR+OrEAHk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726587AbfFXGMd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 24 Jun 2019 02:12:33 -0400
-Received: from mga04.intel.com ([192.55.52.120]:54256 "EHLO mga04.intel.com"
+        id S1727010AbfFXGOz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 24 Jun 2019 02:14:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53180 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726472AbfFXGMd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 24 Jun 2019 02:12:33 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Jun 2019 23:12:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,411,1557212400"; 
-   d="scan'208";a="151853564"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.164]) ([10.237.72.164])
-  by orsmga007.jf.intel.com with ESMTP; 23 Jun 2019 23:12:31 -0700
-Subject: Re: xHCI Driver Compliance Test Support
-To:     Rob Weber <rob@gnarbox.com>, mathias.nyman@intel.com
-Cc:     linux-usb@vger.kernel.org
-References: <20190619190307.GA18466@coops>
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Message-ID: <fc2609bc-2441-0293-1eca-3781af410414@linux.intel.com>
-Date:   Mon, 24 Jun 2019 09:15:24 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.4.0
+        id S1726472AbfFXGOz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 24 Jun 2019 02:14:55 -0400
+Received: from localhost.localdomain (unknown [106.201.35.23])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D24AA20663;
+        Mon, 24 Jun 2019 06:14:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1561356894;
+        bh=SSajmWbvqgmbGWzL+sIpdibtzxavz5ikcOIKoAusBVk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=jpRKgVVamUXzYaspAeIXVF00OdClZWvILuPM8VvRjYlCzILMR2ALhQcvc8DPc0UQE
+         ufJQ09H6t23sZW6i2JyP+iIK3mXRAY5m12R9AKiVrJXVityfeiXQDSvxkLj3weCbkt
+         B83ejNldoEhjUxxOKMX43M8GBqwEEsuKx1VHwY5g=
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-arm-msm@vger.kernel.org,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Christian Lamparter <chunkeey@googlemail.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/4] usb: xhci: Add support for Renesas USB controllers
+Date:   Mon, 24 Jun 2019 11:41:22 +0530
+Message-Id: <20190624061126.11938-1-vkoul@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190619190307.GA18466@coops>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi
+This series add support for Renesas USB controllers uPD720201 and uPD720202.
+These require firmware to be loaded and in case devices have ROM those can
+also be programmed if empty. If ROM is programmed, it runs from ROM as well.
 
-On 19.6.2019 22.03, Rob Weber wrote:
-> Hi Mathias,
-> 
-> I am working on running our custom USB dual-role product through some
-> compliance testing. It seems that the SoC and host controller are
-> not responding to the LFPS signaling and timeout that is supposed to
-> automatically begin the compliance test sequence.
-> 
-> I'm currently running a 4.9.115 kernel, and I'm afraid I might be
-> missing some critical patches for compliance test support. I noticed
-> these two patches came up in a google search:
-> 
-> https://patchwork.kernel.org/patch/10415345/
-> https://www.spinics.net/lists/linux-usb/msg160002.html
-> 
-> Besides these patches, is there anything else that comes to mind that I
-> might need to do to start compliance testing? I'm about to build a more
-> recent kernel to see if that improves my situation as well.
+This includes two patches from Christian which supported these controllers
+w/o ROM and later my patches for ROM support and multiple firmware versions.
 
-If xHC hw has a "Compliance Transition Capability" (CTC) bit set in the
-HCCPARAMS2 register then ports won't go to compliance unless software
-specifically allows it.
+Changes in v3:
+  Dropped patch 2 as discussed with Christian
+  Removed aligned 8 bytes check
+  Change order for firware search from highest version to lowest
+  Added entry for new firmware for device 0x14 as well
+  Add tested by Christian
 
-see xhci spec section 4.19.1.2.4.1 for more details.
+Changes in v2:
+  used macros for timeout count and delay
+  removed renesas_fw_alive_check
+  cleaned renesas_fw_callback
+  removed recurion for renesas_fw_download
+  added MODULE_FIRMWARE
+  added comment for multiple fw order
 
-Compliance can be allowed either with a SetPortFeature(PORT_LINK_STATE) request,
-or via debugfs.
+Christian Lamparter (1):
+  usb: xhci: add firmware loader for uPD720201 and uPD720202 w/o ROM
 
-To allow compliance using debugfs, first check port is in disabled state:
+Vinod Koul (3):
+  usb: xhci: Use register defined and field names
+  usb: xhci: Add ROM loader for uPD720201
+  usb: xhci: allow multiple firmware versions
 
-# cat /sys/kernel/debug/usb/xhci/0000:00:15.0/ports/port01/portsc
-Powered Not-connected Disabled Link:RxDetect PortSpeed:0 Change: Wake:
+ drivers/usb/host/xhci-pci.c | 875 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 875 insertions(+)
 
-enable compliance by writing "compliance" to the port:
-# echo compliance > /sys/kernel/debug/usb/xhci/0000:00:15.0/ports/port01/portsc
+-- 
+2.20.1
 
-This needs to be done for that specific port, and after every port warm reset.
-
-After 1st LFPS timeout the port should go to compliance, can be read from portsc
-
-Also make sure you don't have XHCI_COMP_MODE_QUIRK or XHCI_MISSING_CAS quirks set,
-these try to recover ports that accidentally enter compliance mode in normal use.
-
-> 
-> Just for reference, our product uses an intel atom z8550 SoC that uses
-> an xHCI host controller and a dwc3 device controller. Our platform also
-> uses a USB 3.0 redriver. The datasheet for this redriver (tusb542)
-> indicates that it's internal LFPS controller supports full USB 3.0
-> compliance requirements.
-> 
-
-z8550 is Cherry Trail? I unfortunately don't have those around anymore.
-
--Mathias
