@@ -6,27 +6,27 @@ X-Spam-Status: No, score=-8.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 292F1C43613
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62DC2C48BE9
 	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 02:01:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 034A120679
+	by mail.kernel.org (Postfix) with ESMTP id 3D6C12054F
 	for <linux-usb@archiver.kernel.org>; Mon, 24 Jun 2019 02:01:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726711AbfFXCBQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 23 Jun 2019 22:01:16 -0400
-Received: from inva020.nxp.com ([92.121.34.13]:55266 "EHLO inva020.nxp.com"
+        id S1726574AbfFXCBX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 23 Jun 2019 22:01:23 -0400
+Received: from inva021.nxp.com ([92.121.34.21]:40936 "EHLO inva021.nxp.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726438AbfFXCBP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sun, 23 Jun 2019 22:01:15 -0400
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 082D31A04F6;
-        Mon, 24 Jun 2019 04:01:14 +0200 (CEST)
+        id S1726691AbfFXCBV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 23 Jun 2019 22:01:21 -0400
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 9B41D20051A;
+        Mon, 24 Jun 2019 04:01:19 +0200 (CEST)
 Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 5F3641A0EDF;
-        Mon, 24 Jun 2019 04:01:07 +0200 (CEST)
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id F0F34200522;
+        Mon, 24 Jun 2019 04:01:12 +0200 (CEST)
 Received: from mega.ap.freescale.net (mega.ap.freescale.net [10.192.208.232])
-        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 8024D40313;
-        Mon, 24 Jun 2019 10:00:59 +0800 (SGT)
+        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id A15474031F;
+        Mon, 24 Jun 2019 10:01:04 +0800 (SGT)
 From:   Peter Chen <peter.chen@nxp.com>
 To:     balbi@kernel.org, shawnguo@kernel.org
 Cc:     robh+dt@kernel.org, fabio.estevam@nxp.com, kernel@pengutronix.de,
@@ -34,9 +34,9 @@ Cc:     robh+dt@kernel.org, fabio.estevam@nxp.com, kernel@pengutronix.de,
         linux-imx@nxp.com, linux-arm-kernel@lists.infradead.org,
         linux-usb@vger.kernel.org, chunfeng.yun@mediatek.com,
         sergei.shtylyov@cogentembedded.com, Peter Chen <peter.chen@nxp.com>
-Subject: [PATCH v5 4/8] doc: dt-binding: usbmisc-imx: add compatible string for imx7ulp
-Date:   Mon, 24 Jun 2019 10:02:54 +0800
-Message-Id: <20190624020258.21690-5-peter.chen@nxp.com>
+Subject: [PATCH v5 8/8] usb: chipidea: imx: "fsl,usbphy" phandle is not mandatory now
+Date:   Mon, 24 Jun 2019 10:02:58 +0800
+Message-Id: <20190624020258.21690-9-peter.chen@nxp.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190624020258.21690-1-peter.chen@nxp.com>
 References: <20190624020258.21690-1-peter.chen@nxp.com>
@@ -46,26 +46,31 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add compatible string for imx7ulp
+Since the chipidea common code support get the USB PHY phandle from
+"phys", the glue layer is not mandatory to get the "fsl,usbphy" phandle
+any more.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Peter Chen <peter.chen@nxp.com>
 ---
- Documentation/devicetree/bindings/usb/usbmisc-imx.txt | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/chipidea/ci_hdrc_imx.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/usbmisc-imx.txt b/Documentation/devicetree/bindings/usb/usbmisc-imx.txt
-index a85a631ec434..b353b9816487 100644
---- a/Documentation/devicetree/bindings/usb/usbmisc-imx.txt
-+++ b/Documentation/devicetree/bindings/usb/usbmisc-imx.txt
-@@ -7,6 +7,7 @@ Required properties:
- 	"fsl,vf610-usbmisc" for Vybrid vf610
- 	"fsl,imx6sx-usbmisc" for imx6sx
- 	"fsl,imx7d-usbmisc" for imx7d
-+	"fsl,imx7ulp-usbmisc" for imx7ulp
- - reg: Should contain registers location and length
+diff --git a/drivers/usb/chipidea/ci_hdrc_imx.c b/drivers/usb/chipidea/ci_hdrc_imx.c
+index a76708501236..b5abfe89190c 100644
+--- a/drivers/usb/chipidea/ci_hdrc_imx.c
++++ b/drivers/usb/chipidea/ci_hdrc_imx.c
+@@ -398,8 +398,9 @@ static int ci_hdrc_imx_probe(struct platform_device *pdev)
+ 		ret = PTR_ERR(data->phy);
+ 		/* Return -EINVAL if no usbphy is available */
+ 		if (ret == -ENODEV)
+-			ret = -EINVAL;
+-		goto err_clk;
++			data->phy = NULL;
++		else
++			goto err_clk;
+ 	}
  
- Examples:
+ 	pdata.usb_phy = data->phy;
 -- 
 2.14.1
 
