@@ -2,249 +2,57 @@ Return-Path: <SRS0=sEZ0=UY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_MUTT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1D15C48BD6
-	for <linux-usb@archiver.kernel.org>; Tue, 25 Jun 2019 05:39:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6112C48BD5
+	for <linux-usb@archiver.kernel.org>; Tue, 25 Jun 2019 06:00:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9468620659
-	for <linux-usb@archiver.kernel.org>; Tue, 25 Jun 2019 05:39:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A604220656
+	for <linux-usb@archiver.kernel.org>; Tue, 25 Jun 2019 06:00:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728440AbfFYFjp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 25 Jun 2019 01:39:45 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:53837 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728359AbfFYFjh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 25 Jun 2019 01:39:37 -0400
-X-IronPort-AV: E=Sophos;i="5.62,413,1554735600"; 
-   d="scan'208";a="19607552"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 25 Jun 2019 14:39:32 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 7340F4007F41;
-        Tue, 25 Jun 2019 14:39:32 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH 02/13] usb: renesas_usbhs: remove notify_hotplug callback
-Date:   Tue, 25 Jun 2019 14:38:46 +0900
-Message-Id: <1561441137-3090-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1561441137-3090-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1561441137-3090-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        id S1728509AbfFYGAg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 25 Jun 2019 02:00:36 -0400
+Received: from verein.lst.de ([213.95.11.211]:59667 "EHLO newverein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726495AbfFYGAg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 25 Jun 2019 02:00:36 -0400
+Received: by newverein.lst.de (Postfix, from userid 2407)
+        id 1546568B02; Tue, 25 Jun 2019 08:00:00 +0200 (CEST)
+Date:   Tue, 25 Jun 2019 08:00:00 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Fredrik Noring <noring@nocrew.org>
+Cc:     Christoph Hellwig <hch@lst.de>, Guenter Roeck <linux@roeck-us.net>,
+        laurentiu.tudor@nxp.com, stern@rowland.harvard.edu,
+        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        marex@denx.de, leoyang.li@nxp.com, linux-kernel@vger.kernel.org,
+        robin.murphy@arm.com, JuergenUrban@gmx.de
+Subject: Re: [PATCH v7 3/5] usb: host: ohci-sm501: init genalloc for local
+ memory
+Message-ID: <20190625060000.GA28986@lst.de>
+References: <20190611133223.GA30054@roeck-us.net> <20190611172654.GA2602@sx9> <20190611190343.GA18459@roeck-us.net> <20190613134033.GA2489@sx9> <bdfd2178-9e3c-dc15-6aa1-ec1f1fbcb191@roeck-us.net> <20190613153414.GA909@sx9> <3f2164cd-7655-b7cc-ec57-d8751886728c@roeck-us.net> <20190614142816.GA2574@sx9> <20190624063515.GA3296@lst.de> <20190624125916.GA2516@sx9>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190624125916.GA2516@sx9>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The notify_hotplug callback was supported in v3.10, but the last user
-(armadillo800eva) was removed by the commit 1fa59bda21c7 ("ARM: shmobile:
-Remove legacy board code for Armadillo-800 EVA"). So, this patch
-removes it.
+On Mon, Jun 24, 2019 at 02:59:16PM +0200, Fredrik Noring wrote:
+> Hi Christoph,
+> 
+> > Can you send me the patch formally so that I can queue it up for the
+> > dma-mapping tree?
+> 
+> That patch would be detrimental to local memory devices, as previously
+> discussed, so I would like to suggest a much better approach, as shown below,
+> where allocations are aligned as required but not necessarily much more than
+> that.
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/usb/renesas_usbhs/common.c     | 16 ++++------------
- drivers/usb/renesas_usbhs/common.h     |  2 ++
- drivers/usb/renesas_usbhs/mod.c        |  3 ++-
- drivers/usb/renesas_usbhs/mod_gadget.c |  3 ++-
- include/linux/usb/renesas_usbhs.h      | 26 +-------------------------
- 5 files changed, 11 insertions(+), 39 deletions(-)
-
-diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
-index ebbe322..f6b136a 100644
---- a/drivers/usb/renesas_usbhs/common.c
-+++ b/drivers/usb/renesas_usbhs/common.c
-@@ -3,6 +3,7 @@
-  * Renesas USB driver
-  *
-  * Copyright (C) 2011 Renesas Solutions Corp.
-+ * Copyright (C) 2019 Renesas Electronics Corporation
-  * Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-  */
- #include <linux/clk.h>
-@@ -513,7 +514,7 @@ static void usbhsc_notify_hotplug(struct work_struct *work)
- 	usbhsc_hotplug(priv);
- }
- 
--static int usbhsc_drvcllbck_notify_hotplug(struct platform_device *pdev)
-+int usbhsc_schedule_notify_hotplug(struct platform_device *pdev)
- {
- 	struct usbhs_priv *priv = usbhs_pdev_to_priv(pdev);
- 	int delay = usbhs_get_dparam(priv, detection_delay);
-@@ -667,7 +668,6 @@ static struct renesas_usbhs_platform_info *usbhs_parse_dt(struct device *dev)
- static int usbhs_probe(struct platform_device *pdev)
- {
- 	struct renesas_usbhs_platform_info *info = renesas_usbhs_get_info(pdev);
--	struct renesas_usbhs_driver_callback *dfunc;
- 	struct usbhs_priv *priv;
- 	struct resource *res, *irq_res;
- 	int ret;
-@@ -721,10 +721,6 @@ static int usbhs_probe(struct platform_device *pdev)
- 	}
- 	priv->pfunc = info->platform_callback;
- 
--	/* set driver callback functions for platform */
--	dfunc			= &info->driver_callback;
--	dfunc->notify_hotplug	= usbhsc_drvcllbck_notify_hotplug;
--
- 	/* set default param if platform doesn't have */
- 	if (!priv->dparam.pipe_configs) {
- 		priv->dparam.pipe_configs = usbhsc_default_pipe;
-@@ -818,7 +814,7 @@ static int usbhs_probe(struct platform_device *pdev)
- 	/*
- 	 * manual call notify_hotplug for cold plug
- 	 */
--	usbhsc_drvcllbck_notify_hotplug(pdev);
-+	usbhsc_schedule_notify_hotplug(pdev);
- 
- 	dev_info(&pdev->dev, "probed\n");
- 
-@@ -843,13 +839,9 @@ static int usbhs_probe(struct platform_device *pdev)
- static int usbhs_remove(struct platform_device *pdev)
- {
- 	struct usbhs_priv *priv = usbhs_pdev_to_priv(pdev);
--	struct renesas_usbhs_platform_info *info = renesas_usbhs_get_info(pdev);
--	struct renesas_usbhs_driver_callback *dfunc = &info->driver_callback;
- 
- 	dev_dbg(&pdev->dev, "usb remove\n");
- 
--	dfunc->notify_hotplug = NULL;
--
- 	/* power off */
- 	if (!usbhs_get_dparam(priv, runtime_pwctrl))
- 		usbhsc_power_ctrl(priv, 0);
-@@ -894,7 +886,7 @@ static __maybe_unused int usbhsc_resume(struct device *dev)
- 
- 	usbhs_platform_call(priv, phy_reset, pdev);
- 
--	usbhsc_drvcllbck_notify_hotplug(pdev);
-+	usbhsc_schedule_notify_hotplug(pdev);
- 
- 	return 0;
- }
-diff --git a/drivers/usb/renesas_usbhs/common.h b/drivers/usb/renesas_usbhs/common.h
-index de74ebd1..b2b21fb 100644
---- a/drivers/usb/renesas_usbhs/common.h
-+++ b/drivers/usb/renesas_usbhs/common.h
-@@ -3,6 +3,7 @@
-  * Renesas USB driver
-  *
-  * Copyright (C) 2011 Renesas Solutions Corp.
-+ * Copyright (C) 2019 Renesas Electronics Corporation
-  * Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-  */
- #ifndef RENESAS_USB_DRIVER_H
-@@ -317,6 +318,7 @@ void usbhs_bus_send_sof_enable(struct usbhs_priv *priv);
- void usbhs_bus_send_reset(struct usbhs_priv *priv);
- int usbhs_bus_get_speed(struct usbhs_priv *priv);
- int usbhs_vbus_ctrl(struct usbhs_priv *priv, int enable);
-+int usbhsc_schedule_notify_hotplug(struct platform_device *pdev);
- 
- /*
-  * frame
-diff --git a/drivers/usb/renesas_usbhs/mod.c b/drivers/usb/renesas_usbhs/mod.c
-index 7475c4f..540472a 100644
---- a/drivers/usb/renesas_usbhs/mod.c
-+++ b/drivers/usb/renesas_usbhs/mod.c
-@@ -3,6 +3,7 @@
-  * Renesas USB driver
-  *
-  * Copyright (C) 2011 Renesas Solutions Corp.
-+ * Copyright (C) 2019 Renesas Electronics Corporation
-  * Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-  */
- #include <linux/interrupt.h>
-@@ -41,7 +42,7 @@ static int usbhsm_autonomy_irq_vbus(struct usbhs_priv *priv,
- {
- 	struct platform_device *pdev = usbhs_priv_to_pdev(priv);
- 
--	renesas_usbhs_call_notify_hotplug(pdev);
-+	usbhsc_schedule_notify_hotplug(pdev);
- 
- 	return 0;
- }
-diff --git a/drivers/usb/renesas_usbhs/mod_gadget.c b/drivers/usb/renesas_usbhs/mod_gadget.c
-index 59cac40..0c1e8fa 100644
---- a/drivers/usb/renesas_usbhs/mod_gadget.c
-+++ b/drivers/usb/renesas_usbhs/mod_gadget.c
-@@ -3,6 +3,7 @@
-  * Renesas USB driver
-  *
-  * Copyright (C) 2011 Renesas Solutions Corp.
-+ * Copyright (C) 2019 Renesas Electronics Corporation
-  * Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-  */
- #include <linux/delay.h>
-@@ -1023,7 +1024,7 @@ static int usbhsg_vbus_session(struct usb_gadget *gadget, int is_active)
- 
- 	gpriv->vbus_active = !!is_active;
- 
--	renesas_usbhs_call_notify_hotplug(pdev);
-+	usbhsc_schedule_notify_hotplug(pdev);
- 
- 	return 0;
- }
-diff --git a/include/linux/usb/renesas_usbhs.h b/include/linux/usb/renesas_usbhs.h
-index b2cba7c..ac601be 100644
---- a/include/linux/usb/renesas_usbhs.h
-+++ b/include/linux/usb/renesas_usbhs.h
-@@ -3,6 +3,7 @@
-  * Renesas USB
-  *
-  * Copyright (C) 2011 Renesas Solutions Corp.
-+ * Copyright (C) 2019 Renesas Electronics Corporation
-  * Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-  *
-  * This program is distributed in the hope that it will be useful,
-@@ -33,17 +34,6 @@ enum {
- };
- 
- /*
-- * callback functions table for driver
-- *
-- * These functions are called from platform for driver.
-- * Callback function's pointer will be set before
-- * renesas_usbhs_platform_callback :: hardware_init was called
-- */
--struct renesas_usbhs_driver_callback {
--	int (*notify_hotplug)(struct platform_device *pdev);
--};
--
--/*
-  * callback functions for platform
-  *
-  * These functions are called from driver for platform
-@@ -214,12 +204,6 @@ struct renesas_usbhs_platform_info {
- 	struct renesas_usbhs_platform_callback	platform_callback;
- 
- 	/*
--	 * driver set these callback functions pointer.
--	 * platform can use it on callback functions
--	 */
--	struct renesas_usbhs_driver_callback	driver_callback;
--
--	/*
- 	 * option:
- 	 *
- 	 * driver use these param for some register
-@@ -232,12 +216,4 @@ struct renesas_usbhs_platform_info {
-  */
- #define renesas_usbhs_get_info(pdev)\
- 	((struct renesas_usbhs_platform_info *)(pdev)->dev.platform_data)
--
--#define renesas_usbhs_call_notify_hotplug(pdev)				\
--	({								\
--		struct renesas_usbhs_driver_callback *dc;		\
--		dc = &(renesas_usbhs_get_info(pdev)->driver_callback);	\
--		if (dc && dc->notify_hotplug)				\
--			dc->notify_hotplug(pdev);			\
--	})
- #endif /* RENESAS_USB_H */
--- 
-2.7.4
-
+This looks sensible to me.  Can you submit it with a proper patch
+description and split into a separate patch for genalloc vs the user of
+the new interface?
