@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13D2FC48BD3
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 03:46:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BFA6C48BD6
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 03:46:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DEFB920659
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 03:46:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2CDEF2177B
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 03:46:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1561520790;
+	s=default; t=1561520815;
 	bh=1Bdi0/AIjYlIMigrOFZsl0rMjuXzCsm30opJkibrcrg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=LuE0wUrw6NGI5m3OXNioWSdSMMy8sp3p0fZPMoiNsiHKkpj/e1Ttp+KV5qm+CNxG9
-	 OEpSmbPG26ZL2aOGLgv8x9QUXeAUOqtxSu+TPTdJ+Xm5yZJUKDV53aJkN1fSXNavu5
-	 ex4mFjZi1eGPHQRIGkI6NkgAFYssiTAh99vqtXCo=
+	b=OyMra0GcfiKDFark1NXHw4P+GogFhXud2qtkPziUZMyzq3wiIHbe0T3j6ZHgQvOFX
+	 L3cVg1GE2iyPlEDQXeJkCvP2BrA06J5QKFeQ/PnpLGJssm0Ml+M0wgNvVSAFgZJnJK
+	 hprwQ3lDdUk4sPdJ+IudNQTZmYxwRxn70pasZaAg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727958AbfFZDq0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 25 Jun 2019 23:46:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58102 "EHLO mail.kernel.org"
+        id S1728049AbfFZDqt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 25 Jun 2019 23:46:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58726 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727087AbfFZDqZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 25 Jun 2019 23:46:25 -0400
-Received: from sasha-vm.mshome.net (mobile-107-77-172-82.mobile.att.net [107.77.172.82])
+        id S1728044AbfFZDqs (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 25 Jun 2019 23:46:48 -0400
+Received: from sasha-vm.mshome.net (mobile-107-77-172-90.mobile.att.net [107.77.172.90])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9D89C205ED;
-        Wed, 26 Jun 2019 03:46:20 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EBCF8205ED;
+        Wed, 26 Jun 2019 03:46:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561520784;
+        s=default; t=1561520808;
         bh=1Bdi0/AIjYlIMigrOFZsl0rMjuXzCsm30opJkibrcrg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LcQUmmuBXeukxEIMEN5drkfLHfjKKT56YQDdsEXQ/KYXlSWP2eA3W4vtyiJJ9wLHa
-         IRjAIOZff8z2PDTgpWBEpAduQbv7zCxJZoBoLI65iOQkoBloDg700Fe96QSCrYLAp2
-         0Bqete1UZDcDXDdqJQyCoLVg1fWnHslfifUHkyxQ=
+        b=BBBL8aFpMJXnhBM38r4ik4S5SjjdYCAuDYKB1/Gg38iPG34SsB0ajFotruc/Zi0Jj
+         kkNv12wfQTcQX23H+do9Z02EZ6NnvyJNAXkNkglz6EYHBDsoQEjp7JtlTiXJ1pZNr5
+         04l9/5IIo3otHJWLRC+Bdh6mwUb+g8LM+iWVHAy4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Young Xiao <92siuyang@gmail.com>,
         Felipe Balbi <felipe.balbi@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 07/11] usb: gadget: fusb300_udc: Fix memory leak of fusb300->ep[i]
-Date:   Tue, 25 Jun 2019 23:45:57 -0400
-Message-Id: <20190626034602.24367-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 4/6] usb: gadget: fusb300_udc: Fix memory leak of fusb300->ep[i]
+Date:   Tue, 25 Jun 2019 23:46:35 -0400
+Message-Id: <20190626034637.24515-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190626034602.24367-1-sashal@kernel.org>
-References: <20190626034602.24367-1-sashal@kernel.org>
+In-Reply-To: <20190626034637.24515-1-sashal@kernel.org>
+References: <20190626034637.24515-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
