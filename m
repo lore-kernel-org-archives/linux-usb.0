@@ -2,595 +2,162 @@ Return-Path: <SRS0=I8I8=UZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 897ECC48BD3
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 07:58:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 712BDC4646B
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 08:17:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5AFAF20B7C
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 07:58:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1561535938;
-	bh=ykyxm8ZuLusEglFV4YQx8fW6C9NmlnBJW0zpNa99QBQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=UXlK3eH2C2y2ftt5IqZbpe8dqBIuhxmcWqdv4OsgmmbKAnFqPWGkPPw6+imRUJrxe
-	 J/ppUBCFYZSuSVRYUaDKfoPWEQ3u/2fNmeiiFLqyljPD+o6uvv52EQhsMGZKwKUlLF
-	 repUssZeJWBc3C7qY2SZqKTY943+gbfXtwwB6YCE=
+	by mail.kernel.org (Postfix) with ESMTP id 53025204EC
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 08:17:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726799AbfFZH6i (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 26 Jun 2019 03:58:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48712 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726042AbfFZH6i (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 26 Jun 2019 03:58:38 -0400
-Received: from localhost.localdomain (unknown [106.201.40.23])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 580EB2147A;
-        Wed, 26 Jun 2019 07:58:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561535916;
-        bh=ykyxm8ZuLusEglFV4YQx8fW6C9NmlnBJW0zpNa99QBQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EscvqTWipdejfCouw3ouYNQoE9huprUyIDQtWKpm3azzT6hezH9sMtrvjD9onK6RY
-         e/hsIA49SEF5HqdVargyZAbVweER/dADOkWhPEcNt9ZHPgmRKYeLjZFpKqI1b9dIgU
-         kxZqdBHiWzmm6PFB8RXkWNfM6XBndr0nWih1iD+I=
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-arm-msm@vger.kernel.org,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Christian Lamparter <chunkeey@googlemail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Christian Lamparter <chunkeey@gmail.com>,
-        Vinod Koul <vkoul@kernel.org>
-Subject: [PATCH v4 1/4] usb: xhci: add firmware loader for uPD720201 and uPD720202 w/o ROM
-Date:   Wed, 26 Jun 2019 13:25:06 +0530
-Message-Id: <20190626075509.20445-2-vkoul@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190626075509.20445-1-vkoul@kernel.org>
-References: <20190626075509.20445-1-vkoul@kernel.org>
+        id S1726716AbfFZIRp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 26 Jun 2019 04:17:45 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:10368 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725379AbfFZIRp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Jun 2019 04:17:45 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x5Q8HQR4120644
+        for <linux-usb@vger.kernel.org>; Wed, 26 Jun 2019 04:17:44 -0400
+Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2tc4mas4r4-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-usb@vger.kernel.org>; Wed, 26 Jun 2019 04:17:43 -0400
+Received: from localhost
+        by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-usb@vger.kernel.org> from <maier@linux.ibm.com>;
+        Wed, 26 Jun 2019 09:17:41 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+        by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Wed, 26 Jun 2019 09:17:35 +0100
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x5Q8HZfM34340886
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 26 Jun 2019 08:17:35 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id E5A67A4040;
+        Wed, 26 Jun 2019 08:17:34 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 0BAC0A4051;
+        Wed, 26 Jun 2019 08:17:34 +0000 (GMT)
+Received: from oc4120165700.ibm.com (unknown [9.152.99.211])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Wed, 26 Jun 2019 08:17:33 +0000 (GMT)
+Subject: Re: [PATCH V5 10/16] s390: zfcp_fc: use sg helper to operate
+ scatterlist
+To:     Ming Lei <ming.lei@redhat.com>
+Cc:     linux-scsi@vger.kernel.org,
+        "Martin K . Petersen" <martin.petersen@oracle.com>,
+        James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Hannes Reinecke <hare@suse.com>,
+        Christoph Hellwig <hch@lst.de>, Jim Gill <jgill@vmware.com>,
+        Cathy Avery <cavery@redhat.com>,
+        "Ewan D . Milne" <emilne@redhat.com>,
+        Brian King <brking@us.ibm.com>,
+        James Smart <james.smart@broadcom.com>,
+        "Juergen E . Fischer" <fischer@norbit.de>,
+        Michael Schmitz <schmitzmic@gmail.com>,
+        Finn Thain <fthain@telegraphics.com.au>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        devel@driverdev.osuosl.org, linux-usb@vger.kernel.org,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Benjamin Block <bblock@linux.ibm.com>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        linux-s390@vger.kernel.org
+References: <20190618013757.22401-1-ming.lei@redhat.com>
+ <20190618013757.22401-11-ming.lei@redhat.com>
+ <95bfa1fb-d0eb-fc61-ecc0-001ae52a326f@linux.ibm.com>
+ <20190625011902.GA23777@ming.t460p>
+ <93d3d89e-a9ae-691f-d1f8-0463f714957d@linux.ibm.com>
+ <20190626030751.GA26340@ming.t460p>
+From:   Steffen Maier <maier@linux.ibm.com>
+Date:   Wed, 26 Jun 2019 10:17:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190626030751.GA26340@ming.t460p>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19062608-4275-0000-0000-000003465983
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19062608-4276-0000-0000-000038565D75
+Message-Id: <1353d755-de62-d575-4c7b-d20d59d07f23@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-06-26_04:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1906260101
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Christian Lamparter <chunkeey@googlemail.com>
+Hi Ming,
 
-This patch adds a firmware loader for the uPD720201K8-711-BAC-A
-and uPD720202K8-711-BAA-A variant. Both of these chips are listed
-in Renesas' R19UH0078EJ0500 Rev.5.00 "User's Manual: Hardware" as
-devices which need the firmware loader on page 2 in order to
-work as they "do not support the External ROM".
+On 6/26/19 5:07 AM, Ming Lei wrote:
+> On Tue, Jun 25, 2019 at 12:51:04PM +0200, Steffen Maier wrote:
+>> I don't mind doing this change for zfcp. However, I'm having doubts
+>> regarding the rationale in the commit description.
 
-The "Firmware Download Sequence" is describe in chapter
-"7.1 FW Download Interface" R19UH0078EJ0500 Rev.5.00 page 131.
+> However, I still suggest to do it because it will make us to audit SCSI chained
+> sg uses much easier. And the change shouldn't have performance effect.
 
-The firmware "K2013080.mem" is available from a USB3.0 Host to
-PCIe Adapter (PP2U-E card) "Firmware download" archive. An
-alternative version can be sourced from Netgear's WNDR4700 GPL
-archives.
+>> If I was not mistaken above, the following could be more descriptive parts
+>> of a patch/commit description, with hopefully less confusion for anyone
+>> having to look at zfcp git history a few weeks/months/years from now:
+>>
+>> "While not required for this SCSI MQ change regarding scatterlist
+>> allocation, change all other scatterlist iterators in zfcp to the safe
+>> sg_next() even if not necessary as these changed zfcp-internal scatterlists
+>> are linear and unchained. This may avoid confusion about a potential need
+>> for conversions in the future."
 
-The release notes of the PP2U-E's "Firmware Download" ver 2.0.1.3
-(2012-06-15) state that the firmware is for the following devices:
- - uPD720201 ES 2.0 sample whose revision ID is 2.
- - uPD720201 ES 2.1 sample & CS sample & Mass product, ID is 3.
- - uPD720202 ES 2.0 sample & CS sample & Mass product, ID is 2.
+Sure, let's change the code, but could you please update the description of 
+your below new patch to something like I drafted above regarding rationale?
 
-Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Signed-off-by: Christian Lamparter <chunkeey@googlemail.com>
-Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-[vkoul: fixed comments:
-	used macros for timeout count and delay
-	removed renesas_fw_alive_check
-	cleaned renesas_fw_callback
-	removed recurion for renesas_fw_download
-	added MODULE_FIRMWARE]
-Tested-by: Christian Lamparter <chunkeey@gmail.com>
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
----
- drivers/usb/host/xhci-pci.c | 454 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 454 insertions(+)
+If you would like to send a V2, I'll be happy to give a Reviewed-by.
 
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index c2fe218e051f..237df5c47fca 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -12,6 +12,8 @@
- #include <linux/slab.h>
- #include <linux/module.h>
- #include <linux/acpi.h>
-+#include <linux/firmware.h>
-+#include <linux/unaligned/access_ok.h>
- 
- #include "xhci.h"
- #include "xhci-trace.h"
-@@ -55,6 +57,9 @@
- #define PCI_DEVICE_ID_AMD_PROMONTORYA_1			0x43bc
- #define PCI_DEVICE_ID_ASMEDIA_1042A_XHCI		0x1142
- 
-+#define RENESAS_RETRY	10000
-+#define RENESAS_DELAY	10
-+
- static const char hcd_name[] = "xhci_hcd";
- 
- static struct hc_driver __read_mostly xhci_pci_hc_driver;
-@@ -279,6 +284,429 @@ static void xhci_pme_acpi_rtd3_enable(struct pci_dev *dev)
- static void xhci_pme_acpi_rtd3_enable(struct pci_dev *dev) { }
- #endif /* CONFIG_ACPI */
- 
-+static const struct renesas_fw_entry {
-+	const char *firmware_name;
-+	u16 device;
-+	u8 revision;
-+	u16 expected_version;
-+} renesas_fw_table[] = {
-+	/*
-+	 * Only the uPD720201K8-711-BAC-A or uPD720202K8-711-BAA-A
-+	 * are listed in R19UH0078EJ0500 Rev.5.00 as devices which
-+	 * need the software loader.
-+	 *
-+	 * PP2U/ReleaseNote_USB3-201-202-FW.txt:
-+	 *
-+	 * Note: This firmware is for the following devices.
-+	 *  - uPD720201 ES 2.0 sample whose revision ID is 2.
-+	 *  - uPD720201 ES 2.1 sample & CS sample & Mass product, ID is 3.
-+	 *  - uPD720202 ES 2.0 sample & CS sample & Mass product, ID is 2.
-+	 */
-+	{ "K2013080.mem", 0x0014, 0x02, 0x2013 },
-+	{ "K2013080.mem", 0x0014, 0x03, 0x2013 },
-+	{ "K2013080.mem", 0x0015, 0x02, 0x2013 },
-+};
-+
-+MODULE_FIRMWARE("K2013080.mem");
-+
-+static const struct renesas_fw_entry *renesas_needs_fw_dl(struct pci_dev *dev)
-+{
-+	const struct renesas_fw_entry *entry;
-+	size_t i;
-+
-+	/* This loader will only work with a RENESAS device. */
-+	if (!(dev->vendor == PCI_VENDOR_ID_RENESAS))
-+		return NULL;
-+
-+	for (i = 0; i < ARRAY_SIZE(renesas_fw_table); i++) {
-+		entry = &renesas_fw_table[i];
-+		if (entry->device == dev->device &&
-+		    entry->revision == dev->revision)
-+			return entry;
-+	}
-+
-+	return NULL;
-+}
-+
-+static int renesas_fw_download_image(struct pci_dev *dev,
-+				     const u32 *fw,
-+				     size_t step)
-+{
-+	size_t i;
-+	int err;
-+	u8 fw_status;
-+	bool data0_or_data1;
-+
-+	/*
-+	 * The hardware does alternate between two 32-bit pages.
-+	 * (This is because each row of the firmware is 8 bytes).
-+	 *
-+	 * for even steps we use DATA0, for odd steps DATA1.
-+	 */
-+	data0_or_data1 = (step & 1) == 1;
-+
-+	/* step+1. Read "Set DATAX" and confirm it is cleared. */
-+	for (i = 0; i < RENESAS_RETRY; i++) {
-+		err = pci_read_config_byte(dev, 0xF5, &fw_status);
-+		if (err)
-+			return pcibios_err_to_errno(err);
-+		if (!(fw_status & BIT(data0_or_data1)))
-+			break;
-+
-+		udelay(RENESAS_DELAY);
-+	}
-+	if (i == RENESAS_RETRY)
-+		return -ETIMEDOUT;
-+
-+	/*
-+	 * step+2. Write FW data to "DATAX".
-+	 * "LSB is left" => force little endian
-+	 */
-+	err = pci_write_config_dword(dev, data0_or_data1 ? 0xFC : 0xF8,
-+				     (__force u32)cpu_to_le32(fw[step]));
-+	if (err)
-+		return pcibios_err_to_errno(err);
-+
-+	udelay(100);
-+
-+	/* step+3. Set "Set DATAX". */
-+	err = pci_write_config_byte(dev, 0xF5, BIT(data0_or_data1));
-+	if (err)
-+		return pcibios_err_to_errno(err);
-+
-+	return 0;
-+}
-+
-+static int renesas_fw_verify(struct pci_dev *dev,
-+			     const void *fw_data,
-+			     size_t length)
-+{
-+	const struct renesas_fw_entry *entry = renesas_needs_fw_dl(dev);
-+	u16 fw_version_pointer;
-+	u16 fw_version;
-+
-+	if (!entry)
-+		return -EINVAL;
-+
-+	/*
-+	 * The Firmware's Data Format is describe in
-+	 * "6.3 Data Format" R19UH0078EJ0500 Rev.5.00 page 124
-+	 */
-+
-+	/*
-+	 * The bootrom chips of the big brother have sizes up to 64k, let's
-+	 * assume that's the biggest the firmware can get.
-+	 */
-+	if (length < 0x1000 || length >= 0x10000) {
-+		dev_err(&dev->dev, "firmware is size %zd is not (4k - 64k).",
-+			length);
-+		return -EINVAL;
-+	}
-+
-+	/* The First 2 bytes are fixed value (55aa). "LSB on Left" */
-+	if (get_unaligned_le16(fw_data) != 0x55aa) {
-+		dev_err(&dev->dev, "no valid firmware header found.");
-+		return -EINVAL;
-+	}
-+
-+	/* verify the firmware version position and print it. */
-+	fw_version_pointer = get_unaligned_le16(fw_data + 4);
-+	if (fw_version_pointer + 2 >= length) {
-+		dev_err(&dev->dev,
-+			"firmware version pointer is outside of the firmware image.");
-+		return -EINVAL;
-+	}
-+
-+	fw_version = get_unaligned_le16(fw_data + fw_version_pointer);
-+	dev_dbg(&dev->dev, "got firmware version: %02x.", fw_version);
-+
-+	if (fw_version != entry->expected_version) {
-+		dev_err(&dev->dev,
-+			"firmware version mismatch, expected version: %02x.",
-+			entry->expected_version);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int renesas_fw_check_running(struct pci_dev *pdev)
-+{
-+	int err;
-+	u8 fw_state;
-+
-+	/*
-+	 * Test if the device is actually needing the firmware. As most
-+	 * BIOSes will initialize the device for us. If the device is
-+	 * initialized.
-+	 */
-+	err = pci_read_config_byte(pdev, 0xF4, &fw_state);
-+	if (err)
-+		return pcibios_err_to_errno(err);
-+
-+	/*
-+	 * Check if "FW Download Lock" is locked. If it is and the FW is
-+	 * ready we can simply continue. If the FW is not ready, we have
-+	 * to give up.
-+	 */
-+	if (fw_state & BIT(1)) {
-+		dev_dbg(&pdev->dev, "FW Download Lock is engaged.");
-+
-+		if (fw_state & BIT(4))
-+			return 0;
-+
-+		dev_err(&pdev->dev,
-+			"FW Download Lock is set and FW is not ready. Giving Up.");
-+		return -EIO;
-+	}
-+
-+	/*
-+	 * Check if "FW Download Enable" is set. If someone (us?) tampered
-+	 * with it and it can't be resetted, we have to give up too... and
-+	 * ask for a forgiveness and a reboot.
-+	 */
-+	if (fw_state & BIT(0)) {
-+		dev_err(&pdev->dev,
-+			"FW Download Enable is stale. Giving Up (poweroff/reboot needed).");
-+		return -EIO;
-+	}
-+
-+	/* Otherwise, Check the "Result Code" Bits (6:4) and act accordingly */
-+	switch ((fw_state & 0x70)) {
-+	case 0: /* No result yet */
-+		dev_dbg(&pdev->dev, "FW is not ready/loaded yet.");
-+
-+		/* tell the caller, that this device needs the firmware. */
-+		return 1;
-+
-+	case BIT(4): /* Success, device should be working. */
-+		dev_dbg(&pdev->dev, "FW is ready.");
-+		return 0;
-+
-+	case BIT(5): /* Error State */
-+		dev_err(&pdev->dev,
-+			"hardware is in an error state. Giving up (poweroff/reboot needed).");
-+		return -ENODEV;
-+
-+	default: /* All other states are marked as "Reserved states" */
-+		dev_err(&pdev->dev,
-+			"hardware is in an invalid state %x. Giving up (poweroff/reboot needed).",
-+			(fw_state & 0x70) >> 4);
-+		return -EINVAL;
-+	}
-+}
-+
-+static int renesas_fw_download(struct pci_dev *pdev,
-+			       const struct firmware *fw)
-+{
-+	const u32 *fw_data = (const u32 *)fw->data;
-+	size_t i;
-+	int err;
-+	u8 fw_status;
-+
-+	/*
-+	 * For more information and the big picture: please look at the
-+	 * "Firmware Download Sequence" in "7.1 FW Download Interface"
-+	 * of R19UH0078EJ0500 Rev.5.00 page 131
-+	 */
-+
-+	/*
-+	 * 0. Set "FW Download Enable" bit in the
-+	 * "FW Download Control & Status Register" at 0xF4
-+	 */
-+	err = pci_write_config_byte(pdev, 0xF4, BIT(0));
-+	if (err)
-+		return pcibios_err_to_errno(err);
-+
-+	/* 1 - 10 follow one step after the other. */
-+	for (i = 0; i < fw->size / 4; i++) {
-+		err = renesas_fw_download_image(pdev, fw_data, i);
-+		if (err) {
-+			dev_err(&pdev->dev,
-+				"Firmware Download Step %zd failed at position %zd bytes with (%d).",
-+				i, i * 4, err);
-+			return err;
-+		}
-+	}
-+
-+	/*
-+	 * This sequence continues until the last data is written to
-+	 * "DATA0" or "DATA1". Naturally, we wait until "SET DATA0/1"
-+	 * is cleared by the hardware beforehand.
-+	 */
-+	for (i = 0; i < RENESAS_RETRY; i++) {
-+		err = pci_read_config_byte(pdev, 0xF5, &fw_status);
-+		if (err)
-+			return pcibios_err_to_errno(err);
-+		if (!(fw_status & (BIT(0) | BIT(1))))
-+			break;
-+
-+		udelay(RENESAS_DELAY);
-+	}
-+	if (i == RENESAS_RETRY)
-+		dev_warn(&pdev->dev, "Final Firmware Download step timed out.");
-+
-+	/*
-+	 * 11. After finishing writing the last data of FW, the
-+	 * System Software must clear "FW Download Enable"
-+	 */
-+	err = pci_write_config_byte(pdev, 0xF4, 0);
-+	if (err)
-+		return pcibios_err_to_errno(err);
-+
-+	/* 12. Read "Result Code" and confirm it is good. */
-+	for (i = 0; i < RENESAS_RETRY; i++) {
-+		err = pci_read_config_byte(pdev, 0xF4, &fw_status);
-+		if (err)
-+			return pcibios_err_to_errno(err);
-+		if (fw_status & BIT(4))
-+			break;
-+
-+		udelay(RENESAS_DELAY);
-+	}
-+	if (i == RENESAS_RETRY) {
-+		/* Timed out / Error - let's see if we can fix this */
-+		err = renesas_fw_check_running(pdev);
-+		switch (err) {
-+		case 0: /*
-+			 * we shouldn't end up here.
-+			 * maybe it took a little bit longer.
-+			 * But all should be well?
-+			 */
-+			break;
-+
-+		case 1: /* (No result yet! */
-+			return -ETIMEDOUT;
-+
-+		default:
-+			return err;
-+		}
-+	}
-+	/*
-+	 * Optional last step: Engage Firmware Lock
-+	 *
-+	 * err = pci_write_config_byte(pdev, 0xF4, BIT(2));
-+	 * if (err)
-+	 *	return pcibios_err_to_errno(err);
-+	 */
-+
-+	return 0;
-+}
-+
-+struct renesas_fw_ctx {
-+	struct pci_dev *pdev;
-+	const struct pci_device_id *id;
-+	bool resume;
-+};
-+
-+static int xhci_pci_probe(struct pci_dev *pdev,
-+			  const struct pci_device_id *id);
-+
-+static void renesas_fw_callback(const struct firmware *fw,
-+				void *context)
-+{
-+	struct renesas_fw_ctx *ctx = context;
-+	struct pci_dev *pdev = ctx->pdev;
-+	struct device *parent = pdev->dev.parent;
-+	int err;
-+
-+	if (!fw) {
-+		dev_err(&pdev->dev, "firmware failed to load\n");
-+
-+		goto cleanup;
-+	}
-+
-+	err = renesas_fw_verify(pdev, fw->data, fw->size);
-+	if (err)
-+		goto cleanup;
-+
-+	err = renesas_fw_download(pdev, fw);
-+	release_firmware(fw);
-+	if (err) {
-+		dev_err(&pdev->dev, "firmware failed to download (%d).", err);
-+		goto cleanup;
-+	}
-+	if (ctx->resume)
-+		return;
-+
-+	err = xhci_pci_probe(pdev, ctx->id);
-+	if (!err) {
-+		/* everything worked */
-+		devm_kfree(&pdev->dev, ctx);
-+		return;
-+	}
-+
-+cleanup:
-+	/* in case of an error - fall through */
-+	dev_info(&pdev->dev, "Unloading driver");
-+
-+	if (parent)
-+		device_lock(parent);
-+
-+	device_release_driver(&pdev->dev);
-+
-+	if (parent)
-+		device_unlock(parent);
-+
-+	pci_dev_put(pdev);
-+}
-+
-+static int renesas_fw_alive_check(struct pci_dev *pdev)
-+{
-+	const struct renesas_fw_entry *entry;
-+
-+	/* check if we have a eligible RENESAS' uPD720201/2 w/o FW. */
-+	entry = renesas_needs_fw_dl(pdev);
-+	if (!entry)
-+		return 0;
-+
-+	return renesas_fw_check_running(pdev);
-+}
-+
-+static int renesas_fw_download_to_hw(struct pci_dev *pdev,
-+				     const struct pci_device_id *id,
-+				     bool do_resume)
-+{
-+	const struct renesas_fw_entry *entry;
-+	struct renesas_fw_ctx *ctx;
-+	int err;
-+
-+	/* check if we have a eligible RENESAS' uPD720201/2 w/o FW. */
-+	entry = renesas_needs_fw_dl(pdev);
-+	if (!entry)
-+		return 0;
-+
-+	err = renesas_fw_check_running(pdev);
-+	/* Continue ahead, if the firmware is already running. */
-+	if (err == 0)
-+		return 0;
-+
-+	if (err != 1)
-+		return err;
-+
-+	ctx = devm_kzalloc(&pdev->dev, sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+	ctx->pdev = pdev;
-+	ctx->resume = do_resume;
-+	ctx->id = id;
-+
-+	pci_dev_get(pdev);
-+	err = request_firmware_nowait(THIS_MODULE, 1, entry->firmware_name,
-+				      &pdev->dev, GFP_KERNEL,
-+				      ctx, renesas_fw_callback);
-+	if (err) {
-+		pci_dev_put(pdev);
-+		return err;
-+	}
-+
-+	/*
-+	 * The renesas_fw_callback() callback will continue the probe
-+	 * process, once it aquires the firmware.
-+	 */
-+	return 1;
-+}
-+
- /* called during probe() after chip reset completes */
- static int xhci_pci_setup(struct usb_hcd *hcd)
- {
-@@ -317,6 +745,22 @@ static int xhci_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
- 	struct hc_driver *driver;
- 	struct usb_hcd *hcd;
- 
-+	/*
-+	 * Check if this device is a RENESAS uPD720201/2 device.
-+	 * Otherwise, we can continue with xhci_pci_probe as usual.
-+	 */
-+	retval = renesas_fw_download_to_hw(dev, id, false);
-+	switch (retval) {
-+	case 0:
-+		break;
-+
-+	case 1: /* let it load the firmware and recontinue the probe. */
-+		return 0;
-+
-+	default:
-+		return retval;
-+	};
-+
- 	driver = (struct hc_driver *)id->driver_data;
- 
- 	/* Prevent runtime suspending between USB-2 and USB-3 initialization */
-@@ -381,6 +825,16 @@ static void xhci_pci_remove(struct pci_dev *dev)
- {
- 	struct xhci_hcd *xhci;
- 
-+	if (renesas_fw_alive_check(dev)) {
-+		/*
-+		 * bail out early, if this was a renesas device w/o FW.
-+		 * Else we might hit the NMI watchdog in xhci_handsake
-+		 * during xhci_reset as part of the driver's unloading.
-+		 * which we forced in the renesas_fw_callback().
-+		 */
-+		return;
-+	}
-+
- 	xhci = hcd_to_xhci(pci_get_drvdata(dev));
- 	xhci->xhc_state |= XHCI_STATE_REMOVING;
- 
+>>>   From c9c368308fefbf034d670984fe9746a4181fe514 Mon Sep 17 00:00:00 2001
+>>> From: Ming Lei <ming.lei@redhat.com>
+>>> Date: Tue, 25 Jun 2019 09:15:34 +0800
+>>> Subject: [PATCH] s390: scsi: use sg helper to iterate over scatterlist
+
+>>> Unlike the legacy I/O path, scsi-mq preallocates a large array to hold
+>>> the scatterlist for each request. This static allocation can consume
+>>> substantial amounts of memory on modern controllers which support a
+>>> large number of concurrently outstanding requests.
+
+>>> To facilitate a switch to a smaller static allocation combined with a
+>>> dynamic allocation for requests that need it, we need to make sure all
+>>> SCSI drivers handle chained scatterlists correctly.
+
+>>> Convert remaining drivers that directly dereference the scatterlist
+>>> array to using the iterator functions.
+
+> OK, I still suggest to apply the patch for the mentioned reason if you
+> are fine.
+
+
+
 -- 
-2.20.1
+Mit freundlichen Gruessen / Kind regards
+Steffen Maier
+
+Linux on IBM Z Development
+
+https://www.ibm.com/privacy/us/en/
+IBM Deutschland Research & Development GmbH
+Vorsitzender des Aufsichtsrats: Matthias Hartmann
+Geschaeftsfuehrung: Dirk Wittkopp
+Sitz der Gesellschaft: Boeblingen
+Registergericht: Amtsgericht Stuttgart, HRB 243294
 
