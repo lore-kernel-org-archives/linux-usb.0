@@ -2,168 +2,86 @@ Return-Path: <SRS0=I8I8=UZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1DF0C48BD8
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 13:07:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA348C48BD3
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 13:31:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C983221670
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 13:07:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A92A22147A
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 13:31:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727353AbfFZNHM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 26 Jun 2019 09:07:12 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:20322 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726157AbfFZNHM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Jun 2019 09:07:12 -0400
-X-IronPort-AV: E=Sophos;i="5.62,419,1554735600"; 
-   d="scan'208";a="19770037"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 26 Jun 2019 22:07:09 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0357041145A0;
-        Wed, 26 Jun 2019 22:07:09 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "# v4 . 1+" <stable@vger.kernel.org>
-Subject: [PATCH] usb: renesas_usbhs: add a workaround for a race condition of workqueue
-Date:   Wed, 26 Jun 2019 22:06:33 +0900
-Message-Id: <1561554393-6027-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+        id S1727110AbfFZNbI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 26 Jun 2019 09:31:08 -0400
+Received: from zyloware.com ([23.95.19.78]:48620 "EHLO chulaseafood.com"
+        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726104AbfFZNbH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 26 Jun 2019 09:31:07 -0400
+X-Greylist: delayed 5821 seconds by postgrey-1.27 at vger.kernel.org; Wed, 26 Jun 2019 09:31:07 EDT
+To:     linux-usb@vger.kernel.org
+Subject: =?UTF-8?B?wrcgICAgICAgICBjYW4geW91IGd1aWRlIG1lPw==?=
+Message-ID: <3e0a6c446a606889826391593daebf3c@inaflashweb.com>
+Date:   Wed, 26 Jun 2019 13:35:59 +0200
+From:   "Laura" <ansitaasdsaksi@verizon.net>
+Reply-To: ansitaasdsaksi@verizon.net
+MIME-Version: 1.0
+Content-Type: text/plain; format=flowed; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The old commit 6e4b74e4690d ("usb: renesas: fix scheduling in atomic
-context bug") fixed an atomic issue by using workqueue for the shdmac
-dmaengine driver. However, this has a potential race condition issue
-between the work pending and usbhsg_ep_free_request() in gadget mode.
-When usbhsg_ep_free_request() is called while pending the queue,
-since the work_struct will be freed and then the work handler is
-called, kernel panic happens on process_one_work().
+Hi,
 
-To fix the issue, if we could call cancel_work_sync() at somewhere
-before the free request, it could be easy. However,
-the usbhsg_ep_free_request() is called on atomic (e.g. f_ncm driver
-calls free request via gether_disconnect()).
+Did you see my email below from last week?
 
-For now, almost all users are having "USB-DMAC" and the DMAengine
-driver can be used on atomic. So, this patch adds a workaround for
-a race condition to call the DMAengine APIs without the workqueue.
+We manufacture ALL custom LOGO and branded products – over 300,000 to
+choose from.
 
-This means we still have TODO on shdmac environment (SH7724), but
-since it doesn't have SMP, the race condition might not happen.
+The most asked about product that we make, are the custom printed USB flash
+drives!
+We can print your logo on them and load your digital images, videos and
+files!
 
-Fixes: ab330cf3888d ("usb: renesas_usbhs: add support for USB-DMAC")
-Cc: <stable@vger.kernel.org> # v4.1+
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- This patch is based on Greg's usb.git / usb-linus branch.
+http://inaflashweb.com
 
- I have no idea why this issue doesn't happen on previous kernel versions
- though, but this issue happens on v5.2-rc6 + g_ncm + R-Car H3. So,
- if possible, I'd like to apply this patch on v5.2-stable.
+Here is what we include:
+-Any size memory you need: 64MB up to 128GB
+-We will print your logo on both sides, just ask!
+-Very Low Order Minimums
+-Need them quickly? Not a problem, we offer Rush Service
+http://inaflashweb.com
 
- drivers/usb/renesas_usbhs/fifo.c | 34 ++++++++++++++++++++++------------
- 1 file changed, 22 insertions(+), 12 deletions(-)
+NEW: We can make a custom shaped USB drive to look like your Logo or
+product!
 
-diff --git a/drivers/usb/renesas_usbhs/fifo.c b/drivers/usb/renesas_usbhs/fifo.c
-index 39fa2fc..6036cba 100644
---- a/drivers/usb/renesas_usbhs/fifo.c
-+++ b/drivers/usb/renesas_usbhs/fifo.c
-@@ -802,9 +802,8 @@ static int __usbhsf_dma_map_ctrl(struct usbhs_pkt *pkt, int map)
- }
- 
- static void usbhsf_dma_complete(void *arg);
--static void xfer_work(struct work_struct *work)
-+static void usbhsf_dma_xfer_preparing(struct usbhs_pkt *pkt)
- {
--	struct usbhs_pkt *pkt = container_of(work, struct usbhs_pkt, work);
- 	struct usbhs_pipe *pipe = pkt->pipe;
- 	struct usbhs_fifo *fifo;
- 	struct usbhs_priv *priv = usbhs_pipe_to_priv(pipe);
-@@ -812,12 +811,10 @@ static void xfer_work(struct work_struct *work)
- 	struct dma_chan *chan;
- 	struct device *dev = usbhs_priv_to_dev(priv);
- 	enum dma_transfer_direction dir;
--	unsigned long flags;
- 
--	usbhs_lock(priv, flags);
- 	fifo = usbhs_pipe_to_fifo(pipe);
- 	if (!fifo)
--		goto xfer_work_end;
-+		return;
- 
- 	chan = usbhsf_dma_chan_get(fifo, pkt);
- 	dir = usbhs_pipe_is_dir_in(pipe) ? DMA_DEV_TO_MEM : DMA_MEM_TO_DEV;
-@@ -826,7 +823,7 @@ static void xfer_work(struct work_struct *work)
- 					pkt->trans, dir,
- 					DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
- 	if (!desc)
--		goto xfer_work_end;
-+		return;
- 
- 	desc->callback		= usbhsf_dma_complete;
- 	desc->callback_param	= pipe;
-@@ -834,7 +831,7 @@ static void xfer_work(struct work_struct *work)
- 	pkt->cookie = dmaengine_submit(desc);
- 	if (pkt->cookie < 0) {
- 		dev_err(dev, "Failed to submit dma descriptor\n");
--		goto xfer_work_end;
-+		return;
- 	}
- 
- 	dev_dbg(dev, "  %s %d (%d/ %d)\n",
-@@ -845,8 +842,17 @@ static void xfer_work(struct work_struct *work)
- 	dma_async_issue_pending(chan);
- 	usbhsf_dma_start(pipe, fifo);
- 	usbhs_pipe_enable(pipe);
-+}
-+
-+static void xfer_work(struct work_struct *work)
-+{
-+	struct usbhs_pkt *pkt = container_of(work, struct usbhs_pkt, work);
-+	struct usbhs_pipe *pipe = pkt->pipe;
-+	struct usbhs_priv *priv = usbhs_pipe_to_priv(pipe);
-+	unsigned long flags;
- 
--xfer_work_end:
-+	usbhs_lock(priv, flags);
-+	usbhsf_dma_xfer_preparing(pkt);
- 	usbhs_unlock(priv, flags);
- }
- 
-@@ -899,8 +905,13 @@ static int usbhsf_dma_prepare_push(struct usbhs_pkt *pkt, int *is_done)
- 	pkt->trans = len;
- 
- 	usbhsf_tx_irq_ctrl(pipe, 0);
--	INIT_WORK(&pkt->work, xfer_work);
--	schedule_work(&pkt->work);
-+	/* FIXME: Workaound for usb dmac that driver can be used in atomic */
-+	if (usbhs_get_dparam(priv, has_usb_dmac)) {
-+		usbhsf_dma_xfer_preparing(pkt);
-+	} else {
-+		INIT_WORK(&pkt->work, xfer_work);
-+		schedule_work(&pkt->work);
-+	}
- 
- 	return 0;
- 
-@@ -1006,8 +1017,7 @@ static int usbhsf_dma_prepare_pop_with_usb_dmac(struct usbhs_pkt *pkt,
- 
- 	pkt->trans = pkt->length;
- 
--	INIT_WORK(&pkt->work, xfer_work);
--	schedule_work(&pkt->work);
-+	usbhsf_dma_xfer_preparing(pkt);
- 
- 	return 0;
- 
--- 
-2.7.4
+Email over a copy of your logo and we will create a design mock up for you
+at no cost!
+
+Our higher memory sizes are a really good option right now!
+
+Ask about the “Double Your Memory” upgrade promotion going on right
+now!
+
+Pricing is low right now, so let us know what you need and we will get you
+a quick quote.
+
+We will beat any competitors pricing, send us your last invoice and we will
+beat it!
+
+We always offer great rates for schools and nonprofits as well.
+
+Let us know what you would like quoted?
+http://inaflashweb.com
+
+Regards,
+
+
+
+Sabrina Millons
++1-888-480-8218
+Custom USB Account Manager
+http://inaflashweb.com
 
