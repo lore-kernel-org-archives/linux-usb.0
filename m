@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABA43C48BD6
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 03:46:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32935C48BD3
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 03:47:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7C1BE205ED
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 03:46:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 031AE20659
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 03:47:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1561520816;
-	bh=snwXb/1Pl27ttUkLcEKMD4IYTwwdeDCbPOUtZ32LCu4=;
+	s=default; t=1561520836;
+	bh=tUJqsXK2fNnQ9HIBJm3gi0wORPA2OfQ0ajQBMKCUlys=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ubN5XEE8zFc0KhJy5zjB1IFsivbJJg7k0tvZJnLo1sXnUZb/HvFj17qjYMCcC0U8E
-	 EhSUSDJVboEg1yBIxVDKoDc5FVcCCOmAaqp+zW8dx8q+rz7qXI/snvRKEdS+kIzOwM
-	 nArD0T3ysxWsZImW4MRctxqM5m7jj1OOOuq7EvnI=
+	b=o2zF5wXTqDRspGdJ9KZ4ReYBtmoQ4/PsbKBrIsRMtFuFh4pYgkUHj0as3kzj0HVnz
+	 sefWmJ8EDIdp2SCfHsMIJ6V5klwnuZCwIqPQvQGNPvDXVJl2Vmd5S3JYubBvZY05dO
+	 eEGoXyE5vAlbBQc62gnqjilWYTWf9k1fTUCyzKkw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728060AbfFZDqz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 25 Jun 2019 23:46:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58792 "EHLO mail.kernel.org"
+        id S1727973AbfFZDqa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 25 Jun 2019 23:46:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58178 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728044AbfFZDqw (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 25 Jun 2019 23:46:52 -0400
-Received: from sasha-vm.mshome.net (mobile-107-77-172-90.mobile.att.net [107.77.172.90])
+        id S1727087AbfFZDq3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 25 Jun 2019 23:46:29 -0400
+Received: from sasha-vm.mshome.net (mobile-107-77-172-82.mobile.att.net [107.77.172.82])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3A59A205ED;
-        Wed, 26 Jun 2019 03:46:50 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1B644205ED;
+        Wed, 26 Jun 2019 03:46:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561520811;
-        bh=snwXb/1Pl27ttUkLcEKMD4IYTwwdeDCbPOUtZ32LCu4=;
+        s=default; t=1561520788;
+        bh=tUJqsXK2fNnQ9HIBJm3gi0wORPA2OfQ0ajQBMKCUlys=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UcGKrI0WPr8AbfjB+URD5wgjeDCqyc7N7OIyRf+sYkHAor6d9GtE0SrGknW/GkU/g
-         W1OHd4flqLb/qStT9uSwba3u6S6akOh4bSwKuwDWqYS9hcGBimcspfYgnIHSrEQoIG
-         qKEYwkhdrZutCYhLrhmXg8aYYoKZDv/qNS8Lz7rg=
+        b=Ec3PoCVsUxDLzCh/s0aK5VWO/Dq+e7YA4tRtBPIQQnNF0EEQnWeJ3RwJCNNXVg+MV
+         h3lRucYcAgSVrTqHedQ1+36ygdr4+r7vAzIaudHcbUhYLOwKqX2i2aKeFOAIUS4t/B
+         uiqRxpUJ9FYy1xvOiVq4qWC+SRPQ8H0C+/t11VIk=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
@@ -45,12 +45,12 @@ Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
         James Grant <jamesg@zaltys.org>,
         Felipe Balbi <felipe.balbi@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 5/6] usb: gadget: udc: lpc32xx: allocate descriptor with GFP_ATOMIC
-Date:   Tue, 25 Jun 2019 23:46:36 -0400
-Message-Id: <20190626034637.24515-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 08/11] usb: gadget: udc: lpc32xx: allocate descriptor with GFP_ATOMIC
+Date:   Tue, 25 Jun 2019 23:45:58 -0400
+Message-Id: <20190626034602.24367-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190626034637.24515-1-sashal@kernel.org>
-References: <20190626034637.24515-1-sashal@kernel.org>
+In-Reply-To: <20190626034602.24367-1-sashal@kernel.org>
+References: <20190626034602.24367-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -80,10 +80,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/usb/gadget/udc/lpc32xx_udc.c b/drivers/usb/gadget/udc/lpc32xx_udc.c
-index 00b5006baf15..90d24f62bd81 100644
+index 8f32b5ee7734..6df1aded4503 100644
 --- a/drivers/usb/gadget/udc/lpc32xx_udc.c
 +++ b/drivers/usb/gadget/udc/lpc32xx_udc.c
-@@ -964,8 +964,7 @@ static struct lpc32xx_usbd_dd_gad *udc_dd_alloc(struct lpc32xx_udc *udc)
+@@ -935,8 +935,7 @@ static struct lpc32xx_usbd_dd_gad *udc_dd_alloc(struct lpc32xx_udc *udc)
  	dma_addr_t			dma;
  	struct lpc32xx_usbd_dd_gad	*dd;
  
