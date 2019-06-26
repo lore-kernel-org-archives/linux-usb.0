@@ -7,50 +7,48 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32935C48BD3
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 03:47:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF67EC48BD3
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 03:47:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 031AE20659
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 03:47:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 899E52082F
+	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 03:47:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1561520836;
-	bh=tUJqsXK2fNnQ9HIBJm3gi0wORPA2OfQ0ajQBMKCUlys=;
+	s=default; t=1561520871;
+	bh=C3zi08s20JmYLL3On5dYiTzg8ooHLpcru/M2e+YwZEs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=o2zF5wXTqDRspGdJ9KZ4ReYBtmoQ4/PsbKBrIsRMtFuFh4pYgkUHj0as3kzj0HVnz
-	 sefWmJ8EDIdp2SCfHsMIJ6V5klwnuZCwIqPQvQGNPvDXVJl2Vmd5S3JYubBvZY05dO
-	 eEGoXyE5vAlbBQc62gnqjilWYTWf9k1fTUCyzKkw=
+	b=Lqsv6MsryHno5t3TOAv0wJAIKLVEIfwoiUbL0wGaAOYG6wK8GQHABW6U+c7rAbzpV
+	 hHZdFTWvllK6hBFoWLsZX3jIJDDdhAuadmv1kZVxfQ6xJKL2Dyw6EI1Mme4y10o+M/
+	 XEDfqD4VIPfULglYrgkJmsAKNA7VSTtxbmFa1nlk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727973AbfFZDqa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 25 Jun 2019 23:46:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58178 "EHLO mail.kernel.org"
+        id S1727805AbfFZDpk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 25 Jun 2019 23:45:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57362 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727087AbfFZDq3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 25 Jun 2019 23:46:29 -0400
-Received: from sasha-vm.mshome.net (mobile-107-77-172-82.mobile.att.net [107.77.172.82])
+        id S1727797AbfFZDpk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 25 Jun 2019 23:45:40 -0400
+Received: from sasha-vm.mshome.net (mobile-107-77-172-74.mobile.att.net [107.77.172.74])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1B644205ED;
-        Wed, 26 Jun 2019 03:46:26 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4D125205ED;
+        Wed, 26 Jun 2019 03:45:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561520788;
-        bh=tUJqsXK2fNnQ9HIBJm3gi0wORPA2OfQ0ajQBMKCUlys=;
+        s=default; t=1561520739;
+        bh=C3zi08s20JmYLL3On5dYiTzg8ooHLpcru/M2e+YwZEs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Ec3PoCVsUxDLzCh/s0aK5VWO/Dq+e7YA4tRtBPIQQnNF0EEQnWeJ3RwJCNNXVg+MV
-         h3lRucYcAgSVrTqHedQ1+36ygdr4+r7vAzIaudHcbUhYLOwKqX2i2aKeFOAIUS4t/B
-         uiqRxpUJ9FYy1xvOiVq4qWC+SRPQ8H0C+/t11VIk=
+        b=GMedVp4ISYzweJ6cOyjiNJJQsCXv5D8RmUhjqhAOGnh1egn/2DgNuK7/OtujNG5LO
+         Eyxkm1U6/EiravzdcUkY4BDbvnI2w8cCrZn31tf9V75VszvbXImHtO5SM9EyhwJ6uZ
+         ryY8/OXOXZO/MyhePRveY8c1ZFDEBPbLfEYU4Avk=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        James Grant <jamesg@zaltys.org>,
+Cc:     Young Xiao <92siuyang@gmail.com>,
         Felipe Balbi <felipe.balbi@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 08/11] usb: gadget: udc: lpc32xx: allocate descriptor with GFP_ATOMIC
-Date:   Tue, 25 Jun 2019 23:45:58 -0400
-Message-Id: <20190626034602.24367-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 12/21] usb: gadget: fusb300_udc: Fix memory leak of fusb300->ep[i]
+Date:   Tue, 25 Jun 2019 23:44:57 -0400
+Message-Id: <20190626034506.24125-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190626034602.24367-1-sashal@kernel.org>
-References: <20190626034602.24367-1-sashal@kernel.org>
+In-Reply-To: <20190626034506.24125-1-sashal@kernel.org>
+References: <20190626034506.24125-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -60,39 +58,51 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+From: Young Xiao <92siuyang@gmail.com>
 
-[ Upstream commit fbc318afadd6e7ae2252d6158cf7d0c5a2132f7d ]
+[ Upstream commit 62fd0e0a24abeebe2c19fce49dd5716d9b62042d ]
 
-Gadget drivers may queue request in interrupt context. This would lead to
-a descriptor allocation in that context. In that case we would hit
-BUG_ON(in_interrupt()) in __get_vm_area_node.
+There is no deallocation of fusb300->ep[i] elements, allocated at
+fusb300_probe.
 
-Also remove the unnecessary cast.
+The patch adds deallocation of fusb300->ep array elements.
 
-Acked-by: Sylvain Lemieux <slemieux.tyco@gmail.com>
-Tested-by: James Grant <jamesg@zaltys.org>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Young Xiao <92siuyang@gmail.com>
 Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/udc/lpc32xx_udc.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/usb/gadget/udc/fusb300_udc.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/usb/gadget/udc/lpc32xx_udc.c b/drivers/usb/gadget/udc/lpc32xx_udc.c
-index 8f32b5ee7734..6df1aded4503 100644
---- a/drivers/usb/gadget/udc/lpc32xx_udc.c
-+++ b/drivers/usb/gadget/udc/lpc32xx_udc.c
-@@ -935,8 +935,7 @@ static struct lpc32xx_usbd_dd_gad *udc_dd_alloc(struct lpc32xx_udc *udc)
- 	dma_addr_t			dma;
- 	struct lpc32xx_usbd_dd_gad	*dd;
+diff --git a/drivers/usb/gadget/udc/fusb300_udc.c b/drivers/usb/gadget/udc/fusb300_udc.c
+index e0c1b0099265..089f39de6897 100644
+--- a/drivers/usb/gadget/udc/fusb300_udc.c
++++ b/drivers/usb/gadget/udc/fusb300_udc.c
+@@ -1345,12 +1345,15 @@ static const struct usb_gadget_ops fusb300_gadget_ops = {
+ static int fusb300_remove(struct platform_device *pdev)
+ {
+ 	struct fusb300 *fusb300 = platform_get_drvdata(pdev);
++	int i;
  
--	dd = (struct lpc32xx_usbd_dd_gad *) dma_pool_alloc(
--			udc->dd_cache, (GFP_KERNEL | GFP_DMA), &dma);
-+	dd = dma_pool_alloc(udc->dd_cache, GFP_ATOMIC | GFP_DMA, &dma);
- 	if (dd)
- 		dd->this_dma = dma;
+ 	usb_del_gadget_udc(&fusb300->gadget);
+ 	iounmap(fusb300->reg);
+ 	free_irq(platform_get_irq(pdev, 0), fusb300);
  
+ 	fusb300_free_request(&fusb300->ep[0]->ep, fusb300->ep0_req);
++	for (i = 0; i < FUSB300_MAX_NUM_EP; i++)
++		kfree(fusb300->ep[i]);
+ 	kfree(fusb300);
+ 
+ 	return 0;
+@@ -1494,6 +1497,8 @@ static int fusb300_probe(struct platform_device *pdev)
+ 		if (fusb300->ep0_req)
+ 			fusb300_free_request(&fusb300->ep[0]->ep,
+ 				fusb300->ep0_req);
++		for (i = 0; i < FUSB300_MAX_NUM_EP; i++)
++			kfree(fusb300->ep[i]);
+ 		kfree(fusb300);
+ 	}
+ 	if (reg)
 -- 
 2.20.1
 
