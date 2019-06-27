@@ -1,72 +1,118 @@
-Return-Path: <SRS0=I8I8=UZ=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=mxXf=U2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD1B3C48BD6
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 16:35:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BC02C48BD6
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Jun 2019 00:38:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9115D20665
-	for <linux-usb@archiver.kernel.org>; Wed, 26 Jun 2019 16:35:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E51F214AF
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Jun 2019 00:38:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1561595931;
+	bh=E8TsNWqqX7qcM4nyVjmHw2lrxq2b78X7JmRXlJJM+Zc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=LeQwTH7GuThfs4FxcV79rfqrEk0t2jHKT7yHeP1cBMMtfAi9WboHFafIJweSCz/O5
+	 tdpS6KJovypBMHCLvsr/8o+MzDkSAYIwzgGVD9syh1Zn5rcaUXym4aTZPqKsLo4z/r
+	 iplT4XRhUvqApi63jXxOMGEzb4mv/85PlOmtXbI4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726382AbfFZQfW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 26 Jun 2019 12:35:22 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:55722 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726227AbfFZQfW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 26 Jun 2019 12:35:22 -0400
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-        (Exim 4.76)
-        (envelope-from <colin.king@canonical.com>)
-        id 1hgAtC-0000Zj-0h; Wed, 26 Jun 2019 16:35:18 +0000
-From:   Colin King <colin.king@canonical.com>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        id S1728954AbfF0Aiu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 26 Jun 2019 20:38:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43076 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728942AbfF0Ait (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 26 Jun 2019 20:38:49 -0400
+Received: from sasha-vm.mshome.net (unknown [107.242.116.147])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B210C21871;
+        Thu, 27 Jun 2019 00:38:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1561595928;
+        bh=E8TsNWqqX7qcM4nyVjmHw2lrxq2b78X7JmRXlJJM+Zc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=NQ0XV6u2e1vv5pNQptmhxZEOQw5GMADwc/DqX6cuPtsXCyb6m0WwLCPJwbrXxKt+S
+         v3paOg8oUzeJqJJ+d3eKVPZpVuCAUSghQH6EP6UHSANs3yxeD98ZRQ4W16QcF7MDqX
+         bDoX0rEJ2A7veVBhn6Nv82itkLYObfuzeIkeisYM=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Reinhard Speyerer <rspmn@arcor.de>,
+        Daniele Palmas <dnlplm@gmail.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
         linux-usb@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: gadget: udc: renesas_usb3: remove redundant assignment to ret
-Date:   Wed, 26 Jun 2019 17:35:17 +0100
-Message-Id: <20190626163517.18530-1-colin.king@canonical.com>
+Subject: [PATCH AUTOSEL 4.19 48/60] qmi_wwan: extend permitted QMAP mux_id value range
+Date:   Wed, 26 Jun 2019 20:36:03 -0400
+Message-Id: <20190627003616.20767-48-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190627003616.20767-1-sashal@kernel.org>
+References: <20190627003616.20767-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+From: Reinhard Speyerer <rspmn@arcor.de>
 
-Variable ret is being initialized with a value that is never read and
-ret is being re-assigned immediately after the initialization in both
-paths of an if statement. This is redundant and can be removed.
+[ Upstream commit 36815b416fa48766ac5a98e4b2dc3ebc5887222e ]
 
-Addresses-Coverity: ("Unused value")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
+Permit mux_id values up to 254 to be used in qmimux_register_device()
+for compatibility with ip(8) and the rmnet driver.
+
+Fixes: c6adf77953bc ("net: usb: qmi_wwan: add qmap mux protocol support")
+Cc: Daniele Palmas <dnlplm@gmail.com>
+Signed-off-by: Reinhard Speyerer <rspmn@arcor.de>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/udc/renesas_usb3.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/ABI/testing/sysfs-class-net-qmi | 4 ++--
+ drivers/net/usb/qmi_wwan.c                    | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/renesas_usb3.c b/drivers/usb/gadget/udc/renesas_usb3.c
-index 5a960fce31c5..87062d22134d 100644
---- a/drivers/usb/gadget/udc/renesas_usb3.c
-+++ b/drivers/usb/gadget/udc/renesas_usb3.c
-@@ -1168,7 +1168,7 @@ static void usb3_set_status_stage(struct renesas_usb3_ep *usb3_ep,
- static void usb3_p0_xfer(struct renesas_usb3_ep *usb3_ep,
- 			 struct renesas_usb3_request *usb3_req)
- {
--	int ret = -EAGAIN;
-+	int ret;
+diff --git a/Documentation/ABI/testing/sysfs-class-net-qmi b/Documentation/ABI/testing/sysfs-class-net-qmi
+index 7122d6264c49..c310db4ccbc2 100644
+--- a/Documentation/ABI/testing/sysfs-class-net-qmi
++++ b/Documentation/ABI/testing/sysfs-class-net-qmi
+@@ -29,7 +29,7 @@ Contact:	Bjørn Mork <bjorn@mork.no>
+ Description:
+ 		Unsigned integer.
  
- 	if (usb3_ep->dir_in)
- 		ret = usb3_write_pipe(usb3_ep, usb3_req, USB3_P0_WRITE);
+-		Write a number ranging from 1 to 127 to add a qmap mux
++		Write a number ranging from 1 to 254 to add a qmap mux
+ 		based network device, supported by recent Qualcomm based
+ 		modems.
+ 
+@@ -46,5 +46,5 @@ Contact:	Bjørn Mork <bjorn@mork.no>
+ Description:
+ 		Unsigned integer.
+ 
+-		Write a number ranging from 1 to 127 to delete a previously
++		Write a number ranging from 1 to 254 to delete a previously
+ 		created qmap mux based network device.
+diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
+index 4165113c435a..2f8e957a0496 100644
+--- a/drivers/net/usb/qmi_wwan.c
++++ b/drivers/net/usb/qmi_wwan.c
+@@ -363,8 +363,8 @@ static ssize_t add_mux_store(struct device *d,  struct device_attribute *attr, c
+ 	if (kstrtou8(buf, 0, &mux_id))
+ 		return -EINVAL;
+ 
+-	/* mux_id [1 - 0x7f] range empirically found */
+-	if (mux_id < 1 || mux_id > 0x7f)
++	/* mux_id [1 - 254] for compatibility with ip(8) and the rmnet driver */
++	if (mux_id < 1 || mux_id > 254)
+ 		return -EINVAL;
+ 
+ 	if (!rtnl_trylock())
 -- 
 2.20.1
 
