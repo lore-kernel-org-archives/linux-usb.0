@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-9.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B26DC48BD3
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Jun 2019 00:45:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 962EFC48BD6
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Jun 2019 00:47:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 21EDC214DA
-	for <linux-usb@archiver.kernel.org>; Thu, 27 Jun 2019 00:45:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6AFD920815
+	for <linux-usb@archiver.kernel.org>; Thu, 27 Jun 2019 00:47:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1561596344;
-	bh=7/1DSFg69VhOmR5parl9oVNvXdxXXvIKGHrdgROtRvA=;
+	s=default; t=1561596470;
+	bh=OaJ8YQFmVlqIGTvmOIj3W8cEQP2IORmxLmRcS7NdN1k=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=JJeQU3RUOoGNHxnPc0rac9483ejwZPaQ1dpt+tIxJicip970EmDJiTkX9zWDk4Kpo
-	 8V+l1JFX+4OlLznqIzsi5Oy/2M9YNupX3QSsj749wO+f2sz621SWH9qtl0KWdSaHV8
-	 GvQV7AbLTOXrLf0EDxPpj3TqHdurAY6ug4c0SeFA=
+	b=HQUQlgm9aD2rgtt1R3dkH3ycmzddC3DFz/I4ihd2Rot2Q8tnNh9PeFw6zaIgUqOOd
+	 eq1VNJRPJ3Hl3f1StdreY9FDLCOWhAL+S+CON0bLeWkCBSn00RqS6C+BMBQpSYoTy8
+	 9N9fruofoSJQSWiK87pGW3eiC6oGSthZlV8+vOwU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729364AbfF0Apn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 26 Jun 2019 20:45:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44768 "EHLO mail.kernel.org"
+        id S1728935AbfF0Ais (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 26 Jun 2019 20:38:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43024 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728661AbfF0Akz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 26 Jun 2019 20:40:55 -0400
+        id S1728902AbfF0Aiq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 26 Jun 2019 20:38:46 -0400
 Received: from sasha-vm.mshome.net (unknown [107.242.116.147])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AD127205ED;
-        Thu, 27 Jun 2019 00:40:52 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7289221852;
+        Thu, 27 Jun 2019 00:38:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561596054;
-        bh=7/1DSFg69VhOmR5parl9oVNvXdxXXvIKGHrdgROtRvA=;
+        s=default; t=1561595925;
+        bh=OaJ8YQFmVlqIGTvmOIj3W8cEQP2IORmxLmRcS7NdN1k=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=0qFEmI5aa9W0XBLWl2sNq5cOxgSXlJGcdyh9xf4S+dF5DZ3oOnFEbJM121OURDZWJ
-         GFMbu9yd43Bfh+C68F+z5/Bjz9ZGuX88eHVIpC67lM2Tm6AgnaNdFpyE94Y60wMFet
-         JwVgbDw/d0uJCNGxvbvV5qiIenqUS3CPwux0xxfs=
+        b=f2cju8i6xXCk6FxKFqWupVm5jr207S+/tptHbzJE95W2ENQDpRD/NQJ6aki1h1slf
+         Ipe7H9Ho/HnADPKpew2AvzXOxnaxKpbqZwrFFBzbcwJiQ5NAqqtdn+MV1z6Q1hF7qu
+         6HLaDIwE6kaxhTZexHcKLVf3M5pATDQk9on3lCOM=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Reinhard Speyerer <rspmn@arcor.de>,
@@ -45,12 +45,12 @@ Cc:     Reinhard Speyerer <rspmn@arcor.de>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 26/35] qmi_wwan: avoid RCU stalls on device disconnect when in QMAP mode
-Date:   Wed, 26 Jun 2019 20:39:14 -0400
-Message-Id: <20190627003925.21330-26-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 47/60] qmi_wwan: avoid RCU stalls on device disconnect when in QMAP mode
+Date:   Wed, 26 Jun 2019 20:36:02 -0400
+Message-Id: <20190627003616.20767-47-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190627003925.21330-1-sashal@kernel.org>
-References: <20190627003925.21330-1-sashal@kernel.org>
+In-Reply-To: <20190627003616.20767-1-sashal@kernel.org>
+References: <20190627003616.20767-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -79,7 +79,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 023bb2daa72f..a77223887022 100644
+index fd3d078a1923..4165113c435a 100644
 --- a/drivers/net/usb/qmi_wwan.c
 +++ b/drivers/net/usb/qmi_wwan.c
 @@ -247,13 +247,14 @@ static int qmimux_register_device(struct net_device *real_dev, u8 mux_id)
@@ -108,7 +108,7 @@ index 023bb2daa72f..a77223887022 100644
  
  	if (!qmimux_has_slaves(dev))
  		info->flags &= ~QMI_WWAN_FLAG_MUX;
-@@ -1423,6 +1424,7 @@ static void qmi_wwan_disconnect(struct usb_interface *intf)
+@@ -1434,6 +1435,7 @@ static void qmi_wwan_disconnect(struct usb_interface *intf)
  	struct qmi_wwan_state *info;
  	struct list_head *iter;
  	struct net_device *ldev;
@@ -116,7 +116,7 @@ index 023bb2daa72f..a77223887022 100644
  
  	/* called twice if separate control and data intf */
  	if (!dev)
-@@ -1435,8 +1437,9 @@ static void qmi_wwan_disconnect(struct usb_interface *intf)
+@@ -1446,8 +1448,9 @@ static void qmi_wwan_disconnect(struct usb_interface *intf)
  		}
  		rcu_read_lock();
  		netdev_for_each_upper_dev_rcu(dev->net, ldev, iter)
