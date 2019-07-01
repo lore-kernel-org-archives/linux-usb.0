@@ -2,89 +2,128 @@ Return-Path: <SRS0=acVg=U6=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7AB7C0650E
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Jul 2019 08:53:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3362AC0650F
+	for <linux-usb@archiver.kernel.org>; Mon,  1 Jul 2019 09:29:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CC29D208E4
-	for <linux-usb@archiver.kernel.org>; Mon,  1 Jul 2019 08:53:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0870E206E0
+	for <linux-usb@archiver.kernel.org>; Mon,  1 Jul 2019 09:29:45 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="smmR1WDj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728161AbfGAIxG convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 1 Jul 2019 04:53:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57336 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726442AbfGAIxF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 1 Jul 2019 04:53:05 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 1E43F308FC4D;
-        Mon,  1 Jul 2019 08:52:55 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-120-219.rdu2.redhat.com [10.10.120.219])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 173CA19C6A;
-        Mon,  1 Jul 2019 08:52:50 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-        Kingdom.
-        Registered in England and Wales under Company Registration No. 3798903
-From:   David Howells <dhowells@redhat.com>
-In-Reply-To: <7a288c2c-11a1-87df-9550-b247d6ce3010@infradead.org>
-References: <7a288c2c-11a1-87df-9550-b247d6ce3010@infradead.org> <156173701358.15650.8735203424342507015.stgit@warthog.procyon.org.uk> <156173703546.15650.14319137940607993268.stgit@warthog.procyon.org.uk>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     dhowells@redhat.com, viro@zeniv.linux.org.uk,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Stephen Smalley <sds@tycho.nsa.gov>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        nicolas.dichtel@6wind.com, raven@themaw.net,
-        Christian Brauner <christian@brauner.io>,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/6] Adjust watch_queue documentation to mention mount and superblock watches. [ver #5]
+        id S1728424AbfGAJ3k (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 1 Jul 2019 05:29:40 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:37682 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728366AbfGAJ3k (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 1 Jul 2019 05:29:40 -0400
+Received: by mail-pf1-f193.google.com with SMTP id 19so6290442pfa.4;
+        Mon, 01 Jul 2019 02:29:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=KrfXpIQxr/cn2+9rwoAEVrRZR4QKKQe4lr3NtCXDl9w=;
+        b=smmR1WDj9hEEUk0Fi/hV9Yntct1psX33m2A/KLnuExax/YWgDzvlGKgOxwdePAWmXA
+         h4aI9Ej6GQpkipSZDJG1obdyHVrOm7BMcih7ah3c36xxIj6FbIwqaoRi5ZYT4WYmRdL3
+         gD2zvsMTEPggGtdn72k+qQ+McyXFDD4i1AqQxCyrgg5VwbrHe4UWh4uKeowRlMTjDG1k
+         170+kns5ylrfzHdM4170qVNcyVe61muK5///zIMjo4MZfAa+wiP0b4yHQVXR0oNhExgQ
+         v9m5TPBfx0flrzxVf2S06zMK8D+XnTm23Tt6Njj9QjfbI5XUkI0dhIsHkJ/udYPKemY+
+         Tp+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=KrfXpIQxr/cn2+9rwoAEVrRZR4QKKQe4lr3NtCXDl9w=;
+        b=nZRZB/XQ5ZpZOcTQ2Pxg/ErfBY2SNK/R86kutWFT7iBrjCEiFSBq1Vy3p//gNZ8rUT
+         5Y4st9yShiZ+QZ+odr2KH0dVTBu7OOmSR9Y38SI188coVtKGxotHRDAYPVYroU99dwC1
+         /8eRddVBRTDSxD2p+KzHrcuvKrBO14bwv1pyYnlOdLy+vPugAVd5BoewPVYaexiT1q9q
+         I9cjluH2H2PTazmJEBITV052uJG/S54lR7f/FBgh9jGrM13TlYiLNAbfrJUJFQ7rEUM/
+         wHZsahIka+D2uXkN303k2V0fPxVVmvPCH2bX6xFXLTs8Cghfhs5EKtXB3klmhxGLsRFk
+         Bhfw==
+X-Gm-Message-State: APjAAAX9XhjWp2LGETFvcqMOtkg0Mc4e1Zfksy5ZvOrbfVNvejc9mL/Z
+        5NYrnUdvJkI8y+VCNuelwnEK52gB
+X-Google-Smtp-Source: APXvYqwUTe5RkYuin8LohkLDd/WteibKN2lDHhZAR6zoj23sp8Osx8FE8Zi29HB0PC/d+AlBfwtMsA==
+X-Received: by 2002:a17:90a:206a:: with SMTP id n97mr30227096pjc.10.1561973379791;
+        Mon, 01 Jul 2019 02:29:39 -0700 (PDT)
+Received: from localhost.localdomain ([163.152.3.133])
+        by smtp.gmail.com with ESMTPSA id u65sm23209068pjb.1.2019.07.01.02.29.37
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 01 Jul 2019 02:29:39 -0700 (PDT)
+Date:   Mon, 1 Jul 2019 18:29:34 +0900
+From:   Suwan Kim <suwan.kim027@gmail.com>
+To:     shuah <shuah@kernel.org>
+Cc:     stern@rowland.harvard.edu, valentina.manea.m@gmail.com,
+        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] usbip: Skip DMA mapping and unmapping for urb at vhci
+Message-ID: <20190701092932.GA3939@localhost.localdomain>
+References: <20190621174553.28862-1-suwan.kim027@gmail.com>
+ <20190621174553.28862-2-suwan.kim027@gmail.com>
+ <10a4f10a-d271-9331-b847-bdc06f9fc9cf@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <8211.1561971170.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: 8BIT
-Date:   Mon, 01 Jul 2019 09:52:50 +0100
-Message-ID: <8212.1561971170@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.43]); Mon, 01 Jul 2019 08:53:05 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <10a4f10a-d271-9331-b847-bdc06f9fc9cf@kernel.org>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Randy Dunlap <rdunlap@infradead.org> wrote:
+On Fri, Jun 28, 2019 at 06:11:54PM -0600, shuah wrote:
+> Hi Suwan,
+> 
+> On 6/21/19 11:45 AM, Suwan Kim wrote:
+> > vhci doesn’t do dma for remote device. Actually, the real dma
+> > operation is done by network card driver. So, vhci doesn’t use and
+> > need dma address of transfer buffer of urb.
+> > 
+> > When vhci supports SG, it is useful to use native SG list instead
+> > of mapped SG list because dma mapping fnuction can adjust the
+> > number of SG list that is urb->num_mapped_sgs.
+> > 
+> > But hcd provides dma mapping and unmapping function by defualt.
+> 
+> Typo "defualt"
+> 
+> > Moreover, it causes unnecessary dma mapping and unmapping which
+> > will be done again at the NIC driver and it wastes CPU cycles.
+> > So, implement map_urb_for_dma and unmap_urb_for_dma function for
+> > vhci in order to skip the dma mapping and unmapping procedure.
+> > 
+> 
+> How did you verify that unnecessary dma map/unmap are happening?
+> How many CPU cycles did you manage to reduce with this change?
 
-> I'm having a little trouble parsing that sentence.
-> Could you clarify it or maybe rewrite/modify it?
-> Thanks.
+Dma mapping/unmapping is not required for vhci because vhci passes
+the virtual address of the buffer to the network stack without
+passing the dma address of the buffer. Network stack receive the
+virtual address of the buffer from vhci and later, network card
+driver performs dma mapping for the buffer. So, as far as I know,
+dma address of the buffer is not used for vhci and virtual address
+is only used by vhci.
 
-How about:
+I used ftrace to measure a duration of usb_hcd_map_urb_for_dma().
+As a result, usb_hcd_map_urb_for_dma() took a duration of about
+0.14us out of about 10us which is the duration of usb_hcd_submit_urb().
+However, this figure is the dma mapping measurement value for
+physically contiguous buffers when vhci does not support SG, and
+if vhci supports SG, more CPU cycles will be consumed for SG dma
+mapping.
 
-  * ``info_filter`` and ``info_mask`` act as a filter on the info field of the
-    notification record.  The notification is only written into the buffer if::
+I think that the important point is dma mapping/unmapping is
+unnecessary at vhci. So we can skip dma mapping/unmapping and save
+the CPU cycles (even if it is small). This is an opportunity to
+reduce the end-to-end latency of usbip and improve the performance.
 
-	(watch.info & info_mask) == info_filter
+Regards
 
-    This could be used, for example, to ignore events that are not exactly on
-    the watched point in a mount tree by specifying NOTIFY_MOUNT_IN_SUBTREE
-    must not be set, e.g.::
-
-	{
-		.type = WATCH_TYPE_MOUNT_NOTIFY,
-		.info_filter = 0,
-		.info_mask = NOTIFY_MOUNT_IN_SUBTREE,
-		.subtype_filter = ...,
-	}
-
-    as an event would be only permissible with this filter if::
-
-    	(watch.info & NOTIFY_MOUNT_IN_SUBTREE) == 0
-
-David
+Suwan Kim
