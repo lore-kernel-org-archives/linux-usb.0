@@ -1,169 +1,103 @@
-Return-Path: <SRS0=rQJG=U7=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=QQeN=VA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 273BBC06510
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 18:20:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D441C5B57D
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 00:32:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E3F5E20989
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 18:20:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6080D21E6C
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 00:32:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Ntf8SkzZ"
+	dkim=pass (2048-bit key) header.d=unipv-it.20150623.gappssmtp.com header.i=@unipv-it.20150623.gappssmtp.com header.b="eqlTB5Ix"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726457AbfGBSUx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Jul 2019 14:20:53 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:52562 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725851AbfGBSUx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Jul 2019 14:20:53 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x62IKoRi010097;
-        Tue, 2 Jul 2019 13:20:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1562091650;
-        bh=AX4MIz+VbdQTADGMbcF/Lpq+TtlpwtcPafUk+bqzh9Y=;
-        h=Date:From:To:Subject:References:In-Reply-To;
-        b=Ntf8SkzZjlvN8NcIRk7FTC1p0uf66jYeKUEL3emK/v6fdV5U2mJMpjVMMHHo8mGD/
-         jh/V4Auioss0IDU8tQfOqSanGaJ+a5eM3W9YTIV86AMz8UxXfViHGTjZvepJ8hcx0u
-         NDjh8muMpsNZV542UlHGy/etgWsYBq8ZtZp3bbkY=
-Received: from DLEE101.ent.ti.com (dlee101.ent.ti.com [157.170.170.31])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x62IKo3w005378
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 2 Jul 2019 13:20:50 -0500
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 2 Jul
- 2019 13:20:50 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Tue, 2 Jul 2019 13:20:49 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x62IKoGT021147;
-        Tue, 2 Jul 2019 13:20:50 -0500
-Date:   Tue, 2 Jul 2019 13:20:50 -0500
-From:   Bin Liu <b-liu@ti.com>
-To:     Jack Pham <jackp@codeaurora.org>, <linux-usb@vger.kernel.org>,
-        Felipe Balbi <balbi@kernel.org>
-Subject: Re: configfs on dwc3: msc enum failed if three functions defined
-Message-ID: <20190702182050.GB20724@uda0271908>
-Mail-Followup-To: Bin Liu <b-liu@ti.com>, Jack Pham <jackp@codeaurora.org>,
-        linux-usb@vger.kernel.org, Felipe Balbi <balbi@kernel.org>
-References: <20190422134357.GA2071@uda0271908>
- <20190425224456.GA27553@jackp-linux.qualcomm.com>
- <20190702144842.GA20724@uda0271908>
- <20190702165122.GA15112@jackp-linux.qualcomm.com>
- <20190702175013.GB2724@uda0271908>
+        id S1727144AbfGCAb7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Jul 2019 20:31:59 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:44087 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726736AbfGCAb7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Jul 2019 20:31:59 -0400
+Received: by mail-wr1-f66.google.com with SMTP id e3so644169wrs.11
+        for <linux-usb@vger.kernel.org>; Tue, 02 Jul 2019 17:31:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=unipv-it.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=JInSnb+MJaSXZCOEGe3YY8e/3kSMpHX4By/rUITTuWc=;
+        b=eqlTB5IxQSa3sdlXXgmz6/zMit4L7DH3QUQaf6w5t5luf7h4L3PXHJ1A5uf8vvsYRW
+         JOc2DySYfOGDiTeLQrUKKzgUiPIOTutIFqTwyEndbQLQA5rf7D0q17CQzULBfue1GVD0
+         VIJ9txt1MVj0OgI6g/TJdUlpZSBm0B2AnrdvsfkbhMYV5iB58HfttsTQZwcapIVXXdIh
+         lcLd9ulBMCK5N5HnT0SEmn2LtwlVnosTyKCSBzVav/dkU8NM03j+PWLR8fMmQMT5NIvQ
+         VLMqgdgk8/HOsTj8ywYNuxPL53jXcY4i5+xWzKR6o5LJM5dbkZigjACjUIn6H3KAkwdC
+         YtzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=JInSnb+MJaSXZCOEGe3YY8e/3kSMpHX4By/rUITTuWc=;
+        b=r1AGcIelkxgbA432mMfyDrhL/bfDfToXZfKSHUNMCsesF2vpf0oG/0EnHWa88dy6DG
+         0lmgcd7W6NfsDt5IpuXY+9/4DMxgehTQjIFN9ITDozkuPR9HD6kth4waSfCHHui7aaVT
+         +OqoUa7CjAVDLMgjf2PtaI6qQpI53UC91QuOK+J2cATBI/4ijZwHZDH71Syjf4BBDHOZ
+         fGFvwlHnCxYDK3uANU7Fs4EFEil2W3XTogi7ZDGwEZhKNxl4Lpk2Pj3JzmB/kJAeZZDE
+         TN0ZnJfJ6hGnxC+5LeD6ycHz5wvcpaNTdJaONHoy8XefJ/pOARBltwyZ/dwmjb0SYiCB
+         zm7g==
+X-Gm-Message-State: APjAAAV0Cy/qSYJQ7gOSut0lnAG3du6Wvi34Zmhcn/ilLDeZG/Y9DUlG
+        yzusXLt8ftd6ZBxgWOTMDrCBhGCK3+A=
+X-Google-Smtp-Source: APXvYqz+t9niUvQbZ1Ny8iH2o9HNKfC4j2jq+uOLYcqw6hKxvI3uNeGedg3HrWz9WccnFmdOtGu4pw==
+X-Received: by 2002:adf:ef08:: with SMTP id e8mr4702925wro.271.1562107175139;
+        Tue, 02 Jul 2019 15:39:35 -0700 (PDT)
+Received: from brian.unipv.it ([37.162.88.147])
+        by smtp.gmail.com with ESMTPSA id q20sm256252wra.36.2019.07.02.15.39.33
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 02 Jul 2019 15:39:34 -0700 (PDT)
+Date:   Wed, 3 Jul 2019 00:39:31 +0200
+From:   Andrea Vai <andrea.vai@unipv.it>
+To:     Ming Lei <ming.lei@redhat.com>
+Cc:     Jens Axboe <axboe@kernel.dk>, linux-usb@vger.kernel.org,
+        linux-scsi@vger.kernel.org,
+        Himanshu Madhani <himanshu.madhani@cavium.com>,
+        Hannes Reinecke <hare@suse.com>,
+        Omar Sandoval <osandov@fb.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>
+Subject: Re: Slow I/O on USB media after commit
+ f664a3cc17b7d0a2bc3b3ab96181e1029b0ec0e6
+Message-ID: <20190702223931.GB3735@brian.unipv.it>
+References: <cc54d51ec7a203eceb76d62fc230b378b1da12e1.camel@unipv.it>
+ <20190702120112.GA19890@ming.t460p>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190702175013.GB2724@uda0271908>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20190702120112.GA19890@ming.t460p>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jul 02, 2019 at 12:50:13PM -0500, Bin Liu wrote:
-> On Tue, Jul 02, 2019 at 09:51:22AM -0700, Jack Pham wrote:
-> > Hi Bin,
+On 02/07/19 20:01:13, Ming Lei wrote:
+> On Tue, Jul 02, 2019 at 12:46:45PM +0200, Andrea Vai wrote:
+> > Hi,
+> >   I have a problem writing data to a USB pendrive, and it seems
+> > kernel-related. With the help of Greg an Alan (thanks) and some
+> > bisect, I found out the offending commit being
 > > 
-> > On Tue, Jul 02, 2019 at 09:48:42AM -0500, Bin Liu wrote:
-> > > Hi,
-> > > 
-> > > Sorry for the delay getting back on this. I was offline for quite some
-> > > time.
-> > > 
-> > > On Thu, Apr 25, 2019 at 03:44:57PM -0700, Jack Pham wrote:
-> > > > Hi Bin,
-> > > > 
-> > > > On Mon, Apr 22, 2019 at 08:43:57AM -0500, Bin Liu wrote:
-> > > > > Hi Felipe,
-> > > > > 
-> > > > > I am having an issue with dwc3 on TI AM57x device, and would like to ask
-> > > > > for your comments.
-> > > > > 
-> > > > > I use configfs to create a multi-function gadget on dwc3, mass_storage
-> > > > > is the last function, it seems if I create 3 functions, the mass_storage
-> > > > > enumeration will fail on the host. It works fine if only create 2
-> > > > > functions.
-> > > > > 
-> > > > > The dwc3 tracepoints log shows after all the ep0 transfers for
-> > > > > mass_storage, the very first epXin transfer is not complete - dwc3
-> > > > > programmed the urb, but never generates RX completion event. This also
-> > > > > matches the bus analyzer trace - dwc3 NAKs the very first IN token for
-> > > > > ever.
-> > > > > 
-> > > > > I use the attached script to create the gadget, The macro FUNCS in the
-> > > > > beginning of the script defines the functions to be created.
-> > > > > 
-> > > > > Any comments are appreciated.
-> > > > 
-> > > > A stab in the dark here but what is the value of GTXFIFOSIZ(X)[15:0]
-> > > > for epXin on your device? Is it at least wMaxPacketSize? Depending on
-> > > > the default hardware values it might be deficient as compared to the
-> > > > working endpoint that gets assigned in your 2-function config.
-> > > 
-> > > Jack,
-> > > 
-> > > thanks for the pointer, it is indeed the issue on AM57x device.  The
-> > > reset value of GTXFIFOSIZ for ep1~4 have size of 0x184, but ep5~15 have
-> > > only size of 0x13 (which is 120 bytes), which is not enough for
-> > > high-speed bulk xfers. I manually adjusted the fifo memory allocation,
-> > > now my test case works.
+> > commit f664a3cc17b7d0a2bc3b3ab96181e1029b0ec0e6
 > > 
-> > Cool! I'm glad my suggestion was on the right track.
-> >  
-> > > Felipe,
-> > > 
-> > > Is there anything the dwc3 gadget driver can do to better handle this
-> > > kind of devices, which don't have enough fifo buffers for all TX eps?
-> > 
-> > A long time ago...
-> > 
-> > commit bc5081617faeb3b2f0c126dc37264b87af7da47f
-> > Author: Felipe Balbi <felipe.balbi@linux.intel.com>
-> > Date:   Thu Feb 4 14:18:01 2016 +0200
-> > 
-> >     usb: dwc3: drop FIFO resizing logic
-> > 
-> >     That FIFO resizing logic was added to support OMAP5
-> >     ES1.0 which had a bogus default FIFO size. I can't
-> >     remember the exact size of default FIFO, but it was
-> >     less than one bulk superspeed packet (<1024) which
-> >     would prevent USB3 from ever working on OMAP5 ES1.0.
-> > 
-> >     However, OMAP5 ES1.0 support has been dropped by
-> >     commit aa2f4b16f830 ("ARM: OMAP5: id: Remove ES1.0
-> >     support") which renders FIFO resizing unnecessary.
-> > 
-> >     Tested-by: Kishon Vijay Abraham I <kishon@ti.com>
-> >     Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
-> > 
-> > Prior to this there was a function dwc3_gadget_resize_tx_fifo(),
-> > enabled via DT flag, which enumerated all the endpoints and
-> > recalculated the TX FIFO sizes based on the transfer type of the
-> > EPs' configuration.
-> > 
-> > Unfortunately some Qualcomm SoCs are still plagued by having
-> > insufficient defaults, so we resort to carrying this function on our
-> > downstream kernels. It seems TI AM57x still has this problem too?
+> >  [...]    
+> >     
 > 
-> Yes, it appears to be the case.
+> One possible reason may be related with too small 'nr_requests', could
+> you apply the following command and see if any difference can be made?
+> 
+> echo 32 > /sys/block/sdN/queue/nr_requests
 
-Wait, AM57x seems to be different. The issue mentioned in the commit
-above is about bogus FIFO size, but GTXFIFOSIZ on AM57x are correct. it
-is just that AM57x only has about total 13K+ FIFO memory, so only up to
-4 TX endpoints which can have 3K FIFO, any use case which requires more
-than 4 TX endpoints will fail.
+I applied it (echo 32 > /sys/block/sdf/queue/nr_requests), ran the test again, and still failed. I assumed I didn't have to build the kernel again, did I? (sorry but I am not skilled)
 
-So maybe the driver could have a sanity check on FIFO size when
-allocating endpoints?
+Many thanks,
+Andrea
 
--Bin.
