@@ -2,91 +2,146 @@ Return-Path: <SRS0=rQJG=U7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FC2AC06511
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 07:57:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB008C06511
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 08:06:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F2BA921721
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 07:57:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="jgicwKmh"
+	by mail.kernel.org (Postfix) with ESMTP id C0FD020659
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 08:06:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1562054771;
+	bh=CB5n+a0I0IeR56VJdQ4Is5/pAx6Z9g+uxpADhmcURPo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=PSsqydia+ym5pxtldp5fLxWm4MlsQNtRE+HKmXhWXpoWbFXysRU3hCdPHp2wzNrhD
+	 E2vDbWRcVoNJePB4x5ZZc6EApN6Mp/83xyg6ZH0febyMUbLUyJht+7cK1rEALoR4Zn
+	 ILTC+8oHyxI0IRiWdsXGqunVhur4C1zDAgGHrO9o=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726963AbfGBH5J (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Jul 2019 03:57:09 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:7099 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725801AbfGBH5I (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Jul 2019 03:57:08 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d1b0e500000>; Tue, 02 Jul 2019 00:57:04 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 02 Jul 2019 00:57:07 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 02 Jul 2019 00:57:07 -0700
-Received: from [10.19.108.127] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 2 Jul
- 2019 07:57:06 +0000
-Subject: Re: [PATCH] usb: storage: skip only when uas driver is loaded
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     <linux-usb@vger.kernel.org>, <stern@rowland.harvard.edu>,
-        <usb-storage@lists.one-eyed-alien.net>, <oneukum@suse.com>
-References: <20190701084848.32502-1-jckuo@nvidia.com>
- <20190701085248.GA28681@kroah.com>
- <8e8e8703-8620-b625-4917-bbb8d999caa4@nvidia.com>
- <20190702044249.GA694@kroah.com>
- <f6ed2505-5da9-c217-a052-a19d197c5c8e@nvidia.com>
- <f43e7ecf-64d5-20d2-0461-85a55fa28a33@nvidia.com>
- <20190702073432.GA9265@kroah.com>
-X-Nvconfidentiality: public
-From:   JC Kuo <jckuo@nvidia.com>
-Message-ID: <136cd205-6114-2be5-4244-f6689ce6bf3b@nvidia.com>
-Date:   Tue, 2 Jul 2019 15:57:04 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1727691AbfGBIGL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Jul 2019 04:06:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52510 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727560AbfGBIGI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 2 Jul 2019 04:06:08 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 598A920659;
+        Tue,  2 Jul 2019 08:06:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1562054766;
+        bh=CB5n+a0I0IeR56VJdQ4Is5/pAx6Z9g+uxpADhmcURPo=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=m79YMNG+4JFt41RzygCFD2lpaep8Y2pzgaRC+DhKaB/SsRNqk/odM6SYmeHhClON3
+         PCI96k17V5irwXd5OLZg0HGtqNtNtJ5zkaxoR6l6fNd0yrpXdO71BuW/FcTR6ctmnG
+         Q3aD9jAcHjL0oEnnfYCqX72hHq7OsnG5U6GYfkRo=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Fei Yang <fei.yang@intel.com>,
+        Sam Protsenko <semen.protsenko@linaro.org>,
+        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 4.19 28/72] usb: dwc3: gadget: introduce cancelled_list
+Date:   Tue,  2 Jul 2019 10:01:29 +0200
+Message-Id: <20190702080126.132412439@linuxfoundation.org>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190702080124.564652899@linuxfoundation.org>
+References: <20190702080124.564652899@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-In-Reply-To: <20190702073432.GA9265@kroah.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL108.nvidia.com (172.18.146.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1562054224; bh=n8EZLqSbsH9hR50c0zG+1lO4rtsBJM1KmooEQ00c+00=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=jgicwKmh1sSMUcDaVzhJRZeEZGuUtRl2VJUFjXnnoB8sZ2n3gJS3TLkqTwsKjSHD2
-         hDWRiLjM3qLGUYr0vmdKYvP8Tvz7d+R77l8RdkpOERqGNa67Lq1W4E1117oW1DITC1
-         TPz64aoXLUuF0z3YVwnRht+vza1eHjyHjgt2kmYJFpIWXPapDAUXzTGd7yH6qm6sya
-         4WWamotUGRpRDunlxWWgOsTVWkbOtEiCG/rwWsfGHrX5C5IYzlP3OkfCcjkt+1fWzy
-         EQsH3EJNN/B2WflBvim3cma34i/h6VWhRzDvW0DMaBXX7ppwIPqkjMR/AhK0DueM8p
-         ko4RODJTf7plA==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 7/2/19 3:34 PM, Greg KH wrote:
-> 
-> Footers like this are not allowed on public mailing lists, and forbid me
-> to respond to...
-> 
+commit d5443bbf5fc8f8389cce146b1fc2987cdd229d12 upstream
 
-Hi Greg,
-I am truly sorry for that. I have just figured out how to tell mail server
-not to add the footer. Please allow me to query again.
+This list will host cancelled requests who still have TRBs being
+processed.
 
-Since blacklisting uas kernel module is not a good idea and could break UAS 
-capable storage functionality, although user-space should be blamed for the
-improper configuration, do we consider forbidding making uas driver as
-module? That means to make CONFIG_USB_UAS a bool option.
+Cc: Fei Yang <fei.yang@intel.com>
+Cc: Sam Protsenko <semen.protsenko@linaro.org>
+Cc: Felipe Balbi <balbi@kernel.org>
+Cc: linux-usb@vger.kernel.org
+Cc: stable@vger.kernel.org # 4.19.y
+Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
+(cherry picked from commit d5443bbf5fc8f8389cce146b1fc2987cdd229d12)
+Signed-off-by: John Stultz <john.stultz@linaro.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/usb/dwc3/core.h   |  2 ++
+ drivers/usb/dwc3/gadget.c |  1 +
+ drivers/usb/dwc3/gadget.h | 15 +++++++++++++++
+ 3 files changed, 18 insertions(+)
 
-Thanks,
-JC
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 0de78cb29f2c..24f0b108b7f6 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -636,6 +636,7 @@ struct dwc3_event_buffer {
+ /**
+  * struct dwc3_ep - device side endpoint representation
+  * @endpoint: usb endpoint
++ * @cancelled_list: list of cancelled requests for this endpoint
+  * @pending_list: list of pending requests for this endpoint
+  * @started_list: list of started requests on this endpoint
+  * @wait_end_transfer: wait_queue_head_t for waiting on End Transfer complete
+@@ -659,6 +660,7 @@ struct dwc3_event_buffer {
+  */
+ struct dwc3_ep {
+ 	struct usb_ep		endpoint;
++	struct list_head	cancelled_list;
+ 	struct list_head	pending_list;
+ 	struct list_head	started_list;
+ 
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 46aa20b376cd..c2169bc626c8 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -2144,6 +2144,7 @@ static int dwc3_gadget_init_endpoint(struct dwc3 *dwc, u8 epnum)
+ 
+ 	INIT_LIST_HEAD(&dep->pending_list);
+ 	INIT_LIST_HEAD(&dep->started_list);
++	INIT_LIST_HEAD(&dep->cancelled_list);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/usb/dwc3/gadget.h b/drivers/usb/dwc3/gadget.h
+index 2aacd1afd9ff..023a473648eb 100644
+--- a/drivers/usb/dwc3/gadget.h
++++ b/drivers/usb/dwc3/gadget.h
+@@ -79,6 +79,21 @@ static inline void dwc3_gadget_move_started_request(struct dwc3_request *req)
+ 	list_move_tail(&req->list, &dep->started_list);
+ }
+ 
++/**
++ * dwc3_gadget_move_cancelled_request - move @req to the cancelled_list
++ * @req: the request to be moved
++ *
++ * Caller should take care of locking. This function will move @req from its
++ * current list to the endpoint's cancelled_list.
++ */
++static inline void dwc3_gadget_move_cancelled_request(struct dwc3_request *req)
++{
++	struct dwc3_ep		*dep = req->dep;
++
++	req->started = false;
++	list_move_tail(&req->list, &dep->cancelled_list);
++}
++
+ void dwc3_gadget_giveback(struct dwc3_ep *dep, struct dwc3_request *req,
+ 		int status);
+ 
+-- 
+2.20.1
+
+
+
