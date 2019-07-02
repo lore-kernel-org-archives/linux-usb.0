@@ -2,195 +2,106 @@ Return-Path: <SRS0=QQeN=VA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,HEXHASH_WORD,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7237C5B57D
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 01:01:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B3F8C5B57D
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 01:24:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9F6332089C
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 01:01:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4BBEA206A3
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 01:24:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=unipv-it.20150623.gappssmtp.com header.i=@unipv-it.20150623.gappssmtp.com header.b="g5iPeQmY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727428AbfGCBBI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Jul 2019 21:01:08 -0400
-Received: from mail-io1-f71.google.com ([209.85.166.71]:43588 "EHLO
-        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727066AbfGCBBI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Jul 2019 21:01:08 -0400
-Received: by mail-io1-f71.google.com with SMTP id y5so667664ioj.10
-        for <linux-usb@vger.kernel.org>; Tue, 02 Jul 2019 18:01:07 -0700 (PDT)
+        id S1727381AbfGCBYS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Jul 2019 21:24:18 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:40381 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726821AbfGCBYS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Jul 2019 21:24:18 -0400
+Received: by mail-wm1-f65.google.com with SMTP id v19so453929wmj.5
+        for <linux-usb@vger.kernel.org>; Tue, 02 Jul 2019 18:24:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=unipv-it.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=yUg05Hk1IFbGpfRrhKAsZAvC6wWCLTPkzcVqmZs4SKA=;
+        b=g5iPeQmYLkfVdgBaJc3YBcT40rKuuYsJ+z7XCfgD2CCGWBDGKIquZvSYcM8XASQPFw
+         OWdwjWTvaRS2B91hH8/ZjcPLuncpixJtFKBRqH5CjIovgA5GRC4Ts9h1vbo6nm7zjMI0
+         s0cO5O2HploepnYJxLu0DKBsawX3kVep96gmUlbanWaY30/a8K63WPwde9tkASttbgPp
+         xjy58UpjOMCu3qDjHYUxqrI7IzBcYo41iOspEKJ4Hhb1GzfhDBO/lM9f08CLYPi5h2vm
+         /JkpWKhUPt/szBn9fVkV1DoU4Lv4VZztzs62svk96N3w/rXKfjrWCBjzgJVQYzJMDNWA
+         3XVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=+jAjzkxOy88eEU8Ro2pPWiTTvCPP5IpFAzSx1DNnSMI=;
-        b=i8d7sHoNwK5+yxNw6T8a3//WbrZF73wTin4JSIvNhGU25ugbsze+o0FFtgtoWMQbsz
-         dboG3Zp82nxieVZinl6QtKHGtWZipsqyaQCVM6NjNZ8iNo1gkYFuF9fF9BuNJ9W4+9sc
-         xZRdPCgUFdktlzej1lPDpaHRW1X7X24SbIOLkw1X6bO98ciHhaa3MeR6hAA9L2xrSEUE
-         +ryXXOIpEjpFSNlkjM/nKN+a66roJ1hgGvxcqMdNBqrO35FyyvY2pENW7Yoic7RwRaeN
-         BLR5cvN8ul+9S2o7KE8rVRI3Ycki6C8+udhC19+isHwLHnCul5znaibTSIQmsa9DhHdq
-         0uJA==
-X-Gm-Message-State: APjAAAWC6bMWmUq1J+FV+ooU+LCC14gQ3uwuYwuc/ydUs1odZhErx5Gr
-        zrZnfiOQ0/xXiquAdoh4jTm3nwmOraZIMcLLXvn//tZBqKcj
-X-Google-Smtp-Source: APXvYqzjtwIxcClrQ8XIltsZj2funW9a0OSCqz+qgF2HIq0hhl1QFKSyjXAm4ZoAahCxLQd8iP/64TBx7P5Tka13hq8b4LlO4o9H
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=yUg05Hk1IFbGpfRrhKAsZAvC6wWCLTPkzcVqmZs4SKA=;
+        b=DozJlMIz9NQkgssJbULTa91YEEiM5SfjtxV55ZFW6A2QP3HQ1rC9X/hf0lTEo2RT0r
+         b71YZjCVJjIVJylpWeHFB6cbnqHZhoCGceTi4xPWtM/D546/NDMFKNEMyZODp85Obi6e
+         vpn+pgTo2ftFjAFTJxM5qgLJC3ptv14nXcIclpGKxL7AMkG4nLJSgQg9qsfzGaJvPFYe
+         SYwW72/XZJddZ9PZqzWYc3iI0CTRyLPBjd6vOr4qF3l4fLsRhVhPFAH+P//kxqrU2w0E
+         4s3iZLvUwApG10n9eS25Rfhwtnk8iQHKxU/uElCFzqz+i+SeVDU3QUHrpzppo80xlcmQ
+         BVog==
+X-Gm-Message-State: APjAAAWrymWwleRZ6vGLQC1JQB+V6CDOv2YA53nsHyJEIIH4I3H09wjo
+        w8VkaTkacwncx292R8pNl5kyoKHAw5I=
+X-Google-Smtp-Source: APXvYqwAXjsPiygQ4TCbiDLx0JDEpLdDugHVs3Qg+aF7AKaEEbTDmboJT6HgQ5w7QajBFy+VPOe4FA==
+X-Received: by 2002:a1c:ac81:: with SMTP id v123mr4932875wme.145.1562106995220;
+        Tue, 02 Jul 2019 15:36:35 -0700 (PDT)
+Received: from brian.unipv.it ([37.162.88.147])
+        by smtp.gmail.com with ESMTPSA id t6sm540000wmb.29.2019.07.02.15.36.33
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 02 Jul 2019 15:36:33 -0700 (PDT)
+Date:   Wed, 3 Jul 2019 00:36:30 +0200
+From:   Andrea Vai <andrea.vai@unipv.it>
+To:     Johannes Thumshirn <jthumshirn@suse.de>
+Cc:     Jens Axboe <axboe@kernel.dk>, linux-usb@vger.kernel.org,
+        linux-scsi@vger.kernel.org,
+        Himanshu Madhani <himanshu.madhani@cavium.com>,
+        Hannes Reinecke <hare@suse.com>,
+        Ming Lei <ming.lei@redhat.com>, Omar Sandoval <osandov@fb.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>
+Subject: Re: Slow I/O on USB media after commit
+ f664a3cc17b7d0a2bc3b3ab96181e1029b0ec0e6
+Message-ID: <20190702223630.GA3735@brian.unipv.it>
+References: <cc54d51ec7a203eceb76d62fc230b378b1da12e1.camel@unipv.it>
+ <20190702115117.GC4463@x250.microfocus.com>
 MIME-Version: 1.0
-X-Received: by 2002:a02:a581:: with SMTP id b1mr40177373jam.84.1562115666965;
- Tue, 02 Jul 2019 18:01:06 -0700 (PDT)
-Date:   Tue, 02 Jul 2019 18:01:06 -0700
-In-Reply-To: <0000000000002e03f40586a3e512@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000006d7e14058cbc6545@google.com>
-Subject: Re: KASAN: use-after-free Read in cpia2_usb_disconnect
-From:   syzbot <syzbot+0c90fc937c84f97d0aa6@syzkaller.appspotmail.com>
-To:     allison@lohutok.net, andreyknvl@google.com,
-        hverkuil-cisco@xs4all.nl, keescook@chromium.org,
-        kstewart@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        syzkaller-bugs@googlegroups.com, tglx@linutronix.de
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190702115117.GC4463@x250.microfocus.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-syzbot has found a reproducer for the following crash on:
+On 02/07/19 13:51:17, Johannes Thumshirn wrote:
+> On Tue, Jul 02, 2019 at 12:46:45PM +0200, Andrea Vai wrote:
+> > Hi,
+> >   I have a problem writing data to a USB pendrive, and it seems
+> > kernel-related. With the help of Greg an Alan (thanks) and some
+> > bisect, I found out the offending commit being
+> > 
+> > commit f664a3cc17b7d0a2bc3b3ab96181e1029b0ec0e6
+> >
+> > [...]
+> 
+> Hi,
+> 
+> Can you please check what IO scheduler you have set for your USB pendrive?
+> 
+> i.e. with:
+> cat /sys/block/$DISK/queue/scheduler
+>
 
-HEAD commit:    7829a896 usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=11e19043a00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=f6d4561982f71f63
-dashboard link: https://syzkaller.appspot.com/bug?extid=0c90fc937c84f97d0aa6
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=147d42eda00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=104c268ba00000
+# cat /sys/block/sdf/queue/scheduler
+[mq-deadline] none
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+0c90fc937c84f97d0aa6@syzkaller.appspotmail.com
+Many thanks,
+Andrea
 
-cpia2: Message: count = 1, register[0] = 0x0
-cpia2: Unexpected error: -19
-==================================================================
-BUG: KASAN: use-after-free in cpia2_usb_disconnect+0x1a4/0x1c0  
-drivers/media/usb/cpia2/cpia2_usb.c:898
-Read of size 8 at addr ffff8881cf6c4e50 by task kworker/1:1/22
-
-CPU: 1 PID: 22 Comm: kworker/1:1 Not tainted 5.2.0-rc6+ #13
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xca/0x13e lib/dump_stack.c:113
-  print_address_description+0x67/0x231 mm/kasan/report.c:188
-  __kasan_report.cold+0x1a/0x32 mm/kasan/report.c:317
-  kasan_report+0xe/0x20 mm/kasan/common.c:614
-  cpia2_usb_disconnect+0x1a4/0x1c0 drivers/media/usb/cpia2/cpia2_usb.c:898
-  usb_unbind_interface+0x1bd/0x8a0 drivers/usb/core/driver.c:423
-  __device_release_driver drivers/base/dd.c:1081 [inline]
-  device_release_driver_internal+0x404/0x4c0 drivers/base/dd.c:1112
-  bus_remove_device+0x2dc/0x4a0 drivers/base/bus.c:556
-  device_del+0x460/0xb80 drivers/base/core.c:2274
-  usb_disable_device+0x211/0x690 drivers/usb/core/message.c:1237
-  usb_disconnect+0x284/0x830 drivers/usb/core/hub.c:2197
-  hub_port_connect drivers/usb/core/hub.c:4940 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0x1409/0x3590 drivers/usb/core/hub.c:5432
-  process_one_work+0x905/0x1570 kernel/workqueue.c:2269
-  process_scheduled_works kernel/workqueue.c:2331 [inline]
-  worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
-  kthread+0x30b/0x410 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-
-Allocated by task 22:
-  save_stack+0x1b/0x80 mm/kasan/common.c:71
-  set_track mm/kasan/common.c:79 [inline]
-  __kasan_kmalloc mm/kasan/common.c:489 [inline]
-  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:462
-  kmalloc include/linux/slab.h:547 [inline]
-  kzalloc include/linux/slab.h:742 [inline]
-  cpia2_init_camera_struct+0x40/0x110  
-drivers/media/usb/cpia2/cpia2_core.c:2176
-  cpia2_usb_probe.cold+0x37/0x45a drivers/media/usb/cpia2/cpia2_usb.c:833
-  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
-  really_probe+0x281/0x660 drivers/base/dd.c:509
-  driver_probe_device+0x104/0x210 drivers/base/dd.c:670
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
-  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x217/0x360 drivers/base/dd.c:843
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-  device_add+0xae6/0x16f0 drivers/base/core.c:2111
-  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
-  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
-  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
-  really_probe+0x281/0x660 drivers/base/dd.c:509
-  driver_probe_device+0x104/0x210 drivers/base/dd.c:670
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
-  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x217/0x360 drivers/base/dd.c:843
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-  device_add+0xae6/0x16f0 drivers/base/core.c:2111
-  usb_new_device.cold+0x8c1/0x1016 drivers/usb/core/hub.c:2534
-  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0x1ada/0x3590 drivers/usb/core/hub.c:5432
-  process_one_work+0x905/0x1570 kernel/workqueue.c:2269
-  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
-  kthread+0x30b/0x410 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-
-Freed by task 22:
-  save_stack+0x1b/0x80 mm/kasan/common.c:71
-  set_track mm/kasan/common.c:79 [inline]
-  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:451
-  slab_free_hook mm/slub.c:1421 [inline]
-  slab_free_freelist_hook mm/slub.c:1448 [inline]
-  slab_free mm/slub.c:2994 [inline]
-  kfree+0xd7/0x280 mm/slub.c:3949
-  v4l2_device_release drivers/media/v4l2-core/v4l2-device.c:55 [inline]
-  kref_put include/linux/kref.h:65 [inline]
-  v4l2_device_put+0x76/0x90 drivers/media/v4l2-core/v4l2-device.c:60
-  cpia2_usb_disconnect+0x79/0x1c0 drivers/media/usb/cpia2/cpia2_usb.c:896
-  usb_unbind_interface+0x1bd/0x8a0 drivers/usb/core/driver.c:423
-  __device_release_driver drivers/base/dd.c:1081 [inline]
-  device_release_driver_internal+0x404/0x4c0 drivers/base/dd.c:1112
-  bus_remove_device+0x2dc/0x4a0 drivers/base/bus.c:556
-  device_del+0x460/0xb80 drivers/base/core.c:2274
-  usb_disable_device+0x211/0x690 drivers/usb/core/message.c:1237
-  usb_disconnect+0x284/0x830 drivers/usb/core/hub.c:2197
-  hub_port_connect drivers/usb/core/hub.c:4940 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
-  port_event drivers/usb/core/hub.c:5350 [inline]
-  hub_event+0x1409/0x3590 drivers/usb/core/hub.c:5432
-  process_one_work+0x905/0x1570 kernel/workqueue.c:2269
-  process_scheduled_works kernel/workqueue.c:2331 [inline]
-  worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
-  kthread+0x30b/0x410 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-
-The buggy address belongs to the object at ffff8881cf6c4400
-  which belongs to the cache kmalloc-4k of size 4096
-The buggy address is located 2640 bytes inside of
-  4096-byte region [ffff8881cf6c4400, ffff8881cf6c5400)
-The buggy address belongs to the page:
-page:ffffea00073db000 refcount:1 mapcount:0 mapping:ffff8881dac02600  
-index:0x0 compound_mapcount: 0
-flags: 0x200000000010200(slab|head)
-raw: 0200000000010200 0000000000000000 0000000100000001 ffff8881dac02600
-raw: 0000000000000000 0000000000070007 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
-  ffff8881cf6c4d00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff8881cf6c4d80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> ffff8881cf6c4e00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                                  ^
-  ffff8881cf6c4e80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff8881cf6c4f00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
+ 
