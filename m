@@ -6,37 +6,34 @@ X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33A80C06510
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 13:00:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41605C06510
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 13:10:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 11730208C4
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 13:00:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 243542146F
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 13:10:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726457AbfGBNAf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Jul 2019 09:00:35 -0400
-Received: from mx2.suse.de ([195.135.220.15]:42440 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726167AbfGBNAf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 2 Jul 2019 09:00:35 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 341D6B9C6;
-        Tue,  2 Jul 2019 13:00:34 +0000 (UTC)
-Message-ID: <1562071602.5819.14.camel@suse.com>
-Subject: Re: [PATCH] Fix chipmunk-like voice when using Logitech C270 for
- recording audio.
-From:   Oliver Neukum <oneukum@suse.com>
-To:     Aidan Thornton <makosoft@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>,
-        Marco Zatta <marco@zatta.me>
-Date:   Tue, 02 Jul 2019 14:46:42 +0200
-In-Reply-To: <CAB=c7ToV==vGZWOXaRqRcoOb4TNeVqi4QNAvgtiN0K6JjoF8Tg@mail.gmail.com>
-References: <20190601075257.GA24550@jimmy.localdomain>
-         <1559555890.25071.5.camel@suse.com>
-         <CAB=c7ToV==vGZWOXaRqRcoOb4TNeVqi4QNAvgtiN0K6JjoF8Tg@mail.gmail.com>
+        id S1727059AbfGBNKd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Jul 2019 09:10:33 -0400
+Received: from gate.crashing.org ([63.228.1.57]:33926 "EHLO gate.crashing.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726401AbfGBNKc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 2 Jul 2019 09:10:32 -0400
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x62DAMDc013985;
+        Tue, 2 Jul 2019 08:10:23 -0500
+Message-ID: <3cea94e3f461c44c0799c2d494b174d20895cc08.camel@kernel.crashing.org>
+Subject: Re: Aspeed vhub configuration
+From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
+To:     Felipe Balbi <balbi@kernel.org>, Greg KH <greg@kroah.com>
+Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Date:   Tue, 02 Jul 2019 23:10:21 +1000
+In-Reply-To: <8736jobnnb.fsf@linux.intel.com>
+References: <44bb150fb8b283a3036a382fa7e821b045554c15.camel@kernel.crashing.org>
+         <20190702122430.GC12019@kroah.com>
+         <e90076897577e2b4d2ad864eff85406b19f88dd3.camel@kernel.crashing.org>
+         <8736jobnnb.fsf@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -44,27 +41,23 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Am Donnerstag, den 20.06.2019, 21:19 +0100 schrieb Aidan Thornton:
+On Tue, 2019-07-02 at 15:56 +0300, Felipe Balbi wrote:
+> We already have an interface for disconnecting from the host
+> programatically by disconnecting data pullup.
+> 
+> static ssize_t soft_connect_store(struct device *dev,
+>                 struct device_attribute *attr, const char *buf,
+> size_t n)
 
-> This doesn't make much sense though. e387ef5c47dd should apply this
-> quirk to all Logitech UVC webcams, and this is definitely a UVC-based
-> Logitech webcam with the appropriate VID and interface descriptor.
-> Surely it shouldn't make any difference whether I add an entry for the
-> specific VID+PID pair of my particular camera or not? The C270 is as
-> well, I think.
+ .../...
 
-Well, it is applied a little later.
+I could reproduce the same interface for the vhub, at least it would
+provide consistency...
 
-> What's particularly annoying is that since this is an intermittent
-> problem, it's hard to tell if I'm chasing a phantom solution for it
-> again. Haven't managed to replicate it since applying this fix and did
-> so pretty quickly before but you never know.
+The vhub itself is not an UDC device. It provides UDC devices that are
+the hub "ports".
 
-Should I just readd everything removed in e387ef5c47dd?
+Cheers,
+Ben.
 
-Greg, what do you think? This is hard to test, the hardware is old
-and I want to avoid chasing them all separately.
-
-	Regards
-		Oliver
 
