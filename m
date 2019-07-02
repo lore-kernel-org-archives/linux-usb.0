@@ -2,36 +2,36 @@ Return-Path: <SRS0=rQJG=U7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7CE9C06510
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 09:35:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EFD0C46478
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 09:41:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B5A2E20659
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 09:35:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E210320645
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 09:41:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726963AbfGBJfp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Jul 2019 05:35:45 -0400
-Received: from mx2.suse.de ([195.135.220.15]:52504 "EHLO mx1.suse.de"
+        id S1727168AbfGBJls (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Jul 2019 05:41:48 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58984 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726861AbfGBJfo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 2 Jul 2019 05:35:44 -0400
+        id S1726252AbfGBJlr (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 2 Jul 2019 05:41:47 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id C3F08AC9B;
-        Tue,  2 Jul 2019 09:35:43 +0000 (UTC)
-Message-ID: <1562059312.5819.11.camel@suse.com>
-Subject: Re: [PATCH] usb: core: devio: add ioctls for suspend and resume
+        by mx1.suse.de (Postfix) with ESMTP id 8AE8AB039;
+        Tue,  2 Jul 2019 09:41:46 +0000 (UTC)
+Message-ID: <1562059675.5819.12.camel@suse.com>
+Subject: Re: [PATCH] usb: image: microtek: Unneeded variable: "err". Return
+ "0" on line 616
 From:   Oliver Neukum <oneukum@suse.com>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Mayuresh Kulkarni <mkulkarni@opensource.cirrus.com>,
-        patches@opensource.cirrus.com, USB list <linux-usb@vger.kernel.org>
-Date:   Tue, 02 Jul 2019 11:21:52 +0200
-In-Reply-To: <Pine.LNX.4.44L0.1907011015120.1536-100000@iolanthe.rowland.org>
-References: <Pine.LNX.4.44L0.1907011015120.1536-100000@iolanthe.rowland.org>
+To:     Hariprasad Kelam <hariprasad.kelam@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Date:   Tue, 02 Jul 2019 11:27:55 +0200
+In-Reply-To: <20190701175958.GA9826@hari-Inspiron-1545>
+References: <20190701175958.GA9826@hari-Inspiron-1545>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.26.6 
 Mime-Version: 1.0
@@ -41,35 +41,13 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Am Montag, den 01.07.2019, 10:17 -0400 schrieb Alan Stern:
-> On Mon, 1 Jul 2019, Oliver Neukum wrote:
+Am Montag, den 01.07.2019, 23:29 +0530 schrieb Hariprasad Kelam:
+> Fix below issue reported by coccicheck
+> drivers/usb/image/microtek.c:569:5-8: Unneeded variable: "err". Return
+> "0" on line 616
 > 
-> > Am Donnerstag, den 27.06.2019, 09:52 -0400 schrieb Alan Stern:
-> > 
-> > > 
-> > > Or maybe the WAIT_FOR_RESUME ioctl returns because there was a remote 
-> > > wakeup.  In this case also you would call FORBID_SUSPEND.
-> > > 
-> > > In fact, you should call FORBID_SUSPEND _whenever_ WAIT_FOR_RESUME
-> > 
-> > Well, this kind of indicates that the original syscall should bump
-> > the counter.
+> We can not change return type of mts_scsi_queuecommand_lck as it is part
+> of DEF_SCSI_QCMD
 > 
-> Perhaps it does, but...
-> 
-> > > returns, unless your program has decided not to use the device any more
-> > > (in which case you don't care whether the device is suspended or
-> > > resumed).
-> > 
-> > Then you should close the device.
-> 
-> Exactly.  Suppose WAIT_FOR_RESUME is interrupted and then the program
-> closes the device.  There's no need to force the device back to full 
-> power in this situation.
-
-But that is the error case. You return an error code. The point of that
-is to report that a syscall did not have all requested effects.
-
-	Regards
-		Oliver
-
+> Signed-off-by: Hariprasad Kelam <hariprasad.kelam@gmail.com>
+Acked-by: Oliver Neukum <oneukum@suse.com>
