@@ -2,91 +2,192 @@ Return-Path: <SRS0=rQJG=U7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0E66C5B57D
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 08:14:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46DE0C5B57D
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 08:14:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 76C442064A
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 08:14:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1FF2E206A2
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 08:14:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1562055269;
-	bh=/hqUavSM9jF40GYQlnoxzOeSzhs5r4KnNGS0tgqpMmw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=T7UKO2aRkKNGS2i0+nG8igUxy9zjBtnK/0UDwjDcQ3hFIhiws3n5KLLGOYW7iS1fb
-	 zMAKbQjeG2OQYBuNMqIuHLIUGFZFpM9wViw1KOjwjtpa7/pL+iv2QlIQGd0DstZBXV
-	 3wbZm0b/xRCeLS53T4SfoZDEo3VMn2ddaspFAgvE=
+	s=default; t=1562055272;
+	bh=f31brRCLJwDLQmLPVh+HVaNtwvSkOXwIuRLFN02XLk0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=P4QlHFSZknWdHKefs0fKLWyAEnRX3saGAmPRTJ2Z6wWZ0BqGOLNsHKZ18BWoB5EgK
+	 AthD4EKGKMvuP8vHbkpcxbV+UNISts8zqnc3HJ0GvJmc7dIHdLS19hkQi64I/zQgu8
+	 p/8tvcBYEiCEnIo9qKNYEfLgEHln47/Po9/2hago=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728088AbfGBIO2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Jul 2019 04:14:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34784 "EHLO mail.kernel.org"
+        id S1728033AbfGBIOb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Jul 2019 04:14:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52680 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727735AbfGBIO1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 2 Jul 2019 04:14:27 -0400
+        id S1728060AbfGBIGN (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 2 Jul 2019 04:06:13 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6FFE520645;
-        Tue,  2 Jul 2019 08:14:26 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2E83620659;
+        Tue,  2 Jul 2019 08:06:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1562055266;
-        bh=/hqUavSM9jF40GYQlnoxzOeSzhs5r4KnNGS0tgqpMmw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LY8IBqQZTRTt/uW3FLWUWwDni0+hT5KCwmSW8QMU3nrKeFHQtCL4/XBjNETj8Fye+
-         Tm1JAYPU8LTyLCTKuseUqdCQ2yaAqitEvkZsga44BQM0XoR/ArXqksiv9PZqK1qRNX
-         wYReplZJP1chTiDrXxc6lWY8IzzAhDd4iDc+imAs=
-Date:   Tue, 2 Jul 2019 10:14:24 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     JC Kuo <jckuo@nvidia.com>
-Cc:     linux-usb@vger.kernel.org, stern@rowland.harvard.edu,
-        usb-storage@lists.one-eyed-alien.net, oneukum@suse.com
-Subject: Re: [PATCH] usb: storage: skip only when uas driver is loaded
-Message-ID: <20190702081424.GA4162@kroah.com>
-References: <20190701084848.32502-1-jckuo@nvidia.com>
- <20190701085248.GA28681@kroah.com>
- <8e8e8703-8620-b625-4917-bbb8d999caa4@nvidia.com>
- <20190702044249.GA694@kroah.com>
- <f6ed2505-5da9-c217-a052-a19d197c5c8e@nvidia.com>
- <f43e7ecf-64d5-20d2-0461-85a55fa28a33@nvidia.com>
- <20190702073432.GA9265@kroah.com>
- <136cd205-6114-2be5-4244-f6689ce6bf3b@nvidia.com>
+        s=default; t=1562054772;
+        bh=f31brRCLJwDLQmLPVh+HVaNtwvSkOXwIuRLFN02XLk0=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=kiAK2WldXgM9gPEnZb+KGesKg7uk8vV5SMPFVyvdSMfKIYtsB4vaGAgUYU2073uOv
+         ZJznXlXfcg6FSeixClqi/2yjCXImZvyGd+D6nXewlnqfkR1R/XEf+jSrB7N69+s7DY
+         nYAwneJpfJdIyGYprMTP0XZdkK2uS8uo4uClTOzA=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Fei Yang <fei.yang@intel.com>,
+        Sam Protsenko <semen.protsenko@linaro.org>,
+        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        John Stultz <john.stultz@linaro.org>,
+        Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 4.19 30/72] usb: dwc3: gadget: remove wait_end_transfer
+Date:   Tue,  2 Jul 2019 10:01:31 +0200
+Message-Id: <20190702080126.229595910@linuxfoundation.org>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190702080124.564652899@linuxfoundation.org>
+References: <20190702080124.564652899@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <136cd205-6114-2be5-4244-f6689ce6bf3b@nvidia.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Jul 02, 2019 at 03:57:04PM +0800, JC Kuo wrote:
-> On 7/2/19 3:34 PM, Greg KH wrote:
-> > 
-> > Footers like this are not allowed on public mailing lists, and forbid me
-> > to respond to...
-> > 
-> 
-> Hi Greg,
-> I am truly sorry for that. I have just figured out how to tell mail server
-> not to add the footer. Please allow me to query again.
-> 
-> Since blacklisting uas kernel module is not a good idea and could break UAS 
-> capable storage functionality, although user-space should be blamed for the
-> improper configuration, do we consider forbidding making uas driver as
-> module? That means to make CONFIG_USB_UAS a bool option.
+commit fec9095bdef4e7c988adb603d0d4f92ee735d4a1 upstream
 
-Step back and try to describe the real problem that you are having here.
+Now that we have a list of cancelled requests, we can skip over TRBs
+when END_TRANSFER command completes.
 
-Why is the kernel responsible for fixing a broken userspace
-configuration?  What UAS devices are not working with Linux that could
-cause someone to want to blacklist the uas driver and who is telling
-them to do that?
+Cc: Fei Yang <fei.yang@intel.com>
+Cc: Sam Protsenko <semen.protsenko@linaro.org>
+Cc: Felipe Balbi <balbi@kernel.org>
+Cc: linux-usb@vger.kernel.org
+Cc: stable@vger.kernel.org # 4.19.y
+Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
+(cherry picked from commit fec9095bdef4e7c988adb603d0d4f92ee735d4a1)
+Signed-off-by: John Stultz <john.stultz@linaro.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/usb/dwc3/core.h   |  3 ---
+ drivers/usb/dwc3/gadget.c | 40 +--------------------------------------
+ 2 files changed, 1 insertion(+), 42 deletions(-)
 
-Also see Oliver's response.
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 24f0b108b7f6..131028501752 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -639,7 +639,6 @@ struct dwc3_event_buffer {
+  * @cancelled_list: list of cancelled requests for this endpoint
+  * @pending_list: list of pending requests for this endpoint
+  * @started_list: list of started requests on this endpoint
+- * @wait_end_transfer: wait_queue_head_t for waiting on End Transfer complete
+  * @lock: spinlock for endpoint request queue traversal
+  * @regs: pointer to first endpoint register
+  * @trb_pool: array of transaction buffers
+@@ -664,8 +663,6 @@ struct dwc3_ep {
+ 	struct list_head	pending_list;
+ 	struct list_head	started_list;
+ 
+-	wait_queue_head_t	wait_end_transfer;
+-
+ 	spinlock_t		lock;
+ 	void __iomem		*regs;
+ 
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index 8291fa1624e1..843586f20572 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -638,8 +638,6 @@ static int __dwc3_gadget_ep_enable(struct dwc3_ep *dep, unsigned int action)
+ 		reg |= DWC3_DALEPENA_EP(dep->number);
+ 		dwc3_writel(dwc->regs, DWC3_DALEPENA, reg);
+ 
+-		init_waitqueue_head(&dep->wait_end_transfer);
+-
+ 		if (usb_endpoint_xfer_control(desc))
+ 			goto out;
+ 
+@@ -1404,15 +1402,11 @@ static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
+ 		if (r == req) {
+ 			/* wait until it is processed */
+ 			dwc3_stop_active_transfer(dep, true);
+-			wait_event_lock_irq(dep->wait_end_transfer,
+-					!(dep->flags & DWC3_EP_END_TRANSFER_PENDING),
+-					dwc->lock);
+ 
+ 			if (!r->trb)
+ 				goto out0;
+ 
+ 			dwc3_gadget_move_cancelled_request(req);
+-			dwc3_gadget_ep_cleanup_cancelled_requests(dep);
+ 			goto out0;
+ 		}
+ 		dev_err(dwc->dev, "request %pK was not queued to %s\n",
+@@ -1913,8 +1907,6 @@ static int dwc3_gadget_stop(struct usb_gadget *g)
+ {
+ 	struct dwc3		*dwc = gadget_to_dwc(g);
+ 	unsigned long		flags;
+-	int			epnum;
+-	u32			tmo_eps = 0;
+ 
+ 	spin_lock_irqsave(&dwc->lock, flags);
+ 
+@@ -1923,36 +1915,6 @@ static int dwc3_gadget_stop(struct usb_gadget *g)
+ 
+ 	__dwc3_gadget_stop(dwc);
+ 
+-	for (epnum = 2; epnum < DWC3_ENDPOINTS_NUM; epnum++) {
+-		struct dwc3_ep  *dep = dwc->eps[epnum];
+-		int ret;
+-
+-		if (!dep)
+-			continue;
+-
+-		if (!(dep->flags & DWC3_EP_END_TRANSFER_PENDING))
+-			continue;
+-
+-		ret = wait_event_interruptible_lock_irq_timeout(dep->wait_end_transfer,
+-			    !(dep->flags & DWC3_EP_END_TRANSFER_PENDING),
+-			    dwc->lock, msecs_to_jiffies(5));
+-
+-		if (ret <= 0) {
+-			/* Timed out or interrupted! There's nothing much
+-			 * we can do so we just log here and print which
+-			 * endpoints timed out at the end.
+-			 */
+-			tmo_eps |= 1 << epnum;
+-			dep->flags &= DWC3_EP_END_TRANSFER_PENDING;
+-		}
+-	}
+-
+-	if (tmo_eps) {
+-		dev_err(dwc->dev,
+-			"end transfer timed out on endpoints 0x%x [bitmap]\n",
+-			tmo_eps);
+-	}
+-
+ out:
+ 	dwc->gadget_driver	= NULL;
+ 	spin_unlock_irqrestore(&dwc->lock, flags);
+@@ -2449,7 +2411,7 @@ static void dwc3_endpoint_interrupt(struct dwc3 *dwc,
+ 
+ 		if (cmd == DWC3_DEPCMD_ENDTRANSFER) {
+ 			dep->flags &= ~DWC3_EP_END_TRANSFER_PENDING;
+-			wake_up(&dep->wait_end_transfer);
++			dwc3_gadget_ep_cleanup_cancelled_requests(dep);
+ 		}
+ 		break;
+ 	case DWC3_DEPEVT_STREAMEVT:
+-- 
+2.20.1
 
-thanks,
 
-greg k-h
+
