@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A75FEC5B57D
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 08:13:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A56A7C06510
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 08:13:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7BE17205ED
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 08:13:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7F1FF205ED
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 08:13:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1562055186;
-	bh=XgDgixqehRUh9h6YIMMXtwTLxuXOmB4Mj8ai+vE2OA8=;
+	s=default; t=1562055189;
+	bh=jfaFKRwODgzpe5m0PyRnqYrbY6UgLRoTY0gkJzjgTx4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=A9OJC+h4C8LSe23N/BoAJyK6Ugyg6XznoYkW+1X+qrwv/y38VV5C4zSgarLdaoP1t
-	 fK0sk2khAUPmjt7fV0FJN1345hCWiVVUeiwd6v3zFuRl4NqQobVor2nNO2agO3JECb
-	 33CmwGlyT3phbFMdpdjhbhWE8hsxT9li+ZyZ1MD8=
+	b=mZSvGnBm6pvmvvgHWKevQt8l2m/jn+Yk5AEG9GL8oN9Ic6CjXD9ithReRc8EM37Ag
+	 1ZzOo5T70Ogc5MbkhQk7/rovHM2PwDiHj3jKCNltTIyuLYVwDuHd4yxFMbYdTrBgra
+	 yaSqjI5BVAkvLaaRQ4fFmRhNfIUc1L0reS+3JpnA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728392AbfGBIIQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Jul 2019 04:08:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55692 "EHLO mail.kernel.org"
+        id S1728028AbfGBIII (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Jul 2019 04:08:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55564 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727168AbfGBIIN (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 2 Jul 2019 04:08:13 -0400
+        id S1727269AbfGBIIH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 2 Jul 2019 04:08:07 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BA1D4206A2;
-        Tue,  2 Jul 2019 08:08:11 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id BE7EE20665;
+        Tue,  2 Jul 2019 08:08:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1562054892;
-        bh=XgDgixqehRUh9h6YIMMXtwTLxuXOmB4Mj8ai+vE2OA8=;
+        s=default; t=1562054886;
+        bh=jfaFKRwODgzpe5m0PyRnqYrbY6UgLRoTY0gkJzjgTx4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PuwzWTUS95KYOZskMi6vJzFkkNRxljhQenghq/TwCZC14m0xRgQHfnPnuuzIQQtMT
-         gF+JJbP7+s/A2SxMJc7WlMNrqLp+3GruCWtRLXVYFAUdIWniTT5vpciGbxkXuOzLvV
-         jI5k1eiDoIPqhaEKtQEa5cbd8PtT8T1GuNKz5o08=
+        b=CR/KZ8ItQoL3weAWfrnvTnXanjqB0mHDiNRiX7x0G1mHr4Hfav9ihVyEuejZ3Ijpd
+         F0Z54w3xbUgr5984jlS7sjXzfHm558AiHY/GLWO5lAoM2YZ9C/0AqN2bjQiqPAyat2
+         Tn9jH7BW7TG1VxC7MED1ELdj8guDTGx0R87E5AQY=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -47,9 +47,9 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Felipe Balbi <felipe.balbi@linux.intel.com>,
         John Stultz <john.stultz@linaro.org>,
         Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.19 27/72] usb: dwc3: gadget: extract dwc3_gadget_ep_skip_trbs()
-Date:   Tue,  2 Jul 2019 10:01:28 +0200
-Message-Id: <20190702080126.079029804@linuxfoundation.org>
+Subject: [PATCH 4.19 25/72] usb: dwc3: gadget: track number of TRBs per request
+Date:   Tue,  2 Jul 2019 10:01:26 +0200
+Message-Id: <20190702080125.974366303@linuxfoundation.org>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190702080124.564652899@linuxfoundation.org>
 References: <20190702080124.564652899@linuxfoundation.org>
@@ -62,11 +62,9 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-commit 7746a8dfb3f9c91b3a0b63a1d5c2664410e6498d upstream
+commit 09fe1f8d7e2f461275b1cdd832f2cfa5e9be346d upstream
 
-Extract the logic for skipping over TRBs to its own function. This
-makes the code slightly more readable and makes it easier to move this
-call to its final resting place as a following patch.
+This will help us remove the wait_event() from our ->dequeue().
 
 Cc: Fei Yang <fei.yang@intel.com>
 Cc: Sam Protsenko <semen.protsenko@linaro.org>
@@ -74,101 +72,80 @@ Cc: Felipe Balbi <balbi@kernel.org>
 Cc: linux-usb@vger.kernel.org
 Cc: stable@vger.kernel.org # 4.19.y
 Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
-(cherry picked from commit 7746a8dfb3f9c91b3a0b63a1d5c2664410e6498d)
+(cherry picked from commit 09fe1f8d7e2f461275b1cdd832f2cfa5e9be346d)
 Signed-off-by: John Stultz <john.stultz@linaro.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/dwc3/gadget.c | 61 +++++++++++++++------------------------
- 1 file changed, 24 insertions(+), 37 deletions(-)
+ drivers/usb/dwc3/core.h   | 3 +++
+ drivers/usb/dwc3/gadget.c | 6 ++++++
+ 2 files changed, 9 insertions(+)
 
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 4872cba8699b..0de78cb29f2c 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -847,6 +847,7 @@ struct dwc3_hwparams {
+  * @epnum: endpoint number to which this request refers
+  * @trb: pointer to struct dwc3_trb
+  * @trb_dma: DMA address of @trb
++ * @num_trbs: number of TRBs used by this request
+  * @needs_extra_trb: true when request needs one extra TRB (either due to ZLP
+  *	or unaligned OUT)
+  * @direction: IN or OUT direction flag
+@@ -867,6 +868,8 @@ struct dwc3_request {
+ 	struct dwc3_trb		*trb;
+ 	dma_addr_t		trb_dma;
+ 
++	unsigned		num_trbs;
++
+ 	unsigned		needs_extra_trb:1;
+ 	unsigned		direction:1;
+ 	unsigned		mapped:1;
 diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 4e08904890ed..46aa20b376cd 100644
+index 8db7466e4f76..fd91c494307c 100644
 --- a/drivers/usb/dwc3/gadget.c
 +++ b/drivers/usb/dwc3/gadget.c
-@@ -1341,6 +1341,29 @@ static int dwc3_gadget_ep_queue(struct usb_ep *ep, struct usb_request *request,
- 	return ret;
+@@ -1041,6 +1041,8 @@ static void dwc3_prepare_one_trb(struct dwc3_ep *dep,
+ 		req->trb_dma = dwc3_trb_dma_offset(dep, trb);
+ 	}
+ 
++	req->num_trbs++;
++
+ 	__dwc3_prepare_one_trb(dep, trb, dma, length, chain, node,
+ 			stream_id, short_not_ok, no_interrupt);
  }
+@@ -1075,6 +1077,7 @@ static void dwc3_prepare_one_trb_sg(struct dwc3_ep *dep,
  
-+static void dwc3_gadget_ep_skip_trbs(struct dwc3_ep *dep, struct dwc3_request *req)
-+{
-+	int i;
-+
-+	/*
-+	 * If request was already started, this means we had to
-+	 * stop the transfer. With that we also need to ignore
-+	 * all TRBs used by the request, however TRBs can only
-+	 * be modified after completion of END_TRANSFER
-+	 * command. So what we do here is that we wait for
-+	 * END_TRANSFER completion and only after that, we jump
-+	 * over TRBs by clearing HWO and incrementing dequeue
-+	 * pointer.
-+	 */
-+	for (i = 0; i < req->num_trbs; i++) {
-+		struct dwc3_trb *trb;
-+
-+		trb = req->trb + i;
-+		trb->ctrl &= ~DWC3_TRB_CTRL_HWO;
-+		dwc3_ep_inc_deq(dep);
-+	}
-+}
-+
- static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
- 		struct usb_request *request)
- {
-@@ -1368,38 +1391,8 @@ static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
- 				break;
- 		}
- 		if (r == req) {
--			int i;
--
- 			/* wait until it is processed */
- 			dwc3_stop_active_transfer(dep, true);
--
--			/*
--			 * If request was already started, this means we had to
--			 * stop the transfer. With that we also need to ignore
--			 * all TRBs used by the request, however TRBs can only
--			 * be modified after completion of END_TRANSFER
--			 * command. So what we do here is that we wait for
--			 * END_TRANSFER completion and only after that, we jump
--			 * over TRBs by clearing HWO and incrementing dequeue
--			 * pointer.
--			 *
--			 * Note that we have 2 possible types of transfers here:
--			 *
--			 * i) Linear buffer request
--			 * ii) SG-list based request
--			 *
--			 * SG-list based requests will have r->num_pending_sgs
--			 * set to a valid number (> 0). Linear requests,
--			 * normally use a single TRB.
--			 *
--			 * For each of these two cases, if r->unaligned flag is
--			 * set, one extra TRB has been used to align transfer
--			 * size to wMaxPacketSize.
--			 *
--			 * All of these cases need to be taken into
--			 * consideration so we don't mess up our TRB ring
--			 * pointers.
--			 */
- 			wait_event_lock_irq(dep->wait_end_transfer,
- 					!(dep->flags & DWC3_EP_END_TRANSFER_PENDING),
- 					dwc->lock);
-@@ -1407,13 +1400,7 @@ static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
- 			if (!r->trb)
- 				goto out0;
+ 			/* Now prepare one extra TRB to align transfer size */
+ 			trb = &dep->trb_pool[dep->trb_enqueue];
++			req->num_trbs++;
+ 			__dwc3_prepare_one_trb(dep, trb, dwc->bounce_addr,
+ 					maxp - rem, false, 1,
+ 					req->request.stream_id,
+@@ -1119,6 +1122,7 @@ static void dwc3_prepare_one_trb_linear(struct dwc3_ep *dep,
  
--			for (i = 0; i < r->num_trbs; i++) {
--				struct dwc3_trb *trb;
--
--				trb = r->trb + i;
--				trb->ctrl &= ~DWC3_TRB_CTRL_HWO;
--				dwc3_ep_inc_deq(dep);
--			}
-+			dwc3_gadget_ep_skip_trbs(dep, r);
- 			goto out1;
- 		}
- 		dev_err(dwc->dev, "request %pK was not queued to %s\n",
+ 		/* Now prepare one extra TRB to align transfer size */
+ 		trb = &dep->trb_pool[dep->trb_enqueue];
++		req->num_trbs++;
+ 		__dwc3_prepare_one_trb(dep, trb, dwc->bounce_addr, maxp - rem,
+ 				false, 1, req->request.stream_id,
+ 				req->request.short_not_ok,
+@@ -1135,6 +1139,7 @@ static void dwc3_prepare_one_trb_linear(struct dwc3_ep *dep,
+ 
+ 		/* Now prepare one extra TRB to handle ZLP */
+ 		trb = &dep->trb_pool[dep->trb_enqueue];
++		req->num_trbs++;
+ 		__dwc3_prepare_one_trb(dep, trb, dwc->bounce_addr, 0,
+ 				false, 1, req->request.stream_id,
+ 				req->request.short_not_ok,
+@@ -2231,6 +2236,7 @@ static int dwc3_gadget_ep_reclaim_completed_trb(struct dwc3_ep *dep,
+ 	dwc3_ep_inc_deq(dep);
+ 
+ 	trace_dwc3_complete_trb(dep, trb);
++	req->num_trbs--;
+ 
+ 	/*
+ 	 * If we're in the middle of series of chained TRBs and we
 -- 
 2.20.1
 
