@@ -2,192 +2,117 @@ Return-Path: <SRS0=rQJG=U7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46DE0C5B57D
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 08:14:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87B0BC06510
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 08:29:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1FF2E206A2
-	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 08:14:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1562055272;
-	bh=f31brRCLJwDLQmLPVh+HVaNtwvSkOXwIuRLFN02XLk0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=P4QlHFSZknWdHKefs0fKLWyAEnRX3saGAmPRTJ2Z6wWZ0BqGOLNsHKZ18BWoB5EgK
-	 AthD4EKGKMvuP8vHbkpcxbV+UNISts8zqnc3HJ0GvJmc7dIHdLS19hkQi64I/zQgu8
-	 p/8tvcBYEiCEnIo9qKNYEfLgEHln47/Po9/2hago=
+	by mail.kernel.org (Postfix) with ESMTP id 59794208C4
+	for <linux-usb@archiver.kernel.org>; Tue,  2 Jul 2019 08:29:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="hbsrZeQe"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728033AbfGBIOb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Jul 2019 04:14:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52680 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728060AbfGBIGN (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 2 Jul 2019 04:06:13 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2E83620659;
-        Tue,  2 Jul 2019 08:06:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1562054772;
-        bh=f31brRCLJwDLQmLPVh+HVaNtwvSkOXwIuRLFN02XLk0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kiAK2WldXgM9gPEnZb+KGesKg7uk8vV5SMPFVyvdSMfKIYtsB4vaGAgUYU2073uOv
-         ZJznXlXfcg6FSeixClqi/2yjCXImZvyGd+D6nXewlnqfkR1R/XEf+jSrB7N69+s7DY
-         nYAwneJpfJdIyGYprMTP0XZdkK2uS8uo4uClTOzA=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Fei Yang <fei.yang@intel.com>,
-        Sam Protsenko <semen.protsenko@linaro.org>,
-        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        John Stultz <john.stultz@linaro.org>,
-        Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.19 30/72] usb: dwc3: gadget: remove wait_end_transfer
-Date:   Tue,  2 Jul 2019 10:01:31 +0200
-Message-Id: <20190702080126.229595910@linuxfoundation.org>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190702080124.564652899@linuxfoundation.org>
-References: <20190702080124.564652899@linuxfoundation.org>
-User-Agent: quilt/0.66
+        id S1726830AbfGBI3p (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Jul 2019 04:29:45 -0400
+Received: from mail-eopbgr80089.outbound.protection.outlook.com ([40.107.8.89]:33041
+        "EHLO EUR04-VI1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726369AbfGBI3p (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 2 Jul 2019 04:29:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oaYv8iF2/vj0XYQBhWLzYfbB3Ow2PRvzziL7uVxrS3c=;
+ b=hbsrZeQewPonxT9ELEPy3TbwN2pjVcDja4R/tSkALj0UfLXvPDqePq0VA77gOpi6RSYWZkftcYKkojobJmmFfP2BRQPSAq2jLrEdyHV67yOrUJEAhrntqn1WONn6YH3ORL+QYcos2nTNsvDsADdaTdJKWMvLYV0K+NyCrq6MHkg=
+Received: from VI1PR04MB5327.eurprd04.prod.outlook.com (20.177.52.16) by
+ VI1PR04MB5263.eurprd04.prod.outlook.com (20.177.51.216) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2032.20; Tue, 2 Jul 2019 08:29:42 +0000
+Received: from VI1PR04MB5327.eurprd04.prod.outlook.com
+ ([fe80::c1bf:7842:6630:b87a]) by VI1PR04MB5327.eurprd04.prod.outlook.com
+ ([fe80::c1bf:7842:6630:b87a%7]) with mapi id 15.20.2032.019; Tue, 2 Jul 2019
+ 08:29:42 +0000
+From:   Peter Chen <peter.chen@nxp.com>
+To:     Kai Ruhnau <kai.ruhnau@target-sg.com>
+CC:     Felipe Balbi <felipe.balbi@linux.intel.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: RE: No carrier lost information with gadget RNDIS/ECM
+Thread-Topic: No carrier lost information with gadget RNDIS/ECM
+Thread-Index: AdUsFPmU+UglLYdrSGuD1S1toRlligAA5T8AAAEwZfAAJNKCgAAS92iQABTOtQAADByYoAANCr7wAIiH2PAABPEL0AAkgO9AAAj0V4AAA/2TMA==
+Date:   Tue, 2 Jul 2019 08:29:42 +0000
+Message-ID: <VI1PR04MB5327E9F0660A36A52A3E258E8BF80@VI1PR04MB5327.eurprd04.prod.outlook.com>
+References: <AM0PR02MB3841F110F7B6931A087DF566C5E20@AM0PR02MB3841.eurprd02.prod.outlook.com>
+ <87o92kk0ih.fsf@linux.intel.com>
+ <AM0PR02MB384108B692229DF41816A363C5E20@AM0PR02MB3841.eurprd02.prod.outlook.com>
+ <871rzffszm.fsf@linux.intel.com>
+ <AM0PR02MB38418BFC9965F044B307B13CC5FD0@AM0PR02MB3841.eurprd02.prod.outlook.com>
+ <CAL411-oZUtL6LETk+oNZXXezeLK4PahPz3_iVZJiM33A3KLaqw@mail.gmail.com>
+ <AM0PR02MB38419422D499F45C8475A000C5FC0@AM0PR02MB3841.eurprd02.prod.outlook.com>
+ <AM0PR02MB38415FA372C7A8B8B7BAFF22C5FC0@AM0PR02MB3841.eurprd02.prod.outlook.com>
+ <VI1PR04MB5327BA15817CA04C5ACC4A8C8BF90@VI1PR04MB5327.eurprd04.prod.outlook.com>
+ <AM0PR02MB3841CFA0BC4FC084D8517E00C5F90@AM0PR02MB3841.eurprd02.prod.outlook.com>
+ <VI1PR04MB532799F3F92BCBD8616B51868BF80@VI1PR04MB5327.eurprd04.prod.outlook.com>
+ <AM0PR02MB38416C39915E57C8855BBDA7C5F80@AM0PR02MB3841.eurprd02.prod.outlook.com>
+In-Reply-To: <AM0PR02MB38416C39915E57C8855BBDA7C5F80@AM0PR02MB3841.eurprd02.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=peter.chen@nxp.com; 
+x-originating-ip: [119.31.174.66]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 1ef9a114-379e-4092-8490-08d6fec76e87
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:VI1PR04MB5263;
+x-ms-traffictypediagnostic: VI1PR04MB5263:
+x-microsoft-antispam-prvs: <VI1PR04MB52637BEFCF22607E2317F1A78BF80@VI1PR04MB5263.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-forefront-prvs: 008663486A
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(136003)(39860400002)(376002)(396003)(346002)(366004)(199004)(189003)(55016002)(53936002)(99286004)(6436002)(7696005)(71200400001)(14454004)(446003)(86362001)(316002)(186003)(54906003)(11346002)(476003)(6506007)(486006)(6246003)(76176011)(102836004)(9686003)(26005)(256004)(4326008)(25786009)(6916009)(44832011)(14444005)(71190400001)(73956011)(6116002)(76116006)(229853002)(3846002)(5024004)(66476007)(81166006)(66556008)(68736007)(8676002)(74316002)(66446008)(64756008)(7736002)(52536014)(478600001)(66946007)(305945005)(8936002)(33656002)(2906002)(81156014)(5660300002)(66066001);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR04MB5263;H:VI1PR04MB5327.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: xRbsHG2dIhpQCpeXeY/2bakV+6lkb7U+1mS3d0cojqernq3djxtGRiSEL6xt82A4wtxrwRsH2A4BKpy6OcJEsLx6gkhTVBCiSWrQIJ7ZGUe068IoHDP9rOezMQ7yJ3sowdOJyjKUdpL2hqXwV+zvTXPPkBimZKBu/qMNIa1CDFYbEUhyIxGwg9Fhasgx29/SJd4y2ihgXax6SjGpZJWT9rnOozgkzhQb8Iw8uU/feNTbAFhR8GBAJFQiun9yryIW58PQ3G8uXQXw2LY/GIpIkXledpiqhdWCSQ2FJwI2Bcbrxx34ZkXz09z6FyukEa3jhjsCKoD152wtmDxXsJqQQ7mqyUPZ4tke3QSJXIPBXop1zQCRw8mzA0h3xNpn0oEbHuXbrXKxS695EHdre62Ecj7Hpcwz1XkC2NAb3T7OvWY=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1ef9a114-379e-4092-8490-08d6fec76e87
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jul 2019 08:29:42.4576
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: peter.chen@nxp.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB5263
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-commit fec9095bdef4e7c988adb603d0d4f92ee735d4a1 upstream
-
-Now that we have a list of cancelled requests, we can skip over TRBs
-when END_TRANSFER command completes.
-
-Cc: Fei Yang <fei.yang@intel.com>
-Cc: Sam Protsenko <semen.protsenko@linaro.org>
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: linux-usb@vger.kernel.org
-Cc: stable@vger.kernel.org # 4.19.y
-Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
-(cherry picked from commit fec9095bdef4e7c988adb603d0d4f92ee735d4a1)
-Signed-off-by: John Stultz <john.stultz@linaro.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/dwc3/core.h   |  3 ---
- drivers/usb/dwc3/gadget.c | 40 +--------------------------------------
- 2 files changed, 1 insertion(+), 42 deletions(-)
-
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 24f0b108b7f6..131028501752 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -639,7 +639,6 @@ struct dwc3_event_buffer {
-  * @cancelled_list: list of cancelled requests for this endpoint
-  * @pending_list: list of pending requests for this endpoint
-  * @started_list: list of started requests on this endpoint
-- * @wait_end_transfer: wait_queue_head_t for waiting on End Transfer complete
-  * @lock: spinlock for endpoint request queue traversal
-  * @regs: pointer to first endpoint register
-  * @trb_pool: array of transaction buffers
-@@ -664,8 +663,6 @@ struct dwc3_ep {
- 	struct list_head	pending_list;
- 	struct list_head	started_list;
- 
--	wait_queue_head_t	wait_end_transfer;
--
- 	spinlock_t		lock;
- 	void __iomem		*regs;
- 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 8291fa1624e1..843586f20572 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -638,8 +638,6 @@ static int __dwc3_gadget_ep_enable(struct dwc3_ep *dep, unsigned int action)
- 		reg |= DWC3_DALEPENA_EP(dep->number);
- 		dwc3_writel(dwc->regs, DWC3_DALEPENA, reg);
- 
--		init_waitqueue_head(&dep->wait_end_transfer);
--
- 		if (usb_endpoint_xfer_control(desc))
- 			goto out;
- 
-@@ -1404,15 +1402,11 @@ static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
- 		if (r == req) {
- 			/* wait until it is processed */
- 			dwc3_stop_active_transfer(dep, true);
--			wait_event_lock_irq(dep->wait_end_transfer,
--					!(dep->flags & DWC3_EP_END_TRANSFER_PENDING),
--					dwc->lock);
- 
- 			if (!r->trb)
- 				goto out0;
- 
- 			dwc3_gadget_move_cancelled_request(req);
--			dwc3_gadget_ep_cleanup_cancelled_requests(dep);
- 			goto out0;
- 		}
- 		dev_err(dwc->dev, "request %pK was not queued to %s\n",
-@@ -1913,8 +1907,6 @@ static int dwc3_gadget_stop(struct usb_gadget *g)
- {
- 	struct dwc3		*dwc = gadget_to_dwc(g);
- 	unsigned long		flags;
--	int			epnum;
--	u32			tmo_eps = 0;
- 
- 	spin_lock_irqsave(&dwc->lock, flags);
- 
-@@ -1923,36 +1915,6 @@ static int dwc3_gadget_stop(struct usb_gadget *g)
- 
- 	__dwc3_gadget_stop(dwc);
- 
--	for (epnum = 2; epnum < DWC3_ENDPOINTS_NUM; epnum++) {
--		struct dwc3_ep  *dep = dwc->eps[epnum];
--		int ret;
--
--		if (!dep)
--			continue;
--
--		if (!(dep->flags & DWC3_EP_END_TRANSFER_PENDING))
--			continue;
--
--		ret = wait_event_interruptible_lock_irq_timeout(dep->wait_end_transfer,
--			    !(dep->flags & DWC3_EP_END_TRANSFER_PENDING),
--			    dwc->lock, msecs_to_jiffies(5));
--
--		if (ret <= 0) {
--			/* Timed out or interrupted! There's nothing much
--			 * we can do so we just log here and print which
--			 * endpoints timed out at the end.
--			 */
--			tmo_eps |= 1 << epnum;
--			dep->flags &= DWC3_EP_END_TRANSFER_PENDING;
--		}
--	}
--
--	if (tmo_eps) {
--		dev_err(dwc->dev,
--			"end transfer timed out on endpoints 0x%x [bitmap]\n",
--			tmo_eps);
--	}
--
- out:
- 	dwc->gadget_driver	= NULL;
- 	spin_unlock_irqrestore(&dwc->lock, flags);
-@@ -2449,7 +2411,7 @@ static void dwc3_endpoint_interrupt(struct dwc3 *dwc,
- 
- 		if (cmd == DWC3_DEPCMD_ENDTRANSFER) {
- 			dep->flags &= ~DWC3_EP_END_TRANSFER_PENDING;
--			wake_up(&dep->wait_end_transfer);
-+			dwc3_gadget_ep_cleanup_cancelled_requests(dep);
- 		}
- 		break;
- 	case DWC3_DEPEVT_STREAMEVT:
--- 
-2.20.1
-
-
-
+IA0KPiA+DQo+ID4gSSBzdXNwZWN0IGl0IGlzIG5vdCByZWxhdGVkIHRvIFVTQiwgd291bGQgeW91
+IHBsZWFzZSBkaXNhYmxlIFVTQiBub2RlIGF0IERUUyB0bw0KPiBtZWFzdXJlIGFnYWluPw0KPiAN
+Cj4gV2l0aCBVU0IgZGlzYWJsZWQgKCZ1c2JvdGcxIGFuZCAmdXNib3RnMiksIFZCVVMgaXMgYXZh
+aWxhYmxlIHdoZW4gSSBjb25uZWN0IHRvDQo+IHRoZSBob3N0IGFuZCBwcm9wZXJseSBkaXNjaGFy
+Z2VkIHdoZW4gSSBkaXNjb25uZWN0Lg0KPiBJIGFsc28gdHJpZWQgdGhlIE9URydzIGhvc3QgbW9k
+ZSB5ZXN0ZXJkYXkuIFdoZW4gSSBhdHRhY2ggYSBNaWNyby1CIHBsdWcgdG8gQS0NCj4gcmVjZXB0
+YWJsZSBhZGFwdGVyIChhbmQgbm8gYWN0dWFsIGdhZGdldCksIHRoZSBHUElPLWNvbnRyb2xsZWQg
+cmVndWxhdG9yIGlzIHR1cm5lZA0KPiBvbiBhbmQgZHJpdmVzIFZCVVMuIFdoZW4gSSBkZXRhY2gg
+aXQgYW5kIHRoZSBib2FyZCBzd2l0Y2hlcyBiYWNrIHRvIGdhZGdldCwgdGhlDQo+IHJlZ3VsYXRv
+ciBpcyB0dXJuZWQgb2ZmIGFuZCBWQlVTIGlzIHByb3Blcmx5IGRyYWluZWQuDQo+IA0KDQpXb3Vs
+ZCB5b3UgcGxlYXNlIHRyeSBkaXNhYmxpbmcgY2hhcmdlciBkZXRlY3Rpb24gdG8gc2VlIGlmIGl0
+IGFueXRoaW5nIGNoYW5nZXM/DQpEbyB5b3UgaGF2ZSBhbnkgY29tcG9uZW50cyBhdCBWQlVTPw0K
+DQpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvY2hpcGlkZWEvdWRjLmMgYi9kcml2ZXJzL3VzYi9j
+aGlwaWRlYS91ZGMuYw0KaW5kZXggNmE1ZWU4ZTZkYTEwLi43MGYwN2E4MWRhYTQgMTAwNjQ0DQot
+LS0gYS9kcml2ZXJzL3VzYi9jaGlwaWRlYS91ZGMuYw0KKysrIGIvZHJpdmVycy91c2IvY2hpcGlk
+ZWEvdWRjLmMNCkBAIC0xNTI0LDkgKzE1MjQsMTEgQEAgc3RhdGljIGludCBjaV91ZGNfdmJ1c19z
+ZXNzaW9uKHN0cnVjdCB1c2JfZ2FkZ2V0ICpfZ2FkZ2V0LCBpbnQgaXNfYWN0aXZlKQ0KICAgICAg
+ICAgICAgICAgIGdhZGdldF9yZWFkeSA9IDE7DQogICAgICAgIHNwaW5fdW5sb2NrX2lycXJlc3Rv
+cmUoJmNpLT5sb2NrLCBmbGFncyk7DQogDQorICAgICAgIC8qDQogICAgICAgIGlmIChjaS0+dXNi
+X3BoeSkNCiAgICAgICAgICAgICAgICB1c2JfcGh5X3NldF9jaGFyZ2VyX3N0YXRlKGNpLT51c2Jf
+cGh5LCBpc19hY3RpdmUgPw0KICAgICAgICAgICAgICAgICAgICAgICAgVVNCX0NIQVJHRVJfUFJF
+U0VOVCA6IFVTQl9DSEFSR0VSX0FCU0VOVCk7DQorICAgICAgICAgICAgICAgICAgICAgICAqLw0K
+IA0KICAgICAgICBpZiAoZ2FkZ2V0X3JlYWR5KSB7DQogICAgICAgICAgICAgICAgaWYgKGlzX2Fj
+dGl2ZSkgew0KDQpQZXRlcg0K
