@@ -2,110 +2,72 @@ Return-Path: <SRS0=QQeN=VA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.5 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FE51C5B578
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 07:56:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D3AFC06511
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 08:35:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 02C002189F
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 07:56:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D8FBB218A4
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 08:35:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727108AbfGCH4F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Jul 2019 03:56:05 -0400
-Received: from mx2.suse.de ([195.135.220.15]:35528 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726670AbfGCH4F (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 3 Jul 2019 03:56:05 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id BC276AF10;
-        Wed,  3 Jul 2019 07:56:03 +0000 (UTC)
-Message-ID: <1562139729.5819.28.camel@suse.com>
-Subject: Re: KASAN: use-after-free Read in cpia2_usb_disconnect
-From:   Oliver Neukum <oneukum@suse.com>
-To:     syzbot <syzbot+0c90fc937c84f97d0aa6@syzkaller.appspotmail.com>,
-        keescook@chromium.org, andreyknvl@google.com,
-        syzkaller-bugs@googlegroups.com, mchehab@kernel.org,
-        tglx@linutronix.de, sakari.ailus@linux.intel.com,
-        kstewart@linuxfoundation.org, allison@lohutok.net,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, hverkuil-cisco@xs4all.nl
-Date:   Wed, 03 Jul 2019 09:42:09 +0200
-In-Reply-To: <0000000000006d7e14058cbc6545@google.com>
-References: <0000000000006d7e14058cbc6545@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1727103AbfGCIfZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Jul 2019 04:35:25 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:57638 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726400AbfGCIfZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Jul 2019 04:35:25 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 0189525B775;
+        Wed,  3 Jul 2019 18:35:23 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id 17ABC9403B8; Wed,  3 Jul 2019 10:35:21 +0200 (CEST)
+From:   Simon Horman <horms+renesas@verge.net.au>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>, linux-usb@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        devicetree@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Simon Horman <horms+renesas@verge.net.au>
+Subject: [PATCH v2 0/2] dt-bindings: usb: renease_{usbhs,gen3} Rename bindings documentation files
+Date:   Wed,  3 Jul 2019 10:35:12 +0200
+Message-Id: <20190703083514.32385-1-horms+renesas@verge.net.au>
+X-Mailer: git-send-email 2.11.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Am Dienstag, den 02.07.2019, 18:01 -0700 schrieb syzbot:
-> syzbot has found a reproducer for the following crash on:
-> 
-> HEAD commit:    7829a896 usb-fuzzer: main usb gadget fuzzer driver
-> git tree:       https://github.com/google/kasan.git usb-fuzzer
-> console output: https://syzkaller.appspot.com/x/log.txt?x=11e19043a00000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=f6d4561982f71f63
-> dashboard link: https://syzkaller.appspot.com/bug?extid=0c90fc937c84f97d0aa6
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=147d42eda00000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=104c268ba00000
-> 
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+0c90fc937c84f97d0aa6@syzkaller.appspotmail.com
-> 
-> cpia2: Message: count = 1, register[0] = 0x0
-> cpia2: Unexpected error: -19
-> ==================================================================
-> BUG: KASAN: use-after-free in cpia2_usb_disconnect+0x1a4/0x1c0  
-> drivers/media/usb/cpia2/cpia2_usb.c:898
-> Read of size 8 at addr ffff8881cf6c4e50 by task kworker/1:1/22
+Hi,
 
-Please try this:
+For consistency with the naming of (most) other documentation files for DT
+bindings for Renesas IP blocks rename the Renesas USBHS and USB 3.0
+peripheral documentation files.
 
-From a0a73298fc23acb95e7b6487e960be707563eb34 Mon Sep 17 00:00:00 2001
-From: Oliver Neukum <oneukum@suse.com>
-Date: Wed, 8 May 2019 12:36:40 +0200
-Subject: [PATCH] cpia2_usb: first wake up, then free in disconnect
+Changes since v1
+* Accumulate review tags
+* Use renesas,usb3-peri.txt as new filename for renesas_gen3,
+  as suggested by Shimoda-san
 
-Kasan reported a use after free in cpia2_usb_disconnect()
-It first freed everything and then woke up those waiting.
-The reverse order is correct.
+Simon Horman (2):
+  dt-bindings: usb: renesas_usbhs: Rename bindings documentation file
+  dt-bindings: usb: renesas_gen3: Rename bindings documentation file
 
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
-Reported-by: syzbot+0c90fc937c84f97d0aa6@syzkaller.appspotmail.com
-Fixes: 6c493f8b28c67 ("[media] cpia2: major overhaul to get it in a working state again")
----
- drivers/media/usb/cpia2/cpia2_usb.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/usb/{renesas_usb3.txt => renesas,usb3-peri.txt}   | 0
+ .../devicetree/bindings/usb/{renesas_usbhs.txt => renesas,usbhs.txt}      | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ rename Documentation/devicetree/bindings/usb/{renesas_usb3.txt => renesas,usb3-peri.txt} (100%)
+ rename Documentation/devicetree/bindings/usb/{renesas_usbhs.txt => renesas,usbhs.txt} (100%)
 
-diff --git a/drivers/media/usb/cpia2/cpia2_usb.c b/drivers/media/usb/cpia2/cpia2_usb.c
-index e5d8dee38fe4..44bd7e5ad3eb 100644
---- a/drivers/media/usb/cpia2/cpia2_usb.c
-+++ b/drivers/media/usb/cpia2/cpia2_usb.c
-@@ -902,7 +902,6 @@ static void cpia2_usb_disconnect(struct usb_interface *intf)
- 	cpia2_unregister_camera(cam);
- 	v4l2_device_disconnect(&cam->v4l2_dev);
- 	mutex_unlock(&cam->v4l2_lock);
--	v4l2_device_put(&cam->v4l2_dev);
- 
- 	if(cam->buffers) {
- 		DBG("Wakeup waiting processes\n");
-@@ -911,6 +910,8 @@ static void cpia2_usb_disconnect(struct usb_interface *intf)
- 		wake_up_interruptible(&cam->wq_stream);
- 	}
- 
-+	v4l2_device_put(&cam->v4l2_dev);
-+
- 	LOG("CPiA2 camera disconnected.\n");
- }
- 
 -- 
-2.16.4
+2.11.0
 
