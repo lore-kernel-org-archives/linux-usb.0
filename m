@@ -2,94 +2,75 @@ Return-Path: <SRS0=QQeN=VA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C37AC06511
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 16:38:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CCB8C0650E
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 16:39:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DFE4E218A0
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 16:38:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA962218A0
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 16:39:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1562171907;
-	bh=+coCCzn85FkjEOGO7b9tB8JitODzOrhUUN5elqeMyDg=;
+	s=default; t=1562171955;
+	bh=SE+Je5EFsMdGD+TiwNqygLRpk2ISs/GklnKAT/Yq7NI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=JibeVLTL1jiZq61kROvIz0AcUBjWAZJsf7ojrN1wXhBRutIxN8xBJUrhBxojLxpwr
-	 wzVVcppNv7GpzZU7GiD5Dquk+7HhugOiWM5syWlYyPVFMMcf+t43N1iaV5xBG5v0+c
-	 NgJN1doFShxV/EAsL3KBLyNBIGWBZULWWB46LbDQ=
+	b=FlPbmVNkrncSbWtVHM8Bl8R6CwKuhZONZFk5S11PaAbzm+j+/jOjDNrvWNKVjZrfK
+	 AamISvJ5e8Qs5fM1ns7AJ7Yf8d07ZSsvNy255GYvHDfsP17Koq3FoTc/RBnhrC8286
+	 GiquNVaAt3UsM6Z3vz/hAZraT4A5pitsRdwRURsE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726550AbfGCQi0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Jul 2019 12:38:26 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47796 "EHLO mail.kernel.org"
+        id S1726621AbfGCQjL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Jul 2019 12:39:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48298 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725933AbfGCQi0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 3 Jul 2019 12:38:26 -0400
+        id S1725847AbfGCQjL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 3 Jul 2019 12:39:11 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E95C62189E;
-        Wed,  3 Jul 2019 16:38:24 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 95C772189E;
+        Wed,  3 Jul 2019 16:39:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1562171905;
-        bh=+coCCzn85FkjEOGO7b9tB8JitODzOrhUUN5elqeMyDg=;
+        s=default; t=1562171951;
+        bh=SE+Je5EFsMdGD+TiwNqygLRpk2ISs/GklnKAT/Yq7NI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=whyHLpNkYD+uNl46syTtq3z9RT/NHT1JA5YOo9XV5tD37fOGN4Cr/aZsjIPKBS3Sh
-         E3ocQv1X6+SpW2t24PIZLXoxR/W14iR3reNPmTct23KBzBpmwKr3+CzwljcGeudPoQ
-         LsmNbIxDflVHjHupfoxJr5ZDyv/7Tu61gumbUVgs=
-Date:   Wed, 3 Jul 2019 18:38:23 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Markus Breunig <Markus.L.Breunig@gmx.net>
-Cc:     linux-usb@vger.kernel.org
-Subject: Re: New USB Device
-Message-ID: <20190703163823.GA17160@kroah.com>
-References: <5D18A890.1040100@gmx.net>
+        b=bE/PhhxKetWxBnBk54zBTk1TxofIZkp3rz4c1cqtxi5BOtKVqDiRiPLRkbWvxIeDE
+         CvmZNTpecsETwCJWZ0mDgpPnayMUIrjZ95qst79wOUmLsTlbIQtv0l0kc9TJSprYWT
+         6WY+1OMHUsfKrI81jp6FBnIWnyKis9Leala/5hxU=
+Date:   Wed, 3 Jul 2019 18:39:08 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Nikolaus Voss <nv@vosn.de>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] drivers/usb/typec/tps6598x.c: fix portinfo width
+Message-ID: <20190703163908.GB17160@kroah.com>
+References: <20190628083417.GA21701@kuha.fi.intel.com>
+ <f8daf204d49fff00db33e2b417a20afcc58ad56e.1561712364.git.nikolaus.voss@loewensteinmedical.de>
+ <20190628095843.GB21701@kuha.fi.intel.com>
+ <alpine.DEB.2.20.1906281208190.21573@fox.voss.local>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5D18A890.1040100@gmx.net>
+In-Reply-To: <alpine.DEB.2.20.1906281208190.21573@fox.voss.local>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, Jun 30, 2019 at 02:18:24PM +0200, Markus Breunig wrote:
-> Hello,
+On Fri, Jun 28, 2019 at 12:10:41PM +0200, Nikolaus Voss wrote:
+> On Fri, 28 Jun 2019, Heikki Krogerus wrote:
+> > On Fri, Jun 28, 2019 at 11:01:08AM +0200, Nikolaus Voss wrote:
+> > > Portinfo bit field is 3 bits wide, not 2 bits. This led to
+> > > a wrong driver configuration for some tps6598x configurations.
+> > > 
+> > > Fixes: 0a4c005bd171 ("usb: typec: driver for TI TPS6598x USB Power Delivery controllers")
+> > > Signed-off-by: Nikolaus Voss <nikolaus.voss@loewensteinmedical.de>
+> > 
+> > Shouldn't this be applied to the stable trees as well?
 > 
-> my Raspberry Pi told me to send you the following information. I hope it
-> helps ...
-> 
-> best regards
-> 
-> Markus
-> 
-> --------------------------------
-> [    2.081893] usb 1-1.2: new full-speed USB device number 4 using dwc_otg
-> [    2.219804] usb 1-1.2: New USB device found, idVendor=04d8,
-> idProduct=f8e8, bcdDevice=48.12
-> [    2.219821] usb 1-1.2: New USB device strings: Mfr=1, Product=2,
-> SerialNumber=3
-> [    2.219830] usb 1-1.2: Product: GNS 5890 ADS-B Receiver
-> [    2.219839] usb 1-1.2: Manufacturer: www.gns-gmbh.com
-> [ 1517.863755] usbcore: registered new interface driver usbserial_generic
-> [ 1517.863830] usbserial: USB Serial support registered for generic
-> [ 1517.863916] usbserial_generic 1-1.2:1.0: The "generic" usb-serial
-> driver is only for testing and one-off prototypes.
-> [ 1517.863927] usbserial_generic 1-1.2:1.0: Tell
-> linux-usb@vger.kernel.org to add your device to a proper driver.
-> [ 1517.863939] usbserial_generic 1-1.2:1.0: device has no bulk endpoints
-> [ 1517.864009] usbserial_generic 1-1.2:1.1: The "generic" usb-serial
-> driver is only for testing and one-off prototypes.
-> [ 1517.864018] usbserial_generic 1-1.2:1.1: Tell
-> linux-usb@vger.kernel.org to add your device to a proper driver.
-> [ 1517.864028] usbserial_generic 1-1.2:1.1: generic converter detected
-> [ 1517.865108] usb 1-1.2: generic converter now attached to ttyUSB0
+> Oh, yes, forgot that again... Greg, could you...?
 
-This device isn't even a generic usb to serial converter, why did you
-tell your module configuration to bind to this specific device?
+It's not like I have anything else to do... :)
 
-thanks,
-
-greg k-h
