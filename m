@@ -2,86 +2,75 @@ Return-Path: <SRS0=QQeN=VA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58B11C5B578
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 07:29:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39E81C5B578
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 07:45:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2D0D721881
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 07:29:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 089B221882
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 07:45:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727116AbfGCH3j (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Jul 2019 03:29:39 -0400
-Received: from mx2.suse.de ([195.135.220.15]:54346 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726670AbfGCH3j (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 3 Jul 2019 03:29:39 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id B9713AFB0;
-        Wed,  3 Jul 2019 07:29:35 +0000 (UTC)
-Date:   Wed, 3 Jul 2019 09:29:34 +0200
-From:   Johannes Thumshirn <jthumshirn@suse.de>
-To:     Andrea Vai <andrea.vai@unipv.it>
-Cc:     Jens Axboe <axboe@kernel.dk>, linux-usb@vger.kernel.org,
-        linux-scsi@vger.kernel.org,
-        Himanshu Madhani <himanshu.madhani@cavium.com>,
-        Hannes Reinecke <hare@suse.com>,
-        Ming Lei <ming.lei@redhat.com>, Omar Sandoval <osandov@fb.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>
-Subject: Re: Slow I/O on USB media after commit
- f664a3cc17b7d0a2bc3b3ab96181e1029b0ec0e6
-Message-ID: <20190703072934.GA4026@x250.microfocus.com>
-References: <cc54d51ec7a203eceb76d62fc230b378b1da12e1.camel@unipv.it>
- <20190702115117.GC4463@x250.microfocus.com>
- <20190702223630.GA3735@brian.unipv.it>
+        id S1727004AbfGCHpZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Jul 2019 03:45:25 -0400
+Received: from mga07.intel.com ([134.134.136.100]:60334 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726670AbfGCHpZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 3 Jul 2019 03:45:25 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Jul 2019 00:45:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,446,1557212400"; 
+   d="scan'208";a="165901447"
+Received: from pipin.fi.intel.com ([10.237.72.175])
+  by fmsmga007.fm.intel.com with ESMTP; 03 Jul 2019 00:45:22 -0700
+From:   Felipe Balbi <felipe.balbi@linux.intel.com>
+To:     Linux USB <linux-usb@vger.kernel.org>
+Cc:     Felipe Balbi <felipe.balbi@linux.intel.com>
+Subject: [PATCH] usb: dwc3: pci: add support for TigerLake Devices
+Date:   Wed,  3 Jul 2019 10:45:19 +0300
+Message-Id: <20190703074519.21287-1-felipe.balbi@linux.intel.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190702223630.GA3735@brian.unipv.it>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jul 03, 2019 at 12:36:30AM +0200, Andrea Vai wrote:
-> On 02/07/19 13:51:17, Johannes Thumshirn wrote:
-> > On Tue, Jul 02, 2019 at 12:46:45PM +0200, Andrea Vai wrote:
-> > > Hi,
-> > >   I have a problem writing data to a USB pendrive, and it seems
-> > > kernel-related. With the help of Greg an Alan (thanks) and some
-> > > bisect, I found out the offending commit being
-> > > 
-> > > commit f664a3cc17b7d0a2bc3b3ab96181e1029b0ec0e6
-> > >
-> > > [...]
-> > 
-> > Hi,
-> > 
-> > Can you please check what IO scheduler you have set for your USB pendrive?
-> > 
-> > i.e. with:
-> > cat /sys/block/$DISK/queue/scheduler
-> >
-> 
-> # cat /sys/block/sdf/queue/scheduler
-> [mq-deadline] none
+This patch adds the necessary PCI ID for TGP-LP devices.
 
-One thing you can try as well is building a kernel with CONFIG_IOSCHED_BFQ and
-use it. Deadline is probably not the best choice for a slow drive.
+Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
+---
+ drivers/usb/dwc3/dwc3-pci.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Byte,
-	Johannes
+diff --git a/drivers/usb/dwc3/dwc3-pci.c b/drivers/usb/dwc3/dwc3-pci.c
+index f9b550081550..5e8e18222f92 100644
+--- a/drivers/usb/dwc3/dwc3-pci.c
++++ b/drivers/usb/dwc3/dwc3-pci.c
+@@ -35,6 +35,7 @@
+ #define PCI_DEVICE_ID_INTEL_CNPH		0xa36e
+ #define PCI_DEVICE_ID_INTEL_ICLLP		0x34ee
+ #define PCI_DEVICE_ID_INTEL_EHLLP		0x4b7e
++#define PCI_DEVICE_ID_INTEL_TGPLP		0xa0ee
+ 
+ #define PCI_INTEL_BXT_DSM_GUID		"732b85d5-b7a7-4a1b-9ba0-4bbd00ffd511"
+ #define PCI_INTEL_BXT_FUNC_PMU_PWR	4
+@@ -343,6 +344,9 @@ static const struct pci_device_id dwc3_pci_id_table[] = {
+ 	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_EHLLP),
+ 	  (kernel_ulong_t) &dwc3_pci_intel_properties, },
+ 
++	{ PCI_VDEVICE(INTEL, PCI_DEVICE_ID_INTEL_TGPLP),
++	  (kernel_ulong_t) &dwc3_pci_intel_properties, },
++
+ 	{ PCI_VDEVICE(AMD, PCI_DEVICE_ID_AMD_NL_USB),
+ 	  (kernel_ulong_t) &dwc3_pci_amd_properties, },
+ 	{  }	/* Terminating Entry */
 -- 
-Johannes Thumshirn                            SUSE Labs Filesystems
-jthumshirn@suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 Nürnberg
-GF: Felix Imendörffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG Nürnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+2.22.0
+
