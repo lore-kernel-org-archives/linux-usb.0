@@ -2,106 +2,89 @@ Return-Path: <SRS0=QQeN=VA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B3F8C5B57D
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 01:24:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94A12C5B57D
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 02:01:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4BBEA206A3
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 01:24:19 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=unipv-it.20150623.gappssmtp.com header.i=@unipv-it.20150623.gappssmtp.com header.b="g5iPeQmY"
+	by mail.kernel.org (Postfix) with ESMTP id 73F9521721
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 02:01:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727381AbfGCBYS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 2 Jul 2019 21:24:18 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:40381 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726821AbfGCBYS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 2 Jul 2019 21:24:18 -0400
-Received: by mail-wm1-f65.google.com with SMTP id v19so453929wmj.5
-        for <linux-usb@vger.kernel.org>; Tue, 02 Jul 2019 18:24:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=unipv-it.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=yUg05Hk1IFbGpfRrhKAsZAvC6wWCLTPkzcVqmZs4SKA=;
-        b=g5iPeQmYLkfVdgBaJc3YBcT40rKuuYsJ+z7XCfgD2CCGWBDGKIquZvSYcM8XASQPFw
-         OWdwjWTvaRS2B91hH8/ZjcPLuncpixJtFKBRqH5CjIovgA5GRC4Ts9h1vbo6nm7zjMI0
-         s0cO5O2HploepnYJxLu0DKBsawX3kVep96gmUlbanWaY30/a8K63WPwde9tkASttbgPp
-         xjy58UpjOMCu3qDjHYUxqrI7IzBcYo41iOspEKJ4Hhb1GzfhDBO/lM9f08CLYPi5h2vm
-         /JkpWKhUPt/szBn9fVkV1DoU4Lv4VZztzs62svk96N3w/rXKfjrWCBjzgJVQYzJMDNWA
-         3XVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=yUg05Hk1IFbGpfRrhKAsZAvC6wWCLTPkzcVqmZs4SKA=;
-        b=DozJlMIz9NQkgssJbULTa91YEEiM5SfjtxV55ZFW6A2QP3HQ1rC9X/hf0lTEo2RT0r
-         b71YZjCVJjIVJylpWeHFB6cbnqHZhoCGceTi4xPWtM/D546/NDMFKNEMyZODp85Obi6e
-         vpn+pgTo2ftFjAFTJxM5qgLJC3ptv14nXcIclpGKxL7AMkG4nLJSgQg9qsfzGaJvPFYe
-         SYwW72/XZJddZ9PZqzWYc3iI0CTRyLPBjd6vOr4qF3l4fLsRhVhPFAH+P//kxqrU2w0E
-         4s3iZLvUwApG10n9eS25Rfhwtnk8iQHKxU/uElCFzqz+i+SeVDU3QUHrpzppo80xlcmQ
-         BVog==
-X-Gm-Message-State: APjAAAWrymWwleRZ6vGLQC1JQB+V6CDOv2YA53nsHyJEIIH4I3H09wjo
-        w8VkaTkacwncx292R8pNl5kyoKHAw5I=
-X-Google-Smtp-Source: APXvYqwAXjsPiygQ4TCbiDLx0JDEpLdDugHVs3Qg+aF7AKaEEbTDmboJT6HgQ5w7QajBFy+VPOe4FA==
-X-Received: by 2002:a1c:ac81:: with SMTP id v123mr4932875wme.145.1562106995220;
-        Tue, 02 Jul 2019 15:36:35 -0700 (PDT)
-Received: from brian.unipv.it ([37.162.88.147])
-        by smtp.gmail.com with ESMTPSA id t6sm540000wmb.29.2019.07.02.15.36.33
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 02 Jul 2019 15:36:33 -0700 (PDT)
-Date:   Wed, 3 Jul 2019 00:36:30 +0200
-From:   Andrea Vai <andrea.vai@unipv.it>
-To:     Johannes Thumshirn <jthumshirn@suse.de>
+        id S1726635AbfGCCBy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 2 Jul 2019 22:01:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50448 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726329AbfGCCBy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 2 Jul 2019 22:01:54 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 90F7D368E3;
+        Wed,  3 Jul 2019 02:01:53 +0000 (UTC)
+Received: from ming.t460p (ovpn-8-16.pek2.redhat.com [10.72.8.16])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 737371001B01;
+        Wed,  3 Jul 2019 02:01:33 +0000 (UTC)
+Date:   Wed, 3 Jul 2019 10:01:23 +0800
+From:   Ming Lei <ming.lei@redhat.com>
+To:     Andrea Vai <andrea.vai@unipv.it>
 Cc:     Jens Axboe <axboe@kernel.dk>, linux-usb@vger.kernel.org,
         linux-scsi@vger.kernel.org,
         Himanshu Madhani <himanshu.madhani@cavium.com>,
         Hannes Reinecke <hare@suse.com>,
-        Ming Lei <ming.lei@redhat.com>, Omar Sandoval <osandov@fb.com>,
+        Omar Sandoval <osandov@fb.com>,
         "Martin K. Petersen" <martin.petersen@oracle.com>,
         Greg KH <gregkh@linuxfoundation.org>,
         Alan Stern <stern@rowland.harvard.edu>
 Subject: Re: Slow I/O on USB media after commit
  f664a3cc17b7d0a2bc3b3ab96181e1029b0ec0e6
-Message-ID: <20190702223630.GA3735@brian.unipv.it>
+Message-ID: <20190703020119.GA23872@ming.t460p>
 References: <cc54d51ec7a203eceb76d62fc230b378b1da12e1.camel@unipv.it>
- <20190702115117.GC4463@x250.microfocus.com>
+ <20190702120112.GA19890@ming.t460p>
+ <20190702223931.GB3735@brian.unipv.it>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190702115117.GC4463@x250.microfocus.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+In-Reply-To: <20190702223931.GB3735@brian.unipv.it>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Wed, 03 Jul 2019 02:01:54 +0000 (UTC)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 02/07/19 13:51:17, Johannes Thumshirn wrote:
-> On Tue, Jul 02, 2019 at 12:46:45PM +0200, Andrea Vai wrote:
-> > Hi,
-> >   I have a problem writing data to a USB pendrive, and it seems
-> > kernel-related. With the help of Greg an Alan (thanks) and some
-> > bisect, I found out the offending commit being
+On Wed, Jul 03, 2019 at 12:39:31AM +0200, Andrea Vai wrote:
+> On 02/07/19 20:01:13, Ming Lei wrote:
+> > On Tue, Jul 02, 2019 at 12:46:45PM +0200, Andrea Vai wrote:
+> > > Hi,
+> > >   I have a problem writing data to a USB pendrive, and it seems
+> > > kernel-related. With the help of Greg an Alan (thanks) and some
+> > > bisect, I found out the offending commit being
+> > > 
+> > > commit f664a3cc17b7d0a2bc3b3ab96181e1029b0ec0e6
+> > > 
+> > >  [...]    
+> > >     
 > > 
-> > commit f664a3cc17b7d0a2bc3b3ab96181e1029b0ec0e6
-> >
-> > [...]
+> > One possible reason may be related with too small 'nr_requests', could
+> > you apply the following command and see if any difference can be made?
+> > 
+> > echo 32 > /sys/block/sdN/queue/nr_requests
 > 
-> Hi,
+> I applied it (echo 32 > /sys/block/sdf/queue/nr_requests), ran the test again, and still failed. I assumed I didn't have to build the kernel again, did I? (sorry but I am not skilled)
 > 
-> Can you please check what IO scheduler you have set for your USB pendrive?
-> 
-> i.e. with:
-> cat /sys/block/$DISK/queue/scheduler
->
 
-# cat /sys/block/sdf/queue/scheduler
-[mq-deadline] none
+You don't need to build kernel.
 
-Many thanks,
-Andrea
+I just run same write test on one slow usb drive in my laptop, which
+runs '5.1.11-200.fc29.x86_64', and can't reproduce your issue, maybe it
+depends on your drive.
 
- 
+Could you collect the queue limits sysfs log via the following command?
+
+	find /sys/block/sdN/queue -type f -exec grep -aH . {} \;
+
+Thanks,
+Ming
