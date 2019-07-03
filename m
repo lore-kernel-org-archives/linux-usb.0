@@ -2,142 +2,92 @@ Return-Path: <SRS0=QQeN=VA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E8EFC5B578
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 07:13:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EECE8C5B578
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 07:20:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F1F782187F
-	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 07:13:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C7FF121882
+	for <linux-usb@archiver.kernel.org>; Wed,  3 Jul 2019 07:20:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1562138419;
+	bh=HTIs6URgs6UpJnvwHagTAFVSBWb6Z9ivuBI47raU+YU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=SmkigHPSabeV0ypB1CF0sSnXOSBHYtUiKFHiJvv0wlL0HO3RRUWndb3tVRBfc7/mP
+	 ON0kh7H278juVnjIbUp0MmpQ4vRUIMpPqeG1fAc7S2O5bdfTjSUz7Xk/sEuN7Q+zLe
+	 UtI+Kh4h84snKNKya66/0IKIFP6dM6f6ATGFUDYU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727008AbfGCHNX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 3 Jul 2019 03:13:23 -0400
-Received: from rtits2.realtek.com ([211.75.126.72]:53762 "EHLO
-        rtits2.realtek.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726236AbfGCHNX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 3 Jul 2019 03:13:23 -0400
-Authenticated-By: 
-X-SpamFilter-By: BOX Solutions SpamTrap 5.62 with qID x637DKYn012691, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (RTITCASV01.realtek.com.tw[172.21.6.18])
-        by rtits2.realtek.com.tw (8.15.2/2.57/5.78) with ESMTPS id x637DKYn012691
-        (version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Wed, 3 Jul 2019 15:13:21 +0800
-Received: from fc30.localdomain (172.21.177.138) by RTITCASV01.realtek.com.tw
- (172.21.6.18) with Microsoft SMTP Server id 14.3.439.0; Wed, 3 Jul 2019
- 15:13:19 +0800
-From:   Hayes Wang <hayeswang@realtek.com>
-To:     <netdev@vger.kernel.org>
-CC:     <nic_swsd@realtek.com>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, Hayes Wang <hayeswang@realtek.com>
-Subject: [PATCH net] r8152: move calling r8153b_rx_agg_chg_indicate()
-Date:   Wed, 3 Jul 2019 15:11:56 +0800
-Message-ID: <1394712342-15778-287-albertk@realtek.com>
-X-Mailer: Microsoft Office Outlook 11
+        id S1727049AbfGCHUP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 3 Jul 2019 03:20:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41056 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726327AbfGCHUP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 3 Jul 2019 03:20:15 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 030A22187F;
+        Wed,  3 Jul 2019 07:20:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1562138414;
+        bh=HTIs6URgs6UpJnvwHagTAFVSBWb6Z9ivuBI47raU+YU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gcL5qmdqNOsTc/9FMAjdcS3xK2LxaJPbPgEs19wyI2ETsrhLFsor2sz4hZ/bkM/8e
+         KhLwrRr4jAnV+yp+MOUOxddH/Dn8vb+GPwrRFQ7iXjN9wR07odPvV7X3pvJP3M9Vic
+         cgn+OgWIZX9PX3Dn3B9M9ZXUDiea9ySlSZPkH6Mk=
+Date:   Wed, 3 Jul 2019 09:20:12 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Sasha Levin <sashal@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Fei Yang <fei.yang@intel.com>,
+        Sam Protsenko <semen.protsenko@linaro.org>,
+        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        John Stultz <john.stultz@linaro.org>
+Subject: Re: [PATCH 4.19 26/72] usb: dwc3: gadget: use num_trbs when skipping
+ TRBs on ->dequeue()
+Message-ID: <20190703072012.GA3033@kroah.com>
+References: <20190702080124.564652899@linuxfoundation.org>
+ <20190702080126.031346654@linuxfoundation.org>
+ <20190703020312.GS11506@sasha-vm>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [172.21.177.138]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190703020312.GS11506@sasha-vm>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-r8153b_rx_agg_chg_indicate() needs to be called after enabling TX/RX and
-before calling rxdy_gated_en(tp, false). Otherwise, the change of the
-settings of RX aggregation wouldn't work.
+On Tue, Jul 02, 2019 at 10:03:12PM -0400, Sasha Levin wrote:
+> On Tue, Jul 02, 2019 at 10:01:27AM +0200, Greg Kroah-Hartman wrote:
+> > commit c3acd59014148470dc58519870fbc779785b4bf7 upstream
+> > 
+> > Now that we track how many TRBs a request uses, it's easier to skip
+> > over them in case of a call to usb_ep_dequeue(). Let's do so and
+> > simplify the code a bit.
+> > 
+> > Cc: Fei Yang <fei.yang@intel.com>
+> > Cc: Sam Protsenko <semen.protsenko@linaro.org>
+> > Cc: Felipe Balbi <balbi@kernel.org>
+> > Cc: linux-usb@vger.kernel.org
+> > Cc: stable@vger.kernel.org # 4.19.y
+> > Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
+> > (cherry picked from commit c3acd59014148470dc58519870fbc779785b4bf7)
+> > Signed-off-by: John Stultz <john.stultz@linaro.org>
+> > Signed-off-by: Sasha Levin <sashal@kernel.org>
+> 
+> This one has an upstream fix: c7152763f02e05567da27462b2277a554e507c89
+> ("usb: dwc3: Reset num_trbs after skipping").
 
-Besides, adjust rtl8152_set_coalesce() for the same reason. If
-rx_coalesce_usecs is changed, restart TX/RX to let the setting work.
+You were the one who queued this series up :)
 
-Signed-off-by: Hayes Wang <hayeswang@realtek.com>
----
- drivers/net/usb/r8152.c | 36 ++++++++++++++++++++++++++----------
- 1 file changed, 26 insertions(+), 10 deletions(-)
+I'll go add this one now...
 
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 101d1325f3f1..e887ac86fbef 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -2367,6 +2367,12 @@ static int rtl_stop_rx(struct r8152 *tp)
- 	return 0;
- }
- 
-+static inline void r8153b_rx_agg_chg_indicate(struct r8152 *tp)
-+{
-+	ocp_write_byte(tp, MCU_TYPE_USB, USB_UPT_RXDMA_OWN,
-+		       OWN_UPDATE | OWN_CLEAR);
-+}
-+
- static int rtl_enable(struct r8152 *tp)
- {
- 	u32 ocp_data;
-@@ -2377,6 +2383,15 @@ static int rtl_enable(struct r8152 *tp)
- 	ocp_data |= CR_RE | CR_TE;
- 	ocp_write_byte(tp, MCU_TYPE_PLA, PLA_CR, ocp_data);
- 
-+	switch (tp->version) {
-+	case RTL_VER_08:
-+	case RTL_VER_09:
-+		r8153b_rx_agg_chg_indicate(tp);
-+		break;
-+	default:
-+		break;
-+	}
-+
- 	rxdy_gated_en(tp, false);
- 
- 	return 0;
-@@ -2393,12 +2408,6 @@ static int rtl8152_enable(struct r8152 *tp)
- 	return rtl_enable(tp);
- }
- 
--static inline void r8153b_rx_agg_chg_indicate(struct r8152 *tp)
--{
--	ocp_write_byte(tp, MCU_TYPE_USB, USB_UPT_RXDMA_OWN,
--		       OWN_UPDATE | OWN_CLEAR);
--}
--
- static void r8153_set_rx_early_timeout(struct r8152 *tp)
- {
- 	u32 ocp_data = tp->coalesce / 8;
-@@ -2421,7 +2430,6 @@ static void r8153_set_rx_early_timeout(struct r8152 *tp)
- 			       128 / 8);
- 		ocp_write_word(tp, MCU_TYPE_USB, USB_RX_EXTRA_AGGR_TMR,
- 			       ocp_data);
--		r8153b_rx_agg_chg_indicate(tp);
- 		break;
- 
- 	default:
-@@ -2445,7 +2453,6 @@ static void r8153_set_rx_early_size(struct r8152 *tp)
- 	case RTL_VER_09:
- 		ocp_write_word(tp, MCU_TYPE_USB, USB_RX_EARLY_SIZE,
- 			       ocp_data / 8);
--		r8153b_rx_agg_chg_indicate(tp);
- 		break;
- 	default:
- 		WARN_ON_ONCE(1);
-@@ -4919,8 +4926,17 @@ static int rtl8152_set_coalesce(struct net_device *netdev,
- 	if (tp->coalesce != coalesce->rx_coalesce_usecs) {
- 		tp->coalesce = coalesce->rx_coalesce_usecs;
- 
--		if (netif_running(tp->netdev) && netif_carrier_ok(netdev))
--			r8153_set_rx_early_timeout(tp);
-+		if (netif_running(netdev) && netif_carrier_ok(netdev)) {
-+			netif_stop_queue(netdev);
-+			napi_disable(&tp->napi);
-+			tp->rtl_ops.disable(tp);
-+			tp->rtl_ops.enable(tp);
-+			rtl_start_rx(tp);
-+			clear_bit(RTL8152_SET_RX_MODE, &tp->flags);
-+			_rtl8152_set_rx_mode(netdev);
-+			napi_enable(&tp->napi);
-+			netif_wake_queue(netdev);
-+		}
- 	}
- 
- 	mutex_unlock(&tp->control);
--- 
-2.21.0
+thanks,
 
+greg k-h
