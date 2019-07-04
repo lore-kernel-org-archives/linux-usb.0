@@ -2,167 +2,101 @@ Return-Path: <SRS0=EamD=VB=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EB37C46486
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Jul 2019 15:36:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5A1CC0651F
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Jul 2019 15:53:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 576DC2184B
-	for <linux-usb@archiver.kernel.org>; Thu,  4 Jul 2019 15:36:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8ADD8218A4
+	for <linux-usb@archiver.kernel.org>; Thu,  4 Jul 2019 15:53:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dsTkiQvc"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="FBtrqnbK"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727831AbfGDPgM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 4 Jul 2019 11:36:12 -0400
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:46673 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727829AbfGDPgM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 4 Jul 2019 11:36:12 -0400
-Received: by mail-qk1-f196.google.com with SMTP id r4so5776528qkm.13;
-        Thu, 04 Jul 2019 08:36:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=HdH/Nk62kEL52wkv2n3J5rEQY3EHxaipdQyu7HMvNx8=;
-        b=dsTkiQvc5z3LvtqOIo/E5XpuO0y+r0xouyfc4SpEEyq4tyJdiSQqcQoF9tRJP6KWwr
-         IU2ngTaeT8j/i+kavc8vDHHrZoES79xrjFV1Ejc4GogSJbWYqIeFnAWSstSlocbkO3c5
-         kR/ejo3uA6H4jRafN7ocX/GyXDAdnuo9P7/jLYe9nG1Dz6DpxHRLKX44obELtWrzsBC0
-         t4K6LZBKziKsxIhWa/G5GdCL9YhlV0xsYW5wxXr66TqYrnSpnVH6cyK7mAXLTR+aWmGc
-         rbTGKQ0jNq9nNtKfPrvgR9IeKNrtbamOPWO6WG9g6QO7PHHZMeeTeMYZE/KfLAalKuH2
-         nR3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=HdH/Nk62kEL52wkv2n3J5rEQY3EHxaipdQyu7HMvNx8=;
-        b=C7VDCVZ8Ex78HKhUyccZ8AxGl2lq3IDJTSD3yOlRicdzkMEoLb92FA9pFMkpKYgonU
-         DGXH8b/oWb6OZqCCYIrnoQdlwdxSxrp8NfY7B3SyUBVSwT0/YpFe9s/GhN984Gduj+Qd
-         0G5lBH3hRPMFx3JJ0XQ3fk7o3JMMp4lDC/AYEmfQIQj8Ez93upIpS1ZcOe8XjhVET240
-         9GA7f12GphL18kl9XYGJeG3AfpAWc1QC5o5Evg/3e60M8SBrMXENb923canXF2zPO8PF
-         QydrRypVZDyHEviSoy338Q5UYWGIuqZnNvX5R80BWW6i1X5KJuPAtYGzCSR0n6Gvt8nt
-         zZDA==
-X-Gm-Message-State: APjAAAVNwQqPyiVlmx01sExRgG69p/u3Xk8pnfJTFSBhUkuJT/NYnfZV
-        dVt9oHww4HlXjk1cwYx8qeM=
-X-Google-Smtp-Source: APXvYqyYASVKOYHGKKBv6jxb2GRtOf6mOpXCxU8NUE8PWj/FbACFF9T8Tlo+NO4O7kexdICzfrLFSQ==
-X-Received: by 2002:a37:62cd:: with SMTP id w196mr1832076qkb.373.1562254571536;
-        Thu, 04 Jul 2019 08:36:11 -0700 (PDT)
-Received: from localhost.localdomain (pool-72-93-241-64.bstnma.fios.verizon.net. [72.93.241.64])
-        by smtp.gmail.com with ESMTPSA id 67sm2087140qkh.108.2019.07.04.08.36.10
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 04 Jul 2019 08:36:11 -0700 (PDT)
-From:   Ryan Kennedy <ryan5544@gmail.com>
-To:     gregkh@linuxfoundation.org, mathias.nyman@intel.com,
-        stern@rowland.harvard.edu
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ryan Kennedy <ryan5544@gmail.com>
-Subject: [PATCH 1/2] usb: pci-quirks: Correct AMD PLL quirk detection
-Date:   Thu,  4 Jul 2019 11:35:28 -0400
-Message-Id: <20190704153529.9429-2-ryan5544@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190704153529.9429-1-ryan5544@gmail.com>
-References: <20190704153529.9429-1-ryan5544@gmail.com>
+        id S1727388AbfGDPxv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 4 Jul 2019 11:53:51 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:41610 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727359AbfGDPxu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 4 Jul 2019 11:53:50 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x64FrZX0020307;
+        Thu, 4 Jul 2019 10:53:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1562255615;
+        bh=1aAOg3DUMC85aQ9Mtdo75I0mcP1z9dseQgr2lPYDhZk=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=FBtrqnbKFYQJQvmXJao71IvWQ6Gm+lWocwFUoL2t4AAtfHpjUe5LCyxqEaEW5muCq
+         mp0iMJK4FDvXg/jFlkwX3C2Lp0Ns9O2b1ru2pviiOZQhMidbW908Bb0GZqja3tWNxM
+         LfZ78kN/DnmDEMAi9ckFXZNzIkYQs69MvKODIqTo=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x64FrZuS071648
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 4 Jul 2019 10:53:35 -0500
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 4 Jul
+ 2019 10:53:35 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Thu, 4 Jul 2019 10:53:35 -0500
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x64FrZOf078909;
+        Thu, 4 Jul 2019 10:53:35 -0500
+Date:   Thu, 4 Jul 2019 10:53:26 -0500
+From:   Nishanth Menon <nm@ti.com>
+To:     Felipe Balbi <balbi@kernel.org>
+CC:     Pawel Laszczak <pawell@cadence.com>, Greg KH <greg@kroah.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Roger Quadros <rogerq@ti.com>
+Subject: Re: linux-next: build failure after merge of the usb and usb-gadget
+ trees
+Message-ID: <20190704155326.f75xhkpyh5mq4467@kahuna>
+References: <20190704163458.63ed69d2@canb.auug.org.au>
+ <20190704065949.GA32707@kroah.com>
+ <CAH8TKc_4ggxOPgii8gLGo2d7nvx08cbTk8_xDUQfA2Ckcxb_Aw@mail.gmail.com>
+ <BYAPR07MB470946609232100714B3EA29DDFA0@BYAPR07MB4709.namprd07.prod.outlook.com>
+ <87imsiyzo3.fsf@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <87imsiyzo3.fsf@linux.intel.com>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The AMD PLL USB quirk is incorrectly enabled on newer Ryzen
-chipsets. The logic in usb_amd_find_chipset_info currently checks
-for unaffected chipsets rather than affected ones. This broke
-once a new chipset was added in e788787ef. It makes more sense
-to reverse the logic so it won't need to be updated as new
-chipsets are added. Note that the core of the workaround in
-usb_amd_quirk_pll does correctly check the chipset.
+On 11:25-20190704, Felipe Balbi wrote:
+[...]
 
-Signed-off-by: Ryan Kennedy <ryan5544@gmail.com>
----
- drivers/usb/host/pci-quirks.c | 31 +++++++++++++++++++------------
- 1 file changed, 19 insertions(+), 12 deletions(-)
+> This is what I get for trusting people to do their part. I couldn't even
+> compile test this since I don't have ARM compilers anymore (actually,
+> just installed to test). Your customer, however, uses ARM cores so I
+> would expect you to have at least compile tested this on ARM. How come
+> this wasn't verified by anybody at TI?
 
-diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
-index 3ce71cbfbb58..ad05c27b3a7b 100644
---- a/drivers/usb/host/pci-quirks.c
-+++ b/drivers/usb/host/pci-quirks.c
-@@ -205,7 +205,7 @@ int usb_amd_find_chipset_info(void)
- {
- 	unsigned long flags;
- 	struct amd_chipset_info info;
--	int ret;
-+	int need_pll_quirk = 0;
- 
- 	spin_lock_irqsave(&amd_lock, flags);
- 
-@@ -219,21 +219,28 @@ int usb_amd_find_chipset_info(void)
- 	spin_unlock_irqrestore(&amd_lock, flags);
- 
- 	if (!amd_chipset_sb_type_init(&info)) {
--		ret = 0;
- 		goto commit;
- 	}
- 
--	/* Below chipset generations needn't enable AMD PLL quirk */
--	if (info.sb_type.gen == AMD_CHIPSET_UNKNOWN ||
--			info.sb_type.gen == AMD_CHIPSET_SB600 ||
--			info.sb_type.gen == AMD_CHIPSET_YANGTZE ||
--			(info.sb_type.gen == AMD_CHIPSET_SB700 &&
--			info.sb_type.rev > 0x3b)) {
-+	switch (info.sb_type.gen) {
-+	case AMD_CHIPSET_SB700:
-+		need_pll_quirk = info.sb_type.rev <= 0x3B;
-+		break;
-+	case AMD_CHIPSET_SB800:
-+	case AMD_CHIPSET_HUDSON2:
-+	case AMD_CHIPSET_BOLTON:
-+		need_pll_quirk = 1;
-+		break;
-+	default:
-+		need_pll_quirk = 0;
-+		break;
-+	}
-+
-+	if (!need_pll_quirk) {
- 		if (info.smbus_dev) {
- 			pci_dev_put(info.smbus_dev);
- 			info.smbus_dev = NULL;
- 		}
--		ret = 0;
- 		goto commit;
- 	}
- 
-@@ -252,7 +259,7 @@ int usb_amd_find_chipset_info(void)
- 		}
- 	}
- 
--	ret = info.probe_result = 1;
-+	need_pll_quirk = info.probe_result = 1;
- 	printk(KERN_DEBUG "QUIRK: Enable AMD PLL fix\n");
- 
- commit:
-@@ -263,7 +270,7 @@ int usb_amd_find_chipset_info(void)
- 
- 		/* Mark that we where here */
- 		amd_chipset.probe_count++;
--		ret = amd_chipset.probe_result;
-+		need_pll_quirk = amd_chipset.probe_result;
- 
- 		spin_unlock_irqrestore(&amd_lock, flags);
- 
-@@ -277,7 +284,7 @@ int usb_amd_find_chipset_info(void)
- 		spin_unlock_irqrestore(&amd_lock, flags);
- 	}
- 
--	return ret;
-+	return need_pll_quirk;
- }
- EXPORT_SYMBOL_GPL(usb_amd_find_chipset_info);
- 
+Sorry about that Felipe/Greg, will try and make sure we put in steps so
+that this does'nt happen again.
+
+> 
+> TI used to have automated testing for many of the important defconfigs,
+> is that completely gone? Are you guys relying entirely on linux-next?
+
+We still do. Kind of a unfortunately co-incidence, there has been for a
+few weeks a downtime given the test infrastructure has been changing and
+the continual automated testing env is down for community kernel. But,
+that said, we also did move to focussing on linux-next, which should be
+revisited.
+
+
 -- 
-2.21.0
-
+Regards,
+Nishanth Menon
