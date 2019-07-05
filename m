@@ -2,72 +2,80 @@ Return-Path: <SRS0=Q4mg=VC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ED70C46499
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Jul 2019 19:10:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 582BFC5B57D
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Jul 2019 22:01:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 389022089C
-	for <linux-usb@archiver.kernel.org>; Fri,  5 Jul 2019 19:10:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3192420856
+	for <linux-usb@archiver.kernel.org>; Fri,  5 Jul 2019 22:01:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727711AbfGETKe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Jul 2019 15:10:34 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:47684 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1727615AbfGETKd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Jul 2019 15:10:33 -0400
-Received: (qmail 5585 invoked by uid 2102); 5 Jul 2019 15:10:32 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 5 Jul 2019 15:10:32 -0400
-Date:   Fri, 5 Jul 2019 15:10:32 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Ryan Kennedy <ryan5544@gmail.com>
-cc:     gregkh@linuxfoundation.org, <mathias.nyman@intel.com>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] usb: pci-quirks: Minor cleanup for AMD PLL quirk
-In-Reply-To: <20190704153529.9429-3-ryan5544@gmail.com>
-Message-ID: <Pine.LNX.4.44L0.1907051504310.1606-100000@iolanthe.rowland.org>
-MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+        id S1728251AbfGEWBe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Jul 2019 18:01:34 -0400
+Received: from gate.crashing.org ([63.228.1.57]:40935 "EHLO gate.crashing.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725884AbfGEWBe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 5 Jul 2019 18:01:34 -0400
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x65M1HGt013708;
+        Fri, 5 Jul 2019 17:01:18 -0500
+Message-ID: <15f6a7e8cbe534cbc4f647f6f99cdef80a7b01ad.camel@kernel.crashing.org>
+Subject: Re: Virtual hub, resets etc...
+From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Michal Nazarewicz <mina86@mina86.com>
+Date:   Sat, 06 Jul 2019 08:01:17 +1000
+In-Reply-To: <Pine.LNX.4.44L0.1907051005410.1606-100000@iolanthe.rowland.org>
+References: <Pine.LNX.4.44L0.1907051005410.1606-100000@iolanthe.rowland.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, 4 Jul 2019, Ryan Kennedy wrote:
-
-> usb_amd_find_chipset_info() is used for chipset detection for
-> several quirks. It is strange that its return value indicates
-> the need for the PLL quirk, which means it is often ignored.
-> This patch adds a function specifically for checking the PLL
-> quirk like the other ones. Additionally, rename probe_result to
-> something more appropriate.
+On Fri, 2019-07-05 at 10:08 -0400, Alan Stern wrote:
+> On Fri, 5 Jul 2019, Benjamin Herrenschmidt wrote:
 > 
-> Signed-off-by: Ryan Kennedy <ryan5544@gmail.com>
+> > > > > As for f_mass_storage, repeatedly attempting to queue an OUT transfer
+> > > > > is normal behavior.  The fact that one attempt gets an error doesn't
+> > > > > stop the driver from making more attempts; the only thing that would
+> > > > > stop it is being disabled by a config change, a suspend, a disconnect,
+> > > > > or an unbind.
+> > > > 
+> > > > Except it does that in a tight loop and locks up the machine...
+> > > 
+> > > Well, that wouldn't happen if your UDC accepted the requests, right?  
+> > 
+> > Sure but it would be nice if the mass storage dealt with -ESHUTDOWN
+> > properly and stopped :-) Or other errors... if the UDC HW for example
+> > dies for some reason, mass storage will lockup.
+> 
+> I suppose we could add code to check for this case and handle it, 
+> although I'm not sure what would be the right thing to do.  Delay for 
+> one second and try again?  Disable the gadget until the host does a 
+> reset?
 
-> @@ -322,6 +317,13 @@ bool usb_amd_prefetch_quirk(void)
->  }
->  EXPORT_SYMBOL_GPL(usb_amd_prefetch_quirk);
->  
-> +bool usb_amd_quirk_pll_check(void)
-> +{
-> +	usb_amd_find_chipset_info();
-> +	return amd_chipset.need_pll_quirk;
-> +}
-> +EXPORT_SYMBOL_GPL(usb_amd_quirk_pll_check);
+I think just stop it until the next reset yes.
 
-I really don't see the point of separating out all but one line into a
-different function.  You might as well just rename 
-usb_amd_find_chipset_info to usb_amd_quirk_pll_check (along with the 
-other code adjustments) and be done with it.
+> > > Besides, f_mass_storage won't repeatedly try to queue an OUT transfer 
+> > > once it knows that it is suspended.
+> > 
+> > Not afaik. But I might have missed something. I didn't see any suspend
+> > callback in f_mass_storage.c...
+> 
+> Oops, right.  Sorry about that; my memory is slowly decaying.  I need
+> to upgrade my brain's RAM...
 
-However, in the end I don't care if you still want to do this.  Either 
-way:
+Haha, I wish I didn't have that problem too :)
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Cheers,
+Ben.
 
-Alan Stern
 
