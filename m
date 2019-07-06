@@ -7,29 +7,29 @@ X-Spam-Status: No, score=-10.0 required=3.0
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0925C5B57D
-	for <linux-usb@archiver.kernel.org>; Sat,  6 Jul 2019 00:54:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B882DC5B57D
+	for <linux-usb@archiver.kernel.org>; Sat,  6 Jul 2019 00:54:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A34B020989
-	for <linux-usb@archiver.kernel.org>; Sat,  6 Jul 2019 00:54:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9087520989
+	for <linux-usb@archiver.kernel.org>; Sat,  6 Jul 2019 00:54:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726585AbfGFAyL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Jul 2019 20:54:11 -0400
-Received: from gate.crashing.org ([63.228.1.57]:42813 "EHLO gate.crashing.org"
+        id S1726411AbfGFAyQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 5 Jul 2019 20:54:16 -0400
+Received: from gate.crashing.org ([63.228.1.57]:42822 "EHLO gate.crashing.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726411AbfGFAyK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 5 Jul 2019 20:54:10 -0400
+        id S1725887AbfGFAyQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 5 Jul 2019 20:54:16 -0400
 Received: from ufdda393ec48b57.ant.amazon.com (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x660rlMO017940;
-        Fri, 5 Jul 2019 19:54:04 -0500
+        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x660rlMQ017940;
+        Fri, 5 Jul 2019 19:54:10 -0500
 From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
 To:     linux-usb@vger.kernel.org
 Cc:     balbi@kernel.org, Joel Stanley <joel@jms.id.au>,
         Alan Stern <stern@rowland.harvard.edu>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: [PATCH 07/10] usb: gadget: aspeed: Rework the reset logic
-Date:   Sat,  6 Jul 2019 10:53:42 +1000
-Message-Id: <20190706005345.18131-8-benh@kernel.crashing.org>
+Subject: [PATCH 09/10] usb: Add definitions for the USB2.0 hub TT requests
+Date:   Sat,  6 Jul 2019 10:53:44 +1000
+Message-Id: <20190706005345.18131-10-benh@kernel.crashing.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190706005345.18131-1-benh@kernel.crashing.org>
 References: <20190706005345.18131-1-benh@kernel.crashing.org>
@@ -38,111 +38,26 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-We had some dodgy code using the speed setting to decide whether a
-port reset would reset the device or just enable it.
-
-Instead, if the device is disabled and has a gadget attached, a
-reset will enable it. If it's already enabled, a reset will
-reset it.
-
 Signed-off-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 ---
- drivers/usb/gadget/udc/aspeed-vhub/dev.c | 58 +++++++++++-------------
- 1 file changed, 27 insertions(+), 31 deletions(-)
+ include/linux/usb/hcd.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/dev.c b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-index 5f7e3b6de531..79d3cb6bd2e7 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-@@ -50,7 +50,7 @@ void ast_vhub_dev_irq(struct ast_vhub_dev *d)
+diff --git a/include/linux/usb/hcd.h b/include/linux/usb/hcd.h
+index bb57b5af4700..094ae7c71198 100644
+--- a/include/linux/usb/hcd.h
++++ b/include/linux/usb/hcd.h
+@@ -587,6 +587,10 @@ extern void usb_ep0_reinit(struct usb_device *);
+ #define GetPortStatus		HUB_CLASS_REQ(USB_DIR_IN, USB_RT_PORT, USB_REQ_GET_STATUS)
+ #define SetHubFeature		HUB_CLASS_REQ(USB_DIR_OUT, USB_RT_HUB, USB_REQ_SET_FEATURE)
+ #define SetPortFeature		HUB_CLASS_REQ(USB_DIR_OUT, USB_RT_PORT, USB_REQ_SET_FEATURE)
++#define ClearTTBuffer		HUB_CLASS_REQ(USB_DIR_OUT, USB_RT_PORT, HUB_CLEAR_TT_BUFFER)
++#define ResetTT			HUB_CLASS_REQ(USB_DIR_OUT, USB_RT_PORT, HUB_RESET_TT)
++#define GetTTState		HUB_CLASS_REQ(USB_DIR_IN, USB_RT_PORT, HUB_GET_TT_STATE)
++#define StopTT			HUB_CLASS_REQ(USB_DIR_OUT, USB_RT_PORT, HUB_STOP_TT)
  
- static void ast_vhub_dev_enable(struct ast_vhub_dev *d)
- {
--	u32 reg, hmsk;
-+	u32 reg, hmsk, i;
  
- 	if (d->enabled)
- 		return;
-@@ -76,6 +76,20 @@ static void ast_vhub_dev_enable(struct ast_vhub_dev *d)
- 	/* Set EP0 DMA buffer address */
- 	writel(d->ep0.buf_dma, d->regs + AST_VHUB_DEV_EP0_DATA);
- 
-+	/* Clear stall on all EPs */
-+	for (i = 0; i < AST_VHUB_NUM_GEN_EPs; i++) {
-+		struct ast_vhub_ep *ep = d->epns[i];
-+
-+		if (ep && (ep->epn.stalled || ep->epn.wedged)) {
-+			ep->epn.stalled = false;
-+			ep->epn.wedged = false;
-+			ast_vhub_update_epn_stall(ep);
-+		}
-+	}
-+
-+	/* Additional cleanups */
-+	d->wakeup_en = false;
-+	d->suspended = false;
- 	d->enabled = true;
- }
- 
-@@ -477,46 +491,28 @@ void ast_vhub_dev_resume(struct ast_vhub_dev *d)
- 
- void ast_vhub_dev_reset(struct ast_vhub_dev *d)
- {
--	/*
--	 * If speed is not set, we enable the port. If it is,
--	 * send reset to the gadget and reset "speed".
--	 *
--	 * Speed is an indication that we have got the first
--	 * setup packet to the device.
--	 */
--	if (d->gadget.speed == USB_SPEED_UNKNOWN && !d->enabled) {
--		DDBG(d, "Reset at unknown speed of disabled device, enabling...\n");
--		ast_vhub_dev_enable(d);
--		d->suspended = false;
-+	/* No driver, just disable the device and return */
-+	if (!d->driver) {
-+		ast_vhub_dev_disable(d);
-+		return;
- 	}
--	if (d->gadget.speed != USB_SPEED_UNKNOWN && d->driver) {
--		unsigned int i;
- 
--		DDBG(d, "Reset at known speed of bound device, resetting...\n");
-+	/* If the port isn't enabled, just enable it */
-+	if (!d->enabled) {
-+		DDBG(d, "Reset of disabled device, enabling...\n");
-+		ast_vhub_dev_enable(d);
-+	} else {
-+		DDBG(d, "Reset of enabled device, resetting...\n");
- 		spin_unlock(&d->vhub->lock);
--		d->driver->reset(&d->gadget);
-+		usb_gadget_udc_reset(&d->gadget, d->driver);
- 		spin_lock(&d->vhub->lock);
- 
- 		/*
--		 * Disable/re-enable HW, this will clear the address
-+		 * Disable and maybe re-enable HW, this will clear the address
- 		 * and speed setting.
- 		 */
- 		ast_vhub_dev_disable(d);
- 		ast_vhub_dev_enable(d);
--
--		/* Clear stall on all EPs */
--		for (i = 0; i < AST_VHUB_NUM_GEN_EPs; i++) {
--			struct ast_vhub_ep *ep = d->epns[i];
--
--			if (ep && ep->epn.stalled) {
--				ep->epn.stalled = false;
--				ast_vhub_update_epn_stall(ep);
--			}
--		}
--
--		/* Additional cleanups */
--		d->wakeup_en = false;
--		d->suspended = false;
- 	}
- }
- 
+ /*-------------------------------------------------------------------------*/
 -- 
 2.17.1
 
