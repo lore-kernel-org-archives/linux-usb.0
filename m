@@ -2,89 +2,69 @@ Return-Path: <SRS0=/GjO=VD=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B7A7C5B57D
-	for <linux-usb@archiver.kernel.org>; Sat,  6 Jul 2019 02:50:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F314C5B578
+	for <linux-usb@archiver.kernel.org>; Sat,  6 Jul 2019 04:46:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 02DB7216B7
-	for <linux-usb@archiver.kernel.org>; Sat,  6 Jul 2019 02:50:40 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YY6PmOyL"
+	by mail.kernel.org (Postfix) with ESMTP id 2D4632089C
+	for <linux-usb@archiver.kernel.org>; Sat,  6 Jul 2019 04:46:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1562388392;
+	bh=UKJM2s2m0IkCm43Q79uIYzN9JNIBrNFCcF8A3ZxKZBQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=i+vmwflFkAScgb4OvZSR6lhFWYxLhJ8SGqGA3hc2RPj1UGLQ3/68siHZEs/CG9Chu
+	 RuhHcMHMBZmrwKjn6Vnc6KN1SKH7Gsy5F0lo7KubfZVpxHnlNGGBOSPmOGTKgPWsml
+	 +Pfl5Faw6djtxFJcRF8BwBmVI0mVrsFYQay+LRvc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725945AbfGFCuk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 5 Jul 2019 22:50:40 -0400
-Received: from mail-pg1-f178.google.com ([209.85.215.178]:37085 "EHLO
-        mail-pg1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725917AbfGFCuj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 5 Jul 2019 22:50:39 -0400
-Received: by mail-pg1-f178.google.com with SMTP id g15so5020462pgi.4
-        for <linux-usb@vger.kernel.org>; Fri, 05 Jul 2019 19:50:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=LH+eE6E1X/eo+Y6kqKPrc64jzalOKEXU22ILe9GYqLo=;
-        b=YY6PmOyLD89wwKtGWOW98bgM2jk0+KJrcyY9F26lQv/XcBskU52ANnRUmHAhRhbKm4
-         rOE7lPSL3yIeEy0qPou8Rsz/QD1DRcuWZeNM9X5U8V2HtnddqvFZZ6opNo2+wNJ3Neqg
-         J1SvyLr4d/R6jSB5FqtHweXCMK3mjte0xfR5RjC1CyyZdFSMDxpA52ip4C3chD25XeHQ
-         XOQPQB/18MatlGsW8aL+kql8QHIQoqIpK9ut1d8wicx1NgkkT8zqD5NjpXUlZeFmq4Pr
-         HKfu8Mo99G+ruyc6/S8GShxnjB6iHzaeBYoA/R7YKiAEsrAXtE9vvChCEIkxGb7d6I5A
-         OeFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=LH+eE6E1X/eo+Y6kqKPrc64jzalOKEXU22ILe9GYqLo=;
-        b=Gl7sGExlsc92hrKzRI65YNNb/Oc9o+fIE4NwROexAQ28+D0Zgti4PGyS5NJt43FKiR
-         vxkvgt74AzTytt7Kcj4VWeZQFZSGeRZVCj+qQSSbQ9CGBcYEZkmXB2yJubiEfq6xd/Ag
-         iS8I/VdaVNwP8NzsLA8FeatmbLVrKxi9a2INdzVOPbe4bPHp+yjiAeG6ytxPfu4MwI9d
-         sOkCGrqTQ8nKmuPtuyqcGKFjj/gCQrfsNMylhRFQQT/+Y5Jequg7oPfgy/YCZp4DC9DI
-         ZfOQswfiTefswTC+oGB75N8ARwoR4DfyAOmHUpXeKZdH7WKenP9MiYFXjMYsELQDHQvR
-         cWVw==
-X-Gm-Message-State: APjAAAVa3HARus6Wg1g0uxeN44BkNm9Wim75M4mqn2GRl5ohvPOI9XIz
-        XW/t43fZ5/nEBz7XTulv3jGSOLp7Mb2jFPtIEZJDGSwMJOs=
-X-Google-Smtp-Source: APXvYqzk4JvVFbcSsGKly/itjN3QiJkCbj8tfNd6/1b94lgOzhXs7MGkg3Snbn6nS+4qr/E5C67KSoyE81BJww0wl08=
-X-Received: by 2002:a17:90a:5884:: with SMTP id j4mr9632796pji.142.1562381438946;
- Fri, 05 Jul 2019 19:50:38 -0700 (PDT)
+        id S1725883AbfGFEqb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 6 Jul 2019 00:46:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56758 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725870AbfGFEqb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 6 Jul 2019 00:46:31 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 19FB92089C;
+        Sat,  6 Jul 2019 04:46:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1562388390;
+        bh=UKJM2s2m0IkCm43Q79uIYzN9JNIBrNFCcF8A3ZxKZBQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ns11N48ylwBVAt6EIdbPGBSzxhNAuS91L+huu5o4Qqee3Hwza14TLY4G7hefrS/bz
+         vSV1PkD37W7xxacAJ+Z6bmskggnScxl59CsymjNirxeObt9TzY79v4Sb5AMR5kZeWg
+         SIlSmRqvBrb1p5uZ0iZ4RgFM257fek9cdtXyzVTk=
+Date:   Sat, 6 Jul 2019 06:46:27 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     yunhua li <yunhual@gmail.com>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: Per USB device interrupt handler for xhci
+Message-ID: <20190706044627.GA21685@kroah.com>
+References: <CAMqbrUg3bz=i8nh4W2-NWOsnQdqcaB3nvZnMJQ1sGXuD0ogk7Q@mail.gmail.com>
 MIME-Version: 1.0
-From:   yunhua li <yunhual@gmail.com>
-Date:   Fri, 5 Jul 2019 19:50:28 -0700
-Message-ID: <CAMqbrUg3bz=i8nh4W2-NWOsnQdqcaB3nvZnMJQ1sGXuD0ogk7Q@mail.gmail.com>
-Subject: Per USB device interrupt handler for xhci
-To:     linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMqbrUg3bz=i8nh4W2-NWOsnQdqcaB3nvZnMJQ1sGXuD0ogk7Q@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi  all
+On Fri, Jul 05, 2019 at 07:50:28PM -0700, yunhua li wrote:
+> Hi  all
+> 
+> xhci_msi_irq is the interrupt handler for xhci, the controller it self
+> is a PCI device, on my system it is a Intel chip. I have multiple USB
+> device connect to this USB host controller,  xhci_msi_irq is interrupt
+> handler for the PCI device(USB Host controller).
+> Is it possible to have multiple IRQ, and different IRQ for different
+> USB device?
 
-xhci_msi_irq is the interrupt handler for xhci, the controller it self
-is a PCI device, on my system it is a Intel chip. I have multiple USB
-device connect to this USB host controller,  xhci_msi_irq is interrupt
-handler for the PCI device(USB Host controller).
-Is it possible to have multiple IRQ, and different IRQ for different
-USB device? If so how? the chip(USB Host controller) should know which
-USB device=E2=80=99s transaction,
-When the chip decide to assert an interrupt, it should be a reason for
-a specified USB device, then assert a correspondence MSI interrupt.
-Thanks.
+Nope.  That is not how USB works.  Please read the xhci spec if you are
+curious as to why.
 
-sudo lspci -s 00:14.0 -v
-00:14.0 USB controller: Intel Corporation Device a2af (prog-if 30 [XHCI])
-        Subsystem: Dell Device 0738
-        Flags: bus master, medium devsel, latency 0, IRQ 29
-        Memory at 38003ff10000 (64-bit, non-prefetchable) [size=3D64K]
-        Capabilities: [70] Power Management version 2
-        Capabilities: [80] MSI: Enable+ Count=3D1/8 Maskable- 64bit+
-        Kernel driver in use: xhci_hcd
-
-
-
-Regards
+greg k-h
