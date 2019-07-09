@@ -6,42 +6,42 @@ X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
 	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ABD5C73C46
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Jul 2019 12:27:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9457C73C42
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Jul 2019 12:27:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 469AD216E3
-	for <linux-usb@archiver.kernel.org>; Tue,  9 Jul 2019 12:27:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7525A216E3
+	for <linux-usb@archiver.kernel.org>; Tue,  9 Jul 2019 12:27:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727012AbfGIM1K (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1726980AbfGIM1K (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Tue, 9 Jul 2019 08:27:10 -0400
-Received: from mail-io1-f71.google.com ([209.85.166.71]:32900 "EHLO
-        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726892AbfGIM1K (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Jul 2019 08:27:10 -0400
-Received: by mail-io1-f71.google.com with SMTP id 132so20263083iou.0
+Received: from mail-io1-f70.google.com ([209.85.166.70]:42658 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726881AbfGIM1J (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 9 Jul 2019 08:27:09 -0400
+Received: by mail-io1-f70.google.com with SMTP id f22so22862441ioj.9
         for <linux-usb@vger.kernel.org>; Tue, 09 Jul 2019 05:27:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=k6gpGJRx5KDVYEIoEkstzb1OJRWoZUjdawWJXyXiKv0=;
-        b=H87tWFi8bDCKnUfKtibTcKtf/4dgZBtKW8c0EAwkNZ4NwOPvQSEQ7hFlGZQwpKJHhc
-         k70R9FtDJCNC2EPzDoiuWyTUXsYt7MQVrcNA/3AAU/lI5xi9Xnh5YzrVYv1G0BiDLhFE
-         p935zzznSufTnZ8i6E09jV0arV354VLGcRWMG3INeY3xyzljDsljpLUqXUaCmP1yOriE
-         ShjpQAB4uGcmgD+NdLlteN9yD3q4a1GCMOXDg6rkyN1SQYSwWzGWjf+sR330ahq5mWpf
-         HmcL9Q8RxLRj/Xwqy/DL0asqUDP2mwrAii/nlr/HCSzSY3yYI4QnPqI6GEEpfbs2ZaYn
-         eWfg==
-X-Gm-Message-State: APjAAAU5JgocRPpk3V38tV4G1y6qtVY2X5OQ6iNNY+RbiYMeiYDzj8Qg
-        z/6gtYNaiVXW+YJcHFEIAH5EMocSJ9IqlkaaOmjGZ9I66YNd
-X-Google-Smtp-Source: APXvYqwkDvMd7+7j3ishzaNuwU5KWhtrA1TIgSFDlPt6TKBdgXwqr/hFApQEVK/USzLIzBUIZM5VPhMMqMzZzkAQBbrP3dsIg+zs
+        bh=BkiLOSsib7AMvp19gN5O1NNGBv7sR4l6lYc1sZje/cY=;
+        b=AnDAmyaH60pBwsFnaZ7JHLePybX5EKD3zNpaJ1bdE3etJDFuVPnRZ8EzHW8EIx4xkI
+         c+OYIXUMs9KCaN7KOla7sJfOiIxqP1MH8rOu4YNmfRjaTnDH6H2SexVagKmKE7LyUIov
+         oSZFRxaKQgY3wbOiomiqN9QoBJeKyRWooV+g5Vz5OAh12KfZnOKV0viCJqvpemw9o7mE
+         zzKL3YfbvQQA2cJcSJDSxBIp6s5JPWpHYZ6YpsVhOSjPrp85cHMYqm53BdCNARklj9UW
+         h7oh7Wn5PNjVzK6mQVluXRZQgLe9/BeSsrkE/O5wTkS+9WfHEfc2dEIKeMYX+L9ABb8N
+         +8Wg==
+X-Gm-Message-State: APjAAAWZg4THbXITy9yWpQdnIHZnm54tZp9UyA1ugUy4cUwWIJHOTOc7
+        b5Jhkfc9SYfrDCDUTWL8LUVaRKp1qZzGaBhNFHyRayMktvBV
+X-Google-Smtp-Source: APXvYqz+QO9RFtD1F2l+9kztuGIkR2Dlt9bbzP852z4zpi5P96WuB1IQ78oe9+PyeqW2uKF3eG2Dum/sCSM7w5JN1I/JTy4nhb0q
 MIME-Version: 1.0
-X-Received: by 2002:a02:ab99:: with SMTP id t25mr27286633jan.113.1562675229088;
- Tue, 09 Jul 2019 05:27:09 -0700 (PDT)
-Date:   Tue, 09 Jul 2019 05:27:09 -0700
+X-Received: by 2002:a02:5a89:: with SMTP id v131mr28401970jaa.130.1562675228779;
+ Tue, 09 Jul 2019 05:27:08 -0700 (PDT)
+Date:   Tue, 09 Jul 2019 05:27:08 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000ede4ad058d3ead9e@google.com>
-Subject: KASAN: use-after-free Write in usb_anchor_resume_wakeups
-From:   syzbot <syzbot+6c355f8d5f11884fa38e@syzkaller.appspotmail.com>
+Message-ID: <000000000000e9312b058d3eadb8@google.com>
+Subject: KASAN: use-after-free Read in usb_anchor_resume_wakeups
+From:   syzbot <syzbot+58e201002fe1e775e1ae@syzkaller.appspotmail.com>
 To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
         gustavo@embeddedor.com, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
@@ -57,24 +57,26 @@ syzbot found the following crash on:
 
 HEAD commit:    7829a896 usb-fuzzer: main usb gadget fuzzer driver
 git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=160b9e93a00000
+console output: https://syzkaller.appspot.com/x/log.txt?x=118d136da00000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=f6d4561982f71f63
-dashboard link: https://syzkaller.appspot.com/bug?extid=6c355f8d5f11884fa38e
+dashboard link: https://syzkaller.appspot.com/bug?extid=58e201002fe1e775e1ae
 compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
 
 Unfortunately, I don't have any reproducer for this crash yet.
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+6c355f8d5f11884fa38e@syzkaller.appspotmail.com
+Reported-by: syzbot+58e201002fe1e775e1ae@syzkaller.appspotmail.com
 
-dummy_hcd dummy_hcd.4: no ep configured for urb 0000000001b02d23
-xpad 5-1:0.169: xpad_irq_out - usb_submit_urb failed with result -19
+dummy_hcd dummy_hcd.5: no ep configured for urb 00000000c6093b7b
+xpad 6-1:0.169: xpad_irq_out - usb_submit_urb failed with result -19
 ==================================================================
-BUG: KASAN: use-after-free in register_lock_class+0xeb7/0x1240  
-kernel/locking/lockdep.c:1156
-Write of size 8 at addr ffff8881c7e89b78 by task kworker/0:4/2785
+BUG: KASAN: use-after-free in debug_spin_lock_before  
+kernel/locking/spinlock_debug.c:83 [inline]
+BUG: KASAN: use-after-free in do_raw_spin_lock+0x24d/0x280  
+kernel/locking/spinlock_debug.c:112
+Read of size 4 at addr ffff8881d0e584dc by task kworker/1:4/2786
 
-CPU: 0 PID: 2785 Comm: kworker/0:4 Not tainted 5.2.0-rc6+ #13
+CPU: 1 PID: 2786 Comm: kworker/1:4 Not tainted 5.2.0-rc6+ #13
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
 Google 01/01/2011
 Workqueue: usb_hub_wq hub_event
@@ -85,11 +87,10 @@ Call Trace:
   print_address_description+0x67/0x231 mm/kasan/report.c:188
   __kasan_report.cold+0x1a/0x32 mm/kasan/report.c:317
   kasan_report+0xe/0x20 mm/kasan/common.c:614
-  register_lock_class+0xeb7/0x1240 kernel/locking/lockdep.c:1156
-  __lock_acquire+0x11d/0x5340 kernel/locking/lockdep.c:3674
-  lock_acquire+0x100/0x2b0 kernel/locking/lockdep.c:4303
-  __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
-  _raw_spin_lock_irqsave+0x32/0x50 kernel/locking/spinlock.c:159
+  debug_spin_lock_before kernel/locking/spinlock_debug.c:83 [inline]
+  do_raw_spin_lock+0x24d/0x280 kernel/locking/spinlock_debug.c:112
+  __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:117 [inline]
+  _raw_spin_lock_irqsave+0x3a/0x50 kernel/locking/spinlock.c:159
   __wake_up_common_lock+0xb0/0x170 kernel/sched/wait.c:121
   __usb_unanchor_urb drivers/usb/core/urb.c:154 [inline]
   usb_anchor_resume_wakeups+0xbe/0xe0 drivers/usb/core/urb.c:148
@@ -113,16 +114,25 @@ RIP: 0010:console_unlock+0x9db/0xbf0 kernel/printk/printk.c:2471
 Code: 00 89 ee 48 c7 c7 e0 eb f2 86 e8 50 a4 03 00 65 ff 0d 51 56 da 7e e9  
 11 fa ff ff e8 af 43 15 00 e8 ba 69 1a 00 ff 74 24 30 9d <e9> 31 fe ff ff  
 e8 9b 43 15 00 48 8b bc 24 80 00 00 00 c7 05 d9 e6
-RSP: 0018:ffff8881aeeff148 EFLAGS: 00000216 ORIG_RAX: ffffffffffffff13
-RAX: 0000000000000007 RBX: 0000000000000200 RCX: 1ffff11035dc8a24
-RDX: 0000000000000000 RSI: ffff8881aee45100 RDI: ffff8881aee45034
-RBP: 0000000000000000 R08: ffff8881aee44800 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: 000000000000004e
+RSP: 0018:ffff8881d251ecb8 EFLAGS: 00000212 ORIG_RAX: ffffffffffffff13
+RAX: 0000000000000007 RBX: 0000000000000200 RCX: 1ffff11039d43729
+RDX: 0000000000000000 RSI: ffff8881cea1b928 RDI: ffff8881cea1b834
+RBP: 0000000000000000 R08: ffff8881cea1b000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000046
 R13: ffffffff828cb580 R14: ffffffff8726a520 R15: dffffc0000000000
   vprintk_emit+0x171/0x3e0 kernel/printk/printk.c:1986
   vprintk_func+0x75/0x113 kernel/printk/printk_safe.c:386
   printk+0xba/0xed kernel/printk/printk.c:2046
   really_probe.cold+0x69/0x122 drivers/base/dd.c:577
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:670
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
+  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x217/0x360 drivers/base/dd.c:843
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+  device_add+0xae6/0x16f0 drivers/base/core.c:2111
+  usb_serial_probe.cold+0x13e6/0x25d0 drivers/usb/serial/usb-serial.c:1057
+  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+  really_probe+0x281/0x660 drivers/base/dd.c:509
   driver_probe_device+0x104/0x210 drivers/base/dd.c:670
   __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
   bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
@@ -149,7 +159,7 @@ R13: ffffffff828cb580 R14: ffffffff8726a520 R15: dffffc0000000000
   kthread+0x30b/0x410 kernel/kthread.c:255
   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
 
-Allocated by task 2853:
+Allocated by task 17:
   save_stack+0x1b/0x80 mm/kasan/common.c:71
   set_track mm/kasan/common.c:79 [inline]
   __kasan_kmalloc mm/kasan/common.c:489 [inline]
@@ -181,8 +191,7 @@ Allocated by task 2853:
   port_event drivers/usb/core/hub.c:5350 [inline]
   hub_event+0x1ada/0x3590 drivers/usb/core/hub.c:5432
   process_one_work+0x905/0x1570 kernel/workqueue.c:2269
-  process_scheduled_works kernel/workqueue.c:2331 [inline]
-  worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
+  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
   kthread+0x30b/0x410 kernel/kthread.c:255
   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
 
@@ -211,25 +220,25 @@ Freed by task 107:
   kthread+0x30b/0x410 kernel/kthread.c:255
   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
 
-The buggy address belongs to the object at ffff8881c7e89b00
+The buggy address belongs to the object at ffff8881d0e58480
   which belongs to the cache kmalloc-1k of size 1024
-The buggy address is located 120 bytes inside of
-  1024-byte region [ffff8881c7e89b00, ffff8881c7e89f00)
+The buggy address is located 92 bytes inside of
+  1024-byte region [ffff8881d0e58480, ffff8881d0e58880)
 The buggy address belongs to the page:
-page:ffffea00071fa200 refcount:1 mapcount:0 mapping:ffff8881dac02a00  
+page:ffffea0007439600 refcount:1 mapcount:0 mapping:ffff8881dac02a00  
 index:0x0 compound_mapcount: 0
 flags: 0x200000000010200(slab|head)
-raw: 0200000000010200 dead000000000100 dead000000000200 ffff8881dac02a00
-raw: 0000000000000000 00000000000e000e 00000001ffffffff 0000000000000000
+raw: 0200000000010200 0000000000000000 0000000d00000001 ffff8881dac02a00
+raw: 0000000000000000 00000000800e000e 00000001ffffffff 0000000000000000
 page dumped because: kasan: bad access detected
 
 Memory state around the buggy address:
-  ffff8881c7e89a00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff8881c7e89a80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> ffff8881c7e89b00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                                                 ^
-  ffff8881c7e89b80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff8881c7e89c00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffff8881d0e58380: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffff8881d0e58400: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+> ffff8881d0e58480: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                                     ^
+  ffff8881d0e58500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffff8881d0e58580: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
 ==================================================================
 
 
