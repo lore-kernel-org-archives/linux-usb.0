@@ -2,236 +2,150 @@ Return-Path: <SRS0=BEeX=VH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EEB1C004EF
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Jul 2019 08:25:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E607BC004EF
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Jul 2019 11:07:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3F1B620651
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Jul 2019 08:25:30 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=cadence.com header.i=@cadence.com header.b="O+mUbPtO";
-	dkim=pass (1024-bit key) header.d=cadence.com header.i=@cadence.com header.b="ZFfRk/No"
+	by mail.kernel.org (Postfix) with ESMTP id BBB3D20665
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Jul 2019 11:07:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727539AbfGJIZ0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 Jul 2019 04:25:26 -0400
-Received: from mx0a-0014ca01.pphosted.com ([208.84.65.235]:27320 "EHLO
-        mx0a-0014ca01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727341AbfGJIZ0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Jul 2019 04:25:26 -0400
-Received: from pps.filterd (m0042385.ppops.net [127.0.0.1])
-        by mx0a-0014ca01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x6A87XN3022873;
-        Wed, 10 Jul 2019 01:25:11 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=proofpoint;
- bh=4bqHHbmbC2R4T/5g4w9ojG9RSzRFaLktUk83MoAtoJM=;
- b=O+mUbPtO+EaFdUlJYu95Pwj/RQIgNfAw5giE5XbJOb/umLAJD2V8t9VBb8aLR0nILxRX
- DZ4bm86mFpyiBs9oMKC6aIWCpafIHh/WGHBgeiA4LPXWQt7Q1SeD2AKUJcXX9ZK54QXR
- 96cLAfu6CCtvOzRm1F8SU0sNiWMOl263LWjX9sJYjFCv3sSMFHR171qQMrmXzIHCCphR
- VRVQQtyhbLRw2IC0DT9G6d2NTWaGnp2qJ1SEQkMTwPzZco/rvqy7n6x4LT+rR8UkPSo0
- hQF0cI3dqMt+s90HQVWOo6yVCOu+K9SG/gVc1vky0d7GbOLCOljdKmoOBqVBktyW1qhV Lg== 
-Authentication-Results: cadence.com;
-        spf=pass smtp.mailfrom=pawell@cadence.com
-Received: from nam03-co1-obe.outbound.protection.outlook.com (mail-co1nam03lp2050.outbound.protection.outlook.com [104.47.40.50])
-        by mx0a-0014ca01.pphosted.com with ESMTP id 2tjr6vq116-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Wed, 10 Jul 2019 01:25:11 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4bqHHbmbC2R4T/5g4w9ojG9RSzRFaLktUk83MoAtoJM=;
- b=ZFfRk/NoPkylwrUWiPxA03jdBuD+czwVICoJ87LHpwN7MZcq32DreZ6064TcSRjlk12AW6dwDezffPqFOaSIqfu0GxsXWzbuXKkOFNA0ScEk4JcckIFz7yaKOZsq71e+FYa1CYeq4zUC0tWRBrjL+U8bRB/xcHflSgwn93BUP8c=
-Received: from BYAPR07MB4709.namprd07.prod.outlook.com (52.135.204.159) by
- BYAPR07MB5877.namprd07.prod.outlook.com (20.179.91.138) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2052.19; Wed, 10 Jul 2019 08:25:08 +0000
-Received: from BYAPR07MB4709.namprd07.prod.outlook.com
- ([fe80::fd8c:399c:929b:33e2]) by BYAPR07MB4709.namprd07.prod.outlook.com
- ([fe80::fd8c:399c:929b:33e2%6]) with mapi id 15.20.2052.020; Wed, 10 Jul 2019
- 08:25:08 +0000
-From:   Pawel Laszczak <pawell@cadence.com>
-To:     Felipe Balbi <felipe.balbi@linux.intel.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "heikki.krogerus@linux.intel.com" <heikki.krogerus@linux.intel.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "rogerq@ti.com" <rogerq@ti.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "jbergsagel@ti.com" <jbergsagel@ti.com>,
-        "nsekhar@ti.com" <nsekhar@ti.com>, "nm@ti.com" <nm@ti.com>,
-        Suresh Punnoose <sureshp@cadence.com>,
-        "peter.chen@nxp.com" <peter.chen@nxp.com>,
-        Jayshri Dajiram Pawar <jpawar@cadence.com>,
-        Rahul Kumar <kurahul@cadence.com>
-Subject: RE: [PATCH v9 5/6] usb:cdns3 Add Cadence USB3 DRD Driver
-Thread-Topic: [PATCH v9 5/6] usb:cdns3 Add Cadence USB3 DRD Driver
-Thread-Index: AQHVMyCBLRb+XoB9zUqxphM8AIPBC6a76sKAgAN7ISCABBicwA==
-Date:   Wed, 10 Jul 2019 08:25:08 +0000
-Message-ID: <BYAPR07MB47090E2221C96D0B8178235CDDF00@BYAPR07MB4709.namprd07.prod.outlook.com>
-References: <1562324238-16655-1-git-send-email-pawell@cadence.com>
- <1562324238-16655-6-git-send-email-pawell@cadence.com>
- <87r274lmqk.fsf@linux.intel.com>
- <BYAPR07MB4709EF3753AC0B87606B1182DDF70@BYAPR07MB4709.namprd07.prod.outlook.com>
-In-Reply-To: <BYAPR07MB4709EF3753AC0B87606B1182DDF70@BYAPR07MB4709.namprd07.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-tag-bcast: 
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNccGF3ZWxsXGFwcGRhdGFccm9hbWluZ1wwOWQ4NDliNi0zMmQzLTRhNDAtODVlZS02Yjg0YmEyOWUzNWJcbXNnc1xtc2ctMzdjN2M5OWUtYTJlYy0xMWU5LTg3NDItMWM0ZDcwMWRmYmE0XGFtZS10ZXN0XDM3YzdjOTlmLWEyZWMtMTFlOS04NzQyLTFjNGQ3MDFkZmJhNGJvZHkudHh0IiBzej0iMzA4MCIgdD0iMTMyMDcyMjA3MDUzODM4MTI1IiBoPSJCTjNPQXNuT2lDUnovay8vUWpGdDZEMnJxanM9IiBpZD0iIiBibD0iMCIgYm89IjEiLz48L21ldGE+
-x-dg-paste: 
-x-dg-rorf: 
-x-originating-ip: [185.217.253.59]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c5c6b387-8e38-458d-7c83-08d705101e9b
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:BYAPR07MB5877;
-x-ms-traffictypediagnostic: BYAPR07MB5877:
-x-microsoft-antispam-prvs: <BYAPR07MB58770E5238654E71E0224E1FDDF00@BYAPR07MB5877.namprd07.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0094E3478A
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(376002)(39860400002)(396003)(366004)(346002)(136003)(36092001)(189003)(199004)(102836004)(14454004)(26005)(52536014)(6506007)(8676002)(7696005)(7416002)(33656002)(76176011)(53936002)(71200400001)(71190400001)(66066001)(81156014)(99286004)(107886003)(81166006)(86362001)(6246003)(5660300002)(476003)(68736007)(2501003)(8936002)(55016002)(3846002)(6116002)(478600001)(186003)(9686003)(256004)(14444005)(305945005)(446003)(6436002)(2906002)(486006)(66476007)(66556008)(66946007)(54906003)(64756008)(66446008)(110136005)(74316002)(7736002)(316002)(11346002)(4326008)(229853002)(76116006)(25786009);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR07MB5877;H:BYAPR07MB4709.namprd07.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: cadence.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: W/ilHZcFTRvblVqiesVUzPVY4M7TXn1vh6/Ys8k85i+jvB53ajbR7yXFABI9k688Vi+O2JvnGW7BEhpS/zs6o5aeQw6zW/E2wCN///VQ8hNNnyiXMEazscx0FVN1H7ttXKljlQoCcsr3TJq8ZOgT2wQ+sPnIT5N55fxXkMkabLnw95IM0hHRT9jcSJKHovVtoK7Rk0pq2jIe0h70XfWryyuA9zke0fSDxvoQJ5GnLLw6z8HnpxAxLoAFkkAQuDuhXNz1MFpqy93GsILrRWUte9Tner+fKPZOQlT2IZ61gMNxz8lrpVzZWTufEMTYAYtkkDTsJ+RtJo8QnyaCHYKLsmtpquPKqNa6Hu/bu6DxiMDNW/14cAsUD151RZ5PXqMNG45vGYdtiEd3OY7aX8+Auqem/BgByMUIReeK5i1VxRc=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1727466AbfGJLHN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 Jul 2019 07:07:13 -0400
+Received: from mail-io1-f71.google.com ([209.85.166.71]:35428 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727414AbfGJLHK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Jul 2019 07:07:10 -0400
+Received: by mail-io1-f71.google.com with SMTP id w17so2485214iom.2
+        for <linux-usb@vger.kernel.org>; Wed, 10 Jul 2019 04:07:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=Ogn6J9wBnNd+qiyGp5MPo0aVOG3dSwUiE1ddTm3jyXw=;
+        b=Qe+2l0NzOHdnFpX7CHWdST87LhI3Q1lOU2n5WIve8kAczr6HjOdefiIK1OzBxa1+ah
+         VPKvhCKtvjUhR6K1rCI6bIHtT5QoUwjFNtWJcwfyjMFjoEAlVG31H7SQhuMB76QNuar7
+         rMj/gFJLM7jOLYVr7eroKIRQAbO+HZhckx5fcQt3HQu2nGPGIw/OjRUZc/TZQdhsj3KL
+         yo4p0YXO4/1kP9RLrLAfaNmkEKJ0FCnauTYivNi7rJBmdQumiwOHw5kqaakuAxbNTmry
+         LtwHnSi2lcvB7ud3GXZXw2bJVfY9k7ZnRtof65CK39k16BR0xqbPs+Tl4iDWDMRCThPL
+         rTuw==
+X-Gm-Message-State: APjAAAX8rAq6eGdWogLzOYJYmPjMRKxQAkkgzZqsDo2IRUrYUHSv2O5z
+        lmP1hU8+nStktOPgmx87jTDp8P0MrJkHc1wpY8+s19M0MY6C
+X-Google-Smtp-Source: APXvYqxDN4HBNpz8tVe81MedwIcb26MRg6Xs059pfF4x67YZXT2usgGsomZf9MGHLhmGqe0qBo7wTuNGfSX9RV7NI0BLFO0tJL1D
 MIME-Version: 1.0
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c5c6b387-8e38-458d-7c83-08d705101e9b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jul 2019 08:25:08.5857
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pawell@global.cadence.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR07MB5877
-X-Proofpoint-SPF-Result: pass
-X-Proofpoint-SPF-Record: v=spf1 include:spf.smktg.jp include:_spf.salesforce.com
- include:mktomail.com include:spf-0014ca01.pphosted.com
- include:spf.protection.outlook.com include:auth.msgapp.com
- include:spf.mandrillapp.com ~all
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-07-10_03:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0
- priorityscore=1501 malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0
- spamscore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=797 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1907100099
+X-Received: by 2002:a6b:b7d5:: with SMTP id h204mr30444814iof.188.1562756828952;
+ Wed, 10 Jul 2019 04:07:08 -0700 (PDT)
+Date:   Wed, 10 Jul 2019 04:07:08 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000a901ed058d51adc3@google.com>
+Subject: WARNING in iforce_get_id_packet/usb_submit_urb
+From:   syzbot <syzbot+9584b712baf1965b590c@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
+        gustavo@embeddedor.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Felipe
+Hello,
 
->>> +
->>> +static int cdns3_idle_init(struct cdns3 *cdns)
->>> +{
->>> +	struct cdns3_role_driver *rdrv;
->>> +
->>> +	rdrv =3D devm_kzalloc(cdns->dev, sizeof(*rdrv), GFP_KERNEL);
->>> +	if (!rdrv)
->>> +		return -ENOMEM;
->>> +
->>> +	rdrv->start =3D cdns3_idle_role_start;
->>> +	rdrv->stop =3D cdns3_idle_role_stop;
->>> +	rdrv->state =3D CDNS3_ROLE_STATE_INACTIVE;
->>> +	rdrv->suspend =3D NULL;
->>> +	rdrv->resume =3D NULL;
->>> +	rdrv->name =3D "idle";
->>
->>why don't you use the mux framework for this? This looks a bit fishy
->>too. Why do you have your own driver registration structure for your
->>driver only?
->>
->
->I assume you mean interface defined in include/linux/usb/role.h.
->It's quite new framework and probably was added after I've start implement=
-ing cdns3 driver.
->At first glance it's look that I could use it.
+syzbot found the following crash on:
 
-I've started integrating driver with role switch framework. =20
+HEAD commit:    7829a896 usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=15b6b3f8600000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=f6d4561982f71f63
+dashboard link: https://syzkaller.appspot.com/bug?extid=9584b712baf1965b590c
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12d09e28600000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1410e1f7a00000
 
-Even if I use role switch interface , I still need this internal driver reg=
-istration.=20
-It's convenient to use fallowing structure.=20
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+9584b712baf1965b590c@syzkaller.appspotmail.com
 
-struct cdns3_role_driver {
-	int (*start)(struct cdns3 *cdns);
-	void (*stop)(struct cdns3 *cdns);
-	int (*suspend)(struct cdns3 *cdns, bool do_wakeup);
-	int (*resume)(struct cdns3 *cdns, bool hibernated);
-	const char *name;
-#define CDNS3_ROLE_STATE_INACTIVE	0
-#define CDNS3_ROLE_STATE_ACTIVE		1
-	int state;
-};
+usb 1-1: config 0 interface 47 altsetting 0 bulk endpoint 0x8A has invalid  
+maxpacket 0
+usb 1-1: New USB device found, idVendor=061c, idProduct=c0a4,  
+bcdDevice=4e.a0
+usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+usb 1-1: config 0 descriptor??
+------------[ cut here ]------------
+URB 0000000044363614 submitted while active
+WARNING: CPU: 0 PID: 12 at drivers/usb/core/urb.c:362  
+usb_submit_urb+0x10c1/0x13b0 drivers/usb/core/urb.c:362
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.2.0-rc6+ #13
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xca/0x13e lib/dump_stack.c:113
+  panic+0x292/0x6c9 kernel/panic.c:219
+  __warn.cold+0x20/0x4b kernel/panic.c:576
+  report_bug+0x262/0x2a0 lib/bug.c:186
+  fixup_bug arch/x86/kernel/traps.c:179 [inline]
+  fixup_bug arch/x86/kernel/traps.c:174 [inline]
+  do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:272
+  do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:291
+  invalid_op+0x14/0x20 arch/x86/entry/entry_64.S:986
+RIP: 0010:usb_submit_urb+0x10c1/0x13b0 drivers/usb/core/urb.c:362
+Code: 89 de e8 72 dd e8 fd 84 db 0f 85 42 f6 ff ff e8 35 dc e8 fd 4c 89 fe  
+48 c7 c7 00 23 1a 86 c6 05 4b 78 57 04 01 e8 ca a0 be fd <0f> 0b e9 20 f6  
+ff ff c7 44 24 14 01 00 00 00 e9 d7 f6 ff ff 41 bd
+RSP: 0018:ffff8881d9e0f010 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff8127ef3d RDI: ffffed103b3c1df4
+RBP: ffff8881d4b67d00 R08: ffff8881d9df9800 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: ffff8881cf2c9980
+R13: 00000000fffffff0 R14: ffffffff862df820 R15: ffff8881d4b67d00
+  iforce_get_id_packet+0x19c/0x52c  
+drivers/input/joystick/iforce/iforce-packets.c:238
+  iforce_init_device+0x391/0x138d  
+drivers/input/joystick/iforce/iforce-main.c:293
+  iforce_usb_probe+0x97c/0xd90 drivers/input/joystick/iforce/iforce-usb.c:163
+  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+  really_probe+0x281/0x660 drivers/base/dd.c:509
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:670
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
+  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x217/0x360 drivers/base/dd.c:843
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+  device_add+0xae6/0x16f0 drivers/base/core.c:2111
+  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
+  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+  really_probe+0x281/0x660 drivers/base/dd.c:509
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:670
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
+  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x217/0x360 drivers/base/dd.c:843
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+  device_add+0xae6/0x16f0 drivers/base/core.c:2111
+  usb_new_device.cold+0x8c1/0x1016 drivers/usb/core/hub.c:2534
+  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+  port_event drivers/usb/core/hub.c:5350 [inline]
+  hub_event+0x1ada/0x3590 drivers/usb/core/hub.c:5432
+  process_one_work+0x905/0x1570 kernel/workqueue.c:2269
+  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
+  kthread+0x30b/0x410 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+Kernel Offset: disabled
+Rebooting in 86400 seconds..
 
-Driver can supports: only Host, only Device or DRD - depending on configura=
-tion.
 
-If current configuration support only Host then driver assigns:
-	rdrv_host->start	=3D __cdns3_host_init;
-	rdrv_host->stop	=3D cdns3_host_exit;
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-	cdns->roles[CDNS3_ROLE_HOST]  =3D 	rdrv_host
-	cdns->roles[CDNS3_ROLE_GADGET	=3D NULL;
-if support only Device then:
-	rdrv_dev->start	=3D __cdns3_ gadget _init;
-	rdrv_dev->stop	=3D cdns3_ gadget _exit;
-	cdns->roles[CDNS3_ROLE_HOST]	=3D NULL;
-for DRD:
-	cdns->roles[CDNS3_ROLE_HOST =3D rdrv_host;
-	cdns->roles[CDNS3_ROLE_GADGET] =3D rdrv_dev;
-
-So for DRD we will have both filled, but for only Device or Host we=20
-will have filled single element of array.=20
-
-With such array we can easily start/stop role by=20
-	if (!cdns->roles[role])
-		not supported by configuration.
-	else
-		cdns->roles[role]->start / cdns->roles[role]->stop
-
-I don't need any extra: switch instruction or #ifdef statement.=20
-
-The name cdns3_role_driver can be misleading.=20
-Driver doesn't register the driver but rather the interface to Device/Host.=
-=20
-
-Maybe I should change this name to  cdns3_role_interface or cdns3_role_acti=
-on ?
-
-Now I have my private enum:
-enum cdns3_roles {
-	CDNS3_ROLE_IDLE =3D 0,
-	CDNS3_ROLE_HOST,
-	CDNS3_ROLE_GADGET,
-	CDNS3_ROLE_END,
-};
-
-I think I could replace it with usb_role. I need one extra state for IDLE b=
-ut
-Instead of CDNS3_ROLE_IDLE I can use USB_ROLE_NONE.
-
-It should little simplify the driver and improve readability.=20
-
-Do you have any comments or suggestion ?
-
-Cheers,=20
-Pawel
-
->
->>> +
->>> +	cdns->roles[CDNS3_ROLE_IDLE] =3D rdrv;
->>> +
->>> +	return 0;
->>> +}
->>> +
-
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
