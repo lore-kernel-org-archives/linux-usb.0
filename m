@@ -4,45 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7E96C004EF
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Jul 2019 11:07:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82ABEC004EF
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Jul 2019 11:07:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8BE9E20665
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Jul 2019 11:07:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 61B722087F
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Jul 2019 11:07:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727436AbfGJLHK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 Jul 2019 07:07:10 -0400
-Received: from mail-io1-f70.google.com ([209.85.166.70]:54413 "EHLO
-        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727184AbfGJLHJ (ORCPT
+        id S1727502AbfGJLHV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 Jul 2019 07:07:21 -0400
+Received: from mail-io1-f69.google.com ([209.85.166.69]:39067 "EHLO
+        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727415AbfGJLHJ (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Jul 2019 07:07:09 -0400
-Received: by mail-io1-f70.google.com with SMTP id n8so2431481ioo.21
-        for <linux-usb@vger.kernel.org>; Wed, 10 Jul 2019 04:07:08 -0700 (PDT)
+Received: by mail-io1-f69.google.com with SMTP id y13so2469217iol.6
+        for <linux-usb@vger.kernel.org>; Wed, 10 Jul 2019 04:07:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=1MZwEpypxQO+6zRNPb9qlpdItDM+J+AtMhEGHFtFWHo=;
-        b=tUyrHx7u9SiJECjUlxUEcfuhrkerD2i4w4BWENpAACZs5P1MDkX4OS402mHC1KoHnO
-         /8y61wg4O8cV9KocElQ1DJcJ9WrWyR/imT4NHS8+RRYRd81fFXZGhqvyJUZKDf6IS32V
-         E7VddkH1Y7pMHKewd54pijvF9Pu0Wj+n2Aiz8VlPymWHF2ZxNoT7M/kBGaECYVLc7m3z
-         RYv6dAmyDmWEtM4CuDGNb6r792cQJN/jw3QpTNjJm2koj+GYEpF97MA31C3zSj65UYkZ
-         wbydOmjY+OiNS26NNlqjHvq0FweMyviLWiwiGlS6blR8Cs2RaJKaeWb0eQltEgNNCug/
-         ikVQ==
-X-Gm-Message-State: APjAAAV30J2urnU/Nc93xWI8hsBjapEg7Xw/ga3IKoelrjDo95QCfKzM
-        TgK8oQAcP6kphaDFBUyPZZmegzzW35wLagr3qEgoqr8p5B79
-X-Google-Smtp-Source: APXvYqyPeqU+29B36BoWRNMAb1fARNBlBZK/g/natA4JnNo0RMnzmZQKisMK/JthoaTWYN65SJcdMH8gGMeNUWbHemmq6DYtlBaz
+        bh=p+M5s/mlRcDbjC1pxByHP5L2NlEPGo3vh3ovYs5w88s=;
+        b=UdebrgIA6QGsRsDdXouV5kAAcNRi1rXbESBRvbDZV1bgPjX4HN4+w7JoKW+mKZd+nU
+         mG7wEeKDhsXV9nXgqm1UtuBp+nXPAP8gUAv3nQcZUntAaGYmSiFQQ89TC+bpqwBeY9D4
+         pj2T94Jehp5Oay4pLk9yzWxyk48QS/adaRXsaH8D7En0EgBuge2Rypv7MTL7s4Vshkv4
+         oxVlVqDDKvtrYSxysEzyJ4sUWYS8qcjNhQgMFRf3iZmLWgTs+iVkIHSjTODQ/6+KQPRC
+         BfoHDd7XxrrWBM1h+S0rytWniPr7KWO53Sdw32tCLByuk05RaO9lVyeFyO53oGUQRuIa
+         nVsA==
+X-Gm-Message-State: APjAAAWaugQg3xwKW0C0pRfy5VbiC7yCJjZ7jxhnbZeKS/L4hK5g5boG
+        s6jDp8CLx2KWhwrkR+F3VhPD1EluLDvXorzTUtqPno66xpP1
+X-Google-Smtp-Source: APXvYqy4/DnMgq+O4PmLMQM1K3yMHdg8miYSpC2L9tUv+3JSk2niQpN7xWxGR/a+HwjFBvLVZ8iCuhKFkmUmK5LBG2Ne9SmYjAD7
 MIME-Version: 1.0
-X-Received: by 2002:a6b:bf01:: with SMTP id p1mr902038iof.181.1562756828063;
- Wed, 10 Jul 2019 04:07:08 -0700 (PDT)
-Date:   Wed, 10 Jul 2019 04:07:08 -0700
+X-Received: by 2002:a5d:8890:: with SMTP id d16mr28364378ioo.274.1562756829195;
+ Wed, 10 Jul 2019 04:07:09 -0700 (PDT)
+Date:   Wed, 10 Jul 2019 04:07:09 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000009b6e7f058d51adba@google.com>
-Subject: WARNING in i2400mu_bus_bm_wait_for_ack/usb_submit_urb
-From:   syzbot <syzbot+7886801de1cc3958a0d1@syzkaller.appspotmail.com>
+Message-ID: <000000000000acb38c058d51ad4f@google.com>
+Subject: WARNING in wa_nep_create/usb_submit_urb
+From:   syzbot <syzbot+5da93055dfbb6bc54963@syzkaller.appspotmail.com>
 To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
         gustavo@embeddedor.com, linux-kernel@vger.kernel.org,
         linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
@@ -58,27 +58,27 @@ syzbot found the following crash on:
 
 HEAD commit:    7829a896 usb-fuzzer: main usb gadget fuzzer driver
 git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=1590cba0600000
+console output: https://syzkaller.appspot.com/x/log.txt?x=17cd354fa00000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=f6d4561982f71f63
-dashboard link: https://syzkaller.appspot.com/bug?extid=7886801de1cc3958a0d1
+dashboard link: https://syzkaller.appspot.com/bug?extid=5da93055dfbb6bc54963
 compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14e19490600000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11c2667ba00000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16919490600000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14a2667ba00000
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+7886801de1cc3958a0d1@syzkaller.appspotmail.com
+Reported-by: syzbot+5da93055dfbb6bc54963@syzkaller.appspotmail.com
 
-i2400m_usb 1-1:64.149: W: __i2400mu_send_barker: cannot send URB: -8
-i2400m_usb 1-1:64.149: W: __i2400mu_send_barker: cannot send URB: -8
-i2400m_usb 1-1:64.149: E: __i2400mu_send_barker: maximum errors in URB  
-exceeded; resetting device
-i2400m_usb 1-1:64.149: warm reset failed (-8); trying USB reset
+usb 1-1: string descriptor 0 read error: -22
+usb 1-1: New USB device found, idVendor=13dc, idProduct=5611,  
+bcdDevice=60.5c
+usb 1-1: New USB device strings: Mfr=4, Product=2, SerialNumber=5
+usb 1-1: BUG? WUSB host has no security descriptors
 ------------[ cut here ]------------
 usb 1-1: BOGUS urb xfer, pipe 1 != type 3
-WARNING: CPU: 0 PID: 12 at drivers/usb/core/urb.c:477  
+WARNING: CPU: 1 PID: 106 at drivers/usb/core/urb.c:477  
 usb_submit_urb+0x1188/0x13b0 drivers/usb/core/urb.c:477
 Kernel panic - not syncing: panic_on_warn set ...
-CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.2.0-rc6+ #13
+CPU: 1 PID: 106 Comm: kworker/1:2 Not tainted 5.2.0-rc6+ #13
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
 Google 01/01/2011
 Workqueue: usb_hub_wq hub_event
@@ -97,19 +97,17 @@ RIP: 0010:usb_submit_urb+0x1188/0x13b0 drivers/usb/core/urb.c:477
 Code: 4d 85 ed 74 2c e8 78 db e8 fd 4c 89 f7 e8 a0 36 13 ff 41 89 d8 44 89  
 e1 4c 89 ea 48 89 c6 48 c7 c7 80 23 1a 86 e8 03 a0 be fd <0f> 0b e9 20 f4  
 ff ff e8 4c db e8 fd 4c 89 f2 48 b8 00 00 00 00 00
-RSP: 0018:ffff8881d9e0ebb0 EFLAGS: 00010286
+RSP: 0018:ffff8881d410f060 EFLAGS: 00010282
 RAX: 0000000000000000 RBX: 0000000000000003 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff8127ef3d RDI: ffffed103b3c1d68
-RBP: ffff8881d0498dd0 R08: ffff8881d9df9800 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000001
-R13: ffff8881cde9db10 R14: ffff8881d07122a0 R15: ffff8881d9e0ed30
-  i2400mu_notif_submit drivers/net/wimax/i2400m/usb-fw.c:259 [inline]
-  i2400mu_bus_bm_wait_for_ack+0x4bf/0xb45  
-drivers/net/wimax/i2400m/usb-fw.c:303
-  i2400m_bm_cmd+0x346/0x7f0 drivers/net/wimax/i2400m/fw.c:611
-  i2400m_bootrom_init+0x319/0x1060 drivers/net/wimax/i2400m/fw.c:909
-  i2400m_setup+0x29c/0x990 drivers/net/wimax/i2400m/driver.c:871
-  i2400mu_probe+0x6bf/0xdf0 drivers/net/wimax/i2400m/usb.c:532
+RDX: 0000000000000000 RSI: ffffffff8127ef3d RDI: ffffed103a821dfe
+RBP: ffff8881cfe74ae0 R08: ffff8881d44ab000 R09: ffffed103b665d30
+R10: ffffed103b665d2f R11: ffff8881db32e97f R12: 0000000000000001
+R13: ffff8881cc3c9a68 R14: ffff8881d0329a20 R15: ffff8881d4baeb00
+  wa_nep_arm drivers/usb/wusbcore/wa-hc.h:261 [inline]
+  wa_nep_create+0x4f9/0x720 drivers/usb/wusbcore/wa-nep.c:269
+  wa_create+0x26e/0x340 drivers/usb/wusbcore/wa-hc.c:44
+  hwahc_create drivers/usb/host/hwa-hc.c:749 [inline]
+  hwahc_probe.cold+0xc9/0x48b drivers/usb/host/hwa-hc.c:805
   usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
   really_probe+0x281/0x660 drivers/base/dd.c:509
   driver_probe_device+0x104/0x210 drivers/base/dd.c:670
