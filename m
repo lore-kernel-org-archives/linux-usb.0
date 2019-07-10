@@ -2,83 +2,146 @@ Return-Path: <SRS0=BEeX=VH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08C7AC606CF
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Jul 2019 11:50:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0A93C74221
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Jul 2019 12:27:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D70222064B
-	for <linux-usb@archiver.kernel.org>; Wed, 10 Jul 2019 11:50:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 936912064B
+	for <linux-usb@archiver.kernel.org>; Wed, 10 Jul 2019 12:27:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726278AbfGJLuK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 10 Jul 2019 07:50:10 -0400
-Received: from mx2.suse.de ([195.135.220.15]:57324 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726043AbfGJLuK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 10 Jul 2019 07:50:10 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 83DB6AFF3;
-        Wed, 10 Jul 2019 11:50:09 +0000 (UTC)
-Message-ID: <1562759399.5312.6.camel@suse.com>
-Subject: Re: Titan Ridge xHCI may stop to working after re-plugging the dock
-From:   Oliver Neukum <oneukum@suse.com>
-To:     Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     Kent Lin <kent.lin@canonical.com>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>
-Date:   Wed, 10 Jul 2019 13:49:59 +0200
-In-Reply-To: <993E78A1-2A60-46D8-AA51-F4CB077E48D1@canonical.com>
-References: <993E78A1-2A60-46D8-AA51-F4CB077E48D1@canonical.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726105AbfGJM1H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 10 Jul 2019 08:27:07 -0400
+Received: from mail-io1-f69.google.com ([209.85.166.69]:52122 "EHLO
+        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725956AbfGJM1H (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 10 Jul 2019 08:27:07 -0400
+Received: by mail-io1-f69.google.com with SMTP id c5so2628231iom.18
+        for <linux-usb@vger.kernel.org>; Wed, 10 Jul 2019 05:27:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=cbPNdpQzJQPTb9HVJLsYy4CtPaAMZo5y7btz9Zpm/eg=;
+        b=B4AnKLTvhz5JeCe4qcP7nczKWJ4nDog5fNdkgw1P7EpS+GnKPkqocI1TSS7bKHG4lk
+         Kg1AIjsldRWXVij39UWxidRqmsE9k3v5VlubajIf5T8hjdxcJ+8F/3gQSV0HNUkRPpNs
+         PO+wSev2nzFy/0I/RZrxLRabfTP6FV7xKuxbc1mCPk7LgKfI1BT2+WSUU52nGjIvLv0G
+         oZ4bLURHxOfG7BhYTcLJqKb27cH8SLTd4TFK+FCwCsEHXBlWVhwle1vRfFdKfBdVZjT0
+         F/QHtEi7lFycydOfhg+W7MfcqRdB2JAwhDbRICgmQhEj5LPj2w/zxJ4sM42GeAS6FBST
+         N0HQ==
+X-Gm-Message-State: APjAAAX2MdBLnL6+0ek1XtvwahNlU/GEzQGZXS88CMUmm4gxtj5wueyR
+        TlT1Q+wWLYoazN8pUlwupuXLzrCHB0Ie+ojiJnEFu/CvUIgb
+X-Google-Smtp-Source: APXvYqxC2WOJ+cMECsMY6rhDnMnZuVe8xq6CgMdJNzgdj0lXOR81S2XqmvUD1obUIH9M7EPQw9pjCYi/1HOGKe0PWWB6pykne2b2
+MIME-Version: 1.0
+X-Received: by 2002:a5e:a708:: with SMTP id b8mr32636747iod.25.1562761626213;
+ Wed, 10 Jul 2019 05:27:06 -0700 (PDT)
+Date:   Wed, 10 Jul 2019 05:27:06 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000996786058d52cb39@google.com>
+Subject: WARNING in mcba_usb_probe/usb_submit_urb
+From:   syzbot <syzbot+3bc1dce0cc0052d60fde@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
+        gustavo@embeddedor.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Am Dienstag, den 09.07.2019, 21:10 +0800 schrieb Kai-Heng Feng:
-> Hi Mika and Mathias,
-> 
-> I’ve filed a bug [1] which renders docking station unusable.
-> 
-> I am not sure it's a bug in PCI, Thunderbolt or xHCI so raise the issue to  
-> you both.
-> 
-> [1] https://bugzilla.kernel.org/show_bug.cgi?id=203885
-> 
-> Kai-Heng
-> 
+Hello,
 
-The issue starts before you unplug. In fact it starts before
-the dock is even detected the first time:
+syzbot found the following crash on:
 
-[   13.171167] rfkill: input handler disabled
-[   19.781905] pcieport 0000:00:1c.0: PME: Spurious native interrupt!
-[   19.781909] pcieport 0000:00:1c.0: PME: Spurious native interrupt!
-[   20.109251] usb 4-1: new SuperSpeedPlus Gen 2 USB device number 2 using xhci_hcd
-[   20.136000] usb 4-1: New USB device found, idVendor=0bda, idProduct=0487, bcdDevice= 1.47
-[   20.136004] usb 4-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
-[   20.136007] usb 4-1: Product: Dell dock
-[   20.136009] usb 4-1: Manufacturer: Dell Inc.
-[   20.140607] hub 4-1:1.0: USB hub found
-[   20.141004] hub 4-1:1.0: 4 ports detected
-[   20.253025] usb 1-4: new high-speed USB device number 5 using xhci_hcd
-[   20.403520] usb 1-4: New USB device found, idVendor=0bda, idProduct=5487, bcdDevice= 1.47
-[   20.403521] usb 1-4: New USB device strings: Mfr=1, Product=2, SerialNumber=0
-[   20.403522] usb 1-4: Product: Dell dock
-[   20.403522] usb 1-4: Manufacturer: Dell Inc.
-[   20.404348] hub 1-4:1.0: USB hub found
+HEAD commit:    7829a896 usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=16519490600000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=f6d4561982f71f63
+dashboard link: https://syzkaller.appspot.com/bug?extid=3bc1dce0cc0052d60fde
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13354217a00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1071b7bfa00000
 
-This looks like a PCI issue.
-In general, this kind of reporting sucks. We have to guess what you did at 19.781905
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+3bc1dce0cc0052d60fde@syzkaller.appspotmail.com
 
-	Regards
-		Oliver
+usb 1-1: New USB device found, idVendor=04d8, idProduct=0a30,  
+bcdDevice=e4.81
+usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+usb 1-1: config 0 descriptor??
+usb 1-1: string descriptor 0 read error: -71
+------------[ cut here ]------------
+usb 1-1: BOGUS urb xfer, pipe 3 != type 1
+WARNING: CPU: 1 PID: 21 at drivers/usb/core/urb.c:477  
+usb_submit_urb+0x1188/0x13b0 drivers/usb/core/urb.c:477
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 1 PID: 21 Comm: kworker/1:1 Not tainted 5.2.0-rc6+ #13
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xca/0x13e lib/dump_stack.c:113
+  panic+0x292/0x6c9 kernel/panic.c:219
+  __warn.cold+0x20/0x4b kernel/panic.c:576
+  report_bug+0x262/0x2a0 lib/bug.c:186
+  fixup_bug arch/x86/kernel/traps.c:179 [inline]
+  fixup_bug arch/x86/kernel/traps.c:174 [inline]
+  do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:272
+  do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:291
+  invalid_op+0x14/0x20 arch/x86/entry/entry_64.S:986
+RIP: 0010:usb_submit_urb+0x1188/0x13b0 drivers/usb/core/urb.c:477
+Code: 4d 85 ed 74 2c e8 78 db e8 fd 4c 89 f7 e8 a0 36 13 ff 41 89 d8 44 89  
+e1 4c 89 ea 48 89 c6 48 c7 c7 80 23 1a 86 e8 03 a0 be fd <0f> 0b e9 20 f4  
+ff ff e8 4c db e8 fd 4c 89 f2 48 b8 00 00 00 00 00
+RSP: 0018:ffff8881d9eff140 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff8127ef3d RDI: ffffed103b3dfe1a
+RBP: ffff8881d1450700 R08: ffff8881d9e36000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000003
+R13: ffff8881d7f83a08 R14: ffff8881d0c5d5a0 R15: ffff8881d56ed200
+  mcba_usb_start drivers/net/can/usb/mcba_usb.c:660 [inline]
+  mcba_usb_probe+0x83a/0xbca drivers/net/can/usb/mcba_usb.c:846
+  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+  really_probe+0x281/0x660 drivers/base/dd.c:509
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:670
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
+  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x217/0x360 drivers/base/dd.c:843
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+  device_add+0xae6/0x16f0 drivers/base/core.c:2111
+  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
+  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+  really_probe+0x281/0x660 drivers/base/dd.c:509
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:670
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:777
+  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x217/0x360 drivers/base/dd.c:843
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+  device_add+0xae6/0x16f0 drivers/base/core.c:2111
+  usb_new_device.cold+0x8c1/0x1016 drivers/usb/core/hub.c:2534
+  hub_port_connect drivers/usb/core/hub.c:5089 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+  port_event drivers/usb/core/hub.c:5350 [inline]
+  hub_event+0x1ada/0x3590 drivers/usb/core/hub.c:5432
+  process_one_work+0x905/0x1570 kernel/workqueue.c:2269
+  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
+  kthread+0x30b/0x410 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+Kernel Offset: disabled
+Rebooting in 86400 seconds..
 
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
