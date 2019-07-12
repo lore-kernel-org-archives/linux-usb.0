@@ -6,29 +6,29 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E435C742A2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0353C742A5
 	for <linux-usb@archiver.kernel.org>; Fri, 12 Jul 2019 02:55:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5160021530
+	by mail.kernel.org (Postfix) with ESMTP id C2BC420863
 	for <linux-usb@archiver.kernel.org>; Fri, 12 Jul 2019 02:55:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729314AbfGLCzG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1729316AbfGLCzG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Thu, 11 Jul 2019 22:55:06 -0400
-Received: from gate.crashing.org ([63.228.1.57]:54469 "EHLO gate.crashing.org"
+Received: from gate.crashing.org ([63.228.1.57]:54468 "EHLO gate.crashing.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729293AbfGLCzG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1729260AbfGLCzG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Thu, 11 Jul 2019 22:55:06 -0400
 Received: from ufdda393ec48b57.ant.amazon.com (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x6C2rnGj010240;
-        Thu, 11 Jul 2019 21:54:12 -0500
+        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x6C2rnGk010240;
+        Thu, 11 Jul 2019 21:54:15 -0500
 From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
 To:     linux-usb@vger.kernel.org
 Cc:     balbi@kernel.org, Joel Stanley <joel@jms.id.au>,
         Alan Stern <stern@rowland.harvard.edu>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: [PATCH v2 08/12] usb: gadget: aspeed: Remove unused "suspended" flag
-Date:   Fri, 12 Jul 2019 12:53:44 +1000
-Message-Id: <20190712025348.21019-9-benh@kernel.crashing.org>
+Subject: [PATCH v2 09/12] usb: gadget: composite: Clear "suspended" on reset/disconnect
+Date:   Fri, 12 Jul 2019 12:53:45 +1000
+Message-Id: <20190712025348.21019-10-benh@kernel.crashing.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190712025348.21019-1-benh@kernel.crashing.org>
 References: <20190712025348.21019-1-benh@kernel.crashing.org>
@@ -37,62 +37,27 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The state bit in the hub is sufficient
+In some cases, one can get out of suspend with a reset or
+a disconnect followed by a reconnect. Previously we would
+leave a stale suspended flag set.
 
 Signed-off-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 ---
- drivers/usb/gadget/udc/aspeed-vhub/dev.c  | 4 ----
- drivers/usb/gadget/udc/aspeed-vhub/vhub.h | 1 -
- 2 files changed, 5 deletions(-)
+ drivers/usb/gadget/composite.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/dev.c b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-index 79d3cb6bd2e7..4008e7a51188 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-@@ -89,7 +89,6 @@ static void ast_vhub_dev_enable(struct ast_vhub_dev *d)
- 
- 	/* Additional cleanups */
- 	d->wakeup_en = false;
--	d->suspended = false;
- 	d->enabled = true;
- }
- 
-@@ -110,7 +109,6 @@ static void ast_vhub_dev_disable(struct ast_vhub_dev *d)
- 	writel(0, d->regs + AST_VHUB_DEV_EN_CTRL);
- 	d->gadget.speed = USB_SPEED_UNKNOWN;
- 	d->enabled = false;
--	d->suspended = false;
- }
- 
- static int ast_vhub_dev_feature(struct ast_vhub_dev *d,
-@@ -471,7 +469,6 @@ static const struct usb_gadget_ops ast_vhub_udc_ops = {
- 
- void ast_vhub_dev_suspend(struct ast_vhub_dev *d)
- {
--	d->suspended = true;
- 	if (d->driver && d->driver->suspend) {
- 		spin_unlock(&d->vhub->lock);
- 		d->driver->suspend(&d->gadget);
-@@ -481,7 +478,6 @@ void ast_vhub_dev_suspend(struct ast_vhub_dev *d)
- 
- void ast_vhub_dev_resume(struct ast_vhub_dev *d)
- {
--	d->suspended = false;
- 	if (d->driver && d->driver->resume) {
- 		spin_unlock(&d->vhub->lock);
- 		d->driver->resume(&d->gadget);
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-index 00f922604a1c..761919e220d3 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-@@ -354,7 +354,6 @@ struct ast_vhub_dev {
- 	struct usb_gadget_driver	*driver;
- 	bool				registered : 1;
- 	bool				wakeup_en : 1;
--	bool				suspended : 1;
- 	bool				enabled : 1;
- 
- 	/* Endpoint structures */
+diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
+index b8a15840b4ff..dfcabadeed01 100644
+--- a/drivers/usb/gadget/composite.c
++++ b/drivers/usb/gadget/composite.c
+@@ -1976,6 +1976,7 @@ void composite_disconnect(struct usb_gadget *gadget)
+ 	 * disconnect callbacks?
+ 	 */
+ 	spin_lock_irqsave(&cdev->lock, flags);
++	cdev->suspended = 0;
+ 	if (cdev->config)
+ 		reset_config(cdev);
+ 	if (cdev->driver->disconnect)
 -- 
 2.17.1
 
