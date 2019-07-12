@@ -4,31 +4,31 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 043CBC742A5
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Jul 2019 02:54:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E435C742A2
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Jul 2019 02:55:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D1D59214AF
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Jul 2019 02:54:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5160021530
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Jul 2019 02:55:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729112AbfGLCyG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 Jul 2019 22:54:06 -0400
-Received: from gate.crashing.org ([63.228.1.57]:54439 "EHLO gate.crashing.org"
+        id S1729314AbfGLCzG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 Jul 2019 22:55:06 -0400
+Received: from gate.crashing.org ([63.228.1.57]:54469 "EHLO gate.crashing.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729051AbfGLCyG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 11 Jul 2019 22:54:06 -0400
+        id S1729293AbfGLCzG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 11 Jul 2019 22:55:06 -0400
 Received: from ufdda393ec48b57.ant.amazon.com (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x6C2rnGe010240;
-        Thu, 11 Jul 2019 21:53:59 -0500
+        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x6C2rnGj010240;
+        Thu, 11 Jul 2019 21:54:12 -0500
 From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
 To:     linux-usb@vger.kernel.org
 Cc:     balbi@kernel.org, Joel Stanley <joel@jms.id.au>,
         Alan Stern <stern@rowland.harvard.edu>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: [PATCH v2 03/12] usb: gadget: aspeed: Fix EP0 stall handling
-Date:   Fri, 12 Jul 2019 12:53:39 +1000
-Message-Id: <20190712025348.21019-4-benh@kernel.crashing.org>
+Subject: [PATCH v2 08/12] usb: gadget: aspeed: Remove unused "suspended" flag
+Date:   Fri, 12 Jul 2019 12:53:44 +1000
+Message-Id: <20190712025348.21019-9-benh@kernel.crashing.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190712025348.21019-1-benh@kernel.crashing.org>
 References: <20190712025348.21019-1-benh@kernel.crashing.org>
@@ -37,127 +37,62 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When stalling EP0, we need to wait for an ACK interrupt,
-otherwise we may get out of sync on the next setup packet
-data phase. Also we need to ignore the direction when
-processing that interrupt as the HW reports a potential
-mismatch.
-
-Implement this by adding a stall state to EP0. This fixes
-some reported issues with mass storage and some hosts.
+The state bit in the hub is sufficient
 
 Signed-off-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 ---
- drivers/usb/gadget/udc/aspeed-vhub/ep0.c  | 48 +++++++++++++++--------
- drivers/usb/gadget/udc/aspeed-vhub/vhub.h |  1 +
- 2 files changed, 33 insertions(+), 16 deletions(-)
+ drivers/usb/gadget/udc/aspeed-vhub/dev.c  | 4 ----
+ drivers/usb/gadget/udc/aspeed-vhub/vhub.h | 1 -
+ 2 files changed, 5 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/ep0.c b/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
-index 5e4714d7febb..b64dca7933b0 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
-@@ -105,18 +105,20 @@ void ast_vhub_ep0_handle_setup(struct ast_vhub_ep *ep)
- 	       (crq.bRequestType & USB_DIR_IN) ? "in" : "out",
- 	       ep->ep0.state);
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/dev.c b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
+index 79d3cb6bd2e7..4008e7a51188 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/dev.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
+@@ -89,7 +89,6 @@ static void ast_vhub_dev_enable(struct ast_vhub_dev *d)
  
--	/* Check our state, cancel pending requests if needed */
--	if (ep->ep0.state != ep0_state_token) {
-+	/*
-+	 * Check our state, cancel pending requests if needed
-+	 *
-+	 * Note: Under some circumstances, we can get a new setup
-+	 * packet while waiting for the stall ack, just accept it.
-+	 *
-+	 * In any case, a SETUP packet in wrong state should have
-+	 * reset the HW state machine, so let's just log, nuke
-+	 * requests, move on.
-+	 */
-+	if (ep->ep0.state != ep0_state_token &&
-+	    ep->ep0.state != ep0_state_stall) {
- 		EPDBG(ep, "wrong state\n");
- 		ast_vhub_nuke(ep, -EIO);
--
--		/*
--		 * Accept the packet regardless, this seems to happen
--		 * when stalling a SETUP packet that has an OUT data
--		 * phase.
--		 */
--		ast_vhub_nuke(ep, 0);
--		goto stall;
- 	}
- 
- 	/* Calculate next state for EP0 */
-@@ -165,7 +167,7 @@ void ast_vhub_ep0_handle_setup(struct ast_vhub_ep *ep)
-  stall:
- 	EPDBG(ep, "stalling\n");
- 	writel(VHUB_EP0_CTRL_STALL, ep->ep0.ctlstat);
--	ep->ep0.state = ep0_state_status;
-+	ep->ep0.state = ep0_state_stall;
- 	ep->ep0.dir_in = false;
- 	return;
- 
-@@ -299,8 +301,8 @@ void ast_vhub_ep0_handle_ack(struct ast_vhub_ep *ep, bool in_ack)
- 		if ((ep->ep0.dir_in && (stat & VHUB_EP0_TX_BUFF_RDY)) ||
- 		    (!ep->ep0.dir_in && (stat & VHUB_EP0_RX_BUFF_RDY)) ||
- 		    (ep->ep0.dir_in != in_ack)) {
-+			/* In that case, ignore interrupt */
- 			dev_warn(dev, "irq state mismatch");
--			stall = true;
- 			break;
- 		}
- 		/*
-@@ -335,12 +337,22 @@ void ast_vhub_ep0_handle_ack(struct ast_vhub_ep *ep, bool in_ack)
- 			dev_warn(dev, "status direction mismatch\n");
- 			stall = true;
- 		}
-+		break;
-+	case ep0_state_stall:
-+		/*
-+		 * There shouldn't be any request left, but nuke just in case
-+		 * otherwise the stale request will block subsequent ones
-+		 */
-+		ast_vhub_nuke(ep, -EIO);
-+		break;
- 	}
- 
--	/* Reset to token state */
--	ep->ep0.state = ep0_state_token;
--	if (stall)
-+	/* Reset to token state or stall */
-+	if (stall) {
- 		writel(VHUB_EP0_CTRL_STALL, ep->ep0.ctlstat);
-+		ep->ep0.state = ep0_state_stall;
-+	} else
-+		ep->ep0.state = ep0_state_token;
+ 	/* Additional cleanups */
+ 	d->wakeup_en = false;
+-	d->suspended = false;
+ 	d->enabled = true;
  }
  
- static int ast_vhub_ep0_queue(struct usb_ep* u_ep, struct usb_request *u_req,
-@@ -390,8 +402,12 @@ static int ast_vhub_ep0_queue(struct usb_ep* u_ep, struct usb_request *u_req,
- 	spin_lock_irqsave(&vhub->lock, flags);
+@@ -110,7 +109,6 @@ static void ast_vhub_dev_disable(struct ast_vhub_dev *d)
+ 	writel(0, d->regs + AST_VHUB_DEV_EN_CTRL);
+ 	d->gadget.speed = USB_SPEED_UNKNOWN;
+ 	d->enabled = false;
+-	d->suspended = false;
+ }
  
- 	/* EP0 can only support a single request at a time */
--	if (!list_empty(&ep->queue) || ep->ep0.state == ep0_state_token) {
-+	if (!list_empty(&ep->queue) ||
-+	    ep->ep0.state == ep0_state_token ||
-+	    ep->ep0.state == ep0_state_stall) {
- 		dev_warn(dev, "EP0: Request in wrong state\n");
-+	        EPVDBG(ep, "EP0: list_empty=%d state=%d\n",
-+		       list_empty(&ep->queue), ep->ep0.state);
- 		spin_unlock_irqrestore(&vhub->lock, flags);
- 		return -EBUSY;
- 	}
+ static int ast_vhub_dev_feature(struct ast_vhub_dev *d,
+@@ -471,7 +469,6 @@ static const struct usb_gadget_ops ast_vhub_udc_ops = {
+ 
+ void ast_vhub_dev_suspend(struct ast_vhub_dev *d)
+ {
+-	d->suspended = true;
+ 	if (d->driver && d->driver->suspend) {
+ 		spin_unlock(&d->vhub->lock);
+ 		d->driver->suspend(&d->gadget);
+@@ -481,7 +478,6 @@ void ast_vhub_dev_suspend(struct ast_vhub_dev *d)
+ 
+ void ast_vhub_dev_resume(struct ast_vhub_dev *d)
+ {
+-	d->suspended = false;
+ 	if (d->driver && d->driver->resume) {
+ 		spin_unlock(&d->vhub->lock);
+ 		d->driver->resume(&d->gadget);
 diff --git a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-index 2e7ef387f4f0..00f922604a1c 100644
+index 00f922604a1c..761919e220d3 100644
 --- a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
 +++ b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-@@ -257,6 +257,7 @@ enum ep0_state {
- 	ep0_state_token,
- 	ep0_state_data,
- 	ep0_state_status,
-+	ep0_state_stall,
- };
+@@ -354,7 +354,6 @@ struct ast_vhub_dev {
+ 	struct usb_gadget_driver	*driver;
+ 	bool				registered : 1;
+ 	bool				wakeup_en : 1;
+-	bool				suspended : 1;
+ 	bool				enabled : 1;
  
- /*
+ 	/* Endpoint structures */
 -- 
 2.17.1
 
