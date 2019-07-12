@@ -2,135 +2,160 @@ Return-Path: <SRS0=G3IJ=VJ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB784C742A5
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Jul 2019 07:15:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D0A6C742A8
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Jul 2019 07:26:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B01152084B
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Jul 2019 07:15:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 04B3720863
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Jul 2019 07:26:46 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cB0TVUt6"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726078AbfGLHP1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 12 Jul 2019 03:15:27 -0400
-Received: from mga03.intel.com ([134.134.136.65]:29405 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725877AbfGLHP0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 12 Jul 2019 03:15:26 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Jul 2019 00:15:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,481,1557212400"; 
-   d="asc'?scan'208";a="174381080"
-Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
-  by FMSMGA003.fm.intel.com with ESMTP; 12 Jul 2019 00:15:23 -0700
-From:   Felipe Balbi <felipe.balbi@linux.intel.com>
-To:     Rob Weber <rob@gnarbox.com>
-Cc:     linux-usb@vger.kernel.org
-Subject: Re: dwc3 Disable Compliance Mode
-In-Reply-To: <20190712050139.GA28879@coops>
-References: <20190710230110.GA3188@coops> <877e8phviw.fsf@linux.intel.com> <20190712050139.GA28879@coops>
-Date:   Fri, 12 Jul 2019 10:15:19 +0300
-Message-ID: <871ryvu3js.fsf@linux.intel.com>
+        id S1726265AbfGLH0o (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 12 Jul 2019 03:26:44 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:35763 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726260AbfGLH0m (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 12 Jul 2019 03:26:42 -0400
+Received: by mail-pg1-f194.google.com with SMTP id s27so4152214pgl.2;
+        Fri, 12 Jul 2019 00:26:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=nWwViFouQwIqf+g6UOw7AyeWqZT4DAg0WEkB/L7FLMM=;
+        b=cB0TVUt6dyKb/5lupeLcQvlW5q+/B9s2ocU5oy6XlYQw3nNCRrNPrWXgqDk+X828c5
+         tvMfwQ4ASQ7PSdCF2oEB1jZPCsDexgRfg3ElMjq4N6+bJhrXVb6CJGWNSjc+DrBjAIwK
+         GQLLiLqB5a+je2oG5C6VlDl1LRrs0t2fduLKZ6iPXO2q5nYaPjyRfWtxHsT9pc3fFQ5/
+         ozW4sBTnyrIn3CBUgs7a2Z5WAfy+hTQfb699pFetLBxxZlGkT8Z03LQLKTIFmUgyqUHh
+         +Fjz+2r7mvDnX6YzatFej80xBKk9TjMahbDSXKLi4flSgiuyUl/Hp72XSnQbk3NFetBV
+         ct+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=nWwViFouQwIqf+g6UOw7AyeWqZT4DAg0WEkB/L7FLMM=;
+        b=LTdN8J7u/KB/tFm5YXAsy0ZEh1yRMmFMcVAO6BxKNCRr6nCxzm4Z2lepo3V0aK6HZ/
+         l94U/oQEjQHkmJXXutiFWOUsF3+LqjUgyLZnQbif3CsfY13wT3QsGuiQfnaHm1Kovmi+
+         SAVJC6jYiRzz+7Gxo2m4R9GsJLwuAVM2dkhn8PGOylsmT/tIxrXorPqq2lbbuX26NsKb
+         RnQFT4+Il9u6MVsUay5yZnBO6cflTai4JH2evB0cIfSu6vzV0iyY1bUB/SlyVAUCUTDZ
+         0+FV+xZlKOmyQDDkAu2Vmfw4DEaX+MciZwcEZJz4jlfzIxRTpB1ANOnNhfyT4WkP/mhy
+         WeYg==
+X-Gm-Message-State: APjAAAW94lJQecpJDL8LsqnZLN4XPDJh3PHRMAnqo9Ul0XX+EZ5RHkHv
+        0z0oSRbaD8/qAmV3XhU7z/vkQMt2QIs=
+X-Google-Smtp-Source: APXvYqz6HFxbeWNJWr/m54Pkxgp4cifA4bybur1EvREhe7MrAKgMwL+fneDTNbo/65f+WZ/+dyV1ew==
+X-Received: by 2002:a17:90a:32c7:: with SMTP id l65mr9950937pjb.1.1562916401807;
+        Fri, 12 Jul 2019 00:26:41 -0700 (PDT)
+Received: from localhost.lan (c-67-185-54-80.hsd1.wa.comcast.net. [67.185.54.80])
+        by smtp.gmail.com with ESMTPSA id c8sm13795725pjq.2.2019.07.12.00.26.40
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 12 Jul 2019 00:26:41 -0700 (PDT)
+From:   Andrey Smirnov <andrew.smirnov@gmail.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Andrey Smirnov <andrew.smirnov@gmail.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Chris Healy <cphealy@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] usb: dwc3: Use clk_bulk_prepare_enable()
+Date:   Fri, 12 Jul 2019 00:26:34 -0700
+Message-Id: <20190712072634.3107-2-andrew.smirnov@gmail.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190712072634.3107-1-andrew.smirnov@gmail.com>
+References: <20190712072634.3107-1-andrew.smirnov@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Use clk_bulk_prepare_enable() and clk_bulk_disable_unprepare() to
+simplify code a bit. No functional change intended.
 
+Signed-off-by: Andrey Smirnov <andrew.smirnov@gmail.com>
+Cc: Felipe Balbi <balbi@kernel.org>
+Cc: Chris Healy <cphealy@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+ drivers/usb/dwc3/core.c | 23 +++++------------------
+ 1 file changed, 5 insertions(+), 18 deletions(-)
 
-Hi,
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 768023a2553c..f0e0cbe9254a 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -686,8 +686,7 @@ static void dwc3_core_exit(struct dwc3 *dwc)
+ 	usb_phy_set_suspend(dwc->usb3_phy, 1);
+ 	phy_power_off(dwc->usb2_generic_phy);
+ 	phy_power_off(dwc->usb3_generic_phy);
+-	clk_bulk_disable(dwc->num_clks, dwc->clks);
+-	clk_bulk_unprepare(dwc->num_clks, dwc->clks);
++	clk_bulk_disable_unprepare(dwc->num_clks, dwc->clks);
+ 	reset_control_assert(dwc->reset);
+ }
+ 
+@@ -1451,14 +1450,10 @@ static int dwc3_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = clk_bulk_prepare(dwc->num_clks, dwc->clks);
++	ret = clk_bulk_prepare_enable(dwc->num_clks, dwc->clks);
+ 	if (ret)
+ 		goto assert_reset;
+ 
+-	ret = clk_bulk_enable(dwc->num_clks, dwc->clks);
+-	if (ret)
+-		goto unprepare_clks;
+-
+ 	if (!dwc3_core_is_valid(dwc)) {
+ 		dev_err(dwc->dev, "this is not a DesignWare USB3 DRD Core\n");
+ 		ret = -ENODEV;
+@@ -1531,9 +1526,7 @@ static int dwc3_probe(struct platform_device *pdev)
+ 	pm_runtime_disable(&pdev->dev);
+ 
+ disable_clks:
+-	clk_bulk_disable(dwc->num_clks, dwc->clks);
+-unprepare_clks:
+-	clk_bulk_unprepare(dwc->num_clks, dwc->clks);
++	clk_bulk_disable_unprepare(dwc->num_clks, dwc->clks);
+ assert_reset:
+ 	reset_control_assert(dwc->reset);
+ 
+@@ -1571,14 +1564,10 @@ static int dwc3_core_init_for_resume(struct dwc3 *dwc)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = clk_bulk_prepare(dwc->num_clks, dwc->clks);
++	ret = clk_bulk_prepare_enable(dwc->num_clks, dwc->clks);
+ 	if (ret)
+ 		goto assert_reset;
+ 
+-	ret = clk_bulk_enable(dwc->num_clks, dwc->clks);
+-	if (ret)
+-		goto unprepare_clks;
+-
+ 	ret = dwc3_core_init(dwc);
+ 	if (ret)
+ 		goto disable_clks;
+@@ -1586,9 +1575,7 @@ static int dwc3_core_init_for_resume(struct dwc3 *dwc)
+ 	return 0;
+ 
+ disable_clks:
+-	clk_bulk_disable(dwc->num_clks, dwc->clks);
+-unprepare_clks:
+-	clk_bulk_unprepare(dwc->num_clks, dwc->clks);
++	clk_bulk_disable_unprepare(dwc->num_clks, dwc->clks);
+ assert_reset:
+ 	reset_control_assert(dwc->reset);
+ 
+-- 
+2.21.0
 
-Rob Weber <rob@gnarbox.com> writes:
->> > If not, is there some mechanism we could implement to reset the
->> > dwc3 when we enter compliance mode? I attempted some sort of mechanism
->> > to reset the link state, but it does not seem to help the issue. I've
->> > attached my patch and the trace events for my attempted workaround to
->> > this email. My initial approach was to transition the link from
->> > Compliance -> SS.Disabled -> Rx.Detect when we detect we've entered
->> > compliance mode. The traces show that the dwc3 just enters LFPS.Polling
->> > and subsequently enters compliance mode, despite the link being reset.
->>=20
->> I think you would have to go through the entire Power On Reset
->> sequence, but that's likely to be flakey.
->
-> Okay, good to know. I am not confident in this approach as well because of
-> the state management / recovery we might have to perform.
->
-> I wanted to explain our goal a little bit more in depth in case some
-> other apprach might come to mind. Our product supports 3 ways in which
-> the user can work with the USB port: Host mode, Mass Storage Mode, and
-> Ethernet Mode. Host mode is pretty straightforward. Users will generally
-> work with USB mass storage devices and USB-Ethernet adapters in host
-> mode. Mass storage mode exposes an internal user data partition using
-> f_mass_storage and configfs so the user can connect our product to their
-> host computer for backing up data. Ethernet uses the f_ecm and f_rndis
-> functions creating an ethernet connection with USB hosts, particularly
-> mobile devices, to interact with our mobile applications and servers
-> through a wired connection.
->
-> We control this functionality through a userspace application written in =
-Go
-> that creates the gadget/function configuration in configfs. Given this
-> background information, are there any approaches that come to mind, such
-> as reconfiguring the gadget? Thanks in advance for your input.
-
-Not really, if it goes into compliance mode, the only way to get it out
-of there is with a power-on reset. You can't even change link state back
-to U0 as that will just tell dwc3 to walk through the compliance
-patterns :-p
-
-I think our best bet is understanding why we're transitioning to
-compliance and preventing that.
-
-One question comes to mind: Does this happen *only* with the ethernet
-gadget? Does it happen with *all* hosts or just a particular host?
-
-Any chance you can capture a full session with both CATC or Beagle 5000
-analyzer and dwc3 tracepoints and send it to me?
-
->> >           <idle>-0     [003] dNs2   184.588232: dwc3_core: Compliance =
-Mode detected. Attempting recovery routine
->>=20
->> Don't we get an interrupt for Compliance mode entry?
->
-> Not that I've seen, surprisingly. My compliance mode recovery mechanism
-> looks for both compliance mode and loopback mode, neither of which I
-> have ever seen in the link state change events.
-
-That's odd, I would expect it to still give the event. Oh well, moving
-on :-)
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl0oM4cACgkQzL64meEa
-mQaQMRAAzuY4UPkQcdf9kV973pRn0J6mq35vCl8FMvWFQHiQPTIRKA+ktFYz6qt6
-cPVuy5A5wF9f7SAC8a61/C6am0RTtWPlsTg+9lxRW1wpWt+4geSWBfr1dlH1Djse
-SfZ2Q+Bj/UHPX0W73gT8AMnaLY1TvRa+iGZJH6SrlKnX25IkIeaQgV882GDzny5G
-aTwfBhe6g2ixgI36Scsn7Ahk4d4SkVA+frgtWGgX610AH7EvGYts046XIni9Of2d
-J35nMmHvHu96suhY1RVpF4b4HLGLZYhoTjW6zpZDQm5j5fR/1ld2G9aiCuFU8gfX
-K6WtRNG0ljgWD/VwPJ6pzcCa1ybDrRu812gxfz+O555vtMycPr5RZdxM4EdNufzd
-THmQ42N35g3M20c+4RQwk1+XEFCwdO7ZA4V+fgZQKUVL86yRBGxwasgfpa70dWhO
-n3yr1IDjaE7SsLU4Wau3pNJzvhbM03op0PToDhgu51jDMkXqZi8ZQQdlPSSfTbUI
-xS8ljz+55FCc6OenEFdp2a8TPkfc7Om82h9khL64lZOTfMT1RM2eLl/E0nOS3UqC
-aDTLgSc+0VOFoogahEsNLZOxz9+ZbB8ETgSZXqdQ/22yHMCfnIpNBFSV2KyBdAFO
-ub7LsEXT7jQjq1+x75F5mYTt8RqCgcX2N5FhPusS4of+9vIbf7g=
-=5KaN
------END PGP SIGNATURE-----
---=-=-=--
