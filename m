@@ -2,121 +2,135 @@ Return-Path: <SRS0=G3IJ=VJ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EBBBC742A8
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Jul 2019 06:51:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB784C742A5
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Jul 2019 07:15:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3F2FA20863
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Jul 2019 06:51:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B01152084B
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Jul 2019 07:15:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726094AbfGLGvs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 12 Jul 2019 02:51:48 -0400
-Received: from inva020.nxp.com ([92.121.34.13]:45292 "EHLO inva020.nxp.com"
+        id S1726078AbfGLHP1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 12 Jul 2019 03:15:27 -0400
+Received: from mga03.intel.com ([134.134.136.65]:29405 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725791AbfGLGvs (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 12 Jul 2019 02:51:48 -0400
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 9F2001A0085;
-        Fri, 12 Jul 2019 08:51:45 +0200 (CEST)
-Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 078EA1A01E0;
-        Fri, 12 Jul 2019 08:51:41 +0200 (CEST)
-Received: from titan.ap.freescale.net (TITAN.ap.freescale.net [10.192.208.233])
-        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 62BA6402D5;
-        Fri, 12 Jul 2019 14:51:35 +0800 (SGT)
-From:   Ran Wang <ran.wang_1@nxp.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Felipe Balbi <balbi@kernel.org>
-Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Ran Wang <ran.wang_1@nxp.com>
-Subject: [PATCH V2 1/2] usb: dwc3: Add node to update cache type setting
-Date:   Fri, 12 Jul 2019 14:42:05 +0800
-Message-Id: <20190712064206.48249-1-ran.wang_1@nxp.com>
-X-Mailer: git-send-email 2.9.5
-X-Virus-Scanned: ClamAV using ClamSMTP
+        id S1725877AbfGLHP0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 12 Jul 2019 03:15:26 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Jul 2019 00:15:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,481,1557212400"; 
+   d="asc'?scan'208";a="174381080"
+Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
+  by FMSMGA003.fm.intel.com with ESMTP; 12 Jul 2019 00:15:23 -0700
+From:   Felipe Balbi <felipe.balbi@linux.intel.com>
+To:     Rob Weber <rob@gnarbox.com>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: dwc3 Disable Compliance Mode
+In-Reply-To: <20190712050139.GA28879@coops>
+References: <20190710230110.GA3188@coops> <877e8phviw.fsf@linux.intel.com> <20190712050139.GA28879@coops>
+Date:   Fri, 12 Jul 2019 10:15:19 +0300
+Message-ID: <871ryvu3js.fsf@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Some Layerscape paltforms (such as LS1088A, LS2088A, etc) encounter USB
-detect failues when adding dma-coherent to DWC3 node. This is because the
-HW default cache type configuration of those SoC are not right, need to
-be updated in DTS.
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ran Wang <ran.wang_1@nxp.com>
----
-Change in v2:
-	- New file.
 
- Documentation/devicetree/bindings/usb/dwc3.txt | 43 ++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+Hi,
 
-diff --git a/Documentation/devicetree/bindings/usb/dwc3.txt b/Documentation/devicetree/bindings/usb/dwc3.txt
-index 8e5265e..7bc1cef 100644
---- a/Documentation/devicetree/bindings/usb/dwc3.txt
-+++ b/Documentation/devicetree/bindings/usb/dwc3.txt
-@@ -110,6 +110,43 @@ Optional properties:
-  - in addition all properties from usb-xhci.txt from the current directory are
-    supported as well
- 
-+* Cache type nodes (optional)
-+
-+The Cache type node is used to tell how to configure cache type on 4 different
-+transfer types: Data Read, Desc Read, Data Write and Desc write. For each
-+treasfer type, controller has a 4-bit register field to enable different cache
-+type. Quoted from DWC3 data book Table 6-5 Cache Type Bit Assignments:
-+----------------------------------------------------------------
-+MBUS_TYPE| bit[3]       |bit[2]       |bit[1]     |bit[0]
-+----------------------------------------------------------------
-+AHB      |Cacheable     |Bufferable   |Privilegge |Data
-+AXI3     |Write Allocate|Read Allocate|Cacheable  |Bufferable
-+AXI4     |Allocate Other|Allocate     |Modifiable |Bufferable
-+AXI4     |Other Allocate|Allocate     |Modifiable |Bufferable
-+Native   |Same as AXI   |Same as AXI  |Same as AXI|Same as AXI
-+----------------------------------------------------------------
-+Note: The AHB, AXI3, AXI4, and PCIe busses use different names for certain
-+signals, which have the same meaning:
-+  Bufferable = Posted
-+  Cacheable = Modifiable = Snoop (negation of No Snoop)
-+
-+In most cases, this node is not required unless the default values of related
-+registers are not correct *and* DWC3 node has enabled dma-coherent. So far we
-+have observed USB device detect failure on some Layerscape platforms if this
-+programming is not conducted properly.
-+
-+Required properties:
-+- transfer_type_datard:	A value for 4-bit register which decide cache type of
-+  Data Read transfer. According to above table, we can know that different
-+  master bus type will cause different definition of cache type control bit. So
-+  developer need to know which master bus type his platforms are using in
-+  advance, then decide the value for this transfer type.
-+- transfer_type_descrd:	A value for 4-bit register which decide cache type of
-+  Desc Read transfer.
-+- transfer_type_datawr:	A value for 4-bit register which decide cache type of
-+  Data Write transfer.
-+- transfer_type_descwr:	A value for 4-bit register which decide cache type of
-+  Desc Write transfer.
- 
- This is usually a subnode to DWC3 glue to which it is connected.
- 
-@@ -119,4 +156,10 @@ dwc3@4a030000 {
- 	interrupts = <0 92 4>
- 	usb-phy = <&usb2_phy>, <&usb3,phy>;
- 	snps,incr-burst-type-adjustment = <1>, <4>, <8>, <16>;
-+	cache_type: cache_type {
-+		transfer_type_datard = <0x2>;
-+		transfer_type_descrd = <0x2>;
-+		transfer_type_datawr = <0x2>;
-+		transfer_type_descwr = <0x2>;
-+	};
- };
--- 
-2.7.4
+Rob Weber <rob@gnarbox.com> writes:
+>> > If not, is there some mechanism we could implement to reset the
+>> > dwc3 when we enter compliance mode? I attempted some sort of mechanism
+>> > to reset the link state, but it does not seem to help the issue. I've
+>> > attached my patch and the trace events for my attempted workaround to
+>> > this email. My initial approach was to transition the link from
+>> > Compliance -> SS.Disabled -> Rx.Detect when we detect we've entered
+>> > compliance mode. The traces show that the dwc3 just enters LFPS.Polling
+>> > and subsequently enters compliance mode, despite the link being reset.
+>>=20
+>> I think you would have to go through the entire Power On Reset
+>> sequence, but that's likely to be flakey.
+>
+> Okay, good to know. I am not confident in this approach as well because of
+> the state management / recovery we might have to perform.
+>
+> I wanted to explain our goal a little bit more in depth in case some
+> other apprach might come to mind. Our product supports 3 ways in which
+> the user can work with the USB port: Host mode, Mass Storage Mode, and
+> Ethernet Mode. Host mode is pretty straightforward. Users will generally
+> work with USB mass storage devices and USB-Ethernet adapters in host
+> mode. Mass storage mode exposes an internal user data partition using
+> f_mass_storage and configfs so the user can connect our product to their
+> host computer for backing up data. Ethernet uses the f_ecm and f_rndis
+> functions creating an ethernet connection with USB hosts, particularly
+> mobile devices, to interact with our mobile applications and servers
+> through a wired connection.
+>
+> We control this functionality through a userspace application written in =
+Go
+> that creates the gadget/function configuration in configfs. Given this
+> background information, are there any approaches that come to mind, such
+> as reconfiguring the gadget? Thanks in advance for your input.
 
+Not really, if it goes into compliance mode, the only way to get it out
+of there is with a power-on reset. You can't even change link state back
+to U0 as that will just tell dwc3 to walk through the compliance
+patterns :-p
+
+I think our best bet is understanding why we're transitioning to
+compliance and preventing that.
+
+One question comes to mind: Does this happen *only* with the ethernet
+gadget? Does it happen with *all* hosts or just a particular host?
+
+Any chance you can capture a full session with both CATC or Beagle 5000
+analyzer and dwc3 tracepoints and send it to me?
+
+>> >           <idle>-0     [003] dNs2   184.588232: dwc3_core: Compliance =
+Mode detected. Attempting recovery routine
+>>=20
+>> Don't we get an interrupt for Compliance mode entry?
+>
+> Not that I've seen, surprisingly. My compliance mode recovery mechanism
+> looks for both compliance mode and loopback mode, neither of which I
+> have ever seen in the link state change events.
+
+That's odd, I would expect it to still give the event. Oh well, moving
+on :-)
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl0oM4cACgkQzL64meEa
+mQaQMRAAzuY4UPkQcdf9kV973pRn0J6mq35vCl8FMvWFQHiQPTIRKA+ktFYz6qt6
+cPVuy5A5wF9f7SAC8a61/C6am0RTtWPlsTg+9lxRW1wpWt+4geSWBfr1dlH1Djse
+SfZ2Q+Bj/UHPX0W73gT8AMnaLY1TvRa+iGZJH6SrlKnX25IkIeaQgV882GDzny5G
+aTwfBhe6g2ixgI36Scsn7Ahk4d4SkVA+frgtWGgX610AH7EvGYts046XIni9Of2d
+J35nMmHvHu96suhY1RVpF4b4HLGLZYhoTjW6zpZDQm5j5fR/1ld2G9aiCuFU8gfX
+K6WtRNG0ljgWD/VwPJ6pzcCa1ybDrRu812gxfz+O555vtMycPr5RZdxM4EdNufzd
+THmQ42N35g3M20c+4RQwk1+XEFCwdO7ZA4V+fgZQKUVL86yRBGxwasgfpa70dWhO
+n3yr1IDjaE7SsLU4Wau3pNJzvhbM03op0PToDhgu51jDMkXqZi8ZQQdlPSSfTbUI
+xS8ljz+55FCc6OenEFdp2a8TPkfc7Om82h9khL64lZOTfMT1RM2eLl/E0nOS3UqC
+aDTLgSc+0VOFoogahEsNLZOxz9+ZbB8ETgSZXqdQ/22yHMCfnIpNBFSV2KyBdAFO
+ub7LsEXT7jQjq1+x75F5mYTt8RqCgcX2N5FhPusS4of+9vIbf7g=
+=5KaN
+-----END PGP SIGNATURE-----
+--=-=-=--
