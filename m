@@ -6,29 +6,29 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C718C742A2
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Jul 2019 02:55:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 658CEC742A5
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Jul 2019 02:55:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7FC4221530
-	for <linux-usb@archiver.kernel.org>; Fri, 12 Jul 2019 02:55:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 48E6D20863
+	for <linux-usb@archiver.kernel.org>; Fri, 12 Jul 2019 02:55:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729331AbfGLCzI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 11 Jul 2019 22:55:08 -0400
-Received: from gate.crashing.org ([63.228.1.57]:54475 "EHLO gate.crashing.org"
+        id S1729308AbfGLCzK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 11 Jul 2019 22:55:10 -0400
+Received: from gate.crashing.org ([63.228.1.57]:54484 "EHLO gate.crashing.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729260AbfGLCzH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 11 Jul 2019 22:55:07 -0400
+        id S1729332AbfGLCzJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 11 Jul 2019 22:55:09 -0400
 Received: from ufdda393ec48b57.ant.amazon.com (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x6C2rnGi010240;
-        Thu, 11 Jul 2019 21:54:10 -0500
+        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x6C2rnGg010240;
+        Thu, 11 Jul 2019 21:54:05 -0500
 From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
 To:     linux-usb@vger.kernel.org
 Cc:     balbi@kernel.org, Joel Stanley <joel@jms.id.au>,
         Alan Stern <stern@rowland.harvard.edu>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: [PATCH v2 07/12] usb: gadget: aspeed: Rework the reset logic
-Date:   Fri, 12 Jul 2019 12:53:43 +1000
-Message-Id: <20190712025348.21019-8-benh@kernel.crashing.org>
+Subject: [PATCH v2 05/12] usb: gadget: aspeed: Don't reject requests on suspended devices
+Date:   Fri, 12 Jul 2019 12:53:41 +1000
+Message-Id: <20190712025348.21019-6-benh@kernel.crashing.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190712025348.21019-1-benh@kernel.crashing.org>
 References: <20190712025348.21019-1-benh@kernel.crashing.org>
@@ -37,111 +37,72 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-We had some dodgy code using the speed setting to decide whether a
-port reset would reset the device or just enable it.
-
-Instead, if the device is disabled and has a gadget attached, a
-reset will enable it. If it's already enabled, a reset will
-reset it.
+A disconnect may just suspend the hub in absence of a physical
+disconnect detection. If we start rejecting requests, the mass
+storage function gets into a spin trying to requeue the same
+request for ever and hangs.
 
 Signed-off-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 ---
- drivers/usb/gadget/udc/aspeed-vhub/dev.c | 58 +++++++++++-------------
- 1 file changed, 27 insertions(+), 31 deletions(-)
+ drivers/usb/gadget/udc/aspeed-vhub/dev.c | 13 +++++++++----
+ drivers/usb/gadget/udc/aspeed-vhub/ep0.c |  2 +-
+ drivers/usb/gadget/udc/aspeed-vhub/epn.c |  2 +-
+ 3 files changed, 11 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/usb/gadget/udc/aspeed-vhub/dev.c b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-index 5f7e3b6de531..79d3cb6bd2e7 100644
+index 678bbdbd0971..71e2416858fd 100644
 --- a/drivers/usb/gadget/udc/aspeed-vhub/dev.c
 +++ b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-@@ -50,7 +50,7 @@ void ast_vhub_dev_irq(struct ast_vhub_dev *d)
+@@ -204,14 +204,19 @@ int ast_vhub_std_dev_request(struct ast_vhub_ep *ep,
+ 	u16 wValue, wIndex;
  
- static void ast_vhub_dev_enable(struct ast_vhub_dev *d)
- {
--	u32 reg, hmsk;
-+	u32 reg, hmsk, i;
- 
- 	if (d->enabled)
- 		return;
-@@ -76,6 +76,20 @@ static void ast_vhub_dev_enable(struct ast_vhub_dev *d)
- 	/* Set EP0 DMA buffer address */
- 	writel(d->ep0.buf_dma, d->regs + AST_VHUB_DEV_EP0_DATA);
- 
-+	/* Clear stall on all EPs */
-+	for (i = 0; i < AST_VHUB_NUM_GEN_EPs; i++) {
-+		struct ast_vhub_ep *ep = d->epns[i];
-+
-+		if (ep && (ep->epn.stalled || ep->epn.wedged)) {
-+			ep->epn.stalled = false;
-+			ep->epn.wedged = false;
-+			ast_vhub_update_epn_stall(ep);
-+		}
-+	}
-+
-+	/* Additional cleanups */
-+	d->wakeup_en = false;
-+	d->suspended = false;
- 	d->enabled = true;
- }
- 
-@@ -477,46 +491,28 @@ void ast_vhub_dev_resume(struct ast_vhub_dev *d)
- 
- void ast_vhub_dev_reset(struct ast_vhub_dev *d)
- {
--	/*
--	 * If speed is not set, we enable the port. If it is,
--	 * send reset to the gadget and reset "speed".
--	 *
--	 * Speed is an indication that we have got the first
--	 * setup packet to the device.
--	 */
--	if (d->gadget.speed == USB_SPEED_UNKNOWN && !d->enabled) {
--		DDBG(d, "Reset at unknown speed of disabled device, enabling...\n");
--		ast_vhub_dev_enable(d);
--		d->suspended = false;
-+	/* No driver, just disable the device and return */
-+	if (!d->driver) {
-+		ast_vhub_dev_disable(d);
-+		return;
+ 	/* No driver, we shouldn't be enabled ... */
+-	if (!d->driver || !d->enabled || d->suspended) {
++	if (!d->driver || !d->enabled) {
+ 		EPDBG(ep,
+-		      "Device is wrong state driver=%p enabled=%d"
+-		      " suspended=%d\n",
+-		      d->driver, d->enabled, d->suspended);
++		      "Device is wrong state driver=%p enabled=%d\n",
++		      d->driver, d->enabled);
+ 		return std_req_stall;
  	}
--	if (d->gadget.speed != USB_SPEED_UNKNOWN && d->driver) {
--		unsigned int i;
  
--		DDBG(d, "Reset at known speed of bound device, resetting...\n");
-+	/* If the port isn't enabled, just enable it */
-+	if (!d->enabled) {
-+		DDBG(d, "Reset of disabled device, enabling...\n");
-+		ast_vhub_dev_enable(d);
-+	} else {
-+		DDBG(d, "Reset of enabled device, resetting...\n");
- 		spin_unlock(&d->vhub->lock);
--		d->driver->reset(&d->gadget);
-+		usb_gadget_udc_reset(&d->gadget, d->driver);
- 		spin_lock(&d->vhub->lock);
++	/*
++	 * Note: we used to reject/stall requests while suspended,
++	 * we don't do that anymore as we seem to have cases of
++	 * mass storage getting very upset.
++	 */
++
+ 	/* First packet, grab speed */
+ 	if (d->gadget.speed == USB_SPEED_UNKNOWN) {
+ 		d->gadget.speed = ep->vhub->speed;
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/ep0.c b/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
+index b64dca7933b0..022b777b85f8 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
+@@ -379,7 +379,7 @@ static int ast_vhub_ep0_queue(struct usb_ep* u_ep, struct usb_request *u_req,
+ 		return -EINVAL;
  
- 		/*
--		 * Disable/re-enable HW, this will clear the address
-+		 * Disable and maybe re-enable HW, this will clear the address
- 		 * and speed setting.
- 		 */
- 		ast_vhub_dev_disable(d);
- 		ast_vhub_dev_enable(d);
--
--		/* Clear stall on all EPs */
--		for (i = 0; i < AST_VHUB_NUM_GEN_EPs; i++) {
--			struct ast_vhub_ep *ep = d->epns[i];
--
--			if (ep && ep->epn.stalled) {
--				ep->epn.stalled = false;
--				ast_vhub_update_epn_stall(ep);
--			}
--		}
--
--		/* Additional cleanups */
--		d->wakeup_en = false;
--		d->suspended = false;
+ 	/* Disabled device */
+-	if (ep->dev && (!ep->dev->enabled || ep->dev->suspended))
++	if (ep->dev && !ep->dev->enabled)
+ 		return -ESHUTDOWN;
+ 
+ 	/* Data, no buffer and not internal ? */
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/epn.c b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
+index 35941dc125f9..7475c74aa5c5 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/epn.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
+@@ -352,7 +352,7 @@ static int ast_vhub_epn_queue(struct usb_ep* u_ep, struct usb_request *u_req,
+ 
+ 	/* Endpoint enabled ? */
+ 	if (!ep->epn.enabled || !u_ep->desc || !ep->dev || !ep->d_idx ||
+-	    !ep->dev->enabled || ep->dev->suspended) {
++	    !ep->dev->enabled) {
+ 		EPDBG(ep, "Enqueuing request on wrong or disabled EP\n");
+ 		return -ESHUTDOWN;
  	}
- }
- 
 -- 
 2.17.1
 
