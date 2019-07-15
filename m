@@ -2,102 +2,122 @@ Return-Path: <SRS0=IDIm=VM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E0FAC7618D
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jul 2019 06:05:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41252C7618A
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jul 2019 06:50:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 76DAF20868
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jul 2019 06:05:57 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="wjhDRBgy"
+	by mail.kernel.org (Postfix) with ESMTP id 1711C20868
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jul 2019 06:50:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726748AbfGOGFy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Jul 2019 02:05:54 -0400
-Received: from outils.crapouillou.net ([89.234.176.41]:56402 "EHLO
-        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726425AbfGOGFy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Jul 2019 02:05:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
-        s=mail; t=1563170752; h=from:from:sender:reply-to:subject:subject:date:date:
-         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-         content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=z1MaOt0jW59xYgvE7c4XkSzT9zY9zvt+sXJ111t6oK4=;
-        b=wjhDRBgyh9wpm9oRX0H1916idSKCg0Ie8HZwIh6+VLKjzbLkSFTPT0Es6B81OLvJ3lxWu8
-        JNddxONRUczkKGDRXrB6wRxXkzafNLmBpM1ORhkdE8I1EAm0eWCWun3FDkkTPsR3tJ245f
-        y8cvtm2KBkAf1Qf5MLBYd6WSAvJduKY=
-Date:   Mon, 15 Jul 2019 02:05:40 -0400
-From:   Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH] usb: musb: Disable pullup in gadget setup
-To:     Bin Liu <b-liu@ti.com>
-Cc:     od@zcrc.me, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-Id: <1563170740.1702.0@crapouillou.net>
-In-Reply-To: <20190430150506.GF20993@uda0271908>
-References: <20190404093743.6470-1-paul@crapouillou.net>
-        <20190404161046.GA30182@uda0271908> <20190430150506.GF20993@uda0271908>
+        id S1729112AbfGOGua (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Jul 2019 02:50:30 -0400
+Received: from mga05.intel.com ([192.55.52.43]:30679 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725787AbfGOGua (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 15 Jul 2019 02:50:30 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Jul 2019 23:50:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,493,1557212400"; 
+   d="scan'208";a="187057527"
+Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
+  by fmsmga001.fm.intel.com with ESMTP; 14 Jul 2019 23:50:29 -0700
+From:   Felipe Balbi <felipe.balbi@linux.intel.com>
+To:     Rob Weber <rob@gnarbox.com>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: dwc3 Disable Compliance Mode
+In-Reply-To: <20190715060336.GB30262@coops>
+References: <20190710230110.GA3188@coops> <877e8phviw.fsf@linux.intel.com> <20190712050139.GA28879@coops> <871ryvu3js.fsf@linux.intel.com> <20190715060336.GB30262@coops>
+Date:   Mon, 15 Jul 2019 09:50:28 +0300
+Message-ID: <8736j7eqq3.fsf@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Bin,
 
+Hi,
 
-Le mar. 30 avril 2019 =E0 11:05, Bin Liu <b-liu@ti.com> a =E9crit :
-> Hi Paul,
->=20
-> On Thu, Apr 04, 2019 at 11:10:46AM -0500, Bin Liu wrote:
->>  On Thu, Apr 04, 2019 at 11:37:43AM +0200, Paul Cercueil wrote:
->>  > The pullup may be already enabled before the driver is=20
->> initialized.
->>  > It has to be disabled at init time, as we cannot guarantee that a=20
->> gadget
->>  > driver will be bound to the UDC.
->>  >
->>  > Signed-off-by: Paul Cercueil <paul@crapouillou.net>
->>  > ---
->>  >  drivers/usb/musb/musb_gadget.c | 1 +
->>  >  1 file changed, 1 insertion(+)
->>  >
->>  > diff --git a/drivers/usb/musb/musb_gadget.c=20
->> b/drivers/usb/musb/musb_gadget.c
->>  > index ffe462a657b1..094dc59c834c 100644
->>  > --- a/drivers/usb/musb/musb_gadget.c
->>  > +++ b/drivers/usb/musb/musb_gadget.c
->>  > @@ -1794,6 +1794,7 @@ int musb_gadget_setup(struct musb *musb)
->>  >
->>  >  	musb->is_active =3D 0;
->>  >  	musb_platform_try_idle(musb, 0);
->>  > +	musb_pullup(musb, 0);
->>  >
->>  >  	status =3D usb_add_gadget_udc(musb->controller, &musb->g);
->>  >  	if (status)
->>=20
->>  Applied.
->=20
-> Sorry, I have dropped this patch from my tree. I realized the gadget
-> core already defines callbacks to control the pullup. I think the
-> proper fix should be calling usb_udc_vbus_handler() in musb gadget or
-> glue layers.
->=20
-> -Bin.
+Rob Weber <rob@gnarbox.com> writes:
+>> I think our best bet is understanding why we're transitioning to
+>> compliance and preventing that.
+>> 
+>> One question comes to mind: Does this happen *only* with the ethernet
+>> gadget? Does it happen with *all* hosts or just a particular host?
+>
+> This issue does not just occur with the ethernet gadget, it also occurs
+> with the mass storage mode gadget. I'm guessing that this issue is not
+> gadget-specific. This seem to happen with all hosts as well. I tested
+> with my Dell laptop, an iPad Pro, a Macbook Pro, and a Lenovo laptop
+> running windows.
+>
+> This issue was 100% reproducible on 2 units I was testing last week
+> when I sent you the initial email. These two boards are not particularly
+> trustworthy data points: one board was from the first lot of units in
+> mass production, and there are known issues with that manufacturing
+> process that might be interfering with my testing. The other unit has
+> gone through several rounds of modifications while tuning the
+> de-emphasis and voltage swing of the SS Redriver on our design. We were
+> frequently swapping 0201 resistors around this component, so I'm
+> wondering if it was damaged? We also replaced the SoC's crystal
+> oscillator during debugging at one point. This is connected to the
+> CherryTrail's ICLK_OSCIN and ICLK_OSCOUT pins.
+>
+> I have since completed the userspace library for controlling our USB
+> role and I started testing on newer boards that were recently
+> manufactured. So far these issues are not reproducible. Mass storage
+> mdoe and ethernet mode are both working well with no compliance mode
+> issues. My current objective is to gather more data with several more
+> units to see if this is a problem we're experiencing across all units,
+> or if I just happened to be testing on two faulty units. I will keep you
+> updated on the status of this issue after collecting more data.
 
-usb_udc_vbus_handler() requires a usb_gadget *, I don't see where I can
-get that from the struct musb.
+Please do, if it happens again, let's start looking at known errata for
+the redriver. We need to understand what's causing LFPS timeout.
 
-Besides, the point is to have the pullup disabled before a gadget is=20
-bound,
-so I don't understand why you suggest that?
+>> Any chance you can capture a full session with both CATC or Beagle 5000
+>> analyzer and dwc3 tracepoints and send it to me?
+>
+> Sure thing! Please find the beagle 5000 analyzer data and dwc3
+> tracepoints attached. I'm still learning how to read the protocol
+> analyzer captures, so I'm not sure if my interpretation is correct, but
+> it looked like a bunch of unknown packets were being transmitted by the
+> device during LFPS Polling. I'm curious to know your interpretation.
 
--Paul
+Yeah, it just times out polling because of these unknown packets. I
+wonder if we can get away from it by disabling scrambling. There's a bit
+in dwc3 for that:
 
-=
+#define DWC3_GCTL_DISSCRAMBLE		BIT(3)
 
+Can you apply this hack below and see if it makes any difference?
+
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index c9bb93a2c81e..ef3646f68630 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -771,6 +771,7 @@ static void dwc3_core_setup_global_control(struct dwc3 *dwc)
+ 		reg |= DWC3_GCTL_DISSCRAMBLE;
+ 	else
+ 		reg &= ~DWC3_GCTL_DISSCRAMBLE;
++	reg |= DWC3_GCTL_DISSCRAMBLE;
+ 
+ 	if (dwc->u2exit_lfps_quirk)
+ 		reg |= DWC3_GCTL_U2EXIT_LFPS;
+
+Note that you should NOT run your product with this bit set (meaning,
+without scrambling disabled) as that will have an effect in EMI. Still,
+it may help understand if the redriver is getting confused with the
+scrambling or not.
+
+Best
+
+-- 
+balbi
