@@ -2,122 +2,127 @@ Return-Path: <SRS0=IDIm=VM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41252C7618A
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jul 2019 06:50:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F23F7C7618F
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jul 2019 10:17:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1711C20868
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jul 2019 06:50:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB41E206B8
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jul 2019 10:17:37 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iarDya1J"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729112AbfGOGua (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Jul 2019 02:50:30 -0400
-Received: from mga05.intel.com ([192.55.52.43]:30679 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725787AbfGOGua (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 15 Jul 2019 02:50:30 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Jul 2019 23:50:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,493,1557212400"; 
-   d="scan'208";a="187057527"
-Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Jul 2019 23:50:29 -0700
-From:   Felipe Balbi <felipe.balbi@linux.intel.com>
-To:     Rob Weber <rob@gnarbox.com>
-Cc:     linux-usb@vger.kernel.org
-Subject: Re: dwc3 Disable Compliance Mode
-In-Reply-To: <20190715060336.GB30262@coops>
-References: <20190710230110.GA3188@coops> <877e8phviw.fsf@linux.intel.com> <20190712050139.GA28879@coops> <871ryvu3js.fsf@linux.intel.com> <20190715060336.GB30262@coops>
-Date:   Mon, 15 Jul 2019 09:50:28 +0300
-Message-ID: <8736j7eqq3.fsf@linux.intel.com>
+        id S1729641AbfGOKRe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Jul 2019 06:17:34 -0400
+Received: from mail-ua1-f66.google.com ([209.85.222.66]:36832 "EHLO
+        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729428AbfGOKRd (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Jul 2019 06:17:33 -0400
+Received: by mail-ua1-f66.google.com with SMTP id v20so6522497uao.3;
+        Mon, 15 Jul 2019 03:17:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=DgcIwiNdH47qmFy1UXoTt6v8pvUcjELhaZQ83WLJUic=;
+        b=iarDya1JAIMHrCYlXI6PhMlRgc6ek150qGC+56H99xhylxo++Pt/kx+QSbRaq6vqkm
+         AAj6I1B5aK7BALpIM6pGBbHhhzeqr+tGRbrjEwJwCzBN5ZzhJvHb2EVT2KBs4yfJLt+x
+         Kz5X6u98oDRUAyzQL2fyexYQs3Bk/yZCAAYQk5tEIEc08MMJXAuoTyokqGiP/cJ5Yqqw
+         c5s/pZ6g3Qtf1hvoAMcz8WpAmslz9BYLFO5YwiobETQhtf7Mex62LYxXS80fIt6Orf+g
+         GXmNcj8KnoTqc3qxD7fpj0MsRdTvGnhn/qLiFxQqQ9NYXGCDnzn6MhghaJwkyhd+js4C
+         rNoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=DgcIwiNdH47qmFy1UXoTt6v8pvUcjELhaZQ83WLJUic=;
+        b=hROlFgx8cqFyTQIupauUd1zCNf/p/FiKWrvks7Y+s6ZeKcIQ9DS0BxWcxN5G5u21pR
+         /RB+vUKMCCyTsE0yEqFAgozeF9tWYaQ88rLZ5i1sXQBOYdlFqPLEN1gwfxhUqgJPsEup
+         ii64JOaKCqp7gcaHJstMt7CO9MgRNEOV22BB//vot2so/3bROJFFT7uFiV5RMBQZyLZb
+         lCFizLqSSXssKdHHUsx33BVEp1Z9PEZYIAcfn10kDz49iWY0KArzl6+fOseImc1MvEk/
+         pUUfnCp6mBN4AQuETTaqlWt8kwX/xhjKaL3CoA+bzBAVZSYwLmqUQznl5eVR/VXOYX/b
+         cK0A==
+X-Gm-Message-State: APjAAAUmnDE8QWas+sou/Dsny+Vz2jP06gv+wpUzh9+hhoMuKEGfMUe2
+        GmAW53/mXc/Vz9ElHI4AvcFpXBCNpDb2HDaYxpo=
+X-Google-Smtp-Source: APXvYqyuqhT1lnSacrPXMfkLjVFBLaZzAvCOeqLjDTCPBvjMQo1z5TTyM/ofDHL8m8ImMKvdq65hEER8t/Z5+SNC0Bw=
+X-Received: by 2002:ab0:60ad:: with SMTP id f13mr5615069uam.129.1563185852742;
+ Mon, 15 Jul 2019 03:17:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20190327164339.31205-1-heikki.krogerus@linux.intel.com> <20190327164339.31205-4-heikki.krogerus@linux.intel.com>
+In-Reply-To: <20190327164339.31205-4-heikki.krogerus@linux.intel.com>
+From:   Jun Li <lijun.kernel@gmail.com>
+Date:   Mon, 15 Jul 2019 18:17:21 +0800
+Message-ID: <CAKgpwJXu1VP8Wq5OhUrThMR+63OiM9Lstn0ycijxSLBko_+pTw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] usb: typec: mux: Use the "compatible" property
+ instead of a boolean property
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-acpi@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Hi Heikki,
 
-Hi,
-
-Rob Weber <rob@gnarbox.com> writes:
->> I think our best bet is understanding why we're transitioning to
->> compliance and preventing that.
->> 
->> One question comes to mind: Does this happen *only* with the ethernet
->> gadget? Does it happen with *all* hosts or just a particular host?
+Heikki Krogerus <heikki.krogerus@linux.intel.com> =E4=BA=8E2019=E5=B9=B43=
+=E6=9C=8828=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8A=E5=8D=8812:45=E5=86=99=E9=
+=81=93=EF=BC=9A
 >
-> This issue does not just occur with the ethernet gadget, it also occurs
-> with the mass storage mode gadget. I'm guessing that this issue is not
-> gadget-specific. This seem to happen with all hosts as well. I tested
-> with my Dell laptop, an iPad Pro, a Macbook Pro, and a Lenovo laptop
-> running windows.
+> Instead of searching for a boolean property, matching
+> against the "compatible" property.
 >
-> This issue was 100% reproducible on 2 units I was testing last week
-> when I sent you the initial email. These two boards are not particularly
-> trustworthy data points: one board was from the first lot of units in
-> mass production, and there are known issues with that manufacturing
-> process that might be interfering with my testing. The other unit has
-> gone through several rounds of modifications while tuning the
-> de-emphasis and voltage swing of the SS Redriver on our design. We were
-> frequently swapping 0201 resistors around this component, so I'm
-> wondering if it was damaged? We also replaced the SoC's crystal
-> oscillator during debugging at one point. This is connected to the
-> CherryTrail's ICLK_OSCIN and ICLK_OSCOUT pins.
+> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> ---
+>  drivers/usb/typec/mux.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
 >
-> I have since completed the userspace library for controlling our USB
-> role and I started testing on newer boards that were recently
-> manufactured. So far these issues are not reproducible. Mass storage
-> mdoe and ethernet mode are both working well with no compliance mode
-> issues. My current objective is to gather more data with several more
-> units to see if this is a problem we're experiencing across all units,
-> or if I just happened to be testing on two faulty units. I will keep you
-> updated on the status of this issue after collecting more data.
-
-Please do, if it happens again, let's start looking at known errata for
-the redriver. We need to understand what's causing LFPS timeout.
-
->> Any chance you can capture a full session with both CATC or Beagle 5000
->> analyzer and dwc3 tracepoints and send it to me?
+> diff --git a/drivers/usb/typec/mux.c b/drivers/usb/typec/mux.c
+> index 2ce54f3fc79c..9462b90f1c09 100644
+> --- a/drivers/usb/typec/mux.c
+> +++ b/drivers/usb/typec/mux.c
+> @@ -32,11 +32,7 @@ static void *typec_switch_match(struct device_connecti=
+on *con, int ep,
+>                 return ERR_PTR(-EPROBE_DEFER);
+>         }
 >
-> Sure thing! Please find the beagle 5000 analyzer data and dwc3
-> tracepoints attached. I'm still learning how to read the protocol
-> analyzer captures, so I'm not sure if my interpretation is correct, but
-> it looked like a bunch of unknown packets were being transmitted by the
-> device during LFPS Polling. I'm curious to know your interpretation.
+> -       /*
+> -        * With OF graph the mux node must have a boolean device property=
+ named
+> -        * "orientation-switch".
+> -        */
+> -       if (con->id && !fwnode_property_present(con->fwnode, con->id))
+> +       if (con->id && !fwnode_is_compatible(con->fwnode, con->id))
 
-Yeah, it just times out polling because of these unknown packets. I
-wonder if we can get away from it by disabling scrambling. There's a bit
-in dwc3 for that:
+This is still the right approach for orientation switch match, right?
 
-#define DWC3_GCTL_DISSCRAMBLE		BIT(3)
-
-Can you apply this hack below and see if it makes any difference?
-
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index c9bb93a2c81e..ef3646f68630 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -771,6 +771,7 @@ static void dwc3_core_setup_global_control(struct dwc3 *dwc)
- 		reg |= DWC3_GCTL_DISSCRAMBLE;
- 	else
- 		reg &= ~DWC3_GCTL_DISSCRAMBLE;
-+	reg |= DWC3_GCTL_DISSCRAMBLE;
- 
- 	if (dwc->u2exit_lfps_quirk)
- 		reg |= DWC3_GCTL_U2EXIT_LFPS;
-
-Note that you should NOT run your product with this bit set (meaning,
-without scrambling disabled) as that will have an effect in EMI. Still,
-it may help understand if the redriver is getting confused with the
-scrambling or not.
-
-Best
-
--- 
-balbi
+Li Jun
+>                 return NULL;
+>
+>         list_for_each_entry(sw, &switch_list, entry)
+> @@ -148,7 +144,7 @@ static void *typec_mux_match(struct device_connection=
+ *con, int ep, void *data)
+>
+>         /* Accessory Mode muxes */
+>         if (!desc) {
+> -               match =3D fwnode_property_present(con->fwnode, "accessory=
+");
+> +               match =3D fwnode_is_compatible(con->fwnode, "accessory");
+>                 if (match)
+>                         goto find_mux;
+>                 return NULL;
+> --
+> 2.20.1
+>
