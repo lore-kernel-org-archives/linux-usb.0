@@ -2,113 +2,60 @@ Return-Path: <SRS0=IDIm=VM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C443CC7618F
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jul 2019 15:08:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 115F5C7618F
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jul 2019 15:16:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9C68C2054F
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jul 2019 15:08:39 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SNM/YzFI"
+	by mail.kernel.org (Postfix) with ESMTP id DB0722054F
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jul 2019 15:16:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388012AbfGOPIc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Jul 2019 11:08:32 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:34044 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733203AbfGOPIb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Jul 2019 11:08:31 -0400
-Received: by mail-pf1-f193.google.com with SMTP id b13so7559529pfo.1;
-        Mon, 15 Jul 2019 08:08:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=HvGFiXKIMoJHRgRPv+CNGx82/V4N9NKuA2a2k2xvyEI=;
-        b=SNM/YzFIofldJvXGWAsN2gKzBBedbJuHXOK2bg8FuKyDmVMINV9tWuGaOU6IWVavL2
-         1UVVsFWjaS+FxTXEI/r2C81HaGqZApODK2QkrBTs2GFeADPqMO6XVJ390ilEF9fX9OwR
-         g0x6GT4nvvt5AQiiaFvEBDFSYIPQi2VWOVILJ6Irpc1NnuADpqMyO3tnYBIDwd4FIYon
-         WCE9046IBxjH3Uj+vy3olu6Zn66GP6E7Q26p1i7shDmBhnh9MoVoCcoXZgTVhqdgwcG5
-         fjqviZbtLeGPaQ/XbWVLvnQKR2S3qdg+Z2/X87fhnwaua/2+6k2ATsW09NjIV7guMQxh
-         GtGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=HvGFiXKIMoJHRgRPv+CNGx82/V4N9NKuA2a2k2xvyEI=;
-        b=FDemJw+be0Kg65wU67pPs0ql0DbU44QqbGwJA+Zd5dMgMsSdvLMfEM2dCU8gmjo6dj
-         Y7oFyb4jxdNIyRZZJZLqFbdNtJWpmr29zBptDxwQ6dyb+xEegUOSYUkLMc1jSU3I8HVx
-         91LAg0+fJwI8ML5L8j/D2xxrzLKccfklqLIh/1HhrzNKA7+PiafJ1jP+AxvI+pD+Ad6c
-         0yby2OCKiGWNpxclOmGMh51EXzl1mV40x4tIZChnXljUTtCzQZusDggO6otOERIosASj
-         w/jfA73k1ae0CpKWKk7WznONN0TrRy3Q4+xZ8uO5npqZhp9TyErNaVcC8HILtnDL8d7E
-         Va0w==
-X-Gm-Message-State: APjAAAVwvc/LFbSbeH4gijGEeMah6EB0tnzP8Pb19fyJ1jXd9dg46w3E
-        wx9PFEaQMVs+YeUlYE9SN/c=
-X-Google-Smtp-Source: APXvYqwhh1jY/TQpZyLTr7OKyrCoZOc6rJCUkSPPoEOkGW73rwzgzUaZc6OeiL+iMEX9bVsQi8AIeA==
-X-Received: by 2002:a63:10a:: with SMTP id 10mr27855904pgb.281.1563203310244;
-        Mon, 15 Jul 2019 08:08:30 -0700 (PDT)
-Received: from debian.net.fpt ([2405:4800:58c7:392e:98e4:a492:ad40:d86e])
-        by smtp.gmail.com with ESMTPSA id b37sm33284969pjc.15.2019.07.15.08.08.24
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Jul 2019 08:08:29 -0700 (PDT)
-From:   Phong Tran <tranmanphong@gmail.com>
-To:     syzbot+8750abbc3a46ef47d509@syzkaller.appspotmail.com
-Cc:     isdn@linux-pingi.de, davem@davemloft.net,
-        gregkh@linuxfoundation.org, andreyknvl@google.com,
-        bigeasy@linutronix.de, gustavo@embeddedor.com, pakki001@umn.edu,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com, netdev@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        skhan@linuxfoundation.org, Phong Tran <tranmanphong@gmail.com>
-Subject: [PATCH] ISDN: hfcsusb: checking idx of ep configuration
-Date:   Mon, 15 Jul 2019 22:08:14 +0700
-Message-Id: <20190715150814.20022-1-tranmanphong@gmail.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <000000000000f2b23d05868310f9@google.com>
-References: <000000000000f2b23d05868310f9@google.com>
+        id S1730824AbfGOPQl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Jul 2019 11:16:41 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:43786 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1730221AbfGOPQl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Jul 2019 11:16:41 -0400
+Received: (qmail 5441 invoked by uid 2102); 15 Jul 2019 11:16:39 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 15 Jul 2019 11:16:39 -0400
+Date:   Mon, 15 Jul 2019 11:16:39 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     "Theodore Y. Ts'o" <tytso@mit.edu>
+cc:     gregkh@linuxfoundation.org, USB list <linux-usb@vger.kernel.org>,
+        <bugzilla-daemon@bugzilla.kernel.org>
+Subject: Re: [bugzilla-daemon@bugzilla.kernel.org: [Bug 204095] New: freeze
+ while write on external usb 3.0 hard disk]
+In-Reply-To: <20190715021543.GB12214@mit.edu>
+Message-ID: <Pine.LNX.4.44L0.1907151108580.1465-100000@iolanthe.rowland.org>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The syzbot test with random endpoint address which made the idx is
-overflow in the table of endpoint configuations.
+On Sun, 14 Jul 2019, Theodore Y. Ts'o wrote:
 
-this adds the checking for fixing the error report from
-syzbot
+> This bug was initially (and wrongly) assigned to the ext4 component,
+> when it's very clearly a regression in the USB mass storage driver in
+> the 5.2.0 kernel.
+> 
+> For people who hate bugzilla, you can also see the full thread at:
+> 
+> https://lore.kernel.org/linux-ext4/bug-204095-13602@https.bugzilla.kernel.org%2F/T/#ra57c95759df5bee542d85f2541bda87735c09f16
 
-KASAN: stack-out-of-bounds Read in hfcsusb_probe [1]
-The patch tested by syzbot [2]
+I'm not so sure it's a regression in the USB mass-storage driver, but
+in any case, it looks very much like the problem fixed by this patch 
+(not yet merged):
 
-Reported-by: syzbot+8750abbc3a46ef47d509@syzkaller.appspotmail.com
+	https://marc.info/?l=linux-usb&m=156044081619171&w=2
 
-[1]:
-https://syzkaller.appspot.com/bug?id=30a04378dac680c5d521304a00a86156bb913522
-[2]:
-https://groups.google.com/d/msg/syzkaller-bugs/_6HBdge8F3E/OJn7wVNpBAAJ
+Maybe the original bug reporters can try it out and tell us if it 
+works.
 
-Signed-off-by: Phong Tran <tranmanphong@gmail.com>
----
- drivers/isdn/hardware/mISDN/hfcsusb.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/isdn/hardware/mISDN/hfcsusb.c b/drivers/isdn/hardware/mISDN/hfcsusb.c
-index 4c99739b937e..0e224232f746 100644
---- a/drivers/isdn/hardware/mISDN/hfcsusb.c
-+++ b/drivers/isdn/hardware/mISDN/hfcsusb.c
-@@ -1955,6 +1955,9 @@ hfcsusb_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 
- 				/* get endpoint base */
- 				idx = ((ep_addr & 0x7f) - 1) * 2;
-+				if (idx > 15)
-+					return -EIO;
-+
- 				if (ep_addr & 0x80)
- 					idx++;
- 				attr = ep->desc.bmAttributes;
--- 
-2.11.0
+Alan Stern
 
