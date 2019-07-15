@@ -6,31 +6,32 @@ X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 115F5C7618F
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jul 2019 15:16:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF1BDC7618F
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jul 2019 17:47:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DB0722054F
-	for <linux-usb@archiver.kernel.org>; Mon, 15 Jul 2019 15:16:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A515F205C9
+	for <linux-usb@archiver.kernel.org>; Mon, 15 Jul 2019 17:47:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730824AbfGOPQl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 15 Jul 2019 11:16:41 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:43786 "HELO
+        id S1731733AbfGORrq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 15 Jul 2019 13:47:46 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:44094 "HELO
         iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1730221AbfGOPQl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Jul 2019 11:16:41 -0400
-Received: (qmail 5441 invoked by uid 2102); 15 Jul 2019 11:16:39 -0400
+        with SMTP id S1731278AbfGORrp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 15 Jul 2019 13:47:45 -0400
+Received: (qmail 6927 invoked by uid 2102); 15 Jul 2019 13:47:44 -0400
 Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 15 Jul 2019 11:16:39 -0400
-Date:   Mon, 15 Jul 2019 11:16:39 -0400 (EDT)
+  by localhost with SMTP; 15 Jul 2019 13:47:44 -0400
+Date:   Mon, 15 Jul 2019 13:47:44 -0400 (EDT)
 From:   Alan Stern <stern@rowland.harvard.edu>
 X-X-Sender: stern@iolanthe.rowland.org
-To:     "Theodore Y. Ts'o" <tytso@mit.edu>
-cc:     gregkh@linuxfoundation.org, USB list <linux-usb@vger.kernel.org>,
-        <bugzilla-daemon@bugzilla.kernel.org>
+To:     Greg KH <greg@kroah.com>, John Yost <alleytrotter@gmail.com>
+cc:     "Theodore Y. Ts'o" <tytso@mit.edu>,
+        <bugzilla-daemon@bugzilla.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>
 Subject: Re: [bugzilla-daemon@bugzilla.kernel.org: [Bug 204095] New: freeze
  while write on external usb 3.0 hard disk]
-In-Reply-To: <20190715021543.GB12214@mit.edu>
-Message-ID: <Pine.LNX.4.44L0.1907151108580.1465-100000@iolanthe.rowland.org>
+In-Reply-To: <84b75d5f-b636-2f6e-3292-8133854bd6dd@gmail.com>
+Message-ID: <Pine.LNX.4.44L0.1907151345200.1465-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
@@ -38,24 +39,40 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, 14 Jul 2019, Theodore Y. Ts'o wrote:
+On Mon, 15 Jul 2019, John Yost wrote:
 
-> This bug was initially (and wrongly) assigned to the ext4 component,
-> when it's very clearly a regression in the USB mass storage driver in
-> the 5.2.0 kernel.
+> On 7/15/19 11:16 AM, Alan Stern wrote:
+> > On Sun, 14 Jul 2019, Theodore Y. Ts'o wrote:
+> > 
+> >> This bug was initially (and wrongly) assigned to the ext4 component,
+> >> when it's very clearly a regression in the USB mass storage driver in
+> >> the 5.2.0 kernel.
+> >>
+> >> For people who hate bugzilla, you can also see the full thread at:
+> >>
+> >> https://lore.kernel.org/linux-ext4/bug-204095-13602@https.bugzilla.kernel.org%2F/T/#ra57c95759df5bee542d85f2541bda87735c09f16
+> > 
+> > I'm not so sure it's a regression in the USB mass-storage driver, but
+> > in any case, it looks very much like the problem fixed by this patch 
+> > (not yet merged):
+> > 
+> > 	https://marc.info/?l=linux-usb&m=156044081619171&w=2
+> > 
+> > Maybe the original bug reporters can try it out and tell us if it 
+> > works.
+> > 
+> > Alan Stern
+> > 
 > 
-> For people who hate bugzilla, you can also see the full thread at:
 > 
-> https://lore.kernel.org/linux-ext4/bug-204095-13602@https.bugzilla.kernel.org%2F/T/#ra57c95759df5bee542d85f2541bda87735c09f16
+> Thanks for the patch
+> It works for me on 5.2.1
+> John
 
-I'm not so sure it's a regression in the USB mass-storage driver, but
-in any case, it looks very much like the problem fixed by this patch 
-(not yet merged):
+Okay, good.
 
-	https://marc.info/?l=linux-usb&m=156044081619171&w=2
-
-Maybe the original bug reporters can try it out and tell us if it 
-works.
+Greg, it looks like we need to expedite getting this patch into the 
+mainline.
 
 Alan Stern
 
