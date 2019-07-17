@@ -2,113 +2,96 @@ Return-Path: <SRS0=xQy5=VO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3214C76186
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Jul 2019 13:33:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 161D4C76195
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Jul 2019 16:13:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9435020818
-	for <linux-usb@archiver.kernel.org>; Wed, 17 Jul 2019 13:33:40 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RZJKUY5v"
+	by mail.kernel.org (Postfix) with ESMTP id EF7EB2173E
+	for <linux-usb@archiver.kernel.org>; Wed, 17 Jul 2019 16:13:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726085AbfGQNdk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 17 Jul 2019 09:33:40 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:36736 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725906AbfGQNdj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 17 Jul 2019 09:33:39 -0400
-Received: by mail-pg1-f196.google.com with SMTP id l21so11184599pgm.3
-        for <linux-usb@vger.kernel.org>; Wed, 17 Jul 2019 06:33:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=cxHPMiG+WqmnI0H/Wq3+yKNSQIJxv1cJctwHZp3FbeQ=;
-        b=RZJKUY5vjwb/l8Aj8uYOql3b2hszH4I57qqflA+jRiL9b6IXmWroS6ACBnidp7CbPC
-         I5y0eJi1z3Yf8Aalislk2h9AggLx6m8jxYc6dhBryrmNCnr5t2LlOhsf/gT6jonDOvtJ
-         Eph4EdDZw7tiasAX59WI6zGNPx9fWNqbYkIU3zrFawz++CuDJJ620K1vPUyBWdcWg/BV
-         rZzWTjfu+icFcb6fbwSANJs9JGb6t5f8wNueEyZX26dbRf1oZ+f4TJq+bTiiwW1bwIEK
-         VG7z7smN4iT1+YEF/7I1m5RsXFgvQjhZ4vNQbyDS3sLE3tEzeAZo8eZBuzuhWRNEykeP
-         jDPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=cxHPMiG+WqmnI0H/Wq3+yKNSQIJxv1cJctwHZp3FbeQ=;
-        b=tm1GdEs4L83nq3zRxrWRJOwDyTCwnMbYf6f2IUCA5HOHO2VqBtrCtajBCFy54KZyIl
-         yBerwqwa848bdFs/Q/2YPFy2lNiL8GhVbeUFMFjyXUtIvky7QSBLuIHVn2KpUNzb1K2H
-         1tTNCY45aGEVSuFCep0/+WeRPaNTQB4cUJLKcCyT2StHb06CZ1ITWKfy3AtmTo+fhHMI
-         INMc1Qp1VSG2zRPJRdsXpjgXZvdUs+h6uGCEhHQqxvP+Zwt0vsBuPHlOf/otOEJIYKPc
-         Ul0zdrruXA0NXBAKF/PZ7ImRAF+KmMmRJo+o6EBDqWJE3a4ls2+GCX4doS3cz5tlZUfF
-         jOnQ==
-X-Gm-Message-State: APjAAAW0GpoHgXaC4zHsO5ci/whfU55uB0HhrbdTO3a+Hdl0EfpL3wMi
-        KXLJxlK9DfunZn2pXyXkxZo=
-X-Google-Smtp-Source: APXvYqx/HbRYJWrtqKSsvIhVK+OOLpZkfr26REhoh0zGnBQ1z504nyZK0slvhOGnRh3+caYqTzWf3Q==
-X-Received: by 2002:a17:90a:35e6:: with SMTP id r93mr44242492pjb.20.1563370419282;
-        Wed, 17 Jul 2019 06:33:39 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 21sm22594696pjh.25.2019.07.17.06.33.38
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 17 Jul 2019 06:33:38 -0700 (PDT)
-Subject: Re: [PATCH 2/2] usb: typec: tcpm: remove tcpm dir if no children
-To:     jun.li@nxp.com, heikki.krogerus@linux.intel.com
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-imx@nxp.com
-References: <20190717080646.30421-1-jun.li@nxp.com>
- <20190717080646.30421-2-jun.li@nxp.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <2a9f2e6e-e497-e141-801f-c18224017524@roeck-us.net>
-Date:   Wed, 17 Jul 2019 06:33:37 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1727215AbfGQQNw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 17 Jul 2019 12:13:52 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:47694 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726620AbfGQQNu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 17 Jul 2019 12:13:50 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id BBF80605C121F65CC65C;
+        Thu, 18 Jul 2019 00:13:46 +0800 (CST)
+Received: from localhost (10.202.226.61) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Thu, 18 Jul 2019
+ 00:13:42 +0800
+Date:   Wed, 17 Jul 2019 17:13:20 +0100
+From:   Jonathan Cameron <jonathan.cameron@huawei.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+CC:     <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        "Len Brown" <lenb@kernel.org>, Jonathan Cameron <jic23@kernel.org>,
+        "Hartmut Knaack" <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        "Peter Meerwald-Stadler" <pmeerw@pmeerw.net>,
+        Peter Rosin <peda@axentia.se>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        "Maxime Coquelin" <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
+        "Frederic Barrat" <fbarrat@linux.ibm.com>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Juergen Gross <jgross@suse.com>,
+        "Stefano Stabellini" <sstabellini@kernel.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Richard Cochran <richardcochran@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-acpi@vger.kernel.org>,
+        <linux-iio@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <linux-pm@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <xen-devel@lists.xenproject.org>,
+        <linux-mm@kvack.org>, <netdev@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v4 13/15] docs: ABI: testing: make the files compatible
+ with ReST output
+Message-ID: <20190717171320.000035c2@huawei.com>
+In-Reply-To: <88d15fa38167e3f2e73e65e1c1a1f39bca0267b4.1563365880.git.mchehab+samsung@kernel.org>
+References: <cover.1563365880.git.mchehab+samsung@kernel.org>
+        <88d15fa38167e3f2e73e65e1c1a1f39bca0267b4.1563365880.git.mchehab+samsung@kernel.org>
+Organization: Huawei
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-In-Reply-To: <20190717080646.30421-2-jun.li@nxp.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.226.61]
+X-CFilter-Loop: Reflected
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 7/17/19 1:06 AM, jun.li@nxp.com wrote:
-> From: Li Jun <jun.li@nxp.com>
-> 
-> If config tcpm as module, module unload will not remove tcpm dir,
-> then the next module load will have problem: the rootdir is NULL
-> but tcpm dir is still there, so tcpm_debugfs_init() will create
-> tcpm dir again with failure, fix it by remove the tcpm dir if no
-> children.
-> 
-> Cc: stable@vger.kernel.org # v4.15+
-> Fixes: 4b4e02c83167 ("typec: tcpm: Move out of staging")
-> Signed-off-by: Li Jun <jun.li@nxp.com>
+On Wed, 17 Jul 2019 09:28:17 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+> Some files over there won't parse well by Sphinx.
+> 
+> Fix them.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Hi Mauro,
 
-> ---
->   drivers/usb/typec/tcpm/tcpm.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 1249d8e..86e4552 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -596,6 +596,10 @@ static void tcpm_debugfs_exit(struct tcpm_port *port)
->   	mutex_unlock(&port->logbuffer_lock);
->   
->   	debugfs_remove(port->dentry);
-> +	if (list_empty(&rootdir->d_subdirs)) {
-> +		debugfs_remove(rootdir);
-> +		rootdir = NULL;
-> +	}
->   }
->   
->   #else
-> 
+Does feel like this one should perhaps have been broken up a touch!
+
+For the IIO ones I've eyeballed it rather than testing the results
+
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
 
