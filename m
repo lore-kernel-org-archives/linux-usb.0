@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1DEAC76188
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Jul 2019 04:18:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E39BC76195
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Jul 2019 04:21:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9B15D2084C
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Jul 2019 04:18:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 338972082F
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Jul 2019 04:21:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1563509931;
-	bh=iSw7sUSYt7Lb6X+rkSUm5CuvD5FJgG9fhc7IvQtDvSg=;
+	s=default; t=1563510111;
+	bh=skukp9pkbDHrrkx1VtW5WSGMpvG9y57EL40YqN6YdKU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=fh5w6ZxrdrZUbyq4dl0dz8/sSPm6jbQW+55mxOnbBx06oG9Q4+nPCnpJEXWckU1GD
-	 uzKl8Ang6TfMtIQTwqWoaPyqZZFUTOnyNjXLzG0kvgEk4imfioRe3vkOGTyBqOUwzI
-	 zWuouOY+R6OEnxZNNlCn3GcMj5WutiSs1G9DGlXE=
+	b=uCP6QT1OHDgG5c+2RHrbtZqbJGyNucYxM914KeKwYGHPMUKOpu4mEzBoxoQeowmPc
+	 Zhem80KuCWFOwrawtwNUMbFl0OHA/FigHvoLKBGyicQQAAFHqvJuHgY7AWQEZfEdHA
+	 RK0sNKqa4baL1P7GXhQ0swuTof4Zs1YGsYRV5abQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389721AbfGSESr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 19 Jul 2019 00:18:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49526 "EHLO mail.kernel.org"
+        id S1733229AbfGSEVn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 19 Jul 2019 00:21:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46812 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389264AbfGSENc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 19 Jul 2019 00:13:32 -0400
+        id S1733139AbfGSELq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 19 Jul 2019 00:11:46 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 57C822082F;
-        Fri, 19 Jul 2019 04:13:31 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E31A12189D;
+        Fri, 19 Jul 2019 04:11:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563509612;
-        bh=iSw7sUSYt7Lb6X+rkSUm5CuvD5FJgG9fhc7IvQtDvSg=;
+        s=default; t=1563509505;
+        bh=skukp9pkbDHrrkx1VtW5WSGMpvG9y57EL40YqN6YdKU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lR1L1o8aVHk56liVrCFfmF+w1OBugTYa8i0TMkY/DEULH7fKsaj3YjtoX3k/3yZ9k
-         BWAwhALNEOAczgfrQ1jxiLYGNoyI2LDAOdHlRGdbVLovW3WtfU9WjTsKU4kwCVOIoO
-         +0hXPqcMHL8/WAW7QqQzXKE93fu49PUw2qAeldR8=
+        b=cCqGixxCDq1R+oNgmtGt+dvXl7cSoXAmwa4+BBgR2u2GUE1FXaWCjK6G71HYfzQNn
+         zBrbWbHpqhYmPxcb2w028liZLF0tSV8d8KiBYgD1ajLah3un96J4uaB/E6u/ef43nv
+         iX1PkMAjfM3+XPu/HfyB6iEvL6roBp9XYsEJE6rQ=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
         Felipe Balbi <felipe.balbi@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 17/45] usb: gadget: Zero ffs_io_data
-Date:   Fri, 19 Jul 2019 00:12:36 -0400
-Message-Id: <20190719041304.18849-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 21/60] usb: gadget: Zero ffs_io_data
+Date:   Fri, 19 Jul 2019 00:10:30 -0400
+Message-Id: <20190719041109.18262-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190719041304.18849-1-sashal@kernel.org>
-References: <20190719041304.18849-1-sashal@kernel.org>
+In-Reply-To: <20190719041109.18262-1-sashal@kernel.org>
+References: <20190719041109.18262-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -78,10 +78,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index 927ac0ee09b7..d1278d2d544b 100644
+index 79900c0b4f3a..cdffbe999500 100644
 --- a/drivers/usb/gadget/function/f_fs.c
 +++ b/drivers/usb/gadget/function/f_fs.c
-@@ -1101,11 +1101,12 @@ static ssize_t ffs_epfile_write_iter(struct kiocb *kiocb, struct iov_iter *from)
+@@ -1102,11 +1102,12 @@ static ssize_t ffs_epfile_write_iter(struct kiocb *kiocb, struct iov_iter *from)
  	ENTER();
  
  	if (!is_sync_kiocb(kiocb)) {
@@ -95,7 +95,7 @@ index 927ac0ee09b7..d1278d2d544b 100644
  		p->aio = false;
  	}
  
-@@ -1137,11 +1138,12 @@ static ssize_t ffs_epfile_read_iter(struct kiocb *kiocb, struct iov_iter *to)
+@@ -1138,11 +1139,12 @@ static ssize_t ffs_epfile_read_iter(struct kiocb *kiocb, struct iov_iter *to)
  	ENTER();
  
  	if (!is_sync_kiocb(kiocb)) {
