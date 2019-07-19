@@ -2,122 +2,148 @@ Return-Path: <SRS0=BVoo=VQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35850C76195
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Jul 2019 12:27:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F247C7618F
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Jul 2019 16:30:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0ED1C2184E
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Jul 2019 12:27:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5E47E21872
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Jul 2019 16:30:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="i+yvDK9D"
+	dkim=pass (1024-bit key) header.d=microchiptechnology.onmicrosoft.com header.i=@microchiptechnology.onmicrosoft.com header.b="zkTDfDPw"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728214AbfGSM1Q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 19 Jul 2019 08:27:16 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:57240 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727552AbfGSM1Q (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 19 Jul 2019 08:27:16 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x6JCRCNo066325;
-        Fri, 19 Jul 2019 07:27:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1563539232;
-        bh=C15ifLtTMW9RCLd4ICeuIimwJTRxzJ3T1kPA7gs2at4=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=i+yvDK9DowbNnToFTY2uhYAJFMgC9FT/7LU+DEsyksjJMyP7FwphYoe1o5U02HSaN
-         0evBtBW23LW+BU10aPFaNcHvagrNmYAvVTm2bm/jT/mCGCKAS3qiyNN1G3fYs31iAG
-         5q3DRtiM5dWpYD+J4PyElilDtWbLKN4J8dNMqsTg=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x6JCRCuq044990
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 19 Jul 2019 07:27:12 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 19
- Jul 2019 07:27:11 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 19 Jul 2019 07:27:11 -0500
-Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x6JCR98S005093;
-        Fri, 19 Jul 2019 07:27:10 -0500
-Subject: Re: [PATCH] phy: core: document calibrate() method
-To:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        <linux-usb@vger.kernel.org>, <linux-samsung-soc@vger.kernel.org>
-CC:     <linux-kernel@vger.kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-References: <CGME20190719095254eucas1p29c9e6c7aac20cf89b589fd2f2036c485@eucas1p2.samsung.com>
- <20190719095245.17401-1-m.szyprowski@samsung.com>
- <085b8093-d7bc-d960-f0d8-8776818ebab0@ti.com>
- <1865da50-000f-e235-4090-1058d2aa217b@samsung.com>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <6345ff36-9ee3-fe41-e416-a1178087b2c7@ti.com>
-Date:   Fri, 19 Jul 2019 17:55:30 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <1865da50-000f-e235-4090-1058d2aa217b@samsung.com>
-Content-Type: text/plain; charset="utf-8"
+        id S1728956AbfGSQaW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 19 Jul 2019 12:30:22 -0400
+Received: from esa5.microchip.iphmx.com ([216.71.150.166]:2837 "EHLO
+        esa5.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727577AbfGSQaW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 19 Jul 2019 12:30:22 -0400
+Received-SPF: Pass (esa5.microchip.iphmx.com: domain of
+  Woojung.Huh@microchip.com designates 198.175.253.82 as
+  permitted sender) identity=mailfrom;
+  client-ip=198.175.253.82; receiver=esa5.microchip.iphmx.com;
+  envelope-from="Woojung.Huh@microchip.com";
+  x-sender="Woojung.Huh@microchip.com"; x-conformance=spf_only;
+  x-record-type="v=spf1"; x-record-text="v=spf1 mx
+  a:ushub1.microchip.com a:smtpout.microchip.com
+  a:mx1.microchip.iphmx.com a:mx2.microchip.iphmx.com
+  include:servers.mcsv.net include:mktomail.com
+  include:spf.protection.outlook.com ~all"
+Received-SPF: None (esa5.microchip.iphmx.com: no sender
+  authenticity information available from domain of
+  postmaster@email.microchip.com) identity=helo;
+  client-ip=198.175.253.82; receiver=esa5.microchip.iphmx.com;
+  envelope-from="Woojung.Huh@microchip.com";
+  x-sender="postmaster@email.microchip.com";
+  x-conformance=spf_only
+Authentication-Results: esa5.microchip.iphmx.com; spf=Pass smtp.mailfrom=Woojung.Huh@microchip.com; spf=None smtp.helo=postmaster@email.microchip.com; dkim=pass (signature verified) header.i=@microchiptechnology.onmicrosoft.com; dmarc=pass (p=none dis=none) d=microchip.com
+IronPort-SDR: Pd3SpoSWCZNc1ql8bM9WKK+WlsPFS/qpJysAO39n7a5RwmCJCKZs8S600sp7UwUbIt8gjwhnKY
+ 8N4lpHflv3/UyMhd31c+ZaYTVLpuLYo0+iBaF5SOa/1zflKYYGE0KMJj+AL8W7PM1a3PA/w/BD
+ P+FvDl5EjH25HVJPIvgci/a2z08G3ua4dkWtVLDS0ERgrNKGh+r7goTer6nhSlv0OHYsbK/0ll
+ W+b1iiZCoAbvqfibprBC3JkwcCFpM+GFdE2z6YeVFbzYUTUOpsjPYT3QUFL4skAK7ITdeICiQd
+ AQY=
+X-IronPort-AV: E=Sophos;i="5.64,283,1559545200"; 
+   d="scan'208";a="40365325"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 19 Jul 2019 09:30:22 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
+ chn-vm-ex01.mchp-main.com (10.10.87.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 19 Jul 2019 09:30:20 -0700
+Received: from NAM04-SN1-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.72) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5 via Frontend
+ Transport; Fri, 19 Jul 2019 09:30:20 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fOQpF0JvIE8yz8GvMGfefPcfINi8AItHe/P70LDquj/RYq0koARZsRyRvvPrVhFeiJy3VHNAxQzZx4Ij1s79DFc7BHW7E56Q76PKOkQuslmVHfSXZA10uiqGKsgcs32VyvVLIjCnI1baj6Gr3g/krRSTHjXZRxdx22WiPluNSmnVrooHCRcN+OW8cLcAEHsStOG6dec5s8lSGI/2eh8wvnLZvthzWuhMK2bDjf/zyfjQjgqDVpIPygKrTOQK1g9fXMF4Gvf1LwNUYHlsRre/hNEochNhgk4SANu2V4P/20gHMADoBQgyMtVjMx3QQ3pQC0PN0xEFTfvm88J+JeL1ew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vx41ok5ne+uq++xDhDwPawhysxVXsLvAdB2I112yFjI=;
+ b=fLi6iMoeVev48Ihc5KPE0DRwQfudmqssKZvgd87kAln4JbpuIu2utjn12AE5lfS+x0ETSuJ9ZQXahX0NbmFPqrPxjBARV2UYgOVOlsUTImlMxfq/KvJHu/n/8awq7T/33fSSWAOfG88beRjujP4OmDx5ciilzq0bz9zIb0P75/mkaqVuZD/lc6xhf/wyfgv2prKd2j3LJo+FvbFiGs26GNxKdOvixo5ODTFX99zLcTctSgX6aXax2FvYgm+PR5Hg64g3fDNaV73Tx4qFXV4Qd6ifDSPxdnjMJPwcY31ANeHpjgTOlKepwDlZbtEkRk5fyVfUw81rvqiFIlo/4oB2WA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
+ smtp.mailfrom=microchip.com;dmarc=pass action=none
+ header.from=microchip.com;dkim=pass header.d=microchip.com;arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector1-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vx41ok5ne+uq++xDhDwPawhysxVXsLvAdB2I112yFjI=;
+ b=zkTDfDPwu3fB2dIrRTE6VENgeUYH3lzo3WbMPY78PcE1hWwqRD5E9gkhp8GQYB6nvGSTlu8cXh/j9I/IE0oPg0YKXSZiIl6o+/yJUek+nxDjeIlpEVVrkPXAUNr0j8a0hOhKCnTdK3swHwNCVBB5W364MrzIWZXsMgIqgPzn790=
+Received: from BL0PR11MB3012.namprd11.prod.outlook.com (20.177.204.78) by
+ BL0PR11MB3105.namprd11.prod.outlook.com (20.177.206.221) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2094.14; Fri, 19 Jul 2019 16:30:16 +0000
+Received: from BL0PR11MB3012.namprd11.prod.outlook.com
+ ([fe80::ddc2:1e17:4240:66c2]) by BL0PR11MB3012.namprd11.prod.outlook.com
+ ([fe80::ddc2:1e17:4240:66c2%5]) with mapi id 15.20.2094.011; Fri, 19 Jul 2019
+ 16:30:16 +0000
+From:   <Woojung.Huh@microchip.com>
+To:     <hslester96@gmail.com>
+CC:     <UNGLinuxDriver@microchip.com>, <davem@davemloft.net>,
+        <netdev@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] net: lan78xx: Merge memcpy + lexx_to_cpus to
+ get_unaligned_lexx
+Thread-Topic: [PATCH] net: lan78xx: Merge memcpy + lexx_to_cpus to
+ get_unaligned_lexx
+Thread-Index: AQHVPgTHyJaBP0f9DEmIPm44Nph4NabSIkjA
+Date:   Fri, 19 Jul 2019 16:30:16 +0000
+Message-ID: <BL0PR11MB3012321DF5FF319EE0C50D86E7CB0@BL0PR11MB3012.namprd11.prod.outlook.com>
+References: <20190719073614.1850-1-hslester96@gmail.com>
+In-Reply-To: <20190719073614.1850-1-hslester96@gmail.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [47.19.18.123]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 28ca42f1-7cbe-461c-ba43-08d70c66621e
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:BL0PR11MB3105;
+x-ms-traffictypediagnostic: BL0PR11MB3105:
+x-microsoft-antispam-prvs: <BL0PR11MB3105F00E383DD55C043750FDE7CB0@BL0PR11MB3105.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:510;
+x-forefront-prvs: 01039C93E4
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(136003)(376002)(366004)(39860400002)(346002)(189003)(199004)(3846002)(25786009)(14444005)(6116002)(86362001)(256004)(446003)(11346002)(186003)(26005)(6916009)(229853002)(476003)(102836004)(7696005)(76176011)(81166006)(74316002)(2906002)(14454004)(81156014)(6506007)(486006)(33656002)(5660300002)(52536014)(66446008)(71190400001)(71200400001)(66476007)(6246003)(53936002)(8936002)(4326008)(66556008)(305945005)(7736002)(76116006)(66066001)(4744005)(1411001)(66946007)(99286004)(478600001)(6436002)(55016002)(8676002)(68736007)(64756008)(316002)(54906003)(9686003);DIR:OUT;SFP:1101;SCL:1;SRVR:BL0PR11MB3105;H:BL0PR11MB3012.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: microchip.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: DgXDteNGMROL0fwnHKytJFNE8fZcglPq1GjPSdS2BgewhgrhidEEKQMnR/gO45DjYvgpUqQMg+vQY6gUQFe3/8UF434McMUr+rtHrahmx+3/CJG1ql8PAriZ4cZIR7KEMNtgNVOijeyvs0pFwiNlv2vxOWa2HQOLAYddFD46TmH+crgnBTfBSwLDaw9HmLymOcKIxgtshVBJA2c+veOy8384sxuzElz0j3Lh7IphuNX8fZjj7S+F+hP5xA0oeXFLQYoFKwve2QdGnTAFD1aRriqACwZK5Sax+zj2HPSt+RE38WmWzbVIfiab1XVmB061WRjLu/gPmN2QLLnexRv0aoZU4KAL/0nbPMTfO8HDYQGhJDvVDFJOAoOl9QWk6kH22diqGDebvMlas9X9kympjd9/i1+8WTbVWiyf1D1KGbk=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28ca42f1-7cbe-461c-ba43-08d70c66621e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jul 2019 16:30:16.6594
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: woojung.huh@microchip.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR11MB3105
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Marek,
+> From: Chuhong Yuan <hslester96@gmail.com>
+> Sent: Friday, July 19, 2019 3:36 AM
+> Cc: Woojung Huh - C21699 <Woojung.Huh@microchip.com>; UNGLinuxDriver
+> <UNGLinuxDriver@microchip.com>; David S . Miller <davem@davemloft.net>;
+> netdev@vger.kernel.org; linux-usb@vger.kernel.org; linux-kernel@vger.kern=
+el.org; Chuhong Yuan
+> <hslester96@gmail.com>
+> Subject: [PATCH] net: lan78xx: Merge memcpy + lexx_to_cpus to get_unalign=
+ed_lexx
+>=20
+> External E-Mail
+>=20
+>=20
+> Merge the combo use of memcpy and lexx_to_cpus.
+> Use get_unaligned_lexx instead.
+> This simplifies the code.
+>=20
+> Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
 
-On 19/07/19 5:51 PM, Marek Szyprowski wrote:
-> Hi Kishon,
-> 
-> On 2019-07-19 12:04, Kishon Vijay Abraham I wrote:
->> Hi Marek,
->>
->> On 19/07/19 3:22 PM, Marek Szyprowski wrote:
->>> Commit 36914111e682 ("drivers: phy: add calibrate method") added support
->>> for generic phy_calibrate() method, but it didn't explain in detail when
->>> such method is supposed to be called. Add some more documentation directly
->>> to the phy.h to make it clean that it is intended to be called after every
->>> host controller reset.
->>>
->>> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
->>> ---
->>>   include/linux/phy/phy.h | 12 ++++++++++++
->>>   1 file changed, 12 insertions(+)
->>>
->>> diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
->>> index 15032f145063..46775e8b0ed9 100644
->>> --- a/include/linux/phy/phy.h
->>> +++ b/include/linux/phy/phy.h
->>> @@ -101,6 +101,18 @@ struct phy_ops {
->>>   	int	(*validate)(struct phy *phy, enum phy_mode mode, int submode,
->>>   			    union phy_configure_opts *opts);
->>>   	int	(*reset)(struct phy *phy);
->>> +
->>> +	/**
->>> +	 * @calibrate:
->>> +	 *
->>> +	 * Optional.
->>> +	 *
->>> +	 * Used to calibrate phy, typically by adjusting some parameters
->>> +	 * in runtime, which are otherwise lost after host controller
->>> +	 * reset and cannot be set in phy_init() and phy_power_on().
->>> +	 *
->>> +	 * Returns: 0 if successful, an negative error code otherwise
->>> +	 */
->>>   	int	(*calibrate)(struct phy *phy);
->> This should be added in drivers/phy/phy-core.c before phy_calibrate()?
-> 
-> Okay. Do you want to keep it also in phy.h (like for validate and 
-> configure)?
-
-No. Adding in phy.txt and before phy_calibrate() should suffice IMO.
-
-Thanks
-Kishon
+Acked-by: Woojung Huh <woojung.huh@microchip.com>
