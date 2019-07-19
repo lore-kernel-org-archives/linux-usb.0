@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7777CC76196
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Jul 2019 04:03:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D92B9C76188
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Jul 2019 04:11:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4D15321851
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Jul 2019 04:03:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B31D721872
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Jul 2019 04:11:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1563508987;
-	bh=RjiE6OuC6ZZkoJ+nkFJH1CnYmPJrpDGBCj3c/vmY0rU=;
+	s=default; t=1563509477;
+	bh=8wTo43N4oBCQdJhdwhoOIgKxVWeenbjo97e7VgmifY4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=uvk5dCjeJwfar5Stgvcac5P+TIux4f7QUfVdJyd+I5k8ZRLF3eatnpZ5AzH9suClt
-	 m10mD99LkSvIDWhd3VkbnG9UaP2hMJGLvUB0sGqSYeZdngxPiWb4GKJ3fjUlaVE8UA
-	 GAf3EnwTriOwZsSzbH0QqTPBRqrcW1hNSbBgYGc8=
+	b=oIlQMjKe+l0jxkT43y0a3ftjrny2TRIjooYk6nZEt/mbtHYo9mOQ3sUpP0w4tKXBO
+	 obVdb6yE5QtNx/deDGtsKujd1yvjdijNyy4CRCPbHxK5CPRaKVaex87BV2lqJGG/dT
+	 ydmK7Mwci1RYiRl/H4SbbMmfZKCt264vzlByUW4g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730251AbfGSEDE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 19 Jul 2019 00:03:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35054 "EHLO mail.kernel.org"
+        id S1728856AbfGSELQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 19 Jul 2019 00:11:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46136 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730233AbfGSEDE (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 19 Jul 2019 00:03:04 -0400
+        id S2388365AbfGSELQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 19 Jul 2019 00:11:16 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F32C0218C5;
-        Fri, 19 Jul 2019 04:03:01 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EE2E821873;
+        Fri, 19 Jul 2019 04:11:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563508982;
-        bh=RjiE6OuC6ZZkoJ+nkFJH1CnYmPJrpDGBCj3c/vmY0rU=;
+        s=default; t=1563509474;
+        bh=8wTo43N4oBCQdJhdwhoOIgKxVWeenbjo97e7VgmifY4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pJg9K8/7RlUkb+2bH8wLvNoYdk+23ks6VyH9TcHmdk9xQHRhrsH1kQvsLlj2Etq6h
-         74CAWrnY0PKO8/FWEjQaas+otIwtpZQxK+cPAPrb+mFxeNoqqDYOubKYJgzOLDQfJ2
-         ZnlC1PP+pL2CoFdOmCMTb19G4PWf1cDe1vmSqOAc=
+        b=rbuY4NHwFRgTN7r9YAv4kCImbkRFGtTrX9d8A/twY3QYu/ZqdehqHwI1JEQM9d9xv
+         SjBXnszbXvSjsJlDahzDEVqIUH8FmcryftEMG4oj2atRl9vi2tBuKBKm3+1fjRwW7H
+         MpalBh6WTduaHrYrPe5YG3RlhzDvgY7c3SN1Zqcs=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
         Thinh Nguyen <thinhn@synopsys.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.1 008/141] usb: core: hub: Disable hub-initiated U1/U2
-Date:   Fri, 19 Jul 2019 00:00:33 -0400
-Message-Id: <20190719040246.15945-8-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 02/60] usb: core: hub: Disable hub-initiated U1/U2
+Date:   Fri, 19 Jul 2019 00:10:11 -0400
+Message-Id: <20190719041109.18262-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190719040246.15945-1-sashal@kernel.org>
-References: <20190719040246.15945-1-sashal@kernel.org>
+In-Reply-To: <20190719041109.18262-1-sashal@kernel.org>
+References: <20190719041109.18262-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -84,10 +84,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 16 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 310eef451db8..448266b69312 100644
+index eddecaf1f0b2..f83a5fb17c3f 100644
 --- a/drivers/usb/core/hub.c
 +++ b/drivers/usb/core/hub.c
-@@ -3999,6 +3999,9 @@ static int usb_set_lpm_timeout(struct usb_device *udev,
+@@ -3873,6 +3873,9 @@ static int usb_set_lpm_timeout(struct usb_device *udev,
   * control transfers to set the hub timeout or enable device-initiated U1/U2
   * will be successful.
   *
@@ -97,7 +97,7 @@ index 310eef451db8..448266b69312 100644
   * If we cannot set the parent hub U1/U2 timeout, we attempt to let the xHCI
   * driver know about it.  If that call fails, it should be harmless, and just
   * take up more slightly more bus bandwidth for unnecessary U1/U2 exit latency.
-@@ -4053,23 +4056,24 @@ static void usb_enable_link_state(struct usb_hcd *hcd, struct usb_device *udev,
+@@ -3927,23 +3930,24 @@ static void usb_enable_link_state(struct usb_hcd *hcd, struct usb_device *udev,
  		 * host know that this link state won't be enabled.
  		 */
  		hcd->driver->disable_usb3_lpm_timeout(hcd, udev, state);
