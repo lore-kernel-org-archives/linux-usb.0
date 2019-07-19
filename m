@@ -6,22 +6,22 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84301C76196
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Jul 2019 08:44:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D9DFC76197
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Jul 2019 08:44:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 584F720665
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Jul 2019 08:44:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D20D20665
+	for <linux-usb@archiver.kernel.org>; Fri, 19 Jul 2019 08:44:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726600AbfGSIoM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 19 Jul 2019 04:44:12 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:54589 "EHLO
+        id S1726316AbfGSIoN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 19 Jul 2019 04:44:13 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:44449 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726036AbfGSIoM (ORCPT
+        with ESMTP id S1726271AbfGSIoM (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Fri, 19 Jul 2019 04:44:12 -0400
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <l.stach@pengutronix.de>)
-        id 1hoOUp-00006H-Pk; Fri, 19 Jul 2019 10:44:07 +0200
+        id 1hoOUp-00006H-N9; Fri, 19 Jul 2019 10:44:07 +0200
 From:   Lucas Stach <l.stach@pengutronix.de>
 To:     Richard Leitner <richard.leitner@skidata.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -30,12 +30,10 @@ Cc:     Mark Rutland <mark.rutland@arm.com>,
         Serge Semin <fancer.lancer@gmail.com>,
         linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
         kernel@pengutronix.de, patchwork-lst@pengutronix.de
-Subject: [PATCH 2/3] Revert "usb: usb251xb: Add US port lanes inversion property"
-Date:   Fri, 19 Jul 2019 10:44:06 +0200
-Message-Id: <20190719084407.28041-2-l.stach@pengutronix.de>
+Subject: [PATCH 1/3] Revert "usb: usb251xb: Add US lanes inversion dts-bindings"
+Date:   Fri, 19 Jul 2019 10:44:05 +0200
+Message-Id: <20190719084407.28041-1-l.stach@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190719084407.28041-1-l.stach@pengutronix.de>
-References: <20190719084407.28041-1-l.stach@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
@@ -47,29 +45,33 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This property isn't needed and not yet used anywhere. The swap-dx-lanes
-property is perfectly fine for doing the swap on the upstream port
-lanes.
+This reverts commit 3342ce35a1, as there is no need for this separate
+property and it breaks compatibility with existing devicetree files
+(arch/arm64/boot/dts/freescale/imx8mq.dtsi).
 
 CC: stable@vger.kernel.org #5.2
 Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/usb/misc/usb251xb.c | 2 --
- 1 file changed, 2 deletions(-)
+ Documentation/devicetree/bindings/usb/usb251xb.txt | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
-index 4d6ae3795a88..119aeb658c81 100644
---- a/drivers/usb/misc/usb251xb.c
-+++ b/drivers/usb/misc/usb251xb.c
-@@ -574,8 +574,6 @@ static int usb251xb_get_ofdata(struct usb251xb *hub,
- 	hub->port_swap = USB251XB_DEF_PORT_SWAP;
- 	usb251xb_get_ports_field(hub, "swap-dx-lanes", data->port_cnt,
- 				 &hub->port_swap);
--	if (of_get_property(np, "swap-us-lanes", NULL))
--		hub->port_swap |= BIT(0);
+diff --git a/Documentation/devicetree/bindings/usb/usb251xb.txt b/Documentation/devicetree/bindings/usb/usb251xb.txt
+index bc7945e9dbfe..17915f64b8ee 100644
+--- a/Documentation/devicetree/bindings/usb/usb251xb.txt
++++ b/Documentation/devicetree/bindings/usb/usb251xb.txt
+@@ -64,10 +64,8 @@ Optional properties :
+  - power-on-time-ms : Specifies the time it takes from the time the host
+ 	initiates the power-on sequence to a port until the port has adequate
+ 	power. The value is given in ms in a 0 - 510 range (default is 100ms).
+- - swap-dx-lanes : Specifies the downstream ports which will swap the
+-	differential-pair (D+/D-), default is not-swapped.
+- - swap-us-lanes : Selects the upstream port differential-pair (D+/D-)
+-	swapping (boolean, default is not-swapped)
++ - swap-dx-lanes : Specifies the ports which will swap the differential-pair
++	(D+/D-), default is not-swapped.
  
- 	/* The following parameters are currently not exposed to devicetree, but
- 	 * may be as soon as needed.
+ Examples:
+ 	usb2512b@2c {
 -- 
 2.20.1
 
