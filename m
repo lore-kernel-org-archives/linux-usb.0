@@ -1,115 +1,117 @@
-Return-Path: <SRS0=BVoo=VQ=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=53jZ=VR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1754EC7618F
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Jul 2019 22:04:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31E92C76188
+	for <linux-usb@archiver.kernel.org>; Sat, 20 Jul 2019 13:23:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DEC702084D
-	for <linux-usb@archiver.kernel.org>; Fri, 19 Jul 2019 22:04:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1563573882;
-	bh=WpIhaQ1joRo/MH17c0t17VXik9ibq2E9ekgS84Bsqq0=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
-	b=ts7UPA3/NOtF6Mqw29YYRnVGJJ6L/CFTuqOjnUothLL3erZ16tTmX9jv/tum4r0YT
-	 tZPQf3MB3r1DZPNbxTCrTajpB+ARQanqYyOvfr6gGBERftb+t9UUQ85wiImLlFbUzr
-	 +HD8riLxVeJNTUX4zAA5g80xkIzvz25O4sK/1yF8=
+	by mail.kernel.org (Postfix) with ESMTP id 058EE20644
+	for <linux-usb@archiver.kernel.org>; Sat, 20 Jul 2019 13:23:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728023AbfGSWEh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 19 Jul 2019 18:04:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56360 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727344AbfGSWEh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 19 Jul 2019 18:04:37 -0400
-Received: from [172.20.8.67] (fs96f9c61d.tkyc509.ap.nuro.jp [150.249.198.29])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4CC2E2084D;
-        Fri, 19 Jul 2019 22:04:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563573877;
-        bh=WpIhaQ1joRo/MH17c0t17VXik9ibq2E9ekgS84Bsqq0=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=urXENChsdLG1xeJQdusgUINM/llCFuGkdvhSq4cG5a3Yrv/AiqVp/HQC6s4LD/tDN
-         14dvkAbSxzCr5Xmpnuc+1tKdq7HTFrwHBmxcsULbDkjOHyaX6O+oTFbk1gnlcncBvT
-         OKOnhmedUzhdkvVUPs7l//ehcSC5UgGGIUhf3SW8=
-Subject: Re: [PATCH v2 0/2] usbip: Implement SG support
-To:     Suwan Kim <suwan.kim027@gmail.com>, valentina.manea.m@gmail.com,
-        stern@rowland.harvard.edu, gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        shuah <shuah@kernel.org>
-References: <20190705164355.14025-1-suwan.kim027@gmail.com>
-From:   shuah <shuah@kernel.org>
-Message-ID: <7eaaf016-8da5-6089-fe19-bf62c3bbe187@kernel.org>
-Date:   Fri, 19 Jul 2019 16:04:20 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1727109AbfGTNX1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 20 Jul 2019 09:23:27 -0400
+Received: from mail1.bemta23.messagelabs.com ([67.219.246.215]:56417 "EHLO
+        mail1.bemta23.messagelabs.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725834AbfGTNX1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 20 Jul 2019 09:23:27 -0400
+Received: from [67.219.246.196] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+        by server-3.bemta.az-c.us-east-1.aws.symcld.net id 12/F0-11074-DC5133D5; Sat, 20 Jul 2019 13:23:25 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrBIsWRWlGSWpSXmKPExsUyLfyHiO5ZUeN
+  Yg7mHWC0WLWtldmD0+LxJLoAxijUzLym/IoE1Y8bqPuaCHv6Kv2sqGhj/8XQxcnEICcxllNjb
+  u5IFwvnNKLF071Mgh5NDWMBZYsf1iUxdjBwcbAJmEpv/SoKERQTUJdb9n8gOYjMLWEusaXwDZ
+  jMJKElsPrCUDcRmEVCVmPNlHyNIK69AvETvG2OQMKeArcStw7PAyoUEbCTmL78OtklUQE5i5e
+  UWVhCbV0BQ4uTMJywgrcwCmhLrd+lDbJKX2P52DjNEq5bEprlbwMZICARLzD7wl3UCo+AsJN2
+  zELpnIelewMi8itEsqSgzPaMkNzEzR9fQwEDX0NBI10zXyMhcL7FKN1mvtFg3NbG4RNdQL7G8
+  WK+4Mjc5J0UvL7VkEyMwkFMK2B7vYHw1843eIUZJDiYlUd4IV6NYIb6k/JTKjMTijPii0pzU4
+  kOMMhwcShK8icDYEBIsSk1PrUjLzAFGFUxagoNHSYT3jQhQmre4IDG3ODMdInWKUZdjwdYli5
+  iFWPLy81KlxHmNQYoEQIoySvPgRsAi/BKjrJQwLyMDA4MQT0FqUW5mCar8K0ZxDkYlYd5LIFN
+  4MvNK4Da9AjqCCeiIx3pGIEeUJCKkpBqY1q8tF/x0+HvbhZzfTze1R4R1W0RJL8+Jy9ZLebPp
+  VuSeI21a/93E/j9pDyqasPBb2ItbPBv+3fXS+8meo7oycPVf38t5+zWynglu567o4v/+eY+E/
+  1IVv31t/FOu9j2YPYsnLotB8ODG+3OyPJ89u2zy0nOvilexrtQrv+tTTnOc5VWx36l7OKCG73
+  Yd/xvNX0urf/JOkOS2NxN3bN98dmszw221tzeZj3S9ex/CZc/RO7ckzWnPSTFjt6I3mbXyP24
+  mNbJ0frF3uLymWX52umropJddrX5tB4Ov/RMVz9rnwvBe9/us7tNlWyz/7nlp+P1onUbfjZrL
+  v5LuzuF567OhaOuFA9t3V78K+eb/W4mlOCPRUIu5qDgRAK83KexrAwAA
+X-Env-Sender: yokamoto@allied-telesis.co.jp
+X-Msg-Ref: server-44.tower-404.messagelabs.com!1563629004!211269!1
+X-Originating-IP: [150.87.248.20]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.43.9; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 1358 invoked from network); 20 Jul 2019 13:23:24 -0000
+Received: from abricot-inet.allied-telesis.co.jp (HELO TKY-DS01.at.lc) (150.87.248.20)
+  by server-44.tower-404.messagelabs.com with SMTP; 20 Jul 2019 13:23:24 -0000
+Received: from swim-manx.rd.allied-telesis.co.jp ([150.87.21.50]) by TKY-DS01.at.lc with Microsoft SMTPSVC(8.0.9200.16384);
+         Sat, 20 Jul 2019 22:23:23 +0900
+Received: from yokamoto-pc.rd.allied-telesis.co.jp by swim-manx.rd.allied-telesis.co.jp
+ (AlliedTelesis SMTPRS 1.3 pl 1 ++E6B86F8C687C6288D9B5559052954DC9) with ESMTP id <B0004502046@swim-manx.rd.allied-telesis.co.jp>;
+ Sat, 20 Jul 2019 22:23:22 +0900
+Subject: [PATCH v3] USB: serial: option: Add support for ZTE MF871A
+From:   Yoshiaki Okamoto <yokamoto@allied-telesis.co.jp>
+To:     larsm17@gmail.com, johan@kernel.org
+Cc:     hyamamo@allied-telesis.co.jp, linux-usb@vger.kernel.org
+Date:   Sat, 20 Jul 2019 22:23:18 +0900
+Message-ID: <156362896395.30109.15607667410549474761.stgit@yokamoto-pc.rd.allied-telesis.co.jp>
+In-Reply-To: <1dde5abb-2399-6bb7-531b-c88e5f0b4fae@gmail.com>
+References: <1dde5abb-2399-6bb7-531b-c88e5f0b4fae@gmail.com>
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-In-Reply-To: <20190705164355.14025-1-suwan.kim027@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-OriginalArrivalTime: 20 Jul 2019 13:23:23.0862 (UTC) FILETIME=[4E99DF60:01D53EFE]
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 7/5/19 10:43 AM, Suwan Kim wrote:
-> There are bugs on vhci with usb 3.0 storage device. Originally, vhci
-> doesn't supported SG, so USB storage driver on vhci breaks SG list
-> into multiple URBs and it causes error that a transfer got terminated
-> too early because the transfer length for one of the URBs was not
-> divisible by the maxpacket size.
-> 
-> To support SG, vhci doesn't map and unmap URB for DMA to use native
-> SG list (urb->num_sgs). In DMA mapping function of vhci, it sets
-> URB_DMA_MAP_SG flag in urb->transfer_flags if URB has SG list and
-> this flag will tell the stub driver to use SG list.
-> 
-> In this patch, vhci basically support SG and it sends each SG list
-> entry to the stub driver. Then, the stub driver sees the total length
-> of the buffer and allocates SG table and pages according to the total
-> buffer length calling sgl_alloc(). After the stub driver receives
-> completed URB, it again sends each SG list entry to vhci.
-> 
-> If HCD of the server doesn't support SG, the stub driver breaks a
-> single SG reqeust into several URBs and submit them to the server's
-> HCD. When all the split URBs are completed, the stub driver
-> reassembles the URBs into a single return command and sends it to
-> vhci.
-> 
-> Alan fixed vhci bug with the USB 3.0 storage device by modifying
-> USB storage driver.
-> ("usb-storage: Set virt_boundary_mask to avoid SG overflows")
-> But the fundamental solution of it is to add SG support to vhci.
-> 
-> This patch works well with the USB 3.0 storage devices without Alan's
-> patch, and we can revert Alan's patch if it causes some troubles.
-> 
-> Suwan Kim (2):
->    usbip: Skip DMA mapping and unmapping for urb at vhci
->    usbip: Implement SG support to vhci
-> 
->   drivers/usb/usbip/stub.h         |   7 +-
->   drivers/usb/usbip/stub_main.c    |  52 +++++---
->   drivers/usb/usbip/stub_rx.c      | 207 ++++++++++++++++++++++---------
->   drivers/usb/usbip/stub_tx.c      | 108 +++++++++++-----
->   drivers/usb/usbip/usbip_common.c |  60 +++++++--
->   drivers/usb/usbip/vhci_hcd.c     |  29 ++++-
->   drivers/usb/usbip/vhci_tx.c      |  49 ++++++--
->   7 files changed, 391 insertions(+), 121 deletions(-)
-> 
+This patch adds support for MF871A USB modem (aka Speed USB STICK U03)
+to option driver. This modem is manufactured by ZTE corporation, and
+sold by KDDI.
 
-Hi Suwan,
+Interface layout:
+0: AT
+1: MODEM
 
-I have been traveling and would like to test this series before I ask
-Greg to pick it up.
+usb-devices output:
+T:  Bus=01 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  9 Spd=480 MxCh= 0
+D:  Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
+P:  Vendor=19d2 ProdID=1481 Rev=52.87
+S:  Manufacturer=ZTE,Incorporated
+S:  Product=ZTE Technologies MSM
+S:  SerialNumber=1234567890ABCDEF
+C:  #Ifs= 2 Cfg#= 1 Atr=80 MxPwr=500mA
+I:  If#= 0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+I:  If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
 
-Just a quick note that I will get to this early next week.
+Co-developed-by: Hiroyuki Yamamoto <hyamamo@allied-telesis.co.jp>
+Signed-off-by: Hiroyuki Yamamoto <hyamamo@allied-telesis.co.jp>
+Signed-off-by: Yoshiaki Okamoto <yokamoto@allied-telesis.co.jp>
+---
 
-thanks,
--- Shuah
+Changes in v3:
+- Change used macro to USB_DEVICE_AND_INTERFACE_INFO.
+
+Changes in v2:
+- Add Co-developed-by tag.
+- Move away product-id define and add short comment after the entry.
+
+ drivers/usb/serial/option.c |    1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+index a0aaf0635359..071e62164478 100644
+--- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -1548,6 +1548,7 @@ static const struct usb_device_id option_ids[] = {
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x1428, 0xff, 0xff, 0xff),  /* Telewell TW-LTE 4G v2 */
+ 	  .driver_info = RSVD(2) },
+ 	{ USB_DEVICE_INTERFACE_CLASS(ZTE_VENDOR_ID, 0x1476, 0xff) },	/* GosunCn ZTE WeLink ME3630 (ECM/NCM mode) */
++	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x1481, 0xff, 0x00, 0x00) }, /* ZTE MF871A */
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x1533, 0xff, 0xff, 0xff) },
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x1534, 0xff, 0xff, 0xff) },
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x1535, 0xff, 0xff, 0xff) },
+
