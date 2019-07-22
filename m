@@ -2,42 +2,45 @@ Return-Path: <SRS0=gkhN=VT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50EB0C76195
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Jul 2019 15:14:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42562C76194
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Jul 2019 15:14:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 20A8321993
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Jul 2019 15:14:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1AB6B204FD
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Jul 2019 15:14:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=rere.qmqm.pl header.i=@rere.qmqm.pl header.b="azLmz3I8"
+	dkim=pass (2048-bit key) header.d=rere.qmqm.pl header.i=@rere.qmqm.pl header.b="UQ05zh+k"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728213AbfGVPOl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Jul 2019 11:14:41 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:65274 "EHLO rere.qmqm.pl"
+        id S1728169AbfGVPOm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Jul 2019 11:14:42 -0400
+Received: from rere.qmqm.pl ([91.227.64.183]:64344 "EHLO rere.qmqm.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728169AbfGVPOk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 22 Jul 2019 11:14:40 -0400
+        id S1728128AbfGVPOl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 22 Jul 2019 11:14:41 -0400
 Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 45slVQ4kcbzB2;
-        Mon, 22 Jul 2019 17:13:18 +0200 (CEST)
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 45slVR6JK4zKH;
+        Mon, 22 Jul 2019 17:13:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1563808399; bh=eB8CbQl5GehEW9z9btkbOtbwkxkS/GFp/Ton0V86t8E=;
-        h=Date:From:Subject:To:Cc:From;
-        b=azLmz3I8hpjasO18lkuEsee8SltmeMnyxaq3XL9LRUnTxgbN0r+sLgI2uAfDEhuRT
-         Cx+NUpmlnmJ6fMPHQtKsuI34SD6++qSVj3Ilf1GgWzBHRBF1+ZZPDybN9L6U/wDLk+
-         4hfTck6A/h5X6K6QPGQm7ZO0c3vQmZuegUiVic0x+bid18p5wCUkFiz+c8rNLjGKyl
-         lTM48P8IvU9RBnHCBcw/hGDbAudg8NpeEXZwqPHgMZ/icFQwwyMh12Kt0SD9N9zLa+
-         Yypcp48LHL2+DDMGDGI90wjfYU5cjZv7zZRAdE7XaID4Frye363gtoSMvujM+3tsgJ
-         QpV/yudvNcw8w==
+        t=1563808399; bh=Dsh1qRyU6dA9i6Az9gQubm9HL/ptRDfevA8JqSfkj7Q=;
+        h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
+        b=UQ05zh+kjjfxu/b4HQnT73XdBQjHVEJd2KmXCH5QbQlpXLi65EQUlDORUCpxoeRY8
+         3HqCbnurmmROkeSS9o8HX6BAk97uZuWxMNvsl6ABZhYn8Jp6yRE+z+/yYndM6h8ypN
+         DJDYwiLLz0qEUWnD0f8DZzzYz/j40AuTNrgEQBv1dWFJuZU7/mVFWZQhrTxu4AFLOv
+         X0Wj39LFszXhlcMQyHAj1D5vO69XW7woYpVBCRGPCd1ctWRuUZceYyjqnA+D4q8XOS
+         vJ2Bf/c64tcKgneF1QVYKT8NhB1w1RuDC0+46bF+P6L4JTYK4zxdCBL8zM58k/hOPn
+         G4bynUekNG8dQ==
 X-Virus-Status: Clean
 X-Virus-Scanned: clamav-milter 0.100.3 at mail
-Date:   Mon, 22 Jul 2019 17:14:37 +0200
-Message-Id: <cover.1563808218.git.mirq-linux@rere.qmqm.pl>
+Date:   Mon, 22 Jul 2019 17:14:38 +0200
+Message-Id: <73e7f99d853cff649e3c12e67fe0a6306a53bc90.1563808218.git.mirq-linux@rere.qmqm.pl>
+In-Reply-To: <cover.1563808218.git.mirq-linux@rere.qmqm.pl>
+References: <cover.1563808218.git.mirq-linux@rere.qmqm.pl>
 From:   =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Subject: [PATCH v4 0/6] usb: gadget: u_serial: console improvements
+Subject: [PATCH v4 3/6] usb: gadget: u_serial: make OBEX port not a console
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -50,30 +53,88 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series makes it possible to have more control over console using
-USB serial gadget ports. This can be useful when you need more than
-one USB console or are configuring multiple serial port function via
-configfs.
+Prevent OBEX serial port from ever becoming a console. Console messages
+will definitely break the protocol, and since you have to instantiate
+the port making it explicitly for OBEX, there is no point in allowing
+console to break it by mistake.
 
-The patches are against usb-next tree. You can also pull from:
-   https://rere.qmqm.pl/git/linux  usb-console
+Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-Michał Mirosław (6):
-  usb: gadget: u_serial: add missing port entry locking
-  usb: gadget: u_serial: reimplement console support
-  usb: gadget: u_serial: make OBEX port not a console
-  usb: gadget: u_serial: allow more console gadget ports
-  usb: gadget: u_serial: diagnose missed console messages
-  USB: gadget: legacy/serial: allow dynamic removal
+---
+  v4: no changes
+  v3: rename gserial_alloc_line_raw() -> gserial_alloc_line_no_console()
+  v2: change of API
+    + commit message massage
 
- drivers/usb/gadget/function/f_acm.c    |  21 ++
- drivers/usb/gadget/function/f_obex.c   |   2 +-
- drivers/usb/gadget/function/f_serial.c |  21 ++
- drivers/usb/gadget/function/u_serial.c | 420 ++++++++++++++-----------
- drivers/usb/gadget/function/u_serial.h |   8 +
- drivers/usb/gadget/legacy/serial.c     |  49 ++-
- 6 files changed, 333 insertions(+), 188 deletions(-)
+---
+ drivers/usb/gadget/function/f_obex.c   |  2 +-
+ drivers/usb/gadget/function/u_serial.c | 16 ++++++++++++----
+ drivers/usb/gadget/function/u_serial.h |  1 +
+ 3 files changed, 14 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/usb/gadget/function/f_obex.c b/drivers/usb/gadget/function/f_obex.c
+index 55b7f57d2dc7..ab26d84ed95e 100644
+--- a/drivers/usb/gadget/function/f_obex.c
++++ b/drivers/usb/gadget/function/f_obex.c
+@@ -432,7 +432,7 @@ static struct usb_function_instance *obex_alloc_inst(void)
+ 		return ERR_PTR(-ENOMEM);
+ 
+ 	opts->func_inst.free_func_inst = obex_free_inst;
+-	ret = gserial_alloc_line(&opts->port_num);
++	ret = gserial_alloc_line_no_console(&opts->port_num);
+ 	if (ret) {
+ 		kfree(opts);
+ 		return ERR_PTR(ret);
+diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
+index 94f6999e8262..62280c23cde2 100644
+--- a/drivers/usb/gadget/function/u_serial.c
++++ b/drivers/usb/gadget/function/u_serial.c
+@@ -1180,7 +1180,7 @@ void gserial_free_line(unsigned char port_num)
+ }
+ EXPORT_SYMBOL_GPL(gserial_free_line);
+ 
+-int gserial_alloc_line(unsigned char *line_num)
++int gserial_alloc_line_no_console(unsigned char *line_num)
+ {
+ 	struct usb_cdc_line_coding	coding;
+ 	struct gs_port			*port;
+@@ -1221,12 +1221,20 @@ int gserial_alloc_line(unsigned char *line_num)
+ 		goto err;
+ 	}
+ 	*line_num = port_num;
+-
+-	if (!port_num)
+-		gs_console_init(port);
+ err:
+ 	return ret;
+ }
++EXPORT_SYMBOL_GPL(gserial_alloc_line_no_console);
++
++int gserial_alloc_line(unsigned char *line_num)
++{
++	int ret = gserial_alloc_line_no_console(line_num);
++
++	if (!ret && !*line_num)
++		gs_console_init(ports[*line_num].port);
++
++	return ret;
++}
+ EXPORT_SYMBOL_GPL(gserial_alloc_line);
+ 
+ /**
+diff --git a/drivers/usb/gadget/function/u_serial.h b/drivers/usb/gadget/function/u_serial.h
+index 9acaac1cbb75..8b472b0c8cb4 100644
+--- a/drivers/usb/gadget/function/u_serial.h
++++ b/drivers/usb/gadget/function/u_serial.h
+@@ -54,6 +54,7 @@ struct usb_request *gs_alloc_req(struct usb_ep *ep, unsigned len, gfp_t flags);
+ void gs_free_req(struct usb_ep *, struct usb_request *req);
+ 
+ /* management of individual TTY ports */
++int gserial_alloc_line_no_console(unsigned char *port_line);
+ int gserial_alloc_line(unsigned char *port_line);
+ void gserial_free_line(unsigned char port_line);
+ 
 -- 
 2.20.1
 
