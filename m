@@ -2,91 +2,89 @@ Return-Path: <SRS0=gkhN=VT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D81D5C76188
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Jul 2019 12:46:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60886C76194
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Jul 2019 15:14:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AD7E221926
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Jul 2019 12:46:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F325D219BE
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Jul 2019 15:14:40 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="jnmpTgjK"
+	dkim=pass (2048-bit key) header.d=rere.qmqm.pl header.i=@rere.qmqm.pl header.b="ByumiXL8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728972AbfGVMqX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Jul 2019 08:46:23 -0400
-Received: from mout.gmx.net ([212.227.17.22]:41591 "EHLO mout.gmx.net"
+        id S1728189AbfGVPOk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Jul 2019 11:14:40 -0400
+Received: from rere.qmqm.pl ([91.227.64.183]:51918 "EHLO rere.qmqm.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728922AbfGVMqX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 22 Jul 2019 08:46:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1563799569;
-        bh=mjZELBNuReeXMRnBRN71qTsJjVA/WiYun9fQ7TjMHkM=;
-        h=X-UI-Sender-Class:To:Cc:From:Subject:Date;
-        b=jnmpTgjKO78hJw8XSAnr7Svv1WV5G7BpEPrcV3lU9BT9ZNYnwsA+cYYqXMm1yvPz4
-         +bLyIDn3t6XRslDshIqjuvCkl4siVDESIUza8ORj/Ry0vNiumy5o8UdlYr9cB1B6Vc
-         vX3y7V8MatCfJdBQDL68kk965G6M7oAEJkEG3Nc8=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [10.0.0.132] ([213.147.190.41]) by mail.gmx.com (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N7QxB-1iTrMC1I7B-017lsi; Mon, 22
- Jul 2019 14:46:09 +0200
-To:     Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc:     linux-usb@vger.kernel.org
-From:   Bernhard Gebetsberger <bernhard.gebetsberger@gmx.at>
-Subject: Regression xhci_hcd: WARN Set TR Deq Ptr cmd failed due to incorrect
- slot or ep state
-Message-ID: <3426f724-3078-cdda-e485-5966e2126b89@gmx.at>
-Date:   Mon, 22 Jul 2019 14:46:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1728152AbfGVPOk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 22 Jul 2019 11:14:40 -0400
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 45slVR27BzzGX;
+        Mon, 22 Jul 2019 17:13:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1563808399; bh=DBNuW0YJwUvtAyAvubxDi0qtQK0nSYUvCbj08GjxcEY=;
+        h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
+        b=ByumiXL80+AtTaoy6T9POcTEZeQ7ZR35nmqhqgbt28URgzPCeBppKg7F4BfJ7XTJ5
+         AJEetigSy3/toUz6BP3yC2ggoFTy3y5i8bwANbHjtavn5WdRzkHMyjrZhy18z8A21J
+         JfA1aeNBzMSpo3fEB2loHNXdYmt83VitHJCYMH24kz6Jb1vQ6/pvBZT9AKEH1YqeBF
+         qDJwkS/qGWmUVmV15GkXXkOWiMdIlz8fuYXRoYxD9sQydaIQ3m7lkzJxq/6WmtjzlO
+         dOKmWEViw7SXmkR4K5JpDURuQ6949sSF0V/MHwb5T+UoR27Dxb2gaXEQyi/raLzIkT
+         P768ozSja4HEA==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.100.3 at mail
+Date:   Mon, 22 Jul 2019 17:14:38 +0200
+Message-Id: <136348ea5b8eaee8d45fb4beb9b15c832243bd5b.1563808218.git.mirq-linux@rere.qmqm.pl>
+In-Reply-To: <cover.1563808218.git.mirq-linux@rere.qmqm.pl>
+References: <cover.1563808218.git.mirq-linux@rere.qmqm.pl>
+From:   =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
+Subject: [PATCH v4 1/6] usb: gadget: u_serial: add missing port entry locking
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Provags-ID: V03:K1:SFgHpM6MgaWtUbIiac1aG+l4NUYRQ1rj7YbYkIHy2T2q7SJ9eKg
- 8rLV4STwALS8yHW/LqNZCR95JNvzFMpneJ8eNoFNXZgUZ4zWo00PuO2JILttoTK7OR7IFMh
- A7yNziMjfaBiWPhaEwGDRILCq//zJkvcqotpaTzjbBU7Y0cgNoVfrsAh23/LFH42RQC5u+t
- o2MnWiKUWITOdZAxUtmIA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wd/CMi5bVBk=:gwGAr+c/8LBwrSg6aR53Mj
- 5Mx5gxdZfEFJGfgnXOrW+2LRK0XUsAezEqg2fNjw4dP38PXwn8WbbqdiyXQ3IkeYTO7kk7PuT
- aidQQwz5W1Apa35UIaGNWHeSBwIuXoqXR5YhIroAQXjrYIjS2dBhAIA4xNWtYfhasJriNsdVF
- TgrUPF+B5jOF4oh4icJ/qJJmaZ8uyMulAcaKU4zJHNfGdTWi8GNkOs3RU/js0YtuSJm/KJT0y
- VmSKnvomtwXDU4u1Fow/UHYygf/3YLtf+3tNPrg/0ikEoMIR/U2/nX/2p7QiuHKu0/+9cStwH
- PmAQ1Uf9y5pBMeeT4Z0f4+u/0tSpF4RoajPVvBa5oaFNUlxBf6p7+700ZAcIJEwzgkZjrR2yx
- xtKAWh02iZkMsdM8IbRHMkGcebTnR9LOU9QuWJytIaAcUvTaKF0jVZ/NsezgfngFF/uTTLVlE
- WoifnOVyJAg2CBsoZSlxwV9BFKmJmEO7KxX6diKS7rm2eD/yoA7D9tkP/gXbThyFXCVZVJ9rh
- RYwUGqDD2nlf/+Zi6zAGMtnLvdwxBs7X1PMFlPSy4GKwxW3MQcDv6owqu9Mfhrn7LiYQ43L1j
- X7alj+D/zirl5HQpPZg4de2Ky4/XUqoT35QWfBx8WkLM7JZDxRQacHOffvyVvCWHeelHykq5Z
- /a5baHYpfFS3L6iREGY4sVmWucJMMS53VyZIFkgUcH1DOblLPrYoombkLQWT7yxwgvYowZHke
- o60rb4sVxJ3vvhFbbnRS9AiGHa/pvLKg40VCIyhpjKOBs2gxv1riG4pF979tQmQqOQdaOqBE3
- zm0JK/byHK6ClMQ1wi2g10d4DGX6fXgare4+UH+k2Jz/RuIggdzxlb+G4JLUjM3vz2WbOJ/hG
- ECKsO1+/TkOR4AZzCOa2+0Remcs7MWZx47SdEoFGqpqFPRiUvpb45TdY6iOGQ719mFwe/Y5wO
- x0Ti6FoFjfu28s2oIEYWjiJStF4/VrkohkriKzCrCnL2QDkHK7RknaCjYLDMOTezu+N0pIGsJ
- 5y9nD7LhBXAgEA1CG9gjGIit/NxZUWkif+US8+DTiUI0SHz158aw2QdFY6kfmYXDRAhqI7PGi
- 7gWAoilrG9o9g42zuzmE5t+HPycZFAktVK1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To:     linux-usb@vger.kernel.org
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ladislav Michl <ladis@linux-mips.org>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Mathias,
+gserial_alloc_line() misses locking (for a release barrier) while
+resetting port entry on TTY allocation failure. Fix this.
 
-around 1.5 weeks ago I've sent the dmesg log and xhci_hcd tracing file to you. Is there anything else that needs to be provided? How should we precede otherwise?
+Cc: stable@vger.kernel.org
+Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Tested-by: Ladislav Michl <ladis@linux-mips.org>
 
-The problem occurs since kernel version 4.20 and it looks like more and more people are affected by this, most of them blame their wifi driver for it. Maybe it would be the best to just revert the patch that is causing the problem?
+---
+  v4: no changes
+  v3: cc-stable
+  v2: no changes
 
-The regression is caused by the changes in process_bulk_intr_td(), it's part of this commit:
+---
+ drivers/usb/gadget/function/u_serial.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-commit f8f80be501aa2f10669585c3e328fad079d8cb3a
-Author: Mathias Nyman <mathias.nyman@linux.intel.com <mailto:mathias.nyman@linux.intel.com>>
-Date:   Thu Sep 20 19:13:37 2018 +0300
-
-    xhci: Use soft retry to recover faster from transaction errors
-
-In case you missed the mail with the log files, I've uploaded them on transfer.sh: https://transfer.sh/KDEeE/dmesg and https://transfer.sh/14Imam/trace
-
-- Bernhard
-
+diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
+index 65f634ec7fc2..bb1e2e1d0076 100644
+--- a/drivers/usb/gadget/function/u_serial.c
++++ b/drivers/usb/gadget/function/u_serial.c
+@@ -1239,8 +1239,10 @@ int gserial_alloc_line(unsigned char *line_num)
+ 				__func__, port_num, PTR_ERR(tty_dev));
+ 
+ 		ret = PTR_ERR(tty_dev);
++		mutex_lock(&ports[port_num].lock);
+ 		port = ports[port_num].port;
+ 		ports[port_num].port = NULL;
++		mutex_unlock(&ports[port_num].lock);
+ 		gserial_free_port(port);
+ 		goto err;
+ 	}
+-- 
+2.20.1
 
