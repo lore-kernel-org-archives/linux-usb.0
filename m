@@ -2,574 +2,164 @@ Return-Path: <SRS0=gkhN=VT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEC3EC76188
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Jul 2019 15:26:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71A12C76190
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Jul 2019 16:50:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9E7C92084D
-	for <linux-usb@archiver.kernel.org>; Mon, 22 Jul 2019 15:26:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4009B21901
+	for <linux-usb@archiver.kernel.org>; Mon, 22 Jul 2019 16:50:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=rere.qmqm.pl header.i=@rere.qmqm.pl header.b="igrM/inY"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Ib6/tWOh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728957AbfGVP0P (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Jul 2019 11:26:15 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:5094 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728933AbfGVP0N (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 22 Jul 2019 11:26:13 -0400
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 45sllh6xJHzHW;
-        Mon, 22 Jul 2019 17:24:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1563809089; bh=grYdcaq8hJC75nejDGGskSqI4kfq24E7r/koPT37hFY=;
-        h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=igrM/inYVKc+3/KexG2x/5l5EzNIERoHYyS0JNKMbnzeuWBHC2BRaRWzeMb5naWJH
-         ITw2oBGK9GI2wDKBwRHiNRrgY8T62wm9XI7p/MzUVUmyK7rRno5+lM0qx8cep36H3z
-         b25umUFpugvwmdxzas54vHnpndzk5BeiiYzFd0ZR0gAQ+H/6Z1R8pFwz5F2I323Bd/
-         IipHVNTx2YxYBHQMBtzdYcPjPTfcGrJQ6o32CmS9MBnbmO38VQfYKoggP0o1C9bF7X
-         Sz77Iq+SYrA3fsMRXNkM5wvB//clwkC89FfickdIy72HZN7E4TLjXXt5g8F+PgJ/W0
-         4Cn1pq+pSEoNA==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.100.3 at mail
-Date:   Mon, 22 Jul 2019 17:26:07 +0200
-Message-Id: <0dd7dc4d5135b838d8f0fe98d0a689163cc9dda8.1563809035.git.mirq-linux@rere.qmqm.pl>
-In-Reply-To: <cover.1563809035.git.mirq-linux@rere.qmqm.pl>
-References: <cover.1563809035.git.mirq-linux@rere.qmqm.pl>
-From:   =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Subject: [PATCH v5 2/6] usb: gadget: u_serial: reimplement console support
+        id S1730551AbfGVQuy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Jul 2019 12:50:54 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:44252 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729706AbfGVQux (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 22 Jul 2019 12:50:53 -0400
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20190722165051euoutp02a600caf70f5f1d4aaf54af5d3b68b7cf~zyMa8un2D2862328623euoutp02j
+        for <linux-usb@vger.kernel.org>; Mon, 22 Jul 2019 16:50:51 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20190722165051euoutp02a600caf70f5f1d4aaf54af5d3b68b7cf~zyMa8un2D2862328623euoutp02j
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1563814251;
+        bh=n2mOzIcROGQy02ewBXU5/Hf7nnCKgG6HQu/sJ+KOwOk=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=Ib6/tWOhyDryjfUapfP2lOnU+n0R9azWp78sAGBB/p/O05B+Z+T2mV4+1oe/drLMD
+         k70fSTL7Ei1X7Fa7TJ8UknaXUGKM3s4/lyYxPvqV4XXoPVo099xfXpnHMRHeIjdgVO
+         QDpbtX2sp8NVnedqal7qdnKLIn+32AOr3yh1W2bk=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20190722165050eucas1p20c1ea3a3e707578c73c6ef8b92a76b1f~zyMaElXnu2485924859eucas1p2q;
+        Mon, 22 Jul 2019 16:50:50 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges3new.samsung.com (EUCPMTA) with SMTP id 13.D5.04325.A69E53D5; Mon, 22
+        Jul 2019 17:50:50 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20190722165049eucas1p181bef94142ac67f7059255e80e1b67cf~zyMY43jc00735607356eucas1p1T;
+        Mon, 22 Jul 2019 16:50:49 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20190722165049eusmtrp2d931cc688786c0396312329269e56815~zyMYqzfQz2696726967eusmtrp2W;
+        Mon, 22 Jul 2019 16:50:49 +0000 (GMT)
+X-AuditID: cbfec7f5-b8fff700000010e5-dd-5d35e96a4a23
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id F5.16.04146.869E53D5; Mon, 22
+        Jul 2019 17:50:49 +0100 (BST)
+Received: from [106.120.50.63] (unknown [106.120.50.63]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20190722165048eusmtip2dad28cf64a36365f4c9b82e7663951ce~zyMYWxQQP1205312053eusmtip2e;
+        Mon, 22 Jul 2019 16:50:48 +0000 (GMT)
+Subject: Re: [PATCH] phy: core: document calibrate() method
+To:     Kishon Vijay Abraham I <kishon@ti.com>, linux-usb@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <6729fb28-29ef-a808-64b5-3eaaf7ac31e5@samsung.com>
+Date:   Mon, 22 Jul 2019 18:50:47 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
+        Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To:     linux-usb@vger.kernel.org
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ladislav Michl <ladis@linux-mips.org>
+In-Reply-To: <6345ff36-9ee3-fe41-e416-a1178087b2c7@ti.com>
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprBKsWRmVeSWpSXmKPExsWy7djPc7pZL01jDb7OE7DYOGM9q8WFpz1s
+        Fpd3zWGzmHF+H5PFomWtzA6sHn1bVjF6HL+xncnj8ya5AOYoLpuU1JzMstQifbsEroze+wvY
+        C/YIVBx8/ZSxgXEpbxcjJ4eEgInE//ZNjF2MXBxCAisYJV72r2OCcL4wSpy+c5EFwvnMKPG1
+        YxYjTMuSy3+hEssZJdbO+A3V/5ZR4tTf02wgVcIC1hK7DjwGs0UEsiRuXfsO1s0sECHR3baH
+        CcRmEzCU6HrbBVbDK2AnseL1Y7AaFgFViVltO9lBbFGBGImdb3qYIWoEJU7OfMICYnMKWEkc
+        WNzOAjFTXmL72znMELa4xK0n88F+kBDoZ5f4tKKJDeJsF4mf62exQNjCEq+Ob2GHsGUk/u+E
+        aWhmlHh4bi07hNPDKHG5aQbU09YSh49fZO1i5ABaoSmxfpc+RNhRYvvENhaQsIQAn8SNt4IQ
+        R/BJTNo2nRkizCvR0SYEUa0mMev4Ori1By9cYp7AqDQLyWuzkLwzC8k7sxD2LmBkWcUonlpa
+        nJueWmycl1quV5yYW1yal66XnJ+7iRGYXk7/O/51B+O+P0mHGAU4GJV4eDfsMY0VYk0sK67M
+        PcQowcGsJMKbZwAU4k1JrKxKLcqPLyrNSS0+xCjNwaIkzlvN8CBaSCA9sSQ1OzW1ILUIJsvE
+        wSnVwHjg7c5ztp/mrma5p7e8J1dfav75Ngn1875pl8P1Lwpqa704d2BbWWgOS+V3ZWN7tZ28
+        obLZ2twvZs3+9/HLu7D8Jcfarml/q/955vySL8e/6T7d+r3gQkzBq29TLl38fCJ9rrff4S3m
+        Kx/OPloaP+cb61L+TXPv1Xc75iX8jBENLgtLlFPx+b5aiaU4I9FQi7moOBEABjL6RisDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrFIsWRmVeSWpSXmKPExsVy+t/xe7qZL01jDdZcYrTYOGM9q8WFpz1s
+        Fpd3zWGzmHF+H5PFomWtzA6sHn1bVjF6HL+xncnj8ya5AOYoPZui/NKSVIWM/OISW6VoQwsj
+        PUNLCz0jE0s9Q2PzWCsjUyV9O5uU1JzMstQifbsEvYze+wvYC/YIVBx8/ZSxgXEpbxcjJ4eE
+        gInEkst/WboYuTiEBJYySmy/eoMdIiEjcXJaAyuELSzx51oXG0TRa0aJpeensYEkhAWsJXYd
+        eAxmiwhkSfy/8ZMZxGYWiJDonP6DGaJhGZPExx+9YAk2AUOJrrddYA28AnYSK14/ZgSxWQRU
+        JWa17QTbLCoQI7HvzHZ2iBpBiZMzn7CA2JwCVhIHFrezQCwwk5i3+SHUMnmJ7W/nQNniEree
+        zGeawCg0C0n7LCQts5C0zELSsoCRZRWjSGppcW56brGhXnFibnFpXrpecn7uJkZgPG079nPz
+        DsZLG4MPMQpwMCrx8G7YYxorxJpYVlyZe4hRgoNZSYQ3zwAoxJuSWFmVWpQfX1Sak1p8iNEU
+        6LmJzFKiyfnAWM8riTc0NTS3sDQ0NzY3NrNQEuftEDgYIySQnliSmp2aWpBaBNPHxMEp1cAo
+        qyv8YiFTw1eFKzc8HjGIPbY9d/nL7Iz+PcwL7uaeqSr4dW1hXVt8wuPeGYKaCyvWfX+TJ76O
+        Rb5B+MiRxs3yZiyC2asdWdcJRJwo9vbVrjyYwpFgt7Gt74L+Q63p8kcUGraYfdCI1+VZFfA9
+        5KM5y63O+icTF928Fc3sOuWa57b9TO3mGW1KLMUZiYZazEXFiQCfogwCvQIAAA==
+X-CMS-MailID: 20190722165049eucas1p181bef94142ac67f7059255e80e1b67cf
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20190719095254eucas1p29c9e6c7aac20cf89b589fd2f2036c485
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20190719095254eucas1p29c9e6c7aac20cf89b589fd2f2036c485
+References: <CGME20190719095254eucas1p29c9e6c7aac20cf89b589fd2f2036c485@eucas1p2.samsung.com>
+        <20190719095245.17401-1-m.szyprowski@samsung.com>
+        <085b8093-d7bc-d960-f0d8-8776818ebab0@ti.com>
+        <1865da50-000f-e235-4090-1058d2aa217b@samsung.com>
+        <6345ff36-9ee3-fe41-e416-a1178087b2c7@ti.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Rewrite console support to fix a few shortcomings of the old code
-preventing its use with multiple ports. This removes some duplicated
-code and replaces a custom kthread with simpler workqueue item.
+Hi Kishon,
 
-Only port ttyGS0 gets to be a console for now.
+On 2019-07-19 14:25, Kishon Vijay Abraham I wrote:
+> On 19/07/19 5:51 PM, Marek Szyprowski wrote:
+>> On 2019-07-19 12:04, Kishon Vijay Abraham I wrote:
+>>> On 19/07/19 3:22 PM, Marek Szyprowski wrote:
+>>>> Commit 36914111e682 ("drivers: phy: add calibrate method") added support
+>>>> for generic phy_calibrate() method, but it didn't explain in detail when
+>>>> such method is supposed to be called. Add some more documentation directly
+>>>> to the phy.h to make it clean that it is intended to be called after every
+>>>> host controller reset.
+>>>>
+>>>> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+>>>> ---
+>>>>    include/linux/phy/phy.h | 12 ++++++++++++
+>>>>    1 file changed, 12 insertions(+)
+>>>>
+>>>> diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
+>>>> index 15032f145063..46775e8b0ed9 100644
+>>>> --- a/include/linux/phy/phy.h
+>>>> +++ b/include/linux/phy/phy.h
+>>>> @@ -101,6 +101,18 @@ struct phy_ops {
+>>>>    	int	(*validate)(struct phy *phy, enum phy_mode mode, int submode,
+>>>>    			    union phy_configure_opts *opts);
+>>>>    	int	(*reset)(struct phy *phy);
+>>>> +
+>>>> +	/**
+>>>> +	 * @calibrate:
+>>>> +	 *
+>>>> +	 * Optional.
+>>>> +	 *
+>>>> +	 * Used to calibrate phy, typically by adjusting some parameters
+>>>> +	 * in runtime, which are otherwise lost after host controller
+>>>> +	 * reset and cannot be set in phy_init() and phy_power_on().
+>>>> +	 *
+>>>> +	 * Returns: 0 if successful, an negative error code otherwise
+>>>> +	 */
+>>>>    	int	(*calibrate)(struct phy *phy);
+>>> This should be added in drivers/phy/phy-core.c before phy_calibrate()?
+>> Okay. Do you want to keep it also in phy.h (like for validate and
+>> configure)?
+> No. Adding in phy.txt and before phy_calibrate() should suffice IMO.
 
-Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Tested-by: Ladislav Michl <ladis@linux-mips.org>
+OKay, I will move it to phy.c. Generic PHYs documentation is converted 
+to RST (Documentation/driver-api/phy/phy.rst), so it could simply 
+include those comments from .c file. This can be done in separate patch.
 
----
-  v5: no changes
-  v4: cosmetic change to __gs_console_push()
-  v3: no changes
-  v2: no changes
-
----
- drivers/usb/gadget/function/u_serial.c | 351 ++++++++++++-------------
- 1 file changed, 164 insertions(+), 187 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
-index bb1e2e1d0076..94f6999e8262 100644
---- a/drivers/usb/gadget/function/u_serial.c
-+++ b/drivers/usb/gadget/function/u_serial.c
-@@ -82,14 +82,12 @@
- #define GS_CONSOLE_BUF_SIZE	8192
- 
- /* console info */
--struct gscons_info {
--	struct gs_port		*port;
--	struct task_struct	*console_thread;
--	struct kfifo		con_buf;
--	/* protect the buf and busy flag */
--	spinlock_t		con_lock;
--	int			req_busy;
--	struct usb_request	*console_req;
-+struct gs_console {
-+	struct console		console;
-+	struct work_struct	work;
-+	spinlock_t		lock;
-+	struct usb_request	*req;
-+	struct kfifo		buf;
- };
- 
- /*
-@@ -101,6 +99,9 @@ struct gs_port {
- 	spinlock_t		port_lock;	/* guard port_* access */
- 
- 	struct gserial		*port_usb;
-+#ifdef CONFIG_U_SERIAL_CONSOLE
-+	struct gs_console	*console;
-+#endif
- 
- 	bool			openclose;	/* open/close in progress */
- 	u8			port_num;
-@@ -889,36 +890,9 @@ static struct tty_driver *gs_tty_driver;
- 
- #ifdef CONFIG_U_SERIAL_CONSOLE
- 
--static struct gscons_info gscons_info;
--static struct console gserial_cons;
--
--static struct usb_request *gs_request_new(struct usb_ep *ep)
-+static void gs_console_complete_out(struct usb_ep *ep, struct usb_request *req)
- {
--	struct usb_request *req = usb_ep_alloc_request(ep, GFP_ATOMIC);
--	if (!req)
--		return NULL;
--
--	req->buf = kmalloc(ep->maxpacket, GFP_ATOMIC);
--	if (!req->buf) {
--		usb_ep_free_request(ep, req);
--		return NULL;
--	}
--
--	return req;
--}
--
--static void gs_request_free(struct usb_request *req, struct usb_ep *ep)
--{
--	if (!req)
--		return;
--
--	kfree(req->buf);
--	usb_ep_free_request(ep, req);
--}
--
--static void gs_complete_out(struct usb_ep *ep, struct usb_request *req)
--{
--	struct gscons_info *info = &gscons_info;
-+	struct gs_console *cons = req->context;
- 
- 	switch (req->status) {
- 	default:
-@@ -927,12 +901,12 @@ static void gs_complete_out(struct usb_ep *ep, struct usb_request *req)
- 		/* fall through */
- 	case 0:
- 		/* normal completion */
--		spin_lock(&info->con_lock);
--		info->req_busy = 0;
--		spin_unlock(&info->con_lock);
--
--		wake_up_process(info->console_thread);
-+		spin_lock(&cons->lock);
-+		req->length = 0;
-+		schedule_work(&cons->work);
-+		spin_unlock(&cons->lock);
- 		break;
-+	case -ECONNRESET:
- 	case -ESHUTDOWN:
- 		/* disconnect */
- 		pr_vdebug("%s: %s shutdown\n", __func__, ep->name);
-@@ -940,190 +914,190 @@ static void gs_complete_out(struct usb_ep *ep, struct usb_request *req)
- 	}
- }
- 
--static int gs_console_connect(int port_num)
-+static void __gs_console_push(struct gs_console *cons)
- {
--	struct gscons_info *info = &gscons_info;
--	struct gs_port *port;
-+	struct usb_request *req = cons->req;
- 	struct usb_ep *ep;
-+	size_t size;
- 
--	if (port_num != gserial_cons.index) {
--		pr_err("%s: port num [%d] is not support console\n",
--		       __func__, port_num);
--		return -ENXIO;
--	}
-+	if (!req)
-+		return;	/* disconnected */
- 
--	port = ports[port_num].port;
--	ep = port->port_usb->in;
--	if (!info->console_req) {
--		info->console_req = gs_request_new(ep);
--		if (!info->console_req)
--			return -ENOMEM;
--		info->console_req->complete = gs_complete_out;
--	}
-+	if (req->length)
-+		return;	/* busy */
- 
--	info->port = port;
--	spin_lock(&info->con_lock);
--	info->req_busy = 0;
--	spin_unlock(&info->con_lock);
--	pr_vdebug("port[%d] console connect!\n", port_num);
--	return 0;
--}
--
--static void gs_console_disconnect(struct usb_ep *ep)
--{
--	struct gscons_info *info = &gscons_info;
--	struct usb_request *req = info->console_req;
--
--	gs_request_free(req, ep);
--	info->console_req = NULL;
--}
--
--static int gs_console_thread(void *data)
--{
--	struct gscons_info *info = &gscons_info;
--	struct gs_port *port;
--	struct usb_request *req;
--	struct usb_ep *ep;
--	int xfer, ret, count, size;
-+	ep = cons->console.data;
-+	size = kfifo_out(&cons->buf, req->buf, ep->maxpacket);
-+	if (!size)
-+		return;
- 
--	do {
--		port = info->port;
--		set_current_state(TASK_INTERRUPTIBLE);
--		if (!port || !port->port_usb
--		    || !port->port_usb->in || !info->console_req)
--			goto sched;
--
--		req = info->console_req;
--		ep = port->port_usb->in;
--
--		spin_lock_irq(&info->con_lock);
--		count = kfifo_len(&info->con_buf);
--		size = ep->maxpacket;
--
--		if (count > 0 && !info->req_busy) {
--			set_current_state(TASK_RUNNING);
--			if (count < size)
--				size = count;
--
--			xfer = kfifo_out(&info->con_buf, req->buf, size);
--			req->length = xfer;
--
--			spin_unlock(&info->con_lock);
--			ret = usb_ep_queue(ep, req, GFP_ATOMIC);
--			spin_lock(&info->con_lock);
--			if (ret < 0)
--				info->req_busy = 0;
--			else
--				info->req_busy = 1;
--
--			spin_unlock_irq(&info->con_lock);
--		} else {
--			spin_unlock_irq(&info->con_lock);
--sched:
--			if (kthread_should_stop()) {
--				set_current_state(TASK_RUNNING);
--				break;
--			}
--			schedule();
--		}
--	} while (1);
--
--	return 0;
-+	req->length = size;
-+	if (usb_ep_queue(ep, req, GFP_ATOMIC))
-+		req->length = 0;
- }
- 
--static int gs_console_setup(struct console *co, char *options)
-+static void gs_console_work(struct work_struct *work)
- {
--	struct gscons_info *info = &gscons_info;
--	int status;
--
--	info->port = NULL;
--	info->console_req = NULL;
--	info->req_busy = 0;
--	spin_lock_init(&info->con_lock);
-+	struct gs_console *cons = container_of(work, struct gs_console, work);
- 
--	status = kfifo_alloc(&info->con_buf, GS_CONSOLE_BUF_SIZE, GFP_KERNEL);
--	if (status) {
--		pr_err("%s: allocate console buffer failed\n", __func__);
--		return status;
--	}
-+	spin_lock_irq(&cons->lock);
- 
--	info->console_thread = kthread_create(gs_console_thread,
--					      co, "gs_console");
--	if (IS_ERR(info->console_thread)) {
--		pr_err("%s: cannot create console thread\n", __func__);
--		kfifo_free(&info->con_buf);
--		return PTR_ERR(info->console_thread);
--	}
--	wake_up_process(info->console_thread);
-+	__gs_console_push(cons);
- 
--	return 0;
-+	spin_unlock_irq(&cons->lock);
- }
- 
- static void gs_console_write(struct console *co,
- 			     const char *buf, unsigned count)
- {
--	struct gscons_info *info = &gscons_info;
-+	struct gs_console *cons = container_of(co, struct gs_console, console);
- 	unsigned long flags;
- 
--	spin_lock_irqsave(&info->con_lock, flags);
--	kfifo_in(&info->con_buf, buf, count);
--	spin_unlock_irqrestore(&info->con_lock, flags);
-+	spin_lock_irqsave(&cons->lock, flags);
- 
--	wake_up_process(info->console_thread);
-+	kfifo_in(&cons->buf, buf, count);
-+
-+	if (cons->req && !cons->req->length)
-+		schedule_work(&cons->work);
-+
-+	spin_unlock_irqrestore(&cons->lock, flags);
- }
- 
- static struct tty_driver *gs_console_device(struct console *co, int *index)
- {
--	struct tty_driver **p = (struct tty_driver **)co->data;
--
--	if (!*p)
--		return NULL;
--
- 	*index = co->index;
--	return *p;
-+	return gs_tty_driver;
- }
- 
--static struct console gserial_cons = {
--	.name =		"ttyGS",
--	.write =	gs_console_write,
--	.device =	gs_console_device,
--	.setup =	gs_console_setup,
--	.flags =	CON_PRINTBUFFER,
--	.index =	-1,
--	.data =		&gs_tty_driver,
--};
--
--static void gserial_console_init(void)
-+static int gs_console_connect(struct gs_port *port)
- {
--	register_console(&gserial_cons);
-+	struct gs_console *cons = port->console;
-+	struct usb_request *req;
-+	struct usb_ep *ep;
-+
-+	if (!cons)
-+		return 0;
-+
-+	ep = port->port_usb->in;
-+	req = gs_alloc_req(ep, ep->maxpacket, GFP_ATOMIC);
-+	if (!req)
-+		return -ENOMEM;
-+	req->complete = gs_console_complete_out;
-+	req->context = cons;
-+	req->length = 0;
-+
-+	spin_lock(&cons->lock);
-+	cons->req = req;
-+	cons->console.data = ep;
-+	spin_unlock(&cons->lock);
-+
-+	pr_debug("ttyGS%d: console connected!\n", port->port_num);
-+
-+	schedule_work(&cons->work);
-+
-+	return 0;
-+}
-+
-+static void gs_console_disconnect(struct gs_port *port)
-+{
-+	struct gs_console *cons = port->console;
-+	struct usb_request *req;
-+	struct usb_ep *ep;
-+
-+	if (!cons)
-+		return;
-+
-+	spin_lock(&cons->lock);
-+
-+	req = cons->req;
-+	ep = cons->console.data;
-+	cons->req = NULL;
-+
-+	spin_unlock(&cons->lock);
-+
-+	if (!req)
-+		return;
-+
-+	usb_ep_dequeue(ep, req);
-+	gs_free_req(ep, req);
- }
- 
--static void gserial_console_exit(void)
-+static int gs_console_init(struct gs_port *port)
- {
--	struct gscons_info *info = &gscons_info;
-+	struct gs_console *cons;
-+	int err;
-+
-+	if (port->console)
-+		return 0;
-+
-+	cons = kzalloc(sizeof(*port->console), GFP_KERNEL);
-+	if (!cons)
-+		return -ENOMEM;
-+
-+	strcpy(cons->console.name, "ttyGS");
-+	cons->console.write = gs_console_write;
-+	cons->console.device = gs_console_device;
-+	cons->console.flags = CON_PRINTBUFFER;
-+	cons->console.index = port->port_num;
-+
-+	INIT_WORK(&cons->work, gs_console_work);
-+	spin_lock_init(&cons->lock);
-+
-+	err = kfifo_alloc(&cons->buf, GS_CONSOLE_BUF_SIZE, GFP_KERNEL);
-+	if (err) {
-+		pr_err("ttyGS%d: allocate console buffer failed\n", port->port_num);
-+		kfree(cons);
-+		return err;
-+	}
-+
-+	port->console = cons;
-+	register_console(&cons->console);
-+
-+	spin_lock_irq(&port->port_lock);
-+	if (port->port_usb)
-+		gs_console_connect(port);
-+	spin_unlock_irq(&port->port_lock);
-+
-+	return 0;
-+}
-+
-+static void gs_console_exit(struct gs_port *port)
-+{
-+	struct gs_console *cons = port->console;
-+
-+	if (!cons)
-+		return;
-+
-+	unregister_console(&cons->console);
-+
-+	spin_lock_irq(&port->port_lock);
-+	if (cons->req)
-+		gs_console_disconnect(port);
-+	spin_unlock_irq(&port->port_lock);
- 
--	unregister_console(&gserial_cons);
--	if (!IS_ERR_OR_NULL(info->console_thread))
--		kthread_stop(info->console_thread);
--	kfifo_free(&info->con_buf);
-+	cancel_work_sync(&cons->work);
-+	kfifo_free(&cons->buf);
-+	kfree(cons);
-+	port->console = NULL;
- }
- 
- #else
- 
--static int gs_console_connect(int port_num)
-+static int gs_console_connect(struct gs_port *port)
- {
- 	return 0;
- }
- 
--static void gs_console_disconnect(struct usb_ep *ep)
-+static void gs_console_disconnect(struct gs_port *port)
- {
- }
- 
--static void gserial_console_init(void)
-+static int gs_console_init(struct gs_port *port)
- {
-+	return -ENOSYS;
- }
- 
--static void gserial_console_exit(void)
-+static void gs_console_exit(struct gs_port *port)
- {
- }
- 
-@@ -1197,18 +1171,19 @@ void gserial_free_line(unsigned char port_num)
- 		return;
- 	}
- 	port = ports[port_num].port;
-+	gs_console_exit(port);
- 	ports[port_num].port = NULL;
- 	mutex_unlock(&ports[port_num].lock);
- 
- 	gserial_free_port(port);
- 	tty_unregister_device(gs_tty_driver, port_num);
--	gserial_console_exit();
- }
- EXPORT_SYMBOL_GPL(gserial_free_line);
- 
- int gserial_alloc_line(unsigned char *line_num)
- {
- 	struct usb_cdc_line_coding	coding;
-+	struct gs_port			*port;
- 	struct device			*tty_dev;
- 	int				ret;
- 	int				port_num;
-@@ -1231,23 +1206,24 @@ int gserial_alloc_line(unsigned char *line_num)
- 
- 	/* ... and sysfs class devices, so mdev/udev make /dev/ttyGS* */
- 
--	tty_dev = tty_port_register_device(&ports[port_num].port->port,
-+	port = ports[port_num].port;
-+	tty_dev = tty_port_register_device(&port->port,
- 			gs_tty_driver, port_num, NULL);
- 	if (IS_ERR(tty_dev)) {
--		struct gs_port	*port;
- 		pr_err("%s: failed to register tty for port %d, err %ld\n",
- 				__func__, port_num, PTR_ERR(tty_dev));
- 
- 		ret = PTR_ERR(tty_dev);
- 		mutex_lock(&ports[port_num].lock);
--		port = ports[port_num].port;
- 		ports[port_num].port = NULL;
- 		mutex_unlock(&ports[port_num].lock);
- 		gserial_free_port(port);
- 		goto err;
- 	}
- 	*line_num = port_num;
--	gserial_console_init();
-+
-+	if (!port_num)
-+		gs_console_init(port);
- err:
- 	return ret;
- }
-@@ -1329,7 +1305,7 @@ int gserial_connect(struct gserial *gser, u8 port_num)
- 			gser->disconnect(gser);
- 	}
- 
--	status = gs_console_connect(port_num);
-+	status = gs_console_connect(port);
- 	spin_unlock_irqrestore(&port->port_lock, flags);
- 
- 	return status;
-@@ -1361,6 +1337,8 @@ void gserial_disconnect(struct gserial *gser)
- 	/* tell the TTY glue not to do I/O here any more */
- 	spin_lock_irqsave(&port->port_lock, flags);
- 
-+	gs_console_disconnect(port);
-+
- 	/* REVISIT as above: how best to track this? */
- 	port->port_line_coding = gser->port_line_coding;
- 
-@@ -1388,7 +1366,6 @@ void gserial_disconnect(struct gserial *gser)
- 	port->read_allocated = port->read_started =
- 		port->write_allocated = port->write_started = 0;
- 
--	gs_console_disconnect(gser->in);
- 	spin_unlock_irqrestore(&port->port_lock, flags);
- }
- EXPORT_SYMBOL_GPL(gserial_disconnect);
+Best regards
 -- 
-2.20.1
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
