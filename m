@@ -7,40 +7,40 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42562C76194
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0285C76190
 	for <linux-usb@archiver.kernel.org>; Mon, 22 Jul 2019 15:14:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1AB6B204FD
+	by mail.kernel.org (Postfix) with ESMTP id C853B204FD
 	for <linux-usb@archiver.kernel.org>; Mon, 22 Jul 2019 15:14:43 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=rere.qmqm.pl header.i=@rere.qmqm.pl header.b="UQ05zh+k"
+	dkim=pass (2048-bit key) header.d=rere.qmqm.pl header.i=@rere.qmqm.pl header.b="Oy1r4i0s"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728169AbfGVPOm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 22 Jul 2019 11:14:42 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:64344 "EHLO rere.qmqm.pl"
+        id S1728222AbfGVPOn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 22 Jul 2019 11:14:43 -0400
+Received: from rere.qmqm.pl ([91.227.64.183]:12445 "EHLO rere.qmqm.pl"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728128AbfGVPOl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 22 Jul 2019 11:14:41 -0400
+        id S1728152AbfGVPOm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 22 Jul 2019 11:14:42 -0400
 Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 45slVR6JK4zKH;
-        Mon, 22 Jul 2019 17:13:19 +0200 (CEST)
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 45slVS5P2dzPY;
+        Mon, 22 Jul 2019 17:13:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1563808399; bh=Dsh1qRyU6dA9i6Az9gQubm9HL/ptRDfevA8JqSfkj7Q=;
+        t=1563808400; bh=TdT9n1Ywbi3S34fc4ws+j1DBivDFgXdJh+HjmrViuK8=;
         h=Date:In-Reply-To:References:From:Subject:To:Cc:From;
-        b=UQ05zh+kjjfxu/b4HQnT73XdBQjHVEJd2KmXCH5QbQlpXLi65EQUlDORUCpxoeRY8
-         3HqCbnurmmROkeSS9o8HX6BAk97uZuWxMNvsl6ABZhYn8Jp6yRE+z+/yYndM6h8ypN
-         DJDYwiLLz0qEUWnD0f8DZzzYz/j40AuTNrgEQBv1dWFJuZU7/mVFWZQhrTxu4AFLOv
-         X0Wj39LFszXhlcMQyHAj1D5vO69XW7woYpVBCRGPCd1ctWRuUZceYyjqnA+D4q8XOS
-         vJ2Bf/c64tcKgneF1QVYKT8NhB1w1RuDC0+46bF+P6L4JTYK4zxdCBL8zM58k/hOPn
-         G4bynUekNG8dQ==
+        b=Oy1r4i0sqX5+dA3NmkrvCxla0ywfeGvtWIV7SWrc507UGN7Oe03IvBMxnqv8U+tmS
+         OIUBcTPcXXyXoxhJgVxhz/L2LGuRzgKXNksOmIpQS69cxSH0k/KArpUHUH1udx0Ab8
+         WsUqxV5pndnTyQRszQayVyu/vs1tXNDXA/x3RJTurb0LFhsZVA4noj909vDUmx6sT5
+         N7NHYVgwnn3taOUQsCzFKbA0TvgMv3k+PSAta1AMRWv9flOV84mNR7lXqM7+ma7H6/
+         JdVcHzGo0wUDGxRWnL1hDoEVId+JWIBt+ilUnNPRKVNFVLAlPdunKojP44COhBTURo
+         DG5x+3JQ/ONoA==
 X-Virus-Status: Clean
 X-Virus-Scanned: clamav-milter 0.100.3 at mail
-Date:   Mon, 22 Jul 2019 17:14:38 +0200
-Message-Id: <73e7f99d853cff649e3c12e67fe0a6306a53bc90.1563808218.git.mirq-linux@rere.qmqm.pl>
+Date:   Mon, 22 Jul 2019 17:14:39 +0200
+Message-Id: <728d64c793a7aade68fb9d3488ba017492f8eded.1563808218.git.mirq-linux@rere.qmqm.pl>
 In-Reply-To: <cover.1563808218.git.mirq-linux@rere.qmqm.pl>
 References: <cover.1563808218.git.mirq-linux@rere.qmqm.pl>
 From:   =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Subject: [PATCH v4 3/6] usb: gadget: u_serial: make OBEX port not a console
+Subject: [PATCH v4 6/6] USB: gadget: legacy/serial: allow dynamic removal
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -53,88 +53,99 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Prevent OBEX serial port from ever becoming a console. Console messages
-will definitely break the protocol, and since you have to instantiate
-the port making it explicitly for OBEX, there is no point in allowing
-console to break it by mistake.
+Legacy serial USB gadget is still useful as an early console,
+before userspace is up. Later it could be replaced with proper
+configfs-configured composite gadget - that use case is enabled
+by this patch.
 
 Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
-  v4: no changes
-  v3: rename gserial_alloc_line_raw() -> gserial_alloc_line_no_console()
-  v2: change of API
-    + commit message massage
+  v4: initial revision, new in the patchset
 
 ---
- drivers/usb/gadget/function/f_obex.c   |  2 +-
- drivers/usb/gadget/function/u_serial.c | 16 ++++++++++++----
- drivers/usb/gadget/function/u_serial.h |  1 +
- 3 files changed, 14 insertions(+), 5 deletions(-)
+ drivers/usb/gadget/legacy/serial.c | 49 +++++++++++++++++++++++++++++-
+ 1 file changed, 48 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/function/f_obex.c b/drivers/usb/gadget/function/f_obex.c
-index 55b7f57d2dc7..ab26d84ed95e 100644
---- a/drivers/usb/gadget/function/f_obex.c
-+++ b/drivers/usb/gadget/function/f_obex.c
-@@ -432,7 +432,7 @@ static struct usb_function_instance *obex_alloc_inst(void)
- 		return ERR_PTR(-ENOMEM);
+diff --git a/drivers/usb/gadget/legacy/serial.c b/drivers/usb/gadget/legacy/serial.c
+index de30d7628eef..da44f89f5e73 100644
+--- a/drivers/usb/gadget/legacy/serial.c
++++ b/drivers/usb/gadget/legacy/serial.c
+@@ -97,6 +97,36 @@ static unsigned n_ports = 1;
+ module_param(n_ports, uint, 0);
+ MODULE_PARM_DESC(n_ports, "number of ports to create, default=1");
  
- 	opts->func_inst.free_func_inst = obex_free_inst;
--	ret = gserial_alloc_line(&opts->port_num);
-+	ret = gserial_alloc_line_no_console(&opts->port_num);
- 	if (ret) {
- 		kfree(opts);
- 		return ERR_PTR(ret);
-diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
-index 94f6999e8262..62280c23cde2 100644
---- a/drivers/usb/gadget/function/u_serial.c
-+++ b/drivers/usb/gadget/function/u_serial.c
-@@ -1180,7 +1180,7 @@ void gserial_free_line(unsigned char port_num)
- }
- EXPORT_SYMBOL_GPL(gserial_free_line);
- 
--int gserial_alloc_line(unsigned char *line_num)
-+int gserial_alloc_line_no_console(unsigned char *line_num)
- {
- 	struct usb_cdc_line_coding	coding;
- 	struct gs_port			*port;
-@@ -1221,12 +1221,20 @@ int gserial_alloc_line(unsigned char *line_num)
- 		goto err;
- 	}
- 	*line_num = port_num;
--
--	if (!port_num)
--		gs_console_init(port);
- err:
- 	return ret;
- }
-+EXPORT_SYMBOL_GPL(gserial_alloc_line_no_console);
++static bool enable = true;
 +
-+int gserial_alloc_line(unsigned char *line_num)
++static int switch_gserial_enable(bool do_enable);
++
++static int enable_set(const char *s, const struct kernel_param *kp)
 +{
-+	int ret = gserial_alloc_line_no_console(line_num);
++	bool do_enable;
++	int ret;
 +
-+	if (!ret && !*line_num)
-+		gs_console_init(ports[*line_num].port);
++	if (!s)	/* called for no-arg enable == default */
++		return 0;
++
++	ret = strtobool(s, &do_enable);
++	if (ret || enable == do_enable)
++		return ret;
++
++	ret = switch_gserial_enable(do_enable);
++	if (!ret)
++		enable = do_enable;
 +
 +	return ret;
 +}
- EXPORT_SYMBOL_GPL(gserial_alloc_line);
++
++static const struct kernel_param_ops enable_ops = {
++	.set = enable_set,
++	.get = param_get_bool,
++};
++
++module_param_cb(enable, &enable_ops, &enable, 0644);
++
+ /*-------------------------------------------------------------------------*/
  
- /**
-diff --git a/drivers/usb/gadget/function/u_serial.h b/drivers/usb/gadget/function/u_serial.h
-index 9acaac1cbb75..8b472b0c8cb4 100644
---- a/drivers/usb/gadget/function/u_serial.h
-+++ b/drivers/usb/gadget/function/u_serial.h
-@@ -54,6 +54,7 @@ struct usb_request *gs_alloc_req(struct usb_ep *ep, unsigned len, gfp_t flags);
- void gs_free_req(struct usb_ep *, struct usb_request *req);
+ static struct usb_configuration serial_config_driver = {
+@@ -240,6 +270,19 @@ static struct usb_composite_driver gserial_driver = {
+ 	.unbind		= gs_unbind,
+ };
  
- /* management of individual TTY ports */
-+int gserial_alloc_line_no_console(unsigned char *port_line);
- int gserial_alloc_line(unsigned char *port_line);
- void gserial_free_line(unsigned char port_line);
++static int switch_gserial_enable(bool do_enable)
++{
++	if (!serial_config_driver.label)
++		/* init() was not called, yet */
++		return 0;
++
++	if (do_enable)
++		return usb_composite_probe(&gserial_driver);
++
++	usb_composite_unregister(&gserial_driver);
++	return 0;
++}
++
+ static int __init init(void)
+ {
+ 	/* We *could* export two configs; that'd be much cleaner...
+@@ -266,12 +309,16 @@ static int __init init(void)
+ 	}
+ 	strings_dev[STRING_DESCRIPTION_IDX].s = serial_config_driver.label;
  
++	if (!enable)
++		return 0;
++
+ 	return usb_composite_probe(&gserial_driver);
+ }
+ module_init(init);
+ 
+ static void __exit cleanup(void)
+ {
+-	usb_composite_unregister(&gserial_driver);
++	if (enable)
++		usb_composite_unregister(&gserial_driver);
+ }
+ module_exit(cleanup);
 -- 
 2.20.1
 
