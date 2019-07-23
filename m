@@ -4,47 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFB2FC7618E
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Jul 2019 12:48:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 466C9C76190
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Jul 2019 12:48:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B518420823
-	for <linux-usb@archiver.kernel.org>; Tue, 23 Jul 2019 12:48:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2647520823
+	for <linux-usb@archiver.kernel.org>; Tue, 23 Jul 2019 12:48:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389906AbfGWMsK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 23 Jul 2019 08:48:10 -0400
-Received: from mail-io1-f72.google.com ([209.85.166.72]:53076 "EHLO
+        id S2389941AbfGWMsV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 23 Jul 2019 08:48:21 -0400
+Received: from mail-io1-f72.google.com ([209.85.166.72]:53406 "EHLO
         mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389888AbfGWMsJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Jul 2019 08:48:09 -0400
-Received: by mail-io1-f72.google.com with SMTP id p12so47028823iog.19
-        for <linux-usb@vger.kernel.org>; Tue, 23 Jul 2019 05:48:08 -0700 (PDT)
+        with ESMTP id S2389903AbfGWMsK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 23 Jul 2019 08:48:10 -0400
+Received: by mail-io1-f72.google.com with SMTP id h3so47105478iob.20
+        for <linux-usb@vger.kernel.org>; Tue, 23 Jul 2019 05:48:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=kqXTj+6f49PDfJPlB8PBCd63qCEOjYJY7TBdn4RTdjI=;
-        b=Y4sYa0iVwYv2IIJ0eMCV9BmiUb9KLY1OAevnSLxuweYroc5K8awD7JiNG/R51b07F/
-         pSjNmqrM9nBWHKrf0LCAxtlz5i5tLV71a3zgnNB0eNqFo+UjszYhGfVJIp+7ddcIaP/0
-         C1hoTOldP/HpM7K5nQVLZbbZxWD/yj5rKi5U53jEG8KLnCXFYZzfmNERmNIm171bAaVx
-         Gyiik3ZWWfNU146Ksj/deWCc0RXRrsGtUHpF/c1EhLMor2/a3J3T1x9TyhU0YNuWyXSe
-         7ZPI1fWqajd/2hAWewlTv+OAiCFbDMRPUYb/6VCmOBhDWUSzBcxSUHue3ohxjLyQrpT0
-         SE5w==
-X-Gm-Message-State: APjAAAUA8VbkPZcDAyfVNrGKAvHhNDafRGQu4EItIuxca74OmNCFR1PZ
-        5VCGs/x8QNTJpeOaqTYtXwpsOUm27Cx/UPTEbvprK44JuNyr
-X-Google-Smtp-Source: APXvYqwXulfXVoWbR0TwgY7cZzLIIqOnxttGO4gAD/ey+Uxgl+XQVHYDed48gYLzajdmhNHWmsFJOVf1lfzW8n4GV0U7wGQKoNvZ
+        bh=kQbHTv12UWJ75r48zbBLw3Y6lUFzP91zXHFCNF2crgY=;
+        b=CGDsZFi70CGKrJeEsH5b4IeTQ094qSmEGcWtdJwZTw7KBTIouVsXahG3rDnuuF17m6
+         jnc1Gra2HYyhcdk5wzmrxP/FjzpNplw8MUq0KWN9efbWQEmKeQyuo7bmkcZmPsdfWyfW
+         VO6c0LxzH/OjftaKMqVzKMmtidt8PlFcSp00Ekjtus+1OsBkY9wrbTjuOFXR0VnBwmGa
+         PDZ7qfyiGqAc54NEhEqt32IxERo8NTHcdDw79wckHrU7aqQHbxeR82NFcBh/xWvVf25Q
+         660wGNb1TdyHHPHP7EElsw2u/Dev25v23KawsP40BoMh1I/61PQvqaQvXEKsMIOmphHK
+         /4fg==
+X-Gm-Message-State: APjAAAUvh0tkL9nmkcMWmq35tm6pkIMEPkVwgiF3XdX7YUMew0sy2Z7q
+        SUBEa0fHDN4v0IksRE3UrZA6I1WpDFDD8dzX0DoqE+/buHkj
+X-Google-Smtp-Source: APXvYqyHjYV9xpc7g0W38YsQCuopju9KIve1wsoLO+Nr624Nb4j2UPzeOYHu79ZXHFo0HDjVpFujRQ8Of9pknXJ4Am4c+Anp2r3A
 MIME-Version: 1.0
-X-Received: by 2002:a6b:901:: with SMTP id t1mr61652689ioi.42.1563886088334;
- Tue, 23 Jul 2019 05:48:08 -0700 (PDT)
-Date:   Tue, 23 Jul 2019 05:48:08 -0700
+X-Received: by 2002:a5d:9047:: with SMTP id v7mr3057021ioq.18.1563886089437;
+ Tue, 23 Jul 2019 05:48:09 -0700 (PDT)
+Date:   Tue, 23 Jul 2019 05:48:09 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000c3b67c058e589ada@google.com>
-Subject: WARNING in usbvision_write_reg/usb_submit_urb
-From:   syzbot <syzbot+1fe821ea9f66c0df9cbf@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
-        gustavo@embeddedor.com, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Message-ID: <000000000000d48965058e589a94@google.com>
+Subject: kernel BUG at drivers/usb/wusbcore/wusbhc.c:LINE!
+From:   syzbot <syzbot+fd2bd7df88c606eea4ef@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, gregkh@linuxfoundation.org, joe@perches.com,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        louis@kragniz.eu, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
@@ -57,64 +57,45 @@ syzbot found the following crash on:
 
 HEAD commit:    6a3599ce usb-fuzzer: main usb gadget fuzzer driver
 git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=17daca64600000
+console output: https://syzkaller.appspot.com/x/log.txt?x=1417be94600000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=700ca426ab83faae
-dashboard link: https://syzkaller.appspot.com/bug?extid=1fe821ea9f66c0df9cbf
+dashboard link: https://syzkaller.appspot.com/bug?extid=fd2bd7df88c606eea4ef
 compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=113dda44600000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=174d46f4600000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15d5d25c600000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15c29358600000
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+1fe821ea9f66c0df9cbf@syzkaller.appspotmail.com
+Reported-by: syzbot+fd2bd7df88c606eea4ef@syzkaller.appspotmail.com
 
-usb 1-1: config 0 interface 237 altsetting 0 endpoint 0x83 has an invalid  
-bInterval 0, changing to 7
-usb 1-1: New USB device found, idVendor=0573, idProduct=4d21,  
-bcdDevice=83.91
-usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-usb 1-1: config 0 descriptor??
-usbvision_probe: Hauppauge WinTV USB Pro (PAL B/G) found
+usb 1-1: BUG? WUSB host has no security descriptors
+hwa-hc 1-1:0.66: Wireless USB HWA host controller
+hwa-hc 1-1:0.66: new USB bus registered, assigned bus number 11
+hwa-hc 1-1:0.66: Cannot set WUSB Cluster ID to 0xfe: -71
+hwa-hc 1-1:0.66: Wireless USB Cluster ID set to 0xfe
 ------------[ cut here ]------------
-usb 1-1: BOGUS urb xfer, pipe 2 != type 1
-WARNING: CPU: 0 PID: 12 at drivers/usb/core/urb.c:477  
-usb_submit_urb+0x1188/0x13b0 /drivers/usb/core/urb.c:477
-Kernel panic - not syncing: panic_on_warn set ...
-CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.2.0-rc6+ #15
+kernel BUG at drivers/usb/wusbcore/wusbhc.c:385!
+invalid opcode: 0000 [#1] SMP KASAN
+CPU: 1 PID: 21 Comm: kworker/1:1 Not tainted 5.2.0-rc6+ #15
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
 Google 01/01/2011
 Workqueue: usb_hub_wq hub_event
+RIP: 0010:wusb_cluster_id_put+0x6b/0x80 /drivers/usb/wusbcore/wusbhc.c:385
+Code: 7b 9d ce fd 40 84 ed 74 23 e8 41 9c ce fd f0 48 0f b3 1d e8 d6 0e 06  
+5b 48 c7 c7 60 1b 06 87 5d e9 8a 3c e9 01 e8 25 9c ce fd <0f> 0b e8 1e 9c  
+ce fd 0f 0b eb d4 66 2e 0f 1f 84 00 00 00 00 00 41
+RSP: 0018:ffff8881d9eff0e8 EFLAGS: 00010293
+RAX: ffff8881d9e36000 RBX: 00000000ffffffff RCX: ffffffff836e3f37
+RDX: 0000000000000000 RSI: ffffffff836e3f8b RDI: 0000000000000001
+RBP: 00000000000000fe R08: ffff8881d9e36000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 00000000ffffffb9
+R13: ffff8881d4a52600 R14: ffff8881d0b5d530 R15: 00000000000000fe
+FS:  0000000000000000(0000) GS:ffff8881db300000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007efcea69e000 CR3: 00000001d4f3a000 CR4: 00000000001406e0
 Call Trace:
-  __dump_stack /lib/dump_stack.c:77 [inline]
-  dump_stack+0xca/0x13e /lib/dump_stack.c:113
-  panic+0x292/0x6c9 /kernel/panic.c:219
-  __warn.cold+0x20/0x4b /kernel/panic.c:576
-  report_bug+0x262/0x2a0 /lib/bug.c:186
-  fixup_bug /arch/x86/kernel/traps.c:179 [inline]
-  fixup_bug /arch/x86/kernel/traps.c:174 [inline]
-  do_error_trap+0x12b/0x1e0 /arch/x86/kernel/traps.c:272
-  do_invalid_op+0x32/0x40 /arch/x86/kernel/traps.c:291
-  invalid_op+0x14/0x20 /arch/x86/entry/entry_64.S:986
-RIP: 0010:usb_submit_urb+0x1188/0x13b0 /drivers/usb/core/urb.c:477
-Code: 4d 85 ed 74 2c e8 f8 d3 f4 fd 4c 89 f7 e8 a0 51 1c ff 41 89 d8 44 89  
-e1 4c 89 ea 48 89 c6 48 c7 c7 00 0e f7 85 e8 83 98 ca fd <0f> 0b e9 20 f4  
-ff ff e8 cc d3 f4 fd 4c 89 f2 48 b8 00 00 00 00 00
-RSP: 0018:ffff8881d9e0f030 EFLAGS: 00010282
-RAX: 0000000000000000 RBX: 0000000000000001 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff8127ef3d RDI: ffffed103b3c1df8
-RBP: ffff8881d946d900 R08: ffff8881d9df9800 R09: ffffed103b645d30
-R10: ffffed103b645d2f R11: ffff8881db22e97f R12: 0000000000000002
-R13: ffff8881ce015c90 R14: ffff8881d08bd5a0 R15: ffff8881d946d700
-  usb_start_wait_urb+0x108/0x2b0 /drivers/usb/core/message.c:57
-  usb_internal_control_msg /drivers/usb/core/message.c:101 [inline]
-  usb_control_msg+0x31c/0x4a0 /drivers/usb/core/message.c:152
-  usbvision_write_reg+0x175/0x1f0  
-/drivers/media/usb/usbvision/usbvision-core.c:1383
-  usbvision_audio_off+0x1e/0xc0  
-/drivers/media/usb/usbvision/usbvision-core.c:2183
-  usbvision_configure_video  
-/drivers/media/usb/usbvision/usbvision-video.c:1393 [inline]
-  usbvision_probe.cold+0x120d/0x1d69  
-/drivers/media/usb/usbvision/usbvision-video.c:1527
+  hwahc_op_start.cold+0x159/0x183 /drivers/usb/host/hwa-hc.c:162
+  usb_add_hcd.cold+0xaac/0x15a1 /drivers/usb/core/hcd.c:2887
+  hwahc_probe.cold+0xef/0x48b /drivers/usb/host/hwa-hc.c:810
   usb_probe_interface+0x305/0x7a0 /drivers/usb/core/driver.c:361
   really_probe+0x281/0x660 /drivers/base/dd.c:509
   driver_probe_device+0x104/0x210 /drivers/base/dd.c:670
@@ -142,8 +123,21 @@ R13: ffff8881ce015c90 R14: ffff8881d08bd5a0 R15: ffff8881d946d700
   worker_thread+0x96/0xe20 /kernel/workqueue.c:2415
   kthread+0x30b/0x410 /kernel/kthread.c:255
   ret_from_fork+0x24/0x30 /arch/x86/entry/entry_64.S:352
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
+Modules linked in:
+---[ end trace 328f1b9a8fbb35b6 ]---
+RIP: 0010:wusb_cluster_id_put+0x6b/0x80 /drivers/usb/wusbcore/wusbhc.c:385
+Code: 7b 9d ce fd 40 84 ed 74 23 e8 41 9c ce fd f0 48 0f b3 1d e8 d6 0e 06  
+5b 48 c7 c7 60 1b 06 87 5d e9 8a 3c e9 01 e8 25 9c ce fd <0f> 0b e8 1e 9c  
+ce fd 0f 0b eb d4 66 2e 0f 1f 84 00 00 00 00 00 41
+RSP: 0018:ffff8881d9eff0e8 EFLAGS: 00010293
+RAX: ffff8881d9e36000 RBX: 00000000ffffffff RCX: ffffffff836e3f37
+RDX: 0000000000000000 RSI: ffffffff836e3f8b RDI: 0000000000000001
+RBP: 00000000000000fe R08: ffff8881d9e36000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 00000000ffffffb9
+R13: ffff8881d4a52600 R14: ffff8881d0b5d530 R15: 00000000000000fe
+FS:  0000000000000000(0000) GS:ffff8881db300000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007efcea69e000 CR3: 00000001d4f3a000 CR4: 00000000001406e0
 
 
 ---
