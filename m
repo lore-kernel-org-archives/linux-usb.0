@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DAB6C76191
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Jul 2019 19:41:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B893C76191
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Jul 2019 20:11:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 501DD21873
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Jul 2019 19:41:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4A6A52083B
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Jul 2019 20:11:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1563997313;
-	bh=CeAz4WAb4VqP5odFb4/t6m4PxOAfxKtvjLeRisAONmM=;
+	s=default; t=1563999078;
+	bh=1otD8bJipzPQajaBeXsTvYYuAQZRLswvtzUv+MELmZ0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=k1FeMutDsrnSzjJ2Q8wn+rRWC1skxkIN0zcMnRZMPuHQcPwneVA1Dmqk+IL4C2N+D
-	 ohXYzuOQHGC7WzVfxfEThfnO8bNNZKnmAEzjqhONDfFSks8x9G2Ca0nBplWyv21Up4
-	 aNp//EITwEJjqCPVKTNJcUf3kX7c70D7GDhe2/rQ=
+	b=jDmTv/OcZtzIpXX7XJXvz7iyb/SFSUxeOCtU7+1z8tBAlgbooRCZguymHm+adSAgo
+	 +MvBgml3S5s9lO28riPGRQdHhvIKsV//Jn+0zU3s1GN8uVgDnLqBLUy4IOrKFfOTSj
+	 qFJ5gxivlLSxR4Uvl/W7Hau8FMacZnEv0z0DxDYU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390263AbfGXTlv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Jul 2019 15:41:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43290 "EHLO mail.kernel.org"
+        id S2391965AbfGXT5y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 24 Jul 2019 15:57:54 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43816 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390252AbfGXTlt (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 24 Jul 2019 15:41:49 -0400
+        id S2392125AbfGXT5y (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 24 Jul 2019 15:57:54 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 942BB217D4;
-        Wed, 24 Jul 2019 19:41:47 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2F0BF206BA;
+        Wed, 24 Jul 2019 19:57:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563997307;
-        bh=CeAz4WAb4VqP5odFb4/t6m4PxOAfxKtvjLeRisAONmM=;
+        s=default; t=1563998272;
+        bh=1otD8bJipzPQajaBeXsTvYYuAQZRLswvtzUv+MELmZ0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=R04EPSVDgViv4B81Iyi1UmDozCmVMB4Q1omj6xI6ecTLMzM1OeW562U+xKSMHK7uT
-         lVM3NUoz26wqAzFGCdckYcEv6S7+FJLIfAy6EEjwG1L4cNV+9OM9CDK2LSHC5H3IaH
-         n9T28aVtwmUv7Lz7oVoOzkLjBxBQUXpt2e/9Krew=
+        b=iA3JDFD4pddJwST2k86zJHVcWgwhM26JvTkGejnZ+VBiz4Iy1mbl+mF9TXoXKj7rL
+         6T+SIWhYnHO1kLCHediJWoV1Jf8GTRiAlQA+W6ebg/ixfmsUKaxDPtuKfGkIdHhCiG
+         YN4wY4s+rUGARBlyy/CqRtOZPapEUtU7SAbdbo2g=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -45,12 +45,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Alan Stern <stern@rowland.harvard.edu>,
         Oliver Neukum <oneukum@suse.com>,
         "Eric W. Biederman" <ebiederm@xmission.com>
-Subject: [PATCH 5.2 340/413] signal/usb: Replace kill_pid_info_as_cred with kill_pid_usb_asyncio
-Date:   Wed, 24 Jul 2019 21:20:31 +0200
-Message-Id: <20190724191800.156400383@linuxfoundation.org>
+Subject: [PATCH 5.1 308/371] signal/usb: Replace kill_pid_info_as_cred with kill_pid_usb_asyncio
+Date:   Wed, 24 Jul 2019 21:21:00 +0200
+Message-Id: <20190724191747.337616550@linuxfoundation.org>
 X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190724191735.096702571@linuxfoundation.org>
-References: <20190724191735.096702571@linuxfoundation.org>
+In-Reply-To: <20190724191724.382593077@linuxfoundation.org>
+References: <20190724191724.382593077@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -394,7 +394,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
 --- a/include/linux/sched/signal.h
 +++ b/include/linux/sched/signal.h
-@@ -329,7 +329,7 @@ extern void force_sigsegv(int sig, struc
+@@ -328,7 +328,7 @@ extern void force_sigsegv(int sig, struc
  extern int force_sig_info(int, struct kernel_siginfo *, struct task_struct *);
  extern int __kill_pgrp_info(int sig, struct kernel_siginfo *info, struct pid *pgrp);
  extern int kill_pid_info(int sig, struct kernel_siginfo *info, struct pid *pid);
@@ -405,7 +405,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  extern int kill_pid(struct pid *pid, int sig, int priv);
 --- a/kernel/signal.c
 +++ b/kernel/signal.c
-@@ -1440,13 +1440,44 @@ static inline bool kill_as_cred_perm(con
+@@ -1436,13 +1436,44 @@ static inline bool kill_as_cred_perm(con
  	       uid_eq(cred->uid, pcred->uid);
  }
  
@@ -454,7 +454,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  	if (!valid_signal(sig))
  		return ret;
-@@ -1457,17 +1488,17 @@ int kill_pid_info_as_cred(int sig, struc
+@@ -1453,17 +1484,17 @@ int kill_pid_info_as_cred(int sig, struc
  		ret = -ESRCH;
  		goto out_unlock;
  	}
@@ -475,7 +475,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  			unlock_task_sighand(p, &flags);
  		} else
  			ret = -ESRCH;
-@@ -1476,7 +1507,7 @@ out_unlock:
+@@ -1472,7 +1503,7 @@ out_unlock:
  	rcu_read_unlock();
  	return ret;
  }
@@ -484,7 +484,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  /*
   * kill_something_info() interprets pid in interesting ways just like kill(2).
-@@ -4477,6 +4508,28 @@ static inline void siginfo_buildtime_che
+@@ -4411,6 +4442,28 @@ static inline void siginfo_buildtime_che
  	CHECK_OFFSET(si_syscall);
  	CHECK_OFFSET(si_arch);
  #undef CHECK_OFFSET
