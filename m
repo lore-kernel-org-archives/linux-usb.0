@@ -2,35 +2,35 @@ Return-Path: <SRS0=owH2=VV=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D46D3C7618F
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Jul 2019 08:52:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44E43C7618F
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Jul 2019 08:52:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B3A75227BF
-	for <linux-usb@archiver.kernel.org>; Wed, 24 Jul 2019 08:52:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 215DB227BF
+	for <linux-usb@archiver.kernel.org>; Wed, 24 Jul 2019 08:52:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726877AbfGXIwT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 24 Jul 2019 04:52:19 -0400
-Received: from mailgw02.mediatek.com ([1.203.163.81]:5687 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726712AbfGXIve (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Jul 2019 04:51:34 -0400
-X-UUID: a96e3e2423fb4a2e9799a86edfda6483-20190724
-X-UUID: a96e3e2423fb4a2e9799a86edfda6483-20190724
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        id S1726673AbfGXIv0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 24 Jul 2019 04:51:26 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:42530 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726643AbfGXIvZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 24 Jul 2019 04:51:25 -0400
+X-UUID: e5fff140199a45da8ea81377aac89ac8-20190724
+X-UUID: e5fff140199a45da8ea81377aac89ac8-20190724
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 762728286; Wed, 24 Jul 2019 16:51:27 +0800
+        with ESMTP id 1189725014; Wed, 24 Jul 2019 16:51:17 +0800
 Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Wed, 24 Jul 2019 16:51:24 +0800
+ MTKMBS31DR.mediatek.inc (172.27.6.102) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Wed, 24 Jul 2019 16:51:13 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Wed, 24 Jul 2019 16:51:23 +0800
+ Transport; Wed, 24 Jul 2019 16:51:09 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -48,89 +48,80 @@ CC:     Mark Rutland <mark.rutland@arm.com>,
         <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>,
-        Linus Walleij <linus.walleij@linaro.org>
-Subject: [PATCH v8 08/11] usb: roles: get usb-role-switch from parent
-Date:   Wed, 24 Jul 2019 16:50:42 +0800
-Message-ID: <1563958245-6321-9-git-send-email-chunfeng.yun@mediatek.com>
+        Linus Walleij <linus.walleij@linaro.org>,
+        Yu Chen <chenyu56@huawei.com>
+Subject: [PATCH v8 01/11] dt-binding: usb: add usb-role-switch property
+Date:   Wed, 24 Jul 2019 16:50:35 +0800
+Message-ID: <1563958245-6321-2-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1563958245-6321-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1563958245-6321-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-TM-SNTS-SMTP: EE433FF7B79AE5E6039D54F93D70A8365511C968077810F83126EC9D013D331F2000:8
+X-TM-SNTS-SMTP: E74B9288669A4B85AC257C2405E59F4F7EB61D9CE61020D47FFC82B525A8B5332000:8
 X-MTK:  N
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-when the USB host controller is the parent of the connector,
-usually type-B, sometimes don't need the graph, so we should
-check whether it's parent registers usb-role-switch or not
-firstly, and get it if exists.
+Add a property usb-role-switch to tell the driver that use
+USB Role Switch framework to handle the role switch,
+it's useful when the driver has already supported other ways,
+such as extcon framework etc.
 
-Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Biju Das <biju.das@bp.renesas.com>
+Cc: Yu Chen <chenyu56@huawei.com>
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
 v8: no changes
-v7:
-  add signed-off-by Chunfeng
+v7: no changes
 
 v6:
-  new patch
----
- drivers/usb/roles/class.c | 25 +++++++++++++++++++++----
- 1 file changed, 21 insertions(+), 4 deletions(-)
+    1. merge into this series patch
+    2. add Reviewed-by
 
-diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
-index 5b637aaf311f..87439a84c983 100644
---- a/drivers/usb/roles/class.c
-+++ b/drivers/usb/roles/class.c
-@@ -114,6 +114,19 @@ static void *usb_role_switch_match(struct device_connection *con, int ep,
- 	return dev ? to_role_switch(dev) : ERR_PTR(-EPROBE_DEFER);
- }
+(no v4, v5)
+
+v3:
+    add property type, modify description suggested by Heikki
+
+v2:
+    describe it in terms of h/w functionality suggested by Rob
+
+v1:
+    the property is discussed in:
+    [v2,2/7] dt-bindings: usb: renesas_usb3: add usb-role-switch property
+    https://patchwork.kernel.org/patch/10852497/
+
+    Mediatek and Hisilicon also try to use it:
+    [v4,3/6] dt-bindings: usb: mtu3: add properties about USB Role Switch
+    https://patchwork.kernel.org/patch/10918385/
+    [v4,6/6] usb: mtu3: register a USB Role Switch for dual role mode
+    https://patchwork.kernel.org/patch/10918367/
+
+    [v6,10/13] usb: dwc3: Registering a role switch in the DRD code
+    https://patchwork.kernel.org/patch/10909981/
+---
+ Documentation/devicetree/bindings/usb/generic.txt | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/usb/generic.txt b/Documentation/devicetree/bindings/usb/generic.txt
+index 0a74ab8dfdc2..cf5a1ad456e6 100644
+--- a/Documentation/devicetree/bindings/usb/generic.txt
++++ b/Documentation/devicetree/bindings/usb/generic.txt
+@@ -30,6 +30,10 @@ Optional properties:
+ 			optional for OTG device.
+  - adp-disable: tells OTG controllers we want to disable OTG ADP, ADP is
+ 			optional for OTG device.
++ - usb-role-switch: boolean, indicates that the device is capable of assigning
++			the USB data role (USB host or USB device) for a given
++			USB connector, such as Type-C, Type-B(micro).
++			see connector/usb-connector.txt.
  
-+static struct usb_role_switch *
-+usb_role_switch_is_parent(struct fwnode_handle *fwnode)
-+{
-+	struct fwnode_handle *parent = fwnode_get_parent(fwnode);
-+	struct device *dev;
-+
-+	if (!parent || !fwnode_property_present(parent, "usb-role-switch"))
-+		return NULL;
-+
-+	dev = class_find_device(role_class, NULL, parent, switch_fwnode_match);
-+	return dev ? to_role_switch(dev) : ERR_PTR(-EPROBE_DEFER);
-+}
-+
- /**
-  * usb_role_switch_get - Find USB role switch linked with the caller
-  * @dev: The caller device
-@@ -125,8 +138,10 @@ struct usb_role_switch *usb_role_switch_get(struct device *dev)
- {
- 	struct usb_role_switch *sw;
- 
--	sw = device_connection_find_match(dev, "usb-role-switch", NULL,
--					  usb_role_switch_match);
-+	sw = usb_role_switch_is_parent(dev_fwnode(dev));
-+	if (!sw)
-+		sw = device_connection_find_match(dev, "usb-role-switch", NULL,
-+						  usb_role_switch_match);
- 
- 	if (!IS_ERR_OR_NULL(sw))
- 		WARN_ON(!try_module_get(sw->dev.parent->driver->owner));
-@@ -146,8 +161,10 @@ struct usb_role_switch *fwnode_usb_role_switch_get(struct fwnode_handle *fwnode)
- {
- 	struct usb_role_switch *sw;
- 
--	sw = fwnode_connection_find_match(fwnode, "usb-role-switch", NULL,
--					  usb_role_switch_match);
-+	sw = usb_role_switch_is_parent(fwnode);
-+	if (!sw)
-+		sw = fwnode_connection_find_match(fwnode, "usb-role-switch",
-+						  NULL, usb_role_switch_match);
- 	if (!IS_ERR_OR_NULL(sw))
- 		WARN_ON(!try_module_get(sw->dev.parent->driver->owner));
+ This is an attribute to a USB controller such as:
  
 -- 
 2.21.0
