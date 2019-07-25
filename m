@@ -2,133 +2,194 @@ Return-Path: <SRS0=/YMN=VW=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 424D0C7618B
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Jul 2019 05:04:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6DA0C7618B
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Jul 2019 06:09:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1BA1B22BF3
-	for <linux-usb@archiver.kernel.org>; Thu, 25 Jul 2019 05:04:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 859E720828
+	for <linux-usb@archiver.kernel.org>; Thu, 25 Jul 2019 06:09:30 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="giC78xbU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390350AbfGYFEG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 25 Jul 2019 01:04:06 -0400
-Received: from mail-io1-f71.google.com ([209.85.166.71]:39331 "EHLO
-        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390344AbfGYFEG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Jul 2019 01:04:06 -0400
-Received: by mail-io1-f71.google.com with SMTP id y13so53557306iol.6
-        for <linux-usb@vger.kernel.org>; Wed, 24 Jul 2019 22:04:06 -0700 (PDT)
+        id S1729038AbfGYGJ0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 25 Jul 2019 02:09:26 -0400
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:34692 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726325AbfGYGJZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 25 Jul 2019 02:09:25 -0400
+Received: by mail-vs1-f65.google.com with SMTP id m23so32999783vso.1;
+        Wed, 24 Jul 2019 23:09:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=8n+oScGCx7XOhecxHmlqcG+ta+ra65NsPlKdfashxxc=;
+        b=giC78xbUtZGlw2pKKUVQXWhgYXtov7f+F+vAMBXe13zQy9KhW+JXMmAwgs8M8abups
+         3ou2cRmq59VoizF+dalnKhbqoOzgSUB9OnvIYpEvIsr+J4oxoPaO31Iaj45B3rWianib
+         F0tORVau3XntYhNPwf7cDpsCqArA6kgCQVo0YCYgiWkQwitekH0o7baxCBHAjPID8IYH
+         raV4pjRnR+aPX0aEBPZLu5SRF8PEPjmqhteynZC8NhnPyOSzdq+Mm2NI6hZE5AP/uc3u
+         Jg4PfaiHkwdxlPzu7dZ/lyAXdzffQAqOhlpRijTP70053mtCZa1v8tBZ96dkAizX72hy
+         5kgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=L3X65vZ3rUayuRUS9zN2GDw/XxLqoFgPS3n++Iwna6A=;
-        b=EjxU1t1kLJD3L9CKW+OeKsvmzLE9BRvaqI2HvWss9xZPRUDTO3BijMDWw1QCoMAqhq
-         uH+hVP5abjhvvSotqvakaJRAsrohxEVq4tJVVl8GS2cW2MXYy2y3lxbYri4RWh839Y4N
-         C51/3cHcM4wF14fyJozrklLyp962UTJX+EhpS70dlJPGiAFm5fjeBWUtOnxE9r1CtMjE
-         U6efSCVWIlyhRxpcFw8LcsBwbz4LjRApzqj1oY9HGRnhbGiEIxdTmPZjWm7aecuNQGSt
-         9U9DfNX5Yjhk5iiC55dE3sOoJZ4eBzn7P5rvxlPw5jM3ccFeiA1IU+AYfW0Wat6uB6BZ
-         ZHew==
-X-Gm-Message-State: APjAAAU2S91FbvVud8u+UOaDIOy1FYwVhGZrRLk/M4BWMGADeFkImg28
-        iFUm5YAiv2+/9nM1hNKSDFgrKfiaMD3KKBsNsuXPrQxFIbxQ
-X-Google-Smtp-Source: APXvYqzY2yjxTZN7foDFPwt5tMSC/DMH88SCMokplXfOZycOYHM8wdRoZvOlXN32Jc9l/IU3X+nVJ88t3J/1E7NAJoWMPDLtLebS
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=8n+oScGCx7XOhecxHmlqcG+ta+ra65NsPlKdfashxxc=;
+        b=clZSJGzlCjAE9DtbrOJU1pEpRVbX5A2FqIZYMcDacheJWN+7JH0PqOTLo/6plK4vjL
+         wm6KZZBAg6LOnomA7wmfAkwziHSVqYqxaxgWcwdOrS/YPS5fS6oQQxF6U9EnAYxtc+Vz
+         RsK/n3yxO4pGgarxREGZ4PLVWTRIZSCvzr9DScSOAJDIiJPbhH4r2yyIfzobgizjGWoa
+         poEMAJ11uwgwUtmBXaoTteAGNI05T4J8ia2J5YC8OsT8OsaOkY4+oPEqiMLp72+crkPg
+         gG2SC6H+VQhsOmao3nN7hsaPJMIZ0lBEPz2Q9n4c7wr93Xev/LXgaxVxHKXDeUAu1fBw
+         BC8w==
+X-Gm-Message-State: APjAAAWnSAC+/H3vI67rOQAvLxoSaFkyjS0c1Cp1hkAmoDjC8lEIADY3
+        M/1eyfkWXZv5tHN7aOd6vkPHMEDoN9w9RJEk3CE=
+X-Google-Smtp-Source: APXvYqxJOMoQJ1TicOfUb0mMN+vDK2H8hUL/7uBcPgwwEThqBClMb2rLab75oLaA2sO6jBVg0NPKYx9vmEdL2HciGsU=
+X-Received: by 2002:a67:cd1a:: with SMTP id u26mr54804933vsl.155.1564034964325;
+ Wed, 24 Jul 2019 23:09:24 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a6b:b985:: with SMTP id j127mr27063494iof.186.1564031045859;
- Wed, 24 Jul 2019 22:04:05 -0700 (PDT)
-Date:   Wed, 24 Jul 2019 22:04:05 -0700
-In-Reply-To: <0000000000003acc06058e6d6b70@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000e80c0e058e7a5a31@google.com>
-Subject: Re: general protection fault in __pm_runtime_resume
-From:   syzbot <syzbot+3cbe5cd105d2ad56a1df@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
-        len.brown@intel.com, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, pavel@ucw.cz,
-        rjw@rjwysocki.net, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+References: <1563979112-22483-1-git-send-email-linux@roeck-us.net>
+In-Reply-To: <1563979112-22483-1-git-send-email-linux@roeck-us.net>
+From:   Jun Li <lijun.kernel@gmail.com>
+Date:   Thu, 25 Jul 2019 14:09:12 +0800
+Message-ID: <CAKgpwJV_gJ7sBvtv6B89GBSFam6Dn97=BxKkBM8waDKmEa72-g@mail.gmail.com>
+Subject: Re: [PATCH v2] usb: typec: tcpm: Add NULL check before dereferencing config
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Douglas Gilbert <dgilbert@interlog.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-syzbot has found a reproducer for the following crash on:
+Guenter Roeck <linux@roeck-us.net> =E4=BA=8E2019=E5=B9=B47=E6=9C=8824=E6=97=
+=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=8810:40=E5=86=99=E9=81=93=EF=BC=9A
+>
+> When instantiating tcpm on an NXP OM 13588 board with NXP PTN5110,
+> the following crash is seen when writing into the 'preferred_role'
+> sysfs attribute.
+>
+> Unable to handle kernel NULL pointer dereference at virtual address 00000=
+028
+> pgd =3D f69149ad
+> [00000028] *pgd=3D00000000
+> Internal error: Oops: 5 [#1] THUMB2
+> Modules linked in: tcpci tcpm
+> CPU: 0 PID: 1882 Comm: bash Not tainted 5.1.18-sama5-armv7-r2 #4
+> Hardware name: Atmel SAMA5
+> PC is at tcpm_try_role+0x3a/0x4c [tcpm]
+> LR is at tcpm_try_role+0x15/0x4c [tcpm]
+> pc : [<bf8000e2>]    lr : [<bf8000bd>]    psr: 60030033
+> sp : dc1a1e88  ip : c03fb47d  fp : 00000000
+> r10: dc216190  r9 : dc1a1f78  r8 : 00000001
+> r7 : df4ae044  r6 : dd032e90  r5 : dd1ce340  r4 : df4ae054
+> r3 : 00000000  r2 : 00000000  r1 : 00000000  r0 : df4ae044
+> Flags: nZCv  IRQs on  FIQs on  Mode SVC_32  ISA Thumb  Segment none
+> Control: 50c53c7d  Table: 3efec059  DAC: 00000051
+> Process bash (pid: 1882, stack limit =3D 0x6a6d4aa5)
+> Stack: (0xdc1a1e88 to 0xdc1a2000)
+> 1e80:                   dd05d808 dd1ce340 00000001 00000007 dd1ce340 c03f=
+b4a7
+> 1ea0: 00000007 00000007 dc216180 00000000 00000000 c01e1e03 00000000 0000=
+0000
+> 1ec0: c0907008 dee98b40 c01e1d5d c06106c4 00000000 00000000 00000007 c019=
+4e8b
+> 1ee0: 0000000a 00000400 00000000 c01a97db dc22bf00 ffffe000 df4b6a00 df74=
+5900
+> 1f00: 00000001 00000001 000000dd c01a9c2f 7aeab3be c0907008 00000000 dc22=
+bf00
+> 1f20: c0907008 00000000 00000000 00000000 00000000 7aeab3be 00000007 dee9=
+8b40
+> 1f40: 005dc318 dc1a1f78 00000000 00000000 00000007 c01969f7 0000000a c01a=
+20cb
+> 1f60: dee98b40 c0907008 dee98b40 005dc318 00000000 c0196b9b 00000000 0000=
+0000
+> 1f80: dee98b40 7aeab3be 00000074 005dc318 b6f3bdb0 00000004 c0101224 dc1a=
+0000
+> 1fa0: 00000004 c0101001 00000074 005dc318 00000001 005dc318 00000007 0000=
+0000
+> 1fc0: 00000074 005dc318 b6f3bdb0 00000004 00000007 00000007 00000000 0000=
+0000
+> 1fe0: 00000004 be800880 b6ed35b3 b6e5c746 60030030 00000001 00000000 0000=
+0000
+> [<bf8000e2>] (tcpm_try_role [tcpm]) from [<c03fb4a7>] (preferred_role_sto=
+re+0x2b/0x5c)
+> [<c03fb4a7>] (preferred_role_store) from [<c01e1e03>] (kernfs_fop_write+0=
+xa7/0x150)
+> [<c01e1e03>] (kernfs_fop_write) from [<c0194e8b>] (__vfs_write+0x1f/0x104=
+)
+> [<c0194e8b>] (__vfs_write) from [<c01969f7>] (vfs_write+0x6b/0x104)
+> [<c01969f7>] (vfs_write) from [<c0196b9b>] (ksys_write+0x43/0x94)
+> [<c0196b9b>] (ksys_write) from [<c0101001>] (ret_fast_syscall+0x1/0x62)
+>
+> Since commit 96232cbc6c994 ("usb: typec: tcpm: support get typec and pd
+> config from device properties"), the 'config' pointer in struct tcpc_dev
+> is optional when registering a Type-C port. Since it is optional, we have
+> to check if it is NULL before dereferencing it.
+>
+> Reported-by: Douglas Gilbert <dgilbert@interlog.com>
+> Cc: Douglas Gilbert <dgilbert@interlog.com>
+> Fixes: 96232cbc6c994 ("usb: typec: tcpm: support get typec and pd config =
+from device properties")
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 
-HEAD commit:    6a3599ce usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=108edb68600000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=700ca426ab83faae
-dashboard link: https://syzkaller.appspot.com/bug?extid=3cbe5cd105d2ad56a1df
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13f0b4c8600000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=172d8758600000
+Reviewed-by: Jun Li <jun.li@nxp.com>
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+3cbe5cd105d2ad56a1df@syzkaller.appspotmail.com
-
-kasan: CONFIG_KASAN_INLINE enabled
-kasan: GPF could be caused by NULL-ptr deref or user memory access
-general protection fault: 0000 [#1] SMP KASAN
-CPU: 0 PID: 1740 Comm: syz-executor618 Not tainted 5.2.0-rc6+ #15
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-RIP: 0010:__pm_runtime_resume+0x49/0x180 drivers/base/power/runtime.c:1069
-Code: ed 74 d5 fe 45 85 ed 0f 85 9a 00 00 00 e8 6f 73 d5 fe 48 8d bd c1 02  
-00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <0f> b6 04 02 48  
-89 fa 83 e2 07 38 d0 7f 08 84 c0 0f 85 fe 00 00 00
-RSP: 0018:ffff8881cf5878e0 EFLAGS: 00010202
-RAX: dffffc0000000000 RBX: 0000000000000020 RCX: ffffffff82676833
-RDX: 000000021d463be5 RSI: ffffffff82676841 RDI: 00000010ea31df2b
-RBP: 00000010ea31dc6a R08: ffff8881d1b7e000 R09: fffffbfff0e84c25
-R10: ffff8881cf587940 R11: ffffffff87426127 R12: 0000000000000004
-R13: 0000000000000000 R14: ffff8881cfd7a500 R15: ffffffff897f9040
-FS:  0000555555808880(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000000000043f760 CR3: 00000001d0f29000 CR4: 00000000001406f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
-  pm_runtime_get_sync include/linux/pm_runtime.h:226 [inline]
-  usb_autopm_get_interface+0x1b/0x50 drivers/usb/core/driver.c:1707
-  usbhid_power+0x7c/0xe0 drivers/hid/usbhid/hid-core.c:1234
-  hid_hw_power include/linux/hid.h:1038 [inline]
-  hidraw_open+0x20d/0x740 drivers/hid/hidraw.c:282
-  chrdev_open+0x219/0x5c0 fs/char_dev.c:413
-  do_dentry_open+0x497/0x1040 fs/open.c:778
-  do_last fs/namei.c:3416 [inline]
-  path_openat+0x1430/0x3ff0 fs/namei.c:3533
-  do_filp_open+0x1a1/0x280 fs/namei.c:3563
-  do_sys_open+0x3c0/0x580 fs/open.c:1070
-  do_syscall_64+0xb7/0x560 arch/x86/entry/common.c:301
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x401ad0
-Code: 01 f0 ff ff 0f 83 c0 0b 00 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f  
-44 00 00 83 3d fd 5b 2d 00 00 75 14 b8 02 00 00 00 0f 05 <48> 3d 01 f0 ff  
-ff 0f 83 94 0b 00 00 c3 48 83 ec 08 e8 fa 00 00 00
-RSP: 002b:00007ffed8d15738 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
-RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 0000000000401ad0
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00007ffed8d15740
-RBP: 6666666666666667 R08: 000000000000000f R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000402af0
-R13: 0000000000402b80 R14: 0000000000000000 R15: 0000000000000000
-Modules linked in:
----[ end trace 60987a9feed42828 ]---
-RIP: 0010:__pm_runtime_resume+0x49/0x180 drivers/base/power/runtime.c:1069
-Code: ed 74 d5 fe 45 85 ed 0f 85 9a 00 00 00 e8 6f 73 d5 fe 48 8d bd c1 02  
-00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <0f> b6 04 02 48  
-89 fa 83 e2 07 38 d0 7f 08 84 c0 0f 85 fe 00 00 00
-RSP: 0018:ffff8881cf5878e0 EFLAGS: 00010202
-RAX: dffffc0000000000 RBX: 0000000000000020 RCX: ffffffff82676833
-RDX: 000000021d463be5 RSI: ffffffff82676841 RDI: 00000010ea31df2b
-RBP: 00000010ea31dc6a R08: ffff8881d1b7e000 R09: fffffbfff0e84c25
-R10: ffff8881cf587940 R11: ffffffff87426127 R12: 0000000000000004
-R13: 0000000000000000 R14: ffff8881cfd7a500 R15: ffffffff897f9040
-FS:  0000555555808880(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000000000043f760 CR3: 00000001d0f29000 CR4: 00000000001406f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-
+> ---
+> v2: Added missing Cc:. Sorry for the noise.
+>
+> Doug:
+>     I didn't add your Tested-by: since I added more code.
+>     It would be great if you can re-test.
+>
+>  drivers/usb/typec/tcpm/tcpm.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.=
+c
+> index fba32d84e578..77f71f602f73 100644
+> --- a/drivers/usb/typec/tcpm/tcpm.c
+> +++ b/drivers/usb/typec/tcpm/tcpm.c
+> @@ -379,7 +379,8 @@ static enum tcpm_state tcpm_default_state(struct tcpm=
+_port *port)
+>                         return SNK_UNATTACHED;
+>                 else if (port->try_role =3D=3D TYPEC_SOURCE)
+>                         return SRC_UNATTACHED;
+> -               else if (port->tcpc->config->default_role =3D=3D TYPEC_SI=
+NK)
+> +               else if (port->tcpc->config &&
+> +                        port->tcpc->config->default_role =3D=3D TYPEC_SI=
+NK)
+>                         return SNK_UNATTACHED;
+>                 /* Fall through to return SRC_UNATTACHED */
+>         } else if (port->port_type =3D=3D TYPEC_PORT_SNK) {
+> @@ -4114,7 +4115,7 @@ static int tcpm_try_role(const struct typec_capabil=
+ity *cap, int role)
+>         mutex_lock(&port->lock);
+>         if (tcpc->try_role)
+>                 ret =3D tcpc->try_role(tcpc, role);
+> -       if (!ret && !tcpc->config->try_role_hw)
+> +       if (!ret && (!tcpc->config || !tcpc->config->try_role_hw))
+>                 port->try_role =3D role;
+>         port->try_src_count =3D 0;
+>         port->try_snk_count =3D 0;
+> @@ -4701,7 +4702,7 @@ static int tcpm_copy_caps(struct tcpm_port *port,
+>         port->typec_caps.prefer_role =3D tcfg->default_role;
+>         port->typec_caps.type =3D tcfg->type;
+>         port->typec_caps.data =3D tcfg->data;
+> -       port->self_powered =3D port->tcpc->config->self_powered;
+> +       port->self_powered =3D tcfg->self_powered;
+>
+>         return 0;
+>  }
+> --
+> 2.7.4
+>
