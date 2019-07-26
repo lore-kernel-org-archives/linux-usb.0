@@ -6,30 +6,30 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C62A2C7618F
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Jul 2019 05:06:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B5B6C7618F
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Jul 2019 05:07:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 96B3222BEF
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Jul 2019 05:06:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F4F122C7C
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Jul 2019 05:07:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726000AbfGZFG6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Jul 2019 01:06:58 -0400
-Received: from gate.crashing.org ([63.228.1.57]:45175 "EHLO gate.crashing.org"
+        id S1726023AbfGZFHB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Jul 2019 01:07:01 -0400
+Received: from gate.crashing.org ([63.228.1.57]:45180 "EHLO gate.crashing.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725903AbfGZFG6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 26 Jul 2019 01:06:58 -0400
+        id S1725903AbfGZFHB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 26 Jul 2019 01:07:01 -0400
 Received: from ufdda393ec48b57.ant.amazon.com (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x6Q55j3Q017580;
-        Fri, 26 Jul 2019 00:05:50 -0500
+        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x6Q55j3S017580;
+        Fri, 26 Jul 2019 00:05:55 -0500
 From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
 To:     Linux USB List <linux-usb@vger.kernel.org>
 Cc:     Felipe Balbi <felipe.balbi@linux.intel.com>,
         Alan Stern <stern@rowland.harvard.edu>,
         Greg KH <gregkh@linuxfoundation.org>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: [PATCH v3 02/10] usb: gadget: aspeed: Cleanup EP0 state on port reset
-Date:   Fri, 26 Jul 2019 15:05:31 +1000
-Message-Id: <20190726050539.7875-3-benh@kernel.crashing.org>
+Subject: [PATCH v3 04/10] usb: gadget: aspeed: Don't reject requests on suspended devices
+Date:   Fri, 26 Jul 2019 15:05:33 +1000
+Message-Id: <20190726050539.7875-5-benh@kernel.crashing.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190726050539.7875-1-benh@kernel.crashing.org>
 References: <20190726050539.7875-1-benh@kernel.crashing.org>
@@ -38,62 +38,72 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Otherwise, we can have a stale state after a disconnect and reconnect
-causing errors on the first SETUP packet to the device.
+A disconnect may just suspend the hub in absence of a physical
+disconnect detection. If we start rejecting requests, the mass
+storage function gets into a spin trying to requeue the same
+request for ever and hangs.
 
 Signed-off-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 ---
- drivers/usb/gadget/udc/aspeed-vhub/dev.c  | 3 +++
- drivers/usb/gadget/udc/aspeed-vhub/ep0.c  | 9 +++++++++
- drivers/usb/gadget/udc/aspeed-vhub/vhub.h | 1 +
- 3 files changed, 13 insertions(+)
+ drivers/usb/gadget/udc/aspeed-vhub/dev.c | 13 +++++++++----
+ drivers/usb/gadget/udc/aspeed-vhub/ep0.c |  2 +-
+ drivers/usb/gadget/udc/aspeed-vhub/epn.c |  2 +-
+ 3 files changed, 11 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/usb/gadget/udc/aspeed-vhub/dev.c b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-index 6b1b16b17d7d..678bbdbd0971 100644
+index 678bbdbd0971..71e2416858fd 100644
 --- a/drivers/usb/gadget/udc/aspeed-vhub/dev.c
 +++ b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-@@ -55,6 +55,9 @@ static void ast_vhub_dev_enable(struct ast_vhub_dev *d)
- 	if (d->enabled)
- 		return;
+@@ -204,14 +204,19 @@ int ast_vhub_std_dev_request(struct ast_vhub_ep *ep,
+ 	u16 wValue, wIndex;
  
-+	/* Cleanup EP0 state */
-+	ast_vhub_reset_ep0(d);
+ 	/* No driver, we shouldn't be enabled ... */
+-	if (!d->driver || !d->enabled || d->suspended) {
++	if (!d->driver || !d->enabled) {
+ 		EPDBG(ep,
+-		      "Device is wrong state driver=%p enabled=%d"
+-		      " suspended=%d\n",
+-		      d->driver, d->enabled, d->suspended);
++		      "Device is wrong state driver=%p enabled=%d\n",
++		      d->driver, d->enabled);
+ 		return std_req_stall;
+ 	}
+ 
++	/*
++	 * Note: we used to reject/stall requests while suspended,
++	 * we don't do that anymore as we seem to have cases of
++	 * mass storage getting very upset.
++	 */
 +
- 	/* Enable device and its EP0 interrupts */
- 	reg = VHUB_DEV_EN_ENABLE_PORT |
- 		VHUB_DEV_EN_EP0_IN_ACK_IRQEN |
+ 	/* First packet, grab speed */
+ 	if (d->gadget.speed == USB_SPEED_UNKNOWN) {
+ 		d->gadget.speed = ep->vhub->speed;
 diff --git a/drivers/usb/gadget/udc/aspeed-vhub/ep0.c b/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
-index e2927fb083cf..5e4714d7febb 100644
+index b64dca7933b0..022b777b85f8 100644
 --- a/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
 +++ b/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
-@@ -459,6 +459,15 @@ static const struct usb_ep_ops ast_vhub_ep0_ops = {
- 	.free_request	= ast_vhub_free_request,
- };
+@@ -379,7 +379,7 @@ static int ast_vhub_ep0_queue(struct usb_ep* u_ep, struct usb_request *u_req,
+ 		return -EINVAL;
  
-+void ast_vhub_reset_ep0(struct ast_vhub_dev *dev)
-+{
-+	struct ast_vhub_ep *ep = &dev->ep0;
-+
-+	ast_vhub_nuke(ep, -EIO);
-+	ep->ep0.state = ep0_state_token;
-+}
-+
-+
- void ast_vhub_init_ep0(struct ast_vhub *vhub, struct ast_vhub_ep *ep,
- 		       struct ast_vhub_dev *dev)
- {
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-index 4ed03d33a5a9..2e7ef387f4f0 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-@@ -507,6 +507,7 @@ void ast_vhub_init_hw(struct ast_vhub *vhub);
- /* ep0.c */
- void ast_vhub_ep0_handle_ack(struct ast_vhub_ep *ep, bool in_ack);
- void ast_vhub_ep0_handle_setup(struct ast_vhub_ep *ep);
-+void ast_vhub_reset_ep0(struct ast_vhub_dev *dev);
- void ast_vhub_init_ep0(struct ast_vhub *vhub, struct ast_vhub_ep *ep,
- 		       struct ast_vhub_dev *dev);
- int ast_vhub_reply(struct ast_vhub_ep *ep, char *ptr, int len);
+ 	/* Disabled device */
+-	if (ep->dev && (!ep->dev->enabled || ep->dev->suspended))
++	if (ep->dev && !ep->dev->enabled)
+ 		return -ESHUTDOWN;
+ 
+ 	/* Data, no buffer and not internal ? */
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/epn.c b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
+index 35941dc125f9..7475c74aa5c5 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/epn.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/epn.c
+@@ -352,7 +352,7 @@ static int ast_vhub_epn_queue(struct usb_ep* u_ep, struct usb_request *u_req,
+ 
+ 	/* Endpoint enabled ? */
+ 	if (!ep->epn.enabled || !u_ep->desc || !ep->dev || !ep->d_idx ||
+-	    !ep->dev->enabled || ep->dev->suspended) {
++	    !ep->dev->enabled) {
+ 		EPDBG(ep, "Enqueuing request on wrong or disabled EP\n");
+ 		return -ESHUTDOWN;
+ 	}
 -- 
 2.17.1
 
