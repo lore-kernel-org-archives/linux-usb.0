@@ -6,30 +6,30 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88C10C7618F
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Jul 2019 05:06:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2E82C7618F
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Jul 2019 05:06:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6A87B21734
-	for <linux-usb@archiver.kernel.org>; Fri, 26 Jul 2019 05:06:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C6E8721734
+	for <linux-usb@archiver.kernel.org>; Fri, 26 Jul 2019 05:06:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725955AbfGZFGB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 26 Jul 2019 01:06:01 -0400
-Received: from gate.crashing.org ([63.228.1.57]:51651 "EHLO gate.crashing.org"
+        id S1726007AbfGZFGE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 26 Jul 2019 01:06:04 -0400
+Received: from gate.crashing.org ([63.228.1.57]:51658 "EHLO gate.crashing.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725836AbfGZFGA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 26 Jul 2019 01:06:00 -0400
+        id S1725836AbfGZFGE (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 26 Jul 2019 01:06:04 -0400
 Received: from ufdda393ec48b57.ant.amazon.com (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x6Q55j3R017580;
-        Fri, 26 Jul 2019 00:05:53 -0500
+        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x6Q55j3T017580;
+        Fri, 26 Jul 2019 00:05:58 -0500
 From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
 To:     Linux USB List <linux-usb@vger.kernel.org>
 Cc:     Felipe Balbi <felipe.balbi@linux.intel.com>,
         Alan Stern <stern@rowland.harvard.edu>,
         Greg KH <gregkh@linuxfoundation.org>,
         Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Subject: [PATCH v3 03/10] usb: gadget: aspeed: Fix EP0 stall handling
-Date:   Fri, 26 Jul 2019 15:05:32 +1000
-Message-Id: <20190726050539.7875-4-benh@kernel.crashing.org>
+Subject: [PATCH v3 05/10] usb: gadget: aspeed: Check suspend/resume callback existence
+Date:   Fri, 26 Jul 2019 15:05:34 +1000
+Message-Id: <20190726050539.7875-6-benh@kernel.crashing.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190726050539.7875-1-benh@kernel.crashing.org>
 References: <20190726050539.7875-1-benh@kernel.crashing.org>
@@ -38,127 +38,35 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When stalling EP0, we need to wait for an ACK interrupt,
-otherwise we may get out of sync on the next setup packet
-data phase. Also we need to ignore the direction when
-processing that interrupt as the HW reports a potential
-mismatch.
-
-Implement this by adding a stall state to EP0. This fixes
-some reported issues with mass storage and some hosts.
+.. before calling them
 
 Signed-off-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 ---
- drivers/usb/gadget/udc/aspeed-vhub/ep0.c  | 48 +++++++++++++++--------
- drivers/usb/gadget/udc/aspeed-vhub/vhub.h |  1 +
- 2 files changed, 33 insertions(+), 16 deletions(-)
+ drivers/usb/gadget/udc/aspeed-vhub/dev.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/ep0.c b/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
-index 5e4714d7febb..b64dca7933b0 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/ep0.c
-@@ -105,18 +105,20 @@ void ast_vhub_ep0_handle_setup(struct ast_vhub_ep *ep)
- 	       (crq.bRequestType & USB_DIR_IN) ? "in" : "out",
- 	       ep->ep0.state);
- 
--	/* Check our state, cancel pending requests if needed */
--	if (ep->ep0.state != ep0_state_token) {
-+	/*
-+	 * Check our state, cancel pending requests if needed
-+	 *
-+	 * Note: Under some circumstances, we can get a new setup
-+	 * packet while waiting for the stall ack, just accept it.
-+	 *
-+	 * In any case, a SETUP packet in wrong state should have
-+	 * reset the HW state machine, so let's just log, nuke
-+	 * requests, move on.
-+	 */
-+	if (ep->ep0.state != ep0_state_token &&
-+	    ep->ep0.state != ep0_state_stall) {
- 		EPDBG(ep, "wrong state\n");
- 		ast_vhub_nuke(ep, -EIO);
--
--		/*
--		 * Accept the packet regardless, this seems to happen
--		 * when stalling a SETUP packet that has an OUT data
--		 * phase.
--		 */
--		ast_vhub_nuke(ep, 0);
--		goto stall;
- 	}
- 
- 	/* Calculate next state for EP0 */
-@@ -165,7 +167,7 @@ void ast_vhub_ep0_handle_setup(struct ast_vhub_ep *ep)
-  stall:
- 	EPDBG(ep, "stalling\n");
- 	writel(VHUB_EP0_CTRL_STALL, ep->ep0.ctlstat);
--	ep->ep0.state = ep0_state_status;
-+	ep->ep0.state = ep0_state_stall;
- 	ep->ep0.dir_in = false;
- 	return;
- 
-@@ -299,8 +301,8 @@ void ast_vhub_ep0_handle_ack(struct ast_vhub_ep *ep, bool in_ack)
- 		if ((ep->ep0.dir_in && (stat & VHUB_EP0_TX_BUFF_RDY)) ||
- 		    (!ep->ep0.dir_in && (stat & VHUB_EP0_RX_BUFF_RDY)) ||
- 		    (ep->ep0.dir_in != in_ack)) {
-+			/* In that case, ignore interrupt */
- 			dev_warn(dev, "irq state mismatch");
--			stall = true;
- 			break;
- 		}
- 		/*
-@@ -335,12 +337,22 @@ void ast_vhub_ep0_handle_ack(struct ast_vhub_ep *ep, bool in_ack)
- 			dev_warn(dev, "status direction mismatch\n");
- 			stall = true;
- 		}
-+		break;
-+	case ep0_state_stall:
-+		/*
-+		 * There shouldn't be any request left, but nuke just in case
-+		 * otherwise the stale request will block subsequent ones
-+		 */
-+		ast_vhub_nuke(ep, -EIO);
-+		break;
- 	}
- 
--	/* Reset to token state */
--	ep->ep0.state = ep0_state_token;
--	if (stall)
-+	/* Reset to token state or stall */
-+	if (stall) {
- 		writel(VHUB_EP0_CTRL_STALL, ep->ep0.ctlstat);
-+		ep->ep0.state = ep0_state_stall;
-+	} else
-+		ep->ep0.state = ep0_state_token;
- }
- 
- static int ast_vhub_ep0_queue(struct usb_ep* u_ep, struct usb_request *u_req,
-@@ -390,8 +402,12 @@ static int ast_vhub_ep0_queue(struct usb_ep* u_ep, struct usb_request *u_req,
- 	spin_lock_irqsave(&vhub->lock, flags);
- 
- 	/* EP0 can only support a single request at a time */
--	if (!list_empty(&ep->queue) || ep->ep0.state == ep0_state_token) {
-+	if (!list_empty(&ep->queue) ||
-+	    ep->ep0.state == ep0_state_token ||
-+	    ep->ep0.state == ep0_state_stall) {
- 		dev_warn(dev, "EP0: Request in wrong state\n");
-+	        EPVDBG(ep, "EP0: list_empty=%d state=%d\n",
-+		       list_empty(&ep->queue), ep->ep0.state);
- 		spin_unlock_irqrestore(&vhub->lock, flags);
- 		return -EBUSY;
- 	}
-diff --git a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-index 2e7ef387f4f0..00f922604a1c 100644
---- a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-+++ b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-@@ -257,6 +257,7 @@ enum ep0_state {
- 	ep0_state_token,
- 	ep0_state_data,
- 	ep0_state_status,
-+	ep0_state_stall,
- };
- 
- /*
+diff --git a/drivers/usb/gadget/udc/aspeed-vhub/dev.c b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
+index 71e2416858fd..5f7e3b6de531 100644
+--- a/drivers/usb/gadget/udc/aspeed-vhub/dev.c
++++ b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
+@@ -458,7 +458,7 @@ static const struct usb_gadget_ops ast_vhub_udc_ops = {
+ void ast_vhub_dev_suspend(struct ast_vhub_dev *d)
+ {
+ 	d->suspended = true;
+-	if (d->driver) {
++	if (d->driver && d->driver->suspend) {
+ 		spin_unlock(&d->vhub->lock);
+ 		d->driver->suspend(&d->gadget);
+ 		spin_lock(&d->vhub->lock);
+@@ -468,7 +468,7 @@ void ast_vhub_dev_suspend(struct ast_vhub_dev *d)
+ void ast_vhub_dev_resume(struct ast_vhub_dev *d)
+ {
+ 	d->suspended = false;
+-	if (d->driver) {
++	if (d->driver && d->driver->resume) {
+ 		spin_unlock(&d->vhub->lock);
+ 		d->driver->resume(&d->gadget);
+ 		spin_lock(&d->vhub->lock);
 -- 
 2.17.1
 
