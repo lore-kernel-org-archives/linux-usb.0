@@ -2,81 +2,117 @@ Return-Path: <SRS0=luNN=V2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C63D6C7618E
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Jul 2019 16:56:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8075FC41514
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Jul 2019 16:56:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 97B2A2070B
-	for <linux-usb@archiver.kernel.org>; Mon, 29 Jul 2019 16:56:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1564419375;
-	bh=Jb7YttoUfhXk57tI+td6fw5yT58F4sBic2hI+PXmoR4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=cfBG/xhl9Rn8e0SIak2VTMho9LBBNpiPO+7c/G/yLL+C0tw9JtKYamzr7N283nPnt
-	 qbyOG74PArIGRC6aAj15dxTg2m6yGqDjoKXSTCWw30g0X8RBAYdOVmOMA39aRlFAwv
-	 C5wnlrf2yxwCo+l7GpWTL5b4iNTdkOPjjfogam+4=
+	by mail.kernel.org (Postfix) with ESMTP id 562E1206E0
+	for <linux-usb@archiver.kernel.org>; Mon, 29 Jul 2019 16:56:54 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="Zb1OhdcI";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mK09SJip"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387591AbfG2Q4P (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 29 Jul 2019 12:56:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55898 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727165AbfG2Q4O (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 29 Jul 2019 12:56:14 -0400
+        id S2387594AbfG2Q4x (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 29 Jul 2019 12:56:53 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:52255 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727165AbfG2Q4x (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 29 Jul 2019 12:56:53 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailout.nyi.internal (Postfix) with ESMTP id 46DD421B42;
+        Mon, 29 Jul 2019 12:56:52 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Mon, 29 Jul 2019 12:56:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=dXt+y2OikSZHX8DwfF0NTpZ/VZB
+        EKbTy7A/AfNd2IhE=; b=Zb1OhdcIG1jl+rS+EiFW+7zi73um7cLj0sVCzi3ijn1
+        jJsKcBrnEeE91EVljTU+L2sWbvuB/gjNPFy8QC7PFLFv7SKktvFlxSPCk5sBL4WH
+        OLQ3qY/u/aTMpwm1tMBCsC0kx972s2/P9Ycau2B5lCH6BWb80nQJBrMegZgpNHnl
+        Ka43JCa9JK9bfQrGzMw3ws6kBQIbm9+u3npoODW2+YNFvgn2XJw1/5LJrD12sf6c
+        MY1bwf+Hwn5YjWrm8cQIStOD3WM3rwDTLPLICspkY2jgOmbU19pKJBHx+BKT40kN
+        w2gEX71cX/7Y0L0C0eRBlqB8AwvHtZJEqNOTRDOHjZg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=dXt+y2
+        OikSZHX8DwfF0NTpZ/VZBEKbTy7A/AfNd2IhE=; b=mK09SJipVKYhK1oLU68fUf
+        TqFFpoivOKD8SGUpYLGhVVgck5UWv/0DIvccG3iLASg5bYroQRq702qPkLbEixa9
+        8tM8+8Ydpq0rp6ZI3Sj2oWsPxJAynGRLNT6zahUXH+EjN3JV3AzUDeCXLd76aYsl
+        y6c8oUu+d/FKBxM+4acxHp87dzXdG9dvuIuxSWz0jcbyqxk2qQcM+zxVALgWwb0d
+        FxEVeh/ratESOQ35d2Q5B/3g157UDvI5E+el8L9j112sWa/NneKYF4knOUvwnmSP
+        7JB7BsPJJ/rLUT387ZRo6T/41RKzB7neC3BmkplTSNv6q78QsypyL1KY997NBPaA
+        ==
+X-ME-Sender: <xms:UyU_XReB5tX-mqTwKZoP-dj02QK99X2lh-4oIOllAGhki1QfmeviYw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduvddrledugddutdejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjfgesthdtredttdervdenucfhrhhomhepifhrvghg
+    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecukfhppeekfedrkeeirdekledrud
+    dtjeenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhmnecu
+    vehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:UyU_XUJZBnRfZuVc6HKVXjpUGq4v7fGWHBFFt5o9rKmZsAMegl7UKg>
+    <xmx:UyU_XWAqEoiiNZrKUWwZ2kX2pcUx8_ilo9_-ESuqkhEvf51JxKqtJQ>
+    <xmx:UyU_XeFQc_GURo0lFOT2D4WM6jkU6poIjy3hwVYLOED2JKpWxlSufg>
+    <xmx:VCU_XV3PWKvk8XHq9fCq12FgwDgMSDvE4VYjqjYg0bLH6J7CkfVJFw>
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4FEC3206E0;
-        Mon, 29 Jul 2019 16:56:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564419373;
-        bh=Jb7YttoUfhXk57tI+td6fw5yT58F4sBic2hI+PXmoR4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FvEucwLp9F/97X8skoF+H8Wz10sVG1GIsV67VKgXl8I6siTOxMPv55fryyZ/wJ/XO
-         cOcRut/6QT2SZSqhKdxd5kQ9W1nGAfPtBFWyf4lqspLrmAf6GObQEfzv95jQKIIiMm
-         XEdddmHh458+5qHmcwmIyJHnOiDl9zs27NxITJ1M=
-Date:   Mon, 29 Jul 2019 18:56:11 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
+        by mail.messagingengine.com (Postfix) with ESMTPA id 4E844380076;
+        Mon, 29 Jul 2019 12:56:51 -0400 (EDT)
+Date:   Mon, 29 Jul 2019 18:56:49 +0200
+From:   Greg KH <greg@kroah.com>
 To:     Saranya Gopal <saranya.gopal@intel.com>
 Cc:     stable@vger.kernel.org, linux-usb@vger.kernel.org,
         fei.yang@intel.com, john.stultz@linaro.org,
         Felipe Balbi <felipe.balbi@linux.intel.com>
-Subject: Re: [PATCH 4.19.y 3/3] usb: dwc3: gadget: remove req->started flag
-Message-ID: <20190729165611.GA14160@kroah.com>
+Subject: Re: [PATCH 4.19.y 2/3] usb: dwc3: gadget: prevent dwc3_request from
+ being queued twice
+Message-ID: <20190729165649.GB14160@kroah.com>
 References: <1564407819-10746-1-git-send-email-saranya.gopal@intel.com>
- <1564407819-10746-4-git-send-email-saranya.gopal@intel.com>
+ <1564407819-10746-3-git-send-email-saranya.gopal@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1564407819-10746-4-git-send-email-saranya.gopal@intel.com>
+In-Reply-To: <1564407819-10746-3-git-send-email-saranya.gopal@intel.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jul 29, 2019 at 07:13:39PM +0530, Saranya Gopal wrote:
+On Mon, Jul 29, 2019 at 07:13:38PM +0530, Saranya Gopal wrote:
 > From: Felipe Balbi <felipe.balbi@linux.intel.com>
 > 
-> [Upstream commit 7c3d7dc89e57a1d43acea935882dd8713c9e639f]
+> [Upstream commit b2b6d601365a1acb90b87c85197d79]
 > 
-> Now that we have req->status, we don't need this extra flag
-> anymore. It's safe to remove it.
+> Queueing the same request twice can introduce hard-to-debug
+> problems. At least one function driver - Android's f_mtp.c - is known
+> to cause this problem.
+> 
+> While that function is out-of-tree, this is a problem that's easy
+> enough to avoid.
 > 
 > Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
 > Signed-off-by: Saranya Gopal <saranya.gopal@intel.com>
 > ---
->  drivers/usb/dwc3/core.h   | 2 --
->  drivers/usb/dwc3/gadget.c | 1 -
->  drivers/usb/dwc3/gadget.h | 2 --
->  3 files changed, 5 deletions(-)
+>  drivers/usb/dwc3/gadget.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+> index 3f337a0..a56a92a 100644
+> --- a/drivers/usb/dwc3/gadget.c
+> +++ b/drivers/usb/dwc3/gadget.c
+> @@ -1291,6 +1291,11 @@ static int __dwc3_gadget_ep_queue(struct dwc3_ep *dep, struct dwc3_request *req)
+>  				&req->request, req->dep->name))
+>  		return -EINVAL;
+>  
+> +	if (WARN(req->status < DWC3_REQUEST_STATUS_COMPLETED,
+> +				"%s: request %pK already in flight\n",
+> +				dep->name, &req->request))
+> +		return -EINVAL;
 
-Why is this patch needed for a stable tree?  It just cleans stuff up, it
-doesn't actually change any functionality.
+So we are going to trip syzbot up on this out-of-tree driver?  Brave...
 
-thanks,
-
-greg k-h
