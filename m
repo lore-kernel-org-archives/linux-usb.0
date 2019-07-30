@@ -2,164 +2,171 @@ Return-Path: <SRS0=izAS=V3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C29F6C433FF
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Jul 2019 12:28:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 732BBC0650F
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Jul 2019 13:28:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A34E8208E3
-	for <linux-usb@archiver.kernel.org>; Tue, 30 Jul 2019 12:28:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4058220644
+	for <linux-usb@archiver.kernel.org>; Tue, 30 Jul 2019 13:28:59 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QOlFFV10"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728934AbfG3M2I (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 30 Jul 2019 08:28:08 -0400
-Received: from mail-io1-f70.google.com ([209.85.166.70]:45007 "EHLO
-        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727797AbfG3M2H (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 Jul 2019 08:28:07 -0400
-Received: by mail-io1-f70.google.com with SMTP id s9so71268522iob.11
-        for <linux-usb@vger.kernel.org>; Tue, 30 Jul 2019 05:28:06 -0700 (PDT)
+        id S1727903AbfG3N2z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 30 Jul 2019 09:28:55 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:42617 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726377AbfG3N2z (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 30 Jul 2019 09:28:55 -0400
+Received: by mail-pf1-f193.google.com with SMTP id q10so29837373pff.9;
+        Tue, 30 Jul 2019 06:28:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=3TCazDgar7kzrWDfaJ/SvNyVqEI0BptwG+QBAYkIWoI=;
+        b=QOlFFV10FvPTu13MZHW4vbvP28axPG5jvrGKqlZf9a76uybOUqKBiCrslrNU7AfwxC
+         H97Y8/jHVb7Gk8hcXNZiwDiFPj1Nz9mwmSpbDOoVgVH/Ug000+zkMTpsCETE09unWUdS
+         Q6ypThiyZYbUjIkTRipPwcHWO7Kj0k+v0WXvD3NkiOy8P7eqAkfTjSazehJQ2VAJAFj0
+         aGSA0DB6ePH/0CML+iTRLI35Cv+kT1t/MYHTj1+r8DAwS3gm2bC9++gq8ww9om57daTk
+         TyLiOuZf/RtOUhIJSlqCW31ou7Uuvzn2YMuGbjNXyx1oo5OlKS+9r3LjqDnjtIv1XR9k
+         d24w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=L9VDO7k+iRFcfA0LsLudhEzOy80xKWBjmcwwT9POA1k=;
-        b=DyofV5l5EoNyUD7EECpMVn7zdd5z1qn8RAPxhdO0/HzuRJVUdlp6NG3eNxIhYDoYel
-         TEjlH9Y03mmSJz4fHJSAOFj0m8yXMI1F/cNVs6S4BEl4pzgFo/LTDsdRk/lQ12Hfs9fx
-         z+WdQ8/57zqXNgv+I3hGuLJz0E++Iwvw+E0n0KF7obhhJM5rl1b3N7SbyrD+KFwbYAap
-         c6ah2yh4WwE/vlASVGTIwY9ilbDbQVfr4VmKYRpmgQxIt8/jNDhGlHm2qz5KzmXLEWoS
-         tLY6fpmes9WLxDJeQGmpXHerYrI4FasSh7tT4pNCkixqlR57jYxNiT8oV6QhgSviAPrT
-         PkcA==
-X-Gm-Message-State: APjAAAW6BULVtc8TbexRvWbFVEQU5UKrjThQn6aabt0oox+L1nhHenr7
-        iXVbdFjYz2AuoIDI40p4oNOBgfxXM3qccQCZNVmzhMZp8KZk
-X-Google-Smtp-Source: APXvYqymlyyGjismM+I+jA3PAHPvP5wzUb7rQzYTiPSyzpdY6PrkW80JZitI24HsII5qgiqUf/asr81QibXFTKR1iIJypo7eG6V3
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3TCazDgar7kzrWDfaJ/SvNyVqEI0BptwG+QBAYkIWoI=;
+        b=kDSsxJkhonnlCXW0PbXaKdjUEftYg50vwHDo7BIRB+hn9ZlmWFcDIWh0LxmmtLuMhG
+         dTgCQYwY2IVg//t0tQuyrRWJ16lx6uomjPF1FKvVsEy+pbCodDYOz07jDAIWWUD52Doz
+         4yRWOXhZ/xCV7IptDPTziKmwGt8AoDACC5E9Q9IYK3kptZZ2xjFzuQdNQbAWKywaeo1c
+         32IY46Jd7p+qKhCkT8mScJ1k8N72s2LnR1ixDP+PFVVXB55+HDQ2dzqY/4kEQOjgMF2z
+         4DfGxdJvvdQKByFBWd5CWdVEmZb5QkvzUephp9GGPkO9bnzTUHW87M6pdjR0WeWrAFxX
+         fp3Q==
+X-Gm-Message-State: APjAAAUcon7j/gjcsCxddgDfRA+lBjbNv3EhV1jCjHcuT8edhlP6CF2q
+        kJ19eLuDX/1TvTz6wlGSbIzYnNXP
+X-Google-Smtp-Source: APXvYqwpDkh8n5pQNxMvEPEnKNGzp/Dd+2rP4CVJRlWQ/48oQNXcqEC1g+DssoEeCm2lwTCofo+UBA==
+X-Received: by 2002:a65:6114:: with SMTP id z20mr110727777pgu.141.1564493333919;
+        Tue, 30 Jul 2019 06:28:53 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id p20sm102368133pgj.47.2019.07.30.06.28.52
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 30 Jul 2019 06:28:53 -0700 (PDT)
+Subject: Re: [RFC PATCH] usb: typec: tcpm: Ignore unsupported/unknown
+ alternate mode requests
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Douglas Gilbert <dgilbert@interlog.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1564029037-22929-1-git-send-email-linux@roeck-us.net>
+ <20190729140457.GC28600@kuha.fi.intel.com>
+ <20190729173104.GA32556@roeck-us.net>
+ <20190730120747.GL28600@kuha.fi.intel.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <a14d8a51-85f6-65d8-2e1e-19538a7bf3d3@roeck-us.net>
+Date:   Tue, 30 Jul 2019 06:28:52 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Received: by 2002:a02:300b:: with SMTP id q11mr121392732jaq.54.1564489686557;
- Tue, 30 Jul 2019 05:28:06 -0700 (PDT)
-Date:   Tue, 30 Jul 2019 05:28:06 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000005ae9c058ee5245c@google.com>
-Subject: WARNING in mxl111sf_ctrl_msg
-From:   syzbot <syzbot+48eb85867b8a4c16adf0@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, mkrufky@linuxtv.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+In-Reply-To: <20190730120747.GL28600@kuha.fi.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+On 7/30/19 5:07 AM, Heikki Krogerus wrote:
+> On Mon, Jul 29, 2019 at 10:31:04AM -0700, Guenter Roeck wrote:
+>> On Mon, Jul 29, 2019 at 05:04:57PM +0300, Heikki Krogerus wrote:
+>>> Hi,
+>>>
+>>> On Wed, Jul 24, 2019 at 09:30:37PM -0700, Guenter Roeck wrote:
+>>>> TCPM may receive PD messages associated with unknown or unsupported
+>>>> alternate modes. If that happens, calls to typec_match_altmode()
+>>>> will return NULL. The tcpm code does not currently take this into
+>>>> account. This results in crashes.
+>>>>
+>>>> Unable to handle kernel NULL pointer dereference at virtual address 000001f0
+>>>> pgd = 41dad9a1
+>>>> [000001f0] *pgd=00000000
+>>>> Internal error: Oops: 5 [#1] THUMB2
+>>>> Modules linked in: tcpci tcpm
+>>>> CPU: 0 PID: 2338 Comm: kworker/u2:0 Not tainted 5.1.18-sama5-armv7-r2 #6
+>>>> Hardware name: Atmel SAMA5
+>>>> Workqueue: 2-0050 tcpm_pd_rx_handler [tcpm]
+>>>> PC is at typec_altmode_attention+0x0/0x14
+>>>> LR is at tcpm_pd_rx_handler+0xa3b/0xda0 [tcpm]
+>>>> ...
+>>>> [<c03fbee8>] (typec_altmode_attention) from [<bf8030fb>]
+>>>> 				(tcpm_pd_rx_handler+0xa3b/0xda0 [tcpm])
+>>>> [<bf8030fb>] (tcpm_pd_rx_handler [tcpm]) from [<c012082b>]
+>>>> 				(process_one_work+0x123/0x2a8)
+>>>> [<c012082b>] (process_one_work) from [<c0120a6d>]
+>>>> 				(worker_thread+0xbd/0x3b0)
+>>>> [<c0120a6d>] (worker_thread) from [<c012431f>] (kthread+0xcf/0xf4)
+>>>> [<c012431f>] (kthread) from [<c01010f9>] (ret_from_fork+0x11/0x38)
+>>>>
+>>>> Ignore PD messages if the asociated alternate mode is not supported.
+>>>>
+>>>> Reported-by: Douglas Gilbert <dgilbert@interlog.com>
+>>>> Cc: Douglas Gilbert <dgilbert@interlog.com>
+>>>> Fixes: e9576fe8e605c ("usb: typec: tcpm: Support for Alternate Modes")
+>>>> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+>>>> ---
+>>>> Taking a stab at the problem. I don't really know if this is the correct
+>>>> fix, or even if my understanding of the problem is correct, thus marking
+>>>> the patch as RFC.
+>>>
+>>> My guess is that typec_match_altmode() is the real culprit. We can't
+>>> rely on the partner mode index number when identifying the port alt
+>>> mode.
+>>>
+>>> Douglas, can you test the attached hack instead of this patch?
+>>>
+>>>
+>>> thanks,
+>>>
+>>> -- 
+>>> heikki
+>>
+>>> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+>>> index ec525811a9eb..033dc097ba83 100644
+>>> --- a/drivers/usb/typec/tcpm/tcpm.c
+>>> +++ b/drivers/usb/typec/tcpm/tcpm.c
+>>> @@ -1067,12 +1067,11 @@ static int tcpm_pd_svdm(struct tcpm_port *port, const __le32 *payload, int cnt,
+>>>   
+>>>   	modep = &port->mode_data;
+>>>   
+>>> -	adev = typec_match_altmode(port->port_altmode, ALTMODE_DISCOVERY_MAX,
+>>> -				   PD_VDO_VID(p[0]), PD_VDO_OPOS(p[0]));
+>>> -
+>>>   	pdev = typec_match_altmode(port->partner_altmode, ALTMODE_DISCOVERY_MAX,
+>>>   				   PD_VDO_VID(p[0]), PD_VDO_OPOS(p[0]));
+>>>   
+>>> +	adev = (void *)typec_altmode_get_partner(pdev);
+>>> +
+>>
+>> I understand that typec_altmode_get_partner() returns a const *;
+>> maybe adev should be declared as const struct typec_altmode *
+>> instead of using a typecast.
+> 
+> Yes...
+> 
+>> Also, typec_altmode_get_partner() can return NULL as well if pdev is NULL.
+>> Is it guaranteed that typec_match_altmode() never returns NULL for pdev ?
+> 
+> ...and probable no. But I don't think we can receive Attention to a
+> mode that hasn't been entered.
+> 
 
-syzbot found the following crash on:
+If I understand correctly, the Attention was generated by a test system.
+What prevents badly implemented code in the connected system from sending
+such an Attention message ?
 
-HEAD commit:    7f7867ff usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=11a7957c600000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=792eb47789f57810
-dashboard link: https://syzkaller.appspot.com/bug?extid=48eb85867b8a4c16adf0
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11ac50f8600000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1718c75c600000
-
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+48eb85867b8a4c16adf0@syzkaller.appspotmail.com
-
-usb 1-1: dvb_usb_v2: will pass the complete MPEG2 transport stream to the  
-software demuxer
-dvbdev: DVB: registering new adapter (Hauppauge 126xxx ATSC+)
-usb 1-1: media controller created
-dvbdev: dvb_create_media_entity: media entity 'dvb-demux' registered.
-usb 1-1: selecting invalid altsetting 1
-set interface failed
-------------[ cut here ]------------
-DEBUG_LOCKS_WARN_ON(lock->magic != lock)
-WARNING: CPU: 0 PID: 12 at kernel/locking/mutex.c:912 __mutex_lock_common  
-kernel/locking/mutex.c:912 [inline]
-WARNING: CPU: 0 PID: 12 at kernel/locking/mutex.c:912  
-__mutex_lock+0xd31/0x1360 kernel/locking/mutex.c:1077
-Kernel panic - not syncing: panic_on_warn set ...
-CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.3.0-rc2+ #23
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xca/0x13e lib/dump_stack.c:113
-  panic+0x2a3/0x6da kernel/panic.c:219
-  __warn.cold+0x20/0x4a kernel/panic.c:576
-  report_bug+0x262/0x2a0 lib/bug.c:186
-  fixup_bug arch/x86/kernel/traps.c:179 [inline]
-  fixup_bug arch/x86/kernel/traps.c:174 [inline]
-  do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:272
-  do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:291
-  invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1026
-RIP: 0010:__mutex_lock_common kernel/locking/mutex.c:912 [inline]
-RIP: 0010:__mutex_lock+0xd31/0x1360 kernel/locking/mutex.c:1077
-Code: d2 0f 85 f6 05 00 00 44 8b 05 bb 99 0a 02 45 85 c0 0f 85 0a f4 ff ff  
-48 c7 c6 00 87 a6 85 48 c7 c7 a0 84 a6 85 e8 f4 24 b8 fb <0f> 0b e9 f0 f3  
-ff ff 65 48 8b 1c 25 00 ef 01 00 be 08 00 00 00 48
-RSP: 0018:ffff8881da206f40 EFLAGS: 00010282
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff812830fd RDI: ffffed103b440dda
-RBP: ffff8881da2070b0 R08: ffff8881da1f1800 R09: fffffbfff0d5eb25
-R10: fffffbfff0d5eb24 R11: ffffffff86af5923 R12: 0000000000000000
-R13: dffffc0000000000 R14: ffff8881d2ee6ec8 R15: ffff8881d2ee6ec8
-  mxl111sf_ctrl_msg+0xb8/0x210 drivers/media/usb/dvb-usb-v2/mxl111sf.c:66
-  mxl111sf_write_reg+0x8b/0x120 drivers/media/usb/dvb-usb-v2/mxl111sf.c:123
-  mxl1x1sf_soft_reset+0x6b/0x190  
-drivers/media/usb/dvb-usb-v2/mxl111sf-phy.c:47
-  mxl111sf_lgdt3305_frontend_attach.constprop.0+0x23e/0x790  
-drivers/media/usb/dvb-usb-v2/mxl111sf.c:447
-  mxl111sf_frontend_attach_atsc_mh+0x13/0x70  
-drivers/media/usb/dvb-usb-v2/mxl111sf.c:984
-  dvb_usbv2_adapter_frontend_init  
-drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:641 [inline]
-  dvb_usbv2_adapter_init drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:804  
-[inline]
-  dvb_usbv2_init drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:865 [inline]
-  dvb_usbv2_probe.cold+0x1e04/0x2567  
-drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:980
-  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
-  really_probe+0x281/0x650 drivers/base/dd.c:548
-  driver_probe_device+0x101/0x1b0 drivers/base/dd.c:709
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:816
-  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x217/0x360 drivers/base/dd.c:882
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-  device_add+0xae6/0x16f0 drivers/base/core.c:2114
-  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
-  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
-  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
-  really_probe+0x281/0x650 drivers/base/dd.c:548
-  driver_probe_device+0x101/0x1b0 drivers/base/dd.c:709
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:816
-  bus_for_each_drv+0x15c/0x1e0 drivers/base/bus.c:454
-  __device_attach+0x217/0x360 drivers/base/dd.c:882
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
-  device_add+0xae6/0x16f0 drivers/base/core.c:2114
-  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
-  hub_port_connect drivers/usb/core/hub.c:5098 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
-  port_event drivers/usb/core/hub.c:5359 [inline]
-  hub_event+0x1b5c/0x3640 drivers/usb/core/hub.c:5441
-  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
-  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
-  kthread+0x318/0x420 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
-
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+Thanks,
+Guenter
