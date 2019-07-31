@@ -2,78 +2,115 @@ Return-Path: <SRS0=bGeD=V4=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D594C433FF
-	for <linux-usb@archiver.kernel.org>; Wed, 31 Jul 2019 10:16:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A32F5C433FF
+	for <linux-usb@archiver.kernel.org>; Wed, 31 Jul 2019 10:20:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 694C420651
-	for <linux-usb@archiver.kernel.org>; Wed, 31 Jul 2019 10:16:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A149206A3
+	for <linux-usb@archiver.kernel.org>; Wed, 31 Jul 2019 10:20:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Yyn7RWwA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727805AbfGaKQ5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 31 Jul 2019 06:16:57 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:55334 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725914AbfGaKQ5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 31 Jul 2019 06:16:57 -0400
-X-IronPort-AV: E=Sophos;i="5.64,329,1559487600"; 
-   d="scan'208";a="22944828"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 31 Jul 2019 19:16:55 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 59497422844D;
-        Wed, 31 Jul 2019 19:16:55 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     balbi@kernel.org
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, stable@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH] usb: gadget: udc: renesas_usb3: Fix sysfs interface of "role"
-Date:   Wed, 31 Jul 2019 19:15:43 +0900
-Message-Id: <1564568143-3371-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        id S1727999AbfGaKUS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 31 Jul 2019 06:20:18 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:44238 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727936AbfGaKUR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 31 Jul 2019 06:20:17 -0400
+Received: by mail-pg1-f195.google.com with SMTP id i18so31742458pgl.11
+        for <linux-usb@vger.kernel.org>; Wed, 31 Jul 2019 03:20:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=2O775qpjwYqwjNNK1jAWRm9r82jKhpePG9GnlR7OY0Q=;
+        b=Yyn7RWwAm3JMCXDcDeGBxlaI8XMQIA7FHvASa9guSVH5L7xlXw0b2zl5bASLjFlBrD
+         BNq04z6h80T08oj9ruwe1tr4he/+Y8CcouibUt5l4M07hNrarc/BzT45M+ohvaQ35kyI
+         8kyE/kbWoHb31fZ5jKIxodukMPslx+uW3psTo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=2O775qpjwYqwjNNK1jAWRm9r82jKhpePG9GnlR7OY0Q=;
+        b=KLsY5YSEEv20FBRRF8V8CN5NqSeNwAdyWKS1h6KQwzMR8KcOowIaLbrWOJnSzpkEIP
+         Qth3o7rmZIpVGwGQdG57luUU9MVY5xyAcCcYlxdyzVxRfoDJIw/m83pDDVAjBCLy21dw
+         kc0IQBfv7yihCa5XDCYxAkLN5BzHhOVIl21ZXL+pZabDME8im9v04RgZvld9r5Fl+KDb
+         USPWfZMMBNd8xUrjsNcaJCiqO/bulMRDkb0PMYWe4fs7RN27vpIGqARRo0li1WHEQUMo
+         4ghfoO6GBrN2mxHUN5xCl99DkHQDeCCuRxbFWtG//CK2LvSN4FCLMvZ1EFkLX8mYfEEF
+         OYoA==
+X-Gm-Message-State: APjAAAVZ0gJJHajlJgWkdqccQpSLLU42mvk/TwYZ3zm14CaaHmyPISaI
+        EQ+O7BYTvURQ9SfPH/ZR6jQLcw==
+X-Google-Smtp-Source: APXvYqwmgXRoUHYDivjjY1EWCO27W2YnDH7ba8VG7ljSozY+4a0KgWIr40lvoUBMMr627+3GTZe0Bg==
+X-Received: by 2002:a17:90b:949:: with SMTP id dw9mr2190902pjb.49.1564568416276;
+        Wed, 31 Jul 2019 03:20:16 -0700 (PDT)
+Received: from mannams-OptiPlex-7010.dhcp.broadcom.net ([192.19.234.250])
+        by smtp.gmail.com with ESMTPSA id 3sm71161776pfg.186.2019.07.31.03.20.12
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Wed, 31 Jul 2019 03:20:15 -0700 (PDT)
+From:   Srinath Mannam <srinath.mannam@broadcom.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Mark Rutland <mark.rutland@arm.com>
+Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        Srinath Mannam <srinath.mannam@broadcom.com>
+Subject: [PATCH v2 1/5] phy: Add phy ports in attrs
+Date:   Wed, 31 Jul 2019 15:49:51 +0530
+Message-Id: <1564568395-9980-2-git-send-email-srinath.mannam@broadcom.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1564568395-9980-1-git-send-email-srinath.mannam@broadcom.com>
+References: <1564568395-9980-1-git-send-email-srinath.mannam@broadcom.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Since the role_store() uses strncmp(), it's possible to refer
-out-of-memory if the sysfs data size is smaller than strlen("host").
-This patch fixes it by using sysfs_streq() instead of strncmp().
+Add phy ports bitmask to contain enabled PHY ports.
+set and get APIs added to set and get phy ports value.
 
-Fixes: cc995c9ec118 ("usb: gadget: udc: renesas_usb3: add support for usb role swap")
-Cc: <stable@vger.kernel.org> # v4.12+
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Signed-off-by: Srinath Mannam <srinath.mannam@broadcom.com>
 ---
- drivers/usb/gadget/udc/renesas_usb3.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ include/linux/phy/phy.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/usb/gadget/udc/renesas_usb3.c b/drivers/usb/gadget/udc/renesas_usb3.c
-index 7dc2485..b6eec81 100644
---- a/drivers/usb/gadget/udc/renesas_usb3.c
-+++ b/drivers/usb/gadget/udc/renesas_usb3.c
-@@ -19,6 +19,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/sizes.h>
- #include <linux/slab.h>
-+#include <linux/string.h>
- #include <linux/sys_soc.h>
- #include <linux/uaccess.h>
- #include <linux/usb/ch9.h>
-@@ -2378,9 +2379,9 @@ static ssize_t role_store(struct device *dev, struct device_attribute *attr,
- 	if (usb3->forced_b_device)
- 		return -EBUSY;
+diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
+index 15032f14..b8bca1d 100644
+--- a/include/linux/phy/phy.h
++++ b/include/linux/phy/phy.h
+@@ -109,10 +109,12 @@ struct phy_ops {
+ /**
+  * struct phy_attrs - represents phy attributes
+  * @bus_width: Data path width implemented by PHY
++ * @phy_ports: Bitmask of enabled ports
+  * @mode: PHY mode
+  */
+ struct phy_attrs {
+ 	u32			bus_width;
++	u32			phy_ports;
+ 	enum phy_mode		mode;
+ };
  
--	if (!strncmp(buf, "host", strlen("host")))
-+	if (sysfs_streq(buf, "host"))
- 		new_mode_is_host = true;
--	else if (!strncmp(buf, "peripheral", strlen("peripheral")))
-+	else if (sysfs_streq(buf, "peripheral"))
- 		new_mode_is_host = false;
- 	else
- 		return -EINVAL;
+@@ -225,6 +227,14 @@ static inline void phy_set_bus_width(struct phy *phy, int bus_width)
+ {
+ 	phy->attrs.bus_width = bus_width;
+ }
++static inline int phy_get_phy_ports(struct phy *phy)
++{
++	return phy->attrs.phy_ports;
++}
++static inline void phy_set_phy_ports(struct phy *phy, int phy_ports)
++{
++	phy->attrs.phy_ports |= phy_ports;
++}
+ struct phy *phy_get(struct device *dev, const char *string);
+ struct phy *phy_optional_get(struct device *dev, const char *string);
+ struct phy *devm_phy_get(struct device *dev, const char *string);
 -- 
 2.7.4
 
