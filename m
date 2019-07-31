@@ -2,108 +2,78 @@ Return-Path: <SRS0=bGeD=V4=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDB9FC433FF
-	for <linux-usb@archiver.kernel.org>; Wed, 31 Jul 2019 10:20:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3349C32754
+	for <linux-usb@archiver.kernel.org>; Wed, 31 Jul 2019 11:23:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 895692089E
-	for <linux-usb@archiver.kernel.org>; Wed, 31 Jul 2019 10:20:44 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="OJw/xktc"
+	by mail.kernel.org (Postfix) with ESMTP id A9D79206A2
+	for <linux-usb@archiver.kernel.org>; Wed, 31 Jul 2019 11:23:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727858AbfGaKUN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 31 Jul 2019 06:20:13 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:39940 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725914AbfGaKUN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 31 Jul 2019 06:20:13 -0400
-Received: by mail-pl1-f196.google.com with SMTP id a93so30232740pla.7
-        for <linux-usb@vger.kernel.org>; Wed, 31 Jul 2019 03:20:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=qG0whHfhXOjtcfLzk188sCOar57eu2kC3PTAbz1gCBo=;
-        b=OJw/xktcfO+P4ZQakjW7xr5hrf9cUCU/WoE6ccO8ljF+2fnEBdH+PiLzw/mr+QN3ZM
-         xcGe6PTn+eUF8ZHKDSEPxaMT2bvttHqJGAvz8OkjnCxA7ZXm9hXRTjgd93xa5RDfD7pn
-         aJSJMLq2r8GboOskpZVxFDFt5UvuWnUYd6nms=
+        id S1726920AbfGaLXo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 31 Jul 2019 07:23:44 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:37429 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725793AbfGaLXo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 31 Jul 2019 07:23:44 -0400
+Received: by mail-wm1-f68.google.com with SMTP id f17so59443765wme.2;
+        Wed, 31 Jul 2019 04:23:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=qG0whHfhXOjtcfLzk188sCOar57eu2kC3PTAbz1gCBo=;
-        b=LyeDp5/uk9Pw0r9mkNIGc3+cetqCpiSFhcJN41Hv9LilyueOmgfN8ZC6bYOnzoLHh3
-         8d/6KtoK6TTMupIAmdXfwemRDBWyZ6L5xDwzS9lSZS/oGRzSL4KYfyRWtg8oa4uOmAoc
-         OSrn28F98SMVQJfjsJtAzneea71VZTZ2VRIfxYndqi5eF1mDkpJ+cueq9enF+wyjUK1R
-         5C7FW3ebJ1/Wr8bSc4ZhUVCcNhjqV6d3x+o4aOKWvqmuLGPHObHq1zVrE2CrNcOYkNYA
-         /N9YaVbyvx+3KD9zhcCfwKpeUQVoHbf2+Jrdu4GSp2zczpy13Ky/2Z6NZRrKWlTPbcQG
-         DEnA==
-X-Gm-Message-State: APjAAAXM9s17HicX6UULwTT57/+b1CD+QjnuYITxWOPuWpz3QIdZRoHE
-        bj+H8Rrybn9NfhrUUR+o1gJqEQ==
-X-Google-Smtp-Source: APXvYqxo4nj3CQ1TbR22Q60IlXDAeO1/mETjinmS8a+Y2ov0Lk7OIA4TM0/MdXOXuCjdEFt/+9QbHA==
-X-Received: by 2002:a17:902:383:: with SMTP id d3mr35046302pld.176.1564568412688;
-        Wed, 31 Jul 2019 03:20:12 -0700 (PDT)
-Received: from mannams-OptiPlex-7010.dhcp.broadcom.net ([192.19.234.250])
-        by smtp.gmail.com with ESMTPSA id 3sm71161776pfg.186.2019.07.31.03.20.08
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Wed, 31 Jul 2019 03:20:11 -0700 (PDT)
-From:   Srinath Mannam <srinath.mannam@broadcom.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        Srinath Mannam <srinath.mannam@broadcom.com>
-Subject: [PATCH v2 0/4] Reset xHCI port PHY on disconnect
-Date:   Wed, 31 Jul 2019 15:49:50 +0530
-Message-Id: <1564568395-9980-1-git-send-email-srinath.mannam@broadcom.com>
-X-Mailer: git-send-email 2.7.4
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3Vvv54g/EpOR/8Ex2zJ0vIMb4LQOnfvh3/O79aWVpSA=;
+        b=dZSCPGyZh4h+LEXgdKVBQyBT7Jg2HRVAk1ci7PWBecm9xGTbJVpwvlqdDusY+mawuO
+         MhagmwSRXreDl0GX+Y+UdABPTLw8Ya+jI4JXwtz32ge4WK7gtQjEL6SCqZ4qEpUiOgOs
+         vq88uh6+8XTl8D5HLXwX0t6U1sfmyUJBXro9qO20fhOI1+lMAyiH9ORZVMyc4SQrytVg
+         PSMJpwqAQR7s8kHY1Z28yR29Sy8kc0w6shLlLUvvSkJ13+TGzgzGAeANuLSDnm8IaAVj
+         YwQuAMDEiNRtJ0UNQiGWRx4HEAlBMssdR7o1SN1GkvKYzxSH58t1gFbEGJV/6aknF+ve
+         Op8A==
+X-Gm-Message-State: APjAAAWUz5TfzojPDtN3AUZAoBqXZ099m7oMqa9iT8YwSnMYonMhWgCN
+        sQMucw91wxeK2IMfIVDHnWAN+EIxiTFX/j6NW6Q=
+X-Google-Smtp-Source: APXvYqwkGrlVoyO/zr0mualeskMS+XAfllwPaWnmaxVLcdCULWwIoXTi5yBB9XmatBuEMbeEz95s9TZS3zFE8mm4Muk=
+X-Received: by 2002:a05:600c:254b:: with SMTP id e11mr103137207wma.171.1564572222178;
+ Wed, 31 Jul 2019 04:23:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <1564568143-3371-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1564568143-3371-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 31 Jul 2019 13:23:29 +0200
+Message-ID: <CAMuHMdWjN79_F_7qf9f+NSaSxyHi4Wrtn5aZtwaK30s6GaT24A@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadget: udc: renesas_usb3: Fix sysfs interface of "role"
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        stable <stable@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch set adds a quirk in xHCI driver to reset PHY of xHCI port on
-its disconnect event.
+On Wed, Jul 31, 2019 at 1:17 PM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Since the role_store() uses strncmp(), it's possible to refer
+> out-of-memory if the sysfs data size is smaller than strlen("host").
+> This patch fixes it by using sysfs_streq() instead of strncmp().
+>
+> Fixes: cc995c9ec118 ("usb: gadget: udc: renesas_usb3: add support for usb role swap")
+> Cc: <stable@vger.kernel.org> # v4.12+
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-This patch set is based on Linux-5.2-rc4.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Changes from v1:
-  - Addressed Mathias's comments
-    - Modified mapping of HC ports and their corresponding PHYs
-  - Addressed Rob's comments
-    - Removed usb-phy-port-reset DT property.
-    - Added quirk in platform data using HCI compatible string.
-  - Add phy ports in phy attr structure to have enabled ports bitmask.
-  - Modified #phy-cells of sr-phy to pass phy ports bitmask.
+Gr{oetje,eeting}s,
 
-Srinath Mannam (4):
-  phy: Add phy ports in attrs
-  dt-bindings: phy: Modify Stingray USB PHY #phy-cells
-  phy: sr-usb: Set phy ports
-  dt-bindings: usb-xhci: Add platform specific compatible for Stingray
-    xHCI
-  drivers: xhci: Add quirk to reset xHCI port PHY
-
- .../devicetree/bindings/phy/brcm,stingray-usb-phy.txt | 14 ++++++++------
- Documentation/devicetree/bindings/usb/usb-xhci.txt    |  1 +
- drivers/phy/broadcom/phy-bcm-sr-usb.c                 |  9 ++++++++-
- drivers/usb/core/hcd.c                                |  6 ++++++
- drivers/usb/core/phy.c                                | 19 +++++++++++++++++++
- drivers/usb/core/phy.h                                |  1 +
- drivers/usb/host/xhci-plat.c                          | 10 ++++++++++
- drivers/usb/host/xhci-plat.h                          |  1 +
- drivers/usb/host/xhci-ring.c                          |  9 ++++++---
- drivers/usb/host/xhci.h                               |  1 +
- include/linux/phy/phy.h                               | 10 ++++++++++
- include/linux/usb/hcd.h                               |  1 +
- 12 files changed, 72 insertions(+), 10 deletions(-)
+                        Geert
 
 -- 
-2.7.4
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
