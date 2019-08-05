@@ -4,87 +4,85 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2392FC433FF
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Aug 2019 11:27:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DECCDC0650F
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Aug 2019 11:36:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D527420679
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Aug 2019 11:27:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A7CFC20679
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Aug 2019 11:36:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1565004472;
-	bh=rh4ygcY8eUTQ9wgf+Seaaya6tSXI/TaVxnCrYr+T15g=;
+	s=default; t=1565004975;
+	bh=+XtTUvxVDW6nHYLM3ddOx8BDPef2hLSZkmifw1j3PKM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=eWB54VfH6njYd3k+9o27E2E84Dq4FcR1nDh/eLqqxxpMy1J0NCuT94S8tQGQgkpx9
-	 2oyqauLGrO/qqNUMBh89fTBsTeJuQz7BYHopYAHDWPDfm738wN0poxlFkt9DX0wwCT
-	 +ZkyaYTNpArOtKGoWjLmBFsRFYjVn1HgbkBNgQlI=
+	b=x1EEG3Ya7MrJmLOd8i/c8TO4WTQAmAvTw2VIQQuk9Itm33a/lM3Pd1s7yzZ1X2nN9
+	 ANl4aFek/FuZrVRQr3vpzK+HTN07K/DiG09+WjhCw0hYdHC7tJSf4d0dB630UWBxey
+	 DlyiGUkg+48Qo4rwhsjWqptdCa1vfjDXTvpu7KGE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728086AbfHEL1v (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 5 Aug 2019 07:27:51 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:35146 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727158AbfHEL1v (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 5 Aug 2019 07:27:51 -0400
-Received: by mail-lj1-f194.google.com with SMTP id x25so79062587ljh.2
-        for <linux-usb@vger.kernel.org>; Mon, 05 Aug 2019 04:27:49 -0700 (PDT)
+        id S1727989AbfHELgP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 5 Aug 2019 07:36:15 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:43502 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727328AbfHELgP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 5 Aug 2019 07:36:15 -0400
+Received: by mail-lf1-f66.google.com with SMTP id c19so57663973lfm.10
+        for <linux-usb@vger.kernel.org>; Mon, 05 Aug 2019 04:36:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=td8ejJiX9Ls6/WqgizVmuaf8mXozV0hxKACvtat6eLw=;
-        b=EKdRM3M7QJTCZo3ZDsoS/HlfqeJ27n0/kaVrM9bQzyWixRhHQlgwgnPplvmAFxOJVR
-         n+LcpJOY/KjhZ91IaarNmYI/3dAf50qqaJKlaBBnj79R9XgqN/Biv2kLLKfqXM7Bk2t4
-         xpkXKtV6Pb2BNoIi6ym8l7GSrVu1PY8gAgjcds5LFPYakXYBYtlaLJcJv5sNlGtmy9Of
-         LdfwIiKkDQKkVS80u9Pw9he1R7IloRFs66tVhKckQB0oFC+AAjwMI+kpcga+SMbllucU
-         HQjFkxZXWQfCYMB4HvHFghqp9HViZH9ul+O3QxRVA44lWzCb00zQk3MC13CV1d25GRiT
-         y23Q==
-X-Gm-Message-State: APjAAAWKs4XC5YvP91NYbzPMeMV3vDo9OdR87INTqp86BRCAmwtRY2Ot
-        SMpGUcn7+ZAwtZOE2sXKiZo=
-X-Google-Smtp-Source: APXvYqx7GgJyvzPHdbob+okYfhUWgdwq4FcOdWdz5e4J+Rd3wopYYsv+DxERYgjsTSsFxpmL4t5LOg==
-X-Received: by 2002:a2e:9997:: with SMTP id w23mr26521851lji.45.1565004469073;
-        Mon, 05 Aug 2019 04:27:49 -0700 (PDT)
+        bh=dPLfC8gHI3sZNkICGipvyJtZYpCb+woagnSYN8BemIE=;
+        b=e1tgHh5tGEMwC29YUF9Cj5T6sZV4oiHuWn8fTUYl2FSXIx+Lh/Oy3Jm13W6g+qC/qJ
+         ejw2ik9ZWJ9ImZayZX7vTZoxdJwyZaTGqs02xo5GRxBTOaabGjDKT4UFYsB75eE7yaZR
+         dkbdYwDPTP0eEF+iBSb9Q6S3vQMJ+wySqCaynjiKBnHWUm2qimZElNDnsEoEvUoX3wNN
+         0KWprZfb8kIOVnTHTybbShh8q5kxvUzm26Qmpq2zzELzUGQPqNCMIxKhPg5T3+Q9j5sm
+         zRW8TnYHV73a2w7PGnydITo3CAmYSO1e54kfJ689RN6rAZrZ831yoff9pfNTdpCMdHDv
+         NrFQ==
+X-Gm-Message-State: APjAAAXEm4f0Bv4VQfy+wu431f7BcgqVFRRlxMN+9c3PlHgV5T7D01xK
+        pgVpqR18So6QdGTnh7Zt2pg=
+X-Google-Smtp-Source: APXvYqzUGzlzoUxHbPjLFluVrgI/NLaAPGdAljUavjad6irklL5IqVO9RB0UY5uyGL/ugCjNDggVvQ==
+X-Received: by 2002:a19:a83:: with SMTP id 125mr51374964lfk.150.1565004973024;
+        Mon, 05 Aug 2019 04:36:13 -0700 (PDT)
 Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id q17sm1767991lfa.82.2019.08.05.04.27.48
+        by smtp.gmail.com with ESMTPSA id u27sm14850299lfn.87.2019.08.05.04.36.11
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 05 Aug 2019 04:27:48 -0700 (PDT)
+        Mon, 05 Aug 2019 04:36:12 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.92)
         (envelope-from <johan@kernel.org>)
-        id 1hub9X-0007eB-2t; Mon, 05 Aug 2019 13:27:47 +0200
-Date:   Mon, 5 Aug 2019 13:27:47 +0200
+        id 1hubHe-00066f-6x; Mon, 05 Aug 2019 13:36:10 +0200
+Date:   Mon, 5 Aug 2019 13:36:10 +0200
 From:   Johan Hovold <johan@kernel.org>
-To:     Yoshiaki Okamoto <yokamoto@allied-telesis.co.jp>
-Cc:     larsm17@gmail.com, johan@kernel.org, hyamamo@allied-telesis.co.jp,
+To:     Rogan Dawes <rogan@dawes.za.net>
+Cc:     Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3] USB: serial: option: Add support for ZTE MF871A
-Message-ID: <20190805112747.GD3574@localhost>
-References: <1dde5abb-2399-6bb7-531b-c88e5f0b4fae@gmail.com>
- <156362896395.30109.15607667410549474761.stgit@yokamoto-pc.rd.allied-telesis.co.jp>
+Subject: Re: [PATCH v6] USB: serial: option: add D-Link DWM-222 device ID
+Message-ID: <20190805113610.GE3574@localhost>
+References: <CAOYdKdjBtYt_2CuBxaTYKXCt7En+ESdOKeJ+kEEvvcNhkYs_7w@mail.gmail.com>
+ <20190717091134.GA5179@lisa.dawes.za.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <156362896395.30109.15607667410549474761.stgit@yokamoto-pc.rd.allied-telesis.co.jp>
+In-Reply-To: <20190717091134.GA5179@lisa.dawes.za.net>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Jul 20, 2019 at 10:23:18PM +0900, Yoshiaki Okamoto wrote:
-> This patch adds support for MF871A USB modem (aka Speed USB STICK U03)
-> to option driver. This modem is manufactured by ZTE corporation, and
-> sold by KDDI.
-
-> Co-developed-by: Hiroyuki Yamamoto <hyamamo@allied-telesis.co.jp>
-> Signed-off-by: Hiroyuki Yamamoto <hyamamo@allied-telesis.co.jp>
-> Signed-off-by: Yoshiaki Okamoto <yokamoto@allied-telesis.co.jp>
-> ---
+On Wed, Jul 17, 2019 at 11:11:34AM +0200, Rogan Dawes wrote:
+> Add device id for D-Link DWM-222 A2.
 > 
-> Changes in v3:
-> - Change used macro to USB_DEVICE_AND_INTERFACE_INFO.
+> MI_00 D-Link HS-USB Diagnostics
+> MI_01 D-Link HS-USB Modem
+> MI_02 D-Link HS-USB AT Port
+> MI_03 D-Link HS-USB NMEA
+> MI_04 D-Link HS-USB WWAN Adapter (qmi_wwan)
+> MI_05 USB Mass Storage Device
 > 
-> Changes in v2:
-> - Add Co-developed-by tag.
-> - Move away product-id define and add short comment after the entry.
+> Cc: stable@vger.kernel.org
+> Signed-Off-By: Rogan Dawes <rogan@dawes.za.net>
 
 Now applied, thanks.
 
