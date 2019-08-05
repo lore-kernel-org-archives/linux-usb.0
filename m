@@ -2,115 +2,132 @@ Return-Path: <SRS0=sE5b=WB=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D39DC433FF
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Aug 2019 19:14:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00CF8C0650F
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Aug 2019 19:36:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5EFAF20B1F
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Aug 2019 19:14:29 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="CkqNqbpn"
+	by mail.kernel.org (Postfix) with ESMTP id C0FC32147A
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Aug 2019 19:36:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1565033804;
+	bh=MaWD4i6YwcDrZxr6+DF7rK6Zv6dmm/U8/8nieiyyv98=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=bzoM97w+h8YLKzgwvBb7Ot4ZpGkTkGH3cuHSNCL/Mhcq9WAF0p3/NFvtb6g9kX2o1
+	 jZhPHisfWrIe6AdlfgPD59vc+hPL5rSDyMCeCPvkKQ+YzCi+XgKpwJwBLiVWUOzSLx
+	 Y2Wu9vX7UQOzEYUiZ5k1MoiXyj6VQZ9fYFINSp9o=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730310AbfHETO2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 5 Aug 2019 15:14:28 -0400
-Received: from gateway34.websitewelcome.com ([192.185.149.222]:46865 "EHLO
-        gateway34.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727802AbfHETO2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 5 Aug 2019 15:14:28 -0400
-Received: from cm10.websitewelcome.com (cm10.websitewelcome.com [100.42.49.4])
-        by gateway34.websitewelcome.com (Postfix) with ESMTP id 21CEB4A45D
-        for <linux-usb@vger.kernel.org>; Mon,  5 Aug 2019 14:14:28 -0500 (CDT)
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with SMTP
-        id uiRAhalLl2PzOuiRAheizj; Mon, 05 Aug 2019 14:14:28 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
-        Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=dzFv/IwO8nS0LzTNEOrjXf+xKsPETwh6M5w7aEBoJKo=; b=CkqNqbpnX5kbciEOmfZEuJEDIu
-        5rBhPk5WDDEn7Wf6XcIVb250/7QVs3mt620PZ66j8+3MOZn3aUN2Vz5ztGMQ/Kzfj1dcR7+gkQrq1
-        nnptPu3LDK2/Pl/+kZxunxE7rPvclO1axBmRunNcsq0Rxn5HhaIfY04ivVXJ00b72SyjSPhkHpciQ
-        yHUEEdy2ahhmRyK2VE3d1A7Jz9PQ+ovpz6XQtsY9vHJknXd6+gOKoXIoqU7JFaQgiJfBsJq09x7fl
-        Rzi5u3Rzor1kVm7y9MGDiepmcUvOvnKccPPXJEjRiVTVoPaNZvl1XubYQUQ2FnBYxQ2mogBjQy60W
-        o2ovT6/w==;
-Received: from [187.192.11.120] (port=37378 helo=embeddedor)
-        by gator4166.hostgator.com with esmtpa (Exim 4.92)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1huiR8-0037a8-QZ; Mon, 05 Aug 2019 14:14:26 -0500
-Date:   Mon, 5 Aug 2019 14:14:26 -0500
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Subject: [PATCH] USB: gadget: udc: s3c2410_udc: Mark expected switch
- fall-throughs
-Message-ID: <20190805191426.GA12414@embeddedor>
+        id S1730147AbfHETgo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 5 Aug 2019 15:36:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56552 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727460AbfHETgn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 5 Aug 2019 15:36:43 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 68FBE20C01;
+        Mon,  5 Aug 2019 19:36:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565033802;
+        bh=MaWD4i6YwcDrZxr6+DF7rK6Zv6dmm/U8/8nieiyyv98=;
+        h=From:To:Cc:Subject:Date:From;
+        b=n7zyEtuHQUBAht/mnw6on4nRa9KUYPslEjsVlIW0LZZpLVVDuRmbITI1o/Y69A+2z
+         LUOwfUF3SKYBS70jNFzT1BguvLSolyd9TMamCvlbi/WTGAXHi4yZSUu3pHZmvI+93H
+         1Vx6/F5gdo/wuGvOkEKfZcO/XQPpfydrvnrTYmnw=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-usb@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Bin Liu <b-liu@ti.com>
+Subject: [PATCH] USB: musb: convert platform driver to use dev_groups
+Date:   Mon,  5 Aug 2019 21:36:32 +0200
+Message-Id: <20190805193636.25560-2-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.192.11.120
-X-Source-L: No
-X-Exim-ID: 1huiR8-0037a8-QZ
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: (embeddedor) [187.192.11.120]:37378
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 3
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Mark switch cases where we are expecting to fall through.
+Platform drivers now have the option to have the platform core create
+and remove any needed sysfs attribute files.  So take advantage of that
+and do not register "by hand" any sysfs files.
 
-This patch fixes the following warning (Building: tct_hammer_defconfig arm):
-
-drivers/usb/gadget/udc/s3c2410_udc.c:314:7: warning: this statement may fall through [-Wimplicit-fallthrough=]
-drivers/usb/gadget/udc/s3c2410_udc.c:418:7: warning: this statement may fall through [-Wimplicit-fallthrough=]
-
-Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+Cc: Bin Liu <b-liu@ti.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/gadget/udc/s3c2410_udc.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/usb/musb/musb_core.c | 22 +++-------------------
+ 1 file changed, 3 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/usb/gadget/udc/s3c2410_udc.c b/drivers/usb/gadget/udc/s3c2410_udc.c
-index af3e63316ace..f82208fbc249 100644
---- a/drivers/usb/gadget/udc/s3c2410_udc.c
-+++ b/drivers/usb/gadget/udc/s3c2410_udc.c
-@@ -312,6 +312,7 @@ static int s3c2410_udc_write_fifo(struct s3c2410_ep *ep,
- 	switch (idx) {
- 	default:
- 		idx = 0;
-+		/* fall through */
- 	case 0:
- 		fifo_reg = S3C2410_UDC_EP0_FIFO_REG;
- 		break;
-@@ -416,6 +417,7 @@ static int s3c2410_udc_read_fifo(struct s3c2410_ep *ep,
- 	switch (idx) {
- 	default:
- 		idx = 0;
-+		/* fall through */
- 	case 0:
- 		fifo_reg = S3C2410_UDC_EP0_FIFO_REG;
- 		break;
+diff --git a/drivers/usb/musb/musb_core.c b/drivers/usb/musb/musb_core.c
+index 2bc55e0ceace..bd63450af76a 100644
+--- a/drivers/usb/musb/musb_core.c
++++ b/drivers/usb/musb/musb_core.c
+@@ -1829,16 +1829,13 @@ static ssize_t srp_store(struct device *dev, struct device_attribute *attr,
+ }
+ static DEVICE_ATTR_WO(srp);
+ 
+-static struct attribute *musb_attributes[] = {
++static struct attribute *musb_attrs[] = {
+ 	&dev_attr_mode.attr,
+ 	&dev_attr_vbus.attr,
+ 	&dev_attr_srp.attr,
+ 	NULL
+ };
+-
+-static const struct attribute_group musb_attr_group = {
+-	.attrs = musb_attributes,
+-};
++ATTRIBUTE_GROUPS(musb);
+ 
+ #define MUSB_QUIRK_B_INVALID_VBUS_91	(MUSB_DEVCTL_BDEVICE | \
+ 					 (2 << MUSB_DEVCTL_VBUS_SHIFT) | \
+@@ -2038,10 +2035,6 @@ static void musb_free(struct musb *musb)
+ 	 * cleanup after everything's been de-activated.
+ 	 */
+ 
+-#ifdef CONFIG_SYSFS
+-	sysfs_remove_group(&musb->controller->kobj, &musb_attr_group);
+-#endif
+-
+ 	if (musb->nIrq >= 0) {
+ 		if (musb->irq_wake)
+ 			disable_irq_wake(musb->nIrq);
+@@ -2390,22 +2383,12 @@ musb_init_controller(struct device *dev, int nIrq, void __iomem *ctrl)
+ 
+ 	musb_init_debugfs(musb);
+ 
+-	status = sysfs_create_group(&musb->controller->kobj, &musb_attr_group);
+-	if (status)
+-		goto fail5;
+-
+ 	musb->is_initialized = 1;
+ 	pm_runtime_mark_last_busy(musb->controller);
+ 	pm_runtime_put_autosuspend(musb->controller);
+ 
+ 	return 0;
+ 
+-fail5:
+-	musb_exit_debugfs(musb);
+-
+-	musb_gadget_cleanup(musb);
+-	musb_host_cleanup(musb);
+-
+ fail3:
+ 	cancel_delayed_work_sync(&musb->irq_work);
+ 	cancel_delayed_work_sync(&musb->finish_resume_work);
+@@ -2798,6 +2781,7 @@ static struct platform_driver musb_driver = {
+ 		.name		= (char *)musb_driver_name,
+ 		.bus		= &platform_bus_type,
+ 		.pm		= MUSB_DEV_PM_OPS,
++		.dev_groups	= musb_groups,
+ 	},
+ 	.probe		= musb_probe,
+ 	.remove		= musb_remove,
 -- 
 2.22.0
 
