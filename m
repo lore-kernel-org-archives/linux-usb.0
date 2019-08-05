@@ -2,145 +2,170 @@ Return-Path: <SRS0=sE5b=WB=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MIME_HEADER_CTYPE_ONLY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 754E3C0650F
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Aug 2019 14:53:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B8BC433FF
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Aug 2019 14:54:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 47351216F4
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Aug 2019 14:53:32 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YbOwPvWS"
+	by mail.kernel.org (Postfix) with ESMTP id 9556E206C1
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Aug 2019 14:54:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728921AbfHEOxb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 5 Aug 2019 10:53:31 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:41820 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728717AbfHEOxb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 5 Aug 2019 10:53:31 -0400
-Received: by mail-pg1-f195.google.com with SMTP id x15so29522360pgg.8
-        for <linux-usb@vger.kernel.org>; Mon, 05 Aug 2019 07:53:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3yrZtEjMZiA0RuhclX++rYTRWQZnWKq123k2rmttsIk=;
-        b=YbOwPvWSkBrhOPFGfhuoQQPskms6KscbpIqua0m31ZzcLeCky60r4lgjY3QT9BleZQ
-         0sfifuIXXoh9U4S+he2BNUzLIZeS/d+hxdMRHzqR3BSXXv/VQOBtHNqelkqGtE/MZro0
-         EeQq+xKMO7qt9BUrU01mXGptULKI9uzQ4wQpverDIpKLAR65B+vOxYyuzaFTdzuvEfwK
-         f83jr6Ypn6LlwQm1wam9CI/pi/DRdEMFJYNKBgDSUCMmKJmdQIDeura9CfUN8fhDHcbk
-         I4Ol2cQyVamPqHWEk8LRv/0RRuarQ2ITIUvs6cIPjv0N94rWJHQYAug364UqLYeaXBTh
-         FNqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3yrZtEjMZiA0RuhclX++rYTRWQZnWKq123k2rmttsIk=;
-        b=eBNksizcWZE4HZenaz540fJI9U3r9O0NKxK0lvYEjv9HiGSSg6K1Yo53mNJzGPipah
-         h3NjGHjAHBm7OGKzr3N46vp5efvDQqay5scXXdTl/l+dquYi84m/Rcmg8inDSKMmYsm7
-         Pzm1gM9tgo9u8svYVj+mReBKFHts/VBRuffMrXDUyyr/yzE3M1Hi/zJgCC5iiocTrIK5
-         SzyTxBt7iftSUgKtA2UGv2SeLiFBGWQmWNUR8gw6PnDvWa0+mkGaHbaZ7IaMIBl6A0gW
-         NgYbmgtS8YFqIw/DHuwI/5OesWShCnPlpkWPKISkdVFKD1degsdvtIH6qfNbBMv/U6j1
-         KctQ==
-X-Gm-Message-State: APjAAAWBPqcJLDI/g0WaXLvPMK6dxuSS6gXgExlsZTK+HZQGdD23h3i9
-        UmwoAH9+9+xfrliM2rWJmCzwVWqDXc7/eUmRL1Tkzw==
-X-Google-Smtp-Source: APXvYqzzlBk6DPv8RuMCq7E9sUUUfAZEHeUAkO0PI0d+zpxQGbkl33n+v77hL+by703BxRqjh6GOhjnkMC5r6XjLWeM=
-X-Received: by 2002:a17:90a:a116:: with SMTP id s22mr18407803pjp.47.1565016810082;
- Mon, 05 Aug 2019 07:53:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <000000000000e5742c058f5dfaef@google.com> <1565014816.3375.1.camel@suse.com>
-In-Reply-To: <1565014816.3375.1.camel@suse.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Mon, 5 Aug 2019 16:53:18 +0200
-Message-ID: <CAAeHK+wS2YNDgtjQ-piggaMoYTVdKrYkn=iE=G8psEHRvPYK4w@mail.gmail.com>
-Subject: Re: KASAN: slab-out-of-bounds Write in lg4ff_init
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     syzbot <syzbot+94e2b9e9c7d1dd332345@syzkaller.appspotmail.com>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Jiri Kosina <jikos@kernel.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        linux-input@vger.kernel.org, USB list <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1729190AbfHEOyt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 5 Aug 2019 10:54:49 -0400
+Received: from comms.puri.sm ([159.203.221.185]:41494 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728043AbfHEOyt (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 5 Aug 2019 10:54:49 -0400
+X-Greylist: delayed 600 seconds by postgrey-1.27 at vger.kernel.org; Mon, 05 Aug 2019 10:54:48 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id D2931DF2AE;
+        Mon,  5 Aug 2019 07:44:47 -0700 (PDT)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id wV_usbgEvWOB; Mon,  5 Aug 2019 07:44:47 -0700 (PDT)
+Subject: Re: [PATCH 1/2] usb: serial: option: Add the BroadMobi BM818 card
+To:     Johan Hovold <johan@kernel.org>,
+        "Angus Ainslie (Purism)" <angus@akkea.ca>
+Cc:     kernel@puri.sm, =?UTF-8?Q?Bj=c3=b8rn_Mork?= <bjorn@mork.no>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190724145227.27169-1-angus@akkea.ca>
+ <20190724145227.27169-2-angus@akkea.ca> <20190805114711.GF3574@localhost>
+From:   Bob Ham <bob.ham@puri.sm>
+Openpgp: preference=signencrypt
+Autocrypt: addr=bob.ham@puri.sm; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <5fb96703-b174-eef1-5ad1-693e2bbce32f@puri.sm>
+Date:   Mon, 5 Aug 2019 15:44:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+In-Reply-To: <20190805114711.GF3574@localhost>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature";
+ boundary="aav2uDAIncbcoCkDxgmyhfPjctRCwvqu0"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Aug 5, 2019 at 4:34 PM Oliver Neukum <oneukum@suse.com> wrote:
->
-> Am Montag, den 05.08.2019, 05:38 -0700 schrieb syzbot:
-> > Hello,
-> >
-> > syzbot found the following crash on:
-> >
-> > HEAD commit:    e96407b4 usb-fuzzer: main usb gadget fuzzer driver
-> > git tree:       https://github.com/google/kasan.git usb-fuzzer
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=144c21dc600000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=cfa2c18fb6a8068e
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=94e2b9e9c7d1dd332345
-> > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=169e8542600000
-> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10ec8262600000
-> >
-> > IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> > Reported-by: syzbot+94e2b9e9c7d1dd332345@syzkaller.appspotmail.com
-> >
-> > usb 1-1: config 0 interface 0 altsetting 0 has 1 endpoint descriptor,
-> > different from the interface descriptor's value: 9
-> > usb 1-1: New USB device found, idVendor=046d, idProduct=c298, bcdDevice=
-> > 0.00
-> > usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-> > usb 1-1: config 0 descriptor??
-> > logitech 0003:046D:C298.0001: unknown main item tag 0x0
-> > logitech 0003:046D:C298.0001: unknown main item tag 0x0
-> > logitech 0003:046D:C298.0001: hidraw0: USB HID v0.00 Device [HID 046d:c298]
-> > on usb-dummy_hcd.0-1/input0
-> > BUG: KASAN: slab-out-of-bounds in set_bit
-> > include/asm-generic/bitops-instrumented.h:28 [inline]
->
-> #syz test: https://github.com/google/kasan.git e96407b4
->
-> From 7e7f8ce9108b69613f8bb4ff2f95c258e22c3228 Mon Sep 17 00:00:00 2001
-> From: Oliver Neukum <oneukum@suse.com>
-> Date: Mon, 5 Aug 2019 16:14:47 +0200
-> Subject: [PATCH] hid-lg4ff: sanity check for offsets of FF effects
->
-> Malicious devices could provide huge offsets which would lead
-> to setting bits in random kernel memory. Adding a sanity check.
->
-> Reported-by: syzbot+94e2b9e9c7d1dd332345@syzkaller.appspotmail.com
-> Signed-off-by: Oliver Neukum <oneukum@suse.com>
-> ---
->  drivers/hid/hid-lg4ff.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/hid/hid-lg4ff.c b/drivers/hid/hid-lg4ff.c
-> index cefba038520c..f9572750d889 100644
-> --- a/drivers/hid/hid-lg4ff.c
-> +++ b/drivers/hid/hid-lg4ff.c
-> @@ -1327,8 +1327,12 @@ int lg4ff_init(struct hid_device *hid)
->         }
->
->         /* Set supported force feedback capabilities */
-> +       error = -ENODEV;
->         for (j = 0; lg4ff_devices[i].ff_effects[j] >= 0; j++)
-> -               set_bit(lg4ff_devices[i].ff_effects[j], dev->ffbit);
-> +               if (lg4ff_devices[i].ff_effects[j] <= 15)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--aav2uDAIncbcoCkDxgmyhfPjctRCwvqu0
+Content-Type: multipart/mixed; boundary="ePV71vOs0eSjkvx3iXjEuaaJV4NUkQxra";
+ protected-headers="v1"
+From: Bob Ham <bob.ham@puri.sm>
+To: Johan Hovold <johan@kernel.org>, "Angus Ainslie (Purism)" <angus@akkea.ca>
+Cc: kernel@puri.sm, =?UTF-8?Q?Bj=c3=b8rn_Mork?= <bjorn@mork.no>,
+ "David S. Miller" <davem@davemloft.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, netdev@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Message-ID: <5fb96703-b174-eef1-5ad1-693e2bbce32f@puri.sm>
+Subject: Re: [PATCH 1/2] usb: serial: option: Add the BroadMobi BM818 card
+References: <20190724145227.27169-1-angus@akkea.ca>
+ <20190724145227.27169-2-angus@akkea.ca> <20190805114711.GF3574@localhost>
+In-Reply-To: <20190805114711.GF3574@localhost>
 
-Can't ff_effects have one of the FF_CONSTANT, FF_PERIODIC, etc.
-values? Those are 0x50, 0x51, ... Or maybe I'm just misunderstanding
-something. Are those ff_effects provided by the device?
+--ePV71vOs0eSjkvx3iXjEuaaJV4NUkQxra
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: quoted-printable
 
-> +                       set_bit(lg4ff_devices[i].ff_effects[j], dev->ffbit);
-> +               else
-> +                       goto err_init;
->
->         error = input_ff_create_memless(dev, NULL, lg4ff_play);
->
-> --
-> 2.16.4
->
+On 05/08/2019 12:47, Johan Hovold wrote:
+> On Wed, Jul 24, 2019 at 07:52:26AM -0700, Angus Ainslie (Purism) wrote:=
+
+>> From: Bob Ham <bob.ham@puri.sm>
+>>
+>> Add a VID:PID for the BroadModi BM818 M.2 card
+>=20
+> Would you mind posting the output of usb-devices (or lsusb -v) for this=
+
+> device?
+
+T:  Bus=3D01 Lev=3D03 Prnt=3D40 Port=3D03 Cnt=3D01 Dev#=3D 44 Spd=3D480 M=
+xCh=3D 0
+D:  Ver=3D 2.00 Cls=3D00(>ifc ) Sub=3D00 Prot=3D00 MxPS=3D64 #Cfgs=3D  1
+P:  Vendor=3D2020 ProdID=3D2060 Rev=3D00.00
+S:  Manufacturer=3DQualcomm, Incorporated
+S:  Product=3DQualcomm CDMA Technologies MSM
+C:  #Ifs=3D 5 Cfg#=3D 1 Atr=3De0 MxPwr=3D500mA
+I:  If#=3D0x0 Alt=3D 0 #EPs=3D 2 Cls=3Dff(vend.) Sub=3Dff Prot=3Dff Drive=
+r=3D(none)
+I:  If#=3D0x1 Alt=3D 0 #EPs=3D 2 Cls=3Dff(vend.) Sub=3Dff Prot=3Dff Drive=
+r=3D(none)
+I:  If#=3D0x2 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3Dff Prot=3Dff Drive=
+r=3D(none)
+I:  If#=3D0x3 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3Dfe Prot=3Dff Drive=
+r=3D(none)
+I:  If#=3D0x4 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3Dff Prot=3Dff Drive=
+r=3D(none)
+
+
+--ePV71vOs0eSjkvx3iXjEuaaJV4NUkQxra--
+
+--aav2uDAIncbcoCkDxgmyhfPjctRCwvqu0
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE745irA8zXATsZwYpUxfwLpX1YkEFAl1IQNoACgkQUxfwLpX1
+YkGLrw/8DdFrRqq2wSac4phcOPiDz/8DzQFDAn5BzUs9TfKiecHDJdycv0bFCjwY
+aIRF/z+i8ltLnCdO3KMSqwTgqit8npZC+DLWNrY4wBAVc2EsfSi/aQeFgUjr5kMB
+Z3y9IpfAn2dU16xg6+9XLBlHBj4qmpxtn7hnlPJOCJixcRaDoxrQ929kyfeDn2sr
+ntltidTZ/jF7/tkrZ1IPDFOz2ahscYh7kMos9x1NPizRlWWWiOLGRihyQDANbfpt
+VzScmlv/FjXuFDOjIhKlocimDccUYMAniPYfcQ9mL78GAfJKmAo0/MKsBWxNWih/
+Sef1FKCihiBsHbcVGcUMoSkDoVh3J9PYo2hL3y8SQouQoJtZ5FI+0OlUgsF78nTs
+8gJn6rvGIrb4l9FYX4fC3aP4QenyWj5TF4KNLEjxn0tHa6QPGds8Mbyl0RDB553l
+kdC5fAeuJszZFm+mAcijb+bR+fQ6eVu25tcuOjk97EueQabveLpDbSf/fMD8xzSo
+ejdFDydKqxZfeWbYRgKEAgnBufI/GfQLeI+NZN3An0C2pITt515he7o6ekUfaFeu
+6jLKaGWsH97zWmRs6n36TGsZrLrA/6eloib2J7Y+r+3aBZnY9eCJs0/DXTJ6J+PC
+6TylwPkZh3N7fINfKgtVt261Ga0vN8r2Q5T+8PNBamJCT2aDBrw=
+=oTTh
+-----END PGP SIGNATURE-----
+
+--aav2uDAIncbcoCkDxgmyhfPjctRCwvqu0--
