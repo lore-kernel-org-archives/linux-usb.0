@@ -2,170 +2,101 @@ Return-Path: <SRS0=sE5b=WB=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MIME_HEADER_CTYPE_ONLY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1B8BC433FF
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Aug 2019 14:54:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7303C433FF
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Aug 2019 15:07:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9556E206C1
-	for <linux-usb@archiver.kernel.org>; Mon,  5 Aug 2019 14:54:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6DE94216F4
+	for <linux-usb@archiver.kernel.org>; Mon,  5 Aug 2019 15:07:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1565017647;
+	bh=9M4E65v8ZxtfmG6qLjTi0p0PEhQAU1mHK32ZAmHQCNY=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
+	b=ONl60sbEPJFnKrfN6DXCL+DHQi6jatq8ZzWbSh26xzyOGCi1+gQp9R7bI3rqpPSn4
+	 R94TrFC6BwjLwPUrYuPYt2L/YWfKyKWmLJe5SFJEtD+Zjwwb00aHXyQmjcEsUis8hu
+	 3dDJRKCO3N6opcPr/1N3x6bU2n/rjYhJ5sLd5M0g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729190AbfHEOyt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 5 Aug 2019 10:54:49 -0400
-Received: from comms.puri.sm ([159.203.221.185]:41494 "EHLO comms.puri.sm"
+        id S1729133AbfHEPH1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 5 Aug 2019 11:07:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37232 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728043AbfHEOyt (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 5 Aug 2019 10:54:49 -0400
-X-Greylist: delayed 600 seconds by postgrey-1.27 at vger.kernel.org; Mon, 05 Aug 2019 10:54:48 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id D2931DF2AE;
-        Mon,  5 Aug 2019 07:44:47 -0700 (PDT)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id wV_usbgEvWOB; Mon,  5 Aug 2019 07:44:47 -0700 (PDT)
-Subject: Re: [PATCH 1/2] usb: serial: option: Add the BroadMobi BM818 card
-To:     Johan Hovold <johan@kernel.org>,
-        "Angus Ainslie (Purism)" <angus@akkea.ca>
-Cc:     kernel@puri.sm, =?UTF-8?Q?Bj=c3=b8rn_Mork?= <bjorn@mork.no>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190724145227.27169-1-angus@akkea.ca>
- <20190724145227.27169-2-angus@akkea.ca> <20190805114711.GF3574@localhost>
-From:   Bob Ham <bob.ham@puri.sm>
-Openpgp: preference=signencrypt
-Autocrypt: addr=bob.ham@puri.sm; prefer-encrypt=mutual; keydata=
- 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
-Message-ID: <5fb96703-b174-eef1-5ad1-693e2bbce32f@puri.sm>
-Date:   Mon, 5 Aug 2019 15:44:30 +0100
+        id S1727259AbfHEPH0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 5 Aug 2019 11:07:26 -0400
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1108A214C6;
+        Mon,  5 Aug 2019 15:07:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565017645;
+        bh=9M4E65v8ZxtfmG6qLjTi0p0PEhQAU1mHK32ZAmHQCNY=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=fHKXsQmmVRNP+DwBO05m08ihZT8r8HqxgNyzTCBsK6BY7vrbY7mWpkwB6+0V9DEYy
+         8qWoqjAbUz1hAbBGABurVSO3ITLLhekfSFjI+owm9s4O1F72qIYYRqsM+Le6eLHUcC
+         RWb8yrMv36sSj7v3LWuC9IS9rEJxfGfi9+SjR3B0=
+Subject: Re: [PATCH v3 2/2] usbip: Implement SG support to vhci-hcd and stub
+ driver
+To:     Suwan Kim <suwan.kim027@gmail.com>
+Cc:     valentina.manea.m@gmail.com, gregkh@linuxfoundation.org,
+        stern@rowland.harvard.edu, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, shuah <shuah@kernel.org>
+References: <20190802173651.22247-1-suwan.kim027@gmail.com>
+ <20190802173651.22247-3-suwan.kim027@gmail.com>
+ <43f32889-0117-cd94-2494-23ab29be6ca8@kernel.org>
+ <20190805080451.GB8904@localhost.localdomain>
+From:   shuah <shuah@kernel.org>
+Message-ID: <9490fd7e-b5e7-21fb-4094-ab9c9e0e0aa5@kernel.org>
+Date:   Mon, 5 Aug 2019 09:07:24 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
-In-Reply-To: <20190805114711.GF3574@localhost>
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature";
- boundary="aav2uDAIncbcoCkDxgmyhfPjctRCwvqu0"
+MIME-Version: 1.0
+In-Reply-To: <20190805080451.GB8904@localhost.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---aav2uDAIncbcoCkDxgmyhfPjctRCwvqu0
-Content-Type: multipart/mixed; boundary="ePV71vOs0eSjkvx3iXjEuaaJV4NUkQxra";
- protected-headers="v1"
-From: Bob Ham <bob.ham@puri.sm>
-To: Johan Hovold <johan@kernel.org>, "Angus Ainslie (Purism)" <angus@akkea.ca>
-Cc: kernel@puri.sm, =?UTF-8?Q?Bj=c3=b8rn_Mork?= <bjorn@mork.no>,
- "David S. Miller" <davem@davemloft.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <5fb96703-b174-eef1-5ad1-693e2bbce32f@puri.sm>
-Subject: Re: [PATCH 1/2] usb: serial: option: Add the BroadMobi BM818 card
-References: <20190724145227.27169-1-angus@akkea.ca>
- <20190724145227.27169-2-angus@akkea.ca> <20190805114711.GF3574@localhost>
-In-Reply-To: <20190805114711.GF3574@localhost>
-
---ePV71vOs0eSjkvx3iXjEuaaJV4NUkQxra
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: quoted-printable
-
-On 05/08/2019 12:47, Johan Hovold wrote:
-> On Wed, Jul 24, 2019 at 07:52:26AM -0700, Angus Ainslie (Purism) wrote:=
-
->> From: Bob Ham <bob.ham@puri.sm>
+On 8/5/19 2:04 AM, Suwan Kim wrote:
+> On Fri, Aug 02, 2019 at 04:41:52PM -0600, shuah wrote:
+>> Hi Suwan,
 >>
->> Add a VID:PID for the BroadModi BM818 M.2 card
->=20
-> Would you mind posting the output of usb-devices (or lsusb -v) for this=
+>> On 8/2/19 11:36 AM, Suwan Kim wrote:
+>>> There are bugs on vhci with usb 3.0 storage device.
+>>
+>> This sentence doesn't make sense to me. What bugs? Ca you eloborate?
+> 
+> Alan's patch description "usb-storage: Set virt_boundary_mask to
+> avoid SG overflows" elaborates the problem. In USB, each SG list
+> entry buffer should be divisible by the bulk maxpacket size. But
+> with native SG support, this problem doesn't matter because the
+> SG buffer is treated as contiguous buffer. But without native SG
+> support, storage driver breaks SG list into several URBs and each
+> URB is sparate transfer.
+> 
+> Let's assume that driver request 31.5 KB data and has SG list which
+> has 3584 bytes buffer followed by 7 4096 bytes buffer for some
+> reason. USB Storage driver splits this SG list into several URBs
+> because VHCI doesn't support SG and send them separately. So the
+> first URB buffer size is 3584 bytes. When receiving data from device,
+> USB 3.0 device sends data packet of 1024 bytes size because the max
+> packet size of BULK pipe is 1024 bytes. So device sends 4096 bytes.
+> But the first URB buffer has only 3584 bytes buffer size. So host
+> controller terminates the transfer even though there is more data
+> to receive.
+> 
+> Please also reference the mail thread
+> https://marc.info/?t=155449209600003&r=1&w=2
+> https://marc.info/?l=linux-usb&m=155482317722223&w=2
+> 
 
-> device?
+I am asking you to elaborate and add it to the commit log instead of
+just saying "There are bugs on vhci with usb 3.0 storage device."
 
-T:  Bus=3D01 Lev=3D03 Prnt=3D40 Port=3D03 Cnt=3D01 Dev#=3D 44 Spd=3D480 M=
-xCh=3D 0
-D:  Ver=3D 2.00 Cls=3D00(>ifc ) Sub=3D00 Prot=3D00 MxPS=3D64 #Cfgs=3D  1
-P:  Vendor=3D2020 ProdID=3D2060 Rev=3D00.00
-S:  Manufacturer=3DQualcomm, Incorporated
-S:  Product=3DQualcomm CDMA Technologies MSM
-C:  #Ifs=3D 5 Cfg#=3D 1 Atr=3De0 MxPwr=3D500mA
-I:  If#=3D0x0 Alt=3D 0 #EPs=3D 2 Cls=3Dff(vend.) Sub=3Dff Prot=3Dff Drive=
-r=3D(none)
-I:  If#=3D0x1 Alt=3D 0 #EPs=3D 2 Cls=3Dff(vend.) Sub=3Dff Prot=3Dff Drive=
-r=3D(none)
-I:  If#=3D0x2 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3Dff Prot=3Dff Drive=
-r=3D(none)
-I:  If#=3D0x3 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3Dfe Prot=3Dff Drive=
-r=3D(none)
-I:  If#=3D0x4 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3Dff Prot=3Dff Drive=
-r=3D(none)
-
-
---ePV71vOs0eSjkvx3iXjEuaaJV4NUkQxra--
-
---aav2uDAIncbcoCkDxgmyhfPjctRCwvqu0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE745irA8zXATsZwYpUxfwLpX1YkEFAl1IQNoACgkQUxfwLpX1
-YkGLrw/8DdFrRqq2wSac4phcOPiDz/8DzQFDAn5BzUs9TfKiecHDJdycv0bFCjwY
-aIRF/z+i8ltLnCdO3KMSqwTgqit8npZC+DLWNrY4wBAVc2EsfSi/aQeFgUjr5kMB
-Z3y9IpfAn2dU16xg6+9XLBlHBj4qmpxtn7hnlPJOCJixcRaDoxrQ929kyfeDn2sr
-ntltidTZ/jF7/tkrZ1IPDFOz2ahscYh7kMos9x1NPizRlWWWiOLGRihyQDANbfpt
-VzScmlv/FjXuFDOjIhKlocimDccUYMAniPYfcQ9mL78GAfJKmAo0/MKsBWxNWih/
-Sef1FKCihiBsHbcVGcUMoSkDoVh3J9PYo2hL3y8SQouQoJtZ5FI+0OlUgsF78nTs
-8gJn6rvGIrb4l9FYX4fC3aP4QenyWj5TF4KNLEjxn0tHa6QPGds8Mbyl0RDB553l
-kdC5fAeuJszZFm+mAcijb+bR+fQ6eVu25tcuOjk97EueQabveLpDbSf/fMD8xzSo
-ejdFDydKqxZfeWbYRgKEAgnBufI/GfQLeI+NZN3An0C2pITt515he7o6ekUfaFeu
-6jLKaGWsH97zWmRs6n36TGsZrLrA/6eloib2J7Y+r+3aBZnY9eCJs0/DXTJ6J+PC
-6TylwPkZh3N7fINfKgtVt261Ga0vN8r2Q5T+8PNBamJCT2aDBrw=
-=oTTh
------END PGP SIGNATURE-----
-
---aav2uDAIncbcoCkDxgmyhfPjctRCwvqu0--
+thanks,
+-- Shuah
