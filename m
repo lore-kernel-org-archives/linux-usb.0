@@ -2,421 +2,128 @@ Return-Path: <SRS0=66yL=WC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADCBEC433FF
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 11:01:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44E46C31E40
+	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 11:19:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6EF8C216B7
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 11:01:16 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="C8XZF1Rj"
+	by mail.kernel.org (Postfix) with ESMTP id 221CF20B1F
+	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 11:19:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731059AbfHFLBP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 6 Aug 2019 07:01:15 -0400
-Received: from mail-qk1-f202.google.com ([209.85.222.202]:52197 "EHLO
-        mail-qk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730844AbfHFLBP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 6 Aug 2019 07:01:15 -0400
-Received: by mail-qk1-f202.google.com with SMTP id s25so75138238qkj.18
-        for <linux-usb@vger.kernel.org>; Tue, 06 Aug 2019 04:01:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding;
-        bh=m1oxubkb5sUeQrONJL23Fzd3XHKz8084tnl932atwQk=;
-        b=C8XZF1RjRqPE1SjM+//fTT61M7BZzMwS9prgL32z1ObcRV1jhEyMIULUV9h5HcSSU0
-         mhoF70yhV6zgpfYLd0qMFl+7tBZCnXW6kLWQhfk/dlT96rhEf7lIWtHbV2Ja6bDUojxe
-         KV6tBP0EuqU7qiaZvHRCYfXrdT2xmLle2Pp3EL9XHe2SYYZRPr1YGThsrJaU7KwbTDBy
-         +OVI6OdgkwBuaXQDJTTnOv8Xm0C+j32QAD4x+LPiUo6r15JsynP5NehZJaHYVoLAar7E
-         vqjteOcPkPNqlwGEVDh0lNERvw7mIWHl7KN624yOi5BvgyTk4AdZ0y6WqCb4K7l9Y00T
-         aMyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding;
-        bh=m1oxubkb5sUeQrONJL23Fzd3XHKz8084tnl932atwQk=;
-        b=YBwp7x/0JHWQWCHBRzzXQpWnOexzAyyJrYYeChf2gdci3jEIIVwB5ImvsDZ+VkLS6G
-         SuytYip0ADf5Y7Vp2w000/S4Ieu+qE+xlF+ebGYup1JjCpoWCw9vkVnO2X/MED4VK6th
-         bBXfr9sm6Za1FFjTkCIq023kyMOLTwSSh48SCsBWZea/VLLoWXrNPQ3QZeEHeZ0hbffN
-         wRn9YurHfRuyqWshfGHc7T2v3kDce+a0lkapdQfb5RKie/PqM8klUTMvBbV+UednKNep
-         kMXQCyridibMK5XIDtvLyjBWq3LUldY5HjC1lTDzZyShgrF02yUtLcT65ieZoSid67d3
-         E5SQ==
-X-Gm-Message-State: APjAAAXsd9KqeU36g7hMDTCH57GsTfyUaDf+1B0WZFsOr7SG3qLvQCFA
-        c5wf5jOSpQ+6CGoz4zOYaT9jsromziwC5k6v2w2FG8lKW0JPXBvk6KzwZE8e0R+Pg9x+KccB3Pn
-        OqQJdXb2K2gTZly8Y8+wQ7TSzxQxKOoEhGTXlIItX2ZStEHKaGGgkQsSst+hlgts=
-X-Google-Smtp-Source: APXvYqyv0D6aH1OS8vyQKXqVceKuvWO0q1YD88VNw2xFaecAZ+jFDplQdXyukV9PJsjSKIXTgvY6xQ+p3g==
-X-Received: by 2002:a37:9bca:: with SMTP id d193mr2569852qke.122.1565089274095;
- Tue, 06 Aug 2019 04:01:14 -0700 (PDT)
-Date:   Tue,  6 Aug 2019 13:00:50 +0200
-Message-Id: <20190806110050.38918-1-tweek@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.22.0.770.g0f2c4a37fd-goog
-Subject: [PATCH] usb: setup authorized_default using usb_bus_notify
-From:   "=?UTF-8?q?Thi=C3=A9baud=20Weksteen?=" <tweek@google.com>
-To:     linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     "=?UTF-8?q?Thi=C3=A9baud=20Weksteen?=" <tweek@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        id S1732727AbfHFLS4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 6 Aug 2019 07:18:56 -0400
+Received: from rtits2.realtek.com ([211.75.126.72]:57485 "EHLO
+        rtits2.realtek.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730677AbfHFLSz (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 6 Aug 2019 07:18:55 -0400
+Authenticated-By: 
+X-SpamFilter-By: BOX Solutions SpamTrap 5.62 with qID x76BIsRC023713, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (RTITCASV01.realtek.com.tw[172.21.6.18])
+        by rtits2.realtek.com.tw (8.15.2/2.57/5.78) with ESMTPS id x76BIsRC023713
+        (version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+        Tue, 6 Aug 2019 19:18:54 +0800
+Received: from fc30.localdomain (172.21.177.138) by RTITCASV01.realtek.com.tw
+ (172.21.6.18) with Microsoft SMTP Server id 14.3.439.0; Tue, 6 Aug 2019
+ 19:18:52 +0800
+From:   Hayes Wang <hayeswang@realtek.com>
+To:     <netdev@vger.kernel.org>
+CC:     <nic_swsd@realtek.com>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, Hayes Wang <hayeswang@realtek.com>
+Subject: [PATCH net-next 1/5] r8152: separate the rx buffer size
+Date:   Tue, 6 Aug 2019 19:18:00 +0800
+Message-ID: <1394712342-15778-290-albertk@realtek.com>
+X-Mailer: Microsoft Office Outlook 11
+In-Reply-To: <1394712342-15778-289-albertk@realtek.com>
+References: <1394712342-15778-289-albertk@realtek.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [172.21.177.138]
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Currently, the authorized_default and interface_authorized_default
-attributes for HCD are set up after the uevent has been sent to userland.
-This creates a race condition where userland may fail to access this
-file when processing the event. Move the appending of these attributes
-earlier relying on the usb_bus_notify dispatcher.
+The different chips may accept different rx buffer sizes. The RTL8152
+supports 16K bytes, and RTL8153 support 32K bytes.
 
-Signed-off-by: Thi=C3=A9baud Weksteen <tweek@google.com>
+Signed-off-by: Hayes Wang <hayeswang@realtek.com>
 ---
- drivers/usb/core/hcd.c   | 123 ---------------------------------------
- drivers/usb/core/sysfs.c | 121 ++++++++++++++++++++++++++++++++++++++
- drivers/usb/core/usb.h   |   5 ++
- 3 files changed, 126 insertions(+), 123 deletions(-)
+ drivers/net/usb/r8152.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-index 9320787ac2e6..2ccbc2f83570 100644
---- a/drivers/usb/core/hcd.c
-+++ b/drivers/usb/core/hcd.c
-@@ -103,11 +103,6 @@ static DEFINE_SPINLOCK(hcd_urb_unlink_lock);
- /* wait queue for synchronous unlinks */
- DECLARE_WAIT_QUEUE_HEAD(usb_kill_urb_queue);
-=20
--static inline int is_root_hub(struct usb_device *udev)
--{
--	return (udev->parent =3D=3D NULL);
--}
--
- /*------------------------------------------------------------------------=
--*/
-=20
- /*
-@@ -880,101 +875,6 @@ static int usb_rh_urb_dequeue(struct usb_hcd *hcd, st=
-ruct urb *urb, int status)
- }
-=20
-=20
--
--/*
-- * Show & store the current value of authorized_default
-- */
--static ssize_t authorized_default_show(struct device *dev,
--				       struct device_attribute *attr, char *buf)
--{
--	struct usb_device *rh_usb_dev =3D to_usb_device(dev);
--	struct usb_bus *usb_bus =3D rh_usb_dev->bus;
--	struct usb_hcd *hcd;
--
--	hcd =3D bus_to_hcd(usb_bus);
--	return snprintf(buf, PAGE_SIZE, "%u\n", hcd->dev_policy);
--}
--
--static ssize_t authorized_default_store(struct device *dev,
--					struct device_attribute *attr,
--					const char *buf, size_t size)
--{
--	ssize_t result;
--	unsigned val;
--	struct usb_device *rh_usb_dev =3D to_usb_device(dev);
--	struct usb_bus *usb_bus =3D rh_usb_dev->bus;
--	struct usb_hcd *hcd;
--
--	hcd =3D bus_to_hcd(usb_bus);
--	result =3D sscanf(buf, "%u\n", &val);
--	if (result =3D=3D 1) {
--		hcd->dev_policy =3D val <=3D USB_DEVICE_AUTHORIZE_INTERNAL ?
--			val : USB_DEVICE_AUTHORIZE_ALL;
--		result =3D size;
--	} else {
--		result =3D -EINVAL;
--	}
--	return result;
--}
--static DEVICE_ATTR_RW(authorized_default);
--
--/*
-- * interface_authorized_default_show - show default authorization status
-- * for USB interfaces
-- *
-- * note: interface_authorized_default is the default value
-- *       for initializing the authorized attribute of interfaces
-- */
--static ssize_t interface_authorized_default_show(struct device *dev,
--		struct device_attribute *attr, char *buf)
--{
--	struct usb_device *usb_dev =3D to_usb_device(dev);
--	struct usb_hcd *hcd =3D bus_to_hcd(usb_dev->bus);
--
--	return sprintf(buf, "%u\n", !!HCD_INTF_AUTHORIZED(hcd));
--}
--
--/*
-- * interface_authorized_default_store - store default authorization status
-- * for USB interfaces
-- *
-- * note: interface_authorized_default is the default value
-- *       for initializing the authorized attribute of interfaces
-- */
--static ssize_t interface_authorized_default_store(struct device *dev,
--		struct device_attribute *attr, const char *buf, size_t count)
--{
--	struct usb_device *usb_dev =3D to_usb_device(dev);
--	struct usb_hcd *hcd =3D bus_to_hcd(usb_dev->bus);
--	int rc =3D count;
--	bool val;
--
--	if (strtobool(buf, &val) !=3D 0)
--		return -EINVAL;
--
--	if (val)
--		set_bit(HCD_FLAG_INTF_AUTHORIZED, &hcd->flags);
--	else
--		clear_bit(HCD_FLAG_INTF_AUTHORIZED, &hcd->flags);
--
--	return rc;
--}
--static DEVICE_ATTR_RW(interface_authorized_default);
--
--/* Group all the USB bus attributes */
--static struct attribute *usb_bus_attrs[] =3D {
--		&dev_attr_authorized_default.attr,
--		&dev_attr_interface_authorized_default.attr,
--		NULL,
--};
--
--static const struct attribute_group usb_bus_attr_group =3D {
--	.name =3D NULL,	/* we want them in the same directory */
--	.attrs =3D usb_bus_attrs,
--};
--
--
--
- /*------------------------------------------------------------------------=
--*/
-=20
- /**
-@@ -2894,32 +2794,11 @@ int usb_add_hcd(struct usb_hcd *hcd,
- 	if (retval !=3D 0)
- 		goto err_register_root_hub;
-=20
--	retval =3D sysfs_create_group(&rhdev->dev.kobj, &usb_bus_attr_group);
--	if (retval < 0) {
--		printk(KERN_ERR "Cannot register USB bus sysfs attributes: %d\n",
--		       retval);
--		goto error_create_attr_group;
--	}
- 	if (hcd->uses_new_polling && HCD_POLL_RH(hcd))
- 		usb_hcd_poll_rh_status(hcd);
-=20
- 	return retval;
-=20
--error_create_attr_group:
--	clear_bit(HCD_FLAG_RH_RUNNING, &hcd->flags);
--	if (HC_IS_RUNNING(hcd->state))
--		hcd->state =3D HC_STATE_QUIESCING;
--	spin_lock_irq(&hcd_root_hub_lock);
--	hcd->rh_registered =3D 0;
--	spin_unlock_irq(&hcd_root_hub_lock);
--
--#ifdef CONFIG_PM
--	cancel_work_sync(&hcd->wakeup_work);
--#endif
--	cancel_work_sync(&hcd->died_work);
--	mutex_lock(&usb_bus_idr_lock);
--	usb_disconnect(&rhdev);		/* Sets rhdev to NULL */
--	mutex_unlock(&usb_bus_idr_lock);
- err_register_root_hub:
- 	hcd->rh_pollable =3D 0;
- 	clear_bit(HCD_FLAG_POLL_RH, &hcd->flags);
-@@ -2963,8 +2842,6 @@ void usb_remove_hcd(struct usb_hcd *hcd)
- 	dev_info(hcd->self.controller, "remove, state %x\n", hcd->state);
-=20
- 	usb_get_dev(rhdev);
--	sysfs_remove_group(&rhdev->dev.kobj, &usb_bus_attr_group);
--
- 	clear_bit(HCD_FLAG_RH_RUNNING, &hcd->flags);
- 	if (HC_IS_RUNNING (hcd->state))
- 		hcd->state =3D HC_STATE_QUIESCING;
-diff --git a/drivers/usb/core/sysfs.c b/drivers/usb/core/sysfs.c
-index 7e88fdfe3cf5..f19694e69f5c 100644
---- a/drivers/usb/core/sysfs.c
-+++ b/drivers/usb/core/sysfs.c
-@@ -15,6 +15,7 @@
- #include <linux/kernel.h>
- #include <linux/string.h>
- #include <linux/usb.h>
-+#include <linux/usb/hcd.h>
- #include <linux/usb/quirks.h>
- #include <linux/of.h>
- #include "usb.h"
-@@ -922,6 +923,116 @@ static struct bin_attribute dev_bin_attr_descriptors =
-=3D {
- 	.size =3D 18 + 65535,	/* dev descr + max-size raw descriptor */
- };
-=20
-+/*
-+ * Show & store the current value of authorized_default
-+ */
-+static ssize_t authorized_default_show(struct device *dev,
-+				       struct device_attribute *attr, char *buf)
-+{
-+	struct usb_device *rh_usb_dev =3D to_usb_device(dev);
-+	struct usb_bus *usb_bus =3D rh_usb_dev->bus;
-+	struct usb_hcd *hcd;
-+
-+	hcd =3D bus_to_hcd(usb_bus);
-+	return snprintf(buf, PAGE_SIZE, "%u\n", hcd->dev_policy);
-+}
-+
-+static ssize_t authorized_default_store(struct device *dev,
-+					struct device_attribute *attr,
-+					const char *buf, size_t size)
-+{
-+	ssize_t result;
-+	unsigned int val;
-+	struct usb_device *rh_usb_dev =3D to_usb_device(dev);
-+	struct usb_bus *usb_bus =3D rh_usb_dev->bus;
-+	struct usb_hcd *hcd;
-+
-+	hcd =3D bus_to_hcd(usb_bus);
-+	result =3D sscanf(buf, "%u\n", &val);
-+	if (result =3D=3D 1) {
-+		hcd->dev_policy =3D val <=3D USB_DEVICE_AUTHORIZE_INTERNAL ?
-+			val : USB_DEVICE_AUTHORIZE_ALL;
-+		result =3D size;
-+	} else {
-+		result =3D -EINVAL;
-+	}
-+	return result;
-+}
-+static DEVICE_ATTR_RW(authorized_default);
-+
-+/*
-+ * interface_authorized_default_show - show default authorization status
-+ * for USB interfaces
-+ *
-+ * note: interface_authorized_default is the default value
-+ *       for initializing the authorized attribute of interfaces
-+ */
-+static ssize_t interface_authorized_default_show(struct device *dev,
-+		struct device_attribute *attr, char *buf)
-+{
-+	struct usb_device *usb_dev =3D to_usb_device(dev);
-+	struct usb_hcd *hcd =3D bus_to_hcd(usb_dev->bus);
-+
-+	return sprintf(buf, "%u\n", !!HCD_INTF_AUTHORIZED(hcd));
-+}
-+
-+/*
-+ * interface_authorized_default_store - store default authorization status
-+ * for USB interfaces
-+ *
-+ * note: interface_authorized_default is the default value
-+ *       for initializing the authorized attribute of interfaces
-+ */
-+static ssize_t interface_authorized_default_store(struct device *dev,
-+		struct device_attribute *attr, const char *buf, size_t count)
-+{
-+	struct usb_device *usb_dev =3D to_usb_device(dev);
-+	struct usb_hcd *hcd =3D bus_to_hcd(usb_dev->bus);
-+	int rc =3D count;
-+	bool val;
-+
-+	if (strtobool(buf, &val) !=3D 0)
-+		return -EINVAL;
-+
-+	if (val)
-+		set_bit(HCD_FLAG_INTF_AUTHORIZED, &hcd->flags);
-+	else
-+		clear_bit(HCD_FLAG_INTF_AUTHORIZED, &hcd->flags);
-+
-+	return rc;
-+}
-+static DEVICE_ATTR_RW(interface_authorized_default);
-+
-+/* Group all the USB bus attributes */
-+static struct attribute *usb_bus_attrs[] =3D {
-+		&dev_attr_authorized_default.attr,
-+		&dev_attr_interface_authorized_default.attr,
-+		NULL,
-+};
-+
-+static const struct attribute_group usb_bus_attr_group =3D {
-+	.name =3D NULL,	/* we want them in the same directory */
-+	.attrs =3D usb_bus_attrs,
-+};
-+
-+
-+static int add_default_authorized_attributes(struct device *dev)
-+{
-+	int rc =3D 0;
-+
-+	if (is_usb_device(dev))
-+		rc =3D sysfs_create_group(&dev->kobj, &usb_bus_attr_group);
-+
-+	return rc;
-+}
-+
-+static void remove_default_authorized_attributes(struct device *dev)
-+{
-+	if (is_usb_device(dev)) {
-+		sysfs_remove_group(&dev->kobj, &usb_bus_attr_group);
-+	}
-+}
-+
- int usb_create_sysfs_dev_files(struct usb_device *udev)
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index 39e0768d734d..0f07ed05ab34 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -749,6 +749,7 @@ struct r8152 {
+ 	u32 msg_enable;
+ 	u32 tx_qlen;
+ 	u32 coalesce;
++	u32 rx_buf_sz;
+ 	u16 ocp_base;
+ 	u16 speed;
+ 	u8 *intr_buff;
+@@ -1516,13 +1517,13 @@ static int alloc_all_mem(struct r8152 *tp)
+ 	skb_queue_head_init(&tp->rx_queue);
+ 
+ 	for (i = 0; i < RTL8152_MAX_RX; i++) {
+-		buf = kmalloc_node(agg_buf_sz, GFP_KERNEL, node);
++		buf = kmalloc_node(tp->rx_buf_sz, GFP_KERNEL, node);
+ 		if (!buf)
+ 			goto err1;
+ 
+ 		if (buf != rx_agg_align(buf)) {
+ 			kfree(buf);
+-			buf = kmalloc_node(agg_buf_sz + RX_ALIGN, GFP_KERNEL,
++			buf = kmalloc_node(tp->rx_buf_sz + RX_ALIGN, GFP_KERNEL,
+ 					   node);
+ 			if (!buf)
+ 				goto err1;
+@@ -2113,7 +2114,7 @@ int r8152_submit_rx(struct r8152 *tp, struct rx_agg *agg, gfp_t mem_flags)
+ 		return 0;
+ 
+ 	usb_fill_bulk_urb(agg->urb, tp->udev, usb_rcvbulkpipe(tp->udev, 1),
+-			  agg->head, agg_buf_sz,
++			  agg->head, tp->rx_buf_sz,
+ 			  (usb_complete_t)read_bulk_callback, agg);
+ 
+ 	ret = usb_submit_urb(agg->urb, mem_flags);
+@@ -2447,7 +2448,7 @@ static void r8153_set_rx_early_timeout(struct r8152 *tp)
+ 
+ static void r8153_set_rx_early_size(struct r8152 *tp)
  {
- 	struct device *dev =3D &udev->dev;
-@@ -938,7 +1049,14 @@ int usb_create_sysfs_dev_files(struct usb_device *ude=
-v)
- 	retval =3D add_power_attributes(dev);
- 	if (retval)
- 		goto error;
-+
-+	if (is_root_hub(udev)) {
-+		retval =3D add_default_authorized_attributes(dev);
-+		if (retval)
-+			goto error;
-+	}
- 	return retval;
-+
- error:
- 	usb_remove_sysfs_dev_files(udev);
- 	return retval;
-@@ -948,6 +1066,9 @@ void usb_remove_sysfs_dev_files(struct usb_device *ude=
-v)
- {
- 	struct device *dev =3D &udev->dev;
-=20
-+	if (is_root_hub(udev))
-+		remove_default_authorized_attributes(dev);
-+
- 	remove_power_attributes(dev);
- 	remove_persist_attributes(dev);
- 	device_remove_bin_file(dev, &dev_bin_attr_descriptors);
-diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
-index bd8d01f85a13..0c9fde5ad052 100644
---- a/drivers/usb/core/usb.h
-+++ b/drivers/usb/core/usb.h
-@@ -153,6 +153,11 @@ static inline int is_usb_port(const struct device *dev=
-)
- 	return dev->type =3D=3D &usb_port_device_type;
- }
-=20
-+static inline int is_root_hub(struct usb_device *udev)
-+{
-+	return (udev->parent =3D=3D NULL);
-+}
-+
- /* Do the same for device drivers and interface drivers. */
-=20
- static inline int is_usb_device_driver(struct device_driver *drv)
---=20
-2.22.0.770.g0f2c4a37fd-goog
+-	u32 ocp_data = agg_buf_sz - rx_reserved_size(tp->netdev->mtu);
++	u32 ocp_data = tp->rx_buf_sz - rx_reserved_size(tp->netdev->mtu);
+ 
+ 	switch (tp->version) {
+ 	case RTL_VER_03:
+@@ -5115,6 +5116,7 @@ static int rtl_ops_init(struct r8152 *tp)
+ 		ops->in_nway		= rtl8152_in_nway;
+ 		ops->hw_phy_cfg		= r8152b_hw_phy_cfg;
+ 		ops->autosuspend_en	= rtl_runtime_suspend_enable;
++		tp->rx_buf_sz		= 16 * 1024;
+ 		break;
+ 
+ 	case RTL_VER_03:
+@@ -5132,6 +5134,7 @@ static int rtl_ops_init(struct r8152 *tp)
+ 		ops->in_nway		= rtl8153_in_nway;
+ 		ops->hw_phy_cfg		= r8153_hw_phy_cfg;
+ 		ops->autosuspend_en	= rtl8153_runtime_enable;
++		tp->rx_buf_sz		= 32 * 1024;
+ 		break;
+ 
+ 	case RTL_VER_08:
+@@ -5147,6 +5150,7 @@ static int rtl_ops_init(struct r8152 *tp)
+ 		ops->in_nway		= rtl8153_in_nway;
+ 		ops->hw_phy_cfg		= r8153b_hw_phy_cfg;
+ 		ops->autosuspend_en	= rtl8153b_runtime_enable;
++		tp->rx_buf_sz		= 32 * 1024;
+ 		break;
+ 
+ 	default:
+-- 
+2.21.0
 
