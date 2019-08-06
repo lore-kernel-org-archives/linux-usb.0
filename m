@@ -2,138 +2,116 @@ Return-Path: <SRS0=66yL=WC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B59DCC31E40
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 14:45:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8E72C31E40
+	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 15:11:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8CC0F214C6
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 14:45:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AC7FE20717
+	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 15:11:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1565102741;
-	bh=ChsaV8DxoOSEzBl5SDaNpJPPMMMa/0dZclujcX1tauo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=qcefgIUM9f0zuy07PiPvlhth61piEyi3KQBJHfGYUbNxNOvmPYHpzS8BOJcFGNdKI
-	 UwLwyHDqpWf6UKhQDDLS9JqaLLByPVoMqxeeQ+vMUEwo+2OMCROL/1fUtPjc6AALZt
-	 45KdGYto/1ti77HuaOXMVWJNJShGsuTK9iLANO74=
+	s=default; t=1565104310;
+	bh=6UDrRhYrOs/0fVNeFUa7B2/tVmvKcooNzy/lwG+cCG0=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
+	b=OyZbZCjYrvNfnN/uEsCgkRkRg1+JFsHuWJL/yVr9hcJuVqwAXstJKDze02UTEpiBV
+	 yWmPrzvwSWrTG7ESceofKamLLY5zVTLzIKucl9gSt8nNy7lFJZZo1qbIHmZdifG7n3
+	 QUV70U9MU/0z1cw4GB3EFrBZ3vU76vndIygclv8s=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733124AbfHFOpl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 6 Aug 2019 10:45:41 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46172 "EHLO mail.kernel.org"
+        id S1732024AbfHFPLq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 6 Aug 2019 11:11:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56780 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1733066AbfHFOpk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 6 Aug 2019 10:45:40 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726713AbfHFPLp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 6 Aug 2019 11:11:45 -0400
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0E2F920C01;
-        Tue,  6 Aug 2019 14:45:39 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id BCA9F2089E;
+        Tue,  6 Aug 2019 15:11:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565102740;
-        bh=ChsaV8DxoOSEzBl5SDaNpJPPMMMa/0dZclujcX1tauo=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OtOBRPiz+GACo0HA0MJHX4oDXs7VP3SlbF0xdNu+BZLJZmMI9noVL0atTW+A697rr
-         y505s03y25PTmWrPLbKuUeI7/UQDBzp+yj442YW6okJR9u6Pxmq0WOd0yYhYc1KLXz
-         B6zLQ94mx29Tra//+GrsbnIkgEFgUqoV4QF7yJo8=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-usb@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH 09/12] USB: lvstest: convert to use dev_groups
-Date:   Tue,  6 Aug 2019 16:44:59 +0200
-Message-Id: <20190806144502.17792-10-gregkh@linuxfoundation.org>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190806144502.17792-1-gregkh@linuxfoundation.org>
-References: <20190806144502.17792-1-gregkh@linuxfoundation.org>
+        s=default; t=1565104305;
+        bh=6UDrRhYrOs/0fVNeFUa7B2/tVmvKcooNzy/lwG+cCG0=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=k6IBJzQx9Arxu9foQUy+C1P4gaB9mQ07b842qiWcYyMDUu8gNQN6rq7QT9uRCAvCb
+         8wEWWuGOGCTnGaGo3VBmag8BLg/EVF0Td+PCzKJ6fstT7C43cnYrGl8W0nztAj+aw4
+         cCjlwkwKoMmSn8gmQFpAvOh3Y348vzvNBshV5wno=
+Subject: Re: [PATCH v4 1/2] usbip: Skip DMA mapping and unmapping for urb at
+ vhci
+To:     Suwan Kim <suwan.kim027@gmail.com>, valentina.manea.m@gmail.com,
+        gregkh@linuxfoundation.org, stern@rowland.harvard.edu
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        shuah <shuah@kernel.org>
+References: <20190806123154.23798-1-suwan.kim027@gmail.com>
+ <20190806123154.23798-2-suwan.kim027@gmail.com>
+From:   shuah <shuah@kernel.org>
+Message-ID: <c3485edd-f7e3-95a7-38db-acda371575a2@kernel.org>
+Date:   Tue, 6 Aug 2019 09:11:30 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20190806123154.23798-2-suwan.kim027@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-USB drivers now support the ability for the driver core to handle the
-creation and removal of device-specific sysfs files in a race-free
-manner.  Take advantage of that by converting the driver to use this by
-moving the sysfs attributes into a group and assigning the dev_groups
-pointer to it.
+On 8/6/19 6:31 AM, Suwan Kim wrote:
+> vhci doesn’t do DMA for remote device. Actually, the real DMA
+> operation is done by network card driver. vhci just passes virtual
+> address of the buffer to the network stack, so vhci doesn’t use and
+> need dma address of the buffer of the URB.
+> 
+> But HCD provides DMA mapping and unmapping function by default.
+> Moreover, it causes unnecessary DMA mapping and unmapping which
+> will be done again at the NIC driver and it wastes CPU cycles.
+> So, implement map_urb_for_dma and unmap_urb_for_dma function for
+> vhci in order to skip the DMA mapping and unmapping procedure.
+> 
+> When it comes to supporting SG for vhci, it is useful to use native
+> SG list (urb->num_sgs) instead of mapped SG list because DMA mapping
+> fnuction can adjust the number of SG list (urb->num_mapped_sgs).
+> And vhci_map_urb_for_dma() prevents isoc pipe from using SG as
+> hcd_map_urb_for_dma() does.
+> 
+> Signed-off-by: Suwan Kim <suwan.kim027@gmail.com>
+> ---
+> v3 - v4:
+> - Replace WARN_ON() with pr_err() in the error path.
+> 
+> v2 - v3
+> - Move setting URB_DMA_MAP_SG flag to the patch 2.
+> - Prevent isoc pipe from using SG buffer.
+> 
+> v1 - v2
+> - Add setting URB_DMA_MAP_SG flag in urb->transfer_flags to tell
+> stub driver to use SG buffer.
+> ---
+>   drivers/usb/usbip/vhci_hcd.c | 19 +++++++++++++++++++
+>   1 file changed, 19 insertions(+)
+> 
+> diff --git a/drivers/usb/usbip/vhci_hcd.c b/drivers/usb/usbip/vhci_hcd.c
+> index 000ab7225717..429e4e989f38 100644
+> --- a/drivers/usb/usbip/vhci_hcd.c
+> +++ b/drivers/usb/usbip/vhci_hcd.c
+> @@ -1288,6 +1288,22 @@ static int vhci_free_streams(struct usb_hcd *hcd, struct usb_device *udev,
+>   	return 0;
+>   }
+>   
+> +static int vhci_map_urb_for_dma(struct usb_hcd *hcd, struct urb *urb,
+> +				gfp_t mem_flags)
+> +{
+> +	if (usb_endpoint_xfer_isoc(&urb->ep->desc) && urb->num_sgs) {
+> +		pr_err("SG is not supported for isochronous transfer\n");
 
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/usb/misc/lvstest.c | 19 ++++---------------
- 1 file changed, 4 insertions(+), 15 deletions(-)
+Any reason to not use dev_err()?
 
-diff --git a/drivers/usb/misc/lvstest.c b/drivers/usb/misc/lvstest.c
-index e5c03c6d16e9..407fe7570f3b 100644
---- a/drivers/usb/misc/lvstest.c
-+++ b/drivers/usb/misc/lvstest.c
-@@ -310,7 +310,7 @@ static ssize_t enable_compliance_store(struct device *dev,
- }
- static DEVICE_ATTR_WO(enable_compliance);
- 
--static struct attribute *lvs_attributes[] = {
-+static struct attribute *lvs_attrs[] = {
- 	&dev_attr_get_dev_desc.attr,
- 	&dev_attr_u1_timeout.attr,
- 	&dev_attr_u2_timeout.attr,
-@@ -321,10 +321,7 @@ static struct attribute *lvs_attributes[] = {
- 	&dev_attr_enable_compliance.attr,
- 	NULL
- };
--
--static const struct attribute_group lvs_attr_group = {
--	.attrs = lvs_attributes,
--};
-+ATTRIBUTE_GROUPS(lvs);
- 
- static void lvs_rh_work(struct work_struct *work)
- {
-@@ -439,12 +436,6 @@ static int lvs_rh_probe(struct usb_interface *intf,
- 
- 	INIT_WORK(&lvs->rh_work, lvs_rh_work);
- 
--	ret = sysfs_create_group(&intf->dev.kobj, &lvs_attr_group);
--	if (ret < 0) {
--		dev_err(&intf->dev, "Failed to create sysfs node %d\n", ret);
--		goto free_urb;
--	}
--
- 	pipe = usb_rcvintpipe(hdev, endpoint->bEndpointAddress);
- 	maxp = usb_maxpacket(hdev, pipe, usb_pipeout(pipe));
- 	usb_fill_int_urb(lvs->urb, hdev, pipe, &lvs->buffer[0], maxp,
-@@ -453,13 +444,11 @@ static int lvs_rh_probe(struct usb_interface *intf,
- 	ret = usb_submit_urb(lvs->urb, GFP_KERNEL);
- 	if (ret < 0) {
- 		dev_err(&intf->dev, "couldn't submit lvs urb %d\n", ret);
--		goto sysfs_remove;
-+		goto free_urb;
- 	}
- 
- 	return ret;
- 
--sysfs_remove:
--	sysfs_remove_group(&intf->dev.kobj, &lvs_attr_group);
- free_urb:
- 	usb_free_urb(lvs->urb);
- 	return ret;
-@@ -469,7 +458,6 @@ static void lvs_rh_disconnect(struct usb_interface *intf)
- {
- 	struct lvs_rh *lvs = usb_get_intfdata(intf);
- 
--	sysfs_remove_group(&intf->dev.kobj, &lvs_attr_group);
- 	usb_poison_urb(lvs->urb); /* used in scheduled work */
- 	flush_work(&lvs->rh_work);
- 	usb_free_urb(lvs->urb);
-@@ -479,6 +467,7 @@ static struct usb_driver lvs_driver = {
- 	.name =		"lvs",
- 	.probe =	lvs_rh_probe,
- 	.disconnect =	lvs_rh_disconnect,
-+	.dev_groups =	lvs_groups,
- };
- 
- module_usb_driver(lvs_driver);
--- 
-2.22.0
+Looks good otherwise.
 
+thanks,
+-- Shuah
