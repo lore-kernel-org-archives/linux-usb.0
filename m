@@ -2,38 +2,38 @@ Return-Path: <SRS0=66yL=WC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNWANTED_LANGUAGE_BODY autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3385CC31E40
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 11:19:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 374C9C433FF
+	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 11:19:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 070DA20B1F
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 11:19:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 13D4420B1F
+	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 11:19:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732822AbfHFLTE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 6 Aug 2019 07:19:04 -0400
-Received: from rtits2.realtek.com ([211.75.126.72]:57490 "EHLO
+        id S1732785AbfHFLTC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 6 Aug 2019 07:19:02 -0400
+Received: from rtits2.realtek.com ([211.75.126.72]:57487 "EHLO
         rtits2.realtek.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732800AbfHFLTE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 6 Aug 2019 07:19:04 -0400
+        with ESMTP id S1731074AbfHFLTA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 6 Aug 2019 07:19:00 -0400
 Authenticated-By: 
-X-SpamFilter-By: BOX Solutions SpamTrap 5.62 with qID x76BJ2iW023734, This message is accepted by code: ctloc85258
+X-SpamFilter-By: BOX Solutions SpamTrap 5.62 with qID x76BIwwA023721, This message is accepted by code: ctloc85258
 Received: from mail.realtek.com (RTITCASV01.realtek.com.tw[172.21.6.18])
-        by rtits2.realtek.com.tw (8.15.2/2.57/5.78) with ESMTPS id x76BJ2iW023734
+        by rtits2.realtek.com.tw (8.15.2/2.57/5.78) with ESMTPS id x76BIwwA023721
         (version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Tue, 6 Aug 2019 19:19:02 +0800
+        Tue, 6 Aug 2019 19:18:58 +0800
 Received: from fc30.localdomain (172.21.177.138) by RTITCASV01.realtek.com.tw
  (172.21.6.18) with Microsoft SMTP Server id 14.3.439.0; Tue, 6 Aug 2019
- 19:19:00 +0800
+ 19:18:56 +0800
 From:   Hayes Wang <hayeswang@realtek.com>
 To:     <netdev@vger.kernel.org>
 CC:     <nic_swsd@realtek.com>, <linux-kernel@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, Hayes Wang <hayeswang@realtek.com>
-Subject: [PATCH net-next 5/5] r8152: change rx_frag_head_sz and rx_max_agg_num dynamically
-Date:   Tue, 6 Aug 2019 19:18:04 +0800
-Message-ID: <1394712342-15778-294-albertk@realtek.com>
+Subject: [PATCH net-next 3/5] r8152: use alloc_pages for rx buffer
+Date:   Tue, 6 Aug 2019 19:18:02 +0800
+Message-ID: <1394712342-15778-292-albertk@realtek.com>
 X-Mailer: Microsoft Office Outlook 11
 In-Reply-To: <1394712342-15778-289-albertk@realtek.com>
 References: <1394712342-15778-289-albertk@realtek.com>
@@ -46,197 +46,105 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Let rx_frag_head_sz and rx_max_agg_num could be modified dynamically
-through the sysfs.
+Replace kmalloc_node() with alloc_pages() for rx buffer.
 
 Signed-off-by: Hayes Wang <hayeswang@realtek.com>
 ---
- drivers/net/usb/r8152.c | 119 ++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 115 insertions(+), 4 deletions(-)
+ drivers/net/usb/r8152.c | 31 +++++++++++--------------------
+ 1 file changed, 11 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 1615900c8592..0b4d439f603a 100644
+index 44d832ceb516..401e56112365 100644
 --- a/drivers/net/usb/r8152.c
 +++ b/drivers/net/usb/r8152.c
-@@ -26,7 +26,7 @@
- #include <linux/acpi.h>
+@@ -698,8 +698,8 @@ struct rx_agg {
+ 	struct list_head list, info_list;
+ 	struct urb *urb;
+ 	struct r8152 *context;
++	struct page *page;
+ 	void *buffer;
+-	void *head;
+ };
  
- /* Information for net-next */
--#define NETNEXT_VERSION		"09"
-+#define NETNEXT_VERSION		"10"
+ struct tx_agg {
+@@ -1476,7 +1476,7 @@ static void free_rx_agg(struct r8152 *tp, struct rx_agg *agg)
+ 	list_del(&agg->info_list);
  
- /* Information for net */
- #define NET_VERSION		"10"
-@@ -756,6 +756,9 @@ struct r8152 {
- 	u32 tx_qlen;
- 	u32 coalesce;
- 	u32 rx_buf_sz;
-+	u32 rx_frag_head_sz;
-+	u32 rx_max_agg_num;
-+
- 	u16 ocp_base;
- 	u16 speed;
- 	u8 *intr_buff;
-@@ -1992,7 +1995,7 @@ static struct rx_agg *rtl_get_free_rx(struct r8152 *tp, gfp_t mflags)
+ 	usb_free_urb(agg->urb);
+-	kfree(agg->buffer);
++	__free_pages(agg->page, get_order(tp->rx_buf_sz));
+ 	kfree(agg);
  
- 	spin_unlock_irqrestore(&tp->rx_lock, flags);
+ 	atomic_dec(&tp->rx_count);
+@@ -1487,26 +1487,17 @@ static struct rx_agg *alloc_rx_agg(struct r8152 *tp, gfp_t mflags)
+ 	struct net_device *netdev = tp->netdev;
+ 	int node = netdev->dev.parent ? dev_to_node(netdev->dev.parent) : -1;
+ 	struct rx_agg *rx_agg;
++	unsigned int order = get_order(tp->rx_buf_sz);
  
--	if (!agg_free && atomic_read(&tp->rx_count) < RTL8152_MAX_RX_AGG)
-+	if (!agg_free && atomic_read(&tp->rx_count) < tp->rx_max_agg_num)
- 		agg_free = alloc_rx_agg(tp, mflags);
+ 	rx_agg = kmalloc_node(sizeof(*rx_agg), mflags, node);
+ 	if (rx_agg) {
+ 		unsigned long flags;
+-		u8 *buf;
  
- 	return agg_free;
-@@ -2072,10 +2075,10 @@ static int rx_bottom(struct r8152 *tp, int budget)
- 			pkt_len -= ETH_FCS_LEN;
- 			rx_data += sizeof(struct rx_desc);
+-		buf = kmalloc_node(tp->rx_buf_sz, mflags, node);
+-		if (!buf)
++		rx_agg->page = alloc_pages(mflags, order);
++		if (!rx_agg->page)
+ 			goto free_rx;
  
--			if (!agg_next || RTL8152_RXFG_HEADSZ > pkt_len)
-+			if (!agg_next || tp->rx_frag_head_sz > pkt_len)
- 				rx_frag_head_sz = pkt_len;
- 			else
--				rx_frag_head_sz = RTL8152_RXFG_HEADSZ;
-+				rx_frag_head_sz = tp->rx_frag_head_sz;
+-		if (buf != rx_agg_align(buf)) {
+-			kfree(buf);
+-			buf = kmalloc_node(tp->rx_buf_sz + RX_ALIGN, mflags,
+-					   node);
+-			if (!buf)
+-				goto free_rx;
+-		}
+-
+-		rx_agg->buffer = buf;
+-		rx_agg->head = rx_agg_align(buf);
++		rx_agg->buffer = page_address(rx_agg->page);
  
- 			skb = napi_alloc_skb(napi, rx_frag_head_sz);
- 			if (!skb) {
-@@ -5383,6 +5386,101 @@ static u8 rtl_get_version(struct usb_interface *intf)
- 	return version;
- }
+ 		rx_agg->urb = usb_alloc_urb(0, mflags);
+ 		if (!rx_agg->urb)
+@@ -1526,7 +1517,7 @@ static struct rx_agg *alloc_rx_agg(struct r8152 *tp, gfp_t mflags)
+ 	return rx_agg;
  
-+static ssize_t rx_frag_head_sz_show(struct device *dev,
-+				    struct device_attribute *attr, char *buf)
-+{
-+	struct usb_interface *intf = to_usb_interface(dev);
-+	struct r8152 *tp = usb_get_intfdata(intf);
-+
-+	sprintf(buf, "%u\n", tp->rx_frag_head_sz);
-+
-+	return strlen(buf);
-+}
-+
-+static ssize_t rx_frag_head_sz_store(struct device *dev,
-+				     struct device_attribute *attr,
-+				     const char *buf, size_t count)
-+{
-+	struct usb_interface *intf;
-+	u32 rx_frag_head_sz;
-+	struct r8152 *tp;
-+
-+	intf = to_usb_interface(dev);
-+	tp = usb_get_intfdata(intf);
-+
-+	if (sscanf(buf, "%u\n", &rx_frag_head_sz) != 1)
-+		return -EINVAL;
-+
-+	if (rx_frag_head_sz < ETH_ZLEN)
-+		return -EINVAL;
-+
-+	if (test_bit(RTL8152_UNPLUG, &tp->flags))
-+		return -ENODEV;
-+
-+	if (tp->rx_frag_head_sz != rx_frag_head_sz) {
-+		napi_disable(&tp->napi);
-+		tp->rx_frag_head_sz = rx_frag_head_sz;
-+		napi_enable(&tp->napi);
-+	}
-+
-+	return count;
-+}
-+
-+static DEVICE_ATTR_RW(rx_frag_head_sz);
-+
-+static ssize_t rx_max_agg_num_show(struct device *dev,
-+				   struct device_attribute *attr, char *buf)
-+{
-+	struct usb_interface *intf = to_usb_interface(dev);
-+	struct r8152 *tp = usb_get_intfdata(intf);
-+
-+	sprintf(buf, "%u\n", tp->rx_max_agg_num);
-+
-+	return strlen(buf);
-+}
-+
-+static ssize_t rx_max_agg_num_store(struct device *dev,
-+				    struct device_attribute *attr,
-+				    const char *buf, size_t count)
-+{
-+	struct usb_interface *intf;
-+	u32 rx_max_agg_num;
-+	struct r8152 *tp;
-+
-+	intf = to_usb_interface(dev);
-+	tp = usb_get_intfdata(intf);
-+
-+	if (sscanf(buf, "%u\n", &rx_max_agg_num) != 1)
-+		return -EINVAL;
-+
-+	if (rx_max_agg_num < (RTL8152_MAX_RX * 2))
-+		return -EINVAL;
-+
-+	if (test_bit(RTL8152_UNPLUG, &tp->flags))
-+		return -ENODEV;
-+
-+	if (tp->rx_max_agg_num != rx_max_agg_num) {
-+		napi_disable(&tp->napi);
-+		tp->rx_max_agg_num = rx_max_agg_num;
-+		napi_enable(&tp->napi);
-+	}
-+
-+	return count;
-+}
-+
-+static DEVICE_ATTR_RW(rx_max_agg_num);
-+
-+static struct attribute *rtk_adv_attrs[] = {
-+	&dev_attr_rx_frag_head_sz.attr,
-+	&dev_attr_rx_max_agg_num.attr,
-+	NULL
-+};
-+
-+static struct attribute_group rtk_adv_grp = {
-+	.name = "rtl_adv",
-+	.attrs = rtk_adv_attrs,
-+};
-+
- static int rtl8152_probe(struct usb_interface *intf,
- 			 const struct usb_device_id *id)
- {
-@@ -5487,6 +5585,9 @@ static int rtl8152_probe(struct usb_interface *intf,
- 	tp->speed = tp->mii.supports_gmii ? SPEED_1000 : SPEED_100;
- 	tp->duplex = DUPLEX_FULL;
+ free_buf:
+-	kfree(rx_agg->buffer);
++	__free_pages(rx_agg->page, order);
+ free_rx:
+ 	kfree(rx_agg);
+ 	return NULL;
+@@ -2007,8 +1998,8 @@ static int rx_bottom(struct r8152 *tp, int budget)
+ 		if (urb->actual_length < ETH_ZLEN)
+ 			goto submit;
  
-+	tp->rx_frag_head_sz = RTL8152_RXFG_HEADSZ;
-+	tp->rx_max_agg_num = RTL8152_MAX_RX_AGG;
-+
- 	intf->needs_remote_wakeup = 1;
+-		rx_desc = agg->head;
+-		rx_data = agg->head;
++		rx_desc = agg->buffer;
++		rx_data = agg->buffer;
+ 		len_used += sizeof(struct rx_desc);
  
- 	tp->rtl_ops.init(tp);
-@@ -5513,8 +5614,16 @@ static int rtl8152_probe(struct usb_interface *intf,
+ 		while (urb->actual_length > len_used) {
+@@ -2055,7 +2046,7 @@ static int rx_bottom(struct r8152 *tp, int budget)
+ find_next_rx:
+ 			rx_data = rx_agg_align(rx_data + pkt_len + ETH_FCS_LEN);
+ 			rx_desc = (struct rx_desc *)rx_data;
+-			len_used = (int)(rx_data - (u8 *)agg->head);
++			len_used = (int)(rx_data - (u8 *)agg->buffer);
+ 			len_used += sizeof(struct rx_desc);
+ 		}
  
- 	netif_info(tp, probe, netdev, "%s\n", DRIVER_VERSION);
+@@ -2166,7 +2157,7 @@ int r8152_submit_rx(struct r8152 *tp, struct rx_agg *agg, gfp_t mem_flags)
+ 		return 0;
  
-+	ret = sysfs_create_group(&intf->dev.kobj, &rtk_adv_grp);
-+	if (ret < 0) {
-+		netif_err(tp, probe, netdev, "creat rtk_adv_grp fail\n");
-+		goto out2;
-+	}
-+
- 	return 0;
+ 	usb_fill_bulk_urb(agg->urb, tp->udev, usb_rcvbulkpipe(tp->udev, 1),
+-			  agg->head, tp->rx_buf_sz,
++			  agg->buffer, tp->rx_buf_sz,
+ 			  (usb_complete_t)read_bulk_callback, agg);
  
-+out2:
-+	unregister_netdev(netdev);
- out1:
- 	netif_napi_del(&tp->napi);
- 	usb_set_intfdata(intf, NULL);
-@@ -5527,6 +5636,8 @@ static void rtl8152_disconnect(struct usb_interface *intf)
- {
- 	struct r8152 *tp = usb_get_intfdata(intf);
- 
-+	sysfs_remove_group(&intf->dev.kobj, &rtk_adv_grp);
-+
- 	usb_set_intfdata(intf, NULL);
- 	if (tp) {
- 		rtl_set_unplug(tp);
+ 	ret = usb_submit_urb(agg->urb, mem_flags);
 -- 
 2.21.0
 
