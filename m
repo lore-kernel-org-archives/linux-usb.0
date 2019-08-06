@@ -7,45 +7,43 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED80FC433FF
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 14:45:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69FD8C433FF
+	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 14:45:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C34F4216F4
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 14:45:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 358D5214C6
+	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 14:45:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1565102721;
-	bh=OlzchSyzpfZZvUBliJZhV89r2LswcZ3288cZR19mPlg=;
+	s=default; t=1565102724;
+	bh=fb+mzvlEhDrgHKPgRykgtR4zgEogYkeAAkZVBQzTQMI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=AQllQzEfjGK3HRw096XmHBcRraYcC4IdtQKDnqZF0OHIMxTm04rzzU/Pf/uVBVaQ8
-	 1sAFb5Gq/QjC+i62ouLX28+aIdhdKODDHkgXx5xzWrgrSxzi6M5oliRXEev4BFIbBk
-	 j6ekIbnhAXssRyId/dMvtOITVNvNuXFXYvRuVCyA=
+	b=dAmVKCPqK5k19whY7u92c6iZfza+POuzZ43LAqdne0uoCRzMM7q9qEkHA05a1m8ZN
+	 dpFaMVDi022zqW9Q4xxYGrRJNbiugszLrx1+4UObzkwCRblzUGFt36gMEJOOHGjhau
+	 NmMFQ180RfDjKpkVWDEz/+ck+4hmHO+MDY7zSk4I=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733076AbfHFOpV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 6 Aug 2019 10:45:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45916 "EHLO mail.kernel.org"
+        id S1733087AbfHFOpX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 6 Aug 2019 10:45:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45966 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1733066AbfHFOpV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 6 Aug 2019 10:45:21 -0400
+        id S1733066AbfHFOpX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 6 Aug 2019 10:45:23 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6359F214C6;
-        Tue,  6 Aug 2019 14:45:19 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EEB05217D9;
+        Tue,  6 Aug 2019 14:45:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565102719;
-        bh=OlzchSyzpfZZvUBliJZhV89r2LswcZ3288cZR19mPlg=;
+        s=default; t=1565102722;
+        bh=fb+mzvlEhDrgHKPgRykgtR4zgEogYkeAAkZVBQzTQMI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jWnRuePtMBkqEfgVddVuL3FNs0xQrpVzEBMqGJ8W9rTt/+cIjKpLSUjl97nUcLwkP
-         dyxU+X8SvFlPwabWQ12nyapc6D3TNgNRVVzq3R/2lwHeEhUJ+d1ex6scz9LzRCkJ2D
-         3ul8FzBbs2mw6fN/kQSAJvj4/ZDWYZToxDwqamuc=
+        b=OZdU3PorYhKQxUQPE5aBTKMJT4wihfqzaVTOt/BrjbjbJ19Xz4/CDV6B7hSES+ytu
+         j3i6FgiKbnpIzR+v7OWQe2GuP1Kg5w8m4e6c00PwGyA444SbfX4hHph+u09LzKvbjp
+         rRLYTQOEsH+XL+KKG44/BEn82YVtwde9LuzJZfZs=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-usb@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>
-Subject: [PATCH 12/12] USB: usbip: convert to use dev_groups
-Date:   Tue,  6 Aug 2019 16:45:02 +0200
-Message-Id: <20190806144502.17792-13-gregkh@linuxfoundation.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH 02/12] USB: add support for dev_groups to struct usb_device_driver
+Date:   Tue,  6 Aug 2019 16:44:52 +0200
+Message-Id: <20190806144502.17792-3-gregkh@linuxfoundation.org>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190806144502.17792-1-gregkh@linuxfoundation.org>
 References: <20190806144502.17792-1-gregkh@linuxfoundation.org>
@@ -56,100 +54,53 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-USB drivers now support the ability for the driver core to handle the
-creation and removal of device-specific sysfs files in a race-free
-manner.  Take advantage of that by converting the driver to use this by
-moving the sysfs attributes into a group and assigning the dev_groups
-pointer to it.
+Now that the driver core supports dev_groups for individual drivers,
+expose that pointer to struct usb_device_driver to make it easier for USB
+drivers to also use it.
 
-Cc: Valentina Manea <valentina.manea.m@gmail.com>
-Cc: Shuah Khan <shuah@kernel.org>
+Yes, users of usb_device_driver are much rare, but there are instances
+already that use custom sysfs files, so adding this support will make
+things easier for those drivers.  usbip is one example, hubs might be
+another one.
+
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/usbip/stub_dev.c | 50 ++++++------------------------------
- 1 file changed, 8 insertions(+), 42 deletions(-)
+ drivers/usb/core/driver.c | 1 +
+ include/linux/usb.h       | 3 +++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/usb/usbip/stub_dev.c b/drivers/usb/usbip/stub_dev.c
-index 7931e6cecc70..2305d425e6c9 100644
---- a/drivers/usb/usbip/stub_dev.c
-+++ b/drivers/usb/usbip/stub_dev.c
-@@ -106,38 +106,13 @@ static ssize_t usbip_sockfd_store(struct device *dev, struct device_attribute *a
- }
- static DEVICE_ATTR_WO(usbip_sockfd);
+diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+index 687fc5df4c17..2b27d232d7a7 100644
+--- a/drivers/usb/core/driver.c
++++ b/drivers/usb/core/driver.c
+@@ -892,6 +892,7 @@ int usb_register_device_driver(struct usb_device_driver *new_udriver,
+ 	new_udriver->drvwrap.driver.probe = usb_probe_device;
+ 	new_udriver->drvwrap.driver.remove = usb_unbind_device;
+ 	new_udriver->drvwrap.driver.owner = owner;
++	new_udriver->drvwrap.driver.dev_groups = new_udriver->dev_groups;
  
--static int stub_add_files(struct device *dev)
--{
--	int err = 0;
--
--	err = device_create_file(dev, &dev_attr_usbip_status);
--	if (err)
--		goto err_status;
--
--	err = device_create_file(dev, &dev_attr_usbip_sockfd);
--	if (err)
--		goto err_sockfd;
--
--	err = device_create_file(dev, &dev_attr_usbip_debug);
--	if (err)
--		goto err_debug;
--
--	return 0;
--
--err_debug:
--	device_remove_file(dev, &dev_attr_usbip_sockfd);
--err_sockfd:
--	device_remove_file(dev, &dev_attr_usbip_status);
--err_status:
--	return err;
--}
--
--static void stub_remove_files(struct device *dev)
--{
--	device_remove_file(dev, &dev_attr_usbip_status);
--	device_remove_file(dev, &dev_attr_usbip_sockfd);
--	device_remove_file(dev, &dev_attr_usbip_debug);
--}
-+static struct attribute *usbip_attrs[] = {
-+	&dev_attr_usbip_status.attr,
-+	&dev_attr_usbip_sockfd.attr,
-+	&dev_attr_usbip_debug.attr,
-+	NULL,
-+};
-+ATTRIBUTE_GROUPS(usbip);
+ 	retval = driver_register(&new_udriver->drvwrap.driver);
  
- static void stub_shutdown_connection(struct usbip_device *ud)
- {
-@@ -379,17 +354,8 @@ static int stub_probe(struct usb_device *udev)
- 		goto err_port;
- 	}
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index af4eb6419ae8..57f667cad3ec 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -1224,6 +1224,8 @@ struct usb_driver {
+  *	module is being unloaded.
+  * @suspend: Called when the device is going to be suspended by the system.
+  * @resume: Called when the device is being resumed by the system.
++ * @dev_groups: Attributes attached to the device that will be created once it
++ *	is bound to the driver.
+  * @drvwrap: Driver-model core structure wrapper.
+  * @supports_autosuspend: if set to 0, the USB core will not allow autosuspend
+  *	for devices bound to this driver.
+@@ -1238,6 +1240,7 @@ struct usb_device_driver {
  
--	rc = stub_add_files(&udev->dev);
--	if (rc) {
--		dev_err(&udev->dev, "stub_add_files for %s\n", udev_busid);
--		goto err_files;
--	}
--
- 	return 0;
- 
--err_files:
--	usb_hub_release_port(udev->parent, udev->portnum,
--			     (struct usb_dev_state *) udev);
- err_port:
- 	dev_set_drvdata(&udev->dev, NULL);
- 	usb_put_dev(udev);
-@@ -457,7 +423,6 @@ static void stub_disconnect(struct usb_device *udev)
- 	/*
- 	 * NOTE: rx/tx threads are invoked for each usb_device.
- 	 */
--	stub_remove_files(&udev->dev);
- 
- 	/* release port */
- 	rc = usb_hub_release_port(udev->parent, udev->portnum,
-@@ -526,4 +491,5 @@ struct usb_device_driver stub_driver = {
- 	.resume		= stub_resume,
- #endif
- 	.supports_autosuspend	=	0,
-+	.dev_groups	= usbip_groups,
+ 	int (*suspend) (struct usb_device *udev, pm_message_t message);
+ 	int (*resume) (struct usb_device *udev, pm_message_t message);
++	const struct attribute_group **dev_groups;
+ 	struct usbdrv_wrap drvwrap;
+ 	unsigned int supports_autosuspend:1;
  };
 -- 
 2.22.0
