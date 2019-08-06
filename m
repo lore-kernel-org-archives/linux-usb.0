@@ -2,62 +2,86 @@ Return-Path: <SRS0=66yL=WC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DB11C31E40
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 11:19:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 964A5C433FF
+	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 11:35:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2F37820B1F
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 11:19:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6FC8D2089E
+	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 11:35:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1565091310;
+	bh=5U/2/Mm5gWlfSv6sjHFTN7DhiPuamWniTpQ726fPCdI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=A+w43Dc5/kGNu9qItGwo3JW1TaPWqGwOQhtpuWhAc99uKNLTybVOeMAPjE4Dnq00d
+	 CkfzQ6KkB5nww1THgE6VNkxEuwX2CVnZsSvCLecnR1oZu9yGze3/N7b0+0ebv3nQVQ
+	 LLyUK+Rsxi0ljZc0O0K1/PTw0G1QBaRKCXFT7oV0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731309AbfHFLSz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 6 Aug 2019 07:18:55 -0400
-Received: from rtits2.realtek.com ([211.75.126.72]:57484 "EHLO
-        rtits2.realtek.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730381AbfHFLSz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 6 Aug 2019 07:18:55 -0400
-Authenticated-By: 
-X-SpamFilter-By: BOX Solutions SpamTrap 5.62 with qID x76BIqIG023709, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (RTITCASV01.realtek.com.tw[172.21.6.18])
-        by rtits2.realtek.com.tw (8.15.2/2.57/5.78) with ESMTPS id x76BIqIG023709
-        (version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Tue, 6 Aug 2019 19:18:52 +0800
-Received: from fc30.localdomain (172.21.177.138) by RTITCASV01.realtek.com.tw
- (172.21.6.18) with Microsoft SMTP Server id 14.3.439.0; Tue, 6 Aug 2019
- 19:18:50 +0800
-From:   Hayes Wang <hayeswang@realtek.com>
-To:     <netdev@vger.kernel.org>
-CC:     <nic_swsd@realtek.com>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, Hayes Wang <hayeswang@realtek.com>
-Subject: [PATCH net-next 0/5] RX improve
-Date:   Tue, 6 Aug 2019 19:17:59 +0800
-Message-ID: <1394712342-15778-289-albertk@realtek.com>
-X-Mailer: Microsoft Office Outlook 11
+        id S1731379AbfHFLfF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 6 Aug 2019 07:35:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57304 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726783AbfHFLfF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 6 Aug 2019 07:35:05 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EF3E82089E;
+        Tue,  6 Aug 2019 11:35:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565091304;
+        bh=5U/2/Mm5gWlfSv6sjHFTN7DhiPuamWniTpQ726fPCdI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=n12m+88N5aBRrXyP74KrQsS7Syb2gKkgrjZqUqVqxQfAEW912HN6lPYhKBjR8m2A+
+         TRbN3O5mCmrYCZu++Y+jE8rCUjL4L70K61UuRtfUz+KAscb6UNxE6beyKv/EglVV6t
+         +D/KQtUk6t8/8cOkIGkGuuDV1NJF/m0twpNUA928=
+Date:   Tue, 6 Aug 2019 13:35:01 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Joe Perches <joe@perches.com>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org
+Subject: Re: [PATCH] USB: Move wusbcore and UWB to staging as it is obsolete
+Message-ID: <20190806113501.GA18443@kroah.com>
+References: <20190806101509.GA11280@kroah.com>
+ <b73f09c944625a40b2589e9bac7f8bd22a711ed3.camel@perches.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [172.21.177.138]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b73f09c944625a40b2589e9bac7f8bd22a711ed3.camel@perches.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The different chips use different rx buffer size.
+On Tue, Aug 06, 2019 at 03:29:40AM -0700, Joe Perches wrote:
+> On Tue, 2019-08-06 at 12:15 +0200, Greg Kroah-Hartman wrote:
+> > The UWB and wusbcore code is long obsolete, so let us just move the code
+> > out of the real part of the kernel and into the drivers/staging/
+> > location with plans to remove it entirely in a few releases.
+> []
+> >  MAINTAINERS                                   | 15 +++-------
+> []
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> []
+> > @@ -3800,14 +3800,9 @@ F:	scripts/sign-file.c
+> >  F:	scripts/extract-cert.c
+> >  
+> >  CERTIFIED WIRELESS USB (WUSB) SUBSYSTEM:
+> > -L:	linux-usb@vger.kernel.org
+> > +L:	devel@driverdev.osuosl.org
+> >  S:	Orphan
+> 
+> Better to mark this as obsolete so checkpatch emits
+> a message saying "no unnecessary modifications"
+> 
+> 
 
-Use skb_add_rx_frag() to reduce memory copy for RX.
+Ah, good point, will do that as an add-on patch after this.
 
-Hayes Wang (5):
-  r8152: separate the rx buffer size
-  r8152: replace array with linking list for rx information
-  r8152: use alloc_pages for rx buffer
-  r8152: support skb_add_rx_frag
-  r8152: change rx_frag_head_sz and rx_max_agg_num dynamically
+thanks,
 
- drivers/net/usb/r8152.c | 415 +++++++++++++++++++++++++++++++++-------
- 1 file changed, 346 insertions(+), 69 deletions(-)
-
--- 
-2.21.0
-
+greg k-h
