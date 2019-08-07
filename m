@@ -1,83 +1,126 @@
-Return-Path: <SRS0=66yL=WC=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=16bF=WD=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15C24C31E40
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 22:10:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9053BC31E40
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Aug 2019 02:41:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CCE1B21872
-	for <linux-usb@archiver.kernel.org>; Tue,  6 Aug 2019 22:10:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5F3DB217D9
+	for <linux-usb@archiver.kernel.org>; Wed,  7 Aug 2019 02:41:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=netronome-com.20150623.gappssmtp.com header.i=@netronome-com.20150623.gappssmtp.com header.b="DiNlS0lM"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="VJosH93l"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727304AbfHFWKe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 6 Aug 2019 18:10:34 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:43978 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727128AbfHFWKe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 6 Aug 2019 18:10:34 -0400
-Received: by mail-qt1-f193.google.com with SMTP id w17so5667394qto.10
-        for <linux-usb@vger.kernel.org>; Tue, 06 Aug 2019 15:10:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=netronome-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :organization:mime-version:content-transfer-encoding;
-        bh=k5MlzirpZYamcdWz7AWbdCMy4iWhcebC9AZ/B4iX4vQ=;
-        b=DiNlS0lMBqKQ8N8XEC9ggrn/qkh+UA2hvtCs3VnCp/1FDuRFh8AWh0IrPMQTSI1seh
-         ILTlQ69cQuC8/r1/C++1zZs61I17M+qy5aejqcX8ujbltSmqJ1JxPV4twEW8bb/XA75B
-         R2wDG0iLFvBwzqcChOWMGDsxHqs5u1o207qqjuEv/znX7OKV48xSF6SE1i9X2jzYisqS
-         zSyAFrx2evZTUZNrvCIVwVGYMifT8jRUHFC7oRXrAH6Hf/lj4EaJLSciLzD6e6GSoyc6
-         KQpvphQctVTQIdodoQQq/kfH+9K0S98Umqp8zkpdkLtRZmbCCklHtYljPnaonLTZ5sEK
-         Okug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:organization:mime-version:content-transfer-encoding;
-        bh=k5MlzirpZYamcdWz7AWbdCMy4iWhcebC9AZ/B4iX4vQ=;
-        b=ryMYLo25Pz2tVbcuZQNtFal5YzEO/AP+RuH+FceYI79XgHd1Y7ZCm1TIihhpetq4RX
-         kJLWx/IU/MVOBCj8she//4873ClB8Gl22dWFvg7bdhm5cp7yi5NY44Gx1WeKJP0/nKmV
-         Q2TIIJZ3h/yz2eN7wybXL1FFeD31L2Ko2WDG5FRe+w0QgBfN1W9ZhY+8Uo7MNgqobzcg
-         2hTMq47QVK2cfqcCxdKHxeErrvLrzfaG7ccy6AacuQNyu5deCKLop/btf8s2ppEb6NZB
-         7Pc5VTEuzSepaKkjfSr3eaWlEw1QEalAToeAa1gkVhRIveSwVimgRAhNb/OwwuXxmzJT
-         i0Vw==
-X-Gm-Message-State: APjAAAXe/kkxojL06w+td6x8X5NwH/21S4F8wBKoxdF7UWT5nkKsSIf4
-        yMxG+KsGrMcPMtSZKZXx+r6yDA==
-X-Google-Smtp-Source: APXvYqxJVIiFVF2MvxFJ5nvgTIbxn2d6z4r2/R64xlzNBTDE0v1VaGLNq/YntAbOLyQiOadkdwKc7w==
-X-Received: by 2002:aed:3987:: with SMTP id m7mr5096695qte.56.1565129433194;
-        Tue, 06 Aug 2019 15:10:33 -0700 (PDT)
-Received: from cakuba.netronome.com ([66.60.152.14])
-        by smtp.gmail.com with ESMTPSA id t26sm47547788qtc.95.2019.08.06.15.10.32
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 06 Aug 2019 15:10:33 -0700 (PDT)
-Date:   Tue, 6 Aug 2019 15:10:07 -0700
-From:   Jakub Kicinski <jakub.kicinski@netronome.com>
-To:     Hayes Wang <hayeswang@realtek.com>
-Cc:     <netdev@vger.kernel.org>, <nic_swsd@realtek.com>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH net-next 5/5] r8152: change rx_frag_head_sz and
- rx_max_agg_num dynamically
-Message-ID: <20190806151007.75a8dd2c@cakuba.netronome.com>
-In-Reply-To: <1394712342-15778-294-albertk@realtek.com>
-References: <1394712342-15778-289-albertk@realtek.com>
-        <1394712342-15778-294-albertk@realtek.com>
-Organization: Netronome Systems, Ltd.
+        id S1726612AbfHGClC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 6 Aug 2019 22:41:02 -0400
+Received: from mail-eopbgr20079.outbound.protection.outlook.com ([40.107.2.79]:24622
+        "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726485AbfHGClA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 6 Aug 2019 22:41:00 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hCIJxRkSyQTUi4ZOms8jJz+xRWbwO9UpfVLjHewiUa4GbkdSNhTx+hoGac6CTT0jyQNxxqI2NNtyzPXa32omjqWkPe2CPV2VrV6EUqLdntZOb99WXSEf2WcapCGc4tCbog2Oo45uvDiY8yfU2H73nzKL4aoznHVWFVWkLLbuWqix5vjNCTyaBAG1aOgwG3CYfADyXfF0Cxz59FNuzMVBM5eXDTY1so14R/CsAH+cjGloSfdCRxJhnFDsFU9kYFUeGyadaFll8VakXYVesz1WNm2+kYqEKIh8a/PeWHbzGHMuNGRSAtEfJj5nNwgLRW5F+s/nCo9huMRUYMM555KDWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FYwHllxPsyjdgcQIAwTpBPrtyfQHEmXccPMhk49S9bI=;
+ b=H0M5OiQWZcXAX9odhyaml9Lw812lIaJo19h542MfJ+ZhGyO7bvTec0WUNxLyXVuDxra74xtSeb9Grm1hETEWTV/xodfKIJckdm3afrqn3VKY0KIg3LcB2PbumyNK6IwsqRg0dusEExhxdVMcknbX5qlrkjnhyoBp9Pk0OvrxHi3CO9v+AKFfx9B50pPv/D0QP82mOgRlS2unnR/n/QBRWOcVeitt+rKuu+ntpia7GQ402Tgv8X1lOzGdpulVJCrOBGyeOMBZeK7x6xllRvY9n1mSvP49PbOKdiOIDBwl5xiY+z5FoUUE7lENyEng9Fg2q5yE3P7ifc9ZfzPkdUuuWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FYwHllxPsyjdgcQIAwTpBPrtyfQHEmXccPMhk49S9bI=;
+ b=VJosH93luBhxztj27NeUkUuReZGwliL9FmUj3LvAGps432NvJVpsZ/Znaa8UajXJNLzUb8Qe7GcCs6P8kYfCDVaxUjwzAhuenkmkEpEHgCJPlm4baTXoPSpTGPbynCkTd+6Gr92W1qvscSOlBp1JBuSlZkEudsw41X7LJ9X11rk=
+Received: from VI1PR04MB5327.eurprd04.prod.outlook.com (20.177.52.16) by
+ VI1PR04MB3968.eurprd04.prod.outlook.com (10.171.182.13) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2157.13; Wed, 7 Aug 2019 02:40:56 +0000
+Received: from VI1PR04MB5327.eurprd04.prod.outlook.com
+ ([fe80::81ec:c8ec:54d9:5dc5]) by VI1PR04MB5327.eurprd04.prod.outlook.com
+ ([fe80::81ec:c8ec:54d9:5dc5%2]) with mapi id 15.20.2136.018; Wed, 7 Aug 2019
+ 02:40:56 +0000
+From:   Peter Chen <peter.chen@nxp.com>
+To:     Jun Li <jun.li@nxp.com>, Peter Chen <hzpeterchen@gmail.com>
+CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        USB list <linux-usb@vger.kernel.org>
+Subject: RE: [PATCH 2/5] usb: chipidea: add role switch class support
+Thread-Topic: [PATCH 2/5] usb: chipidea: add role switch class support
+Thread-Index: AQHVMXD63ofLbyO1A0Gt2RRar4sPYqbnyc8AgARBCACAAApDAIAAGsaAgAABd8CAADmKAIABiW1AgAAaB4CAAR3kcA==
+Date:   Wed, 7 Aug 2019 02:40:56 +0000
+Message-ID: <VI1PR04MB532767330394C22161200D0B8BD40@VI1PR04MB5327.eurprd04.prod.outlook.com>
+References: <20190703071953.38082-1-jun.li@nxp.com>
+ <20190703071953.38082-2-jun.li@nxp.com>
+ <CAL411-oHEbC6Lkr-X=GBKbHhRfuoQsfMVnUKtUjC1c8wrf-k+Q@mail.gmail.com>
+ <VE1PR04MB6528DEA1B84E9B85A8594E5089DA0@VE1PR04MB6528.eurprd04.prod.outlook.com>
+ <CAL411-o8pO=HQwRrgibpRsrfCBD0bqWaCM5imxtCVKTCdwa=ew@mail.gmail.com>
+ <VE1PR04MB652883E67829A33509B02E0E89DA0@VE1PR04MB6528.eurprd04.prod.outlook.com>
+ <VI1PR04MB53278DE4140B5B9FA7BDB2D08BDA0@VI1PR04MB5327.eurprd04.prod.outlook.com>
+ <VE1PR04MB65283BA3C45143002905E6FD89DA0@VE1PR04MB6528.eurprd04.prod.outlook.com>
+ <VI1PR04MB532730BFF128E0A4F9868A9F8BD50@VI1PR04MB5327.eurprd04.prod.outlook.com>
+ <VE1PR04MB652857AAEA39148AF5C5D6BF89D50@VE1PR04MB6528.eurprd04.prod.outlook.com>
+In-Reply-To: <VE1PR04MB652857AAEA39148AF5C5D6BF89D50@VE1PR04MB6528.eurprd04.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=peter.chen@nxp.com; 
+x-originating-ip: [119.31.174.66]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 28fd37c7-8f72-4a74-4b03-08d71ae0ac71
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:VI1PR04MB3968;
+x-ms-traffictypediagnostic: VI1PR04MB3968:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <VI1PR04MB3968C842B22B682581ABF5B98BD40@VI1PR04MB3968.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 01221E3973
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(396003)(346002)(39860400002)(376002)(136003)(199004)(189003)(5660300002)(74316002)(81166006)(478600001)(81156014)(25786009)(26005)(256004)(102836004)(186003)(33656002)(14444005)(71200400001)(71190400001)(7696005)(86362001)(6506007)(8936002)(14454004)(99286004)(8676002)(4326008)(7736002)(305945005)(76176011)(52536014)(44832011)(486006)(11346002)(68736007)(446003)(54906003)(6436002)(66066001)(66946007)(66446008)(53936002)(229853002)(2906002)(6116002)(66556008)(64756008)(55016002)(6246003)(316002)(110136005)(3846002)(9686003)(76116006)(476003)(66476007);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR04MB3968;H:VI1PR04MB5327.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: iyHwFTjuH01ma3bDpkW/E9+ru5gy6cwQ5iXm6cpcxwfG+dBnZ08YKVPMtq17INCR/2a1Jyqti+8yjVX5o7DpCPPqvB7O2eq2XZdMajwdCsv4CSGc7zyoBwAKUNW2g+aJpc1Y+S2tHb7Cs3bpB0zUpBSuW8y7RMIkD1eJb2XAcoQF2P9AeoYvmcC6IFO6wO4owrC5/EJidP69zaf81uYzcvII3ixKL2OmdTGoKclvSj13by2ZD7RJiy2ao7CMUbgvXCrkiYAVEAS7hvjlDmFJuSb5sx3cLsOHuuGwZveRw3JE/hM7T/QbDrhEhKaoHGCMfttwdOseCr+1Ohp55IdZ2OYjKu8RzStrMjkMyQDaZGVUaB4/Sw0cExkm0rPqfRISo4DGSShSb9dZIywbx1eya1kZDroijXcDy36IhzpsuRg=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28fd37c7-8f72-4a74-4b03-08d71ae0ac71
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Aug 2019 02:40:56.2597
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: peter.chen@nxp.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB3968
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 6 Aug 2019 19:18:04 +0800, Hayes Wang wrote:
-> Let rx_frag_head_sz and rx_max_agg_num could be modified dynamically
-> through the sysfs.
-> 
-> Signed-off-by: Hayes Wang <hayeswang@realtek.com>
-
-Please don't expose those via sysfs. Ethtool's copybreak and descriptor
-count should be applicable here, I think.
+DQogDQo+ID4NCj4gPg0KPiA+ID4gPg0KPiA+ID4gPiBZb3UgbWF5IHVzZSBjb25uZWN0IGJpdCBh
+dCBwb3J0c2Mgc2luY2UgVkJVUyBtYXkgbm90IGNvbm5lY3QgdG8gU29DLg0KPiA+ID4NCj4gPiA+
+IEJ5IHRoaXMgd2F5LCBkaXNjb25uZWN0IGNhbiBiZSBkZWNpZGVkIGJ1dCBjb25uZWN0IGlzIGEg
+cHJvYmxlbSBpbg0KPiA+ID4gY3VycmVudCBkcml2ZXIsIGFzIGNvbnRyb2xsZXIgd2FzIHN0b3Bw
+ZWQgaW4gbG93IHBvd2VyIG1vZGUgc28gY2FuJ3QNCj4gPiA+IGRldGVjdCBjb25uZWN0aW9uIGZy
+b20gaG9zdCwgdW5sZXNzIHdlIGFsc28gdXBkYXRlIHRoaXMgYmVoYXZpb3IgdG9vLg0KPiA+ID4N
+Cj4gPg0KPiA+IEZvciBjb25uZWN0aW9uLCBpZiBjdXJyZW50IHJvbGUgaXMgVVNCX1JPTEVfTk9O
+RSwgeW91IG1heSBzdGFydCBkZXZpY2UgbW9kZS4NCj4gDQo+IFRoaXMgaXMgYXNzdW1pbmcgc2V0
+IHJvbGUgb25seSBjYW4gYmUgY2FsbGVkIG9uZSB0aW1lIGJldHdlZW4gZGlzY29ubmVjdCBhbmQN
+Cj4gY29ubmVjdCB0byBob3N0LCB0aGlzIG1heSBub3QgYWx3YXlzIHRydWUsIGJ1dCB0aGlzIGNh
+biBiZSByZXNvbHZlZCwgSSB0aGluayB3ZSBuZWVkDQo+IGhhbmRsZSB0aGUgY2FzZSBkZXZpY2Ug
+bW9kZSBpcyBzdGFydGVkIGJ1dCBjb25uZWN0aW9uIGRvZXMgbm90IGhhcHBlbiwgc28gdGhlDQo+
+IGdhZGdldCBuZWVkIGJlIHN0b3BwZWQgYW5kIGVudGVyIGxvdyBwb3dlciBtb2RlIGFnYWluLCBp
+ZiB0aGlzIGFwcHJvYWNoIGlzIE9LIHRvDQo+IHlvdSwgSSB3aWxsIGdvIGluIHRoaXMgZGlyZWN0
+aW9uIGZvciBteSB2Mi4NCj4gDQogDQpBZnRlciB0aGlua2luZyBtb3JlLCBJIHRoaW5rIFR5cGUt
+QyB0Y3BtIGNvZGUgc2hvdWxkIHNldCB1c2Jfcm9sZSBjb3JyZWN0bHksIGl0DQprbm93cyBwaHlz
+aWNhbCBjb25uZWN0aW9uIHN0YXR1cyB3ZWxsLCAgYW5kIHRoZXJlIGFyZSBhbHJlYWR5IFVTQl9S
+T0xFX05PTkUNCnJlZmVyZW5jZXMgYXQgdGNwbSBub3cuIERlcGVuZGluZyBvbiBVU0IgZGV2aWNl
+IGRyaXZlciB3b3JrYXJvdW5kIHRvIGtub3cgVVNCX1JPTEVfTk9ORQ0KaXMgbm90IGEgZ29vZCBz
+b2x1dGlvbi4gTG9vayBhdCBhbm90aGVyIFVTQiByb2xlIGRyaXZlciwgaW50ZWwteGhjaS11c2It
+cm9sZS1zd2l0Y2guYywNCml0IGNvdWxkIGFsc28gZ2V0IFVTQl9ST0xFX05PTkUgc3RhdGUuDQoN
+ClBldGVyDQo=
