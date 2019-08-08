@@ -2,94 +2,252 @@ Return-Path: <SRS0=s2dn=WE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+X-Spam-Status: No, score=-7.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9314CC433FF
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 09:42:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B048C0650F
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 09:43:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 68E252173E
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 09:42:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1565257328;
-	bh=Pn6tXfULoIxRtF9yQ/7YXzG+dxzUbzUVdbEIlNQ7PRc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=TmI5HwKKECTBjmZVgpO4xmdgOHbcmXZaTTNcWtsRnxh7VAcSrpzFjG24stFWH0Qej
-	 HApz8KKNDPDUMU6wW78L+yinTRShSGsTtouq8sJKN9HXwAxb9lXDVC0s/kb07ZCTGL
-	 +cWSEOMuYmf9WkbDo/qt+Of9PNjvvbthFu/GcQII=
+	by mail.kernel.org (Postfix) with ESMTP id 133C32173E
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 09:43:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389804AbfHHJmC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 8 Aug 2019 05:42:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40360 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389800AbfHHJmB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 8 Aug 2019 05:42:01 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B61422173E;
-        Thu,  8 Aug 2019 09:42:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565257321;
-        bh=Pn6tXfULoIxRtF9yQ/7YXzG+dxzUbzUVdbEIlNQ7PRc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TjPAUJiRRHqJlHNtwcWe8pdTRHxrgS837yF/JTNC+9vC6PPq90OOWRTIVJJOTtnVm
-         KlNvomVzIcdiR6HVqAqFzhNC+Dki690sxSVqYKCG5FEdf5/2N2ZRwGxtqGYk4TZRTI
-         MbHmpJ/DH9zUiYRAegwAKZSVBUMh+63UNJylggiI=
-Date:   Thu, 8 Aug 2019 11:41:58 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Joe Perches <joe@perches.com>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devel@driverdev.osuosl.org
-Subject: Re: [PATCH] MAINTAINERS: mark wusbcore and UWB as obsolete
-Message-ID: <20190808094158.GA22635@kroah.com>
-References: <20190806101509.GA11280@kroah.com>
- <b73f09c944625a40b2589e9bac7f8bd22a711ed3.camel@perches.com>
- <20190806113501.GA18443@kroah.com>
- <20190808092509.GA20173@kroah.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190808092509.GA20173@kroah.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+        id S1732361AbfHHJna (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 8 Aug 2019 05:43:30 -0400
+Received: from mx2.suse.de ([195.135.220.15]:60492 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1732231AbfHHJna (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 8 Aug 2019 05:43:30 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 52886B03A;
+        Thu,  8 Aug 2019 09:43:28 +0000 (UTC)
+From:   Oliver Neukum <oneukum@suse.com>
+To:     gregKH@linuxfoundation.org, linux-usb@vger.kernel.org
+Cc:     Oliver Neukum <oneukum@suse.com>
+Subject: [PATCH] Revert "USB: rio500: simplify locking"
+Date:   Thu,  8 Aug 2019 11:28:54 +0200
+Message-Id: <20190808092854.23519-1-oneukum@suse.com>
+X-Mailer: git-send-email 2.16.4
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Aug 08, 2019 at 11:25:09AM +0200, Greg Kroah-Hartman wrote:
-> Joe rightly points out that we should be using the "Obsolete" status for
-> these two subsystems.
+This reverts commit d710734b06770814de2bfa2819420fb5df7f3a81.
+This simplification causes a deadlock.
 
-Even with that change, I don't see get_maintainers.pl tell me I
-shouldn't be sending a patch in for this area:
+Reported-by: syzbot+7bbcbe9c9ff0cd49592a@syzkaller.appspotmail.com
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+---
+ drivers/usb/misc/rio500.c | 43 +++++++++++++++++++++++++++----------------
+ 1 file changed, 27 insertions(+), 16 deletions(-)
 
-
-$ cat x.patch
-diff --git a/drivers/staging/uwb/Kconfig b/drivers/staging/uwb/Kconfig
-index 259e053e1e09..d9658c46686e 100644
---- a/drivers/staging/uwb/Kconfig
-+++ b/drivers/staging/uwb/Kconfig
-@@ -3,6 +3,8 @@
- # UWB device configuration
- #
-
+diff --git a/drivers/usb/misc/rio500.c b/drivers/usb/misc/rio500.c
+index 27e9c78a791e..a32d61a79ab8 100644
+--- a/drivers/usb/misc/rio500.c
++++ b/drivers/usb/misc/rio500.c
+@@ -51,6 +51,7 @@ struct rio_usb_data {
+         char *obuf, *ibuf;              /* transfer buffers */
+         char bulk_in_ep, bulk_out_ep;   /* Endpoint assignments */
+         wait_queue_head_t wait_q;       /* for timeouts */
++	struct mutex lock;          /* general race avoidance */
+ };
+ 
+ static DEFINE_MUTEX(rio500_mutex);
+@@ -62,8 +63,10 @@ static int open_rio(struct inode *inode, struct file *file)
+ 
+ 	/* against disconnect() */
+ 	mutex_lock(&rio500_mutex);
++	mutex_lock(&(rio->lock));
+ 
+ 	if (rio->isopen || !rio->present) {
++		mutex_unlock(&(rio->lock));
+ 		mutex_unlock(&rio500_mutex);
+ 		return -EBUSY;
+ 	}
+@@ -71,6 +74,7 @@ static int open_rio(struct inode *inode, struct file *file)
+ 
+ 	init_waitqueue_head(&rio->wait_q);
+ 
++	mutex_unlock(&(rio->lock));
+ 
+ 	dev_info(&rio->rio_dev->dev, "Rio opened.\n");
+ 	mutex_unlock(&rio500_mutex);
+@@ -84,6 +88,7 @@ static int close_rio(struct inode *inode, struct file *file)
+ 
+ 	/* against disconnect() */
+ 	mutex_lock(&rio500_mutex);
++	mutex_lock(&(rio->lock));
+ 
+ 	rio->isopen = 0;
+ 	if (!rio->present) {
+@@ -95,6 +100,7 @@ static int close_rio(struct inode *inode, struct file *file)
+ 	} else {
+ 		dev_info(&rio->rio_dev->dev, "Rio closed.\n");
+ 	}
++	mutex_unlock(&(rio->lock));
+ 	mutex_unlock(&rio500_mutex);
+ 	return 0;
+ }
+@@ -109,7 +115,7 @@ static long ioctl_rio(struct file *file, unsigned int cmd, unsigned long arg)
+ 	int retries;
+ 	int retval=0;
+ 
+-	mutex_lock(&rio500_mutex);
++	mutex_lock(&(rio->lock));
+         /* Sanity check to make sure rio is connected, powered, etc */
+         if (rio->present == 0 || rio->rio_dev == NULL) {
+ 		retval = -ENODEV;
+@@ -253,7 +259,7 @@ static long ioctl_rio(struct file *file, unsigned int cmd, unsigned long arg)
+ 
+ 
+ err_out:
+-	mutex_unlock(&rio500_mutex);
++	mutex_unlock(&(rio->lock));
+ 	return retval;
+ }
+ 
+@@ -273,12 +279,12 @@ write_rio(struct file *file, const char __user *buffer,
+ 	int errn = 0;
+ 	int intr;
+ 
+-	intr = mutex_lock_interruptible(&rio500_mutex);
++	intr = mutex_lock_interruptible(&(rio->lock));
+ 	if (intr)
+ 		return -EINTR;
+         /* Sanity check to make sure rio is connected, powered, etc */
+         if (rio->present == 0 || rio->rio_dev == NULL) {
+-		mutex_unlock(&rio500_mutex);
++		mutex_unlock(&(rio->lock));
+ 		return -ENODEV;
+ 	}
+ 
+@@ -301,7 +307,7 @@ write_rio(struct file *file, const char __user *buffer,
+ 				goto error;
+ 			}
+ 			if (signal_pending(current)) {
+-				mutex_unlock(&rio500_mutex);
++				mutex_unlock(&(rio->lock));
+ 				return bytes_written ? bytes_written : -EINTR;
+ 			}
+ 
+@@ -339,12 +345,12 @@ write_rio(struct file *file, const char __user *buffer,
+ 		buffer += copy_size;
+ 	} while (count > 0);
+ 
+-	mutex_unlock(&rio500_mutex);
++	mutex_unlock(&(rio->lock));
+ 
+ 	return bytes_written ? bytes_written : -EIO;
+ 
+ error:
+-	mutex_unlock(&rio500_mutex);
++	mutex_unlock(&(rio->lock));
+ 	return errn;
+ }
+ 
+@@ -361,12 +367,12 @@ read_rio(struct file *file, char __user *buffer, size_t count, loff_t * ppos)
+ 	char *ibuf;
+ 	int intr;
+ 
+-	intr = mutex_lock_interruptible(&rio500_mutex);
++	intr = mutex_lock_interruptible(&(rio->lock));
+ 	if (intr)
+ 		return -EINTR;
+ 	/* Sanity check to make sure rio is connected, powered, etc */
+         if (rio->present == 0 || rio->rio_dev == NULL) {
+-		mutex_unlock(&rio500_mutex);
++		mutex_unlock(&(rio->lock));
+ 		return -ENODEV;
+ 	}
+ 
+@@ -377,11 +383,11 @@ read_rio(struct file *file, char __user *buffer, size_t count, loff_t * ppos)
+ 
+ 	while (count > 0) {
+ 		if (signal_pending(current)) {
+-			mutex_unlock(&rio500_mutex);
++			mutex_unlock(&(rio->lock));
+ 			return read_count ? read_count : -EINTR;
+ 		}
+ 		if (!rio->rio_dev) {
+-			mutex_unlock(&rio500_mutex);
++			mutex_unlock(&(rio->lock));
+ 			return -ENODEV;
+ 		}
+ 		this_read = (count >= IBUF_SIZE) ? IBUF_SIZE : count;
+@@ -399,7 +405,7 @@ read_rio(struct file *file, char __user *buffer, size_t count, loff_t * ppos)
+ 			count = this_read = partial;
+ 		} else if (result == -ETIMEDOUT || result == 15) {	/* FIXME: 15 ??? */
+ 			if (!maxretry--) {
+-				mutex_unlock(&rio500_mutex);
++				mutex_unlock(&(rio->lock));
+ 				dev_err(&rio->rio_dev->dev,
+ 					"read_rio: maxretry timeout\n");
+ 				return -ETIME;
+@@ -409,19 +415,19 @@ read_rio(struct file *file, char __user *buffer, size_t count, loff_t * ppos)
+ 			finish_wait(&rio->wait_q, &wait);
+ 			continue;
+ 		} else if (result != -EREMOTEIO) {
+-			mutex_unlock(&rio500_mutex);
++			mutex_unlock(&(rio->lock));
+ 			dev_err(&rio->rio_dev->dev,
+ 				"Read Whoops - result:%d partial:%u this_read:%u\n",
+ 				result, partial, this_read);
+ 			return -EIO;
+ 		} else {
+-			mutex_unlock(&rio500_mutex);
++			mutex_unlock(&(rio->lock));
+ 			return (0);
+ 		}
+ 
+ 		if (this_read) {
+ 			if (copy_to_user(buffer, ibuf, this_read)) {
+-				mutex_unlock(&rio500_mutex);
++				mutex_unlock(&(rio->lock));
+ 				return -EFAULT;
+ 			}
+ 			count -= this_read;
+@@ -429,7 +435,7 @@ read_rio(struct file *file, char __user *buffer, size_t count, loff_t * ppos)
+ 			buffer += this_read;
+ 		}
+ 	}
+-	mutex_unlock(&rio500_mutex);
++	mutex_unlock(&(rio->lock));
+ 	return read_count;
+ }
+ 
+@@ -494,6 +500,8 @@ static int probe_rio(struct usb_interface *intf,
+ 	}
+ 	dev_dbg(&intf->dev, "ibuf address:%p\n", rio->ibuf);
+ 
++	mutex_init(&(rio->lock));
 +
-+
- menuconfig UWB
-        tristate "Ultra Wideband devices"
-        default n
-$ ./scripts/get_maintainer.pl x.patch
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> (supporter:STAGING SUBSYSTEM,commit_signer:2/2=100%,authored:1/2=50%)
-Thomas Gleixner <tglx@linutronix.de> (commit_signer:1/2=50%,authored:1/2=50%)
-devel@driverdev.osuosl.org (open list:ULTRA-WIDEBAND (UWB) SUBSYSTEM:)
-linux-kernel@vger.kernel.org (open list)
+ 	usb_set_intfdata (intf, rio);
+ 	rio->present = 1;
+ bail_out:
+@@ -511,10 +519,12 @@ static void disconnect_rio(struct usb_interface *intf)
+ 	if (rio) {
+ 		usb_deregister_dev(intf, &usb_rio_class);
+ 
++		mutex_lock(&(rio->lock));
+ 		if (rio->isopen) {
+ 			rio->isopen = 0;
+ 			/* better let it finish - the release will do whats needed */
+ 			rio->rio_dev = NULL;
++			mutex_unlock(&(rio->lock));
+ 			mutex_unlock(&rio500_mutex);
+ 			return;
+ 		}
+@@ -524,6 +534,7 @@ static void disconnect_rio(struct usb_interface *intf)
+ 		dev_info(&intf->dev, "USB Rio disconnected.\n");
+ 
+ 		rio->present = 0;
++		mutex_unlock(&(rio->lock));
+ 	}
+ 	mutex_unlock(&rio500_mutex);
+ }
+-- 
+2.16.4
 
-
-Am I missing something?
-
-thanks,
-
-greg k-h
