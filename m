@@ -2,144 +2,136 @@ Return-Path: <SRS0=s2dn=WE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5388DC0650F
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 12:38:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7AECC0650F
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 12:40:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2A6B621874
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 12:38:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8810D21874
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 12:40:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732438AbfHHMiH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 8 Aug 2019 08:38:07 -0400
-Received: from mail-ot1-f71.google.com ([209.85.210.71]:38392 "EHLO
-        mail-ot1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726285AbfHHMiH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Aug 2019 08:38:07 -0400
-Received: by mail-ot1-f71.google.com with SMTP id j4so61506391otc.5
-        for <linux-usb@vger.kernel.org>; Thu, 08 Aug 2019 05:38:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=tgS7L48eHOQSpr+oZVkwi0R27Me8DH37A1UrEs6B3Ms=;
-        b=FOTMtrWqLD9321a6alLT5a4iDxv98IrBv2Iyj6yM783sVik02xjBwwwswg38g4QlXL
-         iv68hj7b8Wlam9xrKEDmVaAaw10/8pCaUZZpJJ1FhfcqxJcjJLOMfbAcJQO2WX4thjHA
-         Ql8BBJB6pzNu6shoYSBqMtKaUQVyRLPmVphMs0YBu7u5dFBAhzPx1RVUsfKjlgr7QI/U
-         ZTPYSQ2l+5HmV00BBgM9ZQbX4FVzFDGtBaUrfR0QUmg/ac5Jtv1HRoTnJih1p8UdbQAn
-         PkLtg5hzgOkKnfT+aJ0CT3tpnDu4QsuajFgOXEOqv7QpE8cN2WxF2hGaSU80fYYHK5p/
-         Tg+A==
-X-Gm-Message-State: APjAAAUVo022K5vY3Z3WGCBr34pcHxW8KZcBAd/s4l3cS2k8CGU0TSkk
-        vME54d9JZ8TXvvt7OrKzhfxBAYC0GzFCJ9igzpfMRX2XDXUG
-X-Google-Smtp-Source: APXvYqzfz3subnIk/sSUAuycYkgWhqVqk7+A5uJekseoGm+xV7U926JT3SWWTJ1uL0WiymxGOnQeP/+DtGOdZiNfJFg719VJG9Uf
+        id S1729330AbfHHMki (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 8 Aug 2019 08:40:38 -0400
+Received: from mga06.intel.com ([134.134.136.31]:55832 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726285AbfHHMki (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 8 Aug 2019 08:40:38 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Aug 2019 05:40:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,361,1559545200"; 
+   d="asc'?scan'208";a="374132098"
+Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
+  by fmsmga005.fm.intel.com with ESMTP; 08 Aug 2019 05:40:35 -0700
+From:   Felipe Balbi <felipe.balbi@linux.intel.com>
+To:     Stephen Boyd <swboyd@chromium.org>, linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH v6 46/57] usb: Remove dev_err() usage after platform_get_irq()
+In-Reply-To: <20190730181557.90391-47-swboyd@chromium.org>
+References: <20190730181557.90391-1-swboyd@chromium.org> <20190730181557.90391-47-swboyd@chromium.org>
+Date:   Thu, 08 Aug 2019 15:40:31 +0300
+Message-ID: <87mugjn83k.fsf@gmail.com>
 MIME-Version: 1.0
-X-Received: by 2002:a02:54c1:: with SMTP id t184mr16701744jaa.10.1565267886602;
- Thu, 08 Aug 2019 05:38:06 -0700 (PDT)
-Date:   Thu, 08 Aug 2019 05:38:06 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000005c056c058f9a5437@google.com>
-Subject: BUG: bad usercopy in ld_usb_read
-From:   syzbot <syzbot+45b2f40f0778cfa7634e@syzkaller.appspotmail.com>
-To:     akpm@linux-foundation.org, andreyknvl@google.com, cai@lca.pw,
-        gregkh@linuxfoundation.org, keescook@chromium.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com,
-        tglx@linutronix.de
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
-
-syzbot found the following crash on:
-
-HEAD commit:    e96407b4 usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=13aeaece600000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=cfa2c18fb6a8068e
-dashboard link: https://syzkaller.appspot.com/bug?extid=45b2f40f0778cfa7634e
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-
-Unfortunately, I don't have any reproducer for this crash yet.
-
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+45b2f40f0778cfa7634e@syzkaller.appspotmail.com
-
-ldusb 6-1:0.124: Read buffer overflow, -131383996186150 bytes dropped
-usercopy: Kernel memory exposure attempt detected from SLUB  
-object 'kmalloc-2k' (offset 8, size 65062)!
-------------[ cut here ]------------
-kernel BUG at mm/usercopy.c:98!
-invalid opcode: 0000 [#1] SMP KASAN
-CPU: 0 PID: 15185 Comm: syz-executor.2 Not tainted 5.3.0-rc2+ #25
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-RIP: 0010:usercopy_abort+0xb9/0xbb mm/usercopy.c:98
-Code: e8 c1 f7 d6 ff 49 89 d9 4d 89 e8 4c 89 e1 41 56 48 89 ee 48 c7 c7 e0  
-f3 cd 85 ff 74 24 08 41 57 48 8b 54 24 20 e8 15 98 c1 ff <0f> 0b e8 95 f7  
-d6 ff e8 80 9f fd ff 8b 54 24 04 49 89 d8 4c 89 e1
-RSP: 0018:ffff8881ccb3fc38 EFLAGS: 00010286
-RAX: 0000000000000067 RBX: ffffffff86a659d4 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff8128a0fd RDI: ffffed1039967f79
-RBP: ffffffff85cdf2c0 R08: 0000000000000067 R09: fffffbfff11acdaa
-R10: fffffbfff11acda9 R11: ffffffff88d66d4f R12: ffffffff86a696e8
-R13: ffffffff85cdf180 R14: 000000000000fe26 R15: ffffffff85cdf140
-FS:  00007ff6daf91700(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f1de6600000 CR3: 00000001ca554000 CR4: 00000000001406f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
-  __check_heap_object+0xdd/0x110 mm/slub.c:3914
-  check_heap_object mm/usercopy.c:234 [inline]
-  __check_object_size mm/usercopy.c:280 [inline]
-  __check_object_size+0x32d/0x39b mm/usercopy.c:250
-  check_object_size include/linux/thread_info.h:119 [inline]
-  check_copy_size include/linux/thread_info.h:150 [inline]
-  copy_to_user include/linux/uaccess.h:151 [inline]
-  ld_usb_read+0x304/0x780 drivers/usb/misc/ldusb.c:495
-  __vfs_read+0x76/0x100 fs/read_write.c:425
-  vfs_read+0x1ea/0x430 fs/read_write.c:461
-  ksys_read+0x1e8/0x250 fs/read_write.c:587
-  do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:296
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x459829
-Code: fd b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7  
-48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
-ff 0f 83 cb b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00
-RSP: 002b:00007ff6daf90c78 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
-RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000459829
-RDX: 000000000000fe26 RSI: 00000000200000c0 RDI: 0000000000000003
-RBP: 000000000075bf20 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007ff6daf916d4
-R13: 00000000004c6c73 R14: 00000000004dbee8 R15: 00000000ffffffff
-Modules linked in:
----[ end trace 4fe8dba032d24ceb ]---
-RIP: 0010:usercopy_abort+0xb9/0xbb mm/usercopy.c:98
-Code: e8 c1 f7 d6 ff 49 89 d9 4d 89 e8 4c 89 e1 41 56 48 89 ee 48 c7 c7 e0  
-f3 cd 85 ff 74 24 08 41 57 48 8b 54 24 20 e8 15 98 c1 ff <0f> 0b e8 95 f7  
-d6 ff e8 80 9f fd ff 8b 54 24 04 49 89 d8 4c 89 e1
-RSP: 0018:ffff8881ccb3fc38 EFLAGS: 00010286
-RAX: 0000000000000067 RBX: ffffffff86a659d4 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff8128a0fd RDI: ffffed1039967f79
-RBP: ffffffff85cdf2c0 R08: 0000000000000067 R09: fffffbfff11acdaa
-R10: fffffbfff11acda9 R11: ffffffff88d66d4f R12: ffffffff86a696e8
-R13: ffffffff85cdf180 R14: 000000000000fe26 R15: ffffffff85cdf140
-FS:  00007ff6daf91700(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f1de6600000 CR3: 00000001ca554000 CR4: 00000000001406f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
 
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Hi,
 
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Stephen Boyd <swboyd@chromium.org> writes:
+> We don't need dev_err() messages when platform_get_irq() fails now that
+> platform_get_irq() prints an error message itself when something goes
+> wrong. Let's remove these prints with a simple semantic patch.
+>
+> // <smpl>
+> @@
+> expression ret;
+> struct platform_device *E;
+> @@
+>
+> ret =3D
+> (
+> platform_get_irq(E, ...)
+> |
+> platform_get_irq_byname(E, ...)
+> );
+>
+> if ( \( ret < 0 \| ret <=3D 0 \) )
+> {
+> (
+> -if (ret !=3D -EPROBE_DEFER)
+> -{ ...
+> -dev_err(...);
+> -... }
+> |
+> ...
+> -dev_err(...);
+> )
+> ...
+> }
+> // </smpl>
+>
+> While we're here, remove braces on if statements that only have one
+> statement (manually).
+>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-usb@vger.kernel.org
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> ---
+>
+> Please apply directly to subsystem trees
+>
+>  drivers/usb/chipidea/core.c               |  1 -
+>  drivers/usb/dwc2/platform.c               |  4 +---
+>  drivers/usb/dwc3/dwc3-keystone.c          |  1 -
+>  drivers/usb/dwc3/dwc3-omap.c              |  4 +---
+>  drivers/usb/gadget/udc/aspeed-vhub/core.c |  1 -
+>  drivers/usb/gadget/udc/bcm63xx_udc.c      |  8 ++------
+>  drivers/usb/gadget/udc/bdc/bdc_core.c     |  4 +---
+>  drivers/usb/gadget/udc/gr_udc.c           |  8 ++------
+>  drivers/usb/gadget/udc/lpc32xx_udc.c      |  5 +----
+>  drivers/usb/gadget/udc/renesas_usb3.c     |  4 +---
+>  drivers/usb/gadget/udc/s3c-hsudc.c        |  4 +---
+>  drivers/usb/gadget/udc/udc-xilinx.c       |  4 +---
+
+For dwc2, dwc3, gadget and usb/phy:
+
+Acked-by: Felipe Balbi <felipe.balbi@linux.intel.com>
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl1MGD8ACgkQzL64meEa
+mQbQ8g//RR3don4FjgIJ4062cadK0o06VKQO5F2i6I92KEdhdCs4DPY8x1AxeLWL
+zmzIDYZP8Q+9eBcwf2nkO0BGD6TUf2/55K6T3IxX7CxYx8Nb6DtLfLTMrprTYbMr
+8SKkNEH+lW/ky51zLLfNUPNY8Wm4d3x8bUh05r9ZyGkA6wv0zFlaaDXceuntF1F0
+WBbRHcsyII+y2M6jLPtbopGqkFHYRMj73UAs5gMI9aQYDwVx2OolR2Gr3yavU1pB
+ss7Z+0ukYHk1aTr1wosMY6eQLw8THCWcqhSr2TdZZvaPkAleCMWPSvXN3NReSZKD
+AHQeBvhqbCypwLeTTPLJmHbRHln7OZ6pxw03GruwcvsOzOwOuW3zlfZEm6lUFCMH
+yF5mmGZU/OPrhbKiKakwvucN4GF/ZHhwHWDLKlx4fHNpSMc+rCerStu2gnPrQqoT
+FVVxWvX/PcSZcOGlAaLPF3RIl7EqlP8PLb0+SOnwVXo6YIYXXXTFrtAviqzol0DS
+3ocPWX55vJEV9nL9F2oKVr8yaRY2fFK8dxmhsmf/PBR4Ue8fmRKDnpE0n8RVdsJD
+qjs5KXhU/5KfoiUcVW33wHaLsY4zYDBbbX/BNUTuFUDg2cYtEGzHtqkhhdwn9DX/
+CQZGUWLLbHV415dL/6tmzaxHinnIuEU4mnpP9SGc9fxJFhcKma8=
+=oNnV
+-----END PGP SIGNATURE-----
+--=-=-=--
