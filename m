@@ -2,252 +2,154 @@ Return-Path: <SRS0=s2dn=WE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B048C0650F
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 09:43:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE8DFC0650F
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 09:46:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 133C32173E
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 09:43:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BB03C208C3
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 09:46:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732361AbfHHJna (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 8 Aug 2019 05:43:30 -0400
-Received: from mx2.suse.de ([195.135.220.15]:60492 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1732231AbfHHJna (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 8 Aug 2019 05:43:30 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 52886B03A;
-        Thu,  8 Aug 2019 09:43:28 +0000 (UTC)
-From:   Oliver Neukum <oneukum@suse.com>
-To:     gregKH@linuxfoundation.org, linux-usb@vger.kernel.org
-Cc:     Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH] Revert "USB: rio500: simplify locking"
-Date:   Thu,  8 Aug 2019 11:28:54 +0200
-Message-Id: <20190808092854.23519-1-oneukum@suse.com>
-X-Mailer: git-send-email 2.16.4
+        id S2389783AbfHHJq0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 8 Aug 2019 05:46:26 -0400
+Received: from foss.arm.com ([217.140.110.172]:59052 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389774AbfHHJqZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 8 Aug 2019 05:46:25 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D15D01596;
+        Thu,  8 Aug 2019 02:46:24 -0700 (PDT)
+Received: from [10.37.12.237] (unknown [10.37.12.237])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CA9583F706;
+        Thu,  8 Aug 2019 02:46:23 -0700 (PDT)
+Subject: Re: usb zero copy dma handling
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        yvahkhfo.1df7f8c2@hashmail.org
+Cc:     security@kernel.org, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20190808084636.GB15080@priv-mua.localdomain>
+ <20190808085811.GA1265@kroah.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <10bcb28b-e87b-7b16-97e3-88e727e76d25@arm.com>
+Date:   Thu, 8 Aug 2019 10:46:24 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190808085811.GA1265@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This reverts commit d710734b06770814de2bfa2819420fb5df7f3a81.
-This simplification causes a deadlock.
+On 2019-08-08 9:58 am, Greg KH wrote:
+> On Thu, Aug 08, 2019 at 10:46:36AM +0200, yvahkhfo.1df7f8c2@hashmail.org wrote:
+>> Hello linux-usb and linux-arm.
+>>
+>> Ccing security@ because "the kernel dma code is mapping randomish
+>> kernel/user mem to a user process" seems to have security implications
+>> even though i didnt research that aspect past "its a 100% reliable way
+>> to crash a raspi from userspace".
+>>
+>> tried submitting this through linux-arm-kernel ~2 weeks ago but
+>> the only "response" i got was phishing-spam.
+>> tried to follow up through raspi-internals chat, they suggested
+>> i try linux-usb instead, but otoh the original reporter was
+>> deflected from -usb to "try some other mls, they might care".
+>> https://www.spinics.net/lists/linux-usb/msg173277.html
+>>
+>> if i am not following some arcane ritual or indenting convention required
+>> by regular users of these lists i apologize in advance, but i am not a
+>> kernel developer, i am just here as a user with a bug and a patch.
+>> (and the vger FAQ link 404s...)
+> 
+> The "arcane ritual" should be really well documented by now, it's in
+> Documentation/SubmittingPatches in your kernel tree, and you can read it
+> online at:
+> 	https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+> 
+> 
+>> i rediffed against HEAD even though the two weeks old patch still applied
+>> cleanly with +2 offset.
+>>
+>> # stepping off soap box # actual technical content starts here #
+>>
+>> this is a followup to that thread from 2018-11:
+>> https://www.spinics.net/lists/arm-kernel/msg685598.html
+>>
+>> the issue was discussed in more detail than i can claim
+>> to fully understand back then, but no fix ever merged.
+>> but i would really like to use rtl_433 on a raspi without
+>> having to build a custom-patched kernel first.
+>>
+>> the attached patch is my stripdown/cleanup of a devel-diff
+>> provided to me by the original reporter Steve Markgraf.
+>> credits to him for the good parts, blame to me for the bad parts.
+>>
+>> this does not cover the additional case of "PIO-based usb controllers"
+>> mainly because i dont understand what that means (or how to handle it)
+>> and if its broken right now (as the thread indicates) it might
+>> as well stay broken until someone who understands cares enough.
+>>
+>> could you please get this on track for merging?
+> 
+> 
+>>
+>> regards,
+>>    x23
+>>
+>>
+>>
+> 
+>> diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
+>> index b265ab5405f9..69594c2169ea 100644
+>> --- a/drivers/usb/core/devio.c
+>> +++ b/drivers/usb/core/devio.c
+>> @@ -238,9 +238,14 @@ static int usbdev_mmap(struct file *file, struct vm_area_struct *vma)
+>>   	usbm->vma_use_count = 1;
+>>   	INIT_LIST_HEAD(&usbm->memlist);
+>>   
+>> +#ifdef CONFIG_X86
+>>   	if (remap_pfn_range(vma, vma->vm_start,
+>>   			virt_to_phys(usbm->mem) >> PAGE_SHIFT,
+>>   			size, vma->vm_page_prot) < 0) {
+>> +#else /* !CONFIG_X86 */
+>> +	if (dma_mmap_coherent(ps->dev->bus->sysdev,
+>> +			vma, mem, dma_handle, size) < 0) {
+>> +#endif /* !CONFIG_X86 */
+>>   		dec_usb_memory_use_count(usbm, &usbm->vma_use_count);
+>>   		return -EAGAIN;
+>>   	}
+> 
+> First off, we need this in a format we could apply it in (hint, read the
+> above links).
+> 
+> But the main issue here is what exactly is this "fixing"?  What is wrong
+> with the existing code that non-x86 systems have such a problem with?
+> Shouldn't all of these dma issues be handled by the platform with the
+> remap_pfn_range() call itself?
 
-Reported-by: syzbot+7bbcbe9c9ff0cd49592a@syzkaller.appspotmail.com
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/usb/misc/rio500.c | 43 +++++++++++++++++++++++++++----------------
- 1 file changed, 27 insertions(+), 16 deletions(-)
+If usbm->mem is (or ever can be) a CPU address returned by 
+dma_alloc_coherent(), then doing virt_to_phys() on it is bogus and may 
+yield a nonsense 'PFN' to begin with. However, it it can can ever come 
+from a regular page allocation/kmalloc/vmalloc then unconditionally 
+passing it to dma_mmap_coherent wouldn't be right either.
 
-diff --git a/drivers/usb/misc/rio500.c b/drivers/usb/misc/rio500.c
-index 27e9c78a791e..a32d61a79ab8 100644
---- a/drivers/usb/misc/rio500.c
-+++ b/drivers/usb/misc/rio500.c
-@@ -51,6 +51,7 @@ struct rio_usb_data {
-         char *obuf, *ibuf;              /* transfer buffers */
-         char bulk_in_ep, bulk_out_ep;   /* Endpoint assignments */
-         wait_queue_head_t wait_q;       /* for timeouts */
-+	struct mutex lock;          /* general race avoidance */
- };
- 
- static DEFINE_MUTEX(rio500_mutex);
-@@ -62,8 +63,10 @@ static int open_rio(struct inode *inode, struct file *file)
- 
- 	/* against disconnect() */
- 	mutex_lock(&rio500_mutex);
-+	mutex_lock(&(rio->lock));
- 
- 	if (rio->isopen || !rio->present) {
-+		mutex_unlock(&(rio->lock));
- 		mutex_unlock(&rio500_mutex);
- 		return -EBUSY;
- 	}
-@@ -71,6 +74,7 @@ static int open_rio(struct inode *inode, struct file *file)
- 
- 	init_waitqueue_head(&rio->wait_q);
- 
-+	mutex_unlock(&(rio->lock));
- 
- 	dev_info(&rio->rio_dev->dev, "Rio opened.\n");
- 	mutex_unlock(&rio500_mutex);
-@@ -84,6 +88,7 @@ static int close_rio(struct inode *inode, struct file *file)
- 
- 	/* against disconnect() */
- 	mutex_lock(&rio500_mutex);
-+	mutex_lock(&(rio->lock));
- 
- 	rio->isopen = 0;
- 	if (!rio->present) {
-@@ -95,6 +100,7 @@ static int close_rio(struct inode *inode, struct file *file)
- 	} else {
- 		dev_info(&rio->rio_dev->dev, "Rio closed.\n");
- 	}
-+	mutex_unlock(&(rio->lock));
- 	mutex_unlock(&rio500_mutex);
- 	return 0;
- }
-@@ -109,7 +115,7 @@ static long ioctl_rio(struct file *file, unsigned int cmd, unsigned long arg)
- 	int retries;
- 	int retval=0;
- 
--	mutex_lock(&rio500_mutex);
-+	mutex_lock(&(rio->lock));
-         /* Sanity check to make sure rio is connected, powered, etc */
-         if (rio->present == 0 || rio->rio_dev == NULL) {
- 		retval = -ENODEV;
-@@ -253,7 +259,7 @@ static long ioctl_rio(struct file *file, unsigned int cmd, unsigned long arg)
- 
- 
- err_out:
--	mutex_unlock(&rio500_mutex);
-+	mutex_unlock(&(rio->lock));
- 	return retval;
- }
- 
-@@ -273,12 +279,12 @@ write_rio(struct file *file, const char __user *buffer,
- 	int errn = 0;
- 	int intr;
- 
--	intr = mutex_lock_interruptible(&rio500_mutex);
-+	intr = mutex_lock_interruptible(&(rio->lock));
- 	if (intr)
- 		return -EINTR;
-         /* Sanity check to make sure rio is connected, powered, etc */
-         if (rio->present == 0 || rio->rio_dev == NULL) {
--		mutex_unlock(&rio500_mutex);
-+		mutex_unlock(&(rio->lock));
- 		return -ENODEV;
- 	}
- 
-@@ -301,7 +307,7 @@ write_rio(struct file *file, const char __user *buffer,
- 				goto error;
- 			}
- 			if (signal_pending(current)) {
--				mutex_unlock(&rio500_mutex);
-+				mutex_unlock(&(rio->lock));
- 				return bytes_written ? bytes_written : -EINTR;
- 			}
- 
-@@ -339,12 +345,12 @@ write_rio(struct file *file, const char __user *buffer,
- 		buffer += copy_size;
- 	} while (count > 0);
- 
--	mutex_unlock(&rio500_mutex);
-+	mutex_unlock(&(rio->lock));
- 
- 	return bytes_written ? bytes_written : -EIO;
- 
- error:
--	mutex_unlock(&rio500_mutex);
-+	mutex_unlock(&(rio->lock));
- 	return errn;
- }
- 
-@@ -361,12 +367,12 @@ read_rio(struct file *file, char __user *buffer, size_t count, loff_t * ppos)
- 	char *ibuf;
- 	int intr;
- 
--	intr = mutex_lock_interruptible(&rio500_mutex);
-+	intr = mutex_lock_interruptible(&(rio->lock));
- 	if (intr)
- 		return -EINTR;
- 	/* Sanity check to make sure rio is connected, powered, etc */
-         if (rio->present == 0 || rio->rio_dev == NULL) {
--		mutex_unlock(&rio500_mutex);
-+		mutex_unlock(&(rio->lock));
- 		return -ENODEV;
- 	}
- 
-@@ -377,11 +383,11 @@ read_rio(struct file *file, char __user *buffer, size_t count, loff_t * ppos)
- 
- 	while (count > 0) {
- 		if (signal_pending(current)) {
--			mutex_unlock(&rio500_mutex);
-+			mutex_unlock(&(rio->lock));
- 			return read_count ? read_count : -EINTR;
- 		}
- 		if (!rio->rio_dev) {
--			mutex_unlock(&rio500_mutex);
-+			mutex_unlock(&(rio->lock));
- 			return -ENODEV;
- 		}
- 		this_read = (count >= IBUF_SIZE) ? IBUF_SIZE : count;
-@@ -399,7 +405,7 @@ read_rio(struct file *file, char __user *buffer, size_t count, loff_t * ppos)
- 			count = this_read = partial;
- 		} else if (result == -ETIMEDOUT || result == 15) {	/* FIXME: 15 ??? */
- 			if (!maxretry--) {
--				mutex_unlock(&rio500_mutex);
-+				mutex_unlock(&(rio->lock));
- 				dev_err(&rio->rio_dev->dev,
- 					"read_rio: maxretry timeout\n");
- 				return -ETIME;
-@@ -409,19 +415,19 @@ read_rio(struct file *file, char __user *buffer, size_t count, loff_t * ppos)
- 			finish_wait(&rio->wait_q, &wait);
- 			continue;
- 		} else if (result != -EREMOTEIO) {
--			mutex_unlock(&rio500_mutex);
-+			mutex_unlock(&(rio->lock));
- 			dev_err(&rio->rio_dev->dev,
- 				"Read Whoops - result:%d partial:%u this_read:%u\n",
- 				result, partial, this_read);
- 			return -EIO;
- 		} else {
--			mutex_unlock(&rio500_mutex);
-+			mutex_unlock(&(rio->lock));
- 			return (0);
- 		}
- 
- 		if (this_read) {
- 			if (copy_to_user(buffer, ibuf, this_read)) {
--				mutex_unlock(&rio500_mutex);
-+				mutex_unlock(&(rio->lock));
- 				return -EFAULT;
- 			}
- 			count -= this_read;
-@@ -429,7 +435,7 @@ read_rio(struct file *file, char __user *buffer, size_t count, loff_t * ppos)
- 			buffer += this_read;
- 		}
- 	}
--	mutex_unlock(&rio500_mutex);
-+	mutex_unlock(&(rio->lock));
- 	return read_count;
- }
- 
-@@ -494,6 +500,8 @@ static int probe_rio(struct usb_interface *intf,
- 	}
- 	dev_dbg(&intf->dev, "ibuf address:%p\n", rio->ibuf);
- 
-+	mutex_init(&(rio->lock));
-+
- 	usb_set_intfdata (intf, rio);
- 	rio->present = 1;
- bail_out:
-@@ -511,10 +519,12 @@ static void disconnect_rio(struct usb_interface *intf)
- 	if (rio) {
- 		usb_deregister_dev(intf, &usb_rio_class);
- 
-+		mutex_lock(&(rio->lock));
- 		if (rio->isopen) {
- 			rio->isopen = 0;
- 			/* better let it finish - the release will do whats needed */
- 			rio->rio_dev = NULL;
-+			mutex_unlock(&(rio->lock));
- 			mutex_unlock(&rio500_mutex);
- 			return;
- 		}
-@@ -524,6 +534,7 @@ static void disconnect_rio(struct usb_interface *intf)
- 		dev_info(&intf->dev, "USB Rio disconnected.\n");
- 
- 		rio->present = 0;
-+		mutex_unlock(&(rio->lock));
- 	}
- 	mutex_unlock(&rio500_mutex);
- }
--- 
-2.16.4
+Robin.
 
+> 
+> What is the problem that you are having?
+> 
+> thanks,
+> 
+> greg k-h
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> 
