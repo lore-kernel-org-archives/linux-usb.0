@@ -2,145 +2,121 @@ Return-Path: <SRS0=s2dn=WE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E007C433FF
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 22:24:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8587DC0650F
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 23:06:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 225502173E
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 22:24:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 534822173C
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 23:06:41 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gateworks-com.20150623.gappssmtp.com header.i=@gateworks-com.20150623.gappssmtp.com header.b="wTDmHl86"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ikTsZpqI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404699AbfHHWX7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 8 Aug 2019 18:23:59 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:35441 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404591AbfHHWX6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Aug 2019 18:23:58 -0400
-Received: by mail-pf1-f195.google.com with SMTP id u14so44901349pfn.2
-        for <linux-usb@vger.kernel.org>; Thu, 08 Aug 2019 15:23:58 -0700 (PDT)
+        id S2404579AbfHHXGf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 8 Aug 2019 19:06:35 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:33320 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725785AbfHHXGf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Aug 2019 19:06:35 -0400
+Received: by mail-pf1-f196.google.com with SMTP id g2so44936005pfq.0
+        for <linux-usb@vger.kernel.org>; Thu, 08 Aug 2019 16:06:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gateworks-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id;
-        bh=KXMRKOkla55qnWsYXxlUnmTW+pbKayEwS/9LRWakDG8=;
-        b=wTDmHl86ZcLAYBYZGgBI2vd8vuBJ+ORrjD+ulGSwml52Q2KhRYlTWrnPpWRtgdMiQA
-         1lDyram8Y0qNvEw3u0OAkH6H/zcUpa955pTKZsibEg/8fxceaI38hDAfSLEYXQ5mwMGq
-         Uwe8VP5+NK+PsCiIxepnR74Q2BCBLQPSXEomy6sLrH+hmSSUrE7Fb0Wqplf5t+MZBHDQ
-         +2R6hpx4eOSqh7zmsnRro1xxOm5GHxGiq7m+lAIOIHEMN6rFUHx7AlqPjDVtaGfQuBbk
-         +YyyWDJEB5U8jimuBdztq5CRVN0uLvvcVuCKKL6f3uA9KPlu9Nx5Ua8pzeBtrYahn3PH
-         ulGw==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=opDMrymB/En0zVOQAsZzeK0WBnbwyQ7DVo+LI/G+0nI=;
+        b=ikTsZpqIALXHfXNNPn5q3xwkHzwN31/cjFf8yGaawKBFYr5bEoqwkcLNwNqmnBP3dA
+         lyew0kxGzn/wvTC0S6ZqPLMDZ0NxIAWDt+Z8QguV81Gm7yLFJ6Q233iY3boexCsjZoN2
+         3Y+CaPJoubQgDiCyBanDym6GLAfqcLDCeDv7M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=KXMRKOkla55qnWsYXxlUnmTW+pbKayEwS/9LRWakDG8=;
-        b=h2nuyqKpGaCrlXyb5/4AVp7v4l0xyfXpt/Dz376jiVAl/w9n9FtHjqFjopauA/H5Vf
-         9I+tUjL8kFv8lQHYsce7ZvL9WBlLOhtiNaTVe0fS3111qpBpZ/86noQaE+cV0HnhBMWg
-         IjBVDbxhxd/WktSKLDkZjpE7bQugvry8MCNzYgBAqgEhx4CXt0X0CgpM+9R+MgtCxZQH
-         zHbrwvgUKpSbGGGIETNeDEeGmX7tWVFV+35Uz0nbrO0BPv6XhuXvWyMQKMkY2c9NJBeI
-         7v4fmoN80vHdFJo70uyMjJpCepKnPEG6q4FD1xZ74xH5D49BzAx82idsLqqIAs2J02if
-         vRRg==
-X-Gm-Message-State: APjAAAUoppjarhLMOF9oJAAyAXivMsGY/2ecmPv8kMkV83YWODBR1S4v
-        ynSJmM5QzjzbkAgzb6KOvHkyqw==
-X-Google-Smtp-Source: APXvYqz/Bux726oq0ULlXMowmGDltzYQb7FMXtB+TjNmXzd52pLdiBaIEgfiYwuTFCqB2WkLnABW0Q==
-X-Received: by 2002:a62:38c6:: with SMTP id f189mr17886283pfa.157.1565303038267;
-        Thu, 08 Aug 2019 15:23:58 -0700 (PDT)
-Received: from e6f2834286fb.pdc.gateworks.com (68-189-91-139.static.snlo.ca.charter.com. [68.189.91.139])
-        by smtp.gmail.com with ESMTPSA id bg3sm3257856pjb.9.2019.08.08.15.23.57
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 08 Aug 2019 15:23:57 -0700 (PDT)
-From:   Matthew Michilot <mmichilot@gateworks.com>
-X-Google-Original-From: Matthew Michilot <matthew.michilot@gmail.com>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Matthew Michilot <matthew.michilot@gmail.com>
-Subject: [PATCH] USB: serial: ftdi_sio: add support for FT232H CBUS gpios
-Date:   Thu,  8 Aug 2019 22:23:48 +0000
-Message-Id: <20190808222348.4428-1-matthew.michilot@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=opDMrymB/En0zVOQAsZzeK0WBnbwyQ7DVo+LI/G+0nI=;
+        b=RCB8ddUTEOkWES+R1gCqaB+e0kr2l49iKzYd3iwmeMtFFSq0JjzRpm6rkBwm4TJbbW
+         FEpbLZ9Dnw3O0nRX5hIRyZz9N3A9uypI+0inLamKlLkmru4BjMCIJsh2p2KOKbq9XrA4
+         6bg8p81afqOqeQtraqWY4i6FXeTjXyJFwVjjbq/Ut3hh3JIDfqE+m9OHxHGNK6C12zPO
+         i8mLaOw4zTjiI5Ojt0S5dGnxlNThFB2IMY4STksV3ItiLnZ2jztoQuuElUCA3Vr9LcZ6
+         kIrPN2Fliul6jmAyKMD6enTSZQHc7Wfq1LBafKzqtcsFp0kQu0DJ11RIKm2EHBSsW6lz
+         N5vA==
+X-Gm-Message-State: APjAAAW8Jp8wnorjArj8CLeLb3RZfMpwdGpFf4SEW5ufjv5COZdhXre4
+        lfTRTv1uPkTByxLI8mVcc7KhMg==
+X-Google-Smtp-Source: APXvYqxUs/ShSH3NodCVNupDwfPt/CTgZNHs1MZIiS1TQWwVh5q0LUSuD7/p4QawSHP4cg3vnLnTUw==
+X-Received: by 2002:a63:61cd:: with SMTP id v196mr15062795pgb.263.1565305594747;
+        Thu, 08 Aug 2019 16:06:34 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id p3sm267596pjo.3.2019.08.08.16.06.33
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 08 Aug 2019 16:06:33 -0700 (PDT)
+Date:   Thu, 8 Aug 2019 16:06:32 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     syzbot <syzbot+45b2f40f0778cfa7634e@syzkaller.appspotmail.com>,
+        Michael Hund <mhund@ld-didactic.de>, akpm@linux-foundation.org,
+        andreyknvl@google.com, cai@lca.pw, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-usb@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com, tglx@linutronix.de
+Subject: Re: BUG: bad usercopy in ld_usb_read
+Message-ID: <201908081604.D1203D408@keescook>
+References: <0000000000005c056c058f9a5437@google.com>
+ <20190808124654.GB32144@kroah.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190808124654.GB32144@kroah.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Enable support for cbus gpios on FT232H. The cbus configuration is
-stored in one word in the EEPROM at byte-offset 0x1a with the mux
-config for ACBUS5, ACBUS6, ACBUS8 and ACBUS9 (only pins that can be
-configured as I/O mode).
+On Thu, Aug 08, 2019 at 02:46:54PM +0200, Greg KH wrote:
+> On Thu, Aug 08, 2019 at 05:38:06AM -0700, syzbot wrote:
+> > Hello,
+> > 
+> > syzbot found the following crash on:
+> > 
+> > HEAD commit:    e96407b4 usb-fuzzer: main usb gadget fuzzer driver
+> > git tree:       https://github.com/google/kasan.git usb-fuzzer
+> > console output: https://syzkaller.appspot.com/x/log.txt?x=13aeaece600000
+> > kernel config:  https://syzkaller.appspot.com/x/.config?x=cfa2c18fb6a8068e
+> > dashboard link: https://syzkaller.appspot.com/bug?extid=45b2f40f0778cfa7634e
+> > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> > 
+> > Unfortunately, I don't have any reproducer for this crash yet.
+> > 
+> > IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> > Reported-by: syzbot+45b2f40f0778cfa7634e@syzkaller.appspotmail.com
+> > 
+> > ldusb 6-1:0.124: Read buffer overflow, -131383996186150 bytes dropped
+> 
+> That's a funny number :)
+> 
+> Nice overflow found, I see you are now starting to fuzz the char device
+> nodes of usb drivers...
+> 
+> Michael, care to fix this up?
 
-Tested using FT232H by configuring one ACBUS pin at a time.
+This looks like the length in the read-from-device buffer is unchecked:
 
-Review-by: Tim Harvey <tharvey@gateworks.com>
-Signed-off-by: Matthew Michilot <matthew.michilot@gmail.com>
----
- drivers/usb/serial/ftdi_sio.c | 43 +++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+        /* actual_buffer contains actual_length + interrupt_in_buffer */
+        actual_buffer = (size_t *)(dev->ring_buffer + dev->ring_tail * (sizeof(size_t)+dev->interrupt_in_endpoint_size));
+        bytes_to_read = min(count, *actual_buffer);
+        if (bytes_to_read < *actual_buffer)
+                dev_warn(&dev->intf->dev, "Read buffer overflow, %zd bytes dropped\n",
+                         *actual_buffer-bytes_to_read);
 
-diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index 4b3a049561f3..c8d35faa8f61 100644
---- a/drivers/usb/serial/ftdi_sio.c
-+++ b/drivers/usb/serial/ftdi_sio.c
-@@ -2023,6 +2023,46 @@ static int ftdi_read_eeprom(struct usb_serial *serial, void *dst, u16 addr,
- 	return 0;
- }
- 
-+static int ftdi_gpio_init_ft232h(struct usb_serial_port *port)
-+{
-+	struct ftdi_private *priv = usb_get_serial_port_data(port);
-+	u8 *buf;
-+	u16 cbus_config;
-+	int ret;
-+	int i;
-+
-+	buf = kmalloc(2, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	ret = ftdi_read_eeprom(port->serial, buf, 0x1A, 4);
-+	if (ret < 0)
-+		goto out_free;
-+
-+	/*
-+	 * FT232H CBUS Memory Map
-+	 *
-+	 * 0x1A: 8X (upper nibble -> AC5)
-+	 * 0x1B: X8 (lower nibble -> AC6)
-+	 * 0x1C: 88 (upper nibble -> AC8 | lower nibble -> AC9)
-+	 */
-+	cbus_config = (((buf[0] & 0xf0) | (buf[1] & 0xf)) << 8 | buf[2]);
-+
-+	priv->gc.ngpio = 4;
-+	priv->gpio_altfunc = 0xff;
-+
-+	for (i = 0; i < priv->gc.ngpio; ++i) {
-+		if ((cbus_config & 0xf) == FTDI_FTX_CBUS_MUX_GPIO)
-+			priv->gpio_altfunc &= ~BIT(i);
-+		cbus_config >>= 4;
-+	}
-+
-+out_free:
-+	kfree(buf);
-+
-+	return ret;
-+}
-+
- static int ftdi_gpio_init_ft232r(struct usb_serial_port *port)
- {
- 	struct ftdi_private *priv = usb_get_serial_port_data(port);
-@@ -2104,6 +2144,9 @@ static int ftdi_gpio_init(struct usb_serial_port *port)
- 	case FTX:
- 		result = ftdi_gpio_init_ftx(port);
- 		break;
-+	case FT232H:
-+		result = ftdi_gpio_init_ft232h(port);
-+		break;
- 	default:
- 		return 0;
- 	}
+        /* copy one interrupt_in_buffer from ring_buffer into userspace */
+        if (copy_to_user(buffer, actual_buffer+1, bytes_to_read)) {
+                retval = -EFAULT;
+                goto unlock_exit;
+        }
+
+I assume what's stored at actual_buffer is bogus and needs validation
+somewhere before it's actually used. (If not here, maybe where ever the
+write into the buffer originally happens?)
+
 -- 
-2.17.1
-
+Kees Cook
