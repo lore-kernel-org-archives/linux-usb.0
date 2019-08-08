@@ -2,72 +2,78 @@ Return-Path: <SRS0=s2dn=WE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD957C0650F
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 16:09:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63E05C433FF
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 16:10:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AFB6321743
-	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 16:09:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3429721880
+	for <linux-usb@archiver.kernel.org>; Thu,  8 Aug 2019 16:10:17 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JmHxGJYI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404061AbfHHQJG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 8 Aug 2019 12:09:06 -0400
-Received: from smtprelay0141.hostedemail.com ([216.40.44.141]:57227 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1732662AbfHHQJG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Aug 2019 12:09:06 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay07.hostedemail.com (Postfix) with ESMTP id 8CE79181D33FB;
-        Thu,  8 Aug 2019 16:09:04 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: hair31_4f1ae28119a43
-X-Filterd-Recvd-Size: 1962
-Received: from XPS-9350 (cpe-23-242-196-136.socal.res.rr.com [23.242.196.136])
-        (Authenticated sender: joe@perches.com)
-        by omf04.hostedemail.com (Postfix) with ESMTPA;
-        Thu,  8 Aug 2019 16:09:03 +0000 (UTC)
-Message-ID: <77939c33095725515c73b04586e105916ce4b1e5.camel@perches.com>
-Subject: Re: [PATCH] MAINTAINERS: mark wusbcore and UWB as obsolete
-From:   Joe Perches <joe@perches.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devel@driverdev.osuosl.org
-Date:   Thu, 08 Aug 2019 09:09:02 -0700
-In-Reply-To: <20190808112358.GA25286@kroah.com>
-References: <20190806101509.GA11280@kroah.com>
-         <b73f09c944625a40b2589e9bac7f8bd22a711ed3.camel@perches.com>
-         <20190806113501.GA18443@kroah.com> <20190808092509.GA20173@kroah.com>
-         <20190808094158.GA22635@kroah.com>
-         <92ed89b0346a54fb06d3e08585a8d0b4175842f0.camel@perches.com>
-         <20190808112358.GA25286@kroah.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.30.5-0ubuntu0.18.10.1 
+        id S2404121AbfHHQKQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 8 Aug 2019 12:10:16 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:42730 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404003AbfHHQKQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 8 Aug 2019 12:10:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=PsRuX6i6bpFFleWOxC3N1dYJ6gwL3cQWRZKi4BRRIPw=; b=JmHxGJYIULMp6y61cQLASb6iV
+        5i3TNCJtO4CIKHYMZW7zD4EbitDOrV3ih1qM8GtqUmwNmHYG3KdVjPWx2C7otseHJhOZplcunWfZe
+        GnF/dQJmAiPJkBSECXWsQ8YuPx9o+0Em8Rr16UH0l1i+oIQSRtabQp8MlHDUgRyfsfqE38GU7NOFF
+        knuUyKnTW/YMxoTRk5o+idEUhWQeUEuYoZI8CbFXAa0ZE7M2KvI3afRJDsKSqHPaVCyuJMQmZHcB6
+        fgoQ+L4yhkspaELmZIYMIBYToOEat37F6ZdShZEoXGsKn16EINzHT3OjVeNTtgZ1DoCGHKGPzN9Ka
+        BQw7iYiCA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
+        id 1hvkzX-0003eq-O4; Thu, 08 Aug 2019 16:10:15 +0000
+Date:   Thu, 8 Aug 2019 09:10:15 -0700
+From:   Christoph Hellwig <hch@infradead.org>
+To:     yvahkhfo.1df7f8c2@hashmail.org
+Cc:     linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        security@kernel.org
+Subject: Re: usb zero copy dma handling
+Message-ID: <20190808161015.GA8470@infradead.org>
+References: <20190808084636.GB15080@priv-mua.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190808084636.GB15080@priv-mua.localdomain>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, 2019-08-08 at 13:23 +0200, Greg Kroah-Hartman wrote:
-> On Thu, Aug 08, 2019 at 04:15:44AM -0700, Joe Perches wrote:
-> > On Thu, 2019-08-08 at 11:41 +0200, Greg Kroah-Hartman wrote:
-> > > On Thu, Aug 08, 2019 at 11:25:09AM +0200, Greg Kroah-Hartman wrote:
-> > > > Joe rightly points out that we should be using the "Obsolete" status for
-> > > > these two subsystems.
-> > > 
-> > > Even with that change, I don't see get_maintainers.pl tell me I
-> > > shouldn't be sending a patch in for this area:
-> > 
-> > Nor should you.  It's checkpatch that should warn.
-> 
-> Ah, wrong tool.  Yes, it does, let's see if anyone actually notices that
-> when sending checkpatch changes for these files in the future :)
+On Thu, Aug 08, 2019 at 10:46:36AM +0200, yvahkhfo.1df7f8c2@hashmail.org wrote:
+> --- a/drivers/usb/core/devio.c
+> +++ b/drivers/usb/core/devio.c
+> @@ -238,9 +238,14 @@ static int usbdev_mmap(struct file *file, struct vm_area_struct *vma)
+>  	usbm->vma_use_count = 1;
+>  	INIT_LIST_HEAD(&usbm->memlist);
+>  
+> +#ifdef CONFIG_X86
+>  	if (remap_pfn_range(vma, vma->vm_start,
+>  			virt_to_phys(usbm->mem) >> PAGE_SHIFT,
+>  			size, vma->vm_page_prot) < 0) {
+> +#else /* !CONFIG_X86 */
+> +	if (dma_mmap_coherent(ps->dev->bus->sysdev, 
+> +			vma, mem, dma_handle, size) < 0) {
+> +#endif /* !CONFIG_X86 */
 
-Maybe mark the isdn block obsolete too.
+Doing the dma_mmap_coherent unconditionally is the right thing here.
+Gavin who is on Cc has been looking into that.
 
-https://lore.kernel.org/lkml/2ecfbf8dda354fe47912446bf5c3fe30ca905aa0.camel@perches.com/
+Note that you'll also need this patch which I'm going to send to Linus
+this week before it properly works on x86:
 
-
+http://git.infradead.org/users/hch/dma-mapping.git/commitdiff/197b3e665b82c6027be5c68a143233df7ce5224f
