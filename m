@@ -2,142 +2,111 @@ Return-Path: <SRS0=eELU=WF=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E170AC31E40
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Aug 2019 14:41:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2C3BC433FF
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Aug 2019 14:41:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BEEF820820
-	for <linux-usb@archiver.kernel.org>; Fri,  9 Aug 2019 14:41:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB29620820
+	for <linux-usb@archiver.kernel.org>; Fri,  9 Aug 2019 14:41:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406730AbfHIOlc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 9 Aug 2019 10:41:32 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:60337 "EHLO
+        id S2436479AbfHIOlt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 9 Aug 2019 10:41:49 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:54285 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726157AbfHIOlb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Aug 2019 10:41:31 -0400
+        with ESMTP id S1726157AbfHIOls (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 9 Aug 2019 10:41:48 -0400
 Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
  (mreue012 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1MkW10-1ibFNJ1O5W-00m6H3; Fri, 09 Aug 2019 16:40:55 +0200
+ 1Mvbr4-1iD4VT2f4w-00saWn; Fri, 09 Aug 2019 16:41:37 +0200
 From:   Arnd Bergmann <arnd@arndb.de>
 To:     soc@kernel.org
 Cc:     Vladimir Zapolskiy <vz@mleia.com>,
         Sylvain Lemieux <slemieux.tyco@gmail.com>,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Guenter Roeck <linux@roeck-us.net>, linux-gpio@vger.kernel.org,
-        netdev@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org
-Subject: [PATCH v2 00/13] v2: ARM: move lpc32xx to multiplatform
-Date:   Fri,  9 Aug 2019 16:40:26 +0200
-Message-Id: <20190809144043.476786-1-arnd@arndb.de>
+        Felipe Balbi <balbi@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        linux-usb@vger.kernel.org
+Subject: [PATCH v2 02/13] usb: udc: lpc32xx: allow compile-testing
+Date:   Fri,  9 Aug 2019 16:40:28 +0200
+Message-Id: <20190809144043.476786-3-arnd@arndb.de>
 X-Mailer: git-send-email 2.20.0
+In-Reply-To: <20190809144043.476786-1-arnd@arndb.de>
+References: <20190809144043.476786-1-arnd@arndb.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:EDVZmvF9arLwN7tfCBk9s4OVXP20FvpzsVOImPPefg+0CLYE69K
- gQAFFbE132roeOF6ToiNpoEiuz6MoXQQoc5ph+0VQSsr2DOk/xyOnFdZ2yMpZ8kHXXDBjmX
- A8C1gOPJ7TLLjUPO1DDoXFvV90K+Q0ox7QSuSMrwxO7Jb3D1G7p8BVK5xTzCRV9mr0GgrzD
- OwFVQkMOVFv8a5Cr1SW2Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:DPoVW4gPjGQ=:8tG2AyA6Pk3b3tvngr6K5k
- UMk3gPJV3BUtXv9nOJp7EvdBEwjSP1CtrdEXCNtEjUcawe0Pjf8Oy+Oz54J4+/x4CR/2rvHPa
- gpdlQvCpws7DVMLQkcUgXF5nXU3i3nqr3aQlv9+MQBVPsOeC/4KDgkmDIlZVkpN4ynr4u7ucB
- pu5WfQYm7lX8z2DvSWk7Jn/rSFxWFoWsN9AI3xUZs6pqAkjISwm7g1zj0r3DeZkxcnrFNH1IC
- Egz1Ue13UnEuIbxdnowFCmkpbfHazRhxw48ERNB90saDpeer/Sfiohh/EdYsJRhBmP3r4qGIs
- +hPd1B4v+tUWpAYpMDyNtJRuDSdY172Id6TFWwTfK2VuLkB9ao+/dWU4SVVvT+AlgJOv7mrag
- yxf03FHvK+XpX2qgcpa4cziL54bf9OI7XmWHKooibuT2eSYSJ6U7TKh1q5rLi0sM21XV5X9vo
- NoPD1teaUKJgXdmJzymvD8djLtwU5kyqACDEpfMdtI6Jz+NGrX4mbKeXFeREvcJy2hzyr3cHO
- tqwe/jezzuaak1my9LxlhwtyAkQsThdCtdGwZAEEHIwEfIIVldDpQcLW3O9CM/DuL7mzrW4MG
- QI+sI9RMaYFn11ATDc0BslmVI9Ed0tLk9mabp6wQUA8VioOBGUNQHUwI/Ach2uOPRo8wIWgEw
- 4n28RI2aSzpaniC2eJhokOSjmOmfgSaC4kke4SvZJSNAMYdtJBvft9fpIWnThM9b34xRSoZTc
- hGLgRyCeKuJkOaJQNWoTa81HQn+8nkhKCeCXPw==
+X-Provags-ID: V03:K1:imKF8CYOdXNLcMsBRk3mkfe2XaXiYZ/dpgIAJ8vRCoyxvlRyj33
+ AVF5BJ04yO+4T850DaBd0tsnYRR8Kr57cnSNT3OeGpKfcEBIX8M9GQMwT1IUYdprcSqX4vO
+ EeKrYORhADLbzjwUhXrKNiu9yK1kPe1XBmNsZb+rNlS3zJR9ml4+W8sWjKbu1DGbmJqJCp8
+ TP+LwRSu/+D+dPieDgwZw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:o+P30devlyk=:ZOux45NQXABh307CDaffwC
+ eRRPJf8wFJnTFHt8ABbfXpKy4+2KstsbFkVk7tp+8vg4RTNo+M0qNZuHja9WiuljDwDeeHKcR
+ JxyOvwefJYugKbJYpqRg2PBrMHB/XvtsyuqQMKg6MW0mGJk+wUbEB88paGrIS/Z4GIMor3210
+ qI/jAwzxrydt6db2oU8rWGakd4MF7/PQKoleMWB6eEL683yBW0UqbgyGETizPP/DAsE3BgaaY
+ n1GFH9keXNXLp8Xhf+ZE5mBYr2ExNpKkbKCk5RA9MJQF4T0neuwFC91NWpUMkC4fvpBKNYttN
+ DlXWhYa5RA59/nEeBjcnTVwhV0UVR+x1laNjs+CvutXhcstOZLZ4DLnirepeO2IjaKjkTB68E
+ WPSCJLJS70sOdynJzhit1m7j49KEN77V/Yk0bExKwvI9+6INzhs/cKpqGC8EkE87qhzOfx1Jw
+ VxkvqpnmJjGiEUJVi/fVAv4Izr3dwKSZ+Ahn9ePU0N9HLxPwbFcZoAKs3Ec+3zA5lIuQCzta0
+ at21vUSECg93O+CzFZY7g0meK28uC1IVZxzI0gQm8lkt0rXQuLIbK+fJekVelMDCWZF8IwghO
+ cu0S6TwolJqo0s/Ne+Zpn138n5DzWwUfAxLpaeBExS5sdoIpkvdiiNDMLIql1FUOR+ONQbviM
+ ICGimsocRL3e9CqZnT7W2tc+ve+MFAKwCFQ00cgCy+DbaPUGMxRxv4WBMRhZ2IJCB8oDAdLQX
+ VyxbDTMn3knDPVcYN44yMWdFlMgOC1wRYKle3g==
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Version 2 contains some minor changes based on earlier feedback
-and from the 0day build bot testing on other architectures. The
-only patch that changed significantly is the one for the gpio driver.
+The only thing that prevents building this driver on other
+platforms is the mach/hardware.h include, which is not actually
+used here at all, so remove the line and allow CONFIG_COMPILE_TEST.
 
-I would suggest we merge this version into the soc tree directly
-if there are no further concerns.
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Acked-by: Sylvain Lemieux <slemieux.tyco@gmail.com>
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/usb/gadget/udc/Kconfig       | 3 ++-
+ drivers/usb/gadget/udc/lpc32xx_udc.c | 3 +--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-      Arnd
-
-Arnd Bergmann (12):
-  usb: ohci-nxp: enable compile-testing
-  usb: udc: lpc32xx: allow compile-testing
-  watchdog: pnx4008_wdt: allow compile-testing
-  serial: lpc32xx_hs: allow compile-testing
-  gpio: lpc32xx: allow building on non-lpc32xx targets
-  net: lpc-enet: factor out iram access
-  net: lpc-enet: move phy setup into platform code
-  net: lpc-enet: fix printk format strings
-  net: lpc-enet: allow compile testing
-  serial: lpc32xx: allow compile testing
-  ARM: lpc32xx: clean up header files
-  ARM: lpc32xx: allow multiplatform build
-
-kbuild test robot (1):
-  net: lpc-enet: fix badzero.cocci warnings
-
- arch/arm/Kconfig                              |  17 +--
- arch/arm/configs/lpc32xx_defconfig            |   2 +
- arch/arm/mach-lpc32xx/Kconfig                 |  11 ++
- arch/arm/mach-lpc32xx/common.c                |  24 +++-
- arch/arm/mach-lpc32xx/common.h                |   1 -
- arch/arm/mach-lpc32xx/include/mach/board.h    |  15 ---
- .../mach-lpc32xx/include/mach/entry-macro.S   |  28 -----
- arch/arm/mach-lpc32xx/include/mach/hardware.h |  25 ----
- .../mach-lpc32xx/include/mach/uncompress.h    |  50 --------
- .../{include/mach/platform.h => lpc32xx.h}    |  18 ++-
- arch/arm/mach-lpc32xx/pm.c                    |   3 +-
- arch/arm/mach-lpc32xx/serial.c                |  33 ++++-
- arch/arm/mach-lpc32xx/suspend.S               |   3 +-
- drivers/gpio/Kconfig                          |   7 ++
- drivers/gpio/Makefile                         |   2 +-
- drivers/gpio/gpio-lpc32xx.c                   | 118 ++++++++++--------
- drivers/net/ethernet/nxp/Kconfig              |   2 +-
- drivers/net/ethernet/nxp/lpc_eth.c            |  45 +++----
- drivers/tty/serial/Kconfig                    |   3 +-
- drivers/tty/serial/lpc32xx_hs.c               |  37 +-----
- drivers/usb/gadget/udc/Kconfig                |   3 +-
- drivers/usb/gadget/udc/lpc32xx_udc.c          |   3 +-
- drivers/usb/host/Kconfig                      |   3 +-
- drivers/usb/host/ohci-nxp.c                   |  25 ++--
- drivers/watchdog/Kconfig                      |   2 +-
- drivers/watchdog/pnx4008_wdt.c                |   1 -
- include/linux/soc/nxp/lpc32xx-misc.h          |  33 +++++
- 27 files changed, 242 insertions(+), 272 deletions(-)
- create mode 100644 arch/arm/mach-lpc32xx/Kconfig
- delete mode 100644 arch/arm/mach-lpc32xx/include/mach/board.h
- delete mode 100644 arch/arm/mach-lpc32xx/include/mach/entry-macro.S
- delete mode 100644 arch/arm/mach-lpc32xx/include/mach/hardware.h
- delete mode 100644 arch/arm/mach-lpc32xx/include/mach/uncompress.h
- rename arch/arm/mach-lpc32xx/{include/mach/platform.h => lpc32xx.h} (98%)
- create mode 100644 include/linux/soc/nxp/lpc32xx-misc.h
-
+diff --git a/drivers/usb/gadget/udc/Kconfig b/drivers/usb/gadget/udc/Kconfig
+index ef0259a950ba..d354036ff6c8 100644
+--- a/drivers/usb/gadget/udc/Kconfig
++++ b/drivers/usb/gadget/udc/Kconfig
+@@ -45,7 +45,8 @@ config USB_AT91
+ 
+ config USB_LPC32XX
+ 	tristate "LPC32XX USB Peripheral Controller"
+-	depends on ARCH_LPC32XX && I2C
++	depends on ARCH_LPC32XX || COMPILE_TEST
++	depends on I2C
+ 	select USB_ISP1301
+ 	help
+ 	   This option selects the USB device controller in the LPC32xx SoC.
+diff --git a/drivers/usb/gadget/udc/lpc32xx_udc.c b/drivers/usb/gadget/udc/lpc32xx_udc.c
+index 5f1b14f3e5a0..defe04d52e6d 100644
+--- a/drivers/usb/gadget/udc/lpc32xx_udc.c
++++ b/drivers/usb/gadget/udc/lpc32xx_udc.c
+@@ -24,6 +24,7 @@
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
++#include <linux/prefetch.h>
+ #include <linux/proc_fs.h>
+ #include <linux/slab.h>
+ #include <linux/usb/ch9.h>
+@@ -35,8 +36,6 @@
+ #include <linux/seq_file.h>
+ #endif
+ 
+-#include <mach/hardware.h>
+-
+ /*
+  * USB device configuration structure
+  */
 -- 
 2.20.0
-
-Cc: soc@kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: Vladimir Zapolskiy <vz@mleia.com>
-Cc: Sylvain Lemieux <slemieux.tyco@gmail.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-gpio@vger.kernel.org
-Cc: netdev@vger.kernel.org
-Cc: linux-serial@vger.kernel.org
-Cc: linux-usb@vger.kernel.org
-Cc: linux-watchdog@vger.kernel.org
 
