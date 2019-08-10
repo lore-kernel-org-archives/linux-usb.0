@@ -2,79 +2,119 @@ Return-Path: <SRS0=kKNA=WG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C191C32751
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Aug 2019 08:43:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DE40C433FF
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Aug 2019 10:20:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 35800217F5
-	for <linux-usb@archiver.kernel.org>; Sat, 10 Aug 2019 08:43:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CDC9620B7C
+	for <linux-usb@archiver.kernel.org>; Sat, 10 Aug 2019 10:20:13 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=rere.qmqm.pl header.i=@rere.qmqm.pl header.b="TYC+KmTL"
+	dkim=pass (2048-bit key) header.d=cogentembedded-com.20150623.gappssmtp.com header.i=@cogentembedded-com.20150623.gappssmtp.com header.b="tLw/xrN3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725907AbfHJImu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 10 Aug 2019 04:42:50 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:19943 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725497AbfHJImu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 10 Aug 2019 04:42:50 -0400
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 465FvM3cyDz6q;
-        Sat, 10 Aug 2019 10:41:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1565426479; bh=PVk1v4GgHvJZbQuvUfM4PS4zUT/EbZlO47ifuNqQpsQ=;
-        h=Date:From:Subject:To:Cc:From;
-        b=TYC+KmTLTA9uxs1C96BElSKXuP1M4QW/GHMHAqkFZe9Bpm+Y9QIOtW1gsHspIb2jd
-         tU9GVxKa1uQYZeNjWm/pfOumhjsMrBF0QKUGqyU9z4dPfzsUu/uN2LG/6xr7ZJmZk7
-         C1G7BEhcPau/NYfeD3Fx8SBdAhoTD/at/zA1udpKkvn46hMRXTqE1ZQv4ww5O+adGc
-         2iNuuybDAq8+9oaE+vevt+BQycmNtTXAHXnjBqDi4R0Ze7WUDQb000KSAmthYon7Ju
-         AoVjhUIoyO1mxtnlSjSplxrZN/REVGzEuSCyjM4nW2EUahpCye7C9Xowa7T0xSYFmx
-         YXSs5XMY05yLA==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.100.3 at mail
-Date:   Sat, 10 Aug 2019 10:42:47 +0200
-Message-Id: <cover.1565426370.git.mirq-linux@rere.qmqm.pl>
-From:   =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
-Subject: [PATCH v6 0/7] usb: gadget: u_serial: console improvements
+        id S1726048AbfHJKUN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 10 Aug 2019 06:20:13 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:40506 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725884AbfHJKUN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 10 Aug 2019 06:20:13 -0400
+Received: by mail-lj1-f194.google.com with SMTP id m8so60690434lji.7
+        for <linux-usb@vger.kernel.org>; Sat, 10 Aug 2019 03:20:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Sq+6WqpBLaoDnZr39PsY/fQut7RglmH69G4syGYdWNo=;
+        b=tLw/xrN3nkWKecpxzW5sPTVkFFTaLhsramlyCkj7eaSKZz6a1uRzw28+4LJIhGB+24
+         A3T+bct9hlfM8sXFDk8nbnaLGanH5XFzB6HG3iPWQZi/Uxdsi6GVUukvJexdakztwtOw
+         p59/ZKZS69yXzHJMAeoo5EvNcbT3pSFH/5Q+adgVZxbptJz9pCXW8TBAAMyXOCjYsSvN
+         WiQeuX10bfqMISv3uS4WBGfy0/n3Szneb86uASIYs6QP5zTs7kyfiP7YnqpZQTu47Mrp
+         dtcSsfFy9ibFh5U7uB3O7DtjFJSYegzxqqG4gbvdh204/NbyTS+soFEeoKIFSBQSzd3Z
+         x2ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Sq+6WqpBLaoDnZr39PsY/fQut7RglmH69G4syGYdWNo=;
+        b=ioyE0MH9KvztBfzcP2d8agz2fr0z4EnKbpBKLJRKWlf5N2mTl2p55N7AC0bZGFyWoo
+         afbTZFqZym8YT3uIkYFbtrHGe8pNcFiExubUuF31/G7J+1xOsmgATEk7nflHe5bmpo1u
+         8QfjW6YIDE+BVaWw/Bzq2GdDar697f/CVbX3Q9n/k2BhOZm9Y2Yrh43wWORTFOIZRGAj
+         XjBHu3YljuSrrVFWLcAtJDE/Uldd7Ik1XyFshL03wCjuaUNLY27EOvD9e6TAiQyF9KG+
+         DorDzmBstWCGlwX9m//c4vcIvAZglWamz4hdiuMY5TDH1rJYfbuGDDF4h17EFFMtiqBE
+         79cA==
+X-Gm-Message-State: APjAAAU7MCZ39NNKNP5mKjAKJSDbMAHDLrp7r6j0oC3zjH0PNFBlmiqs
+        xuMugH4m1zQbRvCmkjIJ/4Dwrw==
+X-Google-Smtp-Source: APXvYqx5avYfGx2MFNcpS82xmwm1Oq3cm6YBNaGbYQ/4WYUkHtj/CNLg89ZluEVcn3ib2fDTh+rKPA==
+X-Received: by 2002:a2e:a415:: with SMTP id p21mr13856843ljn.111.1565432410967;
+        Sat, 10 Aug 2019 03:20:10 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:4d5:6a53:c586:c2b6:b7e6:3b26? ([2a00:1fa0:4d5:6a53:c586:c2b6:b7e6:3b26])
+        by smtp.gmail.com with ESMTPSA id t21sm339759ljd.91.2019.08.10.03.20.09
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 10 Aug 2019 03:20:10 -0700 (PDT)
+Subject: Re: [PATCH v2] dt-bindings: usb: renesas_gen3: Rename bindings
+ documentation file to reflect IP block
+To:     Simon Horman <horms+renesas@verge.net.au>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20190809213710.31783-1-horms+renesas@verge.net.au>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Message-ID: <0be0a8f4-881d-d959-fd71-70670a6a86db@cogentembedded.com>
+Date:   Sat, 10 Aug 2019 13:19:53 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To:     linux-usb@vger.kernel.org
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
+In-Reply-To: <20190809213710.31783-1-horms+renesas@verge.net.au>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series makes it possible to have more control over console using
-USB serial gadget ports. This can be useful when you need more than
-one USB console or are configuring multiple serial port function via
-configfs.
+Hello!
 
-The patches are against balbi/testing/next tree. You can also pull from:
-   https://rere.qmqm.pl/git/linux  usb-console
+On 10.08.2019 0:37, Simon Horman wrote:
 
-Michał Mirosław (7):
-  usb: gadget: u_serial: add missing port entry locking
-  usb: gadget: u_serial: reimplement console support
-  usb: gadget: u_serial: make OBEX port not a console
-  usb: gadget: u_serial: allow more console gadget ports
-  usb: gadget: u_serial: diagnose missed console messages
-  usb: gadget: legacy/serial: allow dynamic removal
-  usb: gadget: u_serial: use mutex for serialising open()s
+> For consistency with the naming of (most) other documentation files for DT
+> bindings for Renesas IP blocks rename the Renesas USB3.0 peripheral
+> documentation file from renesas,usb3.txt to renesas,usb3-peri.txt
+> 
+> This refines a recent rename from renesas_usb3.txt to renesas-usb3.txt.
 
- drivers/usb/gadget/function/f_acm.c    |  21 +
- drivers/usb/gadget/function/f_obex.c   |   2 +-
- drivers/usb/gadget/function/f_serial.c |  21 +
- drivers/usb/gadget/function/u_serial.c | 532 +++++++++++++------------
- drivers/usb/gadget/function/u_serial.h |   8 +
- drivers/usb/gadget/legacy/serial.c     |  49 ++-
- 6 files changed, 370 insertions(+), 263 deletions(-)
+    To renesas,usb3.txt, perhaps? That's what I'm seeing as the original file
+in this patch...
 
--- 
-2.20.1
+> The motivation is to more accurately reflect the IP block documented in
+> this file.
+> 
+> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> * Based on v5.3-rc1
+> 
+> v2
+> * Add review tag
+> * Correct changelog
+> ---
+>   .../devicetree/bindings/usb/{renesas,usb3.txt => renesas,usb3-peri.txt}   | 0
+>   1 file changed, 0 insertions(+), 0 deletions(-)
+>   rename Documentation/devicetree/bindings/usb/{renesas,usb3.txt => renesas,usb3-peri.txt} (100%)
+> 
+> diff --git a/Documentation/devicetree/bindings/usb/renesas,usb3.txt b/Documentation/devicetree/bindings/usb/renesas,usb3-peri.txt
+> similarity index 100%
+> rename from Documentation/devicetree/bindings/usb/renesas,usb3.txt
+> rename to Documentation/devicetree/bindings/usb/renesas,usb3-peri.txt
 
+MBR, Sergei
