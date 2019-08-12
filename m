@@ -2,74 +2,86 @@ Return-Path: <SRS0=3CwD=WI=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_2
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4743CC433FF
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Aug 2019 12:51:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3471FC31E40
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Aug 2019 13:00:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2628621721
-	for <linux-usb@archiver.kernel.org>; Mon, 12 Aug 2019 12:51:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 10E2920679
+	for <linux-usb@archiver.kernel.org>; Mon, 12 Aug 2019 13:00:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726587AbfHLMvC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 12 Aug 2019 08:51:02 -0400
-Received: from mail-ot1-f69.google.com ([209.85.210.69]:35974 "EHLO
-        mail-ot1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726609AbfHLMvB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 12 Aug 2019 08:51:01 -0400
-Received: by mail-ot1-f69.google.com with SMTP id f11so84212666otq.3
-        for <linux-usb@vger.kernel.org>; Mon, 12 Aug 2019 05:51:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=dpFe0pxSvvQ3CiqTWvVQ3nfhIYJ6p2bt/fOgk0i68So=;
-        b=pBb8gk+3B+rBFHUZf9KG9Dfoz0FlxJRVG2fEwZ8/HaKr5lFHMsZUE7C5pUQVQpyF6i
-         ARhXUv89GB2ZP3HUUSpAQR0ZYIgchm8rJgRAn89FgIXPMoNpS6xNQLbrVWbshOLd/fpS
-         kiAMCGhGizBPz4LtMla+jDV3QwTnjbXwtMOFuVLkGIeRDogBhJ5zLJr+CBhsAqlUsoFT
-         ZHB2d+GWd1fGuy/aiycWgC6VdcE5611WXAYOlYgudD1Q3WQJAgAw74oV/1rmyIRAlTv2
-         V+t/eqb7WMYytj71OFFst76Wc5AEqitF8pXxeY6gVgiOdR7g+7qCEaTqQxudDBV5IOtW
-         oYwA==
-X-Gm-Message-State: APjAAAVJCQOLYcT/4tmTuFdHgJ5jN1zg5j/TFPKHJdNlQv6CdkHic0hL
-        FcT/fmOtL+NxkHT50gcZaLfdSQkB0pfXtBX7ta1RDMD+dOWR
-X-Google-Smtp-Source: APXvYqzeOUNSZLHmIICrYoJx4kMoidLoy3cH2txtjlUjoEvrc0w4LGRMoWRVjXiMwJnpcl9H9P/TLOzvY92piEQmZ4Or2+jAFETO
+        id S1728694AbfHLNA3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 12 Aug 2019 09:00:29 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:57833 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726219AbfHLNA3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 12 Aug 2019 09:00:29 -0400
+X-UUID: 53c2d70d97e64f8699f36aab25cc9aef-20190812
+X-UUID: 53c2d70d97e64f8699f36aab25cc9aef-20190812
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 371178606; Mon, 12 Aug 2019 21:00:20 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33N2.mediatek.inc
+ (172.27.4.76) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Mon, 12 Aug
+ 2019 21:00:18 +0800
+Received: from [10.17.3.153] (172.27.4.253) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Mon, 12 Aug 2019 21:00:17 +0800
+Message-ID: <1565614819.23705.51.camel@mhfsdcap03>
+Subject: Re: [Patch V6 7/8] usb: gadget: Add UDC driver for tegra XUSB
+ device mode controller
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Felipe Balbi <balbi@kernel.org>
+CC:     Nagarjuna Kristam <nkristam@nvidia.com>,
+        <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <mark.rutland@arm.com>,
+        <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>
+Date:   Mon, 12 Aug 2019 21:00:19 +0800
+In-Reply-To: <871rxqtupm.fsf@gmail.com>
+References: <1565257046-9890-1-git-send-email-nkristam@nvidia.com>
+         <1565257046-9890-8-git-send-email-nkristam@nvidia.com>
+         <1565613783.23705.49.camel@mhfsdcap03> <871rxqtupm.fsf@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-Received: by 2002:a5e:990a:: with SMTP id t10mr14376062ioj.182.1565614261189;
- Mon, 12 Aug 2019 05:51:01 -0700 (PDT)
-Date:   Mon, 12 Aug 2019 05:51:01 -0700
-In-Reply-To: <CAAeHK+wnqRzpUDfspoXPVw76bAbrZ49JiwkeTj-g3U9zqLjZRg@mail.gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000e4c41e058feaf977@google.com>
-Subject: Re: general protection fault in __pm_runtime_resume
-From:   syzbot <syzbot+3cbe5cd105d2ad56a1df@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
-        hdanton@sina.com, len.brown@intel.com,
-        linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-usb@vger.kernel.org, pavel@ucw.cz, rjw@rjwysocki.net,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Transfer-Encoding: 7bit
+X-TM-SNTS-SMTP: 4804CDD8EB6E645A292BB2AC41A650CFF13D0421FF3FBABBE2C36AD4823CFE292000:8
+X-MTK:  N
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+On Mon, 2019-08-12 at 15:49 +0300, Felipe Balbi wrote:
+> Hi,
+> 
+> Chunfeng Yun <chunfeng.yun@mediatek.com> writes:
+> >> +/* XUSB_DEV registers */
+> >> +#define SPARAM 0x000
+> >> +#define  SPARAM_ERSTMAX_SHIFT 16
+> >> +#define  SPARAM_ERSTMAX_MASK GENMASK(4, 0)
+> >> +#define DB 0x004
+> >> +#define  DB_TARGET_SHIFT 8
+> >> +#define  DB_TARGET_MASK GENMASK(7, 0)
+> >> +#define  DB_STREAMID_SHIFT 16
+> >> +#define  DB_STREAMID_MASK GENMASK(15, 0)
+> > To me, define it as :
+> > #define  DB_STREAMID_MASK GENMASK(31, 16),
+> > it's more clearer.
+> > and define another macro
+> > #define  DB_STREAMID(x) (((x) & 0xffff) << 16)
+> 
+> perhaps?
+> 
+> #define DB_STREAMID(x)	(((x) << 16) & DB_STREAMID_MASK)
+It's a better way :)
 
-syzbot has tested the proposed patch and the reproducer did not trigger  
-crash:
+> 
+> Otherwise you end up defining the mask twice.
+> 
 
-Reported-and-tested-by:  
-syzbot+3cbe5cd105d2ad56a1df@syzkaller.appspotmail.com
 
-Tested on:
-
-commit:         6a3599ce usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git
-kernel config:  https://syzkaller.appspot.com/x/.config?x=700ca426ab83faae
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=1341679a600000
-
-Note: testing is done by a robot and is best-effort only.
