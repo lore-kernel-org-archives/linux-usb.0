@@ -8,56 +8,56 @@ X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25C9FC433FF
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Aug 2019 12:19:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FC44C32750
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Aug 2019 12:19:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E22F120874
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Aug 2019 12:19:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 35480208C2
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Aug 2019 12:19:53 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OuyQ94/n"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="X/pgFG/T"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727987AbfHMMTY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 13 Aug 2019 08:19:24 -0400
-Received: from mail-yw1-f74.google.com ([209.85.161.74]:51693 "EHLO
-        mail-yw1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727975AbfHMMTW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 13 Aug 2019 08:19:22 -0400
-Received: by mail-yw1-f74.google.com with SMTP id k191so4701756ywe.18
-        for <linux-usb@vger.kernel.org>; Tue, 13 Aug 2019 05:19:22 -0700 (PDT)
+        id S1727857AbfHMMTQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 13 Aug 2019 08:19:16 -0400
+Received: from mail-qk1-f201.google.com ([209.85.222.201]:46775 "EHLO
+        mail-qk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727654AbfHMMTP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 13 Aug 2019 08:19:15 -0400
+Received: by mail-qk1-f201.google.com with SMTP id c79so96408578qkg.13
+        for <linux-usb@vger.kernel.org>; Tue, 13 Aug 2019 05:19:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=HpxTJ+Mr7aDpwqzbuLs57072o/YccUWCimGiPU7phnE=;
-        b=OuyQ94/nt804hp61UoeUchuI/aqRMg28mHd7oABDF2Cyczt1mZCejkwL7lB+sBjdRh
-         JAn6sAoGvscDOqO8dVL8RzgR1whtoXFnsyxj4TWmnyGy7w4SZ+Jc4F1/kCO6Z382X8+7
-         Fant1MoHm+8dS+xoQd0/s+JhPToCNP72HL2M/fhmJ53vRsjhSbJKhBWKnHIhAmc7/jS+
-         vrJsSITVktiKz1s2yI8r8cYq1PIXBhqT5oHzgqd96ySMvbKwXwUsdfKclqnTAJlS7IcT
-         02OLaAfbdo54ZbNBZ6/eJ+z2eqPKlHe8LXReE+t6e+0lHZSjRsZwcz/QzIxC8YpUiD+p
-         bDXg==
+        bh=52i5W7bwo5L4NKPi/t621ZC4mfXuxf76PQ3XmRwW6HM=;
+        b=X/pgFG/TYnO3wKM8nw/G0c4v0tOMmQdSnN8sjbDmuSgMHWrl6X+89yGWfc1zRmqGBm
+         2psEodSKm+/2j3izZcJSwh+do0lxOJ4IdJ919zTrnssGXYKHj74o5LYYGq9C8uPDHY5q
+         g2LiVJBFkP/CGURRmfNZIany5JG8mi2TMrG0Bd6uXJ7oNOJoL/pnInv0Qzjz7lymxdtT
+         GJKYSZXUWMP5I8obvV1nxyk8xIUK02USI2/gUQVi95NnK73bsBva9KSzKlQ5r01eUJZC
+         vFkcc1Qu8HnPfg8KB//WUh0W5FcntqIdFm+4BfszHkaidZELeMy4MwnDiZUvpNyAafnm
+         niNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=HpxTJ+Mr7aDpwqzbuLs57072o/YccUWCimGiPU7phnE=;
-        b=d7disjKFh3nvPSVOSrwOTBwQcJoVKz/KBvfBr4BnU3pjkfvbrVN1YEfZtERWmG4NQA
-         teBXezITRwlm5nYCWc2hqHfPU50xfEbKHTcPTtpKpsRUWAmDvxyYAPIdX5OjEhpda7yb
-         tOjk2YzMJi8nLrOYq3ks30vyQ6HKBBRBbCGE5KGJCj0qiw3038Vwq/vhDNLWnijZt2yM
-         7sVzUF/5+OJ/ssuUbVFxekx0aa70hfv/rp9yv8MJeH5zTsMIx8u8qzRyyhW8kFr2NMoU
-         nGXdiYOXR1RfrcS4S51uYxIIx2XRVooF762L7HzLpme3/LtwOohU3qjJskSCrT1St+yZ
-         oIyw==
-X-Gm-Message-State: APjAAAX/js5SEPTziL6Cp9lPZMWIzGYMynIxxcbc5EZWAnS1nOCNRPnY
-        OGLtUy3tCmjOO11m0q4ppbhbTxtoltQ8Qg==
-X-Google-Smtp-Source: APXvYqyL7MKtHQIe71quZqFSoY/CnTVLPr3iZJYHCupohaJ0tbBkfxJQEvLSzQWyrQooOYAtOrznKBjVq25+nA==
-X-Received: by 2002:a81:6a8a:: with SMTP id f132mr27823621ywc.358.1565698761694;
- Tue, 13 Aug 2019 05:19:21 -0700 (PDT)
-Date:   Tue, 13 Aug 2019 13:17:01 +0100
+        bh=52i5W7bwo5L4NKPi/t621ZC4mfXuxf76PQ3XmRwW6HM=;
+        b=MGw3wpHFDg0lsw1SQyI0pJwh6CuYQvJbv6lLBsKOWtKBPRhcYfkudH+XLAc/7BaRLY
+         5WdGdXgPV2ZIExLQuXScDinXy+tN6jYDsktsAmX+C+Gqg/nmmMT98uqsO4X10e3Vo8Kw
+         skAdr7otTGFqiajOpwChNF5w+YelwLfHstHwhJiJrBh/kKVmor6o9brlHfnCeRPcfhsK
+         o3VTsISCQT5hudiE8MpkR3E25/XrZH7dSzpmRAQ2+3JlgxWMXjr4h55uRgVO8bR8GwWZ
+         /vyLPN5cqm0w/O37JdVnUIPPlX3ZIu6P5hJzLseuxXep8e80qHlt39J6eqChqUcpsc2m
+         EKKg==
+X-Gm-Message-State: APjAAAU8MDChtlVNzSqUA/Xi2EIOQk12ozVt19w+sWflpwRIMUSe2ekQ
+        yqQGl8mb439mA4LcLSa48wxD9cNu0baRgg==
+X-Google-Smtp-Source: APXvYqx4tXl8kJyrgPk73kSdFDxtYVeFJ3ZKPrk2o0B9NEEoRmlA/4IcV5D6ufbujg8Fb+w0iwWYKEEibfHjFw==
+X-Received: by 2002:a37:e306:: with SMTP id y6mr9040041qki.174.1565698753802;
+ Tue, 13 Aug 2019 05:19:13 -0700 (PDT)
+Date:   Tue, 13 Aug 2019 13:16:59 +0100
 In-Reply-To: <20190813121733.52480-1-maennich@google.com>
-Message-Id: <20190813121733.52480-5-maennich@google.com>
+Message-Id: <20190813121733.52480-3-maennich@google.com>
 Mime-Version: 1.0
 References: <20180716122125.175792-1-maco@android.com> <20190813121733.52480-1-maennich@google.com>
 X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
-Subject: [PATCH v2 04/10] modpost: add support for symbol namespaces
+Subject: [PATCH v2 02/10] export: explicitly align struct kernel_symbol
 From:   Matthias Maennich <maennich@google.com>
 To:     linux-kernel@vger.kernel.org, maco@android.com
 Cc:     kernel-team@android.com, maennich@google.com, arnd@arndb.de,
@@ -72,219 +72,105 @@ Cc:     kernel-team@android.com, maennich@google.com, arnd@arndb.de,
         sboyd@codeaurora.org, sspatil@google.com,
         stern@rowland.harvard.edu, tglx@linutronix.de,
         usb-storage@lists.one-eyed-alien.net, x86@kernel.org,
-        yamada.masahiro@socionext.com
+        yamada.masahiro@socionext.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add support for symbols that are exported into namespaces. For that,
-extract any namespace suffix from the symbol name. In addition, emit a
-warning whenever a module refers to an exported symbol without
-explicitly importing the namespace that it is defined in. This patch
-consistently adds the namespace suffix to symbol names exported into
-Module.symvers.
+This change allows growing struct kernel_symbol without wasting bytes to
+alignment. It also concretized the alignment of ksymtab entries if
+relative references are used for ksymtab entries.
 
-Example warning emitted by modpost in case of the above violation:
+struct kernel_symbol was already implicitly being aligned to the word
+size, except on x86_64 and m68k, where it is aligned to 16 and 2 bytes,
+respectively.
 
- WARNING: module ums-usbat uses symbol usb_stor_resume from namespace
- USB_STORAGE, but does not import it.
+As far as I can tell there is no requirement for aligning struct
+kernel_symbol to 16 bytes on x86_64, but gcc aligns structs to their
+size, and the linker aligns the custom __ksymtab sections to the largest
+data type contained within, so setting KSYM_ALIGN to 16 was necessary to
+stay consistent with the code generated for non-ASM EXPORT_SYMBOL(). Now
+that non-ASM EXPORT_SYMBOL() explicitly aligns to word size (8),
+KSYM_ALIGN is no longer necessary.
+
+In case of relative references, the alignment has been changed
+accordingly to not waste space when adding new struct members.
+
+As for m68k, struct kernel_symbol is aligned to 2 bytes even though the
+structure itself is 8 bytes; using a 4-byte alignment shouldn't hurt.
+
+I manually verified the output of the __ksymtab sections didn't change
+on x86, x86_64, arm, arm64 and m68k. As expected, the section contents
+didn't change, and the ELF section alignment only changed on x86_64 and
+m68k. Feedback from other archs more than welcome.
 
 Co-developed-by: Martijn Coenen <maco@android.com>
 Signed-off-by: Martijn Coenen <maco@android.com>
-Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
 Signed-off-by: Matthias Maennich <maennich@google.com>
 ---
- scripts/mod/modpost.c | 91 +++++++++++++++++++++++++++++++++++++------
- scripts/mod/modpost.h |  7 ++++
- 2 files changed, 87 insertions(+), 11 deletions(-)
+ arch/m68k/include/asm/export.h | 1 -
+ include/asm-generic/export.h   | 8 +++-----
+ include/linux/export.h         | 3 ++-
+ 3 files changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index f277e116e0eb..538bb24ffee3 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -164,6 +164,7 @@ struct symbol {
- 	struct module *module;
- 	unsigned int crc;
- 	int crc_valid;
-+	const char *namespace;
- 	unsigned int weak:1;
- 	unsigned int vmlinux:1;    /* 1 if symbol is defined in vmlinux */
- 	unsigned int kernel:1;     /* 1 if symbol is from kernel
-@@ -233,6 +234,37 @@ static struct symbol *find_symbol(const char *name)
- 	return NULL;
- }
+diff --git a/arch/m68k/include/asm/export.h b/arch/m68k/include/asm/export.h
+index 0af20f48bd07..b53008b67ce1 100644
+--- a/arch/m68k/include/asm/export.h
++++ b/arch/m68k/include/asm/export.h
+@@ -1,3 +1,2 @@
+-#define KSYM_ALIGN 2
+ #define KCRC_ALIGN 2
+ #include <asm-generic/export.h>
+diff --git a/include/asm-generic/export.h b/include/asm-generic/export.h
+index 294d6ae785d4..63f54907317b 100644
+--- a/include/asm-generic/export.h
++++ b/include/asm-generic/export.h
+@@ -4,15 +4,13 @@
+ #ifndef KSYM_FUNC
+ #define KSYM_FUNC(x) x
+ #endif
+-#ifdef CONFIG_64BIT
+-#ifndef KSYM_ALIGN
++#ifdef CONFIG_HAVE_ARCH_PREL32_RELOCATIONS
++#define KSYM_ALIGN 4
++#elif defined(CONFIG_64BIT)
+ #define KSYM_ALIGN 8
+-#endif
+ #else
+-#ifndef KSYM_ALIGN
+ #define KSYM_ALIGN 4
+ #endif
+-#endif
+ #ifndef KCRC_ALIGN
+ #define KCRC_ALIGN 4
+ #endif
+diff --git a/include/linux/export.h b/include/linux/export.h
+index fd8711ed9ac4..28a4d2150689 100644
+--- a/include/linux/export.h
++++ b/include/linux/export.h
+@@ -52,7 +52,7 @@ extern struct module __this_module;
+ #define __KSYMTAB_ENTRY(sym, sec)					\
+ 	__ADDRESSABLE(sym)						\
+ 	asm("	.section \"___ksymtab" sec "+" #sym "\", \"a\"	\n"	\
+-	    "	.balign	8					\n"	\
++	    "	.balign 4					\n"	\
+ 	    "__ksymtab_" #sym ":				\n"	\
+ 	    "	.long	" #sym "- .				\n"	\
+ 	    "	.long	__kstrtab_" #sym "- .			\n"	\
+@@ -66,6 +66,7 @@ struct kernel_symbol {
+ #define __KSYMTAB_ENTRY(sym, sec)					\
+ 	static const struct kernel_symbol __ksymtab_##sym		\
+ 	__attribute__((section("___ksymtab" sec "+" #sym), used))	\
++	__aligned(sizeof(void *))					\
+ 	= { (unsigned long)&sym, __kstrtab_##sym }
  
-+static bool contains_namespace(struct namespace_list *list,
-+			       const char *namespace)
-+{
-+	struct namespace_list *ns_entry;
-+
-+	for (ns_entry = list; ns_entry != NULL; ns_entry = ns_entry->next)
-+		if (strcmp(ns_entry->namespace, namespace) == 0)
-+			return true;
-+
-+	return false;
-+}
-+
-+static void add_namespace(struct namespace_list **list, const char *namespace)
-+{
-+	struct namespace_list *ns_entry;
-+
-+	if (!contains_namespace(*list, namespace)) {
-+		ns_entry = NOFAIL(malloc(sizeof(struct namespace_list) +
-+					 strlen(namespace) + 1));
-+		strcpy(ns_entry->namespace, namespace);
-+		ns_entry->next = *list;
-+		*list = ns_entry;
-+	}
-+}
-+
-+static bool module_imports_namespace(struct module *module,
-+				     const char *namespace)
-+{
-+	return contains_namespace(module->imported_namespaces, namespace);
-+}
-+
- static const struct {
- 	const char *str;
- 	enum export export;
-@@ -312,6 +344,22 @@ static enum export export_from_sec(struct elf_info *elf, unsigned int sec)
- 		return export_unknown;
- }
- 
-+static const char *sym_extract_namespace(const char **symname)
-+{
-+	size_t n;
-+	char *dupsymname;
-+
-+	n = strcspn(*symname, ".");
-+	if (n < strlen(*symname) - 1) {
-+		dupsymname = NOFAIL(strdup(*symname));
-+		dupsymname[n] = '\0';
-+		*symname = dupsymname;
-+		return dupsymname + n + 1;
-+	}
-+
-+	return NULL;
-+}
-+
- /**
-  * Add an exported symbol - it may have already been added without a
-  * CRC, in this case just update the CRC
-@@ -319,16 +367,18 @@ static enum export export_from_sec(struct elf_info *elf, unsigned int sec)
- static struct symbol *sym_add_exported(const char *name, struct module *mod,
- 				       enum export export)
- {
--	struct symbol *s = find_symbol(name);
-+	const char *symbol_name = name;
-+	const char *namespace = sym_extract_namespace(&symbol_name);
-+	struct symbol *s = find_symbol(symbol_name);
- 
- 	if (!s) {
--		s = new_symbol(name, mod, export);
-+		s = new_symbol(symbol_name, mod, export);
-+		s->namespace = namespace;
- 	} else {
- 		if (!s->preloaded) {
--			warn("%s: '%s' exported twice. Previous export "
--			     "was in %s%s\n", mod->name, name,
--			     s->module->name,
--			     is_vmlinux(s->module->name) ?"":".ko");
-+			warn("%s: '%s' exported twice. Previous export was in %s%s\n",
-+			     mod->name, symbol_name, s->module->name,
-+			     is_vmlinux(s->module->name) ? "" : ".ko");
- 		} else {
- 			/* In case Module.symvers was out of date */
- 			s->module = mod;
-@@ -1943,6 +1993,7 @@ static void read_symbols(const char *modname)
- 	const char *symname;
- 	char *version;
- 	char *license;
-+	char *namespace;
- 	struct module *mod;
- 	struct elf_info info = { };
- 	Elf_Sym *sym;
-@@ -1974,6 +2025,12 @@ static void read_symbols(const char *modname)
- 		license = get_next_modinfo(&info, "license", license);
- 	}
- 
-+	namespace = get_modinfo(&info, "import_ns");
-+	while (namespace) {
-+		add_namespace(&mod->imported_namespaces, namespace);
-+		namespace = get_next_modinfo(&info, "import_ns", namespace);
-+	}
-+
- 	for (sym = info.symtab_start; sym < info.symtab_stop; sym++) {
- 		symname = remove_dot(info.strtab + sym->st_name);
- 
-@@ -2118,6 +2175,13 @@ static int check_exports(struct module *mod)
- 			basename++;
- 		else
- 			basename = mod->name;
-+
-+		if (exp->namespace &&
-+		    !module_imports_namespace(mod, exp->namespace)) {
-+			warn("module %s uses symbol %s from namespace %s, but does not import it.\n",
-+			     basename, exp->name, exp->namespace);
-+		}
-+
- 		if (!mod->gpl_compatible)
- 			check_for_gpl_usage(exp->export, basename, exp->name);
- 		check_for_unused(exp->export, basename, exp->name);
-@@ -2395,16 +2459,21 @@ static void write_dump(const char *fname)
- {
- 	struct buffer buf = { };
- 	struct symbol *symbol;
-+	const char *namespace;
- 	int n;
- 
- 	for (n = 0; n < SYMBOL_HASH_SIZE ; n++) {
- 		symbol = symbolhash[n];
- 		while (symbol) {
--			if (dump_sym(symbol))
--				buf_printf(&buf, "0x%08x\t%s\t%s\t%s\n",
--					symbol->crc, symbol->name,
--					symbol->module->name,
--					export_str(symbol->export));
-+			if (dump_sym(symbol)) {
-+				namespace = symbol->namespace;
-+				buf_printf(&buf, "0x%08x\t%s%s%s\t%s\t%s\n",
-+					   symbol->crc, symbol->name,
-+					   namespace ? "." : "",
-+					   namespace ? namespace : "",
-+					   symbol->module->name,
-+					   export_str(symbol->export));
-+			}
- 			symbol = symbol->next;
- 		}
- 	}
-diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-index 8453d6ac2f77..9626bf3e7424 100644
---- a/scripts/mod/modpost.h
-+++ b/scripts/mod/modpost.h
-@@ -109,6 +109,11 @@ buf_printf(struct buffer *buf, const char *fmt, ...);
- void
- buf_write(struct buffer *buf, const char *s, int len);
- 
-+struct namespace_list {
-+	struct namespace_list *next;
-+	char namespace[0];
-+};
-+
- struct module {
- 	struct module *next;
- 	const char *name;
-@@ -121,6 +126,8 @@ struct module {
- 	struct buffer dev_table_buf;
- 	char	     srcversion[25];
- 	int is_dot_o;
-+	// Actual imported namespaces
-+	struct namespace_list *imported_namespaces;
- };
- 
- struct elf_info {
+ struct kernel_symbol {
 -- 
 2.23.0.rc1.153.gdeed80330f-goog
 
