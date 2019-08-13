@@ -2,42 +2,43 @@ Return-Path: <SRS0=N8Gi=WJ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7042AC32750
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Aug 2019 18:16:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC668C32750
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Aug 2019 18:16:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 46C5220843
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Aug 2019 18:16:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9D71820843
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Aug 2019 18:16:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1565720178;
-	bh=KFGb4inUwmdp09B/JR/4sp+e08T3Gp49yKCza4VYuEo=;
+	s=default; t=1565720207;
+	bh=ppbLRbeVVjSaqCpvUMKl5GQoiS9vv/44Sdhkt7yQd3w=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=0Edr9u54OWudLKl85BaBZ1Lsi9QrY7VFHVFazFMcPt3PEI3oQyLVyKTRQxOKyLgrz
-	 EtyYZTwRrLLxCa8vaCozj7RNxRz9m9+UN1AzmNVsRNHSDssZqr1yXT0KdA+DpXldXn
-	 q2fSQJW8bdz/KUtkKqaFnR+qll77PoTdgLQA1SSQ=
+	b=X1Y37M6opNp2q2Dc1J6FEGIwqbPl6HuLeQCfl8oQOlJlpZ0jnxkMUnWBg+f4uUpAD
+	 Bc6s2VAzNJANltLoEliJ50ECKeqdZ1WsN4RbxSaZ3wZ/oPjfhTu72VnAD+we2gpgv2
+	 9k5DX4SCyLStyNVSOomGfrQxT2d0S6P9To1A2/qA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728354AbfHMSQO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 13 Aug 2019 14:16:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60180 "EHLO mail.kernel.org"
+        id S1728433AbfHMSQo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 13 Aug 2019 14:16:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60348 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725923AbfHMSQO (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 13 Aug 2019 14:16:14 -0400
+        id S1727517AbfHMSQo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 13 Aug 2019 14:16:44 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7306320665;
-        Tue, 13 Aug 2019 18:16:12 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4810C20665;
+        Tue, 13 Aug 2019 18:16:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565720172;
-        bh=KFGb4inUwmdp09B/JR/4sp+e08T3Gp49yKCza4VYuEo=;
+        s=default; t=1565720202;
+        bh=ppbLRbeVVjSaqCpvUMKl5GQoiS9vv/44Sdhkt7yQd3w=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=S5ZA/7/QTECFNxdekrGgAs57VdnY7FFpSJwRTs1ey0HdWvEn7/Mo3GOWgYoeno4b+
-         8g85/BUXqqJaeRTZK60UvxG4N4m7ksbIxivzkGsvImvXh2e8MBJVJBxE13f2qCcHfN
-         bxGi6UBqSR3kBqFX834y96iB7tokJXC+giZknIzc=
-Date:   Tue, 13 Aug 2019 20:16:10 +0200
+        b=LvP+S7VM9MT3Wrjtlkc5hTQ6vK5t0nvysuWbLQoHGxlVTugb2KvsmurkwoAGoA41R
+         jH6Eb6sVSpJF70TGAZaAaQ38Dt6KuD6oyWcDMpzW8pJ3He2oTfQAHviZzt3V6DNvg4
+         2LZQbZbzZqm1mkIZMCps2U4Vfi7zYnp3GZzI+Uko=
+Date:   Tue, 13 Aug 2019 20:16:40 +0200
 From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Matthias Maennich <maennich@google.com>
 Cc:     linux-kernel@vger.kernel.org, maco@android.com,
@@ -57,7 +58,7 @@ Cc:     linux-kernel@vger.kernel.org, maco@android.com,
         Michael Ellerman <mpe@ellerman.id.au>
 Subject: Re: [PATCH v2 06/10] export: allow definition default namespaces in
  Makefiles or sources
-Message-ID: <20190813181610.GC2378@kroah.com>
+Message-ID: <20190813181640.GD2378@kroah.com>
 References: <20180716122125.175792-1-maco@android.com>
  <20190813121733.52480-1-maennich@google.com>
  <20190813121733.52480-7-maennich@google.com>
@@ -81,9 +82,6 @@ On Tue, Aug 13, 2019 at 01:17:03PM +0100, Matthias Maennich wrote:
 > namespace USB_COMMON, add a line like this to drivers/usb/common/Makefile:
 > 
 >   ccflags-y += -DDEFAULT_SYMBOL_NAMESPACE=USB_COMMON
-
-I thought we were trying to get away from cflags :(
-
 > 
 > That is equivalent to changing all EXPORT_SYMBOL(sym) definitions to
 > EXPORT_SYMBOL_NS(sym, USB_COMMON). Subsequently all symbol namespaces
@@ -101,9 +99,33 @@ I thought we were trying to get away from cflags :(
 > If DEFAULT_SYMBOL_NAMESPACE is defined, a symbol can still be exported
 > to another namespace by using EXPORT_SYMBOL_NS() and friends with
 > explicitly specifying the namespace.
+> 
+> Suggested-by: Arnd Bergmann <arnd@arndb.de>
+> Reviewed-by: Martijn Coenen <maco@android.com>
+> Signed-off-by: Matthias Maennich <maennich@google.com>
+> ---
+>  include/linux/export.h | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/include/linux/export.h b/include/linux/export.h
+> index 8e12e05444d1..1fb243abdbc4 100644
+> --- a/include/linux/export.h
+> +++ b/include/linux/export.h
+> @@ -166,6 +166,12 @@ struct kernel_symbol {
+>  #define __EXPORT_SYMBOL ___EXPORT_SYMBOL
+>  #endif
+>  
+> +#ifdef DEFAULT_SYMBOL_NAMESPACE
+> +#undef __EXPORT_SYMBOL
+> +#define __EXPORT_SYMBOL(sym, sec)				\
+> +	__EXPORT_SYMBOL_NS(sym, sec, DEFAULT_SYMBOL_NAMESPACE)
+> +#endif
+> +
+>  #define EXPORT_SYMBOL(sym) __EXPORT_SYMBOL(sym, "")
+>  #define EXPORT_SYMBOL_GPL(sym) __EXPORT_SYMBOL(sym, "_gpl")
+>  #define EXPORT_SYMBOL_GPL_FUTURE(sym) __EXPORT_SYMBOL(sym, "_gpl_future")
+> -- 
+> 2.23.0.rc1.153.gdeed80330f-goog
+> 
 
-Ok, good, hopefully the cflags stuff will not be the default for people.
-
-thanks,
-
-greg k-h
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
