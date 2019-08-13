@@ -2,307 +2,242 @@ Return-Path: <SRS0=N8Gi=WJ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5177BC41514
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Aug 2019 12:20:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61084C433FF
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Aug 2019 12:28:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 26428216F4
-	for <linux-usb@archiver.kernel.org>; Tue, 13 Aug 2019 12:20:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1CAC72067D
+	for <linux-usb@archiver.kernel.org>; Tue, 13 Aug 2019 12:28:21 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="u2/pqssh"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SZWKgi+G"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728257AbfHMMUE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 13 Aug 2019 08:20:04 -0400
-Received: from mail-ua1-f73.google.com ([209.85.222.73]:54758 "EHLO
-        mail-ua1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728229AbfHMMUC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 13 Aug 2019 08:20:02 -0400
-Received: by mail-ua1-f73.google.com with SMTP id l2so285026uan.21
-        for <linux-usb@vger.kernel.org>; Tue, 13 Aug 2019 05:20:01 -0700 (PDT)
+        id S1727873AbfHMM2Q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 13 Aug 2019 08:28:16 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:41416 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727546AbfHMM2Q (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 13 Aug 2019 08:28:16 -0400
+Received: by mail-pg1-f193.google.com with SMTP id x15so40843048pgg.8
+        for <linux-usb@vger.kernel.org>; Tue, 13 Aug 2019 05:28:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc:content-transfer-encoding;
-        bh=BVCscCghGr3RW4i2SIfebP2PoMpA3Kh9pJgULCxqlPQ=;
-        b=u2/pqsshhQnlXCPysffXEOpXSHiOYRisuXsp5awurzduyutvZibG6iupvJfZ36dW4O
-         B8ZCY65b0BwRxdtrl0BtmL0X6jGeHNRKdtQPO3cA8cU/5qLkMeqbp9XtNxx4BCtf9xid
-         7T5XjArfMsnwQJUkBxxPMFLQuSr4ixSuQdco24WpGOt4HnPHhQnblxUvW5Z+FyYqbvHf
-         2gdxaH+FSMoOtGHuoi+z8HwRrKyIosqYPuRWqYIhUWyG7yzlVDb9WCTJoxJXbbSEzMyP
-         IyMsNUoceVGVHF/6P+NiU7TV79UdRsIy5g8qnt6NBe3KgZZg/7TSjqTXBZ3N0xTvEVp8
-         icvw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=o4jG5xUhAUJZtV3VJiJndVYqDs9JDKOuEWpeDm9O5bE=;
+        b=SZWKgi+GtqLEMCmB2uAgjZbHFJfbEhWmi0vz/nUZ9UwbS/lkjG2cnMve4ql4ukoLIS
+         GLd3QccUV6PJzEoDoL8YkK3teNF6XW70PIdvYBYeWC5LMhBhGKT7oCne/XgoT2ZdI6Hg
+         2wSjP3i1urjij/pSgKTRe+xKnitMjGLxTZic2egHHfuFbaa3W24dMFa/jpLgY72cYE7r
+         kKS5vPI7L/aK9ToW617/GxRZnJ+vQVqu4N7UadHB4zpzZg0JOCf1lbSviXpWVYN7v0IB
+         /WTE0FFH+9Bg7CfOYjFM8ImIFGMd26ZelSelBLDuM0XE9I592d0AYJDXkUB9CeC7QYVP
+         Wr6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc:content-transfer-encoding;
-        bh=BVCscCghGr3RW4i2SIfebP2PoMpA3Kh9pJgULCxqlPQ=;
-        b=CWVjxlogbw6YBl1E7liYQA9I5DXQH2na4GF0QZxcutTu1g2PUVwJun2DLBB5ZSLzdW
-         OFuDkhuIIrbbMCpzu5fKukSM1dDdkaqYvFNRTZY+L+1ybPJbqbRvgf3Rzrg7DCe63G8Y
-         mcieGhJ+dyS2BPCUh5LHL/zIKKl7KrIMYJCprkGaU3OkxpMgjzHqkgqz3FxDFHCz4sMB
-         Ne9rFdxi7cVSg0mTiv4cEfxUccMHjb8O5mK8ktpTR0kx79AZ/SDHvzlzwGaj9Ruzyi1U
-         dGfi+cQw/UQ4kuRDHVTBj1lvr81OspyuGkxKMyAclSCqQK+FYDs5EyNrWISeAWrTFI95
-         BkkA==
-X-Gm-Message-State: APjAAAWYYrRkYpxZp8PwZpjA+4VkTPj8l+OXMGTMyaHAsmf9pLLlH6H+
-        GZrGpNH50bG1WB8SSojDh2MVbvDre+WTlg==
-X-Google-Smtp-Source: APXvYqxu9ZboBauUgURGvwMlFpuvzXKtKNrSni4vknrSu8vLMAf7HLrp+1GWRNFhg6GB2Pf15cf4tJRLGP5l/w==
-X-Received: by 2002:a1f:5405:: with SMTP id i5mr4863634vkb.75.1565698800581;
- Tue, 13 Aug 2019 05:20:00 -0700 (PDT)
-Date:   Tue, 13 Aug 2019 13:17:07 +0100
-In-Reply-To: <20190813121733.52480-1-maennich@google.com>
-Message-Id: <20190813121733.52480-11-maennich@google.com>
-Mime-Version: 1.0
-References: <20180716122125.175792-1-maco@android.com> <20190813121733.52480-1-maennich@google.com>
-X-Mailer: git-send-email 2.23.0.rc1.153.gdeed80330f-goog
-Subject: [PATCH v2 10/10] RFC: usb-storage: export symbols in USB_STORAGE namespace
-From:   Matthias Maennich <maennich@google.com>
-To:     linux-kernel@vger.kernel.org, maco@android.com
-Cc:     kernel-team@android.com, maennich@google.com, arnd@arndb.de,
-        geert@linux-m68k.org, gregkh@linuxfoundation.org, hpa@zytor.com,
-        jeyu@kernel.org, joel@joelfernandes.org,
-        kstewart@linuxfoundation.org, linux-arch@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-modules@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-usb@vger.kernel.org, lucas.de.marchi@gmail.com,
-        maco@google.com, michal.lkml@markovi.net, mingo@redhat.com,
-        oneukum@suse.com, pombredanne@nexb.com, sam@ravnborg.org,
-        sboyd@codeaurora.org, sspatil@google.com,
-        stern@rowland.harvard.edu, tglx@linutronix.de,
-        usb-storage@lists.one-eyed-alien.net, x86@kernel.org,
-        yamada.masahiro@socionext.com
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=o4jG5xUhAUJZtV3VJiJndVYqDs9JDKOuEWpeDm9O5bE=;
+        b=Ka3LZ6gqR2WzWgscDCpAo6W6EaExpys4cQAv/84ZJkW+s7LTA7m9oO1KCcUD8dA2qy
+         cR2mxu/dClvR9OXlVHuPjSXtL6QKztRX8cIz4cD+bcnBWr0YNQ7Ki8+BIzdICM3dbdp+
+         h6l5X2LYSFKi8NqAbleVwQAQKAEFkosJPZ3jn/qyMHzsZPKdi5XcDluqsqJebg5ma8WH
+         sXItvFU0/shWQ5UCpFaSd3ZWnbzKLWAsfTQ19m2nzhSiFoL8NAch4QF7kGWxvCjrCiQD
+         DB0uvUcgin5SWk+WQXE04/ADRF2bfUMTOVFGMM5gKb+sbHQ2wF/15NtLAZcCsUelbmMY
+         TlHw==
+X-Gm-Message-State: APjAAAVI6HXDAe1dHRyJinyWBL2zMf5r1HuTrmL8KHNjPyex3SyNT3VZ
+        xutbi9QBUeptJ0YBCclBNDdzozgM8VnPQKM/Qn6IRw==
+X-Google-Smtp-Source: APXvYqxIB2bWV/Z2kD1G5C2XJ1KyB1ofIYU0nvkAABlDU3pdmkMcBP8meCnmXxavPJ2mncL2fdoIkJVoE1x531NSB2M=
+X-Received: by 2002:aa7:9790:: with SMTP id o16mr3598839pfp.51.1565699294597;
+ Tue, 13 Aug 2019 05:28:14 -0700 (PDT)
+MIME-Version: 1.0
+References: <00000000000014c6b305868311d3@google.com>
+In-Reply-To: <00000000000014c6b305868311d3@google.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Tue, 13 Aug 2019 14:28:03 +0200
+Message-ID: <CAAeHK+y4RwTg+ozvgYmFjjaBAr3+UfN5V+rVHakcMaeR8BHquQ@mail.gmail.com>
+Subject: Re: KASAN: use-after-free Read in __video_do_ioctl
+To:     syzbot <syzbot+5b7575b3f6820232e17c@syzkaller.appspotmail.com>
+Cc:     ezequiel@collabora.com, Hans Verkuil <hans.verkuil@cisco.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
+        USB list <linux-usb@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        paul.kocialkowski@bootlin.com,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Modules using these symbols are required to explicitly import the
-namespace. This patch was generated with the following steps and serves
-as a reference to use the symbol namespace feature:
+On Sun, Apr 14, 2019 at 10:06 PM syzbot
+<syzbot+5b7575b3f6820232e17c@syzkaller.appspotmail.com> wrote:
+>
+> Hello,
+>
+> syzbot found the following crash on:
+>
+> HEAD commit:    9a33b369 usb-fuzzer: main usb gadget fuzzer driver
+> git tree:       https://github.com/google/kasan/tree/usb-fuzzer
+> console output: https://syzkaller.appspot.com/x/log.txt?x=1317cedd200000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=23e37f59d94ddd15
+> dashboard link: https://syzkaller.appspot.com/bug?extid=5b7575b3f6820232e17c
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+>
+> Unfortunately, I don't have any reproducer for this crash yet.
+>
+> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> Reported-by: syzbot+5b7575b3f6820232e17c@syzkaller.appspotmail.com
+>
+> radio-raremono 6-1:0.210: raremono_cmd_main failed (-71)
+> radio-raremono 6-1:0.210: V4L2 device registered as radio32
+> usb 6-1: USB disconnect, device number 119
+> radio-raremono 6-1:0.210: Thanko's Raremono disconnected
+> ==================================================================
+> BUG: KASAN: use-after-free in __mutex_lock_common
+> kernel/locking/mutex.c:1009 [inline]
+> BUG: KASAN: use-after-free in __mutex_lock+0x11ad/0x12b0
+> kernel/locking/mutex.c:1072
+> Read of size 8 at addr ffff888097e94bf8 by task v4l_id/7329
+>
+> CPU: 1 PID: 7329 Comm: v4l_id Not tainted 5.1.0-rc4-319354-g9a33b36 #3
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+> Google 01/01/2011
+> Call Trace:
+>   __dump_stack lib/dump_stack.c:77 [inline]
+>   dump_stack+0xe8/0x16e lib/dump_stack.c:113
+>   print_address_description+0x6c/0x236 mm/kasan/report.c:187
+>   kasan_report.cold+0x1a/0x3c mm/kasan/report.c:317
+>   __mutex_lock_common kernel/locking/mutex.c:1009 [inline]
+>   __mutex_lock+0x11ad/0x12b0 kernel/locking/mutex.c:1072
+>   __video_do_ioctl+0x5d2/0xb40 drivers/media/v4l2-core/v4l2-ioctl.c:2842
+> usb 5-1: Using ep0 maxpacket: 8
+>   video_usercopy+0x44e/0xf00 drivers/media/v4l2-core/v4l2-ioctl.c:3056
+>   v4l2_ioctl+0x14e/0x1a0 drivers/media/v4l2-core/v4l2-dev.c:364
 
- 1) Define DDEFAULT_SYMBOL_NAMESPACE in the corresponding Makefile
- 2) make  (see warnings during modpost about missing imports)
- 3) make nsdeps
+#syz dup: KASAN: use-after-free Read in v4l2_ioctl
 
-Instead of a DEFAULT_SYMBOL_NAMESPACE definition, the EXPORT_SYMBOL_NS
-variants can be used to explicitly specify the namespace. The advantage
-of the method used here is that newly added symbols are automatically
-exported and existing ones are exported without touching their
-respective EXPORT_SYMBOL macro expansion.
-
-Signed-off-by: Matthias Maennich <maennich@google.com>
----
- drivers/usb/storage/Makefile        | 2 ++
- drivers/usb/storage/alauda.c        | 1 +
- drivers/usb/storage/cypress_atacb.c | 1 +
- drivers/usb/storage/datafab.c       | 1 +
- drivers/usb/storage/ene_ub6250.c    | 1 +
- drivers/usb/storage/freecom.c       | 1 +
- drivers/usb/storage/isd200.c        | 1 +
- drivers/usb/storage/jumpshot.c      | 1 +
- drivers/usb/storage/karma.c         | 1 +
- drivers/usb/storage/onetouch.c      | 1 +
- drivers/usb/storage/realtek_cr.c    | 1 +
- drivers/usb/storage/sddr09.c        | 1 +
- drivers/usb/storage/sddr55.c        | 1 +
- drivers/usb/storage/shuttle_usbat.c | 1 +
- drivers/usb/storage/uas.c           | 1 +
- 15 files changed, 16 insertions(+)
-
-diff --git a/drivers/usb/storage/Makefile b/drivers/usb/storage/Makefile
-index a67ddcbb4e24..46635fa4a340 100644
---- a/drivers/usb/storage/Makefile
-+++ b/drivers/usb/storage/Makefile
-@@ -8,6 +8,8 @@
-=20
- ccflags-y :=3D -I $(srctree)/drivers/scsi
-=20
-+ccflags-y +=3D -DDEFAULT_SYMBOL_NAMESPACE=3DUSB_STORAGE
-+
- obj-$(CONFIG_USB_UAS)		+=3D uas.o
- obj-$(CONFIG_USB_STORAGE)	+=3D usb-storage.o
-=20
-diff --git a/drivers/usb/storage/alauda.c b/drivers/usb/storage/alauda.c
-index 6b8edf6178df..ddab2cd3d2e7 100644
---- a/drivers/usb/storage/alauda.c
-+++ b/drivers/usb/storage/alauda.c
-@@ -36,6 +36,7 @@
- MODULE_DESCRIPTION("Driver for Alauda-based card readers");
- MODULE_AUTHOR("Daniel Drake <dsd@gentoo.org>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- /*
-  * Status bytes
-diff --git a/drivers/usb/storage/cypress_atacb.c b/drivers/usb/storage/cypr=
-ess_atacb.c
-index 4825902377eb..a6f3267bbef6 100644
---- a/drivers/usb/storage/cypress_atacb.c
-+++ b/drivers/usb/storage/cypress_atacb.c
-@@ -22,6 +22,7 @@
- MODULE_DESCRIPTION("SAT support for Cypress USB/ATA bridges with ATACB");
- MODULE_AUTHOR("Matthieu Castet <castet.matthieu@free.fr>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- /*
-  * The table of devices
-diff --git a/drivers/usb/storage/datafab.c b/drivers/usb/storage/datafab.c
-index 09353be199be..588818483f4b 100644
---- a/drivers/usb/storage/datafab.c
-+++ b/drivers/usb/storage/datafab.c
-@@ -54,6 +54,7 @@
- MODULE_DESCRIPTION("Driver for Datafab USB Compact Flash reader");
- MODULE_AUTHOR("Jimmie Mayfield <mayfield+datafab@sackheads.org>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- struct datafab_info {
- 	unsigned long   sectors;	/* total sector count */
-diff --git a/drivers/usb/storage/ene_ub6250.c b/drivers/usb/storage/ene_ub6=
-250.c
-index c26129d5b943..8b1b73065421 100644
---- a/drivers/usb/storage/ene_ub6250.c
-+++ b/drivers/usb/storage/ene_ub6250.c
-@@ -26,6 +26,7 @@
-=20
- MODULE_DESCRIPTION("Driver for ENE UB6250 reader");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
- MODULE_FIRMWARE(SD_INIT1_FIRMWARE);
- MODULE_FIRMWARE(SD_INIT2_FIRMWARE);
- MODULE_FIRMWARE(SD_RW_FIRMWARE);
-diff --git a/drivers/usb/storage/freecom.c b/drivers/usb/storage/freecom.c
-index 4f542df37a44..34e7eaff1174 100644
---- a/drivers/usb/storage/freecom.c
-+++ b/drivers/usb/storage/freecom.c
-@@ -29,6 +29,7 @@
- MODULE_DESCRIPTION("Driver for Freecom USB/IDE adaptor");
- MODULE_AUTHOR("David Brown <usb-storage@davidb.org>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- #ifdef CONFIG_USB_STORAGE_DEBUG
- static void pdump(struct us_data *us, void *ibuffer, int length);
-diff --git a/drivers/usb/storage/isd200.c b/drivers/usb/storage/isd200.c
-index 2b474d60b4db..c4da3fd6eff9 100644
---- a/drivers/usb/storage/isd200.c
-+++ b/drivers/usb/storage/isd200.c
-@@ -53,6 +53,7 @@
- MODULE_DESCRIPTION("Driver for In-System Design, Inc. ISD200 ASIC");
- MODULE_AUTHOR("Bj=C3=B6rn Stenberg <bjorn@haxx.se>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- static int isd200_Initialization(struct us_data *us);
-=20
-diff --git a/drivers/usb/storage/jumpshot.c b/drivers/usb/storage/jumpshot.=
-c
-index 917f170c4124..229bf0c1afc9 100644
---- a/drivers/usb/storage/jumpshot.c
-+++ b/drivers/usb/storage/jumpshot.c
-@@ -51,6 +51,7 @@
- MODULE_DESCRIPTION("Driver for Lexar \"Jumpshot\" Compact Flash reader");
- MODULE_AUTHOR("Jimmie Mayfield <mayfield+usb@sackheads.org>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- /*
-  * The table of devices
-diff --git a/drivers/usb/storage/karma.c b/drivers/usb/storage/karma.c
-index 395cf8fb5870..05cec81dcd3f 100644
---- a/drivers/usb/storage/karma.c
-+++ b/drivers/usb/storage/karma.c
-@@ -23,6 +23,7 @@
- MODULE_DESCRIPTION("Driver for Rio Karma");
- MODULE_AUTHOR("Bob Copeland <me@bobcopeland.com>, Keith Bennett <keith@mcs=
-.st-and.ac.uk>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- #define RIO_PREFIX "RIOP\x00"
- #define RIO_PREFIX_LEN 5
-diff --git a/drivers/usb/storage/onetouch.c b/drivers/usb/storage/onetouch.=
-c
-index 39a5009a41a6..a989fe930e21 100644
---- a/drivers/usb/storage/onetouch.c
-+++ b/drivers/usb/storage/onetouch.c
-@@ -25,6 +25,7 @@
- MODULE_DESCRIPTION("Maxtor USB OneTouch hard drive button driver");
- MODULE_AUTHOR("Nick Sillik <n.sillik@temple.edu>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- #define ONETOUCH_PKT_LEN        0x02
- #define ONETOUCH_BUTTON         KEY_PROG1
-diff --git a/drivers/usb/storage/realtek_cr.c b/drivers/usb/storage/realtek=
-_cr.c
-index cc794e25a0b6..edbe419053d6 100644
---- a/drivers/usb/storage/realtek_cr.c
-+++ b/drivers/usb/storage/realtek_cr.c
-@@ -35,6 +35,7 @@
- MODULE_DESCRIPTION("Driver for Realtek USB Card Reader");
- MODULE_AUTHOR("wwang <wei_wang@realsil.com.cn>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- static int auto_delink_en =3D 1;
- module_param(auto_delink_en, int, S_IRUGO | S_IWUSR);
-diff --git a/drivers/usb/storage/sddr09.c b/drivers/usb/storage/sddr09.c
-index bc9da736bdfc..51bcd4a43690 100644
---- a/drivers/usb/storage/sddr09.c
-+++ b/drivers/usb/storage/sddr09.c
-@@ -47,6 +47,7 @@
- MODULE_DESCRIPTION("Driver for SanDisk SDDR-09 SmartMedia reader");
- MODULE_AUTHOR("Andries Brouwer <aeb@cwi.nl>, Robert Baruch <autophile@star=
-band.net>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- static int usb_stor_sddr09_dpcm_init(struct us_data *us);
- static int sddr09_transport(struct scsi_cmnd *srb, struct us_data *us);
-diff --git a/drivers/usb/storage/sddr55.c b/drivers/usb/storage/sddr55.c
-index b8527c55335b..ba955d65eb0e 100644
---- a/drivers/usb/storage/sddr55.c
-+++ b/drivers/usb/storage/sddr55.c
-@@ -29,6 +29,7 @@
- MODULE_DESCRIPTION("Driver for SanDisk SDDR-55 SmartMedia reader");
- MODULE_AUTHOR("Simon Munton");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- /*
-  * The table of devices
-diff --git a/drivers/usb/storage/shuttle_usbat.c b/drivers/usb/storage/shut=
-tle_usbat.c
-index 854498e1012c..54aa1392c9ca 100644
---- a/drivers/usb/storage/shuttle_usbat.c
-+++ b/drivers/usb/storage/shuttle_usbat.c
-@@ -48,6 +48,7 @@
- MODULE_DESCRIPTION("Driver for SCM Microsystems (a.k.a. Shuttle) USB-ATAPI=
- cable");
- MODULE_AUTHOR("Daniel Drake <dsd@gentoo.org>, Robert Baruch <autophile@sta=
-rband.net>");
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
-=20
- /* Supported device types */
- #define USBAT_DEV_HP8200	0x01
-diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
-index 047c5922618f..bf80d6f81f58 100644
---- a/drivers/usb/storage/uas.c
-+++ b/drivers/usb/storage/uas.c
-@@ -1219,5 +1219,6 @@ static struct usb_driver uas_driver =3D {
- module_usb_driver(uas_driver);
-=20
- MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS(USB_STORAGE);
- MODULE_AUTHOR(
- 	"Hans de Goede <hdegoede@redhat.com>, Matthew Wilcox and Sarah Sharp");
---=20
-2.23.0.rc1.153.gdeed80330f-goog
-
+>   vfs_ioctl fs/ioctl.c:46 [inline]
+>   file_ioctl fs/ioctl.c:509 [inline]
+>   do_vfs_ioctl+0xced/0x12f0 fs/ioctl.c:696
+>   ksys_ioctl+0xa0/0xc0 fs/ioctl.c:713
+>   __do_sys_ioctl fs/ioctl.c:720 [inline]
+>   __se_sys_ioctl fs/ioctl.c:718 [inline]
+>   __x64_sys_ioctl+0x74/0xb0 fs/ioctl.c:718
+>   do_syscall_64+0xcf/0x4f0 arch/x86/entry/common.c:290
+>   entry_SYSCALL_64_after_hwframe+0x49/0xbe
+> RIP: 0033:0x7f582f197347
+> Code: 90 90 90 48 8b 05 f1 fa 2a 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff
+> ff c3 90 90 90 90 90 90 90 90 90 90 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff
+> ff 73 01 c3 48 8b 0d c1 fa 2a 00 31 d2 48 29 c2 64
+> usb 5-1: config 0 has an invalid interface number: 85 but max is 0
+> RSP: 002b:00007ffda90c77a8 EFLAGS: 00000202 ORIG_RAX: 0000000000000010
+> RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f582f197347
+> RDX: 00007ffda90c77b0 RSI: 0000000080685600 RDI: 0000000000000003
+> RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000400884
+> R13: 00007ffda90c7900 R14: 0000000000000000 R15: 0000000000000000
+>
+> Allocated by task 5:
+>   set_track mm/kasan/common.c:87 [inline]
+>   __kasan_kmalloc mm/kasan/common.c:497 [inline]
+>   __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:470
+>   slab_post_alloc_hook mm/slab.h:437 [inline]
+>   slab_alloc_node mm/slub.c:2756 [inline]
+>   __kmalloc_node_track_caller+0xf3/0x320 mm/slub.c:4372
+>   alloc_dr drivers/base/devres.c:103 [inline]
+>   devm_kmalloc+0x8c/0x190 drivers/base/devres.c:793
+>   devm_kzalloc include/linux/device.h:679 [inline]
+>   usb_raremono_probe+0x34/0x235 drivers/media/radio/radio-raremono.c:298
+>   usb_probe_interface+0x31d/0x820 drivers/usb/core/driver.c:361
+>   really_probe+0x2da/0xb10 drivers/base/dd.c:509
+> usb 5-1: config 0 has no interface number 0
+>   driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+>   __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+>   bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+>   __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+>   bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+>   device_add+0xad2/0x16e0 drivers/base/core.c:2106
+>   usb_set_configuration+0xdf7/0x1740 drivers/usb/core/message.c:2021
+>   generic_probe+0xa2/0xda drivers/usb/core/generic.c:210
+>   usb_probe_device+0xc0/0x150 drivers/usb/core/driver.c:266
+>   really_probe+0x2da/0xb10 drivers/base/dd.c:509
+>   driver_probe_device+0x21d/0x350 drivers/base/dd.c:671
+>   __device_attach_driver+0x1d8/0x290 drivers/base/dd.c:778
+>   bus_for_each_drv+0x163/0x1e0 drivers/base/bus.c:454
+>   __device_attach+0x223/0x3a0 drivers/base/dd.c:844
+> usb 5-1: New USB device found, idVendor=04b3, idProduct=4001, bcdDevice=
+> 1.10
+>   bus_probe_device+0x1f1/0x2a0 drivers/base/bus.c:514
+>   device_add+0xad2/0x16e0 drivers/base/core.c:2106
+>   usb_new_device.cold+0x537/0xccf drivers/usb/core/hub.c:2534
+> usb 5-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+>   hub_port_connect drivers/usb/core/hub.c:5089 [inline]
+>   hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+>   port_event drivers/usb/core/hub.c:5350 [inline]
+>   hub_event+0x138e/0x3b00 drivers/usb/core/hub.c:5432
+>   process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
+>   worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
+>   kthread+0x313/0x420 kernel/kthread.c:253
+>   ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+>
+> Freed by task 5:
+>   set_track mm/kasan/common.c:87 [inline]
+>   __kasan_slab_free+0x130/0x180 mm/kasan/common.c:459
+>   slab_free_hook mm/slub.c:1429 [inline]
+>   slab_free_freelist_hook+0x5e/0x140 mm/slub.c:1456
+> usb 5-1: config 0 descriptor??
+>   slab_free mm/slub.c:3003 [inline]
+>   kfree+0xce/0x290 mm/slub.c:3958
+>   release_nodes+0x4ac/0x920 drivers/base/devres.c:508
+>   devres_release_all+0x79/0xc8 drivers/base/devres.c:529
+>   __device_release_driver drivers/base/dd.c:1086 [inline]
+>   device_release_driver_internal+0x23a/0x4f0 drivers/base/dd.c:1113
+>   bus_remove_device+0x302/0x5c0 drivers/base/bus.c:556
+>   device_del+0x467/0xb90 drivers/base/core.c:2269
+>   usb_disable_device+0x242/0x790 drivers/usb/core/message.c:1235
+> usb-storage 5-1:0.85: USB Mass Storage device detected
+>   usb_disconnect+0x298/0x870 drivers/usb/core/hub.c:2197
+>   hub_port_connect drivers/usb/core/hub.c:4940 [inline]
+>   hub_port_connect_change drivers/usb/core/hub.c:5204 [inline]
+>   port_event drivers/usb/core/hub.c:5350 [inline]
+>   hub_event+0xcd2/0x3b00 drivers/usb/core/hub.c:5432
+> usb-storage 5-1:0.85: Quirks match for vid 04b3 pid 4001: 2000
+>   process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
+>   process_scheduled_works kernel/workqueue.c:2331 [inline]
+>   worker_thread+0x7b0/0xe20 kernel/workqueue.c:2417
+>   kthread+0x313/0x420 kernel/kthread.c:253
+>   ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+>
+> The buggy address belongs to the object at ffff888097e94400
+>   which belongs to the cache kmalloc-4k of size 4096
+> The buggy address is located 2040 bytes inside of
+>   4096-byte region [ffff888097e94400, ffff888097e95400)
+> The buggy address belongs to the page:
+> page:ffffea00025fa400 count:1 mapcount:0 mapping:ffff88812c3f4600 index:0x0
+> compound_mapcount: 0
+> flags: 0xfff00000010200(slab|head)
+> raw: 00fff00000010200 dead000000000100 dead000000000200 ffff88812c3f4600
+> raw: 0000000000000000 0000000000070007 00000001ffffffff 0000000000000000
+> page dumped because: kasan: bad access detected
+>
+> Memory state around the buggy address:
+>   ffff888097e94a80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>   ffff888097e94b00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > ffff888097e94b80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>                                                                  ^
+>   ffff888097e94c00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>   ffff888097e94c80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ==================================================================
+>
+>
+> ---
+> This bug is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+>
+> syzbot will keep track of this bug report. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
