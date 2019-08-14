@@ -2,135 +2,262 @@ Return-Path: <SRS0=XFIG=WK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57332C32753
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 11:38:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 666B8C32757
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 11:39:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 35FCF208C2
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 11:38:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38C14216F4
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 11:39:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727157AbfHNLiG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 14 Aug 2019 07:38:06 -0400
-Received: from mail-ot1-f72.google.com ([209.85.210.72]:56427 "EHLO
-        mail-ot1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727010AbfHNLiG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Aug 2019 07:38:06 -0400
-Received: by mail-ot1-f72.google.com with SMTP id q22so94845485otl.23
-        for <linux-usb@vger.kernel.org>; Wed, 14 Aug 2019 04:38:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=YWQkpPFDkZrCtHRJpBrQhhdaTaxg9rth8B7pR83gTLY=;
-        b=IWLc+aX6RLz3/DBtixOOkkbbenSRbjFj/3bKrUyNbopMTGbDCmt3mOoZL4/vsGBFn2
-         zeJPVVzU8NSqlJAQdbQirxdvd6jRS8rQPs8mA6OU4IShgm9X2tNUDlMtDJ+zJFbh152k
-         0Q8Tt3fopodb7vIvFWG8Jq/HOfMzpcVv6Mbdh0S7ZFYNaBm3CqKNkW4Jr16OzIIJnu2D
-         vl0PdHHAzVIftaX9cCKqezV0tI55ZsVMEjOweXXm9E05OxIg+cb7h4nez0m/VlLTrOrx
-         rbFUkC+Uo80v2nzdrjr0+sk4ORiM5qO6Bphdrf3PuXV7LLlkId8/d86qiefEws1PMjhu
-         r4Gw==
-X-Gm-Message-State: APjAAAWCUIqAfleoUphXzUEqFy3msdpXmrz9Dxtx3ckyZnC0Il7oENM3
-        yzz0Uu+I8+X/mvDqoeaOowszaV2WPaaHxGzCDjj1u8BW+hel
-X-Google-Smtp-Source: APXvYqzn1jlyElPyeuZyrEOQDiA7iCHtsdE5gE/FFFK+D7+LHT+5Gzd46ohTJEhcvLbd7I10L8kQRQINURwT6Zh1zJDYSGji9CjP
-MIME-Version: 1.0
-X-Received: by 2002:a6b:ed01:: with SMTP id n1mr22583424iog.255.1565782685518;
- Wed, 14 Aug 2019 04:38:05 -0700 (PDT)
-Date:   Wed, 14 Aug 2019 04:38:05 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000c4157e0590123002@google.com>
-Subject: divide error in usbtmc_generic_read
-From:   syzbot <syzbot+55b0304b360654a7537b@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
-        guido.kiener@rohde-schwarz.com, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, steve_bayless@keysight.com,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+        id S1727461AbfHNLj3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 14 Aug 2019 07:39:29 -0400
+Received: from inva021.nxp.com ([92.121.34.21]:42674 "EHLO inva021.nxp.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727744AbfHNLj3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 14 Aug 2019 07:39:29 -0400
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 73B93200365;
+        Wed, 14 Aug 2019 13:39:26 +0200 (CEST)
+Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 91152200184;
+        Wed, 14 Aug 2019 13:39:23 +0200 (CEST)
+Received: from titan.ap.freescale.net (TITAN.ap.freescale.net [10.192.208.233])
+        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id E7F19402EC;
+        Wed, 14 Aug 2019 19:39:19 +0800 (SGT)
+From:   jun.li@nxp.com
+To:     Peter.Chen@nxp.com
+Cc:     gregkh@linuxfoundation.org, jun.li@nxp.com, linux-imx@nxp.com,
+        linux-usb@vger.kernel.org
+Subject: [PATCH v3] usb: chipidea: add role switch class support
+Date:   Wed, 14 Aug 2019 19:29:42 +0800
+Message-Id: <20190814112942.33142-1-jun.li@nxp.com>
+X-Mailer: git-send-email 2.9.5
+X-Virus-Scanned: ClamAV using ClamSMTP
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+From: Li Jun <jun.li@nxp.com>
 
-syzbot found the following crash on:
+USB role is fully controlled by usb role switch consumer(e.g. typec),
+usb port can be at host mode(USB_ROLE_HOST), device mode connected to
+host(USB_ROLE_DEVICE), or not connecting any partner(USB_ROLE_NONE).
 
-HEAD commit:    d0847550 usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=16295d4a600000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=dbc9c80cc095da19
-dashboard link: https://syzkaller.appspot.com/bug?extid=55b0304b360654a7537b
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1288a31c600000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15282e86600000
-
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+55b0304b360654a7537b@syzkaller.appspotmail.com
-
-divide error: 0000 [#1] SMP KASAN
-CPU: 1 PID: 1761 Comm: syz-executor063 Not tainted 5.3.0-rc4+ #26
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-RIP: 0010:usbtmc_generic_read+0x135/0x1190 drivers/usb/class/usbtmc.c:816
-Code: 48 c1 ea 03 0f b6 14 02 48 89 f8 83 e0 07 83 c0 01 38 d0 7c 08 84 d2  
-0f 85 50 08 00 00 41 0f b7 6e 34 31 d2 31 ff 8b 44 24 28 <f7> f5 89 d6 41  
-89 d4 e8 2f 54 c9 fd 44 8b 6c 24 28 45 85 e4 44 89
-RSP: 0018:ffff8881d2b77a58 EFLAGS: 00010246
-RAX: 0000000000000002 RBX: 000000004f894bad RCX: ffffffff837487cd
-RDX: 0000000000000000 RSI: ffffffff837487da RDI: 0000000000000000
-RBP: 0000000000000000 R08: ffff8881d20a0000 R09: ffffed103a56ef90
-R10: ffffed103a56ef8f R11: 0000000000000003 R12: ffff8881d08e7180
-R13: 0000000020000000 R14: ffff8881d0404c80 R15: ffff8881d08e7180
-FS:  0000555555b74880(0000) GS:ffff8881db300000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000000006cc090 CR3: 00000001d615e000 CR4: 00000000001406e0
-Call Trace:
-  usbtmc_ioctl_generic_read drivers/usb/class/usbtmc.c:1029 [inline]
-  usbtmc_ioctl+0x27d/0x2ab0 drivers/usb/class/usbtmc.c:2089
-  vfs_ioctl fs/ioctl.c:46 [inline]
-  file_ioctl fs/ioctl.c:509 [inline]
-  do_vfs_ioctl+0xd2d/0x1330 fs/ioctl.c:696
-  ksys_ioctl+0x9b/0xc0 fs/ioctl.c:713
-  __do_sys_ioctl fs/ioctl.c:720 [inline]
-  __se_sys_ioctl fs/ioctl.c:718 [inline]
-  __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:718
-  do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:296
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x4419a9
-Code: e8 8c e8 ff ff 48 83 c4 18 c3 0f 1f 80 00 00 00 00 48 89 f8 48 89 f7  
-48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
-ff 0f 83 cb 08 fc ff c3 66 2e 0f 1f 84 00 00 00 00
-RSP: 002b:00007ffd0abd6738 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00000000004419a9
-RDX: 0000000020000000 RSI: 00000000c0145b0e RDI: 0000000000000004
-RBP: 000000000000a984 R08: 000000000000000f R09: 00000000004002c8
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000402700
-R13: 0000000000402790 R14: 0000000000000000 R15: 0000000000000000
-Modules linked in:
----[ end trace a91d281a4d83213c ]---
-RIP: 0010:usbtmc_generic_read+0x135/0x1190 drivers/usb/class/usbtmc.c:816
-Code: 48 c1 ea 03 0f b6 14 02 48 89 f8 83 e0 07 83 c0 01 38 d0 7c 08 84 d2  
-0f 85 50 08 00 00 41 0f b7 6e 34 31 d2 31 ff 8b 44 24 28 <f7> f5 89 d6 41  
-89 d4 e8 2f 54 c9 fd 44 8b 6c 24 28 45 85 e4 44 89
-RSP: 0018:ffff8881d2b77a58 EFLAGS: 00010246
-RAX: 0000000000000002 RBX: 000000004f894bad RCX: ffffffff837487cd
-RDX: 0000000000000000 RSI: ffffffff837487da RDI: 0000000000000000
-RBP: 0000000000000000 R08: ffff8881d20a0000 R09: ffffed103a56ef90
-R10: ffffed103a56ef8f R11: 0000000000000003 R12: ffff8881d08e7180
-R13: 0000000020000000 R14: ffff8881d0404c80 R15: ffff8881d08e7180
-FS:  0000555555b74880(0000) GS:ffff8881db300000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000000006cc090 CR3: 00000001d615e000 CR4: 00000000001406e0
-
-
+Signed-off-by: Li Jun <jun.li@nxp.com>
 ---
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+Changes for v3:
+- Remove the patch usb: chipidea: replace ci_role with usb_role
+  as the existing ci->role usage can't map to usb_role.
+- Use the suggested ci_hdrc_cable for reuse current role change
+  handling.
+- Fix build robot warning by add usb_role head file.
+
+Change for v2:
+- Support USB_ROLE_NONE, which for usb port not connecting any
+  device or host, and will be in low power mode.
+
+ drivers/usb/chipidea/ci.h   | 12 +++++++
+ drivers/usb/chipidea/core.c | 76 +++++++++++++++++++++++++++++++++++++++++++++
+ drivers/usb/chipidea/otg.c  |  8 ++---
+ 3 files changed, 92 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/usb/chipidea/ci.h b/drivers/usb/chipidea/ci.h
+index 6a2cc5c..6911aef 100644
+--- a/drivers/usb/chipidea/ci.h
++++ b/drivers/usb/chipidea/ci.h
+@@ -16,6 +16,7 @@
+ #include <linux/usb/gadget.h>
+ #include <linux/usb/otg-fsm.h>
+ #include <linux/usb/otg.h>
++#include <linux/usb/role.h>
+ #include <linux/ulpi/interface.h>
+ 
+ /******************************************************************************
+@@ -217,6 +218,7 @@ struct ci_hdrc {
+ 	ktime_t				hr_timeouts[NUM_OTG_FSM_TIMERS];
+ 	unsigned			enabled_otg_timer_bits;
+ 	enum otg_fsm_timer		next_otg_timer;
++	struct usb_role_switch		*role_switch;
+ 	struct work_struct		work;
+ 	struct workqueue_struct		*wq;
+ 
+@@ -290,6 +292,16 @@ static inline void ci_role_stop(struct ci_hdrc *ci)
+ 	ci->roles[role]->stop(ci);
+ }
+ 
++static inline enum usb_role ci_role_to_usb_role(struct ci_hdrc *ci)
++{
++	if (ci->role == CI_ROLE_HOST)
++		return USB_ROLE_HOST;
++	else if (ci->role == CI_ROLE_GADGET && ci->vbus_active)
++		return USB_ROLE_DEVICE;
++	else
++		return USB_ROLE_NONE;
++}
++
+ /**
+  * hw_read_id_reg: reads from a identification register
+  * @ci: the controller
+diff --git a/drivers/usb/chipidea/core.c b/drivers/usb/chipidea/core.c
+index 26062d6..c3300a1 100644
+--- a/drivers/usb/chipidea/core.c
++++ b/drivers/usb/chipidea/core.c
+@@ -600,6 +600,64 @@ static int ci_cable_notifier(struct notifier_block *nb, unsigned long event,
+ 	return NOTIFY_DONE;
+ }
+ 
++static enum usb_role ci_usb_role_switch_get(struct device *dev)
++{
++	struct ci_hdrc *ci = dev_get_drvdata(dev);
++	enum usb_role role;
++	unsigned long flags;
++
++	spin_lock_irqsave(&ci->lock, flags);
++	role = ci_role_to_usb_role(ci);
++	spin_unlock_irqrestore(&ci->lock, flags);
++
++	return role;
++}
++
++static int ci_usb_role_switch_set(struct device *dev, enum usb_role role)
++{
++	struct ci_hdrc *ci = dev_get_drvdata(dev);
++	struct ci_hdrc_cable *cable = NULL;
++	enum usb_role current_role = ci_role_to_usb_role(ci);
++
++	if (current_role == role)
++		return 0;
++
++	/* Stop current role */
++	if (current_role == USB_ROLE_DEVICE)
++		cable = &ci->platdata->vbus_extcon;
++	else if (current_role == USB_ROLE_HOST)
++		cable = &ci->platdata->id_extcon;
++
++	if (cable) {
++		cable->changed = true;
++		cable->connected = false;
++		ci_irq(ci->irq, ci);
++	}
++
++	cable = NULL;
++
++	/* Start target role */
++	if (role == USB_ROLE_DEVICE)
++		cable = &ci->platdata->vbus_extcon;
++	else if (role == USB_ROLE_HOST)
++		cable = &ci->platdata->id_extcon;
++
++	if (cable) {
++		if (ci->wq)
++			flush_workqueue(ci->wq);
++		cable->changed = true;
++		cable->connected = true;
++		ci_irq(ci->irq, ci);
++	}
++
++	return 0;
++}
++
++static struct usb_role_switch_desc ci_role_switch = {
++	.set = ci_usb_role_switch_set,
++	.get = ci_usb_role_switch_get,
++};
++
+ static int ci_get_platdata(struct device *dev,
+ 		struct ci_hdrc_platform_data *platdata)
+ {
+@@ -726,6 +784,9 @@ static int ci_get_platdata(struct device *dev,
+ 			cable->connected = false;
+ 	}
+ 
++	if (device_property_read_bool(dev, "usb-role-switch"))
++		ci_role_switch.fwnode = dev->fwnode;
++
+ 	platdata->pctl = devm_pinctrl_get(dev);
+ 	if (!IS_ERR(platdata->pctl)) {
+ 		struct pinctrl_state *p;
+@@ -1051,6 +1112,15 @@ static int ci_hdrc_probe(struct platform_device *pdev)
+ 		}
+ 	}
+ 
++	if (ci_role_switch.fwnode) {
++		ci->role_switch = usb_role_switch_register(dev,
++					&ci_role_switch);
++		if (IS_ERR(ci->role_switch)) {
++			ret = PTR_ERR(ci->role_switch);
++			goto deinit_otg;
++		}
++	}
++
+ 	if (ci->roles[CI_ROLE_HOST] && ci->roles[CI_ROLE_GADGET]) {
+ 		if (ci->is_otg) {
+ 			ci->role = ci_otg_role(ci);
+@@ -1115,6 +1185,9 @@ static int ci_hdrc_probe(struct platform_device *pdev)
+ remove_debug:
+ 	dbg_remove_files(ci);
+ stop:
++	if (ci->role_switch)
++		usb_role_switch_unregister(ci->role_switch);
++deinit_otg:
+ 	if (ci->is_otg && ci->roles[CI_ROLE_GADGET])
+ 		ci_hdrc_otg_destroy(ci);
+ deinit_gadget:
+@@ -1133,6 +1206,9 @@ static int ci_hdrc_remove(struct platform_device *pdev)
+ {
+ 	struct ci_hdrc *ci = platform_get_drvdata(pdev);
+ 
++	if (ci->role_switch)
++		usb_role_switch_unregister(ci->role_switch);
++
+ 	if (ci->supports_runtime_pm) {
+ 		pm_runtime_get_sync(&pdev->dev);
+ 		pm_runtime_disable(&pdev->dev);
+diff --git a/drivers/usb/chipidea/otg.c b/drivers/usb/chipidea/otg.c
+index f25d482..fbfb02e 100644
+--- a/drivers/usb/chipidea/otg.c
++++ b/drivers/usb/chipidea/otg.c
+@@ -35,7 +35,7 @@ u32 hw_read_otgsc(struct ci_hdrc *ci, u32 mask)
+ 	 * detection overwrite OTGSC register value
+ 	 */
+ 	cable = &ci->platdata->vbus_extcon;
+-	if (!IS_ERR(cable->edev)) {
++	if (!IS_ERR(cable->edev) || ci->role_switch) {
+ 		if (cable->changed)
+ 			val |= OTGSC_BSVIS;
+ 		else
+@@ -53,7 +53,7 @@ u32 hw_read_otgsc(struct ci_hdrc *ci, u32 mask)
+ 	}
+ 
+ 	cable = &ci->platdata->id_extcon;
+-	if (!IS_ERR(cable->edev)) {
++	if (!IS_ERR(cable->edev) || ci->role_switch) {
+ 		if (cable->changed)
+ 			val |= OTGSC_IDIS;
+ 		else
+@@ -83,7 +83,7 @@ void hw_write_otgsc(struct ci_hdrc *ci, u32 mask, u32 data)
+ 	struct ci_hdrc_cable *cable;
+ 
+ 	cable = &ci->platdata->vbus_extcon;
+-	if (!IS_ERR(cable->edev)) {
++	if (!IS_ERR(cable->edev) || ci->role_switch) {
+ 		if (data & mask & OTGSC_BSVIS)
+ 			cable->changed = false;
+ 
+@@ -97,7 +97,7 @@ void hw_write_otgsc(struct ci_hdrc *ci, u32 mask, u32 data)
+ 	}
+ 
+ 	cable = &ci->platdata->id_extcon;
+-	if (!IS_ERR(cable->edev)) {
++	if (!IS_ERR(cable->edev) || ci->role_switch) {
+ 		if (data & mask & OTGSC_IDIS)
+ 			cable->changed = false;
+ 
+-- 
+2.7.4
+
