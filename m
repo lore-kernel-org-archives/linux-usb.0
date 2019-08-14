@@ -2,71 +2,113 @@ Return-Path: <SRS0=XFIG=WK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D83FC32753
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 13:57:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCEBAC433FF
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 14:06:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0F6582064A
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 13:57:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B05082133F
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 14:06:42 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="BpL0Wo9m"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727304AbfHNN5o (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 14 Aug 2019 09:57:44 -0400
-Received: from mga11.intel.com ([192.55.52.93]:22737 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726551AbfHNN5o (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 14 Aug 2019 09:57:44 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Aug 2019 06:57:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,385,1559545200"; 
-   d="scan'208";a="178165545"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.164]) ([10.237.72.164])
-  by fmsmga007.fm.intel.com with ESMTP; 14 Aug 2019 06:57:42 -0700
-Subject: Re: [PATCH] xhci: fix memleak on setup address fails.
-To:     Ikjoon Jang <ikjn@chromium.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190811082259.48176-1-ikjn@chromium.org>
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Message-ID: <5883d03d-31c4-206a-26c1-ca641dbf845c@linux.intel.com>
-Date:   Wed, 14 Aug 2019 16:59:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1728134AbfHNOGl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 14 Aug 2019 10:06:41 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:42452 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727781AbfHNOGk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Aug 2019 10:06:40 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7EE49M5084593;
+        Wed, 14 Aug 2019 14:06:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2019-08-05;
+ bh=IDQ50EeNCPaU8nHr7FfbOsMF7WtlRH3qJ5mn7Fsl8DI=;
+ b=BpL0Wo9maA+PEDDDCUnYxfXyyCr23+XRR2I9ZfdNM9aFMzRBl4XJe6EUF9wTJ3JD4bhO
+ kn/nftKRFyG1wDW/33f4EEaFSeBeClQR3ifvEUj/b0U9wS99wArQsiPWfTRMmZIUGCCx
+ 3BpST4AGOuWfUHYY/V40r+ONuO9Wihm5fwfdpnWnZeCBmSdcSc8ZAFyJTkSFJrdl1Nji
+ 8VgTZSPV9ot7N6OxxpDGSk/eEHQ3nJ/F972ZJiuYqMHlpC1ONTjgRgekb2BBzditGnoq
+ bO7CYuS74Wx7MEu1+VVmUTDpVPuB7opCLUSDQ9Ero/F6K8B6LPbsP5Ih3pbDGFD0A/27 cg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2120.oracle.com with ESMTP id 2u9pjqmx31-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 14 Aug 2019 14:06:25 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7EE3OYJ017806;
+        Wed, 14 Aug 2019 14:04:25 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3030.oracle.com with ESMTP id 2ubwqt8rpc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 14 Aug 2019 14:04:24 +0000
+Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x7EE4NXX025012;
+        Wed, 14 Aug 2019 14:04:23 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 14 Aug 2019 07:04:23 -0700
+Date:   Wed, 14 Aug 2019 17:04:14 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] usb: host: ohci-pxa27x: Fix and & vs | typo
+Message-ID: <20190814140414.GU1974@kadam>
+References: <20180223123300.GA1062@mwanda>
 MIME-Version: 1.0
-In-Reply-To: <20190811082259.48176-1-ikjn@chromium.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20180223123300.GA1062@mwanda>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9348 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=796
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1906280000 definitions=main-1908140146
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9348 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=847 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
+ definitions=main-1908140146
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 11.8.2019 11.22, Ikjoon Jang wrote:
-> Xhci re-enables a slot on transaction error in set_address using
-> xhci_disable_slot() + xhci_alloc_dev().
+I was looking at this code again today and I'm still convinced this
+patch is correct.  Should I resend?
+
+regards,
+dan carpenter
+
+On Fri, Feb 23, 2018 at 03:33:00PM +0300, Dan Carpenter wrote:
+> The code is supposed to clear the RH_A_NPS and RH_A_PSM bits, but it's
+> a no-op because of the & vs | typo.  This bug predates git and it was
+> only discovered using static analysis so it must not affect too many
+> people in real life.
 > 
-> But in this case, xhci_alloc_dev() creates debugfs entries upon an
-> existing device without cleaning up old entries, thus memory leaks.
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+> Not tested.
 > 
-> So this patch simply moves calling xhci_debugfs_free_dev() from
-> xhci_free_dev() to xhci_disable_slot().
-> 
-
-Othwerwise this looks good, but xhci_alloc_dev() will call xhci_disable_slot()
-in some failure cases before the slot debugfs entry is created.
-
-In these cases xhci_debugfs_remove_slot() will be called without
-xhci_debugfs_create_slot() ever being called.
-
-This might not be an issue as xhci_debugfs_remove_slot() checks
-if (!dev || !dev->debugfs_private) before doing anything, but should
-be checked out.
-
--Mathias
+> diff --git a/drivers/usb/host/ohci-pxa27x.c b/drivers/usb/host/ohci-pxa27x.c
+> index 3e2474959735..7679fb583e41 100644
+> --- a/drivers/usb/host/ohci-pxa27x.c
+> +++ b/drivers/usb/host/ohci-pxa27x.c
+> @@ -148,7 +148,7 @@ static int pxa27x_ohci_select_pmm(struct pxa27x_ohci *pxa_ohci, int mode)
+>  		uhcrhda |= RH_A_NPS;
+>  		break;
+>  	case PMM_GLOBAL_MODE:
+> -		uhcrhda &= ~(RH_A_NPS & RH_A_PSM);
+> +		uhcrhda &= ~(RH_A_NPS | RH_A_PSM);
+>  		break;
+>  	case PMM_PERPORT_MODE:
+>  		uhcrhda &= ~(RH_A_NPS);
+> --
+> To unsubscribe from this list: send the line "unsubscribe kernel-janitors" in
+> the body of a message to majordomo@vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
