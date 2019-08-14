@@ -2,65 +2,92 @@ Return-Path: <SRS0=XFIG=WK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.2 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE735C32753
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 13:24:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14A55C32753
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 13:25:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9E151206C2
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 13:24:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E1282206C1
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 13:25:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727453AbfHNNYX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 14 Aug 2019 09:24:23 -0400
-Received: from mga14.intel.com ([192.55.52.115]:15870 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726263AbfHNNYX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 14 Aug 2019 09:24:23 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Aug 2019 06:24:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,385,1559545200"; 
-   d="scan'208";a="194533755"
-Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Aug 2019 06:24:20 -0700
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 0/3] usb: typec: fusb302: Small changes
-Date:   Wed, 14 Aug 2019 16:24:16 +0300
-Message-Id: <20190814132419.39759-1-heikki.krogerus@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1728028AbfHNNZX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 14 Aug 2019 09:25:23 -0400
+Received: from mx2.suse.de ([195.135.220.15]:44380 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728116AbfHNNZW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 14 Aug 2019 09:25:22 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 056F5B030;
+        Wed, 14 Aug 2019 13:25:20 +0000 (UTC)
+Message-ID: <1565789116.5780.1.camel@suse.com>
+Subject: Re: divide error in usbtmc_generic_read
+From:   Oliver Neukum <oneukum@suse.com>
+To:     syzbot <syzbot+55b0304b360654a7537b@syzkaller.appspotmail.com>,
+        andreyknvl@google.com, syzkaller-bugs@googlegroups.com,
+        steve_bayless@keysight.com, gregkh@linuxfoundation.org,
+        guido.kiener@rohde-schwarz.com, linux-usb@vger.kernel.org
+Date:   Wed, 14 Aug 2019 15:25:16 +0200
+In-Reply-To: <000000000000c4157e0590123002@google.com>
+References: <000000000000c4157e0590123002@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+Am Mittwoch, den 14.08.2019, 04:38 -0700 schrieb syzbot:
+> Hello,
+> 
+> syzbot found the following crash on:
+> 
+> HEAD commit:    d0847550 usb-fuzzer: main usb gadget fuzzer driver
+> git tree:       https://github.com/google/kasan.git usb-fuzzer
+> console output: https://syzkaller.appspot.com/x/log.txt?x=16295d4a600000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=dbc9c80cc095da19
+> dashboard link: https://syzkaller.appspot.com/bug?extid=55b0304b360654a7537b
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1288a31c600000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15282e86600000
+> 
+> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> Reported-by: syzbot+55b0304b360654a7537b@syzkaller.appspotmail.com
 
-This series removes the deprecated fusb302 specific properties, and
-stops using struct tcpc_config in the driver.
 
-thanks,
+#syz test: https://github.com/google/kasan.git d0847550
 
-Heikki Krogerus (3):
-  usb: typec: fusb302: Remove unused properties
-  dt-bindings: usb: fusb302: Remove deprecated properties
-  usb: typec: fusb302: Always provide fwnode for the port
+From 5fa900e86e57d92a0b23a1a60ff4f4f13e997a93 Mon Sep 17 00:00:00 2001
+From: Oliver Neukum <oneukum@suse.com>
+Date: Wed, 14 Aug 2019 15:21:41 +0200
+Subject: [PATCH] usbtmc: more sanity checking for packet size
 
- .../devicetree/bindings/usb/fcs,fusb302.txt   |  7 --
- drivers/usb/typec/tcpm/fusb302.c              | 85 ++++++++-----------
- 2 files changed, 36 insertions(+), 56 deletions(-)
+A malicious device can make the driver divide ny zero
+with a nonsense maximum packet size.
 
+SIgned-off-by: Oliver Neukum <oneukum@suse.com>
+---
+ drivers/usb/class/usbtmc.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/usb/class/usbtmc.c b/drivers/usb/class/usbtmc.c
+index 4942122b2346..11042ca56818 100644
+--- a/drivers/usb/class/usbtmc.c
++++ b/drivers/usb/class/usbtmc.c
+@@ -2364,6 +2364,8 @@ static int usbtmc_probe(struct usb_interface *intf,
+ 
+ 	data->bulk_in = bulk_in->bEndpointAddress;
+ 	data->wMaxPacketSize = usb_endpoint_maxp(bulk_in);
++	if (!data->wMaxPacketSize)
++		goto err_put;
+ 	dev_dbg(&intf->dev, "Found bulk in endpoint at %u\n", data->bulk_in);
+ 
+ 	data->bulk_out = bulk_out->bEndpointAddress;
 -- 
-2.20.1
+2.16.4
 
