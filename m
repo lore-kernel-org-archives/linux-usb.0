@@ -2,148 +2,94 @@ Return-Path: <SRS0=XFIG=WK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D86D8C433FF
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 08:03:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56490C433FF
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 08:17:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A867C2084D
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 08:03:15 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aBPUev9Z"
+	by mail.kernel.org (Postfix) with ESMTP id 3005F2084F
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 08:17:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726931AbfHNIDP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 14 Aug 2019 04:03:15 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:53701 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726530AbfHNIDO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Aug 2019 04:03:14 -0400
-Received: by mail-wm1-f65.google.com with SMTP id 10so3720823wmp.3
-        for <linux-usb@vger.kernel.org>; Wed, 14 Aug 2019 01:03:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=u1kTruUi3YdB800wT1pXkaOjMSivOUWKVyyY/Zt731g=;
-        b=aBPUev9Ze7ZpXmccQd1KFcRQ9+YZEvEIJ2mXE7D/eE4mW0NWELCy32Z9swdThfnFBF
-         uwtFZsx0n+nZPSfcdbUAoi2maYUPyAGE6VZvX1lxXucBNdBbPTrKrpL+APlXG6nq0usR
-         7T3hKQZ8OfkYXRqYiqYd86anCcfqziM9dMWWG97DVfu1X0mjwovdY+J6TV25XUuh6Vhq
-         Xi3Ng7NKhUr4M0lpXoNBdpFRyjhTf0YlPodDH3z4Nge4kVC3ptXr9zrGX9HD6K0+NbYi
-         EuCHR8LyYsg3WfxgBZyJ7LK6acjuYTK/s2Uy/3kWehj3pEeX80Z6NVS08CjMjM7+MPUt
-         6B4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=u1kTruUi3YdB800wT1pXkaOjMSivOUWKVyyY/Zt731g=;
-        b=lIWceAZ6GZso2z3+kX4OULAuso37nJ9uZe1pR0/KeZrtuHhX/zJbj5/Di7aXmzDe+8
-         +uc9t4QA8eqoWb7vD1rHNRUAsjzO42SQ5GnPOObMceZojjNBcPHsmWZ0Iti2Ygyo4YDH
-         N/e3miCUoEBKID9NoIvvm4p9PW3CZ9AB5+fctcPFNdrgkc+xi9YjyeL0X7F5UZn4lgt7
-         8IK6nbNlUcGQKJLN4RlLYPKD31zTNd8c5nsT29/NygT+IROLX0G5YukKbhcnkmtC4z32
-         QG4jew0XFeDka3uwcGkTeZd3WmuFYPXBVCTXX0gUyh60CEZr7W62WUc6cj9qJHYWqT6E
-         XNKA==
-X-Gm-Message-State: APjAAAWNV8xJZJWLwU4E+060xyACdWuSTfBNsaDBBEgbNk567A4NePJV
-        zwz8gwvrkVTZP5HIqqftobZdaQ==
-X-Google-Smtp-Source: APXvYqyO4XowUPOEjHkeHqWq8ZGkAY6pJn5+D2BnJD4VZsQpxWmvikwHKafPm0DLCyolBG2iDeLJ6w==
-X-Received: by 2002:a7b:ca5a:: with SMTP id m26mr6573824wml.134.1565769792542;
-        Wed, 14 Aug 2019 01:03:12 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:210:e8f7:125b:61e9:733d])
-        by smtp.gmail.com with ESMTPSA id 39sm28546562wrc.45.2019.08.14.01.03.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Aug 2019 01:03:11 -0700 (PDT)
-Date:   Wed, 14 Aug 2019 09:03:07 +0100
-From:   Matthias Maennich <maennich@google.com>
-To:     Himanshu Jha <himanshujha199640@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, maco@android.com,
-        kstewart@linuxfoundation.org, linux-m68k@vger.kernel.org,
-        oneukum@suse.com,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        usb-storage@lists.one-eyed-alien.net, hpa@zytor.com,
-        joel@joelfernandes.org, sam@ravnborg.org, cocci@systeme.lip6.fr,
-        linux-arch@vger.kernel.org, linux-scsi@vger.kernel.org,
-        x86@kernel.org, lucas.de.marchi@gmail.com, mingo@redhat.com,
-        geert@linux-m68k.org, stern@rowland.harvard.edu,
-        kernel-team@android.com, sspatil@google.com, arnd@arndb.de,
-        linux-kbuild@vger.kernel.org,
-        Nicolas Palix <nicolas.palix@imag.fr>, jeyu@kernel.org,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        tglx@linutronix.de, michal.lkml@markovi.net,
-        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        Nicolas Ferre <nicolas.ferre@microchip.com>, maco@google.com,
-        pombredanne@nexb.com, "David S. Miller" <davem@davemloft.net>,
-        linux-modules@vger.kernel.org
-Subject: Re: [Cocci] [PATCH v2 08/10] scripts: Coccinelle script for
- namespace dependencies.
-Message-ID: <20190814080307.GA2911@google.com>
-References: <20180716122125.175792-1-maco@android.com>
- <20190813121733.52480-1-maennich@google.com>
- <20190813121733.52480-9-maennich@google.com>
- <20190814063611.GA22387@himanshu-Vostro-3559>
+        id S1726496AbfHNIRO convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 14 Aug 2019 04:17:14 -0400
+Received: from esa2.mentor.iphmx.com ([68.232.141.98]:59298 "EHLO
+        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725928AbfHNIRO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Aug 2019 04:17:14 -0400
+IronPort-SDR: Hdg0FpHOtHKyHfN6raeTPdZEvYArMmDZUS0hKNceBYUqG3LJmytBaOZJBvuJevKSfnxhR1W4o2
+ dX8iQ2OOXC4H20Q7oCsAAWppusU5AslQP0adKRcJ7s0VQtCiEGiWbWBL2O1yG10UXgM/vMBT6n
+ u4CtI8GxmaR5WmlK4Iz5rRYpqsW+iECFfLYuyak4MIyWAfcPyKzxjWeG39DJmqDkJAPyQM4H9F
+ vs7YHwbiIwwmJW8t7fEd7Kp4AYDMDO9JPvWWr0ZioDvUxpXA4PUrMmme0dLwjoPNVxzmA+yzEe
+ W3Q=
+X-IronPort-AV: E=Sophos;i="5.64,384,1559548800"; 
+   d="scan'208";a="40418792"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa2.mentor.iphmx.com with ESMTP; 14 Aug 2019 00:17:13 -0800
+IronPort-SDR: M89bSmRJkiF32Cge8V4COSD9Evv5/XqG1ft0xL+P5cM57KRe9+iWb4Nmf0LRe7VDYa6Ua5EFOZ
+ OvFXNPnliJIrpfEbH7B6B04cZnOx72o3Et+/x+rPRM4ahovNLIxO694vjkUuUoyhUIpjtZ7ghU
+ cmqkqheLPsmS90rzzH5/M6v1J7mSieQrorXXFPHDS1nXFHt4d+QuBuZWv6aHZ3SCjW+HZ2Np9J
+ HNa6g7xSC7+AVXEnrafA2Imr9W68qA++CrmrmiGK9tEuHUqOIdMBHrS0dSD5biaIe06XPIH22h
+ TPU=
+From:   "Schmid, Carsten" <Carsten_Schmid@mentor.com>
+To:     "f.fainelli@gmail.com" <f.fainelli@gmail.com>
+CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Strange behaviour of D-Link DUB-1312 USB 3.0 Adapters
+Thread-Topic: Strange behaviour of D-Link DUB-1312 USB 3.0 Adapters
+Thread-Index: AdVSeH/taFnFr9I1T4OXjPctlrQ3Eg==
+Date:   Wed, 14 Aug 2019 08:17:08 +0000
+Message-ID: <db0e8930ea94408ca7a38192ddfd203f@SVR-IES-MBX-03.mgc.mentorg.com>
+Accept-Language: de-DE, en-IE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [137.202.0.90]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20190814063611.GA22387@himanshu-Vostro-3559>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Aug 14, 2019 at 12:06:11PM +0530, Himanshu Jha wrote:
->On Tue, Aug 13, 2019 at 01:17:05PM +0100, Matthias Maennich wrote:
->> A script that uses the '<module>.ns_deps' file generated by modpost to
->> automatically add the required symbol namespace dependencies to each
->> module.
->>
->> Usage:
->> 1) Move some symbols to a namespace with EXPORT_SYMBOL_NS() or define
->>    DEFAULT_SYMBOL_NAMESPACE
->> 2) Run 'make' (or 'make modules') and get warnings about modules not
->>    importing that namespace.
->> 3) Run 'make nsdeps' to automatically add required import statements
->>    to said modules.
->>
->> This makes it easer for subsystem maintainers to introduce and maintain
->> symbol namespaces into their codebase.
->>
->> Co-developed-by: Martijn Coenen <maco@android.com>
->> Signed-off-by: Martijn Coenen <maco@android.com>
->> Signed-off-by: Matthias Maennich <maennich@google.com>
->> ---
->
->[]
->
->>  MAINTAINERS                                 |  5 ++
->>  Makefile                                    | 12 +++++
->>  scripts/Makefile.modpost                    |  4 +-
->>  scripts/coccinelle/misc/add_namespace.cocci | 23 +++++++++
->>  scripts/nsdeps                              | 54 +++++++++++++++++++++
->>  5 files changed, 97 insertions(+), 1 deletion(-)
->>  create mode 100644 scripts/coccinelle/misc/add_namespace.cocci
->>  create mode 100644 scripts/nsdeps
->
->[]
->
->> +if [ "$SPATCH_VERSION_NUM" -lt "$SPATCH_REQ_VERSION_NUM" ] ; then
->> +    echo 'spatch needs to be version 1.06 or higher'
->
->Nitpick: 1.0.6
->
+[Resend - had mailer errors ]
 
-Good catch! Thanks!
-Actually it needs to be even 1.0.4, so I will just use
-$SPATCH_REQ_VERSION from above.
+Hi Florian,
 
->> +    exit 1
->> +fi
->
->
->-- 
->Himanshu Jha
->Undergraduate Student
->Department of Electronics & Communication
->Guru Tegh Bahadur Institute of Technology
+today i have seen a strange behaviour of two D-Link DUB-1312 adapters (same Revision A1).
+Plugging them into the same port (!) on my device one of them is recognized as SuperSpeed, the other as high speed ???
+(working on 4.14.129 LTS)
+
+From dmesg, the "faulty" one:
+[  530.585871] usb 1-2: new high-speed USB device number 4 using xhci_hcd   <<<<<<<<< HUH ????
+[  530.718872] usb 1-2: New USB device found, idVendor=2001, idProduct=4a00
+[  530.718880] usb 1-2: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[  530.718885] usb 1-2: Product: D-Link DUB-1312
+[  530.718889] usb 1-2: Manufacturer: D-Link Elec. Corp.
+[  530.718893] usb 1-2: SerialNumber: 000000000024B9
+[  531.055104] ax88179_178a 1-2:1.0 eth0: register 'ax88179_178a' at usb-0000:00:15.0-2, D-Link DUB-1312 USB 3.0 to Gigabit Ethernet Adapter, f4:8c:eb:4b:49:4e
+[ 1151.424860] usb 1-2: USB disconnect, device number 4
+
+And here comes the "good" one:
+[ 1151.425110] ax88179_178a 1-2:1.0 eth0: unregister 'ax88179_178a' usb-0000:00:15.0-2, D-Link DUB-1312 USB 3.0 to Gigabit Ethernet Adapter
+[ 1157.886447] usb 2-2: new SuperSpeed USB device number 4 using xhci_hcd <<<<<<<<<<< FINE !!!!
+[ 1157.905885] usb 2-2: New USB device found, idVendor=2001, idProduct=4a00
+[ 1157.905893] usb 2-2: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[ 1157.905898] usb 2-2: Product: D-Link DUB-1312
+[ 1157.905902] usb 2-2: Manufacturer: D-Link Elec. Corp.
+[ 1157.905906] usb 2-2: SerialNumber: 00000000000AF2
+[ 1158.246076] ax88179_178a 2-2:1.0 eth0: register 'ax88179_178a' at usb-0000:00:15.0-2, D-Link DUB-1312 USB 3.0 to Gigabit Ethernet Adapter, 40:9b:cd:73:f1:f3
+
+As you can see, same Vendor and Product ID.
+(And really: it is the same connector i plugged it in!)
+
+I had a look at the driver code of ax88179, but that one didn't change much in the past up to v5.2.
+Nothing that explains what i can see here.
+
+What can i do to dig deeper why this happens?
+
+Best regards
+Carsten
