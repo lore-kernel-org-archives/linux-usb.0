@@ -2,62 +2,116 @@ Return-Path: <SRS0=XFIG=WK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE36FC433FF
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 13:19:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53AD0C433FF
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 13:24:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 84B052054F
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 13:19:58 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dHFllC+V"
+	by mail.kernel.org (Postfix) with ESMTP id 331D3206C1
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 13:24:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727736AbfHNNTz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 14 Aug 2019 09:19:55 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:57266 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726575AbfHNNTz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Aug 2019 09:19:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=C1/PeEnTGIHIIc521BXcKxFh9gVf1brG0rZVLhGsiyk=; b=dHFllC+VPxH91LQuraoRwpLbJ
-        DpB7zsbbitXyf2qQUXalO92zwx+TeIEgm4cNdi6RkeeLussboOngBaGVlClUcOesqkNhgEHf/4e7C
-        3bTtHOLS4pbzOe0HqpJ/3ZdSA/fc1sh7133fyfFvWfMs6nxlHt/YM0Ek8zkJSsl990Wmw3y+uScRV
-        sanKFBsNZ38uvWGHh1sA/SKGp5kkIxcC9JGb+5/J0X2Il7EfxJ5pxaRp9JaQN5DBcaoj7574b+ROR
-        JRJpyEU51WtDA2gELy2RyMJKN38Dt0KR5s4VZJwOpTY1r56XbEfc7bfmrij6iMGdW0ps+L0rDpVIN
-        7z915J7cA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1hxtBv-0000yF-Me; Wed, 14 Aug 2019 13:19:51 +0000
-Date:   Wed, 14 Aug 2019 06:19:51 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Suwan Kim <suwan.kim027@gmail.com>
-Cc:     shuah@kernel.org, valentina.manea.m@gmail.com,
-        gregkh@linuxfoundation.org, stern@rowland.harvard.edu,
+        id S1727856AbfHNNY0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 14 Aug 2019 09:24:26 -0400
+Received: from mga14.intel.com ([192.55.52.115]:15870 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726263AbfHNNYZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 14 Aug 2019 09:24:25 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Aug 2019 06:24:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,385,1559545200"; 
+   d="scan'208";a="194533757"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 14 Aug 2019 06:24:22 -0700
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Hans de Goede <hdegoede@redhat.com>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/2] usbip: Implement SG support
-Message-ID: <20190814131951.GA1437@infradead.org>
-References: <20190808155435.10050-1-suwan.kim027@gmail.com>
+Subject: [PATCH 1/3] usb: typec: fusb302: Remove unused properties
+Date:   Wed, 14 Aug 2019 16:24:17 +0300
+Message-Id: <20190814132419.39759-2-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190814132419.39759-1-heikki.krogerus@linux.intel.com>
+References: <20190814132419.39759-1-heikki.krogerus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190808155435.10050-1-suwan.kim027@gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-FYI, I think my
+Removing the deprecated fusb302 specific properties. There
+are no more platforms using them.
 
-   "usb: add a HCD_DMA flag instead of guestimating DMA capabilities"
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+---
+ drivers/usb/typec/tcpm/fusb302.c | 31 +++----------------------------
+ 1 file changed, 3 insertions(+), 28 deletions(-)
 
-is the proper core fix for what your patch 1 works around, as the USB
-core should not assume DMA capabilities based on the presence of a DMA
-mask.
+diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
+index c524088246ee..074fbb17fa8b 100644
+--- a/drivers/usb/typec/tcpm/fusb302.c
++++ b/drivers/usb/typec/tcpm/fusb302.c
+@@ -1670,29 +1670,6 @@ static int init_gpio(struct fusb302_chip *chip)
+ 	return 0;
+ }
+ 
+-static int fusb302_composite_snk_pdo_array(struct fusb302_chip *chip)
+-{
+-	struct device *dev = chip->dev;
+-	u32 max_uv, max_ua;
+-
+-	chip->snk_pdo[0] = PDO_FIXED(5000, 400, PDO_FIXED_FLAGS);
+-
+-	/*
+-	 * As max_snk_ma/mv/mw is not needed for tcpc_config,
+-	 * those settings should be passed in via sink PDO, so
+-	 * "fcs, max-sink-*" properties will be deprecated, to
+-	 * perserve compatibility with existing users of them,
+-	 * we read those properties to convert them to be a var
+-	 * PDO.
+-	 */
+-	if (device_property_read_u32(dev, "fcs,max-sink-microvolt", &max_uv) ||
+-		device_property_read_u32(dev, "fcs,max-sink-microamp", &max_ua))
+-		return 1;
+-
+-	chip->snk_pdo[1] = PDO_VAR(5000, max_uv / 1000, max_ua / 1000);
+-	return 2;
+-}
+-
+ static int fusb302_probe(struct i2c_client *client,
+ 			 const struct i2c_device_id *id)
+ {
+@@ -1701,7 +1678,6 @@ static int fusb302_probe(struct i2c_client *client,
+ 	struct device *dev = &client->dev;
+ 	const char *name;
+ 	int ret = 0;
+-	u32 v;
+ 
+ 	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_I2C_BLOCK)) {
+ 		dev_err(&client->dev,
+@@ -1721,11 +1697,10 @@ static int fusb302_probe(struct i2c_client *client,
+ 	chip->tcpc_dev.fwnode =
+ 		device_get_named_child_node(dev, "connector");
+ 
+-	if (!device_property_read_u32(dev, "fcs,operating-sink-microwatt", &v))
+-		chip->tcpc_config.operating_snk_mw = v / 1000;
+-
+ 	/* Composite sink PDO */
+-	chip->tcpc_config.nr_snk_pdo = fusb302_composite_snk_pdo_array(chip);
++	chip->snk_pdo[0] = PDO_FIXED(5000, 400, PDO_FIXED_FLAGS);
++
++	chip->tcpc_config.nr_snk_pdo = 1;
+ 	chip->tcpc_config.snk_pdo = chip->snk_pdo;
+ 
+ 	/*
+-- 
+2.20.1
+
