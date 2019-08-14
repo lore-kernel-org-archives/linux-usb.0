@@ -2,84 +2,113 @@ Return-Path: <SRS0=XFIG=WK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26E33C433FF
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 10:22:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8392C32753
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 11:32:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 05E6E208C2
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 10:22:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8AC6A214C6
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 11:32:35 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cUSmaBFd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726121AbfHNKW5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 14 Aug 2019 06:22:57 -0400
-Received: from esa3.mentor.iphmx.com ([68.232.137.180]:42520 "EHLO
-        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725888AbfHNKW5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Aug 2019 06:22:57 -0400
-IronPort-SDR: J2a6EK0ZYl4l+ZhpfwrGpvTj/A+EmlTtLyzoJqDUE2x3gAhMm4Gt+sZ1bEryQC/P4XeS/g0/r4
- FeK4pbtD4LKqoJQzpIDWWKLD7yGpNDiGyDNOo4TOBAUwU31AaoWPq+wc3W1QN0+vjVo2c6RE7Z
- sGdgsPnvhxoDmznutyYhLvpYZAHJuxzmxIalLZIyrSvM3BKtfaIoRdKt5P97mBbzks6wYmMpqa
- ElER3jWsUZwsYs+aMSn6aZB2dmT/3SbXIixTaQZOZ6E1nTLRm2ZDkrmztXc0PhFAL2SCPIsv6B
- 8OU=
-X-IronPort-AV: E=Sophos;i="5.64,384,1559548800"; 
-   d="scan'208";a="40442356"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa3.mentor.iphmx.com with ESMTP; 14 Aug 2019 02:22:56 -0800
-IronPort-SDR: taJKW8HxyzgydnFxVtFT9vZvRBs9kRYDY88SjlKFExN1WUMEqCzh7rkcaLmzxPLoWuOAXWVvwW
- 8lDDH8zAqIy3vwZccJGLBqSjSrK8AkGcZ3svL4lEAT+jMCc2vGQGsEaIoa3VF3WlX5j2IPQwVv
- usfk0SscJ+WdGnS4rWoufTPI0Zwa4x+FA0Et1kD5BgVb3u13Olm7UEY4Tmt3HLmNncdliNYDun
- wcGuyH0ZP3Ep5BDvxO8zX90941OQxQ+JTxWJapDGQeek3jjD6mmMBvVkt9kzD+eqTcE5IG98JL
- 0Xo=
-From:   "Schmid, Carsten" <Carsten_Schmid@mentor.com>
-To:     Oliver Neukum <oneukum@suse.com>,
-        "f.fainelli@gmail.com" <f.fainelli@gmail.com>
-CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: AW: Strange behaviour of D-Link DUB-1312 USB 3.0 Adapters
-Thread-Topic: Strange behaviour of D-Link DUB-1312 USB 3.0 Adapters
-Thread-Index: AdVSeH/taFnFr9I1T4OXjPctlrQ3Ev//86kA///uBTD//8ARIA==
-Date:   Wed, 14 Aug 2019 10:22:51 +0000
-Message-ID: <b3b7161ab7f34301aedfd5e5ba3d41a7@SVR-IES-MBX-03.mgc.mentorg.com>
-References: <db0e8930ea94408ca7a38192ddfd203f@SVR-IES-MBX-03.mgc.mentorg.com>
- <1565771508.25764.3.camel@suse.com>
- <f5e22fea4e1c4baeb2fc98d324ad9060@SVR-IES-MBX-03.mgc.mentorg.com>
-In-Reply-To: <f5e22fea4e1c4baeb2fc98d324ad9060@SVR-IES-MBX-03.mgc.mentorg.com>
-Accept-Language: de-DE, en-IE, en-US
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [137.202.0.90]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1727058AbfHNLcf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 14 Aug 2019 07:32:35 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:38796 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726722AbfHNLce (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Aug 2019 07:32:34 -0400
+Received: by mail-pf1-f193.google.com with SMTP id o70so8070725pfg.5
+        for <linux-usb@vger.kernel.org>; Wed, 14 Aug 2019 04:32:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MF7jMNepz1wdVPgQ1SCooo7k7btOrltx/wKQg+y/GsA=;
+        b=cUSmaBFdYOwqXrkSpi2SHCWiWNzTtlXihjcmXOVqkDl+X3n5d6peoCGvuYwgX64MqL
+         3w2UzzDyfZu0hfAU0lFABuw+Jx2QQySxZ8wFRwIlGIY7OxsvXkuM24aClrgd5BDVkt3S
+         WZWQjzicuFTY2WaLJVE4TowEXGrnoyST9NVe8UpN5Hq+5g9Y7NTDxGNJ9pj82Xev2xou
+         ImULti9r2uMXMeGwdPlBd119/jITjOHMHvdG6iACS1VVifw2mwiInWCMfp4BhMf/hxoH
+         fysDbWyizAW+Mp9h1asFijLvf66MdVAAiwQXyIBRQB6ViWm+rix8TlfWqFOBiu6f24pG
+         vriw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MF7jMNepz1wdVPgQ1SCooo7k7btOrltx/wKQg+y/GsA=;
+        b=B12tsPrYSeomge560EFDaIe3C/STLCLJRSjBwFsnbQMGXXmxR0Dmj8damIq8VCaJ5M
+         aQah06DzhPZSRscRTQAEyXtPQD6hbWw8zX6+/QVM1+55+p6lKXrcPFU+miRpnk0jOhTx
+         /GD0xNTuJpPAZMDib9PTzysh2e82h6bTL7yi0fjLpeigadnd64An03m2rHhQNk5rlk8Z
+         sKGcNoOGQXfmubERksfcKZBipYQmI2BXxk6SCMlugNs/xg/vossDJz+ozot0GKcTXARx
+         t821hG4lW1tHtfMt1i1MZiqQJEENAppfhjYJKf+Z8qgUo+0xr7jFnclfOjbdecCTOIun
+         RHFQ==
+X-Gm-Message-State: APjAAAUfGV95zgi362LfpGw7aKtoJqroTUrwpUtOPjvKHrp78GQqftpX
+        JYdcQ5hv3u28Xp+aeFx5EeMqHvpJI/EYmWwIzjS/MA==
+X-Google-Smtp-Source: APXvYqxa1i+/yJ7X44W26il0CSBQveyXOF7jDDdUxdID5l1/hjOMDzF9/5eHbAzZ0E9FEdefJrW5A8OnVzmLhKHHRo4=
+X-Received: by 2002:a17:90a:858c:: with SMTP id m12mr6772187pjn.129.1565782353721;
+ Wed, 14 Aug 2019 04:32:33 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAAeHK+zPDgvDr_Bao9dz_7hGEg+Ud6-tj7pZaihKeYHJ8M386Q@mail.gmail.com>
+ <00000000000054f8bd058ddfa341@google.com> <CAAeHK+xZRH9-ue0QyEdiWmbFJF6P3RXMud+tE6t3x6Orcxnbkg@mail.gmail.com>
+ <20190813205104.pnyan3kafz26wsse@gofer.mess.org>
+In-Reply-To: <20190813205104.pnyan3kafz26wsse@gofer.mess.org>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Wed, 14 Aug 2019 13:32:22 +0200
+Message-ID: <CAAeHK+y3MHoeAgOtAW0pTaTBFeVzXmNpCnazsYT0wJMqhmzd0w@mail.gmail.com>
+Subject: Re: KASAN: global-out-of-bounds Read in dvb_pll_attach
+To:     Sean Young <sean@mess.org>
+Cc:     syzbot <syzbot+8a8f48672560c8ca59dd@syzkaller.appspotmail.com>,
+        bnvandana@gmail.com, allison@lohutok.net, hverkuil-cisco@xs4all.nl,
+        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
+        USB list <linux-usb@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        rfontana@redhat.com,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        Thomas Gleixner <tglx@linutronix.de>, tskd08@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Pj4+IFBsdWdnaW5nIHRoZW0gaW50byB0aGUgc2FtZSBwb3J0ICghKSBvbiBteSBkZXZpY2Ugb25l
-IG9mIHRoZW0gaXMNCj4+PiByZWNvZ25pemVkIGFzIFN1cGVyU3BlZWQsIHRoZSBvdGhlciBhcyBo
-aWdoIHNwZWVkID8/Pw0KPj4+ICh3b3JraW5nIG9uIDQuMTQuMTI5IExUUykNCj4+Pg0KPj4+IEZy
-b20gZG1lc2csIHRoZSAiZmF1bHR5IiBvbmU6DQo+Pj4gWyAgNTMwLjU4NTg3MV0gdXNiIDEtMjog
-bmV3IGhpZ2gtc3BlZWQgVVNCIGRldmljZSBudW1iZXIgNCB1c2luZw0KPj4+IHhoY2lfaGNkICAg
-PDw8PDw8PDw8IEhVSCA/Pz8/DQo+Pj4NCj4+IFhIQ0kgaXMgbm90IGxpa2UgRUhDSS4gSXQgbmVl
-ZHMgbm8gY29tcGFuaW9uIGNvbnRyb2xsZXIsIGFzIGl0IHNlcnZlcw0KPj4gYWxsIHNwZWVkcy4N
-Cj4+DQo+PiBUaGlzIGlzIG9uIGEgbG93ZXIgbGF5ZXIgdGhhbiBheDg4MTc5LiBUaGlzIGNvbWVz
-IGZyb20geGhjaV9oY2QuDQo+PiBJcyB0aGlzIGEgcmVncmVzc2lvbj8NCj4+DQo+IEkgZG9uJ3Qg
-dGhpbmsgaXRzIGEgcmVncmVzc2lvbi4NCj4NCkkgY2FuIHNlZSB0aGUgc2FtZSBvbiBhIDQuMTQu
-MTAyLg0KDQpOZXh0IG9ic2VydmF0aW9uOg0KQWZ0ZXIgc29tZSAtIGxvbmcgLSB0aW1lICg+IDE1
-IG1pbnV0ZXMpIGEgaGFuZ2luZyBwaW5nDQpzYXlzOg0KcGluZzogc2VuZHRvOiBOZXR3b3JrIGlz
-IHVucmVhY2hhYmxlDQoNCkFmdGVyIHRoaXMsIHdpdGhvdXQgZG9pbmcgYW55dGhpbmcsIGkgY2Fu
-IHN0YXJ0IHBpbmcgYWdhaW4NCmFuZCBpdCB3b3JrczoNCg0KJDp+IyBwaW5nIDEzNC44Ni41Ni44
-MA0KUElORyAxMzQuODYuNTYuODAgKDEzNC44Ni41Ni44MCk6IDU2IGRhdGEgYnl0ZXMNCnBpbmc6
-IHNlbmR0bzogTmV0d29yayBpcyB1bnJlYWNoYWJsZQ0KJDp+IyBwaW5nIDEzNC44Ni41Ni44MA0K
-UElORyAxMzQuODYuNTYuODAgKDEzNC44Ni41Ni44MCk6IDU2IGRhdGEgYnl0ZXMNCjY0IGJ5dGVz
-IGZyb20gMTM0Ljg2LjU2LjgwOiBzZXE9MCB0dGw9NjMgdGltZT0zLjIwNiBtcw0KNjQgYnl0ZXMg
-ZnJvbSAxMzQuODYuNTYuODA6IHNlcT0xIHR0bD02MyB0aW1lPTAuNjYyIG1zDQoNCkxvb2tzIGxp
-a2UgYSBoaWdoZXIgcmF0ZSBvZiB0cmFuc2ZlcnMgY2F1c2VzIGEgc3RhbGwgb3IgcmV0cmllcw0K
-b3Igd2hhdGV2ZXIgLSBidXQgd2l0aG91dCBhbnkgbWVzc2FnZSBpJ20gbG9zdC4NCkkgY2FuIHJl
-cHJvZHVjZSB0aGlzIDEwMCUuDQoNClNvbWVvbmUgdGhlcmUgd2hvIGhhcyBhbnkgYWR2aWNlIHdo
-YXQgaSBjYW4gZG8gdG8NCnRyYWNrIHRoaXMgZG93bj8NCg0KQmVzdCByZWdhcmRzDQpDYXJzdGVu
-DQo=
+On Tue, Aug 13, 2019 at 10:51 PM Sean Young <sean@mess.org> wrote:
+>
+> On Tue, Aug 13, 2019 at 03:22:49PM +0200, Andrey Konovalov wrote:
+> > On Wed, Jul 17, 2019 at 2:29 PM syzbot
+> > <syzbot+8a8f48672560c8ca59dd@syzkaller.appspotmail.com> wrote:
+> > >
+> > > Hello,
+> > >
+> > > syzbot has tested the proposed patch and the reproducer did not trigger
+> > > crash:
+> > >
+> > > Reported-and-tested-by:
+> > > syzbot+8a8f48672560c8ca59dd@syzkaller.appspotmail.com
+> > >
+> > > Tested on:
+> > >
+> > > commit:         6a3599ce usb-fuzzer: main usb gadget fuzzer driver
+> > > git tree:       https://github.com/google/kasan.git usb-fuzzer
+> > > kernel config:  https://syzkaller.appspot.com/x/.config?x=d90745bdf884fc0a
+> > > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> > > patch:          https://syzkaller.appspot.com/x/patch.diff?x=1454f4d0600000
+> > >
+> > > Note: testing is done by a robot and is best-effort only.
+> >
+> > Hi bnvandana,
+> >
+> > Could you submit this patch? Syzbot testing shows that is fixes the issue.
+>
+> The patch had issues (see discussion in the thread). I created this patch
+> but I see now I did not include the correct Reported-by: tag.
+>
+> https://www.mail-archive.com/linux-media@vger.kernel.org/msg148889.html
+
+No problem, we can mark the fix manually:
+
+#syz fix: media: dvb-frontends: use ida for pll number
+
+Thanks!
