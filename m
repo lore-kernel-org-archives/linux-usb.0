@@ -2,262 +2,199 @@ Return-Path: <SRS0=XFIG=WK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 666B8C32757
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 11:39:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB4D3C433FF
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 11:39:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 38C14216F4
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 11:39:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A20CC206C2
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 11:39:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727461AbfHNLj3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 14 Aug 2019 07:39:29 -0400
-Received: from inva021.nxp.com ([92.121.34.21]:42674 "EHLO inva021.nxp.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727744AbfHNLj3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 14 Aug 2019 07:39:29 -0400
-Received: from inva021.nxp.com (localhost [127.0.0.1])
-        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 73B93200365;
-        Wed, 14 Aug 2019 13:39:26 +0200 (CEST)
-Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
-        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 91152200184;
-        Wed, 14 Aug 2019 13:39:23 +0200 (CEST)
-Received: from titan.ap.freescale.net (TITAN.ap.freescale.net [10.192.208.233])
-        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id E7F19402EC;
-        Wed, 14 Aug 2019 19:39:19 +0800 (SGT)
-From:   jun.li@nxp.com
-To:     Peter.Chen@nxp.com
-Cc:     gregkh@linuxfoundation.org, jun.li@nxp.com, linux-imx@nxp.com,
-        linux-usb@vger.kernel.org
-Subject: [PATCH v3] usb: chipidea: add role switch class support
-Date:   Wed, 14 Aug 2019 19:29:42 +0800
-Message-Id: <20190814112942.33142-1-jun.li@nxp.com>
-X-Mailer: git-send-email 2.9.5
-X-Virus-Scanned: ClamAV using ClamSMTP
+        id S1727304AbfHNLjs convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 14 Aug 2019 07:39:48 -0400
+Received: from esa4.mentor.iphmx.com ([68.232.137.252]:1925 "EHLO
+        esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726865AbfHNLjr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 14 Aug 2019 07:39:47 -0400
+IronPort-SDR: oy9sF8ZShLMsG66RYhvMLKDdtoV0TWmRr9RRJ1B+2emNbzD8vdz1qvGZaW8HfcSPLJe5c2m8Ui
+ +k60b3sVjibSSClIaDo5O1B7E43wMjT7Vx2cgKfTNfo38sAQaNs9cqOSYQTFHSXN2QbCDLQ6n9
+ wElcFuanxhImlBYIiJALx49lk1wbkQ9c55p+OUaHuLM6tBKEP8zhWLY8sxFH7kW+qQ0drdeacz
+ 5DpDQLsSNfuiwVHNVqceCtEbNL3a/rba7Qc5afZC6lKLcmB2SnCV9cADo9UInwTM1QiWIhi67R
+ zjc=
+X-IronPort-AV: E=Sophos;i="5.64,385,1559548800"; 
+   d="scan'208";a="40454989"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa4.mentor.iphmx.com with ESMTP; 14 Aug 2019 03:39:47 -0800
+IronPort-SDR: Aoeb+lm75XWbI7uH8v6v17c8kZdqfZs0aTRMRUksJQ0xXff1sjbZgy7ImoFVeVB/eUbpd7Xiqq
+ L7+uyFqwat4KZqnnixTJD+O6ta5iOIiUXHwRdZ0STugmqPQ8fl2j4ezQBt2bxj5M2lXtviBunn
+ nxiTDkVxRfStU00D/ABLfzEBC3kY3Gweuh/XmvZs9EJfuGiGHPPvNBxMNWHW5QjBf1snLQ9H4g
+ +ZA4O3yWmZUQ5wrCR2XflTH8mq91Qwv+AjgoyPQf08c6EUnfbZBS7q4ilA6twMCMg+wH40PknM
+ eEE=
+From:   "Schmid, Carsten" <Carsten_Schmid@mentor.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
+Subject: [PATCH] usb: xhci-pci: reorder removal to avoid use-after-free
+Thread-Topic: [PATCH] usb: xhci-pci: reorder removal to avoid use-after-free
+Thread-Index: AQHVUpSXBvBKq97fNkaS50QUUgX/8g==
+Date:   Wed, 14 Aug 2019 11:39:41 +0000
+Message-ID: <1565782781938.37795@mentor.com>
+Accept-Language: de-DE, en-IE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [137.202.0.90]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 8BIT
+MIME-Version: 1.0
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Li Jun <jun.li@nxp.com>
+On driver removal, the platform_device_unregister call
+attached through devm_add_action_or_reset was executed
+after usb_hcd_pci_remove.
+This lead to a use-after-free for the iomem resorce of
+the xhci-ext-caps driver in the platform removal
+because the parent of the resource was freed earlier.
 
-USB role is fully controlled by usb role switch consumer(e.g. typec),
-usb port can be at host mode(USB_ROLE_HOST), device mode connected to
-host(USB_ROLE_DEVICE), or not connecting any partner(USB_ROLE_NONE).
+Fix this by reordering of the removal sequence.
 
-Signed-off-by: Li Jun <jun.li@nxp.com>
+Signed-off-by: Carsten Schmid <carsten_schmid@mentor.com>
 ---
+ drivers/usb/host/xhci-ext-caps.c | 22 ++++++++++++----------
+ drivers/usb/host/xhci-pci.c      |  4 ++++
+ drivers/usb/host/xhci-pci.h      | 19 +++++++++++++++++++
+ drivers/usb/host/xhci.h          |  1 +
+ 4 files changed, 36 insertions(+), 10 deletions(-)
+ create mode 100644 drivers/usb/host/xhci-pci.h
 
-Changes for v3:
-- Remove the patch usb: chipidea: replace ci_role with usb_role
-  as the existing ci->role usage can't map to usb_role.
-- Use the suggested ci_hdrc_cable for reuse current role change
-  handling.
-- Fix build robot warning by add usb_role head file.
-
-Change for v2:
-- Support USB_ROLE_NONE, which for usb port not connecting any
-  device or host, and will be in low power mode.
-
- drivers/usb/chipidea/ci.h   | 12 +++++++
- drivers/usb/chipidea/core.c | 76 +++++++++++++++++++++++++++++++++++++++++++++
- drivers/usb/chipidea/otg.c  |  8 ++---
- 3 files changed, 92 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/usb/chipidea/ci.h b/drivers/usb/chipidea/ci.h
-index 6a2cc5c..6911aef 100644
---- a/drivers/usb/chipidea/ci.h
-+++ b/drivers/usb/chipidea/ci.h
-@@ -16,6 +16,7 @@
- #include <linux/usb/gadget.h>
- #include <linux/usb/otg-fsm.h>
- #include <linux/usb/otg.h>
-+#include <linux/usb/role.h>
- #include <linux/ulpi/interface.h>
+diff --git a/drivers/usb/host/xhci-ext-caps.c b/drivers/usb/host/xhci-ext-caps.c
+index 399113f9fc5c..d2ab1e2a39c0 100644
+--- a/drivers/usb/host/xhci-ext-caps.c
++++ b/drivers/usb/host/xhci-ext-caps.c
+@@ -7,21 +7,19 @@
  
- /******************************************************************************
-@@ -217,6 +218,7 @@ struct ci_hdrc {
- 	ktime_t				hr_timeouts[NUM_OTG_FSM_TIMERS];
- 	unsigned			enabled_otg_timer_bits;
- 	enum otg_fsm_timer		next_otg_timer;
-+	struct usb_role_switch		*role_switch;
- 	struct work_struct		work;
- 	struct workqueue_struct		*wq;
+ #include <linux/platform_device.h>
+ #include "xhci.h"
++#include "xhci-pci.h"
  
-@@ -290,6 +292,16 @@ static inline void ci_role_stop(struct ci_hdrc *ci)
- 	ci->roles[role]->stop(ci);
+ #define USB_SW_DRV_NAME		"intel_xhci_usb_sw"
+ #define USB_SW_RESOURCE_SIZE	0x400
+ 
+-static void xhci_intel_unregister_pdev(void *arg)
+-{
+-	platform_device_unregister(arg);
+-}
+-
+ static int xhci_create_intel_xhci_sw_pdev(struct xhci_hcd *xhci, u32 cap_offset)
+ {
+ 	struct usb_hcd *hcd = xhci_to_hcd(xhci);
+ 	struct device *dev = hcd->self.controller;
+ 	struct platform_device *pdev;
+ 	struct resource	res = { 0, };
++	struct xhci_pci_priv *priv = (struct xhci_pci_priv *)xhci->priv;
++
+ 	int ret;
+ 
+ 	pdev = platform_device_alloc(USB_SW_DRV_NAME, PLATFORM_DEVID_NONE);
+@@ -52,11 +50,7 @@ static int xhci_create_intel_xhci_sw_pdev(struct xhci_hcd *xhci, u32 cap_offset)
+ 		return ret;
+ 	}
+ 
+-	ret = devm_add_action_or_reset(dev, xhci_intel_unregister_pdev, pdev);
+-	if (ret) {
+-		dev_err(dev, "couldn't add unregister action for intel_xhci_usb_sw pdev\n");
+-		return ret;
+-	}
++	priv->pdev = pdev;
+ 
+ 	return 0;
  }
- 
-+static inline enum usb_role ci_role_to_usb_role(struct ci_hdrc *ci)
-+{
-+	if (ci->role == CI_ROLE_HOST)
-+		return USB_ROLE_HOST;
-+	else if (ci->role == CI_ROLE_GADGET && ci->vbus_active)
-+		return USB_ROLE_DEVICE;
-+	else
-+		return USB_ROLE_NONE;
-+}
-+
- /**
-  * hw_read_id_reg: reads from a identification register
-  * @ci: the controller
-diff --git a/drivers/usb/chipidea/core.c b/drivers/usb/chipidea/core.c
-index 26062d6..c3300a1 100644
---- a/drivers/usb/chipidea/core.c
-+++ b/drivers/usb/chipidea/core.c
-@@ -600,6 +600,64 @@ static int ci_cable_notifier(struct notifier_block *nb, unsigned long event,
- 	return NOTIFY_DONE;
+@@ -88,3 +82,11 @@ int xhci_ext_cap_init(struct xhci_hcd *xhci)
+ 	return 0;
  }
+ EXPORT_SYMBOL_GPL(xhci_ext_cap_init);
++
++void xhci_ext_cap_remove(struct xhci_hcd *xhci)
++{
++	struct xhci_pci_priv *priv = (struct xhci_pci_priv *)xhci->priv;
++	if (priv->pdev)
++		platform_device_unregister(priv->pdev);
++}
++EXPORT_SYMBOL_GPL(xhci_ext_cap_remove);
+diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+index c2fe218e051f..a4d094df56f7 100644
+--- a/drivers/usb/host/xhci-pci.c
++++ b/drivers/usb/host/xhci-pci.c
+@@ -14,6 +14,7 @@
+ #include <linux/acpi.h>
  
-+static enum usb_role ci_usb_role_switch_get(struct device *dev)
-+{
-+	struct ci_hdrc *ci = dev_get_drvdata(dev);
-+	enum usb_role role;
-+	unsigned long flags;
+ #include "xhci.h"
++#include "xhci-pci.h"
+ #include "xhci-trace.h"
+ 
+ #define SSIC_PORT_NUM		2
+@@ -62,6 +63,7 @@ static struct hc_driver __read_mostly xhci_pci_hc_driver;
+ static int xhci_pci_setup(struct usb_hcd *hcd);
+ 
+ static const struct xhci_driver_overrides xhci_pci_overrides __initconst = {
++	.extra_priv_size = sizeof(struct xhci_pci_priv),
+ 	.reset = xhci_pci_setup,
+ };
+ 
+@@ -393,6 +395,8 @@ static void xhci_pci_remove(struct pci_dev *dev)
+ 		xhci->shared_hcd = NULL;
+ 	}
+ 
++	xhci_ext_cap_remove(xhci);
 +
-+	spin_lock_irqsave(&ci->lock, flags);
-+	role = ci_role_to_usb_role(ci);
-+	spin_unlock_irqrestore(&ci->lock, flags);
+ 	/* Workaround for spurious wakeups at shutdown with HSW */
+ 	if (xhci->quirks & XHCI_SPURIOUS_WAKEUP)
+ 		pci_set_power_state(dev, PCI_D3hot);
+diff --git a/drivers/usb/host/xhci-pci.h b/drivers/usb/host/xhci-pci.h
+new file mode 100644
+index 000000000000..ead9618d7368
+--- /dev/null
++++ b/drivers/usb/host/xhci-pci.h
+@@ -0,0 +1,19 @@
++/*
++ * xhci-pci.h - xHCI extended capability handling platform Glue.
++ *
++ * Copyright (C) 2019 Mentor Graphics (Deutschland) GmbH
++ * Derived from xhci-plat.h
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * version 2 as published by the Free Software Foundation.
++ */
 +
-+	return role;
-+}
++#ifndef _XHCI_PCI_H
++#define _XHCI_PCI_H
 +
-+static int ci_usb_role_switch_set(struct device *dev, enum usb_role role)
-+{
-+	struct ci_hdrc *ci = dev_get_drvdata(dev);
-+	struct ci_hdrc_cable *cable = NULL;
-+	enum usb_role current_role = ci_role_to_usb_role(ci);
-+
-+	if (current_role == role)
-+		return 0;
-+
-+	/* Stop current role */
-+	if (current_role == USB_ROLE_DEVICE)
-+		cable = &ci->platdata->vbus_extcon;
-+	else if (current_role == USB_ROLE_HOST)
-+		cable = &ci->platdata->id_extcon;
-+
-+	if (cable) {
-+		cable->changed = true;
-+		cable->connected = false;
-+		ci_irq(ci->irq, ci);
-+	}
-+
-+	cable = NULL;
-+
-+	/* Start target role */
-+	if (role == USB_ROLE_DEVICE)
-+		cable = &ci->platdata->vbus_extcon;
-+	else if (role == USB_ROLE_HOST)
-+		cable = &ci->platdata->id_extcon;
-+
-+	if (cable) {
-+		if (ci->wq)
-+			flush_workqueue(ci->wq);
-+		cable->changed = true;
-+		cable->connected = true;
-+		ci_irq(ci->irq, ci);
-+	}
-+
-+	return 0;
-+}
-+
-+static struct usb_role_switch_desc ci_role_switch = {
-+	.set = ci_usb_role_switch_set,
-+	.get = ci_usb_role_switch_get,
++struct xhci_pci_priv {
++	struct platform_device *pdev;
 +};
 +
- static int ci_get_platdata(struct device *dev,
- 		struct ci_hdrc_platform_data *platdata)
- {
-@@ -726,6 +784,9 @@ static int ci_get_platdata(struct device *dev,
- 			cable->connected = false;
- 	}
++#endif	/* _XHCI_PCI_H */
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index fabbce1c542a..847d2021fc2c 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -2052,6 +2052,7 @@ void xhci_init_driver(struct hc_driver *drv,
+ 		      const struct xhci_driver_overrides *over);
+ int xhci_disable_slot(struct xhci_hcd *xhci, u32 slot_id);
+ int xhci_ext_cap_init(struct xhci_hcd *xhci);
++void xhci_ext_cap_remove(struct xhci_hcd *xhci);
  
-+	if (device_property_read_bool(dev, "usb-role-switch"))
-+		ci_role_switch.fwnode = dev->fwnode;
-+
- 	platdata->pctl = devm_pinctrl_get(dev);
- 	if (!IS_ERR(platdata->pctl)) {
- 		struct pinctrl_state *p;
-@@ -1051,6 +1112,15 @@ static int ci_hdrc_probe(struct platform_device *pdev)
- 		}
- 	}
- 
-+	if (ci_role_switch.fwnode) {
-+		ci->role_switch = usb_role_switch_register(dev,
-+					&ci_role_switch);
-+		if (IS_ERR(ci->role_switch)) {
-+			ret = PTR_ERR(ci->role_switch);
-+			goto deinit_otg;
-+		}
-+	}
-+
- 	if (ci->roles[CI_ROLE_HOST] && ci->roles[CI_ROLE_GADGET]) {
- 		if (ci->is_otg) {
- 			ci->role = ci_otg_role(ci);
-@@ -1115,6 +1185,9 @@ static int ci_hdrc_probe(struct platform_device *pdev)
- remove_debug:
- 	dbg_remove_files(ci);
- stop:
-+	if (ci->role_switch)
-+		usb_role_switch_unregister(ci->role_switch);
-+deinit_otg:
- 	if (ci->is_otg && ci->roles[CI_ROLE_GADGET])
- 		ci_hdrc_otg_destroy(ci);
- deinit_gadget:
-@@ -1133,6 +1206,9 @@ static int ci_hdrc_remove(struct platform_device *pdev)
- {
- 	struct ci_hdrc *ci = platform_get_drvdata(pdev);
- 
-+	if (ci->role_switch)
-+		usb_role_switch_unregister(ci->role_switch);
-+
- 	if (ci->supports_runtime_pm) {
- 		pm_runtime_get_sync(&pdev->dev);
- 		pm_runtime_disable(&pdev->dev);
-diff --git a/drivers/usb/chipidea/otg.c b/drivers/usb/chipidea/otg.c
-index f25d482..fbfb02e 100644
---- a/drivers/usb/chipidea/otg.c
-+++ b/drivers/usb/chipidea/otg.c
-@@ -35,7 +35,7 @@ u32 hw_read_otgsc(struct ci_hdrc *ci, u32 mask)
- 	 * detection overwrite OTGSC register value
- 	 */
- 	cable = &ci->platdata->vbus_extcon;
--	if (!IS_ERR(cable->edev)) {
-+	if (!IS_ERR(cable->edev) || ci->role_switch) {
- 		if (cable->changed)
- 			val |= OTGSC_BSVIS;
- 		else
-@@ -53,7 +53,7 @@ u32 hw_read_otgsc(struct ci_hdrc *ci, u32 mask)
- 	}
- 
- 	cable = &ci->platdata->id_extcon;
--	if (!IS_ERR(cable->edev)) {
-+	if (!IS_ERR(cable->edev) || ci->role_switch) {
- 		if (cable->changed)
- 			val |= OTGSC_IDIS;
- 		else
-@@ -83,7 +83,7 @@ void hw_write_otgsc(struct ci_hdrc *ci, u32 mask, u32 data)
- 	struct ci_hdrc_cable *cable;
- 
- 	cable = &ci->platdata->vbus_extcon;
--	if (!IS_ERR(cable->edev)) {
-+	if (!IS_ERR(cable->edev) || ci->role_switch) {
- 		if (data & mask & OTGSC_BSVIS)
- 			cable->changed = false;
- 
-@@ -97,7 +97,7 @@ void hw_write_otgsc(struct ci_hdrc *ci, u32 mask, u32 data)
- 	}
- 
- 	cable = &ci->platdata->id_extcon;
--	if (!IS_ERR(cable->edev)) {
-+	if (!IS_ERR(cable->edev) || ci->role_switch) {
- 		if (data & mask & OTGSC_IDIS)
- 			cable->changed = false;
- 
+ int xhci_suspend(struct xhci_hcd *xhci, bool do_wakeup);
+ int xhci_resume(struct xhci_hcd *xhci, bool hibernated);
 -- 
-2.7.4
-
+2.17.1
