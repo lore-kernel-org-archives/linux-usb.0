@@ -2,92 +2,85 @@ Return-Path: <SRS0=XFIG=WK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.2 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14A55C32753
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 13:25:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33E28C433FF
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 13:32:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E1282206C1
-	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 13:25:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0BB38206C1
+	for <linux-usb@archiver.kernel.org>; Wed, 14 Aug 2019 13:32:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728028AbfHNNZX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 14 Aug 2019 09:25:23 -0400
-Received: from mx2.suse.de ([195.135.220.15]:44380 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728116AbfHNNZW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 14 Aug 2019 09:25:22 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 056F5B030;
-        Wed, 14 Aug 2019 13:25:20 +0000 (UTC)
-Message-ID: <1565789116.5780.1.camel@suse.com>
-Subject: Re: divide error in usbtmc_generic_read
-From:   Oliver Neukum <oneukum@suse.com>
-To:     syzbot <syzbot+55b0304b360654a7537b@syzkaller.appspotmail.com>,
-        andreyknvl@google.com, syzkaller-bugs@googlegroups.com,
-        steve_bayless@keysight.com, gregkh@linuxfoundation.org,
-        guido.kiener@rohde-schwarz.com, linux-usb@vger.kernel.org
-Date:   Wed, 14 Aug 2019 15:25:16 +0200
-In-Reply-To: <000000000000c4157e0590123002@google.com>
-References: <000000000000c4157e0590123002@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1728107AbfHNNcs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 14 Aug 2019 09:32:48 -0400
+Received: from mga04.intel.com ([192.55.52.120]:10031 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727558AbfHNNcr (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 14 Aug 2019 09:32:47 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Aug 2019 06:32:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,385,1559545200"; 
+   d="scan'208";a="178157851"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.164]) ([10.237.72.164])
+  by fmsmga007.fm.intel.com with ESMTP; 14 Aug 2019 06:32:44 -0700
+Subject: Re: Titan Ridge xHCI may stop to working after re-plugging the dock
+To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc:     Felipe Balbi <felipe.balbi@linux.intel.com>,
+        Oliver Neukum <oneukum@suse.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Kent Lin <kent.lin@canonical.com>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        Linux USB List <linux-usb@vger.kernel.org>
+References: <993E78A1-2A60-46D8-AA51-F4CB077E48D1@canonical.com>
+ <1562759399.5312.6.camel@suse.com> <87pnm6sd10.fsf@linux.intel.com>
+ <77580193-D67B-48B1-8528-03ED4E7E8D64@canonical.com>
+ <87blxqs3fh.fsf@linux.intel.com>
+ <749516DB-65B6-4D59-8C77-7883649D1F25@canonical.com>
+ <8113f4a4-e96e-9b73-cd7a-1dbb800d68bb@linux.intel.com>
+ <203745C2-85AF-4A37-8628-636632D14564@canonical.com>
+ <78466959-E500-4AA0-8440-CBF80DBFE260@canonical.com>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-ID: <9f05b78d-7b28-1e8c-bdf9-22d0c148c719@linux.intel.com>
+Date:   Wed, 14 Aug 2019 16:34:34 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <78466959-E500-4AA0-8440-CBF80DBFE260@canonical.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Am Mittwoch, den 14.08.2019, 04:38 -0700 schrieb syzbot:
-> Hello,
+On 13.8.2019 9.50, Kai-Heng Feng wrote:
+> Hi Mathias,
 > 
-> syzbot found the following crash on:
+> at 21:24, Kai-Heng Feng <kai.heng.feng@canonical.com> wrote:
 > 
-> HEAD commit:    d0847550 usb-fuzzer: main usb gadget fuzzer driver
-> git tree:       https://github.com/google/kasan.git usb-fuzzer
-> console output: https://syzkaller.appspot.com/x/log.txt?x=16295d4a600000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=dbc9c80cc095da19
-> dashboard link: https://syzkaller.appspot.com/bug?extid=55b0304b360654a7537b
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1288a31c600000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15282e86600000
+>> at 22:45, Mathias Nyman <mathias.nyman@linux.intel.com> wrote:
 > 
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+55b0304b360654a7537b@syzkaller.appspotmail.com
+> [snipped]
+> 
+>> Yes, disabling runtime PM can workaround this issue.
+> 
+> What’s next step here? Is it a firmware bug?
+> 
 
+Can't say.
+ From xhci driver point of view the 39:00.0 xHC controller isn't accessible after dock
+is plugged back in. Looks like PCI side has issues getting the controller back to D3
+after it was runtime suspended to D0 at dock unplug:
 
-#syz test: https://github.com/google/kasan.git d0847550
+[  346.455568] pci_raw_set_power_state: 25 callbacks suppressed
+[  346.455574] xhci_hcd 0000:39:00.0: Refused to change power state, currently in D3
 
-From 5fa900e86e57d92a0b23a1a60ff4f4f13e997a93 Mon Sep 17 00:00:00 2001
-From: Oliver Neukum <oneukum@suse.com>
-Date: Wed, 14 Aug 2019 15:21:41 +0200
-Subject: [PATCH] usbtmc: more sanity checking for packet size
+As Mika suggested in the bug take a look at PCI side, especially the PCI status before
+a failing dock replug.
 
-A malicious device can make the driver divide ny zero
-with a nonsense maximum packet size.
-
-SIgned-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/usb/class/usbtmc.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/usb/class/usbtmc.c b/drivers/usb/class/usbtmc.c
-index 4942122b2346..11042ca56818 100644
---- a/drivers/usb/class/usbtmc.c
-+++ b/drivers/usb/class/usbtmc.c
-@@ -2364,6 +2364,8 @@ static int usbtmc_probe(struct usb_interface *intf,
- 
- 	data->bulk_in = bulk_in->bEndpointAddress;
- 	data->wMaxPacketSize = usb_endpoint_maxp(bulk_in);
-+	if (!data->wMaxPacketSize)
-+		goto err_put;
- 	dev_dbg(&intf->dev, "Found bulk in endpoint at %u\n", data->bulk_in);
- 
- 	data->bulk_out = bulk_out->bEndpointAddress;
--- 
-2.16.4
-
+-Mathias
