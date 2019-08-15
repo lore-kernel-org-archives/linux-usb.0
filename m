@@ -2,42 +2,43 @@ Return-Path: <SRS0=Pmb0=WL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3BF8C433FF
-	for <linux-usb@archiver.kernel.org>; Thu, 15 Aug 2019 07:08:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 694FEC31E40
+	for <linux-usb@archiver.kernel.org>; Thu, 15 Aug 2019 07:14:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C6D1D2086C
-	for <linux-usb@archiver.kernel.org>; Thu, 15 Aug 2019 07:08:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4128E2133F
+	for <linux-usb@archiver.kernel.org>; Thu, 15 Aug 2019 07:14:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1565852938;
-	bh=yyfNAajZQ03NyCiArPb1FNKdE1FxCutrW6DAEOf/7o4=;
+	s=default; t=1565853250;
+	bh=WtivyFKRGxuuhoSsg/tkmBPj16Bi9q7VKN8kdDZDkCQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=G1lptquWF9kk+W4ObXy/KKtemGTOrDH+am20VcG+0SfEJsGTQVKwAixxfaJmwVRqC
-	 A/iilGgPhPQgTfI8Lz519uyIfpnXNnqzj3psnN8XqffX4FQ7k9LtdOjFBQk0xrstP8
-	 P6daBbn3LU3KtGirGrdT1KilAhZR4J+CDWBV9l24=
+	b=ZoZGxOwxwQlTYU4GcUevdINXi3KEM9EUTdksCXSifTG7UEVR/3l7GiokP96+lFVk3
+	 h0ZAfxXxCkWyhPRWqcMsmEmk6kGdfaK+w25IFRyoV2z76LU+ycWNwMz6YyDj6Bfzmf
+	 NZ8QHVM/OiLHgtgzIJIipb7QHL5c9nClfX1sv7Bc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730553AbfHOHIy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 15 Aug 2019 03:08:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44044 "EHLO mail.kernel.org"
+        id S1730629AbfHOHOG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 15 Aug 2019 03:14:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45972 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726366AbfHOHIx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 15 Aug 2019 03:08:53 -0400
+        id S1730434AbfHOHOG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 15 Aug 2019 03:14:06 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 97FEC20656;
-        Thu, 15 Aug 2019 07:08:52 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6ABAB20656;
+        Thu, 15 Aug 2019 07:14:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565852933;
-        bh=yyfNAajZQ03NyCiArPb1FNKdE1FxCutrW6DAEOf/7o4=;
+        s=default; t=1565853244;
+        bh=WtivyFKRGxuuhoSsg/tkmBPj16Bi9q7VKN8kdDZDkCQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Do3AAM4euj9weNs+x5WmmiDrQ5Ul8s6AtHT9P69KrGhlnUwRFQPWe09Nd4Ssq7x1j
-         PkUi1RKEQmJyprkISIGhGcq2tnhss1U8OcBCQ/dbWlPamFYbJJGtPZm9nugnBfc10b
-         TT8PGlOcXUyWBJfC+2EMLA1kgweUltlIba9PoG1M=
-Date:   Thu, 15 Aug 2019 09:08:49 +0200
+        b=lu3qds97d3Cb4Y6h1uMZ5kdn13shzHpgSAMj2uMubJpM2OpFwznRoKX+A7txqKVw3
+         Ci1HzNz8kSa+IWCQ5/Y7yL5K2BjEY75Cyu3gJvKn+Pv1l8lyGdzVgzSBm3oINXqmOa
+         /jGyTuTkzIjaYE6LW043xuWhnV6sczmCfkqohx8w=
+Date:   Thu, 15 Aug 2019 09:14:02 +0200
 From:   Greg KH <gregkh@linuxfoundation.org>
 To:     cy_huang <u0084500@gmail.com>
 Cc:     Guenter Roeck <linux@roeck-us.net>,
@@ -47,7 +48,7 @@ Cc:     Guenter Roeck <linux@roeck-us.net>,
         shufan_lee@richtek.com
 Subject: Re: [PATCH] From: cy_huang <cy_huang@richtek.com> Subject: usb: add
  more vendor defined ops in tcpci
-Message-ID: <20190815070849.GA24779@kroah.com>
+Message-ID: <20190815071402.GA25906@kroah.com>
 References: <1565842753-14245-1-git-send-email-u0084500@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -60,14 +61,24 @@ List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
 On Thu, Aug 15, 2019 at 12:19:13PM +0800, cy_huang wrote:
-> From: cy_huang <cy_huang@richtek.com>
+> diff --git a/drivers/usb/typec/tcpm/tcpci.h b/drivers/usb/typec/tcpm/tcpci.h
+> index 303ebde..a6754fb 100644
+> --- a/drivers/usb/typec/tcpm/tcpci.h
+> +++ b/drivers/usb/typec/tcpm/tcpci.h
+> @@ -130,6 +130,11 @@ struct tcpci_data {
+>  			 bool enable);
+>  	int (*start_drp_toggling)(struct tcpci *tcpci, struct tcpci_data *data,
+>  				  enum typec_cc_status cc);
+> +	int (*set_vbus)(struct tcpci *tcpci,
+> +			struct tcpci_data *data, bool source, bool sink);
+> +	int (*get_current_limit)(struct tcpci *tcpci, struct tcpci_data *data);
+> +	int (*set_current_limit)(struct tcpci *tcpci,
+> +				 struct tcpci_data *data, u32 max_ma, u32 mv);
+>  };
 
-Your subject line is a bit odd :)
-
-Also, we need a "real" name here, and in the signed-off-by line, not an
-email prefix.
-
-Please fix up and resend.
+You are adding callbacks here with no users of them, which isn't
+allowed.  Please also submit the code that uses these callbacks at the
+same time so we can review it all together.
 
 thanks,
 
