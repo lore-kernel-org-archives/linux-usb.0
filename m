@@ -2,155 +2,162 @@ Return-Path: <SRS0=Pmb0=WL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B477C3A589
-	for <linux-usb@archiver.kernel.org>; Thu, 15 Aug 2019 17:41:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E0C3C3A589
+	for <linux-usb@archiver.kernel.org>; Thu, 15 Aug 2019 17:43:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3231F2063F
-	for <linux-usb@archiver.kernel.org>; Thu, 15 Aug 2019 17:41:32 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hnGKfGQe"
+	by mail.kernel.org (Postfix) with ESMTP id F35B62063F
+	for <linux-usb@archiver.kernel.org>; Thu, 15 Aug 2019 17:43:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727848AbfHORl2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 15 Aug 2019 13:41:28 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:39786 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726001AbfHORl1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 15 Aug 2019 13:41:27 -0400
-Received: by mail-pg1-f195.google.com with SMTP id u17so1595833pgi.6;
-        Thu, 15 Aug 2019 10:41:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=ItZidBUf697ScM1HdSkE4tHlaXM51upzkEib4CqA/pY=;
-        b=hnGKfGQe01l3dSshgshM4c/cZvihrL5Rh4HV5BO3ByLpi8+P2VUEyFKzjbo6j8jZOO
-         5i9jEfAeoqMqID44E7uDRarzUw/OyOI1YcPC5WJAuFtRWYsSoLyN1psGijTSUG/dXbTE
-         JO44Qo8Xv8vrA/HNtYEIyuS1X9mRjTtiLrQRKrbM+psCqnG6j/NYKOIYWHJ43s+OdB69
-         cfWXpi0sFStjTTAOAxdkjNEsfPfUK1JXZ0YesXFQzwM65d9rwftySgsaNaoId6porTrx
-         1hZo6lZZXibKHZTxd1PSIQK5z2EKpkr1OJxuIYFp95vKs4ZRSYFGdjgDHz/ab38R1D9t
-         c3UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=ItZidBUf697ScM1HdSkE4tHlaXM51upzkEib4CqA/pY=;
-        b=WujqhhXRWp9yTnWM39Wy9ysxGnIZyOohxvy7lOLTPSJhoM/KUp/qvJxhoaLRnuQGGc
-         nBPfsad/vlfYYpgoeUYzn4tZY+6X9Vd6ducL1szRqQnljBY0MxEixBmm12KZOV9vPwyV
-         YP3Nw+bH6eM0azFfdHFA1XugvSvCNJkoqSd2Kjs/uDadRqGcj9SJ547R6ClPJC4g42dV
-         8xYUDWmEV2FPIhPZnPi3UH4b8ToVt86KW8USaPiSumS7NDuGJgurQcaEig4LZtlCAYia
-         hkb7bZUqDEFmjzxISM+8l8PcfNaqqUv2n5quYlIpQAKmBlVsGXMH4e/M+j4Qo1/+gDSm
-         oBVw==
-X-Gm-Message-State: APjAAAXFwFuy7ci+WyMyi4Uaz9lWl9M0Rk2tgAsUTZ/og7g/G3Jv20Ri
-        wbH07xhxkFv0qiTDfrevaVo=
-X-Google-Smtp-Source: APXvYqz4+9crOMkf9DxJf0OwlOMNnnUVYR1SUToP0xKojERpDXMDfeCIPRu8mKC6Iu/TDiCaCfUc5w==
-X-Received: by 2002:a17:90a:d151:: with SMTP id t17mr3312753pjw.60.1565890887150;
-        Thu, 15 Aug 2019 10:41:27 -0700 (PDT)
-Received: from e6f2834286fb.pdc.gateworks.com (68-189-91-139.static.snlo.ca.charter.com. [68.189.91.139])
-        by smtp.gmail.com with ESMTPSA id s24sm2756670pgm.3.2019.08.15.10.41.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Aug 2019 10:41:26 -0700 (PDT)
-From:   Matthew Michilot <matthew.michilot@gmail.com>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Matthew Michilot <matthew.michilot@gmail.com>
-Subject: [PATCH v2] USB: serial: ftdi_sio: add support for FT232H CBUS gpios
-Date:   Thu, 15 Aug 2019 17:40:54 +0000
-Message-Id: <20190815174054.20240-1-matthew.michilot@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190808222348.4428-1-matthew.michilot@gmail.com>
-References: <20190808222348.4428-1-matthew.michilot@gmail.com>
+        id S1732551AbfHORnh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 15 Aug 2019 13:43:37 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:38122 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1732548AbfHORnh (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 15 Aug 2019 13:43:37 -0400
+Received: (qmail 5345 invoked by uid 2102); 15 Aug 2019 13:43:36 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 15 Aug 2019 13:43:36 -0400
+Date:   Thu, 15 Aug 2019 13:43:36 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     syzbot <syzbot+3cbe5cd105d2ad56a1df@syzkaller.appspotmail.com>,
+        Jiri Kosina <jikos@kernel.org>
+cc:     andreyknvl@google.com, <gregkh@linuxfoundation.org>,
+        <gustavo@embeddedor.com>, <hdanton@sina.com>,
+        Kernel development list <linux-kernel@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        Oliver Neukum <oneukum@suse.com>,
+        <syzkaller-bugs@googlegroups.com>, <linux-input@vger.kernel.org>
+Subject: Re: general protection fault in __pm_runtime_resume
+In-Reply-To: <000000000000b1729e058fecdcee@google.com>
+Message-ID: <Pine.LNX.4.44L0.1908151333220.1343-100000@iolanthe.rowland.org>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Enable support for cbus gpios on FT232H. The cbus configuration is
-stored in one word in the EEPROM at byte-offset 0x1a with the mux
-config for ACBUS5, ACBUS6, ACBUS8 and ACBUS9 (only pins that can be
-configured as I/O mode).
+On Mon, 12 Aug 2019, syzbot wrote:
 
-Tested using FT232H by configuring one ACBUS pin at a time.
+> Hello,
+> 
+> syzbot has tested the proposed patch and the reproducer did not trigger  
+> crash:
+> 
+> Reported-and-tested-by:  
+> syzbot+3cbe5cd105d2ad56a1df@syzkaller.appspotmail.com
+> 
+> Tested on:
+> 
+> commit:         7f7867ff usb-fuzzer: main usb gadget fuzzer driver
+> git tree:       https://github.com/google/kasan.git
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=792eb47789f57810
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> patch:          https://syzkaller.appspot.com/x/patch.diff?x=177252d2600000
+> 
+> Note: testing is done by a robot and is best-effort only.
 
-Signed-off-by: Matthew Michilot <matthew.michilot@gmail.com>
-Reviewed-by: Tim Harvey <tharvey@gateworks.com>
----
-V2:
-- made hex notation all lowercase for consistency
-- allocated 4 bytes instead of 2 bytes for buffer
-- improved documentation on FT232H CBUS memory mapping
-- fixed CBUS pins being incorrectly mapped to the wrong gpios
-- sorted case labels alphabetically
----
- drivers/usb/serial/ftdi_sio.c | 43 +++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+That was the result from testing Hillf's patch:
 
-diff --git a/drivers/usb/serial/ftdi_sio.c b/drivers/usb/serial/ftdi_sio.c
-index 4b3a049561f3..01e4ecccd079 100644
---- a/drivers/usb/serial/ftdi_sio.c
-+++ b/drivers/usb/serial/ftdi_sio.c
-@@ -2023,6 +2023,46 @@ static int ftdi_read_eeprom(struct usb_serial *serial, void *dst, u16 addr,
+--- a/drivers/hid/usbhid/hid-core.c
++++ b/drivers/hid/usbhid/hid-core.c
+@@ -1410,6 +1410,7 @@ static void usbhid_disconnect(struct usb
+        spin_lock_irq(&usbhid->lock);   /* Sync with error and led handlers */
+        set_bit(HID_DISCONNECTED, &usbhid->iofl);
+        spin_unlock_irq(&usbhid->lock);
++       hid_hw_stop(hid);
+        hid_destroy_device(hid);
+        kfree(usbhid);
+ }
+
+There is very good reason to believe this patch is not the correct
+solution to the problem.  For one thing, in some circumstances the
+patch ends up calling hid_hw_stop() twice (not shown here, but we have 
+seen this in other bug reports from syzbot).
+
+For another, I have just tested a different patch and found that it 
+also prevents this particular crash:
+
+> Hello,
+>
+> syzbot has tested the proposed patch and the reproducer did not trigger
+> crash:
+>
+> Reported-and-tested-by:
+> syzbot+3cbe5cd105d2ad56a1df@syzkaller.appspotmail.com
+>
+> Tested on:
+>
+> commit:         6a3599ce usb-fuzzer: main usb gadget fuzzer driver
+> git tree:       https://github.com/google/kasan.git
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=700ca426ab83faae
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> patch:          https://syzkaller.appspot.com/x/patch.diff?x=170b66a6600000
+>
+> Note: testing is done by a robot and is best-effort only.
+
+My patch:
+
+Index: usb-devel/drivers/hid/hid-lg.c
+===================================================================
+--- usb-devel.orig/drivers/hid/hid-lg.c
++++ usb-devel/drivers/hid/hid-lg.c
+@@ -818,7 +818,7 @@ static int lg_probe(struct hid_device *h
+ 
+ 		if (!buf) {
+ 			ret = -ENOMEM;
+-			goto err_free;
++			goto err_stop;
+ 		}
+ 
+ 		ret = hid_hw_raw_request(hdev, buf[0], buf, sizeof(cbuf),
+@@ -850,9 +850,12 @@ static int lg_probe(struct hid_device *h
+ 		ret = lg4ff_init(hdev);
+ 
+ 	if (ret)
+-		goto err_free;
++		goto err_stop;
+ 
  	return 0;
++
++err_stop:
++	hid_hw_stop(hdev);
+ err_free:
+ 	kfree(drv_data);
+ 	return ret;
+@@ -863,8 +866,7 @@ static void lg_remove(struct hid_device
+ 	struct lg_drv_data *drv_data = hid_get_drvdata(hdev);
+ 	if (drv_data->quirks & LG_FF4)
+ 		lg4ff_deinit(hdev);
+-	else
+-		hid_hw_stop(hdev);
++	hid_hw_stop(hdev);
+ 	kfree(drv_data);
  }
  
-+static int ftdi_gpio_init_ft232h(struct usb_serial_port *port)
-+{
-+	struct ftdi_private *priv = usb_get_serial_port_data(port);
-+	u8 *buf;
-+	u16 cbus_config;
-+	int ret;
-+	int i;
-+
-+	buf = kmalloc(4, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	ret = ftdi_read_eeprom(port->serial, buf, 0x1a, 4);
-+	if (ret < 0)
-+		goto out_free;
-+
-+	/*
-+	 * FT232H CBUS Memory Map
-+	 *
-+	 * 0x1a: X- (upper nibble -> AC5)
-+	 * 0x1b: -X (lower nibble -> AC6)
-+	 * 0x1c: XX (upper nibble -> AC9 | lower nibble -> AC8)
-+	 */
-+	cbus_config = buf[2] << 8 | (buf[1] & 0xf) << 4 | (buf[0] & 0xf0) >> 4;
-+
-+	priv->gc.ngpio = 4;
-+	priv->gpio_altfunc = 0xff;
-+
-+	for (i = 0; i < priv->gc.ngpio; ++i) {
-+		if ((cbus_config & 0xf) == FTDI_FTX_CBUS_MUX_GPIO)
-+			priv->gpio_altfunc &= ~BIT(i);
-+		cbus_config >>= 4;
-+	}
-+
-+out_free:
-+	kfree(buf);
-+
-+	return ret;
-+}
-+
- static int ftdi_gpio_init_ft232r(struct usb_serial_port *port)
- {
- 	struct ftdi_private *priv = usb_get_serial_port_data(port);
-@@ -2098,6 +2138,9 @@ static int ftdi_gpio_init(struct usb_serial_port *port)
- 	int result;
+Index: usb-devel/drivers/hid/hid-lg4ff.c
+===================================================================
+--- usb-devel.orig/drivers/hid/hid-lg4ff.c
++++ usb-devel/drivers/hid/hid-lg4ff.c
+@@ -1477,7 +1477,6 @@ int lg4ff_deinit(struct hid_device *hid)
+ 		}
+ 	}
+ #endif
+-	hid_hw_stop(hid);
+ 	drv_data->device_props = NULL;
  
- 	switch (priv->chip_type) {
-+	case FT232H:
-+		result = ftdi_gpio_init_ft232h(port);
-+		break;
- 	case FT232RL:
- 		result = ftdi_gpio_init_ft232r(port);
- 		break;
--- 
-2.17.1
+ 	kfree(entry);
+
+This fixes a fairly obvious bug in the hid-lg driver: It does not 
+always call hid_hw_stop() in all pathways after calling hid_hw_start().
+
+Presumably the same is true for the other related bugs found by syzbot.  
+I'm doing some more testing and we will see...
+
+Alan Stern
 
