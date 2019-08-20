@@ -2,89 +2,71 @@ Return-Path: <SRS0=RNjJ=WQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE8C2C3A5A2
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Aug 2019 13:46:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 345D0C3A589
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Aug 2019 14:00:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 72FC322DCC
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Aug 2019 13:46:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1566308818;
-	bh=kXSeYWt+bD1ow5Uhihen5Xi5cjzvPtkAfZ/Go6Tj6Bg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Bk67DkFs1DdMnffAtEgq+R0oUqAGctkhXjBdI7b0tdAh4KTrdlo/0FTFkNPTsRmg1
-	 DaAaEdsd0v0uat/k1nz8iEbWk2KYs/FDZvmuH9SoDckq3uBjFixC2bRHCVKJ9M7+dZ
-	 82Xns8pSgM+TjAaTBQlYLjeD4HyAVUqIra5v4rVY=
+	by mail.kernel.org (Postfix) with ESMTP id 0B2D722CF7
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Aug 2019 14:00:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730316AbfHTNlF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 20 Aug 2019 09:41:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36050 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730303AbfHTNlF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 20 Aug 2019 09:41:05 -0400
-Received: from sasha-vm.mshome.net (unknown [12.236.144.82])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1E41522DA9;
-        Tue, 20 Aug 2019 13:41:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566308464;
-        bh=kXSeYWt+bD1ow5Uhihen5Xi5cjzvPtkAfZ/Go6Tj6Bg=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HlF2WapM8Cd2Gvl+sRQSOrR5P7n2rJPS2mMWpllExEJJZ9JjlQaW9IbRwc3Heu09e
-         9wN/llkZBhIJKPjPZDEClf51VzX8vulp/v1DA7xvCQW9TT8xvVGLX+ZqBP3rmj4igx
-         PK3WXNu6JRa92/M0ja1rkv7Hiss9xORSm7Escpk4=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.2 28/44] usb: gadget: composite: Clear "suspended" on reset/disconnect
-Date:   Tue, 20 Aug 2019 09:40:12 -0400
-Message-Id: <20190820134028.10829-28-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190820134028.10829-1-sashal@kernel.org>
-References: <20190820134028.10829-1-sashal@kernel.org>
+        id S1730206AbfHTOAB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 20 Aug 2019 10:00:01 -0400
+Received: from mail-io1-f71.google.com ([209.85.166.71]:48224 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729992AbfHTOAB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 20 Aug 2019 10:00:01 -0400
+Received: by mail-io1-f71.google.com with SMTP id 67so8004833iob.15
+        for <linux-usb@vger.kernel.org>; Tue, 20 Aug 2019 07:00:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=ASDXW2E7KXMpMKDYt2/KtjplUC1Y+GtjxBVSliflfMc=;
+        b=fdrf2iWuHPEn7xlWnzp4vHdHh1/tSmLQZ+6lLOtMo/Q6ERdy7OZKiuIN3sC5lFbj77
+         0x+dgFnLDdOO4ZeddhKpg3VIa7s8+QDpZm2JFXnn6Qyvz+QixWcWfNeqhZS/MP3FRur2
+         O06Ww4cTw9lIKUMMyzOD4Bz/oCbqEPOWrl60ADBkKNc0HEuhpBrrcilnqUjdn3J63X5I
+         vtCGTOk/dkqJIBW1sHhoy0k/Wb3HLt42bfnOHzefzHwrnaeVlMWyuLmHASlvqblXe577
+         qsAG8EEy8f2dg7pGT+0sUJ8wjn1giWFLngDgwOoHifhQ9BPoQ8nr5uGbGyn829WrJtv/
+         SW/A==
+X-Gm-Message-State: APjAAAVkbd8a+BxXC1UD1ZaitfiS182gA6/N1tyWNPEFJC/Q5AspMc9n
+        viDKh2sPKOFMciGTICsTh9g5P0iC5EMXdOZL81yzXl2WFDTL
+X-Google-Smtp-Source: APXvYqzCAomdF+cu9howSNeP4SWjf9rPBRLWb1WQl9Waj1HmLgBZk6aILrJFdwE+y/tSODYhJiCoDMsV5/EYsHupSKFw+7tYvNkV
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a5d:9c12:: with SMTP id 18mr32292118ioe.48.1566309600404;
+ Tue, 20 Aug 2019 07:00:00 -0700 (PDT)
+Date:   Tue, 20 Aug 2019 07:00:00 -0700
+In-Reply-To: <1566308508.11678.19.camel@suse.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000572f4505908cdff6@google.com>
+Subject: Re: WARNING in wdm_write/usb_submit_urb
+From:   syzbot <syzbot+d232cca6ec42c2edb3fc@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, bjorn@mork.no, gregkh@linuxfoundation.org,
+        gustavo@embeddedor.com, linux-usb@vger.kernel.org,
+        oneukum@suse.com, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Hello,
 
-[ Upstream commit 602fda17c7356bb7ae98467d93549057481d11dd ]
+syzbot has tested the proposed patch and the reproducer did not trigger  
+crash:
 
-In some cases, one can get out of suspend with a reset or
-a disconnect followed by a reconnect. Previously we would
-leave a stale suspended flag set.
+Reported-and-tested-by:  
+syzbot+d232cca6ec42c2edb3fc@syzkaller.appspotmail.com
 
-Signed-off-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/gadget/composite.c | 1 +
- 1 file changed, 1 insertion(+)
+Tested on:
 
-diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
-index b8a15840b4ffd..dfcabadeed01b 100644
---- a/drivers/usb/gadget/composite.c
-+++ b/drivers/usb/gadget/composite.c
-@@ -1976,6 +1976,7 @@ void composite_disconnect(struct usb_gadget *gadget)
- 	 * disconnect callbacks?
- 	 */
- 	spin_lock_irqsave(&cdev->lock, flags);
-+	cdev->suspended = 0;
- 	if (cdev->config)
- 		reset_config(cdev);
- 	if (cdev->driver->disconnect)
--- 
-2.20.1
+commit:         e06ce4da usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan.git
+kernel config:  https://syzkaller.appspot.com/x/.config?x=d0c62209eedfd54e
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=142198bc600000
 
+Note: testing is done by a robot and is best-effort only.
