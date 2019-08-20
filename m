@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F163C3A59E
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Aug 2019 13:41:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E549C3A589
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Aug 2019 13:43:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5347522DBF
-	for <linux-usb@archiver.kernel.org>; Tue, 20 Aug 2019 13:41:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 048672339E
+	for <linux-usb@archiver.kernel.org>; Tue, 20 Aug 2019 13:43:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1566308487;
-	bh=raOrY5VcQCrpTE9XAV1IsbgMSyjwTSUi9PHXz5s6vRc=;
+	s=default; t=1566308586;
+	bh=lkilxmSLiBQZF+K+iyh559zg8iYkzrXKqxLiAH3dFU8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=H94r/zPmOOKttq5ECW9AM3rjFGjZJtaWpGQWLL2YaTt1nsL50XEXzZuid2qdHbCXg
-	 0ZfxAsaPJHI2kx3RUJgdsjRGM6F9y0liE93xXf43jqRUJDeOW+Qbb1TNiivaL6dqlQ
-	 TSVkgEM9pk5YLTPMjimP/yBVyMZIkyCDTM/lHYbE=
+	b=g6qTei6PFKyM2jEJAp2agQVP78otbzl5zs6i0IWsYTR+QRusL9krpskgsK1HSdDTI
+	 EyROga5EUQSLu5KxB+10DkbYsUVkTIR4V49uhot6zulLZUYk4tV9O+s99zYDA5qFKK
+	 AAz3Rf/xafZiGaN4We7+smHEvJWp13ZV7CKLWm/8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730360AbfHTNlT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 20 Aug 2019 09:41:19 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36132 "EHLO mail.kernel.org"
+        id S1730772AbfHTNnE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 20 Aug 2019 09:43:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38556 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730326AbfHTNlI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 20 Aug 2019 09:41:08 -0400
+        id S1730764AbfHTNnE (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 20 Aug 2019 09:43:04 -0400
 Received: from sasha-vm.mshome.net (unknown [12.236.144.82])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DAF8C2087E;
-        Tue, 20 Aug 2019 13:41:06 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 22218230F2;
+        Tue, 20 Aug 2019 13:43:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566308467;
-        bh=raOrY5VcQCrpTE9XAV1IsbgMSyjwTSUi9PHXz5s6vRc=;
+        s=default; t=1566308582;
+        bh=lkilxmSLiBQZF+K+iyh559zg8iYkzrXKqxLiAH3dFU8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cuPNAxmgfC+Zxeicy2pYkRiFsUexi2+Nz3ZdOzjBasJLTBiVaxkMTqJqIEsmckGe8
-         Z4k2xhzfMWiLTURi2G+pAyf++MMD3hClBnGpajmrV0e4vwRloLdgVf3brycr166TII
-         yZ6D1rAP/cRzuNzwo5DbcEiJfNX1EH4gPvZdcpFI=
+        b=xrOroaTcH1V1L/FGGRsKR+bu00U5Dxlg1VIJwrgPyTgM7iY23okvCggVNKQa9DNGs
+         BT6olZT1+RP21pVRiXCo6T4jN55oBG81bi6LaYWcZNUZsckc/AXpK/aR5krCoD6fns
+         lbfLnj2u6iDV+YGgj11zEeynJAiyrzpLNqGsPVN8=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Benjamin Herrenschmidt <benh@kernel.crashing.org>,
         Alan Stern <stern@rowland.harvard.edu>,
         Felipe Balbi <felipe.balbi@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.2 29/44] usb: gadget: mass_storage: Fix races between fsg_disable and fsg_set_alt
-Date:   Tue, 20 Aug 2019 09:40:13 -0400
-Message-Id: <20190820134028.10829-29-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 06/12] usb: gadget: mass_storage: Fix races between fsg_disable and fsg_set_alt
+Date:   Tue, 20 Aug 2019 09:42:47 -0400
+Message-Id: <20190820134253.11562-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190820134028.10829-1-sashal@kernel.org>
-References: <20190820134028.10829-1-sashal@kernel.org>
+In-Reply-To: <20190820134253.11562-1-sashal@kernel.org>
+References: <20190820134253.11562-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -113,7 +113,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 18 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/usb/gadget/function/f_mass_storage.c b/drivers/usb/gadget/function/f_mass_storage.c
-index 043f97ad8f226..f2bc8d0370676 100644
+index 25ba303295332..41b5baa1f43b7 100644
 --- a/drivers/usb/gadget/function/f_mass_storage.c
 +++ b/drivers/usb/gadget/function/f_mass_storage.c
 @@ -261,7 +261,7 @@ struct fsg_common;
@@ -133,7 +133,7 @@ index 043f97ad8f226..f2bc8d0370676 100644
  
  	enum data_direction	data_dir;
  	u32			data_size;
-@@ -391,7 +392,8 @@ static int fsg_set_halt(struct fsg_dev *fsg, struct usb_ep *ep)
+@@ -393,7 +394,8 @@ static int fsg_set_halt(struct fsg_dev *fsg, struct usb_ep *ep)
  
  /* These routines may be called in process context or in_irq */
  
@@ -143,15 +143,15 @@ index 043f97ad8f226..f2bc8d0370676 100644
  {
  	unsigned long		flags;
  
-@@ -404,6 +406,7 @@ static void raise_exception(struct fsg_common *common, enum fsg_state new_state)
+@@ -406,6 +408,7 @@ static void raise_exception(struct fsg_common *common, enum fsg_state new_state)
  	if (common->state <= new_state) {
  		common->exception_req_tag = common->ep0_req_tag;
  		common->state = new_state;
 +		common->exception_arg = arg;
  		if (common->thread_task)
- 			send_sig_info(SIGUSR1, SEND_SIG_PRIV,
+ 			send_sig_info(SIGUSR1, SEND_SIG_FORCED,
  				      common->thread_task);
-@@ -411,6 +414,10 @@ static void raise_exception(struct fsg_common *common, enum fsg_state new_state)
+@@ -413,6 +416,10 @@ static void raise_exception(struct fsg_common *common, enum fsg_state new_state)
  	spin_unlock_irqrestore(&common->lock, flags);
  }
  
@@ -162,7 +162,7 @@ index 043f97ad8f226..f2bc8d0370676 100644
  
  /*-------------------------------------------------------------------------*/
  
-@@ -2285,16 +2292,16 @@ static int do_set_interface(struct fsg_common *common, struct fsg_dev *new_fsg)
+@@ -2287,16 +2294,16 @@ static int do_set_interface(struct fsg_common *common, struct fsg_dev *new_fsg)
  static int fsg_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
  {
  	struct fsg_dev *fsg = fsg_from_func(f);
@@ -183,7 +183,7 @@ index 043f97ad8f226..f2bc8d0370676 100644
  }
  
  
-@@ -2307,6 +2314,7 @@ static void handle_exception(struct fsg_common *common)
+@@ -2309,6 +2316,7 @@ static void handle_exception(struct fsg_common *common)
  	enum fsg_state		old_state;
  	struct fsg_lun		*curlun;
  	unsigned int		exception_req_tag;
@@ -191,7 +191,7 @@ index 043f97ad8f226..f2bc8d0370676 100644
  
  	/*
  	 * Clear the existing signals.  Anything but SIGUSR1 is converted
-@@ -2360,6 +2368,7 @@ static void handle_exception(struct fsg_common *common)
+@@ -2362,6 +2370,7 @@ static void handle_exception(struct fsg_common *common)
  	common->next_buffhd_to_fill = &common->buffhds[0];
  	common->next_buffhd_to_drain = &common->buffhds[0];
  	exception_req_tag = common->exception_req_tag;
@@ -199,7 +199,7 @@ index 043f97ad8f226..f2bc8d0370676 100644
  	old_state = common->state;
  	common->state = FSG_STATE_NORMAL;
  
-@@ -2413,8 +2422,8 @@ static void handle_exception(struct fsg_common *common)
+@@ -2415,8 +2424,8 @@ static void handle_exception(struct fsg_common *common)
  		break;
  
  	case FSG_STATE_CONFIG_CHANGE:
@@ -210,7 +210,7 @@ index 043f97ad8f226..f2bc8d0370676 100644
  			usb_composite_setup_continue(common->cdev);
  		break;
  
-@@ -2989,8 +2998,7 @@ static void fsg_unbind(struct usb_configuration *c, struct usb_function *f)
+@@ -3007,8 +3016,7 @@ static void fsg_unbind(struct usb_configuration *c, struct usb_function *f)
  
  	DBG(fsg, "unbind\n");
  	if (fsg->common->fsg == fsg) {
