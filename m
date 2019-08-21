@@ -2,101 +2,101 @@ Return-Path: <SRS0=H2fv=WR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D58EC3A59E
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Aug 2019 17:56:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DA30C3A59E
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Aug 2019 18:02:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 533F02082F
-	for <linux-usb@archiver.kernel.org>; Wed, 21 Aug 2019 17:56:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1566410178;
-	bh=O1oO7hBPokTOMjbBA1jwycaR+6b03oInAg14L2G/waU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=ahC4KPeR/2LoVaiN0j+DBOz2vM127eVGvjs+O6298uWbSzV90ESktqJ1CJq5Ln5Kd
-	 /WhSc5d5mLrW5exul3uNgWB3wVKTAQMsscFfcd5rrk5w2GVD9+MU7hDSa4IP3Bq8QJ
-	 uHnSUeJ+IyILOHwvB7T0qe6F9tK4kp1f9sGk1Sxs=
+	by mail.kernel.org (Postfix) with ESMTP id 2043B2082F
+	for <linux-usb@archiver.kernel.org>; Wed, 21 Aug 2019 18:02:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="Rv35xrv1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729318AbfHUR4O (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 21 Aug 2019 13:56:14 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:36883 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726330AbfHUR4O (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Aug 2019 13:56:14 -0400
-Received: by mail-wr1-f67.google.com with SMTP id z11so2891680wrt.4;
-        Wed, 21 Aug 2019 10:56:12 -0700 (PDT)
+        id S1728036AbfHUSCP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 21 Aug 2019 14:02:15 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:33801 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728008AbfHUSCP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 21 Aug 2019 14:02:15 -0400
+Received: by mail-pg1-f196.google.com with SMTP id n9so1764789pgc.1
+        for <linux-usb@vger.kernel.org>; Wed, 21 Aug 2019 11:02:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=ubzr14D/m7NN4Gig+J49yEfObSCnRlFHpZMQCxBRrVE=;
+        b=Rv35xrv1gcfayU9R+qpmA5rQGMwtfLgnRrLjmQlH51d9QkX0YDczI+50P0E1BoCsNr
+         HXcgtPIvxKBSh9TZjiFurL+mwdWWx6RUI/yCQOaPlsFZ4yMkzqpaoRVEQcMeZk+qlGgI
+         hRYTF+OmFOX22XlupG67mIr/N5Orwjlc3P5piwe45L2/wNqoXyFFu257j8F/TtFUm1EV
+         qMKbbxF0xBV39nThclx3/qg+0roqn8ekes/qhsJMELrev+j0UtLh+Xu3tgMRwyk8ewle
+         I+hr4KQ6nWsyHa5+3d4j9zi2TSDc8DN/sG0HkR3u0Kp3jZL10YcL3s5QRdgao2SZpWN8
+         GDVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=3QMcAbdO89j9hbCFCxKjPRn72B52n9H62i2qWyUrTKc=;
-        b=snzrhD7EB4z6LYL/mp6+EUIR3cu1H/A2q7j+xjU2NXvQ36a15qGXC7vgV5VqppSn5/
-         QJtApAFI86b3KbrAWO7c/U83+TGdisXtXTR2qo3EoBsMpQAJ9iQv4dzIh61vI1PyPg+r
-         GrOJbatLNUJ74duYlFTaT1XVE8CcEDfudAO1Jj3Fnq4lq4uCf0zhSl0zSkY+IjOrJQ3D
-         AefDg6teIbi094gV4UJ0l3jamRHluoj5yGcz/EYZpDV3dS7Hkonb6CaLCsy/j9JPl+n2
-         G4tzRc2rVnrYVJc0fRhXOPDWMX7W9HeaRkSmq/otsMNxUHWyFgrPsse9IlhLhay1BCne
-         6ziw==
-X-Gm-Message-State: APjAAAVYYJ4k7rl5SLWt+o+aP9xAWtuLy6ffEqtqxbj3YPZ6yB93poFX
-        ysvSNlGNizm5XdKA1g/RzVg=
-X-Google-Smtp-Source: APXvYqyXIbUhXlGcLLVFLun1i20quC+8O/1XUZRT3UwzRWmduyZeM2r2J5aRsbF9VA1AfHqIAQiZ8g==
-X-Received: by 2002:adf:f1cc:: with SMTP id z12mr4554250wro.125.1566410171806;
-        Wed, 21 Aug 2019 10:56:11 -0700 (PDT)
-Received: from kozik-lap ([194.230.147.11])
-        by smtp.googlemail.com with ESMTPSA id g12sm25434578wrv.9.2019.08.21.10.56.10
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=ubzr14D/m7NN4Gig+J49yEfObSCnRlFHpZMQCxBRrVE=;
+        b=bfW5WRxJnlvX29xvbsKYy0PrnveANVkM9Kc1ChEuT11lSk31iU5IiIrt41E7DwZj/u
+         EbirSv55oWaFa21oQcF/juy8Pqyd5c3JaVOe9XyBJNEOWn+cZgDG7rdn/Z3b1upcMvdb
+         3e/Fg/JQHbNxIiLrVsl73O87CQ4G8B0yIfvSnm/0fhsvsU1MJMx1LLXg/aNgaYgaVnyN
+         qk1FmgkAenMJyOWmMnporX8pA7hKYDw4ort3J2zGMyYuNo6CIKCnFkanHEJh6/YL10Dk
+         0BI1Dz40BjqxI1kplJH41IQILhdoWsF+IbSzYTM3Sx4V/7AeKXEalFTY6g0wSUdAz59y
+         DvEA==
+X-Gm-Message-State: APjAAAXOnz5s8dmWgjWOg5dkKCnpIaBmQrrbC9VGmgGa/iRdKdVyTvBi
+        /uaVTm3NCWl2Gn5j/3VSKwmPMQ==
+X-Google-Smtp-Source: APXvYqzlmjNDEJBXLF4y15j0jF5pl7SHAfLJmB9j2o+pnjNpIbZCoiTyxhWaFefXMOPZ/JAxPpq7qQ==
+X-Received: by 2002:aa7:8c57:: with SMTP id e23mr26690422pfd.48.1566410534247;
+        Wed, 21 Aug 2019 11:02:14 -0700 (PDT)
+Received: from localhost (c-71-197-186-152.hsd1.wa.comcast.net. [71.197.186.152])
+        by smtp.gmail.com with ESMTPSA id y16sm35101574pfc.36.2019.08.21.11.02.13
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 21 Aug 2019 10:56:11 -0700 (PDT)
-Date:   Wed, 21 Aug 2019 19:56:09 +0200
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Kukjin Kim <kgene@kernel.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Russell King <linux@armlinux.org.uk>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH] ARM: s3c64xx: squash samsung_usb_phy.h into
- setup-usb-phy.c
-Message-ID: <20190821175609.GA6768@kozik-lap>
-References: <20190819155602.20843-1-yamada.masahiro@socionext.com>
+        Wed, 21 Aug 2019 11:02:13 -0700 (PDT)
+From:   Kevin Hilman <khilman@baylibre.com>
+To:     Neil Armstrong <narmstrong@baylibre.com>, balbi@kernel.org
+Cc:     Neil Armstrong <narmstrong@baylibre.com>,
+        linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: dwc3: meson-g12a: fix suspend resume regulator unbalanced disables
+In-Reply-To: <20190821133518.9671-1-narmstrong@baylibre.com>
+References: <20190821133518.9671-1-narmstrong@baylibre.com>
+Date:   Wed, 21 Aug 2019 11:02:12 -0700
+Message-ID: <7h7e76bdnf.fsf@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190819155602.20843-1-yamada.masahiro@socionext.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Aug 20, 2019 at 12:56:02AM +0900, Masahiro Yamada wrote:
-> This is only used by arch/arm/mach-s3c64xx/setup-usb-phy.c
-> 
-> $ git grep samsung_usb_phy_type
-> include/linux/usb/samsung_usb_phy.h:enum samsung_usb_phy_type {
-> $ git grep USB_PHY_TYPE_DEVICE
-> arch/arm/mach-s3c64xx/setup-usb-phy.c:  if (type == USB_PHY_TYPE_DEVICE)
-> arch/arm/mach-s3c64xx/setup-usb-phy.c:  if (type == USB_PHY_TYPE_DEVICE)
-> include/linux/usb/samsung_usb_phy.h:    USB_PHY_TYPE_DEVICE,
-> $ git grep USB_PHY_TYPE_HOST
-> include/linux/usb/samsung_usb_phy.h:    USB_PHY_TYPE_HOST,
-> 
-> Actually, 'enum samsung_usb_phy_type' is unused; the 'type' parameter
-> has 'int' type. Anyway, there is no need to declare this enum in the
-> globally visible header. Squash the header.
-> 
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> ---
-> 
->  arch/arm/mach-s3c64xx/setup-usb-phy.c        |  5 +++++
->  arch/arm/plat-samsung/include/plat/usb-phy.h |  2 --
->  include/linux/usb/samsung_usb_phy.h          | 17 -----------------
->  3 files changed, 5 insertions(+), 19 deletions(-)
+Neil Armstrong <narmstrong@baylibre.com> writes:
 
-Thanks, applied.
+> When going in suspend, in Device mode, then resuming back leads
+> to the following:
+>
+> unbalanced disables for USB_PWR_EN
+> WARNING: CPU: 0 PID: 163 at ../drivers/regulator/core.c:2590 _regulator_disable+0x104/0x180
+> Hardware name: Amlogic Meson G12A U200 Development Board (DT)
+> [...]
+> pc : _regulator_disable+0x104/0x180
+> lr : _regulator_disable+0x104/0x180
+> [...]
+> Call trace:
+>  _regulator_disable+0x104/0x180
+>  regulator_disable+0x40/0x78
+>  dwc3_meson_g12a_otg_mode_set+0x84/0xb0
+>  dwc3_meson_g12a_irq_thread+0x58/0xb8
+>  irq_thread_fn+0x28/0x80
+>  irq_thread+0x118/0x1b8
+>  kthread+0xf4/0x120
+>  ret_from_fork+0x10/0x18
+>
+> This disables the regulator if enabled on suspend, and the reverse on
+> resume.
+>
+> Fixes: c99993376f72 ("usb: dwc3: Add Amlogic G12A DWC3 glue")
+> Reported-by: Kevin Hilman <khilman@baylibre.com>
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 
-Best regards,
-Krzysztof
-
+Tested-by: Kevin Hilman <khilman@baylibre.com>
