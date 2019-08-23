@@ -7,30 +7,30 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFECCC3A5A2
-	for <linux-usb@archiver.kernel.org>; Fri, 23 Aug 2019 07:57:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF8A9C3A5A3
+	for <linux-usb@archiver.kernel.org>; Fri, 23 Aug 2019 07:58:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8EBD9233FD
-	for <linux-usb@archiver.kernel.org>; Fri, 23 Aug 2019 07:57:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CF95A20656
+	for <linux-usb@archiver.kernel.org>; Fri, 23 Aug 2019 07:58:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392894AbfHWH5w (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 23 Aug 2019 03:57:52 -0400
-Received: from mailgw02.mediatek.com ([1.203.163.81]:2378 "EHLO
+        id S2403766AbfHWH57 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 23 Aug 2019 03:57:59 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:20996 "EHLO
         mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2392239AbfHWH5w (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Aug 2019 03:57:52 -0400
-X-UUID: dc7c541aa71843a2a4a586e61045836f-20190823
-X-UUID: dc7c541aa71843a2a4a586e61045836f-20190823
-Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        with ESMTP id S2391583AbfHWH57 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 23 Aug 2019 03:57:59 -0400
+X-UUID: 22e333c0e4fc4f52abc14359eb1c08e9-20190823
+X-UUID: 22e333c0e4fc4f52abc14359eb1c08e9-20190823
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 2064025835; Fri, 23 Aug 2019 15:57:42 +0800
+        with ESMTP id 1910486124; Fri, 23 Aug 2019 15:57:28 +0800
 Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Fri, 23 Aug 2019 15:57:40 +0800
+ MTKMBS31N2.mediatek.inc (172.27.4.87) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Fri, 23 Aug 2019 15:57:26 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas09.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 23 Aug 2019 15:57:33 +0800
+ Transport; Fri, 23 Aug 2019 15:57:25 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -50,132 +50,83 @@ CC:     Mark Rutland <mark.rutland@arm.com>,
         <linux-mediatek@lists.infradead.org>,
         Linus Walleij <linus.walleij@linaro.org>,
         Nagarjuna Kristam <nkristam@nvidia.com>
-Subject: [PATCH next v10 09/11] usb: common: create Kconfig file
-Date:   Fri, 23 Aug 2019 15:57:19 +0800
-Message-ID: <1566547041-20804-10-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH next v10 04/11] dt-bindings: usb: mtu3: add properties about USB Role Switch
+Date:   Fri, 23 Aug 2019 15:57:14 +0800
+Message-ID: <1566547041-20804-5-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1566547041-20804-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1566547041-20804-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-TM-SNTS-SMTP: A11A0C8B56F7293B72F5DE2933BD9567EC86025288023371D9F1698DF7036BBE2000:8
+X-TM-SNTS-SMTP: 8FE77650F6C84A1103D7EC46F08D1CB2175C999328D1AB8FB30A5FD2227864912000:8
 X-MTK:  N
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Create Kconfig file for USB common core, and move USB_LED_TRIG
-and USB_ULPI_BUS configs into the new file from the parent Kconfig,
-it will help to add new configs later.
+Now the USB Role Switch is supported, so add properties about it,
+and modify some description related.
 
 Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
-v9~v10: no changes
+v6~v10 no changes
 
-v8:
-  new patch
+v5 changes:
+ 1. modify decription about extcon and vbus-supply properties
+ 2. make this patch depend on [1]
+
+ [1]: [v3] dt-binding: usb: add usb-role-switch property
+      https://patchwork.kernel.org/patch/10934835/
+
+v4 no changes
+v3 no changes
+
+v2 changes:
+  1. fix typo
+  2. refer new binding about connector property
 ---
- drivers/usb/Kconfig        | 35 +----------------------------------
- drivers/usb/common/Kconfig | 38 ++++++++++++++++++++++++++++++++++++++
- 2 files changed, 39 insertions(+), 34 deletions(-)
- create mode 100644 drivers/usb/common/Kconfig
+ .../devicetree/bindings/usb/mediatek,mtu3.txt          | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/usb/Kconfig b/drivers/usb/Kconfig
-index 6e59d370ef81..7bf94e65ed2f 100644
---- a/drivers/usb/Kconfig
-+++ b/drivers/usb/Kconfig
-@@ -36,8 +36,7 @@ menuconfig USB_SUPPORT
+diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.txt b/Documentation/devicetree/bindings/usb/mediatek,mtu3.txt
+index 3382b5cb471d..3a8300205cdb 100644
+--- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.txt
++++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.txt
+@@ -28,8 +28,13 @@ Optional properties:
+ 	parent's address space
+  - extcon : external connector for vbus and idpin changes detection, needed
+ 	when supports dual-role mode.
++	it's considered valid for compatibility reasons, not allowed for
++	new bindings, and use "usb-role-switch" property instead.
+  - vbus-supply : reference to the VBUS regulator, needed when supports
+ 	dual-role mode.
++	it's considered valid for compatibility reasons, not allowed for
++	new bindings, and put into a usb-connector node.
++	see connector/usb-connector.txt.
+  - pinctrl-names : a pinctrl state named "default" is optional, and need be
+ 	defined if auto drd switch is enabled, that means the property dr_mode
+ 	is set as "otg", and meanwhile the property "mediatek,enable-manual-drd"
+@@ -39,6 +44,8 @@ Optional properties:
  
- if USB_SUPPORT
+  - maximum-speed : valid arguments are "super-speed", "high-speed" and
+ 	"full-speed"; refer to usb/generic.txt
++ - usb-role-switch : use USB Role Switch to support dual-role switch, but
++	not extcon; see usb/generic.txt.
+  - enable-manual-drd : supports manual dual-role switch via debugfs; usually
+ 	used when receptacle is TYPE-A and also wants to support dual-role
+ 	mode.
+@@ -61,6 +68,9 @@ The xhci should be added as subnode to mtu3 as shown in the following example
+ if host mode is enabled. The DT binding details of xhci can be found in:
+ Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.txt
  
--config USB_COMMON
--	tristate
-+source "drivers/usb/common/Kconfig"
- 
- config USB_ARCH_HAS_HCD
- 	def_bool y
-@@ -175,36 +174,4 @@ source "drivers/usb/typec/Kconfig"
- 
- source "drivers/usb/roles/Kconfig"
- 
--config USB_LED_TRIG
--	bool "USB LED Triggers"
--	depends on LEDS_CLASS && LEDS_TRIGGERS
--	select USB_COMMON
--	help
--	  This option adds LED triggers for USB host and/or gadget activity.
--
--	  Say Y here if you are working on a system with led-class supported
--	  LEDs and you want to use them as activity indicators for USB host or
--	  gadget.
--
--config USB_ULPI_BUS
--	tristate "USB ULPI PHY interface support"
--	select USB_COMMON
--	help
--	  UTMI+ Low Pin Interface (ULPI) is specification for a commonly used
--	  USB 2.0 PHY interface. The ULPI specification defines a standard set
--	  of registers that can be used to detect the vendor and product which
--	  allows ULPI to be handled as a bus. This module is the driver for that
--	  bus.
--
--	  The ULPI interfaces (the buses) are registered by the drivers for USB
--	  controllers which support ULPI register access and have ULPI PHY
--	  attached to them. The ULPI PHY drivers themselves are normal PHY
--	  drivers.
--
--	  ULPI PHYs provide often functions such as ADP sensing/probing (OTG
--	  protocol) and USB charger detection.
--
--	  To compile this driver as a module, choose M here: the module will
--	  be called ulpi.
--
- endif # USB_SUPPORT
-diff --git a/drivers/usb/common/Kconfig b/drivers/usb/common/Kconfig
-new file mode 100644
-index 000000000000..848545b099cf
---- /dev/null
-+++ b/drivers/usb/common/Kconfig
-@@ -0,0 +1,38 @@
-+# SPDX-License-Identifier: GPL-2.0
++The port would be added as subnode if use "usb-role-switch" property.
++	see graph.txt
 +
-+config USB_COMMON
-+	tristate
-+
-+
-+config USB_LED_TRIG
-+	bool "USB LED Triggers"
-+	depends on LEDS_CLASS && LEDS_TRIGGERS
-+	select USB_COMMON
-+	help
-+	  This option adds LED triggers for USB host and/or gadget activity.
-+
-+	  Say Y here if you are working on a system with led-class supported
-+	  LEDs and you want to use them as activity indicators for USB host or
-+	  gadget.
-+
-+config USB_ULPI_BUS
-+	tristate "USB ULPI PHY interface support"
-+	select USB_COMMON
-+	help
-+	  UTMI+ Low Pin Interface (ULPI) is specification for a commonly used
-+	  USB 2.0 PHY interface. The ULPI specification defines a standard set
-+	  of registers that can be used to detect the vendor and product which
-+	  allows ULPI to be handled as a bus. This module is the driver for that
-+	  bus.
-+
-+	  The ULPI interfaces (the buses) are registered by the drivers for USB
-+	  controllers which support ULPI register access and have ULPI PHY
-+	  attached to them. The ULPI PHY drivers themselves are normal PHY
-+	  drivers.
-+
-+	  ULPI PHYs provide often functions such as ADP sensing/probing (OTG
-+	  protocol) and USB charger detection.
-+
-+	  To compile this driver as a module, choose M here: the module will
-+	  be called ulpi.
-+
+ Example:
+ ssusb: usb@11271000 {
+ 	compatible = "mediatek,mt8173-mtu3";
 -- 
 2.23.0
 
