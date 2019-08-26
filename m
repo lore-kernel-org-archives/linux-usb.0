@@ -2,87 +2,91 @@ Return-Path: <SRS0=DzqA=WW=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D109AC3A5A4
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Aug 2019 04:46:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DABECC3A59E
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Aug 2019 04:53:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A652E2190F
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Aug 2019 04:46:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B044221848
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Aug 2019 04:53:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1566795204;
+	bh=Y3mEduzKt2IMLRPCc/9d2tQAduv/qs1pdxGcl2GFft0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Mt50JXQ5fGFTEMWWJkS14fTaz/eSaw78EH4aI40Af/fq/XmlqliY/Y3M8eRCiSZEa
+	 Q0M/s3jPPffqDtFRCT8pIZ+EvZ5nNBj8HYrsPQkPgdBf0CzCmUOoiD2wm8fA5P8Kgh
+	 /PK21VJ0OJw9dHVsbA6hajtCHN4/NIQXC6oMbpPg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727657AbfHZEqh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 26 Aug 2019 00:46:37 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:43325 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725270AbfHZEqh (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Aug 2019 00:46:37 -0400
-Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-        (Exim 4.76)
-        (envelope-from <kai.heng.feng@canonical.com>)
-        id 1i26tl-00010H-RL; Mon, 26 Aug 2019 04:46:34 +0000
-From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
-To:     stern@rowland.harvard.edu
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>
-Subject: [PATCH 1/2] USB: storage: ums-realtek: Rename module parameter auto_delink_en to auto_delink_mode
-Date:   Mon, 26 Aug 2019 12:46:29 +0800
-Message-Id: <20190826044630.21949-1-kai.heng.feng@canonical.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726740AbfHZExT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 26 Aug 2019 00:53:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34812 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726606AbfHZExT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 26 Aug 2019 00:53:19 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id AB4C92070B;
+        Mon, 26 Aug 2019 04:53:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1566795198;
+        bh=Y3mEduzKt2IMLRPCc/9d2tQAduv/qs1pdxGcl2GFft0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=cyAooLrKGZoXcgtWaM75AD61npujRwChi/03co9+kSqt1+0c8py9dZJehKnajJKkx
+         rJaHOMobdxkVin8ch8Uy+uOInt7rqFwiFEve5XVFLuxtEmqsNewr12DiBcQSUKwfY3
+         znLCKoyLVivek0GCr1uDhRSvtPLzE9b30oxff7QU=
+Date:   Mon, 26 Aug 2019 06:53:15 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc:     stern@rowland.harvard.edu, linux-usb@vger.kernel.org,
+        usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] USB: storage: ums-realtek: Rename module parameter
+ auto_delink_en to auto_delink_mode
+Message-ID: <20190826045315.GC1678@kroah.com>
+References: <20190826044630.21949-1-kai.heng.feng@canonical.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190826044630.21949-1-kai.heng.feng@canonical.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The option named "auto_delink_en" is a bit misleading, as setting it to
-false doesn't really disable auto-delink but let auto-delink be firmware
-controlled.
+On Mon, Aug 26, 2019 at 12:46:29PM +0800, Kai-Heng Feng wrote:
+> The option named "auto_delink_en" is a bit misleading, as setting it to
+> false doesn't really disable auto-delink but let auto-delink be firmware
+> controlled.
+> 
+> Rename it to reflect the real usage of this parameter.
+> 
+> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> ---
+>  drivers/usb/storage/realtek_cr.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/usb/storage/realtek_cr.c b/drivers/usb/storage/realtek_cr.c
+> index cc794e25a0b6..4d86cfcc0b40 100644
+> --- a/drivers/usb/storage/realtek_cr.c
+> +++ b/drivers/usb/storage/realtek_cr.c
+> @@ -36,9 +36,9 @@ MODULE_DESCRIPTION("Driver for Realtek USB Card Reader");
+>  MODULE_AUTHOR("wwang <wei_wang@realsil.com.cn>");
+>  MODULE_LICENSE("GPL");
+>  
+> -static int auto_delink_en = 1;
+> -module_param(auto_delink_en, int, S_IRUGO | S_IWUSR);
+> -MODULE_PARM_DESC(auto_delink_en, "enable auto delink");
+> +static int auto_delink_mode = 1;
+> +module_param(auto_delink_mode, int, S_IRUGO | S_IWUSR);
+> +MODULE_PARM_DESC(auto_delink_mode, "auto delink mode (0=firmware, 1=software [default])");
 
-Rename it to reflect the real usage of this parameter.
+We can not just rename module parameters, as that will break working
+systems that have their startup scripts using those names :(
 
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
----
- drivers/usb/storage/realtek_cr.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+sorry,
 
-diff --git a/drivers/usb/storage/realtek_cr.c b/drivers/usb/storage/realtek_cr.c
-index cc794e25a0b6..4d86cfcc0b40 100644
---- a/drivers/usb/storage/realtek_cr.c
-+++ b/drivers/usb/storage/realtek_cr.c
-@@ -36,9 +36,9 @@ MODULE_DESCRIPTION("Driver for Realtek USB Card Reader");
- MODULE_AUTHOR("wwang <wei_wang@realsil.com.cn>");
- MODULE_LICENSE("GPL");
- 
--static int auto_delink_en = 1;
--module_param(auto_delink_en, int, S_IRUGO | S_IWUSR);
--MODULE_PARM_DESC(auto_delink_en, "enable auto delink");
-+static int auto_delink_mode = 1;
-+module_param(auto_delink_mode, int, S_IRUGO | S_IWUSR);
-+MODULE_PARM_DESC(auto_delink_mode, "auto delink mode (0=firmware, 1=software [default])");
- 
- #ifdef CONFIG_REALTEK_AUTOPM
- static int ss_en = 1;
-@@ -567,7 +567,7 @@ static int config_autodelink_after_power_on(struct us_data *us)
- 	if (retval < 0)
- 		return -EIO;
- 
--	if (auto_delink_en) {
-+	if (auto_delink_mode) {
- 		CLR_BIT(value, 0);
- 		CLR_BIT(value, 1);
- 		SET_BIT(value, 2);
-@@ -630,7 +630,7 @@ static int config_autodelink_before_power_down(struct us_data *us)
- 	if (!CHK_AUTO_DELINK(chip))
- 		return 0;
- 
--	if (auto_delink_en) {
-+	if (auto_delink_mode) {
- 		retval = rts51x_read_mem(us, 0xFE77, &value, 1);
- 		if (retval < 0)
- 			return -EIO;
--- 
-2.17.1
-
+greg k-h
