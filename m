@@ -2,218 +2,192 @@ Return-Path: <SRS0=DzqA=WW=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88D96C3A59E
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Aug 2019 08:55:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78FAAC3A5A5
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Aug 2019 09:11:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 55782206BA
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Aug 2019 08:55:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4D6362173E
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Aug 2019 09:11:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="QvjxXF7z"
+	dkim=pass (2048-bit key) header.d=endlessm-com.20150623.gappssmtp.com header.i=@endlessm-com.20150623.gappssmtp.com header.b="yk9jtXSJ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730246AbfHZIzk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 26 Aug 2019 04:55:40 -0400
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:59909 "EHLO
-        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730138AbfHZIzk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Aug 2019 04:55:40 -0400
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20190826085537euoutp026276178f8f716e2b56dfad855394ec93~_bSesVFU_2578425784euoutp02F
-        for <linux-usb@vger.kernel.org>; Mon, 26 Aug 2019 08:55:37 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20190826085537euoutp026276178f8f716e2b56dfad855394ec93~_bSesVFU_2578425784euoutp02F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1566809737;
-        bh=4/G5wg4DJNiOKBA319u2NGoaV2LPWGLsqRRCL6/5HbQ=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=QvjxXF7zVrmfXunVZqkZ4ls/9lxHpgBFLiopFUbjZzdEcpgvUurcbFNEbEjxmWwTA
-         mK/MtritHyvmnE3JAAd85YS4XiqvZJVtNQ2lC/VtDX5X5PqyOUNTVKZAon/H0mcKha
-         3D2jx8p2t6jZOpNk8ZBMVbKd3Ctz+DTkHbpw5yWo=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20190826085536eucas1p1943cfcfb3497665cba5f208d711d68db~_bSd0SaSu2548625486eucas1p15;
-        Mon, 26 Aug 2019 08:55:36 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-        eusmges3new.samsung.com (EUCPMTA) with SMTP id BF.79.04374.88E936D5; Mon, 26
-        Aug 2019 09:55:36 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20190826085535eucas1p290033f348e272069bffd17dbad137cfe~_bSdA_5zZ0746807468eucas1p2b;
-        Mon, 26 Aug 2019 08:55:35 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20190826085535eusmtrp2c82f1e0dd63676a43fb028d6db854908~_bScy0dBl3154031540eusmtrp2F;
-        Mon, 26 Aug 2019 08:55:35 +0000 (GMT)
-X-AuditID: cbfec7f5-4ddff70000001116-14-5d639e88d97b
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms2.samsung.com (EUCPMTA) with SMTP id 9C.E7.04117.78E936D5; Mon, 26
-        Aug 2019 09:55:35 +0100 (BST)
-Received: from [106.120.50.63] (unknown [106.120.50.63]) by
-        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20190826085534eusmtip287a9a55fd9201dbd54a99efc6132d4d9~_bScSNjKf2034120341eusmtip2V;
-        Mon, 26 Aug 2019 08:55:34 +0000 (GMT)
-Subject: Re: [PATCH v2 1/2 RESEND] usb: core: phy: add support for PHY
- calibration
-To:     linux-usb@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Jochen Sprickerhof <jochen@sprickerhof.de>,
-        Anand Moon <linux.amoon@gmail.com>
-From:   Marek Szyprowski <m.szyprowski@samsung.com>
-Message-ID: <a380a635-e036-1a18-bc0f-947931f8735c@samsung.com>
-Date:   Mon, 26 Aug 2019 10:55:33 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:60.0) Gecko/20100101
-        Thunderbird/60.8.0
+        id S1730443AbfHZJLK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 26 Aug 2019 05:11:10 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:40106 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730687AbfHZJLK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Aug 2019 05:11:10 -0400
+Received: by mail-qt1-f194.google.com with SMTP id g4so7318310qtq.7
+        for <linux-usb@vger.kernel.org>; Mon, 26 Aug 2019 02:11:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=endlessm-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=9IXnmzFg6risKTgNPaMu2aK53iMvrqXdqVVxtMnojTY=;
+        b=yk9jtXSJrfP4Ej04tzjm3RUr3/AuE94T8ffChT0EQ9nBMa4ae4EFGyLzO1+c49c40p
+         hBthKWk12DLuuedECRcz/J/p/f6IwCHT1ykMX4omjn9/jtng5lXv3WFcy1guEB3QlqRp
+         40yX+l5LV+wwxVM4b65FEfSwkRyiKtfopH5fTz0/t8zTWIASNuVY+Huj+eHeF0/8URbs
+         hca3QWczFragk3dZHonzULhjEaxswXJHfuarZBOgDSg7XIqO+HhnmMnTKyCesi/nspcL
+         GiSVs3/hyfQSviplR3q5LCQcEREWUCbPOk/p+AdwTtD+5XaUNvKQYCxYz/2a9ZOwSph+
+         Vacw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=9IXnmzFg6risKTgNPaMu2aK53iMvrqXdqVVxtMnojTY=;
+        b=IculBdgXoCQlcpaxC/kIf69ajTkHd4k1pH3Mcw8Wu1fRaTn4nQHAmbcq6bGa6Sr/CJ
+         /oJfmHPjUEvHGd5VqqcPcNP+ftJLz1mOVy5E6e7padv86v31kQMR+vyKVsb0J/fQBEZB
+         EXrPbU2eBbllKKJK4gfWfCGhJwjz+8GcvikW7/nhz8oXTA3nP/oA5ZZv8a/3dRwSHrvk
+         pG0/H9zywpRfNzSqAK1TV8eNZZ2UapjI4hYPA8OemO5B4O1uQB4JAiDlBa85DtvTpkW5
+         RAHiWmXVEF71+/bdgLbB+Im5AeEtE2btJC9JRLkTSbuK4hUMi8XrueqaedE1V9HJoKle
+         Yk6A==
+X-Gm-Message-State: APjAAAWi4QnEeGVl5Jydfs6j3+m+uh0j1xdAAjHiRynqA6x1VJ6foHQA
+        kK/QAaORphszlkMA8H1A3zA5tTCrYpvjjkcZJ6ooK817rxM=
+X-Google-Smtp-Source: APXvYqzY1hexkemG9giL0kOAtPDpyKgHg2ST0GKRhogaDUMgR/yUcDk3fPs0dQuNZOuaAFkpJCyqe8y2raGfFcKijkY=
+X-Received: by 2002:aed:24f4:: with SMTP id u49mr16754107qtc.110.1566810668853;
+ Mon, 26 Aug 2019 02:11:08 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190808094128.27213-2-m.szyprowski@samsung.com>
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUhTYRTHe3bv7r1a0+tUPJkUDFQqX1pJ3LTMwmLUh/rQlyzJq17U1Cmb
-        07Qvli/NISa+lK6a4csUy7clpmKLNtDMcr4QmWSaOElxIWhCoZbbxfLb73+e/+F/zuGhMLFF
-        6E0lyTM4hZxNkRDOeFf/r+FAtS4u+kj3RzHTUdUmZPoL50gmr66NYBo2viLGYmknmfHexwRT
-        ZTEKmFp9Aca0dkySTH/tIM7kGSqEEbtlPdopUmYtLSdldX0LApmhuYiQvX7ynJSVdDYjWXvn
-        Ji5bMey/TEU5n4znUpIyOUVweIxz4otPZiJ91PuW2jSD56IlTw2iKKBDoO/OOQ1ypsR0E4KN
-        od9CXqwiGNZOC3ixgmC9vBjTICdHx8KrbVcjgtXqeZwXNgRmYxeyu9zpK/Bswkra2YOOgPqG
-        L4TdhNElGHS+XXKYCFoKGpuGsLOIDod8m8URgdO+MLZhdDR70tehZ4mPFtFuMFg9h9vZacs/
-        22AW2hmjD8BL22OMZy+YnKtxzA30LAnT3cs4P3ckWHP1BM/usDjQSfLsA396thvyEHwbbiF5
-        UYxg/G4V4l1hYB4YFdpvhtEHoa03mC+fgcaiIpI/pQtM2Nz4IVygrOshxpdFoC4U824/0A60
-        /ot9MzKGlSKJdsdq2h3raHeso/2f+xThzciLUylTEzjlMTmXFaRkU5UqeUJQXFqqAW19s6HN
-        gZ/dyLgea0I0hSR7RDGquGixkM1UZqeaEFCYxEOUEsxGi0XxbHYOp0i7oVClcEoT2kfhEi/R
-        7V0z18R0ApvBJXNcOqfYfhVQTt65KH3zYotp0/1Bh8p4NUw+7hOin6/0yDmrqEymCxZO+LHh
-        TRd0/rqlH41lIdLvl9j3h7GQrNrzUnLklNPC8cio4Hwvl5q1wDxXtdD6zjYV+rl+7aj/oqpv
-        lVKNLk4P3hzUF0YsgzqA1N1vOW15FLchMHzwDd0be4+pyKICPEdcJbgykZUewhRK9i8lYCSB
-        YgMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrEIsWRmVeSWpSXmKPExsVy+t/xe7rt85JjDaYfkrbYOGM9q8Wxtifs
-        Fs2L17NZLP17j9Hi/PkN7BaXd81hs5hxfh+TxaJlrcwW6zbeYrc4tugki0XzpimsDtweO2fd
-        Zfd4OmEyu8fiPS+ZPDat6mTz2D93DbtH35ZVjB4btvxj8fi8SS6AI0rPpii/tCRVISO/uMRW
-        KdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/OJiU1J7MstUjfLkEvY/P1w2wFF6UqOg49YGlgfCPa
-        xcjJISFgIvFy7y/WLkYuDiGBpYwS+7r2MkMkZCROTmtghbCFJf5c62KDKHrNKNG4cxpYkbBA
-        iMTqG0/ZQWwRAQeJJUvvgBUxC0xgltj6+yA7RMdRRonP3bPAOtgEDCW63oKM4uTgFbCTaHl7
-        HizOIqAqcenvPrBJogIxEvvObGeHqBGUODnzCQuIzQlU/2jpYbCTmAXMJOZtfsgMYctLbH87
-        B8oWl7j1ZD7TBEahWUjaZyFpmYWkZRaSlgWMLKsYRVJLi3PTc4uN9IoTc4tL89L1kvNzNzEC
-        43fbsZ9bdjB2vQs+xCjAwajEw5tQmhwrxJpYVlyZe4hRgoNZSYQ3Rz8xVog3JbGyKrUoP76o
-        NCe1+BCjKdBzE5mlRJPzgaklryTe0NTQ3MLS0NzY3NjMQkmct0PgYIyQQHpiSWp2ampBahFM
-        HxMHp1QD48L/mfLVgTtm6rpHyXKJB2cUuFxL2ZzREOjrNmuV65vDapYN+Zxtm6f4HoqVK/xp
-        tfrh0t0r36vqvlsaUZryjvUoi7r5FvYvN29uffRPlcPq9XO7qPpoiQpuV+k6f+lffHMuXuXx
-        f6+W8OYvX07lr9U9e5YxVXw9fnajgNX87WE5ntHX3l5tV2Ipzkg01GIuKk4EAKvISLj1AgAA
-X-CMS-MailID: 20190826085535eucas1p290033f348e272069bffd17dbad137cfe
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20190808094146eucas1p2a5a88ce5e7a87d47c4bcececab4df9a5
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20190808094146eucas1p2a5a88ce5e7a87d47c4bcececab4df9a5
-References: <20190808094128.27213-1-m.szyprowski@samsung.com>
-        <CGME20190808094146eucas1p2a5a88ce5e7a87d47c4bcececab4df9a5@eucas1p2.samsung.com>
-        <20190808094128.27213-2-m.szyprowski@samsung.com>
+From:   Daniel Drake <drake@endlessm.com>
+Date:   Mon, 26 Aug 2019 17:10:57 +0800
+Message-ID: <CAD8Lp47Vh69gQjROYG69=waJgL7hs1PwnLonL9+27S_TcRhixA@mail.gmail.com>
+Subject: Ryzen7 3700U xhci fails on resume from sleep
+To:     Linux USB Mailing List <linux-usb@vger.kernel.org>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        Linux PM <linux-pm@vger.kernel.org>
+Cc:     Endless Linux Upstreaming Team <linux@endlessm.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Greg
+Hi,
 
-On 2019-08-08 11:41, Marek Szyprowski wrote:
-> Some PHYs (for example Exynos5 USB3.0 DRD PHY) require calibration to be
-> done after every USB HCD reset. Generic PHY framework has been already
-> extended with phy_calibrate() function in commit 36914111e682 ("drivers:
-> phy: add calibrate method"). This patch adds support for it to generic
-> PHY handling code in USB HCD core.
->
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Tested-by: Anand Moon <linux.amoon@gmail.com>
-> Tested-by: Jochen Sprickerhof <jochen@sprickerhof.de>
+Working with a new consumer laptop based on AMD Ryzen 7 3700U, all USB
+functionality goes dead upon suspend/resume (s2idle). Reproduced on
+linus master from today.
 
-Greg: any chance to give it this a try in -next? If not, maybe You can 
-point someone whose review will help?
+<<<suspend>>>
+Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
+<<<wake up happens here>>>
+xhci_hcd 0000:03:00.3: Refused to change power state, currently in D3
+xhci_hcd 0000:03:00.4: Refused to change power state, currently in D3
+WARNING: CPU: 0 PID: 1980 at kernel/irq/chip.c:210 irq_startup+0xda/0xe0
+Modules linked in:
+CPU: 0 PID: 1980 Comm: bash Not tainted 5.3.0-rc6+ #265
+Hardware name: ASUSTeK COMPUTER INC. ZenBook UX434DA_UX434DA/UX434DA,
+BIOS UX434DA_UX434DA.301-C03 08/20/2019
+RIP: 0010:irq_startup+0xda/0xe0
+Code: ef e8 fa 2b 00 00 85 c0 0f 85 04 09 00 00 48 89 ee 31 d2 4c 89
+ef e8 d5 d3 ff ff 48 89 df e8 cd fe ff ff 89 c5 e9 53 ff ff ff <0f> 0b
+eb b5 66 90 55 48 89 fd 53 48 8b 47 38 89 f3 8b 00 a9 00 00
+RSP: 0018:ffffa045407cfd68 EFLAGS: 00010002
+RAX: 0000000000000040 RBX: ffff98058e968800 RCX: 0000000000000040
+RDX: 0000000000000000 RSI: ffffffffa2b6d1f8 RDI: ffff98058e968818
+RBP: ffff98058e968818 R08: 0000000000000000 R09: ffff98058ec00650
+R10: 0000000000000000 R11: ffffffffa2a49568 R12: 0000000000000001
+R13: 0000000000000001 R14: 0000000000000246 R15: ffffa045407cfde0
+FS:  00007f2d54054740(0000) GS:ffff980590c00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000562df2f3c976 CR3: 000000040ea00000 CR4: 00000000003406f0
+Call Trace:
+ resume_irqs+0x9e/0xd0
+ dpm_noirq_end+0x5/0x10
+ suspend_devices_and_enter+0x587/0x780
+ pm_suspend.cold.7+0x309/0x35f
+ state_store+0x7b/0xe0
+ kernfs_fop_write+0x100/0x180
+ vfs_write+0xa0/0x1a0
+ ksys_write+0x54/0xd0
+ do_syscall_64+0x3d/0x110
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x7f2d54141804
+Code: 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b3 0f 1f 80 00 00 00
+00 48 8d 05 f9 5e 0d 00 8b 00 85 c0 75 13 b8 01 00 00 00 0f 05 <48> 3d
+00 f0 ff ff 77 54 c3 0f 1f 00 41 54 49 89 d4 55 48 89 f5 53
+RSP: 002b:00007ffce602cb28 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 0000000000000004 RCX: 00007f2d54141804
+RDX: 0000000000000004 RSI: 000055764b26faa0 RDI: 0000000000000001
+RBP: 000055764b26faa0 R08: 000000000000000a R09: 0000000000000077
+R10: 000000000000000a R11: 0000000000000246 R12: 00007f2d54213760
+R13: 0000000000000004 R14: 00007f2d5420e760 R15: 0000000000000004
+---[ end trace 68323bdeb91ed863 ]---
+xhci_hcd 0000:03:00.4: enabling device (0000 -> 0002)
+xhci_hcd 0000:03:00.3: enabling device (0000 -> 0002)
+xhci_hcd 0000:03:00.4: WARN: xHC restore state timeout
+xhci_hcd 0000:03:00.4: PCI post-resume error -110!
+xhci_hcd 0000:03:00.4: HC died; cleaning up
+xhci_hcd 0000:03:00.3: WARN: xHC restore state timeout
+PM: dpm_run_callback(): pci_pm_resume+0x0/0x90 returns -110
+xhci_hcd 0000:03:00.3: PCI post-resume error -110!
+PM: Device 0000:03:00.4 failed to resume async: error -110
+xhci_hcd 0000:03:00.3: HC died; cleaning up
+PM: dpm_run_callback(): pci_pm_resume+0x0/0x90 returns -110
+PM: Device 0000:03:00.3 failed to resume async: error -110
+Restarting tasks ...
+usb 1-3: USB disconnect, device number 2
+usb 3-1: USB disconnect, device number 2
+asix 1-3:1.0 enx001c490105e9: unregister 'asix' usb-0000:03:00.3-3,
+ASIX AX88772 USB 2.0 Ethernet
+done.
+PM: suspend exit
+xhci_hcd 0000:03:00.4: xHCI host controller not responding, assume dead
+xhci_hcd 0000:03:00.4: HC died; cleaning up
+xhci_hcd 0000:03:00.4: Timeout while waiting for configure endpoint command
+xhci_hcd 0000:03:00.3: xHCI host controller not responding, assume dead
+xhci_hcd 0000:03:00.3: HC died; cleaning up
+xhci_hcd 0000:03:00.3: Timeout while waiting for configure endpoint command
+usb 3-2: USB disconnect, device number 3
+usb 1-4: USB disconnect, device number 3
 
+I think the irq_startup() warning is unrelated - anyway the logs
+already start complaining about xhci_hcd above that:
 
-> ---
->   drivers/usb/core/hcd.c |  7 +++++++
->   drivers/usb/core/phy.c | 21 +++++++++++++++++++++
->   drivers/usb/core/phy.h |  1 +
->   3 files changed, 29 insertions(+)
->
-> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-> index 88533938ce19..b89936c1df23 100644
-> --- a/drivers/usb/core/hcd.c
-> +++ b/drivers/usb/core/hcd.c
-> @@ -2291,6 +2291,9 @@ int hcd_bus_resume(struct usb_device *rhdev, pm_message_t msg)
->   	hcd->state = HC_STATE_RESUMING;
->   	status = hcd->driver->bus_resume(hcd);
->   	clear_bit(HCD_FLAG_WAKEUP_PENDING, &hcd->flags);
-> +	if (status == 0)
-> +		status = usb_phy_roothub_calibrate(hcd->phy_roothub);
-> +
->   	if (status == 0) {
->   		struct usb_device *udev;
->   		int port1;
-> @@ -2864,6 +2867,10 @@ int usb_add_hcd(struct usb_hcd *hcd,
->   	}
->   	hcd->rh_pollable = 1;
->   
-> +	retval = usb_phy_roothub_calibrate(hcd->phy_roothub);
-> +	if (retval)
-> +		goto err_hcd_driver_setup;
-> +
->   	/* NOTE: root hub and controller capabilities may not be the same */
->   	if (device_can_wakeup(hcd->self.controller)
->   			&& device_can_wakeup(&hcd->self.root_hub->dev))
-> diff --git a/drivers/usb/core/phy.c b/drivers/usb/core/phy.c
-> index 7580493b867a..fb1588e7c282 100644
-> --- a/drivers/usb/core/phy.c
-> +++ b/drivers/usb/core/phy.c
-> @@ -151,6 +151,27 @@ int usb_phy_roothub_set_mode(struct usb_phy_roothub *phy_roothub,
->   }
->   EXPORT_SYMBOL_GPL(usb_phy_roothub_set_mode);
->   
-> +int usb_phy_roothub_calibrate(struct usb_phy_roothub *phy_roothub)
-> +{
-> +	struct usb_phy_roothub *roothub_entry;
-> +	struct list_head *head;
-> +	int err;
-> +
-> +	if (!phy_roothub)
-> +		return 0;
-> +
-> +	head = &phy_roothub->list;
-> +
-> +	list_for_each_entry(roothub_entry, head, list) {
-> +		err = phy_calibrate(roothub_entry->phy);
-> +		if (err)
-> +			return err;
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(usb_phy_roothub_calibrate);
-> +
->   int usb_phy_roothub_power_on(struct usb_phy_roothub *phy_roothub)
->   {
->   	struct usb_phy_roothub *roothub_entry;
-> diff --git a/drivers/usb/core/phy.h b/drivers/usb/core/phy.h
-> index dad564e2d2d4..20a267cd986b 100644
-> --- a/drivers/usb/core/phy.h
-> +++ b/drivers/usb/core/phy.h
-> @@ -18,6 +18,7 @@ int usb_phy_roothub_exit(struct usb_phy_roothub *phy_roothub);
->   
->   int usb_phy_roothub_set_mode(struct usb_phy_roothub *phy_roothub,
->   			     enum phy_mode mode);
-> +int usb_phy_roothub_calibrate(struct usb_phy_roothub *phy_roothub);
->   int usb_phy_roothub_power_on(struct usb_phy_roothub *phy_roothub);
->   void usb_phy_roothub_power_off(struct usb_phy_roothub *phy_roothub);
->   
+xhci_hcd 0000:03:00.3: Refused to change power state, currently in D3
+xhci_hcd 0000:03:00.4: Refused to change power state, currently in D3
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+These messages indicate that Linux tried to power on the device again,
+but the PCI power management registers indicate that it ignored the
+request and remains in D3.
 
+I tried a few things like making it try D3hot instead of D3cold (which
+is what it's aiming for even though it's not mentioned in the logs
+above), and disabling the suspend/resume actions taken by
+drivers/pci/pci-acpi.c without any improvement.
+
+Trying to sanity check other basic details I observe that this simple
+routine (to put it in D3 then D0) also fails:
+
+# cd /sys/bus/pci/drivers/xhci_hcd
+# echo -n 0000:00:03.0 > unbind
+# setpci -s 00:00.3 CAP_PM+4.b=3
+# setpci -s 00:00.3 CAP_PM+4.b=0
+# echo -n 0000:00:03.0 > bind
+
+bind then fails with:
+  xhci_hcd 0000:03:00.3: enabling device (0000 -> 0002)
+  xhci_hcd 0000:03:00.3: xHCI Host Controller
+  xhci_hcd 0000:03:00.3: new USB bus registered, assigned bus number 1
+  xhci_hcd 0000:03:00.3: Host halt failed, -19
+  xhci_hcd 0000:03:00.3: can't setup: -19
+  xhci_hcd 0000:03:00.3: USB bus 1 deregistered
+  xhci_hcd 0000:03:00.3: init 0000:03:00.3 fail, -19
+
+As another test I was wondering if I could get Linux to put it into D3
+and then go back into D0 without having to go through the whole
+suspend procedure, but even when I unbind it from xhci_hcd and set
+power/control to "auto" in /sys/bus/pci/devices/0000:03:00.3,
+runtime_status is "suspended" but Linux still leaves the device in D0
+- is that expected?
+
+Any debugging pointers much appreciated.
+
+acpidump:
+https://gist.github.com/dsd/ff3dfc0f63cdd9eba4a0fbd9e776e8be
+
+lspci:
+https://gist.github.com/dsd/bd9370b35defdf43680b81ecb34381d5
+
+Thanks
+Daniel
