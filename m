@@ -2,57 +2,70 @@ Return-Path: <SRS0=DzqA=WW=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0B8FC3A5A5
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Aug 2019 09:14:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 716DCC3A59E
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Aug 2019 09:18:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8964A22CF8
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Aug 2019 09:14:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F98A22D6D
+	for <linux-usb@archiver.kernel.org>; Mon, 26 Aug 2019 09:18:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730803AbfHZJOe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 26 Aug 2019 05:14:34 -0400
-Received: from mx2.suse.de ([195.135.220.15]:60016 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726354AbfHZJOe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 26 Aug 2019 05:14:34 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 4718CAC7F;
-        Mon, 26 Aug 2019 09:14:33 +0000 (UTC)
-Message-ID: <1566809983.2612.2.camel@suse.com>
-Subject: Re: [RFC 1/3] net: cdc_ncm: add get/set ethernet address functions
-From:   Oliver Neukum <oneukum@suse.com>
-To:     Charles.Hyde@dellteam.com, linux-usb@vger.kernel.org
-Cc:     Mario.Limonciello@dell.com, nic_swsd@realtek.com,
-        linux-acpi@vger.kernel.org
-Date:   Mon, 26 Aug 2019 10:59:43 +0200
-In-Reply-To: <d3971424f9ee4b689b762721f671746a@AUSX13MPS303.AMER.DELL.COM>
-References: <d3971424f9ee4b689b762721f671746a@AUSX13MPS303.AMER.DELL.COM>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1730831AbfHZJSm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 26 Aug 2019 05:18:42 -0400
+Received: from esa3.mentor.iphmx.com ([68.232.137.180]:44212 "EHLO
+        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726354AbfHZJSm (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Aug 2019 05:18:42 -0400
+IronPort-SDR: XTMaxBFvsH2UwM1a8ogdyerZMf+GTYR+PbElc6Fkm3D5DC8C+vLquXBHBRhklwDM5SwpuwqZB1
+ dTDgBOzQBal3KyEyeA5JOxhnP94ZTOuhXAC+KIAFT+D1eLBwISdz8OUjGVvyF02HRAiB8dk5EW
+ VPgRQDor5wOdurgQu81pHwkkajDq336w4JMLonDYvsbXgNE0BB4L/1m53n6Rp3gwHYo7x8FoZx
+ XF0B+4b67W+6CtClD3IzgavWbjb4O9Uh9KEzh5aGstGgxCq8QeXmH0DLJPHP93N/Q0JIKNWzEv
+ 1OY=
+X-IronPort-AV: E=Sophos;i="5.64,431,1559548800"; 
+   d="scan'208";a="40754434"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa3.mentor.iphmx.com with ESMTP; 26 Aug 2019 01:18:41 -0800
+IronPort-SDR: dR8ERYs91sPATzkv9nRtgxts6uCG5HQ61fwrPXTn/rFfRacTg8z4JsfAp23Qd5snpqApwaZEsQ
+ 0GUZwmfft4zBkIbKvxMy9iPQ2tDv854OyoqHRJT1k0a/v0XMgMYLokcRNPlaTQJrHtJiML5Ab2
+ y1ctFc9zAuq4BKo1ZVp4irZExNstTlOfhrZIo9EgoDplC8RlN/GkDLx5ILnOQR7X7LWa50A2cL
+ 0TphBwlFjzzQjpCMd0dw+eQMwC0LKftW88xW91oBfVIMGeAZcjRJHoJRy7GeCHjtFAdJremLEv
+ e+E=
+From:   "Schmid, Carsten" <Carsten_Schmid@mentor.com>
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Greg KH <gregkh@linuxfoundation.org>
+CC:     Hans de Goede <hdegoede@redhat.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: AW: AW: [Patch v5] usb: hcd: use managed device resources
+Thread-Topic: AW: [Patch v5] usb: hcd: use managed device resources
+Thread-Index: AQHVWbuDnGbGmDS690Kl9IU7UhO1uqcLekmAgAGBUYCAABgOQf///BYAgAAa9QA=
+Date:   Mon, 26 Aug 2019 09:18:37 +0000
+Message-ID: <52a8a072e74c4615971d708af31c85fd@SVR-IES-MBX-03.mgc.mentorg.com>
+References: <1566569488679.31808@mentor.com> <20190825082949.GA4583@kroah.com>
+ <975465c3-6ced-56f6-9115-a19248b370be@linux.intel.com>
+ <1566806970031.45477@mentor.com>
+ <bdb2e92b-2bd8-f88f-d593-59532c9b7c2c@linux.intel.com>
+In-Reply-To: <bdb2e92b-2bd8-f88f-d593-59532c9b7c2c@linux.intel.com>
+Accept-Language: de-DE, en-IE, en-US
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [137.202.0.90]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Am Freitag, den 23.08.2019, 22:26 +0000 schrieb
-Charles.Hyde@dellteam.com:
-> This patch adds support for pushing a MAC address out to USB based
-> ethernet controllers driven by cdc_ncm.  With this change, ifconfig can
-> now set the device's MAC address.  For example, the Dell Universal Dock
-> D6000 is driven by cdc_ncm.  The D6000 can now have its MAC address set
-> by ifconfig, as it can be done in Windows.  This was tested with a D6000
-> using ifconfig on an x86 based chromebook, where iproute2 is not
-> available.
-
-The code is good. But placing it into cdc_ncm means that cdc_ether
-or other drivers cannot use it.
-
-	Regards
-		Oliver
-
+PiANCj4gVGhhbmtzIGZvciBmaXhpbmcgdGhpcywgaXQgc29sdmVzIGEgcmVhbCB1cHN0cmVhbSB4
+aGNpIHJlbGF0ZWQgaXNzdWUgc2luY2UgNC4xOS4NCj4gRml4IGlzIG91dHNpZGUgeGhjaSBzbyBh
+Y2NlcHRpbmcgdGhpcyBpcyBubyBsb25nZXIgdXAgdG8gbWUsIGJ1dCBmb3IgR3JlZzoNCj4gDQo+
+IFJldmlld2VkLWJ5OiBNYXRoaWFzIE55bWFuIDxtYXRoaWFzLm55bWFuQGxpbnV4LmludGVsLmNv
+bT4NCj4gRml4ZXM6IGZhMzFiM2NiMmFlMSAoInhoY2k6IEFkZCBJbnRlbCBleHRlbmRlZCBjYXAg
+LyBvdGcgcGh5IG11eCBoYW5kbGluZyIpDQo+IENjOiA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4g
+IyB2NC4xOSsNCg0KQW55dGhpbmcgZWxzZSBuZWVkZWQgZnJvbSBteSBzaWRlPw0KUGxlYXNlIGxl
+dCBtZSBrbm93IGlmIHNvLg0KDQpCZXN0IHJlZ2FyZHMNCkNhcnN0ZW4NCg==
