@@ -1,104 +1,167 @@
-Return-Path: <SRS0=DzqA=WW=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=bSdY=WX=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03FFEC3A59F
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Aug 2019 17:38:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EFEBC41514
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Aug 2019 01:58:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D8B502080C
-	for <linux-usb@archiver.kernel.org>; Mon, 26 Aug 2019 17:38:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 00953206E0
+	for <linux-usb@archiver.kernel.org>; Tue, 27 Aug 2019 01:58:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732599AbfHZRix (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 26 Aug 2019 13:38:53 -0400
-Received: from vsmx012.vodafonemail.xion.oxcs.net ([153.92.174.90]:32865 "EHLO
-        vsmx012.vodafonemail.xion.oxcs.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729466AbfHZRix (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Aug 2019 13:38:53 -0400
-Received: from vsmx004.vodafonemail.xion.oxcs.net (unknown [192.168.75.198])
-        by mta-8-out.mta.xion.oxcs.net (Postfix) with ESMTP id E3171F34CCC;
-        Mon, 26 Aug 2019 17:38:50 +0000 (UTC)
-Received: from lazy.lzy (unknown [87.157.113.162])
-        by mta-8-out.mta.xion.oxcs.net (Postfix) with ESMTPA id 4A10119A968;
-        Mon, 26 Aug 2019 17:38:35 +0000 (UTC)
-Received: from lazy.lzy (localhost [127.0.0.1])
-        by lazy.lzy (8.15.2/8.14.5) with ESMTPS id x7QHcYGp004219
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-        Mon, 26 Aug 2019 19:38:34 +0200
-Received: (from red@localhost)
-        by lazy.lzy (8.15.2/8.15.2/Submit) id x7QHcXtE004218;
-        Mon, 26 Aug 2019 19:38:33 +0200
-Date:   Mon, 26 Aug 2019 19:38:33 +0200
-From:   Piergiorgio Sartor <piergiorgio.sartor@nexgo.de>
-To:     Piergiorgio Sartor <piergiorgio.sartor@nexgo.de>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Jens Axboe <axboe@kernel.dk>,
-        USB list <linux-usb@vger.kernel.org>,
-        linux-block@vger.kernel.org,
-        Kernel development list <linux-kernel@vger.kernel.org>
-Subject: Re: reeze while write on external usb 3.0 hard disk [Bug 204095]
-Message-ID: <20190826173833.GA4166@lazy.lzy>
-References: <20190817095422.GA4200@lazy.lzy>
- <Pine.LNX.4.44L0.1908191009490.1506-100000@iolanthe.rowland.org>
- <20190820072326.GD28968@lst.de>
- <20190820163722.GA2991@lazy.lzy>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190820163722.GA2991@lazy.lzy>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-VADE-STATUS: LEGIT
+        id S1728335AbfH0B6O (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 26 Aug 2019 21:58:14 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:37472 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727646AbfH0B6O (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 26 Aug 2019 21:58:14 -0400
+X-IronPort-AV: E=Sophos;i="5.64,435,1559487600"; 
+   d="scan'208";a="24775755"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 27 Aug 2019 10:58:11 +0900
+Received: from localhost.localdomain (unknown [10.166.17.210])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 622B44156587;
+        Tue, 27 Aug 2019 10:58:11 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     gregkh@linuxfoundation.org, stern@rowland.harvard.edu
+Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v2] usb: host: ohci: fix a race condition between shutdown and irq
+Date:   Tue, 27 Aug 2019 10:56:31 +0900
+Message-Id: <1566870991-4870-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Aug 20, 2019 at 06:37:22PM +0200, Piergiorgio Sartor wrote:
-> On Tue, Aug 20, 2019 at 09:23:26AM +0200, Christoph Hellwig wrote:
-> > On Mon, Aug 19, 2019 at 10:14:25AM -0400, Alan Stern wrote:
-> > > Let's bring this to the attention of some more people.
-> > > 
-> > > It looks like the bug that was supposed to be fixed by commit
-> > > d74ffae8b8dd ("usb-storage: Add a limitation for
-> > > blk_queue_max_hw_sectors()"), which is part of 5.2.5, but apparently
-> > > the bug still occurs.
-> > 
-> > Piergiorgio,
-> > 
-> > can you dump the content of max_hw_sectors_kb file for your USB storage
-> > device and send that to this thread?
-> 
-> Hi all,
-> 
-> for both kernels, 5.1.20 (working) and 5.2.8 (not working),
-> the content of /sys/dev/x:y/queue/max_hw_sectors_kb is 512
-> for USB storage devices (2.0 and 3.0).
-> 
-> This is for the PC showing the issue.
-> 
-> In an other PC, which does not show the issus at the moment,
-> the values are 120, for USB2.0, and 256, for USB3.0.
+This patch fixes an issue that the following error is
+possible to happen when ohci hardware causes an interruption
+and the system is shutting down at the same time.
 
-Hi again,
+[   34.851754] usb 2-1: USB disconnect, device number 2
+[   35.166658] irq 156: nobody cared (try booting with the "irqpoll" option)
+[   35.173445] CPU: 0 PID: 22 Comm: kworker/0:1 Not tainted 5.3.0-rc5 #85
+[   35.179964] Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
+[   35.187886] Workqueue: usb_hub_wq hub_event
+[   35.192063] Call trace:
+[   35.194509]  dump_backtrace+0x0/0x150
+[   35.198165]  show_stack+0x14/0x20
+[   35.201475]  dump_stack+0xa0/0xc4
+[   35.204785]  __report_bad_irq+0x34/0xe8
+[   35.208614]  note_interrupt+0x2cc/0x318
+[   35.212446]  handle_irq_event_percpu+0x5c/0x88
+[   35.216883]  handle_irq_event+0x48/0x78
+[   35.220712]  handle_fasteoi_irq+0xb4/0x188
+[   35.224802]  generic_handle_irq+0x24/0x38
+[   35.228804]  __handle_domain_irq+0x5c/0xb0
+[   35.232893]  gic_handle_irq+0x58/0xa8
+[   35.236548]  el1_irq+0xb8/0x180
+[   35.239681]  __do_softirq+0x94/0x23c
+[   35.243253]  irq_exit+0xd0/0xd8
+[   35.246387]  __handle_domain_irq+0x60/0xb0
+[   35.250475]  gic_handle_irq+0x58/0xa8
+[   35.254130]  el1_irq+0xb8/0x180
+[   35.257268]  kernfs_find_ns+0x5c/0x120
+[   35.261010]  kernfs_find_and_get_ns+0x3c/0x60
+[   35.265361]  sysfs_unmerge_group+0x20/0x68
+[   35.269454]  dpm_sysfs_remove+0x2c/0x68
+[   35.273284]  device_del+0x80/0x370
+[   35.276683]  hid_destroy_device+0x28/0x60
+[   35.280686]  usbhid_disconnect+0x4c/0x80
+[   35.284602]  usb_unbind_interface+0x6c/0x268
+[   35.288867]  device_release_driver_internal+0xe4/0x1b0
+[   35.293998]  device_release_driver+0x14/0x20
+[   35.298261]  bus_remove_device+0x110/0x128
+[   35.302350]  device_del+0x148/0x370
+[   35.305832]  usb_disable_device+0x8c/0x1d0
+[   35.309921]  usb_disconnect+0xc8/0x2d0
+[   35.313663]  hub_event+0x6e0/0x1128
+[   35.317146]  process_one_work+0x1e0/0x320
+[   35.321148]  worker_thread+0x40/0x450
+[   35.324805]  kthread+0x124/0x128
+[   35.328027]  ret_from_fork+0x10/0x18
+[   35.331594] handlers:
+[   35.333862] [<0000000079300c1d>] usb_hcd_irq
+[   35.338126] [<0000000079300c1d>] usb_hcd_irq
+[   35.342389] Disabling IRQ #156
 
-any news on this?
+ohci_shutdown() disables all the interrupt and rh_state is set to
+OHCI_RH_HALTED. In other hand, ohci_irq() is possible to enable
+OHCI_INTR_SF and OHCI_INTR_MIE on ohci_irq(). Note that OHCI_INTR_SF
+is possible to be set by start_ed_unlink() which is called:
+ ohci_irq()
+  -> process_done_list()
+   -> takeback_td()
+    -> start_ed_unlink()
 
-Is there anything I can do to help?
+So, ohci_irq() has the following condition, the issue happens by
+&ohci->regs->intrenable = OHCI_INTR_MIE | OHCI_INTR_SF and
+ohci->rh_state = OHCI_RH_HALTED:
 
-Should I report this somewhere else too?
+	/* interrupt for some other device? */
+	if (ints == 0 || unlikely(ohci->rh_state == OHCI_RH_HALTED))
+		return IRQ_NOTMINE;
 
-Currently this is quite a huge problem for me,
-since the only working external storage is an
-old 1394 HDD...
+To fix the issue, ohci_shutdown() holds the spin lock while disabling
+the interruption and changing the rh_state flag to prevent reenable
+the OHCI_INTR_MIE unexpectedly. Note that io_watchdog_func() also
+calls the ohci_shutdown() and it already held the spin lock, so that
+the patch makes a new function as _ohci_shutdown().
 
-Thanks,
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+Changes from v1:
+ - Add more comments in the commit log.
+https://patchwork.kernel.org/patch/11111459/
 
-bye,
+ drivers/usb/host/ohci-hcd.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/usb/host/ohci-hcd.c b/drivers/usb/host/ohci-hcd.c
+index b457fda..1fe3dee 100644
+--- a/drivers/usb/host/ohci-hcd.c
++++ b/drivers/usb/host/ohci-hcd.c
+@@ -419,8 +419,7 @@ static void ohci_usb_reset (struct ohci_hcd *ohci)
+  * other cases where the next software may expect clean state from the
+  * "firmware".  this is bus-neutral, unlike shutdown() methods.
+  */
+-static void
+-ohci_shutdown (struct usb_hcd *hcd)
++static void _ohci_shutdown(struct usb_hcd *hcd)
+ {
+ 	struct ohci_hcd *ohci;
+ 
+@@ -436,6 +435,16 @@ ohci_shutdown (struct usb_hcd *hcd)
+ 	ohci->rh_state = OHCI_RH_HALTED;
+ }
+ 
++static void ohci_shutdown(struct usb_hcd *hcd)
++{
++	struct ohci_hcd	*ohci = hcd_to_ohci(hcd);
++	unsigned long flags;
++
++	spin_lock_irqsave(&ohci->lock, flags);
++	_ohci_shutdown(hcd);
++	spin_unlock_irqrestore(&ohci->lock, flags);
++}
++
+ /*-------------------------------------------------------------------------*
+  * HC functions
+  *-------------------------------------------------------------------------*/
+@@ -760,7 +769,7 @@ static void io_watchdog_func(struct timer_list *t)
+  died:
+ 			usb_hc_died(ohci_to_hcd(ohci));
+ 			ohci_dump(ohci);
+-			ohci_shutdown(ohci_to_hcd(ohci));
++			_ohci_shutdown(ohci_to_hcd(ohci));
+ 			goto done;
+ 		} else {
+ 			/* No write back because the done queue was empty */
 -- 
+2.7.4
 
-piergiorgio
