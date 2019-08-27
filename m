@@ -4,34 +4,34 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53F5DC3A5A4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D251AC3A5A3
 	for <linux-usb@archiver.kernel.org>; Tue, 27 Aug 2019 10:03:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2A5862184D
+	by mail.kernel.org (Postfix) with ESMTP id A3510206BB
 	for <linux-usb@archiver.kernel.org>; Tue, 27 Aug 2019 10:03:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729694AbfH0KDv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 27 Aug 2019 06:03:51 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:27292 "EHLO
+        id S1729726AbfH0KDw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 27 Aug 2019 06:03:52 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:11411 "EHLO
         relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729644AbfH0KDv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Aug 2019 06:03:51 -0400
+        by vger.kernel.org with ESMTP id S1725805AbfH0KDw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 27 Aug 2019 06:03:52 -0400
 X-IronPort-AV: E=Sophos;i="5.64,436,1559487600"; 
-   d="scan'208";a="25044204"
+   d="scan'208";a="25044207"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 27 Aug 2019 19:03:47 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 27 Aug 2019 19:03:48 +0900
 Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id E715E4005E11;
-        Tue, 27 Aug 2019 19:03:47 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0D5D740083ED;
+        Tue, 27 Aug 2019 19:03:48 +0900 (JST)
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To:     gregkh@linuxfoundation.org, mathias.nyman@intel.com
 Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH 2/4] usb: host: xhci-rcar: Add a helper macro to set xhci_plat_priv
-Date:   Tue, 27 Aug 2019 19:02:05 +0900
-Message-Id: <1566900127-11148-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH 4/4] usb: host: xhci-rcar: avoid 60s wait by request_firmware() in system booting
+Date:   Tue, 27 Aug 2019 19:02:07 +0900
+Message-Id: <1566900127-11148-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1566900127-11148-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 References: <1566900127-11148-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
@@ -40,55 +40,54 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-To avoid copy-and-paste setting of xhci_plat_priv for R-Car SoCs,
-this patch add a helper macro SET_XHCI_PLAT_PRIV_FOR_RCAR.
+If CONFIG_FW_LOADER_USER_HELPER_FALLBACK=y and CONFIG_USB_XHCI_RCAR=y,
+request_firmware() in xhci_rcar_download_firmware() waits for 60s to
+sysfs fallback for the firmware like below.
+
+[    1.599701] xhci-hcd ee000000.usb: xHCI Host Controller
+[    1.604948] xhci-hcd ee000000.usb: new USB bus registered, assigned bus number 3
+[    1.612403] xhci-hcd ee000000.usb: Direct firmware load for r8a779x_usb3_v3.dlmem failed with error -2
+[    1.621726] xhci-hcd ee000000.usb: Falling back to sysfs fallback for: r8a779x_usb3_v3.dlmem
+[    1.707953] ata1: link resume succeeded after 1 retries
+[    1.819379] ata1: SATA link down (SStatus 0 SControl 300)
+[   62.436012] xhci-hcd ee000000.usb: can't setup: -11
+[   62.440901] xhci-hcd ee000000.usb: USB bus 3 deregistered
+[   62.446361] xhci-hcd: probe of ee000000.usb failed with error -11
+
+To avoid this 60s wait, this patch adds to check the system_state
+condition and if the system is not running,
+xhci_rcar_download_firmware() calls request_firmware_direct()
+instead of request_firmware() as a workaround.
 
 Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 ---
- drivers/usb/host/xhci-plat.c | 10 ++--------
- drivers/usb/host/xhci-rcar.h |  7 +++++++
- 2 files changed, 9 insertions(+), 8 deletions(-)
+ drivers/usb/host/xhci-rcar.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
-index 1843b69..d90cd5e 100644
---- a/drivers/usb/host/xhci-plat.c
-+++ b/drivers/usb/host/xhci-plat.c
-@@ -105,17 +105,11 @@ static const struct xhci_plat_priv xhci_plat_marvell_armada3700 = {
- };
+diff --git a/drivers/usb/host/xhci-rcar.c b/drivers/usb/host/xhci-rcar.c
+index 34761be..c90cf46 100644
+--- a/drivers/usb/host/xhci-rcar.c
++++ b/drivers/usb/host/xhci-rcar.c
+@@ -6,6 +6,7 @@
+  */
  
- static const struct xhci_plat_priv xhci_plat_renesas_rcar_gen2 = {
--	.firmware_name = XHCI_RCAR_FIRMWARE_NAME_V1,
--	.init_quirk = xhci_rcar_init_quirk,
--	.plat_start = xhci_rcar_start,
--	.resume_quirk = xhci_rcar_resume_quirk,
-+	SET_XHCI_PLAT_PRIV_FOR_RCAR(XHCI_RCAR_FIRMWARE_NAME_V1)
- };
+ #include <linux/firmware.h>
++#include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+@@ -146,7 +147,10 @@ static int xhci_rcar_download_firmware(struct usb_hcd *hcd)
+ 		firmware_name = priv->firmware_name;
  
- static const struct xhci_plat_priv xhci_plat_renesas_rcar_gen3 = {
--	.firmware_name = XHCI_RCAR_FIRMWARE_NAME_V3,
--	.init_quirk = xhci_rcar_init_quirk,
--	.plat_start = xhci_rcar_start,
--	.resume_quirk = xhci_rcar_resume_quirk,
-+	SET_XHCI_PLAT_PRIV_FOR_RCAR(XHCI_RCAR_FIRMWARE_NAME_V3)
- };
+ 	/* request R-Car USB3.0 firmware */
+-	retval = request_firmware(&fw, firmware_name, dev);
++	if (system_state < SYSTEM_RUNNING)
++		retval = request_firmware_direct(&fw, firmware_name, dev);
++	else
++		retval = request_firmware(&fw, firmware_name, dev);
+ 	if (retval)
+ 		return retval;
  
- static const struct of_device_id usb_xhci_of_match[] = {
-diff --git a/drivers/usb/host/xhci-rcar.h b/drivers/usb/host/xhci-rcar.h
-index 804b6ab..1f8c225 100644
---- a/drivers/usb/host/xhci-rcar.h
-+++ b/drivers/usb/host/xhci-rcar.h
-@@ -31,4 +31,11 @@ static inline int xhci_rcar_resume_quirk(struct usb_hcd *hcd)
- 	return 0;
- }
- #endif
-+
-+#define SET_XHCI_PLAT_PRIV_FOR_RCAR(firmware)				\
-+	.firmware_name = firmware,					\
-+	.init_quirk = xhci_rcar_init_quirk,				\
-+	.plat_start = xhci_rcar_start,					\
-+	.resume_quirk = xhci_rcar_resume_quirk,
-+
- #endif /* _XHCI_RCAR_H */
 -- 
 2.7.4
 
