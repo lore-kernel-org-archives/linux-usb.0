@@ -2,268 +2,415 @@ Return-Path: <SRS0=FNJE=WY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2681EC3A5A1
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Aug 2019 07:56:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13339C3A5A1
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Aug 2019 08:32:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EE600217F5
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Aug 2019 07:56:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BFB262342A
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Aug 2019 08:32:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1566981141;
+	bh=n/49yLp2ozK7cq5bb/89vOqq4mHVR3ewPza17MuWHQM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=VHWST0MnZEUDnjrWDoGRhgTMXo+MS6sz9w3nY0AGXHF9R8vK/ntrec8WANH2gT/Dn
+	 CqQ6iKNkEMfqjxTEd4MGLi8aTi5uProFQYSvE8jklJ19LvInWBBXr0w80KAbGJmbEL
+	 cIBI3O5vUPDcVj33T17Syb5d4MTBoE5K1bBDGzP4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726370AbfH1H4F convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Aug 2019 03:56:05 -0400
-Received: from mga02.intel.com ([134.134.136.20]:35444 "EHLO mga02.intel.com"
+        id S1726340AbfH1IcV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Aug 2019 04:32:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47736 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726272AbfH1H4F (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 28 Aug 2019 03:56:05 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Aug 2019 00:56:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,440,1559545200"; 
-   d="scan'208";a="183046318"
-Received: from fmsmsx103.amr.corp.intel.com ([10.18.124.201])
-  by orsmga003.jf.intel.com with ESMTP; 28 Aug 2019 00:56:04 -0700
-Received: from fmsmsx153.amr.corp.intel.com (10.18.125.6) by
- FMSMSX103.amr.corp.intel.com (10.18.124.201) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 28 Aug 2019 00:56:03 -0700
-Received: from bgsmsx106.gar.corp.intel.com (10.223.43.196) by
- FMSMSX153.amr.corp.intel.com (10.18.125.6) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 28 Aug 2019 00:56:03 -0700
-Received: from bgsmsx104.gar.corp.intel.com ([169.254.5.178]) by
- BGSMSX106.gar.corp.intel.com ([169.254.1.143]) with mapi id 14.03.0439.000;
- Wed, 28 Aug 2019 13:26:00 +0530
-From:   "Gopal, Saranya" <saranya.gopal@intel.com>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "Balaji, M" <m.balaji@intel.com>
-CC:     Greg KH <gregkh@linuxfoundation.org>,
-        "Nyman, Mathias" <mathias.nyman@intel.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: RE: [PATCH 2/2] usb: roles: intel: Enable static DRD mode for role
- switch
-Thread-Topic: [PATCH 2/2] usb: roles: intel: Enable static DRD mode for role
- switch
-Thread-Index: AQHVXBsh+ONzhAQ4JEO3xojWTOw1RqcOpTwAgAEubQCAAF/GQA==
-Date:   Wed, 28 Aug 2019 07:56:00 +0000
-Message-ID: <C672AA6DAAC36042A98BAD0B0B25BDA94CCB4A07@BGSMSX104.gar.corp.intel.com>
-References: <20190826143230.59807-1-heikki.krogerus@linux.intel.com>
- <20190826143230.59807-3-heikki.krogerus@linux.intel.com>
- <2a0d10b9-b21d-5bd6-9115-5a686bfbb701@redhat.com>
- <20190828074144.GA5486@kuha.fi.intel.com>
-In-Reply-To: <20190828074144.GA5486@kuha.fi.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiMWZhYjM5ODMtYTY2Mi00NTJhLWJkYmEtNDljZDBmOGMxMzc0IiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiZjFXakpsSTBiSUkzcGMxbFFZU2dFNHJlOGlsVUw3QzQwVFJwNFlZalRiM0VtbVRpUUduWkFwT2RabnY1UFpjTSJ9
-x-originating-ip: [10.223.10.10]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        id S1726293AbfH1IcV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 28 Aug 2019 04:32:21 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 919B72342A;
+        Wed, 28 Aug 2019 08:32:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1566981139;
+        bh=n/49yLp2ozK7cq5bb/89vOqq4mHVR3ewPza17MuWHQM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RfA1sAD+vZ+0Cx/L/c4jl0Wt/zx63Wam+XP8u+Y+VN8EFFwl7uNRaTiLcK3L49qJW
+         laS6cWjHK3p+2jul3HYcxgg+/DDjIF04uLEv5Ol69B1GKlFPjGsiihJjwTDD2n28E6
+         dZs/+ulE27exJmbZOlOkohOZsW8AHe83l/Z7gJjA=
+Date:   Wed, 28 Aug 2019 10:32:16 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Julius Werner <jwerner@chromium.org>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        usb-storage@lists.one-eyed-alien.net
+Subject: Re: [PATCH] usb: storage: Add ums-cros-aoa driver
+Message-ID: <20190828083216.GB28851@kroah.com>
+References: <20190827231409.253037-1-jwerner@chromium.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190827231409.253037-1-jwerner@chromium.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Heikki,
+On Tue, Aug 27, 2019 at 04:14:09PM -0700, Julius Werner wrote:
+> This patch adds a new "unusual" USB mass storage device driver. This
+> driver will be used for a virtual USB storage device presented by an
+> Android phone running the 'Chrome OS Recovery'* Android app. This app
+> uses the Android Open Accessory (AOA) API to talk directly to a USB host
+> attached to the phone.
+> 
+> The AOA protocol requires the host to send a custom vendor command on
+> EP0 to "switch" the phone into "AOA mode" (making it drop off the bus
+> and reenumerate with different descriptors). The ums-cros-aoa driver is
+> just a small stub driver to send these vendor commands. It identifies
+> the device it should operate on by VID/PID passed in through a module
+> parameter (e.g. from the bootloader). After the phone is in AOA mode,
+> the normal USB mass storage stack will recognize it by its special
+> VID/PID like any other "unusual dev". An initializer function will
+> further double-check that the device is the device previously operated
+> on by ums-cros-aoa.
+> 
+> *NOTE: The Android app is still under development and will be released
+> at a later date. I'm submitting this patch now so that the driver name
+> and module parameters can be set in stone already, because I have to
+> bake them into bootloader code that is not field-updatable.
+> 
+> Signed-off-by: Julius Werner <jwerner@chromium.org>
+> ---
+>  drivers/usb/storage/Kconfig        |  12 +++
+>  drivers/usb/storage/Makefile       |   2 +
+>  drivers/usb/storage/cros-aoa.c     | 129 +++++++++++++++++++++++++++++
+>  drivers/usb/storage/initializers.c |  34 ++++++++
+>  drivers/usb/storage/initializers.h |   4 +
+>  drivers/usb/storage/unusual_devs.h |  18 ++++
+>  6 files changed, 199 insertions(+)
+>  create mode 100644 drivers/usb/storage/cros-aoa.c
 
-Yes, we will fix this and resubmit a newer version of the patch.
+Pure syntax issues noted below, nothing on the content, I'll wait until
+after my coffee for that...
 
-Thanks,
-Saranya
+> 
+> diff --git a/drivers/usb/storage/Kconfig b/drivers/usb/storage/Kconfig
+> index 59aad38b490a6..cc901ee2bb766 100644
+> --- a/drivers/usb/storage/Kconfig
+> +++ b/drivers/usb/storage/Kconfig
+> @@ -184,6 +184,18 @@ config USB_STORAGE_ENE_UB6250
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called ums-eneub6250.
+>  
+> +config USB_STORAGE_CROS_AOA
+> +	tristate "Support for connecting to Chrome OS Recovery Android app"
+> +	default n
 
-> -----Original Message-----
-> From: Heikki Krogerus [mailto:heikki.krogerus@linux.intel.com]
-> Sent: Wednesday, August 28, 2019 1:12 PM
-> To: Hans de Goede <hdegoede@redhat.com>; Gopal, Saranya
-> <saranya.gopal@intel.com>; Balaji, M <m.balaji@intel.com>
-> Cc: Greg KH <gregkh@linuxfoundation.org>; Nyman, Mathias
-> <mathias.nyman@intel.com>; linux-usb@vger.kernel.org
-> Subject: Re: [PATCH 2/2] usb: roles: intel: Enable static DRD mode for role
-> switch
-> 
-> On Tue, Aug 27, 2019 at 03:39:18PM +0200, Hans de Goede wrote:
-> > Hi,
-> >
-> > On 26-08-19 16:32, Heikki Krogerus wrote:
-> > > From: Saranya Gopal <saranya.gopal@intel.com>
-> > >
-> > > Enable static DRD mode in Intel platforms which guarantees
-> > > successful role switch all the time. This fixes issues like
-> > > software role switch failure after cold boot and issue with
-> > > role switch when USB 3.0 cable is used. But, do not enable
-> > > static DRD mode for Cherrytrail devices which rely on firmware
-> > > for role switch.
-> > >
-> > > Signed-off-by: Saranya Gopal <saranya.gopal@intel.com>
-> > > Signed-off-by: Balaji Manoharan <m.balaji@intel.com>
-> > > Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > > ---
-> > >   .../usb/roles/intel-xhci-usb-role-switch.c    | 26 ++++++++++++++++++-
-> > >   1 file changed, 25 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/usb/roles/intel-xhci-usb-role-switch.c
-> b/drivers/usb/roles/intel-xhci-usb-role-switch.c
-> > > index 7325a84dd1c8..9101ff94c8d2 100644
-> > > --- a/drivers/usb/roles/intel-xhci-usb-role-switch.c
-> > > +++ b/drivers/usb/roles/intel-xhci-usb-role-switch.c
-> > > @@ -19,6 +19,7 @@
-> > >   #include <linux/module.h>
-> > >   #include <linux/platform_device.h>
-> > >   #include <linux/pm_runtime.h>
-> > > +#include <linux/property.h>
-> > >   #include <linux/usb/role.h>
-> > >   /* register definition */
-> > > @@ -26,6 +27,9 @@
-> > >   #define SW_VBUS_VALID			BIT(24)
-> > >   #define SW_IDPIN_EN			BIT(21)
-> > >   #define SW_IDPIN			BIT(20)
-> > > +#define SW_SWITCH_EN_CFG0		BIT(16)
-> >
-> > Nitpick: Please drop the _CFG0 postfix, if anything this
-> > should be a prefix applied to *all* defines for the bits
-> > in this register
-> >
-> > > +#define SW_DRD_STATIC_HOST_CFG0		1
-> > > +#define SW_DRD_STATIC_DEV_CFG0		2
-> >
-> > So bits 0-1 together define the drd-mode. The datasheet
-> > calls the combination DRD_CONFIG, without a SW_ prefix,
-> > with the following values being defined:
-> >
-> > 00: Dynamic role-switch
-> > 01: Static Host mode
-> > 10: Static device mode
-> > 11: Reserved
-> >
-> > Notice this is an enum, so the use of bit-ops to clear the
-> > other state below is wrong. It happens to work, but this is
-> > not how a multi-bit setting should be modified.
-> >
-> > I suggest using the following defines instead:
-> >
-> > #define DRD_CONFIG_DYNAMIC		0
-> > #define DRD_CONFIG_STATIC_HOST		1
-> > #define DRD_CONFIG_STATIC_DEVICE	2
-> > #define DRD_CONFIG_MASK			3
-> >
-> > >   #define DUAL_ROLE_CFG1			0x6c
-> > >   #define HOST_MODE			BIT(29)
-> > > @@ -37,6 +41,7 @@
-> > >   struct intel_xhci_usb_data {
-> > >   	struct usb_role_switch *role_sw;
-> > >   	void __iomem *base;
-> > > +	bool disable_sw_switch;
-> >
-> > I would prefer for this to be enable_sw_switch and the negation
-> > when reading the property.
-> >
-> > >   };
-> > >   static const struct software_node intel_xhci_usb_node = {
-> > > @@ -63,23 +68,39 @@ static int intel_xhci_usb_set_role(struct device *dev,
-> enum usb_role role)
-> > >   	pm_runtime_get_sync(dev);
-> > > -	/* Set idpin value as requested */
-> > > +	/*
-> > > +	 * Set idpin value as requested.
-> > > +	 * Since some devices rely on firmware setting DRD_CONFIG and
-> > > +	 * SW_SWITCH_EN_CFG0 bits to be zero for role switch,
-> > > +	 * do not set these bits for those devices.
-> > > +	 */
-> > >   	val = readl(data->base + DUAL_ROLE_CFG0);
-> > >   	switch (role) {
-> > >   	case USB_ROLE_NONE:
-> > >   		val |= SW_IDPIN;
-> > >   		val &= ~SW_VBUS_VALID;
-> > > +		val &= ~(SW_DRD_STATIC_DEV_CFG0 |
-> SW_DRD_STATIC_HOST_CFG0);
-> > >   		break;
-> >
-> > Right, so this should be:
-> >
-> > 		val &= ~DRD_CONFIG_MASK;
-> >
-> > Also ideally this should also have a if (!data->disable_sw_switch)
-> > for consistency.
-> >
-> > >   	case USB_ROLE_HOST:
-> > >   		val &= ~SW_IDPIN;
-> > >   		val &= ~SW_VBUS_VALID;
-> > > +		if (!data->disable_sw_switch) {
-> > > +			val &= ~SW_DRD_STATIC_DEV_CFG0;
-> >
-> > So this clearing is wrong, it happens to work, but is not
-> > how modifying a "bit-set" / enum should be done, this should be:
-> >
-> > 			val &= ~DRD_CONFIG_MASK;
-> >
-> > > +			val |= SW_DRD_STATIC_HOST_CFG0;
-> > > +		}
-> > >   		break;
-> > >   	case USB_ROLE_DEVICE:
-> > >   		val |= SW_IDPIN;
-> > >   		val |= SW_VBUS_VALID;
-> > > +		if (!data->disable_sw_switch) {
-> > > +			val &= ~SW_DRD_STATIC_HOST_CFG0;
-> > > +			val |= SW_DRD_STATIC_DEV_CFG0;
-> > > +		}
-> >
-> > Idem.
-> >
-> >
-> > >   		break;
-> > >   	}
-> > >   	val |= SW_IDPIN_EN;
-> > > +	if (!data->disable_sw_switch)
-> > > +		val |= SW_SWITCH_EN_CFG0;
-> >
-> > So we now have a lot of "if (!data->disable_sw_switch)" checks,
-> >
-> > IMHO it would be better / cleaner to do this:
-> >
-> > 	u32 glk, val, drd_config;
-> >
-> > 	...
-> >
-> >  	val = readl(data->base + DUAL_ROLE_CFG0);
-> >  	switch (role) {
-> >  	case USB_ROLE_NONE:
-> >  		val |= SW_IDPIN;
-> >  		val &= ~SW_VBUS_VALID;
-> > 		drd_config = DRD_CONFIG_DYNAMIC;
-> >  		break;
-> >  	case USB_ROLE_HOST:
-> >  		val &= ~SW_IDPIN;
-> >  		val &= ~SW_VBUS_VALID;
-> > 		drd_config = DRD_CONFIG_STATIC_HOST;
-> >  		break;
-> >  	case USB_ROLE_DEVICE:
-> >  		val |= SW_IDPIN;
-> >  		val |= SW_VBUS_VALID;
-> > 		drd_config = DRD_CONFIG_STATIC_DEVICE;
-> >  		break;
-> >  	}
-> >  	val |= SW_IDPIN_EN;
-> >
-> > 	if (!data->disable_sw_switch) {
-> > 		val &= ~DRD_CONFIG_MASK;
-> > 		val |= SW_SWITCH_EN_CFG0 | drd_config;
-> > 	}
-> 
-> 
-> That looks good to me. Saranya, Balaji! Can you fix that. I don't
-> think you need me for this anymore.
-> 
-> thanks,
-> 
-> --
-> heikki
+"default n" is the default, no need to list it again.
+
+> +	depends on USB_STORAGE
+> +	help
+> +	  Say Y here if you want to connect an Android phone running the Chrome
+> +	  OS Recovery app to this device and mount the image served by that app
+> +	  as a virtual storage device. Unless you're building for Chrome OS, you
+> +	  probably want to say N.
+> +
+> +	  If this driver is compiled as a module, it will be named ums-cros-aoa.
+> +
+>  endif # USB_STORAGE
+>  
+>  config USB_UAS
+> diff --git a/drivers/usb/storage/Makefile b/drivers/usb/storage/Makefile
+> index a67ddcbb4e249..f734741d4658b 100644
+> --- a/drivers/usb/storage/Makefile
+> +++ b/drivers/usb/storage/Makefile
+> @@ -17,6 +17,7 @@ usb-storage-y += usual-tables.o
+>  usb-storage-$(CONFIG_USB_STORAGE_DEBUG) += debug.o
+>  
+>  obj-$(CONFIG_USB_STORAGE_ALAUDA)	+= ums-alauda.o
+> +obj-$(CONFIG_USB_STORAGE_CROS_AOA)	+= ums-cros-aoa.o
+>  obj-$(CONFIG_USB_STORAGE_CYPRESS_ATACB) += ums-cypress.o
+>  obj-$(CONFIG_USB_STORAGE_DATAFAB)	+= ums-datafab.o
+>  obj-$(CONFIG_USB_STORAGE_ENE_UB6250)	+= ums-eneub6250.o
+> @@ -31,6 +32,7 @@ obj-$(CONFIG_USB_STORAGE_SDDR55)	+= ums-sddr55.o
+>  obj-$(CONFIG_USB_STORAGE_USBAT)		+= ums-usbat.o
+>  
+>  ums-alauda-y		:= alauda.o
+> +ums-cros-aoa-y		:= cros-aoa.o
+>  ums-cypress-y		:= cypress_atacb.o
+>  ums-datafab-y		:= datafab.o
+>  ums-eneub6250-y		:= ene_ub6250.o
+> diff --git a/drivers/usb/storage/cros-aoa.c b/drivers/usb/storage/cros-aoa.c
+> new file mode 100644
+> index 0000000000000..269e9193209d9
+> --- /dev/null
+> +++ b/drivers/usb/storage/cros-aoa.c
+> @@ -0,0 +1,129 @@
+> +// SPDX-License-Identifier: GPL-2 WITH Linux-syscall-note
+
+.c files do not have that license, sorry (I have had _LONG_ discussions
+with lawyers about that over the past few weeks...)
+
+It should just be GPL-2
+
+
+
+> +/*
+> + * Driver for Chrome OS Recovery via Android Open Accessory
+> + *
+> + * (c) 2019 Google LLC (Julius Werner <jwerner@chromium.org>)
+> + *
+> + * This driver connects to an Android device via the Android Open Accessory
+> + * protocol to use it as a USB storage back-end. It is used for system recovery
+> + * on Chrome OS. The descriptors sent are specific to the Chrome OS Recovery app
+> + * for Android. The driver is inert unless activated by boot firmware with an
+> + * explicit kernel command line parameter.
+> + */
+> +
+> +#include <linux/module.h>
+> +#include <linux/printk.h>
+> +#include <linux/usb.h>
+> +
+> +#include "initializers.h"
+> +
+> +#define DRV_NAME "ums-cros-aoa"
+
+KBUILD_MODNAME?
+
+
+> +
+> +MODULE_DESCRIPTION("Driver for Chrome OS Recovery via Android Open Accessory");
+> +MODULE_AUTHOR("Julius Werner <jwerner@chromium.org>");
+> +MODULE_LICENSE("GPL");
+
+This usually goes at the end of the file, but ok...
+
+
+> +
+> +#define AOA_GET_PROTOCOL	51
+> +#define AOA_SET_STRING		52
+> +#define AOA_START		53
+> +
+> +#define AOA_STR_MANUFACTURER	0
+> +#define AOA_STR_MODEL		1
+> +#define AOA_STR_DESCRIPTION	2
+> +#define AOA_STR_VERSION		3
+> +#define AOA_STR_URI		4
+> +#define AOA_STR_SERIAL		5
+> +
+> +#define CROS_MANUF		"Google"
+> +#define CROS_MODEL		"Chrome OS Recovery"
+> +#define CROS_DESC		"Chrome OS device in Recovery Mode"
+> +#define CROS_VERSION		"1.0"
+> +#define CROS_URI		"https://google.com/chromeos/recovery_android"
+> +
+> +static char *bind;
+> +module_param(bind, charp, 0);
+
+No documentation for a module parameter?
+
+And what is this, the 1990's?  Please do not add these unless you have
+no other option as they only work on a driver-wide basis, not a
+per-device basis.
+
+> +
+> +static struct usb_device_id cros_aoa_ids[] = {
+> +	{ USB_DEVICE(0, 0) },	/* to be filled out by cros_aoa_init() */
+
+as-is, this driver is doing nothing, so it will never be auto-loaded :(
+
+Please provide the real ids here for your device to start with.  And if
+you insist on adding new ids from userspace, then use the functionality
+the driver core provides for you, do not invent a new one.
+
+> +	{ }
+> +};
+> +/* No MODULE_DEVICE_TABLE(). Autoloading doesn't make sense for this module. */
+
+I disagree, you need to bind to something...
+
+> +
+> +static int set_string(struct usb_device *udev, u16 type, const char *string)
+> +{
+> +	return usb_control_msg(udev, usb_sndctrlpipe(udev, 0), AOA_SET_STRING,
+> +			       USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+> +			       0, type, (char *)string, strlen(string) + 1,
+> +			       USB_CTRL_SET_TIMEOUT);
+> +}
+> +
+> +static int cros_aoa_probe(struct usb_interface *intf,
+> +			  const struct usb_device_id *id)
+> +{
+> +	int rv;
+> +	u16 aoa_protocol;
+> +	struct usb_device *udev = interface_to_usbdev(intf);
+> +
+> +	rv = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0), AOA_GET_PROTOCOL,
+> +			     USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+> +			     0, 0, &aoa_protocol, sizeof(aoa_protocol),
+> +			     USB_CTRL_GET_TIMEOUT);
+> +	if (rv < 0 && rv != -EPROTO)
+> +		goto fail;
+> +	if (rv != sizeof(aoa_protocol) || aoa_protocol < 1) {
+> +		dev_err(&intf->dev, "bound device does not support AOA?\n");
+> +		rv = -ENODEV;
+> +		goto fail;
+> +	}
+> +
+> +	if ((rv = set_string(udev, AOA_STR_MANUFACTURER, CROS_MANUF)) < 0 ||
+> +	    (rv = set_string(udev, AOA_STR_MODEL, CROS_MODEL)) < 0 ||
+> +	    (rv = set_string(udev, AOA_STR_DESCRIPTION, CROS_DESC)) < 0 ||
+> +	    (rv = set_string(udev, AOA_STR_VERSION, CROS_VERSION)) < 0 ||
+> +	    (rv = set_string(udev, AOA_STR_URI, CROS_URI)) < 0)
+> +		goto fail;
+
+Ok, I was going to stop and not talk about content, but what?  You are
+sending urls to a device???
+
+> +
+> +	rv = usb_control_msg(udev, usb_sndctrlpipe(udev, 0), AOA_START,
+> +			     USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
+> +			     0, 0, NULL, 0, USB_CTRL_SET_TIMEOUT);
+> +
+> +	if (!rv) {
+> +		dev_info(&intf->dev, "switching to AOA mode\n");
+
+Do not be noisy for a normal functioning driver.
+
+> +		usb_stor_cros_aoa_bind_busnum = udev->bus->busnum;
+> +		usb_stor_cros_aoa_bind_route = udev->route;
+> +		return 0;
+> +	}
+> +
+> +fail:	dev_err(&intf->dev, "probe error %d\n", rv);
+> +	return rv;
+> +}
+> +
+> +static void cros_aoa_disconnect(struct usb_interface *intf)
+> +{
+> +	/* nothing to do -- we expect this to happen right after probe() */
+> +}
+> +
+> +static struct usb_driver cros_aoa_stub_driver = {
+> +	.name =		DRV_NAME,
+> +	.probe =	cros_aoa_probe,
+> +	.disconnect =	cros_aoa_disconnect,
+> +	.id_table =	cros_aoa_ids,
+> +};
+> +
+> +static int __init cros_aoa_init(void)
+> +{
+> +	if (!bind || sscanf(bind, "%hx:%hx", &cros_aoa_ids[0].idVendor,
+> +					     &cros_aoa_ids[0].idProduct) != 2)
+> +		return -ENODEV;
+> +	pr_info(DRV_NAME ": bound to USB device %4x:%4x\n",
+> +		cros_aoa_ids[0].idVendor, cros_aoa_ids[0].idProduct);
+> +	return usb_register(&cros_aoa_stub_driver);
+> +}
+> +
+> +static void __exit cros_aoa_exit(void)
+> +{
+> +	usb_deregister(&cros_aoa_stub_driver);
+> +}
+> +
+> +module_init(cros_aoa_init);
+> +module_exit(cros_aoa_exit);
+> diff --git a/drivers/usb/storage/initializers.c b/drivers/usb/storage/initializers.c
+> index f8f9ce8dc7102..3056db79cd1d9 100644
+> --- a/drivers/usb/storage/initializers.c
+> +++ b/drivers/usb/storage/initializers.c
+> @@ -92,3 +92,37 @@ int usb_stor_huawei_e220_init(struct us_data *us)
+>  	usb_stor_dbg(us, "Huawei mode set result is %d\n", result);
+>  	return 0;
+>  }
+> +
+> +#if defined(CONFIG_USB_STORAGE_CROS_AOA) || \
+> +		defined(CONFIG_USB_STORAGE_CROS_AOA_MODULE)
+
+We have a macro to make that easier, please use it.
+
+> +/*
+> + * Our VID/PID match grabs any Android device that was switched into Android
+> + * Open Accessory mode. We only want to bind to the one that was switched by the
+> + * ums-cros-aoa driver. There's no 100% way to identify the same device again
+> + * (because it changes all descriptors), but checking that it is on the same bus
+> + * with the same topology route should be a pretty good heuristic.
+> + */
+> +int usb_stor_cros_aoa_bind_busnum = -1;
+> +EXPORT_SYMBOL(usb_stor_cros_aoa_bind_busnum);
+> +u32 usb_stor_cros_aoa_bind_route;
+> +EXPORT_SYMBOL(usb_stor_cros_aoa_bind_route);
+
+Ick.
+
+And _GPL at the very least...
+
+
+> +
+> +int usb_stor_cros_aoa_validate(struct us_data *us)
+> +{
+> +	if (us->pusb_dev->bus->busnum != usb_stor_cros_aoa_bind_busnum ||
+> +	    us->pusb_dev->route != usb_stor_cros_aoa_bind_route) {
+> +		dev_info(&us->pusb_intf->dev,
+> +			 "ums-cros-aoa ignoring unknown AOA device\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	/*
+> +	 * Only interface 0 connects to the AOA app. Android devices that have
+> +	 * ADB enabled also export an interface 1. We don't want it.
+> +	 */
+> +	if (us->pusb_intf->cur_altsetting->desc.bInterfaceNumber != 0)
+> +		return -ENODEV;
+> +
+> +	return 0;
+> +}
+> +#endif /* defined(CONFIG_USB_STORAGE_CROS_AOA) || ... */
+> diff --git a/drivers/usb/storage/initializers.h b/drivers/usb/storage/initializers.h
+> index 2dbf9c7d97492..35fe9ef3247d6 100644
+> --- a/drivers/usb/storage/initializers.h
+> +++ b/drivers/usb/storage/initializers.h
+> @@ -37,3 +37,7 @@ int usb_stor_ucr61s2b_init(struct us_data *us);
+>  
+>  /* This places the HUAWEI E220 devices in multi-port mode */
+>  int usb_stor_huawei_e220_init(struct us_data *us);
+> +
+> +extern int usb_stor_cros_aoa_bind_busnum;
+> +extern u32 usb_stor_cros_aoa_bind_route;
+> +int usb_stor_cros_aoa_validate(struct us_data *us);
+> diff --git a/drivers/usb/storage/unusual_devs.h b/drivers/usb/storage/unusual_devs.h
+> index ea0d27a94afe0..45fe9bbc6da18 100644
+> --- a/drivers/usb/storage/unusual_devs.h
+> +++ b/drivers/usb/storage/unusual_devs.h
+> @@ -2259,6 +2259,24 @@ UNUSUAL_DEV( 0x1e74, 0x4621, 0x0000, 0x0000,
+>  		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+>  		US_FL_BULK_IGNORE_TAG | US_FL_MAX_SECTORS_64 ),
+>  
+> +/*
+> + * Using an Android phone as USB storage back-end for Chrome OS recovery. See
+> + * usb/storage/cros-aoa.c for details.
+> + */
+> +#if defined(CONFIG_USB_STORAGE_CROS_AOA) || \
+> +		defined(CONFIG_USB_STORAGE_CROS_AOA_MODULE)
+> +UNUSUAL_DEV(  0x18d1, 0x2d00, 0x0000, 0xffff,
+> +		"Google",
+> +		"Chrome OS Recovery via AOA",
+> +		USB_SC_SCSI, USB_PR_BULK, usb_stor_cros_aoa_validate,
+> +		US_FL_SINGLE_LUN | US_FL_CAPACITY_OK),
+> +UNUSUAL_DEV(  0x18d1, 0x2d01, 0x0000, 0xffff,
+> +		"Google",
+> +		"Chrome OS Recovery via AOA (with ADB)",
+> +		USB_SC_SCSI, USB_PR_BULK, usb_stor_cros_aoa_validate,
+> +		US_FL_SINGLE_LUN | US_FL_CAPACITY_OK),
+> +#endif /* defined(CONFIG_USB_STORAGE_CROS_AOA) || ... */
+
+Hey look, device ids!  Use them above please...
+
+I'm with Matt, this should be trivial to do in userspace, why is this
+needed in the kernel?  Did you try it in userspace already?  What does
+the code for that look like?
+
+thanks,
+
+greg k-h
