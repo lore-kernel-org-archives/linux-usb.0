@@ -2,226 +2,101 @@ Return-Path: <SRS0=FNJE=WY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D1D2C3A5A1
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Aug 2019 07:41:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2E06C3A5A1
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Aug 2019 07:55:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2D2B820679
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Aug 2019 07:41:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7787D22CF8
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Aug 2019 07:55:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726273AbfH1Hls (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Aug 2019 03:41:48 -0400
-Received: from mga09.intel.com ([134.134.136.24]:26530 "EHLO mga09.intel.com"
+        id S1726339AbfH1Hzp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Aug 2019 03:55:45 -0400
+Received: from mga02.intel.com ([134.134.136.20]:35413 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726253AbfH1Hls (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 28 Aug 2019 03:41:48 -0400
-X-Amp-Result: UNSCANNABLE
+        id S1726272AbfH1Hzo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 28 Aug 2019 03:55:44 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Aug 2019 00:41:48 -0700
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Aug 2019 00:55:44 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.64,440,1559545200"; 
-   d="scan'208";a="197498688"
-Received: from kuha.fi.intel.com ([10.237.72.53])
-  by fmsmga001.fm.intel.com with SMTP; 28 Aug 2019 00:41:45 -0700
-Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 28 Aug 2019 10:41:44 +0300
-Date:   Wed, 28 Aug 2019 10:41:44 +0300
-From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Saranya Gopal <saranya.gopal@intel.com>,
-        Balaji Manoharan <m.balaji@intel.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH 2/2] usb: roles: intel: Enable static DRD mode for role
- switch
-Message-ID: <20190828074144.GA5486@kuha.fi.intel.com>
-References: <20190826143230.59807-1-heikki.krogerus@linux.intel.com>
- <20190826143230.59807-3-heikki.krogerus@linux.intel.com>
- <2a0d10b9-b21d-5bd6-9115-5a686bfbb701@redhat.com>
+   d="scan'208";a="180479864"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
+  by fmsmga008.fm.intel.com with ESMTP; 28 Aug 2019 00:55:42 -0700
+Subject: Re: fsck on ext4: "WARN Wrong bounce buffer write length: 1024 != 0"
+To:     "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Harald Dunkel <harald.dunkel@aixigo.com>
+Cc:     mathias.nyman@intel.com, linux-usb@vger.kernel.org
+References: <22367f07-3448-f771-0363-b5c6f500b77d@aixigo.com>
+ <20190827163511.GM28066@mit.edu>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-ID: <7b5b6185-fc81-8675-06d1-fc7dae3b47b0@linux.intel.com>
+Date:   Wed, 28 Aug 2019 10:57:30 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2a0d10b9-b21d-5bd6-9115-5a686bfbb701@redhat.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20190827163511.GM28066@mit.edu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Aug 27, 2019 at 03:39:18PM +0200, Hans de Goede wrote:
-> Hi,
+On 27.8.2019 19.35, Theodore Y. Ts'o wrote:
+> On Tue, Aug 27, 2019 at 08:00:14AM +0200, Harald Dunkel wrote:
+>> FYI: "fsck -y" on an external USB drive (USB-C, ext4) gave
+>> me a ton of messages
+>>
+>> :
+>> [  191.261939] xhci_hcd 0000:05:00.0: WARN Wrong bounce buffer write length: 1024 != 0
+>> [  191.263743] xhci_hcd 0000:05:00.0: WARN Wrong bounce buffer write length: 1024 != 0
+>> [  191.263788] xhci_hcd 0000:05:00.0: WARN Wrong bounce buffer write length: 1024 != 0
+>> [  191.263840] xhci_hcd 0000:05:00.0: WARN Wrong bounce buffer write length: 1024 != 0
+>> [  191.266857] xhci_hcd 0000:05:00.0: WARN Wrong bounce buffer write length: 1024 != 0
+>> :
+>>
+>> Related to 597c56e372dab2c7f79b8d700aad3a5deebf9d1b, AFAICT.
+>>
+>> Kernel is 4.19.67-1 (Debian proposed-updates).
 > 
-> On 26-08-19 16:32, Heikki Krogerus wrote:
-> > From: Saranya Gopal <saranya.gopal@intel.com>
-> > 
-> > Enable static DRD mode in Intel platforms which guarantees
-> > successful role switch all the time. This fixes issues like
-> > software role switch failure after cold boot and issue with
-> > role switch when USB 3.0 cable is used. But, do not enable
-> > static DRD mode for Cherrytrail devices which rely on firmware
-> > for role switch.
-> > 
-> > Signed-off-by: Saranya Gopal <saranya.gopal@intel.com>
-> > Signed-off-by: Balaji Manoharan <m.balaji@intel.com>
-> > Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > ---
-> >   .../usb/roles/intel-xhci-usb-role-switch.c    | 26 ++++++++++++++++++-
-> >   1 file changed, 25 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/usb/roles/intel-xhci-usb-role-switch.c b/drivers/usb/roles/intel-xhci-usb-role-switch.c
-> > index 7325a84dd1c8..9101ff94c8d2 100644
-> > --- a/drivers/usb/roles/intel-xhci-usb-role-switch.c
-> > +++ b/drivers/usb/roles/intel-xhci-usb-role-switch.c
-> > @@ -19,6 +19,7 @@
-> >   #include <linux/module.h>
-> >   #include <linux/platform_device.h>
-> >   #include <linux/pm_runtime.h>
-> > +#include <linux/property.h>
-> >   #include <linux/usb/role.h>
-> >   /* register definition */
-> > @@ -26,6 +27,9 @@
-> >   #define SW_VBUS_VALID			BIT(24)
-> >   #define SW_IDPIN_EN			BIT(21)
-> >   #define SW_IDPIN			BIT(20)
-> > +#define SW_SWITCH_EN_CFG0		BIT(16)
+> +mathias.nyman@intel.com, linux-usb@vger.kernel.org
+> linux-ext4 to BCC
 > 
-> Nitpick: Please drop the _CFG0 postfix, if anything this
-> should be a prefix applied to *all* defines for the bits
-> in this register
+> That's a USB XHCI issue, not an ext4 issue.  I'm handing this to the
+> XHCI maintainer and the Linux USB mailing list.
 > 
-> > +#define SW_DRD_STATIC_HOST_CFG0		1
-> > +#define SW_DRD_STATIC_DEV_CFG0		2
-> 
-> So bits 0-1 together define the drd-mode. The datasheet
-> calls the combination DRD_CONFIG, without a SW_ prefix,
-> with the following values being defined:
-> 
-> 00: Dynamic role-switch
-> 01: Static Host mode
-> 10: Static device mode
-> 11: Reserved
-> 
-> Notice this is an enum, so the use of bit-ops to clear the
-> other state below is wrong. It happens to work, but this is
-> not how a multi-bit setting should be modified.
-> 
-> I suggest using the following defines instead:
-> 
-> #define DRD_CONFIG_DYNAMIC		0
-> #define DRD_CONFIG_STATIC_HOST		1
-> #define DRD_CONFIG_STATIC_DEVICE	2
-> #define DRD_CONFIG_MASK			3
-> 
-> >   #define DUAL_ROLE_CFG1			0x6c
-> >   #define HOST_MODE			BIT(29)
-> > @@ -37,6 +41,7 @@
-> >   struct intel_xhci_usb_data {
-> >   	struct usb_role_switch *role_sw;
-> >   	void __iomem *base;
-> > +	bool disable_sw_switch;
-> 
-> I would prefer for this to be enable_sw_switch and the negation
-> when reading the property.
-> 
-> >   };
-> >   static const struct software_node intel_xhci_usb_node = {
-> > @@ -63,23 +68,39 @@ static int intel_xhci_usb_set_role(struct device *dev, enum usb_role role)
-> >   	pm_runtime_get_sync(dev);
-> > -	/* Set idpin value as requested */
-> > +	/*
-> > +	 * Set idpin value as requested.
-> > +	 * Since some devices rely on firmware setting DRD_CONFIG and
-> > +	 * SW_SWITCH_EN_CFG0 bits to be zero for role switch,
-> > +	 * do not set these bits for those devices.
-> > +	 */
-> >   	val = readl(data->base + DUAL_ROLE_CFG0);
-> >   	switch (role) {
-> >   	case USB_ROLE_NONE:
-> >   		val |= SW_IDPIN;
-> >   		val &= ~SW_VBUS_VALID;
-> > +		val &= ~(SW_DRD_STATIC_DEV_CFG0 | SW_DRD_STATIC_HOST_CFG0);
-> >   		break;
-> 
-> Right, so this should be:
-> 
-> 		val &= ~DRD_CONFIG_MASK;
-> 
-> Also ideally this should also have a if (!data->disable_sw_switch)
-> for consistency.
-> 
-> >   	case USB_ROLE_HOST:
-> >   		val &= ~SW_IDPIN;
-> >   		val &= ~SW_VBUS_VALID;
-> > +		if (!data->disable_sw_switch) {
-> > +			val &= ~SW_DRD_STATIC_DEV_CFG0;
-> 
-> So this clearing is wrong, it happens to work, but is not
-> how modifying a "bit-set" / enum should be done, this should be:
-> 
-> 			val &= ~DRD_CONFIG_MASK;
-> 
-> > +			val |= SW_DRD_STATIC_HOST_CFG0;
-> > +		}
-> >   		break;
-> >   	case USB_ROLE_DEVICE:
-> >   		val |= SW_IDPIN;
-> >   		val |= SW_VBUS_VALID;
-> > +		if (!data->disable_sw_switch) {
-> > +			val &= ~SW_DRD_STATIC_HOST_CFG0;
-> > +			val |= SW_DRD_STATIC_DEV_CFG0;
-> > +		}
-> 
-> Idem.
-> 
-> 
-> >   		break;
-> >   	}
-> >   	val |= SW_IDPIN_EN;
-> > +	if (!data->disable_sw_switch)
-> > +		val |= SW_SWITCH_EN_CFG0;
-> 
-> So we now have a lot of "if (!data->disable_sw_switch)" checks,
-> 
-> IMHO it would be better / cleaner to do this:
-> 
-> 	u32 glk, val, drd_config;
-> 
-> 	...
-> 
->  	val = readl(data->base + DUAL_ROLE_CFG0);
->  	switch (role) {
->  	case USB_ROLE_NONE:
->  		val |= SW_IDPIN;
->  		val &= ~SW_VBUS_VALID;
-> 		drd_config = DRD_CONFIG_DYNAMIC;
->  		break;
->  	case USB_ROLE_HOST:
->  		val &= ~SW_IDPIN;
->  		val &= ~SW_VBUS_VALID;
-> 		drd_config = DRD_CONFIG_STATIC_HOST;
->  		break;
->  	case USB_ROLE_DEVICE:
->  		val |= SW_IDPIN;
->  		val |= SW_VBUS_VALID;
-> 		drd_config = DRD_CONFIG_STATIC_DEVICE;
->  		break;
->  	}
->  	val |= SW_IDPIN_EN;
-> 
-> 	if (!data->disable_sw_switch) {
-> 		val &= ~DRD_CONFIG_MASK;
-> 		val |= SW_SWITCH_EN_CFG0 | drd_config;
-> 	}
 
+The warning message is incorrect, data should be fine.
 
-That looks good to me. Saranya, Balaji! Can you fix that. I don't
-think you need me for this anymore.
+Looks like this length check code was copied from the read side to the write side,
+but some details were not updated.
 
-thanks,
+Below code should fix it:
 
--- 
-heikki
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -3202,10 +3202,10 @@ static int xhci_align_td(struct xhci_hcd *xhci, struct urb *urb, u32 enqd_len,
+         if (usb_urb_dir_out(urb)) {
+                 len = sg_pcopy_to_buffer(urb->sg, urb->num_sgs,
+                                    seg->bounce_buf, new_buff_len, enqd_len);
+-               if (len != seg->bounce_len)
++               if (len != new_buff_len)
+                         xhci_warn(xhci,
+                                 "WARN Wrong bounce buffer write length: %zu != %d\n",
+-                               len, seg->bounce_len);
++                               len, new_buff_len);
+                 seg->bounce_dma = dma_map_single(dev, seg->bounce_buf,
+                                                  max_pkt, DMA_TO_DEVICE);
+         } else {
+
+   
+
+I'll submit a proper patch
+
+-Mathias
