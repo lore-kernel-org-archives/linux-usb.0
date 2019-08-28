@@ -2,141 +2,108 @@ Return-Path: <SRS0=FNJE=WY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9399AC3A5A1
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Aug 2019 05:55:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15C6AC3A5A1
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Aug 2019 06:21:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5F2152189D
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Aug 2019 05:55:00 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="W3rG2buh"
+	by mail.kernel.org (Postfix) with ESMTP id E8EA72339E
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Aug 2019 06:21:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726232AbfH1Fy6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Aug 2019 01:54:58 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:37559 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726146AbfH1Fy5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Aug 2019 01:54:57 -0400
-Received: by mail-wm1-f67.google.com with SMTP id d16so1428778wme.2
-        for <linux-usb@vger.kernel.org>; Tue, 27 Aug 2019 22:54:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PGmiQt/UsaBijFOEhYrYqRMTRujiOfYHOw+bx00fOk4=;
-        b=W3rG2buhdnwgCZZ4bAPhEyB6pmKm9fUHX++eXK+ylmU+IwJlXUvLxqjQ0kaGjuwSBb
-         ImveNu1P1EVncE2ZMqg8QX6jZCAonZccjY3GEOLMU7VR4AoCuwwaxQKyO4aAhyNX62C3
-         ekVph/xAp7yzGjOz/CJDUjVw2zCHJ5RfSIKDI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PGmiQt/UsaBijFOEhYrYqRMTRujiOfYHOw+bx00fOk4=;
-        b=CHf7GAPcn0bXqNzHE+XcHb48X76ebk1P+RhmpZs6cB6AKF06YxLrDjRwVT4yntKUOi
-         0CXePMTuHUUB34VQNvKTxb6luLSOfipYuodl3Hh1xd8IDQmi/7Y15i1LzobTwNMpoiSV
-         uwwGyLEZVoRIJJmWJHJtkMVZw1MlIaJ4g3xgDp5jgCaEEroDO28+QC0+g/PYRlG1RNfD
-         BdD0+U4fbc5hTojxIqFVjGJeNXLiENubLjuerzJTLVXQUoheLGc8+4fkoDc7se20QJGg
-         mGDPWYIfwo04ewyzNN8xuVRYNeiVqGOmoCzbD20s/hDSJsZKjQms4GaFzbJ7UsiWcRxL
-         t5GA==
-X-Gm-Message-State: APjAAAUoRnprSy1XR5d0OhSmS+MD6Kk318CV1Otgnp5936uHbbKZxy2f
-        8+QVAt1nJS2j9mj4x4lgJnkLC5s8rjach9vP2o5cjA==
-X-Google-Smtp-Source: APXvYqyNKT9gKH1a0DMuIPhUNn6zUB5bjbpRfJzlqFyfMDI+s5q7Sr0JAEBy+kq/myd50wlpjtspJcLH3RE5PPbwtJc=
-X-Received: by 2002:a05:600c:2245:: with SMTP id a5mr2467090wmm.121.1566971694777;
- Tue, 27 Aug 2019 22:54:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <1564568395-9980-1-git-send-email-srinath.mannam@broadcom.com>
- <1564568395-9980-3-git-send-email-srinath.mannam@broadcom.com> <20190821182119.GA27408@bogus>
-In-Reply-To: <20190821182119.GA27408@bogus>
-From:   Srinath Mannam <srinath.mannam@broadcom.com>
-Date:   Wed, 28 Aug 2019 11:24:43 +0530
-Message-ID: <CABe79T6rcm2OatYYf2j6Ht5Ft6YQAZ26es2txVuPyRUNdW8Q3Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] dt-bindings: phy: Modify Stingray USB PHY #phy-cells
-To:     Rob Herring <robh@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1726474AbfH1GVh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Aug 2019 02:21:37 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:30905 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726146AbfH1GVg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 28 Aug 2019 02:21:36 -0400
+X-UUID: f1c313b323af4f9ba027f00d1a0f30d0-20190828
+X-UUID: f1c313b323af4f9ba027f00d1a0f30d0-20190828
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 920444855; Wed, 28 Aug 2019 14:21:34 +0800
+Received: from mtkcas09.mediatek.inc (172.21.101.178) by
+ MTKMBS31DR.mediatek.inc (172.27.6.102) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Wed, 28 Aug 2019 14:21:32 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas09.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Wed, 28 Aug 2019 14:21:32 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>
+CC:     Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         Mathias Nyman <mathias.nyman@intel.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>
-Content-Type: text/plain; charset="UTF-8"
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH 4/6] usb: mtk-xhci: support ip-sleep wakeup for MT8183
+Date:   Wed, 28 Aug 2019 14:20:59 +0800
+Message-ID: <1566973261-21677-5-git-send-email-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 1.8.1.1.dirty
+In-Reply-To: <1566973261-21677-1-git-send-email-chunfeng.yun@mediatek.com>
+References: <1566973261-21677-1-git-send-email-chunfeng.yun@mediatek.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 7024DF7F1485941F27536402F8768AC8AF5041008723D7F1DEBF715E13014A412000:8
+X-MTK:  N
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Rob,
+Support USB wakeup by ip-sleep mode for MT8183, it's similar to
+MT8173
 
-Thanks for the review.
-I will modify commit message and send new patch set.
-We have a plan to upstream DTS files. We will send DTS changes in
-different patch set once this is done.
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+---
+ drivers/usb/host/xhci-mtk.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-Regards,
-Srinath.
+diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
+index 026fe18972d3..4b59f2978954 100644
+--- a/drivers/usb/host/xhci-mtk.c
++++ b/drivers/usb/host/xhci-mtk.c
+@@ -57,6 +57,12 @@
+ #define CTRL_U2_FORCE_PLL_STB	BIT(28)
+ 
+ /* usb remote wakeup registers in syscon */
++/* mt8183 etc */
++#define PERI_WK_CTRL0	0x20
++#define WC0_IS_C(x)	(((x) & 0xf) << 28)  /* cycle debounce */
++#define WC0_IS_EN	BIT(12)
++#define WC0_IS_P	BIT(6)  /* polarity for ip sleep */
++
+ /* mt8173 etc */
+ #define PERI_WK_CTRL1	0x4
+ #define WC1_IS_C(x)	(((x) & 0xf) << 26)  /* cycle debounce */
+@@ -69,7 +75,8 @@
+ #define SSC_SPM_INT_EN		BIT(1)
+ 
+ enum ssusb_uwk_vers {
+-	SSUSB_UWK_V1 = 1,
++	SSUSB_UWK_V0 = 0,
++	SSUSB_UWK_V1,
+ 	SSUSB_UWK_V2,
+ };
+ 
+@@ -282,6 +289,11 @@ static void usb_wakeup_ip_sleep_set(struct xhci_hcd_mtk *mtk, bool enable)
+ 	u32 reg, msk, val;
+ 
+ 	switch (mtk->uwk_vers) {
++	case SSUSB_UWK_V0:
++		reg = mtk->uwk_reg_base + PERI_WK_CTRL0;
++		msk = WC0_IS_EN | WC0_IS_C(0xf) | WC0_IS_P;
++		val = enable ? (WC0_IS_EN | WC0_IS_C(0x8)) : 0;
++		break;
+ 	case SSUSB_UWK_V1:
+ 		reg = mtk->uwk_reg_base + PERI_WK_CTRL1;
+ 		msk = WC1_IS_EN | WC1_IS_C(0xf) | WC1_IS_P;
+-- 
+2.23.0
 
-On Wed, Aug 21, 2019 at 11:51 PM Rob Herring <robh@kernel.org> wrote:
->
-> On Wed, Jul 31, 2019 at 03:49:52PM +0530, Srinath Mannam wrote:
-> > Increase #phy-cells from 1 to 2 to have bitmask of PHY enabled ports.
->
-> And from 0 to 1...
->
-> Are you going to update all the dts files so when we convert this to
-> schema we don't get a bunch of warnings? (Feel free to convert this
-> to schema too).
->
-> >
-> > Signed-off-by: Srinath Mannam <srinath.mannam@broadcom.com>
-> > ---
-> >  .../devicetree/bindings/phy/brcm,stingray-usb-phy.txt      | 14 ++++++++------
-> >  1 file changed, 8 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/phy/brcm,stingray-usb-phy.txt b/Documentation/devicetree/bindings/phy/brcm,stingray-usb-phy.txt
-> > index 4ba2989..aeb0568 100644
-> > --- a/Documentation/devicetree/bindings/phy/brcm,stingray-usb-phy.txt
-> > +++ b/Documentation/devicetree/bindings/phy/brcm,stingray-usb-phy.txt
-> > @@ -6,9 +6,11 @@ Required properties:
-> >       - "brcm,sr-usb-hs-phy" is a single HS PHY.
-> >   - reg: offset and length of the PHY blocks registers
-> >   - #phy-cells:
-> > -   - Must be 1 for brcm,sr-usb-combo-phy as it expects one argument to indicate
-> > -     the PHY number of two PHYs. 0 for HS PHY and 1 for SS PHY.
-> > -   - Must be 0 for brcm,sr-usb-hs-phy.
-> > +   - Must be 2 for brcm,sr-usb-combo-phy.
-> > +     - Cell 1 - PHY Number, 0 for HS PHY and 1 for SS PHY.
-> > +     - Cell 2 - Bitmask of enabled ports connected to USB Host controller.
-> > +   - Must be 1 for brcm,sr-usb-hs-phy to indicate Bit mask of ports connected
-> > +     to USB Host controller.
-> >
-> >  Refer to phy/phy-bindings.txt for the generic PHY binding properties
-> >
-> > @@ -16,17 +18,17 @@ Example:
-> >       usbphy0: usb-phy@0 {
-> >               compatible = "brcm,sr-usb-combo-phy";
-> >               reg = <0x00000000 0x100>;
-> > -             #phy-cells = <1>;
-> > +             #phy-cells = <2>;
-> >       };
-> >
-> >       usbphy1: usb-phy@10000 {
-> >               compatible = "brcm,sr-usb-combo-phy";
-> >               reg = <0x00010000 0x100>,
-> > -             #phy-cells = <1>;
-> > +             #phy-cells = <2>;
-> >       };
-> >
-> >       usbphy2: usb-phy@20000 {
-> >               compatible = "brcm,sr-usb-hs-phy";
-> >               reg = <0x00020000 0x100>,
-> > -             #phy-cells = <0>;
-> > +             #phy-cells = <1>;
-> >       };
-> > --
-> > 2.7.4
-> >
