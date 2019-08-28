@@ -2,137 +2,71 @@ Return-Path: <SRS0=FNJE=WY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F49EC3A5A1
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Aug 2019 10:50:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F40AC3A5A1
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Aug 2019 10:56:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 223652339E
-	for <linux-usb@archiver.kernel.org>; Wed, 28 Aug 2019 10:50:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1566989407;
-	bh=He3MdEl4k4wvBwy2BRtUix0E0BXxfd11sG2nGJHSlno=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=mYOW4PrBUP0N+x5x8jRyi7vKDJBChlDDVOcwk+A98GWxOpX+FNL0yj9Ju26RlIgxA
-	 oRT3umAiQ0F0iJIbauHicBBWX7MaagdUwKShFRuXonYvK8ORWeyMbjHPR++m/dteTI
-	 w6QWcfeloKj9UmQrYe2aDlKJnppWV0qe4UY5pulA=
+	by mail.kernel.org (Postfix) with ESMTP id 3C5C720828
+	for <linux-usb@archiver.kernel.org>; Wed, 28 Aug 2019 10:56:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726378AbfH1KuC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 28 Aug 2019 06:50:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55992 "EHLO mail.kernel.org"
+        id S1726272AbfH1K4E (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 28 Aug 2019 06:56:04 -0400
+Received: from gate.crashing.org ([63.228.1.57]:32911 "EHLO gate.crashing.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726232AbfH1KuC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 28 Aug 2019 06:50:02 -0400
-Received: from linux-8ccs (ip5f5adbee.dynamic.kabel-deutschland.de [95.90.219.238])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0AA242173E;
-        Wed, 28 Aug 2019 10:49:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566989401;
-        bh=He3MdEl4k4wvBwy2BRtUix0E0BXxfd11sG2nGJHSlno=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=i40dmLIc4hNolwteO8/CrjM9Cpmu93uXZsAOD1MxRqDqkwMajOhi3Dh0Ac1J5QGbq
-         LszHHQ0TpbI6YImDsJdcJH+2MQ+nkwnpo8Rh7e8htHxd79vlrmg8Y4hcNYyhaKnSc2
-         TcnnzjJhpv8JAIXkqv1vRtuz4HQ/xogZe5mhW1hk=
-Date:   Wed, 28 Aug 2019 12:49:51 +0200
-From:   Jessica Yu <jeyu@kernel.org>
-To:     Matthias Maennich <maennich@google.com>
-Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
-        arnd@arndb.de, geert@linux-m68k.org, gregkh@linuxfoundation.org,
-        hpa@zytor.com, joel@joelfernandes.org,
-        kstewart@linuxfoundation.org, linux-arch@vger.kernel.org,
-        linux-kbuild@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-modules@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-usb@vger.kernel.org, lucas.de.marchi@gmail.com,
-        maco@android.com, maco@google.com, michal.lkml@markovi.net,
-        mingo@redhat.com, oneukum@suse.com, pombredanne@nexb.com,
-        sam@ravnborg.org, sspatil@google.com, stern@rowland.harvard.edu,
-        tglx@linutronix.de, usb-storage@lists.one-eyed-alien.net,
-        x86@kernel.org, yamada.masahiro@socionext.com,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Ingo Molnar <mingo@kernel.org>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Subject: Re: [PATCH v3 06/11] export: allow definition default namespaces in
- Makefiles or sources
-Message-ID: <20190828104951.GC25048@linux-8ccs>
-References: <20190813121733.52480-1-maennich@google.com>
- <20190821114955.12788-1-maennich@google.com>
- <20190821114955.12788-7-maennich@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20190821114955.12788-7-maennich@google.com>
-X-OS:   Linux linux-8ccs 4.12.14-lp150.12.61-default x86_64
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726246AbfH1K4E (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 28 Aug 2019 06:56:04 -0400
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x7SAtikZ011311;
+        Wed, 28 Aug 2019 05:55:45 -0500
+Message-ID: <d2f02109e718a6578d91467e6a4d522819be7a23.camel@kernel.crashing.org>
+Subject: Re: [PATCH 1/2] usb: gadget: net2280: Move all "ll" registers in
+ one structure
+From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
+To:     Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org
+Cc:     Guido Kiener <guido@kiener-muenchen.de>,
+        Alan Stern <stern@rowland.harvard.edu>
+Date:   Wed, 28 Aug 2019 20:55:44 +1000
+In-Reply-To: <87ftllwqi7.fsf@gmail.com>
+References: <bc390967a9ac59e658ae79ba74a23a6ca898351b.camel@kernel.crashing.org>
+         <87ftllwqi7.fsf@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-+++ Matthias Maennich [21/08/19 12:49 +0100]:
->To avoid excessive usage of EXPORT_SYMBOL_NS(sym, MY_NAMESPACE), where
->MY_NAMESPACE will always be the namespace we are exporting to, allow
->exporting all definitions of EXPORT_SYMBOL() and friends by defining
->DEFAULT_SYMBOL_NAMESPACE.
->
->For example, to export all symbols defined in usb-common into the
->namespace USB_COMMON, add a line like this to drivers/usb/common/Makefile:
->
->  ccflags-y += -DDEFAULT_SYMBOL_NAMESPACE=USB_COMMON
->
->That is equivalent to changing all EXPORT_SYMBOL(sym) definitions to
->EXPORT_SYMBOL_NS(sym, USB_COMMON). Subsequently all symbol namespaces
->functionality will apply.
->
->Another way of making use of this feature is to define the namespace
->within source or header files similar to how TRACE_SYSTEM defines are
->used:
->  #undef DEFAULT_SYMBOL_NAMESPACE
->  #define DEFAULT_SYMBOL_NAMESPACE USB_COMMON
->
->Please note that, as opposed to TRACE_SYSTEM, DEFAULT_SYMBOL_NAMESPACE
->has to be defined before including include/linux/export.h.
->
->If DEFAULT_SYMBOL_NAMESPACE is defined, a symbol can still be exported
->to another namespace by using EXPORT_SYMBOL_NS() and friends with
->explicitly specifying the namespace.
+On Wed, 2019-08-28 at 13:09 +0300, Felipe Balbi wrote:
+> Hi,
+> 
+> Benjamin Herrenschmidt <benh@kernel.crashing.org> writes:
+> 
+> > The split into multiple structures of the "ll" register bank is
+> > impractical. It makes it hard to add ll_lfps_timers_2 which is
+> > at offset 0x794, which is outside of the existing "lfps" structure
+> > and would require us to add yet another one.
+> > 
+> > Instead, move all the "ll" registers into a single usb338x_ll_regs
+> > structure, and add ll_lfps_timers_2 while at it. It will be used
+> > in a subsequent patch.
+> > 
+> > Signed-off-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> 
+> I tried applying your patches but it resulted in build break. Can you
+> collect all the dependencies and send a single series? I'm applying on
+> top of my testing/next branch.
 
-This changelog provides a good summary of how to use
-DEFAULT_SYMBOL_NAMESPACE, I wonder if we should explicitly document
-its proper usage somewhere? (along with EXPORT_SYMBOL_NS*)
-The EXPORT_SYMBOL API is briefly documented in
-Documentation/kernel-hacking/hacking.rst - it might be slightly dated,
-but perhaps it'd fit there best?
+You mean the 2 net2280 patches ? Or something else ?
 
->Suggested-by: Arnd Bergmann <arnd@arndb.de>
->Reviewed-by: Martijn Coenen <maco@android.com>
->Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->Signed-off-by: Matthias Maennich <maennich@google.com>
->---
-> include/linux/export.h | 6 ++++++
-> 1 file changed, 6 insertions(+)
->
->diff --git a/include/linux/export.h b/include/linux/export.h
->index 8e12e05444d1..1fb243abdbc4 100644
->--- a/include/linux/export.h
->+++ b/include/linux/export.h
->@@ -166,6 +166,12 @@ struct kernel_symbol {
-> #define __EXPORT_SYMBOL ___EXPORT_SYMBOL
-> #endif
->
->+#ifdef DEFAULT_SYMBOL_NAMESPACE
->+#undef __EXPORT_SYMBOL
->+#define __EXPORT_SYMBOL(sym, sec)				\
->+	__EXPORT_SYMBOL_NS(sym, sec, DEFAULT_SYMBOL_NAMESPACE)
->+#endif
->+
-> #define EXPORT_SYMBOL(sym) __EXPORT_SYMBOL(sym, "")
-> #define EXPORT_SYMBOL_GPL(sym) __EXPORT_SYMBOL(sym, "_gpl")
-> #define EXPORT_SYMBOL_GPL_FUTURE(sym) __EXPORT_SYMBOL(sym, "_gpl_future")
->-- 
->2.23.0.rc1.153.gdeed80330f-goog
->
+What break did you get ? It's just one series of 2 patches.... I'll try
+rebasing them against your branch tomorrow.
+
+Cheers,
+Ben.
+
+
