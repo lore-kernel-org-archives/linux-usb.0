@@ -2,59 +2,131 @@ Return-Path: <SRS0=v76c=WZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C59F7C3A59F
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Aug 2019 07:58:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33832C3A59F
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Aug 2019 09:23:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A080C205C9
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Aug 2019 07:58:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 100B02189D
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Aug 2019 09:23:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727014AbfH2H6W (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 29 Aug 2019 03:58:22 -0400
-Received: from mail.aixigo.de ([5.145.142.10]:10848 "EHLO mail.aixigo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725807AbfH2H6V (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 29 Aug 2019 03:58:21 -0400
-X-Greylist: delayed 400 seconds by postgrey-1.27 at vger.kernel.org; Thu, 29 Aug 2019 03:58:21 EDT
-Received: from srvvm01.ac.aixigo.de (mail.ac.aixigo.de [172.19.96.11])
-        by gate5a.ac.aixigo.de (OpenSMTPD) with ESMTPS id 1773f9c3 (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO);
-        Thu, 29 Aug 2019 09:51:40 +0200 (CEST)
-Received: from dpcl082.ac.aixigo.de (dpcl082.ac.aixigo.de [172.19.97.128])
-        by srvvm01.ac.aixigo.de (8.15.2/8.15.2/Debian-8) with ESMTP id x7T7peBT174490;
-        Thu, 29 Aug 2019 09:51:40 +0200
-Subject: Re: fsck on ext4: "WARN Wrong bounce buffer write length: 1024 != 0"
-To:     Mathias Nyman <mathias.nyman@linux.intel.com>,
-        "Theodore Y. Ts'o" <tytso@mit.edu>
-Cc:     mathias.nyman@intel.com, linux-usb@vger.kernel.org
-References: <22367f07-3448-f771-0363-b5c6f500b77d@aixigo.com>
- <20190827163511.GM28066@mit.edu>
- <7b5b6185-fc81-8675-06d1-fc7dae3b47b0@linux.intel.com>
-From:   Harald Dunkel <harald.dunkel@aixigo.com>
-Message-ID: <2be81deb-60a2-39be-b1c6-51f57937e6c7@aixigo.com>
-Date:   Thu, 29 Aug 2019 09:51:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1727182AbfH2JXM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 29 Aug 2019 05:23:12 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:40573 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727103AbfH2JXL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Aug 2019 05:23:11 -0400
+X-UUID: 54f9d892ae884ccebc51912166fa563d-20190829
+X-UUID: 54f9d892ae884ccebc51912166fa563d-20190829
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 1479715741; Thu, 29 Aug 2019 17:23:12 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ MTKMBS31DR.mediatek.inc (172.27.6.102) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Thu, 29 Aug 2019 17:23:10 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Thu, 29 Aug 2019 17:23:09 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Biju Das <biju.das@bp.renesas.com>
+CC:     Mark Rutland <mark.rutland@arm.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
+        Li Jun <jun.li@nxp.com>,
+        Badhri Jagan Sridharan <badhri@google.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Min Guo <min.guo@mediatek.com>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Nagarjuna Kristam <nkristam@nvidia.com>
+Subject: [PATCH next v11 04/11] dt-bindings: usb: mtu3: add properties about USB Role Switch
+Date:   Thu, 29 Aug 2019 17:22:31 +0800
+Message-ID: <1567070558-29417-5-git-send-email-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 1.8.1.1.dirty
+In-Reply-To: <1567070558-29417-1-git-send-email-chunfeng.yun@mediatek.com>
+References: <1567070558-29417-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
-In-Reply-To: <7b5b6185-fc81-8675-06d1-fc7dae3b47b0@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.101.1 at srvvm01.ac.aixigo.de
-X-Virus-Status: Clean
+Content-Type: text/plain
+X-TM-SNTS-SMTP: FE159E78FF34A3174D0F86F9B6F1DA395EBB173AEF3A60E4C3C67225EABD0B9E2000:8
+X-MTK:  N
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 8/28/19 9:57 AM, Mathias Nyman wrote:
-> 
-> I'll submit a proper patch
-> 
-> -Mathias
-> 
+Now the USB Role Switch is supported, so add properties about it,
+and modify some description related.
 
-Thanx very much
-Harri
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+v6~v11 no changes
+
+v5 changes:
+ 1. modify decription about extcon and vbus-supply properties
+ 2. make this patch depend on [1]
+
+ [1]: [v3] dt-binding: usb: add usb-role-switch property
+      https://patchwork.kernel.org/patch/10934835/
+
+v4 no changes
+v3 no changes
+
+v2 changes:
+  1. fix typo
+  2. refer new binding about connector property
+---
+ .../devicetree/bindings/usb/mediatek,mtu3.txt          | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/usb/mediatek,mtu3.txt b/Documentation/devicetree/bindings/usb/mediatek,mtu3.txt
+index 3382b5cb471d..3a8300205cdb 100644
+--- a/Documentation/devicetree/bindings/usb/mediatek,mtu3.txt
++++ b/Documentation/devicetree/bindings/usb/mediatek,mtu3.txt
+@@ -28,8 +28,13 @@ Optional properties:
+ 	parent's address space
+  - extcon : external connector for vbus and idpin changes detection, needed
+ 	when supports dual-role mode.
++	it's considered valid for compatibility reasons, not allowed for
++	new bindings, and use "usb-role-switch" property instead.
+  - vbus-supply : reference to the VBUS regulator, needed when supports
+ 	dual-role mode.
++	it's considered valid for compatibility reasons, not allowed for
++	new bindings, and put into a usb-connector node.
++	see connector/usb-connector.txt.
+  - pinctrl-names : a pinctrl state named "default" is optional, and need be
+ 	defined if auto drd switch is enabled, that means the property dr_mode
+ 	is set as "otg", and meanwhile the property "mediatek,enable-manual-drd"
+@@ -39,6 +44,8 @@ Optional properties:
+ 
+  - maximum-speed : valid arguments are "super-speed", "high-speed" and
+ 	"full-speed"; refer to usb/generic.txt
++ - usb-role-switch : use USB Role Switch to support dual-role switch, but
++	not extcon; see usb/generic.txt.
+  - enable-manual-drd : supports manual dual-role switch via debugfs; usually
+ 	used when receptacle is TYPE-A and also wants to support dual-role
+ 	mode.
+@@ -61,6 +68,9 @@ The xhci should be added as subnode to mtu3 as shown in the following example
+ if host mode is enabled. The DT binding details of xhci can be found in:
+ Documentation/devicetree/bindings/usb/mediatek,mtk-xhci.txt
+ 
++The port would be added as subnode if use "usb-role-switch" property.
++	see graph.txt
++
+ Example:
+ ssusb: usb@11271000 {
+ 	compatible = "mediatek,mt8173-mtu3";
+-- 
+2.23.0
+
