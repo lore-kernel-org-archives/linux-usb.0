@@ -6,53 +6,45 @@ X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 761FBC3A59F
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Aug 2019 13:14:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB365C3A59F
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Aug 2019 14:08:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 51A6623403
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Aug 2019 13:14:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ABF6323403
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Aug 2019 14:08:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727046AbfH2NOa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 29 Aug 2019 09:14:30 -0400
-Received: from muru.com ([72.249.23.125]:59074 "EHLO muru.com"
+        id S1727063AbfH2OIx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 29 Aug 2019 10:08:53 -0400
+Received: from verein.lst.de ([213.95.11.211]:46554 "EHLO verein.lst.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726985AbfH2NOa (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 29 Aug 2019 09:14:30 -0400
-Received: from atomide.com (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id 4A7A180E7;
-        Thu, 29 Aug 2019 13:14:59 +0000 (UTC)
-Date:   Thu, 29 Aug 2019 06:14:26 -0700
-From:   Tony Lindgren <tony@atomide.com>
-To:     Bin Liu <b-liu@ti.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-omap@vger.kernel.org
-Subject: Re: [PATCH] usb: musb: omap2430: Fix flakeyness enumerating when
- connected to a lapdock
-Message-ID: <20190829131426.GG52127@atomide.com>
-References: <20190828151100.31996-1-tony@atomide.com>
+        id S1726518AbfH2OIx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 29 Aug 2019 10:08:53 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 04EAF68B20; Thu, 29 Aug 2019 16:08:50 +0200 (CEST)
+Date:   Thu, 29 Aug 2019 16:08:49 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Piergiorgio Sartor <piergiorgio.sartor@nexgo.de>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Jens Axboe <axboe@kernel.dk>,
+        USB list <linux-usb@vger.kernel.org>,
+        linux-block@vger.kernel.org,
+        Kernel development list <linux-kernel@vger.kernel.org>
+Subject: Re: reeze while write on external usb 3.0 hard disk [Bug 204095]
+Message-ID: <20190829140849.GA18387@lst.de>
+References: <20190817095422.GA4200@lazy.lzy> <Pine.LNX.4.44L0.1908191009490.1506-100000@iolanthe.rowland.org> <20190820072326.GD28968@lst.de> <20190820163722.GA2991@lazy.lzy> <20190826173833.GA4166@lazy.lzy>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190828151100.31996-1-tony@atomide.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190826173833.GA4166@lazy.lzy>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-* Tony Lindgren <tony@atomide.com> [190828 08:11]:
-> With commit 594632efbb9a ("usb: musb: Adding musb support for OMAP4430")
-> Looks like always calling otg_set_vbus() causes flakeyness enumerating when
-> droid4 is connected to a lapdock. In this case lapdock runs in USB carkit
-> type mode and feeds the VBUS.
+On Mon, Aug 26, 2019 at 07:38:33PM +0200, Piergiorgio Sartor wrote:
+> any news on this?
 
-I don't think this patch helps much actually, let's forget it for now.
-
-Looks like the core reason for flakeyness enumerating devices is that
-clocks are not idling on disconnect properly, and then the next
-enumeration will fail. I'll debug more and will send a better patch
-at some point.
-
-Regards,
-
-Tony
+Sorry, I've been dropping the ball here, and I'm a little puzzled
+on what is going on.  Including on why we are bounce buffering for
+xhci at all.  What kind of system (CPU / mainboard) is this?
