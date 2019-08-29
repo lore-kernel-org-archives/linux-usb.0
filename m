@@ -2,93 +2,70 @@ Return-Path: <SRS0=v76c=WZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=0.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D4D3C3A5A3
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Aug 2019 07:34:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2E6CC3A59F
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Aug 2019 07:53:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6543D208C2
-	for <linux-usb@archiver.kernel.org>; Thu, 29 Aug 2019 07:34:06 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=endlessm-com.20150623.gappssmtp.com header.i=@endlessm-com.20150623.gappssmtp.com header.b="cY73HBTS"
+	by mail.kernel.org (Postfix) with ESMTP id AC5022339E
+	for <linux-usb@archiver.kernel.org>; Thu, 29 Aug 2019 07:53:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727161AbfH2HeF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 29 Aug 2019 03:34:05 -0400
-Received: from mail-qt1-f181.google.com ([209.85.160.181]:37311 "EHLO
-        mail-qt1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727046AbfH2HeF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Aug 2019 03:34:05 -0400
-Received: by mail-qt1-f181.google.com with SMTP id y26so2625691qto.4
-        for <linux-usb@vger.kernel.org>; Thu, 29 Aug 2019 00:34:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=endlessm-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EpGvJ7EKGGEBGzwNMrB1KOMHeIIQeGtnYLRMPOtnsC8=;
-        b=cY73HBTSZGqQxAnB2Ouc5f33JHph9ps8DodTiZiOiYI+7gI7+6MtRGqD8krrIbeOur
-         sJRIocU+1w5GmpcIYRLzX4JQB6hEGH7zy3gQEiydOis0JBoMUfRL1tPu95TF+oSAQLuX
-         ufbNq2G9tTvK3eIMSwfT8IW8wGaCDwSPW88dBAxZKalgEVHWJ1gVIIVtwY4CGtnlfWpi
-         4OvbnUENKuf8kXbuUzNXmTrB2RgZ9sfnNXnfQtsox4eAU742HKaP45jTYHbrq70BLaVm
-         QSok0eTw3ygxxyiKLflWNXsLftWdcQNgm4lvfe8ISJCTJK5/wCvNWHMLH99oE4KiTaae
-         IwOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EpGvJ7EKGGEBGzwNMrB1KOMHeIIQeGtnYLRMPOtnsC8=;
-        b=S/A5RYVkQKbnBRDOTn729NVBWVeCxCzbQhlvJT+ZDoIc0Vby0mEtbxogkCZOIi/iV4
-         cgMEnV2vrS018s5w8YsRfGCwpseauof2eWn+n+at5RuHigIoATVSwfS7tEYDildNjrO5
-         AwKmkhoOsypoV7obM25BZfeUHKBfglVgSMAu+C4NauH0ew2mugMqGQsHc7dfjPHzybTJ
-         KTM/oacLJGOwEVADvnOJ8w5ZWtbuxe+ZBh29faJcEqH8gMd6a4KYbeMxt5g8d8KiIiwL
-         UvZSKH3JKOl6jCAxXWFJOsvJnWJ+2YD/q+ty+TkbPX8CqEUh2pl3+hdHoofOomVKP7o8
-         cjjA==
-X-Gm-Message-State: APjAAAUNzooBG7k9vxjYziH40GpdAwb+ZRmCTfgdHbTnjBwY8pm3DpCx
-        2yDe55V60mSrPil0XzEY0pGOTbhjvZ808PUrNH59/A==
-X-Google-Smtp-Source: APXvYqzcSsF5r5FNbgh7+MkKHql3jCyXn3Puk4CXzNt55mwJXBHGhHIuqsjpfMbP5qG91pTx34BRVrTSqErcSw9fIBw=
-X-Received: by 2002:ac8:2cd6:: with SMTP id 22mr8220626qtx.80.1567064044315;
- Thu, 29 Aug 2019 00:34:04 -0700 (PDT)
+        id S1726330AbfH2HxN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 29 Aug 2019 03:53:13 -0400
+Received: from mga03.intel.com ([134.134.136.65]:23535 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725807AbfH2HxM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 29 Aug 2019 03:53:12 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Aug 2019 00:53:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,442,1559545200"; 
+   d="scan'208";a="197746759"
+Received: from kuha.fi.intel.com ([10.237.72.53])
+  by fmsmga001.fm.intel.com with SMTP; 29 Aug 2019 00:53:07 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 29 Aug 2019 10:53:07 +0300
+Date:   Thu, 29 Aug 2019 10:53:07 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Saranya Gopal <saranya.gopal@intel.com>
+Cc:     hdegoede@redhat.com, gregkh@linuxfoundation.org,
+        mathias.nyman@intel.com, linux-usb@vger.kernel.org,
+        Balaji Manoharan <m.balaji@intel.com>
+Subject: Re: [PATCH v3 2/2] usb: roles: intel: Enable static DRD mode for
+ role switch
+Message-ID: <20190829075307.GD5486@kuha.fi.intel.com>
+References: <1567011332-22839-1-git-send-email-saranya.gopal@intel.com>
+ <1567011332-22839-2-git-send-email-saranya.gopal@intel.com>
 MIME-Version: 1.0
-References: <CAD8Lp47Vh69gQjROYG69=waJgL7hs1PwnLonL9+27S_TcRhixA@mail.gmail.com>
- <CAJZ5v0g4T_0VD_oYMF_BF1VM-d1bg-BD8h8=STDrhVBgouPOPg@mail.gmail.com>
- <01cf6be6-9175-87ca-f3ad-78c06b666893@linux.intel.com> <CAD8Lp4658-c=7KabiJ=xuNRCqPwF4BJauMHqh_8WSBfCFHWSSg@mail.gmail.com>
- <CAJZ5v0gouaztf7tcKXBr90gjrVjOvqH70regD=o2r_d+9Bwvqg@mail.gmail.com>
- <CAD8Lp47oNJb5N5i4oUQfN5b=xCtUc1Lt852pnXxhNq0vyWj=yg@mail.gmail.com> <CAJZ5v0j=x4HHOsJ6fCX-xOr29-4BMRzjR5H5UaoWW9v-Ci8ODQ@mail.gmail.com>
-In-Reply-To: <CAJZ5v0j=x4HHOsJ6fCX-xOr29-4BMRzjR5H5UaoWW9v-Ci8ODQ@mail.gmail.com>
-From:   Daniel Drake <drake@endlessm.com>
-Date:   Thu, 29 Aug 2019 15:33:52 +0800
-Message-ID: <CAD8Lp451B44QLqx2Zx+5Gm8pRP53JefYFjdEVdRz_DOmMP3CcQ@mail.gmail.com>
-Subject: Re: Ryzen7 3700U xhci fails on resume from sleep
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Mathias Nyman <mathias.nyman@linux.intel.com>,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Endless Linux Upstreaming Team <linux@endlessm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1567011332-22839-2-git-send-email-saranya.gopal@intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Aug 28, 2019 at 4:43 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
-> With the git branch mentioned previously merged in, you can enable
-> dynamic debug in device_pm.c, repeat the PM-runtime test and collect
-> the log.  There should be some additional messages from the ACPI layer
-> in it.
+Hi,
 
-That's useful, thanks. Runtime suspend:
+>  static int intel_xhci_usb_set_role(struct device *dev, enum usb_role role)
+> @@ -44,7 +52,7 @@ static int intel_xhci_usb_set_role(struct device *dev, enum usb_role role)
+>  	struct intel_xhci_usb_data *data = dev_get_drvdata(dev);
+>  	unsigned long timeout;
+>  	acpi_status status;
+> -	u32 glk, val;
+> +	u32 glk, val, drd_config;
 
-usb 1-4: USB disconnect, device number 2
-    power-0419 __acpi_power_off      : Power resource [P0U0] turned off
-device_pm-0278 device_set_power      : Device [XHC0] transitioned to D3hot
+I guess you need to fix that. While at it, please introduce it on its
+own line:
 
-Runtime resume:
-    power-0363 __acpi_power_on       : Power resource [P0U0] turned on
-device_pm-0278 device_set_power      : Device [XHC0] transitioned to D0
-xhci_hcd 0000:03:00.3: Refused to change power state, currently in D3
-xhci_hcd 0000:03:00.3: enabling device (0000 -> 0002)
-xhci_hcd 0000:03:00.3: WARN: xHC restore state timeout
-xhci_hcd 0000:03:00.3: PCI post-resume error -110!
-xhci_hcd 0000:03:00.3: HC died; cleaning up
+        u32 drd_config = DRD_CONFIG_DYNAMIC;
+
+
+thanks,
+
+-- 
+heikki
