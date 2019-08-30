@@ -2,103 +2,99 @@ Return-Path: <SRS0=68Iu=W2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9E98C3A5A3
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Aug 2019 07:18:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AB62C3A5A3
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Aug 2019 07:41:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 99E77233FF
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Aug 2019 07:18:13 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="NPaPVEvA"
+	by mail.kernel.org (Postfix) with ESMTP id 77F11233FF
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Aug 2019 07:41:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728211AbfH3HRv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 30 Aug 2019 03:17:51 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:44260 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726510AbfH3HRv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Aug 2019 03:17:51 -0400
-Received: by mail-wr1-f66.google.com with SMTP id b6so3061069wrv.11
-        for <linux-usb@vger.kernel.org>; Fri, 30 Aug 2019 00:17:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FpbAWeVajE7jbJxx72Z5QEPjasF1SzZQc9KND43zWKM=;
-        b=NPaPVEvAlEP1JwwBNRmZqQu1oXjgq7Ehu6IWBk/Gm3+47TQiElN7qNOrM8NdxNJUuY
-         8DW4Wrl4pGsO/FwXlQ28jwaPDg7vIjLNOf6/dDceSHDcw6t452DKc72rkFpL5vLXJw9z
-         bxHQsUHERyRczWxhfjNaoEdhqrFm0OuM17Ek+8MIkp8+MW8aItdbwahIw5ASVWUERoje
-         SwmdYGGcXSqH9DUAZTxDfsiQXxXy7TqNKuA2PQ0SCakmDuySWzcw8FZO4n6cncx/pLlD
-         C0nd8nKnnjLOle0TdsfC5KolLs4Sn9BaEX2McZqo6rx0UpNcxTGCy7z79ZyOK6OAyP7C
-         bcgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FpbAWeVajE7jbJxx72Z5QEPjasF1SzZQc9KND43zWKM=;
-        b=nz5mFghwAHXKlwjJhJlkWFVdjB2CUPBESoLvkZjPiHKD7jto+EHT/Iu777UF0KQkLF
-         Tsfpxnhy1/q7O4h4ReSU54yTQkaA5hisU85v+Insx1Eu1zzSjT+hoAe2VSrK/i2KHeZE
-         /GnPbKycGQR/WxucN+b+zHRksvfzj7jHd9xkStRo19cn9t8SYcsAr1lZp5joAxgokuzd
-         JLpQGF8Jq2Aq5M/3cpdRFhB5u8feRDSi5Kasl9EsJNBJBAnC+aI5L4u46xI2xDaXe/hD
-         kFn9qui4XGa+9myBIj9r5bmvR97TiB2T62CUzfsD5j2aFFxdkRU3msBzps/QmmUrc9zO
-         lcaA==
-X-Gm-Message-State: APjAAAXAhUh5DidbRWIXdUBFqdS2dfIljIzMNDiaMIENjwp+ytcw3OoA
-        Y0fstL5JXx1NHNzxXCwsNdevWg==
-X-Google-Smtp-Source: APXvYqytZc9V3iUoascFuNBlkNrDdlZGsMbx4k8y04BWHaakkVhzfSq61JeOcecviPSZKeU4s3zm4w==
-X-Received: by 2002:adf:aa85:: with SMTP id h5mr4534823wrc.329.1567149469792;
-        Fri, 30 Aug 2019 00:17:49 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:cb1d:af:5b00:6d6c:8493:1ab5:dad7])
-        by smtp.gmail.com with ESMTPSA id x6sm7637529wrt.63.2019.08.30.00.17.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Aug 2019 00:17:49 -0700 (PDT)
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-To:     Jens Axboe <axboe@kernel.dk>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        JC Kuo <jckuo@nvidia.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
+        id S1727242AbfH3HlF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 30 Aug 2019 03:41:05 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:43882 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726975AbfH3HlF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Aug 2019 03:41:05 -0400
+X-UUID: a17a791afa36447bbe0f1f1599d73d84-20190830
+X-UUID: a17a791afa36447bbe0f1f1599d73d84-20190830
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 105821875; Fri, 30 Aug 2019 15:41:05 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Fri, 30 Aug 2019 15:41:02 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Fri, 30 Aug 2019 15:41:01 +0800
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>
+CC:     Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-ide@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH 0/4] regulator: add and use a helper for setting supply names
-Date:   Fri, 30 Aug 2019 09:17:36 +0200
-Message-Id: <20190830071740.4267-1-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.21.0
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3 0/7]  add support USB for MT8183
+Date:   Fri, 30 Aug 2019 15:40:47 +0800
+Message-ID: <1567150854-30033-1-git-send-email-chunfeng.yun@mediatek.com>
+X-Mailer: git-send-email 1.8.1.1.dirty
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-SNTS-SMTP: E5F213E7CA528242F5F6039032059112C7EC7C2778DB20F4402EB0CD069E1B992000:8
+X-MTK:  N
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+This series support USB DRD controller and enable it's remote
+wakeup functoin for MT8183, they depend on the following
+series patches:
 
-There are ~80 users of regulator bulk APIs that set the supply names
-in a for loop before using the bulk helpers.
+1. this series add support MT6358 PMIC
+  [v5,01/10] mfd: mt6397: clean up code
+  https://patchwork.kernel.org/patch/11110487/
 
-This series proposes to add a helper function for setting supply names
-and uses it in a couple tegra drivers. If accepted: a coccinelle script
-should be easy to develop that would address this in other drivers.
+2. this series add support pericfg syscon
+  [v2,1/2] dt-bindings: clock: mediatek: add pericfg for MT8183
+  https://patchwork.kernel.org/patch/11118183/
 
-Bartosz Golaszewski (4):
-  regulator: provide regulator_bulk_set_supply_names()
-  ahci: tegra: use regulator_bulk_set_supply_names()
-  phy: tegra: use regulator_bulk_set_supply_names()
-  usb: host: xhci-tegra: use regulator_bulk_set_supply_names()
+3. add property mediatek,discth for tphy
+  [06/11] phy: phy-mtk-tphy: add a property for disconnect threshold
+  https://patchwork.kernel.org/patch/11110695/
 
- drivers/ata/ahci_tegra.c           |  6 +++---
- drivers/phy/tegra/xusb.c           |  6 +++---
- drivers/regulator/helpers.c        | 21 +++++++++++++++++++++
- drivers/usb/host/xhci-tegra.c      |  5 +++--
- include/linux/regulator/consumer.h | 12 ++++++++++++
- 5 files changed, 42 insertions(+), 8 deletions(-)
+v3 changes:
+  1. changes micros define
+  2. remove #reset-cell
+  3. update dependent series
+
+v2 changes:
+  add patch [7/7]
+
+Chunfeng Yun (7):
+  dt-bindings: usb: mtu3: support USB wakeup for MT8183
+  dt-bindings: usb: mtk-xhci: support USB wakeup for MT8183
+  usb: mtu3: support ip-sleep wakeup for MT8183
+  usb: mtk-xhci: support ip-sleep wakeup for MT8183
+  arm64: dts: mt8183: add usb and phy nodes
+  arm64: dts: mt8183: enable USB remote wakeup
+  arm64: dts: mt8183: tune disconnect threshold of u2phy
+
+ .../bindings/usb/mediatek,mtk-xhci.txt        |  1 +
+ .../devicetree/bindings/usb/mediatek,mtu3.txt |  1 +
+ arch/arm64/boot/dts/mediatek/mt8183-evb.dts   | 23 +++++++
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi      | 63 +++++++++++++++++++
+ drivers/usb/host/xhci-mtk.c                   | 14 ++++-
+ drivers/usb/mtu3/mtu3_host.c                  | 14 ++++-
+ 6 files changed, 114 insertions(+), 2 deletions(-)
 
 -- 
-2.21.0
+2.23.0
 
