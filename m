@@ -2,117 +2,84 @@ Return-Path: <SRS0=68Iu=W2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2DACC3A59F
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Aug 2019 01:00:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6A39C3A5A3
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Aug 2019 03:56:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A1FD02173E
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Aug 2019 01:00:23 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="Zpe9tYLz"
+	by mail.kernel.org (Postfix) with ESMTP id A184020659
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Aug 2019 03:56:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727410AbfH3BAX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 29 Aug 2019 21:00:23 -0400
-Received: from dc2-smtprelay2.synopsys.com ([198.182.61.142]:38964 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726991AbfH3BAX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 29 Aug 2019 21:00:23 -0400
-Received: from mailhost.synopsys.com (dc2-mailhost2.synopsys.com [10.12.135.162])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id AB8C5C03C2;
-        Fri, 30 Aug 2019 01:00:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1567126822; bh=v+UvzZeB1e0YsYVXi4sl/Wp7VmXMNvPjweLxz/oTKLc=;
-        h=Date:From:Subject:To:CC:From;
-        b=Zpe9tYLzqSAD4x1BniolljyHkM77Aj44cLABd6uCVr9QaXfkmCk/CV9qCLiVh+ZoV
-         cXsGxgcXU/kj1rNLMRhcC0QoB1umA4KoOqmpE1tmQiFW4h5cCik5YNwxHZEPmZIlya
-         0LwDKWI+jHfBSJP1cDuce1xfISMfUEsAnxER7SEE3udtSIM7DxdJ+pbEYu279AJXVq
-         BD6gcGxC4LkAEt0UOVfKTSg1yuuwJ0XG20rs54v/OXXcp1Mdz4WKGWQHvCSdGTabHW
-         EGOPR7ofTLvObQPArt9+vuOOFukwnn+dtMWNu+Rh7KG3qr8Muyd5UjVbSERcx9YRkS
-         fphyJcE4YzA1Q==
-Received: from US01WXQAHTC1.internal.synopsys.com (us01wxqahtc1.internal.synopsys.com [10.12.238.230])
-        (using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPS id 95150A0091;
-        Fri, 30 Aug 2019 01:00:22 +0000 (UTC)
-Received: from US01WEHTC3.internal.synopsys.com (10.15.84.232) by
- US01WXQAHTC1.internal.synopsys.com (10.12.238.230) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Thu, 29 Aug 2019 18:00:21 -0700
-Received: from te-lab16 (10.13.184.19) by US01WEHTC3.internal.synopsys.com
- (10.15.84.231) with Microsoft SMTP Server (TLS) id 14.3.408.0; Thu, 29 Aug
- 2019 18:00:16 -0700
-Received: by te-lab16 (sSMTP sendmail emulation); Thu, 29 Aug 2019 18:00:16
- -0700
-Date:   Thu, 29 Aug 2019 18:00:16 -0700
-Message-ID: <6bbceb0a0468b5676fc4231169546ead91ce0c75.1567125618.git.thinhn@synopsys.com>
-From:   Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Subject: [PATCH v2] usb: dwc3: gadget: Workaround Mirosoft's BESL check
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-usb@vger.kernel.org>
-CC:     John Youn <John.Youn@synopsys.com>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.13.184.19]
+        id S1728248AbfH3D4Z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 29 Aug 2019 23:56:25 -0400
+Received: from gate.crashing.org ([63.228.1.57]:35415 "EHLO gate.crashing.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728221AbfH3D4Y (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 29 Aug 2019 23:56:24 -0400
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x7U3uEYI027405;
+        Thu, 29 Aug 2019 22:56:15 -0500
+Message-ID: <c1a29e1639b4ac6d85f2aaf6de9778f976b6f246.camel@kernel.crashing.org>
+Subject: [PATCH v2 2/2] usb: gadget: net2280: Add workaround for AB chip
+ Errata 11
+From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
+To:     linux-usb@vger.kernel.org
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Guido Kiener <guido@kiener-muenchen.de>,
+        Alan Stern <stern@rowland.harvard.edu>
+Date:   Fri, 30 Aug 2019 13:56:14 +1000
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-While testing our host system using Microsoft's usb stack against our
-gadget for various BESL values, we found an issue with their usb stack
-when the recommended baseline BESL value is 0 (125us) or when the deep
-BESL is 1 or less. The Windows host will issue a usb reset immediately
-after it receives the extended BOS descriptor and the enumeration will
-fail after a few attempts.
+The errata description is:
 
-To keep compatibility with Microsoft's host usb stack, let's workaround
-this issue by using the recommended baseline BESL of 1 (or 150us)
-and clamp the deep BESL value within 2 to 15.
+Workaround for Default Duration of LFPS Handshake Signaling for
+Device-Initiated U1 Exit is too short.
 
-This was tested against Windows 10 build 18956.
+The default duration of the LFPS handshake generated by USB3380 for a device-initiated U1-exit may not be
+long enough for certain SuperSpeed downstream ports (SuperSpeed hubs/hosts) to recognize. This could lead
+to USB3380 entering the recovery state pre-maturely and ending up in the SS.Inactive state.
 
-Signed-off-by: Thinh Nguyen <thinhn@synopsys.com>
+I have observed various enumeration failures, seemingly related to
+lost transactions or SETUP status phases on modern hosts (typically
+thunderbolt capable systems) without this workaround.
+
+Signed-off-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
 ---
-changes in v2:
-- Add comment in code for the new change
 
+  - v2. Rebased on top of Felipe's tree
 
- drivers/usb/dwc3/gadget.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ drivers/usb/gadget/udc/net2280.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 7b58e0e1e438..3754bffb378c 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -2083,9 +2083,19 @@ static void dwc3_gadget_config_params(struct usb_gadget *g,
+diff --git a/drivers/usb/gadget/udc/net2280.c b/drivers/usb/gadget/udc/net2280.c
+index e0191146ba22..51efee21915f 100644
+--- a/drivers/usb/gadget/udc/net2280.c
++++ b/drivers/usb/gadget/udc/net2280.c
+@@ -2269,6 +2269,16 @@ static void usb_reinit_338x(struct net2280 *dev)
+ 	val |= 0x3 << HOT_RX_RESET_TS2;
+ 	writel(val, &dev->llregs->ll_tsn_counters_3);
  
- 	/* Recommended BESL */
- 	if (!dwc->dis_enblslpm_quirk) {
--		params->besl_baseline = 0;
-+		/*
-+		 * If the recommended BESL baseline is 0 or if the BESL deep is
-+		 * less than 2, Microsoft's Windows 10 host usb stack will issue
-+		 * a usb reset immediately after it receives the extended BOS
-+		 * descriptor and the enumeration will fail. To maintain
-+		 * compatibility with the Windows' usb stack, let's set the
-+		 * recommended BESL baseline to 1 and clamp the BESL deep to be
-+		 * within 2 to 15.
-+		 */
-+		params->besl_baseline = 1;
- 		if (dwc->is_utmi_l1_suspend)
--			params->besl_deep = min_t(u8, dwc->hird_threshold, 15);
-+			params->besl_deep =
-+				clamp_t(u8, dwc->hird_threshold, 2, 15);
- 	}
- 
- 	/* U1 Device exit Latency */
--- 
-2.11.0
++	/*
++	 * AB errata. Errata 11. Workaround for Default Duration of LFPS
++	 * Handshake Signaling for Device-Initiated U1 Exit is too short.
++	 * Without this, various enumeration failures observed with
++	 * modern superspeed hosts.
++	 */
++	val = readl(&dev->llregs->ll_lfps_timers_2);
++	writel((val & 0xffff0000) | LFPS_TIMERS_2_WORKAROUND_VALUE,
++	       &dev->llregs->ll_lfps_timers_2);
++
+ 	/*
+ 	 * Set Recovery Idle to Recover bit:
+ 	 * - On SS connections, setting Recovery Idle to Recover Fmw improves
+
 
