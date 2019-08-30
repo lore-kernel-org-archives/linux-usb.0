@@ -2,34 +2,35 @@ Return-Path: <SRS0=68Iu=W2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9AB62C3A5A3
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Aug 2019 07:41:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01F65C3A5A3
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Aug 2019 07:41:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 77F11233FF
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Aug 2019 07:41:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D13D923427
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Aug 2019 07:41:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727242AbfH3HlF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 30 Aug 2019 03:41:05 -0400
-Received: from mailgw02.mediatek.com ([1.203.163.81]:43882 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726975AbfH3HlF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Aug 2019 03:41:05 -0400
-X-UUID: a17a791afa36447bbe0f1f1599d73d84-20190830
-X-UUID: a17a791afa36447bbe0f1f1599d73d84-20190830
-Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        id S1728332AbfH3HlR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 30 Aug 2019 03:41:17 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:31927 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727854AbfH3HlQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Aug 2019 03:41:16 -0400
+X-UUID: 31e272001e6647b7b7f64196f730eacb-20190830
+X-UUID: 31e272001e6647b7b7f64196f730eacb-20190830
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 105821875; Fri, 30 Aug 2019 15:41:05 +0800
+        with ESMTP id 9569756; Fri, 30 Aug 2019 15:41:14 +0800
 Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- MTKMBS31N1.mediatek.inc (172.27.4.69) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Fri, 30 Aug 2019 15:41:02 +0800
+ MTKMBS31DR.mediatek.inc (172.27.6.102) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Fri, 30 Aug 2019 15:41:10 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Fri, 30 Aug 2019 15:41:01 +0800
+ Transport; Fri, 30 Aug 2019 15:41:09 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>
@@ -41,60 +42,45 @@ CC:     Mark Rutland <mark.rutland@arm.com>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3 0/7]  add support USB for MT8183
-Date:   Fri, 30 Aug 2019 15:40:47 +0800
-Message-ID: <1567150854-30033-1-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH v3 7/7] arm64: dts: mt8183: tune disconnect threshold of u2phy
+Date:   Fri, 30 Aug 2019 15:40:54 +0800
+Message-ID: <1567150854-30033-8-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
+In-Reply-To: <1567150854-30033-1-git-send-email-chunfeng.yun@mediatek.com>
+References: <1567150854-30033-1-git-send-email-chunfeng.yun@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-TM-SNTS-SMTP: E5F213E7CA528242F5F6039032059112C7EC7C2778DB20F4402EB0CD069E1B992000:8
+X-TM-SNTS-SMTP: CCBFA59E6DD3D401F653311DC00B6A03FCCB12A28648BE00ECCE3A8A1C5C85292000:8
 X-MTK:  N
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series support USB DRD controller and enable it's remote
-wakeup functoin for MT8183, they depend on the following
-series patches:
+Set DISCTH to max-15, replace the default value 8, due to
+default disconnect threshold is lower than USB SPEC define
 
-1. this series add support MT6358 PMIC
-  [v5,01/10] mfd: mt6397: clean up code
-  https://patchwork.kernel.org/patch/11110487/
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+---
+v3: no changes
 
-2. this series add support pericfg syscon
-  [v2,1/2] dt-bindings: clock: mediatek: add pericfg for MT8183
-  https://patchwork.kernel.org/patch/11118183/
+v2: new patch
+---
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
-3. add property mediatek,discth for tphy
-  [06/11] phy: phy-mtk-tphy: add a property for disconnect threshold
-  https://patchwork.kernel.org/patch/11110695/
-
-v3 changes:
-  1. changes micros define
-  2. remove #reset-cell
-  3. update dependent series
-
-v2 changes:
-  add patch [7/7]
-
-Chunfeng Yun (7):
-  dt-bindings: usb: mtu3: support USB wakeup for MT8183
-  dt-bindings: usb: mtk-xhci: support USB wakeup for MT8183
-  usb: mtu3: support ip-sleep wakeup for MT8183
-  usb: mtk-xhci: support ip-sleep wakeup for MT8183
-  arm64: dts: mt8183: add usb and phy nodes
-  arm64: dts: mt8183: enable USB remote wakeup
-  arm64: dts: mt8183: tune disconnect threshold of u2phy
-
- .../bindings/usb/mediatek,mtk-xhci.txt        |  1 +
- .../devicetree/bindings/usb/mediatek,mtu3.txt |  1 +
- arch/arm64/boot/dts/mediatek/mt8183-evb.dts   | 23 +++++++
- arch/arm64/boot/dts/mediatek/mt8183.dtsi      | 63 +++++++++++++++++++
- drivers/usb/host/xhci-mtk.c                   | 14 ++++-
- drivers/usb/mtu3/mtu3_host.c                  | 14 ++++-
- 6 files changed, 114 insertions(+), 2 deletions(-)
-
+diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+index dc3e859849c7..5168e345ea3f 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
++++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
+@@ -434,6 +434,7 @@
+ 				clocks = <&clk26m>;
+ 				clock-names = "ref";
+ 				#phy-cells = <1>;
++				mediatek,discth = <15>;
+ 				status = "okay";
+ 			};
+ 
 -- 
 2.23.0
 
