@@ -2,212 +2,109 @@ Return-Path: <SRS0=68Iu=W2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44A7AC3A5A6
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Aug 2019 03:56:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F5C7C3A5A3
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Aug 2019 07:18:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1EB7621874
-	for <linux-usb@archiver.kernel.org>; Fri, 30 Aug 2019 03:56:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 006972070B
+	for <linux-usb@archiver.kernel.org>; Fri, 30 Aug 2019 07:17:59 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20150623.gappssmtp.com header.i=@bgdev-pl.20150623.gappssmtp.com header.b="R7HX5N+q"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728249AbfH3D4Z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 29 Aug 2019 23:56:25 -0400
-Received: from gate.crashing.org ([63.228.1.57]:35416 "EHLO gate.crashing.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727768AbfH3D4Y (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 29 Aug 2019 23:56:24 -0400
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by gate.crashing.org (8.14.1/8.14.1) with ESMTP id x7U3uA61027400;
-        Thu, 29 Aug 2019 22:56:11 -0500
-Message-ID: <1f6ffd5219c51df8462078d80b84c20c8b7267ac.camel@kernel.crashing.org>
-Subject: [PATCH v2 1/2] usb: gadget: net2280: Move all "ll" registers in one
- structure
-From:   Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To:     linux-usb@vger.kernel.org
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Guido Kiener <guido@kiener-muenchen.de>,
-        Alan Stern <stern@rowland.harvard.edu>
-Date:   Fri, 30 Aug 2019 13:56:10 +1000
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1728407AbfH3HR5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 30 Aug 2019 03:17:57 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:44000 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728317AbfH3HR4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 30 Aug 2019 03:17:56 -0400
+Received: by mail-wr1-f67.google.com with SMTP id y8so5834214wrn.10
+        for <linux-usb@vger.kernel.org>; Fri, 30 Aug 2019 00:17:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=87c9Esbfhh1R2CT+KoDKwWm3ER/ccLkcscNPwZrMjvE=;
+        b=R7HX5N+qO9vul75lMvB80HkCVNqQlDuX+3sQTg4/wUtSilf0t0cU3lXyFVXSdxCA9B
+         HYhU0DvmZFYIPgpH+LmEDudVksUAFBfr6wXeADadDOp570/DK9axKXUwBd3vbT9v80Dk
+         XGyF1ZN+bt+lsB2GFHRy4pYIlS7XZs9vCJkeaJqy4wCY2jbBwYOo31Y7LPQ90yo4yM2i
+         OBQP0rbdOJ4W8S0fXp2NjaTGqsS6Ttjzc59uMLbbaK9mPms9epAedIy6UY7mj3y1lCiz
+         0qQoA4T6IBazuJzmsosABPD4Z0tMcn2Lf/swKTxZQ2IARZgDkhe2sMCykSc4yetjSza2
+         UBzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=87c9Esbfhh1R2CT+KoDKwWm3ER/ccLkcscNPwZrMjvE=;
+        b=XDKJEfOdQrOCW1tTk66gf2vgFqULlRDu6/PHWl7Wl5UIZGroAbgfd/6QKRhuxWodRF
+         oRfe66lZAUhqRlLXqV3MbzJs82ADds6LnZnJmiJ5p6zc8dykr5rgyCWUVcmBGBz7Pd9w
+         6pT4tgbVWorkwuJF0JDnte9c9jDvViEsAETT0z/q018uZG/v10aNx3MOE6Mg1XoD9MYM
+         mNN+g3TDY78ZDsX0KB3061XL3NsfYUG22nPuoxoIRXw5/c+JjJhcS93pKDNFNfmPkIE6
+         kX92gDZCYSi40FZALCiHDom2W3MlSd9HWRvGdswUAPERlNChL09oTTwPVTng6JrN4VTd
+         ug+A==
+X-Gm-Message-State: APjAAAWY+gBDwhQ4Nea/et2/TX3OJLNMqRF/Bu6TFNT6BoRk3SRRQRE+
+        jbSJSw+nC7O7KxmCIkIcSVrxrw==
+X-Google-Smtp-Source: APXvYqzkzj4fi+gUVRl8oN9nzpOF8I9mEfKO8sWi5cRqKen8+QKhDkcYwUYXisXPkTCXXjklEYKC+Q==
+X-Received: by 2002:a5d:63d0:: with SMTP id c16mr12188620wrw.22.1567149474440;
+        Fri, 30 Aug 2019 00:17:54 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:cb1d:af:5b00:6d6c:8493:1ab5:dad7])
+        by smtp.gmail.com with ESMTPSA id x6sm7637529wrt.63.2019.08.30.00.17.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Aug 2019 00:17:53 -0700 (PDT)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Jens Axboe <axboe@kernel.dk>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        JC Kuo <jckuo@nvidia.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-ide@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH 4/4] usb: host: xhci-tegra: use regulator_bulk_set_supply_names()
+Date:   Fri, 30 Aug 2019 09:17:40 +0200
+Message-Id: <20190830071740.4267-5-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190830071740.4267-1-brgl@bgdev.pl>
+References: <20190830071740.4267-1-brgl@bgdev.pl>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The split into multiple structures of the "ll" register bank is
-impractical. It makes it hard to add ll_lfps_timers_2 which is
-at offset 0x794, which is outside of the existing "lfps" structure
-and would require us to add yet another one.
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Instead, move all the "ll" registers into a single usb338x_ll_regs
-structure, and add ll_lfps_timers_2 while at it. It will be used
-in a subsequent patch.
+Use the new regulator helper instead of a for loop.
 
-Signed-off-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
+ drivers/usb/host/xhci-tegra.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
- - v2. Rebased on top of Felipe's tree
-
- drivers/usb/gadget/udc/net2280.c | 28 ++++++++++---------------
- drivers/usb/gadget/udc/net2280.h |  3 ---
- include/linux/usb/usb338x.h      | 35 +++++++++++++++++++++++---------
- 3 files changed, 36 insertions(+), 30 deletions(-)
-
-diff --git a/drivers/usb/gadget/udc/net2280.c b/drivers/usb/gadget/udc/net2280.c
-index b6bbe2e448ba..e0191146ba22 100644
---- a/drivers/usb/gadget/udc/net2280.c
-+++ b/drivers/usb/gadget/udc/net2280.c
-@@ -2244,30 +2244,30 @@ static void usb_reinit_338x(struct net2280 *dev)
+diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
+index dafc65911fc0..9ed573bc89aa 100644
+--- a/drivers/usb/host/xhci-tegra.c
++++ b/drivers/usb/host/xhci-tegra.c
+@@ -1128,8 +1128,9 @@ static int tegra_xusb_probe(struct platform_device *pdev)
+ 		goto put_powerdomains;
  	}
  
- 	/* Hardware Defect and Workaround */
--	val = readl(&dev->ll_lfps_regs->ll_lfps_5);
-+	val = readl(&dev->llregs->ll_lfps_5);
- 	val &= ~(0xf << TIMER_LFPS_6US);
- 	val |= 0x5 << TIMER_LFPS_6US;
--	writel(val, &dev->ll_lfps_regs->ll_lfps_5);
-+	writel(val, &dev->llregs->ll_lfps_5);
+-	for (i = 0; i < tegra->soc->num_supplies; i++)
+-		tegra->supplies[i].supply = tegra->soc->supply_names[i];
++	regulator_bulk_set_supply_names(tegra->supplies,
++					tegra->soc->supply_names,
++					tegra->soc->num_supplies);
  
--	val = readl(&dev->ll_lfps_regs->ll_lfps_6);
-+	val = readl(&dev->llregs->ll_lfps_6);
- 	val &= ~(0xffff << TIMER_LFPS_80US);
- 	val |= 0x0100 << TIMER_LFPS_80US;
--	writel(val, &dev->ll_lfps_regs->ll_lfps_6);
-+	writel(val, &dev->llregs->ll_lfps_6);
- 
- 	/*
- 	 * AA_AB Errata. Issue 4. Workaround for SuperSpeed USB
- 	 * Hot Reset Exit Handshake may Fail in Specific Case using
- 	 * Default Register Settings. Workaround for Enumeration test.
- 	 */
--	val = readl(&dev->ll_tsn_regs->ll_tsn_counters_2);
-+	val = readl(&dev->llregs->ll_tsn_counters_2);
- 	val &= ~(0x1f << HOT_TX_NORESET_TS2);
- 	val |= 0x10 << HOT_TX_NORESET_TS2;
--	writel(val, &dev->ll_tsn_regs->ll_tsn_counters_2);
-+	writel(val, &dev->llregs->ll_tsn_counters_2);
- 
--	val = readl(&dev->ll_tsn_regs->ll_tsn_counters_3);
-+	val = readl(&dev->llregs->ll_tsn_counters_3);
- 	val &= ~(0x1f << HOT_RX_RESET_TS2);
- 	val |= 0x3 << HOT_RX_RESET_TS2;
--	writel(val, &dev->ll_tsn_regs->ll_tsn_counters_3);
-+	writel(val, &dev->llregs->ll_tsn_counters_3);
- 
- 	/*
- 	 * Set Recovery Idle to Recover bit:
-@@ -2276,10 +2276,10 @@ static void usb_reinit_338x(struct net2280 *dev)
- 	 * - It is safe to set for all connection speeds; all chip revisions.
- 	 * - R-M-W to leave other bits undisturbed.
- 	 * - Reference PLX TT-7372
--	 */
--	val = readl(&dev->ll_chicken_reg->ll_tsn_chicken_bit);
-+	*/
-+	val = readl(&dev->llregs->ll_tsn_chicken_bit);
- 	val |= BIT(RECOVERY_IDLE_TO_RECOVER_FMW);
--	writel(val, &dev->ll_chicken_reg->ll_tsn_chicken_bit);
-+	writel(val, &dev->llregs->ll_tsn_chicken_bit);
- 
- 	INIT_LIST_HEAD(&dev->gadget.ep0->ep_list);
- 
-@@ -3669,12 +3669,6 @@ static int net2280_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 							(base + 0x00b4);
- 		dev->llregs = (struct usb338x_ll_regs __iomem *)
- 							(base + 0x0700);
--		dev->ll_lfps_regs = (struct usb338x_ll_lfps_regs __iomem *)
--							(base + 0x0748);
--		dev->ll_tsn_regs = (struct usb338x_ll_tsn_regs __iomem *)
--							(base + 0x077c);
--		dev->ll_chicken_reg = (struct usb338x_ll_chi_regs __iomem *)
--							(base + 0x079c);
- 		dev->plregs = (struct usb338x_pl_regs __iomem *)
- 							(base + 0x0800);
- 		usbstat = readl(&dev->usb->usbstat);
-diff --git a/drivers/usb/gadget/udc/net2280.h b/drivers/usb/gadget/udc/net2280.h
-index b65a797544d7..85d3ca1698ba 100644
---- a/drivers/usb/gadget/udc/net2280.h
-+++ b/drivers/usb/gadget/udc/net2280.h
-@@ -178,9 +178,6 @@ struct net2280 {
- 	struct net2280_dep_regs		__iomem *dep;
- 	struct net2280_ep_regs		__iomem *epregs;
- 	struct usb338x_ll_regs		__iomem *llregs;
--	struct usb338x_ll_lfps_regs	__iomem *ll_lfps_regs;
--	struct usb338x_ll_tsn_regs	__iomem *ll_tsn_regs;
--	struct usb338x_ll_chi_regs	__iomem *ll_chicken_reg;
- 	struct usb338x_pl_regs		__iomem *plregs;
- 
- 	struct dma_pool			*requests;
-diff --git a/include/linux/usb/usb338x.h b/include/linux/usb/usb338x.h
-index 7189e3387bf9..20020c1336d5 100644
---- a/include/linux/usb/usb338x.h
-+++ b/include/linux/usb/usb338x.h
-@@ -113,7 +113,10 @@ struct usb338x_ll_regs {
- 	u32   ll_ltssm_ctrl1;
- 	u32   ll_ltssm_ctrl2;
- 	u32   ll_ltssm_ctrl3;
--	u32   unused[2];
-+	u32   unused1;
-+
-+	/* 0x710 */
-+	u32   unused2;
- 	u32   ll_general_ctrl0;
- 	u32   ll_general_ctrl1;
- #define     PM_U3_AUTO_EXIT                                     29
-@@ -136,29 +139,41 @@ struct usb338x_ll_regs {
- 	u32   ll_general_ctrl2;
- #define     SELECT_INVERT_LANE_POLARITY                         7
- #define     FORCE_INVERT_LANE_POLARITY                          6
-+
-+	/* 0x720 */
- 	u32   ll_general_ctrl3;
- 	u32   ll_general_ctrl4;
- 	u32   ll_error_gen;
--} __packed;
-+	u32   unused3;
-+
-+	/* 0x730 */
-+	u32   unused4[4];
- 
--struct usb338x_ll_lfps_regs {
--	/* offset 0x748 */
-+	/* 0x740 */
-+	u32   unused5[2];
- 	u32   ll_lfps_5;
- #define     TIMER_LFPS_6US                                      16
- 	u32   ll_lfps_6;
- #define     TIMER_LFPS_80US                                     0
--} __packed;
- 
--struct usb338x_ll_tsn_regs {
--	/* offset 0x77C */
-+	/* 0x750 */
-+	u32   unused6[8];
-+
-+	/* 0x770 */
-+	u32   unused7[3];
- 	u32   ll_tsn_counters_2;
- #define     HOT_TX_NORESET_TS2                                  24
-+
-+	/* 0x780 */
- 	u32   ll_tsn_counters_3;
- #define     HOT_RX_RESET_TS2                                    0
--} __packed;
-+	u32   unused8[3];
- 
--struct usb338x_ll_chi_regs {
--	/* offset 0x79C */
-+	/* 0x790 */
-+	u32   unused9;
-+	u32   ll_lfps_timers_2;
-+#define     LFPS_TIMERS_2_WORKAROUND_VALUE			0x084d
-+	u32   unused10;
- 	u32   ll_tsn_chicken_bit;
- #define     RECOVERY_IDLE_TO_RECOVER_FMW                        3
- } __packed;
-
+ 	err = devm_regulator_bulk_get(&pdev->dev, tegra->soc->num_supplies,
+ 				      tegra->supplies);
+-- 
+2.21.0
 
