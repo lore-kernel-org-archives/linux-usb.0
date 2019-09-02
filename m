@@ -2,125 +2,81 @@ Return-Path: <SRS0=cP/j=W5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4CE0C3A59E
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Sep 2019 15:33:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B404C3A5A7
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Sep 2019 16:01:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id ACA8B21883
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Sep 2019 15:33:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1567438438;
-	bh=pghzbeWl3KPThv+7pJa01BvuqNz1rWFn0NoduQIlb60=;
-	h=Date:From:To:Cc:Subject:List-ID:From;
-	b=JGXiVHtyX5A2ZhXTT9StBt0UKB96CgaOfE0DwGPIk2lNi82lcrSaBSVg7Ga2lTbVL
-	 VlfhDZLNs6RDJ08K9wES/DSTg88cEMCdKnXlWRffa/We8x86XhXfhy8O5BJg/qE8vL
-	 an38mfDzQwY3534uTt0VD9RTVjuod2yyxbn/Z0jc=
+	by mail.kernel.org (Postfix) with ESMTP id 2EC3D217D7
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Sep 2019 16:01:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726394AbfIBPdy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 2 Sep 2019 11:33:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38384 "EHLO mail.kernel.org"
+        id S1726063AbfIBQBW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 2 Sep 2019 12:01:22 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55102 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726375AbfIBPdy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 2 Sep 2019 11:33:54 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1725815AbfIBQBW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 2 Sep 2019 12:01:22 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 47C8A2087E;
-        Mon,  2 Sep 2019 15:33:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567438433;
-        bh=pghzbeWl3KPThv+7pJa01BvuqNz1rWFn0NoduQIlb60=;
-        h=Date:From:To:Cc:Subject:From;
-        b=IIh86nBJ251zD6ZEuIvhY1KFqzBeW54iEAQF21569JuTQAfNlxuzc+skPYuX+g9/p
-         0PCumn2ggdS8lHtYbQe1UEnLW4eZZsXvoTTZZP/qrv/14tv1zGt9qGdTTbZZGz1c7G
-         C1mDiQ0FO3sR44M2PbKYIO+Ic/HLS6kofJ6S3mWQ=
-Date:   Mon, 2 Sep 2019 17:33:51 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [GIT PULL] USB fixes for 5.3-rc7
-Message-ID: <20190902153351.GA9779@kroah.com>
+        by mx1.redhat.com (Postfix) with ESMTPS id CBC20301E11C;
+        Mon,  2 Sep 2019 16:01:21 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-255.rdu2.redhat.com [10.10.120.255])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 589CE600D1;
+        Mon,  2 Sep 2019 16:01:20 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <20190902161935.78bf56f1@canb.auug.org.au>
+References: <20190902161935.78bf56f1@canb.auug.org.au> <20190829153116.7ffc7470@canb.auug.org.au>
+To:     Stephen Rothwell <sfr@canb.auug.org.au>
+Cc:     dhowells@redhat.com,
+        Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux USB Mailing List <linux-usb@vger.kernel.org>
+Subject: Re: linux-next: build failure after merge of the keys tree
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <16835.1567440079.1@warthog.procyon.org.uk>
+Date:   Mon, 02 Sep 2019 17:01:19 +0100
+Message-ID: <16836.1567440079@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]); Mon, 02 Sep 2019 16:01:21 +0000 (UTC)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The following changes since commit d1abaeb3be7b5fa6d7a1fbbd2e14e3310005c4c1:
+Stephen Rothwell <sfr@canb.auug.org.au> wrote:
 
-  Linux 5.3-rc5 (2019-08-18 14:31:08 -0700)
+> The forward declararion doesn't seem to work (at laste for the
+> !CONFIG_USB_NOTIFICATIONS case.
 
-are available in the Git repository at:
+In the !CONFIG_USB_NOTIFICATIONS case, the argument is to a stub inline
+function.  Even though the argument isn't actually used, it can't be an
+undefined type - and, I'm guessing, an undefined size, meaning the compiler
+doesn't know how many registers/how much stack space it would occupy before
+getting to the error argument.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.3-rc7
+I have a fix for this in my tree that just makes it an unsigned int in the
+disabled case:
 
-for you to fetch changes up to 1426bd2c9f7e3126e2678e7469dca9fd9fc6dd3e:
+static inline void post_usb_device_notification(const struct usb_device *udev,
+						unsigned int subtype, u32 error) {}
 
-  USB: cdc-wdm: fix race between write and disconnect due to flag abuse (2019-08-28 22:48:38 +0200)
+> +#include <linux/watch_queue.h>
 
-----------------------------------------------------------------
-USB fixes for 5.3-rc7
+I was trying to avoid that if I could to avoid introducing the possibility of
+circular deps, but that might not be a problem in this case.
 
-Here are some small USB fixes that have been in linux-next this past
-week for 5.3-rc7
+> I then discovered that I needed to install libkeyutils-dev :-( but it
+> built OK after that.
 
-They fix the usual xhci, syzbot reports, and other small issues that
-have come up last week.
+?  The kernel shouldn't require that to build.
 
-All have been in linux-next with no reported issues.
-
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-----------------------------------------------------------------
-Colin Ian King (1):
-      typec: tcpm: fix a typo in the comparison of pdo_max_voltage
-
-Geert Uytterhoeven (1):
-      usb: host: xhci: rcar: Fix typo in compatible string matching
-
-Gustavo A. R. Silva (1):
-      usb: udc: lpc32xx: silence fall-through warning
-
-Henk van der Laan (1):
-      usb-storage: Add new JMS567 revision to unusual_devs
-
-Kai-Heng Feng (2):
-      USB: storage: ums-realtek: Update module parameter description for auto_delink_en
-      USB: storage: ums-realtek: Whitelist auto-delink support
-
-Nagarjuna Kristam (1):
-      usb: host: xhci-tegra: Set DMA mask correctly
-
-Oliver Neukum (2):
-      usbtmc: more sanity checking for packet size
-      USB: cdc-wdm: fix race between write and disconnect due to flag abuse
-
-Peter Chen (1):
-      usb: chipidea: udc: don't do hardware access if gadget has stopped
-
-Schmid, Carsten (1):
-      usb: hcd: use managed device resources
-
-Yoshihiro Shimoda (1):
-      usb: host: ohci: fix a race condition between shutdown and irq
-
- drivers/usb/chipidea/udc.c           | 32 ++++++++++++++++++++++++--------
- drivers/usb/class/cdc-wdm.c          | 16 ++++++++++++----
- drivers/usb/class/usbtmc.c           |  3 +++
- drivers/usb/core/hcd-pci.c           | 30 ++++++++----------------------
- drivers/usb/gadget/udc/lpc32xx_udc.c |  2 +-
- drivers/usb/host/ohci-hcd.c          | 15 ++++++++++++---
- drivers/usb/host/xhci-rcar.c         |  2 +-
- drivers/usb/host/xhci-tegra.c        | 10 ++++++++++
- drivers/usb/storage/realtek_cr.c     | 15 +++++++++------
- drivers/usb/storage/unusual_devs.h   |  2 +-
- drivers/usb/typec/tcpm/tcpm.c        |  2 +-
- 11 files changed, 82 insertions(+), 47 deletions(-)
+David
