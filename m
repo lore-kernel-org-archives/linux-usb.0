@@ -2,94 +2,174 @@ Return-Path: <SRS0=cP/j=W5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40328C3A5A5
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Sep 2019 12:03:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53C6BC3A59E
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Sep 2019 12:24:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0C791217F4
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Sep 2019 12:03:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2CC642168B
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Sep 2019 12:24:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1567427057;
+	bh=58/nG/YRrJasI17XBK4VVY6ts8w3wHSbdwS0KmSQlew=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:List-ID:From;
+	b=H+UMP+n5rt8mzf62Eq2r7rgbBghsOZ14l5c0NxDuRDhWYuJhPNMToIXr4kDSXJsMg
+	 VAItTUUmDxQCKZpI3wrbW+KUD5qmYiB8T1/mitmiIaWWScpnCq4u92VRPwm88rr627
+	 /V4v9QQh70rn+dSjrWbT1U81V8Rd9P8AutNteLkM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731350AbfIBMDa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 2 Sep 2019 08:03:30 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:20903 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1731334AbfIBMD3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 Sep 2019 08:03:29 -0400
-X-IronPort-AV: E=Sophos;i="5.64,459,1559487600"; 
-   d="scan'208";a="25536226"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 02 Sep 2019 21:03:25 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id AD60B4001DAC;
-        Mon,  2 Sep 2019 21:03:25 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     gregkh@linuxfoundation.org, mathias.nyman@intel.com
-Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v2 2/3] usb: host: xhci-rcar: Add a helper macro to set xhci_plat_priv
-Date:   Mon,  2 Sep 2019 21:01:37 +0900
-Message-Id: <1567425698-27560-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1567425698-27560-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1567425698-27560-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        id S1731552AbfIBMYN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 2 Sep 2019 08:24:13 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:49422 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729893AbfIBMYN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 Sep 2019 08:24:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
+        Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+        List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
+        List-Archive; bh=DxTOloQGXUNFNhqK1FaukINitRR/ojl8Bp/2Ma+Gdpk=; b=hdGpEZ+0sXN/
+        g44xXPMgI5xDdpg/2tasLveB3VmCEVOV7TfPUXTHQFsoCztQeazALzIWLKNLH29u0nOy6ozZnkqBV
+        umTVO7ytcTDD5joGdEquyLrZ6RDi95hV1BqLNDgLX8/LkG/P2X6SCRCfzdou2VIweOIe948t9sV2W
+        pmNic=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <broonie@sirena.co.uk>)
+        id 1i4lNI-0003CV-Bn; Mon, 02 Sep 2019 12:24:00 +0000
+Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
+        id DF0C42742CCB; Mon,  2 Sep 2019 13:23:59 +0100 (BST)
+From:   Mark Brown <broonie@kernel.org>
+To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        JC Kuo <jckuo@nvidia.com>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, linux-ide@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-usb@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Thierry Reding <thierry.reding@gmail.com>
+Subject: Applied "regulator: provide regulator_bulk_set_supply_names()" to the regulator tree
+In-Reply-To: <20190830071740.4267-2-brgl@bgdev.pl>
+X-Patchwork-Hint: ignore
+Message-Id: <20190902122359.DF0C42742CCB@ypsilon.sirena.org.uk>
+Date:   Mon,  2 Sep 2019 13:23:59 +0100 (BST)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-To avoid copy-and-paste setting of xhci_plat_priv for R-Car SoCs,
-this patch add a helper macro SET_XHCI_PLAT_PRIV_FOR_RCAR.
+The patch
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+   regulator: provide regulator_bulk_set_supply_names()
+
+has been applied to the regulator tree at
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-5.4
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.  
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
+From d0087e72710ca7d1b309bf427286da58418ea89e Mon Sep 17 00:00:00 2001
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date: Fri, 30 Aug 2019 09:17:37 +0200
+Subject: [PATCH] regulator: provide regulator_bulk_set_supply_names()
+
+There are many regulator consumers who - before using the regulator
+bulk functions - set the supply names in regulator_bulk_data using
+a for loop.
+
+Let's provide a simple helper in the consumer API that allows users
+to do the same with a single function call.
+
+Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Link: https://lore.kernel.org/r/20190830071740.4267-2-brgl@bgdev.pl
+Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- drivers/usb/host/xhci-plat.c | 10 ++--------
- drivers/usb/host/xhci-rcar.h |  7 +++++++
- 2 files changed, 9 insertions(+), 8 deletions(-)
+ drivers/regulator/helpers.c        | 21 +++++++++++++++++++++
+ include/linux/regulator/consumer.h | 12 ++++++++++++
+ 2 files changed, 33 insertions(+)
 
-diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
-index 1843b69..d90cd5e 100644
---- a/drivers/usb/host/xhci-plat.c
-+++ b/drivers/usb/host/xhci-plat.c
-@@ -105,17 +105,11 @@ static const struct xhci_plat_priv xhci_plat_marvell_armada3700 = {
- };
- 
- static const struct xhci_plat_priv xhci_plat_renesas_rcar_gen2 = {
--	.firmware_name = XHCI_RCAR_FIRMWARE_NAME_V1,
--	.init_quirk = xhci_rcar_init_quirk,
--	.plat_start = xhci_rcar_start,
--	.resume_quirk = xhci_rcar_resume_quirk,
-+	SET_XHCI_PLAT_PRIV_FOR_RCAR(XHCI_RCAR_FIRMWARE_NAME_V1)
- };
- 
- static const struct xhci_plat_priv xhci_plat_renesas_rcar_gen3 = {
--	.firmware_name = XHCI_RCAR_FIRMWARE_NAME_V3,
--	.init_quirk = xhci_rcar_init_quirk,
--	.plat_start = xhci_rcar_start,
--	.resume_quirk = xhci_rcar_resume_quirk,
-+	SET_XHCI_PLAT_PRIV_FOR_RCAR(XHCI_RCAR_FIRMWARE_NAME_V3)
- };
- 
- static const struct of_device_id usb_xhci_of_match[] = {
-diff --git a/drivers/usb/host/xhci-rcar.h b/drivers/usb/host/xhci-rcar.h
-index 804b6ab..1f8c225 100644
---- a/drivers/usb/host/xhci-rcar.h
-+++ b/drivers/usb/host/xhci-rcar.h
-@@ -31,4 +31,11 @@ static inline int xhci_rcar_resume_quirk(struct usb_hcd *hcd)
- 	return 0;
+diff --git a/drivers/regulator/helpers.c b/drivers/regulator/helpers.c
+index 4986cc5064a1..ca3dc3f3bb29 100644
+--- a/drivers/regulator/helpers.c
++++ b/drivers/regulator/helpers.c
+@@ -860,3 +860,24 @@ int regulator_get_current_limit_regmap(struct regulator_dev *rdev)
+ 	return -EINVAL;
  }
+ EXPORT_SYMBOL_GPL(regulator_get_current_limit_regmap);
++
++/**
++ * regulator_bulk_set_supply_names - initialize the 'supply' fields in an array
++ *                                   of regulator_bulk_data structs
++ *
++ * @consumers: array of regulator_bulk_data entries to initialize
++ * @supply_names: array of supply name strings
++ * @num_supplies: number of supply names to initialize
++ *
++ * Note: the 'consumers' array must be the size of 'num_supplies'.
++ */
++void regulator_bulk_set_supply_names(struct regulator_bulk_data *consumers,
++				     const char *const *supply_names,
++				     unsigned int num_supplies)
++{
++	unsigned int i;
++
++	for (i = 0; i < num_supplies; i++)
++		consumers[i].supply = supply_names[i];
++}
++EXPORT_SYMBOL_GPL(regulator_bulk_set_supply_names);
+diff --git a/include/linux/regulator/consumer.h b/include/linux/regulator/consumer.h
+index 815983419375..6d2181a76987 100644
+--- a/include/linux/regulator/consumer.h
++++ b/include/linux/regulator/consumer.h
+@@ -281,6 +281,12 @@ void devm_regulator_unregister_notifier(struct regulator *regulator,
+ void *regulator_get_drvdata(struct regulator *regulator);
+ void regulator_set_drvdata(struct regulator *regulator, void *data);
+ 
++/* misc helpers */
++
++void regulator_bulk_set_supply_names(struct regulator_bulk_data *consumers,
++				     const char *const *supply_names,
++				     unsigned int num_supplies);
++
+ #else
+ 
+ /*
+@@ -580,6 +586,12 @@ static inline int regulator_list_voltage(struct regulator *regulator, unsigned s
+ 	return -EINVAL;
+ }
+ 
++void regulator_bulk_set_supply_names(struct regulator_bulk_data *consumers,
++				     const char *const *supply_names,
++				     unsigned int num_supplies)
++{
++}
++
  #endif
-+
-+#define SET_XHCI_PLAT_PRIV_FOR_RCAR(firmware)				\
-+	.firmware_name = firmware,					\
-+	.init_quirk = xhci_rcar_init_quirk,				\
-+	.plat_start = xhci_rcar_start,					\
-+	.resume_quirk = xhci_rcar_resume_quirk,
-+
- #endif /* _XHCI_RCAR_H */
+ 
+ static inline int regulator_set_voltage_triplet(struct regulator *regulator,
 -- 
-2.7.4
+2.20.1
 
