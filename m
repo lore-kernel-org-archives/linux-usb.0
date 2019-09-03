@@ -4,48 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91CBAC3A5A7
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 12:08:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A753C3A5A2
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 12:08:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6A3B5208E4
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 12:08:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0255B208E4
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 12:08:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729270AbfICMIo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 3 Sep 2019 08:08:44 -0400
-Received: from mail-io1-f69.google.com ([209.85.166.69]:50561 "EHLO
-        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729132AbfICMIM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 Sep 2019 08:08:12 -0400
-Received: by mail-io1-f69.google.com with SMTP id 15so22775494ioo.17
-        for <linux-usb@vger.kernel.org>; Tue, 03 Sep 2019 05:08:12 -0700 (PDT)
+        id S1729005AbfICMIz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 3 Sep 2019 08:08:55 -0400
+Received: from mail-io1-f72.google.com ([209.85.166.72]:39900 "EHLO
+        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729109AbfICMIL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 Sep 2019 08:08:11 -0400
+Received: by mail-io1-f72.google.com with SMTP id j1so4857369ioj.6
+        for <linux-usb@vger.kernel.org>; Tue, 03 Sep 2019 05:08:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=TC3iHUTCSChpOO9kdTIrV60rE1zk74Z3qCyK3WcbrFo=;
-        b=YFZepyG2WcG4jFlLA1do78nUgOmgXY9uUj2drjXx7DqfkAUS+1gqhzyZrag8gJGGud
-         S+dljmpTUXRE/nFl57dkXyYaD5q3Wnx+8a054RN9JczRSpbrQ91xZo/JtYevYUAO94+6
-         pDqpeZjIsvr6/E3eYpsX/GKP3XtujH+VkNKxqHBwTRDZPomEkJbyI+PLRf73cxXpJ/QZ
-         PfoRt6DkRO680kyjq9X0zpOCh87/uj5OATlsEEHwd1yp1KiaWq4NiR608NQ5iMF92c+g
-         q/pRPGXpVYnG+8aM0BzHMTV0tC4N0aNdKGsQRvfOzJZF/S0/fzEi1snH+8Df9z8LzysK
-         CucQ==
-X-Gm-Message-State: APjAAAWzxkR2JTSM9WrCnJiitGSBYwPvdVUBNI3N3BQyMxm/lyaFRWz6
-        3jaTmq5bjomVzAvnZp6xWtRQs7zR03d6Ybml4chR+ydPWJAS
-X-Google-Smtp-Source: APXvYqxp5hGtiwCZRsxNl3oATS0MGb9xC/IxFV4uCFj/jeSGy+LB434biLqFKaGtZL26dPKjHpSBfNjw3iXFe6UVrO6LLhms0lqn
+        bh=illcZo61Q1+8epPO+mzOIeMYTA84TMifeBqGWFjIaZw=;
+        b=KHbCF42jm5u04L2QXXkc6YlqAq+/G+iFjRk6clmuGMw79MP2BBBn+bQf1PEuk6n38R
+         kUWXMdAT11ReOkxKfrHARyuwxFBuRXddv39IbBD+Etai47BucdV+71HEp3W8prtrxjS7
+         WH9HcCAe7eXcV/yFMLtsx+Wtq4WjgebcZvcw5xnFKHy0ImY5yqSXo3m6f2gk5YrEAbv4
+         qUG7gteG9XSTy69UdJG8ivDgG6EXSY1zcge+eBJpXSx21HQHNJNAkM4po0XtrTAAsOmg
+         yBBKIUeQypESJ8reZZSmt6arS/ag5RRyQgPOHB4/SgD/BTr9Uho8Tu1w0Wk4mDigUUGj
+         dX6g==
+X-Gm-Message-State: APjAAAXPRzL6ncSTjsqF1VG3cZ5xCt/g92XOv2t9AT3iIkiimXKc9Vq0
+        uYA3vEcQ4I5BG6GASoCPc7eYRBeIuckArVOMAqPsmjQa7nld
+X-Google-Smtp-Source: APXvYqym4Cl4Jq7zG29PM5QkkZo0/PQb43sg9q5HuSNpksX+YsoCbEJZvAjpjL/wdEqNT0kWBUKv13CzSnmV7+d2UfWKac8tWCdn
 MIME-Version: 1.0
-X-Received: by 2002:a5e:9b12:: with SMTP id j18mr23942819iok.54.1567512491747;
- Tue, 03 Sep 2019 05:08:11 -0700 (PDT)
-Date:   Tue, 03 Sep 2019 05:08:11 -0700
+X-Received: by 2002:a5d:84c8:: with SMTP id z8mr21657375ior.214.1567512490771;
+ Tue, 03 Sep 2019 05:08:10 -0700 (PDT)
+Date:   Tue, 03 Sep 2019 05:08:10 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000004070630591a4f124@google.com>
-Subject: KASAN: use-after-free Read in usbhid_close
-From:   syzbot <syzbot+90b997df76897a013829@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, benjamin.tissoires@redhat.com,
-        jikos@kernel.org, linux-input@vger.kernel.org,
+Message-ID: <000000000000318cba0591a4f143@google.com>
+Subject: KASAN: slab-out-of-bounds Read in usb_reset_and_verify_device
+From:   syzbot <syzbot+35f4d916c623118d576e@syzkaller.appspotmail.com>
+To:     Thinh.Nguyen@synopsys.com, andreyknvl@google.com,
+        dianders@chromium.org, gregkh@linuxfoundation.org,
+        jflat@chromium.org, kai.heng.feng@canonical.com,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        malat@debian.org, mathias.nyman@linux.intel.com,
+        nsaenzjulienne@suse.de, stern@rowland.harvard.edu,
         syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
@@ -59,74 +62,151 @@ syzbot found the following crash on:
 
 HEAD commit:    eea39f24 usb-fuzzer: main usb gadget fuzzer driver
 git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=140a786c600000
+console output: https://syzkaller.appspot.com/x/log.txt?x=174761b6600000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=d0c62209eedfd54e
-dashboard link: https://syzkaller.appspot.com/bug?extid=90b997df76897a013829
+dashboard link: https://syzkaller.appspot.com/bug?extid=35f4d916c623118d576e
 compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-
-Unfortunately, I don't have any reproducer for this crash yet.
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1706275a600000
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+90b997df76897a013829@syzkaller.appspotmail.com
+Reported-by: syzbot+35f4d916c623118d576e@syzkaller.appspotmail.com
 
 ==================================================================
-BUG: KASAN: use-after-free in __lock_acquire+0x302a/0x3b50  
-kernel/locking/lockdep.c:3753
-Read of size 8 at addr ffff8881d34368a0 by task syz-executor.3/10760
+BUG: KASAN: slab-out-of-bounds in memcmp+0xa6/0xb0 lib/string.c:904
+Read of size 1 at addr ffff8881d175bed6 by task kworker/0:3/2746
 
-CPU: 0 PID: 10760 Comm: syz-executor.3 Not tainted 5.3.0-rc5+ #28
+CPU: 0 PID: 2746 Comm: kworker/0:3 Not tainted 5.3.0-rc5+ #28
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
 Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
 Call Trace:
   __dump_stack lib/dump_stack.c:77 [inline]
   dump_stack+0xca/0x13e lib/dump_stack.c:113
   print_address_description+0x6a/0x32c mm/kasan/report.c:351
   __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:482
   kasan_report+0xe/0x12 mm/kasan/common.c:612
-  __lock_acquire+0x302a/0x3b50 kernel/locking/lockdep.c:3753
-  lock_acquire+0x127/0x320 kernel/locking/lockdep.c:4412
-  __raw_spin_lock_irq include/linux/spinlock_api_smp.h:128 [inline]
-  _raw_spin_lock_irq+0x2d/0x40 kernel/locking/spinlock.c:167
-  spin_lock_irq include/linux/spinlock.h:363 [inline]
-  usbhid_close+0x51/0x210 drivers/hid/usbhid/hid-core.c:740
-  hid_hw_close+0xa8/0xd0 drivers/hid/hid-core.c:2046
-  drop_ref.part.0+0x32/0xe0 drivers/hid/hidraw.c:337
-  drop_ref drivers/hid/hidraw.c:360 [inline]
-  hidraw_release+0x34f/0x440 drivers/hid/hidraw.c:356
-  __fput+0x2d7/0x840 fs/file_table.c:280
-  task_work_run+0x13f/0x1c0 kernel/task_work.c:113
-  tracehook_notify_resume include/linux/tracehook.h:188 [inline]
-  exit_to_usermode_loop+0x1d2/0x200 arch/x86/entry/common.c:163
-  prepare_exit_to_usermode arch/x86/entry/common.c:194 [inline]
-  syscall_return_slowpath arch/x86/entry/common.c:274 [inline]
-  do_syscall_64+0x45f/0x580 arch/x86/entry/common.c:299
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x413561
-Code: 75 14 b8 03 00 00 00 0f 05 48 3d 01 f0 ff ff 0f 83 04 1b 00 00 c3 48  
-83 ec 08 e8 0a fc ff ff 48 89 04 24 b8 03 00 00 00 0f 05 <48> 8b 3c 24 48  
-89 c2 e8 53 fc ff ff 48 89 d0 48 83 c4 08 48 3d 01
-RSP: 002b:00007ffc873b3300 EFLAGS: 00000293 ORIG_RAX: 0000000000000003
-RAX: 0000000000000000 RBX: 0000000000000006 RCX: 0000000000413561
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000005
-RBP: 0000000000000001 R08: 0000000055395a94 R09: 0000000055395a98
-R10: 00007ffc873b33e0 R11: 0000000000000293 R12: 000000000075bfc8
-R13: 0000000000096f96 R14: 0000000000762460 R15: ffffffffffffffff
+  memcmp+0xa6/0xb0 lib/string.c:904
+  memcmp include/linux/string.h:400 [inline]
+  descriptors_changed drivers/usb/core/hub.c:5579 [inline]
+  usb_reset_and_verify_device+0x564/0x1300 drivers/usb/core/hub.c:5729
+  usb_reset_device+0x4c1/0x920 drivers/usb/core/hub.c:5898
+  rt2x00usb_probe+0x53/0x7af  
+drivers/net/wireless/ralink/rt2x00/rt2x00usb.c:806
+  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x101/0x1b0 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+  device_add+0xae6/0x16f0 drivers/base/core.c:2165
+  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
+  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x101/0x1b0 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+  device_add+0xae6/0x16f0 drivers/base/core.c:2165
+  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
+  hub_port_connect drivers/usb/core/hub.c:5098 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
+  port_event drivers/usb/core/hub.c:5359 [inline]
+  hub_event+0x1b5c/0x3640 drivers/usb/core/hub.c:5441
+  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
+  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
+  kthread+0x318/0x420 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
 
+Allocated by task 2746:
+  save_stack+0x1b/0x80 mm/kasan/common.c:69
+  set_track mm/kasan/common.c:77 [inline]
+  __kasan_kmalloc mm/kasan/common.c:487 [inline]
+  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:460
+  kmalloc include/linux/slab.h:557 [inline]
+  kzalloc include/linux/slab.h:748 [inline]
+  usb_get_bos_descriptor+0x1fd/0x8f2 drivers/usb/core/config.c:955
+  hub_port_init+0x169a/0x2d30 drivers/usb/core/hub.c:4837
+  usb_reset_and_verify_device+0x3aa/0x1300 drivers/usb/core/hub.c:5720
+  usb_reset_device+0x4c1/0x920 drivers/usb/core/hub.c:5898
+  rt2x00usb_probe+0x53/0x7af  
+drivers/net/wireless/ralink/rt2x00/rt2x00usb.c:806
+  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x101/0x1b0 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+  device_add+0xae6/0x16f0 drivers/base/core.c:2165
+  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
+  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x101/0x1b0 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+  device_add+0xae6/0x16f0 drivers/base/core.c:2165
+  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
+  hub_port_connect drivers/usb/core/hub.c:5098 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
+  port_event drivers/usb/core/hub.c:5359 [inline]
+  hub_event+0x1b5c/0x3640 drivers/usb/core/hub.c:5441
+  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
+  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
+  kthread+0x318/0x420 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+
+Freed by task 1751:
+  save_stack+0x1b/0x80 mm/kasan/common.c:69
+  set_track mm/kasan/common.c:77 [inline]
+  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:449
+  slab_free_hook mm/slub.c:1423 [inline]
+  slab_free_freelist_hook mm/slub.c:1474 [inline]
+  slab_free mm/slub.c:3016 [inline]
+  kfree+0xe4/0x2f0 mm/slub.c:3957
+  __vunmap+0x6d5/0x930 mm/vmalloc.c:2258
+  __vfree+0x3c/0xd0 mm/vmalloc.c:2299
+  vfree+0x5a/0x90 mm/vmalloc.c:2329
+  copy_entries_to_user net/ipv4/netfilter/ip_tables.c:867 [inline]
+  get_entries net/ipv4/netfilter/ip_tables.c:1024 [inline]
+  do_ipt_get_ctl+0x6a0/0x890 net/ipv4/netfilter/ip_tables.c:1700
+  nf_sockopt net/netfilter/nf_sockopt.c:104 [inline]
+  nf_getsockopt+0x72/0xd0 net/netfilter/nf_sockopt.c:122
+  ip_getsockopt net/ipv4/ip_sockglue.c:1576 [inline]
+  ip_getsockopt+0x165/0x1c0 net/ipv4/ip_sockglue.c:1556
+  tcp_getsockopt net/ipv4/tcp.c:3662 [inline]
+  tcp_getsockopt+0x86/0xd0 net/ipv4/tcp.c:3656
+  __sys_getsockopt+0x135/0x210 net/socket.c:2129
+  __do_sys_getsockopt net/socket.c:2144 [inline]
+  __se_sys_getsockopt net/socket.c:2141 [inline]
+  __x64_sys_getsockopt+0xba/0x150 net/socket.c:2141
+  do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:296
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+
+The buggy address belongs to the object at ffff8881d175bea0
+  which belongs to the cache kmalloc-64 of size 64
+The buggy address is located 54 bytes inside of
+  64-byte region [ffff8881d175bea0, ffff8881d175bee0)
 The buggy address belongs to the page:
-page:ffffea00074d0d80 refcount:0 mapcount:0 mapping:0000000000000000  
+page:ffffea000745d6c0 refcount:1 mapcount:0 mapping:ffff8881da003180  
 index:0x0
-flags: 0x200000000000000()
-raw: 0200000000000000 0000000000000000 dead000000000122 0000000000000000
-raw: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000000
+flags: 0x200000000000200(slab)
+raw: 0200000000000200 ffffea00075eda00 0000000300000003 ffff8881da003180
+raw: 0000000000000000 00000000802a002a 00000001ffffffff 0000000000000000
 page dumped because: kasan: bad access detected
 
 Memory state around the buggy address:
-  ffff8881d3436780: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-  ffff8881d3436800: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-> ffff8881d3436880: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-                                ^
-  ffff8881d3436900: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
-  ffff8881d3436980: ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff
+  ffff8881d175bd80: fb fb fb fb fb fb fb fb fc fc fc fc fb fb fb fb
+  ffff8881d175be00: fb fb fb fb fc fc fc fc fb fb fb fb fb fb fb fb
+> ffff8881d175be80: fc fc fc fc 00 00 00 00 00 00 06 fc fc fc fc fc
+                                                  ^
+  ffff8881d175bf00: 00 00 00 00 00 00 fc fc fc fc fc fc fb fb fb fb
+  ffff8881d175bf80: fb fb fb fb fc fc fc fc fc fc fc fc fc fc fc fc
 ==================================================================
 
 
@@ -137,3 +217,5 @@ syzbot engineers can be reached at syzkaller@googlegroups.com.
 
 syzbot will keep track of this bug report. See:
 https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
