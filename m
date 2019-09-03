@@ -2,134 +2,73 @@ Return-Path: <SRS0=d4Tt=W6=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2015C41514
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 15:08:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13471C3A5A2
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 15:18:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BAB9A2377F
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 15:08:28 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BYUxI3Mr"
+	by mail.kernel.org (Postfix) with ESMTP id E61C122CF8
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 15:18:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729687AbfICPH2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 3 Sep 2019 11:07:28 -0400
-Received: from mail-vk1-f202.google.com ([209.85.221.202]:52392 "EHLO
-        mail-vk1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729660AbfICPH1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 Sep 2019 11:07:27 -0400
-Received: by mail-vk1-f202.google.com with SMTP id 70so4347643vki.19
-        for <linux-usb@vger.kernel.org>; Tue, 03 Sep 2019 08:07:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=XfkuPAzUg0cWTsSII8UxfvUGODgh66Dt0PdffmfP8ds=;
-        b=BYUxI3MrD4U+BDkDqOah6HY4Bw3pPfx8gK6OvtG3TXQTUxrmLgeaUM0pE8m3+shX6r
-         a/m7v+yD6KHnNo+2ozvu18HPRGjOHvfslAqkS5IswlmTxW49zalq4r2NEg5CdB8oQkZJ
-         pAapdfiGvhDtqiSUAMffWLVrPJkbibNXNTmF7aR7IOEMKWP7svSLCs82N06Qiv1VX1m/
-         5vbEakyc4zD9nCo5vutlPMx63M7oy2fEEfWiVlMm+JhP/hBcAkGEKvPBGRSCkvuGoziM
-         55t1VRH8ly44VKnD8mGx4rlnGVDfwwQI67M2aRWLr9QioEbqXOZ2lppuU09AhqkaX4S+
-         GWeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=XfkuPAzUg0cWTsSII8UxfvUGODgh66Dt0PdffmfP8ds=;
-        b=PBxOIj/3AFTMlX6FNmvDgmXb6FH137EJTHvCRIU7gwJfk5dldmwN3hPa77FIHkNxrR
-         3ab3frkPT6YZP8u20prTXj0p72Gm7FF8IoYfiXniy/Rtfy1RM2BFP0XYJbF70r4UDfrW
-         iuP0FpN6FLB8YupeAjk3d+QfWgaHkJkySOxcoTVJ08pQ7f9JHdSjPKRTBB+tyWNM7pY7
-         GYBBM/e0xcM0D+EnCk7BCTtqwxJxIbiEuf9iBf0TmkMAUeabCqn7WHXWg7jzkXp0Warh
-         SV8oNt2WNHlqQXSxg4Db+BqRYDTOtkL2fwo+PlVP+F6qVv7tus3NLkWCAp9Wum1XM0/Q
-         7VRA==
-X-Gm-Message-State: APjAAAU37qIiTPxiEOx0Y1kKTlwe7Jn3N4FO5c8dMpXZDNWz4Tg+1K1D
-        7nz/4xLMAumMYM4v7MmfTZ3rdbQ+ZV+dbA==
-X-Google-Smtp-Source: APXvYqwpDXpoU/tekMTm7cq8cLvZxAh2XQiVvLYuHJwsk/oxVDEJdK9XflLHkcImHQpKAl2LR/xVFUqqHgFc+A==
-X-Received: by 2002:a67:fb90:: with SMTP id n16mr19342370vsr.7.1567523246431;
- Tue, 03 Sep 2019 08:07:26 -0700 (PDT)
-Date:   Tue,  3 Sep 2019 16:06:27 +0100
-In-Reply-To: <20190903150638.242049-1-maennich@google.com>
-Message-Id: <20190903150638.242049-2-maennich@google.com>
-Mime-Version: 1.0
-References: <20180716122125.175792-1-maco@android.com> <20190903150638.242049-1-maennich@google.com>
-X-Mailer: git-send-email 2.23.0.187.g17f5b7556c-goog
-Subject: [PATCH v4 01/12] module: support reading multiple values per modinfo tag
-From:   Matthias Maennich <maennich@google.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     kernel-team@android.com, maennich@google.com, arnd@arndb.de,
-        gregkh@linuxfoundation.org, jeyu@kernel.org,
-        joel@joelfernandes.org, lucas.de.marchi@gmail.com,
-        maco@android.com, sspatil@google.com, will@kernel.org,
-        yamada.masahiro@socionext.com, linux-kbuild@vger.kernel.org,
-        linux-modules@vger.kernel.org, linux-usb@vger.kernel.org,
-        usb-storage@lists.one-eyed-alien.net,
-        linux-watchdog@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        id S1729117AbfICPSh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 3 Sep 2019 11:18:37 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:5735 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727107AbfICPSh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 3 Sep 2019 11:18:37 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 5B8CD39A87045D9D68BD;
+        Tue,  3 Sep 2019 23:18:35 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.439.0; Tue, 3 Sep 2019 23:18:25 +0800
+From:   Wei Yongjun <weiyongjun1@huawei.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        Pawel Laszczak <pawell@cadence.com>
+CC:     Wei Yongjun <weiyongjun1@huawei.com>, <linux-usb@vger.kernel.org>,
+        <kernel-janitors@vger.kernel.org>
+Subject: [PATCH -next] usb: cdns3: Remove redundant dev_err call in cdns3_probe()
+Date:   Tue, 3 Sep 2019 15:36:25 +0000
+Message-ID: <20190903153625.85691-1-weiyongjun1@huawei.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type:   text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Similar to modpost's get_next_modinfo(), introduce get_next_modinfo() in
-kernel/module.c to acquire any further values associated with the same
-modinfo tag name. That is useful for any tags that have multiple
-occurrences (such as 'alias'), but is in particular introduced here as
-part of the symbol namespaces patch series to read the (potentially)
-multiple namespaces a module is importing.
+There is a error message within devm_ioremap_resource
+already, so remove the dev_err call to avoid redundant
+error message.
 
-Reviewed-by: Joel Fernandes (Google) <joel@joelfernandes.org>
-Reviewed-by: Martijn Coenen <maco@android.com>
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Matthias Maennich <maennich@google.com>
+Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
 ---
- kernel/module.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ drivers/usb/cdns3/core.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/kernel/module.c b/kernel/module.c
-index 9ee93421269c..3ee507c0a92f 100644
---- a/kernel/module.c
-+++ b/kernel/module.c
-@@ -2481,7 +2481,8 @@ static char *next_string(char *string, unsigned long *secsize)
- 	return string;
- }
+diff --git a/drivers/usb/cdns3/core.c b/drivers/usb/cdns3/core.c
+index 300df58a190b..9b1d8fed4e5a 100644
+--- a/drivers/usb/cdns3/core.c
++++ b/drivers/usb/cdns3/core.c
+@@ -462,10 +462,8 @@ static int cdns3_probe(struct platform_device *pdev)
  
--static char *get_modinfo(struct load_info *info, const char *tag)
-+static char *get_next_modinfo(const struct load_info *info, const char *tag,
-+			      char *prev)
- {
- 	char *p;
- 	unsigned int taglen = strlen(tag);
-@@ -2492,13 +2493,25 @@ static char *get_modinfo(struct load_info *info, const char *tag)
- 	 * get_modinfo() calls made before rewrite_section_headers()
- 	 * must use sh_offset, as sh_addr isn't set!
- 	 */
--	for (p = (char *)info->hdr + infosec->sh_offset; p; p = next_string(p, &size)) {
-+	char *modinfo = (char *)info->hdr + infosec->sh_offset;
-+
-+	if (prev) {
-+		size -= prev - modinfo;
-+		modinfo = next_string(prev, &size);
-+	}
-+
-+	for (p = modinfo; p; p = next_string(p, &size)) {
- 		if (strncmp(p, tag, taglen) == 0 && p[taglen] == '=')
- 			return p + taglen + 1;
- 	}
- 	return NULL;
- }
+ 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dev");
+ 	regs = devm_ioremap_resource(dev, res);
+-	if (IS_ERR(regs)) {
+-		dev_err(dev, "couldn't iomap dev resource\n");
++	if (IS_ERR(regs))
+ 		return PTR_ERR(regs);
+-	}
+ 	cdns->dev_regs	= regs;
  
-+static char *get_modinfo(const struct load_info *info, const char *tag)
-+{
-+	return get_next_modinfo(info, tag, NULL);
-+}
-+
- static void setup_modinfo(struct module *mod, struct load_info *info)
- {
- 	struct module_attribute *attr;
--- 
-2.23.0.187.g17f5b7556c-goog
+ 	cdns->otg_irq = platform_get_irq_byname(pdev, "otg");
+
+
 
