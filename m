@@ -5,59 +5,59 @@ X-Spam-Level:
 X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E2B9C3A5A7
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 15:07:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A05A3C3A5A2
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 15:07:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3DA64215EA
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 15:07:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7AADA20674
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 15:07:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ldoyE70k"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EFphzrlX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729872AbfICPHq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 3 Sep 2019 11:07:46 -0400
-Received: from mail-qt1-f201.google.com ([209.85.160.201]:40258 "EHLO
-        mail-qt1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729854AbfICPHp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 Sep 2019 11:07:45 -0400
-Received: by mail-qt1-f201.google.com with SMTP id u7so8504808qtg.7
-        for <linux-usb@vger.kernel.org>; Tue, 03 Sep 2019 08:07:44 -0700 (PDT)
+        id S1729919AbfICPHy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 3 Sep 2019 11:07:54 -0400
+Received: from mail-qk1-f201.google.com ([209.85.222.201]:33844 "EHLO
+        mail-qk1-f201.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729905AbfICPHy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 Sep 2019 11:07:54 -0400
+Received: by mail-qk1-f201.google.com with SMTP id b67so7216600qkc.1
+        for <linux-usb@vger.kernel.org>; Tue, 03 Sep 2019 08:07:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:in-reply-to:message-id:mime-version:references:subject:from:to
          :cc;
-        bh=RSyx3V/T3+Fb/fBnjK85DcZdNsViLHAQqUGk4FWkZsU=;
-        b=ldoyE70kJF8tGNXA/RdsmM9WccjJ/l/oyRh7hHi08RWg0nZ0Rb9g+gDqK01q50s4LE
-         kEVDyCivDnMhp2TLCfzMZYj7EbsAcC1SKLhl1eECH6O6bIxSkf2tkH8PeVaISi8BMrjQ
-         bFXkoedgoNYakwEgLdUh8j5FZZjsKdK6CtIOvdnLDO3LaQhp7wzRMV3TRywQgOkYCBOv
-         2akNhCRlY8j1azQOET4yeA7EmwQcMc0+z3BB0hSY3z7eYrDCORt+rTpAmU8VUCpl7APr
-         R6ehlcXY7D66jWN4vC0T8gA6QaXzDZCb1IaCgj/asymbAZciAkWxF0iDkOohDTp8DXxs
-         BeSA==
+        bh=zRWSVeb5W05ehvG18tGL2ilvhm06WavygbArZEKUTQI=;
+        b=EFphzrlXR0Q3X5gcyhY/QpNLUIKGO6Mu86Y7KiyAnZSAJCuL+nBTfH/jlK5erD7K2r
+         W8pEWRT1FseJg9jN2oX0QQ+pK6swlE6nXwrBZ6Wb5ategvz0WdbO4zdMpl4JlgBIHf2v
+         IzNy2RHxCVLFsD+LRUIe4g3TZB+8D3g68RwEhZjlWK09mvWkkYF7Yd6gbZ943ljGv0Pe
+         1AAxqU/OY+EFee6I23XvaOzyBbuR/9P9VIte/Y05WhkZZKwnXhu3vmyH8723rsuiufZI
+         mLPqCZpvo8SV8k8H0mF6pGEksWdC7a3+5KSIrnkafdHCyITOpeyiUevIBhWx42asYq9T
+         wNTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:in-reply-to:message-id:mime-version
          :references:subject:from:to:cc;
-        bh=RSyx3V/T3+Fb/fBnjK85DcZdNsViLHAQqUGk4FWkZsU=;
-        b=G4fXNf9bENKY5VSqqU/ovx+LOjNmpCVFhmNrmb0zzxx/V63/ZJA4JCeWvSwKmss7UQ
-         bKaRFIiRDWXf5ZRC5ODGqUdJAZL4XexCKL2yxhHxHGlTuH121L6oAVhbfWkJeM6GY3Ho
-         C9aFb1VwUSNHtxwMeqzvastCVfPMulAGTXRbpLLLWPrf/7M/pvqpB8uj3PcjiPz/p9tt
-         nXByuuyL5z4KvVdZePMZibDxSJ937z/wZWWr9R6zS7s2PA+dxJcwOvLdY05tuzboWQDA
-         KXB3Sp+NZt3Mt5gQIlQF9bd85/KDx/p2vFncsVCVhWmbQqQuiYnBMkA6/EGBN8j6NfhO
-         G9HQ==
-X-Gm-Message-State: APjAAAWeOyIMOhUMfKvcIe1VCjqzGlclpZbPZUgpvcvi70mnVXR/xNSM
-        Um5kELQqQFNKEmWzI8aBshn8sO6sBXUg1Q==
-X-Google-Smtp-Source: APXvYqzWnbTLWyx6Y6Af5dccbNi55xGD4hNXquBtED1N8JNA/6qhN3gWGV+qHmrza6FyvvdYJCf4Aj27tPX94g==
-X-Received: by 2002:aed:3c52:: with SMTP id u18mr15781866qte.194.1567523264136;
- Tue, 03 Sep 2019 08:07:44 -0700 (PDT)
-Date:   Tue,  3 Sep 2019 16:06:33 +0100
+        bh=zRWSVeb5W05ehvG18tGL2ilvhm06WavygbArZEKUTQI=;
+        b=J6L8kNi0dq9+aCXRQWQIFCruf0zxvs2hHmLyn06KbayP0MAi/I1ZMz+oJSf/Hm31nx
+         2bzOjXR/oUhR14iFv/ObIp/u3e/+mgrRlbflj/ZB4ODuUzIILcIdSzEQGaq9o1wMp9yg
+         ewDa6uFQsB5nPuwJ/2PMmmR3xJvmrMHPYv7npHC5WkZDG71seBgl3rZm7xdpd2t+d7CD
+         GWjXMd9d0nhg3O7QUKmff2oAePctKpAQBU4Gh4i5Aq4y+Ys0FkxNZoPgSJ6Jp8RJcwkk
+         Ksq4mWeU8sW/UL/PRJYl7VOdEeAoF456HcpV0fOSRKWWvpEHjyCo8UoM4iKmFdixeYg0
+         OpeA==
+X-Gm-Message-State: APjAAAUZrUcrKeEm01LR+HcniHhGFWvO59tOC4DqtvQj/xVFxeMd5REz
+        KsDAYMC9ajp5hMlBzz8CW5/zQRQ1QOANeA==
+X-Google-Smtp-Source: APXvYqwXLQ60AAfU9iVgSfT4ANntf+V9n3+Zm6PoQo1JQsqHzpyZDSgMHAEiaguzYB+Iw7z7S32mkOrSiVC1PQ==
+X-Received: by 2002:ac8:5296:: with SMTP id s22mr17672802qtn.139.1567523273051;
+ Tue, 03 Sep 2019 08:07:53 -0700 (PDT)
+Date:   Tue,  3 Sep 2019 16:06:36 +0100
 In-Reply-To: <20190903150638.242049-1-maennich@google.com>
-Message-Id: <20190903150638.242049-8-maennich@google.com>
+Message-Id: <20190903150638.242049-11-maennich@google.com>
 Mime-Version: 1.0
 References: <20180716122125.175792-1-maco@android.com> <20190903150638.242049-1-maennich@google.com>
 X-Mailer: git-send-email 2.23.0.187.g17f5b7556c-goog
-Subject: [PATCH v4 07/12] modpost: add support for generating namespace dependencies
+Subject: [PATCH v4 10/12] usb-storage: remove single-use define for debugging
 From:   Matthias Maennich <maennich@google.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     kernel-team@android.com, maennich@google.com, arnd@arndb.de,
@@ -74,177 +74,44 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch adds an option to modpost to generate a <module>.ns_deps file
-per module, containing the namespace dependencies for that module.
+USB_STORAGE was defined as "usb-storage: " and used in a single location
+as argument to printk. In order to be able to use the name
+'USB_STORAGE', drop the definition and use the string directly for the
+printk call.
 
-E.g. if the linked module my-module.ko would depend on the symbol
-myfunc.MY_NS in the namespace MY_NS, the my-module.ns_deps file created
-by modpost would contain the entry MY_NS to express the namespace
-dependency of my-module imposed by using the symbol myfunc.
-
-These files can subsequently be used by static analysis tools (like
-coccinelle scripts) to address issues with missing namespace imports. A
-later patch of this series will introduce such a script 'nsdeps' and a
-corresponding make target to automatically add missing
-MODULE_IMPORT_NS() definitions to the module's sources. For that it uses
-the information provided in the generated .ns_deps files.
-
-Co-developed-by: Martijn Coenen <maco@android.com>
-Signed-off-by: Martijn Coenen <maco@android.com>
 Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Matthias Maennich <maennich@google.com>
 ---
- .gitignore            |  1 +
- Makefile              |  2 +-
- scripts/mod/modpost.c | 54 +++++++++++++++++++++++++++++++++++++++----
- scripts/mod/modpost.h |  2 ++
- 4 files changed, 53 insertions(+), 6 deletions(-)
+ drivers/usb/storage/debug.h    | 2 --
+ drivers/usb/storage/scsiglue.c | 2 +-
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/.gitignore b/.gitignore
-index 2030c7a4d2f8..9ee63aa2a3fb 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -32,6 +32,7 @@
- *.lzo
- *.mod
- *.mod.c
-+*.ns_deps
- *.o
- *.o.*
- *.order
-diff --git a/Makefile b/Makefile
-index 0cbe8717bdb3..0cdb957ae2c3 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1669,7 +1669,7 @@ clean: $(clean-dirs)
- 		-o -name '*.ko.*' \
- 		-o -name '*.dtb' -o -name '*.dtb.S' -o -name '*.dt.yaml' \
- 		-o -name '*.dwo' -o -name '*.lst' \
--		-o -name '*.su' -o -name '*.mod' \
-+		-o -name '*.su' -o -name '*.mod' -o -name '*.ns_deps' \
- 		-o -name '.*.d' -o -name '.*.tmp' -o -name '*.mod.c' \
- 		-o -name '*.lex.c' -o -name '*.tab.[ch]' \
- 		-o -name '*.asn1.[ch]' \
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index c2d49afaea1c..be72da25fe7c 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -38,6 +38,8 @@ static int sec_mismatch_count = 0;
- static int sec_mismatch_fatal = 0;
- /* ignore missing files */
- static int ignore_missing_files;
-+/* write namespace dependencies */
-+static int write_namespace_deps;
+diff --git a/drivers/usb/storage/debug.h b/drivers/usb/storage/debug.h
+index 6d64f342f587..16ce06039a4d 100644
+--- a/drivers/usb/storage/debug.h
++++ b/drivers/usb/storage/debug.h
+@@ -29,8 +29,6 @@
  
- enum export {
- 	export_plain,      export_unused,     export_gpl,
-@@ -2176,10 +2178,15 @@ static int check_exports(struct module *mod)
- 		else
- 			basename = mod->name;
+ #include <linux/kernel.h>
  
--		if (exp->namespace &&
--		    !module_imports_namespace(mod, exp->namespace)) {
--			warn("module %s uses symbol %s from namespace %s, but does not import it.\n",
--			     basename, exp->name, exp->namespace);
-+		if (exp->namespace) {
-+			add_namespace(&mod->required_namespaces,
-+				      exp->namespace);
-+
-+			if (!write_namespace_deps &&
-+			    !module_imports_namespace(mod, exp->namespace)) {
-+				warn("module %s uses symbol %s from namespace %s, but does not import it.\n",
-+				     basename, exp->name, exp->namespace);
-+			}
- 		}
+-#define USB_STORAGE "usb-storage: "
+-
+ #ifdef CONFIG_USB_STORAGE_DEBUG
+ void usb_stor_show_command(const struct us_data *us, struct scsi_cmnd *srb);
+ void usb_stor_show_sense(const struct us_data *us, unsigned char key,
+diff --git a/drivers/usb/storage/scsiglue.c b/drivers/usb/storage/scsiglue.c
+index 05b80211290d..df4de8323eff 100644
+--- a/drivers/usb/storage/scsiglue.c
++++ b/drivers/usb/storage/scsiglue.c
+@@ -379,7 +379,7 @@ static int queuecommand_lck(struct scsi_cmnd *srb,
  
- 		if (!mod->gpl_compatible)
-@@ -2484,6 +2491,31 @@ static void write_dump(const char *fname)
- 	free(buf.p);
- }
- 
-+static void write_namespace_deps_files(void)
-+{
-+	struct module *mod;
-+	struct namespace_list *ns;
-+	struct buffer ns_deps_buf = {};
-+
-+	for (mod = modules; mod; mod = mod->next) {
-+		char fname[PATH_MAX];
-+
-+		if (mod->skip)
-+			continue;
-+
-+		ns_deps_buf.pos = 0;
-+
-+		for (ns = mod->required_namespaces; ns; ns = ns->next)
-+			buf_printf(&ns_deps_buf, "%s\n", ns->namespace);
-+
-+		if (ns_deps_buf.pos == 0)
-+			continue;
-+
-+		sprintf(fname, "%s.ns_deps", mod->name);
-+		write_if_changed(&ns_deps_buf, fname);
-+	}
-+}
-+
- struct ext_sym_list {
- 	struct ext_sym_list *next;
- 	const char *file;
-@@ -2500,7 +2532,7 @@ int main(int argc, char **argv)
- 	struct ext_sym_list *extsym_iter;
- 	struct ext_sym_list *extsym_start = NULL;
- 
--	while ((opt = getopt(argc, argv, "i:I:e:mnsT:o:awE")) != -1) {
-+	while ((opt = getopt(argc, argv, "i:I:e:mnsT:o:awEd")) != -1) {
- 		switch (opt) {
- 		case 'i':
- 			kernel_read = optarg;
-@@ -2541,6 +2573,9 @@ int main(int argc, char **argv)
- 		case 'E':
- 			sec_mismatch_fatal = 1;
- 			break;
-+		case 'd':
-+			write_namespace_deps = 1;
-+			break;
- 		default:
- 			exit(1);
- 		}
-@@ -2575,6 +2610,9 @@ int main(int argc, char **argv)
- 
- 		err |= check_modname_len(mod);
- 		err |= check_exports(mod);
-+		if (write_namespace_deps)
-+			continue;
-+
- 		add_header(&buf, mod);
- 		add_intree_flag(&buf, !external_module);
- 		add_retpoline(&buf);
-@@ -2587,6 +2625,12 @@ int main(int argc, char **argv)
- 		sprintf(fname, "%s.mod.c", mod->name);
- 		write_if_changed(&buf, fname);
+ 	/* check for state-transition errors */
+ 	if (us->srb != NULL) {
+-		printk(KERN_ERR USB_STORAGE "Error in %s: us->srb = %p\n",
++		printk(KERN_ERR "usb-storage: Error in %s: us->srb = %p\n",
+ 			__func__, us->srb);
+ 		return SCSI_MLQUEUE_HOST_BUSY;
  	}
-+
-+	if (write_namespace_deps) {
-+		write_namespace_deps_files();
-+		return 0;
-+	}
-+
- 	if (dump_write)
- 		write_dump(dump_write);
- 	if (sec_mismatch_count && sec_mismatch_fatal)
-diff --git a/scripts/mod/modpost.h b/scripts/mod/modpost.h
-index 9626bf3e7424..92a926d375d2 100644
---- a/scripts/mod/modpost.h
-+++ b/scripts/mod/modpost.h
-@@ -126,6 +126,8 @@ struct module {
- 	struct buffer dev_table_buf;
- 	char	     srcversion[25];
- 	int is_dot_o;
-+	// Required namespace dependencies
-+	struct namespace_list *required_namespaces;
- 	// Actual imported namespaces
- 	struct namespace_list *imported_namespaces;
- };
 -- 
 2.23.0.187.g17f5b7556c-goog
 
