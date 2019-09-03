@@ -4,51 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA621C3A5A7
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 12:09:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 337E7C3A5A2
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 12:09:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BCF6D208E4
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 12:09:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0C200208E4
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 12:09:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729015AbfICMJA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 3 Sep 2019 08:09:00 -0400
-Received: from mail-io1-f72.google.com ([209.85.166.72]:47537 "EHLO
-        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729096AbfICMIL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 Sep 2019 08:08:11 -0400
-Received: by mail-io1-f72.google.com with SMTP id b22so22814380iod.14
+        id S1729307AbfICMJG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 3 Sep 2019 08:09:06 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70]:44456 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728952AbfICMIK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 Sep 2019 08:08:10 -0400
+Received: by mail-io1-f70.google.com with SMTP id f5so22808250ioo.11
         for <linux-usb@vger.kernel.org>; Tue, 03 Sep 2019 05:08:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=CxUZjygCpasgBPF+y6oi8xFjs0AF9HB9H4iCmjReROA=;
-        b=mAztyqN1vohl3QCnzjNuTcN9H3Bn34eWJ+z9pNLpAUP1odQKc1VTjSH4OKEr0Fj+CG
-         xzB+bL5NnApIXuKkZ5I05WWkVHoiOMbTh1FKTcutB33S1aky2ekFhLcDMSOXzDGPWjXe
-         fq+Vk5Z2GRmJ2CR0ZKCf0kAVhuWxRYZnDaufTlC3xQrkFty9ODFJzuTGyPmC6lETwHSb
-         aDdUMWDQ1BT5Oyw4S/UBsCA2xcby6FMsL0fg2aJ92n2KI6zn3S24bC5lE38/yqvmihkb
-         GebJKS8nKwilwDVqVr6Y+YlAT87zbtHpVfYe0dNXOxYBhiQafbzbvvkT8CjUCuW6SALV
-         NhJA==
-X-Gm-Message-State: APjAAAUoO30wloOrjDuEXvXNJvslSsIkg0F/M2H3YH1M6YNeo791OzfV
-        g5jVyNpTLoJ1GVZO73n9u361e8FFZcZQxdThk1UDwL+jLYtL
-X-Google-Smtp-Source: APXvYqxJaDVBHS+iGbOfAA2e4mOzogSUuWdHkrWEZqKdilXl6J5OAzbdJdVyXU1F8zsOLcuxFRx7RNEyHuu2a2/6l2VRLzfXwaYU
+        bh=9qcwAP8TyQOShBtKcIxQIZ1ZYBk9OO6jqYC8avhKSZk=;
+        b=JvsedgZ+ERmRu/SHz4G/T02JDZhAnhXTc4UHzNjjfIB5RyGW/Y/eaeXoDfX7NnF8xt
+         G0j+rcqZFEiGWCImYEFWtYaOduoFoytnDBGOXhGXO6Zmup6MPirH+YW12JcC8Hms0bOm
+         KFF5ZpukgEt7FduUL3Ru+mp7C7X9656cA+fD05qXyWnWz7RgQCSh8YmVlN66D38/hAWx
+         NbmH5yZOTC+meVjmxj8Cthd+twfp+OWTtGpz8VgIzvI87/zFzOs7jv7Ug1I/F9XIvHcv
+         3T1TQRgdcnXIUWkE5h82kIHmHl6te9tuUoQhi9NwHJJCm1qyGSdOmfEuPHDA1eBb8sV+
+         b6Nw==
+X-Gm-Message-State: APjAAAVexCEoJCxfmLd13fpPY4FPta2VM1HU4sggrm71cNbpMrwkR64a
+        GRIBR/9f2aUNsxBjLWjEvsAEmY1KWpvKbl6nOJ7Kf8X2gmmv
+X-Google-Smtp-Source: APXvYqwwqbKTPGz2NUq7PxoNh2zfl4YgeuHzXT7I0s1vKHgyCKW1nN1WB7GOMBnQxAJTmXhKHLgkzswzbqEgK7KCFCwSVilEbmDL
 MIME-Version: 1.0
-X-Received: by 2002:a02:81c5:: with SMTP id r5mr37662960jag.143.1567512490314;
- Tue, 03 Sep 2019 05:08:10 -0700 (PDT)
-Date:   Tue, 03 Sep 2019 05:08:10 -0700
+X-Received: by 2002:a02:90cb:: with SMTP id c11mr14354446jag.104.1567512489540;
+ Tue, 03 Sep 2019 05:08:09 -0700 (PDT)
+Date:   Tue, 03 Sep 2019 05:08:09 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000002a95df0591a4f114@google.com>
-Subject: WARNING in hso_free_net_device
-From:   syzbot <syzbot+44d53c7255bb1aea22d2@syzkaller.appspotmail.com>
-To:     alexios.zavras@intel.com, andreyknvl@google.com,
-        benquike@gmail.com, davem@davemloft.net,
+Message-ID: <0000000000001ec3580591a4f1ad@google.com>
+Subject: WARNING: ODEBUG bug in appledisplay_probe
+From:   syzbot <syzbot+5bb7a3b6f59db285e759@syzkaller.appspotmail.com>
+To:     2pi@mok.nu, alex.theissen@me.com, andreyknvl@google.com,
         gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, mathias.payer@nebelwelt.net,
-        netdev@vger.kernel.org, rfontana@redhat.com,
-        syzkaller-bugs@googlegroups.com, tglx@linutronix.de
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
@@ -61,27 +58,24 @@ syzbot found the following crash on:
 
 HEAD commit:    eea39f24 usb-fuzzer: main usb gadget fuzzer driver
 git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=15f17e61600000
+console output: https://syzkaller.appspot.com/x/log.txt?x=101b49ea600000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=d0c62209eedfd54e
-dashboard link: https://syzkaller.appspot.com/bug?extid=44d53c7255bb1aea22d2
+dashboard link: https://syzkaller.appspot.com/bug?extid=5bb7a3b6f59db285e759
 compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10ffdd12600000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15a738fe600000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=159cd5ea600000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16717666600000
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+44d53c7255bb1aea22d2@syzkaller.appspotmail.com
+Reported-by: syzbot+5bb7a3b6f59db285e759@syzkaller.appspotmail.com
 
-usb 1-1: config 0 has no interface number 0
-usb 1-1: New USB device found, idVendor=0af0, idProduct=d257,  
-bcdDevice=4e.87
-usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-usb 1-1: config 0 descriptor??
-hso 1-1:0.15: Can't find BULK IN endpoint
+appledisplay 1-1:0.16: Error while getting initial brightness: -110
 ------------[ cut here ]------------
-WARNING: CPU: 1 PID: 83 at net/core/dev.c:8167  
-rollback_registered_many.cold+0x41/0x1bc net/core/dev.c:8167
+ODEBUG: free active (active state 0) object type: timer_list hint:  
+delayed_work_timer_fn+0x0/0x90 include/linux/topology.h:80
+WARNING: CPU: 0 PID: 12 at lib/debugobjects.c:481  
+debug_print_object+0x160/0x250 lib/debugobjects.c:481
 Kernel panic - not syncing: panic_on_warn set ...
-CPU: 1 PID: 83 Comm: kworker/1:2 Not tainted 5.3.0-rc5+ #28
+CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.3.0-rc5+ #28
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
 Google 01/01/2011
 Workqueue: usb_hub_wq hub_event
@@ -96,24 +90,23 @@ Call Trace:
   do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:272
   do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:291
   invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1028
-RIP: 0010:rollback_registered_many.cold+0x41/0x1bc net/core/dev.c:8167
-Code: ff e8 c7 26 90 fc 48 c7 c7 40 ec 63 86 e8 24 c8 7a fc 0f 0b e9 93 be  
-ff ff e8 af 26 90 fc 48 c7 c7 40 ec 63 86 e8 0c c8 7a fc <0f> 0b 4c 89 e7  
-e8 f9 12 34 fd 31 ff 41 89 c4 89 c6 e8 bd 27 90 fc
-RSP: 0018:ffff8881d934f088 EFLAGS: 00010282
-RAX: 0000000000000024 RBX: ffff8881d2ad4400 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff81288cfd RDI: ffffed103b269e03
-RBP: ffff8881d934f1b8 R08: 0000000000000024 R09: fffffbfff11ad794
-R10: fffffbfff11ad793 R11: ffffffff88d6bc9f R12: ffff8881d2ad4470
-R13: ffff8881d934f148 R14: dffffc0000000000 R15: 0000000000000000
-  rollback_registered+0xf2/0x1c0 net/core/dev.c:8243
-  unregister_netdevice_queue net/core/dev.c:9290 [inline]
-  unregister_netdevice_queue+0x1d7/0x2b0 net/core/dev.c:9283
-  unregister_netdevice include/linux/netdevice.h:2631 [inline]
-  unregister_netdev+0x18/0x20 net/core/dev.c:9331
-  hso_free_net_device+0xff/0x300 drivers/net/usb/hso.c:2366
-  hso_create_net_device+0x76d/0x9c0 drivers/net/usb/hso.c:2554
-  hso_probe+0x28d/0x1a46 drivers/net/usb/hso.c:2931
+RIP: 0010:debug_print_object+0x160/0x250 lib/debugobjects.c:481
+Code: dd 80 ef da 85 48 89 fa 48 c1 ea 03 80 3c 02 00 0f 85 bf 00 00 00 48  
+8b 14 dd 80 ef da 85 48 c7 c7 c0 e4 da 85 e8 e5 dd 31 ff <0f> 0b 83 05 4b  
+0f a8 05 01 48 83 c4 20 5b 5d 41 5c 41 5d c3 48 89
+RSP: 0018:ffff8881da20f140 EFLAGS: 00010282
+RAX: 0000000000000000 RBX: 0000000000000003 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff81288cfd RDI: ffffed103b441e1a
+RBP: 0000000000000001 R08: ffff8881da1f9800 R09: fffffbfff11ad79a
+R10: fffffbfff11ad799 R11: ffffffff88d6bccf R12: ffffffff86d0dc60
+R13: ffffffff812e7b70 R14: ffff8881d56f8f68 R15: ffff8881d4ee4578
+  __debug_check_no_obj_freed lib/debugobjects.c:963 [inline]
+  debug_check_no_obj_freed+0x2df/0x443 lib/debugobjects.c:994
+  slab_free_hook mm/slub.c:1420 [inline]
+  slab_free_freelist_hook mm/slub.c:1474 [inline]
+  slab_free mm/slub.c:3016 [inline]
+  kfree+0x20b/0x2f0 mm/slub.c:3957
+  appledisplay_probe+0x772/0xb37 drivers/usb/misc/appledisplay.c:312
   usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
   really_probe+0x281/0x6d0 drivers/base/dd.c:548
   driver_probe_device+0x101/0x1b0 drivers/base/dd.c:721
