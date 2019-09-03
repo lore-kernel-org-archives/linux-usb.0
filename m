@@ -7,44 +7,44 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 431DCC3A5A7
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 08:46:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E600C3A5A2
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 08:46:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1AE9E2339D
-	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 08:46:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CF17E23402
+	for <linux-usb@archiver.kernel.org>; Tue,  3 Sep 2019 08:46:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XSS6rWr6"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QlJ6KAk2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728429AbfICIqb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 3 Sep 2019 04:46:31 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:34426 "EHLO
+        id S1728358AbfICIq3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 3 Sep 2019 04:46:29 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:34384 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728388AbfICIqa (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 Sep 2019 04:46:30 -0400
+        with ESMTP id S1728309AbfICIqZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 3 Sep 2019 04:46:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
         MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
         :Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From
         :Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=4qtLPZ/aSLTeJY+KOJz9u948G4Y31mDFg0mnKh+tgA0=; b=XSS6rWr6nm3hI3nUzWLgrkPiDJ
-        s3mVVveUNz8Pr37zpkzI30fd/vyx2O+2tOedMsPBTWp8SKhnuGtej6w8Oe5MtDeBRYE/VLoSHmj7k
-        BxkskchsWMYAjkslu3fqY/G8XJubuyI36uH6lAsGbl1QGWWGSDC8sisoATN7gGPpCHcPKiyeX0/YO
-        pmsUV0aHjKADatKf+bVTjjaeNbigsREPGdPduKB2YFMnkHQUbwusn1dtWqTNej+XD0Fjs7mZMuq3l
-        9WgW2+3LDd4AFPTLuzAIG5Ozd3Pt7rddD7bLHy+Xhe57wvpHaJK0DyXMwqGz+vqj2yQAwLRFx67EF
-        2OZP4A+w==;
+        bh=oKltuC+bB0pJtvp7qUclBSom6VtgzauxKPZ6u/A2tVA=; b=QlJ6KAk20XGkQDBVS98nV/rEN3
+        6Td6kdBXVqr9N0zcgE7xRDLUvdlVxBPRUH+s065LXXUY0/ukchTUvC9XCTzI0BFuqqbZTJV2kBOp7
+        JMjdXklo9soii250kn0j1raivpm13RZffrS+jqkHWeGFLKE0ABrO9RD5fauLQqzHb5K57Q92xBAv3
+        hFIn6LVBrlrb+hnwcfx5a6wmNxHLpGLY94B1ut95+1LrmuZcMMJ9rQpDr2ef8JAIDCz7tDH+tFkrB
+        8q6+Osk615QF2/2e7kA/37UMThCmBU+RxUnBHQcnoBiuuHjdENg9CqoBYp0/G/BUWKD22YFLnXJHR
+        l+DK8KYQ==;
 Received: from clnet-p19-102.ikbnet.co.at ([83.175.77.102] helo=localhost)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1i54SJ-0003s6-Rj; Tue, 03 Sep 2019 08:46:28 +0000
+        id 1i54SF-0003rU-BK; Tue, 03 Sep 2019 08:46:23 +0000
 From:   Christoph Hellwig <hch@lst.de>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Guenter Roeck <linux@roeck-us.net>,
         Lee Jones <lee.jones@linaro.org>
 Cc:     Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
         usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org
-Subject: [PATCH 4/6] usb: remove a stale comment in hcd_alloc_coherent
-Date:   Tue,  3 Sep 2019 10:46:13 +0200
-Message-Id: <20190903084615.19161-5-hch@lst.de>
+Subject: [PATCH 2/6] usb/ohci-tmio: remove the HCD_DMA flag
+Date:   Tue,  3 Sep 2019 10:46:11 +0200
+Message-Id: <20190903084615.19161-3-hch@lst.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190903084615.19161-1-hch@lst.de>
 References: <20190903084615.19161-1-hch@lst.de>
@@ -56,28 +56,28 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Now that we have the local memory pool implemented there is no
-need to use dma_declare_coherent_memory.
+This driver doesn't support normal DMA, only direct access to its
+local memory.  Remove the HCD_DMA flag to properly express that fact.
 
+Fixes: 1e4946c4412e ("usb: add a HCD_DMA flag instead of guestimating DMA capabilities")
 Signed-off-by: Christoph Hellwig <hch@lst.de>
 ---
- drivers/usb/core/hcd.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/usb/host/ohci-tmio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-index add2af4af766..4ccfc8e59604 100644
---- a/drivers/usb/core/hcd.c
-+++ b/drivers/usb/core/hcd.c
-@@ -1249,9 +1249,6 @@ EXPORT_SYMBOL_GPL(usb_hcd_unlink_urb_from_ep);
-  * To support host controllers with limited dma capabilities we provide dma
-  * bounce buffers. This feature can be enabled by initializing
-  * hcd->localmem_pool using usb_hcd_setup_local_mem().
-- * For this to work properly the host controller code must first use the
-- * function dma_declare_coherent_memory() to point out which memory area
-- * that should be used for dma allocations.
-  *
-  * The initialized hcd->localmem_pool then tells the usb code to allocate all
-  * data for dma using the genalloc API.
+diff --git a/drivers/usb/host/ohci-tmio.c b/drivers/usb/host/ohci-tmio.c
+index 8edbacd3eb17..d5a293a707b6 100644
+--- a/drivers/usb/host/ohci-tmio.c
++++ b/drivers/usb/host/ohci-tmio.c
+@@ -153,7 +153,7 @@ static const struct hc_driver ohci_tmio_hc_driver = {
+ 
+ 	/* generic hardware linkage */
+ 	.irq =			ohci_irq,
+-	.flags =		HCD_USB11 | HCD_DMA | HCD_MEMORY,
++	.flags =		HCD_USB11 | HCD_MEMORY,
+ 
+ 	/* basic lifecycle operations */
+ 	.start =		ohci_tmio_start,
 -- 
 2.20.1
 
