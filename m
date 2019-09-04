@@ -2,87 +2,68 @@ Return-Path: <SRS0=fNt9=W7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B30C0C3A5AA
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 16:18:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9CF09C3A5A8
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 16:18:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 95B8C22DBF
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 16:18:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7666D21883
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 16:18:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1567613917;
+	bh=sC7d3G19my0wuRxGHnmv69/T4u7CkZZ7LnXonAOEEXE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=C+bXz+MXFkiSjT+7rME5B0+ZMCH9o2lt8VRgoq4SJuI7E4c+1zqI/avk5w850Ogaw
+	 28wj5YGv62Wes2dnVr9DD9hY5QzMBzv+xHjR0VpTlu8Z1ZSermd3SxvLG48TSO1KJi
+	 2sL6yOe5B4yvYw8bL0P8fXxkEHt8DdFk9uFOosOE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732088AbfIDP6m (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 4 Sep 2019 11:58:42 -0400
-Received: from dsl092-148-226.wdc2.dsl.speakeasy.net ([66.92.148.226]:51204
-        "EHLO nathanst.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732073AbfIDP6m (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 Sep 2019 11:58:42 -0400
-Received: from holmes.nathanst.com (nathanst@localhost [127.0.0.1])
-        by nathanst.com (8.13.4/8.13.4/Debian-3sarge3) with ESMTP id x84FwVjg023043;
-        Wed, 4 Sep 2019 11:58:31 -0400
-Received: (from nathanst@localhost)
-        by holmes.nathanst.com (8.13.4/8.13.4/Submit) id x84FwVAA023041;
-        Wed, 4 Sep 2019 11:58:31 -0400
-Date:   Wed, 4 Sep 2019 11:58:31 -0400
-From:   Nathan Stratton Treadway <vgerlists@nathanst.com>
-To:     Julian Sikorski <belegdol@gmail.com>
-Cc:     Oliver Neukum <oneukum@suse.com>, linux-usb@vger.kernel.org
-Subject: Re: Lacie Rugged USB3-FW does not work with UAS
-Message-ID: <20190904155831.GE4337@nathanst.com>
-References: <ffe7a644-bd56-3f3e-4673-f69f21f4132b@gmail.com> <1566567572.8347.54.camel@suse.com> <bedb5e9f-5332-4905-2237-347d7ea77447@gmail.com> <0eaecb64-4c67-110d-8493-31dd7fd58759@gmail.com> <1566595393.8347.56.camel@suse.com> <5f8f8e05-a29b-d868-b354-75ac48d40133@gmail.com> <a090c289-6b1a-8907-271a-069aea96ba2f@gmail.com> <1567424535.2469.11.camel@suse.com> <2a06a5dd-3fc9-0aac-a7e2-67be35e2d6bb@gmail.com>
-Mime-Version: 1.0
+        id S1732565AbfIDQSg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 4 Sep 2019 12:18:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54092 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387546AbfIDQSf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 4 Sep 2019 12:18:35 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4D09921670;
+        Wed,  4 Sep 2019 16:18:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1567613914;
+        bh=sC7d3G19my0wuRxGHnmv69/T4u7CkZZ7LnXonAOEEXE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tQTTyOEWptIrKSMGw1x3kAdooYo19D5HbtO9PGefKmvKfrZXZSXRvTbzB8jZLCa6K
+         1acFKpv414PG+K9kew6H+6UMQ0dFhd4bXL+9E+T9A4+9J4vsbs5OPahQuUDJ3DcFJH
+         2PhhKCGM/JtbQgorcROOWnA1CEJuz/26fSWsMMK4=
+Date:   Wed, 4 Sep 2019 18:18:32 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [GIT PULL] USB-serial updates for 5.4-rc1
+Message-ID: <20190904161832.GB20662@kroah.com>
+References: <20190904150356.GA24736@localhost>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2a06a5dd-3fc9-0aac-a7e2-67be35e2d6bb@gmail.com>
-User-Agent: Mutt/1.5.9i
+In-Reply-To: <20190904150356.GA24736@localhost>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Sep 02, 2019 at 22:10:01 +0200, Julian Sikorski wrote:
-> thanks for the patch! It appears that we got the drives confused, the 
-> one needing quirks is 059f:1061. Unfortunately, even after hand-editing 
-> the patch to match (attached for confirmation), uas is still not 
-> working. The dmesg log is unchanged:
+On Wed, Sep 04, 2019 at 05:03:56PM +0200, Johan Hovold wrote:
+> The following changes since commit d1abaeb3be7b5fa6d7a1fbbd2e14e3310005c4c1:
 > 
-> [   67.925435] usb 2-4: new SuperSpeed Gen 1 USB device number 2 using 
-> xhci_hcd
-> [   67.947738] usb 2-4: New USB device found, idVendor=059f, 
-> idProduct=1061, bcdDevice= 0.01
-> [   67.947739] usb 2-4: New USB device strings: Mfr=2, Product=3, 
-> SerialNumber=1
-> [   67.947740] usb 2-4: Product: Rugged USB3-FW
-> [   67.947741] usb 2-4: Manufacturer: LaCie
-> [   67.947742] usb 2-4: SerialNumber: 00000000157f928920fa
-> [   67.978140] usbcore: registered new interface driver usb-storage
-> [   68.007356] scsi host12: uas
-> [   68.007520] usbcore: registered new interface driver uas
-> [   68.007781] scsi 12:0:0:0: Direct-Access     LaCie    Rugged FW USB3 
->  051E PQ: 0 ANSI: 6
-[...] 
-> [  280.017821] usb 2-4: USB disconnect, device number 2
-> [  280.017869] scsi host12: uas_eh_device_reset_handler FAILED err -22
-> [  280.017876] sd 12:0:0:0: Device offlined - not ready after error recovery
-> [  280.043423] sd 12:0:0:0: [sdb] Optimal transfer size 33553920 bytes
-> [  280.204419] sd 12:0:0:0: [sdb] Read Capacity(16) failed: Result: 
-> hostbyte=DID_ERROR driverbyte=DRIVER_OK
-> [  280.204422] sd 12:0:0:0: [sdb] Sense not available.
-> [  280.324417] sd 12:0:0:0: [sdb] Read Capacity(10) failed: Result: 
-> hostbyte=DID_ERROR driverbyte=DRIVER_OK
-> [  280.324420] sd 12:0:0:0: [sdb] Sense not available.
+>   Linux 5.3-rc5 (2019-08-18 14:31:08 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git tags/usb-serial-5.4-rc1
 
+Pulled and pushed out, thanks!
 
-Oliver, does the presence of the "Read Capacity(16)" message here
-indicate that either the quirk was not applied to the device or that
-the patch didn't have the expected effect?
-
-(Is there any way to check what quirks flags are actually in effect for
-a device attached to the UAS driver?  For the usb-storage driver there's
-both a "Quirks match for vid..." dmesg line and the Quirks: line in the 
-/proc/scsi/usb-storage/* file -- but neither of those seem to exist for
-the UAS driver....)
-
-							Nathan
-
+greg k-h
