@@ -2,113 +2,115 @@ Return-Path: <SRS0=fNt9=W7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92F92C3A5AA
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 16:10:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2413C3A5A8
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 16:16:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6D00C21883
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 16:10:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1567613408;
-	bh=F5CQ1+YvvSFo1TXnBiXKLipZLDPWDY9aNPbQDEsQ2n0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=bNdaBXCsWloK+S8YvLqz51dgwN77dMcJxm8isjrxgAHolx7N+XBqf9izpG07POEqa
-	 Mt4+zVec1kNNqbg2kXZtj1cUi8NqP29r+R4OLKDmVO1FFNnme9LaYoFqoWYigWFLvo
-	 /xgSnS5ug1MOZVyJMpYlz2yl+ttaLQZ7SYALpHrY=
+	by mail.kernel.org (Postfix) with ESMTP id 8718421883
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 16:16:29 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=one-eyed-alien.net header.i=@one-eyed-alien.net header.b="TUlK0rc1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732258AbfIDQKD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 4 Sep 2019 12:10:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36110 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732868AbfIDQBB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 4 Sep 2019 12:01:01 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B3E072341C;
-        Wed,  4 Sep 2019 16:00:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567612860;
-        bh=F5CQ1+YvvSFo1TXnBiXKLipZLDPWDY9aNPbQDEsQ2n0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rGO/8ah+la9taMk6jwiEMxs3YA2GFORtg44hxnMU6+BEm2l1EdEYm6Yq6YwIfhvQ5
-         7TX0OTSVbb19hANC1oruMN4Q88kXSUOmNbut5OP7bkhaKxY+zwzuNXqCclintXDuUe
-         ShG33QjZDMnGmh40rbPNJ/cPsvBXgV54HMNx1X70=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nagarjuna Kristam <nkristam@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        linux-tegra@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 39/52] usb: host: xhci-tegra: Set DMA mask correctly
-Date:   Wed,  4 Sep 2019 11:59:51 -0400
-Message-Id: <20190904160004.3671-39-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190904160004.3671-1-sashal@kernel.org>
-References: <20190904160004.3671-1-sashal@kernel.org>
+        id S1732607AbfIDQQY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 4 Sep 2019 12:16:24 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:36551 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732862AbfIDQQV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 Sep 2019 12:16:21 -0400
+Received: by mail-lj1-f193.google.com with SMTP id l20so5762057ljj.3
+        for <linux-usb@vger.kernel.org>; Wed, 04 Sep 2019 09:16:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=one-eyed-alien.net; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3OkOI3j0Oo0CjA3trKCkMR2MwBR7d8kErbi/HKpfcyM=;
+        b=TUlK0rc196VsjDYABXU7yCCcQ4sTNOl47V6TQt/Z6Y4FZj6TevmCuFWT9dKCaAnTkd
+         ii+pt9kyT4tMSieTNWDBUkxJWxisf3YEfmljgf/j7puwe7joaJGEU4O2426wowD5IuNU
+         CQLeaZs18KcpY8ipXZwRFzvDYcdReO/oyNEP4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3OkOI3j0Oo0CjA3trKCkMR2MwBR7d8kErbi/HKpfcyM=;
+        b=KxLmz0qJBDXd5bTgZEK/fdX2zKMYKBHEmqZu8KOzGRJdN2R/wK5HiK6/9Lky3BqbKo
+         m5rAnLCxQLFyTLDIRGiNm417ekw4O44Y+nUqre6/M6cqenk4uBfeMnJ8Ug50xRf1Vt56
+         wl+6J48IDNbnHGICqJEWMxVDFvWH/bS2j0+mlvYTINtmVXaqhaEV07rFmi6zh+yDGSEW
+         HD2peIzN1QpCLiZ5kH2BZNKD/TtX9yf1tMoOy8Ngr0BVx0XEL3TGmyCg0oAN7PkiR0Ys
+         tfJdIM0hTQJram1fLE6qtHCCaPOKwTX+9f5mVgaBxXTzWXHbwz88Asq4FIE1oFaNcYy7
+         GeeQ==
+X-Gm-Message-State: APjAAAVqtEKe3tU4XspIVOKUHpDAgBex0Wzo/pPUf+BACM/dhSxMrvyl
+        ++J5VTmNCBQWC2AdGunfzty+K5+X8WVbuVfQYDGqLw==
+X-Google-Smtp-Source: APXvYqwjBs0W5/qIegdlz+i6Wn/+JSt4M3u1OfLNwPhUCj4In1akz/3V+ycUi8EU6qZzBMs2ICtcju1RZEnxtZQrP/k=
+X-Received: by 2002:a2e:9ad4:: with SMTP id p20mr24178237ljj.49.1567613778648;
+ Wed, 04 Sep 2019 09:16:18 -0700 (PDT)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+References: <20180716122125.175792-1-maco@android.com> <20190903150638.242049-1-maennich@google.com>
+ <20190903150638.242049-13-maennich@google.com> <20190903161045.GA22754@roeck-us.net>
+ <CAK7LNARYqqCSCc0G4FL7_bj80iMoLLJrUJ7B3+huD25EUkrttA@mail.gmail.com> <c6ac941c-06a4-e5dc-5cb9-fca7b40d7e9a@roeck-us.net>
+In-Reply-To: <c6ac941c-06a4-e5dc-5cb9-fca7b40d7e9a@roeck-us.net>
+From:   Matthew Dharm <mdharm-usb@one-eyed-alien.net>
+Date:   Wed, 4 Sep 2019 09:16:07 -0700
+Message-ID: <CAA6KcBBeP9xYbVws4=RMFNA4kyrodE-R3mifhbkee-Q+jFRcoQ@mail.gmail.com>
+Subject: Re: [usb-storage] Re: [PATCH v4 12/12] RFC: watchdog: export core
+ symbols in WATCHDOG_CORE namespace
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Matthias Maennich <maennich@google.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
+        Lucas De Marchi <lucas.de.marchi@gmail.com>,
+        maco@android.com, sspatil@google.com,
+        Will Deacon <will@kernel.org>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        linux-modules@vger.kernel.org,
+        linux-usb <linux-usb@vger.kernel.org>,
+        USB Mass Storage on Linux 
+        <usb-storage@lists.one-eyed-alien.net>,
+        linux-watchdog@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Nagarjuna Kristam <nkristam@nvidia.com>
+On Wed, Sep 4, 2019 at 5:12 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> Note that I don't object to the patch set in general. There may be symbols
+> which only need be exported in the context of a single subsystem or even
+> driver (if a driver consists of more than one module). For example, a mfd
+> driver may export symbols which should only be called by its client drivers.
+> In such a situation, it may well be beneficial to limit the use of exported
+> symbols.
 
-[ Upstream commit 993cc8753453fccfe060a535bbe21fcf1001b626 ]
+I can appreciate this benefit.
 
-The Falcon microcontroller that runs the XUSB firmware and which is
-responsible for exposing the XHCI interface can address only 40 bits of
-memory. Typically that's not a problem because Tegra devices don't have
-enough system memory to exceed those 40 bits.
+> I am not sure what good that does in practice (if I understand correctly,
+> a driver only has to declare that it wants to use a restricted use symbol
+> if it wants to use it), but that is a different question.
 
-However, if the ARM SMMU is enable on Tegra186 and later, the addresses
-passed to the XUSB controller can be anywhere in the 48-bit IOV address
-space of the ARM SMMU. Since the DMA/IOMMU API starts allocating from
-the top of the IOVA space, the Falcon microcontroller is not able to
-load the firmware successfully.
+I think this question implies that you are coming from the perspective
+of "security" or wanting to restrict access to the underlying
+functions, rather than wanting to clean-up the way symbols are handled
+for manageability / maintainability purposes (which is the goal, as I
+understand it).
 
-Fix this by setting the DMA mask to 40 bits, which will force the DMA
-API to map the buffer for the firmware to an IOVA that is addressable by
-the Falcon.
+HOWEVER, I have one question:  If these patches are included, and
+someone wants to introduce a bit of code which needs to use two
+symbols from different namespaces but with the same name, can that be
+done?  That is, if driver A has symbol 'foo' and driver B has symbol
+'foo' (both in their respective namespaces), and driver C wants to use
+A.foo and B.foo, can that be supported?
 
-Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
-Signed-off-by: Thierry Reding <treding@nvidia.com>
-Link: https://lore.kernel.org/r/1566989697-13049-1-git-send-email-nkristam@nvidia.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/host/xhci-tegra.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Matt
 
-diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-index b1cce989bd123..fe37dacc695fc 100644
---- a/drivers/usb/host/xhci-tegra.c
-+++ b/drivers/usb/host/xhci-tegra.c
-@@ -1148,6 +1148,16 @@ static int tegra_xusb_probe(struct platform_device *pdev)
- 
- 	tegra_xusb_ipfs_config(tegra, regs);
- 
-+	/*
-+	 * The XUSB Falcon microcontroller can only address 40 bits, so set
-+	 * the DMA mask accordingly.
-+	 */
-+	err = dma_set_mask_and_coherent(tegra->dev, DMA_BIT_MASK(40));
-+	if (err < 0) {
-+		dev_err(&pdev->dev, "failed to set DMA mask: %d\n", err);
-+		goto put_rpm;
-+	}
-+
- 	err = tegra_xusb_load_firmware(tegra);
- 	if (err < 0) {
- 		dev_err(&pdev->dev, "failed to load firmware: %d\n", err);
+
 -- 
-2.20.1
-
+Matthew Dharm
+Former Maintainer, USB Mass Storage driver for Linux
