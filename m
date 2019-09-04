@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4B64C3A5A8
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 16:00:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76B0FC3A5A8
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 16:04:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 84E5323400
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 16:00:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4360820820
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 16:04:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1567612849;
-	bh=MObqDKyCwUFv4ZdRPDIg/JRo1tcGAB+2SCyl6lE37/s=;
+	s=default; t=1567613079;
+	bh=rng0vklXFVK0a4LP4agVcs4rvO5G2fgDSggZLO0gOwQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=x1ydJMsgfHUzD0LHMPsbbJSo4Maj8meHirV0e65rEWCfLBiwmG2TS9NuHUdjzaGna
-	 l1/wpTXmHJOP/ywdig4LL+8WdBk66snkO/h2XWTGiSQvq31dOfP2VZygIbQwSzRzld
-	 Rysan8VhFzFOP4e3BG75aRIwKjhmCjXzOAF7/cGE=
+	b=ZOAwMHGsfc8vY2slahqxe0N1PN+6eF/ax8nij+4jaaJ1Q47mN7dj0FltWajjqKuBM
+	 C3Nndh+1khBK9Cue/ze7OvsLSkpaRxS4PdYpgaBTzpiVsqv+wKRmTw/QqA0IYuxrf+
+	 3Ixz1xGP9F8Ao9dyKoNzD71dS3+wz2KOUiNfRFU4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732820AbfIDQAs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 4 Sep 2019 12:00:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35754 "EHLO mail.kernel.org"
+        id S1732973AbfIDQEe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 4 Sep 2019 12:04:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39720 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732164AbfIDQAq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 4 Sep 2019 12:00:46 -0400
+        id S1731439AbfIDQDR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 4 Sep 2019 12:03:17 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3C4B022CED;
-        Wed,  4 Sep 2019 16:00:45 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D8FCF20820;
+        Wed,  4 Sep 2019 16:03:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567612846;
-        bh=MObqDKyCwUFv4ZdRPDIg/JRo1tcGAB+2SCyl6lE37/s=;
+        s=default; t=1567612996;
+        bh=rng0vklXFVK0a4LP4agVcs4rvO5G2fgDSggZLO0gOwQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=sUORdJQcgI3EpKZKLOywd/VIOAHDPwJwfrjk6CnKJV25ypXqseYI6bpm8SShgqphh
-         3dabOShoQDdf09RPEz0YgdoIKkPNVNNLxeoPMHHcq7CKyWKLoO/Ssg9PoS8/dTjGwj
-         fZlGjFajDq42C282LN4pt2MXeliU/9sv0MSK0P0E=
+        b=ZQ/u77R5fGloaBXA34GIrjLs1bXZFWx4Z3LFUhsVMSrXicgbc2HxbFXIBmWDUDpQy
+         YJIGROm0yxPmha5bYqL5o+xLBM+rmJQgfW2u4Q1j5pUDkMbaDQGE6xZXC0Wn/geAzg
+         K/rvQ5qbJrHoa141u+1JEUUMfdZEvEzOBhbR4HHY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Prashant Malani <pmalani@chromium.org>,
@@ -45,12 +45,12 @@ Cc:     Prashant Malani <pmalani@chromium.org>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 29/52] r8152: Set memory to all 0xFFs on failed reg reads
-Date:   Wed,  4 Sep 2019 11:59:41 -0400
-Message-Id: <20190904160004.3671-29-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 08/20] r8152: Set memory to all 0xFFs on failed reg reads
+Date:   Wed,  4 Sep 2019 12:02:51 -0400
+Message-Id: <20190904160303.5062-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190904160004.3671-1-sashal@kernel.org>
-References: <20190904160004.3671-1-sashal@kernel.org>
+In-Reply-To: <20190904160303.5062-1-sashal@kernel.org>
+References: <20190904160303.5062-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -88,10 +88,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index f1b5201cc3207..a065a6184f7e4 100644
+index 2d83689374bbb..10dd307593e89 100644
 --- a/drivers/net/usb/r8152.c
 +++ b/drivers/net/usb/r8152.c
-@@ -788,8 +788,11 @@ int get_registers(struct r8152 *tp, u16 value, u16 index, u16 size, void *data)
+@@ -671,8 +671,11 @@ int get_registers(struct r8152 *tp, u16 value, u16 index, u16 size, void *data)
  	ret = usb_control_msg(tp->udev, usb_rcvctrlpipe(tp->udev, 0),
  			      RTL8152_REQ_GET_REGS, RTL8152_REQT_READ,
  			      value, index, tmp, size, 500);
