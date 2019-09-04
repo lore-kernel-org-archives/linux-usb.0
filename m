@@ -2,105 +2,81 @@ Return-Path: <SRS0=fNt9=W7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E9A2C3A5A7
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 08:57:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D54FBC3A5A7
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 09:01:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 533C722CF7
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 08:57:42 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tDMIAcZL"
+	by mail.kernel.org (Postfix) with ESMTP id B2A6B2339D
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 09:01:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729275AbfIDI5l (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 4 Sep 2019 04:57:41 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:42049 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726358AbfIDI5l (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 4 Sep 2019 04:57:41 -0400
-Received: by mail-wr1-f68.google.com with SMTP id q14so957844wrm.9
-        for <linux-usb@vger.kernel.org>; Wed, 04 Sep 2019 01:57:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=A6tCn/bL9VqC8vfSP/XnAcqw4FN3+q77kJ2LFpOO3BI=;
-        b=tDMIAcZLguralxlzTEyQXyz646kZS1T8wxb1c3TUtS0zhjFyN0bfZ0qmHh+anvKoS+
-         enPYK112jjWRrLYQKMrK9FAV6Ol+a8t9mE27jgZSc6NH+8CDzzuVpzvbkxb1KazT7H6E
-         IaEbW9VmHOLOXcli6Rp7Y7LPeTKC34geAOvmlUqCWd9271nPAcMr7PzTZXBYJOvPl3ce
-         eGLEmEtTX1qgSHVHthfpLj2v2iI8pUBT5dfietW1C81dMAChU/xSklqH/Rf8WLcAdqup
-         Vms5onTijGYyKHkeZOoESG3oZgynqZMQV5lndEaJ9q7DPo9NDx5Bn0YXNcf9A6HS7JWR
-         LkaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=A6tCn/bL9VqC8vfSP/XnAcqw4FN3+q77kJ2LFpOO3BI=;
-        b=qYvlUvvhpzePB25q71m3k5tVX49rUqERQEHMzvp4LN0EedSAOTi4AL7Go351rFetun
-         mwBajTddfDDtPabwOOYLi0EYWQmCNhki1CvXWrGD5sev9HCVx3kPOGzU8USuO6VF0o9X
-         nceyGdjiL6gGantu5Dkms5s5adTpdI1ala7KyspjNRf07KPFWwBQ4GnDhA/zflGlKHgD
-         NjkxPRUokyYeGTuwxaqLr2UiN2U/rZQy+y6B1VYo26DAD+gvN4fu8tAkXUUdnTWnQxAG
-         yH9Ykc8WOqgvV104VpmGN+0zysnuKL2zNB+7mY+Oz/ku9AM9pE9NEyftioFOvhGEkcm1
-         OnQg==
-X-Gm-Message-State: APjAAAVEDb0gFXpsBdDHw/JsuNWzzQIQS6gW3jPWxAdvbjOBpONIqKMG
-        8Wnkf730TAskuqMS+hJbn443f6rpKj0=
-X-Google-Smtp-Source: APXvYqyAhrKvTsVxQ5mpExTe+xZfDqfG2f9kJKPUIqucia30GF+S+u8ulK8WdZil6mhTDfemari2lQ==
-X-Received: by 2002:adf:f404:: with SMTP id g4mr46021135wro.290.1567587458844;
-        Wed, 04 Sep 2019 01:57:38 -0700 (PDT)
-Received: from dell ([95.147.198.36])
-        by smtp.gmail.com with ESMTPSA id u68sm3507042wmu.12.2019.09.04.01.57.37
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 04 Sep 2019 01:57:38 -0700 (PDT)
-Date:   Wed, 4 Sep 2019 09:57:36 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Christoph Hellwig <hch@lst.de>, Guenter Roeck <linux@roeck-us.net>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
-        linux-kernel@vger.kernel.org
-Subject: Re: usb dma_mask fixups
-Message-ID: <20190904085736.GH26880@dell>
-References: <20190903084615.19161-1-hch@lst.de>
- <20190903131648.GA19335@kroah.com>
+        id S1729324AbfIDJBt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 4 Sep 2019 05:01:49 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:35298 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726045AbfIDJBt (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 4 Sep 2019 05:01:49 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id E6BE3B719FA4BBEAA3B2;
+        Wed,  4 Sep 2019 17:01:47 +0800 (CST)
+Received: from localhost (10.133.213.239) by DGGEMS409-HUB.china.huawei.com
+ (10.3.19.209) with Microsoft SMTP Server id 14.3.439.0; Wed, 4 Sep 2019
+ 17:01:37 +0800
+From:   YueHaibing <yuehaibing@huawei.com>
+To:     <gregkh@linuxfoundation.org>, <yoshihiro.shimoda.uh@renesas.com>,
+        <horms+renesas@verge.net.au>, <felipe.balbi@linux.intel.com>,
+        <chris.brandt@renesas.com>, <jarkko.nikula@linux.intel.com>
+CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        YueHaibing <yuehaibing@huawei.com>
+Subject: [PATCH -next] usb: renesas_usbhs: use devm_platform_ioremap_resource() to simplify code
+Date:   Wed, 4 Sep 2019 16:50:45 +0800
+Message-ID: <20190904085045.24204-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190903131648.GA19335@kroah.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain
+X-Originating-IP: [10.133.213.239]
+X-CFilter-Loop: Reflected
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 03 Sep 2019, Greg Kroah-Hartman wrote:
+Use devm_platform_ioremap_resource() to simplify the code a bit.
+This is detected by coccinelle.
 
-> On Tue, Sep 03, 2019 at 10:46:09AM +0200, Christoph Hellwig wrote:
-> > Hi all,
-> > 
-> > the first patch fixes the ohci-sm501 regression that Guenther reported
-> > due to the platform device dma_mask changes.  The second one ports that
-> > fix to another driver that works the same way.  The rest cleans up
-> > various loose ends left over from the dma related usb changes in the
-> > last two merge windows.
-> 
-> Thanks for these, all now queued up.
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+---
+ drivers/usb/renesas_usbhs/common.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Did you queue the MFD patch too?
-
-If so (and you can rebase ;) ), please feel free to add my:
-
-Acked-by: Lee Jones <lee.jones@linaro.org>
-
-If not, no sweat.
-
+diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
+index 4c3de77..18d5d1a 100644
+--- a/drivers/usb/renesas_usbhs/common.c
++++ b/drivers/usb/renesas_usbhs/common.c
+@@ -590,7 +590,7 @@ static int usbhs_probe(struct platform_device *pdev)
+ {
+ 	const struct renesas_usbhs_platform_info *info;
+ 	struct usbhs_priv *priv;
+-	struct resource *res, *irq_res;
++	struct resource *irq_res;
+ 	struct device *dev = &pdev->dev;
+ 	int ret, gpio;
+ 	u32 tmp;
+@@ -619,8 +619,7 @@ static int usbhs_probe(struct platform_device *pdev)
+ 	if (!priv)
+ 		return -ENOMEM;
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	priv->base = devm_ioremap_resource(&pdev->dev, res);
++	priv->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(priv->base))
+ 		return PTR_ERR(priv->base);
+ 
 -- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.7.4
+
+
