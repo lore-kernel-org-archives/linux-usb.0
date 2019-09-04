@@ -2,83 +2,110 @@ Return-Path: <SRS0=fNt9=W7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9576BC3A5A8
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 07:05:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CC68C3A5A8
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 07:05:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5F91D2339E
-	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 07:05:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 41AE5233A1
+	for <linux-usb@archiver.kernel.org>; Wed,  4 Sep 2019 07:05:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1567580711;
-	bh=BvhCnpCI7Jpy8VXdwe7ysGKs1koYaDcnvbTLdLeJAiI=;
+	s=default; t=1567580736;
+	bh=aWGzlmrB2PaClSzN/gYS8Kh4U8lGww1SuEpNwf6L34c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=b+/50nIqZG4v2nhO5Nbfo0H39ZJUC71t9SR2gPqeHKteUqYa609Ioqx9Zrh0IB1tK
-	 zpnRRBetH9cFfA1mh9fvCnilkgfqdFv2kXW+xnLlGfQFrkrDpYFba1vh+yh1MfHdb6
-	 8bkApJ7sN53wWg/SUAu2pI1mBK7KEOKcqvzEwkcU=
+	b=0lwoxw2hp8/M6s4NJCFfmy2tT4yxruJIzsSZ2fKkNfxoeNlQByF8a4MOlpA0B28wR
+	 zVMOt3uqTPOHZJyKUPZjhW6zGwtlM7JCk1dbDkzrDnYX7H4iD4W4eWaQAqfAlIW2+9
+	 HtIvuW2u/oUfDhYNxohUmM7iDViI0d9SowBWl/oE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727499AbfIDHFK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 4 Sep 2019 03:05:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59078 "EHLO mail.kernel.org"
+        id S1728601AbfIDHFf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 4 Sep 2019 03:05:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59170 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725840AbfIDHFK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 4 Sep 2019 03:05:10 -0400
+        id S1725840AbfIDHFf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 4 Sep 2019 03:05:35 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 839BA22CED;
-        Wed,  4 Sep 2019 07:05:09 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 10BF322CED;
+        Wed,  4 Sep 2019 07:05:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567580710;
-        bh=BvhCnpCI7Jpy8VXdwe7ysGKs1koYaDcnvbTLdLeJAiI=;
+        s=default; t=1567580734;
+        bh=aWGzlmrB2PaClSzN/gYS8Kh4U8lGww1SuEpNwf6L34c=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KDNtYyrNQqprj/svcXeemD0AdjchjOU1HueB3PHYRzg1CWgUOhmRR3xIAzLa8MtBL
-         2pX3HkJAEdYEMJbc+Nz6dO/erZRU6MjlLS87RUKAouSbAngHdA4vG8eDNn8LprrLPI
-         q1s3lHLi/AQNrlMAKdC3f2BXSMfC6zN0DOXT/oZs=
-Date:   Wed, 4 Sep 2019 09:05:07 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Gavin Li <gavinli@thegavinli.com>
-Cc:     linux-usb@vger.kernel.org, Gavin Li <git@thegavinli.com>
-Subject: Re: [PATCH] usb: devio: fix mmap() on non-coherent DMA architectures
-Message-ID: <20190904070507.GA18791@kroah.com>
-References: <20190801220436.3871-1-gavinli@thegavinli.com>
- <20190802121416.GA20689@kroah.com>
- <CA+GxvY7LswVFZvk0mLRLgUqdo=Gb0pQ1KMsgmWbiFEPvMvquXQ@mail.gmail.com>
- <20190805151713.GA7067@kroah.com>
+        b=I1XbJYryFvML98L8MUbUNMCVghNaG0ZM/kQjPjHdov2dtaPX33t3c4blqrFhgHB3X
+         CsaSNk+frGyPriJzkBiC1Mb7JjcHzaMMqtcAdmekkZqnalpeTSQlfZCNSkRHwbW44n
+         Shg6hZE5liVhGBAjhIHYqI5SEvhN10z5DxlY0rv4=
+Date:   Wed, 4 Sep 2019 09:05:32 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Jani Nikula <jani.nikula@intel.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        intel-gfx@lists.freedesktop.org,
+        Vishal Kulkarni <vishal@chelsio.com>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Julia Lawall <julia.lawall@lip6.fr>
+Subject: Re: [PATCH 1/2] linux/kernel.h: add yesno(), onoff(),
+ enableddisabled(), plural() helpers
+Message-ID: <20190904070532.GB18791@kroah.com>
+References: <20190903133731.2094-1-jani.nikula@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190805151713.GA7067@kroah.com>
+In-Reply-To: <20190903133731.2094-1-jani.nikula@intel.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Aug 05, 2019 at 05:17:13PM +0200, Greg KH wrote:
-> On Fri, Aug 02, 2019 at 10:57:00AM -0700, Gavin Li wrote:
-> > usbfs mmap() looks like it was introduced for 4.6 in commit
-> > f7d34b445abc, so it should probably be backported to 4.9 and onwards.
-> > This issue has been present since the introduction of the feature.
-> > 
-> > One sidenote: this patch will cause the following warning on x86 due
-> > to dmap_mmap_coherent() trying to map normal memory in as uncached:
-> > 
-> > x86/PAT: ... map pfn RAM range req uncached-minus for [mem
-> > 0x77b000000-0x77b210fff], got write-back
-> > 
-> > This warning is harmless, as x86 is DMA coherent and the memory gets
-> > correctly mapped in as write-back. I will submit a patch to the DMA
-> > mapping team to eliminate this warning.
+On Tue, Sep 03, 2019 at 04:37:30PM +0300, Jani Nikula wrote:
+> The kernel has plenty of ternary operators to choose between constant
+> strings, such as condition ? "yes" : "no", as well as value == 1 ? "" :
+> "s":
 > 
-> Let me know what the git commit id of that patch is, I will wait for it
-> to hit the tree before adding this one.
+> $ git grep '? "yes" : "no"' | wc -l
+> 258
+> $ git grep '? "on" : "off"' | wc -l
+> 204
+> $ git grep '? "enabled" : "disabled"' | wc -l
+> 196
+> $ git grep '? "" : "s"' | wc -l
+> 25
+> 
+> Additionally, there are some occurences of the same in reverse order,
+> split to multiple lines, or otherwise not caught by the simple grep.
+> 
+> Add helpers to return the constant strings. Remove existing equivalent
+> and conflicting functions in i915, cxgb4, and USB core. Further
+> conversion can be done incrementally.
+> 
+> While the main goal here is to abstract recurring patterns, and slightly
+> clean up the code base by not open coding the ternary operators, there
+> are also some space savings to be had via better string constant
+> pooling.
+> 
+> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: Vishal Kulkarni <vishal@chelsio.com>
+> Cc: netdev@vger.kernel.org
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-usb@vger.kernel.org
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: linux-kernel@vger.kernel.org
+> Cc: Julia Lawall <julia.lawall@lip6.fr>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  drivers/gpu/drm/i915/i915_utils.h             | 15 -------------
+>  .../ethernet/chelsio/cxgb4/cxgb4_debugfs.c    | 11 ----------
+>  drivers/usb/core/config.c                     |  5 -----
+>  drivers/usb/core/generic.c                    |  5 -----
+>  include/linux/kernel.h                        | 21 +++++++++++++++++++
+>  5 files changed, 21 insertions(+), 36 deletions(-)
 
-Dropping this patch from my queue now, please feel free to resend when
-you have refreshed it against the latest tree.
-
-thanks,
-
-greg k-h
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
