@@ -7,61 +7,61 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E10BC00306
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Sep 2019 16:18:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2429C43331
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Sep 2019 16:18:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4E336214D9
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Sep 2019 16:18:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A1CAB214DE
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Sep 2019 16:18:52 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YlFW1oYk"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jZZB1l94"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388670AbfIEQSV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 5 Sep 2019 12:18:21 -0400
-Received: from mail-pf1-f179.google.com ([209.85.210.179]:44884 "EHLO
-        mail-pf1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388449AbfIEQSR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Sep 2019 12:18:17 -0400
-Received: by mail-pf1-f179.google.com with SMTP id q21so2054515pfn.11
-        for <linux-usb@vger.kernel.org>; Thu, 05 Sep 2019 09:18:17 -0700 (PDT)
+        id S2388602AbfIEQSq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 5 Sep 2019 12:18:46 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:37747 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388616AbfIEQSU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Sep 2019 12:18:20 -0400
+Received: by mail-pf1-f195.google.com with SMTP id y9so2078904pfl.4
+        for <linux-usb@vger.kernel.org>; Thu, 05 Sep 2019 09:18:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Ny7YX6BxIHZBg/a0IXvofczDmYcoW0RMjpIj9iNxGYI=;
-        b=YlFW1oYkgedY1H7kdvtntMbQozGn3kOxCMqp2NIumUNGka9YZY56mm/5JnjNo8a6sg
-         BpG6Faq+3L6/s3liaVWlfJHdXuBMamArc6Tke+yxoc3WFo/JaJ3GGn7dtJ+2eGI/ZSPm
-         WmOtxGPCrHlhUdg0lKZxrCxzFFciRcVyZ4C2H/w5nX6/ePlCd5vC7MVmOunp7NW+n+KY
-         kwRBcBObjxbXwA0p2AO+21wka8/782dXgpI6hfmtYJ3uAgtu6VJVYXFKQIJ0U+B9Jx+a
-         cnY4OkG7/6sBLkpOWgOpybs5Q6WX+6CfltrwCTUB6XO+nb6zY7AjGP6RiFK/d+51XXVM
-         jSow==
+        bh=k4RSHQziswwPF3IEl7odNlbX/Lq1Hx75YDWK/+CVFu0=;
+        b=jZZB1l94YWLd3tFIaGQ47yvMyJb9LlEazs2Ow8RBBjQ4l/r+vNhmddIWpMfHfHXs50
+         78rWPPNCOz1OQu1AmHck6xNxXoRE7CFw9P+2slSZQz2Ys6D042/onIrEufTy+6xGnf7G
+         /W7VbSFrbc056Zl/UdlRSDhj5hSjjoWsrULBTO1dp2b+2wVkNBYy15jzvUSO7Yol26Pq
+         +a0ju3yHvCNmc2ezasYLStXloGX/OXTLGO31IarwZm/OPn8nU0nkbRODmTltiIBUdlzi
+         njdrh0EUYg8SUhgdMLrNIUsilQw7WpjaCy9U6aj+BbrkPvrH3K1Yod5NAymx6bhyqYRw
+         48AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=Ny7YX6BxIHZBg/a0IXvofczDmYcoW0RMjpIj9iNxGYI=;
-        b=LsjnGM0AJpl6Vrun/ouVuTTLGio8ALWVZOvgmTOb0EUWu8iEH3UG+khUkDGLs+Z6k0
-         qs+TyxcV6P/7bns7ZcT1e0X54jENdA6Psj93cxh1oODd5WxdODxK/c/b22cHfb7JfWxK
-         PfkCkJG8KXBNB7323jPBb0k2FvvZQqnNyBSGnX5V/g5g2gQmhvf4T+ggKCUGDT790Ygg
-         MnyDlJ8SafFuo2aWtNjoL5RbiUKnU968CSIzN2hW6fCd1OpjIxCBf63J+uqAlpuW7zuf
-         EqSB+YzAQJwkTd18C1iKd46KgNE6BqhIBjDPX2FowbLoYBWvge/LrlRTLInbC1ajkYYl
-         ghiA==
-X-Gm-Message-State: APjAAAWGWePyosc89Ob939fOviqyTRRhA2ryOLJ46w2tnjYm5gKvqsoP
-        qRupXFoRlHGqU1UIoinXOXTqdnTDXAU=
-X-Google-Smtp-Source: APXvYqwKA9IK1vUfcaYpjMN+OcoAuPYIhWjw5YDLjt28SgdQJQGNYVmg1+PKFIED4Sz9PCGNnWl8iw==
-X-Received: by 2002:aa7:920b:: with SMTP id 11mr4734304pfo.231.1567700296683;
-        Thu, 05 Sep 2019 09:18:16 -0700 (PDT)
+        bh=k4RSHQziswwPF3IEl7odNlbX/Lq1Hx75YDWK/+CVFu0=;
+        b=mmvo4eB1YcrMfbMYwZN8eQbHh53y9XVHtbI6RSKOcf/+m3Ig1/x29OsYRQN13ZrAYx
+         gZ6rynt5igAj8bbSOD04X7hBDYjBspVEx6ZM7Zumt7lBmrGsDIqgXnvnf+YkWu6f9PiW
+         AZu+QZYf08fkyBVVS22JvInCzl8Kz0K06EZMkvOX6KuV9VjVVKUUJogJ8WuOFeLgbMHo
+         iUH2+gqjAwfYTu8eQU4vE9E6Df/32igaooET+WEPHxZdkH3kQ7+Lu7gyJW8W204OK8Ef
+         UOWFGvb87kHw070p1y7i0hNLYQCnFLgibQeBp8E97u5i+scjXhHG2ZFC41p+K1tliU2O
+         smgQ==
+X-Gm-Message-State: APjAAAWyofbTICB41ycDmwLeCGJaUnta8aQQglCwjjwk2Kw+SKcbTUb/
+        Q9DAGiyrCnHV2YyeS62aGrN/Rg==
+X-Google-Smtp-Source: APXvYqylgGgnlf/Z0Orza9qJRrWxcszrwnK+vdVT7tg0cYX2LQXbbeSPDVM6mlYFYgUjBYVURutriw==
+X-Received: by 2002:a63:714a:: with SMTP id b10mr4066928pgn.25.1567700299222;
+        Thu, 05 Sep 2019 09:18:19 -0700 (PDT)
 Received: from xps15.cg.shawcable.net (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
-        by smtp.gmail.com with ESMTPSA id m129sm6324005pga.39.2019.09.05.09.18.15
+        by smtp.gmail.com with ESMTPSA id m129sm6324005pga.39.2019.09.05.09.18.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2019 09:18:16 -0700 (PDT)
+        Thu, 05 Sep 2019 09:18:18 -0700 (PDT)
 From:   Mathieu Poirier <mathieu.poirier@linaro.org>
 To:     stable@vger.kernel.org
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-omap@vger.kernel.org, linux-i2c@vger.kernel.org,
         linux-pci@vger.kernel.org, linux-mtd@lists.infradead.org
-Subject: [BACKPORT 4.14.y 13/18] ASoC: tlv320dac31xx: mark expected switch fall-through
-Date:   Thu,  5 Sep 2019 10:17:54 -0600
-Message-Id: <20190905161759.28036-14-mathieu.poirier@linaro.org>
+Subject: [BACKPORT 4.14.y 15/18] ASoC: davinci: Kill BUG_ON() usage
+Date:   Thu,  5 Sep 2019 10:17:56 -0600
+Message-Id: <20190905161759.28036-16-mathieu.poirier@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190905161759.28036-1-mathieu.poirier@linaro.org>
 References: <20190905161759.28036-1-mathieu.poirier@linaro.org>
@@ -70,34 +70,35 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: "Gustavo A. R. Silva" <garsilva@embeddedor.com>
+From: Takashi Iwai <tiwai@suse.de>
 
-commit 09fc38c1af4cb888255e9ecf267bf9757c12885d upstream
+commit befff4fbc27e19b14b343eb4a65d8f75d38b6230 upstream
 
-In preparation to enabling -Wimplicit-fallthrough, mark switch cases
-where we are expecting to fall through.
+Don't use BUG_ON() for a non-critical sanity check on production
+systems.  This patch replaces with a softer WARN_ON() and an error
+path.
 
-Addresses-Coverity-ID: 1195220
-Signed-off-by: Gustavo A. R. Silva <garsilva@embeddedor.com>
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 ---
- sound/soc/codecs/tlv320aic31xx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/davinci/davinci-mcasp.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/codecs/tlv320aic31xx.c b/sound/soc/codecs/tlv320aic31xx.c
-index d3bd0bf15ddb..cc95c15ceceb 100644
---- a/sound/soc/codecs/tlv320aic31xx.c
-+++ b/sound/soc/codecs/tlv320aic31xx.c
-@@ -941,7 +941,7 @@ static int aic31xx_set_dai_fmt(struct snd_soc_dai *codec_dai,
- 	case SND_SOC_DAIFMT_I2S:
- 		break;
- 	case SND_SOC_DAIFMT_DSP_A:
--		dsp_a_val = 0x1;
-+		dsp_a_val = 0x1; /* fall through */
- 	case SND_SOC_DAIFMT_DSP_B:
- 		/*
- 		 * NOTE: This CODEC samples on the falling edge of BCLK in
+diff --git a/sound/soc/davinci/davinci-mcasp.c b/sound/soc/davinci/davinci-mcasp.c
+index af6cd8b874f5..b4e6f4a04cb6 100644
+--- a/sound/soc/davinci/davinci-mcasp.c
++++ b/sound/soc/davinci/davinci-mcasp.c
+@@ -1748,7 +1748,8 @@ static int davinci_mcasp_get_dma_type(struct davinci_mcasp *mcasp)
+ 				PTR_ERR(chan));
+ 		return PTR_ERR(chan);
+ 	}
+-	BUG_ON(!chan->device || !chan->device->dev);
++	if (WARN_ON(!chan->device || !chan->device->dev))
++		return -EINVAL;
+ 
+ 	if (chan->device->dev->of_node)
+ 		ret = of_property_read_string(chan->device->dev->of_node,
 -- 
 2.17.1
 
