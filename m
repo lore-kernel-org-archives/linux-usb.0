@@ -2,127 +2,156 @@ Return-Path: <SRS0=KboW=XA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FSL_HELO_FAKE,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C2B9C43140
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Sep 2019 14:47:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25E5BC00306
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Sep 2019 16:18:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C4942206CD
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Sep 2019 14:47:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C57F821924
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Sep 2019 16:18:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MBtV92rB"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UXrdRBNR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389913AbfIEOrD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 5 Sep 2019 10:47:03 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:39790 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725290AbfIEOrC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Sep 2019 10:47:02 -0400
-Received: by mail-wm1-f65.google.com with SMTP id q12so3405260wmj.4
-        for <linux-usb@vger.kernel.org>; Thu, 05 Sep 2019 07:47:00 -0700 (PDT)
+        id S2388874AbfIEQSY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 5 Sep 2019 12:18:24 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:37751 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388740AbfIEQSW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Sep 2019 12:18:22 -0400
+Received: by mail-pf1-f194.google.com with SMTP id y9so2078993pfl.4
+        for <linux-usb@vger.kernel.org>; Thu, 05 Sep 2019 09:18:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=zXRGEZPwLtQ5UinxPXKU5BfJwpOCdWN4x79WEBjhqjE=;
-        b=MBtV92rBa45246haRPT8qJPcyhwAnCzGKWvtch+yphLIQemMY/gh8rghP/zBtzfhZM
-         cpNvyMRnAG5QKZHMWcZ9nGFEPxpgrPHlGg7/XLUNNd4u6wM+0FQ2prtdPxZeCyRUYgG/
-         46UJM/NqDtwXc0nJ0q6SAb9xSMl58YKwCFKDbHGX/tVevKx8RK6diHCHAXeOi7MjI2lk
-         PvYvOQTx7+W8Qrmx13NqWuMQHWS6psl1gN95m/d/GLgjEpPk3HC1Stf1IKA/Ps6h4Sa/
-         B5GatoBEuuaROLE0BQKgN++QnG4MC66qo9gYpsjhhVJchmtowGwhpI1s78bjOcQhi51y
-         c6hw==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=hTEru9Lo54OU309HOwpQ2LAFUsKEGLtu5GnynJbae0I=;
+        b=UXrdRBNRv4eBFBI2US9eb56BJw2QFySRmdCdiI/+LAIvG/m2c60c9K3NqHc9JzTcvb
+         d8dwqHteqwZIJwmYizpsubVkvO7TeVXDOVTe6aX5zdW2UD3IAtqJ/uiyS9Lx2SPK8Tif
+         Ec3qJAS3tr4mZ7bec9KhbwJfgkz2i4i8m38SHu1mvaoBC5wPzGtmlDymSmvre0XS7bbB
+         i4Ro8UZZSf2iDGafbRHglF0mzarE9YVWxA+kdHTx/AktvE3YQZ90hkW58NANUCfMxmkq
+         vIUoM/uekP6tFp8QDwySUHFho1wZKNrREHBB6M0EcCmSSQ1TR8BMwXKfB/JtNSwWr7kI
+         o+bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=zXRGEZPwLtQ5UinxPXKU5BfJwpOCdWN4x79WEBjhqjE=;
-        b=ONieUGTON2Wk/L59foi1WUg0NUKXEdPtj/jnwIGMfUznAoGlJaxTvIkRsnM8fS8npD
-         sW56TVbQqwqyl7c1TFLv30SJ89TdIghkM+w4shg+ev2djoqMx+lH6nPPlTt5n9YPeobr
-         Z7OweAsBsQ7DDGSKzQa89DvvnKJ+7UuVifwI3BtDWhxTn8hNVVef7Q3nP7ebI40rFZQ+
-         e4R/vQhBMjYhuKAb6D/RvGWMLJwl7topaHgyXYRM6DV/qO1MTyqGAbm9QLRoPf4MbcDn
-         7zlgSqGnAbzrfzo5rBeWRFViJM6cAX9wLN4bAukPB1pFfckw4k+cxMx7q/rLTjyvKOXG
-         J2gg==
-X-Gm-Message-State: APjAAAUHpxsTqvtmP+UwUlzbCbxuKZCAPHtaiVS+9fs+KFtunvJGggFk
-        iPPRNEDDrr4FVHlL2oqbAxuEIA==
-X-Google-Smtp-Source: APXvYqxrOWP3uRwxr+KtT9+/rUjsTzf8G+3Pk75+GnyZlEo2O+xCfU34WKNLUgQbN77l6Mtdb/VdMA==
-X-Received: by 2002:a1c:ef13:: with SMTP id n19mr3424489wmh.48.1567694819611;
-        Thu, 05 Sep 2019 07:46:59 -0700 (PDT)
-Received: from google.com ([2a00:79e0:d:210:e8f7:125b:61e9:733d])
-        by smtp.gmail.com with ESMTPSA id y3sm3568846wra.88.2019.09.05.07.46.58
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=hTEru9Lo54OU309HOwpQ2LAFUsKEGLtu5GnynJbae0I=;
+        b=rR0V2Jo375shssr04SDGhzY1jLshfTHqHsBSnDPzkgYYgqaAikHUOeJphGF5AEo76T
+         AW8xvivzQS6Ea/3rwMlGY/LlrgyHHcZ07F10zgVbl865m0o5f/173dfzx8TvhZjlUXAq
+         UnlQoky/siheIEb+xARHKvscwpDlJ1pnWzRV3odbaGFsRIPNKPHUX61YBj7kDM7tHFG4
+         iZhxWl8YLyvIAS9VSGCfvabwFwP6rhD6fUSFKq4M8QHa6Bjd+i58d43CQyDW5NDgldvu
+         eUkdBiZCYa0vu5tA7BYzJkEUpLbfXbxqVteAn3SleocxO6QKbB7mTqrhXoKdrHYM+xG8
+         XhWA==
+X-Gm-Message-State: APjAAAXjSnZr+jD78TjFO1ahgcYgNpeQDakbptM6hI9Lf9R5lNBEm4Nv
+        dXtlipzEG5hEPyOmRYmXv5JRwA==
+X-Google-Smtp-Source: APXvYqw5OdtGz9h32B1utEihP+LRew80y2W8OC4yKoEUMG1OkpNOOTrJlR12V0LXuIQ89YtUTd464w==
+X-Received: by 2002:a63:a35c:: with SMTP id v28mr3980810pgn.144.1567700301882;
+        Thu, 05 Sep 2019 09:18:21 -0700 (PDT)
+Received: from xps15.cg.shawcable.net (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
+        by smtp.gmail.com with ESMTPSA id m129sm6324005pga.39.2019.09.05.09.18.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2019 07:46:58 -0700 (PDT)
-Date:   Thu, 5 Sep 2019 15:46:55 +0100
-From:   Matthias Maennich <maennich@google.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "Cc: Android Kernel" <kernel-team@android.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        "Joel Fernandes (Google)" <joel@joelfernandes.org>,
-        Lucas De Marchi <lucas.de.marchi@gmail.com>,
-        maco@android.com, sspatil@google.com,
-        Will Deacon <will@kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        linux-modules@vger.kernel.org,
-        linux-usb <linux-usb@vger.kernel.org>,
-        usb-storage@lists.one-eyed-alien.net,
-        linux-watchdog@vger.kernel.org, Julia Lawall <julia.lawall@lip6.fr>
-Subject: Re: [PATCH v4 08/12] scripts: Coccinelle script for namespace
- dependencies.
-Message-ID: <20190905144655.GB136369@google.com>
-References: <20180716122125.175792-1-maco@android.com>
- <20190903150638.242049-1-maennich@google.com>
- <20190903150638.242049-9-maennich@google.com>
- <CAK7LNARgxoXAABNXhO-LzxAm8rh6NJqAm9-iMo2=t2c_6_KXtQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAK7LNARgxoXAABNXhO-LzxAm8rh6NJqAm9-iMo2=t2c_6_KXtQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Thu, 05 Sep 2019 09:18:21 -0700 (PDT)
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     stable@vger.kernel.org
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-omap@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-mtd@lists.infradead.org
+Subject: [BACKPORT 4.14.y 17/18] i2c: omap: Trigger bus recovery in lockup case
+Date:   Thu,  5 Sep 2019 10:17:58 -0600
+Message-Id: <20190905161759.28036-18-mathieu.poirier@linaro.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190905161759.28036-1-mathieu.poirier@linaro.org>
+References: <20190905161759.28036-1-mathieu.poirier@linaro.org>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Sep 04, 2019 at 06:53:25PM +0900, Masahiro Yamada wrote:
->On Wed, Sep 4, 2019 at 12:07 AM Matthias Maennich <maennich@google.com> wrote:
->>
->> A script that uses the '<module>.ns_deps' files generated by modpost to
->> automatically add the required symbol namespace dependencies to each
->> module.
->>
->> Usage:
->> 1) Move some symbols to a namespace with EXPORT_SYMBOL_NS() or define
->>    DEFAULT_SYMBOL_NAMESPACE
->> 2) Run 'make' (or 'make modules') and get warnings about modules not
->>    importing that namespace.
->> 3) Run 'make nsdeps' to automatically add required import statements
->>    to said modules.
->>
->> This makes it easer for subsystem maintainers to introduce and maintain
->> symbol namespaces into their codebase.
->>
->> Co-developed-by: Martijn Coenen <maco@android.com>
->> Signed-off-by: Martijn Coenen <maco@android.com>
->> Acked-by: Julia Lawall <julia.lawall@lip6.fr>
->> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> Signed-off-by: Matthias Maennich <maennich@google.com>
->
->
->Without any correct dependency,
->this does not work.
+From: Claudio Foellmi <claudio.foellmi@ergon.ch>
 
-You are right, 'nsdeps' needs to depend on 'modules' to make that work.
-I will fix that in the next version.
+commit 93367bfca98f36cece57c01dbce6ea1b4ac58245 upstream
 
->$ make clean; make nsdeps
->cat: modules.order: No such file or directory
->cat: ./modules.order: No such file or directory
->
->
->I do not see any point in the Makefile changes.
+A very conservative check for bus activity (to prevent interference
+in multimaster setups) prevented the bus recovery methods from being
+triggered in the case that SDA or SCL was stuck low.
+This defeats the purpose of the recovery mechanism, which was introduced
+for exactly this situation (a slave device keeping SDA pulled down).
+
+Also added a check to make sure SDA is low before attempting recovery.
+If SDA is not stuck low, recovery will not help, so we can skip it.
+
+Note that bus lockups can persist across reboots. The only other options
+are to reset or power cycle the offending slave device, and many i2c
+slaves do not even have a reset pin.
+
+If we see that one of the lines is low for the entire timeout duration,
+we can actually be sure that there is no other master driving the bus.
+It is therefore save for us to attempt a bus recovery.
+
+Signed-off-by: Claudio Foellmi <claudio.foellmi@ergon.ch>
+Tested-by: Vignesh R <vigneshr@ti.com>
+Reviewed-by: Grygorii Strashko <grygorii.strashko@ti.com>
+[wsa: fixed one return code to -EBUSY]
+Signed-off-by: Wolfram Sang <wsa@the-dreams.de>
+Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+---
+ drivers/i2c/busses/i2c-omap.c | 25 +++++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/i2c/busses/i2c-omap.c b/drivers/i2c/busses/i2c-omap.c
+index 12ba183693d6..a03564f41ad0 100644
+--- a/drivers/i2c/busses/i2c-omap.c
++++ b/drivers/i2c/busses/i2c-omap.c
+@@ -486,6 +486,22 @@ static int omap_i2c_init(struct omap_i2c_dev *omap)
+ 	return 0;
+ }
+ 
++/*
++ * Try bus recovery, but only if SDA is actually low.
++ */
++static int omap_i2c_recover_bus(struct omap_i2c_dev *omap)
++{
++	u16 systest;
++
++	systest = omap_i2c_read_reg(omap, OMAP_I2C_SYSTEST_REG);
++	if ((systest & OMAP_I2C_SYSTEST_SCL_I_FUNC) &&
++	    (systest & OMAP_I2C_SYSTEST_SDA_I_FUNC))
++		return 0; /* bus seems to already be fine */
++	if (!(systest & OMAP_I2C_SYSTEST_SCL_I_FUNC))
++		return -EBUSY; /* recovery would not fix SCL */
++	return i2c_recover_bus(&omap->adapter);
++}
++
+ /*
+  * Waiting on Bus Busy
+  */
+@@ -496,7 +512,7 @@ static int omap_i2c_wait_for_bb(struct omap_i2c_dev *omap)
+ 	timeout = jiffies + OMAP_I2C_TIMEOUT;
+ 	while (omap_i2c_read_reg(omap, OMAP_I2C_STAT_REG) & OMAP_I2C_STAT_BB) {
+ 		if (time_after(jiffies, timeout))
+-			return i2c_recover_bus(&omap->adapter);
++			return omap_i2c_recover_bus(omap);
+ 		msleep(1);
+ 	}
+ 
+@@ -577,8 +593,13 @@ static int omap_i2c_wait_for_bb_valid(struct omap_i2c_dev *omap)
+ 		}
+ 
+ 		if (time_after(jiffies, timeout)) {
++			/*
++			 * SDA or SCL were low for the entire timeout without
++			 * any activity detected. Most likely, a slave is
++			 * locking up the bus with no master driving the clock.
++			 */
+ 			dev_warn(omap->dev, "timeout waiting for bus ready\n");
+-			return -ETIMEDOUT;
++			return omap_i2c_recover_bus(omap);
+ 		}
+ 
+ 		msleep(1);
+-- 
+2.17.1
+
