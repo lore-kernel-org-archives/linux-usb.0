@@ -7,61 +7,61 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BDBAC00306
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Sep 2019 16:18:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16F63C00306
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Sep 2019 16:19:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DFF7220CC7
-	for <linux-usb@archiver.kernel.org>; Thu,  5 Sep 2019 16:18:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B6FC320CC7
+	for <linux-usb@archiver.kernel.org>; Thu,  5 Sep 2019 16:19:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RxDSo4U5"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HL27V+NY"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389223AbfIEQSx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 5 Sep 2019 12:18:53 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:40749 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388564AbfIEQSS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Sep 2019 12:18:18 -0400
-Received: by mail-pg1-f193.google.com with SMTP id w10so1680643pgj.7
-        for <linux-usb@vger.kernel.org>; Thu, 05 Sep 2019 09:18:18 -0700 (PDT)
+        id S2388460AbfIEQSQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 5 Sep 2019 12:18:16 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:46234 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388449AbfIEQSQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Sep 2019 12:18:16 -0400
+Received: by mail-pl1-f195.google.com with SMTP id t1so1507072plq.13
+        for <linux-usb@vger.kernel.org>; Thu, 05 Sep 2019 09:18:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=oVyIDYAYI+VGDpI/lL7N1eH8i3MwtZKf3xtD/r8Rq24=;
-        b=RxDSo4U5spH1guQJnwpIC/IDoB9wBeRnVHNJlU6ZkPdlDZGnci2vz8qQzeVqj6sHk8
-         OIEP3Aw69I/XCmA2b4iKpZz7pSTX9yIxzmguy6LxNFNRQtOD1hZHZx50CRC8PIff6+Jn
-         /PplH+b2d5ldVWpeCS9ka4uiFItzl73R1+KOe4NeD4/11/kYAn/1IySNj9Bit9gvqtaq
-         BVSsW9xsV/zkaN+MU/3pg6WNWNHQQdNWpTw8n5BgEs56iSr3vf+9eqggw+5lcrUcaiuI
-         sjZLImwlXI8C+gUp7XbIVlhEkMi75jmc05IAcQed1JPfpUYfVzvU+urgBPc0BaBeFAqr
-         CjyQ==
+        bh=8QjjqDFW2as8gsE3MNwHPLPN76USmssxyGkKOBC9D3E=;
+        b=HL27V+NYul1f+O0bmc6YkYSMF5euNDbYJl3hh04CdtFtjxmvNCYdhhn4rVKZ4mtbnC
+         haoz4ZuRykOa1EVcbKBLOnulQom5g/1qMM4K3pUJqI9gyl8+8M7gUP3hdV27jiyNhaLP
+         o/VZfks/pnLsAsEemsNEwt2UAy9aH5QMHPRsXyteaLVX8yuXtIU8Q7J3Kt0GHRGIjeu+
+         6uqwAVSO0rrjztAQNUcFDtt/AS9X6aQBAlsAr+yR2VeRxvHvm5f4PTxaab1YLr0ySVHa
+         WGR7mnvK9yLWmfNAcVoLZFMGqTS8ZaLoVAcycwWbcXSXF16pUzOt3ohlbzYqLRrORRPt
+         DjoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=oVyIDYAYI+VGDpI/lL7N1eH8i3MwtZKf3xtD/r8Rq24=;
-        b=UFamV01WyH8X9nfoh9VOmkCY9uuEZ6Fl7uAS/PajGKpLC4VEvnRb9m40Ee+O/33V3q
-         2W92kIlotqLzS2MrwEH2SgaQOb+opPwS0YPKU6QPFCNJ/mDSHhG6pa/jJtVuRpBxNeWl
-         bu9wfmh2lfxJyF6QjlwOp2AzVY11RyYC+tbspIvPoG+DqVfPyM4iBiZEVx//KUcM7+qN
-         6yYoRk3N/bqV8avztv4JP2OWsS3vWG7uW6HN3Xh9OBa8FuTcR0DpmmoZ2+kPooTOWweU
-         ux020jmRx1lSSFRCJmq6nRt6UgKKdDpE6ZtZUeg+o7EUcH2V30lJpJIDR2vB2zQ5mefl
-         MwNw==
-X-Gm-Message-State: APjAAAWcNUd4GMNfXSgEtbPfgBhenmE2BD/N7Yu8E8Wp6Kxtb0BUwKeT
-        w86pN/Va1yxvIFFEtHXHfmC+Lw==
-X-Google-Smtp-Source: APXvYqzhTRlr7lMleWMm7PihRHJXTyTnHKtYgBmHBckAchkD+HJXwuNJjzGA3Uqro4QttUg4ocqrjA==
-X-Received: by 2002:a63:ea14:: with SMTP id c20mr3836155pgi.185.1567700298006;
-        Thu, 05 Sep 2019 09:18:18 -0700 (PDT)
+        bh=8QjjqDFW2as8gsE3MNwHPLPN76USmssxyGkKOBC9D3E=;
+        b=jHKprT4fr53CbSYs8wqSXcarwah5W653rlkYxME1JZrCKYc+//n/2KyNAvsIrDR7DA
+         S8Tm3YsLibrIUT0Sb1fzKr14sob1LKHlc0K3F+W5/oa9d2SIlzd2j7xIO+GZq+4152ph
+         B05gUTADG01JbKxibFHk7kBgUiyR9u4mc7tW+4j48CBS9cAJm0hNsr/P+zyK4+j39ypF
+         96TPSpHUztcGqGKg/+gS2YyKsF34G3oaxOsDGiVhHXqKBkH41wpWQ6xIATJJUTW2ERRz
+         g/y9t6ua6/6SlfSYoGqrAGLJaVdg0/WtQQq99oKLq+ZRxlws91gAKgvl6l1mQFxsJ2KH
+         W9ag==
+X-Gm-Message-State: APjAAAUfu/i/CSmtRiyqVKOAS9+mqf7+ldUpFvEzY3PgLq5qBSKrN08p
+        Izz/srkq3hqlpVXoFAtLvZ2be+PGGMQ=
+X-Google-Smtp-Source: APXvYqyin58dfoGmkrcR+0oj6G4rVylfKjqkSHZX5WE/1JHerRC2GQAUjkfl3U9yKFWbfii5zbbXyA==
+X-Received: by 2002:a17:902:8a87:: with SMTP id p7mr4384259plo.240.1567700295503;
+        Thu, 05 Sep 2019 09:18:15 -0700 (PDT)
 Received: from xps15.cg.shawcable.net (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
-        by smtp.gmail.com with ESMTPSA id m129sm6324005pga.39.2019.09.05.09.18.16
+        by smtp.gmail.com with ESMTPSA id m129sm6324005pga.39.2019.09.05.09.18.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2019 09:18:17 -0700 (PDT)
+        Thu, 05 Sep 2019 09:18:14 -0700 (PDT)
 From:   Mathieu Poirier <mathieu.poirier@linaro.org>
 To:     stable@vger.kernel.org
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-omap@vger.kernel.org, linux-i2c@vger.kernel.org,
         linux-pci@vger.kernel.org, linux-mtd@lists.infradead.org
-Subject: [BACKPORT 4.14.y 14/18] ASoC: davinci-mcasp: Handle return value of devm_kasprintf
-Date:   Thu,  5 Sep 2019 10:17:55 -0600
-Message-Id: <20190905161759.28036-15-mathieu.poirier@linaro.org>
+Subject: [BACKPORT 4.14.y 12/18] mailbox: reset txdone_method TXDONE_BY_POLL if client knows_txdone
+Date:   Thu,  5 Sep 2019 10:17:53 -0600
+Message-Id: <20190905161759.28036-13-mathieu.poirier@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190905161759.28036-1-mathieu.poirier@linaro.org>
 References: <20190905161759.28036-1-mathieu.poirier@linaro.org>
@@ -70,57 +70,89 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Arvind Yadav <arvind.yadav.cs@gmail.com>
+From: Sudeep Holla <sudeep.holla@arm.com>
 
-commit 0c8b794c4a10aaf7ac0d4a49be2b2638e2038adb upstream
+commit 33cd7123ac0ba5360656ae27db453de5b9aa711f upstream
 
-devm_kasprintf() can fail here and we must check its return value.
+Currently the mailbox framework sets txdone_method to TXDONE_BY_POLL if
+the controller sets txdone_by_poll. However some clients can have a
+mechanism to do TXDONE_BY_ACK which they can specify by knows_txdone.
+However, we endup setting both TXDONE_BY_POLL and TXDONE_BY_ACK in that
+case. In such scenario, we may end up with below warnings as the tx
+ticker is run both by mailbox framework and the client.
 
-Signed-off-by: Arvind Yadav <arvind.yadav.cs@gmail.com>
-Acked-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
-Signed-off-by: Mark Brown <broonie@kernel.org>
+WARNING: CPU: 1 PID: 0 at kernel/time/hrtimer.c:805 hrtimer_forward+0x88/0xd8
+CPU: 1 PID: 0 Comm: swapper/1 Not tainted 4.12.0-rc5 #242
+Hardware name: ARM LTD ARM Juno Development Platform
+task: ffff8009768ca700 task.stack: ffff8009768f8000
+PC is at hrtimer_forward+0x88/0xd8
+LR is at txdone_hrtimer+0xd4/0xf8
+Call trace:
+ hrtimer_forward+0x88/0xd8
+ __hrtimer_run_queues+0xe4/0x158
+ hrtimer_interrupt+0xa4/0x220
+ arch_timer_handler_phys+0x30/0x40
+ handle_percpu_devid_irq+0x78/0x130
+ generic_handle_irq+0x24/0x38
+ __handle_domain_irq+0x5c/0xb8
+ gic_handle_irq+0x54/0xa8
+
+This patch fixes the issue by resetting TXDONE_BY_POLL if client has set
+knows_txdone.
+
+Cc: Alexey Klimov <alexey.klimov@arm.com>
+Signed-off-by: Sudeep Holla <sudeep.holla@arm.com>
+Signed-off-by: Jassi Brar <jaswinder.singh@linaro.org>
 Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 ---
- sound/soc/davinci/davinci-mcasp.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/mailbox/mailbox.c | 4 ++--
+ drivers/mailbox/pcc.c     | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/sound/soc/davinci/davinci-mcasp.c b/sound/soc/davinci/davinci-mcasp.c
-index 0480ec4c8035..af6cd8b874f5 100644
---- a/sound/soc/davinci/davinci-mcasp.c
-+++ b/sound/soc/davinci/davinci-mcasp.c
-@@ -1894,6 +1894,10 @@ static int davinci_mcasp_probe(struct platform_device *pdev)
- 	if (irq >= 0) {
- 		irq_name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "%s_common",
- 					  dev_name(&pdev->dev));
-+		if (!irq_name) {
-+			ret = -ENOMEM;
-+			goto err;
-+		}
- 		ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
- 						davinci_mcasp_common_irq_handler,
- 						IRQF_ONESHOT | IRQF_SHARED,
-@@ -1911,6 +1915,10 @@ static int davinci_mcasp_probe(struct platform_device *pdev)
- 	if (irq >= 0) {
- 		irq_name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "%s_rx",
- 					  dev_name(&pdev->dev));
-+		if (!irq_name) {
-+			ret = -ENOMEM;
-+			goto err;
-+		}
- 		ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
- 						davinci_mcasp_rx_irq_handler,
- 						IRQF_ONESHOT, irq_name, mcasp);
-@@ -1926,6 +1934,10 @@ static int davinci_mcasp_probe(struct platform_device *pdev)
- 	if (irq >= 0) {
- 		irq_name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "%s_tx",
- 					  dev_name(&pdev->dev));
-+		if (!irq_name) {
-+			ret = -ENOMEM;
-+			goto err;
-+		}
- 		ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
- 						davinci_mcasp_tx_irq_handler,
- 						IRQF_ONESHOT, irq_name, mcasp);
+diff --git a/drivers/mailbox/mailbox.c b/drivers/mailbox/mailbox.c
+index 44b49a2676f0..055c90b8253c 100644
+--- a/drivers/mailbox/mailbox.c
++++ b/drivers/mailbox/mailbox.c
+@@ -351,7 +351,7 @@ struct mbox_chan *mbox_request_channel(struct mbox_client *cl, int index)
+ 	init_completion(&chan->tx_complete);
+ 
+ 	if (chan->txdone_method	== TXDONE_BY_POLL && cl->knows_txdone)
+-		chan->txdone_method |= TXDONE_BY_ACK;
++		chan->txdone_method = TXDONE_BY_ACK;
+ 
+ 	spin_unlock_irqrestore(&chan->lock, flags);
+ 
+@@ -420,7 +420,7 @@ void mbox_free_channel(struct mbox_chan *chan)
+ 	spin_lock_irqsave(&chan->lock, flags);
+ 	chan->cl = NULL;
+ 	chan->active_req = NULL;
+-	if (chan->txdone_method == (TXDONE_BY_POLL | TXDONE_BY_ACK))
++	if (chan->txdone_method == TXDONE_BY_ACK)
+ 		chan->txdone_method = TXDONE_BY_POLL;
+ 
+ 	module_put(chan->mbox->dev->driver->owner);
+diff --git a/drivers/mailbox/pcc.c b/drivers/mailbox/pcc.c
+index 9b7005e1345e..27c2294be51a 100644
+--- a/drivers/mailbox/pcc.c
++++ b/drivers/mailbox/pcc.c
+@@ -266,7 +266,7 @@ struct mbox_chan *pcc_mbox_request_channel(struct mbox_client *cl,
+ 	init_completion(&chan->tx_complete);
+ 
+ 	if (chan->txdone_method == TXDONE_BY_POLL && cl->knows_txdone)
+-		chan->txdone_method |= TXDONE_BY_ACK;
++		chan->txdone_method = TXDONE_BY_ACK;
+ 
+ 	spin_unlock_irqrestore(&chan->lock, flags);
+ 
+@@ -312,7 +312,7 @@ void pcc_mbox_free_channel(struct mbox_chan *chan)
+ 	spin_lock_irqsave(&chan->lock, flags);
+ 	chan->cl = NULL;
+ 	chan->active_req = NULL;
+-	if (chan->txdone_method == (TXDONE_BY_POLL | TXDONE_BY_ACK))
++	if (chan->txdone_method == TXDONE_BY_ACK)
+ 		chan->txdone_method = TXDONE_BY_POLL;
+ 
+ 	spin_unlock_irqrestore(&chan->lock, flags);
 -- 
 2.17.1
 
