@@ -7,61 +7,61 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76F4AC43140
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E10BC00306
 	for <linux-usb@archiver.kernel.org>; Thu,  5 Sep 2019 16:18:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 258432137B
+	by mail.kernel.org (Postfix) with ESMTP id 4E336214D9
 	for <linux-usb@archiver.kernel.org>; Thu,  5 Sep 2019 16:18:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="G2V7SSCD"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YlFW1oYk"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389098AbfIEQSo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 5 Sep 2019 12:18:44 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:44117 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388682AbfIEQSV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Sep 2019 12:18:21 -0400
-Received: by mail-pf1-f194.google.com with SMTP id q21so2054654pfn.11
-        for <linux-usb@vger.kernel.org>; Thu, 05 Sep 2019 09:18:21 -0700 (PDT)
+        id S2388670AbfIEQSV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 5 Sep 2019 12:18:21 -0400
+Received: from mail-pf1-f179.google.com ([209.85.210.179]:44884 "EHLO
+        mail-pf1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388449AbfIEQSR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Sep 2019 12:18:17 -0400
+Received: by mail-pf1-f179.google.com with SMTP id q21so2054515pfn.11
+        for <linux-usb@vger.kernel.org>; Thu, 05 Sep 2019 09:18:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=uGQDHiVh7Y3nm+Fh7RZmraqTkygsaWl9aTS4H8V2qOg=;
-        b=G2V7SSCDYkEQo7LiHhdd0FmXiDoCypwneNd0t71NKBiF5VjSYh7im1hJZ8psR9OmdS
-         vENjDDDDtQ6NwdMR/F+BtzcV44YofhYGBf5najafmfR9bR99jS1kCvdcrsHzlLCSSxeK
-         7GcxrvgtY7wXU8hlt8M2yDvumDEEvUFc4v5wE3taJ+LuREXiOMnvl/Lw2ns+rIOFePa8
-         KXF5jz1R9EzIfWODk0dy/N4ScNQsSc3JHGq4NtqlEeVnjTRTJemxCs9WCnFjW8eLTaw0
-         DZr6IXQltw83ioNUii9IPkrTtAIZFHKWIM+WRq0gtusHdP3ZkBTPW2WufSyZjWejUhJa
-         2Maw==
+        bh=Ny7YX6BxIHZBg/a0IXvofczDmYcoW0RMjpIj9iNxGYI=;
+        b=YlFW1oYkgedY1H7kdvtntMbQozGn3kOxCMqp2NIumUNGka9YZY56mm/5JnjNo8a6sg
+         BpG6Faq+3L6/s3liaVWlfJHdXuBMamArc6Tke+yxoc3WFo/JaJ3GGn7dtJ+2eGI/ZSPm
+         WmOtxGPCrHlhUdg0lKZxrCxzFFciRcVyZ4C2H/w5nX6/ePlCd5vC7MVmOunp7NW+n+KY
+         kwRBcBObjxbXwA0p2AO+21wka8/782dXgpI6hfmtYJ3uAgtu6VJVYXFKQIJ0U+B9Jx+a
+         cnY4OkG7/6sBLkpOWgOpybs5Q6WX+6CfltrwCTUB6XO+nb6zY7AjGP6RiFK/d+51XXVM
+         jSow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=uGQDHiVh7Y3nm+Fh7RZmraqTkygsaWl9aTS4H8V2qOg=;
-        b=adDb/uFoJ7hYt1C/eYQh0SmcHwoohZqNHltyQwG4YD966PXzYzT9NAZGCrBP30a2Co
-         4brz+oHZOpqw31V4A2eygxsZQyPlsbgNe4uVMiG3tSnC6cFwvCL0T2q8mmIo+Mo7+iMz
-         fTC4ahcfDk9Cwhohyc2Q9+0uSY3Q+vA7LNchKfVHD/95q83XOXLvZMnIO1f9qvrpsKlv
-         +cimN0Pk9ADRrHZl9RQSAoEGLvL4DwVlsxRbZVh868QnGIW5m9qIiK+jpoRH/8xw/WAU
-         ECgixunrHFRyiaPJJ2EpwDtwJ1lnSJmzdlG7UIpXfyFDhP7UetK4iWkCu17dVucaVGNV
-         BWeA==
-X-Gm-Message-State: APjAAAXpq21LKLG8m7CA0VUsoAU8B/762/VRMq4hy17BMlj6kQmb73vZ
-        yR+8DUL+qcub/v65IATazV1tvA==
-X-Google-Smtp-Source: APXvYqzyC7KQpz20rtOB8zivfhdGWRJPZQhVbOYyx1ZP0zkE+kwOQ1jHtksq4R981qryiPR2vzsmvw==
-X-Received: by 2002:a63:ff0c:: with SMTP id k12mr3771562pgi.186.1567700300722;
-        Thu, 05 Sep 2019 09:18:20 -0700 (PDT)
+        bh=Ny7YX6BxIHZBg/a0IXvofczDmYcoW0RMjpIj9iNxGYI=;
+        b=LsjnGM0AJpl6Vrun/ouVuTTLGio8ALWVZOvgmTOb0EUWu8iEH3UG+khUkDGLs+Z6k0
+         qs+TyxcV6P/7bns7ZcT1e0X54jENdA6Psj93cxh1oODd5WxdODxK/c/b22cHfb7JfWxK
+         PfkCkJG8KXBNB7323jPBb0k2FvvZQqnNyBSGnX5V/g5g2gQmhvf4T+ggKCUGDT790Ygg
+         MnyDlJ8SafFuo2aWtNjoL5RbiUKnU968CSIzN2hW6fCd1OpjIxCBf63J+uqAlpuW7zuf
+         EqSB+YzAQJwkTd18C1iKd46KgNE6BqhIBjDPX2FowbLoYBWvge/LrlRTLInbC1ajkYYl
+         ghiA==
+X-Gm-Message-State: APjAAAWGWePyosc89Ob939fOviqyTRRhA2ryOLJ46w2tnjYm5gKvqsoP
+        qRupXFoRlHGqU1UIoinXOXTqdnTDXAU=
+X-Google-Smtp-Source: APXvYqwKA9IK1vUfcaYpjMN+OcoAuPYIhWjw5YDLjt28SgdQJQGNYVmg1+PKFIED4Sz9PCGNnWl8iw==
+X-Received: by 2002:aa7:920b:: with SMTP id 11mr4734304pfo.231.1567700296683;
+        Thu, 05 Sep 2019 09:18:16 -0700 (PDT)
 Received: from xps15.cg.shawcable.net (S0106002369de4dac.cg.shawcable.net. [68.147.8.254])
-        by smtp.gmail.com with ESMTPSA id m129sm6324005pga.39.2019.09.05.09.18.19
+        by smtp.gmail.com with ESMTPSA id m129sm6324005pga.39.2019.09.05.09.18.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2019 09:18:19 -0700 (PDT)
+        Thu, 05 Sep 2019 09:18:16 -0700 (PDT)
 From:   Mathieu Poirier <mathieu.poirier@linaro.org>
 To:     stable@vger.kernel.org
 Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-omap@vger.kernel.org, linux-i2c@vger.kernel.org,
         linux-pci@vger.kernel.org, linux-mtd@lists.infradead.org
-Subject: [BACKPORT 4.14.y 16/18] ASoC: davinci-mcasp: Fix an error handling path in 'davinci_mcasp_probe()'
-Date:   Thu,  5 Sep 2019 10:17:57 -0600
-Message-Id: <20190905161759.28036-17-mathieu.poirier@linaro.org>
+Subject: [BACKPORT 4.14.y 13/18] ASoC: tlv320dac31xx: mark expected switch fall-through
+Date:   Thu,  5 Sep 2019 10:17:54 -0600
+Message-Id: <20190905161759.28036-14-mathieu.poirier@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190905161759.28036-1-mathieu.poirier@linaro.org>
 References: <20190905161759.28036-1-mathieu.poirier@linaro.org>
@@ -70,42 +70,34 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Christophe Jaillet <christophe.jaillet@wanadoo.fr>
+From: "Gustavo A. R. Silva" <garsilva@embeddedor.com>
 
-commit 1b8b68b05d1868404316d32e20782b00442aba90 upstream
+commit 09fc38c1af4cb888255e9ecf267bf9757c12885d upstream
 
-All error handling paths in this function 'goto err' except this one.
+In preparation to enabling -Wimplicit-fallthrough, mark switch cases
+where we are expecting to fall through.
 
-If one of the 2 previous memory allocations fails, we should go through
-the existing error handling path. Otherwise there is an unbalanced
-pm_runtime_enable()/pm_runtime_disable().
-
-Fixes: dd55ff8346a9 ("ASoC: davinci-mcasp: Add set_tdm_slots() support")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Acked-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
+Addresses-Coverity-ID: 1195220
+Signed-off-by: Gustavo A. R. Silva <garsilva@embeddedor.com>
 Signed-off-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 ---
- sound/soc/davinci/davinci-mcasp.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ sound/soc/codecs/tlv320aic31xx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/davinci/davinci-mcasp.c b/sound/soc/davinci/davinci-mcasp.c
-index b4e6f4a04cb6..07bac9ea65c4 100644
---- a/sound/soc/davinci/davinci-mcasp.c
-+++ b/sound/soc/davinci/davinci-mcasp.c
-@@ -2022,8 +2022,10 @@ static int davinci_mcasp_probe(struct platform_device *pdev)
- 			     GFP_KERNEL);
- 
- 	if (!mcasp->chconstr[SNDRV_PCM_STREAM_PLAYBACK].list ||
--	    !mcasp->chconstr[SNDRV_PCM_STREAM_CAPTURE].list)
--		return -ENOMEM;
-+	    !mcasp->chconstr[SNDRV_PCM_STREAM_CAPTURE].list) {
-+		ret = -ENOMEM;
-+		goto err;
-+	}
- 
- 	ret = davinci_mcasp_set_ch_constraints(mcasp);
- 	if (ret)
+diff --git a/sound/soc/codecs/tlv320aic31xx.c b/sound/soc/codecs/tlv320aic31xx.c
+index d3bd0bf15ddb..cc95c15ceceb 100644
+--- a/sound/soc/codecs/tlv320aic31xx.c
++++ b/sound/soc/codecs/tlv320aic31xx.c
+@@ -941,7 +941,7 @@ static int aic31xx_set_dai_fmt(struct snd_soc_dai *codec_dai,
+ 	case SND_SOC_DAIFMT_I2S:
+ 		break;
+ 	case SND_SOC_DAIFMT_DSP_A:
+-		dsp_a_val = 0x1;
++		dsp_a_val = 0x1; /* fall through */
+ 	case SND_SOC_DAIFMT_DSP_B:
+ 		/*
+ 		 * NOTE: This CODEC samples on the falling edge of BCLK in
 -- 
 2.17.1
 
