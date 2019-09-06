@@ -8,53 +8,53 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E68B6C00306
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Sep 2019 01:51:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2658FC43140
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Sep 2019 01:51:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E1BE4206CD
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Sep 2019 01:51:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 268F1206CD
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Sep 2019 01:51:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ok9kYFE7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AtZojLIL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391955AbfIFBvT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 5 Sep 2019 21:51:19 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:38270 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732602AbfIFBvS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Sep 2019 21:51:18 -0400
-Received: by mail-oi1-f194.google.com with SMTP id 7so3663191oip.5;
-        Thu, 05 Sep 2019 18:51:18 -0700 (PDT)
+        id S2391961AbfIFBvV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 5 Sep 2019 21:51:21 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:46566 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391956AbfIFBvU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Sep 2019 21:51:20 -0400
+Received: by mail-oi1-f193.google.com with SMTP id x7so3633615oie.13;
+        Thu, 05 Sep 2019 18:51:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=26NmWxoSiKiaWbVOpt4jWAHx5xteNn77h0vhjItrDwY=;
-        b=ok9kYFE7zKccBGuLRmP6PpsmxMY2zFXvsw5yEeaEtRTxGzItpBNduNmXiuox+antxH
-         E+obq0pphDHbQwBacAG/8YfQ9BdmvKU76k41wjAAMr6Vc8fktf3uFPPi1WNq7yk3xO9S
-         fSlR/nX3Z50IiAqKnEFAuyZkkOBblvRZj9JC7KIP/w61wIOtbkU/vtDJ2eGId551sFpN
-         1xaZrPu4vtU2VGea1Fnvy24p9LUoEJiYco6XrzGhepYumZ01WTrhjvRDRFrPio5+loOR
-         Dwd9bYhF6/saMLnfaBbyv+22zB53GWQgyTDG3z9q7vNZ9S95kYgfxLpQSUt886dq+HbK
-         5rTw==
+        bh=Pc2qf7AeZ9RoEwSW/YkMIVCjt1/OmpGYgpPofnisPMY=;
+        b=AtZojLILPmfjKGU/+rvwuMtVsi8bh9jbESGQYSkFMhO+ZOJlsvPNx/6plmqvjnrYMb
+         QFL9aAdiziQevu72cCR0etUns5D6F+iYANjA3o5zFsOP7zmOMC2G9CTYWKffv1+HH7Bh
+         RqhqNOo1xNMvyZ7FqhOUsc1yg5evkkPmRBYDQeD3zQhv0LrqipKBdgBOAMyecNMa4f1k
+         /9sD8sQSl6f9K+uxcYpxR0jstuaW6T4AiEs0ezEcdoYOhaFX6Ec0JgfoGekGZUCLPgLM
+         DhpMlV6fUbrdJeQKgJAH7G+sC1wDBBWb0gptdcuAp7mu85bR5B2SnF2H/DCBwsSRLzOH
+         CYGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=26NmWxoSiKiaWbVOpt4jWAHx5xteNn77h0vhjItrDwY=;
-        b=ZpYqnouSk41//wXznyFhW9RD7Kjix25cJzQ0e3Ly3icv/TOTo1Ly1m/DnV5cIT21bX
-         5V0ucswlHEBKVK/0aLk5nu6uNVXLgul+8eeKR646/AmHdMk9qYKXKeIRywviZxpXkxcI
-         kP051YKBTy0CnT05V/D8x1BDLyeeGR+vjy7qTu2Rinx8JsqydecjyO+pCIkr56qec3Wi
-         bUrwXyRp0S/NvFOlj3rx25Rj8CcKTJTn3k2Xr5fz4AqHh1E2em3/2l11WVXNyKCHf03P
-         JHT8sETOJU6tM+0WMNfOsfltk5nACfZBGj8EKBvwRpaGZl3YXkfet7jTRtG6nSrDP/+5
-         nbEA==
-X-Gm-Message-State: APjAAAW6ICjCsWpCUQl/2oEyIfSzUbTAKhZIeRRGzkhTZYvYFRTpnzqn
-        3H5sJQDkSzoE5BURiDNPCpI=
-X-Google-Smtp-Source: APXvYqwq9M6jAkuAegB6jm1+EJoarGebXUdSfpVRNZb+bsBUQg0zXw/xb0ZZATSyml+omaA0TDae6Q==
-X-Received: by 2002:aca:30c1:: with SMTP id w184mr5256322oiw.61.1567734678019;
-        Thu, 05 Sep 2019 18:51:18 -0700 (PDT)
+        bh=Pc2qf7AeZ9RoEwSW/YkMIVCjt1/OmpGYgpPofnisPMY=;
+        b=o3ctdMwtQZEd9JoIyr5WgplHDpzpwxpKAsbR9rknzzOJYWuABxW88KpBsk3h43pI7t
+         bC0qwMSWXUI/l+cB+69nqEGDiDlK+GLc7NDsj8hqPxlDXQPV8IaeGQr+aLjekQrgFLL2
+         hd8nQou0yZ8Dh96mytyJo0yPQn9zY4fqPGLqglAbxn8t1tTRsEavvz8aX99SUpTxwF/9
+         o7NoXvH+xpbzmj/BzzWftEYNaYA3goJwJZuAi/UKYAWGw8DcTlrrQXguIfGxSfBXbBLL
+         OmnvakJ/84B6ob5Mip47MaoWQGNQcvuDfR/omxqzqvwoDX8v2gvOg3pC1n3lwne41rH5
+         P17w==
+X-Gm-Message-State: APjAAAW+NM/SCGK/uGBHy2LfxdZil08aN76MzAlexvtLE9/5AnPgFtjp
+        C64kG/5WM+/2YMhIJ+MCS9s=
+X-Google-Smtp-Source: APXvYqysED/T4cs1W79N1ktrJIBayOLsxfH1gwgrWCHvg1kwhaBhbV/g2XiEYQYMvvD0URTk88p0UA==
+X-Received: by 2002:aca:edd4:: with SMTP id l203mr5284517oih.52.1567734679777;
+        Thu, 05 Sep 2019 18:51:19 -0700 (PDT)
 Received: from chip-MS-7B92.austin.rr.com ([2605:6000:f350:3e00:fc3b:b63b:919f:ceef])
-        by smtp.gmail.com with ESMTPSA id e1sm1324097otj.48.2019.09.05.18.51.17
+        by smtp.gmail.com with ESMTPSA id e1sm1324097otj.48.2019.09.05.18.51.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2019 18:51:17 -0700 (PDT)
+        Thu, 05 Sep 2019 18:51:19 -0700 (PDT)
 From:   Charles Hyde <chip.programmer@gmail.com>
 To:     Oliver Neukum <oliver@neukum.org>,
         "Rafael J . Wysocki" <rjw@rjwysocki.net>,
@@ -64,9 +64,9 @@ Cc:     Mario Limonciello <mario.limonciello@dell.com>,
         Realtek linux nic maintainers <nic_swsd@realtek.com>,
         linux-usb@vger.kernel.org, linux-acpi@vger.kernel.org,
         chip.programmer@gmail.com
-Subject: [PATCH v3 1/3] net: cdc_ncm: add get/set ethernet address functions
-Date:   Thu,  5 Sep 2019 20:51:13 -0500
-Message-Id: <20190906015115.12796-2-chip.programmer@gmail.com>
+Subject: [PATCH v3 3/3] net: cdc_ncm: Add ACPI MAC address pass through functionality
+Date:   Thu,  5 Sep 2019 20:51:15 -0500
+Message-Id: <20190906015115.12796-4-chip.programmer@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190906015115.12796-1-chip.programmer@gmail.com>
 References: <20190906015115.12796-1-chip.programmer@gmail.com>
@@ -77,115 +77,144 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch adds support for pushing a MAC address out to USB based
-ethernet controllers driven by cdc_ncm.  With this change, ifconfig can
-now set the device's MAC address.  For example, the Dell Universal Dock
-D6000 is driven by cdc_ncm.  The D6000 can now have its MAC address set
-by ifconfig, as it can be done in Windows.  This was tested with a D6000
-using ifconfig on an x86 based chromebook, where iproute2 is not
-available.
+This change adds support to cdc_ncm for ACPI MAC address pass through
+functionality that also exists in the Realtek r8152 driver.  This is in
+support of Dell's Universal Dock D6000, to give it the same feature
+capability as is currently available in Windows and advertized on Dell's
+product web site.
+
+Today's v3 patch series includes a function named get_ethernet_addr()
+which replaces two instances where the same code snippet was located in
+teh previous patch series.  I also created a post reset function to set
+the MAC address, if there exists an ACPI MAC address pass through (MAPT)
+method.  Oliver Neukum had requested a post reset function for this
+purpose.
 
 Signed-off-by: Charles Hyde <charles.hyde@dellteam.com>
 Cc: Mario Limonciello <mario.limonciello@dell.com>
 Cc: chip.programmer@gmail.com
 Cc: Oliver Neukum <oliver@neukum.org>
+Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: Len Brown <lenb@kernel.org>
 Cc: linux-usb@vger.kernel.org
+Cc: linux-acpi@vger.kernel.org
 ---
- drivers/net/usb/cdc_ncm.c | 74 ++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 73 insertions(+), 1 deletion(-)
+ drivers/net/usb/cdc_ncm.c | 74 +++++++++++++++++++++++++++++++++------
+ 1 file changed, 64 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
-index 50c05d0f44cb..85093579612f 100644
+index 85093579612f..e0152d44f5af 100644
 --- a/drivers/net/usb/cdc_ncm.c
 +++ b/drivers/net/usb/cdc_ncm.c
-@@ -750,6 +750,78 @@ int cdc_ncm_change_mtu(struct net_device *net, int new_mtu)
- }
- EXPORT_SYMBOL_GPL(cdc_ncm_change_mtu);
+@@ -52,6 +52,7 @@
+ #include <linux/usb/usbnet.h>
+ #include <linux/usb/cdc.h>
+ #include <linux/usb/cdc_ncm.h>
++#include <acpi/acpi_mac_passthru.h>
  
-+/* Provide method to get MAC address from the USB device's ethernet controller.
-+ * If the device supports CDC_GET_ADDRESS, we should receive just six bytes.
-+ * Otherwise, use the prior method by asking for the descriptor.
-+ */
-+static int cdc_ncm_get_ethernet_address(struct usbnet *dev,
-+					struct cdc_ncm_ctx *ctx)
-+{
-+	int ret;
-+	char *buf;
-+
-+	buf = kmalloc(ETH_ALEN, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	ret = usbnet_read_cmd(dev, USB_CDC_GET_NET_ADDRESS,
-+			      USB_DIR_IN | USB_TYPE_CLASS
-+			      | USB_RECIP_INTERFACE, 0,
-+			      USB_REQ_SET_ADDRESS, buf, ETH_ALEN);
-+	if (ret == ETH_ALEN) {
-+		memcpy(dev->net->dev_addr, buf, ETH_ALEN);
-+		ret = 0;	/* success */
-+	} else {
-+		ret = usbnet_get_ethernet_addr(dev,
-+					       ctx->ether_desc->iMACAddress);
-+	}
-+	kfree(buf);
-+	return ret;
-+}
-+
-+/* Provide method to push MAC address to the USB device's ethernet controller.
-+ * If the device does not support CDC_SET_ADDRESS, there is no harm and we
-+ * proceed as before.
-+ */
-+static int cdc_ncm_set_ethernet_address(struct usbnet *dev,
-+					struct sockaddr *addr)
-+{
-+	int ret;
-+	char *buf;
-+
-+	buf = kmalloc(ETH_ALEN, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	memcpy(buf, addr->sa_data, ETH_ALEN);
-+	ret = usbnet_write_cmd(dev, USB_CDC_SET_NET_ADDRESS,
-+			       USB_DIR_OUT | USB_TYPE_CLASS
-+			       | USB_RECIP_INTERFACE, 0,
-+			       USB_REQ_SET_ADDRESS, buf, ETH_ALEN);
-+	if (ret == ETH_ALEN)
-+		ret = 0;	/* success */
-+	else if (ret < 0)
-+		dev_dbg(&dev->udev->dev, "bad MAC address put, %d\n", ret);
-+
-+	kfree(buf);
-+	return ret;
-+}
-+
-+/* Provide method to push MAC address to the USB device's ethernet controller.
-+ */
-+int cdc_ncm_set_mac_addr(struct net_device *net, void *p)
-+{
-+	struct usbnet *dev = netdev_priv(net);
-+
-+	/* Try to push the MAC address out to the device.  Ignore any errors,
-+	 * to be compatible with prior versions of this source.
-+	 */
-+	cdc_ncm_set_ethernet_address(dev, (struct sockaddr *)p);
-+
-+	return eth_mac_addr(net, p);
-+}
-+EXPORT_SYMBOL_GPL(cdc_ncm_set_mac_addr);
-+
- static const struct net_device_ops cdc_ncm_netdev_ops = {
- 	.ndo_open	     = usbnet_open,
- 	.ndo_stop	     = usbnet_stop,
-@@ -757,7 +829,7 @@ static const struct net_device_ops cdc_ncm_netdev_ops = {
- 	.ndo_tx_timeout	     = usbnet_tx_timeout,
- 	.ndo_get_stats64     = usbnet_get_stats64,
- 	.ndo_change_mtu	     = cdc_ncm_change_mtu,
--	.ndo_set_mac_address = eth_mac_addr,
-+	.ndo_set_mac_address = cdc_ncm_set_mac_addr,
+ #if IS_ENABLED(CONFIG_USB_NET_CDC_MBIM)
+ static bool prefer_mbim = true;
+@@ -833,6 +834,45 @@ static const struct net_device_ops cdc_ncm_netdev_ops = {
  	.ndo_validate_addr   = eth_validate_addr,
  };
  
++static int get_ethernet_addr(struct usb_interface *intf)
++{
++	struct sockaddr sa;
++	struct usbnet *dev = usb_get_intfdata(intf);
++	struct cdc_ncm_ctx *ctx;
++	int ret = 0;
++
++	if (!dev)
++		return 0;
++
++	ctx = (struct cdc_ncm_ctx *)dev->data[0];
++	if (!ctx->ether_desc)
++		return 0;
++
++	ret = cdc_ncm_get_ethernet_address(dev, ctx);
++	if (ret) {
++		dev_dbg(&intf->dev, "failed to get mac address\n");
++		return ret;
++	}
++
++	/* Check for a Dell Universal Dock D6000 before checking if ACPI
++	 * supports MAC address pass through.
++	 */
++	if (strstr(dev->udev->product, "D6000")) {
++		sa.sa_family = dev->net->type;
++		if (get_acpi_mac_passthru(sa.sa_data)) {
++			if (!memcmp(dev->net->dev_addr, sa.sa_data,
++				    ETH_ALEN)) {
++				if (!cdc_ncm_set_ethernet_address(dev, &sa))
++					memcpy(dev->net->dev_addr, sa.sa_data,
++					       ETH_ALEN);
++			}
++		}
++	}
++	dev_info(&intf->dev, "MAC-Address: %pM\n", dev->net->dev_addr);
++
++	return 0;
++}
++
+ int cdc_ncm_bind_common(struct usbnet *dev, struct usb_interface *intf, u8 data_altsetting, int drvflags)
+ {
+ 	struct cdc_ncm_ctx *ctx;
+@@ -983,14 +1023,8 @@ int cdc_ncm_bind_common(struct usbnet *dev, struct usb_interface *intf, u8 data_
+ 	usb_set_intfdata(ctx->data, dev);
+ 	usb_set_intfdata(ctx->control, dev);
+ 
+-	if (ctx->ether_desc) {
+-		temp = usbnet_get_ethernet_addr(dev, ctx->ether_desc->iMACAddress);
+-		if (temp) {
+-			dev_dbg(&intf->dev, "failed to get mac address\n");
+-			goto error2;
+-		}
+-		dev_info(&intf->dev, "MAC-Address: %pM\n", dev->net->dev_addr);
+-	}
++	if (get_ethernet_addr(intf))
++		goto error2;
+ 
+ 	/* finish setting up the device specific data */
+ 	cdc_ncm_setup(dev);
+@@ -1716,6 +1750,25 @@ static void cdc_ncm_status(struct usbnet *dev, struct urb *urb)
+ 	}
+ }
+ 
++static int cdc_ncm_resume(struct usb_interface *intf)
++{
++	int ret;
++
++	ret = usbnet_resume(intf);
++	if (ret == 0)
++		get_ethernet_addr(intf);
++
++	return ret;
++}
++
++static int cdc_ncm_post_reset(struct usb_interface *intf)
++{
++	/* reset the MAC address in case of policy change */
++	get_ethernet_addr(intf);
++
++	return 0;
++}
++
+ static const struct driver_info cdc_ncm_info = {
+ 	.description = "CDC NCM",
+ 	.flags = FLAG_POINTTOPOINT | FLAG_NO_SETINT | FLAG_MULTI_PACKET
+@@ -1848,8 +1901,9 @@ static struct usb_driver cdc_ncm_driver = {
+ 	.probe = usbnet_probe,
+ 	.disconnect = usbnet_disconnect,
+ 	.suspend = usbnet_suspend,
+-	.resume = usbnet_resume,
+-	.reset_resume =	usbnet_resume,
++	.resume = cdc_ncm_resume,
++	.reset_resume =	cdc_ncm_resume,
++	.post_reset = cdc_ncm_post_reset,
+ 	.supports_autosuspend = 1,
+ 	.disable_hub_initiated_lpm = 1,
+ };
 -- 
 2.20.1
 
