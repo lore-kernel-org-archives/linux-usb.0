@@ -2,299 +2,141 @@ Return-Path: <SRS0=fylQ=XB=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69427C43331
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Sep 2019 01:51:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71282C43331
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Sep 2019 02:06:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 58075206CD
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Sep 2019 01:51:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 728E92082C
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Sep 2019 02:06:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P6mEvECw"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="t8Bh4xj2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391959AbfIFBvU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 5 Sep 2019 21:51:20 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:35512 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732602AbfIFBvU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Sep 2019 21:51:20 -0400
-Received: by mail-oi1-f193.google.com with SMTP id a127so3677195oii.2;
-        Thu, 05 Sep 2019 18:51:19 -0700 (PDT)
+        id S2387666AbfIFCF4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 5 Sep 2019 22:05:56 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:41320 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729121AbfIFCF4 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 5 Sep 2019 22:05:56 -0400
+Received: by mail-io1-f65.google.com with SMTP id r26so9244135ioh.8;
+        Thu, 05 Sep 2019 19:05:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Blz0RsqZUJGPnoU5SLMqR+GSHgrZhAdK1utmIqTpw3k=;
-        b=P6mEvECwpni7oWvOJiUXPy7LfC1HtqxRYKAsFsGgCFxKGgk1ldbSkIvqF/QmWAWHbT
-         T5qmIt3GfQ5p+oU+ZqvkVdv0z10d3QiiGEeidKav9eJwaSBlHCBoaj36ftolyIJjp9bA
-         nGg7hNH8udQOMUUXlUy8F2tF+LQv2frl2Kg3Y5Aed5ncJrtcDNW390YNwMGfRGor5YvH
-         vHGNf5RqiIuk8Ah6UhZMvPk98jx3OIUbu1rJL1sE6FSe2StBI/aeGeJaOuEht91LHN1E
-         ZuLx5hWrlcEdFHnzVLFfmjjZVRAyV7xwddr7w17MIq1eZo3uVvllWwHlcIHrGWhcoWEU
-         FM5A==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=fNjAO7w9eS/oFTIrN8hMdx8IAfL3ao3OhGwC/h4NODs=;
+        b=t8Bh4xj2REDoF1VC5A1yXzR++DYfGZ2hBOftZzOlHWjxGCJP3not1J15Q9nahr5wGS
+         GIYP1R3pfOUEsxJNJlJIgGEbHuwblu+RbJWWIdC/x3zeLvf6PfcJ848aS8zqBkEY7ipN
+         vitdSOSdFhgJ+zDY2bhyN0X1q9tgyIwj/vvFMG3O9VTzzj9Tt/6qEaaOCfi2S30ZOyXh
+         9knxO2u+VvMhjNgdcamqQW67xPRedv/uj62VB/ygLGFQ+ZN5i7Cee1yLbF1X8JirI0d2
+         3PjFnEel04uTrbagLUQ2hlmVit1hfe1M0mWzmsUNxQmta3kRX0JhzoCL2ZYrUy5aEYug
+         olZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Blz0RsqZUJGPnoU5SLMqR+GSHgrZhAdK1utmIqTpw3k=;
-        b=JlFA0A2xDRD4nayjHXeo9MvJxMijG2VN1RzmNQ48WnZfhBLqNSyqpfEYFrkoT2sEhJ
-         Y/nD5umGTEFfX8ORT8m3agoXzc1t4KQ/eixgIJExwTdy9GsiZlG2tf+yzdAwNMf+Cw4d
-         20z62/i6WACA9Z6QPSebdeEDQHU/3PnSUF18xrO53Fiws8ywdcj+I0DffWHcYqHEt3Ur
-         d5uGNjEw4Qm1H+6JtI+o75A/3lATwRM5HntbYPIGZ6LdSD2VLXQc3YyRT+rrEqxgLfh6
-         o5gNxmsGfg1tQ7+GB89uwKw2k2lmYNxWtcvl3UdgFF9hQ5Ui1OKmCd41q0RcNUjgCTk5
-         FVqg==
-X-Gm-Message-State: APjAAAUvgQ6N4073CbDqkbq2vO2W1pbie852UnkXj6e8euFqJwIVU0ha
-        vNF8lqN19WG5tOugNyP/hEAhHwAM1kc=
-X-Google-Smtp-Source: APXvYqyqTVS0rxUPkCy3L5eSnfqnu4WkNXzRftrk30U4w6EH2gNQO7KtqzuJmpYdgfjWKfZlisL4Vg==
-X-Received: by 2002:aca:b70b:: with SMTP id h11mr5338236oif.107.1567734678928;
-        Thu, 05 Sep 2019 18:51:18 -0700 (PDT)
-Received: from chip-MS-7B92.austin.rr.com ([2605:6000:f350:3e00:fc3b:b63b:919f:ceef])
-        by smtp.gmail.com with ESMTPSA id e1sm1324097otj.48.2019.09.05.18.51.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2019 18:51:18 -0700 (PDT)
-From:   Charles Hyde <chip.programmer@gmail.com>
-To:     Oliver Neukum <oliver@neukum.org>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>
-Cc:     Mario Limonciello <mario.limonciello@dell.com>,
-        Charles Hyde <charles.hyde@dellteam.com>,
-        Realtek linux nic maintainers <nic_swsd@realtek.com>,
-        linux-usb@vger.kernel.org, linux-acpi@vger.kernel.org,
-        chip.programmer@gmail.com
-Subject: [PATCH v3 2/3] ACPI: move ACPI functionality out of r8152 driver
-Date:   Thu,  5 Sep 2019 20:51:14 -0500
-Message-Id: <20190906015115.12796-3-chip.programmer@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190906015115.12796-1-chip.programmer@gmail.com>
-References: <20190906015115.12796-1-chip.programmer@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=fNjAO7w9eS/oFTIrN8hMdx8IAfL3ao3OhGwC/h4NODs=;
+        b=NQ3KqUeAUkAo8MGt2Oy8pHGOdhFGBuLCqBY+7Db3kd95D64Ql9xkDCRCiB2bPZdv81
+         htYlNEdMlbdwWU2vZSzpgVSEaCOTeOakFmVLqRsg93iAaSDISstS4+YjGM8dKZjhqS8D
+         t07Q7fs8hQ6xXqorcnFhiFrbUnIYSSlGMmxAlvmUG9ZR4+9ypSOyPZLY2O1Ukk/aWGq5
+         aGBb6pbHDoIhYKZy3X5GULGeVUVtXlpvKTP6jwCUQ++fh6uFb2egE1lP6+esBzYmQvGZ
+         f4+SO9bu9Lfy3rmSCMEIXupGo49LHFqI4Qg34XAjl+3+1yALCcuJpjAi8yk/WyNLFtaT
+         Tt6A==
+X-Gm-Message-State: APjAAAVJKj36NMQ+ktehxGUF9u9aKZjZys/A3wpFgfyuNMZNX9Jy3cJ6
+        we/O8Amc3mcoe+ruEPNhNaQ=
+X-Google-Smtp-Source: APXvYqzrvldW3ojU/x20+y7cTaP88HXbmpOoRGCbe7AKvjRaefPQMetR6tFq1AYrY2esgO5umdzJJg==
+X-Received: by 2002:a02:cbad:: with SMTP id v13mr6827583jap.69.1567735555412;
+        Thu, 05 Sep 2019 19:05:55 -0700 (PDT)
+Received: from [10.186.170.145] ([128.210.107.81])
+        by smtp.gmail.com with ESMTPSA id k6sm2489169ioh.28.2019.09.05.19.05.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Sep 2019 19:05:54 -0700 (PDT)
+Subject: Re: WARNING in hso_free_net_device
+To:     Andrey Konovalov <andreyknvl@google.com>
+Cc:     Stephen Hemminger <stephen@networkplumber.org>,
+        syzbot+44d53c7255bb1aea22d2@syzkaller.appspotmail.com,
+        alexios.zavras@intel.com, "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        Mathias Payer <mathias.payer@nebelwelt.net>,
+        netdev <netdev@vger.kernel.org>, rfontana@redhat.com,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Oliver Neukum <oneukum@suse.com>
+References: <0000000000002a95df0591a4f114@google.com>
+ <d6e4d2da-66c6-a8fe-2fea-a3435fa7cb54@gmail.com>
+ <20190904154140.45dfb398@hermes.lan>
+ <285edb24-01f9-3f9d-4946-b2f41ccd0774@gmail.com>
+ <CAAeHK+y3eQ7bXvo1tiAkwLCsFkbSU5B+6hsKbdEzkSXP2_Jyzg@mail.gmail.com>
+From:   Hui Peng <benquike@gmail.com>
+Message-ID: <02ef64cc-5053-e6da-fc59-9970f48064c5@gmail.com>
+Date:   Thu, 5 Sep 2019 22:05:54 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAeHK+y3eQ7bXvo1tiAkwLCsFkbSU5B+6hsKbdEzkSXP2_Jyzg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This change moves ACPI functionality out of the Realtek r8152 driver to
-its own source and header file, making it available to other drivers as
-needed now and into the future.  At the time this ACPI snippet was
-introduced in 2016, only the Realtek driver made use of it in support of
-Dell's enterprise IT policy efforts.  There comes now a need for this
-same support in a different driver, also in support of Dell's enterprise
-IT policy efforts.
 
-Signed-off-by: Charles Hyde <charles.hyde@dellteam.com>
-Cc: Mario Limonciello <mario.limonciello@dell.com>
-Cc: chip.programmer@gmail.com
-Cc: Realtek linux nic maintainers <nic_swsd@realtek.com>
-Cc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: Len Brown <lenb@kernel.org>
-Cc: linux-usb@vger.kernel.org
-Cc: linux-acpi@vger.kernel.org
----
- drivers/acpi/Makefile            |  1 +
- drivers/acpi/acpi_mac_passthru.c | 63 ++++++++++++++++++++++++++++++++
- drivers/net/usb/r8152.c          | 44 ++--------------------
- include/acpi/acpi_mac_passthru.h | 27 ++++++++++++++
- 4 files changed, 95 insertions(+), 40 deletions(-)
- create mode 100644 drivers/acpi/acpi_mac_passthru.c
- create mode 100644 include/acpi/acpi_mac_passthru.h
 
-diff --git a/drivers/acpi/Makefile b/drivers/acpi/Makefile
-index 5d361e4e3405..6bc2748f0e00 100644
---- a/drivers/acpi/Makefile
-+++ b/drivers/acpi/Makefile
-@@ -66,6 +66,7 @@ acpi-$(CONFIG_ACPI_WATCHDOG)	+= acpi_watchdog.o
- acpi-$(CONFIG_ACPI_ADXL)	+= acpi_adxl.o
- 
- # These are (potentially) separate modules
-+acpi-y				+= acpi_mac_passthru.o
- 
- # IPMI may be used by other drivers, so it has to initialise before them
- obj-$(CONFIG_ACPI_IPMI)		+= acpi_ipmi.o
-diff --git a/drivers/acpi/acpi_mac_passthru.c b/drivers/acpi/acpi_mac_passthru.c
-new file mode 100644
-index 000000000000..37d7e2388c0b
---- /dev/null
-+++ b/drivers/acpi/acpi_mac_passthru.c
-@@ -0,0 +1,63 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * acpi_mac_passthru.c - ACPI MAC address pass through driver
-+ *
-+ *  Copyright (c) 2019 Dell Technology. All rights reserved.
-+ *
-+ * Search for MAC Address Pass Through information, and return the MAC address
-+ * found.  This is set through enterprise policy settings, and expected to be
-+ * read by ethernet drivers that have software programmable MAC addresses.
-+ * Failure to find the needed information results in -ENODEV.
-+ */
-+
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/acpi.h>
-+#include <acpi/acpi_mac_passthru.h>
-+#include <linux/etherdevice.h>
-+
-+ACPI_MODULE_NAME("mapt");
-+
-+MODULE_AUTHOR("Charles Hyde");
-+MODULE_DESCRIPTION("ACPI MAPT Driver");
-+MODULE_LICENSE("GPL");
-+
-+int get_acpi_mac_passthru(char *macAddress)
-+{
-+	acpi_status status;
-+	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
-+	union acpi_object *obj;
-+	int ret = -EINVAL;
-+	unsigned char buf[6];
-+
-+	/* returns _AUXMAC_#AABBCCDDEEFF# */
-+	status = acpi_evaluate_object(NULL, "\\_SB.AMAC", NULL, &buffer);
-+	obj = (union acpi_object *)buffer.pointer;
-+	if (!ACPI_SUCCESS(status))
-+		return -ENODEV;
-+	if (obj->type != ACPI_TYPE_BUFFER || obj->string.length != 0x17) {
-+		acpi_info("Invalid buffer for pass-thru MAC addr: (%d, %d)\n",
-+			  obj->type, obj->string.length);
-+		goto amacout;
-+	}
-+	if (strncmp(obj->string.pointer, "_AUXMAC_#", 9) != 0 ||
-+	    strncmp(obj->string.pointer + 0x15, "#", 1) != 0) {
-+		acpi_info("Invalid header when reading pass-thru MAC addr\n");
-+		goto amacout;
-+	}
-+	ret = hex2bin(buf, obj->string.pointer + 9, 6);
-+	if (!(ret == 0 && is_valid_ether_addr(buf))) {
-+		acpi_info("Invalid MAC for pass-thru MAC addr: %d, %pM\n",
-+			  ret, buf);
-+		ret = -EINVAL;
-+		goto amacout;
-+	}
-+	memcpy(macAddress, buf, 6);
-+	acpi_info("Pass-thru MAC addr %pM\n", macAddress);
-+
-+amacout:
-+	kfree(obj);
-+	return ret;
-+
-+}
-+EXPORT_SYMBOL_GPL(get_acpi_mac_passthru);
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 04137ac373b0..6b9de6ae6524 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -23,6 +23,7 @@
- #include <linux/usb/cdc.h>
- #include <linux/suspend.h>
- #include <linux/acpi.h>
-+#include <acpi/acpi_mac_passthru.h>
- 
- /* Information for net-next */
- #define NETNEXT_VERSION		"09"
-@@ -1178,12 +1179,7 @@ static int rtl8152_set_mac_address(struct net_device *netdev, void *p)
-  */
- static int vendor_mac_passthru_addr_read(struct r8152 *tp, struct sockaddr *sa)
- {
--	acpi_status status;
--	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
--	union acpi_object *obj;
--	int ret = -EINVAL;
- 	u32 ocp_data;
--	unsigned char buf[6];
- 
- 	/* test for -AD variant of RTL8153 */
- 	ocp_data = ocp_read_word(tp, MCU_TYPE_USB, USB_MISC_0);
-@@ -1204,39 +1200,7 @@ static int vendor_mac_passthru_addr_read(struct r8152 *tp, struct sockaddr *sa)
- 			return -ENODEV;
- 		}
- 	}
--
--	/* returns _AUXMAC_#AABBCCDDEEFF# */
--	status = acpi_evaluate_object(NULL, "\\_SB.AMAC", NULL, &buffer);
--	obj = (union acpi_object *)buffer.pointer;
--	if (!ACPI_SUCCESS(status))
--		return -ENODEV;
--	if (obj->type != ACPI_TYPE_BUFFER || obj->string.length != 0x17) {
--		netif_warn(tp, probe, tp->netdev,
--			   "Invalid buffer for pass-thru MAC addr: (%d, %d)\n",
--			   obj->type, obj->string.length);
--		goto amacout;
--	}
--	if (strncmp(obj->string.pointer, "_AUXMAC_#", 9) != 0 ||
--	    strncmp(obj->string.pointer + 0x15, "#", 1) != 0) {
--		netif_warn(tp, probe, tp->netdev,
--			   "Invalid header when reading pass-thru MAC addr\n");
--		goto amacout;
--	}
--	ret = hex2bin(buf, obj->string.pointer + 9, 6);
--	if (!(ret == 0 && is_valid_ether_addr(buf))) {
--		netif_warn(tp, probe, tp->netdev,
--			   "Invalid MAC for pass-thru MAC addr: %d, %pM\n",
--			   ret, buf);
--		ret = -EINVAL;
--		goto amacout;
--	}
--	memcpy(sa->sa_data, buf, 6);
--	netif_info(tp, probe, tp->netdev,
--		   "Using pass-thru MAC addr %pM\n", sa->sa_data);
--
--amacout:
--	kfree(obj);
--	return ret;
-+	return get_acpi_mac_passthru(sa->sa_data);
- }
- 
- static int determine_ethernet_addr(struct r8152 *tp, struct sockaddr *sa)
-@@ -4311,10 +4275,10 @@ static int rtl8152_post_reset(struct usb_interface *intf)
- 	if (!tp)
- 		return 0;
- 
--	/* reset the MAC adddress in case of policy change */
-+	/* reset the MAC address in case of policy change */
- 	if (determine_ethernet_addr(tp, &sa) >= 0) {
- 		rtnl_lock();
--		dev_set_mac_address (tp->netdev, &sa, NULL);
-+		dev_set_mac_address(tp->netdev, &sa, NULL);
- 		rtnl_unlock();
- 	}
- 
-diff --git a/include/acpi/acpi_mac_passthru.h b/include/acpi/acpi_mac_passthru.h
-new file mode 100644
-index 000000000000..79c7a2d1062e
---- /dev/null
-+++ b/include/acpi/acpi_mac_passthru.h
-@@ -0,0 +1,27 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * acpi_mac_passthru.h - ACPI MAC address pass through driver
-+ *
-+ *  Copyright (c) 2019 Dell Technology. All rights reserved.
-+ *
-+ * Search for MAC Address Pass Through information, and return the MAC address
-+ * found.  This is set through enterprise policy settings, and expected to be
-+ * read by ethernet drivers that have software programmable MAC addresses.
-+ * Failure to find the needed information results in -ENODEV.
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/acpi.h>
-+
-+#ifdef CONFIG_ACPI
-+
-+int get_acpi_mac_passthru(char *macAddress);
-+
-+#else
-+
-+static inline int get_acpi_mac_passthru(char *macAddress)
-+{
-+	return -ENODEV;
-+}
-+
-+#endif
--- 
-2.20.1
+On 9/5/2019 7:24 AM, Andrey Konovalov wrote:
+> On Thu, Sep 5, 2019 at 4:20 AM Hui Peng <benquike@gmail.com> wrote:
+>>
+>> Can you guys have  a look at the attached patch?
+> 
+> Let's try it:
+> 
+> #syz test: https://github.com/google/kasan.git eea39f24
+> 
+> FYI: there are two more reports coming from this driver, which might
+> (or might not) have the same root cause. One of them has a suggested
+> fix by Oliver.
+> 
+> https://syzkaller.appspot.com/bug?extid=67b2bd0e34f952d0321e
+> https://syzkaller.appspot.com/bug?extid=93f2f45b19519b289613
+> 
 
+I think they are different, though similar.
+This one is resulted from unregistering a network device.
+These 2 are resulted from unregistering a tty device.
+
+>>
+>> On 9/4/19 6:41 PM, Stephen Hemminger wrote:
+>>> On Wed, 4 Sep 2019 16:27:50 -0400
+>>> Hui Peng <benquike@gmail.com> wrote:
+>>>
+>>>> Hi, all:
+>>>>
+>>>> I looked at the bug a little.
+>>>>
+>>>> The issue is that in the error handling code, hso_free_net_device
+>>>> unregisters
+>>>>
+>>>> the net_device (hso_net->net)  by calling unregister_netdev. In the
+>>>> error handling code path,
+>>>>
+>>>> hso_net->net has not been registered yet.
+>>>>
+>>>> I think there are two ways to solve the issue:
+>>>>
+>>>> 1. fix it in drivers/net/usb/hso.c to avoiding unregistering the
+>>>> net_device when it is still not registered
+>>>>
+>>>> 2. fix it in unregister_netdev. We can add a field in net_device to
+>>>> record whether it is registered, and make unregister_netdev return if
+>>>> the net_device is not registered yet.
+>>>>
+>>>> What do you guys think ?
+>>> #1
