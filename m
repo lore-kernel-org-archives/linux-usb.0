@@ -2,104 +2,106 @@ Return-Path: <SRS0=WNdR=XG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.0 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34581C4740A
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Sep 2019 04:55:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A55EECDE28
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Sep 2019 06:42:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0869421D79
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Sep 2019 04:55:10 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=codeaurora.org header.i=@codeaurora.org header.b="KA4kqy72";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=codeaurora.org header.i=@codeaurora.org header.b="ABYatkaE"
+	by mail.kernel.org (Postfix) with ESMTP id 7A27021A4C
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Sep 2019 06:42:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726735AbfIKEzJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Sep 2019 00:55:09 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:41548 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726058AbfIKEzJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Sep 2019 00:55:09 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id 75AE160A43; Wed, 11 Sep 2019 04:55:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1568177708;
-        bh=oMY5Tj+8xqlrsEI1mYLnZKn0gg+CRwrKPBMhq/IUAS4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KA4kqy72J+ImBJ5TDxBYXQ0/yrwgtp9eRcdDtmzWI2XI5It5Z/R8frN3fM5gC+tiJ
-         qI0VmQ7bvzQmDVInMaR1HbudenbPqJMXaUK+pvwVNyAylprNLjwa/T2DC3hSNRVhSI
-         HkXGPQ3m+VXSq4gORhfJuaNzlZmAhe4+2OfmMu/g=
-Received: from cchiluve-linux.qualcomm.com (blr-c-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.19.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: cchiluve@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 2A1F8611DC;
-        Wed, 11 Sep 2019 04:55:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1568177706;
-        bh=oMY5Tj+8xqlrsEI1mYLnZKn0gg+CRwrKPBMhq/IUAS4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ABYatkaE+4ezK5n1VvbEF5PrRST9DqvqnG1HMBktxDmgxD7pxhKPpjgVphfCkPwia
-         3QYM2VYivVFOk9OXxJjKlWmHy6CXPL3B/dAJcgRWkrwkQp1/MX6MT1pJJvBqv/41sJ
-         2DMxeDHPR8oGZlyuzpTsH8DysHRoRRzbRLpbJN50=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 2A1F8611DC
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=cchiluve@codeaurora.org
-From:   Chandana Kishori Chiluveru <cchiluve@codeaurora.org>
-To:     balbi@kernel.org, agross@kernel.org, david.brown@linaro.org
-Cc:     linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Chandana Kishori Chiluveru <cchiluve@codeaurora.org>
-Subject: [PATCH 3/3] arm64: dts: sdm845: Add interconnect properties for USB
-Date:   Wed, 11 Sep 2019 10:24:35 +0530
-Message-Id: <1568177675-18764-4-git-send-email-cchiluve@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1568177675-18764-1-git-send-email-cchiluve@codeaurora.org>
-References: <1568177675-18764-1-git-send-email-cchiluve@codeaurora.org>
+        id S1726876AbfIKGm3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Sep 2019 02:42:29 -0400
+Received: from esa4.microchip.iphmx.com ([68.232.154.123]:20595 "EHLO
+        esa4.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725747AbfIKGm2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Sep 2019 02:42:28 -0400
+Received-SPF: Pass (esa4.microchip.iphmx.com: domain of
+  Nicolas.Ferre@microchip.com designates 198.175.253.82 as
+  permitted sender) identity=mailfrom;
+  client-ip=198.175.253.82; receiver=esa4.microchip.iphmx.com;
+  envelope-from="Nicolas.Ferre@microchip.com";
+  x-sender="Nicolas.Ferre@microchip.com";
+  x-conformance=spf_only; x-record-type="v=spf1";
+  x-record-text="v=spf1 mx a:ushub1.microchip.com
+  a:smtpout.microchip.com a:mx1.microchip.iphmx.com
+  a:mx2.microchip.iphmx.com include:servers.mcsv.net
+  include:mktomail.com include:spf.protection.outlook.com ~all"
+Received-SPF: None (esa4.microchip.iphmx.com: no sender
+  authenticity information available from domain of
+  postmaster@email.microchip.com) identity=helo;
+  client-ip=198.175.253.82; receiver=esa4.microchip.iphmx.com;
+  envelope-from="Nicolas.Ferre@microchip.com";
+  x-sender="postmaster@email.microchip.com";
+  x-conformance=spf_only
+Authentication-Results: esa4.microchip.iphmx.com; dkim=none (message not signed) header.i=none; spf=Pass smtp.mailfrom=Nicolas.Ferre@microchip.com; spf=None smtp.helo=postmaster@email.microchip.com; dmarc=pass (p=none dis=none) d=microchip.com
+IronPort-SDR: kKMjRAAZRfQP8ldFMWZ9rtRtaBtbyAKdH6+ji7vxUAGWqspR4W0LQVw1FNe6++Emca5ZQRIuBL
+ fP0kUXqUOfsjD6jhiTwEDe0SI33wiIUCFUQN44mExXFbS7zXhkWhRaygm9v1j3n6jrQljaZzJ7
+ 9WlKKHpRp46oJAynHh9eINzGxK/W3yO7m9Ce/cyZEkKcnyLFNzehSTnfurb1HQyPYgVN5LyL/u
+ xe4YU8NOJNrtD/b2C8sDqUQOH3Oh7H/FhStkS4zB/hov1tHNbCAFo5XLFT0JQ5Yp0NveeUAhRA
+ Z6w=
+X-IronPort-AV: E=Sophos;i="5.64,492,1559545200"; 
+   d="scan'208";a="47503534"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 10 Sep 2019 23:42:28 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 10 Sep 2019 23:42:27 -0700
+Received: from tenerife.corp.atmel.com (10.10.85.251) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
+ 15.1.1713.5 via Frontend Transport; Tue, 10 Sep 2019 23:42:26 -0700
+From:   Nicolas Ferre <nicolas.ferre@microchip.com>
+To:     <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <stern@rowland.harvard.edu>, <gregkh@linuxfoundation.org>
+CC:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        <Boris.Krasnovskiy@lairdconnect.com>, <linux-usb@vger.kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>
+Subject: [PATCH 1/3] USB: host: ohci-at91: completely shutdown the controller in at91_stop_hc()
+Date:   Wed, 11 Sep 2019 08:41:52 +0200
+Message-ID: <20190911064154.28633-2-nicolas.ferre@microchip.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190911064154.28633-1-nicolas.ferre@microchip.com>
+References: <20190911064154.28633-1-nicolas.ferre@microchip.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Populate USB DT node with interconnect properties.
+From: Boris Krasnovskiy <Boris.Krasnovskiy@lairdconnect.com>
 
-Signed-off-by: Chandana Kishori Chiluveru <cchiluve@codeaurora.org>
+When removing the ohci-at91 module, the fact of not running complete shutdown
+of all the ports was keeping additional analog cells consuming power for no
+reason.
+Doing Reset (OHCI_HCR) to HcCommandStatus register is the way to go, but using
+the OHCI controller shutdown procedure is just perfect for this.
+
+Signed-off-by: Boris Krasnovskiy <Boris.Krasnovskiy@lairdconnect.com>
+Signed-off-by: Nicolas Ferre <nicolas.ferre@microchip.com>
 ---
- arch/arm64/boot/dts/qcom/sdm845.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/usb/host/ohci-at91.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-index fcb9330..1c41922 100644
---- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-@@ -1837,6 +1837,12 @@
+diff --git a/drivers/usb/host/ohci-at91.c b/drivers/usb/host/ohci-at91.c
+index fc35a7993b7b..cb63bcd5049a 100644
+--- a/drivers/usb/host/ohci-at91.c
++++ b/drivers/usb/host/ohci-at91.c
+@@ -123,7 +123,7 @@ static void at91_stop_hc(struct platform_device *pdev)
+ 	/*
+ 	 * Put the USB host controller into reset.
+ 	 */
+-	writel(0, &regs->control);
++	usb_hcd_platform_shutdown(pdev);
  
- 			resets = <&gcc GCC_USB30_PRIM_BCR>;
- 
-+			interconnects = <&rsc_hlos MASTER_USB3_0
-+						&rsc_hlos SLAVE_EBI1>,
-+					<&rsc_hlos MASTER_APPSS_PROC
-+						&rsc_hlos SLAVE_USB3_0>;
-+			interconnect-names = "usb-ddr", "apps-usb";
-+
- 			usb_1_dwc3: dwc3@a600000 {
- 				compatible = "snps,dwc3";
- 				reg = <0 0x0a600000 0 0xcd00>;
-@@ -1881,6 +1887,12 @@
- 
- 			resets = <&gcc GCC_USB30_SEC_BCR>;
- 
-+			interconnects = <&rsc_hlos MASTER_USB3_1
-+						&rsc_hlos SLAVE_EBI1>,
-+					<&rsc_hlos MASTER_APPSS_PROC
-+						&rsc_hlos SLAVE_USB3_1>;
-+			interconnect-names = "usb-ddr", "apps-usb";
-+
- 			usb_2_dwc3: dwc3@a800000 {
- 				compatible = "snps,dwc3";
- 				reg = <0 0x0a800000 0 0xcd00>;
+ 	/*
+ 	 * Stop the USB clocks.
 -- 
-Qualcomm India Private Limited, on behalf of Qualcomm Innovation Center, Inc.,
-is a member of Code Aurora Forum, a Linux Foundation Collaborative Project.
+2.17.1
 
