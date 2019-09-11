@@ -2,95 +2,83 @@ Return-Path: <SRS0=WNdR=XG=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6826CECDE27
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Sep 2019 06:42:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1B95C49ED6
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Sep 2019 10:05:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 46C2A21A4C
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Sep 2019 06:42:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C652921479
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Sep 2019 10:05:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726390AbfIKGm1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Sep 2019 02:42:27 -0400
-Received: from esa4.microchip.iphmx.com ([68.232.154.123]:20595 "EHLO
-        esa4.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725747AbfIKGm1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Sep 2019 02:42:27 -0400
-Received-SPF: Pass (esa4.microchip.iphmx.com: domain of
-  Nicolas.Ferre@microchip.com designates 198.175.253.82 as
-  permitted sender) identity=mailfrom;
-  client-ip=198.175.253.82; receiver=esa4.microchip.iphmx.com;
-  envelope-from="Nicolas.Ferre@microchip.com";
-  x-sender="Nicolas.Ferre@microchip.com";
-  x-conformance=spf_only; x-record-type="v=spf1";
-  x-record-text="v=spf1 mx a:ushub1.microchip.com
-  a:smtpout.microchip.com a:mx1.microchip.iphmx.com
-  a:mx2.microchip.iphmx.com include:servers.mcsv.net
-  include:mktomail.com include:spf.protection.outlook.com ~all"
-Received-SPF: None (esa4.microchip.iphmx.com: no sender
-  authenticity information available from domain of
-  postmaster@email.microchip.com) identity=helo;
-  client-ip=198.175.253.82; receiver=esa4.microchip.iphmx.com;
-  envelope-from="Nicolas.Ferre@microchip.com";
-  x-sender="postmaster@email.microchip.com";
-  x-conformance=spf_only
-Authentication-Results: esa4.microchip.iphmx.com; dkim=none (message not signed) header.i=none; spf=Pass smtp.mailfrom=Nicolas.Ferre@microchip.com; spf=None smtp.helo=postmaster@email.microchip.com; dmarc=pass (p=none dis=none) d=microchip.com
-IronPort-SDR: Kr0fy78TWTx/7uyhYaTb4pVf1lS3SI1D22i5ivt/iH+3LbcssZwAHRQ1u7De59PHiJBbl/kjNL
- VIGEe8LL2gvSflr8MoTYVgfowqHMhgVbrEYKCBSjuDc4DVkHBTmWm8KMRwUW2fnNAe0Y77Z7pI
- c76IsEWJaMBOVNPFV2jqBa3kGA7zQtliXGO/RtHvR/327vfGkkLd42wN8FGWSybnjThK36hmhy
- YcJNRnvcybQXd+ZQZin0zAMxoNd1T1JXk4iMVm/G45JKbVa7gpZ3tmAPqEJYMYPc4obOOKu+8q
- 6PM=
-X-IronPort-AV: E=Sophos;i="5.64,492,1559545200"; 
-   d="scan'208";a="47503524"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 10 Sep 2019 23:42:26 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 10 Sep 2019 23:42:25 -0700
-Received: from tenerife.corp.atmel.com (10.10.85.251) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.1713.5 via Frontend Transport; Tue, 10 Sep 2019 23:42:24 -0700
-From:   Nicolas Ferre <nicolas.ferre@microchip.com>
-To:     <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <stern@rowland.harvard.edu>, <gregkh@linuxfoundation.org>
-CC:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        <Boris.Krasnovskiy@lairdconnect.com>, <linux-usb@vger.kernel.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>
-Subject: [PATCH 0/3] USB: host: ohci-at91: tailor power consumption
-Date:   Wed, 11 Sep 2019 08:41:51 +0200
-Message-ID: <20190911064154.28633-1-nicolas.ferre@microchip.com>
-X-Mailer: git-send-email 2.17.1
+        id S1727541AbfIKKFJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Sep 2019 06:05:09 -0400
+Received: from eddie.linux-mips.org ([148.251.95.138]:58490 "EHLO
+        cvs.linux-mips.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727090AbfIKKFJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Sep 2019 06:05:09 -0400
+Received: (from localhost user: 'ladis' uid#1021 fake: STDIN
+        (ladis@eddie.linux-mips.org)) by eddie.linux-mips.org
+        id S23994598AbfIKKFGpWut1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 11 Sep 2019 12:05:06 +0200
+Date:   Wed, 11 Sep 2019 12:05:05 +0200
+From:   Ladislav Michl <ladis@linux-mips.org>
+To:     Felipe Balbi <balbi@kernel.org>
+Cc:     linux-usb@vger.kernel.org,
+        =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v5 2/6] usb: gadget: u_serial: reimplement console support
+Message-ID: <20190911100505.GA9950@lenoch>
+References: <cover.1563809035.git.mirq-linux@rere.qmqm.pl>
+ <0dd7dc4d5135b838d8f0fe98d0a689163cc9dda8.1563809035.git.mirq-linux@rere.qmqm.pl>
+ <87r25utufw.fsf@gmail.com>
+ <20190810081105.GA10667@qmqm.qmqm.pl>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-2
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190810081105.GA10667@qmqm.qmqm.pl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Following a set of experiments we found areas of improvement for OHCI power
-consumption (and associated USB analog cells).
-This enhances the shutdown of residual power consumption in case of Linux
-suspend/resume and removal of the driver (when compiled as a module).
+Hi Felipe,
 
-Best regards,
-  Nicolas
+On Sat, Aug 10, 2019 at 10:11:05AM +0200, Micha³ Miros³aw wrote:
+> On Fri, Aug 09, 2019 at 03:05:55PM +0300, Felipe Balbi wrote:
+> > 
+> > Hi,
+> > 
+> > Micha³ Miros³aw <mirq-linux@rere.qmqm.pl> writes:
+> > > Rewrite console support to fix a few shortcomings of the old code
+> > > preventing its use with multiple ports. This removes some duplicated
+> > > code and replaces a custom kthread with simpler workqueue item.
+> > >
+> > > Only port ttyGS0 gets to be a console for now.
+> > >
+> > > Signed-off-by: Micha³ Miros³aw <mirq-linux@rere.qmqm.pl>
+> > > Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > Tested-by: Ladislav Michl <ladis@linux-mips.org>
+> > 
+> > checking file drivers/usb/gadget/function/u_serial.c
+> > Hunk #7 FAILED at 1206.
+> > Hunk #8 succeeded at 1302 (offset -2 lines).
+> > Hunk #9 succeeded at 1334 (offset -2 lines).
+> > Hunk #10 succeeded at 1363 (offset -2 lines).
+> > 1 out of 10 hunks FAILED
+> > 
+> > Could you rebase on my testing/next?
 
-Boris Krasnovskiy (2):
-  USB: host: ohci-at91: completely shutdown the controller in
-    at91_stop_hc()
-  USB: host: ohci-at91: resume: balance the clock start call
+I do not see this patch in -next and there were no more comments from you.
+Is there anything else you need to review patchset?
 
-Nicolas Ferre (1):
-  USB: host: ohci-at91: suspend: delay needed before to stop clocks
+Thanks,
+	ladis
 
- drivers/usb/host/ohci-at91.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
--- 
-2.17.1
-
+> Sure. Should be ready in a few minutes.
+> 
+> Best Regards,
+> Micha³ Miros³aw
