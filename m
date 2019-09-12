@@ -2,89 +2,151 @@ Return-Path: <SRS0=Vsz4=XH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89A12C49ED9
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Sep 2019 08:08:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE8A6C49ED9
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Sep 2019 08:42:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5E1B5214AE
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Sep 2019 08:08:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C561D208C2
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Sep 2019 08:42:19 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=mork.no header.i=@mork.no header.b="Z5sW09Ir"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726159AbfILIIR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 12 Sep 2019 04:08:17 -0400
-Received: from mga12.intel.com ([192.55.52.136]:59169 "EHLO mga12.intel.com"
+        id S1730333AbfILImS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 12 Sep 2019 04:42:18 -0400
+Received: from canardo.mork.no ([148.122.252.1]:48937 "EHLO canardo.mork.no"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725765AbfILIIR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 12 Sep 2019 04:08:17 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Sep 2019 01:08:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,495,1559545200"; 
-   d="scan'208";a="184732621"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
-  by fmsmga008.fm.intel.com with ESMTP; 12 Sep 2019 01:08:14 -0700
-Subject: Re: [PATCH v2] usb: host: xhci: wait CNR when doing xhci resume
-To:     Rick Tseng <rtseng@nvidia.com>, mathias.nyman@intel.com,
-        gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org
-References: <1567748218-6656-1-git-send-email-rtseng@nvidia.com>
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Message-ID: <2c771924-920f-c81a-b69b-806df8687838@linux.intel.com>
-Date:   Thu, 12 Sep 2019 11:10:06 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1730049AbfILImR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 12 Sep 2019 04:42:17 -0400
+Received: from miraculix.mork.no ([IPv6:2a02:2121:340:af89:304b:a5ff:fe41:6a88])
+        (authenticated bits=0)
+        by canardo.mork.no (8.15.2/8.15.2) with ESMTPSA id x8C8gAef030205
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+        Thu, 12 Sep 2019 10:42:12 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
+        t=1568277734; bh=0kzHipba7JDB2zZdsoc3Tx3P2A5WmFo1FDCKYtkan+E=;
+        h=From:To:Cc:Subject:Date:Message-Id:From;
+        b=Z5sW09IrHUoJUhNI4s/q7m842EFqVE0Mo3Sc/W8GgNqAYkopzj9gbKDn0+1AUkPr1
+         ednlmwfKA+OItkcFd3Sp5oApRxa/o0tIhb6oqaVetHc5zYg5QwCF7vLN816q3YRctD
+         mtkQekz0MNq+on4uWu2TWixdtDGYJ1tQ7uC5pXxU=
+Received: from bjorn by miraculix.mork.no with local (Exim 4.92)
+        (envelope-from <bjorn@miraculix.mork.no>)
+        id 1i8Kg0-0001fJ-Ev; Thu, 12 Sep 2019 10:42:04 +0200
+From:   =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
+To:     netdev@vger.kernel.org
+Cc:     Oliver Neukum <oliver@neukum.org>, linux-usb@vger.kernel.org,
+        Lars Melin <larsm17@gmail.com>,
+        =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
+Subject: [PATCH net,stable] cdc_ether: fix rndis support for Mediatek based smartphones
+Date:   Thu, 12 Sep 2019 10:42:00 +0200
+Message-Id: <20190912084200.6359-1-bjorn@mork.no>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <1567748218-6656-1-git-send-email-rtseng@nvidia.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.101.4 at canardo
+X-Virus-Status: Clean
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 6.9.2019 8.36, Rick Tseng wrote:
-> NVIDIA 3.1 xHCI card would lose power when moving power state into D3Cold.
-> Thus we need to wait CNR bit to clear when xhci resmue as xhci init.
-> 
-> Signed-off-by: Rick Tseng <rtseng@nvidia.com>
-> ---
->   drivers/usb/host/xhci.c | 9 +++++++++
->   1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-> index 03d1e55..6c7102c 100644
-> --- a/drivers/usb/host/xhci.c
-> +++ b/drivers/usb/host/xhci.c
-> @@ -1108,6 +1108,15 @@ int xhci_resume(struct xhci_hcd *xhci, bool hibernated)
->   		hibernated = true;
->   
->   	if (!hibernated) {
-> +		/* Some xHC would lose power during suspend, so wait for
-> +		 * controller ready from resume as xHC init.
-> +		 */
-> +		if (xhci_handshake(&xhci->op_regs->status,
-> +				   STS_CNR, 0, 10 * 1000 * 1000)) {
-> +			xhci_warn(xhci, "WARN: xHC timeout for CNR clear\n");
-> +			spin_unlock_irq(&xhci->lock);
-> +			return -ETIMEDOUT;
-> +		}
+A Mediatek based smartphone owner reports problems with USB
+tethering in Linux.  The verbose USB listing shows a rndis_host
+interface pair (e0/01/03 + 10/00/00), but the driver fails to
+bind with
 
-xhci_handshake() can return -ENODEV in case controller is not reachable (still in PCI D3).
-Would be better to just show and return what xhci_handshake() returns.
-I know there are places where the existing code doesn't do this, but it would be
-better to add it for new code
+[  355.960428] usb 1-4: bad CDC descriptors
 
-ret = xhci_handshake(CNR bit clear)
-if (ret) {
-	xhci_warn(xhci, "Controller not ready at resume %d\n", ret);
-	unlock()
-	return ret
-}
+The problem is a failsafe test intended to filter out ACM serial
+functions using the same 02/02/ff class/subclass/protocol as RNDIS.
+The serial functions are recognized by their non-zero bmCapabilities.
 
--Mathias
+No RNDIS function with non-zero bmCapabilities were known at the time
+this failsafe was added. But it turns out that some Wireless class
+RNDIS functions are using the bmCapabilities field. These functions
+are uniquely identified as RNDIS by their class/subclass/protocol, so
+the failing test can safely be disabled.  The same applies to the two
+types of Misc class RNDIS functions.
+
+Applying the failsafe to Communication class functions only retains
+the original functionality, and fixes the problem for the Mediatek based
+smartphone.
+
+Tow examples of CDC functional descriptors with non-zero bmCapabilities
+from Wireless class RNDIS functions are:
+
+0e8d:000a  Mediatek Crosscall Spider X5 3G Phone
+
+      CDC Header:
+        bcdCDC               1.10
+      CDC ACM:
+        bmCapabilities       0x0f
+          connection notifications
+          sends break
+          line coding and serial state
+          get/set/clear comm features
+      CDC Union:
+        bMasterInterface        0
+        bSlaveInterface         1
+      CDC Call Management:
+        bmCapabilities       0x03
+          call management
+          use DataInterface
+        bDataInterface          1
+
+and
+
+19d2:1023  ZTE K4201-z
+
+      CDC Header:
+        bcdCDC               1.10
+      CDC ACM:
+        bmCapabilities       0x02
+          line coding and serial state
+      CDC Call Management:
+        bmCapabilities       0x03
+          call management
+          use DataInterface
+        bDataInterface          1
+      CDC Union:
+        bMasterInterface        0
+        bSlaveInterface         1
+
+The Mediatek example is believed to apply to most smartphones with
+Mediatek firmware.  The ZTE example is most likely also part of a larger
+family of devices/firmwares.
+
+Suggested-by: Lars Melin <larsm17@gmail.com>
+Signed-off-by: Bjørn Mork <bjorn@mork.no>
+---
+ drivers/net/usb/cdc_ether.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
+index 8458e88c18e9..32f53de5b1fe 100644
+--- a/drivers/net/usb/cdc_ether.c
++++ b/drivers/net/usb/cdc_ether.c
+@@ -206,7 +206,15 @@ int usbnet_generic_cdc_bind(struct usbnet *dev, struct usb_interface *intf)
+ 		goto bad_desc;
+ 	}
+ skip:
+-	if (rndis && header.usb_cdc_acm_descriptor &&
++	/* Communcation class functions with bmCapabilities are not
++	 * RNDIS.  But some Wireless class RNDIS functions use
++	 * bmCapabilities for their own purpose. The failsafe is
++	 * therefore applied only to Communication class RNDIS
++	 * functions.  The rndis test is redundant, but a cheap
++	 * optimization.
++	 */
++	if (rndis && is_rndis(&intf->cur_altsetting->desc) &&
++	    header.usb_cdc_acm_descriptor &&
+ 	    header.usb_cdc_acm_descriptor->bmCapabilities) {
+ 		dev_dbg(&intf->dev,
+ 			"ACM capabilities %02x, not really RNDIS?\n",
+-- 
+2.20.1
 
