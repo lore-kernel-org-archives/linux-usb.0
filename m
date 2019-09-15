@@ -2,78 +2,95 @@ Return-Path: <SRS0=beQf=XK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.0 required=3.0
-	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.5 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60D93C4CECB
-	for <linux-usb@archiver.kernel.org>; Sun, 15 Sep 2019 03:26:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23E1BC4CECC
+	for <linux-usb@archiver.kernel.org>; Sun, 15 Sep 2019 12:52:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 37BD92084F
-	for <linux-usb@archiver.kernel.org>; Sun, 15 Sep 2019 03:26:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EDCE2214D8
+	for <linux-usb@archiver.kernel.org>; Sun, 15 Sep 2019 12:52:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1568551939;
+	bh=0/zik35DF+tVxlXBl6Nh1J/e9Clns1rAsI9brW5ghaM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=rsIA+QtsJ0/xiTSuSTC+hlRW1Y89gD6ScgPZq2dbxnPqUDJT/cw4Q854iJ9PKvsdj
+	 0TkZkW2MBtxGZDnNfXKtJYvsveNaM5JKMo2DZm1ymBRNiycYgjIGurzSvdEcrz4SAk
+	 OQo1D3v5rysc8z1jEQnaO5eHuO5HrzM2A4sn/uFQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726967AbfIOD0Y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 14 Sep 2019 23:26:24 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2219 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725943AbfIOD0X (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 14 Sep 2019 23:26:23 -0400
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 0B86862CC76848BE9217;
-        Sun, 15 Sep 2019 11:26:21 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
- 14.3.439.0; Sun, 15 Sep 2019 11:26:13 +0800
-From:   Mao Wenan <maowenan@huawei.com>
-To:     <valentina.manea.m@gmail.com>, <shuah@kernel.org>,
-        <gregkh@linuxfoundation.org>
-CC:     <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kernel-janitors@vger.kernel.org>, Mao Wenan <maowenan@huawei.com>
-Subject: [PATCH] usbip: vhci_hcd indicate failed message
-Date:   Sun, 15 Sep 2019 11:43:32 +0800
-Message-ID: <20190915034332.21168-1-maowenan@huawei.com>
-X-Mailer: git-send-email 2.20.1
+        id S1728741AbfIOMwP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 15 Sep 2019 08:52:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33058 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725613AbfIOMwO (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sun, 15 Sep 2019 08:52:14 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 89E9F21479;
+        Sun, 15 Sep 2019 12:52:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1568551934;
+        bh=0/zik35DF+tVxlXBl6Nh1J/e9Clns1rAsI9brW5ghaM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GdcVKQ+rbVxOcX08gT62qDJxS+8VNaosNyj80VFEP1Mv/VuLT5JuEiROMPvqSa0d5
+         J9jtisP1QAZCmAawPYz69GitkhrJnaTAZTIJCyYuCmc0ChN1zL7WHbXxuXw61UrIMy
+         LwuF/6ngrTnH6rq3+RW7arX0KSRdLwQRcV8PNRJM=
+Date:   Sun, 15 Sep 2019 14:52:11 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Mao Wenan <maowenan@huawei.com>
+Cc:     valentina.manea.m@gmail.com, shuah@kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] usbip: vhci_hcd indicate failed message
+Message-ID: <20190915125211.GA527125@kroah.com>
+References: <20190915034332.21168-1-maowenan@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.113.25]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190915034332.21168-1-maowenan@huawei.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If the return value of vhci_init_attr_group and
-sysfs_create_group is non-zero, which mean they failed
-to init attr_group and create sysfs group, so it would
-better add 'failed' message to indicate that.
+On Sun, Sep 15, 2019 at 11:43:32AM +0800, Mao Wenan wrote:
+> If the return value of vhci_init_attr_group and
+> sysfs_create_group is non-zero, which mean they failed
+> to init attr_group and create sysfs group, so it would
+> better add 'failed' message to indicate that.
+> 
+> Fixes: 0775a9cbc694 ("usbip: vhci extension: modifications to vhci driver")
+> Signed-off-by: Mao Wenan <maowenan@huawei.com>
+> ---
+>  drivers/usb/usbip/vhci_hcd.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/usbip/vhci_hcd.c b/drivers/usb/usbip/vhci_hcd.c
+> index 000ab7225717..dd54c95d2498 100644
+> --- a/drivers/usb/usbip/vhci_hcd.c
+> +++ b/drivers/usb/usbip/vhci_hcd.c
+> @@ -1185,12 +1185,12 @@ static int vhci_start(struct usb_hcd *hcd)
+>  	if (id == 0 && usb_hcd_is_primary_hcd(hcd)) {
+>  		err = vhci_init_attr_group();
+>  		if (err) {
+> -			pr_err("init attr group\n");
+> +			pr_err("init attr group failed\n");
 
-Fixes: 0775a9cbc694 ("usbip: vhci extension: modifications to vhci driver")
-Signed-off-by: Mao Wenan <maowenan@huawei.com>
----
- drivers/usb/usbip/vhci_hcd.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+dev_err() would also be good to use here.
 
-diff --git a/drivers/usb/usbip/vhci_hcd.c b/drivers/usb/usbip/vhci_hcd.c
-index 000ab7225717..dd54c95d2498 100644
---- a/drivers/usb/usbip/vhci_hcd.c
-+++ b/drivers/usb/usbip/vhci_hcd.c
-@@ -1185,12 +1185,12 @@ static int vhci_start(struct usb_hcd *hcd)
- 	if (id == 0 && usb_hcd_is_primary_hcd(hcd)) {
- 		err = vhci_init_attr_group();
- 		if (err) {
--			pr_err("init attr group\n");
-+			pr_err("init attr group failed\n");
- 			return err;
- 		}
- 		err = sysfs_create_group(&hcd_dev(hcd)->kobj, &vhci_attr_group);
- 		if (err) {
--			pr_err("create sysfs files\n");
-+			pr_err("create sysfs failed\n");
- 			vhci_finish_attr_group();
- 			return err;
- 		}
--- 
-2.20.1
+>  			return err;
+>  		}
+>  		err = sysfs_create_group(&hcd_dev(hcd)->kobj, &vhci_attr_group);
+>  		if (err) {
+> -			pr_err("create sysfs files\n");
+> +			pr_err("create sysfs failed\n");
 
+Same here.
+
+thanks,
+
+greg k-h
