@@ -4,49 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EA9AC4CECE
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Sep 2019 18:49:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43432C4CECD
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Sep 2019 18:49:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 605ED20665
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Sep 2019 18:49:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1DFB220665
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Sep 2019 18:49:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390597AbfIPStV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Sep 2019 14:49:21 -0400
-Received: from mail-io1-f70.google.com ([209.85.166.70]:41784 "EHLO
+        id S2390651AbfIPStf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Sep 2019 14:49:35 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70]:35829 "EHLO
         mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390551AbfIPStN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Sep 2019 14:49:13 -0400
-Received: by mail-io1-f70.google.com with SMTP id e6so1129527ios.8
+        with ESMTP id S2390511AbfIPStM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Sep 2019 14:49:12 -0400
+Received: by mail-io1-f70.google.com with SMTP id 18so1181063iof.2
         for <linux-usb@vger.kernel.org>; Mon, 16 Sep 2019 11:49:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=RkXqwUWWqXYWsyolkE4DiEvym9AqlDpeXVcvjbM0T6E=;
-        b=qB7MFhXn4X4T2WjGDEYEF4K7zzBGbAcKtbpWARCOPbxgMGPffHAtq+Q2R9FDRfM0Je
-         QiKRn/pZQt+nYUrxvFZKMoZEwatIZmM95Ys+fegu9p5D/VEd/aOBzoMEjupKe5luJ66R
-         bfvyH/NsKXM8Ru5wXkw6fvBL5wo7zM4OvixG/sK56cpnp/nRnaKzwmx8H/Ux3Ow7eKy6
-         IeAMSKk2/3BlCTQv2MmwhQpm307G06LnRJP/x7aBAwBL1WG/j7QFzedJrLZAYy92zMkm
-         YzF/AugTiCS6s0AqeXNx+zqIMNi617jKSdEF1HjWu5x79RIvb5CAnzvmqoJLd8F3JRGM
-         FQ7A==
-X-Gm-Message-State: APjAAAUX3PP/84P6zEp8U9wibmp29ggpKvZsn07fpbNUEZT4ZcCz8TB0
-        5+6jDZgxpD5y+zYh0JBZ9XfSPbyGtYNzx3pIcEpbIT3j7kvR
-X-Google-Smtp-Source: APXvYqxxXCpmjr04+y3jhfncZOzWpQL4Rd6k+zewclwOpwBkr50eP18zWgNtJ6jKP8XvsrKB6dxhBv8Q1sBeZAuvY1k7PjgPnXkW
+        bh=BWUhYr5I0gvS0fShhXckcm/OWj5Paob17MJ2Hn7ceY0=;
+        b=kG9vEbBypJoEBwLsOCw0f+zOusnOVPLY5G7EazPh3Y2EWr2Xh1XzdB+BGSMJkWjkM7
+         cK12rtA1nBl3TVHb9MoCez/eBqFmf++PqH7Gsn4HaVWb0Zy3qITx4ml3GYPlOoyeZ0Mc
+         nFjXGg+BNnlBvqoEBqfvLd5u0oBYZb9aYa8Qnz5/DO7cBGWVV4fTw7PvaTyDwZuY/NBV
+         MAyT5UslEdaBul6omE+VsdPMEgHRtNbQL+32U5WvBDDwn1+3FBFfsJIb4dx9zvLurFD0
+         AWB9OU2WiR50/0q87HKkk88mroHWPsZelISkOjE/paz6GvY2xa5bjtZLNj0rR7cXx9Y2
+         YwNw==
+X-Gm-Message-State: APjAAAXUinZ5HIjT7N/bm72I+NnxRiwM0CWMHW1J7WGHgjmb/WIcOYVn
+        EILr0/eQuoIk2LnYPAAXoMb4zBadPYCgrYFp15T1SY+OryUp
+X-Google-Smtp-Source: APXvYqzrwpCm3kJA+hdMmImrFj68ACD9mAM46xaSDIDY3qjyC6nMnP08/1pttdOsVqlNT4T8pgKOYv3WkxPiQNbBU6CSFaZJKm24
 MIME-Version: 1.0
-X-Received: by 2002:a6b:210:: with SMTP id 16mr1534512ioc.104.1568659751579;
- Mon, 16 Sep 2019 11:49:11 -0700 (PDT)
-Date:   Mon, 16 Sep 2019 11:49:11 -0700
+X-Received: by 2002:a02:245:: with SMTP id 66mr1506031jau.30.1568659750909;
+ Mon, 16 Sep 2019 11:49:10 -0700 (PDT)
+Date:   Mon, 16 Sep 2019 11:49:10 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000044408c0592b00ff5@google.com>
-Subject: KASAN: global-out-of-bounds Read in __pm_runtime_resume
-From:   syzbot <syzbot+cd157359d82e8d98c17b@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
-        len.brown@intel.com, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org, pavel@ucw.cz,
-        rjw@rjwysocki.net, syzkaller-bugs@googlegroups.com
+Message-ID: <0000000000003a00b70592b00f85@google.com>
+Subject: BUG: bad usercopy in ld_usb_read (2)
+From:   syzbot <syzbot+4cd8c1b2445d0ffe05f6@syzkaller.appspotmail.com>
+To:     akpm@linux-foundation.org, andreyknvl@google.com, cai@lca.pw,
+        info@metux.net, isaacm@codeaurora.org, keescook@chromium.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+        tglx@linutronix.de, william.kucharski@oracle.com
 Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
@@ -59,66 +60,79 @@ syzbot found the following crash on:
 
 HEAD commit:    f0df5c1b usb-fuzzer: main usb gadget fuzzer driver
 git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=10efb5fa600000
+console output: https://syzkaller.appspot.com/x/log.txt?x=1681c9c1600000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=5c6633fa4ed00be5
-dashboard link: https://syzkaller.appspot.com/bug?extid=cd157359d82e8d98c17b
+dashboard link: https://syzkaller.appspot.com/bug?extid=4cd8c1b2445d0ffe05f6
 compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
 
 Unfortunately, I don't have any reproducer for this crash yet.
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+cd157359d82e8d98c17b@syzkaller.appspotmail.com
+Reported-by: syzbot+4cd8c1b2445d0ffe05f6@syzkaller.appspotmail.com
 
-==================================================================
-BUG: KASAN: global-out-of-bounds in __pm_runtime_resume+0x162/0x180  
-drivers/base/power/runtime.c:1069
-Read of size 1 at addr ffffffff863d87b1 by task syz-executor.2/13622
-
-CPU: 0 PID: 13622 Comm: syz-executor.2 Not tainted 5.3.0-rc7+ #0
+ldusb 5-1:0.98: Read buffer overflow, 4466454212372071848 bytes dropped
+usercopy: Kernel memory exposure attempt detected from process stack  
+(offset 0, size 536871625)!
+------------[ cut here ]------------
+kernel BUG at mm/usercopy.c:98!
+invalid opcode: 0000 [#1] SMP KASAN
+CPU: 1 PID: 17170 Comm: syz-executor.4 Not tainted 5.3.0-rc7+ #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
 Google 01/01/2011
+RIP: 0010:usercopy_abort+0xb9/0xbb mm/usercopy.c:98
+Code: e8 62 f0 d6 ff 49 89 d9 4d 89 e8 4c 89 e1 41 56 48 89 ee 48 c7 c7 c0  
+f7 cd 85 ff 74 24 08 41 57 48 8b 54 24 20 e8 c6 91 c1 ff <0f> 0b e8 36 f0  
+d6 ff e8 a1 90 fd ff 8b 54 24 04 49 89 d8 4c 89 e1
+RSP: 0018:ffff8881d308fc40 EFLAGS: 00010282
+RAX: 0000000000000060 RBX: ffffffff85cdf4e0 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff81288ddd RDI: ffffed103a611f7a
+RBP: ffffffff85cdf6a0 R08: 0000000000000060 R09: fffffbfff11ad7a3
+R10: fffffbfff11ad7a2 R11: ffffffff88d6bd17 R12: ffffffff85cdf8c0
+R13: ffffffff85cdf4e0 R14: 00000000200002c9 R15: ffffffff85cdf4e0
+FS:  00007fc613f93700(0000) GS:ffff8881db300000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f983cbbf000 CR3: 00000001cc33e000 CR4: 00000000001406e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xca/0x13e lib/dump_stack.c:113
-  print_address_description+0x6a/0x32c mm/kasan/report.c:351
-  __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:482
-  kasan_report+0xe/0x12 mm/kasan/common.c:618
-  __pm_runtime_resume+0x162/0x180 drivers/base/power/runtime.c:1069
-  pm_runtime_get_sync include/linux/pm_runtime.h:226 [inline]
-  usb_autopm_get_interface+0x1b/0x50 drivers/usb/core/driver.c:1709
-  usbhid_power+0x7c/0xe0 drivers/hid/usbhid/hid-core.c:1234
-  hid_hw_power include/linux/hid.h:1038 [inline]
-  hidraw_open+0x20d/0x740 drivers/hid/hidraw.c:282
-  chrdev_open+0x219/0x5c0 fs/char_dev.c:414
-  do_dentry_open+0x494/0x1120 fs/open.c:797
-  do_last fs/namei.c:3416 [inline]
-  path_openat+0x1430/0x3f50 fs/namei.c:3533
-  do_filp_open+0x1a1/0x280 fs/namei.c:3563
-  do_sys_open+0x3c0/0x580 fs/open.c:1089
+  __check_object_size mm/usercopy.c:276 [inline]
+  __check_object_size.cold+0x91/0xbb mm/usercopy.c:250
+  check_object_size include/linux/thread_info.h:119 [inline]
+  check_copy_size include/linux/thread_info.h:150 [inline]
+  copy_to_user include/linux/uaccess.h:151 [inline]
+  ld_usb_read+0x304/0x780 drivers/usb/misc/ldusb.c:495
+  __vfs_read+0x76/0x100 fs/read_write.c:425
+  vfs_read+0x1ea/0x430 fs/read_write.c:461
+  ksys_read+0x1e8/0x250 fs/read_write.c:587
   do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:296
   entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x4137d1
-Code: 75 14 b8 02 00 00 00 0f 05 48 3d 01 f0 ff ff 0f 83 04 19 00 00 c3 48  
-83 ec 08 e8 0a fa ff ff 48 89 04 24 b8 02 00 00 00 0f 05 <48> 8b 3c 24 48  
-89 c2 e8 53 fa ff ff 48 89 d0 48 83 c4 08 48 3d 01
-RSP: 002b:00007faea59927a0 EFLAGS: 00000293 ORIG_RAX: 0000000000000002
-RAX: ffffffffffffffda RBX: 6666666666666667 RCX: 00000000004137d1
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 00007faea5992850
-RBP: 000000000075bf20 R08: 000000000000000f R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000293 R12: 00007faea59936d4
-R13: 00000000004c8cbf R14: 00000000004dfc90 R15: 00000000ffffffff
-
-The buggy address belongs to the variable:
-  __param_str_xfer_debug+0x91/0x4a0
-
-Memory state around the buggy address:
-  ffffffff863d8680: fa fa fa fa 00 00 00 02 fa fa fa fa 00 00 00 00
-  ffffffff863d8700: fa fa fa fa 00 00 00 02 fa fa fa fa 00 07 fa fa
-> ffffffff863d8780: fa fa fa fa 00 00 fa fa fa fa fa fa 00 00 07 fa
-                                      ^
-  ffffffff863d8800: fa fa fa fa 00 00 00 00 00 00 fa fa fa fa fa fa
-  ffffffff863d8880: 00 07 fa fa fa fa fa fa 00 00 06 fa fa fa fa fa
-==================================================================
+RIP: 0033:0x4598e9
+Code: fd b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7  
+48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
+ff 0f 83 cb b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007fc613f92c78 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00000000004598e9
+RDX: 00000000200002c9 RSI: 0000000020000280 RDI: 0000000000000004
+RBP: 000000000075bf20 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007fc613f936d4
+R13: 00000000004c6d1a R14: 00000000004dc0c0 R15: 00000000ffffffff
+Modules linked in:
+---[ end trace b440da0257bb7015 ]---
+RIP: 0010:usercopy_abort+0xb9/0xbb mm/usercopy.c:98
+Code: e8 62 f0 d6 ff 49 89 d9 4d 89 e8 4c 89 e1 41 56 48 89 ee 48 c7 c7 c0  
+f7 cd 85 ff 74 24 08 41 57 48 8b 54 24 20 e8 c6 91 c1 ff <0f> 0b e8 36 f0  
+d6 ff e8 a1 90 fd ff 8b 54 24 04 49 89 d8 4c 89 e1
+RSP: 0018:ffff8881d308fc40 EFLAGS: 00010282
+RAX: 0000000000000060 RBX: ffffffff85cdf4e0 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff81288ddd RDI: ffffed103a611f7a
+RBP: ffffffff85cdf6a0 R08: 0000000000000060 R09: fffffbfff11ad7a3
+R10: fffffbfff11ad7a2 R11: ffffffff88d6bd17 R12: ffffffff85cdf8c0
+R13: ffffffff85cdf4e0 R14: 00000000200002c9 R15: ffffffff85cdf4e0
+FS:  00007fc613f93700(0000) GS:ffff8881db300000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f983cbbf000 CR3: 00000001cc33e000 CR4: 00000000001406e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 
 
 ---
