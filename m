@@ -7,46 +7,46 @@ X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48E9DC49ED7
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Sep 2019 13:29:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13C27C4CECE
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Sep 2019 13:29:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 212842171F
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Sep 2019 13:29:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E68D9216C8
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Sep 2019 13:29:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733310AbfIPN3f (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Sep 2019 09:29:35 -0400
-Received: from mail-io1-f69.google.com ([209.85.166.69]:51416 "EHLO
-        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733224AbfIPN3M (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Sep 2019 09:29:12 -0400
-Received: by mail-io1-f69.google.com with SMTP id a13so50260507ioh.18
-        for <linux-usb@vger.kernel.org>; Mon, 16 Sep 2019 06:29:10 -0700 (PDT)
+        id S1733225AbfIPN3j (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Sep 2019 09:29:39 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70]:54047 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733217AbfIPN3L (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Sep 2019 09:29:11 -0400
+Received: by mail-io1-f70.google.com with SMTP id l21so50685011iob.20
+        for <linux-usb@vger.kernel.org>; Mon, 16 Sep 2019 06:29:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=egJ9RlFuiaHOZXvDZ4i02K/0CianNMU6PJTp1Wkrn6U=;
-        b=Oitcnl+nfTFzOZXaj/yL3iNWFuoCgszmF8opW3CGC+cIRkNFn6QKnvVaKYYMV35drB
-         xIQvJa7O8G66FJIJUY9zD14dK1J7lLldIU5QmOSZh7nZpgjgNBanUzsNtQ3oMo4hSM4N
-         v5ejq4a0yjEqMsjC1X2p1SCWYMqg9NMSjD90e9o+1K2JkPUgitaNqtakvQqgSjNYCpbr
-         HRJzhKyXy3m/WZ5KwrVno97nKmbfQvUMj/2VOQ2GCzCKAdYDGYgsblPt8N73iK5MsR7h
-         SzD0kh1HsnUhWRDH5c21ja4O/4vvaCxqavdO+qYTzTXYF0a0Y//wRR20KQ9gSysmXhRe
-         GVgw==
-X-Gm-Message-State: APjAAAX6xZ8IPbMZDBclZs7eWitDwi3rwOyR0ZzFxRb9xItWkphqdXRF
-        mV86jHntKq0nx1UfDDOwkSl9uLD/uV0FKzax8t4HsKsCZj5u
-X-Google-Smtp-Source: APXvYqwPAY8C2PSeu+AfTYRHsarRuhhvGYvnZQldDpncPnOCUfnCIcMFF1MaSHGKVQtq3cxFH3I4hGg0UDi9qAnTIjRo2wzkcY+z
+        bh=SxErCaoipc4qR6AbkxYQ34p7V9bqMpiyVCAvn4RQDdM=;
+        b=TjgTOHT2QEbfbYe2/ImHy8hk7f2+sWIdW8X7fTuAPZU4bUzw72WChPfCnvnUoC/Uj5
+         RUfkqEshROOR5a6EW7immqTw6fqkIQSwo97Q5Gbz3ObmJIAAywULC2VYV7FSSwyVzDxJ
+         nG8vUZnznBy32XvguSSAmWB6etQIVbclJMOyJ9HI/5FxY8+zYfZScZ8swLh2HOZuDYms
+         O/FLhZ3xT9ezOv6lwnldisRcePWXI6QxGXdAtG7ETxaEz4a7+JEZgHdD8MYDW6tvSmbP
+         v7DSptA7O3bsK/D491dHoLq3C57AWbf6BtWQ/kDjz9IsohqNqMMoCbXqVK3Uqd197COH
+         OB3A==
+X-Gm-Message-State: APjAAAUoxVf2YLNW+DwOiXMwaBAvvZQwFDuum6rFTT0lkasHaBZHnciz
+        6yuL0swCjomVEM1psQtql2ujVxlBk5+FpmeogWSmOTAdCM5G
+X-Google-Smtp-Source: APXvYqx3+vh42Me/WY1PJ2O+8uJiq98zlHZ/LV6DA92+uX4JvNLPIbb6ya5UT+EU4TQxC85tYQMpfTWXTKIeE+a2FOLUl52IGiQV
 MIME-Version: 1.0
-X-Received: by 2002:a5d:9859:: with SMTP id p25mr15815937ios.142.1568640549930;
- Mon, 16 Sep 2019 06:29:09 -0700 (PDT)
-Date:   Mon, 16 Sep 2019 06:29:09 -0700
+X-Received: by 2002:a02:5585:: with SMTP id e127mr51965020jab.25.1568640550636;
+ Mon, 16 Sep 2019 06:29:10 -0700 (PDT)
+Date:   Mon, 16 Sep 2019 06:29:10 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000c2531f0592ab96fb@google.com>
-Subject: general protection fault in usb_set_interface
-From:   syzbot <syzbot+7fa38a608b1075dfd634@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
-        kai.heng.feng@canonical.com, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, mans@mansr.com, oneukum@suse.com,
-        stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com
+Message-ID: <000000000000cd1def0592ab9697@google.com>
+Subject: KASAN: slab-out-of-bounds Write in ga_probe
+From:   syzbot <syzbot+403741a091bf41d4ae79@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, benjamin.tissoires@redhat.com,
+        jikos@kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
@@ -59,78 +59,53 @@ syzbot found the following crash on:
 
 HEAD commit:    f0df5c1b usb-fuzzer: main usb gadget fuzzer driver
 git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=158b66f1600000
+console output: https://syzkaller.appspot.com/x/log.txt?x=14045831600000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=5c6633fa4ed00be5
-dashboard link: https://syzkaller.appspot.com/bug?extid=7fa38a608b1075dfd634
+dashboard link: https://syzkaller.appspot.com/bug?extid=403741a091bf41d4ae79
 compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14f57db9600000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=127b61a5600000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13c1e62d600000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=166a3a95600000
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+7fa38a608b1075dfd634@syzkaller.appspotmail.com
+Reported-by: syzbot+403741a091bf41d4ae79@syzkaller.appspotmail.com
 
-usb 3-1: usbvision_write_reg: failed: error -2
-usbvision_set_audio: can't write iopin register for audio switching
-kasan: CONFIG_KASAN_INLINE enabled
-kasan: GPF could be caused by NULL-ptr deref or user memory access
-general protection fault: 0000 [#1] SMP KASAN
-CPU: 1 PID: 1955 Comm: v4l_id Not tainted 5.3.0-rc7+ #0
+usb 1-1: config 0 interface 0 altsetting 0 has 1 endpoint descriptor,  
+different from the interface descriptor's value: 9
+usb 1-1: New USB device found, idVendor=0e8f, idProduct=0012, bcdDevice=  
+0.00
+usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+usb 1-1: config 0 descriptor??
+greenasia 0003:0E8F:0012.0001: unknown main item tag 0x0
+greenasia 0003:0E8F:0012.0001: hidraw0: USB HID v0.00 Device [HID  
+0e8f:0012] on usb-dummy_hcd.0-1/input0
+==================================================================
+BUG: KASAN: slab-out-of-bounds in set_bit  
+include/asm-generic/bitops-instrumented.h:28 [inline]
+BUG: KASAN: slab-out-of-bounds in gaff_init drivers/hid/hid-gaff.c:97  
+[inline]
+BUG: KASAN: slab-out-of-bounds in ga_probe+0x1fd/0x6f0  
+drivers/hid/hid-gaff.c:146
+Write of size 8 at addr ffff8881d9acafc0 by task kworker/1:1/78
+
+CPU: 1 PID: 78 Comm: kworker/1:1 Not tainted 5.3.0-rc7+ #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
 Google 01/01/2011
-RIP: 0010:usb_set_interface+0x34/0xa50 drivers/usb/core/message.c:1362
-Code: fc 55 53 48 83 ec 40 89 54 24 18 89 74 24 10 e8 22 1c ef fd 49 8d 7c  
-24 48 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f  
-85 fb 08 00 00 49 8b 44 24 48 49 8d 7c 24 18 48 89
-RSP: 0018:ffff8881cb19fd50 EFLAGS: 00010206
-RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: 0000000000000009 RSI: ffffffff834ebe7e RDI: 0000000000000048
-RBP: ffff8881cb8e4200 R08: ffffffff88d21878 R09: ffffed103971cb43
-R10: ffff8881cb19fdc8 R11: ffff8881cb8e5a17 R12: 0000000000000000
-R13: ffff8881cb8e5a10 R14: ffff8881cb8e4cc8 R15: ffff8881cb8e5178
-FS:  00007f4f60b6d700(0000) GS:ffff8881db300000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f4f6060c330 CR3: 00000001cc3a8000 CR4: 00000000001406e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Workqueue: usb_hub_wq hub_event
 Call Trace:
-  usbvision_radio_close+0x105/0x250  
-drivers/media/usb/usbvision/usbvision-video.c:1114
-  v4l2_release+0x2e7/0x390 drivers/media/v4l2-core/v4l2-dev.c:455
-  __fput+0x2d7/0x840 fs/file_table.c:280
-  task_work_run+0x13f/0x1c0 kernel/task_work.c:113
-  tracehook_notify_resume include/linux/tracehook.h:188 [inline]
-  exit_to_usermode_loop+0x1d2/0x200 arch/x86/entry/common.c:163
-  prepare_exit_to_usermode arch/x86/entry/common.c:194 [inline]
-  syscall_return_slowpath arch/x86/entry/common.c:274 [inline]
-  do_syscall_64+0x45f/0x580 arch/x86/entry/common.c:299
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x7f4f6069b2b0
-Code: 40 75 0b 31 c0 48 83 c4 08 e9 0c ff ff ff 48 8d 3d c5 32 08 00 e8 c0  
-07 02 00 83 3d 45 a3 2b 00 00 75 10 b8 03 00 00 00 0f 05 <48> 3d 01 f0 ff  
-ff 73 31 c3 48 83 ec 08 e8 ce 8a 01 00 48 89 04 24
-RSP: 002b:00007ffde2d50ee8 EFLAGS: 00000246 ORIG_RAX: 0000000000000003
-RAX: 0000000000000000 RBX: 0000000000000003 RCX: 00007f4f6069b2b0
-RDX: 00007f4f60951df0 RSI: 0000000000000001 RDI: 0000000000000003
-RBP: 0000000000000000 R08: 00007f4f60951df0 R09: 000000000000000a
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000400884
-R13: 00007ffde2d51040 R14: 0000000000000000 R15: 0000000000000000
-Modules linked in:
----[ end trace 62bd2b7512ab49ee ]---
-RIP: 0010:usb_set_interface+0x34/0xa50 drivers/usb/core/message.c:1362
-Code: fc 55 53 48 83 ec 40 89 54 24 18 89 74 24 10 e8 22 1c ef fd 49 8d 7c  
-24 48 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f  
-85 fb 08 00 00 49 8b 44 24 48 49 8d 7c 24 18 48 89
-RSP: 0018:ffff8881cb19fd50 EFLAGS: 00010206
-RAX: dffffc0000000000 RBX: 0000000000000000 RCX: 0000000000000000
-RDX: 0000000000000009 RSI: ffffffff834ebe7e RDI: 0000000000000048
-RBP: ffff8881cb8e4200 R08: ffffffff88d21878 R09: ffffed103971cb43
-R10: ffff8881cb19fdc8 R11: ffff8881cb8e5a17 R12: 0000000000000000
-R13: ffff8881cb8e5a10 R14: ffff8881cb8e4cc8 R15: ffff8881cb8e5178
-FS:  00007f4f60b6d700(0000) GS:ffff8881db300000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f4f6060c330 CR3: 00000001cc3a8000 CR4: 00000000001406e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xca/0x13e lib/dump_stack.c:113
+  print_address_description+0x6a/0x32c mm/kasan/report.c:351
+  __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:482
+  kasan_report+0xe/0x12 mm/kasan/common.c:618
+  check_memory_region_inline mm/kasan/generic.c:185 [inline]
+  check_memory_region+0x128/0x190 mm/kasan/generic.c:192
+  set_bit include/asm-generic/bitops-instrumented.h:28 [inline]
+  gaff_init drivers/hid/hid-gaff.c:97 [inline]
+  ga_probe+0x1fd/0x6f0 drivers/hid/hid-gaff.c:146
+  hid_device_probe+0x2be/0x3f0 drivers/hid/hid-core.c:2209
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x101/0x1b0 drivers/base/dd.c:721
+  __device_attach_driver+0x
 
 
 ---
