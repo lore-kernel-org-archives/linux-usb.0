@@ -2,104 +2,201 @@ Return-Path: <SRS0=Lxty=XM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E81DBC4CECE
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Sep 2019 11:11:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5CDCC4CECE
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Sep 2019 11:19:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BE875214AF
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Sep 2019 11:11:36 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=codeaurora.org header.i=@codeaurora.org header.b="m5HK3mEF";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=codeaurora.org header.i=@codeaurora.org header.b="m5HK3mEF"
+	by mail.kernel.org (Postfix) with ESMTP id 94E7E21881
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Sep 2019 11:19:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726918AbfIQLLg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 17 Sep 2019 07:11:36 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:41776 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726860AbfIQLLf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 17 Sep 2019 07:11:35 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id D64B361572; Tue, 17 Sep 2019 11:11:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1568718694;
-        bh=7hIzB6oKTC4MP+D6C/cxdS77AS6O7AIX6SIn4jlVxQQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=m5HK3mEFb8cVsPASZOOm9mTVH0LXDkEdbRejx1iKENpEpzyphZafcBI4wMYxTvr0O
-         MsFnVdYgMNQXUNn87lnVoYL82NVGnZEpK0PSSt5fxKy/qQXPZ2oWzykr2Ys99cyhZr
-         7Fk0+ABvWDOv8T7Z5X6tOPKgEMI/FQ18Oy4q8Qwg=
-Received: from cchiluve-linux.qualcomm.com (blr-c-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.19.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: cchiluve@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 49928607F4;
-        Tue, 17 Sep 2019 11:11:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1568718694;
-        bh=7hIzB6oKTC4MP+D6C/cxdS77AS6O7AIX6SIn4jlVxQQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=m5HK3mEFb8cVsPASZOOm9mTVH0LXDkEdbRejx1iKENpEpzyphZafcBI4wMYxTvr0O
-         MsFnVdYgMNQXUNn87lnVoYL82NVGnZEpK0PSSt5fxKy/qQXPZ2oWzykr2Ys99cyhZr
-         7Fk0+ABvWDOv8T7Z5X6tOPKgEMI/FQ18Oy4q8Qwg=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 49928607F4
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=cchiluve@codeaurora.org
-From:   Chandana Kishori Chiluveru <cchiluve@codeaurora.org>
-To:     balbi@kernel.org, agross@kernel.org, david.brown@linaro.org
-Cc:     linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Chandana Kishori Chiluveru <cchiluve@codeaurora.org>
-Subject: [PATCH V3 3/3] arm64: dts: sdm845: Add interconnect properties for USB
-Date:   Tue, 17 Sep 2019 16:40:49 +0530
-Message-Id: <1568718649-20124-4-git-send-email-cchiluve@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1568718649-20124-1-git-send-email-cchiluve@codeaurora.org>
-References: <1568718649-20124-1-git-send-email-cchiluve@codeaurora.org>
+        id S1726714AbfIQLTI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 17 Sep 2019 07:19:08 -0400
+Received: from mail-io1-f69.google.com ([209.85.166.69]:56547 "EHLO
+        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726207AbfIQLTI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 17 Sep 2019 07:19:08 -0400
+Received: by mail-io1-f69.google.com with SMTP id n8so5136628ioh.23
+        for <linux-usb@vger.kernel.org>; Tue, 17 Sep 2019 04:19:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=ImZBuLTqSEGXljKxgyySfimbMAHeQ24x1lZOqK5BqZg=;
+        b=KNDpWN1G0oJxHHftOIGnwVmErr3yw+5OZaizhg0gipO+lfWx5JxaqfEqyH7SVZrCn+
+         9nfP1KeyM9tOi+Flc/d42t5hVP95SXK10jKGKMLEQTIV4MBgF2V+3p7UGxE6LCZTWEOy
+         gkjhkjCWKBLRKf4CD+WXdKXGEaOJAT4YQKtIW0gxcwb2oN908LUMwc4PXoXQXHrWL6SJ
+         H/9/aZOVGrFu2gI0wfQ2XOhhg8Ud+Uz5hcRGjk8fymOqXzUI3eCmZoubqevhZRxU9ySD
+         qoyW/5QgSWwCKA2oMO2hOwVh+HMB/vstpgFqx+um3m8CUt0UZhPYwr+2KTPKE5ADCV/D
+         eYTQ==
+X-Gm-Message-State: APjAAAXolLM7ufaxtXaGytidwBsxXgA/8lgU4HjMqYnO8fXg8hS1rZ6H
+        6UKtHQtUn2lDs2rQngQG+gz7AcaNFsNFEwnVlQaXHiVjpZ2I
+X-Google-Smtp-Source: APXvYqx+Hgx5u0l/NE/cjMdOUtMZw+vHj/Hty5p6SNnwuhmkFjhje/k05xn9Bspiy2nejxjNpcnVMNbSbJml2fEi5mBpUI19yDu8
+MIME-Version: 1.0
+X-Received: by 2002:a6b:fc15:: with SMTP id r21mr2694312ioh.25.1568719147452;
+ Tue, 17 Sep 2019 04:19:07 -0700 (PDT)
+Date:   Tue, 17 Sep 2019 04:19:07 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000008953790592bde396@google.com>
+Subject: possible deadlock in open_rio (3)
+From:   syzbot <syzbot+19df89b6a1c1aa59be2b@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        miquel@df.uba.ar, rio500-users@lists.sourceforge.net,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Populate USB DT nodes with interconnect properties.
+Hello,
 
-Signed-off-by: Chandana Kishori Chiluveru <cchiluve@codeaurora.org>
+syzbot found the following crash on:
+
+HEAD commit:    f0df5c1b usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=166a89be600000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5c6633fa4ed00be5
+dashboard link: https://syzkaller.appspot.com/bug?extid=19df89b6a1c1aa59be2b
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12558891600000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=136f7409600000
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+19df89b6a1c1aa59be2b@syzkaller.appspotmail.com
+
+======================================================
+WARNING: possible circular locking dependency detected
+5.3.0-rc7+ #0 Not tainted
+------------------------------------------------------
+syz-executor220/1722 is trying to acquire lock:
+00000000ff068a1b (rio500_mutex){+.+.}, at: open_rio+0x16/0xe0  
+drivers/usb/misc/rio500.c:65
+
+but task is already holding lock:
+00000000a02b2d74 (minor_rwsem){++++}, at: usb_open+0x23/0x270  
+drivers/usb/core/file.c:39
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #1 (minor_rwsem){++++}:
+        down_write+0x92/0x150 kernel/locking/rwsem.c:1500
+        usb_register_dev drivers/usb/core/file.c:187 [inline]
+        usb_register_dev+0x131/0x670 drivers/usb/core/file.c:156
+        probe_rio.cold+0x53/0x237 drivers/usb/misc/rio500.c:474
+        usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+        really_probe+0x281/0x6d0 drivers/base/dd.c:548
+        driver_probe_device+0x101/0x1b0 drivers/base/dd.c:721
+        __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+        bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:454
+        __device_attach+0x217/0x360 drivers/base/dd.c:894
+        bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+        device_add+0xae6/0x16f0 drivers/base/core.c:2165
+        usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
+        generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+        usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+        really_probe+0x281/0x6d0 drivers/base/dd.c:548
+        driver_probe_device+0x101/0x1b0 drivers/base/dd.c:721
+        __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+        bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:454
+        __device_attach+0x217/0x360 drivers/base/dd.c:894
+        bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+        device_add+0xae6/0x16f0 drivers/base/core.c:2165
+        usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
+        hub_port_connect drivers/usb/core/hub.c:5098 [inline]
+        hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
+        port_event drivers/usb/core/hub.c:5359 [inline]
+        hub_event+0x1b5c/0x3640 drivers/usb/core/hub.c:5441
+        process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
+        worker_thread+0x96/0xe20 kernel/workqueue.c:2415
+        kthread+0x318/0x420 kernel/kthread.c:255
+        ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+
+-> #0 (rio500_mutex){+.+.}:
+        check_prev_add kernel/locking/lockdep.c:2405 [inline]
+        check_prevs_add kernel/locking/lockdep.c:2507 [inline]
+        validate_chain kernel/locking/lockdep.c:2897 [inline]
+        __lock_acquire+0x1f7c/0x3b50 kernel/locking/lockdep.c:3880
+        lock_acquire+0x127/0x320 kernel/locking/lockdep.c:4412
+        __mutex_lock_common kernel/locking/mutex.c:930 [inline]
+        __mutex_lock+0x158/0x1360 kernel/locking/mutex.c:1077
+        open_rio+0x16/0xe0 drivers/usb/misc/rio500.c:65
+        usb_open+0x1df/0x270 drivers/usb/core/file.c:48
+        chrdev_open+0x219/0x5c0 fs/char_dev.c:414
+        do_dentry_open+0x494/0x1120 fs/open.c:797
+        do_last fs/namei.c:3416 [inline]
+        path_openat+0x1430/0x3f50 fs/namei.c:3533
+        do_filp_open+0x1a1/0x280 fs/namei.c:3563
+        do_sys_open+0x3c0/0x580 fs/open.c:1089
+        do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:296
+        entry_SYSCALL_64_after_hwframe+0x49/0xbe
+
+other info that might help us debug this:
+
+  Possible unsafe locking scenario:
+
+        CPU0                    CPU1
+        ----                    ----
+   lock(minor_rwsem);
+                                lock(rio500_mutex);
+                                lock(minor_rwsem);
+   lock(rio500_mutex);
+
+  *** DEADLOCK ***
+
+1 lock held by syz-executor220/1722:
+  #0: 00000000a02b2d74 (minor_rwsem){++++}, at: usb_open+0x23/0x270  
+drivers/usb/core/file.c:39
+
+stack backtrace:
+CPU: 1 PID: 1722 Comm: syz-executor220 Not tainted 5.3.0-rc7+ #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xca/0x13e lib/dump_stack.c:113
+  check_noncircular+0x345/0x3e0 kernel/locking/lockdep.c:1741
+  check_prev_add kernel/locking/lockdep.c:2405 [inline]
+  check_prevs_add kernel/locking/lockdep.c:2507 [inline]
+  validate_chain kernel/locking/lockdep.c:2897 [inline]
+  __lock_acquire+0x1f7c/0x3b50 kernel/locking/lockdep.c:3880
+  lock_acquire+0x127/0x320 kernel/locking/lockdep.c:4412
+  __mutex_lock_common kernel/locking/mutex.c:930 [inline]
+  __mutex_lock+0x158/0x1360 kernel/locking/mutex.c:1077
+  open_rio+0x16/0xe0 drivers/usb/misc/rio500.c:65
+  usb_open+0x1df/0x270 drivers/usb/core/file.c:48
+  chrdev_open+0x219/0x5c0 fs/char_dev.c:414
+  do_dentry_open+0x494/0x1120 fs/open.c:797
+  do_last fs/namei.c:3416 [inline]
+  path_openat+0x1430/0x3f50 fs/namei.c:3533
+  do_filp_open+0x1a1/0x280 fs/namei.c:3563
+  do_sys_open+0x3c0/0x580 fs/open.c:1089
+  do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:296
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x401880
+Code: 01 f0 ff ff 0f 83 80 0d 00 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f  
+44 00 00 83 3d 0d 05 2d 00 00 75 14 b8 02 00 00 00 0f 05 <48> 3d 01 f0 ff  
+ff 0f 83 54 0d 00 00 c3 48 83 ec 08 e8 ba 02 00 00
+RSP: 002b:00007ffcfca5b718 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
+RAX: ffffffffffffffda RBX: 00007ffcfca5bbd0 RCX: 0000000000401880
+RDX: 0000000000000000 RSI: 0000000000000002 RDI: 00007ffcfca5b730
+RBP: 0000000000000000 R08: 0000000000000000 R09: 000000000000000f
+R10: 0000000000000064 R11: 0000000000000246 R12: 0000000000402a60
+R13: 0000000000402af0 R14: 0000000000000000 R15: 0000000000
+
+
 ---
- arch/arm64/boot/dts/qcom/sdm845.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-index fcb9330..e4885f3 100644
---- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-@@ -1837,6 +1837,12 @@
- 
- 			resets = <&gcc GCC_USB30_PRIM_BCR>;
- 
-+			interconnects = <&rsc_hlos MASTER_USB3_0
-+					 &rsc_hlos SLAVE_EBI1>,
-+					<&rsc_hlos MASTER_APPSS_PROC
-+					 &rsc_hlos SLAVE_USB3_0>;
-+			interconnect-names = "usb-ddr", "apps-usb";
-+
- 			usb_1_dwc3: dwc3@a600000 {
- 				compatible = "snps,dwc3";
- 				reg = <0 0x0a600000 0 0xcd00>;
-@@ -1881,6 +1887,12 @@
- 
- 			resets = <&gcc GCC_USB30_SEC_BCR>;
- 
-+			interconnects = <&rsc_hlos MASTER_USB3_1
-+					 &rsc_hlos SLAVE_EBI1>,
-+					<&rsc_hlos MASTER_APPSS_PROC
-+					 &rsc_hlos SLAVE_USB3_1>;
-+			interconnect-names = "usb-ddr", "apps-usb";
-+
- 			usb_2_dwc3: dwc3@a800000 {
- 				compatible = "snps,dwc3";
- 				reg = <0 0x0a800000 0 0xcd00>;
--- 
-Qualcomm India Private Limited, on behalf of Qualcomm Innovation Center, Inc.,
-is a member of Code Aurora Forum, a Linux Foundation Collaborative Project.
-
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
