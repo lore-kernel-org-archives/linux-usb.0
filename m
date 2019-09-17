@@ -2,112 +2,111 @@ Return-Path: <SRS0=Lxty=XM=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6FAEC4CEC9
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Sep 2019 14:44:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01857C4CECE
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Sep 2019 14:51:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C8D2A2171F
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Sep 2019 14:44:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D5CAA21897
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Sep 2019 14:51:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728526AbfIQOo6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 17 Sep 2019 10:44:58 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:50637 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728187AbfIQOoy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 17 Sep 2019 10:44:54 -0400
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iAEip-0005y5-7M; Tue, 17 Sep 2019 16:44:51 +0200
-Received: from mfe by dude02.lab.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iAEio-0000WN-Hy; Tue, 17 Sep 2019 16:44:50 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     richard.leitner@skidata.com, robh+dt@kernel.org,
-        fancer.lancer@gmail.com
-Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        kernel@pengutronix.de
-Subject: [PATCH 3/4] usb: usb251xb: simplify reset helper
-Date:   Tue, 17 Sep 2019 16:44:48 +0200
-Message-Id: <20190917144449.32739-4-m.felsch@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190917144449.32739-1-m.felsch@pengutronix.de>
-References: <20190917144449.32739-1-m.felsch@pengutronix.de>
+        id S1728666AbfIQOvs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 17 Sep 2019 10:51:48 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:38492 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1728578AbfIQOvs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 17 Sep 2019 10:51:48 -0400
+Received: (qmail 3667 invoked by uid 2102); 17 Sep 2019 10:51:47 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 17 Sep 2019 10:51:47 -0400
+Date:   Tue, 17 Sep 2019 10:51:47 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Dmitry Vyukov <dvyukov@google.com>
+cc:     syzbot <syzbot+e1d1a6e595adbd2458f1@syzkaller.appspotmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kai heng feng <kai.heng.feng@canonical.com>,
+        Kernel development list <linux-kernel@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        <yuehaibing@huawei.com>
+Subject: Re: KMSAN: uninit-value in usb_autopm_put_interface
+In-Reply-To: <CACT4Y+YzO9H3Ge9uEnMcK215DvTW-9fYrS7gYAOV62ssdyp42w@mail.gmail.com>
+Message-ID: <Pine.LNX.4.44L0.1909171040180.1590-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Currently the reset handler was always called to deassert the reset
-line because assert the line was done during probe. Now if we want to
-support pm by turn of the supply we need to call this routine twice and
-the i2c_lock_bus is done twice too. To simplify that we can drop the
-state and just do a reset in one go. So a future pm operation don't need
-to lock the i2c bus twice.
+On Tue, 17 Sep 2019, Dmitry Vyukov wrote:
 
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
----
- drivers/usb/misc/usb251xb.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+> On Mon, Sep 16, 2019 at 10:31 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+> >
+> > On Mon, 16 Sep 2019, syzbot wrote:
+> >
+> > > Hello,
+> > >
+> > > syzbot found the following crash on:
+> > >
+> > > HEAD commit:    014077b5 DO-NOT-SUBMIT: usb-fuzzer: main usb gadget fuzzer..
+> > > git tree:       https://github.com/google/kmsan.git master
+> > > console output: https://syzkaller.appspot.com/x/log.txt?x=16a7dde1600000
+> > > kernel config:  https://syzkaller.appspot.com/x/.config?x=f03c659d0830ab8d
+> > > dashboard link: https://syzkaller.appspot.com/bug?extid=e1d1a6e595adbd2458f1
+> > > compiler:       clang version 9.0.0 (/home/glider/llvm/clang
+> > > 80fee25776c2fb61e74c1ecb1a523375c2500b69)
+> > > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=176303e1600000
+> > > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10e8f23e600000
 
-diff --git a/drivers/usb/misc/usb251xb.c b/drivers/usb/misc/usb251xb.c
-index 05819167604d..bc031d33f433 100644
---- a/drivers/usb/misc/usb251xb.c
-+++ b/drivers/usb/misc/usb251xb.c
-@@ -263,20 +263,19 @@ static int usb251x_check_gpio_chip(struct usb251xb *hub)
- }
- #endif
- 
--static void usb251xb_reset(struct usb251xb *hub, int state)
-+static void usb251xb_reset(struct usb251xb *hub)
- {
- 	if (!hub->gpio_reset)
- 		return;
- 
- 	i2c_lock_bus(hub->i2c->adapter, I2C_LOCK_SEGMENT);
- 
--	gpiod_set_value_cansleep(hub->gpio_reset, state);
-+	gpiod_set_value_cansleep(hub->gpio_reset, 1);
-+	usleep_range(1, 10);	/* >=1us RESET_N asserted */
-+	gpiod_set_value_cansleep(hub->gpio_reset, 0);
- 
- 	/* wait for hub recovery/stabilization */
--	if (!state)
--		usleep_range(500, 750);	/* >=500us at power on */
--	else
--		usleep_range(1, 10);	/* >=1us at power down */
-+	usleep_range(500, 750);	/* >=500us after RESET_N deasserted */
- 
- 	i2c_unlock_bus(hub->i2c->adapter, I2C_LOCK_SEGMENT);
- }
-@@ -294,7 +293,7 @@ static int usb251xb_connect(struct usb251xb *hub)
- 		i2c_wb[0] = 0x01;
- 		i2c_wb[1] = USB251XB_STATUS_COMMAND_ATTACH;
- 
--		usb251xb_reset(hub, 0);
-+		usb251xb_reset(hub);
- 
- 		err = i2c_smbus_write_i2c_block_data(hub->i2c,
- 				USB251XB_ADDR_STATUS_COMMAND, 2, i2c_wb);
-@@ -344,7 +343,7 @@ static int usb251xb_connect(struct usb251xb *hub)
- 	i2c_wb[USB251XB_ADDR_PORT_MAP_7]        = hub->port_map7;
- 	i2c_wb[USB251XB_ADDR_STATUS_COMMAND] = USB251XB_STATUS_COMMAND_ATTACH;
- 
--	usb251xb_reset(hub, 0);
-+	usb251xb_reset(hub);
- 
- 	/* write registers */
- 	for (i = 0; i < (USB251XB_I2C_REG_SZ / USB251XB_I2C_WRITE_SZ); i++) {
--- 
-2.20.1
+> > This is probably the same problem that was fixed in the Logitech driver
+> > earlier.  The fix still appears to be in linux-next (commit
+> > 5f9242775bb6).
+> >
+> > Shouldn't syzbot wait until after the merge window before running tests
+> > like this?
+> 
+> 
+> Merge window is a weak notion and may be not enough either (all trees
+> do not necessary update at that point and syzbot does not necessary
+> rebuild all of them successfully). syzbot uses another criteria: if
+> you say a bug is fixed by commit X, it will wait until commit X
+> reaches all of tested trees and will report the same crash signature
+> again only after that. This procedure was specifically designed to not
+> produce duplicate reports about the same bug.
+> So either the bug wasn't really fixed, or this is another bug, or
+> syzbot was given a wrong commit.
+
+Hmmm.  Which are the "tested trees"?
+
+This bug (e1d1a6e595adbd2458f1) is marked as a duplicate of 
+3cbe5cd105d2ad56a1df.  The dashboard link says that bug was fixed by 
+commit "HID: logitech: Fix general protection fault caused by Logitech 
+driver" -- which is correct, as far as I know.
+
+That commit is present in linux-next, as mentioned above.  As of 10:44 
+EDT today, it is not present in Linus's tree, according to
+
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/drivers/hid/hid-lg.c
+
+(in fact, no commits affecting drivers/hid/hid-lg.c in that tree are 
+dated after 2019-07-10).
+
+Furthermore, according to
+
+https://github.com/google/kmsan/blob/master/drivers/hid/hid-lg.c?h=014077b5
+
+the source code actually used by syzbot for this test doesn't have that 
+commit either.  (BTW, is there any way to get a git log out of github?  
+It would be nice not to have to download the whole source file -- and 
+I'm not certain that this URL really does point to the version of the 
+file that syzbot used.)
+
+So what's really going on?
+
+Alan Stern
 
