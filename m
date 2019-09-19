@@ -2,85 +2,102 @@ Return-Path: <SRS0=sj9V=XO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3112C3A5A6
-	for <linux-usb@archiver.kernel.org>; Thu, 19 Sep 2019 07:38:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F06C9C4CEC4
+	for <linux-usb@archiver.kernel.org>; Thu, 19 Sep 2019 08:18:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C63D8222C5
-	for <linux-usb@archiver.kernel.org>; Thu, 19 Sep 2019 07:38:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mork.no header.i=@mork.no header.b="LqkOM+Ha"
+	by mail.kernel.org (Postfix) with ESMTP id C628321848
+	for <linux-usb@archiver.kernel.org>; Thu, 19 Sep 2019 08:18:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1568881121;
+	bh=oYuwwby07dojENNOSRT3Jp1jNTk5yZ2h/LDlYvi7y6M=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=zklolLG+AyQkqRNQggC2LB5RkqantO1JvXNeVsFA0PU1wIJtGNNvAYTsLhJEmiXAS
+	 QTwrefx6k7K8TVe+jF0lE6TTc/oqyv8NLJX2yHgz1gt1GuiEdYaZO2MiurUpZpyofe
+	 IPLsPvqZ8fuXmlCTLu0gGTuCP3E6SiQ5TVEHm5M0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728345AbfISHiJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 19 Sep 2019 03:38:09 -0400
-Received: from canardo.mork.no ([148.122.252.1]:37307 "EHLO canardo.mork.no"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727843AbfISHiI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 19 Sep 2019 03:38:08 -0400
-Received: from miraculix.mork.no ([IPv6:2a02:2121:2cd:8241:9043:eeff:fe9f:3336])
-        (authenticated bits=0)
-        by canardo.mork.no (8.15.2/8.15.2) with ESMTPSA id x8J7c5rl030797
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-        Thu, 19 Sep 2019 09:38:05 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
-        t=1568878685; bh=ay4dYHMQO7sBCZiMhLQ5HkGOmId1xSrjVglA5pTZQZs=;
-        h=From:To:Cc:Subject:References:Date:Message-ID:From;
-        b=LqkOM+Ha/r/d3276YThq4Fi/BYgzaO548eCNXH/idnVQu1uPsg19+A0FOZDy4Migb
-         CNnj02WLulnw4P/WfUNxCbeDc9TyLcDLWj16nV6Pr2RZ/uvPbzXvY6IYstwsrvR+CK
-         og00k5SXloPxFeiUZBTfqAupLzYPdut3q/Y4GbYc=
-Received: from bjorn by miraculix.mork.no with local (Exim 4.92)
-        (envelope-from <bjorn@mork.no>)
-        id 1iAr0p-0003li-QV; Thu, 19 Sep 2019 09:37:59 +0200
-From:   =?utf-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     JH <jupiter.hce@gmail.com>, linux-usb@vger.kernel.org
-Subject: Re: Failed to connect to 4G modem
-Organization: m
-References: <CAA=hcWRF00syz8jB1+qdy1pFA7Wk_B=1Z_DT5vYuQrzFKhtZbw@mail.gmail.com>
-        <20190917120258.GB489142@kroah.com>
-        <CAA=hcWTD2zYD0gVTu6sDuRqUcTOnn42Gm0s1tOGvBQdQ40Q7LA@mail.gmail.com>
-        <20190918054744.GA1830105@kroah.com>
-Date:   Thu, 19 Sep 2019 09:37:59 +0200
-In-Reply-To: <20190918054744.GA1830105@kroah.com> (Greg KH's message of "Wed,
-        18 Sep 2019 07:47:44 +0200")
-Message-ID: <8736gsivmw.fsf@miraculix.mork.no>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S2387523AbfISISk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 19 Sep 2019 04:18:40 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:37591 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728879AbfISISk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 19 Sep 2019 04:18:40 -0400
+Received: by mail-lj1-f194.google.com with SMTP id l21so2654929lje.4;
+        Thu, 19 Sep 2019 01:18:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=bdKMehp6wxnbpllEkvXzzRnRrggViXMGu8demEwoja0=;
+        b=s3+xIIjcJ/yKr06fleC5N7Xl+qZPqho+MNGLZplQJ4q3QDY9+VxipGz9JaSb4yEWNz
+         UMEEdswfSwU3luu/XSpyE9oP9rauOg3tcSHRcmBxM9Q+FtM6WT63nFnD9uzxiVXirj82
+         cRTwgRU4QKW2J86f7qD8CRz9OwK1Pe/BYJjoPVMFrWGMtu0C2X1gJmXCFck3nMywvVOv
+         RqvmlejKi3rDEAxQi9MM14Tiqm6j+DlgkmWwUnC7q/IXw4geR66GAWB4cjZ3R0/dNIWC
+         XJt79+gYf+qlCf8Vwq6cFeW2flFUEQ4uiGKAME/U6rwWibYpOgJuy7i7DqU1xse/Go+v
+         +Heg==
+X-Gm-Message-State: APjAAAWKv/Lx9zN8RatHISx5cKY+iIGja4VWR3Wwaj8aohLMfp2GM1/i
+        1V/z4jFvj/1LodAVaO3fCws=
+X-Google-Smtp-Source: APXvYqzmEAZneyg861HpgqHOF2chTtJL7HveCo6ZXfOB8sYWTcdkQdNk3BPX32Ow62y5lFpj1RAkbw==
+X-Received: by 2002:a05:651c:1102:: with SMTP id d2mr4043271ljo.74.1568881118454;
+        Thu, 19 Sep 2019 01:18:38 -0700 (PDT)
+Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
+        by smtp.gmail.com with ESMTPSA id h10sm1473716ljb.14.2019.09.19.01.18.36
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 19 Sep 2019 01:18:37 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.92.2)
+        (envelope-from <johan@xi.terra>)
+        id 1iAre8-0007vY-M7; Thu, 19 Sep 2019 10:18:36 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
+        Oliver Neukum <oneukum@suse.com>,
+        Johan Hovold <johan@kernel.org>,
+        stable <stable@vger.kernel.org>
+Subject: [PATCH 1/4] USB: legousbtower: fix slab info leak at probe
+Date:   Thu, 19 Sep 2019 10:18:12 +0200
+Message-Id: <20190919081815.30422-2-johan@kernel.org>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190919081815.30422-1-johan@kernel.org>
+References: <20190919081815.30422-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Virus-Scanned: clamav-milter 0.101.4 at canardo
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Greg KH <gregkh@linuxfoundation.org> writes:
+Make sure to check for short transfers when retrieving the version
+information at probe to avoid leaking uninitialised slab data when
+logging it.
 
->> >> [   44.059958] qmi_wwan 1-1:1.3 wwan0: unregister 'qmi_wwan' usb-ci_h=
-drc.1-1, We
-..
->> That was always my thought until I tried kernel 5.1 under the same
->> platform (nothing changed except the kernel version), the kernel 5.1
->> can connect to the 4G modem, I could not tell the hardware engineer if
->> it was hardware problem where kernel 5.1 can connect, kernel 4.19
->> could not, how would you explain it? Seems some differences between
->> kernel 5.1 and kernel 4.19, what I could be missing?
->>=20
->> I cannot use kernel 5, we need kernel LTS on product, too late to wait
->> for 5.4 LTS.
->
-> Can you use 'git bisect' to find the commit that fixes the issue?  That
-> way we can backport it to the 4.19.y tree for you.
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable <stable@vger.kernel.org>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/misc/legousbtower.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Yes, please.
+diff --git a/drivers/usb/misc/legousbtower.c b/drivers/usb/misc/legousbtower.c
+index 006cf13b2199..1db07d4dc738 100644
+--- a/drivers/usb/misc/legousbtower.c
++++ b/drivers/usb/misc/legousbtower.c
+@@ -891,8 +891,10 @@ static int tower_probe (struct usb_interface *interface, const struct usb_device
+ 				  get_version_reply,
+ 				  sizeof(*get_version_reply),
+ 				  1000);
+-	if (result < 0) {
+-		dev_err(idev, "LEGO USB Tower get version control request failed\n");
++	if (result < sizeof(*get_version_reply)) {
++		if (result >= 0)
++			result = -EIO;
++		dev_err(idev, "get version request failed: %d\n", result);
+ 		retval = result;
+ 		goto error;
+ 	}
+-- 
+2.23.0
 
-But if I were to guess based on the above info, then I'd start looking
-at the chipidea changes. Commit 2c4593ecc920 ("usb: chipidea: host:
-override ehci->hub_control") looks particularily interesting.
-
-
-Bj=C3=B8rn
