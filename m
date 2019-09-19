@@ -2,54 +2,55 @@ Return-Path: <SRS0=sj9V=XO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3E2BC4CEC4
-	for <linux-usb@archiver.kernel.org>; Thu, 19 Sep 2019 08:30:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C9DDC4CED0
+	for <linux-usb@archiver.kernel.org>; Thu, 19 Sep 2019 08:30:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B0B4A2196F
-	for <linux-usb@archiver.kernel.org>; Thu, 19 Sep 2019 08:30:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 61A9B21927
+	for <linux-usb@archiver.kernel.org>; Thu, 19 Sep 2019 08:30:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1568881855;
-	bh=JTtUB4Y51pg11FAnfFnNcBltwOANfKRvphSCpIYOSNo=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=FFkdrCVDj95YXROi5qChudclVJKzeFDgzZRyoLAFo/dNGwLYsjl5DojwCKfC7xMwu
-	 4SmPmSbVbFioMDUQTLm0cOAI6qyKu9nBWRTPEc7KX+NqUD1/mxWkHXNZE+Bbsk7ebq
-	 liAI7HA0uODyIBYvcQbbET698FAEoFZEuiHDJhqY=
+	s=default; t=1568881856;
+	bh=lA5k1Dl2Ev2JsmOdLnJ+FP+W8l4kO+ee0hsRG29dJMI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=MQeOxn3PvA4Qiq4bCZfGiFfWiVNrKSMdgw2o/l2whKQ57vFb+ZHyvcyj7skP5YYhm
+	 qzUQD90eIJ4hHdOAmDFd9aXNfUxJqiHVm0NW1et4oAIL0ex8aCJbwAhh0+poLcSVSC
+	 b9zsSLSfCfh8ok8NIH/r7fM6ZRPO0DAJgYRPXguc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388258AbfISIay (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 19 Sep 2019 04:30:54 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:34234 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730705AbfISIax (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 19 Sep 2019 04:30:53 -0400
-Received: by mail-lj1-f196.google.com with SMTP id j19so1193003lja.1
-        for <linux-usb@vger.kernel.org>; Thu, 19 Sep 2019 01:30:52 -0700 (PDT)
+        id S2388339AbfISIaz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 19 Sep 2019 04:30:55 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:36991 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387856AbfISIaz (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 19 Sep 2019 04:30:55 -0400
+Received: by mail-lf1-f65.google.com with SMTP id w67so1711565lff.4
+        for <linux-usb@vger.kernel.org>; Thu, 19 Sep 2019 01:30:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yvexylv+UKpEe8B3SYts7DqOF4DTQrUEjLunzxOA+Jg=;
-        b=AyqgfjpUEysLBRqGxYaTldWV4yttchCkb/eoatc26ikSTOopyM8tLlH7aZ3SelnWch
-         wiJzDOAHyMYt0xDwH+gnxtrMxsF0PJukOxiQCXWRjv2uXc7x4Do7el8w0JgbSmLjLO6h
-         C8aqt8dlPL/bTp8Y2PoP5I3A//MbjnbXlbS+UuzYhJ91Wn9vQGqvBAzkKlksBQvLOGG6
-         dPEkzpj+8pWEGOax6GBtt4iNz5wuaoB5QM3Ne4sZL0IUGl6fy66AKPK/DbKrfN0wXSbh
-         ngijLwpwwPC5hbuuxtgAkb6L4QvUAIsoT++TxsFLzSxS94hkTTwEQf/xX/ZFsZ4o/VQA
-         jNHA==
-X-Gm-Message-State: APjAAAUw9HUEsm5xw5A2nGdGIaHkw63sCDqtxAgvKew3wUAP7FnKqBjz
-        aNlNte/uvBcgf2Sz/P/qIQo=
-X-Google-Smtp-Source: APXvYqw4LCF2/WTuJ84G2A9CX366gTGITQg09eukGJxpsV1xn1qK5KDjjqe0QfFlPz7EslvCv+Uhdw==
-X-Received: by 2002:a2e:7a04:: with SMTP id v4mr4638675ljc.237.1568881851887;
-        Thu, 19 Sep 2019 01:30:51 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=l086OEt/YmCp6+Ee4uju9cxpl1kQU9buLbBxRXPBhrY=;
+        b=OIJSkZ2peox7zerRNtsPvIAFYgJXD4SR+GW2u1mMx8jfWg2yTDOh+NxXOF52UJS/tu
+         LEnBoprTXM7b/cl9x63kdXjEZFn9j/9Yb97SV/Ko+0wm4mpbJHa0WYmdEfq8QFHm9GEJ
+         uKvS1FupU+8tvpIGgGLO9+uqkf690tXcZj4Mg6jUNdZJpvEy15G76TmpeR+1Fpsee9lW
+         BBn7mDR17KfiZGi/Ve5LAj370ZRKlOXLhEH5I6FQBGQf4WBVeNrwrSsZBfYUYM1VAP+c
+         YxFpTYYIJq0fKKvb+1L62p6CVoYPPIu9UW+0mjp37dPMs+b8gnh3m7/zUlrZ3VMYKZRb
+         XWcQ==
+X-Gm-Message-State: APjAAAW7+8HRHqMeDu3dAE/49RoqJkTsohWXzYpyqUcaLhpTTT2HrSw5
+        xsk1qb2bkUvZdy+jGnIU2Bs=
+X-Google-Smtp-Source: APXvYqz4O8+Ujagy5UqM1spK/jmi0oFcUwgbeaTJCeYLcHHorsUYFDqLbLPUFeSDFH/+vTV5OogKbQ==
+X-Received: by 2002:a19:9145:: with SMTP id y5mr4361326lfj.88.1568881853064;
+        Thu, 19 Sep 2019 01:30:53 -0700 (PDT)
 Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id m17sm1703821lje.0.2019.09.19.01.30.49
+        by smtp.gmail.com with ESMTPSA id i142sm1417302lfi.5.2019.09.19.01.30.49
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 19 Sep 2019 01:30:50 -0700 (PDT)
+        Thu, 19 Sep 2019 01:30:51 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.92.2)
         (envelope-from <johan@xi.terra>)
-        id 1iArpx-000839-HL; Thu, 19 Sep 2019 10:30:49 +0200
+        id 1iArpx-00083R-V2; Thu, 19 Sep 2019 10:30:49 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
@@ -57,10 +58,12 @@ Cc:     linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
         Juergen Stuber <starblue@users.sourceforge.net>,
         legousb-devel@lists.sourceforge.net,
         Johan Hovold <johan@kernel.org>
-Subject: [PATCH RESEND 0/4] USB: legousbtower: misc fixes
-Date:   Thu, 19 Sep 2019 10:30:35 +0200
-Message-Id: <20190919083039.30898-1-johan@kernel.org>
+Subject: [PATCH RESEND 4/4] USB: legousbtower: fix open after failed reset request
+Date:   Thu, 19 Sep 2019 10:30:39 +0200
+Message-Id: <20190919083039.30898-5-johan@kernel.org>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190919083039.30898-1-johan@kernel.org>
+References: <20190919083039.30898-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -68,27 +71,46 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-[ Resend with Juergen on CC ]
+The driver would return with a nonzero open count in case the reset
+control request failed. This would prevent any further attempts to open
+the char dev until the device was disconnected.
 
-This series fixes a few issues found in the legousbtower driver. The
-potential deadlock issue was reported by syzbot, and the rest was found
-through inspection.
+Fix this by incrementing the open count only on successful open.
 
-I have bunch of clean ups for this driver as well that I'll post once
-these are in Linus's tree.
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/misc/legousbtower.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Johan
-
-
-Johan Hovold (4):
-  USB: legousbtower: fix slab info leak at probe
-  USB: legousbtower: fix deadlock on disconnect
-  USB: legousbtower: fix potential NULL-deref on disconnect
-  USB: legousbtower: fix open after failed reset request
-
- drivers/usb/misc/legousbtower.c | 55 ++++++++++++++-------------------
- 1 file changed, 23 insertions(+), 32 deletions(-)
-
+diff --git a/drivers/usb/misc/legousbtower.c b/drivers/usb/misc/legousbtower.c
+index 4fa999882635..44d6a3381804 100644
+--- a/drivers/usb/misc/legousbtower.c
++++ b/drivers/usb/misc/legousbtower.c
+@@ -348,7 +348,6 @@ static int tower_open (struct inode *inode, struct file *file)
+ 		retval = -EBUSY;
+ 		goto unlock_exit;
+ 	}
+-	dev->open_count = 1;
+ 
+ 	/* reset the tower */
+ 	result = usb_control_msg (dev->udev,
+@@ -388,13 +387,14 @@ static int tower_open (struct inode *inode, struct file *file)
+ 		dev_err(&dev->udev->dev,
+ 			"Couldn't submit interrupt_in_urb %d\n", retval);
+ 		dev->interrupt_in_running = 0;
+-		dev->open_count = 0;
+ 		goto unlock_exit;
+ 	}
+ 
+ 	/* save device in the file's private structure */
+ 	file->private_data = dev;
+ 
++	dev->open_count = 1;
++
+ unlock_exit:
+ 	mutex_unlock(&dev->lock);
+ 
 -- 
 2.23.0
 
