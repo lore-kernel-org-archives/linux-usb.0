@@ -2,78 +2,218 @@ Return-Path: <SRS0=X59e=XP=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 035CAC4CECD
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Sep 2019 07:44:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8915CC49ED7
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Sep 2019 07:56:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C4880208C0
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Sep 2019 07:44:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 50F14222D0
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Sep 2019 07:56:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1568965483;
-	bh=awK4sAwt/JjMC+qdomldJWdCvOM2PA4r6OZQgPo1DqI=;
+	s=default; t=1568966166;
+	bh=fW3qcu3W3QBDDx4eyGmx5AaF7n7DMblKyzfp42BmMxc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=CAUpDoebB+7cR8rS4r4JybplCiWdmrDDg3uuaK1zIYDbrDUJF/l5usSYZH4KFXwFz
-	 12LHPXGTVqpNDV/wlIqF9RU6jKdgkE47M/BhEp7Ah8gwhoYppwLgxt+PiNpK+4FiDQ
-	 jIF+YYjAPVd6gz95ntB61MvZd/Fr12SgFEhqJT5E=
+	b=lpLqGWkPNrzh2w6+uZM5x0RFEfPqyjI1jo6omVtzTxLCP9Yz+D52XclqQtHDR7AAv
+	 EHSsRBI+lIOiVDaoMd018jEL2pqMJs4pTRbHURurKzxZIYyLonAfBtDPEgyIcWU7gm
+	 gKm8KevUn+PI/APHy9ag1jxrD+K/acI1B5Ok+jKk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404830AbfITHom (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 20 Sep 2019 03:44:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34332 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2393041AbfITHom (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 20 Sep 2019 03:44:42 -0400
-Received: from localhost (unknown [89.205.140.247])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9BBB3207FC;
-        Fri, 20 Sep 2019 07:44:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568965480;
-        bh=awK4sAwt/JjMC+qdomldJWdCvOM2PA4r6OZQgPo1DqI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=U/cwmxekngFhaPZNkQ6wywr8rCKTv14qhZZw2n8Qq+84hQg8BoMIDKI1vpRDZ7dYw
-         D/lAA+MU1rN8F/H9LFkAZcROApnH7HXSJcMewlGNDb9ySj785OjbSnjnUTv3yb0jBi
-         e4CC98bkjexwau4+2sY+Wh1OuzV2+rHpGzsAvcz0=
-Date:   Fri, 20 Sep 2019 09:44:36 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Andrea Vai <andrea.vai@unipv.it>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Johannes Thumshirn <jthumshirn@suse.de>,
-        Jens Axboe <axboe@kernel.dk>,
-        USB list <linux-usb@vger.kernel.org>,
-        SCSI development list <linux-scsi@vger.kernel.org>,
-        Himanshu Madhani <himanshu.madhani@cavium.com>,
-        Hannes Reinecke <hare@suse.com>,
-        Ming Lei <ming.lei@redhat.com>, Omar Sandoval <osandov@fb.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: Re: Slow I/O on USB media after commit
- f664a3cc17b7d0a2bc3b3ab96181e1029b0ec0e6
-Message-ID: <20190920074436.GA518462@kroah.com>
-References: <Pine.LNX.4.44L0.1909191353400.1962-100000@iolanthe.rowland.org>
- <3d9bf0023e01e6b29c85c2099b7466e94d06a090.camel@unipv.it>
+        id S2404989AbfITH4F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 20 Sep 2019 03:56:05 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:41046 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404904AbfITH4F (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 20 Sep 2019 03:56:05 -0400
+Received: by mail-lj1-f193.google.com with SMTP id f5so6139251ljg.8
+        for <linux-usb@vger.kernel.org>; Fri, 20 Sep 2019 00:56:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=zC3qnS4WfNarkTq+YlTn0wS1+kQkRGzEx/YsOZMMIIs=;
+        b=fQcgA64jnpWuG5D0mofziyHj18012LUd7ABgSU6Z5rsdAl5ojGQO18H1J2B1QGUKP8
+         oF7ZGXhLOHVq1+d1z1mU1ucaERCUrQgagRe4NFsrrAIJcrGAd3wR6NHbdPVcrDlUiN2f
+         OK4R/AtLojcOZiev3bPu5rRUpMaSC4Ywyll0eVjL/J3zs5MCgvjr+XD/dmCD1HZvhPyy
+         I3biKtdIIlwiw20eX9x/NIwPAXFGAlkZvMsevJRsRHaWE85mDvywMFti+k+7pGGVz46X
+         f05hLBOgN6A37++DEDtr0p0Zkk2aC4nrvaaHB46hRi5DrVAF2SLwalDYDY/wgnNY4PRp
+         bhGA==
+X-Gm-Message-State: APjAAAVWKlVYw7KToMpgdg8wgsY3VKwXBQoAWNuB0AUSUtb7KHchUJxA
+        +JmSPAk9rSWRsXSTu5JuaYrdVb2p
+X-Google-Smtp-Source: APXvYqylIHaUQGnHjHmwlaofpxX13FRqMtUst1F//KfHNsY+yb5YjdATOJkIXxHsLUGz6JkEXQn2vg==
+X-Received: by 2002:a2e:9f52:: with SMTP id v18mr8529683ljk.166.1568966162678;
+        Fri, 20 Sep 2019 00:56:02 -0700 (PDT)
+Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
+        by smtp.gmail.com with ESMTPSA id y22sm313910lfb.75.2019.09.20.00.56.01
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 20 Sep 2019 00:56:01 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.92.2)
+        (envelope-from <johan@kernel.org>)
+        id 1iBDlq-0000y1-5L; Fri, 20 Sep 2019 09:56:02 +0200
+Date:   Fri, 20 Sep 2019 09:56:02 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Charles Yeh <charlesyeh522@gmail.com>
+Cc:     Johan Hovold <johan@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org,
+        =?utf-8?B?WWVoLkNoYXJsZXMgW+iRieamrumRq10=?= 
+        <charles-yeh@prolific.com.tw>
+Subject: Re: [PATCH] [PATCH v7] USB: serial: pl2303: Add new PID to support
+ PL2303HXN (TYPE_HXN)
+Message-ID: <20190920075602.GI30545@localhost>
+References: <20190702123006.11320-1-charlesyeh522@gmail.com>
+ <20190716084907.GB10939@localhost>
+ <CAAZvQQ5pJDmZ-F8E8AhGxNK6ohuq3ev8OnySE-+zQNThBcu3Ag@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <3d9bf0023e01e6b29c85c2099b7466e94d06a090.camel@unipv.it>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAZvQQ5pJDmZ-F8E8AhGxNK6ohuq3ev8OnySE-+zQNThBcu3Ag@mail.gmail.com>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Sep 20, 2019 at 09:25:17AM +0200, Andrea Vai wrote:
-> Il giorno gio, 19/09/2019 alle 13.54 -0400, Alan Stern ha scritto:
-> > 
-> > In general, USB flash drives should not be expected to work as well
-> > as 
-> > an actual disk drive connected over USB.
+On Tue, Aug 27, 2019 at 04:40:39PM +0800, Charles Yeh wrote:
+> Johan Hovold <johan@kernel.org> 於 2019年7月16日 週二 下午4:49寫道：
+> > >  #define PL2303_FLOWCTRL_MASK         0xf0
+> > > +#define PL2303_HXN_FLOWCTRL_MASK     0x1C
+> > > +#define PL2303_HXN_FLOWCTRL          0x0A
+> >
+> > I asked you to keep related defines together (and to move the mask where
+> > the register define was, not the other way round). Please move these to
+> > the other HXN defines below, and keep the register address defines
+> > before the corresponding bit defines.
 > 
-> Ok, so I think I'll buy some different hardware. Would an SSD drive
-> (connected over USB) behave like a flash drive or like an "actual disk
-> drive" from this point of view?
+> Charles Ans:
 
-It all depends on the drive.  Some are a lot better than others, and
-it's almost impossible to tell until you buy the thing and try it out :(
+[ You don't need to prefix your replies like this, I can tell from the
+  number of > signs. ]
+
+> I am not 100% sure what you mean, please see if it is defined below
+> 
+> #define PL2303_FLOWCTRL_MASK        0xf0
+> 
+> #define PL2303_READ_TYPE_HX_STATUS    0x8080
+> 
+> #define PL2303_HXN_CTRL_XON_XOFF    0x0C
+> #define PL2303_HXN_CTRL_RTS_CTS        0x18
+> #define PL2303_HXN_CTRL_NONE        0x1C
+> #define PL2303_HXN_FLOWCTRL_MASK    0x1C
+> #define PL2303_HXN_FLOWCTRL        0x0A
+
+Yes, that's better, but you're mixing register addresses, bit values and
+masks above. Perhaps things would be more clear if you but a _REG suffix
+on the register defines and order things as follows:
+
+	#define PL2303_HXN_<name1>_REG			0xX1
+	#define PL2303_HXN_<name1>_<field>_MASK		0xY1
+	#define PL2303_HXN_<name1>_<field>_<value>	0xZ1
+
+	#define PL2303_HXN_<name2>_REG			0xX2
+	#define PL2303_HXN_<name2>_<field>_MASK		0xY2
+	#define PL2303_HXN_<name2>_<field>_<value>	0xZ2
+
+The idea is simply to keep related defines together and not mix
+register address, masks and value defines.
+
+Keep registers sorted by address, and bit masks and values by bit order
+(e.g. MSB first).
+
+> #define PL2303_HXN_RESET_UP_DOWNSTREAM_DATA_PIPE    0x03
+> #define PL2303_HXN_RESET_UP_DOWNSTREAM_DATA_PIPE_MASK    0x03
+> #define PL2303_HXN_RESET_CONTROL    0x07
+> 
+> > > +
+> > > +#define PL2303_HXN_RESET_CONTROL_MASK        0x03
+> > This makes no sense. The whole register is used for reset. If you want a
+> > define that can be used for resetting both pipes then add two separate
+> > defines for up and down respectively, and add a third define for
+> > resetting both buffer as a bitwise OR of the two.
+> 
+> Charles Ans:
+> Yes,The whole register is used for reset.
+> Bit 0 and bit 1 are used for up & downstream data pipe,
+> Bit 2 for interface reset
+> Bit 4 for chip reset.
+> 
+> But I only reset bit 0 & bit 1.
+
+Yes, but you need to reflect that in how you name your defines. Add two
+separate defines for up and downstream data pipe reset. If you want you
+add a third as the bitwise-OR of the two as well (perhaps with a _BOTH
+suffix in the name).
+
+> > Also move this one after the corresponding register address define
+> > below.
+> >
+> > > +#define PL2303_HXN_RESET_CONTROL     0x07
+> > > +#define PL2303_HXN_CTRL_XON_XOFF     0x0C
+> > > +#define PL2303_HXN_CTRL_RTS_CTS              0x18
+> > > +#define PL2303_HXN_CTRL_NONE         0x1C
+> 
+> Charles Ans:
+> I am not 100% sure what you mean, please see if it is defined below
+> 
+> #define PL2303_FLOWCTRL_MASK        0xf0
+> 
+> #define PL2303_READ_TYPE_HX_STATUS    0x8080
+> 
+> #define PL2303_HXN_CTRL_XON_XOFF    0x0C
+> #define PL2303_HXN_CTRL_RTS_CTS        0x18
+> #define PL2303_HXN_CTRL_NONE        0x1C
+> #define PL2303_HXN_FLOWCTRL_MASK    0x1C
+> #define PL2303_HXN_FLOWCTRL        0x0A
+> 
+> #define PL2303_HXN_RESET_UP_DOWNSTREAM_DATA_PIPE    0x03
+> #define PL2303_HXN_RESET_UP_DOWNSTREAM_DATA_PIPE_MASK    0x03
+> #define PL2303_HXN_RESET_CONTROL    0x07
+
+I meant that you should move the bit values (masks) after the register
+address that they apply to (as also mentioned above). For example,
+
+	#define PL2303_HXN_RESET_REG	 			0x07
+	#define PL2303_HXN_RESET_UPSTREAM_PIPE			0x02
+	#define PL2303_HXN_RESET_DOWNSTREAM_PIPE		0x01
+
+> > > +             pl2303_update_reg(serial, PL2303_HXN_RESET_CONTROL,
+> > > +                             PL2303_HXN_RESET_CONTROL_MASK, 0x03);
+> >
+> > So two things; first, do you really need to read back the current value?
+> > I would assume that it always reads back as 0 and that writing 0x03 in
+> > this case would be sufficient to reset both buffers.
+> >
+> 
+> Charles Ans:
+>  Yes, I want to read back the current value.
+> because the whole register is used for reset.
+> Bit 0 and bit 1 are used for up & downstream data pipe,
+> Bit 2 for interface reset
+> Bit 4 for chip reset.
+> 
+> But I only reset bit 0 & bit 1.
+
+Yes, but that doesn't imply that you need to read back the old value.
+
+I'm assuming it would either always read back as 0, or you would read
+back the previous value written, which means you could end up resetting
+something you did not intend.
+
+Either way, you should not read back the current value when resetting
+the data pipes.
+
+> > Second, please use a define for 0x03; no magic constants, as we have
+> > discussed before. You don't need a separate mask define if you're always
+> > resetting both buffers together (just use the same value define twice).
+> 
+> Charles Ans:
+> OK, I will define for 0x03.
+> 
+> #define PL2303_HXN_RESET_UP_DOWNSTREAM_DATA_PIPE    0x03
+
+As mentioned above, add separate defines for each pipe. You can also add
+a third as their bitwise OR.
+
+Johan
