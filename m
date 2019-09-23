@@ -2,34 +2,37 @@ Return-Path: <SRS0=05/B=XS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E48F9C04EBF
-	for <linux-usb@archiver.kernel.org>; Mon, 23 Sep 2019 14:50:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 424B2C04EBF
+	for <linux-usb@archiver.kernel.org>; Mon, 23 Sep 2019 14:58:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C00F520578
-	for <linux-usb@archiver.kernel.org>; Mon, 23 Sep 2019 14:50:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 231552089F
+	for <linux-usb@archiver.kernel.org>; Mon, 23 Sep 2019 14:58:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2440090AbfIWOuA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 23 Sep 2019 10:50:00 -0400
-Received: from netrider.rowland.org ([192.131.102.5]:47019 "HELO
+        id S1728424AbfIWO6w (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 23 Sep 2019 10:58:52 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:43977 "HELO
         netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S2438188AbfIWOuA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 23 Sep 2019 10:50:00 -0400
-Received: (qmail 26263 invoked by uid 500); 23 Sep 2019 10:49:59 -0400
+        with SMTP id S1727193AbfIWO6v (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 23 Sep 2019 10:58:51 -0400
+Received: (qmail 27342 invoked by uid 500); 23 Sep 2019 10:58:50 -0400
 Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 23 Sep 2019 10:49:59 -0400
-Date:   Mon, 23 Sep 2019 10:49:59 -0400 (EDT)
+  by localhost with SMTP; 23 Sep 2019 10:58:50 -0400
+Date:   Mon, 23 Sep 2019 10:58:50 -0400 (EDT)
 From:   Alan Stern <stern@rowland.harvard.edu>
 X-X-Sender: stern@netrider.rowland.org
-To:     David Heinzelmann <heinzelmann.david@gmail.com>
-cc:     Greg KH <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH] Check for changed device descriptors when a connection-change
- occurs before validating the connection.
-In-Reply-To: <20190920153357.GB5913@dhe-pc>
-Message-ID: <Pine.LNX.4.44L0.1909231046380.24712-100000@netrider.rowland.org>
+To:     Greg KH <gregkh@linuxfoundation.org>
+cc:     Austin Kim <austindh.kim@gmail.com>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <mathias.nyman@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
+        <nsaenzjulienne@suse.de>, <jflat@chromium.org>, <malat@debian.org>,
+        <dianders@chromium.org>
+Subject: Re: [PATCH] usb: hub: Minor refactoring in usb_hub_init()
+In-Reply-To: <20190923071145.GB2746429@kroah.com>
+Message-ID: <Pine.LNX.4.44L0.1909231053500.24712-100000@netrider.rowland.org>
 MIME-Version: 1.0
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
@@ -37,71 +40,78 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, 20 Sep 2019, David Heinzelmann wrote:
+On Mon, 23 Sep 2019, Greg KH wrote:
 
-> On Fri, Sep 20, 2019 at 02:15:38PM +0200, Greg KH wrote:
-> > On Fri, Sep 20, 2019 at 03:17:26PM +0200, David Heinzelmann wrote:
-> > > Hi,
-> > > 
-> > > sorry for the wrong patch format.
+> On Mon, Sep 23, 2019 at 03:19:21PM +0900, Austin Kim wrote:
+> > Normally when creation of workqueue fails, exception handling takes place
+> > after the call to alloc_workqueue() is made.
 > > 
-> > No problem, that's normal.  But please do not top-post on linux mailing
-> > lists.
+> > But looking into usb_hub_init() function, 'return 0' statement is executed,
+> > when alloc_workqueue() returns valid workqueue pointer.
+> >        if (hub_wq)
+> >                return 0;
 > > 
-> > > I am trying to detect a change. At the moment I think the change could be ignored if a
-> > > port connection-change occurs and the port status has again the 'PORT_CONNECTION' bit set. 
-> > > 
-> > > I have a fx3 device which does a re-enumeration after a firmware download. This is working
-> > > as expected and I am seeing a 'remove event' and a 'add event' monitoring via udevadm. But
-> > > if I connect multiple devices at the same time via an usb hub I am sometimes not receiving
-> > > a 'remove event' and 'add event' for a single device.
+> > This might make other Linux driver developers get confused 
+> > because they could deduce that this is exceptional handling routine.
 > > 
-> > Sounds like a broken hub :)
+> > So perform minor refactoring by adding NULL pointer dereference check
+> > routine right after the call to alloc_workqueue() is made.
 > > 
+> > Signed-off-by: Austin Kim <austindh.kim@gmail.com>
+> > ---
+> >  drivers/usb/core/hub.c | 7 +++++--
+> >  1 file changed, 5 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> > index e8ebacc..0ddbfe6 100644
+> > --- a/drivers/usb/core/hub.c
+> > +++ b/drivers/usb/core/hub.c
+> > @@ -5530,9 +5530,12 @@ int usb_hub_init(void)
+> >  	 * over to the companion full-speed controller.
+> >  	 */
+> >  	hub_wq = alloc_workqueue("usb_hub_wq", WQ_FREEZABLE, 0);
+> > -	if (hub_wq)
+> > -		return 0;
+> > +	if (unlikely(!hub_wq))
 > 
-> I tried different hubs but I forgot to mention that it is also possible to trigger the issue
-> without a hub if I reboot the devices via software at the same time. 
+> Only ever use likely/unlikely if you can measure the difference without
+> it.  Otherwise the compiler and cpu will almost always do this better
+> than you.
 > 
-> > > I think the problem could be that when a device disconnects and the port connection-change
-> > > occurs and before the 'PORT_CONNECTION' bit is checked the device could already be
-> > > reconnected and the 'PORT_CONNECTION' bit is set. Therefore I think it is not correct to
-> > > resuscitate the exisiting device.
-> > 
-> > Does your patch actually fix the issue?  When a fx3 device downloads
-> > firmware and re-enumerates, it should come back as a totally different
-> > device, which will fail this check, right?  So I don't see how this
-> > fixes the issues with your devices.
-> > 
+> So please remove this.
 > 
-> With the patch I do not have the issue anymore. After re-enumerate the device comes back with the same
-> VID/PID but with a different device descriptor. Therefore the check will fail and hub_port_connect is
-> called which initiates a device disconnect and connect. Without this 'reconnect' lsusb still shows me 
-> the old device descriptor and I am not able to communicate with the device. 
+> > +		goto err_workqueue;
+> > +
+> > +	return 0;
+> >  
+> > +err_workqueue:
+> >  	/* Fall through if kernel_thread failed */
 > 
-> > Unless all of the devices reset themselves at the same time and the hub
-> > doesn't like that and can't notice that it happened?
-> > 
-> > If you use a different hub, does that work properly?
-> > 
+> This comment is now incorrect.
 > 
-> There is no difference if an other hub is used. It also happens without a hub when the devices are
-> rebooted via software. My thoughts on this is that when the device re-enumerates and the device
-> descriptor has changed a device disconnect and connect should be initiated instead of doing nothing?
-> 
-> If I understand it correctly the resuscitation is used for handling port enable-changes occured by EMI.
-> But when the device is doing a re-enumeration there should be no resuscitation.
+> But really, there is nothing wrong with the original code here.  It
+> works properly, and while it is not identical to normal code "style"
+> here, there's nothing wrong with it that I can see.
 
-I really don't understand this.
+Indeed.  In fact, I suspect that this change would make the code less 
+understandable, because the reader would wonder why anybody would go to 
+the trouble of jumping over a return statement.  After all, this:
 
-Your patch involves the case where there was a connect-change event but 
-the port is still enabled.  Now maybe I've forgotten about one of the 
-pathways, but it seems like that combination should never occur.
+	if (!test)
+		jump error;
+	return 0;
+ error:
 
-Certainly it shouldn't occur in your case.  The device disconnects and 
-then reconnects with a new set of descriptors.  The disconnect should 
-cause the port to be disabled, and the port should remain disabled 
-after the reconnect occurs.  So how can your new code run in the first 
-place?
+just looks like a strange and inefficient way of writing:
+
+	if (test)
+		return 0;
+
+Anyone reading it would wonder what the original author was thinking.
+
+If you really want to fix up this subroutine, you could change the two 
+"return -1" statements.  They should return an appropriate error code, 
+not just -1.
 
 Alan Stern
 
