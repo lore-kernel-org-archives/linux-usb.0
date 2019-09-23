@@ -2,120 +2,143 @@ Return-Path: <SRS0=05/B=XS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CABBC3A5A2
-	for <linux-usb@archiver.kernel.org>; Mon, 23 Sep 2019 02:25:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7095C3A5A6
+	for <linux-usb@archiver.kernel.org>; Mon, 23 Sep 2019 05:36:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4EF1420820
-	for <linux-usb@archiver.kernel.org>; Mon, 23 Sep 2019 02:25:31 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="njoTGX4w"
+	by mail.kernel.org (Postfix) with ESMTP id 7FA3F20835
+	for <linux-usb@archiver.kernel.org>; Mon, 23 Sep 2019 05:36:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391830AbfIWCZD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 22 Sep 2019 22:25:03 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:33599 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389942AbfIWCZD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 22 Sep 2019 22:25:03 -0400
-Received: by mail-pf1-f195.google.com with SMTP id q10so8205125pfl.0;
-        Sun, 22 Sep 2019 19:25:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=kqam0JDuiFgCeWwjWzay5+sVPUI3XqH00sjmb3q+iqY=;
-        b=njoTGX4wRr8W9acQvSFkFjiiqh4lATfQTbTVG5qz1WImyEgKJI5JX9gBIk6x6P1X5j
-         TnyYZaVclQ7vZDAu3hvrWliBUNgjNvHBs4p990ePYxSDxloWF7yNFy590E9/uM9rhNe6
-         MRA8+z8MSkJ+cNt4bEM4yDo3oEVXtEk/Vkjftd2PYWV8m1YMt4snY+8YQ5Tz/fN6aw/W
-         XehvtL1JifbN9gnBEf3fD6bJVmNWHWYe7LW+kvbOH9jypLQpoV+ruZ3G3BnAUFr5++xX
-         kdrqf70YArspXylYo5kTxL7AJWayU4NIrXgQh1Mwt8X/EH1C1UejhkkpB/jLrNdvnRFO
-         LN6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=kqam0JDuiFgCeWwjWzay5+sVPUI3XqH00sjmb3q+iqY=;
-        b=bjLgLgXxwsgNffPZjcSib5SWYTfHEIie0XaQiAbQ/uuutTlLF7mvGroRVejgEUylf9
-         oeK2IMITQH+A/7MKt3PtSY0w9eRajowZR5g9vaPuETYaH+4GQ494EVvSPhaBsNGz0IMr
-         FQJ24ABVjn9FinTYMPIMPPZRNwgrMvgltJZV+v7UQXvWjdP8Q6gjxJlVlOsGQV/lgUeT
-         ZyxVrYt3TZcgB/LR0wBJDf84gUmXdHe2Rp4iENkxh7LpA9ob0UIQYnp8czbV/V9aEPrl
-         kG9VrKT/weCKaJtV6zjT7kEvK8BqUErfeYomU0tyuBiRHG8nmF1g7ux4KtEbPyM4+QZc
-         gHOQ==
-X-Gm-Message-State: APjAAAU4kyLvHk7fs2kR0Q0iWtAN/PXqZPms77eHRsK6VFC3DGdJ+sgz
-        aUS2nale2ksabqQ+G6qwv20=
-X-Google-Smtp-Source: APXvYqy09O4Rz1jR1oouHUUvz88mjxntedSoXqnBH4c9NkdtZWqx2Fs6d4GRx1HK7Fqem+doaPxfjQ==
-X-Received: by 2002:a63:2943:: with SMTP id p64mr25648966pgp.98.1569205502194;
-        Sun, 22 Sep 2019 19:25:02 -0700 (PDT)
-Received: from localhost (59-120-186-245.HINET-IP.hinet.net. [59.120.186.245])
-        by smtp.gmail.com with ESMTPSA id s17sm10580628pgg.77.2019.09.22.19.25.01
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 22 Sep 2019 19:25:01 -0700 (PDT)
-From:   "Ji-Ze Hong (Peter Hong)" <hpeter@gmail.com>
-X-Google-Original-From: "Ji-Ze Hong (Peter Hong)" <hpeter+linux_kernel@gmail.com>
-To:     johan@kernel.org
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, peter_hong@fintek.com.tw,
-        "Ji-Ze Hong (Peter Hong)" <hpeter+linux_kernel@gmail.com>
-Subject: [PATCH V2 3/7] USB: serial: f81232: Use devm_kzalloc
-Date:   Mon, 23 Sep 2019 10:24:45 +0800
-Message-Id: <20190923022449.10952-4-hpeter+linux_kernel@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190923022449.10952-1-hpeter+linux_kernel@gmail.com>
-References: <20190923022449.10952-1-hpeter+linux_kernel@gmail.com>
+        id S1729355AbfIWFgn convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 23 Sep 2019 01:36:43 -0400
+Received: from mga04.intel.com ([192.55.52.120]:44574 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729173AbfIWFgn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 23 Sep 2019 01:36:43 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Sep 2019 22:36:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,539,1559545200"; 
+   d="scan'208";a="188042442"
+Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
+  by fmsmga008.fm.intel.com with ESMTP; 22 Sep 2019 22:36:41 -0700
+From:   Felipe Balbi <felipe.balbi@linux.intel.com>
+To:     alex zheng <tc0721@gmail.com>, linux-usb@vger.kernel.org,
+        Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: BUG report: usb: dwc3: Link TRB triggered an intterupt without IOC being setted
+In-Reply-To: <CADGPSwj3aTJjjHvPSZVgxNRGikznL5i=-8Q2hOUb1LoLbWcRDA@mail.gmail.com>
+References: <CADGPSwj3aTJjjHvPSZVgxNRGikznL5i=-8Q2hOUb1LoLbWcRDA@mail.gmail.com>
+Date:   Mon, 23 Sep 2019 08:36:41 +0300
+Message-ID: <87a7avh8uu.fsf@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Use devm_kzalloc() to replace kzalloc().
 
-Signed-off-by: Ji-Ze Hong (Peter Hong) <hpeter+linux_kernel@gmail.com>
----
- drivers/usb/serial/f81232.c | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+Hi,
 
-diff --git a/drivers/usb/serial/f81232.c b/drivers/usb/serial/f81232.c
-index b42b3738a768..e4db0aec9af0 100644
---- a/drivers/usb/serial/f81232.c
-+++ b/drivers/usb/serial/f81232.c
-@@ -756,7 +756,7 @@ static int f81232_port_probe(struct usb_serial_port *port)
- {
- 	struct f81232_private *priv;
- 
--	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-+	priv = devm_kzalloc(&port->dev, sizeof(*priv), GFP_KERNEL);
- 	if (!priv)
- 		return -ENOMEM;
- 
-@@ -772,16 +772,6 @@ static int f81232_port_probe(struct usb_serial_port *port)
- 	return 0;
- }
- 
--static int f81232_port_remove(struct usb_serial_port *port)
--{
--	struct f81232_private *priv;
--
--	priv = usb_get_serial_port_data(port);
--	kfree(priv);
--
--	return 0;
--}
--
- static int f81232_suspend(struct usb_serial *serial, pm_message_t message)
- {
- 	struct usb_serial_port *port = serial->port[0];
-@@ -841,7 +831,6 @@ static struct usb_serial_driver f81232_device = {
- 	.process_read_urb =	f81232_process_read_urb,
- 	.read_int_callback =	f81232_read_int_callback,
- 	.port_probe =		f81232_port_probe,
--	.port_remove =		f81232_port_remove,
- 	.suspend =		f81232_suspend,
- 	.resume =		f81232_resume,
- };
+(it helps when you Cc correct maintainers ;-)
+
+alex zheng <tc0721@gmail.com> writes:
+
+> Hi all,
+>
+> I am a user of dwc3 USB host controller, I found there are some
+> confused behavior of trb event on this controller.
+> When I run a raw USB data transfer(run bulk in&out transfer with
+> libusb) and iperf3(over rndis) at the same time,
+> there are some strange interrupts occurs and make the driver report
+> error(ERROR DMA transfer).
+> And:
+
+So dwc3 is workingo n host mode. Which platform is this?
+
+> 1. this problem only hapened in USB SS mode
+> 2. this problem seems not hapen when I run same test case with other
+> xhci controller(such as asmedia/intel pcie xhci controller) on PC.
+> 3. the kernel version is 4.9.130
+
+Have you tried a more recent kernel? 4.9 is really ancient. Please try
+v5.3.
+
+> I think this may be a hw bug of DWC3 USB controller, could anyone
+> please give me some help to debug this problem？
+>
+> The detail log see as below:
+> [  131.074102] c0 3 (ksoftirqd/0) xhci-hcd xhci-hcd.0.auto: xHCI
+> handle event, 8000
+> 27630 [  131.074109] c0 3 (ksoftirqd/0) xhci-hcd xhci-hcd.0.auto:
+> process trans event : ep_index = 11, event_dma = 1eb13e90
+> 27631 [  131.074117] c0 3 (ksoftirqd/0) xhci-hcd xhci-hcd.0.auto:
+> inc_deq, start trb dma = 1eb13e90, dequeue_p = e482ce90, trb_free num
+> = 1871, ring type = 2
+> 27632 [  131.074123] c0 3 (ksoftirqd/0) xhci-hcd xhci-hcd.0.auto:
+> inc_deq 111, start trb dma = 1eb13ea0, dequeue_p = e482cea0, trb_free
+> num = 1872, ring type = 2
+> 27633 [  131.074130] c0 3 (ksoftirqd/0) xhci-hcd xh[  133.057617] c0 3
+> (ksoftirqd/0) xhci-hcd xhci-hcd.0.auto: ERROR Transfer event TRB DMA
+> ptr not part of current TD ep_index 16 comp_code 1
+> 27634 [  133.059312] c0 3 (ksoftirqd/0) xhci-hcd xhci-hcd.0.auto:
+> Looking for event-dma 000000001eb0fff0 trb-start 000000001eb10000
+> trb-end 000000001eb10000 seg-start 000000001eb10000 seg-end
+> 000000001eb10ff0
+> 27635 [  133.066215] c0 3 (ksoftirqd/0) xhci-hcd xhci-hcd.0.auto:
+> ERROR Transfer event TRB DMA ptr not part of current TD ep_index 16
+> comp_code 1
+> 27636 [  133.067908] c0 3 (ksoftirqd/0) xhci-hcd xhci-hcd.0.auto:
+> Looking for event-dma 000000001eb10000 trb-start 000000001eb10230
+> trb-end 000000001eb10230 seg-start 000000001eb10000 seg-end
+> 000000001eb10ff0
+> 27637 [  133.070572] c0 3 (ksoftirqd/0) xhci-hcd xhci-hcd.0.auto:
+> ERROR Transfer event TRB DMA ptr not part of current TD ep_index 16
+> comp_code 1
+> 27638 [  133.072260] c0 3 (ksoftirqd/0) xhci-hcd xhci-hcd.0.auto:
+> Looking for event-dma 000000001eb10010 trb-start 000000001eb10230
+> trb-end 000000001eb10230 seg-start 000000001eb10000 seg-end
+> 000000001eb10ff0
+> 27639 [  133.075052] c0 3 (ksoftirqd/0) xhci-hcd xhci-hcd.0.auto:
+> ERROR Transfer event TRB DMA ptr not part of current TD ep_index 16
+> comp_code 1
+> 27640 [  133.076739] c0 3 (ksoftirqd/0) xhci-hcd xhci-hcd.0.auto:
+> Looking for event-dma 000000001eb10020 trb-start 000000001eb10230
+> trb-end 000000001eb10230 seg-start 000000001eb10000 seg-end
+> 000000001eb10ff0
+> 27641 [  133.079472] c0 3 (ksoftirqd/0) xhci-hcd xhci-hcd.0.auto:
+> ERROR Transfer event TRB DMA ptr not part of current TD ep_index 16
+> comp_code 1
+> 27642 [  133.081159] c0 3 (ksoftirqd/0) xhci-hcd xhci-hcd.0.auto:
+> Looking for event-dma 000000001eb10030 trb-start 000000001eb10230
+> trb-end 000000001eb10230 seg-start 000000001eb10000 seg-end
+> 000000001eb10ff0
+> 27643 [  133.083896] c0 3 (ksoftirqd/0) xhci-hcd xhci-hcd.0.auto:
+> ERROR Transfer event TRB DMA ptr not part of current TD ep_index 16
+> comp_code 1
+> 27644 [  133.085584] c0 3 (ksoftirqd/0) xhci-hcd xhci-hcd.0.auto:
+> Looking for event-dma 000000001eb10040 trb-start 000000001eb10230
+> trb-end 000000001eb10230 seg-start 000000001eb10000 seg-end
+> 000000001eb10ff0
+> 27645 [  133.088328] c0 3 (ksoftirqd/0) xhci-hcd xhci-hcd.0.auto:
+> ERROR Transfer event TRB DMA ptr not part of current TD ep_index 16
+> comp_code 1
+>
+> 1. According these logs above the link trb whose address is 0x1eb0fff0
+> occurs a transfer event, but this DMA address is not in the trb ring,
+> then the driver report an error(and followed a few error logs witch
+> invalid DMA address).
+> 2. I dump the data of the address(0x1eb0fff0) and find the IOC bit is
+> not set, see as below:
+> # dump_reg.sh 0x1eb0fff0 4
+> 0x1eb0fff0:0x1EB10000 0x00000000 0x00000000 0x00001800
+
 -- 
-2.17.1
-
+balbi
