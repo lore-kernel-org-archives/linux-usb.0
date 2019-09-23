@@ -2,186 +2,106 @@ Return-Path: <SRS0=05/B=XS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FB66C3A5A6
-	for <linux-usb@archiver.kernel.org>; Mon, 23 Sep 2019 14:31:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E48F9C04EBF
+	for <linux-usb@archiver.kernel.org>; Mon, 23 Sep 2019 14:50:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E332821783
-	for <linux-usb@archiver.kernel.org>; Mon, 23 Sep 2019 14:31:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C00F520578
+	for <linux-usb@archiver.kernel.org>; Mon, 23 Sep 2019 14:50:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439909AbfIWObK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 23 Sep 2019 10:31:10 -0400
-Received: from mail-io1-f69.google.com ([209.85.166.69]:41261 "EHLO
-        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2439850AbfIWObJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 23 Sep 2019 10:31:09 -0400
-Received: by mail-io1-f69.google.com with SMTP id q18so1403879ios.8
-        for <linux-usb@vger.kernel.org>; Mon, 23 Sep 2019 07:31:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=IjRWi0jZFV58CzEU6Vz96oJ3ckiiGtQva6OmGGp82do=;
-        b=WrKAiteRfS/b5gQwge3b4/B5p/ab0yNGfus2fyj6D5kLjJbDjvtKihdqm7QRD19AUV
-         WCHkL6bWl1dixS/wZZgitP1ihoOK9tAvqPOBFa17a8VwO1TiXWeu4YxtDuzbgoir5b55
-         vycUHhlUSfrP6Mm0OW6Z4U9CEdoMW3PZGAuuPRTVOVzlyfaM4WwSJGlwr5ygVxD4YhCt
-         2x90ls+BQv406XisFmdygRZyVj1y8mq60khux+sMQ1n2pLjqhNVoJG9DbVFgyHVUcVrZ
-         UGND2jXCmTX3NjrzjJlmpbgTc7o7vqhGPPKzKMdMrDrgoBbbmhnz2IpKffbwLzFQG/6l
-         EmtA==
-X-Gm-Message-State: APjAAAURMu2bUWdtE44HwjbeM5LJus/If9wOu/CGhBubTQskApF2l/lr
-        WNHjwMryaa8PPqZMa1SxglJw+Fvn4ZAlBkfv517AZH1RLVFJ
-X-Google-Smtp-Source: APXvYqyN5oPKaKaKyB9gLvZTbrJM10JGjoZQ7SBJTkcl1Lp0zhZp1sKCMx4gbu74vwXRFFbxm4WmIBHgzuizw49MC+Cr7hIkXc8s
+        id S2440090AbfIWOuA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 23 Sep 2019 10:50:00 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:47019 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S2438188AbfIWOuA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 23 Sep 2019 10:50:00 -0400
+Received: (qmail 26263 invoked by uid 500); 23 Sep 2019 10:49:59 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 23 Sep 2019 10:49:59 -0400
+Date:   Mon, 23 Sep 2019 10:49:59 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@netrider.rowland.org
+To:     David Heinzelmann <heinzelmann.david@gmail.com>
+cc:     Greg KH <gregkh@linuxfoundation.org>, <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH] Check for changed device descriptors when a connection-change
+ occurs before validating the connection.
+In-Reply-To: <20190920153357.GB5913@dhe-pc>
+Message-ID: <Pine.LNX.4.44L0.1909231046380.24712-100000@netrider.rowland.org>
 MIME-Version: 1.0
-X-Received: by 2002:a02:5ec4:: with SMTP id h187mr36416109jab.101.1569249069062;
- Mon, 23 Sep 2019 07:31:09 -0700 (PDT)
-Date:   Mon, 23 Sep 2019 07:31:09 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000005365ff0593394532@google.com>
-Subject: KASAN: use-after-free Read in xpad_play_effect
-From:   syzbot <syzbot+bea56e0be9fb9106bcf3@syzkaller.appspotmail.com>
-To:     aicommander@gmail.com, andreyknvl@google.com,
-        dmitry.torokhov@gmail.com, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        ramzeto@gmail.com, rfontana@redhat.com,
-        syzkaller-bugs@googlegroups.com, tglx@linutronix.de,
-        tom@steelseries.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+On Fri, 20 Sep 2019, David Heinzelmann wrote:
 
-syzbot found the following crash on:
+> On Fri, Sep 20, 2019 at 02:15:38PM +0200, Greg KH wrote:
+> > On Fri, Sep 20, 2019 at 03:17:26PM +0200, David Heinzelmann wrote:
+> > > Hi,
+> > > 
+> > > sorry for the wrong patch format.
+> > 
+> > No problem, that's normal.  But please do not top-post on linux mailing
+> > lists.
+> > 
+> > > I am trying to detect a change. At the moment I think the change could be ignored if a
+> > > port connection-change occurs and the port status has again the 'PORT_CONNECTION' bit set. 
+> > > 
+> > > I have a fx3 device which does a re-enumeration after a firmware download. This is working
+> > > as expected and I am seeing a 'remove event' and a 'add event' monitoring via udevadm. But
+> > > if I connect multiple devices at the same time via an usb hub I am sometimes not receiving
+> > > a 'remove event' and 'add event' for a single device.
+> > 
+> > Sounds like a broken hub :)
+> > 
+> 
+> I tried different hubs but I forgot to mention that it is also possible to trigger the issue
+> without a hub if I reboot the devices via software at the same time. 
+> 
+> > > I think the problem could be that when a device disconnects and the port connection-change
+> > > occurs and before the 'PORT_CONNECTION' bit is checked the device could already be
+> > > reconnected and the 'PORT_CONNECTION' bit is set. Therefore I think it is not correct to
+> > > resuscitate the exisiting device.
+> > 
+> > Does your patch actually fix the issue?  When a fx3 device downloads
+> > firmware and re-enumerates, it should come back as a totally different
+> > device, which will fail this check, right?  So I don't see how this
+> > fixes the issues with your devices.
+> > 
+> 
+> With the patch I do not have the issue anymore. After re-enumerate the device comes back with the same
+> VID/PID but with a different device descriptor. Therefore the check will fail and hub_port_connect is
+> called which initiates a device disconnect and connect. Without this 'reconnect' lsusb still shows me 
+> the old device descriptor and I am not able to communicate with the device. 
+> 
+> > Unless all of the devices reset themselves at the same time and the hub
+> > doesn't like that and can't notice that it happened?
+> > 
+> > If you use a different hub, does that work properly?
+> > 
+> 
+> There is no difference if an other hub is used. It also happens without a hub when the devices are
+> rebooted via software. My thoughts on this is that when the device re-enumerates and the device
+> descriptor has changed a device disconnect and connect should be initiated instead of doing nothing?
+> 
+> If I understand it correctly the resuscitation is used for handling port enable-changes occured by EMI.
+> But when the device is doing a re-enumeration there should be no resuscitation.
 
-HEAD commit:    e0bd8d79 usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=14aeeab1600000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=8847e5384a16f66a
-dashboard link: https://syzkaller.appspot.com/bug?extid=bea56e0be9fb9106bcf3
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+I really don't understand this.
 
-Unfortunately, I don't have any reproducer for this crash yet.
+Your patch involves the case where there was a connect-change event but 
+the port is still enabled.  Now maybe I've forgotten about one of the 
+pathways, but it seems like that combination should never occur.
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+bea56e0be9fb9106bcf3@syzkaller.appspotmail.com
+Certainly it shouldn't occur in your case.  The device disconnects and 
+then reconnects with a new set of descriptors.  The disconnect should 
+cause the port to be disabled, and the port should remain disabled 
+after the reconnect occurs.  So how can your new code run in the first 
+place?
 
-==================================================================
-BUG: KASAN: use-after-free in __lock_acquire+0x3377/0x3eb0  
-kernel/locking/lockdep.c:3828
-Read of size 8 at addr ffff8881ceebdc10 by task syz-executor.4/7298
+Alan Stern
 
-CPU: 0 PID: 7298 Comm: syz-executor.4 Not tainted 5.3.0+ #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xca/0x13e lib/dump_stack.c:113
-  print_address_description+0x6a/0x32c mm/kasan/report.c:351
-  __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:482
-  kasan_report+0xe/0x12 mm/kasan/common.c:618
-  __lock_acquire+0x3377/0x3eb0 kernel/locking/lockdep.c:3828
-  lock_acquire+0x127/0x320 kernel/locking/lockdep.c:4487
-  __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
-  _raw_spin_lock_irqsave+0x32/0x50 kernel/locking/spinlock.c:159
-  xpad_play_effect+0xfe/0xc50 drivers/input/joystick/xpad.c:1225
-  ml_play_effects+0x817/0x1270 drivers/input/ff-memless.c:398
-  ml_ff_playback+0x285/0x3d0 drivers/input/ff-memless.c:460
-  input_ff_event+0x13a/0x2e0 drivers/input/ff-core.c:286
-  input_handle_event+0x64e/0x1330 drivers/input/input.c:374
-  input_inject_event+0x30a/0x323 drivers/input/input.c:462
-  evdev_write+0x2c9/0x410 drivers/input/evdev.c:561
-  __vfs_write+0x76/0x100 fs/read_write.c:494
-  vfs_write+0x262/0x5c0 fs/read_write.c:558
-  ksys_write+0x1e8/0x250 fs/read_write.c:611
-  do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:290
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x459a09
-Code: fd b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7  
-48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
-ff 0f 83 cb b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00
-RSP: 002b:00007f53d068cc78 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000459a09
-RDX: 0000000000000364 RSI: 00000000200000c0 RDI: 0000000000000005
-RBP: 000000000075bf20 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007f53d068d6d4
-R13: 00000000004c9bfc R14: 00000000004e1480 R15: 00000000ffffffff
-
-Allocated by task 6364:
-  save_stack+0x1b/0x80 mm/kasan/common.c:69
-  set_track mm/kasan/common.c:77 [inline]
-  __kasan_kmalloc mm/kasan/common.c:493 [inline]
-  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:466
-  slab_post_alloc_hook mm/slab.h:520 [inline]
-  slab_alloc_node mm/slub.c:2770 [inline]
-  __kmalloc_node_track_caller+0xfc/0x3d0 mm/slub.c:4365
-  __kmalloc_reserve.isra.0+0x39/0xe0 net/core/skbuff.c:141
-  __alloc_skb+0xef/0x5a0 net/core/skbuff.c:209
-  alloc_skb include/linux/skbuff.h:1049 [inline]
-  netlink_alloc_large_skb net/netlink/af_netlink.c:1174 [inline]
-  netlink_sendmsg+0x8cd/0xcc0 net/netlink/af_netlink.c:1892
-  sock_sendmsg_nosec net/socket.c:637 [inline]
-  sock_sendmsg+0xcf/0x120 net/socket.c:657
-  ___sys_sendmsg+0x803/0x920 net/socket.c:2311
-  __sys_sendmsg+0xec/0x1b0 net/socket.c:2356
-  do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:290
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-
-Freed by task 6364:
-  save_stack+0x1b/0x80 mm/kasan/common.c:69
-  set_track mm/kasan/common.c:77 [inline]
-  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:455
-  slab_free_hook mm/slub.c:1423 [inline]
-  slab_free_freelist_hook mm/slub.c:1474 [inline]
-  slab_free mm/slub.c:3016 [inline]
-  kfree+0xe4/0x2f0 mm/slub.c:3957
-  skb_free_head+0x8b/0xa0 net/core/skbuff.c:591
-  skb_release_data+0x41f/0x7c0 net/core/skbuff.c:611
-  skb_release_all+0x46/0x60 net/core/skbuff.c:665
-  __kfree_skb net/core/skbuff.c:679 [inline]
-  consume_skb net/core/skbuff.c:838 [inline]
-  consume_skb+0xd9/0x320 net/core/skbuff.c:832
-  netlink_unicast_kernel net/netlink/af_netlink.c:1303 [inline]
-  netlink_unicast+0x4d7/0x690 net/netlink/af_netlink.c:1328
-  netlink_sendmsg+0x802/0xcc0 net/netlink/af_netlink.c:1917
-  sock_sendmsg_nosec net/socket.c:637 [inline]
-  sock_sendmsg+0xcf/0x120 net/socket.c:657
-  ___sys_sendmsg+0x803/0x920 net/socket.c:2311
-  __sys_sendmsg+0xec/0x1b0 net/socket.c:2356
-  do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:290
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-
-The buggy address belongs to the object at ffff8881ceebdb00
-  which belongs to the cache kmalloc-1k of size 1024
-The buggy address is located 272 bytes inside of
-  1024-byte region [ffff8881ceebdb00, ffff8881ceebdf00)
-The buggy address belongs to the page:
-page:ffffea00073baf00 refcount:1 mapcount:0 mapping:ffff8881da002280  
-index:0x0 compound_mapcount: 0
-flags: 0x200000000010200(slab|head)
-raw: 0200000000010200 0000000000000000 0000000100000001 ffff8881da002280
-raw: 0000000000000000 00000000000e000e 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
-  ffff8881ceebdb00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff8881ceebdb80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> ffff8881ceebdc00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                          ^
-  ffff8881ceebdc80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-  ffff8881ceebdd00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
