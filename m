@@ -2,141 +2,77 @@ Return-Path: <SRS0=j0NE=XV=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DADAAC432C2
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Sep 2019 09:12:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B393EC432C2
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Sep 2019 09:17:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AD016222C0
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Sep 2019 09:12:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 81A16222C5
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Sep 2019 09:17:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569489177;
-	bh=3qyApSFj4rcXV3bqrE1BDXVcdGMJW0R7O3zKWdjA7dk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Kz5jYOaZXDJMFtXHk66B61TWDuDwjKJbOb4VVqQP1lQXk5/VUGn/UTP7uPCR2MRUG
-	 va87hIE5kLn8+XdmYVhYhVv2zl//mEjROeNajxMz/ODvUND70mZ+Q2jgV/R3HaQdjO
-	 BUZw24j9usiE0C4QjivVoJkDrByWPAe48+lgNB5Q=
+	s=default; t=1569489467;
+	bh=0u6rrDRUIsJUjxZzWMSPecOLQLJ1MnJXdNIrR7lLXrQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=N37GQdQAMMhhFTvYp/6D/CUHVM0LPbiDQdMGnsnVxmHRtznV583zC9F2ow9qgmc5R
+	 /FI9nqryBjc+j31+kNPOcFzBnORdOJoLYdD6zxvbh4rCY61Z12V7WhD73BJZ6kc4cG
+	 vMh4vlg1FVpyFXmHa1bfO+afyt+CuoaCfDITwLhk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730206AbfIZJM5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 26 Sep 2019 05:12:57 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:39630 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726179AbfIZJM4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 26 Sep 2019 05:12:56 -0400
-Received: by mail-lf1-f66.google.com with SMTP id 72so1122501lfh.6
-        for <linux-usb@vger.kernel.org>; Thu, 26 Sep 2019 02:12:48 -0700 (PDT)
+        id S1730348AbfIZJRr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 26 Sep 2019 05:17:47 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:43175 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730335AbfIZJRq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 26 Sep 2019 05:17:46 -0400
+Received: by mail-lj1-f196.google.com with SMTP id n14so1358482ljj.10
+        for <linux-usb@vger.kernel.org>; Thu, 26 Sep 2019 02:17:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=nSE68eO8cJa8cg6l73GI+YOtkPnzSUMRPGBx5GZoj60=;
-        b=p7HF6LJW5vg+Ysf+/RdzN8bX7F42qNSCKYzS/82k5ALK2Ir+1wl/DsCVef/Sm5DHnn
-         JqqKv4Tqo/ICxdmhYcy3ODs7TMzKNn240swIQ1N/mtQ41hZn9ar1xgahTFeGdzFxPvB2
-         YDDEpXh+MqCX7cf7ZNT/O/SPQt5l9sEK55YiCUOU3OqfVYqL3Tq+vIF9rTDSJ8yjSTKT
-         i2nlDIIZXmx9PYsyDxL9kljhFvcuxeB9NC93k9U1O2LQ36YNfjJWPWVif9LXzQiBR+Cx
-         ooUMbL9UEfY4Q9tUDFzncU+LveYdbX9b8nBQ/WLBao+/TgvLraBgmyjxr46HLaqCBXml
-         pjGQ==
-X-Gm-Message-State: APjAAAXHQhTKto5uS0rkiqnzV+XrPZ+LYbvAtUEjvU4wlW1KKw2hDSg3
-        oErw80temaARF2acIxOloyQ=
-X-Google-Smtp-Source: APXvYqxEjsmdA2zxDZyYIBrrPaQxeYTA1ERQYGR2Zv29SlxxWDi6kyEsT9NXW4IRGI4t7L3Mb/Tsng==
-X-Received: by 2002:ac2:4424:: with SMTP id w4mr1474829lfl.65.1569489167423;
-        Thu, 26 Sep 2019 02:12:47 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=0u6rrDRUIsJUjxZzWMSPecOLQLJ1MnJXdNIrR7lLXrQ=;
+        b=f9K0vEzjO5SNk4LXtTrwI3wbY6O3IRCqocM7KSEo4wcITCJe46dQbDoscE60lEoQ0a
+         lVffirN4ODimAtYxOsMfP/Nx/Petq+OeSnaPePK5N3Gw6mwI8QznCRzCVA4L22fAG/py
+         laMC51hM9H0792psoTDeZyMhquCFk6MPDHEN14vUz265G+xqdNElo+Ki6/imryeHLGqF
+         uoe+GmtzsDIAOSeiJ2eaBE49ltg9/WbQ0Gt4SKIUhLgkD09s9UG8ltsYICai4xK+9AL9
+         rhTX8SX0ZSbly5GmjDIQSwQwk/62g7sHZaKWA+cpQAzt6LZfVye+6fF8K00fbylFK1p0
+         qX1Q==
+X-Gm-Message-State: APjAAAVxFvVCgZ9w76oHgm02ymKSeurOG4G4WhyJhv8Bn1aBpJ3ZuXBi
+        oIhrUmD8CsraJxrmCnxCE4CdNaV9
+X-Google-Smtp-Source: APXvYqwIArtIS2M82ResGuQ2BAmpiA207SHW4kfZEGqZvseuS9QNkoxWOdFvHjPx79jvzHNEswsewQ==
+X-Received: by 2002:a2e:1246:: with SMTP id t67mr1875615lje.174.1569489464989;
+        Thu, 26 Sep 2019 02:17:44 -0700 (PDT)
 Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id z8sm451426lfg.18.2019.09.26.02.12.43
+        by smtp.gmail.com with ESMTPSA id 4sm376750ljv.87.2019.09.26.02.17.44
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 26 Sep 2019 02:12:45 -0700 (PDT)
+        Thu, 26 Sep 2019 02:17:44 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.92.2)
-        (envelope-from <johan@xi.terra>)
-        id 1iDPpS-0006Qx-AR; Thu, 26 Sep 2019 11:12:50 +0200
+        (envelope-from <johan@kernel.org>)
+        id 1iDPuI-0006XX-Ba; Thu, 26 Sep 2019 11:17:50 +0200
+Date:   Thu, 26 Sep 2019 11:17:50 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 2/4] USB: usblcd: drop redundant disconnect mutex
-Date:   Thu, 26 Sep 2019 11:12:26 +0200
-Message-Id: <20190926091228.24634-8-johan@kernel.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190926091228.24634-1-johan@kernel.org>
+Subject: Re: [PATCH 0/4] USB: usblcd: disconnect fix and locking clean ups
+Message-ID: <20190926091750.GJ14159@localhost>
 References: <20190926091228.24634-1-johan@kernel.org>
+ <20190926091228.24634-6-johan@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190926091228.24634-6-johan@kernel.org>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Drop the redundant disconnect mutex which was introduced after the
-open-disconnect race had been addressed generally in USB core by commit
-d4ead16f50f9 ("USB: prevent char device open/deregister race").
+On Thu, Sep 26, 2019 at 11:12:24AM +0200, Johan Hovold wrote:
+> This series fixes a failure to stop I/O on disconnect() in the usblcd
+> driver. Turns out there was a lot of legacy cruft in this driver which
+> could simply be removed.
 
-Specifically, the rw-semaphore in core guarantees that all calls to
-open() will have completed and that no new calls to open() will occur
-after usb_deregister_dev() returns. Hence there is no need use the
-driver data as an inverted disconnected flag.
+My apologies for the double post.
 
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/misc/usblcd.c | 18 +-----------------
- 1 file changed, 1 insertion(+), 17 deletions(-)
-
-diff --git a/drivers/usb/misc/usblcd.c b/drivers/usb/misc/usblcd.c
-index aa982d3ca36b..b898650a5570 100644
---- a/drivers/usb/misc/usblcd.c
-+++ b/drivers/usb/misc/usblcd.c
-@@ -37,9 +37,6 @@ static const struct usb_device_id id_table[] = {
- };
- MODULE_DEVICE_TABLE(usb, id_table);
- 
--static DEFINE_MUTEX(open_disc_mutex);
--
--
- struct usb_lcd {
- 	struct usb_device	*udev;			/* init: probe_lcd */
- 	struct usb_interface	*interface;		/* the interface for
-@@ -95,17 +92,10 @@ static int lcd_open(struct inode *inode, struct file *file)
- 		return -ENODEV;
- 	}
- 
--	mutex_lock(&open_disc_mutex);
- 	dev = usb_get_intfdata(interface);
--	if (!dev) {
--		mutex_unlock(&open_disc_mutex);
--		mutex_unlock(&lcd_mutex);
--		return -ENODEV;
--	}
- 
- 	/* increment our usage count for the device */
- 	kref_get(&dev->kref);
--	mutex_unlock(&open_disc_mutex);
- 
- 	/* grab a power reference */
- 	r = usb_autopm_get_interface(interface);
-@@ -388,7 +378,6 @@ static int lcd_probe(struct usb_interface *interface,
- 		/* something prevented us from registering this driver */
- 		dev_err(&interface->dev,
- 			"Not able to get a minor for this device.\n");
--		usb_set_intfdata(interface, NULL);
- 		goto error;
- 	}
- 
-@@ -434,14 +423,9 @@ static int lcd_resume(struct usb_interface *intf)
- 
- static void lcd_disconnect(struct usb_interface *interface)
- {
--	struct usb_lcd *dev;
-+	struct usb_lcd *dev = usb_get_intfdata(interface);
- 	int minor = interface->minor;
- 
--	mutex_lock(&open_disc_mutex);
--	dev = usb_get_intfdata(interface);
--	usb_set_intfdata(interface, NULL);
--	mutex_unlock(&open_disc_mutex);
--
- 	/* give back our minor */
- 	usb_deregister_dev(interface, &lcd_class);
- 
--- 
-2.23.0
-
+Johan
