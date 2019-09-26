@@ -6,33 +6,33 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02952C352AA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7414C352A9
 	for <linux-usb@archiver.kernel.org>; Thu, 26 Sep 2019 14:25:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C9FF9222C8
-	for <linux-usb@archiver.kernel.org>; Thu, 26 Sep 2019 14:25:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 747FA222C6
+	for <linux-usb@archiver.kernel.org>; Thu, 26 Sep 2019 14:25:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727124AbfIZOZa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 26 Sep 2019 10:25:30 -0400
-Received: from mga14.intel.com ([192.55.52.115]:21010 "EHLO mga14.intel.com"
+        id S1727128AbfIZOZb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 26 Sep 2019 10:25:31 -0400
+Received: from mga14.intel.com ([192.55.52.115]:20997 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727099AbfIZOZa (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1726500AbfIZOZa (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Thu, 26 Sep 2019 10:25:30 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Sep 2019 07:25:29 -0700
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Sep 2019 07:25:26 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.64,552,1559545200"; 
-   d="scan'208";a="203864794"
+   d="scan'208";a="203864787"
 Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 26 Sep 2019 07:25:28 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 26 Sep 2019 07:25:25 -0700
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Ajay Gupta <ajayg@nvidia.com>
 Cc:     linux-usb@vger.kernel.org
-Subject: [PATCH 14/14] usb: typec: ucsi: Remove all bit-fields
-Date:   Thu, 26 Sep 2019 17:25:22 +0300
-Message-Id: <20190926142522.67031-5-heikki.krogerus@linux.intel.com>
+Subject: [PATCH 12/14] usb: typec: ucsi: Remove the old API
+Date:   Thu, 26 Sep 2019 17:25:20 +0300
+Message-Id: <20190926142522.67031-3-heikki.krogerus@linux.intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190926100727.71117-1-heikki.krogerus@linux.intel.com>
 References: <20190926100727.71117-1-heikki.krogerus@linux.intel.com>
@@ -43,358 +43,560 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-We can't use bit fields with data that is received or send
-to/from the device.
+The drivers now only use the new API, so removing the old one.
 
 Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
- drivers/usb/typec/ucsi/trace.h | 12 ++---
- drivers/usb/typec/ucsi/ucsi.c  | 52 +++++++++++--------
- drivers/usb/typec/ucsi/ucsi.h  | 93 +++++++++++++++++-----------------
- 3 files changed, 85 insertions(+), 72 deletions(-)
+ drivers/usb/typec/ucsi/displayport.c |   8 +-
+ drivers/usb/typec/ucsi/trace.h       |  17 --
+ drivers/usb/typec/ucsi/ucsi.c        | 346 +++------------------------
+ drivers/usb/typec/ucsi/ucsi.h        |  41 ----
+ 4 files changed, 41 insertions(+), 371 deletions(-)
 
-diff --git a/drivers/usb/typec/ucsi/trace.h b/drivers/usb/typec/ucsi/trace.h
-index 2262229dae8e..a0d3a934d3d9 100644
---- a/drivers/usb/typec/ucsi/trace.h
-+++ b/drivers/usb/typec/ucsi/trace.h
-@@ -56,13 +56,13 @@ DECLARE_EVENT_CLASS(ucsi_log_connector_status,
- 	TP_fast_assign(
- 		__entry->port = port - 1;
- 		__entry->change = status->change;
--		__entry->opmode = status->pwr_op_mode;
--		__entry->connected = status->connected;
--		__entry->pwr_dir = status->pwr_dir;
--		__entry->partner_flags = status->partner_flags;
--		__entry->partner_type = status->partner_type;
-+		__entry->opmode = UCSI_CONSTAT_PWR_OPMODE(status->flags);
-+		__entry->connected = !!(status->flags & UCSI_CONSTAT_CONNECTED);
-+		__entry->pwr_dir = !!(status->flags & UCSI_CONSTAT_PWR_DIR);
-+		__entry->partner_flags = UCSI_CONSTAT_PARTNER_FLAGS(status->flags);
-+		__entry->partner_type = UCSI_CONSTAT_PARTNER_TYPE(status->flags);
- 		__entry->request_data_obj = status->request_data_obj;
--		__entry->bc_status = status->bc_status;
-+		__entry->bc_status = UCSI_CONSTAT_BC_STATUS(status->pwr_status);
- 	),
- 	TP_printk("port%d status: change=%04x, opmode=%x, connected=%d, "
- 		"sourcing=%d, partner_flags=%x, partner_type=%x, "
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index 6fd4ff46d728..accf54d987ad 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -393,7 +393,7 @@ static void ucsi_unregister_altmodes(struct ucsi_connector *con, u8 recipient)
- 
- static void ucsi_pwr_opmode_change(struct ucsi_connector *con)
+diff --git a/drivers/usb/typec/ucsi/displayport.c b/drivers/usb/typec/ucsi/displayport.c
+index 6c103697c582..132007cbb96c 100644
+--- a/drivers/usb/typec/ucsi/displayport.c
++++ b/drivers/usb/typec/ucsi/displayport.c
+@@ -48,8 +48,10 @@ struct ucsi_dp {
+ static int ucsi_displayport_enter(struct typec_altmode *alt)
  {
--	switch (con->status.pwr_op_mode) {
-+	switch (UCSI_CONSTAT_PWR_OPMODE(con->status.flags)) {
- 	case UCSI_CONSTAT_PWR_OPMODE_PD:
- 		typec_set_pwr_opmode(con->port, TYPEC_PWR_MODE_PD);
- 		break;
-@@ -411,6 +411,7 @@ static void ucsi_pwr_opmode_change(struct ucsi_connector *con)
- 
- static int ucsi_register_partner(struct ucsi_connector *con)
- {
-+	u8 pwr_opmode = UCSI_CONSTAT_PWR_OPMODE(con->status.flags);
- 	struct typec_partner_desc desc;
- 	struct typec_partner *partner;
- 
-@@ -419,7 +420,7 @@ static int ucsi_register_partner(struct ucsi_connector *con)
- 
- 	memset(&desc, 0, sizeof(desc));
- 
--	switch (con->status.partner_type) {
-+	switch (UCSI_CONSTAT_PARTNER_TYPE(con->status.flags)) {
- 	case UCSI_CONSTAT_PARTNER_TYPE_DEBUG:
- 		desc.accessory = TYPEC_ACCESSORY_DEBUG;
- 		break;
-@@ -430,7 +431,7 @@ static int ucsi_register_partner(struct ucsi_connector *con)
- 		break;
- 	}
- 
--	desc.usb_pd = con->status.pwr_op_mode == UCSI_CONSTAT_PWR_OPMODE_PD;
-+	desc.usb_pd = pwr_opmode == UCSI_CONSTAT_PWR_OPMODE_PD;
- 
- 	partner = typec_register_partner(con->port, &desc);
- 	if (IS_ERR(partner)) {
-@@ -462,7 +463,7 @@ static void ucsi_partner_change(struct ucsi_connector *con)
- 	if (!con->partner)
- 		return;
- 
--	switch (con->status.partner_type) {
-+	switch (UCSI_CONSTAT_PARTNER_TYPE(con->status.flags)) {
- 	case UCSI_CONSTAT_PARTNER_TYPE_UFP:
- 		typec_set_data_role(con->port, TYPEC_HOST);
- 		break;
-@@ -492,6 +493,7 @@ static void ucsi_handle_connector_change(struct work_struct *work)
- 	struct ucsi_connector *con = container_of(work, struct ucsi_connector,
- 						  work);
- 	struct ucsi *ucsi = con->ucsi;
-+	enum typec_role role;
- 	u64 command;
+ 	struct ucsi_dp *dp = typec_altmode_get_drvdata(alt);
++	struct ucsi *ucsi = dp->con->ucsi;
+ 	struct ucsi_control ctrl;
+ 	u8 cur = 0;
++	u16 ver;
  	int ret;
  
-@@ -506,11 +508,13 @@ static void ucsi_handle_connector_change(struct work_struct *work)
- 		goto out_unlock;
- 	}
- 
-+	role = !!(con->status.flags & UCSI_CONSTAT_PWR_DIR);
+ 	mutex_lock(&dp->con->lock);
+@@ -66,7 +68,11 @@ static int ucsi_displayport_enter(struct typec_altmode *alt)
+ 	UCSI_CMD_GET_CURRENT_CAM(ctrl, dp->con->num);
+ 	ret = ucsi_send_command(dp->con->ucsi, &ctrl, &cur, sizeof(cur));
+ 	if (ret < 0) {
+-		if (dp->con->ucsi->ppm->data->version > 0x0100) {
++		ret = ucsi->ops->read(ucsi, UCSI_VERSION, &ver, sizeof(ver));
++		if (ret)
++			return ret;
 +
- 	if (con->status.change & UCSI_CONSTAT_POWER_OPMODE_CHANGE)
- 		ucsi_pwr_opmode_change(con);
++		if (ver > 0x0100) {
+ 			mutex_unlock(&dp->con->lock);
+ 			return ret;
+ 		}
+diff --git a/drivers/usb/typec/ucsi/trace.h b/drivers/usb/typec/ucsi/trace.h
+index 783ec9c72055..6e3d510b236e 100644
+--- a/drivers/usb/typec/ucsi/trace.h
++++ b/drivers/usb/typec/ucsi/trace.h
+@@ -75,23 +75,6 @@ DEFINE_EVENT(ucsi_log_command, ucsi_reset_ppm,
+ 	TP_ARGS(ctrl, ret)
+ );
  
- 	if (con->status.change & UCSI_CONSTAT_POWER_DIR_CHANGE) {
--		typec_set_pwr_role(con->port, con->status.pwr_dir);
-+		typec_set_pwr_role(con->port, role);
+-DECLARE_EVENT_CLASS(ucsi_log_cci,
+-	TP_PROTO(u32 cci),
+-	TP_ARGS(cci),
+-	TP_STRUCT__entry(
+-		__field(u32, cci)
+-	),
+-	TP_fast_assign(
+-		__entry->cci = cci;
+-	),
+-	TP_printk("CCI=%08x %s", __entry->cci, ucsi_cci_str(__entry->cci))
+-);
+-
+-DEFINE_EVENT(ucsi_log_cci, ucsi_notify,
+-	TP_PROTO(u32 cci),
+-	TP_ARGS(cci)
+-);
+-
+ DECLARE_EVENT_CLASS(ucsi_log_connector_status,
+ 	TP_PROTO(int port, struct ucsi_connector_status *status),
+ 	TP_ARGS(port, status),
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index 2ba890327b9d..ea149a115834 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -36,68 +36,6 @@
+  */
+ #define UCSI_SWAP_TIMEOUT_MS	5000
  
- 		/* Complete pending power role swap */
- 		if (!completion_done(&con->complete))
-@@ -518,9 +522,9 @@ static void ucsi_handle_connector_change(struct work_struct *work)
+-static inline int ucsi_sync(struct ucsi *ucsi)
+-{
+-	if (ucsi->ppm && ucsi->ppm->sync)
+-		return ucsi->ppm->sync(ucsi->ppm);
+-	return 0;
+-}
+-
+-static int ucsi_command(struct ucsi *ucsi, struct ucsi_control *ctrl)
+-{
+-	int ret;
+-
+-	trace_ucsi_command(ctrl);
+-
+-	set_bit(COMMAND_PENDING, &ucsi->flags);
+-
+-	ret = ucsi->ppm->cmd(ucsi->ppm, ctrl);
+-	if (ret)
+-		goto err_clear_flag;
+-
+-	if (!wait_for_completion_timeout(&ucsi->complete,
+-					 msecs_to_jiffies(UCSI_TIMEOUT_MS))) {
+-		dev_warn(ucsi->dev, "PPM NOT RESPONDING\n");
+-		ret = -ETIMEDOUT;
+-	}
+-
+-err_clear_flag:
+-	clear_bit(COMMAND_PENDING, &ucsi->flags);
+-
+-	return ret;
+-}
+-
+-static int ucsi_ack(struct ucsi *ucsi, u8 ack)
+-{
+-	struct ucsi_control ctrl;
+-	int ret;
+-
+-	trace_ucsi_ack(ack);
+-
+-	set_bit(ACK_PENDING, &ucsi->flags);
+-
+-	UCSI_CMD_ACK(ctrl, ack);
+-	ret = ucsi->ppm->cmd(ucsi->ppm, &ctrl);
+-	if (ret)
+-		goto out_clear_bit;
+-
+-	/* Waiting for ACK with ACK CMD, but not with EVENT for now */
+-	if (ack == UCSI_ACK_EVENT)
+-		goto out_clear_bit;
+-
+-	if (!wait_for_completion_timeout(&ucsi->complete,
+-					 msecs_to_jiffies(UCSI_TIMEOUT_MS)))
+-		ret = -ETIMEDOUT;
+-
+-out_clear_bit:
+-	clear_bit(ACK_PENDING, &ucsi->flags);
+-
+-	if (ret)
+-		dev_err(ucsi->dev, "%s: failed\n", __func__);
+-
+-	return ret;
+-}
+-
+ static int ucsi_acknowledge_command(struct ucsi *ucsi)
+ {
+ 	u64 ctrl;
+@@ -193,115 +131,26 @@ static int ucsi_exec_command(struct ucsi *ucsi, u64 cmd)
+ static int ucsi_run_command(struct ucsi *ucsi, struct ucsi_control *ctrl,
+ 			    void *data, size_t size)
+ {
+-	struct ucsi_control _ctrl;
+-	u8 data_length;
+-	u16 error;
++	u8 length;
+ 	int ret;
+ 
+-	if (ucsi->ops) {
+-		ret = ucsi_exec_command(ucsi, ctrl->raw_cmd);
+-		if (ret < 0)
+-			return ret;
+-
+-		data_length = ret;
++	ret = ucsi_exec_command(ucsi, ctrl->raw_cmd);
++	if (ret < 0)
++		return ret;
+ 
+-		if (data) {
+-			ret = ucsi->ops->read(ucsi, UCSI_MESSAGE_IN, data, size);
+-			if (ret)
+-				return ret;
+-		}
++	length = ret;
+ 
+-		ret = ucsi_acknowledge_command(ucsi);
++	if (data) {
++		ret = ucsi->ops->read(ucsi, UCSI_MESSAGE_IN, data, size);
+ 		if (ret)
+ 			return ret;
+-
+-		return data_length;
  	}
  
- 	if (con->status.change & UCSI_CONSTAT_CONNECT_CHANGE) {
--		typec_set_pwr_role(con->port, con->status.pwr_dir);
-+		typec_set_pwr_role(con->port, role);
+-	ret = ucsi_command(ucsi, ctrl);
++	ret = ucsi_acknowledge_command(ucsi);
+ 	if (ret)
+-		goto err;
+-
+-	switch (ucsi->status) {
+-	case UCSI_IDLE:
+-		ret = ucsi_sync(ucsi);
+-		if (ret)
+-			dev_warn(ucsi->dev, "%s: sync failed\n", __func__);
+-
+-		if (data)
+-			memcpy(data, ucsi->ppm->data->message_in, size);
+-
+-		data_length = ucsi->ppm->data->cci.data_length;
+-
+-		ret = ucsi_ack(ucsi, UCSI_ACK_CMD);
+-		if (!ret)
+-			ret = data_length;
+-		break;
+-	case UCSI_BUSY:
+-		/* The caller decides whether to cancel or not */
+-		ret = -EBUSY;
+-		break;
+-	case UCSI_ERROR:
+-		ret = ucsi_ack(ucsi, UCSI_ACK_CMD);
+-		if (ret)
+-			break;
+-
+-		_ctrl.raw_cmd = 0;
+-		_ctrl.cmd.cmd = UCSI_GET_ERROR_STATUS;
+-		ret = ucsi_command(ucsi, &_ctrl);
+-		if (ret) {
+-			dev_err(ucsi->dev, "reading error failed!\n");
+-			break;
+-		}
+-
+-		memcpy(&error, ucsi->ppm->data->message_in, sizeof(error));
+-
+-		/* Something has really gone wrong */
+-		if (WARN_ON(ucsi->status == UCSI_ERROR)) {
+-			ret = -ENODEV;
+-			break;
+-		}
+-
+-		ret = ucsi_ack(ucsi, UCSI_ACK_CMD);
+-		if (ret)
+-			break;
+-
+-		switch (error) {
+-		case UCSI_ERROR_INCOMPATIBLE_PARTNER:
+-			ret = -EOPNOTSUPP;
+-			break;
+-		case UCSI_ERROR_CC_COMMUNICATION_ERR:
+-			ret = -ECOMM;
+-			break;
+-		case UCSI_ERROR_CONTRACT_NEGOTIATION_FAIL:
+-			ret = -EPROTO;
+-			break;
+-		case UCSI_ERROR_DEAD_BATTERY:
+-			dev_warn(ucsi->dev, "Dead battery condition!\n");
+-			ret = -EPERM;
+-			break;
+-		/* The following mean a bug in this driver */
+-		case UCSI_ERROR_INVALID_CON_NUM:
+-		case UCSI_ERROR_UNREGONIZED_CMD:
+-		case UCSI_ERROR_INVALID_CMD_ARGUMENT:
+-			dev_warn(ucsi->dev,
+-				 "%s: possible UCSI driver bug - error 0x%x\n",
+-				 __func__, error);
+-			ret = -EINVAL;
+-			break;
+-		default:
+-			dev_warn(ucsi->dev,
+-				 "%s: error without status\n", __func__);
+-			ret = -EIO;
+-			break;
+-		}
+-		break;
+-	}
+-
+-err:
+-	trace_ucsi_run_command(ctrl, ret);
++		return ret;
  
--		switch (con->status.partner_type) {
-+		switch (UCSI_CONSTAT_PARTNER_TYPE(con->status.flags)) {
- 		case UCSI_CONSTAT_PARTNER_TYPE_UFP:
- 			typec_set_data_role(con->port, TYPEC_HOST);
- 			break;
-@@ -531,7 +535,7 @@ static void ucsi_handle_connector_change(struct work_struct *work)
- 			break;
+-	return ret;
++	return length;
+ }
+ 
+ int ucsi_send_command(struct ucsi *ucsi, struct ucsi_control *ctrl,
+@@ -332,6 +181,7 @@ void ucsi_altmode_update_active(struct ucsi_connector *con)
+ {
+ 	const struct typec_altmode *altmode = NULL;
+ 	struct ucsi_control ctrl;
++	u16 version;
+ 	int ret;
+ 	u8 cur;
+ 	int i;
+@@ -339,7 +189,9 @@ void ucsi_altmode_update_active(struct ucsi_connector *con)
+ 	UCSI_CMD_GET_CURRENT_CAM(ctrl, con->num);
+ 	ret = ucsi_run_command(con->ucsi, &ctrl, &cur, sizeof(cur));
+ 	if (ret < 0) {
+-		if (con->ucsi->ppm->data->version > 0x0100) {
++		ret = con->ucsi->ops->read(con->ucsi, UCSI_VERSION, &version,
++					   sizeof(version));
++		if (ret || version > 0x0100) {
+ 			dev_err(con->ucsi->dev,
+ 				"GET_CURRENT_CAM command failed\n");
+ 			return;
+@@ -692,10 +544,7 @@ static void ucsi_handle_connector_change(struct work_struct *work)
+ 	if (con->status.change & UCSI_CONSTAT_PARTNER_CHANGE)
+ 		ucsi_partner_change(con);
+ 
+-	if (ucsi->ops)
+-		ret = ucsi_acknowledge_connector_change(ucsi);
+-	else
+-		ret = ucsi_ack(ucsi, UCSI_ACK_EVENT);
++	ret = ucsi_acknowledge_connector_change(ucsi);
+ 	if (ret)
+ 		dev_err(ucsi->dev, "%s: ACK failed (%d)", __func__, ret);
+ 
+@@ -720,45 +569,6 @@ void ucsi_connector_change(struct ucsi *ucsi, u8 num)
+ }
+ EXPORT_SYMBOL_GPL(ucsi_connector_change);
+ 
+-/**
+- * ucsi_notify - PPM notification handler
+- * @ucsi: Source UCSI Interface for the notifications
+- *
+- * Handle notifications from PPM of @ucsi.
+- */
+-void ucsi_notify(struct ucsi *ucsi)
+-{
+-	struct ucsi_cci *cci;
+-
+-	/* There is no requirement to sync here, but no harm either. */
+-	ucsi_sync(ucsi);
+-
+-	cci = &ucsi->ppm->data->cci;
+-
+-	if (cci->error)
+-		ucsi->status = UCSI_ERROR;
+-	else if (cci->busy)
+-		ucsi->status = UCSI_BUSY;
+-	else
+-		ucsi->status = UCSI_IDLE;
+-
+-	if (cci->cmd_complete && test_bit(COMMAND_PENDING, &ucsi->flags)) {
+-		complete(&ucsi->complete);
+-	} else if (cci->ack_complete && test_bit(ACK_PENDING, &ucsi->flags)) {
+-		complete(&ucsi->complete);
+-	} else if (cci->connector_change) {
+-		struct ucsi_connector *con;
+-
+-		con = &ucsi->connector[cci->connector_change - 1];
+-
+-		if (!test_and_set_bit(EVENT_PENDING, &ucsi->flags))
+-			schedule_work(&con->work);
+-	}
+-
+-	trace_ucsi_notify(ucsi->ppm->data->raw_cci);
+-}
+-EXPORT_SYMBOL_GPL(ucsi_notify);
+-
+ /* -------------------------------------------------------------------------- */
+ 
+ static int ucsi_reset_connector(struct ucsi_connector *con, bool hard)
+@@ -772,82 +582,39 @@ static int ucsi_reset_connector(struct ucsi_connector *con, bool hard)
+ 
+ static int ucsi_reset_ppm(struct ucsi *ucsi)
+ {
+-	struct ucsi_control ctrl;
++	u64 command = UCSI_PPM_RESET;
+ 	unsigned long tmo;
++	u32 cci;
+ 	int ret;
+ 
+-	if (ucsi->ops) {
+-		u64 command = UCSI_PPM_RESET;
+-		u32 cci;
+-
+-		ret = ucsi->ops->async_write(ucsi, UCSI_CONTROL, &command,
+-					     sizeof(command));
+-		if (ret < 0)
+-			return ret;
+-
+-		tmo = jiffies + msecs_to_jiffies(UCSI_TIMEOUT_MS);
+-
+-		do {
+-			if (time_is_before_jiffies(tmo))
+-				return -ETIMEDOUT;
+-
+-			ret = ucsi->ops->read(ucsi, UCSI_CCI, &cci, sizeof(cci));
+-			if (ret)
+-				return ret;
+-
+-			if (cci & ~UCSI_CCI_RESET_COMPLETE) {
+-				ret = ucsi->ops->async_write(ucsi, UCSI_CONTROL,
+-							     &command,
+-							     sizeof(command));
+-				if (ret < 0)
+-					return ret;
+-			}
+-
+-			msleep(20);
+-		} while (!(cci & UCSI_CCI_RESET_COMPLETE));
+-
+-		return 0;
+-	}
+-
+-	ctrl.raw_cmd = 0;
+-	ctrl.cmd.cmd = UCSI_PPM_RESET;
+-	trace_ucsi_command(&ctrl);
+-	ret = ucsi->ppm->cmd(ucsi->ppm, &ctrl);
+-	if (ret)
+-		goto err;
++	ret = ucsi->ops->async_write(ucsi, UCSI_CONTROL, &command,
++				     sizeof(command));
++	if (ret < 0)
++		return ret;
+ 
+ 	tmo = jiffies + msecs_to_jiffies(UCSI_TIMEOUT_MS);
+ 
+ 	do {
+-		/* Here sync is critical. */
+-		ret = ucsi_sync(ucsi);
+-		if (ret)
+-			goto err;
++		if (time_is_before_jiffies(tmo))
++			return -ETIMEDOUT;
+ 
+-		if (ucsi->ppm->data->cci.reset_complete)
+-			break;
++		ret = ucsi->ops->read(ucsi, UCSI_CCI, &cci, sizeof(cci));
++		if (ret)
++			return ret;
+ 
+ 		/* If the PPM is still doing something else, reset it again. */
+-		if (ucsi->ppm->data->raw_cci) {
+-			dev_warn_ratelimited(ucsi->dev,
+-				"Failed to reset PPM! Trying again..\n");
+-
+-			trace_ucsi_command(&ctrl);
+-			ret = ucsi->ppm->cmd(ucsi->ppm, &ctrl);
+-			if (ret)
+-				goto err;
++		if (cci & ~UCSI_CCI_RESET_COMPLETE) {
++			ret = ucsi->ops->async_write(ucsi, UCSI_CONTROL,
++						     &command,
++						     sizeof(command));
++			if (ret < 0)
++				return ret;
  		}
  
--		if (con->status.connected)
-+		if (con->status.flags & UCSI_CONSTAT_CONNECTED)
- 			ucsi_register_partner(con);
- 		else
- 			ucsi_unregister_partner(con);
-@@ -650,6 +654,7 @@ static int ucsi_role_cmd(struct ucsi_connector *con, u64 command)
- static int ucsi_dr_swap(struct typec_port *port, enum typec_data_role role)
- {
- 	struct ucsi_connector *con = typec_get_drvdata(port);
-+	u8 partner_type;
- 	u64 command;
- 	int ret = 0;
+-		/* Letting the PPM settle down. */
+ 		msleep(20);
++	} while (!(cci & UCSI_CCI_RESET_COMPLETE));
  
-@@ -660,9 +665,10 @@ static int ucsi_dr_swap(struct typec_port *port, enum typec_data_role role)
- 		goto out_unlock;
- 	}
- 
--	if ((con->status.partner_type == UCSI_CONSTAT_PARTNER_TYPE_DFP &&
-+	partner_type = UCSI_CONSTAT_PARTNER_TYPE(con->status.flags);
-+	if ((partner_type == UCSI_CONSTAT_PARTNER_TYPE_DFP &&
- 	     role == TYPEC_DEVICE) ||
--	    (con->status.partner_type == UCSI_CONSTAT_PARTNER_TYPE_UFP &&
-+	    (partner_type == UCSI_CONSTAT_PARTNER_TYPE_UFP &&
- 	     role == TYPEC_HOST))
- 		goto out_unlock;
- 
-@@ -686,6 +692,7 @@ static int ucsi_dr_swap(struct typec_port *port, enum typec_data_role role)
- static int ucsi_pr_swap(struct typec_port *port, enum typec_role role)
- {
- 	struct ucsi_connector *con = typec_get_drvdata(port);
-+	enum typec_role cur_role;
- 	u64 command;
- 	int ret = 0;
- 
-@@ -696,7 +703,9 @@ static int ucsi_pr_swap(struct typec_port *port, enum typec_role role)
- 		goto out_unlock;
- 	}
- 
--	if (con->status.pwr_dir == role)
-+	cur_role = !!(con->status.flags & UCSI_CONSTAT_PWR_DIR);
-+
-+	if (cur_role == role)
- 		goto out_unlock;
- 
- 	command = UCSI_SET_PDR | UCSI_CONNECTOR_NUMBER(con->num);
-@@ -713,7 +722,8 @@ static int ucsi_pr_swap(struct typec_port *port, enum typec_role role)
- 	}
- 
- 	/* Something has gone wrong while swapping the role */
--	if (con->status.pwr_op_mode != UCSI_CONSTAT_PWR_OPMODE_PD) {
-+	if (UCSI_CONSTAT_PWR_OPMODE(con->status.flags) !=
-+	    UCSI_CONSTAT_PWR_OPMODE_PD) {
- 		ucsi_reset_connector(con, true);
- 		ret = -EPROTO;
- 	}
-@@ -768,11 +778,12 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
- 	else if (con->cap.op_mode & UCSI_CONCAP_OPMODE_UFP)
- 		cap->data = TYPEC_PORT_UFP;
- 
--	if (con->cap.provider && con->cap.consumer)
-+	if ((con->cap.flags & UCSI_CONCAP_FLAG_PROVIDER) &&
-+	    (con->cap.flags & UCSI_CONCAP_FLAG_CONSUMER))
- 		cap->type = TYPEC_PORT_DRP;
--	else if (con->cap.provider)
-+	else if (con->cap.flags & UCSI_CONCAP_FLAG_PROVIDER)
- 		cap->type = TYPEC_PORT_SRC;
--	else if (con->cap.consumer)
-+	else if (con->cap.flags & UCSI_CONCAP_FLAG_CONSUMER)
- 		cap->type = TYPEC_PORT_SNK;
- 
- 	cap->revision = ucsi->cap.typec_version;
-@@ -808,10 +819,7 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
- 		return 0;
- 	}
- 
--	ucsi_pwr_opmode_change(con);
--	typec_set_pwr_role(con->port, con->status.pwr_dir);
+-		ret = -ETIMEDOUT;
+-	} while (time_is_after_jiffies(tmo));
 -
--	switch (con->status.partner_type) {
-+	switch (UCSI_CONSTAT_PARTNER_TYPE(con->status.flags)) {
- 	case UCSI_CONSTAT_PARTNER_TYPE_UFP:
- 		typec_set_data_role(con->port, TYPEC_HOST);
- 		break;
-@@ -823,8 +831,12 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
- 	}
+-err:
+-	trace_ucsi_reset_ppm(&ctrl, ret);
+-
+-	return ret;
++	return 0;
+ }
  
- 	/* Check if there is already something connected */
--	if (con->status.connected)
-+	if (con->status.flags & UCSI_CONSTAT_CONNECTED) {
-+		typec_set_pwr_role(con->port,
-+				  !!(con->status.flags & UCSI_CONSTAT_PWR_DIR));
-+		ucsi_pwr_opmode_change(con);
- 		ucsi_register_partner(con);
-+	}
+ static int ucsi_role_cmd(struct ucsi_connector *con, struct ucsi_control *ctrl)
+@@ -1262,51 +1029,6 @@ void ucsi_unregister(struct ucsi *ucsi)
+ }
+ EXPORT_SYMBOL_GPL(ucsi_unregister);
  
- 	if (con->partner) {
- 		ret = ucsi_register_altmodes(con, UCSI_RECIPIENT_SOP);
+-/**
+- * ucsi_register_ppm - Register UCSI PPM Interface
+- * @dev: Device interface to the PPM
+- * @ppm: The PPM interface
+- *
+- * Allocates UCSI instance, associates it with @ppm and returns it to the
+- * caller, and schedules initialization of the interface.
+- */
+-struct ucsi *ucsi_register_ppm(struct device *dev, struct ucsi_ppm *ppm)
+-{
+-	struct ucsi *ucsi;
+-
+-	ucsi = kzalloc(sizeof(*ucsi), GFP_KERNEL);
+-	if (!ucsi)
+-		return ERR_PTR(-ENOMEM);
+-
+-	INIT_WORK(&ucsi->work, ucsi_init_work);
+-	init_completion(&ucsi->complete);
+-	mutex_init(&ucsi->ppm_lock);
+-
+-	ucsi->dev = dev;
+-	ucsi->ppm = ppm;
+-
+-	/*
+-	 * Communication with the PPM takes a lot of time. It is not reasonable
+-	 * to initialize the driver here. Using a work for now.
+-	 */
+-	queue_work(system_long_wq, &ucsi->work);
+-
+-	return ucsi;
+-}
+-EXPORT_SYMBOL_GPL(ucsi_register_ppm);
+-
+-/**
+- * ucsi_unregister_ppm - Unregister UCSI PPM Interface
+- * @ucsi: struct ucsi associated with the PPM
+- *
+- * Unregister UCSI PPM that was created with ucsi_register().
+- */
+-void ucsi_unregister_ppm(struct ucsi *ucsi)
+-{
+-	ucsi_unregister(ucsi);
+-}
+-EXPORT_SYMBOL_GPL(ucsi_unregister_ppm);
+-
+ MODULE_AUTHOR("Heikki Krogerus <heikki.krogerus@linux.intel.com>");
+ MODULE_LICENSE("GPL v2");
+ MODULE_DESCRIPTION("USB Type-C Connector System Software Interface driver");
 diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
-index 55ce41dd77f9..31d88f835f92 100644
+index 3e9a4ba912e9..bb1df6cb241b 100644
 --- a/drivers/usb/typec/ucsi/ucsi.h
 +++ b/drivers/usb/typec/ucsi/ucsi.h
-@@ -144,8 +144,8 @@ struct ucsi_capability {
- #define UCSI_CAP_ATTR_POWER_AC_SUPPLY		BIT(8)
- #define UCSI_CAP_ATTR_POWER_OTHER		BIT(10)
- #define UCSI_CAP_ATTR_POWER_VBUS		BIT(14)
--	u32 num_connectors:8;
--	u32 features:24;
-+	u8 num_connectors;
-+	u8 features;
- #define UCSI_CAP_SET_UOM			BIT(0)
- #define UCSI_CAP_SET_PDM			BIT(1)
- #define UCSI_CAP_ALT_MODE_DETAILS		BIT(2)
-@@ -154,8 +154,9 @@ struct ucsi_capability {
- #define UCSI_CAP_CABLE_DETAILS			BIT(5)
- #define UCSI_CAP_EXT_SUPPLY_NOTIFICATIONS	BIT(6)
- #define UCSI_CAP_PD_RESET			BIT(7)
-+	u16 reserved_1;
- 	u8 num_alt_modes;
--	u8 reserved;
-+	u8 reserved_2;
- 	u16 bc_version;
- 	u16 pd_version;
- 	u16 typec_version;
-@@ -172,9 +173,9 @@ struct ucsi_connector_capability {
- #define UCSI_CONCAP_OPMODE_USB2			BIT(5)
- #define UCSI_CONCAP_OPMODE_USB3			BIT(6)
- #define UCSI_CONCAP_OPMODE_ALT_MODE		BIT(7)
--	u8 provider:1;
--	u8 consumer:1;
--	u8:6; /* reserved */
-+	u8 flags;
-+#define UCSI_CONCAP_FLAG_PROVIDER		BIT(0)
-+#define UCSI_CONCAP_FLAG_CONSUMER		BIT(1)
- } __packed;
- 
- struct ucsi_altmode {
-@@ -186,18 +187,17 @@ struct ucsi_altmode {
- struct ucsi_cable_property {
- 	u16 speed_supported;
- 	u8 current_capability;
--	u8 vbus_in_cable:1;
--	u8 active_cable:1;
--	u8 directionality:1;
--	u8 plug_type:2;
--#define UCSI_CABLE_PROPERTY_PLUG_TYPE_A		0
--#define UCSI_CABLE_PROPERTY_PLUG_TYPE_B		1
--#define UCSI_CABLE_PROPERTY_PLUG_TYPE_C		2
--#define UCSI_CABLE_PROPERTY_PLUG_OTHER		3
--	u8 mode_support:1;
--	u8:2; /* reserved */
--	u8 latency:4;
--	u8:4; /* reserved */
-+	u8 flags;
-+#define UCSI_CABLE_PROP_FLAG_VBUS_IN_CABLE	BIT(0)
-+#define UCSI_CABLE_PROP_FLAG_ACTIVE_CABLE	BIT(1)
-+#define UCSI_CABLE_PROP_FLAG_DIRECTIONALITY	BIT(2)
-+#define UCSI_CABLE_PROP_FLAG_PLUG_TYPE(_f_)	((_f_) & GENMASK(3, 0))
-+#define   UCSI_CABLE_PROPERTY_PLUG_TYPE_A	0
-+#define   UCSI_CABLE_PROPERTY_PLUG_TYPE_B	1
-+#define   UCSI_CABLE_PROPERTY_PLUG_TYPE_C	2
-+#define   UCSI_CABLE_PROPERTY_PLUG_OTHER	3
-+#define UCSI_CABLE_PROP_MODE_SUPPORT		BIT(5)
-+	u8 latency;
- } __packed;
- 
- /* Data structure filled by PPM in response to GET_CONNECTOR_STATUS command. */
-@@ -214,35 +214,36 @@ struct ucsi_connector_status {
- #define UCSI_CONSTAT_POWER_DIR_CHANGE		BIT(12)
- #define UCSI_CONSTAT_CONNECT_CHANGE		BIT(14)
- #define UCSI_CONSTAT_ERROR			BIT(15)
--	u16 pwr_op_mode:3;
--#define UCSI_CONSTAT_PWR_OPMODE_NONE		0
--#define UCSI_CONSTAT_PWR_OPMODE_DEFAULT		1
--#define UCSI_CONSTAT_PWR_OPMODE_BC		2
--#define UCSI_CONSTAT_PWR_OPMODE_PD		3
--#define UCSI_CONSTAT_PWR_OPMODE_TYPEC1_5	4
--#define UCSI_CONSTAT_PWR_OPMODE_TYPEC3_0	5
--	u16 connected:1;
--	u16 pwr_dir:1;
--	u16 partner_flags:8;
--#define UCSI_CONSTAT_PARTNER_FLAG_USB		BIT(0)
--#define UCSI_CONSTAT_PARTNER_FLAG_ALT_MODE	BIT(1)
--	u16 partner_type:3;
--#define UCSI_CONSTAT_PARTNER_TYPE_DFP		1
--#define UCSI_CONSTAT_PARTNER_TYPE_UFP		2
--#define UCSI_CONSTAT_PARTNER_TYPE_CABLE		3 /* Powered Cable */
--#define UCSI_CONSTAT_PARTNER_TYPE_CABLE_AND_UFP	4 /* Powered Cable */
--#define UCSI_CONSTAT_PARTNER_TYPE_DEBUG		5
--#define UCSI_CONSTAT_PARTNER_TYPE_AUDIO		6
-+	u16 flags;
-+#define UCSI_CONSTAT_PWR_OPMODE(_f_)		((_f_) & GENMASK(2, 0))
-+#define   UCSI_CONSTAT_PWR_OPMODE_NONE		0
-+#define   UCSI_CONSTAT_PWR_OPMODE_DEFAULT	1
-+#define   UCSI_CONSTAT_PWR_OPMODE_BC		2
-+#define   UCSI_CONSTAT_PWR_OPMODE_PD		3
-+#define   UCSI_CONSTAT_PWR_OPMODE_TYPEC1_5	4
-+#define   UCSI_CONSTAT_PWR_OPMODE_TYPEC3_0	5
-+#define UCSI_CONSTAT_CONNECTED			BIT(3)
-+#define UCSI_CONSTAT_PWR_DIR			BIT(4)
-+#define UCSI_CONSTAT_PARTNER_FLAGS(_f_)		((_f_) & GENMASK(12, 5) >> 5)
-+#define   UCSI_CONSTAT_PARTNER_FLAG_USB		1
-+#define   UCSI_CONSTAT_PARTNER_FLAG_ALT_MODE	2
-+#define UCSI_CONSTAT_PARTNER_TYPE(_f_)		((_f_) & GENMASK(15, 13) >> 13)
-+#define   UCSI_CONSTAT_PARTNER_TYPE_DFP		1
-+#define   UCSI_CONSTAT_PARTNER_TYPE_UFP		2
-+#define   UCSI_CONSTAT_PARTNER_TYPE_CABLE	3 /* Powered Cable */
-+#define   UCSI_CONSTAT_PARTNER_TYPE_CABLE_AND_UFP	4 /* Powered Cable */
-+#define   UCSI_CONSTAT_PARTNER_TYPE_DEBUG	5
-+#define   UCSI_CONSTAT_PARTNER_TYPE_AUDIO	6
- 	u32 request_data_obj;
--	u8 bc_status:2;
--#define UCSI_CONSTAT_BC_NOT_CHARGING		0
--#define UCSI_CONSTAT_BC_NOMINAL_CHARGING	1
--#define UCSI_CONSTAT_BC_SLOW_CHARGING		2
--#define UCSI_CONSTAT_BC_TRICKLE_CHARGING	3
--	u8 provider_cap_limit_reason:4;
--#define UCSI_CONSTAT_CAP_PWR_LOWERED		0
--#define UCSI_CONSTAT_CAP_PWR_BUDGET_LIMIT	1
--	u8:2; /* reserved */
-+	u8 pwr_status;
-+#define UCSI_CONSTAT_BC_STATUS(_p_)		((_p_) & GENMASK(2, 0))
-+#define   UCSI_CONSTAT_BC_NOT_CHARGING		0
-+#define   UCSI_CONSTAT_BC_NOMINAL_CHARGING	1
-+#define   UCSI_CONSTAT_BC_SLOW_CHARGING		2
-+#define   UCSI_CONSTAT_BC_TRICKLE_CHARGING	3
-+#define UCSI_CONSTAT_PROVIDER_CAP_LIMIT(_p_)	((_p_) & GENMASK(6, 3) >> 3)
-+#define   UCSI_CONSTAT_CAP_PWR_LOWERED		0
-+#define   UCSI_CONSTAT_CAP_PWR_BUDGET_LIMIT	1
- } __packed;
+@@ -398,53 +398,12 @@ struct ucsi_connector_status {
  
  /* -------------------------------------------------------------------------- */
+ 
+-struct ucsi;
+-
+-struct ucsi_data {
+-	u16 version;
+-	u16 reserved;
+-	union {
+-		u32 raw_cci;
+-		struct ucsi_cci cci;
+-	};
+-	struct ucsi_control ctrl;
+-	u32 message_in[4];
+-	u32 message_out[4];
+-} __packed;
+-
+-/*
+- * struct ucsi_ppm - Interface to UCSI Platform Policy Manager
+- * @data: memory location to the UCSI data structures
+- * @cmd: UCSI command execution routine
+- * @sync: Refresh UCSI mailbox (the data structures)
+- */
+-struct ucsi_ppm {
+-	struct ucsi_data *data;
+-	int (*cmd)(struct ucsi_ppm *, struct ucsi_control *);
+-	int (*sync)(struct ucsi_ppm *);
+-};
+-
+-struct ucsi *ucsi_register_ppm(struct device *dev, struct ucsi_ppm *ppm);
+-void ucsi_unregister_ppm(struct ucsi *ucsi);
+-void ucsi_notify(struct ucsi *ucsi);
+-
+-/* -------------------------------------------------------------------------- */
+-
+-enum ucsi_status {
+-	UCSI_IDLE = 0,
+-	UCSI_BUSY,
+-	UCSI_ERROR,
+-};
+-
+ struct ucsi {
+ 	struct device *dev;
+-	struct ucsi_ppm *ppm;
+ 	struct driver_data *driver_data;
+ 
+ 	const struct ucsi_operations *ops;
+ 
+-	enum ucsi_status status;
+-	struct completion complete;
+ 	struct ucsi_capability cap;
+ 	struct ucsi_connector *connector;
+ 
 -- 
 2.23.0
 
