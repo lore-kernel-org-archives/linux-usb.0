@@ -2,90 +2,131 @@ Return-Path: <SRS0=AAIs=XW=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BC18C388F3
-	for <linux-usb@archiver.kernel.org>; Fri, 27 Sep 2019 19:20:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 785F5C4360C
+	for <linux-usb@archiver.kernel.org>; Fri, 27 Sep 2019 19:25:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5DB6E21906
-	for <linux-usb@archiver.kernel.org>; Fri, 27 Sep 2019 19:20:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F9D8207E0
+	for <linux-usb@archiver.kernel.org>; Fri, 27 Sep 2019 19:25:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UiCLVt0P"
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="k/JWxsBm";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="bbgP0ROU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725815AbfI0TUp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 27 Sep 2019 15:20:45 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:54980 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725789AbfI0TUp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 Sep 2019 15:20:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=s8ypukgQOLXAIyF2hdNYPqQSa7FeAbisPLKET7G1YAU=; b=UiCLVt0PK0hWmrqLBhFF6NijU
-        BfYXdhYDKvn0Kx1wf5Y/zgLCVxuj5f9oLQxKQiexlP+uwSEM5h7DAkBboeU9NsIfBdioHce3xOnh1
-        0gbIJrKE3hhGlw9R22guCK5CDXKnnP/aCa3o7hpz4Hb7VDSfUFmXFjtLVo9Y7fRf3rc+7Z/MTMgBn
-        8lv+tkNuRi0l+GZCfZ7fiVd3HmuLFMfuAscGUC0nvm2mvE6uXHtrXxenOuqL8FaLNT5MN0CJYCgTj
-        o1LcNQ14BoM2PI9fQts5OX4rb2ESIg+MUDvICsXLGgTqQ++q2e8jHhbOQnKxyMcXJ4HX/n8YvB0PD
-        hibK3fpWQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iDvnI-0007lx-Fz; Fri, 27 Sep 2019 19:20:44 +0000
-Date:   Fri, 27 Sep 2019 12:20:44 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Damien Le Moal <damien.lemoal@wdc.com>
-Cc:     linux-scsi@vger.kernel.org,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Justin Piszcz <jpiszcz@lucidpixels.com>
-Subject: Re: [PATCH 1/2] scsi: save/restore command resid for error handling
-Message-ID: <20190927192044.GA24037@infradead.org>
-References: <20190926220844.26631-1-damien.lemoal@wdc.com>
- <20190926220844.26631-2-damien.lemoal@wdc.com>
+        id S1726673AbfI0TZ6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 27 Sep 2019 15:25:58 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:53543 "EHLO
+        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725790AbfI0TZ6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 Sep 2019 15:25:58 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailout.nyi.internal (Postfix) with ESMTP id 15145222FB;
+        Fri, 27 Sep 2019 15:25:57 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Fri, 27 Sep 2019 15:25:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=sW9b5FWjUjVaIwzqkVcEY+k5xeM
+        KsvV0j93q4lB7NQg=; b=k/JWxsBmyRk4KfWmnveByNo/LPu7WBn8OP+32gaOVh1
+        wHK0Ae4bpx3+5YzyKZlR2/OsI7gL/jLhHml4ddMmPcQ9dDK6ax7uPbObMzJ5aB/5
+        qcZFToRIvz2DO6I072E+gNwvsxFrY/kDyASINq/pQuc+d60VJctVg8ofZFOFbdO/
+        YwCECC3c4j1WzSWnZ5O7TPPqSgAiX0fgjL1N3P3a8cItTY8ficku5zVgzqrN1t/M
+        KcSyKJwisLqzju94uL2lzB3zLibJS1DlxBkU1IuWdI5BlIHcirlalrX0M2S481IF
+        R4XMXkrFg9PxXcQ2vrX8Df/kjrCceFUI+OC8A3XQVog==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=sW9b5F
+        WjUjVaIwzqkVcEY+k5xeMKsvV0j93q4lB7NQg=; b=bbgP0ROULvpDFJCj32/gGQ
+        PSeQMwE/VB88cj9IXv0ybdcNKU+tkQUHtyTwAggDL9CFBtF7F1MV/nnjOCoXzhuQ
+        oU4+lWudQXbOZMOYyGrD1phZyqFsP+uVnBDE0qBckaPZySfErSKiOWEQs+7SqGFN
+        bWOnOKFvUUT/A0JaeH0iUT9V34JuotY4GNthVIcTl8hwlRWayk4Rh52WgkmSIEI4
+        /oD+7i/L9RQq7igus9QnYVbvm5w+l5ot+28L4VjVNh/RmbgLadHBPk7gKApYQmNl
+        g0BHFn44C2qxxEkdh/+tULeCmGzhSHneh0cTDZBORMiiuqh2c+VeFtwQ/8OmHR5Q
+        ==
+X-ME-Sender: <xms:RGKOXVgsHd2WtRQUtpMCsWHhDbccG_lNWaV4lNhKxOsSOSWKtSBpXg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrfeeigddufeegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjfgesthdtredttdervdenucfhrhhomhepifhrvghg
+    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecukfhppeeivddrudduledrudeiie
+    drleenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhmnecu
+    vehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:RGKOXeTmhy2U1jdTco8jJo5_G01hWJtpa83palb1zjnpbRlIXSonMw>
+    <xmx:RGKOXQEUKdCTP7Q4YLw4v06TQNnVTRDLNQptGvyof8iuliSngxOi4w>
+    <xmx:RGKOXelzYefMoPYGtPa2lfOlydloT1xz-mHV0FfQ2vvvmlOI3yiA8A>
+    <xmx:RWKOXdxkhWMtoOJCS-InB4aSY0tSwZVBgeZAomqnT4rMRKycn0RoFg>
+Received: from localhost (unknown [62.119.166.9])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 3CBFA80065;
+        Fri, 27 Sep 2019 15:25:56 -0400 (EDT)
+Date:   Fri, 27 Sep 2019 21:25:54 +0200
+From:   Greg KH <greg@kroah.com>
+To:     Bastien Nocera <hadess@hadess.net>
+Cc:     Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
+        benjamin.tissoires@redhat.com
+Subject: Re: Driver for something that's neither a device nor an interface
+ driver?
+Message-ID: <20190927192554.GB1805907@kroah.com>
+References: <Pine.LNX.4.44L0.1909271351260.4732-100000@iolanthe.rowland.org>
+ <7f25b01ceb1a3aa6bd213599474ceffc34a0054b.camel@hadess.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190926220844.26631-2-damien.lemoal@wdc.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <7f25b01ceb1a3aa6bd213599474ceffc34a0054b.camel@hadess.net>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Sep 27, 2019 at 07:08:43AM +0900, Damien Le Moal wrote:
-> When a command is terminated with CHECK CONDITION and request sense
-> executed by hijacking the command descriptor, the original command resid
-> is lost and replaced with the resid from the execution of request sense.
-> If based on the obtained sense data the command is aborted and not
-> retried, the resid that will be seen by drivers such as sd will be the
-> resid of the request sense execution and not the value from the original
-> command failure. Make sure this does not happen by adding resid as part
-> of the command information saved using struct scsi_eh_save.
+On Fri, Sep 27, 2019 at 08:49:12PM +0200, Bastien Nocera wrote:
+> On Fri, 2019-09-27 at 13:56 -0400, Alan Stern wrote:
+> > 
+> <snip>
+> > Is there any reason this needs to be done in a kernel driver?
 > 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Damien Le Moal <damien.lemoal@wdc.com>
-> ---
->  drivers/scsi/scsi_error.c | 2 ++
->  include/scsi/scsi_eh.h    | 1 +
->  2 files changed, 3 insertions(+)
-> 
-> diff --git a/drivers/scsi/scsi_error.c b/drivers/scsi/scsi_error.c
-> index 1c470e31ae81..d4ac13979189 100644
-> --- a/drivers/scsi/scsi_error.c
-> +++ b/drivers/scsi/scsi_error.c
-> @@ -967,6 +967,7 @@ void scsi_eh_prep_cmnd(struct scsi_cmnd *scmd, struct scsi_eh_save *ses,
->  	ses->data_direction = scmd->sc_data_direction;
->  	ses->sdb = scmd->sdb;
->  	ses->result = scmd->result;
-> +	ses->resid = scsi_get_resid(scmd);
+> To offer a unified interface all the devices with similar needs.
 
-Don't we also need to reset the resid to 0 here as we do in the
-queuecommand path?  That would take care of what you are trying to do
-for usb-storage in the next patch in generic code.
+What "other devices with similar needs?"
+
+> >   Can it 
+> > be handled from userspace instead?
+> 
+> It could, at a great infrastructure cost, trying to get buy-in from
+> various distributions, at the very least.
+
+For USB devices that _can_ be handled in userspace, we ask that they be
+done in userspace and not with a kernel driver.  Something that only
+does usb control messages with no other in-kernel api interfaces is ripe
+for a tiny userspace program using libusb.  Not for an in-kernel driver.
+
+> > You said this was for a "power supply" class driver.  It's not clear 
+> > what that means -- the devices you want to communicate with are 
+> > iphones, ipads, etc., not power supplies.
+> 
+> There's tons of "device" scope "power_supply" devices in the kernel,
+> which don't power the Linux machine they're running on. Grep for
+> "POWER_SUPPLY_SCOPE_DEVICE" in the kernel, most wireless mice and
+> keyboards implement this already.
+
+Yes, but those are real devices that the "Host" uses for power or
+something else.  wireless mice and keyboards already have kernel drivers
+so that's fine as well (but probably could be done from userspace too.)
+
+> > Under what circumstances would these messages need to get sent?  
+> 
+> User-space would control it by changing the device's
+> POWER_SUPPLY_PROP_CHARGE_TYPE to "Fast", if available.
+> 
+> eg.
+> # echo "Fast" > /sys/devices/pci0000:00/0000:00:14.0/usb3/3-
+> 1/power_supply/apple_mfi_fastcharge/charge_type
+
+power_supply class is for the power supply that is charging the cpu you
+type that on.  Not for the cpu of an attached device, right?
+
+thanks,
+
+greg k-h
