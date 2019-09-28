@@ -1,76 +1,73 @@
-Return-Path: <SRS0=AAIs=XW=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=7X6x=XX=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29C73C388F4
-	for <linux-usb@archiver.kernel.org>; Fri, 27 Sep 2019 23:41:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60101C4360C
+	for <linux-usb@archiver.kernel.org>; Sat, 28 Sep 2019 02:36:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0A6C820863
-	for <linux-usb@archiver.kernel.org>; Fri, 27 Sep 2019 23:41:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B50620869
+	for <linux-usb@archiver.kernel.org>; Sat, 28 Sep 2019 02:36:59 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=nic.cz header.i=@nic.cz header.b="HAcVemmh"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728747AbfI0Xlm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 27 Sep 2019 19:41:42 -0400
-Received: from kvm5.telegraphics.com.au ([98.124.60.144]:43646 "EHLO
-        kvm5.telegraphics.com.au" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728527AbfI0Xll (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 27 Sep 2019 19:41:41 -0400
-X-Greylist: delayed 466 seconds by postgrey-1.27 at vger.kernel.org; Fri, 27 Sep 2019 19:41:40 EDT
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by kvm5.telegraphics.com.au (Postfix) with ESMTP id 6F79829F44;
-        Fri, 27 Sep 2019 19:33:51 -0400 (EDT)
-Date:   Sat, 28 Sep 2019 09:33:59 +1000 (AEST)
-From:   Finn Thain <fthain@telegraphics.com.au>
-To:     Alan Stern <stern@rowland.harvard.edu>
-cc:     Douglas Gilbert <dgilbert@interlog.com>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        linux-scsi@vger.kernel.org,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Justin Piszcz <jpiszcz@lucidpixels.com>
-Subject: Re: [PATCH 0/2] Fix SCSI & USB Storage CHECK CONDITION handling
-In-Reply-To: <Pine.LNX.4.44L0.1909271004470.1698-100000@iolanthe.rowland.org>
-Message-ID: <alpine.LNX.2.21.1909280906530.76@nippy.intranet>
-References: <Pine.LNX.4.44L0.1909271004470.1698-100000@iolanthe.rowland.org>
+        id S1725990AbfI1Cg6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 27 Sep 2019 22:36:58 -0400
+Received: from mail.nic.cz ([217.31.204.67]:59632 "EHLO mail.nic.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725306AbfI1Cg6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 27 Sep 2019 22:36:58 -0400
+X-Greylist: delayed 426 seconds by postgrey-1.27 at vger.kernel.org; Fri, 27 Sep 2019 22:36:57 EDT
+Received: from localhost (unknown [172.20.6.135])
+        by mail.nic.cz (Postfix) with ESMTPSA id 6B2C5140E6C;
+        Sat, 28 Sep 2019 04:29:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nic.cz; s=default;
+        t=1569637790; bh=oPsVH4Q8uPW/JICE5X/Kykl30D0ud1nhXptnC2f5l1M=;
+        h=Date:From:To;
+        b=HAcVemmhYvF5c7PLAn3IRwAhwVZckjQHryW1OAFIzedguEZiLOndwEcb1ega4NFaH
+         oHLbt3VXSVLTVQWvccV0DQ7tMtLjiSWsRx+jwSISvE/3DKEUz0zXzuKaC0Ju7s5vxu
+         A8YaGXT6rOmkFPNpDhbjCQaA/gvReWKz8IAxcYQk=
+Date:   Sat, 28 Sep 2019 04:29:50 +0200
+From:   Marek Behun <marek.behun@nic.cz>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     linux-usb@vger.kernel.org,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Subject: regression from commit "usb: host: xhci-plat: Prevent an abnormally
+ restrictive PHY init skipping"
+Message-ID: <20190928042950.3ae07173@nic.cz>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.100.3 at mail.nic.cz
+X-Virus-Status: Clean
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-[snipped selective measurements of word usage]
+Hi Miquel,
 
-On Fri, 27 Sep 2019, Alan Stern wrote:
+I am encountering a regression caused by your commit eb6c2eb6c7fb
+"usb: host: xhci-plat: Prevent an abnormally restrictive PHY init
+skipping" [1]
 
-> 
-> So I guess this was never defined precisely.
-> 
+In the Turris Mox device tree, we use both a comphy and a usb-phy, see
+[2]. I am not sure how to solve this now. You write in your commit
+message that "While there is not users of both PHY types at the same
+time, drop this limitation from the xhci-plat.c driver."
 
-The O.E.D. defines these terms:
+Should I get this patch reverted or try to solve it another way?
 
-	residual
-	a. [...]
-	n. 1. a quantity remaining after other things have been subtracted 
-	      or allowed for. [...]
-	   2. [...]
-	   3. [...]
+Thank you.
 
-and
+Marek
 
-	residue
-	n. a small amount of something that remains after the main part 
-	   has gone or been taken or used.
-
-
-So, writing "residue" could be misleading as the connotation is that the 
-remaining part is the lesser part.
-
-I think that's probably why the term "residual" gets used in finance (and 
-in SCSI transfers).
-
--- 
+[1]
+https://lore.kernel.org/linux-usb/20190731121150.2253-1-miquel.raynal@bootlin.com/
+[2]
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm64/boot/dts/marvell/armada-3720-turris-mox.dts#n258
