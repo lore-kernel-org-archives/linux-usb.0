@@ -2,104 +2,159 @@ Return-Path: <SRS0=7X6x=XX=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F70DC4360C
-	for <linux-usb@archiver.kernel.org>; Sat, 28 Sep 2019 12:57:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6CD0C4360C
+	for <linux-usb@archiver.kernel.org>; Sat, 28 Sep 2019 16:09:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 49B5820815
-	for <linux-usb@archiver.kernel.org>; Sat, 28 Sep 2019 12:57:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569675464;
-	bh=cpv/Yd4nsoQr4RG5XMgvshPVtBcRxJucBbVVmKCa8b4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=krx4GLlbWmcaXnd2mD9lIIFZC9htbom+5YZSZQF4gRJ4wNBRHbRv0ksJyecJFQgyr
-	 xEpnKhvdTCFnikrBph4N6JbaAENlfr4t+TWoDsSQ3q7foOWFPqu7UaUPArJSWSMSr7
-	 /gDjHkL6Vql9bQc+bOWxizmDvCYu/eu6G52pMVt4=
+	by mail.kernel.org (Postfix) with ESMTP id 9056A2086A
+	for <linux-usb@archiver.kernel.org>; Sat, 28 Sep 2019 16:09:37 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="F+YjJenQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725932AbfI1M5n (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 28 Sep 2019 08:57:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48546 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725876AbfI1M5n (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 28 Sep 2019 08:57:43 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D885C20815;
-        Sat, 28 Sep 2019 12:57:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569675461;
-        bh=cpv/Yd4nsoQr4RG5XMgvshPVtBcRxJucBbVVmKCa8b4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aPatCDRwOb03U7ozPse+1wdRcK4WJNtkJ0w3ZPpIP3n/M7JfLVqF38tQv+Ef8xIPW
-         NJkzWrTCBgjZeLdZ25PikxLs2U/gwySrJdLNUle5QfCPZ05K8Mx1i7Pdic8Kve7C1o
-         rc8gPYts4rqeiTz9gLWvvExPeIz8tFd5gMahdrAM=
-Date:   Sat, 28 Sep 2019 14:57:38 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Bastien Nocera <hadess@hadess.net>
-Cc:     Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
-        benjamin.tissoires@redhat.com
-Subject: Re: Driver for something that's neither a device nor an interface
- driver?
-Message-ID: <20190928125738.GA1848662@kroah.com>
-References: <Pine.LNX.4.44L0.1909271351260.4732-100000@iolanthe.rowland.org>
- <7f25b01ceb1a3aa6bd213599474ceffc34a0054b.camel@hadess.net>
- <20190927192554.GB1805907@kroah.com>
- <48bcb34194695566b9c59f6e814706f8d65be962.camel@hadess.net>
- <20190928073935.GB1836895@kroah.com>
- <c47cfdbe937b209eb84af7de3aea7faf3faa5ca8.camel@hadess.net>
- <20190928121809.GB1845030@kroah.com>
- <7d5cea0ea49ef76a248f0c307418698cedf827dc.camel@hadess.net>
+        id S1726560AbfI1QJg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 28 Sep 2019 12:09:36 -0400
+Received: from mail-ua1-f67.google.com ([209.85.222.67]:35214 "EHLO
+        mail-ua1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725897AbfI1QJg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 28 Sep 2019 12:09:36 -0400
+Received: by mail-ua1-f67.google.com with SMTP id n63so2893344uan.2;
+        Sat, 28 Sep 2019 09:09:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=x+K9UnCfrc4xLvnB5XXuiuigLQ1VtMaSBjDCqb1oqtQ=;
+        b=F+YjJenQRPRJkqwKs+saSX7hgkFSF5yd/XxKIRpJFL2UXKV+voSDyad7kdjn9+QFkB
+         QVIfgEVurN5vdLpuN7pcVKW2h3FUzFc61S51NrEqIJvviRcjHf4NY1xcKChY/mujyxGR
+         K8l8FPsjA6tR3H8uhEmfpJ15pcXxtQYjEDIwkuXO94byihtC5xDVSlaBasvR9ip6q+n2
+         cvsguGEn/jJt/vXBo97FbiD2i+uepiHRPbui8J4itSpBS4w3RNZxqueQcWxojBhc3Pl4
+         TYKIrnHJRvZNbeMuClmLujfzh55MlyhmuxF2K4g4DpaytwjsfHu4T9M3DpQy5SeE1B+0
+         2vgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=x+K9UnCfrc4xLvnB5XXuiuigLQ1VtMaSBjDCqb1oqtQ=;
+        b=KDRO5ImK1rbKEahLmV7HAVqbCzUZ16KskerBSiqr1od62IYO76H+aA3LNFHdpzZhfy
+         eAx1zEn5BsRwmvwHPySxT+lN9hnF6nnKH3DK+avd5aF74Vwm855T40TJEZRybkdJZfva
+         rKJMXbkGznJRlWFWpVbjs9wt/Wyh9J6udbbwyV/LUshjNdr47Up7843q2BEcSXshs4Re
+         Jc9/XP7FX/WzbeuhhDVnGHN0mwe4b/yJMGkBryEaeqQ40SyELIxiUdPvif4QSZwaRx75
+         QNrzPF50asYhUEUieNqriD6dS7gV2gme1EEGvagFXQLo8uVcXUOjTZAdJFNuMc4kNihJ
+         bGpA==
+X-Gm-Message-State: APjAAAVBVZl87lpRxI4yKZ6p5R97qrPqwdTSJcttcTRC8yQsn6IeQaQU
+        kMIwcObo/vEkhdbiyLutXwpxEqS1CZjZUbJ8bvO/qQ==
+X-Google-Smtp-Source: APXvYqxo7pL15FbLwEN/S7zYlabSJ53cmGSd12mqWmRUPAApG0BE4kEp+/ro7+h/yloWv80IjsU62f0FNhMpPk9S4X8=
+X-Received: by 2002:ab0:2397:: with SMTP id b23mr7905031uan.91.1569686974940;
+ Sat, 28 Sep 2019 09:09:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7d5cea0ea49ef76a248f0c307418698cedf827dc.camel@hadess.net>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+References: <CAGm1_kuK6aA1ew9ZY-fVDUE+o71u1QaSg0kfX2jWUWE9Me8Tjg@mail.gmail.com>
+ <CAGm1_kuQTtyrdwXAV9NCHnvj3f5d7TixmqCPw=Cxd2A=jKSYmg@mail.gmail.com>
+ <20190927151935.GD5610@atomide.com> <20190927155738.GF5610@atomide.com>
+In-Reply-To: <20190927155738.GF5610@atomide.com>
+From:   Yegor Yefremov <yegorslists@googlemail.com>
+Date:   Sat, 28 Sep 2019 18:09:24 +0200
+Message-ID: <CAGm1_kvvMc848f6f+kg5K2sQ3+NHA-Se7T_pcwQfrB=4GfZM4Q@mail.gmail.com>
+Subject: Re: musb: cppi41: broken high speed FTDI functionality when connected
+ to musb directly
+To:     Tony Lindgren <tony@atomide.com>
+Cc:     linux-omap@vger.kernel.org, vkoul@kernel.org,
+        Bin Liu <b-liu@ti.com>, linux-usb <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Sep 28, 2019 at 02:37:21PM +0200, Bastien Nocera wrote:
-> On Sat, 2019-09-28 at 14:18 +0200, Greg KH wrote:
-> > Again, the power_supply api is for power going the other way in the
-> > system.  That's not an "existing clearly defined API in kernel
-> > space".
-> 
-> No it isn't, not since 2011.
-> 
-> commit 25a0bc2dfc2ea732f40af2dae52426ead66ae76e
-> Author: Jeremy Fitzhardinge <jeremy@goop.org>
-> Date:   Wed Dec 7 11:24:20 2011 -0800
-> 
->     power_supply: add SCOPE attribute to power supplies
->     
->     This adds a "scope" attribute to a power_supply, which indicates how
->     much of the system it powers.  It appears in sysfs as "scope" or in
->     the uevent file as POWER_SUPPLY_SCOPE=.  There are presently three
->     possible values:
->             Unknown - unknown power topology
->             System - the power supply powers the whole system
->             Device - it powers a specific device, or tree of devices
->     
->     A power supply which doesn't have a "scope" attribute should be assumed to
->     have "System" scope.
->     
->     In general, usermode should assume that loss of all System-scoped power
->     supplies will power off the whole system, but any single one is sufficient
->     to power the system.
->     
->     Signed-off-by: Jeremy Fitzhardinge <jeremy@goop.org>
->     Cc: Richard Hughes <richard@hughsie.com>
-> 
+On Fri, Sep 27, 2019 at 5:57 PM Tony Lindgren <tony@atomide.com> wrote:
+>
+> * Tony Lindgren <tony@atomide.com> [190927 15:20]:
+> > * Yegor Yefremov <yegorslists@googlemail.com> [190927 12:31]:
+> > > On Fri, Sep 27, 2019 at 10:18 AM Yegor Yefremov
+> > > <yegorslists@googlemail.com> wrote:
+> > > >
+> > > > I was porting my system from 3.18/4.2 to 5.3. During this process I
+> > > > noticed that FT4232 that is attached directly to musb is not working
+> > > > correctly when opened for the first time: tx is working but nothing
+> > > > can be received. On the second opening everything is working fine.
+> > > > When the same chip is connected via a USB hub - everything is working
+> > > > from the very beginning.
+> > > >
+> > > > I could reproduce this issue using BeagleBone Black with omap2plus_defconfig.
+> > > >
+> > > > # lsusb -t
+> > > > +/:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=musb-hdrc/1p, 480M
+> > > >     |__ Port 1: Dev 2, If 0, Class=, Driver=ftdi_sio, 480M
+> > > >     |__ Port 1: Dev 2, If 1, Class=, Driver=ftdi_sio, 480M
+> > > >     |__ Port 1: Dev 2, If 2, Class=, Driver=ftdi_sio, 480M
+> > > >     |__ Port 1: Dev 2, If 3, Class=, Driver=ftdi_sio, 480M
+> > > >
+> > > > git bisect revealed the following:
+> > > >
+> > > > fdea2d09b997ba4c86e7a707a5fac87c305f2131 is the first bad commit
+> > > > commit fdea2d09b997ba4c86e7a707a5fac87c305f2131
+> > > > Author: Tony Lindgren <tony@atomide.com>
+> > > > Date:   Wed Aug 31 07:19:59 2016 -0700
+> > > >
+> > > >     dmaengine: cppi41: Add basic PM runtime support
+> > > >
+> > > >     Let's keep the device enabled between cppi41_dma_issue_pending()
+> > > >     and dmaengine_desc_get_callback_invoke() and rely on the PM runtime
+> > > >     autoidle timeout elsewhere.
+> > > >
+> > > >     As the PM runtime is for whole device, not for each channel,
+> > > >     we need to queue pending transfers if the device is PM runtime
+> > > >     suspended. Then we start the pending transfers in PM runtime
+> > > >     resume.
+> > > >
+> > > >     Signed-off-by: Tony Lindgren <tony@atomide.com>
+> > > >     Signed-off-by: Vinod Koul <vinod.koul@intel.com>
+> > > >
+> > > > :040000 040000 8cf92c09083541dfdee01cc2973e73ef520f4fb1
+> > > > a03c1a7ba8e723f7b503733c46edaa4141483265 M      drivers
+> > > >
+> > > > Any idea?
+> > >
+> > > The problems can be reproduced with other FTDI chips like FT232R.
+> > >
+> > > Invoking "minicom -D /dev/ttyUSB0" and typing some characters is
+> > > enough to reproduce the issue (just in case, hw flow control should be
+> > > disabled).
+> > >
+> > > cp210x based converter is working without an issue. So only FTDI chips
+> > > are affected so far.
+> >
+> > Hmm OK. Maybe this could be an issue where the FTDI chip takes
+> > longer to enumerate and cppi41 is already suspended by then?
+> >
+> > At least we had a similar issue with commit ae4a3e028bb8
+> > ("dmaengine: cppi41: Fix runtime PM timeouts with USB mass
+> > storage").
+>
+> Looks like I'm unable to reproduce this with bbb and FT232R
+> USB UART.
+>
+> I tried v5.3 with omap2plus_defconfig, then boot, load musb
+> and ftdi-sio modules, then connect ftdi directly to bbb,
+> and then run "minicom -D /dev/ttyUSB0" on bbb and it works
+> just fine for me.
+>
+> I tried also rebooting the device inbetween in case it only
+> happens on the first connect after boot but still no luck
+> reproducing.
 
-Ah, ok, my fault, then ok, let's see how your kernel driver ties into
-this then.
+Strange. I've used a loopback to check whether the characters will be echoed.
+FTDI cable was connected all the time so that I could check RX right after boot.
+Both Buildroot and OpenWrt rootfs's showed this behaviour.
 
-thanks,
+> Maybe try adding some debug prints to cppi41_runtime_suspend()
+> and cppi41_runtime_resume() to see if gets runtime suspended
+> too early?
 
-greg k-h
+Will do on Mo.
+
+Regards,
+Yegor
