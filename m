@@ -2,257 +2,113 @@ Return-Path: <SRS0=h0Q6=XZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HTTP_ESCAPED_HOST,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5917C32792
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 11:35:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01A6DC32792
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 13:14:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 62DFF206BB
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 11:35:37 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QZrdQ3MD"
+	by mail.kernel.org (Postfix) with ESMTP id CE78620842
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 13:14:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729232AbfI3Lfg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 30 Sep 2019 07:35:36 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:42686 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727215AbfI3Lfg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Sep 2019 07:35:36 -0400
-Received: by mail-ed1-f68.google.com with SMTP id y91so8268463ede.9
-        for <linux-usb@vger.kernel.org>; Mon, 30 Sep 2019 04:35:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=wFldsO66rZx58teUD8lRSd9ObBvGrADltm3OH/2UKzE=;
-        b=QZrdQ3MDQoCqaWLCSuRcXLHHMgzN4HjqXrxBChpkuHFGkL1PUIFvkpmR/L6iQ/pAWs
-         WeYhJLZxzCI4CYo70YN72omv08z3b4AgU1LgFmKkAGSJSOvpeLhushnfOXEJRNx+/szI
-         Agz7lKHrafz9l2pdiSDr2FVApA/zULCPx7SHC5XT15OfjspCyhRl5zsVxBYCixGEooKA
-         z2FI9zjTYKYGe4W82kOiAAyN+p48EHxpkKe31LFADjWJHoxzudKXRCc2ilGUZOLVdghW
-         cYhVKlJNMs7DII3Q7/GdLYKRbH3TVmgr596UTYz1cWlcG2MwcF8cAokpFoDAs59YnNUu
-         RhSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=wFldsO66rZx58teUD8lRSd9ObBvGrADltm3OH/2UKzE=;
-        b=gPD06jOdXVGse78GcoeY2jvniOLJpSHSNqOhyNh4cZmN+XJ7wAykU4uuv+Iz1O+vMs
-         cHZE2utToC7dLX4R4D6EUtpZNeQE4UlChYo4r/RAvM9L/b3GwI0kWN5oixY3FxCawlWt
-         wOnXLehMc/j6GUIHfMX+iur0shWgPEqQCgcG3UALsMRzhBcTFcceaXsShyeq5P72z+Oj
-         0keC4xtDmkL6mPyLJEIzbUsoxxC3uBchd4USBzgu2wQ9sLB2KnjvCG0z0afkqtatCph5
-         JFml7VcPX9f3BRLa2D/sX8Rp2+yk/JJ5MkiB9tF++4QudircLsGqA/gqjGrXiXn7DcGN
-         Id3g==
-X-Gm-Message-State: APjAAAXfD0Qf9SvknBgfVJZrnqBaQDt4Av5pqwzD5ScQJmZFX7yWOGCo
-        c7XgyTC5jstm3zwIwVCO6BmFsqO16xHRTTs6+8c=
-X-Google-Smtp-Source: APXvYqyy4H5sOA5fuT8wN0M7e6vDsrL6bL5upP4Il5zKNEkXZWA27RvZpqQ/CXz284QeAPOEu9LcJgtBWoJN3E5fqYY=
-X-Received: by 2002:a17:906:e0c2:: with SMTP id gl2mr18864676ejb.157.1569843333872;
- Mon, 30 Sep 2019 04:35:33 -0700 (PDT)
+        id S1730607AbfI3NOP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 30 Sep 2019 09:14:15 -0400
+Received: from mga17.intel.com ([192.55.52.151]:1884 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726314AbfI3NOP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 30 Sep 2019 09:14:15 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Sep 2019 06:14:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,567,1559545200"; 
+   d="scan'208";a="194176526"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
+  by orsmga003.jf.intel.com with ESMTP; 30 Sep 2019 06:14:12 -0700
+Subject: Re: NULL-deref in xhci_clear_tt_buffer_complete()
+To:     Johan Hovold <johan@kernel.org>,
+        Mathias Nyman <mathias.nyman@intel.com>
+Cc:     Jim Lin <jilin@nvidia.com>, linux-usb@vger.kernel.org
+References: <20190930103107.GC13531@localhost>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-ID: <6ee7120a-c46c-3e69-4902-bc028a917e90@linux.intel.com>
+Date:   Mon, 30 Sep 2019 16:16:11 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <CAByghJYLLdtYiQGNCxJ4HEjm5Y1v0LQ1pc+dmHemoNWxx2h6jg@mail.gmail.com>
- <VI1PR04MB53276A58AE76E5EADD822E498B870@VI1PR04MB5327.eurprd04.prod.outlook.com>
-In-Reply-To: <VI1PR04MB53276A58AE76E5EADD822E498B870@VI1PR04MB5327.eurprd04.prod.outlook.com>
-From:   Igor Opaniuk <igor.opaniuk@gmail.com>
-Date:   Mon, 30 Sep 2019 14:35:22 +0300
-Message-ID: <CAByghJbF-zBVWsGqCq9b3xF7xe2KZuhCd_E4kskH9K-gZu1bNA@mail.gmail.com>
-Subject: Re: [chipidea] continuous USB resets on NXP i.MX 6ULL device
-To:     Peter Chen <peter.chen@nxp.com>
-Cc:     Fabio Estevam <festevam@gmail.com>,
-        "stefan.wahren@i2se.com" <stefan.wahren@i2se.com>,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        Stefan Agner <stefan.agner@toradex.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190930103107.GC13531@localhost>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Peter,
+On 30.9.2019 13.31, Johan Hovold wrote:
+> Hi Mathias,
+> 
+> I hit this NULL-deref in xhci_clear_tt_buffer_complete() with usb-next
+> after an external HS hub with a connected FS device got into some weird
+> state this morning:
+> 
+> [   66.833702] usb 2-2.4: USB disconnect, device number 5
+> [   66.834756] usblcd 2-2.4:1.0: USB LCD #144 now disconnected
+> 
+> [   67.774259] usb 2-2.4: new full-speed USB device number 6 using xhci_hcd
+> [   67.855160] usb 2-2.4: unable to read config index 0 descriptor/start: -32
+> [   67.855306] usb 2-2.4: chopping to 0 config(s)
+> [   67.855401] usb 2-2.4: can't read configurations, error -32
+> [   67.856455] BUG: kernel NULL pointer dereference, address: 00000000000006d8
+> [   67.856554] #PF: supervisor read access in kernel mode
+> [   67.856635] #PF: error_code(0x0000) - not-present page
+> [   67.856712] PGD 0 P4D 0
+> [   67.856760] Oops: 0000 [#1] SMP
+> [   67.856815] CPU: 2 PID: 97 Comm: kworker/2:2 Not tainted 5.3.0-rc7 #4
+> [   67.856904] Hardware name:  /D34010WYK, BIOS WYLPT10H.86A.0051.2019.0322.1320 03/22/2019
+> [   67.857017] Workqueue: events hub_tt_work
+> [   67.857089] RIP: 0010:xhci_clear_tt_buffer_complete+0x2b/0xb0
+> [   67.857173] Code: 57 41 56 41 55 49 89 f5 41 54 55 53 48 89 fb e8 db 94 fd ff 85 c0 75 07 48 8b 9b 58 03 00 00 49 8b 45 28 4c 8d a3 90 03 00 00 <8b> a8 d8 06 00 00 41 f6 45 03 03 75 60 45 0f b6 75 02 41 83 e6 0f
+> [   67.857404] RSP: 0018:ffffa6020029fde8 EFLAGS: 00010202
+> [   67.857482] RAX: 0000000000000000 RBX: ffff94cd55358000 RCX: 00000000000001f3
+> [   67.857577] RDX: 00000000000001f2 RSI: ffff94cd50db2850 RDI: ffff94cd55358000
+> [   67.857672] RBP: ffff94cd55372000 R08: 0000000000000000 R09: 0000000000000000
+> [   67.857767] R10: 0000000000000000 R11: 0000000000000000 R12: ffff94cd55358390
+> [   67.857860] R13: ffff94cd50db2850 R14: dead000000000122 R15: dead000000000100
+> [   67.857956] FS:  0000000000000000(0000) GS:ffff94cd57900000(0000) knlGS:0000000000000000
+> [   67.858060] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [   67.858141] CR2: 00000000000006d8 CR3: 0000000213baa001 CR4: 00000000001606e0
+> [   67.858236] Call Trace:
+> [   67.858287]  hub_tt_work+0x154/0x190
+> [   67.858353]  process_one_work+0x2a0/0x600
+> [   67.858425]  worker_thread+0x34/0x3d0
+> [   67.858490]  ? process_one_work+0x600/0x600
+> [   67.858558]  kthread+0x118/0x130
+> [   67.858614]  ? kthread_create_on_node+0x60/0x60
+> [   67.858688]  ret_from_fork+0x3a/0x50
+> [   67.858753] Modules linked in: netconsole ftdi_sio x86_pkg_temp_thermal usbserial usblcd
+> [   67.858865] CR2: 00000000000006d8
+> [   67.858922] ---[ end trace 7fb6e59f68b07112 ]---
+> 
+> Address 00000000000006d8 is udev->slot_id (line 5203) so apparently
+>> 	udev = (struct usb_device *)ep->hcpriv;
+> 
+> can be NULL here.
+> 
 
-On Wed, Sep 25, 2019 at 3:44 AM Peter Chen <peter.chen@nxp.com> wrote:
->
->
-> >
-> > Hi Fabio, Peter, Stefan,
-> >
-> > I've incidentally discovered your last year discussion in ML [1] (I hop=
-e it rings the
-> > bell) regarding the issue I'm still observing on the same device with t=
-he mainline
-> > kernel.
-> >
-> > The difference between i.MX 6ULL EVK and this particular device, is tha=
-t usbotg2 is
-> > used only in host mode with the usb hub integrated on the carrier board=
- [2] [3].
-> >
-> > root@colibri-imx6:~# lsusb -s 1:1 --tree
-> > /:  Bus 01.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dci_hdrc/1p, 480M
-> >     |__ Port 1: Dev 2, If 0, Class=3DHub, Driver=3Dhub/4p, 480M
-> >
-> > However I can't reproduce the same behavior with i.MX 6ULL EVK with con=
-nected
-> > usb hub to usbotg2. Also this behavior can't be reproduced with NXP dow=
-nstream
-> > kernel (Linux version 4.9.144) on my device.
-> >
-> > After digging in a bit I found out that this happens only when autosusp=
-end is
-> > enabled for the usb controller:
-> > echo auto > /sys/bus/usb/devices/1-1/power/control
-> >
-> > It tries to go to suspend mode, but everytime fails and resumes:
-> > root@colibri-imx6:~# cat /sys/bus/usb/devices/1-1/power/runtime_status
-> > suspended
-> > root@colibri-imx6:~# cat /sys/bus/usb/devices/1-1/power/runtime_status
-> > resuming
-> > root@colibri-imx6:~# cat /sys/bus/usb/devices/1-1/power/runtime_status
-> > suspended
-> > root@colibri-imx6:~# cat /sys/bus/usb/devices/1-1/power/runtime_status
-> > suspended
-> > root@colibri-imx6:~# cat /sys/bus/usb/devices/1-1/power/runtime_status
-> > suspended
-> > root@colibri-imx6:~# cat /sys/bus/usb/devices/1-1/power/runtime_status
-> > resuming
-> >
-> > I'm observing ~2 seconds wakeup interrupts handled in ci_irq() in core.=
-c and
-> > subsequent invocation of imx_controller_resume().
-> >
-> > Meantime usboh3 remains enabled all the time (though
-> > imx_disable_unprepare_clks() should disable it):
-> > root@colibri-imx6:~# cat /sys/kernel/debug/clk/clk_summary | grep usb
-> >     usbphy2_gate                      1        1        0           0
-> >         0     0  50000
-> >     usbphy1_gate                      1        1        0           0
-> >         0     0  50000
-> >           pll7_usb_host               1        1        0   480000000
-> >         0     0  50000
-> >              usbphy2                  1        1        0   480000000
-> >         0     0  50000
-> >           pll3_usb_otg                2        3        0   480000000
-> >         0     0  50000
-> >              usbphy1                  0        0        0   480000000
-> >         0     0  50000
-> >                          usboh3       1        1        0    66000000
-> >         0     0  50000
-> >
-> > While I'm trying to localize the root cause, maybe you can give some hi=
-nts where to
-> > look into?
-> >
->
-> Would you please look below two downstream patches see if it helps?
->
-> commit e8e95658fe75f3873e06d5ad72a6bf0bad40f068
-> Author: Li Jun <jun.li@nxp.com>
-> Date:   Mon Oct 16 23:13:19 2017 +0800
->
->     MLK-16576 usb: phy: mxs: set hold_ring_off for USB2 PLL power up
->
->     USB2 PLL use ring VCO, when the PLL power up, the ring VCO=E2=80=99s =
-supply also
->     ramp up. There is a possibility that the ring VCO start oscillation a=
-t
->     multi nodes in this phase, especially for VCO which has many stages, =
-then
->     the multiwave will kept until PLL power down. Hold_ring_off(bit11) ca=
-n
->     force the VCO in one determined state when VCO supply start ramp up, =
-to
->     avoid this multiwave issue. Per IC design's suggestion it's better th=
-is
->     bit can be off from 25us after pll power up to 25us before USB TX/RX.
->
->
-> commit aa4680d844a340a5b6b60484f6e04cb9ba613c65
-> Author: Peter Chen <peter.chen@nxp.com>
-> Date:   Wed Sep 7 12:16:59 2016 +0800
->
->     MLK-13125 usb: phy: phy-mxs-usb: enable weak 1p1 regulator for imx6ul=
- during suspend
->
->     For imx6ul PHY, when the system enters suspend, its 1p1 is off by def=
-ault,
->     that may cause the PHY get inaccurate USB DP/DM value. If the USB wak=
-eup
->     is enabled at this time, the unexpected wakeup may occur when the sys=
-tem
->     enters suspend.
->
->     In this patch, when the vbus is there, we enable weak 1p1 during the =
-PHY
->     suspend API, in that case, the USB DP/DM will be accurate for USB PHY=
-,
->     then unexpected usb wakeup will not be occurred, especially for the U=
-SB
->     charger is connected scenario. The user needs to enable PHY wakeup fo=
-r
->     USB wakeup function using below setting.
->
-> Peter
->
-> > Thanks for helping me!
-> >
-> > [1]
-> > https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fmar=
-c.info%2
-> > F%3Fl%3Dlinux-
-> > usb%26m%3D151844741732751&amp;data=3D02%7C01%7Cpeter.chen%40nxp.co
-> > m%7Cb61742d4ff4646c2cb9408d740d735fe%7C686ea1d3bc2b4c6fa92cd99c5c30
-> > 1635%7C0%7C0%7C637049165376859788&amp;sdata=3DeZdOVCuyVyA502DgwoN
-> > 16QmU5WDknrqCK5xmEbIovAE%3D&amp;reserved=3D0
-> > [2]
-> > https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgit=
-hub.com%
-> > 2Ftorvalds%2Flinux%2Fblob%2Fmaster%2Farch%2Farm%2Fboot%2Fdts%2Fimx6
-> > ull-
-> > colibri.dtsi%23L191&amp;data=3D02%7C01%7Cpeter.chen%40nxp.com%7Cb61742d
-> > 4ff4646c2cb9408d740d735fe%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C
-> > 0%7C637049165376859788&amp;sdata=3D7%2FVP15v1XGeQzweIu%2FaGhJEt1ov
-> > Tn4zl%2F3pghKBcGlw%3D&amp;reserved=3D0
-> > [3]
-> > https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgit=
-hub.com%
-> > 2Ftorvalds%2Flinux%2Fblob%2Fmaster%2Farch%2Farm%2Fboot%2Fdts%2Fimx6
-> > ull-colibri-eval-
-> > v3.dtsi%23L143&amp;data=3D02%7C01%7Cpeter.chen%40nxp.com%7Cb61742d4ff4
-> > 646c2cb9408d740d735fe%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7
-> > C637049165376859788&amp;sdata=3DM43BXrJedKgszOJkZ9W4h5bqQo9WBaxe7C
-> > L4tAD2Ouk%3D&amp;reserved=3D0
-> >
-> > --
-> > Best regards - Freundliche Gr=C3=BCsse - Meilleures salutations
-> >
-> > Igor Opaniuk
-> >
-> > mailto: igor.opaniuk@gmail.com
-> > skype: igor.opanyuk
-> > +380 (93) 836 40 67
-> > https://eur01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fua.l=
-inkedin.co
-> > m%2Fin%2Fiopaniuk&amp;data=3D02%7C01%7Cpeter.chen%40nxp.com%7Cb61742
-> > d4ff4646c2cb9408d740d735fe%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7
-> > C0%7C637049165376859788&amp;sdata=3DqzgWZaeraIUjiLG24s9x%2BUQEnRrJ2
-> > TiRKD%2F6ndna4Ws%3D&amp;reserved=3D0
+Ah, Thanks, I see.
+Endpoint halts during enumeration while reading the configuration descriptor.
+xhci will reset the endpoint and call usb_hub_clear_tt_buffer(), which sets
+ep->hcpriv = udev, and schedules hub_tt_work() before it returns -EPIPE (-32)
 
+As reading the configuration descriptor fails usb core will retry the enumeration,
+but if frees the udev and reallocates a new one for each retry.
+By the time hub_tt_work() runs, the old, freed udev which is set in ep->hcpriv
+is already freed and NULL.
+  
+I'll dig a bit more to see if anything else is needed than just checking if
+ep->hcpriv is NULL
 
-Unfortunately these two commits didn't help (+ 'MLK-10170 usb: phy:
-mxs: keep USBPHY2's clk always on',
-which one of the commits depends on).
-
-
---=20
-Best regards - Freundliche Gr=C3=BCsse - Meilleures salutations
-
-Igor Opaniuk
-
-mailto: igor.opaniuk@gmail.com
-skype: igor.opanyuk
-+380 (93) 836 40 67
-http://ua.linkedin.com/in/iopaniuk
+-Mathias
