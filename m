@@ -2,134 +2,111 @@ Return-Path: <SRS0=h0Q6=XZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A916C32792
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 15:23:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 713BBC35280
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 16:13:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 792252190F
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 15:23:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 44C9F216F4
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 16:13:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1569859991;
+	bh=Y6bBCAhnoN+oQaM/xasUAOl9f9CxTcwf2xIOYgxYlZ4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=uZxtXHSGk+Wn5IsUJMmoRO7LICXpDgYyfkj5U381gdEHGc+o+zGa7IDBklEdU4Tzl
+	 YBtCI0xoU7TxFrhRIGXn84lsTy4TtMhnI0W32izyM/Ic0cNnxptUxULWxF3eamXOPa
+	 R8ZUyHgVjX0EeGRw6xZNQtxZ4P7zIsutypv7j9Tg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731870AbfI3PXf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 30 Sep 2019 11:23:35 -0400
-Received: from muru.com ([72.249.23.125]:34912 "EHLO muru.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731276AbfI3PXf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 30 Sep 2019 11:23:35 -0400
-Received: from atomide.com (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id 706DB80FA;
-        Mon, 30 Sep 2019 15:24:06 +0000 (UTC)
-Date:   Mon, 30 Sep 2019 08:23:30 -0700
-From:   Tony Lindgren <tony@atomide.com>
-To:     Yegor Yefremov <yegorslists@googlemail.com>
-Cc:     linux-omap@vger.kernel.org, vkoul@kernel.org,
-        Bin Liu <b-liu@ti.com>, linux-usb <linux-usb@vger.kernel.org>,
-        Andrey Skvortsov <andrej.skvortzov@gmail.com>,
-        giulio.benetti@benettiengineering.com,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: Re: musb: cppi41: broken high speed FTDI functionality when
- connected to musb directly
-Message-ID: <20190930152330.GH5610@atomide.com>
-References: <CAGm1_kuK6aA1ew9ZY-fVDUE+o71u1QaSg0kfX2jWUWE9Me8Tjg@mail.gmail.com>
- <CAGm1_kuQTtyrdwXAV9NCHnvj3f5d7TixmqCPw=Cxd2A=jKSYmg@mail.gmail.com>
- <20190927151935.GD5610@atomide.com>
- <20190927155738.GF5610@atomide.com>
- <CAGm1_kvvMc848f6f+kg5K2sQ3+NHA-Se7T_pcwQfrB=4GfZM4Q@mail.gmail.com>
- <CAGm1_kvZpYH+NP8JfYJWE2v3E9v+yFs20L8MSKsAjfC_g+GmaQ@mail.gmail.com>
- <CAGm1_ktjndofS_N-qh7GVRuJFG1Jn87rf4D8Lt2XMj=+RrL2aw@mail.gmail.com>
- <20190930145711.GG5610@atomide.com>
+        id S1732251AbfI3QNC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 30 Sep 2019 12:13:02 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:37340 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732197AbfI3QNA (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Sep 2019 12:13:00 -0400
+Received: by mail-lj1-f196.google.com with SMTP id l21so10126667lje.4;
+        Mon, 30 Sep 2019 09:12:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=JUd78FTTvuyVB+HT3mJkVtnKhl3dv/ZLiCCH/pdhHmA=;
+        b=FxJQL6lCkGTG0oUl43mi4YekI03/XjCm5fFn8/M3uXElezfRm2WQnfV9cn4bUXz+Rn
+         +Gba7ZX3I4k1eLrrLWyCb3vXfThBiO0Kl6jQtZe0l1TgKXoJLt08jKskCXplI8kVaNSL
+         UgWji3ez1r4GpKyG4sfL4Qks4wkPaVRHCeZxY43E5wlC0O1jpxNwN5pyg8H5/PFFMusb
+         Q1+hJ9PvTCOgd4dkBhxKLn4de6VplHVafxoaqyH7A9m0UUMgbyHQ+q0+S/tIecUh48B9
+         mCjiimHnyiAeR/7fX6eXRcdg/TT1WjnAbz6XzZy+oXwBSVHNT6OeRPyetTXE0P+avNFA
+         TChg==
+X-Gm-Message-State: APjAAAW9ld9T37Qjjs//KiLkd3U+ZuOOYDHmbAxtKTPEYqKjs/yMHCMq
+        uY01Jc1MCiAgdI1RQqeuRvM=
+X-Google-Smtp-Source: APXvYqyMcyWg8CQU5WiXBG5Yfg/ymiXCJ4rndvXh9ArLihkSuRJk+9BdMWklYGgOcheOVUnTfeII/g==
+X-Received: by 2002:a2e:9185:: with SMTP id f5mr12836712ljg.235.1569859975984;
+        Mon, 30 Sep 2019 09:12:55 -0700 (PDT)
+Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
+        by smtp.gmail.com with ESMTPSA id n25sm3459850ljc.107.2019.09.30.09.12.53
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 30 Sep 2019 09:12:53 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.92.2)
+        (envelope-from <johan@xi.terra>)
+        id 1iEyIG-0004uU-8n; Mon, 30 Sep 2019 18:13:00 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Pete Zaitcev <zaitcev@redhat.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+        stable <stable@vger.kernel.org>
+Subject: [PATCH 2/4] USB: usblp: fix runtime PM after driver unbind
+Date:   Mon, 30 Sep 2019 18:12:03 +0200
+Message-Id: <20190930161205.18803-3-johan@kernel.org>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190930161205.18803-1-johan@kernel.org>
+References: <20190930161205.18803-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190930145711.GG5610@atomide.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-* Tony Lindgren <tony@atomide.com> [190930 14:57]:
-> * Yegor Yefremov <yegorslists@googlemail.com> [190930 08:20]:
-> > On Mon, Sep 30, 2019 at 8:59 AM Yegor Yefremov
-> > <yegorslists@googlemail.com> wrote:
-> > >
-> > > On Sat, Sep 28, 2019 at 6:09 PM Yegor Yefremov
-> > > <yegorslists@googlemail.com> wrote:
-> > > >
-> > > > On Fri, Sep 27, 2019 at 5:57 PM Tony Lindgren <tony@atomide.com> wrote:
-> > > > > Looks like I'm unable to reproduce this with bbb and FT232R
-> > > > > USB UART.
-> > > > >
-> > > > > I tried v5.3 with omap2plus_defconfig, then boot, load musb
-> > > > > and ftdi-sio modules, then connect ftdi directly to bbb,
-> > > > > and then run "minicom -D /dev/ttyUSB0" on bbb and it works
-> > > > > just fine for me.
-> > > > >
-> > > > > I tried also rebooting the device inbetween in case it only
-> > > > > happens on the first connect after boot but still no luck
-> > > > > reproducing.
-> > > >
-> > > > Strange. I've used a loopback to check whether the characters will be echoed.
-> > > > FTDI cable was connected all the time so that I could check RX right after boot.
-> > > > Both Buildroot and OpenWrt rootfs's showed this behaviour.
-> > > >
-> > > > > Maybe try adding some debug prints to cppi41_runtime_suspend()
-> > > > > and cppi41_runtime_resume() to see if gets runtime suspended
-> > > > > too early?
-> > > >
-> > > > Will do on Mo.
-> > >
-> > > I've added the printks to both routines and the result is quite
-> > > interesting. On the system with a directly attached FTDI both routines
-> > > will be always invoked before (resume) and after (suspend) the
-> > > test/minicom i.e. during the USB initialization.
-> > >
-> > > On the systems with a USB hub, these routines will be invoked only
-> > > during the USB initialization and the last invocation is resume.
-> > > During the test, there are no invocations.
-> 
-> Hmm OK thanks. Hard to say still based on that what might be missing.
-> 
-> I just tried also musb and phy built-in with FTDI connected on
-> boot, but still no luck reproducing the issue here.
-> 
-> > Removing PM routines workarounds the issue. Quick and dirty.
-> > 
-> >  static struct platform_driver cpp41_dma_driver = {
-> >           .probe  = cppi41_dma_probe,
-> >           .remove = cppi41_dma_remove,
-> >           .driver = {
-> >                   .name = "cppi41-dma-engine",
-> >                   /*.pm = &cppi41_pm_ops,*/
-> >                   .of_match_table = of_match_ptr(cppi41_dma_ids),
-> >           },
-> >   };
-> 
-> Well doing something like this to disable autosuspend might
-> be less intrusive until this one is fixed:
-> 
-> # echo on > /sys/bus/platform/drivers/musb-hdrc/musb-hdrc.1/power/control
-> 
-> But before that, maybe try with control set to auto, and increase the
-> autosuspend_delay_ms from 500 ms to let's say 2500 ms:
-> 
-> # echo 2500 > /sys/bus/platform/drivers/musb-hdrc/musb-hdrc.1/power/autosuspend_delay_ms
-> 
-> That is assuming the musb instance is 1 on your board, replace
-> with musb-hdrc.0 if a different interface from bbb.
+Since commit c2b71462d294 ("USB: core: Fix bug caused by duplicate
+interface PM usage counter") USB drivers must always balance their
+runtime PM gets and puts, including when the driver has already been
+unbound from the interface.
 
-Actually playing with the cppi41 timeout might be more suitable here,
-they use the same module clock from what I remember though. So
-maybe increase the cppi41 autosuspend_timeout from 100 ms to 500 ms
-or higher:
+Leaving the interface with a positive PM usage counter would prevent a
+later bound driver from suspending the device.
 
-# echo 500 > /sys/bus/platform/drivers/cppi41-dma-engine/47400000.dma-controller/power/autosuspend_delay_ms
+Fixes: c2b71462d294 ("USB: core: Fix bug caused by duplicate interface PM usage counter")
+Cc: stable <stable@vger.kernel.org>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/class/usblp.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-If changing the autosuspend_timeout_ms value does not help, then
-try setting control to on there.
+diff --git a/drivers/usb/class/usblp.c b/drivers/usb/class/usblp.c
+index 7fea4999d352..fb8bd60c83f4 100644
+--- a/drivers/usb/class/usblp.c
++++ b/drivers/usb/class/usblp.c
+@@ -461,10 +461,12 @@ static int usblp_release(struct inode *inode, struct file *file)
+ 
+ 	mutex_lock(&usblp_mutex);
+ 	usblp->used = 0;
+-	if (usblp->present) {
++	if (usblp->present)
+ 		usblp_unlink_urbs(usblp);
+-		usb_autopm_put_interface(usblp->intf);
+-	} else		/* finish cleanup from disconnect */
++
++	usb_autopm_put_interface(usblp->intf);
++
++	if (!usblp->present)		/* finish cleanup from disconnect */
+ 		usblp_cleanup(usblp);
+ 	mutex_unlock(&usblp_mutex);
+ 	return 0;
+-- 
+2.23.0
 
-Regards,
-
-Tony
