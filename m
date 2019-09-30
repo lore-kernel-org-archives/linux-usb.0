@@ -2,155 +2,80 @@ Return-Path: <SRS0=h0Q6=XZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.0 required=3.0 tests=DATE_IN_PAST_03_06,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBC5AC32792
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 22:39:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20F63C35280
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 23:07:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BFDAC20842
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 22:39:37 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=aaront.org header.i=@aaront.org header.b="jPTuvmF9";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="dP7XPrnM"
+	by mail.kernel.org (Postfix) with ESMTP id E055D2081B
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 23:07:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1569884837;
+	bh=8JsEn1WaiPi8tKuvhrZOG0udUCcKVw9Fd3sKPUTFFAQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=Uuo9NRS5bXBFMDAVAcUIR8X5DxoU1urEGWe5qKXP6QjUT28/uYxTdBfmOztBiuIaJ
+	 4GCTQdgyUm6jZkFjNmINeZSua6fUhOS9mLJ2uekLB+IBf3JI0RFlUiz55NZAvKTcQa
+	 eHbf6lxhYaf6EwYFkAfQqL3LV+svobwk1M2KFEJc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729245AbfI3Wjf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 30 Sep 2019 18:39:35 -0400
-Received: from a27-51.smtp-out.us-west-2.amazonses.com ([54.240.27.51]:43960
-        "EHLO a27-51.smtp-out.us-west-2.amazonses.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731123AbfI3Wje (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Sep 2019 18:39:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=ude52klaz7ukvnrchdbsicqdl2lnui6h; d=aaront.org; t=1569870369;
-        h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-        bh=5wKw4aJWQB6UjLX7Fgfa/tSdWBuvi7EYyl6seWKxYV4=;
-        b=jPTuvmF94nV74kR5ORRY4xezAedQ0p8vrCSJX8qqZszBMvFGOPKDBB/mZELW+f4q
-        Xz6DqbAIwGOLTNuHtzzGD50myZm4Sl6A/igV4csaUGiDevv+NOcxc2PIg8G/d+wcejg
-        zhYpxPYi30lKdNEXInldqpu0VWwh9ePbh4RaTvfw=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-        s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1569870369;
-        h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding:Feedback-ID;
-        bh=5wKw4aJWQB6UjLX7Fgfa/tSdWBuvi7EYyl6seWKxYV4=;
-        b=dP7XPrnMr85zvwkvAVBWMuq0gCIOow4irz20dxFi68sG0vERLdp8zXPk3ih4f/g2
-        d8ohZbPoPPCd4St6ayoAjMyY72u5PHbc3TjgU32eCXZWyBNe0nL+JswIsR4d+kuVum6
-        VjevA5ea18FFCljkJOLdXU+/o+j0E5SGOZmqOAgw=
-X-Gm-Message-State: APjAAAXBm7/ZOwgLrD8Ab3Z2nKqaoRz/PB6Js3fONm8EIPG8YvSaSXxP
-        emWK/uorIkwilyyIMGzvd0EokaQntaNGkpMP3zs=
-X-Google-Smtp-Source: APXvYqztlmsfPuBgRs2T8VvmwSOx7HBolyCHeaxA6byK1qakB1rnu54zIFc+bnmemCrw3/VkCtWeES9WgBnSh68sv7A=
-X-Received: by 2002:a81:5082:: with SMTP id e124mr13475210ywb.39.1569870367655;
- Mon, 30 Sep 2019 12:06:07 -0700 (PDT)
+        id S1729874AbfI3XHQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 30 Sep 2019 19:07:16 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:34535 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726789AbfI3XHP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Sep 2019 19:07:15 -0400
+Received: by mail-ot1-f68.google.com with SMTP id m19so9922598otp.1;
+        Mon, 30 Sep 2019 16:07:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=zDj+DK0QCFIN576pryZq/Y62yXQtYLQJm8d8iZrEbOs=;
+        b=HbJldpxWnsMDFgb6VP6Z0kZWFJt00UxqiNBSNqrumszmpxQBSxaGQt9FyhSdFzdJwL
+         j1bkr+RC5YTjA63FzQ5hyZNSRn45ODrlhUGNAXgNEdfpfI5+OMmTgQAfzfUst3ZbOZia
+         TrnW7zaqIMoDGltmW3vPAG+A5IbCc93/3nbAmlJHQnSNkbD+zqr+73utuByEFUUD4I22
+         zRGuwZJSTDHzGTsUUBGZcg5miMX9mphdP0z3p+AfzGh+31KG1DwCef3Wb4qDmBP9z4zz
+         B0jYmEwSIAg1/feRt94BJMDXaSM1hY7ACImRogDcVv3spu2kTMFAiPSTvwTP4c1zWDja
+         DJqw==
+X-Gm-Message-State: APjAAAVWAk1FDcvvPSe/610EToH2MkT3arh61eo11xkLwO82959b5UTc
+        dP6NHg9O/vfW2OiYphqhsA==
+X-Google-Smtp-Source: APXvYqyQJmQ4TDFGrSERGcpSMAOM1nVOQW8uwKCO9Rm+l0q+Hb6q01p0DIVO2XgqJFm32fxqYe8POA==
+X-Received: by 2002:a05:6830:10c5:: with SMTP id z5mr16004320oto.322.1569884835109;
+        Mon, 30 Sep 2019 16:07:15 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id j9sm4414823oij.15.2019.09.30.16.07.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Sep 2019 16:07:14 -0700 (PDT)
+Date:   Mon, 30 Sep 2019 18:07:14 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     richard.leitner@skidata.com, robh+dt@kernel.org,
+        fancer.lancer@gmail.com, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, kernel@pengutronix.de
+Subject: Re: [PATCH 1/4] dt-bindings: usb: usb251xb: add documentation for
+ voltage supply
+Message-ID: <20190930230714.GA29817@bogus>
+References: <20190917144449.32739-1-m.felsch@pengutronix.de>
+ <20190917144449.32739-2-m.felsch@pengutronix.de>
 MIME-Version: 1.0
-References: <0100016d5bc55d05-d2c923f3-a4bb-4ba7-8adc-031b7d933b52-000000@email.amazonses.com>
- <871rw6ch9p.fsf@miraculix.mork.no>
-In-Reply-To: <871rw6ch9p.fsf@miraculix.mork.no>
-From:   Aaron Thompson <dev@aaront.org>
-Date:   Mon, 30 Sep 2019 19:06:09 +0000
-X-Gmail-Original-Message-ID: <CABeuQhss-jvs1=s5k7_ZfhkDg+V6xTtp2VqxuDKEpNE+azZWYg@mail.gmail.com>
-Message-ID: <0101016d8390d0cb-652b297d-5a47-46ee-8447-72e8f13a30f4-000000@us-west-2.amazonses.com>
-Subject: Re: Moschip 7703 USB to serial free to a good home
-To:     =?UTF-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
-Cc:     linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-SES-Outgoing: 2019.09.30-54.240.27.51
-Feedback-ID: 1.us-west-2.OwdjDcIoZWY+bZWuVZYzryiuW455iyNkDEZFeL97Dng=:AmazonSES
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190917144449.32739-2-m.felsch@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Sep 23, 2019 at 11:58 PM Bj=C3=B8rn Mork <bjorn@mork.no> wrote:
->
-> Aaron Thompson <dev@aaront.org> writes:
->
-> > I have a Moschip 7703 USB to single serial port adapter that I'm not
-> > using primarily because it doesn't have an in-tree driver, so I'd be
-> > happy to send it to anyone who would like to add support for it. It
-> > looks like it should be easy to add to the existing mos7720 driver.
-> > Anyone interested?
->
-> Sorry, not interested.  But did you try the obvious fix, even mentioned
-> here under "Moschip MCS7720, MCS7715 driver"?:
-> https://www.kernel.org/doc/Documentation/usb/usb-serial.txt
->
-> Just add the VID/PID to the device table and see what happens.  Just
-> post any error messages or other stuff here, along with the patch you
-> are testing, and you will get help interpreting it.
->
-> Note that you'll probably have to do a minor change in the
-> mos77xx_calc_num_ports() too, since it hardcodes 2 ports. But if you're
-> lucky then that's it.
->
->
-> Bj=C3=B8rn
+On Tue, 17 Sep 2019 16:44:46 +0200, Marco Felsch wrote:
+> Add the optional voltage supply documentation. If not specified the
+> dummy-regulator is used.
+> 
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> ---
+>  Documentation/devicetree/bindings/usb/usb251xb.txt | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-I have tinkered with it and unfortunately it's not that simple. The
-patch below seems to make it work up to 115200 baud in my very minimal
-testing. I have no confidence that it's correct though because I don't
-have any information about the device. I only have the old
-Moschip-authored 7703 driver to refer to and it's quite a bit
-different than the current 7720 driver.
-
-Thanks,
-Aaron
-
-diff --git a/drivers/usb/serial/mos7720.c b/drivers/usb/serial/mos7720.c
-index 18110225..3cef30a 100644
---- a/drivers/usb/serial/mos7720.c
-+++ b/drivers/usb/serial/mos7720.c
-@@ -65,10 +65,12 @@ struct moschip_port {
- #define USB_VENDOR_ID_MOSCHIP 0x9710
- #define MOSCHIP_DEVICE_ID_7720 0x7720
- #define MOSCHIP_DEVICE_ID_7715 0x7715
-+#define MOSCHIP_DEVICE_ID_7703 0x7703
-
- static const struct usb_device_id id_table[] =3D {
-  { USB_DEVICE(USB_VENDOR_ID_MOSCHIP, MOSCHIP_DEVICE_ID_7720) },
-  { USB_DEVICE(USB_VENDOR_ID_MOSCHIP, MOSCHIP_DEVICE_ID_7715) },
-+ { USB_DEVICE(USB_VENDOR_ID_MOSCHIP, MOSCHIP_DEVICE_ID_7703) },
-  { } /* terminating entry */
- };
- MODULE_DEVICE_TABLE(usb, id_table);
-@@ -183,7 +185,7 @@ static inline __u16 get_reg_value(enum mos_regs reg,
-  return 0x0100;
-
-  else       /* serial port reg */
-- return (serial_portnum + 2) << 8;
-+ return (serial_portnum + 3) << 8;
- }
-
- /*
-@@ -988,6 +990,8 @@ static int mos77xx_calc_num_ports(struct usb_serial *se=
-rial,
-  swap(epds->bulk_out[0], epds->bulk_out[1]);
-
-  return 1;
-+        } else if (product =3D=3D MOSCHIP_DEVICE_ID_7703) {
-+                return 1;
-  }
-
-  return 2;
-@@ -1052,7 +1056,7 @@ static int mos7720_open(struct tty_struct *tty,
-struct usb_serial_port *port)
-
-  dev_dbg(&port->dev, "SS::%p LSR:%x\n", mos7720_port, data);
-
-- write_mos_reg(serial, dummy, MOS7720_SP1_REG, 0x02);
-+ write_mos_reg(serial, dummy, MOS7720_SP1_REG, 0x08);
-  write_mos_reg(serial, dummy, MOS7720_SP2_REG, 0x02);
-
-  write_mos_reg(serial, port_number, MOS7720_IER, 0x00);
-@@ -1939,8 +1943,8 @@ static struct usb_serial_driver
-moschip7720_2port_driver =3D {
-  },
-  .description =3D "Moschip 2 port adapter",
-  .id_table =3D id_table,
-- .num_bulk_in =3D 2,
-- .num_bulk_out =3D 2,
-+ .num_bulk_in =3D 1,
-+ .num_bulk_out =3D 1,
-  .num_interrupt_in =3D 1,
-  .calc_num_ports =3D mos77xx_calc_num_ports,
-  .open =3D mos7720_open,
+Acked-by: Rob Herring <robh@kernel.org>
