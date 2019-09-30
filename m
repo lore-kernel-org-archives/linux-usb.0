@@ -2,102 +2,91 @@ Return-Path: <SRS0=h0Q6=XZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.5 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E657DC32792
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 13:14:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E04EAC35280
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 13:50:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B8C112086A
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 13:14:45 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K+x5g7kh"
+	by mail.kernel.org (Postfix) with ESMTP id B71E6216F4
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 13:50:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730977AbfI3NOp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 30 Sep 2019 09:14:45 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:36380 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730740AbfI3NOo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Sep 2019 09:14:44 -0400
-Received: by mail-pf1-f193.google.com with SMTP id y22so5609668pfr.3
-        for <linux-usb@vger.kernel.org>; Mon, 30 Sep 2019 06:14:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tJEDDw3yOxrb71VC5CKbXIkJUsvnUza1w90ltv46DTs=;
-        b=K+x5g7khunftljJLZIgmeOIpYH76mPtnLXbqVBZ8KuZUPtvYEvPR5MMwAVAXUvIoB+
-         aj0ZxkQ/wNglDyyCC7rsb+rJdZztc0wE0+Ta93IibSp2jERAyN/ubwz6UwedyyXC1vaV
-         NAUTqsvmvozN33SaaEtxruvbbbl54D2zsxYsJ/PkhodkeOvz4WdyWR3jEW6oumrmagyX
-         Dz0kjYGzDnNHGTei2kZhyCGaVd4bDMFayuPXGgXZvnNPoRHCdUNK0mcHIqWZNhCXS6b/
-         Jl/iURDz1vUuzMfqRmLw5hJ+zkDFnAiqdDVY/cyy3kcVhHbFQ7KeF+nOPsARPsal0Ok/
-         Dk6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=tJEDDw3yOxrb71VC5CKbXIkJUsvnUza1w90ltv46DTs=;
-        b=ko+j3ybm498eEiCYZuN7A8KuOqFFL6lMCVa4c8fbasp/MkxZVDCKTgBrzO9yLxJQrZ
-         yKcg3TYNTKuaMFzn+JVxfthuF8dj4iEkJDv95qitycA+yfCFZYrJ+ORl/yjnezzzHYhL
-         YvyTFZtIC9aCkPAJjr3MKGjh+UtwaOWszlxTSdijRe1mHGM4ebMXvGM33tYDYoz2DZTa
-         MWVzfOFYN6F0MQsYqQfS6F1sqpW9nZDgmh5UBply/YqI3945ihldCmkX1tTjCEqx7PNS
-         8hBg5IjmlmuIIxMKRbGGCmebrC9uuxbMyzI9p9umWYjYUjRP+HEmcjT+Rto1M7mrZW3O
-         KTxw==
-X-Gm-Message-State: APjAAAWQq/MnjJNbb+SHAYcGIxFVi3L4UXjzLsYaukkFuEaH8+jTJT8f
-        sR8EOO9IYqlczauQ+XYbZ8Y=
-X-Google-Smtp-Source: APXvYqwNpnOToFvHsZh2/ycIPEob2UFuQ9nps8f4cvU29tuzJvkiFqNGKyqPvjt3syNYDIHPQP+FCA==
-X-Received: by 2002:a63:5f09:: with SMTP id t9mr24244532pgb.51.1569849283679;
-        Mon, 30 Sep 2019 06:14:43 -0700 (PDT)
-Received: from voyager.lan ([45.124.203.15])
-        by smtp.gmail.com with ESMTPSA id e14sm12542848pjt.8.2019.09.30.06.14.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2019 06:14:43 -0700 (PDT)
-From:   Joel Stanley <joel@jms.id.au>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, openbmc@lists.ozlabs.org
-Subject: [PATCH] usb: gadget: Quieten gadget config message
-Date:   Mon, 30 Sep 2019 22:44:34 +0930
-Message-Id: <20190930131434.12388-1-joel@jms.id.au>
-X-Mailer: git-send-email 2.23.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1731062AbfI3Nun (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 30 Sep 2019 09:50:43 -0400
+Received: from mx2.suse.de ([195.135.220.15]:36232 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729738AbfI3Nun (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 30 Sep 2019 09:50:43 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 7AF41AF7E;
+        Mon, 30 Sep 2019 13:50:41 +0000 (UTC)
+Message-ID: <1569850516.2639.2.camel@suse.com>
+Subject: Re: WARNING in _chaoskey_fill/usb_submit_urb
+From:   Oliver Neukum <oneukum@suse.com>
+To:     syzbot <syzbot+f5349b421c6213d34ce2@syzkaller.appspotmail.com>,
+        gustavo@embeddedor.com, andreyknvl@google.com,
+        syzkaller-bugs@googlegroups.com, gregkh@linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Date:   Mon, 30 Sep 2019 15:35:16 +0200
+In-Reply-To: <000000000000488dd305933945d2@google.com>
+References: <000000000000488dd305933945d2@google.com>
+Content-Type: multipart/mixed; boundary="=-Va0/YDZugknsz+OWYo1m"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On a system that often re-configures a USB gadget device the kernel log
-is filled with:
 
-  configfs-gadget gadget: high-speed config #1: c
+--=-Va0/YDZugknsz+OWYo1m
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Reduce the verbosity of this print to debug.
+Am Montag, den 23.09.2019, 07:31 -0700 schrieb syzbot:
+> Hello,
+> 
+> syzbot found the following crash on:
+> 
+> HEAD commit:    e0bd8d79 usb-fuzzer: main usb gadget fuzzer driver
+> git tree:       https://github.com/google/kasan.git usb-fuzzer
+> console output: https://syzkaller.appspot.com/x/log.txt?x=1452c6a1600000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=8847e5384a16f66a
+> dashboard link: https://syzkaller.appspot.com/bug?extid=f5349b421c6213d34ce2
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16342d45600000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=166769b1600000
+> 
+> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> Reported-by: syzbot+f5349b421c6213d34ce2@syzkaller.appspotmail.com
 
-Signed-off-by: Joel Stanley <joel@jms.id.au>
----
- drivers/usb/gadget/composite.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+#syz test: https://github.com/google/kasan.git e0bd8d79
+--=-Va0/YDZugknsz+OWYo1m
+Content-Disposition: attachment; filename="0001-USB-chaoskey-fix-error-case-of-a-timeout.patch"
+Content-Type: text/x-patch; name="0001-USB-chaoskey-fix-error-case-of-a-timeout.patch";
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
-index 76883ff4f5bb..b49ec81194c6 100644
---- a/drivers/usb/gadget/composite.c
-+++ b/drivers/usb/gadget/composite.c
-@@ -780,9 +780,9 @@ static int set_config(struct usb_composite_dev *cdev,
- 		result = 0;
- 	}
- 
--	INFO(cdev, "%s config #%d: %s\n",
--	     usb_speed_string(gadget->speed),
--	     number, c ? c->label : "unconfigured");
-+	DBG(cdev, "%s config #%d: %s\n",
-+	    usb_speed_string(gadget->speed),
-+	    number, c ? c->label : "unconfigured");
- 
- 	if (!c)
- 		goto done;
--- 
-2.23.0
+RnJvbSAyN2IwMDg1NzY4YjU1ZjJlZDhmYWY0ZjEyNTQwMjNhMDNkYzNlYjI0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBPbGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2UuY29tPgpEYXRl
+OiBNb24sIDMwIFNlcCAyMDE5IDE1OjE5OjEzICswMjAwClN1YmplY3Q6IFtQQVRDSF0gVVNCOiBj
+aGFvc2tleTogZml4IGVycm9yIGNhc2Ugb2YgYSB0aW1lb3V0CgpJbiBjYXNlIG9mIGEgdGltZW91
+dCBjb21tdW5pY2F0aW9uIHdpdGggdGhlIGRldmljZSBuZWVkcyB0byBiZSBlbmRlZApmcm9tIHRo
+ZSBob3N0IHNpZGUsIGxlc3Qgd2Ugb3ZlcndyaXRlIGFuIGFjdGl2ZSBVUkIKClNpZ25lZC1vZmYt
+Ynk6IE9saXZlciBOZXVrdW0gPG9uZXVrdW1Ac3VzZS5kZT4KLS0tCiBkcml2ZXJzL3VzYi9taXNj
+L2NoYW9za2V5LmMgfCAyICsrCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspCgpkaWZm
+IC0tZ2l0IGEvZHJpdmVycy91c2IvbWlzYy9jaGFvc2tleS5jIGIvZHJpdmVycy91c2IvbWlzYy9j
+aGFvc2tleS5jCmluZGV4IGNmNTgyOGNlOTI3YS4uODUwZjQ2Y2JhY2UyIDEwMDY0NAotLS0gYS9k
+cml2ZXJzL3VzYi9taXNjL2NoYW9za2V5LmMKKysrIGIvZHJpdmVycy91c2IvbWlzYy9jaGFvc2tl
+eS5jCkBAIC0zOTEsNiArMzkxLDggQEAgc3RhdGljIGludCBfY2hhb3NrZXlfZmlsbChzdHJ1Y3Qg
+Y2hhb3NrZXkgKmRldikKIAllbHNlCiAJCXJlc3VsdCA9IGRldi0+dmFsaWQ7CiBvdXQ6CisJLyog
+aW4gY2FzZSBvZiBhIHRpbWVvdXQgKi8KKwl1c2Jfa2lsbF91cmIoZGV2LT51cmIpOyAKIAkvKiBM
+ZXQgdGhlIGRldmljZSBnbyBiYWNrIHRvIHNsZWVwIGV2ZW50dWFsbHkgKi8KIAl1c2JfYXV0b3Bt
+X3B1dF9pbnRlcmZhY2UoZGV2LT5pbnRlcmZhY2UpOwogCi0tIAoyLjE2LjQKCg==
+
+
+--=-Va0/YDZugknsz+OWYo1m--
 
