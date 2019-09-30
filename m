@@ -7,50 +7,50 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F8B8C388F3
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 16:13:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08A4DC32792
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 16:13:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D7E57216F4
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 16:13:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D0B22216F4
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Sep 2019 16:13:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569859995;
-	bh=KelDtzYRHwDrGpc6YZP7ah7SpzPtAxZHrph0WJmy4fI=;
+	s=default; t=1569859997;
+	bh=1CyUodfL5DN4AO2K+oMMfrsSZCmGt+UR874+U98vD/c=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=kkuyilU86dS2sJzSU1XoxSTxOOPe54mobSu7d1Jyt2FMc8peD/RRwTGjur+vpxz9E
-	 fLAKW/fctkfOi4B3ILnQpuayhy4ofMQTSmxy3OCxUvr8xshmOlQa3VKn9651ZqOe31
-	 EzQ5Advxkki+yitTPSdV8E17f1XzJjirKCEDGMDw=
+	b=eknMvzldbDxkPbp/MoBZwOq4x9nMDBzaI7mxaFqc5oFf6XuuzCAedp1D6q4KG0jwZ
+	 4Rk4XPdWS1uHr4eUJNcwW5ya/Lu8Iy4ovbmvZ+jNJE0+fAAvxYnvqRMnBlgCfYtFfo
+	 UaDd+InLM/YLQ01uQAX9YHhxW67xLytwCcYV6QHc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732233AbfI3QNA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 30 Sep 2019 12:13:00 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:47067 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731459AbfI3QM7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Sep 2019 12:12:59 -0400
-Received: by mail-lj1-f196.google.com with SMTP id d1so10081622ljl.13;
-        Mon, 30 Sep 2019 09:12:57 -0700 (PDT)
+        id S1732215AbfI3QM7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 30 Sep 2019 12:12:59 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:39211 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731967AbfI3QM6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Sep 2019 12:12:58 -0400
+Received: by mail-lj1-f195.google.com with SMTP id y3so10117554ljj.6;
+        Mon, 30 Sep 2019 09:12:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gEnKuOgkKrLviOK0l9N8El4AVdrpE1iBgXB7qlP+GeQ=;
-        b=hpG7/EyhFyE3ab0KAxqk0Q0ZWxHxQe1MYsJD5+oo5uhVFEJU0VQwPlwGaL/kbgVqaH
-         4G72Gd10ntqLh5kqrW0o+HIaiYwvLQqlcm0Rv5W73f7EeOmTVU92BPIhDJNpzAOQr1Hy
-         JRpoJVlNwTAiKi2SRLG567vLk4MJ0mdjtCVNGI+YmMyUoQu4PZ3CDCldagFjrXmqx2nD
-         iT38dytEjxwILoLfqWuc+H50m6xUVmqDEAXMWHFyetIv5dqXuOguoIvbBXMPezIbbgF4
-         NlawXEihshrQYMzfF1WsO6kIVI76kMx0CGIMr8rT4u/3knsi4BR0iLaFCC512y6YhehB
-         brKg==
-X-Gm-Message-State: APjAAAXUfQIMKy0o3kJE/0tmMsDB3Qh/gGc1gI9bN/6WPsN3N6rzB2HT
-        GT6nFvoLTAAXfF1G3Sk8bMc=
-X-Google-Smtp-Source: APXvYqwOF/N0CXWKmJ6fTpKEVqlteqCm3V7fFmaN4n3H0vUsPdCvx7havB2AnvyalvE/lHR5MrQ+CQ==
-X-Received: by 2002:a2e:58a:: with SMTP id 132mr12149808ljf.132.1569859976722;
-        Mon, 30 Sep 2019 09:12:56 -0700 (PDT)
+        bh=+DoZWEhn4m4mbnXlcooHkZDNyGpeymNebsUFenCg8nY=;
+        b=bJ//A9B7gRYgkD/y6dlzfF470TqJqe1HYJgyAWMC1JHwBuMa20SxDkMyNtgAimxCpl
+         cPHTnMzzlpNkEeK5qfLxjFwrUadgviGGH6RVMLIjKp0ezteBFThZbspaUzX1fRunTWce
+         VAfv8hj/3EgP2XSXDA+GVNzifJgOpflCwilNh9DPicpP+eGcl5C3iW6tbxjqaP7DN6yc
+         rlH6KBzJg1hhnwG7ljJy84zzzYMp44zS0MYk/kZZ4WAcX/h6L1VXK8He4ygTuLgN8Yks
+         nHilWgXO96BgEVN5m2sek8pAvIRP+X12ULii5ComAnFt4jYTDDqW9OvyUnf/i4RGQxxN
+         9Rnw==
+X-Gm-Message-State: APjAAAVJJq1A2H9rD3TAwEoun5/7u33zomoimdNlDyNKFithyq29Yp7P
+        tWnazZ+x7Ybe9ShjcIBkUj3ZSLSn
+X-Google-Smtp-Source: APXvYqwPqTg0nXl80m6KpqMU5ibiF5xslTyhQgpT+xvaF9gdJN16Loa4YWLcxlnzCiV/KQraRuRTlQ==
+X-Received: by 2002:a2e:87cb:: with SMTP id v11mr12777943ljj.31.1569859975176;
+        Mon, 30 Sep 2019 09:12:55 -0700 (PDT)
 Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id r19sm3447505ljd.95.2019.09.30.09.12.53
+        by smtp.gmail.com with ESMTPSA id i6sm3208417lfc.37.2019.09.30.09.12.53
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 30 Sep 2019 09:12:54 -0700 (PDT)
+        Mon, 30 Sep 2019 09:12:53 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.92.2)
         (envelope-from <johan@xi.terra>)
-        id 1iEyIG-0004uZ-C4; Mon, 30 Sep 2019 18:13:00 +0200
+        id 1iEyIG-0004uP-5Y; Mon, 30 Sep 2019 18:13:00 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -59,9 +59,9 @@ Cc:     Pete Zaitcev <zaitcev@redhat.com>,
         linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
         stable <stable@vger.kernel.org>
-Subject: [PATCH 3/4] USB: serial: fix runtime PM after driver unbind
-Date:   Mon, 30 Sep 2019 18:12:04 +0200
-Message-Id: <20190930161205.18803-4-johan@kernel.org>
+Subject: [PATCH 1/4] USB: usb-skeleton: fix runtime PM after driver unbind
+Date:   Mon, 30 Sep 2019 18:12:02 +0200
+Message-Id: <20190930161205.18803-2-johan@kernel.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190930161205.18803-1-johan@kernel.org>
 References: <20190930161205.18803-1-johan@kernel.org>
@@ -84,25 +84,42 @@ Fixes: c2b71462d294 ("USB: core: Fix bug caused by duplicate interface PM usage 
 Cc: stable <stable@vger.kernel.org>
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/usb-serial.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/usb/usb-skeleton.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/usb/serial/usb-serial.c b/drivers/usb/serial/usb-serial.c
-index a3179fea38c8..8f066bb55d7d 100644
---- a/drivers/usb/serial/usb-serial.c
-+++ b/drivers/usb/serial/usb-serial.c
-@@ -314,10 +314,7 @@ static void serial_cleanup(struct tty_struct *tty)
- 	serial = port->serial;
- 	owner = serial->type->driver.owner;
+diff --git a/drivers/usb/usb-skeleton.c b/drivers/usb/usb-skeleton.c
+index f1a5861a0586..93c3fbc2ab1f 100644
+--- a/drivers/usb/usb-skeleton.c
++++ b/drivers/usb/usb-skeleton.c
+@@ -74,6 +74,7 @@ static void skel_delete(struct kref *kref)
+ 	struct usb_skel *dev = to_skel_dev(kref);
  
--	mutex_lock(&serial->disc_mutex);
--	if (!serial->disconnected)
--		usb_autopm_put_interface(serial->interface);
--	mutex_unlock(&serial->disc_mutex);
-+	usb_autopm_put_interface(serial->interface);
+ 	usb_free_urb(dev->bulk_in_urb);
++	usb_put_intf(dev->interface);
+ 	usb_put_dev(dev->udev);
+ 	kfree(dev->bulk_in_buffer);
+ 	kfree(dev);
+@@ -125,10 +126,7 @@ static int skel_release(struct inode *inode, struct file *file)
+ 		return -ENODEV;
  
- 	usb_serial_put(serial);
- 	module_put(owner);
+ 	/* allow the device to be autosuspended */
+-	mutex_lock(&dev->io_mutex);
+-	if (!dev->disconnected)
+-		usb_autopm_put_interface(dev->interface);
+-	mutex_unlock(&dev->io_mutex);
++	usb_autopm_put_interface(dev->interface);
+ 
+ 	/* decrement the count on our device */
+ 	kref_put(&dev->kref, skel_delete);
+@@ -507,7 +505,7 @@ static int skel_probe(struct usb_interface *interface,
+ 	init_waitqueue_head(&dev->bulk_in_wait);
+ 
+ 	dev->udev = usb_get_dev(interface_to_usbdev(interface));
+-	dev->interface = interface;
++	dev->interface = usb_get_intf(interface);
+ 
+ 	/* set up the endpoint information */
+ 	/* use only the first bulk-in and bulk-out endpoints */
 -- 
 2.23.0
 
