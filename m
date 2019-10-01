@@ -2,113 +2,102 @@ Return-Path: <SRS0=EQXy=X2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DE39C352AA
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 10:17:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E3C7C352AA
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 10:29:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 24FCA21906
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 10:17:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 04ABC21924
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 10:29:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1569925791;
+	bh=q8IRWQ1G5Bh1/mdP9l3riudWvhpGZWC28wSYUMGfaJM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=bQmBo20bndFzq9ZZuU6/dnqaUQmEc2IZXeCisRbeqHOH7kKIoTy7+Y8gLY25ALoFK
+	 N0efI8xxmkTs9dxFWlWn4PGbgmfPJVcoFDdX/1vxmHO9JLZ6jp+CHihknxDAGNYDMN
+	 WedmEiL3Opq4TjMrKbV3QM1PJozKjwggm/ypzUGA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730286AbfJAKRo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Oct 2019 06:17:44 -0400
-Received: from mga03.intel.com ([134.134.136.65]:51739 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726109AbfJAKRo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 1 Oct 2019 06:17:44 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Oct 2019 03:17:43 -0700
-X-IronPort-AV: E=Sophos;i="5.64,570,1559545200"; 
-   d="scan'208";a="366286885"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Oct 2019 03:17:39 -0700
-From:   Jani Nikula <jani.nikula@intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-kernel@vger.kernel.org, Julia Lawall <julia.lawall@lip6.fr>,
-        Vishal Kulkarni <vishal@chelsio.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [Intel-gfx] [PATCH v3] string-choice: add yesno(), onoff(), enableddisabled(), plural() helpers
-In-Reply-To: <20191001095911.GA2945944@kroah.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <8e697984-03b5-44f3-304e-42d303724eaa@rasmusvillemoes.dk> <20191001080739.18513-1-jani.nikula@intel.com> <20191001093849.GA2945163@kroah.com> <87blv0dcol.fsf@intel.com> <20191001095911.GA2945944@kroah.com>
-Date:   Tue, 01 Oct 2019 13:17:36 +0300
-Message-ID: <878sq4db27.fsf@intel.com>
+        id S1730749AbfJAK3m (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Oct 2019 06:29:42 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:40220 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730006AbfJAK3l (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Oct 2019 06:29:41 -0400
+Received: by mail-lf1-f67.google.com with SMTP id d17so9452530lfa.7;
+        Tue, 01 Oct 2019 03:29:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=XEBOz+FE2mSzj8bTRRBXElsPNG8TwUlMu3OH4VYCIKE=;
+        b=naeKcQB6yQnQ+b9vyQKNOIoHnXnYPnL5nFnfd+2afwOHI8jPJhslaKcYNYm3eUOksW
+         qYqcm3wnmSJG73TcFrcfKzDalgyfVAYgS7XVDNVQCAhXJfSt6ku2C0xqocvyt83s3g4/
+         S5MGIbLHFhgyuHCAN3VDiY+CWmWmIbFKNCVHbNOhNODfZ6J0OkGTf/sW4nipFZ+whHfj
+         TRkaTevcseTGMtmHbrmREwc5DJRme7kmfIgnOBqSIhgPA6/4eCyKFBHppwhE8qWtTBbg
+         7TgqvqDE3KOoZthtIQUMyVPvqwgJYSHKZUwo4J6qM6YnMD2gWm+feWbHNaCPN9b/xJ4I
+         3FJw==
+X-Gm-Message-State: APjAAAVf+Xdari43MNKHE1WBsILbeA+ZydlnicUs7SAI4rBphLoYfI8F
+        AC6+NhIRVUy/R0gNkoEJ+lw=
+X-Google-Smtp-Source: APXvYqyTHGCN3wYKNli04woh59rO57J3qnF9hWbaIix7kDk0xpaeXe/u/OtF/L7xZBxd3GVR+r4haw==
+X-Received: by 2002:a19:2313:: with SMTP id j19mr12881735lfj.138.1569925779217;
+        Tue, 01 Oct 2019 03:29:39 -0700 (PDT)
+Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
+        by smtp.gmail.com with ESMTPSA id t16sm3920399ljj.29.2019.10.01.03.29.37
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 01 Oct 2019 03:29:37 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.92.2)
+        (envelope-from <johan@xi.terra>)
+        id 1iFFPe-00036A-2a; Tue, 01 Oct 2019 12:29:46 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>
+Cc:     "David S. Miller" <davem@davemloft.net>, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+        stable <stable@vger.kernel.org>,
+        Bernd Krumboeck <b.krumboeck@gmail.com>
+Subject: [PATCH 2/2] can: usb_8dev: fix use-after-free on disconnect
+Date:   Tue,  1 Oct 2019 12:29:14 +0200
+Message-Id: <20191001102914.4567-3-johan@kernel.org>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191001102914.4567-1-johan@kernel.org>
+References: <20191001102914.4567-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 01 Oct 2019, Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> On Tue, Oct 01, 2019 at 12:42:34PM +0300, Jani Nikula wrote:
->> On Tue, 01 Oct 2019, Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
->> > On Tue, Oct 01, 2019 at 11:07:39AM +0300, Jani Nikula wrote:
->> >> The kernel has plenty of ternary operators to choose between constant
->> >> strings, such as condition ? "yes" : "no", as well as value == 1 ? "" :
->> >> "s":
->> >> 
->> >> $ git grep '? "yes" : "no"' | wc -l
->> >> 258
->> >> $ git grep '? "on" : "off"' | wc -l
->> >> 204
->> >> $ git grep '? "enabled" : "disabled"' | wc -l
->> >> 196
->> >> $ git grep '? "" : "s"' | wc -l
->> >> 25
->> >> 
->> >> Additionally, there are some occurences of the same in reverse order,
->> >> split to multiple lines, or otherwise not caught by the simple grep.
->> >> 
->> >> Add helpers to return the constant strings. Remove existing equivalent
->> >> and conflicting functions in i915, cxgb4, and USB core. Further
->> >> conversion can be done incrementally.
->> >> 
->> >> While the main goal here is to abstract recurring patterns, and slightly
->> >> clean up the code base by not open coding the ternary operators, there
->> >> are also some space savings to be had via better string constant
->> >> pooling.
->> >> 
->> >> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
->> >> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->> >> Cc: intel-gfx@lists.freedesktop.org
->> >> Cc: Vishal Kulkarni <vishal@chelsio.com>
->> >> Cc: netdev@vger.kernel.org
->> >> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->> >> Cc: linux-usb@vger.kernel.org
->> >> Cc: Andrew Morton <akpm@linux-foundation.org>
->> >> Cc: linux-kernel@vger.kernel.org
->> >> Cc: Julia Lawall <julia.lawall@lip6.fr>
->> >> Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
->> >> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org> # v1
->> >
->> > As this is a totally different version, please drop my reviewed-by as
->> > that's really not true here :(
->> 
->> I did indicate it was for v1. Indeed v2 was different, but care to
->> elaborate what's wrong with v3?
->
-> No idea, but I haven't reviewed it yet, so to put my tag on there isn't
-> the nicest...
+The driver was accessing its driver data after having freed it.
 
-Apologies, no harm intended.
+Fixes: 0024d8ad1639 ("can: usb_8dev: Add support for USB2CAN interface from 8 devices")
+Cc: stable <stable@vger.kernel.org>     # 3.9
+Cc: Bernd Krumboeck <b.krumboeck@gmail.com>
+Cc: Wolfgang Grandegger <wg@grandegger.com>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/net/can/usb/usb_8dev.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-At times, I've seen the "# vN" notation used, I suppose both to indicate
-that the *ideas* presented in the earlier version warranted Reviewed-by
-from so-and-so, though this particular version still needs detailed
-review, and that the approval of the reviewer of the earlier version
-should be sought out before merging a subsequent version.
-
-BR,
-Jani.
-
-
+diff --git a/drivers/net/can/usb/usb_8dev.c b/drivers/net/can/usb/usb_8dev.c
+index d596a2ad7f78..8fa224b28218 100644
+--- a/drivers/net/can/usb/usb_8dev.c
++++ b/drivers/net/can/usb/usb_8dev.c
+@@ -996,9 +996,8 @@ static void usb_8dev_disconnect(struct usb_interface *intf)
+ 		netdev_info(priv->netdev, "device disconnected\n");
+ 
+ 		unregister_netdev(priv->netdev);
+-		free_candev(priv->netdev);
+-
+ 		unlink_all_urbs(priv);
++		free_candev(priv->netdev);
+ 	}
+ 
+ }
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.23.0
+
