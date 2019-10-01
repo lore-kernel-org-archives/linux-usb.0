@@ -7,46 +7,47 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 780E6C352AA
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 16:48:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25BF5ECE587
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 16:48:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 43E192168B
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 16:48:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E715420659
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 16:48:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569948501;
-	bh=jgOVQH1oabmmA2tXS0QqxJF8/sUZvCaHERUsbEeTv08=;
+	s=default; t=1569948517;
+	bh=9mMIkBZPeq4VbAZVxocW/1TTx4JVNHnDdhE/8JTQTNY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=jlwY2FWyJO7OOxO2ncohu1d2hdLy0Y7He4qJkFp6+LwnLubl+eXyEqYmh4Y4bu68C
-	 TpPgN/dmBX2/2lfnVcAmjTv1NEV4+1C3Z2gNe3g2r+HrMIHIzU0VW9xhCqNl5PJZCf
-	 z1CZfAfkZywp/zN+pYWsMMl+oCZFWl5avTyZJiAY=
+	b=C/Il8J8JeWFrM8vVVjHMhtn5V8TyEvtJdfblFlpOTE/JHJdBtA8bjTRiN6T99De7c
+	 sPxHAW4qxinRTFoSw2Wy9cpMhvWJ7SxyeDdclzPVJ47SAa6HWARVyRmpwoGkcaugvF
+	 1zuk3XAzUgFkRbUCnumneCzBK5yvTmNvhWFOksUc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390229AbfJAQpS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Oct 2019 12:45:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57740 "EHLO mail.kernel.org"
+        id S2388642AbfJAQsf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Oct 2019 12:48:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57696 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388008AbfJAQpS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 1 Oct 2019 12:45:18 -0400
+        id S2390219AbfJAQpR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 1 Oct 2019 12:45:17 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C786721A4A;
-        Tue,  1 Oct 2019 16:45:16 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 945AF21920;
+        Tue,  1 Oct 2019 16:45:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569948317;
-        bh=jgOVQH1oabmmA2tXS0QqxJF8/sUZvCaHERUsbEeTv08=;
+        s=default; t=1569948316;
+        bh=9mMIkBZPeq4VbAZVxocW/1TTx4JVNHnDdhE/8JTQTNY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qIEJZ5a9VXDNBpx+DIkJmx6A7M6ptuHMVrRVpFm5dvW59n7Ff4Mzcyw0R393TW4qN
-         /5Cx819/iKBlz5T9hQXUwgGXngL3eTdPPLnkwJUE6OXhs77w2X/e9bHkFknVDVN9ce
-         GMZKy6CghOO5/kyTX8J/HSE2NkWBkCd3LhCtl0hc=
+        b=Q94CmLpx2qwtE2yEb69MkmVFmW5wjPPSpF4v0v6YjrA+APloZWtxXmoTcPnHODchQ
+         +uqMQnSSxisMOdZaWMYT67s0YXLcXeDD4ZlSmF49FjyoiUKACJjheg4LriBCm/oxe4
+         pUblBokgHJ3e64hI2TVzxDdL12SMGb6md1pH8Hrk=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
+        syzbot+ce366e2b8296e25d84f5@syzkaller.appspotmail.com,
         Jakub Kicinski <jakub.kicinski@netronome.com>,
-        Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 09/19] usbnet: ignore endpoints with invalid wMaxPacketSize
-Date:   Tue,  1 Oct 2019 12:44:55 -0400
-Message-Id: <20191001164505.16708-9-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.9 08/19] cdc_ncm: fix divide-by-zero caused by invalid wMaxPacketSize
+Date:   Tue,  1 Oct 2019 12:44:54 -0400
+Message-Id: <20191001164505.16708-8-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191001164505.16708-1-sashal@kernel.org>
 References: <20191001164505.16708-1-sashal@kernel.org>
@@ -62,40 +63,42 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Bjørn Mork <bjorn@mork.no>
 
-[ Upstream commit 8d3d7c2029c1b360f1a6b0a2fca470b57eb575c0 ]
+[ Upstream commit 3fe4b3351301660653a2bc73f2226da0ebd2b95e ]
 
 Endpoints with zero wMaxPacketSize are not usable for transferring
 data. Ignore such endpoints when looking for valid in, out and
-status pipes, to make the drivers more robust against invalid and
+status pipes, to make the driver more robust against invalid and
 meaningless descriptors.
 
-The wMaxPacketSize of these endpoints are used for memory allocations
-and as divisors in many usbnet minidrivers. Avoiding zero is therefore
-critical.
+The wMaxPacketSize of the out pipe is used as divisor. So this change
+fixes a divide-by-zero bug.
 
+Reported-by: syzbot+ce366e2b8296e25d84f5@syzkaller.appspotmail.com
 Signed-off-by: Bjørn Mork <bjorn@mork.no>
 Signed-off-by: Jakub Kicinski <jakub.kicinski@netronome.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/net/usb/usbnet.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/net/usb/cdc_ncm.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
-index a5acbcb3c0445..6d0efeb28f5cb 100644
---- a/drivers/net/usb/usbnet.c
-+++ b/drivers/net/usb/usbnet.c
-@@ -114,6 +114,11 @@ int usbnet_get_endpoints(struct usbnet *dev, struct usb_interface *intf)
- 			int				intr = 0;
+diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
+index 7b158674ceeda..43e28d2b0de7f 100644
+--- a/drivers/net/usb/cdc_ncm.c
++++ b/drivers/net/usb/cdc_ncm.c
+@@ -679,8 +679,12 @@ cdc_ncm_find_endpoints(struct usbnet *dev, struct usb_interface *intf)
+ 	u8 ep;
  
- 			e = alt->endpoint + ep;
+ 	for (ep = 0; ep < intf->cur_altsetting->desc.bNumEndpoints; ep++) {
+-
+ 		e = intf->cur_altsetting->endpoint + ep;
 +
-+			/* ignore endpoints which cannot transfer data */
-+			if (!usb_endpoint_maxp(&e->desc))
-+				continue;
++		/* ignore endpoints which cannot transfer data */
++		if (!usb_endpoint_maxp(&e->desc))
++			continue;
 +
- 			switch (e->desc.bmAttributes) {
- 			case USB_ENDPOINT_XFER_INT:
- 				if (!usb_endpoint_dir_in(&e->desc))
+ 		switch (e->desc.bmAttributes & USB_ENDPOINT_XFERTYPE_MASK) {
+ 		case USB_ENDPOINT_XFER_INT:
+ 			if (usb_endpoint_dir_in(&e->desc)) {
 -- 
 2.20.1
 
