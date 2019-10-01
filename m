@@ -2,101 +2,114 @@ Return-Path: <SRS0=EQXy=X2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A923EC352AA
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 16:51:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40788ECE58A
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 16:52:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 765572168B
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 16:51:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569948673;
-	bh=hiFuDKgtlYWDahlMcqfHbIgMre7xw1LSAcAbW469eu0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=JRlC0KwLbU8MS0/asBeZ0MRUG2RH9pZ4ZI6nzLcmiLvqncE38BPffF39lInbYBocT
-	 yKoyPCmyPsQaFgrQ8NJULiwaZOVXihyrZD8jrZRKUkTrK5maPq0L1mNps/Hd1KCwUA
-	 KTeIEwD5Sq4kXBSJcXziXH9gkNB4nWYSW+Z0bKHY=
+	by mail.kernel.org (Postfix) with ESMTP id 2251521783
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 16:52:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387835AbfJAQoW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Oct 2019 12:44:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56582 "EHLO mail.kernel.org"
+        id S1733219AbfJAQn5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Oct 2019 12:43:57 -0400
+Received: from muru.com ([72.249.23.125]:35046 "EHLO muru.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726638AbfJAQoV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 1 Oct 2019 12:44:21 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8579A21D7B;
-        Tue,  1 Oct 2019 16:44:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569948261;
-        bh=hiFuDKgtlYWDahlMcqfHbIgMre7xw1LSAcAbW469eu0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qSGbzpGyndwV+wLzA42fqzzIRh0qBRbFZdBDcWi32hERzoNWFhKzhWkqEXrIW7KDc
-         gODraB06LSoFF9rEzlpp2kUXHVR0A5muoApcGMC92aud0AqAGXvU0dDjdS0RP5HvBJ
-         OKYFxNOAgUpu/p6nZuWZyX9vsciYs1K/9EHwgJUo=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Oliver Neukum <oneukum@suse.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 42/43] usbnet: sanity checking of packet sizes and device mtu
-Date:   Tue,  1 Oct 2019 12:43:10 -0400
-Message-Id: <20191001164311.15993-42-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191001164311.15993-1-sashal@kernel.org>
-References: <20191001164311.15993-1-sashal@kernel.org>
+        id S1733177AbfJAQn4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 1 Oct 2019 12:43:56 -0400
+Received: from atomide.com (localhost [127.0.0.1])
+        by muru.com (Postfix) with ESMTPS id 6BCCE811B;
+        Tue,  1 Oct 2019 16:44:27 +0000 (UTC)
+Date:   Tue, 1 Oct 2019 09:43:51 -0700
+From:   Tony Lindgren <tony@atomide.com>
+To:     Yegor Yefremov <yegorslists@googlemail.com>
+Cc:     Johan Hovold <johan@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>, linux-omap@vger.kernel.org,
+        vkoul@kernel.org, Bin Liu <b-liu@ti.com>,
+        linux-usb <linux-usb@vger.kernel.org>,
+        Andrey Skvortsov <andrej.skvortzov@gmail.com>,
+        giulio.benetti@benettiengineering.com,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: Re: musb: cppi41: broken high speed FTDI functionality when
+ connected to musb directly
+Message-ID: <20191001164351.GJ5610@atomide.com>
+References: <20190927151935.GD5610@atomide.com>
+ <20190927155738.GF5610@atomide.com>
+ <CAGm1_kvvMc848f6f+kg5K2sQ3+NHA-Se7T_pcwQfrB=4GfZM4Q@mail.gmail.com>
+ <CAGm1_kvZpYH+NP8JfYJWE2v3E9v+yFs20L8MSKsAjfC_g+GmaQ@mail.gmail.com>
+ <CAGm1_ktjndofS_N-qh7GVRuJFG1Jn87rf4D8Lt2XMj=+RrL2aw@mail.gmail.com>
+ <20190930145711.GG5610@atomide.com>
+ <20190930152330.GH5610@atomide.com>
+ <20190930195411.6porqtm7tlokgel3@earth.universe>
+ <20191001080339.GF13531@localhost>
+ <CAGm1_ksg2x9USqB+XGhkMQpA-zc77Ha1-j+foPJFR7R3XPZsNg@mail.gmail.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGm1_ksg2x9USqB+XGhkMQpA-zc77Ha1-j+foPJFR7R3XPZsNg@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Oliver Neukum <oneukum@suse.com>
+* Yegor Yefremov <yegorslists@googlemail.com> [191001 09:20]:
+> On Tue, Oct 1, 2019 at 10:03 AM Johan Hovold <johan@kernel.org> wrote:
+> >
+> > On Mon, Sep 30, 2019 at 09:54:11PM +0200, Sebastian Reichel wrote:
+> > > Hi,
+> > >
+> > > On Mon, Sep 30, 2019 at 08:23:30AM -0700, Tony Lindgren wrote:
+> >
+> > > > Actually playing with the cppi41 timeout might be more suitable here,
+> > > > they use the same module clock from what I remember though. So
+> > > > maybe increase the cppi41 autosuspend_timeout from 100 ms to 500 ms
+> > > > or higher:
+> > > >
+> > > > # echo 500 > /sys/bus/platform/drivers/cppi41-dma-engine/47400000.dma-controller/power/autosuspend_delay_ms
+> > > >
+> > > > If changing the autosuspend_timeout_ms value does not help, then
+> > > > try setting control to on there.
+> > >
+> > > I did not check the details, but from the cover-letter this might be
+> > > woth looking into:
+> > >
+> > > https://lore.kernel.org/lkml/20190930161205.18803-1-johan@kernel.org/
+> >
+> > No, that one should be unrelated as it would only prevent later suspends after
+> > a driver has been unbound (and rebound).
+> 
+> I've tried to increase the autosuspend_delay_ms and to set control to
+> "on" but nothing changes. Below you can see the output of my testing
+> script [1] (Py2 only). As one can see, the first cycle i.e. after the
+> port is open for the first time, fails. But the subsequent cycle is
+> successful. If you invoke the script again, everything repeats.
+> 
+> I've also made printk() in cppi41_run_queue() and it looks like this
+> routine will be called from cppi41_dma_issue_pending() only in the
+> beginning of the second test cycle.
 
-[ Upstream commit 280ceaed79f18db930c0cc8bb21f6493490bf29c ]
+So sounds like for you intially cppi41_dma_issue_pending() has
+!cdd->is_suspended and just adds the request to the queue. And
+then cppi41_run_queue() never gets called if this happens while
+we have cppi41_runtime_resume() is still running?
 
-After a reset packet sizes and device mtu can change and need
-to be reevaluated to calculate queue sizes.
-Malicious devices can set this to zero and we divide by it.
-Introduce sanity checking.
+Can you check that cppi41_dma_issue_pending() really gets
+called for the first request and it adds the request to the
+queue by adding a printk to cppi41_dma_issue_pending()?
 
-Reported-and-tested-by:  syzbot+6102c120be558c885f04@syzkaller.appspotmail.com
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
-Signed-off-by: David S. Miller <davem@davemloft.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/net/usb/usbnet.c | 3 +++
- 1 file changed, 3 insertions(+)
+> [1] http://ftp.visionsystems.de/temp/serialtest.py
 
-diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
-index 52ffb2360cc90..84b354f76dea8 100644
---- a/drivers/net/usb/usbnet.c
-+++ b/drivers/net/usb/usbnet.c
-@@ -356,6 +356,8 @@ void usbnet_update_max_qlen(struct usbnet *dev)
- {
- 	enum usb_device_speed speed = dev->udev->speed;
- 
-+	if (!dev->rx_urb_size || !dev->hard_mtu)
-+		goto insanity;
- 	switch (speed) {
- 	case USB_SPEED_HIGH:
- 		dev->rx_qlen = MAX_QUEUE_MEMORY / dev->rx_urb_size;
-@@ -372,6 +374,7 @@ void usbnet_update_max_qlen(struct usbnet *dev)
- 		dev->tx_qlen = 5 * MAX_QUEUE_MEMORY / dev->hard_mtu;
- 		break;
- 	default:
-+insanity:
- 		dev->rx_qlen = dev->tx_qlen = 4;
- 	}
- }
--- 
-2.20.1
+For me this script somehow fails to configure the ports with:
 
+$ python2 serialtest.py -c2 /dev/ttyUSB0 /dev/ttyUSB0
+Openning one of the serial ports failed
+Openning one of the serial ports failed
+
+The permissions are set properly as I have minicom working..
+So still no luck reproducing.
+
+Regards,
+
+Tony
