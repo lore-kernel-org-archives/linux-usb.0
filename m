@@ -2,102 +2,88 @@ Return-Path: <SRS0=EQXy=X2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E3C7C352AA
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 10:29:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 289E2C388F3
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 10:29:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 04ABC21924
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 10:29:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E71D921924
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 10:29:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569925791;
-	bh=q8IRWQ1G5Bh1/mdP9l3riudWvhpGZWC28wSYUMGfaJM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=bQmBo20bndFzq9ZZuU6/dnqaUQmEc2IZXeCisRbeqHOH7kKIoTy7+Y8gLY25ALoFK
-	 N0efI8xxmkTs9dxFWlWn4PGbgmfPJVcoFDdX/1vxmHO9JLZ6jp+CHihknxDAGNYDMN
-	 WedmEiL3Opq4TjMrKbV3QM1PJozKjwggm/ypzUGA=
+	s=default; t=1569925793;
+	bh=KbjfnxWu0tC3Wz95YA+IZV06qZh/7c7tQuKZDDUZI2g=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=EfqMX0ilWa6t4t0XaJYvdV8z5ZOKqejiM5kYLM1KG7+6CWvPdOXayqBBSsPZIRYUZ
+	 egXGeELyJGb675vT/hqbnA+aTAsb3g2YCmjAspGwOUNsjS3hgimOLxVa0WoV25R16P
+	 6+QGZnkAuBImZDK/SPuwOsSJLk87fkQtmQkTUlag=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730749AbfJAK3m (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Oct 2019 06:29:42 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:40220 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730006AbfJAK3l (ORCPT
+        id S1730861AbfJAK3w (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Oct 2019 06:29:52 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:44267 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730596AbfJAK3l (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Oct 2019 06:29:41 -0400
-Received: by mail-lf1-f67.google.com with SMTP id d17so9452530lfa.7;
-        Tue, 01 Oct 2019 03:29:39 -0700 (PDT)
+Received: by mail-lj1-f193.google.com with SMTP id m13so12723432ljj.11;
+        Tue, 01 Oct 2019 03:29:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=XEBOz+FE2mSzj8bTRRBXElsPNG8TwUlMu3OH4VYCIKE=;
-        b=naeKcQB6yQnQ+b9vyQKNOIoHnXnYPnL5nFnfd+2afwOHI8jPJhslaKcYNYm3eUOksW
-         qYqcm3wnmSJG73TcFrcfKzDalgyfVAYgS7XVDNVQCAhXJfSt6ku2C0xqocvyt83s3g4/
-         S5MGIbLHFhgyuHCAN3VDiY+CWmWmIbFKNCVHbNOhNODfZ6J0OkGTf/sW4nipFZ+whHfj
-         TRkaTevcseTGMtmHbrmREwc5DJRme7kmfIgnOBqSIhgPA6/4eCyKFBHppwhE8qWtTBbg
-         7TgqvqDE3KOoZthtIQUMyVPvqwgJYSHKZUwo4J6qM6YnMD2gWm+feWbHNaCPN9b/xJ4I
-         3FJw==
-X-Gm-Message-State: APjAAAVf+Xdari43MNKHE1WBsILbeA+ZydlnicUs7SAI4rBphLoYfI8F
-        AC6+NhIRVUy/R0gNkoEJ+lw=
-X-Google-Smtp-Source: APXvYqyTHGCN3wYKNli04woh59rO57J3qnF9hWbaIix7kDk0xpaeXe/u/OtF/L7xZBxd3GVR+r4haw==
-X-Received: by 2002:a19:2313:: with SMTP id j19mr12881735lfj.138.1569925779217;
-        Tue, 01 Oct 2019 03:29:39 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RoOu79csZ7AqaXDAqptQ6zp2k96qP4QNOgQPeyZoDFU=;
+        b=cgGcquKF1cfyWqEb9ldWejkaQT6zudCzEaGNI+vUHfEMQhhAkfuFDYgVyoMc9JtQ2+
+         KKbqDJfQz9LTLIXWy/Hm5EKq5SRr/+C2xqxXbnls5zcAoxT9aBgVSvYq0TGCYI23gTMP
+         3HaNlpQZNwumwdEPhKQkAP1KfUenFUlWeMcLah+XYIymewDXKPpST9vdnigh3MvkMjUI
+         IzeR0ajNnOg1qfohQtNILehWi2Dt0Qu1itA3PtyjGwrfCCAoNVLa7uDWb/wtnA7PNo79
+         Q7YbxYk3bWpqdqxd0wnGUZY5v13WTu5lTO3utfcSO/b1l6Law15gHiMGhIzzRYu26yvN
+         h6/Q==
+X-Gm-Message-State: APjAAAUBN8urKuaCnifJsh15z3FcKcwnIbAQQZ7RYtUzZ6S/UrkHmhdA
+        TxFGsijYAIukkQw5rLJ8GZAjBRzc
+X-Google-Smtp-Source: APXvYqy54GRLDR5EEHOlj/ts7fyXJ1b7P32u2lWL1YXUKM8Is2BNjEzZ/abrty6SnVfrkSVKNGC1hw==
+X-Received: by 2002:a2e:58a:: with SMTP id 132mr14673453ljf.132.1569925778036;
+        Tue, 01 Oct 2019 03:29:38 -0700 (PDT)
 Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id t16sm3920399ljj.29.2019.10.01.03.29.37
+        by smtp.gmail.com with ESMTPSA id 196sm3881434ljj.76.2019.10.01.03.29.37
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
         Tue, 01 Oct 2019 03:29:37 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.92.2)
         (envelope-from <johan@xi.terra>)
-        id 1iFFPe-00036A-2a; Tue, 01 Oct 2019 12:29:46 +0200
+        id 1iFFPd-000361-5P; Tue, 01 Oct 2019 12:29:45 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Wolfgang Grandegger <wg@grandegger.com>,
         Marc Kleine-Budde <mkl@pengutronix.de>
 Cc:     "David S. Miller" <davem@davemloft.net>, linux-can@vger.kernel.org,
         netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-        stable <stable@vger.kernel.org>,
-        Bernd Krumboeck <b.krumboeck@gmail.com>
-Subject: [PATCH 2/2] can: usb_8dev: fix use-after-free on disconnect
-Date:   Tue,  1 Oct 2019 12:29:14 +0200
-Message-Id: <20191001102914.4567-3-johan@kernel.org>
+        linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: [PATCH 0/2] can: fix use-after-free on USB disconnect
+Date:   Tue,  1 Oct 2019 12:29:12 +0200
+Message-Id: <20191001102914.4567-1-johan@kernel.org>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191001102914.4567-1-johan@kernel.org>
-References: <20191001102914.4567-1-johan@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The driver was accessing its driver data after having freed it.
+Syzbot reported a use-after-free on disconnect in mcba_usb and a quick
+grep revealed a similar issue in usb_8dev.
 
-Fixes: 0024d8ad1639 ("can: usb_8dev: Add support for USB2CAN interface from 8 devices")
-Cc: stable <stable@vger.kernel.org>     # 3.9
-Cc: Bernd Krumboeck <b.krumboeck@gmail.com>
-Cc: Wolfgang Grandegger <wg@grandegger.com>
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
+Compile-tested only.
+
+Johan
+
+
+Johan Hovold (2):
+  can: mcba_usb: fix use-after-free on disconnect
+  can: usb_8dev: fix use-after-free on disconnect
+
+ drivers/net/can/usb/mcba_usb.c | 3 +--
  drivers/net/can/usb/usb_8dev.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/can/usb/usb_8dev.c b/drivers/net/can/usb/usb_8dev.c
-index d596a2ad7f78..8fa224b28218 100644
---- a/drivers/net/can/usb/usb_8dev.c
-+++ b/drivers/net/can/usb/usb_8dev.c
-@@ -996,9 +996,8 @@ static void usb_8dev_disconnect(struct usb_interface *intf)
- 		netdev_info(priv->netdev, "device disconnected\n");
- 
- 		unregister_netdev(priv->netdev);
--		free_candev(priv->netdev);
--
- 		unlink_all_urbs(priv);
-+		free_candev(priv->netdev);
- 	}
- 
- }
 -- 
 2.23.0
 
