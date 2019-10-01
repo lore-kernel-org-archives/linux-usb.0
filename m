@@ -4,31 +4,31 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FDD7C352AA
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 11:39:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3E58C388F3
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 11:39:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1C98721906
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 11:39:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B42AF2133F
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 11:39:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732902AbfJALjD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Oct 2019 07:39:03 -0400
-Received: from mga02.intel.com ([134.134.136.20]:39070 "EHLO mga02.intel.com"
+        id S1732877AbfJALjC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Oct 2019 07:39:02 -0400
+Received: from mga12.intel.com ([192.55.52.136]:17385 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732559AbfJALim (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 1 Oct 2019 07:38:42 -0400
+        id S1732685AbfJALin (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 1 Oct 2019 07:38:43 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Oct 2019 04:38:41 -0700
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Oct 2019 04:38:42 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.64,571,1559545200"; 
-   d="scan'208";a="191434986"
+   d="scan'208";a="220968935"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga007.fm.intel.com with ESMTP; 01 Oct 2019 04:38:39 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 01 Oct 2019 04:38:39 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id A2D1C1AD; Tue,  1 Oct 2019 14:38:31 +0300 (EEST)
+        id D4A8577A; Tue,  1 Oct 2019 14:38:31 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Andreas Noever <andreas.noever@gmail.com>,
@@ -43,9 +43,9 @@ Cc:     Andreas Noever <andreas.noever@gmail.com>,
         Mario.Limonciello@dell.com,
         Anthony Wong <anthony.wong@canonical.com>,
         linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 18/22] thunderbolt: Make tb_switch_find_cap() available to other files
-Date:   Tue,  1 Oct 2019 14:38:26 +0300
-Message-Id: <20191001113830.13028-19-mika.westerberg@linux.intel.com>
+Subject: [RFC PATCH 22/22] thunderbolt: Do not start firmware unless asked by the user
+Date:   Tue,  1 Oct 2019 14:38:30 +0300
+Message-Id: <20191001113830.13028-23-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191001113830.13028-1-mika.westerberg@linux.intel.com>
 References: <20191001113830.13028-1-mika.westerberg@linux.intel.com>
@@ -56,52 +56,95 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Rajmohan Mani <rajmohan.mani@intel.com>
+Since now we can do pretty much the same thing in the software
+connection manager than the firmware would do, there is no point
+starting it by default. Instead we can just continue using the software
+connection manager.
 
-We need to find switch capabilities in order to implement TMU support so
-make it available to other files as well.
+Make it possible for user to switch between the two by adding a module
+pararameter (start_icm) which is by default false. Having this ability
+to enable the firmware may be useful at least when debugging possible
+issues with the software connection manager implementation.
 
-Signed-off-by: Rajmohan Mani <rajmohan.mani@intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/cap.c | 11 ++++++++++-
- drivers/thunderbolt/tb.h  |  1 +
- 2 files changed, 11 insertions(+), 1 deletion(-)
+ drivers/thunderbolt/icm.c | 14 +++++++++++---
+ drivers/thunderbolt/tb.c  |  4 ----
+ 2 files changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/thunderbolt/cap.c b/drivers/thunderbolt/cap.c
-index 8bf8e031f0bc..568d878f19f7 100644
---- a/drivers/thunderbolt/cap.c
-+++ b/drivers/thunderbolt/cap.c
-@@ -113,7 +113,16 @@ int tb_port_find_cap(struct tb_port *port, enum tb_port_cap cap)
- 	return ret;
- }
+diff --git a/drivers/thunderbolt/icm.c b/drivers/thunderbolt/icm.c
+index 9c9c6ea2b790..c4a2de0f2a44 100644
+--- a/drivers/thunderbolt/icm.c
++++ b/drivers/thunderbolt/icm.c
+@@ -11,6 +11,7 @@
  
--static int tb_switch_find_cap(struct tb_switch *sw, enum tb_switch_cap cap)
-+/**
-+ * tb_switch_find_cap() - Find switch capability
-+ * @sw Switch to find the capability for
-+ * @cap: Capability to look
-+ *
-+ * Returns offset to start of capability or %-ENOENT if no such
-+ * capability was found. Negative errno is returned if there was an
-+ * error.
-+ */
-+int tb_switch_find_cap(struct tb_switch *sw, enum tb_switch_cap cap)
+ #include <linux/delay.h>
+ #include <linux/mutex.h>
++#include <linux/moduleparam.h>
+ #include <linux/pci.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/platform_data/x86/apple.h>
+@@ -43,6 +44,10 @@
+ #define ICM_APPROVE_TIMEOUT		10000	/* ms */
+ #define ICM_MAX_LINK			4
+ 
++static bool start_icm;
++module_param(start_icm, bool, 0444);
++MODULE_PARM_DESC(start_icm, "start ICM firmware if it is not running (default: false)");
++
+ /**
+  * struct icm - Internal connection manager private data
+  * @request_lock: Makes sure only one message is send to ICM at time
+@@ -1353,13 +1358,16 @@ static bool icm_ar_is_supported(struct tb *tb)
  {
- 	int offset = sw->config.first_cap_offset;
+ 	struct pci_dev *upstream_port;
+ 	struct icm *icm = tb_priv(tb);
++	u32 val;
  
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index 60f237020d1b..1488382066fd 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -709,6 +709,7 @@ struct tb_port *tb_next_port_on_path(struct tb_port *start, struct tb_port *end,
- 				     struct tb_port *prev);
+ 	/*
+ 	 * Starting from Alpine Ridge we can use ICM on Apple machines
+ 	 * as well. We just need to reset and re-enable it first.
++	 * However, only start it if explicitly asked by the user.
+ 	 */
+-	if (!x86_apple_machine)
+-		return true;
++	val = ioread32(tb->nhi->iobase + REG_FW_STS);
++	if (!(val & REG_FW_STS_ICM_EN) && !start_icm)
++		return false;
  
- int tb_switch_find_vse_cap(struct tb_switch *sw, enum tb_switch_vse_cap vsec);
-+int tb_switch_find_cap(struct tb_switch *sw, enum tb_switch_cap cap);
- int tb_port_find_cap(struct tb_port *port, enum tb_port_cap cap);
- bool tb_port_is_enabled(struct tb_port *port);
+ 	/*
+ 	 * Find the upstream PCIe port in case we need to do reset
+@@ -2224,7 +2232,7 @@ struct tb *icm_probe(struct tb_nhi *nhi)
  
+ 	case PCI_DEVICE_ID_INTEL_ICL_NHI0:
+ 	case PCI_DEVICE_ID_INTEL_ICL_NHI1:
+-		icm->is_supported = icm_ar_is_supported;
++		icm->is_supported = icm_fr_is_supported;
+ 		icm->driver_ready = icm_icl_driver_ready;
+ 		icm->set_uuid = icm_icl_set_uuid;
+ 		icm->device_connected = icm_icl_device_connected;
+diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
+index 6c468ba96e9a..aebf2c10aa85 100644
+--- a/drivers/thunderbolt/tb.c
++++ b/drivers/thunderbolt/tb.c
+@@ -9,7 +9,6 @@
+ #include <linux/slab.h>
+ #include <linux/errno.h>
+ #include <linux/delay.h>
+-#include <linux/platform_data/x86/apple.h>
+ 
+ #include "tb.h"
+ #include "tb_regs.h"
+@@ -1117,9 +1116,6 @@ struct tb *tb_probe(struct tb_nhi *nhi)
+ 	struct tb_cm *tcm;
+ 	struct tb *tb;
+ 
+-	if (!x86_apple_machine)
+-		return NULL;
+-
+ 	tb = tb_domain_alloc(nhi, sizeof(*tcm));
+ 	if (!tb)
+ 		return NULL;
 -- 
 2.23.0
 
