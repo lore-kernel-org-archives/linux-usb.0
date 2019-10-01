@@ -2,42 +2,43 @@ Return-Path: <SRS0=EQXy=X2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5677ECE587
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 12:42:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E80B3ECE587
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 12:44:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9669521872
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 12:42:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BEDAA20842
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 12:44:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569933746;
-	bh=pSkMpm9s9s1x//p/Xrcv+CAX9qBFD5KnYugqHGJyNDU=;
+	s=default; t=1569933856;
+	bh=HUG7D2L1xMpD+wT6zwC93RGUDy/6NzX8Tq3e8RB2A9U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=aqlFpifSPf4qve2oEVI1yo+5/diGjcQCFgnpNSjo8iLIp+DQVLFOegwPAZt+lnQEg
-	 /udVxMa1TFYUIKqJ0y41DvF7EfH+z8SRYaz0BeELqqu5nYIKk6Xpy1Y9h04IcQQr0P
-	 MD5aAo+qnOXsv9eQFIi9U8KWL9C69NdDvq3I5mt0=
+	b=1Tja6VRcb+JdV7x74LAmv8KkHsxrpRMAsZcheRHH9HZn3dtsmledwk2A4VEbAPSmS
+	 FmvVfZW1MLS71eHDvkawnNWOTrgY/+zNMI1Gc68PpJGTqf55ZvZG2eDquyHo21vj23
+	 /abpBrTVHHjk+OnX/KTYNiuBNeaRffBs0N3Mz8d0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388018AbfJAMmW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Oct 2019 08:42:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39250 "EHLO mail.kernel.org"
+        id S2387953AbfJAMoN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Oct 2019 08:44:13 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39892 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725821AbfJAMmR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 1 Oct 2019 08:42:17 -0400
+        id S2387921AbfJAMoM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 1 Oct 2019 08:44:12 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F2B8020842;
-        Tue,  1 Oct 2019 12:42:16 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8DEEB20842;
+        Tue,  1 Oct 2019 12:44:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569933737;
-        bh=pSkMpm9s9s1x//p/Xrcv+CAX9qBFD5KnYugqHGJyNDU=;
+        s=default; t=1569933852;
+        bh=HUG7D2L1xMpD+wT6zwC93RGUDy/6NzX8Tq3e8RB2A9U=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SwixsgCpVZ8cc6eqyAZX2gvh3aCkU04HIqqY7NP5KZvVDlnRiPF2YYjIVYXCGuOK3
-         m2nGQhkIQe4v/sQ+RpV9iqaNwTVLQ9iEd+IuF24muhkoUHr8/tPG5UQhfO3GbYG11h
-         agN+B0irg2ymLPuDcB4WQiqrgmiBDV8CGaTdJESo=
-Date:   Tue, 1 Oct 2019 14:42:15 +0200
+        b=kVPf4/IdPv+EoVEk/aOd4bL+2UIL477WEqSv9yEk5h3ggjFAiR458XXEECVf/Gz73
+         C+fVY/EW178yKkmm2kJFJtKW4qo//2v2fByBJPQVcjpa5cG6D2Or7TaLhFQgHA23Ra
+         /u/V+f88X7OV5wcv/m3B0kjJZZoKqRvBUNXbFZPQ=
+Date:   Tue, 1 Oct 2019 14:44:09 +0200
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     Mika Westerberg <mika.westerberg@linux.intel.com>
 Cc:     linux-usb@vger.kernel.org,
@@ -51,25 +52,75 @@ Cc:     linux-usb@vger.kernel.org,
         Mario.Limonciello@dell.com,
         Anthony Wong <anthony.wong@canonical.com>,
         linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 11/22] thunderbolt: Convert DP adapter register names
- to follow the USB4 spec
-Message-ID: <20191001124215.GF2954373@kroah.com>
+Subject: Re: [RFC PATCH 12/22] thunderbolt: Add Display Port CM handshake for
+ Titan Ridge devices
+Message-ID: <20191001124409.GG2954373@kroah.com>
 References: <20191001113830.13028-1-mika.westerberg@linux.intel.com>
- <20191001113830.13028-12-mika.westerberg@linux.intel.com>
+ <20191001113830.13028-13-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191001113830.13028-12-mika.westerberg@linux.intel.com>
+In-Reply-To: <20191001113830.13028-13-mika.westerberg@linux.intel.com>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Oct 01, 2019 at 02:38:19PM +0300, Mika Westerberg wrote:
-> Now that USB4 spec has names for these DP adapter registers we can use
-> them instead. This makes it easier to match certain register to the spec.
+On Tue, Oct 01, 2019 at 02:38:20PM +0300, Mika Westerberg wrote:
+> Titan Ridge devices and newer need an additional connection manager
+> handshake in order to do proper Display Port tunneling so implement it
+> here.
 > 
-> No functional changes.
+> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+> ---
+>  drivers/thunderbolt/tb_regs.h |  3 +++
+>  drivers/thunderbolt/tunnel.c  | 44 +++++++++++++++++++++++++++++++++++
+>  2 files changed, 47 insertions(+)
+> 
+> diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
+> index 3a39490a954b..8d11b4a2d552 100644
+> --- a/drivers/thunderbolt/tb_regs.h
+> +++ b/drivers/thunderbolt/tb_regs.h
+> @@ -252,6 +252,9 @@ struct tb_regs_port_header {
+>  #define ADP_DP_CS_3_HDPC			BIT(9)
+>  #define DP_LOCAL_CAP				0x04
+>  #define DP_REMOTE_CAP				0x05
+> +#define DP_STATUS_CTRL				0x06
+> +#define DP_STATUS_CTRL_CMHS			BIT(25)
+> +#define DP_STATUS_CTRL_UF			BIT(26)
+>  
+>  /* PCIe adapter registers */
+>  #define ADP_PCIE_CS_0				0x00
+> diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+> index 3353396e0806..369800110e5e 100644
+> --- a/drivers/thunderbolt/tunnel.c
+> +++ b/drivers/thunderbolt/tunnel.c
+> @@ -6,6 +6,7 @@
+>   * Copyright (C) 2019, Intel Corporation
+>   */
+>  
+> +#include <linux/delay.h>
+>  #include <linux/slab.h>
+>  #include <linux/list.h>
+>  
+> @@ -242,6 +243,41 @@ struct tb_tunnel *tb_tunnel_alloc_pci(struct tb *tb, struct tb_port *up,
+>  	return tunnel;
+>  }
+>  
+> +static int tb_dp_cm_handshake(struct tb_port *in, struct tb_port *out)
+> +{
+> +	int timeout = 10;
+> +	u32 val;
+> +	int ret;
+> +
+> +	/* Both ends need to support this */
+> +	if (!tb_switch_is_tr(in->sw) || !tb_switch_is_tr(out->sw))
+> +		return 0;
 
-And here  :)
+So if the ends are both "Titan Ridge", matches your changelog text, but
+where is the "and newer" comment being checked here?
+
+thanks,
+
+greg k-h
