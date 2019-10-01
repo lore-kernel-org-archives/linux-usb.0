@@ -4,31 +4,31 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91D20C388F3
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 11:39:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 859B7C352AA
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 11:39:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 556CB2133F
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 11:39:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 53B0B21906
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 11:39:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732641AbfJALil (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Oct 2019 07:38:41 -0400
-Received: from mga12.intel.com ([192.55.52.136]:17384 "EHLO mga12.intel.com"
+        id S1733034AbfJALjV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Oct 2019 07:39:21 -0400
+Received: from mga12.intel.com ([192.55.52.136]:17385 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732601AbfJALik (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 1 Oct 2019 07:38:40 -0400
+        id S1732670AbfJALim (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 1 Oct 2019 07:38:42 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Oct 2019 04:38:39 -0700
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Oct 2019 04:38:42 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.64,571,1559545200"; 
-   d="scan'208";a="194502906"
+   d="scan'208";a="220968933"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga003.jf.intel.com with ESMTP; 01 Oct 2019 04:38:36 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 01 Oct 2019 04:38:39 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 78D80587; Tue,  1 Oct 2019 14:38:31 +0300 (EEST)
+        id BFB996D2; Tue,  1 Oct 2019 14:38:31 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Andreas Noever <andreas.noever@gmail.com>,
@@ -43,9 +43,9 @@ Cc:     Andreas Noever <andreas.noever@gmail.com>,
         Mario.Limonciello@dell.com,
         Anthony Wong <anthony.wong@canonical.com>,
         linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 14/22] thunderbolt: Add bandwidth management for Display Port tunnels
-Date:   Tue,  1 Oct 2019 14:38:22 +0300
-Message-Id: <20191001113830.13028-15-mika.westerberg@linux.intel.com>
+Subject: [RFC PATCH 20/22] thunderbolt: Add support for USB tunnels
+Date:   Tue,  1 Oct 2019 14:38:28 +0300
+Message-Id: <20191001113830.13028-21-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191001113830.13028-1-mika.westerberg@linux.intel.com>
 References: <20191001113830.13028-1-mika.westerberg@linux.intel.com>
@@ -56,551 +56,626 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Thunderbolt 3 devices and especially Titan Ridge supports Display Port
-1.4 which adds HBR3 (High Bit Rate) rates that may be up to 8.1 Gb/s
-over 4 lanes. This translates to effective data bandwidth of 25.92 Gb/s
-(as 8/10 encoding is removed by the DP adapters when going over
-Thunderbolt fabric). If another high rate monitor is connected we may
-need to reduce the bandwidth it consumes so that it fits into the total
-40 Gb/s available on the Thunderbolt fabric.
+From: Rajmohan Mani <rajmohan.mani@intel.com>
 
+USB4 added a capability to tunnel USB 3.x protocol over the USB4
+fabric. USB4 device routers may include integrated SuperSpeed HUB or a
+function or both. USB tunneling follows PCIe so that the tunnel is
+created between the parent and the child router from USB downstream
+adapter port to USB upstream adapter port over a single USB4 link.
+
+This adds support for USB tunneling and also capability to discover
+existing USB tunnels (for example created by connection manager in boot
+firmware).
+
+Signed-off-by: Rajmohan Mani <rajmohan.mani@intel.com>
+Co-developed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/path.c    |  22 +++
- drivers/thunderbolt/tb.c      |  52 ++++++-
- drivers/thunderbolt/tb.h      |   2 +
- drivers/thunderbolt/tb_regs.h |  17 +++
- drivers/thunderbolt/tunnel.c  | 272 +++++++++++++++++++++++++++++++++-
- drivers/thunderbolt/tunnel.h  |  10 +-
- 6 files changed, 371 insertions(+), 4 deletions(-)
+ drivers/thunderbolt/switch.c  |  35 ++++++++
+ drivers/thunderbolt/tb.c      | 153 ++++++++++++++++++++++++++------
+ drivers/thunderbolt/tb.h      |  15 ++++
+ drivers/thunderbolt/tb_regs.h |   9 +-
+ drivers/thunderbolt/tunnel.c  | 158 +++++++++++++++++++++++++++++++++-
+ drivers/thunderbolt/tunnel.h  |   9 ++
+ drivers/thunderbolt/usb4.c    |  41 ++++++++-
+ 7 files changed, 393 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/thunderbolt/path.c b/drivers/thunderbolt/path.c
-index 6cf66597d5d8..ad58559ea88e 100644
---- a/drivers/thunderbolt/path.c
-+++ b/drivers/thunderbolt/path.c
-@@ -557,3 +557,25 @@ bool tb_path_is_invalid(struct tb_path *path)
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index 58e3f54ddbb9..5a3236fefb76 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -1025,11 +1025,46 @@ bool tb_port_is_enabled(struct tb_port *port)
+ 	case TB_TYPE_DP_HDMI_OUT:
+ 		return tb_dp_port_is_enabled(port);
+ 
++	case TB_TYPE_USB_UP:
++	case TB_TYPE_USB_DOWN:
++		return tb_usb_port_is_enabled(port);
++
+ 	default:
+ 		return false;
  	}
- 	return false;
  }
+ 
++/**
++ * tb_usb_port_is_enabled() - Is the USB adapter port enabled
++ * @port: USB port to check
++ */
++bool tb_usb_port_is_enabled(struct tb_port *port)
++{
++	u32 data;
++
++	if (tb_port_read(port, &data, TB_CFG_PORT,
++			 port->cap_adap + ADP_USB3_CS_0, 1))
++		return false;
++
++	return !!(data & ADP_USB3_CS_0_PE);
++}
 +
 +/**
-+ * tb_path_switch_on_path() - Does the path go through certain switch
-+ * @path: Path to check
-+ * @sw: Switch to check
-+ *
-+ * Goes over all hops on path and checks if @sw is any of them.
-+ * Direction does not matter.
++ * tb_usb_port_enable() - Enable USB adapter port
++ * @port: USB port to enable
++ * @enable: Enable/disable the USB adapter
 + */
-+bool tb_path_switch_on_path(const struct tb_path *path,
-+			    const struct tb_switch *sw)
++int tb_usb_port_enable(struct tb_port *port, bool enable)
 +{
-+	int i;
++	u32 word = enable ? (ADP_USB3_CS_0_PE | ADP_USB3_CS_0_V)
++			  : ADP_USB3_CS_0_V;
 +
-+	for (i = 0; i < path->path_length; i++) {
-+		if (path->hops[i].in_port->sw == sw ||
-+		    path->hops[i].out_port->sw == sw)
-+			return true;
-+	}
-+
-+	return false;
++	if (!port->cap_adap)
++		return -ENXIO;
++	return tb_port_write(port, &word, TB_CFG_PORT,
++			     port->cap_adap + ADP_USB3_CS_0, 1);
 +}
++
+ /**
+  * tb_pci_port_is_enabled() - Is the PCIe adapter port enabled
+  * @port: PCIe port to check
 diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index 5b457874e51a..a3b7a18dc6d9 100644
+index f2868c125637..6c468ba96e9a 100644
 --- a/drivers/thunderbolt/tb.c
 +++ b/drivers/thunderbolt/tb.c
-@@ -425,11 +425,51 @@ static struct tb_port *tb_find_pcie_down(struct tb_switch *sw,
- 	return tb_find_unused_port(sw, TB_TYPE_PCIE_DOWN);
+@@ -116,6 +116,10 @@ static void tb_discover_tunnels(struct tb_switch *sw)
+ 			tunnel = tb_tunnel_discover_pci(tb, port);
+ 			break;
+ 
++		case TB_TYPE_USB_DOWN:
++			tunnel = tb_tunnel_discover_usb(tb, port);
++			break;
++
+ 		default:
+ 			break;
+ 		}
+@@ -180,6 +184,117 @@ static int tb_enable_tmu(struct tb_switch *sw)
+ 	return tb_switch_tmu_enable(sw);
  }
  
-+static int tb_available_bw(struct tb_cm *tcm, struct tb_port *in,
-+			   struct tb_port *out)
-+{
-+	struct tb_switch *sw = out->sw;
-+	struct tb_tunnel *tunnel;
-+	int bw, available_bw = 40000;
-+
-+	while (sw && sw != in->sw) {
-+		bw = sw->link_speed * sw->link_width * 1000; /* Mb/s */
-+		/* Leave 10% guard band */
-+		bw -= bw / 10;
-+
-+		/*
-+		 * Check for any active DP tunnels that go through this
-+		 * switch and reduce their consumed bandwidth from
-+		 * available.
-+		 */
-+		list_for_each_entry(tunnel, &tcm->tunnel_list, list) {
-+			int consumed_bw;
-+
-+			if (!tb_tunnel_switch_on_path(tunnel, sw))
-+				continue;
-+
-+			consumed_bw = tb_tunnel_consumed_bandwidth(tunnel);
-+			if (consumed_bw < 0)
-+				return consumed_bw;
-+
-+			bw -= consumed_bw;
-+		}
-+
-+		if (bw < available_bw)
-+			available_bw = bw;
-+
-+		sw = tb_switch_parent(sw);
-+	}
-+
-+	return available_bw;
-+}
-+
- static void tb_tunnel_dp(struct tb *tb)
- {
- 	struct tb_cm *tcm = tb_priv(tb);
- 	struct tb_port *port, *in, *out;
- 	struct tb_tunnel *tunnel;
-+	int available_bw;
- 
- 	/*
- 	 * Find pair of inactive DP IN and DP OUT adapters and then
-@@ -467,7 +507,17 @@ static void tb_tunnel_dp(struct tb *tb)
- 		return;
- 	}
- 
--	tunnel = tb_tunnel_alloc_dp(tb, in, out);
-+	/* Calculate available bandwidth between in and out */
-+	available_bw = tb_available_bw(tcm, in, out);
-+	if (available_bw < 0) {
-+		tb_warn(tb, "failed to determine available bandwidth\n");
-+		return;
-+	}
-+
-+	tb_dbg(tb, "available bandwidth for new DP tunnel %u Mb/s\n",
-+	       available_bw);
-+
-+	tunnel = tb_tunnel_alloc_dp(tb, in, out, available_bw);
- 	if (!tunnel) {
- 		tb_port_dbg(out, "could not allocate DP tunnel\n");
- 		goto dealloc_dp;
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index 48f3725249a9..7a8cc56a2870 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -715,6 +715,8 @@ void tb_path_free(struct tb_path *path);
- int tb_path_activate(struct tb_path *path);
- void tb_path_deactivate(struct tb_path *path);
- bool tb_path_is_invalid(struct tb_path *path);
-+bool tb_path_switch_on_path(const struct tb_path *path,
-+			    const struct tb_switch *sw);
- 
- int tb_drom_read(struct tb_switch *sw);
- int tb_drom_read_uid_only(struct tb_switch *sw, u64 *uid);
-diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
-index aec35e61cc14..7ee45b73c7f7 100644
---- a/drivers/thunderbolt/tb_regs.h
-+++ b/drivers/thunderbolt/tb_regs.h
-@@ -255,6 +255,23 @@ struct tb_regs_port_header {
- #define DP_STATUS_CTRL				0x06
- #define DP_STATUS_CTRL_CMHS			BIT(25)
- #define DP_STATUS_CTRL_UF			BIT(26)
-+#define DP_COMMON_CAP				0x07
-+/*
-+ * DP_COMMON_CAP offsets work also for DP_LOCAL_CAP and DP_REMOTE_CAP
-+ * with exception of DPRX done.
++/**
++ * tb_find_unused_port() - return the first inactive port on @sw
++ * @sw: Switch to find the port on
++ * @type: Port type to look for
 + */
-+#define DP_COMMON_CAP_RATE_MASK			GENMASK(11, 8)
-+#define DP_COMMON_CAP_RATE_SHIFT		8
-+#define DP_COMMON_CAP_RATE_RBR			0x0
-+#define DP_COMMON_CAP_RATE_HBR			0x1
-+#define DP_COMMON_CAP_RATE_HBR2			0x2
-+#define DP_COMMON_CAP_RATE_HBR3			0x3
-+#define DP_COMMON_CAP_LANES_MASK		GENMASK(14, 12)
-+#define DP_COMMON_CAP_LANES_SHIFT		12
-+#define DP_COMMON_CAP_1_LANE			0x0
-+#define DP_COMMON_CAP_2_LANES			0x1
-+#define DP_COMMON_CAP_4_LANES			0x2
-+#define DP_COMMON_CAP_DPRX_DONE			BIT(31)
- 
- /* PCIe adapter registers */
- #define ADP_PCIE_CS_0				0x00
-diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
-index 369800110e5e..4ef5bc8f912b 100644
---- a/drivers/thunderbolt/tunnel.c
-+++ b/drivers/thunderbolt/tunnel.c
-@@ -278,11 +278,133 @@ static int tb_dp_cm_handshake(struct tb_port *in, struct tb_port *out)
- 	return -ETIMEDOUT;
- }
- 
-+static inline u32 tb_dp_cap_get_rate(u32 val)
++static struct tb_port *tb_find_unused_port(struct tb_switch *sw,
++					   enum tb_port_type type)
 +{
-+	u32 rate = (val & DP_COMMON_CAP_RATE_MASK) >> DP_COMMON_CAP_RATE_SHIFT;
-+
-+	switch (rate) {
-+	case DP_COMMON_CAP_RATE_RBR:
-+		return 1620;
-+	case DP_COMMON_CAP_RATE_HBR:
-+		return 2700;
-+	case DP_COMMON_CAP_RATE_HBR2:
-+		return 5400;
-+	case DP_COMMON_CAP_RATE_HBR3:
-+		return 8100;
-+	default:
-+		return 0;
-+	}
-+}
-+
-+static inline u32 tb_dp_cap_set_rate(u32 val, u32 rate)
-+{
-+	val &= ~DP_COMMON_CAP_RATE_MASK;
-+	switch (rate) {
-+	default:
-+		WARN(1, "invalid rate %u passed, defaulting to 1620 MB/s\n", rate);
-+		/* Fallthrough */
-+	case 1620:
-+		val |= DP_COMMON_CAP_RATE_RBR << DP_COMMON_CAP_RATE_SHIFT;
-+		break;
-+	case 2700:
-+		val |= DP_COMMON_CAP_RATE_HBR << DP_COMMON_CAP_RATE_SHIFT;
-+		break;
-+	case 5400:
-+		val |= DP_COMMON_CAP_RATE_HBR2 << DP_COMMON_CAP_RATE_SHIFT;
-+		break;
-+	case 8100:
-+		val |= DP_COMMON_CAP_RATE_HBR3 << DP_COMMON_CAP_RATE_SHIFT;
-+		break;
-+	}
-+	return val;
-+}
-+
-+static inline u32 tb_dp_cap_get_lanes(u32 val)
-+{
-+	u32 lanes = (val & DP_COMMON_CAP_LANES_MASK) >> DP_COMMON_CAP_LANES_SHIFT;
-+
-+	switch (lanes) {
-+	case DP_COMMON_CAP_1_LANE:
-+		return 1;
-+	case DP_COMMON_CAP_2_LANES:
-+		return 2;
-+	case DP_COMMON_CAP_4_LANES:
-+		return 4;
-+	default:
-+		return 0;
-+	}
-+}
-+
-+static inline u32 tb_dp_cap_set_lanes(u32 val, u32 lanes)
-+{
-+	val &= ~DP_COMMON_CAP_LANES_MASK;
-+	switch (lanes) {
-+	default:
-+		WARN(1, "invalid number of lanes %u passed, defaulting to 1\n",
-+		     lanes);
-+		/* Fallthrough */
-+	case 1:
-+		val |= DP_COMMON_CAP_1_LANE << DP_COMMON_CAP_LANES_SHIFT;
-+		break;
-+	case 2:
-+		val |= DP_COMMON_CAP_2_LANES << DP_COMMON_CAP_LANES_SHIFT;
-+		break;
-+	case 4:
-+		val |= DP_COMMON_CAP_4_LANES << DP_COMMON_CAP_LANES_SHIFT;
-+		break;
-+	}
-+	return val;
-+}
-+
-+static unsigned int tb_dp_bandwidth(unsigned int rate, unsigned int lanes)
-+{
-+	/* Tunneling removes the DP 8b/10b encoding */
-+	return rate * lanes * 8 / 10;
-+}
-+
-+static int tb_dp_reduce_bandwidth(int max_bw, u32 rate, u32 lanes,
-+				  u32 *new_rate, u32 *new_lanes)
-+{
-+	static const u32 dp_bw[][2] = {
-+		/* Mb/s, lanes */
-+		{ 8100, 4 }, /* 25920 Mb/s */
-+		{ 5400, 4 }, /* 17280 Mb/s */
-+		{ 8100, 2 }, /* 12960 Mb/s */
-+		{ 2700, 4 }, /* 8640 Mb/s */
-+		{ 5400, 2 }, /* 8640 Mb/s */
-+		{ 8100, 1 }, /* 6480 Mb/s */
-+		{ 1620, 4 }, /* 5184 Mb/s */
-+		{ 5400, 1 }, /* 4320 Mb/s */
-+		{ 2700, 2 }, /* 4320 Mb/s */
-+		{ 1620, 2 }, /* 2592 Mb/s */
-+		{ 2700, 1 }, /* 2160 Mb/s */
-+		{ 1620, 1 }, /* 1296 Mb/s */
-+	};
 +	int i;
 +
-+	/*
-+	 * Find a combination that can fit into max_bw and does not
-+	 * exceed the maximum rate and lanes supporteed by the DP OUT
-+	 * adapter.
-+	 */
-+	for (i = 0; i < ARRAY_SIZE(dp_bw); i++) {
-+		if (dp_bw[i][0] > rate || dp_bw[i][1] > lanes)
++	tb_switch_for_each_port(sw, i) {
++		if (tb_is_upstream_port(&sw->ports[i]))
 +			continue;
-+		if (tb_dp_bandwidth(dp_bw[i][0], dp_bw[i][1]) <= max_bw) {
-+			*new_rate = dp_bw[i][0];
-+			*new_lanes = dp_bw[i][1];
-+			return 0;
-+		}
++		if (sw->ports[i].config.type != type)
++			continue;
++		if (!sw->ports[i].cap_adap)
++			continue;
++		if (tb_port_is_enabled(&sw->ports[i]))
++			continue;
++		return &sw->ports[i];
 +	}
-+
-+	return -ENOSR;
++	return NULL;
 +}
 +
- static int tb_dp_xchg_caps(struct tb_tunnel *tunnel)
- {
-+	u32 in_dp_cap, out_dp_cap, rate, lanes, bw;
- 	struct tb_port *out = tunnel->dst_port;
- 	struct tb_port *in = tunnel->src_port;
--	u32 in_dp_cap, out_dp_cap;
- 	int ret;
- 
- 	/*
-@@ -317,6 +439,39 @@ static int tb_dp_xchg_caps(struct tb_tunnel *tunnel)
- 	if (ret)
- 		return ret;
- 
-+	/*
-+	 * If the tunnel bandwidth is limited (max_bw is set) then see
-+	 * if we need to reduce bandwidth to fit there.
-+	 */
-+	rate = tb_dp_cap_get_rate(out_dp_cap);
-+	lanes = tb_dp_cap_get_lanes(out_dp_cap);
-+	bw = tb_dp_bandwidth(rate, lanes);
++static struct tb_port *tb_find_usb_down(struct tb_switch *sw,
++					const struct tb_port *port)
++{
++	struct tb_port *down;
 +
-+	tb_port_dbg(out, "maximum supported bandwidth %u Mb/s x%u = %u Mb/s\n",
-+		    rate, lanes, bw);
++	down = usb4_switch_map_usb_down(sw, port);
++	if (down) {
++		if (WARN_ON(!tb_port_is_usb_down(down)))
++			goto out;
++		if (WARN_ON(tb_usb_port_is_enabled(down)))
++			goto out;
 +
-+	if (tunnel->max_bw && bw > tunnel->max_bw) {
-+		u32 new_rate, new_lanes, new_bw;
-+
-+		ret = tb_dp_reduce_bandwidth(tunnel->max_bw, rate, lanes,
-+					     &new_rate, &new_lanes);
-+		if (ret) {
-+			tb_port_info(out, "not enough bandwidth for DP tunnel\n");
-+			return ret;
-+		}
-+
-+		new_bw = tb_dp_bandwidth(new_rate, new_lanes);
-+		tb_port_dbg(out, "bandwidth reduced to %u Mb/s x%u = %u Mb/s\n",
-+			    new_rate, new_lanes, new_bw);
-+
-+		/*
-+		 * Set new rate and number of lanes before writing it to
-+		 * the IN port remote caps.
-+		 */
-+		out_dp_cap = tb_dp_cap_set_rate(out_dp_cap, new_rate);
-+		out_dp_cap = tb_dp_cap_set_lanes(out_dp_cap, new_lanes);
++		return down;
 +	}
 +
- 	return tb_port_write(in, &out_dp_cap, TB_CFG_PORT,
- 			     in->cap_adap + DP_REMOTE_CAP, 1);
- }
-@@ -358,6 +513,56 @@ static int tb_dp_activate(struct tb_tunnel *tunnel, bool active)
- 	return 0;
- }
- 
-+static int tb_dp_consumed_bandwidth(struct tb_tunnel *tunnel)
++out:
++	return tb_find_unused_port(sw, TB_TYPE_USB_DOWN);
++}
++
++static int tb_tunnel_usb(struct tb *tb, struct tb_switch *sw)
 +{
-+	struct tb_port *in = tunnel->src_port;
-+	const struct tb_switch *sw = in->sw;
-+	u32 val, rate = 0, lanes = 0;
-+	int ret;
++	struct tb_switch *parent = tb_switch_parent(sw);
++	struct tb_port *up, *down, *port;
++	struct tb_cm *tcm = tb_priv(tb);
++	struct tb_tunnel *tunnel;
 +
-+	if (tb_switch_is_tr(sw)) {
-+		int timeout = 10;
++	up = tb_switch_find_port(sw, TB_TYPE_USB_UP);
++	if (!up)
++		return 0;
 +
++	/*
++	 * Look up available down port. Since we are chaining it should
++	 * be found right above this switch.
++	 */
++	port = tb_port_at(tb_route(sw), parent);
++	down = tb_find_usb_down(parent, port);
++	if (!down)
++		return 0;
++
++	if (tb_route(parent)) {
++		struct tb_port *parent_up;
 +		/*
-+		 * Wait for DPRX done. Normally it should be already set
-+		 * for active tunnel.
++		 * Check first that the parent switch has its upstream
++		 * USB port enabled. Otherwise the chain is not complete
++		 * and there is no point setting up a new tunnel.
 +		 */
-+		do {
-+			ret = tb_port_read(in, &val, TB_CFG_PORT,
-+					   in->cap_adap + DP_COMMON_CAP, 1);
-+			if (ret)
-+				return ret;
++		parent_up = tb_switch_find_port(parent, TB_TYPE_USB_UP);
++		if (!parent_up || !tb_port_is_enabled(parent_up))
++			return 0;
++	}
 +
-+			if (val & DP_COMMON_CAP_DPRX_DONE) {
-+				rate = tb_dp_cap_get_rate(val);
-+				lanes = tb_dp_cap_get_lanes(val);
-+				break;
-+			}
-+			msleep(250);
-+		} while (timeout--);
++	tunnel = tb_tunnel_alloc_usb(tb, up, down);
++	if (!tunnel)
++		return -ENOMEM;
 +
-+		if (!timeout)
-+			return -ETIMEDOUT;
-+	} else if (sw->generation >= 2) {
-+		/*
-+		 * Read from the copied remote cap so that we take into
-+		 * account if capabilities were reduced during exchange.
-+		 */
-+		ret = tb_port_read(in, &val, TB_CFG_PORT,
-+				   in->cap_adap + DP_REMOTE_CAP, 1);
++	if (tb_tunnel_activate(tunnel)) {
++		tb_port_info(up,
++			     "USB tunnel activation failed, aborting\n");
++		tb_tunnel_free(tunnel);
++		return -EIO;
++	}
++
++	list_add_tail(&tunnel->list, &tcm->tunnel_list);
++	return 0;
++}
++
++static int tb_create_usb_tunnels(struct tb_switch *sw)
++{
++	int i, ret;
++
++	if (tb_route(sw)) {
++		ret = tb_tunnel_usb(sw->tb, sw);
 +		if (ret)
 +			return ret;
-+
-+		rate = tb_dp_cap_get_rate(val);
-+		lanes = tb_dp_cap_get_lanes(val);
-+	} else {
-+		/* No bandwidth management for legacy devices  */
-+		return 0;
 +	}
 +
-+	return tb_dp_bandwidth(rate, lanes);
-+}
++	tb_switch_for_each_remote_port(sw, i) {
++		struct tb_port *port = &sw->ports[i];
 +
- static void tb_dp_init_aux_path(struct tb_path *path)
- {
- 	int i;
-@@ -422,6 +627,7 @@ struct tb_tunnel *tb_tunnel_discover_dp(struct tb *tb, struct tb_port *in)
- 
- 	tunnel->init = tb_dp_xchg_caps;
- 	tunnel->activate = tb_dp_activate;
-+	tunnel->consumed_bandwidth = tb_dp_consumed_bandwidth;
- 	tunnel->src_port = in;
- 
- 	path = tb_path_discover(in, TB_DP_VIDEO_HOPID, NULL, -1,
-@@ -480,6 +686,7 @@ struct tb_tunnel *tb_tunnel_discover_dp(struct tb *tb, struct tb_port *in)
-  * @tb: Pointer to the domain structure
-  * @in: DP in adapter port
-  * @out: DP out adapter port
-+ * @max_bw: Maximum available bandwidth for the DP tunnel (%0 if not limited)
-  *
-  * Allocates a tunnel between @in and @out that is capable of tunneling
-  * Display Port traffic.
-@@ -487,7 +694,7 @@ struct tb_tunnel *tb_tunnel_discover_dp(struct tb *tb, struct tb_port *in)
-  * Return: Returns a tb_tunnel on success or NULL on failure.
-  */
- struct tb_tunnel *tb_tunnel_alloc_dp(struct tb *tb, struct tb_port *in,
--				     struct tb_port *out)
-+				     struct tb_port *out, int max_bw)
- {
- 	struct tb_tunnel *tunnel;
- 	struct tb_path **paths;
-@@ -502,8 +709,10 @@ struct tb_tunnel *tb_tunnel_alloc_dp(struct tb *tb, struct tb_port *in,
- 
- 	tunnel->init = tb_dp_xchg_caps;
- 	tunnel->activate = tb_dp_activate;
-+	tunnel->consumed_bandwidth = tb_dp_consumed_bandwidth;
- 	tunnel->src_port = in;
- 	tunnel->dst_port = out;
-+	tunnel->max_bw = max_bw;
- 
- 	paths = tunnel->paths;
- 
-@@ -750,3 +959,62 @@ void tb_tunnel_deactivate(struct tb_tunnel *tunnel)
- 			tb_path_deactivate(tunnel->paths[i]);
- 	}
- }
-+
-+/**
-+ * tb_tunnel_switch_on_path() - Does the tunnel go through switch
-+ * @tunnel: Tunnel to check
-+ * @sw: Switch to check
-+ *
-+ * Returns true if @tunnel goes through @sw (direction does not matter),
-+ * false otherwise.
-+ */
-+bool tb_tunnel_switch_on_path(const struct tb_tunnel *tunnel,
-+			      const struct tb_switch *sw)
-+{
-+	int i;
-+
-+	for (i = 0; i < tunnel->npaths; i++) {
-+		if (!tunnel->paths[i])
-+			continue;
-+		if (tb_path_switch_on_path(tunnel->paths[i], sw))
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+static bool tb_tunnel_is_active(const struct tb_tunnel *tunnel)
-+{
-+	int i;
-+
-+	for (i = 0; i < tunnel->npaths; i++) {
-+		if (!tunnel->paths[i])
-+			return false;
-+		if (!tunnel->paths[i]->activated)
-+			return false;
-+	}
-+
-+	return true;
-+}
-+
-+/**
-+ * tb_tunnel_consumed_bandwidth() - Return bandwidth consumed by the tunnel
-+ * @tunnel: Tunnel to check
-+ *
-+ * Returns bandwidth currently consumed by @tunnel and %0 if the @tunnel
-+ * is not active or does consume bandwidth.
-+ */
-+int tb_tunnel_consumed_bandwidth(struct tb_tunnel *tunnel)
-+{
-+	if (!tb_tunnel_is_active(tunnel))
-+		return 0;
-+
-+	if (tunnel->consumed_bandwidth) {
-+		int ret = tunnel->consumed_bandwidth(tunnel);
-+
-+		tb_tunnel_dbg(tunnel, "consumed bandwidth %d Mb/s\n", ret);
-+		return ret;
++		ret = tb_create_usb_tunnels(port->remote->sw);
++		if (ret)
++			return ret;
 +	}
 +
 +	return 0;
 +}
-diff --git a/drivers/thunderbolt/tunnel.h b/drivers/thunderbolt/tunnel.h
-index c68bbcd3a62c..ba888da005f5 100644
---- a/drivers/thunderbolt/tunnel.h
-+++ b/drivers/thunderbolt/tunnel.h
-@@ -27,8 +27,11 @@ enum tb_tunnel_type {
-  * @npaths: Number of paths in @paths
-  * @init: Optional tunnel specific initialization
-  * @activate: Optional tunnel specific activation/deactivation
-+ * @consumed_bandwidth: Return how much bandwidth the tunnel consumes
-  * @list: Tunnels are linked using this field
-  * @type: Type of the tunnel
-+ * @max_bw: Maximum bandwidth (Mb/s) available for the tunnel (only for DP).
-+ *	    Only set if the bandwidth needs to be limited.
-  */
- struct tb_tunnel {
- 	struct tb *tb;
-@@ -38,8 +41,10 @@ struct tb_tunnel {
- 	size_t npaths;
- 	int (*init)(struct tb_tunnel *tunnel);
- 	int (*activate)(struct tb_tunnel *tunnel, bool activate);
-+	int (*consumed_bandwidth)(struct tb_tunnel *tunnel);
- 	struct list_head list;
- 	enum tb_tunnel_type type;
-+	unsigned int max_bw;
++
+ static void tb_scan_port(struct tb_port *port);
+ 
+ /**
+@@ -285,6 +400,15 @@ static void tb_scan_port(struct tb_port *port)
+ 	if (tb_enable_tmu(sw))
+ 		tb_sw_warn(sw, "failed to enable TMU\n");
+ 
++	/*
++	 * Create USB tunnels only when the switch is plugged to the
++	 * domain. This is because we scan the domain also during
++	 * discovery and want to discover existing USB tunnels before we
++	 * create any new.
++	 */
++	if (tcm->hotplug_active && tb_tunnel_usb(sw->tb, sw))
++		tb_sw_warn(sw, "USB tunnel creation failed\n");
++
+ 	tb_scan_switch(sw);
+ }
+ 
+@@ -365,30 +489,6 @@ static void tb_free_unplugged_children(struct tb_switch *sw)
+ 	}
+ }
+ 
+-/**
+- * tb_find_unused_port() - return the first inactive port on @sw
+- * @sw: Switch to find the port on
+- * @type: Port type to look for
+- */
+-static struct tb_port *tb_find_unused_port(struct tb_switch *sw,
+-					   enum tb_port_type type)
+-{
+-	int i;
+-
+-	tb_switch_for_each_port(sw, i) {
+-		if (tb_is_upstream_port(&sw->ports[i]))
+-			continue;
+-		if (sw->ports[i].config.type != type)
+-			continue;
+-		if (!sw->ports[i].cap_adap)
+-			continue;
+-		if (tb_port_is_enabled(&sw->ports[i]))
+-			continue;
+-		return &sw->ports[i];
+-	}
+-	return NULL;
+-}
+-
+ static struct tb_port *tb_find_pcie_down(struct tb_switch *sw,
+ 					 const struct tb_port *port)
+ {
+@@ -890,6 +990,11 @@ static int tb_start(struct tb *tb)
+ 	tb_scan_switch(tb->root_switch);
+ 	/* Find out tunnels created by the boot firmware */
+ 	tb_discover_tunnels(tb->root_switch);
++	/*
++	 * If the boot firmware did not create USB tunnels create them
++	 * now for the whole topology.
++	 */
++	tb_create_usb_tunnels(tb->root_switch);
+ 	/* Add DP IN resources for the root switch */
+ 	tb_add_dp_resources(tb->root_switch);
+ 	/* Make the discovered switches available to the userspace */
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index 087fd6d6ef9a..fbeb8bab77e5 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -432,6 +432,16 @@ static inline bool tb_port_is_dpout(const struct tb_port *port)
+ 	return port && port->config.type == TB_TYPE_DP_HDMI_OUT;
+ }
+ 
++static inline bool tb_port_is_usb_down(const struct tb_port *port)
++{
++	return port && port->config.type == TB_TYPE_USB_DOWN;
++}
++
++static inline bool tb_port_is_usb_up(const struct tb_port *port)
++{
++	return port && port->config.type == TB_TYPE_USB_UP;
++}
++
+ static inline int tb_sw_read(struct tb_switch *sw, void *buffer,
+ 			     enum tb_cfg_space space, u32 offset, u32 length)
+ {
+@@ -760,6 +770,9 @@ int tb_switch_find_cap(struct tb_switch *sw, enum tb_switch_cap cap);
+ int tb_port_find_cap(struct tb_port *port, enum tb_port_cap cap);
+ bool tb_port_is_enabled(struct tb_port *port);
+ 
++bool tb_usb_port_is_enabled(struct tb_port *port);
++int tb_usb_port_enable(struct tb_port *port, bool enable);
++
+ bool tb_pci_port_is_enabled(struct tb_port *port);
+ int tb_pci_port_enable(struct tb_port *port, bool enable);
+ 
+@@ -842,6 +855,8 @@ int usb4_switch_alloc_dp_resource(struct tb_switch *sw, struct tb_port *in);
+ int usb4_switch_dealloc_dp_resource(struct tb_switch *sw, struct tb_port *in);
+ struct tb_port *usb4_switch_map_pcie_down(struct tb_switch *sw,
+ 					  const struct tb_port *port);
++struct tb_port *usb4_switch_map_usb_down(struct tb_switch *sw,
++					 const struct tb_port *port);
+ 
+ int usb4_port_unlock(struct tb_port *port);
+ #endif
+diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
+index ec1a5d1f7c94..062676229ac1 100644
+--- a/drivers/thunderbolt/tb_regs.h
++++ b/drivers/thunderbolt/tb_regs.h
+@@ -180,6 +180,7 @@ struct tb_regs_switch_header {
+ #define ROUTER_CS_5_SLP				BIT(0)
+ #define ROUTER_CS_5_C3S				BIT(23)
+ #define ROUTER_CS_5_PTO				BIT(24)
++#define ROUTER_CS_5_UTO				BIT(25)
+ #define ROUTER_CS_5_HCO				BIT(26)
+ #define ROUTER_CS_5_CV				BIT(31)
+ #define ROUTER_CS_6				0x06
+@@ -221,7 +222,8 @@ enum tb_port_type {
+ 	TB_TYPE_DP_HDMI_OUT	= 0x0e0102,
+ 	TB_TYPE_PCIE_DOWN	= 0x100101,
+ 	TB_TYPE_PCIE_UP		= 0x100102,
+-	/* TB_TYPE_USB		= 0x200000, lower order bits are not known */
++	TB_TYPE_USB_DOWN	= 0x200101,
++	TB_TYPE_USB_UP		= 0x200102,
  };
  
- struct tb_tunnel *tb_tunnel_discover_pci(struct tb *tb, struct tb_port *down);
-@@ -47,7 +52,7 @@ struct tb_tunnel *tb_tunnel_alloc_pci(struct tb *tb, struct tb_port *up,
- 				      struct tb_port *down);
- struct tb_tunnel *tb_tunnel_discover_dp(struct tb *tb, struct tb_port *in);
- struct tb_tunnel *tb_tunnel_alloc_dp(struct tb *tb, struct tb_port *in,
--				     struct tb_port *out);
-+				     struct tb_port *out, int max_bw);
- struct tb_tunnel *tb_tunnel_alloc_dma(struct tb *tb, struct tb_port *nhi,
+ /* Present on every port in TB_CF_PORT at address zero. */
+@@ -331,6 +333,11 @@ struct tb_regs_port_header {
+ #define ADP_PCIE_CS_0				0x00
+ #define ADP_PCIE_CS_0_PE			BIT(31)
+ 
++/* USB adapter registers */
++#define ADP_USB3_CS_0				0x00
++#define ADP_USB3_CS_0_V				BIT(30)
++#define ADP_USB3_CS_0_PE			BIT(31)
++
+ /* Hop register from TB_CFG_HOPS. 8 byte per entry. */
+ struct tb_regs_hop {
+ 	/* DWORD 0 */
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index e8e387c4211f..299b77665d83 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -19,6 +19,12 @@
+ #define TB_PCI_PATH_DOWN		0
+ #define TB_PCI_PATH_UP			1
+ 
++/* USB adapters use always HopID of 8 for both directions */
++#define TB_USB_HOPID			8
++
++#define TB_USB_PATH_DOWN		0
++#define TB_USB_PATH_UP			1
++
+ /* DP adapters use HopID 8 for AUX and 9 for Video */
+ #define TB_DP_AUX_TX_HOPID		8
+ #define TB_DP_AUX_RX_HOPID		8
+@@ -31,7 +37,7 @@
+ #define TB_DMA_PATH_OUT			0
+ #define TB_DMA_PATH_IN			1
+ 
+-static const char * const tb_tunnel_names[] = { "PCI", "DP", "DMA" };
++static const char * const tb_tunnel_names[] = { "PCI", "DP", "DMA", "USB"};
+ 
+ #define __TB_TUNNEL_PRINT(level, tunnel, fmt, arg...)                   \
+ 	do {                                                            \
+@@ -838,6 +844,156 @@ struct tb_tunnel *tb_tunnel_alloc_dma(struct tb *tb, struct tb_port *nhi,
+ 	return tunnel;
+ }
+ 
++static int tb_usb_activate(struct tb_tunnel *tunnel, bool activate)
++{
++	int res;
++
++	res = tb_usb_port_enable(tunnel->src_port, activate);
++	if (res)
++		return res;
++
++	if (tb_port_is_usb_up(tunnel->dst_port))
++		return tb_usb_port_enable(tunnel->dst_port, activate);
++
++	return 0;
++}
++
++static void tb_usb_init_path(struct tb_path *path)
++{
++	path->egress_fc_enable = TB_PATH_SOURCE | TB_PATH_INTERNAL;
++	path->egress_shared_buffer = TB_PATH_NONE;
++	path->ingress_fc_enable = TB_PATH_ALL;
++	path->ingress_shared_buffer = TB_PATH_NONE;
++	path->priority = 3;
++	path->weight = 3;
++	path->drop_packages = 0;
++	path->nfc_credits = 0;
++	path->hops[0].initial_credits = 7;
++	path->hops[1].initial_credits =
++		tb_initial_credits(path->hops[1].in_port->sw);
++}
++
++/**
++ * tb_tunnel_discover_usb() - Discover existing USB tunnels
++ * @tb: Pointer to the domain structure
++ * @down: USB downstream adapter
++ *
++ * If @down adapter is active, follows the tunnel to the USB upstream
++ * adapter and back. Returns the discovered tunnel or %NULL if there was
++ * no tunnel.
++ */
++struct tb_tunnel *tb_tunnel_discover_usb(struct tb *tb, struct tb_port *down)
++{
++	struct tb_tunnel *tunnel;
++	struct tb_path *path;
++
++	if (!tb_usb_port_is_enabled(down))
++		return NULL;
++
++	tunnel = tb_tunnel_alloc(tb, 2, TB_TUNNEL_USB);
++	if (!tunnel)
++		return NULL;
++
++	tunnel->activate = tb_usb_activate;
++	tunnel->src_port = down;
++
++	/*
++	 * Discover both paths even if they are not complete. We will
++	 * clean them up by calling tb_tunnel_deactivate() below in that
++	 * case.
++	 */
++	path = tb_path_discover(down, TB_USB_HOPID, NULL, -1,
++				&tunnel->dst_port, "USB Up");
++	if (!path) {
++		/* Just disable the downstream port */
++		tb_usb_port_enable(down, false);
++		goto err_free;
++	}
++	tunnel->paths[TB_USB_PATH_UP] = path;
++	tb_usb_init_path(tunnel->paths[TB_USB_PATH_UP]);
++
++	path = tb_path_discover(tunnel->dst_port, -1, down, TB_USB_HOPID, NULL,
++				"USB Down");
++	if (!path)
++		goto err_deactivate;
++	tunnel->paths[TB_USB_PATH_DOWN] = path;
++	tb_usb_init_path(tunnel->paths[TB_USB_PATH_DOWN]);
++
++	/* Validate that the tunnel is complete */
++	if (!tb_port_is_usb_up(tunnel->dst_port)) {
++		tb_port_warn(tunnel->dst_port,
++			     "path does not end on an USB adapter, cleaning up\n");
++		goto err_deactivate;
++	}
++
++	if (down != tunnel->src_port) {
++		tb_tunnel_warn(tunnel, "path is not complete, cleaning up\n");
++		goto err_deactivate;
++	}
++
++	if (!tb_usb_port_is_enabled(tunnel->dst_port)) {
++		tb_tunnel_warn(tunnel,
++			       "tunnel is not fully activated, cleaning up\n");
++		goto err_deactivate;
++	}
++
++	tb_tunnel_dbg(tunnel, "discovered\n");
++	return tunnel;
++
++err_deactivate:
++	tb_tunnel_deactivate(tunnel);
++err_free:
++	tb_tunnel_free(tunnel);
++
++	return NULL;
++}
++
++/**
++ * tb_tunnel_alloc_usb() - allocate a USB tunnel
++ * @tb: Pointer to the domain structure
++ * @up: USB upstream adapter port
++ * @down: USB downstream adapter port
++ *
++ * Allocate an USB tunnel. The ports must be of type @TB_TYPE_USB_UP and
++ * @TB_TYPE_USB_DOWN.
++ *
++ * Return: Returns a tb_tunnel on success or %NULL on failure.
++ */
++struct tb_tunnel *tb_tunnel_alloc_usb(struct tb *tb, struct tb_port *up,
++				      struct tb_port *down)
++{
++	struct tb_tunnel *tunnel;
++	struct tb_path *path;
++
++	tunnel = tb_tunnel_alloc(tb, 2, TB_TUNNEL_USB);
++	if (!tunnel)
++		return NULL;
++
++	tunnel->activate = tb_usb_activate;
++	tunnel->src_port = down;
++	tunnel->dst_port = up;
++
++	path = tb_path_alloc(tb, down, TB_USB_HOPID, up, TB_USB_HOPID, 0,
++			     "USB Down");
++	if (!path) {
++		tb_tunnel_free(tunnel);
++		return NULL;
++	}
++	tb_usb_init_path(path);
++	tunnel->paths[TB_USB_PATH_DOWN] = path;
++
++	path = tb_path_alloc(tb, up, TB_USB_HOPID, down, TB_USB_HOPID, 0,
++			     "USB Up");
++	if (!path) {
++		tb_tunnel_free(tunnel);
++		return NULL;
++	}
++	tb_usb_init_path(path);
++	tunnel->paths[TB_USB_PATH_UP] = path;
++
++	return tunnel;
++}
++
+ /**
+  * tb_tunnel_free() - free a tunnel
+  * @tunnel: Tunnel to be freed
+diff --git a/drivers/thunderbolt/tunnel.h b/drivers/thunderbolt/tunnel.h
+index ba888da005f5..83c6723fe8d8 100644
+--- a/drivers/thunderbolt/tunnel.h
++++ b/drivers/thunderbolt/tunnel.h
+@@ -15,6 +15,7 @@ enum tb_tunnel_type {
+ 	TB_TUNNEL_PCI,
+ 	TB_TUNNEL_DP,
+ 	TB_TUNNEL_DMA,
++	TB_TUNNEL_USB,
+ };
+ 
+ /**
+@@ -57,6 +58,9 @@ struct tb_tunnel *tb_tunnel_alloc_dma(struct tb *tb, struct tb_port *nhi,
  				      struct tb_port *dst, int transmit_ring,
  				      int transmit_path, int receive_ring,
-@@ -58,6 +63,9 @@ int tb_tunnel_activate(struct tb_tunnel *tunnel);
- int tb_tunnel_restart(struct tb_tunnel *tunnel);
- void tb_tunnel_deactivate(struct tb_tunnel *tunnel);
- bool tb_tunnel_is_invalid(struct tb_tunnel *tunnel);
-+bool tb_tunnel_switch_on_path(const struct tb_tunnel *tunnel,
-+			      const struct tb_switch *sw);
-+int tb_tunnel_consumed_bandwidth(struct tb_tunnel *tunnel);
+ 				      int receive_path);
++struct tb_tunnel *tb_tunnel_discover_usb(struct tb *tb, struct tb_port *down);
++struct tb_tunnel *tb_tunnel_alloc_usb(struct tb *tb, struct tb_port *up,
++				      struct tb_port *down);
  
- static inline bool tb_tunnel_is_pci(const struct tb_tunnel *tunnel)
- {
+ void tb_tunnel_free(struct tb_tunnel *tunnel);
+ int tb_tunnel_activate(struct tb_tunnel *tunnel);
+@@ -82,5 +86,10 @@ static inline bool tb_tunnel_is_dma(const struct tb_tunnel *tunnel)
+ 	return tunnel->type == TB_TUNNEL_DMA;
+ }
+ 
++static inline bool tb_tunnel_is_usb(const struct tb_tunnel *tunnel)
++{
++	return tunnel->type == TB_TUNNEL_USB;
++}
++
+ #endif
+ 
+diff --git a/drivers/thunderbolt/usb4.c b/drivers/thunderbolt/usb4.c
+index 4b0997292b43..24f60f7523b8 100644
+--- a/drivers/thunderbolt/usb4.c
++++ b/drivers/thunderbolt/usb4.c
+@@ -226,10 +226,19 @@ int usb4_switch_setup(struct tb_switch *sw)
+ 
+ 	parent = tb_switch_parent(sw);
+ 
++	if (tb_switch_find_port(parent, TB_TYPE_USB_DOWN)) {
++		val |= ROUTER_CS_5_UTO;
++		xhci = false;
++	}
++
+ 	/* Only enable PCIe tunneling if the parent router supports it */
+ 	if (tb_switch_find_port(parent, TB_TYPE_PCIE_DOWN)) {
+ 		val |= ROUTER_CS_5_PTO;
+-		/* xHCI can be enabled if PCIe tunneling is supported */
++		/*
++		 * xHCI can be enabled if PCIe tunneling is supported
++		 * and the parent does not have any USB dowstream
++		 * adapters (so we cannot do USB tunneling).
++		 */
+ 		if (xhci & ROUTER_CS_6_HCI)
+ 			val |= ROUTER_CS_5_HCO;
+ 	}
+@@ -701,6 +710,36 @@ struct tb_port *usb4_switch_map_pcie_down(struct tb_switch *sw,
+ 	return NULL;
+ }
+ 
++/**
++ * usb4_switch_map_usb_down() - Map USB4 port to a USB downstream adapter
++ * @sw: USB4 router
++ * @port: USB4 port
++ *
++ * USB4 routers have direct mapping between USB4 ports and USB 3.x
++ * downstream adapters where the USB 3.x topology is extended. This
++ * function returns the corresponding downstream USB 3.x adapter or
++ * %NULL if no such mapping was possible.
++ */
++struct tb_port *usb4_switch_map_usb_down(struct tb_switch *sw,
++					 const struct tb_port *port)
++{
++	int usb4_idx = usb4_port_idx(sw, port);
++	int i, usb_idx = 0;
++
++	/* Find USB down port matching usb4_port */
++	tb_switch_for_each_port(sw, i) {
++		if (tb_port_is_usb_down(&sw->ports[i])) {
++			if (usb_idx == usb4_idx &&
++			    !tb_usb_port_is_enabled(&sw->ports[i])) {
++				return &sw->ports[i];
++			}
++			usb_idx++;
++		}
++	}
++
++	return NULL;
++}
++
+ /**
+  * usb4_port_unlock() - Unlock USB4 downstream port
+  * @port: USB4 port to unlock
 -- 
 2.23.0
 
