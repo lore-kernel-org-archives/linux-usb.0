@@ -7,52 +7,50 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76B31C352AA
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 16:46:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77922ECE587
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 16:47:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 427A320659
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 16:46:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 452A020659
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 16:47:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569948399;
-	bh=1ee7sxbn4JjLSbLQY0Vh4Xq0lJhiXg73E44qe5nVG98=;
+	s=default; t=1569948452;
+	bh=TlmuF76YCkfP0X9fLr4tKl4PM2Et9XRorTWtuWYtaxE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=zMQ+qhE5ttVS0RxPOMN+81wYL4mXKA6AkaC4Ed0CBm6nBSk9DK1oDohcxPIn17otT
-	 nRkz2n+6ovY/yhc6zdlMj7FJIjNJNXmEifVp84MnKSu2cx5CfZH7vSXWGTxebLtp7H
-	 29YSG0zt0gUSRn1BU8ZE/doca44eGtTnDG8Z5tdY=
+	b=I+DGd8GMcgYQyLn27XiUcsbS59PyPippajYke3hr4PnBtJ+DCkNz55i+gpKU5ih47
+	 pDRLwVhQbOUK3RFZcw6wAFQUs1MSo4rd5lv1PHS0y6wJNHfHhKKtI3ZlNxykDLhjVH
+	 zbnEiB3mE+kP7MG2sUK1K+LRujMXjoy+h48bZbMc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390385AbfJAQpo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Oct 2019 12:45:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58296 "EHLO mail.kernel.org"
+        id S2388122AbfJAQrY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Oct 2019 12:47:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58024 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390375AbfJAQpn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 1 Oct 2019 12:45:43 -0400
+        id S2390304AbfJAQpc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 1 Oct 2019 12:45:32 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3889A21A4A;
-        Tue,  1 Oct 2019 16:45:42 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8C2CE21A4C;
+        Tue,  1 Oct 2019 16:45:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569948343;
-        bh=1ee7sxbn4JjLSbLQY0Vh4Xq0lJhiXg73E44qe5nVG98=;
+        s=default; t=1569948331;
+        bh=TlmuF76YCkfP0X9fLr4tKl4PM2Et9XRorTWtuWYtaxE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ADAkyvYmqWbnJ0Fjcg/Ltam8m6OsMXIYaCXO/QcsnPL+BB4bkEbPEvZ/6rwZd/jOj
-         KgpZ6shaGlG+1IjRVdmgweoIV1SRAF9/9I8vDfk8y8qYpIkuCyVPe4AFNmjW/iWtV7
-         Iq3UcQjugGxERtOjIBkyy41Ch5l2vQxoJ1Xcr6/I=
+        b=x/fVMVTKIxWOc79qafevF9MDMfWOwEvRiAU7qaWUobU5Eu8TdCGkTEVT8e0VGWzWy
+         Zxs71EtyCC3miUsp+WqpA95bJZs1D+VgWYwy7RcNlQ4lrvD71/OP1YgvX+4TbXiGYh
+         QmkQASfkt04yZ0K4Xde5CRe7hE9hJecsa9ARiqoo=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
-        syzbot+ce366e2b8296e25d84f5@syzkaller.appspotmail.com,
-        Jakub Kicinski <jakub.kicinski@netronome.com>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 07/15] cdc_ncm: fix divide-by-zero caused by invalid wMaxPacketSize
-Date:   Tue,  1 Oct 2019 12:45:25 -0400
-Message-Id: <20191001164533.16915-7-sashal@kernel.org>
+Cc:     Oliver Neukum <oneukum@suse.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.9 18/19] usbnet: sanity checking of packet sizes and device mtu
+Date:   Tue,  1 Oct 2019 12:45:04 -0400
+Message-Id: <20191001164505.16708-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191001164533.16915-1-sashal@kernel.org>
-References: <20191001164533.16915-1-sashal@kernel.org>
+In-Reply-To: <20191001164505.16708-1-sashal@kernel.org>
+References: <20191001164505.16708-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -61,44 +59,44 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Bjørn Mork <bjorn@mork.no>
+From: Oliver Neukum <oneukum@suse.com>
 
-[ Upstream commit 3fe4b3351301660653a2bc73f2226da0ebd2b95e ]
+[ Upstream commit 280ceaed79f18db930c0cc8bb21f6493490bf29c ]
 
-Endpoints with zero wMaxPacketSize are not usable for transferring
-data. Ignore such endpoints when looking for valid in, out and
-status pipes, to make the driver more robust against invalid and
-meaningless descriptors.
+After a reset packet sizes and device mtu can change and need
+to be reevaluated to calculate queue sizes.
+Malicious devices can set this to zero and we divide by it.
+Introduce sanity checking.
 
-The wMaxPacketSize of the out pipe is used as divisor. So this change
-fixes a divide-by-zero bug.
-
-Reported-by: syzbot+ce366e2b8296e25d84f5@syzkaller.appspotmail.com
-Signed-off-by: Bjørn Mork <bjorn@mork.no>
-Signed-off-by: Jakub Kicinski <jakub.kicinski@netronome.com>
+Reported-and-tested-by:  syzbot+6102c120be558c885f04@syzkaller.appspotmail.com
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/net/usb/cdc_ncm.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/net/usb/usbnet.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
-index 1e921e5eddc7f..442efbccd0051 100644
---- a/drivers/net/usb/cdc_ncm.c
-+++ b/drivers/net/usb/cdc_ncm.c
-@@ -636,8 +636,12 @@ cdc_ncm_find_endpoints(struct usbnet *dev, struct usb_interface *intf)
- 	u8 ep;
+diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+index 6d0efeb28f5cb..0b5fd1499ac06 100644
+--- a/drivers/net/usb/usbnet.c
++++ b/drivers/net/usb/usbnet.c
+@@ -354,6 +354,8 @@ void usbnet_update_max_qlen(struct usbnet *dev)
+ {
+ 	enum usb_device_speed speed = dev->udev->speed;
  
- 	for (ep = 0; ep < intf->cur_altsetting->desc.bNumEndpoints; ep++) {
--
- 		e = intf->cur_altsetting->endpoint + ep;
-+
-+		/* ignore endpoints which cannot transfer data */
-+		if (!usb_endpoint_maxp(&e->desc))
-+			continue;
-+
- 		switch (e->desc.bmAttributes & USB_ENDPOINT_XFERTYPE_MASK) {
- 		case USB_ENDPOINT_XFER_INT:
- 			if (usb_endpoint_dir_in(&e->desc)) {
++	if (!dev->rx_urb_size || !dev->hard_mtu)
++		goto insanity;
+ 	switch (speed) {
+ 	case USB_SPEED_HIGH:
+ 		dev->rx_qlen = MAX_QUEUE_MEMORY / dev->rx_urb_size;
+@@ -370,6 +372,7 @@ void usbnet_update_max_qlen(struct usbnet *dev)
+ 		dev->tx_qlen = 5 * MAX_QUEUE_MEMORY / dev->hard_mtu;
+ 		break;
+ 	default:
++insanity:
+ 		dev->rx_qlen = dev->tx_qlen = 4;
+ 	}
+ }
 -- 
 2.20.1
 
