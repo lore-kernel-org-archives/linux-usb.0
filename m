@@ -6,29 +6,29 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4E50ECE589
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 11:38:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45949C352AA
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 11:38:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id ADA6B21906
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 11:38:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 205CD21906
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 11:38:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732490AbfJALig (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Oct 2019 07:38:36 -0400
-Received: from mga02.intel.com ([134.134.136.20]:39070 "EHLO mga02.intel.com"
+        id S1732627AbfJALik (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Oct 2019 07:38:40 -0400
+Received: from mga07.intel.com ([134.134.136.100]:49106 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732423AbfJALif (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 1 Oct 2019 07:38:35 -0400
+        id S1732572AbfJALik (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 1 Oct 2019 07:38:40 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Oct 2019 04:38:34 -0700
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Oct 2019 04:38:38 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.64,571,1559545200"; 
-   d="scan'208";a="205047686"
+   d="scan'208";a="197830157"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 01 Oct 2019 04:38:31 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 01 Oct 2019 04:38:35 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id E2182EB; Tue,  1 Oct 2019 14:38:30 +0300 (EEST)
+        id 626D656A; Tue,  1 Oct 2019 14:38:31 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Andreas Noever <andreas.noever@gmail.com>,
@@ -43,9 +43,9 @@ Cc:     Andreas Noever <andreas.noever@gmail.com>,
         Mario.Limonciello@dell.com,
         Anthony Wong <anthony.wong@canonical.com>,
         linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 01/22] thunderbolt: Introduce tb_switch_is_icm()
-Date:   Tue,  1 Oct 2019 14:38:09 +0300
-Message-Id: <20191001113830.13028-2-mika.westerberg@linux.intel.com>
+Subject: [RFC PATCH 12/22] thunderbolt: Add Display Port CM handshake for Titan Ridge devices
+Date:   Tue,  1 Oct 2019 14:38:20 +0300
+Message-Id: <20191001113830.13028-13-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191001113830.13028-1-mika.westerberg@linux.intel.com>
 References: <20191001113830.13028-1-mika.westerberg@linux.intel.com>
@@ -56,87 +56,99 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-We currently differentiate between SW CM and ICM by looking directly at
-the sw->config.enabled field which may be rather hard to understand for
-the casual reader. For this reason introduce a wrapper function with
-documentation that should make the intention more clear.
+Titan Ridge devices and newer need an additional connection manager
+handshake in order to do proper Display Port tunneling so implement it
+here.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/lc.c     |  4 ++--
- drivers/thunderbolt/switch.c |  4 ++--
- drivers/thunderbolt/tb.h     | 14 ++++++++++++++
- 3 files changed, 18 insertions(+), 4 deletions(-)
+ drivers/thunderbolt/tb_regs.h |  3 +++
+ drivers/thunderbolt/tunnel.c  | 44 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 47 insertions(+)
 
-diff --git a/drivers/thunderbolt/lc.c b/drivers/thunderbolt/lc.c
-index ae1e92611c3e..af38076088f6 100644
---- a/drivers/thunderbolt/lc.c
-+++ b/drivers/thunderbolt/lc.c
-@@ -94,7 +94,7 @@ int tb_lc_configure_link(struct tb_switch *sw)
- 	struct tb_port *up, *down;
- 	int ret;
+diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
+index 3a39490a954b..8d11b4a2d552 100644
+--- a/drivers/thunderbolt/tb_regs.h
++++ b/drivers/thunderbolt/tb_regs.h
+@@ -252,6 +252,9 @@ struct tb_regs_port_header {
+ #define ADP_DP_CS_3_HDPC			BIT(9)
+ #define DP_LOCAL_CAP				0x04
+ #define DP_REMOTE_CAP				0x05
++#define DP_STATUS_CTRL				0x06
++#define DP_STATUS_CTRL_CMHS			BIT(25)
++#define DP_STATUS_CTRL_UF			BIT(26)
  
--	if (!sw->config.enabled || !tb_route(sw))
-+	if (!tb_route(sw) || tb_switch_is_icm(sw))
- 		return 0;
+ /* PCIe adapter registers */
+ #define ADP_PCIE_CS_0				0x00
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index 3353396e0806..369800110e5e 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -6,6 +6,7 @@
+  * Copyright (C) 2019, Intel Corporation
+  */
  
- 	up = tb_upstream_port(sw);
-@@ -124,7 +124,7 @@ void tb_lc_unconfigure_link(struct tb_switch *sw)
- {
- 	struct tb_port *up, *down;
++#include <linux/delay.h>
+ #include <linux/slab.h>
+ #include <linux/list.h>
  
--	if (sw->is_unplugged || !sw->config.enabled || !tb_route(sw))
-+	if (sw->is_unplugged || !tb_route(sw) || tb_switch_is_icm(sw))
- 		return;
- 
- 	up = tb_upstream_port(sw);
-diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
-index 5ea8db667e83..f9efd670d032 100644
---- a/drivers/thunderbolt/switch.c
-+++ b/drivers/thunderbolt/switch.c
-@@ -986,7 +986,7 @@ static int tb_plug_events_active(struct tb_switch *sw, bool active)
- 	u32 data;
- 	int res;
- 
--	if (!sw->config.enabled)
-+	if (tb_switch_is_icm(sw))
- 		return 0;
- 
- 	sw->config.plug_events_delay = 0xff;
-@@ -1710,7 +1710,7 @@ static int tb_switch_add_dma_port(struct tb_switch *sw)
- 	}
- 
- 	/* Root switch DMA port requires running firmware */
--	if (!tb_route(sw) && sw->config.enabled)
-+	if (!tb_route(sw) && !tb_switch_is_icm(sw))
- 		return 0;
- 
- 	sw->dma_port = dma_port_alloc(sw);
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index 6407d529871d..1565af2e48cb 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -591,6 +591,20 @@ static inline bool tb_switch_is_fr(const struct tb_switch *sw)
- 	}
+@@ -242,6 +243,41 @@ struct tb_tunnel *tb_tunnel_alloc_pci(struct tb *tb, struct tb_port *up,
+ 	return tunnel;
  }
  
-+/**
-+ * tb_switch_is_icm() - Is the switch handled by ICM firmware
-+ * @sw: Switch to check
-+ *
-+ * In case there is a need to differentiate whether ICM firmware or SW CM
-+ * is handling @sw this function can be called. It is valid to call this
-+ * after tb_switch_alloc() and tb_switch_configure() has been called
-+ * (latter only for SW CM case).
-+ */
-+static inline bool tb_switch_is_icm(const struct tb_switch *sw)
++static int tb_dp_cm_handshake(struct tb_port *in, struct tb_port *out)
 +{
-+	return !sw->config.enabled;
++	int timeout = 10;
++	u32 val;
++	int ret;
++
++	/* Both ends need to support this */
++	if (!tb_switch_is_tr(in->sw) || !tb_switch_is_tr(out->sw))
++		return 0;
++
++	ret = tb_port_read(out, &val, TB_CFG_PORT,
++			   out->cap_adap + DP_STATUS_CTRL, 1);
++	if (ret)
++		return ret;
++
++	val |= DP_STATUS_CTRL_UF | DP_STATUS_CTRL_CMHS;
++
++	ret = tb_port_write(out, &val, TB_CFG_PORT,
++			    out->cap_adap + DP_STATUS_CTRL, 1);
++	if (ret)
++		return ret;
++
++	do {
++		ret = tb_port_read(out, &val, TB_CFG_PORT,
++				   out->cap_adap + DP_STATUS_CTRL, 1);
++		if (ret)
++			return ret;
++		if (!(val & DP_STATUS_CTRL_CMHS))
++			return 0;
++		usleep_range(10, 100);
++	} while (timeout--);
++
++	return -ETIMEDOUT;
 +}
 +
- int tb_wait_for_port(struct tb_port *port, bool wait_if_unplugged);
- int tb_port_add_nfc_credits(struct tb_port *port, int credits);
- int tb_port_set_initial_credits(struct tb_port *port, u32 credits);
+ static int tb_dp_xchg_caps(struct tb_tunnel *tunnel)
+ {
+ 	struct tb_port *out = tunnel->dst_port;
+@@ -256,6 +292,14 @@ static int tb_dp_xchg_caps(struct tb_tunnel *tunnel)
+ 	if (in->sw->generation < 2 || out->sw->generation < 2)
+ 		return 0;
+ 
++	/*
++	 * Perform connection manager handshake between IN and OUT ports
++	 * before capabilities exchange can take place.
++	 */
++	ret = tb_dp_cm_handshake(in, out);
++	if (ret)
++		return ret;
++
+ 	/* Read both DP_LOCAL_CAP registers */
+ 	ret = tb_port_read(in, &in_dp_cap, TB_CFG_PORT,
+ 			   in->cap_adap + DP_LOCAL_CAP, 1);
 -- 
 2.23.0
 
