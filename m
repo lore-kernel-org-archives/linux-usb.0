@@ -2,118 +2,59 @@ Return-Path: <SRS0=EQXy=X2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E71CC388F3
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 09:59:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6103AECE58B
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 10:10:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 44D482190F
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 09:59:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569923962;
-	bh=6BQj7mEtfMmysioXhhYw2T2ycMJfZtHk5KXS+5M9J/I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=klXooQtNUlKbgl7Qp0KNB7BVzAObWDacPEOpJWjrDQPVNpdRE9lSP7uQHlJ3o1F0W
-	 s0+1btm92QFVNW68HJV0NaI7G6gV8W2T3JXIzuVNIh13BsbH5J4QWjj7DLnUuODUKi
-	 Mi9GD1YRCUKI8xp8+/hNy/cpsYAsjCTeNkIlBhpI=
+	by mail.kernel.org (Postfix) with ESMTP id 42A372133F
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 10:10:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729393AbfJAJ7R (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Oct 2019 05:59:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37010 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725765AbfJAJ7R (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 1 Oct 2019 05:59:17 -0400
-Received: from localhost (unknown [89.205.130.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1BAED2190F;
-        Tue,  1 Oct 2019 09:59:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569923954;
-        bh=6BQj7mEtfMmysioXhhYw2T2ycMJfZtHk5KXS+5M9J/I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gsqEsnnhnu/YvGG69TnK4g5a2xTa+FgrBXr/RiK7xIdHcSVquGY5kk5UCPw0iPfki
-         6IRV7Bm90LEpF2HwXQ4tSoA/ymTVqyAIm66I8530Ysgg8KutObDwHg80mjPMs70gDR
-         DwW9tjRLUXtLNXrmKQhvnYg1xEvyDLnKrCMVglag=
-Date:   Tue, 1 Oct 2019 11:59:11 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jani Nikula <jani.nikula@intel.com>
-Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-kernel@vger.kernel.org,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        intel-gfx@lists.freedesktop.org,
-        Vishal Kulkarni <vishal@chelsio.com>, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Julia Lawall <julia.lawall@lip6.fr>
-Subject: Re: [PATCH v3] string-choice: add yesno(), onoff(),
- enableddisabled(), plural() helpers
-Message-ID: <20191001095911.GA2945944@kroah.com>
-References: <8e697984-03b5-44f3-304e-42d303724eaa@rasmusvillemoes.dk>
- <20191001080739.18513-1-jani.nikula@intel.com>
- <20191001093849.GA2945163@kroah.com>
- <87blv0dcol.fsf@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87blv0dcol.fsf@intel.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+        id S1730223AbfJAKKg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Oct 2019 06:10:36 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:61186 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726138AbfJAKKg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Oct 2019 06:10:36 -0400
+X-IronPort-AV: E=Sophos;i="5.64,570,1559487600"; 
+   d="scan'208";a="28007370"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 01 Oct 2019 19:10:34 +0900
+Received: from localhost.localdomain (unknown [10.166.17.210])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id D3A1541F2F61;
+        Tue,  1 Oct 2019 19:10:33 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     balbi@kernel.org
+Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, stable@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH 0/2] usb: renesas_usbhs: gadget: fix for g_mass_storage
+Date:   Tue,  1 Oct 2019 19:10:31 +0900
+Message-Id: <1569924633-322-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Oct 01, 2019 at 12:42:34PM +0300, Jani Nikula wrote:
-> On Tue, 01 Oct 2019, Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-> > On Tue, Oct 01, 2019 at 11:07:39AM +0300, Jani Nikula wrote:
-> >> The kernel has plenty of ternary operators to choose between constant
-> >> strings, such as condition ? "yes" : "no", as well as value == 1 ? "" :
-> >> "s":
-> >> 
-> >> $ git grep '? "yes" : "no"' | wc -l
-> >> 258
-> >> $ git grep '? "on" : "off"' | wc -l
-> >> 204
-> >> $ git grep '? "enabled" : "disabled"' | wc -l
-> >> 196
-> >> $ git grep '? "" : "s"' | wc -l
-> >> 25
-> >> 
-> >> Additionally, there are some occurences of the same in reverse order,
-> >> split to multiple lines, or otherwise not caught by the simple grep.
-> >> 
-> >> Add helpers to return the constant strings. Remove existing equivalent
-> >> and conflicting functions in i915, cxgb4, and USB core. Further
-> >> conversion can be done incrementally.
-> >> 
-> >> While the main goal here is to abstract recurring patterns, and slightly
-> >> clean up the code base by not open coding the ternary operators, there
-> >> are also some space savings to be had via better string constant
-> >> pooling.
-> >> 
-> >> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> >> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> >> Cc: intel-gfx@lists.freedesktop.org
-> >> Cc: Vishal Kulkarni <vishal@chelsio.com>
-> >> Cc: netdev@vger.kernel.org
-> >> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> >> Cc: linux-usb@vger.kernel.org
-> >> Cc: Andrew Morton <akpm@linux-foundation.org>
-> >> Cc: linux-kernel@vger.kernel.org
-> >> Cc: Julia Lawall <julia.lawall@lip6.fr>
-> >> Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> >> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org> # v1
-> >
-> > As this is a totally different version, please drop my reviewed-by as
-> > that's really not true here :(
-> 
-> I did indicate it was for v1. Indeed v2 was different, but care to
-> elaborate what's wrong with v3?
+This patch series is based on the latest Greg's usb.git / usb-linus
+branch.
 
-No idea, but I haven't reviewed it yet, so to put my tag on there isn't
-the nicest...
+Yoshihiro Shimoda (2):
+  usb: renesas_usbhs: gadget: Do not discard queues in
+    usb_ep_set_{halt,wedge}()
+  usb: renesas_usbhs: gadget: Fix usb_ep_set_{halt,wedge}() behavior
 
-greg k-h
+ drivers/usb/renesas_usbhs/common.h     |  1 +
+ drivers/usb/renesas_usbhs/fifo.c       |  2 +-
+ drivers/usb/renesas_usbhs/fifo.h       |  1 +
+ drivers/usb/renesas_usbhs/mod_gadget.c | 18 +++++++++++++++---
+ drivers/usb/renesas_usbhs/pipe.c       | 15 +++++++++++++++
+ drivers/usb/renesas_usbhs/pipe.h       |  1 +
+ 6 files changed, 34 insertions(+), 4 deletions(-)
+
+-- 
+2.7.4
+
