@@ -2,102 +2,143 @@ Return-Path: <SRS0=EQXy=X2=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5022C388F3
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 08:49:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25242ECE589
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 09:19:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 92DC9215EA
-	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 08:49:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1569919780;
-	bh=uCIFAQXDiTo1YZ5jwJmXUy4dUexo1BQyatFVgWvrDHE=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=mhAOPRZm0nblNjngIqsnqC7o4OdBZKifgwMkcZL8m57OXujkMPPPuEtoEn0gyf9Sh
-	 moXEV2YyXkbT62sQVqVFvBxabo8QhQ8eg5BQbVNi/wWa2AKbEpoFuekV+nbwwBgZEj
-	 V04ESFfXvxOyKOdU92g9Fyplb+doD1dgusdExS2k=
+	by mail.kernel.org (Postfix) with ESMTP id EE0752133F
+	for <linux-usb@archiver.kernel.org>; Tue,  1 Oct 2019 09:19:41 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="m0HfYCJf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731358AbfJAItU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 1 Oct 2019 04:49:20 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:36879 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726148AbfJAItU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Oct 2019 04:49:20 -0400
-Received: by mail-lj1-f195.google.com with SMTP id l21so12461577lje.4;
-        Tue, 01 Oct 2019 01:49:18 -0700 (PDT)
+        id S1730372AbfJAJTl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 1 Oct 2019 05:19:41 -0400
+Received: from mail-vs1-f68.google.com ([209.85.217.68]:45457 "EHLO
+        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730112AbfJAJTl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 1 Oct 2019 05:19:41 -0400
+Received: by mail-vs1-f68.google.com with SMTP id d204so8808395vsc.12;
+        Tue, 01 Oct 2019 02:19:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bQ9G483ab3lNVVoqgYDTd6EzV0Y2I40ZBWBGU5e+zc0=;
+        b=m0HfYCJfMEqPnmisIZK+WDLhmGxayvz4DyCNCK6269WIhuRilu01qJMaSxJEgioVlX
+         ZSQLdZhhAhjVuEdRA+dIAff/rcFZA4yQctQSrVV3NA1zJ3XI87p8WU9nMOtJVJm5ckFI
+         KpJF952HA35GfmufBdnF02kQhwMXw+baTwixK4yx6m645TpEDH3wBLspk+fc2bdewlbX
+         MPBFRmFBq2NdqWCGIfIdCiSMjjz8ULVvuo39ZfHPRQeHzBS/sFJev1POoQ3dpkcqu9+x
+         mFQu2t5www/+qEBR76TRQBdFZb1CvWq6ITt9ZcYTB+B303kpBK9PtE3HyaVGfsz+HSZr
+         yCGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HA6BOTuvv8pcHm8tehLJmXVXIQIbxIkiRW0rNiff8Fc=;
-        b=EqvR4IYCWWp7f96oxI/cp8Vn1kNHhSVVebuxSuIeOLqa7gBG39GSRGSo4ND+w2EKEU
-         IIXQyq5Oo9XJR0jK4mGpfU7qyWlOTnauIbUomQWXJHaZ6Gi2eaxarHjCKaCIPHC5mWm0
-         /FMge46s113SZkFaVfe/jUbn6eNXerPJta9mNxy/PoYKTnz5XfZ+QP2fHo9hMrc6AbPc
-         rqAocWW62DxgrR6SgKjsiK+AK0XzSuJR79FeUWmJ/etchz76Rm2HI6TItclFG0qrwSmE
-         0EYztaqZHQvjYfBu3drPu+w3Buuf7Qi/olnNZZ8SdcX4Ka8fuDcMpGCGlHjad4DThD+C
-         Tnng==
-X-Gm-Message-State: APjAAAVwHoTdVsyvvCAC6vSq8n5Gqr48AQ0rsHe0LJ5r/K/hyRHBsWPT
-        7SY0Yun9GVN/BTwpZtzPhPU=
-X-Google-Smtp-Source: APXvYqzkIETn5pkp7Rrs2hkbj/rr8CAiMh2InNvloMxxIYy4hVUpST9y/PTpBc7n37kGM4OfK8bFYQ==
-X-Received: by 2002:a2e:2e13:: with SMTP id u19mr15564208lju.112.1569919757596;
-        Tue, 01 Oct 2019 01:49:17 -0700 (PDT)
-Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id m15sm3954239ljg.97.2019.10.01.01.49.16
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 01 Oct 2019 01:49:16 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.92.2)
-        (envelope-from <johan@xi.terra>)
-        id 1iFDqW-0000X6-VU; Tue, 01 Oct 2019 10:49:25 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Pete Zaitcev <zaitcev@redhat.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: [PATCH v2 0/4] USB: fix runtime PM after driver unbind
-Date:   Tue,  1 Oct 2019 10:49:04 +0200
-Message-Id: <20191001084908.2003-1-johan@kernel.org>
-X-Mailer: git-send-email 2.23.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bQ9G483ab3lNVVoqgYDTd6EzV0Y2I40ZBWBGU5e+zc0=;
+        b=f+Vv/LQ3vH227J37etix17SvZrNfeywZQG9h+tJAwYoo8MX2WdZbQOamqrGz8ybGHF
+         Ag0Bp5FEA8tFxzzYrGrZF0Dsv6xbCa7lNFMe7kouiTXR3Q5156STPF9x+8TaTq6XsKKM
+         A7e2GDeWHVmaaWfLQF7vx8OHNZOrSmtLmKk/QsB3bz8NHXg4pPXDP8FnMttfgpl65ned
+         TPxBY8OK3x+9EGb4LJyD1AUaEX4zyhprX/4sGbBK5K6+aLv2wL+QZ00mbCAGkXCNmi3Z
+         zZ5zhxp1Z54oWRC8wOZWfkqMY4pgZw446hWT+c3yhBYxkskDqJz90z+Siel3U6ciZKAR
+         EFoQ==
+X-Gm-Message-State: APjAAAWJ+U6rmNx/0VC/1/foiKW2pN0NaWj+7vK7Vl75i2gyn5Lnctfh
+        qqH1bErfqt3B1ENcyrgX4CPzchTP6MD8h+Y5XUg=
+X-Google-Smtp-Source: APXvYqyMkHzCxlMVOW3xNrOan8sqtInPGJG0BghoNm8YVD/rDqTxI53YLbTbjSk9UAY1SX0WA1tvOjU9/nygVaVYTm4=
+X-Received: by 2002:a67:dc95:: with SMTP id g21mr12533350vsk.164.1569921578412;
+ Tue, 01 Oct 2019 02:19:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAGm1_kuK6aA1ew9ZY-fVDUE+o71u1QaSg0kfX2jWUWE9Me8Tjg@mail.gmail.com>
+ <CAGm1_kuQTtyrdwXAV9NCHnvj3f5d7TixmqCPw=Cxd2A=jKSYmg@mail.gmail.com>
+ <20190927151935.GD5610@atomide.com> <20190927155738.GF5610@atomide.com>
+ <CAGm1_kvvMc848f6f+kg5K2sQ3+NHA-Se7T_pcwQfrB=4GfZM4Q@mail.gmail.com>
+ <CAGm1_kvZpYH+NP8JfYJWE2v3E9v+yFs20L8MSKsAjfC_g+GmaQ@mail.gmail.com>
+ <CAGm1_ktjndofS_N-qh7GVRuJFG1Jn87rf4D8Lt2XMj=+RrL2aw@mail.gmail.com>
+ <20190930145711.GG5610@atomide.com> <20190930152330.GH5610@atomide.com>
+ <20190930195411.6porqtm7tlokgel3@earth.universe> <20191001080339.GF13531@localhost>
+In-Reply-To: <20191001080339.GF13531@localhost>
+From:   Yegor Yefremov <yegorslists@googlemail.com>
+Date:   Tue, 1 Oct 2019 11:19:21 +0200
+Message-ID: <CAGm1_ksg2x9USqB+XGhkMQpA-zc77Ha1-j+foPJFR7R3XPZsNg@mail.gmail.com>
+Subject: Re: musb: cppi41: broken high speed FTDI functionality when connected
+ to musb directly
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Sebastian Reichel <sre@kernel.org>,
+        Tony Lindgren <tony@atomide.com>, linux-omap@vger.kernel.org,
+        vkoul@kernel.org, Bin Liu <b-liu@ti.com>,
+        linux-usb <linux-usb@vger.kernel.org>,
+        Andrey Skvortsov <andrej.skvortzov@gmail.com>,
+        giulio.benetti@benettiengineering.com,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-A recent change in USB core broke runtime-PM after driver unbind in
-several drivers (when counting all USB serial drivers). Specifically,
-drivers which took care not modify the runtime-PM usage counter after
-their disconnect callback had returned, would now fail to be suspended
-when a driver is later bound.
+On Tue, Oct 1, 2019 at 10:03 AM Johan Hovold <johan@kernel.org> wrote:
+>
+> On Mon, Sep 30, 2019 at 09:54:11PM +0200, Sebastian Reichel wrote:
+> > Hi,
+> >
+> > On Mon, Sep 30, 2019 at 08:23:30AM -0700, Tony Lindgren wrote:
+>
+> > > Actually playing with the cppi41 timeout might be more suitable here,
+> > > they use the same module clock from what I remember though. So
+> > > maybe increase the cppi41 autosuspend_timeout from 100 ms to 500 ms
+> > > or higher:
+> > >
+> > > # echo 500 > /sys/bus/platform/drivers/cppi41-dma-engine/47400000.dma-controller/power/autosuspend_delay_ms
+> > >
+> > > If changing the autosuspend_timeout_ms value does not help, then
+> > > try setting control to on there.
+> >
+> > I did not check the details, but from the cover-letter this might be
+> > woth looking into:
+> >
+> > https://lore.kernel.org/lkml/20190930161205.18803-1-johan@kernel.org/
+>
+> No, that one should be unrelated as it would only prevent later suspends after
+> a driver has been unbound (and rebound).
 
-Greg, feel free to pick these up directly. The media patch has been
-acked by Mauro.
+I've tried to increase the autosuspend_delay_ms and to set control to
+"on" but nothing changes. Below you can see the output of my testing
+script [1] (Py2 only). As one can see, the first cycle i.e. after the
+port is open for the first time, fails. But the subsequent cycle is
+successful. If you invoke the script again, everything repeats.
 
-Johan
+I've also made printk() in cppi41_run_queue() and it looks like this
+routine will be called from cppi41_dma_issue_pending() only in the
+beginning of the second test cycle.
 
+# serialtest.py -c 2 /dev/ttyUSB0 /dev/ttyUSB0
+[  662.333862] cppi41_runtime_resume
+Rx/Tx test: baudrate 115200
+Rx/Tx /dev/ttyUSB0 > /dev/ttyUSB0: string length 0 received
+Rx/Tx /dev/ttyUSB0 > /dev/ttyUSB0: FAILED
+Rx/Tx test: baudrate 115200
+Rx/Tx /dev/ttyUSB0 > /dev/ttyUSB0: string length 0 received
+Rx/Tx /dev/ttyUSB0 > /dev/ttyUSB0: FAILED
+Rx/Tx test: baudrate 1200
+Rx/Tx /dev/ttyUSB0 > /dev/ttyUSB0: string length 0 received
+Rx/Tx /dev/ttyUSB0 > /dev/ttyUSB0: FAILED
+Rx/Tx test: baudrate 1200
+Rx/Tx /dev/ttyUSB0 > /dev/ttyUSB0: string length 0 received
+Rx/Tx /dev/ttyUSB0 > /dev/ttyUSB0: FAILED
+Rx/Tx test: baudrate 115200
+Rx/Tx /dev/ttyUSB0 > /dev/ttyUSB0: O.K.
+Rx/Tx test: baudrate 115200
+Rx/Tx /dev/ttyUSB0 > /dev/ttyUSB0: O.K.
+Rx/Tx test: baudrate 1200
+Rx/Tx /dev/ttyUSB0 > /dev/ttyUSB0: O.K.
+Rx/Tx test: baudrate 1200
+Rx/Tx /dev/ttyUSB0 > /dev/ttyUSB0: O.K.
+# [  672.720806] cppi41_runtime_suspend
 
-v2
- - rebase on usb-next, I had a conflicting change to usb-skeleton in my
-   tree
- - add Mauro's ack to the media patch
+[1] http://ftp.visionsystems.de/temp/serialtest.py
 
-
-Johan Hovold (4):
-  USB: usb-skeleton: fix runtime PM after driver unbind
-  USB: usblp: fix runtime PM after driver unbind
-  USB: serial: fix runtime PM after driver unbind
-  media: stkwebcam: fix runtime PM after driver unbind
-
- drivers/media/usb/stkwebcam/stk-webcam.c | 3 +--
- drivers/usb/class/usblp.c                | 8 +++++---
- drivers/usb/serial/usb-serial.c          | 5 +----
- drivers/usb/usb-skeleton.c               | 8 +++-----
- 4 files changed, 10 insertions(+), 14 deletions(-)
-
--- 
-2.23.0
-
+Regards,
+Yegor
