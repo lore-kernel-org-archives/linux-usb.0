@@ -2,171 +2,296 @@ Return-Path: <SRS0=o8ur=X3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,HTTP_ESCAPED_HOST,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32181C35280
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 16:07:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D09EC352AA
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 16:15:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 09D9321A4C
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 16:07:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1570032432;
-	bh=mQPcQHUPwO41tj6eZFL6xjysxPvRcXAHP637dM6rPBA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Sf9dV9lNqLFMlcsdAWYv7LXfNwhDSda0Y7ggTUJYFKxGukHVy9EmunYGCfhYA8zr6
-	 s22L017IEAMawbAhrI2nQeVCbS+CH7wX4Mkj+3sV378ERxT1maq0l895s0U9QG3fSt
-	 BNKEZzUx00pDiaCBpvo6pf4KtprGVotT0tGSu59A=
+	by mail.kernel.org (Postfix) with ESMTP id D0BE0222BE
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 16:15:25 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hyUxHIjL"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729214AbfJBQHI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Oct 2019 12:07:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36258 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729190AbfJBQHH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 2 Oct 2019 12:07:07 -0400
-Received: from localhost.localdomain (unknown [194.230.155.145])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B1851222BE;
-        Wed,  2 Oct 2019 16:06:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570032426;
-        bh=mQPcQHUPwO41tj6eZFL6xjysxPvRcXAHP637dM6rPBA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=xqXgGJ9vZy7bk8yuGyGyCZ7HwYOrs+sZX0ScjPpHW2skiKsRVVRbzRGyQcfqtu4D8
-         sDlbVfZP8EPCOarDCvgd/OoIf7Cf8wm0Dk0jsfDjrCD4nx9pQtHbxNAKOrgy5zMzDi
-         vbSyChOYqADcyyWF+Gryao3inEuvv8/IJSvZMhXw=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Sudeep Holla <sudeep.holla@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org, etnaviv@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-rpi-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v2 3/3] ARM: dts: exynos: Rename power domain nodes to "power-domain" in Exynos4
-Date:   Wed,  2 Oct 2019 18:06:32 +0200
-Message-Id: <20191002160632.11140-3-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191002160632.11140-1-krzk@kernel.org>
-References: <20191002160632.11140-1-krzk@kernel.org>
+        id S1727268AbfJBQPZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Oct 2019 12:15:25 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:32846 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725975AbfJBQPY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Oct 2019 12:15:24 -0400
+Received: by mail-ed1-f65.google.com with SMTP id c4so15813510edl.0
+        for <linux-usb@vger.kernel.org>; Wed, 02 Oct 2019 09:15:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=RfGDcmIw7ulMJh06QAxIbycvPjPVshGqNxweR1BvyX8=;
+        b=hyUxHIjLkkm9IaQFFZ1kmQyAiDIv1+r8y9bMgHtQa+VLE2Ql1bjL2Go+eKXMPKIUET
+         HIipHzALP13gdblS08IjbEJaYEq7ens4gFbPm8cr1fy2D0Wk6qyU27jQMA5Q7fRrrXQ8
+         5KbRxSV1ic1iqybWfimTC5cSceNXxxEv6exg6pD6quvw51bSnz9+Vj8higxWrsVpRlq9
+         +z9JG/eUG9L/pI2MF+bdPB1mzntrY4bdanEucNUfdFJdRujdKBdkOx3dPs5Bemas/eop
+         mxrOxc5HPubxPX5KS6fn0oBrxfJcezgwMpDijgOCc5N4qdTPSLTKztGn3zmgixpsXRDo
+         OzAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=RfGDcmIw7ulMJh06QAxIbycvPjPVshGqNxweR1BvyX8=;
+        b=ZsZoTTcogA0njY4pvl0Oq+TMnxsXOOdJC0ZnDW+TP5qOzXKq94OEmy7sAInCivrGy1
+         ocleJFxC7+yw6ewQBK3jLKGXJqTOASAoYz/0sJF1nKgwr5r7QH90YmYyT7+P+O7qUrQx
+         XyKU+4gr9VhTkhm+gl8E5rhRtQnoWqkJXBFEETmOqPVpkmjTMgCriwSFLvbwAs7S/FrO
+         RUNEoKvGd+58cK5fTRFiCr32+SBusmKAzmLHi+KkKlWOqSBlp0hpFfwKFf5hulGDmVXH
+         PYuHh/rdJpJNmKX1ezsyIlFJTbitZYwYusecWcy+uu2XCC5nqr6x2DnUpTtANMolEFhz
+         1ZTg==
+X-Gm-Message-State: APjAAAXNJE7WGA7i8klVGYKA+wfSa4QTIsH0DE9g1OPVm3VFNn9FgGF+
+        TrjNmOgQATntT5I4juoHZfC4tomeRSXscrLeGXw=
+X-Google-Smtp-Source: APXvYqxxwoQbCormbL9BMcmuaRngT05GFCchOM/q1ruWoUlm2RrUPD90Z7PvNZmHv6pGekbyYsxE8/gDf1HmaPdpJT8=
+X-Received: by 2002:a05:6402:2054:: with SMTP id bc20mr4882932edb.55.1570032922474;
+ Wed, 02 Oct 2019 09:15:22 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAByghJYLLdtYiQGNCxJ4HEjm5Y1v0LQ1pc+dmHemoNWxx2h6jg@mail.gmail.com>
+ <VI1PR04MB53276A58AE76E5EADD822E498B870@VI1PR04MB5327.eurprd04.prod.outlook.com>
+ <CAByghJbF-zBVWsGqCq9b3xF7xe2KZuhCd_E4kskH9K-gZu1bNA@mail.gmail.com>
+In-Reply-To: <CAByghJbF-zBVWsGqCq9b3xF7xe2KZuhCd_E4kskH9K-gZu1bNA@mail.gmail.com>
+From:   Igor Opaniuk <igor.opaniuk@gmail.com>
+Date:   Wed, 2 Oct 2019 19:15:11 +0300
+Message-ID: <CAByghJZ4EKkYs2VnCOSC=_SxBVkg1icXt+hxBNVM3TXfHv8Rnw@mail.gmail.com>
+Subject: Re: [chipidea] continuous USB resets on NXP i.MX 6ULL device
+To:     Peter Chen <peter.chen@nxp.com>, Jun Li <jun.li@nxp.com>
+Cc:     Fabio Estevam <festevam@gmail.com>,
+        "stefan.wahren@i2se.com" <stefan.wahren@i2se.com>,
+        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
+        Stefan Agner <stefan.agner@toradex.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The device node name should reflect generic class of a device so rename
-power domain nodes to "power-domain".  No functional change.
++ Li Jun
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- arch/arm/boot/dts/exynos4.dtsi    | 14 +++++++-------
- arch/arm/boot/dts/exynos4210.dtsi |  2 +-
- arch/arm/boot/dts/exynos4412.dtsi |  2 +-
- 3 files changed, 9 insertions(+), 9 deletions(-)
+Hi Peter, Li,
 
-diff --git a/arch/arm/boot/dts/exynos4.dtsi b/arch/arm/boot/dts/exynos4.dtsi
-index 433f109d97ca..d2779a790ce3 100644
---- a/arch/arm/boot/dts/exynos4.dtsi
-+++ b/arch/arm/boot/dts/exynos4.dtsi
-@@ -111,28 +111,28 @@
- 			syscon = <&pmu_system_controller>;
- 		};
- 
--		pd_mfc: mfc-power-domain@10023c40 {
-+		pd_mfc: power-domain@10023c40 {
- 			compatible = "samsung,exynos4210-pd";
- 			reg = <0x10023C40 0x20>;
- 			#power-domain-cells = <0>;
- 			label = "MFC";
- 		};
- 
--		pd_g3d: g3d-power-domain@10023c60 {
-+		pd_g3d: power-domain@10023c60 {
- 			compatible = "samsung,exynos4210-pd";
- 			reg = <0x10023C60 0x20>;
- 			#power-domain-cells = <0>;
- 			label = "G3D";
- 		};
- 
--		pd_lcd0: lcd0-power-domain@10023c80 {
-+		pd_lcd0: power-domain@10023c80 {
- 			compatible = "samsung,exynos4210-pd";
- 			reg = <0x10023C80 0x20>;
- 			#power-domain-cells = <0>;
- 			label = "LCD0";
- 		};
- 
--		pd_tv: tv-power-domain@10023c20 {
-+		pd_tv: power-domain@10023c20 {
- 			compatible = "samsung,exynos4210-pd";
- 			reg = <0x10023C20 0x20>;
- 			#power-domain-cells = <0>;
-@@ -140,21 +140,21 @@
- 			label = "TV";
- 		};
- 
--		pd_cam: cam-power-domain@10023c00 {
-+		pd_cam: power-domain@10023c00 {
- 			compatible = "samsung,exynos4210-pd";
- 			reg = <0x10023C00 0x20>;
- 			#power-domain-cells = <0>;
- 			label = "CAM";
- 		};
- 
--		pd_gps: gps-power-domain@10023ce0 {
-+		pd_gps: power-domain@10023ce0 {
- 			compatible = "samsung,exynos4210-pd";
- 			reg = <0x10023CE0 0x20>;
- 			#power-domain-cells = <0>;
- 			label = "GPS";
- 		};
- 
--		pd_gps_alive: gps-alive-power-domain@10023d00 {
-+		pd_gps_alive: power-domain@10023d00 {
- 			compatible = "samsung,exynos4210-pd";
- 			reg = <0x10023D00 0x20>;
- 			#power-domain-cells = <0>;
-diff --git a/arch/arm/boot/dts/exynos4210.dtsi b/arch/arm/boot/dts/exynos4210.dtsi
-index f220716239db..ff9a3fb21a85 100644
---- a/arch/arm/boot/dts/exynos4210.dtsi
-+++ b/arch/arm/boot/dts/exynos4210.dtsi
-@@ -90,7 +90,7 @@
- 			};
- 		};
- 
--		pd_lcd1: lcd1-power-domain@10023ca0 {
-+		pd_lcd1: power-domain@10023ca0 {
- 			compatible = "samsung,exynos4210-pd";
- 			reg = <0x10023CA0 0x20>;
- 			#power-domain-cells = <0>;
-diff --git a/arch/arm/boot/dts/exynos4412.dtsi b/arch/arm/boot/dts/exynos4412.dtsi
-index d20db2dfe8e2..1c40bd56ce00 100644
---- a/arch/arm/boot/dts/exynos4412.dtsi
-+++ b/arch/arm/boot/dts/exynos4412.dtsi
-@@ -206,7 +206,7 @@
- 			};
- 		};
- 
--		pd_isp: isp-power-domain@10023ca0 {
-+		pd_isp: power-domain@10023ca0 {
- 			compatible = "samsung,exynos4210-pd";
- 			reg = <0x10023CA0 0x20>;
- 			#power-domain-cells = <0>;
--- 
-2.17.1
+On Mon, Sep 30, 2019 at 2:35 PM Igor Opaniuk <igor.opaniuk@gmail.com> wrote=
+:
+>
+> Hi Peter,
+>
+> On Wed, Sep 25, 2019 at 3:44 AM Peter Chen <peter.chen@nxp.com> wrote:
+> >
+> >
+> > >
+> > > Hi Fabio, Peter, Stefan,
+> > >
+> > > I've incidentally discovered your last year discussion in ML [1] (I h=
+ope it rings the
+> > > bell) regarding the issue I'm still observing on the same device with=
+ the mainline
+> > > kernel.
+> > >
+> > > The difference between i.MX 6ULL EVK and this particular device, is t=
+hat usbotg2 is
+> > > used only in host mode with the usb hub integrated on the carrier boa=
+rd [2] [3].
+> > >
+> > > root@colibri-imx6:~# lsusb -s 1:1 --tree
+> > > /:  Bus 01.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dci_hdrc/1p, 480M
+> > >     |__ Port 1: Dev 2, If 0, Class=3DHub, Driver=3Dhub/4p, 480M
+> > >
+> > > However I can't reproduce the same behavior with i.MX 6ULL EVK with c=
+onnected
+> > > usb hub to usbotg2. Also this behavior can't be reproduced with NXP d=
+ownstream
+> > > kernel (Linux version 4.9.144) on my device.
+> > >
+> > > After digging in a bit I found out that this happens only when autosu=
+spend is
+> > > enabled for the usb controller:
+> > > echo auto > /sys/bus/usb/devices/1-1/power/control
+> > >
+> > > It tries to go to suspend mode, but everytime fails and resumes:
+> > > root@colibri-imx6:~# cat /sys/bus/usb/devices/1-1/power/runtime_statu=
+s
+> > > suspended
+> > > root@colibri-imx6:~# cat /sys/bus/usb/devices/1-1/power/runtime_statu=
+s
+> > > resuming
+> > > root@colibri-imx6:~# cat /sys/bus/usb/devices/1-1/power/runtime_statu=
+s
+> > > suspended
+> > > root@colibri-imx6:~# cat /sys/bus/usb/devices/1-1/power/runtime_statu=
+s
+> > > suspended
+> > > root@colibri-imx6:~# cat /sys/bus/usb/devices/1-1/power/runtime_statu=
+s
+> > > suspended
+> > > root@colibri-imx6:~# cat /sys/bus/usb/devices/1-1/power/runtime_statu=
+s
+> > > resuming
+> > >
+> > > I'm observing ~2 seconds wakeup interrupts handled in ci_irq() in cor=
+e.c and
+> > > subsequent invocation of imx_controller_resume().
+> > >
+> > > Meantime usboh3 remains enabled all the time (though
+> > > imx_disable_unprepare_clks() should disable it):
+> > > root@colibri-imx6:~# cat /sys/kernel/debug/clk/clk_summary | grep usb
+> > >     usbphy2_gate                      1        1        0           0
+> > >         0     0  50000
+> > >     usbphy1_gate                      1        1        0           0
+> > >         0     0  50000
+> > >           pll7_usb_host               1        1        0   480000000
+> > >         0     0  50000
+> > >              usbphy2                  1        1        0   480000000
+> > >         0     0  50000
+> > >           pll3_usb_otg                2        3        0   480000000
+> > >         0     0  50000
+> > >              usbphy1                  0        0        0   480000000
+> > >         0     0  50000
+> > >                          usboh3       1        1        0    66000000
+> > >         0     0  50000
+> > >
+> > > While I'm trying to localize the root cause, maybe you can give some =
+hints where to
+> > > look into?
+> > >
+> >
+> > Would you please look below two downstream patches see if it helps?
+> >
+> > commit e8e95658fe75f3873e06d5ad72a6bf0bad40f068
+> > Author: Li Jun <jun.li@nxp.com>
+> > Date:   Mon Oct 16 23:13:19 2017 +0800
+> >
+> >     MLK-16576 usb: phy: mxs: set hold_ring_off for USB2 PLL power up
+> >
+> >     USB2 PLL use ring VCO, when the PLL power up, the ring VCO=E2=80=99=
+s supply also
+> >     ramp up. There is a possibility that the ring VCO start oscillation=
+ at
+> >     multi nodes in this phase, especially for VCO which has many stages=
+, then
+> >     the multiwave will kept until PLL power down. Hold_ring_off(bit11) =
+can
+> >     force the VCO in one determined state when VCO supply start ramp up=
+, to
+> >     avoid this multiwave issue. Per IC design's suggestion it's better =
+this
+> >     bit can be off from 25us after pll power up to 25us before USB TX/R=
+X.
+> >
+> >
+> > commit aa4680d844a340a5b6b60484f6e04cb9ba613c65
+> > Author: Peter Chen <peter.chen@nxp.com>
+> > Date:   Wed Sep 7 12:16:59 2016 +0800
+> >
+> >     MLK-13125 usb: phy: phy-mxs-usb: enable weak 1p1 regulator for imx6=
+ul during suspend
+> >
+> >     For imx6ul PHY, when the system enters suspend, its 1p1 is off by d=
+efault,
+> >     that may cause the PHY get inaccurate USB DP/DM value. If the USB w=
+akeup
+> >     is enabled at this time, the unexpected wakeup may occur when the s=
+ystem
+> >     enters suspend.
+> >
+> >     In this patch, when the vbus is there, we enable weak 1p1 during th=
+e PHY
+> >     suspend API, in that case, the USB DP/DM will be accurate for USB P=
+HY,
+> >     then unexpected usb wakeup will not be occurred, especially for the=
+ USB
+> >     charger is connected scenario. The user needs to enable PHY wakeup =
+for
+> >     USB wakeup function using below setting.
+> >
+> > Peter
+> >
+> > > Thanks for helping me!
+> > >
+> > > [1]
+> > > https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fm=
+arc.info%2
+> > > F%3Fl%3Dlinux-
+> > > usb%26m%3D151844741732751&amp;data=3D02%7C01%7Cpeter.chen%40nxp.co
+> > > m%7Cb61742d4ff4646c2cb9408d740d735fe%7C686ea1d3bc2b4c6fa92cd99c5c30
+> > > 1635%7C0%7C0%7C637049165376859788&amp;sdata=3DeZdOVCuyVyA502DgwoN
+> > > 16QmU5WDknrqCK5xmEbIovAE%3D&amp;reserved=3D0
+> > > [2]
+> > > https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fg=
+ithub.com%
+> > > 2Ftorvalds%2Flinux%2Fblob%2Fmaster%2Farch%2Farm%2Fboot%2Fdts%2Fimx6
+> > > ull-
+> > > colibri.dtsi%23L191&amp;data=3D02%7C01%7Cpeter.chen%40nxp.com%7Cb6174=
+2d
+> > > 4ff4646c2cb9408d740d735fe%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C
+> > > 0%7C637049165376859788&amp;sdata=3D7%2FVP15v1XGeQzweIu%2FaGhJEt1ov
+> > > Tn4zl%2F3pghKBcGlw%3D&amp;reserved=3D0
+> > > [3]
+> > > https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fg=
+ithub.com%
+> > > 2Ftorvalds%2Flinux%2Fblob%2Fmaster%2Farch%2Farm%2Fboot%2Fdts%2Fimx6
+> > > ull-colibri-eval-
+> > > v3.dtsi%23L143&amp;data=3D02%7C01%7Cpeter.chen%40nxp.com%7Cb61742d4ff=
+4
+> > > 646c2cb9408d740d735fe%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7
+> > > C637049165376859788&amp;sdata=3DM43BXrJedKgszOJkZ9W4h5bqQo9WBaxe7C
+> > > L4tAD2Ouk%3D&amp;reserved=3D0
+> > >
+> > > --
+> > > Best regards - Freundliche Gr=C3=BCsse - Meilleures salutations
+> > >
+> > > Igor Opaniuk
+> > >
+> > > mailto: igor.opaniuk@gmail.com
+> > > skype: igor.opanyuk
+> > > +380 (93) 836 40 67
+> > > https://eur01.safelinks.protection.outlook.com/?url=3Dhttp%3A%2F%2Fua=
+.linkedin.co
+> > > m%2Fin%2Fiopaniuk&amp;data=3D02%7C01%7Cpeter.chen%40nxp.com%7Cb61742
+> > > d4ff4646c2cb9408d740d735fe%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7
+> > > C0%7C637049165376859788&amp;sdata=3DqzgWZaeraIUjiLG24s9x%2BUQEnRrJ2
+> > > TiRKD%2F6ndna4Ws%3D&amp;reserved=3D0
+>
+>
+> Unfortunately these two commits didn't help (+ 'MLK-10170 usb: phy:
+> mxs: keep USBPHY2's clk always on',
+> which one of the commits depends on).
+>
+>
+> --
+> Best regards - Freundliche Gr=C3=BCsse - Meilleures salutations
+>
+> Igor Opaniuk
+>
+> mailto: igor.opaniuk@gmail.com
+> skype: igor.opanyuk
+> +380 (93) 836 40 67
+> http://ua.linkedin.com/in/iopaniuk
 
+So finally I found the commit in the downstream NXP kernel
+which fixes this behaviour
+6bdc038751("MLK-14285-3 usb: phy: mxs: optimize disconnect line condition")=
+.
+
+Seems that no one tried to upstream it yet (I can't find anything in
+the ML archieves),
+so if you don't have any objections I'll apply/test on top 5.4-rc1/
+send to ML (or just let me know if you are planning to do it on your own).
+
+Thanks!
+
+--=20
+Best regards - Freundliche Gr=C3=BCsse - Meilleures salutations
+
+Igor Opaniuk
+
+mailto: igor.opaniuk@gmail.com
+skype: igor.opanyuk
++380 (93) 836 40 67
+http://ua.linkedin.com/in/iopaniuk
