@@ -2,459 +2,231 @@ Return-Path: <SRS0=o8ur=X3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78902C35280
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 11:27:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A4BBC352AA
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 11:32:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3358621920
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 11:27:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1570015623;
-	bh=1EAqeuZ2lEPENoN77/GnLmhvfVQmkvL0HXX/c8tgDPI=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=IoisEitCD0hibfIeXm0C/4NeAL2Fq3OyJtRocN+ywGwnlAdAZKX2Hej6zvlXyGAt5
-	 edpm4lOVfOqOfuOqzNkm9R3QMJcEyco+EZjTBPVeRdVQr8lJcrAyxLuEA3seAnhyKU
-	 tYfknmm4P7BO5mtRmqZtih3ULIHrSeS2dqXObgxE=
+	by mail.kernel.org (Postfix) with ESMTP id 0C67C2133F
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 11:32:17 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="nprZ3gxt"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728193AbfJBL07 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Oct 2019 07:26:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42588 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725917AbfJBL07 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 2 Oct 2019 07:26:59 -0400
-Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4DCD121783;
-        Wed,  2 Oct 2019 11:26:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570015617;
-        bh=1EAqeuZ2lEPENoN77/GnLmhvfVQmkvL0HXX/c8tgDPI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=POgOW9RZv81pgir+qurUsULY4O1E9R6pxlpibnmd3ereVndMljGZAmjmJs7IMR+BJ
-         KsiH8I7zfJh3CkS7mZ2Zg4IYP+hDl1GPwYzAscXrR020z2T/mMKD8kMQwDTe7msnBn
-         kUs+cfa60m6AAXEIhVBwbxkOC1empJ6RlJpVWEVo=
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Cc:     linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        devicetree@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Emmanuel Vadot <manu@bidouilliste.com>
-Subject: [PATCH 1/2] ARM: dts: sunxi: Revert phy-names removal for ECHI and OHCI
-Date:   Wed,  2 Oct 2019 13:26:50 +0200
-Message-Id: <20191002112651.100504-1-mripard@kernel.org>
-X-Mailer: git-send-email 2.23.0
+        id S1726605AbfJBLcR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Oct 2019 07:32:17 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:45332 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726464AbfJBLcR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Oct 2019 07:32:17 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x92BT2r7134079;
+        Wed, 2 Oct 2019 11:32:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
+ bh=q2zT9aaJliTvzY8CrdgIC6qeI9HB8lpTAR3TaRbk2S0=;
+ b=nprZ3gxtmXDyVb/MBZ7UGrLCyyOxNM6zE+wjxPoB5ZMPgrpUr4BwZfCCi5O22Qcdxq0v
+ IAf5RWdI9kisGw5rXaWMV3uusTXEJoJxH4d6YNLHhJpfCYSn8IOjr5oxHuDIaxVttBwJ
+ xrMohU0N2S3tAXsSXFbKd6zPS/bUs4OuAd3BdY1X2sj+YIQvEknBWSFEF8+4qViCEQ0g
+ UO8sNbw33KpQZpaplHL++B/84skJzqqzf6hZNPo37+uPEXl/g8pzA3MXZpK+JSm3u6Jq
+ /7jaskGLIljbAwPhjcLL2C45rIKNo8kZddNPXdhP53t+bICktuLb7cPM7FJNuvJ6NaFR LA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2120.oracle.com with ESMTP id 2va05rv8g3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 02 Oct 2019 11:32:06 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x92BSvvD016874;
+        Wed, 2 Oct 2019 11:30:05 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3020.oracle.com with ESMTP id 2vckynsmfv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 02 Oct 2019 11:30:05 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x92BU2kJ016995;
+        Wed, 2 Oct 2019 11:30:03 GMT
+Received: from mwanda (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 02 Oct 2019 04:30:02 -0700
+Date:   Wed, 2 Oct 2019 14:29:54 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     jun.li@nxp.com
+Cc:     Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>, linux-usb@vger.kernel.org
+Subject: [bug report] usb: chipidea: imx: enable vbus and id wakeup only for
+ OTG events
+Message-ID: <20191002112954.GA1890@mwanda>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9397 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=1 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=283
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1908290000 definitions=main-1910020109
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9397 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=1 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=366 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
+ definitions=main-1910020109
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This reverts commits 3d109bdca981 ("ARM: dts: sunxi: Remove useless
-phy-names from EHCI and OHCI"), 0a3df8bb6dad ("ARM: dts: sunxi: h3/h5:
-Remove useless phy-names from EHCI and OHCI") and 3c7ab90aaa28 ("arm64:
-dts: allwinner: Remove useless phy-names from EHCI and OHCI").
+Hello Li Jun,
 
-It turns out that while the USB bindings were not mentionning it, the PHY
-client bindings were mandating that phy-names is set when phys is. Let's
-add it back.
+The patch 15b80f7c3a7f: "usb: chipidea: imx: enable vbus and id
+wakeup only for OTG events" from Sep 9, 2019, leads to the following
+static checker warning:
 
-Fixes: 3d109bdca981 ("ARM: dts: sunxi: Remove useless phy-names from EHCI and OHCI")
-Fixes: 0a3df8bb6dad ("ARM: dts: sunxi: h3/h5: Remove useless phy-names from EHCI and OHCI")
-Fixes: 3c7ab90aaa28 ("arm64: dts: allwinner: Remove useless phy-names from EHCI and OHCI")
-Reported-by: Emmanuel Vadot <manu@bidouilliste.com>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- arch/arm/boot/dts/sun4i-a10.dtsi                      | 4 ++++
- arch/arm/boot/dts/sun5i.dtsi                          | 2 ++
- arch/arm/boot/dts/sun6i-a31.dtsi                      | 4 ++++
- arch/arm/boot/dts/sun7i-a20.dtsi                      | 4 ++++
- arch/arm/boot/dts/sun8i-a23-a33.dtsi                  | 2 ++
- arch/arm/boot/dts/sun8i-a83t.dtsi                     | 3 +++
- arch/arm/boot/dts/sun8i-r40.dtsi                      | 4 ++++
- arch/arm/boot/dts/sun9i-a80.dtsi                      | 5 +++++
- arch/arm/boot/dts/sunxi-h3-h5.dtsi                    | 6 ++++++
- arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts | 2 ++
- arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi         | 2 ++
- arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi          | 2 ++
- 12 files changed, 40 insertions(+)
+	drivers/usb/chipidea/ci_hdrc_imx.c:438 ci_hdrc_imx_probe()
+	warn: 'data->usbmisc_data' can also be NULL
 
-diff --git a/arch/arm/boot/dts/sun4i-a10.dtsi b/arch/arm/boot/dts/sun4i-a10.dtsi
-index ce823c44e98a..4c268b70b735 100644
---- a/arch/arm/boot/dts/sun4i-a10.dtsi
-+++ b/arch/arm/boot/dts/sun4i-a10.dtsi
-@@ -520,6 +520,7 @@
- 			interrupts = <39>;
- 			clocks = <&ccu CLK_AHB_EHCI0>;
- 			phys = <&usbphy 1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -529,6 +530,7 @@
- 			interrupts = <64>;
- 			clocks = <&ccu CLK_USB_OHCI0>, <&ccu CLK_AHB_OHCI0>;
- 			phys = <&usbphy 1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -608,6 +610,7 @@
- 			interrupts = <40>;
- 			clocks = <&ccu CLK_AHB_EHCI1>;
- 			phys = <&usbphy 2>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -617,6 +620,7 @@
- 			interrupts = <65>;
- 			clocks = <&ccu CLK_USB_OHCI1>, <&ccu CLK_AHB_OHCI1>;
- 			phys = <&usbphy 2>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-diff --git a/arch/arm/boot/dts/sun5i.dtsi b/arch/arm/boot/dts/sun5i.dtsi
-index cfb1efc8828c..6befa236ba99 100644
---- a/arch/arm/boot/dts/sun5i.dtsi
-+++ b/arch/arm/boot/dts/sun5i.dtsi
-@@ -391,6 +391,7 @@
- 			interrupts = <39>;
- 			clocks = <&ccu CLK_AHB_EHCI>;
- 			phys = <&usbphy 1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -400,6 +401,7 @@
- 			interrupts = <40>;
- 			clocks = <&ccu CLK_USB_OHCI>, <&ccu CLK_AHB_OHCI>;
- 			phys = <&usbphy 1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-diff --git a/arch/arm/boot/dts/sun6i-a31.dtsi b/arch/arm/boot/dts/sun6i-a31.dtsi
-index bbeb743633c6..ac7638078420 100644
---- a/arch/arm/boot/dts/sun6i-a31.dtsi
-+++ b/arch/arm/boot/dts/sun6i-a31.dtsi
-@@ -545,6 +545,7 @@
- 			clocks = <&ccu CLK_AHB1_EHCI0>;
- 			resets = <&ccu RST_AHB1_EHCI0>;
- 			phys = <&usbphy 1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -555,6 +556,7 @@
- 			clocks = <&ccu CLK_AHB1_OHCI0>, <&ccu CLK_USB_OHCI0>;
- 			resets = <&ccu RST_AHB1_OHCI0>;
- 			phys = <&usbphy 1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -565,6 +567,7 @@
- 			clocks = <&ccu CLK_AHB1_EHCI1>;
- 			resets = <&ccu RST_AHB1_EHCI1>;
- 			phys = <&usbphy 2>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -575,6 +578,7 @@
- 			clocks = <&ccu CLK_AHB1_OHCI1>, <&ccu CLK_USB_OHCI1>;
- 			resets = <&ccu RST_AHB1_OHCI1>;
- 			phys = <&usbphy 2>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-diff --git a/arch/arm/boot/dts/sun7i-a20.dtsi b/arch/arm/boot/dts/sun7i-a20.dtsi
-index 49380de754a9..874231be04e4 100644
---- a/arch/arm/boot/dts/sun7i-a20.dtsi
-+++ b/arch/arm/boot/dts/sun7i-a20.dtsi
-@@ -623,6 +623,7 @@
- 			interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&ccu CLK_AHB_EHCI0>;
- 			phys = <&usbphy 1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -632,6 +633,7 @@
- 			interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&ccu CLK_USB_OHCI0>, <&ccu CLK_AHB_OHCI0>;
- 			phys = <&usbphy 1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -714,6 +716,7 @@
- 			interrupts = <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&ccu CLK_AHB_EHCI1>;
- 			phys = <&usbphy 2>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -723,6 +726,7 @@
- 			interrupts = <GIC_SPI 65 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&ccu CLK_USB_OHCI1>, <&ccu CLK_AHB_OHCI1>;
- 			phys = <&usbphy 2>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-diff --git a/arch/arm/boot/dts/sun8i-a23-a33.dtsi b/arch/arm/boot/dts/sun8i-a23-a33.dtsi
-index 52eed0ae3607..f292f96ab39b 100644
---- a/arch/arm/boot/dts/sun8i-a23-a33.dtsi
-+++ b/arch/arm/boot/dts/sun8i-a23-a33.dtsi
-@@ -307,6 +307,7 @@
- 			clocks = <&ccu CLK_BUS_EHCI>;
- 			resets = <&ccu RST_BUS_EHCI>;
- 			phys = <&usbphy 1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -317,6 +318,7 @@
- 			clocks = <&ccu CLK_BUS_OHCI>, <&ccu CLK_USB_OHCI>;
- 			resets = <&ccu RST_BUS_OHCI>;
- 			phys = <&usbphy 1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-diff --git a/arch/arm/boot/dts/sun8i-a83t.dtsi b/arch/arm/boot/dts/sun8i-a83t.dtsi
-index 523be6611c50..74bb053cf23c 100644
---- a/arch/arm/boot/dts/sun8i-a83t.dtsi
-+++ b/arch/arm/boot/dts/sun8i-a83t.dtsi
-@@ -632,6 +632,7 @@
- 			clocks = <&ccu CLK_BUS_EHCI0>;
- 			resets = <&ccu RST_BUS_EHCI0>;
- 			phys = <&usbphy 1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -643,6 +644,7 @@
- 			clocks = <&ccu CLK_BUS_OHCI0>, <&ccu CLK_USB_OHCI0>;
- 			resets = <&ccu RST_BUS_OHCI0>;
- 			phys = <&usbphy 1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -654,6 +656,7 @@
- 			clocks = <&ccu CLK_BUS_EHCI1>;
- 			resets = <&ccu RST_BUS_EHCI1>;
- 			phys = <&usbphy 2>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r40.dtsi
-index bde068111b85..c9c2688db66d 100644
---- a/arch/arm/boot/dts/sun8i-r40.dtsi
-+++ b/arch/arm/boot/dts/sun8i-r40.dtsi
-@@ -273,6 +273,7 @@
- 			clocks = <&ccu CLK_BUS_EHCI1>;
- 			resets = <&ccu RST_BUS_EHCI1>;
- 			phys = <&usbphy 1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -284,6 +285,7 @@
- 				 <&ccu CLK_USB_OHCI1>;
- 			resets = <&ccu RST_BUS_OHCI1>;
- 			phys = <&usbphy 1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -294,6 +296,7 @@
- 			clocks = <&ccu CLK_BUS_EHCI2>;
- 			resets = <&ccu RST_BUS_EHCI2>;
- 			phys = <&usbphy 2>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -305,6 +308,7 @@
- 				 <&ccu CLK_USB_OHCI2>;
- 			resets = <&ccu RST_BUS_OHCI2>;
- 			phys = <&usbphy 2>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-diff --git a/arch/arm/boot/dts/sun9i-a80.dtsi b/arch/arm/boot/dts/sun9i-a80.dtsi
-index 4fd879fb099c..1d9d12a90df9 100644
---- a/arch/arm/boot/dts/sun9i-a80.dtsi
-+++ b/arch/arm/boot/dts/sun9i-a80.dtsi
-@@ -346,6 +346,7 @@
- 			clocks = <&usb_clocks CLK_BUS_HCI0>;
- 			resets = <&usb_clocks RST_USB0_HCI>;
- 			phys = <&usbphy1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -357,6 +358,7 @@
- 				 <&usb_clocks CLK_USB_OHCI0>;
- 			resets = <&usb_clocks RST_USB0_HCI>;
- 			phys = <&usbphy1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -378,6 +380,7 @@
- 			clocks = <&usb_clocks CLK_BUS_HCI1>;
- 			resets = <&usb_clocks RST_USB1_HCI>;
- 			phys = <&usbphy2>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -407,6 +410,7 @@
- 			clocks = <&usb_clocks CLK_BUS_HCI2>;
- 			resets = <&usb_clocks RST_USB2_HCI>;
- 			phys = <&usbphy3>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -418,6 +422,7 @@
- 				 <&usb_clocks CLK_USB_OHCI2>;
- 			resets = <&usb_clocks RST_USB2_HCI>;
- 			phys = <&usbphy3>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-diff --git a/arch/arm/boot/dts/sunxi-h3-h5.dtsi b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
-index eba190b3f9de..107eeafad20a 100644
---- a/arch/arm/boot/dts/sunxi-h3-h5.dtsi
-+++ b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
-@@ -304,6 +304,7 @@
- 			clocks = <&ccu CLK_BUS_EHCI1>, <&ccu CLK_BUS_OHCI1>;
- 			resets = <&ccu RST_BUS_EHCI1>, <&ccu RST_BUS_OHCI1>;
- 			phys = <&usbphy 1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -315,6 +316,7 @@
- 				 <&ccu CLK_USB_OHCI1>;
- 			resets = <&ccu RST_BUS_EHCI1>, <&ccu RST_BUS_OHCI1>;
- 			phys = <&usbphy 1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -325,6 +327,7 @@
- 			clocks = <&ccu CLK_BUS_EHCI2>, <&ccu CLK_BUS_OHCI2>;
- 			resets = <&ccu RST_BUS_EHCI2>, <&ccu RST_BUS_OHCI2>;
- 			phys = <&usbphy 2>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -336,6 +339,7 @@
- 				 <&ccu CLK_USB_OHCI2>;
- 			resets = <&ccu RST_BUS_EHCI2>, <&ccu RST_BUS_OHCI2>;
- 			phys = <&usbphy 2>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -346,6 +350,7 @@
- 			clocks = <&ccu CLK_BUS_EHCI3>, <&ccu CLK_BUS_OHCI3>;
- 			resets = <&ccu RST_BUS_EHCI3>, <&ccu RST_BUS_OHCI3>;
- 			phys = <&usbphy 3>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -357,6 +362,7 @@
- 				 <&ccu CLK_USB_OHCI3>;
- 			resets = <&ccu RST_BUS_EHCI3>, <&ccu RST_BUS_OHCI3>;
- 			phys = <&usbphy 3>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
-index 2b6345db7dc0..78c82a665c84 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
-@@ -104,6 +104,7 @@
- 
- &ehci0 {
- 	phys = <&usbphy 0>;
-+	phy-names = "usb";
- 	status = "okay";
- };
- 
-@@ -150,6 +151,7 @@
- 
- &ohci0 {
- 	phys = <&usbphy 0>;
-+	phy-names = "usb";
- 	status = "okay";
- };
- 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-index d0028934e11c..70f4cce6be43 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-@@ -544,6 +544,7 @@
- 			resets = <&ccu RST_BUS_OHCI1>,
- 				 <&ccu RST_BUS_EHCI1>;
- 			phys = <&usbphy 1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -555,6 +556,7 @@
- 				 <&ccu CLK_USB_OHCI1>;
- 			resets = <&ccu RST_BUS_OHCI1>;
- 			phys = <&usbphy 1>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-index 4020a1aafa3e..0d5ea19336a1 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-@@ -547,6 +547,7 @@
- 			resets = <&ccu RST_BUS_OHCI3>,
- 				 <&ccu RST_BUS_EHCI3>;
- 			phys = <&usb2phy 3>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
-@@ -558,6 +559,7 @@
- 				 <&ccu CLK_USB_OHCI3>;
- 			resets = <&ccu RST_BUS_OHCI3>;
- 			phys = <&usb2phy 3>;
-+			phy-names = "usb";
- 			status = "disabled";
- 		};
- 
--- 
-2.23.0
+drivers/usb/chipidea/ci_hdrc_imx.c
+   317          data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
+   318          if (!data)
+   319                  return -ENOMEM;
+   320  
+   321          data->plat_data = imx_platform_flag;
+   322          pdata.flags |= imx_platform_flag->flags;
+   323          platform_set_drvdata(pdev, data);
+   324          data->usbmisc_data = usbmisc_get_init_data(dev);
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This can return NULL or error pointer.
 
+   325          if (IS_ERR(data->usbmisc_data))
+   326                  return PTR_ERR(data->usbmisc_data);
+   327  
+   328          if ((of_usb_get_phy_mode(dev->of_node) == USBPHY_INTERFACE_MODE_HSIC)
+   329                  && data->usbmisc_data) {
+                           ^^^^^^^^^^^^^^^^^^
+This code checks for NULL.
+
+   330                  pdata.flags |= CI_HDRC_IMX_IS_HSIC;
+   331                  data->usbmisc_data->hsic = 1;
+   332                  data->pinctrl = devm_pinctrl_get(dev);
+   333                  if (IS_ERR(data->pinctrl)) {
+   334                          dev_err(dev, "pinctrl get failed, err=%ld\n",
+   335                                          PTR_ERR(data->pinctrl));
+   336                          return PTR_ERR(data->pinctrl);
+   337                  }
+   338  
+   339                  pinctrl_hsic_idle = pinctrl_lookup_state(data->pinctrl, "idle");
+   340                  if (IS_ERR(pinctrl_hsic_idle)) {
+   341                          dev_err(dev,
+   342                                  "pinctrl_hsic_idle lookup failed, err=%ld\n",
+   343                                          PTR_ERR(pinctrl_hsic_idle));
+   344                          return PTR_ERR(pinctrl_hsic_idle);
+   345                  }
+   346  
+   347                  ret = pinctrl_select_state(data->pinctrl, pinctrl_hsic_idle);
+   348                  if (ret) {
+   349                          dev_err(dev, "hsic_idle select failed, err=%d\n", ret);
+   350                          return ret;
+   351                  }
+   352  
+   353                  data->pinctrl_hsic_active = pinctrl_lookup_state(data->pinctrl,
+   354                                                                  "active");
+   355                  if (IS_ERR(data->pinctrl_hsic_active)) {
+   356                          dev_err(dev,
+   357                                  "pinctrl_hsic_active lookup failed, err=%ld\n",
+   358                                          PTR_ERR(data->pinctrl_hsic_active));
+   359                          return PTR_ERR(data->pinctrl_hsic_active);
+   360                  }
+   361  
+   362                  data->hsic_pad_regulator = devm_regulator_get(dev, "hsic");
+   363                  if (PTR_ERR(data->hsic_pad_regulator) == -EPROBE_DEFER) {
+   364                          return -EPROBE_DEFER;
+   365                  } else if (PTR_ERR(data->hsic_pad_regulator) == -ENODEV) {
+   366                          /* no pad regualator is needed */
+   367                          data->hsic_pad_regulator = NULL;
+   368                  } else if (IS_ERR(data->hsic_pad_regulator)) {
+   369                          dev_err(dev, "Get HSIC pad regulator error: %ld\n",
+   370                                          PTR_ERR(data->hsic_pad_regulator));
+   371                          return PTR_ERR(data->hsic_pad_regulator);
+   372                  }
+   373  
+   374                  if (data->hsic_pad_regulator) {
+   375                          ret = regulator_enable(data->hsic_pad_regulator);
+   376                          if (ret) {
+   377                                  dev_err(dev,
+   378                                          "Failed to enable HSIC pad regulator\n");
+   379                                  return ret;
+   380                          }
+   381                  }
+   382          }
+   383  
+   384          if (pdata.flags & CI_HDRC_PMQOS)
+   385                  pm_qos_add_request(&data->pm_qos_req,
+   386                          PM_QOS_CPU_DMA_LATENCY, 0);
+   387  
+   388          ret = imx_get_clks(dev);
+   389          if (ret)
+   390                  goto disable_hsic_regulator;
+   391  
+   392          ret = imx_prepare_enable_clks(dev);
+   393          if (ret)
+   394                  goto disable_hsic_regulator;
+   395  
+   396          data->phy = devm_usb_get_phy_by_phandle(dev, "fsl,usbphy", 0);
+   397          if (IS_ERR(data->phy)) {
+   398                  ret = PTR_ERR(data->phy);
+   399                  /* Return -EINVAL if no usbphy is available */
+   400                  if (ret == -ENODEV)
+   401                          data->phy = NULL;
+   402                  else
+   403                          goto err_clk;
+   404          }
+   405  
+   406          pdata.usb_phy = data->phy;
+   407  
+   408          if ((of_device_is_compatible(np, "fsl,imx53-usb") ||
+   409               of_device_is_compatible(np, "fsl,imx51-usb")) && pdata.usb_phy &&
+   410              of_usb_get_phy_mode(np) == USBPHY_INTERFACE_MODE_ULPI) {
+   411                  pdata.flags |= CI_HDRC_OVERRIDE_PHY_CONTROL;
+   412                  data->override_phy_control = true;
+   413                  usb_phy_init(pdata.usb_phy);
+   414          }
+   415  
+   416          if (pdata.flags & CI_HDRC_SUPPORTS_RUNTIME_PM)
+   417                  data->supports_runtime_pm = true;
+   418  
+   419          ret = imx_usbmisc_init(data->usbmisc_data);
+   420          if (ret) {
+   421                  dev_err(dev, "usbmisc init failed, ret=%d\n", ret);
+   422                  goto err_clk;
+   423          }
+   424  
+   425          data->ci_pdev = ci_hdrc_add_device(dev,
+   426                                  pdev->resource, pdev->num_resources,
+   427                                  &pdata);
+   428          if (IS_ERR(data->ci_pdev)) {
+   429                  ret = PTR_ERR(data->ci_pdev);
+   430                  if (ret != -EPROBE_DEFER)
+   431                          dev_err(dev, "ci_hdrc_add_device failed, err=%d\n",
+   432                                          ret);
+   433                  goto err_clk;
+   434          }
+   435  
+   436          if (!IS_ERR(pdata.id_extcon.edev) ||
+   437              of_property_read_bool(np, "usb-role-switch"))
+   438                  data->usbmisc_data->ext_id = 1;
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+   439  
+   440          if (!IS_ERR(pdata.vbus_extcon.edev) ||
+   441              of_property_read_bool(np, "usb-role-switch"))
+   442                  data->usbmisc_data->ext_vbus = 1;
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+These should probably check for NULL?  This driver seems to check pretty
+consistently.
+
+   443  
+   444          ret = imx_usbmisc_init_post(data->usbmisc_data);
+
+regards,
+dan carpenter
