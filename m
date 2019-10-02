@@ -2,98 +2,98 @@ Return-Path: <SRS0=o8ur=X3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1345EC35280
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 08:01:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCB95C352AA
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 08:30:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DF3CD215EA
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 08:01:43 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="f/kfJ2Z4"
+	by mail.kernel.org (Postfix) with ESMTP id A9F5D21783
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 08:30:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727169AbfJBIBK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Oct 2019 04:01:10 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:10645 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725799AbfJBIBK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Oct 2019 04:01:10 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d94594d0001>; Wed, 02 Oct 2019 01:01:17 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 02 Oct 2019 01:01:09 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 02 Oct 2019 01:01:09 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 2 Oct
- 2019 08:01:09 +0000
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 2 Oct
- 2019 08:01:08 +0000
-Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Wed, 2 Oct 2019 08:01:08 +0000
-Received: from jckuo-lt.nvidia.com (Not Verified[10.19.108.102]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5d9459420001>; Wed, 02 Oct 2019 01:01:08 -0700
-From:   JC Kuo <jckuo@nvidia.com>
-To:     <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>
-CC:     <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <nkristam@nvidia.com>, <skomatineni@nvidia.com>,
-        JC Kuo <jckuo@nvidia.com>
-Subject: [PATCH 0/6] Add Tegra194 XUSB host and pad controller support
-Date:   Wed, 2 Oct 2019 16:00:45 +0800
-Message-ID: <20191002080051.11142-1-jckuo@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-X-NVConfidentiality: public
+        id S1727313AbfJBIaj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Oct 2019 04:30:39 -0400
+Received: from mga17.intel.com ([192.55.52.151]:20607 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725848AbfJBIaj (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 2 Oct 2019 04:30:39 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Oct 2019 01:30:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,573,1559545200"; 
+   d="scan'208";a="205278527"
+Received: from lahna.fi.intel.com (HELO lahna) ([10.237.72.157])
+  by fmsmga001.fm.intel.com with SMTP; 02 Oct 2019 01:30:35 -0700
+Received: by lahna (sSMTP sendmail emulation); Wed, 02 Oct 2019 11:30:34 +0300
+Date:   Wed, 2 Oct 2019 11:30:34 +0300
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Oliver Neukum <oneukum@suse.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Anthony Wong <anthony.wong@canonical.com>,
+        Mario.Limonciello@dell.com,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Rajmohan Mani <rajmohan.mani@intel.com>,
+        Nicholas Johnson <nicholas.johnson-opensource@outlook.com.au>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        Lukas Wunner <lukas@wunner.de>
+Subject: Re: [RFC PATCH 17/22] thunderbolt: Add initial support for USB4
+Message-ID: <20191002083034.GE2714@lahna.fi.intel.com>
+References: <20191001113830.13028-1-mika.westerberg@linux.intel.com>
+ <20191001113830.13028-18-mika.westerberg@linux.intel.com>
+ <20191001124748.GH2954373@kroah.com>
+ <20191001130905.GO2714@lahna.fi.intel.com>
+ <20191001145354.GA3366714@kroah.com>
+ <20191001150734.GA2714@lahna.fi.intel.com>
+ <1569947262.2639.15.camel@suse.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1570003277; bh=GPsfBTidovLb2EyOvodPKq1ls7/+8VJte+CoYWlCP9U=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         X-NVConfidentiality:MIME-Version:Content-Type;
-        b=f/kfJ2Z4WLBQvca2iLEg7VNTHZcvk3N00+I2egWM6rdpbMhms9ec+3VchiWvsbIys
-         iYu6pOqLeue1kmDUDttxTIzmTn7VEkYkf6tM4KQRwADdol0nAkwdTVF5crXhVDYeq6
-         pOqwP7uunoMkPx5O73iLLW0lhypMtJ1cKFElbOCulEY3pOmtvVdBraoMQ2jJ2iC26Z
-         AUMRhvJ2vWepYymNAKoOG1Qe35wM9xde306TTkHj2QCZENN1/ei/foj1GkQPg2//tA
-         gMAm9UHI/iHB5ksQNvaIkm4SgtI7Iv7sLiIQK1RUnwzK272yQ9Y83JetgyedtoELw1
-         ATGBvSpgwkRlw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1569947262.2639.15.camel@suse.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+On Tue, Oct 01, 2019 at 06:27:42PM +0200, Oliver Neukum wrote:
+> Am Dienstag, den 01.10.2019, 18:07 +0300 schrieb Mika Westerberg:
+> 
+> Hi,
+> 
+> > OK, but does that break existing .configs? I mean if you have already
+> > CONFIG_THUNDERBOLT in your .config/defconfig does it now just get
+> > dropped silently?
+> 
+> People will have to look at this new stuff anyway.
+> 
+> > For example firewire has CONFIG_FIREWIRE even though the "standard" name
+> > is IEEE 1394. I was thinking maybe we can do the same for
+> > USB4/Thunderbolt
+> 
+> USB and Thunderbolt used to be distinct protocols. Whereas Firewire
+> was just a colloquial name for IEEE1394. Please be wordy here.
+> "Unified support for USB4 and Thunderbolt4"
 
-This series introduces support for Tegra194 XUSB host and pad 
-controller. Tegra194 XUSB host and pad controller are highly
-similar to the controllers found on Tegra186. Therefore, we
-decided to resue xhci-tegra.c and xusb-tegra186.c for Tegra194.
+OK.
 
-JC Kuo (6):
-  xhci: tegra: Parameterize mailbox register addresses
-  usb: host: xhci-tegra: Add Tegra194 XHCI support
-  phy: tegra: xusb: Add Tegra194 support
-  dt-bindings: phy: tegra: Add Tegra194 support
-  arm64: tegra: Add XUSB and pad controller on Tegra194
-  arm64: tegra: Enable XUSB host in P2972-0000 board
+I've been thinking this bit more and since Thunderbolt will stick around
+as well (it basically implements all the optional USB4 features and
+more) so would it make sense to have the Kconfig option be
+CONFIG_THUNDERBOLT_USB4 (or CONFIG_USB4_THUNDERBOLT)? That should cover
+both.
 
- .../phy/nvidia,tegra124-xusb-padctl.txt       |  16 +++
- .../arm64/boot/dts/nvidia/tegra194-p2888.dtsi |  31 ++++-
- .../boot/dts/nvidia/tegra194-p2972-0000.dts   |  59 ++++++++
- arch/arm64/boot/dts/nvidia/tegra194.dtsi      | 130 ++++++++++++++++++
- drivers/phy/tegra/Makefile                    |   1 +
- drivers/phy/tegra/xusb-tegra186.c             |  77 +++++++++++
- drivers/phy/tegra/xusb.c                      |  13 ++
- drivers/phy/tegra/xusb.h                      |   4 +
- drivers/usb/host/xhci-tegra.c                 |  88 +++++++++---
- 9 files changed, 402 insertions(+), 17 deletions(-)
+Comments?
 
--- 
-2.17.1
-
+Also does anyone have any thoughts about keeping the driver under
+drivers/thunderbolt vs. moving it under usb like
+drivers/usb/thunderbolt? I'm thinking if anyone not familiar with this
+tries to enable support for USB4 so the first place he/she probably
+looks is under "USB support" menuconfig entry.
