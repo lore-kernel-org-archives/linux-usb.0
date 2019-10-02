@@ -2,169 +2,230 @@ Return-Path: <SRS0=o8ur=X3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DF32ECE58A
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 16:01:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6F3EECE58E
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 16:06:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CFE0921A4C
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 16:01:04 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=dell.com header.i=@dell.com header.b="u2peh/ka"
+	by mail.kernel.org (Postfix) with ESMTP id 97D07222C3
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 16:06:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728980AbfJBQBB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Oct 2019 12:01:01 -0400
-Received: from mx0a-00154904.pphosted.com ([148.163.133.20]:4858 "EHLO
-        mx0a-00154904.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727964AbfJBQBA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Oct 2019 12:01:00 -0400
-Received: from pps.filterd (m0170389.ppops.net [127.0.0.1])
-        by mx0a-00154904.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x92CQVWH011233;
-        Wed, 2 Oct 2019 12:00:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=smtpout1;
- bh=DDfOLBjbXub1hW1ubYvHVAD7KSICxmg8nsU9+MTOTYI=;
- b=u2peh/kaFgDf+WjVAq0EdS5JXVO/iOxcZKKhHoLsMQPhX0/4XgtnU5aAmOMDEU1ESvoj
- Dt8b+LPr09+dlH29Pt6I9a/lMeOA+9/ESOUUQbiyL8tk+VFRkZnP8dkxAqajJEvxyzRg
- 05TBni1mEJB009uYJWA8Ce+ljKVIaMKBS78NjTiMKDFp3fRfvXXZ/0iv3xoODg7rDz9E
- jJNcPswwOSTaR7E2Qf6pG1Y9hGsTy6zlxFs2U1j4olTFLRe96V92NtQQoQzXVc4FYIpg
- TPqvx8UD2NLA9CETW3tVxs/cdXLEd9+e++kIiYnDk7lvxfD7cLRsEikoM8HDDqBWHt6M OA== 
-Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
-        by mx0a-00154904.pphosted.com with ESMTP id 2va3hd3qdc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 02 Oct 2019 12:00:59 -0400
-Received: from pps.filterd (m0134318.ppops.net [127.0.0.1])
-        by mx0a-00154901.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x92Flt7s083619;
-        Wed, 2 Oct 2019 12:00:58 -0400
-Received: from ausxipps301.us.dell.com (ausxipps301.us.dell.com [143.166.148.223])
-        by mx0a-00154901.pphosted.com with ESMTP id 2va25g9nr7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 02 Oct 2019 12:00:57 -0400
-X-LoopCount0: from 10.166.132.127
-X-PREM-Routing: D-Outbound
-X-IronPort-AV: E=Sophos;i="5.60,349,1549951200"; 
-   d="scan'208";a="404255656"
-From:   <Mario.Limonciello@dell.com>
-To:     <yehezkelshb@gmail.com>
-CC:     <mika.westerberg@linux.intel.com>, <linux-usb@vger.kernel.org>,
-        <andreas.noever@gmail.com>, <michael.jamet@intel.com>,
-        <rajmohan.mani@intel.com>,
-        <nicholas.johnson-opensource@outlook.com.au>, <lukas@wunner.de>,
-        <gregkh@linuxfoundation.org>, <stern@rowland.harvard.edu>,
-        <anthony.wong@canonical.com>, <linux-kernel@vger.kernel.org>
-Subject: RE: [RFC PATCH 17/22] thunderbolt: Add initial support for USB4
-Thread-Topic: [RFC PATCH 17/22] thunderbolt: Add initial support for USB4
-Thread-Index: AQHVeEzShOhklesInk+gx9St4A7986dGAqiggAATYiCAAUbqgIAAF+AwgABczAD//7D1UA==
-Date:   Wed, 2 Oct 2019 16:00:55 +0000
-Message-ID: <bb84da73d1df468da1707a2af09eb2de@AUSX13MPC105.AMER.DELL.COM>
-References: <20191001113830.13028-1-mika.westerberg@linux.intel.com>
- <20191001113830.13028-18-mika.westerberg@linux.intel.com>
- <184c95fc476146939b240557e54ee2c9@AUSX13MPC105.AMER.DELL.COM>
- <5357cb96013445d79f5c2016df8a194e@AUSX13MPC105.AMER.DELL.COM>
- <20191002083913.GG2714@lahna.fi.intel.com>
- <767f2f97059e4e9f861080672aaa18d3@AUSX13MPC105.AMER.DELL.COM>
- <CA+CmpXs4YsTA3QnD77SaXq3mRYX6oFwx+pm-3wEErwkF-02M+A@mail.gmail.com>
-In-Reply-To: <CA+CmpXs4YsTA3QnD77SaXq3mRYX6oFwx+pm-3wEErwkF-02M+A@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Enabled=True;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Owner=Mario_Limonciello@Dell.com;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_SetDate=2019-10-02T16:00:53.7765086Z;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Name=External Public;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_17cb76b2-10b8-4fe1-93d4-2202842406cd_Extended_MSFT_Method=Manual;
- aiplabel=External Public
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.143.18.86]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1729098AbfJBQG4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Oct 2019 12:06:56 -0400
+Received: from mga17.intel.com ([192.55.52.151]:54468 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725799AbfJBQGz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 2 Oct 2019 12:06:55 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Oct 2019 09:06:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,249,1566889200"; 
+   d="scan'208";a="205369808"
+Received: from kuha.fi.intel.com ([10.237.72.53])
+  by fmsmga001.fm.intel.com with SMTP; 02 Oct 2019 09:06:53 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Wed, 02 Oct 2019 19:06:52 +0300
+Date:   Wed, 2 Oct 2019 19:06:52 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 1/7] usb: typec: Copy everything from struct
+ typec_capability during registration
+Message-ID: <20191002160652.GB19836@kuha.fi.intel.com>
+References: <20191001094858.68643-1-heikki.krogerus@linux.intel.com>
+ <20191001094858.68643-2-heikki.krogerus@linux.intel.com>
+ <9173aabc-3e61-fc9b-e01e-0f1ce78429a2@roeck-us.net>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
- definitions=2019-10-02_07:2019-10-01,2019-10-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0
- priorityscore=1501 malwarescore=0 spamscore=0 clxscore=1015 mlxscore=0
- impostorscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0
- mlxlogscore=999 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-1908290000 definitions=main-1910020141
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 lowpriorityscore=0
- spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0 suspectscore=0
- mlxlogscore=999 clxscore=1015 priorityscore=1501 mlxscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1908290000
- definitions=main-1909280083
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9173aabc-3e61-fc9b-e01e-0f1ce78429a2@roeck-us.net>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBZZWhlemtlbCBCZXJuYXQgPHll
-aGV6a2Vsc2hiQGdtYWlsLmNvbT4NCj4gU2VudDogV2VkbmVzZGF5LCBPY3RvYmVyIDIsIDIwMTkg
-MTA6MzcgQU0NCj4gVG86IExpbW9uY2llbGxvLCBNYXJpbw0KPiBDYzogTWlrYSBXZXN0ZXJiZXJn
-OyBsaW51eC11c2JAdmdlci5rZXJuZWwub3JnOyBBbmRyZWFzIE5vZXZlcjsgTWljaGFlbA0KPiBK
-YW1ldDsgUmFqbW9oYW4gTWFuaTsgbmljaG9sYXMuam9obnNvbi1vcGVuc291cmNlQG91dGxvb2su
-Y29tLmF1OyBMdWthcw0KPiBXdW5uZXI7IGdyZWdraEBsaW51eGZvdW5kYXRpb24ub3JnOyBzdGVy
-bkByb3dsYW5kLmhhcnZhcmQuZWR1OyBBbnRob255DQo+IFdvbmc7IExLTUwNCj4gU3ViamVjdDog
-UmU6IFtSRkMgUEFUQ0ggMTcvMjJdIHRodW5kZXJib2x0OiBBZGQgaW5pdGlhbCBzdXBwb3J0IGZv
-ciBVU0I0DQo+IA0KPiANCj4gW0VYVEVSTkFMIEVNQUlMXQ0KPiANCj4gT24gV2VkLCBPY3QgMiwg
-MjAxOSBhdCA2OjA5IFBNIDxNYXJpby5MaW1vbmNpZWxsb0BkZWxsLmNvbT4gd3JvdGU6DQo+ID4N
-Cj4gPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPiBGcm9tOiBNaWthIFdlc3Rl
-cmJlcmcgPG1pa2Eud2VzdGVyYmVyZ0BsaW51eC5pbnRlbC5jb20+DQo+ID4gPiBTZW50OiBXZWRu
-ZXNkYXksIE9jdG9iZXIgMiwgMjAxOSAzOjM5IEFNDQo+ID4gPiBUbzogTGltb25jaWVsbG8sIE1h
-cmlvDQo+ID4gPiBDYzogbGludXgtdXNiQHZnZXIua2VybmVsLm9yZzsgYW5kcmVhcy5ub2V2ZXJA
-Z21haWwuY29tOw0KPiA+ID4gbWljaGFlbC5qYW1ldEBpbnRlbC5jb207IFllaGV6a2VsU2hCQGdt
-YWlsLmNvbTsNCj4gcmFqbW9oYW4ubWFuaUBpbnRlbC5jb207DQo+ID4gPiBuaWNob2xhcy5qb2hu
-c29uLW9wZW5zb3VyY2VAb3V0bG9vay5jb20uYXU7IGx1a2FzQHd1bm5lci5kZTsNCj4gPiA+IGdy
-ZWdraEBsaW51eGZvdW5kYXRpb24ub3JnOyBzdGVybkByb3dsYW5kLmhhcnZhcmQuZWR1Ow0KPiA+
-ID4gYW50aG9ueS53b25nQGNhbm9uaWNhbC5jb207IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5v
-cmcNCj4gPiA+IFN1YmplY3Q6IFJlOiBbUkZDIFBBVENIIDE3LzIyXSB0aHVuZGVyYm9sdDogQWRk
-IGluaXRpYWwgc3VwcG9ydCBmb3IgVVNCNA0KPiA+ID4NCj4gPiA+DQo+ID4gPiBbRVhURVJOQUwg
-RU1BSUxdDQo+ID4gPg0KPiA+ID4gT24gVHVlLCBPY3QgMDEsIDIwMTkgYXQgMDY6MTQ6MjNQTSAr
-MDAwMCwgTWFyaW8uTGltb25jaWVsbG9AZGVsbC5jb20NCj4gd3JvdGU6DQo+ID4gPiA+IE9uZSBt
-b3JlIHRob3VnaHQ7IHdvdWxkIHlvdSBjb25zaWRlciBleHBvcnRpbmcgdG8gc3lzZnMgc3ctDQo+
-ID4gPiA+Y29uZmlnLnZlbmRvcl9pZD8NCj4gPiA+ID4gTWF5YmUgYW4gYXR0cmlidXRlIHRoYXQg
-aXMgc3dpdGNoX3ZlbmRvcj8NCj4gPiA+ID4NCj4gPiA+ID4gVXNlcmxhbmQgZnd1cGQgYWxzbyBk
-b2VzIHZhbGlkYXRpb24gb24gdGhlIE5WTSBhbmQgd2lsbCBuZWVkIHRvIGZvbGxvdw0KPiB0aGlz
-Lg0KPiA+ID4gPiBUaGUgc2FtZSBjaGVjayB3aWxsIGdvIGludG8gZnd1cGQgdG8gbWF0Y2ggdGhl
-IHZlbmRvciBhbmQgbGFjayBvZg0KPiA+ID4gbnZtX25vbl9hY3RpdmUwDQo+ID4gPiA+IHRvIG1h
-cmsgdGhlIGRldmljZSBhcyBub3QgdXBkYXRhYmxlLiAgV2hlbiB0aGUgY2hlY2tzIGluIHRoZSBr
-ZXJuZWwgZ2V0DQo+ID4gPiByZWxheGVkLA0KPiA+ID4gPiBzb21lIE5WTSBwYXJzaW5nIHdpbGwg
-aGF2ZSB0byBtYWtlIGl0IG92ZXIgdG8gZnd1cGQgdG9vIHRvIHJlbGF4IHRoZSBjaGVjaw0KPiBh
-dA0KPiA+ID4gdGhhdCBwb2ludC4NCj4gPiA+DQo+ID4gPiBUaGUgb3JpZ2luYWwgaWRlYSB3YXMg
-dGhhdCB0aGUga2VybmVsIGRvZXMgdGhlIGJhc2ljIHZhbGlkYXRpb24gYW5kDQo+ID4gPiB1c2Vy
-c3BhY2UgdGhlbiBkb2VzIG1vcmUgY29tcGxleCBjaGVja3MuIEN1cnJlbnRseSB5b3UgY2FuIGNv
-bXBhcmUgdGhlDQo+ID4gPiB0d28gTlZNIGltYWdlcyAoYWN0aXZlIG9uZSBhbmQgdGhlIG5ldykg
-YW5kIGZpbmQgdGhhdCBpbmZvcm1hdGlvbiB0aGVyZS4NCj4gPiA+IEkgdGhpbmsgZnd1cGQgaXMg
-ZG9pbmcganVzdCB0aGF0IGFscmVhZHkuIElzIHRoYXQgbm90IGVub3VnaD8NCj4gPg0KPiA+IEkg
-Z3Vlc3MgZm9yIGZ3dXBkIHdlIGNhbiBkbyB0aGlzIHdpdGhvdXQgdGhlIGV4dHJhIGF0dHJpYnV0
-ZToNCj4gPg0KPiA+IDEpIElmIG5vIE5WTSBmaWxlcyBvciBudm1fdmVyc2lvbjogbWVhbnMgdW5z
-dXBwb3J0ZWQgdmVuZG9yIC1zaG93IHRoYXQNCj4gbWVzc2FnaW5nIHNvbWV3aGVyZS4NCj4gPiBU
-aGlzIG1lYW5zIGtlcm5lbCBkb2Vzbid0IGtub3cgdGhlIHZlbmRvci4NCj4gPg0KPiA+IDIpIElm
-IE5WTSBmaWxlIGFuZCBudm1fdmVyc2lvbjogbWVhbnMga2VybmVsIGtub3dzIGl0DQo+ID4gKmZ3
-dXBkIGNoZWNrcyB0aGUgdmVuZG9yIG9mZnNldCBmb3IgaW50ZWwuDQo+ID4gLT4gaW50ZWw6IGdv
-b2QsIHByb2NlZWQNCj4gPiAtPnNvbWV0aGluZyBlbHNlOiBmd3VwZCBuZWVkcyB0byBsZWFybiB0
-aGUgZm9ybWF0IGZvciB0aGUgbmV3IHZlbmRvciwgc2hvdw0KPiBtZXNzYWdpbmcNCj4gPg0KPiA+
-IFRoZXJlIGlzIHRoZSB1bmxpa2VseSBjYXNlIHRoYXQga2VybmVsIGtub3dzIG5ldyB2ZW5kb3Ig
-Zm9ybWF0IGFuZCB2ZW5kb3INCj4gTlZNIGhhcHBlbmVkIHRvIGhhdmUNCj4gPiBzYW1lIHZhbHVl
-IGFzIEludGVsIHZlbmRvciBJRCBpbiBzYW1lIGxvY2F0aW9uIG9mIEludGVsIE5WTSBidXQgYW5v
-dGhlcg0KPiBtZWFuaW5nLg0KPiA+IEhvcGVmdWxseSB0aGF0IGRvZXNuJ3QgaGFwcGVuIDopDQo+
-IA0KPiBJdCdzIG5vdCBldmVuICJzYW1lIGxvY2F0aW9uIC0gYW5vdGhlciBtZWFuaW5nIiwgdGhl
-IHZlbmRvciBJRCBjb21lcyBmcm9tIHRoZQ0KPiBEUk9NIHNlY3Rpb24sIHNvIGl0IHRha2VzIGEg
-ZmV3IGludGVybmFsIGp1bXBzIGluc2lkZSB0aGUgTlZNIHRvIGZpbmQgdGhlDQo+IGxvY2F0aW9u
-LiBPbmUgb2YgdGhlICJwb2ludGVycyIgb3Igc2VjdGlvbiBoZWFkZXJzIHdpbGwgYmUgYnJva2Vu
-IGZvciBzdXJlLg0KPiANCj4gQW5kIGFmdGVyIHRoaXMsIHdlIG5lZWQgdG8gZmluZCB0aGUgTlZN
-IGluIExWRlMgYW5kIGl0IGhhcyB0byBwYXNzIHZhbGlkYXRpb24gaW4NCj4gYSBmZXcgb3RoZXIg
-bG9jYXRpb25zLiBUaGUgY2hhbmNlcyBhcmUgc28gbG93IHRoYXQgSSdkIHRoaW5rIGl0IGlzbid0
-IHdvcnRoDQo+IHdvcnJ5aW5nIGFib3V0IGl0Lg0KDQpBbmQgbm93IEkgcmVtZW1iZXIgd2h5IHRo
-ZSBiYWNrIG9mIG15IG1pbmQgd2FzIGhhdmluZyB0aGlzIHRob3VnaHQgb2Ygd2FudGluZw0Kc3lz
-ZnMgYXR0cmlidXRlIGluIHRoZSBmaXJzdCBwbGFjZS4gIFRoZSBtdWx0aXBsZSBqdW1wcyBtZWFu
-cyB0aGF0IGEgbG90IG1vcmUgb2YgdGhlDQpOVk0gaGFzIHRvIGJlIGR1bXBlZCB0byBnZXQgdGhh
-dCBkYXRhLCB3aGljaCBzbG93cyBkb3duIGZ3dXBkIHN0YXJ0dXAgc2lnbmlmaWNhbnRseS4NCkhv
-d2V2ZXIgdGhlIGtlcm5lbCBoYXMgdGhpcyBpbmZvcm1hdGlvbiBoYW5keSBhbHJlYWR5IGZyb20g
-dGh1bmRlcmJvbHQgaW5pdCBhbmQgY2FuDQplYXNpbHkgZXhwb3J0IGFuIGF0dHJpYnV0ZSB3aGlj
-aCBjYW4gdGhlbiBjb21lIGZyb20gdWRldiB3aXRoIG5vIHN0YXJ0dXAgcGVuYWx0eS4NCg0KDQo=
+On Tue, Oct 01, 2019 at 06:08:17AM -0700, Guenter Roeck wrote:
+> On 10/1/19 2:48 AM, Heikki Krogerus wrote:
+> > Copying everything from struct typec_capability to struct
+> > typec_port during port registration.
+> > 
+> What is the purpose of this patch ? To reduce the number of indirections at
+> runtime, or to avoid having to have cap around ?
+
+To get rid of the cap member.
+
+> FWIW, it looks like the code doesn't copy _all_ variables (eg cap->try_role),
+> and it doesn't drop port->cap. Am I missing something ?
+
+We can't drop port->cap at this point because the drivers still depend
+on it. This patch is the "prepare" phase of the series. The last patch
+in the series finally drops the member. I'll improve the commit message.
+
+> > Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > ---
+> >   drivers/usb/typec/class.c | 55 +++++++++++++++++++++++++--------------
+> >   1 file changed, 35 insertions(+), 20 deletions(-)
+> > 
+> > diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> > index 94a3eda62add..3835e2d9fba6 100644
+> > --- a/drivers/usb/typec/class.c
+> > +++ b/drivers/usb/typec/class.c
+> > @@ -46,8 +46,14 @@ struct typec_port {
+> >   	enum typec_role			vconn_role;
+> >   	enum typec_pwr_opmode		pwr_opmode;
+> >   	enum typec_port_type		port_type;
+> > +	enum typec_port_type		fixed_role;
+> > +	enum typec_port_data		port_roles;
+> > +	enum typec_accessory		accessory[TYPEC_MAX_ACCESSORY];
+> 
+> Would a pointer to cap->accessory be sufficient ? Or is there a reason to copy
+> the actual array ?
+
+No. The point is to get rid of the cap member.
+
+> >   	struct mutex			port_type_lock;
+> > +	u16				revision;
+> > +	u16				pd_revision;
+> > +
+> >   	enum typec_orientation		orientation;
+> >   	struct typec_switch		*sw;
+> >   	struct typec_mux		*mux;
+> > @@ -950,7 +956,7 @@ preferred_role_store(struct device *dev, struct device_attribute *attr,
+> >   	int role;
+> >   	int ret;
+> > -	if (port->cap->type != TYPEC_PORT_DRP) {
+> > +	if (port->fixed_role != TYPEC_PORT_DRP) {
+> >   		dev_dbg(dev, "Preferred role only supported with DRP ports\n");
+> >   		return -EOPNOTSUPP;
+> >   	}
+> > @@ -982,7 +988,7 @@ preferred_role_show(struct device *dev, struct device_attribute *attr,
+> >   {
+> >   	struct typec_port *port = to_typec_port(dev);
+> > -	if (port->cap->type != TYPEC_PORT_DRP)
+> > +	if (port->fixed_role != TYPEC_PORT_DRP)
+> >   		return 0;
+> >   	if (port->prefer_role < 0)
+> > @@ -1009,7 +1015,7 @@ static ssize_t data_role_store(struct device *dev,
+> >   		return ret;
+> >   	mutex_lock(&port->port_type_lock);
+> > -	if (port->cap->data != TYPEC_PORT_DRD) {
+> > +	if (port->port_roles != TYPEC_PORT_DRD) {
+> >   		ret = -EOPNOTSUPP;
+> >   		goto unlock_and_ret;
+> >   	}
+> > @@ -1029,7 +1035,7 @@ static ssize_t data_role_show(struct device *dev,
+> >   {
+> >   	struct typec_port *port = to_typec_port(dev);
+> > -	if (port->cap->data == TYPEC_PORT_DRD)
+> > +	if (port->port_roles == TYPEC_PORT_DRD)
+> >   		return sprintf(buf, "%s\n", port->data_role == TYPEC_HOST ?
+> >   			       "[host] device" : "host [device]");
+> > @@ -1044,7 +1050,7 @@ static ssize_t power_role_store(struct device *dev,
+> >   	struct typec_port *port = to_typec_port(dev);
+> >   	int ret;
+> > -	if (!port->cap->pd_revision) {
+> > +	if (!port->pd_revision) {
+> >   		dev_dbg(dev, "USB Power Delivery not supported\n");
+> >   		return -EOPNOTSUPP;
+> >   	}
+> > @@ -1064,9 +1070,9 @@ static ssize_t power_role_store(struct device *dev,
+> >   		return ret;
+> >   	mutex_lock(&port->port_type_lock);
+> > -	if (port->port_type != TYPEC_PORT_DRP) {
+> > +	if (port->fixed_role != TYPEC_PORT_DRP) {
+> 
+> This is a semantic change: Previously, it compared the _current_ port type.
+> Now it compares the initial (fixed) port type. Is this on purpose ?
+> 
+> [ comment written before I noticed the change below. See there. ]
+> 
+> >   		dev_dbg(dev, "port type fixed at \"%s\"",
+> > -			     typec_port_power_roles[port->port_type]);
+> > +			     typec_port_power_roles[port->fixed_role]);
+> >   		ret = -EOPNOTSUPP;
+> >   		goto unlock_and_ret;
+> >   	}
+> > @@ -1086,7 +1092,7 @@ static ssize_t power_role_show(struct device *dev,
+> >   {
+> >   	struct typec_port *port = to_typec_port(dev);
+> > -	if (port->cap->type == TYPEC_PORT_DRP)
+> > +	if (port->fixed_role == TYPEC_PORT_DRP)
+> >   		return sprintf(buf, "%s\n", port->pwr_role == TYPEC_SOURCE ?
+> >   			       "[source] sink" : "source [sink]");
+> > @@ -1102,7 +1108,7 @@ port_type_store(struct device *dev, struct device_attribute *attr,
+> >   	int ret;
+> >   	enum typec_port_type type;
+> > -	if (!port->cap->port_type_set || port->cap->type != TYPEC_PORT_DRP) {
+> > +	if (!port->cap->port_type_set || port->fixed_role != TYPEC_PORT_DRP) {
+> >   		dev_dbg(dev, "changing port type not supported\n");
+> >   		return -EOPNOTSUPP;
+> >   	}
+> > @@ -1114,7 +1120,7 @@ port_type_store(struct device *dev, struct device_attribute *attr,
+> >   	type = ret;
+> >   	mutex_lock(&port->port_type_lock);
+> > -	if (port->port_type == type) {
+> > +	if (port->fixed_role == type) {
+> 
+> This seems wrong.
+> 
+> >   		ret = size;
+> >   		goto unlock_and_ret;
+> >   	}
+> > @@ -1123,7 +1129,7 @@ port_type_store(struct device *dev, struct device_attribute *attr,
+> >   	if (ret)
+> >   		goto unlock_and_ret;
+> > -	port->port_type = type;
+> > +	port->fixed_role = type;
+> 
+> As does this. It changes the semantics of all checks that used to be against
+> port->cap->type, except for the one I commented on above. If that is intentional,
+> the variable name "fixed_role" seems inappropriate.
+> 
+> Overall, I would have thought that "fixed_role" could essentially be a boolean,
+> set to true if cap->type is not TYPEC_PORT_DRP. That would make the code easier
+> to understand. Right now I am just confused about the use of port_type vs.
+> fixed_role.
+
+Because the idea is to get rid of the cap member, I have to store the
+actual capability of the port in one member, and the one supplied by
+the user in another new member. I chose to use the "port_type" member
+to hold the actual capability of the port, and introduced the
+"fixed_type" to hold the one given by the user.
+
+I'm happy to improve this, but I'm not sure what are you proposing
+here? Note. We can not use boolean variable here, because the user may
+also decide to set the value to "dual".
+
+This is a bit off topic, but that attribute file is really horrible.
+Right now there is no way to know the actual capability of the
+port in user space. If something changes a DRP port into sink or
+source, there is no way to know after that that the port is actually
+DRP capable.
+
+So that ABI is "buggy", but even without the problem, I still really
+think that allowing the capabilities to be changed like that in
+general is completely wrong. I don't have a problem with changing the
+capabilities, but IMO it should be handled at one level higher, at the
+controller device level. If the capabilities of a port need to be
+changed, the old port should be removed, and a new with the new
+capabilities registered. That is the only way to handle it without
+making things unnecessarily difficult for the user space.
+
+I'm pretty sure that that was my counter proposal already at the time
+when the attribute file was introduced, but I don't remember why
+wasn't it accepted at the time? My protest against adding that
+attribute file was in any case ignored :-(. In any case, my plan was
+to later propose a new sysfs group that we offer to the parent
+controller devices instead assigning it to the port devices, and that
+group is meant to allow port capability changes the way I explained
+above. Unless of course you are against it?
+
+thanks,
+
+-- 
+heikki
