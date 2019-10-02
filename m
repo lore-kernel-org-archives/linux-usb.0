@@ -2,112 +2,149 @@ Return-Path: <SRS0=o8ur=X3=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0E6DC352AA
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 11:00:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D938FC352AA
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 11:27:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 785BA20700
-	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 11:00:46 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="ISl1taxi"
+	by mail.kernel.org (Postfix) with ESMTP id B0CF721783
+	for <linux-usb@archiver.kernel.org>; Wed,  2 Oct 2019 11:27:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1570015622;
+	bh=DXFtBgxGGgvpKY8DJ0Xw76yv+899ap6972HaBCLpO6g=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=YSSrJA09vei6nTficagYr0C/v1CjlBEc+gH7eDfblzcZqH4XiYAoSz8c+APtNpdWW
+	 sinxB1VuyxMskEDtXcUJiVEsPg9piMlhYYJrn05c/qBlp57eyya/tkF9F+00sxu+t3
+	 HnQNjFUQmYDzhg+LtU8x76fE9bZvi53OJJ0LnzXc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727335AbfJBLAl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 2 Oct 2019 07:00:41 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:34380 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726777AbfJBLAl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 2 Oct 2019 07:00:41 -0400
-Received: by mail-lj1-f193.google.com with SMTP id j19so16674786lja.1
-        for <linux-usb@vger.kernel.org>; Wed, 02 Oct 2019 04:00:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=YqW4lirDp6dhPL53QREOEClblGXQffbz/DGv2dLJs4Q=;
-        b=ISl1taxiHeTMVMMOn0n8wcdg1xJCR1fcz2fZFt8tGPPObtsnfloz8d6yuwZ/9jaDBC
-         EpdDdSIVXj2fa5iKwOBPzK1izqeisJnL+CPOwUoqWwMd4nnpL+vDOFHoSeaHcSqS4GjT
-         iCUvnNTfZGkmnxxuPGn9m+87WKlq8hpi7/JB8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=YqW4lirDp6dhPL53QREOEClblGXQffbz/DGv2dLJs4Q=;
-        b=iGu9J9XCeTuQ72Hv1GBtfnWfwBq7I90ErUo7J0lNj4tzmRt1Q/SYomCz2YoNBoi5hA
-         YFG1ffr84uUVTN8twE3osFH3cp+KpAoXl57m3UIpPKg4y7ejhmjGYXxsjcir5UQfsdbj
-         eUjSCEbQMA6ONeiAdNFk/mox4ObfN54GlccOdU3o/T7I5pOzXON27Db4QEVtba6AarAb
-         DF0KAm2RWJajivl/glFLhongWo1xqAk27CpUst0wnaoz4l/2bn/WfnPTBKn8iI7NKCfq
-         NodlXVgUoia0W0hCQdMJI4Rcwsj2WNQw8bNoPoqPEH4nrTJ3nJbijnerUaZjmLcg+jHi
-         PFng==
-X-Gm-Message-State: APjAAAXH96PLn1IloTEwRZOPu/+FvkCw9NR9zxCT2GYhr6Jss0miWYG7
-        9lFRiZQg8E5D16XGAVY2+GoAmA==
-X-Google-Smtp-Source: APXvYqzu9K6EJ442RqSftT7bhnv6pnQOGABkdQlZVfOHCKr4mFhLt1GwBoceHpgFO7VessYbj9nmHg==
-X-Received: by 2002:a2e:86d5:: with SMTP id n21mr1977522ljj.1.1570014037566;
-        Wed, 02 Oct 2019 04:00:37 -0700 (PDT)
-Received: from [172.16.11.28] ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id y22sm4544784lfb.75.2019.10.02.04.00.36
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 02 Oct 2019 04:00:37 -0700 (PDT)
-Subject: Re: [PATCH v3] string-choice: add yesno(), onoff(),
- enableddisabled(), plural() helpers
-To:     Jani Nikula <jani.nikula@intel.com>, linux-kernel@vger.kernel.org
-Cc:     Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        intel-gfx@lists.freedesktop.org,
-        Vishal Kulkarni <vishal@chelsio.com>, netdev@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Julia Lawall <julia.lawall@lip6.fr>
-References: <8e697984-03b5-44f3-304e-42d303724eaa@rasmusvillemoes.dk>
- <20191001080739.18513-1-jani.nikula@intel.com> <87eezvbgp1.fsf@intel.com>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <dc08714c-c76f-10f1-a5e7-7972beeb4552@rasmusvillemoes.dk>
-Date:   Wed, 2 Oct 2019 13:00:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1728208AbfJBL1B (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 2 Oct 2019 07:27:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42638 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728203AbfJBL1B (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 2 Oct 2019 07:27:01 -0400
+Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0E15821920;
+        Wed,  2 Oct 2019 11:26:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1570015620;
+        bh=DXFtBgxGGgvpKY8DJ0Xw76yv+899ap6972HaBCLpO6g=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=11J36BMuspOigGLsrGnlBC+q9XqU0A3fhCLsa9iZ5LAkYZyh9JsHdOxBBRE595vEM
+         4oyu04jdRQ3IM4l0MYc1RrfTa+imy7mC7BNmnHn6GC6QVMBQXjiDCRjlovzpIWBJVK
+         Iy15N0dMHTp5tanBmY6D78ajcGe2uab0Uhegf0Hg=
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>
+Cc:     linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Emmanuel Vadot <manu@bidouilliste.com>
+Subject: [PATCH 2/2] dt-bindings: usb: Bring back phy-names
+Date:   Wed,  2 Oct 2019 13:26:51 +0200
+Message-Id: <20191002112651.100504-2-mripard@kernel.org>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191002112651.100504-1-mripard@kernel.org>
+References: <20191002112651.100504-1-mripard@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <87eezvbgp1.fsf@intel.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 02/10/2019 12.11, Jani Nikula wrote:
-> On Tue, 01 Oct 2019, Jani Nikula <jani.nikula@intel.com> wrote:
->> While the main goal here is to abstract recurring patterns, and slightly
->> clean up the code base by not open coding the ternary operators, there
->> are also some space savings to be had via better string constant
->> pooling.
-> 
-> Make that
-> 
-> """
-> While the main goal here is to abstract recurring patterns, and slightly
-> clean up the code base by not open coding the ternary operators, using
-> functions to access the strings also makes it easier to seek different
-> implementation options for potential space savings on string constants
-> in the future.
-> """
-> 
-> to be more explicit that this change does not directly translate to any
-> space savings.
-> 
-> Rasmus, okay with that?
+While the original bindings that were superseeded by the YAML schemas
+didn't mention that phy-names was needed, it turns out that phy-names is
+required if phys is set according to phy/phy-bindings.txt.
 
-It's rather fluffy, but it doesn't make unfounded claims about space
-savings, so in that regard I'm fine with it.
+Let's add back those properties.
 
-[It's probably just my lack of imagination, but I still fail to see how
-one could ever achieve better than the linker creating just 1
-vmlinux-wide instance of "enabled", which I believe happens regardless
-of whether one uses these helpers or not.]
+Fixes: 14ec072a19ad ("dt-bindings: usb: Convert USB HCD generic binding to YAML")
+Fixes: c93bcace1098 ("dt-bindings: usb: Convert the generic OHCI binding to YAML")
+Fixes: c3e2485d5f4f ("dt-bindings: usb: Convert the generic EHCI binding to YAML")
+Reported-by: Emmanuel Vadot <manu@bidouilliste.com>
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+ Documentation/devicetree/bindings/usb/generic-ehci.yaml | 7 ++++++-
+ Documentation/devicetree/bindings/usb/generic-ohci.yaml | 7 ++++++-
+ Documentation/devicetree/bindings/usb/usb-hcd.yaml      | 5 +++++
+ 3 files changed, 17 insertions(+), 2 deletions(-)
 
-Rasmus
+diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+index 059f6ef1ad4a..1ca64c85191a 100644
+--- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
++++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
+@@ -63,7 +63,11 @@ properties:
+     description:
+       Set this flag to force EHCI reset after resume.
+ 
+-  phys: true
++  phys:
++    description: PHY specifier for the USB PHY
++
++  phy-names:
++    const: usb
+ 
+ required:
+   - compatible
+@@ -89,6 +93,7 @@ examples:
+         interrupts = <39>;
+         clocks = <&ahb_gates 1>;
+         phys = <&usbphy 1>;
++        phy-names = "usb";
+     };
+ 
+ ...
+diff --git a/Documentation/devicetree/bindings/usb/generic-ohci.yaml b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+index da5a14becbe5..bcffec1f1341 100644
+--- a/Documentation/devicetree/bindings/usb/generic-ohci.yaml
++++ b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
+@@ -67,7 +67,11 @@ properties:
+     description:
+       Overrides the detected port count
+ 
+-  phys: true
++  phys:
++    description: PHY specifier for the USB PHY
++
++  phy-names:
++    const: usb
+ 
+ required:
+   - compatible
+@@ -84,6 +88,7 @@ examples:
+           interrupts = <64>;
+           clocks = <&usb_clk 6>, <&ahb_gates 2>;
+           phys = <&usbphy 1>;
++          phy-names = "usb";
+       };
+ 
+ ...
+diff --git a/Documentation/devicetree/bindings/usb/usb-hcd.yaml b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+index 9c8c56d3a792..7263b7f2b510 100644
+--- a/Documentation/devicetree/bindings/usb/usb-hcd.yaml
++++ b/Documentation/devicetree/bindings/usb/usb-hcd.yaml
+@@ -18,8 +18,13 @@ properties:
+     description:
+       List of all the USB PHYs on this HCD
+ 
++  phy-names:
++    description:
++      Name specifier for the USB PHY
++
+ examples:
+   - |
+     usb {
+         phys = <&usb2_phy1>, <&usb3_phy1>;
++        phy-names = "usb";
+     };
+-- 
+2.23.0
 
