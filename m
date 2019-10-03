@@ -2,239 +2,223 @@ Return-Path: <SRS0=1tOv=X4=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B9A0C10F14
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Oct 2019 17:10:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81DCEC4CED1
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Oct 2019 17:42:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B95A020673
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Oct 2019 17:10:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="NHpufqaL"
+	by mail.kernel.org (Postfix) with ESMTP id 5DDF620862
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Oct 2019 17:42:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391601AbfJCQdd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Oct 2019 12:33:33 -0400
-Received: from nat-hk.nvidia.com ([203.18.50.4]:6500 "EHLO nat-hk.nvidia.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404103AbfJCQdb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 3 Oct 2019 12:33:31 -0400
-Received: from hkpgpgate101.nvidia.com (Not Verified[10.18.92.9]) by nat-hk.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d9622d70000>; Fri, 04 Oct 2019 00:33:27 +0800
-Received: from HKMAIL101.nvidia.com ([10.18.16.10])
-  by hkpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 03 Oct 2019 09:33:25 -0700
-X-PGP-Universal: processed;
-        by hkpgpgate101.nvidia.com on Thu, 03 Oct 2019 09:33:25 -0700
-Received: from HKMAIL101.nvidia.com (10.18.16.10) by HKMAIL101.nvidia.com
- (10.18.16.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 3 Oct
- 2019 16:33:24 +0000
-Received: from NAM01-BY2-obe.outbound.protection.outlook.com (104.47.34.52) by
- HKMAIL101.nvidia.com (10.18.16.10) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Thu, 3 Oct 2019 16:33:24 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a1cgRftDzFgXEggV0fjColxWynAdI9k8lfgj3GA6FhyDANX6zbDZ2n2fFpqVcdV7/A0ceG60r9O3uOnVNCOkP4Vdyk70dNu7qgPBZC4+Dfi3t66mfICtszbLJCQgd07oEeo/O0MqZfTgXYNH8mRsMqvY8HSiscSzYM4286lBPdOpnwWxY/2ZZhlulJGw4zg5v/nPphyQwCwp0dbphn1ocZexY0Soy92HjePbIZv7R1hWqMaMdw2GGYngyfMP2KhWgazMqrxA4Sn03k+7BtDBrDejmkx7ZD1YXh37Im29cPRJSG3eti7g8fAIdJyutqOf93JKyLWrSixoU/vSBXB6Ew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yzodYkYuimDBreh2GtwRZrN31O6fM1FdV99E75J5CO8=;
- b=exkAlMEcU28/3tbF3VtWzjPBbCBBCmFzMYOyBLTaNW/5+ggfYmiqWiem/7bjcPGQ9qTjVApXMimU79Ptvlu86/xtObaCX0SEzuVZhnEJNABjJvdUdH3cPz2R9XwqQgMkpwrGoNrLP6Y9Bwcxw1q/jW2t4l1X/4gXNdB7l/nEq+8rOlXVq8f8CWko52NHALb2ZMvc0upXtlBqCi+kIzxZm0i3HlOfnZY3zUI/PDOCQuIJYaDK+ITtYmD6O2lzy8cmFJLGDmgrBI17//PLvRo5iDIsWE1pcWcfskvM1uCxIummyh/CteRVTityXz/PgZcE7fbYIKq7GytX5vryzgkEhA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from BYAPR12MB2727.namprd12.prod.outlook.com (20.176.253.214) by
- BYAPR12MB3320.namprd12.prod.outlook.com (20.178.55.81) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2305.20; Thu, 3 Oct 2019 16:33:22 +0000
-Received: from BYAPR12MB2727.namprd12.prod.outlook.com
- ([fe80::19f9:64ec:5139:dfca]) by BYAPR12MB2727.namprd12.prod.outlook.com
- ([fe80::19f9:64ec:5139:dfca%3]) with mapi id 15.20.2305.023; Thu, 3 Oct 2019
- 16:33:22 +0000
-From:   Ajay Gupta <ajayg@nvidia.com>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: RE: [PATCH 00/14] usb: typec: UCSI driver overhaul
-Thread-Topic: [PATCH 00/14] usb: typec: UCSI driver overhaul
-Thread-Index: AQHVdFI7VovQttbK0kyVtx5zpzGGF6dGIWlAgALii4CAABgRgA==
-Date:   Thu, 3 Oct 2019 16:33:22 +0000
-Message-ID: <BYAPR12MB2727465972DCB1E7ECBE41CCDC9F0@BYAPR12MB2727.namprd12.prod.outlook.com>
-References: <20190926100727.71117-1-heikki.krogerus@linux.intel.com>
- <BYAPR12MB2727E1FE3CDFC5D6DD87CF73DC9D0@BYAPR12MB2727.namprd12.prod.outlook.com>
- <20191003142443.GC1048@kuha.fi.intel.com>
-In-Reply-To: <20191003142443.GC1048@kuha.fi.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Enabled=True;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SiteId=43083d15-7273-40c1-b7db-39efd9ccc17a;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Owner=ajayg@nvidia.com;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_SetDate=2019-10-03T16:33:20.8369395Z;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Name=Unrestricted;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Application=Microsoft Azure
- Information Protection;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_ActionId=2558946b-4215-4d3a-b4b9-64ef46fb01e6;
- MSIP_Label_6b558183-044c-4105-8d9c-cea02a2a3d86_Extended_MSFT_Method=Automatic
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=ajayg@nvidia.com; 
-x-originating-ip: [216.228.112.22]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: df70d29c-9b93-4b5a-5c16-08d7481f6829
-x-ms-traffictypediagnostic: BYAPR12MB3320:
-x-microsoft-antispam-prvs: <BYAPR12MB33207E67151DBD2F15B3BBD2DC9F0@BYAPR12MB3320.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 01792087B6
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(39860400002)(346002)(136003)(366004)(396003)(376002)(199004)(189003)(13464003)(6116002)(2906002)(305945005)(476003)(76116006)(66946007)(66476007)(4326008)(64756008)(66446008)(66556008)(6436002)(6246003)(99286004)(9686003)(229853002)(55016002)(5660300002)(52536014)(478600001)(3846002)(86362001)(6916009)(14454004)(256004)(316002)(8936002)(33656002)(486006)(7736002)(74316002)(76176011)(53546011)(7696005)(71200400001)(71190400001)(102836004)(6506007)(25786009)(11346002)(446003)(81166006)(81156014)(8676002)(66066001)(26005)(186003)(14444005)(21314003);DIR:OUT;SFP:1101;SCL:1;SRVR:BYAPR12MB3320;H:BYAPR12MB2727.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: nvidia.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wvvQ2N+M68Ch8dcABAvNCF4ogwNQjs3HcEJ4RnAtF9PGVoYUemaeqsIo8B4JUnynpSThfwuJ/lqzd0nh4/hygCpO0rqY8t75kYzCvhjJCoVqRzUedmbLc/HfYtfPESTNJk/Tooebb/y+J+2+OLI6JnSc6Jq9pywp6TgaLOOMGaVnx7rf6cZ9N4Rs+on9Ley4EfU1/JaxttEQMiszMa8/dPHdMwyhpveA3wjGLpaSpB1wJkuAPn6tVFxCE2eVnyHnTnFtqTxrShyhTHFxP715ayklZoPf+uMuRHQez+lJyhYY27pCzkuCJc35PmsF1V2jYYLF3wS8XGO/bVmkt50Ba2xbVuC6E1C23fVMLCsuTc2jWKAQR1ZI2SnQqXP6mYbHEQSvL3m5HW2j7usJcEGmYbHXLK8CIQnN8T2YKBsYvos=
-x-ms-exchange-transport-forked: True
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: df70d29c-9b93-4b5a-5c16-08d7481f6829
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Oct 2019 16:33:22.3222
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HEXrMuV/h6Gn7zJgWIBi0s7dZPqKZu4XdJ+RngBM1A9gDTH7Os6C9VIpM7JskDLc8rkTi18mGb7mZbQAw4EUiA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3320
-X-OriginatorOrg: Nvidia.com
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1570120407; bh=yzodYkYuimDBreh2GtwRZrN31O6fM1FdV99E75J5CO8=;
-        h=X-PGP-Universal:ARC-Seal:ARC-Message-Signature:
-         ARC-Authentication-Results:From:To:CC:Subject:Thread-Topic:
-         Thread-Index:Date:Message-ID:References:In-Reply-To:
-         Accept-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:msip_labels:
-         authentication-results:x-originating-ip:x-ms-publictraffictype:
-         x-ms-office365-filtering-correlation-id:x-ms-traffictypediagnostic:
-         x-microsoft-antispam-prvs:x-ms-oob-tlc-oobclassifiers:
-         x-forefront-prvs:x-forefront-antispam-report:received-spf:
-         x-ms-exchange-senderadcheck:x-microsoft-antispam:
-         x-microsoft-antispam-message-info:x-ms-exchange-transport-forked:
-         MIME-Version:X-MS-Exchange-CrossTenant-Network-Message-Id:
-         X-MS-Exchange-CrossTenant-originalarrivaltime:
-         X-MS-Exchange-CrossTenant-fromentityheader:
-         X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-         X-MS-Exchange-CrossTenant-userprincipalname:
-         X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg:
-         Content-Language:Content-Type:Content-Transfer-Encoding;
-        b=NHpufqaL76CTebrTqdoT/Z3RwZrxv2rGkv+ivtK3g0Rx3j6qKUZAoSVt6+oLg7a8Q
-         wWas6u46/1R36YCJey4sb47P5l71cQCaudQ07ql8fhbjFjg6bxMt2U4nQud7QUhLmc
-         A4FQIK7AMWiYgeAR7KMaz9rixgQEoz6IRu7djaAiSTyhvopTzwyFz6Z5GOA5KMq71r
-         dNTqOznGqvSi2ilwo14xn+ucqd4kAaXztoWoehQKjQex3hZqTNL9psmTHb7lrYDI1N
-         JRpGteB/3ch+wW9qGrHNUEUCAkLoDSyBr3I9w+XavxePHtqUhwCgtpfxvRJqZheq0y
-         daKd0KPJKkW7g==
+        id S1730808AbfJCP44 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Oct 2019 11:56:56 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:52749 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730765AbfJCP4y (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Oct 2019 11:56:54 -0400
+Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <kai.heng.feng@canonical.com>)
+        id 1iG3TF-0005Nb-RW; Thu, 03 Oct 2019 15:56:50 +0000
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+To:     gregkh@linuxfoundation.org
+Cc:     stern@rowland.harvard.edu, mathias.nyman@intel.com,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>
+Subject: [PATCH v2] usb: Add a new quirk to let buggy hub enable and disable LPM during suspend and resume
+Date:   Thu,  3 Oct 2019 23:56:40 +0800
+Message-Id: <20191003155640.12632-1-kai.heng.feng@canonical.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191002151512.28517-1-kai.heng.feng@canonical.com>
+References: <20191002151512.28517-1-kai.heng.feng@canonical.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Heikki,
-> -----Original Message-----
-> From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Sent: Thursday, October 3, 2019 7:25 AM
-> To: Ajay Gupta <ajayg@nvidia.com>
-> Cc: linux-usb@vger.kernel.org
-> Subject: Re: [PATCH 00/14] usb: typec: UCSI driver overhaul
->=20
-> Hi Ajay,
->=20
-> On Tue, Oct 01, 2019 at 06:36:25PM +0000, Ajay Gupta wrote:
-> > Hi Heikki
-> >
-> > > -----Original Message-----
-> > > From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > > Sent: Thursday, September 26, 2019 3:07 AM
-> > > To: Ajay Gupta <ajayg@nvidia.com>
-> > > Cc: linux-usb@vger.kernel.org
-> > > Subject: [PATCH 00/14] usb: typec: UCSI driver overhaul
-> > >
-> > > Hi Ajay,
-> > >
-> > > Here's the pretty much complete rewrite of the I/O handling that I
-> > > was talking about. The first seven patches are not actually related
-> > > to this stuff, but I'm including them here because the rest of the
-> > > series is made on top of them. I'm including also that fix patch I
-> > > send you earlier.
-> > >
-> > > After this it should be easier to handle quirks. My idea how to
-> > > handle the multi-instance connector alt modes is that we "emulate"
-> > > the PPM in ucsi_ccg.c in order to handle them, so ucsi.c is not touch=
-ed at
-> all.
-> > >
-> > > We can now get the connector alternate modes that the actual
-> > > controller supplies during probe - before registering the ucsi
-> > > interface
-> > How can ucsi_ccg.c get the connector alternate modes before
-> > registering ucsi interface? PPM reset, notification enable, etc.
-> > is done during ucsi registration. UCSI spec says:
-> > " The only commands the PPM is required to process in the "PPM Idle
-> > (Notifications Disabled)" state are SET_NOTIFICATION_ENABLE and
-> > PPM_RESE"
-> >
-> > Also, it doesn't look correct if ucsi_ccg.c has to replicate most of
-> > the stuff done in ucsi_init() of ucsi.c.
->=20
-> How about if we split ucsi_init() into a function that first simply const=
-ructs the
-> struct ucsi and struct ucsi_connector instances without registering anyth=
-ing,
-> and into separate functions that then register the ports, altmodes and wh=
-at
-> have you. I don't think that should be a huge problem. It will make ucsi.=
-c even
-> more like a library, which is probable a good thing.=20
-Do you mean the solution to follow steps (a->b->c->d1) or (a->b->c->d2) ?
-a) ucsi_ccg.c calls first part of split ucsi_init()
-b) ucsi_ccg.c uses ucsi_send_command() to collect actual alternate modes.
-c) ucsi_ccg.c looks into actual alternate modes and squashes if duplicate a=
-ltmode found.
-d1) ucsi_ccg.c calls new method to register connector alternate modes.=20
-This method issues GET_ALTERNATE_MODES command again and ucsi_ccg.c is expe=
-cted
-to send squashed alternate mode.  This will require changes in .read(), .sy=
-nc_write() and=20
-.async_write() to make it appear as if the squashed data coming from the pp=
-m.
-OR
-d2) ucsi_ccg.c calls new method to register squashed connector alternate mo=
-des.=20
-This method doesn't issue GET_ALTERNATE_MODES commands to PPM but simply=20
-registers the alternate mode values passed to this function.
+Dell WD15 dock has a topology like this:
+/:  Bus 04.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/2p, 10000M
+    |__ Port 1: Dev 2, If 0, Class=Hub, Driver=hub/7p, 5000M
+            |__ Port 2: Dev 3, If 0, Class=Vendor Specific Class, Driver=r8152, 5000M
 
-If you mean the (a->b->c->d2) solution then it looks fine to me and would w=
-ait for patches=20
-from you. This solution would mean that GET_ALTERNATE_MODES for connector i=
-s done
-only by each ucsi_xxx.c and not by ucsi.c
+Their IDs:
+Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+Bus 004 Device 002: ID 0424:5537 Standard Microsystems Corp.
+Bus 004 Device 004: ID 0bda:8153 Realtek Semiconductor Corp.
 
-> I can prepare patches for that too if you like?=20
-> After that you should be able to get the struct ucsi instance that repres=
-ents
-> the "real" PPM without registering anything by calling a single function,=
- most
-> likely ucsi_init(). And after getting that you can construct the connecto=
-r
-> alternate modes that we actually register.
-> Finally you register the final interface which does not use ucsi_ccg_ops,=
- but
-> instead something like ucsi_nvidia_ops.
-I didn't understand this part. ucsi_ccg_ops has .read(), .sync_write() and
- .async_write() interface and they remain same for all ucsi_ccg controllers=
-.
+Ethernet cannot be detected after plugging ethernet cable to the dock,
+the hub and roothub get runtime resumed and runtime suspended
+immediately:
+...
+[  433.315169] xhci_hcd 0000:3a:00.0: hcd_pci_runtime_resume: 0
+[  433.315204] usb usb4: usb auto-resume
+[  433.315226] hub 4-0:1.0: hub_resume
+[  433.315239] xhci_hcd 0000:3a:00.0: Get port status 4-1 read: 0x10202e2, return 0x10343
+[  433.315264] usb usb4-port1: status 0343 change 0001
+[  433.315279] xhci_hcd 0000:3a:00.0: clear port1 connect change, portsc: 0x10002e2
+[  433.315293] xhci_hcd 0000:3a:00.0: Get port status 4-2 read: 0x2a0, return 0x2a0
+[  433.317012] xhci_hcd 0000:3a:00.0: xhci_hub_status_data: stopping port polling.
+[  433.422282] xhci_hcd 0000:3a:00.0: Get port status 4-1 read: 0x10002e2, return 0x343
 
-Thanks
->nvpublic
->=20
-> How would this sound to you?
->=20
-> Br,
->=20
-> --
-> heikki
+At this point the SMSC hub (usb 4-1) enters into compliance mode
+(USB_SS_PORT_LS_COMP_MOD), and USB core tries to warm-reset it,
+
+[  433.422307] usb usb4-port1: do warm reset
+[  433.422311] usb 4-1: device reset not allowed in state 8
+[  433.422339] hub 4-0:1.0: state 7 ports 2 chg 0002 evt 0000
+[  433.422346] xhci_hcd 0000:3a:00.0: Get port status 4-1 read: 0x10002e2, return 0x343
+[  433.422356] usb usb4-port1: do warm reset
+[  433.422358] usb 4-1: device reset not allowed in state 8
+[  433.422428] xhci_hcd 0000:3a:00.0: set port remote wake mask, actual port 0 status  = 0xf0002e2
+[  433.422455] xhci_hcd 0000:3a:00.0: set port remote wake mask, actual port 1 status  = 0xe0002a0
+[  433.422465] hub 4-0:1.0: hub_suspend
+[  433.422475] usb usb4: bus auto-suspend, wakeup 1
+[  433.426161] xhci_hcd 0000:3a:00.0: xhci_hub_status_data: stopping port polling.
+[  433.466209] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
+[  433.510204] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
+[  433.554051] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
+[  433.598235] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
+[  433.642154] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
+[  433.686204] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
+[  433.730205] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
+[  433.774203] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
+[  433.818207] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
+[  433.862040] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
+[  433.862053] xhci_hcd 0000:3a:00.0: xhci_hub_status_data: stopping port polling.
+[  433.862077] xhci_hcd 0000:3a:00.0: xhci_suspend: stopping port polling.
+[  433.862096] xhci_hcd 0000:3a:00.0: // Setting command ring address to 0x8578fc001
+[  433.862312] xhci_hcd 0000:3a:00.0: hcd_pci_runtime_suspend: 0
+[  433.862445] xhci_hcd 0000:3a:00.0: PME# enabled
+[  433.902376] xhci_hcd 0000:3a:00.0: restoring config space at offset 0xc (was 0x0, writing 0x20)
+[  433.902395] xhci_hcd 0000:3a:00.0: restoring config space at offset 0x4 (was 0x100000, writing 0x100403)
+[  433.902490] xhci_hcd 0000:3a:00.0: PME# disabled
+[  433.902504] xhci_hcd 0000:3a:00.0: enabling bus mastering
+[  433.902547] xhci_hcd 0000:3a:00.0: // Setting command ring address to 0x8578fc001
+[  433.902649] pcieport 0000:00:1b.0: PME: Spurious native interrupt!
+[  433.902839] xhci_hcd 0000:3a:00.0: Port change event, 4-1, id 3, portsc: 0xb0202e2
+[  433.902842] xhci_hcd 0000:3a:00.0: resume root hub
+[  433.902845] xhci_hcd 0000:3a:00.0: handle_port_status: starting port polling.
+[  433.902877] xhci_hcd 0000:3a:00.0: xhci_resume: starting port polling.
+[  433.902889] xhci_hcd 0000:3a:00.0: xhci_hub_status_data: stopping port polling.
+[  433.902891] xhci_hcd 0000:3a:00.0: hcd_pci_runtime_resume: 0
+[  433.902919] usb usb4: usb wakeup-resume
+[  433.902942] usb usb4: usb auto-resume
+[  433.902966] hub 4-0:1.0: hub_resume
+...
+
+However the warm-reset never success, the asserted PCI PME keeps the
+runtime-resume, warm-reset and runtime-suspend loop which never bring it back
+and causing spurious interrupts floods.
+
+After some trial and errors, the issue goes away if LPM on the SMSC hub
+is disabled. Digging further, enabling and disabling LPM during runtime
+resume and runtime suspend respectively can solve the issue.
+
+So bring back the old LPM behavior as a quirk and use it for the SMSC
+hub to solve the issue.
+
+Fixes: d590c2311150 ("usb: Avoid unnecessary LPM enabling and disabling during suspend and resume")
+Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  3 +++
+ drivers/usb/core/hub.c                          | 15 +++++++++++++++
+ drivers/usb/core/quirks.c                       |  6 ++++++
+ include/linux/usb/quirks.h                      |  3 +++
+ 4 files changed, 27 insertions(+)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index c7ac2f3ac99f..0b5ba2545373 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4974,6 +4974,9 @@
+ 					pause after every control message);
+ 				o = USB_QUIRK_HUB_SLOW_RESET (Hub needs extra
+ 					delay after resetting its port);
++				p = USB_QUIRK_PM_SET_LPM (Device needs to
++					disable LPM on suspend and enable LPM
++					on resume);
+ 			Example: quirks=0781:5580:bk,0a5c:5834:gij
+ 
+ 	usbhid.mousepoll=
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 236313f41f4a..5e07407c8204 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -3269,6 +3269,13 @@ int usb_port_suspend(struct usb_device *udev, pm_message_t msg)
+ 		if (PMSG_IS_AUTO(msg))
+ 			goto err_ltm;
+ 	}
++	if (udev->quirks & USB_QUIRK_PM_SET_LPM &&
++	    usb_unlocked_disable_lpm(udev)) {
++		dev_err(&udev->dev, "Failed to disable LPM before suspend\n.");
++		status = -ENOMEM;
++		if (PMSG_IS_AUTO(msg))
++			goto err_lpm3;
++	}
+ 
+ 	/* see 7.1.7.6 */
+ 	if (hub_is_superspeed(hub->hdev))
+@@ -3295,6 +3302,10 @@ int usb_port_suspend(struct usb_device *udev, pm_message_t msg)
+ 	if (status) {
+ 		dev_dbg(&port_dev->dev, "can't suspend, status %d\n", status);
+ 
++		/* Try to enable USB3 LPM again */
++		if (udev->quirks & USB_QUIRK_PM_SET_LPM)
++			usb_unlocked_enable_lpm(udev);
++ err_lpm3:
+ 		/* Try to enable USB3 LTM again */
+ 		usb_enable_ltm(udev);
+  err_ltm:
+@@ -3586,6 +3597,10 @@ int usb_port_resume(struct usb_device *udev, pm_message_t msg)
+ 
+ 		/* Try to enable USB3 LTM */
+ 		usb_enable_ltm(udev);
++
++		/* Try to enable USB3 LPM */
++		if (udev->quirks & USB_QUIRK_PM_SET_LPM)
++			usb_unlocked_enable_lpm(udev);
+ 	}
+ 
+ 	usb_unlock_port(port_dev);
+diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+index 6b6413073584..75bbc9faddb4 100644
+--- a/drivers/usb/core/quirks.c
++++ b/drivers/usb/core/quirks.c
+@@ -131,6 +131,9 @@ static int quirks_param_set(const char *val, const struct kernel_param *kp)
+ 			case 'o':
+ 				flags |= USB_QUIRK_HUB_SLOW_RESET;
+ 				break;
++			case 'p':
++				flags |= USB_QUIRK_PM_SET_LPM;
++				break;
+ 			/* Ignore unrecognized flag characters */
+ 			}
+ 		}
+@@ -203,6 +206,9 @@ static const struct usb_device_id usb_quirk_list[] = {
+ 	/* USB3503 */
+ 	{ USB_DEVICE(0x0424, 0x3503), .driver_info = USB_QUIRK_RESET_RESUME },
+ 
++	/* SMSC USB5537B USB 3.0 Hub (Dell WD15) */
++	{ USB_DEVICE(0x0424, 0x5537), .driver_info = USB_QUIRK_PM_SET_LPM },
++
+ 	/* Microsoft Wireless Laser Mouse 6000 Receiver */
+ 	{ USB_DEVICE(0x045e, 0x00e1), .driver_info = USB_QUIRK_RESET_RESUME },
+ 
+diff --git a/include/linux/usb/quirks.h b/include/linux/usb/quirks.h
+index a1be64c9940f..3f2d97eff369 100644
+--- a/include/linux/usb/quirks.h
++++ b/include/linux/usb/quirks.h
+@@ -69,4 +69,7 @@
+ /* Hub needs extra delay after resetting its port. */
+ #define USB_QUIRK_HUB_SLOW_RESET		BIT(14)
+ 
++/* Device needs to disable LPM on suspend and enable LPM on resume */
++#define USB_QUIRK_PM_SET_LPM			BIT(15)
++
+ #endif /* __LINUX_USB_QUIRKS_H */
+-- 
+2.17.1
+
