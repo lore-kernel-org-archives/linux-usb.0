@@ -6,34 +6,34 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81DCEC4CED1
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Oct 2019 17:42:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19B84C10F14
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Oct 2019 17:42:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5DDF620862
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Oct 2019 17:42:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA2F120830
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Oct 2019 17:42:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730808AbfJCP44 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Oct 2019 11:56:56 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:52749 "EHLO
+        id S2390507AbfJCRmr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Oct 2019 13:42:47 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:54807 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730765AbfJCP4y (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Oct 2019 11:56:54 -0400
+        with ESMTP id S1730924AbfJCRmq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Oct 2019 13:42:46 -0400
 Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37] helo=localhost)
         by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.86_2)
         (envelope-from <kai.heng.feng@canonical.com>)
-        id 1iG3TF-0005Nb-RW; Thu, 03 Oct 2019 15:56:50 +0000
+        id 1iG4qX-0005zE-5X; Thu, 03 Oct 2019 17:24:57 +0000
 From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
 To:     gregkh@linuxfoundation.org
 Cc:     stern@rowland.harvard.edu, mathias.nyman@intel.com,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         Kai-Heng Feng <kai.heng.feng@canonical.com>
-Subject: [PATCH v2] usb: Add a new quirk to let buggy hub enable and disable LPM during suspend and resume
-Date:   Thu,  3 Oct 2019 23:56:40 +0800
-Message-Id: <20191003155640.12632-1-kai.heng.feng@canonical.com>
+Subject: [PATCH v3] usb: Add a new quirk to let buggy hub enable and disable LPM during suspend and resume
+Date:   Fri,  4 Oct 2019 01:24:51 +0800
+Message-Id: <20191003172451.13943-1-kai.heng.feng@canonical.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191002151512.28517-1-kai.heng.feng@canonical.com>
-References: <20191002151512.28517-1-kai.heng.feng@canonical.com>
+In-Reply-To: <20191003155640.12632-1-kai.heng.feng@canonical.com>
+References: <20191003155640.12632-1-kai.heng.feng@canonical.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
@@ -123,6 +123,13 @@ hub to solve the issue.
 Fixes: d590c2311150 ("usb: Avoid unnecessary LPM enabling and disabling during suspend and resume")
 Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
 ---
+v3:
+- Add forgotten patch revision changelog.
+
+v2:
+- Explained by Alan, the hub should properly handle U3 -> U0 transition.
+  So use a quirk to target this buggy device only.
+
  Documentation/admin-guide/kernel-parameters.txt |  3 +++
  drivers/usb/core/hub.c                          | 15 +++++++++++++++
  drivers/usb/core/quirks.c                       |  6 ++++++
