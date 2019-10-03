@@ -2,157 +2,94 @@ Return-Path: <SRS0=1tOv=X4=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7042BC10F14
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Oct 2019 16:54:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1C63ECE58B
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Oct 2019 17:00:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 481472054F
-	for <linux-usb@archiver.kernel.org>; Thu,  3 Oct 2019 16:54:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1570121644;
-	bh=bZJtXnWKIwTghB+VFs86L/ux7EzLBnk1sMsSQutWN+8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=0bCfFDMzMo99txtKPEhjwPUbRZqDY83SEbbEzKRBl8gcNumAGaLkEeGfFriACa4HR
-	 a19ksg9CMuyZUUQnabFjwgiVMIX7VDwLig/4RpiHcSFcn7O/SlPeJ96ji9N1F1l5re
-	 SA4oWySP1jHALYXa3i0EuY4qgzLSIdt2zbiuZr/Q=
+	by mail.kernel.org (Postfix) with ESMTP id 96B6F20673
+	for <linux-usb@archiver.kernel.org>; Thu,  3 Oct 2019 17:00:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406453AbfJCQyD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 3 Oct 2019 12:54:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42270 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2406443AbfJCQyC (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 3 Oct 2019 12:54:02 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DF52F2054F;
-        Thu,  3 Oct 2019 16:54:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570121641;
-        bh=bZJtXnWKIwTghB+VFs86L/ux7EzLBnk1sMsSQutWN+8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=H+o54SUu19AJuEWdoQtYuc0pP61c6jszsgqy9V6yAZm2N6VxxhQW3oP+GaNyPd8HW
-         Obj6BN14WyNNHN67cuKkWi7ovxAxHSu70/4x8+jNmFU8aLF1xqtTcf7U64OdYrbhwl
-         2jDcUbmKEU9JLKtbmHPLk8lxk/if1H8tCyNZ8tUE=
-Date:   Thu, 3 Oct 2019 18:02:03 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
-Cc:     stern@rowland.harvard.edu, mathias.nyman@intel.com,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: Add a new quirk to let buggy hub enable and
- disable LPM during suspend and resume
-Message-ID: <20191003160203.GA3438281@kroah.com>
-References: <20191002151512.28517-1-kai.heng.feng@canonical.com>
- <20191003155640.12632-1-kai.heng.feng@canonical.com>
+        id S2393150AbfJCRAd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 3 Oct 2019 13:00:33 -0400
+Received: from vsmx012.vodafonemail.xion.oxcs.net ([153.92.174.90]:39585 "EHLO
+        vsmx012.vodafonemail.xion.oxcs.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388297AbfJCRAb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 3 Oct 2019 13:00:31 -0400
+X-Greylist: delayed 417 seconds by postgrey-1.27 at vger.kernel.org; Thu, 03 Oct 2019 13:00:31 EDT
+Received: from vsmx004.vodafonemail.xion.oxcs.net (unknown [192.168.75.198])
+        by mta-8-out.mta.xion.oxcs.net (Postfix) with ESMTP id CAD60F34CC3;
+        Thu,  3 Oct 2019 16:53:32 +0000 (UTC)
+Received: from arcor.de (unknown [91.40.26.191])
+        by mta-8-out.mta.xion.oxcs.net (Postfix) with ESMTPA id 8193C19AD8E;
+        Thu,  3 Oct 2019 16:53:28 +0000 (UTC)
+Date:   Thu, 3 Oct 2019 18:53:21 +0200
+From:   Reinhard Speyerer <rspmn@arcor.de>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [PATCH] USB: serial: option: add support for Cinterion CLS8 devices
+Message-ID: <20191003165320.GA1626@arcor.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191003155640.12632-1-kai.heng.feng@canonical.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-VADE-STATUS: LEGIT
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Oct 03, 2019 at 11:56:40PM +0800, Kai-Heng Feng wrote:
-> Dell WD15 dock has a topology like this:
-> /:  Bus 04.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/2p, 10000M
->     |__ Port 1: Dev 2, If 0, Class=Hub, Driver=hub/7p, 5000M
->             |__ Port 2: Dev 3, If 0, Class=Vendor Specific Class, Driver=r8152, 5000M
-> 
-> Their IDs:
-> Bus 004 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
-> Bus 004 Device 002: ID 0424:5537 Standard Microsystems Corp.
-> Bus 004 Device 004: ID 0bda:8153 Realtek Semiconductor Corp.
-> 
-> Ethernet cannot be detected after plugging ethernet cable to the dock,
-> the hub and roothub get runtime resumed and runtime suspended
-> immediately:
-> ...
-> [  433.315169] xhci_hcd 0000:3a:00.0: hcd_pci_runtime_resume: 0
-> [  433.315204] usb usb4: usb auto-resume
-> [  433.315226] hub 4-0:1.0: hub_resume
-> [  433.315239] xhci_hcd 0000:3a:00.0: Get port status 4-1 read: 0x10202e2, return 0x10343
-> [  433.315264] usb usb4-port1: status 0343 change 0001
-> [  433.315279] xhci_hcd 0000:3a:00.0: clear port1 connect change, portsc: 0x10002e2
-> [  433.315293] xhci_hcd 0000:3a:00.0: Get port status 4-2 read: 0x2a0, return 0x2a0
-> [  433.317012] xhci_hcd 0000:3a:00.0: xhci_hub_status_data: stopping port polling.
-> [  433.422282] xhci_hcd 0000:3a:00.0: Get port status 4-1 read: 0x10002e2, return 0x343
-> 
-> At this point the SMSC hub (usb 4-1) enters into compliance mode
-> (USB_SS_PORT_LS_COMP_MOD), and USB core tries to warm-reset it,
-> 
-> [  433.422307] usb usb4-port1: do warm reset
-> [  433.422311] usb 4-1: device reset not allowed in state 8
-> [  433.422339] hub 4-0:1.0: state 7 ports 2 chg 0002 evt 0000
-> [  433.422346] xhci_hcd 0000:3a:00.0: Get port status 4-1 read: 0x10002e2, return 0x343
-> [  433.422356] usb usb4-port1: do warm reset
-> [  433.422358] usb 4-1: device reset not allowed in state 8
-> [  433.422428] xhci_hcd 0000:3a:00.0: set port remote wake mask, actual port 0 status  = 0xf0002e2
-> [  433.422455] xhci_hcd 0000:3a:00.0: set port remote wake mask, actual port 1 status  = 0xe0002a0
-> [  433.422465] hub 4-0:1.0: hub_suspend
-> [  433.422475] usb usb4: bus auto-suspend, wakeup 1
-> [  433.426161] xhci_hcd 0000:3a:00.0: xhci_hub_status_data: stopping port polling.
-> [  433.466209] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
-> [  433.510204] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
-> [  433.554051] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
-> [  433.598235] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
-> [  433.642154] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
-> [  433.686204] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
-> [  433.730205] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
-> [  433.774203] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
-> [  433.818207] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
-> [  433.862040] xhci_hcd 0000:3a:00.0: port 0 polling in bus suspend, waiting
-> [  433.862053] xhci_hcd 0000:3a:00.0: xhci_hub_status_data: stopping port polling.
-> [  433.862077] xhci_hcd 0000:3a:00.0: xhci_suspend: stopping port polling.
-> [  433.862096] xhci_hcd 0000:3a:00.0: // Setting command ring address to 0x8578fc001
-> [  433.862312] xhci_hcd 0000:3a:00.0: hcd_pci_runtime_suspend: 0
-> [  433.862445] xhci_hcd 0000:3a:00.0: PME# enabled
-> [  433.902376] xhci_hcd 0000:3a:00.0: restoring config space at offset 0xc (was 0x0, writing 0x20)
-> [  433.902395] xhci_hcd 0000:3a:00.0: restoring config space at offset 0x4 (was 0x100000, writing 0x100403)
-> [  433.902490] xhci_hcd 0000:3a:00.0: PME# disabled
-> [  433.902504] xhci_hcd 0000:3a:00.0: enabling bus mastering
-> [  433.902547] xhci_hcd 0000:3a:00.0: // Setting command ring address to 0x8578fc001
-> [  433.902649] pcieport 0000:00:1b.0: PME: Spurious native interrupt!
-> [  433.902839] xhci_hcd 0000:3a:00.0: Port change event, 4-1, id 3, portsc: 0xb0202e2
-> [  433.902842] xhci_hcd 0000:3a:00.0: resume root hub
-> [  433.902845] xhci_hcd 0000:3a:00.0: handle_port_status: starting port polling.
-> [  433.902877] xhci_hcd 0000:3a:00.0: xhci_resume: starting port polling.
-> [  433.902889] xhci_hcd 0000:3a:00.0: xhci_hub_status_data: stopping port polling.
-> [  433.902891] xhci_hcd 0000:3a:00.0: hcd_pci_runtime_resume: 0
-> [  433.902919] usb usb4: usb wakeup-resume
-> [  433.902942] usb usb4: usb auto-resume
-> [  433.902966] hub 4-0:1.0: hub_resume
-> ...
-> 
-> However the warm-reset never success, the asserted PCI PME keeps the
-> runtime-resume, warm-reset and runtime-suspend loop which never bring it back
-> and causing spurious interrupts floods.
-> 
-> After some trial and errors, the issue goes away if LPM on the SMSC hub
-> is disabled. Digging further, enabling and disabling LPM during runtime
-> resume and runtime suspend respectively can solve the issue.
-> 
-> So bring back the old LPM behavior as a quirk and use it for the SMSC
-> hub to solve the issue.
-> 
-> Fixes: d590c2311150 ("usb: Avoid unnecessary LPM enabling and disabling during suspend and resume")
-> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt |  3 +++
->  drivers/usb/core/hub.c                          | 15 +++++++++++++++
->  drivers/usb/core/quirks.c                       |  6 ++++++
->  include/linux/usb/quirks.h                      |  3 +++
->  4 files changed, 27 insertions(+)
+Add support for the serial ports of Cinterion CLS8 devices.
 
-What changed from v1?  That should go below the --- line.
+T:  Bus=01 Lev=03 Prnt=05 Port=01 Cnt=02 Dev#= 25 Spd=480  MxCh= 0
+D:  Ver= 2.00 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
+P:  Vendor=1e2d ProdID=00b0 Rev= 3.18
+S:  Manufacturer=GEMALTO
+S:  Product=USB Modem
+C:* #Ifs= 5 Cfg#= 1 Atr=80 MxPwr=500mA
+I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=(none)
+E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+E:  Ad=83(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+E:  Ad=85(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+E:  Ad=84(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+E:  Ad=87(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+E:  Ad=86(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
+E:  Ad=89(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
+E:  Ad=88(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=05(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
 
-Can you send v3 please?
-
-thanks,
-
-greg k-h
+Signed-off-by: Reinhard Speyerer <rspmn@arcor.de>
+---
+diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+index 38e920ac7f82..b4cd8ec23738 100644
+--- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -419,6 +419,7 @@ static void option_instat_callback(struct urb *urb);
+ #define CINTERION_PRODUCT_PH8_AUDIO		0x0083
+ #define CINTERION_PRODUCT_AHXX_2RMNET		0x0084
+ #define CINTERION_PRODUCT_AHXX_AUDIO		0x0085
++#define CINTERION_PRODUCT_CLS8			0x00b0
+ 
+ /* Olivetti products */
+ #define OLIVETTI_VENDOR_ID			0x0b3c
+@@ -1847,6 +1848,8 @@ static const struct usb_device_id option_ids[] = {
+ 	  .driver_info = RSVD(4) },
+ 	{ USB_DEVICE_INTERFACE_CLASS(CINTERION_VENDOR_ID, CINTERION_PRODUCT_AHXX_2RMNET, 0xff) },
+ 	{ USB_DEVICE_INTERFACE_CLASS(CINTERION_VENDOR_ID, CINTERION_PRODUCT_AHXX_AUDIO, 0xff) },
++	{ USB_DEVICE_INTERFACE_CLASS(CINTERION_VENDOR_ID, CINTERION_PRODUCT_CLS8, 0xff),
++	  .driver_info = RSVD(0) | RSVD(4) },
+ 	{ USB_DEVICE(CINTERION_VENDOR_ID, CINTERION_PRODUCT_HC28_MDM) },
+ 	{ USB_DEVICE(CINTERION_VENDOR_ID, CINTERION_PRODUCT_HC28_MDMNET) },
+ 	{ USB_DEVICE(SIEMENS_VENDOR_ID, CINTERION_PRODUCT_HC25_MDM) },
