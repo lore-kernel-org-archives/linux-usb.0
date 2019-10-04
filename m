@@ -2,243 +2,206 @@ Return-Path: <SRS0=WE58=X5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 336C5C47404
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Oct 2019 08:20:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96EE3C4360C
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Oct 2019 08:45:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F3349215EA
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Oct 2019 08:20:28 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="WFBGXtRX"
+	by mail.kernel.org (Postfix) with ESMTP id 6890121A4C
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Oct 2019 08:45:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387889AbfJDITw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Oct 2019 04:19:52 -0400
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:15731 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726525AbfJDITw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Oct 2019 04:19:52 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d9700a90000>; Fri, 04 Oct 2019 01:19:53 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 04 Oct 2019 01:19:50 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 04 Oct 2019 01:19:50 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 4 Oct
- 2019 08:19:50 +0000
-Received: from hqnvemgw02.nvidia.com (172.16.227.111) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 4 Oct 2019 08:19:49 +0000
-Received: from jckuo-lt.nvidia.com (Not Verified[10.19.108.105]) by hqnvemgw02.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5d9700a40000>; Fri, 04 Oct 2019 01:19:49 -0700
-From:   JC Kuo <jckuo@nvidia.com>
-To:     <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>
-CC:     <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <nkristam@nvidia.com>, <skomatineni@nvidia.com>,
-        JC Kuo <jckuo@nvidia.com>
-Subject: [PATCH v2 1/7] xhci: tegra: Parameterize mailbox register addresses
-Date:   Fri, 4 Oct 2019 16:19:35 +0800
-Message-ID: <20191004081941.4831-2-jckuo@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191004081941.4831-1-jckuo@nvidia.com>
-References: <20191004081941.4831-1-jckuo@nvidia.com>
-X-NVConfidentiality: public
+        id S1728767AbfJDIpR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Oct 2019 04:45:17 -0400
+Received: from mga02.intel.com ([134.134.136.20]:9621 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725730AbfJDIpR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 4 Oct 2019 04:45:17 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Oct 2019 01:45:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,255,1566889200"; 
+   d="scan'208";a="205809177"
+Received: from kuha.fi.intel.com ([10.237.72.53])
+  by fmsmga001.fm.intel.com with SMTP; 04 Oct 2019 01:45:13 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Fri, 04 Oct 2019 11:45:12 +0300
+Date:   Fri, 4 Oct 2019 11:45:12 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Hans de Goede <hdegoede@redhat.com>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 3/7] usb: typec: Separate the operations vector
+Message-ID: <20191004084512.GF1048@kuha.fi.intel.com>
+References: <20191001094858.68643-1-heikki.krogerus@linux.intel.com>
+ <20191001094858.68643-4-heikki.krogerus@linux.intel.com>
+ <6378359b-cf1b-eb8a-997d-8102ee6ee241@roeck-us.net>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1570177193; bh=dcfwivKFxZr2p1gdB+07ooupRU7kOLANO6fEGThfSXc=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=WFBGXtRX7x9EUSrxXNQZ8w/3x/JD7udye6Ib2RnomakcjYaVjfU3UjpqEsamlW8+D
-         WztXsJzmczZ1gmVKMBQ/OhndNd95gy/gdnQlsadwI5c0LSoxD/gjIPDfeNJYTA2f94
-         faz9BIo1B4l3mBLS3MYAkeJ/JWNhN13+57TxojjP76PMzVqhSFfURVMWKrNkbWixYs
-         Gttt3FHvLm1V3IzzbZ8NMZaaTy1YBX7vB/a71ixY2fKurZzx8qxGJW8K4BRqEqtRUC
-         LCaTWqEdfuoRiMVytKb6yeA4bggqsSzJ0K1NQqsREq6DgYeuEi+lzdUrOD6pebpJb2
-         VDlygEtwmBLtw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6378359b-cf1b-eb8a-997d-8102ee6ee241@roeck-us.net>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Tegra194 XUSB host controller has rearranged mailbox registers. This
-commit makes mailbox registers address a part of "soc" data so that
-xhci-tegra driver can be used for Tegra194.
+On Tue, Oct 01, 2019 at 06:22:36AM -0700, Guenter Roeck wrote:
+> On 10/1/19 2:48 AM, Heikki Krogerus wrote:
+> > Introducing struct typec_operations which has the same
+> > callbacks as struct typec_capability. The old callbacks are
+> > kept for now, but after all users have been converted, they
+> > will be removed.
+> > 
+> > Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> > ---
+> >   drivers/usb/typec/class.c | 90 +++++++++++++++++++++++++--------------
+> >   include/linux/usb/typec.h | 19 +++++++++
+> >   2 files changed, 76 insertions(+), 33 deletions(-)
+> > 
+> > diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+> > index 9fab0be8f08c..542be63795db 100644
+> > --- a/drivers/usb/typec/class.c
+> > +++ b/drivers/usb/typec/class.c
+> > @@ -59,6 +59,7 @@ struct typec_port {
+> >   	struct typec_mux		*mux;
+> >   	const struct typec_capability	*cap;
+> > +	const struct typec_operations	*ops;
+> >   };
+> >   #define to_typec_port(_dev_) container_of(_dev_, struct typec_port, dev)
+> > @@ -961,11 +962,6 @@ preferred_role_store(struct device *dev, struct device_attribute *attr,
+> >   		return -EOPNOTSUPP;
+> >   	}
+> > -	if (!port->cap->try_role) {
+> > -		dev_dbg(dev, "Setting preferred role not supported\n");
+> > -		return -EOPNOTSUPP;
+> > -	}
+> > -
+> >   	role = sysfs_match_string(typec_roles, buf);
+> >   	if (role < 0) {
+> >   		if (sysfs_streq(buf, "none"))
+> > @@ -974,9 +970,18 @@ preferred_role_store(struct device *dev, struct device_attribute *attr,
+> >   			return -EINVAL;
+> >   	}
+> > -	ret = port->cap->try_role(port->cap, role);
+> > -	if (ret)
+> > -		return ret;
+> > +	if (port->ops && port->ops->try_role) {
+> > +		ret = port->ops->try_role(port, role);
+> > +		if (ret)
+> > +			return ret;
+> > +	} else if (port->cap && port->cap->try_role) {
+> > +		ret = port->cap->try_role(port->cap, role);
+> > +		if (ret)
+> > +			return ret;
+> > +	} else {
+> > +		dev_dbg(dev, "Setting preferred role not supported\n");
+> > +		return -EOPNOTSUPP;
+> > +	}
+> 
+> This is a semantic change: Support is now checked _after_ the string is evaluated.
+> I understand the reason, but it should be noted in the patch description
+> (not sure if it is worth it, though - it seems to me it makes the code more
+> difficult to read).
+> 
+> >   	port->prefer_role = role;
+> >   	return size;
+> > @@ -1005,11 +1010,6 @@ static ssize_t data_role_store(struct device *dev,
+> >   	struct typec_port *port = to_typec_port(dev);
+> >   	int ret;
+> > -	if (!port->cap->dr_set) {
+> > -		dev_dbg(dev, "data role swapping not supported\n");
+> > -		return -EOPNOTSUPP;
+> > -	}
+> > -
+> >   	ret = sysfs_match_string(typec_data_roles, buf);
+> >   	if (ret < 0)
+> >   		return ret;
+> > @@ -1020,9 +1020,19 @@ static ssize_t data_role_store(struct device *dev,
+> >   		goto unlock_and_ret;
+> >   	}
+> > -	ret = port->cap->dr_set(port->cap, ret);
+> > -	if (ret)
+> > +	if (port->ops && port->ops->dr_set) {
+> > +		ret = port->ops->dr_set(port, ret);
+> > +		if (ret)
+> > +			goto unlock_and_ret;
+> > +	} else if (port->cap && port->cap->dr_set) {
+> > +		ret = port->cap->dr_set(port->cap, ret);
+> > +		if (ret)
+> > +			goto unlock_and_ret;
+> > +	} else {
+> > +		dev_dbg(dev, "data role swapping not supported\n");
+> > +		ret = -EOPNOTSUPP;
+> >   		goto unlock_and_ret;
+> 
+> This really makes me wonder if the semantic change makes sense. Support
+> is now evaluated _after_ the lock has been obtained. That seems like a
+> waste.
 
-Signed-off-by: JC Kuo <jckuo@nvidia.com>
+OK, I'll re-think this.
 
----
- drivers/usb/host/xhci-tegra.c | 58 +++++++++++++++++++++++++----------
- 1 file changed, 42 insertions(+), 16 deletions(-)
+> > +	}
+> >   	ret = size;
+> >   unlock_and_ret:
+> > @@ -1055,11 +1065,6 @@ static ssize_t power_role_store(struct device *dev,
+> >   		return -EOPNOTSUPP;
+> >   	}
+> > -	if (!port->cap->pr_set) {
+> > -		dev_dbg(dev, "power role swapping not supported\n");
+> > -		return -EOPNOTSUPP;
+> > -	}
+> > -
+> >   	if (port->pwr_opmode != TYPEC_PWR_MODE_PD) {
+> >   		dev_dbg(dev, "partner unable to swap power role\n");
+> >   		return -EIO;
+> > @@ -1077,11 +1082,21 @@ static ssize_t power_role_store(struct device *dev,
+> >   		goto unlock_and_ret;
+> >   	}
+> > -	ret = port->cap->pr_set(port->cap, ret);
+> > -	if (ret)
+> > +	if (port->ops && port->ops->pr_set) {
+> > +		ret = port->ops->pr_set(port, ret);
+> > +		if (ret)
+> > +			goto unlock_and_ret;
+> > +	} else if (port->cap && port->cap->pr_set) {
+> > +		ret = port->cap->pr_set(port->cap, ret);
+> > +		if (ret)
+> > +			goto unlock_and_ret;
+> > +	} else {
+> > +		dev_dbg(dev, "power role swapping not supported\n");
+> > +		ret = -EOPNOTSUPP;
+> >   		goto unlock_and_ret;
+> > -
+> > +	}
+> >   	ret = size;
+> > +
+> >   unlock_and_ret:
+> >   	mutex_unlock(&port->port_type_lock);
+> >   	return ret;
+> > @@ -1108,7 +1123,8 @@ port_type_store(struct device *dev, struct device_attribute *attr,
+> >   	int ret;
+> >   	enum typec_port_type type;
+> > -	if (!port->cap->port_type_set || port->fixed_role != TYPEC_PORT_DRP) {
+> > +	if ((!port->ops || !port->ops->port_type_set) ||
+> > +	    !port->cap->port_type_set || port->fixed_role != TYPEC_PORT_DRP) {
+> 
+> The above now requires _all_ callbacks to exist, both ops and cap based ones.
+> Is that on purpose ? Maybe this should be as follows ?
+> 
+> 	if (((!port->ops || !port->ops->port_type_set) &&
+> 	     !port->cap->port_type_set) || port->fixed_role != TYPEC_PORT_DRP) {
+> 
+> or a bit better to read
+> 	if (port->fixed_role != TYPEC_PORT_DRP ||
+> 	    ((!port->ops || !port->ops->port_type_set) && !port->cap->port_type_set))
 
-diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-index 2ff7c911fbd0..add6b8fb40e1 100644
---- a/drivers/usb/host/xhci-tegra.c
-+++ b/drivers/usb/host/xhci-tegra.c
-@@ -42,19 +42,18 @@
- #define XUSB_CFG_CSB_BASE_ADDR			0x800
- 
- /* FPCI mailbox registers */
--#define XUSB_CFG_ARU_MBOX_CMD			0x0e4
-+/* XUSB_CFG_ARU_MBOX_CMD */
- #define  MBOX_DEST_FALC				BIT(27)
- #define  MBOX_DEST_PME				BIT(28)
- #define  MBOX_DEST_SMI				BIT(29)
- #define  MBOX_DEST_XHCI				BIT(30)
- #define  MBOX_INT_EN				BIT(31)
--#define XUSB_CFG_ARU_MBOX_DATA_IN		0x0e8
-+/* XUSB_CFG_ARU_MBOX_DATA_IN and XUSB_CFG_ARU_MBOX_DATA_OUT */
- #define  CMD_DATA_SHIFT				0
- #define  CMD_DATA_MASK				0xffffff
- #define  CMD_TYPE_SHIFT				24
- #define  CMD_TYPE_MASK				0xff
--#define XUSB_CFG_ARU_MBOX_DATA_OUT		0x0ec
--#define XUSB_CFG_ARU_MBOX_OWNER			0x0f0
-+/* XUSB_CFG_ARU_MBOX_OWNER */
- #define  MBOX_OWNER_NONE			0
- #define  MBOX_OWNER_FW				1
- #define  MBOX_OWNER_SW				2
-@@ -146,6 +145,13 @@ struct tegra_xusb_phy_type {
- 	unsigned int num;
- };
- 
-+struct tega_xusb_mbox_regs {
-+	u16 cmd;
-+	u16 data_in;
-+	u16 data_out;
-+	u16 owner;
-+};
-+
- struct tegra_xusb_soc {
- 	const char *firmware;
- 	const char * const *supply_names;
-@@ -160,6 +166,8 @@ struct tegra_xusb_soc {
- 		} usb2, ulpi, hsic, usb3;
- 	} ports;
- 
-+	struct tega_xusb_mbox_regs mbox;
-+
- 	bool scale_ss_clock;
- 	bool has_ipfs;
- };
-@@ -395,15 +403,15 @@ static int tegra_xusb_mbox_send(struct tegra_xusb *tegra,
- 	 * ACK/NAK messages.
- 	 */
- 	if (!(msg->cmd == MBOX_CMD_ACK || msg->cmd == MBOX_CMD_NAK)) {
--		value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_OWNER);
-+		value = fpci_readl(tegra, tegra->soc->mbox.owner);
- 		if (value != MBOX_OWNER_NONE) {
- 			dev_err(tegra->dev, "mailbox is busy\n");
- 			return -EBUSY;
- 		}
- 
--		fpci_writel(tegra, MBOX_OWNER_SW, XUSB_CFG_ARU_MBOX_OWNER);
-+		fpci_writel(tegra, MBOX_OWNER_SW, tegra->soc->mbox.owner);
- 
--		value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_OWNER);
-+		value = fpci_readl(tegra, tegra->soc->mbox.owner);
- 		if (value != MBOX_OWNER_SW) {
- 			dev_err(tegra->dev, "failed to acquire mailbox\n");
- 			return -EBUSY;
-@@ -413,17 +421,17 @@ static int tegra_xusb_mbox_send(struct tegra_xusb *tegra,
- 	}
- 
- 	value = tegra_xusb_mbox_pack(msg);
--	fpci_writel(tegra, value, XUSB_CFG_ARU_MBOX_DATA_IN);
-+	fpci_writel(tegra, value, tegra->soc->mbox.data_in);
- 
--	value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_CMD);
-+	value = fpci_readl(tegra, tegra->soc->mbox.cmd);
- 	value |= MBOX_INT_EN | MBOX_DEST_FALC;
--	fpci_writel(tegra, value, XUSB_CFG_ARU_MBOX_CMD);
-+	fpci_writel(tegra, value, tegra->soc->mbox.cmd);
- 
- 	if (wait_for_idle) {
- 		unsigned long timeout = jiffies + msecs_to_jiffies(250);
- 
- 		while (time_before(jiffies, timeout)) {
--			value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_OWNER);
-+			value = fpci_readl(tegra, tegra->soc->mbox.owner);
- 			if (value == MBOX_OWNER_NONE)
- 				break;
- 
-@@ -431,7 +439,7 @@ static int tegra_xusb_mbox_send(struct tegra_xusb *tegra,
- 		}
- 
- 		if (time_after(jiffies, timeout))
--			value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_OWNER);
-+			value = fpci_readl(tegra, tegra->soc->mbox.owner);
- 
- 		if (value != MBOX_OWNER_NONE)
- 			return -ETIMEDOUT;
-@@ -598,16 +606,16 @@ static irqreturn_t tegra_xusb_mbox_thread(int irq, void *data)
- 
- 	mutex_lock(&tegra->lock);
- 
--	value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_DATA_OUT);
-+	value = fpci_readl(tegra, tegra->soc->mbox.data_out);
- 	tegra_xusb_mbox_unpack(&msg, value);
- 
--	value = fpci_readl(tegra, XUSB_CFG_ARU_MBOX_CMD);
-+	value = fpci_readl(tegra, tegra->soc->mbox.cmd);
- 	value &= ~MBOX_DEST_SMI;
--	fpci_writel(tegra, value, XUSB_CFG_ARU_MBOX_CMD);
-+	fpci_writel(tegra, value, tegra->soc->mbox.cmd);
- 
- 	/* clear mailbox owner if no ACK/NAK is required */
- 	if (!tegra_xusb_mbox_cmd_requires_ack(msg.cmd))
--		fpci_writel(tegra, MBOX_OWNER_NONE, XUSB_CFG_ARU_MBOX_OWNER);
-+		fpci_writel(tegra, MBOX_OWNER_NONE, tegra->soc->mbox.owner);
- 
- 	tegra_xusb_mbox_handle(tegra, &msg);
- 
-@@ -1375,6 +1383,12 @@ static const struct tegra_xusb_soc tegra124_soc = {
- 	},
- 	.scale_ss_clock = true,
- 	.has_ipfs = true,
-+	.mbox = {
-+		.cmd = 0xe4,
-+		.data_in = 0xe8,
-+		.data_out = 0xec,
-+		.owner = 0xf0,
-+	},
- };
- MODULE_FIRMWARE("nvidia/tegra124/xusb.bin");
- 
-@@ -1407,6 +1421,12 @@ static const struct tegra_xusb_soc tegra210_soc = {
- 	},
- 	.scale_ss_clock = false,
- 	.has_ipfs = true,
-+	.mbox = {
-+		.cmd = 0xe4,
-+		.data_in = 0xe8,
-+		.data_out = 0xec,
-+		.owner = 0xf0,
-+	},
- };
- MODULE_FIRMWARE("nvidia/tegra210/xusb.bin");
- 
-@@ -1432,6 +1452,12 @@ static const struct tegra_xusb_soc tegra186_soc = {
- 	},
- 	.scale_ss_clock = false,
- 	.has_ipfs = false,
-+	.mbox = {
-+		.cmd = 0xe4,
-+		.data_in = 0xe8,
-+		.data_out = 0xec,
-+		.owner = 0xf0,
-+	},
- };
- 
- static const struct of_device_id tegra_xusb_of_match[] = {
+OK.
+
+
+thanks,
+
 -- 
-2.17.1
-
+heikki
