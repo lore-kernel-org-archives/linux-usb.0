@@ -2,128 +2,105 @@ Return-Path: <SRS0=WE58=X5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82DBAC4360C
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Oct 2019 16:30:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ED4CC4360C
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Oct 2019 17:16:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 59111222BE
-	for <linux-usb@archiver.kernel.org>; Fri,  4 Oct 2019 16:30:04 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="F2bPtDir"
+	by mail.kernel.org (Postfix) with ESMTP id 6B5B62084D
+	for <linux-usb@archiver.kernel.org>; Fri,  4 Oct 2019 17:16:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731147AbfJDQaD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 4 Oct 2019 12:30:03 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:14612 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726978AbfJDQ3N (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Oct 2019 12:29:13 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d9773590000>; Fri, 04 Oct 2019 09:29:13 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 04 Oct 2019 09:29:12 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 04 Oct 2019 09:29:12 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 4 Oct
- 2019 16:29:12 +0000
-Received: from hqnvemgw01.nvidia.com (172.20.150.20) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 4 Oct 2019 16:29:12 +0000
-Received: from jckuo-lt.nvidia.com (Not Verified[10.19.101.223]) by hqnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5d9773560000>; Fri, 04 Oct 2019 09:29:12 -0700
-From:   JC Kuo <jckuo@nvidia.com>
-To:     <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>
-CC:     <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <nkristam@nvidia.com>, <skomatineni@nvidia.com>,
-        JC Kuo <jckuo@nvidia.com>
-Subject: [PATCH v3 0/7] add Tegra194 XUSB host and pad controller support
-Date:   Sat, 5 Oct 2019 00:28:59 +0800
-Message-ID: <20191004162906.4818-1-jckuo@nvidia.com>
+        id S2387801AbfJDRQg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 4 Oct 2019 13:16:36 -0400
+Received: from esa4.microchip.iphmx.com ([68.232.154.123]:45382 "EHLO
+        esa4.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387534AbfJDRQf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 4 Oct 2019 13:16:35 -0400
+Received-SPF: Pass (esa4.microchip.iphmx.com: domain of
+  Cristian.Birsan@microchip.com designates 198.175.253.82 as
+  permitted sender) identity=mailfrom;
+  client-ip=198.175.253.82; receiver=esa4.microchip.iphmx.com;
+  envelope-from="Cristian.Birsan@microchip.com";
+  x-sender="Cristian.Birsan@microchip.com";
+  x-conformance=spf_only; x-record-type="v=spf1";
+  x-record-text="v=spf1 mx a:ushub1.microchip.com
+  a:smtpout.microchip.com a:mx1.microchip.iphmx.com
+  a:mx2.microchip.iphmx.com include:servers.mcsv.net
+  include:mktomail.com include:spf.protection.outlook.com ~all"
+Received-SPF: None (esa4.microchip.iphmx.com: no sender
+  authenticity information available from domain of
+  postmaster@email.microchip.com) identity=helo;
+  client-ip=198.175.253.82; receiver=esa4.microchip.iphmx.com;
+  envelope-from="Cristian.Birsan@microchip.com";
+  x-sender="postmaster@email.microchip.com";
+  x-conformance=spf_only
+Authentication-Results: esa4.microchip.iphmx.com; dkim=none (message not signed) header.i=none; spf=Pass smtp.mailfrom=Cristian.Birsan@microchip.com; spf=None smtp.helo=postmaster@email.microchip.com; dmarc=pass (p=none dis=none) d=microchip.com
+IronPort-SDR: d0aGSb/7YfeQDRGpZ7qzkTUS57vxpPVB6jYd3meyu/pZo8VLdozIGUweKW5KZWVZyssXSDeit2
+ EYPsBzzdb6xtBxWdGjr4H/5cciq4G9UBq4c8AHnd8MTGVuGdDj2bMF4MZOPwm95WqTyNBzfD8x
+ PU9uOmFyBrxEd11g2qB/i1Mm6pcdv/r6iGTrj8WEgB7O1uKVPuKD3m+XYNkWtJlwstjGJ5zgI/
+ L8SlIHo1VUgNSRGrJ+LU+MY51d7cRpE6JTQP2UHWIe7tf6SmXuTsTiXdo1RJAW1cCKp8N00wyp
+ JXY=
+X-IronPort-AV: E=Sophos;i="5.67,257,1566889200"; 
+   d="scan'208";a="50474067"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa4.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 04 Oct 2019 10:16:34 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Fri, 4 Oct 2019 10:16:34 -0700
+Received: from cristi-W530.mchp-main.com (10.10.85.251) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
+ 15.1.1713.5 via Frontend Transport; Fri, 4 Oct 2019 10:16:30 -0700
+From:   <cristian.birsan@microchip.com>
+To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
+        <nicolas.ferre@microchip.com>, <alexandre.belloni@bootlin.com>,
+        <ludovic.desroches@microchip.com>
+CC:     <linux-arm-kernel@lists.infradead.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Cristian Birsan <cristian.birsan@microchip.com>
+Subject: [PATCH] usb: gadget: udc: atmel: Fix interrupt storm in FIFO mode.
+Date:   Fri, 4 Oct 2019 20:10:54 +0300
+Message-ID: <20191004171054.19453-1-cristian.birsan@microchip.com>
 X-Mailer: git-send-email 2.17.1
-X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1570206553; bh=prAoC2jXEEciuUkvcJ1IVyBjgWVH3m3veacPBoIaLpw=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         X-NVConfidentiality:MIME-Version:Content-Type;
-        b=F2bPtDirhoSE8dcOf6l02VgYGUGwuSW3rr8cz11GeZ7AcM2cMDtZnEVwruTDX/hvn
-         SThq9D/PwkUW5Foy/dp3C4L8ynWjEd8aqK3oRoCuUortv6ToH1Wd9HAjm1J4Hvjo3J
-         4wK6l/uF4vEG06ohCAttkbFrvJh88bvnOjD0lKh/u4Onl+jlE++PRykCKd0Sgqy4Sf
-         Q4rYX53Aln3x1hYTW+B0N5KidOvdYPSQXicrVqPoQB5zJ9IHgvbOW7YTQB5u8CIxZn
-         EhLIPS0C/aSYwpvdYlo0twBNieVVSF7M7pM2LVqksvh+0i8ViUeXpC6YxeE4uCUcP3
-         4236EZJQYDr9Q==
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+From: Cristian Birsan <cristian.birsan@microchip.com>
 
-This series introduces support for Tegra194 XUSB host and pad
-controller. Tegra194 XUSB host and pad controller are highly
-similar to the controllers found on Tegra186. Therefore, it's
-possible to resue xhci-tegra.c and xusb-tegra186.c for Tegra194.
+Fix interrupt storm generated by endpoints when working in FIFO mode.
+The TX_COMPLETE interrupt is used only by control endpoints processing.
+Do not enable it for other types of endpoints.
 
-Changelog:
-v3:
-  add change log to cover latter
+Fixes: 914a3f3b3754 ("USB: add atmel_usba_udc driver")
+Signed-off-by: Cristian Birsan <cristian.birsan@microchip.com>
+---
+ drivers/usb/gadget/udc/atmel_usba_udc.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-v2:
-  xhci: tegra: Parameterize mailbox register addresses
-   - no change
-
-  usb: host: xhci-tegra: Add Tegra194 XHCI support
-   - no change
-
-  phy: tegra: xusb: Protect Tegra186 soc with config
-   - new patch to protect Tegra186 soc data with config
-
-  phy: tegra: xusb: Add Tegra194 support
-   - removed unnecessary #if/#endif pairs
-   - introduce new soc->supports_gen2 flag which indicate whether or not
-     a soc supports USB 3.1 Gen 2 speed
-
-  dt-bindings: phy: tegra: Add Tegra194 support
-   - fix a typo
-
-  arm64: tegra: Add XUSB and pad controller on Tegra194
-   - renamed xhci@3610000 with usb@3610000
-   - moved padctl@3520000 and usb@3610000 inside /cbb
-   - cleaned up "clocks" property of usb@3610000 node
-   - added blanks lines to visually separate blocks
-
-  arm64: tegra: Enable XUSB host in P2972-0000 board
-   - use capitalization of regulator names
-   - fix gpio property of VDD_5V_SATA regulator
-
-JC Kuo (7):
-  xhci: tegra: Parameterize mailbox register addresses
-  usb: host: xhci-tegra: Add Tegra194 XHCI support
-  phy: tegra: xusb: Protect Tegra186 soc with config
-  phy: tegra: xusb: Add Tegra194 support
-  dt-bindings: phy: tegra: Add Tegra194 support
-  arm64: tegra: Add XUSB and pad controller on Tegra194
-  arm64: tegra: Enable XUSB host in P2972-0000 board
-
- .../phy/nvidia,tegra124-xusb-padctl.txt       |  16 ++
- .../arm64/boot/dts/nvidia/tegra194-p2888.dtsi |  36 ++++-
- .../boot/dts/nvidia/tegra194-p2972-0000.dts   |  62 ++++++++
- arch/arm64/boot/dts/nvidia/tegra194.dtsi      | 139 +++++++++++++++++
- drivers/phy/tegra/Makefile                    |   1 +
- drivers/phy/tegra/xusb-tegra186.c             | 144 +++++++++++++-----
- drivers/phy/tegra/xusb.c                      |   7 +
- drivers/phy/tegra/xusb.h                      |   6 +
- drivers/usb/host/xhci-tegra.c                 |  88 +++++++++--
- 9 files changed, 448 insertions(+), 51 deletions(-)
-
+diff --git a/drivers/usb/gadget/udc/atmel_usba_udc.c b/drivers/usb/gadget/udc/atmel_usba_udc.c
+index 86ffc8307864..1d0d8952a74b 100644
+--- a/drivers/usb/gadget/udc/atmel_usba_udc.c
++++ b/drivers/usb/gadget/udc/atmel_usba_udc.c
+@@ -449,9 +449,11 @@ static void submit_request(struct usba_ep *ep, struct usba_request *req)
+ 		next_fifo_transaction(ep, req);
+ 		if (req->last_transaction) {
+ 			usba_ep_writel(ep, CTL_DIS, USBA_TX_PK_RDY);
+-			usba_ep_writel(ep, CTL_ENB, USBA_TX_COMPLETE);
++			if (ep_is_control(ep))
++				usba_ep_writel(ep, CTL_ENB, USBA_TX_COMPLETE);
+ 		} else {
+-			usba_ep_writel(ep, CTL_DIS, USBA_TX_COMPLETE);
++			if (ep_is_control(ep))
++				usba_ep_writel(ep, CTL_DIS, USBA_TX_COMPLETE);
+ 			usba_ep_writel(ep, CTL_ENB, USBA_TX_PK_RDY);
+ 		}
+ 	}
 -- 
 2.17.1
 
