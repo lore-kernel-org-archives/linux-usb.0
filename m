@@ -2,127 +2,203 @@ Return-Path: <SRS0=B2VI=YA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAF6FECE58C
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Oct 2019 19:39:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B81A3C47404
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Oct 2019 21:11:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AE278206C0
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Oct 2019 19:39:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 85227206C0
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Oct 2019 21:11:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1570482681;
+	bh=2++8T5z+QfZLxrx0+JY4Ig6nJlGMQTg7pMrbsTi8s/A=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=FpD6rwQsnPJYKplYQIV6x/AeP07vYpQCQkrrNL+ZQuQL+aFs5G5nY2oB329vz+f4x
+	 1j9c0nH8/nhDTQdBCMEkgWsd+J4kU5erN6zZUJMxTaw24gIos2NXN5GOBhL6KyfWDg
+	 scAvoCwGZDto6JCgUMmmnBHwmJGrC9Oy7nclYjCk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729178AbfJGTjJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Oct 2019 15:39:09 -0400
-Received: from mail-io1-f69.google.com ([209.85.166.69]:43655 "EHLO
-        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728330AbfJGTjJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Oct 2019 15:39:09 -0400
-Received: by mail-io1-f69.google.com with SMTP id i2so28451910ioo.10
-        for <linux-usb@vger.kernel.org>; Mon, 07 Oct 2019 12:39:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=kKDb/JioBJlC3ZSH7Ra1D6u0wPhnpnLccidK2R6RBOc=;
-        b=gsyNi0FuKlVNaX9LvMvNW4Ly+6Oc8scps25syfOpP4MQP6/njxWZl88k18YYx2owF1
-         in3X0GOQ/DunNKVMyBREyiPwmGCe2oqTnkjKY0iSMyTkToIpLvqHyN+8iwhgqArV+XDf
-         u7P6ZMY4hoTYdL0Jobzir2VG0xlDrLkcQ8sA0kDTM1mLnYfNGsTKloC1MdEVIdskoPWM
-         SURTalBgKhix+R/rlAz5VRYM7OKyLYBXY/6h7lZa5w/OI7oCtQ03i6+uJWIqHtkA+vEa
-         FxhaOM8OF+MzQyAAbAMBIB8vBv7mXwqIxB4Bj/zxxSfaEdRziKJQ3UW37kbFn3N8JQQU
-         IJZA==
-X-Gm-Message-State: APjAAAVoPebBC0XnNzWc9gfI1ItXeqZxZc8VfmAtaKJwngIPdUmC1FM0
-        pPyaX+PzziI8+k1j4b9Py5sQUFhYH2dfwwoba9wVY4Uu2i7H
-X-Google-Smtp-Source: APXvYqxldHRIjyw1O4EjayR7Y53v5Fqnw/B/xW7orK7MItW9khT42lcNa9DPDqCKODNcniseUWxW2QA80sICOI8pqFH/Y0jO79O1
+        id S1728753AbfJGVLR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Oct 2019 17:11:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59948 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728273AbfJGVLR (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 7 Oct 2019 17:11:17 -0400
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3A95321871;
+        Mon,  7 Oct 2019 21:11:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1570482675;
+        bh=2++8T5z+QfZLxrx0+JY4Ig6nJlGMQTg7pMrbsTi8s/A=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=MqnJMCvIdq80J7Il5BK3z4Hl/Rjz0FvDiuBTyPxi1L/hJdXCjTadbkoZzujx+rP5i
+         lboI8E810fgzQpg7RhEyqt7H/YOS+BHlBnKfYDSLNZdwRL5Tmr7JjhO1Lf2A7Y9Dy6
+         8qi++nUKNtWLv6HGtIhG6oqo+fgIj3YKezVgUrB0=
+Received: by mail-qt1-f172.google.com with SMTP id o12so21414190qtf.3;
+        Mon, 07 Oct 2019 14:11:15 -0700 (PDT)
+X-Gm-Message-State: APjAAAW/6LPeMArZ4m7LwDFARoaovbjtDFJEx0j2kDu4pdeMkZa8SNZn
+        gXMSLVCX3+qRvbjB3/uZ+9nrDUrY134UDsZ1RQ==
+X-Google-Smtp-Source: APXvYqxgC4Y+IoQKs1SvKtAXtb35EwkBoHIwCUxxsWKBsFy/kXYqrEVfDUkyri9NnRTPi/5JhBKP08QwsTyWEYngVpk=
+X-Received: by 2002:a05:6214:1590:: with SMTP id m16mr29194689qvw.20.1570482674220;
+ Mon, 07 Oct 2019 14:11:14 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a92:5855:: with SMTP id m82mr31630600ilb.136.1570477147233;
- Mon, 07 Oct 2019 12:39:07 -0700 (PDT)
-Date:   Mon, 07 Oct 2019 12:39:07 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000007d25ff059457342d@google.com>
-Subject: KMSAN: uninit-value in alauda_check_media
-From:   syzbot <syzbot+e7d46eb426883fb97efd@syzkaller.appspotmail.com>
-To:     glider@google.com, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com,
-        usb-storage@lists.one-eyed-alien.net
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+References: <20191007175553.66940-1-john.stultz@linaro.org>
+ <20191007175553.66940-5-john.stultz@linaro.org> <CAL_JsqJLY2n7hfneNptAGswVZtGm3vJbSR6W2wUG+ZTzMN8wZA@mail.gmail.com>
+ <CALAqxLWB7Vd-H70LLLSW0Fv=_4-saQ9CE2k3-L_43E+F8mLj2w@mail.gmail.com>
+In-Reply-To: <CALAqxLWB7Vd-H70LLLSW0Fv=_4-saQ9CE2k3-L_43E+F8mLj2w@mail.gmail.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Mon, 7 Oct 2019 16:11:02 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJ9uUtqTDEkLi86-BCvW+wM6Pgz_K+JuTsuOqHfFOHStA@mail.gmail.com>
+Message-ID: <CAL_JsqJ9uUtqTDEkLi86-BCvW+wM6Pgz_K+JuTsuOqHfFOHStA@mail.gmail.com>
+Subject: Re: [RFC][PATCH v2 4/5] dt-bindings: usb: dwc3: of-simple: add
+ compatible for HiSi
+To:     John Stultz <john.stultz@linaro.org>
+Cc:     lkml <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Yu Chen <chenyu56@huawei.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+On Mon, Oct 7, 2019 at 2:07 PM John Stultz <john.stultz@linaro.org> wrote:
+>
+> On Mon, Oct 7, 2019 at 11:38 AM Rob Herring <robh+dt@kernel.org> wrote:
+> >
+> > On Mon, Oct 7, 2019 at 12:56 PM John Stultz <john.stultz@linaro.org> wrote:
+> > >
+> > > Add necessary compatible flag for HiSi's DWC3 so
+> > > dwc3-of-simple will probe.
+> > >
+> > > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > > Cc: Felipe Balbi <balbi@kernel.org>
+> > > Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
+> > > Cc: Rob Herring <robh+dt@kernel.org>
+> > > Cc: Mark Rutland <mark.rutland@arm.com>
+> > > Cc: Yu Chen <chenyu56@huawei.com>
+> > > Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> > > Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> > > Cc: linux-usb@vger.kernel.org
+> > > Cc: devicetree@vger.kernel.org
+> > > Signed-off-by: John Stultz <john.stultz@linaro.org>
+> > > ---
+> > > v2: Tweaked clock names as clk_usb3phy_ref didn't seem right.
+> > > ---
+> > >  .../devicetree/bindings/usb/hisi,dwc3.txt     | 52 +++++++++++++++++++
+> > >  1 file changed, 52 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/usb/hisi,dwc3.txt
+> >
+> > Can you make this a schema.
+>
+> Sorry, I'm not sure exactly what you're asking. I'm guessing from
+> grepping around you want the bindings in yaml instead (I see a few
+> examples)?
 
-syzbot found the following crash on:
+Yes.
 
-HEAD commit:    1e76a3e5 kmsan: replace __GFP_NO_KMSAN_SHADOW with kmsan_i..
-git tree:       https://github.com/google/kmsan.git master
-console output: https://syzkaller.appspot.com/x/log.txt?x=1204cc63600000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=f03c659d0830ab8d
-dashboard link: https://syzkaller.appspot.com/bug?extid=e7d46eb426883fb97efd
-compiler:       clang version 9.0.0 (/home/glider/llvm/clang  
-80fee25776c2fb61e74c1ecb1a523375c2500b69)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=123c860d600000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=110631b7600000
+> Is there some pointer to documentation? The
+> Documentation/devicetree/bindings/writing-bindings.txt file doesn't
+> seem to say much on it.
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+e7d46eb426883fb97efd@syzkaller.appspotmail.com
+You mean Documentation/devicetree/writing-schemas.rst? There's that
+and Documentation/devicetree/bindings/example-schema.yaml which has a
+bunch of annotations on what each part means.
 
-=====================================================
-BUG: KMSAN: uninit-value in alauda_transport+0x462/0x57f0  
-drivers/usb/storage/alauda.c:1137
-CPU: 0 PID: 12279 Comm: usb-storage Not tainted 5.3.0-rc7+ #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0x191/0x1f0 lib/dump_stack.c:113
-  kmsan_report+0x13a/0x2b0 mm/kmsan/kmsan_report.c:108
-  __msan_warning+0x73/0xe0 mm/kmsan/kmsan_instr.c:250
-  alauda_check_media+0x344/0x3310 drivers/usb/storage/alauda.c:460
-  alauda_transport+0x462/0x57f0 drivers/usb/storage/alauda.c:1137
-  usb_stor_invoke_transport+0xf5/0x27e0 drivers/usb/storage/transport.c:606
-  usb_stor_transparent_scsi_command+0x5d/0x70  
-drivers/usb/storage/protocol.c:108
-  usb_stor_control_thread+0xca6/0x11a0 drivers/usb/storage/usb.c:380
-  kthread+0x4b5/0x4f0 kernel/kthread.c:256
-  ret_from_fork+0x35/0x40 arch/x86/entry/entry_64.S:355
+> > > diff --git a/Documentation/devicetree/bindings/usb/hisi,dwc3.txt b/Documentation/devicetree/bindings/usb/hisi,dwc3.txt
+> > > new file mode 100644
+> > > index 000000000000..3a3e5c320f2a
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/usb/hisi,dwc3.txt
+> > > @@ -0,0 +1,52 @@
+> > > +HiSi SuperSpeed DWC3 USB SoC controller
+> > > +
+> > > +Required properties:
+> > > +- compatible:          should contain "hisilicon,hi3660-dwc3" for HiSi SoC
+> > > +- clocks:              A list of phandle + clock-specifier pairs for the
+> > > +                       clocks listed in clock-names
+> > > +- clock-names:         Should contain the following:
+> > > +  "clk_abb_usb"                USB reference clk
 
-Local variable description: ----status@alauda_check_media
-Variable was created at:
-  alauda_check_media+0x8e/0x3310 drivers/usb/storage/alauda.c:454
-  alauda_transport+0x462/0x57f0 drivers/usb/storage/alauda.c:1137
-=====================================================
-Kernel panic - not syncing: panic_on_warn set ...
-CPU: 0 PID: 12279 Comm: usb-storage Tainted: G    B             5.3.0-rc7+  
-#0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0x191/0x1f0 lib/dump_stack.c:113
-  panic+0x3c9/0xc1e kernel/panic.c:219
-  kmsan_report+0x2a2/0x2b0 mm/kmsan/kmsan_report.c:131
-  __msan_warning+0x73/0xe0 mm/kmsan/kmsan_instr.c:250
-  alauda_check_media+0x344/0x3310 drivers/usb/storage/alauda.c:460
-  alauda_transport+0x462/0x57f0 drivers/usb/storage/alauda.c:1137
-  usb_stor_invoke_transport+0xf5/0x27e0 drivers/usb/storage/transport.c:606
-  usb_stor_transparent_scsi_command+0x5d/0x70  
-drivers/usb/storage/protocol.c:108
-  usb_stor_control_thread+0xca6/0x11a0 drivers/usb/storage/usb.c:380
-  kthread+0x4b5/0x4f0 kernel/kthread.c:256
-  ret_from_fork+0x35/0x40 arch/x86/entry/entry_64.S:355
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
+Probably 'ref' from dwc3.txt.
 
+> > > +  "aclk_usb3otg"       USB3 OTG aclk
 
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+'bus_early'? IIRC, 'aclk' is the clock name for AXI bus clock.
 
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+> > > +
+> > > +- assigned-clocks:     Should be:
+> > > +                               HI3660_ACLK_GATE_USB3OTG
+> > > +- assigned-clock-rates: Should be:
+> > > +                               229Mhz (229000000) for HI3660_ACLK_GATE_USB3OTG
+> > > +
+> > > +Optional properties:
+> > > +- resets:              Phandle to reset control that resets core and wrapper.
+> >
+> > Looks like 4 resets though.
+>
+> Good point. I'll fix that up.
+>
+> > > +
+> > > +Required child node:
+> > > +A child node must exist to represent the core DWC3 IP block. The name of
+> > > +the node is not important. The content of the node is defined in dwc3.txt.
+> > > +
+> > > +Example device nodes:
+> > > +
+> > > +       usb3: hisi_dwc3 {
+> > > +               compatible = "hisilicon,hi3660-dwc3";
+> > > +               #address-cells = <2>;
+> > > +               #size-cells = <2>;
+> > > +               ranges;
+> > > +
+> > > +               clocks = <&crg_ctrl HI3660_CLK_ABB_USB>,
+> > > +                        <&crg_ctrl HI3660_ACLK_GATE_USB3OTG>;
+> > > +               clock-names = "clk_abb_usb", "aclk_usb3otg";
+> > > +
+> > > +               assigned-clocks = <&crg_ctrl HI3660_ACLK_GATE_USB3OTG>;
+> > > +               assigned-clock-rates = <229 000 000>;
+> > > +               resets = <&crg_rst 0x90 8>,
+> > > +                        <&crg_rst 0x90 7>,
+> > > +                        <&crg_rst 0x90 6>,
+> > > +                        <&crg_rst 0x90 5>;
+> > > +
+> > > +               dwc3: dwc3@ff100000 {
+> >
+> > If it's only clocks and resets for the wrapper node, just make this
+> > all one node.
+>
+> Just to make sure I'm following, you're suggesting I put all the
+> clocks/resets in the dwc3 node (renamed to usb for the node name) and
+> not add the wrapper?
+
+Yes.
+
+> I'll have to see if that's possible. The generic dwc3 binding wants 3
+> clocks, but I only have two in the code I've worked with (similarly it
+> seems to only want two resets, not 4) so I'll have to see if I can
+> figure out how to adapt that.
+
+Possible since commit fe8abf332b8f ("usb: dwc3: support clocks and
+resets for DWC3 core").
+
+>
+> If that approach is preferred, do I also no longer need a separate
+> binding document/schema?
+
+Correct. And then no need to convert to schema yet (though feel free
+to convert dwc3.txt :)).
+
+Rob
