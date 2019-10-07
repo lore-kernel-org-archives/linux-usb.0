@@ -2,137 +2,314 @@ Return-Path: <SRS0=B2VI=YA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA742C47404
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Oct 2019 13:44:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C6BDC47404
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Oct 2019 14:01:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A151B206BB
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Oct 2019 13:44:50 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="CnGVHQae"
+	by mail.kernel.org (Postfix) with ESMTP id 4F84821655
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Oct 2019 14:01:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727801AbfJGNoc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Oct 2019 09:44:32 -0400
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:59256 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727324AbfJGNob (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Oct 2019 09:44:31 -0400
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x97DaVte022434;
-        Mon, 7 Oct 2019 15:44:14 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-type; s=STMicroelectronics;
- bh=az9dy2ktIqgkk5jYrhMqsSlUq7PYeTVraawDvBq1iLs=;
- b=CnGVHQae22DWj2D5/tu8rSKxqi4JNXRIxWp0XLbbq5xjzm2RXXSbZ4iIvwplKPNrv230
- fKI78F6XCb+wQyH1F6e4hg+6k2ZdIkscyK8AeZAW9gMDXMKEpKFAeBFihXQN8VI5lJvk
- oh2nw0YlWlj3EPpOanF76JOjN5I3a8EZY7BMl/Jzvh8ZzRTI/y5OQrs5U9qEcsLcWqmn
- zQjhNcws1CySwI2zYgpWe9jpmppa41dsYguiBmAXosTwXqV0B+VxzsOuFsYEHM4SLbmz
- boVgsDQATUufm+/VX4p7ojXZcahoEOYjf6IAluuhirtEfpP+qf6FtguBxt4xWaSc78e2 yw== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2vegn0jns0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 07 Oct 2019 15:44:13 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C652D100038;
-        Mon,  7 Oct 2019 15:44:12 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id BA4502B8A5E;
-        Mon,  7 Oct 2019 15:44:12 +0200 (CEST)
-Received: from localhost (10.75.127.46) by SFHDAG3NODE2.st.com (10.75.127.8)
- with Microsoft SMTP Server (TLS) id 15.0.1347.2; Mon, 7 Oct 2019 15:44:12
- +0200
-From:   Alexandre Torgue <alexandre.torgue@st.com>
-To:     Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        <linux-gpio@vger.kernel.org>, <linux-usb@vger.kernel.org>
-Subject: [PATCH 1/3] dt-bindings: arm: stm32: Add missing STM32 boards
-Date:   Mon, 7 Oct 2019 15:44:08 +0200
-Message-ID: <20191007134410.10337-2-alexandre.torgue@st.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191007134410.10337-1-alexandre.torgue@st.com>
-References: <20191007134410.10337-1-alexandre.torgue@st.com>
+        id S1727791AbfJGOBs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Oct 2019 10:01:48 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:59942 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1727685AbfJGOBs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Oct 2019 10:01:48 -0400
+Received: (qmail 2065 invoked by uid 2102); 7 Oct 2019 10:01:47 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 7 Oct 2019 10:01:47 -0400
+Date:   Mon, 7 Oct 2019 10:01:47 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     David Heinzelmann <heinzelmann.david@gmail.com>
+cc:     linux-usb@vger.kernel.org
+Subject: Re: [PATCH] Check for changed device descriptors when a connection-change
+ occurs before validating the connection.
+In-Reply-To: <20191007084701.GA9937@dhe-pc>
+Message-ID: <Pine.LNX.4.44L0.1910071001230.1513-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.46]
-X-ClientProxiedBy: SFHDAG6NODE2.st.com (10.75.127.17) To SFHDAG3NODE2.st.com
- (10.75.127.8)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
- definitions=2019-10-07_02:2019-10-07,2019-10-07 signatures=0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This commit documents missing STM32 boards:
+On Mon, 7 Oct 2019, David Heinzelmann wrote:
 
--STM32MCU: F429 disco/eval, F469-disco, F746 disco/eval, F769 disco,
-H743 disco/eval.
+> Hi,
+> 
+> I hope it all fits now.
+> 
+> David
+> 
+> 
+> From 8517ecfac0175aebba03bb0868dde652bc3c36e5 Mon Sep 17 00:00:00 2001
+> From: David Heinzelmann <heinzelmann.david@gmail.com>
+> Date: Fri, 4 Oct 2019 12:28:36 +0200
+> Subject: [PATCH v4] usb: hub: Check device descriptor before resusciation
+> 
+> If a device connected to an xHCI host controller disconnects from the USB bus
+> and then reconnects, e.g. triggered by a firmware update, then the host
+> controller automatically activates the connection and the port is enabled. The
+> implementation of hub_port_connect_change() assumes that if the port is
+> enabled then nothing has changed. There is no check if the USB descriptors
+> have changed. As a result, the kernel's internal copy of the descriptors ends
+> up being incorrect and the device doesn't work properly anymore.
+> 
+> The solution to the problem is for hub_port_connect_change() always to
+> check whether the device's descriptors have changed before resuscitating
+> an enabled port.
+> 
+> Signed-off-by: David Heinzelmann <heinzelmann.david@gmail.com>
 
--STM32MPU: MP157 dk1/dk2/ed1/ev1.
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
-Signed-off-by: Alexandre Torgue <alexandre.torgue@st.com>
 
-diff --git a/Documentation/devicetree/bindings/arm/stm32/stm32.yaml b/Documentation/devicetree/bindings/arm/stm32/stm32.yaml
-index 4d194f1eb03a..1fcf306bd2d1 100644
---- a/Documentation/devicetree/bindings/arm/stm32/stm32.yaml
-+++ b/Documentation/devicetree/bindings/arm/stm32/stm32.yaml
-@@ -13,19 +13,38 @@ properties:
-   compatible:
-     oneOf:
-       - items:
-+          - enum:
-+              - st,stm32f429i-disco
-+              - st,stm32429i-eval
-           - const: st,stm32f429
--
-       - items:
-+          - enum:
-+              - st,stm32f469i-disco
-           - const: st,stm32f469
--
-       - items:
-+          - enum:
-+              - st,stm32f746-disco
-+              - st,stm32746g-eval
-           - const: st,stm32f746
--
-       - items:
-+          - enum:
-+              - st,stm32f769-disco
-+          - const: st,stm32f769
-+      - items:
-+          - enum:
-+              - st,stm32h743i-disco
-+              - st,stm32h743i-eval
-           - const: st,stm32h743
--
-       - items:
-           - enum:
-               - arrow,stm32mp157a-avenger96 # Avenger96
-+              - st,stm32mp157c-ed1
-+              - st,stm32mp157a-dk1
-+              - st,stm32mp157c-dk2
-+
-+          - const: st,stm32mp157
-+      - items:
-+          - const: st,stm32mp157c-ev1
-+          - const: st,stm32mp157c-ed1
-           - const: st,stm32mp157
- ...
--- 
-2.17.1
+> ---
+> Changes in v4:
+>  - changed commit description
+> Changes in v3:
+>  - changed commit message and description
+>  - fix code style
+> Changes in v2:
+>  - fix logic error to handle return code from usb_get_device_descriptor()
+>    properly
+>  - fix line endings
+> ---
+>  drivers/usb/core/hub.c | 196 +++++++++++++++++++++++------------------
+>  1 file changed, 111 insertions(+), 85 deletions(-)
+> 
+> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> index 236313f41f4a..fdcfa85b5b12 100644
+> --- a/drivers/usb/core/hub.c
+> +++ b/drivers/usb/core/hub.c
+> @@ -4930,6 +4930,91 @@ hub_power_remaining(struct usb_hub *hub)
+>  	return remaining;
+>  }
+>  
+> +
+> +static int descriptors_changed(struct usb_device *udev,
+> +		struct usb_device_descriptor *old_device_descriptor,
+> +		struct usb_host_bos *old_bos)
+> +{
+> +	int		changed = 0;
+> +	unsigned	index;
+> +	unsigned	serial_len = 0;
+> +	unsigned	len;
+> +	unsigned	old_length;
+> +	int		length;
+> +	char		*buf;
+> +
+> +	if (memcmp(&udev->descriptor, old_device_descriptor,
+> +			sizeof(*old_device_descriptor)) != 0)
+> +		return 1;
+> +
+> +	if ((old_bos && !udev->bos) || (!old_bos && udev->bos))
+> +		return 1;
+> +	if (udev->bos) {
+> +		len = le16_to_cpu(udev->bos->desc->wTotalLength);
+> +		if (len != le16_to_cpu(old_bos->desc->wTotalLength))
+> +			return 1;
+> +		if (memcmp(udev->bos->desc, old_bos->desc, len))
+> +			return 1;
+> +	}
+> +
+> +	/* Since the idVendor, idProduct, and bcdDevice values in the
+> +	 * device descriptor haven't changed, we will assume the
+> +	 * Manufacturer and Product strings haven't changed either.
+> +	 * But the SerialNumber string could be different (e.g., a
+> +	 * different flash card of the same brand).
+> +	 */
+> +	if (udev->serial)
+> +		serial_len = strlen(udev->serial) + 1;
+> +
+> +	len = serial_len;
+> +	for (index = 0; index < udev->descriptor.bNumConfigurations; index++) {
+> +		old_length = le16_to_cpu(udev->config[index].desc.wTotalLength);
+> +		len = max(len, old_length);
+> +	}
+> +
+> +	buf = kmalloc(len, GFP_NOIO);
+> +	if (!buf)
+> +		/* assume the worst */
+> +		return 1;
+> +
+> +	for (index = 0; index < udev->descriptor.bNumConfigurations; index++) {
+> +		old_length = le16_to_cpu(udev->config[index].desc.wTotalLength);
+> +		length = usb_get_descriptor(udev, USB_DT_CONFIG, index, buf,
+> +				old_length);
+> +		if (length != old_length) {
+> +			dev_dbg(&udev->dev, "config index %d, error %d\n",
+> +					index, length);
+> +			changed = 1;
+> +			break;
+> +		}
+> +		if (memcmp(buf, udev->rawdescriptors[index], old_length)
+> +				!= 0) {
+> +			dev_dbg(&udev->dev, "config index %d changed (#%d)\n",
+> +				index,
+> +				((struct usb_config_descriptor *) buf)->
+> +					bConfigurationValue);
+> +			changed = 1;
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (!changed && serial_len) {
+> +		length = usb_string(udev, udev->descriptor.iSerialNumber,
+> +				buf, serial_len);
+> +		if (length + 1 != serial_len) {
+> +			dev_dbg(&udev->dev, "serial string error %d\n",
+> +					length);
+> +			changed = 1;
+> +		} else if (memcmp(buf, udev->serial, length) != 0) {
+> +			dev_dbg(&udev->dev, "serial string changed\n");
+> +			changed = 1;
+> +		}
+> +	}
+> +
+> +	kfree(buf);
+> +	return changed;
+> +}
+> +
+>  static void hub_port_connect(struct usb_hub *hub, int port1, u16 portstatus,
+>  		u16 portchange)
+>  {
+> @@ -5167,7 +5252,9 @@ static void hub_port_connect_change(struct usb_hub *hub, int port1,
+>  {
+>  	struct usb_port *port_dev = hub->ports[port1 - 1];
+>  	struct usb_device *udev = port_dev->child;
+> +	struct usb_device_descriptor descriptor;
+>  	int status = -ENODEV;
+> +	int retval;
+>  
+>  	dev_dbg(&port_dev->dev, "status %04x, change %04x, %s\n", portstatus,
+>  			portchange, portspeed(hub, portstatus));
+> @@ -5188,7 +5275,30 @@ static void hub_port_connect_change(struct usb_hub *hub, int port1,
+>  	if ((portstatus & USB_PORT_STAT_CONNECTION) && udev &&
+>  			udev->state != USB_STATE_NOTATTACHED) {
+>  		if (portstatus & USB_PORT_STAT_ENABLE) {
+> -			status = 0;		/* Nothing to do */
+> +			/*
+> +			 * USB-3 connections are initialized automatically by
+> +			 * the hostcontroller hardware. Therefore check for
+> +			 * changed device descriptors before resuscitating the
+> +			 * device.
+> +			 */
+> +			descriptor = udev->descriptor;
+> +			retval = usb_get_device_descriptor(udev,
+> +					sizeof(udev->descriptor));
+> +			if (retval < 0) {
+> +				dev_dbg(&udev->dev,
+> +						"can't read device descriptor %d\n",
+> +						retval);
+> +			} else {
+> +				if (descriptors_changed(udev, &descriptor,
+> +						udev->bos)) {
+> +					dev_dbg(&udev->dev,
+> +							"device descriptor has changed\n");
+> +					/* for disconnect() calls */
+> +					udev->descriptor = descriptor;
+> +				} else {
+> +					status = 0; /* Nothing to do */
+> +				}
+> +			}
+>  #ifdef CONFIG_PM
+>  		} else if (udev->state == USB_STATE_SUSPENDED &&
+>  				udev->persist_enabled) {
+> @@ -5550,90 +5660,6 @@ void usb_hub_cleanup(void)
+>  	usb_deregister(&hub_driver);
+>  } /* usb_hub_cleanup() */
+>  
+> -static int descriptors_changed(struct usb_device *udev,
+> -		struct usb_device_descriptor *old_device_descriptor,
+> -		struct usb_host_bos *old_bos)
+> -{
+> -	int		changed = 0;
+> -	unsigned	index;
+> -	unsigned	serial_len = 0;
+> -	unsigned	len;
+> -	unsigned	old_length;
+> -	int		length;
+> -	char		*buf;
+> -
+> -	if (memcmp(&udev->descriptor, old_device_descriptor,
+> -			sizeof(*old_device_descriptor)) != 0)
+> -		return 1;
+> -
+> -	if ((old_bos && !udev->bos) || (!old_bos && udev->bos))
+> -		return 1;
+> -	if (udev->bos) {
+> -		len = le16_to_cpu(udev->bos->desc->wTotalLength);
+> -		if (len != le16_to_cpu(old_bos->desc->wTotalLength))
+> -			return 1;
+> -		if (memcmp(udev->bos->desc, old_bos->desc, len))
+> -			return 1;
+> -	}
+> -
+> -	/* Since the idVendor, idProduct, and bcdDevice values in the
+> -	 * device descriptor haven't changed, we will assume the
+> -	 * Manufacturer and Product strings haven't changed either.
+> -	 * But the SerialNumber string could be different (e.g., a
+> -	 * different flash card of the same brand).
+> -	 */
+> -	if (udev->serial)
+> -		serial_len = strlen(udev->serial) + 1;
+> -
+> -	len = serial_len;
+> -	for (index = 0; index < udev->descriptor.bNumConfigurations; index++) {
+> -		old_length = le16_to_cpu(udev->config[index].desc.wTotalLength);
+> -		len = max(len, old_length);
+> -	}
+> -
+> -	buf = kmalloc(len, GFP_NOIO);
+> -	if (!buf)
+> -		/* assume the worst */
+> -		return 1;
+> -
+> -	for (index = 0; index < udev->descriptor.bNumConfigurations; index++) {
+> -		old_length = le16_to_cpu(udev->config[index].desc.wTotalLength);
+> -		length = usb_get_descriptor(udev, USB_DT_CONFIG, index, buf,
+> -				old_length);
+> -		if (length != old_length) {
+> -			dev_dbg(&udev->dev, "config index %d, error %d\n",
+> -					index, length);
+> -			changed = 1;
+> -			break;
+> -		}
+> -		if (memcmp(buf, udev->rawdescriptors[index], old_length)
+> -				!= 0) {
+> -			dev_dbg(&udev->dev, "config index %d changed (#%d)\n",
+> -				index,
+> -				((struct usb_config_descriptor *) buf)->
+> -					bConfigurationValue);
+> -			changed = 1;
+> -			break;
+> -		}
+> -	}
+> -
+> -	if (!changed && serial_len) {
+> -		length = usb_string(udev, udev->descriptor.iSerialNumber,
+> -				buf, serial_len);
+> -		if (length + 1 != serial_len) {
+> -			dev_dbg(&udev->dev, "serial string error %d\n",
+> -					length);
+> -			changed = 1;
+> -		} else if (memcmp(buf, udev->serial, length) != 0) {
+> -			dev_dbg(&udev->dev, "serial string changed\n");
+> -			changed = 1;
+> -		}
+> -	}
+> -
+> -	kfree(buf);
+> -	return changed;
+> -}
+> -
+>  /**
+>   * usb_reset_and_verify_device - perform a USB port reset to reinitialize a device
+>   * @udev: device to reset (not in SUSPENDED or NOTATTACHED state)
+> 
 
