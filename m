@@ -2,227 +2,361 @@ Return-Path: <SRS0=B2VI=YA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A9BFC47404
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Oct 2019 11:30:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04D5DECE58C
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Oct 2019 11:42:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CE8AF21655
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Oct 2019 11:30:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BCB3B218AC
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Oct 2019 11:42:00 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="o6Xd2+Ne"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="qPnX75pQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727754AbfJGLaB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Oct 2019 07:30:01 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:57780 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727496AbfJGLaB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Oct 2019 07:30:01 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x97BNuhX134953;
-        Mon, 7 Oct 2019 11:29:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
- bh=noDay8+L5VrxZgJrJU6IxuI6+qQ7tqj21dKeQ+T9CLU=;
- b=o6Xd2+Ney4vwfAJeaT234kuvzxnYwHTjsZOpiDdUDVc1Dn/Ne31qROPqFcwmLzeunXsx
- pnYV+e9q6QLlLf1ahrysDLONyMFBtD4DwQUc8yyzgCkG2H9ZjxMn/8PXfxL6xqxUb/pu
- TdgG9WQM9MmolLO67wNn2di79demBU7SVgftuBcCp2lRH3J/RFNrwa3g4truMe4VZgkg
- zBE2mLyya49WYVtMFiK5Zm6zfuJ4JfuPb9GwmEKUmzgm0I8pWDLMI24fdtZnvgaoX7ZC
- VdyHkRV8VvmZjV9dPFGaCzA0m+uHn4AWvjGD5QibW/PvVH5cc2X3kylXsmeOhJ6IP6LR uw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by userp2120.oracle.com with ESMTP id 2vektr5whb-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 07 Oct 2019 11:29:48 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x97BN0dB160438;
-        Mon, 7 Oct 2019 11:29:48 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3020.oracle.com with ESMTP id 2vg203hs65-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 07 Oct 2019 11:29:48 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x97BTkOx015011;
-        Mon, 7 Oct 2019 11:29:46 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 07 Oct 2019 04:29:45 -0700
-Date:   Mon, 7 Oct 2019 14:29:40 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>, kbuild@01.org,
-        Biju Das <biju.das@bp.renesas.com>
-Cc:     kbuild-all@01.org, linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [kbuild] [usb:usb-next 32/38] drivers/usb/typec/hd3ss3220.c:182
- hd3ss3220_probe() warn: passing zero to 'PTR_ERR'
-Message-ID: <20191007112939.GG21515@kadam>
+        id S1727791AbfJGLl7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Oct 2019 07:41:59 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:39570 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727411AbfJGLl6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Oct 2019 07:41:58 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x97BfrMT125478;
+        Mon, 7 Oct 2019 06:41:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1570448513;
+        bh=nH9TZ4hROoUMfZWTGhD+I02NEf8Kpjkulam8+3HbjLo=;
+        h=From:To:CC:Subject:Date:In-Reply-To:References;
+        b=qPnX75pQZg4DcNeIpM6QbAMilecYZ9u4j41toHNjYVPzF+e9gPzUsNPWlCQk2OPyP
+         paIa54zQtr9Ck2fNBNlDV5VnjDTITEgihgQk/I1vwogq3pRf0GgAeAdV33o3Ii3I6M
+         SFOxFKjJz3znLOEglC+673dC5cLJUA79UL//lYFw=
+Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x97Bfr0U056657;
+        Mon, 7 Oct 2019 06:41:53 -0500
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 7 Oct
+ 2019 06:41:51 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Mon, 7 Oct 2019 06:41:49 -0500
+Received: from lta0400828a.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x97BfjMM024908;
+        Mon, 7 Oct 2019 06:41:50 -0500
+From:   Roger Quadros <rogerq@ti.com>
+To:     <felipe.balbi@linux.intel.com>
+CC:     <gregkh@linuxfoundation.org>, <pawell@cadence.com>,
+        <nsekhar@ti.com>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        Roger Quadros <rogerq@ti.com>
+Subject: [PATCH 2/2] usb: cdns3: Add TI specific wrapper driver
+Date:   Mon, 7 Oct 2019 14:41:42 +0300
+Message-ID: <20191007114142.5182-3-rogerq@ti.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191007114142.5182-1-rogerq@ti.com>
+References: <20191007114142.5182-1-rogerq@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Message-ID-Hash: L6LPCOUG7HIZNECQC36X2YBCFUWXR5RH
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9402 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1910070115
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9402 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
- definitions=main-1910070115
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-[ Resending with Fixed email headers - dan ]
+The J721e platform comes with 2 Cadence USB3 controller
+instances. This driver supports the TI specific wrapper
+on this platform.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-next
-head:   dd3fd317e2beb899cbffcf364de049b9f9a02db5
-commit: 1c48c759ef4bb9031b3347277f04484e07e27d97 [32/38] usb: typec: driver for TI HD3SS3220 USB Type-C DRP port controller
-
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-drivers/usb/typec/hd3ss3220.c:182 hd3ss3220_probe() warn: passing zero to 'PTR_ERR'
-
-# https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/commit/?id=1c48c759ef4bb9031b3347277f04484e07e27d97
-git remote add usb https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
-git remote update usb
-git checkout 1c48c759ef4bb9031b3347277f04484e07e27d97
-vim +/PTR_ERR +182 drivers/usb/typec/hd3ss3220.c
-
-1c48c759ef4bb9 Biju Das 2019-09-04  152  
-1c48c759ef4bb9 Biju Das 2019-09-04  153  static int hd3ss3220_probe(struct i2c_client *client,
-1c48c759ef4bb9 Biju Das 2019-09-04  154  		const struct i2c_device_id *id)
-1c48c759ef4bb9 Biju Das 2019-09-04  155  {
-1c48c759ef4bb9 Biju Das 2019-09-04  156  	struct hd3ss3220 *hd3ss3220;
-1c48c759ef4bb9 Biju Das 2019-09-04  157  	struct fwnode_handle *connector;
-1c48c759ef4bb9 Biju Das 2019-09-04  158  	int ret;
-1c48c759ef4bb9 Biju Das 2019-09-04  159  	unsigned int data;
-1c48c759ef4bb9 Biju Das 2019-09-04  160  
-1c48c759ef4bb9 Biju Das 2019-09-04  161  	hd3ss3220 = devm_kzalloc(&client->dev, sizeof(struct hd3ss3220),
-1c48c759ef4bb9 Biju Das 2019-09-04  162  				 GFP_KERNEL);
-1c48c759ef4bb9 Biju Das 2019-09-04  163  	if (!hd3ss3220)
-1c48c759ef4bb9 Biju Das 2019-09-04  164  		return -ENOMEM;
-1c48c759ef4bb9 Biju Das 2019-09-04  165  
-1c48c759ef4bb9 Biju Das 2019-09-04  166  	i2c_set_clientdata(client, hd3ss3220);
-1c48c759ef4bb9 Biju Das 2019-09-04  167  
-1c48c759ef4bb9 Biju Das 2019-09-04  168  	hd3ss3220->dev = &client->dev;
-1c48c759ef4bb9 Biju Das 2019-09-04  169  	hd3ss3220->regmap = devm_regmap_init_i2c(client, &config);
-1c48c759ef4bb9 Biju Das 2019-09-04  170  	if (IS_ERR(hd3ss3220->regmap))
-1c48c759ef4bb9 Biju Das 2019-09-04  171  		return PTR_ERR(hd3ss3220->regmap);
-1c48c759ef4bb9 Biju Das 2019-09-04  172  
-1c48c759ef4bb9 Biju Das 2019-09-04  173  	hd3ss3220_set_source_pref(hd3ss3220,
-1c48c759ef4bb9 Biju Das 2019-09-04  174  				  HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_DEFAULT);
-1c48c759ef4bb9 Biju Das 2019-09-04  175  	connector = device_get_named_child_node(hd3ss3220->dev, "connector");
-1c48c759ef4bb9 Biju Das 2019-09-04  176  	if (IS_ERR(connector))
-1c48c759ef4bb9 Biju Das 2019-09-04  177  		return PTR_ERR(connector);
-1c48c759ef4bb9 Biju Das 2019-09-04  178  
-1c48c759ef4bb9 Biju Das 2019-09-04  179  	hd3ss3220->role_sw = fwnode_usb_role_switch_get(connector);
-1c48c759ef4bb9 Biju Das 2019-09-04  180  	fwnode_handle_put(connector);
-1c48c759ef4bb9 Biju Das 2019-09-04  181  	if (IS_ERR_OR_NULL(hd3ss3220->role_sw))
-1c48c759ef4bb9 Biju Das 2019-09-04 @182  		return PTR_ERR(hd3ss3220->role_sw);
-
-When fwnode_usb_role_switch_get() returns NULL then we return success
-here.  It seems like a bug.
-
-When function returns a mix of NULL and error pointers then NULL is a
-special case of success.  For example, a module tries to request a
-feature but that feature is deliberately turned off.  It's not an error
-so we can't return an error pointer, but at same time we can't return
-a valid pointer because the feature is disabled.
-
-For fwnode_usb_role_switch_get() it is a bit unclear to me what NULL
-means in that context, and there are no comments to explain it...  The
-fwnode_connection_find_match() is the same way where it mixes NULL and
-error pointers, doesn't have a comment, and it really seems like NULL is
-an error, not a special case of success like it's supposed to be.  I
-have added Heikki Krogerus to the CC list.
-
-1c48c759ef4bb9 Biju Das 2019-09-04  183  
-1c48c759ef4bb9 Biju Das 2019-09-04  184  	hd3ss3220->typec_cap.prefer_role = TYPEC_NO_PREFERRED_ROLE;
-1c48c759ef4bb9 Biju Das 2019-09-04  185  	hd3ss3220->typec_cap.dr_set = hd3ss3220_dr_set;
-1c48c759ef4bb9 Biju Das 2019-09-04  186  	hd3ss3220->typec_cap.type = TYPEC_PORT_DRP;
-1c48c759ef4bb9 Biju Das 2019-09-04  187  	hd3ss3220->typec_cap.data = TYPEC_PORT_DRD;
-1c48c759ef4bb9 Biju Das 2019-09-04  188  
-1c48c759ef4bb9 Biju Das 2019-09-04  189  	hd3ss3220->port = typec_register_port(&client->dev,
-1c48c759ef4bb9 Biju Das 2019-09-04  190  					      &hd3ss3220->typec_cap);
-1c48c759ef4bb9 Biju Das 2019-09-04  191  	if (IS_ERR(hd3ss3220->port))
-1c48c759ef4bb9 Biju Das 2019-09-04  192  		return PTR_ERR(hd3ss3220->port);
-
-This error path should call usb_role_switch_put(hd3ss3220->role_sw) and
-probably a fwnode_handle_put() as well?
-
-I noticed this because I scrolled to the bottom of the fucntion and
-noticed that there was only one error label.  When you see a single
-error label like that, it's normally a red flag that the error handling
-is buggy.  Error labels should have descriptive names which say what
-they do.  I suggest something like:
-
-err_unreg_port:
-	typec_unregister_port(hd3ss3220->port);
-err_put_role:
-	usb_role_switch_put(hd3ss3220->role_sw);
-err_put_handle:
-	fwnode_handle_put(foo bar);
-
-	return ret;
-
-The rule behind this style of error handling is that you just have to
-keep track of the most recently allocated resource and at the bottom
-you free them in the reverse order from how you allocated them.  Here we
-had allocated ->role_sw but the typec_register_port() so we do goto
-free_role_sw;  Now people can guess what the goto does because the
-name is descriptive and since it matches the most recently allocated
-resource that means it's okay.
-
-1c48c759ef4bb9 Biju Das 2019-09-04  193  
-1c48c759ef4bb9 Biju Das 2019-09-04  194  	hd3ss3220_set_role(hd3ss3220);
-1c48c759ef4bb9 Biju Das 2019-09-04  195  	ret = regmap_read(hd3ss3220->regmap, HD3SS3220_REG_CN_STAT_CTRL, &data);
-1c48c759ef4bb9 Biju Das 2019-09-04  196  	if (ret < 0)
-1c48c759ef4bb9 Biju Das 2019-09-04  197  		goto error;
-1c48c759ef4bb9 Biju Das 2019-09-04  198  
-1c48c759ef4bb9 Biju Das 2019-09-04  199  	if (data & HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS) {
-1c48c759ef4bb9 Biju Das 2019-09-04  200  		ret = regmap_write(hd3ss3220->regmap,
-1c48c759ef4bb9 Biju Das 2019-09-04  201  				HD3SS3220_REG_CN_STAT_CTRL,
-1c48c759ef4bb9 Biju Das 2019-09-04  202  				data | HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS);
-1c48c759ef4bb9 Biju Das 2019-09-04  203  		if (ret < 0)
-1c48c759ef4bb9 Biju Das 2019-09-04  204  			goto error;
-1c48c759ef4bb9 Biju Das 2019-09-04  205  	}
-1c48c759ef4bb9 Biju Das 2019-09-04  206  
-1c48c759ef4bb9 Biju Das 2019-09-04  207  	if (client->irq > 0) {
-1c48c759ef4bb9 Biju Das 2019-09-04  208  		ret = devm_request_threaded_irq(&client->dev, client->irq, NULL,
-1c48c759ef4bb9 Biju Das 2019-09-04  209  					hd3ss3220_irq_handler,
-1c48c759ef4bb9 Biju Das 2019-09-04  210  					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-1c48c759ef4bb9 Biju Das 2019-09-04  211  					"hd3ss3220", &client->dev);
-1c48c759ef4bb9 Biju Das 2019-09-04  212  		if (ret)
-1c48c759ef4bb9 Biju Das 2019-09-04  213  			goto error;
-1c48c759ef4bb9 Biju Das 2019-09-04  214  	}
-1c48c759ef4bb9 Biju Das 2019-09-04  215  
-1c48c759ef4bb9 Biju Das 2019-09-04  216  	ret = i2c_smbus_read_byte_data(client, HD3SS3220_REG_DEV_REV);
-1c48c759ef4bb9 Biju Das 2019-09-04  217  	if (ret < 0)
-1c48c759ef4bb9 Biju Das 2019-09-04  218  		goto error;
-1c48c759ef4bb9 Biju Das 2019-09-04  219  
-1c48c759ef4bb9 Biju Das 2019-09-04  220  	dev_info(&client->dev, "probed revision=0x%x\n", ret);
-1c48c759ef4bb9 Biju Das 2019-09-04  221  
-1c48c759ef4bb9 Biju Das 2019-09-04  222  	return 0;
-1c48c759ef4bb9 Biju Das 2019-09-04  223  error:
-1c48c759ef4bb9 Biju Das 2019-09-04  224  	typec_unregister_port(hd3ss3220->port);
-1c48c759ef4bb9 Biju Das 2019-09-04  225  	usb_role_switch_put(hd3ss3220->role_sw);
-1c48c759ef4bb9 Biju Das 2019-09-04  226  
-1c48c759ef4bb9 Biju Das 2019-09-04  227  	return ret;
-1c48c759ef4bb9 Biju Das 2019-09-04  228  }
-
+Signed-off-by: Roger Quadros <rogerq@ti.com>
+Signed-off-by: Sekhar Nori <nsekhar@ti.com>
 ---
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
-_______________________________________________
-kbuild mailing list -- kbuild@lists.01.org
-To unsubscribe send an email to kbuild-leave@lists.01.org
+ drivers/usb/cdns3/Kconfig    |  10 ++
+ drivers/usb/cdns3/Makefile   |   1 +
+ drivers/usb/cdns3/cdns3-ti.c | 244 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 255 insertions(+)
+ create mode 100644 drivers/usb/cdns3/cdns3-ti.c
+
+diff --git a/drivers/usb/cdns3/Kconfig b/drivers/usb/cdns3/Kconfig
+index d0331613a355..2a1e89d12ed9 100644
+--- a/drivers/usb/cdns3/Kconfig
++++ b/drivers/usb/cdns3/Kconfig
+@@ -43,4 +43,14 @@ config USB_CDNS3_PCI_WRAP
+ 	  If you choose to build this driver as module it will
+ 	  be dynamically linked and module will be called cdns3-pci.ko
+ 
++config USB_CDNS3_TI
++	tristate "Cadence USB3 support on TI platforms"
++	depends on ARCH_K3 || COMPILE_TEST
++	default USB_CDNS3
++	help
++	  Say 'Y' or 'M' here if you are building for Texas Instruments
++	  platforms that contain Cadence USB3 controller core.
++
++	  e.g. J721e.
++
+ endif
+diff --git a/drivers/usb/cdns3/Makefile b/drivers/usb/cdns3/Makefile
+index a703547350bb..948e6b88d1a9 100644
+--- a/drivers/usb/cdns3/Makefile
++++ b/drivers/usb/cdns3/Makefile
+@@ -14,3 +14,4 @@ endif
+ cdns3-$(CONFIG_USB_CDNS3_HOST)		+= host.o
+ 
+ obj-$(CONFIG_USB_CDNS3_PCI_WRAP)	+= cdns3-pci-wrap.o
++obj-$(CONFIG_USB_CDNS3_TI)		+= cdns3-ti.o
+diff --git a/drivers/usb/cdns3/cdns3-ti.c b/drivers/usb/cdns3/cdns3-ti.c
+new file mode 100644
+index 000000000000..7447f5fcbe64
+--- /dev/null
++++ b/drivers/usb/cdns3/cdns3-ti.c
+@@ -0,0 +1,244 @@
++// SPDX-License-Identifier: GPL-2.0
++/**
++ * cdns_ti-ti.c - TI specific Glue layer for Cadence USB Controller
++ *
++ * Copyright (C) 2019 Texas Instruments Incorporated - http://www.ti.com
++ */
++
++#include <linux/bits.h>
++#include <linux/clk.h>
++#include <linux/module.h>
++#include <linux/kernel.h>
++#include <linux/interrupt.h>
++#include <linux/platform_device.h>
++#include <linux/dma-mapping.h>
++#include <linux/io.h>
++#include <linux/of_platform.h>
++#include <linux/pm_runtime.h>
++
++/* USB Wrapper register offsets */
++#define USBSS_PID		0x0
++#define	USBSS_W1		0x4
++#define USBSS_STATIC_CONFIG	0x8
++#define USBSS_PHY_TEST		0xc
++#define	USBSS_DEBUG_CTRL	0x10
++#define	USBSS_DEBUG_INFO	0x14
++#define	USBSS_DEBUG_LINK_STATE	0x18
++#define	USBSS_DEVICE_CTRL	0x1c
++
++/* Wrapper 1 register bits */
++#define USBSS_W1_PWRUP_RST		BIT(0)
++#define USBSS_W1_OVERCURRENT_SEL	BIT(8)
++#define USBSS_W1_MODESTRAP_SEL		BIT(9)
++#define USBSS_W1_OVERCURRENT		BIT(16)
++#define USBSS_W1_MODESTRAP_MASK		GENMASK(18, 17)
++#define USBSS_W1_MODESTRAP_SHIFT	17
++#define USBSS_W1_USB2_ONLY		BIT(19)
++
++/* Static config register bits */
++#define USBSS1_STATIC_PLL_REF_SEL_MASK	GENMASK(8, 5)
++#define USBSS1_STATIC_PLL_REF_SEL_SHIFT	5
++#define USBSS1_STATIC_LOOPBACK_MODE_MASK	GENMASK(4, 3)
++#define USBSS1_STATIC_LOOPBACK_MODE_SHIFT	3
++#define USBSS1_STATIC_VBUS_SEL_MASK	GENMASK(2, 1)
++#define USBSS1_STATIC_VBUS_SEL_SHIFT	1
++#define USBSS1_STATIC_LANE_REVERSE	BIT(0)
++
++/* Modestrap modes */
++enum modestrap_mode { USBSS_MODESTRAP_MODE_NONE,
++		      USBSS_MODESTRAP_MODE_HOST,
++		      USBSS_MODESTRAP_MODE_PERIPHERAL};
++
++struct cdns_ti {
++	struct device *dev;
++	void __iomem *usbss;
++	int usb2_only:1;
++	int vbus_divider:1;
++	struct clk *usb2_refclk;
++	struct clk *lpm_clk;
++};
++
++static const int cdns_ti_rate_table[] = {	/* in KHZ */
++	9600,
++	10000,
++	12000,
++	19200,
++	20000,
++	24000,
++	25000,
++	26000,
++	38400,
++	40000,
++	58000,
++	50000,
++	52000,
++};
++
++static inline u32 cdns_ti_readl(struct cdns_ti *data, u32 offset)
++{
++	return readl(data->usbss + offset);
++}
++
++static inline void cdns_ti_writel(struct cdns_ti *data, u32 offset, u32 value)
++{
++	writel(value, data->usbss + offset);
++}
++
++static int cdns_ti_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct device_node *node = pdev->dev.of_node;
++	struct cdns_ti *data;
++	struct resource	*res;
++	int error;
++	u32 reg;
++	int modestrap_mode;
++	int rate_code, i;
++	unsigned long rate;
++
++	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++
++	platform_set_drvdata(pdev, data);
++
++	data->dev = dev;
++
++	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	data->usbss = devm_ioremap_resource(dev, res);
++	if (IS_ERR(data->usbss))
++		return PTR_ERR(data->usbss);
++
++	data->usb2_refclk = devm_clk_get(dev, "usb2_refclk");
++	if (IS_ERR(data->usb2_refclk)) {
++		dev_err(dev, "can't get usb2_refclk\n");
++		return PTR_ERR(data->usb2_refclk);
++	}
++
++	data->lpm_clk = devm_clk_get(dev, "lpm_clk");
++	if (IS_ERR(data->lpm_clk)) {
++		dev_err(dev, "can't get lpm_clk\n");
++		return PTR_ERR(data->lpm_clk);
++	}
++
++	rate = clk_get_rate(data->usb2_refclk);
++	rate /= 1000;	/* To KHz */
++	for (i = 0; i < ARRAY_SIZE(cdns_ti_rate_table); i++) {
++		if (cdns_ti_rate_table[i] == rate)
++			break;
++	}
++
++	if (i == ARRAY_SIZE(cdns_ti_rate_table)) {
++		dev_err(dev, "unsupported usb2_refclk rate: %lu KHz\n", rate);
++		return -EINVAL;
++	}
++
++	rate_code = i;
++
++	pm_runtime_enable(dev);
++	error = pm_runtime_get_sync(dev);
++	if (error < 0) {
++		dev_err(dev, "pm_runtime_get_sync failed: %d\n", error);
++		goto err_get;
++	}
++
++	/* assert RESET */
++	reg = cdns_ti_readl(data, USBSS_W1);
++	reg &= ~USBSS_W1_PWRUP_RST;
++	cdns_ti_writel(data, USBSS_W1, reg);
++
++	/* set static config */
++	reg = cdns_ti_readl(data, USBSS_STATIC_CONFIG);
++	reg &= ~USBSS1_STATIC_PLL_REF_SEL_MASK;
++	reg |= rate_code << USBSS1_STATIC_PLL_REF_SEL_SHIFT;
++
++	reg &= ~USBSS1_STATIC_VBUS_SEL_MASK;
++	data->vbus_divider = device_property_read_bool(dev, "ti,vbus-divider");
++	if (data->vbus_divider)
++		reg |= 1 << USBSS1_STATIC_VBUS_SEL_SHIFT;
++
++	cdns_ti_writel(data, USBSS_STATIC_CONFIG, reg);
++	reg = cdns_ti_readl(data, USBSS_STATIC_CONFIG);
++
++	/* set USB2_ONLY mode if requested */
++	reg = cdns_ti_readl(data, USBSS_W1);
++	data->usb2_only = device_property_read_bool(dev, "ti,usb2-only");
++	if (data->usb2_only)
++		reg |= USBSS_W1_USB2_ONLY;
++
++	/* set modestrap  */
++	if (device_property_read_bool(dev, "ti,modestrap-host"))
++		modestrap_mode = USBSS_MODESTRAP_MODE_HOST;
++	else if (device_property_read_bool(dev, "ti,modestrap-peripheral"))
++		modestrap_mode = USBSS_MODESTRAP_MODE_PERIPHERAL;
++	else
++		modestrap_mode = USBSS_MODESTRAP_MODE_NONE;
++
++	reg |= USBSS_W1_MODESTRAP_SEL;
++	reg &= ~USBSS_W1_MODESTRAP_MASK;
++	reg |= modestrap_mode << USBSS_W1_MODESTRAP_SHIFT;
++	cdns_ti_writel(data, USBSS_W1, reg);
++
++	/* de-assert RESET */
++	reg |= USBSS_W1_PWRUP_RST;
++	cdns_ti_writel(data, USBSS_W1, reg);
++
++	error = of_platform_populate(node, NULL, NULL, dev);
++	if (error) {
++		dev_err(dev, "failed to create children: %d\n", error);
++		goto err;
++	}
++
++	return 0;
++
++err:
++	pm_runtime_put_sync(data->dev);
++err_get:
++	pm_runtime_disable(data->dev);
++
++	return error;
++}
++
++static int cdns_ti_remove_core(struct device *dev, void *c)
++{
++	struct platform_device *pdev = to_platform_device(dev);
++
++	platform_device_unregister(pdev);
++
++	return 0;
++}
++
++static int cdns_ti_remove(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++
++	device_for_each_child(dev, NULL, cdns_ti_remove_core);
++	pm_runtime_put_sync(dev);
++	pm_runtime_disable(dev);
++
++	platform_set_drvdata(pdev, NULL);
++
++	return 0;
++}
++
++static const struct of_device_id cdns_ti_of_match[] = {
++	{ .compatible = "ti,j721e-usb", },
++	{},
++};
++MODULE_DEVICE_TABLE(of, cdns_ti_of_match);
++
++static struct platform_driver cdns_ti_driver = {
++	.probe		= cdns_ti_probe,
++	.remove		= cdns_ti_remove,
++	.driver		= {
++		.name	= "cdns3-ti",
++		.of_match_table	= cdns_ti_of_match,
++	},
++};
++
++module_platform_driver(cdns_ti_driver);
++
++MODULE_ALIAS("platform:cdns3-ti");
++MODULE_AUTHOR("Roger Quadros <rogerq@ti.com>");
++MODULE_LICENSE("GPL v2");
++MODULE_DESCRIPTION("Cadence USB3 TI Glue Layer");
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+
