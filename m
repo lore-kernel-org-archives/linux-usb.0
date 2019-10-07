@@ -2,168 +2,148 @@ Return-Path: <SRS0=B2VI=YA=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F26FECE58E
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Oct 2019 17:56:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A82ADECE58C
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Oct 2019 18:28:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 078DD20684
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Oct 2019 17:56:25 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UYzDC4h0"
+	by mail.kernel.org (Postfix) with ESMTP id 8B5BC2070B
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Oct 2019 18:28:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729453AbfJGR4H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Oct 2019 13:56:07 -0400
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:36770 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729266AbfJGR4E (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Oct 2019 13:56:04 -0400
-Received: by mail-pf1-f193.google.com with SMTP id y22so9147978pfr.3
-        for <linux-usb@vger.kernel.org>; Mon, 07 Oct 2019 10:56:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=YKLbWLWjJ/GA5qz2gzrLI3oAv45tZggVEaoyYmAEWtc=;
-        b=UYzDC4h0moF6TQzBOgkcjKP7aKolNPTebeHscocKWyaubmFmhXEoRiaMdF5qy5ogAn
-         mM09zumDqTlgW8ItdSALOkUZzEib3H67BIfdpf8Tcnhgtxgg588fAu1zMcQcOffL3GHj
-         qKcJDmojl03dF9EWsgoSkdYCy5r5oCQx38zrCIcqPx4hFsKip6dNApLHQ5WDXIgZns5c
-         4cE7lgRV9iUVqM0hBX91Ni7uZU3+5WG5d9/+wgk1oSY1yoP3Z1Y+ecl0V37tSKe19lrX
-         iELOP5B+MFN2IHQFsm3QMYYUlkQy45Q0XNI+ibrrKGNRFGNiWNZSZcYQAK/4EVIfmach
-         kjfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=YKLbWLWjJ/GA5qz2gzrLI3oAv45tZggVEaoyYmAEWtc=;
-        b=SSgchGsgpmWR38h+hEpWkpdEbCdVr5f65lW9t09z9SLc8asbhjfmzMAog8PAlDHkgK
-         /6YsAoES11RcRLhZuTdJ4RSrnaXbiLiav6Blsqon4XkSDK28xCXYQOrZ4Waw6IhoELp7
-         PttIdgV8SZIuZiyvCqoU3iX14Hw4IKGL5bvGddFzxRQb5ImX9OCKn7vPmZ4xQA5KhSOR
-         +7mE6xPdqjWb96e0DWBn48XZ0a7086/3RGNUDxBWwqGs9YjUft00vIUEINJUw0l+Gsbu
-         EYyGah5X0tLhPWdjtrKzireBK02JTIPIS9t8dMjVWf+v9tSxbVKwxs6I635/YSn+mBPc
-         PvzQ==
-X-Gm-Message-State: APjAAAVlR0eVVtsJXB8uWjgwhYTgMDZ+gxv9ODT/6fxk0HveeFHxiNcq
-        juqWsNpv5llgndomub2w16DK6w==
-X-Google-Smtp-Source: APXvYqyP5ZSRlyeJVHXlGMo3HFliZL7HfRt+pmiWd6boT4KjdSiMtolf+T6RLS6pFrH4tgGXlUcUKw==
-X-Received: by 2002:a62:7597:: with SMTP id q145mr33121812pfc.181.1570470963551;
-        Mon, 07 Oct 2019 10:56:03 -0700 (PDT)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
-        by smtp.gmail.com with ESMTPSA id k15sm3820096pgt.25.2019.10.07.10.56.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Oct 2019 10:56:02 -0700 (PDT)
-From:   John Stultz <john.stultz@linaro.org>
-To:     lkml <linux-kernel@vger.kernel.org>
-Cc:     Yu Chen <chenyu56@huawei.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        John Stultz <john.stultz@linaro.org>
-Subject: [RFC][PATCH v2 2/5] usb: dwc3: Execute GCTL Core Soft Reset while switch mdoe for Hisilicon Kirin Soc
-Date:   Mon,  7 Oct 2019 17:55:50 +0000
-Message-Id: <20191007175553.66940-3-john.stultz@linaro.org>
+        id S1728634AbfJGS2w (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Oct 2019 14:28:52 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:57872 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728031AbfJGS2w (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Oct 2019 14:28:52 -0400
+Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <kai.heng.feng@canonical.com>)
+        id 1iHXkW-0003Z9-UU; Mon, 07 Oct 2019 18:28:49 +0000
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+To:     gregkh@linuxfoundation.org
+Cc:     stern@rowland.harvard.edu, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>
+Subject: [PATCH 1/2] usb: core: Make port power cycle a separate helper function
+Date:   Tue,  8 Oct 2019 02:28:39 +0800
+Message-Id: <20191007182840.4867-1-kai.heng.feng@canonical.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191007175553.66940-1-john.stultz@linaro.org>
-References: <20191007175553.66940-1-john.stultz@linaro.org>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Yu Chen <chenyu56@huawei.com>
+Add a new function, hub_port_power_cycle() to power cycle port's power.
+It'll be used by a following patch.
 
-A GCTL soft reset should be executed when switch mode for dwc3 core
-of Hisilicon Kirin Soc.
+In addition to that, check the return value of usb_hub_set_port_power(),
+so we don't need to wait if the set power operation fails.
 
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>
-Cc: Yu Chen <chenyu56@huawei.com>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>
-Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc: linux-usb@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-Signed-off-by: Yu Chen <chenyu56@huawei.com>
-Signed-off-by: John Stultz <john.stultz@linaro.org>
+Furthermore, remove parameter *hdev from usb_hub_set_port_power(), since
+we can get *hdev from *hub directly.
+
+Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
 ---
- drivers/usb/dwc3/core.c | 20 ++++++++++++++++++++
- drivers/usb/dwc3/core.h |  3 +++
- 2 files changed, 23 insertions(+)
+ drivers/usb/core/hub.c  | 29 +++++++++++++++++++++++------
+ drivers/usb/core/hub.h  |  3 +--
+ drivers/usb/core/port.c |  4 ++--
+ 3 files changed, 26 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 999ce5e84d3c..440261432421 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -112,6 +112,19 @@ void dwc3_set_prtcap(struct dwc3 *dwc, u32 mode)
- 	dwc->current_dr_role = mode;
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 236313f41f4a..6655a6a1651b 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -817,9 +817,9 @@ static void hub_tt_work(struct work_struct *work)
+  *
+  * Return: 0 if successful. A negative error code otherwise.
+  */
+-int usb_hub_set_port_power(struct usb_device *hdev, struct usb_hub *hub,
+-			   int port1, bool set)
++int usb_hub_set_port_power(struct usb_hub *hub, int port1, bool set)
+ {
++	struct usb_device *hdev = hub->hdev;
+ 	int ret;
+ 
+ 	if (set)
+@@ -2739,6 +2739,26 @@ static bool hub_port_warm_reset_required(struct usb_hub *hub, int port1,
+ 		|| link_state == USB_SS_PORT_LS_COMP_MOD;
  }
  
-+static void dwc3_gctl_core_soft_reset(struct dwc3 *dwc)
++static void hub_port_power_cycle(struct usb_hub *hub, int port1)
 +{
-+	u32 reg;
++	int ret;
 +
-+	reg = dwc3_readl(dwc->regs, DWC3_GCTL);
-+	reg |= DWC3_GCTL_CORESOFTRESET;
-+	dwc3_writel(dwc->regs, DWC3_GCTL, reg);
++	ret = usb_hub_set_port_power(hub, port1, false);
++	if (ret) {
++		dev_info(&udev->dev, "failed to disable port power\n");
++		return;
++	}
 +
-+	reg = dwc3_readl(dwc->regs, DWC3_GCTL);
-+	reg &= ~DWC3_GCTL_CORESOFTRESET;
-+	dwc3_writel(dwc->regs, DWC3_GCTL, reg);
++	msleep(2 * hub_power_on_good_delay(hub));
++	ret = usb_hub_set_port_power(hub, port1, true);
++	if (ret) {
++		dev_info(&udev->dev, "failed to enable port power\n");
++		return;
++	}
++
++	msleep(hub_power_on_good_delay(hub));
 +}
 +
- static void __dwc3_set_mode(struct work_struct *work)
+ static int hub_port_wait_reset(struct usb_hub *hub, int port1,
+ 			struct usb_device *udev, unsigned int delay, bool warm)
  {
- 	struct dwc3 *dwc = work_to_dwc(work);
-@@ -156,6 +169,10 @@ static void __dwc3_set_mode(struct work_struct *work)
+@@ -5131,10 +5151,7 @@ static void hub_port_connect(struct usb_hub *hub, int port1, u16 portstatus,
+ 		/* When halfway through our retry count, power-cycle the port */
+ 		if (i == (SET_CONFIG_TRIES / 2) - 1) {
+ 			dev_info(&port_dev->dev, "attempt power cycle\n");
+-			usb_hub_set_port_power(hdev, hub, port1, false);
+-			msleep(2 * hub_power_on_good_delay(hub));
+-			usb_hub_set_port_power(hdev, hub, port1, true);
+-			msleep(hub_power_on_good_delay(hub));
++			hub_port_power_cycle(hub, port1);
+ 		}
+ 	}
+ 	if (hub->hdev->parent ||
+diff --git a/drivers/usb/core/hub.h b/drivers/usb/core/hub.h
+index a9e24e4b8df1..325a55637a6f 100644
+--- a/drivers/usb/core/hub.h
++++ b/drivers/usb/core/hub.h
+@@ -113,8 +113,7 @@ extern int usb_hub_create_port_device(struct usb_hub *hub,
+ 		int port1);
+ extern void usb_hub_remove_port_device(struct usb_hub *hub,
+ 		int port1);
+-extern int usb_hub_set_port_power(struct usb_device *hdev, struct usb_hub *hub,
+-		int port1, bool set);
++extern int usb_hub_set_port_power(struct usb_hub *hub, int port1, bool set);
+ extern struct usb_hub *usb_hub_to_struct_hub(struct usb_device *hdev);
+ extern int hub_port_debounce(struct usb_hub *hub, int port1,
+ 		bool must_be_connected);
+diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
+index bbbb35fa639f..0fc6f24c6da1 100644
+--- a/drivers/usb/core/port.c
++++ b/drivers/usb/core/port.c
+@@ -214,7 +214,7 @@ static int usb_port_runtime_resume(struct device *dev)
+ 		pm_runtime_get_sync(&peer->dev);
  
- 	dwc3_set_prtcap(dwc, dwc->desired_dr_role);
+ 	usb_autopm_get_interface(intf);
+-	retval = usb_hub_set_port_power(hdev, hub, port1, true);
++	retval = usb_hub_set_port_power(hub, port1, true);
+ 	msleep(hub_power_on_good_delay(hub));
+ 	if (udev && !retval) {
+ 		/*
+@@ -267,7 +267,7 @@ static int usb_port_runtime_suspend(struct device *dev)
+ 		return -EBUSY;
  
-+	/* Execute a GCTL Core Soft Reset when switch mode */
-+	if (dwc->gctl_reset_quirk)
-+		dwc3_gctl_core_soft_reset(dwc);
-+
- 	spin_unlock_irqrestore(&dwc->lock, flags);
- 
- 	switch (dwc->desired_dr_role) {
-@@ -1316,6 +1333,9 @@ static void dwc3_get_properties(struct dwc3 *dwc)
- 	dwc->dis_metastability_quirk = device_property_read_bool(dev,
- 				"snps,dis_metastability_quirk");
- 
-+	dwc->gctl_reset_quirk = device_property_read_bool(dev,
-+				"snps,gctl-reset-quirk");
-+
- 	dwc->lpm_nyet_threshold = lpm_nyet_threshold;
- 	dwc->tx_de_emphasis = tx_de_emphasis;
- 
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 1c8b349379af..b3cb6eec3f8f 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -1029,6 +1029,7 @@ struct dwc3_scratchpad_array {
-  * 	2	- No de-emphasis
-  * 	3	- Reserved
-  * @dis_metastability_quirk: set to disable metastability quirk.
-+ * @gctl_reset_quirk: set to do a gctl soft-reset while switch operation mode.
-  * @imod_interval: set the interrupt moderation interval in 250ns
-  *                 increments or 0 to disable.
-  */
-@@ -1219,6 +1220,8 @@ struct dwc3 {
- 
- 	unsigned		dis_metastability_quirk:1;
- 
-+	unsigned		gctl_reset_quirk:1;
-+
- 	u16			imod_interval;
- };
- 
+ 	usb_autopm_get_interface(intf);
+-	retval = usb_hub_set_port_power(hdev, hub, port1, false);
++	retval = usb_hub_set_port_power(hub, port1, false);
+ 	usb_clear_port_feature(hdev, port1, USB_PORT_FEAT_C_CONNECTION);
+ 	if (!port_dev->is_superspeed)
+ 		usb_clear_port_feature(hdev, port1, USB_PORT_FEAT_C_ENABLE);
 -- 
 2.17.1
 
