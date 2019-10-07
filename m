@@ -6,45 +6,48 @@ X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
 	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E475C47404
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A76C0ECE58E
 	for <linux-usb@archiver.kernel.org>; Mon,  7 Oct 2019 15:09:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E6EA321721
-	for <linux-usb@archiver.kernel.org>; Mon,  7 Oct 2019 15:09:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E34421655
+	for <linux-usb@archiver.kernel.org>; Mon,  7 Oct 2019 15:09:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728627AbfJGPJT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 7 Oct 2019 11:09:19 -0400
-Received: from mail-io1-f72.google.com ([209.85.166.72]:41507 "EHLO
-        mail-io1-f72.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729277AbfJGPJK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Oct 2019 11:09:10 -0400
-Received: by mail-io1-f72.google.com with SMTP id q18so27049804ios.8
+        id S1729283AbfJGPJK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 7 Oct 2019 11:09:10 -0400
+Received: from mail-io1-f71.google.com ([209.85.166.71]:37735 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728772AbfJGPJJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 7 Oct 2019 11:09:09 -0400
+Received: by mail-io1-f71.google.com with SMTP id u18so27248872ioc.4
         for <linux-usb@vger.kernel.org>; Mon, 07 Oct 2019 08:09:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=7KCg+f7TeFzvMI7Bp08YWruXFv6ujw5ZPTj7NmS2ZBg=;
-        b=QF3l37qxmM2Q4bkfUPlNlp5AKgTXPW80AVqtpLAIMf7Ifm5YqTbkM3nwIv0bddYItP
-         rjkShpZt81AlItR+/JIEqbt6ifVCeKGS8Oe5oCBh197PIf0T9hbEx4qKbOt1tKBHEpzz
-         phbiAKGmHASMV5xZQYcxwj4orj2YMZR79kVj+lWMr34asV73AlIuOLIn2I27sZKVz/2k
-         V9wT9VQB0MloQWhaV4lCfqSBlyrzdUcYlQtW9DSihhrZ1jLUQmUTBEH6f1UNpXwd1JFI
-         bOPyvcADc9c1Ft0NMROu6LNRuhb2E6CWzkyl353bdiz6ae9DMD3YGaP7X+QxDspxDAw2
-         tphg==
-X-Gm-Message-State: APjAAAVyS+LgOtSfaPaeMpyNsJvycJuRzS4/tI9TKiLzQXScEW4ewUDN
-        0C+0G9l41vtsKbxhKLJ9cIT2YFapNtngy1nCo/VgAsbovdhO
-X-Google-Smtp-Source: APXvYqy7907YtOP193BqGe7qgENG1Enn1wt1Y4XWrAph4wkpHB4HgDQWbMZWedSuacnxilIEoIu/O8hykW5g6i3TstOFZwjCKt4K
+        bh=gmo3MNz9xfKzNnITqaWUMkwRN0WlLGJGgGYObtDrNng=;
+        b=a//u0LnCZzi4hN9bCxJdXj9BEq9LQEvheMyrPEPbUOJUvfBl5n6ZLN+vKwaDNyr2N6
+         gjs/6GebLSQm7xsG8RICgKUrQyUkImnpTgWp15i98Y1ktBCLYH9MF9DX4rLdF2wX2DHk
+         juqqk0J8gdeE//wzEIUia7gJp58vz3A6WLZgcdTmsWpe3zjT3mzk5Ag9n75GfOG90o9q
+         qdfTm6EIcdg02BLSDq1uCcAzjdL+BNPm3RgmwyFAurr1odvvYiG12yLBT8qy1bSLTFeg
+         oQ+krA38peKsG3zy+P7262k1nvq10j4IEbU8q84w33wHYkg8rdY3Y5Te6TbBHXEYyY1K
+         qncQ==
+X-Gm-Message-State: APjAAAVznKu8oAdNW70+QGjxZM8EhOkIQ2CzmAyuA5CP4F1eiop1Xkfm
+        SuCwaNEn6Tu3e1p+560CgNYSU7bc0nEsXIg1Srbo8M9y1WGu
+X-Google-Smtp-Source: APXvYqyoxl0OUNr6+mTzCmNDiY9rlgQM5WIhwnJ3imJhR2nES9yjP9P3VZU+njR7WPuRJWlf6++jH9ZrXDmb/JHSnjHggf4rQZGu
 MIME-Version: 1.0
-X-Received: by 2002:a6b:7a06:: with SMTP id h6mr12529506iom.231.1570460948347;
+X-Received: by 2002:a5d:87d7:: with SMTP id q23mr23388461ios.126.1570460948564;
  Mon, 07 Oct 2019 08:09:08 -0700 (PDT)
 Date:   Mon, 07 Oct 2019 08:09:08 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000f5c33b0594536e77@google.com>
-Subject: kernel BUG at kernel/time/timer.c:LINE! (4)
-From:   syzbot <syzbot+f49d12d34f2321cf4df2@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, sean@mess.org, syzkaller-bugs@googlegroups.com
+Message-ID: <000000000000f91a330594536e3c@google.com>
+Subject: KMSAN: uninit-value in ax88772_hw_reset
+From:   syzbot <syzbot+bf5335246831e5f75f99@syzkaller.appspotmail.com>
+To:     davem@davemloft.net, glider@google.com,
+        kstewart@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        swinslow@gmail.com, syzkaller-bugs@googlegroups.com,
+        tglx@linutronix.de, tranmanphong@gmail.com, yang.wei9@zte.com.cn,
+        zhang.run@zte.com.cn
 Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
@@ -55,94 +58,107 @@ Hello,
 
 syzbot found the following crash on:
 
-HEAD commit:    58d5f26a usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=11e5b20d600000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=aa5dac3cda4ffd58
-dashboard link: https://syzkaller.appspot.com/bug?extid=f49d12d34f2321cf4df2
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13d9c713600000
+HEAD commit:    1e76a3e5 kmsan: replace __GFP_NO_KMSAN_SHADOW with kmsan_i..
+git tree:       https://github.com/google/kmsan.git master
+console output: https://syzkaller.appspot.com/x/log.txt?x=149bdd47600000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=f03c659d0830ab8d
+dashboard link: https://syzkaller.appspot.com/bug?extid=bf5335246831e5f75f99
+compiler:       clang version 9.0.0 (/home/glider/llvm/clang  
+80fee25776c2fb61e74c1ecb1a523375c2500b69)
+
+Unfortunately, I don't have any reproducer for this crash yet.
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+f49d12d34f2321cf4df2@syzkaller.appspotmail.com
+Reported-by: syzbot+bf5335246831e5f75f99@syzkaller.appspotmail.com
 
-------------[ cut here ]------------
-kernel BUG at kernel/time/timer.c:956!
-invalid opcode: 0000 [#1] SMP KASAN
-CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.4.0-rc1+ #0
+=====================================================
+BUG: KMSAN: uninit-value in ax88772_bind+0x6ad/0x11f0  
+drivers/net/usb/asix_devices.c:730
+CPU: 1 PID: 31 Comm: kworker/1:1 Not tainted 5.3.0-rc7+ #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
 Google 01/01/2011
-RIP: 0010:__mod_timer kernel/time/timer.c:956 [inline]
-RIP: 0010:__mod_timer kernel/time/timer.c:949 [inline]
-RIP: 0010:mod_timer+0x5a2/0xb50 kernel/time/timer.c:1100
-Code: 45 10 c7 44 24 14 ff ff ff ff 48 89 44 24 08 48 8d 45 20 48 c7 44 24  
-18 00 00 00 00 48 89 04 24 e9 5a fc ff ff e8 ae ce 0e 00 <0f> 0b e8 a7 ce  
-0e 00 4c 89 74 24 20 e9 37 fe ff ff e8 98 ce 0e 00
-RSP: 0018:ffff8881db209930 EFLAGS: 00010006
-RAX: ffffffff86c2b200 RBX: 00000000ffffa688 RCX: ffffffff83efc583
-RDX: 0000000000000100 RSI: ffffffff812f4d82 RDI: ffff8881d2356200
-RBP: ffff8881d23561e8 R08: ffffffff86c2b200 R09: ffffed103a46abeb
-R10: ffffed103a46abea R11: ffff8881d2355f53 R12: dffffc0000000000
-R13: 1ffff1103b64132d R14: ffff8881d2355f50 R15: 0000000000000006
-FS:  0000000000000000(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f75e2799000 CR3: 00000001d3b07000 CR4: 00000000001406f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Workqueue: usb_hub_wq hub_event
 Call Trace:
-  <IRQ>
-  imon_touch_event drivers/media/rc/imon.c:1348 [inline]
-  imon_incoming_packet.isra.0+0x2546/0x2f10 drivers/media/rc/imon.c:1603
-  usb_rx_callback_intf0+0x151/0x1e0 drivers/media/rc/imon.c:1734
-  __usb_hcd_giveback_urb+0x1f2/0x470 drivers/usb/core/hcd.c:1654
-  usb_hcd_giveback_urb+0x368/0x420 drivers/usb/core/hcd.c:1719
-  dummy_timer+0x120f/0x2fa2 drivers/usb/gadget/udc/dummy_hcd.c:1965
-  call_timer_fn+0x179/0x650 kernel/time/timer.c:1404
-  expire_timers kernel/time/timer.c:1449 [inline]
-  __run_timers kernel/time/timer.c:1773 [inline]
-  __run_timers kernel/time/timer.c:1740 [inline]
-  run_timer_softirq+0x5e3/0x1490 kernel/time/timer.c:1786
-  __do_softirq+0x221/0x912 kernel/softirq.c:292
-  invoke_softirq kernel/softirq.c:373 [inline]
-  irq_exit+0x178/0x1a0 kernel/softirq.c:413
-  exiting_irq arch/x86/include/asm/apic.h:536 [inline]
-  smp_apic_timer_interrupt+0x12f/0x500 arch/x86/kernel/apic/apic.c:1137
-  apic_timer_interrupt+0xf/0x20 arch/x86/entry/entry_64.S:830
-  </IRQ>
-RIP: 0010:default_idle+0x28/0x2e0 arch/x86/kernel/process.c:581
-Code: 90 90 41 56 41 55 65 44 8b 2d 44 3a 8f 7a 41 54 55 53 0f 1f 44 00 00  
-e8 36 ee d0 fb e9 07 00 00 00 0f 00 2d fa dd 4f 00 fb f4 <65> 44 8b 2d 20  
-3a 8f 7a 0f 1f 44 00 00 5b 5d 41 5c 41 5d 41 5e c3
-RSP: 0018:ffffffff86c07da8 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff13
-RAX: 0000000000000007 RBX: ffffffff86c2b200 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: 0000000000000006 RDI: ffffffff86c2ba4c
-RBP: fffffbfff0d85640 R08: ffffffff86c2b200 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-  cpuidle_idle_call kernel/sched/idle.c:154 [inline]
-  do_idle+0x3b6/0x500 kernel/sched/idle.c:263
-  cpu_startup_entry+0x14/0x20 kernel/sched/idle.c:355
-  start_kernel+0x82a/0x864 init/main.c:784
-  secondary_startup_64+0xa4/0xb0 arch/x86/kernel/head_64.S:241
-Modules linked in:
----[ end trace 3b8169377985e706 ]---
-RIP: 0010:__mod_timer kernel/time/timer.c:956 [inline]
-RIP: 0010:__mod_timer kernel/time/timer.c:949 [inline]
-RIP: 0010:mod_timer+0x5a2/0xb50 kernel/time/timer.c:1100
-Code: 45 10 c7 44 24 14 ff ff ff ff 48 89 44 24 08 48 8d 45 20 48 c7 44 24  
-18 00 00 00 00 48 89 04 24 e9 5a fc ff ff e8 ae ce 0e 00 <0f> 0b e8 a7 ce  
-0e 00 4c 89 74 24 20 e9 37 fe ff ff e8 98 ce 0e 00
-RSP: 0018:ffff8881db209930 EFLAGS: 00010006
-RAX: ffffffff86c2b200 RBX: 00000000ffffa688 RCX: ffffffff83efc583
-RDX: 0000000000000100 RSI: ffffffff812f4d82 RDI: ffff8881d2356200
-RBP: ffff8881d23561e8 R08: ffffffff86c2b200 R09: ffffed103a46abeb
-R10: ffffed103a46abea R11: ffff8881d2355f53 R12: dffffc0000000000
-R13: 1ffff1103b64132d R14: ffff8881d2355f50 R15: 0000000000000006
-FS:  0000000000000000(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f75e2799000 CR3: 00000001d3b07000 CR4: 00000000001406f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0x191/0x1f0 lib/dump_stack.c:113
+  kmsan_report+0x13a/0x2b0 mm/kmsan/kmsan_report.c:108
+  __msan_warning+0x73/0xe0 mm/kmsan/kmsan_instr.c:250
+  ax88772_hw_reset+0x507/0xb40 drivers/net/usb/asix_devices.c:368
+  ax88772_bind+0x6ad/0x11f0 drivers/net/usb/asix_devices.c:730
+  usbnet_probe+0x10ae/0x3960 drivers/net/usb/usbnet.c:1722
+  usb_probe_interface+0xd19/0x1310 drivers/usb/core/driver.c:361
+  really_probe+0x1373/0x1dc0 drivers/base/dd.c:552
+  driver_probe_device+0x1ba/0x510 drivers/base/dd.c:709
+  __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:816
+  bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
+  __device_attach+0x489/0x750 drivers/base/dd.c:882
+  device_initial_probe+0x4a/0x60 drivers/base/dd.c:929
+  bus_probe_device+0x131/0x390 drivers/base/bus.c:514
+  device_add+0x25b5/0x2df0 drivers/base/core.c:2165
+  usb_set_configuration+0x309f/0x3710 drivers/usb/core/message.c:2027
+  generic_probe+0xe7/0x280 drivers/usb/core/generic.c:210
+  usb_probe_device+0x146/0x200 drivers/usb/core/driver.c:266
+  really_probe+0x1373/0x1dc0 drivers/base/dd.c:552
+  driver_probe_device+0x1ba/0x510 drivers/base/dd.c:709
+  __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:816
+  bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
+  __device_attach+0x489/0x750 drivers/base/dd.c:882
+  device_initial_probe+0x4a/0x60 drivers/base/dd.c:929
+  bus_probe_device+0x131/0x390 drivers/base/bus.c:514
+  device_add+0x25b5/0x2df0 drivers/base/core.c:2165
+  usb_new_device+0x23e5/0x2fb0 drivers/usb/core/hub.c:2536
+  hub_port_connect drivers/usb/core/hub.c:5098 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
+  port_event drivers/usb/core/hub.c:5359 [inline]
+  hub_event+0x581d/0x72f0 drivers/usb/core/hub.c:5441
+  process_one_work+0x1572/0x1ef0 kernel/workqueue.c:2269
+  worker_thread+0x111b/0x2460 kernel/workqueue.c:2415
+  kthread+0x4b5/0x4f0 kernel/kthread.c:256
+  ret_from_fork+0x35/0x40 arch/x86/entry/entry_64.S:355
+
+Uninit was stored to memory at:
+  kmsan_save_stack_with_flags mm/kmsan/kmsan.c:150 [inline]
+  kmsan_internal_chain_origin+0xd2/0x170 mm/kmsan/kmsan.c:314
+  __msan_chain_origin+0x6b/0xe0 mm/kmsan/kmsan_instr.c:184
+  ax88772_bind+0xa12/0x11f0 drivers/net/usb/asix_devices.c:720
+  usbnet_probe+0x10ae/0x3960 drivers/net/usb/usbnet.c:1722
+  usb_probe_interface+0xd19/0x1310 drivers/usb/core/driver.c:361
+  really_probe+0x1373/0x1dc0 drivers/base/dd.c:552
+  driver_probe_device+0x1ba/0x510 drivers/base/dd.c:709
+  __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:816
+  bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
+  __device_attach+0x489/0x750 drivers/base/dd.c:882
+  device_initial_probe+0x4a/0x60 drivers/base/dd.c:929
+  bus_probe_device+0x131/0x390 drivers/base/bus.c:514
+  device_add+0x25b5/0x2df0 drivers/base/core.c:2165
+  usb_set_configuration+0x309f/0x3710 drivers/usb/core/message.c:2027
+  generic_probe+0xe7/0x280 drivers/usb/core/generic.c:210
+  usb_probe_device+0x146/0x200 drivers/usb/core/driver.c:266
+  really_probe+0x1373/0x1dc0 drivers/base/dd.c:552
+  driver_probe_device+0x1ba/0x510 drivers/base/dd.c:709
+  __device_attach_driver+0x5b8/0x790 drivers/base/dd.c:816
+  bus_for_each_drv+0x28e/0x3b0 drivers/base/bus.c:454
+  __device_attach+0x489/0x750 drivers/base/dd.c:882
+  device_initial_probe+0x4a/0x60 drivers/base/dd.c:929
+  bus_probe_device+0x131/0x390 drivers/base/bus.c:514
+  device_add+0x25b5/0x2df0 drivers/base/core.c:2165
+  usb_new_device+0x23e5/0x2fb0 drivers/usb/core/hub.c:2536
+  hub_port_connect drivers/usb/core/hub.c:5098 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
+  port_event drivers/usb/core/hub.c:5359 [inline]
+  hub_event+0x581d/0x72f0 drivers/usb/core/hub.c:5441
+  process_one_work+0x1572/0x1ef0 kernel/workqueue.c:2269
+  worker_thread+0x111b/0x2460 kernel/workqueue.c:2415
+  kthread+0x4b5/0x4f0 kernel/kthread.c:256
+  ret_from_fork+0x35/0x40 arch/x86/entry/entry_64.S:355
+
+Local variable description: ----buf.i@asix_get_phy_addr
+Variable was created at:
+  asix_read_cmd drivers/net/usb/asix_common.c:313 [inline]
+  asix_read_phy_addr drivers/net/usb/asix_common.c:296 [inline]
+  asix_get_phy_addr+0x4d/0x280 drivers/net/usb/asix_common.c:315
+  ax88772_bind+0x472/0x11f0 drivers/net/usb/asix_devices.c:720
+=====================================================
 
 
 ---
@@ -152,5 +168,3 @@ syzbot engineers can be reached at syzkaller@googlegroups.com.
 
 syzbot will keep track of this bug report. See:
 https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
