@@ -2,77 +2,86 @@ Return-Path: <SRS0=jLSU=YB=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF2D8C4360C
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Oct 2019 10:40:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF0EEC4360C
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Oct 2019 11:13:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9316A21871
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Oct 2019 10:40:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B317220815
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Oct 2019 11:13:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730457AbfJHKjO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Oct 2019 06:39:14 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:12627 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729790AbfJHKjN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Oct 2019 06:39:13 -0400
-X-IronPort-AV: E=Sophos;i="5.67,270,1566831600"; 
-   d="scan'208";a="28578194"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 08 Oct 2019 19:39:12 +0900
-Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3C878400941B;
-        Tue,  8 Oct 2019 19:39:08 +0900 (JST)
-From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms@verge.net.au>,
-        Vinod Koul <vkoul@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Magnus Damm <magnus.damm@gmail.com>, dmaengine@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: [PATCH 02/10] dt-bindings: dmaengine: usb-dmac: Add binding for r8a774b1
-Date:   Tue,  8 Oct 2019 11:38:44 +0100
-Message-Id: <1570531132-21856-3-git-send-email-fabrizio.castro@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1570531132-21856-1-git-send-email-fabrizio.castro@bp.renesas.com>
-References: <1570531132-21856-1-git-send-email-fabrizio.castro@bp.renesas.com>
+        id S1730118AbfJHLNx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Oct 2019 07:13:53 -0400
+Received: from mga02.intel.com ([134.134.136.20]:26010 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729790AbfJHLNx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 8 Oct 2019 07:13:53 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Oct 2019 04:13:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,270,1566889200"; 
+   d="scan'208";a="206618901"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 08 Oct 2019 04:13:50 -0700
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     linux-usb@vger.kernel.org
+Subject: [PATCH v3 0/9] usb: typec: Small API improvement
+Date:   Tue,  8 Oct 2019 14:13:41 +0300
+Message-Id: <20191008111350.68581-1-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.23.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch adds the binding for r8a774b1 SoC (RZ/G2N).
+Hi,
 
-Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
----
- Documentation/devicetree/bindings/dma/renesas,usb-dmac.txt | 1 +
- 1 file changed, 1 insertion(+)
+The broken conditions in the *_store() functions should now be fixed.
 
-diff --git a/Documentation/devicetree/bindings/dma/renesas,usb-dmac.txt b/Documentation/devicetree/bindings/dma/renesas,usb-dmac.txt
-index 372f0ee..f1f95f6 100644
---- a/Documentation/devicetree/bindings/dma/renesas,usb-dmac.txt
-+++ b/Documentation/devicetree/bindings/dma/renesas,usb-dmac.txt
-@@ -8,6 +8,7 @@ Required Properties:
- 	  - "renesas,r8a7745-usb-dmac" (RZ/G1E)
- 	  - "renesas,r8a77470-usb-dmac" (RZ/G1C)
- 	  - "renesas,r8a774a1-usb-dmac" (RZ/G2M)
-+	  - "renesas,r8a774b1-usb-dmac" (RZ/G2N)
- 	  - "renesas,r8a774c0-usb-dmac" (RZ/G2E)
- 	  - "renesas,r8a7790-usb-dmac" (R-Car H2)
- 	  - "renesas,r8a7791-usb-dmac" (R-Car M2-W)
+Cover letter from v2:
+
+In this version there should be no more semantic changes.
+
+The original cover letter:
+
+This series moves the callback members from struct typec_capabilities
+to a new struct typec_operations. That removes the need for the
+drivers to keep a copy of the struct typec_capabilites if they don't
+need it, and struct typec_operations can probable always be
+constified.
+
+The change is small, however I think the code ends up being a bit more
+cleaner looking this way. Let me know if it's OK.
+
+thanks,
+
+Heikki Krogerus (9):
+  usb: typec: Copy everything from struct typec_capability during
+    registration
+  usb: typec: Introduce typec_get_drvdata()
+  usb: typec: Separate the operations vector
+  usb: typec: tcpm: Start using struct typec_operations
+  usb: typec: tps6598x: Start using struct typec_operations
+  usb: typec: ucsi: Start using struct typec_operations
+  usb: typec: hd3ss3220: Start using struct typec_operations
+  usb: typec: Remove the callback members from struct typec_capability
+  usb: typec: Remove unused members from struct typec_capability
+
+ drivers/usb/typec/class.c     | 37 ++++++++++++++++++--------
+ drivers/usb/typec/hd3ss3220.c | 24 +++++++++--------
+ drivers/usb/typec/tcpm/tcpm.c | 45 ++++++++++++++------------------
+ drivers/usb/typec/tps6598x.c  | 49 +++++++++++++++++++----------------
+ drivers/usb/typec/ucsi/ucsi.c | 22 ++++++++--------
+ include/linux/usb/typec.h     | 41 ++++++++++++++++-------------
+ 6 files changed, 119 insertions(+), 99 deletions(-)
+
 -- 
-2.7.4
+2.23.0
 
