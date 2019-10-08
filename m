@@ -7,25 +7,25 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C7B8ECE58E
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Oct 2019 10:40:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF2D8C4360C
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Oct 2019 10:40:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 35F3321871
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Oct 2019 10:40:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9316A21871
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Oct 2019 10:40:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730608AbfJHKjc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Oct 2019 06:39:32 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:52530 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730580AbfJHKjb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Oct 2019 06:39:31 -0400
+        id S1730457AbfJHKjO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Oct 2019 06:39:14 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:12627 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729790AbfJHKjN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Oct 2019 06:39:13 -0400
 X-IronPort-AV: E=Sophos;i="5.67,270,1566831600"; 
-   d="scan'208";a="28359376"
+   d="scan'208";a="28578194"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 08 Oct 2019 19:39:30 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 08 Oct 2019 19:39:12 +0900
 Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 14755400941B;
-        Tue,  8 Oct 2019 19:39:25 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3C878400941B;
+        Tue,  8 Oct 2019 19:39:08 +0900 (JST)
 From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Simon Horman <horms@verge.net.au>,
@@ -43,9 +43,9 @@ Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: [PATCH 06/10] dt-bindings: usb: renesas_usb3: Document r8a774b1 support
-Date:   Tue,  8 Oct 2019 11:38:48 +0100
-Message-Id: <1570531132-21856-7-git-send-email-fabrizio.castro@bp.renesas.com>
+Subject: [PATCH 02/10] dt-bindings: dmaengine: usb-dmac: Add binding for r8a774b1
+Date:   Tue,  8 Oct 2019 11:38:44 +0100
+Message-Id: <1570531132-21856-3-git-send-email-fabrizio.castro@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1570531132-21856-1-git-send-email-fabrizio.castro@bp.renesas.com>
 References: <1570531132-21856-1-git-send-email-fabrizio.castro@bp.renesas.com>
@@ -54,25 +54,25 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Document RZ/G2N (R8A774B1) SoC bindings.
+This patch adds the binding for r8a774b1 SoC (RZ/G2N).
 
 Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 ---
- Documentation/devicetree/bindings/usb/renesas,usb3-peri.txt | 1 +
+ Documentation/devicetree/bindings/dma/renesas,usb-dmac.txt | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/usb/renesas,usb3-peri.txt b/Documentation/devicetree/bindings/usb/renesas,usb3-peri.txt
-index 5eecfbc..1343dfc 100644
---- a/Documentation/devicetree/bindings/usb/renesas,usb3-peri.txt
-+++ b/Documentation/devicetree/bindings/usb/renesas,usb3-peri.txt
-@@ -3,6 +3,7 @@ Renesas Electronics USB3.0 Peripheral driver
- Required properties:
-   - compatible: Must contain one of the following:
- 	- "renesas,r8a774a1-usb3-peri"
-+	- "renesas,r8a774b1-usb3-peri"
- 	- "renesas,r8a774c0-usb3-peri"
- 	- "renesas,r8a7795-usb3-peri"
- 	- "renesas,r8a7796-usb3-peri"
+diff --git a/Documentation/devicetree/bindings/dma/renesas,usb-dmac.txt b/Documentation/devicetree/bindings/dma/renesas,usb-dmac.txt
+index 372f0ee..f1f95f6 100644
+--- a/Documentation/devicetree/bindings/dma/renesas,usb-dmac.txt
++++ b/Documentation/devicetree/bindings/dma/renesas,usb-dmac.txt
+@@ -8,6 +8,7 @@ Required Properties:
+ 	  - "renesas,r8a7745-usb-dmac" (RZ/G1E)
+ 	  - "renesas,r8a77470-usb-dmac" (RZ/G1C)
+ 	  - "renesas,r8a774a1-usb-dmac" (RZ/G2M)
++	  - "renesas,r8a774b1-usb-dmac" (RZ/G2N)
+ 	  - "renesas,r8a774c0-usb-dmac" (RZ/G2E)
+ 	  - "renesas,r8a7790-usb-dmac" (R-Car H2)
+ 	  - "renesas,r8a7791-usb-dmac" (R-Car M2-W)
 -- 
 2.7.4
 
