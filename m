@@ -2,85 +2,130 @@ Return-Path: <SRS0=jLSU=YB=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ED78C4360C
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Oct 2019 11:42:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 918A1C4360C
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Oct 2019 12:26:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1DF9E21721
-	for <linux-usb@archiver.kernel.org>; Tue,  8 Oct 2019 11:42:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7152321721
+	for <linux-usb@archiver.kernel.org>; Tue,  8 Oct 2019 12:26:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730694AbfJHLmy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 8 Oct 2019 07:42:54 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:42836 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730118AbfJHLmx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 8 Oct 2019 07:42:53 -0400
-Received: by mail-oi1-f194.google.com with SMTP id i185so14447664oif.9;
-        Tue, 08 Oct 2019 04:42:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rWU50A1ftSfnXS5t6he0dr7vBuFC5vEUJUAdKOgY8bw=;
-        b=CN9t7YfAc0vWJIDXMZTaDRZQTh76TPp4qTdZD4q6reYI5nrtM2KkzO3bkJX9EGgdnN
-         gvHwRVL/CCevZiKCAzhu8V6gXArCwrJycQnANMX7JiVdMtgQrKMb3Mhc+38uxEImGhYz
-         iqiUFb8nIWlvmDI2bexaxD1nP4Q9pbhYeNNtpCzvFpBhO6yQd5LaXXbhb/C5teesnPaW
-         mLfIRCY9BThKjnbEkGOvqGGnaC2p7ZK5AbjyUpIu1FTNOUaM+r99yE8Bi4GoO9450Har
-         cpvTD8ev8bAO/AGpUHQSrJSv8oA7xZno95O3zT2H7bxjyoMa/hhbvX9V8N7oR6UnycVt
-         YoqQ==
-X-Gm-Message-State: APjAAAU7MAeL8yAD8LVEIOCzku3sG88fOI1ivYkE1QPFT23J8dUu7jHw
-        bR0+F71zeYWYbVnY0eMEitovInlB81HAtE/DjYU=
-X-Google-Smtp-Source: APXvYqyCiews/tKA57sXvPG5XvGEr37Qd8csRkV55q3J6cezMVTk15zb8MhXvmopRDNPJSrIQDtYqNfHP9ZJEaZ2Qus=
-X-Received: by 2002:aca:4bd2:: with SMTP id y201mr3663250oia.102.1570534973087;
- Tue, 08 Oct 2019 04:42:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <1570531132-21856-1-git-send-email-fabrizio.castro@bp.renesas.com> <1570531132-21856-7-git-send-email-fabrizio.castro@bp.renesas.com>
-In-Reply-To: <1570531132-21856-7-git-send-email-fabrizio.castro@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 8 Oct 2019 13:42:41 +0200
-Message-ID: <CAMuHMdX5hkZ7kLRiA_NRrBziFsrZNgZX-cEiE+bAaubkMdX=1A@mail.gmail.com>
-Subject: Re: [PATCH 06/10] dt-bindings: usb: renesas_usb3: Document r8a774b1 support
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Simon Horman <horms@verge.net.au>, Vinod Koul <vkoul@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
+        id S1730882AbfJHM0K (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 8 Oct 2019 08:26:10 -0400
+Received: from mga02.intel.com ([134.134.136.20]:30802 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730316AbfJHM0H (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 8 Oct 2019 08:26:07 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Oct 2019 05:26:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,270,1566889200"; 
+   d="scan'208";a="206626813"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 08 Oct 2019 05:26:05 -0700
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Magnus Damm <magnus.damm@gmail.com>, dmaengine@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [PATCH v2 2/2] extcon: axp288: Remove the build-in connection description
+Date:   Tue,  8 Oct 2019 15:26:00 +0300
+Message-Id: <20191008122600.22340-3-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191008122600.22340-1-heikki.krogerus@linux.intel.com>
+References: <20191008122600.22340-1-heikki.krogerus@linux.intel.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Oct 8, 2019 at 12:39 PM Fabrizio Castro
-<fabrizio.castro@bp.renesas.com> wrote:
-> Document RZ/G2N (R8A774B1) SoC bindings.
->
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Getting handle to the USB role switch by first finding its
+software fwnode.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+---
+ drivers/extcon/extcon-axp288.c | 38 ++++++++++++++++++++--------------
+ 1 file changed, 23 insertions(+), 15 deletions(-)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/extcon/extcon-axp288.c b/drivers/extcon/extcon-axp288.c
+index 415afaf479e7..a7f216191493 100644
+--- a/drivers/extcon/extcon-axp288.c
++++ b/drivers/extcon/extcon-axp288.c
+@@ -322,6 +322,25 @@ static void axp288_put_role_sw(void *data)
+ 	usb_role_switch_put(info->role_sw);
+ }
+ 
++static int axp288_extcon_find_role_sw(struct axp288_extcon_info *info)
++{
++	const struct software_node *swnode;
++	struct fwnode_handle *fwnode;
++
++	if (!x86_match_cpu(cherry_trail_cpu_ids))
++		return 0;
++
++	swnode = software_node_find_by_name(NULL, "intel-xhci-usb-sw");
++	if (!swnode)
++		return -EPROBE_DEFER;
++
++	fwnode = software_node_fwnode(swnode);
++	info->role_sw = usb_role_switch_find_by_fwnode(fwnode);
++	fwnode_handle_put(fwnode);
++
++	return info->role_sw ? 0 : -EPROBE_DEFER;
++}
++
+ static int axp288_extcon_probe(struct platform_device *pdev)
+ {
+ 	struct axp288_extcon_info *info;
+@@ -343,9 +362,10 @@ static int axp288_extcon_probe(struct platform_device *pdev)
+ 
+ 	platform_set_drvdata(pdev, info);
+ 
+-	info->role_sw = usb_role_switch_get(dev);
+-	if (IS_ERR(info->role_sw))
+-		return PTR_ERR(info->role_sw);
++	ret = axp288_extcon_find_role_sw(info);
++	if (ret)
++		return ret;
++
+ 	if (info->role_sw) {
+ 		ret = devm_add_action_or_reset(dev, axp288_put_role_sw, info);
+ 		if (ret)
+@@ -440,26 +460,14 @@ static struct platform_driver axp288_extcon_driver = {
+ 	},
+ };
+ 
+-static struct device_connection axp288_extcon_role_sw_conn = {
+-	.endpoint[0] = "axp288_extcon",
+-	.endpoint[1] = "intel_xhci_usb_sw-role-switch",
+-	.id = "usb-role-switch",
+-};
+-
+ static int __init axp288_extcon_init(void)
+ {
+-	if (x86_match_cpu(cherry_trail_cpu_ids))
+-		device_connection_add(&axp288_extcon_role_sw_conn);
+-
+ 	return platform_driver_register(&axp288_extcon_driver);
+ }
+ module_init(axp288_extcon_init);
+ 
+ static void __exit axp288_extcon_exit(void)
+ {
+-	if (x86_match_cpu(cherry_trail_cpu_ids))
+-		device_connection_remove(&axp288_extcon_role_sw_conn);
+-
+ 	platform_driver_unregister(&axp288_extcon_driver);
+ }
+ module_exit(axp288_extcon_exit);
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.23.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
