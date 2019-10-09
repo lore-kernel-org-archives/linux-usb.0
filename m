@@ -2,112 +2,97 @@ Return-Path: <SRS0=ivde=YC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91071C47404
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 15:35:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37E51ECE58D
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 15:38:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 740F4218DE
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 15:35:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 02C802190F
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 15:38:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1570635535;
+	bh=QlJQmut5iI8R6n9jJ4vjlePNVvjuMmJmwR7iyx/1MFA=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=H0BbsD9SpKaUiGQl6hTYq+uFWhhanVSCZBD7g1KekAVkHp/I4tom0Wkklpaq/08g9
+	 dnsBT35NceYcHxTwx9N4ClZUI6ggJZmygUy0a62yqAf4hQVX0D+cPqp5gt0xP955si
+	 nNKohr6PqxlPuDV827NmU/e500MaBXC8ZgSCSeY0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729471AbfJIPf3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Oct 2019 11:35:29 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:47923 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728019AbfJIPf3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Oct 2019 11:35:29 -0400
-Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
-        (Authenticated sender: hadess@hadess.net)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id AD58320000A;
-        Wed,  9 Oct 2019 15:35:26 +0000 (UTC)
-Message-ID: <7b3877fa575212e06b12136c4646e8a220f65cdb.camel@hadess.net>
-Subject: Re: [PATCH 4/5] USB: Select better matching USB drivers when
- available
-From:   Bastien Nocera <hadess@hadess.net>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Date:   Wed, 09 Oct 2019 17:35:26 +0200
-In-Reply-To: <Pine.LNX.4.44L0.1910091041390.1603-100000@iolanthe.rowland.org>
-References: <Pine.LNX.4.44L0.1910091041390.1603-100000@iolanthe.rowland.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        id S1731144AbfJIPiy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Oct 2019 11:38:54 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:39030 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728804AbfJIPiy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Oct 2019 11:38:54 -0400
+Received: by mail-lf1-f68.google.com with SMTP id 72so2018326lfh.6
+        for <linux-usb@vger.kernel.org>; Wed, 09 Oct 2019 08:38:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KNwQuy/qjCD2TjI8KL8/lMEdqtih09iWsjOUr6FCork=;
+        b=byIfWUTO2QXgnt0ueM/yARuFkk6xOimyIsXxFDCbunRsUU+TbzLsw1fVcHhbq8NgBJ
+         IDnX7ouRDd5ggM5aplClNG0aBpaw27ZAJm116LozD13/8pbS2LPN/g95lbuqOPrqPCjr
+         eFSALuvWiYVwbJR4PhJ/FPEGuQy6DaIL5OMRNRHHT9RaznCyprN71jVumDfKQgNjY1o3
+         qrEjxO5pk8XIKSYHFoiWOd6QoWOCEzMkd3enbAv1fS3BK71Wrx+PasYSCB2rUlvJCXv5
+         4N4A7MmQMczEtg1M+DckTG+bPKBOboqUPep8yyDEuVl/Lk5qx3x7tcbP3UYCRSC84hTx
+         Y/fw==
+X-Gm-Message-State: APjAAAVMCIumcMzV4wa4MHzCrcHvs5x2fn397uTnP7UyxcVaE9s+ydfu
+        NWGEa4KeEqh0kqiAKzEZ44Y=
+X-Google-Smtp-Source: APXvYqxkLZxWSSqMSVcIyFCjgnrC//FylPhtRtoQfe/MOo971t+rYSOY6tLOfrMfwlHRMokAQYtb0w==
+X-Received: by 2002:ac2:44c3:: with SMTP id d3mr2416630lfm.109.1570635532438;
+        Wed, 09 Oct 2019 08:38:52 -0700 (PDT)
+Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
+        by smtp.gmail.com with ESMTPSA id h3sm542764lfc.26.2019.10.09.08.38.51
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 09 Oct 2019 08:38:51 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.92.2)
+        (envelope-from <johan@xi.terra>)
+        id 1iIE3J-0002Go-6o; Wed, 09 Oct 2019 17:39:01 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, Keith Packard <keithp@keithp.com>,
+        Juergen Stuber <starblue@users.sourceforge.net>,
+        Johan Hovold <johan@kernel.org>
+Subject: [PATCH 0/5] USB: misc: fix disconnect bugs
+Date:   Wed,  9 Oct 2019 17:38:43 +0200
+Message-Id: <20191009153848.8664-1-johan@kernel.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, 2019-10-09 at 10:43 -0400, Alan Stern wrote:
-> On Wed, 9 Oct 2019, Bastien Nocera wrote:
-> 
-> > Now that USB device drivers can reuse code from the generic USB
-> device
-> > driver, we need to make sure that they get selected rather than the
-> > generic driver. Add an id_table and match vfunc to the
-> usb_device_driver
-> > struct, which will get used to select a better matching driver at
-> > ->probe time.
-> > 
-> > This is a similar mechanism to that used in the HID drivers, with
-> the
-> > generic driver being selected unless there's a better matching one
-> found
-> > in the registered drivers (see hid_generic_match() in
-> > drivers/hid/hid-generic.c).
-> > 
-> > Signed-off-by: Bastien Nocera <hadess@hadess.net>
-> > ---
-> >  drivers/usb/core/driver.c  | 15 +++++++++++++--
-> >  drivers/usb/core/generic.c | 29 +++++++++++++++++++++++++++++
-> >  include/linux/usb.h        |  2 ++
-> >  3 files changed, 44 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-> > index 50f92da8afcf..27ce63ed902d 100644
-> > --- a/drivers/usb/core/driver.c
-> > +++ b/drivers/usb/core/driver.c
-> > @@ -819,13 +819,24 @@ static int usb_device_match(struct device
-> *dev, struct device_driver *drv)
-> >  {
-> >       /* devices and interfaces are handled separately */
-> >       if (is_usb_device(dev)) {
-> > +             struct usb_device *udev;
-> > +             struct usb_device_driver *udrv;
-> >  
-> >               /* interface drivers never match devices */
-> >               if (!is_usb_device_driver(drv))
-> >                       return 0;
-> >  
-> > -             /* TODO: Add real matching code */
-> > -             return 1;
-> > +             udev = to_usb_device(dev);
-> > +             udrv = to_usb_device_driver(drv);
-> > +
-> > +             if (udrv->id_table &&
-> > +                 usb_device_match_id(udev, udrv->id_table) !=
-> NULL) {
-> > +                     return 1;
-> > +             }
-> > +
-> > +             if (udrv->match)
-> > +                     return udrv->match(udev);
-> > +             return 0;
-> 
-> What happens if the subclass driver's probe routine returns an
-> error?  
-> Don't you still want the device to be bound to the generic driver?
+This series fixes a number of issues introduced primarily with the
+conversion to dev_err() and dev_dbg(), which failed to notice that the
+drivers where using their USB interface and device pointers as
+disconnected flags (leading to NULL derefs) and that they did not hold
+references to the structures (leading to use-after-free on release()).
 
-I don't know whether that's what you'd want to do. But if we did,
-that'd only be for devices which have "generic_init" set.
+I've already fixed up a few of these USB character device drivers
+separately, and the uss720 driver has similar bugs that remain to be
+fixed.
 
-We'd need to remember the result of the ->probe() call at the end of
-usb_probe_device() (as modified in patch 2), and only call the generic
-driver (not the specific device driver)'s functions in later usage.
+Johan
 
-Is that what you would expect?
+
+Johan Hovold (5):
+  USB: adutux: fix use-after-free on release
+  USB: chaoskey: fix use-after-free on release
+  USB: ldusb: fix NULL-derefs on driver unbind
+  USB: legousbtower: fix use-after-free on release
+  USB: yurex: fix NULL-derefs on disconnect
+
+ drivers/usb/misc/adutux.c       |  3 ++-
+ drivers/usb/misc/chaoskey.c     |  5 +++--
+ drivers/usb/misc/ldusb.c        | 24 ++++++++++++------------
+ drivers/usb/misc/legousbtower.c |  3 ++-
+ drivers/usb/misc/yurex.c        | 11 +++++++----
+ 5 files changed, 26 insertions(+), 20 deletions(-)
+
+-- 
+2.23.0
 
