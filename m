@@ -2,24 +2,24 @@ Return-Path: <SRS0=ivde=YC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F16AECE58D
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 08:33:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1148CC47404
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 08:33:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3F1C2206C0
+	by mail.kernel.org (Postfix) with ESMTP id DEAF5218AC
 	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 08:33:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729575AbfJIIdd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Oct 2019 04:33:33 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:37890 "EHLO huawei.com"
+        id S1729592AbfJIIde (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Oct 2019 04:33:34 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:37910 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726068AbfJIIdd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 9 Oct 2019 04:33:33 -0400
+        id S1725440AbfJIIde (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 9 Oct 2019 04:33:34 -0400
 Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id E8759EA64E1B4E4E2FBD;
+        by Forcepoint Email with ESMTP id F0D81CC5CC8A5B39414B;
         Wed,  9 Oct 2019 16:33:31 +0800 (CST)
 Received: from huawei.com (10.90.53.225) by DGGEMS410-HUB.china.huawei.com
  (10.3.19.210) with Microsoft SMTP Server id 14.3.439.0; Wed, 9 Oct 2019
@@ -28,10 +28,12 @@ From:   zhengbin <zhengbin13@huawei.com>
 To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
         <linux-usb@vger.kernel.org>
 CC:     <zhengbin13@huawei.com>
-Subject: [PATCH 0/2] usb: gadget: Remove set but not used variable 'opts'
-Date:   Wed, 9 Oct 2019 16:40:32 +0800
-Message-ID: <1570610434-68293-1-git-send-email-zhengbin13@huawei.com>
+Subject: [PATCH 2/2] usb: gadget: Remove set but not used variable 'opts' in msg_do_config
+Date:   Wed, 9 Oct 2019 16:40:34 +0800
+Message-ID: <1570610434-68293-3-git-send-email-zhengbin13@huawei.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1570610434-68293-1-git-send-email-zhengbin13@huawei.com>
+References: <1570610434-68293-1-git-send-email-zhengbin13@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.90.53.225]
@@ -41,15 +43,41 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-zhengbin (2):
-  usb: gadget: Remove set but not used variable 'opts' in
-    acm_ms_do_config
-  usb: gadget: Remove set but not used variable 'opts' in msg_do_config
+Fixes gcc '-Wunused-but-set-variable' warning:
 
- drivers/usb/gadget/legacy/acm_ms.c       | 3 ---
+drivers/usb/gadget/legacy/mass_storage.c: In function msg_do_config:
+drivers/usb/gadget/legacy/mass_storage.c:108:19: warning: variable opts set but not used [-Wunused-but-set-variable]
+
+It is not used since commit f78bbcae86e6 ("usb: f_mass_storage:
+test whether thread is running before starting another")
+
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: zhengbin <zhengbin13@huawei.com>
+---
  drivers/usb/gadget/legacy/mass_storage.c | 3 ---
- 2 files changed, 6 deletions(-)
+ 1 file changed, 3 deletions(-)
 
+diff --git a/drivers/usb/gadget/legacy/mass_storage.c b/drivers/usb/gadget/legacy/mass_storage.c
+index fd5595a..f18f775 100644
+--- a/drivers/usb/gadget/legacy/mass_storage.c
++++ b/drivers/usb/gadget/legacy/mass_storage.c
+@@ -105,7 +105,6 @@ FSG_MODULE_PARAMETERS(/* no prefix */, mod_data);
+
+ static int msg_do_config(struct usb_configuration *c)
+ {
+-	struct fsg_opts *opts;
+ 	int ret;
+
+ 	if (gadget_is_otg(c->cdev->gadget)) {
+@@ -113,8 +112,6 @@ static int msg_do_config(struct usb_configuration *c)
+ 		c->bmAttributes |= USB_CONFIG_ATT_WAKEUP;
+ 	}
+
+-	opts = fsg_opts_from_func_inst(fi_msg);
+-
+ 	f_msg = usb_get_function(fi_msg);
+ 	if (IS_ERR(f_msg))
+ 		return PTR_ERR(f_msg);
 --
 2.7.4
 
