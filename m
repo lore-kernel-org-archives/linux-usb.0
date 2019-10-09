@@ -6,30 +6,30 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F499ECE58E
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 13:43:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26324ECE58D
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 13:43:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EDC7D20B7C
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 13:43:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F2AA9218AC
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 13:43:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731300AbfJINnr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Oct 2019 09:43:47 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:54835 "EHLO
+        id S1731316AbfJINns (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Oct 2019 09:43:48 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:47059 "EHLO
         relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731072AbfJINnr (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Oct 2019 09:43:47 -0400
+        with ESMTP id S1731037AbfJINns (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Oct 2019 09:43:48 -0400
 X-Originating-IP: 83.155.44.161
 Received: from localhost.localdomain (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
         (Authenticated sender: hadess@hadess.net)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 7F1021BF217;
-        Wed,  9 Oct 2019 13:43:44 +0000 (UTC)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id EC0B51BF204;
+        Wed,  9 Oct 2019 13:43:45 +0000 (UTC)
 From:   Bastien Nocera <hadess@hadess.net>
 To:     linux-usb@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Subject: [PATCH 1/5] USB: Export generic USB device driver functions
-Date:   Wed,  9 Oct 2019 15:43:38 +0200
-Message-Id: <20191009134342.6476-2-hadess@hadess.net>
+Subject: [PATCH 3/5] USB: Implement usb_device_match_id()
+Date:   Wed,  9 Oct 2019 15:43:40 +0200
+Message-Id: <20191009134342.6476-4-hadess@hadess.net>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191009134342.6476-1-hadess@hadess.net>
 References: <20191009134342.6476-1-hadess@hadess.net>
@@ -40,100 +40,53 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This will make it possible to implement device drivers which extend the
-generic driver without needing to reimplement it.
+Match a usb_device with a table of IDs.
 
 Signed-off-by: Bastien Nocera <hadess@hadess.net>
 ---
- drivers/usb/core/generic.c | 20 ++++++++++++--------
- drivers/usb/core/usb.h     |  4 ++++
- 2 files changed, 16 insertions(+), 8 deletions(-)
+ drivers/usb/core/driver.c | 15 +++++++++++++++
+ include/linux/usb.h       |  2 ++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/drivers/usb/core/generic.c b/drivers/usb/core/generic.c
-index 38f8b3e31762..7454c74d43ee 100644
---- a/drivers/usb/core/generic.c
-+++ b/drivers/usb/core/generic.c
-@@ -195,7 +195,7 @@ int usb_choose_configuration(struct usb_device *udev)
+diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+index 863e380a272b..50f92da8afcf 100644
+--- a/drivers/usb/core/driver.c
++++ b/drivers/usb/core/driver.c
+@@ -800,6 +800,21 @@ const struct usb_device_id *usb_match_id(struct usb_interface *interface,
  }
- EXPORT_SYMBOL_GPL(usb_choose_configuration);
+ EXPORT_SYMBOL_GPL(usb_match_id);
  
--static int generic_probe(struct usb_device *udev)
-+int usb_generic_driver_probe(struct usb_device *udev)
++const struct usb_device_id *usb_device_match_id(struct usb_device *udev,
++				const struct usb_device_id *id)
++{
++	if (!id)
++		return NULL;
++
++	for (; id->idVendor || id->idProduct ; id++) {
++		if (usb_match_device(udev, id))
++			return id;
++	}
++
++	return NULL;
++}
++EXPORT_SYMBOL_GPL(usb_device_match_id);
++
+ static int usb_device_match(struct device *dev, struct device_driver *drv)
  {
- 	int err, c;
+ 	/* devices and interfaces are handled separately */
+diff --git a/include/linux/usb.h b/include/linux/usb.h
+index fb9ad3511e55..66bd4344e298 100644
+--- a/include/linux/usb.h
++++ b/include/linux/usb.h
+@@ -864,6 +864,8 @@ const struct usb_device_id *usb_match_id(struct usb_interface *interface,
+ 					 const struct usb_device_id *id);
+ extern int usb_match_one_id(struct usb_interface *interface,
+ 			    const struct usb_device_id *id);
++const struct usb_device_id *usb_device_match_id(struct usb_device *udev,
++				const struct usb_device_id *id);
  
-@@ -221,8 +221,9 @@ static int generic_probe(struct usb_device *udev)
- 
- 	return 0;
- }
-+EXPORT_SYMBOL_GPL(usb_generic_driver_probe);
- 
--static void generic_disconnect(struct usb_device *udev)
-+void usb_generic_driver_disconnect(struct usb_device *udev)
- {
- 	usb_notify_remove_device(udev);
- 
-@@ -231,10 +232,11 @@ static void generic_disconnect(struct usb_device *udev)
- 	if (udev->actconfig)
- 		usb_set_configuration(udev, -1);
- }
-+EXPORT_SYMBOL_GPL(usb_generic_driver_disconnect);
- 
- #ifdef	CONFIG_PM
- 
--static int generic_suspend(struct usb_device *udev, pm_message_t msg)
-+int usb_generic_driver_suspend(struct usb_device *udev, pm_message_t msg)
- {
- 	int rc;
- 
-@@ -261,8 +263,9 @@ static int generic_suspend(struct usb_device *udev, pm_message_t msg)
- 		usbfs_notify_suspend(udev);
- 	return rc;
- }
-+EXPORT_SYMBOL_GPL(usb_generic_driver_suspend);
- 
--static int generic_resume(struct usb_device *udev, pm_message_t msg)
-+int usb_generic_driver_resume(struct usb_device *udev, pm_message_t msg)
- {
- 	int rc;
- 
-@@ -280,16 +283,17 @@ static int generic_resume(struct usb_device *udev, pm_message_t msg)
- 		usbfs_notify_resume(udev);
- 	return rc;
- }
-+EXPORT_SYMBOL_GPL(usb_generic_driver_resume);
- 
- #endif	/* CONFIG_PM */
- 
- struct usb_device_driver usb_generic_driver = {
- 	.name =	"usb",
--	.probe = generic_probe,
--	.disconnect = generic_disconnect,
-+	.probe = usb_generic_driver_probe,
-+	.disconnect = usb_generic_driver_disconnect,
- #ifdef	CONFIG_PM
--	.suspend = generic_suspend,
--	.resume = generic_resume,
-+	.suspend = usb_generic_driver_suspend,
-+	.resume = usb_generic_driver_resume,
- #endif
- 	.supports_autosuspend = 1,
- };
-diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
-index cf4783cf661a..7423c4c5700f 100644
---- a/drivers/usb/core/usb.h
-+++ b/drivers/usb/core/usb.h
-@@ -47,6 +47,10 @@ extern void usb_release_bos_descriptor(struct usb_device *dev);
- extern char *usb_cache_string(struct usb_device *udev, int index);
- extern int usb_set_configuration(struct usb_device *dev, int configuration);
- extern int usb_choose_configuration(struct usb_device *udev);
-+extern int usb_generic_driver_probe(struct usb_device *udev);
-+extern void usb_generic_driver_disconnect(struct usb_device *udev);
-+extern int usb_generic_driver_suspend(struct usb_device *udev, pm_message_t msg);
-+extern int usb_generic_driver_resume(struct usb_device *udev, pm_message_t msg);
- 
- static inline unsigned usb_get_max_power(struct usb_device *udev,
- 		struct usb_host_config *c)
+ extern int usb_for_each_dev(void *data, int (*fn)(struct usb_device *, void *));
+ extern struct usb_interface *usb_find_interface(struct usb_driver *drv,
 -- 
 2.21.0
 
