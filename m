@@ -2,63 +2,67 @@ Return-Path: <SRS0=ivde=YC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37E51ECE58D
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 15:38:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A706ECE58E
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 15:38:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 02C802190F
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 15:38:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 52FFD218AC
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 15:38:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1570635535;
-	bh=QlJQmut5iI8R6n9jJ4vjlePNVvjuMmJmwR7iyx/1MFA=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=H0BbsD9SpKaUiGQl6hTYq+uFWhhanVSCZBD7g1KekAVkHp/I4tom0Wkklpaq/08g9
-	 dnsBT35NceYcHxTwx9N4ClZUI6ggJZmygUy0a62yqAf4hQVX0D+cPqp5gt0xP955si
-	 nNKohr6PqxlPuDV827NmU/e500MaBXC8ZgSCSeY0=
+	s=default; t=1570635536;
+	bh=u6ZPbGMwa36ig10jiJtr/3NN0oyL1sM1B7giXgw+EmQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=DVojus5r/fy0KHKkua86aUrZPmxui2CzJm5LD7AcL6V2ob+Tk5FQjtIpKOL7+7rL4
+	 T7+56ZAAumnpzhTW+dCTf1NIQ9eeAebzlb5dYI/4umJAa9FC5U9hxv/4BP2KHguDwT
+	 brQznoTjUqCVylxV1+OH4Ux72iBVEL+q0LRhQasM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731144AbfJIPiy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Oct 2019 11:38:54 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:39030 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728804AbfJIPiy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Oct 2019 11:38:54 -0400
-Received: by mail-lf1-f68.google.com with SMTP id 72so2018326lfh.6
-        for <linux-usb@vger.kernel.org>; Wed, 09 Oct 2019 08:38:53 -0700 (PDT)
+        id S1731234AbfJIPiz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Oct 2019 11:38:55 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:34771 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729865AbfJIPiz (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Oct 2019 11:38:55 -0400
+Received: by mail-lj1-f194.google.com with SMTP id j19so3018024lja.1;
+        Wed, 09 Oct 2019 08:38:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KNwQuy/qjCD2TjI8KL8/lMEdqtih09iWsjOUr6FCork=;
-        b=byIfWUTO2QXgnt0ueM/yARuFkk6xOimyIsXxFDCbunRsUU+TbzLsw1fVcHhbq8NgBJ
-         IDnX7ouRDd5ggM5aplClNG0aBpaw27ZAJm116LozD13/8pbS2LPN/g95lbuqOPrqPCjr
-         eFSALuvWiYVwbJR4PhJ/FPEGuQy6DaIL5OMRNRHHT9RaznCyprN71jVumDfKQgNjY1o3
-         qrEjxO5pk8XIKSYHFoiWOd6QoWOCEzMkd3enbAv1fS3BK71Wrx+PasYSCB2rUlvJCXv5
-         4N4A7MmQMczEtg1M+DckTG+bPKBOboqUPep8yyDEuVl/Lk5qx3x7tcbP3UYCRSC84hTx
-         Y/fw==
-X-Gm-Message-State: APjAAAVMCIumcMzV4wa4MHzCrcHvs5x2fn397uTnP7UyxcVaE9s+ydfu
-        NWGEa4KeEqh0kqiAKzEZ44Y=
-X-Google-Smtp-Source: APXvYqxkLZxWSSqMSVcIyFCjgnrC//FylPhtRtoQfe/MOo971t+rYSOY6tLOfrMfwlHRMokAQYtb0w==
-X-Received: by 2002:ac2:44c3:: with SMTP id d3mr2416630lfm.109.1570635532438;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Br9ch3HUxePYMcVA5+eOqOIVq/1B20gFu8Zz9x8IFTI=;
+        b=XBhXP7R1BvdDAaYId5Jh3TWjEho52qqGxmMcjim4BhCD8kC8EEDcNaS0rXzW5O9+fd
+         YTIb5yIm9qJNlQAnGbfxY20hF42cgLyIdaxWc5aISncto+g3WVsBl5sa/i3eYZ6WBewW
+         7q1UCCIsDCa2z0cY+/lEVaG746M/KZn99yV/JngpCyc6HNzaY+jlMXkYUgE3ZILc48IR
+         g6H0RNbgJB2DNyGkpUSc/2GcTN5Si0rZKI+SiSre5XXamzbvyefPEUSQCJ5ONx38jhhA
+         c3je9QIATDg8JMYllEYBzzDGbLap2MaD/CRby2qwqHsSu4++EkE9s9sSamsqR4eMobvz
+         RoOg==
+X-Gm-Message-State: APjAAAUIHfjNwqz13oX54YwZNF2VqJ8RDermSnaGNUNTiSIAJRyv8gZd
+        hgybwJLV8aQe31cltyqxvY9ZCFgd
+X-Google-Smtp-Source: APXvYqywcWUdHcZH20c3zwxA9S/BXw6GsWgph5TWDTvmOIYGVcG/uEb6zD2k0xkfN06b4ddhIpYjtw==
+X-Received: by 2002:a2e:6101:: with SMTP id v1mr2827736ljb.122.1570635532802;
         Wed, 09 Oct 2019 08:38:52 -0700 (PDT)
 Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id h3sm542764lfc.26.2019.10.09.08.38.51
+        by smtp.gmail.com with ESMTPSA id q5sm582581lfm.93.2019.10.09.08.38.51
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
         Wed, 09 Oct 2019 08:38:51 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.92.2)
         (envelope-from <johan@xi.terra>)
-        id 1iIE3J-0002Go-6o; Wed, 09 Oct 2019 17:39:01 +0200
+        id 1iIE3J-0002Gw-DB; Wed, 09 Oct 2019 17:39:01 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org, Keith Packard <keithp@keithp.com>,
         Juergen Stuber <starblue@users.sourceforge.net>,
-        Johan Hovold <johan@kernel.org>
-Subject: [PATCH 0/5] USB: misc: fix disconnect bugs
-Date:   Wed,  9 Oct 2019 17:38:43 +0200
-Message-Id: <20191009153848.8664-1-johan@kernel.org>
+        Johan Hovold <johan@kernel.org>,
+        stable <stable@vger.kernel.org>
+Subject: [PATCH 2/5] USB: chaoskey: fix use-after-free on release
+Date:   Wed,  9 Oct 2019 17:38:45 +0200
+Message-Id: <20191009153848.8664-3-johan@kernel.org>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191009153848.8664-1-johan@kernel.org>
+References: <20191009153848.8664-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -66,33 +70,48 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series fixes a number of issues introduced primarily with the
-conversion to dev_err() and dev_dbg(), which failed to notice that the
-drivers where using their USB interface and device pointers as
-disconnected flags (leading to NULL derefs) and that they did not hold
-references to the structures (leading to use-after-free on release()).
+The driver was accessing its struct usb_interface in its release()
+callback without holding a reference. This would lead to a
+use-after-free whenever the device was disconnected while the character
+device was still open.
 
-I've already fixed up a few of these USB character device drivers
-separately, and the uss720 driver has similar bugs that remain to be
-fixed.
+Fixes: 66e3e591891d ("usb: Add driver for Altus Metrum ChaosKey device (v2)")
+Cc: stable <stable@vger.kernel.org>     # 4.1
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/misc/chaoskey.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Johan
-
-
-Johan Hovold (5):
-  USB: adutux: fix use-after-free on release
-  USB: chaoskey: fix use-after-free on release
-  USB: ldusb: fix NULL-derefs on driver unbind
-  USB: legousbtower: fix use-after-free on release
-  USB: yurex: fix NULL-derefs on disconnect
-
- drivers/usb/misc/adutux.c       |  3 ++-
- drivers/usb/misc/chaoskey.c     |  5 +++--
- drivers/usb/misc/ldusb.c        | 24 ++++++++++++------------
- drivers/usb/misc/legousbtower.c |  3 ++-
- drivers/usb/misc/yurex.c        | 11 +++++++----
- 5 files changed, 26 insertions(+), 20 deletions(-)
-
+diff --git a/drivers/usb/misc/chaoskey.c b/drivers/usb/misc/chaoskey.c
+index cf5828ce927a..34e6cd6f40d3 100644
+--- a/drivers/usb/misc/chaoskey.c
++++ b/drivers/usb/misc/chaoskey.c
+@@ -98,6 +98,7 @@ static void chaoskey_free(struct chaoskey *dev)
+ 		usb_free_urb(dev->urb);
+ 		kfree(dev->name);
+ 		kfree(dev->buf);
++		usb_put_intf(dev->interface);
+ 		kfree(dev);
+ 	}
+ }
+@@ -145,6 +146,8 @@ static int chaoskey_probe(struct usb_interface *interface,
+ 	if (dev == NULL)
+ 		goto out;
+ 
++	dev->interface = usb_get_intf(interface);
++
+ 	dev->buf = kmalloc(size, GFP_KERNEL);
+ 
+ 	if (dev->buf == NULL)
+@@ -174,8 +177,6 @@ static int chaoskey_probe(struct usb_interface *interface,
+ 			goto out;
+ 	}
+ 
+-	dev->interface = interface;
+-
+ 	dev->in_ep = in_ep;
+ 
+ 	if (le16_to_cpu(udev->descriptor.idVendor) != ALEA_VENDOR_ID)
 -- 
 2.23.0
 
