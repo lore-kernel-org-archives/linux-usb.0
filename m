@@ -2,101 +2,66 @@ Return-Path: <SRS0=ivde=YC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9DBDECE58C
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 17:29:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B5E1ECE58D
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 17:29:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9957020679
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 17:29:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1570642156;
-	bh=a+jnrrLUjZCnLTg1MYH2H3uUUeyvZnRqF6KjRTHV+GY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=CYy64wVr1tHja2vXArlBXvuSHE7ou6cCEhxNip+MxSauL6KU+El2pyOBuqLN/Uzou
-	 oxtZZDoInkPukZPEa62d7VJKPLvuRkk1J7z0UMX0sORmAKTxQGnbqg3OT8LAPG7A8x
-	 GOeWZYITjrDg9QklKFpjXpKtLtDDXplpWCLg3Ja4=
+	by mail.kernel.org (Postfix) with ESMTP id 4B69120679
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 17:29:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732699AbfJIR3L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Oct 2019 13:29:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48848 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732221AbfJIRYQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 9 Oct 2019 13:24:16 -0400
-Received: from sasha-vm.mshome.net (unknown [167.220.2.234])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1FC812196E;
-        Wed,  9 Oct 2019 17:24:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570641856;
-        bh=a+jnrrLUjZCnLTg1MYH2H3uUUeyvZnRqF6KjRTHV+GY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=a80hqOndue49JhE9aBAcvhgUtSd+2kXohLai90K5PFJxng0Ak0Mm4skb1uOwn+AzV
-         d+pLBc7w8Xbqv24cwCgUtdKIoZGZHDwg/7X4nTN2tALigSnlpHc1NJG0ecjNGc45a7
-         /VhK+Q46uz5VZUzSi8d9hc8lXyWTyvkVcZgc17yM=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 24/26] r8152: Set macpassthru in reset_resume callback
-Date:   Wed,  9 Oct 2019 13:05:56 -0400
-Message-Id: <20191009170558.32517-24-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191009170558.32517-1-sashal@kernel.org>
-References: <20191009170558.32517-1-sashal@kernel.org>
+        id S1732383AbfJIR34 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Oct 2019 13:29:56 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:51574 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1732459AbfJIR3u (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Oct 2019 13:29:50 -0400
+Received: (qmail 5516 invoked by uid 2102); 9 Oct 2019 13:29:49 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 9 Oct 2019 13:29:49 -0400
+Date:   Wed, 9 Oct 2019 13:29:49 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Bastien Nocera <hadess@hadess.net>
+cc:     linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: Re: [PATCH 3/5] USB: Implement usb_device_match_id()
+In-Reply-To: <2bbaeba7abb332aaf9fb521602f7199ba1e77273.camel@hadess.net>
+Message-ID: <Pine.LNX.4.44L0.1910091328120.1603-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+On Wed, 9 Oct 2019, Bastien Nocera wrote:
 
-[ Upstream commit a54cdeeb04fc719e4c7f19d6e28dba7ea86cee5b ]
+> > This would be better if you allowed matching against just the
+> > idVendor 
+> > field rather than matching against both.  That would make it a lot 
+> > simpler to match all Apple devices, for instance.
+> 
+> That should already be possible. The matching code is the same as for
+> the USB interface drivers.
+> 
+> Something like:
+> static const struct usb_device_id apple_match[] = {
+>     { .match_flags = USB_DEVICE_ID_MATCH_VENDOR,
+>       .idVendor = USB_VENDOR_APPLE
+>     },
+>     {}
+> }
+> 
+> And I couldn't use it in patch 5/5, as that's a range of product IDs,
+> not all of them (which would be quite a lot more).
 
-r8152 may fail to establish network connection after resume from system
-suspend.
+You can still use it in patch 5/5.  Match any device with Apple's VID;
+then have the probe routine return -ENODEV if the PID is outside the
+range you want.
 
-If the USB port connects to r8152 lost its power during system suspend,
-the MAC address was written before is lost. The reason is that The MAC
-address doesn't get written again in its reset_resume callback.
-
-So let's set MAC address again in reset_resume callback. Also remove
-unnecessary lock as no other locking attempt will happen during
-reset_resume.
-
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Signed-off-by: David S. Miller <davem@davemloft.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/net/usb/r8152.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index a065a6184f7e4..a291e5f2daef6 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -4474,10 +4474,9 @@ static int rtl8152_reset_resume(struct usb_interface *intf)
- 	struct r8152 *tp = usb_get_intfdata(intf);
- 
- 	clear_bit(SELECTIVE_SUSPEND, &tp->flags);
--	mutex_lock(&tp->control);
- 	tp->rtl_ops.init(tp);
- 	queue_delayed_work(system_long_wq, &tp->hw_phy_work, 0);
--	mutex_unlock(&tp->control);
-+	set_ethernet_addr(tp);
- 	return rtl8152_resume(intf);
- }
- 
--- 
-2.20.1
+Alan Stern
 
