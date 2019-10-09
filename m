@@ -2,69 +2,64 @@ Return-Path: <SRS0=ivde=YC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79706C47404
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 10:49:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 125D3C47404
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 10:49:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 529FE21835
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 10:49:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D09C9218AC
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 10:49:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1570618168;
-	bh=iZdqq4g+rouI4y+bBonKXF4zHGiMTb9gddewiGK6aa8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=1G+TqKdMKfvb+lJx6GWwbQ0v/MATpkRBHm3dG+tW43boIOsM9cc7HZLFNQTc5Z68b
-	 ayVZpsB+6M5IpS55uoSvdtz6GKIPgz4PYOI61uNO0cmOMOhhZVqb2A7OYir/5UQfrq
-	 YZyJi5Rt0zOW/xQPG2H5IuuO/04iazh8/qjmQV7M=
+	s=default; t=1570618170;
+	bh=1M1XrMh9JT7e0vh4LLSd/AJht3EPiEbYR2YQ2NjMBRg=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=GYgRnGyVoFj+NhlZyFVkCPAEAK2qYczqp0yAcZh9PFzf8GoZyO54Af5muAca/t6bj
+	 sR9avDQ7svvrhTaFB80audKcJ62GD7ktxr4AFJ8uJSpCO2mgYrDd84MgPrn60NCACO
+	 lvUKCruhOu9lj2Ix4CL1z3u+vRWP+KoebVGGloAQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730888AbfJIKtC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Oct 2019 06:49:02 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:35948 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727228AbfJIKtB (ORCPT
+        id S1729784AbfJIKtB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Oct 2019 06:49:01 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:39443 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726734AbfJIKtB (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Oct 2019 06:49:01 -0400
-Received: by mail-lj1-f195.google.com with SMTP id v24so1997781ljj.3;
+Received: by mail-lf1-f65.google.com with SMTP id 72so1279907lfh.6;
         Wed, 09 Oct 2019 03:48:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=hpnNo/wLrrqHWo6iUYI3k0Oeb2ujZliIeE/Ue7DBhEk=;
-        b=fkwuwcR1x8moZJFbNg5UNTD3MZbsJ/WTv8URL2NtoOcx1zzsYuhvP+w1w129RClj5Y
-         9zCAHiRPSRaFDAcS+0J8pxHk5+TV9A+b7lHsqje6gjakdX3IJoEfACM9Pq2ntZmSPvWH
-         GPOOM3t+HITiyXn/Zx6dXwyUsNScw8r0xhlblHGACvnofE7ODrgtGfHYf56tQdsbH418
-         X7iNOOIInxce8vXidjhTNJGoKzoCKJ4KeVBK17B4fZ+guT6gfNnIXnFupKiKWZHznuYx
-         gXQmN+7DP6Z97ImH30b+8XOR5gU7IDAip+Iknrh+WHmWvDaWjasGiNmj5tivaPZsVUw/
-         VhfA==
-X-Gm-Message-State: APjAAAWundtuUxr3kyGaNmHxbMwsyyNOEwhfQdOifs+74c5KQD3ribjS
-        xIAIlugd81sOUEOJh1Fqw3sR/4m6
-X-Google-Smtp-Source: APXvYqyLVuDm1GTgl7a58tF/2XvgWyv4UCBSQTOtepqPe8z1dl9e1Q3Zm9HimA0SSZu8TIqRqmVuYw==
-X-Received: by 2002:a2e:a41a:: with SMTP id p26mr1783346ljn.15.1570618138521;
-        Wed, 09 Oct 2019 03:48:58 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=91+TSRKJghsxG22RU/266qtsCLX3btiIv7LB4QXaP0o=;
+        b=Vh/jbl/nE/Em2wCszjDlLF1lupRr8Ot7h6ejW/TV4x/NbdT4So6UJIRhmX3ATj3QmL
+         tt7ySgH8gAHffBrPw7dYvXBoM70ZKYKQz1xi8XH6AqvpwkXXAlze3vYM7b4uuC79dw1/
+         jmu2MFBtUKxY2kwUIqCdaGcnt2aVrxxCXsk2SHPqCUmNpC89681axrHaDzHPK37FedO0
+         IY0hKeOz9+i+qX+IY4CIMuhmCOsDYW2TuHyqKUQz//oJOdootsgR72uMJeAkO8YmOBxv
+         Gfkm0ZgwXYtAbK5zLI3tjJpXbIZf+3Dn0XxOkWbR0voBbg67gt9j966b6pXMMzmzntQW
+         slnQ==
+X-Gm-Message-State: APjAAAXBf5igZ/qzKUBB1LvXkfXMj47aOx+lpfQeNJnn7VpGmyFmQWyw
+        M18Em+AmgADqRuu2qkUkjP8=
+X-Google-Smtp-Source: APXvYqwGtYNicm/aWG0i+juqqfFgyIPgydUr49mNBX55/fmOZw2d70MkxGcnBcd+q8q4m9gwjFVs0g==
+X-Received: by 2002:ac2:4d1b:: with SMTP id r27mr1606804lfi.133.1570618139048;
+        Wed, 09 Oct 2019 03:48:59 -0700 (PDT)
 Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id z26sm356497lji.79.2019.10.09.03.48.57
+        by smtp.gmail.com with ESMTPSA id g3sm358175ljj.59.2019.10.09.03.48.57
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
         Wed, 09 Oct 2019 03:48:57 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.92.2)
         (envelope-from <johan@xi.terra>)
-        id 1iI9Wk-0001Yi-Ri; Wed, 09 Oct 2019 12:49:06 +0200
+        id 1iI9Wk-0001Ye-1Q; Wed, 09 Oct 2019 12:49:06 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Oliver Neukum <oneukum@suse.com>,
         Valentin Vidic <vvidic@valentin-vidic.from.hr>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>,
-        stable <stable@vger.kernel.org>,
-        syzbot+0761012cebf7bdb38137@syzkaller.appspotmail.com
-Subject: [PATCH 1/6] USB: iowarrior: fix use-after-free on disconnect
-Date:   Wed,  9 Oct 2019 12:48:41 +0200
-Message-Id: <20191009104846.5925-2-johan@kernel.org>
+        Johan Hovold <johan@kernel.org>
+Subject: [PATCH 0/6] USB: iowarrior: disconnect fixes and locking cleanups
+Date:   Wed,  9 Oct 2019 12:48:40 +0200
+Message-Id: <20191009104846.5925-1-johan@kernel.org>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191009104846.5925-1-johan@kernel.org>
-References: <20191009104846.5925-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -72,59 +67,32 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-A recent fix addressing a deadlock on disconnect introduced a new bug
-by moving the present flag out of the critical section protected by the
-driver-data mutex. This could lead to a racing release() freeing the
-driver data before disconnect() is done with it.
+This series fixes a use-after-free bug introduced by a recent
+disconnect-deadlock fix that was reported by syzbot. Turns out there was
+already a related bug in the driver, and the first patch addresses both
+issues.
 
-Due to insufficient locking a related use-after-free could be triggered
-also before the above mentioned commit. Specifically, the driver needs
-to hold the driver-data mutex also while checking the opened flag at
-disconnect().
+While looking at the code I found two more use-after-free bugs, which
+the next two patches fix.
 
-Fixes: c468a8aa790e ("usb: iowarrior: fix deadlock on disconnect")
-Fixes: 946b960d13c1 ("USB: add driver for iowarrior devices.")
-Cc: stable <stable@vger.kernel.org>	# 2.6.21
-Reported-by: syzbot+0761012cebf7bdb38137@syzkaller.appspotmail.com
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/misc/iowarrior.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+The next two clean up the driver by dropping two redundant locks.
 
-diff --git a/drivers/usb/misc/iowarrior.c b/drivers/usb/misc/iowarrior.c
-index f5bed9f29e56..4fe1d3267b3c 100644
---- a/drivers/usb/misc/iowarrior.c
-+++ b/drivers/usb/misc/iowarrior.c
-@@ -866,8 +866,6 @@ static void iowarrior_disconnect(struct usb_interface *interface)
- 	dev = usb_get_intfdata(interface);
- 	mutex_lock(&iowarrior_open_disc_lock);
- 	usb_set_intfdata(interface, NULL);
--	/* prevent device read, write and ioctl */
--	dev->present = 0;
- 
- 	minor = dev->minor;
- 	mutex_unlock(&iowarrior_open_disc_lock);
-@@ -878,8 +876,7 @@ static void iowarrior_disconnect(struct usb_interface *interface)
- 	mutex_lock(&dev->mutex);
- 
- 	/* prevent device read, write and ioctl */
--
--	mutex_unlock(&dev->mutex);
-+	dev->present = 0;
- 
- 	if (dev->opened) {
- 		/* There is a process that holds a filedescriptor to the device ,
-@@ -889,8 +886,10 @@ static void iowarrior_disconnect(struct usb_interface *interface)
- 		usb_kill_urb(dev->int_in_urb);
- 		wake_up_interruptible(&dev->read_wait);
- 		wake_up_interruptible(&dev->write_wait);
-+		mutex_unlock(&dev->mutex);
- 	} else {
- 		/* no process is using the device, cleanup now */
-+		mutex_unlock(&dev->mutex);
- 		iowarrior_delete(dev);
- 	}
- 
+Tested using a mockup device.
+
+Johan
+
+
+Johan Hovold (6):
+  USB: iowarrior: fix use-after-free on disconnect
+  USB: iowarrior: fix use-after-free on release
+  USB: iowarrior: fix use-after-free after driver unbind
+  USB: iowarrior: drop redundant disconnect mutex
+  USB: iowarrior: drop redundant iowarrior mutex
+  USB: iowarrior: use pr_err()
+
+ drivers/usb/misc/iowarrior.c | 48 +++++++++++-------------------------
+ 1 file changed, 15 insertions(+), 33 deletions(-)
+
 -- 
 2.23.0
 
