@@ -7,59 +7,59 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A706ECE58E
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 15:38:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4282BC47404
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 15:38:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 52FFD218AC
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 15:38:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B2C0218AC
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 15:38:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1570635536;
-	bh=u6ZPbGMwa36ig10jiJtr/3NN0oyL1sM1B7giXgw+EmQ=;
+	s=default; t=1570635537;
+	bh=lvPQ8nKmX53MrGZJqKw2O2MLEPBjlugm7aWuPrs6h6Y=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=DVojus5r/fy0KHKkua86aUrZPmxui2CzJm5LD7AcL6V2ob+Tk5FQjtIpKOL7+7rL4
-	 T7+56ZAAumnpzhTW+dCTf1NIQ9eeAebzlb5dYI/4umJAa9FC5U9hxv/4BP2KHguDwT
-	 brQznoTjUqCVylxV1+OH4Ux72iBVEL+q0LRhQasM=
+	b=Sw6LxmT65u1ZIFagSgJQtB4faKPmmQPE9W37Pq5gqR5/QiF/mlqSm0hv31tCS01uw
+	 HBA3wmgMqBVRSj4/TC6OGmVRBUPysQLvOW/fx8UaAESsZSMsU7BtaGELT2Xo4NXigo
+	 5YtkCWNdMsuIM6bFlpneMFcvb+mjLJhj8SCko4Fg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731234AbfJIPiz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Oct 2019 11:38:55 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:34771 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729865AbfJIPiz (ORCPT
+        id S1731270AbfJIPi4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Oct 2019 11:38:56 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:41591 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730256AbfJIPiz (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Oct 2019 11:38:55 -0400
-Received: by mail-lj1-f194.google.com with SMTP id j19so3018024lja.1;
-        Wed, 09 Oct 2019 08:38:53 -0700 (PDT)
+Received: by mail-lf1-f65.google.com with SMTP id r2so2004554lfn.8;
+        Wed, 09 Oct 2019 08:38:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Br9ch3HUxePYMcVA5+eOqOIVq/1B20gFu8Zz9x8IFTI=;
-        b=XBhXP7R1BvdDAaYId5Jh3TWjEho52qqGxmMcjim4BhCD8kC8EEDcNaS0rXzW5O9+fd
-         YTIb5yIm9qJNlQAnGbfxY20hF42cgLyIdaxWc5aISncto+g3WVsBl5sa/i3eYZ6WBewW
-         7q1UCCIsDCa2z0cY+/lEVaG746M/KZn99yV/JngpCyc6HNzaY+jlMXkYUgE3ZILc48IR
-         g6H0RNbgJB2DNyGkpUSc/2GcTN5Si0rZKI+SiSre5XXamzbvyefPEUSQCJ5ONx38jhhA
-         c3je9QIATDg8JMYllEYBzzDGbLap2MaD/CRby2qwqHsSu4++EkE9s9sSamsqR4eMobvz
-         RoOg==
-X-Gm-Message-State: APjAAAUIHfjNwqz13oX54YwZNF2VqJ8RDermSnaGNUNTiSIAJRyv8gZd
-        hgybwJLV8aQe31cltyqxvY9ZCFgd
-X-Google-Smtp-Source: APXvYqywcWUdHcZH20c3zwxA9S/BXw6GsWgph5TWDTvmOIYGVcG/uEb6zD2k0xkfN06b4ddhIpYjtw==
-X-Received: by 2002:a2e:6101:: with SMTP id v1mr2827736ljb.122.1570635532802;
+        bh=szNiykfatwwBWyT1R8vEp0SHm+VURe3hz2h1YW3Ai0o=;
+        b=Y4gigpI6sTHCy0X9/oX4WcCrwjpjpECH6UWgR1HEcd5gbqskbvuj1T6teRraRbqkLs
+         Id9MD/ZMjvwufOvErqMfz8BdQZJas4dEe5gNGvh5KJoJAHFeoTLVSXSh8nzqjmUUMSHz
+         HIEROUoYdfIVpglDa3bxZzpv3fCs+nBWA/T6vlB2bFvuqWVeAjtEFNg0g1lekJR10ji7
+         h08iZciLkzsADDLqTBRavQhExb3/RGOEJOJkpgNyofqhW/2ZP98kqX6rYf9Ccp7DMSKP
+         vhhKlCHcvvPWae4wbmfLAFWtgMbZ21DwgEPIoernP+pQbIjvu1uFFcCFx3crnOAusC5S
+         bKGg==
+X-Gm-Message-State: APjAAAVlq5c0qqTZChAMfRU9XjZSkaLqRMTA0uYziun2XeKlHMCyC8xV
+        jkLFyLnZSf51h2fW08napiNSo89m
+X-Google-Smtp-Source: APXvYqwLWPUUg67a1JhQhorAQnETs8oOcbXIYEf2iIftkXz+iKY5XRY3Xh+rnvRQZWZpiCAiY/N3NA==
+X-Received: by 2002:ac2:5924:: with SMTP id v4mr2521416lfi.29.1570635532016;
         Wed, 09 Oct 2019 08:38:52 -0700 (PDT)
 Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id q5sm582581lfm.93.2019.10.09.08.38.51
+        by smtp.gmail.com with ESMTPSA id m15sm596554ljg.97.2019.10.09.08.38.51
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
         Wed, 09 Oct 2019 08:38:51 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.92.2)
         (envelope-from <johan@xi.terra>)
-        id 1iIE3J-0002Gw-DB; Wed, 09 Oct 2019 17:39:01 +0200
+        id 1iIE3J-0002Gr-Ai; Wed, 09 Oct 2019 17:39:01 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org, Keith Packard <keithp@keithp.com>,
         Juergen Stuber <starblue@users.sourceforge.net>,
         Johan Hovold <johan@kernel.org>,
         stable <stable@vger.kernel.org>
-Subject: [PATCH 2/5] USB: chaoskey: fix use-after-free on release
-Date:   Wed,  9 Oct 2019 17:38:45 +0200
-Message-Id: <20191009153848.8664-3-johan@kernel.org>
+Subject: [PATCH 1/5] USB: adutux: fix use-after-free on release
+Date:   Wed,  9 Oct 2019 17:38:44 +0200
+Message-Id: <20191009153848.8664-2-johan@kernel.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191009153848.8664-1-johan@kernel.org>
 References: <20191009153848.8664-1-johan@kernel.org>
@@ -70,48 +70,39 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The driver was accessing its struct usb_interface in its release()
+The driver was accessing its struct usb_device in its release()
 callback without holding a reference. This would lead to a
 use-after-free whenever the device was disconnected while the character
 device was still open.
 
-Fixes: 66e3e591891d ("usb: Add driver for Altus Metrum ChaosKey device (v2)")
-Cc: stable <stable@vger.kernel.org>     # 4.1
+Fixes: 66d4bc30d128 ("USB: adutux: remove custom debug macro")
+Cc: stable <stable@vger.kernel.org>     # 3.12
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/misc/chaoskey.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/usb/misc/adutux.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/misc/chaoskey.c b/drivers/usb/misc/chaoskey.c
-index cf5828ce927a..34e6cd6f40d3 100644
---- a/drivers/usb/misc/chaoskey.c
-+++ b/drivers/usb/misc/chaoskey.c
-@@ -98,6 +98,7 @@ static void chaoskey_free(struct chaoskey *dev)
- 		usb_free_urb(dev->urb);
- 		kfree(dev->name);
- 		kfree(dev->buf);
-+		usb_put_intf(dev->interface);
- 		kfree(dev);
- 	}
+diff --git a/drivers/usb/misc/adutux.c b/drivers/usb/misc/adutux.c
+index f9efec719359..6f5edb9fc61e 100644
+--- a/drivers/usb/misc/adutux.c
++++ b/drivers/usb/misc/adutux.c
+@@ -149,6 +149,7 @@ static void adu_delete(struct adu_device *dev)
+ 	kfree(dev->read_buffer_secondary);
+ 	kfree(dev->interrupt_in_buffer);
+ 	kfree(dev->interrupt_out_buffer);
++	usb_put_dev(dev->udev);
+ 	kfree(dev);
  }
-@@ -145,6 +146,8 @@ static int chaoskey_probe(struct usb_interface *interface,
- 	if (dev == NULL)
- 		goto out;
  
-+	dev->interface = usb_get_intf(interface);
-+
- 	dev->buf = kmalloc(size, GFP_KERNEL);
+@@ -664,7 +665,7 @@ static int adu_probe(struct usb_interface *interface,
  
- 	if (dev->buf == NULL)
-@@ -174,8 +177,6 @@ static int chaoskey_probe(struct usb_interface *interface,
- 			goto out;
- 	}
+ 	mutex_init(&dev->mtx);
+ 	spin_lock_init(&dev->buflock);
+-	dev->udev = udev;
++	dev->udev = usb_get_dev(udev);
+ 	init_waitqueue_head(&dev->read_wait);
+ 	init_waitqueue_head(&dev->write_wait);
  
--	dev->interface = interface;
--
- 	dev->in_ep = in_ep;
- 
- 	if (le16_to_cpu(udev->descriptor.idVendor) != ALEA_VENDOR_ID)
 -- 
 2.23.0
 
