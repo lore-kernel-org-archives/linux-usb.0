@@ -2,61 +2,65 @@ Return-Path: <SRS0=ivde=YC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B26F0ECE58C
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 17:09:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56C9FC47404
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 17:09:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 78C3F218AC
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 17:09:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2129820B7C
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 17:09:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1570640986;
-	bh=NvkyV9kbuFWuk/Deg5Yy9k8lkgQuy+X7Z0RPD98Nkxg=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=kMdU253nkVAZRPEr+ESzOEejMf9nTvIv8Vr8Plbd/VwtkDqEibtbaz+CMklbJxVEH
-	 o2/+Ry1khvKBDj31mAOkSH/ofiebyTrLvicl6M16ubdLZXntF0hUl9FnPbfaWW53oP
-	 VTHRvsNQhTowZZ1Fzgui//rf6GTdGURUyzc0zuDI=
+	s=default; t=1570640987;
+	bh=MYPJn/hhfzehwAQGj1bzF7pZZtAWhaFcYPqHDdSDyKg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=cCr7P2asY2ipGl8DGE3GDVrkgE4LDTs7tDyIAqPZoTQ+9tSZC1i4yPMdfOMm5Jy74
+	 m3qY7uFIYzQ4fK4b7nThfwt9fpUhFF9pyqFTTsR0/RQ+R/C172P62Pws7r4B3xWko2
+	 Dzg2vUDwD8c30objfstHdHOwuOnEwJ1VGYVRmjG8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731539AbfJIRJq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1731888AbfJIRJq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Wed, 9 Oct 2019 13:09:46 -0400
-Received: from mail-lf1-f53.google.com ([209.85.167.53]:38629 "EHLO
-        mail-lf1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730490AbfJIRJp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Oct 2019 13:09:45 -0400
-Received: by mail-lf1-f53.google.com with SMTP id u28so2229912lfc.5
-        for <linux-usb@vger.kernel.org>; Wed, 09 Oct 2019 10:09:44 -0700 (PDT)
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:45803 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731417AbfJIRJq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Oct 2019 13:09:46 -0400
+Received: by mail-lf1-f68.google.com with SMTP id r134so2213456lff.12;
+        Wed, 09 Oct 2019 10:09:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=m8RjB4kSGsPzycVtiusiMlRNLiCPX2UbjkRPjp7C9ds=;
-        b=T8Fu3psuMqsmzIBfCoZTSwNJTHcQA6K2BRWXgnPH+bdnNpg9wvICqT9FC9P2+2ns25
-         GcO1Osbf8zoXV0+tWcOE0XWt2IN/y3IwEneDLBjM1whQrf4oy0pE7IAw15zV0fENR2iR
-         VlBRBCIh8raZl9mhwtMkW+4ZqlcAaL5Ep9xYhOhHksAATy3gxKnJL1ZQwnwGYS5enAs7
-         d9uFO2ihVD+YC0rGpxy4zA+TiiIqjv+xaGENYw+5uOWyTFuEsQgRFUaXBEfHWEY0xhfR
-         N3lG3k6ZRgd4v8e6I4JJ+kHVqKI1gMGtm9BY7J3d2N/3lWBUZn0ou14f3Mpc9al2772p
-         fANA==
-X-Gm-Message-State: APjAAAVw+amp/jyOR/aMnyMo/lXNa1d9CpvzmOVUYkrvFWPi6+V9wn4P
-        z6ni9xoX1/Ur9tP15y1Y+MpKoVPy
-X-Google-Smtp-Source: APXvYqw7ZSLremA08Ezc+6GwgosZqsGrUD1jNZhucKq5ASLOm8niZ8T802+tMA2yG0Ax+Q0f320BXA==
-X-Received: by 2002:a19:f018:: with SMTP id p24mr2828582lfc.51.1570640983749;
-        Wed, 09 Oct 2019 10:09:43 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=L4J8qTu+YF8xfX8qpydkpgib5XDtsqf13k/D3VElzdQ=;
+        b=OZLl3iRP6mkjwcbVT5TlPKpIY96CbbsOooatjGasZOnYfWSxplzD7jTj3V3Ko/pOPU
+         lE0m/Hfm+hUQuO54qeydzYvPM1UXUMwVH9pRLmsgukokzHZNKSrZb40aEdtK03W/CJ/i
+         XNO6ZOvWNjkyDMv5oDJWrvsTuNszNMfMljZ3IFJBj2ZM2/gtXSN8t5EOzMWxf6A49eDC
+         AVx0sHI9Yu47bRZaAXdfSVhNy9FSSEBUXYG2XiUL3TMzKYh2sgtxAYRB2w3tXfB0oyhT
+         oemel3QJiq4ZDfGktpQKe33dEk9XmJQxXnncRGXeOetUCR/vIjKLdAkad5aBJbd1+1FO
+         7Snw==
+X-Gm-Message-State: APjAAAXO1IwrZFo0MHamCuYo9b8g+1HhNzyw670e28uZg/q6l+Y5uFF7
+        9AE2xaJEmCc/m6isAonTH4c=
+X-Google-Smtp-Source: APXvYqzCAODMuJ4k5t6hiwqZmPWzIDblLTW1E+Ap4zMw4neNCg11CRLC0IrKMA4tmk4GZ2ch3G8avQ==
+X-Received: by 2002:a19:c188:: with SMTP id r130mr2878297lff.41.1570640984165;
+        Wed, 09 Oct 2019 10:09:44 -0700 (PDT)
 Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id r75sm627089lff.7.2019.10.09.10.09.42
+        by smtp.gmail.com with ESMTPSA id h25sm748316lfj.81.2019.10.09.10.09.42
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
         Wed, 09 Oct 2019 10:09:42 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.92.2)
         (envelope-from <johan@xi.terra>)
-        id 1iIFTE-0007pn-6Z; Wed, 09 Oct 2019 19:09:52 +0200
+        id 1iIFTF-0007pq-0j; Wed, 09 Oct 2019 19:09:53 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 0/3] USB: usb-skeleton: regression fix
-Date:   Wed,  9 Oct 2019 19:09:41 +0200
-Message-Id: <20191009170944.30057-1-johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+        stable <stable@vger.kernel.org>
+Subject: [PATCH 1/3] USB: usb-skeleton: fix NULL-deref on disconnect
+Date:   Wed,  9 Oct 2019 19:09:42 +0200
+Message-Id: <20191009170944.30057-2-johan@kernel.org>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191009170944.30057-1-johan@kernel.org>
+References: <20191009170944.30057-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -64,26 +68,66 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-I messed up when submitting the runtime PM fixes last week and failed to
-notice that the change to usb-skeleton depended on another fix I already
-had in my tree (I did notice the conflict, but rebased and sent a v2
-also without the prerequisite patch).
+The driver was using its struct usb_interface pointer as an inverted
+disconnected flag and was setting it to NULL before making sure all
+completion handlers had run. This could lead to NULL-pointer
+dereferences in the dev_err() statements in the completion handlers
+which relies on said pointer.
 
-So here's a regression fix to a commit in usb-linus for usb-skeleton. :/
+Fix this by using a dedicated disconnected flag.
 
-Included are also a use-after-free fix and a related clean up.
+Note that this is also addresses a NULL-pointer dereference at release()
+and a struct usb_interface reference leak introduced by a recent runtime
+PM fix, which depends on and should have been submitted together with
+this patch.
 
-Johan
+Fixes: 4212cd74ca6f ("USB: usb-skeleton.c: remove err() usage")
+Fixes: 5c290a5e42c3 ("USB: usb-skeleton: fix runtime PM after driver unbind")
+Cc: stable <stable@vger.kernel.org>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/usb-skeleton.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-
-Johan Hovold (3):
-  USB: usb-skeleton: fix NULL-deref on disconnect
-  USB: usb-skeleton: fix use-after-free after driver unbind
-  USB: usb-skeleton: drop redundant in-urb check
-
- drivers/usb/usb-skeleton.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
-
+diff --git a/drivers/usb/usb-skeleton.c b/drivers/usb/usb-skeleton.c
+index 8001d6384c73..c2843fcfa52d 100644
+--- a/drivers/usb/usb-skeleton.c
++++ b/drivers/usb/usb-skeleton.c
+@@ -61,6 +61,7 @@ struct usb_skel {
+ 	spinlock_t		err_lock;		/* lock for errors */
+ 	struct kref		kref;
+ 	struct mutex		io_mutex;		/* synchronize I/O with disconnect */
++	unsigned long		disconnected:1;
+ 	wait_queue_head_t	bulk_in_wait;		/* to wait for an ongoing read */
+ };
+ #define to_skel_dev(d) container_of(d, struct usb_skel, kref)
+@@ -238,7 +239,7 @@ static ssize_t skel_read(struct file *file, char *buffer, size_t count,
+ 	if (rv < 0)
+ 		return rv;
+ 
+-	if (!dev->interface) {		/* disconnect() was called */
++	if (dev->disconnected) {		/* disconnect() was called */
+ 		rv = -ENODEV;
+ 		goto exit;
+ 	}
+@@ -420,7 +421,7 @@ static ssize_t skel_write(struct file *file, const char *user_buffer,
+ 
+ 	/* this lock makes sure we don't submit URBs to gone devices */
+ 	mutex_lock(&dev->io_mutex);
+-	if (!dev->interface) {		/* disconnect() was called */
++	if (dev->disconnected) {		/* disconnect() was called */
+ 		mutex_unlock(&dev->io_mutex);
+ 		retval = -ENODEV;
+ 		goto error;
+@@ -571,7 +572,7 @@ static void skel_disconnect(struct usb_interface *interface)
+ 
+ 	/* prevent more I/O from starting */
+ 	mutex_lock(&dev->io_mutex);
+-	dev->interface = NULL;
++	dev->disconnected = 1;
+ 	mutex_unlock(&dev->io_mutex);
+ 
+ 	usb_kill_anchored_urbs(&dev->submitted);
 -- 
 2.23.0
 
