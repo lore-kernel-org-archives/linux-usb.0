@@ -2,107 +2,94 @@ Return-Path: <SRS0=ivde=YC=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17371ECE597
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 15:39:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14CFFECE58D
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 15:40:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E019C218AC
-	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 15:38:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1570635539;
-	bh=fOyy0OWRFPgcy/Qsq7cSWefWU9m/HYBOoA4d9rG/Cv4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=zXvX6dhwBkqwWoK7TtX9CqVPHHITN4qPoejDWI2JuGmcyEMqctMhAfB57cnfbo2dF
-	 X6ezLfi53HIf2j8guAxRd1XpxaEvZWv3M3sf8J/f0sN0UVBaXMazxhfw0V5tjyAOH9
-	 R2G0x28vL0qFze/u3mZdwHTJP+NET8iMkBUc6ZLQ=
+	by mail.kernel.org (Postfix) with ESMTP id DDDAB21848
+	for <linux-usb@archiver.kernel.org>; Wed,  9 Oct 2019 15:40:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731343AbfJIPi6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 9 Oct 2019 11:38:58 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:40882 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731168AbfJIPi5 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Oct 2019 11:38:57 -0400
-Received: by mail-lj1-f193.google.com with SMTP id 7so2968360ljw.7;
-        Wed, 09 Oct 2019 08:38:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=/zQJrcNnJxUcOVRPJjyZL/u2APizudcIOcg9KosTJuI=;
-        b=KTUDPaAUejV1guU8qJi4jlzzDedgHv635yvRLw6KzD+ExNg+atfiSdjJ+ugGHYJk5h
-         FJtJiORFkp1b9JiLhgcTuXbo8fQ8Ri143WaFU1WJGo6JMe2MvmFuHL5pFu3BNCs5Kdey
-         Xuh64pQngLHIuABtmLOtb6X10gpIiGzG6nZmCxEcZVDdMiFEkBtAcBazOsPI7AsYmLGv
-         uiWgC0u8c9JYRfoyj/JYTLNGWM9DT47VNaaQKHNdtuaojRyb9fm63iY45Ldzy4Yv+Aef
-         fkVU9cCH0B4Hvlwv9sFVGKZ/MJGWe1JUW3UuMflEIB++CpRWs1tOZ6kIly7HKTkh9wGD
-         7ePQ==
-X-Gm-Message-State: APjAAAUEoyaRqB7rjyGSbxuyiosdKx2eAPbhwKSzwjrbq48iXwdR2B4C
-        m6tzrXG8wg9ZTIu3dxz3Q0CJ85os
-X-Google-Smtp-Source: APXvYqxabR1MXt0AgYV0VZq8D6na/8L7mjbB4TOHMZxWwdDNpo6z9gIUTQN55CNZ0fM+mMiWzWxK5g==
-X-Received: by 2002:a2e:420a:: with SMTP id p10mr2881448lja.16.1570635534570;
-        Wed, 09 Oct 2019 08:38:54 -0700 (PDT)
-Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id b7sm529841lfp.23.2019.10.09.08.38.51
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 09 Oct 2019 08:38:53 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.92.2)
-        (envelope-from <johan@xi.terra>)
-        id 1iIE3J-0002H6-IG; Wed, 09 Oct 2019 17:39:01 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, Keith Packard <keithp@keithp.com>,
-        Juergen Stuber <starblue@users.sourceforge.net>,
-        Johan Hovold <johan@kernel.org>,
-        stable <stable@vger.kernel.org>
-Subject: [PATCH 4/5] USB: legousbtower: fix use-after-free on release
-Date:   Wed,  9 Oct 2019 17:38:47 +0200
-Message-Id: <20191009153848.8664-5-johan@kernel.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191009153848.8664-1-johan@kernel.org>
-References: <20191009153848.8664-1-johan@kernel.org>
+        id S1731192AbfJIPk2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 9 Oct 2019 11:40:28 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:49787 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729471AbfJIPk2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 9 Oct 2019 11:40:28 -0400
+X-Originating-IP: 83.155.44.161
+Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
+        (Authenticated sender: hadess@hadess.net)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id ED3CE1BF20F;
+        Wed,  9 Oct 2019 15:40:25 +0000 (UTC)
+Message-ID: <2bbaeba7abb332aaf9fb521602f7199ba1e77273.camel@hadess.net>
+Subject: Re: [PATCH 3/5] USB: Implement usb_device_match_id()
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     linux-usb@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Wed, 09 Oct 2019 17:40:25 +0200
+In-Reply-To: <Pine.LNX.4.44L0.1910091035260.1603-100000@iolanthe.rowland.org>
+References: <Pine.LNX.4.44L0.1910091035260.1603-100000@iolanthe.rowland.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The driver was accessing its struct usb_device in its release()
-callback without holding a reference. This would lead to a
-use-after-free whenever the device was disconnected while the character
-device was still open.
+On Wed, 2019-10-09 at 10:36 -0400, Alan Stern wrote:
+> On Wed, 9 Oct 2019, Bastien Nocera wrote:
+> 
+> > Match a usb_device with a table of IDs.
+> > 
+> > Signed-off-by: Bastien Nocera <hadess@hadess.net>
+> > ---
+> >  drivers/usb/core/driver.c | 15 +++++++++++++++
+> >  include/linux/usb.h       |  2 ++
+> >  2 files changed, 17 insertions(+)
+> > 
+> > diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+> > index 863e380a272b..50f92da8afcf 100644
+> > --- a/drivers/usb/core/driver.c
+> > +++ b/drivers/usb/core/driver.c
+> > @@ -800,6 +800,21 @@ const struct usb_device_id
+> *usb_match_id(struct usb_interface *interface,
+> >  }
+> >  EXPORT_SYMBOL_GPL(usb_match_id);
+> >  
+> > +const struct usb_device_id *usb_device_match_id(struct usb_device
+> *udev,
+> > +                             const struct usb_device_id *id)
+> > +{
+> > +     if (!id)
+> > +             return NULL;
+> > +
+> > +     for (; id->idVendor || id->idProduct ; id++) {
+> > +             if (usb_match_device(udev, id))
+> > +                     return id;
+> > +     }
+> 
+> This would be better if you allowed matching against just the
+> idVendor 
+> field rather than matching against both.  That would make it a lot 
+> simpler to match all Apple devices, for instance.
 
-Fixes: fef526cae700 ("USB: legousbtower: remove custom debug macro")
-Cc: stable <stable@vger.kernel.org>     # 3.12
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/misc/legousbtower.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+That should already be possible. The matching code is the same as for
+the USB interface drivers.
 
-diff --git a/drivers/usb/misc/legousbtower.c b/drivers/usb/misc/legousbtower.c
-index 44d6a3381804..9d4c52a7ebe0 100644
---- a/drivers/usb/misc/legousbtower.c
-+++ b/drivers/usb/misc/legousbtower.c
-@@ -296,6 +296,7 @@ static inline void tower_delete (struct lego_usb_tower *dev)
- 	kfree (dev->read_buffer);
- 	kfree (dev->interrupt_in_buffer);
- 	kfree (dev->interrupt_out_buffer);
-+	usb_put_dev(dev->udev);
- 	kfree (dev);
- }
- 
-@@ -810,7 +811,7 @@ static int tower_probe (struct usb_interface *interface, const struct usb_device
- 
- 	mutex_init(&dev->lock);
- 
--	dev->udev = udev;
-+	dev->udev = usb_get_dev(udev);
- 	dev->open_count = 0;
- 	dev->disconnected = 0;
- 
--- 
-2.23.0
+Something like:
+static const struct usb_device_id apple_match[] = {
+    { .match_flags = USB_DEVICE_ID_MATCH_VENDOR,
+      .idVendor = USB_VENDOR_APPLE
+    },
+    {}
+}
+
+And I couldn't use it in patch 5/5, as that's a range of product IDs,
+not all of them (which would be quite a lot more).
 
