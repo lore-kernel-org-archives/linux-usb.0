@@ -2,142 +2,66 @@ Return-Path: <SRS0=fO8s=YD=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03E04C4360C
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Oct 2019 13:57:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBE63C4360C
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Oct 2019 14:19:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D03FD208C3
-	for <linux-usb@archiver.kernel.org>; Thu, 10 Oct 2019 13:57:20 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AWRKwkWr"
+	by mail.kernel.org (Postfix) with ESMTP id ABEFD206B6
+	for <linux-usb@archiver.kernel.org>; Thu, 10 Oct 2019 14:19:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726132AbfJJN5L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 10 Oct 2019 09:57:11 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:41165 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725959AbfJJN5K (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Oct 2019 09:57:10 -0400
-Received: by mail-wr1-f65.google.com with SMTP id q9so8027192wrm.8;
-        Thu, 10 Oct 2019 06:57:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=BI+X9/23+Lvr8h9vJlp7cjBXaJiIevfv3xHjpHNIvrc=;
-        b=AWRKwkWrp/jPWpCQAuNyzR/eF5h9hIwxFlb5RXrN521n9DPGGRADph3yS+BfIGqF+Z
-         2P/9yq5kzVo0QKGSijDzI8HYBVVMQyiNQ8GlySyCqExxqQFMLdwMcwc3N7KRD7NcMpJH
-         tAHV20qsYM0IC+TyFSHB4L13ZjGhdwFxYPBg1GX0BQa7eVSOo+QQXD/zHDosRM1Bs/EY
-         QhannvF7eHGqrYp58PPhC+nREvnJ0oqjuoid3xS9+kGkgiJClwHBqlseaKYcR3mnqT+1
-         lpvsM2gjOKzdZyxVJJMgHZCnAjBiqp0Uf2eW7pOuc6WMvHp8VmK21T571LYOEtWD4/G3
-         VF9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=BI+X9/23+Lvr8h9vJlp7cjBXaJiIevfv3xHjpHNIvrc=;
-        b=JcJHeyUYQiEAKbUERbTJwdehB85jfFDdONbu2ZySyuh7gyNsX3Eam46oaGJtUY2me8
-         UT2aCzSII8hH8ON7rpkLYrnKr8E7goG9Osf21ZV/X6Nql5S2Mf3bD4q9kXHLq+Gah4f6
-         Uh5lH8Y0uF5lDJLAbvYntkpW1BMiYeppcJ33lz9KcR3TpDDea2MIohVuDfK84L2Ypw0E
-         LqIOCg6dnuL8Cr9VETszItZB5QhZY0zci7VYLt3Xp26ysmwEAdOY7QhoGQmvaIMnciDr
-         f1P7Zl+4KYp+bXX0Ylgq3i2RO0PHfF25Iq2ASMZ5isYOq5ukmPmXb99Bs+kjCOvzfJQp
-         EA+Q==
-X-Gm-Message-State: APjAAAUl1P+Py5paYXk2Xxgo1KWsmBJ8a9Z3xq786mTIj5kOiKYun+ap
-        IljLbr3CR8t2Wcu4lMFAUUx1CyewmEU=
-X-Google-Smtp-Source: APXvYqx9xZon+o/bW79wbx03uRwh314eTdqElwNEpnJLMdjcHDrL1qCZkldI2UDo81i5d1UPOHrRLw==
-X-Received: by 2002:a5d:6447:: with SMTP id d7mr8801561wrw.247.1570715827786;
-        Thu, 10 Oct 2019 06:57:07 -0700 (PDT)
-Received: from localhost ([194.105.145.90])
-        by smtp.gmail.com with ESMTPSA id q15sm9125827wrg.65.2019.10.10.06.57.06
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 10 Oct 2019 06:57:06 -0700 (PDT)
-From:   Igor Opaniuk <igor.opaniuk@gmail.com>
-To:     linux-usb@vger.kernel.org
-Cc:     Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        Philippe Schenker <philippe.schenker@toradex.com>,
-        Stefan Agner <stefan.agner@toradex.com>,
-        Max Krummenacher <max.krummenacher@toradex.com>,
-        Oleksandr Suvorov <oleksandr.suvorov@toradex.com>,
-        Li Jun <jun.li@nxp.com>,
-        Igor Opaniuk <igor.opaniuk@toradex.com>,
+        id S1726088AbfJJOTR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 10 Oct 2019 10:19:17 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:55262 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1725901AbfJJOTQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 10 Oct 2019 10:19:16 -0400
+Received: (qmail 2421 invoked by uid 2102); 10 Oct 2019 10:19:15 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 10 Oct 2019 10:19:15 -0400
+Date:   Thu, 10 Oct 2019 10:19:15 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Bastien Nocera <hadess@hadess.net>
+cc:     linux-usb@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/3] usb: phy: add usb mode for usb_phy
-Date:   Thu, 10 Oct 2019 16:56:54 +0300
-Message-Id: <20191010135656.3264-1-igor.opaniuk@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Subject: Re: [PATCH 4/5] USB: Select better matching USB drivers when available
+In-Reply-To: <ae7c3e3abfce7cc6d69e8453c3964245db160143.camel@hadess.net>
+Message-ID: <Pine.LNX.4.44L0.1910101017260.1581-100000@iolanthe.rowland.org>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Li Jun <jun.li@nxp.com>
+On Thu, 10 Oct 2019, Bastien Nocera wrote:
 
-USB phy driver may need to know the current working mode of
-the controller, and can provide different settings according to
-host mode or device mode.
+> On Wed, 2019-10-09 at 14:45 -0400, Alan Stern wrote:
+> > 
+> On Wed, 9 Oct 2019, Bastien Nocera wrote:
+> > 
+> > <snip>
+> > > +               return
+> > device_driver_attach(usb_generic_driver.drvwrap.driver, dev);
+> > > +       return error;
+> > 
+> > I think that's right.  A little testing wouldn't hurt.
+> 
+> device_driver_attach() isn't available to this part of the code.
+> 
+> I think the only way to do things here might be to set status bit for
+> the usb_device and launch device_reprobe(). The second time around, we
+> wouldn't match or probe the specific driver.
 
-Signed-off-by: Li Jun <jun.li@nxp.com>
-Signed-off-by: Igor Opaniuk <igor.opaniuk@toradex.com>
----
+That would mean probing generic_driver twice, right?  You probably
+should call its disconnect routine in between.
 
-v2:
-- restored original commit author
-- fixed build for multi_v7
+That sounds pretty awkward, but if there's no other way then go ahead 
+and do it.
 
- include/linux/usb/phy.h | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
-
-diff --git a/include/linux/usb/phy.h b/include/linux/usb/phy.h
-index e4de6bc1f69b..d138703e3688 100644
---- a/include/linux/usb/phy.h
-+++ b/include/linux/usb/phy.h
-@@ -63,6 +63,13 @@ enum usb_otg_state {
- 	OTG_STATE_A_VBUS_ERR,
- };
- 
-+/* The usb role of phy to be working with */
-+enum usb_current_mode {
-+	USB_CURRENT_MODE_NONE,
-+	USB_CURRENT_MODE_HOST,
-+	USB_CURRENT_MODE_DEVICE,
-+};
-+
- struct usb_phy;
- struct usb_otg;
- 
-@@ -155,6 +162,13 @@ struct usb_phy {
- 	 * manually detect the charger type.
- 	 */
- 	enum usb_charger_type (*charger_detect)(struct usb_phy *x);
-+
-+	/*
-+	 * Set current working mode of the USB controller
-+	 * (device, host)
-+	 */
-+	int	(*set_mode)(struct usb_phy *x,
-+			enum usb_current_mode mode);
- };
- 
- /* for board-specific init logic */
-@@ -213,6 +227,15 @@ usb_phy_vbus_off(struct usb_phy *x)
- 	return x->set_vbus(x, false);
- }
- 
-+static inline int
-+usb_phy_set_mode(struct usb_phy *x, enum usb_current_mode mode)
-+{
-+	if (!x || !x->set_mode)
-+		return 0;
-+
-+	return x->set_mode(x, mode);
-+}
-+
- /* for usb host and peripheral controller drivers */
- #if IS_ENABLED(CONFIG_USB_PHY)
- extern struct usb_phy *usb_get_phy(enum usb_phy_type type);
--- 
-2.17.1
+Ala Stern
 
