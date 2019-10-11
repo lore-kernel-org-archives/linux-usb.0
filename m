@@ -2,121 +2,109 @@ Return-Path: <SRS0=Q5cs=YE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E134ECE58C
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Oct 2019 14:08:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A59B9C47404
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Oct 2019 14:11:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6E10E20679
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Oct 2019 14:08:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7FC5B21D71
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Oct 2019 14:11:42 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Vo37vCSm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728235AbfJKOI2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 11 Oct 2019 10:08:28 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:41598 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1728209AbfJKOI2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Oct 2019 10:08:28 -0400
-Received: (qmail 1736 invoked by uid 2102); 11 Oct 2019 10:08:27 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 11 Oct 2019 10:08:27 -0400
-Date:   Fri, 11 Oct 2019 10:08:27 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Jaskaran Singh <jaskaransingh7654321@gmail.com>
-cc:     syzbot <syzbot+e7d46eb426883fb97efd@syzkaller.appspotmail.com>,
-        <glider@google.com>, <gregkh@linuxfoundation.org>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <syzkaller-bugs@googlegroups.com>,
-        <usb-storage@lists.one-eyed-alien.net>
-Subject: Re: KMSAN: uninit-value in alauda_check_media
-In-Reply-To: <b8b1e4fef9f3ece63909c38b3302621d76770caa.camel@gmail.com>
-Message-ID: <Pine.LNX.4.44L0.1910111003100.1529-100000@iolanthe.rowland.org>
+        id S1728303AbfJKOLl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 11 Oct 2019 10:11:41 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:51366 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728232AbfJKOLl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 11 Oct 2019 10:11:41 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9BE8xCD015693;
+        Fri, 11 Oct 2019 14:11:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type : in-reply-to;
+ s=corp-2019-08-05; bh=ACyrOF2vwTDg4lXATY//MKrzIHwBR5ivqwPu7uM74zI=;
+ b=Vo37vCSmss0L3fhPqAEPOaP3IlV+dkDU5OdNtvUH7T5/vcrGerF3XsWGHjVgwBryZPf1
+ /sAcFAPwJJOqQCct2NbVGLeu2TmwFkyi0mmvi7YXIR52rJ0GhcwPpONyWbAxnN8HQ8EZ
+ q53g0bM84p9pDrJK00guYuky+DsDa3EY94/xdNUwzcs03G+XRGBebCUBJTf8b11NBl+/
+ UKZw/6GDdWmxYojXg3G3qIdcuEThmwGaiPk/kMuTnh0N7gDFe2FAUTOny3j24TWhXFdL
+ WNyCSEy2A1EjEQARFPt7xXypw40Jh3e6Zb3lrNH1t6GAqgQHnvCUIeQ2W3pO94bqtgOS 6w== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2120.oracle.com with ESMTP id 2vekts1r79-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 11 Oct 2019 14:11:24 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9BE9JSK060511;
+        Fri, 11 Oct 2019 14:11:24 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3030.oracle.com with ESMTP id 2vjryc8a4k-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 11 Oct 2019 14:11:24 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x9BEBNQa024250;
+        Fri, 11 Oct 2019 14:11:23 GMT
+Received: from mwanda (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 11 Oct 2019 14:11:22 +0000
+Date:   Fri, 11 Oct 2019 17:11:15 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Juergen Stuber <starblue@users.sourceforge.net>,
+        Johan Hovold <johan@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        legousb-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, walter harms <wharms@bfs.de>
+Subject: [PATCH v2] USB: legousbtower: fix a signedness bug in tower_probe()
+Message-ID: <20191011141115.GA4521@mwanda>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5DA088DE.5040902@bfs.de>
+X-Mailer: git-send-email haha only kidding
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9406 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1908290000 definitions=main-1910110133
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9406 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
+ definitions=main-1910110133
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, 11 Oct 2019, Jaskaran Singh wrote:
+The problem is that sizeof() is unsigned long so negative error codes
+are type promoted to high positive values and the condition becomes
+false.
 
-> On Mon, 2019-10-07 at 12:39 -0700, syzbot wrote:
-> > Hello,
-> > 
-> > syzbot found the following crash on:
-> > 
-> > HEAD commit:    1e76a3e5 kmsan: replace __GFP_NO_KMSAN_SHADOW with
-> > kmsan_i..
-> > git tree:       https://github.com/google/kmsan.git master
-> > console output: 
-> > https://syzkaller.appspot.com/x/log.txt?x=1204cc63600000
-> > kernel config:  
-> > https://syzkaller.appspot.com/x/.config?x=f03c659d0830ab8d
-> > dashboard link: 
-> > https://syzkaller.appspot.com/bug?extid=e7d46eb426883fb97efd
-> > compiler:       clang version 9.0.0 (/home/glider/llvm/clang  
-> > 80fee25776c2fb61e74c1ecb1a523375c2500b69)
-> > syz repro:      
-> > https://syzkaller.appspot.com/x/repro.syz?x=123c860d600000
-> > C reproducer:   
-> > https://syzkaller.appspot.com/x/repro.c?x=110631b7600000
-> > 
-> > IMPORTANT: if you fix the bug, please add the following tag to the
-> > commit:
-> > Reported-by: syzbot+e7d46eb426883fb97efd@syzkaller.appspotmail.com
-> > 
-> > =====================================================
-> > BUG: KMSAN: uninit-value in alauda_transport+0x462/0x57f0  
-> > drivers/usb/storage/alauda.c:1137
-> > CPU: 0 PID: 12279 Comm: usb-storage Not tainted 5.3.0-rc7+ #0
-> > Hardware name: Google Google Compute Engine/Google Compute Engine,
-> > BIOS  
-> > Google 01/01/2011
-> > Call Trace:
-> >   __dump_stack lib/dump_stack.c:77 [inline]
-> >   dump_stack+0x191/0x1f0 lib/dump_stack.c:113
-> >   kmsan_report+0x13a/0x2b0 mm/kmsan/kmsan_report.c:108
-> >   __msan_warning+0x73/0xe0 mm/kmsan/kmsan_instr.c:250
-> >   alauda_check_media+0x344/0x3310 drivers/usb/storage/alauda.c:460
-> >   alauda_transport+0x462/0x57f0 drivers/usb/storage/alauda.c:1137
-> >   usb_stor_invoke_transport+0xf5/0x27e0
-> > drivers/usb/storage/transport.c:606
-> >   usb_stor_transparent_scsi_command+0x5d/0x70  
-> > drivers/usb/storage/protocol.c:108
-> >   usb_stor_control_thread+0xca6/0x11a0 drivers/usb/storage/usb.c:380
-> >   kthread+0x4b5/0x4f0 kernel/kthread.c:256
-> >   ret_from_fork+0x35/0x40 arch/x86/entry/entry_64.S:355
+Fixes: 1d427be4a39d ("USB: legousbtower: fix slab info leak at probe")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+v2: style improvement suggested by Walter Harms.
 
+ drivers/usb/misc/legousbtower.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> #syz test: https://github.com/google/kmsan.git 1e76a3e5
-> 
-> diff --git a/drivers/usb/storage/alauda.c
-> b/drivers/usb/storage/alauda.c
-> index ddab2cd3d2e7..bb309b9ad65b 100644
-> --- a/drivers/usb/storage/alauda.c
-> +++ b/drivers/usb/storage/alauda.c
-> @@ -452,7 +452,7 @@ static int alauda_init_media(struct us_data *us)
->  static int alauda_check_media(struct us_data *us)
->  {
->  	struct alauda_info *info = (struct alauda_info *) us->extra;
-> -	unsigned char status[2];
-> +	unsigned char *status = us->iobuf;
->  	int rc;
->  
->  	rc = alauda_get_media_status(us, status);
-
-That is absolutely not the correct fix.
-
-The problem is that after this call, the code does not check rc to see 
-if an error occurred.  If there was an error, the value of status is 
-meaningless so there's no point examining it at all.
-
-Now yes, it's true that defining status as an array on the stack is 
-also a bug, since USB transfer buffers are not allowed to be stack 
-variables.  And the change you made _is_ the right way to fix that bug.  
-But that is a separate bug, not the one that syzbot found.
-
-Alan Stern
+diff --git a/drivers/usb/misc/legousbtower.c b/drivers/usb/misc/legousbtower.c
+index 9d4c52a7ebe0..9bd240df8f4c 100644
+--- a/drivers/usb/misc/legousbtower.c
++++ b/drivers/usb/misc/legousbtower.c
+@@ -881,7 +881,7 @@ static int tower_probe (struct usb_interface *interface, const struct usb_device
+ 				  get_version_reply,
+ 				  sizeof(*get_version_reply),
+ 				  1000);
+-	if (result < sizeof(*get_version_reply)) {
++	if (result != sizeof(*get_version_reply)) {
+ 		if (result >= 0)
+ 			result = -EIO;
+ 		dev_err(idev, "get version request failed: %d\n", result);
+-- 
+2.20.1
 
