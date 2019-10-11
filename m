@@ -4,35 +4,35 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF2E8ECE58C
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Oct 2019 15:32:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72C5FC47404
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Oct 2019 15:32:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 920412190F
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Oct 2019 15:32:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 50EAA206A1
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Oct 2019 15:32:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727996AbfJKPch (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1728006AbfJKPch (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Fri, 11 Oct 2019 11:32:37 -0400
 Received: from mga09.intel.com ([134.134.136.24]:33465 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727928AbfJKPcg (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 11 Oct 2019 11:32:36 -0400
+        id S1727977AbfJKPch (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 11 Oct 2019 11:32:37 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2019 08:32:25 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2019 08:32:28 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.67,284,1566889200"; 
-   d="scan'208";a="207450445"
+   d="scan'208";a="207450457"
 Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Oct 2019 08:32:24 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 11 Oct 2019 08:32:26 -0700
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Guenter Roeck <linux@roeck-us.net>
 Cc:     linux-usb@vger.kernel.org
-Subject: [PATCH v4 3/9] usb: typec: Separate the operations vector
-Date:   Fri, 11 Oct 2019 18:32:13 +0300
-Message-Id: <20191011153219.35701-4-heikki.krogerus@linux.intel.com>
+Subject: [PATCH v4 5/9] usb: typec: tps6598x: Start using struct typec_operations
+Date:   Fri, 11 Oct 2019 18:32:15 +0300
+Message-Id: <20191011153219.35701-6-heikki.krogerus@linux.intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191011153219.35701-1-heikki.krogerus@linux.intel.com>
 References: <20191011153219.35701-1-heikki.krogerus@linux.intel.com>
@@ -43,189 +43,134 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Introducing struct typec_operations which has the same
-callbacks as struct typec_capability. The old callbacks are
-kept for now, but after all users have been converted, they
-will be removed.
+Supplying the operation callbacks as part of a struct
+typec_operations instead of as part of struct
+typec_capability during port registration. After this there
+is not need to keep the capabilities stored anywhere in the
+driver.
 
 Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 ---
- drivers/usb/typec/class.c | 39 +++++++++++++++++++++++++++++----------
- include/linux/usb/typec.h | 20 ++++++++++++++++++++
- 2 files changed, 49 insertions(+), 10 deletions(-)
+ drivers/usb/typec/tps6598x.c | 49 +++++++++++++++++++-----------------
+ 1 file changed, 26 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-index 51154634c2c0..b934a006535a 100644
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -54,6 +54,7 @@ struct typec_port {
- 
- 	const struct typec_capability	*orig_cap; /* to be removed */
- 	const struct typec_capability	*cap;
-+	const struct typec_operations   *ops;
+diff --git a/drivers/usb/typec/tps6598x.c b/drivers/usb/typec/tps6598x.c
+index a38d1409f15b..0698addd1185 100644
+--- a/drivers/usb/typec/tps6598x.c
++++ b/drivers/usb/typec/tps6598x.c
+@@ -94,7 +94,6 @@ struct tps6598x {
+ 	struct typec_port *port;
+ 	struct typec_partner *partner;
+ 	struct usb_pd_identity partner_identity;
+-	struct typec_capability typec_cap;
  };
  
- #define to_typec_port(_dev_) container_of(_dev_, struct typec_port, dev)
-@@ -956,7 +957,7 @@ preferred_role_store(struct device *dev, struct device_attribute *attr,
- 		return -EOPNOTSUPP;
- 	}
+ /*
+@@ -307,11 +306,10 @@ static int tps6598x_exec_cmd(struct tps6598x *tps, const char *cmd,
+ 	return 0;
+ }
  
--	if (!port->cap->try_role) {
-+	if (!port->cap->try_role && (!port->ops || !port->ops->try_role)) {
- 		dev_dbg(dev, "Setting preferred role not supported\n");
- 		return -EOPNOTSUPP;
- 	}
-@@ -969,7 +970,10 @@ preferred_role_store(struct device *dev, struct device_attribute *attr,
- 			return -EINVAL;
- 	}
- 
--	ret = port->cap->try_role(port->orig_cap, role);
-+	if (port->ops && port->ops->try_role)
-+		ret = port->ops->try_role(port, role);
-+	else
-+		ret = port->cap->try_role(port->orig_cap, role);
- 	if (ret)
- 		return ret;
- 
-@@ -1000,7 +1004,7 @@ static ssize_t data_role_store(struct device *dev,
- 	struct typec_port *port = to_typec_port(dev);
+-static int
+-tps6598x_dr_set(const struct typec_capability *cap, enum typec_data_role role)
++static int tps6598x_dr_set(struct typec_port *port, enum typec_data_role role)
+ {
+-	struct tps6598x *tps = container_of(cap, struct tps6598x, typec_cap);
+ 	const char *cmd = (role == TYPEC_DEVICE) ? "SWUF" : "SWDF";
++	struct tps6598x *tps = typec_get_drvdata(port);
+ 	u32 status;
  	int ret;
  
--	if (!port->cap->dr_set) {
-+	if (!port->cap->dr_set && (!port->ops || !port->ops->dr_set)) {
- 		dev_dbg(dev, "data role swapping not supported\n");
- 		return -EOPNOTSUPP;
- 	}
-@@ -1015,7 +1019,10 @@ static ssize_t data_role_store(struct device *dev,
- 		goto unlock_and_ret;
- 	}
+@@ -338,11 +336,10 @@ tps6598x_dr_set(const struct typec_capability *cap, enum typec_data_role role)
+ 	return ret;
+ }
  
--	ret = port->cap->dr_set(port->orig_cap, ret);
-+	if (port->ops && port->ops->dr_set)
-+		ret = port->ops->dr_set(port, ret);
-+	else
-+		ret = port->cap->dr_set(port->orig_cap, ret);
- 	if (ret)
- 		goto unlock_and_ret;
- 
-@@ -1050,7 +1057,7 @@ static ssize_t power_role_store(struct device *dev,
- 		return -EOPNOTSUPP;
- 	}
- 
--	if (!port->cap->pr_set) {
-+	if (!port->cap->pr_set && (!port->ops || !port->ops->pr_set)) {
- 		dev_dbg(dev, "power role swapping not supported\n");
- 		return -EOPNOTSUPP;
- 	}
-@@ -1072,7 +1079,10 @@ static ssize_t power_role_store(struct device *dev,
- 		goto unlock_and_ret;
- 	}
- 
--	ret = port->cap->pr_set(port->orig_cap, ret);
-+	if (port->ops && port->ops->dr_set)
-+		ret = port->ops->pr_set(port, ret);
-+	else
-+		ret = port->cap->pr_set(port->orig_cap, ret);
- 	if (ret)
- 		goto unlock_and_ret;
- 
-@@ -1103,7 +1113,8 @@ port_type_store(struct device *dev, struct device_attribute *attr,
+-static int
+-tps6598x_pr_set(const struct typec_capability *cap, enum typec_role role)
++static int tps6598x_pr_set(struct typec_port *port, enum typec_role role)
+ {
+-	struct tps6598x *tps = container_of(cap, struct tps6598x, typec_cap);
+ 	const char *cmd = (role == TYPEC_SINK) ? "SWSk" : "SWSr";
++	struct tps6598x *tps = typec_get_drvdata(port);
+ 	u32 status;
  	int ret;
- 	enum typec_port_type type;
  
--	if (!port->cap->port_type_set || port->cap->type != TYPEC_PORT_DRP) {
-+	if (port->cap->type != TYPEC_PORT_DRP || (!port->cap->port_type_set &&
-+	    (!port->ops || !port->ops->port_type_set))) {
- 		dev_dbg(dev, "changing port type not supported\n");
- 		return -EOPNOTSUPP;
- 	}
-@@ -1120,7 +1131,10 @@ port_type_store(struct device *dev, struct device_attribute *attr,
- 		goto unlock_and_ret;
- 	}
+@@ -369,6 +366,11 @@ tps6598x_pr_set(const struct typec_capability *cap, enum typec_role role)
+ 	return ret;
+ }
  
--	ret = port->cap->port_type_set(port->orig_cap, type);
-+	if (port->ops && port->ops->port_type_set)
-+		ret = port->ops->port_type_set(port, type);
-+	else
-+		ret = port->cap->port_type_set(port->orig_cap, type);
- 	if (ret)
- 		goto unlock_and_ret;
- 
-@@ -1176,7 +1190,7 @@ static ssize_t vconn_source_store(struct device *dev,
- 		return -EOPNOTSUPP;
- 	}
- 
--	if (!port->cap->vconn_set) {
-+	if (!port->cap->vconn_set && (!port->ops || !port->ops->vconn_set)) {
- 		dev_dbg(dev, "VCONN swapping not supported\n");
- 		return -EOPNOTSUPP;
- 	}
-@@ -1185,7 +1199,11 @@ static ssize_t vconn_source_store(struct device *dev,
- 	if (ret)
- 		return ret;
- 
--	ret = port->cap->vconn_set(port->orig_cap, (enum typec_role)source);
-+	if (port->ops && port->ops->vconn_set)
-+		ret = port->ops->vconn_set(port, (enum typec_role)source);
-+	else
-+		ret = port->cap->vconn_set(port->orig_cap,
-+					   (enum typec_role)source);
- 	if (ret)
- 		return ret;
- 
-@@ -1591,6 +1609,7 @@ struct typec_port *typec_register_port(struct device *parent,
- 	mutex_init(&port->port_type_lock);
- 
- 	port->id = id;
-+	port->ops = cap->ops;
- 	port->orig_cap = cap;
- 	port->port_type = cap->type;
- 	port->prefer_role = cap->prefer_role;
-diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
-index 8b90cd77331c..c9bef128453b 100644
---- a/include/linux/usb/typec.h
-+++ b/include/linux/usb/typec.h
-@@ -168,6 +168,23 @@ struct typec_partner_desc {
- 	struct usb_pd_identity	*identity;
- };
- 
-+/**
-+ * struct typec_operations - USB Type-C Port Operations
-+ * @try_role: Set data role preference for DRP port
-+ * @dr_set: Set Data Role
-+ * @pr_set: Set Power Role
-+ * @vconn_set: Source VCONN
-+ * @port_type_set: Set port type
-+ */
-+struct typec_operations {
-+	int (*try_role)(struct typec_port *port, int role);
-+	int (*dr_set)(struct typec_port *port, enum typec_data_role role);
-+	int (*pr_set)(struct typec_port *port, enum typec_role role);
-+	int (*vconn_set)(struct typec_port *port, enum typec_role role);
-+	int (*port_type_set)(struct typec_port *port,
-+			     enum typec_port_type type);
++static const struct typec_operations tps6598x_ops = {
++	.dr_set = tps6598x_dr_set,
++	.pr_set = tps6598x_pr_set,
 +};
 +
- /*
-  * struct typec_capability - USB Type-C Port Capabilities
-  * @type: Supported power role of the port
-@@ -180,6 +197,7 @@ struct typec_partner_desc {
-  * @mux: Multiplexer switch for Alternate/Accessory Modes
-  * @fwnode: Optional fwnode of the port
-  * @driver_data: Private pointer for driver specific info
-+ * @ops: Port operations vector
-  * @try_role: Set data role preference for DRP port
-  * @dr_set: Set Data Role
-  * @pr_set: Set Power Role
-@@ -201,6 +219,8 @@ struct typec_capability {
- 	struct fwnode_handle	*fwnode;
- 	void			*driver_data;
+ static irqreturn_t tps6598x_interrupt(int irq, void *data)
+ {
+ 	struct tps6598x *tps = data;
+@@ -448,6 +450,7 @@ static const struct regmap_config tps6598x_regmap_config = {
  
-+	const struct typec_operations	*ops;
-+
- 	int		(*try_role)(const struct typec_capability *,
- 				    int role);
+ static int tps6598x_probe(struct i2c_client *client)
+ {
++	struct typec_capability typec_cap = { };
+ 	struct tps6598x *tps;
+ 	u32 status;
+ 	u32 conf;
+@@ -492,40 +495,40 @@ static int tps6598x_probe(struct i2c_client *client)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	tps->typec_cap.revision = USB_TYPEC_REV_1_2;
+-	tps->typec_cap.pd_revision = 0x200;
+-	tps->typec_cap.prefer_role = TYPEC_NO_PREFERRED_ROLE;
+-	tps->typec_cap.pr_set = tps6598x_pr_set;
+-	tps->typec_cap.dr_set = tps6598x_dr_set;
++	typec_cap.revision = USB_TYPEC_REV_1_2;
++	typec_cap.pd_revision = 0x200;
++	typec_cap.prefer_role = TYPEC_NO_PREFERRED_ROLE;
++	typec_cap.driver_data = tps;
++	typec_cap.ops = &tps6598x_ops;
+ 
+ 	switch (TPS_SYSCONF_PORTINFO(conf)) {
+ 	case TPS_PORTINFO_SINK_ACCESSORY:
+ 	case TPS_PORTINFO_SINK:
+-		tps->typec_cap.type = TYPEC_PORT_SNK;
+-		tps->typec_cap.data = TYPEC_PORT_UFP;
++		typec_cap.type = TYPEC_PORT_SNK;
++		typec_cap.data = TYPEC_PORT_UFP;
+ 		break;
+ 	case TPS_PORTINFO_DRP_UFP_DRD:
+ 	case TPS_PORTINFO_DRP_DFP_DRD:
+-		tps->typec_cap.type = TYPEC_PORT_DRP;
+-		tps->typec_cap.data = TYPEC_PORT_DRD;
++		typec_cap.type = TYPEC_PORT_DRP;
++		typec_cap.data = TYPEC_PORT_DRD;
+ 		break;
+ 	case TPS_PORTINFO_DRP_UFP:
+-		tps->typec_cap.type = TYPEC_PORT_DRP;
+-		tps->typec_cap.data = TYPEC_PORT_UFP;
++		typec_cap.type = TYPEC_PORT_DRP;
++		typec_cap.data = TYPEC_PORT_UFP;
+ 		break;
+ 	case TPS_PORTINFO_DRP_DFP:
+-		tps->typec_cap.type = TYPEC_PORT_DRP;
+-		tps->typec_cap.data = TYPEC_PORT_DFP;
++		typec_cap.type = TYPEC_PORT_DRP;
++		typec_cap.data = TYPEC_PORT_DFP;
+ 		break;
+ 	case TPS_PORTINFO_SOURCE:
+-		tps->typec_cap.type = TYPEC_PORT_SRC;
+-		tps->typec_cap.data = TYPEC_PORT_DFP;
++		typec_cap.type = TYPEC_PORT_SRC;
++		typec_cap.data = TYPEC_PORT_DFP;
+ 		break;
+ 	default:
+ 		return -ENODEV;
+ 	}
+ 
+-	tps->port = typec_register_port(&client->dev, &tps->typec_cap);
++	tps->port = typec_register_port(&client->dev, &typec_cap);
+ 	if (IS_ERR(tps->port))
+ 		return PTR_ERR(tps->port);
  
 -- 
 2.23.0
