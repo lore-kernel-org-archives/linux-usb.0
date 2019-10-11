@@ -6,33 +6,33 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22640ECE58E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C99B5C47404
 	for <linux-usb@archiver.kernel.org>; Fri, 11 Oct 2019 15:32:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F326B206A1
-	for <linux-usb@archiver.kernel.org>; Fri, 11 Oct 2019 15:32:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A8468206A1
+	for <linux-usb@archiver.kernel.org>; Fri, 11 Oct 2019 15:32:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728090AbfJKPch (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 11 Oct 2019 11:32:37 -0400
-Received: from mga09.intel.com ([134.134.136.24]:33457 "EHLO mga09.intel.com"
+        id S1728237AbfJKPci (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 11 Oct 2019 11:32:38 -0400
+Received: from mga09.intel.com ([134.134.136.24]:33473 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726328AbfJKPch (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 11 Oct 2019 11:32:37 -0400
+        id S1728159AbfJKPci (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 11 Oct 2019 11:32:38 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2019 08:32:26 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Oct 2019 08:32:29 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.67,284,1566889200"; 
-   d="scan'208";a="207450455"
+   d="scan'208";a="207450461"
 Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Oct 2019 08:32:25 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 11 Oct 2019 08:32:28 -0700
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Guenter Roeck <linux@roeck-us.net>
 Cc:     linux-usb@vger.kernel.org
-Subject: [PATCH v4 4/9] usb: typec: tcpm: Start using struct typec_operations
-Date:   Fri, 11 Oct 2019 18:32:14 +0300
-Message-Id: <20191011153219.35701-5-heikki.krogerus@linux.intel.com>
+Subject: [PATCH v4 6/9] usb: typec: ucsi: Start using struct typec_operations
+Date:   Fri, 11 Oct 2019 18:32:16 +0300
+Message-Id: <20191011153219.35701-7-heikki.krogerus@linux.intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191011153219.35701-1-heikki.krogerus@linux.intel.com>
 References: <20191011153219.35701-1-heikki.krogerus@linux.intel.com>
@@ -50,119 +50,72 @@ typec_capability during port registration.
 Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 ---
- drivers/usb/typec/tcpm/tcpm.c | 45 ++++++++++++++++-------------------
- 1 file changed, 20 insertions(+), 25 deletions(-)
+ drivers/usb/typec/ucsi/ucsi.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-index 5f61d9977a15..bc9edb4c013b 100644
---- a/drivers/usb/typec/tcpm/tcpm.c
-+++ b/drivers/usb/typec/tcpm/tcpm.c
-@@ -390,12 +390,6 @@ static enum tcpm_state tcpm_default_state(struct tcpm_port *port)
- 	return SRC_UNATTACHED;
- }
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index ba288b964dc8..edd722fb88b8 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -17,9 +17,6 @@
+ #include "ucsi.h"
+ #include "trace.h"
  
--static inline
--struct tcpm_port *typec_cap_to_tcpm(const struct typec_capability *cap)
--{
--	return container_of(cap, struct tcpm_port, typec_caps);
--}
+-#define to_ucsi_connector(_cap_) container_of(_cap_, struct ucsi_connector, \
+-					      typec_cap)
 -
- static bool tcpm_port_is_disconnected(struct tcpm_port *port)
- {
- 	return (!port->attached && port->cc1 == TYPEC_CC_OPEN &&
-@@ -3970,10 +3964,9 @@ void tcpm_pd_hard_reset(struct tcpm_port *port)
- }
- EXPORT_SYMBOL_GPL(tcpm_pd_hard_reset);
- 
--static int tcpm_dr_set(const struct typec_capability *cap,
--		       enum typec_data_role data)
-+static int tcpm_dr_set(struct typec_port *p, enum typec_data_role data)
- {
--	struct tcpm_port *port = typec_cap_to_tcpm(cap);
-+	struct tcpm_port *port = typec_get_drvdata(p);
- 	int ret;
- 
- 	mutex_lock(&port->swap_lock);
-@@ -4038,10 +4031,9 @@ static int tcpm_dr_set(const struct typec_capability *cap,
+ /*
+  * UCSI_TIMEOUT_MS - PPM communication timeout
+  *
+@@ -713,10 +710,9 @@ static int ucsi_role_cmd(struct ucsi_connector *con, struct ucsi_control *ctrl)
  	return ret;
  }
  
--static int tcpm_pr_set(const struct typec_capability *cap,
--		       enum typec_role role)
-+static int tcpm_pr_set(struct typec_port *p, enum typec_role role)
+-static int
+-ucsi_dr_swap(const struct typec_capability *cap, enum typec_data_role role)
++static int ucsi_dr_swap(struct typec_port *port, enum typec_data_role role)
  {
--	struct tcpm_port *port = typec_cap_to_tcpm(cap);
-+	struct tcpm_port *port = typec_get_drvdata(p);
- 	int ret;
- 
- 	mutex_lock(&port->swap_lock);
-@@ -4082,10 +4074,9 @@ static int tcpm_pr_set(const struct typec_capability *cap,
- 	return ret;
- }
- 
--static int tcpm_vconn_set(const struct typec_capability *cap,
--			  enum typec_role role)
-+static int tcpm_vconn_set(struct typec_port *p, enum typec_role role)
- {
--	struct tcpm_port *port = typec_cap_to_tcpm(cap);
-+	struct tcpm_port *port = typec_get_drvdata(p);
- 	int ret;
- 
- 	mutex_lock(&port->swap_lock);
-@@ -4122,9 +4113,9 @@ static int tcpm_vconn_set(const struct typec_capability *cap,
- 	return ret;
- }
- 
--static int tcpm_try_role(const struct typec_capability *cap, int role)
-+static int tcpm_try_role(struct typec_port *p, int role)
- {
--	struct tcpm_port *port = typec_cap_to_tcpm(cap);
-+	struct tcpm_port *port = typec_get_drvdata(p);
- 	struct tcpc_dev	*tcpc = port->tcpc;
+-	struct ucsi_connector *con = to_ucsi_connector(cap);
++	struct ucsi_connector *con = typec_get_drvdata(port);
+ 	struct ucsi_control ctrl;
  	int ret = 0;
  
-@@ -4331,10 +4322,9 @@ static void tcpm_init(struct tcpm_port *port)
- 	tcpm_set_state(port, PORT_RESET, 0);
+@@ -748,10 +744,9 @@ ucsi_dr_swap(const struct typec_capability *cap, enum typec_data_role role)
+ 	return ret < 0 ? ret : 0;
  }
  
--static int tcpm_port_type_set(const struct typec_capability *cap,
--			      enum typec_port_type type)
-+static int tcpm_port_type_set(struct typec_port *p, enum typec_port_type type)
+-static int
+-ucsi_pr_swap(const struct typec_capability *cap, enum typec_role role)
++static int ucsi_pr_swap(struct typec_port *port, enum typec_role role)
  {
--	struct tcpm_port *port = typec_cap_to_tcpm(cap);
-+	struct tcpm_port *port = typec_get_drvdata(p);
+-	struct ucsi_connector *con = to_ucsi_connector(cap);
++	struct ucsi_connector *con = typec_get_drvdata(port);
+ 	struct ucsi_control ctrl;
+ 	int ret = 0;
  
- 	mutex_lock(&port->lock);
- 	if (type == port->port_type)
-@@ -4359,6 +4349,14 @@ static int tcpm_port_type_set(const struct typec_capability *cap,
- 	return 0;
+@@ -788,6 +783,11 @@ ucsi_pr_swap(const struct typec_capability *cap, enum typec_role role)
+ 	return ret;
  }
  
-+static const struct typec_operations tcpm_ops = {
-+	.try_role = tcpm_try_role,
-+	.dr_set = tcpm_dr_set,
-+	.pr_set = tcpm_pr_set,
-+	.vconn_set = tcpm_vconn_set,
-+	.port_type_set = tcpm_port_type_set
++static const struct typec_operations ucsi_ops = {
++	.dr_set = ucsi_dr_swap,
++	.pr_set = ucsi_pr_swap
 +};
 +
- void tcpm_tcpc_reset(struct tcpm_port *port)
+ static struct fwnode_handle *ucsi_find_fwnode(struct ucsi_connector *con)
  {
- 	mutex_lock(&port->lock);
-@@ -4772,11 +4770,8 @@ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
- 	port->typec_caps.fwnode = tcpc->fwnode;
- 	port->typec_caps.revision = 0x0120;	/* Type-C spec release 1.2 */
- 	port->typec_caps.pd_revision = 0x0300;	/* USB-PD spec release 3.0 */
--	port->typec_caps.dr_set = tcpm_dr_set;
--	port->typec_caps.pr_set = tcpm_pr_set;
--	port->typec_caps.vconn_set = tcpm_vconn_set;
--	port->typec_caps.try_role = tcpm_try_role;
--	port->typec_caps.port_type_set = tcpm_port_type_set;
-+	port->typec_caps.driver_data = port;
-+	port->typec_caps.ops = &tcpm_ops;
+ 	struct fwnode_handle *fwnode;
+@@ -843,8 +843,8 @@ static int ucsi_register_port(struct ucsi *ucsi, int index)
+ 		*accessory = TYPEC_ACCESSORY_DEBUG;
  
- 	port->partner_desc.identity = &port->partner_ident;
- 	port->port_type = port->typec_caps.type;
+ 	cap->fwnode = ucsi_find_fwnode(con);
+-	cap->dr_set = ucsi_dr_swap;
+-	cap->pr_set = ucsi_pr_swap;
++	cap->driver_data = con;
++	cap->ops = &ucsi_ops;
+ 
+ 	/* Register the connector */
+ 	con->port = typec_register_port(ucsi->dev, cap);
 -- 
 2.23.0
 
