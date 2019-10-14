@@ -7,63 +7,63 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17623C4CECE
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Oct 2019 14:17:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBC13ECE587
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Oct 2019 14:17:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DFC3C2067B
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Oct 2019 14:17:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A58B92067B
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Oct 2019 14:17:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="qw+2kp/+"
+	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="eY5Ijx4Q"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732630AbfJNOR0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Oct 2019 10:17:26 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:51169 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732601AbfJNORZ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Oct 2019 10:17:25 -0400
-Received: by mail-wm1-f65.google.com with SMTP id 5so17497806wmg.0
-        for <linux-usb@vger.kernel.org>; Mon, 14 Oct 2019 07:17:24 -0700 (PDT)
+        id S1732606AbfJNORY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Oct 2019 10:17:24 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:33013 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732457AbfJNORX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Oct 2019 10:17:23 -0400
+Received: by mail-wr1-f67.google.com with SMTP id b9so19984945wrs.0
+        for <linux-usb@vger.kernel.org>; Mon, 14 Oct 2019 07:17:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=WhPSwUwjAsJRbhdmE0cVGRUouZ5x8oaruQHda5jd55I=;
-        b=qw+2kp/+fl6kXsLl22YjrO0TyQy+b2qOG96cAr18nh3mIUcQO2wxOniKBJRga3bv6p
-         9gVO175nSljYfUAcAjw9jxTI1QDAAsmlRxihaiHD0ltMTQcWkjfZASaKg7Zrg0rKzyc5
-         kFWR35CpMP10S6rBiE0sZlidqw2c81x70/pVS9YXFWxXbQfXDv3Z/TWitlohxBSSLH0I
-         P34TlcmfOwb0nOjj/iyY8JJLUbbJhcr7bPt+yGE4VFH0VxHjbSW13cTO9VLCyNOU4x1F
-         GyW1IX/y5/Gt5n10NogGoISQkc3ykn+ouY3KCXlxf+UvVSWFnjKjQKKwexoQVmbk7g8u
-         mwwg==
+        bh=wMvLKdMW2yszyQrYkGsmywM/YMlu6KRc8iq2yfQBOJU=;
+        b=eY5Ijx4QWTlhlQGgOpdrVKEgjA20rWFw2eiZwRKaJUwJG/7aYuLbxNjxklme848/FJ
+         bZIENnbseJ8mKmmwXVSzonk7Ng1vb6vhsbHBsJNqNAmUllpNX8AX1ucQG8nUQtVatNSn
+         sFOIgOQ9gV9zZjtGU0jIjQTaRE9DBPg+HEMIyXkmO2VTK/khiMwWsvhrac4wYFbgq+Z3
+         vE5xtZZ0RJ1pMA7JuOvXzAaOGtggmD2NXmqcdm4f6tWycPkf8RLCBBUsj+BrcLeomLtJ
+         mR19XkB+Lfc1ufptniAr2amT/joX/dioGuQbWLAGoXf3f64nUyhxO6JQtw6i4rFn3BMz
+         quqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WhPSwUwjAsJRbhdmE0cVGRUouZ5x8oaruQHda5jd55I=;
-        b=D20g9AWuZc7DnWsIPIpoMLxWim7okHcM4wNfvyGpbiGvj1b/DDGOKyAu+oMXM8bxFh
-         1Z8KtBvtDiinoLpEvEmuWe+HFglvqy2vlk5xJwBanvPeFts2W3XrfLliSaJ9Hil0RgVJ
-         B8ZZWsTIE+DA5Ai8GZW/D3c03eD3za1t17nbYq+M85rxuwneXnToNePYDV8KAvihrJ01
-         MYY9D/BqmyvKu1EC0z3C1PjB807JmzlcPodyIfTg1cvoOsBQGZukcnG85XUqh5JlouJu
-         J5NvZS7QRi9GghbJ6DKmrc4AThvdxGMbQU+jjQ/mAMGe9BGUWLjEAIrxeuEscsxK9qEI
-         QUVQ==
-X-Gm-Message-State: APjAAAXA3FLinWE7X4Rx/NE0dHQyJlQTtw3hUZktb8XJ9FWtSTTGzvOG
-        rY4UBnGEYv+guvGvKDfHAzMAeQ==
-X-Google-Smtp-Source: APXvYqwyLKkJs7kEVRKHW2iMVF8t8Y3SI49VubmuzAmVzLaKXolT83XHyMDU/m35t26Bb9WZbO3Sjg==
-X-Received: by 2002:a1c:c90f:: with SMTP id f15mr15817487wmb.125.1571062643202;
-        Mon, 14 Oct 2019 07:17:23 -0700 (PDT)
+        bh=wMvLKdMW2yszyQrYkGsmywM/YMlu6KRc8iq2yfQBOJU=;
+        b=o9D+W+uVymU5fr/4uxVI5y2XBgTrOEJRcI0PMmm2zFINHPxhDe7D2y/+UDLe3oFd1h
+         UvkwbrNMgr3zrQMGvWujM5ip+jpO4MfXkAWBjrSPEREEm/v93RPjY+kE/XlATe/r5s7Y
+         MSkWERABUZIyUvEjkp8ihxyrLwOeZ8ljHJGcdPW03WPr9yq48m6LLjTD7BSf2OI6M48t
+         rwYa3nOEatmoQlc/I8cBcRgCJB7Vq/dUC05s358Wc09AiM8wS+D2EbmZDDcBW4th6OPY
+         6CmPiaeZK/2XhnVd6PaxHhcy0ikEPO2IwAKV0RpJQC0JuT//XtcLhvamefoT3kW9uhsz
+         NW0w==
+X-Gm-Message-State: APjAAAUbTqs/nwUD5l6+5IPPFyjI7XUxSKsTiLH2cKL3zlPgLmCku17b
+        1n9+RRdW7TqaNM74rSl9CH6XZQ==
+X-Google-Smtp-Source: APXvYqxYpJiFTdR6oysIP3BylyvjHRtG6AcTsX9/NO35uydOOjXlwBQ3nkYdCfVqNkSILXSLfHU1UA==
+X-Received: by 2002:adf:8526:: with SMTP id 35mr300767wrh.266.1571062641346;
+        Mon, 14 Oct 2019 07:17:21 -0700 (PDT)
 Received: from bender.baylibre.local (lmontsouris-657-1-212-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id t83sm42708624wmt.18.2019.10.14.07.17.22
+        by smtp.gmail.com with ESMTPSA id t83sm42708624wmt.18.2019.10.14.07.17.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2019 07:17:22 -0700 (PDT)
+        Mon, 14 Oct 2019 07:17:20 -0700 (PDT)
 From:   Neil Armstrong <narmstrong@baylibre.com>
-To:     balbi@kernel.org, khilman@baylibre.com
+To:     balbi@kernel.org, khilman@baylibre.com, devicetree@vger.kernel.org
 Cc:     Neil Armstrong <narmstrong@baylibre.com>,
         linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Dongjin Kim <tobetter@gmail.com>,
         Jianxin Pan <jianxin.pan@amlogic.com>, Tim <elatllat@gmail.com>
-Subject: [PATCH 3/3] arm64: dts: g12-common: add parkmode_disable_ss_quirk on DWC3 controller
-Date:   Mon, 14 Oct 2019 16:17:18 +0200
-Message-Id: <20191014141718.22603-4-narmstrong@baylibre.com>
+Subject: [PATCH 1/3] doc: dt: bindings: usb: dwc3: Update entries for disabling SS instances in park mode
+Date:   Mon, 14 Oct 2019 16:17:16 +0200
+Message-Id: <20191014141718.22603-2-narmstrong@baylibre.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20191014141718.22603-1-narmstrong@baylibre.com>
 References: <20191014141718.22603-1-narmstrong@baylibre.com>
@@ -74,37 +74,31 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When high load on the DWC3 SuperSpee port, the controller crashed as:
-[  221.141621] xhci-hcd xhci-hcd.0.auto: xHCI host not responding to stop endpoint command.
-[  221.157631] xhci-hcd xhci-hcd.0.auto: Host halt failed, -110
-[  221.157635] xhci-hcd xhci-hcd.0.auto: xHCI host controller not responding, assume dead
-[  221.159901] xhci-hcd xhci-hcd.0.auto: xHCI host not responding to stop endpoint command.
-[  221.159961] hub 2-1.1:1.0: hub_ext_port_status failed (err = -22)
-[  221.160076] xhci-hcd xhci-hcd.0.auto: HC died; cleaning up
-[  221.165946] usb 2-1.1-port1: cannot reset (err = -22)
-
-Setting the parkmode_disable_ss_quirk quirk fixes the issue.
+This patch updates the documentation with the information related
+to the quirks that needs to be added for disabling all SuperSpeed XHCi
+instances in park mode.
 
 CC: Dongjin Kim <tobetter@gmail.com>
 Cc: Jianxin Pan <jianxin.pan@amlogic.com>
 Reported-by: Tim <elatllat@gmail.com>
 Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 ---
- arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/usb/dwc3.txt | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi b/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi
-index 3f39e020f74e..4b002e799e5c 100644
---- a/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi
-+++ b/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi
-@@ -2381,6 +2381,7 @@
- 				dr_mode = "host";
- 				snps,dis_u2_susphy_quirk;
- 				snps,quirk-frame-length-adjustment;
-+				snps,parkmode-disable-ss-quirk;
- 			};
- 		};
- 
+diff --git a/Documentation/devicetree/bindings/usb/dwc3.txt b/Documentation/devicetree/bindings/usb/dwc3.txt
+index 66780a47ad85..c977a3ba2f35 100644
+--- a/Documentation/devicetree/bindings/usb/dwc3.txt
++++ b/Documentation/devicetree/bindings/usb/dwc3.txt
+@@ -75,6 +75,8 @@ Optional properties:
+ 			from P0 to P1/P2/P3 without delay.
+  - snps,dis-tx-ipgap-linecheck-quirk: when set, disable u2mac linestate check
+ 			during HS transmit.
++ - snps,parkmode-disable-ss-quirk: when set, all SuperSpeed bus instances in
++			park mode are disabled.
+  - snps,dis_metastability_quirk: when set, disable metastability workaround.
+ 			CAUTION: use only if you are absolutely sure of it.
+  - snps,is-utmi-l1-suspend: true when DWC3 asserts output signal
 -- 
 2.22.0
 
