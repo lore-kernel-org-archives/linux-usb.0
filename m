@@ -2,117 +2,138 @@ Return-Path: <SRS0=d1pO=YH=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CAC05ECE587
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Oct 2019 13:01:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1478CECE587
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Oct 2019 13:12:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A97E321835
-	for <linux-usb@archiver.kernel.org>; Mon, 14 Oct 2019 13:01:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E265121835
+	for <linux-usb@archiver.kernel.org>; Mon, 14 Oct 2019 13:12:35 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rKQcwAm3"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729994AbfJNNBG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 14 Oct 2019 09:01:06 -0400
-Received: from mga06.intel.com ([134.134.136.31]:56901 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728811AbfJNNBF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 14 Oct 2019 09:01:05 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 14 Oct 2019 06:01:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,295,1566889200"; 
-   d="scan'208";a="220093634"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
-  by fmsmga004.fm.intel.com with ESMTP; 14 Oct 2019 06:01:03 -0700
-Subject: Re: Regression: USB/xhci issues on some systems with newer kernel
- versions
-To:     Bernhard Gebetsberger <bernhard.gebetsberger@gmx.at>,
-        linux-usb@vger.kernel.org
-References: <3edaf835-7cde-37d9-5a0a-5a9b21a02968@gmx.at>
- <4dfc2bca-e333-4f05-e795-23cbe481d53e@linux.intel.com>
- <485bd962-2a2d-1e15-54c6-3685fb7597a3@gmx.at>
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Message-ID: <50ecb110-8ab6-929b-e33e-025e04a12bc8@linux.intel.com>
-Date:   Mon, 14 Oct 2019 16:03:07 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1730669AbfJNNMc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 14 Oct 2019 09:12:32 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:42651 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729752AbfJNNMc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 14 Oct 2019 09:12:32 -0400
+Received: by mail-wr1-f66.google.com with SMTP id n14so19644689wrw.9;
+        Mon, 14 Oct 2019 06:12:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=GJI3ujzhj44ZLvbKjedR8UxQ13QODqV/gLRFRQ2ma60=;
+        b=rKQcwAm3qc7p942EYdxuq9VHdHdGCW160B6ZUX6xqZtOCA41ne6z/xdm4fXOhPVTym
+         piPvQGQEjighdZCZ3wW1K5pvEEsF3yLnYfa+6iEeJlq2F3u8+C5hye9iqnUsdNHAG+v2
+         EQ/5hzt7118hjdO5ebwtqQGlN5opSI8Wc4SfB9s3HFlBW+IIAiE955kVUQ2Gg0M8ZSg+
+         cGj1zYpnZRWTTN+UQgs1eLFErWXno/QJwne5Xp6dctTBxEyHj53dcl5o4O7zmgJv1Z3i
+         0oVMWX9aK1hom4ejy3cDUHuTemgPmwFVbwCSvnTtoNk4UA8jkkZqBE3ILedyoBpizcam
+         oiUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=GJI3ujzhj44ZLvbKjedR8UxQ13QODqV/gLRFRQ2ma60=;
+        b=qNolaImaO5oVnOEXubQqPDwUec8syGud9MygBWdB+Tv7LNI2MIy+xHMs0eTqfWBg5U
+         KbSdwagrF0QueLr9N+8sov/FNJiVV+a8HTX6BfcUp8X0Rif8wRnNTj3G4PIBl8vUGTUl
+         fJqtwJKss/CWujIBpBu7lr9zsW5c/Hx4YdpbzrXqZa8pn6pIszUQfINLesMuOYPvSp73
+         wfpwZdz67StJ9uxgqGtxncz7bMrrk5ykOYjEhuFraQpxzwRb7141CVf47DPV4ZoHjNaj
+         jBdLVRmt4+1uWOSReEdyBe4HNPL8NTuxi3WMloZeRXdv9P1Dn6hgEAceLd9s61XVFRAB
+         vJSg==
+X-Gm-Message-State: APjAAAV8dVIdcCFFcywltfaCUH8azGiDEdVN7RtLrfeXDI6BFpwTG9ie
+        ul1yH7QZrcrIj1nQkzGorzMpM/cc
+X-Google-Smtp-Source: APXvYqz7g41GBdlUzuilDunX++cAxKLTowlaOmTVpaHCLOPid+cN7H4QOW5g3qaPbrSzY4NQCpOUGA==
+X-Received: by 2002:adf:eb0f:: with SMTP id s15mr24320383wrn.97.1571058747866;
+        Mon, 14 Oct 2019 06:12:27 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id r10sm20196680wml.46.2019.10.14.06.12.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2019 06:12:26 -0700 (PDT)
+Date:   Mon, 14 Oct 2019 15:12:25 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     JC Kuo <jckuo@nvidia.com>
+Cc:     gregkh@linuxfoundation.org, jonathanh@nvidia.com, kishon@ti.com,
+        linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        nkristam@nvidia.com
+Subject: Re: [PATCH v4 2/5] phy: tegra: xusb: Add Tegra194 support
+Message-ID: <20191014131225.GE422231@ulmo>
+References: <20191009024343.30218-1-jckuo@nvidia.com>
+ <20191009024343.30218-3-jckuo@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <485bd962-2a2d-1e15-54c6-3685fb7597a3@gmx.at>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="imjhCm/Pyz7Rq5F2"
+Content-Disposition: inline
+In-Reply-To: <20191009024343.30218-3-jckuo@nvidia.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 3.10.2019 18.13, Bernhard Gebetsberger wrote:
-> I sent the instructions to one of the users in the bug tracker.
-> Here is the download link for his logs: https://www.sendspace.com/file/413hlj
-> 
 
-Thanks.
-Traces show driver handles the Transaction error normally by issuing a endpoint reset,
-which is successful, but after that there is no activity on that endpoint even if there
-are over 120 transfers requests (TRB) pending.
-After over 40 seconds the class driver starts canceling the pending transfers.
+--imjhCm/Pyz7Rq5F2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-after soft retry the xhci driver should ring the doorbell of the endpoint, and hardware
-should start processing pending TRBs, but ring is not handling pending TRBs
-Looks like either driver or hardware fails to start the endpoint ring again
+On Wed, Oct 09, 2019 at 10:43:40AM +0800, JC Kuo wrote:
+> Add support for the XUSB pad controller found on Tegra194 SoCs. It is
+> mostly similar to the same IP found on Tegra186, but the number of
+> pads exposed differs, as do the programming sequences. Because most of
+> the Tegra194 XUSB PADCTL registers definition and programming sequence
+> are the same as Tegra186, Tegra194 XUSB PADCTL can share the same
+> driver, xusb-tegra186.c, with Tegra186 XUSB PADCTL.
+>=20
+> Tegra194 XUSB PADCTL supports up to USB 3.1 Gen 2 speed, however, it
+> is possible for some platforms have long signal trace that could not
+> provide sufficient electrical environment for Gen 2 speed. This patch
+> introduce a new device node property "nvidia,disable-gen2" that can
+> be used to specifically disable Gen 2 speed for a particular USB 3.0
+> port so that the port can be limited to Gen 1 speed and avoid the
+> instability.
+>=20
+> Signed-off-by: JC Kuo <jckuo@nvidia.com>
+> ---
+> Changes in v4: none
+> Changes in v3: none
+> Changes in v2:
+> - removed unnecessary #if/#endif pairs
+> - introduce new soc->supports_gen2 flag which indicate whether or not
+>   a soc supports USB 3.1 Gen 2 speed
+>=20
+>  drivers/phy/tegra/Makefile        |  1 +
+>  drivers/phy/tegra/xusb-tegra186.c | 74 +++++++++++++++++++++++++++++++
+>  drivers/phy/tegra/xusb.c          |  7 +++
+>  drivers/phy/tegra/xusb.h          |  6 +++
+>  4 files changed, 88 insertions(+)
 
-I'll add some more tracing to check driver correctly rings the endpoint doorbell.
+Acked-by: Thierry Reding <treding@nvidia.com>
 
+--imjhCm/Pyz7Rq5F2
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Details of trace:
+-----BEGIN PGP SIGNATURE-----
 
--Several TRBs (over 120) queued for slot 4 ep 3 (ep1in-bulk), starting at 0xff2d1000, up to 0xff2d1800 (0x10 per TRB)
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2kdDkACgkQ3SOs138+
+s6HmyBAAuA9yYTCpqDsfbICoS5AwmWxkyiNCMD/+fgNqJV2XVKdmNaVhQ9XOZRMZ
+l3IeKSV0xhPbaWRCBsTZftOdYUYgF4dMXJ2G5TAf5tGsJF693fPakF+AvXvazcwj
+1+1FBw8z9V6C+jcZ74/bOtUmgAW9BWTxjd4wJE7VQtGflFEYiLfiA3kjMs2S1nMU
+J600wdV6v9RH7wwQVUIm8FMiTlwC48QkCNQfoBc0Nzg4kMv+16+dgR1TM7TRAa3z
+uon24QnKx2/Kx3d4CRxzCs51OEDwdAvuhfsRUYVJVvEWPu1fOHwTLxBSuaML1hxC
+XtKtZNsyKU3b56yhDX2QCvST1r8lAyXXgt+l7lFxVgBvDv3qFMZxK9b7o1o9YXqO
+JPvbmjHvjIF9RcLFH+beAhXTHxQVyhSgcwCFHLB2wa2TP6tdU5J9MF+PV70tj8fv
+UVJwkb77jsdRr+taovr03j8k6wsysrzr/2WUCrbjuLdxtptTjYxmiMmclKxz2eEp
+N8sSvSPBeizdxeH3wUvHjvH8bU8YlyjIMCw3qRzlx1vNgWD/NFm+QcUmudPq2Jn5
+BfYtYwSpSD6yoUspOXgqs4GbiS3gXB3q2JzZG6d4ayq33HVZoIRqyQwi2CZ1f+QS
+iBhZwtetGAhEgLhD+DXPcyAjBcCs0hqP0UiA6v1HQjUHZooXWo4=
+=EPIq
+-----END PGP SIGNATURE-----
 
-   164.884097: xhci_urb_enqueue: ep1in-bulk: urb 000000005ebe7973 pipe 3221259648 slot 4 length 0/3860 sgs 0/0 stream 0 flags 00010200
-   164.884099: xhci_queue_trb: BULK: Buffer 00000000f9e2304c length 3860 TD size 0 intr 0 type 'Normal' flags b:i:I:c:s:I:e:c
-   164.884101: xhci_inc_enq: BULK 00000000be510b60: enq 0x00000000ff2d1010(0x00000000ff2d1000) deq 0x00000000ff2d1000(0x00000000ff2d1000)
-   ...
-   164.884304: xhci_urb_enqueue: ep1in-bulk: urb 00000000fee4e260 pipe 3221259648 slot 4 length 0/3860 sgs 0/0 stream 0 flags 00010200
-   164.884304: xhci_queue_trb: BULK: Buffer 00000000ff3a304c length 3860 TD size 0 intr 0 type 'Normal' flags b:i:I:c:s:I:e:c
-   164.884304: xhci_inc_enq: BULK 00000000be510b60: enq 0x00000000ff2d1800(0x00000000ff2d1000) deq 0x00000000ff2d1000(0x00000000ff2d1000)
-
--Transaction error 3 seconds later for TRB at 0xff2d1000
-
-   167.578273: xhci_handle_event: EVENT: TRB 00000000ff2d1000 status 'USB Transaction Error' len 3860 slot 4 ep 3 type 'Transfer Event' flags e:c
-   167.578288: xhci_handle_transfer: BULK: Buffer 00000000f9e2304c length 3860 TD size 0 intr 0 type 'Normal' flags b:i:I:c:s:I:e:C
-
--Soft retry by issuing a host side reset endpoint command,
-
-   167.578297: xhci_queue_trb: CMD: Reset Endpoint Command: ctx 0000000000000000 slot 4 ep 3 flags C
-   167.578416: xhci_handle_event: EVENT: TRB 00000000ffefe440 status 'Success' len 0 slot 4 ep 0 type 'Command Completion Event' flags e:c
-
--Host side of endpoint reset successful, endpoint is in stopped state as it should
-
-   167.578417: xhci_handle_command: CMD: Reset Endpoint Command: ctx 0000000000000000 slot 4 ep 3 flags C
-   167.578419: xhci_handle_cmd_reset_ep: State stopped mult 1 max P. Streams 0 interval 125 us max ESIT payload 0 CErr 3 Type Bulk IN burst
-
--Driver should ring endpoint doorbell, and hardware should continue procressing TRBs
-No activity at all on slot 4 ep 3, other endpoints continue running normally.
-Check driver really rang ep doorbell
-
-A lot later class driver asks to cancel pending tranfer:
-
-   214.132531: xhci_urb_dequeue: ep1in-bulk: urb 000000005ebe7973 pipe 3221259648 slot 4 length 0/3860 sgs 0/0 stream 0 flags 00010200
-   214.132548: xhci_dbg_cancel_urb: Cancel URB 000000005ebe7973, dev 2, ep 0x81, starting at offset 0xff2d1000
-
--xhci driver tries to stop endpoint to cancel transfer:
-
-   214.132555: xhci_queue_trb: CMD: Stop Ring Command: slot 4 sp 0 ep 3 flags C
-
--but it fails as slot is not in a proper state to be stopped, ep is in halted state after failed stop attempt.
-
-   214.132679: xhci_handle_event: EVENT: TRB 00000000ffefe450 status 'Context State Error' len 0 slot 4 ep 0 type 'Command Completion Event' flags e:C
-   214.132680: xhci_handle_command: CMD: Stop Ring Command: slot 4 sp 0 ep 3 flags C
-   214.132682: xhci_handle_cmd_stop_ep: State halted mult 1 max P. Streams 0 interval 125 us max ESIT payload 0 CErr 3 Type Bulk IN burst 0 maxp 512
-
--After this endpoint stays in halted state, xhci driver fails to recover from this while canceling the reset of the TRBs
-  
--Mathias
+--imjhCm/Pyz7Rq5F2--
