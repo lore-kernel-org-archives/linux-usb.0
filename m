@@ -2,81 +2,65 @@ Return-Path: <SRS0=phTe=YI=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A45E9ECE588
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Oct 2019 14:20:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2B84ECE588
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Oct 2019 14:27:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 85E0C20650
-	for <linux-usb@archiver.kernel.org>; Tue, 15 Oct 2019 14:20:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8E9752168B
+	for <linux-usb@archiver.kernel.org>; Tue, 15 Oct 2019 14:27:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732571AbfJOOT4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Oct 2019 10:19:56 -0400
-Received: from imap1.codethink.co.uk ([176.9.8.82]:49897 "EHLO
-        imap1.codethink.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730697AbfJOOT4 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Oct 2019 10:19:56 -0400
-Received: from [167.98.27.226] (helo=rainbowdash.codethink.co.uk)
-        by imap1.codethink.co.uk with esmtpsa (Exim 4.84_2 #1 (Debian))
-        id 1iKNfv-0004bb-Dk; Tue, 15 Oct 2019 15:19:47 +0100
-Received: from ben by rainbowdash.codethink.co.uk with local (Exim 4.92.2)
-        (envelope-from <ben@rainbowdash.codethink.co.uk>)
-        id 1iKNfv-0004Bu-36; Tue, 15 Oct 2019 15:19:47 +0100
-From:   Ben Dooks <ben.dooks@codethink.co.uk>
-To:     linux-kernel@lists.codethink.co.uk
-Cc:     Ben Dooks <ben.dooks@codethink.co.uk>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
+        id S1732712AbfJOO1c (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Oct 2019 10:27:32 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:44941 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732709AbfJOO1b (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Oct 2019 10:27:31 -0400
+X-Originating-IP: 83.155.44.161
+Received: from classic (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
+        (Authenticated sender: hadess@hadess.net)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 8B52740018;
+        Tue, 15 Oct 2019 14:27:29 +0000 (UTC)
+Message-ID: <16edde941e06216fa26477b9e1c121ffbb88a0b4.camel@hadess.net>
+Subject: [PATCH v2 0/6] Add Apple MFi fastcharge USB device driver
+From:   Bastien Nocera <hadess@hadess.net>
+To:     Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: ohci-nxp: fix use of integer as pointer
-Date:   Tue, 15 Oct 2019 15:19:45 +0100
-Message-Id: <20191015141945.16067-1-ben.dooks@codethink.co.uk>
-X-Mailer: git-send-email 2.23.0
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Date:   Tue, 15 Oct 2019 16:27:28 +0200
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The hcd pointer in ohci_hcd_nxp_probe() is
-being initialised with a 0, so fix to NULL to
-avoid the following sparse warning:
+This is version 2 of the patch set.
 
-drivers/usb/host/ohci-nxp.c:153:31: warning: Using plain integer as NULL pointer
+- checkpatch.pl is now quiet
+- fallback to the generic driver when driver ->probe() fails
 
-Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
----
-Cc: Vladimir Zapolskiy <vz@mleia.com>
-Cc: Sylvain Lemieux <slemieux.tyco@gmail.com>
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
- drivers/usb/host/ohci-nxp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Bastien Nocera (6):
+  USB: Export generic USB device driver functions
+  USB: Make it possible to "subclass" usb_device_driver
+  USB: Implement usb_device_match_id()
+  USB: Select better matching USB drivers when available
+  USB: Fallback to generic driver when specific driver fails
+  USB: Add driver to control USB fast charge for iOS devices
 
-diff --git a/drivers/usb/host/ohci-nxp.c b/drivers/usb/host/ohci-nxp.c
-index c561881d0e79..85878e8ad331 100644
---- a/drivers/usb/host/ohci-nxp.c
-+++ b/drivers/usb/host/ohci-nxp.c
-@@ -150,7 +150,7 @@ static void ohci_nxp_stop_hc(void)
- 
- static int ohci_hcd_nxp_probe(struct platform_device *pdev)
- {
--	struct usb_hcd *hcd = 0;
-+	struct usb_hcd *hcd = NULL;
- 	const struct hc_driver *driver = &ohci_nxp_hc_driver;
- 	struct resource *res;
- 	int ret = 0, irq;
--- 
-2.23.0
+ MAINTAINERS                             |   6 +
+ drivers/usb/core/driver.c               |  59 +++++-
+ drivers/usb/core/generic.c              |  48 ++++-
+ drivers/usb/core/usb.h                  |   6 +
+ drivers/usb/misc/Kconfig                |  10 +
+ drivers/usb/misc/Makefile               |   1 +
+ drivers/usb/misc/apple-mfi-fastcharge.c | 237 ++++++++++++++++++++++++
+ include/linux/usb.h                     |   9 +
+ 8 files changed, 361 insertions(+), 15 deletions(-)
+ create mode 100644 drivers/usb/misc/apple-mfi-fastcharge.c
+
 
