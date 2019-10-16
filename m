@@ -7,52 +7,52 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38F28ECE59D
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 03:34:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB720C4360C
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 03:35:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 120FB2086A
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 03:34:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B353A2086A
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 03:35:02 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uLkbH/AL"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="e6dZ4jnO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391082AbfJPDe6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Oct 2019 23:34:58 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:42356 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403837AbfJPDdv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Oct 2019 23:33:51 -0400
-Received: by mail-pf1-f194.google.com with SMTP id q12so13780282pff.9
-        for <linux-usb@vger.kernel.org>; Tue, 15 Oct 2019 20:33:51 -0700 (PDT)
+        id S2403808AbfJPDdq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Oct 2019 23:33:46 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:40186 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730211AbfJPDdp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Oct 2019 23:33:45 -0400
+Received: by mail-pl1-f196.google.com with SMTP id d22so10568774pll.7
+        for <linux-usb@vger.kernel.org>; Tue, 15 Oct 2019 20:33:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=mmGMZQlCR6mgA59oWS1f2Nk927cLgLJYDtngM3i0DmQ=;
-        b=uLkbH/AL8pOg7wAkq783Kv7Wli+S4S1fkwXvQK1hsdZz8RMDlTmkhaDVpBDw/mkoO4
-         zBTWunDgn6kC1ewqFmgahk4sa4DL54pMRwCKWKiTye44tvTXsqTp6tTiQkBUQj9ZE7WX
-         GFlecPGJ8qg9BS/QnlLtz2ltiSGv/DD9h60Nk3yaik8zidbbaF1cr9PvCiBb3MgexH43
-         QqgoYOBBbb1zOJvedENxG6asKQFB/TzSZAY/z04OpFQSmYX6mevmQD1DMHMmEQbMZkNW
-         uW8J/Od3UKmRiRZSjx5lUM8HYObGLRFjd7aVMByq0wV3Rc+Qi/ZvxrF44OpKP2tjyR0R
-         0vhw==
+        bh=GYRc8Evk3wu8EUiuELp77RSTyUut+SJabJSgyybQCKc=;
+        b=e6dZ4jnOdh701k6NIby9LePCeZk359ThphqZ/2dmJcm5ahDdEyvbcCb7e1qoumSLz0
+         8j+1PiF2T63bndbhCteIdZ/+q9rAHX7I70BI2N3BlLE9Mt562iWVzRA6MOYGzlpwWKcQ
+         GxWtdyTnInOCSf5l461dxNA5c2yEklyi3Mzj6nxxJAWzf8tSW9nlA43PAX/DEFhL1x5K
+         wmgkPA9ikT+8E1AQJ2eAIdMSaNcViHVg26qtyYT587vUUX/1mnFB4MICD79iJd31EkHg
+         LFcGqZVjhYpd+WkBoT7+lhEmQevDkes86Ld4ASBmJgLVKKUK3mnqhH1jmHEmjuR00Kbw
+         n2SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=mmGMZQlCR6mgA59oWS1f2Nk927cLgLJYDtngM3i0DmQ=;
-        b=mBXPZ8hLiMWHKw69R+PEbx6cXKXWgtUb6MyHDSi9PM5AHRyXfVbpdUMjQ2RtjDkH0a
-         2FjCzdL+QMqz72Kc1l8LLWi1pG9kLsOxS3UeD7PvIc35vKzY762dRXfTzOIw8K7KuAgb
-         iRvc3ErDHhMTq02aHHh7VTV2EE1UyYJRD3crYo1vx33P5yqmpquhQqBjgtf+VesgXwwQ
-         qNx8zLlQuQHOdTZV/XohykOud2XGmXZ5ntHDOrgpOGgIFTZriEK9CBT4hOBFUt3fOSyM
-         sbdAqPSoiH2b4jGs1XSODYW4+KgITW5l/zSAz40zDN9ZCxPpEsUkAdARua8u3kNZLjdd
-         JKLw==
-X-Gm-Message-State: APjAAAVsEbix79V09ArRvQAwJUtkQT6mJOQuBkGWvUtuoo1+Dwi5gWNV
-        mOU2PMs/+DS8wP9ZtVSYnt5isg==
-X-Google-Smtp-Source: APXvYqws+YMGIIyJ9Z71j/JJfgVn5iU2tJXSMhO0gdaPFucclq53zCDhmjLlxCTNhG2oSTVllo97hA==
-X-Received: by 2002:a62:e206:: with SMTP id a6mr42231705pfi.64.1571196830986;
-        Tue, 15 Oct 2019 20:33:50 -0700 (PDT)
+        bh=GYRc8Evk3wu8EUiuELp77RSTyUut+SJabJSgyybQCKc=;
+        b=X+qCpSjfgVpWjURbkIni6mscEXo1mY9XdcM2G2CLY4uC/9st+f105k6cGADURzLYkz
+         QeTbSgwgcHFqEvVjc9ss+c1j3XmKmD1jnHf0pmcuRMuYo4Sz795GP7oQo2wtWTlxxluq
+         DYmkhx/YETLnOLLPB2VgLgVx6Jt886/yyDuGiY7l4m+IAeu9Y0W6TSQllNNoNMfkUZPx
+         0rPGTkXe/oj2FNvcyHNf9qXNZhQwvYoM9Exs26YP+8oHiniS6Mbqe2OHxTaZBLnRS/41
+         1cnFmHmGzEspQU1lRDexW15M2qayc2SZ3dx0oz+5LUiZ9ZvPODYGiPsFszBHc4Witx0y
+         6z0g==
+X-Gm-Message-State: APjAAAXBoJtIwQA31KzoFEW737u9fhQj1rOF9myb8J8QODQnx/uA9okG
+        oQgzypjnoIy13VeQfHGh8UCWtw==
+X-Google-Smtp-Source: APXvYqzi4gPMxKJwhqOxXiD5FPvDSBSoufhfjLaVn4yXk8AEbK4UogbAw0pn+zPiG0oPOnXiM33JVw==
+X-Received: by 2002:a17:902:a988:: with SMTP id bh8mr39613879plb.303.1571196824723;
+        Tue, 15 Oct 2019 20:33:44 -0700 (PDT)
 Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
-        by smtp.gmail.com with ESMTPSA id l23sm748356pjy.12.2019.10.15.20.33.49
+        by smtp.gmail.com with ESMTPSA id l23sm748356pjy.12.2019.10.15.20.33.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2019 20:33:50 -0700 (PDT)
+        Tue, 15 Oct 2019 20:33:44 -0700 (PDT)
 From:   John Stultz <john.stultz@linaro.org>
 To:     lkml <linux-kernel@vger.kernel.org>
 Cc:     John Stultz <john.stultz@linaro.org>,
@@ -68,11 +68,10 @@ Cc:     John Stultz <john.stultz@linaro.org>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
         Jun Li <lijun.kernel@gmail.com>,
         Valentin Schneider <valentin.schneider@arm.com>,
-        Jack Pham <jackp@codeaurora.org>, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: [RFC][PATCH v3 05/11] usb: dwc3: Rework clock initialization to be more flexible
-Date:   Wed, 16 Oct 2019 03:33:34 +0000
-Message-Id: <20191016033340.1288-6-john.stultz@linaro.org>
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [RFC][PATCH v3 01/11] dt-bindings: usb: rt1711h: Add connector bindings
+Date:   Wed, 16 Oct 2019 03:33:30 +0000
+Message-Id: <20191016033340.1288-2-john.stultz@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191016033340.1288-1-john.stultz@linaro.org>
 References: <20191016033340.1288-1-john.stultz@linaro.org>
@@ -81,20 +80,14 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The dwc3 core binding specifies three clocks:
-  ref, bus_early, and suspend
+Add connector binding documentation for Richtek RT1711H Type-C
+chip driver
 
-which are all controlled in the driver together.
+It was noted by Rob Herring that the rt1711h binding docs
+doesn't include the connector binding.
 
-However some variants of the hardware my not have all three clks
-
-So this patch reworks the reading of the clks from the dts to
-use devm_clk_bulk_get_all() will will fetch all the clocks
-specified in the dts together.
-
-This patch was reccomended by Rob Herring <Rob.Herring@arm.com>
-as an alternative to creating multiple bindings for each variant
-of hardware when the only unique bits were clocks and resets.
+Thus this patch adds such documentation following the details
+in Documentation/devicetree/bindings/usb/typec-tcpci.txt
 
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Rob Herring <robh+dt@kernel.org>
@@ -109,70 +102,58 @@ Cc: Hans de Goede <hdegoede@redhat.com>
 Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
 Cc: Jun Li <lijun.kernel@gmail.com>
 Cc: Valentin Schneider <valentin.schneider@arm.com>
-Cc: Jack Pham <jackp@codeaurora.org>
 Cc: linux-usb@vger.kernel.org
 Cc: devicetree@vger.kernel.org
-Suggested-by: Rob Herring <Rob.Herring@arm.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: John Stultz <john.stultz@linaro.org>
 ---
-v3: Rework dwc3 core rather then adding another dwc-of-simple
-    binding.
----
- drivers/usb/dwc3/core.c | 20 +++++---------------
- 1 file changed, 5 insertions(+), 15 deletions(-)
+ .../bindings/usb/richtek,rt1711h.txt          | 29 +++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index a039e35ec7ad..4d4f1836b62c 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -305,12 +305,6 @@ static int dwc3_core_soft_reset(struct dwc3 *dwc)
- 	return 0;
- }
+diff --git a/Documentation/devicetree/bindings/usb/richtek,rt1711h.txt b/Documentation/devicetree/bindings/usb/richtek,rt1711h.txt
+index d4cf53c071d9..e3fc57e605ed 100644
+--- a/Documentation/devicetree/bindings/usb/richtek,rt1711h.txt
++++ b/Documentation/devicetree/bindings/usb/richtek,rt1711h.txt
+@@ -6,10 +6,39 @@ Required properties:
+  - interrupts : <a b> where a is the interrupt number and b represents an
+    encoding of the sense and level information for the interrupt.
  
--static const struct clk_bulk_data dwc3_core_clks[] = {
--	{ .id = "ref" },
--	{ .id = "bus_early" },
--	{ .id = "suspend" },
--};
--
- /*
-  * dwc3_frame_length_adjustment - Adjusts frame length if required
-  * @dwc3: Pointer to our controller context structure
-@@ -1418,11 +1412,6 @@ static int dwc3_probe(struct platform_device *pdev)
- 	if (!dwc)
- 		return -ENOMEM;
- 
--	dwc->clks = devm_kmemdup(dev, dwc3_core_clks, sizeof(dwc3_core_clks),
--				 GFP_KERNEL);
--	if (!dwc->clks)
--		return -ENOMEM;
--
- 	dwc->dev = dev;
- 
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-@@ -1458,17 +1447,18 @@ static int dwc3_probe(struct platform_device *pdev)
- 		return PTR_ERR(dwc->reset);
- 
- 	if (dev->of_node) {
--		dwc->num_clks = ARRAY_SIZE(dwc3_core_clks);
--
--		ret = devm_clk_bulk_get(dev, dwc->num_clks, dwc->clks);
-+		ret = devm_clk_bulk_get_all(dev, &dwc->clks);
- 		if (ret == -EPROBE_DEFER)
- 			return ret;
- 		/*
- 		 * Clocks are optional, but new DT platforms should support all
- 		 * clocks as required by the DT-binding.
- 		 */
--		if (ret)
-+		if (ret < 0)
- 			dwc->num_clks = 0;
-+		else
-+			dwc->num_clks = ret;
++Required sub-node:
++- connector: The "usb-c-connector" attached to the tcpci chip, the bindings
++  of connector node are specified in
++  Documentation/devicetree/bindings/connector/usb-connector.txt
 +
- 	}
- 
- 	ret = reset_control_deassert(dwc->reset);
+ Example :
+ rt1711h@4e {
+ 	compatible = "richtek,rt1711h";
+ 	reg = <0x4e>;
+ 	interrupt-parent = <&gpio26>;
+ 	interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
++
++	usb_con: connector {
++		compatible = "usb-c-connector";
++		label = "USB-C";
++		data-role = "dual";
++		power-role = "dual";
++		try-power-role = "sink";
++		source-pdos = <PDO_FIXED(5000, 2000, PDO_FIXED_USB_COMM)>;
++		sink-pdos = <PDO_FIXED(5000, 2000, PDO_FIXED_USB_COMM)
++			     PDO_VAR(5000, 12000, 2000)>;
++		op-sink-microwatt = <10000000>;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@1 {
++				reg = <1>;
++				usb_con_ss: endpoint {
++					remote-endpoint = <&usb3_data_ss>;
++				};
++			};
++		};
++	};
+ };
 -- 
 2.17.1
 
