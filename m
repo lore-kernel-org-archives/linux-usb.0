@@ -2,116 +2,118 @@ Return-Path: <SRS0=ub7o=YJ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF2F3ECE58E
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 04:38:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7670ECE59E
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 06:14:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8892F21848
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 04:38:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AB197218DE
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 06:14:32 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i2zZ0VNr"
+	dkim=pass (2048-bit key) header.d=endlessm-com.20150623.gappssmtp.com header.i=@endlessm-com.20150623.gappssmtp.com header.b="CXoo/fxf"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390891AbfJPEil (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Oct 2019 00:38:41 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:41519 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390882AbfJPEik (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Oct 2019 00:38:40 -0400
-Received: by mail-pf1-f194.google.com with SMTP id q7so13861293pfh.8
-        for <linux-usb@vger.kernel.org>; Tue, 15 Oct 2019 21:38:39 -0700 (PDT)
+        id S2387750AbfJPGOb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Oct 2019 02:14:31 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:35047 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725797AbfJPGOb (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Oct 2019 02:14:31 -0400
+Received: by mail-qt1-f196.google.com with SMTP id m15so34507115qtq.2
+        for <linux-usb@vger.kernel.org>; Tue, 15 Oct 2019 23:14:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=TEmJUIlH2jD2Hlgn91LBPB5qmK2vw4hwdIx8gmW9FXQ=;
-        b=i2zZ0VNrG8oXnila6h283esb1Vy+6KGN6/f4HAOzNF1SBfLeXZdvOnbtY+SmIUYpPT
-         m1w/KSNyuXzQA4Ti1Rcj1Gj6sCVjS3K+qJTgNcbD6ALYcSnQUS8/bQSA4uU6QNafL+8B
-         TiIBNy/bD2rcWyEIKHzENBFD0icIYzW3A8NKA0G5R/nOq1DtUS9rv7Or/CXJ/hiuazsP
-         QlC7IAuS/h81CTjesyikx95BJVwlO1s3E9ZPIsn8Zjx935RNugHwtQoOT51xHlVRayih
-         ZUR6RlIuVxfNSB6PqjY2ERWIbCIP1F7XWdAvwvCuUHRKvgY+LFKpULFiEjGTCubwMp7q
-         XWpQ==
+        d=endlessm-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GawCBMh9NqIamtg2SCquuU1mF2daZgV9LLd8P7nFDiA=;
+        b=CXoo/fxf0E8vVt7V01SYD4EOrQEbYvFRaZGjmwWsldsThEeLmd7ndBq5a1QN61duLS
+         H1qumH85+uXVEeEqNYNF+yytPOTjc2zTElfS+D1c78Dd1a6ba9MRl0Ee+w5xIrc8ZRSA
+         JvAwakO2alwHOK4cJRtxRBJfc08OuYNUfGCq+XbHx1on7nejEvC3xlzJxOyrLr3mIKOG
+         oczoyDadGf4jb0vNHn7pKDmhJ5Vw8dPlBAnycccgF/iNi+FcejU9CCUf/F8qxQ9oCedu
+         aaRInZcTYJrE3EZf0dMyQzN53JS2CapS1aFlF6BZeRdhoaMjOOdDm0jfwsZNBSzIEWaO
+         EJXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=TEmJUIlH2jD2Hlgn91LBPB5qmK2vw4hwdIx8gmW9FXQ=;
-        b=lLkSHiMJKBRl9C0phOW44+zAITB4yMOq75n7YZ6b8gQKzVGQjtuC9nD6loEsaPzq6f
-         RpLR1/anTjUbUmzxzGDwHAa4CFbKnwileW1XPIjIq9HzyfVkAkOEfrx2O1rvIiSq1x1l
-         ANm2wmNZEW9nk7Jh6KYMQcWqQtaznYbJJxHJvfITW3hxrAh2nYT2n+2v7RuCTciWwJCW
-         60AP/ARrrLZ4O2dOZqzuIFn7+8tibMa+5zT2nQWd3qcYm0wN3QuluCJBDN4uwoSjpZmd
-         0sPC1QUv6dihu+ZIDXB97wvnuz3CjvpbRnjUopzkY6m++RFEZV2niqWj/yScFwMuS8A3
-         B2EA==
-X-Gm-Message-State: APjAAAVLirlllIPdrh8M0bLUKO4OTY61Xy9GTFgOseC+fOlOWc10umBq
-        G6x4JKFYqskG8atwqJcL/sc=
-X-Google-Smtp-Source: APXvYqwPzqrDXrHVPoLEE+SE/6u10VSGYCQPsf3VF7biKoZaLOJ1ZiLYC6epdqOL94fT8tnajW2WbQ==
-X-Received: by 2002:a63:c411:: with SMTP id h17mr42035273pgd.360.1571200719347;
-        Tue, 15 Oct 2019 21:38:39 -0700 (PDT)
-Received: from localhost ([175.223.45.21])
-        by smtp.gmail.com with ESMTPSA id r28sm32253697pfg.62.2019.10.15.21.38.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2019 21:38:38 -0700 (PDT)
-Date:   Wed, 16 Oct 2019 13:38:25 +0900
-From:   GwanYeong Kim <gy741.kim@gmail.com>
-To:     shuah <shuah@kernel.org>
-Cc:     valentina.manea.m@gmail.com, gregkh@linuxfoundation.org,
-        allison@lohutok.net, opensource@jilayne.com,
-        changcheng.liu@intel.com, tglx@linutronix.de,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usbip: tools: Fix read_usb_vudc_device() error path
- handling
-Message-ID: <20191016133825.00006e29@gmail.com>
-In-Reply-To: <bb2bef23-336a-2f28-8faa-00e4adbb76d9@kernel.org>
-References: <20191015131437.525-1-gy741.kim@gmail.com>
-        <bb2bef23-336a-2f28-8faa-00e4adbb76d9@kernel.org>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-w64-mingw32)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GawCBMh9NqIamtg2SCquuU1mF2daZgV9LLd8P7nFDiA=;
+        b=qFfiQWaJlK1r9TFvVaFQwWMpRYwQw/UFQCW6ISSJ3lh4OnB/RQuv9XmEpYPSH7MgBv
+         n2ym6bVbUtKOkg9lVvlOw01Xd4hsMhjYua8983XT2BsFLu6GBeNaBSL+DxCQCTcBNfbz
+         GXXNU+alfEmaFb9+UBxkXiWBuFZCKoeLPRt9rW5UFEMX6KPeV32BrcAhFnB6lX94RvQe
+         E7VZG+5n/AVDDWpnqucvgboRQAUqU8TwlX1iwAgapwybWYWPnsjNebodjFcmLSE9Ql0D
+         VtxaFId0JnxobHTl0Dm8Wi/wpr2g4QHE6gc6wwRHu66MKH9ycs1UohxVFXlo8y1CbQ5d
+         XGNQ==
+X-Gm-Message-State: APjAAAVf4LZ8IG1vEhYb3cZ5f+D5NO6jTVT+pdGcHLGTgs45mAqMH0yT
+        KTsLuWqIB4S2ezowhiSlyIqBNTxfi8QOtTGz7i0PCQ==
+X-Google-Smtp-Source: APXvYqwiV4mxddPn7dV0fiVkZcslq0XHJF+3rn4ldkXT/4VjJjQHGBpNHo6hrlxrom6jnAhtRDMsMkYuqTbw/k8u56M=
+X-Received: by 2002:ac8:3021:: with SMTP id f30mr42138162qte.80.1571206470472;
+ Tue, 15 Oct 2019 23:14:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20191014061355.29072-1-drake@endlessm.com> <20191014154322.GA190693@google.com>
+ <CAD8Lp45hmYhrj9v-=7NKrG2YHmxZKFExDsHCL67hap+Y2iM-uw@mail.gmail.com> <CAJZ5v0jCh87azmBuhj1T_M+OV8tu7v7Y7WV_zaf56+fxhXU3KQ@mail.gmail.com>
+In-Reply-To: <CAJZ5v0jCh87azmBuhj1T_M+OV8tu7v7Y7WV_zaf56+fxhXU3KQ@mail.gmail.com>
+From:   Daniel Drake <drake@endlessm.com>
+Date:   Wed, 16 Oct 2019 14:14:19 +0800
+Message-ID: <CAD8Lp46BJvCo4c3c2XTrbPyF3k8p0QG24WbsWQ2Sc=7ikcyC8w@mail.gmail.com>
+Subject: Re: [PATCH] PCI: increase D3 delay for AMD Ryzen5/7 XHCI controllers
+To:     "Rafael J. Wysocki" <rafael@kernel.org>
+Cc:     Bjorn Helgaas <helgaas@kernel.org>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        "Wysocki, Rafael J" <rafael.j.wysocki@intel.com>,
+        Linux Upstreaming Team <linux@endlessm.com>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux USB Mailing List <linux-usb@vger.kernel.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 15 Oct 2019 17:14:32 -0600
-shuah <shuah@kernel.org> wrote:
+On Wed, Oct 16, 2019 at 1:52 AM Rafael J. Wysocki <rafael@kernel.org> wrote:
+> On Tue, Oct 15, 2019 at 7:31 AM Daniel Drake <drake@endlessm.com> wrote:
+> > It's actually coming out of D3cold here, however what happens right
+> > before this is that __pci_start_power_transition() calls
+> > pci_platform_power_transition(D0) to leave D3cold state, then
+> > pci_update_current_state() reads PMCSR and updates dev->current_state
+> > to D3hot.
+>
+> Which pci_update_current_state() do you mean, exactly?
+>
+> Note that pci_platform_power_transition() itself contains one, which
+> triggers after a successful change of the ACPI power state of the
+> device (which should be the case here).
 
-> On 10/15/19 7:14 AM, GwanYeong Kim wrote:
-> > cannot be less than 0 - fread() returns 0 on error.
-> > 
-> > Signed-off-by: GwanYeong Kim <gy741.kim@gmail.com>
-> > ---
-> >   tools/usb/usbip/libsrc/usbip_device_driver.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/tools/usb/usbip/libsrc/usbip_device_driver.c
-> > b/tools/usb/usbip/libsrc/usbip_device_driver.c index
-> > 051d7d3f443b..49760b98aabc 100644 ---
-> > a/tools/usb/usbip/libsrc/usbip_device_driver.c +++
-> > b/tools/usb/usbip/libsrc/usbip_device_driver.c @@ -79,7 +79,7 @@
-> > int read_usb_vudc_device(struct udev_device *sdev, struct
-> > usbip_usb_device *dev) if (!fd) return -1;
-> >   	ret = fread((char *) &descr, sizeof(descr), 1, fd);
-> > -	if (ret < 0) > +	if (ret != sizeof(descr))
-> 
-> Are you sure this check is correct? fread() returns the number
-> of elements read, # elements = 1  in this case.
+That's the one I mean.
 
-Thank you for pointing this out.
-Sorry for my mistake.
+pci_pm_default_resume_early
+- pci_power_up
+-- __pci_start_power_transition
+--- pci_platform_power_transition
+---- pci_update_current_state(D0)
 
-> fread() returns 0 when size or # of elements is 0 and in other
-> error cases it will return < # of elements. I would think you
-> want to check ret != 1 here.
+At this point, PMCSR is read and dev->current_status is set to D3 accordingly.
 
-You're right.
-This should be changed to "ret != 1".
+Then, continuing in pci_power_up(), pci_raw_set_power_state(D0) is
+called and the extra delay is needed there after writing PMCSR to
+transition to D0.
+I didn't go further along the call trace because at that point the
+problem has already been triggered.
 
-Should I send a new patch?
+> That I agree with and the platform firmware doesn't compensate for
+> that (which it could do, arguably).
 
-Regards,
-GwanYeong Kim
+I tried to get official AMD support on this but their response was
+that they don't have available resources to dedicate to Linux support.
+Without guidance from AMD I don't think there's any chance of a
+firmware change from the platform vendor.
+
+I think we just have to figure out how to work with it. It seems that
+Windows 10 delays longer or uses some other scheme. Another
+alternative that I just tried is retrying the PMCSR write & readback
+if it didn't complete the transition on the first try. That works
+fine, let me know if it's preferred to implement something along those
+lines as a more generic workaround.
+
+Daniel
