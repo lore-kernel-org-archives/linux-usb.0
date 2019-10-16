@@ -6,159 +6,351 @@ X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B627FA372B
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 09:39:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47BD7FA372A
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 09:39:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2E6612168B
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 09:39:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 239F820872
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 09:39:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392036AbfJPJjm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Oct 2019 05:39:42 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:54013 "EHLO
+        id S2392037AbfJPJjo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Oct 2019 05:39:44 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:52147 "EHLO
         relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392030AbfJPJjl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Oct 2019 05:39:41 -0400
+        with ESMTP id S2390240AbfJPJjo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Oct 2019 05:39:44 -0400
 X-Originating-IP: 83.155.44.161
 Received: from classic.redhat.com (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
         (Authenticated sender: hadess@hadess.net)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id D13DB20012;
-        Wed, 16 Oct 2019 09:39:38 +0000 (UTC)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id DF06620002;
+        Wed, 16 Oct 2019 09:39:40 +0000 (UTC)
 From:   Bastien Nocera <hadess@hadess.net>
 To:     linux-usb@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Bastien Nocera <hadess@hadess.net>,
         Alan Stern <stern@rowland.harvard.edu>
-Subject: [PATCH v3 4/6] USB: Select better matching USB drivers when available
-Date:   Wed, 16 Oct 2019 11:39:31 +0200
-Message-Id: <20191016093933.693-5-hadess@hadess.net>
+Subject: [PATCH v3 6/6] USB: Add driver to control USB fast charge for iOS devices
+Date:   Wed, 16 Oct 2019 11:39:33 +0200
+Message-Id: <20191016093933.693-7-hadess@hadess.net>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191016093933.693-1-hadess@hadess.net>
 References: <20191016093933.693-1-hadess@hadess.net>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Now that USB device drivers can reuse code from the generic USB device
-driver, we need to make sure that they get selected rather than the
-generic driver. Add an id_table and match vfunc to the usb_device_driver
-struct, which will get used to select a better matching driver at
-->probe time.
-
-This is a similar mechanism to that used in the HID drivers, with the
-generic driver being selected unless there's a better matching one found
-in the registered drivers (see hid_generic_match() in
-drivers/hid/hid-generic.c).
+iOS devices will not draw more than 500mA unless instructed to do so.
+Setting the charge type power supply property to "fast" tells the device
+to start drawing more power, using the same procedure that official
+"MFi" chargers would.
 
 Signed-off-by: Bastien Nocera <hadess@hadess.net>
 Acked-by: Alan Stern <stern@rowland.harvard.edu>
 ---
- drivers/usb/core/driver.c  | 15 +++++++++++++--
- drivers/usb/core/generic.c | 29 +++++++++++++++++++++++++++++
- include/linux/usb.h        |  2 ++
- 3 files changed, 44 insertions(+), 2 deletions(-)
+ MAINTAINERS                             |   6 +
+ drivers/usb/misc/Kconfig                |  10 +
+ drivers/usb/misc/Makefile               |   1 +
+ drivers/usb/misc/apple-mfi-fastcharge.c | 237 ++++++++++++++++++++++++
+ 4 files changed, 254 insertions(+)
+ create mode 100644 drivers/usb/misc/apple-mfi-fastcharge.c
 
-diff --git drivers/usb/core/driver.c drivers/usb/core/driver.c
-index 697898327b44..9d1502a9571d 100644
---- drivers/usb/core/driver.c
-+++ drivers/usb/core/driver.c
-@@ -818,13 +818,24 @@ static int usb_device_match(struct device *dev, struct device_driver *drv)
- {
- 	/* devices and interfaces are handled separately */
- 	if (is_usb_device(dev)) {
-+		struct usb_device *udev;
-+		struct usb_device_driver *udrv;
+diff --git MAINTAINERS MAINTAINERS
+index 94ce075907a0..9e8f9fc972f5 100644
+--- MAINTAINERS
++++ MAINTAINERS
+@@ -16728,6 +16728,12 @@ S:	Maintained
+ F:	Documentation/usb/acm.rst
+ F:	drivers/usb/class/cdc-acm.*
  
- 		/* interface drivers never match devices */
- 		if (!is_usb_device_driver(drv))
- 			return 0;
- 
--		/* TODO: Add real matching code */
--		return 1;
-+		udev = to_usb_device(dev);
-+		udrv = to_usb_device_driver(drv);
++USB APPLE MFI FASTCHARGE DRIVER
++M:	Bastien Nocera <hadess@hadess.net>
++L:	linux-usb@vger.kernel.org
++S:	Maintained
++F:	drivers/usb/misc/apple-mfi-fastcharge.c
 +
-+		if (udrv->id_table &&
-+		    usb_device_match_id(udev, udrv->id_table) != NULL) {
-+			return 1;
-+		}
+ USB AR5523 WIRELESS DRIVER
+ M:	Pontus Fuchs <pontus.fuchs@gmail.com>
+ L:	linux-wireless@vger.kernel.org
+diff --git drivers/usb/misc/Kconfig drivers/usb/misc/Kconfig
+index bdae62b2ffe0..f52a49478f1c 100644
+--- drivers/usb/misc/Kconfig
++++ drivers/usb/misc/Kconfig
+@@ -147,6 +147,16 @@ config USB_APPLEDISPLAY
+ 	  Say Y here if you want to control the backlight of Apple Cinema
+ 	  Displays over USB. This driver provides a sysfs interface.
+ 
++config APPLE_MFI_FASTCHARGE
++	tristate "Fast charge control for iOS devices"
++	select POWER_SUPPLY
++	help
++	  Say Y here if you want to control whether iOS devices will
++	  fast charge from the USB interface, as implemented in "MFi"
++	  chargers.
 +
-+		if (udrv->match)
-+			return udrv->match(udev);
-+		return 0;
++	  It is safe to say M here.
++
+ source "drivers/usb/misc/sisusbvga/Kconfig"
  
- 	} else if (is_usb_interface(dev)) {
- 		struct usb_interface *intf;
-diff --git drivers/usb/core/generic.c drivers/usb/core/generic.c
-index 28ece4d77749..84da85c13825 100644
---- drivers/usb/core/generic.c
-+++ drivers/usb/core/generic.c
-@@ -195,6 +195,34 @@ int usb_choose_configuration(struct usb_device *udev)
- }
- EXPORT_SYMBOL_GPL(usb_choose_configuration);
- 
-+static int __check_usb_generic(struct device_driver *drv, void *data)
+ config USB_LD
+diff --git drivers/usb/misc/Makefile drivers/usb/misc/Makefile
+index 109f54f5b9aa..b75106cf3948 100644
+--- drivers/usb/misc/Makefile
++++ drivers/usb/misc/Makefile
+@@ -11,6 +11,7 @@ obj-$(CONFIG_USB_EMI26)			+= emi26.o
+ obj-$(CONFIG_USB_EMI62)			+= emi62.o
+ obj-$(CONFIG_USB_EZUSB_FX2)		+= ezusb.o
+ obj-$(CONFIG_USB_FTDI_ELAN)		+= ftdi-elan.o
++obj-$(CONFIG_APPLE_MFI_FASTCHARGE)	+= apple-mfi-fastcharge.o
+ obj-$(CONFIG_USB_IDMOUSE)		+= idmouse.o
+ obj-$(CONFIG_USB_IOWARRIOR)		+= iowarrior.o
+ obj-$(CONFIG_USB_ISIGHTFW)		+= isight_firmware.o
+diff --git drivers/usb/misc/apple-mfi-fastcharge.c drivers/usb/misc/apple-mfi-fastcharge.c
+new file mode 100644
+index 000000000000..f1c4461a9a3c
+--- /dev/null
++++ drivers/usb/misc/apple-mfi-fastcharge.c
+@@ -0,0 +1,237 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Fast-charge control for Apple "MFi" devices
++ *
++ * Copyright (C) 2019 Bastien Nocera <hadess@hadess.net>
++ */
++
++/* Standard include files */
++#include <linux/module.h>
++#include <linux/power_supply.h>
++#include <linux/slab.h>
++#include <linux/usb.h>
++
++MODULE_AUTHOR("Bastien Nocera <hadess@hadess.net>");
++MODULE_DESCRIPTION("Fast-charge control for Apple \"MFi\" devices");
++MODULE_LICENSE("GPL");
++
++#define TRICKLE_CURRENT_MA		0
++#define FAST_CURRENT_MA			2500
++
++#define APPLE_VENDOR_ID			0x05ac	/* Apple */
++
++/* The product ID is defined as starting with 0x12nn, as per the
++ * "Choosing an Apple Device USB Configuration" section in
++ * release R9 (2012) of the "MFi Accessory Hardware Specification"
++ *
++ * To distinguish an Apple device, a USB host can check the device
++ * descriptor of attached USB devices for the following fields:
++ * ■ Vendor ID: 0x05AC
++ * ■ Product ID: 0x12nn
++ *
++ * Those checks will be done in .match() and .probe().
++ */
++
++static const struct usb_device_id mfi_fc_id_table[] = {
++	{ .idVendor = APPLE_VENDOR_ID,
++	  .match_flags = USB_DEVICE_ID_MATCH_VENDOR },
++	{},
++};
++
++MODULE_DEVICE_TABLE(usb, mfi_fc_id_table);
++
++/* Driver-local specific stuff */
++struct mfi_device {
++	struct usb_device *udev;
++	struct power_supply *battery;
++	int charge_type;
++};
++
++static int apple_mfi_fc_set_charge_type(struct mfi_device *mfi,
++					const union power_supply_propval *val)
 +{
-+	struct usb_device *udev = data;
-+	struct usb_device_driver *udrv;
++	int current_ma;
++	int retval;
++	__u8 request_type;
 +
-+	if (!is_usb_device_driver(drv))
++	if (mfi->charge_type == val->intval) {
++		dev_dbg(&mfi->udev->dev, "charge type %d already set\n",
++				mfi->charge_type);
 +		return 0;
-+	udrv = to_usb_device_driver(drv);
-+	if (udrv == &usb_generic_driver)
-+		return 0;
-+	if (!udrv->id_table)
-+		return 0;
++	}
 +
-+	return usb_device_match_id(udev, udrv->id_table) != NULL;
++	switch (val->intval) {
++	case POWER_SUPPLY_CHARGE_TYPE_TRICKLE:
++		current_ma = TRICKLE_CURRENT_MA;
++		break;
++	case POWER_SUPPLY_CHARGE_TYPE_FAST:
++		current_ma = FAST_CURRENT_MA;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	request_type = USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE;
++	retval = usb_control_msg(mfi->udev, usb_sndctrlpipe(mfi->udev, 0),
++				 0x40, /* Vendor‐defined power request */
++				 request_type,
++				 current_ma, /* wValue, current offset */
++				 current_ma, /* wIndex, current offset */
++				 NULL, 0, USB_CTRL_GET_TIMEOUT);
++	if (retval) {
++		dev_dbg(&mfi->udev->dev, "retval = %d\n", retval);
++		return retval;
++	}
++
++	mfi->charge_type = val->intval;
++
++	return 0;
 +}
 +
-+static bool usb_generic_driver_match(struct usb_device *udev)
++static int apple_mfi_fc_get_property(struct power_supply *psy,
++		enum power_supply_property psp,
++		union power_supply_propval *val)
 +{
-+	/*
-+	 * If any other driver wants the device, leave the device to this other
-+	 * driver.
-+	 */
-+	if (bus_for_each_drv(&usb_bus_type, NULL, udev, __check_usb_generic))
-+		return false;
++	struct mfi_device *mfi = power_supply_get_drvdata(psy);
 +
-+	return true;
++	dev_dbg(&mfi->udev->dev, "prop: %d\n", psp);
++
++	switch (psp) {
++	case POWER_SUPPLY_PROP_CHARGE_TYPE:
++		val->intval = mfi->charge_type;
++		break;
++	case POWER_SUPPLY_PROP_SCOPE:
++		val->intval = POWER_SUPPLY_SCOPE_DEVICE;
++		break;
++	default:
++		return -ENODATA;
++	}
++
++	return 0;
 +}
 +
- int usb_generic_driver_probe(struct usb_device *udev)
- {
- 	int err, c;
-@@ -285,6 +313,7 @@ int usb_generic_driver_resume(struct usb_device *udev, pm_message_t msg)
- 
- struct usb_device_driver usb_generic_driver = {
- 	.name =	"usb",
-+	.match = usb_generic_driver_match,
- 	.probe = usb_generic_driver_probe,
- 	.disconnect = usb_generic_driver_disconnect,
- #ifdef	CONFIG_PM
-diff --git include/linux/usb.h include/linux/usb.h
-index 94bd3b48a485..3663bd7b1fa4 100644
---- include/linux/usb.h
-+++ include/linux/usb.h
-@@ -1237,6 +1237,7 @@ struct usb_driver {
- struct usb_device_driver {
- 	const char *name;
- 
-+	bool (*match) (struct usb_device *udev);
- 	int (*probe) (struct usb_device *udev);
- 	void (*disconnect) (struct usb_device *udev);
- 
-@@ -1244,6 +1245,7 @@ struct usb_device_driver {
- 	int (*resume) (struct usb_device *udev, pm_message_t message);
- 	const struct attribute_group **dev_groups;
- 	struct usbdrv_wrap drvwrap;
-+	const struct usb_device_id *id_table;
- 	unsigned int supports_autosuspend:1;
- 	unsigned int generic_subclass:1;
- };
++static int apple_mfi_fc_set_property(struct power_supply *psy,
++		enum power_supply_property psp,
++		const union power_supply_propval *val)
++{
++	struct mfi_device *mfi = power_supply_get_drvdata(psy);
++	int ret;
++
++	dev_dbg(&mfi->udev->dev, "prop: %d\n", psp);
++
++	ret = pm_runtime_get_sync(&mfi->udev->dev);
++	if (ret < 0)
++		return ret;
++
++	switch (psp) {
++	case POWER_SUPPLY_PROP_CHARGE_TYPE:
++		ret = apple_mfi_fc_set_charge_type(mfi, val);
++		break;
++	default:
++		ret = -EINVAL;
++	}
++
++	pm_runtime_mark_last_busy(&mfi->udev->dev);
++	pm_runtime_put_autosuspend(&mfi->udev->dev);
++
++	return ret;
++}
++
++static int apple_mfi_fc_property_is_writeable(struct power_supply *psy,
++					      enum power_supply_property psp)
++{
++	switch (psp) {
++	case POWER_SUPPLY_PROP_CHARGE_TYPE:
++		return 1;
++	default:
++		return 0;
++	}
++}
++
++static enum power_supply_property apple_mfi_fc_properties[] = {
++	POWER_SUPPLY_PROP_CHARGE_TYPE,
++	POWER_SUPPLY_PROP_SCOPE
++};
++
++static const struct power_supply_desc apple_mfi_fc_desc = {
++	.name                   = "apple_mfi_fastcharge",
++	.type                   = POWER_SUPPLY_TYPE_BATTERY,
++	.properties             = apple_mfi_fc_properties,
++	.num_properties         = ARRAY_SIZE(apple_mfi_fc_properties),
++	.get_property           = apple_mfi_fc_get_property,
++	.set_property           = apple_mfi_fc_set_property,
++	.property_is_writeable  = apple_mfi_fc_property_is_writeable
++};
++
++static int mfi_fc_probe(struct usb_device *udev)
++{
++	struct power_supply_config battery_cfg = {};
++	struct mfi_device *mfi = NULL;
++	int err;
++
++	/* See comment above mfi_fc_id_table[] */
++	if (udev->descriptor.idProduct < 0x1200 ||
++	    udev->descriptor.idProduct > 0x12ff) {
++		return -ENODEV;
++	}
++
++	mfi = kzalloc(sizeof(struct mfi_device), GFP_KERNEL);
++	if (!mfi) {
++		err = -ENOMEM;
++		goto error;
++	}
++
++	battery_cfg.drv_data = mfi;
++
++	mfi->charge_type = POWER_SUPPLY_CHARGE_TYPE_TRICKLE;
++	mfi->battery = power_supply_register(&udev->dev,
++						&apple_mfi_fc_desc,
++						&battery_cfg);
++	if (IS_ERR(mfi->battery)) {
++		dev_err(&udev->dev, "Can't register battery\n");
++		err = PTR_ERR(mfi->battery);
++		goto error;
++	}
++
++	mfi->udev = usb_get_dev(udev);
++	dev_set_drvdata(&udev->dev, mfi);
++
++	return 0;
++
++error:
++	kfree(mfi);
++	return err;
++}
++
++static void mfi_fc_disconnect(struct usb_device *udev)
++{
++	struct mfi_device *mfi;
++
++	mfi = dev_get_drvdata(&udev->dev);
++	if (mfi->battery)
++		power_supply_unregister(mfi->battery);
++	dev_set_drvdata(&udev->dev, NULL);
++	usb_put_dev(mfi->udev);
++	kfree(mfi);
++}
++
++static struct usb_device_driver mfi_fc_driver = {
++	.name =		"apple-mfi-fastcharge",
++	.probe =	mfi_fc_probe,
++	.disconnect =	mfi_fc_disconnect,
++	.id_table =	mfi_fc_id_table,
++	.generic_subclass = 1,
++};
++
++static int __init mfi_fc_driver_init(void)
++{
++	return usb_register_device_driver(&mfi_fc_driver, THIS_MODULE);
++}
++
++static void __exit mfi_fc_driver_exit(void)
++{
++	usb_deregister_device_driver(&mfi_fc_driver);
++}
++
++module_init(mfi_fc_driver_init);
++module_exit(mfi_fc_driver_exit);
 -- 
 2.21.0
 
