@@ -5,57 +5,57 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B87EEECE59E
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 03:33:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C8C8ECE59E
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 03:33:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8E4B52086A
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 03:33:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DAC552086A
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 03:33:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lGAST+mY"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="i5842S39"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403834AbfJPDdt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 15 Oct 2019 23:33:49 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:36302 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403819AbfJPDds (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Oct 2019 23:33:48 -0400
-Received: by mail-pg1-f196.google.com with SMTP id 23so13413104pgk.3
-        for <linux-usb@vger.kernel.org>; Tue, 15 Oct 2019 20:33:46 -0700 (PDT)
+        id S2403835AbfJPDdu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 15 Oct 2019 23:33:50 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:46940 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403812AbfJPDdu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 15 Oct 2019 23:33:50 -0400
+Received: by mail-pg1-f193.google.com with SMTP id e15so5392318pgu.13
+        for <linux-usb@vger.kernel.org>; Tue, 15 Oct 2019 20:33:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=+L6QotxBXClg8Fe4NEIvH2M7vhWfz5AENh5gfCd6GV4=;
-        b=lGAST+mYnUw2+fFUvOyyVN68vAR+ZDOyy8WoR3kjWo+W2+qfO342xlBSDzAujCE92W
-         xE0pXYq5oYJMudqdUUTFcA4aWTLpzR+HCUmB2mLqubMM06EZSAOSYJjIUw4X7hTl3wuZ
-         nuUIgEUQvBCjVCKdCz7w+QZpLjGw9uKQAXLeecMbO1I9Jv6BXS5VvWMhSILKzjD9zOKQ
-         13+n9QYnIPx0gCFbGdo1DDHBdarXxErH5EaN8Pyqbtxwar/4fbU5+fiWPJ2fPmqi1oJM
-         +YU3v3GRs0ICUUyn1sNwz9LHFqOGijZHx5d3agCBmyOak2HuwQbcxym7UyWvVtNxdO5H
-         0a8Q==
+        bh=Fk56Pt1fGccXmKmQ/Jeo40yXUyiG0Au7sOVELWBpmSc=;
+        b=i5842S39DyNZjUZRJPov05KdX7BzPpP2NUVj577HofBXaFkmDioGcqwLERfGPCtRSo
+         HxrufDjWomrDtclywcgyQlD/y+bxJRLcjN9o9sAc0492h3Sqk9lgZvAl3G9PDq4gU/Hq
+         T8lEnvqFyCrhZWZLbPGC3IBEqFDHD0vSeAJP6CJMI6TeFEXj9lHjQ1gMcXvUshJNlSbV
+         hQlwzNfdpEc8o1zpF4j8MeUNFET0RjQc3rMX03QpqyJyDqQ3SaEPhKKI+dAYa8HCcRdh
+         3kR7U+p+H01mWN3lCCwYydpOV9lAS3XXzH9hxXY97aQyeg0idEeovmkH84X+Db9lycVc
+         albw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=+L6QotxBXClg8Fe4NEIvH2M7vhWfz5AENh5gfCd6GV4=;
-        b=dnwPCOW2iaO+gv+1YE5JPo/tAOR9ilbyQwmkULXNMwtI4GZPHirxokctoifSN6/oGU
-         1cM3rPOFJk1tUheKFEdxnya2cB/g4QebFI6UDm/Mn2mLZEmgLATbW7TJXMP/LVm+LW9I
-         d2ESIS56ofexMPZfTMTsaOgZ1RB4jwuORKxs/lu1aqvibDRhBYS4/5lKpSqvmMSO1K+S
-         pENDEEKExD2Le+jw77OezJ3FqRAm080+J2BBQWEg9au0JJrgY3Aj6ivAOd2x+Dsve9gz
-         gHHnXc3I1Qtk8pSVrjGP1KTqacW01qt6/0VNnI+wmqR0HTMtqPKtl8HWMdHO/zJkVyt9
-         16RA==
-X-Gm-Message-State: APjAAAWsEwZBmpCHTLvAg14QMZT1k0d+cEhEowy+UNcin4ckc9SL7nAC
-        PZ8bvof1xE2YceMjQLlbknaVLw==
-X-Google-Smtp-Source: APXvYqx4mHE3Pk26QZ2wQVQI9bb5Z31XRA2QB6VDKjNpj4Ri/jYSuBD2qTj2kfwGMLGU4KLE6yoqJA==
-X-Received: by 2002:a63:d457:: with SMTP id i23mr42038764pgj.276.1571196826240;
-        Tue, 15 Oct 2019 20:33:46 -0700 (PDT)
+        bh=Fk56Pt1fGccXmKmQ/Jeo40yXUyiG0Au7sOVELWBpmSc=;
+        b=V0x3zrdD3kZls4qGqExuqBW9T5LSxmjzPqAqxpWz7r0U1LxLkurmTJOCfwu3hFBg60
+         CQ0J/s/F/uSafi9SufIU43kkY8upIK1TjJaCBTdTmj2cyWvCtfk3pA9ENRGI00YHoKdf
+         AqOM5QXLJPUVi+9eLAJrXnP0G93/vzZmboo4vELd8xkW33Pt3jBA49SubTZJFzBdnTWN
+         zdplXI6h6/nYf6fi2QhYzLza7oKlAMhP0zek/N37pLjXA7lWsx29a0fceKmTbnGkgLtu
+         0UKj3pHNIF/Yn1XOsQXxzwJodZmF4SuxlrIM7j236jd8ahdxXhRXQ4I7Io1MGilkOWSo
+         0mHw==
+X-Gm-Message-State: APjAAAVSkpDBalkWsLzQ5h8Egf7i6GBDrrXWFpa7iHOyxvtWpX4K4+4n
+        zugZBwHIOs52qFdbiTao7JUQ9Q==
+X-Google-Smtp-Source: APXvYqyDkJPdQQMUkmfGn1srI4a3vVQ3+fGtZ+xRSHgsO+5CqQbLMJGruDMef6xeBYAvO7XFUOWfqg==
+X-Received: by 2002:aa7:8046:: with SMTP id y6mr42224599pfm.178.1571196829644;
+        Tue, 15 Oct 2019 20:33:49 -0700 (PDT)
 Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
-        by smtp.gmail.com with ESMTPSA id l23sm748356pjy.12.2019.10.15.20.33.44
+        by smtp.gmail.com with ESMTPSA id l23sm748356pjy.12.2019.10.15.20.33.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2019 20:33:45 -0700 (PDT)
+        Tue, 15 Oct 2019 20:33:48 -0700 (PDT)
 From:   John Stultz <john.stultz@linaro.org>
 To:     lkml <linux-kernel@vger.kernel.org>
-Cc:     Yu Chen <chenyu56@huawei.com>,
+Cc:     John Stultz <john.stultz@linaro.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -63,16 +63,16 @@ Cc:     Yu Chen <chenyu56@huawei.com>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         Suzuki K Poulose <suzuki.poulose@arm.com>,
         Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Felipe Balbi <balbi@kernel.org>,
+        Yu Chen <chenyu56@huawei.com>, Felipe Balbi <balbi@kernel.org>,
         Hans de Goede <hdegoede@redhat.com>,
         Andy Shevchenko <andy.shevchenko@gmail.com>,
         Jun Li <lijun.kernel@gmail.com>,
         Valentin Schneider <valentin.schneider@arm.com>,
         Jack Pham <jackp@codeaurora.org>, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, John Stultz <john.stultz@linaro.org>
-Subject: [RFC][PATCH v3 02/11] usb: dwc3: Execute GCTL Core Soft Reset while switch modes
-Date:   Wed, 16 Oct 2019 03:33:31 +0000
-Message-Id: <20191016033340.1288-3-john.stultz@linaro.org>
+        devicetree@vger.kernel.org
+Subject: [RFC][PATCH v3 04/11] dt-bindings: usb: dwc3: Allow clock list & resets to be more flexible
+Date:   Wed, 16 Oct 2019 03:33:33 +0000
+Message-Id: <20191016033340.1288-5-john.stultz@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191016033340.1288-1-john.stultz@linaro.org>
 References: <20191016033340.1288-1-john.stultz@linaro.org>
@@ -81,17 +81,9 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Yu Chen <chenyu56@huawei.com>
-
-On the HiKey960, we need to do a GCTL soft reset when
-switching modes.
-
-Jack Pham also noted that in the Synopsys databook it
-mentions performing a GCTL CoreSoftReset when changing the
-PrtCapDir between device & host modes.
-
-So this patch always does a GCTL Core Soft Reset when
-changing the mode.
+Rather then adding another device specific binding to support
+hikey960, Rob Herring suggested we expand the current dwc3
+binding to allow for variable numbers of clocks and resets.
 
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Rob Herring <robh+dt@kernel.org>
@@ -109,51 +101,35 @@ Cc: Valentin Schneider <valentin.schneider@arm.com>
 Cc: Jack Pham <jackp@codeaurora.org>
 Cc: linux-usb@vger.kernel.org
 Cc: devicetree@vger.kernel.org
-Signed-off-by: Yu Chen <chenyu56@huawei.com>
+Suggested-by: Rob Herring <Rob.Herring@arm.com>
 Signed-off-by: John Stultz <john.stultz@linaro.org>
 ---
-v3: Remove quirk conditional, as Jack Pham noted the
-    Synopsis databook states this should be done generally.
-    Also, at Jacks' suggestion, make the reset call before
-    changing the prtcap direction.
----
- drivers/usb/dwc3/core.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ Documentation/devicetree/bindings/usb/dwc3.txt | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 999ce5e84d3c..a039e35ec7ad 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -112,6 +112,19 @@ void dwc3_set_prtcap(struct dwc3 *dwc, u32 mode)
- 	dwc->current_dr_role = mode;
- }
+diff --git a/Documentation/devicetree/bindings/usb/dwc3.txt b/Documentation/devicetree/bindings/usb/dwc3.txt
+index 66780a47ad85..29768b0ca923 100644
+--- a/Documentation/devicetree/bindings/usb/dwc3.txt
++++ b/Documentation/devicetree/bindings/usb/dwc3.txt
+@@ -7,7 +7,8 @@ Required properties:
+  - compatible: must be "snps,dwc3"
+  - reg : Address and length of the register set for the device
+  - interrupts: Interrupts used by the dwc3 controller.
+- - clock-names: should contain "ref", "bus_early", "suspend"
++ - clock-names: list of clock names. Ideally should be "ref",
++                "bus_early", "suspend" but may be less or more.
+  - clocks: list of phandle and clock specifier pairs corresponding to
+            entries in the clock-names property.
  
-+static void dwc3_gctl_core_soft_reset(struct dwc3 *dwc)
-+{
-+	u32 reg;
-+
-+	reg = dwc3_readl(dwc->regs, DWC3_GCTL);
-+	reg |= DWC3_GCTL_CORESOFTRESET;
-+	dwc3_writel(dwc->regs, DWC3_GCTL, reg);
-+
-+	reg = dwc3_readl(dwc->regs, DWC3_GCTL);
-+	reg &= ~DWC3_GCTL_CORESOFTRESET;
-+	dwc3_writel(dwc->regs, DWC3_GCTL, reg);
-+}
-+
- static void __dwc3_set_mode(struct work_struct *work)
- {
- 	struct dwc3 *dwc = work_to_dwc(work);
-@@ -154,6 +167,9 @@ static void __dwc3_set_mode(struct work_struct *work)
- 
- 	spin_lock_irqsave(&dwc->lock, flags);
- 
-+	/* Execute a GCTL Core Soft Reset when switch mode */
-+	dwc3_gctl_core_soft_reset(dwc);
-+
- 	dwc3_set_prtcap(dwc, dwc->desired_dr_role);
- 
- 	spin_unlock_irqrestore(&dwc->lock, flags);
+@@ -36,7 +37,7 @@ Optional properties:
+  - phys: from the *Generic PHY* bindings
+  - phy-names: from the *Generic PHY* bindings; supported names are "usb2-phy"
+ 	or "usb3-phy".
+- - resets: a single pair of phandle and reset specifier
++ - resets: set of phandle and reset specifier pairs
+  - snps,usb2-lpm-disable: indicate if we don't want to enable USB2 HW LPM
+  - snps,usb3_lpm_capable: determines if platform is USB3 LPM capable
+  - snps,dis-start-transfer-quirk: when set, disable isoc START TRANSFER command
 -- 
 2.17.1
 
