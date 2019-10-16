@@ -6,32 +6,32 @@ X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E19A4C4360C
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 09:39:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A850DC4360C
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 09:39:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B968020872
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 09:39:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E53C20872
+	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 09:39:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392034AbfJPJjk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Oct 2019 05:39:40 -0400
+        id S2390244AbfJPJjm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Oct 2019 05:39:42 -0400
 Received: from relay7-d.mail.gandi.net ([217.70.183.200]:43967 "EHLO
         relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390231AbfJPJjk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Oct 2019 05:39:40 -0400
+        with ESMTP id S2390231AbfJPJjl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Oct 2019 05:39:41 -0400
 X-Originating-IP: 83.155.44.161
 Received: from classic.redhat.com (mon69-7-83-155-44-161.fbx.proxad.net [83.155.44.161])
         (Authenticated sender: hadess@hadess.net)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 9808820013;
-        Wed, 16 Oct 2019 09:39:37 +0000 (UTC)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id D4A462000C;
+        Wed, 16 Oct 2019 09:39:39 +0000 (UTC)
 From:   Bastien Nocera <hadess@hadess.net>
 To:     linux-usb@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Benjamin Tissoires <benjamin.tissoires@redhat.com>,
         Bastien Nocera <hadess@hadess.net>,
         Alan Stern <stern@rowland.harvard.edu>
-Subject: [PATCH v3 3/6] USB: Implement usb_device_match_id()
-Date:   Wed, 16 Oct 2019 11:39:30 +0200
-Message-Id: <20191016093933.693-4-hadess@hadess.net>
+Subject: [PATCH v3 5/6] USB: Fallback to generic driver when specific driver fails
+Date:   Wed, 16 Oct 2019 11:39:32 +0200
+Message-Id: <20191016093933.693-6-hadess@hadess.net>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191016093933.693-1-hadess@hadess.net>
 References: <20191016093933.693-1-hadess@hadess.net>
@@ -42,52 +42,59 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Match a usb_device with a table of IDs.
+If ->probe fails for a device specific driver, ask the driver core to
+reprobe us, after having flagged the device for the generic driver to be
+forced.
 
 Signed-off-by: Bastien Nocera <hadess@hadess.net>
 Acked-by: Alan Stern <stern@rowland.harvard.edu>
 ---
- drivers/usb/core/driver.c | 14 ++++++++++++++
- drivers/usb/core/usb.h    |  2 ++
- 2 files changed, 16 insertions(+)
+ drivers/usb/core/driver.c  | 5 ++++-
+ drivers/usb/core/generic.c | 3 +++
+ include/linux/usb.h        | 1 +
+ 3 files changed, 8 insertions(+), 1 deletion(-)
 
 diff --git drivers/usb/core/driver.c drivers/usb/core/driver.c
-index d3787d084937..697898327b44 100644
+index 9d1502a9571d..f81606c6a35b 100644
 --- drivers/usb/core/driver.c
 +++ drivers/usb/core/driver.c
-@@ -800,6 +800,20 @@ const struct usb_device_id *usb_match_id(struct usb_interface *interface,
- }
- EXPORT_SYMBOL_GPL(usb_match_id);
+@@ -270,7 +270,10 @@ static int usb_probe_device(struct device *dev)
+ 		return error;
  
-+const struct usb_device_id *usb_device_match_id(struct usb_device *udev,
-+				const struct usb_device_id *id)
-+{
-+	if (!id)
-+		return NULL;
-+
-+	for (; id->idVendor || id->idProduct ; id++) {
-+		if (usb_match_device(udev, id))
-+			return id;
+ 	error = udriver->probe(udev);
+-	/* TODO: fallback to generic driver in case of error */
++	if (error == -ENODEV && udriver != &usb_generic_driver) {
++		udev->use_generic_driver = 1;
++		return -EPROBE_DEFER;
 +	}
-+
-+	return NULL;
-+}
-+
- static int usb_device_match(struct device *dev, struct device_driver *drv)
+ 	return error;
+ }
+ 
+diff --git drivers/usb/core/generic.c drivers/usb/core/generic.c
+index 84da85c13825..4626227a6dd2 100644
+--- drivers/usb/core/generic.c
++++ drivers/usb/core/generic.c
+@@ -213,6 +213,9 @@ static int __check_usb_generic(struct device_driver *drv, void *data)
+ 
+ static bool usb_generic_driver_match(struct usb_device *udev)
  {
- 	/* devices and interfaces are handled separately */
-diff --git drivers/usb/core/usb.h drivers/usb/core/usb.h
-index bbe24817315e..f1dc63848219 100644
---- drivers/usb/core/usb.h
-+++ drivers/usb/core/usb.h
-@@ -69,6 +69,8 @@ extern int usb_match_one_id_intf(struct usb_device *dev,
- 				 const struct usb_device_id *id);
- extern int usb_match_device(struct usb_device *dev,
- 			    const struct usb_device_id *id);
-+extern const struct usb_device_id *usb_device_match_id(struct usb_device *udev,
-+				const struct usb_device_id *id);
- extern void usb_forced_unbind_intf(struct usb_interface *intf);
- extern void usb_unbind_and_rebind_marked_interfaces(struct usb_device *udev);
++	if (udev->use_generic_driver)
++		return true;
++
+ 	/*
+ 	 * If any other driver wants the device, leave the device to this other
+ 	 * driver.
+diff --git include/linux/usb.h include/linux/usb.h
+index 3663bd7b1fa4..ca1a5f1e1c5e 100644
+--- include/linux/usb.h
++++ include/linux/usb.h
+@@ -708,6 +708,7 @@ struct usb_device {
+ 	unsigned lpm_disable_count;
+ 
+ 	u16 hub_delay;
++	unsigned use_generic_driver:1;
+ };
+ #define	to_usb_device(d) container_of(d, struct usb_device, dev)
  
 -- 
 2.21.0
