@@ -1,71 +1,144 @@
-Return-Path: <SRS0=ub7o=YJ=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=1t+K=YK=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20A0EFA372B
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 18:31:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F6D0FA3728
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Oct 2019 01:42:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EDA5321A49
-	for <linux-usb@archiver.kernel.org>; Wed, 16 Oct 2019 18:31:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 70274218DE
+	for <linux-usb@archiver.kernel.org>; Thu, 17 Oct 2019 01:42:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394241AbfJPSbM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 16 Oct 2019 14:31:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47528 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391082AbfJPSbL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 16 Oct 2019 14:31:11 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 5851D10C092D;
-        Wed, 16 Oct 2019 18:31:11 +0000 (UTC)
-Received: from localhost (ovpn-112-25.phx2.redhat.com [10.3.112.25])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 23FAD60605;
-        Wed, 16 Oct 2019 18:31:09 +0000 (UTC)
-Date:   Wed, 16 Oct 2019 14:31:08 -0400 (EDT)
-Message-Id: <20191016.143108.2159602485232151042.davem@redhat.com>
-To:     hayeswang@realtek.com
-Cc:     netdev@vger.kernel.org, nic_swsd@realtek.com,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        pmalani@chromium.org, grundler@chromium.org
-Subject: Re: [PATCH net-next] r8152: support request_firmware for RTL8153
-From:   David Miller <davem@redhat.com>
-In-Reply-To: <1394712342-15778-329-Taiwan-albertk@realtek.com>
-References: <1394712342-15778-329-Taiwan-albertk@realtek.com>
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.66]); Wed, 16 Oct 2019 18:31:11 +0000 (UTC)
+        id S2404139AbfJQBmO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 16 Oct 2019 21:42:14 -0400
+Received: from mail-il1-f198.google.com ([209.85.166.198]:52909 "EHLO
+        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2395085AbfJQBmO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 16 Oct 2019 21:42:14 -0400
+Received: by mail-il1-f198.google.com with SMTP id h22so136901ild.19
+        for <linux-usb@vger.kernel.org>; Wed, 16 Oct 2019 18:42:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=PQRjAFW5dVe30Rm5k0ab2lF/+wmycVZIjpbEMijdEW4=;
+        b=GdUndxqQTW46+dsA/9O65bQE8IQofixlSHspV7FFwfs5VBW5ouynI6KTUw2cVdz4VR
+         hKIAxURXXcuDNRHVBA+jJnrK4qx4bLTiGl1LbkB8f4wpz9V+/sFtS2i9+iLl9yooGGOm
+         KlTBbcPsaj0J+mLwF/jwpFZBl473UZ0gGu0zanRXOxzFeBonFKY+/bYMNhLIQENr58Ne
+         miXRAmy90OX2sDXZKdPFquy2mnp1rJT95lwXg+UdrVNDYGcWcCeXfkAqu+TYT6JPh/Qn
+         ZWwVfcmGMl4LzQLAHdJDF//B2oDsxZj1G1z/l4x+A2dtgLXtAhnf0G6Ks9v/tyBtVW/i
+         PYDA==
+X-Gm-Message-State: APjAAAXrZ4QTsBQA1rgAwa9I3VhnCG8Mh9iDRRs/jSBsgrL5O9G2tnTR
+        nhM3jU6QgcZi26BZXivy4N/0nAQAmUzIMPh4yUv0g4AW2mRP
+X-Google-Smtp-Source: APXvYqwuIPj6BjU0d3hgoHxU2oS7zjAiwmbCQIBYswGV9bVJjS86KE/kxeBR13qAEJjicjqxuGI9Vi11Dcyku4xgdOdR0fZ2LwMg
+MIME-Version: 1.0
+X-Received: by 2002:a92:490f:: with SMTP id w15mr970587ila.187.1571276531941;
+ Wed, 16 Oct 2019 18:42:11 -0700 (PDT)
+Date:   Wed, 16 Oct 2019 18:42:11 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000087ce3a0595115382@google.com>
+Subject: BUG: bad usercopy in ld_usb_read (3)
+From:   syzbot <syzbot+acee996f6938b9ded381@syzkaller.appspotmail.com>
+To:     akpm@linux-foundation.org, andreyknvl@google.com, cai@lca.pw,
+        info@metux.net, isaacm@codeaurora.org, keescook@chromium.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+        tglx@linutronix.de, willy@infradead.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Hayes Wang <hayeswang@realtek.com>
-Date: Wed, 16 Oct 2019 11:02:42 +0800
+Hello,
 
-> This patch supports loading additional firmware file through
-> request_firmware().
-> 
-> A firmware file may include a header followed by several blocks
-> which have different types of firmware. Currently, the supported
-> types are RTL_FW_END, RTL_FW_PLA, and RTL_FW_USB.
-> 
-> The firmware is used to fix some compatible or hardware issues. For
-> example, the device couldn't be found after rebooting several times.
-> 
-> The supported chips are
-> 	RTL_VER_04 (rtl8153a-2.fw)
-> 	RTL_VER_05 (rtl8153a-3.fw)
-> 	RTL_VER_06 (rtl8153a-4.fw)
-> 	RTL_VER_09 (rtl8153b-2.fw)
-> 
-> Signed-off-by: Hayes Wang <hayeswang@realtek.com>
-> Reviewed-by: Prashant Malani <pmalani@chromium.org>
+syzbot found the following crash on:
 
-Applied, thank you.
+HEAD commit:    22be26f7 usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=1756ff77600000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=387eccb7ac68ec5
+dashboard link: https://syzkaller.appspot.com/bug?extid=acee996f6938b9ded381
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+
+Unfortunately, I don't have any reproducer for this crash yet.
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+acee996f6938b9ded381@syzkaller.appspotmail.com
+
+ldusb 5-1:0.28: Read buffer overflow, 177886378725897 bytes dropped
+usercopy: Kernel memory exposure attempt detected from process stack  
+(offset 0, size 2147479552)!
+------------[ cut here ]------------
+kernel BUG at mm/usercopy.c:99!
+invalid opcode: 0000 [#1] SMP KASAN
+CPU: 1 PID: 6543 Comm: syz-executor.5 Not tainted 5.4.0-rc3+ #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+RIP: 0010:usercopy_abort+0xb9/0xbb mm/usercopy.c:99
+Code: e8 32 51 d6 ff 49 89 d9 4d 89 e8 4c 89 e1 41 56 48 89 ee 48 c7 c7 40  
+d9 cd 85 ff 74 24 08 41 57 48 8b 54 24 20 e8 46 e3 c0 ff <0f> 0b e8 06 51  
+d6 ff e8 31 8b fd ff 8b 54 24 04 49 89 d8 4c 89 e1
+RSP: 0018:ffff8881d35f7c58 EFLAGS: 00010282
+RAX: 0000000000000061 RBX: ffffffff85cdd660 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff8128bcbd RDI: ffffed103a6bef7d
+RBP: ffffffff85cdd820 R08: 0000000000000061 R09: fffffbfff11b23be
+R10: fffffbfff11b23bd R11: ffffffff88d91def R12: ffffffff85cdda40
+R13: ffffffff85cdd660 R14: 000000007ffff000 R15: ffffffff85cdd660
+FS:  00007fb330338700(0000) GS:ffff8881db300000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f07cea47000 CR3: 00000001cc11e000 CR4: 00000000001406e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+  __check_object_size mm/usercopy.c:282 [inline]
+  __check_object_size.cold+0x91/0xbb mm/usercopy.c:256
+  check_object_size include/linux/thread_info.h:119 [inline]
+  check_copy_size include/linux/thread_info.h:150 [inline]
+  copy_to_user include/linux/uaccess.h:151 [inline]
+  ld_usb_read+0x31a/0x760 drivers/usb/misc/ldusb.c:492
+  __vfs_read+0x76/0x100 fs/read_write.c:425
+  vfs_read+0x1ea/0x430 fs/read_write.c:461
+  ksys_read+0x1e8/0x250 fs/read_write.c:587
+  do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:290
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x459a59
+Code: fd b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7  
+48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff  
+ff 0f 83 cb b7 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007fb330337c78 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000459a59
+RDX: 00000000ffffffad RSI: 0000000020003200 RDI: 0000000000000004
+RBP: 000000000075bfc8 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007fb3303386d4
+R13: 00000000004c7120 R14: 00000000004dcae8 R15: 00000000ffffffff
+Modules linked in:
+---[ end trace 0fa22c64036b6ebe ]---
+RIP: 0010:usercopy_abort+0xb9/0xbb mm/usercopy.c:99
+Code: e8 32 51 d6 ff 49 89 d9 4d 89 e8 4c 89 e1 41 56 48 89 ee 48 c7 c7 40  
+d9 cd 85 ff 74 24 08 41 57 48 8b 54 24 20 e8 46 e3 c0 ff <0f> 0b e8 06 51  
+d6 ff e8 31 8b fd ff 8b 54 24 04 49 89 d8 4c 89 e1
+RSP: 0018:ffff8881d35f7c58 EFLAGS: 00010282
+RAX: 0000000000000061 RBX: ffffffff85cdd660 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff8128bcbd RDI: ffffed103a6bef7d
+RBP: ffffffff85cdd820 R08: 0000000000000061 R09: fffffbfff11b23be
+R10: fffffbfff11b23bd R11: ffffffff88d91def R12: ffffffff85cdda40
+R13: ffffffff85cdd660 R14: 000000007ffff000 R15: ffffffff85cdd660
+FS:  00007fb330338700(0000) GS:ffff8881db300000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f07cea47000 CR3: 00000001cc11e000 CR4: 00000000001406e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
