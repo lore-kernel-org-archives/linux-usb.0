@@ -7,35 +7,35 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51E5CCA9EA5
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 09:40:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CB2CCA9EA0
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 09:40:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2B018222CC
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 09:40:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 34F9421D7C
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 09:40:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="h10RbwOb"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="Tb9KsRI4"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2442443AbfJRJj4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Oct 2019 05:39:56 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:9754 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2442416AbfJRJjv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Oct 2019 05:39:51 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5da988720000>; Fri, 18 Oct 2019 02:40:02 -0700
+        id S2633115AbfJRJkY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Oct 2019 05:40:24 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:13378 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2442378AbfJRJjo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Oct 2019 05:39:44 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5da988620000>; Fri, 18 Oct 2019 02:39:46 -0700
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 18 Oct 2019 02:39:50 -0700
+  Fri, 18 Oct 2019 02:39:43 -0700
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 18 Oct 2019 02:39:50 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 18 Oct
- 2019 09:39:50 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 18 Oct 2019 09:39:50 +0000
+        by hqpgpgate101.nvidia.com on Fri, 18 Oct 2019 02:39:43 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 18 Oct
+ 2019 09:39:42 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 18 Oct 2019 09:39:43 +0000
 Received: from nkristam-ubuntu.nvidia.com (Not Verified[10.19.66.147]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5da988630000>; Fri, 18 Oct 2019 02:39:50 -0700
+        id <B5da9885c0000>; Fri, 18 Oct 2019 02:39:42 -0700
 From:   Nagarjuna Kristam <nkristam@nvidia.com>
 To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
         <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
@@ -43,9 +43,9 @@ To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
 CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Nagarjuna Kristam <nkristam@nvidia.com>
-Subject: [Patch V11 11/11] arm64: defconfig: Enable tegra XUDC support
-Date:   Fri, 18 Oct 2019 15:08:16 +0530
-Message-ID: <1571391496-20834-12-git-send-email-nkristam@nvidia.com>
+Subject: [Patch V11 09/11] arm64: tegra: Enable xudc on Jetson TX2
+Date:   Fri, 18 Oct 2019 15:08:14 +0530
+Message-ID: <1571391496-20834-10-git-send-email-nkristam@nvidia.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1571391496-20834-1-git-send-email-nkristam@nvidia.com>
 References: <1571391496-20834-1-git-send-email-nkristam@nvidia.com>
@@ -53,49 +53,80 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1571391602; bh=ZPIdvzDAWbWZuD+hJ6pUOFt5OlplMYnvPvxj/cog9/c=;
+        t=1571391586; bh=E76RFg4hKivDlAPkzUSnSS0t3ggcoA3D3Vws4hzLjjg=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
          In-Reply-To:References:X-NVConfidentiality:MIME-Version:
          Content-Type;
-        b=h10RbwObtl1zsGzFgAYPk8GN3gK+41alTo1nnTbah5REJDRcukjTxkoC5IIL+8XGf
-         pokPXTGealUK4JXbg8JNVGc0WojL6SVShLPrEw/QDKDdwIU53jjfPokck2iNX7SQZu
-         i5C8efSxv/A6sPo79LGA4sDiHR2JgTKtGvbfSbrQptFekll6vS10ceTrJJwrQE4oOF
-         gK0ANPguNguBNrDsU2hKddqcTjdr2ELjzhDnx3O7kS3yx1ou+DBITd1f6mnGu6FXik
-         AOYgdomjbuvjD5uZ4qR+8WRBtJsjon7zpkW1Rlj2onAF6rnq2GXLAlShXFo3Bt7WfH
-         JS6fU8tE+eMmw==
+        b=Tb9KsRI4F6GdJb673V/8fUaaFpvEk2LLTUTumsQHvCxGoF1EHHmbd/fQCcKW4/ywW
+         Gx4u8hReGcFkdxV1rUajMJO87TPKHK2nde48xTRJD950n1A85C1BMWwxkhS4G4TMT8
+         Ubwaps6+i9WYBVnCHwwtkpQ21K1diVXwEMrvtqoDz1YOpgU8WPyNaeplO3mxKY1/sV
+         tJBpxsOV6A5uC+Zii5J0lbqXQYueYnhPKPIkfn7VYKIJSup0b26S6SDXzUKeFqI7/b
+         jNwGCvfsgTzLUwV9i2sfx07R2V4ZtExkKn63/brJXAkHlRtm3JwA/ezrqi6MWygZ0X
+         Fao9l02MvRYLw==
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Enable Nvidia XUSB device mode controller driver and USB GPIO Based
-Connection Detection Driver as module.
+Enable XUSB device mode driver for USB0 slot on Jetson TX2.
 
 Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
 ---
- arch/arm64/configs/defconfig | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts | 29 +++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index c9adae4..9473406 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -581,6 +581,7 @@ CONFIG_SND_SIMPLE_CARD=m
- CONFIG_SND_AUDIO_GRAPH_CARD=m
- CONFIG_I2C_HID=m
- CONFIG_USB=y
-+CONFIG_USB_CONN_GPIO=m
- CONFIG_USB_OTG=y
- CONFIG_USB_XHCI_HCD=y
- CONFIG_USB_XHCI_TEGRA=y
-@@ -606,6 +607,7 @@ CONFIG_USB_ULPI=y
- CONFIG_USB_GADGET=y
- CONFIG_USB_RENESAS_USBHS_UDC=m
- CONFIG_USB_RENESAS_USB3=m
-+CONFIG_USB_TEGRA_XUDC=m
- CONFIG_TYPEC=m
- CONFIG_TYPEC_HD3SS3220=m
- CONFIG_MMC=y
+diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
+index 2e61957..b55de35 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
++++ b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
+@@ -131,7 +131,7 @@
+ 				status = "okay";
+ 
+ 				lanes {
+-					usb2-0 {
++					micro_b: usb2-0 {
+ 						nvidia,function = "xusb";
+ 						status = "okay";
+ 					};
+@@ -201,6 +201,20 @@
+ 		phy-names = "usb2-0", "usb2-1", "usb3-0";
+ 	};
+ 
++	usb@3550000 {
++		status = "okay";
++
++		phys = <&micro_b>;
++		phy-names = "usb2";
++		usb-role-switch;
++
++		port {
++			usb_role_switch: endpoint {
++				remote-endpoint = <&usb_b_conn_ep>;
++			};
++		};
++	};
++
+ 	i2c@c250000 {
+ 		/* carrier board ID EEPROM */
+ 		eeprom@57 {
+@@ -367,4 +381,17 @@
+ 			vin-supply = <&vdd_5v0_sys>;
+ 		};
+ 	};
++
++	usb_type_b: connector {
++		compatible = "usb-b-connector", "gpio-usb-b-connector";
++		label = "micro-USB";
++		type = "micro";
++		vbus-gpio = <&gpio TEGRA186_MAIN_GPIO(X, 7) GPIO_ACTIVE_LOW>;
++
++		port {
++			usb_b_conn_ep: endpoint {
++				remote-endpoint = <&usb_role_switch>;
++			};
++		};
++	};
+ };
 -- 
 2.7.4
 
