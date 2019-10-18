@@ -4,52 +4,52 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55FD7CA9EA9
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 22:14:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA1D0CA9EA0
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 22:16:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2721120854
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 22:14:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE57121852
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 22:16:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1571436853;
-	bh=R9g+S9y+c2VGUfwHWA0l4yuNP1TCqOTSUlsLSVpOWSY=;
+	s=default; t=1571437000;
+	bh=H12XsaAVdOeeHzLMIlQdJrBU963KqbPjLFf+EN77ZTo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=VTfMmNanVUpTHmnMuz4F5BBycIPcywQLT1mztS5/l69KuhkNaOL/fNA8AFJON+0jw
-	 LZa8v/2ZUkIm6JIZfZwaIBZEy+lpuprfcYYyg2pdS8raZq/CoO7EgZ2xuRzhBdS25b
-	 RrjqHQYBDjh4nPs8+MOvz097gDBwMDCuRBh1Tc04=
+	b=bUA/SguvqeCUd+C+oDWRMv2TEMSQnvXg8EYIZzFWcmn4HhKT43KMdbeuuT8YOlnWb
+	 v/Wcqn8ioE25mFsEmn1nb6qHlM5Te13QUN4BQe6C90ZbczQIrqYtjUXmpG5BhGhbOO
+	 1zqxEfe2sPKYMX3JTD4fiphoJpCbtJyOH5M2tgQw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392193AbfJRWOM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Oct 2019 18:14:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42172 "EHLO mail.kernel.org"
+        id S2392854AbfJRWQ0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Oct 2019 18:16:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40706 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389002AbfJRWJf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 18 Oct 2019 18:09:35 -0400
+        id S2387662AbfJRWIS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 18 Oct 2019 18:08:18 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F2AD82245C;
-        Fri, 18 Oct 2019 22:09:33 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0E3A7222D4;
+        Fri, 18 Oct 2019 22:08:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571436574;
-        bh=R9g+S9y+c2VGUfwHWA0l4yuNP1TCqOTSUlsLSVpOWSY=;
+        s=default; t=1571436497;
+        bh=H12XsaAVdOeeHzLMIlQdJrBU963KqbPjLFf+EN77ZTo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eSY8SIXRjR/7H7lT9bOLk5zX7qlPmDFU/Tecf1kVOHoQ6Ifi6DltldvWP398YivLr
-         FnLfaWYtVT0ng32qOeSf1vYY8F2Ww5lN+WwWSOWj8UXYFI+PbeCej7Gx6A7PJC3S+L
-         87AltfThwANZPqqwDvLwvxw/5TWIMAH9yuytOJpI=
+        b=mQwi+LXRG/wOHZTyi4GXvezuQoXlgqhmwQqapGKgo21II7SxmDx5cZTu9DoKW3iQ8
+         1hJzM+2EzGWvDq6pqq2KTn6LhGp5Eaz0ePD8k79YdH+HGuBEVsCuTVTpB7ZezX2GWI
+         bzeQLjti8mA15jbLGTeLKkzJzE36RM/+4K/mRsLY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Jan-Marek Glogowski <glogow@fbihome.de>,
         Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 06/29] usb: handle warm-reset port requests on hub resume
-Date:   Fri, 18 Oct 2019 18:08:57 -0400
-Message-Id: <20191018220920.10545-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 11/56] usb: handle warm-reset port requests on hub resume
+Date:   Fri, 18 Oct 2019 18:07:08 -0400
+Message-Id: <20191018220753.10002-11-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191018220920.10545-1-sashal@kernel.org>
-References: <20191018220920.10545-1-sashal@kernel.org>
+In-Reply-To: <20191018220753.10002-1-sashal@kernel.org>
+References: <20191018220753.10002-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -82,10 +82,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 7 insertions(+)
 
 diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 63646dc3ca27d..4a87cc4783404 100644
+index b543a4730ef24..bb20aa433e984 100644
 --- a/drivers/usb/core/hub.c
 +++ b/drivers/usb/core/hub.c
-@@ -102,6 +102,8 @@ EXPORT_SYMBOL_GPL(ehci_cf_port_reset_rwsem);
+@@ -104,6 +104,8 @@ EXPORT_SYMBOL_GPL(ehci_cf_port_reset_rwsem);
  static void hub_release(struct kref *kref);
  static int usb_reset_and_verify_device(struct usb_device *udev);
  static int hub_port_disable(struct usb_hub *hub, int port1, int set_state);
@@ -94,7 +94,7 @@ index 63646dc3ca27d..4a87cc4783404 100644
  
  static inline char *portspeed(struct usb_hub *hub, int portstatus)
  {
-@@ -1108,6 +1110,11 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
+@@ -1110,6 +1112,11 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
  						   USB_PORT_FEAT_ENABLE);
  		}
  
