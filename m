@@ -2,234 +2,438 @@ Return-Path: <SRS0=KCmB=YL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 405EECA9EA9
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 15:45:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 125FECA9EAB
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 15:45:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 17B28222CC
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 15:45:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E0E28222C5
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 15:45:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2409039AbfJRPpP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Oct 2019 11:45:15 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:36209 "EHLO
+        id S2502009AbfJRPmg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Oct 2019 11:42:36 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:39843 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2502049AbfJRPmj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Oct 2019 11:42:39 -0400
+        with ESMTP id S2439662AbfJRPme (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Oct 2019 11:42:34 -0400
 Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
  (mreue108 [212.227.15.145]) with ESMTPA (Nemesis) id
- 1Mw9Hm-1i4mQQ3FRM-00s9dJ; Fri, 18 Oct 2019 17:42:26 +0200
+ 1MkHIV-1hauA20lSb-00kdie; Fri, 18 Oct 2019 17:41:11 +0200
 From:   Arnd Bergmann <arnd@arndb.de>
 To:     Daniel Mack <daniel@zonque.org>,
         Haojian Zhuang <haojian.zhuang@gmail.com>,
         Robert Jarzmik <robert.jarzmik@free.fr>
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Linus Walleij <linus.walleij@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org
-Subject: [PATCH 20/46] ARM: pxa: lubbock: pass udc irqs as resource
-Date:   Fri, 18 Oct 2019 17:41:35 +0200
-Message-Id: <20191018154201.1276638-20-arnd@arndb.de>
+        Arnd Bergmann <arnd@arndb.de>, linux-clk@vger.kernel.org,
+        linux-fbdev@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-pm@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org
+Subject: [PATCH 00/46] ARM: pxa: towards multiplatform support
+Date:   Fri, 18 Oct 2019 17:40:52 +0200
+Message-Id: <20191018154052.1276506-1-arnd@arndb.de>
 X-Mailer: git-send-email 2.20.0
-In-Reply-To: <20191018154052.1276506-1-arnd@arndb.de>
-References: <20191018154052.1276506-1-arnd@arndb.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:nTJNH1PQzy8cjMMin7LOinomkqs0tSjkKrVT+kBFs4X3KlxxjXo
- dO6+aTpTiKZtK8QpEPweKazqSMi5+LBh8d25s0ioorZsFJb/eln2YpAq4JMhCuYX21uFI5r
- 7heIyxwKt5SHkA1O39LkzlW18z0/IxVs2ndKvJ2fTjJRQhiXeLcJWw79XcQu7cAP/hdX5bf
- t3Rc98BI5rEp2PEidC66w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:QuvpkRYK1V8=:PClHp9hqTY7U0i9I/VNCU5
- 683MANrigxXg9+rxrH9CRmdB8oFbOzHw3w1+HaOXloRGesp7YPDLJ+RG8gXuJA2/mih8e1DFQ
- Bs1Ua6tDAfbCOnqrtevCxFrcTfEP6w/XzyleuQDJ3tep7GYIKfIwRAL6pxo0kG0WlToxCXBMi
- Hpo1MZScQpdGJh9Z6upsJqtDHHuTLOoP6EzgLbvrYvvA+GIGj+sHv5caiTp9wS2IzWPe7OWBs
- dI8FR3g2T02YhTdERnH6OFzYsuFiFggF0M/CojavsILk+IsAbxcqRu/wH2gmUipBbnglGvLJR
- En1I05CplZg9zj8FueyPGhRRfpNOkqGiTwAhQKLglmhigKAuJW5NuIWu6yDA9KlP87NXldTTt
- 6DndgPN4J4s62xmmI/Qd7ANmnaPaq+a/BGfZclRpeUYQVPIk7iS2GNiWjUO4uykVQFJ3wOtFZ
- jEjwO1D+ujSMv5MIVYpjVSJ6+uC/Q41X5vY0xeACYYV4grZEF1viS/yMAKcTH4kx2d652HQ9T
- nD11IL/RA6DmIUn90mboBliM4C0M8mev9rctM7dUV3WRDFJ3XW/KojWx6Enb104zoeFtYOqEV
- nZQKK2NN13EP8pLQSuBuEW2QPFnAeiZbWMOfNuxf9KdnGwh/vb3JowwIhfS/WJk7Wrd9H13LS
- Yk/cF9/CbytyuxCaq/eQHS+En7RXOveDRCwjQCvnSvlBKZxUYC01CximEBYgHEqw6NaRtpG7m
- TLxF5zJeKwi1lBvau3glAcBzfNT6a5xqWLLLP+HP851pHHGn96JNR5oGt8Bn1O4++fnKCoJNV
- CQq9oL6tASvoeJZFt7LttVWibzZzHbLgSw4THK3XdpxqMOrbj5JP/qka0AOrtTmfUJVhpKa4W
- dr7PXeyGxe8SExkXZmOQ==
+X-Provags-ID: V03:K1:EHc7oEzoVA7wFO+Bch6RyP3Dmkh5AMRq/Ay6Si14JV6lk4ud9hG
+ Rebu5BXDtymt2IyLQOTjtdgK6YNR3mzeiU1Iz44weETYwhNUZA3lhMBHpYk8vX3QhGhyK94
+ kCllRns/Nt5rZvsPJrwJWc/6hwei4WDR7zussy/AAIDLcsRES0ddHF6Kcf9khiXYHAVoAUG
+ rup34Bo4MqFMDTnIgjfNQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:dxE2RJNuqeQ=:Erdj2DVtSPYWczY3oZZ9HJ
+ dqPVJK56NENsV8jgemKgYOlgILekiFj7Wr1UYeO83MkuYh1EIquVzzslvtlinPjaswpZsm7RP
+ 6rH8MHndTNGZ3qvBg72nxKSTvqop19eMZva5iz/t1KDIcL6Y50UwD4VWs+e+cvNnZy7BrR5Xc
+ 4QTLrPjG2movX1Mv1sII87WLSFb6tdQfRrR8RBLnkZvQ6qwI3UqWeNUTCvtDJgzb8lnXsNwBf
+ s9pYhaccSH5GDqTtHOFdHbqT4Mv2triKsDy7hDw2acs2Ea0fqkQiRSURv0wjK21BIJyQAXCxc
+ u+G5rU0bAVe8sN6Kmf0/e7IpupEAneezN/rGH3CBTFZLlUejYYPGoW3mSwLXBLTqKqPQ8otE4
+ NNdYvXYhFoTMFfaaIsA87aGQTK8MQpf/ojfjSdYVmGOnHi5Yl4p884AJfwMCsYD3TZ/4JCLEZ
+ Zqkmb3hIUmilROzsQt2pfH9fzbT0mnZd6CulD1MoscYfuSPafAB3BYirZxtQJhoZCij8z9GjD
+ FkrfWjOCgvDievzI7GtYWHSeLrjpu8QtdLD8C6QL86Zhd2A3JBNgM1uJGbRk0K8y1fkcLRaYO
+ 8p0WEk59xAtIANUijr6ZjHKuol9ADJp1S3i8wu0k3aiFW/Dzj0yMEAgFsN0RB+Kgqtq4405u5
+ c3wsDLdrAtFa16SX0pBzKqELCia9Q/1KXIGidCYq/FI3ujnsyIr6TVNTcpeZqPFPkR3cEMAhE
+ tCl52psfDTr+zs5tcElDnPWOTJZXOVqtdlNAlGD38iQrKCGryYVt1QdAuGIHEK4uhCSlISyQ6
+ IIF3IT2mmzyqMw9F2CreKbmLybsolksnpbtKhHjqahUfNg5mSoO80LJTUen7lqoJyCEsyHQoP
+ w5Jy020MzrnM+X6ufotQ==
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Lubbock is the only machine that has three IRQs for the UDC.
-These are currently hardcoded in the driver based on a
-machine header file.
 
-Change this to use platform device resources as we use for
-the generic IRQ anyway.
+Hi PXA maintainers,
 
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+I'm in the process of getting the old ARM platforms to all build
+in a single kernel. The largest part of that work is changing all
+the device drivers to no longer require mach/*.h header files.
+
+This series does it for arch/pxa/.
+
+As with the omap1 and s3c24xx series I sent before, I don't
+expect this all to be correct in the first version, though
+a lot of the patches are fairly simple and I did exhaustive
+compile-time testing on them.
+
+Please test if you have the hardware, or review!
+
+     Arnd
+
+Bcc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Bcc: alsa-devel@alsa-project.org
+Bcc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Bcc: Brian Norris <computersforpeace@gmail.com>
+Bcc: Daniel Thompson <daniel.thompson@linaro.org>
+Bcc: David Woodhouse <dwmw2@infradead.org>
+Bcc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Bcc: Dominik Brodowski <linux@dominikbrodowski.net>
+Bcc: dri-devel@lists.freedesktop.org
+Bcc: Felipe Balbi <balbi@kernel.org>
+Bcc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Bcc: Guenter Roeck <linux@roeck-us.net>
+Bcc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Bcc: Jens Axboe <axboe@kernel.dk>
+Bcc: Jingoo Han <jingoohan1@gmail.com>
+Bcc: Jonathan Cameron <jic23@cam.ac.uk>
+Bcc: Lee Jones <lee.jones@linaro.org>
+Bcc: Lubomir Rintel <lkundrak@v3.sk>
+Bcc: Marek Vasut <marek.vasut@gmail.com>
+Bcc: Mark Brown <broonie@kernel.org>
+Bcc: Michael Turquette <mturquette@baylibre.com>
+Bcc: Miquel Raynal <miquel.raynal@bootlin.com>
+Bcc: Paul Parsons <lost.distance@yahoo.com>
+Bcc: Pavel Machek <pavel@ucw.cz>
+Bcc: Philipp Zabel <philipp.zabel@gmail.com>
+Bcc: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Bcc: Richard Weinberger <richard@nod.at>
+Bcc: Russell King <linux@armlinux.org.uk>
+Bcc: Sebastian Reichel <sre@kernel.org>
+Bcc: Sergey Lapin <slapin@ossfans.org>
+Bcc: Stephen Boyd <sboyd@kernel.org>
+Bcc: Tomas Cech <sleep_walker@suse.com>
+Bcc: Ulf Hansson <ulf.hansson@linaro.org>
+Bcc: Vignesh Raghavendra <vigneshr@ti.com>
+Bcc: Viresh Kumar <viresh.kumar@linaro.org>
+Bcc: Wim Van Sebroeck <wim@linux-watchdog.org>
+Cc: linux-clk@vger.kernel.org
+Cc: linux-fbdev@vger.kernel.org
+Cc: linux-ide@vger.kernel.org
+Cc: linux-input@vger.kernel.org
+Cc: linux-leds@vger.kernel.org
+Cc: linux-mmc@vger.kernel.org
+Cc: linux-mtd@lists.infradead.org
+Cc: linux-pm@vger.kernel.org
+Cc: linux-rtc@vger.kernel.org
 Cc: linux-usb@vger.kernel.org
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- arch/arm/mach-pxa/lubbock.c                   | 12 +++++-
- .../arm/mach-pxa/{include/mach => }/lubbock.h |  2 -
- drivers/usb/gadget/udc/pxa25x_udc.c           | 37 ++++++++++---------
- drivers/usb/gadget/udc/pxa25x_udc.h           |  7 +---
- 4 files changed, 32 insertions(+), 26 deletions(-)
- rename arch/arm/mach-pxa/{include/mach => }/lubbock.h (97%)
+Cc: linux-watchdog@vger.kernel.org
 
-diff --git a/arch/arm/mach-pxa/lubbock.c b/arch/arm/mach-pxa/lubbock.c
-index 098605c8eeed..187d9d8893d7 100644
---- a/arch/arm/mach-pxa/lubbock.c
-+++ b/arch/arm/mach-pxa/lubbock.c
-@@ -46,7 +46,7 @@
- 
- #include "pxa25x.h"
- #include <linux/platform_data/asoc-pxa.h>
--#include <mach/lubbock.h>
-+#include "lubbock.h"
- #include "udc.h"
- #include <linux/platform_data/irda-pxaficp.h>
- #include <linux/platform_data/video-pxafb.h>
-@@ -131,6 +131,13 @@ static struct pxa2xx_udc_mach_info udc_info __initdata = {
- 	// no D+ pullup; lubbock can't connect/disconnect in software
- };
- 
-+static struct resource lubbock_udc_resources[] = {
-+	DEFINE_RES_MEM(0x40600000, 0x10000),
-+	DEFINE_RES_IRQ(IRQ_USB),
-+	DEFINE_RES_IRQ(LUBBOCK_USB_IRQ),
-+	DEFINE_RES_IRQ(LUBBOCK_USB_DISC_IRQ),
-+};
-+
- /* GPIOs for SA1111 PCMCIA */
- static struct gpiod_lookup_table sa1111_pcmcia_gpio_table = {
- 	.dev_id = "1800",
-@@ -495,6 +502,9 @@ static void __init lubbock_init(void)
- 	lubbock_init_pcmcia();
- 
- 	clk_add_alias("SA1111_CLK", NULL, "GPIO11_CLK", NULL);
-+	/* lubbock has two extra IRQs */
-+	pxa25x_device_udc.resource = lubbock_udc_resources;
-+	pxa25x_device_udc.num_resources = ARRAY_SIZE(lubbock_udc_resources);
- 	pxa_set_udc_info(&udc_info);
- 	pxa_set_fb_info(NULL, &sharp_lm8v31);
- 	pxa_set_mci_info(&lubbock_mci_platform_data);
-diff --git a/arch/arm/mach-pxa/include/mach/lubbock.h b/arch/arm/mach-pxa/lubbock.h
-similarity index 97%
-rename from arch/arm/mach-pxa/include/mach/lubbock.h
-rename to arch/arm/mach-pxa/lubbock.h
-index a3af4a2f9446..8e3ff7d57121 100644
---- a/arch/arm/mach-pxa/include/mach/lubbock.h
-+++ b/arch/arm/mach-pxa/lubbock.h
-@@ -1,7 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
- /*
-- *  arch/arm/mach-pxa/include/mach/lubbock.h
-- *
-  *  Author:	Nicolas Pitre
-  *  Created:	Jun 15, 2001
-  *  Copyright:	MontaVista Software Inc.
-diff --git a/drivers/usb/gadget/udc/pxa25x_udc.c b/drivers/usb/gadget/udc/pxa25x_udc.c
-index d4be53559f2e..ed7ae48b7db2 100644
---- a/drivers/usb/gadget/udc/pxa25x_udc.c
-+++ b/drivers/usb/gadget/udc/pxa25x_udc.c
-@@ -44,10 +44,6 @@
- #include <linux/usb/gadget.h>
- #include <linux/usb/otg.h>
- 
--#ifdef CONFIG_ARCH_LUBBOCK
--#include <mach/lubbock.h>
--#endif
--
- #define UDCCR	 0x0000 /* UDC Control Register */
- #define UDC_RES1 0x0004 /* UDC Undocumented - Reserved1 */
- #define UDC_RES2 0x0008 /* UDC Undocumented - Reserved2 */
-@@ -1575,18 +1571,15 @@ lubbock_vbus_irq(int irq, void *_dev)
- 	int			vbus;
- 
- 	dev->stats.irqs++;
--	switch (irq) {
--	case LUBBOCK_USB_IRQ:
-+	if (irq == dev->usb_irq) {
- 		vbus = 1;
--		disable_irq(LUBBOCK_USB_IRQ);
--		enable_irq(LUBBOCK_USB_DISC_IRQ);
--		break;
--	case LUBBOCK_USB_DISC_IRQ:
-+		disable_irq(dev->usb_irq);
-+		enable_irq(dev->usb_disc_irq);
-+	} else if (irq == dev->usb_disc_irq) {
- 		vbus = 0;
--		disable_irq(LUBBOCK_USB_DISC_IRQ);
--		enable_irq(LUBBOCK_USB_IRQ);
--		break;
--	default:
-+		disable_irq(dev->usb_disc_irq);
-+		enable_irq(dev->usb_irq);
-+	} else {
- 		return IRQ_NONE;
- 	}
- 
-@@ -2421,20 +2414,28 @@ static int pxa25x_udc_probe(struct platform_device *pdev)
- 
- #ifdef CONFIG_ARCH_LUBBOCK
- 	if (machine_is_lubbock()) {
--		retval = devm_request_irq(&pdev->dev, LUBBOCK_USB_DISC_IRQ,
-+		dev->usb_irq = platform_get_irq(pdev, 1);
-+		if (dev->usb_irq < 0)
-+			return dev->usb_irq;
-+
-+		dev->usb_disc_irq = platform_get_irq(pdev, 2);
-+		if (dev->usb_disc_irq < 0)
-+			return dev->usb_disc_irq;
-+
-+		retval = devm_request_irq(&pdev->dev, dev->usb_disc_irq,
- 					  lubbock_vbus_irq, 0, driver_name,
- 					  dev);
- 		if (retval != 0) {
- 			pr_err("%s: can't get irq %i, err %d\n",
--				driver_name, LUBBOCK_USB_DISC_IRQ, retval);
-+				driver_name, dev->usb_disc_irq, retval);
- 			goto err;
- 		}
--		retval = devm_request_irq(&pdev->dev, LUBBOCK_USB_IRQ,
-+		retval = devm_request_irq(&pdev->dev, dev->usb_irq,
- 					  lubbock_vbus_irq, 0, driver_name,
- 					  dev);
- 		if (retval != 0) {
- 			pr_err("%s: can't get irq %i, err %d\n",
--				driver_name, LUBBOCK_USB_IRQ, retval);
-+				driver_name, dev->usb_irq, retval);
- 			goto err;
- 		}
- 	} else
-diff --git a/drivers/usb/gadget/udc/pxa25x_udc.h b/drivers/usb/gadget/udc/pxa25x_udc.h
-index ccc6b921f067..c574fb602741 100644
---- a/drivers/usb/gadget/udc/pxa25x_udc.h
-+++ b/drivers/usb/gadget/udc/pxa25x_udc.h
-@@ -121,16 +121,13 @@ struct pxa25x_udc {
- 	struct dentry				*debugfs_udc;
- #endif
- 	void __iomem				*regs;
-+	int					usb_irq;
-+	int					usb_disc_irq;
- };
- #define to_pxa25x(g)	(container_of((g), struct pxa25x_udc, gadget))
- 
- /*-------------------------------------------------------------------------*/
- 
--#ifdef CONFIG_ARCH_LUBBOCK
--#include <mach/lubbock.h>
--/* lubbock can also report usb connect/disconnect irqs */
--#endif
--
- static struct pxa25x_udc *the_controller;
- 
- /*-------------------------------------------------------------------------*/
+Arnd Bergmann (46):
+  ARM: pxa: split mach/generic.h
+  ARM: pxa: make mainstone.h private
+  ARM: pxa: make mach/regs-uart.h private
+  ARM: pxa: remove mach/dma.h
+  ARM: pxa: split up mach/hardware.h
+  ARM: pxa: stop using mach/bitfield.h
+  ARM: pxa: move mach/sound.h to linux/platform_data/
+  ARM: pxa: move regs-lcd.h into driver
+  watchdog: sa1100: use platform device registration
+  ARM: pxa: pxa2xx-ac97-lib: use IRQ resource
+  ARM: pxa: cmx270: use platform device for nand
+  ARM: pxa: make addr-map.h header local
+  ARM: pxa: move pcmcia board data into mach-pxa
+  ARM: pxa: use pdev resource for palmld mmio
+  ARM: pxa: maybe fix gpio lookup tables
+  ARM: pxa: tosa: use gpio descriptor for audio
+  ARM: pxa: poodle: use platform data for poodle asoc driver
+  ARM: pxa: corgi: use gpio descriptors for audio
+  ARM: pxa: hx4700: use gpio descriptors for audio
+  ARM: pxa: lubbock: pass udc irqs as resource
+  ARM: pxa: spitz: use gpio descriptors for audio
+  ARM: pxa: eseries: use gpio lookup for audio
+  ARM: pxa: z2: use gpio lookup for audio device
+  ARM: pxa: magician: use platform driver for audio
+  ARM: pxa: mainstone-wm97xx: use gpio lookup table
+  ARM: pxa: zylonite: use gpio lookup instead mfp header
+  input: touchscreen: mainstone: fix pxa2xx+pxa3xx configuration
+  input: touchscreen: mainstone: sync with zylonite driver
+  Input: touchscreen: use wrapper for pxa2xx ac97 registers
+  SoC: pxa: use pdev resource for FIFO regs
+  ASoC: pxa: ac97: use normal MMIO accessors
+  ASoC: pxa: i2s: use normal MMIO accessors
+  ARM: pxa: pcmcia: move smemc configuration back to arch
+  ARM: pxa: remove get_clk_frequency_khz()
+  cpufreq: pxa3: move clk register access to clk driver
+  ARM: pxa: move smemc register access from clk to platform
+  ARM: pxa: move clk register definitions to driver
+  video: backlight: tosa: use gpio lookup table
+  power: tosa: simplify probe function
+  ARM: pxa: tosa: use gpio lookup for battery
+  ARM: pxa: move it8152 PCI support into machine
+  ARM: pxa: remove unused mach/bitfield.h
+  ARM: pxa: pci-it8152: add platform checks
+  ARM: mmp: remove tavorevb board support
+  ARM: mmp: rename pxa_register_device
+  ARM: pxa: move plat-pxa to drivers/soc/
+
+ arch/arm/Kconfig                              |   9 -
+ arch/arm/Makefile                             |   1 -
+ arch/arm/common/Makefile                      |   1 -
+ arch/arm/common/locomo.c                      |   1 -
+ arch/arm/common/sa1111.c                      |   5 +-
+ arch/arm/include/asm/hardware/sa1111.h        |   2 -
+ arch/arm/mach-mmp/Kconfig                     |  10 +-
+ arch/arm/mach-mmp/Makefile                    |   1 -
+ arch/arm/mach-mmp/devices.c                   |   2 +-
+ arch/arm/mach-mmp/devices.h                   |  10 +-
+ arch/arm/mach-mmp/mfp.h                       |   2 +-
+ arch/arm/mach-mmp/mmp2.h                      |  48 ++---
+ arch/arm/mach-mmp/pxa168.h                    |  60 +++---
+ arch/arm/mach-mmp/pxa910.h                    |  38 ++--
+ arch/arm/mach-mmp/tavorevb.c                  | 113 -----------
+ arch/arm/mach-mmp/ttc_dkb.c                   |   6 +-
+ arch/arm/mach-pxa/Kconfig                     |   8 +-
+ arch/arm/mach-pxa/Makefile                    |  22 +-
+ .../mach-pxa/{include/mach => }/addr-map.h    |   0
+ .../arm/mach-pxa/balloon3-pcmcia.c            |   4 +-
+ arch/arm/mach-pxa/balloon3.c                  |   4 +-
+ .../mach-pxa/{include/mach => }/balloon3.h    |   2 +-
+ arch/arm/mach-pxa/cm-x270.c                   |  25 +++
+ arch/arm/mach-pxa/cm-x2xx-pci.c               |   2 +-
+ arch/arm/mach-pxa/cm-x2xx.c                   |   7 +-
+ arch/arm/mach-pxa/cm-x300.c                   |  12 +-
+ .../arm/mach-pxa/cm_x255-pcmcia.c             |   2 +-
+ .../arm/mach-pxa/cm_x270-pcmcia.c             |   2 +-
+ .../arm/mach-pxa/cm_x2xx-pcmcia.c             |   2 +-
+ arch/arm/mach-pxa/colibri-evalboard.c         |   1 -
+ .../arm/mach-pxa/colibri-pcmcia.c             |   2 +-
+ arch/arm/mach-pxa/colibri-pxa270-income.c     |   1 -
+ arch/arm/mach-pxa/colibri-pxa270.c            |   2 +-
+ arch/arm/mach-pxa/colibri-pxa300.c            |   3 +-
+ arch/arm/mach-pxa/colibri-pxa320.c            |   2 +-
+ arch/arm/mach-pxa/colibri-pxa3xx.c            |   1 -
+ arch/arm/mach-pxa/corgi.c                     |  23 ++-
+ arch/arm/mach-pxa/{include/mach => }/corgi.h  |   2 +-
+ arch/arm/mach-pxa/corgi_pm.c                  |   3 +-
+ arch/arm/mach-pxa/csb726.c                    |   3 +-
+ arch/arm/mach-pxa/devices.c                   |  15 +-
+ .../arm/mach-pxa/e740-pcmcia.c                |   2 +-
+ arch/arm/mach-pxa/em-x270.c                   |   2 +-
+ arch/arm/mach-pxa/eseries.c                   |  34 +++-
+ arch/arm/mach-pxa/ezx.c                       |   1 -
+ arch/arm/mach-pxa/generic.c                   |  78 ++++++--
+ arch/arm/mach-pxa/generic.h                   |   9 -
+ arch/arm/mach-pxa/gumstix.c                   |   1 -
+ .../arm/mach-pxa/hx4700-pcmcia.c              |   4 +-
+ arch/arm/mach-pxa/hx4700.c                    |  18 +-
+ arch/arm/mach-pxa/{include/mach => }/hx4700.h |   2 +-
+ arch/arm/mach-pxa/idp.c                       |   2 -
+ arch/arm/mach-pxa/include/mach/bitfield.h     | 114 -----------
+ arch/arm/mach-pxa/include/mach/dma.h          |  17 --
+ arch/arm/mach-pxa/include/mach/generic.h      |   1 -
+ arch/arm/mach-pxa/include/mach/mfp.h          |   2 +-
+ arch/arm/mach-pxa/include/mach/pxa-regs.h     |  52 +++++
+ arch/arm/mach-pxa/include/mach/pxa2xx-regs.h  |  47 +----
+ arch/arm/mach-pxa/include/mach/pxa3xx-regs.h  |  71 +------
+ arch/arm/mach-pxa/include/mach/regs-ost.h     |   4 +-
+ arch/arm/mach-pxa/include/mach/reset.h        |   2 +-
+ arch/arm/mach-pxa/include/mach/tosa.h         |  15 --
+ arch/arm/mach-pxa/irq.c                       |   3 +-
+ arch/arm/mach-pxa/littleton.c                 |   1 -
+ arch/arm/mach-pxa/lpd270.c                    |   4 +-
+ arch/arm/mach-pxa/lubbock.c                   |  15 +-
+ .../arm/mach-pxa/{include/mach => }/lubbock.h |   2 -
+ arch/arm/mach-pxa/magician.c                  |  54 ++++-
+ arch/arm/mach-pxa/mainstone.c                 |  15 +-
+ .../mach-pxa/{include/mach => }/mainstone.h   |   2 -
+ arch/arm/mach-pxa/mfp-pxa2xx.c                |   1 +
+ arch/arm/mach-pxa/mfp-pxa2xx.h                |   2 +-
+ arch/arm/mach-pxa/mfp-pxa3xx.c                |   1 -
+ arch/arm/mach-pxa/mfp-pxa3xx.h                |   2 +-
+ arch/arm/mach-pxa/mioa701.c                   |   2 +-
+ arch/arm/mach-pxa/mxm8x10.c                   |   8 +-
+ arch/arm/mach-pxa/palm27x.c                   |   2 +-
+ .../arm/mach-pxa/palmld-pcmcia.c              |   5 +-
+ arch/arm/mach-pxa/palmld.c                    |  23 ++-
+ arch/arm/mach-pxa/{include/mach => }/palmld.h |   2 +-
+ arch/arm/mach-pxa/palmt5.c                    |  11 +-
+ .../arm/mach-pxa/palmtc-pcmcia.c              |   4 +-
+ arch/arm/mach-pxa/palmtc.c                    |   4 +-
+ arch/arm/mach-pxa/{include/mach => }/palmtc.h |   2 +-
+ arch/arm/mach-pxa/palmte2.c                   |   2 +-
+ arch/arm/mach-pxa/palmtreo.c                  |   2 +-
+ .../arm/mach-pxa/palmtx-pcmcia.c              |   4 +-
+ arch/arm/mach-pxa/palmtx.c                    |  13 +-
+ arch/arm/mach-pxa/{include/mach => }/palmtx.h |   2 +-
+ arch/arm/mach-pxa/palmz72.c                   |   2 +-
+ .../it8152.c => mach-pxa/pci-it8152.c}        |  25 ++-
+ .../it8152.h => mach-pxa/pci-it8152.h}        |   2 -
+ arch/arm/mach-pxa/pcm990-baseboard.c          |   2 +-
+ arch/arm/mach-pxa/poodle.c                    |  31 ++-
+ arch/arm/mach-pxa/{include/mach => }/poodle.h |   4 +-
+ arch/arm/mach-pxa/pxa-regs.h                  |   1 +
+ arch/arm/mach-pxa/pxa25x.c                    |   6 +-
+ arch/arm/mach-pxa/pxa25x.h                    |   2 +-
+ arch/arm/mach-pxa/pxa27x-udc.h                |   2 +
+ arch/arm/mach-pxa/pxa27x.c                    |   6 +-
+ arch/arm/mach-pxa/pxa27x.h                    |   2 +-
+ arch/arm/mach-pxa/pxa2xx.c                    |   1 -
+ arch/arm/mach-pxa/pxa300.c                    |   1 +
+ arch/arm/mach-pxa/pxa320.c                    |   1 +
+ arch/arm/mach-pxa/pxa3xx-ulpi.c               |   2 +-
+ arch/arm/mach-pxa/pxa3xx.c                    |  11 +-
+ arch/arm/mach-pxa/pxa3xx.h                    |   2 +-
+ arch/arm/mach-pxa/pxa930.c                    |   1 +
+ arch/arm/mach-pxa/regs-rtc.h                  |   2 +-
+ arch/arm/mach-pxa/regs-u2d.h                  |   2 -
+ .../mach-pxa/{include/mach => }/regs-uart.h   |   2 +
+ arch/arm/mach-pxa/reset.c                     |   3 -
+ arch/arm/mach-pxa/sleep.S                     |   5 +-
+ arch/arm/mach-pxa/smemc.c                     |  11 +-
+ arch/arm/mach-pxa/spitz.c                     |  33 ++-
+ arch/arm/mach-pxa/{include/mach => }/spitz.h  |   2 +-
+ arch/arm/mach-pxa/spitz_pm.c                  |   3 +-
+ arch/arm/mach-pxa/standby.S                   |   1 -
+ .../arm/mach-pxa/stargate2-pcmcia.c           |   2 +-
+ arch/arm/mach-pxa/tosa.c                      |  63 +++++-
+ .../arm/mach-pxa/trizeps4-pcmcia.c            |   4 +-
+ arch/arm/mach-pxa/trizeps4.c                  |   4 +-
+ .../mach-pxa/{include/mach => }/trizeps4.h    |   3 +-
+ .../arm/mach-pxa/viper-pcmcia.c               |   6 +-
+ .../arm/mach-pxa/viper-pcmcia.h               |   0
+ arch/arm/mach-pxa/viper.c                     |   8 +-
+ .../arm/mach-pxa/vpac270-pcmcia.c             |   4 +-
+ arch/arm/mach-pxa/vpac270.c                   |   4 +-
+ .../arm/mach-pxa/{include/mach => }/vpac270.h |   0
+ arch/arm/mach-pxa/xcep.c                      |   2 +-
+ arch/arm/mach-pxa/z2.c                        |  11 +
+ arch/arm/mach-pxa/zeus.c                      |   6 +-
+ arch/arm/mach-pxa/zylonite.c                  |  34 +++-
+ arch/arm/mach-pxa/zylonite.h                  |   2 +
+ arch/arm/mach-pxa/zylonite_pxa300.c           |   1 +
+ arch/arm/mach-pxa/zylonite_pxa320.c           |   1 +
+ arch/arm/mach-sa1100/generic.c                |   6 +-
+ arch/arm/mach-sa1100/include/mach/reset.h     |   1 -
+ drivers/ata/pata_palmld.c                     |   3 +-
+ drivers/clk/pxa/clk-pxa.c                     |   8 +-
+ drivers/clk/pxa/clk-pxa.h                     |   9 +-
+ drivers/clk/pxa/clk-pxa25x.c                  |  46 ++---
+ drivers/clk/pxa/clk-pxa27x.c                  |  68 +++----
+ drivers/clk/pxa/clk-pxa3xx.c                  | 139 +++++++++++--
+ drivers/cpufreq/pxa2xx-cpufreq.c              |   6 +-
+ drivers/cpufreq/pxa3xx-cpufreq.c              |  65 +++---
+ drivers/input/mouse/pxa930_trkball.c          |   1 -
+ drivers/input/touchscreen/Kconfig             |   2 +
+ drivers/input/touchscreen/mainstone-wm97xx.c  | 123 ++++++------
+ drivers/input/touchscreen/zylonite-wm97xx.c   |  34 ++--
+ drivers/leds/leds-locomo.c                    |   1 -
+ drivers/mmc/host/pxamci.c                     |   2 +-
+ drivers/mtd/maps/pxa2xx-flash.c               |   2 -
+ drivers/mtd/nand/raw/cmx270_nand.c            |  89 +++------
+ drivers/pcmcia/Makefile                       |  16 --
+ drivers/pcmcia/pxa2xx_base.c                  |  48 ++---
+ drivers/pcmcia/pxa2xx_sharpsl.c               |   3 +-
+ drivers/pcmcia/sa1111_generic.c               |   1 -
+ drivers/pcmcia/sa1111_lubbock.c               |   1 -
+ drivers/pcmcia/soc_common.c                   |   2 -
+ drivers/pcmcia/soc_common.h                   | 120 +----------
+ drivers/power/supply/tosa_battery.c           | 189 ++++++++++--------
+ drivers/rtc/rtc-pxa.c                         |   2 -
+ drivers/soc/Kconfig                           |   1 +
+ drivers/soc/Makefile                          |   1 +
+ .../arm/plat-pxa => drivers/soc/pxa}/Kconfig  |   5 +-
+ .../arm/plat-pxa => drivers/soc/pxa}/Makefile |   4 -
+ {arch/arm/plat-pxa => drivers/soc/pxa}/mfp.c  |   2 +-
+ {arch/arm/plat-pxa => drivers/soc/pxa}/ssp.c  |   0
+ drivers/usb/gadget/udc/pxa25x_udc.c           |  37 ++--
+ drivers/usb/gadget/udc/pxa25x_udc.h           |   7 +-
+ drivers/usb/host/ohci-pxa27x.c                |   3 +-
+ drivers/video/backlight/tosa_bl.c             |  10 +-
+ drivers/video/backlight/tosa_bl.h             |   8 +
+ drivers/video/backlight/tosa_lcd.c            |  28 ++-
+ .../video/fbdev/pxa3xx-regs.h                 |  24 +--
+ drivers/video/fbdev/pxafb.c                   |   4 +-
+ drivers/watchdog/sa1100_wdt.c                 |  88 +++++---
+ include/linux/clk/pxa.h                       |  16 ++
+ include/linux/platform_data/asoc-poodle.h     |  16 ++
+ .../linux/platform_data/asoc-pxa.h            |   4 +-
+ include/linux/platform_data/video-pxafb.h     |  22 +-
+ .../hardware.h => include/linux/soc/pxa/cpu.h |  61 +-----
+ .../plat => include/linux/soc/pxa}/mfp.h      |   6 +-
+ include/linux/soc/pxa/smemc.h                 |  13 ++
+ include/pcmcia/soc_common.h                   | 125 ++++++++++++
+ include/sound/pxa2xx-lib.h                    |   4 +
+ sound/arm/pxa2xx-ac97-lib.c                   | 145 +++++++++-----
+ .../arm/pxa2xx-ac97-regs.h                    |  42 ++--
+ sound/arm/pxa2xx-ac97.c                       |   3 +-
+ sound/soc/pxa/corgi.c                         |  42 ++--
+ sound/soc/pxa/e740_wm9705.c                   |  37 ++--
+ sound/soc/pxa/e750_wm9705.c                   |  33 ++-
+ sound/soc/pxa/e800_wm9712.c                   |  33 ++-
+ sound/soc/pxa/em-x270.c                       |   2 +-
+ sound/soc/pxa/hx4700.c                        |  34 ++--
+ sound/soc/pxa/magician.c                      | 141 ++++---------
+ sound/soc/pxa/mioa701_wm9713.c                |   2 +-
+ sound/soc/pxa/palm27x.c                       |   2 +-
+ sound/soc/pxa/poodle.c                        |  51 ++---
+ sound/soc/pxa/pxa2xx-ac97.c                   |  24 ++-
+ sound/soc/pxa/pxa2xx-i2s.c                    | 112 ++++++-----
+ sound/soc/pxa/spitz.c                         |  58 +++---
+ sound/soc/pxa/tosa.c                          |  18 +-
+ sound/soc/pxa/z2.c                            |   8 +-
+ 205 files changed, 1916 insertions(+), 1795 deletions(-)
+ delete mode 100644 arch/arm/mach-mmp/tavorevb.c
+ rename arch/arm/mach-pxa/{include/mach => }/addr-map.h (100%)
+ rename drivers/pcmcia/pxa2xx_balloon3.c => arch/arm/mach-pxa/balloon3-pcmcia.c (98%)
+ rename arch/arm/mach-pxa/{include/mach => }/balloon3.h (99%)
+ rename drivers/pcmcia/pxa2xx_cm_x255.c => arch/arm/mach-pxa/cm_x255-pcmcia.c (98%)
+ rename drivers/pcmcia/pxa2xx_cm_x270.c => arch/arm/mach-pxa/cm_x270-pcmcia.c (98%)
+ rename drivers/pcmcia/pxa2xx_cm_x2xx.c => arch/arm/mach-pxa/cm_x2xx-pcmcia.c (96%)
+ rename drivers/pcmcia/pxa2xx_colibri.c => arch/arm/mach-pxa/colibri-pcmcia.c (99%)
+ rename arch/arm/mach-pxa/{include/mach => }/corgi.h (98%)
+ rename drivers/pcmcia/pxa2xx_e740.c => arch/arm/mach-pxa/e740-pcmcia.c (98%)
+ rename drivers/pcmcia/pxa2xx_hx4700.c => arch/arm/mach-pxa/hx4700-pcmcia.c (98%)
+ rename arch/arm/mach-pxa/{include/mach => }/hx4700.h (99%)
+ delete mode 100644 arch/arm/mach-pxa/include/mach/bitfield.h
+ delete mode 100644 arch/arm/mach-pxa/include/mach/dma.h
+ delete mode 100644 arch/arm/mach-pxa/include/mach/generic.h
+ create mode 100644 arch/arm/mach-pxa/include/mach/pxa-regs.h
+ rename arch/arm/mach-pxa/{include/mach => }/lubbock.h (97%)
+ rename arch/arm/mach-pxa/{include/mach => }/mainstone.h (99%)
+ rename drivers/pcmcia/pxa2xx_palmld.c => arch/arm/mach-pxa/palmld-pcmcia.c (98%)
+ rename arch/arm/mach-pxa/{include/mach => }/palmld.h (98%)
+ rename drivers/pcmcia/pxa2xx_palmtc.c => arch/arm/mach-pxa/palmtc-pcmcia.c (98%)
+ rename arch/arm/mach-pxa/{include/mach => }/palmtc.h (98%)
+ rename drivers/pcmcia/pxa2xx_palmtx.c => arch/arm/mach-pxa/palmtx-pcmcia.c (98%)
+ rename arch/arm/mach-pxa/{include/mach => }/palmtx.h (98%)
+ rename arch/arm/{common/it8152.c => mach-pxa/pci-it8152.c} (95%)
+ rename arch/arm/{include/asm/hardware/it8152.h => mach-pxa/pci-it8152.h} (98%)
+ rename arch/arm/mach-pxa/{include/mach => }/poodle.h (97%)
+ create mode 100644 arch/arm/mach-pxa/pxa-regs.h
+ rename arch/arm/mach-pxa/{include/mach => }/regs-uart.h (99%)
+ rename arch/arm/mach-pxa/{include/mach => }/spitz.h (99%)
+ rename drivers/pcmcia/pxa2xx_stargate2.c => arch/arm/mach-pxa/stargate2-pcmcia.c (99%)
+ rename drivers/pcmcia/pxa2xx_trizeps4.c => arch/arm/mach-pxa/trizeps4-pcmcia.c (98%)
+ rename arch/arm/mach-pxa/{include/mach => }/trizeps4.h (98%)
+ rename drivers/pcmcia/pxa2xx_viper.c => arch/arm/mach-pxa/viper-pcmcia.c (97%)
+ rename include/linux/platform_data/pcmcia-pxa2xx_viper.h => arch/arm/mach-pxa/viper-pcmcia.h (100%)
+ rename drivers/pcmcia/pxa2xx_vpac270.c => arch/arm/mach-pxa/vpac270-pcmcia.c (98%)
+ rename arch/arm/mach-pxa/{include/mach => }/vpac270.h (100%)
+ rename {arch/arm/plat-pxa => drivers/soc/pxa}/Kconfig (83%)
+ rename {arch/arm/plat-pxa => drivers/soc/pxa}/Makefile (51%)
+ rename {arch/arm/plat-pxa => drivers/soc/pxa}/mfp.c (99%)
+ rename {arch/arm/plat-pxa => drivers/soc/pxa}/ssp.c (100%)
+ create mode 100644 drivers/video/backlight/tosa_bl.h
+ rename arch/arm/mach-pxa/include/mach/regs-lcd.h => drivers/video/fbdev/pxa3xx-regs.h (90%)
+ create mode 100644 include/linux/clk/pxa.h
+ create mode 100644 include/linux/platform_data/asoc-poodle.h
+ rename arch/arm/mach-pxa/include/mach/audio.h => include/linux/platform_data/asoc-pxa.h (93%)
+ rename arch/arm/mach-pxa/include/mach/hardware.h => include/linux/soc/pxa/cpu.h (75%)
+ rename {arch/arm/plat-pxa/include/plat => include/linux/soc/pxa}/mfp.h (98%)
+ create mode 100644 include/linux/soc/pxa/smemc.h
+ create mode 100644 include/pcmcia/soc_common.h
+ rename arch/arm/mach-pxa/include/mach/regs-ac97.h => sound/arm/pxa2xx-ac97-regs.h (71%)
+
 -- 
 2.20.0
 
