@@ -4,48 +4,49 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 104E5CA9EAB
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 22:17:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 032D6CA9EA9
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 22:21:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D01FF20679
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 22:17:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C466321852
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 22:21:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1571437037;
-	bh=jSBSivH/u/IsPoQL2DioWtRFhPnTgBDj9HejaCxueSs=;
+	s=default; t=1571437286;
+	bh=w72zSyvqC/ZsLccUu1t1p4GzejqibTaKWFcIEuyG+0I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=hcSkPCOOQrQXK1jj6k1WskZhG4GMejra/hu7+dKkdnZPKleMLFLpCufk0ziXbKN6l
-	 vejlv2ASXFSbPbPL0gn+7XFrAmM9EGo3J5bxOwL/q5UN2KNxYliwEHzBF/GS/hdinN
-	 j5tAAXLys+Wc5fto/MneMi3m3vLxtKEnc+D8245s=
+	b=dKpOvoOjf62leZ7bxz6B+j3HeEE1BPr7cruN7lfBCgjJlRHnb3q2pkn6Mk8JzfuKJ
+	 7piNn7NATjDAWtRDVjndfDfGzG/izZ2lcgQpShKVOirCiEfzR6q9+hv3N5V8RQvUWZ
+	 ZS3LpuF9gWoiA4JWRkMiYyqasnWVvMVTBHpFQ3ns=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733216AbfJRWHq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Oct 2019 18:07:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40150 "EHLO mail.kernel.org"
+        id S2404673AbfJRWVW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Oct 2019 18:21:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38306 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1733196AbfJRWHp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 18 Oct 2019 18:07:45 -0400
+        id S1729186AbfJRWGX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 18 Oct 2019 18:06:23 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 98848222C2;
-        Fri, 18 Oct 2019 22:07:44 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id AC6FC222D2;
+        Fri, 18 Oct 2019 22:06:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571436465;
-        bh=jSBSivH/u/IsPoQL2DioWtRFhPnTgBDj9HejaCxueSs=;
+        s=default; t=1571436382;
+        bh=w72zSyvqC/ZsLccUu1t1p4GzejqibTaKWFcIEuyG+0I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pTQ993C5XxCZoli8vnIOOZ71Vf6N9+aJkjJYafgc9ymT8lSjPfKSCOIoR3ms4h8Hm
-         6ksEXj0VVJlzERnQb8zbifdT0lqoIcwIkn/rllSeOhEfsrBjjGkKrjGMcRWiIw86JJ
-         ygjFC62aBbY0565SMiYM/MscvQHxp2JxeVw/GCEs=
+        b=HqxA9Z8dohohd5+vYXtnkfgi7z7DEIP+U1n9Vqs0vJxYjKeGBiqSi/yg3Yh/ARGJd
+         ae1boHI9R40yxWJGZ/5khSUbmfhmpktDoQ2wp7W3e/Q4CmncRNmyg/aTfIUleDIlsx
+         8rWzcfgReLUi5bOqePygx6B2xDsPioCtwpkUtpOY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Johan Hovold <johan@kernel.org>,
+Cc:     Jan-Marek Glogowski <glogow@fbihome.de>,
+        Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 095/100] USB: usb-skeleton: fix use-after-free after driver unbind
-Date:   Fri, 18 Oct 2019 18:05:20 -0400
-Message-Id: <20191018220525.9042-95-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 035/100] usb: handle warm-reset port requests on hub resume
+Date:   Fri, 18 Oct 2019 18:04:20 -0400
+Message-Id: <20191018220525.9042-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191018220525.9042-1-sashal@kernel.org>
 References: <20191018220525.9042-1-sashal@kernel.org>
@@ -58,35 +59,53 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Johan Hovold <johan@kernel.org>
+From: Jan-Marek Glogowski <glogow@fbihome.de>
 
-[ Upstream commit 6353001852776e7eeaab4da78922d4c6f2b076af ]
+[ Upstream commit 4fdc1790e6a9ef22399c6bc6e63b80f4609f3b7e ]
 
-The driver failed to stop its read URB on disconnect, something which
-could lead to a use-after-free in the completion handler after driver
-unbind in case the character device has been closed.
+On plug-in of my USB-C device, its USB_SS_PORT_LS_SS_INACTIVE
+link state bit is set. Greping all the kernel for this bit shows
+that the port status requests a warm-reset this way.
 
-Fixes: e7389cc9a7ff ("USB: skel_read really sucks royally")
-Signed-off-by: Johan Hovold <johan@kernel.org>
-Link: https://lore.kernel.org/r/20191009170944.30057-3-johan@kernel.org
+This just happens, if its the only device on the root hub, the hub
+therefore resumes and the HCDs status_urb isn't yet available.
+If a warm-reset request is detected, this sets the hubs event_bits,
+which will prevent any auto-suspend and allows the hubs workqueue
+to warm-reset the port later in port_event.
+
+Signed-off-by: Jan-Marek Glogowski <glogow@fbihome.de>
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/usb-skeleton.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/core/hub.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/usb/usb-skeleton.c b/drivers/usb/usb-skeleton.c
-index f101347e3ea35..a14dc5003a294 100644
---- a/drivers/usb/usb-skeleton.c
-+++ b/drivers/usb/usb-skeleton.c
-@@ -574,6 +574,7 @@ static void skel_disconnect(struct usb_interface *interface)
- 	dev->interface = NULL;
- 	mutex_unlock(&dev->io_mutex);
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 8018f813972e0..d5fbd36cf4624 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -107,6 +107,8 @@ EXPORT_SYMBOL_GPL(ehci_cf_port_reset_rwsem);
+ static void hub_release(struct kref *kref);
+ static int usb_reset_and_verify_device(struct usb_device *udev);
+ static int hub_port_disable(struct usb_hub *hub, int port1, int set_state);
++static bool hub_port_warm_reset_required(struct usb_hub *hub, int port1,
++		u16 portstatus);
  
-+	usb_kill_urb(dev->bulk_in_urb);
- 	usb_kill_anchored_urbs(&dev->submitted);
+ static inline char *portspeed(struct usb_hub *hub, int portstatus)
+ {
+@@ -1111,6 +1113,11 @@ static void hub_activate(struct usb_hub *hub, enum hub_activation_type type)
+ 						   USB_PORT_FEAT_ENABLE);
+ 		}
  
- 	/* decrement our usage count */
++		/* Make sure a warm-reset request is handled by port_event */
++		if (type == HUB_RESUME &&
++		    hub_port_warm_reset_required(hub, port1, portstatus))
++			set_bit(port1, hub->event_bits);
++
+ 		/*
+ 		 * Add debounce if USB3 link is in polling/link training state.
+ 		 * Link will automatically transition to Enabled state after
 -- 
 2.20.1
 
