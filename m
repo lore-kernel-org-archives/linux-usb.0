@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 525ABCA9EA0
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 22:09:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E885CA9EAC
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 22:10:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 235D82246F
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 22:09:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CD2EF22479
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 22:10:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1571436557;
-	bh=Omud9UZmBtqGj7SrMm7Par2Ho2glxFczkFyI3U1glN4=;
+	s=default; t=1571436606;
+	bh=1YLX4e/jxIKXRGsVefwQ0XUeA7BhjR/rmUKFMynZr/M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=jeBbOC9/neFX5URJiXUEz4cygarnk4W1XWN5kk3xkwb/ybm4XKw7VArHKEilHJtmb
-	 788QxgG4w5ABKOy5yrfFTtwQlYUHnneoY8+dO2SW6AAnqZ07Nm8gJHXtp3R/evh6rv
-	 EJLoXcIVZxhK/7jScCrG7bPV+Rs41z8YobuYnIhk=
+	b=MuunP6kr60EHqHyFzMb/L8xggdOusnBqUEEvK2UW2mI/zG6306aZssH327k1wiNs8
+	 Z8MlM2bB3fKbiKO3myg1m2pbU0ffJqyr7RnRy4voQp/365PJ9+R0GwrPRsMBno8eXc
+	 g3qguoJ3ZpHopczhSxKblFGathnMwzdF5Nv+Z5E8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388713AbfJRWJP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Oct 2019 18:09:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41944 "EHLO mail.kernel.org"
+        id S2389668AbfJRWKF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Oct 2019 18:10:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42882 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388696AbfJRWJP (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 18 Oct 2019 18:09:15 -0400
+        id S2389648AbfJRWKE (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 18 Oct 2019 18:10:04 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 06A972245D;
-        Fri, 18 Oct 2019 22:09:13 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E188322478;
+        Fri, 18 Oct 2019 22:10:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571436554;
-        bh=Omud9UZmBtqGj7SrMm7Par2Ho2glxFczkFyI3U1glN4=;
+        s=default; t=1571436603;
+        bh=1YLX4e/jxIKXRGsVefwQ0XUeA7BhjR/rmUKFMynZr/M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=eaXCw7Eiwa/ojNJ1u00MQ4YpteNdxOhCFK35joQWbpRDSGCFBBZevbvf8udCJMFxM
-         0eM/3Uedq6jh0+cIMei4XMjTo91slfbAGovlucE9bR0HtUpJlbFFiKS9NCY2bIUBKo
-         AelI3v7HxCl2GylOtN797YngmmZXouk8PmkGDNo8=
+        b=Oyc0y032Flj6nuAwV7VarMxsAfAtgvzUhoUg+ktzhYHwKPZ501O+OFpYm4DWpMLqe
+         yrJJ9YF9j85cwl69jyOcsNc0YXtCn/OU9jVDoImyBN2pieFSLtdXQH+v5+Nc5udH/4
+         tDqK34yxn1U4HgubPM/Qev9lRhcZUblTSs3iXi/w=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Johan Hovold <johan@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 52/56] USB: usb-skeleton: fix use-after-free after driver unbind
-Date:   Fri, 18 Oct 2019 18:07:49 -0400
-Message-Id: <20191018220753.10002-52-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 26/29] USB: usb-skeleton: fix use-after-free after driver unbind
+Date:   Fri, 18 Oct 2019 18:09:17 -0400
+Message-Id: <20191018220920.10545-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191018220753.10002-1-sashal@kernel.org>
-References: <20191018220753.10002-1-sashal@kernel.org>
+In-Reply-To: <20191018220920.10545-1-sashal@kernel.org>
+References: <20191018220920.10545-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -76,10 +76,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/usb/usb-skeleton.c b/drivers/usb/usb-skeleton.c
-index bb0bd732e29ab..2af5a9a0e189e 100644
+index 5133a0792eb04..afe516935d73f 100644
 --- a/drivers/usb/usb-skeleton.c
 +++ b/drivers/usb/usb-skeleton.c
-@@ -576,6 +576,7 @@ static void skel_disconnect(struct usb_interface *interface)
+@@ -585,6 +585,7 @@ static void skel_disconnect(struct usb_interface *interface)
  	dev->interface = NULL;
  	mutex_unlock(&dev->io_mutex);
  
