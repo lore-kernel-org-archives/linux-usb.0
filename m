@@ -2,105 +2,96 @@ Return-Path: <SRS0=KCmB=YL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C152CA9EAD
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 15:20:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C545DCA9EA9
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 15:39:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F021F22468
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 15:20:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8E35921852
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 15:39:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1571412020;
-	bh=U1S6E5PNXafd96iGr1sZsrzy3/rNBAdHQr9LkX4Un+E=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=DU8vJXQt3A6icsOARmRRUdEVo/yrgMdfgo/vzhmQwpez0Rk0ohlmzajAaHfm2U5d/
-	 mj4X+K7zdIj9+ynZC7xalblsZUBUQAtBg3A1aKWhHWcyeEK78hBSiptWk8FJAoHpnt
-	 ujD4E2e09KcCMSpmKqC2Z8fdJIQq7HjioENbQvDs=
+	s=default; t=1571413184;
+	bh=eG//7hTgrV3qOA+OhmzVqBaCH9tp5c5zPJ325xYVAZw=;
+	h=Date:From:To:Cc:Subject:List-ID:From;
+	b=F4fbOAXuHNjORdDNbFKA8hafFFk6rh/wK8xbpYnsk52BO2UfWXnH8lexO0ivH7BPk
+	 sxGFOEdkRGESe0u1yH2kLpfXH9ph+RxWmAvcGy2Sk/UHJYrH97FNFlsVJ3q1RIGu0J
+	 dBKrDRcBh4C1Ol2xuWyGKp70Epr5dgeh6Dl/KEkI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405808AbfJRPUC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Oct 2019 11:20:02 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:38265 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732682AbfJRPUC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Oct 2019 11:20:02 -0400
-Received: by mail-lf1-f66.google.com with SMTP id q28so1756113lfa.5;
-        Fri, 18 Oct 2019 08:20:00 -0700 (PDT)
+        id S2393628AbfJRPjo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Oct 2019 11:39:44 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:44362 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728464AbfJRPjn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Oct 2019 11:39:43 -0400
+Received: by mail-lj1-f196.google.com with SMTP id m13so6658328ljj.11
+        for <linux-usb@vger.kernel.org>; Fri, 18 Oct 2019 08:39:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=u2FnFyACZvrRV+bqhzHnYdXs/H6lR7JPzFZntZNQnSw=;
-        b=CsThKPeyQPFBB9/McwW9CQ5/2ykAGYMmB+I8YQk8EjQ1V9Ml5Ye7gi3gdfk/roWtYI
-         aMXyR0NDV/1/PhTBCTtTFcIfrSUZKc9E9YHOJ/iAnq5VtLvWFHreY5wGymZvScPXSTI9
-         i9gnvIN/MjYIUNWixA7ododScmLK8EEseJMRHhb3JosO9FkYPrA6GPXuSOcmYMoHQm45
-         Vbfh0lM42/maCwOKDZmE3s41muLsWRv6yh04nGdj9iffz4cTMd76J0rx2NhXKLuDuZ4M
-         /8vqtCMPXTlL4b89WqnF4AkXDz8Jpek0+bItfMPxACFQgoZGJp8KAPslTo8Lm3aMGFPn
-         K7CA==
-X-Gm-Message-State: APjAAAXkt06zRlWqy8s4Y7dSTIU2Z5nkmPk9tp8g7+utJBvMamFhXlWx
-        hck8uinQuyF4BFtba7wnA3c=
-X-Google-Smtp-Source: APXvYqxx22vrIkVRmaj0uy9waAgKOO6pL/ZoreUi3ajJjGn05eGS5ccmk9ol4nSCTVN2pYzhIhjuxA==
-X-Received: by 2002:ac2:44c3:: with SMTP id d3mr6201630lfm.109.1571411999790;
-        Fri, 18 Oct 2019 08:19:59 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=iwIbrTHXchbXdc+S2ZFnSqcfpfx818M/JpjBz85MxSQ=;
+        b=peshR7HXvw83r++XR15JpZemeNHq2gSi/AnGExgzp3T3HqnsTZwu0e8klLQK69XS3N
+         84UfMnZc5+7zVWWw1xcwI20M1RAK+U55p6722x9XZWhn9ft9fF7wPiufOl9Jox0ii5Go
+         JyGMB7unq5Wx42gAv4A+DbdB5x/pQHcAzVaZiwhzsKHOsvgvoYzE8nFsmMm1hNkwjHBi
+         bB7SeO3uwxlzyKHvp4n3E5ZW0rLcj+yJ2wyXJ5bdGVO2vVHJPOFK+jJ5HhLWKApvro4M
+         XN3m9TtPaov3T9ZnAaoZYRssKjeMibnwagXZ/ICIZZDKecMyUKgNRp16gu9ttsZOZL7m
+         ucjg==
+X-Gm-Message-State: APjAAAV0aFf3rLETMEirMcjdmBtAGNRj2t+qpMTd/Or/ZNewF4VMJOGf
+        1ACpAKZBhgdlpk0E8o60xbY=
+X-Google-Smtp-Source: APXvYqzCh25GrU2ohIU2tv7bEPLQ/6beLDkyVIl1M+ff9gLyHYpifnL5LBWvVillDIeyRCvrDKD9xw==
+X-Received: by 2002:a2e:82cd:: with SMTP id n13mr6541038ljh.2.1571413181862;
+        Fri, 18 Oct 2019 08:39:41 -0700 (PDT)
 Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id i21sm2544449lfl.44.2019.10.18.08.19.58
+        by smtp.gmail.com with ESMTPSA id v203sm3043710lfa.25.2019.10.18.08.39.40
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 18 Oct 2019 08:19:58 -0700 (PDT)
+        Fri, 18 Oct 2019 08:39:41 -0700 (PDT)
 Received: from johan by xi.terra with local (Exim 4.92.2)
-        (envelope-from <johan@xi.terra>)
-        id 1iLU30-0006YC-9e; Fri, 18 Oct 2019 17:20:11 +0200
+        (envelope-from <johan@kernel.org>)
+        id 1iLUM5-0002kW-Hi; Fri, 18 Oct 2019 17:39:53 +0200
+Date:   Fri, 18 Oct 2019 17:39:53 +0200
 From:   Johan Hovold <johan@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Oliver Neukum <oneukum@suse.com>,
-        "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>
-Subject: [PATCH v2 0/2] USB: ldusb: fix ring-buffer bugs
-Date:   Fri, 18 Oct 2019 17:19:53 +0200
-Message-Id: <20191018151955.25135-1-johan@kernel.org>
-X-Mailer: git-send-email 2.23.0
+Cc:     linux-usb@vger.kernel.org
+Subject: [GIT PULL] USB-serial fixes for 5.4-rc4
+Message-ID: <20191018153953.GA10551@localhost>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Syzbot has been reporting a slab-out-of-bounds/bad user copy in ldusb
-for some time now.
+The following changes since commit 4f5cafb5cb8471e54afdc9054d973535614f7675:
 
-This turned out to due to a bug in the read() implementation, which
-would have read() access the uninitialised ring buffer and leak huge
-amounts of slab data on URB completion errors (e.g. disconnect).
+  Linux 5.4-rc3 (2019-10-13 16:37:36 -0700)
 
-The first patch plugs the info leaks.
+are available in the Git repository at:
 
-The second patch fixes a couple of issues in the custom ring-buffer
-implementation, which before the first patch also could have led to
-info leaks.
+  https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git tags/usb-serial-5.4-rc4
 
-In an attempt to avoid copying the ring-buffer entry to a temporary
-buffer while holding the spinlock, I added an smp_rmb() before
-copy_to_user() which I think will suffice, but I'd appreciate if you
-could help me verify that. Hence the RFC on that one.
+for you to fetch changes up to bc25770f00d3f4e7482278f9823c2c2793605484:
 
-The first commit could go to Linus meanwhile.
+  USB: serial: ti_usb_3410_5052: clean up serial data access (2019-10-16 10:29:23 +0200)
 
-Johan
+----------------------------------------------------------------
+USB-serial fixes for 5.4-rc4
 
-v2
- - fix buffer-entry length check in 1/2
+Here's a fix for a long-standing locking bug in ti_usb_3410_5052 and
+related clean up.
 
+Both have been in linux-next with no reported issues.
 
+Signed-off-by: Johan Hovold <johan@kernel.org>
+
+----------------------------------------------------------------
 Johan Hovold (2):
-  USB: ldusb: fix read info leaks
-  USB: ldusb: fix ring-buffer locking
+      USB: serial: ti_usb_3410_5052: fix port-close races
+      USB: serial: ti_usb_3410_5052: clean up serial data access
 
- drivers/usb/misc/ldusb.c | 31 ++++++++++++++++++++++---------
- 1 file changed, 22 insertions(+), 9 deletions(-)
-
--- 
-2.23.0
-
+ drivers/usb/serial/ti_usb_3410_5052.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
