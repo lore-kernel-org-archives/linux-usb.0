@@ -2,140 +2,173 @@ Return-Path: <SRS0=KCmB=YL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B3CACA9EAB
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 14:18:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49F0FCA9EA9
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 14:34:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5356F2089C
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 14:18:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1571408333;
-	bh=GY9sgDJVxMpUl2IAi08bvJ70wUz6JavTXmmFwL7vT6k=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=s1OE426JW5/PqeH006woW64Vsy6DPor+MSr92htFHZr9jOMo/s87JmP4m5n3b56rH
-	 vJ0FCHhyDzeVWg8+fKbvtY4VqCs68e7GG4cRXRiG733a7pM+gSFAfu4dW50KpYNOjf
-	 sjHwU2QoF6i7W+MzyFdjzol8BXkB9oB2gUN207kw=
+	by mail.kernel.org (Postfix) with ESMTP id 1693F222BD
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 14:34:20 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Dran/X3V"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2442885AbfJROSl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Oct 2019 10:18:41 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:44840 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732676AbfJROSk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Oct 2019 10:18:40 -0400
-Received: by mail-lj1-f194.google.com with SMTP id m13so6385824ljj.11;
-        Fri, 18 Oct 2019 07:18:38 -0700 (PDT)
+        id S2442879AbfJROeS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Oct 2019 10:34:18 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:50906 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2408705AbfJROeR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 18 Oct 2019 10:34:17 -0400
+Received: by mail-wm1-f66.google.com with SMTP id 5so6457982wmg.0
+        for <linux-usb@vger.kernel.org>; Fri, 18 Oct 2019 07:34:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=qRJSjSfwWk65VGJdf4XvN9SqgEtDgNCxKyoZRmSRziU=;
+        b=Dran/X3VvHsOsLxMHx2mR4Tbc2E0CsYuXkAVyxt+rQg1nOiiruEmPu6Rq/0c282a+F
+         ggJOtx621SXz4bS1W6J3oTzOrrCZthi6et66yFpQYwUW2P9id96GcGZMCfdcXwbLX5es
+         ve8HtlmX+75D9UfDTi1k9mYUAFEwXCjB8Q5j2H7CuqjYuTNuHkEXO7gqEN/vVEffGumb
+         bPwC0XzbDLfAfKN1WTlLIxCzJsSCIt2y6MkGh031HvQEv9/LlHfkESbTMlJ0AYSuR5mG
+         oeShHCaasoNi9k/zgpcPJBvcsuumloyWQqdDVf6fcgvcjI+LILE1fhCeVpnrMRN7cTPP
+         XEpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=lK62GsaMPQOlyqa+AeKYuWxGPH9VRYmA+fAbIM8QXgg=;
-        b=UNMMwzrk7l/zo+MYQg8qxs0W8w+SoRYxOpfAT493SwFYcLSyACYWSDQzxjiBRSt8qY
-         +pE7IXhgGFUrN4fDEna2IW7CNxmz0fDwt/wWx5Qzd0F9vV3aRlzZxvsiwdX64RCIJtr9
-         a5C6G+zhvFNIwoWvEM5T9CJTVHErlTSMQaXFaCCLWgHRlupg8vKwSZ7ViDXEFzkLDIeO
-         9HoExPgMa2Zq0Yj/bjsb/gz3B6yyyWQVnh8REXnSKx4TsQNZoMGVthhC86MKvUwFucCR
-         LbK6S4wwszjpPyzvQpXDI40x3K7lXVMzFj5cYvwIv8uI3Q+y0CsRlw9Zs0FJ2shBAX+G
-         voKw==
-X-Gm-Message-State: APjAAAW6Z05oqDPCmq7ml0vfN7g3hMGhP+EU82gcy3D+ZsKUPSNrfwbu
-        kYDEfiCK2L08AqKaMVjHAfI=
-X-Google-Smtp-Source: APXvYqyT+4O2YoCKFj1gH2GwxW0feEY6wE3RN9nro6b0WUC13Xddq6uNuukLGSswJDT8hLZUJpCl6Q==
-X-Received: by 2002:a2e:86cd:: with SMTP id n13mr6579303ljj.252.1571408318149;
-        Fri, 18 Oct 2019 07:18:38 -0700 (PDT)
-Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id z26sm2202097lji.79.2019.10.18.07.18.36
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 18 Oct 2019 07:18:36 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.92.2)
-        (envelope-from <johan@xi.terra>)
-        id 1iLT5d-0006CE-9Q; Fri, 18 Oct 2019 16:18:49 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Oliver Neukum <oneukum@suse.com>,
-        "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>,
-        stable <stable@vger.kernel.org>
-Subject: [PATCH RFC 2/2] USB: ldusb: fix ring-buffer locking
-Date:   Fri, 18 Oct 2019 16:17:50 +0200
-Message-Id: <20191018141750.23756-3-johan@kernel.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191018141750.23756-1-johan@kernel.org>
-References: <20191018141750.23756-1-johan@kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=qRJSjSfwWk65VGJdf4XvN9SqgEtDgNCxKyoZRmSRziU=;
+        b=gAk2B47QFKK7SYGgUHGWtF8kjejP2Pu39g76IPx4xw6C3+aNOcA5rncV1gwIlOw9xh
+         zW7ZOFxuCEEc78U4+I6VrByd1Kab4j+9dotCxqTYqpyQmG0udfL2NPmtBQvVlt8Ljkk1
+         xcgyD2YZN9XBFhJNhYG/WPZam15fYYndMHlHVK2KrHZbjeQe11bpn+XEyK+sYjilq6ro
+         lGWwd33E0ZJ/11qXDxGRkeYV3nLIYTc7L9C2a1gMPBYkZKoWMB+lNezD344xGpEOTXOB
+         izKg20jTPuuTgxL74sIY5Mhg+7doj6YmznSrseiDrfeEUBIIuUXFt6M6KIOUxF2dBnAT
+         pAxQ==
+X-Gm-Message-State: APjAAAXB/zHiVvUpmj4Q1OeFo5B+2ch7R1xJ3NDKMTXIn50tvY+z1ziD
+        6C601V9WBGp9s+v+iggL0E+8KBVEJmUmjAEZ9vwmWQ==
+X-Google-Smtp-Source: APXvYqx5fIkvKBTZRLKu9evz7okLaALBFiYvdfXt23Zivfzy0uSIv3xvGaPkDb4c0B8dNmIBr6OCZSHyRLUQMglcJRw=
+X-Received: by 2002:a05:600c:2196:: with SMTP id e22mr2108693wme.79.1571409254188;
+ Fri, 18 Oct 2019 07:34:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <0000000000006120c905952febbd@google.com> <5289022.tfFiBPLraV@bentobox>
+In-Reply-To: <5289022.tfFiBPLraV@bentobox>
+From:   Alexander Potapenko <glider@google.com>
+Date:   Fri, 18 Oct 2019 16:34:02 +0200
+Message-ID: <CAG_fn=VFnPmhupvPLZMZWJP6U_-w=fxoZd+R668rzBeCGh+S3A@mail.gmail.com>
+Subject: Re: KMSAN: uninit-value in batadv_hard_if_event
+To:     Sven Eckelmann <sven@narfation.org>
+Cc:     syzbot <syzbot+0183453ce4de8bdf9214@syzkaller.appspotmail.com>,
+        a@unstable.cc, b.a.t.m.a.n@lists.open-mesh.org,
+        David Miller <davem@davemloft.net>,
+        LKML <linux-kernel@vger.kernel.org>, mareklindner@neomailbox.ch,
+        Networking <netdev@vger.kernel.org>, sw@simonwunderlich.de,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        Petko Manolov <petkan@nucleusys.com>,
+        USB list <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The custom ring-buffer implementation was merged without any locking
-whatsoever, but a spinlock was later added by commit 9d33efd9a791
-("USB: ldusb bugfix").
+On Fri, Oct 18, 2019 at 4:32 PM Sven Eckelmann <sven@narfation.org> wrote:
+>
+> Hi,
+>
+> not sure whether this is now a bug in batman-adv or in the rtl8150 driver=
+. See
+> my comments inline.
+>
+> On Friday, 18 October 2019 16:12:08 CEST syzbot wrote:
+> [...]
+> > usb 1-1: config 0 has no interface number 0
+> > usb 1-1: New USB device found, idVendor=3D0411, idProduct=3D0012,
+> > bcdDevice=3D56.5f
+> > usb 1-1: New USB device strings: Mfr=3D0, Product=3D0, SerialNumber=3D0
+> > usb 1-1: config 0 descriptor??
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> > BUG: KMSAN: uninit-value in batadv_check_known_mac_addr
+> > net/batman-adv/hard-interface.c:511 [inline]
+> > BUG: KMSAN: uninit-value in batadv_hardif_add_interface
+> > net/batman-adv/hard-interface.c:942 [inline]
+> > BUG: KMSAN: uninit-value in batadv_hard_if_event+0x23c0/0x3260
+> > net/batman-adv/hard-interface.c:1032
+> > CPU: 0 PID: 13223 Comm: kworker/0:3 Not tainted 5.4.0-rc3+ #0
+> > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+> > Google 01/01/2011
+> > Workqueue: usb_hub_wq hub_event
+> > Call Trace:
+> >   __dump_stack lib/dump_stack.c:77 [inline]
+> >   dump_stack+0x191/0x1f0 lib/dump_stack.c:113
+> >   kmsan_report+0x14a/0x2f0 mm/kmsan/kmsan_report.c:109
+> >   __msan_warning+0x73/0xf0 mm/kmsan/kmsan_instr.c:245
+> >   batadv_check_known_mac_addr net/batman-adv/hard-interface.c:511 [inli=
+ne]
+> >   batadv_hardif_add_interface net/batman-adv/hard-interface.c:942 [inli=
+ne]
+> >   batadv_hard_if_event+0x23c0/0x3260 net/batman-adv/hard-interface.c:10=
+32
+> >   notifier_call_chain kernel/notifier.c:95 [inline]
+> [...]
+>
+> The line in batman-adv is (batadv_check_known_mac_addr):
+>
+>                 if (!batadv_compare_eth(hard_iface->net_dev->dev_addr,
+>                                         net_dev->dev_addr))
+>
+> So it goes through the list of ethernet interfaces (which are currently
+> attached to a batadv interface) and compares it with the new device's MAC
+> address. And it seems like the new device doesn't have the mac address pa=
+rt
+> initialized yet.
+>
+> Is this allowed in NETDEV_REGISTER/NETDEV_POST_TYPE_CHANGE?
+>
+> > Uninit was stored to memory at:
+> >   kmsan_save_stack_with_flags mm/kmsan/kmsan.c:150 [inline]
+> >   kmsan_internal_chain_origin+0xbd/0x170 mm/kmsan/kmsan.c:317
+> >   kmsan_memcpy_memmove_metadata+0x25c/0x2e0 mm/kmsan/kmsan.c:253
+> >   kmsan_memcpy_metadata+0xb/0x10 mm/kmsan/kmsan.c:273
+> >   __msan_memcpy+0x56/0x70 mm/kmsan/kmsan_instr.c:129
+> >   set_ethernet_addr drivers/net/usb/rtl8150.c:282 [inline]
+> >   rtl8150_probe+0x1143/0x14a0 drivers/net/usb/rtl8150.c:912
+>
+> This looks like it should store the mac address at this point.
+>
+>     static inline void set_ethernet_addr(rtl8150_t * dev)
+>     {
+>         u8 node_id[6];
+>
+>         get_registers(dev, IDR, sizeof(node_id), node_id);
+>         memcpy(dev->netdev->dev_addr, node_id, sizeof(node_id));
+>     }
+>
+> But it seems more like get_registers failed and the uninitialized was sti=
+ll
+> copied to the mac address. Thus causing the KMSAN error in batman-adv.
+Yes, most of such reports is usually because functions like
+get_registers() fail or read 0 bytes.
 
-The lock did not cover the loads from the ring-buffer-entry after
-determining the buffer was non-empty, nor the update of the tail index
-once the entry had been processed. The former could lead to stale data
-being returned, while the latter could lead to memory corruption on
-sufficiently weakly ordered architectures.
+> Is this interpretation of the KMSAN output correct or do I miss something=
+?
+>
+> Kind regards,
+>         Sven
 
-Fixes: 2824bd250f0b ("[PATCH] USB: add ldusb driver")
-Fixes: 9d33efd9a791 ("USB: ldusb bugfix")
-Cc: stable <stable@vger.kernel.org>     # 2.6.13
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/misc/ldusb.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/misc/ldusb.c b/drivers/usb/misc/ldusb.c
-index 94780e14e95d..c6cf2fa6cf4c 100644
---- a/drivers/usb/misc/ldusb.c
-+++ b/drivers/usb/misc/ldusb.c
-@@ -477,11 +477,11 @@ static ssize_t ld_usb_read(struct file *file, char __user *buffer, size_t count,
- 
- 		spin_lock_irq(&dev->rbsl);
- 	}
--	spin_unlock_irq(&dev->rbsl);
- 
- 	/* actual_buffer contains actual_length + interrupt_in_buffer */
- 	actual_buffer = (size_t *)(dev->ring_buffer + dev->ring_tail * (sizeof(size_t)+dev->interrupt_in_endpoint_size));
- 	if (*actual_buffer > sizeof(size_t) + dev->interrupt_in_endpoint_size) {
-+		spin_unlock_irq(&dev->rbsl);
- 		retval = -EIO;
- 		goto unlock_exit;
- 	}
-@@ -489,17 +489,26 @@ static ssize_t ld_usb_read(struct file *file, char __user *buffer, size_t count,
- 	if (bytes_to_read < *actual_buffer)
- 		dev_warn(&dev->intf->dev, "Read buffer overflow, %zd bytes dropped\n",
- 			 *actual_buffer-bytes_to_read);
-+	spin_unlock_irq(&dev->rbsl);
-+
-+	/*
-+	 * Pairs with spin_unlock_irqrestore() in
-+	 * ld_usb_interrupt_in_callback() and makes sure the ring-buffer entry
-+	 * has been updated before copy_to_user().
-+	 */
-+	smp_rmb();
- 
- 	/* copy one interrupt_in_buffer from ring_buffer into userspace */
- 	if (copy_to_user(buffer, actual_buffer+1, bytes_to_read)) {
- 		retval = -EFAULT;
- 		goto unlock_exit;
- 	}
--	dev->ring_tail = (dev->ring_tail+1) % ring_buffer_size;
--
- 	retval = bytes_to_read;
- 
- 	spin_lock_irq(&dev->rbsl);
-+
-+	dev->ring_tail = (dev->ring_tail + 1) % ring_buffer_size;
-+
- 	if (dev->buffer_overflow) {
- 		dev->buffer_overflow = 0;
- 		spin_unlock_irq(&dev->rbsl);
--- 
-2.23.0
 
+--=20
+Alexander Potapenko
+Software Engineer
+
+Google Germany GmbH
+Erika-Mann-Stra=C3=9Fe, 33
+80636 M=C3=BCnchen
+
+Gesch=C3=A4ftsf=C3=BChrer: Paul Manicle, Halimah DeLaine Prado
+Registergericht und -nummer: Hamburg, HRB 86891
+Sitz der Gesellschaft: Hamburg
