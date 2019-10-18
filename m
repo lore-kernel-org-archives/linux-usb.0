@@ -2,106 +2,83 @@ Return-Path: <SRS0=KCmB=YL=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-5.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E78B1CA9EA0
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 22:21:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71441CA9EA9
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 22:22:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BB78521852
-	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 22:21:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A8CF21852
+	for <linux-usb@archiver.kernel.org>; Fri, 18 Oct 2019 22:22:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1571437294;
-	bh=1+u1DkWnQPvDJmZtTN8GhHQZL6ffowQ+Ec2hlERuOeU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=mMkxWUmmMHFPR+tY1CC8ztPXESmG0gMg0e0HQ1OEidxw222G24DVM8BQUMH2+Uj9G
-	 seAuPTUgjl5MVncYYYyC7JnViyYN07Gtfq1Tv6zp91AS6d2nmhboyVEu4Msw1qRQnU
-	 Zycllj/dcx9lWdOvpWEX5dLcY4dvsPEeHp1nSLwY=
+	s=default; t=1571437332;
+	bh=qAIBQeIpmd6hAmZu10ZR2fdEX8y4SeQuRmmYFchHdsI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=ZIcUIVAwtSeyXrDTDQm6ruAMQq8auqrMvSldy5FKm4qmWCEvWma60xMuDABdsWFIo
+	 U4pc5CA2mTGlLscoO2AFmfCsskTH/a0n/4OLzieTjLKEKUnWPO/khB323iZhIQpGD5
+	 U3+1TPcR0qDIktlF2HZEHR0vsQDEsHd8EjQrRTJM=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404740AbfJRWVd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 18 Oct 2019 18:21:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38268 "EHLO mail.kernel.org"
+        id S2391230AbfJRWWJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 18 Oct 2019 18:22:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52444 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731221AbfJRWGS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 18 Oct 2019 18:06:18 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1726205AbfJRWWH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 18 Oct 2019 18:22:07 -0400
+Received: from localhost (unknown [12.245.223.10])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 11C6B222C6;
-        Fri, 18 Oct 2019 22:06:16 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 85ACC205C9;
+        Fri, 18 Oct 2019 22:22:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571436377;
-        bh=1+u1DkWnQPvDJmZtTN8GhHQZL6ffowQ+Ec2hlERuOeU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=r5d0g8Q1BYteq+sN4xx68E/aZAINGCm1HBHORF7qNk/I9EJ92ty5gJcFVUffPzfo/
-         bvTONBSTvAY7AMStiFtS6Msqv9WSXWQMFEXfLH24kLKTe0viAyP74FGcvHDaUyVc14
-         kwF5fqbcpTROoQ3CXB0VBKOxaukGxsmEDz7KdB+c=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Felipe Balbi <felipe.balbi@linux.intel.com>,
-        Thinh Nguyen <thinhn@synopsys.com>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 031/100] usb: dwc3: gadget: early giveback if End Transfer already completed
-Date:   Fri, 18 Oct 2019 18:04:16 -0400
-Message-Id: <20191018220525.9042-31-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191018220525.9042-1-sashal@kernel.org>
+        s=default; t=1571437326;
+        bh=qAIBQeIpmd6hAmZu10ZR2fdEX8y4SeQuRmmYFchHdsI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=u3KZZ1LTgCdf45rUtjlIg48GKcVjFB96rdYjKcelrz6bAiB8rkEUhdcqzsDDy3nZU
+         cYukfsuKsZH8Jd+/C6akNROyFB/FRD/Oz9nSUU9z6GpCJkNh74RvWAgRcJh1rbU6nb
+         gdnBKR6Oetd8v8ClUPucqUHTWyC4xz3AJcc4Ve6Y=
+Date:   Fri, 18 Oct 2019 18:22:05 -0400
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Sasha Levin <sashal@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 4.19 095/100] USB: usb-skeleton: fix
+ use-after-free after driver unbind
+Message-ID: <20191018222205.GA6978@kroah.com>
 References: <20191018220525.9042-1-sashal@kernel.org>
+ <20191018220525.9042-95-sashal@kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191018220525.9042-95-sashal@kernel.org>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Felipe Balbi <felipe.balbi@linux.intel.com>
+On Fri, Oct 18, 2019 at 06:05:20PM -0400, Sasha Levin wrote:
+> From: Johan Hovold <johan@kernel.org>
+> 
+> [ Upstream commit 6353001852776e7eeaab4da78922d4c6f2b076af ]
+> 
+> The driver failed to stop its read URB on disconnect, something which
+> could lead to a use-after-free in the completion handler after driver
+> unbind in case the character device has been closed.
+> 
+> Fixes: e7389cc9a7ff ("USB: skel_read really sucks royally")
+> Signed-off-by: Johan Hovold <johan@kernel.org>
+> Link: https://lore.kernel.org/r/20191009170944.30057-3-johan@kernel.org
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  drivers/usb/usb-skeleton.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-[ Upstream commit 9f45581f5eec6786c6eded2b3c85345d82a910c9 ]
+This file does not even get built in the kernel tree, no need to
+backport anything for it :)
 
-There is a rare race condition that may happen during a Disconnect
-Interrupt if we have a started request that happens to be
-dequeued *after* completion of End Transfer command. If that happens,
-that request will be left waiting for completion of an End Transfer
-command that will never happen.
+thanks,
 
-If End Transfer command has already completed before, we are safe to
-giveback the request straight away.
-
-Tested-by: Thinh Nguyen <thinhn@synopsys.com>
-Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/dwc3/gadget.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index e7461c995116a..7b0957c530485 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -1410,7 +1410,10 @@ static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
- 				goto out0;
- 
- 			dwc3_gadget_move_cancelled_request(req);
--			goto out0;
-+			if (dep->flags & DWC3_EP_TRANSFER_STARTED)
-+				goto out0;
-+			else
-+				goto out1;
- 		}
- 		dev_err(dwc->dev, "request %pK was not queued to %s\n",
- 				request, ep->name);
-@@ -1418,6 +1421,7 @@ static int dwc3_gadget_ep_dequeue(struct usb_ep *ep,
- 		goto out0;
- 	}
- 
-+out1:
- 	dwc3_gadget_giveback(dep, req, -ECONNRESET);
- 
- out0:
--- 
-2.20.1
-
+greg k-h
