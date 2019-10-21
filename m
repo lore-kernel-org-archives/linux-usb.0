@@ -1,204 +1,95 @@
-Return-Path: <SRS0=GH78=YN=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=k9H8=YO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B3F6CA9EAD
-	for <linux-usb@archiver.kernel.org>; Sun, 20 Oct 2019 23:55:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06A92CA9EAE
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Oct 2019 01:28:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1D6A42073F
-	for <linux-usb@archiver.kernel.org>; Sun, 20 Oct 2019 23:55:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rcGwPvyb"
+	by mail.kernel.org (Postfix) with ESMTP id D85DA21928
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Oct 2019 01:28:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726688AbfJTXzI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 20 Oct 2019 19:55:08 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:36544 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726645AbfJTXzI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 20 Oct 2019 19:55:08 -0400
-Received: by mail-pg1-f196.google.com with SMTP id 23so6607966pgk.3;
-        Sun, 20 Oct 2019 16:55:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=UodzCb9Apw3mQXV1vLdahuw4NY4qPkdKMWtR8HIneco=;
-        b=rcGwPvyb2v5GDaP7i3CU5m0E05udPJiB8C1ga3XcXUSX21dMrh9XDlsdY5nJkWpIH9
-         7ruD2HNXhwQFZYfKIoYHo+XI96Bko0Gjx8F1emjt6E8UmG2fT1jRMrp2MBDvcCs7g54G
-         EHG5g20uZKOJDRFxKWYIWubEQCGcJYfh6BB1FbFZRRth6vjDDCAJZGMfUxZqOVGisDth
-         1cQ9EZA3OIbk046inbHx6WqUjkKkyCrNfLmmHCilkYZKDY6/zcj5qZ2DySk2MGFiy6E4
-         BNhB2sdYz4AJ3FAMUlNS91PZvkKRPBvARleZVdgX4hxTOO+4rOHKMRlU4sygZKkF/Cjq
-         m29g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=UodzCb9Apw3mQXV1vLdahuw4NY4qPkdKMWtR8HIneco=;
-        b=d1GU81EXN1YL+xdxXBawZsj/VHwthH52hNWjbRTzYcUbIXxPn5fJt0ovvWUd4F/SSB
-         2mpvY7g+Si8yKHMH8mWJ46VOLB5f9Hwn9GUHawjgWLmYypMBkCfCHomLvwO994ODmren
-         y90RhLXJAojq+mjIgZsW72v5rlAufsuBKxZrv3HUB9mseHZnvpLHpCN95s306jdxjzDL
-         ckoIoAO2Q8wmOvI2m1GXNkAOx+t4+WYNeiruTzQzeUjdu9LyUO9KzAhTYwAiHcorrNfq
-         DNhFjk8OblqY0eO6DelKrbfoL40Jod8+fdLBJ5DbU8YUSK2EkI1NMMQ2blOOeeJI379X
-         sC1w==
-X-Gm-Message-State: APjAAAUkclFg3+puOXWh3MmsQ2all8c4hAZ0efRYafZ490GqN6J6Bh+R
-        71lQyqz2nJdk0qDq+IDIhBXQzcIs
-X-Google-Smtp-Source: APXvYqwiFMZEHGLUDCsSu9iK5pzbH6Poj1XWnAso/wk8PmuHLz+73uwa9NgV9K0mJ/0syyIcDhLoLQ==
-X-Received: by 2002:a62:3203:: with SMTP id y3mr18904481pfy.221.1571615706779;
-        Sun, 20 Oct 2019 16:55:06 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id o67sm12519518pje.17.2019.10.20.16.55.05
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 20 Oct 2019 16:55:06 -0700 (PDT)
-Subject: Re: [PATCH 2/3] usb: typec: tcpm: Add support for configuring DP
- altmode through device-properties
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Darren Hart <dvhart@infradead.org>,
-        Andy Shevchenko <andy@infradead.org>,
+        id S1726738AbfJUB2H (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 20 Oct 2019 21:28:07 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:36643 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726718AbfJUB2H (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 20 Oct 2019 21:28:07 -0400
+X-UUID: 5507cde80d0b4b29931f0ffb515b1011-20191021
+X-UUID: 5507cde80d0b4b29931f0ffb515b1011-20191021
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 125360284; Mon, 21 Oct 2019 09:27:56 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS33N1.mediatek.inc
+ (172.27.4.75) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Mon, 21 Oct
+ 2019 09:27:51 +0800
+Received: from [10.17.3.153] (172.27.4.253) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Mon, 21 Oct 2019 09:27:51 +0800
+Message-ID: <1571621272.31576.7.camel@mhfsdcap03>
+Subject: Re: [PATCH] usb: mtu3: fix missing include of mtu3_dr.h
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     "Ben Dooks (Codethink)" <ben.dooks@codethink.co.uk>
+CC:     <linux-kernel@lists.codethink.co.uk>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org
-References: <20191018195719.94634-1-hdegoede@redhat.com>
- <20191018195719.94634-2-hdegoede@redhat.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <1a3399f9-a95e-0557-06c2-5f255f9a7850@roeck-us.net>
-Date:   Sun, 20 Oct 2019 16:55:04 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        <linux-usb@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>
+Date:   Mon, 21 Oct 2019 09:27:52 +0800
+In-Reply-To: <20191017172717.31409-1-ben.dooks@codethink.co.uk>
+References: <20191017172717.31409-1-ben.dooks@codethink.co.uk>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-In-Reply-To: <20191018195719.94634-2-hdegoede@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-TM-SNTS-SMTP: 25F215405ED27AA9B6E03A344BF7268CD05F4EB00D98C9A18751FA822DAE4A042000:8
+X-MTK:  N
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 10/18/19 12:57 PM, Hans de Goede wrote:
-> Add support for configuring display-port altmode through device-properties.
+On Thu, 2019-10-17 at 18:27 +0100, Ben Dooks (Codethink) wrote:
+> The declarations of ssusb_gadget_{init,exit} are
+> in the mtu3_dr.h file but the code does that implements
+> them does not include this. Add the include to fix the
+> following sparse warnigns:
 > 
-> We could try to add a generic mechanism for describing altmodes in
-> device-properties, but various altmodes will likely need altmode specific
-> configuration. E.g. the display-port altmode needs some way to describe
-> which set of DP pins on the GPU is connected to the USB Type-C connector.
+> drivers/usb/mtu3/mtu3_core.c:825:5: warning: symbol 'ssusb_gadget_init' was not declared. Should it be static?
+> drivers/usb/mtu3/mtu3_core.c:925:6: warning: symbol 'ssusb_gadget_exit' was not declared. Should it be static?
 > 
-> As such it is better to have a separate set of altmode specific properties
-> per altmode and this commit adds a property for basic display-port altmode
-> support.
-> 
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
 > ---
->   .../bindings/connector/usb-connector.txt      |  3 ++
->   drivers/usb/typec/tcpm/tcpm.c                 | 33 +++++++++++++++++++
->   2 files changed, 36 insertions(+)
+> Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: linux-usb@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-mediatek@lists.infradead.org
+> ---
+>  drivers/usb/mtu3/mtu3_core.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/connector/usb-connector.txt b/Documentation/devicetree/bindings/connector/usb-connector.txt
-> index d357987181ee..7bae3cc9c76a 100644
-> --- a/Documentation/devicetree/bindings/connector/usb-connector.txt
-> +++ b/Documentation/devicetree/bindings/connector/usb-connector.txt
-> @@ -38,6 +38,9 @@ Optional properties for usb-c-connector:
->     or Try.SRC, should be "sink" for Try.SNK or "source" for Try.SRC.
->   - data-role: should be one of "host", "device", "dual"(DRD) if typec
->     connector supports USB data.
-> +- displayport-vdo: The presenence of this property indicates that the
+> diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
+> index c3d5c1206eec..9dd02160cca9 100644
+> --- a/drivers/usb/mtu3/mtu3_core.c
+> +++ b/drivers/usb/mtu3/mtu3_core.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/platform_device.h>
+>  
+>  #include "mtu3.h"
+> +#include "mtu3_dr.h"
+>  #include "mtu3_debug.h"
+>  #include "mtu3_trace.h"
 
- From a DT perspective, I wonder if the vdo properties should be listed
-explicitly (capabilities, signaling, receptacle etc) or if it is ok to list
-a single value. Either case, I wonder if the VDO should be explained in
-more detail.
+Acked-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 
-> +  usb-connector supports displayport-altmode (svid 0xff01), the value of
-> +  this property is an u32 with the vdo value for the displayport-altmode,
->   
+Thanks a lot
 
-The added property will require approval by a DT maintainer.
+>  
 
->   Required properties for usb-c-connector with power delivery support:
->   - source-pdos: An array of u32 with each entry providing supported power
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index c5fa18759f8e..2e3096657e96 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -28,6 +28,7 @@
->   #include <linux/usb/role.h>
->   #include <linux/usb/tcpm.h>
->   #include <linux/usb/typec_altmode.h>
-> +#include <linux/usb/typec_dp.h>
->   #include <linux/workqueue.h>
->   
->   #define FOREACH_STATE(S)			\
-> @@ -281,6 +282,7 @@ struct tcpm_port {
->   	unsigned int nr_snk_pdo;
->   	u32 snk_vdo[VDO_MAX_OBJECTS];
->   	unsigned int nr_snk_vdo;
-> +	u32 displayport_vdo;
->   
->   	unsigned int operating_snk_mw;
->   	bool update_sink_caps;
-> @@ -4433,6 +4435,9 @@ static int tcpm_fw_get_caps(struct tcpm_port *port,
->   					    port->nr_snk_pdo))
->   		return -EINVAL;
->   
-> +	fwnode_property_read_u32(fwnode, "displayport-vdo",
-> +				 &port->displayport_vdo);
-> +
->   	if (fwnode_property_read_u32(fwnode, "op-sink-microwatt", &mw) < 0)
->   		return -EINVAL;
->   	port->operating_snk_mw = mw / 1000;
-> @@ -4667,6 +4672,28 @@ static int devm_tcpm_psy_register(struct tcpm_port *port)
->   	return PTR_ERR_OR_ZERO(port->psy);
->   }
->   
-> +static int tcpm_register_port_altmodes(struct tcpm_port *port)
-> +{
-> +	struct typec_altmode_desc desc;
-> +	struct typec_altmode *alt;
-> +	int index = 0;
-> +
-> +	if (port->displayport_vdo) {
-> +		desc.svid = USB_TYPEC_DP_SID;
-> +		desc.mode = USB_TYPEC_DP_MODE;
-> +		desc.vdo  = port->displayport_vdo;
-> +		alt = typec_port_register_altmode(port->typec_port, &desc);
-> +		if (IS_ERR(alt))
-> +			return PTR_ERR(alt);
-> +		typec_altmode_set_drvdata(alt, port);
-> +		alt->ops = &tcpm_altmode_ops;
-> +		port->port_altmode[index] = alt;
-> +		index++;
-> +	}
-> +	/* Future support for further altmodes goes here */
-> +	return 0;
-> +}
-> +
->   struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
->   {
->   	struct tcpm_port *port;
-> @@ -4736,6 +4763,10 @@ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
->   		goto out_role_sw_put;
->   	}
->   
-> +	err = tcpm_register_port_altmodes(port);
-> +	if (err)
-> +		goto out_unregister_port;
-> +
->   	mutex_lock(&port->lock);
->   	tcpm_init(port);
->   	mutex_unlock(&port->lock);
-> @@ -4743,6 +4774,8 @@ struct tcpm_port *tcpm_register_port(struct device *dev, struct tcpc_dev *tcpc)
->   	tcpm_log(port, "%s: registered", dev_name(dev));
->   	return port;
->   
-> +out_unregister_port:
-> +	typec_unregister_port(port->typec_port);
->   out_role_sw_put:
->   	usb_role_switch_put(port->role_sw);
->   out_destroy_wq:
-> 
 
