@@ -2,106 +2,104 @@ Return-Path: <SRS0=k9H8=YO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6B17CA9EAF
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Oct 2019 14:21:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97681CA9EB0
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Oct 2019 14:25:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id BB30B20640
-	for <linux-usb@archiver.kernel.org>; Mon, 21 Oct 2019 14:21:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 66A3820882
+	for <linux-usb@archiver.kernel.org>; Mon, 21 Oct 2019 14:25:49 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QzsodSJf"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UE+ptBGu"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729268AbfJUOVR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Oct 2019 10:21:17 -0400
-Received: from mail-wr1-f73.google.com ([209.85.221.73]:35266 "EHLO
-        mail-wr1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729094AbfJUOVR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Oct 2019 10:21:17 -0400
-Received: by mail-wr1-f73.google.com with SMTP id 7so7430344wrl.2
-        for <linux-usb@vger.kernel.org>; Mon, 21 Oct 2019 07:21:14 -0700 (PDT)
+        id S1729064AbfJUOZp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 21 Oct 2019 10:25:45 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:43058 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726289AbfJUOZo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Oct 2019 10:25:44 -0400
+Received: by mail-pl1-f193.google.com with SMTP id v5so1973326ply.10;
+        Mon, 21 Oct 2019 07:25:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=on4/idiV9oaS/IR8jAQI0iaB3VMV3aTStZbS/UnOUko=;
-        b=QzsodSJfTcR+ufqqv1YzNohzVZCaQ7UjuI6sf6P3JxkLy/VaKISnvfhqy/SV2K8Okg
-         nXE/UkzqGS2/YiDOPKl1JFSPo/QWUEVJzmDfpzuMfmxNaqv2rCAp+crVEmFOnt5daDvQ
-         k+rxVHnbCAaPLOoGc5SrR0Nb8ASM5vyqAsHV0eJWsRkHrZ5gh4zlcYlb6vZO86yFLIea
-         UcorsSOze5s/hpxbrw0m/p/UzugFY1mn+SuMcSNTcLFOX+Phs0KYIqZzd2d3SZRU9Fzs
-         UWOjREsxJ9lsVgNCnOfN/w/iXJgFgPyBvcKUH+yelrCCYUtIVGAwXRqAivnA5PWWPZoW
-         Um4Q==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=e/Nu6479wT4lgFB7uIBv0K2t4SV9aOlrpNohdOcDVIw=;
+        b=UE+ptBGuF36dUk+oxh8MXCI+giWh/w0w+on8Lqd5WOhhBDm/zVyf/S2TuxVtVjIupk
+         6F8urq+AKinKfTiQHiDUHMStVtfnU636yId8CI4a6ZLCFiR8QU3TU5Xz+DGzrmJqPt4C
+         /Vka0WtFyHfzjAhnh0GUJRxD1HnLOQlk4mVxgQUqHyHAalfe+f4MCMz4z5yNdklRCBbH
+         jfR+T08hWdA0Y9hQXyqAk9rVgqYtZ0wnLgiyV52UH19yi00hpqG4OEhh7IXUfCLoDnZl
+         K+OMshItQ0Ill+DMg9pFjDhGJrkgvYrPYiMP6KQWHubmsbo1yP4qDtslZvbbrPzspZ8r
+         GXZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=on4/idiV9oaS/IR8jAQI0iaB3VMV3aTStZbS/UnOUko=;
-        b=RWsH7Sz5SWhgrjU2Qhz0J7xH0ANqZ4DDj0YfOTe4WF9UBimmYQFPKeWPd3dXUTLP02
-         kWvulpqTDDYtfx60DFoWGdDX+ccSXgC/16Q8jVXRR4cPHOayEe5flK7S6V+r9WDPGbn6
-         2elzzcWcLdaMANTyjZ4lC6CE6fgWxXXJUtxuRTnkahwFxdN/haoq3tru11vlfv0QzF3H
-         xcPE46dAowKan8Wy/3i81wuqWbPXz5vdR6AVQ3lviUDgl+KMdpqiDEfG96q3U/XBy4ex
-         0La/VkdS/RF+B2kZjsDabW8gojnjsKbFCtTCGoL8jYWMquOeuJCrUZujQiVmu8CnnK6s
-         01Zw==
-X-Gm-Message-State: APjAAAVzN6QgM234waFTtlDRpB4f4bG5aIdbs4yQdtAF6U8aEW5xZOOO
-        7FKn1bszIx+i9Gxh2jwvmNc8zNNS/jXV5DoILWw/OJVfnFpql/C+3bKhpWlScTcfAPeXXUelgOc
-        7lB/R+blPgkIBNBnt0R3JblkMSdNbJXOy108qPFlrMqAnvP7whBvblxwQ3luT7uXoso9rmnhmJ9
-        CF
-X-Google-Smtp-Source: APXvYqx8/1/VpRgkzTaXT7elbGdj8wMsh9ChrrFJHVEeMNfKAo3+ORHj0vkDBDkeawbudSZib3uXrRMAw0yDwmZX
-X-Received: by 2002:adf:8289:: with SMTP id 9mr21260326wrc.0.1571667673653;
- Mon, 21 Oct 2019 07:21:13 -0700 (PDT)
-Date:   Mon, 21 Oct 2019 16:20:58 +0200
-In-Reply-To: <cover.1571667489.git.andreyknvl@google.com>
-Message-Id: <665578f904484069bb6100fb20283b22a046ad9b.1571667489.git.andreyknvl@google.com>
-Mime-Version: 1.0
-References: <cover.1571667489.git.andreyknvl@google.com>
-X-Mailer: git-send-email 2.23.0.866.gb869b98d4c-goog
-Subject: [PATCH v2 1/2] USB: dummy-hcd: increase max number of devices to 32
-From:   Andrey Konovalov <andreyknvl@google.com>
-To:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        "Jacky . Cao @ sony . com" <Jacky.Cao@sony.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Alexander Potapenko <glider@google.com>,
-        Marco Elver <elver@google.com>,
-        Andrey Konovalov <andreyknvl@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=e/Nu6479wT4lgFB7uIBv0K2t4SV9aOlrpNohdOcDVIw=;
+        b=e/nMFGrxO8aY5PMMySz8JaWYNl/+ishpKJBzhLETehp2rpBWK0rCZVT+E6ypaIKc6/
+         e9hV1ZjMApU4PwPVbAYmOXMxbnRiF5zqNQk2F8CaKldLP17Rql3FojU01hFAoUk8BSaK
+         OO1sOV85kcywXpcZ24V4Zp4dFPPSbuh3XF+HUJnMHNngfOTGcUtZXfjeBreO+APDGpx5
+         uOzKfPgiWAXLOJWiHDJZH4IRZVhaWB1nfm+3jgugXOKZ3hWxMxw+SD7qFlKSsxrbGa00
+         ZfsCfNUR1+CxqErMrlU+MKtunBStZltRa0b3/z+r+dtNPAc/ZYA5Iun1Sba8fCvrCnF8
+         jUmA==
+X-Gm-Message-State: APjAAAWmy8BRXByDt64sVb69Now3WK824QPcl1omYzQ/CMjhoTVkd7T8
+        /kxcgMMpL+sWFKaPD/B3Bxw=
+X-Google-Smtp-Source: APXvYqzRDnyYrg1W73jjsfHxGfiqD4rr/5X6cnpVrN9dgI/xjXSzFfKyKjil3fD302ms6kaMF82xdA==
+X-Received: by 2002:a17:902:8691:: with SMTP id g17mr23774191plo.231.1571667942442;
+        Mon, 21 Oct 2019 07:25:42 -0700 (PDT)
+Received: from localhost.localdomain ([221.155.202.134])
+        by smtp.gmail.com with ESMTPSA id k15sm14214176pgt.25.2019.10.21.07.25.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Oct 2019 07:25:42 -0700 (PDT)
+From:   Suwan Kim <suwan.kim027@gmail.com>
+To:     shuah@kernel.org, gregkh@linuxfoundation.org
+Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        julia.lawall@lip6.fr, valentina.manea.m@gmail.com,
+        Suwan Kim <suwan.kim027@gmail.com>,
+        kbuild test robot <lkp@intel.com>
+Subject: [PATCH] =?UTF-8?q?usbip:=C2=A0Fix=20free=20of=20unallocated=20mem?= =?UTF-8?q?ory=20in=20vhci=20tx?=
+Date:   Mon, 21 Oct 2019 23:24:14 +0900
+Message-Id: <20191021142414.27164-1-suwan.kim027@gmail.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When fuzzing the USB subsystem with syzkaller, we currently use 8 testing
-processes within one VM. To isolate testing processes from one another it
-is desirable to assign a dedicated USB bus to each of those, which means
-we need at least 8 Dummy UDC/HCD devices.
+iso_buffer should be set to NULL after use and free in the while loop.
+In the case of isochronous URB in the while loop, iso_buffer is
+allocated and after sending it to server, buffer is deallocated. And
+then, if the next URB in the while loop is not a isochronous pipe,
+iso_buffer still holds the previously deallocated buffer address and
+kfree tries to free wrong buffer address.
 
-This patch increases the maximum number of Dummy UDC/HCD devices to 32
-(more than 8 in case we need more of them in the future).
-
-Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+Fixes: ea44d190764b (“usbip: Implement SG support to vhci-hcd and stub driver”)
+Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+Signed-off-by: Suwan Kim <suwan.kim027@gmail.com>
 ---
- drivers/usb/gadget/udc/dummy_hcd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/usbip/vhci_tx.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dummy_hcd.c
-index 3d499d93c083..a8f1e5707c14 100644
---- a/drivers/usb/gadget/udc/dummy_hcd.c
-+++ b/drivers/usb/gadget/udc/dummy_hcd.c
-@@ -2725,7 +2725,7 @@ static struct platform_driver dummy_hcd_driver = {
- };
+diff --git a/drivers/usb/usbip/vhci_tx.c b/drivers/usb/usbip/vhci_tx.c
+index c3803785f6ef..b290e810d11b 100644
+--- a/drivers/usb/usbip/vhci_tx.c
++++ b/drivers/usb/usbip/vhci_tx.c
+@@ -73,6 +73,7 @@ static int vhci_send_cmd_submit(struct vhci_device *vdev)
+ 		memset(&pdu_header, 0, sizeof(pdu_header));
+ 		memset(&msg, 0, sizeof(msg));
+ 		memset(&iov, 0, sizeof(iov));
++		iso_buffer = NULL;
  
- /*-------------------------------------------------------------------------*/
--#define MAX_NUM_UDC	2
-+#define MAX_NUM_UDC	32
- static struct platform_device *the_udc_pdev[MAX_NUM_UDC];
- static struct platform_device *the_hcd_pdev[MAX_NUM_UDC];
- 
+ 		usbip_dbg_vhci_tx("setup txdata urb seqnum %lu\n",
+ 				  priv->seqnum);
 -- 
-2.23.0.866.gb869b98d4c-goog
+2.21.0
 
