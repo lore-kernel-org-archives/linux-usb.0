@@ -2,122 +2,78 @@ Return-Path: <SRS0=MnUw=YP=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 452D0CA9EA0
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Oct 2019 16:47:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35531CA9EA0
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Oct 2019 16:53:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1B028218AE
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Oct 2019 16:47:05 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bwG8FsZz"
+	by mail.kernel.org (Postfix) with ESMTP id 11B4A20B7C
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Oct 2019 16:53:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732062AbfJVQqk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 22 Oct 2019 12:46:40 -0400
-Received: from mail-wr1-f73.google.com ([209.85.221.73]:46017 "EHLO
-        mail-wr1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388743AbfJVQqj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Oct 2019 12:46:39 -0400
-Received: by mail-wr1-f73.google.com with SMTP id f4so9419666wrj.12
-        for <linux-usb@vger.kernel.org>; Tue, 22 Oct 2019 09:46:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=FxzIQyDunHtVBZCVK6ttUg3oB9s0DEBjz5E3R+aCqJU=;
-        b=bwG8FsZzFAPaLXF+EeN/hUCP9Ctc2PqOreWk2uXXPC1rx7igFgoYTwQmMPUoum8kN2
-         BCDHyY+9Y3k4GDqLnxZX4DJeS4dHVZz2+0dRswv3cdpUzr/TwgGbwwFH8QyCXUgUjuhZ
-         Nks82aX0zUMLehsuEDOPYo2bHPgtiRFXEe4h7LU+Z1NBLKnIwZRQ2yBDEq33H4IQb/8R
-         eNidmD5c9kaZE2RILTyQvcpk2qanv245jpGAsz/TPPZSFFwDGPHmUQKp1M3LWnrLJXq7
-         NuTimyO/udpVPVqtAL1NOviEG57gds0FKsZoYgaXz6fcekzuyx53kphtB0HI5IqkuVvQ
-         aoDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=FxzIQyDunHtVBZCVK6ttUg3oB9s0DEBjz5E3R+aCqJU=;
-        b=kD/ZpBn9oAUGmR86LE1/5V17hnD6if2WF6cborfJqWqPgYBle622fXwwqn+0Qkdxxm
-         5Ve7vly/5qK3DGxn607N8e5zys3kK65qFXrHu10p4kGeM65IJfL9E09TPRejRch/upkD
-         5/sojGcrIFX1nSglJxZuPSx/pq1q1hcKNS01IIrm2m4VYH7SLEXm8bwQD8ej3GKLMqMZ
-         RwzTbvLIXvcuvRoYz3X7boCGav2EAK6Eo5QhGTo6BYqpS3WB717srcrWa12acKNsuYFY
-         +oJGKzUKMMVQQOO2Dl3e9mtnX/dzL1ctFwuCDVJ6Q6iSvgodOR2Hwx0KxfvH6IGWC71T
-         3Rlg==
-X-Gm-Message-State: APjAAAVKUtW/SRqpwx4U0QqzLvsZ76kE8r/OF8vqnstUZueAHd8Ycmy1
-        aqVZA+xFtGfw61VGDpFr4QrwVDN154ZQSNw7ejSUZ1DywCTrLVr5zaQ2Ev+vz+Gww5hS2jZX680
-        C8xLQ9kTj/UbdPRWF89l+x+p/6eGBHMyCWzWGt9w/+YxC+YR1AFnMe27DIKDqyk5cPN0zn6fFDp
-        q1
-X-Google-Smtp-Source: APXvYqzw4xdCDUIijFFJk3ia1kfm+QpMoPGMUaeGlY+KJBFhy0thno5gFZaPKu1JXCicdUguQwe6wX+B/HIHHpRY
-X-Received: by 2002:a5d:4644:: with SMTP id j4mr944846wrs.355.1571762797288;
- Tue, 22 Oct 2019 09:46:37 -0700 (PDT)
-Date:   Tue, 22 Oct 2019 18:46:30 +0200
-Message-Id: <cover.1571762488.git.andreyknvl@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.23.0.866.gb869b98d4c-goog
-Subject: [PATCH 0/3] kcov: collect coverage from usb and vhost
-From:   Andrey Konovalov <andreyknvl@google.com>
-To:     linux-usb@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        David Windsor <dwindsor@gmail.com>,
-        Elena Reshetova <elena.reshetova@intel.com>,
-        Anders Roxell <anders.roxell@linaro.org>,
-        Andrey Konovalov <andreyknvl@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1731549AbfJVQxR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Oct 2019 12:53:17 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:33198 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1731481AbfJVQxR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Oct 2019 12:53:17 -0400
+Received: (qmail 5273 invoked by uid 2102); 22 Oct 2019 12:53:16 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 22 Oct 2019 12:53:16 -0400
+Date:   Tue, 22 Oct 2019 12:53:16 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Harald Dunkel <harri@afaics.de>
+cc:     USB list <linux-usb@vger.kernel.org>
+Subject: Re: 5.3.6: I/O error on writing SD card via USB3
+In-Reply-To: <8b9b00f1-aec6-5c38-064a-83c04c8b1a9e@afaics.de>
+Message-ID: <Pine.LNX.4.44L0.1910221249300.1468-100000@iolanthe.rowland.org>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patchset extends kcov to allow collecting coverage from the USB
-subsystem and vhost workers. See the first patch description for details
-about the kcov extension. The other two patches apply this kcov extension
-to USB and vhost.
+On Tue, 22 Oct 2019, Harald Dunkel wrote:
 
-These patches have been used to enable coverage-guided USB fuzzing with
-syzkaller for the last few years, see the details here:
+> Hi Alan,
+> 
+> On 10/21/19 7:48 PM, Alan Stern wrote:
+> > On Mon, 21 Oct 2019, Harald Dunkel wrote:
+> > 
+> >>
+> >> The USB2 cable worked, too. Actually I had expected that the speed is
+> >> reduced automatically according to the specs of the card. ???
+> > 
+> > That is doubtful.  The speed of the connection is determined when the
+> > connection is first set up.  Unless the reader disconnects itself from
+> > the USB bus when a card is removed and reconnects when a card is
+> > inserted, the speed can't change.
+> > 
+> :
+> :
+> > 
+> > At any rate, it sounds like the 133x card is just too slow to keep up.
+> > 
+> 
+> 
+> AFAIU the SD card is accessed similar to other block devices. There shouldn't
+> be any I/O errors on writing to a slow device, unless hardware or software are
+> faulty. The data to write is cached.
+> 
+> Anyway, I got a new USB3 card reader today: No problem with it, even though
+> I wrote to the same slow SD card. Since the old SD card reader works OK using
+> USB2, I would either assume a bug in the XHCI driver for the old device, or a
+> hardware failure.
+> 
+> Would you agree to this conclusion?
 
-https://github.com/google/syzkaller/blob/master/docs/linux/external_fuzzing_usb.md
+Yes, except that I would go even farther.  Since the same xhci-hcd
+driver works okay for your new card reader and the old card, I would
+rule out an error in the driver or the card.  This means that the
+hardware/firmware in the old reader is most likely to be at fault.
 
-This patchset has been pushed to the public Linux kernel Gerrit instance:
-
-https://linux-review.googlesource.com/c/linux/kernel/git/torvalds/linux/+/1524
-
-Changes from RFC v1:
-- Remove unnecessary #ifdef's from drivers/vhost/vhost.c.
-- Reset t->kcov when area allocation fails in kcov_remote_start().
-- Use struct_size to calculate array size in kcov_ioctl().
-- Add a limit on area_size in kcov_remote_arg.
-- Added kcov_disable() helper.
-- Changed encoding of kcov remote handle ids, see the documentation.
-- Added a comment reference for kcov_sequence task_struct field.
-- Change common_handle type to u32.
-- Add checks for handle validity into kcov_ioctl_locked() and
-    kcov_remote_start().
-- Updated documentation to reflect the changes.
-
-Andrey Konovalov (3):
-  kcov: remote coverage support
-  usb, kcov: collect coverage from hub_event
-  vhost, kcov: collect coverage from vhost_worker
-
- Documentation/dev-tools/kcov.rst | 120 ++++++++
- drivers/usb/core/hub.c           |   5 +
- drivers/vhost/vhost.c            |   6 +
- drivers/vhost/vhost.h            |   1 +
- include/linux/kcov.h             |   6 +
- include/linux/sched.h            |   6 +
- include/uapi/linux/kcov.h        |  20 ++
- kernel/kcov.c                    | 464 ++++++++++++++++++++++++++++---
- 8 files changed, 593 insertions(+), 35 deletions(-)
-
--- 
-2.23.0.866.gb869b98d4c-goog
+Alan Stern
 
