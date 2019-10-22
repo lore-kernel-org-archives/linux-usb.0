@@ -2,199 +2,115 @@ Return-Path: <SRS0=MnUw=YP=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B9FECA9EA0
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Oct 2019 13:54:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3025CCA9EA0
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Oct 2019 14:32:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 46A9121928
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Oct 2019 13:54:49 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ndN7SQEh"
+	by mail.kernel.org (Postfix) with ESMTP id 057B421872
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Oct 2019 14:32:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1571754732;
+	bh=NskWIJpyVHM8w6Z1Pkzza2wmp9kv9JI+loaU9VCticY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=o5t1kgUP/IqQ1UhctwJjkYnLcONxAwl/ypLFQDhXnSWdWdH2757oRQYAfgAjl8Kbc
+	 Mjdmos9AKWyn0AkCB0PZv7MyXLfQVJ5uLo3OGeveZ9QwADFzOcnMMFsQMdUj4YyVsj
+	 gDHKTd5cyeJ2b3IQYskN4TIL5E0/ea3f2qeyX9tw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388930AbfJVNyp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 22 Oct 2019 09:54:45 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:37884 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729425AbfJVNyp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Oct 2019 09:54:45 -0400
-Received: by mail-ed1-f67.google.com with SMTP id r4so12966097edy.4;
-        Tue, 22 Oct 2019 06:54:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=HDIziD0BfrlxmPMJrkTLh7QjnKsfiQF7jyPiMzEXqs4=;
-        b=ndN7SQEhquOMTyprORwJUKFqnEd+Xtf3KaGZl5lySQFOvpI3tYGEq0E6cVJ3sb1nPd
-         JTzO2En4F2pjs0JFoAvszFakYkMPJ0zoaS61goJcbMPVEwoX9e2SzSLW8yWGHPq4jD+o
-         a8xj/W6xikpUak5eRWEf8YrWwo0/6B/bzDGYFeRo6HNfR85d72d6JakciUKmMbIpwKOV
-         ug7n54y2gKQMnzUk0EuUNfi6gXqceHHhZgLy7D+pQftrOSDhTuPIGCqDxB3pWAN80QLQ
-         n9nvcTmftCgAO2inkDbwDaPETnhFpXQ0stJFheO7ZL7hKopAIuyJbGTvf4L1KtgqLrjs
-         YHnA==
+        id S1732021AbfJVOcI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Oct 2019 10:32:08 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:33152 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727303AbfJVOcF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Oct 2019 10:32:05 -0400
+Received: by mail-lf1-f68.google.com with SMTP id y127so13328396lfc.0;
+        Tue, 22 Oct 2019 07:32:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=HDIziD0BfrlxmPMJrkTLh7QjnKsfiQF7jyPiMzEXqs4=;
-        b=fCASqGa12YbOSR9KLm/PdQImhkkf039Dhyxm+riRYOF8rUhu8PQcMbTxU/duKo+UHj
-         fnQj4JK/hWostvLZ/O81E9m2pIpPUKkzCjTGbMjqP9LqH0Zj701DZiesq1hi2flsZeWg
-         9Tv1tcY7PuMOXtT2PAmHeA/0I5WDXzgW+7KAa1qph5ILXVCH1xzWOI2G3s88LXnwzglx
-         tmBPRvSySsyU4/aroilM03UCZVBHpKwUA7uAl/aReZwNAkSgQ1oQ8utWM5pAmaaLCeJP
-         Af7kGutW9h8wLbt7zAef03QphanA53NDIXv+NoCNaXOAR0uLSgO1bqe77ElTbEkAmBxM
-         P4Yg==
-X-Gm-Message-State: APjAAAXzVrWvH9+rpeA5nd7hkKR1J/LpkVNcQioFKOjhfvd5imRBi98A
-        UqOCWb9EGQDty72bUnTR1RsepTZnO73VK+lKo5Y=
-X-Google-Smtp-Source: APXvYqzJKm9AMyXaRxJ0QMKQJbscqZ/21yIsCZe2nZThXMOQg315tZXfSwov8MAUzBWkWxds3+5HOHHHTCHB9hpsbzI=
-X-Received: by 2002:a50:9fc1:: with SMTP id c59mr4805544edf.305.1571752481193;
- Tue, 22 Oct 2019 06:54:41 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=hbkTIzbzhsyYpFfbyDPjWabCYNafv764fp+X/E6iWfA=;
+        b=GF6pv84J41t8zhYl4uOYI1c2EsSGiiaWXHEyfH4sHa/Coq4Sdnsy0HDJOStVkjavw5
+         aHjZhNoujQbYInDXcIZ+dcFcX+/bYvBWx+/lWY0qSX0eL90ScJA9DEj5WkbkjeYnFi/c
+         JxiMv9b+2lHyv+Q0EgPuLPyt9EZNvUPh0rqnvHJZ5/fe1ZiXcwLvrZpaCEVOPLHCTQfh
+         DjTeGPl075ft0olZfaSbPOoVTWowGkZf7FwuEmsPiVyx1NMMg/4u5R+yf/ygcTgGeJFI
+         LkE2rOQ+YVWEndLJ/Gk85m5HpSSX/wIFy4c2Ie1lVa4eB29L/y4N0zsJQ7YgOCw+m582
+         lfKQ==
+X-Gm-Message-State: APjAAAXWldzWnpyJwPSL8LKjuALwCxIk2A9UIKn029Yke3H3N0zn3/+W
+        JFP+uh4m6C5fmW4tl03nF/A=
+X-Google-Smtp-Source: APXvYqzD8uLkqOWxlAT89po5BPO0ZBdI2SXmqeR4OiZ17K5kGU1CihYDBS5B/CDqk5sqC2jWbuy0xA==
+X-Received: by 2002:a19:7d06:: with SMTP id y6mr3991107lfc.120.1571754722614;
+        Tue, 22 Oct 2019 07:32:02 -0700 (PDT)
+Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
+        by smtp.gmail.com with ESMTPSA id z20sm9148065ljk.63.2019.10.22.07.31.59
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 22 Oct 2019 07:31:59 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.92.2)
+        (envelope-from <johan@xi.terra>)
+        id 1iMvCn-0001Nl-W9; Tue, 22 Oct 2019 16:32:14 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Oliver Neukum <oneukum@suse.com>,
+        "Paul E . McKenney" <paulmck@linux.vnet.ibm.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Johan Hovold <johan@kernel.org>
+Subject: [PATCH 2/2] USB: ldusb: use unsigned size format specifiers
+Date:   Tue, 22 Oct 2019 16:32:03 +0200
+Message-Id: <20191022143203.5260-3-johan@kernel.org>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191022143203.5260-1-johan@kernel.org>
+References: <20191022143203.5260-1-johan@kernel.org>
 MIME-Version: 1.0
-References: <20191021161654.14353-1-igor.opaniuk@gmail.com> <20191022020748.GA26973@b29397-desktop>
-In-Reply-To: <20191022020748.GA26973@b29397-desktop>
-From:   Igor Opaniuk <igor.opaniuk@gmail.com>
-Date:   Tue, 22 Oct 2019 16:54:30 +0300
-Message-ID: <CAByghJbAnAN8dVAa0taPfLiMx2r4evcZhoryfZYyxjYiaFpTsw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] usb: chipidea: use of extcon framework to work for
- non OTG case
-To:     Peter Chen <peter.chen@nxp.com>
-Cc:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Marcel Ziswiler <marcel.ziswiler@toradex.com>,
-        Philippe Schenker <philippe.schenker@toradex.com>,
-        Stefan Agner <stefan.agner@toradex.com>,
-        Max Krummenacher <max.krummenacher@toradex.com>,
-        Oleksandr Suvorov <oleksandr.suvorov@toradex.com>,
-        Sanchayan Maity <maitysanchayan@gmail.com>,
-        Igor Opaniuk <igor.opaniuk@toradex.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Peter,
+A recent info-leak bug manifested itself along with warning about a
+negative buffer overflow:
 
-On Tue, Oct 22, 2019 at 5:11 AM Peter Chen <peter.chen@nxp.com> wrote:
->
-> On 19-10-21 19:16:53, Igor Opaniuk wrote:
-> > From: Stefan Agner <stefan.agner@toradex.com>
-> >
-> > The existing usage of extcon in chipidea driver freezes the kernel
-> > presumably due to OTGSC register access.
-> >
-> > Prevent accessing any OTG registers for SoC with dual role devices
-> > but no true OTG support. Use the flag CI_HDRC_DUAL_ROLE_NOT_OTG for
-> > those devices and in case extcon is present, do the role switch
-> > using extcon only.
->
-> Hi Igor & Stefan,
->
-> I have several questions about the problem you met:
-> - Which vendor's controller you have used?
-> - What do you mean "no true OTG"? Does it mean no "OTGSC" register?
+	ldusb 1-1:0.28: Read buffer overflow, -131383859965943 bytes dropped
 
-Probably the commit message adds a bit of confusion here
-(I've kept the original one from the patch in our downstream kernel,
-but will probably reword it).
+when it was really a rather large positive one.
 
-The actual problem is that USB_OTG1_ID pin isn't wired, so we can't rely
-on the value of ID pin state in OTGSC for the role detection.
-In our SoM (Colibri iMX6ULL) ID pin from USB connector is wired
-to SNVS_TAMPER2 which is pinmuxed as GPIO pin (GPIO5_02),
-[1] (this is schematic for the Carrier Board, not SoM (isn't publicly
-available),
-but there is a pretty good explanation + schematic
-in the section "2.3.2.2 USB 2.0 OTG Schematic Example ").
+A sanity check that prevents this has now been put in place, but let's
+fix up the size format specifiers, which should all be unsigned.
 
->
-> >       if (dr_mode =3D=3D USB_DR_MODE_OTG || dr_mode =3D=3D USB_DR_MODE_=
-HOST) {
-> >               ret =3D ci_hdrc_host_init(ci);
-> > @@ -1145,8 +1208,18 @@ static int ci_hdrc_probe(struct platform_device =
-*pdev)
-> >
-> >       if (!ci_otg_is_fsm_mode(ci)) {
-> >               /* only update vbus status for peripheral */
-> > -             if (ci->role =3D=3D CI_ROLE_GADGET)
-> > -                     ci_handle_vbus_change(ci);
-> > +             if (dr_mode =3D=3D USB_DR_MODE_PERIPHERAL) {
-> > +                     usb_gadget_vbus_connect(&ci->gadget);
->
-> We only use ci->role at runtime, since it has already considered the
-> dts setting, kernel configuration and hardware setting.
->
-> If your controller doesn't otgsc register, but do need to support
-> role switch, you may enhance the function ci_get_role
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/misc/ldusb.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-Btw, ci_get_role() implementation still resides in the NXP dowstream kernel
-and I've never seen anything posted to the ML (if it was, could you
-please point me to
-the patch?). I can introduce the new one, which wraps both OTGSC handling
-+ extcon for CI_HDRC_DUAL_ROLE_NOT_OTG controllers.
+diff --git a/drivers/usb/misc/ldusb.c b/drivers/usb/misc/ldusb.c
+index c3e764909fd0..dd1ea25e42b1 100644
+--- a/drivers/usb/misc/ldusb.c
++++ b/drivers/usb/misc/ldusb.c
+@@ -487,7 +487,7 @@ static ssize_t ld_usb_read(struct file *file, char __user *buffer, size_t count,
+ 	}
+ 	bytes_to_read = min(count, *actual_buffer);
+ 	if (bytes_to_read < *actual_buffer)
+-		dev_warn(&dev->intf->dev, "Read buffer overflow, %zd bytes dropped\n",
++		dev_warn(&dev->intf->dev, "Read buffer overflow, %zu bytes dropped\n",
+ 			 *actual_buffer-bytes_to_read);
+ 
+ 	/* copy one interrupt_in_buffer from ring_buffer into userspace */
+@@ -562,8 +562,9 @@ static ssize_t ld_usb_write(struct file *file, const char __user *buffer,
+ 	/* write the data into interrupt_out_buffer from userspace */
+ 	bytes_to_write = min(count, write_buffer_size*dev->interrupt_out_endpoint_size);
+ 	if (bytes_to_write < count)
+-		dev_warn(&dev->intf->dev, "Write buffer overflow, %zd bytes dropped\n", count-bytes_to_write);
+-	dev_dbg(&dev->intf->dev, "%s: count = %zd, bytes_to_write = %zd\n",
++		dev_warn(&dev->intf->dev, "Write buffer overflow, %zu bytes dropped\n",
++			count - bytes_to_write);
++	dev_dbg(&dev->intf->dev, "%s: count = %zu, bytes_to_write = %zu\n",
+ 		__func__, count, bytes_to_write);
+ 
+ 	if (copy_from_user(dev->interrupt_out_buffer, buffer, bytes_to_write)) {
+-- 
+2.23.0
 
-Frankly speaking, I don't know the reason why additional workqueue (ci->wor=
-k_dr)
-was introduced (will try to reach Stefan regarding this).
-As I see it's valid to call extcon_get_state() from the atomic
-context, so probably
-using something like ci_get_role()(or ci_detect_role(), whatever)
-instead of explicitly
-retrieving bits from OTGSC in every ID pin check is a good choice.
-
-Thanks for your feedback!
-
-
->
-> Peter
->
-> > +             } else if (ci->role =3D=3D CI_ROLE_GADGET) {
-> > +                     struct ci_hdrc_cable *vbus =3D &ci->platdata->vbu=
-s_extcon;
-> > +
-> > +                     /* Use vbus state from extcon if provided */
-> > +                     if (!IS_ERR(vbus->edev) &&
-> > +                         extcon_get_state(vbus->edev, EXTCON_USB))
-> > +                             usb_gadget_vbus_connect(&ci->gadget);
-> > +                     else
-> > +                             ci_handle_vbus_change(ci);
-> > +             }
-> >
-> >               ret =3D ci_role_start(ci, ci->role);
-> >               if (ret) {
-> > @@ -1161,10 +1234,6 @@ static int ci_hdrc_probe(struct platform_device =
-*pdev)
-> >       if (ret)
-> >               goto stop;
-> >
-> > -     ret =3D ci_extcon_register(ci);
-> > -     if (ret)
-> > -             goto stop;
-> > -
-> >       if (ci->supports_runtime_pm) {
-> >               pm_runtime_set_active(&pdev->dev);
-> >               pm_runtime_enable(&pdev->dev);
-> > --
-> > 2.17.1
-> >
->
-> --
->
-> Thanks,
-> Peter Chen
-
-[1] https://docs.toradex.com/102491-colibri-arm-carrier-board-design-guide.=
-pdf
-
---=20
-Best regards - Freundliche Gr=C3=BCsse - Meilleures salutations
-
-Igor Opaniuk
-
-mailto: igor.opaniuk@gmail.com
-skype: igor.opanyuk
-+380 (93) 836 40 67
-http://ua.linkedin.com/in/iopaniuk
