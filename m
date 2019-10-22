@@ -2,80 +2,107 @@ Return-Path: <SRS0=MnUw=YP=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63F76C47E49
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Oct 2019 02:40:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6433CA9EA0
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Oct 2019 04:57:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3088121783
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Oct 2019 02:40:14 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=endlessm-com.20150623.gappssmtp.com header.i=@endlessm-com.20150623.gappssmtp.com header.b="yhS0mblU"
+	by mail.kernel.org (Postfix) with ESMTP id C3DD12184C
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Oct 2019 04:57:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730890AbfJVCkN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 21 Oct 2019 22:40:13 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:39762 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730864AbfJVCkN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 21 Oct 2019 22:40:13 -0400
-Received: by mail-qk1-f195.google.com with SMTP id 4so14871157qki.6
-        for <linux-usb@vger.kernel.org>; Mon, 21 Oct 2019 19:40:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=endlessm-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SIowe0bvkHyBTDNYswHiN88YcAkwm5TEoGgNVc+ix4o=;
-        b=yhS0mblUe4lpDgYbM0BYodLWFiF5NLD9Cxu2+enOIr1JMeSWrqM+cJHIPn8N22L9cB
-         AbIcn3cuVt04kjm0tnB2WRcJfhrlrToE8vSO0E90jB8c+3DHVFqv+ORQg3KJKxUX4uZK
-         bCZ308HjL0kKBBF7T36IDsDI358//mnD6bPLPAtVoYyceh0h0cXiCoh59mHTJQq4nTwF
-         NrhKwrKl7NmdDDbcKPZBhCTVMzjln4MNfHxU5YJJ35QYHJjix/dZArIyE24Q/imiZkCh
-         n4LuazaotEhmaOOo9FN2EJgjVaG/uFAC2NxZh5sv39z4u1V88Dk7Zm4C5gbgKUuK4Koi
-         huDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SIowe0bvkHyBTDNYswHiN88YcAkwm5TEoGgNVc+ix4o=;
-        b=rup6x5GVzuwWuR1F5YpUaBiX/+YP4+3WrOJoMPTtiunhj31l0FoS8AvBcd3eYysq/Y
-         2B98IlR5CngttuXQwwUdIiO/jaC5vwPpALF+9Pqdu33c5pZgyeKL5hRR7BOuad3E4NP8
-         8l3QR+8I8GyqC2BKaqj7ADnUUlVTx9v9EJnIoKEwVobiD5J3sitREQKn8psfq7lq9/eq
-         qTW1XZSQvTlMN5El8d2ki5FwFxKY8MC27N4b+cbXI54lnSU8WTrConjIaDryBz8a9xku
-         ujpaZbxwAmy9Y1rlXR76fuxgw66XhHGrWDfGDJQgyhqZQ8bZbRG2qsI0J0EQeEZnfk74
-         IcXA==
-X-Gm-Message-State: APjAAAVXBD+F42cUvhHaP3cpErD5FEXiuSL5shH6Er6wD+qJVhYTxVpg
-        6pCkJ12NGu6w6UGMJ/aXuuR81cMgcytAu+qAv4GW5w==
-X-Google-Smtp-Source: APXvYqyJqwIc2HQvSj7J7mTROit0ZAcQaeAa0civsjE+Zv3qI8E4qn47LBa4G2/EeuJ6QM+0Vj+WsxDzSknWbW7695A=
-X-Received: by 2002:a37:71c7:: with SMTP id m190mr947918qkc.478.1571712011915;
- Mon, 21 Oct 2019 19:40:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191014061355.29072-1-drake@endlessm.com> <20191014154322.GA190693@google.com>
- <CAD8Lp45hmYhrj9v-=7NKrG2YHmxZKFExDsHCL67hap+Y2iM-uw@mail.gmail.com> <20191021113353.GX2819@lahna.fi.intel.com>
-In-Reply-To: <20191021113353.GX2819@lahna.fi.intel.com>
-From:   Daniel Drake <drake@endlessm.com>
-Date:   Tue, 22 Oct 2019 10:40:00 +0800
-Message-ID: <CAD8Lp47dmOD0jRZC2Y_Q_Gqfy9X5zbPAoXFJ=2Dadq0W89EC=Q@mail.gmail.com>
-Subject: Re: [PATCH] PCI: increase D3 delay for AMD Ryzen5/7 XHCI controllers
-To:     Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc:     Bjorn Helgaas <helgaas@kernel.org>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        "Wysocki, Rafael J" <rafael.j.wysocki@intel.com>,
-        Linux Upstreaming Team <linux@endlessm.com>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S2387456AbfJVE5p (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Oct 2019 00:57:45 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45304 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725788AbfJVE5p (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 22 Oct 2019 00:57:45 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 70F30AE55;
+        Tue, 22 Oct 2019 04:57:43 +0000 (UTC)
+Date:   Tue, 22 Oct 2019 06:57:43 +0200
+Message-ID: <s5ha79te5rs.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Ross Zwisler <zwisler@google.com>
+Cc:     Laura Abbott <labbott@fedoraproject.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, Aaron Durbin <adurbin@google.com>,
+        Benson Leung <bleung@google.com>
+Subject: Re: problem with XHCI_SPURIOUS_WAKEUP quirk
+In-Reply-To: <CAGRrVHzta7YfzZYuc3d_5CS_SyG+at_=-T7Sm-DG-AS_ejsWug@mail.gmail.com>
+References: <CAGRrVHzta7YfzZYuc3d_5CS_SyG+at_=-T7Sm-DG-AS_ejsWug@mail.gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
+ FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
+ (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Oct 21, 2019 at 7:33 PM Mika Westerberg
-<mika.westerberg@linux.intel.com> wrote:
-> Just to be sure, did you try the patch or just looked at it? Because
-> what the patch does is that it does the delay when the downstream/root
-> port is resumed, not the xHCI itself.
+On Mon, 21 Oct 2019 20:14:19 +0200,
+Ross Zwisler wrote:
+> 
+> Hi,
+> 
+> I'm hitting an issue on a Broadwell based Chromebox that appears to be
+> related to the XHCI_SPURIOUS_WAKEUP quirk.
+> 
+> Here are the reproduction steps:
+> 
+> 1) Start with a fully booted system on a recent kernel.  I've been
+> testing with v5.4-rc4.
+> 
+> 2) Gracefully shut down the system, either with 'halt -p' or by
+> pushing the power button.  This causes the XHCI_SPURIOUS_WAKEUP quirk
+> to be applied on shutdown via xhci_shutdown().
+> 
+> 3) Quickly (within a few seconds) restart the system using the power button.
+> 
+> 4) After the system restarts, we end up in a state where USB 2.0
+> devices work fine, but all USB 3.X devices don't work at all.  The
+> kernel never sees them being inserted, we never call usb_new_device()
+> or any other USB related kernel code.  This state persists for the
+> duration of the boot on all ports for the internal USB 3.0 hub, and is
+> independent of which devices were plugged into the hub during boot.
+> 
+> Attaching a USB analyzer between the USB hub and the USB 3.0 device, I
+> see that the hub sees the device insertion, but disables SuperSpeed.
+> >From then on all the USB analyzer sees is garbage, and the connection
+> never successfully drops down to USB 2.0.
+> 
+> Disabling the above mentioned quirk prevents this from happening, and
+> it also doesn't happen if the system is warm rebooted or if the system
+> is left off for a longer period of time (~10 seconds or more) before
+> powering back on.
+> 
+> So, a few questions:
+> 
+> 1) I'm running on a Chromebox using Coreboot.  Does anyone have a
+> BIOS-based BDW system to see if they can reproduce it there?
 
-I tried it, it didn't fix the problem.
+I'll poke a colleague who has a Lenovo laptop with BDW.
 
-Daniel
+> 2) What is the appropriate way to deal with this issue?  From looking
+> at the history of the quirk, it looks like it was put in for good
+> reasons and that it still needs to be there for other systems.
+> Assuming other vendors' systems don't reproduce the above issue,
+> should I just exclude Google made systems from the quirk?  Something
+> else?
+
+I suspected the symptom rather being XHCI_SPURIOUS_REBOOT, judging
+from the description, but it's buggy BIOS thingy, so everything may
+happen...
+
+I'd take an approach limiting the change to specific platforms
+(Google) via DMI match or such, as the device in question is really
+old and has a high potential regression risk.  But just my $0.02.
+
+
+thanks,
+
+Takashi
