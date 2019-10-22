@@ -2,117 +2,103 @@ Return-Path: <SRS0=MnUw=YP=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ACD3CA9EA0
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Oct 2019 17:27:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36982CA9EB7
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Oct 2019 17:34:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 50435206C2
-	for <linux-usb@archiver.kernel.org>; Tue, 22 Oct 2019 17:27:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F0C320700
+	for <linux-usb@archiver.kernel.org>; Tue, 22 Oct 2019 17:34:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1571765260;
-	bh=JWegfatqnKGnwIzK55U0uFuQH+f+y/FRqF/iMkFMuJE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=1bZfjLLArcvx6DEwY8nZPNLrQq9hwmSRNco27BaggXwyQwxKpAXmi/cUh4Bt7MeR8
-	 rUEDeLAJ2sJG0C5tUeQpQutM+cVplphTxmEfjRG0+oZYKvdrCu7V5GTeXb9aZwW3/e
-	 mqJk4pW8tkmH8aB8bZoTLvMoVvsi6q+lqnwmQg9g=
+	s=default; t=1571765662;
+	bh=YSjJ4F590dYovNyfbb2k7y3t56m687ezX83hs9dGR30=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:List-ID:From;
+	b=2ClA23PCT8OolnzoMxkYLRoe1ZTUULJT7QoLk42k0k0NIsL+/M9HKsj84Fsq3Nrm6
+	 5d0qcEyDpAcsLxuwXo5tZlO+PsPw8VUoc+MM/U51yK1KC0sZiXa/sbo/Yk7BfvbanN
+	 Yh2qVzNtIVQ37H4y/TYAzp3uBeUlovV6JTk/TtzA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731374AbfJVR1g (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 22 Oct 2019 13:27:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59338 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730141AbfJVR1g (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 22 Oct 2019 13:27:36 -0400
-Received: from localhost (mobile-166-172-186-56.mycingular.net [166.172.186.56])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id ED62B206C2;
-        Tue, 22 Oct 2019 17:27:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571765254;
-        bh=JWegfatqnKGnwIzK55U0uFuQH+f+y/FRqF/iMkFMuJE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hVs/wyGwoVAsJ0TQf6lKLkQzLCMuchKjQbWtTsoTnkegv7sobTel1iNjAkDUD5138
-         GK+NNZYulZV+MFFAqnG1RvGYBoquhmWp3OktbwKtyeFTMQqbRBjh+veSftBgpN32Nw
-         HEZGO0WqmZ0vCmMeU/kXEDgNiTc7IAfefr5yiKJ0=
-Date:   Tue, 22 Oct 2019 13:27:31 -0400
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Puma Hsu <pumahsu@google.com>
-Cc:     heikki.krogerus@linux.intel.com, badhri@google.com,
-        kyletso@google.com, albertccwang@google.com, rickyniu@google.com,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2] usb: typec: Add sysfs node to show connector
- orientation
-Message-ID: <20191022172731.GA230934@kroah.com>
-References: <20191022085924.92783-1-pumahsu@google.com>
+        id S1731450AbfJVReR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Oct 2019 13:34:17 -0400
+Received: from inca-roads.misterjones.org ([213.251.177.50]:52165 "EHLO
+        inca-roads.misterjones.org" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727309AbfJVReR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Oct 2019 13:34:17 -0400
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why)
+        by cheepnis.misterjones.org with esmtpsa (TLSv1.2:AES256-GCM-SHA384:256)
+        (Exim 4.80)
+        (envelope-from <maz@kernel.org>)
+        id 1iMy2u-00030U-T5; Tue, 22 Oct 2019 19:34:13 +0200
+Date:   Tue, 22 Oct 2019 18:34:11 +0100
+From:   Marc Zyngier <maz@kernel.org>
+To:     Jakub Kicinski <jakub.kicinski@netronome.com>
+Cc:     Daniel Wagner <dwagner@suse.de>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        UNGLinuxDriver@microchip.com, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rt-users@vger.kernel.org,
+        Woojung Huh <woojung.huh@microchip.com>,
+        Andrew Lunn <andrew@lunn.ch>, Stefan Wahren <wahrenst@gmx.net>,
+        Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH] net: usb: lan78xx: Use phy_mac_interrupt() for
+ interrupt handling
+Message-ID: <20191022183411.0e9a7bdc@why>
+In-Reply-To: <20191022101747.001b6d06@cakuba.netronome.com>
+References: <20191018082817.111480-1-dwagner@suse.de>
+        <20191018131532.dsfhyiilsi7cy4cm@linutronix.de>
+        <20191022101747.001b6d06@cakuba.netronome.com>
+Organization: Approximate
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191022085924.92783-1-pumahsu@google.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: jakub.kicinski@netronome.com, dwagner@suse.de, bigeasy@linutronix.de, UNGLinuxDriver@microchip.com, netdev@vger.kernel.org, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rt-users@vger.kernel.org, woojung.huh@microchip.com, andrew@lunn.ch, wahrenst@gmx.net, Jisheng.Zhang@synaptics.com, tglx@linutronix.de
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on cheepnis.misterjones.org); SAEximRunCond expanded to false
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Oct 22, 2019 at 04:59:24PM +0800, Puma Hsu wrote:
-> Export the Type-C connector orientation so that user space
-> can get this information.
+On Tue, 22 Oct 2019 10:17:47 -0700
+Jakub Kicinski <jakub.kicinski@netronome.com> wrote:
+
+> On Fri, 18 Oct 2019 15:15:32 +0200, Sebastian Andrzej Siewior wrote:
+> > On 2019-10-18 10:28:17 [+0200], Daniel Wagner wrote:  
+> > > handle_simple_irq() expect interrupts to be disabled. The USB
+> > > framework is using threaded interrupts, which implies that interrupts
+> > > are re-enabled as soon as it has run.    
+> > 
+> > Without threading interrupts, this is invoked in pure softirq context
+> > since commit ed194d1367698 ("usb: core: remove local_irq_save() around  
+> > ->complete() handler") where the local_irq_disable() has been removed.    
+> > 
+> > This is probably not a problem because the lock is never observed with
+> > in IRQ context.
+> > 
+> > Wouldn't handle_nested_irq() work here instead of the simple thingy?  
 > 
-> Signed-off-by: Puma Hsu <pumahsu@google.com>
-> ---
->  Documentation/ABI/testing/sysfs-class-typec | 11 +++++++++++
->  drivers/usb/typec/class.c                   | 18 ++++++++++++++++++
->  2 files changed, 29 insertions(+)
+> Daniel could you try this suggestion? Would it work?
 > 
-> diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/ABI/testing/sysfs-class-typec
-> index d7647b258c3c..b22f71801671 100644
-> --- a/Documentation/ABI/testing/sysfs-class-typec
-> +++ b/Documentation/ABI/testing/sysfs-class-typec
-> @@ -108,6 +108,17 @@ Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
->  Description:
->  		Revision number of the supported USB Type-C specification.
->  
-> +What:		/sys/class/typec/<port>/connector_orientation
-> +Date:		October 2019
-> +Contact:	Puma Hsu <pumahsu@google.com>
-> +Description:
-> +		Indicates which typec connector orientation is configured now.
-> +		cc1 is defined as "normal" and cc2 is defined as "reversed".
+> I'm not sure we are at the stage yet where "doesn't work on -rt" is
+> sufficient reason to revert a working upstream patch. Please correct 
+> me if I'm wrong.
 
-Why the blank line after "Description:"?  Shouldn't "Indicates..." be
-right after it?
-> +
-> +		Valid value:
-> +		- unknown (nothing configured)
-> +		- normal (configured in cc1 side)
-> +		- reversed (configured in cc2 side)
->  
->  USB Type-C partner devices (eg. /sys/class/typec/port0-partner/)
->  
-> diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
-> index 94a3eda62add..911d06676aeb 100644
-> --- a/drivers/usb/typec/class.c
-> +++ b/drivers/usb/typec/class.c
-> @@ -1245,6 +1245,23 @@ static ssize_t usb_power_delivery_revision_show(struct device *dev,
->  }
->  static DEVICE_ATTR_RO(usb_power_delivery_revision);
->  
-> +static const char * const typec_connector_orientation[] = {
-> +	[TYPEC_ORIENTATION_NONE]		= "unknown",
-> +	[TYPEC_ORIENTATION_NORMAL]		= "normal",
-> +	[TYPEC_ORIENTATION_REVERSE]		= "reversed",
-> +};
-> +
-> +static ssize_t connector_orientation_show(struct device *dev,
-> +						struct device_attribute *attr,
-> +						char *buf)
+But that's the thing: it doesn't work at all, RT or not (it spits an
+awful warning). See the various reports Daniel linked to. Maintainers
+have been completely unresponsive, and the RPI folks have their own out
+of tree hack, I believe (which probably reverts to the previous,
+working situation where the driver uses polling for some of its PHY
+handling business).
 
-Can you line this up properly?
+Sebastian's suggestion is definitely worth trying if you have the HW
+though.
 
-thanks,
+Thanks,
 
-greg k-h
+	M.
+-- 
+Jazz is not dead. It just smells funny...
