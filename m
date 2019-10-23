@@ -2,146 +2,157 @@ Return-Path: <SRS0=fPcF=YQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 191DECA9EB6
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 15:01:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C19C5CA9EB7
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 15:24:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E338121872
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 15:01:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9812521872
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 15:24:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TC+G+a72"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="amtMxUQE"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406425AbfJWPBb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Oct 2019 11:01:31 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:36763 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391742AbfJWPBb (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Oct 2019 11:01:31 -0400
-Received: by mail-pg1-f193.google.com with SMTP id 23so12322867pgk.3;
-        Wed, 23 Oct 2019 08:01:31 -0700 (PDT)
+        id S2406725AbfJWPYr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Oct 2019 11:24:47 -0400
+Received: from mail-wr1-f74.google.com ([209.85.221.74]:41476 "EHLO
+        mail-wr1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406683AbfJWPYq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Oct 2019 11:24:46 -0400
+Received: by mail-wr1-f74.google.com with SMTP id r8so3918885wrx.8
+        for <linux-usb@vger.kernel.org>; Wed, 23 Oct 2019 08:24:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=VGcDW9u8glpHl9NWHGsEcLSGow06v5uvF5GnWslAJA8=;
-        b=TC+G+a72DBXrWYs0MMstftfx3Qr0BKRNdRe24DkeVHt1AIk+muBu5ffO+gugjhax0e
-         cp7hTk+uFKfxSDqlo5jnH4pu5V8IU4KMl7ptHNzRx4H/+XiPz0np8FSEQ0nuGqDfb2M4
-         h8m1drU0GhVVuOjdNnIoK4ZNHOZaFISsHap/V9o3tP51TLfqNyJUQSTqU/gd7KJKAoSP
-         XLSBIlP/zyMCeu6zPBl/LNTWDD2IuC2183Ag9W3wPSOlg17qDhJ6ZgBHlqt3avrsYs6K
-         1TBcbl9aaMewyX8vJ8Mgy73M2Z+NVC7cbd2gAXdUl5hEMAmSERedHoHuU2KHhMk//O60
-         hFlg==
+        d=google.com; s=20161025;
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=5pfhpJx7UO/QNtR11zCiFnLuGkt6GlpMBjgSmMf75Tg=;
+        b=amtMxUQEE/NOaMMB3lVYFv0UVIN4cbxrFTOMtC+0gOEicg9d0fwN7TprkrYhLBo/Qw
+         2EleEu8IMAhzGJRgyAUacDO8oPPKbhqpC3R4dWMwut0HBsgzzBVDlz/ApsLhBcXyyTSm
+         /eCD/zfLTh6s5SMDIXOKsRL2wDTNqNpwZqeVIVU9EF9beg2ShlZJPx/wjpr4r121AD4r
+         J1naSOk9REiJ+0ShRF4cS702lhMN4FFHmRcdPJ6qvufDuGYARjHTD2Xpz5IW00jpiKBW
+         8cijMl+bWToufDsT5R/eF6fNtOFNqFoN96aYFdTgT2zM1evjQCf9Rb/TDN7b5jUJEzw0
+         AyTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=VGcDW9u8glpHl9NWHGsEcLSGow06v5uvF5GnWslAJA8=;
-        b=LRdmpMNMy31KvvYcGpOxt8s4wDgOZq+JsxAASXxt1zqp+Io+YPVRfggWVK8xebX7Nt
-         nHdBtMYoBT/Vcqd10/mTB5m5oYFI50X3DrZEqFzF8vUU0iJGIbVmoSTj6yUW4wJ9Q+Fm
-         e5qY2aY1E/vw3Obw7jkwGMeOTQShjvbP8AhTESQg4DM9XQiJaU1BiJLS2XseEss7EAGr
-         VpYefZyYzSYJhUlBAuceT5G4E4BN41YRoYua6AtzQhWVeoHSZZukycbOd9PgD/RcnDz/
-         xS3Q5VRBM7QsEtF0vd2YUjz6IF+YN4dngkyiivFhaHjN9LWR30y9EaTvAelQWikDbyz/
-         RxQQ==
-X-Gm-Message-State: APjAAAVRfSmi7TVzNS3moYqILki9Q+tP40hTmHPCiSOAty9Ys1xWntA0
-        dPN7rGRw7nADikPHFq36yCQ=
-X-Google-Smtp-Source: APXvYqzgjaZFWfZd7bF5LRqqP9IX6KdtfB6Z5qmJ4+Fk322t5Henb/vokuna0Zn55kHmvbshyCFCHQ==
-X-Received: by 2002:a63:78f:: with SMTP id 137mr10662728pgh.110.1571842890449;
-        Wed, 23 Oct 2019 08:01:30 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id q71sm21951953pjb.26.2019.10.23.08.01.27
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 23 Oct 2019 08:01:28 -0700 (PDT)
-Date:   Wed, 23 Oct 2019 08:01:26 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Puma Hsu <pumahsu@google.com>, gregkh@linuxfoundation.org,
-        badhri@google.com, kyletso@google.com, albertccwang@google.com,
-        rickyniu@google.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2] usb: typec: Add sysfs node to show connector
- orientation
-Message-ID: <20191023150126.GA16612@roeck-us.net>
-References: <20191022085924.92783-1-pumahsu@google.com>
- <20191023083221.GB8828@kuha.fi.intel.com>
- <644d890b-86e8-f05a-cd4c-32937d971a45@roeck-us.net>
- <20191023142900.GA15396@kuha.fi.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191023142900.GA15396@kuha.fi.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=5pfhpJx7UO/QNtR11zCiFnLuGkt6GlpMBjgSmMf75Tg=;
+        b=V8YeqY8AgWRu7XFzz6zSTvdyDAsxztJhpbR5Te7QxGJ1HzHKszghijnUnynfEtS/rp
+         Bfbqf8VDEm7Vzf8GkW/lrDCYYgEwJBIwscVIq4cV5rONNEQ8LlmulcSKnMqaiZNynJfm
+         0VXF+5qTmXz1lUYFtWHwuk4QFU9+GEei4WIPTK8FdPC81FG4WEVyAlZ3NzLkotjQgrT+
+         4Gj9iFLbWUX36vdmNfQNawHIQKuW0doQbjyo5ozFtjKZVPUu6YQJ29tVbsS5x8yborZI
+         2k3R/HlpHfH9EQVlGB0IxUVRkbQhuPdTxsYAGnYmSRTol+46sQTWLCOMgLVA9HhoA9kD
+         a5/A==
+X-Gm-Message-State: APjAAAUA/K7KBZCg5DkiDUF2xmw04mw5QmHGxVWCH/iPnwUDv4itDGQM
+        BlhFdmBqassUGHseAwcF1/TfCSse1er8DB8cYFKKcNIUDXQ4oGxP3MA0R4WZu5b/vOVP9Vtq08P
+        GrkiVOVCao0EoiYBk4kdjSV6u7C9LelBhFCc+P5hQwC8zjASpro5Hqsj+MRVmYADbYBdSAEXHCE
+        Xf
+X-Google-Smtp-Source: APXvYqzdi2O+812zGiyp5RRX+hLIIZ845MysjmhOziDahGLFuGnRWQ7rOw8CUUpGv+5aE1gSW2A1zPgWo9uj7H6o
+X-Received: by 2002:a5d:6ac3:: with SMTP id u3mr9376179wrw.206.1571844285109;
+ Wed, 23 Oct 2019 08:24:45 -0700 (PDT)
+Date:   Wed, 23 Oct 2019 17:24:31 +0200
+In-Reply-To: <cover.1571844200.git.andreyknvl@google.com>
+Message-Id: <dbdc28301a918b307baf9e5d12fee1ed91a483f3.1571844200.git.andreyknvl@google.com>
+Mime-Version: 1.0
+References: <cover.1571844200.git.andreyknvl@google.com>
+X-Mailer: git-send-email 2.24.0.rc0.303.g954a862665-goog
+Subject: [PATCH v2 3/3] vhost, kcov: collect coverage from vhost_worker
+From:   Andrey Konovalov <andreyknvl@google.com>
+To:     linux-usb@vger.kernel.org, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        David Windsor <dwindsor@gmail.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        Anders Roxell <anders.roxell@linaro.org>,
+        Alexander Potapenko <glider@google.com>,
+        Marco Elver <elver@google.com>,
+        Andrey Konovalov <andreyknvl@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Oct 23, 2019 at 05:29:00PM +0300, Heikki Krogerus wrote:
-> On Wed, Oct 23, 2019 at 06:44:39AM -0700, Guenter Roeck wrote:
-> > On 10/23/19 1:32 AM, Heikki Krogerus wrote:
-> > > +Guenter
-> > > 
-> > > On Tue, Oct 22, 2019 at 04:59:24PM +0800, Puma Hsu wrote:
-> > > > Export the Type-C connector orientation so that user space
-> > > > can get this information.
-> > > > 
-> > > > Signed-off-by: Puma Hsu <pumahsu@google.com>
-> > > > ---
-> > > >   Documentation/ABI/testing/sysfs-class-typec | 11 +++++++++++
-> > > >   drivers/usb/typec/class.c                   | 18 ++++++++++++++++++
-> > > >   2 files changed, 29 insertions(+)
-> > > > 
-> > > > diff --git a/Documentation/ABI/testing/sysfs-class-typec b/Documentation/ABI/testing/sysfs-class-typec
-> > > > index d7647b258c3c..b22f71801671 100644
-> > > > --- a/Documentation/ABI/testing/sysfs-class-typec
-> > > > +++ b/Documentation/ABI/testing/sysfs-class-typec
-> > > > @@ -108,6 +108,17 @@ Contact:	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > > >   Description:
-> > > >   		Revision number of the supported USB Type-C specification.
-> > > > +What:		/sys/class/typec/<port>/connector_orientation
-> > > > +Date:		October 2019
-> > > > +Contact:	Puma Hsu <pumahsu@google.com>
-> > > > +Description:
-> > > > +		Indicates which typec connector orientation is configured now.
-> > > > +		cc1 is defined as "normal" and cc2 is defined as "reversed".
-> > > > +
-> > > > +		Valid value:
-> > > > +		- unknown (nothing configured)
-> > > 
-> > > "unknown" means we do not know the orientation.
-> > > 
-> > > > +		- normal (configured in cc1 side)
-> > > > +		- reversed (configured in cc2 side)
-> > > 
-> > > Guenter, do you think "connector_orientation" OK. I proposed it, but
-> > > I'm now wondering if something like "polarity" would be better?
-> > > 
-> > 
-> > Yes, or just "orientation". I don't see the value in the "connector_" prefix.
-> > I also wonder if "unknown" is really correct. Is it really unknown, or
-> > does it mean that the port is disconnected ?
-> 
-> Unknown means we don't know the orientation. We don't always have that
-> information available to us. With UCSI we simply do not know it.
-> 
-> I think this file needs to be hidden after all if we don't know the
-> cable plug orientation.
-> 
-Making the attribute appear and disappear may cause difficulties for
-userspace.
+This patch adds kcov_remote_start()/kcov_remote_stop() annotations to the
+vhost_worker() function, which is responsible for processing vhost works.
+Since vhost_worker() threads are spawned per vhost device instance
+the common kcov handle is used for kcov_remote_start()/stop() annotations
+(see Documentation/dev-tools/kcov.rst for details). As the result kcov can
+now be used to collect coverage from vhost worker threads.
 
-> How about empty string instead of "unknown"?
-> 
-An empty string might also be challenging for userspace.
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+---
+ drivers/vhost/vhost.c | 6 ++++++
+ drivers/vhost/vhost.h | 1 +
+ 2 files changed, 7 insertions(+)
 
-"unknown" is fine if it is really unknown. With that in mind,
-I wonder what value that attribute has for userspace, but presumably
-there must be some use case. I assume it is purely informational.
+diff --git a/drivers/vhost/vhost.c b/drivers/vhost/vhost.c
+index 36ca2cf419bf..f44340b41494 100644
+--- a/drivers/vhost/vhost.c
++++ b/drivers/vhost/vhost.c
+@@ -30,6 +30,7 @@
+ #include <linux/sched/signal.h>
+ #include <linux/interval_tree_generic.h>
+ #include <linux/nospec.h>
++#include <linux/kcov.h>
+ 
+ #include "vhost.h"
+ 
+@@ -357,7 +358,9 @@ static int vhost_worker(void *data)
+ 		llist_for_each_entry_safe(work, work_next, node, node) {
+ 			clear_bit(VHOST_WORK_QUEUED, &work->flags);
+ 			__set_current_state(TASK_RUNNING);
++			kcov_remote_start_common(dev->kcov_handle);
+ 			work->fn(work);
++			kcov_remote_stop();
+ 			if (need_resched())
+ 				schedule();
+ 		}
+@@ -546,6 +549,7 @@ long vhost_dev_set_owner(struct vhost_dev *dev)
+ 
+ 	/* No owner, become one */
+ 	dev->mm = get_task_mm(current);
++	dev->kcov_handle = kcov_common_handle();
+ 	worker = kthread_create(vhost_worker, dev, "vhost-%d", current->pid);
+ 	if (IS_ERR(worker)) {
+ 		err = PTR_ERR(worker);
+@@ -571,6 +575,7 @@ long vhost_dev_set_owner(struct vhost_dev *dev)
+ 	if (dev->mm)
+ 		mmput(dev->mm);
+ 	dev->mm = NULL;
++	dev->kcov_handle = 0;
+ err_mm:
+ 	return err;
+ }
+@@ -682,6 +687,7 @@ void vhost_dev_cleanup(struct vhost_dev *dev)
+ 	if (dev->worker) {
+ 		kthread_stop(dev->worker);
+ 		dev->worker = NULL;
++		dev->kcov_handle = 0;
+ 	}
+ 	if (dev->mm)
+ 		mmput(dev->mm);
+diff --git a/drivers/vhost/vhost.h b/drivers/vhost/vhost.h
+index e9ed2722b633..a123fd70847e 100644
+--- a/drivers/vhost/vhost.h
++++ b/drivers/vhost/vhost.h
+@@ -173,6 +173,7 @@ struct vhost_dev {
+ 	int iov_limit;
+ 	int weight;
+ 	int byte_weight;
++	u64 kcov_handle;
+ };
+ 
+ bool vhost_exceeds_weight(struct vhost_virtqueue *vq, int pkts, int total_len);
+-- 
+2.24.0.rc0.303.g954a862665-goog
 
-In summary, I would suggest to name the attribute either "orientation"
-or "polarity".
-
-Thanks,
-Guenter
