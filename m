@@ -7,29 +7,29 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE5D2CA9EB6
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 11:23:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F103ACA9EB6
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 11:23:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8F8BF2084B
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 11:23:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C38282064A
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 11:23:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404830AbfJWLWD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Oct 2019 07:22:03 -0400
-Received: from mga14.intel.com ([192.55.52.115]:29695 "EHLO mga14.intel.com"
+        id S2405065AbfJWLXZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Oct 2019 07:23:25 -0400
+Received: from mga05.intel.com ([192.55.52.43]:63098 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404734AbfJWLWD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S2404682AbfJWLWD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Wed, 23 Oct 2019 07:22:03 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Oct 2019 04:22:03 -0700
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 23 Oct 2019 04:22:03 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.68,220,1569308400"; 
-   d="scan'208";a="399359456"
+   d="scan'208";a="223150872"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga006.fm.intel.com with ESMTP; 23 Oct 2019 04:22:00 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 23 Oct 2019 04:22:00 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 781865F6; Wed, 23 Oct 2019 14:21:55 +0300 (EEST)
+        id 57ACE579; Wed, 23 Oct 2019 14:21:55 +0300 (EEST)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Andreas Noever <andreas.noever@gmail.com>,
@@ -46,9 +46,9 @@ Cc:     Andreas Noever <andreas.noever@gmail.com>,
         Oliver Neukum <oneukum@suse.com>,
         Christian Kellner <ckellner@redhat.com>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 12/25] thunderbolt: Expand controller name in tb_switch_is_xy()
-Date:   Wed, 23 Oct 2019 14:21:41 +0300
-Message-Id: <20191023112154.64235-13-mika.westerberg@linux.intel.com>
+Subject: [PATCH 09/25] thunderbolt: Refactor add_switch() into two functions
+Date:   Wed, 23 Oct 2019 14:21:38 +0300
+Message-Id: <20191023112154.64235-10-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191023112154.64235-1-mika.westerberg@linux.intel.com>
 References: <20191023112154.64235-1-mika.westerberg@linux.intel.com>
@@ -59,93 +59,180 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-For a casual reader tb_switch_is_cr() does not tell much so instead
-spell out the full controller name in the function name. For example
-tb_switch_is_cr() becomes tb_switch_is_cactus_ridge() which is easier
-to understand.
+Currently add_switch() takes a huge amount of parameters that makes it
+hard to maintain. Instead of passing all those parameters we can split
+the function into two parts (alloc and add) and fill the additional
+switch fields directly in the functions calling those.
+
+While there remove redundant error logging in case kmemdup() fails.
+
+No functional changes.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 ---
- drivers/thunderbolt/cap.c | 6 +++---
- drivers/thunderbolt/tb.c  | 4 ++--
- drivers/thunderbolt/tb.h  | 8 ++++----
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ drivers/thunderbolt/icm.c | 110 +++++++++++++++++++++++---------------
+ 1 file changed, 67 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/thunderbolt/cap.c b/drivers/thunderbolt/cap.c
-index 8bf8e031f0bc..fdd77bb4628d 100644
---- a/drivers/thunderbolt/cap.c
-+++ b/drivers/thunderbolt/cap.c
-@@ -33,9 +33,9 @@ static int tb_port_enable_tmu(struct tb_port *port, bool enable)
- 	 * Legacy devices need to have TMU access enabled before port
- 	 * space can be fully accessed.
- 	 */
--	if (tb_switch_is_lr(sw))
-+	if (tb_switch_is_light_ridge(sw))
- 		offset = 0x26;
--	else if (tb_switch_is_er(sw))
-+	else if (tb_switch_is_eagle_ridge(sw))
- 		offset = 0x2a;
- 	else
- 		return 0;
-@@ -60,7 +60,7 @@ static void tb_port_dummy_read(struct tb_port *port)
- 	 * reading stale data on next read perform one dummy read after
- 	 * port capabilities are walked.
- 	 */
--	if (tb_switch_is_lr(port->sw)) {
-+	if (tb_switch_is_light_ridge(port->sw)) {
- 		u32 dummy;
- 
- 		tb_port_read(port, &dummy, TB_CFG_PORT, 0, 1);
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index f2ce6adc1f48..e8e2d20cf4c6 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -342,9 +342,9 @@ static struct tb_port *tb_find_pcie_down(struct tb_switch *sw,
- 		 * Hard-coded Thunderbolt port to PCIe down port mapping
- 		 * per controller.
- 		 */
--		if (tb_switch_is_cr(sw))
-+		if (tb_switch_is_cactus_ridge(sw))
- 			index = !phy_port ? 6 : 7;
--		else if (tb_switch_is_fr(sw))
-+		else if (tb_switch_is_falcon_ridge(sw))
- 			index = !phy_port ? 6 : 8;
- 		else
- 			goto out;
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index 16d529983004..a6f1fa0d4771 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -576,17 +576,17 @@ static inline struct tb_switch *tb_switch_parent(struct tb_switch *sw)
- 	return tb_to_switch(sw->dev.parent);
+diff --git a/drivers/thunderbolt/icm.c b/drivers/thunderbolt/icm.c
+index 24625880692e..d9caac77e08c 100644
+--- a/drivers/thunderbolt/icm.c
++++ b/drivers/thunderbolt/icm.c
+@@ -147,6 +147,17 @@ static const struct intel_vss *parse_intel_vss(const void *ep_name, size_t size)
+ 	return NULL;
  }
  
--static inline bool tb_switch_is_lr(const struct tb_switch *sw)
-+static inline bool tb_switch_is_light_ridge(const struct tb_switch *sw)
++static bool intel_vss_is_rtd3(const void *ep_name, size_t size)
++{
++	const struct intel_vss *vss;
++
++	vss = parse_intel_vss(ep_name, size);
++	if (vss)
++		return !!(vss->flags & INTEL_VSS_FLAGS_RTD3);
++
++	return false;
++}
++
+ static inline struct tb *icm_to_tb(struct icm *icm)
  {
- 	return sw->config.device_id == PCI_DEVICE_ID_INTEL_LIGHT_RIDGE;
+ 	return ((void *)icm - sizeof(struct tb));
+@@ -562,58 +573,42 @@ static int icm_fr_disconnect_xdomain_paths(struct tb *tb, struct tb_xdomain *xd)
+ 	return 0;
  }
  
--static inline bool tb_switch_is_er(const struct tb_switch *sw)
-+static inline bool tb_switch_is_eagle_ridge(const struct tb_switch *sw)
+-static struct tb_switch *add_switch(struct tb_switch *parent_sw, u64 route,
+-				    const uuid_t *uuid, const u8 *ep_name,
+-				    size_t ep_name_size, u8 connection_id,
+-				    u8 connection_key, u8 link, u8 depth,
+-				    enum tb_security_level security_level,
+-				    bool authorized, bool boot)
++static struct tb_switch *alloc_switch(struct tb_switch *parent_sw, u64 route,
++				      const uuid_t *uuid)
  {
- 	return sw->config.device_id == PCI_DEVICE_ID_INTEL_EAGLE_RIDGE;
- }
+-	const struct intel_vss *vss;
++	struct tb *tb = parent_sw->tb;
+ 	struct tb_switch *sw;
+-	int ret;
  
--static inline bool tb_switch_is_cr(const struct tb_switch *sw)
-+static inline bool tb_switch_is_cactus_ridge(const struct tb_switch *sw)
- {
- 	switch (sw->config.device_id) {
- 	case PCI_DEVICE_ID_INTEL_CACTUS_RIDGE_2C:
-@@ -597,7 +597,7 @@ static inline bool tb_switch_is_cr(const struct tb_switch *sw)
+-	pm_runtime_get_sync(&parent_sw->dev);
+-
+-	sw = tb_switch_alloc(parent_sw->tb, &parent_sw->dev, route);
+-	if (IS_ERR(sw))
+-		goto out;
++	sw = tb_switch_alloc(tb, &parent_sw->dev, route);
++	if (IS_ERR(sw)) {
++		tb_warn(tb, "failed to allocate switch at %llx\n", route);
++		return sw;
++	}
+ 
+ 	sw->uuid = kmemdup(uuid, sizeof(*uuid), GFP_KERNEL);
+ 	if (!sw->uuid) {
+-		tb_sw_warn(sw, "cannot allocate memory for switch\n");
+ 		tb_switch_put(sw);
+-		goto out;
++		return ERR_PTR(-ENOMEM);
  	}
+-	sw->connection_id = connection_id;
+-	sw->connection_key = connection_key;
+-	sw->link = link;
+-	sw->depth = depth;
+-	sw->authorized = authorized;
+-	sw->security_level = security_level;
+-	sw->boot = boot;
++
+ 	init_completion(&sw->rpm_complete);
++	return sw;
++}
+ 
+-	vss = parse_intel_vss(ep_name, ep_name_size);
+-	if (vss)
+-		sw->rpm = !!(vss->flags & INTEL_VSS_FLAGS_RTD3);
++static int add_switch(struct tb_switch *parent_sw, struct tb_switch *sw)
++{
++	u64 route = tb_route(sw);
++	int ret;
+ 
+ 	/* Link the two switches now */
+ 	tb_port_at(route, parent_sw)->remote = tb_upstream_port(sw);
+ 	tb_upstream_port(sw)->remote = tb_port_at(route, parent_sw);
+ 
+ 	ret = tb_switch_add(sw);
+-	if (ret) {
++	if (ret)
+ 		tb_port_at(tb_route(sw), parent_sw)->remote = NULL;
+-		tb_switch_put(sw);
+-		sw = ERR_PTR(ret);
+-	}
+ 
+-out:
+-	pm_runtime_mark_last_busy(&parent_sw->dev);
+-	pm_runtime_put_autosuspend(&parent_sw->dev);
+-
+-	return sw;
++	return ret;
  }
  
--static inline bool tb_switch_is_fr(const struct tb_switch *sw)
-+static inline bool tb_switch_is_falcon_ridge(const struct tb_switch *sw)
- {
- 	switch (sw->config.device_id) {
- 	case PCI_DEVICE_ID_INTEL_FALCON_RIDGE_2C_BRIDGE:
+ static void update_switch(struct tb_switch *parent_sw, struct tb_switch *sw,
+@@ -811,10 +806,25 @@ icm_fr_device_connected(struct tb *tb, const struct icm_pkg_header *hdr)
+ 		return;
+ 	}
+ 
+-	add_switch(parent_sw, route, &pkg->ep_uuid, (const u8 *)pkg->ep_name,
+-		   sizeof(pkg->ep_name), pkg->connection_id,
+-		   pkg->connection_key, link, depth, security_level,
+-		   authorized, boot);
++	pm_runtime_get_sync(&parent_sw->dev);
++
++	sw = alloc_switch(parent_sw, route, &pkg->ep_uuid);
++	if (!IS_ERR(sw)) {
++		sw->connection_id = pkg->connection_id;
++		sw->connection_key = pkg->connection_key;
++		sw->link = link;
++		sw->depth = depth;
++		sw->authorized = authorized;
++		sw->security_level = security_level;
++		sw->boot = boot;
++		sw->rpm = intel_vss_is_rtd3(pkg->ep_name, sizeof(pkg->ep_name));
++
++		if (add_switch(parent_sw, sw))
++			tb_switch_put(sw);
++	}
++
++	pm_runtime_mark_last_busy(&parent_sw->dev);
++	pm_runtime_put_autosuspend(&parent_sw->dev);
+ 
+ 	tb_switch_put(parent_sw);
+ }
+@@ -1205,11 +1215,25 @@ __icm_tr_device_connected(struct tb *tb, const struct icm_pkg_header *hdr,
+ 		return;
+ 	}
+ 
+-	sw = add_switch(parent_sw, route, &pkg->ep_uuid, (const u8 *)pkg->ep_name,
+-			sizeof(pkg->ep_name), pkg->connection_id, 0, 0, 0,
+-			security_level, authorized, boot);
+-	if (!IS_ERR(sw) && force_rtd3)
+-		sw->rpm = true;
++	pm_runtime_get_sync(&parent_sw->dev);
++
++	sw = alloc_switch(parent_sw, route, &pkg->ep_uuid);
++	if (!IS_ERR(sw)) {
++		sw->connection_id = pkg->connection_id;
++		sw->authorized = authorized;
++		sw->security_level = security_level;
++		sw->boot = boot;
++		sw->rpm = force_rtd3;
++		if (!sw->rpm)
++			sw->rpm = intel_vss_is_rtd3(pkg->ep_name,
++						    sizeof(pkg->ep_name));
++
++		if (add_switch(parent_sw, sw))
++			tb_switch_put(sw);
++	}
++
++	pm_runtime_mark_last_busy(&parent_sw->dev);
++	pm_runtime_put_autosuspend(&parent_sw->dev);
+ 
+ 	tb_switch_put(parent_sw);
+ }
 -- 
 2.23.0
 
