@@ -2,63 +2,59 @@ Return-Path: <SRS0=fPcF=YQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
+X-Spam-Status: No, score=-16.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT,
 	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB9B3CA9EB6
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 15:25:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC867CA9EB6
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 15:25:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AC00E2173B
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 15:25:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 80E052173B
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 15:25:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rM5CCQ6Q"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ghJIP1Ct"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406743AbfJWPZA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Oct 2019 11:25:00 -0400
-Received: from mail-ua1-f73.google.com ([209.85.222.73]:47502 "EHLO
-        mail-ua1-f73.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406692AbfJWPYn (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Oct 2019 11:24:43 -0400
-Received: by mail-ua1-f73.google.com with SMTP id 4so2446741uay.14
-        for <linux-usb@vger.kernel.org>; Wed, 23 Oct 2019 08:24:43 -0700 (PDT)
+        id S2406687AbfJWPYm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Oct 2019 11:24:42 -0400
+Received: from mail-wr1-f74.google.com ([209.85.221.74]:42867 "EHLO
+        mail-wr1-f74.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392433AbfJWPYk (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Oct 2019 11:24:40 -0400
+Received: by mail-wr1-f74.google.com with SMTP id e25so10596309wra.9
+        for <linux-usb@vger.kernel.org>; Wed, 23 Oct 2019 08:24:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=+fsowxQJsoipiOcnYQh/aAOpnyB04Lo2+yDsb2t+OXI=;
-        b=rM5CCQ6QwHb40lD+8V+d3DREorqYK5DjOVpuv3ArZyGAQ516U+qeieYBqLgPg/xCCK
-         UAjub/EHsWLgM2LRDliKIF+uBvQ/JLIyFqbB4P8PCFH2x5ojoCa0GTnMm7AwA84gXKV+
-         kZMFiWnZrMW7me+aEiFoCKyx0Zg9KGlJpjayMWrLM/C4QjFy49U7YDeOOlyQRvjPEUhb
-         7eRgQp1jx6Zkg5prYydvLpCIKKUNKxau5Flcl2aoiu02/1k6+a2awvXc/lfyJ2JFlgjD
-         wJ1xx+GsUvq738BGFcz8U+DTA9duDH1CnWnU5lcaa/rUxJ8X2VmIijtBB1WemnynjuMk
-         NdXg==
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=sl8Rii3oW8FrPppkHNfXTlYWCFHCdXZbJp62ZIanwPg=;
+        b=ghJIP1Ctautskm3gCcyff8Fxk9XjUZJnGCzEtm3Rl/xa3OQaA7z8Hj2K2nk/9K0ZVV
+         OF+hfWb+AgK9wd8dgydPemrquzm2MQhbeGLmyaDDzkHnJbU6bTw4am6muwzKs1pG0gMl
+         ViCBVAS6V8lonROATMQ/xHp4LMBWEuofzZhWqM+57MOvtOV6KIQiMs91jjbuC1SjFMGQ
+         TJ/G+y0wWzii5SyCE4xCYBgtIQas6JpF8l6FkKmIrRdoyJTr31mPOxcMkwBwaQ7eOSIi
+         WNIVEkpKXUoPyA5U3Rj8yghYjCOUpqT2B9yQusYIqZ18ZfTLxbudeUdV6xgfDpt47nqA
+         jmNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=+fsowxQJsoipiOcnYQh/aAOpnyB04Lo2+yDsb2t+OXI=;
-        b=eMQW8AsG7tAFQj67ux3OYJvKl4hBZHDQyUEvzZsYnhmUp5IzKUtm05sXNs8f0+urNw
-         nkyOhrmNTgSf7ZzgxL80Cv3CW47TB0rbQEwPJfpfrbc67DOJvGH+iQwXHK7JBwLH6q93
-         QVpVdyCeQeN6SYk3J1qUj1uwgX4ZnYS03IH43T4DIwDFKItjCluH74j0drXHOMtqv60Q
-         zSelDVYBRd/hkjVGAv+EkwVGcIvjzo/rfy8/88KpvOgjrcJDBuN0M77FHXZ+FyMAFNbx
-         LEo9+bUtvT/Jfm2BdD8lF1Xi6Comt0atv7MCB56cG9pO1wOyiran4RjB61RWs0cwawea
-         N8Pw==
-X-Gm-Message-State: APjAAAUtkDKaWbDpJNzyA208EdPebM2Dt58hb2udXsMm9NnYLCD1UEKZ
-        qFn2lsrfT5FubPJ1qaRTDeTsEEsOLf5gzvMTKZr3GT89qB3o0HEY2XR8iP/ncec/i4Mi6qsnLJe
-        I6p4jpDv8+clGtLNDl3vmYOb4wtQOEWE9FRihnrgEE65sg0KU0lHrNdoH7iA0qGtr4vra5O2mQV
-        3H
-X-Google-Smtp-Source: APXvYqyVi59fXRYgZbs3IqAwnhV+t83pyUg453y+vcRDf4p6UDsgQ0xoylaSfeVaF4BAxV8813MNkxvSMM0JesNv
-X-Received: by 2002:a1f:97c2:: with SMTP id z185mr5634334vkd.0.1571844282053;
- Wed, 23 Oct 2019 08:24:42 -0700 (PDT)
-Date:   Wed, 23 Oct 2019 17:24:30 +0200
-In-Reply-To: <cover.1571844200.git.andreyknvl@google.com>
-Message-Id: <7ac106f30b2c1dab4809c75c5ae6efb91b531cce.1571844200.git.andreyknvl@google.com>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=sl8Rii3oW8FrPppkHNfXTlYWCFHCdXZbJp62ZIanwPg=;
+        b=Y5uWTacE8nKHq5/lxauPcxNqLtcG3Akd/RV+1gZvYHvS8Ga34sdEF1tz1EzbsSklLJ
+         E6mX+HdR15wtuqXsLCG1scxqvuxhuv8yxMmzxm1o4MJbVX00t9ksfR3DQh8REdIjL4y4
+         wb+ACXL7rnqQYdeEKuSYz2TVPfhj0hpp+acRQ4VcN4vv5yX6PFc4XnDdkSQ74AQAzOfC
+         up41XURVjoy0xN9xIZ4v/ehX5XO3/To2N77rTsy0jUb9p8wbtqHD2Iks+g3M54PWtIGo
+         CEOxRjdmkbtHJ0HkBfyWrO7KMXU7NrGNBKBcTCnTpLcBUAomMq4flzp0rPWbCc/5lCzk
+         SsWQ==
+X-Gm-Message-State: APjAAAUxMpr0+6Ln+yNBRq/ziNnujuxzsRtvaf4v8JGCGKrg3SfxW8wz
+        4yE6J0bIV1r6aD+FpderBkK6jAkXIF2ZT3GoOWmF38QbpqKQukLZdblNKK/MomCSYtYjZkgrowc
+        Q1MTCjAD32RT8Oj+2T0PU1D/gzQdTiKDi1qd8wE4tCru6h4MlQfnkTlrr8K6wZDw6MpEDnEBWr1
+        U4
+X-Google-Smtp-Source: APXvYqyjuZuZmULkMOG81SOZwdNmn4nrXac1sf+c/F+14+2oEH7lN31t5wlahvJCBOuTrGSQ8vrMv/7kGc0xWT1F
+X-Received: by 2002:a5d:4491:: with SMTP id j17mr8733249wrq.46.1571844275774;
+ Wed, 23 Oct 2019 08:24:35 -0700 (PDT)
+Date:   Wed, 23 Oct 2019 17:24:28 +0200
+Message-Id: <cover.1571844200.git.andreyknvl@google.com>
 Mime-Version: 1.0
-References: <cover.1571844200.git.andreyknvl@google.com>
 X-Mailer: git-send-email 2.24.0.rc0.303.g954a862665-goog
-Subject: [PATCH v2 2/3] usb, kcov: collect coverage from hub_event
+Subject: [PATCH v2 0/3] kcov: collect coverage from usb and vhost
 From:   Andrey Konovalov <andreyknvl@google.com>
 To:     linux-usb@vger.kernel.org, kvm@vger.kernel.org,
         virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
@@ -82,50 +78,56 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patch adds kcov_remote_start()/kcov_remote_stop() annotations to the
-hub_event() function, which is responsible for processing events on USB
-buses, in particular events that happen during USB device enumeration.
-Since hub_event() is run in a global background kernel thread (see
-Documentation/dev-tools/kcov.rst for details), each USB bus gets a unique
-global handle id from the USB subsystem kcov handle id range. As the
-result kcov can now be used to collect coverage from events that happen on
-a particular USB bus.
+This patchset extends kcov to allow collecting coverage from the USB
+subsystem and vhost workers. See the first patch description for details
+about the kcov extension. The other two patches apply this kcov extension
+to USB and vhost.
 
-Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
----
- drivers/usb/core/hub.c | 5 +++++
- 1 file changed, 5 insertions(+)
+These patches have been used to enable coverage-guided USB fuzzing with
+syzkaller for the last few years, see the details here:
 
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 236313f41f4a..823dd675f6db 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -29,6 +29,7 @@
- #include <linux/random.h>
- #include <linux/pm_qos.h>
- #include <linux/kobject.h>
-+#include <linux/kcov.h>
- 
- #include <linux/uaccess.h>
- #include <asm/byteorder.h>
-@@ -5374,6 +5375,8 @@ static void hub_event(struct work_struct *work)
- 	hub_dev = hub->intfdev;
- 	intf = to_usb_interface(hub_dev);
- 
-+	kcov_remote_start_usb((u64)hdev->bus->busnum);
-+
- 	dev_dbg(hub_dev, "state %d ports %d chg %04x evt %04x\n",
- 			hdev->state, hdev->maxchild,
- 			/* NOTE: expects max 15 ports... */
-@@ -5480,6 +5483,8 @@ static void hub_event(struct work_struct *work)
- 	/* Balance the stuff in kick_hub_wq() and allow autosuspend */
- 	usb_autopm_put_interface(intf);
- 	kref_put(&hub->kref, hub_release);
-+
-+	kcov_remote_stop();
- }
- 
- static const struct usb_device_id hub_id_table[] = {
+https://github.com/google/syzkaller/blob/master/docs/linux/external_fuzzing_usb.md
+
+This patchset has been pushed to the public Linux kernel Gerrit instance:
+
+https://linux-review.googlesource.com/c/linux/kernel/git/torvalds/linux/+/1524
+
+Changes v1 -> v2:
+- Changed common_handle type back to u64 (to allow extending it in the
+  future).
+- Reworked kcov_remote_handle() helpers.
+- Fixed vhost annotations when CONFIG_KCOV is not enabled.
+- Use kcov_disable() instead of kcov_remote_reset() when
+  KCOV_REMOTE_ENABLE fails.
+
+Changes RFC v1 -> v1:
+- Remove unnecessary #ifdef's from drivers/vhost/vhost.c.
+- Reset t->kcov when area allocation fails in kcov_remote_start().
+- Use struct_size to calculate array size in kcov_ioctl().
+- Add a limit on area_size in kcov_remote_arg.
+- Added kcov_disable() helper.
+- Changed encoding of kcov remote handle ids, see the documentation.
+- Added a comment reference for kcov_sequence task_struct field.
+- Change common_handle type to u32.
+- Add checks for handle validity into kcov_ioctl_locked() and
+    kcov_remote_start().
+- Updated documentation to reflect the changes.
+
+Andrey Konovalov (3):
+  kcov: remote coverage support
+  usb, kcov: collect coverage from hub_event
+  vhost, kcov: collect coverage from vhost_worker
+
+ Documentation/dev-tools/kcov.rst | 128 +++++++++
+ drivers/usb/core/hub.c           |   5 +
+ drivers/vhost/vhost.c            |   6 +
+ drivers/vhost/vhost.h            |   1 +
+ include/linux/kcov.h             |  23 ++
+ include/linux/sched.h            |   6 +
+ include/uapi/linux/kcov.h        |  25 ++
+ kernel/kcov.c                    | 480 ++++++++++++++++++++++++++++---
+ 8 files changed, 639 insertions(+), 35 deletions(-)
+
 -- 
 2.24.0.rc0.303.g954a862665-goog
 
