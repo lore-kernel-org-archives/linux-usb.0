@@ -2,121 +2,74 @@ Return-Path: <SRS0=fPcF=YQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDBD4CA9EA0
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 00:21:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DC2DCA9EA0
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 01:53:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C42A42086D
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 00:21:55 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ME8AeDt8"
+	by mail.kernel.org (Postfix) with ESMTP id 6268620679
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 01:53:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730305AbfJWAVw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 22 Oct 2019 20:21:52 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:38742 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727154AbfJWAVv (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 22 Oct 2019 20:21:51 -0400
-Received: by mail-oi1-f196.google.com with SMTP id v186so3034332oie.5;
-        Tue, 22 Oct 2019 17:21:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qkST9yhwhwu10AHBsdYDPDVaDucJkRuGL9XsMxO/Jus=;
-        b=ME8AeDt8lrDNr6sdt0nQbp3m0YrKt09TY+Q9IcIyd0LERSAE4nud3tI2pB/Rv3BX8C
-         h7BQ50s2Z/hiLZ1nXPToZ49oSle/vfbVspSaHod0K4eX78YalSsxKzV8ozki+HttScgd
-         C0yrhsUm1BwEGc94A5r9eD3JHpsFrzBAD2hdYNxq7mzgbSmcfg3GPeXoR0GFEVJWhPvd
-         586/veeV52ejEmBLHASChNDK70dMGPPwWPX5GBAVn5jP/hu17mwYASU3pNa07IaXOouo
-         ewrkz/0J2eCGzyKsQP40c+CxXZypTpl8aRYv97fCr8Oe7AyFtd61mBlgpZNhXlNJTNL/
-         CygQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qkST9yhwhwu10AHBsdYDPDVaDucJkRuGL9XsMxO/Jus=;
-        b=QPloE48mrqzkl+uTzrOS24BJXYLINfW3sI9MeyYWjqu6sUCCbNjQP2A4YXq6wnMmwL
-         zeAo9AcMHg7XjtnAS09+8HDtU2600vyoXFbp7epMHf0O4J3xxz9OZbxyhy38RDsR20HW
-         t5mxerq5R36lRAbc20CNwF9nUCzKXtZYzeHlQrgMrf2LHXmp6mZ+E6TflCyqzYw40IpK
-         w11DpmX8iab/AwE+VCc8KoL1Mj6/40QPAHmw85/zDSrVf5y3SNzg7uv41Gg4bMxph0l+
-         N4IBUGI2IUVYkrfOdxGZhFwvc9Eit6KbFbiLtJ6zg/qyvklsbtTfRH66sod0v+LOoDTA
-         7nYg==
-X-Gm-Message-State: APjAAAUmZRV41P8xHFlycc7baTydmHNBJvhwkLQRpAWC4tm+G4+4Nmt0
-        Ek1qCKGIpxfBdaWEevdcFCChuy0+Guk=
-X-Google-Smtp-Source: APXvYqxr/KAWWKDTvz/rOExJ/s20dCk+w4jw1dGVEhtXOsldTSeDqYqV0IT7fReqQBgvwT5Pbi2b3g==
-X-Received: by 2002:aca:3b84:: with SMTP id i126mr3720122oia.28.1571790110917;
-        Tue, 22 Oct 2019 17:21:50 -0700 (PDT)
-Received: from localhost.localdomain ([2604:1380:4111:8b00::1])
-        by smtp.gmail.com with ESMTPSA id n4sm901229oic.2.2019.10.22.17.21.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2019 17:21:50 -0700 (PDT)
-From:   Nathan Chancellor <natechancellor@gmail.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Ashwini Pahuja <ashwini.linux@gmail.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com,
-        Nathan Chancellor <natechancellor@gmail.com>
-Subject: [PATCH] usb: gadget: udc: bdc: Remove unnecessary NULL checks in bdc_req_complete
-Date:   Tue, 22 Oct 2019 17:20:15 -0700
-Message-Id: <20191023002014.22571-1-natechancellor@gmail.com>
-X-Mailer: git-send-email 2.23.0
+        id S1730597AbfJWBxv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 22 Oct 2019 21:53:51 -0400
+Received: from verein.lst.de ([213.95.11.211]:38029 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727582AbfJWBxv (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 22 Oct 2019 21:53:51 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 9E23968BE1; Wed, 23 Oct 2019 03:53:48 +0200 (CEST)
+Date:   Wed, 23 Oct 2019 03:53:48 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Greg KH <greg@kroah.com>,
+        Piergiorgio Sartor <piergiorgio.sartor@nexgo.de>,
+        Seth Bollinger <Seth.Bollinger@digi.com>,
+        Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+        USB list <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH] usb-storage: Revert commit 747668dbc061 ("usb-storage:
+ Set virt_boundary_mask to avoid SG overflows")
+Message-ID: <20191023015348.GA16123@lst.de>
+References: <20191017175306.GA3014@lazy.lzy> <Pine.LNX.4.44L0.1910211145520.1673-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Pine.LNX.4.44L0.1910211145520.1673-100000@iolanthe.rowland.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When building with Clang + -Wtautological-pointer-compare:
+On Mon, Oct 21, 2019 at 11:48:06AM -0400, Alan Stern wrote:
+> There is no longer any reason to keep the virt_boundary_mask setting
+> for usb-storage.  It was needed in the first place only for handling
+> devices with a block size smaller than the maxpacket size and where
+> the host controller was not capable of fully general scatter-gather
+> operation (that is, able to merge two SG segments into a single USB
+> packet).  But:
+> 
+> 	High-speed or slower connections never use a bulk maxpacket
+> 	value larger than 512;
+> 
+> 	The SCSI layer does not handle block devices with a block size
+> 	smaller than 512 bytes;
+> 
+> 	All the host controllers capable of SuperSpeed operation can
+> 	handle fully general SG;
+> 
+> 	Since commit ea44d190764b ("usbip: Implement SG support to
+> 	vhci-hcd and stub driver") was merged, the USB/IP driver can
+> 	also handle SG.
+> 
+> Therefore all supported device/controller combinations should be okay
+> with no need for any special virt_boundary_mask.  So in order to fix
+> the swiotlb problem, this patch reverts commit 747668dbc061.
 
-drivers/usb/gadget/udc/bdc/bdc_ep.c:543:28: warning: comparison of
-address of 'req->queue' equal to a null pointer is always false
-[-Wtautological-pointer-compare]
-        if (req == NULL  || &req->queue == NULL || &req->usb_req == NULL)
-                             ~~~~~^~~~~    ~~~~
-drivers/usb/gadget/udc/bdc/bdc_ep.c:543:51: warning: comparison of
-address of 'req->usb_req' equal to a null pointer is always false
-[-Wtautological-pointer-compare]
-        if (req == NULL  || &req->queue == NULL || &req->usb_req == NULL)
-                                                    ~~~~~^~~~~~~    ~~~~
-2 warnings generated.
+That's great to know.  The same should also apply to uas, shouldn't
+it?
 
-As it notes, these statements will always evaluate to false so remove
-them.
+Otherwise:
 
-Fixes: efed421a94e6 ("usb: gadget: Add UDC driver for Broadcom USB3.0 device controller IP BDC")
-Link: https://github.com/ClangBuiltLinux/linux/issues/749
-Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
----
-
-Note: I am not sure if these checks were intended to check if the
-contents of these arrays were NULL or if there should be some other
-checks in lieu of these; I am not familiar with the USB subsystem to
-answer this but I will happily respin the patch if this is not correct.
-
- drivers/usb/gadget/udc/bdc/bdc_ep.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/gadget/udc/bdc/bdc_ep.c b/drivers/usb/gadget/udc/bdc/bdc_ep.c
-index a4d9b5e1e50e..d49c6dc1082d 100644
---- a/drivers/usb/gadget/udc/bdc/bdc_ep.c
-+++ b/drivers/usb/gadget/udc/bdc/bdc_ep.c
-@@ -540,7 +540,7 @@ static void bdc_req_complete(struct bdc_ep *ep, struct bdc_req *req,
- {
- 	struct bdc *bdc = ep->bdc;
- 
--	if (req == NULL  || &req->queue == NULL || &req->usb_req == NULL)
-+	if (req == NULL)
- 		return;
- 
- 	dev_dbg(bdc->dev, "%s ep:%s status:%d\n", __func__, ep->name, status);
--- 
-2.23.0
-
+Acked-by: Christoph Hellwig <hch@lst.de>
