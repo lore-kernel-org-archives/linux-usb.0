@@ -2,209 +2,123 @@ Return-Path: <SRS0=fPcF=YQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D3C6CA9EBD
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 20:18:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DBD7CA9EBB
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 20:18:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DF1DB2064A
-	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 20:18:33 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Y9wbyAv/"
+	by mail.kernel.org (Postfix) with ESMTP id E151721D7F
+	for <linux-usb@archiver.kernel.org>; Wed, 23 Oct 2019 20:18:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407451AbfJWUS3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 23 Oct 2019 16:18:29 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:28709 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2407446AbfJWUS2 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 23 Oct 2019 16:18:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1571861907;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Mwljw2NG5FNU7TKvMqy9lThobSeo2IGdh0QPYxJP5hQ=;
-        b=Y9wbyAv//0PYLRmhz/hionO8k7Q+tsCc+a3hvKkowncxmsxX1RCjaJEFgmoqz0Avc+WJrL
-        l6coyN+mRImOJc747HTnUPVyYnQxPhPfOTpSiPAf/St9vSpnuWdBJgjF/CSgQY47DMtjo8
-        NwiGy3QSX0f4hqiU62oV/Za4BTjV2vM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-381-hYpi1Gq-PSWpwHxFAVr66A-1; Wed, 23 Oct 2019 16:18:24 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6C44100551A;
-        Wed, 23 Oct 2019 20:18:22 +0000 (UTC)
-Received: from warthog.procyon.org.uk (ovpn-121-40.rdu2.redhat.com [10.10.121.40])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 202516012D;
-        Wed, 23 Oct 2019 20:18:19 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
- Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
- Kingdom.
- Registered in England and Wales under Company Registration No. 3798903
-Subject: [RFC PATCH 08/10] pipe: Rearrange sequence in pipe_write() to
- preallocate slot [ver #2]
-From:   David Howells <dhowells@redhat.com>
-To:     torvalds@linux-foundation.org
-Cc:     dhowells@redhat.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        nicolas.dichtel@6wind.com, raven@themaw.net,
-        Christian Brauner <christian@brauner.io>, dhowells@redhat.com,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Wed, 23 Oct 2019 21:18:19 +0100
-Message-ID: <157186189940.3995.3273332042636743290.stgit@warthog.procyon.org.uk>
-In-Reply-To: <157186182463.3995.13922458878706311997.stgit@warthog.procyon.org.uk>
-References: <157186182463.3995.13922458878706311997.stgit@warthog.procyon.org.uk>
-User-Agent: StGit/unknown-version
+        id S2407465AbfJWUSf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 23 Oct 2019 16:18:35 -0400
+Received: from muru.com ([72.249.23.125]:39584 "EHLO muru.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2407427AbfJWUSe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 23 Oct 2019 16:18:34 -0400
+Received: from atomide.com (localhost [127.0.0.1])
+        by muru.com (Postfix) with ESMTPS id F0A6480CF;
+        Wed, 23 Oct 2019 20:19:06 +0000 (UTC)
+Date:   Wed, 23 Oct 2019 13:18:29 -0700
+From:   Tony Lindgren <tony@atomide.com>
+To:     Peter Ujfalusi <peter.ujfalusi@ti.com>
+Cc:     Dan Williams <dan.j.williams@intel.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Alexandre Bailon <abailon@baylibre.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Bin Liu <b-liu@ti.com>, Daniel Mack <zonque@gmail.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Johan Hovold <johan@kernel.org>, Sekhar Nori <nsekhar@ti.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        dmaengine@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-omap@vger.kernel.org, giulio.benetti@benettiengineering.com,
+        Sebastian Reichel <sre@kernel.org>,
+        Skvortsov <andrej.skvortzov@gmail.com>,
+        Yegor Yefremov <yegorslists@googlemail.com>
+Subject: Re: [PATCH] dmaengine: cppi41: Fix cppi41_dma_prep_slave_sg() when
+ idle
+Message-ID: <20191023201829.GR5610@atomide.com>
+References: <20191023153138.23442-1-tony@atomide.com>
+ <245e1e8f-7933-bae1-b779-239f33d4d449@ti.com>
+ <20191023171628.GO5610@atomide.com>
+ <5deab8a9-5796-5367-213e-90c5961b8498@ti.com>
+ <20191023191859.GQ5610@atomide.com>
+ <7d578fe1-2d60-4a6e-48b0-73d66c39f783@ti.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-MC-Unique: hYpi1Gq-PSWpwHxFAVr66A-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7d578fe1-2d60-4a6e-48b0-73d66c39f783@ti.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Rearrange the sequence in pipe_write() so that the allocation of the new
-buffer, the allocation of a ring slot and the attachment to the ring is
-done under the pipe wait spinlock and then the lock is dropped and the
-buffer can be filled.
+* Peter Ujfalusi <peter.ujfalusi@ti.com> [191023 19:55]:
+> On 10/23/19 10:18 PM, Tony Lindgren wrote:
+> > We'd have to allow dma consumer driver call pm_runtime_get_sync()
+> > on the dma device. Something similar maybe to what we have
+> > for phy_pm_runtime_get_sync(). Or just get the device handle for
+> > dma so the consumer can call pm_runtime_get_sync() on it.
+> 
+> How much a pm_runtime_get_sync(dmadev) is different when it is issued by
+> the client driver compared to when the dma driver issues it for it's own
+> device?
 
-The data copy needs to be done with the spinlock unheld and irqs enabled,
-so the lock needs to be dropped first.  However, the reader can't progress
-as we're holding pipe->mutex.
+Well the consumer device could call pm_runtime_get_sync(dmadev)
+when the USB cable is connected for example, and then call
+pm_runtime_pu(dmadev) when let's say the USB cable is disconnected.
 
-We also need to drop the lock as that would impact others looking at the
-pipe waitqueue, such as poll(), the consumer and a future kernel message
-writer.
+Without using pm_runtime_irq_safe() we currently don't have a
+clear path for doing this where the pm_runtime_get_sync(dmadev)
+may sleep.
 
-We just abandon the preallocated slot if we get a copy error.  Future
-writes may continue it and a future read will eventually recycle it.
+> But I still fail to see the difference between the events before this
+> patch and with the case when there is a 100ms delay between prep_sg and
+> issue_pending.
+> 
+> Before this patch:
+> 
+> prep_sg()
+> issue_pending() <- runtime_get() /  put_autosuspend()
+> 		   _not_ starting transfer
+> runtime_resume() <- starts the transfer
+> 
+> With this patch and than 100ms delay between prep_sg and issue_pending:
+> 
+> prep_sg() <- runtime_get() /  put_autosuspend()
+> runtime_resume() <- not starting transfer
+> issue_pending() <- runtime_get() /  put_autosuspend()
+> 		   starts the transfer
+> 
+> With this patch, but more than 100ms delay in between:
+> 
+> prep_sg() <- runtime_get() /  put_autosuspend()
+> runtime_resume() <- not starting transfer
+> > 100ms delay
+> runtime_suspend()
+> issue_pending() <- runtime_get() /  put_autosuspend()
+> 		   _not_ starting transfer
+> runtime_resume() <- starts the transfer
+> 
+> pm_runtime_get_sync() in issue_pending would be the solution to avoid
+> delayed execution, but the usb driver should not assume that DMA is
+> completed as soon as issue_pending returned.
 
-Signed-off-by: David Howells <dhowells@redhat.com>
----
+Oh I see. Yes the consumer driver would need to check for
+the completed dma transfer in all cases. The delay issues
+should not currently happen in the musb_ep_program() problem
+case as it gets called from IRQ context.
 
- fs/pipe.c |   51 +++++++++++++++++++++++++++++++++------------------
- 1 file changed, 33 insertions(+), 18 deletions(-)
+And no, adding pm_runtime_get_sync() to issue_pending is not
+a solution. There may be clocks and regulators that need to
+be powered up, and we don't want to use pm_runtime_irq_safe()
+because of the permanent use count on the parent.
 
-diff --git a/fs/pipe.c b/fs/pipe.c
-index e3a8f10750c9..1bfad2212b95 100644
---- a/fs/pipe.c
-+++ b/fs/pipe.c
-@@ -386,7 +386,7 @@ pipe_write(struct kiocb *iocb, struct iov_iter *from)
- {
- =09struct file *filp =3D iocb->ki_filp;
- =09struct pipe_inode_info *pipe =3D filp->private_data;
--=09unsigned int head, tail, max_usage, mask;
-+=09unsigned int head, max_usage, mask;
- =09ssize_t ret =3D 0;
- =09int do_wakeup =3D 0;
- =09size_t total_len =3D iov_iter_count(from);
-@@ -404,14 +404,13 @@ pipe_write(struct kiocb *iocb, struct iov_iter *from)
- =09=09goto out;
- =09}
-=20
--=09tail =3D pipe->tail;
- =09head =3D pipe->head;
- =09max_usage =3D pipe->max_usage;
- =09mask =3D pipe->ring_size - 1;
-=20
- =09/* We try to merge small writes */
- =09chars =3D total_len & (PAGE_SIZE-1); /* size of the last buffer */
--=09if (!pipe_empty(head, tail) && chars !=3D 0) {
-+=09if (!pipe_empty(head, pipe->tail) && chars !=3D 0) {
- =09=09struct pipe_buffer *buf =3D &pipe->bufs[(head - 1) & mask];
- =09=09int offset =3D buf->offset + buf->len;
-=20
-@@ -440,8 +439,8 @@ pipe_write(struct kiocb *iocb, struct iov_iter *from)
- =09=09=09break;
- =09=09}
-=20
--=09=09tail =3D pipe->tail;
--=09=09if (!pipe_full(head, tail, max_usage)) {
-+=09=09head =3D pipe->head;
-+=09=09if (!pipe_full(head, pipe->tail, max_usage)) {
- =09=09=09struct pipe_buffer *buf =3D &pipe->bufs[head & mask];
- =09=09=09struct page *page =3D pipe->tmp_page;
- =09=09=09int copied;
-@@ -454,40 +453,56 @@ pipe_write(struct kiocb *iocb, struct iov_iter *from)
- =09=09=09=09}
- =09=09=09=09pipe->tmp_page =3D page;
- =09=09=09}
-+
-+=09=09=09/* Allocate a slot in the ring in advance and attach an
-+=09=09=09 * empty buffer.  If we fault or otherwise fail to use
-+=09=09=09 * it, either the reader will consume it or it'll still
-+=09=09=09 * be there for the next write.
-+=09=09=09 */
-+=09=09=09spin_lock_irq(&pipe->wait.lock);
-+
-+=09=09=09head =3D pipe->head;
-+=09=09=09pipe_commit_write(pipe, head + 1);
-+
- =09=09=09/* Always wake up, even if the copy fails. Otherwise
- =09=09=09 * we lock up (O_NONBLOCK-)readers that sleep due to
- =09=09=09 * syscall merging.
- =09=09=09 * FIXME! Is this really true?
- =09=09=09 */
--=09=09=09do_wakeup =3D 1;
--=09=09=09copied =3D copy_page_from_iter(page, 0, PAGE_SIZE, from);
--=09=09=09if (unlikely(copied < PAGE_SIZE && iov_iter_count(from))) {
--=09=09=09=09if (!ret)
--=09=09=09=09=09ret =3D -EFAULT;
--=09=09=09=09break;
--=09=09=09}
--=09=09=09ret +=3D copied;
-+=09=09=09wake_up_interruptible_sync_poll_locked(
-+=09=09=09=09&pipe->wait, EPOLLIN | EPOLLRDNORM);
-+
-+=09=09=09spin_unlock_irq(&pipe->wait.lock);
-+=09=09=09kill_fasync(&pipe->fasync_readers, SIGIO, POLL_IN);
-=20
- =09=09=09/* Insert it into the buffer array */
-+=09=09=09buf =3D &pipe->bufs[head & mask];
- =09=09=09buf->page =3D page;
- =09=09=09buf->ops =3D &anon_pipe_buf_ops;
- =09=09=09buf->offset =3D 0;
--=09=09=09buf->len =3D copied;
-+=09=09=09buf->len =3D 0;
- =09=09=09buf->flags =3D 0;
- =09=09=09if (is_packetized(filp)) {
- =09=09=09=09buf->ops =3D &packet_pipe_buf_ops;
- =09=09=09=09buf->flags =3D PIPE_BUF_FLAG_PACKET;
- =09=09=09}
--
--=09=09=09head++;
--=09=09=09pipe_commit_write(pipe, head);
- =09=09=09pipe->tmp_page =3D NULL;
-=20
-+=09=09=09copied =3D copy_page_from_iter(page, 0, PAGE_SIZE, from);
-+=09=09=09if (unlikely(copied < PAGE_SIZE && iov_iter_count(from))) {
-+=09=09=09=09if (!ret)
-+=09=09=09=09=09ret =3D -EFAULT;
-+=09=09=09=09break;
-+=09=09=09}
-+=09=09=09ret +=3D copied;
-+=09=09=09buf->offset =3D 0;
-+=09=09=09buf->len =3D copied;
-+
- =09=09=09if (!iov_iter_count(from))
- =09=09=09=09break;
- =09=09}
-=20
--=09=09if (!pipe_full(head, tail, max_usage))
-+=09=09if (!pipe_full(head, pipe->tail, max_usage))
- =09=09=09continue;
-=20
- =09=09/* Wait for buffer space to become available. */
+Regards,
 
+Tony
