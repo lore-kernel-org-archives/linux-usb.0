@@ -2,97 +2,177 @@ Return-Path: <SRS0=dHoi=YR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2EDECA9EBB
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Oct 2019 07:57:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB8CCCA9EBB
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Oct 2019 08:51:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 77EDC2084C
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Oct 2019 07:57:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BFD592166E
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Oct 2019 08:51:31 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="bzZWVk1x"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="QtrCVhPH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408772AbfJXH5F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 24 Oct 2019 03:57:05 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:38395 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2408769AbfJXH5F (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Oct 2019 03:57:05 -0400
-Received: by mail-lf1-f68.google.com with SMTP id q28so15059076lfa.5
-        for <linux-usb@vger.kernel.org>; Thu, 24 Oct 2019 00:57:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=k3oPwwXbd7aVpRc6mBG49c0derbL+ABsS83WbajBnnw=;
-        b=bzZWVk1xf3C9Ge+H3fkjakaR/mYMcxx2L27X/iVa2ADAj8YO0NmKGyQENunfk67bSo
-         A/Im4Lh6qWQl5euFpS1xIDgwzN1hBwLC6m3nD4Ra9JQaXHtEY8zHvRjrexwE3tFOS4QE
-         zrI7roAbGySgX/PGnKZNHY7qZ6M6BwFbTLwec=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=k3oPwwXbd7aVpRc6mBG49c0derbL+ABsS83WbajBnnw=;
-        b=uPDUniUayemiavQpfTHPFwylUfz5JIdDQClJ9VZte5vqlyODMRGLYYv30aihYorFQT
-         k1YCfGsbaT8pLiiILJAii11R4Nuredo3ab4RH0/jfz/24kJzKjlodYmlRdzySUH7dv+r
-         U5d8PsBe3w05oIfoLfyCO9GnA3yNdd2Liprfkqe6Rj5FV2MXydflqKONXieRAsAM9FTK
-         rtG6Cmj6SvlrX1JgAM7pP+gcq2pRmgcHmpS5wTGr0YiHT77TE14ul8R+FjLNpWvT5lwL
-         SnanKUq02MPGnb6KnyxEYWNGixhKipzwyTSk7ygWN4ZKfPcnOghdMSSKYI02dfObEyuJ
-         CLsg==
-X-Gm-Message-State: APjAAAUL5APmxPpL6Cj2lhUVdbixRTqHqIbOOQkEok/2OI61i9mrdWXi
-        T+D7k58CDExie2Gb76LTQd6Avw==
-X-Google-Smtp-Source: APXvYqyDWxfhIyP/h3s0Oi6ErhsqhkZHAZBagsFf5qH/cpxvtKTTFtgwYnDOPtqZTw3woyGFBLgpuw==
-X-Received: by 2002:ac2:5ec2:: with SMTP id d2mr9235070lfq.112.1571903822235;
-        Thu, 24 Oct 2019 00:57:02 -0700 (PDT)
-Received: from [172.16.11.28] ([81.216.59.226])
-        by smtp.gmail.com with ESMTPSA id e8sm8739712ljf.1.2019.10.24.00.57.01
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 24 Oct 2019 00:57:01 -0700 (PDT)
-Subject: Re: [PATCH v4] string-choice: add yesno(), onoff(),
- enableddisabled(), plural() helpers
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Jani Nikula <jani.nikula@intel.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        intel-gfx@lists.freedesktop.org,
-        Vishal Kulkarni <vishal@chelsio.com>, netdev@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, Julia Lawall <julia.lawall@lip6.fr>
-References: <20191023131308.9420-1-jani.nikula@intel.com>
- <20191023155619.43e0013f0c8c673a5c508c1e@linux-foundation.org>
- <18589470-c428-f4c8-6e3e-c8cfed3ad6e0@rasmusvillemoes.dk>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <26bc9c97-363b-2a07-8338-e3fdc576ce68@rasmusvillemoes.dk>
-Date:   Thu, 24 Oct 2019 09:57:00 +0200
+        id S2438390AbfJXIva (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 24 Oct 2019 04:51:30 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:46838 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730621AbfJXIva (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Oct 2019 04:51:30 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9O8p7Pp085877;
+        Thu, 24 Oct 2019 03:51:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1571907067;
+        bh=54djgH10KG/rVSnq5F8we0LmCw2lCjZh+du4GsdmEvs=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=QtrCVhPHsEj2wOocfkyA9jH2Qkcpyed05iPaxpH9sfQGNXJaooFfi5NN0O9EqX2uQ
+         CATjIV6nA3+ZYd4L41pvYSv5wtVyVIPty8whwwhky9oOHwY4bMxsuNeBHxhyWO8tVf
+         PyKeNrhT9tgNA1Lhcb+RjjSBvbOxcGwy7EpY3kBM=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9O8p7T6006768
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 24 Oct 2019 03:51:07 -0500
+Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 24
+ Oct 2019 03:50:55 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Thu, 24 Oct 2019 03:50:55 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9O8p1kH035606;
+        Thu, 24 Oct 2019 03:51:01 -0500
+Subject: Re: [PATCH] dmaengine: cppi41: Fix cppi41_dma_prep_slave_sg() when
+ idle
+To:     Tony Lindgren <tony@atomide.com>
+CC:     Dan Williams <dan.j.williams@intel.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Alexandre Bailon <abailon@baylibre.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Bin Liu <b-liu@ti.com>, Daniel Mack <zonque@gmail.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Johan Hovold <johan@kernel.org>, Sekhar Nori <nsekhar@ti.com>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        <dmaengine@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-omap@vger.kernel.org>,
+        <giulio.benetti@benettiengineering.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Skvortsov <andrej.skvortzov@gmail.com>,
+        Yegor Yefremov <yegorslists@googlemail.com>
+References: <20191023153138.23442-1-tony@atomide.com>
+ <245e1e8f-7933-bae1-b779-239f33d4d449@ti.com>
+ <20191023171628.GO5610@atomide.com>
+ <5deab8a9-5796-5367-213e-90c5961b8498@ti.com>
+ <20191023191859.GQ5610@atomide.com>
+ <7d578fe1-2d60-4a6e-48b0-73d66c39f783@ti.com>
+ <20191023201829.GR5610@atomide.com>
+From:   Peter Ujfalusi <peter.ujfalusi@ti.com>
+Message-ID: <4bcd75d8-b7c5-5006-d80f-c5bda0cdf011@ti.com>
+Date:   Thu, 24 Oct 2019 11:52:02 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <18589470-c428-f4c8-6e3e-c8cfed3ad6e0@rasmusvillemoes.dk>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20191023201829.GR5610@atomide.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 24/10/2019 09.40, Rasmus Villemoes wrote:
 
-> column. Maybe your compiler doesn't do string literal merging (since the
-> linker does it anyway), so your .rodata.str1.1 might contain several
-> copies of "yes" and "no", but they shouldn't really be counted.
 
-Sorry, that's of course nonsense - the strings only appear once in the
-TU (inside the static inline function), so gcc must treat them all as
-the same object - as opposed to the case where the implementation was
+On 23/10/2019 23.18, Tony Lindgren wrote:
+> * Peter Ujfalusi <peter.ujfalusi@ti.com> [191023 19:55]:
+>> On 10/23/19 10:18 PM, Tony Lindgren wrote:
+>>> We'd have to allow dma consumer driver call pm_runtime_get_sync()
+>>> on the dma device. Something similar maybe to what we have
+>>> for phy_pm_runtime_get_sync(). Or just get the device handle for
+>>> dma so the consumer can call pm_runtime_get_sync() on it.
+>>
+>> How much a pm_runtime_get_sync(dmadev) is different when it is issued by
+>> the client driver compared to when the dma driver issues it for it's own
+>> device?
+> 
+> Well the consumer device could call pm_runtime_get_sync(dmadev)
+> when the USB cable is connected for example, and then call
+> pm_runtime_pu(dmadev) when let's say the USB cable is disconnected.
 
-#define yesno(x) ((x) ? "yes" : "no")
+And the USB cable connect/disconnect is handled in interrupt -> you need
+to call pm_runtime_get_sync(dmadev) from interrupt context and need to
+mark the dmadev to pm_runtime_irq_safe()
 
-So that can't explain why you saw a smaller text segment using the OOL
-version.
+> Without using pm_runtime_irq_safe() we currently don't have a
+> clear path for doing this where the pm_runtime_get_sync(dmadev)
+> may sleep.
+> 
+>> But I still fail to see the difference between the events before this
+>> patch and with the case when there is a 100ms delay between prep_sg and
+>> issue_pending.
+>>
+>> Before this patch:
+>>
+>> prep_sg()
+>> issue_pending() <- runtime_get() /  put_autosuspend()
+>> 		   _not_ starting transfer
+>> runtime_resume() <- starts the transfer
+>>
+>> With this patch and than 100ms delay between prep_sg and issue_pending:
+>>
+>> prep_sg() <- runtime_get() /  put_autosuspend()
+>> runtime_resume() <- not starting transfer
+>> issue_pending() <- runtime_get() /  put_autosuspend()
+>> 		   starts the transfer
+>>
+>> With this patch, but more than 100ms delay in between:
+>>
+>> prep_sg() <- runtime_get() /  put_autosuspend()
+>> runtime_resume() <- not starting transfer
+>>> 100ms delay
+>> runtime_suspend()
+>> issue_pending() <- runtime_get() /  put_autosuspend()
+>> 		   _not_ starting transfer
+>> runtime_resume() <- starts the transfer
+>>
+>> pm_runtime_get_sync() in issue_pending would be the solution to avoid
+>> delayed execution, but the usb driver should not assume that DMA is
+>> completed as soon as issue_pending returned.
+> 
+> Oh I see. Yes the consumer driver would need to check for
+> the completed dma transfer in all cases. The delay issues
+> should not currently happen in the musb_ep_program() problem
+> case as it gets called from IRQ context.
 
-Rasmus
+the cppi41 driver solely relies on irq to check is the transfer is
+completed (based on the cookie status).
+So yeah, musb have no other choice than trust that the transfer is done
+in a timely manner.
+
+> And no, adding pm_runtime_get_sync() to issue_pending is not
+> a solution. There may be clocks and regulators that need to
+> be powered up, and we don't want to use pm_runtime_irq_safe()
+> because of the permanent use count on the parent.
+
+I think the only way to handle this is to keep the DMA enabled as long
+as the USB cable is connected.
+Either to introduce dma_pm_runtime_get_sync(struct dma_chan *c) and
+dma_pm_runtime_put(struct dma_chan *c) or some better name.
+
+It's use would be optional, but for USB you would call them for cable
+connect the get_sync (from a work) and put it on disconnect.
+
+The driver internally would not need to be changed, I think this patch
+could be removed as well.
+
+- Péter
+
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
