@@ -2,89 +2,117 @@ Return-Path: <SRS0=dHoi=YR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 722B4CA9EAF
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Oct 2019 17:05:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44545CA9EAF
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Oct 2019 17:26:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3CC4F21906
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Oct 2019 17:05:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 191A120659
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Oct 2019 17:26:09 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=metanate.com header.i=@metanate.com header.b="CrpDtFtR"
+	dkim=pass (1024-bit key) header.d=gmx.net header.i=@gmx.net header.b="ba87kEAd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2410064AbfJXRFI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 24 Oct 2019 13:05:08 -0400
-Received: from dougal.metanate.com ([90.155.101.14]:4724 "EHLO metanate.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2405819AbfJXRFI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 24 Oct 2019 13:05:08 -0400
-X-Greylist: delayed 1158 seconds by postgrey-1.27 at vger.kernel.org; Thu, 24 Oct 2019 13:05:07 EDT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=simple/simple; d=metanate.com;
-         s=stronger; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
-        :Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=VPmIoUH0glx+4sENj5EpAXnVlu8h+LV7UwdHblVC1Ng=; b=CrpDtFtRqbksIhycdO0lgzURu+
-        8yjQ5E8VqRi22Exu5Z2OryrkD5BvTXOSvzoz5/VbTwGdOgtVFTe9EAO+XmJzVsJBtK+GCJXPeOU8q
-        JyW0P1mrrB39R/NO9aMAtuo7mHixa6/7kK6fenK3uGHOmx2BVccR8YjDuMrJgR2gy3C4HdJBOJN7O
-        bHQbvWOaAo3M47xf7okxFiQLebFekLLDQp4Aq+xpr+YCkOGmwaZqm06/gwsZUPcJBuE/tOGaSRg3v
-        1ATaMjAG7/apiZ+TlttBvy7uurNgYfL/bvG96VNt99pYkDC0gQVuP9xYLl92jtbbWV9kBIzR2UUY+
-        p6bp7lHg==;
-Received: from 188-39-28-98.static.enta.net ([188.39.28.98] helo=donbot.corp.numark.com)
-        by email.metanate.com with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92.3)
-        (envelope-from <john@metanate.com>)
-        id 1iNgF9-0004oc-4a; Thu, 24 Oct 2019 17:45:47 +0100
-From:   John Keeping <john@metanate.com>
-To:     linux-usb@vger.kernel.org
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, John Keeping <john@metanate.com>
-Subject: [PATCH 0/6] USB: gadget: f_hid: fix lifetime issues
-Date:   Thu, 24 Oct 2019 17:45:32 +0100
-Message-Id: <20191024164538.3161474-1-john@metanate.com>
-X-Mailer: git-send-email 2.23.0
+        id S2503788AbfJXR0E (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 24 Oct 2019 13:26:04 -0400
+Received: from mout.gmx.net ([212.227.17.21]:55403 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389384AbfJXR0E (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 24 Oct 2019 13:26:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1571937941;
+        bh=KY68C9Yu5htKWu3Gi59bYPna7hMIfwfzLjRCUgSfA84=;
+        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+        b=ba87kEAdPGHzcF9yZLUldTeAelIG+B6EH41VfPWNJBP5pjil2oyErGHZPmPojmMdZ
+         AeGv281bxMW4mAWNkaxutopdZuI7l5mubwgYKvZuzTfgyp7HQz1PF3ll9efTC45W0Y
+         5i0JHhTDJ7lTDTJbsmkhhJ0e2HIjvcnzINtvFWk0=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.1.162] ([37.4.249.112]) by mail.gmx.com (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MK3Rm-1ij3VL0mVC-00LVdz; Thu, 24
+ Oct 2019 19:25:41 +0200
+Subject: Re: [PATCH] net: usb: lan78xx: Use phy_mac_interrupt() for interrupt
+ handling
+To:     Daniel Wagner <dwagner@suse.de>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc:     Jakub Kicinski <jakub.kicinski@netronome.com>,
+        UNGLinuxDriver@microchip.com, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-rt-users@vger.kernel.org,
+        Woojung Huh <woojung.huh@microchip.com>,
+        Marc Zyngier <maz@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+        Jisheng Zhang <Jisheng.Zhang@synaptics.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+References: <20191018082817.111480-1-dwagner@suse.de>
+ <20191018131532.dsfhyiilsi7cy4cm@linutronix.de>
+ <20191022101747.001b6d06@cakuba.netronome.com>
+ <20191023074719.gcov5xfrcvns5tlg@beryllium.lan>
+ <20191023080640.zcw2f2v7fpanoewm@beryllium.lan>
+ <20191024104317.32bp32krrjmfb36p@linutronix.de>
+ <20191024110610.lwwy75dkgwjdxml6@beryllium.lan>
+ <20191024141216.wz2dcdxy4mrl2q5a@beryllium.lan>
+From:   Stefan Wahren <wahrenst@gmx.net>
+Message-ID: <78ab19da-2f30-86e0-fad1-667f5e6ba8b1@gmx.net>
+Date:   Thu, 24 Oct 2019 19:25:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Authenticated: YES
+In-Reply-To: <20191024141216.wz2dcdxy4mrl2q5a@beryllium.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Provags-ID: V03:K1:hjlWqLnBbTZvsRMVvhS9+KeBYXyxE0wxS2hKJr3tZpXeXnUQWSG
+ 52b4hCqDmBhPy53d+ftQ4wk08A/dNzBCP033Q4y1jRMHjsqc2r+tz1caYLeZ+vaLzy4tkbF
+ x2+hULAO513/i8B4DU/fRSUQ7Az4vHZQ3WJekcgrWjiQ2qzFT18+El14i15TEg9v+wZlOz2
+ OCdt/JHCzN6CW2RMawymA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eG/2jn090SA=:jlq9kslPHqyYUttM5c5zip
+ oDhA/ZDnF2wu7OMPeFDpb+FTPw7jnSTTGeemYZxbmLM9BonU8Vo1k2d6vZWfur6trpuD7MvGt
+ Y7Qr+j82KYiLB0POZo6NbRr19Kzl05xk5s9WJvTBElPX1VFaC/ty1VEBdcBnUCav2eBK0Pm1e
+ X1inHueW9v+alntHNx2M5SEqfgbZ/XQUGYJfEBw5VbY4OkUxe+FE4NG/B5dRG9ewT/o00rSUj
+ zX+wTbPRg5O+loHXcnKYDSjBWKwzYmObrv0aDfFvVSz4leSq0gYFJNF2YrtVGVMrWVLbzma1u
+ h/52lkoGhyUWVS8B1dmjNsLLtE2Eh9qB2nPnY4QhTZm1zkeGpO5o38IMLeRf/xTteClBdr5eV
+ 9CFSHdDLq7Q84TANLjw+Pxto1n0PkQoj7fI+04FZGA1vcK63/A5KK29Cj4FJfzRb9tiA3hars
+ etmOP844lFdsMTOEwF0479spzMfn07fASbdSLZ6U7kdw6HIKAoiVSLfjXUeWJqG0Sp286WLuI
+ fwK8Vj9qltIrJwZzd1PvD+JeaN3DEW8bexq5SQpksvMMiL0uspIKDQ1UFdbt4xqMx09THzqKf
+ b6JWU2+5rRand2yaWFAS5bj9VVSLs0SQOsl1S6B4f0GgOqc2gh2Oy9goOGQgmj7l+Joviyddy
+ FfgzL5nuEoftl8PgaEjOM5G5KSGj1nbOnlUk/vjopLSOo5VwaZ7PIfm+ReYUUyVlf2pPqp/EQ
+ DSIkttdQlBqIjYxvI2YUPgRQhyydSpcuv0BCMzEgAKRQekC7UoTJyN8eF8kxwblf5ZJu95QgE
+ E/Mie8G1Vq/ohm1+rvkJEdEpXjjGbDktnFs0USTpRiYZiBzbVBOEiEEx5GMApfTBtBjmd0R76
+ qKWQFcD/0aG3P2bkHcz9rvWDYT5NeyC5c8fHvomlCExrMkn+WhBFlTmy2hwSVSRsoFJIoAynf
+ SSBs66wHHuConiLYJrJ4zjIPugIuEp7WUA8Xk1Ty253HGbhIhwxBeRicoY0w4/eEohnW5HxkQ
+ OM9h2oepH46A7Sal0ca29e7AmOcqQNfMKb5TvGC5Vxm7WBcLgabiyuZf5/u7taioa3jBktZ5y
+ x9Kf6Iq6rK30bpfqJ/4D+n3jFjn6rpi0l/5SXYEUlLdWU93GvR7KTusoL//0qdI24jqZSTr1+
+ FXj3p5wB2OKGcdqH3LFtNoDb3JWvtxJS6xTY2sb81Ek/udv+irkDaUtzQsbgWqV7et9ptNy5b
+ gioi/Fd8uFqLXxkIE3CbVf3u+oYRqvcI9EGJts7FgYCsMorohrHLgTzYV1m0=
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-File descriptors referencing the /dev/hidgN device created by the HID
-gadget can outlive the underlying gadget function, which creates easy to
-trigger use-after-frees in the kernel.
+Hi Daniel,
 
-A simple reproduction for this using the libusbgx example programs is:
+Am 24.10.19 um 16:12 schrieb Daniel Wagner:
+> On Thu, Oct 24, 2019 at 01:06:10PM +0200, Daniel Wagner wrote:
+>
+> Sebastians suggested to try the RPi kernel. The rpi-5.2.y kernel
+> behaves exactly the same. That is one PHY interrupt and later on NFS
+> timeouts.
+>
+> According their website the current shipped RPi kernel is in version
+> 4.18. Here is what happends with rpi-4.18.y:
 
-	$ gadget-hid
-	$ exec 3<> /dev/hidg0
-	$ gadget-vid-pid-remove
-	$ exec 3<&-
+No, it's 4.19. It's always a LTS kernel.
 
-Closing the file descriptor on the last line triggers a use-after-free
-which can be seen immediately with slub_debug=P.
+I'm curious, what's the motivation behind this? The rpi tree contains
+additional hacks, so i'm not sure the results are comparable. Also the
+USB host driver is a different one.
 
-This series fixes this by making the struct cdev associated with the
-module rather than dynamically allocated for the gadget and changing
-struct f_hidg to be refcounted instead of tied to the gadget lifetime.
+> There are no NFS timeouts and commands like 'apt update' work reasoble
+> fast. So no long delays or hangs. Time to burn this hardware.
 
-John Keeping (6):
-  USB: gadget: f_hid: move chardev setup to module init
-  USB: gadget: f_hid: switch to IDR for tracking minors
-  USB: gadget: f_hid: find f_hidg by IDR lookup on open
-  USB: gadget: f_hid: decouple cdev from f_hidg lifetime
-  USB: gadget: f_hid: refcount f_hidg structure
-  USB: gadget: f_hid: return ENODEV from read/write after deletion
+Since enabling lan78xx for Raspberry Pi 3B+, we found a lot of driver
+issues. So i'm not really surprised, that there are still more of them.
 
- drivers/usb/gadget/function/f_hid.c | 141 +++++++++++++++++++---------
- drivers/usb/gadget/function/u_hid.h |   3 -
- 2 files changed, 95 insertions(+), 49 deletions(-)
-
--- 
-2.23.0
+Thanks Stefan
 
