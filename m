@@ -2,136 +2,89 @@ Return-Path: <SRS0=dHoi=YR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AB63CA9EBB
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Oct 2019 08:52:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0243CA9EAF
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Oct 2019 09:02:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4D62221BE5
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Oct 2019 08:52:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F9E520856
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Oct 2019 09:02:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rrxFfBuN"
+	dkim=pass (2048-bit key) header.d=dawes-za-net.20150623.gappssmtp.com header.i=@dawes-za-net.20150623.gappssmtp.com header.b="XscpeN5x"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731423AbfJXIwF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 24 Oct 2019 04:52:05 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:46134 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730467AbfJXIwE (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Oct 2019 04:52:04 -0400
-Received: by mail-pl1-f194.google.com with SMTP id q21so3444120plr.13;
-        Thu, 24 Oct 2019 01:52:03 -0700 (PDT)
+        id S2388310AbfJXJCE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 24 Oct 2019 05:02:04 -0400
+Received: from mail-lj1-f176.google.com ([209.85.208.176]:43474 "EHLO
+        mail-lj1-f176.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727079AbfJXJCE (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Oct 2019 05:02:04 -0400
+Received: by mail-lj1-f176.google.com with SMTP id n14so24123038ljj.10
+        for <linux-usb@vger.kernel.org>; Thu, 24 Oct 2019 02:02:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=uPX6O9l+kuYjBcPYdh37KOiS7f3AWvLRqvSNRDK/hlY=;
-        b=rrxFfBuNj1V+uFY7mLjfFUPtV4lB6aOMWJC30bQxiPaE9cV/lD9sVOk3SIk3xxu0UX
-         7F6JWvBWNVcMfeQWKPE8B5LBRJjebHT/fuosPKegNwFQzyIYFqbONhmfvmuGJ4lcZfxN
-         MDyqg014EdBJuLkMqaIOgHYKfC8AYe+RSXf2U0eV33pxwwElrd7XoEzdWfO0gI2utY+f
-         2uNL8ed8lY1uV4upV/zKMvG/NspEHAmx+GchOcN00B0baykx4rU66sP4SS9BkTDBMdRV
-         25+LfK7LnYZKNtfAg4wEHKm85FsLkusC2tgS3ToH08UFikNjzerI4RCY9jdRwyBgtwdb
-         pgsw==
+        d=dawes-za-net.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=sA1E5AfB56QRzsAe6f0UUw9vruE6VfSgiGLjQ4iUUhk=;
+        b=XscpeN5xwKeDT/qlkBa2GLc1Msjk2FSCHk1JG/sD4cfup8b12yKIMC1DM92DDXyAUw
+         QKWJ376IU+f2+NsVinkM4SG1Avbo+sqi0CQSTCKxpuErY46fI0zcDqoL3nLwl85vynFA
+         Brd9Nr2EsGguPRmHRz5Q8grhYjUBRJnzuTYrnGCdqJ2dc3ESYwclv/1tHWbxADR4FoM3
+         jytdy3kFg7z5N2Ar+WYA8PWwoSewnZuPmcot97N8O0WjigyfBzeP6lAinY0rqAKrKJfx
+         ME8u+q0T5u8y9ySz/t9yhzACOg+V1BfpeuDTbe38tDU9flwyjypM49lyQ3jvVPQorDwT
+         9K8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=uPX6O9l+kuYjBcPYdh37KOiS7f3AWvLRqvSNRDK/hlY=;
-        b=Pp7aTGlLmlj69k73EB4mIzKLJsspL7zQ11zRs/Tj+Slgr3TtCi4ZuOP7S1n2aYLcB1
-         AomH5N7XunEwzrWWxuz7LM26PUMb9hTdHNEyGUtcceHS43f6tj1otwrnBhmyhbIFxQpL
-         WzFWKY30QiCG7JMzKI4ZITb0s4BXSbQoBzp3/CfT9ZhhMMAd7jnXYbS+7PKZQAAXEDaf
-         kX5h9bL1wf7/5MVXDjARPKAlCa+1Wwxozf7fczPUXIwCqW60QLh9pg4z9i+TVrvDK5d5
-         Clzds1qJEeP5ZkiZeQbtGfzn/udA2+o1Z5IodxKh6pFFmMSo49EoXHPY8CgySm6Cz1me
-         odUg==
-X-Gm-Message-State: APjAAAWG/pPwv+v+EHnlliDcfkibmj/d5HRh6NiAQ7WJ6de33PHBLZqI
-        nLd+/DG1pAIi1wNYfEkuo+o=
-X-Google-Smtp-Source: APXvYqwhJuw0T1sHz53pKJca5ZWdTYoQJUWebP9bGeR93OHzONyszouIpVMtloMWhRzOz/GbyuihGw==
-X-Received: by 2002:a17:902:b60a:: with SMTP id b10mr15125831pls.130.1571907123451;
-        Thu, 24 Oct 2019 01:52:03 -0700 (PDT)
-Received: from [192.168.1.60] (59-120-186-245.HINET-IP.hinet.net. [59.120.186.245])
-        by smtp.gmail.com with ESMTPSA id s191sm23097338pgc.94.2019.10.24.01.52.01
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 24 Oct 2019 01:52:02 -0700 (PDT)
-Subject: Re: [PATCH V2 5/7] USB: serial: f81232: Set F81534A serial port with
- RS232 mode
-To:     Johan Hovold <johan@kernel.org>
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, peter_hong@fintek.com.tw,
-        "Ji-Ze Hong (Peter Hong)" <hpeter+linux_kernel@gmail.com>
-References: <20190923022449.10952-1-hpeter+linux_kernel@gmail.com>
- <20190923022449.10952-6-hpeter+linux_kernel@gmail.com>
- <20191023115300.GU24768@localhost>
-From:   "Ji-Ze Hong (Peter Hong)" <hpeter@gmail.com>
-Message-ID: <f3a8b0bd-79f7-3bef-4d07-69774c87873a@gmail.com>
-Date:   Thu, 24 Oct 2019 16:52:01 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=sA1E5AfB56QRzsAe6f0UUw9vruE6VfSgiGLjQ4iUUhk=;
+        b=lxFN0WvVCauogTmJfXDPP9C0L8et/xrfTu+n+W2AUdT/KviLU1nr25KrxvacmAh+tm
+         q64TR8dBD59aFDNK/n6n/D8RysxvfDbVLclcN0hd2jkVe/jRnrtPh1uMGj/Rlr6FjK+Q
+         XxkByPHavoXuccvFWWxgIcQkhykz8K1elQa6HGAQ9bqXqchQNFCUYf7LM1bvzg5VP5yJ
+         AtNznjHrnnnkt2Tj0pvU1KR7eaju4H4mN8doDiS1pAUFiTBFfcsS5QdWiCNNMHw1I+75
+         PrhUpoLC+ju4gf7mQai/gNtB0mRHsllSiQlPrVhOSjnuInFBmLuKqzeR0rWKUC+MDdxb
+         qLvg==
+X-Gm-Message-State: APjAAAU08GzU6Gi+h6tgk/MdoPoiKxv3pWpBtU15n+h+HB4GZtFWRs5v
+        FT1NNNVc+NHFx7V9k9kepl2jKB/XWoNQ43OfdYQm+RIfYbE=
+X-Google-Smtp-Source: APXvYqw19oEPpXdgkQGjYwqMszcdeS5GVmoXvY2SxHur40XuOFPV22Ga5RWzkgctj/5wxPldXW2rKPlYHyxd7jz3adQ=
+X-Received: by 2002:a2e:6c0e:: with SMTP id h14mr10072784ljc.92.1571907721618;
+ Thu, 24 Oct 2019 02:02:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191023115300.GU24768@localhost>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+From:   Rogan Dawes <rogan@dawes.za.net>
+Date:   Thu, 24 Oct 2019 11:01:50 +0200
+Message-ID: <CAOYdKdiYdnH246mZSRZ==dhjcM3Oah5vFP1Nh=m4SgyvJKNn2w@mail.gmail.com>
+Subject: Programmatically switching a USB port from Host to Device mode (not OTG)
+To:     linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Johan,
+Hi folks
 
-Johan Hovold 於 2019/10/23 下午 07:53 寫道:
-> On Mon, Sep 23, 2019 at 10:24:47AM +0800, Ji-Ze Hong (Peter Hong) wrote:
->> The Fintek F81532A/534A/535/536 is USB-to-2/4/8/12 serial ports device
->> and the serial ports are default disabled. Each port contains max 3 pins
->> GPIO and the 3 pins are default pull high with input mode.
->>
->> When the serial port had activated (running probe()), we'll transform the
->> 3 pins from GPIO function publicly to control Tranceiver privately use.
-> 
-> I'm not sure I understand what you're saying here.
-> 
->> We'll default set to 0/0/1 for control transceiver to RS232 mode.
->>
->> Otherwise, If the serial port is not active, the 3 pins is in GPIO mode
->> and controlled by global GPIO device with VID/PID: 2c42/16f8.
-> 
-> Does this mean that you can control the three GPIOs either through the
-> serial device or through the gpio-control device (which are two separate
-> USB devices)?
-> 
+I am using a GL.Inet AR750S (Slate) travel router, which is based on
+the QCA9563 SoC.
 
-Yes, when 1 F81534A connect to Host, it'll report device as following.
-	virtual HUB
-		GPIO Device.
-		serial port 1
-		...
-		serial port n
+I am trying to see if there is any way that I can get it to operate in
+a USB Gadget mode.
 
-The link are F81534A pin-out:
-	https://imgur.com/a/AZHqQ1N
+According to twitter support
+(https://twitter.com/GLiNetWiFi/status/1187190831746179073), the
+router's external port is connected directly to USB1 on the SoC, and
+the internal port is connected via a USB hub to USB2.
 
-So we can control F81534A series all GPIO pins via GPIO Device.
-Serial ports are also control MODE0_x,  MODE1_x,  MODE2_x
-(e.g. UART1 MODE0_1,  MODE1_1,  MODE2_1), but when Serial ports
-is h/w disabled (DTR pull low), the mode pin will change to GPIO pin.
+According to the datasheet which I found at
+https://github.com/Deoptim/atheros/QCA9563_July_2014.pdf, USB1 should
+be a Host-only port, while USB2 should be device-capable.
+Unfortunately, the hub chip makes it impossible to test USB2.
 
+So, my question is, is it possible to modify the device tree to
+configure USB1 in gadget mode (even though according to the datasheet,
+this is a reserved configuration) ?
 
-> Ok, so you reset the tranceiver config on every probe.
-> 
-> Are the three GPIOs always connected to one particular tranceiver, or
-> are they truly general purpose?
-> 
-> In the latter case, it doesn't seem like a good idea to drive pins 0
-> and 1 low here as you have know idea what they're used for.
+Is it possible that a pure software configuration change may be
+sufficient to change the role of the port, or would I need to remove
+pull-up/down resistors as well to see if this could work?
 
-If we want to change the mode pin to GPIO pin, it need do h/w disable.
-It the serial ports are activated, the 3 pin will be mode pin and set
-default 0/0/1 to RS232 mode due to this driver not implement RS422/485
-currently.
+Many thanks!
 
-Thanks
--- 
-With Best Regards,
-Peter Hong
+Rogan
