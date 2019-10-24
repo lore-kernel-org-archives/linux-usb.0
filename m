@@ -2,210 +2,189 @@ Return-Path: <SRS0=dHoi=YR=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65D36CA9EBC
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Oct 2019 13:47:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F3FECA9EAF
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Oct 2019 13:48:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3CE5C21906
-	for <linux-usb@archiver.kernel.org>; Thu, 24 Oct 2019 13:47:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 45C3720659
+	for <linux-usb@archiver.kernel.org>; Thu, 24 Oct 2019 13:48:15 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CSvPKwrI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390294AbfJXNrN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 24 Oct 2019 09:47:13 -0400
-Received: from mail-io1-f70.google.com ([209.85.166.70]:51279 "EHLO
-        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393794AbfJXNrM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Oct 2019 09:47:12 -0400
-Received: by mail-io1-f70.google.com with SMTP id x13so25720193ioa.18
-        for <linux-usb@vger.kernel.org>; Thu, 24 Oct 2019 06:47:09 -0700 (PDT)
+        id S2393513AbfJXNsO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 24 Oct 2019 09:48:14 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:46889 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391067AbfJXNsO (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 24 Oct 2019 09:48:14 -0400
+Received: by mail-pf1-f196.google.com with SMTP id b25so1149726pfi.13
+        for <linux-usb@vger.kernel.org>; Thu, 24 Oct 2019 06:48:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YTkxn8NFML1hJbNb7nJmkzGe0KQtmV++af9G21VfEyE=;
+        b=CSvPKwrIgJPFj0aoiORTrDPRUZUgt7G0G2LGBujFZLU4bUkmSThfgZC/XsoGD2XXyO
+         1p3JVWhe4qu+wRH7UI3d4HQls64/1MFEIfPPfLB/mcdc1e3rL5BXz4iscOCtBLmhXyBu
+         Ylbo2PTxvm8T0Fz/zoBAhv+PlwY2rbfi/mXuH1AEG0o3cX0LxgZ/NS5q2AEE+FF/rAY1
+         jhzyDg+pxMQeQ41GgzIA/0Gl246bs2Q4U4tsWNJz5mYnbVDTX5SVx3ApNqqkGvoo479J
+         Y8VDN3yR8mFjiy2K2QeMjHDzM1umYLqrPEBpPB4jnGoAXu/9hzPe977YfEZz/Ejit5f0
+         arxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=t2Yf9L/jBVvBAHkV3yxbLEvtZ5yOPvbhkvRuGLMDhJk=;
-        b=VjFl5alMtGoz7JteWdJ5HMe1AH65fW4rjNx5ZFv9k4Vt952zmIIUZpDBlRTY9mq+Pd
-         aFHW9c03UvGI5lsPHeORdqhFWMtO1NTCixBGcEmD926Ca78RHvu1wdN7nXC2TV7zd9Ne
-         kMZrhVrGIvOEAwlTuiUK08DelhPsWtuKfnvTQFQA2n4jFzOs9AqcB4aROnlJ22VG5SS3
-         Z0nXC/YgZemQkvQct4sGLUGwerJb0U0e9IJE2QOKKc1wZqaF6SBoV7jXL9cxvpsBeP+/
-         o5JaUu2dZ5Hw29+9C3fRaDZ4LVVc137U9QHzUjHBuVKIkbTG/mZFy2Oh8/n6B6lae4Zs
-         mU3w==
-X-Gm-Message-State: APjAAAUNGfGr1TjWd9GIz5xeAEz7CrBSfgVp578Yw3aU2gmj/DlH9kJs
-        EWlcRRZJZqeY/ESHAHOGMpChaVopAzMlGp2zTuvhGIMrqVON
-X-Google-Smtp-Source: APXvYqyC4sdEy11y07JTP5+9irjs97ov2ZNLsdTU94ijiWJNUO9SeMFZ36861bQ4WlArQN0D9fkIp83R8dTI541peCgTmGGF24tG
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YTkxn8NFML1hJbNb7nJmkzGe0KQtmV++af9G21VfEyE=;
+        b=hrGTC/OwAd5J0l98iKASFl/aNjb5Nd1w/jXoR2PuxmV7lO0TEIrrDom1nORDzBWtGg
+         whknhuhzQ9yLuuYBLDJedziFMcqJXFvFam2uiPJJxnSVOV5zA5AvJfEIc1lTCyJhX5U1
+         DSkseanKAWJtHsPjR0M7J2oId31VXYcH3Cm9iN73wgJov01CY7DlOg6Ye5B/i210PKNI
+         ccN3kdsn6j+9O0YW901RkadC/gxziFuoLxNpb9CnE0p6+C8CnnDxgXsl/Tt1ezZygljZ
+         PyC1j52U7Edd8HXKEZbjSWTZ1lcMOUIOLeVJ8SCahFo+EN2Bt4t7TNM0xeDUMtbTAVfb
+         688A==
+X-Gm-Message-State: APjAAAXrNxYgXrIi98rU9sg3nXQ/V4WNTgnTNrHEpZfi6+jSo084bt70
+        Y547QRyv0/+dHPWjBvr+OSX4wppf2bBa2FeLETyqKQ==
+X-Google-Smtp-Source: APXvYqwvLbt82jqjHLzp4xdwup+ogWdEiiBcSfJpJJLRribFLRZByhVHCu5c0rObT2Ia7jCUl/nz/1FIZpdLOJSAfzg=
+X-Received: by 2002:a17:90a:6509:: with SMTP id i9mr7155187pjj.47.1571924893072;
+ Thu, 24 Oct 2019 06:48:13 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a6b:ea19:: with SMTP id m25mr2163572ioc.256.1571924828662;
- Thu, 24 Oct 2019 06:47:08 -0700 (PDT)
-Date:   Thu, 24 Oct 2019 06:47:08 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000006bb9c0595a84569@google.com>
-Subject: KASAN: use-after-free Read in build_audio_procunit
-From:   syzbot <syzbot+fd965c77e4711eb13b82@syzkaller.appspotmail.com>
-To:     alsa-devel@alsa-project.org, andreyknvl@google.com,
-        benquike@gmail.com, dan.carpenter@oracle.com, g@b4.vu,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        perex@perex.cz, rfontana@redhat.com,
-        syzkaller-bugs@googlegroups.com, tglx@linutronix.de,
-        tiwai@suse.com, wang6495@umn.edu
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+References: <cover.1571844200.git.andreyknvl@google.com> <beeae42e313ef57b4630cc9f36e2e78ad42fd5b7.1571844200.git.andreyknvl@google.com>
+ <20191023152216.796aeafd832ba5351d86d3ca@linux-foundation.org>
+In-Reply-To: <20191023152216.796aeafd832ba5351d86d3ca@linux-foundation.org>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Thu, 24 Oct 2019 15:48:01 +0200
+Message-ID: <CAAeHK+xBrJSqicGC-T3c9V2yg6po4HSiekxVSBbT0uxLfVkwbA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] kcov: remote coverage support
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     USB list <linux-usb@vger.kernel.org>,
+        KVM list <kvm@vger.kernel.org>,
+        virtualization@lists.linux-foundation.org,
+        netdev <netdev@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        David Windsor <dwindsor@gmail.com>,
+        Elena Reshetova <elena.reshetova@intel.com>,
+        Anders Roxell <anders.roxell@linaro.org>,
+        Alexander Potapenko <glider@google.com>,
+        Marco Elver <elver@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+On Thu, Oct 24, 2019 at 12:22 AM Andrew Morton
+<akpm@linux-foundation.org> wrote:
+>
+> On Wed, 23 Oct 2019 17:24:29 +0200 Andrey Konovalov <andreyknvl@google.com> wrote:
+>
+> > This patch adds background thread coverage collection ability to kcov.
+> >
+> > With KCOV_ENABLE coverage is collected only for syscalls that are issued
+> > from the current process. With KCOV_REMOTE_ENABLE it's possible to collect
+> > coverage for arbitrary parts of the kernel code, provided that those parts
+> > are annotated with kcov_remote_start()/kcov_remote_stop().
+> >
+> > This allows to collect coverage from two types of kernel background
+> > threads: the global ones, that are spawned during kernel boot and are
+> > always running (e.g. USB hub_event()); and the local ones, that are
+> > spawned when a user interacts with some kernel interface (e.g. vhost
+> > workers).
+> >
+> > To enable collecting coverage from a global background thread, a unique
+> > global handle must be assigned and passed to the corresponding
+> > kcov_remote_start() call. Then a userspace process can pass a list of such
+> > handles to the KCOV_REMOTE_ENABLE ioctl in the handles array field of the
+> > kcov_remote_arg struct. This will attach the used kcov device to the code
+> > sections, that are referenced by those handles.
+> >
+> > Since there might be many local background threads spawned from different
+> > userspace processes, we can't use a single global handle per annotation.
+> > Instead, the userspace process passes a non-zero handle through the
+> > common_handle field of the kcov_remote_arg struct. This common handle gets
+> > saved to the kcov_handle field in the current task_struct and needs to be
+> > passed to the newly spawned threads via custom annotations. Those threads
+> > should in turn be annotated with kcov_remote_start()/kcov_remote_stop().
+> >
+> > Internally kcov stores handles as u64 integers. The top byte of a handle
+> > is used to denote the id of a subsystem that this handle belongs to, and
+> > the lower 4 bytes are used to denote a handle id within that subsystem.
+> > A reserved value 0 is used as a subsystem id for common handles as they
+> > don't belong to a particular subsystem. The bytes 4-7 are currently
+> > reserved and must be zero. In the future the number of bytes used for the
+> > subsystem or handle ids might be increased.
+> >
+> > When a particular userspace proccess collects coverage by via a common
+> > handle, kcov will collect coverage for each code section that is annotated
+> > to use the common handle obtained as kcov_handle from the current
+> > task_struct. However non common handles allow to collect coverage
+> > selectively from different subsystems.
+> >
+> > ...
+> >
+> > +static struct kcov_remote *kcov_remote_add(struct kcov *kcov, u64 handle)
+> > +{
+> > +     struct kcov_remote *remote;
+> > +
+> > +     if (kcov_remote_find(handle))
+> > +             return ERR_PTR(-EEXIST);
+> > +     remote = kmalloc(sizeof(*remote), GFP_ATOMIC);
+> > +     if (!remote)
+> > +             return ERR_PTR(-ENOMEM);
+> > +     remote->handle = handle;
+> > +     remote->kcov = kcov;
+> > +     hash_add(kcov_remote_map, &remote->hnode, handle);
+> > +     return remote;
+> > +}
+> > +
+> >
+> > ...
+> >
+> > +             spin_lock(&kcov_remote_lock);
+> > +             for (i = 0; i < remote_arg->num_handles; i++) {
+> > +                     kcov_debug("handle %llx\n", remote_arg->handles[i]);
+> > +                     if (!kcov_check_handle(remote_arg->handles[i],
+> > +                                             false, true, false)) {
+> > +                             spin_unlock(&kcov_remote_lock);
+> > +                             kcov_disable(t, kcov);
+> > +                             return -EINVAL;
+> > +                     }
+> > +                     remote = kcov_remote_add(kcov, remote_arg->handles[i]);
+> > +                     if (IS_ERR(remote)) {
+> > +                             spin_unlock(&kcov_remote_lock);
+> > +                             kcov_disable(t, kcov);
+> > +                             return PTR_ERR(remote);
+> > +                     }
+> > +             }
+>
+> It's worrisome that this code can perform up to 65536 GFP_ATOMIC
+> allocations without coming up for air.  The possibility of ENOMEM or of
+> causing collateral problems is significant.  It doesn't look too hard
+> to change this to use GFP_KERNEL?
 
-syzbot found the following crash on:
+Sure, I'll do that in v3. I can also change the limit on the number of
+handles to something lower (0x100?).
 
-HEAD commit:    22be26f7 usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=17cdccc4e00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=387eccb7ac68ec5
-dashboard link: https://syzkaller.appspot.com/bug?extid=fd965c77e4711eb13b82
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13fe752f600000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17989fd8e00000
+>
+> > +u64 kcov_common_handle(void)
+> > +{
+> > +     return current->kcov_handle;
+> > +}
+>
+> I don't immediately understand what this "common handle" thing is all about.
+> Code is rather lacking in this sort of high-level commentary?
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+fd965c77e4711eb13b82@syzkaller.appspotmail.com
+It's described in the documentation, but I'll add comments to the
+exported functions to explain how they work and how they should be
+used.
 
-usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-usb 1-1: Product: syz
-usb 1-1: Manufacturer: syz
-usb 1-1: SerialNumber: syz
-==================================================================
-BUG: KASAN: use-after-free in uac_extension_unit_iExtension  
-include/uapi/linux/usb/audio.h:483 [inline]
-BUG: KASAN: use-after-free in build_audio_procunit+0xeab/0x13f0  
-sound/usb/mixer.c:2434
-Read of size 1 at addr ffff8881d4c0140d by task kworker/0:1/12
-
-CPU: 0 PID: 12 Comm: kworker/0:1 Not tainted 5.4.0-rc3+ #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xca/0x13e lib/dump_stack.c:113
-  print_address_description.constprop.0+0x36/0x50 mm/kasan/report.c:374
-  __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:506
-  kasan_report+0xe/0x20 mm/kasan/common.c:634
-  uac_extension_unit_iExtension include/uapi/linux/usb/audio.h:483 [inline]
-  build_audio_procunit+0xeab/0x13f0 sound/usb/mixer.c:2434
-  parse_audio_extension_unit sound/usb/mixer.c:2483 [inline]
-  parse_audio_unit+0x1812/0x36f0 sound/usb/mixer.c:2761
-  snd_usb_mixer_controls+0x715/0xb90 sound/usb/mixer.c:3095
-  snd_usb_create_mixer+0x2b5/0x1890 sound/usb/mixer.c:3445
-  usb_audio_probe+0xc76/0x2010 sound/usb/card.c:653
-  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
-  really_probe+0x281/0x6d0 drivers/base/dd.c:548
-  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
-  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
-  __device_attach+0x217/0x360 drivers/base/dd.c:894
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
-  device_add+0xae6/0x16f0 drivers/base/core.c:2201
-  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
-  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
-  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
-  really_probe+0x281/0x6d0 drivers/base/dd.c:548
-  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
-  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
-  __device_attach+0x217/0x360 drivers/base/dd.c:894
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
-  device_add+0xae6/0x16f0 drivers/base/core.c:2201
-  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
-  hub_port_connect drivers/usb/core/hub.c:5183 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5323 [inline]
-  port_event drivers/usb/core/hub.c:5469 [inline]
-  hub_event+0x1dd0/0x37e0 drivers/usb/core/hub.c:5551
-  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
-  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
-  kthread+0x318/0x420 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-
-Allocated by task 12:
-  save_stack+0x1b/0x80 mm/kasan/common.c:69
-  set_track mm/kasan/common.c:77 [inline]
-  __kasan_kmalloc mm/kasan/common.c:510 [inline]
-  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:483
-  kmalloc include/linux/slab.h:561 [inline]
-  usb_alloc_urb+0x65/0xb0 drivers/usb/core/urb.c:73
-  usb_internal_control_msg drivers/usb/core/message.c:94 [inline]
-  usb_control_msg+0x1c9/0x4a0 drivers/usb/core/message.c:152
-  usb_get_descriptor+0xc1/0x1b0 drivers/usb/core/message.c:647
-  usb_get_configuration+0x28e/0x3050 drivers/usb/core/config.c:836
-  usb_enumerate_device drivers/usb/core/hub.c:2369 [inline]
-  usb_new_device+0xd3/0x160 drivers/usb/core/hub.c:2505
-  hub_port_connect drivers/usb/core/hub.c:5183 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5323 [inline]
-  port_event drivers/usb/core/hub.c:5469 [inline]
-  hub_event+0x1dd0/0x37e0 drivers/usb/core/hub.c:5551
-  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
-  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
-  kthread+0x318/0x420 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-
-Freed by task 12:
-  save_stack+0x1b/0x80 mm/kasan/common.c:69
-  set_track mm/kasan/common.c:77 [inline]
-  kasan_set_free_info mm/kasan/common.c:332 [inline]
-  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:471
-  slab_free_hook mm/slub.c:1424 [inline]
-  slab_free_freelist_hook mm/slub.c:1475 [inline]
-  slab_free mm/slub.c:3018 [inline]
-  kfree+0xe4/0x320 mm/slub.c:3967
-  urb_destroy drivers/usb/core/urb.c:26 [inline]
-  kref_put include/linux/kref.h:65 [inline]
-  usb_free_urb.part.0+0x7a/0xc0 drivers/usb/core/urb.c:95
-  usb_free_urb+0x1b/0x30 drivers/usb/core/urb.c:94
-  usb_start_wait_urb+0x1e5/0x2b0 drivers/usb/core/message.c:79
-  usb_internal_control_msg drivers/usb/core/message.c:101 [inline]
-  usb_control_msg+0x31c/0x4a0 drivers/usb/core/message.c:152
-  usb_get_descriptor+0xc1/0x1b0 drivers/usb/core/message.c:647
-  usb_get_configuration+0x28e/0x3050 drivers/usb/core/config.c:836
-  usb_enumerate_device drivers/usb/core/hub.c:2369 [inline]
-  usb_new_device+0xd3/0x160 drivers/usb/core/hub.c:2505
-  hub_port_connect drivers/usb/core/hub.c:5183 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5323 [inline]
-  port_event drivers/usb/core/hub.c:5469 [inline]
-  hub_event+0x1dd0/0x37e0 drivers/usb/core/hub.c:5551
-  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
-  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
-  kthread+0x318/0x420 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-
-The buggy address belongs to the object at ffff8881d4c01400
-  which belongs to the cache kmalloc-192 of size 192
-The buggy address is located 13 bytes inside of
-  192-byte region [ffff8881d4c01400, ffff8881d4c014c0)
-The buggy address belongs to the page:
-page:ffffea0007530040 refcount:1 mapcount:0 mapping:ffff8881da002a00  
-index:0x0
-flags: 0x200000000000200(slab)
-raw: 0200000000000200 ffffea000754fec0 0000000200000002 ffff8881da002a00
-raw: 0000000000000000 0000000000100010 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-
-Memory state around the buggy address:
-  ffff8881d4c01300: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  ffff8881d4c01380: 00 00 00 07 fc fc fc fc fc fc fc fc fc fc fc fc
-> ffff8881d4c01400: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                       ^
-  ffff8881d4c01480: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
-  ffff8881d4c01500: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+Thanks!
