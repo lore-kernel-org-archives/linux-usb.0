@@ -6,34 +6,34 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9769DCA9EBC
-	for <linux-usb@archiver.kernel.org>; Fri, 25 Oct 2019 08:23:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B12ECCA9EBD
+	for <linux-usb@archiver.kernel.org>; Fri, 25 Oct 2019 08:23:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7A9D921872
-	for <linux-usb@archiver.kernel.org>; Fri, 25 Oct 2019 08:23:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 948BF21D71
+	for <linux-usb@archiver.kernel.org>; Fri, 25 Oct 2019 08:23:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405562AbfJYIXl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 25 Oct 2019 04:23:41 -0400
+        id S2437886AbfJYIXo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 25 Oct 2019 04:23:44 -0400
 Received: from mga07.intel.com ([134.134.136.100]:36083 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2437854AbfJYIXk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 25 Oct 2019 04:23:40 -0400
+        id S2437884AbfJYIXo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 25 Oct 2019 04:23:44 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Oct 2019 01:23:40 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Oct 2019 01:23:43 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.68,228,1569308400"; 
-   d="scan'208";a="210332107"
+   d="scan'208";a="210332112"
 Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 25 Oct 2019 01:23:38 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 25 Oct 2019 01:23:42 -0700
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Guenter Roeck <linux@roeck-us.net>, Ajay Gupta <ajayg@nvidia.com>,
         linux-usb@vger.kernel.org
-Subject: [PATCH v3 07/18] usb: typec: hd3ss3220: Start using struct typec_operations
-Date:   Fri, 25 Oct 2019 11:23:13 +0300
-Message-Id: <20191025082324.75731-8-heikki.krogerus@linux.intel.com>
+Subject: [PATCH v3 09/18] usb: typec: Remove unused members from struct typec_capability
+Date:   Fri, 25 Oct 2019 11:23:15 +0300
+Message-Id: <20191025082324.75731-10-heikki.krogerus@linux.intel.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191025082324.75731-1-heikki.krogerus@linux.intel.com>
 References: <20191025082324.75731-1-heikki.krogerus@linux.intel.com>
@@ -44,83 +44,27 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Supplying the operation callbacks as part of a struct
-typec_operations instead of as part of struct
-typec_capability during port registration. After this there
-is not need to keep the capabilities stored anywhere in the
-driver.
+The members for the muxes are not used, so dropping them.
 
 Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 ---
- drivers/usb/typec/hd3ss3220.c | 24 +++++++++++++-----------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+ include/linux/usb/typec.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
-index 8afaf5768a17..db09fa0d85f2 100644
---- a/drivers/usb/typec/hd3ss3220.c
-+++ b/drivers/usb/typec/hd3ss3220.c
-@@ -37,7 +37,6 @@ struct hd3ss3220 {
- 	struct regmap *regmap;
- 	struct usb_role_switch	*role_sw;
- 	struct typec_port *port;
--	struct typec_capability typec_cap;
- };
+diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
+index 894798084319..0f52723a11bd 100644
+--- a/include/linux/usb/typec.h
++++ b/include/linux/usb/typec.h
+@@ -209,8 +209,6 @@ struct typec_capability {
+ 	int			prefer_role;
+ 	enum typec_accessory	accessory[TYPEC_MAX_ACCESSORY];
  
- static int hd3ss3220_set_source_pref(struct hd3ss3220 *hd3ss3220, int src_pref)
-@@ -73,11 +72,9 @@ static enum usb_role hd3ss3220_get_attached_state(struct hd3ss3220 *hd3ss3220)
- 	return attached_state;
- }
+-	struct typec_switch	*sw;
+-	struct typec_mux	*mux;
+ 	struct fwnode_handle	*fwnode;
+ 	void			*driver_data;
  
--static int hd3ss3220_dr_set(const struct typec_capability *cap,
--			    enum typec_data_role role)
-+static int hd3ss3220_dr_set(struct typec_port *port, enum typec_data_role role)
- {
--	struct hd3ss3220 *hd3ss3220 = container_of(cap, struct hd3ss3220,
--						   typec_cap);
-+	struct hd3ss3220 *hd3ss3220 = typec_get_drvdata(port);
- 	enum usb_role role_val;
- 	int pref, ret = 0;
- 
-@@ -98,6 +95,10 @@ static int hd3ss3220_dr_set(const struct typec_capability *cap,
- 	return ret;
- }
- 
-+static const struct typec_operations hd3ss3220_ops = {
-+	.dr_set = hd3ss3220_dr_set
-+};
-+
- static void hd3ss3220_set_role(struct hd3ss3220 *hd3ss3220)
- {
- 	enum usb_role role_state = hd3ss3220_get_attached_state(hd3ss3220);
-@@ -152,6 +153,7 @@ static const struct regmap_config config = {
- static int hd3ss3220_probe(struct i2c_client *client,
- 		const struct i2c_device_id *id)
- {
-+	struct typec_capability typec_cap = { };
- 	struct hd3ss3220 *hd3ss3220;
- 	struct fwnode_handle *connector;
- 	int ret;
-@@ -180,13 +182,13 @@ static int hd3ss3220_probe(struct i2c_client *client,
- 	if (IS_ERR(hd3ss3220->role_sw))
- 		return PTR_ERR(hd3ss3220->role_sw);
- 
--	hd3ss3220->typec_cap.prefer_role = TYPEC_NO_PREFERRED_ROLE;
--	hd3ss3220->typec_cap.dr_set = hd3ss3220_dr_set;
--	hd3ss3220->typec_cap.type = TYPEC_PORT_DRP;
--	hd3ss3220->typec_cap.data = TYPEC_PORT_DRD;
-+	typec_cap.prefer_role = TYPEC_NO_PREFERRED_ROLE;
-+	typec_cap.driver_data = hd3ss3220;
-+	typec_cap.type = TYPEC_PORT_DRP;
-+	typec_cap.data = TYPEC_PORT_DRD;
-+	typec_cap.ops = &hd3ss3220_ops;
- 
--	hd3ss3220->port = typec_register_port(&client->dev,
--					      &hd3ss3220->typec_cap);
-+	hd3ss3220->port = typec_register_port(&client->dev, &typec_cap);
- 	if (IS_ERR(hd3ss3220->port)) {
- 		ret = PTR_ERR(hd3ss3220->port);
- 		goto err_put_role;
 -- 
 2.23.0
 
