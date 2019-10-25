@@ -2,39 +2,41 @@ Return-Path: <SRS0=di3T=YS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D81CCA9EA0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4B6DCA9EBD
 	for <linux-usb@archiver.kernel.org>; Fri, 25 Oct 2019 08:23:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4C41821872
+	by mail.kernel.org (Postfix) with ESMTP id A77D121872
 	for <linux-usb@archiver.kernel.org>; Fri, 25 Oct 2019 08:23:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408268AbfJYIXd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S2408273AbfJYIXd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Fri, 25 Oct 2019 04:23:33 -0400
 Received: from mga07.intel.com ([134.134.136.100]:36083 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405562AbfJYIXd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S2405677AbfJYIXd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Fri, 25 Oct 2019 04:23:33 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Oct 2019 01:23:27 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Oct 2019 01:23:31 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.68,228,1569308400"; 
-   d="scan'208";a="210332062"
+   d="scan'208";a="210332075"
 Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 25 Oct 2019 01:23:25 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 25 Oct 2019 01:23:29 -0700
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Guenter Roeck <linux@roeck-us.net>, Ajay Gupta <ajayg@nvidia.com>,
         linux-usb@vger.kernel.org
-Subject: [PATCH v3 00/18] usb: typec: API improvements
-Date:   Fri, 25 Oct 2019 11:23:06 +0300
-Message-Id: <20191025082324.75731-1-heikki.krogerus@linux.intel.com>
+Subject: [PATCH v3 02/18] usb: typec: Introduce typec_get_drvdata()
+Date:   Fri, 25 Oct 2019 11:23:08 +0300
+Message-Id: <20191025082324.75731-3-heikki.krogerus@linux.intel.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191025082324.75731-1-heikki.krogerus@linux.intel.com>
+References: <20191025082324.75731-1-heikki.krogerus@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -42,66 +44,74 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+Leaving the private driver_data pointer of the port device
+to the port drivers.
 
-I modified ucsi_acpi.c so that the behavior matches exactly the
-behaviour of the Connector Change Event handling before these patches.
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+---
+ drivers/usb/typec/class.c | 11 +++++++++++
+ include/linux/usb/typec.h |  4 ++++
+ 2 files changed, 15 insertions(+)
 
-The cover letter from v2:
-
-There is now a check in ucsi_exec_command() that makes sure we do not
-call ucsi_read_error() with UCSI_GET_ERROR_STATUS command. That should
-prevent endless recursion from happening.
-
-The original cover letter:
-
-The first patches in this series (patches 1-8) introduce a small
-change to the USB Type-C Connector Class API. Guenter was kind enough
-to go over those already.
-
-Patches 10-15 improve the ucsi driver API by introducing more
-traditional read and write routines, and the rest is more generic
-optimisations and improvements to the ucsi drivers.
-
-Let me know if there is anything you want to be changed.
-
-thanks,
-
-Heikki Krogerus (18):
-  usb: typec: Copy everything from struct typec_capability during
-    registration
-  usb: typec: Introduce typec_get_drvdata()
-  usb: typec: Separate the operations vector
-  usb: typec: tcpm: Start using struct typec_operations
-  usb: typec: tps6598x: Start using struct typec_operations
-  usb: typec: ucsi: Start using struct typec_operations
-  usb: typec: hd3ss3220: Start using struct typec_operations
-  usb: typec: Remove the callback members from struct typec_capability
-  usb: typec: Remove unused members from struct typec_capability
-  usb: typec: hd3ss3220: Give the connector fwnode to the port device
-  usb: typec: ucsi: Simplified registration and I/O API
-  usb: typec: ucsi: acpi: Move to the new API
-  usb: typec: ucsi: ccg: Move to the new API
-  usb: typec: ucsi: Remove the old API
-  usb: typec: ucsi: Remove struct ucsi_control
-  usb: typec: ucsi: Remove all bit-fields
-  usb: typec: ucsi: New error codes
-  usb: typec: ucsi: Optimise ucsi_unregister()
-
- drivers/usb/typec/class.c            |  42 +-
- drivers/usb/typec/hd3ss3220.c        |  36 +-
- drivers/usb/typec/tcpm/tcpm.c        |  45 +-
- drivers/usb/typec/tps6598x.c         |  49 ++-
- drivers/usb/typec/ucsi/displayport.c |  40 +-
- drivers/usb/typec/ucsi/trace.c       |  11 -
- drivers/usb/typec/ucsi/trace.h       |  79 +---
- drivers/usb/typec/ucsi/ucsi.c        | 609 ++++++++++++++-------------
- drivers/usb/typec/ucsi/ucsi.h        | 417 +++++++-----------
- drivers/usb/typec/ucsi/ucsi_acpi.c   |  93 +++-
- drivers/usb/typec/ucsi/ucsi_ccg.c    | 170 ++++----
- include/linux/usb/typec.h            |  41 +-
- 12 files changed, 776 insertions(+), 856 deletions(-)
-
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index 7749933ffce5..51154634c2c0 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -1488,6 +1488,16 @@ EXPORT_SYMBOL_GPL(typec_set_mode);
+ 
+ /* --------------------------------------- */
+ 
++/**
++ * typec_get_drvdata - Return private driver data pointer
++ * @port: USB Type-C port
++ */
++void *typec_get_drvdata(struct typec_port *port)
++{
++	return dev_get_drvdata(&port->dev);
++}
++EXPORT_SYMBOL_GPL(typec_get_drvdata);
++
+ /**
+  * typec_port_register_altmode - Register USB Type-C Port Alternate Mode
+  * @port: USB Type-C Port that supports the alternate mode
+@@ -1591,6 +1601,7 @@ struct typec_port *typec_register_port(struct device *parent,
+ 	port->dev.fwnode = cap->fwnode;
+ 	port->dev.type = &typec_port_dev_type;
+ 	dev_set_name(&port->dev, "port%d", id);
++	dev_set_drvdata(&port->dev, cap->driver_data);
+ 
+ 	port->cap = kmemdup(cap, sizeof(*cap), GFP_KERNEL);
+ 	if (!port->cap) {
+diff --git a/include/linux/usb/typec.h b/include/linux/usb/typec.h
+index 7df4ecabc78a..8b90cd77331c 100644
+--- a/include/linux/usb/typec.h
++++ b/include/linux/usb/typec.h
+@@ -179,6 +179,7 @@ struct typec_partner_desc {
+  * @sw: Cable plug orientation switch
+  * @mux: Multiplexer switch for Alternate/Accessory Modes
+  * @fwnode: Optional fwnode of the port
++ * @driver_data: Private pointer for driver specific info
+  * @try_role: Set data role preference for DRP port
+  * @dr_set: Set Data Role
+  * @pr_set: Set Power Role
+@@ -198,6 +199,7 @@ struct typec_capability {
+ 	struct typec_switch	*sw;
+ 	struct typec_mux	*mux;
+ 	struct fwnode_handle	*fwnode;
++	void			*driver_data;
+ 
+ 	int		(*try_role)(const struct typec_capability *,
+ 				    int role);
+@@ -241,6 +243,8 @@ int typec_set_orientation(struct typec_port *port,
+ enum typec_orientation typec_get_orientation(struct typec_port *port);
+ int typec_set_mode(struct typec_port *port, int mode);
+ 
++void *typec_get_drvdata(struct typec_port *port);
++
+ int typec_find_port_power_role(const char *name);
+ int typec_find_power_role(const char *name);
+ int typec_find_port_data_role(const char *name);
 -- 
 2.23.0
 
