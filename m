@@ -4,55 +4,53 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF83DCA9EB9
-	for <linux-usb@archiver.kernel.org>; Sat, 26 Oct 2019 13:27:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64A55CA9EB9
+	for <linux-usb@archiver.kernel.org>; Sat, 26 Oct 2019 13:28:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8D47220867
-	for <linux-usb@archiver.kernel.org>; Sat, 26 Oct 2019 13:27:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3721020867
+	for <linux-usb@archiver.kernel.org>; Sat, 26 Oct 2019 13:28:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572096428;
-	bh=JQPnHHefjD50QpW9G8R7ACml4N1RMeIAqydYYqU13aM=;
+	s=default; t=1572096524;
+	bh=ZbaRqPpNCSUJatQuWjo3ZGisq+XCjNCR5k/e3FVr3B4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=lCEXqvgeCmYh3UMOQyhukfWiGlYfMY0ZFuPHuA0rprA2z5ByfMsZCBxuAXytMghOU
-	 0cs7GgVafTnBUYVlDyenBSUUkeXp8gZXj2qqER1rBm/VKsEjAahh7nHhTGHDJrvw/a
-	 Stcj0IrRAzoNKNFeofeyZt7EufHozVZItNDEWylg=
+	b=B2+pfMuvUH53kDHDA1VaTHdBOWTWmHDdgQowqiUrbBi58Z8sfNeOULotAC9QfL3X6
+	 qJxixczGVpQG7/OGPLwgaRu2UQTnwdcLrM4G9GfZjqL+gWaMC3o+4D93SgDYp7fGj0
+	 TxpfpKnLpOdC+45259KoAsla/aV6CE+W3FkGn94Y=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727715AbfJZN1C (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 26 Oct 2019 09:27:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43502 "EHLO mail.kernel.org"
+        id S1727725AbfJZN2m (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 26 Oct 2019 09:28:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42594 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729123AbfJZNVm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 26 Oct 2019 09:21:42 -0400
+        id S1727573AbfJZNUx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 26 Oct 2019 09:20:53 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7689D222BE;
-        Sat, 26 Oct 2019 13:21:41 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id ECA8D206DD;
+        Sat, 26 Oct 2019 13:20:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572096102;
-        bh=JQPnHHefjD50QpW9G8R7ACml4N1RMeIAqydYYqU13aM=;
+        s=default; t=1572096052;
+        bh=ZbaRqPpNCSUJatQuWjo3ZGisq+XCjNCR5k/e3FVr3B4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aRjznIpWp+z8bDSGEhJ4Hk8kjoZCX2TIFoEdfUdk4qU1mStNGQd+tqe26gea004bI
-         oIf/9ZLXARaRFAB3wr36juZZ0ArqVKX5wm5Kz3FgJZRZDbIhoZSIih5u1v0uTJfsdb
-         owVDqWncYXBlRL+E2iMHOznnZdWxDn5TLcfwx9i8=
+        b=oiXaxECsqooSHFBzrssbij67lwOBn0rbb01w6GyZXzH3R5djcxa/jwXotgOHZrsxO
+         yXOWeliJmgrwa2KmhSsO2NidUPLAy4J43yWc9ujLMhZN8jSUdd5pjNDoW3scozJ6tq
+         ugvSbz+0qFmkRAghTnHDVnV7+BJk5FeD3H45NqxY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Daniele Palmas <dnlplm@gmail.com>,
-        =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
-        Jakub Kicinski <jakub.kicinski@netronome.com>,
-        Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 17/33] net: usb: qmi_wwan: add Telit 0x1050 composition
-Date:   Sat, 26 Oct 2019 09:20:54 -0400
-Message-Id: <20191026132110.4026-17-sashal@kernel.org>
+Cc:     Oliver Neukum <oneukum@suse.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 52/59] usb: hso: obey DMA rules in tiocmget
+Date:   Sat, 26 Oct 2019 09:19:03 -0400
+Message-Id: <20191026131910.3435-52-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191026132110.4026-1-sashal@kernel.org>
-References: <20191026132110.4026-1-sashal@kernel.org>
+In-Reply-To: <20191026131910.3435-1-sashal@kernel.org>
+References: <20191026131910.3435-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -61,34 +59,80 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Daniele Palmas <dnlplm@gmail.com>
+From: Oliver Neukum <oneukum@suse.com>
 
-[ Upstream commit e0ae2c578d3909e60e9448207f5d83f785f1129f ]
+[ Upstream commit af0de1303c4e8f44fadd7b4c593f09f22324b04f ]
 
-This patch adds support for Telit FN980 0x1050 composition
+The serial state information must not be embedded into another
+data structure, as this interferes with cache handling for DMA
+on architectures without cache coherence..
+That would result in data corruption on some architectures
+Allocating it separately.
 
-0x1050: tty, adb, rmnet, tty, tty, tty, tty
+v2: fix syntax error
 
-Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
-Acked-by: Bjørn Mork <bjorn@mork.no>
-Signed-off-by: Jakub Kicinski <jakub.kicinski@netronome.com>
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/net/usb/qmi_wwan.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/net/usb/hso.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index e406a05e79dcd..57e9166b4bff3 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -1252,6 +1252,7 @@ static const struct usb_device_id products[] = {
- 	{QMI_FIXED_INTF(0x2357, 0x0201, 4)},	/* TP-LINK HSUPA Modem MA180 */
- 	{QMI_FIXED_INTF(0x2357, 0x9000, 4)},	/* TP-LINK MA260 */
- 	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1040, 2)},	/* Telit LE922A */
-+	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1050, 2)},	/* Telit FN980 */
- 	{QMI_FIXED_INTF(0x1bc7, 0x1100, 3)},	/* Telit ME910 */
- 	{QMI_FIXED_INTF(0x1bc7, 0x1101, 3)},	/* Telit ME910 dual modem */
- 	{QMI_FIXED_INTF(0x1bc7, 0x1200, 5)},	/* Telit LE920 */
+diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
+index 5251c5f6f96ed..a7b612f6470cb 100644
+--- a/drivers/net/usb/hso.c
++++ b/drivers/net/usb/hso.c
+@@ -200,7 +200,7 @@ struct hso_tiocmget {
+ 	int    intr_completed;
+ 	struct usb_endpoint_descriptor *endp;
+ 	struct urb *urb;
+-	struct hso_serial_state_notification serial_state_notification;
++	struct hso_serial_state_notification *serial_state_notification;
+ 	u16    prev_UART_state_bitmap;
+ 	struct uart_icount icount;
+ };
+@@ -1446,7 +1446,7 @@ static int tiocmget_submit_urb(struct hso_serial *serial,
+ 			 usb_rcvintpipe(usb,
+ 					tiocmget->endp->
+ 					bEndpointAddress & 0x7F),
+-			 &tiocmget->serial_state_notification,
++			 tiocmget->serial_state_notification,
+ 			 sizeof(struct hso_serial_state_notification),
+ 			 tiocmget_intr_callback, serial,
+ 			 tiocmget->endp->bInterval);
+@@ -1493,7 +1493,7 @@ static void tiocmget_intr_callback(struct urb *urb)
+ 	/* wIndex should be the USB interface number of the port to which the
+ 	 * notification applies, which should always be the Modem port.
+ 	 */
+-	serial_state_notification = &tiocmget->serial_state_notification;
++	serial_state_notification = tiocmget->serial_state_notification;
+ 	if (serial_state_notification->bmRequestType != BM_REQUEST_TYPE ||
+ 	    serial_state_notification->bNotification != B_NOTIFICATION ||
+ 	    le16_to_cpu(serial_state_notification->wValue) != W_VALUE ||
+@@ -2579,6 +2579,8 @@ static void hso_free_tiomget(struct hso_serial *serial)
+ 		usb_free_urb(tiocmget->urb);
+ 		tiocmget->urb = NULL;
+ 		serial->tiocmget = NULL;
++		kfree(tiocmget->serial_state_notification);
++		tiocmget->serial_state_notification = NULL;
+ 		kfree(tiocmget);
+ 	}
+ }
+@@ -2629,10 +2631,13 @@ static struct hso_device *hso_create_bulk_serial_device(
+ 		num_urbs = 2;
+ 		serial->tiocmget = kzalloc(sizeof(struct hso_tiocmget),
+ 					   GFP_KERNEL);
++		serial->tiocmget->serial_state_notification
++			= kzalloc(sizeof(struct hso_serial_state_notification),
++					   GFP_KERNEL);
+ 		/* it isn't going to break our heart if serial->tiocmget
+ 		 *  allocation fails don't bother checking this.
+ 		 */
+-		if (serial->tiocmget) {
++		if (serial->tiocmget && serial->tiocmget->serial_state_notification) {
+ 			tiocmget = serial->tiocmget;
+ 			tiocmget->endp = hso_get_ep(interface,
+ 						    USB_ENDPOINT_XFER_INT,
 -- 
 2.20.1
 
