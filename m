@@ -7,52 +7,50 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 601B7CA9EBD
-	for <linux-usb@archiver.kernel.org>; Sat, 26 Oct 2019 13:29:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92752CA9EBD
+	for <linux-usb@archiver.kernel.org>; Sat, 26 Oct 2019 13:31:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2C838222C3
-	for <linux-usb@archiver.kernel.org>; Sat, 26 Oct 2019 13:29:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 60AC62070B
+	for <linux-usb@archiver.kernel.org>; Sat, 26 Oct 2019 13:31:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572096589;
-	bh=ziBam62KRfV8A59qe6wtH0q1c3/kaQ2nomonpICXsVA=;
+	s=default; t=1572096716;
+	bh=FcMVpQ26nkDAtWrLDpRcqXgDlBIy/wLe2kqnIpqccCM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=XlVrjz0cg+DifEE3BsXL/ImpB13Y4vS0O8ZVipinU+qcpsiBY92HsKIXpSmSYJ0sE
-	 jrrN9Qc8L2aN0dpqCO9BqS62pGG+sr7BwHJXX77UHuR6IkQfqZCpaJqBMiL4i3NiwH
-	 g69lPrABUJKVpd91dbbjz4CkPsJ0rAGODYpiIQjw=
+	b=J8NALwIpeu3+lOjUa8iCj/gR2zCIieM3T3jbor/OWoGv6Ih8vLv7GHKkDq157xAR6
+	 KrgbmaXSLX77vK4bRYiQwuJ+I36QG9DdErOE9+im6vZXv43T+bHOUSg/ESFMq389D4
+	 dxWkGJ1NEsel388wOd2Ggola/nnmMhuhtaxKFC5s=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726991AbfJZNUV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 26 Oct 2019 09:20:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42118 "EHLO mail.kernel.org"
+        id S1728016AbfJZNSq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 26 Oct 2019 09:18:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40606 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726748AbfJZNUT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 26 Oct 2019 09:20:19 -0400
+        id S1728000AbfJZNSp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 26 Oct 2019 09:18:45 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D0C15214DA;
-        Sat, 26 Oct 2019 13:20:17 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6B53C21D7F;
+        Sat, 26 Oct 2019 13:18:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572096018;
-        bh=ziBam62KRfV8A59qe6wtH0q1c3/kaQ2nomonpICXsVA=;
+        s=default; t=1572095925;
+        bh=FcMVpQ26nkDAtWrLDpRcqXgDlBIy/wLe2kqnIpqccCM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mfMbHQU6daIIxlVX365dH48kzxHctoz495PXtbGIQ73aWUOhaf2L+4JPYkH0x9dbJ
-         G1D8WvJHEmO0vL8EBqJhOb237qEVli6PFWbIaT7at3y0LoMs6HzyzNieYEh4XtkCEN
-         ouetGFrI1+OEZuoAjDAPE1sfTIbGcQo4jtpjVYmo=
+        b=I04KtHFxQLCXTA4q/LdVPAf4adnOUTQD260rGmLwf/lW2Rxrg1pMIrr+FWkycm+/s
+         EkMgYgvRvHygWa9d71v5EEk5bjcFRWiS8Q+gDadK3ctq0zt0w2Ju17EJLWLgZXQ/Dz
+         t+g9bVoCXyuR0fXVWeN87pY4xpmx2Hv6sZC6QUM4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Daniele Palmas <dnlplm@gmail.com>,
-        =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
-        Jakub Kicinski <jakub.kicinski@netronome.com>,
+Cc:     Andrew Lunn <andrew@lunn.ch>, Daniel Wagner <dwagner@suse.de>,
+        "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 33/59] net: usb: qmi_wwan: add Telit 0x1050 composition
-Date:   Sat, 26 Oct 2019 09:18:44 -0400
-Message-Id: <20191026131910.3435-33-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.3 93/99] net: usb: lan78xx: Connect PHY before registering MAC
+Date:   Sat, 26 Oct 2019 09:15:54 -0400
+Message-Id: <20191026131600.2507-93-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191026131910.3435-1-sashal@kernel.org>
-References: <20191026131910.3435-1-sashal@kernel.org>
+In-Reply-To: <20191026131600.2507-1-sashal@kernel.org>
+References: <20191026131600.2507-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -61,34 +59,63 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Daniele Palmas <dnlplm@gmail.com>
+From: Andrew Lunn <andrew@lunn.ch>
 
-[ Upstream commit e0ae2c578d3909e60e9448207f5d83f785f1129f ]
+[ Upstream commit 38b4fe320119859c11b1dc06f6b4987a16344fa1 ]
 
-This patch adds support for Telit FN980 0x1050 composition
+As soon as the netdev is registers, the kernel can start using the
+interface. If the driver connects the MAC to the PHY after the netdev
+is registered, there is a race condition where the interface can be
+opened without having the PHY connected.
 
-0x1050: tty, adb, rmnet, tty, tty, tty, tty
+Change the order to close this race condition.
 
-Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
-Acked-by: Bjørn Mork <bjorn@mork.no>
-Signed-off-by: Jakub Kicinski <jakub.kicinski@netronome.com>
+Fixes: 92571a1aae40 ("lan78xx: Connect phy early")
+Reported-by: Daniel Wagner <dwagner@suse.de>
+Signed-off-by: Andrew Lunn <andrew@lunn.ch>
+Tested-by: Daniel Wagner <dwagner@suse.de>
+Signed-off-by: David S. Miller <davem@davemloft.net>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/net/usb/qmi_wwan.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/net/usb/lan78xx.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 6f517e6730208..3e22fc650a14f 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -1263,6 +1263,7 @@ static const struct usb_device_id products[] = {
- 	{QMI_FIXED_INTF(0x2357, 0x0201, 4)},	/* TP-LINK HSUPA Modem MA180 */
- 	{QMI_FIXED_INTF(0x2357, 0x9000, 4)},	/* TP-LINK MA260 */
- 	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1040, 2)},	/* Telit LE922A */
-+	{QMI_QUIRK_SET_DTR(0x1bc7, 0x1050, 2)},	/* Telit FN980 */
- 	{QMI_FIXED_INTF(0x1bc7, 0x1100, 3)},	/* Telit ME910 */
- 	{QMI_FIXED_INTF(0x1bc7, 0x1101, 3)},	/* Telit ME910 dual modem */
- 	{QMI_FIXED_INTF(0x1bc7, 0x1200, 5)},	/* Telit LE920 */
+diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
+index f033fee225a11..4c6c8013f99fb 100644
+--- a/drivers/net/usb/lan78xx.c
++++ b/drivers/net/usb/lan78xx.c
+@@ -3789,10 +3789,14 @@ static int lan78xx_probe(struct usb_interface *intf,
+ 	/* driver requires remote-wakeup capability during autosuspend. */
+ 	intf->needs_remote_wakeup = 1;
+ 
++	ret = lan78xx_phy_init(dev);
++	if (ret < 0)
++		goto out4;
++
+ 	ret = register_netdev(netdev);
+ 	if (ret != 0) {
+ 		netif_err(dev, probe, netdev, "couldn't register the device\n");
+-		goto out4;
++		goto out5;
+ 	}
+ 
+ 	usb_set_intfdata(intf, dev);
+@@ -3805,14 +3809,10 @@ static int lan78xx_probe(struct usb_interface *intf,
+ 	pm_runtime_set_autosuspend_delay(&udev->dev,
+ 					 DEFAULT_AUTOSUSPEND_DELAY);
+ 
+-	ret = lan78xx_phy_init(dev);
+-	if (ret < 0)
+-		goto out5;
+-
+ 	return 0;
+ 
+ out5:
+-	unregister_netdev(netdev);
++	phy_disconnect(netdev->phydev);
+ out4:
+ 	usb_free_urb(dev->urb_intr);
+ out3:
 -- 
 2.20.1
 
