@@ -7,46 +7,46 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92752CA9EBD
-	for <linux-usb@archiver.kernel.org>; Sat, 26 Oct 2019 13:31:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51C4ECA9EB9
+	for <linux-usb@archiver.kernel.org>; Sat, 26 Oct 2019 13:32:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 60AC62070B
-	for <linux-usb@archiver.kernel.org>; Sat, 26 Oct 2019 13:31:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 256F82070B
+	for <linux-usb@archiver.kernel.org>; Sat, 26 Oct 2019 13:32:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572096716;
-	bh=FcMVpQ26nkDAtWrLDpRcqXgDlBIy/wLe2kqnIpqccCM=;
+	s=default; t=1572096749;
+	bh=bebExF6wLrezS/IsdwHyYqny+OFLq0wu+rB6JGGgIUc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=J8NALwIpeu3+lOjUa8iCj/gR2zCIieM3T3jbor/OWoGv6Ih8vLv7GHKkDq157xAR6
-	 KrgbmaXSLX77vK4bRYiQwuJ+I36QG9DdErOE9+im6vZXv43T+bHOUSg/ESFMq389D4
-	 dxWkGJ1NEsel388wOd2Ggola/nnmMhuhtaxKFC5s=
+	b=JI8G8D6WRsfKlL4dErtbxzo6f8uRNdbH84ZN2cDg3A5gbyIA5O5UZHsJqZUiLXege
+	 ZnJet9Lmxm+FZd/MUPfdfdYePbseSlZmbjWAkuPPscCG31cq7Z7cJsZQnjalwCJ5DK
+	 LYKWXfXJiGZ1FbWPmqo/wCpa4u78Vo+ktJ/SYioQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728016AbfJZNSq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 26 Oct 2019 09:18:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40606 "EHLO mail.kernel.org"
+        id S1727864AbfJZNSd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 26 Oct 2019 09:18:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40306 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728000AbfJZNSp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 26 Oct 2019 09:18:45 -0400
+        id S1726521AbfJZNSd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 26 Oct 2019 09:18:33 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6B53C21D7F;
-        Sat, 26 Oct 2019 13:18:44 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 45E4D2245C;
+        Sat, 26 Oct 2019 13:18:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572095925;
-        bh=FcMVpQ26nkDAtWrLDpRcqXgDlBIy/wLe2kqnIpqccCM=;
+        s=default; t=1572095912;
+        bh=bebExF6wLrezS/IsdwHyYqny+OFLq0wu+rB6JGGgIUc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=I04KtHFxQLCXTA4q/LdVPAf4adnOUTQD260rGmLwf/lW2Rxrg1pMIrr+FWkycm+/s
-         EkMgYgvRvHygWa9d71v5EEk5bjcFRWiS8Q+gDadK3ctq0zt0w2Ju17EJLWLgZXQ/Dz
-         t+g9bVoCXyuR0fXVWeN87pY4xpmx2Hv6sZC6QUM4=
+        b=u4apdDivii+ZKwWGex7y2hu+cgJWZpM3eF1y/w+pSiyuvVbCV7+Dbq32jCxTgKa4Q
+         59S7HMtdGQ/+MJMyi+QtZ0AOLPGMB1jTE0JXYMbY9pHgXV58FBvrmneYnhIY8iHa4t
+         8fE+tedGQmjZmFMTpWf8MIIORXZ/A+6Zw8dupsR8=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Andrew Lunn <andrew@lunn.ch>, Daniel Wagner <dwagner@suse.de>,
+Cc:     Oliver Neukum <oneukum@suse.com>,
         "David S . Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.3 93/99] net: usb: lan78xx: Connect PHY before registering MAC
-Date:   Sat, 26 Oct 2019 09:15:54 -0400
-Message-Id: <20191026131600.2507-93-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.3 84/99] usb: hso: obey DMA rules in tiocmget
+Date:   Sat, 26 Oct 2019 09:15:45 -0400
+Message-Id: <20191026131600.2507-84-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191026131600.2507-1-sashal@kernel.org>
 References: <20191026131600.2507-1-sashal@kernel.org>
@@ -59,63 +59,80 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Andrew Lunn <andrew@lunn.ch>
+From: Oliver Neukum <oneukum@suse.com>
 
-[ Upstream commit 38b4fe320119859c11b1dc06f6b4987a16344fa1 ]
+[ Upstream commit af0de1303c4e8f44fadd7b4c593f09f22324b04f ]
 
-As soon as the netdev is registers, the kernel can start using the
-interface. If the driver connects the MAC to the PHY after the netdev
-is registered, there is a race condition where the interface can be
-opened without having the PHY connected.
+The serial state information must not be embedded into another
+data structure, as this interferes with cache handling for DMA
+on architectures without cache coherence..
+That would result in data corruption on some architectures
+Allocating it separately.
 
-Change the order to close this race condition.
+v2: fix syntax error
 
-Fixes: 92571a1aae40 ("lan78xx: Connect phy early")
-Reported-by: Daniel Wagner <dwagner@suse.de>
-Signed-off-by: Andrew Lunn <andrew@lunn.ch>
-Tested-by: Daniel Wagner <dwagner@suse.de>
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
 Signed-off-by: David S. Miller <davem@davemloft.net>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/net/usb/lan78xx.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/net/usb/hso.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-index f033fee225a11..4c6c8013f99fb 100644
---- a/drivers/net/usb/lan78xx.c
-+++ b/drivers/net/usb/lan78xx.c
-@@ -3789,10 +3789,14 @@ static int lan78xx_probe(struct usb_interface *intf,
- 	/* driver requires remote-wakeup capability during autosuspend. */
- 	intf->needs_remote_wakeup = 1;
- 
-+	ret = lan78xx_phy_init(dev);
-+	if (ret < 0)
-+		goto out4;
-+
- 	ret = register_netdev(netdev);
- 	if (ret != 0) {
- 		netif_err(dev, probe, netdev, "couldn't register the device\n");
--		goto out4;
-+		goto out5;
+diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
+index a505b2ab88b8a..74849da031fab 100644
+--- a/drivers/net/usb/hso.c
++++ b/drivers/net/usb/hso.c
+@@ -186,7 +186,7 @@ struct hso_tiocmget {
+ 	int    intr_completed;
+ 	struct usb_endpoint_descriptor *endp;
+ 	struct urb *urb;
+-	struct hso_serial_state_notification serial_state_notification;
++	struct hso_serial_state_notification *serial_state_notification;
+ 	u16    prev_UART_state_bitmap;
+ 	struct uart_icount icount;
+ };
+@@ -1432,7 +1432,7 @@ static int tiocmget_submit_urb(struct hso_serial *serial,
+ 			 usb_rcvintpipe(usb,
+ 					tiocmget->endp->
+ 					bEndpointAddress & 0x7F),
+-			 &tiocmget->serial_state_notification,
++			 tiocmget->serial_state_notification,
+ 			 sizeof(struct hso_serial_state_notification),
+ 			 tiocmget_intr_callback, serial,
+ 			 tiocmget->endp->bInterval);
+@@ -1479,7 +1479,7 @@ static void tiocmget_intr_callback(struct urb *urb)
+ 	/* wIndex should be the USB interface number of the port to which the
+ 	 * notification applies, which should always be the Modem port.
+ 	 */
+-	serial_state_notification = &tiocmget->serial_state_notification;
++	serial_state_notification = tiocmget->serial_state_notification;
+ 	if (serial_state_notification->bmRequestType != BM_REQUEST_TYPE ||
+ 	    serial_state_notification->bNotification != B_NOTIFICATION ||
+ 	    le16_to_cpu(serial_state_notification->wValue) != W_VALUE ||
+@@ -2565,6 +2565,8 @@ static void hso_free_tiomget(struct hso_serial *serial)
+ 		usb_free_urb(tiocmget->urb);
+ 		tiocmget->urb = NULL;
+ 		serial->tiocmget = NULL;
++		kfree(tiocmget->serial_state_notification);
++		tiocmget->serial_state_notification = NULL;
+ 		kfree(tiocmget);
  	}
- 
- 	usb_set_intfdata(intf, dev);
-@@ -3805,14 +3809,10 @@ static int lan78xx_probe(struct usb_interface *intf,
- 	pm_runtime_set_autosuspend_delay(&udev->dev,
- 					 DEFAULT_AUTOSUSPEND_DELAY);
- 
--	ret = lan78xx_phy_init(dev);
--	if (ret < 0)
--		goto out5;
--
- 	return 0;
- 
- out5:
--	unregister_netdev(netdev);
-+	phy_disconnect(netdev->phydev);
- out4:
- 	usb_free_urb(dev->urb_intr);
- out3:
+ }
+@@ -2615,10 +2617,13 @@ static struct hso_device *hso_create_bulk_serial_device(
+ 		num_urbs = 2;
+ 		serial->tiocmget = kzalloc(sizeof(struct hso_tiocmget),
+ 					   GFP_KERNEL);
++		serial->tiocmget->serial_state_notification
++			= kzalloc(sizeof(struct hso_serial_state_notification),
++					   GFP_KERNEL);
+ 		/* it isn't going to break our heart if serial->tiocmget
+ 		 *  allocation fails don't bother checking this.
+ 		 */
+-		if (serial->tiocmget) {
++		if (serial->tiocmget && serial->tiocmget->serial_state_notification) {
+ 			tiocmget = serial->tiocmget;
+ 			tiocmget->endp = hso_get_ep(interface,
+ 						    USB_ENDPOINT_XFER_INT,
 -- 
 2.20.1
 
