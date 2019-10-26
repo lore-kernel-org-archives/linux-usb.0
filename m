@@ -7,49 +7,49 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7052FCA9EB9
-	for <linux-usb@archiver.kernel.org>; Sat, 26 Oct 2019 13:23:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C00F4CA9EB9
+	for <linux-usb@archiver.kernel.org>; Sat, 26 Oct 2019 13:24:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 47C932070B
-	for <linux-usb@archiver.kernel.org>; Sat, 26 Oct 2019 13:23:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9649C222C2
+	for <linux-usb@archiver.kernel.org>; Sat, 26 Oct 2019 13:24:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572096234;
-	bh=zmCS8vj7AGjE7ByQs4OVVrBF7UKrVF1K9L42I/Wq2Z4=;
+	s=default; t=1572096288;
+	bh=YHZCMHMZ8f4+ss/9ljgSUznzGB3ZmURlqG0t/WHSxXs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=KlZSXm2FafAT9WB7HkRVJqI4nb80K7i3bkhLTqkpSp14gaLMvjNii6qi3Gb5BmcoB
-	 Ae0TdrgwrHxi2o1FcNeoSdut6ZK+RsDRCD3u0ofFRThiUiPRUbX1RWFBSiQNTRlRdp
-	 +sIxdLC7Kdh1ILqBBryUSFk8iGVGxFqVA2MlJMpY=
+	b=ZTsbLOJhh9fH7AdqG1530t4hIjru9xCs4K2EjIyF9QocqdDrA8XcG1pDkKaHFl7ky
+	 uWv0GxzA6iFNNxvnyqiOIrRRGhuLCxPvmsSkT+L496GJGS7T9cCCcyWUtvDzv8bIgn
+	 6bfl2zFAdOb0c8pOwtzjlWZ4kfGoTdniNpKScvIQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729925AbfJZNXh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 26 Oct 2019 09:23:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45420 "EHLO mail.kernel.org"
+        id S1727818AbfJZNYn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 26 Oct 2019 09:24:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44736 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729905AbfJZNXh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 26 Oct 2019 09:23:37 -0400
+        id S1729514AbfJZNW5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 26 Oct 2019 09:22:57 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4F46A20867;
-        Sat, 26 Oct 2019 13:23:35 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id F23022070B;
+        Sat, 26 Oct 2019 13:22:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572096216;
-        bh=zmCS8vj7AGjE7ByQs4OVVrBF7UKrVF1K9L42I/Wq2Z4=;
+        s=default; t=1572096176;
+        bh=YHZCMHMZ8f4+ss/9ljgSUznzGB3ZmURlqG0t/WHSxXs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VPt5kzmsEtejwi55xnE2Ia4VYe+Zlvpmw8VPn7WbfFS+F4lxZFshj+mcUNczhpLAj
-         si9fL3MmFTvqV3uFAikV2SOOxuo+dWDPH1hXarZWVIOf0g0L6IWDyTg9X1viLDoVcG
-         6xsf68Aa+oiIuQ10lPU2wTnFmOGAHswEIzrBkFiU=
+        b=FjUyv0dSL/TkQeS3Jb0EMd+RxIMh0OfW2KPXsLsYgJOtzJ6oC2WQ5pN/erAPh/3yk
+         0CK6Dx90S7YkPmeQ88BxWSaeY8Wma3pOR1G8vFHSnyvo13N7HnFjL3IospBbyVmKEn
+         dPOJOuF4yY3RLEahAyhnO/j2/0oVwOTLIxL/gWeA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Oliver Neukum <oneukum@suse.com>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 15/17] usb: hso: obey DMA rules in tiocmget
-Date:   Sat, 26 Oct 2019 09:22:59 -0400
-Message-Id: <20191026132302.4622-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 19/21] usb: hso: obey DMA rules in tiocmget
+Date:   Sat, 26 Oct 2019 09:22:15 -0400
+Message-Id: <20191026132217.4380-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191026132302.4622-1-sashal@kernel.org>
-References: <20191026132302.4622-1-sashal@kernel.org>
+In-Reply-To: <20191026132217.4380-1-sashal@kernel.org>
+References: <20191026132217.4380-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -79,10 +79,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
-index cbbff16d438f5..faa9089aebcc2 100644
+index 27fc699d8be5b..e5d6a70c44db7 100644
 --- a/drivers/net/usb/hso.c
 +++ b/drivers/net/usb/hso.c
-@@ -210,7 +210,7 @@ struct hso_tiocmget {
+@@ -201,7 +201,7 @@ struct hso_tiocmget {
  	int    intr_completed;
  	struct usb_endpoint_descriptor *endp;
  	struct urb *urb;
@@ -91,7 +91,7 @@ index cbbff16d438f5..faa9089aebcc2 100644
  	u16    prev_UART_state_bitmap;
  	struct uart_icount icount;
  };
-@@ -1455,7 +1455,7 @@ static int tiocmget_submit_urb(struct hso_serial *serial,
+@@ -1447,7 +1447,7 @@ static int tiocmget_submit_urb(struct hso_serial *serial,
  			 usb_rcvintpipe(usb,
  					tiocmget->endp->
  					bEndpointAddress & 0x7F),
@@ -100,7 +100,7 @@ index cbbff16d438f5..faa9089aebcc2 100644
  			 sizeof(struct hso_serial_state_notification),
  			 tiocmget_intr_callback, serial,
  			 tiocmget->endp->bInterval);
-@@ -1502,7 +1502,7 @@ static void tiocmget_intr_callback(struct urb *urb)
+@@ -1494,7 +1494,7 @@ static void tiocmget_intr_callback(struct urb *urb)
  	/* wIndex should be the USB interface number of the port to which the
  	 * notification applies, which should always be the Modem port.
  	 */
@@ -109,7 +109,7 @@ index cbbff16d438f5..faa9089aebcc2 100644
  	if (serial_state_notification->bmRequestType != BM_REQUEST_TYPE ||
  	    serial_state_notification->bNotification != B_NOTIFICATION ||
  	    le16_to_cpu(serial_state_notification->wValue) != W_VALUE ||
-@@ -2595,6 +2595,8 @@ static void hso_free_tiomget(struct hso_serial *serial)
+@@ -2580,6 +2580,8 @@ static void hso_free_tiomget(struct hso_serial *serial)
  		usb_free_urb(tiocmget->urb);
  		tiocmget->urb = NULL;
  		serial->tiocmget = NULL;
@@ -118,7 +118,7 @@ index cbbff16d438f5..faa9089aebcc2 100644
  		kfree(tiocmget);
  	}
  }
-@@ -2645,10 +2647,13 @@ static struct hso_device *hso_create_bulk_serial_device(
+@@ -2630,10 +2632,13 @@ static struct hso_device *hso_create_bulk_serial_device(
  		num_urbs = 2;
  		serial->tiocmget = kzalloc(sizeof(struct hso_tiocmget),
  					   GFP_KERNEL);
