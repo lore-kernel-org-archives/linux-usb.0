@@ -2,68 +2,70 @@ Return-Path: <SRS0=C12n=YV=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBE19CA9EC0
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Oct 2019 18:23:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91FDDCA9EC2
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Oct 2019 18:23:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 97F20214B2
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Oct 2019 18:23:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6812421744
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Oct 2019 18:23:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l8qmOSK8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ckbzqhhd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391124AbfJ1SXN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Oct 2019 14:23:13 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:43261 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730690AbfJ1SXM (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Oct 2019 14:23:12 -0400
-Received: by mail-qt1-f195.google.com with SMTP id l15so9380835qtr.10
-        for <linux-usb@vger.kernel.org>; Mon, 28 Oct 2019 11:23:12 -0700 (PDT)
+        id S2403780AbfJ1SXR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Oct 2019 14:23:17 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:36454 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391125AbfJ1SXR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Oct 2019 14:23:17 -0400
+Received: by mail-qt1-f196.google.com with SMTP id x14so5687613qtq.3
+        for <linux-usb@vger.kernel.org>; Mon, 28 Oct 2019 11:23:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jOWlJJy6ChuEnqYHbSHVhhLc41FzhhIbgNvL4gteWmI=;
-        b=l8qmOSK8YchiVh2uO5YBeCgBvBOdUPYnJFFf0qevg1oXdh17RzVfSZ872bS9hseUkQ
-         IBW+IuI5W93nmKGGhxC7bwVX+yEuxGWMJ30t4uYZBeKlvSs96PIldYUBc1mpi5jlRAnR
-         Lc8PrZd3xvcY9SCTpQRLYSuAsww0vkQJGs5Ap6ND9oYyMKcSqqVWNh2vVFaLTE+F0bDC
-         vfQ2EUZMIwLzUhAVlC2mV7d5OpWuSNuwUOYF6sV5/edl11sHTEhmjK8i1cOl/rSotYSZ
-         bPKSAqikVeGkZNlfengbP0a4vgfGpW5noxhaCS4YnRDOiWnuqb0lK4ZiKlw9dnhr/jzI
-         1mDg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=peg4X2YDLFsoUnpFAVPaYd5Gm2QFG5TrZ1ugo/dtbLU=;
+        b=CkbzqhhdCBHymQbOsmwwdOR+mroOsit7vTupBUGMMUgRKoqNnSd269BquNMXUNKn4b
+         Rv1l98IQKmWNDj6BqZCDY/Is+k7acGen2NGjpQhVjH4kFn8/0nfeQeSTaM40LUSW6a4L
+         XJDcGD7PIZlmiy3YrSLOwxCJgzDI4ZgDf4DSDbmYHpouKy/FI70GWEFs7DIhRLbGkFZv
+         xY+kssIRfYAOcvwvHQl8WRi/ZRL+CZ1m91w4LR4hLNuNUxGjrCv+H1oO+Jf6+k7VUOE7
+         DwdSQcmwIGgcVtwQesIXsknLYyBKAJEAVLycP93cfWS504gDmWnULb35VNHHxajwCyys
+         OV9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jOWlJJy6ChuEnqYHbSHVhhLc41FzhhIbgNvL4gteWmI=;
-        b=DmSBHBEgTwYD+FjnljncazVZc0dVajstxnWRxcYS5v7YxMf94EVRvSGoq/vn5x+o5h
-         kg6XiMmMzWSUYS1KtqH0NWr5nWnLUKDJw/mR75zyovGMmyEza+NeGTBzz6ZRPP9wzDT6
-         2+o99DLH5YbQf1gQmYneUGvPnioqLaFF+4fSTmfIxaSs5MR69FyBw37vtURwL46KEjvd
-         zoTSJb+oZ0A9VdXxZIRbFfQx2on2GKZ8kC6nHxGmBnXGeJ14ckL2fniKZErSar9NhSYF
-         Ja8Mkv/jiKfc0hvWv5tlPLLrmKTuxM58nHjVkaN9C2wEimvvG5bAvDUE0KpJXcB/U7+F
-         qLbQ==
-X-Gm-Message-State: APjAAAWOr5uUxPuESiTelKR+n/xbE+eEQ6trBmBpz3JvFYwjoEZYyWlH
-        l0vk6daK5NV8NNBH0XZPcsA=
-X-Google-Smtp-Source: APXvYqzi7aq5Ujye1dzsDxTmyAsUXCY6WWoNzCH9hvO3gsTVvZOy7RJRh/HUOjF4kGBm9w2TjIykbg==
-X-Received: by 2002:a0c:94fb:: with SMTP id k56mr13660455qvk.127.1572286991587;
-        Mon, 28 Oct 2019 11:23:11 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=peg4X2YDLFsoUnpFAVPaYd5Gm2QFG5TrZ1ugo/dtbLU=;
+        b=osnw9RuCoicxQSKIiZxJ4WxGukKUh9+HtWxKqFVi3xKmuQedam1Am5vX792cFVCbUp
+         Z4dWuPh9sMbI4WJfszZo3Lx4c8LXP2F0/ghWwb7zeV9kbeQojuqssA6bJKMyIUWbTgvg
+         lkcNhPJcT77wXzBS6rvAdxUMCb8dh0Z6Wgs55OMY32QT8iUy/Eow12iaJWxzowiI+ALj
+         7An8rG0IzA+u/oxvttZTIhCPAPkcBJ+91vjwi1MgxmXhQ5zbXI/e0D703SVBcJ198OyT
+         viyIoTSZchV7qdBkIl1k86MdFqUAf+MzEL+wVewVIMA/24KR1deiLjIvN6aoYZrm81Gg
+         nnYA==
+X-Gm-Message-State: APjAAAUh9rUYtCfOEWA8Ae1Iv4OSqVIQxf0pU7NOFJKDmtlYvUbWAAmm
+        D89SdBAiqAR0iC9mcO9fIoA=
+X-Google-Smtp-Source: APXvYqwNKcO0LjFvNRg1Q0mjp25FutSewql7WzwxyZ+t1BtcKhVB0C+8qVlyVbEfinYvThKicEXQMw==
+X-Received: by 2002:ac8:93d:: with SMTP id t58mr6805313qth.217.1572286996447;
+        Mon, 28 Oct 2019 11:23:16 -0700 (PDT)
 Received: from firefly.sparksnet ([2601:153:900:a52:6f12:874c:d2b2:a9d0])
-        by smtp.gmail.com with ESMTPSA id x9sm5808631qkl.75.2019.10.28.11.23.08
+        by smtp.gmail.com with ESMTPSA id x9sm5808631qkl.75.2019.10.28.11.23.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Oct 2019 11:23:09 -0700 (PDT)
+        Mon, 28 Oct 2019 11:23:14 -0700 (PDT)
 From:   Peter Geis <pgwipeout@gmail.com>
 To:     heiko@sntech.de
 Cc:     linux-rockchip@lists.infradead.org, linux-usb@vger.kernel.org,
         katsuhiro@katsuster.net, robin.murphy@arm.com,
         Peter Geis <pgwipeout@gmail.com>
-Subject: [PATCH 0/5] add rk3328 usb3 phy driver
-Date:   Mon, 28 Oct 2019 18:22:49 +0000
-Message-Id: <20191028182254.30739-1-pgwipeout@gmail.com>
+Subject: [PATCH 2/5] dt-bindings: clean up rockchip grf binding document
+Date:   Mon, 28 Oct 2019 18:22:51 +0000
+Message-Id: <20191028182254.30739-3-pgwipeout@gmail.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191028182254.30739-1-pgwipeout@gmail.com>
+References: <20191028182254.30739-1-pgwipeout@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -71,32 +73,33 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-It took a lot more effort than originally anticipated, but here it is.
-This is the driver from [0], updated to work with the current kernel.
-I've tested it on the rk3328-roc-cc board, both usb 2.0 and usb 3.0 
-devices detect on hotplug.
+Fixup some typos and inconsistencies in the grf binding.
 
-[0] https://github.com/FireflyTeam/kernel/commits/roc-rk3328-cc/drivers/phy/rockchip/phy-rockchip-inno-usb3.c
+Signed-off-by: Peter Geis <pgwipeout@gmail.com>
+---
+ Documentation/devicetree/bindings/soc/rockchip/grf.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Peter Geis (5):
-  phy: rockchip: add inno-usb3 phy driver
-  dt-bindings: clean up rockchip grf binding document
-  Documentation: bindings: add dt documentation for rockchip usb3 phy
-  arm64: dts: rockchip: add usb3 to rk3328 devicetree
-  arm64: dts: rockchip: enable usb3 on rk3328-roc-cc
-
- .../bindings/phy/phy-rockchip-inno-usb3.yaml  |  157 +++
- .../devicetree/bindings/soc/rockchip/grf.txt  |    8 +-
- .../devicetree/bindings/usb/rockchip,dwc3.txt |    9 +-
- .../arm64/boot/dts/rockchip/rk3328-roc-cc.dts |   21 +
- arch/arm64/boot/dts/rockchip/rk3328.dtsi      |   72 ++
- drivers/phy/rockchip/Kconfig                  |    9 +
- drivers/phy/rockchip/Makefile                 |    1 +
- drivers/phy/rockchip/phy-rockchip-inno-usb3.c | 1107 +++++++++++++++++
- 8 files changed, 1378 insertions(+), 6 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/phy/phy-rockchip-inno-usb3.yaml
- create mode 100644 drivers/phy/rockchip/phy-rockchip-inno-usb3.c
-
+diff --git a/Documentation/devicetree/bindings/soc/rockchip/grf.txt b/Documentation/devicetree/bindings/soc/rockchip/grf.txt
+index d7debec26ba4..ada5435ce2c3 100644
+--- a/Documentation/devicetree/bindings/soc/rockchip/grf.txt
++++ b/Documentation/devicetree/bindings/soc/rockchip/grf.txt
+@@ -27,12 +27,12 @@ Required Properties:
+    - "rockchip,px30-pmugrf", "syscon": for px30
+    - "rockchip,rk3368-pmugrf", "syscon": for rk3368
+    - "rockchip,rk3399-pmugrf", "syscon": for rk3399
+-- compatible: SGRF should be one of the following
++- compatible: SGRF should be one of the following:
+    - "rockchip,rk3288-sgrf", "syscon": for rk3288
+-- compatible: USB2PHYGRF should be one of the followings
++- compatible: USB2PHYGRF should be one of the following:
+    - "rockchip,px30-usb2phy-grf", "syscon": for px30
+    - "rockchip,rk3328-usb2phy-grf", "syscon": for rk3328
+-- compatible: USBGRF should be one of the following
++- compatible: USBGRF should be one of the following:
+    - "rockchip,rv1108-usbgrf", "syscon": for rv1108
+ - reg: physical base address of the controller and length of memory mapped
+   region.
 -- 
 2.20.1
 
