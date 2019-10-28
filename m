@@ -2,201 +2,88 @@ Return-Path: <SRS0=C12n=YV=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DE589CA9EC1
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Oct 2019 11:43:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82D8BCA9EC0
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Oct 2019 13:02:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B5ED6214D9
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Oct 2019 11:43:24 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=metanate.com header.i=@metanate.com header.b="SCyhU9n5"
+	by mail.kernel.org (Postfix) with ESMTP id 607C320717
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Oct 2019 13:02:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731425AbfJ1LnX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Oct 2019 07:43:23 -0400
-Received: from dougal.metanate.com ([90.155.101.14]:65410 "EHLO metanate.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2388615AbfJ1LnA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 28 Oct 2019 07:43:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=simple/simple; d=metanate.com;
-         s=stronger; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=SGkZ9L6ksEJoGJ6vp6RGQ8/g+HjRI+7LlWLrCTmofEk=; b=SCyhU9n5+rNKbQmbcRe/RO33Qb
-        8U+JwdBdzLvZ7MNTf5vyV3ijael9zi8mjbL1P5VOWum/7CFxQbbtRrvPDW/RO4sqJ5IvOITfy7eec
-        xC+3O1k2mHoAL1lr3qX5ArOXc7+uThTDgPs3R9PcKB4Q9Wq31z00BqBUJWv6ltQm2oPZUvLT6eKoO
-        dvfpZGHTflO/EfMPI/VmJNYe6Ma5lZuVlyV1t/kBAcY1bJN1bnZRNwxGrXG+zUu9r+WWqUBMkZ5Rs
-        GnsHKF/dJnnu6ALNQzAXsgrdSsde01+PM9qJVjOOYJki5AfQjLBo/U5UHS9kSRPSG+D8G8tmkNciq
-        5Y1Oni/g==;
-Received: from dougal.metanate.com ([192.168.88.1] helo=localhost.localdomain)
-        by email.metanate.com with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92.3)
-        (envelope-from <john@metanate.com>)
-        id 1iP3QH-00010o-7u; Mon, 28 Oct 2019 11:42:57 +0000
-From:   John Keeping <john@metanate.com>
-To:     linux-usb@vger.kernel.org
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, John Keeping <john@metanate.com>
-Subject: [PATCH v2 1/6] USB: gadget: f_hid: move chardev setup to module init
-Date:   Mon, 28 Oct 2019 11:42:23 +0000
-Message-Id: <20191028114228.3679219-2-john@metanate.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191028114228.3679219-1-john@metanate.com>
-References: <20191024164538.3161474-1-john@metanate.com>
- <20191028114228.3679219-1-john@metanate.com>
+        id S1729810AbfJ1NCK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Oct 2019 09:02:10 -0400
+Received: from mail-il1-f200.google.com ([209.85.166.200]:35221 "EHLO
+        mail-il1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728242AbfJ1NCK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Oct 2019 09:02:10 -0400
+Received: by mail-il1-f200.google.com with SMTP id w69so6263292ilk.2
+        for <linux-usb@vger.kernel.org>; Mon, 28 Oct 2019 06:02:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to
+         :content-transfer-encoding;
+        bh=gC/H1e2vQ5MzeSzXVR/okboKIIKlqD1bZOvOe5b3hLY=;
+        b=gpyw5CnUI/K6RSyb/ZthZBbsNdzeMs46yx4fUR/CJSWOtpayTA3Z/F9C39zsN+ACu9
+         FmQzE0oUgZLYiDv852ysiEAq28a3pGURmlO9nsikd+5ynI4PDAwXcexJaYKqxGyhzFW4
+         1axWgDlsRgSPqScS7DzNYsbRDkO1sDDGVEoHMVsXym4GX/+C5hKKcl96vfebaTS6yedj
+         XbDwimjDMiuMEPdqt7QugPp5QW3G+jSUv9f70V/wxLiPPc3tEW+xgmAGueLG1HY/vUzk
+         LHKbIv2FZj96kFqCMo7q2fsYa8l5jzzsfcXxmHCGqVKnKPdRGRgex6CIR1Ubj3rRqvMw
+         D+6Q==
+X-Gm-Message-State: APjAAAXbGqglBcZR8xnP9Zpdj+KIqwt7/y6LuG4LJ1oVTqf9tgWuuGfe
+        yQAZAwjQfRukMpecS4puQvp63AtE91yQkLXYXz27VLlXisUN
+X-Google-Smtp-Source: APXvYqxab6wXiPEzNePyJfeFbIQL7ARHxm4/XW9Gbwnag78FJ6G550sTfhmgJQXebR8f1jA7vOlb/T0vaHFGbKjRDYGxCMAJItfI
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Authenticated: YES
+X-Received: by 2002:a02:b817:: with SMTP id o23mr17127828jam.42.1572267729574;
+ Mon, 28 Oct 2019 06:02:09 -0700 (PDT)
+Date:   Mon, 28 Oct 2019 06:02:09 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000835f920595f81bfa@google.com>
+Subject: BUG: bad host encryption descriptor; descriptor is too short (0 vs 5 needed)
+From:   syzbot <syzbot+48fbe2f8fdcd2fbc1242@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Transfer-Encoding: base64
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Lifetime of the objects in the HID gadget is currently tied to the USB
-function, which makes it very easy to trigger a use-after-free by
-holding a file descriptor on the HID device after deleting the gadget.
-
-As a first step towards fixing this, move the character device
-allocation to module initialisation so that we don't have to worry about
-when the allocation can be released after closing all of the open
-handles on the device.
-
-Note that we also have to move the USB function registration into the
-initialisation function in order to avoid having two module_init()
-functions.
-
-Signed-off-by: John Keeping <john@metanate.com>
----
-v2:
-- Switch to DECLARE_USB_FUNCTION and manual function (de)registration to
-  fix compiling as a module
-
- drivers/usb/gadget/function/f_hid.c | 41 ++++++++++++++---------------
- drivers/usb/gadget/function/u_hid.h |  3 ---
- 2 files changed, 20 insertions(+), 24 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
-index f3816a5c861e..e5e18d02b77a 100644
---- a/drivers/usb/gadget/function/f_hid.c
-+++ b/drivers/usb/gadget/function/f_hid.c
-@@ -1006,11 +1006,7 @@ static void hidg_free_inst(struct usb_function_instance *f)
- 	opts = container_of(f, struct f_hid_opts, func_inst);
- 
- 	mutex_lock(&hidg_ida_lock);
--
- 	hidg_put_minor(opts->minor);
--	if (ida_is_empty(&hidg_ida))
--		ghid_cleanup();
--
- 	mutex_unlock(&hidg_ida_lock);
- 
- 	if (opts->report_desc_alloc)
-@@ -1023,7 +1019,6 @@ static struct usb_function_instance *hidg_alloc_inst(void)
- {
- 	struct f_hid_opts *opts;
- 	struct usb_function_instance *ret;
--	int status = 0;
- 
- 	opts = kzalloc(sizeof(*opts), GFP_KERNEL);
- 	if (!opts)
-@@ -1034,21 +1029,10 @@ static struct usb_function_instance *hidg_alloc_inst(void)
- 
- 	mutex_lock(&hidg_ida_lock);
- 
--	if (ida_is_empty(&hidg_ida)) {
--		status = ghid_setup(NULL, HIDG_MINORS);
--		if (status)  {
--			ret = ERR_PTR(status);
--			kfree(opts);
--			goto unlock;
--		}
--	}
--
- 	opts->minor = hidg_get_minor();
- 	if (opts->minor < 0) {
- 		ret = ERR_PTR(opts->minor);
- 		kfree(opts);
--		if (ida_is_empty(&hidg_ida))
--			ghid_cleanup();
- 		goto unlock;
- 	}
- 	config_group_init_type_name(&opts->func_inst.group, "", &hid_func_type);
-@@ -1129,11 +1113,11 @@ static struct usb_function *hidg_alloc(struct usb_function_instance *fi)
- 	return &hidg->func;
- }
- 
--DECLARE_USB_FUNCTION_INIT(hid, hidg_alloc_inst, hidg_alloc);
-+DECLARE_USB_FUNCTION(hid, hidg_alloc_inst, hidg_alloc);
- MODULE_LICENSE("GPL");
- MODULE_AUTHOR("Fabien Chouteau");
- 
--int ghid_setup(struct usb_gadget *g, int count)
-+static int ghid_setup(void)
- {
- 	int status;
- 	dev_t dev;
-@@ -1145,7 +1129,7 @@ int ghid_setup(struct usb_gadget *g, int count)
- 		return status;
- 	}
- 
--	status = alloc_chrdev_region(&dev, 0, count, "hidg");
-+	status = alloc_chrdev_region(&dev, 0, HIDG_MINORS, "hidg");
- 	if (status) {
- 		class_destroy(hidg_class);
- 		hidg_class = NULL;
-@@ -1153,13 +1137,25 @@ int ghid_setup(struct usb_gadget *g, int count)
- 	}
- 
- 	major = MAJOR(dev);
--	minors = count;
-+	minors = HIDG_MINORS;
-+
-+	status = usb_function_register(&hidusb_func);
-+	if (status)
-+		goto fail_unregister;
- 
- 	return 0;
-+
-+fail_unregister:
-+	unregister_chrdev_region(dev, HIDG_MINORS);
-+	class_destroy(hidg_class);
-+	hidg_class = NULL;
-+	return status;
- }
- 
--void ghid_cleanup(void)
-+static void ghid_cleanup(void)
- {
-+	usb_function_unregister(&hidusb_func);
-+
- 	if (major) {
- 		unregister_chrdev_region(MKDEV(major, 0), minors);
- 		major = minors = 0;
-@@ -1168,3 +1164,6 @@ void ghid_cleanup(void)
- 	class_destroy(hidg_class);
- 	hidg_class = NULL;
- }
-+
-+module_init(ghid_setup);
-+module_exit(ghid_cleanup);
-diff --git a/drivers/usb/gadget/function/u_hid.h b/drivers/usb/gadget/function/u_hid.h
-index 1594bfa312eb..d52acc977c7e 100644
---- a/drivers/usb/gadget/function/u_hid.h
-+++ b/drivers/usb/gadget/function/u_hid.h
-@@ -33,7 +33,4 @@ struct f_hid_opts {
- 	 int				refcnt;
- };
- 
--int ghid_setup(struct usb_gadget *g, int count);
--void ghid_cleanup(void);
--
- #endif /* U_HID_H */
--- 
-2.23.0
-
+SGVsbG8sDQoNCnN5emJvdCBmb3VuZCB0aGUgZm9sbG93aW5nIGNyYXNoIG9uOg0KDQpIRUFEIGNv
+bW1pdDogICAgMjJiZTI2ZjcgdXNiLWZ1enplcjogbWFpbiB1c2IgZ2FkZ2V0IGZ1enplciBkcml2
+ZXINCmdpdCB0cmVlOiAgICAgICBodHRwczovL2dpdGh1Yi5jb20vZ29vZ2xlL2thc2FuLmdpdCB1
+c2ItZnV6emVyDQpjb25zb2xlIG91dHB1dDogaHR0cHM6Ly9zeXprYWxsZXIuYXBwc3BvdC5jb20v
+eC9sb2cudHh0P3g9MTZlY2NjMGY2MDAwMDANCmtlcm5lbCBjb25maWc6ICBodHRwczovL3N5emth
+bGxlci5hcHBzcG90LmNvbS94Ly5jb25maWc/eD01ZmUyOWJjMzllZmY5NjI3DQpkYXNoYm9hcmQg
+bGluazogaHR0cHM6Ly9zeXprYWxsZXIuYXBwc3BvdC5jb20vYnVnP2V4dGlkPTQ4ZmJlMmY4ZmRj
+ZDJmYmMxMjQyDQpjb21waWxlcjogICAgICAgZ2NjIChHQ0MpIDkuMC4wIDIwMTgxMjMxIChleHBl
+cmltZW50YWwpDQpzeXogcmVwcm86ICAgICAgaHR0cHM6Ly9zeXprYWxsZXIuYXBwc3BvdC5jb20v
+eC9yZXByby5zeXo/eD0xMGQwOGU0Y2UwMDAwMA0KQyByZXByb2R1Y2VyOiAgIGh0dHBzOi8vc3l6
+a2FsbGVyLmFwcHNwb3QuY29tL3gvcmVwcm8uYz94PTExZmIwN2ZmNjAwMDAwDQoNCklNUE9SVEFO
+VDogaWYgeW91IGZpeCB0aGUgYnVnLCBwbGVhc2UgYWRkIHRoZSBmb2xsb3dpbmcgdGFnIHRvIHRo
+ZSBjb21taXQ6DQpSZXBvcnRlZC1ieTogc3l6Ym90KzQ4ZmJlMmY4ZmRjZDJmYmMxMjQyQHN5emth
+bGxlci5hcHBzcG90bWFpbC5jb20NCg0KdXNiIDEtMTogY29uZmlnIDAgaW50ZXJmYWNlIDY2IGFs
+dHNldHRpbmcgMCBoYXMgMyBlbmRwb2ludCBkZXNjcmlwdG9ycywgIA0KZGlmZmVyZW50IGZyb20g
+dGhlIGludGVyZmFjZSBkZXNjcmlwdG9yJ3MgdmFsdWU6IDQNCnVzYiAxLTE6IE5ldyBVU0IgZGV2
+aWNlIGZvdW5kLCBpZFZlbmRvcj0xM2RjLCBpZFByb2R1Y3Q9NTYxMSwgIA0KYmNkRGV2aWNlPTQw
+LjE1DQp1c2IgMS0xOiBOZXcgVVNCIGRldmljZSBzdHJpbmdzOiBNZnI9MCwgUHJvZHVjdD0wLCBT
+ZXJpYWxOdW1iZXI9MA0KdXNiIDEtMTogY29uZmlnIDAgZGVzY3JpcHRvcj8/DQpod2EtaGMgMS0x
+OjAuNjY6IFdpcmUgQWRhcHRlciB2MTI1LjUyIG5ld2VyIHRoYW4gZ3Jva2VkIHYxLjANCmh3YS1o
+YyAxLTE6MC42NjogRklYTUU6IFVTQl9NQVhDSElMRFJFTiB0b28gbG93IGZvciBXVVNCIGFkYXB0
+ZXIgKDUzIHBvcnRzKQ0KdXNiIDEtMTogQlVHOiBiYWQgaG9zdCBlbmNyeXB0aW9uIGRlc2NyaXB0
+b3I7IGRlc2NyaXB0b3IgaXMgdG9vIHNob3J0ICgwIHZzICANCjUgbmVlZGVkKQ0KdXNiIDEtMTog
+c3VwcG9ydGVkIGVuY3J5cHRpb24gdHlwZXM6IO+/ve+/ve+/vc+B77+977+977+9fO+/ve+/vc+B
+77+977+977+977+977+977+9z4Hvv73vv73vv70NCnVzYiAxLTE6IEU6IGhvc3QgZG9lc24ndCBz
+dXBwb3J0IENDTS0xIGNyeXB0bw0KaHdhLWhjIDEtMTowLjY2OiBDYW5ub3QgaW5pdGlhbGl6ZSBp
+bnRlcm5hbHM6IC0xOQ0KDQoNCi0tLQ0KVGhpcyBidWcgaXMgZ2VuZXJhdGVkIGJ5IGEgYm90LiBJ
+dCBtYXkgY29udGFpbiBlcnJvcnMuDQpTZWUgaHR0cHM6Ly9nb28uZ2wvdHBzbUVKIGZvciBtb3Jl
+IGluZm9ybWF0aW9uIGFib3V0IHN5emJvdC4NCnN5emJvdCBlbmdpbmVlcnMgY2FuIGJlIHJlYWNo
+ZWQgYXQgc3l6a2FsbGVyQGdvb2dsZWdyb3Vwcy5jb20uDQoNCnN5emJvdCB3aWxsIGtlZXAgdHJh
+Y2sgb2YgdGhpcyBidWcgcmVwb3J0LiBTZWU6DQpodHRwczovL2dvby5nbC90cHNtRUojc3RhdHVz
+IGZvciBob3cgdG8gY29tbXVuaWNhdGUgd2l0aCBzeXpib3QuDQpzeXpib3QgY2FuIHRlc3QgcGF0
+Y2hlcyBmb3IgdGhpcyBidWcsIGZvciBkZXRhaWxzIHNlZToNCmh0dHBzOi8vZ29vLmdsL3Rwc21F
+SiN0ZXN0aW5nLXBhdGNoZXMNCg==
