@@ -7,145 +7,130 @@ X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BE6BC47E49
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Oct 2019 10:57:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24F4ACA9EC2
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Oct 2019 11:43:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5F01720873
-	for <linux-usb@archiver.kernel.org>; Mon, 28 Oct 2019 10:57:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EF52B20873
+	for <linux-usb@archiver.kernel.org>; Mon, 28 Oct 2019 11:43:08 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="nJgmuaIn"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=metanate.com header.i=@metanate.com header.b="OD/lK/7E"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388152AbfJ1K5f (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 28 Oct 2019 06:57:35 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:3064 "EHLO
-        esa4.hgst.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728554AbfJ1K5f (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 28 Oct 2019 06:57:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1572260254; x=1603796254;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=5cU6D73Hs2L+9WKhpJ/DxPgX9YooUgDZWEqmp8qc6Tk=;
-  b=nJgmuaInWSWG8RvnihJXpDcP7SUk0Rmg7tMmNYqtW3VxYZe3iDWQjLpr
-   0vkgVE+6XS8tArcfTa7keVcTtR/kN9cYrMtK3ruKobkdIZgTagx8n0Re/
-   ZfzABgPdumpiJdJvJ5ogF/yEwjnX4jrJOUIAurli2Bwjj3BTnCMZJdIpi
-   FkGs1+Rv0bxNwGRe1Pue0kTJgOG6qQOOg4aSOHGHMDt8S9C8UkdGbeExH
-   GmVKJujwKESUxlFWYgPGODVtA/YtBbR46upFthLOQ61NOb+NEZxEUDU/8
-   glFhXq3jpK2dgMrB+TUxHnvfwlJUJR8BIX0iAHzQeH63BH1Gw+zVEMOn9
-   g==;
-IronPort-SDR: cSNpMmvJe7sraI8y4QWZOfDh/HpSWP9U13TLr46Y+RGGjaXfqLQUw8iPCEP862v79fhtqp9NU/
- st3+h99K8Q6PZuAJg/5+29pM9wfJUjZyxxwL3DhYHt7mmE9WHC6ZvWRP44kigTiex6ISXhNtzB
- UMOfsB0UOGZEElPUQ0ZQ+LCkzrFY+GY2RZTVELg4KKLZ9vt5Hu98S8VCLrU6DKaGsvjo12HQOr
- nHB70397KPXloevrpikLcaMDAUcdEgS/03qB1/wfIusSAgxJsCK/nR5+fqC3jdGR7lvVOJjtqj
- 6v8=
-X-IronPort-AV: E=Sophos;i="5.68,239,1569254400"; 
-   d="scan'208";a="121482191"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 28 Oct 2019 18:57:34 +0800
-IronPort-SDR: diRdj7OC/Q2ftUQIxX76GtC8HdBGTT7aIHOy4dkYpBDfA/RnCBcSl8hlyed9ThrRy2OR+kWd77
- xMgYNJV2XC2KRcm8iTLRHKN4lAoHeVqpyVbT01wFmVQne0Lkq8b3McIATliwLTDPNpdh31ltql
- 4hBwc6ThavIPhburudmSKGTVo7OWCbOOUUC7sCXFwEGBUCRAROt6pYz3z3kJ3ovMDagGNSVK7V
- 5Xrk2RH0mQd+5YVi2afzVHNG0cuY5rMnFJJc4Vr8nl1N0O/yNj8WidjBDvj00Hn/IioNzUCiCC
- s8doMTX9upVyyoJoHIzODOnM
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2019 03:52:56 -0700
-IronPort-SDR: HF+d3JKARyFvJYiVVFrIfJUDiGbVDvC+DpJK0P98J87M+BaVK7PE3AJ29odtlXd+wxKO1TZpSZ
- 4t3cL6MEj8FlE5KZ65xk0U0lfUbtFhfwSbgpVTX1wOVPwTe6VhJY0qzq7LkBJ0qWK2iWjf+AVo
- uKYz2KzdhccfuG/9ucm/6Bj8vW49UQjmcdAK4qKuSu8pjgYNzhht9Qc8L/Y1UqQZnhQCtOxsCy
- XYUleEXeLE+gF6g1UxI7kaxkuOVq+EJNaFa3pdvbADzYk0g8yY1uSDdBRojBypHkKl0Ht9+KMj
- sLc=
-WDCIronportException: Internal
-Received: from washi.fujisawa.hgst.com ([10.149.53.254])
-  by uls-op-cesaip02.wdc.com with ESMTP; 28 Oct 2019 03:57:33 -0700
-From:   Damien Le Moal <damien.lemoal@wdc.com>
-To:     linux-scsi@vger.kernel.org,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Justin Piszcz <jpiszcz@lucidpixels.com>
-Subject: [PATCH] scsi: Fix scsi_get/set_resid() interface
-Date:   Mon, 28 Oct 2019 19:57:32 +0900
-Message-Id: <20191028105732.29913-1-damien.lemoal@wdc.com>
-X-Mailer: git-send-email 2.21.0
+        id S2388642AbfJ1LnB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 28 Oct 2019 07:43:01 -0400
+Received: from dougal.metanate.com ([90.155.101.14]:47937 "EHLO metanate.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729941AbfJ1LnA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 28 Oct 2019 07:43:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=simple/simple; d=metanate.com;
+         s=stronger; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=zSqO7Gbt5gFHhPgKnnb70g2Sd1MZYdjH1WNB38pjbSY=; b=OD/lK/7ESCD34gj9SUJGd6S+A4
+        ZYTY7/ZbACOVtsMl9wTwor4rVAA1Zya0eDOfbk8xlvpWMwTiJHDG/5YnGYEBdR/2M5XzbUT3KStaC
+        wLKmPQVXWdWrM7tZNTM38OmcIJjMxZ1FxtDNqNghIoADwFmAbfDpC9+Ubh4Bq4TH6ET4kv2s5rnkp
+        LtJ+UZbX8F2mYHBBjNjzBkXL6S8on3wsHM7r6s76zWDjqjlTK+6MWGJdJPOGLBEAokyE7sQQd2QIY
+        J9MRlwmYxRzGZDXQ9xTAJJP5M1HliW1fWbQsUG4IQSU+dh8OtOc5yXRWNFOeHTrJ0I+rSEINiYE9z
+        r56Ajgxg==;
+Received: from dougal.metanate.com ([192.168.88.1] helo=localhost.localdomain)
+        by email.metanate.com with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+        (Exim 4.92.3)
+        (envelope-from <john@metanate.com>)
+        id 1iP3QH-00010o-JZ; Mon, 28 Oct 2019 11:42:57 +0000
+From:   John Keeping <john@metanate.com>
+To:     linux-usb@vger.kernel.org
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, John Keeping <john@metanate.com>
+Subject: [PATCH v2 6/6] USB: gadget: f_hid: return ENODEV from read/write after deletion
+Date:   Mon, 28 Oct 2019 11:42:28 +0000
+Message-Id: <20191028114228.3679219-7-john@metanate.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191028114228.3679219-1-john@metanate.com>
+References: <20191024164538.3161474-1-john@metanate.com>
+ <20191028114228.3679219-1-john@metanate.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Authenticated: YES
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-struct scsi_cmnd cmd->req.resid_len which is returned and set
-respectively by the helper functions scsi_get_resid() and
-scsi_set_resid() is an unsigned int. Reflect this fact in the interface
-of these helper functions.
+If a file descriptor to /dev/hidgN is kept open after the gadget
+function has been deleted, reading or writing will block indefinitely
+since no requests will ever be processed.
 
-Also fix compilation errors due to min() and max() type mismatch
-introduced by this change in scsi debug code and usb transport code.
+Add a flag to note that the function has been deleted and check this in
+read & write if there is no other action to take.  When setting this
+flag, also wake up any readers/writers so that they get ENODEV
+immediately.
 
-Signed-off-by: Damien Le Moal <damien.lemoal@wdc.com>
+Signed-off-by: John Keeping <john@metanate.com>
 ---
- drivers/scsi/scsi_debug.c       | 4 ++--
- drivers/usb/storage/transport.c | 3 +--
- include/scsi/scsi_cmnd.h        | 4 ++--
- 3 files changed, 5 insertions(+), 6 deletions(-)
+v2:
+- No changes
 
-diff --git a/drivers/scsi/scsi_debug.c b/drivers/scsi/scsi_debug.c
-index d323523f5f9d..4daf2637c011 100644
---- a/drivers/scsi/scsi_debug.c
-+++ b/drivers/scsi/scsi_debug.c
-@@ -1025,7 +1025,7 @@ static int fill_from_dev_buffer(struct scsi_cmnd *scp, unsigned char *arr,
- static int p_fill_from_dev_buffer(struct scsi_cmnd *scp, const void *arr,
- 				  int arr_len, unsigned int off_dst)
- {
--	int act_len, n;
-+	unsigned int act_len, n;
- 	struct scsi_data_buffer *sdb = &scp->sdb;
- 	off_t skip = off_dst;
+ drivers/usb/gadget/function/f_hid.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
+index 3d848f7a4cca..a65bdf08ca54 100644
+--- a/drivers/usb/gadget/function/f_hid.c
++++ b/drivers/usb/gadget/function/f_hid.c
+@@ -59,6 +59,7 @@ struct f_hidg {
+ 	struct usb_request		*req;
  
-@@ -1039,7 +1039,7 @@ static int p_fill_from_dev_buffer(struct scsi_cmnd *scp, const void *arr,
- 	pr_debug("%s: off_dst=%u, scsi_bufflen=%u, act_len=%u, resid=%d\n",
- 		 __func__, off_dst, scsi_bufflen(scp), act_len,
- 		 scsi_get_resid(scp));
--	n = (int)scsi_bufflen(scp) - ((int)off_dst + act_len);
-+	n = scsi_bufflen(scp) - (off_dst + act_len);
- 	scsi_set_resid(scp, min(scsi_get_resid(scp), n));
- 	return 0;
- }
-diff --git a/drivers/usb/storage/transport.c b/drivers/usb/storage/transport.c
-index 96cb0409dd89..238a8088e17f 100644
---- a/drivers/usb/storage/transport.c
-+++ b/drivers/usb/storage/transport.c
-@@ -1284,8 +1284,7 @@ int usb_stor_Bulk_transport(struct scsi_cmnd *srb, struct us_data *us)
+ 	struct kref			kref;
++	bool				deleted;
+ 	int				minor;
+ 	struct usb_function		func;
  
- 		} else {
- 			residue = min(residue, transfer_length);
--			scsi_set_resid(srb, max(scsi_get_resid(srb),
--			                                       (int) residue));
-+			scsi_set_resid(srb, max(scsi_get_resid(srb), residue));
- 		}
- 	}
+@@ -271,10 +272,14 @@ static ssize_t f_hidg_read(struct file *file, char __user *buffer,
+ 	/* wait for at least one buffer to complete */
+ 	while (!READ_COND) {
+ 		spin_unlock_irqrestore(&hidg->read_spinlock, flags);
++		if (READ_ONCE(hidg->deleted))
++			return -ENODEV;
++
+ 		if (file->f_flags & O_NONBLOCK)
+ 			return -EAGAIN;
  
-diff --git a/include/scsi/scsi_cmnd.h b/include/scsi/scsi_cmnd.h
-index 91bd749a02f7..3772ae5d40cd 100644
---- a/include/scsi/scsi_cmnd.h
-+++ b/include/scsi/scsi_cmnd.h
-@@ -190,12 +190,12 @@ static inline unsigned scsi_bufflen(struct scsi_cmnd *cmd)
- 	return cmd->sdb.length;
- }
+-		if (wait_event_interruptible(hidg->read_queue, READ_COND))
++		if (wait_event_interruptible(hidg->read_queue,
++				READ_COND || READ_ONCE(hidg->deleted)))
+ 			return -ERESTARTSYS;
  
--static inline void scsi_set_resid(struct scsi_cmnd *cmd, int resid)
-+static inline void scsi_set_resid(struct scsi_cmnd *cmd, unsigned int resid)
- {
- 	cmd->req.resid_len = resid;
- }
+ 		spin_lock_irqsave(&hidg->read_spinlock, flags);
+@@ -358,11 +363,14 @@ static ssize_t f_hidg_write(struct file *file, const char __user *buffer,
+ 	/* write queue */
+ 	while (!WRITE_COND) {
+ 		spin_unlock_irqrestore(&hidg->write_spinlock, flags);
++		if (READ_ONCE(hidg->deleted))
++			return -ENODEV;
++
+ 		if (file->f_flags & O_NONBLOCK)
+ 			return -EAGAIN;
  
--static inline int scsi_get_resid(struct scsi_cmnd *cmd)
-+static inline unsigned int scsi_get_resid(struct scsi_cmnd *cmd)
- {
- 	return cmd->req.resid_len;
- }
+-		if (wait_event_interruptible_exclusive(
+-				hidg->write_queue, WRITE_COND))
++		if (wait_event_interruptible_exclusive(hidg->write_queue,
++				WRITE_COND || READ_ONCE(hidg->deleted)))
+ 			return -ERESTARTSYS;
+ 
+ 		spin_lock_irqsave(&hidg->write_spinlock, flags);
+@@ -1070,6 +1078,10 @@ static void hidg_free(struct usb_function *f)
+ 
+ 	hidg = func_to_hidg(f);
+ 	opts = container_of(f->fi, struct f_hid_opts, func_inst);
++	WRITE_ONCE(hidg->deleted, true);
++	wake_up(&hidg->read_queue);
++	wake_up(&hidg->write_queue);
++
+ 	kref_put(&hidg->kref, hidg_release);
+ 	mutex_lock(&opts->lock);
+ 	--opts->refcnt;
 -- 
-2.21.0
+2.23.0
 
