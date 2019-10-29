@@ -2,97 +2,128 @@ Return-Path: <SRS0=3MAM=YW=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47E05CA9EC4
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Oct 2019 10:26:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40427CA9EC3
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Oct 2019 10:34:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 148952087E
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Oct 2019 10:26:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572344786;
-	bh=n526KUB/SEnI3wv9V9H5+TO6GqNCdikmPZAmSCQ2bUQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=IhXHoaqXMmeQ/xxsPdiJZWQvAf31pMq8wFS9OsymxVTF/dHJbPrMGpHFoGvHl0oyu
-	 OnSmjNr1Pg85AIBMlez1loNjevmGW+BTkK9YS/QXY4fN7xEIynDt29kr0/mEI7/R4R
-	 kfv/pMILUaWh+HoNhq5P1BBFbDa5kSDWdLthwZg8=
+	by mail.kernel.org (Postfix) with ESMTP id 1DB8820874
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Oct 2019 10:34:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730263AbfJ2K0Z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Oct 2019 06:26:25 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:39912 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726071AbfJ2K0Y (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Oct 2019 06:26:24 -0400
-Received: by mail-wm1-f67.google.com with SMTP id r141so1767860wme.4;
-        Tue, 29 Oct 2019 03:26:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Ho9npiobrNKcojdO6IyVNqKqiBzAHj8uDX5qkliYH/k=;
-        b=hqGwCBMw4DDO/GuDK5h/Gk2Lrklz7EyG58ihvK43ILTf59x6WT9YqK1u4mrGbY4YuB
-         aQIX+KiUJqHljEJluMv70m1ahwax8EbJNL60wAJy9hbxJKM830arEEAOOXivqWsdQcuk
-         lIwB4XZg9qJe9+gejfBQINqnl7NtrHaDUQeG8pD4xgLk9PfdXPJhgWn6OL0nBVoVt370
-         iZTFOV2iqTwA1stMLz6wxtoZYfi4hXcQy0WQ8eOHvEePcjllyVcYc26uuoTnkPAapGw8
-         JoiDA9lXv5ab23R90qzJ8t3CS1NeZlRHxGe5UBFmC3rt6OaQanBs1n3dbnqa9y/PcvtG
-         bthQ==
-X-Gm-Message-State: APjAAAV6EjweSgLtWcFJBv77Pk7DPVRNC6NEjERj7yFSPojt5zGlQN2s
-        MEekYCE/PeIAfPgQXY7U3Ak=
-X-Google-Smtp-Source: APXvYqyNGw2Y96Anz41W3n8zj4SRJyoTDxvvlQmzUGnjCTJSKNO/8e3JTKoBJQbVSPbNh2uG7GFm1w==
-X-Received: by 2002:a1c:1d41:: with SMTP id d62mr3322024wmd.32.1572344782634;
-        Tue, 29 Oct 2019 03:26:22 -0700 (PDT)
-Received: from pi (100.50.158.77.rev.sfr.net. [77.158.50.100])
-        by smtp.gmail.com with ESMTPSA id d11sm16336750wrf.80.2019.10.29.03.26.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2019 03:26:20 -0700 (PDT)
-Received: from johan by pi with local (Exim 4.92.2)
-        (envelope-from <johan@pi>)
-        id 1iPOgQ-0002pq-Cy; Tue, 29 Oct 2019 11:25:02 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Johan Hovold <johan@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, stable <stable@vger.kernel.org>
-Subject: [PATCH 1/2] USB: serial: whiteheat: fix potential slab corruption
-Date:   Tue, 29 Oct 2019 11:23:53 +0100
-Message-Id: <20191029102354.2733-2-johan@kernel.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191029102354.2733-1-johan@kernel.org>
-References: <20191029102354.2733-1-johan@kernel.org>
+        id S1727535AbfJ2KeD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Oct 2019 06:34:03 -0400
+Received: from mga11.intel.com ([192.55.52.93]:9190 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726716AbfJ2KeD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 29 Oct 2019 06:34:03 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Oct 2019 03:34:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,243,1569308400"; 
+   d="asc'?scan'208";a="198884160"
+Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
+  by fmsmga007.fm.intel.com with ESMTP; 29 Oct 2019 03:33:59 -0700
+From:   Felipe Balbi <felipe.balbi@linux.intel.com>
+To:     Roger Quadros <rogerq@ti.com>, Peter Chen <peter.chen@nxp.com>
+Cc:     Pawel Laszczak <pawell@cadence.com>,
+        "gregkh\@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "nsekhar\@ti.com" <nsekhar@ti.com>,
+        Rahul Kumar <kurahul@cadence.com>,
+        "linux-usb\@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] usb: cdns3: gadget: Don't manage pullups
+In-Reply-To: <0c2c901c-a6f2-a81b-f5b1-e3f442d7c1ae@ti.com>
+References: <20191023090232.27237-1-rogerq@ti.com> <BYAPR07MB4709A6212601A75DCB1A25ACDD6B0@BYAPR07MB4709.namprd07.prod.outlook.com> <20191025031343.GA13392@b29397-desktop> <83a1da01-19d6-65a9-aecd-2027fd62a272@ti.com> <20191029031223.GA26815@b29397-desktop> <0c2c901c-a6f2-a81b-f5b1-e3f442d7c1ae@ti.com>
+Date:   Tue, 29 Oct 2019 12:33:56 +0200
+Message-ID: <875zk7j0x7.fsf@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fix a user-controlled slab buffer overflow due to a missing sanity check
-on the bulk-out transfer buffer used for control requests.
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable <stable@vger.kernel.org>
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/serial/whiteheat.c | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/usb/serial/whiteheat.c b/drivers/usb/serial/whiteheat.c
-index 79314d8c94a4..76cabcb30d21 100644
---- a/drivers/usb/serial/whiteheat.c
-+++ b/drivers/usb/serial/whiteheat.c
-@@ -559,6 +559,10 @@ static int firm_send_command(struct usb_serial_port *port, __u8 command,
- 
- 	command_port = port->serial->port[COMMAND_PORT];
- 	command_info = usb_get_serial_port_data(command_port);
-+
-+	if (command_port->bulk_out_size < datasize + 1)
-+		return -EIO;
-+
- 	mutex_lock(&command_info->mutex);
- 	command_info->command_finished = false;
- 
--- 
-2.23.0
+Hi,
 
+Roger Quadros <rogerq@ti.com> writes:
+
+> On 29/10/2019 05:12, Peter Chen wrote:
+>> On 19-10-25 12:59:17, Roger Quadros wrote:
+>>> Peter,
+>>>
+>>> On 25/10/2019 06:13, Peter Chen wrote:
+>>>> On 19-10-23 09:17:45, Pawel Laszczak wrote:
+>>>>> Hi,
+>>>>>
+>>>>> Reviewed-by: Pawel Laszczak <pawell@cadence.com>
+>>>>
+>>>> Hi Roger & Pawel,
+>>>>
+>>>> Assume gadget function has already enabled, if you switch host mode
+>>>> to device mode, with your changes, where the device mode will be enabl=
+ed
+>>>> again?
+>>>
+>>> When it switches from device mode to host the UDC is removed. When we s=
+witch
+>>> back from host to device mode the UDC is added, so,
+>>>
+>>> usb_add_gadget_udc_release()-> check_pending_gadget_drivers()->
+>>> udc_bind_to_driver()->usb_udc_connect_control()->usb_gadget_connect()->
+>>> gadget->ops->pullup()
+>>=20
+>> Thanks. I have another question how you decide when to store UDC name
+>> to /sys/kernel/config/usb_gadget/g1/UDC? Do you have a user daemon progr=
+am
+>> to monitor VBUS or external connector? At host mode, the store operation
+>> will fail due to there is NO UDC.
+>>=20
+>
+> Yes, user space needs to monitor /sys/class/usb_role/6000000.usb-role-swi=
+tch/role
+>
+> When it becomes "device" the UDC is available and it can prepare to confi=
+gure
+> the UDC.
+>
+> Could you please give your Ack for this patch if it is OK? Thanks.
+
+this is already in its way to Linus' tree:
+
+https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/commit/?h=3D=
+usb-linus&id=3Df3fb802efaef3662744a2215a51294d52a7cfc0e
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl24FZQACgkQzL64meEa
+mQb8GxAAkVg88x3zxLiaMlbDSwSkB6A3rUU+t+PeKfW2HC4iQGxWsl3UU34sr1uk
+Lz/vit0HLb11mjHDt3J66hI7gxyqucMjsadiOy6e2H0dk3ehb2GKCEABPTho89l7
+flKFU1cZWqYDUreoL0C7Y2OFMkCU8L9kGUwP6RLinEhleGytnRXxF0IVitWDJYda
+qviXiOFLiAydkwriy1pVTU6gpdK4a8GDUfaoofsS792TD8jy/sOKnHEzLc918/f6
+a82W+Htz9wWuUokddvmw5nlpIE6IVQVWU1RpPnn5d19ZhIORGMg2fq3VEeh7n3s3
+C0np+xS5Re0UIbLoaXGgBjRCKdraCdaM92ODBx4e9HWpBuUwHPbFWY8aSLzerRSz
+kG8CXyN5eWfucdcVCHq9XUuesZwwB0wc+b/I67ayI+rD3wqK9+RV5MGyjdvMwlyG
+f/fZ41Y67JWqUzCAooYLTmdrxjSdSy/TQCbkiV8ghwGYUcUp6VPLxT3qABK+sX95
+3IoSmnIa+oH9ykFTBNLt14v3dKNU/WKdFdSyp6YQKAvUVX7EVQoQFud7+/M4HZi2
+3NlJpenqjvs68T4XmIeonF0/GxNCGFFdFH0DBrYTcWZ+2k2n/rbPNSDcBtpQ2/hF
+ZnSDN1clFqtkAbz5q7JohSYc1ZTjLCTbDa0drHYW97Lh0ylZ5nM=
+=je1a
+-----END PGP SIGNATURE-----
+--=-=-=--
