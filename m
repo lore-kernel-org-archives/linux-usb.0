@@ -2,62 +2,65 @@ Return-Path: <SRS0=3MAM=YW=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2EF5CA9EAE
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Oct 2019 10:26:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB391CA9EC4
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Oct 2019 10:26:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B59842087E
-	for <linux-usb@archiver.kernel.org>; Tue, 29 Oct 2019 10:26:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8FA10208E3
+	for <linux-usb@archiver.kernel.org>; Tue, 29 Oct 2019 10:26:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572344783;
-	bh=6PHyrGgO1xdkX2IhY+5fqzsNW8lqS7hEOD3HaHMW1Jc=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=iNhm8/SnQR4EZ65yhf4/O+wyElBjQ+R5DmtGHb8yaOd2vR2dlg+ffUWFapJXMNfoM
-	 tnuzn5kDNTIL84VgEf3cnyzIU3Zys3wv19at4CdQTD52HkMO5ur6rZ/51ElMhX29Sy
-	 S8a0yuK5gk4q6fpPeYkZar2PhEP39o8eyeBMfQ1Q=
+	s=default; t=1572344784;
+	bh=iT1kVATZ5fM/7svDRVDpcMgPNkezUrZYi+XV+RevBkI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=d/Ev3i/jSBQwx3B86x4+wTusXwfeGHtDTYCmpGnlmt2l49XnZXJdUmdLhNNzmAhp4
+	 yZIY3jB0wiAywz24ms/FFbVXNgP/Zdau7wh/AZFmzNj4v/hEWfZr8ngz2btoZXJi2Q
+	 116i9T4CHgn60zbtW2kh5p+h2IVmXqQk39L4IC2g=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730237AbfJ2K0X (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 29 Oct 2019 06:26:23 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:54955 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726071AbfJ2K0W (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Oct 2019 06:26:22 -0400
-Received: by mail-wm1-f65.google.com with SMTP id g7so1914853wmk.4
-        for <linux-usb@vger.kernel.org>; Tue, 29 Oct 2019 03:26:21 -0700 (PDT)
+        id S1730250AbfJ2K0Y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 29 Oct 2019 06:26:24 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:35961 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727875AbfJ2K0X (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 29 Oct 2019 06:26:23 -0400
+Received: by mail-wr1-f65.google.com with SMTP id w18so13023741wrt.3
+        for <linux-usb@vger.kernel.org>; Tue, 29 Oct 2019 03:26:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=maMmhAKWfYgGqUBMyOkkmron/Ce8MhKYUinnMLaiUfk=;
-        b=HQVxQolFe8VtouzHCw1TmUyFZ8n+SW2xJ8FA8U+QENmkENsKeNYfYiW4P+A80PdyKt
-         X+Ht2pZvr3oPIgOd3tRfhv1ne0IvjJP13aGBiXeNu0S3hAHrc66mHdoQrWUh+2DMZgt7
-         SMWbqvHA5KAbuaB44tee7Lu05xRBhsh4xHHjQqRD/TZm6eFGt087Xw7MKQPu3a/YwcG5
-         Ay6F+1m8QpHSVGUoF14p7h0tA5/RXZvsNXBPP96amKc0JL8SUiw8WVHTyFicsxoT+qsb
-         tYNtXwlwZZAVFh94aNbPDl5Kc4zCJAfGhyYsTInG0WWQgH9XVvZTqeniorhaQQSj+x0k
-         e1zA==
-X-Gm-Message-State: APjAAAXfwm4cSo3tGSxWD8HejK27Kwjy1YfwNVQ+ABJlsPh6K0YhVgVf
-        am/47fX8KbRH/cl+YQHiFQ0=
-X-Google-Smtp-Source: APXvYqzBi7Ud0r8GBhuM/rKMYZCo2b3ckkrhLXumVue62fxuKIiqgfl+wY1GnJ8IGVxA1Aj5FWugtw==
-X-Received: by 2002:a7b:c302:: with SMTP id k2mr3444569wmj.81.1572344781109;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Y6sgKQh/jeviAiKxhkuPYoJYMnhcj1Qowe4cypLyUC0=;
+        b=E7Ew4GGRsOvJJ4g1Nj6yN3X5aKr9FepS1VeC9AXvDPyGMSrfyDlNqg0pOzz+z31hVf
+         V69NLJaJgajcXLquvOSF/j5r1aTTPTYReMZFoFzzfJ1NnTmgQK0tmY4lbeN6x1ZO7tr5
+         Xb+8zTH1UJeC15LDkDXQQXrFjseT/up/sDXMn4IN2RFmnpJCyzgXaRhhOplMKkfv748K
+         U43qRj/uuNJu3XKzvYMXMDtcDnggb0Win2fBtX/eX8PdptvUgMzMunPgWof7/LhP+Qvx
+         Xu10gK/lMyoU4plaxJhcxiSPQv/aFN1bTirQpJ6XjqaIieuNZQrzrwDclC8tCIsfuc+1
+         O6wg==
+X-Gm-Message-State: APjAAAVCrRnYytHQ9g5dXvjybq5s+8WQNUGIJXTysAwmxJ7hmHI1a+rP
+        Ydz+cbgVF3m/YTHwYDqa5sQ=
+X-Google-Smtp-Source: APXvYqzT1A7V6IPdf7HU0XmLZnGG8uvdicz+UWSDD0n9QuhGMakoscYPD9Zx80pukR27EOdjfSaxWQ==
+X-Received: by 2002:a5d:4f8f:: with SMTP id d15mr19959377wru.126.1572344781479;
         Tue, 29 Oct 2019 03:26:21 -0700 (PDT)
 Received: from pi (100.50.158.77.rev.sfr.net. [77.158.50.100])
-        by smtp.gmail.com with ESMTPSA id w17sm16228035wra.34.2019.10.29.03.26.20
+        by smtp.gmail.com with ESMTPSA id y2sm1578845wmy.2.2019.10.29.03.26.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 29 Oct 2019 03:26:20 -0700 (PDT)
 Received: from johan by pi with local (Exim 4.92.2)
         (envelope-from <johan@pi>)
-        id 1iPOgQ-0002pn-CD; Tue, 29 Oct 2019 11:25:02 +0100
+        id 1iPOgQ-0002pu-Db; Tue, 29 Oct 2019 11:25:02 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org
-Subject: [PATCH 0/2] USB: serial: whiteheat: fix slab corruption and endianness bug
-Date:   Tue, 29 Oct 2019 11:23:52 +0100
-Message-Id: <20191029102354.2733-1-johan@kernel.org>
+Subject: [PATCH 2/2] USB: serial: whiteheat: fix line-speed endianness
+Date:   Tue, 29 Oct 2019 11:23:54 +0100
+Message-Id: <20191029102354.2733-3-johan@kernel.org>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191029102354.2733-1-johan@kernel.org>
+References: <20191029102354.2733-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -65,22 +68,60 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-These patches fix a user-controlled slab buffer corruption, and adds a
-missing endianess conversion when setting the line speed.
+Add missing endianness conversion when setting the line speed so that
+this driver might work also on big-endian machines.
 
-Greg, feel free to pick up the first one directly if you want.
+Also use an unsigned format specifier in the corresponding debug
+message.
 
-Johan
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/whiteheat.c | 9 ++++++---
+ drivers/usb/serial/whiteheat.h | 2 +-
+ 2 files changed, 7 insertions(+), 4 deletions(-)
 
-
-Johan Hovold (2):
-  USB: serial: whiteheat: fix potential slab corruption
-  USB: serial: whiteheat: fix line-speed endianness
-
- drivers/usb/serial/whiteheat.c | 13 ++++++++++---
- drivers/usb/serial/whiteheat.h |  2 +-
- 2 files changed, 11 insertions(+), 4 deletions(-)
-
+diff --git a/drivers/usb/serial/whiteheat.c b/drivers/usb/serial/whiteheat.c
+index 76cabcb30d21..ca3bd58f2025 100644
+--- a/drivers/usb/serial/whiteheat.c
++++ b/drivers/usb/serial/whiteheat.c
+@@ -636,6 +636,7 @@ static void firm_setup_port(struct tty_struct *tty)
+ 	struct device *dev = &port->dev;
+ 	struct whiteheat_port_settings port_settings;
+ 	unsigned int cflag = tty->termios.c_cflag;
++	speed_t baud;
+ 
+ 	port_settings.port = port->port_number + 1;
+ 
+@@ -696,11 +697,13 @@ static void firm_setup_port(struct tty_struct *tty)
+ 	dev_dbg(dev, "%s - XON = %2x, XOFF = %2x\n", __func__, port_settings.xon, port_settings.xoff);
+ 
+ 	/* get the baud rate wanted */
+-	port_settings.baud = tty_get_baud_rate(tty);
+-	dev_dbg(dev, "%s - baud rate = %d\n", __func__, port_settings.baud);
++	baud = tty_get_baud_rate(tty);
++	port_settings.baud = cpu_to_le32(baud);
++	dev_dbg(dev, "%s - baud rate = %u\n", __func__, baud);
+ 
+ 	/* fixme: should set validated settings */
+-	tty_encode_baud_rate(tty, port_settings.baud, port_settings.baud);
++	tty_encode_baud_rate(tty, baud, baud);
++
+ 	/* handle any settings that aren't specified in the tty structure */
+ 	port_settings.lloop = 0;
+ 
+diff --git a/drivers/usb/serial/whiteheat.h b/drivers/usb/serial/whiteheat.h
+index 00398149cd8d..269e727a92f9 100644
+--- a/drivers/usb/serial/whiteheat.h
++++ b/drivers/usb/serial/whiteheat.h
+@@ -87,7 +87,7 @@ struct whiteheat_simple {
+ 
+ struct whiteheat_port_settings {
+ 	__u8	port;		/* port number (1 to N) */
+-	__u32	baud;		/* any value 7 - 460800, firmware calculates
++	__le32	baud;		/* any value 7 - 460800, firmware calculates
+ 				   best fit; arrives little endian */
+ 	__u8	bits;		/* 5, 6, 7, or 8 */
+ 	__u8	stop;		/* 1 or 2, default 1 (2 = 1.5 if bits = 5) */
 -- 
 2.23.0
 
