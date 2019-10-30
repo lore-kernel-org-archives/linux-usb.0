@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F4D7CA9EC7
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Oct 2019 15:59:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2323FCA9EC6
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Oct 2019 15:59:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 25E9A217F9
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Oct 2019 15:59:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D60AA217D9
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Oct 2019 15:59:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572451154;
-	bh=UXs6zSj+eLEnOLZq+4WUzH3BveT4SgoNgiOc6NkYYRY=;
+	s=default; t=1572451194;
+	bh=x8Cfy8ltv+5u7ZV5lSMae+39UiLroe1qUIdwBVjHK90=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=SlTqWxllvEgDlHgEvfVdIUfr7Y1mC+Qhtd5mWsSaOw4jQJX+rF8LX90TbCBVvNgIn
-	 fgGtP7l20uG+JeVP5kI5Td19qnGSOLPHTUeBP+RiSY8K5Odhgpr8gmKfBcDjfKrNlS
-	 +bogvFNcdSvxzyheuqAADpyBeD2OaOYmTuBWzS7E=
+	b=S97Q881fOBNVZWpsGsGt0ZgO6dxsbhh9PsSBCsHYdymMs3sdVButw8ODTFV9rJ4k7
+	 acqdHyCtI3M+RVt/z4j550DAo0dMd5BKqGxAYGSExyJQkGvI9GUum0/zYH2XjmJCdL
+	 QRUzSPMLRRP1+Mle3jhOPtNslq9PvzpFzRrVKOGs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728458AbfJ3P7M (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Oct 2019 11:59:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59174 "EHLO mail.kernel.org"
+        id S1728847AbfJ3P4b (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Oct 2019 11:56:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58174 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727763AbfJ3P5c (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 30 Oct 2019 11:57:32 -0400
+        id S1728840AbfJ3P4b (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 30 Oct 2019 11:56:31 -0400
 Received: from sasha-vm.mshome.net (100.50.158.77.rev.sfr.net [77.158.50.100])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3E8CC2173E;
-        Wed, 30 Oct 2019 15:57:30 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EBD3A218DE;
+        Wed, 30 Oct 2019 15:56:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572451051;
-        bh=UXs6zSj+eLEnOLZq+4WUzH3BveT4SgoNgiOc6NkYYRY=;
+        s=default; t=1572450990;
+        bh=x8Cfy8ltv+5u7ZV5lSMae+39UiLroe1qUIdwBVjHK90=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bh3TNMf4tZR/wpyrdzXlIOkabAxAbjVDCfzN70e208Wz20O4ucOE+wE6uEcUciDjO
-         Ea3IFkJQuuRi2NR5ny7XGZ0UjSzVG6HJ3sljUL9uCZ5QRnzAmo5RvesygUtnp6sO2+
-         bIvBvJwCNxQUvPNusboJu+jxnA3nkpZx6PR0mv5g=
+        b=arSg9iRuhaiUg6XUl/hbEdm3GIm5azCRoHUx+ztnmjEdj2euYOam8y4q9n0oQUHtV
+         Wgr2HQFUyQLInINmIvkK53ku/d9UpzQiHNcHBdCTnBuXX3P5pSHVYnMxchKHD+O0Zd
+         JtZ0jUuqsNbxvK/UEcg0GlYH0oouTPbd1qHRUTR4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
@@ -45,12 +45,12 @@ Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>,
         legousb-devel@lists.sourceforge.net, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 12/18] USB: legousbtower: fix a signedness bug in tower_probe()
-Date:   Wed, 30 Oct 2019 11:56:54 -0400
-Message-Id: <20191030155700.10748-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 14/24] USB: legousbtower: fix a signedness bug in tower_probe()
+Date:   Wed, 30 Oct 2019 11:55:45 -0400
+Message-Id: <20191030155555.10494-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191030155700.10748-1-sashal@kernel.org>
-References: <20191030155700.10748-1-sashal@kernel.org>
+In-Reply-To: <20191030155555.10494-1-sashal@kernel.org>
+References: <20191030155555.10494-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -79,10 +79,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/usb/misc/legousbtower.c b/drivers/usb/misc/legousbtower.c
-index f56307059d48c..7cac3ee09b09d 100644
+index 378a565ec989f..a1ed6be874715 100644
 --- a/drivers/usb/misc/legousbtower.c
 +++ b/drivers/usb/misc/legousbtower.c
-@@ -898,7 +898,7 @@ static int tower_probe (struct usb_interface *interface, const struct usb_device
+@@ -881,7 +881,7 @@ static int tower_probe (struct usb_interface *interface, const struct usb_device
  				  get_version_reply,
  				  sizeof(*get_version_reply),
  				  1000);
