@@ -6,34 +6,34 @@ X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04738C47E49
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Oct 2019 09:02:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F4C8CA9EAF
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Oct 2019 09:03:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C4EBE20663
-	for <linux-usb@archiver.kernel.org>; Wed, 30 Oct 2019 09:02:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E76EC2087F
+	for <linux-usb@archiver.kernel.org>; Wed, 30 Oct 2019 09:02:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572426122;
-	bh=MRJhIGTpcjvSR1b439Bv0bYXrlH47dNv1ro7P194GS4=;
+	s=default; t=1572426180;
+	bh=raH+iI0aQiORbOrO2yDf8CX82VI9Uy4H5AJIucXb10M=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=OGRWjWO+aXxQxWcSHEpS7zcqdYiNylxarXW37u2DZWDtjrM5aScFbouHV7qmc6BK0
-	 E/RnWMS642osRsCOeD77lJ9dKx4F/CopYYoqjPwQevTrl57RzQL/aygwLGfGKRsuIb
-	 00Ok4hgdfaC8cJzNXtDTquPPRUFt+5aSBtsoW+ic=
+	b=KL+5qqF9zIWyJnHL8vxM1LxSsR9unG17VNkx/nmq0qmWHQXYlpvN9kkiP/Zo/SyOM
+	 mk1BzMEnK1lGYrMrKfVO+fUK8xcy7DtpcGiggd7vnAxh3miSG8V8TXV+olAqPWOa+j
+	 /5j5XSgXyMHwbwYTIHw7v7ogKQ3Vyb0GHtkn/1wk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726462AbfJ3JBz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 30 Oct 2019 05:01:55 -0400
-Received: from mga06.intel.com ([134.134.136.31]:32433 "EHLO mga06.intel.com"
+        id S1726711AbfJ3JC4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 30 Oct 2019 05:02:56 -0400
+Received: from mga17.intel.com ([192.55.52.151]:7949 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726284AbfJ3JBy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 30 Oct 2019 05:01:54 -0400
+        id S1726184AbfJ3JC4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 30 Oct 2019 05:02:56 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Oct 2019 02:01:54 -0700
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Oct 2019 02:02:55 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.68,246,1569308400"; 
-   d="scan'208";a="193903444"
+   d="scan'208";a="225264093"
 Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
-  by orsmga008.jf.intel.com with ESMTP; 30 Oct 2019 02:01:49 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 30 Oct 2019 02:02:51 -0700
 From:   Felipe Balbi <balbi@kernel.org>
 To:     John Stultz <john.stultz@linaro.org>
 Cc:     lkml <linux-kernel@vger.kernel.org>,
@@ -53,11 +53,11 @@ Cc:     lkml <linux-kernel@vger.kernel.org>,
         Linux USB List <linux-usb@vger.kernel.org>,
         "open list\:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v4 6/9] usb: dwc3: Rework resets initialization to be more flexible
-In-Reply-To: <CALAqxLX47uELsGbdociUKdC6KgDba-1SBVALmgjD3=jxh=fd8g@mail.gmail.com>
-References: <20191028215919.83697-1-john.stultz@linaro.org> <20191028215919.83697-7-john.stultz@linaro.org> <87h83rj4ha.fsf@gmail.com> <CALAqxLX47uELsGbdociUKdC6KgDba-1SBVALmgjD3=jxh=fd8g@mail.gmail.com>
-Date:   Wed, 30 Oct 2019 11:01:49 +0200
-Message-ID: <87k18mhaiq.fsf@gmail.com>
+Subject: Re: [PATCH v4 5/9] usb: dwc3: Rework clock initialization to be more flexible
+In-Reply-To: <CALAqxLXcD8V1o01yMrHpeoqU2MfJ=8d3dbzC8T-+aoovDUd8kA@mail.gmail.com>
+References: <20191028215919.83697-1-john.stultz@linaro.org> <20191028215919.83697-6-john.stultz@linaro.org> <87k18nj4mj.fsf@gmail.com> <CALAqxLXcD8V1o01yMrHpeoqU2MfJ=8d3dbzC8T-+aoovDUd8kA@mail.gmail.com>
+Date:   Wed, 30 Oct 2019 11:02:51 +0200
+Message-ID: <87h83qhah0.fsf@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Sender: linux-usb-owner@vger.kernel.org
@@ -69,37 +69,36 @@ X-Mailing-List: linux-usb@vger.kernel.org
 Hi,
 
 John Stultz <john.stultz@linaro.org> writes:
-
-> On Tue, Oct 29, 2019 at 2:17 AM Felipe Balbi <balbi@kernel.org> wrote:
+> On Tue, Oct 29, 2019 at 2:14 AM Felipe Balbi <balbi@kernel.org> wrote:
 >> John Stultz <john.stultz@linaro.org> writes:
->> > The dwc3 core binding specifies one reset.
+>>
+>> > The dwc3 core binding specifies three clocks:
+>> >   ref, bus_early, and suspend
 >> >
->> > However some variants of the hardware my not have more.
+>> > which are all controlled in the driver together.
+>> >
+>> > However some variants of the hardware my not have all three clks
 >>                                         ^^
 >>                                         may
 >>
->> According to synopsys databook, there's a single *input* reset signal on
->> this IP. What is this extra reset you have?
+>> In fact *all* platforms have all three clocks. It's just that in some
+>> cases clock pins are shorted together (or take input from same clock).
 >>
->> Is this, perhaps, specific to your glue layer around the synopsys ip?
+> ...
+>> another option would be to pass three clocks with the same phandle. That
+>> would even make sure that clock usage counts are correct, no?
 >
-> Likely (again, I unfortunately don't have a ton of detail on the hardware).
+> Hey Felipe!
 >
->> Should, perhaps, your extra reset be managed by the glue layer?
+> So I actually had done that initially (and it seemed to work), but Rob
+> suggested this way instead.
+> I'm fine with either, as long as having multiple references to the
+> same clk in the enable/disable paths doesn't cause trouble.
 >
-> So yes the dwc3-of-simple does much of this already (it handles
-> multiple resets, and variable clocks), but unfortunately we seem to
-> need new bindings for each device added?  I think the suggestion from
-> Rob was due to the sprawl of bindings for the glue code, and the extra
-> complexity of the parent node.  So I believe Rob just thought it made
-> sense to collapse this down into the core?
->
-> I'm not really passionate about either approach, and am happy to
-> rework (as long as there is eventual progress :).
-> Just let me know what you'd prefer.
+> Thanks so much for the review here!
 
-Well, I was under the impression we were supposed to describe the
-HW. Synopsys IP has a single reset input :-p
+same as the other patch, if we're supposed to describe the HW, then we
+should describe what's actually happening.
 
 -- 
 balbi
