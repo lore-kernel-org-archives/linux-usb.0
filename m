@@ -2,78 +2,114 @@ Return-Path: <SRS0=fS7H=YY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AE83CA9ECE
-	for <linux-usb@archiver.kernel.org>; Thu, 31 Oct 2019 08:39:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 118FBCA9EC3
+	for <linux-usb@archiver.kernel.org>; Thu, 31 Oct 2019 08:56:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3149B2086D
-	for <linux-usb@archiver.kernel.org>; Thu, 31 Oct 2019 08:39:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D87A22083E
+	for <linux-usb@archiver.kernel.org>; Thu, 31 Oct 2019 08:55:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1572512159;
+	bh=bwH2lGBSgTbwBF/XaBAjPMDyWxkpYJ4k5ZkDsu7mIzI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
+	b=s8JLqZlPL1NAmglDR1Eqcv7NCSqXlsTEXyZdc76kX8lIvcM8nnL5wru0fdwRtpjWX
+	 aiXWLFmU3Cm+mhRJxqxoFsJw3QqMVagBupJrv4qr3qc4JhtHw7417Btho1LDjHXb39
+	 FiQo9YLXVgjal2BeM6EoznUNUVKSVmybAgxxd6bE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726922AbfJaIja (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 31 Oct 2019 04:39:30 -0400
-Received: from mx2.suse.de ([195.135.220.15]:42048 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726774AbfJaIja (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 31 Oct 2019 04:39:30 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 4BD67ACA4;
-        Thu, 31 Oct 2019 08:39:28 +0000 (UTC)
-Subject: Re: [PATCH v2] scsi: Fix scsi_get/set_resid() interface
-To:     Bart Van Assche <bvanassche@acm.org>,
-        Damien Le Moal <Damien.LeMoal@wdc.com>,
-        "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-        "Martin K . Petersen" <martin.petersen@oracle.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "usb-storage@lists.one-eyed-alien.net" 
-        <usb-storage@lists.one-eyed-alien.net>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Justin Piszcz <jpiszcz@lucidpixels.com>
-References: <20191030090847.25650-1-damien.lemoal@wdc.com>
- <af516590-58dc-0377-5c54-ac63cffbafc8@acm.org>
- <BYAPR04MB5816D4B866F2E7CC421E8488E7600@BYAPR04MB5816.namprd04.prod.outlook.com>
- <a33afd2e-a7d6-5584-dc26-79fb8f3d6a97@acm.org>
-From:   Hannes Reinecke <hare@suse.de>
-Message-ID: <a640ee15-515b-6811-9883-48b49ead9276@suse.de>
-Date:   Thu, 31 Oct 2019 09:39:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S1727109AbfJaIz5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 31 Oct 2019 04:55:57 -0400
+Received: from mga11.intel.com ([192.55.52.93]:45690 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727005AbfJaIz4 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 31 Oct 2019 04:55:56 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 31 Oct 2019 01:55:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,250,1569308400"; 
+   d="scan'208";a="190558319"
+Received: from pipin.fi.intel.com (HELO pipin) ([10.237.72.175])
+  by orsmga007.jf.intel.com with ESMTP; 31 Oct 2019 01:55:53 -0700
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Roger Quadros <rogerq@ti.com>, gregkh@linuxfoundation.org
+Cc:     pawell@cadence.com, peter.chen@nxp.com, nsekhar@ti.com,
+        kurahul@cadence.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Roger Quadros <rogerq@ti.com>
+Subject: Re: [PATCH v2] usb: cdns3: gadget: Fix g_audio use case when connected to Super-Speed host
+In-Reply-To: <20191030121607.21739-1-rogerq@ti.com>
+References: <20191029151514.28495-1-rogerq@ti.com> <20191030121607.21739-1-rogerq@ti.com>
+Date:   Thu, 31 Oct 2019 10:55:52 +0200
+Message-ID: <87pnide1k7.fsf@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <a33afd2e-a7d6-5584-dc26-79fb8f3d6a97@acm.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 10/30/19 6:01 PM, Bart Van Assche wrote:
-> On 10/30/19 9:21 AM, Damien Le Moal wrote:
->> If you feel strongly about it, I have absolutely no problem with
->> dropping the patch. I just would like that it be dropped for the right
->> reasons...
-> 
-> Hi Damien,
-> 
-> What I'm wondering about is how the SCSI core should support residual
-> overflow. Should a new member be introduced in struct scsi_request?
-> Should resid_len be changed from unsigned int to int or should we
-> perhaps follow yet another approach?
-> 
-Please introduce a new member to hold any overflow value.
-And document where it is needed.
 
-Cheers,
+Hi,
 
-Hannes
+Roger Quadros <rogerq@ti.com> writes:
+
+> Take into account gadget driver's speed limit when programming
+> controller speed.
+>
+> Fixes: commit 7733f6c32e36 ("usb: cdns3: Add Cadence USB3 DRD Driver")
+> Signed-off-by: Roger Quadros <rogerq@ti.com>
+> Acked-by: Peter Chen <peter.chen@nxp.com>
+> ---
+>
+> Changelog:
+> v2
+> - Add Fixes line
+>
+>  drivers/usb/cdns3/gadget.c | 31 ++++++++++++++++++++++++++-----
+>  1 file changed, 26 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/usb/cdns3/gadget.c b/drivers/usb/cdns3/gadget.c
+> index 40dad4e8d0dc..1c724c20d468 100644
+> --- a/drivers/usb/cdns3/gadget.c
+> +++ b/drivers/usb/cdns3/gadget.c
+> @@ -2338,9 +2338,35 @@ static int cdns3_gadget_udc_start(struct usb_gadget *gadget,
+>  {
+>  	struct cdns3_device *priv_dev = gadget_to_cdns3_device(gadget);
+>  	unsigned long flags;
+> +	enum usb_device_speed max_speed = driver->max_speed;
+>  
+>  	spin_lock_irqsave(&priv_dev->lock, flags);
+>  	priv_dev->gadget_driver = driver;
+> +
+> +	/* limit speed if necessary */
+> +	max_speed = min(driver->max_speed, gadget->max_speed);
+> +
+> +	switch (max_speed) {
+> +	case USB_SPEED_FULL:
+> +		writel(USB_CONF_SFORCE_FS, &priv_dev->regs->usb_conf);
+> +		writel(USB_CONF_USB3DIS, &priv_dev->regs->usb_conf);
+> +		break;
+> +	case USB_SPEED_HIGH:
+> +		writel(USB_CONF_USB3DIS, &priv_dev->regs->usb_conf);
+> +		break;
+> +	case USB_SPEED_SUPER:
+> +		break;
+> +	default:
+> +		dev_err(priv_dev->dev,
+> +			"invalid maximum_speed parameter %d\n",
+> +			max_speed);
+> +		/* fall through */
+> +	case USB_SPEED_UNKNOWN:
+> +		/* default to superspeed */
+> +		max_speed = USB_SPEED_SUPER;
+> +		break;
+> +	}
+
+I had suggested some simplification for this case statement.
+
 -- 
-Dr. Hannes Reinecke            Teamlead Storage & Networking
-hare@suse.de                              +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 Nürnberg
-GF: Felix Imendörffer, Mary Higgins, Sri Rasiah
-HRB 21284 (AG Nürnberg)
+balbi
