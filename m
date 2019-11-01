@@ -2,77 +2,62 @@ Return-Path: <SRS0=p//1=YZ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9BA0CA9ECF
-	for <linux-usb@archiver.kernel.org>; Fri,  1 Nov 2019 15:05:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15299CA9ECF
+	for <linux-usb@archiver.kernel.org>; Fri,  1 Nov 2019 17:24:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 627B021734
-	for <linux-usb@archiver.kernel.org>; Fri,  1 Nov 2019 15:05:15 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=cerno.tech header.i=@cerno.tech header.b="gi3lySwP";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vSEijQZm"
+	by mail.kernel.org (Postfix) with ESMTP id D1EE921734
+	for <linux-usb@archiver.kernel.org>; Fri,  1 Nov 2019 17:24:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1572629067;
+	bh=CV5L4bsQh/Wi5NdC7FFte69/nfO4jpoprfI37OkWavU=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=Dh+KKP7SPqj8H/NoYA22QcUaQRO5Kj29CSWHhAMCcwruLNUws8Qec5GEiWJ5aXhdw
+	 KQyevQmUZrRxj6fqbxKfm0Ks7Eu4PJGw3k14jilpbBP0iyp/cNuiXunodUgkJ+S3Zp
+	 JSw2+1UlRg/1cY2ekK89kc8GoiVtHzo4VEL4poLs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727810AbfKAPFO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 1 Nov 2019 11:05:14 -0400
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:40319 "EHLO
-        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727555AbfKAPFO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 1 Nov 2019 11:05:14 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 07BEA6A85;
-        Fri,  1 Nov 2019 11:05:13 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Fri, 01 Nov 2019 11:05:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        from:to:cc:subject:date:message-id:mime-version
-        :content-transfer-encoding; s=fm1; bh=YDxjSNOMKcpTouvXVfD+yOz3Ma
-        AE9Piluf+18PUN7Fg=; b=gi3lySwP/nMqMuJ9sxDDFp1fYzrQYaqL5TH0BI/hkO
-        XYBNkC3+VB8yNzua5usfVTz1hoEz/zpidPtWiGVsR+J7ltBnnDzwjGTxoBf68gNp
-        fTy50pQ2oN5zeRCzJcqTlQpQrDQIhQ758TskQMRb3iB86EI3Diy4JSlt4vidSyL8
-        xiF680w/NEamIw2xoy7/8kO2Tm7BOhhOu1Jx+lA/Ew5umpFEFYjzjzQ+Z1IQpNHI
-        TIE3aMcrcMx6wD5OWTvgn1/X3zlXzC26axjF6VG5bjAIyqJwcuEtDqZf1xyY/ZB8
-        naKELbtFBWQUO8KTVzXXc44QXtj5GbU0DhlFigsT4FLw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-        :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=YDxjSNOMKcpTouvXV
-        fD+yOz3MaAE9Piluf+18PUN7Fg=; b=vSEijQZmhtlv9Ijiqys3BtDurrWipYFpd
-        p9lByMnBqW+quQUNeG6jMIBMYKSy/8hiUJYLyjHP47tOpwvWyua+svr7lrHY+C07
-        mf1YHwq3yCRze6LtPKHH80By5fGj1B33kQFD28jLpsZoQSPvqidEEQ0xT8MaOv5s
-        uuqz01+bctjX0h5D1TAnAl/jHBque6gBQ2LCfATJdJKwJK2779TwC4mUEAPF10m0
-        WhNnr0fpLMSvjMlCRx/vpBB2JkSFjPeqf/H4CqQs6KXte6ClOWCzui+Tk3ezxfl0
-        7WKmJoDseXn6TOuwVv2kCKm8xN9lZ5w+zoQLwoAxCXAYLK7O9LaCA==
-X-ME-Sender: <xms:pUm8XbUZRDYF5EFmNMhPMrpRKhS5zd9RocnQGDqULORClBQDuRs-jA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedruddtjedgjeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    govehorghsthgrlhdqhfeguddvqddtvdculdduhedtmdenucfjughrpefhvffufffkofgg
-    gfestdekredtredttdenucfhrhhomhepofgrgihimhgvucftihhprghrugcuoehmrgigih
-    hmvgestggvrhhnohdrthgvtghhqeenucffohhmrghinhepuggvvhhitggvthhrvggvrdho
-    rhhgnecukfhppeeltddrkeelrdeikedrjeeinecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghhnecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:pUm8XbCHxaQS7o7SQpOikZhl4r_MQ_CMeIzqaHxipzc53LNUIbBbHg>
-    <xmx:pUm8XUzuwIpLE0J33La4OK6Bga86jPSiUDlIkJNI6KkqLkQqOMzYww>
-    <xmx:pUm8XQBCGOk7_07zrVNWIQyspRAFGVjRAKBsgKCQTfclcQBMhmY6PQ>
-    <xmx:p0m8XWCf5n64vM_c5giyeqYgT6HpMM1MyJeD0gsX8bHO3aQ07pyQUA>
-Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 3569080061;
-        Fri,  1 Nov 2019 11:05:09 -0400 (EDT)
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     gregkh@linuxfoundation.org, Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>
-Cc:     devicetree@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-        Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v2] dt-bindings: usb: Convert Allwinner A10 mUSB controller to a schema
-Date:   Fri,  1 Nov 2019 15:32:16 +0100
-Message-Id: <20191101143216.260890-1-maxime@cerno.tech>
+        id S1728608AbfKARY1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 1 Nov 2019 13:24:27 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:46668 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726944AbfKARY0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 1 Nov 2019 13:24:26 -0400
+Received: by mail-lj1-f195.google.com with SMTP id w8so10942875lji.13
+        for <linux-usb@vger.kernel.org>; Fri, 01 Nov 2019 10:24:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YNgTx4DJVbSXhNQk3qTxiqUbOGBUshETuzGkv7oBT+Y=;
+        b=ezFMNN3EzbxwYHDgtrrJfWnr8MG1/qvxTSKXDB7DVNCM7pjPz079T56e4PEaiQayL+
+         AKOxjEmvUqeLVyYYgQ1viDl2R3/Bw3cvbtmc6Dm6eByYBIkWRM+v4c4JlGcgdX1QRKlV
+         6SL08rixPJDDE541e6Tv3l3EUHFlqrpof/eDJHYunIeXMlNeVj9+Yl1vOU8F5Cvn3IfS
+         f4Pp4qddwAAhjhoxVtH9TN4Gr8jVRrfhZi4D40l8mAZsn9IkNzcsVXmB2A94tsAsmqbX
+         L2H5ABX0naiJ/jkjmPJR3kyCEZe3dPr6CuurbBHrdG+45IYP8LX43WoFsVNiqax3OWgp
+         NpNg==
+X-Gm-Message-State: APjAAAVHi0VY1HYM+zKH0LEpYm6zEJEN9uaatSeLhzueJBKDxTp6w80e
+        CD3G6IYmVM5Xr3WsOhm6TbQacD32
+X-Google-Smtp-Source: APXvYqyzKfmb++68JTeb4OhOpCsAl/UdN8hQoxfuwqtRhxAN+gPBXmEnIqYxUtUvaeVt33GVl3NtZQ==
+X-Received: by 2002:a2e:7204:: with SMTP id n4mr1383413ljc.139.1572629064143;
+        Fri, 01 Nov 2019 10:24:24 -0700 (PDT)
+Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
+        by smtp.gmail.com with ESMTPSA id e14sm2973524ljb.75.2019.11.01.10.24.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Nov 2019 10:24:23 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.92.3)
+        (envelope-from <johan@xi.terra>)
+        id 1iQaet-0005K5-Hh; Fri, 01 Nov 2019 18:24:23 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Jonathan Olds <jontio@i4free.co.nz>,
+        Michael Dreher <michael@5dot1.de>, linux-usb@vger.kernel.org
+Subject: [PATCH] USB: serial: ch341: reimplement line-speed handling
+Date:   Fri,  1 Nov 2019 18:24:10 +0100
+Message-Id: <20191101172410.20419-1-johan@kernel.org>
 X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -81,165 +66,187 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The Allwinner SoCs have an mUSB controller that is supported in Linux, with
-a matching Device Tree binding.
+The current ch341 divisor algorithm was known to give inaccurate results
+for certain higher line speeds. Jonathan Olds <jontio@i4free.co.nz>
+investigated this, determined the basic equations used to derive the
+divisors and confirmed them experimentally [1].
 
-Now that we have the DT validation in place, let's convert the device tree
-bindings for that controller over to a YAML schemas.
+The equations Jonathan used could be generalised further to:
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+	baud = 48000000 / (2^(12 - 3 * ps - fact) * div), where
 
+		0 <= ps <= 3,
+		0 <= fact <= 1,
+		2 <= div <= 256 if fact = 0, or
+		9 <= div <= 256 if fact = 1
+
+which will also give better results for lower rates.
+
+Notably the error is reduced for the following standard rates:
+
+	1152000	(4.0% instead of 15% error)
+	 921600	(0.16% instead of -7.5% error)
+	 576000	(-0.80% instead of -5.6% error)
+	    200	(0.16% instead of -0.69% error)
+	    134	(-0.05% instead of -0.63% error)
+	    110	(0.03% instead of -0.44% error)
+
+but also for many non-standard ones.
+
+The current algorithm also suffered from rounding issues (e.g. 2950000
+was rounded to 2 Mbaud instead of 3 Mbaud resulting in a -32% instead of
+1.7% error).
+
+The new algorithm was inspired by the current vendor driver even if that
+one only handles two higher rates that require fact=1 by hard coding the
+corresponding divisors [2].
+
+Michael Dreher <michael@5dot1.de> also did a similar generalisation of
+Jonathan's work and has published his results with a very good summary
+that provides further insights into how this device works [3].
+
+[1] https://lkml.kernel.org/r/000001d51f34$bad6afd0$30840f70$@co.nz
+[2] http://www.wch.cn/download/CH341SER_LINUX_ZIP.html
+[3] https://github.com/nospam2000/ch341-baudrate-calculation
+
+Reported-by: Jonathan Olds <jontio@i4free.co.nz>
+Tested-by: Jonathan Olds <jontio@i4free.co.nz>
+Cc: Michael Dreher <michael@5dot1.de>
+Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
+ drivers/usb/serial/ch341.c | 97 +++++++++++++++++++++++++++++---------
+ 1 file changed, 75 insertions(+), 22 deletions(-)
 
-Changes from v1:
-  - Merged compatible entries together
----
- .../bindings/usb/allwinner,sun4i-a10-musb.txt |  28 -----
- .../usb/allwinner,sun4i-a10-musb.yaml         | 100 ++++++++++++++++++
- 2 files changed, 100 insertions(+), 28 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.txt
- create mode 100644 Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
-
-diff --git a/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.txt b/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.txt
-deleted file mode 100644
-index 50abb20fe319..000000000000
---- a/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.txt
-+++ /dev/null
-@@ -1,28 +0,0 @@
--Allwinner sun4i A10 musb DRC/OTG controller
---------------------------------------------
+diff --git a/drivers/usb/serial/ch341.c b/drivers/usb/serial/ch341.c
+index 3bb1fff02bed..29f83ce1696e 100644
+--- a/drivers/usb/serial/ch341.c
++++ b/drivers/usb/serial/ch341.c
+@@ -48,12 +48,6 @@
+ #define CH341_BIT_DCD 0x08
+ #define CH341_BITS_MODEM_STAT 0x0f /* all bits */
+ 
+-/*******************************/
+-/* baudrate calculation factor */
+-/*******************************/
+-#define CH341_BAUDBASE_FACTOR 1532620800
+-#define CH341_BAUDBASE_DIVMAX 3
 -
--Required properties:
-- - compatible      : "allwinner,sun4i-a10-musb", "allwinner,sun6i-a31-musb",
--                     "allwinner,sun8i-a33-musb" or "allwinner,sun8i-h3-musb"
-- - reg             : mmio address range of the musb controller
-- - clocks          : clock specifier for the musb controller ahb gate clock
-- - reset           : reset specifier for the ahb reset (A31 and newer only)
-- - interrupts      : interrupt to which the musb controller is connected
-- - interrupt-names : must be "mc"
-- - phys            : phy specifier for the otg phy
-- - phy-names       : must be "usb"
-- - dr_mode         : Dual-Role mode must be "host" or "otg"
-- - extcon          : extcon specifier for the otg phy
+ /* Break support - the information used to implement this was gleaned from
+  * the Net/FreeBSD uchcom.c driver by Takanori Watanabe.  Domo arigato.
+  */
+@@ -144,37 +138,96 @@ static int ch341_control_in(struct usb_device *dev,
+ 	return 0;
+ }
+ 
++#define CH341_CLKRATE		48000000
++#define CH341_CLK_DIV(ps, fact)	(1 << (12 - 3 * (ps) - (fact)))
++#define CH341_MIN_RATE(ps)	(CH341_CLKRATE / (CH341_CLK_DIV((ps), 1) * 512))
++
++static const speed_t ch341_min_rates[] = {
++	CH341_MIN_RATE(0),
++	CH341_MIN_RATE(1),
++	CH341_MIN_RATE(2),
++	CH341_MIN_RATE(3),
++};
++
++/*
++ * The device line speed is given by the following equation:
++ *
++ *	baud = 48000000 / (2^(12 - 3 * ps - fact) * div), where
++ *
++ *		0 <= ps <= 3,
++ *		0 <= fact <= 1,
++ *		2 <= div <= 256 if fact = 0, or
++ *		9 <= div <= 256 if fact = 1
++ */
++static int ch341_get_divisor(speed_t speed)
++{
++	unsigned int fact, div, clk_div;
++	int ps;
++
++	/*
++	 * Clamp to supported range, this makes the (ps < 0) and (div < 2)
++	 * sanity checks below redundant.
++	 */
++	speed = clamp(speed, 46U, 3000000U);
++
++	/*
++	 * Start with highest possible base clock (fact = 1) that will give a
++	 * divisor strictly less than 512.
++	 */
++	fact = 1;
++	for (ps = 3; ps >= 0; ps--) {
++		if (speed > ch341_min_rates[ps])
++			break;
++	}
++
++	if (ps < 0)
++		return -EINVAL;
++
++	/* Determine corresponding divisor, rounding down. */
++	clk_div = CH341_CLK_DIV(ps, fact);
++	div = CH341_CLKRATE / (clk_div * speed);
++
++	/* Halve base clock (fact = 0) if required. */
++	if (div < 9 || div > 255) {
++		div /= 2;
++		clk_div *= 2;
++		fact = 0;
++	}
++
++	if (div < 2)
++		return -EINVAL;
++
++	/*
++	 * Pick next divisor if resulting rate is closer to the requested one,
++	 * scale up to avoid rounding errors on low rates.
++	 */
++	if (16 * CH341_CLKRATE / (clk_div * div) - 16 * speed >=
++			16 * speed - 16 * CH341_CLKRATE / (clk_div * (div + 1)))
++		div++;
++
++	return (0x100 - div) << 8 | fact << 2 | ps;
++}
++
+ static int ch341_set_baudrate_lcr(struct usb_device *dev,
+ 				  struct ch341_private *priv, u8 lcr)
+ {
+-	short a;
++	int val;
+ 	int r;
+-	unsigned long factor;
+-	short divisor;
+ 
+ 	if (!priv->baud_rate)
+ 		return -EINVAL;
+-	factor = (CH341_BAUDBASE_FACTOR / priv->baud_rate);
+-	divisor = CH341_BAUDBASE_DIVMAX;
 -
--Example:
+-	while ((factor > 0xfff0) && divisor) {
+-		factor >>= 3;
+-		divisor--;
+-	}
+ 
+-	if (factor > 0xfff0)
++	val = ch341_get_divisor(priv->baud_rate);
++	if (val < 0)
+ 		return -EINVAL;
+ 
+-	factor = 0x10000 - factor;
+-	a = (factor & 0xff00) | divisor;
 -
--	usb_otg: usb@1c13000 {
--		compatible = "allwinner,sun4i-a10-musb";
--		reg = <0x01c13000 0x0400>;
--		clocks = <&ahb_gates 0>;
--		interrupts = <38>;
--		interrupt-names = "mc";
--		phys = <&usbphy 0>;
--		phy-names = "usb";
--		extcon = <&usbphy 0>;
--	};
-diff --git a/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml b/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
-new file mode 100644
-index 000000000000..0af70fc8de5a
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml
-@@ -0,0 +1,100 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/allwinner,sun4i-a10-musb.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Allwinner A10 mUSB OTG Controller Device Tree Bindings
-+
-+maintainers:
-+  - Chen-Yu Tsai <wens@csie.org>
-+  - Maxime Ripard <maxime.ripard@bootlin.com>
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - const: allwinner,sun4i-a10-musb
-+      - const: allwinner,sun6i-a31-musb
-+      - const: allwinner,sun8i-a33-musb
-+      - const: allwinner,sun8i-h3-musb
-+      - items:
-+          - enum:
-+              - allwinner,sun8i-a83t-musb
-+              - allwinner,sun50i-h6-musb
-+          - const: allwinner,sun8i-a33-musb
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  interrupt-names:
-+    const: mc
-+
-+  clocks:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+  phys:
-+    description: PHY specifier for the OTG PHY
-+
-+  phy-names:
-+    const: usb
-+
-+  extcon:
-+    description: Extcon specifier for the OTG PHY
-+
-+  dr_mode:
-+    enum:
-+      - host
-+      - otg
-+      - peripheral
-+
-+  allwinner,sram:
-+    description: Phandle to the device SRAM
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - interrupt-names
-+  - clocks
-+  - phys
-+  - phy-names
-+  - dr_mode
-+  - extcon
-+
-+if:
-+  properties:
-+    compatible:
-+      contains:
-+        enum:
-+          - allwinner,sun6i-a31-musb
-+          - allwinner,sun8i-a33-musb
-+          - allwinner,sun8i-h3-musb
-+
-+then:
-+  required:
-+    - resets
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    usb_otg: usb@1c13000 {
-+      compatible = "allwinner,sun4i-a10-musb";
-+      reg = <0x01c13000 0x0400>;
-+      clocks = <&ahb_gates 0>;
-+      interrupts = <38>;
-+      interrupt-names = "mc";
-+      phys = <&usbphy 0>;
-+      phy-names = "usb";
-+      extcon = <&usbphy 0>;
-+      dr_mode = "peripheral";
-+    };
-+
-+...
+ 	/*
+ 	 * CH341A buffers data until a full endpoint-size packet (32 bytes)
+ 	 * has been received unless bit 7 is set.
+ 	 */
+-	a |= BIT(7);
++	val |= BIT(7);
+ 
+-	r = ch341_control_out(dev, CH341_REQ_WRITE_REG, 0x1312, a);
++	r = ch341_control_out(dev, CH341_REQ_WRITE_REG, 0x1312, val);
+ 	if (r)
+ 		return r;
+ 
 -- 
 2.23.0
 
