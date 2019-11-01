@@ -7,47 +7,47 @@ X-Spam-Status: No, score=-6.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78257C47E49
-	for <linux-usb@archiver.kernel.org>; Fri,  1 Nov 2019 17:35:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24E18CA9ED2
+	for <linux-usb@archiver.kernel.org>; Fri,  1 Nov 2019 17:35:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4909920862
-	for <linux-usb@archiver.kernel.org>; Fri,  1 Nov 2019 17:35:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F120721897
+	for <linux-usb@archiver.kernel.org>; Fri,  1 Nov 2019 17:35:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MUd1OMSp"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Dm1aJdKj"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729759AbfKARfN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 1 Nov 2019 13:35:13 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:23652 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729741AbfKARfH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 1 Nov 2019 13:35:07 -0400
+        id S1729812AbfKARfZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 1 Nov 2019 13:35:25 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:52181 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727988AbfKARfZ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 1 Nov 2019 13:35:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1572629705;
+        s=mimecast20190719; t=1572629724;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=Qoe4+68SxhMAUVnSP6Av5bTGeZl7pUYmSw55Mh+o64M=;
-        b=MUd1OMSp97oaKyHEOD8SLUfBByCJmokllkYGa3v8qyS895A98rrHcxuPmZHzx2fRFfowwM
-        N38DrPQRT/SEQhbHwO+tkLN9UZZO5zr7dp0ToL9TvdZa4vNsfi4dmTc7v1QgjiyTB5u5eu
-        m12A49G73QREE1A4gGCe7SiOrkE7wRg=
+        bh=bQVPVip8ff0LcfPaTnPD2rpsZ9HBejI/JIzJ0jq//Ps=;
+        b=Dm1aJdKjRmY8+wc4naer/Kd0Acg5LKpbt+yDsjsZdYkMNYo+j+zAMr2DaiDXbT4TRZU038
+        zuMBX03CNnm3uv0wxV1MYdC9rERpW3cUsoYmE6OZH+RVVaGYxwQSOcvaEB8ZJvRvUrV2tQ
+        8qivf5Cvx9KgdnljbkXvNTThq1PfSY8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-L0312JSnMXO9VBv0kwfEmw-1; Fri, 01 Nov 2019 13:35:02 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-287-pqc9grtDOSGwWyyMavPlOA-1; Fri, 01 Nov 2019 13:35:21 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4D81800A1A;
-        Fri,  1 Nov 2019 17:35:00 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35FA82EDC;
+        Fri,  1 Nov 2019 17:35:19 +0000 (UTC)
 Received: from warthog.procyon.org.uk (ovpn-121-40.rdu2.redhat.com [10.10.121.40])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id DFDA860876;
-        Fri,  1 Nov 2019 17:34:57 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 965F619C58;
+        Fri,  1 Nov 2019 17:35:16 +0000 (UTC)
 Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
  Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
  Kingdom.
  Registered in England and Wales under Company Registration No. 3798903
-Subject: [RFC PATCH 06/11] pipe: Advance tail pointer inside of wait
- spinlock in pipe_read() [ver #3]
+Subject: [RFC PATCH 08/11] pipe: Rearrange sequence in pipe_write() to
+ preallocate slot [ver #3]
 From:   David Howells <dhowells@redhat.com>
 To:     torvalds@linux-foundation.org
 Cc:     dhowells@redhat.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
@@ -59,14 +59,14 @@ Cc:     dhowells@redhat.com, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
         linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
         linux-security-module@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Fri, 01 Nov 2019 17:34:57 +0000
-Message-ID: <157262969721.13142.294641621235161592.stgit@warthog.procyon.org.uk>
+Date:   Fri, 01 Nov 2019 17:35:15 +0000
+Message-ID: <157262971590.13142.1426435250123334464.stgit@warthog.procyon.org.uk>
 In-Reply-To: <157262963995.13142.5568934007158044624.stgit@warthog.procyon.org.uk>
 References: <157262963995.13142.5568934007158044624.stgit@warthog.procyon.org.uk>
 User-Agent: StGit/unknown-version
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: L0312JSnMXO9VBv0kwfEmw-1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: pqc9grtDOSGwWyyMavPlOA-1
 X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -75,43 +75,136 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Advance the pipe ring tail pointer inside of wait spinlock in pipe_read()
-so that the pipe can be written into with kernel notifications from
-contexts where pipe->mutex cannot be taken.
+Rearrange the sequence in pipe_write() so that the allocation of the new
+buffer, the allocation of a ring slot and the attachment to the ring is
+done under the pipe wait spinlock and then the lock is dropped and the
+buffer can be filled.
+
+The data copy needs to be done with the spinlock unheld and irqs enabled,
+so the lock needs to be dropped first.  However, the reader can't progress
+as we're holding pipe->mutex.
+
+We also need to drop the lock as that would impact others looking at the
+pipe waitqueue, such as poll(), the consumer and a future kernel message
+writer.
+
+We just abandon the preallocated slot if we get a copy error.  Future
+writes may continue it and a future read will eventually recycle it.
 
 Signed-off-by: David Howells <dhowells@redhat.com>
 ---
 
- fs/pipe.c |    8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ fs/pipe.c |   51 +++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 33 insertions(+), 18 deletions(-)
 
 diff --git a/fs/pipe.c b/fs/pipe.c
-index 69afeab8a73a..ea134f69a292 100644
+index c16950e36ded..ce77ac0d8901 100644
 --- a/fs/pipe.c
 +++ b/fs/pipe.c
-@@ -325,9 +325,14 @@ pipe_read(struct kiocb *iocb, struct iov_iter *to)
-=20
- =09=09=09if (!buf->len) {
- =09=09=09=09pipe_buf_release(pipe, buf);
-+=09=09=09=09spin_lock_irq(&pipe->wait.lock);
- =09=09=09=09tail++;
- =09=09=09=09pipe->tail =3D tail;
--=09=09=09=09do_wakeup =3D 1;
-+=09=09=09=09do_wakeup =3D 0;
-+=09=09=09=09wake_up_interruptible_sync_poll_locked(
-+=09=09=09=09=09&pipe->wait, EPOLLOUT | EPOLLWRNORM);
-+=09=09=09=09spin_unlock_irq(&pipe->wait.lock);
-+=09=09=09=09kill_fasync(&pipe->fasync_writers, SIGIO, POLL_OUT);
- =09=09=09}
- =09=09=09total_len -=3D chars;
- =09=09=09if (!total_len)
-@@ -359,6 +364,7 @@ pipe_read(struct kiocb *iocb, struct iov_iter *to)
- =09=09if (do_wakeup) {
- =09=09=09wake_up_interruptible_sync_poll(&pipe->wait, EPOLLOUT | EPOLLWRNO=
-RM);
-  =09=09=09kill_fasync(&pipe->fasync_writers, SIGIO, POLL_OUT);
-+=09=09=09do_wakeup =3D 0;
- =09=09}
- =09=09pipe_wait(pipe);
+@@ -387,7 +387,7 @@ pipe_write(struct kiocb *iocb, struct iov_iter *from)
+ {
+ =09struct file *filp =3D iocb->ki_filp;
+ =09struct pipe_inode_info *pipe =3D filp->private_data;
+-=09unsigned int head, tail, max_usage, mask;
++=09unsigned int head, max_usage, mask;
+ =09ssize_t ret =3D 0;
+ =09int do_wakeup =3D 0;
+ =09size_t total_len =3D iov_iter_count(from);
+@@ -405,14 +405,13 @@ pipe_write(struct kiocb *iocb, struct iov_iter *from)
+ =09=09goto out;
  =09}
+=20
+-=09tail =3D pipe->tail;
+ =09head =3D pipe->head;
+ =09max_usage =3D pipe->max_usage;
+ =09mask =3D pipe->ring_size - 1;
+=20
+ =09/* We try to merge small writes */
+ =09chars =3D total_len & (PAGE_SIZE-1); /* size of the last buffer */
+-=09if (!pipe_empty(head, tail) && chars !=3D 0) {
++=09if (!pipe_empty(head, pipe->tail) && chars !=3D 0) {
+ =09=09struct pipe_buffer *buf =3D &pipe->bufs[(head - 1) & mask];
+ =09=09int offset =3D buf->offset + buf->len;
+=20
+@@ -441,8 +440,8 @@ pipe_write(struct kiocb *iocb, struct iov_iter *from)
+ =09=09=09break;
+ =09=09}
+=20
+-=09=09tail =3D pipe->tail;
+-=09=09if (!pipe_full(head, tail, max_usage)) {
++=09=09head =3D pipe->head;
++=09=09if (!pipe_full(head, pipe->tail, max_usage)) {
+ =09=09=09struct pipe_buffer *buf =3D &pipe->bufs[head & mask];
+ =09=09=09struct page *page =3D pipe->tmp_page;
+ =09=09=09int copied;
+@@ -455,40 +454,56 @@ pipe_write(struct kiocb *iocb, struct iov_iter *from)
+ =09=09=09=09}
+ =09=09=09=09pipe->tmp_page =3D page;
+ =09=09=09}
++
++=09=09=09/* Allocate a slot in the ring in advance and attach an
++=09=09=09 * empty buffer.  If we fault or otherwise fail to use
++=09=09=09 * it, either the reader will consume it or it'll still
++=09=09=09 * be there for the next write.
++=09=09=09 */
++=09=09=09spin_lock_irq(&pipe->wait.lock);
++
++=09=09=09head =3D pipe->head;
++=09=09=09pipe->head =3D head + 1;
++
+ =09=09=09/* Always wake up, even if the copy fails. Otherwise
+ =09=09=09 * we lock up (O_NONBLOCK-)readers that sleep due to
+ =09=09=09 * syscall merging.
+ =09=09=09 * FIXME! Is this really true?
+ =09=09=09 */
+-=09=09=09do_wakeup =3D 1;
+-=09=09=09copied =3D copy_page_from_iter(page, 0, PAGE_SIZE, from);
+-=09=09=09if (unlikely(copied < PAGE_SIZE && iov_iter_count(from))) {
+-=09=09=09=09if (!ret)
+-=09=09=09=09=09ret =3D -EFAULT;
+-=09=09=09=09break;
+-=09=09=09}
+-=09=09=09ret +=3D copied;
++=09=09=09wake_up_interruptible_sync_poll_locked(
++=09=09=09=09&pipe->wait, EPOLLIN | EPOLLRDNORM);
++
++=09=09=09spin_unlock_irq(&pipe->wait.lock);
++=09=09=09kill_fasync(&pipe->fasync_readers, SIGIO, POLL_IN);
+=20
+ =09=09=09/* Insert it into the buffer array */
++=09=09=09buf =3D &pipe->bufs[head & mask];
+ =09=09=09buf->page =3D page;
+ =09=09=09buf->ops =3D &anon_pipe_buf_ops;
+ =09=09=09buf->offset =3D 0;
+-=09=09=09buf->len =3D copied;
++=09=09=09buf->len =3D 0;
+ =09=09=09buf->flags =3D 0;
+ =09=09=09if (is_packetized(filp)) {
+ =09=09=09=09buf->ops =3D &packet_pipe_buf_ops;
+ =09=09=09=09buf->flags =3D PIPE_BUF_FLAG_PACKET;
+ =09=09=09}
+-
+-=09=09=09head++;
+-=09=09=09pipe->head =3D head;
+ =09=09=09pipe->tmp_page =3D NULL;
+=20
++=09=09=09copied =3D copy_page_from_iter(page, 0, PAGE_SIZE, from);
++=09=09=09if (unlikely(copied < PAGE_SIZE && iov_iter_count(from))) {
++=09=09=09=09if (!ret)
++=09=09=09=09=09ret =3D -EFAULT;
++=09=09=09=09break;
++=09=09=09}
++=09=09=09ret +=3D copied;
++=09=09=09buf->offset =3D 0;
++=09=09=09buf->len =3D copied;
++
+ =09=09=09if (!iov_iter_count(from))
+ =09=09=09=09break;
+ =09=09}
+=20
+-=09=09if (!pipe_full(head, tail, max_usage))
++=09=09if (!pipe_full(head, pipe->tail, max_usage))
+ =09=09=09continue;
+=20
+ =09=09/* Wait for buffer space to become available. */
 
