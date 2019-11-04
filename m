@@ -2,145 +2,111 @@ Return-Path: <SRS0=8L6C=Y4=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F36A5CA9EB5
-	for <linux-usb@archiver.kernel.org>; Mon,  4 Nov 2019 14:04:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBBEACA9EB5
+	for <linux-usb@archiver.kernel.org>; Mon,  4 Nov 2019 14:24:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C991721D7F
-	for <linux-usb@archiver.kernel.org>; Mon,  4 Nov 2019 14:04:30 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=dawes-za-net.20150623.gappssmtp.com header.i=@dawes-za-net.20150623.gappssmtp.com header.b="KAqdt8b4"
+	by mail.kernel.org (Postfix) with ESMTP id C6ABB21655
+	for <linux-usb@archiver.kernel.org>; Mon,  4 Nov 2019 14:24:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729058AbfKDOE3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 4 Nov 2019 09:04:29 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:43351 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727782AbfKDOE3 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 4 Nov 2019 09:04:29 -0500
-Received: by mail-lj1-f193.google.com with SMTP id y23so6826273ljh.10
-        for <linux-usb@vger.kernel.org>; Mon, 04 Nov 2019 06:04:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dawes-za-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=g6EyMF+u5e65vvlDXIzQbx6k4XLQuFfwPRwATGVBBiQ=;
-        b=KAqdt8b4rtahb6hV/AbbPvRwg60iSqtp+wijF4ZM+abKojsqgUlKVfqAdq1/T8DL0l
-         2iLb/0+GsjYFHLnF9Qn2rxKF2+6CmHrlwPrsjc6KWemhqDmMsBZ3jm0rpMCjEZm6D5Ss
-         LZf6HPN5xuesHDMfPwKv4wRfOOfjU1HjitlWimQcXx0pqtPyxIxCmn3qeJoEr45gS9do
-         Vq9p93m6xuW0t2x2D0yvLTE1W2uhVuKlOAKGBYTIPA0NArACzbIhNlNpnlnRmWSqUiRQ
-         6JBXmF7aUHuLm7ggrmXtk8wVg3AU/OKHPbyR9Q92fUGZhEiEgiTCz7HNGrrvCU7eByle
-         g5jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=g6EyMF+u5e65vvlDXIzQbx6k4XLQuFfwPRwATGVBBiQ=;
-        b=tVLh5CpiBB7vDZWNgWb4l5Gg4JtpRiCJgO5k5ndfmVGQDlR5IC0Jm/jPtFCt3Upntp
-         X3PAonMAD+amKTS0tuAyLTF3rSOozNOq3T1f+KzAHsRyKy1iaWrOQI+kmU7iE38E/UP0
-         Aa5EnVIffQzrpKLG9kNqW7Jk6tk0MdiSYfgDCCptCeupJAaNLB/QPem6feFLwRvZI9Lr
-         02xcMlzNFaoOQJFyI0kj1kHMvUQT1TwgzDYnBRP/j2+WaYgQHP8b20YDl0kIt8ntzXJO
-         C81Go/VVtFtBVzinDqgVXKmslczZ/nqe1Vp6HQxVKIbIkxnWXT8GYXK3PbmaFeVFjtXQ
-         VJKw==
-X-Gm-Message-State: APjAAAXaf14NiuvOOvJeKknGtshCPUpBClPMqwU1/eKJ6H2xq+QQuxeQ
-        p313hZzDQEustYv8m54ryN2Mc8Q2vTwgjXfsRbn/HHkvzSU=
-X-Google-Smtp-Source: APXvYqwYCddpFhiwatZCyGwCUepwCypYQApP4gIkFjifaEPr6h/ZWNZQ+B7OPAFJLuzZ8X2gmnCXDMFh4LQ4TqTe1bA=
-X-Received: by 2002:a2e:96c3:: with SMTP id d3mr5065915ljj.248.1572876265663;
- Mon, 04 Nov 2019 06:04:25 -0800 (PST)
+        id S1728417AbfKDOYj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 4 Nov 2019 09:24:39 -0500
+Received: from mga02.intel.com ([134.134.136.20]:3680 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728138AbfKDOYj (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 4 Nov 2019 09:24:39 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Nov 2019 06:24:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,267,1569308400"; 
+   d="scan'208";a="212324036"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 04 Nov 2019 06:24:36 -0800
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Guenter Roeck <linux@roeck-us.net>, Ajay Gupta <ajayg@nvidia.com>,
+        linux-usb@vger.kernel.org
+Subject: [PATCH v4 00/18] usb: typec: API improvements
+Date:   Mon,  4 Nov 2019 17:24:17 +0300
+Message-Id: <20191104142435.29960-1-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.24.0.rc1
 MIME-Version: 1.0
-References: <CAOYdKdiYdnH246mZSRZ==dhjcM3Oah5vFP1Nh=m4SgyvJKNn2w@mail.gmail.com>
-In-Reply-To: <CAOYdKdiYdnH246mZSRZ==dhjcM3Oah5vFP1Nh=m4SgyvJKNn2w@mail.gmail.com>
-From:   Rogan Dawes <rogan@dawes.za.net>
-Date:   Mon, 4 Nov 2019 16:04:10 +0200
-Message-ID: <CAOYdKdh7zpu2Evp=MNHnWrB-xjwhC-+Sqrtm29+gZP8LuGORsQ@mail.gmail.com>
-Subject: Re: Programmatically switching a USB port from Host to Device mode
- (not OTG)
-To:     linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, 24 Oct 2019 at 11:01, Rogan Dawes <rogan@dawes.za.net> wrote:
->
-> Hi folks
->
-> I am using a GL.Inet AR750S (Slate) travel router, which is based on
-> the QCA9563 SoC.
->
-> I am trying to see if there is any way that I can get it to operate in
-> a USB Gadget mode.
->
-> According to twitter support
-> (https://twitter.com/GLiNetWiFi/status/1187190831746179073), the
-> router's external port is connected directly to USB1 on the SoC, and
-> the internal port is connected via a USB hub to USB2.
->
-> According to the datasheet which I found at
-> https://github.com/Deoptim/atheros/QCA9563_July_2014.pdf, USB1 should
-> be a Host-only port, while USB2 should be device-capable.
-> Unfortunately, the hub chip makes it impossible to test USB2.
->
-> So, my question is, is it possible to modify the device tree to
-> configure USB1 in gadget mode (even though according to the datasheet,
-> this is a reserved configuration) ?
->
-> Is it possible that a pure software configuration change may be
-> sufficient to change the role of the port, or would I need to remove
-> pull-up/down resistors as well to see if this could work?
->
-> Many thanks!
->
-> Rogan
+Hi,
 
-I've been trawling the Internet, and trying to understand if there is
-any prior art indicating the feasibility of the QCA9563 actually
-supporting USB Gadget or Peripheral mode, and I came across what
-appears to be a copy of an official tree
-(https://gfiber.googlesource.com/kernel/windcharger/+/ca3986b4fd425176662f005cc996d61dd439d1f2/drivers/usb/gadget/Kconfig)
-provided by Qualcomm to Google for their "windcharger" fibre router.
+I removed the extra error messages from ucsi_acpi.c and ucsi_ccg.c as
+requested by Guenter.
 
-It contains commits like:
+The cover letter from v2:
 
-  commit d95f9bd73fd3a4ebabf7c524941f6b6095388c55
-  Author: Allan Zhang <allanzhang@google.com>
-  Date:   Wed Jan 21 17:00:47 2015 -0800
+I modified ucsi_acpi.c so that the behavior matches exactly the
+behaviour of the Connector Change Event handling before these patches.
 
-      Initial WindCharger Linux Kernel Ver
+The cover letter from v2:
 
-      This for record purpose. It's the QCA-provided AP143/board953x linux
-      kernel, based on linux 2.6.31.
+There is now a check in ucsi_exec_command() that makes sure we do not
+call ucsi_read_error() with UCSI_GET_ERROR_STATUS command. That should
+prevent endless recursion from happening.
 
-      This version targets for no code change and reflects qca code snapshot.
-      Any enhancement will be in individual CL for review.
+The original cover letter:
 
-      Change-Id: I7252866c2f87f8ffd26ee64976dd4dccc955e739
+The first patches in this series (patches 1-8) introduce a small
+change to the USB Type-C Connector Class API. Guenter was kind enough
+to go over those already.
 
-Which contains a file arch/mips/configs/board956x-wrap_defconfig
+Patches 10-15 improve the ucsi driver API by introducing more
+traditional read and write routines, and the rest is more generic
+optimisations and improvements to the ucsi drivers.
 
-which sets
+Let me know if there is anything you want to be changed.
 
-+CONFIG_USB_GADGET_ATH=y
+thanks,
 
-So, I'm wondering how realistic it would be to try to get the
-CONFIG_USB_GADGET_ATH driver ported from this kernel version to
-mainline, or perhaps if someone might take a quick look at it and
-indicate whether the current mainline actually already includes this
-functionality? I do know that AR9331 USB GADGET support does exist in
-mainline via the chipidea driver, and from what I can see, the rest of
-the Qualcomm chips seems to use the same chipset, so perhaps it is as
-simple as configuring the device tree appropriately to use the
-chipidea driver on the appropriate port?
+Heikki Krogerus (18):
+  usb: typec: Copy everything from struct typec_capability during
+    registration
+  usb: typec: Introduce typec_get_drvdata()
+  usb: typec: Separate the operations vector
+  usb: typec: tcpm: Start using struct typec_operations
+  usb: typec: tps6598x: Start using struct typec_operations
+  usb: typec: ucsi: Start using struct typec_operations
+  usb: typec: hd3ss3220: Start using struct typec_operations
+  usb: typec: Remove the callback members from struct typec_capability
+  usb: typec: Remove unused members from struct typec_capability
+  usb: typec: hd3ss3220: Give the connector fwnode to the port device
+  usb: typec: ucsi: Simplified registration and I/O API
+  usb: typec: ucsi: acpi: Move to the new API
+  usb: typec: ucsi: ccg: Move to the new API
+  usb: typec: ucsi: Remove the old API
+  usb: typec: ucsi: Remove struct ucsi_control
+  usb: typec: ucsi: Remove all bit-fields
+  usb: typec: ucsi: New error codes
+  usb: typec: ucsi: Optimise ucsi_unregister()
 
-I'm completely happy to try and figure this out myself, but would
-obviously appreciate any pointers from anyone familiar with the
-Qualcomm USB drivers.
+ drivers/usb/typec/class.c            |  42 +-
+ drivers/usb/typec/hd3ss3220.c        |  36 +-
+ drivers/usb/typec/tcpm/tcpm.c        |  45 +-
+ drivers/usb/typec/tps6598x.c         |  49 ++-
+ drivers/usb/typec/ucsi/displayport.c |  40 +-
+ drivers/usb/typec/ucsi/trace.c       |  11 -
+ drivers/usb/typec/ucsi/trace.h       |  79 +---
+ drivers/usb/typec/ucsi/ucsi.c        | 609 ++++++++++++++-------------
+ drivers/usb/typec/ucsi/ucsi.h        | 417 +++++++-----------
+ drivers/usb/typec/ucsi/ucsi_acpi.c   |  91 +++-
+ drivers/usb/typec/ucsi/ucsi_ccg.c    | 166 ++++----
+ include/linux/usb/typec.h            |  41 +-
+ 12 files changed, 770 insertions(+), 856 deletions(-)
 
-Many thanks!
+-- 
+2.24.0.rc1
 
-Regards,
-
-Rogan
