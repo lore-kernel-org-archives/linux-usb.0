@@ -7,58 +7,58 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC31CCA9EDB
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:42:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 783E0CA9EDC
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:42:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 93F81217F4
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:42:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F29620869
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:42:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572943343;
-	bh=/TMwdZevNhFDsi32uR/vDrp9Uvv6R6gqODMMSwArGwc=;
+	s=default; t=1572943344;
+	bh=rW7PwG+abjWGJAPuYkwIEaqLYJPPKo1YbFtVqmdxkNA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=dQr2n6XQwxs5Wn348pcR5xBua0MrYHx3CPjKE22bF25Z0AN8K9g5cNHc2Mm/K5tMl
-	 WX8r7X+Pq/RY20fM9dyCd5/WsH/MZs7hfMkHgryqIPOQrQIG2nAn4cEE+PaQpwQ5mk
-	 NVD46ajSPyCpt6XTtp7NG+O2/BBjxcft5J/uEHR0=
+	b=eD59X9XOFmG0cJYCnUZcrpfuQLKEf0e+vXlw7IjZoNGTVENoxZQ7++mwj079pxCuv
+	 2c7ATrJRvPyAwesssbxyVUAqYz3nAaClL1oWbqkbupVoZ+5FI55Yy0mejuj9d+cXFw
+	 ndatmGL6iPGxeQbHRTuJqtq/2YGMhAOFqb/FpgWI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730603AbfKEImX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1730605AbfKEImX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Tue, 5 Nov 2019 03:42:23 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:38773 "EHLO
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:45345 "EHLO
         mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725806AbfKEImW (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Nov 2019 03:42:22 -0500
-Received: by mail-lj1-f196.google.com with SMTP id v8so5148690ljh.5
-        for <linux-usb@vger.kernel.org>; Tue, 05 Nov 2019 00:42:21 -0800 (PST)
+        with ESMTP id S1730600AbfKEImX (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Nov 2019 03:42:23 -0500
+Received: by mail-lj1-f196.google.com with SMTP id n21so7179631ljg.12
+        for <linux-usb@vger.kernel.org>; Tue, 05 Nov 2019 00:42:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=nHDduFicuwITdkRhyKQcLW+FICHjtimOFQjrgu0AoZ0=;
-        b=XFgcATtVHvlebmYdJRblBNwLzP1il4JPSCalr/VoH5ALscxVelToDmg1wttCYkmRVB
-         YPQ4gNEZ76kxyKB/L7Kbype8O2Sm6SUNLr7HzwQWQlGpJkcJrIHCWlCxDjbIjM2+yXFm
-         3tqCvEvKvxYXwJM3yGqziTbZL362sHTSIW7HLcgyYEnQISv+AMAWIgjBsyp4n0leq1R+
-         uV8Kt2gAyOBRcKOGIfBuuRYGqWjTVWn6qBmAm0dgUFnXan4lprHZJn5MfsddPaOGrC6Z
-         U5WzLKsCrbsDXZIa4rBq53G+TlEnuTgG3Dh6TBo5fxj3BmqTNHjg7P9uAOvLfjGIwe8x
-         FZ+g==
-X-Gm-Message-State: APjAAAX4eiiDvALDedD5MOPJWOAR+/1hb2PPE4wdOFU5PpFT/sCrbkJO
-        91Qc7BKOMeCvgVxcRwZA2ho=
-X-Google-Smtp-Source: APXvYqyFv6t7qRnt3va/sH9X3CisMyp6F4FS9Up1CvI00Sm8nEmKybgptCUYBOPrXJq6yTlQ6Df/+A==
-X-Received: by 2002:a2e:2e10:: with SMTP id u16mr18614154lju.51.1572943340390;
-        Tue, 05 Nov 2019 00:42:20 -0800 (PST)
+        bh=ERFUKff5h8q5nbebLz28a5tfExWrZYctDruZlj5SbFM=;
+        b=lzzFz1Peew6hwFclhH9SMjVFPLRrI1Rrobfy2KxQqa2ZYMPQQvrtTBs/K7uISQMu2e
+         VkL0lHH8k7YWFAqUb07fwzC/LdyqD7ijlx3/uaegVGke/Zu20SBtQz77VncjfaMwlodh
+         x4wpwIU4sONEBmGVRh8Har3Tw7SJp1IlhQZ9tzbm7J7hHLr6zU8roNvWjDIo51pD5B+D
+         zCHePht1+oYXAHJOL0UPb/zfHXfBTyQ7LPig9a+qj/XSE7zWOeqZ7pkl0OFJxKr/1m6X
+         QMDKfHhCvPHngGJqXS+h4JHNiIfOAyQf/QlgRMvb5SVNF31zMehqn7zjTnA3zwA1svP2
+         aAnQ==
+X-Gm-Message-State: APjAAAW86mcj7P1zbO3kLd1dthNLAFzyWpdFkgetld4Vr2DJ1L9nZmqO
+        ZP9LnOskGc5UNJM70KtQt8A=
+X-Google-Smtp-Source: APXvYqxNwQSNgQ+zs+1jA+5HRNQNAJ3dSHGNHq5cYi7X7agKKs139a3yRrZj7QSNnSxnYwYIZ8MTEg==
+X-Received: by 2002:a2e:8694:: with SMTP id l20mr22053739lji.64.1572943341401;
+        Tue, 05 Nov 2019 00:42:21 -0800 (PST)
 Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id g2sm7648633lfc.37.2019.11.05.00.42.13
+        by smtp.gmail.com with ESMTPSA id v6sm13894861ljd.15.2019.11.05.00.42.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 05 Nov 2019 00:42:16 -0800 (PST)
 Received: from johan by xi.terra with local (Exim 4.92.3)
         (envelope-from <johan@xi.terra>)
-        id 1iRuPl-0004Gz-Nq; Tue, 05 Nov 2019 09:42:13 +0100
+        id 1iRuPm-0004HD-0M; Tue, 05 Nov 2019 09:42:14 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Juergen Stuber <starblue@users.sourceforge.net>,
         legousb-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
         Johan Hovold <johan@kernel.org>
-Subject: [PATCH 06/14] USB: legousbtower: drop redundant interrupt-in running flag
-Date:   Tue,  5 Nov 2019 09:41:44 +0100
-Message-Id: <20191105084152.16322-7-johan@kernel.org>
+Subject: [PATCH 09/14] USB: legousbtower: clean up pointer declarations in driver data
+Date:   Tue,  5 Nov 2019 09:41:47 +0100
+Message-Id: <20191105084152.16322-10-johan@kernel.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191105084152.16322-1-johan@kernel.org>
 References: <20191105084152.16322-1-johan@kernel.org>
@@ -69,77 +69,56 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Drop the redundant interrupt-in-running flag, which tried to keep track
-of when the interrupt-in URB was in flight. This isn't needed since we
-can stop the URB unconditionally in tower_abort_transfers() and the URB
-can not be submitted while usb_kill_urb() is running anyway.
+Clean up the pointer declarations in the driver data, whose style wasn't
+even consistent with the rest of the driver.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/misc/legousbtower.c | 21 +++++----------------
- 1 file changed, 5 insertions(+), 16 deletions(-)
+ drivers/usb/misc/legousbtower.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/usb/misc/legousbtower.c b/drivers/usb/misc/legousbtower.c
-index 937bce23adf0..33533faa019e 100644
+index f85b6ed2fb8b..c8ed8792b931 100644
 --- a/drivers/usb/misc/legousbtower.c
 +++ b/drivers/usb/misc/legousbtower.c
-@@ -206,7 +206,6 @@ struct lego_usb_tower {
- 	struct usb_endpoint_descriptor* interrupt_in_endpoint;
- 	struct urb*		interrupt_in_urb;
+@@ -186,13 +186,13 @@ MODULE_DEVICE_TABLE (usb, tower_table);
+ /* Structure to hold all of our device specific stuff */
+ struct lego_usb_tower {
+ 	struct mutex		lock;		/* locks this structure */
+-	struct usb_device*	udev;		/* save off the usb device pointer */
++	struct usb_device	*udev;		/* save off the usb device pointer */
+ 	unsigned char		minor;		/* the starting minor number for this device */
+ 
+ 	int			open_count;	/* number of times this port has been opened */
+ 	unsigned long		disconnected:1;
+ 
+-	char*			read_buffer;
++	char			*read_buffer;
+ 	size_t			read_buffer_length; /* this much came in */
+ 	size_t			read_packet_length; /* this much will be returned on read */
+ 	spinlock_t		read_buffer_lock;
+@@ -202,15 +202,15 @@ struct lego_usb_tower {
+ 	wait_queue_head_t	read_wait;
+ 	wait_queue_head_t	write_wait;
+ 
+-	char*			interrupt_in_buffer;
+-	struct usb_endpoint_descriptor* interrupt_in_endpoint;
+-	struct urb*		interrupt_in_urb;
++	char			*interrupt_in_buffer;
++	struct usb_endpoint_descriptor *interrupt_in_endpoint;
++	struct urb		*interrupt_in_urb;
  	int			interrupt_in_interval;
--	int			interrupt_in_running;
  	int			interrupt_in_done;
  
- 	char*			interrupt_out_buffer;
-@@ -379,7 +378,6 @@ static int tower_open (struct inode *inode, struct file *file)
- 			  dev,
- 			  dev->interrupt_in_interval);
+-	char*			interrupt_out_buffer;
+-	struct usb_endpoint_descriptor* interrupt_out_endpoint;
+-	struct urb*		interrupt_out_urb;
++	char			*interrupt_out_buffer;
++	struct usb_endpoint_descriptor *interrupt_out_endpoint;
++	struct urb		*interrupt_out_urb;
+ 	int			interrupt_out_interval;
+ 	int			interrupt_out_busy;
  
--	dev->interrupt_in_running = 1;
- 	dev->interrupt_in_done = 0;
- 	mb();
- 
-@@ -387,7 +385,6 @@ static int tower_open (struct inode *inode, struct file *file)
- 	if (retval) {
- 		dev_err(&dev->udev->dev,
- 			"Couldn't submit interrupt_in_urb %d\n", retval);
--		dev->interrupt_in_running = 0;
- 		goto unlock_exit;
- 	}
- 
-@@ -450,11 +447,7 @@ static int tower_release (struct inode *inode, struct file *file)
- static void tower_abort_transfers (struct lego_usb_tower *dev)
- {
- 	/* shutdown transfer */
--	if (dev->interrupt_in_running) {
--		dev->interrupt_in_running = 0;
--		mb();
--		usb_kill_urb(dev->interrupt_in_urb);
--	}
-+	usb_kill_urb(dev->interrupt_in_urb);
- 	if (dev->interrupt_out_busy)
- 		usb_kill_urb(dev->interrupt_out_urb);
- }
-@@ -731,15 +724,11 @@ static void tower_interrupt_in_callback (struct urb *urb)
- 	}
- 
- resubmit:
--	/* resubmit if we're still running */
--	if (dev->interrupt_in_running) {
--		retval = usb_submit_urb (dev->interrupt_in_urb, GFP_ATOMIC);
--		if (retval)
--			dev_err(&dev->udev->dev,
--				"%s: usb_submit_urb failed (%d)\n",
--				__func__, retval);
-+	retval = usb_submit_urb(dev->interrupt_in_urb, GFP_ATOMIC);
-+	if (retval) {
-+		dev_err(&dev->udev->dev, "%s: usb_submit_urb failed (%d)\n",
-+			__func__, retval);
- 	}
--
- exit:
- 	dev->interrupt_in_done = 1;
- 	wake_up_interruptible (&dev->read_wait);
 -- 
 2.23.0
 
