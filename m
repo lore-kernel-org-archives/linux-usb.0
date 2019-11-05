@@ -2,61 +2,64 @@ Return-Path: <SRS0=HTkx=Y5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4597C010A3
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 10:36:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFF20C010AB
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 10:36:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8A04E21929
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 10:36:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D43F206BA
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 10:36:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572950206;
-	bh=z19oj0t+4uZcDCb8j+VtifkxS7pmCGLncoLyg/NsgII=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=xvxdqa55yXZe+CBKIdWepWPXEuiBOKaBdCfSEZX2SDhf+dXZnDmGlW+r3X6+a8Nkj
-	 bn5sqQSMiEV1cPL+GJFHOWeluNLC2QXsx/XkitOQ6hSiWDVKU2Elq+Jzskie5aSEVY
-	 kBI+E3y8hkynO2FDtIdL8BFuLn8IDdoJdddiX0rg=
+	s=default; t=1572950207;
+	bh=/z23uh4jEDoqH6ANSqSlhXTR6f1qABmGqCzI/gayPwI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=e3WZTXeMNJm8WGBacUZ+dyjCj0DPwcLiOWi9rDZvMETibN+Efnq0VEs/a5bB4X0Bg
+	 edxBEt58wxiptCMAyPofKM6caLkEYyeUVmXDaj8ND0nvNn32lY+3VuiMaJfMtaKJk8
+	 cne8mMgFCzs1XWdmp7kdHI28VsWw0+Sy/Ibs5yc0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388678AbfKEKgp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Nov 2019 05:36:45 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:45040 "EHLO
+        id S2388474AbfKEKgq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Nov 2019 05:36:46 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:36834 "EHLO
         mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388203AbfKEKgp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Nov 2019 05:36:45 -0500
-Received: by mail-lj1-f195.google.com with SMTP id g3so15076184ljl.11
-        for <linux-usb@vger.kernel.org>; Tue, 05 Nov 2019 02:36:44 -0800 (PST)
+        with ESMTP id S2388645AbfKEKgq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Nov 2019 05:36:46 -0500
+Received: by mail-lj1-f195.google.com with SMTP id k15so9089674lja.3
+        for <linux-usb@vger.kernel.org>; Tue, 05 Nov 2019 02:36:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5ydLjAWBF6V+A2VIqnfIc4EtaKUZe6lESHxOMV7Pbm8=;
-        b=sXoh5J2CJS8i3MRVwi6z5kE0NuK8LQn9uE22gDOLBN5uHnkfJVBRDai/n3JdlHJopq
-         /GGyB2OjHvPrzBTcdtAUOtymWLPNjBDIVP21/Ki5FTBt645RLBBnGd4O9AQ08EMrMARl
-         yX2G93vDA1xzdAsM3RwdYMub1Fya1r4/o++S3zSriWJnyaTSDyTBnR4sCRnFdOlWRx16
-         HGKL2IThkb2h3ADXl649ecXfq1eJJ1j0DqoeiRUEch2FgYN+FhebOd1LPDaFDRxqZEV4
-         EOv+7zeSM04eo/tATdSIxK8wxCuEIGyly/nzeHYx/6hyAtGYNUv6Ouu19v+mI8GgNNwK
-         2cbQ==
-X-Gm-Message-State: APjAAAVc52Ac8U29RAIp9x7SmG5KAbkjxyBNK2s3S0kOT148+kHanJ+7
-        +g+bwGGqXyw3sjjLx5UdRPw=
-X-Google-Smtp-Source: APXvYqwJ6QOeUhfmJhKkxqwAXm0bM6srDGULLda+U/z06kcUSdwA6jTVtEZIJk1hz2txk3Ux4VGLgg==
-X-Received: by 2002:a2e:b5b7:: with SMTP id f23mr22545746ljn.236.1572950203985;
-        Tue, 05 Nov 2019 02:36:43 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=1L1tHO+MLRZRW1I3nxunkX+/fAuMjMC2y7WnHBBiiN0=;
+        b=tzHdiypfpB+AT52fFUUs78FD2rxvccjuAXeiNHcTKMuZT1H6a8/PrWcshSUBBFUJ2p
+         5l/mLJdKfJpXe2o+WETy3RD6vETFbIXSHz4Bs7PVLxOx4snPERHQMGDcVn0Nj7zSPpId
+         UumfcZ9YEhmb5moNSu/fxKuxM7ql3wO4BC44IMZIL25i54ngmdmrIILDALPbzy0MB0j/
+         hKeHTWL/DUZtbIPj/9YBbek9ig65GHTPuDpcS3zOhTyV7gf7MMJnYNGsCGWDr9T+2EWL
+         n967dx/ES2LHZOVLfwbcgw83T2af2q9yJaGkDJOK72iSDwz7fLq8f3myvMEtd0Vlce+V
+         YH+A==
+X-Gm-Message-State: APjAAAUwU9vsUu4p2GiY+uu0X+XPKL9ncvtMNuSw2Gsu4r8bOZvlUZl0
+        XAJyQJ4ONd7gu9Cclw1QsNs=
+X-Google-Smtp-Source: APXvYqwCuNgtoAwjSfwZHefVtnRIdZWf2/P9COpAZISl1xnpaqJYyTXzBC+r508mo7lYnDIoId1o9g==
+X-Received: by 2002:a2e:c42:: with SMTP id o2mr18728178ljd.166.1572950204916;
+        Tue, 05 Nov 2019 02:36:44 -0800 (PST)
 Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id n5sm9938013ljh.54.2019.11.05.02.36.43
+        by smtp.gmail.com with ESMTPSA id q124sm9094329ljb.28.2019.11.05.02.36.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 05 Nov 2019 02:36:43 -0800 (PST)
 Received: from johan by xi.terra with local (Exim 4.92.3)
         (envelope-from <johan@xi.terra>)
-        id 1iRwCZ-0001IH-0U; Tue, 05 Nov 2019 11:36:43 +0100
+        id 1iRwCZ-0001IP-6x; Tue, 05 Nov 2019 11:36:43 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 0/3] USB: idmouse: disconnect clean ups
-Date:   Tue,  5 Nov 2019 11:36:35 +0100
-Message-Id: <20191105103638.4929-1-johan@kernel.org>
+Subject: [PATCH 2/3] USB: idmouse: drop redundant open-count check from release
+Date:   Tue,  5 Nov 2019 11:36:37 +0100
+Message-Id: <20191105103638.4929-3-johan@kernel.org>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191105103638.4929-1-johan@kernel.org>
+References: <20191105103638.4929-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -64,22 +67,31 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The idmouse driver does not suffer from the disconnect-related bugs
-recently fixed in the other misc drivers. It does however have some
-redundant constructs in place to manage the open-disconnect race, which
-is already taken care of by USB core.
+The open count will always be exactly one when release is called, so
+drop the redundant sanity check.
 
-Johan
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/misc/idmouse.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-
-Johan Hovold (3):
-  USB: idmouse: simplify disconnect handling
-  USB: idmouse: drop redundant open-count check from release
-  USB: idmouse: clean up runaway white space
-
- drivers/usb/misc/idmouse.c | 36 +++++++-----------------------------
- 1 file changed, 7 insertions(+), 29 deletions(-)
-
+diff --git a/drivers/usb/misc/idmouse.c b/drivers/usb/misc/idmouse.c
+index 0386bac224c4..9b9d5df829d5 100644
+--- a/drivers/usb/misc/idmouse.c
++++ b/drivers/usb/misc/idmouse.c
+@@ -278,12 +278,6 @@ static int idmouse_release(struct inode *inode, struct file *file)
+ 	/* lock our device */
+ 	mutex_lock(&dev->lock);
+ 
+-	/* are we really open? */
+-	if (dev->open <= 0) {
+-		mutex_unlock(&dev->lock);
+-		return -ENODEV;
+-	}
+-
+ 	--dev->open;
+ 
+ 	if (!dev->present) {
 -- 
 2.23.0
 
