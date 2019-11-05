@@ -2,63 +2,63 @@ Return-Path: <SRS0=HTkx=Y5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,TVD_SUBJ_WIPE_DEBT,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91894CA9EDC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F35FECA9EDE
 	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:42:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 69D3C20717
+	by mail.kernel.org (Postfix) with ESMTP id CBDF920869
 	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:42:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1572943342;
-	bh=WeuP2zhuHrfHVQoKml+rR3X93/RRVD+t5xSB6VysUHU=;
+	bh=R353TqXQHkvu7WMFOQxrDlelJJWvKtRWc0b1QH23B6Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=ahtDyt4lQDHpZl0/sk+hjdhLhOn8fHVS4OlFsafyRz/2rVTRX36+gamP0bNk1Xv9g
-	 0c3BHD20vt/Jwg8mWIJ3kOoAZ/9wIp3vIHupf05fJZhlF33NIJxpggXsH4cpKJ7Kfd
-	 71uomtXxIh9ynN7vM5bE5AKxGiXRTHezCnxexhP4=
+	b=Zc6xJuFtfgOffQ1NAm6iNhOcJ8cXpxtpmm7xpUZfSo4TCsdHa3iTikAOKtutLc80n
+	 hokYd424DOERjr1rLnCIld6y2DqDGnTq/P8CWK069UEv/EYxDLLQhME/mQ35qQsEEZ
+	 nwlj+4uM4pLIM1ZNdnOYrRiXrivQ11dpVA4jGv08=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730599AbfKEImV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Nov 2019 03:42:21 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:45337 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730590AbfKEImV (ORCPT
+        id S1730601AbfKEImW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Nov 2019 03:42:22 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:46720 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730541AbfKEImV (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Nov 2019 03:42:21 -0500
-Received: by mail-lj1-f193.google.com with SMTP id n21so7179484ljg.12
+Received: by mail-lj1-f195.google.com with SMTP id e9so7498787ljp.13
         for <linux-usb@vger.kernel.org>; Tue, 05 Nov 2019 00:42:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WVWQPUbkIxY8XxpQYbclm3TtPtetfRjLFXAjnV3l8xA=;
-        b=b5jNeqEZ++21ut1H8jNPGP5PNl7AFC1+6ceIq1Jn3DZpjVJv0NHOGNu2XUzexL1yYh
-         LCvE/wriq7nnix0hJJcqbqTCg6mieWiwAn9yjvbWTR2PZGNSIVY94QthTOr1vMTVZZ/l
-         dgwLsHU44FRCQl0/mZos0RJ3vB622PJqeMx5dlpzsUw7NKKv+j31seva5MbFmqhAFJba
-         ELlbpKHTk2bJ8DJwH+Xt+pRgV9VnJmEzSx5/Sh7GBoLYNgCXHyz5gN7U4RS0ZBInVDCq
-         pvm8nnzNc2Mh0TsXfyXyoL9jabNrZy7Qgh4L+BNilo/l0dJEUDSxneG1pPOgHxSbghyu
-         X7IQ==
-X-Gm-Message-State: APjAAAUmjvxrHhaQfGheWBOLu18rB9tz5ychChqGOw5p8SR7Ns4wCSEN
-        hpda1YHsTuEAH0Ba6nxxF9E=
-X-Google-Smtp-Source: APXvYqyXrlV+M4k0NCRvY46xl69aK07r0Xvm9EdOFtFon/LangEVdycZ2ad3+0gkN4kpTgj/30U32A==
-X-Received: by 2002:a2e:82cd:: with SMTP id n13mr21640691ljh.116.1572943339331;
+        bh=KzD2kRMqXBk5Yohy1WZyW20m/TFgSNbBGXd2XRm4RLc=;
+        b=UspIH8ziMEILjxCXVD6s9T7GRZ0p+hG+bLP07jBY0GEOwUsz0K8RkL3m3ihnmkji1q
+         daHCpeHl1hvi6FijZj70w//htg98N8ZMU2Gr976JUuzF7m1oB2BQsw8BeiyTR8rufLxl
+         EeQKAGhjOCl3njs6L84FsYg0MgGcMQ2JcpF8U/hbnCfjQV6lyFSHsWZbZXVJCIGTR7pk
+         P5tGOwn1fa3DjYxyDmEUej7tyuLljHQdRjVdoTwMRsi6O/XqLzFRdoj0a8fTbYWd25pM
+         ywGP8IiqoJX+IEG2sj1fJZl0jM+QBKahUqR/jFm9hEfB+b/OvPI/1pAq71fitJlOOEPT
+         gmBw==
+X-Gm-Message-State: APjAAAW34cECWNxjvB8vr0AvcA03kc0J0JbO9hncmQmcviwxlitmrgYS
+        /XOKJJpHC2oUReKeggiPMWE5P0fG
+X-Google-Smtp-Source: APXvYqz/Tf/zHFQUZBgQpN4ukW+wBjTaq52O80nCjCrse6r6pgdXd/roW482mpw8wruO4jF68kn7GA==
+X-Received: by 2002:a05:651c:28a:: with SMTP id b10mr3113831ljo.124.1572943339825;
         Tue, 05 Nov 2019 00:42:19 -0800 (PST)
 Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id 30sm8784026lju.52.2019.11.05.00.42.14
+        by smtp.gmail.com with ESMTPSA id e22sm10521721ljg.73.2019.11.05.00.42.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 05 Nov 2019 00:42:16 -0800 (PST)
 Received: from johan by xi.terra with local (Exim 4.92.3)
         (envelope-from <johan@xi.terra>)
-        id 1iRuPl-0004H8-TQ; Tue, 05 Nov 2019 09:42:13 +0100
+        id 1iRuPm-0004Hc-G4; Tue, 05 Nov 2019 09:42:14 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Juergen Stuber <starblue@users.sourceforge.net>,
         legousb-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
         Johan Hovold <johan@kernel.org>
-Subject: [PATCH 08/14] USB: legousbtower: remove tower_abort_transfers()
-Date:   Tue,  5 Nov 2019 09:41:46 +0100
-Message-Id: <20191105084152.16322-9-johan@kernel.org>
+Subject: [PATCH 14/14] USB: legousbtower: drop superfluous newlines
+Date:   Tue,  5 Nov 2019 09:41:52 +0100
+Message-Id: <20191105084152.16322-15-johan@kernel.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191105084152.16322-1-johan@kernel.org>
 References: <20191105084152.16322-1-johan@kernel.org>
@@ -69,61 +69,58 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Drop the tower_abort_transfers() function which is now only called from
-release and instead explicitly kill the two URBs.
-
-This incidentally also fixes the outdated comment about freeing memory.
+Drop some superfluous newlines before conditionals which made the code
+harder to read.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/misc/legousbtower.c | 20 +++++---------------
- 1 file changed, 5 insertions(+), 15 deletions(-)
+ drivers/usb/misc/legousbtower.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
 diff --git a/drivers/usb/misc/legousbtower.c b/drivers/usb/misc/legousbtower.c
-index 3e409dfe172c..f85b6ed2fb8b 100644
+index 6b7ea80d5876..ab4b98b04115 100644
 --- a/drivers/usb/misc/legousbtower.c
 +++ b/drivers/usb/misc/legousbtower.c
-@@ -226,7 +226,6 @@ static int tower_release	(struct inode *inode, struct file *file);
- static __poll_t tower_poll	(struct file *file, poll_table *wait);
- static loff_t tower_llseek	(struct file *file, loff_t off, int whence);
+@@ -312,7 +312,6 @@ static int tower_open(struct inode *inode, struct file *file)
+ 	int result;
  
--static void tower_abort_transfers (struct lego_usb_tower *dev);
- static void tower_check_for_read_packet (struct lego_usb_tower *dev);
- static void tower_interrupt_in_callback (struct urb *urb);
- static void tower_interrupt_out_callback (struct urb *urb);
-@@ -431,7 +430,11 @@ static int tower_release (struct inode *inode, struct file *file)
- 	if (dev->interrupt_out_busy) {
- 		wait_event_interruptible_timeout (dev->write_wait, !dev->interrupt_out_busy, 2 * HZ);
- 	}
--	tower_abort_transfers (dev);
-+
-+	/* shutdown transfers */
-+	usb_kill_urb(dev->interrupt_in_urb);
-+	usb_kill_urb(dev->interrupt_out_urb);
-+
- 	dev->open_count = 0;
+ 	reset_reply = kmalloc(sizeof(*reset_reply), GFP_KERNEL);
+-
+ 	if (!reset_reply) {
+ 		retval = -ENOMEM;
+ 		goto exit;
+@@ -322,7 +321,6 @@ static int tower_open(struct inode *inode, struct file *file)
+ 	subminor = iminor(inode);
  
- 	mutex_unlock(&dev->lock);
-@@ -439,19 +442,6 @@ static int tower_release (struct inode *inode, struct file *file)
- 	return retval;
- }
+ 	interface = usb_find_interface(&tower_driver, subminor);
+-
+ 	if (!interface) {
+ 		pr_err("error, can't find device for minor %d\n", subminor);
+ 		retval = -ENODEV;
+@@ -409,7 +407,6 @@ static int tower_release(struct inode *inode, struct file *file)
+ 	int retval = 0;
  
+ 	dev = file->private_data;
 -
--/**
-- *	tower_abort_transfers
-- *      aborts transfers and frees associated data structures
-- */
--static void tower_abort_transfers (struct lego_usb_tower *dev)
--{
--	/* shutdown transfer */
--	usb_kill_urb(dev->interrupt_in_urb);
--	usb_kill_urb(dev->interrupt_out_urb);
--}
+ 	if (dev == NULL) {
+ 		retval = -ENODEV;
+ 		goto exit;
+@@ -802,7 +799,6 @@ static int tower_probe(struct usb_interface *interface, const struct usb_device_
+ 	dev->interrupt_out_interval = interrupt_out_interval ? interrupt_out_interval : dev->interrupt_out_endpoint->bInterval;
+ 
+ 	get_version_reply = kmalloc(sizeof(*get_version_reply), GFP_KERNEL);
 -
+ 	if (!get_version_reply) {
+ 		retval = -ENOMEM;
+ 		goto error;
+@@ -835,7 +831,6 @@ static int tower_probe(struct usb_interface *interface, const struct usb_device_
+ 	usb_set_intfdata(interface, dev);
+ 
+ 	retval = usb_register_dev(interface, &tower_class);
 -
- /**
-  *	tower_check_for_read_packet
-  *
+ 	if (retval) {
+ 		/* something prevented us from registering this driver */
+ 		dev_err(idev, "Not able to get a minor for this device.\n");
 -- 
 2.23.0
 
