@@ -2,106 +2,70 @@ Return-Path: <SRS0=HTkx=Y5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1BF7CA9EDB
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:42:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AC51CA9EDD
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:46:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8E7E720869
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:42:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572943345;
-	bh=pVBtEwa9n/o/QLSZFvhifOF5e0rpzS1BXOySaUDAHqg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=llY56SfvGzHvebxugdI4PM0OCXJGpgjLMYGyjVxoCSJ0Taiq0AG9mbo2w6MfvdNDa
-	 qQkRcsyRXgt8asea9ilEoKPBOzqV4/r1fbMTBzC89ewkCMS3bHF8LUrvFA+0nWM4b+
-	 lMA55eMThBOMVQ1m3SUiYSDThu1PNoItC2kniiUg=
+	by mail.kernel.org (Postfix) with ESMTP id D979D2084D
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:46:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730607AbfKEImZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Nov 2019 03:42:25 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:36787 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730541AbfKEImY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Nov 2019 03:42:24 -0500
-Received: by mail-lj1-f193.google.com with SMTP id k15so8683643lja.3
-        for <linux-usb@vger.kernel.org>; Tue, 05 Nov 2019 00:42:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+JzbMSGY3jZ4WIZf1NkEJrGRGPRKMC+8wvHR7emZd58=;
-        b=LEe+aPIsU5d+7d1WLDDDcWve1bRO3014+rWNMtGMeOjejjMZprbTgkiy/ER7hkKW77
-         TnnY/5xf4HbzlfYOSzmX9EMEf4u0Sg40S9hP9w/uW2c6dmEHKyJDj/I/5qHR6FCHS9Ey
-         miPtnwBj/KzrsstLU90so/RmqnwAnNtVuZ1ko+1v5PShc9KnKZ1/4ssIOkbgcNACkKGw
-         FyjD0XDszrUKCxQ/VN3z/lJ2MLGgLrxJwTP3sF0JjUhz3mvIIhrgJb31wa1/cymOCxnn
-         Im4S4r3NTtomG7pSKbc0J6B2yXJjQGMJ+shmctwydXGAB/Q1FxO/C3Pk7a5hkPGOvI/S
-         tHZQ==
-X-Gm-Message-State: APjAAAXJcHbmlJw6Y4Rpm81XQUxrZfjisu6gD70MzR1g3xvZmaLp/6fQ
-        3JR7klE/RcW3XRk7TtRJszCmCBqm
-X-Google-Smtp-Source: APXvYqwHvuM6GHr3OfyUmMNbLhuwGn/OPKX0zqIsMhtM487o2ZzwhtstDihmMsiVj+FPV376CrejSQ==
-X-Received: by 2002:a2e:b54d:: with SMTP id a13mr12909864ljn.4.1572943341842;
-        Tue, 05 Nov 2019 00:42:21 -0800 (PST)
-Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id b4sm8179464ljp.84.2019.11.05.00.42.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2019 00:42:16 -0800 (PST)
-Received: from johan by xi.terra with local (Exim 4.92.3)
-        (envelope-from <johan@xi.terra>)
-        id 1iRuPm-0004HN-6O; Tue, 05 Nov 2019 09:42:14 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Juergen Stuber <starblue@users.sourceforge.net>,
-        legousb-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>
-Subject: [PATCH 11/14] USB: legousbtower: drop redundant endianness comments
-Date:   Tue,  5 Nov 2019 09:41:49 +0100
-Message-Id: <20191105084152.16322-12-johan@kernel.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191105084152.16322-1-johan@kernel.org>
-References: <20191105084152.16322-1-johan@kernel.org>
+        id S1730216AbfKEIqm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Nov 2019 03:46:42 -0500
+Received: from mga03.intel.com ([134.134.136.65]:17414 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725806AbfKEIqm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 5 Nov 2019 03:46:42 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Nov 2019 00:46:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,270,1569308400"; 
+   d="scan'208";a="212496264"
+Received: from kuha.fi.intel.com ([10.237.72.53])
+  by fmsmga001.fm.intel.com with SMTP; 05 Nov 2019 00:46:39 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Tue, 05 Nov 2019 10:46:38 +0200
+Date:   Tue, 5 Nov 2019 10:46:38 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Ajay Gupta <ajayg@nvidia.com>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v4 12/18] usb: typec: ucsi: acpi: Move to the new API
+Message-ID: <20191105084638.GD29493@kuha.fi.intel.com>
+References: <20191104142435.29960-1-heikki.krogerus@linux.intel.com>
+ <20191104142435.29960-13-heikki.krogerus@linux.intel.com>
+ <20191104185451.GA5351@roeck-us.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191104185451.GA5351@roeck-us.net>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The endianness is already encoded in the type specifier so drop the
-redundant little-endian comments from the message structs.
+On Mon, Nov 04, 2019 at 10:54:51AM -0800, Guenter Roeck wrote:
+> On Mon, Nov 04, 2019 at 05:24:29PM +0300, Heikki Krogerus wrote:
+> > Replacing the old "cmd" and "sync" callbacks with an
+> > implementation of struct ucsi_operations. The ACPI
+> > notification (interrupt) handler will from now on read the
+> > CCI (Command Status and Connector Change Indication)
+> > register, and call ucsi_connector_change() function and/or
+> > complete pending command completions based on it.
+> > 
+> > Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> 
+> FTR, my request for better (non-)iomem documentation isn't really
+> that important.
+> 
+> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/misc/legousbtower.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Thanks Guenter.
 
-diff --git a/drivers/usb/misc/legousbtower.c b/drivers/usb/misc/legousbtower.c
-index a9b08468a302..03f6861dfdf0 100644
---- a/drivers/usb/misc/legousbtower.c
-+++ b/drivers/usb/misc/legousbtower.c
-@@ -157,18 +157,18 @@ MODULE_PARM_DESC(interrupt_out_interval, "Interrupt out interval in ms");
- #define LEGO_USB_TOWER_REQUEST_GET_VERSION	0xFD
- 
- struct tower_reset_reply {
--	__le16 size;		/* little-endian */
-+	__le16 size;
- 	__u8 err_code;
- 	__u8 spare;
- };
- 
- struct tower_get_version_reply {
--	__le16 size;		/* little-endian */
-+	__le16 size;
- 	__u8 err_code;
- 	__u8 spare;
- 	__u8 major;
- 	__u8 minor;
--	__le16 build_no;		/* little-endian */
-+	__le16 build_no;
- };
- 
- 
 -- 
-2.23.0
-
+heikki
