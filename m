@@ -2,189 +2,199 @@ Return-Path: <SRS0=HTkx=Y5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98072CA9EC7
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:15:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33891CA9EDA
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:40:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6F2EC20818
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:15:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0060220717
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:40:52 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="BboidMPN"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387773AbfKEIPi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Nov 2019 03:15:38 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:40454 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387686AbfKEIPi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Nov 2019 03:15:38 -0500
-Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <kai.heng.feng@canonical.com>)
-        id 1iRtzw-0006Uu-Cv; Tue, 05 Nov 2019 08:15:33 +0000
-From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
-To:     davem@davemloft.net, oliver@neukum.org
-Cc:     hayeswang@realtek.com, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>
-Subject: [PATCH v2] r8152: Add macpassthru support for ThinkPad Thunderbolt 3 Dock Gen 2
-Date:   Tue,  5 Nov 2019 16:15:26 +0800
-Message-Id: <20191105081526.4206-1-kai.heng.feng@canonical.com>
-X-Mailer: git-send-email 2.17.1
+        id S1730571AbfKEIkw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Nov 2019 03:40:52 -0500
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:14889 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727727AbfKEIkw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Nov 2019 03:40:52 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dc135980000>; Tue, 05 Nov 2019 00:40:56 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 05 Nov 2019 00:40:50 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 05 Nov 2019 00:40:50 -0800
+Received: from [10.24.193.88] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 5 Nov
+ 2019 08:40:48 +0000
+Subject: Re: [PATCH] usb: host: xhci-tegra: Correct phy enable sequence
+To:     Thierry Reding <thierry.reding@gmail.com>
+CC:     <gregkh@linuxfoundation.org>, <jonathanh@nvidia.com>,
+        <linux-usb@vger.kernel.org>, Jui Chang Kuo <jckuo@nvidia.com>
+References: <1572859470-7823-1-git-send-email-nkristam@nvidia.com>
+ <20191104095247.GC985882@ulmo>
+X-Nvconfidentiality: public
+From:   Nagarjuna Kristam <nkristam@nvidia.com>
+Message-ID: <e5d280b7-207f-f7da-8f12-58520f668494@nvidia.com>
+Date:   Tue, 5 Nov 2019 14:12:30 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+MIME-Version: 1.0
+In-Reply-To: <20191104095247.GC985882@ulmo>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1572943257; bh=B04lmCFv4f64T8SboT4InOujcLY31oksceo6IC3c2D4=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=BboidMPNSrZN574Qxpm/FnlMkF0NE5Fx0QeEWW7IIS2FFRBVPu3PhBNLB0xHmv7l/
+         1HA4cxC5RaB68xBk0/tg7WIDuyP+dksK8NCvogbB2dK0TqPBbggBiiSO6PBGB/H986
+         LlSEhG1dlJD61dLVqlUiZl//5dReRgckMluZ77HUEfkfii0MZYFXW5D/+qU2sTWhHd
+         ZLlmCapVRSmVKjHAP//eiAEUKYE8FcfEXmI7moblOp0bxv880wNr0PvUHGdM6hWj08
+         ACribso2/54iRwUSysyF1VFIaiagKAbaFh9Ct1p1ksgzjl3VhocR3y9tAHwmr84LgU
+         mh6yb6ZCdftfQ==
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-ThinkPad Thunderbolt 3 Dock Gen 2 is another docking station that uses
-RTL8153 based USB ethernet.
 
-The device supports macpassthru, but it failed to pass the test of -AD,
--BND and -BD. Simply bypass these tests since the device supports this
-feature just fine.
 
-Also the ACPI objects have some differences between Dell's and Lenovo's,
-so make those ACPI infos no longer hardcoded.
+On 04-11-2019 15:22, Thierry Reding wrote:
+> On Mon, Nov 04, 2019 at 02:54:30PM +0530, Nagarjuna Kristam wrote:
+>> XUSB phy needs to be enabled before un-powergating the power partitions.
+>> However in the current sequence, it happens opposite. Correct the phy
+>> enable and powergating partition sequence to avoid any boot hangs.
+>>
+>> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+>> Signed-off-by: Jui Chang Kuo <jckuo@nvidia.com>
+>> ---
+>>  drivers/usb/host/xhci-tegra.c | 25 +++++++++++++------------
+>>  1 file changed, 13 insertions(+), 12 deletions(-)
+> 
+> Do you know what the amount of power is that the PHYs drain? We're now
+> no longer able to power off the PHYs when the XHCI controller goes into
+> runtime suspend. That's a little unfortunate, but given the powergate
+> sequence, there's no easy way around that.
+> 
+> If the amount of power we're now consuming the idle state is significant
+> enough, it may be an incentive to look into a way that allows us to save
+> it. If it's insignificant, it might not be worth looking into it much
+> further.
+> 
+> My understanding is that the only reason we can't do this right now is
+> because the generic power domains are always enabled before the device's
+> ->runtime_resume() is called and disabled after ->runtime_suspend() is
+> called. So one possibility would be to add a mechanism to mark a device
+> as wanting explicit control over the generic power domain. That way we
+> could order the power domain vs. PHY in a way that's compatible with the
+> powergate sequence.
+> 
+> Again, it may not be worth the extra effort, but without numbers that's
+> a difficult call to make.
+> 
+> Thierry
+> 
+Thierry,
 
-BugLink: https://bugs.launchpad.net/bugs/1827961
+For USB host driver, power savings are done via ELPG feature support.
+They are currently handled in https://patchwork.kernel.org/cover/10994599/
 
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
----
-v2:
-- Use idVendor and idProduct directly.
+It is required to have USB phy always powered on to have host mode functionality.
+Performing run-time suspend/resume with phy enable breaks host mode
+functionality. In the current version of the driver, even though phy
+enable/disable calls are part of pm runtime, they are controlled only from
+_probe and _remove only, which is exactly same sequence used in current
+change, only order reversed.
 
- drivers/net/usb/cdc_ether.c |  7 +++++
- drivers/net/usb/r8152.c     | 63 ++++++++++++++++++++++++++-----------
- 2 files changed, 51 insertions(+), 19 deletions(-)
+Hence, current changes does not cause any change in power consumption
+of phy lines.
 
-diff --git a/drivers/net/usb/cdc_ether.c b/drivers/net/usb/cdc_ether.c
-index fe630438f67b..0cdb2ce47645 100644
---- a/drivers/net/usb/cdc_ether.c
-+++ b/drivers/net/usb/cdc_ether.c
-@@ -766,6 +766,13 @@ static const struct usb_device_id	products[] = {
- 	.driver_info = 0,
- },
- 
-+/* ThinkPad Thunderbolt 3 Dock Gen 2 (based on Realtek RTL8153) */
-+{
-+	USB_DEVICE_AND_INTERFACE_INFO(LENOVO_VENDOR_ID, 0x3082, USB_CLASS_COMM,
-+			USB_CDC_SUBCLASS_ETHERNET, USB_CDC_PROTO_NONE),
-+	.driver_info = 0,
-+},
-+
- /* Lenovo Thinkpad USB 3.0 Ethernet Adapters (based on Realtek RTL8153) */
- {
- 	USB_DEVICE_AND_INTERFACE_INFO(LENOVO_VENDOR_ID, 0x7205, USB_CLASS_COMM,
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index b9f526ed0d30..ff9fe45901e4 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -670,6 +670,7 @@ enum rtl8152_flags {
- 	SCHEDULE_TASKLET,
- 	GREEN_ETHERNET,
- 	DELL_TB_RX_AGG_BUG,
-+	LENOVO_MACPASSTHRU,
- };
- 
- /* Define these values to match your device */
-@@ -1408,38 +1409,57 @@ static int vendor_mac_passthru_addr_read(struct r8152 *tp, struct sockaddr *sa)
- 	int ret = -EINVAL;
- 	u32 ocp_data;
- 	unsigned char buf[6];
--
--	/* test for -AD variant of RTL8153 */
--	ocp_data = ocp_read_word(tp, MCU_TYPE_USB, USB_MISC_0);
--	if ((ocp_data & AD_MASK) == 0x1000) {
--		/* test for MAC address pass-through bit */
--		ocp_data = ocp_read_byte(tp, MCU_TYPE_USB, EFUSE);
--		if ((ocp_data & PASS_THRU_MASK) != 1) {
--			netif_dbg(tp, probe, tp->netdev,
--				  "No efuse for RTL8153-AD MAC pass through\n");
--			return -ENODEV;
--		}
-+	bool bypass_test;
-+	char *mac_obj_name;
-+	acpi_object_type mac_obj_type;
-+	int mac_strlen;
-+
-+	if (test_bit(LENOVO_MACPASSTHRU, &tp->flags)) {
-+		bypass_test = true;
-+		mac_obj_name = "\\MACA";
-+		mac_obj_type = ACPI_TYPE_STRING;
-+		mac_strlen = 0x16;
- 	} else {
--		/* test for RTL8153-BND and RTL8153-BD */
--		ocp_data = ocp_read_byte(tp, MCU_TYPE_USB, USB_MISC_1);
--		if ((ocp_data & BND_MASK) == 0 && (ocp_data & BD_MASK) == 0) {
--			netif_dbg(tp, probe, tp->netdev,
--				  "Invalid variant for MAC pass through\n");
--			return -ENODEV;
-+		bypass_test = false;
-+		mac_obj_name = "\\_SB.AMAC";
-+		mac_obj_type = ACPI_TYPE_BUFFER;
-+		mac_strlen = 0x17;
-+	}
-+
-+	if (!bypass_test) {
-+		/* test for -AD variant of RTL8153 */
-+		ocp_data = ocp_read_word(tp, MCU_TYPE_USB, USB_MISC_0);
-+		if ((ocp_data & AD_MASK) == 0x1000) {
-+			/* test for MAC address pass-through bit */
-+			ocp_data = ocp_read_byte(tp, MCU_TYPE_USB, EFUSE);
-+			if ((ocp_data & PASS_THRU_MASK) != 1) {
-+				netif_dbg(tp, probe, tp->netdev,
-+						"No efuse for RTL8153-AD MAC pass through\n");
-+				return -ENODEV;
-+			}
-+		} else {
-+			/* test for RTL8153-BND and RTL8153-BD */
-+			ocp_data = ocp_read_byte(tp, MCU_TYPE_USB, USB_MISC_1);
-+			if ((ocp_data & BND_MASK) == 0 && (ocp_data & BD_MASK) == 0) {
-+				netif_dbg(tp, probe, tp->netdev,
-+						"Invalid variant for MAC pass through\n");
-+				return -ENODEV;
-+			}
- 		}
- 	}
- 
- 	/* returns _AUXMAC_#AABBCCDDEEFF# */
--	status = acpi_evaluate_object(NULL, "\\_SB.AMAC", NULL, &buffer);
-+	status = acpi_evaluate_object(NULL, mac_obj_name, NULL, &buffer);
- 	obj = (union acpi_object *)buffer.pointer;
- 	if (!ACPI_SUCCESS(status))
- 		return -ENODEV;
--	if (obj->type != ACPI_TYPE_BUFFER || obj->string.length != 0x17) {
-+	if (obj->type != mac_obj_type || obj->string.length != mac_strlen) {
- 		netif_warn(tp, probe, tp->netdev,
- 			   "Invalid buffer for pass-thru MAC addr: (%d, %d)\n",
- 			   obj->type, obj->string.length);
- 		goto amacout;
- 	}
-+
- 	if (strncmp(obj->string.pointer, "_AUXMAC_#", 9) != 0 ||
- 	    strncmp(obj->string.pointer + 0x15, "#", 1) != 0) {
- 		netif_warn(tp, probe, tp->netdev,
-@@ -6629,6 +6649,10 @@ static int rtl8152_probe(struct usb_interface *intf,
- 		netdev->hw_features &= ~NETIF_F_RXCSUM;
- 	}
- 
-+	if (le16_to_cpu(udev->descriptor.idVendor) == VENDOR_ID_LENOVO &&
-+	    le16_to_cpu(udev->descriptor.idProduct) == 0x3082)
-+		set_bit(LENOVO_MACPASSTHRU, &tp->flags);
-+
- 	if (le16_to_cpu(udev->descriptor.bcdDevice) == 0x3011 && udev->serial &&
- 	    (!strcmp(udev->serial, "000001000000") ||
- 	     !strcmp(udev->serial, "000002000000"))) {
-@@ -6755,6 +6779,7 @@ static const struct usb_device_id rtl8152_table[] = {
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x304f)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x3062)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x3069)},
-+	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x3082)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x7205)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x720c)},
- 	{REALTEK_USB_DEVICE(VENDOR_ID_LENOVO,  0x7214)},
--- 
-2.17.1
-
+Thanks,
+Nagarjuna
+>> diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
+>> index 540b47a..bf90654 100644
+>> --- a/drivers/usb/host/xhci-tegra.c
+>> +++ b/drivers/usb/host/xhci-tegra.c
+>> @@ -763,7 +763,6 @@ static int tegra_xusb_runtime_suspend(struct device *dev)
+>>  {
+>>  	struct tegra_xusb *tegra = dev_get_drvdata(dev);
+>>  
+>> -	tegra_xusb_phy_disable(tegra);
+>>  	regulator_bulk_disable(tegra->soc->num_supplies, tegra->supplies);
+>>  	tegra_xusb_clk_disable(tegra);
+>>  
+>> @@ -787,16 +786,8 @@ static int tegra_xusb_runtime_resume(struct device *dev)
+>>  		goto disable_clk;
+>>  	}
+>>  
+>> -	err = tegra_xusb_phy_enable(tegra);
+>> -	if (err < 0) {
+>> -		dev_err(dev, "failed to enable PHYs: %d\n", err);
+>> -		goto disable_regulator;
+>> -	}
+>> -
+>>  	return 0;
+>>  
+>> -disable_regulator:
+>> -	regulator_bulk_disable(tegra->soc->num_supplies, tegra->supplies);
+>>  disable_clk:
+>>  	tegra_xusb_clk_disable(tegra);
+>>  	return err;
+>> @@ -1188,6 +1179,12 @@ static int tegra_xusb_probe(struct platform_device *pdev)
+>>  	 */
+>>  	platform_set_drvdata(pdev, tegra);
+>>  
+>> +	err = tegra_xusb_phy_enable(tegra);
+>> +	if (err < 0) {
+>> +		dev_err(&pdev->dev, "failed to enable PHYs: %d\n", err);
+>> +		goto put_hcd;
+>> +	}
+>> +
+>>  	pm_runtime_enable(&pdev->dev);
+>>  	if (pm_runtime_enabled(&pdev->dev))
+>>  		err = pm_runtime_get_sync(&pdev->dev);
+>> @@ -1196,7 +1193,7 @@ static int tegra_xusb_probe(struct platform_device *pdev)
+>>  
+>>  	if (err < 0) {
+>>  		dev_err(&pdev->dev, "failed to enable device: %d\n", err);
+>> -		goto disable_rpm;
+>> +		goto disable_phy;
+>>  	}
+>>  
+>>  	tegra_xusb_config(tegra, regs);
+>> @@ -1282,9 +1279,11 @@ static int tegra_xusb_probe(struct platform_device *pdev)
+>>  put_rpm:
+>>  	if (!pm_runtime_status_suspended(&pdev->dev))
+>>  		tegra_xusb_runtime_suspend(&pdev->dev);
+>> -disable_rpm:
+>> -	pm_runtime_disable(&pdev->dev);
+>> +put_hcd:
+>>  	usb_put_hcd(tegra->hcd);
+>> +disable_phy:
+>> +	tegra_xusb_phy_disable(tegra);
+>> +	pm_runtime_disable(&pdev->dev);
+>>  put_powerdomains:
+>>  	if (!of_property_read_bool(pdev->dev.of_node, "power-domains")) {
+>>  		tegra_powergate_power_off(TEGRA_POWERGATE_XUSBC);
+>> @@ -1321,6 +1320,8 @@ static int tegra_xusb_remove(struct platform_device *pdev)
+>>  		tegra_xusb_powerdomain_remove(&pdev->dev, tegra);
+>>  	}
+>>  
+>> +	tegra_xusb_phy_disable(tegra);
+>> +
+>>  	tegra_xusb_padctl_put(tegra->padctl);
+>>  
+>>  	return 0;
+>> -- 
+>> 2.7.4
