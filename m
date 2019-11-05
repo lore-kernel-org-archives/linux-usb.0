@@ -7,58 +7,58 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54669CA9EDD
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:42:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B47C6CA9EDB
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:42:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2B8B320869
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:42:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8102E20717
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:42:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572943340;
-	bh=fNbxmoYwvN7/70/QgCuTU/yJqgDUtGz2OTcSkBN0Vfc=;
+	s=default; t=1572943341;
+	bh=620PQjlVkST0TQJeIOHlzwWo2J69lbPWi0jZhr6Vrfs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=IeMHiLPuMgeQiegbmVgSEm6iJlels1m3Nk6qxJOhLMkjw4hYa5rCnKG1RdpciTqai
-	 8/JdxzVDF5EMtYg8OxDArT97vUFvVo0Vw+g4MYvjw+fWdHrsEvqHgo8iQXdHoZDbVD
-	 qchuUG4vjXSH17c4+oK7Qk/kSICt3PnG8pWTz5Ok=
+	b=kvoLqxHHzUdPsEVzw+qCCR4OLgAYFTkh3MxNjxiU3Oeodyve7Kajw0ZWKGwbFrkcP
+	 VpOog6gw3pVHnA+riq2WOeRETvSZD+dWgvBC4II5qmJYDdaj5qoYtuvMq20563bapL
+	 YKP6PRuiLgTbVSwHJueezjZvpbAZQ3TNI2J/fPYc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730591AbfKEImT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Nov 2019 03:42:19 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:33603 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730216AbfKEImT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Nov 2019 03:42:19 -0500
-Received: by mail-lf1-f68.google.com with SMTP id y127so14440042lfc.0
-        for <linux-usb@vger.kernel.org>; Tue, 05 Nov 2019 00:42:16 -0800 (PST)
+        id S1730596AbfKEImV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Nov 2019 03:42:21 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:41341 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725806AbfKEImU (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Nov 2019 03:42:20 -0500
+Received: by mail-lf1-f65.google.com with SMTP id j14so14437890lfb.8
+        for <linux-usb@vger.kernel.org>; Tue, 05 Nov 2019 00:42:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6Bog8rvlkwSMxmIHFiC0pn9jqybkql/feL3YCFo2leg=;
-        b=kpiKyIZ/EwA9nIO/4Px5XQ+VymQpWm+Jvl+ID/xUA+c2hEkNG0rJ6w+iNCHlVhDaYP
-         NEKJxQBru5sKj5VC7cyQcyDwZbVc0+Og4EScBB+1ddE3E2xhv+L3vhmVP7SEB08ICTAA
-         1u1Xpe2Po8k7PlsllsuY4MdzLF7FsM6CbwfXztNpNd0f4+bIE7ACVQhTiwFtMKFaSs+F
-         zlhDS+OUoMyNh0ni1kxZh+wDJFKZp6d3vjMTa/iSwdXtRdjYwT10Lhq/Hn7La2RrLOqk
-         MZAfoXSwDW0qdDc/qNEyRKflYM7I6zOY6EYK/Grf3SjzIdx2OmNFobUTUo0/snw3j3De
-         i6nQ==
-X-Gm-Message-State: APjAAAW9SsrBCH/m1eEa58bKCxShHnqZxXXAZegD5TXhqF7ps1KKZ0gG
-        9n3KObYuxxJtKRCvEhemE2YIuKcw
-X-Google-Smtp-Source: APXvYqwI95lW70LQuZ75a8lOv4FAoISt7q+C0cNE78q1xt1MJQZv/cvFEpgbRy/y1tFBg6jrEF8E4w==
-X-Received: by 2002:ac2:41d4:: with SMTP id d20mr3209854lfi.24.1572943336133;
-        Tue, 05 Nov 2019 00:42:16 -0800 (PST)
+        bh=+y8cUxoGzN6GT+mRGiWu/EU5YAXI4AEu0RK/ayv8Mzo=;
+        b=lSalObbKrUQfZXLOHSbPUC8a9TyjTxoHX7biwrXi9Q+pQX1tYdIbkwC5ok16y7gsvV
+         QSF9ZosCq4JptmRMGCCsY5/2wBoBnWMM2HDllLNwWBSAe2PakGciKrlILcqrRlY0rpEZ
+         PZrgBKur6p79wRCtLmbwImPLke52eVTYkqL46LAfWGB7D56pXy6HnijhoZT7wpYn6fXd
+         M5xY3Np9Tmwm7E5z8B4WaoUTAwhMbFTqkO4Y8aEXwz6ajw96HctzlemcHaOm63HzgnYa
+         v5wf88HMgqSiiUp3f52oihdNARw+bCtxJiY0Gif8SLSwkv7FeP8POyMIK55gdRxL9I9I
+         MO+g==
+X-Gm-Message-State: APjAAAVpb0LUdh0VX5v9fAF3cu0hLVsafDGs6xqXg4AB1//syiLvLxL9
+        E1qzESWNo72zhCnlIkQ84c0=
+X-Google-Smtp-Source: APXvYqw+/uLoaa+YyTOAY/EWNxbzIl84fDJlAXanBGZYbfmO549ozVBy6Qvfz9xutpXHFpm1SZYyEQ==
+X-Received: by 2002:a19:7511:: with SMTP id y17mr20371577lfe.19.1572943338023;
+        Tue, 05 Nov 2019 00:42:18 -0800 (PST)
 Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id 77sm12083227lfj.41.2019.11.05.00.42.13
+        by smtp.gmail.com with ESMTPSA id f30sm7766470ljp.66.2019.11.05.00.42.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2019 00:42:13 -0800 (PST)
+        Tue, 05 Nov 2019 00:42:16 -0800 (PST)
 Received: from johan by xi.terra with local (Exim 4.92.3)
         (envelope-from <johan@xi.terra>)
-        id 1iRuPl-0004Gj-FM; Tue, 05 Nov 2019 09:42:13 +0100
+        id 1iRuPl-0004Gt-Kr; Tue, 05 Nov 2019 09:42:13 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Juergen Stuber <starblue@users.sourceforge.net>,
         legousb-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
         Johan Hovold <johan@kernel.org>
-Subject: [PATCH 03/14] USB: legousbtower: zero driver data at allocation
-Date:   Tue,  5 Nov 2019 09:41:41 +0100
-Message-Id: <20191105084152.16322-4-johan@kernel.org>
+Subject: [PATCH 05/14] USB: legousbtower: drop noisy disconnect messages
+Date:   Tue,  5 Nov 2019 09:41:43 +0100
+Message-Id: <20191105084152.16322-6-johan@kernel.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191105084152.16322-1-johan@kernel.org>
 References: <20191105084152.16322-1-johan@kernel.org>
@@ -69,68 +69,35 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Zero the driver data at allocation rather than depend on explicit
-zeroing, which easy to miss.
-
-Also drop an unnecessary driver-data pointer initialisation.
+User space already sees -ENODEV in case it tries to do I/O post
+disconnect, no need to spam the logs with printk messages that don't
+even include any device-id information.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/misc/legousbtower.c | 25 ++-----------------------
- 1 file changed, 2 insertions(+), 23 deletions(-)
+ drivers/usb/misc/legousbtower.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/usb/misc/legousbtower.c b/drivers/usb/misc/legousbtower.c
-index a3ae843e0a3a..c880d58e8683 100644
+index 1626a0d2b12b..937bce23adf0 100644
 --- a/drivers/usb/misc/legousbtower.c
 +++ b/drivers/usb/misc/legousbtower.c
-@@ -791,45 +791,24 @@ static int tower_probe (struct usb_interface *interface, const struct usb_device
- {
- 	struct device *idev = &interface->dev;
- 	struct usb_device *udev = interface_to_usbdev(interface);
--	struct lego_usb_tower *dev = NULL;
-+	struct lego_usb_tower *dev;
- 	struct tower_get_version_reply *get_version_reply = NULL;
- 	int retval = -ENOMEM;
- 	int result;
+@@ -540,7 +540,6 @@ static ssize_t tower_read (struct file *file, char __user *buffer, size_t count,
+ 	/* verify that the device wasn't unplugged */
+ 	if (dev->disconnected) {
+ 		retval = -ENODEV;
+-		pr_err("No device or device unplugged %d\n", retval);
+ 		goto unlock_exit;
+ 	}
  
- 	/* allocate memory for our device state and initialize it */
--
--	dev = kmalloc (sizeof(struct lego_usb_tower), GFP_KERNEL);
--
-+	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
- 	if (!dev)
- 		goto exit;
+@@ -626,7 +625,6 @@ static ssize_t tower_write (struct file *file, const char __user *buffer, size_t
+ 	/* verify that the device wasn't unplugged */
+ 	if (dev->disconnected) {
+ 		retval = -ENODEV;
+-		pr_err("No device or device unplugged %d\n", retval);
+ 		goto unlock_exit;
+ 	}
  
- 	mutex_init(&dev->lock);
--
- 	dev->udev = usb_get_dev(udev);
--	dev->open_count = 0;
--	dev->disconnected = 0;
--
--	dev->read_buffer = NULL;
--	dev->read_buffer_length = 0;
--	dev->read_packet_length = 0;
- 	spin_lock_init (&dev->read_buffer_lock);
- 	dev->packet_timeout_jiffies = msecs_to_jiffies(packet_timeout);
- 	dev->read_last_arrival = jiffies;
--
- 	init_waitqueue_head (&dev->read_wait);
- 	init_waitqueue_head (&dev->write_wait);
- 
--	dev->interrupt_in_buffer = NULL;
--	dev->interrupt_in_endpoint = NULL;
--	dev->interrupt_in_urb = NULL;
--	dev->interrupt_in_running = 0;
--	dev->interrupt_in_done = 0;
--
--	dev->interrupt_out_buffer = NULL;
--	dev->interrupt_out_endpoint = NULL;
--	dev->interrupt_out_urb = NULL;
--	dev->interrupt_out_busy = 0;
--
- 	result = usb_find_common_endpoints_reverse(interface->cur_altsetting,
- 			NULL, NULL,
- 			&dev->interrupt_in_endpoint,
 -- 
 2.23.0
 
