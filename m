@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20A6AC010A2
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 10:36:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B51ADC010A3
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 10:36:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E8D76206BA
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 10:36:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B7FD206BA
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 10:36:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1572950208;
-	bh=tq2fV4Uk7pdWjkTra96E0NpwhoUCkh2xwiqRIU53RD4=;
+	s=default; t=1572950209;
+	bh=TCYFRzScqNRePzptO0n2J5h/AVHCH81pGioJ2dMKmGU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=GITlflXTioPZZO4XqpHREjuqcu3dz2uipvJf1AwmHPbrYJuHILDadGd/WznByxdtf
-	 hgP7PlWDP4GNroVXnZBogIMwXwtyvhCdwThXW36xb1ZVWbUc2pbibDF5eKnvykO/Hr
-	 2LcMz0yyeAtb1JTLFpoJAuhklNvCMwe+Hl6X5Znk=
+	b=g7bIWjO1sjXFHv1jCe5B1DcB+n/5p8SoVgPbvRby34AeGQ1xT8r4T28Z5Z7tkaQsh
+	 Rt+WziLJ4HqSMN2xs5qgb7F4aFqNN4iM60utQhG+yHiG547kl5Ep4JtmS9bVQLvAEN
+	 xfDnbxpWwyoy1IYEHbAtxSJAA7js0MpyGy2NBjlw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388752AbfKEKgr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Nov 2019 05:36:47 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:41732 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388643AbfKEKgq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Nov 2019 05:36:46 -0500
-Received: by mail-lj1-f193.google.com with SMTP id m9so21167629ljh.8
-        for <linux-usb@vger.kernel.org>; Tue, 05 Nov 2019 02:36:45 -0800 (PST)
+        id S2388759AbfKEKgs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Nov 2019 05:36:48 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:41443 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388695AbfKEKgs (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Nov 2019 05:36:48 -0500
+Received: by mail-lf1-f65.google.com with SMTP id j14so14706109lfb.8
+        for <linux-usb@vger.kernel.org>; Tue, 05 Nov 2019 02:36:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ioe9GPDGvuZyKn6ebVigNEF06QTE8TyNHyGBEUos8jo=;
-        b=McCyO1wP2e/IGgnfWvRv563CQvrUOHdzDJPUljhuaxRBrr2ulpkyq/OguyXBfY0CGm
-         NoOOFpV9KbfWSRkiQPHVk0XN8lkzKhEwvufM7EvKZmUsiXrs2TqLV2lXY/OwMO+q7Tz9
-         7/h40oZilprcxf4plE6gA5ny6NDq0CJK91DAyL1WFeYMsaMnGEOAN9UMp6Y0OmTbDYag
-         INSdRi2itWcxIBBSusZtSaGoO0OGTMpw4oBhKblLpm+xQrs/f7fugvY+VqpfGHBDhPhm
-         A+rsZnfRiOyhTGnYADh4p0E6mZ/AHuywZa+HAtIPC2IoIpHZo196FvxJ62rh8bu7YJ7c
-         vidQ==
-X-Gm-Message-State: APjAAAU1t6P3o2uj9uqXaIIWTMgyVbcxzMTcrKFQyEcc6FJytcx/7xMd
-        atGSxkGZ9VrDdM3Trdly1ks=
-X-Google-Smtp-Source: APXvYqwDlfmOtngNsOlIZgMmd4GovJcs/EwZwJTcPYLQ9UsRGTjEFKIL/Bityk4IMnS9q9dd8lTFqQ==
-X-Received: by 2002:a2e:994f:: with SMTP id r15mr7221092ljj.18.1572950204482;
-        Tue, 05 Nov 2019 02:36:44 -0800 (PST)
+        bh=IKV85RxvHyY4pFWFHgYAEhT0nXOYN14ot7DMiLlwbhY=;
+        b=nfq8XfvjctiD/Q9985dQ0rbj1jXJMPuIdhtBmY7picB9yOvXW9f0E/wNi4MXFtX0lJ
+         b5l46XO90Tqw621cu/tviKWjRBU051DzoFnGRKfknwg3/+LVeM99paIFomRmXndZDJA6
+         gQB0QZL0Kgcn6Dj7sAWdLmjCdp6Omel4oeIRZN0K0EBicHZmJlnUpN3SQzxDlnN8CrIN
+         Laa/SWMYgxwuwO/zk4i1bxjUtIUtksamec06CMmdX7tup89+T5vIW4TNJ43hMNDBYY5v
+         eaMKNvoJAnPPGgl4u3jmbH0VHWmd9ePaEjWkNfWRAIyZ20BA/brGNi4eZr74br66XhNF
+         /PxQ==
+X-Gm-Message-State: APjAAAWWyjchDGW3TPZgwMCSSDoU/kYi46tm/45RXJhfC5Sh2juEsIzG
+        gudGB89qwF650C/qDzdyzZs=
+X-Google-Smtp-Source: APXvYqx7AHCv3/M2NZli90sLj0EJ6yPWAqHry3LPESPGyXWX22ex2K0Kdyl3McABJGEwMpvhGeBvLg==
+X-Received: by 2002:a19:a40c:: with SMTP id q12mr7865413lfc.65.1572950205502;
+        Tue, 05 Nov 2019 02:36:45 -0800 (PST)
 Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id k19sm8809547ljg.18.2019.11.05.02.36.43
+        by smtp.gmail.com with ESMTPSA id k19sm8809567ljg.18.2019.11.05.02.36.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 05 Nov 2019 02:36:43 -0800 (PST)
 Received: from johan by xi.terra with local (Exim 4.92.3)
         (envelope-from <johan@xi.terra>)
-        id 1iRwCZ-0001IL-3l; Tue, 05 Nov 2019 11:36:43 +0100
+        id 1iRwCZ-0001IU-AA; Tue, 05 Nov 2019 11:36:43 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 1/3] USB: idmouse: simplify disconnect handling
-Date:   Tue,  5 Nov 2019 11:36:36 +0100
-Message-Id: <20191105103638.4929-2-johan@kernel.org>
+Subject: [PATCH 3/3] USB: idmouse: clean up runaway white space
+Date:   Tue,  5 Nov 2019 11:36:38 +0100
+Message-Id: <20191105103638.4929-4-johan@kernel.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191105103638.4929-1-johan@kernel.org>
 References: <20191105103638.4929-1-johan@kernel.org>
@@ -67,109 +67,56 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Since commit d4ead16f50f9 ("USB: prevent char device open/deregister
-race") core prevents further calls to open() after usb_deregister_dev()
-returns so there's no need to use the interface data for
-synchronisation.
-
-This effectively reverts commit 54d2bc068fd2 ("USB: fix locking in
-idmouse") with respect to the open-disconnect race.
-
-Note that the driver already uses a present flag to suppress I/O post
-disconnect (even if all USB I/O take place at open).
+Drop space between function identifiers and opening parenthesis, which
+was no longer even used consistently within the driver.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/misc/idmouse.c | 20 ++------------------
- 1 file changed, 2 insertions(+), 18 deletions(-)
+ drivers/usb/misc/idmouse.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/usb/misc/idmouse.c b/drivers/usb/misc/idmouse.c
-index 20b0f91a5d9b..0386bac224c4 100644
+index 9b9d5df829d5..4afb5ddfd361 100644
 --- a/drivers/usb/misc/idmouse.c
 +++ b/drivers/usb/misc/idmouse.c
-@@ -60,7 +60,6 @@ static const struct usb_device_id idmouse_table[] = {
+@@ -56,7 +56,7 @@ static const struct usb_device_id idmouse_table[] = {
+ #define FTIP_SCROLL  0x24
+ 
+ #define ftip_command(dev, command, value, index) \
+-	usb_control_msg (dev->udev, usb_sndctrlpipe (dev->udev, 0), command, \
++	usb_control_msg(dev->udev, usb_sndctrlpipe(dev->udev, 0), command, \
  	USB_TYPE_VENDOR | USB_RECIP_ENDPOINT | USB_DIR_OUT, value, index, NULL, 0, 1000)
  
  MODULE_DEVICE_TABLE(usb, idmouse_table);
--static DEFINE_MUTEX(open_disc_mutex);
+@@ -157,8 +157,8 @@ static int idmouse_create_image(struct usb_idmouse *dev)
  
- /* structure to hold all of our device specific stuff */
- struct usb_idmouse {
-@@ -227,17 +226,13 @@ static int idmouse_open(struct inode *inode, struct file *file)
+ 	/* loop over a blocking bulk read to get data from the device */
+ 	while (bytes_read < IMGSIZE) {
+-		result = usb_bulk_msg (dev->udev,
+-				usb_rcvbulkpipe (dev->udev, dev->bulk_in_endpointAddr),
++		result = usb_bulk_msg(dev->udev,
++				usb_rcvbulkpipe(dev->udev, dev->bulk_in_endpointAddr),
+ 				dev->bulk_in_buffer + bytes_read,
+ 				dev->bulk_in_size, &bulk_read, 5000);
+ 		if (result < 0) {
+@@ -222,7 +222,7 @@ static int idmouse_open(struct inode *inode, struct file *file)
+ 	int result;
+ 
+ 	/* get the interface from minor number and driver information */
+-	interface = usb_find_interface (&idmouse_driver, iminor (inode));
++	interface = usb_find_interface(&idmouse_driver, iminor(inode));
  	if (!interface)
  		return -ENODEV;
  
--	mutex_lock(&open_disc_mutex);
- 	/* get the device information block from the interface */
- 	dev = usb_get_intfdata(interface);
--	if (!dev) {
--		mutex_unlock(&open_disc_mutex);
-+	if (!dev)
- 		return -ENODEV;
--	}
- 
- 	/* lock this device */
- 	mutex_lock(&dev->lock);
--	mutex_unlock(&open_disc_mutex);
- 
- 	/* check if already open */
- 	if (dev->open) {
-@@ -280,14 +275,12 @@ static int idmouse_release(struct inode *inode, struct file *file)
- 	if (dev == NULL)
- 		return -ENODEV;
- 
--	mutex_lock(&open_disc_mutex);
- 	/* lock our device */
- 	mutex_lock(&dev->lock);
- 
- 	/* are we really open? */
- 	if (dev->open <= 0) {
- 		mutex_unlock(&dev->lock);
--		mutex_unlock(&open_disc_mutex);
- 		return -ENODEV;
- 	}
- 
-@@ -296,11 +289,9 @@ static int idmouse_release(struct inode *inode, struct file *file)
- 	if (!dev->present) {
- 		/* the device was unplugged before the file was released */
- 		mutex_unlock(&dev->lock);
--		mutex_unlock(&open_disc_mutex);
- 		idmouse_delete(dev);
- 	} else {
- 		mutex_unlock(&dev->lock);
--		mutex_unlock(&open_disc_mutex);
- 	}
- 	return 0;
- }
-@@ -379,7 +370,6 @@ static int idmouse_probe(struct usb_interface *interface,
- 	if (result) {
- 		/* something prevented us from registering this device */
- 		dev_err(&interface->dev, "Unable to allocate minor number.\n");
--		usb_set_intfdata(interface, NULL);
- 		idmouse_delete(dev);
- 		return result;
- 	}
-@@ -392,19 +382,13 @@ static int idmouse_probe(struct usb_interface *interface,
- 
- static void idmouse_disconnect(struct usb_interface *interface)
- {
--	struct usb_idmouse *dev;
--
--	/* get device structure */
--	dev = usb_get_intfdata(interface);
-+	struct usb_idmouse *dev = usb_get_intfdata(interface);
- 
- 	/* give back our minor */
- 	usb_deregister_dev(interface, &idmouse_class);
- 
--	mutex_lock(&open_disc_mutex);
--	usb_set_intfdata(interface, NULL);
- 	/* lock the device */
- 	mutex_lock(&dev->lock);
--	mutex_unlock(&open_disc_mutex);
- 
- 	/* prevent device read, write and ioctl */
- 	dev->present = 0;
+@@ -246,7 +246,7 @@ static int idmouse_open(struct inode *inode, struct file *file)
+ 		result = usb_autopm_get_interface(interface);
+ 		if (result)
+ 			goto error;
+-		result = idmouse_create_image (dev);
++		result = idmouse_create_image(dev);
+ 		usb_autopm_put_interface(interface);
+ 		if (result)
+ 			goto error;
 -- 
 2.23.0
 
