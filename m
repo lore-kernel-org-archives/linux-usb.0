@@ -2,199 +2,95 @@ Return-Path: <SRS0=HTkx=Y5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33891CA9EDA
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:40:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CD93CA9EDA
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:42:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0060220717
-	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:40:52 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="BboidMPN"
+	by mail.kernel.org (Postfix) with ESMTP id 3FEBE214D8
+	for <linux-usb@archiver.kernel.org>; Tue,  5 Nov 2019 08:42:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1572943337;
+	bh=0HS2eNRDeyY/R3TtpSVRcN3sn9qtF5UnJvq/onOe9YI=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=XZzq1/kiWUJWmgGRcqNqX6jqEfLOYb3YJf0EFDzITYWnPyOwazX8CKM8cbdX8y7DL
+	 Xjml+D7FTSu8sSl/7i8w+NMVTciN2jOUEfR8qQoSY4Dx59Yr0aIUwp5qEjQm8g+ez2
+	 abx7k5zhWkfom/w1etzHDgXbhihFQB1XpMnY82vU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730571AbfKEIkw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 5 Nov 2019 03:40:52 -0500
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:14889 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727727AbfKEIkw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Nov 2019 03:40:52 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dc135980000>; Tue, 05 Nov 2019 00:40:56 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 05 Nov 2019 00:40:50 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 05 Nov 2019 00:40:50 -0800
-Received: from [10.24.193.88] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 5 Nov
- 2019 08:40:48 +0000
-Subject: Re: [PATCH] usb: host: xhci-tegra: Correct phy enable sequence
-To:     Thierry Reding <thierry.reding@gmail.com>
-CC:     <gregkh@linuxfoundation.org>, <jonathanh@nvidia.com>,
-        <linux-usb@vger.kernel.org>, Jui Chang Kuo <jckuo@nvidia.com>
-References: <1572859470-7823-1-git-send-email-nkristam@nvidia.com>
- <20191104095247.GC985882@ulmo>
-X-Nvconfidentiality: public
-From:   Nagarjuna Kristam <nkristam@nvidia.com>
-Message-ID: <e5d280b7-207f-f7da-8f12-58520f668494@nvidia.com>
-Date:   Tue, 5 Nov 2019 14:12:30 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S1730316AbfKEImQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 5 Nov 2019 03:42:16 -0500
+Received: from mail-lf1-f53.google.com ([209.85.167.53]:46379 "EHLO
+        mail-lf1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725806AbfKEImQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 5 Nov 2019 03:42:16 -0500
+Received: by mail-lf1-f53.google.com with SMTP id 19so9280634lft.13
+        for <linux-usb@vger.kernel.org>; Tue, 05 Nov 2019 00:42:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3hw05ePdq7yTQi83DwqWiRaXs9EGG+0kE5BtsB3c9q0=;
+        b=Vkpv7NcEEcugte99t0tq+x6EeP58ZJD1u9FNLmleH4Nf2wsursxrtJWscdntZTEu3f
+         cNo7kBXHvHbqLs0yJO05YM3T70L1xJHQuiSbej/kO32CLfGvhdWQ4bNap6+NNEhAEOMV
+         /Y/XzSU38CA2cHJQ25yTDuVsxUeU/96oPZJ+WFcZSlsLyf+0r3ZX33B701W+5MnpFwfD
+         wS2b5yKeKfzZ2KtGt7lT3YW4Q93XurzKxj9TcWxR7dGJeFSybyjxxeaBEiTgsAl0TXGt
+         lkikHTMD3ZJQyJziaNfaJpxFvkLVI4G0cPg/7ztshtMlFpNfBYu4yEW5/6uRlqVBKiVO
+         yXYA==
+X-Gm-Message-State: APjAAAVLKUeWmesuunyLkT9OBgQ3BxxeApNkrit4kuZIMcPvcrn/DWiX
+        5gHRCa03x3fqe9fY85Koh5Tqe1oM
+X-Google-Smtp-Source: APXvYqxocEXh/F+9cXLz2dBx6nB6IQEnOHgxlPomJvcLW6ZDDg93SeEom2JUg698fLrSv1KuvFT9pg==
+X-Received: by 2002:ac2:5dc1:: with SMTP id x1mr19305233lfq.177.1572943334373;
+        Tue, 05 Nov 2019 00:42:14 -0800 (PST)
+Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
+        by smtp.gmail.com with ESMTPSA id r22sm7935893ljk.31.2019.11.05.00.42.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2019 00:42:13 -0800 (PST)
+Received: from johan by xi.terra with local (Exim 4.92.3)
+        (envelope-from <johan@xi.terra>)
+        id 1iRuPl-0004GW-6U; Tue, 05 Nov 2019 09:42:13 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Juergen Stuber <starblue@users.sourceforge.net>,
+        legousb-devel@lists.sourceforge.net, linux-usb@vger.kernel.org,
+        Johan Hovold <johan@kernel.org>
+Subject: [PATCH 00/14] USB: legousbtower: misc cleanups
+Date:   Tue,  5 Nov 2019 09:41:38 +0100
+Message-Id: <20191105084152.16322-1-johan@kernel.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <20191104095247.GC985882@ulmo>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1572943257; bh=B04lmCFv4f64T8SboT4InOujcLY31oksceo6IC3c2D4=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=BboidMPNSrZN574Qxpm/FnlMkF0NE5Fx0QeEWW7IIS2FFRBVPu3PhBNLB0xHmv7l/
-         1HA4cxC5RaB68xBk0/tg7WIDuyP+dksK8NCvogbB2dK0TqPBbggBiiSO6PBGB/H986
-         LlSEhG1dlJD61dLVqlUiZl//5dReRgckMluZ77HUEfkfii0MZYFXW5D/+qU2sTWhHd
-         ZLlmCapVRSmVKjHAP//eiAEUKYE8FcfEXmI7moblOp0bxv880wNr0PvUHGdM6hWj08
-         ACribso2/54iRwUSysyF1VFIaiagKAbaFh9Ct1p1ksgzjl3VhocR3y9tAHwmr84LgU
-         mh6yb6ZCdftfQ==
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+Here's a bunch of clean ups to the legousbtower driver as a promised
+follow up to the earlier set of fixes.
+
+Johan
 
 
-On 04-11-2019 15:22, Thierry Reding wrote:
-> On Mon, Nov 04, 2019 at 02:54:30PM +0530, Nagarjuna Kristam wrote:
->> XUSB phy needs to be enabled before un-powergating the power partitions.
->> However in the current sequence, it happens opposite. Correct the phy
->> enable and powergating partition sequence to avoid any boot hangs.
->>
->> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
->> Signed-off-by: Jui Chang Kuo <jckuo@nvidia.com>
->> ---
->>  drivers/usb/host/xhci-tegra.c | 25 +++++++++++++------------
->>  1 file changed, 13 insertions(+), 12 deletions(-)
-> 
-> Do you know what the amount of power is that the PHYs drain? We're now
-> no longer able to power off the PHYs when the XHCI controller goes into
-> runtime suspend. That's a little unfortunate, but given the powergate
-> sequence, there's no easy way around that.
-> 
-> If the amount of power we're now consuming the idle state is significant
-> enough, it may be an incentive to look into a way that allows us to save
-> it. If it's insignificant, it might not be worth looking into it much
-> further.
-> 
-> My understanding is that the only reason we can't do this right now is
-> because the generic power domains are always enabled before the device's
-> ->runtime_resume() is called and disabled after ->runtime_suspend() is
-> called. So one possibility would be to add a mechanism to mark a device
-> as wanting explicit control over the generic power domain. That way we
-> could order the power domain vs. PHY in a way that's compatible with the
-> powergate sequence.
-> 
-> Again, it may not be worth the extra effort, but without numbers that's
-> a difficult call to make.
-> 
-> Thierry
-> 
-Thierry,
+Johan Hovold (14):
+  USB: legousbtower: drop redundant MODULE_LICENSE ifdef
+  USB: legousbtower: drop redundant NULL check
+  USB: legousbtower: zero driver data at allocation
+  USB: legousbtower: drop redundant open_count check
+  USB: legousbtower: drop noisy disconnect messages
+  USB: legousbtower: drop redundant interrupt-in running flag
+  USB: legousbtower: stop interrupt-out URB unconditionally
+  USB: legousbtower: remove tower_abort_transfers()
+  USB: legousbtower: clean up pointer declarations in driver data
+  USB: legousbtower: drop unnecessary packed attributes
+  USB: legousbtower: drop redundant endianness comments
+  USB: legousbtower: clean up runaway white space
+  USB: legousbtower: drop superfluous brackets
+  USB: legousbtower: drop superfluous newlines
 
-For USB host driver, power savings are done via ELPG feature support.
-They are currently handled in https://patchwork.kernel.org/cover/10994599/
+ drivers/usb/misc/legousbtower.c | 303 +++++++++++++-------------------
+ 1 file changed, 118 insertions(+), 185 deletions(-)
 
-It is required to have USB phy always powered on to have host mode functionality.
-Performing run-time suspend/resume with phy enable breaks host mode
-functionality. In the current version of the driver, even though phy
-enable/disable calls are part of pm runtime, they are controlled only from
-_probe and _remove only, which is exactly same sequence used in current
-change, only order reversed.
+-- 
+2.23.0
 
-Hence, current changes does not cause any change in power consumption
-of phy lines.
-
-Thanks,
-Nagarjuna
->> diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
->> index 540b47a..bf90654 100644
->> --- a/drivers/usb/host/xhci-tegra.c
->> +++ b/drivers/usb/host/xhci-tegra.c
->> @@ -763,7 +763,6 @@ static int tegra_xusb_runtime_suspend(struct device *dev)
->>  {
->>  	struct tegra_xusb *tegra = dev_get_drvdata(dev);
->>  
->> -	tegra_xusb_phy_disable(tegra);
->>  	regulator_bulk_disable(tegra->soc->num_supplies, tegra->supplies);
->>  	tegra_xusb_clk_disable(tegra);
->>  
->> @@ -787,16 +786,8 @@ static int tegra_xusb_runtime_resume(struct device *dev)
->>  		goto disable_clk;
->>  	}
->>  
->> -	err = tegra_xusb_phy_enable(tegra);
->> -	if (err < 0) {
->> -		dev_err(dev, "failed to enable PHYs: %d\n", err);
->> -		goto disable_regulator;
->> -	}
->> -
->>  	return 0;
->>  
->> -disable_regulator:
->> -	regulator_bulk_disable(tegra->soc->num_supplies, tegra->supplies);
->>  disable_clk:
->>  	tegra_xusb_clk_disable(tegra);
->>  	return err;
->> @@ -1188,6 +1179,12 @@ static int tegra_xusb_probe(struct platform_device *pdev)
->>  	 */
->>  	platform_set_drvdata(pdev, tegra);
->>  
->> +	err = tegra_xusb_phy_enable(tegra);
->> +	if (err < 0) {
->> +		dev_err(&pdev->dev, "failed to enable PHYs: %d\n", err);
->> +		goto put_hcd;
->> +	}
->> +
->>  	pm_runtime_enable(&pdev->dev);
->>  	if (pm_runtime_enabled(&pdev->dev))
->>  		err = pm_runtime_get_sync(&pdev->dev);
->> @@ -1196,7 +1193,7 @@ static int tegra_xusb_probe(struct platform_device *pdev)
->>  
->>  	if (err < 0) {
->>  		dev_err(&pdev->dev, "failed to enable device: %d\n", err);
->> -		goto disable_rpm;
->> +		goto disable_phy;
->>  	}
->>  
->>  	tegra_xusb_config(tegra, regs);
->> @@ -1282,9 +1279,11 @@ static int tegra_xusb_probe(struct platform_device *pdev)
->>  put_rpm:
->>  	if (!pm_runtime_status_suspended(&pdev->dev))
->>  		tegra_xusb_runtime_suspend(&pdev->dev);
->> -disable_rpm:
->> -	pm_runtime_disable(&pdev->dev);
->> +put_hcd:
->>  	usb_put_hcd(tegra->hcd);
->> +disable_phy:
->> +	tegra_xusb_phy_disable(tegra);
->> +	pm_runtime_disable(&pdev->dev);
->>  put_powerdomains:
->>  	if (!of_property_read_bool(pdev->dev.of_node, "power-domains")) {
->>  		tegra_powergate_power_off(TEGRA_POWERGATE_XUSBC);
->> @@ -1321,6 +1320,8 @@ static int tegra_xusb_remove(struct platform_device *pdev)
->>  		tegra_xusb_powerdomain_remove(&pdev->dev, tegra);
->>  	}
->>  
->> +	tegra_xusb_phy_disable(tegra);
->> +
->>  	tegra_xusb_padctl_put(tegra->padctl);
->>  
->>  	return 0;
->> -- 
->> 2.7.4
