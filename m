@@ -2,61 +2,64 @@ Return-Path: <SRS0=QQLj=Y7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A814C5DF61
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 13:29:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85E2CFC6195
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 13:29:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 12F6A2178F
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 13:29:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4CFDA21D79
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 13:29:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573133370;
-	bh=/zrN3yYU+hsuuZCeY/PlY3cXoKFMkb3YnbPXZISsaKQ=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=egdlkQgNaC6CJwAKbgp0P0gH3OfHb6Fj1SNYYazvyat/JmcBTOWi/LYxRspQHiXkX
-	 UPHwQC0ZNWKbSQqc4Qj3YqBt8okNpBNHKMPTrqOkSm7um7IodzSRFdzpAjKTA0MtXT
-	 grQimh9eC2rqWyv6qJ3rgY53ujFt/7QsshAe/NCE=
+	s=default; t=1573133371;
+	bh=yXhhLZSrr7EuryNuFTVjyYdqRDKgG73USAgKsCe6bL8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=czYZnFqS5Du0RhAmAJTNToWoQ236NZiQWnI22tHk7FQnDJnDBy7A2c00wc6wozr3p
+	 S58KDxuyJ4ZdHOiO1yxV38113yW44m/OJ9Ugf9sW0ZVA160p161Lv8s+/oiFClt9cb
+	 lHbzFtPq+c8hMBqwdEEcpqUohnokjDc1p1hxYd5k=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731003AbfKGN33 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 Nov 2019 08:29:29 -0500
-Received: from mail-lf1-f50.google.com ([209.85.167.50]:38383 "EHLO
-        mail-lf1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728568AbfKGN33 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Nov 2019 08:29:29 -0500
-Received: by mail-lf1-f50.google.com with SMTP id q28so1603939lfa.5
-        for <linux-usb@vger.kernel.org>; Thu, 07 Nov 2019 05:29:26 -0800 (PST)
+        id S2387675AbfKGN3a (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 Nov 2019 08:29:30 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:46808 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729070AbfKGN3a (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Nov 2019 08:29:30 -0500
+Received: by mail-lj1-f193.google.com with SMTP id e9so2235963ljp.13
+        for <linux-usb@vger.kernel.org>; Thu, 07 Nov 2019 05:29:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Pd8G3M3XrD3leYMyoIBagiR/JS04UgAH3T/2pCQtJzA=;
-        b=VS1GWvhKkSaYfs4LFYU4IGqLrdT/FHgkolYoV9W++S/LytuK5DzRgS++FuaESah88I
-         gkjfPGWH1L2A9DXx3wKtCaNrv8/3vyMcgCFV5E+phTYHEy6hDZnXEFImF7V1Z9coN8EG
-         b9App7kPDdOEAWuUyLw0WlK/Sh3bLNFGf7C+V25XpnpahNxuyV/7WKdaMvFxMr4Z2EZs
-         Bob0wM26x851tJNFykPtQwdm7oUgAu65uT5HpfO8dtwhmqPhMg1rRd3ryV0Bs5EINPnc
-         NWZIMscJXf5mRGN9pQYn7v3AmUtEZg7qAcqRFYvvzlKuhrpUjrN0yxWxxgFSXmJ+KGyc
-         2iyQ==
-X-Gm-Message-State: APjAAAXS3qRo5SRmD0nIS4d2c9/Qet5peJOrtFqJlcVY0weSaKbUqUum
-        zFqj2WgtHUIqn8I9JHTVCa8=
-X-Google-Smtp-Source: APXvYqy6UvC9giI0pZw5jeNnhxJUB11ptVtKaXSTpQzLi+ZbnAFht1Ufnz3NbPJ0f6Tg2k9Fov0yuQ==
-X-Received: by 2002:a05:6512:203:: with SMTP id a3mr2402251lfo.7.1573133365941;
-        Thu, 07 Nov 2019 05:29:25 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=4r/F/ivoK5xSMfm2eKEdB73WmR9Rd+NwLR476BvBd0I=;
+        b=TBXJfcHvrALZJ4J5O3o2cYaB56lopKe8MJX6myMMaCHFv+TdwNs0sVnBAEzhVZFqkf
+         uFPcjN+tJInVdZbYSdJBrhSn3nW7zuKey0z4j5iP9Mp+ZqiJ/G4lv8huA4x3GOVinodm
+         C0uHXeSWfy7QAaZnKkNB1icbzdb2eR7aHc5vB9kf2Pn84nYQ8+d44DKmI49kMWlGwB/N
+         fLisKfkGjSuxe/65zoyvFn0A8n7+76PWsmGhBhNOdVCOWRD7YeyY2EDfWL/KFCzOBaUu
+         4PsHZMWL0+pIrWZOA4OGu0mh4LQkH8r2fJtTEmakZtWhTv5fQ5r9Wgu+G2dX86NQtwoc
+         vrHA==
+X-Gm-Message-State: APjAAAXlxdTm+kk0SGJctl0fKK+UVE9pBbGH1D5bjGC96AJ5q0+2iR8Z
+        97ye9lLK87oA2Nu6j+vKiMA=
+X-Google-Smtp-Source: APXvYqyXmqRzwEmDcodMrwAkoADtdV7DZgLjf7FJEOrdlJ2xw6dejHGCNxBLBq31IekOezeiqX4/kg==
+X-Received: by 2002:a2e:b4c1:: with SMTP id r1mr2540310ljm.203.1573133368314;
+        Thu, 07 Nov 2019 05:29:28 -0800 (PST)
 Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id b141sm1026388lfg.67.2019.11.07.05.29.23
+        by smtp.gmail.com with ESMTPSA id p8sm1210257ljn.0.2019.11.07.05.29.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 07 Nov 2019 05:29:23 -0800 (PST)
 Received: from johan by xi.terra with local (Exim 4.92.3)
         (envelope-from <johan@xi.terra>)
-        id 1iShqn-0000dK-4J; Thu, 07 Nov 2019 14:29:25 +0100
+        id 1iShqn-0000dS-BI; Thu, 07 Nov 2019 14:29:25 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     linux-usb@vger.kernel.org
-Subject: [PATCH 00/11] USB: serial: mos7840: type detection and clean ups
-Date:   Thu,  7 Nov 2019 14:28:53 +0100
-Message-Id: <20191107132904.2379-1-johan@kernel.org>
+Subject: [PATCH 02/11] USB: serial: mos7840: document MCS7810 detection hack
+Date:   Thu,  7 Nov 2019 14:28:55 +0100
+Message-Id: <20191107132904.2379-3-johan@kernel.org>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191107132904.2379-1-johan@kernel.org>
+References: <20191107132904.2379-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -64,36 +67,36 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The mos7840 device-type detection is fragile and cannot generally be
-relied upon (e.g. as recently reported for Moxa UPort 2210 which was
-detected as a four-port device).
+Document the MCS7810 detection hack which relies on having the GPO and
+GPI pins connected as recommended by ASIX.
 
-The first couple of patches adds support for encoding known chip
-features in the device-id table, and documents the underlying
-assumptions for the mcs7810-detection hack.
+Note that GPO (pin 42) is really RTS of the third port which will be
+toggled for the corresponding physical port on two- and four-port
+devices.
 
-Turns out we have a lot of legacy cruft in this driver, and the
-remaining patches rips that out.
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/mos7840.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Johan
-
-
-Johan Hovold (11):
-  USB: serial: mos7840: clean up device-type handling
-  USB: serial: mos7840: document MCS7810 detection hack
-  USB: serial: mos7840: fix probe error handling
-  USB: serial: mos7840: rip out broken interrupt handling
-  USB: serial: mos7840: drop redundant urb context check
-  USB: serial: mos7840: drop paranoid port checks
-  USB: serial: mos7840: drop paranoid serial checks
-  USB: serial: mos7840: drop serial struct accessor
-  USB: serial: mos7840: drop port driver data accessors
-  USB: serial: mos7840: drop read-urb check
-  USB: serial: mos7840: drop port open flag
-
- drivers/usb/serial/mos7840.c | 770 +++++------------------------------
- 1 file changed, 102 insertions(+), 668 deletions(-)
-
+diff --git a/drivers/usb/serial/mos7840.c b/drivers/usb/serial/mos7840.c
+index f13cf723fa6c..6de41a3c2dab 100644
+--- a/drivers/usb/serial/mos7840.c
++++ b/drivers/usb/serial/mos7840.c
+@@ -1955,6 +1955,13 @@ static int mos7840_ioctl(struct tty_struct *tty,
+ 	return -ENOIOCTLCMD;
+ }
+ 
++/*
++ * Check if GPO (pin 42) is connected to GPI (pin 33) as recommended by ASIX
++ * for MCS7810 by bit-banging a 16-bit word.
++ *
++ * Note that GPO is really RTS of the third port so this will toggle RTS of
++ * port two or three on two- and four-port devices.
++ */
+ static int mos7810_check(struct usb_serial *serial)
+ {
+ 	int i, pass_count = 0;
 -- 
 2.23.0
 
