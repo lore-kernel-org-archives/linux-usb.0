@@ -2,62 +2,66 @@ Return-Path: <SRS0=QQLj=Y7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D700C5DF60
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 21:53:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19BB4C43331
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 22:23:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 101E421D82
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 21:53:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573163614;
-	bh=q6SKsLHXv+qLDAv/Si1jE9FsC4EPM3DgeowAA3ZAaX8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=WS088oCgA2iCWzLd5wBTC87t+iGE/uiej5xfzifRXnKSpwZr7f0yAzUb4XORqOG7g
-	 A/dBrje1ztUF5HUckQ1mUlRs+TU/VJHz3pSmSwGipkURLr1waWD6bWBSZOsDJ4bMXt
-	 IWKKwBk158WM7wmfuPduoQQj5n9u/HU4rGapfrkk=
+	by mail.kernel.org (Postfix) with ESMTP id DE44221882
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 22:23:35 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lc05jcYG"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725992AbfKGVxa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 Nov 2019 16:53:30 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33440 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725870AbfKGVx3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 7 Nov 2019 16:53:29 -0500
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9828E222C5;
-        Thu,  7 Nov 2019 21:53:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573163608;
-        bh=q6SKsLHXv+qLDAv/Si1jE9FsC4EPM3DgeowAA3ZAaX8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=IEYJ+z+Mor70QcV2yPq7FiaLWy/3ZTvRV6Xh2eM7/xHDjOvmKWGtDoe1mQSYfMdBc
-         yeyqQm0HIVYRAEhXqnY1mPoCdIIFufty6Fcs/zHKqQVlXu+OQ3CPzOonJTvYYTHxvR
-         6+J+ri0oYQD/oIRQ4Np94MW11oMSPnBmp1gvonaA=
-Received: by mail-qk1-f176.google.com with SMTP id 205so3485224qkk.1;
-        Thu, 07 Nov 2019 13:53:28 -0800 (PST)
-X-Gm-Message-State: APjAAAWcvbBtKAc+5M4yugkY6w24c6HpVtt4uKEEepHwO5/hnbyBk6na
-        LCRPS8J1HHk5lLGEshtd4zK306COH0eRDjEdGg==
-X-Google-Smtp-Source: APXvYqxRrpYDbcHtlqqkdKNshF+TFNs6h/MBQZGDRhUH8Ti1BBiIS+leA9f/5p/0YVNfUwuJ2LVn2w4ciKgHvtx6mNQ=
-X-Received: by 2002:a05:620a:205d:: with SMTP id d29mr5534809qka.152.1573163607663;
- Thu, 07 Nov 2019 13:53:27 -0800 (PST)
+        id S1727544AbfKGWXf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 Nov 2019 17:23:35 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:41425 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726438AbfKGWXc (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Nov 2019 17:23:32 -0500
+Received: by mail-oi1-f196.google.com with SMTP id e9so3480446oif.8
+        for <linux-usb@vger.kernel.org>; Thu, 07 Nov 2019 14:23:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nZOXu8T4pF3RPpBQKh0YAfX9FS2U6WtIcpqxi844o2o=;
+        b=lc05jcYGrXd77mjvFh2st+MfjgbDAvcXo0am0zOpmLekG0wMNHS6UQKK5Fv7ICh9QW
+         lS8XQhqwhCipkOkSk6zhfV7iW657Ug2ftK3XaPoQ4y07t7r41kwJt2CjB2coTxyUhXNY
+         3T3MDaMPazQIU1CnQXWf2dCvm2vgdzcqfNojMrXHKPV6mnx8ABDe5H/ABYSDepRtGCkw
+         ePk2jg9N6xr+45Jm1fJDgZvg8XrE0tgusPHB8gJ/V8zqb/Ye05WNE0Cibz8rDDKQ6Ojt
+         2dERKMfhMPDH2/QPqET3sVJJ3WGHAVVwlR6HHrmWR6SWM9bmAQVY41eMP9sH8j0dO3kp
+         MZtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nZOXu8T4pF3RPpBQKh0YAfX9FS2U6WtIcpqxi844o2o=;
+        b=BEQLC9QwVgsNIAq0XVexJGsKt4sAIIaEaEjK9LWBpUNrNskTyT1pj0i5BUjxNCOCbf
+         mByo7UYH4eTiifPloNP9Y0ZuP5SD/S/toXM8XwApibwgZF+RXiffQP3khICwZ89NiBFq
+         YtsvJd7CF1e4sX74kSkvG7hE/q/tjKXxspS8UblvNknFv1W6VJeSzYoPIQJLoNnGHYa8
+         wVBvuVrs8Dtl8ra1PbLerRjw4bdkyOPHQRpsscOjy+Y7BR860Onaar9NgOG53dW816IJ
+         g2lMDY4H8/xE4l3GGeFooAVSLGDVCSj1i/Cm/YISck4r8tuAKm34tmwbafVkF59hKuic
+         hYpg==
+X-Gm-Message-State: APjAAAX3fcON5Y/bD548+oAPfEh7pwr5FMsJ0KDfZA273qGwJ8Zv/20+
+        IPABJnRwJZo2pU073DKrmSeAKgQuei8RQvwMiiaKXQ==
+X-Google-Smtp-Source: APXvYqyY6gqmhyUhh3I+7EzLkfqF4UECKiJdfaiTy6lvDg2Gv4yTuY9xtDeOsBizV8dGg8RKtFASWwMYJe6DdFIxXQQ=
+X-Received: by 2002:a05:6808:9bc:: with SMTP id e28mr425347oig.169.1573165411701;
+ Thu, 07 Nov 2019 14:23:31 -0800 (PST)
 MIME-Version: 1.0
 References: <20191028215919.83697-1-john.stultz@linaro.org>
- <20191028215919.83697-6-john.stultz@linaro.org> <87k18nj4mj.fsf@gmail.com>
-In-Reply-To: <87k18nj4mj.fsf@gmail.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Thu, 7 Nov 2019 15:53:16 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJtKMG7FfrHFjKpMx1As954UE2QqzMBOWEB4wGn=rsAug@mail.gmail.com>
-Message-ID: <CAL_JsqJtKMG7FfrHFjKpMx1As954UE2QqzMBOWEB4wGn=rsAug@mail.gmail.com>
-Subject: Re: [PATCH v4 5/9] usb: dwc3: Rework clock initialization to be more flexible
+ <20191028215919.83697-10-john.stultz@linaro.org> <878sp3j42w.fsf@gmail.com>
+In-Reply-To: <878sp3j42w.fsf@gmail.com>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Thu, 7 Nov 2019 14:23:20 -0800
+Message-ID: <CALAqxLWZTevNPxBKBOGm2yMtevDkGXXninDGdZYj2qitFohvPw@mail.gmail.com>
+Subject: Re: [PATCH v4 9/9] usb: dwc3: Add host-mode as default support
 To:     Felipe Balbi <balbi@kernel.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        lkml <linux-kernel@vger.kernel.org>,
+Cc:     lkml <linux-kernel@vger.kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         ShuFan Lee <shufan_lee@richtek.com>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
@@ -70,90 +74,78 @@ Cc:     John Stultz <john.stultz@linaro.org>,
         Valentin Schneider <valentin.schneider@arm.com>,
         Jack Pham <jackp@codeaurora.org>,
         Linux USB List <linux-usb@vger.kernel.org>,
-        devicetree@vger.kernel.org
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Oct 29, 2019 at 4:14 AM Felipe Balbi <balbi@kernel.org> wrote:
->
->
-> Hi,
->
+On Tue, Oct 29, 2019 at 2:25 AM Felipe Balbi <balbi@kernel.org> wrote:
 > John Stultz <john.stultz@linaro.org> writes:
+> > diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
+> > index 61d4fd8aead4..0e3466fe5ac4 100644
+> > --- a/drivers/usb/dwc3/drd.c
+> > +++ b/drivers/usb/dwc3/drd.c
+> > @@ -489,7 +489,10 @@ static int dwc3_usb_role_switch_set(struct device *dev, enum usb_role role)
+> >               mode = DWC3_GCTL_PRTCAP_DEVICE;
+> >               break;
+> >       default:
+> > -             mode = DWC3_GCTL_PRTCAP_DEVICE;
+> > +             if (dwc->role_switch_default_mode == USB_DR_MODE_HOST)
+> > +                     mode = DWC3_GCTL_PRTCAP_HOST;
+> > +             else
+> > +                     mode = DWC3_GCTL_PRTCAP_DEVICE;
+> >               break;
+> >       }
+> >
+> > @@ -515,7 +518,10 @@ static enum usb_role dwc3_usb_role_switch_get(struct device *dev)
+> >               role = dwc->current_otg_role;
+> >               break;
+> >       default:
+> > -             role = USB_ROLE_DEVICE;
+> > +             if (dwc->role_switch_default_mode == USB_DR_MODE_HOST)
+> > +                     role = USB_ROLE_HOST;
 >
-> > The dwc3 core binding specifies three clocks:
-> >   ref, bus_early, and suspend
-> >
-> > which are all controlled in the driver together.
-> >
-> > However some variants of the hardware my not have all three clks
->                                         ^^
->                                         may
->
-> In fact *all* platforms have all three clocks. It's just that in some
-> cases clock pins are shorted together (or take input from same clock).
->
-> > So this patch reworks the reading of the clks from the dts to
-> > use devm_clk_bulk_get_all() will will fetch all the clocks
->                               ^^^^
->                               which?
->
-> > specified in the dts together.
-> >
-> > This patch was reccomended by Rob Herring <robh@kernel.org>
-> > as an alternative to creating multiple bindings for each variant
-> > of hardware when the only unique bits were clocks and resets.
-> >
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Cc: Rob Herring <robh+dt@kernel.org>
-> > Cc: Mark Rutland <mark.rutland@arm.com>
-> > CC: ShuFan Lee <shufan_lee@richtek.com>
-> > Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
-> > Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> > Cc: Yu Chen <chenyu56@huawei.com>
-> > Cc: Felipe Balbi <balbi@kernel.org>
-> > Cc: Hans de Goede <hdegoede@redhat.com>
-> > Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > Cc: Jun Li <lijun.kernel@gmail.com>
-> > Cc: Valentin Schneider <valentin.schneider@arm.com>
-> > Cc: Jack Pham <jackp@codeaurora.org>
-> > Cc: linux-usb@vger.kernel.org
-> > Cc: devicetree@vger.kernel.org
-> > Suggested-by: Rob Herring <robh@kernel.org>
-> > Signed-off-by: John Stultz <john.stultz@linaro.org>
-> > ---
-> > v3: Rework dwc3 core rather then adding another dwc-of-simple
-> >     binding.
-> > ---
-> >  drivers/usb/dwc3/core.c | 20 +++++---------------
-> >  1 file changed, 5 insertions(+), 15 deletions(-)
-> >
-> > diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-> > index a039e35ec7ad..4d4f1836b62c 100644
-> > --- a/drivers/usb/dwc3/core.c
-> > +++ b/drivers/usb/dwc3/core.c
-> > @@ -305,12 +305,6 @@ static int dwc3_core_soft_reset(struct dwc3 *dwc)
-> >       return 0;
-> >  }
-> >
-> > -static const struct clk_bulk_data dwc3_core_clks[] = {
-> > -     { .id = "ref" },
-> > -     { .id = "bus_early" },
-> > -     { .id = "suspend" },
-> > -};
->
-> another option would be to pass three clocks with the same phandle. That
-> would even make sure that clock usage counts are correct, no?
+> look at this, we now have 3 different encodings for role which DWC3
+> needs to understand. One is its own PRTCAP_DIR, then there USB_DR_MODE_*
+> and now USB_ROLE_*, can we make it so that we only have one private
+> encoding and one generic encoding?
 
-If you have the datasheet for the block, then perhaps some suggestion
-of which clocks code be the same. My guess would be ref and suspend.
+And you left out the DWC3_OTG_ROLE_* set too!
 
-Maybe suspend is a fixed clock which is unmanaged on HiSilicon
-platforms. If we allow for no clocks on some platforms, then why does
-it have to be all or none?
+So I agree it can be easy to muddle up.  The enums are *almost* equivalent:
 
-Rob
+include/linux/usb/role.h:
+enum usb_role {
+        USB_ROLE_NONE,
+        USB_ROLE_HOST,
+        USB_ROLE_DEVICE,
+};
+
+include/linux/usb/otg.h:
+enum usb_dr_mode {
+        USB_DR_MODE_UNKNOWN,
+        USB_DR_MODE_HOST,
+        USB_DR_MODE_PERIPHERAL,
+        USB_DR_MODE_OTG,
+};
+
+But both are widely used:
+$ git grep USB_ROLE_ | wc -l
+123
+$ git grep USB_DR_MODE_ | wc -l
+190
+
+So I'm not sure how easy it will be to condense down, since the usage
+is coming from different usb subsystems (otg and role switching)  and
+I worry assuming them equivalent in just one driver may run into
+trouble eventually if the values diverge (ie someone adds
+USB_ROLE_BRICK or something).
+
+Heikki/Greg: Any thoughts on this? Does it make sense to try to drop
+the usb_role enum and users and replace it with usb_dr_mode?
+
+thanks
+-john
