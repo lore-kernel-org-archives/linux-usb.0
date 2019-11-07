@@ -2,49 +2,78 @@ Return-Path: <SRS0=QQLj=Y7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=3.0 tests=FREEMAIL_REPLYTO_END_DIGIT,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DE11C43331
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 15:10:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F21BBC5DF60
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 15:12:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2833F218AE
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 15:10:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CEE10222C4
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 15:12:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729832AbfKGPKw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 Nov 2019 10:10:52 -0500
-Received: from [211.53.128.215] ([211.53.128.215]:52287 "EHLO MAIL.isd.co.kr"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729854AbfKGPKw (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 7 Nov 2019 10:10:52 -0500
-Received: from 192.168.1.3 (217.217.179.17) by MAIL.isd.co.kr (10.10.10.22)
- with Microsoft SMTP Server id 14.3.123.3; Fri, 8 Nov 2019 00:08:41 +0900
-Date:   Thu, 7 Nov 2019 16:08:40 +0100
-From:   Peter Wong <choimj@isd.co.kr>
-Reply-To: Peter Wong <pw178483@protonmail.com>
-To:     <linux-usb@vger.kernel.org>
-Message-ID: <12438445.22577.1573139322164.JavaMail.cash@211.53.128.215>
-Subject: Investment opportunity
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+        id S2388905AbfKGPMY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 Nov 2019 10:12:24 -0500
+Received: from mx2.suse.de ([195.135.220.15]:57658 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729656AbfKGPMY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 7 Nov 2019 10:12:24 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id DFC3FB240;
+        Thu,  7 Nov 2019 15:12:22 +0000 (UTC)
+Message-ID: <1573138580.3024.5.camel@suse.com>
+Subject: Re: Logitech C270 webcam floods the log
+From:   Oliver Neukum <oneukum@suse.com>
+To:     Jean Delvare <jdelvare@suse.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-usb@vger.kernel.org
+Date:   Thu, 07 Nov 2019 15:56:20 +0100
+In-Reply-To: <20191107145238.0e7c9388@endymion>
+References: <20191023151859.30a8ce88@endymion>
+         <20191023142016.GA1904@pendragon.ideasonboard.com>
+         <20191107143941.1649db47@endymion> <20191107145238.0e7c9388@endymion>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [217.217.179.17]
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Greetings,
+Am Donnerstag, den 07.11.2019, 14:52 +0100 schrieb Jean Delvare:
+> On Thu, 7 Nov 2019 14:39:41 +0100, Jean Delvare wrote:
+> > On Wed, 23 Oct 2019 17:20:16 +0300, Laurent Pinchart wrote:
+> > > Is this before or after the uvcvideo driver gets involved ? One easy way
+> > > to check is to move the uvcvideo.ko module out of the way so that it
+> > > doesn't get loaded automatically (or just blacklist it in
+> > > /etc/modprobe.d/) and then plug the camera.  
+> > 
+> > I did as you suggested and it turns out that the "reset high-speed USB
+> > device" messages are not printed originally, they start being printed
+> > right after the uvcvideo kernel driver gets loaded. So that would be a
+> > problem with the uvcvideo driver?
+> > 
+> > When unloading the uvcvideo driver, there's one more "reset high-speed
+> > USB device" message and then no more.
+> 
+> One more data point: the log flood happens when the uvcvideo driver is
+> loaded but the webcam is unused. If I start e.g. cheese, it takes a
+> long time to start but once started, the log flood stops. As soon as I
+> stop cheese, the log flood starts again.
+> 
 
-Find attached email very confidential. reply for more details
+Hi,
 
-Thanks.
-Peter Wong
+try
 
+usbcore.autosuspend=-1
 
+on the kernel command line.
 
-
-----------------------------------------------------
-This email was sent by the shareware version of Postman Professional.
+	Regards
+		Oliver
 
