@@ -2,61 +2,61 @@ Return-Path: <SRS0=QQLj=Y7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF3A7FC6198
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2EEFFC6195
 	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 13:29:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C48A5222C2
+	by mail.kernel.org (Postfix) with ESMTP id 991A7218AE
 	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 13:29:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1573133375;
-	bh=cHyqyoSmeRvFLH4fxgjOJdXlw8bxGP24DP/ugNsCqJs=;
+	bh=QN2x/z8uh1G5nryZM9q9ujui9QUVwlfJXfaIORG8K9Y=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Qkpvf/yGR422j/dOfPTyh5RiWfrqFqkHHZMwcyxsJBstqpPK8j4sGZk/32NpsX633
-	 HlsxAjeOfitlm0xPyP6DBpwkvUmIdwc/k2lcIxsGbeBg/Hiz8JDrk1Z9u2TmMm/zMl
-	 Y5ZGSEwKxMwnMfney6avjtAoUcrKI9W3ODP6PPKU=
+	b=Hyzm545PM7vGmLvG2DaUQ6rl26MjjT2TdnL7JUHyCcHD/6f9i9J40eYTckS7UIwfv
+	 lhaq1X9hzZaR03hM+dtCpmz5nW01HK7oejbvz+KqUXh1q2YdHK5iSqvwtoS3ZP3zhn
+	 IRub0k16zBr6De+GSPxLJdad1loyHRBeYis49GZ0=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388668AbfKGN3f (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S2388613AbfKGN3f (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Thu, 7 Nov 2019 08:29:35 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:42633 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388008AbfKGN3e (ORCPT
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:41856 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727738AbfKGN3e (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Nov 2019 08:29:34 -0500
-Received: by mail-lj1-f195.google.com with SMTP id n5so2261302ljc.9
-        for <linux-usb@vger.kernel.org>; Thu, 07 Nov 2019 05:29:31 -0800 (PST)
+Received: by mail-lj1-f193.google.com with SMTP id m9so2261705ljh.8
+        for <linux-usb@vger.kernel.org>; Thu, 07 Nov 2019 05:29:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jfFfffzVTcOgudBE4JWMItypAKlcFqsOjrXitM3DElM=;
-        b=fbZ5rglsr/BStOFRhzpVL8HdFNtGwqQHiEeW4wqHapRKCEFE59vaVxlQDL+uj+DKS9
-         FS55oWL6FskImSe5lBbLIzMGDPix5EGzRnrcJ+WIEbcf6HQAgQeBpzDqvP/QdRokpjJP
-         C0bIEx/B21MpSIUPIPlt/uE39xxGBGiHktBTmIeUSgNjZphIwdwzD7DdmeriJc9XHe51
-         pDCcpp86JEMQkeOpEn0+yvCgW5DT4wSuAflzMlm1qdutI0I3wfmXBrl5HaWhxhBf9arP
-         KSF2vfhhc/wPpHv4ES61sNaIsrOiZw1hOEJjxy251CVx1V7+zMROldiiM6Ir/Q+EqWDg
-         Tabg==
-X-Gm-Message-State: APjAAAXMncrr06Sy+tV/I4dQ8Y0RG2ijUoSxsPfsK8/HZajRDxxD/FSi
-        MANJJNL2bzVIxrJvyBu+NJo=
-X-Google-Smtp-Source: APXvYqzTOvv6eD9J6GtQBHPyYrWAdQLjP/f6B1JbkDgOtI22oKoRrD53JZIqNTlHorBnGskksnmqAg==
-X-Received: by 2002:a2e:a304:: with SMTP id l4mr2436754lje.178.1573133371058;
+        bh=IWNc6gKaHd0LRi/YjZbjj6jKzYZ1Fwyj1A+ny0FdUCA=;
+        b=pWDk4nFfMVCPBj8c6OWWuswNa9ZuRHubF6V/A7Fvhdon2bGtCeFZwYXJ8T2ETnDDJH
+         kiaIEa5FN9efY4L/bDUruOsaFG+YIvjlri/zUh28k/PkgumPcQTdmCgALq0YuTQWU+lQ
+         8RuGr+vGExFX0d2Qa71GV9LjM36qTVY6BvIPJ3cIpb6HKl6aODhEVO7nBNPmGX8jCLr9
+         6I5+/JYnsGijJ5vZPaFNMMdvaaNE/h91YdfdyHKTj7Iw8/iJ/UydXTRgTbCZPi08LANd
+         WW7rcPzHFfdYqOS8dVXDBQauJ0sYFNhmW75F9ss7rr3/eFhdsn3QPZkukWGOn1/pv4Fo
+         M4IA==
+X-Gm-Message-State: APjAAAUSyyIWjsM+BLN9TOUcShh3CHWQCMLPjHzxdGIfonnhyry7akt5
+        7y517rgyODNKhld2uHJCgiNZcyfb
+X-Google-Smtp-Source: APXvYqwV0cNNFUcA/zqPsf2Uht0SM/QHVV09iqlWJRAJ34OI9CZgtZpvMb8cEoTI4DLe0yXoKK+TOg==
+X-Received: by 2002:a2e:3a09:: with SMTP id h9mr2546792lja.33.1573133371965;
         Thu, 07 Nov 2019 05:29:31 -0800 (PST)
 Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id e14sm1652147ljb.75.2019.11.07.05.29.23
+        by smtp.gmail.com with ESMTPSA id r12sm2065336lfp.63.2019.11.07.05.29.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 07 Nov 2019 05:29:28 -0800 (PST)
 Received: from johan by xi.terra with local (Exim 4.92.3)
         (envelope-from <johan@xi.terra>)
-        id 1iShqn-0000dp-Nl; Thu, 07 Nov 2019 14:29:25 +0100
+        id 1iShqn-0000e4-Vb; Thu, 07 Nov 2019 14:29:26 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     linux-usb@vger.kernel.org
-Subject: [PATCH 06/11] USB: serial: mos7840: drop paranoid port checks
-Date:   Thu,  7 Nov 2019 14:28:59 +0100
-Message-Id: <20191107132904.2379-7-johan@kernel.org>
+Subject: [PATCH 09/11] USB: serial: mos7840: drop port driver data accessors
+Date:   Thu,  7 Nov 2019 14:29:02 +0100
+Message-Id: <20191107132904.2379-10-johan@kernel.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191107132904.2379-1-johan@kernel.org>
 References: <20191107132904.2379-1-johan@kernel.org>
@@ -67,279 +67,278 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Drop the paranoid port structure sanity checks which are confusing at
-best.
-
-The driver data port pointer is set at port probe and never cleared,
-while USB serial core sets the tty driver data at install and won't call
-any driver functions with a NULL port pointer.
+Drop the custom port driver data accessors and paranoid sanity checks.
+The driver data is not cleared until the driver is unbound.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/mos7840.c | 92 ++++--------------------------------
- 1 file changed, 8 insertions(+), 84 deletions(-)
+ drivers/usb/serial/mos7840.c | 104 +++++------------------------------
+ 1 file changed, 13 insertions(+), 91 deletions(-)
 
 diff --git a/drivers/usb/serial/mos7840.c b/drivers/usb/serial/mos7840.c
-index 92180687097f..dcb1e04a0514 100644
+index 01787685a4ee..11706f2d4145 100644
 --- a/drivers/usb/serial/mos7840.c
 +++ b/drivers/usb/serial/mos7840.c
-@@ -446,21 +446,6 @@ static void mos7840_led_activity(struct usb_serial_port *port)
- 				jiffies + msecs_to_jiffies(LED_ON_MS));
+@@ -344,26 +344,6 @@ static void mos7840_dump_serial_port(struct usb_serial_port *port,
+ 
  }
  
--static int mos7840_port_paranoia_check(struct usb_serial_port *port,
--				       const char *function)
--{
--	if (!port) {
--		pr_debug("%s - port == NULL\n", function);
--		return -1;
--	}
--	if (!port->serial) {
--		pr_debug("%s - port->serial == NULL\n", function);
--		return -1;
--	}
+-/************************************************************************/
+-/************************************************************************/
+-/*             I N T E R F A C E   F U N C T I O N S			*/
+-/*             I N T E R F A C E   F U N C T I O N S			*/
+-/************************************************************************/
+-/************************************************************************/
 -
--	return 0;
+-static inline void mos7840_set_port_private(struct usb_serial_port *port,
+-					    struct moschip_port *data)
+-{
+-	usb_set_serial_port_data(port, (void *)data);
 -}
 -
- /* Inline functions to check the sanity of a pointer that is passed to us */
- static int mos7840_serial_paranoia_check(struct usb_serial *serial,
- 					 const char *function)
-@@ -482,7 +467,6 @@ static struct usb_serial *mos7840_get_usb_serial(struct usb_serial_port *port,
- {
- 	/* if no port was specified, or it fails a paranoia check */
- 	if (!port ||
--	    mos7840_port_paranoia_check(port, function) ||
- 	    mos7840_serial_paranoia_check(port->serial, function)) {
- 		/* then say that we don't have a valid usb_serial thing,
- 		 * which will end up genrating -ENODEV return values */
-@@ -501,10 +485,10 @@ static struct usb_serial *mos7840_get_usb_serial(struct usb_serial_port *port,
- static void mos7840_bulk_in_callback(struct urb *urb)
- {
- 	struct moschip_port *mos7840_port = urb->context;
-+	struct usb_serial_port *port = mos7840_port->port;
- 	int retval;
- 	unsigned char *data;
- 	struct usb_serial *serial;
--	struct usb_serial_port *port;
- 	int status = urb->status;
- 
- 	if (status) {
-@@ -513,12 +497,6 @@ static void mos7840_bulk_in_callback(struct urb *urb)
- 		return;
- 	}
- 
--	port = mos7840_port->port;
--	if (mos7840_port_paranoia_check(port, __func__)) {
--		mos7840_port->read_urb_busy = false;
--		return;
--	}
+-static inline struct moschip_port *mos7840_get_port_private(struct
+-							    usb_serial_port
+-							    *port)
+-{
+-	return (struct moschip_port *)usb_get_serial_port_data(port);
+-}
 -
- 	serial = mos7840_get_usb_serial(port, __func__);
- 	if (!serial) {
- 		mos7840_port->read_urb_busy = false;
-@@ -562,14 +540,12 @@ static void mos7840_bulk_in_callback(struct urb *urb)
- 
- static void mos7840_bulk_out_data_callback(struct urb *urb)
- {
--	struct moschip_port *mos7840_port;
--	struct usb_serial_port *port;
-+	struct moschip_port *mos7840_port = urb->context;
-+	struct usb_serial_port *port = mos7840_port->port;
- 	int status = urb->status;
- 	unsigned long flags;
- 	int i;
- 
--	mos7840_port = urb->context;
--	port = mos7840_port->port;
- 	spin_lock_irqsave(&mos7840_port->pool_lock, flags);
- 	for (i = 0; i < NUM_URBS; i++) {
- 		if (urb == mos7840_port->write_urb_pool[i]) {
-@@ -584,9 +560,6 @@ static void mos7840_bulk_out_data_callback(struct urb *urb)
- 		return;
- 	}
- 
--	if (mos7840_port_paranoia_check(port, __func__))
--		return;
--
- 	if (mos7840_port->open)
- 		tty_port_tty_wakeup(&port->port);
- 
-@@ -605,19 +578,14 @@ static void mos7840_bulk_out_data_callback(struct urb *urb)
+ /************************************************************************/
+ /************************************************************************/
+ /*            U S B  C A L L B A C K   F U N C T I O N S                */
+@@ -541,17 +521,13 @@ static void mos7840_bulk_out_data_callback(struct urb *urb)
  
  static int mos7840_open(struct tty_struct *tty, struct usb_serial_port *port)
  {
-+	struct usb_serial *serial = port->serial;
++	struct moschip_port *mos7840_port = usb_get_serial_port_data(port);
+ 	struct usb_serial *serial = port->serial;
  	int response;
  	int j;
--	struct usb_serial *serial;
  	struct urb *urb;
  	__u16 Data;
  	int status;
- 	struct moschip_port *mos7840_port;
- 
--	if (mos7840_port_paranoia_check(port, __func__))
+-	struct moschip_port *mos7840_port;
+-
+-	mos7840_port = mos7840_get_port_private(port);
+-	if (mos7840_port == NULL)
 -		return -ENODEV;
--
--	serial = port->serial;
--
- 	if (mos7840_serial_paranoia_check(serial, __func__))
- 		return -ENODEV;
  
-@@ -850,9 +818,6 @@ static int mos7840_chars_in_buffer(struct tty_struct *tty)
+ 	usb_clear_halt(serial->dev, port->write_urb->pipe);
+ 	usb_clear_halt(serial->dev, port->read_urb->pipe);
+@@ -773,14 +749,10 @@ static int mos7840_open(struct tty_struct *tty, struct usb_serial_port *port)
+ static int mos7840_chars_in_buffer(struct tty_struct *tty)
+ {
+ 	struct usb_serial_port *port = tty->driver_data;
++	struct moschip_port *mos7840_port = usb_get_serial_port_data(port);
+ 	int i;
+ 	int chars = 0;
  	unsigned long flags;
- 	struct moschip_port *mos7840_port;
- 
--	if (mos7840_port_paranoia_check(port, __func__))
--		return 0;
+-	struct moschip_port *mos7840_port;
 -
- 	mos7840_port = mos7840_get_port_private(port);
- 	if (mos7840_port == NULL)
- 		return 0;
-@@ -882,9 +847,6 @@ static void mos7840_close(struct usb_serial_port *port)
+-	mos7840_port = mos7840_get_port_private(port);
+-	if (mos7840_port == NULL)
+-		return 0;
+ 
+ 	spin_lock_irqsave(&mos7840_port->pool_lock, flags);
+ 	for (i = 0; i < NUM_URBS; ++i) {
+@@ -802,14 +774,10 @@ static int mos7840_chars_in_buffer(struct tty_struct *tty)
+ 
+ static void mos7840_close(struct usb_serial_port *port)
+ {
+-	struct moschip_port *mos7840_port;
++	struct moschip_port *mos7840_port = usb_get_serial_port_data(port);
  	int j;
  	__u16 Data;
  
--	if (mos7840_port_paranoia_check(port, __func__))
+-	mos7840_port = mos7840_get_port_private(port);
+-	if (mos7840_port == NULL)
 -		return;
 -
- 	serial = mos7840_get_usb_serial(port, __func__);
- 	if (!serial)
- 		return;
-@@ -927,9 +889,6 @@ static void mos7840_break(struct tty_struct *tty, int break_state)
- 	struct usb_serial *serial;
- 	struct moschip_port *mos7840_port;
+ 	for (j = 0; j < NUM_URBS; ++j)
+ 		usb_kill_urb(mos7840_port->write_urb_pool[j]);
  
--	if (mos7840_port_paranoia_check(port, __func__))
--		return;
+@@ -840,13 +808,8 @@ static void mos7840_close(struct usb_serial_port *port)
+ static void mos7840_break(struct tty_struct *tty, int break_state)
+ {
+ 	struct usb_serial_port *port = tty->driver_data;
++	struct moschip_port *mos7840_port = usb_get_serial_port_data(port);
+ 	unsigned char data;
+-	struct moschip_port *mos7840_port;
 -
- 	serial = mos7840_get_usb_serial(port, __func__);
- 	if (!serial)
- 		return;
-@@ -967,9 +926,6 @@ static int mos7840_write_room(struct tty_struct *tty)
+-	mos7840_port = mos7840_get_port_private(port);
+-
+-	if (mos7840_port == NULL)
+-		return;
+ 
+ 	if (break_state == -1)
+ 		data = mos7840_port->shadowLCR | LCR_SET_BREAK;
+@@ -871,14 +834,10 @@ static void mos7840_break(struct tty_struct *tty, int break_state)
+ static int mos7840_write_room(struct tty_struct *tty)
+ {
+ 	struct usb_serial_port *port = tty->driver_data;
++	struct moschip_port *mos7840_port = usb_get_serial_port_data(port);
+ 	int i;
+ 	int room = 0;
  	unsigned long flags;
- 	struct moschip_port *mos7840_port;
- 
--	if (mos7840_port_paranoia_check(port, __func__))
--		return -1;
+-	struct moschip_port *mos7840_port;
 -
- 	mos7840_port = mos7840_get_port_private(port);
- 	if (mos7840_port == NULL)
- 		return -1;
-@@ -998,6 +954,7 @@ static int mos7840_write_room(struct tty_struct *tty)
+-	mos7840_port = mos7840_get_port_private(port);
+-	if (mos7840_port == NULL)
+-		return -1;
+ 
+ 	spin_lock_irqsave(&mos7840_port->pool_lock, flags);
+ 	for (i = 0; i < NUM_URBS; ++i) {
+@@ -904,22 +863,17 @@ static int mos7840_write_room(struct tty_struct *tty)
  static int mos7840_write(struct tty_struct *tty, struct usb_serial_port *port,
  			 const unsigned char *data, int count)
  {
-+	struct usb_serial *serial = port->serial;
++	struct moschip_port *mos7840_port = usb_get_serial_port_data(port);
+ 	struct usb_serial *serial = port->serial;
  	int status;
  	int i;
  	int bytes_sent = 0;
-@@ -1005,15 +962,10 @@ static int mos7840_write(struct tty_struct *tty, struct usb_serial_port *port,
+ 	int transfer_size;
  	unsigned long flags;
- 
- 	struct moschip_port *mos7840_port;
--	struct usb_serial *serial;
+-
+-	struct moschip_port *mos7840_port;
  	struct urb *urb;
  	/* __u16 Data; */
  	const unsigned char *current_position = data;
  
--	if (mos7840_port_paranoia_check(port, __func__))
--		return -1;
--
--	serial = port->serial;
- 	if (mos7840_serial_paranoia_check(serial, __func__))
- 		return -1;
- 
-@@ -1104,9 +1056,6 @@ static void mos7840_throttle(struct tty_struct *tty)
- 	struct moschip_port *mos7840_port;
- 	int status;
- 
--	if (mos7840_port_paranoia_check(port, __func__))
--		return;
--
- 	mos7840_port = mos7840_get_port_private(port);
- 
- 	if (mos7840_port == NULL)
-@@ -1146,9 +1095,6 @@ static void mos7840_unthrottle(struct tty_struct *tty)
- 	int status;
- 	struct moschip_port *mos7840_port = mos7840_get_port_private(port);
- 
--	if (mos7840_port_paranoia_check(port, __func__))
--		return;
--
- 	if (mos7840_port == NULL)
- 		return;
- 
-@@ -1296,18 +1242,11 @@ static int mos7840_calc_baud_rate_divisor(struct usb_serial_port *port,
- static int mos7840_send_cmd_write_baud_rate(struct moschip_port *mos7840_port,
- 					    int baudRate)
- {
-+	struct usb_serial_port *port = mos7840_port->port;
- 	int divisor = 0;
- 	int status;
- 	__u16 Data;
- 	__u16 clk_sel_val;
--	struct usb_serial_port *port;
--
+-	mos7840_port = mos7840_get_port_private(port);
 -	if (mos7840_port == NULL)
 -		return -1;
 -
--	port = mos7840_port->port;
--	if (mos7840_port_paranoia_check(port, __func__))
--		return -1;
+ 	/* try to find a free urb in the list */
+ 	urb = NULL;
  
- 	if (mos7840_serial_paranoia_check(port->serial, __func__))
- 		return -1;
-@@ -1399,6 +1338,7 @@ static int mos7840_send_cmd_write_baud_rate(struct moschip_port *mos7840_port,
- static void mos7840_change_port_settings(struct tty_struct *tty,
- 	struct moschip_port *mos7840_port, struct ktermios *old_termios)
+@@ -1000,14 +954,9 @@ static int mos7840_write(struct tty_struct *tty, struct usb_serial_port *port,
+ static void mos7840_throttle(struct tty_struct *tty)
  {
-+	struct usb_serial_port *port = mos7840_port->port;
- 	int baud;
- 	unsigned cflag;
- 	__u8 lData;
-@@ -1406,15 +1346,6 @@ static void mos7840_change_port_settings(struct tty_struct *tty,
- 	__u8 lStop;
+ 	struct usb_serial_port *port = tty->driver_data;
+-	struct moschip_port *mos7840_port;
++	struct moschip_port *mos7840_port = usb_get_serial_port_data(port);
  	int status;
- 	__u16 Data;
--	struct usb_serial_port *port;
+ 
+-	mos7840_port = mos7840_get_port_private(port);
 -
 -	if (mos7840_port == NULL)
 -		return;
 -
--	port = mos7840_port->port;
+ 	if (!mos7840_port->open) {
+ 		dev_dbg(&port->dev, "%s", "port not opened\n");
+ 		return;
+@@ -1039,11 +988,8 @@ static void mos7840_throttle(struct tty_struct *tty)
+ static void mos7840_unthrottle(struct tty_struct *tty)
+ {
+ 	struct usb_serial_port *port = tty->driver_data;
++	struct moschip_port *mos7840_port = usb_get_serial_port_data(port);
+ 	int status;
+-	struct moschip_port *mos7840_port = mos7840_get_port_private(port);
 -
--	if (mos7840_port_paranoia_check(port, __func__))
+-	if (mos7840_port == NULL)
 -		return;
  
- 	if (mos7840_serial_paranoia_check(port->serial, __func__))
- 		return;
-@@ -1557,14 +1488,10 @@ static void mos7840_set_termios(struct tty_struct *tty,
+ 	if (!mos7840_port->open) {
+ 		dev_dbg(&port->dev, "%s - port not opened\n", __func__);
+@@ -1071,15 +1017,10 @@ static void mos7840_unthrottle(struct tty_struct *tty)
+ static int mos7840_tiocmget(struct tty_struct *tty)
+ {
+ 	struct usb_serial_port *port = tty->driver_data;
+-	struct moschip_port *mos7840_port;
+ 	unsigned int result;
+ 	__u16 msr;
+ 	__u16 mcr;
+ 	int status;
+-	mos7840_port = mos7840_get_port_private(port);
+-
+-	if (mos7840_port == NULL)
+-		return -ENODEV;
+ 
+ 	status = mos7840_get_uart_reg(port, MODEM_STATUS_REGISTER, &msr);
+ 	if (status < 0)
+@@ -1104,15 +1045,10 @@ static int mos7840_tiocmset(struct tty_struct *tty,
+ 			    unsigned int set, unsigned int clear)
+ {
+ 	struct usb_serial_port *port = tty->driver_data;
+-	struct moschip_port *mos7840_port;
++	struct moschip_port *mos7840_port = usb_get_serial_port_data(port);
+ 	unsigned int mcr;
+ 	int status;
+ 
+-	mos7840_port = mos7840_get_port_private(port);
+-
+-	if (mos7840_port == NULL)
+-		return -ENODEV;
+-
+ 	/* FIXME: What locks the port registers ? */
+ 	mcr = mos7840_port->shadowMCR;
+ 	if (clear & TIOCM_RTS)
+@@ -1429,13 +1365,8 @@ static void mos7840_set_termios(struct tty_struct *tty,
  				struct usb_serial_port *port,
  				struct ktermios *old_termios)
  {
-+	struct usb_serial *serial = port->serial;
++	struct moschip_port *mos7840_port = usb_get_serial_port_data(port);
  	int status;
--	struct usb_serial *serial;
- 	struct moschip_port *mos7840_port;
- 
--	if (mos7840_port_paranoia_check(port, __func__))
+-	struct moschip_port *mos7840_port;
+-
+-	mos7840_port = mos7840_get_port_private(port);
+-
+-	if (mos7840_port == NULL)
 -		return;
--
--	serial = port->serial;
  
- 	if (mos7840_serial_paranoia_check(serial, __func__))
- 		return;
-@@ -1659,9 +1586,6 @@ static int mos7840_ioctl(struct tty_struct *tty,
+ 	if (!mos7840_port->open) {
+ 		dev_dbg(&port->dev, "%s - port not opened\n", __func__);
+@@ -1497,7 +1428,7 @@ static int mos7840_get_serial_info(struct tty_struct *tty,
+ 				   struct serial_struct *ss)
+ {
+ 	struct usb_serial_port *port = tty->driver_data;
+-	struct moschip_port *mos7840_port = mos7840_get_port_private(port);
++	struct moschip_port *mos7840_port = usb_get_serial_port_data(port);
+ 
+ 	ss->type = PORT_16550A;
+ 	ss->line = mos7840_port->port->minor;
+@@ -1520,12 +1451,6 @@ static int mos7840_ioctl(struct tty_struct *tty,
+ {
+ 	struct usb_serial_port *port = tty->driver_data;
  	void __user *argp = (void __user *)arg;
- 	struct moschip_port *mos7840_port;
- 
--	if (mos7840_port_paranoia_check(port, __func__))
--		return -1;
+-	struct moschip_port *mos7840_port;
 -
- 	mos7840_port = mos7840_get_port_private(port);
+-	mos7840_port = mos7840_get_port_private(port);
+-
+-	if (mos7840_port == NULL)
+-		return -1;
  
- 	if (mos7840_port == NULL)
+ 	switch (cmd) {
+ 		/* return number of bytes available */
+@@ -1692,7 +1617,6 @@ static int mos7840_port_probe(struct usb_serial_port *port)
+ 	 * common to all port */
+ 
+ 	mos7840_port->port = port;
+-	mos7840_set_port_private(port, mos7840_port);
+ 	spin_lock_init(&mos7840_port->pool_lock);
+ 
+ 	/* minor is not initialised until later by
+@@ -1718,7 +1642,7 @@ static int mos7840_port_probe(struct usb_serial_port *port)
+ 		mos7840_port->DcrRegOffset = 0x16 + 3 * (phy_num - 2);
+ 	}
+ 	mos7840_dump_serial_port(port, mos7840_port);
+-	mos7840_set_port_private(port, mos7840_port);
++	usb_set_serial_port_data(port, mos7840_port);
+ 
+ 	/* enable rx_disable bit in control register */
+ 	status = mos7840_get_reg_sync(port,
+@@ -1859,9 +1783,7 @@ static int mos7840_port_probe(struct usb_serial_port *port)
+ 
+ static int mos7840_port_remove(struct usb_serial_port *port)
+ {
+-	struct moschip_port *mos7840_port;
+-
+-	mos7840_port = mos7840_get_port_private(port);
++	struct moschip_port *mos7840_port = usb_get_serial_port_data(port);
+ 
+ 	if (mos7840_port->has_led) {
+ 		/* Turn off LED */
 -- 
 2.23.0
 
