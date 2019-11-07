@@ -2,67 +2,62 @@ Return-Path: <SRS0=QQLj=Y7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D893CC5DF60
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 10:57:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC784C5DF60
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 13:21:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A2F8121882
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 10:57:17 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=aleksander-es.20150623.gappssmtp.com header.i=@aleksander-es.20150623.gappssmtp.com header.b="Q/BbFhiH"
+	by mail.kernel.org (Postfix) with ESMTP id 86B132178F
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 13:21:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1573132891;
+	bh=rmjoWBYQ6ZjzgfhLKKqzV888bNJ9ZsGnFCHnytd4cXs=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=sFdl/+TQBWuEbsQ/NzCBrxyiCSzhylXpRvpZk0zWPSrj96bDYTppdwYMuGLpgmUQz
+	 NTaffsf4DWVAQ389rlZxSst33fzHLgdMG/sEWRI8g+E9eXGu1f01ncMl3mQ9ZBkWXB
+	 OZnOUa5XBswC4E3Hfj3/yWBy+hW9O/aXpe8nHrEo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387611AbfKGK5Q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 Nov 2019 05:57:16 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:36903 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727707AbfKGK5Q (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Nov 2019 05:57:16 -0500
-Received: by mail-lj1-f195.google.com with SMTP id l20so1753305lje.4
-        for <linux-usb@vger.kernel.org>; Thu, 07 Nov 2019 02:57:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=aleksander-es.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=k8OJfKDxG/XoNC2pbiUD5PT0YIFy3ifLKQUf4E98DHk=;
-        b=Q/BbFhiHYDsrSiia+mXvjQj+0lqZuwANP6IRs4HUATjuvjQ/ghVdWKqetbHEXM3BM7
-         vc8kBeWdze0Pl5eOXCaHjpbA5AHKysV5ptgTYCcPkxoDecVt8jX3KJhSfHM9maLa52y2
-         BHe2n2hODSUjcN6rTYXS0oBi8z0HqJl8xGbKAWctHxNeOO4CJ5ag/FPmAgbhU3+hhsAD
-         78dyDiRLZGr+UNITZKqI0KKrda184AumB0YQTMHuUhp+j7elJsxv2lWBQ9wV1mgyvNkI
-         +y7pZlEOdyTH6DfA7WpZZN9EuvSJ3N4yiseheogzC5Jls3kgVnPgJIsHvef382nDaH3b
-         GFsA==
+        id S1727385AbfKGNVa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 Nov 2019 08:21:30 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:36421 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726754AbfKGNVa (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Nov 2019 08:21:30 -0500
+Received: by mail-lf1-f65.google.com with SMTP id m6so1596274lfl.3;
+        Thu, 07 Nov 2019 05:21:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=k8OJfKDxG/XoNC2pbiUD5PT0YIFy3ifLKQUf4E98DHk=;
-        b=NVvuVXNCIIHXdC7J2uo3nJDRwT1LEitF6THb6dJE42LPOYpwsVBkaBlI1bCdpigZzG
-         eJBlTI857r11BpfxzD+NV3TEONwpWmsc+OFGReQZG/1NLJ45NOR749hbsuD79vwlgS0n
-         UgXnypDvpuFUWgZ/W8mGOidvQOH8XFf1pOoPtZVDn/4wjeD2OurqU0Zg9XweGZpz/+Ev
-         QQGq3jR+ZmCgWKj1FKyCyQpjtnicPSpvJqxlgDhPwnxmXleZonJA6vvB/80fBFMAHouF
-         bi8MWqfJaeeneGnt9QcJhzUI51D+Hqbl3JrlW60sEo+0MRsKiF4PmXgW/ZHrXDB8ptc7
-         680A==
-X-Gm-Message-State: APjAAAVkO3rNUVyz7WXyUx8cLP1m1sbTcvCd2Ize/gfBfuBSvR1s6Vnc
-        3tUbuitY362JwAAZAlpdgIFMAAQ63cfCPA==
-X-Google-Smtp-Source: APXvYqz8WNMCpVcB8UeqGirNhbK2ngT/iK0QhJfUnWN2IxlleveUTgElFHZNJN/V0w/Ba10l53RKHA==
-X-Received: by 2002:a2e:b604:: with SMTP id r4mr1915582ljn.134.1573124233050;
-        Thu, 07 Nov 2019 02:57:13 -0800 (PST)
-Received: from localhost.localdomain ([37.46.115.8])
-        by smtp.gmail.com with ESMTPSA id x18sm768077ljc.39.2019.11.07.02.57.11
+        bh=vfuYrbtvtgA5KR2MZecxBHYYg6/uOilfHzXfpqpwQPM=;
+        b=aVtOYy3wq5ZBF9f66/XdHN2MTkSuI85wpnc7UqUcTH/UiNrkAHc6cYtY6BvKpXRtQB
+         D+Y4KX0GHlHzFAZuWaSjNb7i0KgQce1gt4CAnnSaYsDOX1Jfepe99lyjQU/5XJWBOnNg
+         IF/SWOYXbtIW/yQlsSWqUf6Gj8ZuwLWmc5dd5d6e5AKtqdF1aaqK9BSoUN/UwGYSY+7W
+         JNtl8SpPvqN5UV9tqkBimv8l6yiKsGcvz1oE/H7In9ddI401noTrS4cRC90ondWSOJ4r
+         CIfybtLiCSpUAOT6B3mXCQuXVBgLOnqN/C/VPCIHdqrKUD7UGXGn3h5iAhT0MY5IuV1W
+         AghQ==
+X-Gm-Message-State: APjAAAXq/vT9HoKtInHVq4tfTDxJ8jjPRAIb/YOG1byuAo9dfxW/ZyGp
+        1D7J1nZTG8w/BalCEFKy/4mRHPUw
+X-Google-Smtp-Source: APXvYqwH59e9I72472nIdJJORSCXNyrkK2OVDRIionfAx/7vep/m+AA73BqRhv2u4PL22ANOVMe4qA==
+X-Received: by 2002:ac2:4248:: with SMTP id m8mr2420028lfl.94.1573132887989;
+        Thu, 07 Nov 2019 05:21:27 -0800 (PST)
+Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
+        by smtp.gmail.com with ESMTPSA id l82sm1460676lfd.81.2019.11.07.05.21.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2019 02:57:12 -0800 (PST)
-From:   Aleksander Morgado <aleksander@aleksander.es>
-To:     bjorn@mork.no, davem@davemloft.net
-Cc:     netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        Aleksander Morgado <aleksander@aleksander.es>,
-        stable <stable@vger.kernel.org>
-Subject: [PATCH] net: usb: qmi_wwan: add support for DW5821e with eSIM support
-Date:   Thu,  7 Nov 2019 11:57:01 +0100
-Message-Id: <20191107105701.1010823-1-aleksander@aleksander.es>
-X-Mailer: git-send-email 2.24.0
+        Thu, 07 Nov 2019 05:21:27 -0800 (PST)
+Received: from johan by xi.terra with local (Exim 4.92.3)
+        (envelope-from <johan@xi.terra>)
+        id 1iShj6-0000Zb-9x; Thu, 07 Nov 2019 14:21:28 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org, stable <stable@vger.kernel.org>
+Subject: [PATCH 1/2] USB: serial: mos7720: fix remote wakeup
+Date:   Thu,  7 Nov 2019 14:21:18 +0100
+Message-Id: <20191107132119.2159-1-johan@kernel.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -70,41 +65,36 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Exactly same layout as the default DW5821e module, just a different
-vid/pid.
+The driver was setting the device remote-wakeup feature during probe in
+violation of the USB specification (which says it should only be set
+just prior to suspending the device). This could potentially waste
+power during suspend as well as lead to spurious wakeups.
 
-The QMI interface is exposed in USB configuration #1:
+Note that USB core would clear the remote-wakeup feature at first
+resume.
 
-P:  Vendor=413c ProdID=81e0 Rev=03.18
-S:  Manufacturer=Dell Inc.
-S:  Product=DW5821e-eSIM Snapdragon X20 LTE
-S:  SerialNumber=0123456789ABCDEF
-C:  #Ifs= 6 Cfg#= 1 Atr=a0 MxPwr=500mA
-I:  If#=0x0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
-I:  If#=0x1 Alt= 0 #EPs= 1 Cls=03(HID  ) Sub=00 Prot=00 Driver=usbhid
-I:  If#=0x2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-I:  If#=0x3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-I:  If#=0x4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-I:  If#=0x5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
-
-Signed-off-by: Aleksander Morgado <aleksander@aleksander.es>
-Cc: stable <stable@vger.kernel.org>
+Fixes: 0f64478cbc7a ("USB: add USB serial mos7720 driver")
+Cc: stable <stable@vger.kernel.org>     # 2.6.19
+Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/net/usb/qmi_wwan.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/serial/mos7720.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 596428ec71df..56d334b9ad45 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -1362,6 +1362,7 @@ static const struct usb_device_id products[] = {
- 	{QMI_FIXED_INTF(0x413c, 0x81b6, 8)},	/* Dell Wireless 5811e */
- 	{QMI_FIXED_INTF(0x413c, 0x81b6, 10)},	/* Dell Wireless 5811e */
- 	{QMI_FIXED_INTF(0x413c, 0x81d7, 0)},	/* Dell Wireless 5821e */
-+	{QMI_FIXED_INTF(0x413c, 0x81e0, 0)},	/* Dell Wireless 5821e with eSIM support*/
- 	{QMI_FIXED_INTF(0x03f0, 0x4e1d, 8)},	/* HP lt4111 LTE/EV-DO/HSPA+ Gobi 4G Module */
- 	{QMI_FIXED_INTF(0x03f0, 0x9d1d, 1)},	/* HP lt4120 Snapdragon X5 LTE */
- 	{QMI_FIXED_INTF(0x22de, 0x9061, 3)},	/* WeTelecom WPD-600N */
+diff --git a/drivers/usb/serial/mos7720.c b/drivers/usb/serial/mos7720.c
+index 18110225d506..2ec4eeacebc7 100644
+--- a/drivers/usb/serial/mos7720.c
++++ b/drivers/usb/serial/mos7720.c
+@@ -1833,10 +1833,6 @@ static int mos7720_startup(struct usb_serial *serial)
+ 	product = le16_to_cpu(serial->dev->descriptor.idProduct);
+ 	dev = serial->dev;
+ 
+-	/* setting configuration feature to one */
+-	usb_control_msg(serial->dev, usb_sndctrlpipe(serial->dev, 0),
+-			(__u8)0x03, 0x00, 0x01, 0x00, NULL, 0x00, 5000);
+-
+ 	if (product == MOSCHIP_DEVICE_ID_7715) {
+ 		struct urb *urb = serial->port[0]->interrupt_in_urb;
+ 
 -- 
-2.24.0
+2.23.0
 
