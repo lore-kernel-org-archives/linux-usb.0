@@ -2,130 +2,96 @@ Return-Path: <SRS0=QQLj=Y7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EADAC43331
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 15:01:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCCF6C5DF60
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 15:06:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DCE4A21882
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 15:01:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8448221882
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 15:06:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573138904;
-	bh=2JVcH5qeFuDIIW5zP8B/NsbGEFa1tUZ+rxgAoeNVm7U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=L6Z/opsDa2eYwr8+2ShFl0LMAG/346BJNF+Mbfk9ZTIKh+WhXNMxGDHu/QcCaC+gq
-	 c6oNp1o73RiVTSgJGel6neqPqOA6gkrYr3LttrDxI6RmZbiHV477WUM7iLm0W94KKQ
-	 b/iQugaCszmeRZzelVfQm4a0BYLGpbaGlGpREl3w=
+	s=default; t=1573139199;
+	bh=fsUDid5HKrc9F/WdJDG0G0BJvA0zDxAtYlHrMV4oMlU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=vu8JSahfJ4btj2Ni+eF8glSSFI4kBjg7slAbiWmKCvAkbCUGYiTYZlLvwUjHLWuc1
+	 +eJ6HUesmtY9BWbAobZkx+1KDo9cYuQHjQpDvXeiIXQVOAKJOXbbov2Z07IApd0+Aj
+	 iwFh5Q9UokfmbwclCgyMFDQ53UuUCawWvDMId904=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729909AbfKGPBo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 Nov 2019 10:01:44 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59040 "EHLO mail.kernel.org"
+        id S2387970AbfKGPGj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 Nov 2019 10:06:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:32916 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727142AbfKGPBo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 7 Nov 2019 10:01:44 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726231AbfKGPGi (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 7 Nov 2019 10:06:38 -0500
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B39172178F;
-        Thu,  7 Nov 2019 15:01:42 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3ACFB21882;
+        Thu,  7 Nov 2019 15:06:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573138903;
-        bh=2JVcH5qeFuDIIW5zP8B/NsbGEFa1tUZ+rxgAoeNVm7U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gy2k/bTio0Rm4d+60bdIzqiNcYLTgtGBdBOU28bfYiJb5DR/eALeQixnf2TSfCvXS
-         cRKFDUz+VDTn6BUpDCrT/B88BNSMKE1I8jHZa598opei+h3fcyxCfvObK+QiIcn0fA
-         RHjpzoZZzxPlBIW8h/Y5Z2owVIkNhqj7JZSxb0M4=
-Date:   Thu, 7 Nov 2019 16:01:40 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     keithp@keithp.com, linux-usb@vger.kernel.org,
-        Oliver Neukum <oneukum@suse.de>
-Subject: Re: [PATCH] USB: chaoskey: fix error case of a timeout
-Message-ID: <20191107150140.GA154021@kroah.com>
-References: <20191107142856.16774-1-oneukum@suse.com>
- <20191107142856.16774-2-oneukum@suse.com>
+        s=default; t=1573139198;
+        bh=fsUDid5HKrc9F/WdJDG0G0BJvA0zDxAtYlHrMV4oMlU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=H0ouccmx3hPoSmfABuj+ASPlZjcT34bKeeTs6W7khhPV0gKKHXHX/84pH9urmXIqn
+         8k0RkS0fIKYPO330bAf7gr/wNnO6IOIHTgXxFB3dxquRjLgr5y5YnQZNpmqf1g0HYg
+         Ehg0WoF9J6m6pe7goKXBRjfM8Xk5R/3CDtnxQvxE=
+Received: by mail-qt1-f171.google.com with SMTP id o11so2681125qtr.11;
+        Thu, 07 Nov 2019 07:06:38 -0800 (PST)
+X-Gm-Message-State: APjAAAUshMS+RDZRZupsDj1c3V6bkiY6FHyFhk7C/QFTQIo7tHuMl8A/
+        p7UGbhxXX7bnq/gAGUC6htNGgS0jIpIkub7szQ==
+X-Google-Smtp-Source: APXvYqyWThPesgEWjPQEctkib9uu1yXYL3S5Ba/sok9ZNmOi20dTHR/4ibL7EeEbmf+MSrIGI5rbVM+ND/yHu3273d8=
+X-Received: by 2002:ac8:7612:: with SMTP id t18mr4267565qtq.143.1573139197437;
+ Thu, 07 Nov 2019 07:06:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191107142856.16774-2-oneukum@suse.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+References: <1573102944-11095-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1573102944-11095-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Thu, 7 Nov 2019 09:06:26 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJT-k98xtsxAK+jZ1Jhwz=SmpGDR3hUiN9tcOQZBACXTw@mail.gmail.com>
+Message-ID: <CAL_JsqJT-k98xtsxAK+jZ1Jhwz=SmpGDR3hUiN9tcOQZBACXTw@mail.gmail.com>
+Subject: Re: [PATCH v3] dt-bindings: usb: renesas_usbhs: convert bindings to json-schema
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        devicetree@vger.kernel.org,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Nov 07, 2019 at 03:28:56PM +0100, Oliver Neukum wrote:
-> In case of a timeout or if a signal aborts a read
-> communication with the device needs to be ended
-> lest we overwrite an active URB the next time we
-> do IO to the device, as the URB may still be active.
-> 
-> Signed-off-by: Oliver Neukum <oneukum@suse.de>
+On Wed, Nov 6, 2019 at 11:02 PM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+>
+> Convert Renesas USBHS (HS-USB) controller bindings documentation
+> to json-schema.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > ---
->  drivers/usb/misc/chaoskey.c | 24 +++++++++++++++++++++---
->  1 file changed, 21 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/usb/misc/chaoskey.c b/drivers/usb/misc/chaoskey.c
-> index 34e6cd6f40d3..87067c3d6109 100644
-> --- a/drivers/usb/misc/chaoskey.c
-> +++ b/drivers/usb/misc/chaoskey.c
-> @@ -384,13 +384,17 @@ static int _chaoskey_fill(struct chaoskey *dev)
->  		!dev->reading,
->  		(started ? NAK_TIMEOUT : ALEA_FIRST_TIMEOUT) );
->  
-> -	if (result < 0)
-> +	if (result < 0) {
-> +		usb_kill_urb(dev->urb);
->  		goto out;
-> +	}
->  
-> -	if (result == 0)
-> +	if (result == 0) {
->  		result = -ETIMEDOUT;
-> -	else
-> +		usb_kill_urb(dev->urb);
-> +	} else {
->  		result = dev->valid;
-> +	}
->  out:
->  	/* Let the device go back to sleep eventually */
->  	usb_autopm_put_interface(dev->interface);
-> @@ -526,7 +530,21 @@ static int chaoskey_suspend(struct usb_interface *interface,
->  
->  static int chaoskey_resume(struct usb_interface *interface)
->  {
-> +	struct chaoskey *dev;
-> +	struct usb_device *udev = interface_to_usbdev(interface);
-> +
->  	usb_dbg(interface, "resume");
-> +	dev = usb_get_intfdata(interface);
-> +
-> +	/*
-> +	 * We may have lost power.
-> +	 * In that case the device that needs a long time
-> +	 * for the first requests needs an extended timeout
-> +	 * again
-> +	 */
-> +	if (le16_to_cpu(udev->descriptor.idVendor) == ALEA_VENDOR_ID)
+>  Changes from v2:
+>  - Fix dma-names and dr_mode.
+>  https://patchwork.kernel.org/patch/11229977/
+>
+>  Changes from v1:
+>  - Remove enum from RZ/A[12] compatibles.
+>  - Remove comments from reg and clocks.
+>  - Change maxItems from 2 to 3 on clocks for USB 2.0 clock selector.
+>  - Add items on clocks.
+>  - Remove $ref from a gpio property.
+>  - Add maxItems on phys, phy-names and resets.
+>  - Remove generic.txt file reference.
+>  - Remove the last blank line.
+>  https://patchwork.kernel.org/patch/11205919/
+>
+>  .../devicetree/bindings/usb/renesas,usbhs.txt      |  58 ----------
+>  .../devicetree/bindings/usb/renesas,usbhs.yaml     | 126 +++++++++++++++++++++
+>  2 files changed, 126 insertions(+), 58 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/usb/renesas,usbhs.txt
+>  create mode 100644 Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
 
-What is this helping with?
-
-> +		dev->reads_started = false;
-> +
->  	return 0;
->  }
->  #else
-> -- 
-> 2.16.4
-> 
-
-Why send this twice?
-
-And did this pass the syzbot testing?
-
-thanks,
-
-greg k-h
+Reviewed-by: Rob Herring <robh@kernel.org>
