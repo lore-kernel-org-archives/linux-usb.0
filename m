@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDC7AC5DF60
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 13:29:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2500FC6197
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 13:29:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9DC5C2187F
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 13:29:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B3C43218AE
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 13:29:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573133371;
-	bh=M0mtW1QfgoABj4u03nO+wZVlgdnnbc530WEBoHkksR0=;
+	s=default; t=1573133372;
+	bh=MeM6MddWrmTwIwuEDKyO5VXVH8tXSEUPURpqWUwWqf4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=m9XzFhn0rbupD7lKTuc3ZVhj+tfEOS8jETUlAfUdgKDnPJbmGkRvjwgTd4+yR9D0H
-	 7QInyI8hi7ChkomORHfEINWEwvJMvaQHzPVFp1CCZEcIjTnSZdC5Viwj1ndaz+IA/J
-	 DZ51ZG2crYP6HS5ef/dRPRM78zIoOynWGKXex71c=
+	b=qm8RBBDwtz6P4GiMwy6ikFG8hJktra5KdhFC5LuX81s8EtMx0hRKYLKwacHr9Jsg4
+	 AtqyDctksD3WKO+LXQMWlFuO9ic+0+OIPIAjd8SwYyLsri8uLGIzNKhEfKvvy3h3Cu
+	 XLgbxIIY2XeVuFZn374AIbOzOhilv/X7stLWnWSs=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387763AbfKGN3a (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 Nov 2019 08:29:30 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:44331 "EHLO
+        id S2388310AbfKGN3c (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 Nov 2019 08:29:32 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:45163 "EHLO
         mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728687AbfKGN3a (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Nov 2019 08:29:30 -0500
-Received: by mail-lj1-f195.google.com with SMTP id g3so2255950ljl.11
-        for <linux-usb@vger.kernel.org>; Thu, 07 Nov 2019 05:29:27 -0800 (PST)
+        with ESMTP id S1728568AbfKGN3b (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Nov 2019 08:29:31 -0500
+Received: by mail-lj1-f195.google.com with SMTP id n21so2252440ljg.12
+        for <linux-usb@vger.kernel.org>; Thu, 07 Nov 2019 05:29:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9ltBNcSELxQBDJPS5fhj1KWRfvpuYAgMykIAsgA01P4=;
-        b=REWlDSxGoUKFYetTc06RChd44c812ifjsu/bmdDo+pFJx1BfuHnr6eYZz0fD1yyss9
-         ns0hTcvy2WTkUwURoCWv6Ls9Dm4KSGJLOw95pM1uUCUAKEo1cySO8iEFbpxc0WVe/WtU
-         Ni0f/I8HOLmjcv6KIcXONqK7aJFtcITZEvlqq+m0kfejeu68hSQ1So+UzKH/G1TQ5saB
-         yICxKZjnPlzX4gnhJz2dfMBegcbj5Ri2MgmO8257ba52wCm54LK0JjzFsAzG4htVW1Tl
-         a9BtkoxroO5ro1MyMc3266XfO25qTXFfVJoqskt+LswjYzfLBCBjjxE8sLoCq5B78L8F
-         OqFA==
-X-Gm-Message-State: APjAAAV0MHj1z8Ism5754aFkNu9rQPbiIsiQNPMoV2BWDlKiT2YGMjid
-        q5vpV6OCFHNw15QOpCaZmYw=
-X-Google-Smtp-Source: APXvYqzi6DzZLj7sg5h1w4f/LUA6Iny4S/tgr8PnJl+lLuYJzBGINBW4GWd9pHbKfDMfDjjjJLJU2w==
-X-Received: by 2002:a05:651c:119b:: with SMTP id w27mr2283597ljo.221.1573133366324;
-        Thu, 07 Nov 2019 05:29:26 -0800 (PST)
+        bh=KV6FgkZT3tBNc1qg/Lz1AkNLOCRRjfwbev+8vDOiJp4=;
+        b=YHTcXjmVeGroMDLq2uQQJ/C/sbJsO7wcdUpx6uFDs3yTw4RW9+PxZI+WHDgOMnhxwD
+         uPv49JsenNSsCyiqN63Cj2D34liFmZ90um2Hw5QzEwcvGDgbuEPjGwhJ04YHWsV7jZad
+         xBSX509GeIRgAs0JJgU82tyYaZR+QqoO5B7/VvkJwWV8jGZtucL48OiaVAwgORx3kWNO
+         Q96WhPrV+L7S4j8DV/cxAB3D8WWrNxTreW3bhecWAOWMLfH1hluPTaOaoSrHlISVjYF6
+         0js88Y08m/fIakV33273WS6WSFQX4iiDuSy3Oyb1yyjNnBMW6chrjVi8u6hv0bRGFSve
+         cM2g==
+X-Gm-Message-State: APjAAAUxJklA7T9CPZBtuUB+1kffEvuAA6HaLs+Sm+qO8u0wgCHATUnp
+        w88XQcPLmQo+8hbFrvRi+4w=
+X-Google-Smtp-Source: APXvYqxpFCshqccB/E/oEqKT+p5364/UGH9bR/GLB6mpvxJJzao9wP7mlQlFqO1jKC+9bIgw+RaBjg==
+X-Received: by 2002:a2e:9b89:: with SMTP id z9mr2573775lji.185.1573133368792;
+        Thu, 07 Nov 2019 05:29:28 -0800 (PST)
 Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id x187sm1143374lfa.64.2019.11.07.05.29.23
+        by smtp.gmail.com with ESMTPSA id y18sm1249830lja.12.2019.11.07.05.29.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2019 05:29:23 -0800 (PST)
+        Thu, 07 Nov 2019 05:29:25 -0800 (PST)
 Received: from johan by xi.terra with local (Exim 4.92.3)
         (envelope-from <johan@xi.terra>)
-        id 1iShqn-0000dO-8u; Thu, 07 Nov 2019 14:29:25 +0100
+        id 1iShqn-0000da-Dw; Thu, 07 Nov 2019 14:29:25 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     linux-usb@vger.kernel.org
-Subject: [PATCH 01/11] USB: serial: mos7840: clean up device-type handling
-Date:   Thu,  7 Nov 2019 14:28:54 +0100
-Message-Id: <20191107132904.2379-2-johan@kernel.org>
+Subject: [PATCH 03/11] USB: serial: mos7840: fix probe error handling
+Date:   Thu,  7 Nov 2019 14:28:56 +0100
+Message-Id: <20191107132904.2379-4-johan@kernel.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191107132904.2379-1-johan@kernel.org>
 References: <20191107132904.2379-1-johan@kernel.org>
@@ -67,209 +67,160 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The current device-type detection is fragile and can't really be relied
-upon. Instead of sprinkling device-id conditionals throughout the
-driver, let's use the device-id table to encode the number of ports and
-whether the device has a driver-controlled activity LED (MCS7810).
+The driver would return success and leave the port structures
+half-initialised if any of the register accesses during probe fails.
+
+This would specifically leave the port control urb unallocated,
+something which could trigger a NULL pointer dereference on interrupt
+events.
+
+Fortunately the interrupt implementation is completely broken and has
+never even been enabled...
+
+Note that the zero-length-enable register write used to set the zle-flag
+for all ports is moved to attach.
 
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/mos7840.c | 121 +++++++++++++----------------------
- 1 file changed, 44 insertions(+), 77 deletions(-)
+ drivers/usb/serial/mos7840.c | 48 +++++++++++++++++++++---------------
+ 1 file changed, 28 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/usb/serial/mos7840.c b/drivers/usb/serial/mos7840.c
-index ab4bf8d6d7df..f13cf723fa6c 100644
+index 6de41a3c2dab..ddd8db3be110 100644
 --- a/drivers/usb/serial/mos7840.c
 +++ b/drivers/usb/serial/mos7840.c
-@@ -89,17 +89,10 @@
- /* For higher baud Rates use TIOCEXBAUD */
- #define TIOCEXBAUD     0x5462
- 
--/* vendor id and device id defines */
--
--/* The native mos7840/7820 component */
--#define USB_VENDOR_ID_MOSCHIP           0x9710
--#define MOSCHIP_DEVICE_ID_7840          0x7840
--#define MOSCHIP_DEVICE_ID_7843          0x7843
--#define MOSCHIP_DEVICE_ID_7820          0x7820
--#define MOSCHIP_DEVICE_ID_7810          0x7810
--/* The native component can have its vendor/device id's overridden
-- * in vendor-specific implementations.  Such devices can be handled
-- * by making a change here, in id_table.
-+/*
-+ * Vendor id and device id defines
-+ *
-+ * NOTE: Do not add new defines, add entries directly to the id_table instead.
-  */
- #define USB_VENDOR_ID_BANDB              0x0856
- #define BANDB_DEVICE_ID_USO9ML2_2        0xAC22
-@@ -116,18 +109,6 @@
- #define BANDB_DEVICE_ID_USOPTL4_4P       0xBC03
- #define BANDB_DEVICE_ID_USOPTL2_4        0xAC24
- 
--/* This driver also supports
-- * ATEN UC2324 device using Moschip MCS7840
-- * ATEN UC2322 device using Moschip MCS7820
-- * MOXA UPort 2210 device using Moschip MCS7820
-- */
--#define USB_VENDOR_ID_ATENINTL		0x0557
--#define ATENINTL_DEVICE_ID_UC2324	0x2011
--#define ATENINTL_DEVICE_ID_UC2322	0x7820
--
--#define USB_VENDOR_ID_MOXA		0x110a
--#define MOXA_DEVICE_ID_2210		0x2210
--
- /* Interrupt Routine Defines    */
- 
- #define SERIAL_IIR_RLS      0x06
-@@ -179,27 +160,34 @@ enum mos7840_flag {
- 	MOS7840_FLAG_LED_BUSY,
- };
- 
-+#define MCS_PORT_MASK	GENMASK(2, 0)
-+#define MCS_PORTS(nr)	((nr) & MCS_PORT_MASK)
-+#define MCS_LED		BIT(3)
-+
-+#define MCS_DEVICE(vid, pid, flags) \
-+		USB_DEVICE((vid), (pid)), .driver_info = (flags)
-+
- static const struct usb_device_id id_table[] = {
--	{USB_DEVICE(USB_VENDOR_ID_MOSCHIP, MOSCHIP_DEVICE_ID_7840)},
--	{USB_DEVICE(USB_VENDOR_ID_MOSCHIP, MOSCHIP_DEVICE_ID_7843)},
--	{USB_DEVICE(USB_VENDOR_ID_MOSCHIP, MOSCHIP_DEVICE_ID_7820)},
--	{USB_DEVICE(USB_VENDOR_ID_MOSCHIP, MOSCHIP_DEVICE_ID_7810)},
--	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USO9ML2_2)},
--	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USO9ML2_2P)},
--	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USO9ML2_4)},
--	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USO9ML2_4P)},
--	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_US9ML2_2)},
--	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_US9ML2_4)},
--	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USPTL4_2)},
--	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USPTL4_4)},
--	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_2)},
--	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_2P)},
--	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_4)},
--	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_4P)},
--	{USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL2_4)},
--	{USB_DEVICE(USB_VENDOR_ID_ATENINTL, ATENINTL_DEVICE_ID_UC2324)},
--	{USB_DEVICE(USB_VENDOR_ID_ATENINTL, ATENINTL_DEVICE_ID_UC2322)},
--	{USB_DEVICE(USB_VENDOR_ID_MOXA, MOXA_DEVICE_ID_2210)},
-+	{ MCS_DEVICE(0x0557, 0x2011, MCS_PORTS(4)) },	/* ATEN UC2324 */
-+	{ MCS_DEVICE(0x0557, 0x7820, MCS_PORTS(2)) },	/* ATEN UC2322 */
-+	{ MCS_DEVICE(0x110a, 0x2210, MCS_PORTS(2)) },	/* Moxa UPort 2210 */
-+	{ MCS_DEVICE(0x9710, 0x7810, MCS_PORTS(1) | MCS_LED) }, /* ASIX MCS7810 */
-+	{ MCS_DEVICE(0x9710, 0x7820, MCS_PORTS(2)) },	/* MosChip MCS7820 */
-+	{ MCS_DEVICE(0x9710, 0x7840, MCS_PORTS(4)) },	/* MosChip MCS7840 */
-+	{ MCS_DEVICE(0x9710, 0x7843, MCS_PORTS(3)) },	/* ASIX MCS7840 3 port */
-+	{ USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USO9ML2_2) },
-+	{ USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USO9ML2_2P) },
-+	{ USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USO9ML2_4) },
-+	{ USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USO9ML2_4P) },
-+	{ USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_US9ML2_2) },
-+	{ USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_US9ML2_4) },
-+	{ USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USPTL4_2) },
-+	{ USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USPTL4_4) },
-+	{ USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_2) },
-+	{ USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_2P) },
-+	{ USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_4) },
-+	{ USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL4_4P) },
-+	{ USB_DEVICE(USB_VENDOR_ID_BANDB, BANDB_DEVICE_ID_USOPTL2_4) },
- 	{}			/* terminating entry */
- };
- MODULE_DEVICE_TABLE(usb, id_table);
-@@ -2024,22 +2012,12 @@ static int mos7810_check(struct usb_serial *serial)
- static int mos7840_probe(struct usb_serial *serial,
- 				const struct usb_device_id *id)
- {
--	u16 product = le16_to_cpu(serial->dev->descriptor.idProduct);
--	u16 vid = le16_to_cpu(serial->dev->descriptor.idVendor);
-+	unsigned long device_flags = id->driver_info;
- 	u8 *buf;
--	int device_type;
- 
--	if (product == MOSCHIP_DEVICE_ID_7810 ||
--		product == MOSCHIP_DEVICE_ID_7820 ||
--		product == MOSCHIP_DEVICE_ID_7843) {
--		device_type = product;
-+	/* Skip device-type detection if we already have device flags. */
-+	if (device_flags)
- 		goto out;
--	}
--
--	if (vid == USB_VENDOR_ID_MOXA && product == MOXA_DEVICE_ID_2210) {
--		device_type = MOSCHIP_DEVICE_ID_7820;
--		goto out;
--	}
- 
- 	buf = kzalloc(VENDOR_READ_LENGTH, GFP_KERNEL);
- 	if (!buf)
-@@ -2051,15 +2029,15 @@ static int mos7840_probe(struct usb_serial *serial,
- 
- 	/* For a MCS7840 device GPIO0 must be set to 1 */
- 	if (buf[0] & 0x01)
--		device_type = MOSCHIP_DEVICE_ID_7840;
-+		device_flags = MCS_PORTS(4);
- 	else if (mos7810_check(serial))
--		device_type = MOSCHIP_DEVICE_ID_7810;
-+		device_flags = MCS_PORTS(1) | MCS_LED;
- 	else
--		device_type = MOSCHIP_DEVICE_ID_7820;
-+		device_flags = MCS_PORTS(2);
- 
- 	kfree(buf);
- out:
--	usb_set_serial_data(serial, (void *)(unsigned long)device_type);
-+	usb_set_serial_data(serial, (void *)device_flags);
- 
- 	return 0;
+@@ -2066,6 +2066,23 @@ static int mos7840_calc_num_ports(struct usb_serial *serial,
+ 	return num_ports;
  }
-@@ -2067,19 +2045,10 @@ static int mos7840_probe(struct usb_serial *serial,
- static int mos7840_calc_num_ports(struct usb_serial *serial,
- 					struct usb_serial_endpoints *epds)
- {
--	int device_type = (unsigned long)usb_get_serial_data(serial);
--	int num_ports;
-+	unsigned long device_flags = (unsigned long)usb_get_serial_data(serial);
-+	int num_ports = MCS_PORTS(device_flags);
  
--	if (device_type == MOSCHIP_DEVICE_ID_7843)
--		num_ports = 3;
--	else
--		num_ports = (device_type >> 4) & 0x000F;
--
--	/*
--	 * num_ports is currently never zero as device_type is one of
--	 * MOSCHIP_DEVICE_ID_78{1,2,4}0.
--	 */
--	if (num_ports == 0)
-+	if (num_ports == 0 || num_ports > 4)
- 		return -ENODEV;
- 
- 	if (epds->num_bulk_in < num_ports || epds->num_bulk_out < num_ports) {
-@@ -2093,7 +2062,7 @@ static int mos7840_calc_num_ports(struct usb_serial *serial,
++static int mos7840_attach(struct usb_serial *serial)
++{
++	struct device *dev = &serial->interface->dev;
++	int status;
++	u16 val;
++
++	/* Zero Length flag enable */
++	val = 0x0f;
++	status = mos7840_set_reg_sync(serial->port[0], ZLP_REG5, val);
++	if (status < 0)
++		dev_dbg(dev, "Writing ZLP_REG5 failed status-0x%x\n", status);
++	else
++		dev_dbg(dev, "ZLP_REG5 Writing success status%d\n", status);
++
++	return status;
++}
++
  static int mos7840_port_probe(struct usb_serial_port *port)
  {
  	struct usb_serial *serial = port->serial;
--	int device_type = (unsigned long)usb_get_serial_data(serial);
-+	unsigned long device_flags = (unsigned long)usb_get_serial_data(serial);
- 	struct moschip_port *mos7840_port;
- 	int status;
- 	int pnum;
-@@ -2255,12 +2224,10 @@ static int mos7840_port_probe(struct usb_serial_port *port)
- 		goto error;
+@@ -2123,7 +2140,7 @@ static int mos7840_port_probe(struct usb_serial_port *port)
+ 			mos7840_port->ControlRegOffset, &Data);
+ 	if (status < 0) {
+ 		dev_dbg(&port->dev, "Reading ControlReg failed status-0x%x\n", status);
+-		goto out;
++		goto error;
+ 	} else
+ 		dev_dbg(&port->dev, "ControlReg Reading success val is %x, status%d\n", Data, status);
+ 	Data |= 0x08;	/* setting driver done bit */
+@@ -2135,7 +2152,7 @@ static int mos7840_port_probe(struct usb_serial_port *port)
+ 			mos7840_port->ControlRegOffset, Data);
+ 	if (status < 0) {
+ 		dev_dbg(&port->dev, "Writing ControlReg failed(rx_disable) status-0x%x\n", status);
+-		goto out;
++		goto error;
+ 	} else
+ 		dev_dbg(&port->dev, "ControlReg Writing success(rx_disable) status%d\n", status);
+ 
+@@ -2146,7 +2163,7 @@ static int mos7840_port_probe(struct usb_serial_port *port)
+ 			(__u16) (mos7840_port->DcrRegOffset + 0), Data);
+ 	if (status < 0) {
+ 		dev_dbg(&port->dev, "Writing DCR0 failed status-0x%x\n", status);
+-		goto out;
++		goto error;
+ 	} else
+ 		dev_dbg(&port->dev, "DCR0 Writing success status%d\n", status);
+ 
+@@ -2155,7 +2172,7 @@ static int mos7840_port_probe(struct usb_serial_port *port)
+ 			(__u16) (mos7840_port->DcrRegOffset + 1), Data);
+ 	if (status < 0) {
+ 		dev_dbg(&port->dev, "Writing DCR1 failed status-0x%x\n", status);
+-		goto out;
++		goto error;
+ 	} else
+ 		dev_dbg(&port->dev, "DCR1 Writing success status%d\n", status);
+ 
+@@ -2164,7 +2181,7 @@ static int mos7840_port_probe(struct usb_serial_port *port)
+ 			(__u16) (mos7840_port->DcrRegOffset + 2), Data);
+ 	if (status < 0) {
+ 		dev_dbg(&port->dev, "Writing DCR2 failed status-0x%x\n", status);
+-		goto out;
++		goto error;
+ 	} else
+ 		dev_dbg(&port->dev, "DCR2 Writing success status%d\n", status);
+ 
+@@ -2173,7 +2190,7 @@ static int mos7840_port_probe(struct usb_serial_port *port)
+ 	status = mos7840_set_reg_sync(port, CLK_START_VALUE_REGISTER, Data);
+ 	if (status < 0) {
+ 		dev_dbg(&port->dev, "Writing CLK_START_VALUE_REGISTER failed status-0x%x\n", status);
+-		goto out;
++		goto error;
+ 	} else
+ 		dev_dbg(&port->dev, "CLK_START_VALUE_REGISTER Writing success status%d\n", status);
+ 
+@@ -2190,7 +2207,7 @@ static int mos7840_port_probe(struct usb_serial_port *port)
+ 	status = mos7840_set_uart_reg(port, SCRATCH_PAD_REGISTER, Data);
+ 	if (status < 0) {
+ 		dev_dbg(&port->dev, "Writing SCRATCH_PAD_REGISTER failed status-0x%x\n", status);
+-		goto out;
++		goto error;
+ 	} else
+ 		dev_dbg(&port->dev, "SCRATCH_PAD_REGISTER Writing success status%d\n", status);
+ 
+@@ -2204,7 +2221,7 @@ static int mos7840_port_probe(struct usb_serial_port *port)
+ 				(__u16)(ZLP_REG1 + ((__u16) mos7840_port->port_num)));
+ 		if (status < 0) {
+ 			dev_dbg(&port->dev, "Writing ZLP_REG%d failed status-0x%x\n", pnum + 2, status);
+-			goto out;
++			goto error;
+ 		} else
+ 			dev_dbg(&port->dev, "ZLP_REG%d Writing success status%d\n", pnum + 2, status);
+ 	} else {
+@@ -2216,7 +2233,7 @@ static int mos7840_port_probe(struct usb_serial_port *port)
+ 				(__u16)(ZLP_REG1 + ((__u16) mos7840_port->port_num) - 0x1));
+ 		if (status < 0) {
+ 			dev_dbg(&port->dev, "Writing ZLP_REG%d failed status-0x%x\n", pnum + 1, status);
+-			goto out;
++			goto error;
+ 		} else
+ 			dev_dbg(&port->dev, "ZLP_REG%d Writing success status%d\n", pnum + 1, status);
+ 
+@@ -2254,17 +2271,7 @@ static int mos7840_port_probe(struct usb_serial_port *port)
+ 		/* Turn off LED */
+ 		mos7840_set_led_sync(port, MODEM_CONTROL_REGISTER, 0x0300);
  	}
- 
--	mos7840_port->has_led = false;
-+	mos7840_port->has_led = device_flags & MCS_LED;
- 
- 	/* Initialize LED timers */
--	if (device_type == MOSCHIP_DEVICE_ID_7810) {
--		mos7840_port->has_led = true;
--
-+	if (mos7840_port->has_led) {
- 		mos7840_port->led_urb = usb_alloc_urb(0, GFP_KERNEL);
- 		mos7840_port->led_dr = kmalloc(sizeof(*mos7840_port->led_dr),
- 								GFP_KERNEL);
+-out:
+-	if (pnum == serial->num_ports - 1) {
+-		/* Zero Length flag enable */
+-		Data = 0x0f;
+-		status = mos7840_set_reg_sync(serial->port[0], ZLP_REG5, Data);
+-		if (status < 0) {
+-			dev_dbg(&port->dev, "Writing ZLP_REG5 failed status-0x%x\n", status);
+-			goto error;
+-		} else
+-			dev_dbg(&port->dev, "ZLP_REG5 Writing success status%d\n", status);
+-	}
++
+ 	return 0;
+ error:
+ 	kfree(mos7840_port->led_dr);
+@@ -2320,6 +2327,7 @@ static struct usb_serial_driver moschip7840_4port_device = {
+ 	.unthrottle = mos7840_unthrottle,
+ 	.calc_num_ports = mos7840_calc_num_ports,
+ 	.probe = mos7840_probe,
++	.attach = mos7840_attach,
+ 	.ioctl = mos7840_ioctl,
+ 	.get_serial = mos7840_get_serial_info,
+ 	.set_termios = mos7840_set_termios,
 -- 
 2.23.0
 
