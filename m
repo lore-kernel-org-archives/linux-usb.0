@@ -4,32 +4,34 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 154FEC5DF61
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 14:45:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80BB7C5DF61
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 14:45:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E31EC218AE
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 14:45:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5342E214D8
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 14:45:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727093AbfKGOpD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 Nov 2019 09:45:03 -0500
-Received: from mx2.suse.de ([195.135.220.15]:42902 "EHLO mx1.suse.de"
+        id S1727340AbfKGOpG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 Nov 2019 09:45:06 -0500
+Received: from mx2.suse.de ([195.135.220.15]:42934 "EHLO mx1.suse.de"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726231AbfKGOpD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 7 Nov 2019 09:45:03 -0500
+        id S1726231AbfKGOpG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 7 Nov 2019 09:45:06 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 79615B4D5;
-        Thu,  7 Nov 2019 14:45:01 +0000 (UTC)
+        by mx1.suse.de (Postfix) with ESMTP id 4073FB4DD;
+        Thu,  7 Nov 2019 14:45:05 +0000 (UTC)
 From:   Oliver Neukum <oneukum@suse.com>
 To:     keithp@keithp.com, gregkh@linuxfoundation.org,
         linux-usb@vger.kernel.org
 Cc:     Oliver Neukum <oneukum@suse.com>, Oliver Neukum <oneukum@suse.de>
 Subject: [PATCH] USB: chaoskey: fix error case of a timeout
-Date:   Thu,  7 Nov 2019 15:28:55 +0100
-Message-Id: <20191107142856.16774-1-oneukum@suse.com>
+Date:   Thu,  7 Nov 2019 15:28:56 +0100
+Message-Id: <20191107142856.16774-2-oneukum@suse.com>
 X-Mailer: git-send-email 2.16.4
+In-Reply-To: <20191107142856.16774-1-oneukum@suse.com>
+References: <20191107142856.16774-1-oneukum@suse.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
