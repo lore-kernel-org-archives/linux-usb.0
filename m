@@ -2,102 +2,107 @@ Return-Path: <SRS0=QQLj=Y7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE86EC5DF61
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 13:29:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69AE8C5DF61
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 13:33:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8372A2187F
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 13:29:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3F33E2178F
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 13:33:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573133379;
-	bh=sHJERiPacoO9v0qnCHHBFA2Cul5DpFAVXgHrfyueH/c=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=o3EOmpN5DADhvmcvRLWkhoWNTNppktUqWtaEPGPxGmE15Lf5Qm1BwvK4bCdUfzYDJ
-	 /MM+7GUG8AnqU0f/bCgRTrCbaqegaOhEBjnOXeStjnEy0VLSzol7EucbiYDdV/IQ8y
-	 fM21SPJLQoSSBd453Loj5OXf7q53ZiS8QGFk4NPk=
+	s=default; t=1573133624;
+	bh=pgYWrFLOfVgeVWrRopf/g+tlJXItUhABWgUk1GEePQ0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=H/Sh8ghkmrS+NTAShnNtcPT/wTIQmy2VEQL1VUKYBZuLTAtRrvsoJ2FF/jcRPcRxe
+	 E2j8bhFepePqgdeuGB+dG2UN5GNZcqu8fdHzohPR3KKOmiRqVUIETwF1josqQhFhbJ
+	 ZqcNhHCl/6FBhAqXg/jLL67fJlFHwP1IXxaUSXHc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388750AbfKGN3i (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 Nov 2019 08:29:38 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:45169 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388525AbfKGN3i (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Nov 2019 08:29:38 -0500
-Received: by mail-lj1-f193.google.com with SMTP id n21so2252811ljg.12
-        for <linux-usb@vger.kernel.org>; Thu, 07 Nov 2019 05:29:35 -0800 (PST)
+        id S2388574AbfKGNdn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 Nov 2019 08:33:43 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:34273 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388271AbfKGNdn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Nov 2019 08:33:43 -0500
+Received: by mail-lf1-f67.google.com with SMTP id f5so1635098lfp.1;
+        Thu, 07 Nov 2019 05:33:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=KMldmjZNEDlQPHZw4y7grynkhWU7xoAmhFJtHHyHyMY=;
-        b=LYv0aB7gmqJji3Fhyik4Ash8n7tnWt1pgM56hQyVGIj8IbrLLDvVdFyUerwQXskuLZ
-         WwAl6ZlKxkzfrTwgEGiAB+a5HvuyWJeRctXkyBGnoegIp5WaCQUJIvjqpQmDZMXJFsL8
-         SjW3oqcHe8i9sDWihv5WLHzHCEV8V2Q/A1TAwrZOJUaST7dJtncZnASPBbhobaNKZuVX
-         /g+ODFt9aa6b3tiBB2m6WVqfCis2GY3kYBuiPBLb7hVRpsa5U5Qi4C7qsRJMx2uVseGq
-         gvJEupAceaxrJjmH85umG1FessKKtLRF5Cc+3nXd1rgrAmpKR3DizcliwulLfwK1wsqM
-         khXA==
-X-Gm-Message-State: APjAAAWKOk9eu1kWtWJdVa6LrUF1ikhVlfiyRuj4Gg5JExOAWEzcJrta
-        kxgKPzD38FeEpsRGbaaobZ8=
-X-Google-Smtp-Source: APXvYqwctiqQiqO9QZbEe2PJEZjZciyTHtcInuxQbhDSypJGYVZ13fhV9R21JY9C5D3RfQNPC0iDrQ==
-X-Received: by 2002:a2e:9112:: with SMTP id m18mr2565052ljg.75.1573133374533;
-        Thu, 07 Nov 2019 05:29:34 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=DAJAgFyN58cHvYPVd/mVHD5c2xckpaUqCtwazPHzm+U=;
+        b=RFEyCz/Bi3kPXQ3f8TdoKpFr8hOPoYu4RPoyYo6Jg32xkfOMd7QGBeKtC/CyMyqTwm
+         l78I7p5ncvqOc8dqqK8YTAkXn61EK/Ps8KPO8mYBnJV3u1ORfmjfxHI47Yt7xkR3IBBN
+         2PGWr0Ts3U/2RfNp9V1EPlko/GFVWrA+IjPZw1hA3VAJGV7MeOTdVZ4BAOXmY+ZUQiDw
+         PhgGsTpRULTjQtZlO+ApbamXm4Jt3Ija5mI1uUEJIl1ovWoKaGyuYriZHBL6pAJG/O4P
+         dwTVhfhHF+T0cLiA3XkPVIlx/xbPrlj0j2YbMbZdcoqeaEb/JewA9GFHmAlAJK43ckcB
+         le6g==
+X-Gm-Message-State: APjAAAXi0J7EagXLAP/ytqDNZntxQyAe4JgTcW4gonj9u5HhAqwqCfVZ
+        Ef4IvmsEOk5yd06OrEJl0OM=
+X-Google-Smtp-Source: APXvYqw/739omEVr/CNEKy2TMwguM449blxmzi6x5pLpDi3gLStVyMgaNzVBfeSYxhlNbBVGfz/Irg==
+X-Received: by 2002:ac2:5f01:: with SMTP id 1mr2452877lfq.147.1573133621273;
+        Thu, 07 Nov 2019 05:33:41 -0800 (PST)
 Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id y17sm918053lfy.58.2019.11.07.05.29.23
+        by smtp.gmail.com with ESMTPSA id u12sm984154lji.50.2019.11.07.05.33.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2019 05:29:28 -0800 (PST)
+        Thu, 07 Nov 2019 05:33:40 -0800 (PST)
 Received: from johan by xi.terra with local (Exim 4.92.3)
-        (envelope-from <johan@xi.terra>)
-        id 1iShqn-0000dj-KQ; Thu, 07 Nov 2019 14:29:25 +0100
+        (envelope-from <johan@kernel.org>)
+        id 1iShuv-0000gu-R8; Thu, 07 Nov 2019 14:33:41 +0100
+Date:   Thu, 7 Nov 2019 14:33:41 +0100
 From:   Johan Hovold <johan@kernel.org>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: [PATCH 05/11] USB: serial: mos7840: drop redundant urb context check
-Date:   Thu,  7 Nov 2019 14:28:58 +0100
-Message-Id: <20191107132904.2379-6-johan@kernel.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191107132904.2379-1-johan@kernel.org>
-References: <20191107132904.2379-1-johan@kernel.org>
+To:     Aleksander Morgado <aleksander@aleksander.es>
+Cc:     johan@kernel.org, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, stable <stable@vger.kernel.org>
+Subject: Re: [PATCH] USB: serial: option: add support for DW5821e with eSIM
+ support
+Message-ID: <20191107133341.GB8732@localhost>
+References: <20191107105508.1010716-1-aleksander@aleksander.es>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191107105508.1010716-1-aleksander@aleksander.es>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The bulk-in URB context is set to the driver-data struct at open and is
-never cleared so drop the redundant check in the completion callback.
+On Thu, Nov 07, 2019 at 11:55:08AM +0100, Aleksander Morgado wrote:
+> The device exposes AT, NMEA and DIAG ports in both USB configurations.
+> Exactly same layout as the default DW5821e module, just a different
+> vid/pid.
+> 
+> P:  Vendor=413c ProdID=81e0 Rev=03.18
+> S:  Manufacturer=Dell Inc.
+> S:  Product=DW5821e-eSIM Snapdragon X20 LTE
+> S:  SerialNumber=0123456789ABCDEF
+> C:  #Ifs= 6 Cfg#= 1 Atr=a0 MxPwr=500mA
+> I:  If#=0x0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
+> I:  If#=0x1 Alt= 0 #EPs= 1 Cls=03(HID  ) Sub=00 Prot=00 Driver=usbhid
+> I:  If#=0x2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+> I:  If#=0x3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+> I:  If#=0x4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+> I:  If#=0x5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
+> 
+> P:  Vendor=413c ProdID=81e0 Rev=03.18
+> S:  Manufacturer=Dell Inc.
+> S:  Product=DW5821e-eSIM Snapdragon X20 LTE
+> S:  SerialNumber=0123456789ABCDEF
+> C:  #Ifs= 7 Cfg#= 2 Atr=a0 MxPwr=500mA
+> I:  If#=0x0 Alt= 0 #EPs= 1 Cls=02(commc) Sub=0e Prot=00 Driver=cdc_mbim
+> I:  If#=0x1 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=02 Driver=cdc_mbim
+> I:  If#=0x2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+> I:  If#=0x3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+> I:  If#=0x4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
+> I:  If#=0x5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
+> I:  If#=0x6 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=ff Driver=(none)
+> 
+> Signed-off-by: Aleksander Morgado <aleksander@aleksander.es>
+> Cc: stable <stable@vger.kernel.org>
 
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/serial/mos7840.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+Applied for -next, thanks.
 
-diff --git a/drivers/usb/serial/mos7840.c b/drivers/usb/serial/mos7840.c
-index 9c5956fbd600..92180687097f 100644
---- a/drivers/usb/serial/mos7840.c
-+++ b/drivers/usb/serial/mos7840.c
-@@ -500,17 +500,13 @@ static struct usb_serial *mos7840_get_usb_serial(struct usb_serial_port *port,
- 
- static void mos7840_bulk_in_callback(struct urb *urb)
- {
-+	struct moschip_port *mos7840_port = urb->context;
- 	int retval;
- 	unsigned char *data;
- 	struct usb_serial *serial;
- 	struct usb_serial_port *port;
--	struct moschip_port *mos7840_port;
- 	int status = urb->status;
- 
--	mos7840_port = urb->context;
--	if (!mos7840_port)
--		return;
--
- 	if (status) {
- 		dev_dbg(&urb->dev->dev, "nonzero read bulk status received: %d\n", status);
- 		mos7840_port->read_urb_busy = false;
--- 
-2.23.0
-
+Johan
