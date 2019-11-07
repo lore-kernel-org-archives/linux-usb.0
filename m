@@ -2,91 +2,80 @@ Return-Path: <SRS0=QQLj=Y7=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A42FC5DF60
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 16:54:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60348C43331
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 17:18:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4EFDC2178F
-	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 16:54:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573145678;
-	bh=NrSOsZi6jOLY0S57+WA9Ehj9OOtiUIdgVBK+A6ZRj3o=;
-	h=Subject:To:References:From:Date:In-Reply-To:List-ID:From;
-	b=JWiH2+Hm3e+1qULv/g0M5XIT6GeUNZwP1aJJ+Tc63uz2keeU+dlmQk+NasmXnJshW
-	 sGHGVSnfIQvHndTPRbDU+oUL7OhdGCckx5GMwbr7ST3+dElx+8b+DPV+oyoWNKxxsp
-	 vt9r/l4Mv2eNI0G5gjLJ7eI9JhJDxa1UcQBHq7IA=
+	by mail.kernel.org (Postfix) with ESMTP id 226C32166E
+	for <linux-usb@archiver.kernel.org>; Thu,  7 Nov 2019 17:18:06 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="J2cHuv+v"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730598AbfKGQyb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 7 Nov 2019 11:54:31 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50504 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729656AbfKGQyb (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 7 Nov 2019 11:54:31 -0500
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1729692AbfKGRSF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 7 Nov 2019 12:18:05 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:51247 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726231AbfKGRSF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 7 Nov 2019 12:18:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1573147084;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=0SEdWQaGFryuTv/nsU1+nEbvt9xnFrBLM9hi5OTh5uI=;
+        b=J2cHuv+voZOwrqkpB40vFuHdva2o2lHS5g3IGYHYi8FFbmA9qcYwmAsOnDZfeX4ZsY8fHc
+        myX/+BjZMPACLP6l+vRyb/irpq9O5uZ4CJ0Q9Aj2BbakI7VC055amNtxar/c7D2+OFhdZq
+        4SSIodjC64FEG93DkDE9iBQ7AEa5oUY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-383-cIIWMNoZMgeVRr0hN4Mq8A-1; Thu, 07 Nov 2019 12:16:17 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4F0152077C;
-        Thu,  7 Nov 2019 16:54:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573145670;
-        bh=NrSOsZi6jOLY0S57+WA9Ehj9OOtiUIdgVBK+A6ZRj3o=;
-        h=Subject:To:References:From:Date:In-Reply-To:From;
-        b=hEaP66T1mEMsezjd0r96IK5fJi75C6B9dAaG3QoHBGcUpcikelUP+gNZ0a/ebtezC
-         pXWhKJGx0w7dCtlJKbGf7h0iS47Ta8tZwZKvXWr/9GpltnxQdT4Ch7TZyy1WXiXot/
-         8YS2SFlvkOOF4o8RfFAVuf07+NXVNIxo1pEfwt8A=
-Subject: Re: KASAN: use-after-free Read in vhci_hub_control
-To:     syzbot <syzbot+600b03e0cf1b73bb23c4@syzkaller.appspotmail.com>,
-        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, stable@vger.kernel.org,
-        sudipm.mukherjee@gmail.com, syzkaller-bugs@googlegroups.com,
-        valentina.manea.m@gmail.com, shuah <shuah@kernel.org>
-References: <000000000000c460630596c1d40d@google.com>
-From:   shuah <shuah@kernel.org>
-Message-ID: <e312222f-d24e-ad18-1801-e266d6497a6a@kernel.org>
-Date:   Thu, 7 Nov 2019 09:54:12 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F06C1005500;
+        Thu,  7 Nov 2019 17:16:15 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-120-254.rdu2.redhat.com [10.10.120.254])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 597AB608B3;
+        Thu,  7 Nov 2019 17:16:10 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <157313376558.29677.12389078014886241663.stgit@warthog.procyon.org.uk>
+References: <157313376558.29677.12389078014886241663.stgit@warthog.procyon.org.uk> <157313371694.29677.15388731274912671071.stgit@warthog.procyon.org.uk>
+To:     torvalds@linux-foundation.org
+Cc:     dhowells@redhat.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Stephen Smalley <sds@tycho.nsa.gov>, nicolas.dichtel@6wind.com,
+        raven@themaw.net, Christian Brauner <christian@brauner.io>,
+        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-security-module@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 05/14] pipe: Add general notification queue support [ver #2]
 MIME-Version: 1.0
-In-Reply-To: <000000000000c460630596c1d40d@google.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-ID: <28292.1573146969.1@warthog.procyon.org.uk>
+Date:   Thu, 07 Nov 2019 17:16:09 +0000
+Message-ID: <28293.1573146969@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: cIIWMNoZMgeVRr0hN4Mq8A-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 11/7/19 6:42 AM, syzbot wrote:
-> syzbot suspects this bug was fixed by commit:
-> 
-> commit 81f7567c51ad97668d1c3a48e8ecc482e64d4161
-> Author: Shuah Khan (Samsung OSG) <shuah@kernel.org>
-> Date:   Fri Oct 5 22:17:44 2018 +0000
-> 
->      usb: usbip: Fix BUG: KASAN: slab-out-of-bounds in vhci_hub_control()
-> 
-> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=14046c2c600000
-> start commit:   420f51f4 Merge tag 'arm64-fixes' of 
-> git://git.kernel.org/p..
-> git tree:       upstream
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=531a917630d2a492
-> dashboard link: 
-> https://syzkaller.appspot.com/bug?extid=600b03e0cf1b73bb23c4
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1116710a400000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=119be4ea400000
-> 
-> If the result looks correct, please mark the bug fixed by replying with:
-> 
-> #syz fix: usb: usbip: Fix BUG: KASAN: slab-out-of-bounds in 
-> vhci_hub_control()
-> 
-> For information about bisection process see: 
-> https://goo.gl/tpsmEJ#bisection
-> 
+Sigh.  I forgot to build it with the new config options disabled.  I've fix=
+ed
+that up and pushed it to the git tree.
 
-#syz fix: usb: usbip: Fix BUG: KASAN: slab-out-of-bounds in 
-vhci_hub_control()
+David
+
