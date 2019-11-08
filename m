@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D62F1FA372C
-	for <linux-usb@archiver.kernel.org>; Fri,  8 Nov 2019 11:51:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 168EAC5DF60
+	for <linux-usb@archiver.kernel.org>; Fri,  8 Nov 2019 11:54:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9F6AA222CE
-	for <linux-usb@archiver.kernel.org>; Fri,  8 Nov 2019 11:51:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E00882084D
+	for <linux-usb@archiver.kernel.org>; Fri,  8 Nov 2019 11:54:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573213866;
-	bh=uIXzy5NaSb2l3HTFOk/ZUs1O/o+lkruU8kvNmDUkF+4=;
+	s=default; t=1573214080;
+	bh=SLrivsqtWUW1YaeUJjXQacHkwJO/47lWejE0nFG1YqU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=G6M+SAmriYon+8pQAN9cov6nilUXm3P7Cj7Eu3ozUN1nv3nUaNATXXw/j6/rUp2l4
-	 /sUk1f5Q9bwu80FZsK8u+RbsovIoPku4bU7xcGW8cXZ+2lfRB9AfhwrqWsn7C5n9EY
-	 d0a417+L5qQZrU3p28xx0aIWM+aHp1EAM0DKX1ZA=
+	b=r9R748SqAUuAwU110ob3gK2duxiz94XwJumZ8DLZaZ5E4ya9qeYAJ8h0yGeyhQyrn
+	 lvRqM9s5S6GxoGQHVWG14rpMgKkTBLYEuQysCLASNzmnJLWPbo1hX6mkKEwXvb9deZ
+	 EhwAMF24BSVfyYgMYRyZVTxe4wL3w9TqoaFCgKHo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391609AbfKHLrm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 8 Nov 2019 06:47:42 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36338 "EHLO mail.kernel.org"
+        id S2391298AbfKHLqR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 8 Nov 2019 06:46:17 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33920 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391588AbfKHLrk (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 8 Nov 2019 06:47:40 -0500
+        id S2390158AbfKHLqQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 8 Nov 2019 06:46:16 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 09B57222C5;
-        Fri,  8 Nov 2019 11:47:38 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B05D7222C2;
+        Fri,  8 Nov 2019 11:46:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573213659;
-        bh=uIXzy5NaSb2l3HTFOk/ZUs1O/o+lkruU8kvNmDUkF+4=;
+        s=default; t=1573213575;
+        bh=SLrivsqtWUW1YaeUJjXQacHkwJO/47lWejE0nFG1YqU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GCxoZEHQOhBfNjec29KelrmEF3Yv6n5UQCtuq+ma0dbqqxS+jHQBLThjcar0oHtP3
-         dXUnjkEOX5zFSfWyUrjJD3qSzzKh2LpZR3rVYupqUpRZLRD75mzezq3DLb4uWqVSuz
-         JYeReGrkDAvtRu9xfLAvIy+yebCIn8bAMWHhhNFc=
+        b=lvPzkzZxmdF9okVi3Wcb2nDFqobKYx7pbXz3tf9mpXxSfbFFl/ho5gNoShN0jryjf
+         pRwg9Frz93rQgrpWB8dsmJPzRRA7BXTELKMfocxvQBoK9XdWGCCWFdC/FVKZKgQQt1
+         9/3/Lw6IUbarXbmKtBxStvoppwu2I6l8+Ihww4CA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
@@ -46,12 +46,12 @@ Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 14/44] net: lan78xx: Bail out if lan78xx_get_endpoints fails
-Date:   Fri,  8 Nov 2019 06:46:50 -0500
-Message-Id: <20191108114721.15944-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 21/64] net: lan78xx: Bail out if lan78xx_get_endpoints fails
+Date:   Fri,  8 Nov 2019 06:45:02 -0500
+Message-Id: <20191108114545.15351-21-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191108114721.15944-1-sashal@kernel.org>
-References: <20191108114721.15944-1-sashal@kernel.org>
+In-Reply-To: <20191108114545.15351-1-sashal@kernel.org>
+References: <20191108114545.15351-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -78,10 +78,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 5 insertions(+)
 
 diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-index 45a6a7cae4bfc..fc922f8122801 100644
+index e143a7fe93201..a3f9d8f05db4a 100644
 --- a/drivers/net/usb/lan78xx.c
 +++ b/drivers/net/usb/lan78xx.c
-@@ -2246,6 +2246,11 @@ static int lan78xx_bind(struct lan78xx_net *dev, struct usb_interface *intf)
+@@ -2621,6 +2621,11 @@ static int lan78xx_bind(struct lan78xx_net *dev, struct usb_interface *intf)
  	int i;
  
  	ret = lan78xx_get_endpoints(dev, intf);
