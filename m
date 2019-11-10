@@ -7,46 +7,46 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92200C17440
-	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 02:53:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E860C43331
+	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 02:53:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5BCDA22583
-	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 02:53:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1945122583
+	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 02:53:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573354381;
-	bh=OQxAjtgjoRmh71w/KKY3w4GztgCDEsVjgMRHOe26tms=;
+	s=default; t=1573354388;
+	bh=mktJUJG+D5qRijgSuyvrIPcvNzAZZljrj2EAqWnisME=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=YHmHu83N4h5P0+rTHWw15icRPymB3aZkFaD4v35QK6XQPw3IaTkD3GfvmzYCYX3Km
-	 MKwBS+5WcdyWQB1laMXpLik7en5VYu8uEE42MgtOvLZJe2cZxiZaF6wVISFUIc5Fzr
-	 lBjemIqYx2NoPYw0cabJWS4d9K0vP33SwCgoothY=
+	b=k/xlR8pqYgj/XW8UT37IxqgZiYOnBfVvCpon5SvFau1kt2AkqT1WY+3eBwHhCpiRA
+	 V48LcwJEuvrpCBNo2bskbh2n/5oeF/mW/UMU+b2PQgoGqqYDHhiytpeJIzIafwjxFP
+	 BgETNRxltv2BbNBSnQ3B4MqN3maY9IunZvVn4P7A=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729999AbfKJCv3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 9 Nov 2019 21:51:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36094 "EHLO mail.kernel.org"
+        id S1729989AbfKJCv1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 9 Nov 2019 21:51:27 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36002 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729991AbfKJCv2 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 9 Nov 2019 21:51:28 -0500
+        id S1727386AbfKJCvZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 9 Nov 2019 21:51:25 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DEF8F22794;
-        Sun, 10 Nov 2019 02:51:26 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A32DF225AD;
+        Sun, 10 Nov 2019 02:51:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573354287;
-        bh=OQxAjtgjoRmh71w/KKY3w4GztgCDEsVjgMRHOe26tms=;
+        s=default; t=1573354285;
+        bh=mktJUJG+D5qRijgSuyvrIPcvNzAZZljrj2EAqWnisME=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=1VcWbhDzXd88Vjrw2hxfKWy5/Nnng8PHKsETbX46icpbFWeqgYCqmK/gD6yXcizfq
-         VBX+VgBFd7zS4jkB+ciTHJKkn2j6J7xdQBs8ea5AnF01DdOTmB4LV1AGq6WuLKxgo2
-         hY7yJi94VjCalrWcSkYBqisSztHwLLFpnk17cduQ=
+        b=pe9JaCpcEZ3lnSG3QTongRXiLW0m+SeLzdEjUqm4ZoXZt8mZD5jq/WbnSu95JVrjc
+         3O+VXmnalzAzUnSEksQAU3YoWNIA+wCFE4ywOz9NbhqVGYokA4h9p6c0xuCvVM52Ww
+         dYCgC/0YRICxYM75kGckvQ2hNdtR9WCkdp/2MfdE=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Paul Elder <paul.elder@ideasonboard.com>,
+Cc:     Joel Pepper <joel.pepper@rwth-aachen.de>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 29/40] usb: gadget: uvc: Only halt video streaming endpoint in bulk mode
-Date:   Sat,  9 Nov 2019 21:50:21 -0500
-Message-Id: <20191110025032.827-29-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 27/40] usb: gadget: uvc: configfs: Prevent format changes after linking header
+Date:   Sat,  9 Nov 2019 21:50:19 -0500
+Message-Id: <20191110025032.827-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191110025032.827-1-sashal@kernel.org>
 References: <20191110025032.827-1-sashal@kernel.org>
@@ -59,42 +59,44 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+From: Joel Pepper <joel.pepper@rwth-aachen.de>
 
-[ Upstream commit 8dbf9c7abefd5c1434a956d5c6b25e11183061a3 ]
+[ Upstream commit cb2200f7af8341aaf0c6abd7ba37e4c667c41639 ]
 
-When USB requests for video data fail to be submitted, the driver
-signals a problem to the host by halting the video streaming endpoint.
-This is only valid in bulk mode, as isochronous transfers have no
-handshake phase and can't thus report a stall. The usb_ep_set_halt()
-call returns an error when using isochronous endpoints, which we happily
-ignore, but some UDCs complain in the kernel log. Fix this by only
-trying to halt the endpoint in bulk mode.
+While checks are in place to avoid attributes and children of a format
+being manipulated after the format is linked into the streaming header,
+the linked flag was never actually set, invalidating the protections.
+Update the flag as appropriate in the header link calls.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
-Tested-by: Paul Elder <paul.elder@ideasonboard.com>
+Signed-off-by: Joel Pepper <joel.pepper@rwth-aachen.de>
 Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/function/uvc_video.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/usb/gadget/function/uvc_configfs.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index 540917f54506a..d6bab12b0b47d 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -136,7 +136,9 @@ static int uvcg_video_ep_queue(struct uvc_video *video, struct usb_request *req)
- 	ret = usb_ep_queue(video->ep, req, GFP_ATOMIC);
- 	if (ret < 0) {
- 		printk(KERN_INFO "Failed to queue request (%d).\n", ret);
--		usb_ep_set_halt(video->ep);
-+		/* Isochronous endpoints can't be halted. */
-+		if (usb_endpoint_xfer_bulk(video->ep->desc))
-+			usb_ep_set_halt(video->ep);
- 	}
+diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
+index 74df80a25b469..a49ff1f5c0f93 100644
+--- a/drivers/usb/gadget/function/uvc_configfs.c
++++ b/drivers/usb/gadget/function/uvc_configfs.c
+@@ -807,6 +807,7 @@ static int uvcg_streaming_header_allow_link(struct config_item *src,
+ 	format_ptr->fmt = target_fmt;
+ 	list_add_tail(&format_ptr->entry, &src_hdr->formats);
+ 	++src_hdr->num_fmt;
++	++target_fmt->linked;
  
- 	return ret;
+ out:
+ 	mutex_unlock(&opts->lock);
+@@ -845,6 +846,8 @@ static int uvcg_streaming_header_drop_link(struct config_item *src,
+ 			break;
+ 		}
+ 
++	--target_fmt->linked;
++
+ out:
+ 	mutex_unlock(&opts->lock);
+ 	mutex_unlock(su_mutex);
 -- 
 2.20.1
 
