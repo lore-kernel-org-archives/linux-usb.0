@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D2DC43331
-	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 03:02:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E3A8C43331
+	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 03:05:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 594B4208C3
-	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 03:02:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E6278208C3
+	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 03:05:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573354956;
-	bh=/NIyCPyZeLdBwZL2f6/XlX7dwDQA8o09yF4PJxAG3WA=;
+	s=default; t=1573355104;
+	bh=HhY6aRuiU+JFIVbArd6TnC9cOXQnnSAEu6elwhYbO2M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=y8EoXh9gYYK4RYxEwifsRwja/q+gzAIxEBjr8DkEgM0jq93wncH0boNfURxasw6Cp
-	 ZAWGV41U3E/raOnuAWi/Dj7/dIoGWVT0aHm2iLZoUuR+ShUYTjfH/pNYACIzYXF9s7
-	 2w6yrokgqGC4OzcTxVew8G+m/v1/FBjiPaioEdzY=
+	b=ulZ3lRZ+rzoweK0s/UlY6k+Ak10DaHAf3M8YDlejIupjxmCV7K99pi1yiz1yrRZgQ
+	 /hQUgV+AHrlTarPLZI1Hkbr6e+K251qn7A14OToDz8ElUwwV+cm3UdaDDKrFAYBAC8
+	 ERgsTYqCMo4VzXwVgAGDJNmKstpn/wcSUJVYhOQ4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727813AbfKJDCb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 9 Nov 2019 22:02:31 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58212 "EHLO mail.kernel.org"
+        id S1729256AbfKJDE7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 9 Nov 2019 22:04:59 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50682 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727453AbfKJCtT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 9 Nov 2019 21:49:19 -0500
+        id S1729144AbfKJCqm (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 9 Nov 2019 21:46:42 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 659E122582;
-        Sun, 10 Nov 2019 02:49:18 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D2C3621D7B;
+        Sun, 10 Nov 2019 02:46:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573354159;
-        bh=/NIyCPyZeLdBwZL2f6/XlX7dwDQA8o09yF4PJxAG3WA=;
+        s=default; t=1573354001;
+        bh=HhY6aRuiU+JFIVbArd6TnC9cOXQnnSAEu6elwhYbO2M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=W4sEBqFeeiAGr09JDze/6JiJB7qDj28m4AzeLwhOcOdLNuY3IfathY9MpGdRpVvca
-         JU7l3Fa1v/Jn74XeDdTI8sII6etwWrKBLMYLiMJ7uH5VK8bylQC83AaZ3/lr2+3UOo
-         U9vfKt44uII2sGHnXH5vWa8gWtdvwlCojbYL2b3k=
+        b=tYCZKp6MWclP+LeLBENxcVcY3hmiooWgbA/geybyHidRxynyftTtBVTVD5pAdTydH
+         LOXiYgzaoRtZIWUspjXBhjE9sYUCQ0uxenkJ/z8cjCy7CfpGYcYykVQbNRZ7Yf5+EL
+         yh6Op4GADP3TggUnwX90fPcJE+2tOwJWWuthJ6xs=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Loic Poulain <loic.poulain@linaro.org>,
         Peter Chen <peter.chen@nxp.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 16/66] usb: chipidea: Fix otg event handler
-Date:   Sat,  9 Nov 2019 21:47:55 -0500
-Message-Id: <20191110024846.32598-16-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 028/109] usb: chipidea: Fix otg event handler
+Date:   Sat,  9 Nov 2019 21:44:20 -0500
+Message-Id: <20191110024541.31567-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191110024846.32598-1-sashal@kernel.org>
-References: <20191110024846.32598-1-sashal@kernel.org>
+In-Reply-To: <20191110024541.31567-1-sashal@kernel.org>
+References: <20191110024541.31567-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -74,7 +74,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/usb/chipidea/otg.c b/drivers/usb/chipidea/otg.c
-index f36a1ac3bfbdf..b8650210be0f7 100644
+index 10236fe715228..8bf4032226ed5 100644
 --- a/drivers/usb/chipidea/otg.c
 +++ b/drivers/usb/chipidea/otg.c
 @@ -206,14 +206,17 @@ static void ci_otg_work(struct work_struct *work)
