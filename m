@@ -7,49 +7,48 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA23CC17443
-	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 02:49:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 239F8C17443
+	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 02:51:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AD53122581
-	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 02:49:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E420022B3F
+	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 02:51:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573354190;
-	bh=cWDR+bK9eieHFdL6aHLtdxeVnto+yzXb3nykupc4aDc=;
+	s=default; t=1573354288;
+	bh=Z3B7D3+uaqNDpRyp+ET37rUjXSdTsGggSNaeoRrbI+Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Gx/n4fv9Pd6YtPZIWVJvF23J4cucwo6EOGwnZzYofpac76XVkH3Djd51vPtNXlruc
-	 RAaX9Cn9cckBi7c80PKyY9OZjKuz4HbG9/AjTyJyHoy4jVFWutkWBHinJIr9rDvfQl
-	 y3GBp9VwyyETm2ZBAHuguotCgQFPLpRurr9ZXDjI=
+	b=nEYlz3I+qhtfJoIQgX5aGjn7yaDJKEZNSffv0lTGWA8fAE+hIAN95tXRzVOZgtPHa
+	 weagLCfNZZpXCrgDmwhC38qH7s95HJ9nNnDhK3V567ZbjO3wdsl4r0fmNcCVeSyI62
+	 Rip6poSNsZDYqPFHxsXm9aHAQZQLAWZyjGIrFRxk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729559AbfKJCtt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 9 Nov 2019 21:49:49 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60034 "EHLO mail.kernel.org"
+        id S1729983AbfKJCv0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 9 Nov 2019 21:51:26 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35968 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729551AbfKJCts (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 9 Nov 2019 21:49:48 -0500
+        id S1729968AbfKJCvZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 9 Nov 2019 21:51:25 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2EC5D22581;
-        Sun, 10 Nov 2019 02:49:47 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9C466229EF;
+        Sun, 10 Nov 2019 02:51:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573354187;
-        bh=cWDR+bK9eieHFdL6aHLtdxeVnto+yzXb3nykupc4aDc=;
+        s=default; t=1573354284;
+        bh=Z3B7D3+uaqNDpRyp+ET37rUjXSdTsGggSNaeoRrbI+Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=vtfKZiAhg9Nbb8LmcI/DPcqnklFj7lyIDrbnhGyUJ0a3MV3+WVLRmWBBkcMYDHnzM
-         +J3ElTYHYQuezcj0hWDKhoMMYmrVeHOO/Iw/4Zv2xEcNf870kBCTRS/Ipbb1onP2rx
-         VG4ZM/Gul8OQz03y/OeTzJh4bS7rFNz2ynXlm6pM=
+        b=y8a7ETxo40f5PTqGP3e3l2gHqBcAo67VPVW8F7tfpF0Tm+oaC6lz9R/YeO8QqMg4N
+         DbNLOzLJmKMSSLC5FTZfsbd0nw0CEal+oQoBi4zrajrlk5Ur7SoYB8imc6ZZUzG+Cl
+         m582Ll+gUpTasbyyafAeQQoi03FTGhcbJa0p9r0Y=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Paul Elder <paul.elder@ideasonboard.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 36/66] usb: gadget: uvc: Factor out video USB request queueing
-Date:   Sat,  9 Nov 2019 21:48:15 -0500
-Message-Id: <20191110024846.32598-36-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 26/40] usb: gadget: uvc: configfs: Drop leaked references to config items
+Date:   Sat,  9 Nov 2019 21:50:18 -0500
+Message-Id: <20191110025032.827-26-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191110024846.32598-1-sashal@kernel.org>
-References: <20191110024846.32598-1-sashal@kernel.org>
+In-Reply-To: <20191110025032.827-1-sashal@kernel.org>
+References: <20191110025032.827-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -61,83 +60,55 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-[ Upstream commit 9d1ff5dcb3cd3390b1e56f1c24ae42c72257c4a3 ]
+[ Upstream commit 86f3daed59bceb4fa7981d85e89f63ebbae1d561 ]
 
-USB requests for video data are queued from two different locations in
-the driver, with the same code block occurring twice. Factor it out to a
-function.
+Some of the .allow_link() and .drop_link() operations implementations
+call config_group_find_item() and then leak the reference to the
+returned item. Fix this by dropping those references where needed.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
-Tested-by: Paul Elder <paul.elder@ideasonboard.com>
 Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/function/uvc_video.c | 30 ++++++++++++++++---------
- 1 file changed, 20 insertions(+), 10 deletions(-)
+ drivers/usb/gadget/function/uvc_configfs.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index 0f01c04d7cbd8..540917f54506a 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -129,6 +129,19 @@ uvc_video_encode_isoc(struct usb_request *req, struct uvc_video *video,
-  * Request handling
-  */
- 
-+static int uvcg_video_ep_queue(struct uvc_video *video, struct usb_request *req)
-+{
-+	int ret;
-+
-+	ret = usb_ep_queue(video->ep, req, GFP_ATOMIC);
-+	if (ret < 0) {
-+		printk(KERN_INFO "Failed to queue request (%d).\n", ret);
-+		usb_ep_set_halt(video->ep);
-+	}
-+
-+	return ret;
-+}
-+
- /*
-  * I somehow feel that synchronisation won't be easy to achieve here. We have
-  * three events that control USB requests submission:
-@@ -193,14 +206,13 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
- 
- 	video->encode(req, video, buf);
- 
--	if ((ret = usb_ep_queue(ep, req, GFP_ATOMIC)) < 0) {
--		printk(KERN_INFO "Failed to queue request (%d).\n", ret);
--		usb_ep_set_halt(ep);
--		spin_unlock_irqrestore(&video->queue.irqlock, flags);
-+	ret = uvcg_video_ep_queue(video, req);
-+	spin_unlock_irqrestore(&video->queue.irqlock, flags);
-+
-+	if (ret < 0) {
- 		uvcg_queue_cancel(queue, 0);
- 		goto requeue;
- 	}
--	spin_unlock_irqrestore(&video->queue.irqlock, flags);
- 
- 	return;
- 
-@@ -320,15 +332,13 @@ int uvcg_video_pump(struct uvc_video *video)
- 		video->encode(req, video, buf);
- 
- 		/* Queue the USB request */
--		ret = usb_ep_queue(video->ep, req, GFP_ATOMIC);
-+		ret = uvcg_video_ep_queue(video, req);
-+		spin_unlock_irqrestore(&queue->irqlock, flags);
-+
- 		if (ret < 0) {
--			printk(KERN_INFO "Failed to queue request (%d)\n", ret);
--			usb_ep_set_halt(video->ep);
--			spin_unlock_irqrestore(&queue->irqlock, flags);
- 			uvcg_queue_cancel(queue, 0);
- 			break;
- 		}
--		spin_unlock_irqrestore(&queue->irqlock, flags);
- 	}
- 
- 	spin_lock_irqsave(&video->req_lock, flags);
+diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
+index 01656f1c6d650..74df80a25b469 100644
+--- a/drivers/usb/gadget/function/uvc_configfs.c
++++ b/drivers/usb/gadget/function/uvc_configfs.c
+@@ -564,6 +564,7 @@ static int uvcg_control_class_allow_link(struct config_item *src,
+ unlock:
+ 	mutex_unlock(&opts->lock);
+ out:
++	config_item_put(header);
+ 	mutex_unlock(su_mutex);
+ 	return ret;
+ }
+@@ -605,6 +606,7 @@ static int uvcg_control_class_drop_link(struct config_item *src,
+ unlock:
+ 	mutex_unlock(&opts->lock);
+ out:
++	config_item_put(header);
+ 	mutex_unlock(su_mutex);
+ 	return ret;
+ }
+@@ -2087,6 +2089,7 @@ static int uvcg_streaming_class_allow_link(struct config_item *src,
+ unlock:
+ 	mutex_unlock(&opts->lock);
+ out:
++	config_item_put(header);
+ 	mutex_unlock(su_mutex);
+ 	return ret;
+ }
+@@ -2131,6 +2134,7 @@ static int uvcg_streaming_class_drop_link(struct config_item *src,
+ unlock:
+ 	mutex_unlock(&opts->lock);
+ out:
++	config_item_put(header);
+ 	mutex_unlock(su_mutex);
+ 	return ret;
+ }
 -- 
 2.20.1
 
