@@ -4,49 +4,48 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FC99C43331
-	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 02:53:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A483C43331
+	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 02:53:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 544D5214E0
-	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 02:53:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1432C22581
+	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 02:53:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573354390;
-	bh=cWDR+bK9eieHFdL6aHLtdxeVnto+yzXb3nykupc4aDc=;
+	s=default; t=1573354430;
+	bh=/NIyCPyZeLdBwZL2f6/XlX7dwDQA8o09yF4PJxAG3WA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=mjFi7DEn3N9tH8Cih46AHZtZL4t3J57mcKyRhiKjBO8MRueQiI3e2Vayz2Om+JCUB
-	 ETGSE/7z9ulEMPtNepnoO1N9Pt+eXEqHMxHYBxYxFuFAiriVx9Fp/X3aTHW7nPPm+I
-	 7c2Kn296sbV4IPnKXG6P6MAnq0vsF+GFcH1bXqgQ=
+	b=IichDrvZXLGy0u3FxaXVDvPPv2Ygu+uV4IQp2/lQ1BQYIvvApQvlsy7snjMIwITcR
+	 c/4QchGtVWy/x+CvkboY/bS6pBCwQk220gcgE2x+RgRvaXOfh2KOYLf3MrUpcpDisT
+	 RDWlhXFK+78yxSyMNXHFih+tfTrE5fIspkZVHH5o=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727620AbfKJCxI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 9 Nov 2019 21:53:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36040 "EHLO mail.kernel.org"
+        id S1726805AbfKJCvG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 9 Nov 2019 21:51:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35350 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728158AbfKJCv1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 9 Nov 2019 21:51:27 -0500
+        id S1729877AbfKJCvF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 9 Nov 2019 21:51:05 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BFC53229F0;
-        Sun, 10 Nov 2019 02:51:25 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C31C522794;
+        Sun, 10 Nov 2019 02:51:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573354286;
-        bh=cWDR+bK9eieHFdL6aHLtdxeVnto+yzXb3nykupc4aDc=;
+        s=default; t=1573354265;
+        bh=/NIyCPyZeLdBwZL2f6/XlX7dwDQA8o09yF4PJxAG3WA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fHKuWUzeei7tGhJIRPQUvYp4MasTeiCSAw6xpdeDZBWdRo6i8x6/dIO4iNcEKmBuC
-         F9Bmm4+uIR4rB7a81wxQYjXSthKaxYp0j/Ru9yX7Dv7UUW5K0YSXE02g58XYUYlDSV
-         zRzLE0LMWJdR+KjReHuenjvak/VifaE63KbwBbPc=
+        b=wK7VOwEMNMcPo3yQVH8MzWYB+SUVRdNywLnuF2IMpPatHL8MYqHv85TDBFUUsmGrj
+         0dvvXMKeOThX9SQHqAxxwbq0+CpPwSr/yyCIR2Y8NiIgoEBqzhRw6BaNe1vVWZFcni
+         6Kx3OmAtAe5sJHfrNdCSbnpWcizYfZt9Ms1Y6yHw=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+Cc:     Loic Poulain <loic.poulain@linaro.org>,
+        Peter Chen <peter.chen@nxp.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 28/40] usb: gadget: uvc: Factor out video USB request queueing
-Date:   Sat,  9 Nov 2019 21:50:20 -0500
-Message-Id: <20191110025032.827-28-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 14/40] usb: chipidea: Fix otg event handler
+Date:   Sat,  9 Nov 2019 21:50:06 -0500
+Message-Id: <20191110025032.827-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191110025032.827-1-sashal@kernel.org>
 References: <20191110025032.827-1-sashal@kernel.org>
@@ -59,85 +58,46 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+From: Loic Poulain <loic.poulain@linaro.org>
 
-[ Upstream commit 9d1ff5dcb3cd3390b1e56f1c24ae42c72257c4a3 ]
+[ Upstream commit 59739131e0ca06db7560f9073fff2fb83f6bc2a5 ]
 
-USB requests for video data are queued from two different locations in
-the driver, with the same code block occurring twice. Factor it out to a
-function.
+At OTG work running time, it's possible that several events need to be
+addressed (e.g. ID and VBUS events). The current implementation handles
+only one event at a time which leads to ignoring the other one. Fix it.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
-Tested-by: Paul Elder <paul.elder@ideasonboard.com>
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
+Signed-off-by: Peter Chen <peter.chen@nxp.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/gadget/function/uvc_video.c | 30 ++++++++++++++++---------
- 1 file changed, 20 insertions(+), 10 deletions(-)
+ drivers/usb/chipidea/otg.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget/function/uvc_video.c
-index 0f01c04d7cbd8..540917f54506a 100644
---- a/drivers/usb/gadget/function/uvc_video.c
-+++ b/drivers/usb/gadget/function/uvc_video.c
-@@ -129,6 +129,19 @@ uvc_video_encode_isoc(struct usb_request *req, struct uvc_video *video,
-  * Request handling
-  */
+diff --git a/drivers/usb/chipidea/otg.c b/drivers/usb/chipidea/otg.c
+index f36a1ac3bfbdf..b8650210be0f7 100644
+--- a/drivers/usb/chipidea/otg.c
++++ b/drivers/usb/chipidea/otg.c
+@@ -206,14 +206,17 @@ static void ci_otg_work(struct work_struct *work)
+ 	}
  
-+static int uvcg_video_ep_queue(struct uvc_video *video, struct usb_request *req)
-+{
-+	int ret;
+ 	pm_runtime_get_sync(ci->dev);
 +
-+	ret = usb_ep_queue(video->ep, req, GFP_ATOMIC);
-+	if (ret < 0) {
-+		printk(KERN_INFO "Failed to queue request (%d).\n", ret);
-+		usb_ep_set_halt(video->ep);
+ 	if (ci->id_event) {
+ 		ci->id_event = false;
+ 		ci_handle_id_switch(ci);
+-	} else if (ci->b_sess_valid_event) {
 +	}
 +
-+	return ret;
-+}
++	if (ci->b_sess_valid_event) {
+ 		ci->b_sess_valid_event = false;
+ 		ci_handle_vbus_change(ci);
+-	} else
+-		dev_err(ci->dev, "unexpected event occurs at %s\n", __func__);
++	}
 +
- /*
-  * I somehow feel that synchronisation won't be easy to achieve here. We have
-  * three events that control USB requests submission:
-@@ -193,14 +206,13 @@ uvc_video_complete(struct usb_ep *ep, struct usb_request *req)
+ 	pm_runtime_put_sync(ci->dev);
  
- 	video->encode(req, video, buf);
- 
--	if ((ret = usb_ep_queue(ep, req, GFP_ATOMIC)) < 0) {
--		printk(KERN_INFO "Failed to queue request (%d).\n", ret);
--		usb_ep_set_halt(ep);
--		spin_unlock_irqrestore(&video->queue.irqlock, flags);
-+	ret = uvcg_video_ep_queue(video, req);
-+	spin_unlock_irqrestore(&video->queue.irqlock, flags);
-+
-+	if (ret < 0) {
- 		uvcg_queue_cancel(queue, 0);
- 		goto requeue;
- 	}
--	spin_unlock_irqrestore(&video->queue.irqlock, flags);
- 
- 	return;
- 
-@@ -320,15 +332,13 @@ int uvcg_video_pump(struct uvc_video *video)
- 		video->encode(req, video, buf);
- 
- 		/* Queue the USB request */
--		ret = usb_ep_queue(video->ep, req, GFP_ATOMIC);
-+		ret = uvcg_video_ep_queue(video, req);
-+		spin_unlock_irqrestore(&queue->irqlock, flags);
-+
- 		if (ret < 0) {
--			printk(KERN_INFO "Failed to queue request (%d)\n", ret);
--			usb_ep_set_halt(video->ep);
--			spin_unlock_irqrestore(&queue->irqlock, flags);
- 			uvcg_queue_cancel(queue, 0);
- 			break;
- 		}
--		spin_unlock_irqrestore(&queue->irqlock, flags);
- 	}
- 
- 	spin_lock_irqsave(&video->req_lock, flags);
+ 	enable_irq(ci->irq);
 -- 
 2.20.1
 
