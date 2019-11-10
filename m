@@ -7,48 +7,49 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A483C43331
-	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 02:53:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C177AC17443
+	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 02:55:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1432C22581
-	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 02:53:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8914A227C3
+	for <linux-usb@archiver.kernel.org>; Sun, 10 Nov 2019 02:55:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573354430;
-	bh=/NIyCPyZeLdBwZL2f6/XlX7dwDQA8o09yF4PJxAG3WA=;
+	s=default; t=1573354503;
+	bh=ZLr0cVcvibSBi1yenOkAeu/U1OwPHIF//FCDqSsn3ng=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=IichDrvZXLGy0u3FxaXVDvPPv2Ygu+uV4IQp2/lQ1BQYIvvApQvlsy7snjMIwITcR
-	 c/4QchGtVWy/x+CvkboY/bS6pBCwQk220gcgE2x+RgRvaXOfh2KOYLf3MrUpcpDisT
-	 RDWlhXFK+78yxSyMNXHFih+tfTrE5fIspkZVHH5o=
+	b=FzutG5CKzotBYYrmMEQtAbjNr6ltwMSYr/rTf/qOvf15R9bHVJ18P/ZGNH78nRKWz
+	 vUa30qzAvrpJ8pEFTV/TaYEZM9RlXqEptHLpD4mXOcNgHyHRLg2kBNhcvDFKWFQkTf
+	 JAxaxj7A1Ns9WoaaLbATW6A6vKldb32aW2OjWxU4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726805AbfKJCvG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 9 Nov 2019 21:51:06 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35350 "EHLO mail.kernel.org"
+        id S1727598AbfKJCy6 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 9 Nov 2019 21:54:58 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33878 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729877AbfKJCvF (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 9 Nov 2019 21:51:05 -0500
+        id S1729726AbfKJCu1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 9 Nov 2019 21:50:27 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C31C522794;
-        Sun, 10 Nov 2019 02:51:04 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 98B2E22583;
+        Sun, 10 Nov 2019 02:50:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573354265;
-        bh=/NIyCPyZeLdBwZL2f6/XlX7dwDQA8o09yF4PJxAG3WA=;
+        s=default; t=1573354227;
+        bh=ZLr0cVcvibSBi1yenOkAeu/U1OwPHIF//FCDqSsn3ng=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=wK7VOwEMNMcPo3yQVH8MzWYB+SUVRdNywLnuF2IMpPatHL8MYqHv85TDBFUUsmGrj
-         0dvvXMKeOThX9SQHqAxxwbq0+CpPwSr/yyCIR2Y8NiIgoEBqzhRw6BaNe1vVWZFcni
-         6Kx3OmAtAe5sJHfrNdCSbnpWcizYfZt9Ms1Y6yHw=
+        b=U67eKehBXQQerCUbi1QmYpZdZyNiPZkNZ4hOZFWVRWqUgJUAz/CQ3qhMpntp+3h6G
+         8rJaf54mmJGLnKnDBWtgPBdsUWqK1AfCMMpKD1KnoeYejnIr1pTiMuOissTgAXHUvl
+         7mHXZKiBibOv+EpzDs64hALmTCr+xOm+DgBmU/d8=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Loic Poulain <loic.poulain@linaro.org>,
-        Peter Chen <peter.chen@nxp.com>,
+Cc:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 14/40] usb: chipidea: Fix otg event handler
-Date:   Sat,  9 Nov 2019 21:50:06 -0500
-Message-Id: <20191110025032.827-14-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 64/66] usb: xhci-mtk: fix ISOC error when interval is zero
+Date:   Sat,  9 Nov 2019 21:48:43 -0500
+Message-Id: <20191110024846.32598-64-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191110025032.827-1-sashal@kernel.org>
-References: <20191110025032.827-1-sashal@kernel.org>
+In-Reply-To: <20191110024846.32598-1-sashal@kernel.org>
+References: <20191110024846.32598-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -58,46 +59,36 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Loic Poulain <loic.poulain@linaro.org>
+From: Chunfeng Yun <chunfeng.yun@mediatek.com>
 
-[ Upstream commit 59739131e0ca06db7560f9073fff2fb83f6bc2a5 ]
+[ Upstream commit 87173acc0d8f0987bda8827da35fff67f52ad15d ]
 
-At OTG work running time, it's possible that several events need to be
-addressed (e.g. ID and VBUS events). The current implementation handles
-only one event at a time which leads to ignoring the other one. Fix it.
+If the interval equal zero, needn't round up to power of two
+for the number of packets in each ESIT, so fix it.
 
-Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
-Signed-off-by: Peter Chen <peter.chen@nxp.com>
+Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/chipidea/otg.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/usb/host/xhci-mtk-sch.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/chipidea/otg.c b/drivers/usb/chipidea/otg.c
-index f36a1ac3bfbdf..b8650210be0f7 100644
---- a/drivers/usb/chipidea/otg.c
-+++ b/drivers/usb/chipidea/otg.c
-@@ -206,14 +206,17 @@ static void ci_otg_work(struct work_struct *work)
- 	}
+diff --git a/drivers/usb/host/xhci-mtk-sch.c b/drivers/usb/host/xhci-mtk-sch.c
+index 73f763c4f5f59..144674913c788 100644
+--- a/drivers/usb/host/xhci-mtk-sch.c
++++ b/drivers/usb/host/xhci-mtk-sch.c
+@@ -122,7 +122,9 @@ static void setup_sch_info(struct usb_device *udev,
+ 		}
  
- 	pm_runtime_get_sync(ci->dev);
-+
- 	if (ci->id_event) {
- 		ci->id_event = false;
- 		ci_handle_id_switch(ci);
--	} else if (ci->b_sess_valid_event) {
-+	}
-+
-+	if (ci->b_sess_valid_event) {
- 		ci->b_sess_valid_event = false;
- 		ci_handle_vbus_change(ci);
--	} else
--		dev_err(ci->dev, "unexpected event occurs at %s\n", __func__);
-+	}
-+
- 	pm_runtime_put_sync(ci->dev);
- 
- 	enable_irq(ci->irq);
+ 		if (ep_type == ISOC_IN_EP || ep_type == ISOC_OUT_EP) {
+-			if (esit_pkts <= sch_ep->esit)
++			if (sch_ep->esit == 1)
++				sch_ep->pkts = esit_pkts;
++			else if (esit_pkts <= sch_ep->esit)
+ 				sch_ep->pkts = 1;
+ 			else
+ 				sch_ep->pkts = roundup_pow_of_two(esit_pkts)
 -- 
 2.20.1
 
