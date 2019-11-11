@@ -2,180 +2,104 @@ Return-Path: <SRS0=y7Ch=ZD=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CDD9C17445
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Nov 2019 14:11:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BE30C43331
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Nov 2019 15:26:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 592692196E
-	for <linux-usb@archiver.kernel.org>; Mon, 11 Nov 2019 14:11:07 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iYQYWxaw"
+	by mail.kernel.org (Postfix) with ESMTP id 13E1B214E0
+	for <linux-usb@archiver.kernel.org>; Mon, 11 Nov 2019 15:26:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726973AbfKKOLE (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 11 Nov 2019 09:11:04 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:42306 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726832AbfKKOLD (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Nov 2019 09:11:03 -0500
-Received: by mail-pg1-f196.google.com with SMTP id q17so9535529pgt.9;
-        Mon, 11 Nov 2019 06:11:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rI5QC9ISB879Ba1DyMVl2oGSc/o9FCdZnmRMtbc4lMk=;
-        b=iYQYWxawSmVE3P2Gsfi6nXJ4i08atEe1waG4+4z0bVa+k5GKm+PtIZoDiXhGzrI+z/
-         uACnGvZq5WTh7UxDOm673vKaqRCECsucIfs7fmqbMsIbwLoQQcVstbWsAUdIyim4GH6u
-         G/1Cxs+6uZF/T/ELfZ0QINl4nHsZkKVQP5x0j9uBnAFL5+GRujVpK7oKgB4m+WGRax4K
-         GHvp75+CfzCQWNgFS9RYN1yji/XN1DJGXWZLeEpVc1gRGeI9d3SmOBYEMrjXyZyb+WTU
-         VokhWtmvHNKH5m0wUSLHDmZ79K+J1URGbonSJPlFzP6XOhqkYEV2NbznJkdmEu0hVZVB
-         /8ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rI5QC9ISB879Ba1DyMVl2oGSc/o9FCdZnmRMtbc4lMk=;
-        b=RNCW3fsggiFLExLqjH1NPydEJ+OEcq3fmUZD17bUzvSpYhtEbVHXH+xUmH/iGbjySy
-         MhWY9F6t7l5WMUMhSEvNtRNqydSLZRu/6AleniYum8dgYxCs52IF9aZiUG3QNhc6MlsU
-         fhwVdndnlw4UZptcO9GvGFQ5ywHT4CR0BaQBrVgISLv7U3WYtSqXgW50/m0PNk6tj3wx
-         W8q1+hM/t/P7cqNhBRpZB87xYG8iRR24LX2jXRuy1hIQYDCDEvyIrsfm1iTP/zWNY/9e
-         D2zCdQzH9IKf1xQUJpoHPCCZyMh0an70WA63vbBkKLy+jLLdyxs3/L8nk4kJ+rayidWK
-         ZmfA==
-X-Gm-Message-State: APjAAAV8NrDXa3Pt2bAB5eDoU3xXEJgPF4SUm28RDEmegfJB5WB3lFO1
-        NI1ZHXLhtSNIu6x44DlSK5c=
-X-Google-Smtp-Source: APXvYqxk3KtKKsslHqhzEITqYs0MBUgnmFsfR3PUYFJIXyhbNnl+dx7JNv8qvgw/aG4JjYXyue9+jg==
-X-Received: by 2002:a63:3c6:: with SMTP id 189mr28773962pgd.4.1573481462969;
-        Mon, 11 Nov 2019 06:11:02 -0800 (PST)
-Received: from localhost.localdomain ([221.155.202.134])
-        by smtp.gmail.com with ESMTPSA id 206sm2875318pfu.45.2019.11.11.06.11.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2019 06:11:02 -0800 (PST)
-From:   Suwan Kim <suwan.kim027@gmail.com>
-To:     shuah@kernel.org, gregkh@linuxfoundation.org
-Cc:     linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        dan.carpenter@oracle.com, valentina.manea.m@gmail.com,
-        Suwan Kim <suwan.kim027@gmail.com>,
-        kbuild test robot <lkp@intel.com>
-Subject: [PATCH] usbip: Fix uninitialized symbol 'nents' in stub_recv_cmd_submit()
-Date:   Mon, 11 Nov 2019 23:10:35 +0900
-Message-Id: <20191111141035.27788-1-suwan.kim027@gmail.com>
-X-Mailer: git-send-email 2.21.0
+        id S1726888AbfKKP0y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 11 Nov 2019 10:26:54 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:49333 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726857AbfKKP0y (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 11 Nov 2019 10:26:54 -0500
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mol@pengutronix.de>)
+        id 1iUBac-0000i0-11; Mon, 11 Nov 2019 16:26:50 +0100
+Received: from mol by dude02.lab.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mol@pengutronix.de>)
+        id 1iUBaa-0003bS-Rg; Mon, 11 Nov 2019 16:26:48 +0100
+From:   Michael Olbrich <m.olbrich@pengutronix.de>
+To:     linux-usb@vger.kernel.org
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org, kernel@pengutronix.de,
+        Michael Olbrich <m.olbrich@pengutronix.de>
+Subject: [PATCH 2/2] usb: dwc3: gadget: restart the transfer if a isoc request is queued too late
+Date:   Mon, 11 Nov 2019 16:26:45 +0100
+Message-Id: <20191111152645.13792-3-m.olbrich@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191111152645.13792-1-m.olbrich@pengutronix.de>
+References: <20191111152645.13792-1-m.olbrich@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: mol@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-usb@vger.kernel.org
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Smatch reported that nents is not initialized and used in
-stub_recv_cmd_submit(). nents is currently initialized by sgl_alloc()
-and used to allocate multiple URBs when host controller doesn't
-support scatter-gather DMA. The use of uninitialized nents means that
-buf_len is zero and use_sg is true. But buffer length should not be
-zero when an URB uses scatter-gather DMA.
+Currently, most gadget drivers handle isoc transfers on a best effort
+bases: If the request queue runs empty, then there will simply be gaps in
+the isoc data stream.
 
-To prevent this situation, add the conditional that checks buf_len
-and use_sg. And move the use of nents right after the sgl_alloc() to
-avoid the use of uninitialized nents.
+The UVC gadget depends on this behaviour. It simply provides new requests
+when video frames are available and assumes that they are sent as soon as
+possible.
 
-If the error occurs, it adds SDEV_EVENT_ERROR_MALLOC and stub_priv
-will be released by stub event handler and connection will be shut
-down.
+The dwc3 gadget currently works differently: It assumes that there is a
+contiguous stream of requests without any gaps. If a request is too late,
+then it is dropped by the hardware.
+For the UVC gadget this means that a live stream stops after the first
+frame because all following requests are late.
 
-Fixes: ea44d190764b ("usbip: Implement SG support to vhci-hcd and stub driver")
-Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Suwan Kim <suwan.kim027@gmail.com>
+This patch changes the behaviour of the dwc3 gadget driver to match the
+expectations. If a request arrives too late, then the transfer will be
+restart to create the needed gap.
+
+A request is late if:
+1. There are currently no requests queued in the hardware
+2. The current frame number provided by DSTS does not match the frame
+   number returned by the last transfer.
+
+If this happens transfers are stopped. The following XferNotReady provides
+the new correct frame number and restarts the transfer.
+
+Signed-off-by: Michael Olbrich <m.olbrich@pengutronix.de>
 ---
- drivers/usb/usbip/stub_rx.c | 50 ++++++++++++++++++++++++-------------
- 1 file changed, 32 insertions(+), 18 deletions(-)
+ drivers/usb/dwc3/gadget.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/usb/usbip/stub_rx.c b/drivers/usb/usbip/stub_rx.c
-index 66edfeea68fe..e2b019532234 100644
---- a/drivers/usb/usbip/stub_rx.c
-+++ b/drivers/usb/usbip/stub_rx.c
-@@ -470,18 +470,50 @@ static void stub_recv_cmd_submit(struct stub_device *sdev,
- 	if (pipe == -1)
- 		return;
- 
-+	/*
-+	 * Smatch reported the error case where use_sg is true and buf_len is 0.
-+	 * In this case, It adds SDEV_EVENT_ERROR_MALLOC and stub_priv will be
-+	 * released by stub event handler and connection will be shut down.
-+	 */
- 	priv = stub_priv_alloc(sdev, pdu);
- 	if (!priv)
- 		return;
- 
- 	buf_len = (unsigned long long)pdu->u.cmd_submit.transfer_buffer_length;
- 
-+	if (use_sg && !buf_len) {
-+		dev_err(&udev->dev, "sg buffer with zero length\n");
-+		goto err_malloc;
-+	}
-+
- 	/* allocate urb transfer buffer, if needed */
- 	if (buf_len) {
- 		if (use_sg) {
- 			sgl = sgl_alloc(buf_len, GFP_KERNEL, &nents);
- 			if (!sgl)
- 				goto err_malloc;
-+
-+			/* Check if the server's HCD supports SG */
-+			if (!udev->bus->sg_tablesize) {
-+				/*
-+				 * If the server's HCD doesn't support SG, break
-+				 * a single SG request into several URBs and map
-+				 * each SG list entry to corresponding URB
-+				 * buffer. The previously allocated SG list is
-+				 * stored in priv->sgl (If the server's HCD
-+				 * support SG, SG list is stored only in
-+				 * urb->sg) and it is used as an indicator that
-+				 * the server split single SG request into
-+				 * several URBs. Later, priv->sgl is used by
-+				 * stub_complete() and stub_send_ret_submit() to
-+				 * reassemble the divied URBs.
-+				 */
-+				support_sg = 0;
-+				num_urbs = nents;
-+				priv->completed_urbs = 0;
-+				pdu->u.cmd_submit.transfer_flags &=
-+								~URB_DMA_MAP_SG;
-+			}
- 		} else {
- 			buffer = kzalloc(buf_len, GFP_KERNEL);
- 			if (!buffer)
-@@ -489,24 +521,6 @@ static void stub_recv_cmd_submit(struct stub_device *sdev,
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index ac4673d91939..eb7f09929f28 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -1473,6 +1473,14 @@ static int __dwc3_gadget_ep_queue(struct dwc3_ep *dep, struct dwc3_request *req)
+ 				return __dwc3_gadget_start_isoc(dep);
+ 			}
  		}
++		if ((dep->flags & DWC3_EP_TRANSFER_STARTED) &&
++		    list_empty(&dep->started_list) &&
++		    ((dep->frame_number & 0x3fff) !=
++		    __dwc3_gadget_get_frame(dwc))) {
++			dwc3_stop_active_transfer(dep, true, true);
++			dep->flags = DWC3_EP_ENABLED;
++			return 0;
++		}
  	}
  
--	/* Check if the server's HCD supports SG */
--	if (use_sg && !udev->bus->sg_tablesize) {
--		/*
--		 * If the server's HCD doesn't support SG, break a single SG
--		 * request into several URBs and map each SG list entry to
--		 * corresponding URB buffer. The previously allocated SG
--		 * list is stored in priv->sgl (If the server's HCD support SG,
--		 * SG list is stored only in urb->sg) and it is used as an
--		 * indicator that the server split single SG request into
--		 * several URBs. Later, priv->sgl is used by stub_complete() and
--		 * stub_send_ret_submit() to reassemble the divied URBs.
--		 */
--		support_sg = 0;
--		num_urbs = nents;
--		priv->completed_urbs = 0;
--		pdu->u.cmd_submit.transfer_flags &= ~URB_DMA_MAP_SG;
--	}
--
- 	/* allocate urb array */
- 	priv->num_urbs = num_urbs;
- 	priv->urbs = kmalloc_array(num_urbs, sizeof(*priv->urbs), GFP_KERNEL);
+ 	return __dwc3_gadget_kick_transfer(dep, false);
 -- 
-2.21.0
+2.20.1
 
