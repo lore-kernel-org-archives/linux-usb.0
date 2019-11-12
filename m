@@ -2,106 +2,104 @@ Return-Path: <SRS0=gvBa=ZE=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MIME_BASE64_TEXT,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11832C43331
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Nov 2019 06:53:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25932C43331
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Nov 2019 07:18:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DEEC3206A5
-	for <linux-usb@archiver.kernel.org>; Tue, 12 Nov 2019 06:53:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F1BA4214E0
+	for <linux-usb@archiver.kernel.org>; Tue, 12 Nov 2019 07:18:39 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="MH7xMV/W"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="jbcsYfuI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727148AbfKLGwQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 12 Nov 2019 01:52:16 -0500
-Received: from mailgw01.mediatek.com ([210.61.82.183]:40347 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725801AbfKLGwP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Nov 2019 01:52:15 -0500
-X-UUID: 090964d8007d4d8db5e1607c97b166d9-20191112
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=ItzLWUzMhoqBc122fPQikCWY1mBg8y9+EgTZncRAjlw=;
-        b=MH7xMV/Wm3pdUJtq2iJgLcZBKnDK4yhLOzVxwuRBViL+A7CLVbhZOKLtBuYez40TCaWgMw3jOXpGZwRhyoOdf7zefVg10KX+1i8HHZEdSCwA8AvAyOaCkJSRLivTThBK2tVtM00OzNlaVm7D2JwSatGeeEzVP2fd74Hrtn0f6oE=;
-X-UUID: 090964d8007d4d8db5e1607c97b166d9-20191112
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
-        (envelope-from <chunfeng.yun@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 828727949; Tue, 12 Nov 2019 14:52:10 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 12 Nov 2019 14:52:08 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 12 Nov 2019 14:52:07 +0800
-From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>
-CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Minas Harutyunyan <hminas@synopsys.com>,
-        Cristian Birsan <cristian.birsan@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Kevin Cernekee <cernekee@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>, Bin Liu <b-liu@ti.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Yangtao Li <tiny.windzz@gmail.com>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>
-Subject: [PATCH v2 04/13] usb: dwc3: create debugfs directory under usb root
-Date:   Tue, 12 Nov 2019 14:51:50 +0800
-Message-ID: <1573541519-28488-4-git-send-email-chunfeng.yun@mediatek.com>
-X-Mailer: git-send-email 1.8.1.1.dirty
-In-Reply-To: <1573541519-28488-1-git-send-email-chunfeng.yun@mediatek.com>
-References: <1573541519-28488-1-git-send-email-chunfeng.yun@mediatek.com>
+        id S1727126AbfKLHSg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 12 Nov 2019 02:18:36 -0500
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:1792 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725283AbfKLHSf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 12 Nov 2019 02:18:35 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dca5ccb0000>; Mon, 11 Nov 2019 23:18:35 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 11 Nov 2019 23:18:35 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 11 Nov 2019 23:18:35 -0800
+Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 12 Nov
+ 2019 07:18:35 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Tue, 12 Nov 2019 07:18:35 +0000
+Received: from henryl-tu10x.nvidia.com (Not Verified[10.19.109.97]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5dca5cca0001>; Mon, 11 Nov 2019 23:18:35 -0800
+From:   Henry Lin <henryl@nvidia.com>
+CC:     Henry Lin <henryl@nvidia.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] usb: xhci: only set D3hot for pci device
+Date:   Tue, 12 Nov 2019 15:18:30 +0800
+Message-ID: <20191112071831.1043-1-henryl@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
-X-MTK:  N
-Content-Transfer-Encoding: base64
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1573543115; bh=4YFauzFeS28mrBW+m+MC3Yqh22yBwd8ppo8M7Jb0IoM=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=jbcsYfuI3mMwc+sOkFX07SgWsd0RiP5BkXjVdQenq4401f7/TKGL3Vjb+7n/kiv0O
+         whU2dAwalTi3JTsOdvJrV4GP2WHhKSQuXfbwzoonpMLEbz9dx7HA4u4aqDHiECIaw1
+         5O/MVJJKrFcYgozq2NT6gXaoZ5yEmyVUj03BKbnq/h/fl74zseNyls5XbDjbQ3y7Cj
+         BzrOA1BZ3n276CNg2++p81ZkPP/PF8ERPUsgqtEThE3JgRgAh2TYV9JC4GblFVVIK3
+         1e/h4fi3wH5HXVMW4ToxQ//bp1juyKNvK5Nsry8pQgsI0Ur8Jfr7rVeXkNonX8Tc9J
+         svbPg00+zdsWQ==
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Tm93IHRoZSBVU0IgZ2FkZ2V0IHN1YnN5c3RlbSBjYW4gdXNlIHRoZSBVU0IgZGVidWdmcyByb290
-IGRpcmVjdG9yeSwNCnNvIG1vdmUgZHdjMydzIGRpcmVjdG9yeSBmcm9tIHRoZSByb290IG9mIHRo
-ZSBkZWJ1Z2ZzIGZpbGVzeXN0ZW0gaW50bw0KdGhlIHJvb3Qgb2YgdXNiDQoNClNpZ25lZC1vZmYt
-Ynk6IENodW5mZW5nIFl1biA8Y2h1bmZlbmcueXVuQG1lZGlhdGVrLmNvbT4NCi0tLQ0KdjI6DQog
-IDEuIGFiYW5kb24gbmV3IEFQSSB1c2JfZGVidWdmc19jcmVhdGVfZGlyKCksIGFuZCB1c2UgdXNi
-X2RlYnVnX3Jvb3QNCi0tLQ0KIGRyaXZlcnMvdXNiL2R3YzMvZGVidWdmcy5jIHwgMiArLQ0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KDQpkaWZmIC0tZ2l0
-IGEvZHJpdmVycy91c2IvZHdjMy9kZWJ1Z2ZzLmMgYi9kcml2ZXJzL3VzYi9kd2MzL2RlYnVnZnMu
-Yw0KaW5kZXggMWM3OTI3MTAzNDhmLi40ZmU4YjFlMTQ4NWMgMTAwNjQ0DQotLS0gYS9kcml2ZXJz
-L3VzYi9kd2MzL2RlYnVnZnMuYw0KKysrIGIvZHJpdmVycy91c2IvZHdjMy9kZWJ1Z2ZzLmMNCkBA
-IC05MTYsNyArOTE2LDcgQEAgdm9pZCBkd2MzX2RlYnVnZnNfaW5pdChzdHJ1Y3QgZHdjMyAqZHdj
-KQ0KIAlkd2MtPnJlZ3NldC0+bnJlZ3MgPSBBUlJBWV9TSVpFKGR3YzNfcmVncyk7DQogCWR3Yy0+
-cmVnc2V0LT5iYXNlID0gZHdjLT5yZWdzIC0gRFdDM19HTE9CQUxTX1JFR1NfU1RBUlQ7DQogDQot
-CXJvb3QgPSBkZWJ1Z2ZzX2NyZWF0ZV9kaXIoZGV2X25hbWUoZHdjLT5kZXYpLCBOVUxMKTsNCisJ
-cm9vdCA9IGRlYnVnZnNfY3JlYXRlX2RpcihkZXZfbmFtZShkd2MtPmRldiksIHVzYl9kZWJ1Z19y
-b290KTsNCiAJZHdjLT5yb290ID0gcm9vdDsNCiANCiAJZGVidWdmc19jcmVhdGVfcmVnc2V0MzIo
-InJlZ2R1bXAiLCBTX0lSVUdPLCByb290LCBkd2MtPnJlZ3NldCk7DQotLSANCjIuMjMuMA0K
+xhci driver cannot call pci_set_power_state() on non-pci xhci host
+controllers.
+
+Signed-off-by: Henry Lin <henryl@nvidia.com>
+---
+ drivers/usb/host/xhci.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 6c17e3fe181a..1fc16763dcda 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -761,6 +761,8 @@ static void xhci_stop(struct usb_hcd *hcd)
+ 	mutex_unlock(&xhci->mutex);
+ }
+ 
++extern struct device_type pci_dev_type;
++
+ /*
+  * Shutdown HC (not bus-specific)
+  *
+@@ -791,8 +793,12 @@ static void xhci_shutdown(struct usb_hcd *hcd)
+ 			readl(&xhci->op_regs->status));
+ 
+ 	/* Yet another workaround for spurious wakeups at shutdown with HSW */
+-	if (xhci->quirks & XHCI_SPURIOUS_WAKEUP)
+-		pci_set_power_state(to_pci_dev(hcd->self.sysdev), PCI_D3hot);
++	if (xhci->quirks & XHCI_SPURIOUS_WAKEUP) {
++		struct device *dev = hcd->self.sysdev;
++
++		if (dev->type == &pci_dev_type)
++			pci_set_power_state(to_pci_dev(dev), PCI_D3hot);
++	}
+ }
+ 
+ #ifdef CONFIG_PM
+-- 
+2.17.1
 
