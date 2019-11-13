@@ -2,92 +2,130 @@ Return-Path: <SRS0=2B3Q=ZF=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6F4BC33C9B
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Nov 2019 16:51:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAB98C432C3
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Nov 2019 17:32:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B056322473
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Nov 2019 15:36:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5C186206E1
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Nov 2019 17:32:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727640AbfKMPg1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 13 Nov 2019 10:36:27 -0500
-Received: from iolanthe.rowland.org ([192.131.102.54]:41304 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726251AbfKMPg0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Nov 2019 10:36:26 -0500
-Received: (qmail 2521 invoked by uid 2102); 13 Nov 2019 10:36:25 -0500
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 13 Nov 2019 10:36:25 -0500
-Date:   Wed, 13 Nov 2019 10:36:25 -0500 (EST)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Peter Chen <peter.chen@nxp.com>
-cc:     Michael Olbrich <m.olbrich@pengutronix.de>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] usb: gadget: composite: split spinlock to avoid recursion
-In-Reply-To: <20191113063414.GA30608@b29397-desktop>
-Message-ID: <Pine.LNX.4.44L0.1911131021460.1558-100000@iolanthe.rowland.org>
+        id S1726392AbfKMRc0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 13 Nov 2019 12:32:26 -0500
+Received: from mga11.intel.com ([192.55.52.93]:5879 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726115AbfKMRc0 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 13 Nov 2019 12:32:26 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Nov 2019 09:32:25 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,301,1569308400"; 
+   d="scan'208";a="257197669"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by FMSMGA003.fm.intel.com with ESMTP; 13 Nov 2019 09:32:24 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id 22701EB; Wed, 13 Nov 2019 19:32:22 +0200 (EET)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Mathias Nyman <mathias.nyman@intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        linux-usb@vger.kernel.org
+Subject: [PATCH] xhci: Fix memory leak in xhci_add_in_port()
+Date:   Wed, 13 Nov 2019 20:32:22 +0300
+Message-Id: <20191113173222.33468-1-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, 13 Nov 2019, Peter Chen wrote:
+When xHCI is part of Alpine or Titan Ridge Thunderbolt controller and
+the xHCI device is hot-removed as a result of unplugging a dock for
+example, the driver leaks memory it allocates for xhci->usb3_rhub.psi
+and xhci->usb2_rhub.psi in xhci_add_in_port() as reported by kmemleak:
 
-> On 19-11-12 10:33:18, Michael Olbrich wrote:
-> > 'delayed_status' and 'deactivations' are used completely independent but
-> > they share the same spinlock. This can result in spinlock recursion:
-> > 
-> > BUG: spinlock recursion on CPU#1, uvc-gadget/322
-> >  lock: 0xffffffc0570364e0, .magic: dead4ead, .owner: uvc-gadget/322, .owner_cpu: 1
-> > CPU: 1 PID: 322 Comm: uvc-gadget Tainted: G         C O      5.3.0-20190916-1+ #55
-> > Hardware name: XXXXX (DT)
-> > Call trace:
-> >  dump_backtrace+0x0/0x178
-> >  show_stack+0x24/0x30
-> >  dump_stack+0xc0/0x104
-> >  spin_dump+0x90/0xa0
-> >  do_raw_spin_lock+0xd8/0x108
-> >  _raw_spin_lock_irqsave+0x40/0x50
-> >  composite_disconnect+0x2c/0x80
-> >  usb_gadget_disconnect+0x84/0x150
-> >  usb_gadget_deactivate+0x64/0x120
-> >  usb_function_deactivate+0x70/0x80
-> >  uvc_function_disconnect+0x20/0x58
-> >  uvc_v4l2_release+0x34/0x90
-> >  v4l2_release+0xbc/0xf0
-> >  __fput+0xb0/0x218
-> >  ____fput+0x20/0x30
-> >  task_work_run+0xa0/0xd0
-> >  do_notify_resume+0x2f4/0x340
-> >  work_pending+0x8/0x14
-> > 
-> > Fix this by using separate spinlocks.
-> 
-> This issue may be introduced by 0a55187a1ec8c ("USB: gadget core: Issue
-> ->disconnect() callback from usb_gadget_disconnect()"), which adds
-> gadget's disconnect at usb_gadget_disconnect. Add Alan, if he is Ok
-> with your patch, you may cc to stable tree.
+unreferenced object 0xffff922c24ef42f0 (size 16):
+  comm "kworker/u16:2", pid 178, jiffies 4294711640 (age 956.620s)
+  hex dump (first 16 bytes):
+    21 00 0c 00 12 00 dc 05 23 00 e0 01 00 00 00 00  !.......#.......
+  backtrace:
+    [<000000007ac80914>] xhci_mem_init+0xcf8/0xeb7
+    [<0000000001b6d775>] xhci_init+0x7c/0x160
+    [<00000000db443fe3>] xhci_gen_setup+0x214/0x340
+    [<00000000fdffd320>] xhci_pci_setup+0x48/0x110
+    [<00000000541e1e03>] usb_add_hcd.cold+0x265/0x747
+    [<00000000ca47a56b>] usb_hcd_pci_probe+0x219/0x3b4
+    [<0000000021043861>] xhci_pci_probe+0x24/0x1c0
+    [<00000000b9231f25>] local_pci_probe+0x3d/0x70
+    [<000000006385c9d7>] pci_device_probe+0xd0/0x150
+    [<0000000070241068>] really_probe+0xf5/0x3c0
+    [<0000000061f35c0a>] driver_probe_device+0x58/0x100
+    [<000000009da11198>] bus_for_each_drv+0x79/0xc0
+    [<000000009ce45f69>] __device_attach+0xda/0x160
+    [<00000000df201aaf>] pci_bus_add_device+0x46/0x70
+    [<0000000088a1bc48>] pci_bus_add_devices+0x27/0x60
+    [<00000000ad9ee708>] pci_bus_add_devices+0x52/0x60
+unreferenced object 0xffff922c24ef3318 (size 8):
+  comm "kworker/u16:2", pid 178, jiffies 4294711640 (age 956.620s)
+  hex dump (first 8 bytes):
+    34 01 05 00 35 41 0a 00                          4...5A..
+  backtrace:
+    [<000000007ac80914>] xhci_mem_init+0xcf8/0xeb7
+    [<0000000001b6d775>] xhci_init+0x7c/0x160
+    [<00000000db443fe3>] xhci_gen_setup+0x214/0x340
+    [<00000000fdffd320>] xhci_pci_setup+0x48/0x110
+    [<00000000541e1e03>] usb_add_hcd.cold+0x265/0x747
+    [<00000000ca47a56b>] usb_hcd_pci_probe+0x219/0x3b4
+    [<0000000021043861>] xhci_pci_probe+0x24/0x1c0
+    [<00000000b9231f25>] local_pci_probe+0x3d/0x70
+    [<000000006385c9d7>] pci_device_probe+0xd0/0x150
+    [<0000000070241068>] really_probe+0xf5/0x3c0
+    [<0000000061f35c0a>] driver_probe_device+0x58/0x100
+    [<000000009da11198>] bus_for_each_drv+0x79/0xc0
+    [<000000009ce45f69>] __device_attach+0xda/0x160
+    [<00000000df201aaf>] pci_bus_add_device+0x46/0x70
+    [<0000000088a1bc48>] pci_bus_add_devices+0x27/0x60
+    [<00000000ad9ee708>] pci_bus_add_devices+0x52/0x60
 
-I wasn't aware of the dual usage of that lock in the composite core 
-(and 0a55187a1ec8c touches only the gadget core, not composite.c).
+Fix this by calling kfree() for the both psi objects in
+xhci_mem_cleanup().
 
-In any case, I don't have a good feel for how the locking is supposed 
-to work in the composite core.  This is really something Felipe should 
-look at.
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+I'm not 100% sure the kfree()s below are in correct place so please double
+check :)
 
-Would a better fix be to change usb_function_deactivate() so that it
-doesn't hold the lock while calling usb_gadget_deactivate()?  Maybe
-increment cdev->deactivations unconditionally before dropping the lock
-(for mutual exclusion) and then decrement it again if the call fails?
+ drivers/usb/host/xhci-mem.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Alan Stern
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index e16eda6e2b8b..3b1388fa2f36 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -1909,13 +1909,17 @@ void xhci_mem_cleanup(struct xhci_hcd *xhci)
+ 	xhci->usb3_rhub.num_ports = 0;
+ 	xhci->num_active_eps = 0;
+ 	kfree(xhci->usb2_rhub.ports);
++	kfree(xhci->usb2_rhub.psi);
+ 	kfree(xhci->usb3_rhub.ports);
++	kfree(xhci->usb3_rhub.psi);
+ 	kfree(xhci->hw_ports);
+ 	kfree(xhci->rh_bw);
+ 	kfree(xhci->ext_caps);
+ 
+ 	xhci->usb2_rhub.ports = NULL;
++	xhci->usb2_rhub.psi = NULL;
+ 	xhci->usb3_rhub.ports = NULL;
++	xhci->usb3_rhub.psi = NULL;
+ 	xhci->hw_ports = NULL;
+ 	xhci->rh_bw = NULL;
+ 	xhci->ext_caps = NULL;
+-- 
+2.24.0
 
