@@ -2,115 +2,78 @@ Return-Path: <SRS0=2B3Q=ZF=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60BA7C17447
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Nov 2019 10:28:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E879C43331
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Nov 2019 12:06:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3A77F222C1
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Nov 2019 10:28:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6D95622459
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Nov 2019 12:06:42 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=mork.no header.i=@mork.no header.b="cUakuC4W"
+	dkim=pass (2048-bit key) header.d=aleksander-es.20150623.gappssmtp.com header.i=@aleksander-es.20150623.gappssmtp.com header.b="B1QP5B6e"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727452AbfKMK2F (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 13 Nov 2019 05:28:05 -0500
-Received: from canardo.mork.no ([148.122.252.1]:54275 "EHLO canardo.mork.no"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727374AbfKMK2F (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 13 Nov 2019 05:28:05 -0500
-Received: from miraculix.mork.no (miraculix.mork.no [IPv6:2001:4641:0:2:7627:374e:db74:e353])
-        (authenticated bits=0)
-        by canardo.mork.no (8.15.2/8.15.2) with ESMTPSA id xADARvwe000540
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-        Wed, 13 Nov 2019 11:27:57 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mork.no; s=b;
-        t=1573640878; bh=P6+yU5QsfqoGNEzxVibdDpCcnn3di0eFZU5up5TTlnQ=;
-        h=From:To:Cc:Subject:References:Date:Message-ID:From;
-        b=cUakuC4WIQsu9IRTJTDsQBjJbIs2f5iHuIReRrjRlCIioJKr1gY7DG/kyI9yBSX4b
-         UgqCXaHrtKTVvfQTHOaNkcFa1hg9xoQcGtMnxX74E/IB9vv6ppLcym2X+/iLlSY7XI
-         jEZVe5rKb4ZMM7QBTM6aZWhlFCLzNM5jrLQR+IOE=
-Received: from bjorn by miraculix.mork.no with local (Exim 4.92)
-        (envelope-from <bjorn@mork.no>)
-        id 1iUpsT-0006a0-QL; Wed, 13 Nov 2019 11:27:57 +0100
-From:   =?utf-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
-To:     Aleksander Morgado <aleksander@aleksander.es>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH] net: usb: qmi_wwan: add support for Foxconn T77W968 LTE modules
-Organization: m
-References: <20191113101110.496306-1-aleksander@aleksander.es>
-Date:   Wed, 13 Nov 2019 11:27:57 +0100
-In-Reply-To: <20191113101110.496306-1-aleksander@aleksander.es> (Aleksander
-        Morgado's message of "Wed, 13 Nov 2019 11:11:10 +0100")
-Message-ID: <87woc4qdea.fsf@miraculix.mork.no>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S1726489AbfKMMGl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 13 Nov 2019 07:06:41 -0500
+Received: from mail-il1-f193.google.com ([209.85.166.193]:38553 "EHLO
+        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725987AbfKMMGl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Nov 2019 07:06:41 -0500
+Received: by mail-il1-f193.google.com with SMTP id u17so1552453ilq.5
+        for <linux-usb@vger.kernel.org>; Wed, 13 Nov 2019 04:06:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=aleksander-es.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gn4nGl4/aU01Q6EzAa3fpLh2f+Que5/VESf/QKj0oZY=;
+        b=B1QP5B6eYq5LIlbVCQ59Z/Wwfeh6EV1ejBq9r7gfsJ22xS8X98NsaKrc9b+P7hZpPv
+         BCTLc5hPIapniArXqGXuTVlAffhf97jI9aglCS8yiQ/r1cWqKoZykVnr+7E5qArCpVsx
+         1hdfsYwt4IAGsYLUn03gjDQh80fxN0PhdWxJ0Vv9aMT5FLNuWOB9dXTasCpFyE39xAcK
+         5QwjaV7XZamUhbWTM9dTtu9s1eMUWHYi/MYiWZucblfYxILMiUgiu4WQvi4O+eCX+OLO
+         hTvXfdxsu9iJFS8QjVmGpZLiUt8/FWdCskfms/z9yYYmmI+Z9dyMqZFwV+ye00/q85E7
+         lWBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gn4nGl4/aU01Q6EzAa3fpLh2f+Que5/VESf/QKj0oZY=;
+        b=aeidHS+NMHd2SX6oCZu0w8YnqKFEOh2bn0eKB+f9m3+PA+LxixV3h4KI2N0jRnbwfb
+         zCRhS+j0D6CORUGaKckmXIZDLZ7CSutubEXLLM8Z+XXmVQweFYZt6VRpk7N6q+FVdfMl
+         S0VRYuvhuQvzMbAdXGloOWkc56NTdi11D0lP6uXmoCWYzJwmEdCrkzbtLTd6oJacO5Ol
+         2pTJlrRSIu0L9oJTfDNMunk0fipD5TwDUbs/3w0LfcslGJt9nqr5m7JF0K5IxTOJmIyW
+         EcJUA5Fv7/bcckCzft00SRslVqmKHeL/0C3hauJ+ZrYXgnrUV0PerR6BWBXXQ3+c/Dvo
+         LsZg==
+X-Gm-Message-State: APjAAAWMUPTLLPRe9ICjvqNflqFISoQ+CDGiK91WotVQAvNcqx8izKKt
+        FNUxJ8dll14C7jNCnkG0qHaZ93yfnpCupClhgSlF2g==
+X-Google-Smtp-Source: APXvYqzPCgGtqD2CF1uekMJM7Mq641wAEaCPHuI1isGZ1xM5pAaXJGFVfBWal2CA40hcAcKiwZAyn86B635ps7JiwHM=
+X-Received: by 2002:a92:5d8d:: with SMTP id e13mr3579936ilg.32.1573646798728;
+ Wed, 13 Nov 2019 04:06:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Virus-Scanned: clamav-milter 0.101.4 at canardo
-X-Virus-Status: Clean
+References: <20191113101110.496306-1-aleksander@aleksander.es> <87woc4qdea.fsf@miraculix.mork.no>
+In-Reply-To: <87woc4qdea.fsf@miraculix.mork.no>
+From:   Aleksander Morgado <aleksander@aleksander.es>
+Date:   Wed, 13 Nov 2019 13:06:27 +0100
+Message-ID: <CAAP7ucK5Wqcprj9c5sGLaE88-77EA3fB=sb7_0EK+7eoFAJxMw@mail.gmail.com>
+Subject: Re: [PATCH] net: usb: qmi_wwan: add support for Foxconn T77W968 LTE modules
+To:     =?UTF-8?Q?Bj=C3=B8rn_Mork?= <bjorn@mork.no>
+Cc:     "David S. Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Aleksander Morgado <aleksander@aleksander.es> writes:
-
-> These are the Foxconn-branded variants of the Dell DW5821e modules,
-> same USB layout as those.
+> Just one question, which I should have asked about the DW5821e too: Is
+> it possible to configure the firmware of these modems to USB2 only, and
+> do they work with the qmi_wwan driver then?
 >
-> The QMI interface is exposed in USB configuration #1:
->
-> P:  Vendor=3D0489 ProdID=3De0b4 Rev=3D03.18
-> S:  Manufacturer=3DFII
-> S:  Product=3DT77W968 LTE
-> S:  SerialNumber=3D0123456789ABCDEF
-> C:  #Ifs=3D 6 Cfg#=3D 1 Atr=3Da0 MxPwr=3D500mA
-> I:  If#=3D0x0 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3Dff Prot=3Dff Drive=
-r=3Dqmi_wwan
-> I:  If#=3D0x1 Alt=3D 0 #EPs=3D 1 Cls=3D03(HID  ) Sub=3D00 Prot=3D00 Drive=
-r=3Dusbhid
-> I:  If#=3D0x2 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3D00 Prot=3D00 Drive=
-r=3Doption
-> I:  If#=3D0x3 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3D00 Prot=3D00 Drive=
-r=3Doption
-> I:  If#=3D0x4 Alt=3D 0 #EPs=3D 3 Cls=3Dff(vend.) Sub=3D00 Prot=3D00 Drive=
-r=3Doption
-> I:  If#=3D0x5 Alt=3D 0 #EPs=3D 2 Cls=3Dff(vend.) Sub=3Dff Prot=3Dff Drive=
-r=3Doption
->
-> Signed-off-by: Aleksander Morgado <aleksander@aleksander.es>
-> ---
->  drivers/net/usb/qmi_wwan.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-> index 56d334b9ad45..4196c0e32740 100644
-> --- a/drivers/net/usb/qmi_wwan.c
-> +++ b/drivers/net/usb/qmi_wwan.c
-> @@ -1371,6 +1371,8 @@ static const struct usb_device_id products[] =3D {
->  	{QMI_QUIRK_SET_DTR(0x2c7c, 0x0191, 4)},	/* Quectel EG91 */
->  	{QMI_FIXED_INTF(0x2c7c, 0x0296, 4)},	/* Quectel BG96 */
->  	{QMI_QUIRK_SET_DTR(0x2cb7, 0x0104, 4)},	/* Fibocom NL678 series */
-> +	{QMI_FIXED_INTF(0x0489, 0xe0b4, 0)},	/* Foxconn T77W968 LTE */
-> +	{QMI_FIXED_INTF(0x0489, 0xe0b5, 0)},	/* Foxconn T77W968 LTE with eSIM s=
-upport*/
->=20=20
->  	/* 4. Gobi 1000 devices */
->  	{QMI_GOBI1K_DEVICE(0x05c6, 0x9212)},	/* Acer Gobi Modem Device */
 
-Acked-by: Bj=C3=B8rn Mork <bjorn@mork.no>
+I know these modules force a USB 2.0-only mode when they switch to
+fastboot to allow firmware upgrade, but there is no way to configure
+the firmware to boot into USB 2.0-only mode while in modem mode.
 
-Just one question, which I should have asked about the DW5821e too: Is
-it possible to configure the firmware of these modems to USB2 only, and
-do they work with the qmi_wwan driver then?
-
-I suspect that these modems really need the SET_DTR quirk...  Or rather
-that I should get around to making that default, as it seems most new
-stuff needs it and most old stuff doesn't care.
-
-
-Bj=C3=B8rn
+-- 
+Aleksander
+https://aleksander.es
