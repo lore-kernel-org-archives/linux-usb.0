@@ -2,158 +2,92 @@ Return-Path: <SRS0=2B3Q=ZF=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 547D7C47409
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Nov 2019 16:21:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6F4BC33C9B
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Nov 2019 16:51:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 910512376F
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Nov 2019 16:03:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573661014;
-	bh=vxmJLk5mBubgizDOEaO3AxGfGvphNkS3TP793t15AlA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=aDeZKbncY4x27FAwxfcMQALsX4Ok3VD004izLyUOXYJG2P5rOLEs5leQEat2HMSX3
-	 9ldvYgzi5MTcQZU0JMsZd2GUEszrrF1p8UWFj9SI48iGVSvUcg2FSIUPz4y/ClHbrg
-	 +zW+rv8wel8mAJ+/cThnHQg8vqsey9sxO16ATAeM=
+	by mail.kernel.org (Postfix) with ESMTP id B056322473
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Nov 2019 15:36:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728257AbfKMQDd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 13 Nov 2019 11:03:33 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:33254 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726074AbfKMQDd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Nov 2019 11:03:33 -0500
-Received: by mail-lf1-f67.google.com with SMTP id d6so2426286lfc.0;
-        Wed, 13 Nov 2019 08:03:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Gfy5KxCnLCEyuV8EWhYYDNn9loPT0q/WSL5LOF/F6ic=;
-        b=mqRqgdVR7v2n6dUoIUcPvwZADZ2CucJLNqO1GTFwDsQ+WEZWUXtq3LBrgXCiwujSmx
-         PXH+xr0G1tKCb7kkhb3eHhtVf8oj1rHwNSmmaD2pgPLD8qNDb2yfjiLqvb20V3EkCV5X
-         HFoPnRPS+wPGDLMHOzvujuyyNYa/lpUVHDUq0snQqS7gX/D+ryzWNYiGgKGPc5DggNUN
-         Cwm2GLfvwmfwvlbTp4ShGofImJNAhV+k7D+ZaurhvG1E/tN5IugAtmxX7bTykVKQpwfH
-         BXxuDgHIIFjFsWqcj5MaAB3VE57cojOdj4ckG0WlZf6fAka95mTTfidNsfwHFMQlwFcP
-         P0ug==
-X-Gm-Message-State: APjAAAW+LaLswR0GiGhadFZv7P83jRkY81mBrwen9KgLApD6DFwdMODC
-        97dPPDrg/oEDVcxT3osAhMA=
-X-Google-Smtp-Source: APXvYqxmMrumdAtvQO7iALK86Izaa9ATYjWqG1jIuSuPXuai5OKfFaUN4JUcdm3x7N9qr3tCgNIwog==
-X-Received: by 2002:ac2:5503:: with SMTP id j3mr1985425lfk.8.1573661011352;
-        Wed, 13 Nov 2019 08:03:31 -0800 (PST)
-Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id t16sm1082094ljc.106.2019.11.13.08.03.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2019 08:03:30 -0800 (PST)
-Received: from johan by xi.terra with local (Exim 4.92.3)
-        (envelope-from <johan@kernel.org>)
-        id 1iUv7L-0000BG-Dd; Wed, 13 Nov 2019 17:03:39 +0100
-Date:   Wed, 13 Nov 2019 17:03:39 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Aleksander Morgado <aleksander@aleksander.es>
-Cc:     johan@kernel.org, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] USB: serial: option: add support for Foxconn T77W968 LTE
- modules
-Message-ID: <20191113160339.GX11035@localhost>
-References: <20191113101405.496557-1-aleksander@aleksander.es>
+        id S1727640AbfKMPg1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 13 Nov 2019 10:36:27 -0500
+Received: from iolanthe.rowland.org ([192.131.102.54]:41304 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726251AbfKMPg0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Nov 2019 10:36:26 -0500
+Received: (qmail 2521 invoked by uid 2102); 13 Nov 2019 10:36:25 -0500
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 13 Nov 2019 10:36:25 -0500
+Date:   Wed, 13 Nov 2019 10:36:25 -0500 (EST)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Peter Chen <peter.chen@nxp.com>
+cc:     Michael Olbrich <m.olbrich@pengutronix.de>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] usb: gadget: composite: split spinlock to avoid recursion
+In-Reply-To: <20191113063414.GA30608@b29397-desktop>
+Message-ID: <Pine.LNX.4.44L0.1911131021460.1558-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191113101405.496557-1-aleksander@aleksander.es>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Nov 13, 2019 at 11:14:05AM +0100, Aleksander Morgado wrote:
-> These are the Foxconn-branded variants of the Dell DW5821e modules,
-> same USB layout as those. The device exposes AT, NMEA and DIAG ports
-> in both USB configurations.
+On Wed, 13 Nov 2019, Peter Chen wrote:
+
+> On 19-11-12 10:33:18, Michael Olbrich wrote:
+> > 'delayed_status' and 'deactivations' are used completely independent but
+> > they share the same spinlock. This can result in spinlock recursion:
+> > 
+> > BUG: spinlock recursion on CPU#1, uvc-gadget/322
+> >  lock: 0xffffffc0570364e0, .magic: dead4ead, .owner: uvc-gadget/322, .owner_cpu: 1
+> > CPU: 1 PID: 322 Comm: uvc-gadget Tainted: G         C O      5.3.0-20190916-1+ #55
+> > Hardware name: XXXXX (DT)
+> > Call trace:
+> >  dump_backtrace+0x0/0x178
+> >  show_stack+0x24/0x30
+> >  dump_stack+0xc0/0x104
+> >  spin_dump+0x90/0xa0
+> >  do_raw_spin_lock+0xd8/0x108
+> >  _raw_spin_lock_irqsave+0x40/0x50
+> >  composite_disconnect+0x2c/0x80
+> >  usb_gadget_disconnect+0x84/0x150
+> >  usb_gadget_deactivate+0x64/0x120
+> >  usb_function_deactivate+0x70/0x80
+> >  uvc_function_disconnect+0x20/0x58
+> >  uvc_v4l2_release+0x34/0x90
+> >  v4l2_release+0xbc/0xf0
+> >  __fput+0xb0/0x218
+> >  ____fput+0x20/0x30
+> >  task_work_run+0xa0/0xd0
+> >  do_notify_resume+0x2f4/0x340
+> >  work_pending+0x8/0x14
+> > 
+> > Fix this by using separate spinlocks.
 > 
-> P:  Vendor=0489 ProdID=e0b4 Rev=03.18
-> S:  Manufacturer=FII
-> S:  Product=T77W968 LTE
-> S:  SerialNumber=0123456789ABCDEF
-> C:  #Ifs= 6 Cfg#= 1 Atr=a0 MxPwr=500mA
-> I:  If#=0x0 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
-> I:  If#=0x1 Alt= 0 #EPs= 1 Cls=03(HID  ) Sub=00 Prot=00 Driver=usbhid
-> I:  If#=0x2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-> I:  If#=0x3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-> I:  If#=0x4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-> I:  If#=0x5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
-> 
-> P:  Vendor=0489 ProdID=e0b4 Rev=03.18
-> S:  Manufacturer=FII
-> S:  Product=T77W968 LTE
-> S:  SerialNumber=0123456789ABCDEF
-> C:  #Ifs= 7 Cfg#= 2 Atr=a0 MxPwr=500mA
-> I:  If#=0x0 Alt= 0 #EPs= 1 Cls=02(commc) Sub=0e Prot=00 Driver=cdc_mbim
-> I:  If#=0x1 Alt= 1 #EPs= 2 Cls=0a(data ) Sub=00 Prot=02 Driver=cdc_mbim
-> I:  If#=0x2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-> I:  If#=0x3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-> I:  If#=0x4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=00 Driver=option
-> I:  If#=0x5 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=option
-> I:  If#=0x6 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=ff Driver=(none)
-> 
-> Signed-off-by: Aleksander Morgado <aleksander@aleksander.es>
-> ---
->  drivers/usb/serial/option.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-> index 2023f1f4edaf..787f004f24fc 100644
-> --- a/drivers/usb/serial/option.c
-> +++ b/drivers/usb/serial/option.c
-> @@ -555,6 +555,11 @@ static void option_instat_callback(struct urb *urb);
->  #define WETELECOM_PRODUCT_6802			0x6802
->  #define WETELECOM_PRODUCT_WMD300		0x6803
->  
-> +/* Foxconn products */
-> +#define FOXCONN_VENDOR_ID			0x0489
-> +#define FOXCONN_PRODUCT_T77W968			0xe0b4
-> +#define FOXCONN_PRODUCT_T77W968_ESIM		0xe0b5
-> +
+> This issue may be introduced by 0a55187a1ec8c ("USB: gadget core: Issue
+> ->disconnect() callback from usb_gadget_disconnect()"), which adds
+> gadget's disconnect at usb_gadget_disconnect. Add Alan, if he is Ok
+> with your patch, you may cc to stable tree.
 
-I dropped these new defines in favour of using numerical constants
-before applying:
+I wasn't aware of the dual usage of that lock in the composite core 
+(and 0a55187a1ec8c touches only the gadget core, not composite.c).
 
-diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
-index 2023f1f4edaf..e9491d400a24 100644
---- a/drivers/usb/serial/option.c
-+++ b/drivers/usb/serial/option.c
-@@ -1993,6 +1993,10 @@ static const struct usb_device_id option_ids[] = {
-        { USB_DEVICE_AND_INTERFACE_INFO(0x03f0, 0xa31d, 0xff, 0x06, 0x13) },
-        { USB_DEVICE_AND_INTERFACE_INFO(0x03f0, 0xa31d, 0xff, 0x06, 0x14) },
-        { USB_DEVICE_AND_INTERFACE_INFO(0x03f0, 0xa31d, 0xff, 0x06, 0x1b) },
-+       { USB_DEVICE(0x0489, 0xe0b4),                                           /* Foxconn T77W968 */
-+         .driver_info = RSVD(0) | RSVD(1) | RSVD(6) },
-+       { USB_DEVICE(0x0489, 0xe0b5),                                           /* Foxconn T77W968 ESIM */
-+         .driver_info = RSVD(0) | RSVD(1) | RSVD(6) },
-        { USB_DEVICE(0x1508, 0x1001),                                           /* Fibocom NL668 */
-          .driver_info = RSVD(4) | RSVD(5) | RSVD(6) },
-        { USB_DEVICE(0x2cb7, 0x0104),                                           /* Fibocom NL678 series */
+In any case, I don't have a good feel for how the locking is supposed 
+to work in the composite core.  This is really something Felipe should 
+look at.
 
->  /* Device flags */
->  
-> @@ -1999,6 +2004,10 @@ static const struct usb_device_id option_ids[] = {
->  	  .driver_info = RSVD(4) | RSVD(5) },
->  	{ USB_DEVICE_INTERFACE_CLASS(0x2cb7, 0x0105, 0xff),			/* Fibocom NL678 series */
->  	  .driver_info = RSVD(6) },
-> +	{ USB_DEVICE(FOXCONN_VENDOR_ID, FOXCONN_PRODUCT_T77W968),
-> +	  .driver_info = RSVD(0) | RSVD(1) | RSVD(6) },
-> +	{ USB_DEVICE(FOXCONN_VENDOR_ID, FOXCONN_PRODUCT_T77W968_ESIM),
-> +	  .driver_info = RSVD(0) | RSVD(1) | RSVD(6) },
->  	{ } /* Terminating entry */
->  };
->  MODULE_DEVICE_TABLE(usb, option_ids);
+Would a better fix be to change usb_function_deactivate() so that it
+doesn't hold the lock while calling usb_gadget_deactivate()?  Maybe
+increment cdev->deactivations unconditionally before dropping the lock
+(for mutual exclusion) and then decrement it again if the call fails?
 
-I'm trying to avoid adding new defines, but sometimes make exceptions
-when when we already have related entries in place.
+Alan Stern
 
-Thanks,
-Johan
