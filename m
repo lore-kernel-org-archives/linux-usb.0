@@ -2,50 +2,70 @@ Return-Path: <SRS0=2B3Q=ZF=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FE3DC17442
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Nov 2019 12:35:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0987C43331
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Nov 2019 13:07:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 42B1C2084E
-	for <linux-usb@archiver.kernel.org>; Wed, 13 Nov 2019 12:35:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9999C222D0
+	for <linux-usb@archiver.kernel.org>; Wed, 13 Nov 2019 13:07:09 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UDoysn54"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726276AbfKMMfK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 13 Nov 2019 07:35:10 -0500
-Received: from mail-io1-f69.google.com ([209.85.166.69]:39402 "EHLO
-        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725976AbfKMMfK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Nov 2019 07:35:10 -0500
-Received: by mail-io1-f69.google.com with SMTP id e17so1397197ioc.6
-        for <linux-usb@vger.kernel.org>; Wed, 13 Nov 2019 04:35:09 -0800 (PST)
+        id S1727112AbfKMNHJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 13 Nov 2019 08:07:09 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:37388 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726982AbfKMNHI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 13 Nov 2019 08:07:08 -0500
+Received: by mail-wr1-f65.google.com with SMTP id t1so2294612wrv.4
+        for <linux-usb@vger.kernel.org>; Wed, 13 Nov 2019 05:07:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=message-id:date:from:user-agent:mime-version:to:cc:subject
+         :references:in-reply-to:content-transfer-encoding;
+        bh=gQze+cWN/QjpSARc+b/KnAPpYfQGbT4/43/lm0mifs0=;
+        b=UDoysn54C5XBiaim6yFDIJBWNgoo38azt9s75LkVcs8Mzoo4TgnIsz+zYxQiLDGEwv
+         ZhwxIL9obYUBXZPNcMSFhokwrvFyFK3m6sd0xgKSto8SKj+dvvWjdN0EhI1l2LgF5tiC
+         5oxVwv4+SYkmjWcJqLRDMdGfs0eRUfovpepzqfhbfmBdABvOKjY/cReA9K3RzFWkwgOW
+         lKWbkgzWvP4z2+1tTxyMs9AKuzbXBkYJ3mDyTDq3Qv6y59+zwSFm8it+AUECZkd0bE8K
+         hQx/Omo8z+qJwd5nq0kiHYYX4EShTzqvsSel9EKj82taxxkIv285sxVYRA2ZXhxDzPFd
+         /a+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=xqdtXvTTTPONhkciR3w2Bj2gsEfbK8zDLMwxMbhN7qQ=;
-        b=EYvSJ99F+F9RHBqP9wbDDk2ByE8gdeVi6XmspJMvjnqaHGZKQhO0OIMP1t5KzfU7n1
-         nYW647ToeLWB9OJdDXx5nk8wpM72MOPNqBCxvTvNmjuz/SGtM5gyVPY7BGguuB066cQT
-         VIyjhK7Tp0j6xYia02e+mT9zs2Gq9SZB7bLsGdZe2KOPru0LjQg6isbkPeCs6VoMKMZh
-         SJJMKHyTAJDv8ewLauxp6zI3nmzZAp1YAfYFTWR8YJ9t07wMfwiMxRdLWMel7kFdIoVA
-         YtC3jYmg08WBtm5lCVFV93SpkJc0n2+GBuJ26XtGLCwNpYT1iGgPkhJU/dToQ/wCuwL/
-         J3dw==
-X-Gm-Message-State: APjAAAVG/+dKQ85sa4ZdAbBHOksk8pWctKBM0ieZuSa3uWcMRc3aW1Dw
-        9rWPuhdXVgumcq+EwNCgNSXmFjmSNxlS63kc4/EWhZb3mZ2G
-X-Google-Smtp-Source: APXvYqzV719ubIVLLBjHHvyaILknSra81LMnKSp0gzKvIu5mmmKxABzzgmMAP5h8AfT72XFCtiw9zFcggP8gQ8B2lDp3WXqdv0Ds
+        h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+         :cc:subject:references:in-reply-to:content-transfer-encoding;
+        bh=gQze+cWN/QjpSARc+b/KnAPpYfQGbT4/43/lm0mifs0=;
+        b=LVqzsEBeUVrQbjp6JEHEv2ISBTcLmv2SPQmvI6D+p9BkqyO26/rHoBr2/gz9/nN+4Z
+         clo/8BHvDn+mBqaERPqK8fSwX2hgzeYTU3Um1gbI2/zAaS4XtTudFUEmValmARzrFI09
+         9taEDxllCnCT/S98zyQ9K4zEFN9lQAEVJjWASaYYFsIxj5/n5FQpS+Zhv3LTHz7DGepj
+         +SV+b3m+shi+V9zibQrDVFdBYSW2OxlZygDnkhfVO3Hf37mLFn8JgBGRsmE0SjqLPa6I
+         lTwIsZ+wf4KsGoM79k/S8WKXPmU9kvt7NelnS50Vq9ZHoeAXYDwgkAmULbcA356zoS91
+         VORA==
+X-Gm-Message-State: APjAAAU9XjlXCXrdVhWoRltGEQphEh48dtBAcmUDoGInzuBQlyrElHZx
+        cL9tnmX78sOHtHUkfvJSGe/sHLtrwRU=
+X-Google-Smtp-Source: APXvYqxi3/kbWvbyVFgPyS+95KG3ho1nHYKym5GqZ/9SrnD0hLAfCiu/PswGd7pnjn/DHISbl8NbtA==
+X-Received: by 2002:a05:6000:110a:: with SMTP id z10mr2613248wrw.291.1573650424891;
+        Wed, 13 Nov 2019 05:07:04 -0800 (PST)
+Received: from [93.172.117.241] (93-172-117-241.bb.netvision.net.il. [93.172.117.241])
+        by smtp.gmail.com with ESMTPSA id h15sm3084249wrb.44.2019.11.13.05.07.02
+        (version=TLS1 cipher=AES128-SHA bits=128/128);
+        Wed, 13 Nov 2019 05:07:04 -0800 (PST)
+Message-ID: <5DCBFFF4.1020300@gmail.com>
+Date:   Wed, 13 Nov 2019 15:07:00 +0200
+From:   Eli Billauer <eli.billauer@gmail.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.1.12) Gecko/20100907 Fedora/3.0.7-1.fc12 Thunderbird/3.0.7
 MIME-Version: 1.0
-X-Received: by 2002:a02:b48:: with SMTP id 69mr2602942jad.25.1573648508835;
- Wed, 13 Nov 2019 04:35:08 -0800 (PST)
-Date:   Wed, 13 Nov 2019 04:35:08 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000005ee2a10597399876@google.com>
-Subject: WARNING: ODEBUG bug in input_ff_destroy
-From:   syzbot <syzbot+b6c55daa701fc389e286@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, dmitry.torokhov@gmail.com,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>
+CC:     Mathias Nyman <mathias.nyman@intel.com>, linux-usb@vger.kernel.org
+Subject: Re: xhci-ring: "needs XHCI_TRUST_TX_LENGTH quirk" in kernel log
+References: <5DCA343A.4000304@gmail.com> <553d3af1-dcd6-0db2-094d-64e7aa749e23@linux.intel.com> <5DCA9F82.1030204@gmail.com> <aa57ccb4-2d7e-f7c6-4bd6-e8411573c09d@linux.intel.com>
+In-Reply-To: <aa57ccb4-2d7e-f7c6-4bd6-e8411573c09d@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
@@ -53,105 +73,155 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 Hello,
 
-syzbot found the following crash on:
+Yes, I'm aware that the event TRBs that follow a COMP_SHORT_PACKET 
+should be COMP_SHORT_PACKET as well. That what I meant with "faulty 
+event TRBs".
 
-HEAD commit:    3183c037 usb: gadget: add raw-gadget interface
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=17cf5e72e00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=79de80330003b5f7
-dashboard link: https://syzkaller.appspot.com/bug?extid=b6c55daa701fc389e286
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10b4e53ae00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1173fe72e00000
+However I wasn't aware that these event TRBs were discarded on the basis 
+that they didn't have a matching TD queued. Or more precisely, that the 
+ep_seg would turn out NULL, and then it will turn out that !ep->skip && 
+(xhci->quirks & XHCI_SPURIOUS_SUCCESS) will be true, as all recent xHCI 
+controllers have XHCI_SPURIOUS_SUCCESS set.
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+b6c55daa701fc389e286@syzkaller.appspotmail.com
+So what I suggest is to move the XHCI_TRUST_TX_LENGTH fix and warning to 
+a place where it won't be reached if the event TRB is ignored anyhow. 
+This makes the code slightly uglier, but it's a catch-all solution for 
+all future Renesas (and similar?) chipsets.
 
-------------[ cut here ]------------
-ODEBUG: free active (active state 0) object type: timer_list hint:  
-ml_effect_timer+0x0/0x70 drivers/input/ff-memless.c:421
-WARNING: CPU: 0 PID: 1918 at lib/debugobjects.c:481  
-debug_print_object+0x160/0x250 lib/debugobjects.c:481
-Kernel panic - not syncing: panic_on_warn set ...
-CPU: 0 PID: 1918 Comm: syz-executor941 Not tainted 5.4.0-rc6+ #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xca/0x13e lib/dump_stack.c:113
-  panic+0x2aa/0x6e1 kernel/panic.c:221
-  __warn.cold+0x2f/0x33 kernel/panic.c:582
-  report_bug+0x27b/0x2f0 lib/bug.c:195
-  fixup_bug arch/x86/kernel/traps.c:179 [inline]
-  fixup_bug arch/x86/kernel/traps.c:174 [inline]
-  do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:272
-  do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:291
-  invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1028
-RIP: 0010:debug_print_object+0x160/0x250 lib/debugobjects.c:481
-Code: dd 00 c8 da 85 48 89 fa 48 c1 ea 03 80 3c 02 00 0f 85 bf 00 00 00 48  
-8b 14 dd 00 c8 da 85 48 c7 c7 a0 bd da 85 e8 25 15 30 ff <0f> 0b 83 05 9b  
-bd a2 05 01 48 83 c4 20 5b 5d 41 5c 41 5d c3 48 89
-RSP: 0018:ffff8881d731f738 EFLAGS: 00010286
-RAX: 0000000000000000 RBX: 0000000000000003 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff8128c9cd RDI: ffffed103ae63ed9
-RBP: 0000000000000001 R08: ffff8881d23bc800 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff86d0b500
-R13: ffffffff812ed560 R14: ffff8881cfb18310 R15: ffff8881ca291d90
-  __debug_check_no_obj_freed lib/debugobjects.c:963 [inline]
-  debug_check_no_obj_freed+0x2df/0x443 lib/debugobjects.c:994
-  slab_free_hook mm/slub.c:1421 [inline]
-  slab_free_freelist_hook mm/slub.c:1475 [inline]
-  slab_free mm/slub.c:3025 [inline]
-  kfree+0x20b/0x320 mm/slub.c:3977
-  input_ff_destroy+0xb9/0x150 drivers/input/ff-core.c:373
-  input_dev_release+0x19/0xd0 drivers/input/input.c:1537
-  device_release+0x71/0x200 drivers/base/core.c:1101
-  kobject_cleanup lib/kobject.c:693 [inline]
-  kobject_release lib/kobject.c:722 [inline]
-  kref_put include/linux/kref.h:65 [inline]
-  kobject_put+0x171/0x280 lib/kobject.c:739
-  put_device+0x1b/0x30 drivers/base/core.c:2301
-  input_put_device include/linux/input.h:363 [inline]
-  evdev_free+0x4c/0x70 drivers/input/evdev.c:347
-  device_release+0x71/0x200 drivers/base/core.c:1101
-  kobject_cleanup lib/kobject.c:693 [inline]
-  kobject_release lib/kobject.c:722 [inline]
-  kref_put include/linux/kref.h:65 [inline]
-  kobject_put+0x171/0x280 lib/kobject.c:739
-  kobject_cleanup lib/kobject.c:693 [inline]
-  kobject_release lib/kobject.c:722 [inline]
-  kref_put include/linux/kref.h:65 [inline]
-  kobject_put+0x171/0x280 lib/kobject.c:739
-  cdev_put.part.0+0x32/0x50 fs/char_dev.c:365
-  cdev_put fs/char_dev.c:363 [inline]
-  chrdev_open+0x296/0x5c0 fs/char_dev.c:422
-  do_dentry_open+0x494/0x1120 fs/open.c:797
-  do_last fs/namei.c:3408 [inline]
-  path_openat+0x1430/0x3ff0 fs/namei.c:3525
-  do_filp_open+0x1a1/0x280 fs/namei.c:3555
-  do_sys_open+0x3c0/0x580 fs/open.c:1097
-  do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:290
-  entry_SYSCALL_64_after_hwframe+0x49/0xbe
-RIP: 0033:0x402000
-Code: 01 f0 ff ff 0f 83 40 0e 00 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f  
-44 00 00 83 3d 6d 84 2d 00 00 75 14 b8 02 00 00 00 0f 05 <48> 3d 01 f0 ff  
-ff 0f 83 14 0e 00 00 c3 48 83 ec 08 e8 7a 03 00 00
-RSP: 002b:00007ffff4b02e58 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
-RAX: ffffffffffffffda RBX: 6666666666666667 RCX: 0000000000402000
-RDX: 0000000000000000 RSI: 000000000000107d RDI: 00007ffff4b02f00
-RBP: 000000000000d9d1 R08: 00007ffff4b02e60 R09: 000000000000d9d1
-R10: 00007ffff4b02e60 R11: 0000000000000246 R12: 00000000004032a0
-R13: 0000000000403330 R14: 0000000000000000 R15: 0000000000000000
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
+Plus it does XHCI_TRUST_TX_LENGTH some justice: I don't think it was 
+meant as a way to silence warnings, but rather to handle controllers 
+that submit a COMP_SUCCESS TRB with a non-zero length instead of a 
+COMP_SHORT_PACKET.
+
+I shall submit a patch with my suggested shortly after this mail. It 
+silences the warnings on my machine (without the XHCI_TRUST_TX_LENGTH 
+you sent to me yesterday). Please take a look.
+
+Thanks and regards,
+    Eli
+
+On 12/11/19 16:33, Mathias Nyman wrote:
+> On 12.11.2019 14.03, Eli Billauer wrote:
+>> Hello,
+>>
+>> Thanks, this patch solves the issue, as one would expect.
+>>
+>> However I'm under the impression that the underlying problem is only 
+>> in the Event TRBs that arrive after the Event TRB of 
+>> COMP_SHORT_PACKET type. In other words, the quirky behavior is only 
+>> when the xHC flushes the Data TRBs that are left after the short 
+>> packet has arrived, and sends faulty Event TRBs on their behalf.
+>>
+>
+> Specs say that the completion code of event TRBs following a 
+> COMP_SHORT_PACKET should
+> also be COMP_SHORT_PACKET for a TD, so we don't expect success 
+> completion codes.
+>
+> xhci 4.10.1.1.2
+>
+> "If the Short Packet occurred while processing a Transfer TRB with 
+> only an ISP
+> flag set, then two events shall be generated for the transfer; one for 
+> the Transfer
+> TRB that the Short Packet occurred on, and a second for the last TRB 
+> with the
+> IOC flag set. Table 6-38 defines the Completion Code and TRB Transfer 
+> Length
+> for the first event. In the second event, the Completion Code shall be 
+> set to
+> Short Packet, and the TRB Transfer Length should be set to the same 
+> value that
+> was reported by the initial Short Packet Event."
+>
+>> So maybe ignore any Event TRB on behalf of a TD for which a 
+>> COMP_SHORT_PACKET has been received? I mean, what information could 
+>> it possibly contain?
+>
+> We kind of do. The TD is removed from list and possibly given back 
+> after first short packet.
+>
+> If a event TRB doesn't match the next queued TD on list, and the 
+> previous TD was short,
+> then the event is silently ignored.
+> Or well, if its completion code is success you will see the warning 
+> message you mentioned.
+>
+> -Mathias
+>
+>
+>>
+>> This would also have solved the "Event TRB with no TDs queued" issue, 
+>> just in a more generalized manner.
+>>
+>> Regards,
+>>     Eli
+>>
+>> On 12/11/19 11:36, Mathias Nyman wrote:
+>>> On 12.11.2019 6.25, Eli Billauer wrote:
+>>>> Hello,
+>>>>
+>>>> Connecting a custom designed (on FPGA) USB 3.0 device to a Renesas 
+>>>> uPD720202 (1912:0015) and kernel v5.3.0, I get a lot of messages in 
+>>>> the kernel log, while transmitting data at a high bandwidth through 
+>>>> a BULK IN endpoint:
+>>>>
+>>>> handle_tx_event: 36590 callbacks suppressed
+>>>> xhci_hcd 0000:03:00.0: WARN Successful completion on short TX for 
+>>>> slot 1 ep 18: needs XHCI_TRUST_TX_LENGTH quirk?
+>>>> (last message repeated several times)
+>>>>
+>>>> The driver in charge, as reported by lspci, is xhci_hcd.
+>>>>
+>>>> Probably relevant details:
+>>>>
+>>>> * The buffer size of the USB transactions is 32 kiB and up (with 
+>>>> libusb). With e.g. 16 kiB buffers these log messages don't appear.
+>>>> * The device produces short packets occasionally. When only 
+>>>> full-length packets are sent, these log messages don't appear.
+>>>> * Other than these log messages, everything works fine. In 
+>>>> particular, there are no errors in the data exchange in either 
+>>>> situation.
+>>>> * This problem doesn't happen when running the same test on an 
+>>>> Intel B150 chipset’s USB 3.0 xHCI controller (8086:a12f).
+>>>>
+>>>> I don't really know what this warning means, but this whole thing 
+>>>> kind-of reminds the "WARN Event TRB for slot x ep y with no TDs 
+>>>> queued" issue that was solved recently. Just a wild guess.
+>>>>
+>>>
+>>> It just means that we got an event from the xHC host saying the 
+>>> transfer was
+>>> completed with completion code "Success" even if we didn't get as 
+>>> many bytes as was requested.
+>>> Driver is expecting a completion code of Short Packet.
+>>>
+>>>> Any idea how this can be fixed?
+>>>>
+>>>
+>>> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
+>>> index 1e0236e90687..687182afc59b 100644
+>>> --- a/drivers/usb/host/xhci-pci.c
+>>> +++ b/drivers/usb/host/xhci-pci.c
+>>> @@ -228,6 +228,7 @@ static void xhci_pci_quirks(struct device *dev, 
+>>> struct xhci_hcd *xhci)
+>>>         }
+>>>         if (pdev->vendor == PCI_VENDOR_ID_RENESAS &&
+>>>             pdev->device == 0x0015) {
+>>> +               xhci->quirks |= XHCI_TRUST_TX_LENGTH;
+>>>                 xhci->quirks |= XHCI_RESET_ON_RESUME;
+>>>                 xhci->quirks |= XHCI_ZERO_64B_REGS;
+>>>         }
+>>>
+>>> You could give it a try and see if everything works normally.
+>>>
+>>> But this quirk is now quite common.
+>>> Could make sense to get rid of it completely and just handle this 
+>>> case as default driver behavior.
+>>>
+>>> -Mathias
+>>>
+>>
+>
 
 
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
