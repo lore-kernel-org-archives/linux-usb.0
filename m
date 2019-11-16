@@ -4,51 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 537D1C432C3
-	for <linux-usb@archiver.kernel.org>; Sat, 16 Nov 2019 16:04:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B893C33C8C
+	for <linux-usb@archiver.kernel.org>; Sat, 16 Nov 2019 16:12:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2BED6206C0
-	for <linux-usb@archiver.kernel.org>; Sat, 16 Nov 2019 16:04:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1A9BF2089D
+	for <linux-usb@archiver.kernel.org>; Sat, 16 Nov 2019 16:12:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573920258;
+	s=default; t=1573920722;
 	bh=KzaYq/ZxefBgTK1mWLIBUbunCDUrWNx+9I10MwP1UNU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=auLmvvLBix91ihFB5Ni7r8MfUGe8bcH1TZ/ztZRKHDmnxBpqMqrRmCyJJU6AUddEF
-	 7M5GUV2/TG5sIWZMgvifCGF9OHyplN7Adi9Q5tfIADYXsj/GF9SWWYq5HxeWIpvn5d
-	 7ui2iGmo+AjwCry6msi2T+hiYCOHlOIRRS0Qg7K4=
+	b=vymTJhnDUFutGnFVSA9bm79ZYlSzNMyH/+7eTg7Dks1qKjceLhVh8on9/OZkLUaZG
+	 Ge9jhkjS3WeoucOnl8zqR1rK/O5giW6A8QesSpkMKdGT5q6a0jpSrHo9ziQ2+WNYwg
+	 50Ja/ENDBL/4UOGJe2ixbTGcSN8VZYQkToNmhGts=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731145AbfKPQEP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 16 Nov 2019 11:04:15 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60628 "EHLO mail.kernel.org"
+        id S1730062AbfKPPs3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 16 Nov 2019 10:48:29 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55628 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729098AbfKPPvu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 16 Nov 2019 10:51:50 -0500
+        id S1730055AbfKPPs3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 16 Nov 2019 10:48:29 -0500
 Received: from sasha-vm.mshome.net (unknown [50.234.116.4])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 664D020857;
-        Sat, 16 Nov 2019 15:51:49 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7F511207FA;
+        Sat, 16 Nov 2019 15:48:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573919509;
+        s=default; t=1573919308;
         bh=KzaYq/ZxefBgTK1mWLIBUbunCDUrWNx+9I10MwP1UNU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Q0QI+rM6V/1a5Ey1uFc47U+zR5RVMRq2xCF8m/CE+dl59suh8NHtM8IeynY2bQp2r
-         x7Coy2sf+fqA9JSXJqS9Gjxs6NOJjnuNDTC2OdXKNbZKDSt22bCR9cJ4xyuuvnejj/
-         RgbntenUNou4ReFqxXc/YB2E/Uwa0m84GquT/yZk=
+        b=gSxvpbz9hBBcVpARK0ayyIqJwwhlQenSsa82/mWHkijnEwL7nG7VgFHAbruoxsu1y
+         +tO4shHVp+OUSmijF3VOUcKiZYdLsgQF2Cqyn8l0uJMm7VhmOqof8nQ8klB7OUXBms
+         T0TwTSBCVzAKyqzF21rsZ7FQVjhq5OChJ6jYROiY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Colin Ian King <colin.king@canonical.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 32/99] usbip: tools: fix atoi() on non-null terminated string
-Date:   Sat, 16 Nov 2019 10:49:55 -0500
-Message-Id: <20191116155103.10971-32-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 051/150] usbip: tools: fix atoi() on non-null terminated string
+Date:   Sat, 16 Nov 2019 10:45:49 -0500
+Message-Id: <20191116154729.9573-51-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191116155103.10971-1-sashal@kernel.org>
-References: <20191116155103.10971-1-sashal@kernel.org>
+In-Reply-To: <20191116154729.9573-1-sashal@kernel.org>
+References: <20191116154729.9573-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
