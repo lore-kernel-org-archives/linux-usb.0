@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96284C432C3
-	for <linux-usb@archiver.kernel.org>; Sat, 16 Nov 2019 15:58:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 537D1C432C3
+	for <linux-usb@archiver.kernel.org>; Sat, 16 Nov 2019 16:04:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6323221479
-	for <linux-usb@archiver.kernel.org>; Sat, 16 Nov 2019 15:58:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2BED6206C0
+	for <linux-usb@archiver.kernel.org>; Sat, 16 Nov 2019 16:04:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1573919936;
-	bh=GQdssR5vvChor4Ev4t2/5349FPN4oSbrjLFcBctu+Y0=;
+	s=default; t=1573920258;
+	bh=KzaYq/ZxefBgTK1mWLIBUbunCDUrWNx+9I10MwP1UNU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=DjCIOT/sBytffyTEHvQf08AGEKxNdFji+5I6t2/NQS0XNbW6bnvJF/5s/yWEZLNNY
-	 j4W/gft8MU5YEVo9dTcVNlQLa3kWCVWHLLVbkkCaB7EU5vJ1z60aYy+IgziKmfwgIc
-	 +9meid5htB5vIG2L51tuEF53iaGZAnaaoOlf1iKc=
+	b=auLmvvLBix91ihFB5Ni7r8MfUGe8bcH1TZ/ztZRKHDmnxBpqMqrRmCyJJU6AUddEF
+	 7M5GUV2/TG5sIWZMgvifCGF9OHyplN7Adi9Q5tfIADYXsj/GF9SWWYq5HxeWIpvn5d
+	 7ui2iGmo+AjwCry6msi2T+hiYCOHlOIRRS0Qg7K4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731272AbfKPP6z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 16 Nov 2019 10:58:55 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35732 "EHLO mail.kernel.org"
+        id S1731145AbfKPQEP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 16 Nov 2019 11:04:15 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60628 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731400AbfKPPyM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 16 Nov 2019 10:54:12 -0500
+        id S1729098AbfKPPvu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 16 Nov 2019 10:51:50 -0500
 Received: from sasha-vm.mshome.net (unknown [50.234.116.4])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 44B8021823;
-        Sat, 16 Nov 2019 15:54:11 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 664D020857;
+        Sat, 16 Nov 2019 15:51:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573919651;
-        bh=GQdssR5vvChor4Ev4t2/5349FPN4oSbrjLFcBctu+Y0=;
+        s=default; t=1573919509;
+        bh=KzaYq/ZxefBgTK1mWLIBUbunCDUrWNx+9I10MwP1UNU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=e1FIfzQAL6DlPjyoV3cWx6ZgXxwCqASmh1K39yIRai3Fg4qJqiYW/3z8xNYnKvi+3
-         Z6oFDu2im9abFem9LD09yOTjBiDObnLYJkZo/r9ziYGjypge3XKA8iQ2qcBzz3qsg0
-         sGCO1xIU6waAVFHWRT4g/3O3sPM9YOI5ZSRxeTAY=
+        b=Q0QI+rM6V/1a5Ey1uFc47U+zR5RVMRq2xCF8m/CE+dl59suh8NHtM8IeynY2bQp2r
+         x7Coy2sf+fqA9JSXJqS9Gjxs6NOJjnuNDTC2OdXKNbZKDSt22bCR9cJ4xyuuvnejj/
+         RgbntenUNou4ReFqxXc/YB2E/Uwa0m84GquT/yZk=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mattias Jacobsson <2pi@mok.nu>,
+Cc:     Colin Ian King <colin.king@canonical.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 26/77] USB: misc: appledisplay: fix backlight update_status return code
-Date:   Sat, 16 Nov 2019 10:52:48 -0500
-Message-Id: <20191116155339.11909-26-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 32/99] usbip: tools: fix atoi() on non-null terminated string
+Date:   Sat, 16 Nov 2019 10:49:55 -0500
+Message-Id: <20191116155103.10971-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191116155339.11909-1-sashal@kernel.org>
-References: <20191116155339.11909-1-sashal@kernel.org>
+In-Reply-To: <20191116155103.10971-1-sashal@kernel.org>
+References: <20191116155103.10971-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -58,48 +58,58 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Mattias Jacobsson <2pi@mok.nu>
+From: Colin Ian King <colin.king@canonical.com>
 
-[ Upstream commit 090158555ff8d194a98616034100b16697dd80d0 ]
+[ Upstream commit e325808c0051b16729ffd472ff887c6cae5c6317 ]
 
-Upon success the update_status handler returns a positive number
-corresponding to the number of bytes transferred by usb_control_msg.
-However the return code of the update_status handler should indicate if
-an error occurred(negative) or how many bytes of the user's input to sysfs
-that was consumed. Return code zero indicates all bytes were consumed.
+Currently the call to atoi is being passed a single char string
+that is not null terminated, so there is a potential read overrun
+along the stack when parsing for an integer value.  Fix this by
+instead using a 2 char string that is initialized to all zeros
+to ensure that a 1 char read into the string is always terminated
+with a \0.
 
-The bug can for example result in the update_status handler being called
-twice, the second time with only the "unconsumed" part of the user's input
-to sysfs. Effectively setting an incorrect brightness.
+Detected by cppcheck:
+"Invalid atoi() argument nr 1. A nul-terminated string is required."
 
-Change the update_status handler to return zero for all successful
-transactions and forward usb_control_msg's error code upon failure.
-
-Signed-off-by: Mattias Jacobsson <2pi@mok.nu>
+Fixes: 3391ba0e2792 ("usbip: tools: Extract generic code to be shared with vudc backend")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/misc/appledisplay.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ tools/usb/usbip/libsrc/usbip_host_common.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/misc/appledisplay.c b/drivers/usb/misc/appledisplay.c
-index 993f4da065c3a..dabd1077d03c4 100644
---- a/drivers/usb/misc/appledisplay.c
-+++ b/drivers/usb/misc/appledisplay.c
-@@ -161,8 +161,11 @@ static int appledisplay_bl_update_status(struct backlight_device *bd)
- 		pdata->msgdata, 2,
- 		ACD_USB_TIMEOUT);
- 	mutex_unlock(&pdata->sysfslock);
--	
--	return retval;
-+
-+	if (retval < 0)
-+		return retval;
-+	else
-+		return 0;
- }
+diff --git a/tools/usb/usbip/libsrc/usbip_host_common.c b/tools/usb/usbip/libsrc/usbip_host_common.c
+index 6ff7b601f8545..f5ad219a324e8 100644
+--- a/tools/usb/usbip/libsrc/usbip_host_common.c
++++ b/tools/usb/usbip/libsrc/usbip_host_common.c
+@@ -43,7 +43,7 @@ static int32_t read_attr_usbip_status(struct usbip_usb_device *udev)
+ 	int size;
+ 	int fd;
+ 	int length;
+-	char status;
++	char status[2] = { 0 };
+ 	int value = 0;
  
- static int appledisplay_bl_get_brightness(struct backlight_device *bd)
+ 	size = snprintf(status_attr_path, sizeof(status_attr_path),
+@@ -61,14 +61,14 @@ static int32_t read_attr_usbip_status(struct usbip_usb_device *udev)
+ 		return -1;
+ 	}
+ 
+-	length = read(fd, &status, 1);
++	length = read(fd, status, 1);
+ 	if (length < 0) {
+ 		err("error reading attribute %s", status_attr_path);
+ 		close(fd);
+ 		return -1;
+ 	}
+ 
+-	value = atoi(&status);
++	value = atoi(status);
+ 
+ 	return value;
+ }
 -- 
 2.20.1
 
