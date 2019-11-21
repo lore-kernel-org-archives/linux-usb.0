@@ -2,91 +2,112 @@ Return-Path: <SRS0=FqPF=ZN=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.2 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6514CC432C0
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Nov 2019 11:47:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 788D1C43215
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Nov 2019 12:01:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3CA252089D
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Nov 2019 11:47:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1574336863;
-	bh=wRKeuD/PxkjAM1WnX5lnMqYRRTds4PbZEw2zPMfCtQI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=BN8ratH9zG2FT3XTINXOQnLJuZAs3N8FzoZ4stdOE0J9MkNS7RDePNOmqGDiFDNcW
-	 f9/2odU0aXzeerA2+iFGCTVU9OdcDK7Oy3aAGIO8lKJM+WZRQiN4eNJ/0+1cdZvM16
-	 8ncrI7tPlWfhx7NCs+qnB2ooZmvtdkCobcE1puDw=
+	by mail.kernel.org (Postfix) with ESMTP id 5A5F82089F
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Nov 2019 12:01:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726774AbfKULrm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 21 Nov 2019 06:47:42 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35660 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726170AbfKULrl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 21 Nov 2019 06:47:41 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A15E820898;
-        Thu, 21 Nov 2019 11:47:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574336860;
-        bh=wRKeuD/PxkjAM1WnX5lnMqYRRTds4PbZEw2zPMfCtQI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Q1wr1G5BXOauPYfshMMQsPGecaL3MqoDuUOuz/b5n1WDqN+bvpsndOSRA9djzieZU
-         8hAB3NRUCbQggMfzM3ADHTl0Z/9U591tcx1KNVgZ809m1K9fbQ/Qf3T64kI+r8AFr7
-         o8x/6UyaMnl6bGJrdkooSFeBBiopo7lZwPqyYUOs=
-Date:   Thu, 21 Nov 2019 12:47:37 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
-Cc:     Mathias Nyman <mathias.nyman@intel.com>,
-        USB list <linux-usb@vger.kernel.org>
-Subject: Re: ERROR Transfer event TRB DMA ptr not part of current TD ep_index
- 2 comp_code 13
-Message-ID: <20191121114737.GA427660@kroah.com>
-References: <F9C894A9-D1D8-455E-B5F6-C5EA08A80C79@canonical.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <F9C894A9-D1D8-455E-B5F6-C5EA08A80C79@canonical.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+        id S1727200AbfKUMBB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 21 Nov 2019 07:01:01 -0500
+Received: from mx2.suse.de ([195.135.220.15]:50912 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726197AbfKUMBB (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 21 Nov 2019 07:01:01 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 62611AEE0;
+        Thu, 21 Nov 2019 12:00:59 +0000 (UTC)
+Message-ID: <1574337654.29504.0.camel@suse.com>
+Subject: Re: KASAN: use-after-free Read in si470x_int_in_callback (2)
+From:   Oliver Neukum <oneukum@suse.com>
+To:     syzbot <syzbot+9ca7a12fd736d93e0232@syzkaller.appspotmail.com>,
+        andreyknvl@google.com, hverkuil@xs4all.nl,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, mchehab@kernel.org,
+        syzkaller-bugs@googlegroups.com
+Date:   Thu, 21 Nov 2019 13:00:54 +0100
+In-Reply-To: <000000000000f47f0b0595307ddc@google.com>
+References: <000000000000f47f0b0595307ddc@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Nov 21, 2019 at 03:38:04PM +0800, Kai-Heng Feng wrote:
-> Hi,
+Am Freitag, den 18.10.2019, 07:53 -0700 schrieb syzbot:
+> Hello,
 > 
-> Currently there are two quirks for Dell TB16 to workaround an issue:
-> "xhci: Bad Ethernet performance plugged in ASM1042A host", and
-> "r8152: disable RX aggregation on Dell TB16 dock".
+> syzbot found the following crash on:
 > 
-> However, the issue wasn't analyzed and root caused. I'd like to understand what's really going on here.
-> Reverting those two patches, and as soon as doing TX/RX over the ethernet on TB16, xhci_hcd errors out:
+> HEAD commit:    22be26f7 usb-fuzzer: main usb gadget fuzzer driver
+> git tree:       https://github.com/google/kasan.git usb-fuzzer
+> console output: https://syzkaller.appspot.com/x/log.txt?x=102b65cf600000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=387eccb7ac68ec5
+> dashboard link: https://syzkaller.appspot.com/bug?extid=9ca7a12fd736d93e0232
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=143b9060e00000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15d3b94b600000
 > 
-> [   69.803804] xhci_hcd 0000:3f:00.0: ERROR Transfer event TRB DMA ptr not part of current TD ep_index 2 comp_code 13
-> [   69.803807] xhci_hcd 0000:3f:00.0: Looking for event-dma 000000047c4b1010 trb-start 000000047c4b0fe0 trb-end 000000047c4b0fe0 seg-start 000000047c4b0000 seg-end 000000047c4b0ff0
-> [   69.803900] xhci_hcd 0000:3f:00.0: ERROR Transfer event TRB DMA ptr not part of current TD ep_index 2 comp_code 13
-> [   69.803901] xhci_hcd 0000:3f:00.0: Looking for event-dma 000000047c4b1020 trb-start 000000047c4b0fe0 trb-end 000000047c4b0fe0 seg-start 000000047c4b0000 seg-end 000000047c4b0ff0
-> [   69.803998] xhci_hcd 0000:3f:00.0: ERROR Transfer event TRB DMA ptr not part of current TD ep_index 2 comp_code 13
-> [   69.803999] xhci_hcd 0000:3f:00.0: Looking for event-dma 000000047c4b1030 trb-start 000000047c4b0fe0 trb-end 000000047c4b0fe0 seg-start 000000047c4b0000 seg-end 000000047c4b0ff0
-> [   69.804096] xhci_hcd 0000:3f:00.0: ERROR Transfer event TRB DMA ptr not part of current TD ep_index 2 comp_code 13
-> [   69.804099] xhci_hcd 0000:3f:00.0: Looking for event-dma 000000047c4b1040 trb-start 000000047c4b0fe0 trb-end 000000047c4b0fe0 seg-start 000000047c4b0000 seg-end 000000047c4b0ff0
-> [   69.955830] xhci_hcd 0000:3f:00.0: ERROR Transfer event TRB DMA ptr not part of current TD ep_index 2 comp_code 13
-> [   69.955847] xhci_hcd 0000:3f:00.0: Looking for event-dma 000000047c4b1050 trb-start 000000047c4b0fe0 trb-end 000000047c4b0fe0 seg-start 000000047c4b0000 seg-end 000000047c4b0ff0
-> [   69.956704] xhci_hcd 0000:3f:00.0: ERROR Transfer event TRB DMA ptr not part of current TD ep_index 2 comp_code 13
-> [   69.956718] xhci_hcd 0000:3f:00.0: Looking for event-dma 000000047c4b1060 trb-start 000000047c4b0fe0 trb-end 000000047c4b0fe0 seg-start 000000047c4b0000 seg-end 000000047c4b0ff0
-> [   69.963802] xhci_hcd 0000:3f:00.0: ERROR Transfer event TRB DMA ptr not part of current TD ep_index 2 comp_code 13
-> [   69.963819] xhci_hcd 0000:3f:00.0: Looking for event-dma 000000047c4b1070 trb-start 000000047c4b0fe0 trb-end 000000047c4b0fe0 seg-start 000000047c4b0000 seg-end 000000047c4b0ff0
-> [   70.112302] xhci_hcd 0000:3f:00.0: ERROR Transfer event TRB DMA ptr not part of current TD ep_index 2 comp_code 13
-> [   70.112321] xhci_hcd 0000:3f:00.0: Looking for event-dma 000000047c4b1080 trb-start 000000047c4b0fe0 trb-end 000000047c4b0fe0 seg-start 000000047c4b0000 seg-end 000000047c4b0ff0
-> 
-> So, under what circumstances the DMA pointer can be out of the TD?
+> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> Reported-by: syzbot+9ca7a12fd736d93e0232@syzkaller.appspotmail.com
 
-What kernel version are you running that causes these errors?
+#syz test: https://github.com/google/kasan.git 22be26f7
 
-thanks,
+From 40218a235aed2aab9fe948c036582905fdbf4e50 Mon Sep 17 00:00:00 2001
+From: Oliver Neukum <oneukum@suse.com>
+Date: Mon, 18 Nov 2019 14:41:51 +0100
+Subject: [PATCH] si470x: prevent resubmission
 
-greg k-h
+Starting IO to a device is not necessarily a NOP in every error
+case. So we need to terminate all IO in every case of probe
+failure with absolute certainty.
+
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+---
+ drivers/media/radio/si470x/radio-si470x-usb.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/radio/si470x/radio-si470x-usb.c b/drivers/media/radio/si470x/radio-si470x-usb.c
+index fedff68d8c49..e280b1149fa1 100644
+--- a/drivers/media/radio/si470x/radio-si470x-usb.c
++++ b/drivers/media/radio/si470x/radio-si470x-usb.c
+@@ -542,6 +542,8 @@ static int si470x_start_usb(struct si470x_device *radio)
+ 		radio->int_in_running = 0;
+ 	}
+ 	radio->status_rssi_auto_update = radio->int_in_running;
++	if (retval < 0)
++		return retval;
+ 
+ 	/* start radio */
+ 	retval = si470x_start(radio);
+@@ -734,7 +736,8 @@ static int si470x_usb_driver_probe(struct usb_interface *intf,
+ 	/* start radio */
+ 	retval = si470x_start_usb(radio);
+ 	if (retval < 0)
+-		goto err_buf;
++		/* the urb may be running even after an error */
++		goto err_all;
+ 
+ 	/* set initial frequency */
+ 	si470x_set_freq(radio, 87.5 * FREQ_MUL); /* available in all regions */
+@@ -749,7 +752,7 @@ static int si470x_usb_driver_probe(struct usb_interface *intf,
+ 
+ 	return 0;
+ err_all:
+-	usb_kill_urb(radio->int_in_urb);
++	usb_poison_urb(radio->int_in_urb);
+ err_buf:
+ 	kfree(radio->buffer);
+ err_ctrl:
+-- 
+2.16.4
+
