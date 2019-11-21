@@ -2,155 +2,215 @@ Return-Path: <SRS0=FqPF=ZN=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+X-Spam-Status: No, score=-6.9 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E894C432C0
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Nov 2019 02:28:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93CDEC33C99
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Nov 2019 02:42:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5403A20878
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Nov 2019 02:28:14 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="YLlnwWS5"
+	by mail.kernel.org (Postfix) with ESMTP id 762F020878
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Nov 2019 02:42:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725936AbfKUC2N (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 20 Nov 2019 21:28:13 -0500
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:10333 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725904AbfKUC2N (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 20 Nov 2019 21:28:13 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dd5f17c0000>; Wed, 20 Nov 2019 18:07:56 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 20 Nov 2019 18:07:55 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 20 Nov 2019 18:07:55 -0800
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 21 Nov
- 2019 02:07:54 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Thu, 21 Nov 2019 02:07:54 +0000
-Received: from henryl-tu10x.nvidia.com (Not Verified[10.19.109.104]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5dd5f1790000>; Wed, 20 Nov 2019 18:07:54 -0800
-From:   Henry Lin <henryl@nvidia.com>
-CC:     <jackp@codeaurora.org>, Henry Lin <henryl@nvidia.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
+        id S1726698AbfKUCmd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 20 Nov 2019 21:42:33 -0500
+Received: from inva020.nxp.com ([92.121.34.13]:40178 "EHLO inva020.nxp.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726083AbfKUCmd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 20 Nov 2019 21:42:33 -0500
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id DB52F1A0C47;
+        Thu, 21 Nov 2019 03:42:30 +0100 (CET)
+Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 428581A052B;
+        Thu, 21 Nov 2019 03:42:25 +0100 (CET)
+Received: from localhost.localdomain (mega.ap.freescale.net [10.192.208.232])
+        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id 647D8402A9;
+        Thu, 21 Nov 2019 10:42:18 +0800 (SGT)
+From:   Ran Wang <ran.wang_1@nxp.com>
+To:     Rob Herring <robh+dt@kernel.org>, Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4] usb: xhci: only set D3hot for pci device
-Date:   Thu, 21 Nov 2019 10:07:03 +0800
-Message-ID: <20191121020703.10173-1-henryl@nvidia.com>
+        Mark Rutland <mark.rutland@arm.com>
+Cc:     Peter Chen <peter.chen@nxp.com>, Jun Li <jun.li@nxp.com>,
+        Leo Li <leoyang.li@nxp.com>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ran Wang <ran.wang_1@nxp.com>
+Subject: [PATCH v3 2/2] usb: dwc3: Add cache type configuration support
+Date:   Thu, 21 Nov 2019 10:42:06 +0800
+Message-Id: <20191121024206.32933-2-ran.wang_1@nxp.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191119081656.8746-1-henryl@nvidia.com>
-References: <20191119081656.8746-1-henryl@nvidia.com>
-X-NVConfidentiality: public
-MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1574302076; bh=LFURWC9StPxfn6pVQEi+FakzbyuQQSR3hqKKmpk8NqQ=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=YLlnwWS5RGPSQ4Z/IvIeMsVUpkgvbLNLTam0/Zpc4q6SniI63/wDZa+McjKrp3Wql
-         aOI/OPWDYcaSbHsi+efWgjjpLimdgLokcq1dFsvoCqerKL+hPy6Y4C/q3pZad9hKzf
-         u6RKn1TsJRcMqRaJiTN5FciRDhfgMC+ZQzorRz7mRuQhFH0WSVz2huMbbjIDL+qrvm
-         wKh42EdUthKAqIembwRt7tXcnlGkZ+XYjVweOW7ewhKhKjfnu558td03tBoxFgh8h4
-         Dw9ekg72dGT+dE4B5O7Fr2hc9K1YN+GxHglvPOs5Cgw/Ecx1/FnSdsNmgZR9pmPUbv
-         YZmvbGBpIBSjw==
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <20191121024206.32933-1-ran.wang_1@nxp.com>
+References: <20191121024206.32933-1-ran.wang_1@nxp.com>
+X-Virus-Scanned: ClamAV using ClamSMTP
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Xhci driver cannot call pci_set_power_state() on non-pci xhci host
-controllers. For example, NVIDIA Tegra XHCI host controller which acts
-as platform device with XHCI_SPURIOUS_WAKEUP quirk set in some platform
-hits this issue during shutdown.
+This feature is telling how to configure cache type on 4 different
+transfer types: Data Read, Desc Read, Data Write and Desc write. For each
+treasfer type, controller has a 4-bit register field to enable different
+cache type. Quoted from DWC3 data book Table 6-5 Cache Type Bit Assignments:
+----------------------------------------------------------------
+MBUS_TYPE| bit[3]       |bit[2]       |bit[1]     |bit[0]
+----------------------------------------------------------------
+AHB      |Cacheable     |Bufferable   |Privilegge |Data
+AXI3     |Write Allocate|Read Allocate|Cacheable  |Bufferable
+AXI4     |Allocate Other|Allocate     |Modifiable |Bufferable
+AXI4     |Other Allocate|Allocate     |Modifiable |Bufferable
+Native   |Same as AXI   |Same as AXI  |Same as AXI|Same as AXI
+----------------------------------------------------------------
+Note: The AHB, AXI3, AXI4, and PCIe busses use different names for certain
+signals, which have the same meaning:
+  Bufferable = Posted
+  Cacheable = Modifiable = Snoop (negation of No Snoop)
 
-Signed-off-by: Henry Lin <henryl@nvidia.com>
----
-v4:
-  1. export xhci_shutdown for CONFIG_USB_XHCI_PCI=m
----
- drivers/usb/host/xhci-pci.c | 13 +++++++++++++
- drivers/usb/host/xhci.c     |  7 ++-----
- drivers/usb/host/xhci.h     |  1 +
- 3 files changed, 16 insertions(+), 5 deletions(-)
+In most cases, driver support is not required unless the default values of
+registers are not correct *and* DWC3 node has enabled dma-coherent. So far we
+have observed USB device detect failure on some Layerscape platforms if this
+programming was not applied.
 
-diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-index 1e0236e90687..1904ef56f61c 100644
---- a/drivers/usb/host/xhci-pci.c
-+++ b/drivers/usb/host/xhci-pci.c
-@@ -519,6 +519,18 @@ static int xhci_pci_resume(struct usb_hcd *hcd, bool hibernated)
+Related struct:
+struct dwc3_cache_type {
+	u8 transfer_type_datard;
+	u8 transfer_type_descrd;
+	u8 transfer_type_datawr;
+	u8 transfer_type_descwr;
+};
+
+Signed-off-by: Ran Wang <ran.wang_1@nxp.com>
+---
+Change in v3:
+	- Replace cache type sub-node parsing with chip-specifc data parsing.
+
+Change in v2:
+	- Change most program logic to meet new DTS property define.
+	- Rename related register address macros.
+	- Rename function  dwc3_enable_snooping() to dwc3_set_cache_type().
+
+ drivers/usb/dwc3/core.c | 67 ++++++++++++++++++++++++++++++++++++++++++++-----
+ drivers/usb/dwc3/core.h | 15 +++++++++++
+ 2 files changed, 76 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index 97d6ae3..0baa972 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -894,6 +894,53 @@ static void dwc3_set_incr_burst_type(struct dwc3 *dwc)
+ 	dwc3_writel(dwc->regs, DWC3_GSBUSCFG0, cfg);
  }
- #endif /* CONFIG_PM */
  
-+static void xhci_pci_shutdown(struct usb_hcd *hcd)
++#ifdef CONFIG_OF
++struct dwc3_cache_type {
++	u8 transfer_type_datard;
++	u8 transfer_type_descrd;
++	u8 transfer_type_datawr;
++	u8 transfer_type_descwr;
++};
++
++static const struct dwc3_cache_type ls1088a_dwc3_cache_type = {
++	.transfer_type_datard = 2,
++	.transfer_type_descrd = 2,
++	.transfer_type_datawr = 2,
++	.transfer_type_descwr = 2,
++};
++
++/**
++ * dwc3_set_cache_type - Configure cache type registers
++ * @dwc: Pointer to our controller context structure
++ */
++static void dwc3_set_cache_type(struct dwc3 *dwc)
 +{
-+	struct xhci_hcd		*xhci = hcd_to_xhci(hcd);
-+	struct pci_dev		*pdev = to_pci_dev(hcd->self.controller);
++	u32 tmp, reg;
++	const struct dwc3_cache_type *cache_type =
++		device_get_match_data(dwc->dev);
 +
-+	xhci_shutdown(hcd);
++	if (cache_type) {
++		reg = dwc3_readl(dwc->regs,  DWC3_GSBUSCFG0);
++		tmp = reg;
 +
-+	/* Yet another workaround for spurious wakeups at shutdown with HSW */
-+	if (xhci->quirks & XHCI_SPURIOUS_WAKEUP)
-+		pci_set_power_state(pdev, PCI_D3hot);
++		reg &= ~DWC3_GSBUSCFG0_DATARD(~0);
++		reg |= DWC3_GSBUSCFG0_DATARD(cache_type->transfer_type_datard);
++
++		reg &= ~DWC3_GSBUSCFG0_DESCRD(~0);
++		reg |= DWC3_GSBUSCFG0_DESCRD(cache_type->transfer_type_descrd);
++
++		reg &= ~DWC3_GSBUSCFG0_DATAWR(~0);
++		reg |= DWC3_GSBUSCFG0_DATAWR(cache_type->transfer_type_datawr);
++
++		reg &= ~DWC3_GSBUSCFG0_DESCWR(~0);
++		reg |= DWC3_GSBUSCFG0_DESCWR(cache_type->transfer_type_descwr);
++
++		if (tmp != reg)
++			dwc3_writel(dwc->regs, DWC3_GSBUSCFG0, reg);
++	}
 +}
++#endif
 +
- /*-------------------------------------------------------------------------*/
+ /**
+  * dwc3_core_init - Low-level initialization of DWC3 Core
+  * @dwc: Pointer to our controller context structure
+@@ -952,6 +999,10 @@ static int dwc3_core_init(struct dwc3 *dwc)
  
- /* PCI driver selection metadata; PCI hotplugging uses this */
-@@ -554,6 +566,7 @@ static int __init xhci_pci_init(void)
- #ifdef CONFIG_PM
- 	xhci_pci_hc_driver.pci_suspend = xhci_pci_suspend;
- 	xhci_pci_hc_driver.pci_resume = xhci_pci_resume;
-+	xhci_pci_hc_driver.shutdown = xhci_pci_shutdown;
- #endif
- 	return pci_register_driver(&xhci_pci_driver);
- }
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 6c17e3fe181a..90aa811165f1 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -770,7 +770,7 @@ static void xhci_stop(struct usb_hcd *hcd)
-  *
-  * This will only ever be called with the main usb_hcd (the USB3 roothub).
-  */
--static void xhci_shutdown(struct usb_hcd *hcd)
-+void xhci_shutdown(struct usb_hcd *hcd)
- {
- 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+ 	dwc3_set_incr_burst_type(dwc);
  
-@@ -789,11 +789,8 @@ static void xhci_shutdown(struct usb_hcd *hcd)
- 	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
- 			"xhci_shutdown completed - status = %x",
- 			readl(&xhci->op_regs->status));
--
--	/* Yet another workaround for spurious wakeups at shutdown with HSW */
--	if (xhci->quirks & XHCI_SPURIOUS_WAKEUP)
--		pci_set_power_state(to_pci_dev(hcd->self.sysdev), PCI_D3hot);
- }
-+EXPORT_SYMBOL_GPL(xhci_shutdown);
++#ifdef CONFIG_OF
++	dwc3_set_cache_type(dwc);
++#endif
++
+ 	usb_phy_set_suspend(dwc->usb2_phy, 0);
+ 	usb_phy_set_suspend(dwc->usb3_phy, 0);
+ 	ret = phy_power_on(dwc->usb2_generic_phy);
+@@ -1837,12 +1888,16 @@ static const struct dev_pm_ops dwc3_dev_pm_ops = {
  
- #ifdef CONFIG_PM
- static void xhci_save_registers(struct xhci_hcd *xhci)
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index f9f88626a57a..973d665052a2 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -2050,6 +2050,7 @@ int xhci_start(struct xhci_hcd *xhci);
- int xhci_reset(struct xhci_hcd *xhci);
- int xhci_run(struct usb_hcd *hcd);
- int xhci_gen_setup(struct usb_hcd *hcd, xhci_get_quirks_t get_quirks);
-+void xhci_shutdown(struct usb_hcd *hcd);
- void xhci_init_driver(struct hc_driver *drv,
- 		      const struct xhci_driver_overrides *over);
- int xhci_disable_slot(struct xhci_hcd *xhci, u32 slot_id);
+ #ifdef CONFIG_OF
+ static const struct of_device_id of_dwc3_match[] = {
+-	{
+-		.compatible = "snps,dwc3"
+-	},
+-	{
+-		.compatible = "synopsys,dwc3"
+-	},
++	{ .compatible = "fsl,ls1012a-dwc3", .data = &ls1088a_dwc3_cache_type, },
++	{ .compatible = "fsl,ls1021a-dwc3", .data = &ls1088a_dwc3_cache_type, },
++	{ .compatible = "fsl,ls1028a-dwc3", .data = &ls1088a_dwc3_cache_type, },
++	{ .compatible = "fsl,ls1043a-dwc3", .data = &ls1088a_dwc3_cache_type, },
++	{ .compatible = "fsl,ls1046a-dwc3", .data = &ls1088a_dwc3_cache_type, },
++	{ .compatible = "fsl,ls1088a-dwc3", .data = &ls1088a_dwc3_cache_type, },
++	{ .compatible = "fsl,ls2088a-dwc3", .data = &ls1088a_dwc3_cache_type, },
++	{ .compatible = "fsl,lx2160a-dwc3", .data = &ls1088a_dwc3_cache_type, },
++	{ .compatible = "snps,dwc3" },
++	{ .compatible = "synopsys,dwc3"	},
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, of_dwc3_match);
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 1c8b3493..ac51dfe 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -165,6 +165,21 @@
+ /* Bit fields */
+ 
+ /* Global SoC Bus Configuration INCRx Register 0 */
++#ifdef CONFIG_OF
++#define DWC3_GSBUSCFG0_DATARD_SHIFT	28
++#define DWC3_GSBUSCFG0_DATARD(n)	(((n) & 0xf)		\
++			<< DWC3_GSBUSCFG0_DATARD_SHIFT)
++#define DWC3_GSBUSCFG0_DESCRD_SHIFT	24
++#define DWC3_GSBUSCFG0_DESCRD(n)	(((n) & 0xf)		\
++			<< DWC3_GSBUSCFG0_DESCRD_SHIFT)
++#define DWC3_GSBUSCFG0_DATAWR_SHIFT	20
++#define DWC3_GSBUSCFG0_DATAWR(n)	(((n) & 0xf)		\
++			<< DWC3_GSBUSCFG0_DATAWR_SHIFT)
++#define DWC3_GSBUSCFG0_DESCWR_SHIFT	16
++#define DWC3_GSBUSCFG0_DESCWR(n)	(((n) & 0xf)		\
++			<< DWC3_GSBUSCFG0_DESCWR_SHIFT)
++#endif
++
+ #define DWC3_GSBUSCFG0_INCR256BRSTENA	(1 << 7) /* INCR256 burst */
+ #define DWC3_GSBUSCFG0_INCR128BRSTENA	(1 << 6) /* INCR128 burst */
+ #define DWC3_GSBUSCFG0_INCR64BRSTENA	(1 << 5) /* INCR64 burst */
 -- 
-2.17.1
+2.7.4
 
