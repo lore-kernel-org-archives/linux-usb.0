@@ -2,53 +2,61 @@ Return-Path: <SRS0=FqPF=ZN=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20A9DC432C0
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Nov 2019 11:46:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6514CC432C0
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Nov 2019 11:47:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F12332089D
-	for <linux-usb@archiver.kernel.org>; Thu, 21 Nov 2019 11:46:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3CA252089D
+	for <linux-usb@archiver.kernel.org>; Thu, 21 Nov 2019 11:47:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1574336863;
+	bh=wRKeuD/PxkjAM1WnX5lnMqYRRTds4PbZEw2zPMfCtQI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=BN8ratH9zG2FT3XTINXOQnLJuZAs3N8FzoZ4stdOE0J9MkNS7RDePNOmqGDiFDNcW
+	 f9/2odU0aXzeerA2+iFGCTVU9OdcDK7Oy3aAGIO8lKJM+WZRQiN4eNJ/0+1cdZvM16
+	 8ncrI7tPlWfhx7NCs+qnB2ooZmvtdkCobcE1puDw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726658AbfKULqr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 21 Nov 2019 06:46:47 -0500
-Received: from mga02.intel.com ([134.134.136.20]:40542 "EHLO mga02.intel.com"
+        id S1726774AbfKULrm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 21 Nov 2019 06:47:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35660 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726170AbfKULqr (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 21 Nov 2019 06:46:47 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Nov 2019 03:46:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,224,1571727600"; 
-   d="scan'208";a="219051523"
-Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
-  by orsmga002.jf.intel.com with ESMTP; 21 Nov 2019 03:46:45 -0800
+        id S1726170AbfKULrl (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 21 Nov 2019 06:47:41 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A15E820898;
+        Thu, 21 Nov 2019 11:47:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1574336860;
+        bh=wRKeuD/PxkjAM1WnX5lnMqYRRTds4PbZEw2zPMfCtQI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Q1wr1G5BXOauPYfshMMQsPGecaL3MqoDuUOuz/b5n1WDqN+bvpsndOSRA9djzieZU
+         8hAB3NRUCbQggMfzM3ADHTl0Z/9U591tcx1KNVgZ809m1K9fbQ/Qf3T64kI+r8AFr7
+         o8x/6UyaMnl6bGJrdkooSFeBBiopo7lZwPqyYUOs=
+Date:   Thu, 21 Nov 2019 12:47:37 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc:     Mathias Nyman <mathias.nyman@intel.com>,
+        USB list <linux-usb@vger.kernel.org>
 Subject: Re: ERROR Transfer event TRB DMA ptr not part of current TD ep_index
  2 comp_code 13
-To:     Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Mathias Nyman <mathias.nyman@intel.com>
-Cc:     USB list <linux-usb@vger.kernel.org>
+Message-ID: <20191121114737.GA427660@kroah.com>
 References: <F9C894A9-D1D8-455E-B5F6-C5EA08A80C79@canonical.com>
-From:   Mathias Nyman <mathias.nyman@linux.intel.com>
-Message-ID: <4552b779-4b5a-7e81-39ec-0a4229b5d84d@linux.intel.com>
-Date:   Thu, 21 Nov 2019 13:48:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <F9C894A9-D1D8-455E-B5F6-C5EA08A80C79@canonical.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On 21.11.2019 9.38, Kai-Heng Feng wrote:
+On Thu, Nov 21, 2019 at 03:38:04PM +0800, Kai-Heng Feng wrote:
 > Hi,
 > 
 > Currently there are two quirks for Dell TB16 to workaround an issue:
@@ -76,46 +84,9 @@ On 21.11.2019 9.38, Kai-Heng Feng wrote:
 > [   70.112321] xhci_hcd 0000:3f:00.0: Looking for event-dma 000000047c4b1080 trb-start 000000047c4b0fe0 trb-end 000000047c4b0fe0 seg-start 000000047c4b0000 seg-end 000000047c4b0ff0
 > 
 > So, under what circumstances the DMA pointer can be out of the TD?
-> 
 
-When the TRB pointer field of the transfer event doesn't point to a TRB
-in the TD the xhci driver was expecting next.
-In your case xhci driver expects an event for a TD (TRB) at 0x47c4b0fe0
+What kernel version are you running that causes these errors?
 
-Looks like driver didn't get that event, or didn't handle it properly.
-Hardware continues processing TRBs in the ring, sending events for later TDs.
+thanks,
 
-Your case looks something like this:
-endpoint ring segment 1: 256 TRBs (47c047c4b0000 -47c4b0ff0)
-000000047c4b0000  1st TRB
-000000047c4b0010  2nd TRB
-....
-000000047c4b0fd0  TRB that driver has handled
-000000047c4b0fe0  TRB driver expect an event for
-000000047c4b0ff0  LINK TRB, Last TRB of this segment, points to next segment. (probably pointing to 000000047c4b1000
-  
-endpoint ring segment 2: 256 TRBs (probably 47c047c4b1000 -47c4b1ff0)
-000000047c4b1000  TRB (Log donsn't cover this, probably hw competed?)
-000000047c4b1010  TRB hardware has completed (short packet 13)
-000000047c4b1020  TRB hardware has completed (short packet 13)
-000000047c4b1030  TRB hardware has completed (short packet 13)
-000000047c4b1040  TRB hardware has completed (short packet 13)
-000000047c4b1050  TRB hardware has completed (short packet 13)
-000000047c4b1060  TRB hardware has completed (short packet 13)
-000000047c4b1070  TRB hardware has completed (short packet 13)
-000000047c4b1080  TRB hardware has completed (short packet 13), hardware handling is here while software still waiting for an event for TRB at 47c4b0fe0
-
-If you can get xhci traces, dmesg and a snapshot of the xhci event and transfer ring
-ring after this, we could see if hardware ever wrote the missing event to the event ring,
-or if driver just failed to handle it properly.
-
-I don't have a nice way of triggering ring dumping at some specific instance, but there
-is generic debugfs ring dump code in xhci-debugfs.c
-
-(cat /sys/kernel/debug/usb/xhci/0000:3f:00.0/event-ring/trbs for sample output)
-  
--Mathias
-
-
-
-
+greg k-h
