@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7B5AC33C9A
-	for <linux-usb@archiver.kernel.org>; Fri, 22 Nov 2019 19:52:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2F92C432C0
+	for <linux-usb@archiver.kernel.org>; Fri, 22 Nov 2019 19:54:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8E0EA2071F
-	for <linux-usb@archiver.kernel.org>; Fri, 22 Nov 2019 19:52:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C7AB920704
+	for <linux-usb@archiver.kernel.org>; Fri, 22 Nov 2019 19:54:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1574452362;
-	bh=F4g/7JM361b4jueC7R7Pu21X1iG8ZDQQgUl8g+L65+k=;
+	s=default; t=1574452457;
+	bh=5eoak+mG+mcguMksu8j3IrzoHYAFKuEkrFK2NPhaFjQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=WzdFpUcan9AGgFoYR0q4m4b12kOY3Ty93EBYTO/em5CWlfwwKL2iEZO8xcQTu14qE
-	 qXLerLESLRSAPb2nTueGb0enRYTZthLSqaaxBBDiD4HNOQnQeJjygJaVeBLamB7K6A
-	 zseVd4pzZJgBVGE/J3y4YCOsh4lM3HubUn6g9eow=
+	b=Bjg6LwoDTRM1rXRm9LIazbCVBhJ6GoIlUWb10iTZH5tDxSJj6DHwR20+d/zxQsp2k
+	 KKXINmXAPOTfjz4PZCGGTB/A8GJPjCnWxD/Awq8ESI27FB5gKMbug4P2OrC1svu2Vh
+	 fKDdwS+F1ibdqCZ1SPcgR5iicRNKdKEDF1qTReso=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727587AbfKVTtr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 22 Nov 2019 14:49:47 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49924 "EHLO mail.kernel.org"
+        id S1727305AbfKVTtT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 22 Nov 2019 14:49:19 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48698 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727575AbfKVTtr (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 22 Nov 2019 14:49:47 -0500
+        id S1727295AbfKVTtS (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 22 Nov 2019 14:49:18 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A986720726;
-        Fri, 22 Nov 2019 19:49:45 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5D2EA207FA;
+        Fri, 22 Nov 2019 19:49:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574452186;
-        bh=F4g/7JM361b4jueC7R7Pu21X1iG8ZDQQgUl8g+L65+k=;
+        s=default; t=1574452158;
+        bh=5eoak+mG+mcguMksu8j3IrzoHYAFKuEkrFK2NPhaFjQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YSy63xyEVU6GYywQSu4Scv93gAgLrRmFSfRvcMmzWA6QN/YU/d7sl6Hfb23z0wC+s
-         e2h1hvL4eEgozgJwmZ5MGSOgXpZmqYs5XyoDbPkBQg0Az3I3bjtk46xAFEYHto+HJv
-         n/MYs5eY/cVS3KJ1+NuANFgO+eWpjOFzPanLSbMQ=
+        b=Q+0K1hu8wDDxqQwGp9/SGlLK/T1U94zGCWMrJ5AXuowjNUFLqeZEfbjHCqA6aPDzx
+         19rGP91JfBpWwbaPSJeAtWPIMXMaCLB6lU09bIid9pvOdD2HC/3ml3dyR9wlgd/VO4
+         rJpdAYfGv+8hz1dE9EqNfCzTBm76YUWvkVICTuec=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Aleksander Morgado <aleksander@aleksander.es>,
@@ -45,12 +45,12 @@ Cc:     Aleksander Morgado <aleksander@aleksander.es>,
         "David S . Miller" <davem@davemloft.net>,
         Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
         linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 12/21] net: usb: qmi_wwan: add support for Foxconn T77W968 LTE modules
-Date:   Fri, 22 Nov 2019 14:49:22 -0500
-Message-Id: <20191122194931.24732-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 15/25] net: usb: qmi_wwan: add support for Foxconn T77W968 LTE modules
+Date:   Fri, 22 Nov 2019 14:48:48 -0500
+Message-Id: <20191122194859.24508-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191122194931.24732-1-sashal@kernel.org>
-References: <20191122194931.24732-1-sashal@kernel.org>
+In-Reply-To: <20191122194859.24508-1-sashal@kernel.org>
+References: <20191122194859.24508-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
@@ -91,10 +91,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+)
 
 diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 8ed538295d090..4a984b76a60ec 100644
+index 9f037c50054df..b55fd76348f9f 100644
 --- a/drivers/net/usb/qmi_wwan.c
 +++ b/drivers/net/usb/qmi_wwan.c
-@@ -1295,6 +1295,8 @@ static const struct usb_device_id products[] = {
+@@ -1306,6 +1306,8 @@ static const struct usb_device_id products[] = {
  	{QMI_QUIRK_SET_DTR(0x2c7c, 0x0191, 4)},	/* Quectel EG91 */
  	{QMI_FIXED_INTF(0x2c7c, 0x0296, 4)},	/* Quectel BG96 */
  	{QMI_QUIRK_SET_DTR(0x2cb7, 0x0104, 4)},	/* Fibocom NL678 series */
