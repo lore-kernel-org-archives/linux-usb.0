@@ -2,101 +2,143 @@ Return-Path: <SRS0=/11T=ZO=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA400C432C0
-	for <linux-usb@archiver.kernel.org>; Fri, 22 Nov 2019 09:11:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0571DC432C3
+	for <linux-usb@archiver.kernel.org>; Fri, 22 Nov 2019 11:15:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7263520674
-	for <linux-usb@archiver.kernel.org>; Fri, 22 Nov 2019 09:11:16 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Fq07sCmH"
+	by mail.kernel.org (Postfix) with ESMTP id D20FA20872
+	for <linux-usb@archiver.kernel.org>; Fri, 22 Nov 2019 11:15:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1574421346;
+	bh=n5Tj7+vySHNtfOYaPZa8PHZ4JUxOfxEeh1VYkp2jr0I=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
+	b=sJ3k9tk/uaUi21MCjdJIyZVq8PPAYUBF/xW+faXdugilCjKab1LzLzxgEHuJ4qARL
+	 sLKhILA6q+nf9UtVX7A1vPIRCCu7/7IP66CyLwDzfMSjFMMgH4+OHExir1/lA+F1yT
+	 Pfq0v+A0v8hYscMd6KrglXC3JvweARRuSkO2b2Vw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726526AbfKVJLQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 22 Nov 2019 04:11:16 -0500
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:33480 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726100AbfKVJLP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 22 Nov 2019 04:11:15 -0500
-Received: by mail-qt1-f195.google.com with SMTP id y39so7067795qty.0
-        for <linux-usb@vger.kernel.org>; Fri, 22 Nov 2019 01:11:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PUF89Spz+I3IwaGtyhwNTrOvec1IV32n2jR10nFSmJA=;
-        b=Fq07sCmH8omGdMLCL5ZQ2sciW6S3cesrs3mRWoR9ICWO/cGiGX/ZdTGQFqcwnLbj2b
-         hRa99PMUFrNb34F5vCZCQqRLyP4SQRTaZQhgvl6DczcWIIytlRXRxH8E7LsuHIz+x+Sv
-         kMgxkAjFf6pGehdZNOUj+WnptwWdJRofaxou6DPN+vgQ3xRlh6uzupWck5FJx6yRx5rc
-         8ZKRnI0DXZpY08u0H3JLolhn+ukBIyhASLLyPAmQnOt7RWKBZNUtVL6QgkHCCobtV7dk
-         sqkh92SRjgL5I/9uQtWARX+Ll1a1BV4oviJOHnQ8mQSqEzW8kosZOiOGJnOQqJZnsghV
-         NRTw==
+        id S1729859AbfKVLPp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 22 Nov 2019 06:15:45 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:45382 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726977AbfKVLPo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 22 Nov 2019 06:15:44 -0500
+Received: by mail-ot1-f65.google.com with SMTP id r24so5801118otk.12;
+        Fri, 22 Nov 2019 03:15:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=PUF89Spz+I3IwaGtyhwNTrOvec1IV32n2jR10nFSmJA=;
-        b=XmpY+GOTZ4kuQpnirzMLxVuCkucLmUQI9zdXm7VcBLfYoX32gxOloIssYg3n/3iFBz
-         F7UUdkFnxoEhn8emZ1vSN8bUHn2jD3Etx4hIJtrA5MAbfzPXqQ+vYhD37BwQDm11tG7Y
-         WPXN8kbO0+aZOvsp+F+St5B7x6Wdrc/NdlpuN//jwDptlBrl/SdkAXOXPf8A0XLJhL9U
-         vWjEPQeAn+SBG87kJQ4wEZR/x1ZN5UpRcTCrTdzFecAFSJiLNWOwE11/xSJFWZidZrAs
-         1E2qL/+kF6xXxOp8aze6ZuKl+xm0IO94o+uZ6MPJyIdyxxeyDl9h1L+1D8NX0tTaAbFl
-         t/8A==
-X-Gm-Message-State: APjAAAV0RDTx0MWEu0lkTBzI8j02UIf4U0tqFgTqKkNpefjR/KgzcJKo
-        rTh/czcmGrB6see7cG9BrLEjtCJdVYKxm+rX0Hhq0A==
-X-Google-Smtp-Source: APXvYqy7eir2iCy4oXyTZIG/GM903RGHTNPgyHqtVzan+76pSUsQak6gQaVlkr3G7zcVXotXGpKvf65OmQN4fZAlJFA=
-X-Received: by 2002:ac8:610a:: with SMTP id a10mr2311954qtm.50.1574413874413;
- Fri, 22 Nov 2019 01:11:14 -0800 (PST)
+        bh=nNKtVKyyjIN7C8LjAkItasX2zQVTgor2/9I8mXAyorg=;
+        b=fCZm79oJVZkKo5JwWGeYhhF8pGwccbVhp5WC/Byqz+WEsWkxGMunQ7A5X4/A1Q3Pdd
+         T+n5qEDRoeKXpwAp/dgCRhsvzXuMA9GSRMSv5CLEYOgkQy2F1glD9oW9V/ngiDMRY4/d
+         PcgF5ssHOUGN2+cDPBg139T5AlRqLk65iUME/FwNNKLNCKlIn6MPo7410/bTl6z1oVBr
+         tpBTCMimRzVbuLGw7DGMuqI0K0v9b+R4wf1QplrH9QykFBja4GV/7bkd4GTPFPBVnQ9j
+         QFO12fDViDEot4PkdXi4zQGqbHXbVI+nG/08egbOiPlnxCVc3NiNb4pJkDvh6IcsKWdt
+         2PdQ==
+X-Gm-Message-State: APjAAAW0L4zA4Y5cSnxefVhevisnUs8O5rV3sW9eAPUiZZ6D5AgRXrsh
+        xNsVrtzGfuPSLqafSXIYEu3fI7hBtoQ+BNXMf/U=
+X-Google-Smtp-Source: APXvYqw6rx/VUVi1y7XpMTeo1Luu8jyyvaYJR9fSFz7IDXuJ6jQyoL6CF4Qr1VL30IGVHRJWFqxlQHiVA51h8tuH9ZI=
+X-Received: by 2002:a9d:6b91:: with SMTP id b17mr10084485otq.189.1574421343635;
+ Fri, 22 Nov 2019 03:15:43 -0800 (PST)
 MIME-Version: 1.0
-References: <00000000000076092b0597cedce2@google.com> <1574334450.14298.53.camel@suse.com>
-In-Reply-To: <1574334450.14298.53.camel@suse.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Fri, 22 Nov 2019 10:11:03 +0100
-Message-ID: <CACT4Y+b1x-0yeY6HrZ3ZL4iP6hcNupD15uNNiFqx45LjDZgJ_w@mail.gmail.com>
-Subject: Re: INFO: task hung in wdm_flush
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     syzbot <syzbot+854768b99f19e89d7f81@syzkaller.appspotmail.com>,
-        bjorn@mork.no, USB list <linux-usb@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Andrey Konovalov <andreyknvl@google.com>
+References: <20191120002836.GA247344@google.com> <20191121181500.GA55996@google.com>
+ <CAD8Lp47o6PqKnQYBba0o_8LSGhd3_APhVuXAVsJRT7TedeqXDg@mail.gmail.com>
+In-Reply-To: <CAD8Lp47o6PqKnQYBba0o_8LSGhd3_APhVuXAVsJRT7TedeqXDg@mail.gmail.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Fri, 22 Nov 2019 12:15:32 +0100
+Message-ID: <CAJZ5v0hxa9OGF-w82ZkQ0n_p5VM7uOdKD_UrdGVoz0MAfeqy0w@mail.gmail.com>
+Subject: Re: [PATCH] PCI: increase D3 delay for AMD Ryzen5/7 XHCI controllers
+To:     Daniel Drake <drake@endlessm.com>
+Cc:     Bjorn Helgaas <helgaas@kernel.org>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        "Wysocki, Rafael J" <rafael.j.wysocki@intel.com>,
+        Linux Upstreaming Team <linux@endlessm.com>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        Linux USB Mailing List <linux-usb@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Nov 21, 2019 at 12:07 PM Oliver Neukum <oneukum@suse.com> wrote:
+On Fri, Nov 22, 2019 at 4:00 AM Daniel Drake <drake@endlessm.com> wrote:
 >
-> Am Mittwoch, den 20.11.2019, 14:40 -0800 schrieb syzbot:
-> > Hello,
-> >
-> > syzbot tried to test the proposed patch but build/boot failed:
-> >
-> > failed to apply patch:
-> > checking file drivers/usb/class/cdc-wdm.c
-> > Hunk #1 FAILED at 587.
-> > Hunk #2 FAILED at 596.
-> > 2 out of 2 hunks FAILED
+> On Fri, Nov 22, 2019 at 2:15 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > I definitely was not understanding this correctly.  There is no path
+> > for a D3cold -> D3hot transition.  Per spec (PCIe r5.0, sec 5.8), the
+> > only legal exit from D3cold is to D0uninitialized.
 >
-> This is unexpected.
-> >
-> >
-> >
-> > Tested on:
-> >
-> > commit:         e96407b4 usb-fuzzer: main usb gadget fuzzer driver
-> > git tree:       https://github.com/google/kasan.git
+> I'm also learning these details as we go.
 >
-> If I do a git am on the branch usb-fuzzer-usb-testing-2019.11.19,
-> the patch applies. Which branch do I need to backport to?
+> During runtime suspend, the ACPI _PS3 method (which does exist on this
+> device) is called, then _PR3 resources are turned off, which (I think)
+> means that the state should now be D3cold.
 
-Hi Oliver,
+Correct.
 
-You give exact tree/base commit when you ask syzbot to test. It does
-not do any second guessing.
-Well, if you provide a tree+branch then it's a bit of chasing a moving
-target b/c HEAD can be updated meanwhile, but you can also give it
-tree+commit, then that's 100% fixed.
+> During runtime resume, the ACPI _PR0 resources are turned on, then
+> ACPI _PS0 method is called (and does exist on this device), and my
+> reading is that this should put the device in D0.
+
+That should be something like D0uninitialized.
+
+> But then when pci_update_current_state() is called, it reads pmcsr as
+> 3 (D3hot). That's not what I would expect. I guess this means that
+> this platform's _PR3/_PS3 do not actually allow us to put the device
+> into D3cold,
+
+That you can't really say.
+
+Anyway, it is not guaranteed to do that.  For example, the power
+resource(s) listed by _PR3 for the device may be referenced by
+something else too which prevents them from being turned off.
+
+> and/or the _PR0/_PS0 transition does not actually transition the device to D0.
+
+Yes.
+
+Which may be the case if the power resource(s) in _PR3 have not been
+turned off really.
+
+[To debug this a bit more, you can enable dynamic debug in
+drivers/acpi/device_pm.c.]
+
+> While there is some ACPI strangeness here, the D3hot vs D3cold thing
+> is perhaps not the most relevant point. If I hack the code to avoid
+> D3cold altogether, just trying to do D0->D3hot->D0, it fails in the
+> same way.
+
+OK, but then you don't really flip the power resource(s), so that only
+means that _PS0 does not restore D0, but in general it only is valid
+to execute _PS0 after _PS3 (if both are present which is the case
+here), so this is not conclusive again.
+
+> > I know you tried a debug patch to call pci_dev_wait(), and it didn't
+> > work, but I'm not sure exactly where it was called.  I have these
+> > patches on my pci/pm branch for v5.5:
+> >
+> >   bae26849372b ("PCI/PM: Move pci_dev_wait() definition earlier")
+> >   395f121e6199 ("PCI/PM: Wait for device to become ready after power-on")
+> >
+> > The latter adds the wait just before we call
+> > pci_raw_set_power_state().  If the device is responding with CRS
+> > status, that should be the point where we'd see it.  If you have a
+> > chance to try it, I'd be interested in the results.
+>
+> pci_dev_wait() doesn't have any effect no matter where you put it
+> because we have yet to observe this device presenting a CRS-like
+> condition. According to our earlier experiments, PCI_VENDOR_ID and
+> PCI_COMMAND never return the ~0 value that would be needed for
+> pci_dev_wait() to have any effect.
+>
+> I tried the branch anyway and it doesn't solve the issue.
+>
+> I haven't finished gathering all the logs you asked for, but I tried
+> to summarize my current understanding at
+> https://bugzilla.kernel.org/show_bug.cgi?id=205587 - hopefully that
+> helps.
+
+OK, thanks for that!
