@@ -1,99 +1,112 @@
-Return-Path: <SRS0=vl0L=ZP=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=cfLJ=ZQ=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-14.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ADB5C43215
-	for <linux-usb@archiver.kernel.org>; Sat, 23 Nov 2019 21:04:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E094C432C0
+	for <linux-usb@archiver.kernel.org>; Sun, 24 Nov 2019 09:43:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E4D4D20679
-	for <linux-usb@archiver.kernel.org>; Sat, 23 Nov 2019 21:04:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 65E16207DD
+	for <linux-usb@archiver.kernel.org>; Sun, 24 Nov 2019 09:43:35 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EDJYYI6p"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X8dZyNbi"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726765AbfKWVEw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 23 Nov 2019 16:04:52 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:53182 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726759AbfKWVEw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 23 Nov 2019 16:04:52 -0500
-Received: by mail-wm1-f65.google.com with SMTP id l1so11187360wme.2;
-        Sat, 23 Nov 2019 13:04:50 -0800 (PST)
+        id S1727046AbfKXJnb (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 24 Nov 2019 04:43:31 -0500
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:42035 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727007AbfKXJna (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 24 Nov 2019 04:43:30 -0500
+Received: by mail-pl1-f196.google.com with SMTP id j12so5120484plt.9;
+        Sun, 24 Nov 2019 01:43:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=B4L4Pfo4rpcpOUx/OybOJ8g0Fxx8N1fe9jCWdz/sqNQ=;
-        b=EDJYYI6p7ncCS6VGIedn7jyw+dN5o9jTjoV8O/BheFltaoPhtvPBhNCqKEPJ3M45Bk
-         3Xey+QtfJaYDBv1U1Gx4u28JKCDgBuE84mdvjAvjW/cywtm26cZT+4l/JK6Rcpm7Guse
-         3gOPKJSUIzaDCjj/kvchNp4+lcaRxhcBsaFz19X8fyxWqk6lc/hxeolOf4nKq9qAzNIs
-         QgicN4d+Q0S6u44qYEmMCpzdzFy9JWD5YhKtsp6HzKNE0nvBNp5+tGpiCa1hcX8pwvv9
-         ul4NquULZWtVom5ATTY+VJs9j7t7ZlxTzcSvzg1ZFnBuTKRWvbXAXUkMZG5LT+m2g/RA
-         0tgA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=kKcTzJuC8PJNnzJIm6q83P/GLVLCiZGhOohm6Nds3hc=;
+        b=X8dZyNbi3pl+sJ8jfd2OCmlabAVhWAZlCWuunPrsoKiHbMoH55cymADTddbO3fJ/OC
+         FjLO6PNcC2YgAA3vy4g7maWL+gPrWUJWX8mlwhKRDuoVIw+LafdRH30SolvbZdat0r2S
+         XZd96YHHet9+YyzSCOfxydogbOHD6k9rWOEE50LgsbNlO2QKIA4ZFL+FZyf/aNnu7ndk
+         bFsaGs2UHtadrPeu2cxRcwVAss2vBkPd7m4W4NMWqlRexLQImRlRmcEnmgBdVyO5nFGT
+         QqF6iTNnHtMHN5H8k7weBSsmc21axWhI1TxDBNg20skeR77b19fUvNqP9RdrMrEk2vRl
+         ECzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=B4L4Pfo4rpcpOUx/OybOJ8g0Fxx8N1fe9jCWdz/sqNQ=;
-        b=beAWEmIVXwSqGQJGnUbPwIu0DKqBQwYrLLrRri1KPs/q4ByVnHfnVk5JqFL3y6s8p0
-         NpQiSEREbC3+NiFzMFtSSRSqXBIv3ugUHHbWbzcsKBRcMLxQVJqOczJwHLgXH5w+bi4o
-         j/vRzUH52/hEZrAF8deebGxtzSwWbgai8wzPdMiHJFizGOAZocOCru8yDhBC0gBqyanO
-         hUWheb3U6xw8XUyV6B+d/JdFgK1Xfqw6s8pjMjv2tLrkVLzHvJxJGcR06JD0hc39q4Di
-         koiJ7LvOBCCIJa/LHZEWUBD2RpbaCXIIp6lq8rqNA5Kcl0CT2fCKuaONORIMD1x63Lgu
-         XgDQ==
-X-Gm-Message-State: APjAAAXrLRFHDhiSn9bnfMqXWk9RTJsaaUVpohsen2huOUShPUFk9f8O
-        NV3U276++KNqbaFBnU0RciqkCEcg
-X-Google-Smtp-Source: APXvYqyIHNH4JcdrJW0SRV1lTtP8ss9twLDiJmqih5JP8tIQs1OJ4xvZJfgq119jTKRewrNKK5ExYg==
-X-Received: by 2002:a1c:f612:: with SMTP id w18mr23521335wmc.28.1574543089690;
-        Sat, 23 Nov 2019 13:04:49 -0800 (PST)
-Received: from spectre (dslb-088-065-249-135.088.065.pools.vodafone-ip.de. [88.65.249.135])
-        by smtp.gmail.com with ESMTPSA id o189sm3170400wmo.23.2019.11.23.13.04.48
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=kKcTzJuC8PJNnzJIm6q83P/GLVLCiZGhOohm6Nds3hc=;
+        b=dJ3vGUkTeYwlyp2Jytjq3VbneTMbbYo1+raC+sqG0Or54Xe5R0kq8jrtSaBV/mWOzG
+         FTgzbqKjj378QZ5j9rIw+9qECEVP1iWGXor7+uSHZsbtRgE1gcMkzuVCDHPjStjmfEbJ
+         NV3O5n2nZVozLr5ABFFKUKF3Z+aB4tLima3Fkeka2GDhY2mIPiJX+y0stVbQy5tIQ5rC
+         1gwge0D6+zlUMwfkg4y+8R11tmV8rMHN0THC2bBQlfIriGZpr7/gL9TJEmBuIvr4VJTJ
+         Ojy985Pwjieek0aKJEdK1ojeGvegD3Su0zPRcPaYMVs+M722oH4ZvCdULHTXJK8fa0oz
+         k7CQ==
+X-Gm-Message-State: APjAAAXsIebTBMs19cGHDdm/go7nYhbYPUzKe9RnrMsUFvXaqYSn5/6x
+        XftC4Sbwgw5EVBa+AVmdPd0=
+X-Google-Smtp-Source: APXvYqyBvLowC9Q1fNUStc4e4FDdNQIEjGCU3mQc3EYLzwvXZT5VCgknE9UcRP6a4ceXHb32iNwn1Q==
+X-Received: by 2002:a17:90a:be05:: with SMTP id a5mr78858pjs.73.1574588609123;
+        Sun, 24 Nov 2019 01:43:29 -0800 (PST)
+Received: from debian.net.fpt ([2405:4800:58f7:550c:6dad:1b5f:afc6:7758])
+        by smtp.gmail.com with ESMTPSA id c3sm4091213pfi.91.2019.11.24.01.43.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Nov 2019 13:04:49 -0800 (PST)
-Date:   Sat, 23 Nov 2019 22:04:47 +0100
-From:   "Andreas K. Besslein" <besslein.andreas@gmail.com>
-To:     netdev@vger.kernel.org
-Cc:     linux-usb@vger.kernel.org, oneukum@suse.com, davem@davemloft.net
-Subject: [PATCH net] ax88179_178a: add ethtool_op_get_ts_info()
-Message-ID: <20191123210447.GA8933@spectre>
+        Sun, 24 Nov 2019 01:43:28 -0800 (PST)
+From:   Phong Tran <tranmanphong@gmail.com>
+To:     davem@davemloft.net, keescook@chromium.org
+Cc:     kvalo@codeaurora.org, saeedm@mellanox.com,
+        jeffrey.t.kirsher@intel.com, luciano.coelho@intel.com,
+        netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Phong Tran <tranmanphong@gmail.com>
+Subject: [PATCH 3/5] drivers: net: b43legacy: Fix -Wcast-function-type
+Date:   Sun, 24 Nov 2019 16:43:04 +0700
+Message-Id: <20191124094306.21297-4-tranmanphong@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191124094306.21297-1-tranmanphong@gmail.com>
+References: <20191124094306.21297-1-tranmanphong@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This enables the use of SW timestamping.
+correct usage prototype of callback in tasklet_init().
+Report by https://github.com/KSPP/linux/issues/20
 
-ax88179_178a uses the usbnet transmit function usbnet_start_xmit() which
-implements software timestamping. ax88179_178a overrides ethtool_ops but
-missed to set .get_ts_info. This caused SOF_TIMESTAMPING_TX_SOFTWARE
-capapility to be not available.
-
-Signed-off-by: Andreas K. Besslein <besslein.andreas@gmail.com>
+Signed-off-by: Phong Tran <tranmanphong@gmail.com>
 ---
- drivers/net/usb/ax88179_178a.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/net/wireless/broadcom/b43legacy/main.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/usb/ax88179_178a.c b/drivers/net/usb/ax88179_178a.c
-index daa54486ab09..8bc44c3f7c45 100644
---- a/drivers/net/usb/ax88179_178a.c
-+++ b/drivers/net/usb/ax88179_178a.c
-@@ -827,6 +827,7 @@ static const struct ethtool_ops ax88179_ethtool_ops = {
- 	.nway_reset		= usbnet_nway_reset,
- 	.get_link_ksettings	= ax88179_get_link_ksettings,
- 	.set_link_ksettings	= ax88179_set_link_ksettings,
-+	.get_ts_info		= ethtool_op_get_ts_info,
- };
+diff --git a/drivers/net/wireless/broadcom/b43legacy/main.c b/drivers/net/wireless/broadcom/b43legacy/main.c
+index 4325e91736eb..8b6b657c4b85 100644
+--- a/drivers/net/wireless/broadcom/b43legacy/main.c
++++ b/drivers/net/wireless/broadcom/b43legacy/main.c
+@@ -1275,8 +1275,9 @@ static void handle_irq_ucode_debug(struct b43legacy_wldev *dev)
+ }
  
- static void ax88179_set_multicast(struct net_device *net)
+ /* Interrupt handler bottom-half */
+-static void b43legacy_interrupt_tasklet(struct b43legacy_wldev *dev)
++static void b43legacy_interrupt_tasklet(unsigned long data)
+ {
++	struct b43legacy_wldev *dev = (struct b43legacy_wldev *)data;
+ 	u32 reason;
+ 	u32 dma_reason[ARRAY_SIZE(dev->dma_reason)];
+ 	u32 merged_dma_reason = 0;
+@@ -3741,7 +3742,7 @@ static int b43legacy_one_core_attach(struct ssb_device *dev,
+ 	b43legacy_set_status(wldev, B43legacy_STAT_UNINIT);
+ 	wldev->bad_frames_preempt = modparam_bad_frames_preempt;
+ 	tasklet_init(&wldev->isr_tasklet,
+-		     (void (*)(unsigned long))b43legacy_interrupt_tasklet,
++		     b43legacy_interrupt_tasklet,
+ 		     (unsigned long)wldev);
+ 	if (modparam_pio)
+ 		wldev->__using_pio = true;
 -- 
 2.20.1
 
