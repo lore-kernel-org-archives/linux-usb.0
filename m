@@ -2,73 +2,36 @@ Return-Path: <SRS0=0aa0=ZS=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0533BC432C3
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Nov 2019 13:54:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CC7FC432C0
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Nov 2019 14:05:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CFA082073F
-	for <linux-usb@archiver.kernel.org>; Tue, 26 Nov 2019 13:54:43 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jn3dXdAU"
+	by mail.kernel.org (Postfix) with ESMTP id F2E952073F
+	for <linux-usb@archiver.kernel.org>; Tue, 26 Nov 2019 14:05:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728039AbfKZNyc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 26 Nov 2019 08:54:32 -0500
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:43650 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727374AbfKZNyc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Nov 2019 08:54:32 -0500
-Received: by mail-pg1-f196.google.com with SMTP id b1so9030328pgq.10;
-        Tue, 26 Nov 2019 05:54:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=VbURqT/hIwISYpnd7Ewfv41kiT2pdXc627ZF5Jq5I3E=;
-        b=jn3dXdAUXjCfoTNIr3OuAUBdVoonrWEKqBMAuY8e4g0tBuHvsaniCAg1vun5q/XJb6
-         m68Oi1JcNA3elKzuyziqT9UmhDJTzPJpqSWbwePveSiW79D06dNmHVP2kqiBG2nv5kpy
-         Te0vcwffP3luJ+ZHivGiNFFeEN9dc9huhdQUNFWmWy8nCLldOjp/AZCtf3eKe2+3YirG
-         ohOCO29qxyFBYmw27rU4q4LA7GKX2yKZl48dalyIhFvqJ5hQYmrgtML0ZH4jtlMrS99A
-         nP/LTkgHeEo3B17svNxg2O708y4rNEcRUEImbCV9bm/Q2ytpsQrRDZ2lqrUeb7y6xjAe
-         KJHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=VbURqT/hIwISYpnd7Ewfv41kiT2pdXc627ZF5Jq5I3E=;
-        b=OTOKcgN1pnYOZmZwDdMVYi125QxBeG9CiRdQLTsIjkoFKbLB9nPuQakTDzAeIZTgCu
-         L6Kw7ezQYOXqYjrSrUq1/l2qpTR+RXbJTIhN3jej4TFUV15WpNe8LupKGFigACVO03Ro
-         Ihcl06XBYtfKsw89VF91Nl6NG3f41cy77q+UhKZX0ASrMD2LGMyUqoXy+fbPHFdTMuik
-         V50bSqQ5ylR3SWhhmgEva2x15oZTRY95moo16rv9J2MH+zZBDWw8BEK5/+otoYKBwBKy
-         7/4Qz11F7Wu90HIE9BmqlSxAUEMzZ8MXLe876zTQezh7VOd9+Cmacy5gxg5J+e85jpqR
-         ZhMA==
-X-Gm-Message-State: APjAAAVvsk8GyJCpo7RqQjv0Co0v1+g4QrX0t0uBolOQdxrGLzxKzzvt
-        4wUISZmoXfj/tQdBhrYapYwrA2vZvo0=
-X-Google-Smtp-Source: APXvYqwEndTpIDrFY2fzA2dGp2sWoeRfH5LLeu+qEp6aMt+qIb+DSwKvlV2AxLfZHhRF7NA6PnbkSA==
-X-Received: by 2002:a63:6b87:: with SMTP id g129mr30172249pgc.438.1574776471317;
-        Tue, 26 Nov 2019 05:54:31 -0800 (PST)
-Received: from debian.net.fpt ([2405:4800:58f7:2f79:ce3b:4b9:a68f:959f])
-        by smtp.gmail.com with ESMTPSA id v3sm13018499pfi.26.2019.11.26.05.54.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Nov 2019 05:54:30 -0800 (PST)
-From:   Phong Tran <tranmanphong@gmail.com>
-To:     davem@davemloft.net
-Cc:     alexios.zavras@intel.com, allison@lohutok.net, benquike@gmail.com,
-        gregkh@linuxfoundation.org, johan@kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org, oneukum@suse.com, tglx@linutronix.de,
-        tranmanphong@gmail.com
-Subject: [Patch v2 1/2] net: hso: Fix -Wcast-function-type
-Date:   Tue, 26 Nov 2019 20:54:12 +0700
-Message-Id: <20191126135413.19929-2-tranmanphong@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191126135413.19929-1-tranmanphong@gmail.com>
-References: <20191125.110708.76766634808358006.davem@davemloft.net>
- <20191126135413.19929-1-tranmanphong@gmail.com>
+        id S1728206AbfKZOFD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 26 Nov 2019 09:05:03 -0500
+Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:47442 "EHLO
+        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728198AbfKZOFC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 26 Nov 2019 09:05:02 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R891e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04420;MF=wenyang@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0Tj9VXT6_1574777093;
+Received: from localhost(mailfrom:wenyang@linux.alibaba.com fp:SMTPD_---0Tj9VXT6_1574777093)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Tue, 26 Nov 2019 22:04:58 +0800
+From:   Wen Yang <wenyang@linux.alibaba.com>
+To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Wen Yang <wenyang@linux.alibaba.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: typec: fix use after free in typec_register_port()
+Date:   Tue, 26 Nov 2019 22:04:52 +0800
+Message-Id: <20191126140452.14048-1-wenyang@linux.alibaba.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -76,38 +39,41 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-correct usage prototype of callback in tasklet_init().
-Report by https://github.com/KSPP/linux/issues/20
+We can't use "port->sw" and/or "port->mux" after it has been freed.
 
-Signed-off-by: Phong Tran <tranmanphong@gmail.com>
+Fixes: 23481121c81d ("usb: typec: class: Don't use port parent for getting mux handles")
+Signed-off-by: Wen Yang <wenyang@linux.alibaba.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
 ---
- drivers/net/usb/hso.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/usb/typec/class.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/usb/hso.c b/drivers/net/usb/hso.c
-index 74849da031fa..ca827802f291 100644
---- a/drivers/net/usb/hso.c
-+++ b/drivers/net/usb/hso.c
-@@ -1214,8 +1214,9 @@ static void hso_std_serial_read_bulk_callback(struct urb *urb)
-  * This needs to be a tasklet otherwise we will
-  * end up recursively calling this function.
-  */
--static void hso_unthrottle_tasklet(struct hso_serial *serial)
-+static void hso_unthrottle_tasklet(unsigned long data)
- {
-+	struct hso_serial *serial = (struct hso_serial *)data;
- 	unsigned long flags;
+diff --git a/drivers/usb/typec/class.c b/drivers/usb/typec/class.c
+index 7ece6ca..91d6227 100644
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -1612,14 +1612,16 @@ struct typec_port *typec_register_port(struct device *parent,
  
- 	spin_lock_irqsave(&serial->serial_lock, flags);
-@@ -1265,7 +1266,7 @@ static int hso_serial_open(struct tty_struct *tty, struct file *filp)
- 		/* Force default termio settings */
- 		_hso_serial_set_termios(tty, NULL);
- 		tasklet_init(&serial->unthrottle_tasklet,
--			     (void (*)(unsigned long))hso_unthrottle_tasklet,
-+			     hso_unthrottle_tasklet,
- 			     (unsigned long)serial);
- 		result = hso_start_serial_device(serial->parent, GFP_KERNEL);
- 		if (result) {
+ 	port->sw = typec_switch_get(&port->dev);
+ 	if (IS_ERR(port->sw)) {
++		ret = PTR_ERR(port->sw);
+ 		put_device(&port->dev);
+-		return ERR_CAST(port->sw);
++		return ERR_PTR(ret);
+ 	}
+ 
+ 	port->mux = typec_mux_get(&port->dev, NULL);
+ 	if (IS_ERR(port->mux)) {
++		ret = PTR_ERR(port->mux);
+ 		put_device(&port->dev);
+-		return ERR_CAST(port->mux);
++		return ERR_PTR(ret);
+ 	}
+ 
+ 	ret = device_add(&port->dev);
 -- 
-2.20.1
+1.8.3.1
 
