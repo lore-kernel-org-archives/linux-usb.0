@@ -2,77 +2,68 @@ Return-Path: <SRS0=g+oQ=ZT=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 938C9C432C3
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Nov 2019 15:15:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38DE4C432C0
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Nov 2019 15:17:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 682212075C
-	for <linux-usb@archiver.kernel.org>; Wed, 27 Nov 2019 15:15:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0E0972075C
+	for <linux-usb@archiver.kernel.org>; Wed, 27 Nov 2019 15:17:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1574867854;
+	bh=VIwNZ5WZ+q+sywxz/EPxt8SxSsZFfUCKD/MhWrYIx0I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=qN8EuHo6uc3F/UnlkDHCX8LvhzIbJ9kmr7LP7ygGhHEixYh6NDinzc/qiYMmMwS8f
+	 O5ZwrOF1Mid3BpWnE9o4wjUx6JDO25MmOz5u+ppjRCBVrcxiBMeGlgr/WdlX5e0pDf
+	 6Z16SFoXS6uy2onBWm3rAc7c50e343K47gUvJKiY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727438AbfK0PPG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 27 Nov 2019 10:15:06 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:35337 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726655AbfK0PPG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 27 Nov 2019 10:15:06 -0500
-Received: by mail-wm1-f68.google.com with SMTP id n5so7947689wmc.0
-        for <linux-usb@vger.kernel.org>; Wed, 27 Nov 2019 07:15:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=vl5ePDqM2NbCqRJJOzdx9lMYryri4mRLO9xlqH1kqZE=;
-        b=d3REp2fDO6gV16yPio+TVrXHj12NI6+D3Lz7XrxlaKJYoDyBBFxi9sd7TXs6gU5Hk8
-         6veCdBXUn/rceyYia/g1JgjQKzd433hW4WY27+zBoBYZeHu5zcyWS/+HjbxwBBmORP9J
-         fgnd3FaIbpHct/s9Rg2Ia172myrq2tRa3tVzoHpubSyK0TaEDV5F1zKl53ytNHO0QPKE
-         eZbRA0yMYPlxeo5214/W+DjQYmqRApS4GXhPpq9tT5I37abfCwzAXLxNSwAXaRREaAi6
-         /6bB/aTxTvKwmYTY+421O3j8NEB9rpTiObwhggxDkf8kGXvlmRN6aZzZSNcBKNi8HlX7
-         raCg==
-X-Gm-Message-State: APjAAAVlUTnnR1a+DRRGIn5OF6DYXT2tqydO9wbW6z31oJ1aTon1Rz0E
-        LXzyqvQ2gR+0Bt64VPFFMjJwKxn9xYc=
-X-Google-Smtp-Source: APXvYqxpDYBLyDjasywk1RjSB9K5Wq2ja25Z7rc1JdBib2ZGbv5FO2K7++QFCvZj1iYsna1jqVO40w==
-X-Received: by 2002:a1c:ed05:: with SMTP id l5mr5152045wmh.161.1574867704989;
-        Wed, 27 Nov 2019 07:15:04 -0800 (PST)
-Received: from ingrassia.epigenesys.com (host194-85-static.3-79-b.business.telecomitalia.it. [79.3.85.194])
-        by smtp.gmail.com with ESMTPSA id f1sm1078591wrp.93.2019.11.27.07.15.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Nov 2019 07:15:04 -0800 (PST)
-Date:   Wed, 27 Nov 2019 16:15:02 +0100
-From:   Emiliano Ingrassia <ingrassia@epigenesys.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        id S1727072AbfK0PRd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 27 Nov 2019 10:17:33 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45312 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726673AbfK0PRd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 27 Nov 2019 10:17:33 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 748E6206F0;
+        Wed, 27 Nov 2019 15:17:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1574867852;
+        bh=VIwNZ5WZ+q+sywxz/EPxt8SxSsZFfUCKD/MhWrYIx0I=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=iIirbHlVySiF86WP7KymrEZYKfhcOyOGGRnd9vuaI0/gcD2XJvqNQ4VhgmqTldbT0
+         1F+ek9S+plataRnqjMpVKHiHOvxwNDAFJKSsRJCExjUm+8geGAaQz79y4TQcvrVUeD
+         zdnH4pyTPPkx9L6IIc8NEdxk7o5PgrBzg/Pmt1fE=
+Date:   Wed, 27 Nov 2019 16:17:30 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Emiliano Ingrassia <ingrassia@epigenesys.com>
 Cc:     linux-usb@vger.kernel.org
-Subject: [PATCH] usb: core: urb: explicitly initialize urb_list field in
+Subject: Re: [PATCH] usb: core: urb: explicitly initialize urb_list field in
  usb_init_urb()
-Message-ID: <20191127151502.GA26047@ingrassia.epigenesys.com>
+Message-ID: <20191127151730.GA2775951@kroah.com>
+References: <20191127151502.GA26047@ingrassia.epigenesys.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20191127151502.GA26047@ingrassia.epigenesys.com>
 User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Signed-off-by: Emiliano Ingrassia <ingrassia@epigenesys.com>
----
- drivers/usb/core/urb.c | 1 +
- 1 file changed, 1 insertion(+)
+On Wed, Nov 27, 2019 at 04:15:02PM +0100, Emiliano Ingrassia wrote:
+> Signed-off-by: Emiliano Ingrassia <ingrassia@epigenesys.com>
 
-diff --git a/drivers/usb/core/urb.c b/drivers/usb/core/urb.c
-index 0eab79f82ce4..da923ec17612 100644
---- a/drivers/usb/core/urb.c
-+++ b/drivers/usb/core/urb.c
-@@ -45,6 +45,7 @@ void usb_init_urb(struct urb *urb)
- 	if (urb) {
- 		memset(urb, 0, sizeof(*urb));
- 		kref_init(&urb->kref);
-+		INIT_LIST_HEAD(&urb->urb_list);
- 		INIT_LIST_HEAD(&urb->anchor_list);
- 	}
- }
---
-2.24.0
+I can not take patches without any changelog text, sorry.
 
+ALways describe _why_ you are making this change, not what the change
+it.
+
+thanks,
+
+greg k-h
