@@ -2,99 +2,71 @@ Return-Path: <SRS0=C34Z=ZU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7157FC43215
-	for <linux-usb@archiver.kernel.org>; Thu, 28 Nov 2019 17:25:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B537C432C0
+	for <linux-usb@archiver.kernel.org>; Thu, 28 Nov 2019 17:33:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4020921739
-	for <linux-usb@archiver.kernel.org>; Thu, 28 Nov 2019 17:25:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1574961930;
-	bh=sk66wdh0s6ovQd2JLxe5u9bb6Bf0Dn5Hfp1cBrwkuiE=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=TJliwVMtdVYIuwF2OX3pU0jPBmpMaeHTH21WbVvmCh5HCUSqRO0gwn8/hwbaYn0li
-	 XB+jBwrrwquk5u5Oqq5SZAsIZseOuIKrfsDnfeQsT/jXSvsULP2rupSE0iXNrhcz6Q
-	 rKVzrF1p/dtvfe+zB7ZsyK6aByMgWXLAeJrKF2a4=
+	by mail.kernel.org (Postfix) with ESMTP id 5598521739
+	for <linux-usb@archiver.kernel.org>; Thu, 28 Nov 2019 17:33:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727198AbfK1RZY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 28 Nov 2019 12:25:24 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:45314 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726609AbfK1RYp (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 Nov 2019 12:24:45 -0500
-Received: by mail-lf1-f67.google.com with SMTP id 203so20557329lfa.12;
-        Thu, 28 Nov 2019 09:24:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=AWIsUNUBq4Dwz0cIArwIvo4yXMQZOnNjmlUY90hEg3c=;
-        b=VytegU+3FG0xyu80nd+WJEXpNhRX6xcar8sa+cvmh25D/SWUv6F4DAOlOQtY+tCoOH
-         HmRs8hVJcx+XdjN+ZdncvX+ixDH5U1L7Cma6s4GqjRGIVoY9da2xRbJMlJNRBmb+Nv6E
-         EQgNlnWsu6vXTPkQdgp/pIfxDJhOYUwniYBSWq1pTM6+ro6y08yxdEZLG1qwnBye0nly
-         0QNgXxNZqVxMup1v4UhHGc3E8ppOWowwR51ZrpVqKrXM5dGQfeMH1n+E2BS1DUMjtwHC
-         Eb43H3qtulHFMYH/9tVGMMUq8pUdmTrs14AQaKfBjUs/tk2bxyghmnh8ipeDxaZCWj2K
-         rCig==
-X-Gm-Message-State: APjAAAXtzSOnwLmY1LHZXsEZT991o9mNlYMZMVfUiGoLHLUnNbm9aH3j
-        0lnkisbJF/6aUWGg5Ug1Ge4weFmW
-X-Google-Smtp-Source: APXvYqyGQ+dl8mFz1yMZ8m53S07teEo9C3EYzmzo4P+OaSDV4T/S6Nal03t5H/RlfWUyB7J0f2eR7Q==
-X-Received: by 2002:ac2:4212:: with SMTP id y18mr5297266lfh.2.1574961882298;
-        Thu, 28 Nov 2019 09:24:42 -0800 (PST)
-Received: from xi.terra (c-14b8e655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.184.20])
-        by smtp.gmail.com with ESMTPSA id z20sm9302723ljj.85.2019.11.28.09.24.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Nov 2019 09:24:41 -0800 (PST)
-Received: from johan by xi.terra with local (Exim 4.92.3)
-        (envelope-from <johan@xi.terra>)
-        id 1iaNWz-0006wN-Dj; Thu, 28 Nov 2019 18:24:41 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Amitkumar Karwar <amitkarwar@gmail.com>,
-        Siva Rebbagondla <siva8118@gmail.com>,
-        Kalle Valo <kvalo@codeaurora.org>
-Cc:     linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>
-Subject: [PATCH 0/5] rsi: fix use-after-free, memleak and sleep-while-atomic
-Date:   Thu, 28 Nov 2019 18:21:59 +0100
-Message-Id: <20191128172204.26600-1-johan@kernel.org>
-X-Mailer: git-send-email 2.24.0
+        id S1726657AbfK1Rdn (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 28 Nov 2019 12:33:43 -0500
+Received: from netrider.rowland.org ([192.131.102.5]:52519 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726612AbfK1Rdn (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 Nov 2019 12:33:43 -0500
+Received: (qmail 20969 invoked by uid 500); 28 Nov 2019 12:33:42 -0500
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 28 Nov 2019 12:33:42 -0500
+Date:   Thu, 28 Nov 2019 12:33:42 -0500 (EST)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@netrider.rowland.org
+To:     Oliver Neukum <oneukum@suse.com>
+cc:     syzbot <syzbot+9ca7a12fd736d93e0232@syzkaller.appspotmail.com>,
+        <andreyknvl@google.com>, <hverkuil@xs4all.nl>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <mchehab@kernel.org>,
+        <syzkaller-bugs@googlegroups.com>
+Subject: Re: KASAN: use-after-free Read in si470x_int_in_callback (2)
+In-Reply-To: <1574938260.21204.5.camel@suse.com>
+Message-ID: <Pine.LNX.4.44L0.1911281225340.19734-100000@netrider.rowland.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The syzbot fuzzer has reported two separate use-after-free issues,
-which are fixed by the first two patches.
+On Thu, 28 Nov 2019, Oliver Neukum wrote:
 
-Turns out there were more gems in this driver and the next two patches
-fixes a memory leak and a potential sleep-while-atomic found through
-inspection.
+> Hi,
+> 
+> it is a bit awkward to complain here, as your patch tests as correct
+> while mine didn't, but this is a race condition.
+> You can't guarantee that urb->status != 0.
+> The kill may happen while the completion handler is running for
+> a successful transfer.
+> 
+> I really appreciate your help, but I must understand what is going
+> wrong here. You are stopping the resubmit, but how could the resubmit
+> ever have not failed?
 
-The last one tightens the seemingly broken endpoint sanity check which
-would have the driver try to submit a bulk URB to the default pipe (and
-fail).
+You probably have figured all this out already, but I'll answer anyway.
 
-Tested using a mockup device.
+The code I changed doesn't race with the error condition you were 
+concerned about.  The two are independent, and it doesn't matter if the 
+kill happens while the completion handler is running.
 
-Johan
+In the case my patch addresses, the resubmit does not fail.  Rather, it
+succeeds but then the URB completes with a -EPROTO error.  The problem
+is that the completion handler then resubmits the URB again, and it
+completes again with the same error, right away, in a tight loop --
+which prevents the CPU from executing any other code.  The way to fix
+the problem is to break the loop by not resubmitting, which is what the
+patch does.
 
-
-Johan Hovold (5):
-  rsi: fix use-after-free on failed probe and unbind
-  rsi: fix use-after-free on probe errors
-  rsi: fix memory leak on failed URB submission
-  rsi: fix non-atomic allocation in completion handler
-  rsi: add missing endpoint sanity checks
-
- drivers/net/wireless/rsi/rsi_91x_hal.c | 12 +++----
- drivers/net/wireless/rsi/rsi_91x_usb.c | 47 ++++++++++++++++++++------
- 2 files changed, 43 insertions(+), 16 deletions(-)
-
--- 
-2.24.0
+Alan Stern
 
