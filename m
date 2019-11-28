@@ -2,135 +2,75 @@ Return-Path: <SRS0=C34Z=ZU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06A57C43215
-	for <linux-usb@archiver.kernel.org>; Thu, 28 Nov 2019 11:29:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EA31C432C3
+	for <linux-usb@archiver.kernel.org>; Thu, 28 Nov 2019 11:33:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D29F9217BA
-	for <linux-usb@archiver.kernel.org>; Thu, 28 Nov 2019 11:29:49 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="SCDVkvIN"
+	by mail.kernel.org (Postfix) with ESMTP id D21AF21789
+	for <linux-usb@archiver.kernel.org>; Thu, 28 Nov 2019 11:33:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726383AbfK1L3t (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 28 Nov 2019 06:29:49 -0500
-Received: from sv2-smtprelay2.synopsys.com ([149.117.73.133]:35844 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726054AbfK1L3t (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 Nov 2019 06:29:49 -0500
-X-Greylist: delayed 488 seconds by postgrey-1.27 at vger.kernel.org; Thu, 28 Nov 2019 06:29:48 EST
-Received: from mailhost.synopsys.com (mdc-mailhost1.synopsys.com [10.225.0.209])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 9D0C642664;
-        Thu, 28 Nov 2019 11:21:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1574940099; bh=DiNFPgbhkdfJ9+5F7sa8NqwGXAeQzSC4yo0sxGxXPLc=;
-        h=Date:From:Subject:To:Cc:From;
-        b=SCDVkvINguppUKLsumg4p/i/ZF0xLU41kDvZoOPbscPZmNYLkKvSao8DgwNTw0xwD
-         tzLZl4xo1ufrOYs4echUCMxXX0I6uwJVs6RqFX7avTKG2IkYmFy/OcpPrfFvcnwYVG
-         +Ad0GoDTMLzc2a8NIFlHXi5w8OhYpQEViB09jcL5nb/aDSadg+ZztwnyDchU59lhy9
-         UaVQKz1Bs/uUFYUutHoyFKU5gOP+bxo+8Lxa75m4iYhFl//8LAoKaAbr3eTTo2ThqW
-         n7wbomtEagE+oU1tLPeCrAs//NrcTTpS4tlLK9twwGguczXzDn+oF9tg6yapbheM+Q
-         vcu/+/2lbe46A==
-Received: from hminas-z420 (hminas-z420.internal.synopsys.com [10.116.126.211])
-        (using TLSv1 with cipher AES128-SHA (128/128 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPSA id 6370AA0066;
-        Thu, 28 Nov 2019 11:21:36 +0000 (UTC)
-Received: by hminas-z420 (sSMTP sendmail emulation); Thu, 28 Nov 2019 15:21:34 +0400
-Date:   Thu, 28 Nov 2019 15:21:34 +0400
-Message-Id: <f8af9e4b892a8d005f0ae3d42401fee532f44a27.1574938826.git.hminas@synopsys.com>
-From:   Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
-Subject: [PATCH] usb: dwc2: Fix SET/CLEAR_FEATURE and GET_STATUS flows
-To:     Felipe Balbi <balbi@kernel.org>,
+        id S1726320AbfK1Ldf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 28 Nov 2019 06:33:35 -0500
+Received: from alexa-out-blr-01.qualcomm.com ([103.229.18.197]:42005 "EHLO
+        alexa-out-blr-01.qualcomm.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726191AbfK1Lde (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 Nov 2019 06:33:34 -0500
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+  by alexa-out-blr-01.qualcomm.com with ESMTP/TLS/AES256-SHA; 28 Nov 2019 17:03:32 +0530
+IronPort-SDR: sG1FeRQ0Lk0+DoU4EZoM9Lf32SU0seLjHXGUYX8mtiWE2BU/WtXYkiYM173wJUbBu4Mq6UtJie
+ CZge8mcwtHUyiazo1F8ojp0ECbp7N54QFFuE4lH0AhlNqkvs6lxsp4rSWMyjzPnzrWYCyQ0CeT
+ blrHBxxhU9mpt/7S2BTdStLzQ2GfYJwsK6DvdJILmI8xbRAMEbmfDYquuk+9xml8fDdTqHuQqb
+ rFPpPT7wrbALKVkWag60e2Vj2NNvHlaQswFhFeV4gK8GUBv2c0I4CShqe5tpnc3K6enEQJjXqM
+ ETBQiUz4MI2RomkHKGEoL2wC
+Received: from c-sanm-linux.qualcomm.com ([10.206.25.31])
+  by ironmsg02-blr.qualcomm.com with ESMTP; 28 Nov 2019 17:03:11 +0530
+Received: by c-sanm-linux.qualcomm.com (Postfix, from userid 2343233)
+        id 13E4E19B8; Thu, 28 Nov 2019 17:03:10 +0530 (IST)
+From:   Sandeep Maheswaram <sanm@codeaurora.org>
+To:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>,
-        linux-usb@vger.kernel.org
-Cc:     John Youn <John.Youn@synopsys.com>, stable@vger.kernel.org
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>
+Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sandeep Maheswaram <sanm@codeaurora.org>
+Subject: [PATCH v2 0/3] Add USB DWC3 support for SC7180
+Date:   Thu, 28 Nov 2019 17:03:04 +0530
+Message-Id: <1574940787-1004-1-git-send-email-sanm@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-SET/CLEAR_FEATURE for Remote Wakeup allowance not handled correctly.
-GET_STATUS handling provided not correct data on DATA Stage.
-Issue seen when gadget's dr_mode set to "otg" mode and connected
-to MacOS.
-Both are fixed and tested using USBCV Ch.9 tests.
+Adding compatible for SC7180 in USB DWC3 driver.
+Converting dt binding to yaml.
+Adding compatible for SC7180 in dt bindings.
 
-Signed-off-by: Minas Harutyunyan <hminas@synopsys.com>
----
- drivers/usb/dwc2/gadget.c | 28 ++++++++++++++++------------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+Changes in v2:
+Sorted the compatible in dwc3 driver.
+Converted dt binding to yaml.
+Added compatible in yaml.
 
-diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
-index 6be10e496e10..3a6176c22371 100644
---- a/drivers/usb/dwc2/gadget.c
-+++ b/drivers/usb/dwc2/gadget.c
-@@ -1632,6 +1632,7 @@ static int dwc2_hsotg_process_req_status(struct dwc2_hsotg *hsotg,
- 	struct dwc2_hsotg_ep *ep0 = hsotg->eps_out[0];
- 	struct dwc2_hsotg_ep *ep;
- 	__le16 reply;
-+	u16 status;
- 	int ret;
- 
- 	dev_dbg(hsotg->dev, "%s: USB_REQ_GET_STATUS\n", __func__);
-@@ -1643,11 +1644,10 @@ static int dwc2_hsotg_process_req_status(struct dwc2_hsotg *hsotg,
- 
- 	switch (ctrl->bRequestType & USB_RECIP_MASK) {
- 	case USB_RECIP_DEVICE:
--		/*
--		 * bit 0 => self powered
--		 * bit 1 => remote wakeup
--		 */
--		reply = cpu_to_le16(0);
-+		status = 1 << USB_DEVICE_SELF_POWERED;
-+		status |= hsotg->remote_wakeup_allowed <<
-+			  USB_DEVICE_REMOTE_WAKEUP;
-+		reply = cpu_to_le16(status);
- 		break;
- 
- 	case USB_RECIP_INTERFACE:
-@@ -1758,7 +1758,10 @@ static int dwc2_hsotg_process_req_feature(struct dwc2_hsotg *hsotg,
- 	case USB_RECIP_DEVICE:
- 		switch (wValue) {
- 		case USB_DEVICE_REMOTE_WAKEUP:
--			hsotg->remote_wakeup_allowed = 1;
-+			if (set)
-+				hsotg->remote_wakeup_allowed = 1;
-+			else
-+				hsotg->remote_wakeup_allowed = 0;
- 			break;
- 
- 		case USB_DEVICE_TEST_MODE:
-@@ -1768,16 +1771,17 @@ static int dwc2_hsotg_process_req_feature(struct dwc2_hsotg *hsotg,
- 				return -EINVAL;
- 
- 			hsotg->test_mode = wIndex >> 8;
--			ret = dwc2_hsotg_send_reply(hsotg, ep0, NULL, 0);
--			if (ret) {
--				dev_err(hsotg->dev,
--					"%s: failed to send reply\n", __func__);
--				return ret;
--			}
- 			break;
- 		default:
- 			return -ENOENT;
- 		}
-+
-+		ret = dwc2_hsotg_send_reply(hsotg, ep0, NULL, 0);
-+		if (ret) {
-+			dev_err(hsotg->dev,
-+				"%s: failed to send reply\n", __func__);
-+			return ret;
-+		}
- 		break;
- 
- 	case USB_RECIP_ENDPOINT:
+Sandeep Maheswaram (3):
+  usb: dwc3: Add support for SC7180 SOC
+  dt-bindings: usb: qcom,dwc3: Convert USB DWC3 bindings to yaml
+  dt-bindings: usb: qcom,dwc3: Add compatible for SC7180
+
+ .../devicetree/bindings/usb/qcom,dwc3.txt          | 104 --------------
+ .../devicetree/bindings/usb/qcom,dwc3.yaml         | 156 +++++++++++++++++++++
+ drivers/usb/dwc3/dwc3-qcom.c                       |   3 +-
+ 3 files changed, 158 insertions(+), 105 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/usb/qcom,dwc3.txt
+ create mode 100644 Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+
 -- 
-2.11.0
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
 
