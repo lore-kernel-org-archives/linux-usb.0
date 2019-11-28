@@ -2,178 +2,120 @@ Return-Path: <SRS0=C34Z=ZU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2286C432C0
-	for <linux-usb@archiver.kernel.org>; Thu, 28 Nov 2019 11:36:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5950C43215
+	for <linux-usb@archiver.kernel.org>; Thu, 28 Nov 2019 11:40:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9723820880
-	for <linux-usb@archiver.kernel.org>; Thu, 28 Nov 2019 11:36:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D9C421781
+	for <linux-usb@archiver.kernel.org>; Thu, 28 Nov 2019 11:40:18 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=unipv-it.20150623.gappssmtp.com header.i=@unipv-it.20150623.gappssmtp.com header.b="WExpWIl8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726496AbfK1Lgk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 28 Nov 2019 06:36:40 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:50935 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726227AbfK1Lgk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 Nov 2019 06:36:40 -0500
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mol@pengutronix.de>)
-        id 1iaI67-0003Kl-DU; Thu, 28 Nov 2019 12:36:35 +0100
-Received: from mol by ptx.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mol@pengutronix.de>)
-        id 1iaI65-0004MZ-Pg; Thu, 28 Nov 2019 12:36:33 +0100
-Date:   Thu, 28 Nov 2019 12:36:33 +0100
-From:   Michael Olbrich <m.olbrich@pengutronix.de>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 2/2] usb: dwc3: gadget: restart the transfer if a isoc
- request is queued too late
-Message-ID: <20191128113633.5slzlehhwlmnc3zr@pengutronix.de>
-Mail-Followup-To: Alan Stern <stern@rowland.harvard.edu>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <6d4b87c8-5aca-18cb-81db-a8d2fd4bd86e@synopsys.com>
- <Pine.LNX.4.44L0.1911151549370.1527-100000@iolanthe.rowland.org>
+        id S1726885AbfK1LkS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 28 Nov 2019 06:40:18 -0500
+Received: from mail-wr1-f48.google.com ([209.85.221.48]:33205 "EHLO
+        mail-wr1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726401AbfK1LkR (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 Nov 2019 06:40:17 -0500
+Received: by mail-wr1-f48.google.com with SMTP id b6so1067923wrq.0
+        for <linux-usb@vger.kernel.org>; Thu, 28 Nov 2019 03:40:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=unipv-it.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=GcaV7TSgPi16GI1scwVAVOuBQ2pZxQwhgEx6hTrOkns=;
+        b=WExpWIl8B8mTd7QDNWiNnXNoTCMETcR94FWgcoGbGKbcGVIEioeu6sorw0ZZwkEiCX
+         JVeAuKrT4RA+TX/KomUnci2tzbFQLHobalFPZyYMN3wXLEKOFDJ+/iHE4StbMGKorpPp
+         GLzuCcNiK18hAB8AOYGF3JxRuq4p+9DsyEz6Cn2VeC1l/p/R6mD6QiSsxJib9Bem3/2o
+         jRV1/OJIRlnUp5pldlPZLRAMVLeHQ1nvx5P7UnXfjGv34mmXEKc7fi2Un6BQUQrIeboM
+         HEsZieuixSP6Od0SKNAd7Z+AXyktouVnMwhQgWsu/aZSobFdEzKJT2qq80jXDDEJCYe2
+         zcIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=GcaV7TSgPi16GI1scwVAVOuBQ2pZxQwhgEx6hTrOkns=;
+        b=jWz6KcfWGSglhOYdnYBtOkGq5geSuBvTiVISGKhROCpJmdMgXGxJBO1CdzrfnbBVDY
+         3YSx0uSAuF4PqwcOMmrJdq6v6b17jMf5tOnF7NU7nFVnci3aKf1bQZ1mwUCtRo5JkK/h
+         EV8BBl5q6BgijzN6aqbYbUwpEhkbzgkyDauTHQdSzjRCSvrDBGH82FFzFkxgPEopxv71
+         Tpu8TR2F/mHcVSiMgKm4w8TCagdV5BdlGUmNTgwKQ3DiqdGtaj6S7w68i5E10SFYUUSZ
+         1Ig+hWuN5IEA8/CqKy6gi0g4DJ1tCyQEzWCtusiFIrGxAwxxqAAfivOj8Kx53+3Cs4Gf
+         fVfA==
+X-Gm-Message-State: APjAAAWkx+KhPmiQEMeZi71Qyk8EXYaePu3lVszJPvpkkl6eydQZqM4k
+        WJPjs4SALicpaiJUGwUCU37CJQ==
+X-Google-Smtp-Source: APXvYqzJoJ36WVXfKX0byebk+wUH2f5FUSX/9U7e2SD/NjLo+igkMeM0znDoPQjo8YplBf0zzGssHA==
+X-Received: by 2002:adf:fa08:: with SMTP id m8mr50371389wrr.276.1574941215165;
+        Thu, 28 Nov 2019 03:40:15 -0800 (PST)
+Received: from angus.unipv.it (angus.unipv.it. [193.206.67.163])
+        by smtp.gmail.com with ESMTPSA id l7sm3963426wrq.61.2019.11.28.03.40.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Nov 2019 03:40:14 -0800 (PST)
+Message-ID: <d12d516dea813f8c603b6fcd43afb3aeec1957f5.camel@unipv.it>
+Subject: Re: AW: AW: Slow I/O on USB media after commit
+ f664a3cc17b7d0a2bc3b3ab96181e1029b0ec0e6
+From:   Andrea Vai <andrea.vai@unipv.it>
+To:     "Schmid, Carsten" <Carsten_Schmid@mentor.com>,
+        Finn Thain <fthain@telegraphics.com.au>
+Cc:     Ming Lei <ming.lei@redhat.com>,
+        Damien Le Moal <Damien.LeMoal@wdc.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Jens Axboe <axboe@kernel.dk>,
+        Johannes Thumshirn <jthumshirn@suse.de>,
+        USB list <linux-usb@vger.kernel.org>,
+        SCSI development list <linux-scsi@vger.kernel.org>,
+        Himanshu Madhani <himanshu.madhani@cavium.com>,
+        Hannes Reinecke <hare@suse.com>,
+        Omar Sandoval <osandov@fb.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Hans Holmberg <Hans.Holmberg@wdc.com>,
+        Kernel development list <linux-kernel@vger.kernel.org>
+Date:   Thu, 28 Nov 2019 12:40:11 +0100
+In-Reply-To: <fa9566db62474d7aa5473cf7a1f0da8d@SVR-IES-MBX-03.mgc.mentorg.com>
+References: <20191109222828.GA30568@ming.t460p>
+         <fa3b0cf1f88e42e1200101bccbc797e4e7778d58.camel@unipv.it>
+         <20191123072726.GC25356@ming.t460p>
+         <a9ffcca93657cbbb56819fd883c474a702423b41.camel@unipv.it>
+         <20191125035437.GA3806@ming.t460p>
+         <bf47a6c620b847fa9e27f8542eb761529f3e0381.camel@unipv.it>
+         <20191125102928.GA20489@ming.t460p>
+         <e5093535c60fd5dff8f92b76dcd52a1030938f62.camel@unipv.it>
+         <20191125151535.GA8044@ming.t460p>
+         <0876e232feace900735ac90d27136288b54dafe1.camel@unipv.it>
+         <20191126023253.GA24501@ming.t460p>
+         <0598fe2754bf0717d81f7e72d3e9b3230c608cc6.camel@unipv.it>
+         <alpine.LNX.2.21.1.1911271055200.8@nippy.intranet>
+         <cb6e84781c4542229a3f31572cef19ab@SVR-IES-MBX-03.mgc.mentorg.com>
+         <c1358b840b3a4971aa35a25d8495c2c8953403ea.camel@unipv.it>
+         <fa9566db62474d7aa5473cf7a1f0da8d@SVR-IES-MBX-03.mgc.mentorg.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Pine.LNX.4.44L0.1911151549370.1527-100000@iolanthe.rowland.org>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 11:32:14 up 143 days, 16:42, 146 users,  load average: 0.66, 0.30,
- 0.22
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: mol@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-usb@vger.kernel.org
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Nov 15, 2019 at 04:06:10PM -0500, Alan Stern wrote:
-> On Thu, 14 Nov 2019, Thinh Nguyen wrote:
+Il giorno gio, 28/11/2019 alle 08.12 +0000, Schmid, Carsten ha
+scritto:
 > 
-> > Michael Olbrich wrote:
+> [...]
 > 
-> > >>> How about changing the gadget driver instead?  For frames where the UVC
-> > >>> gadget knows no video frame data is available (numbers 4, 8, 12, and so
-> > >>> on in the example above), queue a zero-length request.  Then there
-> > >>> won't be any gaps in the isochronous packet stream.
-> > >> What Alan suggests may work. Have you tried this?
-> > > Yes and it works in general. There are however some problems with that
-> > > approach that I want to avoid:
-> > >
-> > > 1. It adds extra overhead to handle the extra zero-length request.
-> > > Especially for encoded video the available bandwidth can be quite a bit
-> > > larger that what is actually used. I want to avoid that.
+> I assume the only thing that you change between the benchmarks
+> is the kernel (and the modules, of course), right, Andrea?
 > 
-> This comment doesn't seem to make sense.  If the available bandwidth is
-> much _larger_ than what is actually used, what's the problem?  You
-> don't run into difficulties until the available bandwidth is too
-> _small_.
-> 
-> The extra overhead of a zero-length request should be pretty small.  
-> After all, the gadget expects to send a packet for every frame anyway,
-> more or less.
 
-My current test-case is video frames with 450kB on average at 30fps. This
-currently results in ~10 CPU load for the threaded interrupt handler.
-At least in my test, filling the actual video data into the frame has very
-little impact. So if I reserve 900kB to support occasionally larger video
-frames, then I expect that this CPU load will almost double in all cases,
-not just when the video frames are larger.
+It's my production machine, so apart from the changes involved in a
+"normal use of a PC" I can say that there are no changes I am aware of
+(apart from the kernel, and other changes you told me to do, such as
+changing the IO scheduler, etc)... but please remember I am not an
+expert, so feel free to ask me what other kind of changes I can tell
+you about.
 
-> > > 2. The UVC gadget currently does no know how many zero-length request must
-> > > added. So it needs fill all available request until a new video frame
-> > > arrives. With the current 4 requests that is not a problem right now. But
-> > > that does not scale for USB3 bandwidths. So one thing that I want to do is
-> > > to queue many requests but only enable the interrupt for a few of than.
-> > >  From what I can tell from the code, the gadget framework and the dwc3
-> > > driver should already support this.
-> > > This will result in extra latency. There is probably an acceptable
-> > > trade-off with an acceptable interrupt load and latency. But I would like
-> > > to avoid that if possible.
-> 
-> There are two different situations to consider:
-> 
-> 	In the middle of a video stream, latency isn't an issue.
-> 	The gadget should expect to send a new packet for each frame,
-> 	and it doesn't know what to put in that packet until it
-> 	receives the video data or it knows there won't be any data.
-> 
-> 	At the start of a video stream, latency can be an issue.  But
-> 	in this situation the gadget doesn't have to send 0-length
-> 	requests until there actually is some data available.
-> 
-> Either way, it should be okay.
-> 
-> As far as interrupt load is concerned, I don't see how it relates to
-> the issue of sending 0-length requests.
+Thanks,
+Andrea
 
-Maybe I don't understand, how 0-length requests work. My current
-understanding is, that they are queued like any other request.
-
-If I want to reduce the number of interrupts then I need to queue more
-requests and only ask for an interrupt for some of them. This means that
-potentially a lot of 0-length requests requests are queued when a new video
-frame arrives and this means extra latency for the frame.
-
-I think the worst-case latency is 2x the time between two interrupts.
-So less interrupts mean more latency.
-The stop/start transfer this patch implements, the video frame can be sent
-immediately without any extra latency.
-
-> > I think I understand the problem you're trying to solve now.
-> > 
-> > The dwc3 driver does not know that there's a gap until after a new 
-> > request was queued, which then it will send an END_TRANSFER command and 
-> > dequeue all the requests to restart the transfer due to missed_isoc.
-> > We do this because the dwc3 driver does not know whether the new request 
-> > is actually stale data, and we should not change this behavior.
-> > 
-> > Now, with UVC, it needs to communicate to the dwc3 driver that there 
-> > will be a gap after a certain request (and that the device is expecting 
-> > to send 0-length data). This is not a normal operation for isoc 
-> > transfer. You may need to introduce a new way for the function driver to 
-> > do that, possibly a new field in usb_request structure to indicate that. 
-> > However, this seems a little awkward. Maybe others can comment on this.
-
-I'm not sure how this is supposed to work. What exactly can the dwc3 driver
-/ hardware do to handle a gap?
-
-> Note that on the host side, there is a difference between receiving 
-> a 0-length packet and receiving no packet at all.  As long as both the 
-> host and the gadget expect the isochronous stream to be running, there 
-> shouldn't be any gaps if you can avoid it.
-
-Huh, so how is this handled on other hardware? From what I can tell the UVC
-gadget works with other drivers and I've not found any special handling for
-this. Is there no packet sent or are 0-length packet generated implicitly
-somewhere?
-
-Regards,
-Michael
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
