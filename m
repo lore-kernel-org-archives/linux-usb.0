@@ -2,83 +2,143 @@ Return-Path: <SRS0=C34Z=ZU=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B5A0C43215
-	for <linux-usb@archiver.kernel.org>; Thu, 28 Nov 2019 17:25:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A34CAC432C0
+	for <linux-usb@archiver.kernel.org>; Thu, 28 Nov 2019 17:25:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3E165216F4
-	for <linux-usb@archiver.kernel.org>; Thu, 28 Nov 2019 17:25:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7807A217BA
+	for <linux-usb@archiver.kernel.org>; Thu, 28 Nov 2019 17:25:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1574961924;
+	bh=b4/AmTEV92WrE9X3EffjoPEtgDbvxRWEPGW8xFeckBY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=NEaY/P43Yl7jmdivexRyUAeaK4b19roGgLn3nUc6TRXk0a50RRXeCgvhI6rZBEnJ7
+	 7uloLXfj6Mn9TOagRiRaMrAF2smwpP7pYDBotcFgvAl3HLW8boz2meE/KGxgIwS4Ul
+	 umgJA6JD4x0dJEGhqEdX7bCZPsXIwD/+LPo0FlBA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727169AbfK1RZH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 28 Nov 2019 12:25:07 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:49355 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1727139AbfK1RZH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 Nov 2019 12:25:07 -0500
-Received: (qmail 20647 invoked by uid 500); 28 Nov 2019 12:25:05 -0500
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 28 Nov 2019 12:25:05 -0500
-Date:   Thu, 28 Nov 2019 12:25:05 -0500 (EST)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@netrider.rowland.org
-To:     Oliver Neukum <oneukum@suse.com>
-cc:     syzbot <syzbot+9ca7a12fd736d93e0232@syzkaller.appspotmail.com>,
-        <andreyknvl@google.com>, <hverkuil@xs4all.nl>,
-        Kernel development list <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>, <mchehab@kernel.org>,
-        <syzkaller-bugs@googlegroups.com>
-Subject: Re: KASAN: use-after-free Read in si470x_int_in_callback (2)
-In-Reply-To: <1574954383.21204.11.camel@suse.com>
-Message-ID: <Pine.LNX.4.44L0.1911281214050.19734-100000@netrider.rowland.org>
+        id S1726702AbfK1RYp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 28 Nov 2019 12:24:45 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:42688 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726446AbfK1RYo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 28 Nov 2019 12:24:44 -0500
+Received: by mail-lf1-f68.google.com with SMTP id y19so20572152lfl.9;
+        Thu, 28 Nov 2019 09:24:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=trn2oJruIhuwCs6xMuGwp0kYiOcQXsbNZbrdFQNLYJE=;
+        b=QteH4IQ22KTDPseojpdNhFGKl9L1O/chT62Cik94gJLML6M5X7nVARktSDXUmZZ8FL
+         i07qSUjq7mGwrPVXO5ZUPGCQX+DXqenJR4dGvJN4Tq8OQ4WHLP96rBcVtw//+ypwXP+P
+         CYTYtOHRVAL2BJnLMGGL6WkXamiEwomXIZrpr1buPUYnBY5sZ7bUsJagi3qNfZtZhQCp
+         sJp+NivfJCZz8UwZt6mM5A0MT8KFkWidpMR8gIVCb22lgqosMvtxTzCcfrhMW9sTQceg
+         EJOoMC2DVQTgZvCRMeLb3xS0VRq2YaIW4JOSwD4UHCO76LZKhsuc2zVFeof+kMJM8AAX
+         apyg==
+X-Gm-Message-State: APjAAAWUEz9E8kLGd9smY7h2Kz44Loc3ODsNTd4F/9ClQnq511AXYXdM
+        NN93MqYIWloPDAZu8CRt8cc=
+X-Google-Smtp-Source: APXvYqxtH+XIdpH4HnL/JWO08m2iRo/IyYF6xtb7plDsp4uwvtDcMSNpC+r46yKkqLPgibeG4e5ejg==
+X-Received: by 2002:a19:da1a:: with SMTP id r26mr34062739lfg.60.1574961881917;
+        Thu, 28 Nov 2019 09:24:41 -0800 (PST)
+Received: from xi.terra (c-14b8e655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.184.20])
+        by smtp.gmail.com with ESMTPSA id 145sm4249850ljj.69.2019.11.28.09.24.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Nov 2019 09:24:41 -0800 (PST)
+Received: from johan by xi.terra with local (Exim 4.92.3)
+        (envelope-from <johan@xi.terra>)
+        id 1iaNWz-0006wR-HU; Thu, 28 Nov 2019 18:24:41 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Amitkumar Karwar <amitkarwar@gmail.com>,
+        Siva Rebbagondla <siva8118@gmail.com>,
+        Kalle Valo <kvalo@codeaurora.org>
+Cc:     linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        Johan Hovold <johan@kernel.org>,
+        syzbot+b563b7f8dbe8223a51e8@syzkaller.appspotmail.com,
+        stable <stable@vger.kernel.org>,
+        Siva Rebbagondla <siva.rebbagondla@redpinesignals.com>,
+        Prameela Rani Garnepudi <prameela.j04cs@gmail.com>,
+        Amitkumar Karwar <amit.karwar@redpinesignals.com>,
+        Fariya Fatima <fariyaf@gmail.com>
+Subject: [PATCH 1/5] rsi: fix use-after-free on failed probe and unbind
+Date:   Thu, 28 Nov 2019 18:22:00 +0100
+Message-Id: <20191128172204.26600-2-johan@kernel.org>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191128172204.26600-1-johan@kernel.org>
+References: <20191128172204.26600-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, 28 Nov 2019, Oliver Neukum wrote:
+Make sure to stop both URBs before returning after failed probe as well
+as on disconnect to avoid use-after-free in the completion handler.
 
-> Am Mittwoch, den 27.11.2019, 16:11 -0500 schrieb Alan Stern:
-> > Oliver:
-> > 
-> > Make of this what you will...
-> 
-> Hi,
-> 
-> first, thank you. Second, this is teaching me to question my
-> assumptions. There is no disconnect at all. We are busy looping
-> in the error handler as we have virtual hardware in this test,
-> which can execute an URB without waiting for hardware.
-> 
-> So should we kill error handling for this case?
+Reported-by: syzbot+b563b7f8dbe8223a51e8@syzkaller.appspotmail.com
+Fixes: a4302bff28e2 ("rsi: add bluetooth rx endpoint")
+Fixes: dad0d04fa7ba ("rsi: Add RS9113 wireless driver")
+Cc: stable <stable@vger.kernel.org>     # 3.15
+Cc: Siva Rebbagondla <siva.rebbagondla@redpinesignals.com>
+Cc: Prameela Rani Garnepudi <prameela.j04cs@gmail.com>
+Cc: Amitkumar Karwar <amit.karwar@redpinesignals.com>
+Cc: Fariya Fatima <fariyaf@gmail.com>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/net/wireless/rsi/rsi_91x_usb.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-Okay.  First of all, we must recognize that these syzbot tests have
-encountered two separate bugs.  The first is the one fixed in your
-original patches (the use-after-free).  This bug needs no discussion;
-it looks like your patch fixes it.
-
-The second bug is the CPU starvation caused by the tight resubmit loop
-in the completion handler.  It is the reason why you kept getting
-failure reports back from syzbot.  It is to some extent a misleading
-result, related to the fact that dummy-hcd doesn't use real hardware,
-as you noted.
-
-Nevertheless, the fix I posted is appropriate.  I posed this question
-to Greg KH some weeks ago, and he pointed out that after some
-discussion on the mailing list, people had generally agreed that
-drivers should not blindly resubmit URBs when they get an unrecognized
-error status.  In this situation, error recovery has to occur at a
-higher level (for example, the user could unplug the device and then
-plug it in again).
-
-So even though with real hardware this tight resubmit loop might not
-end up using all the available CPU time, not resubmitting is still the
-right approach.
-
-Alan Stern
+diff --git a/drivers/net/wireless/rsi/rsi_91x_usb.c b/drivers/net/wireless/rsi/rsi_91x_usb.c
+index 53f41fc2cadf..30bed719486e 100644
+--- a/drivers/net/wireless/rsi/rsi_91x_usb.c
++++ b/drivers/net/wireless/rsi/rsi_91x_usb.c
+@@ -292,6 +292,15 @@ static void rsi_rx_done_handler(struct urb *urb)
+ 		dev_kfree_skb(rx_cb->rx_skb);
+ }
+ 
++static void rsi_rx_urb_kill(struct rsi_hw *adapter, u8 ep_num)
++{
++	struct rsi_91x_usbdev *dev = (struct rsi_91x_usbdev *)adapter->rsi_dev;
++	struct rx_usb_ctrl_block *rx_cb = &dev->rx_cb[ep_num - 1];
++	struct urb *urb = rx_cb->rx_urb;
++
++	usb_kill_urb(urb);
++}
++
+ /**
+  * rsi_rx_urb_submit() - This function submits the given URB to the USB stack.
+  * @adapter: Pointer to the adapter structure.
+@@ -823,10 +832,13 @@ static int rsi_probe(struct usb_interface *pfunction,
+ 	if (adapter->priv->coex_mode > 1) {
+ 		status = rsi_rx_urb_submit(adapter, BT_EP);
+ 		if (status)
+-			goto err1;
++			goto err_kill_wlan_urb;
+ 	}
+ 
+ 	return 0;
++
++err_kill_wlan_urb:
++	rsi_rx_urb_kill(adapter, WLAN_EP);
+ err1:
+ 	rsi_deinit_usb_interface(adapter);
+ err:
+@@ -857,6 +869,10 @@ static void rsi_disconnect(struct usb_interface *pfunction)
+ 		adapter->priv->bt_adapter = NULL;
+ 	}
+ 
++	if (adapter->priv->coex_mode > 1)
++		rsi_rx_urb_kill(adapter, BT_EP);
++	rsi_rx_urb_kill(adapter, WLAN_EP);
++
+ 	rsi_reset_card(adapter);
+ 	rsi_deinit_usb_interface(adapter);
+ 	rsi_91x_deinit(adapter);
+-- 
+2.24.0
 
