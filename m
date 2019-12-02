@@ -2,142 +2,110 @@ Return-Path: <SRS0=TDxB=ZY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF645C432C0
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Dec 2019 07:41:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECE9AC432C0
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Dec 2019 08:56:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 903FD2071F
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Dec 2019 07:41:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BF9CB20833
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Dec 2019 08:56:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1575272461;
-	bh=+KT1rdRV2dDDI7Jlq3Rd8n2h5FVukLzhmAKilC5Ev+c=;
-	h=From:To:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=RP5ln6rdzbtBj57IK7K8Ok1lsn8en/cDLEXasIP+XpDRs3HzH8+g/Lr62Sb5PPDrj
-	 qzpL6fcbujgORUdQSRbBSam523xuWQQeiiGBY/vdoh9lpJh/L9BJY54VMIwJ0Nxu1g
-	 j7lzUrvT89YdyPkvjT5KyhGcYZiihtuD/FXtpGUo=
+	s=default; t=1575276994;
+	bh=Us2LR83sqTpDDxH+Vob/8vFqXsuJSQfz1IXYJRDcCJ8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=hrRMr2EcNhiI0EQUfzsQjy4gQqnr+NFlHy7TOAdV2tZZc9JgLt0D/tyuzp4W3mVg8
+	 yv815VZK5Z1RcUke3UMFYY6IwsMbupaOwFnXR1jYUtVwkbnbtsrIV60mRBxKpXuTN1
+	 k4tL3kcbeEiye4vnNDnnhfo93+6lJGNPdWXCvtqw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726374AbfLBHlA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 2 Dec 2019 02:41:00 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:44623 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726060AbfLBHlA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 Dec 2019 02:41:00 -0500
-Received: by mail-lf1-f65.google.com with SMTP id v201so26044225lfa.11
-        for <linux-usb@vger.kernel.org>; Sun, 01 Dec 2019 23:40:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=RsfOqwd+vzNJgRHPGsdJcCNRLzkbD9+OlUlpCLneetE=;
-        b=o1O6edwPwbu9GNNzniPl0OcBeAFuAnjCAelIoQs8NNZdltSiMVbSMW5J+CCYbMmhmG
-         5dxUoPw3tCFgeSTsyT9BPvyR9uD2ddNekJSsWp/ja3HlJjP3ao944x2u/6H2GDeEFmHL
-         AAl5kfjC604Zbj1RIGqyJ4+iFdRRi0c3qYz+kVJWrk4bMvv8RBmcxekm26Qj0Axcb1Iz
-         GAFXuQrE5pu5VawjdY4qIvbsBpyaYol78NIXSmdxciXaT3vHBkFKDP4X/vcpWCGAlelz
-         9jI7HdQDH6yF2OsQTvVg5c9x76Jk3LSca9sMckfW+Gcysdca8cITTazPqG7kbwyA59d5
-         gdfA==
+        id S1727415AbfLBI4d (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 2 Dec 2019 03:56:33 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:41828 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727317AbfLBI42 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 Dec 2019 03:56:28 -0500
+Received: by mail-lj1-f194.google.com with SMTP id h23so2637139ljc.8;
+        Mon, 02 Dec 2019 00:56:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:subject:in-reply-to:references
-         :date:message-id:mime-version;
-        bh=RsfOqwd+vzNJgRHPGsdJcCNRLzkbD9+OlUlpCLneetE=;
-        b=I7ut4o2GqKJg/NdqoNEKGZY7x/7HU9Ho3vGlRuK+IDpFZGW5wkpspK2IcmEoaJcFeM
-         BORgo8epU0RFfB3TPSz+EZJqdMkch7ZnRtLaarHhzfDdi34i2mWU5cMewvKqZln/cvys
-         X2giES3YRUrqr9eYiVzWbRnhRS4Kg9rTPHygrObGV0wS5C2KLKPtlUHpdWmgdAq0EzYN
-         Ar4oHEEMzL01i8KgVtx3VJn+GfBbXTqhqSMmURh3M6eLk2yE/gGAZXwUU8ehOsDYcFe1
-         NrGv6vAbU+FB4IL5hObPP/iT+nEvBcwboXTTrk+7qdjKWTPSW2NQrpnLi2rjvAlqvllo
-         Cblg==
-X-Gm-Message-State: APjAAAVtJX2sU3AstblqqY+xq30QBz6JiD3yEMEEbFczqiR0j3pd4ORe
-        yD8PXl6esyEs0c0lpFJcZaxwDvDdpCs=
-X-Google-Smtp-Source: APXvYqxy3elVHgGxWFD2IHYqgjvELH3boleodigo7FhkodwYr/iB3SiYOytcqu9WH6JXMWkijo87fA==
-X-Received: by 2002:a19:f006:: with SMTP id p6mr2094863lfc.94.1575272458594;
-        Sun, 01 Dec 2019 23:40:58 -0800 (PST)
-Received: from saruman (88-113-215-33.elisa-laajakaista.fi. [88.113.215.33])
-        by smtp.gmail.com with ESMTPSA id c8sm3974490lfm.65.2019.12.01.23.40.57
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=rl1LB5EX7oIVC0mGuDqRbEVhDWig1nq2VNrs1gvJuaw=;
+        b=kDfrdNrV69JnxKk5VeEvumOB732tK3kzSsItKiSnUbUJjEGHKZO3ArJNYnTMrkp2JT
+         H0PptM9nHy1CnKT3dFiB6TRTByW9L0bREUEfhg0kPppvELM1sZACdrGVtBTcghz2bec8
+         qA3vaEX8ei9XsmJ54F6Ia5Wn0lSPLnBU+p9lzpU+4CYdqZGSucxmqixio1hZoJOs8snc
+         l4xivmL9FeYm41SPHXpOUsY7OJw50vyRT9ndI/DbDIg74X3OlaFhZhLVNThuSpv4add6
+         4iSEzbZY2oSJC3HwWoT3CenAVAEYOkygaSX5VERr/D6EMUFQIdQUsd88LO6a7g3gIV/a
+         GzAg==
+X-Gm-Message-State: APjAAAVD5QjlyDQRJVaOn7VnJrqMCkozowceARVmyrXLVEeQoVS4WEcr
+        iWx9JVRqPSnZ2tzGOzWU4PQ=
+X-Google-Smtp-Source: APXvYqwRd3xGb/t3PETM2Lts/w4SDIabwmc7fZxPHq77jLNKOyGJUZSpLoQaby/lNY6m6qnLrIP48A==
+X-Received: by 2002:a2e:970e:: with SMTP id r14mr44042644lji.57.1575276985866;
+        Mon, 02 Dec 2019 00:56:25 -0800 (PST)
+Received: from xi.terra (c-14b8e655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.184.20])
+        by smtp.gmail.com with ESMTPSA id z26sm2582160lfq.69.2019.12.02.00.56.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Dec 2019 23:40:57 -0800 (PST)
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Roger Quadros <rogerq@ti.com>, Bin Liu <b-liu@ti.com>,
-        linux-usb@vger.kernel.org
-Subject: Re: [PATCH] usb: dwc3: turn off VBUS when leaving host mode
-In-Reply-To: <f12d3637-ad95-b5f5-f331-df791e85ab3a@ti.com>
-References: <20191113141521.1696-1-b-liu@ti.com> <87blt9psrd.fsf@gmail.com> <f12d3637-ad95-b5f5-f331-df791e85ab3a@ti.com>
-Date:   Mon, 02 Dec 2019 09:41:42 +0200
-Message-ID: <87r21ncgy1.fsf@gmail.com>
+        Mon, 02 Dec 2019 00:56:24 -0800 (PST)
+Received: from johan by xi.terra with local (Exim 4.92.3)
+        (envelope-from <johan@xi.terra>)
+        id 1ibhVM-0003K5-1e; Mon, 02 Dec 2019 09:56:28 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+        stable <stable@vger.kernel.org>, Tilman Schmidt <tilman@imap.cc>
+Subject: [PATCH v2 2/3] staging: gigaset: fix illegal free on probe errors
+Date:   Mon,  2 Dec 2019 09:56:09 +0100
+Message-Id: <20191202085610.12719-3-johan@kernel.org>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191202085610.12719-1-johan@kernel.org>
+References: <20191202085610.12719-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+The driver failed to initialise its receive-buffer pointer, something
+which could lead to an illegal free on late probe errors.
 
+Fix this by making sure to clear all driver data at allocation.
 
-Hi,
+Fixes: 2032e2c2309d ("usb_gigaset: code cleanup")
+Cc: stable <stable@vger.kernel.org>     # 2.6.33
+Cc: Tilman Schmidt <tilman@imap.cc>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/staging/isdn/gigaset/usb-gigaset.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-Roger Quadros <rogerq@ti.com> writes:
-> On 18/11/2019 09:07, Felipe Balbi wrote:
->> Hi,
->>=20
->> Bin Liu <b-liu@ti.com> writes:
->>=20
->>> VBUS should be turned off when leaving the host mode.
->>> Set GCTL_PRTCAP to device mode in teardown to de-assert DRVVBUS pin to
->>> turn off VBUS power.
->>>
->>> Fixes: 5f94adfeed97 ("usb: dwc3: core: refactor mode initialization to =
-its own function")
->>> Signed-off-by: Bin Liu <b-liu@ti.com>
->>> ---
->>>   drivers/usb/dwc3/core.c | 1 +
->>>   1 file changed, 1 insertion(+)
->>>
->>> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
->>> index 97d6ae3c4df2..76ac9cd54e64 100644
->>> --- a/drivers/usb/dwc3/core.c
->>> +++ b/drivers/usb/dwc3/core.c
->>> @@ -1201,6 +1201,7 @@ static void dwc3_core_exit_mode(struct dwc3 *dwc)
->>>   		break;
->>>   	case USB_DR_MODE_HOST:
->>>   		dwc3_host_exit(dwc);
->>> +		dwc3_set_prtcap(dwc, DWC3_GCTL_PRTCAP_DEVICE);
->>=20
->> seems like this should be done as part of dwc3_host_exit()
->>=20
->
-> That wouldn't work well with OTG case as dwc3_host_exit(dwc) is
-> called when switching roles and we don't want PRTCAP
-> to change from DWC3_GCTL_PRTCAP_OTG.
+diff --git a/drivers/staging/isdn/gigaset/usb-gigaset.c b/drivers/staging/isdn/gigaset/usb-gigaset.c
+index 5e393e7dde45..a84722d83bc6 100644
+--- a/drivers/staging/isdn/gigaset/usb-gigaset.c
++++ b/drivers/staging/isdn/gigaset/usb-gigaset.c
+@@ -571,8 +571,7 @@ static int gigaset_initcshw(struct cardstate *cs)
+ {
+ 	struct usb_cardstate *ucs;
+ 
+-	cs->hw.usb = ucs =
+-		kmalloc(sizeof(struct usb_cardstate), GFP_KERNEL);
++	cs->hw.usb = ucs = kzalloc(sizeof(struct usb_cardstate), GFP_KERNEL);
+ 	if (!ucs) {
+ 		pr_err("out of memory\n");
+ 		return -ENOMEM;
+@@ -584,9 +583,6 @@ static int gigaset_initcshw(struct cardstate *cs)
+ 	ucs->bchars[3] = 0;
+ 	ucs->bchars[4] = 0x11;
+ 	ucs->bchars[5] = 0x13;
+-	ucs->bulk_out_buffer = NULL;
+-	ucs->bulk_out_urb = NULL;
+-	ucs->read_urb = NULL;
+ 	tasklet_init(&cs->write_tasklet,
+ 		     gigaset_modem_fill, (unsigned long) cs);
+ 
+-- 
+2.24.0
 
-if (port !=3D OTG)
-  set_prtcap(DEVICE)
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl3kwDYACgkQzL64meEa
-mQbzlBAAuzV6TJgS+J2mxXtS7Wx6v7r3HcjGsSG/Plt336+FSRoid8BZtYZ05hFu
-oczPdTHBAnhUg+GX6tqSsszn5QvgCMhu/XvlC06gOBeQqqzX78jd+epDHlx7fTHi
-LuT93QS2RVg+Z3Z/0sxmLXMXGrGvcHTgpli10G6m4eu1zm401Ir546NiwiTumV1Q
-QFgxgdTjtl9JVL5Gd8T3xqH2rNIvdjnYffrON/RLqeE0uIHmyMi4wY4eh9COL41b
-aGxxuqFInOMJroaI5FdS5bSvcsEGP/iUnlRemZBsVW6Bc5nksWx6fG2dZrch6XV+
-/WnjTkyZ6hn7ayfSJxO8YDOOCCupJEs4mCfZwXLE01mX6LLV2CvMtesjlayMwAbA
-amMqDAgwvE22sol6Evo3eI2wL9dVGUQ458Y/iH0p+LbJ7xov1UjYkQ6dOyMNW3c4
-JBrOkPYAPWAF+JVPUr0sYCUhqCfjh1xubmkb1C+6xENGGU9J9Tzo+iqrw9gHSZvV
-7iZAk8cSY/64OfcS04HtokQ2IXv4VPpXC0p5XQ/Cu1rxcV5YSGWAw9mRxFFDGMjJ
-8Rjo2KSf/LMgAxEc7SivJhYUffZLOHdIbtZOL8RlriaR76rXBnI+HrAtCun4MS3u
-mQ0mvIi2K+IPvi6AbUcBCz8yK0rLVw4PioAF2/Gbqwi1StcnuVY=
-=LDT6
------END PGP SIGNATURE-----
---=-=-=--
