@@ -2,59 +2,59 @@ Return-Path: <SRS0=TDxB=ZY=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5524AC432C0
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Dec 2019 10:33:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3C6FC432C0
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Dec 2019 10:33:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1EC4D206F0
-	for <linux-usb@archiver.kernel.org>; Mon,  2 Dec 2019 10:33:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A70B206F0
+	for <linux-usb@archiver.kernel.org>; Mon,  2 Dec 2019 10:33:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nexus-software-ie.20150623.gappssmtp.com header.i=@nexus-software-ie.20150623.gappssmtp.com header.b="qFs3Wq0K"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fmU7E+ca"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727433AbfLBKdH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 2 Dec 2019 05:33:07 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:35416 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727428AbfLBKdG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 Dec 2019 05:33:06 -0500
-Received: by mail-wm1-f65.google.com with SMTP id u8so7041945wmu.0
-        for <linux-usb@vger.kernel.org>; Mon, 02 Dec 2019 02:33:05 -0800 (PST)
+        id S1727399AbfLBKds (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 2 Dec 2019 05:33:48 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:46690 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727362AbfLBKdr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 2 Dec 2019 05:33:47 -0500
+Received: by mail-wr1-f65.google.com with SMTP id z7so40063479wrl.13
+        for <linux-usb@vger.kernel.org>; Mon, 02 Dec 2019 02:33:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexus-software-ie.20150623.gappssmtp.com; s=20150623;
+        d=linaro.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=NbujNseECunLrgTOygV3gXrz0ppXeNI3Y3t4xov5aQU=;
-        b=qFs3Wq0Kg112YOZw7avQOJHM8xgA3AgiXpQgSLVH8qAqlP2P9FOdMe1KhnPkbWumHh
-         /mMOomRoJvOsq7gFxHk7iZw6B8vvL6N+QPVRD2SyICzbw0puBzgtLcGGLNb9yIOqPpK5
-         LDFNlf74k6YtC8bprUk+4Y4PS0P/i6BPZmgUZDw68n4aF5jeo7cwkug9A0nOR1zInmts
-         viOEDjPYz7vQ4mv29G+pwprrkngszcbI8nJbVqyhQr67++tDWlILKiucLPKW59XwE+Th
-         WFEEcDEmOVN6ynK86H9pc0Q+LkZh7F8DexL/zfeRr8pS5+eV/SZkGp8Y0m6qmMVCJG0+
-         DFnA==
+        bh=BZDOs+6KZ65EcElvSJt7ZXy2SOQLStp1UNKeuht/zHU=;
+        b=fmU7E+caJrhN4O84Y+GBUPoblqRU8cvSE8dkjhn+RfoMdpe5f3Z87mOLEdTZ8YWx4z
+         QALr7K7e4a46/SKwYPdiOlqulBxq3hYemJK/7mlsFmMVTgwOPK6o+rbJj6j1zxfk/sMn
+         Z5acmBAZMLSe+i4b8LXayUXSgYuqmyd/nyC+c1GT/adj2GI1Gvc17WVhjxrhCkh7bezO
+         fdUM11NMn2chRM2VxPgpXq1PpxzJy8+H4oomxiDg3AQOUk2nIuyGYJcEazASfiZO9wtg
+         QdyEnRohoejvYqH0h7KK6q+xbNoopaFjf+WSx6dPRM2TI78/Cf2TU4gJQsghe2Ry2fZX
+         1HmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=NbujNseECunLrgTOygV3gXrz0ppXeNI3Y3t4xov5aQU=;
-        b=nh++fswHUevRrnxHqzKKB4FgvpnN2jHNg5UCZKvjCPMbNqBh9VF76i8uA2AyGXSmoH
-         JTeXuNX92UFNQtVqWe7W9LEqEEeZ4JwhsY/laicGk9m7AuV2bV+dcilorkhAwg/sZnF4
-         QF6i65DOSVEDkYVUwQvQEF9ynZg+QIap6btHu7aKeVYnPwKPz1sF4E+J5tHFbYu0yT2S
-         imT1bp1PcAdEIP9IPBE/U84bkmYFW9Pc/5I2f7gH7dZJxOrord92zMpam7KvaISDdDFq
-         /38pD2KP9QRUhKhKfJL+UdQzLTIeCvn5XFbqJIxj/NPeLFFJMn1EPffyTDYILx3h2Ejd
-         sq7A==
-X-Gm-Message-State: APjAAAX0lkO22MunSaIefEtSdKAWVQUtPzroZH+M0Hrtvzl/PGsv4goC
-        8Uk9EACKUZrJOj8V+Y6By6PAIg==
-X-Google-Smtp-Source: APXvYqx/zfGlr07Rgyo4vRcDRxmR59qe0zpo9aclFbg5OK7yOuJFdAYgGeUB8trIIQI5k1gPtsHHCw==
-X-Received: by 2002:a1c:8086:: with SMTP id b128mr25010547wmd.80.1575282785213;
-        Mon, 02 Dec 2019 02:33:05 -0800 (PST)
+        bh=BZDOs+6KZ65EcElvSJt7ZXy2SOQLStp1UNKeuht/zHU=;
+        b=BjJwJ3Er6YcX6y+DCveaU308VruFCHJmsfA63FZYh5qeuoRacGLDxC1Mu2IbDlQdgj
+         o1WPSvkuaVbvKnm2fihmJUKetErpnLizU8z7IN2lCXcN38gRRefcVt/qpuZb403WiWNV
+         GS326FFqOYW6qHdnUmSySybHnWzcejDlE8CJda8CvYU4Wee70Rk9clYLv4BkLus2QW5Y
+         1wVbDk2V6N1w0dooqyZmd3d8WeoKPpMz6l5Z4jAZqQ7VwewBdlB1pMmwA5e7DPTpurAm
+         Oq928qbAjwthLfTJyYvaHHkbJAnckUUGi+uNzOW9SkrM+eMHRjyVutp59V4WWrk6ry4v
+         Xh5g==
+X-Gm-Message-State: APjAAAWlzjDC6iv38kdUVYKpWF51dHN3h2kjBDcpxFo1V7xHU4g9daOZ
+        hPI8F0kjXrN7K9Bi88n8UBRRbA==
+X-Google-Smtp-Source: APXvYqysFOI6AOcGUQddrF8MtvJ5dTuF8wjH4s29z+XircZgUOI4BYk/do5s+5x7CSkxFY/Id3geig==
+X-Received: by 2002:adf:b602:: with SMTP id f2mr7387723wre.99.1575282824896;
+        Mon, 02 Dec 2019 02:33:44 -0800 (PST)
 Received: from [192.168.0.38] ([176.61.57.127])
-        by smtp.gmail.com with ESMTPSA id y20sm14961169wmi.25.2019.12.02.02.33.03
+        by smtp.gmail.com with ESMTPSA id z7sm22986240wma.46.2019.12.02.02.33.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Dec 2019 02:33:04 -0800 (PST)
+        Mon, 02 Dec 2019 02:33:44 -0800 (PST)
 Subject: Re: [PATCH v6 1/8] usb: dwc3: Registering a role switch in the DRD
  code.
 To:     John Stultz <john.stultz@linaro.org>,
@@ -76,9 +76,9 @@ Cc:     Yu Chen <chenyu56@huawei.com>,
         devicetree@vger.kernel.org
 References: <20191128051001.18995-1-john.stultz@linaro.org>
  <20191128051001.18995-2-john.stultz@linaro.org>
-From:   Bryan O'Donoghue <pure.logic@nexus-software.ie>
-Message-ID: <4008a130-06e0-23b2-a04a-667b1cdbfeb6@nexus-software.ie>
-Date:   Mon, 2 Dec 2019 10:33:19 +0000
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Message-ID: <a425d23e-2be3-8c56-afd9-a425d9318533@linaro.org>
+Date:   Mon, 2 Dec 2019 10:33:59 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.2.2
 MIME-Version: 1.0
@@ -266,6 +266,6 @@ On 28/11/2019 05:09, John Stultz wrote:
 >   					   &dwc->edev_nb);
 > 
 
-This again I've used on the qcs404 and it works nicely.
+Try again ;)
 
 Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
