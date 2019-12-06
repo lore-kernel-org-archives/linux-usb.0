@@ -8,53 +8,53 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A991C2D0C1
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Dec 2019 14:07:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A131FC2D0C2
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Dec 2019 14:07:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0688E206DF
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Dec 2019 14:07:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7661224673
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Dec 2019 14:07:20 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="uWWdgggl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m9MqkxV8"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726371AbfLFOHP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 6 Dec 2019 09:07:15 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:35324 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726234AbfLFOHP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Dec 2019 09:07:15 -0500
-Received: by mail-wr1-f66.google.com with SMTP id g17so7932956wro.2;
-        Fri, 06 Dec 2019 06:07:13 -0800 (PST)
+        id S1726397AbfLFOHU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 6 Dec 2019 09:07:20 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:34122 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726234AbfLFOHT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Dec 2019 09:07:19 -0500
+Received: by mail-wr1-f65.google.com with SMTP id t2so7934048wrr.1;
+        Fri, 06 Dec 2019 06:07:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=fERhwWBhSRj4I9HeZFZXrlVYXpadgU0FNGh7dPnYH00=;
-        b=uWWdggglxgZ/hQQFiJP1dvpIJ79vFrNQ/XwcXQ54P2syBIBv9D4WtwoRMkxV15FeFl
-         +uY4GKFTLtXchxHqrpevTQ0QTVvXuPa9082cZ8K9qPQJ5WzJmT0IXwnAtiYWu15yf4ln
-         lKs5UL5NwAwBaxTgMIRHxogluDge7uT4NzcEuQcyv2sIYmzoaRcRcWRF5J0rSV0dsQOZ
-         ECKQF8l4vAgClp+tv0rRkBGEc6DI4oexXkdxF+nbKVLuICgA80mNcr3/x1tmTs/YyL2/
-         y/OFVjjLo31J0FoVYJrKTIFHqeMJ+SpJgzTEiYKPJqmEWXEv7jdXM96tHmxlqR91alvV
-         sWDg==
+        bh=Dxp7s5isx1ZTkRUQG5v0oHxEQeRot+4BIs9vmxVAg4c=;
+        b=m9MqkxV8cwuXyPTH7gX5RfHk/ShNVSUNc5izABrZ/VNIBlIMdGsfwbQRfxWdu4j7Up
+         Au0wAdT9uRTHSjJcUvHcQ08/sr7WF4xvJIdJpvTjTQYkE2buPF+M0gjrrYW0oGIgSIML
+         NQnk3bIRBHSpmXaHVbe3Fn783Ua9KRt7OAC/REXLFUajrd6LJWj/utoD3rKDX5RiYUc0
+         urPXmhgR94QeyOq4zkBdYIPiXeXVfDcqdvHyoHCH4VSxxWBCWFNXvAowufXghTTEBf/P
+         GVWX3PZxbt5CGw+L5ls9PwHpsNRWQptGXDEJDwLT96yFZJYx2G7oxC26s8qAnYEyINMN
+         covA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fERhwWBhSRj4I9HeZFZXrlVYXpadgU0FNGh7dPnYH00=;
-        b=AYprd6w8Awm+onZpLQjjrFctrf9ubAF0z8WMjBmAEsLYChDenpW/VW8xyb1wN1UyjR
-         OB73wsIrjP8W+A5WtUhFJ6ZICVL/naZJ5yXRM2pemDjMe1Uz+zHLUeIfxFtYgSdAKmHJ
-         lfgVQZ0Rx9LZfuKGWw4ZBhn+d1XEtF1oTEz2IGtCig4OKIHagQBcNUN8wy36BkUnWQh+
-         E944e56N/Tftf0/momeQzrVEIZeCPv9oZRmmJL96M7mtiXilOvVRXV2Ybd0hwXXPbD53
-         40hdBBd3PAy+zQJIzRTDZ0UFuEMJg4FIS1rvQX7BKH1GpSZzRMu0AKkNBf0f74DWpIZa
-         z2BA==
-X-Gm-Message-State: APjAAAXXRUR0ugUelxRp/Sal/CxO3CbxQ/erF4AgmNf7hRbAa4bSjqfS
-        STPlFUK2+UKwQmI1+sPZBEA=
-X-Google-Smtp-Source: APXvYqwKtaKneucGRNyZ/UT3IFZhaziP3VjIJLK8EFCq/zvXiCegCy3VK4h7oVld8uCCz6m3dcqXow==
-X-Received: by 2002:a5d:6901:: with SMTP id t1mr15002723wru.94.1575641232178;
-        Fri, 06 Dec 2019 06:07:12 -0800 (PST)
+        bh=Dxp7s5isx1ZTkRUQG5v0oHxEQeRot+4BIs9vmxVAg4c=;
+        b=VzDCdGOWdUThKLScGG54ck6wiCeWprtMRz+1NMdF7mAo0kqOENRjJzxcJ5XxC3ilck
+         HyNjVtj74zIoGUVck2sXcWD+DyxTyqDUF6USBCGRDNZ1bCkrcKXEC5Rn9rlcH/oRRAR3
+         R3+d2D1kZ7Ge9LP84fdkRy55ysXMs2c9hiz+vdWdmEqUidESQlz45qVBKfZqhh5QZKVr
+         nJIt/0ashG5MMrPT5AYQM9xQzx1a0HoCVEvUipWdXN1aOb0TRbsew9smZZvnNZGY0+1P
+         gpMP4p5h/rHSnlLUezVUwqwxql4pUbTev3ecyfkIH0c+8mCg23tDOUdzuPLA4IlNXM6m
+         ke3w==
+X-Gm-Message-State: APjAAAWE0R5MSdO6xPptdBU7+IdLQ0BYWl3j6bbA4clYlngU03QgRUrb
+        vIJA1hHEyRQeEyzoqMSmltE=
+X-Google-Smtp-Source: APXvYqzLzPM0WuIUIcz3b1rl9C415xzhgDQr9RHb2hAqqINB1xZq7G/S/LlwJkMO0+jWJeFkvB9lwA==
+X-Received: by 2002:a05:6000:118e:: with SMTP id g14mr4153943wrx.39.1575641236830;
+        Fri, 06 Dec 2019 06:07:16 -0800 (PST)
 Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
-        by smtp.gmail.com with ESMTPSA id c2sm16408206wrp.46.2019.12.06.06.07.10
+        by smtp.gmail.com with ESMTPSA id g17sm3440222wmc.37.2019.12.06.06.07.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Dec 2019 06:07:11 -0800 (PST)
+        Fri, 06 Dec 2019 06:07:15 -0800 (PST)
 From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Mathias Nyman <mathias.nyman@intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -62,9 +62,9 @@ Cc:     Jon Hunter <jonathanh@nvidia.com>, JC Kuo <jckuo@nvidia.com>,
         Nagarjuna Kristam <nkristam@nvidia.com>,
         Sowjanya Komatineni <skomatineni@nvidia.com>,
         linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v2 08/10] usb: host: xhci-tegra: Add support for XUSB context save/restore
-Date:   Fri,  6 Dec 2019 15:06:51 +0100
-Message-Id: <20191206140653.2085561-9-thierry.reding@gmail.com>
+Subject: [PATCH v2 10/10] usb: host: xhci-tegra: Implement basic ELPG support
+Date:   Fri,  6 Dec 2019 15:06:53 +0100
+Message-Id: <20191206140653.2085561-11-thierry.reding@gmail.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191206140653.2085561-1-thierry.reding@gmail.com>
 References: <20191206140653.2085561-1-thierry.reding@gmail.com>
@@ -77,182 +77,179 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Thierry Reding <treding@nvidia.com>
 
-The XUSB controller contains registers that need to be saved on suspend
-and restored on resume in addition to the XHCI specific registers. Add
-support for saving and restoring the XUSB specific context.
+This implements basic engine-level powergate support which allows the
+XUSB controller to be put into a low power mode on system sleep and get
+it out of that low power mode again on resume.
 
 Based on work by JC Kuo <jckuo@nvidia.com>.
 
 Signed-off-by: Thierry Reding <treding@nvidia.com>
 ---
- drivers/usb/host/xhci-tegra.c | 102 +++++++++++++++++++++++++++++++++-
- 1 file changed, 100 insertions(+), 2 deletions(-)
+Changes in v2:
+- remove useless gotos
+---
+ drivers/usb/host/xhci-tegra.c | 127 +++++++++++++++++++++++++++++++---
+ 1 file changed, 119 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-index 117e91b8ac6f..1b5e4ee313ce 100644
+index 7f6657ad5ce5..0b58ef3a7f7f 100644
 --- a/drivers/usb/host/xhci-tegra.c
 +++ b/drivers/usb/host/xhci-tegra.c
-@@ -155,12 +155,25 @@ struct tegra_xusb_mbox_regs {
- 	u16 owner;
- };
- 
-+struct tegra_xusb_context_soc {
-+	struct {
-+		const unsigned int *offsets;
-+		unsigned int num_offsets;
-+	} ipfs;
-+
-+	struct {
-+		const unsigned int *offsets;
-+		unsigned int num_offsets;
-+	} fpci;
-+};
-+
- struct tegra_xusb_soc {
- 	const char *firmware;
- 	const char * const *supply_names;
- 	unsigned int num_supplies;
- 	const struct tegra_xusb_phy_type *phy_types;
- 	unsigned int num_types;
-+	const struct tegra_xusb_context_soc *context;
- 
- 	struct {
- 		struct {
-@@ -175,6 +188,11 @@ struct tegra_xusb_soc {
- 	bool has_ipfs;
- };
- 
-+struct tegra_xusb_context {
-+	u32 *ipfs;
-+	u32 *fpci;
-+};
-+
- struct tegra_xusb {
- 	struct device *dev;
- 	void __iomem *regs;
-@@ -221,6 +239,8 @@ struct tegra_xusb {
- 		void *virt;
- 		dma_addr_t phys;
- 	} fw;
-+
-+	struct tegra_xusb_context context;
- };
- 
- static struct hc_driver __read_mostly tegra_xhci_hc_driver;
-@@ -796,6 +816,37 @@ static int tegra_xusb_runtime_resume(struct device *dev)
- 	return err;
- }
- 
-+#ifdef CONFIG_PM_SLEEP
-+static int tegra_xusb_init_context(struct tegra_xusb *tegra)
-+{
-+	const struct tegra_xusb_context_soc *soc = tegra->soc->context;
-+
-+	/*
-+	 * Skip support for context save/restore if the SoC doesn't have any
-+	 * XUSB specific context that needs to be saved/restored.
-+	 */
-+	if (!soc)
-+		return 0;
-+
-+	tegra->context.ipfs = devm_kcalloc(tegra->dev, soc->ipfs.num_offsets,
-+					   sizeof(u32), GFP_KERNEL);
-+	if (!tegra->context.ipfs)
-+		return -ENOMEM;
-+
-+	tegra->context.fpci = devm_kcalloc(tegra->dev, soc->ipfs.num_offsets,
-+					   sizeof(u32), GFP_KERNEL);
-+	if (!tegra->context.fpci)
-+		return -ENOMEM;
-+
-+	return 0;
-+}
-+#else
-+static inline int tegra_xusb_init_context(struct tegra_xusb *tegra)
-+{
-+	return 0;
-+}
-+#endif
-+
- static int tegra_xusb_request_firmware(struct tegra_xusb *tegra)
- {
- 	struct tegra_xusb_fw_header *header;
-@@ -1039,6 +1090,10 @@ static int tegra_xusb_probe(struct platform_device *pdev)
- 	mutex_init(&tegra->lock);
- 	tegra->dev = &pdev->dev;
- 
-+	err = tegra_xusb_init_context(tegra);
-+	if (err < 0)
-+		return err;
-+
- 	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	tegra->regs = devm_ioremap_resource(&pdev->dev, regs);
- 	if (IS_ERR(tegra->regs))
-@@ -1382,14 +1437,55 @@ static int tegra_xusb_remove(struct platform_device *pdev)
+@@ -1447,6 +1447,45 @@ static int tegra_xusb_remove(struct platform_device *pdev)
  }
  
  #ifdef CONFIG_PM_SLEEP
-+static void tegra_xusb_save_context(struct tegra_xusb *tegra)
++static bool xhci_hub_ports_suspended(struct xhci_hub *hub)
 +{
-+	const struct tegra_xusb_context_soc *soc = tegra->soc->context;
-+	struct tegra_xusb_context *ctx = &tegra->context;
++	struct device *dev = hub->hcd->self.controller;
++	bool status = true;
 +	unsigned int i;
++	u32 value;
 +
-+	if (soc && soc->ipfs.num_offsets > 0) {
-+		for (i = 0; i < soc->ipfs.num_offsets; i++)
-+			ctx->ipfs[i] = ipfs_readl(tegra, soc->ipfs.offsets[i]);
++	for (i = 0; i < hub->num_ports; i++) {
++		value = readl(hub->ports[i]->addr);
++		if ((value & PORT_PE) == 0)
++			continue;
++
++		if ((value & PORT_PLS_MASK) != XDEV_U3) {
++			dev_info(dev, "%u-%u isn't suspended: %#010x\n",
++				 hub->hcd->self.busnum, i + 1, value);
++			status = false;
++		}
 +	}
 +
-+	if (soc && soc->fpci.num_offsets > 0) {
-+		for (i = 0; i < soc->fpci.num_offsets; i++)
-+			ctx->fpci[i] = fpci_readl(tegra, soc->fpci.offsets[i]);
-+	}
++	return status;
 +}
 +
-+static void tegra_xusb_restore_context(struct tegra_xusb *tegra)
++static int tegra_xusb_check_ports(struct tegra_xusb *tegra)
 +{
-+	const struct tegra_xusb_context_soc *soc = tegra->soc->context;
-+	struct tegra_xusb_context *ctx = &tegra->context;
-+	unsigned int i;
++	struct xhci_hcd *xhci = hcd_to_xhci(tegra->hcd);
++	unsigned long flags;
++	int err = 0;
 +
-+	if (soc && soc->fpci.num_offsets > 0) {
-+		for (i = 0; i < soc->fpci.num_offsets; i++)
-+			fpci_writel(tegra, ctx->fpci[i], soc->fpci.offsets[i]);
-+	}
++	spin_lock_irqsave(&xhci->lock, flags);
 +
-+	if (soc && soc->ipfs.num_offsets > 0) {
-+		for (i = 0; i < soc->ipfs.num_offsets; i++)
-+			ipfs_writel(tegra, ctx->ipfs[i], soc->ipfs.offsets[i]);
-+	}
++	if (!xhci_hub_ports_suspended(&xhci->usb2_rhub) ||
++	    !xhci_hub_ports_suspended(&xhci->usb3_rhub))
++		err = -EBUSY;
++
++	spin_unlock_irqrestore(&xhci->lock, flags);
++
++	return err;
 +}
 +
- static int tegra_xusb_suspend(struct device *dev)
+ static void tegra_xusb_save_context(struct tegra_xusb *tegra)
  {
- 	struct tegra_xusb *tegra = dev_get_drvdata(dev);
- 	struct xhci_hcd *xhci = hcd_to_xhci(tegra->hcd);
- 	bool wakeup = device_may_wakeup(dev);
-+	int err;
- 
- 	/* TODO: Powergate controller across suspend/resume. */
--	return xhci_suspend(xhci, wakeup);
-+	err = xhci_suspend(xhci, wakeup);
-+	if (err < 0)
-+		return err;
-+
-+	tegra_xusb_save_context(tegra);
-+
-+	return 0;
+ 	const struct tegra_xusb_context_soc *soc = tegra->soc->context;
+@@ -1481,31 +1520,103 @@ static void tegra_xusb_restore_context(struct tegra_xusb *tegra)
+ 	}
  }
  
- static int tegra_xusb_resume(struct device *dev)
-@@ -1397,7 +1493,9 @@ static int tegra_xusb_resume(struct device *dev)
- 	struct tegra_xusb *tegra = dev_get_drvdata(dev);
+-static int tegra_xusb_suspend(struct device *dev)
++static int tegra_xusb_enter_elpg(struct tegra_xusb *tegra, bool wakeup)
+ {
+-	struct tegra_xusb *tegra = dev_get_drvdata(dev);
  	struct xhci_hcd *xhci = hcd_to_xhci(tegra->hcd);
+-	bool wakeup = device_may_wakeup(dev);
+ 	int err;
  
--	return xhci_resume(xhci, 0);
-+	tegra_xusb_restore_context(tegra);
+-	/* TODO: Powergate controller across suspend/resume. */
++	err = tegra_xusb_check_ports(tegra);
++	if (err < 0) {
++		dev_err(tegra->dev, "not all ports suspended: %d\n", err);
++		return err;
++	}
 +
-+	return xhci_resume(xhci, false);
+ 	err = xhci_suspend(xhci, wakeup);
+-	if (err < 0)
++	if (err < 0) {
++		dev_err(tegra->dev, "failed to suspend XHCI: %d\n", err);
+ 		return err;
++	}
+ 
+ 	tegra_xusb_save_context(tegra);
++	tegra_xusb_phy_disable(tegra);
++	tegra_xusb_clk_disable(tegra);
+ 
+ 	return 0;
+ }
+ 
+-static int tegra_xusb_resume(struct device *dev)
++static int tegra_xusb_exit_elpg(struct tegra_xusb *tegra, bool wakeup)
+ {
+-	struct tegra_xusb *tegra = dev_get_drvdata(dev);
+ 	struct xhci_hcd *xhci = hcd_to_xhci(tegra->hcd);
++	int err;
+ 
++	err = tegra_xusb_clk_enable(tegra);
++	if (err < 0) {
++		dev_err(tegra->dev, "failed to enable clocks: %d\n", err);
++		return err;
++	}
++
++	err = tegra_xusb_phy_enable(tegra);
++	if (err < 0) {
++		dev_err(tegra->dev, "failed to enable PHYs: %d\n", err);
++		goto disable_clk;
++	}
++
++	tegra_xusb_config(tegra);
+ 	tegra_xusb_restore_context(tegra);
+ 
+-	return xhci_resume(xhci, false);
++	err = tegra_xusb_load_firmware(tegra);
++	if (err < 0) {
++		dev_err(tegra->dev, "failed to load firmware: %d\n", err);
++		goto disable_phy;
++	}
++
++	err = __tegra_xusb_enable_firmware_messages(tegra);
++	if (err < 0) {
++		dev_err(tegra->dev, "failed to enable messages: %d\n", err);
++		goto disable_phy;
++	}
++
++	err = xhci_resume(xhci, true);
++	if (err < 0) {
++		dev_err(tegra->dev, "failed to resume XHCI: %d\n", err);
++		goto disable_phy;
++	}
++
++	return 0;
++
++disable_phy:
++	tegra_xusb_phy_disable(tegra);
++disable_clk:
++	tegra_xusb_clk_disable(tegra);
++	return err;
++}
++
++static int tegra_xusb_suspend(struct device *dev)
++{
++	struct tegra_xusb *tegra = dev_get_drvdata(dev);
++	bool wakeup = device_may_wakeup(dev);
++	int err;
++
++	synchronize_irq(tegra->mbox_irq);
++
++	mutex_lock(&tegra->lock);
++	err = tegra_xusb_enter_elpg(tegra, wakeup);
++	mutex_unlock(&tegra->lock);
++
++	return err;
++}
++
++static int tegra_xusb_resume(struct device *dev)
++{
++	struct tegra_xusb *tegra = dev_get_drvdata(dev);
++	bool wakeup = device_may_wakeup(dev);
++	int err;
++
++	mutex_lock(&tegra->lock);
++	err = tegra_xusb_exit_elpg(tegra, wakeup);
++	mutex_unlock(&tegra->lock);
++
++	return err;
  }
  #endif
  
