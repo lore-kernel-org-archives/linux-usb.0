@@ -2,265 +2,304 @@ Return-Path: <SRS0=VKfj=Z4=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D65E8C2BD09
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Dec 2019 14:07:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8C36C43603
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Dec 2019 14:27:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9B092206DF
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Dec 2019 14:07:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B1C4720659
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Dec 2019 14:27:57 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qAzZ2Ym7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jlxuZkBU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726386AbfLFOHS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 6 Dec 2019 09:07:18 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:46620 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726245AbfLFOHR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Dec 2019 09:07:17 -0500
-Received: by mail-wr1-f65.google.com with SMTP id z7so7816680wrl.13;
-        Fri, 06 Dec 2019 06:07:15 -0800 (PST)
+        id S1726284AbfLFO15 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 6 Dec 2019 09:27:57 -0500
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:33051 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726272AbfLFO14 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Dec 2019 09:27:56 -0500
+Received: by mail-wr1-f68.google.com with SMTP id b6so8015795wrq.0;
+        Fri, 06 Dec 2019 06:27:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Cu6f2cKErOCRFVlUOJy3AEtKW/sIMubhhh915A0YWSk=;
-        b=qAzZ2Ym7o0wgJT4YkciZjKNREDS/JIXNMtP6OUixuRsjyqzRBK2QrQI8BFgaOTlesE
-         w+149Ewyc3DbywJbyeadgsHZGGLhlLK0oSIUbJHYgd09+WiFofFgKDMaDHosWMirbyVM
-         BQXUCNBs0x7Vv7Y4QklcAyFw5Du5+P5ZCeh+BxNSOm4zAStjt/4Zwn7IokAU/LNL8zxR
-         kp+cfOCaD9/iGZ32w8MjN+TdyacMV22jeyA8ucgJmxHcbou5NmKk86f6S32qUaegoy7Q
-         TjwSyPZujgZ39o/iYVNDBNY/hrEXPWMPA8Kg0cOxqr7NLa/qPgVzT3tPtXwNcqc4vHap
-         8JOA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=o7dmVZgG7TaC0WQ5Oo7x+rRhJuQUkkLyapuWxVPDGVw=;
+        b=jlxuZkBUUtMNeQTsSFCVpZdFwhHNmMGrN4nfbBlbTu6euJYceiE1dpI9TcfFG462/1
+         cRtR0vKgGA5fuecbLy02qkRr83QsijTIc8S3NAqluzoDlJQBi248QtjaCu8ykV6VXxEI
+         6xdKVwFUxsUfqh5bFPulC9XnqLnyu/9wjiM0yE5QxYsTZsMa7uS3yYLu1YQG3P0N2h6S
+         O6VFwF25XF0g2JsObYPbzdt1WHb/agsAjvTGNCm0QV5Cro0fFdepyGMWmX7kjDlz+XkH
+         EIkjqCV/qEcArmB3YiwxeGGSjmX0ec5ew1+zgACJon/G0i4gTpE+fha1zES1FJYaHkhH
+         4qVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Cu6f2cKErOCRFVlUOJy3AEtKW/sIMubhhh915A0YWSk=;
-        b=qLdeJn/MchBc8NKtJpIVVAmWlDLKZH9KsDiVjSz9ozYNNWP1zMSlzoJ877E0Hc8MXr
-         QSZgUqVPD52H/asl3qfTd4ZzzZIgLEe2GkgEbkE6twmQ5Xb7c5qSQMsJQEU2CK+JltaZ
-         KxMQWRVRrY//9xDI0IVcaJ5Ly9JAN2yIxWkzXDTDFksFgfv7pJJN8BekeRZvOfpKsQ3+
-         bI96gYeQaTkt4uAbGa2PqgHdpKnggWWNPH9R9jNqJiMgcXyNvDrf3sejZfrkifyX8RQX
-         MxXzDUDzjhkVqnqkCju35xzRXysogklM0eVTb+LNjDsRHaQscBQarmwbqVteOj5h99OE
-         AJow==
-X-Gm-Message-State: APjAAAVcsxP3FgIJs1hXxslQGFyh6VbSnCg1iM1KWW/WyY9aJAEwXFFk
-        Ia3kzLfuZMXWfhrc9iNBdaTG9z/tELA=
-X-Google-Smtp-Source: APXvYqw0Wif7qlRMiftz+7Ya/g5VMwsibCbzmiUjRXr5GM9vED8ofstU6A+rxPjL6tUQoBonK/xXpQ==
-X-Received: by 2002:a05:6000:cb:: with SMTP id q11mr15503208wrx.14.1575641234539;
-        Fri, 06 Dec 2019 06:07:14 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=o7dmVZgG7TaC0WQ5Oo7x+rRhJuQUkkLyapuWxVPDGVw=;
+        b=aWWGyrmPBAsap/asga7YpCt2ilaOeb3mzCWWhWqHUL2UFHUB1jTKFX1xmP+31IGVfg
+         T8XV7FdUZ1hRuYucp6I6sYSzxsy7lsDFkEFYhHbaQWm02YGyIzjcQalsORYyK/k87keC
+         sZggr0kPZf2kt08pbcy5bU+UozywcIvKxVFzlJffsJuO6QtvTYn197Y+hQ4yGj7XMcEm
+         7m9u7r9fR+zg5nnvRIgu5O4mL6Ody1lgZAgpptOcj7RFeprayqW4t0OEEcaD3lqwoKpO
+         eulMuRwPD8amN850a+aES29vg0pnGnuWhShHW4Wvtog+HebXlLu//w1DKlZC4OCZUBzh
+         RzOw==
+X-Gm-Message-State: APjAAAXktY7XC++C4uQYP5rVb8rPxutFbRKvhc3PYsCKM9Kdi7mn0QH0
+        HS95avGj/ce8UElyYnpupQE=
+X-Google-Smtp-Source: APXvYqz98sLs2I4t3xKh9q2kFeDP9x/Yu1Syx9wS5IjuVtT6uldwkC7VgtmLjfr4kIaJ2BYyDQod3g==
+X-Received: by 2002:adf:f58a:: with SMTP id f10mr16777052wro.105.1575642473589;
+        Fri, 06 Dec 2019 06:27:53 -0800 (PST)
 Received: from localhost (pD9E518ED.dip0.t-ipconnect.de. [217.229.24.237])
-        by smtp.gmail.com with ESMTPSA id e8sm15969651wrt.7.2019.12.06.06.07.13
+        by smtp.gmail.com with ESMTPSA id z4sm3615846wme.17.2019.12.06.06.27.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Dec 2019 06:07:13 -0800 (PST)
+        Fri, 06 Dec 2019 06:27:52 -0800 (PST)
+Date:   Fri, 6 Dec 2019 15:27:51 +0100
 From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Jon Hunter <jonathanh@nvidia.com>, JC Kuo <jckuo@nvidia.com>,
+To:     Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc:     Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jon Hunter <jonathanh@nvidia.com>, JC Kuo <jckuo@nvidia.com>,
         Nagarjuna Kristam <nkristam@nvidia.com>,
         Sowjanya Komatineni <skomatineni@nvidia.com>,
         linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: [PATCH v2 09/10] usb: host: xhci-tegra: Add XUSB controller context
-Date:   Fri,  6 Dec 2019 15:06:52 +0100
-Message-Id: <20191206140653.2085561-10-thierry.reding@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191206140653.2085561-1-thierry.reding@gmail.com>
-References: <20191206140653.2085561-1-thierry.reding@gmail.com>
+Subject: Re: [PATCH 10/10] usb: host: xhci-tegra: Implement basic ELPG support
+Message-ID: <20191206142751.GA2085684@ulmo>
+References: <20191125123210.1564323-1-thierry.reding@gmail.com>
+ <20191125123210.1564323-11-thierry.reding@gmail.com>
+ <ceee6a21-c46f-c63f-d38f-78daf7a72969@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="rwEMma7ioTxnRzrJ"
+Content-Disposition: inline
+In-Reply-To: <ceee6a21-c46f-c63f-d38f-78daf7a72969@linux.intel.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Thierry Reding <treding@nvidia.com>
 
-Define the offsets of the registers that need to be saved on suspend and
-restored on resume for the various NVIDIA Tegra generations supported by
-the XUSB driver.
+--rwEMma7ioTxnRzrJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Based on work by JC Kuo <jckuo@nvidia.com>.
+On Tue, Nov 26, 2019 at 05:43:15PM +0200, Mathias Nyman wrote:
+> On 25.11.2019 14.32, Thierry Reding wrote:
+> > From: Thierry Reding <treding@nvidia.com>
+> >=20
+> > This implements basic engine-level powergate support which allows the
+> > XUSB controller to be put into a low power mode on system sleep and get
+> > it out of that low power mode again on resume.
+> >=20
+> > Based on work by JC Kuo <jckuo@nvidia.com>.
+> >=20
+> > Signed-off-by: Thierry Reding <treding@nvidia.com>
+> > ---
+> >   drivers/usb/host/xhci-tegra.c | 137 ++++++++++++++++++++++++++++++++--
+> >   1 file changed, 129 insertions(+), 8 deletions(-)
+> >=20
+> > diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegr=
+a.c
+> > index cd3afec408ea..d0e30927a73f 100644
+> > --- a/drivers/usb/host/xhci-tegra.c
+> > +++ b/drivers/usb/host/xhci-tegra.c
+> > @@ -1451,6 +1451,45 @@ static int tegra_xusb_remove(struct platform_dev=
+ice *pdev)
+> >   }
+> >   #ifdef CONFIG_PM_SLEEP
+> > +static bool xhci_hub_ports_suspended(struct xhci_hub *hub)
+> > +{
+> > +	struct device *dev =3D hub->hcd->self.controller;
+> > +	bool status =3D true;
+> > +	unsigned int i;
+> > +	u32 value;
+> > +
+> > +	for (i =3D 0; i < hub->num_ports; i++) {
+> > +		value =3D readl(hub->ports[i]->addr);
+> > +		if ((value & PORT_PE) =3D=3D 0)
+> > +			continue;
+> > +
+> > +		if ((value & PORT_PLS_MASK) !=3D XDEV_U3) {
+> > +			dev_info(dev, "%u-%u isn't suspended: %#010x\n",
+> > +				 hub->hcd->self.busnum, i + 1, value);
+> > +			status =3D false;
+> > +		}
+> > +	}
+> > +
+> > +	return status;
+> > +}
+> > +
+> > +static int tegra_xusb_check_ports(struct tegra_xusb *tegra)
+> > +{
+> > +	struct xhci_hcd *xhci =3D hcd_to_xhci(tegra->hcd);
+> > +	unsigned long flags;
+> > +	int err =3D 0;
+> > +
+> > +	spin_lock_irqsave(&xhci->lock, flags);
+> > +
+> > +	if (!xhci_hub_ports_suspended(&xhci->usb2_rhub) ||
+> > +	    !xhci_hub_ports_suspended(&xhci->usb3_rhub))
+> > +		err =3D -EBUSY;
+> > +
+> > +	spin_unlock_irqrestore(&xhci->lock, flags);
+> > +
+> > +	return err;
+> > +}
+> > +
+> >   static void tegra_xusb_save_context(struct tegra_xusb *tegra)
+> >   {
+> >   	const struct tegra_xusb_context_soc *soc =3D tegra->soc->context;
+> > @@ -1485,31 +1524,113 @@ static void tegra_xusb_restore_context(struct =
+tegra_xusb *tegra)
+> >   	}
+> >   }
+> > -static int tegra_xusb_suspend(struct device *dev)
+> > +static int tegra_xusb_enter_elpg(struct tegra_xusb *tegra, bool wakeup)
+> >   {
+> > -	struct tegra_xusb *tegra =3D dev_get_drvdata(dev);
+> >   	struct xhci_hcd *xhci =3D hcd_to_xhci(tegra->hcd);
+> > -	bool wakeup =3D device_may_wakeup(dev);
+> > +	u32 value;
+> >   	int err;
+> > -	/* TODO: Powergate controller across suspend/resume. */
+> > +	err =3D tegra_xusb_check_ports(tegra);
+> > +	if (err < 0) {
+> > +		dev_err(tegra->dev, "not all ports suspended: %d\n", err);
+> > +		return err;
+> > +	}
+> > +
+> >   	err =3D xhci_suspend(xhci, wakeup);
+> > -	if (err < 0)
+> > +	if (err < 0) {
+> > +		dev_err(tegra->dev, "failed to suspend XHCI: %d\n", err);
+> >   		return err;
+> > +	}
+> >   	tegra_xusb_save_context(tegra);
+> > +	tegra_xusb_phy_disable(tegra);
+> > +	tegra_xusb_clk_disable(tegra);
+> >   	return 0;
+> >   }
+> > -static int tegra_xusb_resume(struct device *dev)
+> > +static int tegra_xusb_exit_elpg(struct tegra_xusb *tegra, bool wakeup)
+> >   {
+> > -	struct tegra_xusb *tegra =3D dev_get_drvdata(dev);
+> >   	struct xhci_hcd *xhci =3D hcd_to_xhci(tegra->hcd);
+> > +	u32 value;
+> > +	int err;
+> > +	err =3D tegra_xusb_clk_enable(tegra);
+> > +	if (err < 0) {
+> > +		dev_err(tegra->dev, "failed to enable clocks: %d\n", err);
+> > +		return err;
+> > +	}
+> > +
+> > +	err =3D tegra_xusb_phy_enable(tegra);
+> > +	if (err < 0) {
+> > +		dev_err(tegra->dev, "failed to enable PHYs: %d\n", err);
+> > +		goto disable_clk;
+> > +	}
+> > +
+> > +	tegra_xusb_config(tegra);
+> >   	tegra_xusb_restore_context(tegra);
+> > -	return xhci_resume(xhci, false);
+> > +	err =3D tegra_xusb_load_firmware(tegra);
+> > +	if (err < 0) {
+> > +		dev_err(tegra->dev, "failed to load firmware: %d\n", err);
+> > +		goto disable_phy;
+> > +	}
+> > +
+> > +	err =3D __tegra_xusb_enable_firmware_messages(tegra);
+> > +	if (err < 0) {
+> > +		dev_err(tegra->dev, "failed to enable messages: %d\n", err);
+> > +		goto disable_phy;
+> > +	}
+> > +
+> > +	err =3D xhci_resume(xhci, true);
+> > +	if (err < 0) {
+> > +		dev_err(tegra->dev, "failed to resume XHCI: %d\n", err);
+> > +		goto disable_phy;
+> > +	}
+> > +
+> > +	return 0;
+> > +
+> > +disable_phy:
+> > +	tegra_xusb_phy_disable(tegra);
+> > +disable_clk:
+> > +	tegra_xusb_clk_disable(tegra);
+> > +	return err;
+> > +}
+> > +
+> > +static int tegra_xusb_suspend(struct device *dev)
+> > +{
+> > +	struct tegra_xusb *tegra =3D dev_get_drvdata(dev);
+> > +	bool wakeup =3D device_may_wakeup(dev);
+> > +	int err;
+> > +
+> > +	synchronize_irq(tegra->mbox_irq);
+> > +
+> > +	mutex_lock(&tegra->lock);
+> > +
+> > +	err =3D tegra_xusb_enter_elpg(tegra, wakeup);
+> > +	if (err < 0)
+> > +		goto unlock;
+>=20
+> Is there some code missing here, or just preparing for some future featur=
+e?
 
-Signed-off-by: Thierry Reding <treding@nvidia.com>
----
- drivers/usb/host/xhci-tegra.c | 80 ++++++++++++++++++++++++++++++-----
- 1 file changed, 69 insertions(+), 11 deletions(-)
+This is just leftover I forgot to cleanup after I removed debug printk's
+here. There's likely going to be some changes around this for better
+runtime PM support, but that will all live in tegra_xusb_enter_elpg(),
+so I think we can skip this. I've sent out a v2 with this...
 
-diff --git a/drivers/usb/host/xhci-tegra.c b/drivers/usb/host/xhci-tegra.c
-index 1b5e4ee313ce..7f6657ad5ce5 100644
---- a/drivers/usb/host/xhci-tegra.c
-+++ b/drivers/usb/host/xhci-tegra.c
-@@ -39,7 +39,15 @@
- #define XUSB_CFG_4				0x010
- #define  XUSB_BASE_ADDR_SHIFT			15
- #define  XUSB_BASE_ADDR_MASK			0x1ffff
-+#define XUSB_CFG_16				0x040
-+#define XUSB_CFG_24				0x060
-+#define XUSB_CFG_AXI_CFG			0x0f8
- #define XUSB_CFG_ARU_C11_CSBRANGE		0x41c
-+#define XUSB_CFG_ARU_CONTEXT			0x43c
-+#define XUSB_CFG_ARU_CONTEXT_HS_PLS		0x478
-+#define XUSB_CFG_ARU_CONTEXT_FS_PLS		0x47c
-+#define XUSB_CFG_ARU_CONTEXT_HSFS_SPEED		0x480
-+#define XUSB_CFG_ARU_CONTEXT_HSFS_PP		0x484
- #define XUSB_CFG_CSB_BASE_ADDR			0x800
- 
- /* FPCI mailbox registers */
-@@ -63,11 +71,20 @@
- #define  MBOX_SMI_INTR_EN			BIT(3)
- 
- /* IPFS registers */
-+#define IPFS_XUSB_HOST_MSI_BAR_SZ_0		0x0c0
-+#define IPFS_XUSB_HOST_MSI_AXI_BAR_ST_0		0x0c4
-+#define IPFS_XUSB_HOST_MSI_FPCI_BAR_ST_0	0x0c8
-+#define IPFS_XUSB_HOST_MSI_VEC0_0		0x100
-+#define IPFS_XUSB_HOST_MSI_EN_VEC0_0		0x140
- #define IPFS_XUSB_HOST_CONFIGURATION_0		0x180
- #define  IPFS_EN_FPCI				BIT(0)
-+#define IPFS_XUSB_HOST_FPCI_ERROR_MASKS_0	0x184
- #define IPFS_XUSB_HOST_INTR_MASK_0		0x188
- #define  IPFS_IP_INT_MASK			BIT(16)
-+#define IPFS_XUSB_HOST_INTR_ENABLE_0		0x198
-+#define IPFS_XUSB_HOST_UFPCI_CONFIG_0		0x19c
- #define IPFS_XUSB_HOST_CLKGATE_HYSTERESIS_0	0x1bc
-+#define IPFS_XUSB_HOST_MCCIF_FIFOCTRL_0		0x1dc
- 
- #define CSB_PAGE_SELECT_MASK			0x7fffff
- #define CSB_PAGE_SELECT_SHIFT			9
-@@ -821,13 +838,6 @@ static int tegra_xusb_init_context(struct tegra_xusb *tegra)
- {
- 	const struct tegra_xusb_context_soc *soc = tegra->soc->context;
- 
--	/*
--	 * Skip support for context save/restore if the SoC doesn't have any
--	 * XUSB specific context that needs to be saved/restored.
--	 */
--	if (!soc)
--		return 0;
--
- 	tegra->context.ipfs = devm_kcalloc(tegra->dev, soc->ipfs.num_offsets,
- 					   sizeof(u32), GFP_KERNEL);
- 	if (!tegra->context.ipfs)
-@@ -1443,12 +1453,12 @@ static void tegra_xusb_save_context(struct tegra_xusb *tegra)
- 	struct tegra_xusb_context *ctx = &tegra->context;
- 	unsigned int i;
- 
--	if (soc && soc->ipfs.num_offsets > 0) {
-+	if (soc->ipfs.num_offsets > 0) {
- 		for (i = 0; i < soc->ipfs.num_offsets; i++)
- 			ctx->ipfs[i] = ipfs_readl(tegra, soc->ipfs.offsets[i]);
- 	}
- 
--	if (soc && soc->fpci.num_offsets > 0) {
-+	if (soc->fpci.num_offsets > 0) {
- 		for (i = 0; i < soc->fpci.num_offsets; i++)
- 			ctx->fpci[i] = fpci_readl(tegra, soc->fpci.offsets[i]);
- 	}
-@@ -1460,12 +1470,12 @@ static void tegra_xusb_restore_context(struct tegra_xusb *tegra)
- 	struct tegra_xusb_context *ctx = &tegra->context;
- 	unsigned int i;
- 
--	if (soc && soc->fpci.num_offsets > 0) {
-+	if (soc->fpci.num_offsets > 0) {
- 		for (i = 0; i < soc->fpci.num_offsets; i++)
- 			fpci_writel(tegra, ctx->fpci[i], soc->fpci.offsets[i]);
- 	}
- 
--	if (soc && soc->ipfs.num_offsets > 0) {
-+	if (soc->ipfs.num_offsets > 0) {
- 		for (i = 0; i < soc->ipfs.num_offsets; i++)
- 			ipfs_writel(tegra, ctx->ipfs[i], soc->ipfs.offsets[i]);
- 	}
-@@ -1522,12 +1532,50 @@ static const struct tegra_xusb_phy_type tegra124_phy_types[] = {
- 	{ .name = "hsic", .num = 2, },
- };
- 
-+static const unsigned int tegra124_xusb_context_ipfs[] = {
-+	IPFS_XUSB_HOST_MSI_BAR_SZ_0,
-+	IPFS_XUSB_HOST_MSI_BAR_SZ_0,
-+	IPFS_XUSB_HOST_MSI_AXI_BAR_ST_0,
-+	IPFS_XUSB_HOST_MSI_FPCI_BAR_ST_0,
-+	IPFS_XUSB_HOST_MSI_VEC0_0,
-+	IPFS_XUSB_HOST_MSI_EN_VEC0_0,
-+	IPFS_XUSB_HOST_FPCI_ERROR_MASKS_0,
-+	IPFS_XUSB_HOST_INTR_MASK_0,
-+	IPFS_XUSB_HOST_INTR_ENABLE_0,
-+	IPFS_XUSB_HOST_UFPCI_CONFIG_0,
-+	IPFS_XUSB_HOST_CLKGATE_HYSTERESIS_0,
-+	IPFS_XUSB_HOST_MCCIF_FIFOCTRL_0,
-+};
-+
-+static const unsigned int tegra124_xusb_context_fpci[] = {
-+	XUSB_CFG_ARU_CONTEXT_HS_PLS,
-+	XUSB_CFG_ARU_CONTEXT_FS_PLS,
-+	XUSB_CFG_ARU_CONTEXT_HSFS_SPEED,
-+	XUSB_CFG_ARU_CONTEXT_HSFS_PP,
-+	XUSB_CFG_ARU_CONTEXT,
-+	XUSB_CFG_AXI_CFG,
-+	XUSB_CFG_24,
-+	XUSB_CFG_16,
-+};
-+
-+static const struct tegra_xusb_context_soc tegra124_xusb_context = {
-+	.ipfs = {
-+		.num_offsets = ARRAY_SIZE(tegra124_xusb_context_ipfs),
-+		.offsets = tegra124_xusb_context_ipfs,
-+	},
-+	.fpci = {
-+		.num_offsets = ARRAY_SIZE(tegra124_xusb_context_fpci),
-+		.offsets = tegra124_xusb_context_fpci,
-+	},
-+};
-+
- static const struct tegra_xusb_soc tegra124_soc = {
- 	.firmware = "nvidia/tegra124/xusb.bin",
- 	.supply_names = tegra124_supply_names,
- 	.num_supplies = ARRAY_SIZE(tegra124_supply_names),
- 	.phy_types = tegra124_phy_types,
- 	.num_types = ARRAY_SIZE(tegra124_phy_types),
-+	.context = &tegra124_xusb_context,
- 	.ports = {
- 		.usb2 = { .offset = 4, .count = 4, },
- 		.hsic = { .offset = 6, .count = 2, },
-@@ -1566,6 +1614,7 @@ static const struct tegra_xusb_soc tegra210_soc = {
- 	.num_supplies = ARRAY_SIZE(tegra210_supply_names),
- 	.phy_types = tegra210_phy_types,
- 	.num_types = ARRAY_SIZE(tegra210_phy_types),
-+	.context = &tegra124_xusb_context,
- 	.ports = {
- 		.usb2 = { .offset = 4, .count = 4, },
- 		.hsic = { .offset = 8, .count = 1, },
-@@ -1591,12 +1640,20 @@ static const struct tegra_xusb_phy_type tegra186_phy_types[] = {
- 	{ .name = "hsic", .num = 1, },
- };
- 
-+static const struct tegra_xusb_context_soc tegra186_xusb_context = {
-+	.fpci = {
-+		.num_offsets = ARRAY_SIZE(tegra124_xusb_context_fpci),
-+		.offsets = tegra124_xusb_context_fpci,
-+	},
-+};
-+
- static const struct tegra_xusb_soc tegra186_soc = {
- 	.firmware = "nvidia/tegra186/xusb.bin",
- 	.supply_names = tegra186_supply_names,
- 	.num_supplies = ARRAY_SIZE(tegra186_supply_names),
- 	.phy_types = tegra186_phy_types,
- 	.num_types = ARRAY_SIZE(tegra186_phy_types),
-+	.context = &tegra186_xusb_context,
- 	.ports = {
- 		.usb3 = { .offset = 0, .count = 3, },
- 		.usb2 = { .offset = 3, .count = 3, },
-@@ -1626,6 +1683,7 @@ static const struct tegra_xusb_soc tegra194_soc = {
- 	.num_supplies = ARRAY_SIZE(tegra194_supply_names),
- 	.phy_types = tegra194_phy_types,
- 	.num_types = ARRAY_SIZE(tegra194_phy_types),
-+	.context = &tegra186_xusb_context,
- 	.ports = {
- 		.usb3 = { .offset = 0, .count = 4, },
- 		.usb2 = { .offset = 4, .count = 4, },
--- 
-2.23.0
+>=20
+> > +
+> > +unlock:
+> > +	mutex_unlock(&tegra->lock);
+> > +	return err;
+> > +}
+> > +
+> > +static int tegra_xusb_resume(struct device *dev)
+> > +{
+> > +	struct tegra_xusb *tegra =3D dev_get_drvdata(dev);
+> > +	bool wakeup =3D device_may_wakeup(dev);
+> > +	int err;
+> > +
+> > +	mutex_lock(&tegra->lock);
+> > +
+> > +	err =3D tegra_xusb_exit_elpg(tegra, wakeup);
+> > +	if (err < 0)
+> > +		goto unlock;
+> > +
+> > +unlock:
+> > +	mutex_unlock(&tegra->lock);
+> > +	return err;
+> >   }
+> >   #endif
 
+=2E.. and this fixed.
+
+Thierry
+
+--rwEMma7ioTxnRzrJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl3qZWQACgkQ3SOs138+
+s6EXqw/+OzdTzdTXEVK2baWceAx4z9V8gMaoTKfrA049lcAuQReIb03XaY/7fVXp
+Yrj/1Vq+ZhD0Hem32rIRecdmSD7HLJXwR5Ydw7QYvbTRSIqJW02sXqq23RpY8Pq3
+6GSlVg1I9uze/HlKxLctJX8b+gD8Qk5hCPbAxKouM4m3+ilOPtNc4ufvYhTkgp5w
+1hNNHgyKmyCRKBTQCQv0oKCsEHVPoDwG4oMeyaUBC+4cQOmp+kPZv7fh+q6Y5jAP
+1Z7GICVZOEZPeQCzffN8SLkbjzaV4za3amPs5Mi6i5wnr+6PHhr9t1ixyZ2P8eog
+bPqHNOHk6s3ER9aZX3CGXh8D6vIIFiC2beYYtDjBnwS3zNiIwyt+fxSsmWlXWadY
+qlhmWw2pCwH+VNnc8X61pSBY/CIKhLDQukwsxbDELSntxm9eKasPSmGqEmtn2r15
+yoEArzTG4ByaMZVUqTzrNtZz155qllufDa13zCnTi7hE1/vCorAX3cYlLx5l2pdM
+v2XX1k20E5RsD7lVmWNg26zly22KmUczNq3vRvIq4r7C47darH9gYgBuzTOLamCt
+DuUat4s/9lvJeX7E4/Sea/niZcjcix40Xp9SnIE+4IpRfOOQIE0aNI/kuCoVYalp
+9eGZ9ycCuCiCmd6NOmvhO1DBnOyZnYGD9eLlIJAUgdhaQ7N4mVc=
+=p6B8
+-----END PGP SIGNATURE-----
+
+--rwEMma7ioTxnRzrJ--
