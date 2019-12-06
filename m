@@ -2,199 +2,150 @@ Return-Path: <SRS0=VKfj=Z4=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79E7AC2D0B1
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Dec 2019 10:53:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76962C43603
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Dec 2019 11:35:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 4ECF021823
-	for <linux-usb@archiver.kernel.org>; Fri,  6 Dec 2019 10:53:06 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="Puojc/y5"
+	by mail.kernel.org (Postfix) with ESMTP id 4CA602464E
+	for <linux-usb@archiver.kernel.org>; Fri,  6 Dec 2019 11:35:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726345AbfLFKvi (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 6 Dec 2019 05:51:38 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:19228 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726328AbfLFKvi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Dec 2019 05:51:38 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dea32b40001>; Fri, 06 Dec 2019 02:51:32 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Fri, 06 Dec 2019 02:51:36 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Fri, 06 Dec 2019 02:51:36 -0800
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 6 Dec
- 2019 10:51:36 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 6 Dec 2019 10:51:36 +0000
-Received: from nkristam-ubuntu.nvidia.com (Not Verified[10.19.64.167]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5dea32b40000>; Fri, 06 Dec 2019 02:51:35 -0800
-From:   Nagarjuna Kristam <nkristam@nvidia.com>
-To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <mark.rutland@arm.com>, <robh+dt@kernel.org>, <kishon@ti.com>
-CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Nagarjuna Kristam <nkristam@nvidia.com>
-Subject: [PATCH 03/18] phy: tegra: xusb: Add usb-role-switch support
-Date:   Fri, 6 Dec 2019 16:20:06 +0530
-Message-ID: <1575629421-7039-4-git-send-email-nkristam@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1575629421-7039-1-git-send-email-nkristam@nvidia.com>
-References: <1575629421-7039-1-git-send-email-nkristam@nvidia.com>
-X-NVConfidentiality: public
+        id S1726168AbfLFLfK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 6 Dec 2019 06:35:10 -0500
+Received: from mail-io1-f70.google.com ([209.85.166.70]:43513 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726102AbfLFLfJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 6 Dec 2019 06:35:09 -0500
+Received: by mail-io1-f70.google.com with SMTP id b17so4590565ioh.10
+        for <linux-usb@vger.kernel.org>; Fri, 06 Dec 2019 03:35:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=lnm0cl0FYyjfMVu1hmBtm3CNHH8DAMmn2e+a6NxkJN4=;
+        b=WjDj37+6uPCkN9UPdJLELlMOq2jcBWxT84MQrQnuXKCkhmsMZVZCp5qRIXRso+lDUE
+         OIqQ0rZ9SHwULGj2ncTzyf9sFea6wWCM/KMETsBpDrngiY6F2ZS2WveyjIc7eWcKPbYw
+         0fFt4gOGRd8lDRJOhMi8XWMuiQwuHbgboAZW1Aj1MJ7jYORs9BNWLnKPERlGRPubh4zr
+         Y3A3XVYCxRvJczUUZNphcCNM63jCXK6c+qfF17VNAtlZVJuytwHhZHE4VgR87OvLZX8D
+         3qwyfFOtozAghskBXx5bsQTgiik2kJm2nyRIdFjbS9iBVsgjUBjzLvTVrDNfO4l+SUWy
+         mWXA==
+X-Gm-Message-State: APjAAAW1IDrIJw9N0UZXU6IdqMAg9BkCS5sknv040fAbpPmtPFRinWRX
+        iBLNIbN4oZTLe1Gj9hqEKOqk/idq1oGw0m7htDdxB6FnXPli
+X-Google-Smtp-Source: APXvYqxMcB5yEJydF3g2Tam754dWo3xuQQzD58x8CYuFo2PAo4XKYT23eZZq784zK9sokEOnDWUTHd/B1pS2jYo94j+NpoCoTRxF
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1575629492; bh=F+0uuN046OpIK0a9UufYDYekSdTxeDmhQl6l/kk9k7E=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=Puojc/y5cXsF76zmOtvFwxoXJijmJjEPOXmVILg8TVu46b8yPeAFj27Y5yBnGg1V2
-         McgkF7bKCceiR6RaFDYU82AL1pkEtZo/TViC+rOMNJsS+ufw9OT5GmDjmptTt1Xm0p
-         VgORthIunqzjcoEJG9CtaT/81lhuGJOTpA7CLWhL0+9WWAGPwWCW96Yyv02Hm/Nzdh
-         dbylsydnzbsjPLaayKShejywFviKeTc3Ol9+sZ4xbRLpe2jSlBMEhREmNgJOqmj5iy
-         nlp3fvR/v1gsVT9+OW9Sm+4gvU2m+zUe648vloqo7l5zwMkpkVMDD4RuyNDfC13lMy
-         Zr1upznBoBp/g==
+X-Received: by 2002:a6b:4402:: with SMTP id r2mr9836660ioa.119.1575632108657;
+ Fri, 06 Dec 2019 03:35:08 -0800 (PST)
+Date:   Fri, 06 Dec 2019 03:35:08 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000002220b705990770d8@google.com>
+Subject: general protection fault in pegasus_probe
+From:   syzbot <syzbot+41b0e2cc7adc40d57974@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, davem@davemloft.net,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        netdev@vger.kernel.org, petkan@nucleusys.com,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-If usb-role-switch property is present in USB 2 port, register
-usb-role-switch to receive usb role changes.
+Hello,
 
-Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+syzbot found the following crash on:
+
+HEAD commit:    1f22d15c usb: gadget: add raw-gadget interface
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=129ce77ae00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8ccee2968018adcb
+dashboard link: https://syzkaller.appspot.com/bug?extid=41b0e2cc7adc40d57974
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+
+Unfortunately, I don't have any reproducer for this crash yet.
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+41b0e2cc7adc40d57974@syzkaller.appspotmail.com
+
+kasan: GPF could be caused by NULL-ptr deref or user memory access
+general protection fault: 0000 [#1] SMP KASAN
+CPU: 1 PID: 3279 Comm: kworker/1:7 Not tainted 5.4.0-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+RIP: 0010:workqueue_sysfs_unregister kernel/workqueue.c:5689 [inline]
+RIP: 0010:destroy_workqueue+0x2e/0x6b0 kernel/workqueue.c:4349
+Code: 49 89 fe 41 55 41 54 55 53 48 83 ec 08 e8 1a 7e 23 00 49 8d be 08 01  
+00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f  
+85 e0 05 00 00 49 8b 9e 08 01 00 00 48 85 db 74 19
+RSP: 0018:ffff8881aed87178 EFLAGS: 00010206
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffc9000ec45000
+RDX: 0000000000000021 RSI: ffffffff811affe6 RDI: 0000000000000108
+RBP: ffff8881d16e0000 R08: ffff8881d34a3100 R09: fffffbfff11aeca6
+R10: fffffbfff11aeca5 R11: ffffffff88d7652f R12: ffff8881c6aa0000
+R13: 00000000fffffffb R14: 0000000000000000 R15: 0000000000000008
+FS:  0000000000000000(0000) GS:ffff8881db500000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000207e0000 CR3: 00000001d9871000 CR4: 00000000001406e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+  pegasus_dec_workqueue drivers/net/usb/pegasus.c:1130 [inline]
+  pegasus_dec_workqueue drivers/net/usb/pegasus.c:1126 [inline]
+  pegasus_probe+0x1071/0x15d0 drivers/net/usb/pegasus.c:1225
+  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0x1480/0x1c20 drivers/base/core.c:2487
+  usb_set_configuration+0xe67/0x1740 drivers/usb/core/message.c:2023
+  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0x1480/0x1c20 drivers/base/core.c:2487
+  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2537
+  hub_port_connect drivers/usb/core/hub.c:5184 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5324 [inline]
+  port_event drivers/usb/core/hub.c:5470 [inline]
+  hub_event+0x1e59/0x3860 drivers/usb/core/hub.c:5552
+  process_one_work+0x92b/0x1530 kernel/workqueue.c:2264
+  process_scheduled_works kernel/workqueue.c:2326 [inline]
+  worker_thread+0x7ab/0xe20 kernel/workqueue.c:2412
+  kthread+0x318/0x420 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+Modules linked in:
+---[ end trace b659e9aea6e4f6c5 ]---
+RIP: 0010:workqueue_sysfs_unregister kernel/workqueue.c:5689 [inline]
+RIP: 0010:destroy_workqueue+0x2e/0x6b0 kernel/workqueue.c:4349
+Code: 49 89 fe 41 55 41 54 55 53 48 83 ec 08 e8 1a 7e 23 00 49 8d be 08 01  
+00 00 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f  
+85 e0 05 00 00 49 8b 9e 08 01 00 00 48 85 db 74 19
+RSP: 0018:ffff8881aed87178 EFLAGS: 00010206
+RAX: dffffc0000000000 RBX: 0000000000000000 RCX: ffffc9000ec45000
+RDX: 0000000000000021 RSI: ffffffff811affe6 RDI: 0000000000000108
+RBP: ffff8881d16e0000 R08: ffff8881d34a3100 R09: fffffbfff11aeca6
+R10: fffffbfff11aeca5 R11: ffffffff88d7652f R12: ffff8881c6aa0000
+R13: 00000000fffffffb R14: 0000000000000000 R15: 0000000000000008
+FS:  0000000000000000(0000) GS:ffff8881db500000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000207e0000 CR3: 00000001d9871000 CR4: 00000000001406e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+
+
 ---
- drivers/phy/tegra/Kconfig |  1 +
- drivers/phy/tegra/xusb.c  | 40 ++++++++++++++++++++++++++++++++++++++++
- drivers/phy/tegra/xusb.h  |  3 +++
- 3 files changed, 44 insertions(+)
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/phy/tegra/Kconfig b/drivers/phy/tegra/Kconfig
-index f9817c3..df07c4d 100644
---- a/drivers/phy/tegra/Kconfig
-+++ b/drivers/phy/tegra/Kconfig
-@@ -2,6 +2,7 @@
- config PHY_TEGRA_XUSB
- 	tristate "NVIDIA Tegra XUSB pad controller driver"
- 	depends on ARCH_TEGRA
-+	select USB_CONN_GPIO
- 	help
- 	  Choose this option if you have an NVIDIA Tegra SoC.
- 
-diff --git a/drivers/phy/tegra/xusb.c b/drivers/phy/tegra/xusb.c
-index f98ec39..da60a63 100644
---- a/drivers/phy/tegra/xusb.c
-+++ b/drivers/phy/tegra/xusb.c
-@@ -523,6 +523,7 @@ static int tegra_xusb_port_init(struct tegra_xusb_port *port,
- 	port->dev.type = &tegra_xusb_port_type;
- 	port->dev.of_node = of_node_get(np);
- 	port->dev.parent = padctl->dev;
-+	port->dev.driver = padctl->dev->driver;
- 
- 	err = dev_set_name(&port->dev, "%s-%u", name, index);
- 	if (err < 0)
-@@ -532,6 +533,7 @@ static int tegra_xusb_port_init(struct tegra_xusb_port *port,
- 	if (err < 0)
- 		goto unregister;
- 
-+	dev_set_drvdata(&port->dev, port);
- 	return 0;
- 
- unregister:
-@@ -541,6 +543,7 @@ static int tegra_xusb_port_init(struct tegra_xusb_port *port,
- 
- static void tegra_xusb_port_unregister(struct tegra_xusb_port *port)
- {
-+	usb_role_switch_unregister(port->usb_role_sw);
- 	device_unregister(&port->dev);
- }
- 
-@@ -551,11 +554,39 @@ static const char *const modes[] = {
- 	[USB_DR_MODE_OTG] = "otg",
- };
- 
-+static int tegra_xusb_role_sw_set(struct device *dev, enum usb_role role)
-+{
-+	dev_dbg(dev, "%s calling notifier for role is %d\n", __func__, role);
-+
-+	return 0;
-+}
-+
-+static int tegra_xusb_setup_usb_role_switch(struct tegra_xusb_port *port)
-+{
-+	int err = 0;
-+	struct usb_role_switch_desc role_sx_desc = {
-+					.set = tegra_xusb_role_sw_set,
-+					.fwnode = dev_fwnode(&port->dev),
-+						   };
-+
-+	port->usb_role_sw = usb_role_switch_register(&port->dev,
-+						&role_sx_desc);
-+	if (IS_ERR(port->usb_role_sw)) {
-+		err = PTR_ERR(port->usb_role_sw);
-+		if (err != EPROBE_DEFER)
-+			dev_err(&port->dev, "Failed to register USB role SW: %d",
-+				err);
-+	}
-+
-+	return err;
-+}
-+
- static int tegra_xusb_usb2_port_parse_dt(struct tegra_xusb_usb2_port *usb2)
- {
- 	struct tegra_xusb_port *port = &usb2->base;
- 	struct device_node *np = port->dev.of_node;
- 	const char *mode;
-+	int err;
- 
- 	usb2->internal = of_property_read_bool(np, "nvidia,internal");
- 
-@@ -572,6 +603,15 @@ static int tegra_xusb_usb2_port_parse_dt(struct tegra_xusb_usb2_port *usb2)
- 		usb2->mode = USB_DR_MODE_HOST;
- 	}
- 
-+	if (of_property_read_bool(np, "usb-role-switch")) {
-+		/* populate connector entry */
-+		of_platform_populate(np, NULL, NULL, &port->dev);
-+
-+		err = tegra_xusb_setup_usb_role_switch(port);
-+		if (err < 0)
-+			return err;
-+	}
-+
- 	usb2->supply = devm_regulator_get(&port->dev, "vbus");
- 	return PTR_ERR_OR_ZERO(usb2->supply);
- }
-diff --git a/drivers/phy/tegra/xusb.h b/drivers/phy/tegra/xusb.h
-index da94fcc..9f27899 100644
---- a/drivers/phy/tegra/xusb.h
-+++ b/drivers/phy/tegra/xusb.h
-@@ -12,6 +12,7 @@
- #include <linux/workqueue.h>
- 
- #include <linux/usb/otg.h>
-+#include <linux/usb/role.h>
- 
- /* legacy entry points for backwards-compatibility */
- int tegra_xusb_padctl_legacy_probe(struct platform_device *pdev);
-@@ -266,6 +267,8 @@ struct tegra_xusb_port {
- 	struct list_head list;
- 	struct device dev;
- 
-+	struct usb_role_switch *usb_role_sw;
-+
- 	const struct tegra_xusb_port_ops *ops;
- };
- 
--- 
-2.7.4
-
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
