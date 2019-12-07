@@ -2,173 +2,143 @@ Return-Path: <SRS0=Pum1=Z5=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ADE3C2D0C2
-	for <linux-usb@archiver.kernel.org>; Sat,  7 Dec 2019 06:47:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EA97C2BBE2
+	for <linux-usb@archiver.kernel.org>; Sat,  7 Dec 2019 17:35:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 40E132245C
-	for <linux-usb@archiver.kernel.org>; Sat,  7 Dec 2019 06:47:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1575701253;
-	bh=hDSrdJp5FnmJpID01avCkZdZ+J3Sonq9F81P4yAHzg4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:List-ID:From;
-	b=wp5TvK3weiNaOk3ulKQtoA0775D0bnX9Y8C8ybPX/gZ0iX10mkMCQe6ukewQ49KaD
-	 qgmJ358AeqqTZdKb7kDeDH8rsxoFGy87U3XnZ8Kz+ZS59DxK1LjIctCRgknEnWKcbt
-	 C2R+02q9PsP4xWwLswsfN//QdGN/WaaVEAv9vIpo=
+	by mail.kernel.org (Postfix) with ESMTP id 6FD6224670
+	for <linux-usb@archiver.kernel.org>; Sat,  7 Dec 2019 17:35:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726418AbfLGGrc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 7 Dec 2019 01:47:32 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:44309 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725923AbfLGGrc (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 7 Dec 2019 01:47:32 -0500
-Received: by mail-lf1-f67.google.com with SMTP id v201so6906230lfa.11
-        for <linux-usb@vger.kernel.org>; Fri, 06 Dec 2019 22:47:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UPyMBRgocz3Gumc8hl0udOJ28y6fAihoSPqhWLZGSXM=;
-        b=h7pAQHlrS6wsadii68Qu+ijamfwzEaVopIOIiDv9h0hJUjMnoGk9P+OtTNLnGmPppc
-         W7AxQS9TnRlwOWRH1bRJ+xNjY0XkB6HAqCnGY1EtuiQ1JktHJD/nePqvOv+A95wC7Xjr
-         6eP1E881/JjuF6eV/8qFgevKqrjb1xXHiV/Ag=
+        id S1726555AbfLGRfK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 7 Dec 2019 12:35:10 -0500
+Received: from mail-il1-f197.google.com ([209.85.166.197]:37683 "EHLO
+        mail-il1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726513AbfLGRfJ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 7 Dec 2019 12:35:09 -0500
+Received: by mail-il1-f197.google.com with SMTP id t19so7999252ila.4
+        for <linux-usb@vger.kernel.org>; Sat, 07 Dec 2019 09:35:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UPyMBRgocz3Gumc8hl0udOJ28y6fAihoSPqhWLZGSXM=;
-        b=Y4I/+ovieHryibYSmE26RMgKv7xZG9Io/89fuHtlcY6yyqXodTncQTTsbjcqGVZiwL
-         uYwMJiboDeohD0/46msqmfVTmHfZF4Y3o1O0S1jU+SNxhorE9a9QyQq+vh+w0M44SYUf
-         ASvlYI5k7D78sX8CyLHPEzacJtscd/go0OwXI9CNsfifJw62r9IK5Wo9he8jqpgsjgWA
-         ngoVKJuASjtlvbpL/bNu+uA/PvBDRIyghILHcH57/uHNfRUrOp6P4yuWzw/Eod1BWt/6
-         903RobCXW/OWiH683bYyaKH9pT632Y/25zHbLL7BaosTY4h9NcA0M2bRedTDwlFSO8DU
-         6HNg==
-X-Gm-Message-State: APjAAAUW9FWg3XjN1+4NOX7abT7MQDUbxu1JTrLjjLfGxgB0b0vPGTeo
-        YMS1m4UEUpmwWoA3MEFaHu+ZkPnNzvk=
-X-Google-Smtp-Source: APXvYqz8Ds6tjWddJe6ecZ2hQK+hMlYoMwYfWlRFgIkbqn9BxAIwaRRacg8QJ8538qOKSZUKPUnd3g==
-X-Received: by 2002:ac2:5a1a:: with SMTP id q26mr10123014lfn.33.1575701249178;
-        Fri, 06 Dec 2019 22:47:29 -0800 (PST)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
-        by smtp.gmail.com with ESMTPSA id a19sm8705088ljd.90.2019.12.06.22.47.27
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Dec 2019 22:47:28 -0800 (PST)
-Received: by mail-lj1-f182.google.com with SMTP id d20so9969212ljc.12
-        for <linux-usb@vger.kernel.org>; Fri, 06 Dec 2019 22:47:27 -0800 (PST)
-X-Received: by 2002:a2e:9041:: with SMTP id n1mr10951802ljg.133.1575701247153;
- Fri, 06 Dec 2019 22:47:27 -0800 (PST)
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=PssgSEg/sffQDcKK+621ku6PbuChp8EAKykjz+P/qoA=;
+        b=OPTNVBx6GRLPjN9Nll5106FnhJ6m++MlliXiJ0atjIglB0aBtvdN03MweD7NWWOwBi
+         I8HivIM9UzG5ls6YSXsBpsuflcav1QqHDqJiN1eztuwugdG7X29JlWUcET5BVJgK91yr
+         YROtHUijJZaAv9xW4TaF/ncptrtQUyGWAD7p2/kjYbg+uNOAzJqotF+57LmqyQlU4QeU
+         RsQVykYD7Ktu2hNZI0igg/qnX9AG03vSA8dslgnPDnI6mRZ4Z7eqwXXYik2mQRAwAU69
+         +Y6IQoZeCAQ2Mir5jwvZo/nD1ocPJ/3ZzuhlV98BgvS9QXy2eqIFcWKBhbT+eNT8auE9
+         Mkyg==
+X-Gm-Message-State: APjAAAUGrgPS8DgA9pKKw9Pvhkv7Og/4d7bBGCySem34dQvqDBU3zfjF
+        pghqeTdnek5exxDqLzgq4qPnPA+PCnnvczSbgL3+XbR2hFJH
+X-Google-Smtp-Source: APXvYqzfmmLpffgywS+1zLmFa/YMDlmc9SXPol0s2NAySfPATYZliKe3wbaCdSZ3EZKOQ2a7FhhQXg+ZRIGKe6UmuHzE6z5dhuEV
 MIME-Version: 1.0
-References: <157186182463.3995.13922458878706311997.stgit@warthog.procyon.org.uk>
- <157186186167.3995.7568100174393739543.stgit@warthog.procyon.org.uk>
- <20191206214725.GA2108@latitude> <CAHk-=wga0MPEH5hsesi4Cy+fgaaKENMYpbg2kK8UA0qE3iupgw@mail.gmail.com>
- <20191207000015.GA1757@latitude>
-In-Reply-To: <20191207000015.GA1757@latitude>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Fri, 6 Dec 2019 22:47:11 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wgkmG9xu_tvMbFTUyn3f2knr7POHjiwMtEmNxXzdPN8wg@mail.gmail.com>
-Message-ID: <CAHk-=wgkmG9xu_tvMbFTUyn3f2knr7POHjiwMtEmNxXzdPN8wg@mail.gmail.com>
-Subject: Re: [RFC PATCH 04/10] pipe: Use head and tail pointers for the ring,
- not cursor and length [ver #2]
-To:     Johannes Hirte <johannes.hirte@datenkhaos.de>
-Cc:     David Howells <dhowells@redhat.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>, raven@themaw.net,
-        Christian Brauner <christian@brauner.io>,
-        keyrings@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-block <linux-block@vger.kernel.org>,
-        LSM List <linux-security-module@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Received: by 2002:a6b:e008:: with SMTP id z8mr14498726iog.246.1575740109054;
+ Sat, 07 Dec 2019 09:35:09 -0800 (PST)
+Date:   Sat, 07 Dec 2019 09:35:09 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000756ba505992095eb@google.com>
+Subject: WARNING in video_unregister_device
+From:   syzbot <syzbot+107e71ba620a63af4335@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+        rafael@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Dec 6, 2019 at 4:00 PM Johannes Hirte
-<johannes.hirte@datenkhaos.de> wrote:
->
-> Tested with 5.4.0-11505-g347f56fb3890 and still the same wrong behavior.
-> Reliable testcase is facebook, where timeline isn't updated with firefox.
+Hello,
 
-Hmm. I'm not on FB, so that's not a great test for me.
+syzbot found the following crash on:
 
-But I've been staring at the code for a long time, and I did find another issue.
+HEAD commit:    1f22d15c usb: gadget: add raw-gadget interface
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=1486d1bce00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8ccee2968018adcb
+dashboard link: https://syzkaller.appspot.com/bug?extid=107e71ba620a63af4335
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1399bb7ae00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15e80e41e00000
 
-poll() and select() were subtly racy and broken. The code did
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+107e71ba620a63af4335@syzkaller.appspotmail.com
 
-        unsigned int head = READ_ONCE(pipe->head);
-        unsigned int tail = READ_ONCE(pipe->tail);
+usbvision_radio_close: Final disconnect
+------------[ cut here ]------------
+sysfs group 'power' not found for kobject 'radio5'
+WARNING: CPU: 1 PID: 1791 at fs/sysfs/group.c:278 sysfs_remove_group  
+fs/sysfs/group.c:278 [inline]
+WARNING: CPU: 1 PID: 1791 at fs/sysfs/group.c:278  
+sysfs_remove_group+0x155/0x1b0 fs/sysfs/group.c:269
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 1 PID: 1791 Comm: v4l_id Not tainted 5.4.0-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xef/0x16e lib/dump_stack.c:118
+  panic+0x2aa/0x6e1 kernel/panic.c:221
+  __warn.cold+0x2f/0x30 kernel/panic.c:582
+  report_bug+0x27b/0x2f0 lib/bug.c:195
+  fixup_bug arch/x86/kernel/traps.c:174 [inline]
+  fixup_bug arch/x86/kernel/traps.c:169 [inline]
+  do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:267
+  do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:286
+  invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1027
+RIP: 0010:sysfs_remove_group fs/sysfs/group.c:278 [inline]
+RIP: 0010:sysfs_remove_group+0x155/0x1b0 fs/sysfs/group.c:269
+Code: 48 89 d9 49 8b 14 24 48 b8 00 00 00 00 00 fc ff df 48 c1 e9 03 80 3c  
+01 00 75 41 48 8b 33 48 c7 c7 e0 ba d0 85 e8 73 1f 87 ff <0f> 0b eb 95 e8  
+22 d4 d9 ff e9 d2 fe ff ff 48 89 df e8 15 d4 d9 ff
+RSP: 0018:ffff8881ce73fc50 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: ffffffff85f34ac0 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff8128ebcd RDI: ffffed1039ce7f7c
+RBP: 0000000000000000 R08: ffff8881cf2f1880 R09: ffffed103b6a439f
+R10: ffffed103b6a439e R11: ffff8881db521cf7 R12: ffff8881ce638af8
+R13: ffffffff85f35060 R14: 0000000000000000 R15: ffff8881ce638fb8
+  dpm_sysfs_remove+0x97/0xb0 drivers/base/power/sysfs.c:741
+  device_del+0x18b/0xd30 drivers/base/core.c:2641
+  device_unregister+0x11/0x30 drivers/base/core.c:2696
+  video_unregister_device+0xa2/0xc0 drivers/media/v4l2-core/v4l2-dev.c:1076
+  usbvision_unregister_video+0x83/0x120  
+drivers/media/usb/usbvision/usbvision-video.c:1244
+  usbvision_release+0x10d/0x1c0  
+drivers/media/usb/usbvision/usbvision-video.c:1357
+  usbvision_radio_close.cold+0x2b/0x74  
+drivers/media/usb/usbvision/usbvision-video.c:1130
+  v4l2_release+0x2e7/0x390 drivers/media/v4l2-core/v4l2-dev.c:455
+  __fput+0x2d7/0x840 fs/file_table.c:280
+  task_work_run+0x13f/0x1c0 kernel/task_work.c:113
+  tracehook_notify_resume include/linux/tracehook.h:188 [inline]
+  exit_to_usermode_loop+0x1d2/0x200 arch/x86/entry/common.c:164
+  prepare_exit_to_usermode arch/x86/entry/common.c:195 [inline]
+  syscall_return_slowpath arch/x86/entry/common.c:278 [inline]
+  do_syscall_64+0x4d1/0x5b0 arch/x86/entry/common.c:304
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x7f0fec1542b0
+Code: 40 75 0b 31 c0 48 83 c4 08 e9 0c ff ff ff 48 8d 3d c5 32 08 00 e8 c0  
+07 02 00 83 3d 45 a3 2b 00 00 75 10 b8 03 00 00 00 0f 05 <48> 3d 01 f0 ff  
+ff 73 31 c3 48 83 ec 08 e8 ce 8a 01 00 48 89 04 24
+RSP: 002b:00007ffd13444a48 EFLAGS: 00000246 ORIG_RAX: 0000000000000003
+RAX: 0000000000000000 RBX: 0000000000000003 RCX: 00007f0fec1542b0
+RDX: 0000000000000013 RSI: 0000000080685600 RDI: 0000000000000003
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000400884
+R13: 00007ffd13444ba0 R14: 0000000000000000 R15: 0000000000000000
+Kernel Offset: disabled
+Rebooting in 86400 seconds..
 
-which is ok in theory - select and poll can be racy, and doing racy
-reads is ok and we do it in other places too.
 
-But when you don't do proper locking and do racy poll/select, you need
-to make sure that *if* you were wrong, and said "there's nothing
-pending", you need to have added yourself to the wait-queue so that
-any changes caused poll to update.
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-And the new pipe code did that wrong. It added itself to the poll wait
-queues *after* it had read that racy data, so you could get into a
-race where
-
- - poll reads stale data
-
-      - data changes, wakeup happens
-
- - poll adds itself to the poll wait queue after the wakeup
-
- - poll returns "nothing to read/write" based on stale data, and never
-saw the wakeup event that told it otherwise.
-
-So a patch something like the appended (whitespace-damaged once again,
-because it's untested and I've only been _looking_ a the code) might
-solve that issue.
-
-That said, the race here is quite small. Since that firefox problem is
-apparently repeatable for you, the timing is either _very_ unlucky, or
-there is something else going on too.
-
-                  Linus
-
---- snip snip ---
-
-diff --git a/fs/pipe.c b/fs/pipe.c
-index c561f7f5e902..4c39ea9b3419 100644
---- a/fs/pipe.c
-+++ b/fs/pipe.c
-@@ -557,12 +557,24 @@ pipe_poll(struct file *filp, poll_table *wait)
- {
-        __poll_t mask;
-        struct pipe_inode_info *pipe = filp->private_data;
--       unsigned int head = READ_ONCE(pipe->head);
--       unsigned int tail = READ_ONCE(pipe->tail);
-+       unsigned int head, tail;
-
-+       /*
-+        * Reading only -- no need for acquiring the semaphore.
-+        *
-+        * But because this is racy, the code has to add the
-+        * entry to the poll table _first_ ..
-+        */
-        poll_wait(filp, &pipe->wait, wait);
-
--       /* Reading only -- no need for acquiring the semaphore.  */
-+       /*
-+        * .. and only then can you do the racy tests. That way,
-+        * if something changes and you got it wrong, the poll
-+        * table entry will wake you up and fix it.
-+        */
-+       head = READ_ONCE(pipe->head);
-+       tail = READ_ONCE(pipe->tail);
-+
-        mask = 0;
-        if (filp->f_mode & FMODE_READ) {
-                if (!pipe_empty(head, tail))
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
