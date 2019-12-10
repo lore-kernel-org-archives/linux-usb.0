@@ -2,61 +2,65 @@ Return-Path: <SRS0=BMk0=2A=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DEFDC43603
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 11:26:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01C2FC43603
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 11:26:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E3BD720663
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 11:26:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B77E620663
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 11:26:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1575977182;
-	bh=lGw9WnBPjFURXwR8uYEocVdtFyAw1dLXhpEHdnC1h0o=;
-	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=tY1QfsKQ5wvp5F3+VigTpG44sloUEniwt91I1ha2wBlMe1TAcRABYNcDdUyhuANcV
-	 rEGKTPQ1z+66m4ROngr1irXepaDKQmOKBs35TMuUoLoRPQHP4Y0aT2ExsKgi0wSNSd
-	 8PLomD1Tktj/okuJR/hFTPkWf3lNAhdifcRkfwWY=
+	s=default; t=1575977183;
+	bh=uKNEfW0ZWuy1IZOmRCQD1CCOVZM6KypzJ/XWpCNMGDY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=YuRhEe+3TSmk584hJJ7JnLU017hSnQPRIbdDTQ5nVl/36nVXTZvhMMlaiBk3GUsV+
+	 2hRlS9HsQV08SAdiqdF3YyHNTzm8BvrzQmWkI0OaHkeznSU6TFvRDW5qjotzdgV2HZ
+	 75aKvfnYg3C9Nx5BXCXBbcOixbUij3pJHCDlK2ZA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727224AbfLJL0V (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Dec 2019 06:26:21 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:39134 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726915AbfLJL0V (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Dec 2019 06:26:21 -0500
-Received: by mail-lj1-f193.google.com with SMTP id e10so19431200ljj.6
-        for <linux-usb@vger.kernel.org>; Tue, 10 Dec 2019 03:26:19 -0800 (PST)
+        id S1727310AbfLJL0W (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Dec 2019 06:26:22 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:36262 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727196AbfLJL0W (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Dec 2019 06:26:22 -0500
+Received: by mail-lj1-f194.google.com with SMTP id r19so19474444ljg.3;
+        Tue, 10 Dec 2019 03:26:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TbpFv0intJ8F8kmL1Oulbc6SHsrmpdk7QJb19ZZgmp4=;
-        b=YzU/NMyDYm8Q7MqjevK/SNTONZRtBgbjOM33hiBItp6QhKFpSfmj+hUHPRb1nswcPV
-         xI02iJTSiPEYyOewv81g65jbwZtkQ/dIWYJXVhtXCkwERkv4gRTLjq1cDs/EaCEJSBqo
-         uNWpZasqswrIl8LYjgokVQYtxvXiafTwILPFOBLtbsXaFsjlmBTYXIufBq4qMRXEJCt+
-         tdtpaeb28P6QjYSyOF/QbGywT6pzqgh+9M7L/FGUSj+tC4pyXxFHlAFNl0lX+KF7hPTv
-         gZFbce4gjLaxhX8e0O6m6c5sFdfpb7hOoJzdA3USKSaGUuLLLD5oNxJWvw8acjoWqDHA
-         lFuQ==
-X-Gm-Message-State: APjAAAXSJmxB2ChYIame33+Y+ssdieO+Ouy7R7QRPkBMVXoTZWC00EYw
-        GFRpkO/yOZZjQIPe0cfctOs=
-X-Google-Smtp-Source: APXvYqyBF3r0TfYzyzYMLEbpECo2zjh/CWFUAqJjOG00N7povabNE1qQiwmRDVa84GrOXS24d2yLKg==
-X-Received: by 2002:a2e:814e:: with SMTP id t14mr19451979ljg.149.1575977179081;
-        Tue, 10 Dec 2019 03:26:19 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=WucoAdQqWyBkNs0JJK7CZWsBgKNZr9bbzVbrw8HFiTo=;
+        b=FKzRcbnT9u3OQvLftwa2lflSjWPCqrSn0zVmZOWtfP7JM+TZ4NEEvX7Qv35WB8R6tN
+         XlrBBQtWlmPH3JtL/9zJUmdEYzUlcGU6+34NXNYIvM6r17zT8/DxcFP5yffi9e8CHBZe
+         zs/SyGJhQStRrcyNJSssTJvHZ+Cg0+/UH/niefSHjB4bHAQ3Jyg4ei7CrkmUt5qkn6t+
+         btp5Wmcubmmt7M2TGFxAB22i4mdsIV9qDHURtjuAD0TohnoNpJIxxpP3+9jSr6iHG8W6
+         QU6g2A2loe7e2tUAMaetE5RUM0105YtU+1ZKmkYdZHNS2Bp0ocwekpvh86/Psa4zS8E/
+         uXzA==
+X-Gm-Message-State: APjAAAU++HLgbvtnMdQCfy2BHxidpThgK5wofK1ReFtmDa6mTRJEHpsn
+        Yz0iZrhwNrydIKu50Quspxg=
+X-Google-Smtp-Source: APXvYqws6nRYSYz0R6XHyWlg+BYv6iqXM+SVEVrSsINEOjmeHi1LZwCuiGLtZKcURnf6Ix9nKqJLhg==
+X-Received: by 2002:a2e:9a51:: with SMTP id k17mr19128887ljj.206.1575977180051;
+        Tue, 10 Dec 2019 03:26:20 -0800 (PST)
 Received: from xi.terra (c-14b8e655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.184.20])
-        by smtp.gmail.com with ESMTPSA id i19sm1395886lfj.17.2019.12.10.03.26.18
+        by smtp.gmail.com with ESMTPSA id e20sm1555481ljl.59.2019.12.10.03.26.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Tue, 10 Dec 2019 03:26:18 -0800 (PST)
 Received: from johan by xi.terra with local (Exim 4.92.3)
         (envelope-from <johan@xi.terra>)
-        id 1iedem-0000wE-Gf; Tue, 10 Dec 2019 12:26:20 +0100
+        id 1iedem-0000wM-Ms; Tue, 10 Dec 2019 12:26:20 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 0/4] USB: fix NULL-deref and alternate settings bugs
-Date:   Tue, 10 Dec 2019 12:25:57 +0100
-Message-Id: <20191210112601.3561-1-johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+        stable <stable@vger.kernel.org>
+Subject: [PATCH 2/4] USB: adutux: fix interface sanity check
+Date:   Tue, 10 Dec 2019 12:25:59 +0100
+Message-Id: <20191210112601.3561-3-johan@kernel.org>
 X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191210112601.3561-1-johan@kernel.org>
+References: <20191210112601.3561-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -64,32 +68,32 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-I stumbled over a couple potential NULL-pointer dereferences due to
-drivers using the first altsetting instead of the current one when doing
-descriptor sanity checks.
+Make sure to use the current alternate setting when verifying the
+interface descriptors to avoid binding to an invalid interface.
 
-Turns out we have a quite a few drivers getting this wrong even if this
-would mostly be an issue on kernels with panic_on_warn set due to the
-WARN() in usb_submit_urb().
+Failing to do so could cause the driver to misbehave or trigger a WARN()
+in usb_submit_urb() that kernels with panic_on_warn set would choke on.
 
-Since we've started backporting fixes for such warnings (e.g. as
-reported by syzbot), I've marked these for stable as well.
+Fixes: 03270634e242 ("USB: Add ADU support for Ontrak ADU devices")
+Cc: stable <stable@vger.kernel.org>     # 2.6.19
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/misc/adutux.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Johan
-
-
-Johan Hovold (4):
-  USB: atm: ueagle-atm: add missing endpoint check
-  USB: adutux: fix interface sanity check
-  USB: idmouse: fix interface sanity checks
-  USB: serial: io_edgeport: fix epic endpoint lookup
-
- drivers/usb/atm/ueagle-atm.c     | 18 ++++++++++++------
- drivers/usb/misc/adutux.c        |  2 +-
- drivers/usb/misc/idmouse.c       |  2 +-
- drivers/usb/serial/io_edgeport.c | 10 ++++++----
- 4 files changed, 20 insertions(+), 12 deletions(-)
-
+diff --git a/drivers/usb/misc/adutux.c b/drivers/usb/misc/adutux.c
+index 6f5edb9fc61e..d8d157c4c271 100644
+--- a/drivers/usb/misc/adutux.c
++++ b/drivers/usb/misc/adutux.c
+@@ -669,7 +669,7 @@ static int adu_probe(struct usb_interface *interface,
+ 	init_waitqueue_head(&dev->read_wait);
+ 	init_waitqueue_head(&dev->write_wait);
+ 
+-	res = usb_find_common_endpoints_reverse(&interface->altsetting[0],
++	res = usb_find_common_endpoints_reverse(interface->cur_altsetting,
+ 			NULL, NULL,
+ 			&dev->interrupt_in_endpoint,
+ 			&dev->interrupt_out_endpoint);
 -- 
 2.24.0
 
