@@ -2,145 +2,107 @@ Return-Path: <SRS0=BMk0=2A=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DACBC2D0BF
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 22:43:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A2B1C43603
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 23:14:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 732D62053B
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 22:43:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576017830;
-	bh=ScthOt0s1uE08jiRxm2kjHf23aCgwgOqtuQMOljjyd0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=CQ6HAM2XMM1QSE/LbLIjE/JAbCqW/DHG/lXF2vY0qHqhowaiAf4Rlgc4hbPmxsjMo
-	 W4p0FGv/n+sR0yjVK67jpGeB3OabEX7PLvD/1D4TBWLWCIRKJDF0w8xjrrDon2z9Pm
-	 F/5yJNRHZ2kufDs/zuWJqEn83eCoe4ydmfEursc8=
+	by mail.kernel.org (Postfix) with ESMTP id CE1E72073D
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 23:14:12 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hzjb1Oz0"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728738AbfLJWnt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Dec 2019 17:43:49 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50760 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727655AbfLJWa5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 10 Dec 2019 17:30:57 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 95592207FF;
-        Tue, 10 Dec 2019 22:30:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576017056;
-        bh=ScthOt0s1uE08jiRxm2kjHf23aCgwgOqtuQMOljjyd0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HmMUBntLkrTwp98dOBt6nzgg0stBvR1o0cFO1XoUW8j1P0vCZ3nG3Ax5MDBv9uJoe
-         0KxL0N3lT0xS4fdeeDt97X/Dn6JRxKlD1G0iX7eaBIzOLO/l/Pm7fctmDdb+7Euq/b
-         BqgZnk/9o9zoY3QEeWRnzPRazfyHrm9PuYQ07Nlg=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Veeraiyan Chidambaram <veeraiyan.chidambaram@in.bosch.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 17/91] usb: renesas_usbhs: add suspend event support in gadget mode
-Date:   Tue, 10 Dec 2019 17:29:21 -0500
-Message-Id: <20191210223035.14270-17-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191210223035.14270-1-sashal@kernel.org>
-References: <20191210223035.14270-1-sashal@kernel.org>
+        id S1727007AbfLJXOM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Dec 2019 18:14:12 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:34481 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726631AbfLJXOM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Dec 2019 18:14:12 -0500
+Received: by mail-lf1-f68.google.com with SMTP id l18so15153697lfc.1
+        for <linux-usb@vger.kernel.org>; Tue, 10 Dec 2019 15:14:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=y5an3uiCjiV6aBec5mJqVa6m+5HL+owl0rpw015ZHfA=;
+        b=hzjb1Oz0AtzDCvW5qERw8MVMMnLibZJXse6EPTaHJ0Wau59lgzmAYrKFNYXyXtZQsQ
+         au0JvCMJprf93j96pKv/cC3r90VJ8x2snYOqYHjeRY8X2yrCmdERVmR3bQN0Kbx2zGc9
+         TmIPzAyzkhin2IOwu/vkLtZjCQklziqVfAA5SX7UKAaj4BZe97LfBoWZmghZNL+8in5V
+         lxcTg89A8NuxwqRCwseesKL7DspdeXShGTrnlPaMFPxTGh9ZMjYsUBQ5GCyZ4HWXZzd6
+         iASO5Gtq96X5Cd472ViaoQM6BXXsK8Nmj0IaYItnrdqo3ODO//dkTqET456pyFMsUZHh
+         THvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=y5an3uiCjiV6aBec5mJqVa6m+5HL+owl0rpw015ZHfA=;
+        b=pD3omo46TM0E1DxPgRmhK5Xl2WG4icaJps6LC1RbECNvpOIL81kG26r3l5MOho7eZL
+         B/thUEwgrPDQvMeF+ws0by+keB00l2abdtiZGOo42qhp2qeyVZ2/5GPN9X8tu2HSLOu3
+         FMCyEiBy492R1oR1Y4/Mm0xhpLvtD1Au2t8SKjR4VE5wf8dVheppjxU/mbF4V8A/FtT7
+         D8NhlllLZMM7o+C6rvVn7UbMfCW/g1q4Cz1XdLonlUj2dpmMsjog3DFsB5621cW98JR3
+         k8aCiQyzrp8jAY/F3V2fp5lYbj8Kiz4OdxBcIQWN9LSS70wsFnGSXLcUYpkqcRPq0lbs
+         pTTg==
+X-Gm-Message-State: APjAAAW5T/2D5DTnfvecDfMq3t4hjY59yxtZPH9nVCF0G/HH860YM7b/
+        Hce9puVz89CMf3hQiI0bqLLqPc22LC73/+/jAw2xyEpZ3Co=
+X-Google-Smtp-Source: APXvYqxUWR4LFsaDQ+gNcyuSyBeEU+H1QqKIJozS4it8NsollBoDp1T3SH1r3kAZ+wHIG37+HuSFWHfxBxENG8ljbyo=
+X-Received: by 2002:ac2:4945:: with SMTP id o5mr219870lfi.93.1576019650100;
+ Tue, 10 Dec 2019 15:14:10 -0800 (PST)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+References: <CGME20191205145641eucas1p1e3f40dff8a0c8e9ca47425e2370eabbb@eucas1p1.samsung.com>
+ <20191205145633.187511-1-linus.walleij@linaro.org> <39902b1d-656c-2dc9-34bc-3bfe715db22f@samsung.com>
+ <e4ba86d5-3c25-8b2c-981c-efaad4ebc60c@samsung.com> <CACRpkdaV9zoVzpZ3SW-Nvjo6ytUCEjA6fWuW1FSBciQ24j5SZg@mail.gmail.com>
+ <402598f1-3230-c48f-c1c0-feda19cb2261@samsung.com> <CACRpkdZBOFXxm_n+A+Oz=MubkSTKG7aUX+9jonB5vm+_XPK_DA@mail.gmail.com>
+ <bb1432d3-1fee-9c3d-0ae1-af305deed636@samsung.com>
+In-Reply-To: <bb1432d3-1fee-9c3d-0ae1-af305deed636@samsung.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 11 Dec 2019 00:13:58 +0100
+Message-ID: <CACRpkdbPpxY2s8fqNuoYcrQUY1TJXmy__qbJ6nbw4XYrqtNHNQ@mail.gmail.com>
+Subject: Re: [PATCH] usb: usb3503: Convert to use GPIO descriptors
+To:     Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb <linux-usb@vger.kernel.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Stefan Agner <stefan@agner.ch>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Veeraiyan Chidambaram <veeraiyan.chidambaram@in.bosch.com>
+On Mon, Dec 9, 2019 at 5:33 PM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+> On 06.12.2019 14:43, Linus Walleij wrote:
+> > On Fri, Dec 6, 2019 at 12:43 PM Marek Szyprowski
+> > <m.szyprowski@samsung.com> wrote:
+> >
+> >> arch/arm/boot/dts/qcom-mdm9615-wp8548-mangoh-green.dts: invert RESET
+> >> gpio polarity (to ACTIVE_LOW), not sure about INTN gpio
+> > AFAICT INTN should be set to ACTIVE_HIGH if it is working with the
+> > current code in the kernel.
+> >
+> > However it is pretty confusing with the "N" at the end of INTN,
+> > indicating negative polarity. Maybe it means something else,
+> > I haven't checked the datasheet. Maybe all boards have inverters
+> > on these lines so they come out active high.
+>
+> Well, this line is indeed active low. The datasheet names it 'int_n'.
+> However I think it makes sense to keep it as ACTIVE_HIGH, because the
+> 'n' is already in the gpio name (and dt binding). In contrary, the reset
+> gpio pin/binding is named without the 'n', thus I want to clarify it as
+> active low. The datasheet names it 'reset_n'.
 
-[ Upstream commit 39abcc84846bbc0538f13c190b6a9c7e36890cd2 ]
+Agreed.
 
-When R-Car Gen3 USB 2.0 is in Gadget mode, if host is detached an interrupt
-will be generated and Suspended state bit is set in interrupt status
-register. Interrupt handler will call driver->suspend(composite_suspend)
-if suspended state bit is set. composite_suspend will call
-ffs_func_suspend which will post FUNCTIONFS_SUSPEND and will be consumed
-by user space application via /dev/ep0.
+> If you are okay with this approach, I will send a patchset fixing
+> polarity in DTS together with your patch converting the driver to gpio
+> descriptors with the fixup for the reset gpio polarity.
 
-To be able to detect host detach, extend the DVSQ_MASK to cover the
-Suspended bit of the DVSQ[2:0] bitfield from the Interrupt Status
-Register 0 (INTSTS0) register and perform appropriate action in the
-DVST interrupt handler (usbhsg_irq_dev_state).
+Yes this approach should work, will you fold in fixes to my
+patch (like asserting reset high) as well or do you want me
+to send a v2?
 
-Without this commit, disconnection of the phone from R-Car-H3 ES2.0
-Salvator-X CN9 port is not recognized and reverse role switch does
-not happen. If phone is connected again it does not enumerate.
-
-With this commit, disconnection will be recognized and reverse role
-switch will happen by a user space application. If phone is connected
-again it will enumerate properly and will become visible in the output
-of 'lsusb'.
-
-Signed-off-by: Veeraiyan Chidambaram <veeraiyan.chidambaram@in.bosch.com>
-Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Link: https://lore.kernel.org/r/1568207756-22325-3-git-send-email-external.veeraiyan.c@de.adit-jv.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/renesas_usbhs/common.h     |  3 ++-
- drivers/usb/renesas_usbhs/mod_gadget.c | 12 +++++++++---
- 2 files changed, 11 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/usb/renesas_usbhs/common.h b/drivers/usb/renesas_usbhs/common.h
-index b8620aa6b72e6..8424c165f732a 100644
---- a/drivers/usb/renesas_usbhs/common.h
-+++ b/drivers/usb/renesas_usbhs/common.h
-@@ -163,11 +163,12 @@ struct usbhs_priv;
- #define VBSTS	(1 << 7)	/* VBUS_0 and VBUSIN_0 Input Status */
- #define VALID	(1 << 3)	/* USB Request Receive */
- 
--#define DVSQ_MASK		(0x3 << 4)	/* Device State */
-+#define DVSQ_MASK		(0x7 << 4)	/* Device State */
- #define  POWER_STATE		(0 << 4)
- #define  DEFAULT_STATE		(1 << 4)
- #define  ADDRESS_STATE		(2 << 4)
- #define  CONFIGURATION_STATE	(3 << 4)
-+#define  SUSPENDED_STATE	(4 << 4)
- 
- #define CTSQ_MASK		(0x7)	/* Control Transfer Stage */
- #define  IDLE_SETUP_STAGE	0	/* Idle stage or setup stage */
-diff --git a/drivers/usb/renesas_usbhs/mod_gadget.c b/drivers/usb/renesas_usbhs/mod_gadget.c
-index 6898ca1ef98c0..b0397bcfe1f61 100644
---- a/drivers/usb/renesas_usbhs/mod_gadget.c
-+++ b/drivers/usb/renesas_usbhs/mod_gadget.c
-@@ -465,12 +465,18 @@ static int usbhsg_irq_dev_state(struct usbhs_priv *priv,
- {
- 	struct usbhsg_gpriv *gpriv = usbhsg_priv_to_gpriv(priv);
- 	struct device *dev = usbhsg_gpriv_to_dev(gpriv);
-+	int state = usbhs_status_get_device_state(irq_state);
- 
- 	gpriv->gadget.speed = usbhs_bus_get_speed(priv);
- 
--	dev_dbg(dev, "state = %x : speed : %d\n",
--		usbhs_status_get_device_state(irq_state),
--		gpriv->gadget.speed);
-+	dev_dbg(dev, "state = %x : speed : %d\n", state, gpriv->gadget.speed);
-+
-+	if (gpriv->gadget.speed != USB_SPEED_UNKNOWN &&
-+	    (state & SUSPENDED_STATE)) {
-+		if (gpriv->driver && gpriv->driver->suspend)
-+			gpriv->driver->suspend(&gpriv->gadget);
-+		usb_gadget_set_state(&gpriv->gadget, USB_STATE_SUSPENDED);
-+	}
- 
- 	return 0;
- }
--- 
-2.20.1
-
+Yours,
+Linus Walleij
