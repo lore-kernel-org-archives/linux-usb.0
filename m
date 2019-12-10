@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEA47C2D0BF
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 21:43:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6FFAC2D0BF
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 21:47:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 92D5620637
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 21:43:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA26520828
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 21:47:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576014218;
-	bh=ae7aCAN7iVQDM1SrWQ3itJbMW8n3jg9VFUmju5zI3W0=;
+	s=default; t=1576014466;
+	bh=10t/UT/PeC75TXkxlx9sgFx10KLPZyqcib845xRxFh0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=HnJ265vFV3FKE2BwTIeZhqCTDc8cSN2dYOUkFZRkOFlRG13qb1T+/hMQMgfhajkOB
-	 FUWr88a0tyfqhM1AguDdR+boSyZ1Dv7ynLcT+cgTzC0ZOBd9UEFwi40qFrzEr5ZpXD
-	 X0VKCvG5arIbUgShRRM/DXxEK8sIXkKPfPOzHqwU=
+	b=i4FXegrYxqdEXqSgxCoufmkE6hZPsfKQGLvRpEgfJ7WyIGHd4Ei1fZ950dDbkquEI
+	 1RVYgKSbzq/KmdSUf/u3cS6aOVH2RiSizyW8+IOmRrdfa0GdITgvmZDsX8tB6cJynG
+	 rB7lT6fhfbHrCdPxdNzUW+/TKbXzGaEosAZIT2hE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729768AbfLJVdg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Dec 2019 16:33:36 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38024 "EHLO mail.kernel.org"
+        id S1729613AbfLJVrk (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Dec 2019 16:47:40 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57386 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728429AbfLJVdf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Tue, 10 Dec 2019 16:33:35 -0500
+        id S1728078AbfLJVJM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 10 Dec 2019 16:09:12 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 89A272464B;
-        Tue, 10 Dec 2019 21:33:33 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EAB0E2077B;
+        Tue, 10 Dec 2019 21:09:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576013614;
-        bh=ae7aCAN7iVQDM1SrWQ3itJbMW8n3jg9VFUmju5zI3W0=;
+        s=default; t=1576012151;
+        bh=10t/UT/PeC75TXkxlx9sgFx10KLPZyqcib845xRxFh0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Xi8SY6VW79tnVSrUUgXbEWAv/o7lYLD4MAzVJFX1GPiHyLMfYK8b3HXzcdhj/xcna
-         WisiElDNflQulKeVDAr92wWfwbLzBFGmr95zM/EI2jCsJM1n2sFpr0eRxoI4VDLV6M
-         9Av6NHWCA55DbfjE/L3rNeFVk2zh5XLrjRmF3Pjo=
+        b=DL8/4XsSPMhZJdplsrpqxWV3Kscz3VTppw0Yywfpp80Ux9cfyzs11deBI57rcN+Az
+         AwB0v8DJqGB+vQGeejomVdig4eOJsMz8WCZSSkz3W9iHYPeYfq/zxn2eGO/GKoU3Qm
+         /KZEhNpCWnUWg7rCggGbkm24eA4tczOG3iUqQX+s=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Ingo Rohloff <ingo.rohloff@lauterbach.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 059/177] usb: usbfs: Suppress problematic bind and unbind uevents.
-Date:   Tue, 10 Dec 2019 16:30:23 -0500
-Message-Id: <20191210213221.11921-59-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 114/350] usb: usbfs: Suppress problematic bind and unbind uevents.
+Date:   Tue, 10 Dec 2019 16:03:39 -0500
+Message-Id: <20191210210735.9077-75-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191210213221.11921-1-sashal@kernel.org>
-References: <20191210213221.11921-1-sashal@kernel.org>
+In-Reply-To: <20191210210735.9077-1-sashal@kernel.org>
+References: <20191210210735.9077-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -98,10 +98,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
-index 29c6414f48f13..00204824bffd8 100644
+index 3f899552f6e3c..6ca40d135430b 100644
 --- a/drivers/usb/core/devio.c
 +++ b/drivers/usb/core/devio.c
-@@ -739,8 +739,15 @@ static int claimintf(struct usb_dev_state *ps, unsigned int ifnum)
+@@ -764,8 +764,15 @@ static int claimintf(struct usb_dev_state *ps, unsigned int ifnum)
  	intf = usb_ifnum_to_if(dev, ifnum);
  	if (!intf)
  		err = -ENOENT;
@@ -118,7 +118,7 @@ index 29c6414f48f13..00204824bffd8 100644
  	if (err == 0)
  		set_bit(ifnum, &ps->ifclaimed);
  	return err;
-@@ -760,7 +767,13 @@ static int releaseintf(struct usb_dev_state *ps, unsigned int ifnum)
+@@ -785,7 +792,13 @@ static int releaseintf(struct usb_dev_state *ps, unsigned int ifnum)
  	if (!intf)
  		err = -ENOENT;
  	else if (test_and_clear_bit(ifnum, &ps->ifclaimed)) {
