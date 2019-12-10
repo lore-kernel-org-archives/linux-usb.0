@@ -7,50 +7,50 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D3927C00454
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 11:45:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2964C2D0BF
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 11:45:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A96DE2073D
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 11:45:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B2B36206D5
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 11:45:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1575978321;
-	bh=fdlzGZUtU2XiWRM/+oZVZ81jIqcjYgrX+MflMMtnQsU=;
+	s=default; t=1575978333;
+	bh=WN/tO/s8YcvgofDepTRmHoiHmGaaocf4EphQ3TB+QIk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=g+CvwbyShcAVwTOkbcJwgexHtcPprgMLM7isrpgCqCUjIyRarMzI/SUKYGWYxQkcj
-	 LltjbGnRmYZzNEnTxCksJm0b4s8RReoHQcocav/hoiqEhBP4L5ZgXLG3QeC9r2bqed
-	 d/1TAyTII7UtQe4JlxLaEVkLokmGLe9Fg3GtFkDU=
+	b=Je/EvpjYbuQvZxrX18XIvaxHOd2Q8NaB4k1TFh7QpDCnPvPuVEpjHnaTf0GOrkEb8
+	 zmw5EBDNeFbhHS2XHBZ5RfaU2Lvm/GolFk73XII9tu5lZP48Y4nmxXGznDU7AQo1qe
+	 KjU/oTknOOZ4erwFWv+LFUKd6rd2BZtlX1Vw1jkk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727773AbfLJLow (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Dec 2019 06:44:52 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:37418 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727750AbfLJLot (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Dec 2019 06:44:49 -0500
-Received: by mail-lj1-f195.google.com with SMTP id u17so19512504lja.4;
-        Tue, 10 Dec 2019 03:44:47 -0800 (PST)
+        id S1727527AbfLJLpW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Dec 2019 06:45:22 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:36205 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727699AbfLJLor (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Dec 2019 06:44:47 -0500
+Received: by mail-lf1-f67.google.com with SMTP id n12so13466222lfe.3;
+        Tue, 10 Dec 2019 03:44:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mVv+98+Q/wUUkUyC3i7eT9Xaj/qNxPXqvi+D40LBxA8=;
-        b=AT516+M1D0z38nsihUQaSLomQPXc7jErJf1yTvIh7l1jB3NGdeLF+f5TO7+vhAno/t
-         AgLWcVqM2Pb4+ltOXx/s6I9mpcaLJsLgu1ES7eG1mYFZ0YIdYo9jSxGKpLZTmWEh1qVq
-         hVJYlK4CGfgsK073vpNc/Jp6sWCXVGV9meXsEidAC2V/23dZOj/5xRXhXQUYw/54I/N9
-         X6dkxDZQtVs4pMkP90FOsqa5e0eeeB2bkMsE+8VgClVeRm5RVPyj9eGEz4m+mO5kUwmG
-         U36PedmtIxZLJCAC+nmqgrZbP5c0kg03Nap2MCbrpDiJ3LTCPU8R4Zv3vLT336S7OLKN
-         lIyQ==
-X-Gm-Message-State: APjAAAWrTyXnc0S7MhZ/Tu9pPZ+ssPEoGch+eOXV2MN2mbFZse6aU6AD
-        M0X1nxd9VYMg1ShGP55x1m0=
-X-Google-Smtp-Source: APXvYqzNFa+fn53W1Aqp5M1Cpv1wJ6sddSRmDkbQiSSYG/sew6XIoKADsYtUfOLhzdKYpYDnENl+pw==
-X-Received: by 2002:a2e:3a13:: with SMTP id h19mr20770639lja.16.1575978287183;
-        Tue, 10 Dec 2019 03:44:47 -0800 (PST)
+        bh=pnY+PJY7SPNBPbJBBIXQDigd1msQalbdBbCvxm59meA=;
+        b=qZw7pAcCCjlp+sL+q4RnQpuvzhdNhBc96Y2S6dj7LIWrTw3RHpQWkUsk5aNAxPVPSt
+         CNdf531LM2820HgnLechfjgo9CniTyKl1TeM9lg2yoxVcOqLZWwIsPyEvsW+R4hmC4xv
+         S5EGFGwgX7B0pjLtFS9velhaffaQplAgq5Elvn0b+GZL9NCSQR+j1Q28TMp9ut45Me1s
+         6HWLsVeoDLRB7LRIrx5ItNys7KE6+GecSnUfQ0FeW9p9mpExyqtTwNrnF2f5iyJ4WAp7
+         sN/XksaWEef8Ilaw5lFloQ1JwvjRvLaRt9ymJLCMJhjouyDqA6Avo3Eb8cD8/1HgxFHQ
+         L1vw==
+X-Gm-Message-State: APjAAAXmx3G7bGTimmONJUe5d8cF8hitGNuKibt7IBv3WrOYw8jc+s0Y
+        +OYGn6oQzRegodelXft0k9I=
+X-Google-Smtp-Source: APXvYqwbNRbtj2Ow9aDvwjOtvOf4OiR4OleAxoH6lR3rQqOKq931QpA1xB3+eApd+1ggaGGzZnVx9g==
+X-Received: by 2002:ac2:44ce:: with SMTP id d14mr14176321lfm.140.1575978285036;
+        Tue, 10 Dec 2019 03:44:45 -0800 (PST)
 Received: from xi.terra (c-14b8e655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.184.20])
-        by smtp.gmail.com with ESMTPSA id q10sm1583883ljj.60.2019.12.10.03.44.42
+        by smtp.gmail.com with ESMTPSA id a14sm1427974lfh.50.2019.12.10.03.44.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2019 03:44:43 -0800 (PST)
+        Tue, 10 Dec 2019 03:44:42 -0800 (PST)
 Received: from johan by xi.terra with local (Exim 4.92.3)
         (envelope-from <johan@xi.terra>)
-        id 1iedwa-0001ID-QQ; Tue, 10 Dec 2019 12:44:44 +0100
+        id 1iedwa-0001Hx-HP; Tue, 10 Dec 2019 12:44:44 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Kalle Valo <kvalo@codeaurora.org>
 Cc:     QCA ath9k Development <ath9k-devel@qca.qualcomm.com>,
@@ -67,11 +67,10 @@ Cc:     QCA ath9k Development <ath9k-devel@qca.qualcomm.com>,
         linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         Johan Hovold <johan@kernel.org>,
-        stable <stable@vger.kernel.org>,
-        Fariya Fatima <fariyaf@gmail.com>
-Subject: [PATCH 6/7] rsi_91x_usb: fix interface sanity check
-Date:   Tue, 10 Dec 2019 12:44:25 +0100
-Message-Id: <20191210114426.4713-7-johan@kernel.org>
+        stable <stable@vger.kernel.org>
+Subject: [PATCH 3/7] brcmfmac: fix interface sanity check
+Date:   Tue, 10 Dec 2019 12:44:22 +0100
+Message-Id: <20191210114426.4713-4-johan@kernel.org>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191210114426.4713-1-johan@kernel.org>
 References: <20191210114426.4713-1-johan@kernel.org>
@@ -88,27 +87,36 @@ interface descriptors to avoid binding to an invalid interface.
 Failing to do so could cause the driver to misbehave or trigger a WARN()
 in usb_submit_urb() that kernels with panic_on_warn set would choke on.
 
-Fixes: dad0d04fa7ba ("rsi: Add RS9113 wireless driver")
-Cc: stable <stable@vger.kernel.org>     # 3.15
-Cc: Fariya Fatima <fariyaf@gmail.com>
+Fixes: 71bb244ba2fd ("brcm80211: fmac: add USB support for bcm43235/6/8 chipsets")
+Cc: stable <stable@vger.kernel.org>     # 3.4
+Cc: Arend van Spriel <arend@broadcom.com>
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/net/wireless/rsi/rsi_91x_usb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/usb.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/wireless/rsi/rsi_91x_usb.c b/drivers/net/wireless/rsi/rsi_91x_usb.c
-index a37a436df5fb..c3ba38ed0dd0 100644
---- a/drivers/net/wireless/rsi/rsi_91x_usb.c
-+++ b/drivers/net/wireless/rsi/rsi_91x_usb.c
-@@ -117,7 +117,7 @@ static int rsi_find_bulk_in_and_out_endpoints(struct usb_interface *interface,
- 	__le16 buffer_size;
- 	int ii, bin_found = 0, bout_found = 0;
+diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/usb.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/usb.c
+index 06f3c01f10b3..7cdfde9b3dea 100644
+--- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/usb.c
++++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/usb.c
+@@ -1348,7 +1348,7 @@ brcmf_usb_probe(struct usb_interface *intf, const struct usb_device_id *id)
+ 		goto fail;
+ 	}
  
--	iface_desc = &(interface->altsetting[0]);
-+	iface_desc = interface->cur_altsetting;
+-	desc = &intf->altsetting[0].desc;
++	desc = &intf->cur_altsetting->desc;
+ 	if ((desc->bInterfaceClass != USB_CLASS_VENDOR_SPEC) ||
+ 	    (desc->bInterfaceSubClass != 2) ||
+ 	    (desc->bInterfaceProtocol != 0xff)) {
+@@ -1361,7 +1361,7 @@ brcmf_usb_probe(struct usb_interface *intf, const struct usb_device_id *id)
  
- 	for (ii = 0; ii < iface_desc->desc.bNumEndpoints; ++ii) {
- 		endpoint = &(iface_desc->endpoint[ii].desc);
+ 	num_of_eps = desc->bNumEndpoints;
+ 	for (ep = 0; ep < num_of_eps; ep++) {
+-		endpoint = &intf->altsetting[0].endpoint[ep].desc;
++		endpoint = &intf->cur_altsetting->endpoint[ep].desc;
+ 		endpoint_num = usb_endpoint_num(endpoint);
+ 		if (!usb_endpoint_xfer_bulk(endpoint))
+ 			continue;
 -- 
 2.24.0
 
