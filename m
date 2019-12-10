@@ -2,112 +2,120 @@ Return-Path: <SRS0=BMk0=2A=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32D75C2D0C4
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 11:45:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 543DBC2D0BF
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 11:45:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 04DC3206D5
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 11:45:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 275252073D
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 11:45:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1575978314;
-	bh=egy0NrKkLQXTSdqhOQ4Z+RjieKlyJfsQSL53TruPycw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=xbUhk0KNS0rG9ApwpShh238jUAYNKD/3phFeycsmI8y+lOL+BnCTNuKAsS8ezNhBb
-	 UcNmgihaBX+UQ3ihcAUsUvSFYrRdCDRWPb9Qti1UNaXXT/L59qphX8jwQr7Ue2zIvw
-	 OZ4xYR1mswF+a6b0i2d5eELpCd+5R0/aW7JAQr+c=
+	s=default; t=1575978320;
+	bh=18nrtHIx1G6i/KI8dkiVAH8jOgkas2xP9dpgAUp5+Y8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
+	b=CRtJEHq1BIITRx8KJNq966YsgYxdjhMucwzKPgdiitbmGN288mImAngzoHK+FOxX/
+	 Y66aMnzozIuU7sGLUVn21AdkexhMVbzDpBT5MFN3SUC9lAal5rrMarbApPC0J+EVo6
+	 qmZ2QcFmNgrlpht40sPTN2JGokfakxScvWGUZaOo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727784AbfLJLox (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Dec 2019 06:44:53 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:37980 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727730AbfLJLos (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Dec 2019 06:44:48 -0500
-Received: by mail-lj1-f194.google.com with SMTP id k8so19469742ljh.5;
-        Tue, 10 Dec 2019 03:44:47 -0800 (PST)
+        id S1727486AbfLJLpT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Dec 2019 06:45:19 -0500
+Received: from mail-lf1-f50.google.com ([209.85.167.50]:43278 "EHLO
+        mail-lf1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727295AbfLJLpP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Dec 2019 06:45:15 -0500
+Received: by mail-lf1-f50.google.com with SMTP id 9so13442220lfq.10
+        for <linux-usb@vger.kernel.org>; Tue, 10 Dec 2019 03:45:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=O8YFI9ZrqH4e0oIKw4V/GECqRBDRWFzJ0oL1cBNncqo=;
+        b=DloFO4NonMTCQNIdTlqsD4MRa2T8kIflQrvnrlb2JWciylyzjVkRXfqK5CjWkND65a
+         aXel6VyhIU1PBK1qYLN0SKk8HLAC1gjovqSuwMpxa8RSfZZZHeLyTmGdE3x8lhUE4D+p
+         62r57zHB2gRpMdrMGa8v2GlxQcEptAge8EW2kD4Pi5KbyH4ILCY1seEJu7dPVvTCMDcs
+         ljE1ON21heknDtglmZEJCUlKzKZyM5fH1ZZyrrZhCBMmP3CMvbRcKDmVmIze+OcWdXhq
+         XyAWsxlkw4qz1AC1N8XLUAWahT5QPE0Dwyr/N5soW0mgzOXmDQffN6r/uVtZT3ljniA4
+         Foww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=F3MUQ+LoTrV2G6U9Nx6QBaOEztQsCtDS4fhJs3lb6uk=;
-        b=WQjHRa1Rd9HrJDvYvp+V5fv1u0o04jD+0dPjwlccq09x1hliNur938by9zCheSeX/N
-         jpmtRaKQVjXuBsAluezv6budmd/28xuiVRf2znnpT/3xGF+ILsOEn7WgsHVHU9d+EaQ9
-         Gn87D+pZY/al0I99Hh5WUZwtHidEsaJRU0Yv5Y9/ZTubJ6zfpGt/Zo0g0sefE5g0NB7j
-         CkGFAKf3DuSxWkcei37F/h05y/r5BvZVERRuaDzbgUid5n87FH+KHezgYTCtcWzQVFd9
-         ogBGB0xB7RJ2RLKJNFBX5NQwkFarda+tmqBZFYm23PcF2LrzDbYA3/z8TdWdMjN00Qao
-         dd9g==
-X-Gm-Message-State: APjAAAUZKOACTcvFph2mhOEQaNZpVSCdAG2lgAeLtMJ6gRw8UUqWeWNo
-        l7ZcLRfClfVU3kuc/PCvo5A=
-X-Google-Smtp-Source: APXvYqw03jFaxhFit7cE2chDwKeaHkFNy6WoFDjYlzs0rvx/sssv7BW88ZQ6ko03rUmUBzFNEZlD+g==
-X-Received: by 2002:a05:651c:112c:: with SMTP id e12mr20374152ljo.169.1575978286314;
-        Tue, 10 Dec 2019 03:44:46 -0800 (PST)
-Received: from xi.terra (c-14b8e655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.184.20])
-        by smtp.gmail.com with ESMTPSA id q27sm1634622ljm.25.2019.12.10.03.44.42
+        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version;
+        bh=O8YFI9ZrqH4e0oIKw4V/GECqRBDRWFzJ0oL1cBNncqo=;
+        b=JhLhWc66v8RBdvcyB+0GTxPlaPLAXtREs3F7lAg+CM2qH1cA3WNscne9HWF5b654sJ
+         fFVqZrgd01bzYLOuniOiDS9cNn0UVAI1zFVan3KxksrYKxm/rJh9VahpvXYcCFT2jTnv
+         YHaAnMF6goDmp7FDIaCsgvYjFaP/vh0S3zLE3xgk6BgXhif17Pzass58RDd2KjMvtrqQ
+         Mh+6CI7ziVADph9EKTSXj4t09nmTthlwCfJA5Jprzuz1gBI+Hk1o9bxTLBCryCJpXl9S
+         QqFw29ZTKkgEGNmfGs/UhUvzaQnGx/qNW7+6txhksAebcvgniyTvqrNG7tm7knvVJHpw
+         rfnQ==
+X-Gm-Message-State: APjAAAXHSfjlCrc8AlQyLLAe7/pNXHSJZE1uM4vnxNMSVf91FVaQo/ho
+        ocqNRMxppkl7bAf09XEi301D7T6MV/8=
+X-Google-Smtp-Source: APXvYqzX7jj7jn6vW7hHuxvhUdUanZIXJ6mhjRXRqUvAPelf1rVSzTGVpmxfQN/kfbtBbiR9LGWFHA==
+X-Received: by 2002:a19:f519:: with SMTP id j25mr18911046lfb.41.1575978314410;
+        Tue, 10 Dec 2019 03:45:14 -0800 (PST)
+Received: from saruman (88-113-215-33.elisa-laajakaista.fi. [88.113.215.33])
+        by smtp.gmail.com with ESMTPSA id h18sm1596408ljk.94.2019.12.10.03.45.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2019 03:44:43 -0800 (PST)
-Received: from johan by xi.terra with local (Exim 4.92.3)
-        (envelope-from <johan@xi.terra>)
-        id 1iedwa-0001I8-No; Tue, 10 Dec 2019 12:44:44 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Kalle Valo <kvalo@codeaurora.org>
-Cc:     QCA ath9k Development <ath9k-devel@qca.qualcomm.com>,
-        Arend van Spriel <arend@broadcom.com>,
-        Franky Lin <franky.lin@broadcom.com>,
-        Hante Meuleman <hante.meuleman@broadcom.com>,
-        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
-        Wright Feng <wright.feng@cypress.com>,
-        Jes Sorensen <Jes.Sorensen@redhat.com>,
-        Amitkumar Karwar <amitkarwar@gmail.com>,
-        Siva Rebbagondla <siva8118@gmail.com>,
-        Daniel Drake <dsd@gentoo.org>,
-        Ulrich Kunitz <kune@deine-taler.de>,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan@kernel.org>,
-        stable <stable@vger.kernel.org>
-Subject: [PATCH 5/7] rtl8xxxu: fix interface sanity check
-Date:   Tue, 10 Dec 2019 12:44:24 +0100
-Message-Id: <20191210114426.4713-6-johan@kernel.org>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191210114426.4713-1-johan@kernel.org>
-References: <20191210114426.4713-1-johan@kernel.org>
+        Tue, 10 Dec 2019 03:45:13 -0800 (PST)
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Sriharsha Allenki <sallenki@codeaurora.org>,
+        gregkh@linuxfoundation.org, linux-usb@vger.kernel.org
+Cc:     jackp@codeaurora.org, mgautam@codeaurora.org
+Subject: Re: [PATCH] usb: dwc3: Do not process request if HWO is set for its TRB
+In-Reply-To: <4c34d724-6a45-dc21-2d10-337f358015ce@codeaurora.org>
+References: <1574946055-3788-1-git-send-email-sallenki@codeaurora.org> <1575270714-29994-1-git-send-email-sallenki@codeaurora.org> <87tv6jch61.fsf@gmail.com> <0101016ec6294c21-99711286-dbda-4d62-b8c7-e9f28e99b261-000000@us-west-2.amazonses.com> <871rtla8xd.fsf@gmail.com> <4c34d724-6a45-dc21-2d10-337f358015ce@codeaurora.org>
+Date:   Tue, 10 Dec 2019 13:46:04 +0200
+Message-ID: <878snkl7yb.fsf@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Make sure to use the current alternate setting when verifying the
-interface descriptors to avoid binding to an invalid interface.
 
-Failing to do so could cause the driver to misbehave or trigger a WARN()
-in usb_submit_urb() that kernels with panic_on_warn set would choke on.
+Hi,
 
-Fixes: 26f1fad29ad9 ("New driver: rtl8xxxu (mac80211)")
-Cc: stable <stable@vger.kernel.org>     # 4.4
-Cc: Jes Sorensen <Jes.Sorensen@redhat.com>
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sriharsha Allenki <sallenki@codeaurora.org> writes:
+>>>> what problem you actually found? Preferrably with tracepoint data
+>>>> showing the fault.
+>>> Test case here involves f_fs driver in AIO mode and we see ~8 TRBs in
+>>> the queue with HWO set and UPDATE_XFER done. In the failure case I see
+>>> thatas part of processingthe interrupt generated by the core for the
+>>> completion of the first TRB, the driver isgoing ahead and giving
+>> we shouldn't get completion interrupt for the first TRB, only the
+>> last. Care to share tracepoint data?
+>
+> We have seen the issue only once and we do not have any tracepoint
+> data for it. But with the internal logging we have in our downstream code,
+> I see a race between dequeue from the function driver, and the giveback
+> as part of the completion (XferInProgress).
 
-diff --git a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-index aa2bb2ae9809..54a1a4ea107b 100644
---- a/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-+++ b/drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu_core.c
-@@ -6384,7 +6384,7 @@ static int rtl8xxxu_parse_usb(struct rtl8xxxu_priv *priv,
- 	u8 dir, xtype, num;
- 	int ret = 0;
- 
--	host_interface = &interface->altsetting[0];
-+	host_interface = interface->cur_altsetting;
- 	interface_desc = &host_interface->desc;
- 	endpoints = interface_desc->bNumEndpoints;
- 
+Which other changes do you have in your downstream code? Could this
+problem be caused by some of the changes in your downstream tree?
+
+> A request (say Request-1) is dequeued before we could notify it's
+> completion to the gadget driver. Because of this, as part of handling
+> the completion event for the Request-1 we gaveback the next
+> request(Request-2) in the queue which is yet to be processed by the
+> core leading to the mentioned SMMU fault.
+
+I really need to see tracepoint of this happening. Every list
+modification happens with locks held.
+
+> Normally, the core should not process the TRBs once a request
+> has been dequeued because of the stop_active_transfer as part of
+> dequeue, but I see a timeout when issuing the end transfer command
+> during dequeue because of which core is still processing the TRBs
+> in the queue.
+
+Ok, so that's the real problem. End Transfer times out. Are you fixing
+the wrong thing?
+
+Please, collect trace point data with UPSTREAM kernel. You can't report
+a bug on a downstream kernel without reproducing it in the upstream;
+otherwise we will be running in circles here.
+
 -- 
-2.24.0
-
+balbi
