@@ -2,123 +2,112 @@ Return-Path: <SRS0=BMk0=2A=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97E40C2D0BF
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 11:44:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ACA8C43603
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 11:45:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 67C1D2073D
-	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 11:44:13 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JOYrA7Fu"
+	by mail.kernel.org (Postfix) with ESMTP id 326982073D
+	for <linux-usb@archiver.kernel.org>; Tue, 10 Dec 2019 11:45:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1575978311;
+	bh=mcq1zqd2ZgueCQz3xA7qaEUarto6aOD6uJIn7WW43Dg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=iPomfvEZZxHJRX9uDQvdd1UXRnm2WJnI9snFfW/oymI7kbUaoycMqI2YNzdV7qTXA
+	 fRpfGBUI+waTDfWNp/rxDWyZlh8CfPCVFfXFkVsdT5/K199/kIwCFpl7EN42uEOxEY
+	 Km1gSPmjLHu9wzKR1LdpGCrCugFt9d9WS0IcfjM8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727588AbfLJLoK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Dec 2019 06:44:10 -0500
-Received: from mail-pl1-f181.google.com ([209.85.214.181]:35863 "EHLO
-        mail-pl1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727562AbfLJLoJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Dec 2019 06:44:09 -0500
-Received: by mail-pl1-f181.google.com with SMTP id d15so502828pll.3
-        for <linux-usb@vger.kernel.org>; Tue, 10 Dec 2019 03:44:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=to:cc:from:subject:message-id:date:user-agent:mime-version
-         :content-transfer-encoding:content-language;
-        bh=a+E1VXnHaW9ETW0ZUsF+Cyt0LtM7Ld8+t0OgplDwILk=;
-        b=JOYrA7FujFjxwLG1uTXm7LsP5uZHehh8Bq5lvOWs6ZnJYLZ6JNvBDO5C8JS7Xo/zsq
-         DDdC9fY5MQDznJgnQsAW2kj4FhU6YB1BDu9AXPbGXwUXfVX+gRIfSba5TAPPXqZO1oqc
-         zJNlT9IJvZYiGA5HowKF1WhysctnneX69395CCkLK0aVTqCT1tBico0TmUS07enJ4kgG
-         gezzgU0NLcjxerwiNzzDKRK8QWEXYtQds0Lm4Pemr6+ISYY2zNRsJ15a1sZo750N3+OF
-         +ig2QSgnNvvGzTkZqfccgDMQBCJ+JKKUfOZ33hpCXLkp0rsqJuhhNUIZoYk81iCRwIam
-         fzRQ==
+        id S1727801AbfLJLox (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 10 Dec 2019 06:44:53 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:42735 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727370AbfLJLot (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Dec 2019 06:44:49 -0500
+Received: by mail-lj1-f194.google.com with SMTP id e28so19473404ljo.9;
+        Tue, 10 Dec 2019 03:44:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
-         :mime-version:content-transfer-encoding:content-language;
-        bh=a+E1VXnHaW9ETW0ZUsF+Cyt0LtM7Ld8+t0OgplDwILk=;
-        b=sRu1B4lT60XPeHk8+cFhV3kMZNvceEXicIVO0vevZtf3Wibm4G+SBVYuif2Y0M8e7m
-         FGzsmcsKpOWrScBtHM0m2itwSXGVf4qJvj/mzt6s/PmRMEuAZ3y0lNYTBWb64m0pub7R
-         6s557y817tembFyq9naIshSLKjoAoYbN/SELnhajh6TVbeu0NNU6Hs6HuycUD+DahmUt
-         TpFIdbeLs3LQaewDCC2Q6ZCLftzP99ixwTlAdC8La6AwNVUDZLMRV057AVHcnDTokrBg
-         EJ1jMp4RXUq3cubn12cPAF6DFxzC89FbdhaWJduEsTKKkccFJKMnYWz9KYsO31znPXFq
-         ijcA==
-X-Gm-Message-State: APjAAAUzglFOBDIPGiCMrhA1cktgIBKrq8uEiTMeifrbO8NRVJjJG/O8
-        FAPKhv5di9bzw5inPty1Js5kyS0nPETLjTs8
-X-Google-Smtp-Source: APXvYqxEYg0/Db7nq317Kow5HyjLHe0xezZFsTmeEfnZ15X9teEFl7QyXqHSgNl3L0mzu12rVAP+Kw==
-X-Received: by 2002:a17:902:c693:: with SMTP id r19mr36620627plx.25.1575978248464;
-        Tue, 10 Dec 2019 03:44:08 -0800 (PST)
-Received: from [0.0.0.0] (vps.kxuan.tech. [67.216.207.230])
-        by smtp.gmail.com with ESMTPSA id b21sm3308672pfp.0.2019.12.10.03.44.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Dec 2019 03:44:07 -0800 (PST)
-To:     Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org
-From:   Zhai Zhaoxuan <kxuanobj@gmail.com>
-Subject: [issue] usbip: vhci-hcd: Device unable to get work after reset
-Message-ID: <9b961779-abe7-f6a4-3f2b-f9303ef39c5b@gmail.com>
-Date:   Tue, 10 Dec 2019 19:43:58 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=qWOB2/IV9LlS7RQezdilUBmbfySScHur6xA52oFN8Mk=;
+        b=Q2NcCZ9MkksL/3NQxvpoyzOR6VBFKo9p5yK/8B6NjPgFUfI3t6ZsTrMcwRVlM1iMYy
+         lcs484KF5ZFwH90hZC9hK7Yb9hj6BCUxyjQVi1XeVWZ3hdPawEYFAmSiF7HM6snygMsM
+         VxaD/DYKZ6BNgNcqNH5wg9WK4Z1/cwn2sKLrz35Wudcc1W8tbPqXfX+UuQGcne75voB6
+         MTjGIjYX2MF2epTY2TwmTLkGm/3bJZcKfSxIWSuE0uIrU/N1ZHmqmtfhgmc9fdNyWxx+
+         wgQjhB6YARFsH8Cmzy7P4SRhsy8IHavrPIRWnT50nnDcIMURZ/zxck3PjJ1SPXW+V4zj
+         pTjQ==
+X-Gm-Message-State: APjAAAWJDqm4L3C20tKD48CfAkWW6hICiueJ15Tc2pFfSVDwHkcOgdVM
+        l/jlGPVXmeuk6xspFlWtsMc=
+X-Google-Smtp-Source: APXvYqynsdHOtBWjaFSURKa7gPhmEPTZGQhZLn7lMHihEI1WubA2H/zTUly8AXEPYsJuWUpQ+LO9+w==
+X-Received: by 2002:a2e:5850:: with SMTP id x16mr1332994ljd.228.1575978287598;
+        Tue, 10 Dec 2019 03:44:47 -0800 (PST)
+Received: from xi.terra (c-14b8e655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.184.20])
+        by smtp.gmail.com with ESMTPSA id x84sm1425212lfa.97.2019.12.10.03.44.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Dec 2019 03:44:43 -0800 (PST)
+Received: from johan by xi.terra with local (Exim 4.92.3)
+        (envelope-from <johan@xi.terra>)
+        id 1iedwa-0001II-Td; Tue, 10 Dec 2019 12:44:44 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Kalle Valo <kvalo@codeaurora.org>
+Cc:     QCA ath9k Development <ath9k-devel@qca.qualcomm.com>,
+        Arend van Spriel <arend@broadcom.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+        Wright Feng <wright.feng@cypress.com>,
+        Jes Sorensen <Jes.Sorensen@redhat.com>,
+        Amitkumar Karwar <amitkarwar@gmail.com>,
+        Siva Rebbagondla <siva8118@gmail.com>,
+        Daniel Drake <dsd@gentoo.org>,
+        Ulrich Kunitz <kune@deine-taler.de>,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Johan Hovold <johan@kernel.org>,
+        stable <stable@vger.kernel.org>
+Subject: [PATCH 7/7] zd1211rw: fix storage endpoint lookup
+Date:   Tue, 10 Dec 2019 12:44:26 +0100
+Message-Id: <20191210114426.4713-8-johan@kernel.org>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191210114426.4713-1-johan@kernel.org>
+References: <20191210114426.4713-1-johan@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+Make sure to use the current alternate setting when verifying the
+storage interface descriptors to avoid submitting an URB to an invalid
+endpoint.
 
-I am trying to implement a virtual USB device using usbip. But I get a trouble.
+Failing to do so could cause the driver to misbehave or trigger a WARN()
+in usb_submit_urb() that kernels with panic_on_warn set would choke on.
 
-When a running port on vhci_hcd is resetted (by setting USB_PORT_FEAT_RESET), it will never be enabled again.
+Fixes: a1030e92c150 ("[PATCH] zd1211rw: Convert installer CDROM device into WLAN device")
+Cc: stable <stable@vger.kernel.org>     # 2.6.19
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/net/wireless/zydas/zd1211rw/zd_usb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The kernel version is 5.5.0-rc1-00012-g6794862a16ef.
-In the source file drivers/usb/usbip/vhci_hcd.c:
-
-  565         case USB_PORT_FEAT_RESET:
-...
-  572             /* if it's already enabled, disable */
-  573             if (hcd->speed == HCD_USB3) {
-  574                 vhci_hcd->port_status[rhport] = 0;
-  575                 vhci_hcd->port_status[rhport] =
-  576                     (USB_SS_PORT_STAT_POWER |
-  577                      USB_PORT_STAT_CONNECTION |
-  578                      USB_PORT_STAT_RESET);
-  579             } else if (vhci_hcd->port_status[rhport] & USB_PORT_STAT_ENABLE) {
-  580                 vhci_hcd->port_status[rhport] &= ~(USB_PORT_STAT_ENABLE
-  581                     | USB_PORT_STAT_LOW_SPEED
-  582                     | USB_PORT_STAT_HIGH_SPEED);
-  583             }
-  584
-
-The USB_PORT_STAT_ENABLE is cleard. And it should be set later.
-But, the GetPortStatus only set the USB_PORT_STAT_ENABLE for not-assigned ports.
-
-  430     case GetPortStatus:
-...
-  456             if (vhci_hcd->vdev[rhport].ud.status ==
-  457                 VDEV_ST_NOTASSIGNED) {
-  458                 usbip_dbg_vhci_rh(
-  459                     " enable rhport %d (status %u)\n",
-  460                     rhport,
-  461                     vhci_hcd->vdev[rhport].ud.status);
-  462                 vhci_hcd->port_status[rhport] |=
-  463                     USB_PORT_STAT_ENABLE;
-  464             }
-
-The used port (status == VDEV_ST_USED) will be disabled after USB_PORT_FEAT_RESET, and unable to be enabled again.
-
-Should VDEV_ST_USED be added to line 457?
-And if it shouldn't, how can I enable a port after USB_PORT_FEAT_RESET?
-
-
-Thanks,
-Zhai Zhaoxuan
+diff --git a/drivers/net/wireless/zydas/zd1211rw/zd_usb.c b/drivers/net/wireless/zydas/zd1211rw/zd_usb.c
+index 7b5c2fe5bd4d..8ff0374126e4 100644
+--- a/drivers/net/wireless/zydas/zd1211rw/zd_usb.c
++++ b/drivers/net/wireless/zydas/zd1211rw/zd_usb.c
+@@ -1263,7 +1263,7 @@ static void print_id(struct usb_device *udev)
+ static int eject_installer(struct usb_interface *intf)
+ {
+ 	struct usb_device *udev = interface_to_usbdev(intf);
+-	struct usb_host_interface *iface_desc = &intf->altsetting[0];
++	struct usb_host_interface *iface_desc = intf->cur_altsetting;
+ 	struct usb_endpoint_descriptor *endpoint;
+ 	unsigned char *cmd;
+ 	u8 bulk_out_ep;
+-- 
+2.24.0
 
