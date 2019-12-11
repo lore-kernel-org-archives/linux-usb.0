@@ -2,83 +2,98 @@ Return-Path: <SRS0=2rsX=2B=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 360B8C43603
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 08:51:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 130DEC43603
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 08:53:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0C70921D7D
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 08:51:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA4AF208C3
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 08:53:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576054287;
-	bh=BBTLv4io73hhhqRDc1IWPUUM0wAvRcQc/bXdD/DCJ3Y=;
+	s=default; t=1576054426;
+	bh=jprA9P6zNr1ylglt7MUBOqaXYuMtyE9h+JcPlfSk/aw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=X4bc9j50hFt9XaFxkYpm1pERaYn4QNNC3cRs0BMGP0sKOFIURiJD8yZJdLB77T/Sa
-	 paZkjowf6MoNTHp5m05iXXCWGJGQfaA99s5fTrEg44GL9IlfBbJGv6m3MdH+51Okfj
-	 PlMqECmOKTdCuZzVPlFcR2pFsaXriKDTHgB2v/+M=
+	b=RZFj8ShROspVw99D6/DBjdwdwKLBUsZ+PmEATFu6Y84dwewlkMioWEQ/nv45v+A2W
+	 GQDtKqECgtXQaY8ubW5RfbE04m21E1I0o/63ZpO6JY7IO6PA1vPts7rTmKrq6bXrue
+	 eSw5fFjhb1mQTVfTNUlA6yZS5WPUdk2WuHTs95WE=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728365AbfLKIvZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Dec 2019 03:51:25 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49274 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728274AbfLKIvZ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 11 Dec 2019 03:51:25 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 35D3B2077B;
-        Wed, 11 Dec 2019 08:51:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576054284;
-        bh=BBTLv4io73hhhqRDc1IWPUUM0wAvRcQc/bXdD/DCJ3Y=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kbLGqgpU4Qo19CIrNvmOtvyNPAeUzFwipDsXzZ5WZeFtwJq2rCZbosDVj9gzHoF8+
-         Bibjq3CRF5cZozFK8lfCMhPPTaIuaG8spMMCHFnuPFqHbjHpbzT7He0LvvGfpvGzrw
-         lilJ/KSJzCQ0pw8pvCxjGyjzs94q3csplA+KWE4E=
-Date:   Wed, 11 Dec 2019 09:51:22 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     Bin Liu <b-liu@ti.com>, linux-usb@vger.kernel.org
+        id S1728365AbfLKIxq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Dec 2019 03:53:46 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:39331 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726983AbfLKIxq (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Dec 2019 03:53:46 -0500
+Received: by mail-lj1-f196.google.com with SMTP id e10so23099523ljj.6
+        for <linux-usb@vger.kernel.org>; Wed, 11 Dec 2019 00:53:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=zSls4t623tUVEVK9z4n8AGT6MLJJOckHndddKIzts7E=;
+        b=OXsWanpQsPDeIInLdjPOrRg5ZiCvfhIXWjMFUGP/v3D38PoyUE1Am0NnijBrQJBHUd
+         AsHPL6tj3oH4p7A4QUXdl4o4d0ayjBoD3RX+8i+Hk2miszkwyg/wVZw4AMOUb/f2/nE2
+         i7ve1koXgd42O6EzuaecP76CZSq4Gm4MZQZnmxRwuQqtK812PsQUwzhlp0rVOXbHojbM
+         rOX+Nr9fwyQSpNxMXvqYeQfHEcPLCQNSGNOUIG/mB8i8Lw/jr6tVPi9dBN4iQCE7WP2O
+         sVxvpkDiZwJ4VPVlV/BbRr1GWs3pjovy5RdmrH6A++B8Y8rzHgF+wglmVO7lEhAKIbQn
+         8gwQ==
+X-Gm-Message-State: APjAAAUdeODEEe+FGl3yYnS18scUhuBUUNjmYoR5+nTX144lcqMbvs8p
+        BmmJB5hiPTkpnF7IWJeQDSAKtuiV
+X-Google-Smtp-Source: APXvYqw5k68mza6DznzCz4K9bfXKO4RpdnDN5ZhAhFaP36pk7MK9+NamfryBA0wUJp5P8s4PS90zkg==
+X-Received: by 2002:a2e:6a03:: with SMTP id f3mr1252913ljc.232.1576054423789;
+        Wed, 11 Dec 2019 00:53:43 -0800 (PST)
+Received: from xi.terra (c-14b8e655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.184.20])
+        by smtp.gmail.com with ESMTPSA id u20sm702607lju.34.2019.12.11.00.53.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Dec 2019 00:53:42 -0800 (PST)
+Received: from johan by xi.terra with local (Exim 4.92.3)
+        (envelope-from <johan@kernel.org>)
+        id 1iexkf-00030J-3E; Wed, 11 Dec 2019 09:53:45 +0100
+Date:   Wed, 11 Dec 2019 09:53:45 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Johan Hovold <johan@kernel.org>, Bin Liu <b-liu@ti.com>,
+        linux-usb@vger.kernel.org
 Subject: Re: [PATCH 1/2] usb: musb: sunxi: propagate devicetree node to glue
  pdev
-Message-ID: <20191211085122.GA500642@kroah.com>
+Message-ID: <20191211085345.GT10631@localhost>
 References: <20191210165454.13772-1-b-liu@ti.com>
  <20191210165454.13772-2-b-liu@ti.com>
  <20191211080528.GA415633@kroah.com>
  <20191211084935.GS10631@localhost>
+ <20191211085122.GA500642@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191211084935.GS10631@localhost>
+In-Reply-To: <20191211085122.GA500642@kroah.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Dec 11, 2019 at 09:49:35AM +0100, Johan Hovold wrote:
-> On Wed, Dec 11, 2019 at 09:05:28AM +0100, Greg Kroah-Hartman wrote:
-> > On Tue, Dec 10, 2019 at 10:54:53AM -0600, Bin Liu wrote:
-> > > From: Mans Rullgard <mans@mansr.com>
+On Wed, Dec 11, 2019 at 09:51:22AM +0100, Greg Kroah-Hartman wrote:
+> On Wed, Dec 11, 2019 at 09:49:35AM +0100, Johan Hovold wrote:
+> > On Wed, Dec 11, 2019 at 09:05:28AM +0100, Greg Kroah-Hartman wrote:
+> > > On Tue, Dec 10, 2019 at 10:54:53AM -0600, Bin Liu wrote:
+> > > > From: Mans Rullgard <mans@mansr.com>
+> > > > 
+> > > > In order for devicetree nodes to be correctly associated with attached
+> > > > devices, the controller node needs to be propagated to the glue device.
+> > > > 
+> > > > Signed-off-by: Mans Rullgard <mans@mansr.com>
+> > > > Signed-off-by: Bin Liu <b-liu@ti.com>
+> > > > ---
+> > > >  drivers/usb/musb/sunxi.c | 2 ++
+> > > >  1 file changed, 2 insertions(+)
 > > > 
-> > > In order for devicetree nodes to be correctly associated with attached
-> > > devices, the controller node needs to be propagated to the glue device.
-> > > 
-> > > Signed-off-by: Mans Rullgard <mans@mansr.com>
-> > > Signed-off-by: Bin Liu <b-liu@ti.com>
-> > > ---
-> > >  drivers/usb/musb/sunxi.c | 2 ++
-> > >  1 file changed, 2 insertions(+)
+> > > Does this need to go to stable kernel(s)?  If so, what commit does this
+> > > fix fix?
 > > 
-> > Does this need to go to stable kernel(s)?  If so, what commit does this
-> > fix fix?
+> > No, I'd say it's a new feature.
 > 
-> No, I'd say it's a new feature.
+> Then why is it needed for 5.5-final and not for 5.6-rc1?
 
-Then why is it needed for 5.5-final and not for 5.6-rc1?
+Right, it shouldn't be needed in 5.5.
 
-thanks,
-
-greg k-h
+Johan
