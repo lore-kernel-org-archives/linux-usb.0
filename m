@@ -2,94 +2,87 @@ Return-Path: <SRS0=2rsX=2B=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1AEBC43603
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 16:10:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 727F3C2D0C8
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 16:11:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7F7DB208C3
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 16:10:42 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ZL+f33m2"
+	by mail.kernel.org (Postfix) with ESMTP id 493DE208C3
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 16:11:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731156AbfLKQKl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Dec 2019 11:10:41 -0500
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:39814 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731206AbfLKQKk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Dec 2019 11:10:40 -0500
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBBGAc5R080369;
-        Wed, 11 Dec 2019 10:10:38 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1576080638;
-        bh=a/ybdcnI6Ok1jxxFg1Wfn1E1tSZcHHuOUa0tzf5C/a4=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=ZL+f33m2Nj7E4SnJUyq4gIhjnnwBAK9hTAeGfegyf6UwmiUHzNFWroWV4NM7K1z4J
-         KnnqqeWqPWnKoxIsZaboOH62e6HoKZ0FjFw+Uu1qTAa7ZRtYPteMj+BKYympxo7YjN
-         teBG7rqlT6eB+UGKjRC4c9WMpsY/FYS1C1bMRf0M=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBBGAcOE059096
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 11 Dec 2019 10:10:38 -0600
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 11
- Dec 2019 10:10:38 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Wed, 11 Dec 2019 10:10:38 -0600
-Received: from uda0271908.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBBGAcH6001814;
-        Wed, 11 Dec 2019 10:10:38 -0600
-From:   Bin Liu <b-liu@ti.com>
-To:     <linux-usb@vger.kernel.org>
-CC:     Felipe Balbi <balbi@kernel.org>
-Subject: [PATCH v2] usb: dwc3: turn off VBUS when leaving host mode
-Date:   Wed, 11 Dec 2019 10:10:03 -0600
-Message-ID: <20191211161003.14950-1-b-liu@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <87blseyle9.fsf@kernel.org>
-References: <87blseyle9.fsf@kernel.org>
+        id S1730691AbfLKQLh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Dec 2019 11:11:37 -0500
+Received: from iolanthe.rowland.org ([192.131.102.54]:55074 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1730797AbfLKPKo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Dec 2019 10:10:44 -0500
+Received: (qmail 1752 invoked by uid 2102); 11 Dec 2019 10:10:43 -0500
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 11 Dec 2019 10:10:43 -0500
+Date:   Wed, 11 Dec 2019 10:10:43 -0500 (EST)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Jiri Kosina <jikos@kernel.org>
+cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        <linux-input@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Subject: Re: [PATCH] HID: Fix slab-out-of-bounds read in hid_field_extract
+In-Reply-To: <nycvar.YFH.7.76.1912111517570.4603@cbobk.fhfr.pm>
+Message-ID: <Pine.LNX.4.44L0.1912111009080.1549-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-VBUS should be turned off when leaving the host mode.
-Set GCTL_PRTCAP to device mode in teardown to de-assert DRVVBUS pin to
-turn off VBUS power.
+On Wed, 11 Dec 2019, Jiri Kosina wrote:
 
-Fixes: 5f94adfeed97 ("usb: dwc3: core: refactor mode initialization to its own function")
-Cc: stable@vger.kernel.org
-Signed-off-by: Bin Liu <b-liu@ti.com>
----
-v2: cover dr_mode == OTG too.
+> On Tue, 10 Dec 2019, Alan Stern wrote:
+> 
+> > The syzbot fuzzer found a slab-out-of-bounds bug in the HID report
+> > handler.  The bug was caused by a report descriptor which included a
+> > field with size 12 bits and count 4899, for a total size of 7349
+> > bytes.
+> > 
+> > The usbhid driver uses at most a single-page 4-KB buffer for reports.
+> > In the test there wasn't any problem about overflowing the buffer,
+> > since only one byte was received from the device.  Rather, the bug
+> > occurred when the HID core tried to extract the data from the report
+> > fields, which caused it to try reading data beyond the end of the
+> > allocated buffer.
+> > 
+> > This patch fixes the problem by rejecting any report whose total
+> > length exceeds the HID_MAX_BUFFER_SIZE limit (minus one byte to allow
+> > for a possible report index).  In theory a device could have a report
+> > longer than that, but if there was such a thing we wouldn't handle it 
+> > correctly anyway.
+> > 
+> > Reported-and-tested-by: syzbot+09ef48aa58261464b621@syzkaller.appspotmail.com
+> > Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+> > CC: <stable@vger.kernel.org>
+> 
+> Thanks for hunting this down Alan. Applied.
 
- drivers/usb/dwc3/core.c | 3 +++
- 1 file changed, 3 insertions(+)
+I just noticed this code:
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index f561c6c9e8a9..1d85c42b9c67 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -1246,6 +1246,9 @@ static void dwc3_core_exit_mode(struct dwc3 *dwc)
- 		/* do nothing */
- 		break;
- 	}
-+
-+	/* de-assert DRVVBUS for HOST and OTG mode */
-+	dwc3_set_prtcap(dwc, DWC3_GCTL_PRTCAP_DEVICE);
- }
- 
- static void dwc3_get_properties(struct dwc3 *dwc)
--- 
-2.17.1
+u8 *hid_alloc_report_buf(struct hid_report *report, gfp_t flags)
+{
+	/*
+	 * 7 extra bytes are necessary to achieve proper functionality
+	 * of implement() working on 8 byte chunks
+	 */
+
+	u32 len = hid_report_len(report) + 7;
+
+	return kmalloc(len, flags);
+}
+
+Does this indicate that the upper limit on a report length should 
+really be HID_MAX_BUFFER_SIZE - 8 instead of HID_MAX_BUFFER_SIZE - 1?
+
+Alan Stern
 
