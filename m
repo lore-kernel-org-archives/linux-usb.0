@@ -2,36 +2,43 @@ Return-Path: <SRS0=2rsX=2B=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 727F3C2D0C8
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 16:11:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBC11C43603
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 16:23:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 493DE208C3
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 16:11:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9DC3A2073D
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 16:23:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730691AbfLKQLh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Dec 2019 11:11:37 -0500
-Received: from iolanthe.rowland.org ([192.131.102.54]:55074 "HELO
+        id S1730593AbfLKQXA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Dec 2019 11:23:00 -0500
+Received: from iolanthe.rowland.org ([192.131.102.54]:55626 "HELO
         iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1730797AbfLKPKo (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Dec 2019 10:10:44 -0500
-Received: (qmail 1752 invoked by uid 2102); 11 Dec 2019 10:10:43 -0500
+        with SMTP id S1730564AbfLKQW7 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Dec 2019 11:22:59 -0500
+Received: (qmail 4502 invoked by uid 2102); 11 Dec 2019 11:22:58 -0500
 Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 11 Dec 2019 10:10:43 -0500
-Date:   Wed, 11 Dec 2019 10:10:43 -0500 (EST)
+  by localhost with SMTP; 11 Dec 2019 11:22:58 -0500
+Date:   Wed, 11 Dec 2019 11:22:58 -0500 (EST)
 From:   Alan Stern <stern@rowland.harvard.edu>
 X-X-Sender: stern@iolanthe.rowland.org
-To:     Jiri Kosina <jikos@kernel.org>
-cc:     Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-        <linux-input@vger.kernel.org>,
+To:     Dmitry Vyukov <dvyukov@google.com>
+cc:     Andrey Konovalov <andreyknvl@google.com>,
+        syzbot <syzbot+c7b0ec009a216143df30@syzkaller.appspotmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Souptick Joarder <jrdr.linux@gmail.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>,
         USB list <linux-usb@vger.kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Subject: Re: [PATCH] HID: Fix slab-out-of-bounds read in hid_field_extract
-In-Reply-To: <nycvar.YFH.7.76.1912111517570.4603@cbobk.fhfr.pm>
-Message-ID: <Pine.LNX.4.44L0.1912111009080.1549-100000@iolanthe.rowland.org>
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Richard Fontana <rfontana@redhat.com>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: KASAN: use-after-free Read in usbvision_v4l2_open
+In-Reply-To: <CACT4Y+ZSmwr4y2VrUxZSvFCL0Ws4cp6T5FwyVRg_CqhCf354HQ@mail.gmail.com>
+Message-ID: <Pine.LNX.4.44L0.1912111111510.1549-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
@@ -39,50 +46,27 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, 11 Dec 2019, Jiri Kosina wrote:
+On Wed, 11 Dec 2019, Dmitry Vyukov wrote:
 
-> On Tue, 10 Dec 2019, Alan Stern wrote:
+> > > By the way, do you know why syzbot sent _two_ reply messages?  One with
+> > > message ID <00000000000031a0af05995eca0b@google.com> and the other with
+> > > message ID <000000000000441a4205995eca11@google.com>?  It seems like
+> > > overkill.
+> >
+> > Hm, I'm not sure. Dmitry?
 > 
-> > The syzbot fuzzer found a slab-out-of-bounds bug in the HID report
-> > handler.  The bug was caused by a report descriptor which included a
-> > field with size 12 bits and count 4899, for a total size of 7349
-> > bytes.
-> > 
-> > The usbhid driver uses at most a single-page 4-KB buffer for reports.
-> > In the test there wasn't any problem about overflowing the buffer,
-> > since only one byte was received from the device.  Rather, the bug
-> > occurred when the HID core tried to extract the data from the report
-> > fields, which caused it to try reading data beyond the end of the
-> > allocated buffer.
-> > 
-> > This patch fixes the problem by rejecting any report whose total
-> > length exceeds the HID_MAX_BUFFER_SIZE limit (minus one byte to allow
-> > for a possible report index).  In theory a device could have a report
-> > longer than that, but if there was such a thing we wouldn't handle it 
-> > correctly anyway.
-> > 
-> > Reported-and-tested-by: syzbot+09ef48aa58261464b621@syzkaller.appspotmail.com
-> > Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-> > CC: <stable@vger.kernel.org>
-> 
-> Thanks for hunting this down Alan. Applied.
+> I would assume it received 2 emails (second from syzkaller-bugs@
+> mailing list) and deduplication logic did not work somehow. So it
+> replied to both.
 
-I just noticed this code:
+Does that mean when I send in a test request, it's better to omit 
+syzkaller-bugs from the CC: list?
 
-u8 *hid_alloc_report_buf(struct hid_report *report, gfp_t flags)
-{
-	/*
-	 * 7 extra bytes are necessary to achieve proper functionality
-	 * of implement() working on 8 byte chunks
-	 */
-
-	u32 len = hid_report_len(report) + 7;
-
-	return kmalloc(len, flags);
-}
-
-Does this indicate that the upper limit on a report length should 
-really be HID_MAX_BUFFER_SIZE - 8 instead of HID_MAX_BUFFER_SIZE - 1?
+Also, whatever did happen to the most recent test request (the one sent 
+to syzbot+7fa38a608b1075dfd634 even though it was meant to test the 
+bug reported by syzbot+c7b0ec009a216143df30)?  Did it truly fail to 
+build?  I can't find anything about it in the dashboard link for either 
+bug report, and I haven't gotten a reply from syzbot.
 
 Alan Stern
 
