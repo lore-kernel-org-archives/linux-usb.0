@@ -2,90 +2,144 @@ Return-Path: <SRS0=2rsX=2B=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 457BBC43603
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 15:57:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF113C43603
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 16:00:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1E822222C4
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 15:57:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A5DCA2073D
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 16:00:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1576080015;
+	bh=KV0hz98hOS1DgDiALVP4DYH+Q4K8qaWdN+lEuz9dt3o=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:List-ID:From;
+	b=WvvlFXWTU6l0EwqvfSoG5uVpQp8tc+qP6pN8j6gpu67kEV5YkYlJdRQ2DFxmqbFXo
+	 lBWkF74fPNy9M3WPzJEJ5fZuAWPHpdvJ7Yz71XtciskAuWoj4EFZpECTHSfyUvQYLu
+	 VZisTPtQvgpplVbrVt7gZfvqnh32YBnTbQfMOaDo=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731226AbfLKP5o (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Dec 2019 10:57:44 -0500
-Received: from iolanthe.rowland.org ([192.131.102.54]:55102 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1731692AbfLKPO6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Dec 2019 10:14:58 -0500
-Received: (qmail 1776 invoked by uid 2102); 11 Dec 2019 10:14:57 -0500
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 11 Dec 2019 10:14:57 -0500
-Date:   Wed, 11 Dec 2019 10:14:57 -0500 (EST)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Andrey Konovalov <andreyknvl@google.com>
-cc:     syzbot <syzbot+7fa38a608b1075dfd634@syzkaller.appspotmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Souptick Joarder <jrdr.linux@gmail.com>,
-        Kernel development list <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Richard Fontana <rfontana@redhat.com>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: Re: KASAN: use-after-free Read in usbvision_v4l2_open
-In-Reply-To: <CAAeHK+wFBYX8-L-D8w_nep3W=QjYoLAZbc=-0eoWK684wnuayA@mail.gmail.com>
-Message-ID: <Pine.LNX.4.44L0.1912111010490.1549-100000@iolanthe.rowland.org>
+        id S1731427AbfLKQAP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Dec 2019 11:00:15 -0500
+Received: from mail-il1-f174.google.com ([209.85.166.174]:34881 "EHLO
+        mail-il1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730667AbfLKQAN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Dec 2019 11:00:13 -0500
+Received: by mail-il1-f174.google.com with SMTP id g12so19902588ild.2
+        for <linux-usb@vger.kernel.org>; Wed, 11 Dec 2019 08:00:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=DxKuwDZa5sSQyUUQqOx6elF/qAI2E8BQOlxo+bFWAjA=;
+        b=dIr2Gluc0eqJvZDUHteyeX9yIXgIKndTKpUwSJNf8sLU1vBgJZc8+vOFP8OSWDXg3m
+         n4UC1Oh450TPJmVFjz+GwPwnfUvPiiZexhpc83mkFAKyLhF4NNT74aw/wse1NMlAJSkA
+         EtZi61jQIkPwCDvTsAsU0hai4MSfF3Xf5yLaI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=DxKuwDZa5sSQyUUQqOx6elF/qAI2E8BQOlxo+bFWAjA=;
+        b=nCHV/IsZQcmedNtqEz9xh20MWvRicwB8RG0Kb5nf9jZ0yHs8pSgH52J27MHs0NXX5B
+         DFf9q6ir9JfIh2e3acNn4TG1sL3CUjug77kpOsO2KyxCjDLOD+RAR5BUOevN4WUfBfDP
+         stFWglgcQGeyGYJauOj2ADYW6tjP76xRGB3Lfw1lAUn5bA2wTR3dcg5MFyMwqWsTPfVl
+         btP797dIwHgZH2hQRW5alUqtXaLIoVSQIDL1F1uEIVu+8H7gFNlT6d05w5hER+rEpWkz
+         T/h0c2IytqP2Sk3hoQXLSRvI94yfMkpiY5OQ9445TQkRvgjMtNJxS9HxcpfyrWdiYXMK
+         6YDg==
+X-Gm-Message-State: APjAAAW7cYE1sGl3xkBO5C/GDu83MhNl5NnoEgKsyEQJymwXe4vibHbD
+        TvYGSZ8nNXtOhfR20Aso1Y19jg==
+X-Google-Smtp-Source: APXvYqyZtj2n5FiC0vFRa2BOk6fWrNIL03li1xsPvcF9qXQHlk+JMNcbUSRDlrdXhJcGz35F0P6mnA==
+X-Received: by 2002:a92:3dd0:: with SMTP id k77mr3690272ilf.3.1576080012845;
+        Wed, 11 Dec 2019 08:00:12 -0800 (PST)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id u10sm818138ilb.8.2019.12.11.08.00.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Dec 2019 08:00:12 -0800 (PST)
+Subject: Re: [issue] usbip: vhci-hcd: Device unable to get work after reset
+To:     Zhai Zhaoxuan <kxuanobj@gmail.com>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        Shuah Khan <shuah@kernel.org>
+Cc:     linux-usb@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <9b961779-abe7-f6a4-3f2b-f9303ef39c5b@gmail.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <804f452e-e724-b508-80e7-cfd05da2ff84@linuxfoundation.org>
+Date:   Wed, 11 Dec 2019 09:00:11 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+In-Reply-To: <9b961779-abe7-f6a4-3f2b-f9303ef39c5b@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, 11 Dec 2019, Andrey Konovalov wrote:
-
-> On Tue, Dec 10, 2019 at 9:17 PM Alan Stern <stern@rowland.harvard.edu> wrote:
-> >
-> > On Tue, 10 Dec 2019, syzbot wrote:
-> >
-> > > > On Mon, 9 Dec 2019, syzbot wrote:
-> > >
-> > > >> Hello,
-> > >
-> > > >> syzbot found the following crash on:
-> > >
-> > > >> HEAD commit:    1f22d15c usb: gadget: add raw-gadget interface
-> > > >> git tree:       https://github.com/google/kasan.git usb-fuzzer
-> > > >> console output: https://syzkaller.appspot.com/x/log.txt?x=1296f42ae00000
-> > > >> kernel config:
-> > > >> https://syzkaller.appspot.com/x/.config?x=8ccee2968018adcb
-> > > >> dashboard link:
-> > > >> https://syzkaller.appspot.com/bug?extid=c7b0ec009a216143df30
-> > > >> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> > >
-> > > >> Unfortunately, I don't have any reproducer for this crash yet.
-> > >
-> > > >> IMPORTANT: if you fix the bug, please add the following tag to the
-> > > >> commit:
-> > > >> Reported-by: syzbot+c7b0ec009a216143df30@syzkaller.appspotmail.com
-
-> > > This crash does not have a reproducer. I cannot test it.
-> >
-> > Let's try the same patch with a different bug report -- one that has a
-> > reproducer.  I assume that syzbot gets the bug identity from the
-> > email's From: line (which has been updated acoordingly) rather than the
-> > Subject: line.
+On 12/10/19 4:43 AM, Zhai Zhaoxuan wrote:
+> Hi,
 > 
-> Did you get a response for this test? I see the test attempt on the
-> dashboard (the patch failed to build), but I didn't get an email with
-> the result.
+> I am trying to implement a virtual USB device using usbip. But I get a 
+> trouble.
+> 
 
-No response so far.  On the other hand, syzbot has been a bit slow to 
-respond to my tests recently (typical turnaround time is several 
-hours).  I don't know what's going on.
+Can you give me more details on why you are planning to add virtual USB
+to usbip? How does it work with conjunction with the usbip server side?
 
-Alan Stern
+> When a running port on vhci_hcd is resetted (by setting 
+> USB_PORT_FEAT_RESET), it will never be enabled again.
+> 
+> The kernel version is 5.5.0-rc1-00012-g6794862a16ef.
+> In the source file drivers/usb/usbip/vhci_hcd.c:
+> 
+>   565         case USB_PORT_FEAT_RESET:
+> ...
+>   572             /* if it's already enabled, disable */
+>   573             if (hcd->speed == HCD_USB3) {
+>   574                 vhci_hcd->port_status[rhport] = 0;
+>   575                 vhci_hcd->port_status[rhport] =
+>   576                     (USB_SS_PORT_STAT_POWER |
+>   577                      USB_PORT_STAT_CONNECTION |
+>   578                      USB_PORT_STAT_RESET);
+>   579             } else if (vhci_hcd->port_status[rhport] & 
+> USB_PORT_STAT_ENABLE) {
+>   580                 vhci_hcd->port_status[rhport] &= 
+> ~(USB_PORT_STAT_ENABLE
+>   581                     | USB_PORT_STAT_LOW_SPEED
+>   582                     | USB_PORT_STAT_HIGH_SPEED);
+>   583             }
+>   584
+> 
+> The USB_PORT_STAT_ENABLE is cleard. And it should be set later.
+> But, the GetPortStatus only set the USB_PORT_STAT_ENABLE for 
+> not-assigned ports.
+> 
+>   430     case GetPortStatus:
+> ...
+>   456             if (vhci_hcd->vdev[rhport].ud.status ==
+>   457                 VDEV_ST_NOTASSIGNED) {
+>   458                 usbip_dbg_vhci_rh(
+>   459                     " enable rhport %d (status %u)\n",
+>   460                     rhport,
+>   461                     vhci_hcd->vdev[rhport].ud.status);
+>   462                 vhci_hcd->port_status[rhport] |=
+>   463                     USB_PORT_STAT_ENABLE;
+>   464             }
+> 
+> The used port (status == VDEV_ST_USED) will be disabled after 
+> USB_PORT_FEAT_RESET, and unable to be enabled again.
+> 
+> Should VDEV_ST_USED be added to line 457?
+> And if it shouldn't, how can I enable a port after USB_PORT_FEAT_RESET?
+> 
+>
+
+I would like to see server and client side patches and a use-case for
+adding virtual device.
+
+thanks,
+-- Shuah
+
 
