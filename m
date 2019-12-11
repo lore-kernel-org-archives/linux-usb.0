@@ -2,61 +2,61 @@ Return-Path: <SRS0=2rsX=2B=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+X-Spam-Status: No, score=-5.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6832C43603
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 04:53:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8398C43603
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 06:27:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B487C2077B
-	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 04:53:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A75D62173E
+	for <linux-usb@archiver.kernel.org>; Wed, 11 Dec 2019 06:27:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lL9yWbiJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hY5dH80I"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726642AbfLKExW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 10 Dec 2019 23:53:22 -0500
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:46730 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726613AbfLKExV (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 10 Dec 2019 23:53:21 -0500
-Received: by mail-pg1-f195.google.com with SMTP id z124so10115678pgb.13
-        for <linux-usb@vger.kernel.org>; Tue, 10 Dec 2019 20:53:21 -0800 (PST)
+        id S1728033AbfLKG1L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Dec 2019 01:27:11 -0500
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:46351 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727958AbfLKG1K (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Dec 2019 01:27:10 -0500
+Received: by mail-pl1-f196.google.com with SMTP id k20so986816pll.13
+        for <linux-usb@vger.kernel.org>; Tue, 10 Dec 2019 22:27:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=FjDp+SA9KlMjNcZcukoGNADWdAtTB9avElu4ZDKSI3s=;
-        b=lL9yWbiJpB+orbPp4xPm0aY6UUPP95TRLDa5zl52U77iDkOYs8rV6OdgcvsueNVBo8
-         FZxECcNjhhzkUxUGM8OIprfclNE8ix8DQXz18RgRZ9VMgpk3RnLo0sEDV69gwGcPacDD
-         qWL1R7r85wDKEq1Xon/2b73Xbl8AgjIYCS5Kf/Yi3PK5VVfosgUUyyKRs1flPFanda6y
-         JMdpbTcJdjx3QhqbK5HNrMKvWM6kKtGuS8tGm4lolLGfSXJZ5W4m+v+Rz1F84zuJwQxq
-         cub/Eh9NfDg+FrE/XkyxWONbmwYrA2+Yw66Nvd/X5NFobvBonBUIgTSpeJ6qCp/Net3B
-         nfPA==
+        bh=+2OIhcsv7+Ya8FvLqq5aM0OeC7F+VfxerqHBeKPZ98U=;
+        b=hY5dH80IcKlg9pZiU1BrkH59S/TNd41X3cqWEBo4nIWNXyuO4UY1sUQmGAG/kXqvPp
+         IJQl5Qe0yBS9iZAjStjWIeM4QyTYt6JsO2EPVqfrZhVufe+EPLtu90/27vShlH2X/phb
+         U5aGGJu7+jzX0UIk+0HJIpedKobMWkLna2YP4QUKbMyoCD3x/qCvyLU7GOpsyj0gNmPJ
+         iZPrwn8Yn+pVIvfL9P0bfwDaav7T+jHOR+bS+Ed8l35zD/kbxsY1BqynFRZDfxPqxM/9
+         7Uu4is89/ukp/YgGuzmyL7L5TgRftEm3rKD2E8IZcXI/NxC2ne5EbEPENXy0wEz6tdQt
+         VUNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=FjDp+SA9KlMjNcZcukoGNADWdAtTB9avElu4ZDKSI3s=;
-        b=IkZpOqGMaGep53WpKDNIL8FCVh66XbV9DXDcfVi3vt04b8gBirB3UDTBFFI5EhhKkn
-         1f7dkx2gannv7Q9Uz6tevDHtwKbnAF4bZwptL2eKvvp2+rULWHP638jz95BRiyUrA3ru
-         zhOEx39ERdwbN1jh1UGIE2GHZJXIbZIYzFH7hHRQRkl+mWYC9yrKf8xaqojDhTSWjZG3
-         lnrbMeL6Grll+qvLjDASsB/87AiZusb/BJmlHCnZduhnG4EuHU6omHT+Pi2F8kX1DoKF
-         PAJgwsJbxV8GDZsUttYDppQaj5mDFNQoGMEE5wA/FKUeBdBJs9FHG++6U8KnYC33WIyK
-         En0Q==
-X-Gm-Message-State: APjAAAVTYtSNoY0YcPKPf6Omq287C3zN/a12xGu2aw7BF3ZlD89aGKQZ
-        NzaicmwcIgMCRo0KNVCjl1c=
-X-Google-Smtp-Source: APXvYqxyDTYflGnZ57KMM9dXxZx1QhsDGAOxR58Zmorn36E5QugKI7QDt+sojimmma39wyB7KqV+UA==
-X-Received: by 2002:a63:770c:: with SMTP id s12mr2046805pgc.25.1576040001167;
-        Tue, 10 Dec 2019 20:53:21 -0800 (PST)
+        bh=+2OIhcsv7+Ya8FvLqq5aM0OeC7F+VfxerqHBeKPZ98U=;
+        b=gOizRNRSNfNNcNeMV77SN4Vh/b9ZjO5PitMlZh66CDC+Ck9CHpjgeGjSX0bArXIdkN
+         PUei3ofaNnicICxYeKkLF8n5CgyEiFPjZNy/+QCIhhvKv+xTDEGRTDEbfI7Qk/nYe7Zd
+         m/KygyqnH5aiXhX8pc6KpOJw9xAQN6zAjR63I7yjrsxEP1sA0x5Lmk0ke16kGpbhJd1u
+         rBNpg/s5pQLtSQ0WNSssetuP6Xw1hvobJbZSlWVRnpvAqd9iviwXWv690FzoTfTP+0yH
+         r0x0mO6Cmwycj2r3v0ihWhIoF4nd3q3loodl1hWDJvkDbx8TEuCFmhZJ5h0pOCK3mutT
+         UeWQ==
+X-Gm-Message-State: APjAAAUS/E8I9WsPrmYASYoxeCuWodfzFHdPvzkqwpuf4zY8hNw7XwhI
+        R9Y+SLRtnq2fgCuFav443jyk8fxo
+X-Google-Smtp-Source: APXvYqyhPox4VtlZY7mBAdujGwIfI/KIr+SCTngCT81nj/5tRTn2ZlRPszpMSnziMWyoFj7UBXwJzQ==
+X-Received: by 2002:a17:902:9a94:: with SMTP id w20mr1484866plp.54.1576045630095;
+        Tue, 10 Dec 2019 22:27:10 -0800 (PST)
 Received: from localhost.localdomain ([163.152.162.99])
-        by smtp.gmail.com with ESMTPSA id g22sm697420pgk.85.2019.12.10.20.53.19
+        by smtp.gmail.com with ESMTPSA id z23sm1119287pgj.43.2019.12.10.22.27.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2019 20:53:20 -0800 (PST)
-Date:   Wed, 11 Dec 2019 13:53:16 +0900
+        Tue, 10 Dec 2019 22:27:09 -0800 (PST)
+Date:   Wed, 11 Dec 2019 15:27:05 +0900
 From:   Suwan Kim <suwan.kim027@gmail.com>
 To:     Marek =?iso-8859-1?Q?Marczykowski-G=F3recki?= 
         <marmarek@invisiblethingslab.com>
@@ -64,7 +64,7 @@ Cc:     linux-usb@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>,
         Valentina Manea <valentina.manea.m@gmail.com>
 Subject: Re: "usbip: Implement SG support to vhci-hcd and stub driver" causes
  a deadlock
-Message-ID: <20191211045316.GA7080@localhost.localdomain>
+Message-ID: <20191211062705.GA11367@localhost.localdomain>
 References: <20191206065058.GA9792@localhost.localdomain>
  <20191206205742.GP1122@mail-itl>
  <20191209020130.GA2909@localhost.localdomain>
@@ -127,8 +127,27 @@ On Wed, Dec 11, 2019 at 04:20:32AM +0100, Marek Marczykowski-Górecki wrote:
 > 
 > Yup, that works! Now the error is handled gracefully instead of hanging.
 
-Ok, good! I will send a patch including Reported-by tag with you :)
-Thanks for reporting the bugs.
+Marek, Could you test if it works too?
 
 Regards,
 Suwan Kim
+
+
+diff --git a/drivers/usb/usbip/vhci_rx.c b/drivers/usb/usbip/vhci_rx.c
+index 33f8972ba842..19a807e398eb 100644
+--- a/drivers/usb/usbip/vhci_rx.c
++++ b/drivers/usb/usbip/vhci_rx.c
+@@ -78,11 +78,11 @@ static void vhci_recv_ret_submit(struct vhci_device *vdev,
+
+        /* recv transfer buffer */
+        if (usbip_recv_xbuff(ud, urb) < 0)
+-               return;
++               urb->status = -EPIPE;
+
+        /* recv iso_packet_descriptor */
+        if (usbip_recv_iso(ud, urb) < 0)
+-               return;
++               urb->status = -EPIPE;
+
+        /* restore the padding in iso packets */
+        usbip_pad_iso(ud, urb);
