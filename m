@@ -2,103 +2,123 @@ Return-Path: <SRS0=CPD5=2C=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED4DEC43603
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 20:44:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08824C43603
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 21:21:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C08C9214AF
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 20:44:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D04582253D
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 21:21:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ZvOkcVeS"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XOSrWBeB"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730749AbfLLUoO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 12 Dec 2019 15:44:14 -0500
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:52064 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726814AbfLLUoO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 12 Dec 2019 15:44:14 -0500
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBCKi3Y2006089;
-        Thu, 12 Dec 2019 14:44:03 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1576183443;
-        bh=Rj6bMZCQXWRSdvUm+2Ymo8/2uiCXnYfPqaz0iwPtsC4=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=ZvOkcVeStiBP30YNQCjoD5aCwDc4So32pLew34D81SE3ehJzY8h+QLZE9BwtPF19O
-         KTY9vykaxnxvRQOC4Q1rIHU8iXLLsZ8O2cQ8LsTkoUZnVf2PRZczLob7VBOnGJcfKL
-         JmVdA4PnGMvmTUwcxlJwVMc1VKfM2oyne6l3BXtU=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBCKi3pL091411;
-        Thu, 12 Dec 2019 14:44:03 -0600
-Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 12
- Dec 2019 14:44:01 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Thu, 12 Dec 2019 14:44:02 -0600
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBCKi1tn022097;
-        Thu, 12 Dec 2019 14:44:02 -0600
-Date:   Thu, 12 Dec 2019 14:43:26 -0600
-From:   Bin Liu <b-liu@ti.com>
-To:     "Ben Dooks (Codethink)" <ben.dooks@codethink.co.uk>
-CC:     <linux-kernel@lists.codethink.co.uk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] USB: musb: fix __iomem in trace functions
-Message-ID: <20191212204326.GK16429@iaqt7>
-Mail-Followup-To: Bin Liu <b-liu@ti.com>,
-        "Ben Dooks (Codethink)" <ben.dooks@codethink.co.uk>,
-        linux-kernel@lists.codethink.co.uk,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20191015150309.17364-1-ben.dooks@codethink.co.uk>
+        id S1731096AbfLLVVx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 12 Dec 2019 16:21:53 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:35650 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730979AbfLLVVw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 12 Dec 2019 16:21:52 -0500
+Received: by mail-pf1-f193.google.com with SMTP id b19so39679pfo.2
+        for <linux-usb@vger.kernel.org>; Thu, 12 Dec 2019 13:21:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=A3MllguTlm4RWEMVtAXxk8WCZHqQzGllKbJkD1LpkZo=;
+        b=XOSrWBeBMymaJn4z1PR8VDb2JrXgYLfUBwv5WuGOHadZF8aLKPGK7s3i80NML9ei5o
+         Wz+pX+KdMmyRfIOuG5pMCh3ms1vGqADyMXJweI9dlCYaufAZ4i3qR6Iy3JnnJ8bgvEGd
+         TueSwhM5i2JoLKcIA8OmAjTC7bOIrDgKDzJB4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=A3MllguTlm4RWEMVtAXxk8WCZHqQzGllKbJkD1LpkZo=;
+        b=BrnbHtxjgPVSNlGIRNbjHMM+pKU2NbAqCB8VSXHgFIdMSpMo2PjHfyGSKddOkOeCsn
+         noYXczp5ODGJGKHSFaRN95cl6BlIxyOpuXglGzlRYi3hF9lczTvzbU9ueR5IV2zsV0po
+         FPJIIZre+c1R/NFuRQcz+QEEYTMN6xkNNkX0YVGBqdZS3ccxxf7+0nDMbEJQnq4hdxZJ
+         5kUYNJP10G1+gULkOpnGggV6O8IwF5Q075nko9AuUaulyxoAtkSptTuugFedBSXITvm6
+         /uYKGLXms/97jiLUH70d0Ww+LiUNxl7W7rQuhoHV+LhPtfpYvkpsnaIBa7MJsJK8+c2g
+         aa7w==
+X-Gm-Message-State: APjAAAWLLjW7MYDkXEwhGQr/zqAs3+WgMQ2YushVfmNxK/y8hlBIbRrM
+        GDwIXdKh+RD1VEz2ypG4ALHg/Q==
+X-Google-Smtp-Source: APXvYqxCXvvMmFnm700MmbQmtWurHwBNW8hqqwHFReXZcDmV8WyGaUc29LSksY5z4mtikc0J/wRD1g==
+X-Received: by 2002:a63:504f:: with SMTP id q15mr12761862pgl.8.1576185712148;
+        Thu, 12 Dec 2019 13:21:52 -0800 (PST)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:202:1:24fa:e766:52c9:e3b2])
+        by smtp.gmail.com with ESMTPSA id y62sm8969595pfg.45.2019.12.12.13.21.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Dec 2019 13:21:51 -0800 (PST)
+From:   Douglas Anderson <dianders@chromium.org>
+To:     Felipe Balbi <balbi@kernel.org>
+Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Manu Gautam <mgautam@codeaurora.org>,
+        Andy Gross <agross@kernel.org>,
+        Sandeep Maheswaram <sanm@codeaurora.org>,
+        Jeffrey Hugo <jhugo@codeaurora.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] usb: dwc3: qcom: Remove useless compatible strings from the match table
+Date:   Thu, 12 Dec 2019 13:21:25 -0800
+Message-Id: <20191212132122.1.I85a23bdcff04dbce48cc46ddb8f1ffe7a51015eb@changeid>
+X-Mailer: git-send-email 2.24.1.735.g03f4e72817-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20191015150309.17364-1-ben.dooks@codethink.co.uk>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi,
+The of match table in dwc3-qcom.c had an entry per Qualcomm SoC known
+to have dwc3.  That's not needed.  Here's why:
 
-On Tue, Oct 15, 2019 at 04:03:09PM +0100, Ben Dooks (Codethink) wrote:
-> The trace functions should have __iomem on the addr
-> pointers. Add __iomem to avoid the following warnings
-> from sparse:
-> 
-> drivers/usb/musb/musb_core.c:253:55: warning: incorrect type in argument 2 (different address spaces)
-> drivers/usb/musb/musb_core.c:253:55:    expected void const *addr
-> drivers/usb/musb/musb_core.c:253:55:    got void const [noderef] <asn:2> *addr
-> drivers/usb/musb/musb_core.c:259:56: warning: incorrect type in argument 2 (different address spaces)
-> drivers/usb/musb/musb_core.c:259:56:    expected void const *addr
-> drivers/usb/musb/musb_core.c:259:56:    got void [noderef] <asn:2> *addr
-> drivers/usb/musb/musb_core.c:267:55: warning: incorrect type in argument 2 (different address spaces)
-> drivers/usb/musb/musb_core.c:267:55:    expected void const *addr
-> drivers/usb/musb/musb_core.c:267:55:    got void const [noderef] <asn:2> *addr
-> drivers/usb/musb/musb_core.c:273:56: warning: incorrect type in argument 2 (different address spaces)
-> drivers/usb/musb/musb_core.c:273:56:    expected void const *addr
-> drivers/usb/musb/musb_core.c:273:56:    got void [noderef] <asn:2> *addr
-> drivers/usb/musb/musb_core.c:383:55: warning: incorrect type in argument 2 (different address spaces)
-> drivers/usb/musb/musb_core.c:383:55:    expected void const *addr
-> drivers/usb/musb/musb_core.c:383:55:    got void const [noderef] <asn:2> *addr
-> drivers/usb/musb/musb_core.c:390:56: warning: incorrect type in argument 2 (different address spaces)
-> drivers/usb/musb/musb_core.c:390:56:    expected void const *addr
-> drivers/usb/musb/musb_core.c:390:56:    got void [noderef] <asn:2> *addr
-> 
-> Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
+1. The bindings specify that the compatible string in the device tree
+   should contain the SoC-specific compatible string followed by the
+   string "qcom,dwc3".
 
-Thanks for the patch. But checkpatch.pl complains that the author and
-Signed-off-by do not match. Can you please fix it and re-send?
+2. All known Qualcomm SoC dts files (confirmed via git grep in
+   mainline Linux) using dwc3 follow the rules and do, in fact,
+   contain the SoC-specific compatible string followed by the string
+   "qcom,dwc3".
 
--Bin.
+3. The source code does nothing special with the per-SoC strings--they
+   are only used to match the node.
+
+Let's remove the extra strings from the table.  Doing so will avoid
+the need to land future useless patches [1] that do nothing more than
+add yet more strings to the table.
+
+NOTE: if later we _do_ find some SoC-specific quirk we need to handle
+in the code we can add back a subset of these strings.  At the time we
+will probably also add some data in the match table to make it easier
+to generalize this hypothetical quirk across all the SoCs it affects.
+
+[1] https://lore.kernel.org/r/1574940787-1004-2-git-send-email-sanm@codeaurora.org
+
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+
+ drivers/usb/dwc3/dwc3-qcom.c | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+index 261af9e38ddd..72e867e02a1c 100644
+--- a/drivers/usb/dwc3/dwc3-qcom.c
++++ b/drivers/usb/dwc3/dwc3-qcom.c
+@@ -751,9 +751,6 @@ static const struct dev_pm_ops dwc3_qcom_dev_pm_ops = {
+ 
+ static const struct of_device_id dwc3_qcom_of_match[] = {
+ 	{ .compatible = "qcom,dwc3" },
+-	{ .compatible = "qcom,msm8996-dwc3" },
+-	{ .compatible = "qcom,msm8998-dwc3" },
+-	{ .compatible = "qcom,sdm845-dwc3" },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, dwc3_qcom_of_match);
+-- 
+2.24.1.735.g03f4e72817-goog
+
