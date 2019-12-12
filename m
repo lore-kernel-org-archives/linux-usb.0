@@ -2,149 +2,189 @@ Return-Path: <SRS0=CPD5=2C=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-8.3 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_2
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F6D2C43603
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 01:43:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B783C2D0C6
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 02:10:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E8B97222C4
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 01:43:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C72C2173E
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 02:10:18 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vwteEu2Y"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="rFHOh26/"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727536AbfLLBmh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 11 Dec 2019 20:42:37 -0500
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:45999 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727473AbfLLBmg (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Dec 2019 20:42:36 -0500
-Received: by mail-pj1-f67.google.com with SMTP id r11so306176pjp.12
-        for <linux-usb@vger.kernel.org>; Wed, 11 Dec 2019 17:42:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=oYTlAQZvFCOXl+FtJCngIG4zVDYFRx+CdcBqRiduMI0=;
-        b=vwteEu2YZkAnEvjWeKkVn0aBvUckSAG2P7VOoNA5s8hUGN3Yk8yr0boDilwBMdLuyj
-         t4QG5GkPnobWw2v38BTnKHq+JV+uqyHhDdmhuElKHoxDPjGXC3oQAZopogp9FCEsarNP
-         ubAIkoosYJyYMGYlNC4xFOoDp1U7o6APyF1XBeYNf6s9ziGl0G2iToAbYaM0JJDhwKjC
-         B2CnHDwVIShWspatl2US/jXjzUFvrW908qOabx/Ey2z/xxA+zAHZZd5ZVVG1QsN8qLdo
-         S/oFtJO2fB2yrTz6cyymBXeobJdiqLA0DW7DjHG3LmEKd9nooUG1eSBRRgQzIM/65i2S
-         AIpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=oYTlAQZvFCOXl+FtJCngIG4zVDYFRx+CdcBqRiduMI0=;
-        b=EDF6DTKTgEmv9Upf3vc8Pzf0BC5bKNejmQVQe5cGGVVBqIIRXuPUHOuT5w624eY/fg
-         Tj1LcyIpryaP7oFNh1dzulEi+1EPfWkE55k6+G5aLEvd26HH6aosjkfz9RdncwqqdBlW
-         npIhWolFylpdJXE78vLvLlRfVClcq/lyGrB1pf0UHDXg5yTJzupx+Ckp3YTsWz6mPgrh
-         eeK4qRbXhLhVD0GPy+p+jNfDWxc4Woh8khgGgwcwx0J9mdb7YxzQJDcFF9meznVfdEvx
-         zqJKV914IgXFNi9bynagMstZbG+KwWba3wC6hyJVFA/k5yblxz7zQlf3lNUvMejkv24c
-         16ZA==
-X-Gm-Message-State: APjAAAU7ZKxIgEddPNj7ByPw6LTyNUmF1v6YC4n3h90tvpSKMyqyP/7A
-        4MxAU0hw+4B/Z34Ck0oW91mHig==
-X-Google-Smtp-Source: APXvYqyHpT1rDSGDYfNZlrajLahc84+7IwQNBWW64oNq2WP0Ja55cN6BBGowTeAh+WTxTc1jj60lsw==
-X-Received: by 2002:a17:90a:a4cb:: with SMTP id l11mr6981037pjw.47.1576114955837;
-        Wed, 11 Dec 2019 17:42:35 -0800 (PST)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
-        by smtp.gmail.com with ESMTPSA id p16sm4217996pgi.50.2019.12.11.17.42.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Dec 2019 17:42:35 -0800 (PST)
-From:   John Stultz <john.stultz@linaro.org>
-To:     lkml <linux-kernel@vger.kernel.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
+        id S1727675AbfLLCKO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 11 Dec 2019 21:10:14 -0500
+Received: from mailgw02.mediatek.com ([1.203.163.81]:46952 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727544AbfLLCKN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 11 Dec 2019 21:10:13 -0500
+X-UUID: 28645188f81543daa26b4ac3a15a528a-20191212
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=VpgZcjR1SsBox1/HBPJxCX6RUerx/cuwQ7AnJYi8EIw=;
+        b=rFHOh26/RdrbPri00JBSqbakNv5Z+KWYLRxSTLUP6hzQD4EB8b13qUeWaYA6yDXfV1e3tmXrX2vujjEV9oe1VvqjtJrC79MKDtuzI+UN/j8nxawAb+F0ohcvupfQg/UXuikDh/GrtsHuG1YLle/Yy0vRICBb4cP5AHalL3Yyk9A=;
+X-UUID: 28645188f81543daa26b4ac3a15a528a-20191212
+Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <chunfeng.yun@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 197373770; Thu, 12 Dec 2019 10:10:02 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS32N2.mediatek.inc
+ (172.27.4.72) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Thu, 12 Dec
+ 2019 10:05:23 +0800
+Received: from [10.17.3.153] (172.27.4.253) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Thu, 12 Dec 2019 10:10:06 +0800
+Message-ID: <1576116600.21256.3.camel@mhfsdcap03>
+Subject: Re: [PATCH v2 4/4] usb: usb3503: Convert to use GPIO descriptors
+From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
+To:     Marek Szyprowski <m.szyprowski@samsung.com>
+CC:     <linux-usb@vger.kernel.org>, <linux-samsung-soc@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        ShuFan Lee <shufan_lee@richtek.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Yu Chen <chenyu56@huawei.com>, Felipe Balbi <balbi@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Jun Li <lijun.kernel@gmail.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Guillaume Gardet <Guillaume.Gardet@arm.com>,
-        Jack Pham <jackp@codeaurora.org>, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: [PATCH v7 0/8] HiKey960 USB support
-Date:   Thu, 12 Dec 2019 01:42:25 +0000
-Message-Id: <20191212014233.32799-1-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.17.1
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        "Stefan Agner" <stefan@agner.ch>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+Date:   Thu, 12 Dec 2019 10:10:00 +0800
+In-Reply-To: <20191211145226.25074-1-m.szyprowski@samsung.com>
+References: <20191211145054.24835-1-m.szyprowski@samsung.com>
+         <CGME20191211145231eucas1p29d4e0ed105274c79682b48a613b45904@eucas1p2.samsung.com>
+         <20191211145226.25074-1-m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+MIME-Version: 1.0
+X-TM-SNTS-SMTP: 3AA4084B10160E7ED06A631047B49B5C3DEDD960766FE10618DCAC976FA6C5572000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Just another round here trying to push forward a patch series
-submitted originally by Yu Chen to get HiKey960 dev-board's USB
-functionality working.
-
-The full patchset (including dts changes not submitted here) can
-be found here:
-https://git.linaro.org/people/john.stultz/android-dev.git/log/?id=2ae2c2a9087b52857dd47313a169c7348261cbca
-
-I'd greatly appreciate any feedback or thoughts!
-
-thanks
--john
-
-New in v7:
-* Guillaume Gardet reported issues with CONFIG_USB_ROLE_SWITCH=m
-  which to fix required I use IS_ENABLED instead of just #ifdef
-  on that config name.
-* Added MAINTAINERS file for usb hub misc driver
-* Switched the usb hub misc driver bindings to YAML
-
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>
-CC: ShuFan Lee <shufan_lee@richtek.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
-Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc: Yu Chen <chenyu56@huawei.com>
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Jun Li <lijun.kernel@gmail.com>
-Cc: Valentin Schneider <valentin.schneider@arm.com>
-Cc: Guillaume Gardet <Guillaume.Gardet@arm.com>
-Cc: Jack Pham <jackp@codeaurora.org>
-Cc: linux-usb@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-
-John Stultz (5):
-  dt-bindings: usb: generic: Add role-switch-default-mode binding
-  usb: dwc3: Add support for role-switch-default-mode binding
-  dt-bindings: usb: dwc3: Allow clock list & resets to be more flexible
-  usb: dwc3: Rework clock initialization to be more flexible
-  usb: dwc3: Rework resets initialization to be more flexible
-
-Yu Chen (3):
-  usb: dwc3: Registering a role switch in the DRD code.
-  dt-bindings: misc: Add bindings for HiSilicon usb hub and data role
-    switch functionality on HiKey960
-  misc: hisi_hikey_usb: Driver to support onboard USB gpio hub on
-    Hikey960
-
- .../bindings/misc/hisilicon-hikey-usb.yaml    |  85 +++++++++
- .../devicetree/bindings/usb/dwc3.txt          |   5 +-
- .../devicetree/bindings/usb/generic.txt       |   6 +
- MAINTAINERS                                   |   7 +
- drivers/misc/Kconfig                          |   9 +
- drivers/misc/Makefile                         |   1 +
- drivers/misc/hisi_hikey_usb.c                 | 178 ++++++++++++++++++
- drivers/usb/dwc3/core.c                       |  22 +--
- drivers/usb/dwc3/core.h                       |   6 +
- drivers/usb/dwc3/drd.c                        |  96 +++++++++-
- 10 files changed, 396 insertions(+), 19 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.yaml
- create mode 100644 drivers/misc/hisi_hikey_usb.c
-
--- 
-2.17.1
+T24gV2VkLCAyMDE5LTEyLTExIGF0IDE1OjUyICswMTAwLCBNYXJlayBTenlwcm93c2tpIHdyb3Rl
+Og0KPiBGcm9tOiBMaW51cyBXYWxsZWlqIDxsaW51cy53YWxsZWlqQGxpbmFyby5vcmc+DQo+IA0K
+PiBUaGlzIGNvbnZlcnRzIHRoZSBVU0IzNTAzIHRvIHBpY2sgR1BJTyBkZXNjcmlwdG9ycyBmcm9t
+IHRoZQ0KPiBkZXZpY2UgdHJlZSBpbnN0ZWFkIG9mIGl0ZXJhdGl2ZWx5IHBpY2tpbmcgb3V0IEdQ
+SU8gbnVtYmVyDQo+IHJlZmVyZW5jZXMgYW5kIHRoZW4gcmVmZXJlbmNpbmcgdGhlc2UgZnJvbSB0
+aGUgZ2xvYmFsIEdQSU8NCj4gbnVtYmVyc3BhY2UuDQo+IA0KPiBUaGUgVVNCMzUwMyBpcyBvbmx5
+IHVzZWQgZnJvbSBkZXZpY2UgdHJlZSBhbW9uZyB0aGUgaW4tdHJlZQ0KPiBwbGF0Zm9ybXMuIElm
+IGJvYXJkIGZpbGVzIHdvdWxkIHN0aWxsIGRlc2lyZSB0byB1c2UgaXQgdGhleSBjYW4NCj4gcHJv
+dmlkZSBtYWNoaW5lIGRlc2NyaXB0b3IgdGFibGVzLg0KPiANCj4gTWFrZSBzdXJlIHRvIHByZXNl
+cnZlIHNlbWFudGljcyBzdWNoIGFzIHRoZSByZXNldCBkZWxheQ0KPiBpbnRyb2R1Y2VkIGJ5IFN0
+ZWZhbi4NCj4gDQo+IENjOiBDaHVuZmVuZyBZdW4gPGNodW5mZW5nLnl1bkBtZWRpYXRlay5jb20+
+DQo+IENjOiBNYXJlayBTenlwcm93c2tpIDxtLnN6eXByb3dza2lAc2Ftc3VuZy5jb20+DQo+IENj
+OiBTdGVmYW4gQWduZXIgPHN0ZWZhbkBhZ25lci5jaD4NCj4gQ2M6IEtyenlzenRvZiBLb3psb3dz
+a2kgPGtyemtAa2VybmVsLm9yZz4NCj4gU2lnbmVkLW9mZi1ieTogTGludXMgV2FsbGVpaiA8bGlu
+dXMud2FsbGVpakBsaW5hcm8ub3JnPg0KPiBbbXN6eXByb3c6IGludmVydCB0aGUgbG9naWMgYmVo
+aW5kIHJlc2V0IEdQSU8gbGluZV0NCj4gU2lnbmVkLW9mZi1ieTogTWFyZWsgU3p5cHJvd3NraSA8
+bS5zenlwcm93c2tpQHNhbXN1bmcuY29tPg0KPiAtLS0NCj4gIGRyaXZlcnMvdXNiL21pc2MvdXNi
+MzUwMy5jICAgICAgICAgICAgfCA5NCArKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0NCj4gIGlu
+Y2x1ZGUvbGludXgvcGxhdGZvcm1fZGF0YS91c2IzNTAzLmggfCAgMyAtDQo+ICAyIGZpbGVzIGNo
+YW5nZWQsIDM1IGluc2VydGlvbnMoKyksIDYyIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvdXNiL21pc2MvdXNiMzUwMy5jIGIvZHJpdmVycy91c2IvbWlzYy91c2IzNTAz
+LmMNCj4gaW5kZXggNzJmMzlhOTc1MWI1Li4xMTZiZDc4OWU1NjggMTAwNjQ0DQo+IC0tLSBhL2Ry
+aXZlcnMvdXNiL21pc2MvdXNiMzUwMy5jDQo+ICsrKyBiL2RyaXZlcnMvdXNiL21pc2MvdXNiMzUw
+My5jDQo+IEBAIC03LDExICs3LDEwIEBADQo+ICANCj4gICNpbmNsdWRlIDxsaW51eC9jbGsuaD4N
+Cj4gICNpbmNsdWRlIDxsaW51eC9pMmMuaD4NCj4gLSNpbmNsdWRlIDxsaW51eC9ncGlvLmg+DQo+
+ICsjaW5jbHVkZSA8bGludXgvZ3Bpby9jb25zdW1lci5oPg0KPiAgI2luY2x1ZGUgPGxpbnV4L2Rl
+bGF5Lmg+DQo+ICAjaW5jbHVkZSA8bGludXgvc2xhYi5oPg0KPiAgI2luY2x1ZGUgPGxpbnV4L21v
+ZHVsZS5oPg0KPiAtI2luY2x1ZGUgPGxpbnV4L29mX2dwaW8uaD4NCj4gICNpbmNsdWRlIDxsaW51
+eC9wbGF0Zm9ybV9kZXZpY2UuaD4NCj4gICNpbmNsdWRlIDxsaW51eC9wbGF0Zm9ybV9kYXRhL3Vz
+YjM1MDMuaD4NCj4gICNpbmNsdWRlIDxsaW51eC9yZWdtYXAuaD4NCj4gQEAgLTQ3LDE5ICs0Niwx
+OSBAQCBzdHJ1Y3QgdXNiMzUwMyB7DQo+ICAJc3RydWN0IGRldmljZQkJKmRldjsNCj4gIAlzdHJ1
+Y3QgY2xrCQkqY2xrOw0KPiAgCXU4CXBvcnRfb2ZmX21hc2s7DQo+IC0JaW50CWdwaW9faW50bjsN
+Cj4gLQlpbnQJZ3Bpb19yZXNldDsNCj4gLQlpbnQJZ3Bpb19jb25uZWN0Ow0KPiArCXN0cnVjdCBn
+cGlvX2Rlc2MJKmludG47DQo+ICsJc3RydWN0IGdwaW9fZGVzYyAJKnJlc2V0Ow0KPiArCXN0cnVj
+dCBncGlvX2Rlc2MgCSpjb25uZWN0Ow0KPiAgCWJvb2wJc2Vjb25kYXJ5X3JlZl9jbGs7DQo+ICB9
+Ow0KPiAgDQo+ICBzdGF0aWMgaW50IHVzYjM1MDNfcmVzZXQoc3RydWN0IHVzYjM1MDMgKmh1Yiwg
+aW50IHN0YXRlKQ0KPiAgew0KPiAtCWlmICghc3RhdGUgJiYgZ3Bpb19pc192YWxpZChodWItPmdw
+aW9fY29ubmVjdCkpDQo+IC0JCWdwaW9fc2V0X3ZhbHVlX2NhbnNsZWVwKGh1Yi0+Z3Bpb19jb25u
+ZWN0LCAwKTsNCj4gKwlpZiAoIXN0YXRlICYmIGh1Yi0+Y29ubmVjdCkNCj4gKwkJZ3Bpb2Rfc2V0
+X3ZhbHVlX2NhbnNsZWVwKGh1Yi0+Y29ubmVjdCwgMCk7DQo+ICANCj4gLQlpZiAoZ3Bpb19pc192
+YWxpZChodWItPmdwaW9fcmVzZXQpKQ0KPiAtCQlncGlvX3NldF92YWx1ZV9jYW5zbGVlcChodWIt
+PmdwaW9fcmVzZXQsIHN0YXRlKTsNCj4gKwlpZiAoaHViLT5yZXNldCkNCj4gKwkJZ3Bpb2Rfc2V0
+X3ZhbHVlX2NhbnNsZWVwKGh1Yi0+cmVzZXQsICFzdGF0ZSk7DQpXaGF0IGFib3V0IHByZXBhcmlu
+ZyBhbm90aGVyIHBhdGNoIGZvciBAc3RhdGUgYmVmb3JlIHRoaXMgcGF0aD8NCg0KPiAgDQo+ICAJ
+LyogV2FpdCBUX0hVQklOSVQgPT0gNG1zIGZvciBodWIgbG9naWMgdG8gc3RhYmlsaXplICovDQo+
+ICAJaWYgKHN0YXRlKQ0KPiBAQCAtMTE1LDggKzExNCw4IEBAIHN0YXRpYyBpbnQgdXNiMzUwM19j
+b25uZWN0KHN0cnVjdCB1c2IzNTAzICpodWIpDQo+ICAJCX0NCj4gIAl9DQo+ICANCj4gLQlpZiAo
+Z3Bpb19pc192YWxpZChodWItPmdwaW9fY29ubmVjdCkpDQo+IC0JCWdwaW9fc2V0X3ZhbHVlX2Nh
+bnNsZWVwKGh1Yi0+Z3Bpb19jb25uZWN0LCAxKTsNCj4gKwlpZiAoaHViLT5jb25uZWN0KQ0KPiAr
+CQlncGlvZF9zZXRfdmFsdWVfY2Fuc2xlZXAoaHViLT5jb25uZWN0LCAxKTsNCj4gIA0KPiAgCWh1
+Yi0+bW9kZSA9IFVTQjM1MDNfTU9ERV9IVUI7DQo+ICAJZGV2X2luZm8oZGV2LCAic3dpdGNoZWQg
+dG8gSFVCIG1vZGVcbiIpOw0KPiBAQCAtMTYzLDEzICsxNjIsMTEgQEAgc3RhdGljIGludCB1c2Iz
+NTAzX3Byb2JlKHN0cnVjdCB1c2IzNTAzICpodWIpDQo+ICAJaW50IGVycjsNCj4gIAl1MzIgbW9k
+ZSA9IFVTQjM1MDNfTU9ERV9IVUI7DQo+ICAJY29uc3QgdTMyICpwcm9wZXJ0eTsNCj4gKwllbnVt
+IGdwaW9kX2ZsYWdzIGZsYWdzOw0KPiAgCWludCBsZW47DQo+ICANCj4gIAlpZiAocGRhdGEpIHsN
+Cj4gIAkJaHViLT5wb3J0X29mZl9tYXNrCT0gcGRhdGEtPnBvcnRfb2ZmX21hc2s7DQo+IC0JCWh1
+Yi0+Z3Bpb19pbnRuCQk9IHBkYXRhLT5ncGlvX2ludG47DQo+IC0JCWh1Yi0+Z3Bpb19jb25uZWN0
+CT0gcGRhdGEtPmdwaW9fY29ubmVjdDsNCj4gLQkJaHViLT5ncGlvX3Jlc2V0CQk9IHBkYXRhLT5n
+cGlvX3Jlc2V0Ow0KPiAgCQlodWItPm1vZGUJCT0gcGRhdGEtPmluaXRpYWxfbW9kZTsNCj4gIAl9
+IGVsc2UgaWYgKG5wKSB7DQo+ICAJCXUzMiByYXRlID0gMDsNCj4gQEAgLTIzMCw1OSArMjI3LDM4
+IEBAIHN0YXRpYyBpbnQgdXNiMzUwM19wcm9iZShzdHJ1Y3QgdXNiMzUwMyAqaHViKQ0KPiAgCQkJ
+fQ0KPiAgCQl9DQo+ICANCj4gLQkJaHViLT5ncGlvX2ludG4JPSBvZl9nZXRfbmFtZWRfZ3Bpbyhu
+cCwgImludG4tZ3Bpb3MiLCAwKTsNCj4gLQkJaWYgKGh1Yi0+Z3Bpb19pbnRuID09IC1FUFJPQkVf
+REVGRVIpDQo+IC0JCQlyZXR1cm4gLUVQUk9CRV9ERUZFUjsNCj4gLQkJaHViLT5ncGlvX2Nvbm5l
+Y3QgPSBvZl9nZXRfbmFtZWRfZ3BpbyhucCwgImNvbm5lY3QtZ3Bpb3MiLCAwKTsNCj4gLQkJaWYg
+KGh1Yi0+Z3Bpb19jb25uZWN0ID09IC1FUFJPQkVfREVGRVIpDQo+IC0JCQlyZXR1cm4gLUVQUk9C
+RV9ERUZFUjsNCj4gLQkJaHViLT5ncGlvX3Jlc2V0ID0gb2ZfZ2V0X25hbWVkX2dwaW8obnAsICJy
+ZXNldC1ncGlvcyIsIDApOw0KPiAtCQlpZiAoaHViLT5ncGlvX3Jlc2V0ID09IC1FUFJPQkVfREVG
+RVIpDQo+IC0JCQlyZXR1cm4gLUVQUk9CRV9ERUZFUjsNCj4gIAkJb2ZfcHJvcGVydHlfcmVhZF91
+MzIobnAsICJpbml0aWFsLW1vZGUiLCAmbW9kZSk7DQo+ICAJCWh1Yi0+bW9kZSA9IG1vZGU7DQo+
+ICAJfQ0KPiAgDQo+IC0JaWYgKGh1Yi0+cG9ydF9vZmZfbWFzayAmJiAhaHViLT5yZWdtYXApDQo+
+IC0JCWRldl9lcnIoZGV2LCAiUG9ydHMgZGlzYWJsZWQgd2l0aCBubyBjb250cm9sIGludGVyZmFj
+ZVxuIik7DQo+IC0NCj4gLQlpZiAoZ3Bpb19pc192YWxpZChodWItPmdwaW9faW50bikpIHsNCj4g
+LQkJaW50IHZhbCA9IGh1Yi0+c2Vjb25kYXJ5X3JlZl9jbGsgPyBHUElPRl9PVVRfSU5JVF9MT1cg
+Og0KPiAtCQkJCQkJICAgR1BJT0ZfT1VUX0lOSVRfSElHSDsNCj4gLQkJZXJyID0gZGV2bV9ncGlv
+X3JlcXVlc3Rfb25lKGRldiwgaHViLT5ncGlvX2ludG4sIHZhbCwNCj4gLQkJCQkJICAgICJ1c2Iz
+NTAzIGludG4iKTsNCj4gLQkJaWYgKGVycikgew0KPiAtCQkJZGV2X2VycihkZXYsDQo+IC0JCQkJ
+InVuYWJsZSB0byByZXF1ZXN0IEdQSU8gJWQgYXMgaW50ZXJydXB0IHBpbiAoJWQpXG4iLA0KPiAt
+CQkJCWh1Yi0+Z3Bpb19pbnRuLCBlcnIpOw0KPiAtCQkJcmV0dXJuIGVycjsNCj4gLQkJfQ0KPiAt
+CX0NCj4gLQ0KPiAtCWlmIChncGlvX2lzX3ZhbGlkKGh1Yi0+Z3Bpb19jb25uZWN0KSkgew0KPiAt
+CQllcnIgPSBkZXZtX2dwaW9fcmVxdWVzdF9vbmUoZGV2LCBodWItPmdwaW9fY29ubmVjdCwNCj4g
+LQkJCQlHUElPRl9PVVRfSU5JVF9MT1csICJ1c2IzNTAzIGNvbm5lY3QiKTsNCj4gLQkJaWYgKGVy
+cikgew0KPiAtCQkJZGV2X2VycihkZXYsDQo+IC0JCQkJInVuYWJsZSB0byByZXF1ZXN0IEdQSU8g
+JWQgYXMgY29ubmVjdCBwaW4gKCVkKVxuIiwNCj4gLQkJCQlodWItPmdwaW9fY29ubmVjdCwgZXJy
+KTsNCj4gLQkJCXJldHVybiBlcnI7DQo+IC0JCX0NCj4gLQl9DQo+IC0NCj4gLQlpZiAoZ3Bpb19p
+c192YWxpZChodWItPmdwaW9fcmVzZXQpKSB7DQo+IC0JCWVyciA9IGRldm1fZ3Bpb19yZXF1ZXN0
+X29uZShkZXYsIGh1Yi0+Z3Bpb19yZXNldCwNCj4gLQkJCQlHUElPRl9PVVRfSU5JVF9MT1csICJ1
+c2IzNTAzIHJlc2V0Iik7DQo+ICsJaWYgKGh1Yi0+c2Vjb25kYXJ5X3JlZl9jbGspDQo+ICsJCWZs
+YWdzID0gR1BJT0RfT1VUX0xPVzsNCj4gKwllbHNlDQo+ICsJCWZsYWdzID0gR1BJT0RfT1VUX0hJ
+R0g7DQo+ICsJaHViLT5pbnRuID0gZGV2bV9ncGlvZF9nZXRfb3B0aW9uYWwoZGV2LCAiaW50biIs
+IGZsYWdzKTsNCj4gKwlpZiAoSVNfRVJSKGh1Yi0+aW50bikpDQo+ICsJCXJldHVybiBQVFJfRVJS
+KGh1Yi0+aW50bik7DQo+ICsJaWYgKGh1Yi0+aW50bikNCj4gKwkJZ3Bpb2Rfc2V0X2NvbnN1bWVy
+X25hbWUoaHViLT5pbnRuLCAidXNiMzUwMyBpbnRuIik7DQo+ICsNCj4gKwlodWItPmNvbm5lY3Qg
+PSBkZXZtX2dwaW9kX2dldF9vcHRpb25hbChkZXYsICJjb25uZWN0IiwgR1BJT0RfT1VUX0xPVyk7
+DQo+ICsJaWYgKElTX0VSUihodWItPmNvbm5lY3QpKQ0KPiArCQlyZXR1cm4gUFRSX0VSUihodWIt
+PmNvbm5lY3QpOw0KPiArCWlmIChodWItPmNvbm5lY3QpDQo+ICsJCWdwaW9kX3NldF9jb25zdW1l
+cl9uYW1lKGh1Yi0+Y29ubmVjdCwgInVzYjM1MDMgY29ubmVjdCIpOw0KPiArDQo+ICsJaHViLT5y
+ZXNldCA9IGRldm1fZ3Bpb2RfZ2V0X29wdGlvbmFsKGRldiwgInJlc2V0IiwgR1BJT0RfT1VUX0hJ
+R0gpOw0KPiArCWlmIChJU19FUlIoaHViLT5yZXNldCkpDQo+ICsJCXJldHVybiBQVFJfRVJSKGh1
+Yi0+cmVzZXQpOw0KPiArCWlmIChodWItPnJlc2V0KSB7DQo+ICAJCS8qIERhdGFzaGVldCBkZWZp
+bmVzIGEgaGFyZHdhcmUgcmVzZXQgdG8gYmUgYXQgbGVhc3QgMTAwdXMgKi8NCj4gIAkJdXNsZWVw
+X3JhbmdlKDEwMCwgMTAwMDApOw0KPiAtCQlpZiAoZXJyKSB7DQo+IC0JCQlkZXZfZXJyKGRldiwN
+Cj4gLQkJCQkidW5hYmxlIHRvIHJlcXVlc3QgR1BJTyAlZCBhcyByZXNldCBwaW4gKCVkKVxuIiwN
+Cj4gLQkJCQlodWItPmdwaW9fcmVzZXQsIGVycik7DQo+IC0JCQlyZXR1cm4gZXJyOw0KPiAtCQl9
+DQo+ICsJCWdwaW9kX3NldF9jb25zdW1lcl9uYW1lKGh1Yi0+cmVzZXQsICJ1c2IzNTAzIHJlc2V0
+Iik7DQo+ICAJfQ0KPiAgDQo+ICsJaWYgKGh1Yi0+cG9ydF9vZmZfbWFzayAmJiAhaHViLT5yZWdt
+YXApDQo+ICsJCWRldl9lcnIoZGV2LCAiUG9ydHMgZGlzYWJsZWQgd2l0aCBubyBjb250cm9sIGlu
+dGVyZmFjZVxuIik7DQo+ICsNCj4gIAl1c2IzNTAzX3N3aXRjaF9tb2RlKGh1YiwgaHViLT5tb2Rl
+KTsNCj4gIA0KPiAgCWRldl9pbmZvKGRldiwgIiVzOiBwcm9iZWQgaW4gJXMgbW9kZVxuIiwgX19m
+dW5jX18sDQo+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2xpbnV4L3BsYXRmb3JtX2RhdGEvdXNiMzUw
+My5oIGIvaW5jbHVkZS9saW51eC9wbGF0Zm9ybV9kYXRhL3VzYjM1MDMuaA0KPiBpbmRleCBlMDQ5
+ZDUxYzEzNTMuLmQwMWVmOTdkZGYzNiAxMDA2NDQNCj4gLS0tIGEvaW5jbHVkZS9saW51eC9wbGF0
+Zm9ybV9kYXRhL3VzYjM1MDMuaA0KPiArKysgYi9pbmNsdWRlL2xpbnV4L3BsYXRmb3JtX2RhdGEv
+dXNiMzUwMy5oDQo+IEBAIC0xNyw5ICsxNyw2IEBAIGVudW0gdXNiMzUwM19tb2RlIHsNCj4gIHN0
+cnVjdCB1c2IzNTAzX3BsYXRmb3JtX2RhdGEgew0KPiAgCWVudW0gdXNiMzUwM19tb2RlCWluaXRp
+YWxfbW9kZTsNCj4gIAl1OAlwb3J0X29mZl9tYXNrOw0KPiAtCWludAlncGlvX2ludG47DQo+IC0J
+aW50CWdwaW9fY29ubmVjdDsNCj4gLQlpbnQJZ3Bpb19yZXNldDsNCj4gIH07DQo+ICANCj4gICNl
+bmRpZg0KDQo=
 
