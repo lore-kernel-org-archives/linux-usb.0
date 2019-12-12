@@ -5,23 +5,23 @@ X-Spam-Level:
 X-Spam-Status: No, score=-1.0 required=3.0 tests=MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18F6BC43603
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 07:20:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DADD2C2D0C9
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 07:34:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DB4262173E
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 07:20:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B14592465A
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 07:34:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728101AbfLLHUO convert rfc822-to-8bit (ORCPT
+        id S1728130AbfLLHe3 convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 12 Dec 2019 02:20:14 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48696 "EHLO mail.kernel.org"
+        Thu, 12 Dec 2019 02:34:29 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58186 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728043AbfLLHUO (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 12 Dec 2019 02:20:14 -0500
+        id S1728072AbfLLHe3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 12 Dec 2019 02:34:29 -0500
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 205841] Lenovo USB-C dock audio NULL pointer
-Date:   Thu, 12 Dec 2019 07:20:13 +0000
+Date:   Thu, 12 Dec 2019 07:34:28 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -36,8 +36,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-205841-208809-flWoBA4Von@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-205841-208809-ZezdkNMlJX@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-205841-208809@https.bugzilla.kernel.org/>
 References: <bug-205841-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -52,10 +52,27 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=205841
 
---- Comment #1 from Ilia Pavlikhin (owl@ow1.in) ---
-Created attachment 286259
-  --> https://bugzilla.kernel.org/attachment.cgi?id=286259&action=edit
-Current kernel configuration
+--- Comment #2 from Ilia Pavlikhin (owl@ow1.in) ---
+Also I booted to old kernel (5.0.21) and sound works perfectly, but problem
+with bandwidth is saved.
+
+[    4.781746] usb 1-2.4.2.3: new full-speed USB device number 10 using
+xhci_hcd
+[    5.036633] usb 1-2.4.2.3: New USB device found, idVendor=17ef,
+idProduct=3063, bcdDevice= 9.02
+[    5.036634] usb 1-2.4.2.3: New USB device strings: Mfr=1, Product=2,
+SerialNumber=3
+[    5.036634] usb 1-2.4.2.3: Product: ThinkPad USB-C Dock Audio
+[    5.036635] usb 1-2.4.2.3: Manufacturer: Lenovo
+[    5.036636] usb 1-2.4.2.3: SerialNumber: 000000000000
+[    5.105120] input: Lenovo ThinkPad USB-C Dock Audio as
+/devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2.4/1-2.4.2/1-2.4.2.3/1-2.4.2.3:1.3/0003:17EF:3063.0008/input/input14
+[   23.706681] usb 1-2.4.2.3: Not enough bandwidth for new device state.
+[   23.706696] usb 1-2.4.2.3: Not enough bandwidth for altsetting 1
+[   23.706699] usb 1-2.4.2.3: 2:1: usb_set_interface failed (-28)
+[   23.707166] usb 1-2.4.2.3: Not enough bandwidth for new device state.
+[   23.707184] usb 1-2.4.2.3: Not enough bandwidth for altsetting 1
+[   23.707187] usb 1-2.4.2.3: 2:1: usb_set_interface failed (-28)
 
 -- 
 You are receiving this mail because:
