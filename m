@@ -2,99 +2,129 @@ Return-Path: <SRS0=CPD5=2C=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	FORGED_MUA_MOZILLA,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2B40C2D0C8
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 11:53:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51373C2D0C8
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 12:00:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AEA22214D8
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 11:53:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 26A5F21655
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 12:00:33 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=codeaurora.org header.i=@codeaurora.org header.b="an4XUNJ5";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="SdvvdUMR"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729065AbfLLLxS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 12 Dec 2019 06:53:18 -0500
-Received: from esa6.microchip.iphmx.com ([216.71.154.253]:3304 "EHLO
-        esa6.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726492AbfLLLxR (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 12 Dec 2019 06:53:17 -0500
-Received-SPF: Pass (esa6.microchip.iphmx.com: domain of
-  Cristian.Birsan@microchip.com designates 198.175.253.82 as
-  permitted sender) identity=mailfrom;
-  client-ip=198.175.253.82; receiver=esa6.microchip.iphmx.com;
-  envelope-from="Cristian.Birsan@microchip.com";
-  x-sender="Cristian.Birsan@microchip.com";
-  x-conformance=spf_only; x-record-type="v=spf1";
-  x-record-text="v=spf1 mx a:ushub1.microchip.com
-  a:smtpout.microchip.com -exists:%{i}.spf.microchip.iphmx.com
-  include:servers.mcsv.net include:mktomail.com
-  include:spf.protection.outlook.com ~all"
-Received-SPF: None (esa6.microchip.iphmx.com: no sender
-  authenticity information available from domain of
-  postmaster@email.microchip.com) identity=helo;
-  client-ip=198.175.253.82; receiver=esa6.microchip.iphmx.com;
-  envelope-from="Cristian.Birsan@microchip.com";
-  x-sender="postmaster@email.microchip.com";
-  x-conformance=spf_only
-Authentication-Results: esa6.microchip.iphmx.com; dkim=none (message not signed) header.i=none; spf=Pass smtp.mailfrom=Cristian.Birsan@microchip.com; spf=None smtp.helo=postmaster@email.microchip.com; dmarc=pass (p=none dis=none) d=microchip.com
-IronPort-SDR: RNxNNSncMJoztrjRlZKmBxNrxReUXbLQOeWPtryVMnosacAQxIdDqSXHv7BwUNjt2W3G5Ptm5h
- 0F1YMjhkkUxcU6Ai608qJMkkHG6gasrR6MxMHi+vy/1301dHQf4obN4EDtOnLe7rplJQWrqNwi
- WeYkkvfhZmoA45bspa7FWhGq4VMOvSaZyYvcXS+LAMAQFVwLa4KU9aNSsENdXNNPENUamyJoJ2
- 8Y2XgyLD8YPkb0DcVSARjGUWO+QlSUG8clt7Z/kK7KOUJsW3z5RaF4oCut1vMnq9kll+Srau26
- Sys=
-X-IronPort-AV: E=Sophos;i="5.69,305,1571727600"; 
-   d="scan'208";a="57492404"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 12 Dec 2019 04:53:16 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 12 Dec 2019 04:53:21 -0700
-Received: from cristi-W530.mchp-main.com (10.10.85.251) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.1713.5 via Frontend Transport; Thu, 12 Dec 2019 04:53:19 -0700
-From:   Cristian Birsan <cristian.birsan@microchip.com>
-To:     <woojung.huh@microchip.com>, <UNGLinuxDriver@microchip.com>,
-        <davem@davemloft.net>
-CC:     <netdev@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Cristian Birsan <cristian.birsan@microchip.com>
-Subject: [PATCH] net: usb: lan78xx: Fix suspend/resume PHY register access error
-Date:   Thu, 12 Dec 2019 13:52:47 +0200
-Message-ID: <20191212115247.26728-1-cristian.birsan@microchip.com>
-X-Mailer: git-send-email 2.17.1
+        id S1729125AbfLLMA3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 12 Dec 2019 07:00:29 -0500
+Received: from a27-186.smtp-out.us-west-2.amazonses.com ([54.240.27.186]:43918
+        "EHLO a27-186.smtp-out.us-west-2.amazonses.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726492AbfLLMA3 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 12 Dec 2019 07:00:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+        s=zsmsymrwgfyinv5wlfyidntwsjeeldzt; d=codeaurora.org; t=1576152027;
+        h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+        bh=bc7cWrfmPZqMkXkLHGRYUdWBqPWEuLfh+HlDxrAfJfY=;
+        b=an4XUNJ52zAFsHEXeEZs2nI1NPw8/QBYO/2YhB90E7OpJZZWX8lFKgCnCHtBAy0e
+        efFoE2GzHuvVR5b7DmgymX5PD0Wt2lDPWpkxmH1FxSyRel8ZcTrodWFRph/tqxNcaOn
+        rPKmujqTN3gsdT+ieOUsbgQtuTKE5xuUy4mpHuU4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+        s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx; d=amazonses.com; t=1576152027;
+        h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:Feedback-ID;
+        bh=bc7cWrfmPZqMkXkLHGRYUdWBqPWEuLfh+HlDxrAfJfY=;
+        b=SdvvdUMRSppg30RkkUPcDBUuVCAa/rLQsyG7t0thTFLiWZGbbVIuXFXyfkdCXrwl
+        KFpckQdT4rfeV2Jrwc3jT8IC1jSmopwJ8+buonU8a3SN5P/FDxgaAIX6hTaDjkMMoP6
+        8aMDW+buSLH9vja5ECj+Kjk8V4fKN0ISa9zs8kQU=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 50F68C433A2
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=sanm@codeaurora.org
+Subject: Re: [PATCH v2 1/3] usb: dwc3: Add support for SC7180 SOC
+To:     Doug Anderson <dianders@chromium.org>
+Cc:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-usb@vger.kernel.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+References: <1574940787-1004-1-git-send-email-sanm@codeaurora.org>
+ <1574940787-1004-2-git-send-email-sanm@codeaurora.org>
+ <CAD=FV=Uy6ryrbpzFg1sesJkWrgh05tLgvtozx0afJPF_u4-ESA@mail.gmail.com>
+From:   "Sandeep Maheswaram (Temp)" <sanm@codeaurora.org>
+Message-ID: <0101016ef9fb521b-1d7e4d62-c20c-4958-bfea-70664315040e-000000@us-west-2.amazonses.com>
+Date:   Thu, 12 Dec 2019 12:00:27 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <CAD=FV=Uy6ryrbpzFg1sesJkWrgh05tLgvtozx0afJPF_u4-ESA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-SES-Outgoing: 2019.12.12-54.240.27.186
+Feedback-ID: 1.us-west-2.CZuq2qbDmUIuT3qdvXlRHZZCpfZqZ4GtG9v3VKgRyF0=:AmazonSES
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Lan78xx driver accesses the PHY registers through MDIO bus over USB
-connection. When performing a suspend/resume, the PHY registers can be
-accessed before the USB connection is resumed. This will generate an
-error and will prevent the device to resume correctly.
-This patch adds the dependency between the MDIO bus and USB device to
-allow correct handling of suspend/resume.
+Hi,
 
-Fixes: ce85e13ad6ef ("lan78xx: Update to use phylib instead of mii_if_info.")
-Signed-off-by: Cristian Birsan <cristian.birsan@microchip.com>
----
- drivers/net/usb/lan78xx.c | 1 +
- 1 file changed, 1 insertion(+)
+On 12/12/2019 1:13 AM, Doug Anderson wrote:
+> Hi,
+>
+> On Thu, Nov 28, 2019 at 3:35 AM Sandeep Maheswaram <sanm@codeaurora.org> wrote:
+>> Add compatible for SC7180 SOC in USB DWC3 driver
+>>
+>> Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
+>> ---
+>>   drivers/usb/dwc3/dwc3-qcom.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
+>> index 261af9e..1df2372 100644
+>> --- a/drivers/usb/dwc3/dwc3-qcom.c
+>> +++ b/drivers/usb/dwc3/dwc3-qcom.c
+>> @@ -1,5 +1,5 @@
+>>   // SPDX-License-Identifier: GPL-2.0
+>> -/* Copyright (c) 2018, The Linux Foundation. All rights reserved.
+>> +/* Copyright (c) 2018-2019, The Linux Foundation. All rights reserved.
+>>    *
+>>    * Inspired by dwc3-of-simple.c
+>>    */
+>> @@ -753,6 +753,7 @@ static const struct of_device_id dwc3_qcom_of_match[] = {
+>>          { .compatible = "qcom,dwc3" },
+>>          { .compatible = "qcom,msm8996-dwc3" },
+>>          { .compatible = "qcom,msm8998-dwc3" },
+>> +       { .compatible = "qcom,sc7180-dwc3" },
+>>          { .compatible = "qcom,sdm845-dwc3" },
+> It is, of course, up to Felipe.  ...but in my opinion this is the
+> wrong change and instead we should be deleting the SoC-specific
+> strings (msm8996, msm8998, sdm845) from this file because they don't
+> buy us anything.  To explain how it works:
+>
+> 1. Device tree should have both the "SoC-specific" and generic
+> "qcom,dwc3" strings.  Only the "qcom,dwc3" will actually be used but
+> the SoC-specific string is there so if we find a case later where we
+> need to handle a SoC-specific quirk then it'll already be there.
+>
+> 2. Bindings should have both the "SoC-specific" and generic
+> "qcom,dwc3" strings.  The binding is describing what's in the device
+> tree.
+>
+> 3. Until we have a SoC-specific quirk to handle, we _don't_ need to
+> add the SoC-specific string to the driver itself.
+>
+>
+> -Doug
+>
+Can i remove this patch { .compatible = "qcom,sc7180-dwc3" }, in the 
+next version of this series ?
 
-diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-index cf1f3f0a4b9b..d7bf1918ca62 100644
---- a/drivers/net/usb/lan78xx.c
-+++ b/drivers/net/usb/lan78xx.c
-@@ -1808,6 +1808,7 @@ static int lan78xx_mdio_init(struct lan78xx_net *dev)
- 	dev->mdiobus->read = lan78xx_mdiobus_read;
- 	dev->mdiobus->write = lan78xx_mdiobus_write;
- 	dev->mdiobus->name = "lan78xx-mdiobus";
-+	dev->mdiobus->parent = &dev->udev->dev;
- 
- 	snprintf(dev->mdiobus->id, MII_BUS_ID_SIZE, "usb-%03d:%03d",
- 		 dev->udev->bus->busnum, dev->udev->devnum);
 -- 
-2.17.1
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum, hosted by The Linux Foundation
 
