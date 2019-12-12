@@ -2,61 +2,68 @@ Return-Path: <SRS0=CPD5=2C=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=3.0 tests=MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F982C43603
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 08:59:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1977AC2D0C9
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 09:01:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3289A214AF
-	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 08:59:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EE36822B48
+	for <linux-usb@archiver.kernel.org>; Thu, 12 Dec 2019 09:01:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728269AbfLLI7H convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 12 Dec 2019 03:59:07 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44288 "EHLO mail.kernel.org"
+        id S1728272AbfLLJBh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 12 Dec 2019 04:01:37 -0500
+Received: from mga09.intel.com ([134.134.136.24]:47745 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728110AbfLLI7H (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 12 Dec 2019 03:59:07 -0500
-From:   bugzilla-daemon@bugzilla.kernel.org
-To:     linux-usb@vger.kernel.org
-Subject: [Bug 205841] Lenovo USB-C dock audio NULL pointer
-Date:   Thu, 12 Dec 2019 08:59:06 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: owl@ow1.in
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-205841-208809-al0EWyg8Bm@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-205841-208809@https.bugzilla.kernel.org/>
-References: <bug-205841-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        id S1728218AbfLLJBh (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 12 Dec 2019 04:01:37 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Dec 2019 01:01:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,305,1571727600"; 
+   d="scan'208";a="220648559"
+Received: from kuha.fi.intel.com ([10.237.72.53])
+  by fmsmga001.fm.intel.com with SMTP; 12 Dec 2019 01:01:33 -0800
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Thu, 12 Dec 2019 11:01:32 +0200
+Date:   Thu, 12 Dec 2019 11:01:32 +0200
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     zhong jiang <zhongjiang@huawei.com>
+Cc:     linux@roeck-us.net, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: fusb302: Fix an undefined reference to
+ 'extcon_get_state'
+Message-ID: <20191212090132.GC31345@kuha.fi.intel.com>
+References: <1576136063-50916-1-git-send-email-zhongjiang@huawei.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1576136063-50916-1-git-send-email-zhongjiang@huawei.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-https://bugzilla.kernel.org/show_bug.cgi?id=205841
+On Thu, Dec 12, 2019 at 03:34:23PM +0800, zhong jiang wrote:
+> Fixes the following compile error:
+> 
+> drivers/usb/typec/tcpm/fusb302.o: In function `tcpm_get_current_limit':
+> fusb302.c:(.text+0x3ee): undefined reference to `extcon_get_state'
+> fusb302.c:(.text+0x422): undefined reference to `extcon_get_state'
+> fusb302.c:(.text+0x450): undefined reference to `extcon_get_state'
+> fusb302.c:(.text+0x48c): undefined reference to `extcon_get_state'
+> drivers/usb/typec/tcpm/fusb302.o: In function `fusb302_probe':
+> fusb302.c:(.text+0x980): undefined reference to `extcon_get_extcon_dev'
+> make: *** [vmlinux] Error 1
 
---- Comment #7 from Ilia Pavlikhin (owl@ow1.in) ---
-Created attachment 286263
-  --> https://bugzilla.kernel.org/attachment.cgi?id=286263&action=edit
-Full dmesg 5.4.2 wo UCSI
+There are stubs for those functions so that really should not be
+happening. I can not reproduce that.
+
+thanks,
 
 -- 
-You are receiving this mail because:
-You are watching the assignee of the bug.
+heikki
