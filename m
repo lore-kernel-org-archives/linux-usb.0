@@ -2,104 +2,95 @@ Return-Path: <SRS0=1PTI=2G=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D08A9C43603
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 15:38:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18A4AC43603
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 16:19:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A82BE206D7
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 15:38:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576510719;
-	bh=w1nPHY4EkFH6XLAUEC1GUi7qMBgUxC4YSp380miDCqg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=p1LL3oAdKk/MhIpPJgwQ/5oj3YROkEI7JZLovcF4dOhvvIqCuv5Hj4HPD5VuOFt4G
-	 aPpMj9fanPF8WIL7wuM7rPS/yq5sFGO5m1pLP7rY+qKtjHsXmH9ttaS9DTKxeAvFa4
-	 A9Kr/sWMmsQCRx1on/zQMD/vX3e0FrLwTsotoP9w=
+	by mail.kernel.org (Postfix) with ESMTP id E0A832067C
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 16:19:26 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="bKd1/PpA"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728374AbfLPPif (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Dec 2019 10:38:35 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:43219 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728322AbfLPPif (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Dec 2019 10:38:35 -0500
-Received: by mail-ot1-f67.google.com with SMTP id p8so9651396oth.10;
-        Mon, 16 Dec 2019 07:38:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wnkOsuCyZ6LgZA6WK8OXgo4HhYM+KMZyOo083tpZJdo=;
-        b=DHWXi3B2EuQPj2acgSTCsKNdEERZM6dWeMROsadeuqeymcjaVl0cjfk42U7Tq191dx
-         qbSrD1RCDGjEwuANHB4IvGXnuL8sMTt0ZMsHAoN05V8AQgAnehk+xYN4VnB1L17333QM
-         i1mAJL2vsQn/0ff5yBt/cGyf3acsz1pfcP8HIR2QAM8u6DfNq6NA9tegY/jD98KUI+7v
-         /4b/z/z2ui+iL4CTpBXzP0vD6AWhCdtSXmK69z3Q+GZFX8gQnsxAnT0P8N6OkSH9bTmZ
-         NDd4OnXfkfXWXNVdjVCKsmi4QUIqAMYpIcgVN7E3RGJj8InXe/kJVSc4yYeOdkrL3wEt
-         QyBQ==
-X-Gm-Message-State: APjAAAXAQbGakSz8by6TUqoYtlZwp1enXcbO9ZHghjv9pevonyOEPftx
-        e/ORijXYZwqRi7pcR4hf8g==
-X-Google-Smtp-Source: APXvYqya7T3obFF+cjuSfK72FvIz81CcveEAuSaKiMd+yY6Eg9+cGk/LensHd5maeRqxLJRZ1Bd7pg==
-X-Received: by 2002:a05:6830:2110:: with SMTP id i16mr31523282otc.337.1576510714277;
-        Mon, 16 Dec 2019 07:38:34 -0800 (PST)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id t3sm6863170otq.32.2019.12.16.07.38.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Dec 2019 07:38:33 -0800 (PST)
-Date:   Mon, 16 Dec 2019 09:38:33 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Ikjoon Jang <ikjn@chromium.org>
-Cc:     devicetree@vger.kernel.org,
-        GregKroah-Hartman <gregkh@linuxfoundation.org>,
-        MarkRutland <mark.rutland@arm.com>,
-        AlanStern <stern@rowland.harvard.edu>,
-        SuwanKim <suwan.kim027@gmail.com>,
-        "GustavoA . R . Silva" <gustavo@embeddedor.com>,
-        JohanHovold <johan@kernel.org>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, drinkcat@chromium.org
-Subject: Re: [PATCH v4 1/2] dt-bindings: usb: add "hub,interval" property
-Message-ID: <20191216153833.GA18715@bogus>
-References: <20191203101536.199222-1-ikjn@chromium.org>
+        id S1726275AbfLPQT0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Dec 2019 11:19:26 -0500
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:53982 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726077AbfLPQT0 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Dec 2019 11:19:26 -0500
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id xBGGJPBM060369;
+        Mon, 16 Dec 2019 10:19:25 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1576513165;
+        bh=4YKtq9MNzHDyH7Hr39FXJT+OrU2K0+nbgbNm++XMBzM=;
+        h=From:To:CC:Subject:Date:In-Reply-To:References;
+        b=bKd1/PpAJvdxDyxVB6XGdedGDwx4JpE0njyprWAaVuqMWpqeP8NsUMcOcVfxXrBXl
+         Df61zhgF5jPYF/oAvs5TShZPcoT78l//Sixm2Jz+hqJaGRPEmSotQyHSjdEMjUcEM7
+         GeMJXGCP1JcSfN69GTyq7ljsuXVHpGx7g1vLbo/4=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xBGGJP8T048646
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 16 Dec 2019 10:19:25 -0600
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 16
+ Dec 2019 10:19:25 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Mon, 16 Dec 2019 10:19:25 -0600
+Received: from uda0271908.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id xBGGJO5c105067;
+        Mon, 16 Dec 2019 10:19:24 -0600
+From:   Bin Liu <b-liu@ti.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     <linux-usb@vger.kernel.org>, Bin Liu <b-liu@ti.com>
+Subject: [PATCH 1/2] usb: musb: dma: Correct parameter passed to IRQ handler
+Date:   Mon, 16 Dec 2019 10:18:43 -0600
+Message-ID: <20191216161844.772-2-b-liu@ti.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191216161844.772-1-b-liu@ti.com>
+References: <20191216161844.772-1-b-liu@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191203101536.199222-1-ikjn@chromium.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, Dec 03, 2019 at 06:15:36PM +0800, Ikjoon Jang wrote:
-> Add "hub,interval" property to usb-device, so hub device can override
-> endpoint descriptor's bInterval.
-> 
-> When we know reducing autosuspend delay for built-in HIDs is better for
-> power saving, we can reduce it to the optimal value. But if a parent hub
-> has a long bInterval, mouse lags a lot from more frequent autosuspend.
-> So this enables overriding bInterval for a hard wired hub device only
-> when we know that reduces the power consumption.
-> 
-> Signed-off-by: Ikjoon Jang <ikjn@chromium.org>
-> ---
->  Documentation/devicetree/bindings/usb/usb-device.txt | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/usb-device.txt b/Documentation/devicetree/bindings/usb/usb-device.txt
-> index 036be172b1ae..44bef2ff2704 100644
-> --- a/Documentation/devicetree/bindings/usb/usb-device.txt
-> +++ b/Documentation/devicetree/bindings/usb/usb-device.txt
-> @@ -66,6 +66,9 @@ Required properties for host-controller nodes with device nodes:
->  - #size-cells: shall be 0
->  
->  
-> +Optional properties for hub nodes
-> +- hub,interval: bInterval of status change endpoint. The range is 1-255.
+From: Paul Cercueil <paul@crapouillou.net>
 
-'hub' is not a vendor.
+The IRQ handler was passed a pointer to a struct dma_controller, but the
+argument was then casted to a pointer to a struct musb_dma_controller.
 
-'b-interval' instead.
+Fixes: 427c4f333474 ("usb: struct device - replace bus_id with dev_name(), dev_set_name()")
 
-Rob
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Tested-by: Artur Rojek <contact@artur-rojek.eu>
+Cc: stable@vger.kernel.org
+Signed-off-by: Bin Liu <b-liu@ti.com>
+---
+ drivers/usb/musb/musbhsdma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/musb/musbhsdma.c b/drivers/usb/musb/musbhsdma.c
+index 5fc6825745f2..2d3751d885b4 100644
+--- a/drivers/usb/musb/musbhsdma.c
++++ b/drivers/usb/musb/musbhsdma.c
+@@ -425,7 +425,7 @@ struct dma_controller *musbhs_dma_controller_create(struct musb *musb,
+ 	controller->controller.channel_abort = dma_channel_abort;
+ 
+ 	if (request_irq(irq, dma_controller_irq, 0,
+-			dev_name(musb->controller), &controller->controller)) {
++			dev_name(musb->controller), controller)) {
+ 		dev_err(dev, "request_irq %d failed!\n", irq);
+ 		musb_dma_controller_destroy(&controller->controller);
+ 
+-- 
+2.17.1
+
