@@ -2,90 +2,103 @@ Return-Path: <SRS0=1PTI=2G=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20A2CC43603
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 18:33:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D36AFC2D0BF
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 18:34:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E763F21582
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 18:33:27 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="jyyXYbhQ"
+	by mail.kernel.org (Postfix) with ESMTP id A305C2082E
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 18:34:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1576521263;
+	bh=zJJttVOwLrFq9aZgonSL2Bb1IaAF8YNWFphhjZylzC8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=gzd5U744fnPIzJCMRUdP2JljVShqcyitIzYNDeDL6yCSVQ4crUGkQm1tYfounAG1/
+	 i32lQ+z4RXE1ashm7F9JauPu1nVvww2NLYaP2go6ksfNzk32CbsckJdOeSTgAqPvrw
+	 NUGt+uHUwy8xmkJedSU3P+XzzXfiOCtyQMo9/JRA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730611AbfLPSdX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Dec 2019 13:33:23 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:42079 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730473AbfLPSJl (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Dec 2019 13:09:41 -0500
-Received: by mail-pf1-f196.google.com with SMTP id 4so6003994pfz.9
-        for <linux-usb@vger.kernel.org>; Mon, 16 Dec 2019 10:09:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=message-id:mime-version:content-transfer-encoding:in-reply-to
-         :references:subject:to:from:cc:user-agent:date;
-        bh=uTZ9jD6XcU5csDtmDm0A4lEi/ET7Er5jr9WSb1EMelk=;
-        b=jyyXYbhQgJvFoH/gkE8wmpD3skyYKQ7NOFesPHXGsZrxJc9FUF39kXCisPYSVTzGH5
-         XfprSHFhYdHkCCIcBitR0qWWWt/V9TEhaHrbqEckar9UuCp+Jsl7qVmxq8BZtEsNxyir
-         KSiD+A7sa97Cd257ghc22sKZBvGAGw9UYoEQM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:mime-version
-         :content-transfer-encoding:in-reply-to:references:subject:to:from:cc
-         :user-agent:date;
-        bh=uTZ9jD6XcU5csDtmDm0A4lEi/ET7Er5jr9WSb1EMelk=;
-        b=W1zE3ioOE+21JeARiCHr79sNl4oBxcGB51GPsGQgMfynDoJj6ldhrE5RLQdfxBTa/O
-         RhHWkZeC2nfLP4bHofVoWi0m3iQuYlPIzRFiYdI10j7+33kxDtK2ho9wvpUcBwfD5C+z
-         LTTB/Q52hXFbEz4Ao/Bth6qQxKz+0pJwrA3xFGBEiRac1jC+gNGad0zoa+cZpUYeKKSO
-         oEqhguDdyaK11uAxMQAbVvCs/ETXHNoQBS3r7DnAI8TeJi0S1gtwLMDvyWP6ipTqHb/c
-         NbY1HP2utfKXo07F4/mJfK8MIWDwjMBfEsBKePEbrvvc7Y3G6sI0LdhOnRllScX0XTU2
-         1XKA==
-X-Gm-Message-State: APjAAAV6TUvsSRJnL6cWjVN52/3Megkg8OWIU2pEvechgyGGLmLVNe9+
-        DAGtUXhEEe94t26iZZqNpS085w==
-X-Google-Smtp-Source: APXvYqwgYd4Qk+VgNW5yogq7vFaECby6SdTTUamWheo+l1m4itfak+lUZHj4qp1Cai9JxJJVFmcP4w==
-X-Received: by 2002:a62:5202:: with SMTP id g2mr17177463pfb.43.1576519780253;
-        Mon, 16 Dec 2019 10:09:40 -0800 (PST)
-Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
-        by smtp.gmail.com with ESMTPSA id k23sm23348452pgg.7.2019.12.16.10.09.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Dec 2019 10:09:39 -0800 (PST)
-Message-ID: <5df7c863.1c69fb81.91ce4.37b3@mx.google.com>
-Content-Type: text/plain; charset="utf-8"
+        id S1730383AbfLPSJM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Dec 2019 13:09:12 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51244 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730381AbfLPSJK (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 16 Dec 2019 13:09:10 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A09882072B;
+        Mon, 16 Dec 2019 18:09:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576519750;
+        bh=zJJttVOwLrFq9aZgonSL2Bb1IaAF8YNWFphhjZylzC8=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=1HT1EImWob1Q8ywOwB17CTCmpGCoQkvtBLqM9fYTKwOEFL6bcx4jTm0Drf4xnNzhL
+         ILcius4OGcmDBO+MlaI6HvM/7egpTBBBAAE4z3JGhwOpjLCKSnlnO2tD+S41Uk8Ylt
+         qygSyQykJ7dyB9eLAGAZo+x3RfHnUHSnu1lUlLvQ=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Wen Yang <wenyang@linux.alibaba.com>,
+        linux-usb@vger.kernel.org,
+        =?UTF-8?q?Heikki=20Krogerus=C2=A0?= 
+        <heikki.krogerus@linux.intel.com>
+Subject: [PATCH 5.3 053/180] usb: typec: fix use after free in typec_register_port()
+Date:   Mon, 16 Dec 2019 18:48:13 +0100
+Message-Id: <20191216174824.725793396@linuxfoundation.org>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20191216174806.018988360@linuxfoundation.org>
+References: <20191216174806.018988360@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <1576474742-23409-3-git-send-email-sanm@codeaurora.org>
-References: <1576474742-23409-1-git-send-email-sanm@codeaurora.org> <1576474742-23409-3-git-send-email-sanm@codeaurora.org>
-Subject: Re: [PATCH v3 2/2] dt-bindings: usb: qcom,dwc3: Add compatible for SC7180
-To:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Doug Anderson <dianders@chromium.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Sandeep Maheswaram <sanm@codeaurora.org>
-From:   Stephen Boyd <swboyd@chromium.org>
-Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Manu Gautam <mgautam@codeaurora.org>,
-        Sandeep Maheswaram <sanm@codeaurora.org>
-User-Agent: alot/0.8.1
-Date:   Mon, 16 Dec 2019 10:09:38 -0800
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Quoting Sandeep Maheswaram (2019-12-15 21:39:02)
-> Add compatible for SC7180 in usb dwc3 bindings.
->=20
-> Signed-off-by: Sandeep Maheswaram <sanm@codeaurora.org>
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Acked-by: Rob Herring <robh@kernel.org>
-> ---
+From: Wen Yang <wenyang@linux.alibaba.com>
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+commit 5c388abefda0d92355714010c0199055c57ab6c7 upstream.
+
+We can't use "port->sw" and/or "port->mux" after it has been freed.
+
+Fixes: 23481121c81d ("usb: typec: class: Don't use port parent for getting mux handles")
+Signed-off-by: Wen Yang <wenyang@linux.alibaba.com>
+Cc: stable <stable@vger.kernel.org>
+Cc: linux-usb@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Link: https://lore.kernel.org/r/20191126140452.14048-1-wenyang@linux.alibaba.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+---
+ drivers/usb/typec/class.c |    6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+--- a/drivers/usb/typec/class.c
++++ b/drivers/usb/typec/class.c
+@@ -1604,14 +1604,16 @@ struct typec_port *typec_register_port(s
+ 
+ 	port->sw = typec_switch_get(&port->dev);
+ 	if (IS_ERR(port->sw)) {
++		ret = PTR_ERR(port->sw);
+ 		put_device(&port->dev);
+-		return ERR_CAST(port->sw);
++		return ERR_PTR(ret);
+ 	}
+ 
+ 	port->mux = typec_mux_get(&port->dev, NULL);
+ 	if (IS_ERR(port->mux)) {
++		ret = PTR_ERR(port->mux);
+ 		put_device(&port->dev);
+-		return ERR_CAST(port->mux);
++		return ERR_PTR(ret);
+ 	}
+ 
+ 	ret = device_add(&port->dev);
+
 
