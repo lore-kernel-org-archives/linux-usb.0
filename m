@@ -7,47 +7,50 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBAEFC43603
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 18:17:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4188C2D0C3
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 18:18:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9A41C207FF
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 18:17:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 73639206E0
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 18:18:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576520220;
-	bh=zJCOqmJyuSeJGxNNSUsgQII3CyhLR6EHjhTErZkdbLU=;
+	s=default; t=1576520280;
+	bh=Yg1EZxh1vdL3Nuet+CAmg4++HU631afGWtZUgpRty20=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=fbEfzql+H+7lcsAcJXBhHCVa08X8yQgbdnbUunh4umk3QpFujEzWxH/bqejNLgS0j
-	 4rglJlweIEOph3zSPEbXi5wzRqEI3bNjn9oMMUfKowbMEW8WJ2EHpCDA6RgC3rbNsB
-	 Fthg55Ye2kOm0Hmdy29t60NUZHjnTHPMz2u9gehs=
+	b=dJknDPHLXhpznWOU70mWy1pvsiWtWmCTEYABV+aICqtoDBjXP1xB3NyR1buznJLKr
+	 HjpovY/JwIYPiyqXHW7FyFJjKPOGpsBnWl8SjuFvlmLYMVLKlj0LifV3E8hk+YysnZ
+	 40KCtwAj8MurAZhn3TdC3oeKXvkPy2ekW1a0xD1c=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731616AbfLPSQ7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Dec 2019 13:16:59 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40232 "EHLO mail.kernel.org"
+        id S1731727AbfLPSR7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Dec 2019 13:17:59 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42556 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731429AbfLPSQ6 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 16 Dec 2019 13:16:58 -0500
+        id S1731368AbfLPSRy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 16 Dec 2019 13:17:54 -0500
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9C275206EC;
-        Mon, 16 Dec 2019 18:16:57 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 97C1920717;
+        Mon, 16 Dec 2019 18:17:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576520218;
-        bh=zJCOqmJyuSeJGxNNSUsgQII3CyhLR6EHjhTErZkdbLU=;
+        s=default; t=1576520274;
+        bh=Yg1EZxh1vdL3Nuet+CAmg4++HU631afGWtZUgpRty20=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qBQcbfuvBVamgj+S6Pf9kHQ5Qt9lVz9+wQPyoAntTy/FOoZkK81FnM2DM8cNFPR0l
-         OERc/8wEn/OX8wjaw9RIGndwRvEPDeqybZJh9bbYIbTKpcbFgzXnPYMxx4/Xjb3bBh
-         9azV8bo4OxKAbdkJaA8XerFekzXIm4W+Ga3yTdx4=
+        b=Fmi5J+lYRpUBGOYbDV/hkhxz5HXw/wnh3o9yJVU3YBk4DBPf1a8DBblRB+apvxULE
+         hQCTqCxxGTD+HNN4l5UQK/YMbqD0AaNPdnPZzTwVQAMkvym5mJjC8krCyflRq2Wacy
+         o/Y72P8WpTugZ+XaJETAhbS4L1uVN20LRk9zdeTo=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         stable@vger.kernel.org, Wen Yang <wenyang@linux.alibaba.com>,
-        linux-usb@vger.kernel.org,
-        =?UTF-8?q?Heikki=20Krogerus=C2=A0?= 
-        <heikki.krogerus@linux.intel.com>
-Subject: [PATCH 5.4 064/177] usb: typec: fix use after free in typec_register_port()
-Date:   Mon, 16 Dec 2019 18:48:40 +0100
-Message-Id: <20191216174832.699676929@linuxfoundation.org>
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Peter Chen <peter.chen@nxp.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        linux-usb@vger.kernel.org
+Subject: [PATCH 5.4 047/177] usb: roles: fix a potential use after free
+Date:   Mon, 16 Dec 2019 18:48:23 +0100
+Message-Id: <20191216174830.065264932@linuxfoundation.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191216174811.158424118@linuxfoundation.org>
 References: <20191216174811.158424118@linuxfoundation.org>
@@ -62,43 +65,40 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 From: Wen Yang <wenyang@linux.alibaba.com>
 
-commit 5c388abefda0d92355714010c0199055c57ab6c7 upstream.
+commit 1848a543191ae32e558bb0a5974ae7c38ebd86fc upstream.
 
-We can't use "port->sw" and/or "port->mux" after it has been freed.
+Free the sw structure only after we are done using it.
+This patch just moves the put_device() down a bit to avoid the
+use after free.
 
-Fixes: 23481121c81d ("usb: typec: class: Don't use port parent for getting mux handles")
+Fixes: 5c54fcac9a9d ("usb: roles: Take care of driver module reference counting")
 Signed-off-by: Wen Yang <wenyang@linux.alibaba.com>
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Reviewed-by: Peter Chen <peter.chen@nxp.com>
 Cc: stable <stable@vger.kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
 Cc: linux-usb@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Link: https://lore.kernel.org/r/20191126140452.14048-1-wenyang@linux.alibaba.com
+Link: https://lore.kernel.org/r/20191124142236.25671-1-wenyang@linux.alibaba.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
- drivers/usb/typec/class.c |    6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/usb/roles/class.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/usb/typec/class.c
-+++ b/drivers/usb/typec/class.c
-@@ -1592,14 +1592,16 @@ struct typec_port *typec_register_port(s
- 
- 	port->sw = typec_switch_get(&port->dev);
- 	if (IS_ERR(port->sw)) {
-+		ret = PTR_ERR(port->sw);
- 		put_device(&port->dev);
--		return ERR_CAST(port->sw);
-+		return ERR_PTR(ret);
+--- a/drivers/usb/roles/class.c
++++ b/drivers/usb/roles/class.c
+@@ -169,8 +169,8 @@ EXPORT_SYMBOL_GPL(fwnode_usb_role_switch
+ void usb_role_switch_put(struct usb_role_switch *sw)
+ {
+ 	if (!IS_ERR_OR_NULL(sw)) {
+-		put_device(&sw->dev);
+ 		module_put(sw->dev.parent->driver->owner);
++		put_device(&sw->dev);
  	}
- 
- 	port->mux = typec_mux_get(&port->dev, NULL);
- 	if (IS_ERR(port->mux)) {
-+		ret = PTR_ERR(port->mux);
- 		put_device(&port->dev);
--		return ERR_CAST(port->mux);
-+		return ERR_PTR(ret);
- 	}
- 
- 	ret = device_add(&port->dev);
+ }
+ EXPORT_SYMBOL_GPL(usb_role_switch_put);
 
 
