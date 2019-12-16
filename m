@@ -2,172 +2,242 @@ Return-Path: <SRS0=1PTI=2G=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D17B7C43603
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 18:06:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC10CC43603
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 18:09:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A8864207FF
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 18:06:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A68162072D
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 18:09:29 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XB4eZu0l"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730058AbfLPSGy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Dec 2019 13:06:54 -0500
-Received: from imap2.colo.codethink.co.uk ([78.40.148.184]:49694 "EHLO
-        imap2.colo.codethink.co.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729811AbfLPSGx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Dec 2019 13:06:53 -0500
-X-Greylist: delayed 1122 seconds by postgrey-1.27 at vger.kernel.org; Mon, 16 Dec 2019 13:06:52 EST
-Received: from [167.98.27.226] (helo=rainbowdash.codethink.co.uk)
-        by imap2.colo.codethink.co.uk with esmtpsa  (Exim 4.92 #3 (Debian))
-        id 1iguTY-0001XZ-D9; Mon, 16 Dec 2019 17:48:08 +0000
-Received: from ben by rainbowdash.codethink.co.uk with local (Exim 4.92.3)
-        (envelope-from <ben@rainbowdash.codethink.co.uk>)
-        id 1iguTX-006Dwq-TZ; Mon, 16 Dec 2019 17:48:07 +0000
-From:   "Ben Dooks (Codethink)" <ben.dooks@codethink.co.uk>
-To:     ben.dooks@codethink.co.uk
-Cc:     Bin Liu <b-liu@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] USB: musb: fix __iomem in trace functions
-Date:   Mon, 16 Dec 2019 17:48:07 +0000
-Message-Id: <20191216174807.1483538-1-ben.dooks@codethink.co.uk>
-X-Mailer: git-send-email 2.24.0
+        id S1730442AbfLPSJ2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Dec 2019 13:09:28 -0500
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:35807 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730433AbfLPSJ1 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 16 Dec 2019 13:09:27 -0500
+Received: by mail-pl1-f194.google.com with SMTP id g6so2195962plt.2
+        for <linux-usb@vger.kernel.org>; Mon, 16 Dec 2019 10:09:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=message-id:mime-version:content-transfer-encoding:in-reply-to
+         :references:subject:to:from:cc:user-agent:date;
+        bh=oLhatwVrJ644AorppWAQgibVdhj+hDy5xTYrVrxWuSY=;
+        b=XB4eZu0lXjwSCThvHlfv8sQLrCkNqhUeZMxRKCn5ndRQ8BqBL26KJxKGDqYM4cYOyL
+         +eKyYt/ih2o4fp9ijgj+CS02oNx5VT0dCy/oWIMKXb6MDVodmNcIDMyHyhb+a1I0vRKY
+         oR7u8sgCYdbcgHMObVGab2vjhZP3z4HMVdaKc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:mime-version
+         :content-transfer-encoding:in-reply-to:references:subject:to:from:cc
+         :user-agent:date;
+        bh=oLhatwVrJ644AorppWAQgibVdhj+hDy5xTYrVrxWuSY=;
+        b=dC6nJJovsH1zg1g8HawHcN8Pxg7bSLrbvkD+QYd5SQFK5DQZuJMSSTNbmgK6OsGXEm
+         icSSxo4aDRkzhOTnYspgpZ96BBu1Dy2eUF2kskPUxrc4xtCw5sabHoQoBFZkw4I3m16d
+         lwi+1sW+CrUyvnhFO4b8Bik58xAmOvXmeCpeunF4spASHktzTJTiY1yRmwS+JmHm89pN
+         2z5ViA4mc/asb2MDotbyOWYA5xoxIJrHhFkBPYGEj4ly1xhz0/sFOgJt8L7OMnx6XqfM
+         0v+ICZ8ffUdleOw/jYYOVJ3km6w4Vt56Jk9jpvCZeKl4Xg2nhCeIDqCjOOzbP34Xq1AI
+         muTA==
+X-Gm-Message-State: APjAAAUhMUjXVKJ1a5Ozfwn4DDQMPkgmxYnFGaXKNG7ghN99UITwGWkk
+        KpCvlOhS/V2FOlj+teojmZ2lmQ==
+X-Google-Smtp-Source: APXvYqxrawoK5xzsyGWqjq5NJ8kXJHDEnSx6/wihLYKUsFNx+1Lz67ZcYpS5cmyXYR3OGT4jkBDn0w==
+X-Received: by 2002:a17:90a:e64b:: with SMTP id ep11mr499838pjb.58.1576519766114;
+        Mon, 16 Dec 2019 10:09:26 -0800 (PST)
+Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
+        by smtp.gmail.com with ESMTPSA id u20sm22883784pgf.29.2019.12.16.10.09.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Dec 2019 10:09:25 -0800 (PST)
+Message-ID: <5df7c855.1c69fb81.44dfc.29c1@mx.google.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1576474742-23409-2-git-send-email-sanm@codeaurora.org>
+References: <1576474742-23409-1-git-send-email-sanm@codeaurora.org> <1576474742-23409-2-git-send-email-sanm@codeaurora.org>
+Subject: Re: [PATCH v3 1/2] dt-bindings: usb: qcom,dwc3: Convert USB DWC3 bindings
+To:     Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Doug Anderson <dianders@chromium.org>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Sandeep Maheswaram <sanm@codeaurora.org>
+From:   Stephen Boyd <swboyd@chromium.org>
+Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Manu Gautam <mgautam@codeaurora.org>,
+        Sandeep Maheswaram <sanm@codeaurora.org>
+User-Agent: alot/0.8.1
+Date:   Mon, 16 Dec 2019 10:09:24 -0800
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The trace functions should have __iomem on the addr
-pointers. Add __iomem to avoid the following warnings
-from sparse:
+Quoting Sandeep Maheswaram (2019-12-15 21:39:01)
+> diff --git a/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml b/Docum=
+entation/devicetree/bindings/usb/qcom,dwc3.yaml
+> new file mode 100644
+> index 0000000..c8eda58
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+> @@ -0,0 +1,153 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm SuperSpeed DWC3 USB SoC controller
+> +
+> +maintainers:
+> +  - Manu Gautam <mgautam@codeaurora.org>
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - qcom,msm8996-dwc3
+> +          - qcom,msm8998-dwc3
+> +          - qcom,sdm845-dwc3
+> +      - const: qcom,dwc3
+> +
+> +  reg:
+> +    description: Offset and length of register set for QSCRATCH wrapper
+> +    maxItems: 1
+> +
+> +  "#address-cells":
+> +    enum: [ 1, 2 ]
+> +
+> +  "#size-cells":
+> +    enum: [ 1, 2 ]
 
-drivers/usb/musb/musb_core.c:253:55: warning: incorrect type in argument 2 (different address spaces)
-drivers/usb/musb/musb_core.c:253:55:    expected void const *addr
-drivers/usb/musb/musb_core.c:253:55:    got void const [noderef] <asn:2> *addr
-drivers/usb/musb/musb_core.c:259:56: warning: incorrect type in argument 2 (different address spaces)
-drivers/usb/musb/musb_core.c:259:56:    expected void const *addr
-drivers/usb/musb/musb_core.c:259:56:    got void [noderef] <asn:2> *addr
-drivers/usb/musb/musb_core.c:267:55: warning: incorrect type in argument 2 (different address spaces)
-drivers/usb/musb/musb_core.c:267:55:    expected void const *addr
-drivers/usb/musb/musb_core.c:267:55:    got void const [noderef] <asn:2> *addr
-drivers/usb/musb/musb_core.c:273:56: warning: incorrect type in argument 2 (different address spaces)
-drivers/usb/musb/musb_core.c:273:56:    expected void const *addr
-drivers/usb/musb/musb_core.c:273:56:    got void [noderef] <asn:2> *addr
-drivers/usb/musb/musb_core.c:383:55: warning: incorrect type in argument 2 (different address spaces)
-drivers/usb/musb/musb_core.c:383:55:    expected void const *addr
-drivers/usb/musb/musb_core.c:383:55:    got void const [noderef] <asn:2> *addr
-drivers/usb/musb/musb_core.c:390:56: warning: incorrect type in argument 2 (different address spaces)
-drivers/usb/musb/musb_core.c:390:56:    expected void const *addr
-drivers/usb/musb/musb_core.c:390:56:    got void [noderef] <asn:2> *addr
+Hm... ok. Interesting.
 
-Signed-off-by: Ben Dooks (Codethink) <ben.dooks@codethink.co.uk>
----
-Cc: Bin Liu <b-liu@ti.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
----
- drivers/usb/musb/musb_trace.h | 33 +++++++++++++++++++++------------
- 1 file changed, 21 insertions(+), 12 deletions(-)
+> +
+> +  power-domains:
+> +    description: specifies a phandle to PM domain provider node
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    description:
+> +      A list of phandle and clock-specifier pairs for the clocks
+> +      listed in clock-names.
+> +    minItems: 3
+> +    items:
+> +      - description: System Config NOC clock. Not present on "qcom,msm89=
+96-dwc3" compatible.
+> +      - description: Master/Core clock, have to be >=3D 125 MHz for SS o=
+peration and >=3D 60MHz for HS operation
+> +      - description: System bus AXI clock. Not present on "qcom,msm8996-=
+dwc3" compatible.
+> +      - description: Mock utmi clock needed for ITP/SOF generation in ho=
+st mode.Its frequency should be 19.2MHz.
+> +      - description: Sleep clock, used for wakeup when USB3 core goes in=
+to low power mode (U3).
+> +
+> +  clock-names:
+> +    minItems: 3
+> +    items:
+> +      - const: cfg_noc
+> +      - const: core
+> +      - const: iface
+> +      - const: mock_utmi
+> +      - const: sleep
 
-diff --git a/drivers/usb/musb/musb_trace.h b/drivers/usb/musb/musb_trace.h
-index a97d618fe8ff..b193daf69685 100644
---- a/drivers/usb/musb/musb_trace.h
-+++ b/drivers/usb/musb/musb_trace.h
-@@ -38,11 +38,12 @@ TRACE_EVENT(musb_log,
- );
- 
- DECLARE_EVENT_CLASS(musb_regb,
--	TP_PROTO(void *caller, const void *addr, unsigned int offset, u8 data),
-+	TP_PROTO(void *caller, const void  __iomem *addr,
-+		 unsigned int offset, u8 data),
- 	TP_ARGS(caller, addr, offset, data),
- 	TP_STRUCT__entry(
- 		__field(void *, caller)
--		__field(const void *, addr)
-+		__field(const void __iomem *, addr)
- 		__field(unsigned int, offset)
- 		__field(u8, data)
- 	),
-@@ -57,21 +58,24 @@ DECLARE_EVENT_CLASS(musb_regb,
- );
- 
- DEFINE_EVENT(musb_regb, musb_readb,
--	TP_PROTO(void *caller, const void *addr, unsigned int offset, u8 data),
-+	TP_PROTO(void *caller, const void __iomem *addr,
-+		 unsigned int offset, u8 data),
- 	TP_ARGS(caller, addr, offset, data)
- );
- 
- DEFINE_EVENT(musb_regb, musb_writeb,
--	TP_PROTO(void *caller, const void *addr, unsigned int offset, u8 data),
-+	TP_PROTO(void *caller, const void __iomem *addr,
-+		 unsigned int offset, u8 data),
- 	TP_ARGS(caller, addr, offset, data)
- );
- 
- DECLARE_EVENT_CLASS(musb_regw,
--	TP_PROTO(void *caller, const void *addr, unsigned int offset, u16 data),
-+	TP_PROTO(void *caller, const void __iomem *addr,
-+		 unsigned int offset, u16 data),
- 	TP_ARGS(caller, addr, offset, data),
- 	TP_STRUCT__entry(
- 		__field(void *, caller)
--		__field(const void *, addr)
-+		__field(const void __iomem *, addr)
- 		__field(unsigned int, offset)
- 		__field(u16, data)
- 	),
-@@ -86,21 +90,24 @@ DECLARE_EVENT_CLASS(musb_regw,
- );
- 
- DEFINE_EVENT(musb_regw, musb_readw,
--	TP_PROTO(void *caller, const void *addr, unsigned int offset, u16 data),
-+	TP_PROTO(void *caller, const void __iomem *addr,
-+		 unsigned int offset, u16 data),
- 	TP_ARGS(caller, addr, offset, data)
- );
- 
- DEFINE_EVENT(musb_regw, musb_writew,
--	TP_PROTO(void *caller, const void *addr, unsigned int offset, u16 data),
-+	TP_PROTO(void *caller, const void __iomem *addr,
-+		 unsigned int offset, u16 data),
- 	TP_ARGS(caller, addr, offset, data)
- );
- 
- DECLARE_EVENT_CLASS(musb_regl,
--	TP_PROTO(void *caller, const void *addr, unsigned int offset, u32 data),
-+	TP_PROTO(void *caller, const void __iomem *addr,
-+		 unsigned int offset, u32 data),
- 	TP_ARGS(caller, addr, offset, data),
- 	TP_STRUCT__entry(
- 		__field(void *, caller)
--		__field(const void *, addr)
-+		__field(const void __iomem *, addr)
- 		__field(unsigned int, offset)
- 		__field(u32, data)
- 	),
-@@ -115,12 +122,14 @@ DECLARE_EVENT_CLASS(musb_regl,
- );
- 
- DEFINE_EVENT(musb_regl, musb_readl,
--	TP_PROTO(void *caller, const void *addr, unsigned int offset, u32 data),
-+	TP_PROTO(void *caller, const void __iomem *addr,
-+		 unsigned int offset, u32 data),
- 	TP_ARGS(caller, addr, offset, data)
- );
- 
- DEFINE_EVENT(musb_regl, musb_writel,
--	TP_PROTO(void *caller, const void *addr, unsigned int offset, u32 data),
-+	TP_PROTO(void *caller, const void __iomem *addr,
-+		 unsigned int offset, u32 data),
- 	TP_ARGS(caller, addr, offset, data)
- );
- 
--- 
-2.24.0
+Order matters. Can 'core' and 'iface' come first and then the others
+after that? Same comment applies to clocks property.
 
+> +
+> +  assigned-clocks:
+> +    items:
+> +      - description: Phandle to MOCK_UTMI_CLK.
+> +      - description: Phandle to MASTER_CLK.
+> +
+> +  assigned-clock-rates:
+> +    description:
+> +      Should be 19.2MHz (19200000) for MOCK_UTMI_CLK
+> +      >=3D125MHz (125000000) for MASTER_CLK in SS mode
+> +      >=3D60MHz (60000000) for MASTER_CLK in HS mode
+> +    maxItems: 2
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    description:
+> +      Specifies interrupts from controller wrapper used
+> +      to wakeup from low power/suspend state. Must contain
+> +      one or more entry for interrupt-names property.
+> +    items:
+> +      - description: The interrupt that is asserted when a wakeup event =
+is received on USB2 bus.
+> +      - description: The interrupt that is asserted when a wakeup event =
+is received on USB3 bus.
+> +      - description: Wakeup event on DM line.
+> +      - description: Wakeup event on DP line.
+> +
+> +  interrupt-names:
+> +    $ref: /schemas/types.yaml#/definitions/string-array
+> +    items:
+> +      - const: hs_phy_irq
+> +      - const: ss_phy_irq
+> +      - const: dm_hs_phy_irq
+> +      - const: dp_hs_phy_irq
+> +
+> +  qcom,select-utmi-as-pipe-clk:
+> +    description:
+
+Don't these multi-line descriptions need a pipe, | ?
+
+> +      If present, disable USB3 pipe_clk requirement.
+> +      Used when dwc3 operates without SSPHY and only
+> +      HS/FS/LS modes are supported.
+> +    type: boolean
+> +
+> +# Required child node:
+> +
+> +patternProperties:
+> +  "^dwc3@[0-9a-f]+$":
+> +    type: object
+> +    description:
+> +      A child node must exist to represent the core DWC3 IP block
+> +      The content of the node is defined in dwc3.txt.
+> +
+> +# Phy documentation is provided in the following places:
+> +# Documentation/devicetree/bindings/phy/qcom-qmp-phy.txt   - USB3 QMP PHY
+> +# Documentation/devicetree/bindings/phy/qcom-qusb2-phy.txt - USB2 QUSB2 =
+PHY
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - power-domains
+> +  - clocks
+> +  - clock-names
+
+Are 'interrupts' required?
+
+> +
+> +examples:
+> +  - |
+> +        usb3_0: usb30@a6f8800 {
+
+Should node name be something like 'usb3'? Or is this usb 3.0 so it's
+'usb30'?
+
+> +            compatible =3D "qcom,dwc3";
+> +            reg =3D <0xa6f8800 0x400>;
+> +            #address-cells =3D <1>;
+> +            #size-cells =3D <1>;
+> +            ranges;
+> +            interrupts =3D <0 131 0>, <0 486 0>, <0 488 0>, <0 489 0>;
+> +            interrupt-names =3D "hs_phy_irq", "ss_phy_irq",
+> +                    "dm_hs_phy_irq", "dp_hs_phy_irq";
