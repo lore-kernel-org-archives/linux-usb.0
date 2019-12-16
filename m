@@ -4,40 +4,40 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4188C2D0C3
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 18:18:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28DB5C43603
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 18:32:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 73639206E0
-	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 18:18:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F318F207FF
+	for <linux-usb@archiver.kernel.org>; Mon, 16 Dec 2019 18:32:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576520280;
-	bh=Yg1EZxh1vdL3Nuet+CAmg4++HU631afGWtZUgpRty20=;
+	s=default; t=1576521160;
+	bh=Nkx78TviJHBn+nRU89aAAF3bTfotO+Tkeuar5T2s9Wg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=dJknDPHLXhpznWOU70mWy1pvsiWtWmCTEYABV+aICqtoDBjXP1xB3NyR1buznJLKr
-	 HjpovY/JwIYPiyqXHW7FyFJjKPOGpsBnWl8SjuFvlmLYMVLKlj0LifV3E8hk+YysnZ
-	 40KCtwAj8MurAZhn3TdC3oeKXvkPy2ekW1a0xD1c=
+	b=m1ii3JXKWTa/Qx7ImEaa1FzHu+enmvVOOvagBPudqhb3pdUvh+H36TYSMMbUVflNy
+	 k0nmbNEUUuwN0EIEbv77lVVG/KY0HOg0otE0jcSRqQmgeOC+LuPstZkTHZQZ96zwwj
+	 3C7gByH9pN6p3LuA+3wUikBjrln+o5Z6l5IyoA6I=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731727AbfLPSR7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 16 Dec 2019 13:17:59 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42556 "EHLO mail.kernel.org"
+        id S1730562AbfLPSce (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 16 Dec 2019 13:32:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53100 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731368AbfLPSRy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Mon, 16 Dec 2019 13:17:54 -0500
+        id S1730311AbfLPSKL (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 16 Dec 2019 13:10:11 -0500
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 97C1920717;
-        Mon, 16 Dec 2019 18:17:53 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 475FB206E0;
+        Mon, 16 Dec 2019 18:10:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576520274;
-        bh=Yg1EZxh1vdL3Nuet+CAmg4++HU631afGWtZUgpRty20=;
+        s=default; t=1576519810;
+        bh=Nkx78TviJHBn+nRU89aAAF3bTfotO+Tkeuar5T2s9Wg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Fmi5J+lYRpUBGOYbDV/hkhxz5HXw/wnh3o9yJVU3YBk4DBPf1a8DBblRB+apvxULE
-         hQCTqCxxGTD+HNN4l5UQK/YMbqD0AaNPdnPZzTwVQAMkvym5mJjC8krCyflRq2Wacy
-         o/Y72P8WpTugZ+XaJETAhbS4L1uVN20LRk9zdeTo=
+        b=h2qQlAPyD6o4vbDLPxswzlIEYlhxjjNvU3NLMrrVGuVB2zGg59zO/jkt940zifmT6
+         FO3ACMNj1INGMWAM1KVjCYs414iYO4d0a/AMhu9RZA88FoYBH2azPOX/7JnFlHQNC0
+         kIRLT724VE+eewNLoPwpC2Ee5C8AUUQzSp46cZm8=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -48,12 +48,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Chunfeng Yun <chunfeng.yun@mediatek.com>,
         Suzuki K Poulose <suzuki.poulose@arm.com>,
         linux-usb@vger.kernel.org
-Subject: [PATCH 5.4 047/177] usb: roles: fix a potential use after free
-Date:   Mon, 16 Dec 2019 18:48:23 +0100
-Message-Id: <20191216174830.065264932@linuxfoundation.org>
+Subject: [PATCH 5.3 037/180] usb: roles: fix a potential use after free
+Date:   Mon, 16 Dec 2019 18:47:57 +0100
+Message-Id: <20191216174816.176994709@linuxfoundation.org>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20191216174811.158424118@linuxfoundation.org>
-References: <20191216174811.158424118@linuxfoundation.org>
+In-Reply-To: <20191216174806.018988360@linuxfoundation.org>
+References: <20191216174806.018988360@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -90,7 +90,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/usb/roles/class.c
 +++ b/drivers/usb/roles/class.c
-@@ -169,8 +169,8 @@ EXPORT_SYMBOL_GPL(fwnode_usb_role_switch
+@@ -144,8 +144,8 @@ EXPORT_SYMBOL_GPL(usb_role_switch_get);
  void usb_role_switch_put(struct usb_role_switch *sw)
  {
  	if (!IS_ERR_OR_NULL(sw)) {
