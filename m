@@ -6,29 +6,29 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65C6EC2D0D1
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Dec 2019 12:34:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15333C43603
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Dec 2019 12:34:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 40D0C2176D
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Dec 2019 12:34:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E54C62176D
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Dec 2019 12:34:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728062AbfLQMd5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 17 Dec 2019 07:33:57 -0500
-Received: from mga18.intel.com ([134.134.136.126]:47966 "EHLO mga18.intel.com"
+        id S1728052AbfLQMd4 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 17 Dec 2019 07:33:56 -0500
+Received: from mga07.intel.com ([134.134.136.100]:28142 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728037AbfLQMdz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1728039AbfLQMdz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Tue, 17 Dec 2019 07:33:55 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Dec 2019 04:33:54 -0800
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Dec 2019 04:33:54 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.69,325,1571727600"; 
-   d="scan'208";a="389811702"
+   d="scan'208";a="217506052"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga005.jf.intel.com with ESMTP; 17 Dec 2019 04:33:50 -0800
+  by orsmga006.jf.intel.com with ESMTP; 17 Dec 2019 04:33:50 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 9A4473A0; Tue, 17 Dec 2019 14:33:45 +0200 (EET)
+        id BD3BD74C; Tue, 17 Dec 2019 14:33:45 +0200 (EET)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Andreas Noever <andreas.noever@gmail.com>,
@@ -46,9 +46,9 @@ Cc:     Andreas Noever <andreas.noever@gmail.com>,
         Christian Kellner <ckellner@redhat.com>,
         "David S . Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/9] thunderbolt: Update Kconfig entries to USB4
-Date:   Tue, 17 Dec 2019 15:33:41 +0300
-Message-Id: <20191217123345.31850-6-mika.westerberg@linux.intel.com>
+Subject: [PATCH v2 9/9] thunderbolt: Update documentation with the USB4 information
+Date:   Tue, 17 Dec 2019 15:33:45 +0300
+Message-Id: <20191217123345.31850-10-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191217123345.31850-1-mika.westerberg@linux.intel.com>
 References: <20191217123345.31850-1-mika.westerberg@linux.intel.com>
@@ -59,107 +59,61 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Since the driver now supports USB4 which is the standard going forward,
-update the Kconfig entry to mention this and rename the entry from
-CONFIG_THUNDERBOLT to CONFIG_USB4 instead to help people to find the
-correct option if they want to enable USB4.
+Update user's and administrator's guide to mention USB4, how it relates
+to Thunderbolt and and how it is supported in Linux.
 
-Also do the same for Thunderbolt network driver.
+While there add the missing SPDX identifier to the document.
 
 Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: David S. Miller <davem@davemloft.net>
 ---
- drivers/Makefile             |  2 +-
- drivers/net/Kconfig          | 10 +++++-----
- drivers/net/Makefile         |  2 +-
- drivers/thunderbolt/Kconfig  | 11 ++++++-----
- drivers/thunderbolt/Makefile |  2 +-
- 5 files changed, 14 insertions(+), 13 deletions(-)
+ Documentation/admin-guide/thunderbolt.rst | 30 +++++++++++++++++++----
+ 1 file changed, 25 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/Makefile b/drivers/Makefile
-index aaef17cc6512..31cf17dee252 100644
---- a/drivers/Makefile
-+++ b/drivers/Makefile
-@@ -171,7 +171,7 @@ obj-$(CONFIG_POWERCAP)		+= powercap/
- obj-$(CONFIG_MCB)		+= mcb/
- obj-$(CONFIG_PERF_EVENTS)	+= perf/
- obj-$(CONFIG_RAS)		+= ras/
--obj-$(CONFIG_THUNDERBOLT)	+= thunderbolt/
-+obj-$(CONFIG_USB4)		+= thunderbolt/
- obj-$(CONFIG_CORESIGHT)		+= hwtracing/coresight/
- obj-y				+= hwtracing/intel_th/
- obj-$(CONFIG_STM)		+= hwtracing/stm/
-diff --git a/drivers/net/Kconfig b/drivers/net/Kconfig
-index d02f12a5254e..d1c84d47779d 100644
---- a/drivers/net/Kconfig
-+++ b/drivers/net/Kconfig
-@@ -489,12 +489,12 @@ config FUJITSU_ES
- 	  This driver provides support for Extended Socket network device
- 	  on Extended Partitioning of FUJITSU PRIMEQUEST 2000 E2 series.
+diff --git a/Documentation/admin-guide/thunderbolt.rst b/Documentation/admin-guide/thunderbolt.rst
+index 898ad78f3cc7..10c4f0ce2ad0 100644
+--- a/Documentation/admin-guide/thunderbolt.rst
++++ b/Documentation/admin-guide/thunderbolt.rst
+@@ -1,6 +1,28 @@
+-=============
+- Thunderbolt
+-=============
++.. SPDX-License-Identifier: GPL-2.0
++
++======================
++ USB4 and Thunderbolt
++======================
++USB4 is the public specification based on Thunderbolt 3 protocol with
++some differences at the register level among other things. Connection
++manager is an entity running on the host router (host controller)
++responsible for enumerating routers and establishing tunnels. A
++connection manager can be implemented either in firmware or software.
++Typically PCs come with a firmware connection manager for Thunderbolt 3
++and early USB4 capable systems. Apple systems on the other hand use
++software connection manager and the later USB4 compliant devices follow
++the suit.
++
++The Linux Thunderbolt driver supports both and can detect at runtime which
++connection manager implementation is to be used. To be on the safe side the
++software connection manager in Linux also advertises security level
++``user`` which means PCIe tunneling is disabled by default. The
++documentation below applies to both implementations with the exception that
++the software connection manager only supports ``user`` security level and
++is expected to be accompanied with an IOMMU based DMA protection.
++
++Security levels and how to use them
++-----------------------------------
+ The interface presented here is not meant for end users. Instead there
+ should be a userspace tool that handles all the low-level details, keeps
+ a database of the authorized devices and prompts users for new connections.
+@@ -18,8 +40,6 @@ This will authorize all devices automatically when they appear. However,
+ keep in mind that this bypasses the security levels and makes the system
+ vulnerable to DMA attacks.
  
--config THUNDERBOLT_NET
--	tristate "Networking over Thunderbolt cable"
--	depends on THUNDERBOLT && INET
-+config USB4_NET
-+	tristate "Networking over USB4 and Thunderbolt cables"
-+	depends on USB4 && INET
- 	help
--	  Select this if you want to create network between two
--	  computers over a Thunderbolt cable. The driver supports Apple
-+	  Select this if you want to create network between two computers
-+	  over a USB4 and Thunderbolt cables. The driver supports Apple
- 	  ThunderboltIP protocol and allows communication with any host
- 	  supporting the same protocol including Windows and macOS.
- 
-diff --git a/drivers/net/Makefile b/drivers/net/Makefile
-index 0d3ba056cda3..29e83e9f545e 100644
---- a/drivers/net/Makefile
-+++ b/drivers/net/Makefile
-@@ -76,6 +76,6 @@ obj-$(CONFIG_NTB_NETDEV) += ntb_netdev.o
- obj-$(CONFIG_FUJITSU_ES) += fjes/
- 
- thunderbolt-net-y += thunderbolt.o
--obj-$(CONFIG_THUNDERBOLT_NET) += thunderbolt-net.o
-+obj-$(CONFIG_USB4_NET) += thunderbolt-net.o
- obj-$(CONFIG_NETDEVSIM) += netdevsim/
- obj-$(CONFIG_NET_FAILOVER) += net_failover.o
-diff --git a/drivers/thunderbolt/Kconfig b/drivers/thunderbolt/Kconfig
-index fd9adca898ff..1eb757e8df3b 100644
---- a/drivers/thunderbolt/Kconfig
-+++ b/drivers/thunderbolt/Kconfig
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0-only
--menuconfig THUNDERBOLT
--	tristate "Thunderbolt support"
-+menuconfig USB4
-+	tristate "Unified support for USB4 and Thunderbolt"
- 	depends on PCI
- 	depends on X86 || COMPILE_TEST
- 	select APPLE_PROPERTIES if EFI_STUB && X86
-@@ -9,9 +9,10 @@ menuconfig THUNDERBOLT
- 	select CRYPTO_HASH
- 	select NVMEM
- 	help
--	  Thunderbolt Controller driver. This driver is required if you
--	  want to hotplug Thunderbolt devices on Apple hardware or on PCs
--	  with Intel Falcon Ridge or newer.
-+	  USB4 and Thunderbolt driver. USB4 is the public speficiation
-+	  based on Thunderbolt 3 protocol. This driver is required if
-+	  you want to hotplug Thunderbolt and USB4 compliant devices on
-+	  Apple hardware or on PCs with Intel Falcon Ridge or newer.
- 
- 	  To compile this driver a module, choose M here. The module will be
- 	  called thunderbolt.
-diff --git a/drivers/thunderbolt/Makefile b/drivers/thunderbolt/Makefile
-index c0b2fd73dfbd..102e9529ee66 100644
---- a/drivers/thunderbolt/Makefile
-+++ b/drivers/thunderbolt/Makefile
-@@ -1,4 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
--obj-${CONFIG_THUNDERBOLT} := thunderbolt.o
-+obj-${CONFIG_USB4} := thunderbolt.o
- thunderbolt-objs := nhi.o nhi_ops.o ctl.o tb.o switch.o cap.o path.o tunnel.o eeprom.o
- thunderbolt-objs += domain.o dma_port.o icm.o property.o xdomain.o lc.o usb4.o
+-Security levels and how to use them
+------------------------------------
+ Starting with Intel Falcon Ridge Thunderbolt controller there are 4
+ security levels available. Intel Titan Ridge added one more security level
+ (usbonly). The reason for these is the fact that the connected devices can
 -- 
 2.24.0
 
