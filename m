@@ -2,33 +2,33 @@ Return-Path: <SRS0=czMf=2H=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0BB7C2D0CD
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Dec 2019 12:34:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 123D4C2D0CD
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Dec 2019 12:34:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9FA8920716
-	for <linux-usb@archiver.kernel.org>; Tue, 17 Dec 2019 12:34:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E4D7820716
+	for <linux-usb@archiver.kernel.org>; Tue, 17 Dec 2019 12:34:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727962AbfLQMdv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1727941AbfLQMdv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Tue, 17 Dec 2019 07:33:51 -0500
-Received: from mga14.intel.com ([192.55.52.115]:21400 "EHLO mga14.intel.com"
+Received: from mga18.intel.com ([134.134.136.126]:47966 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727576AbfLQMdu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        id S1727666AbfLQMdu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
         Tue, 17 Dec 2019 07:33:50 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Dec 2019 04:33:50 -0800
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Dec 2019 04:33:50 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.69,325,1571727600"; 
-   d="scan'208";a="266565415"
+   d="scan'208";a="389811678"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by FMSMGA003.fm.intel.com with ESMTP; 17 Dec 2019 04:33:46 -0800
+  by orsmga005.jf.intel.com with ESMTP; 17 Dec 2019 04:33:46 -0800
 Received: by black.fi.intel.com (Postfix, from userid 1001)
-        id 79DE5217; Tue, 17 Dec 2019 14:33:45 +0200 (EET)
+        id 641FE12A; Tue, 17 Dec 2019 14:33:45 +0200 (EET)
 From:   Mika Westerberg <mika.westerberg@linux.intel.com>
 To:     linux-usb@vger.kernel.org
 Cc:     Andreas Noever <andreas.noever@gmail.com>,
@@ -46,12 +46,10 @@ Cc:     Andreas Noever <andreas.noever@gmail.com>,
         Christian Kellner <ckellner@redhat.com>,
         "David S . Miller" <davem@davemloft.net>, netdev@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/9] thunderbolt: Call tb_eeprom_get_drom_offset() from tb_eeprom_read_n()
-Date:   Tue, 17 Dec 2019 15:33:38 +0300
-Message-Id: <20191217123345.31850-3-mika.westerberg@linux.intel.com>
+Subject: [PATCH v2 0/9] thunderbolt: Add support for USB4
+Date:   Tue, 17 Dec 2019 15:33:36 +0300
+Message-Id: <20191217123345.31850-1-mika.westerberg@linux.intel.com>
 X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191217123345.31850-1-mika.westerberg@linux.intel.com>
-References: <20191217123345.31850-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -59,163 +57,117 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-We are going to re-use tb_drom_read() for USB4 DROM reading as well.
-USB4 has separate router operations for this which does not need the
-drom_offset. Therefore we move call to tb_eeprom_get_drom_offset() into
-tb_eeprom_read_n() where it is needed.
+Hi all,
 
-While there change return -ENOSYS to -ENODEV because the former is only
-supposed to be used with system calls (invalid syscall nr).
+USB4 is the public specification of Thunderbolt 3 protocol and can be
+downloaded here:
 
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- drivers/thunderbolt/eeprom.c | 88 ++++++++++++++++++------------------
- 1 file changed, 43 insertions(+), 45 deletions(-)
+  https://www.usb.org/sites/default/files/USB4%20Specification_1.zip
 
-diff --git a/drivers/thunderbolt/eeprom.c b/drivers/thunderbolt/eeprom.c
-index 8dd7de0cc826..540e0105bcc0 100644
---- a/drivers/thunderbolt/eeprom.c
-+++ b/drivers/thunderbolt/eeprom.c
-@@ -130,13 +130,52 @@ static int tb_eeprom_in(struct tb_switch *sw, u8 *val)
- 	return 0;
- }
- 
-+/**
-+ * tb_eeprom_get_drom_offset - get drom offset within eeprom
-+ */
-+static int tb_eeprom_get_drom_offset(struct tb_switch *sw, u16 *offset)
-+{
-+	struct tb_cap_plug_events cap;
-+	int res;
-+
-+	if (!sw->cap_plug_events) {
-+		tb_sw_warn(sw, "no TB_CAP_PLUG_EVENTS, cannot read eeprom\n");
-+		return -ENODEV;
-+	}
-+	res = tb_sw_read(sw, &cap, TB_CFG_SWITCH, sw->cap_plug_events,
-+			     sizeof(cap) / 4);
-+	if (res)
-+		return res;
-+
-+	if (!cap.eeprom_ctl.present || cap.eeprom_ctl.not_present) {
-+		tb_sw_warn(sw, "no NVM\n");
-+		return -ENODEV;
-+	}
-+
-+	if (cap.drom_offset > 0xffff) {
-+		tb_sw_warn(sw, "drom offset is larger than 0xffff: %#x\n",
-+				cap.drom_offset);
-+		return -ENXIO;
-+	}
-+	*offset = cap.drom_offset;
-+	return 0;
-+}
-+
- /**
-  * tb_eeprom_read_n - read count bytes from offset into val
-  */
- static int tb_eeprom_read_n(struct tb_switch *sw, u16 offset, u8 *val,
- 		size_t count)
- {
-+	u16 drom_offset;
- 	int i, res;
-+
-+	res = tb_eeprom_get_drom_offset(sw, &drom_offset);
-+	if (res)
-+		return res;
-+
-+	offset += drom_offset;
-+
- 	res = tb_eeprom_active(sw, true);
- 	if (res)
- 		return res;
-@@ -238,36 +277,6 @@ struct tb_drom_entry_port {
- } __packed;
- 
- 
--/**
-- * tb_eeprom_get_drom_offset - get drom offset within eeprom
-- */
--static int tb_eeprom_get_drom_offset(struct tb_switch *sw, u16 *offset)
--{
--	struct tb_cap_plug_events cap;
--	int res;
--	if (!sw->cap_plug_events) {
--		tb_sw_warn(sw, "no TB_CAP_PLUG_EVENTS, cannot read eeprom\n");
--		return -ENOSYS;
--	}
--	res = tb_sw_read(sw, &cap, TB_CFG_SWITCH, sw->cap_plug_events,
--			     sizeof(cap) / 4);
--	if (res)
--		return res;
--
--	if (!cap.eeprom_ctl.present || cap.eeprom_ctl.not_present) {
--		tb_sw_warn(sw, "no NVM\n");
--		return -ENOSYS;
--	}
--
--	if (cap.drom_offset > 0xffff) {
--		tb_sw_warn(sw, "drom offset is larger than 0xffff: %#x\n",
--				cap.drom_offset);
--		return -ENXIO;
--	}
--	*offset = cap.drom_offset;
--	return 0;
--}
--
- /**
-  * tb_drom_read_uid_only - read uid directly from drom
-  *
-@@ -277,17 +286,11 @@ static int tb_eeprom_get_drom_offset(struct tb_switch *sw, u16 *offset)
- int tb_drom_read_uid_only(struct tb_switch *sw, u64 *uid)
- {
- 	u8 data[9];
--	u16 drom_offset;
- 	u8 crc;
--	int res = tb_eeprom_get_drom_offset(sw, &drom_offset);
--	if (res)
--		return res;
--
--	if (drom_offset == 0)
--		return -ENODEV;
-+	int res;
- 
- 	/* read uid */
--	res = tb_eeprom_read_n(sw, drom_offset, data, 9);
-+	res = tb_eeprom_read_n(sw, 0, data, 9);
- 	if (res)
- 		return res;
- 
-@@ -489,7 +492,6 @@ static int tb_drom_copy_nvm(struct tb_switch *sw, u16 *size)
-  */
- int tb_drom_read(struct tb_switch *sw)
- {
--	u16 drom_offset;
- 	u16 size;
- 	u32 crc;
- 	struct tb_drom_header *header;
-@@ -517,11 +519,7 @@ int tb_drom_read(struct tb_switch *sw)
- 		return 0;
- 	}
- 
--	res = tb_eeprom_get_drom_offset(sw, &drom_offset);
--	if (res)
--		return res;
--
--	res = tb_eeprom_read_n(sw, drom_offset + 14, (u8 *) &size, 2);
-+	res = tb_eeprom_read_n(sw, 14, (u8 *) &size, 2);
- 	if (res)
- 		return res;
- 	size &= 0x3ff;
-@@ -535,7 +533,7 @@ int tb_drom_read(struct tb_switch *sw)
- 	sw->drom = kzalloc(size, GFP_KERNEL);
- 	if (!sw->drom)
- 		return -ENOMEM;
--	res = tb_eeprom_read_n(sw, drom_offset, sw->drom, size);
-+	res = tb_eeprom_read_n(sw, 0, sw->drom, size);
- 	if (res)
- 		goto err;
- 
+USB4 is about tunneling different protocols over a single cable (in the
+same way as Thunderbolt). The current USB4 spec supports PCIe, Display Port
+and USB 3.x, and also software based protocols such as networking between
+domains (hosts).
+
+So far PCs have been using firmware based Connection Manager (FW CM, ICM)
+and Apple systems have been using software based one (SW CM, ECM). A
+Connection Manager is the entity that handles creation of different tunnel
+types through the USB4 (and Thunderbolt) fabric. With USB4 the plan is to
+have software based Connection Manager everywhere but some early systems
+will come with firmware based connection manager.
+
+Current Linux Thunderbolt driver supports both "modes" and can detect which
+one to use dynamically.
+
+This series extends the Linux Thunderbolt driver to support USB4 compliant
+hosts and devices (this applies to both firmware and software based
+connection managers). USB4 Features enabled by this series include:
+
+  - PCIe tunneling
+  - Display Port tunneling
+  - USB 3.x tunneling
+  - P2P networking (implemented in drivers/net/thunderbolt.c)
+  - Host and device NVM firmware upgrade
+
+Power management support is still work in progress. It will be submitted
+later on once properly tested.
+
+The previous versions of the series can be seen here:
+
+  v1: https://lore.kernel.org/linux-usb/20191023112154.64235-1-mika.westerberg@linux.intel.com/
+  RFC: https://lore.kernel.org/lkml/20191001113830.13028-1-mika.westerberg@linux.intel.com/
+
+Changes from v1:
+
+  * Rebased on top of v5.5-rc2.
+  * Add a new patch to populate PG field in hotplug ack packet.
+  * Rename the networking driver Kconfig symbol to CONFIG_USB4_NET to
+    follow the driver itself (CONFIG_USB4).
+
+Changes from the RFC version:
+
+  * Spelled out what are ICM, and SW CM (and ECM)
+  * Log warning in tb_switch_add() instead of the caller
+  * Use Lukas' suggestion in port walk helper macro and also drop
+    tb_switch_for_each_remote_port() and tb_switch_for_each_connected_port()
+  * Rework icm.c::add_switch() so that we don't need to pass huge amount of
+    parameters to it
+  * Add rx/tx versions of link width/speed attributes following convention
+    used in USB bus (with the exception that we provide rx_speed and
+    tx_speed as well).
+  * Spell out DROM and try to clarify what linking in patch [11/25] means.
+  * Add a new patch that expands controller name in existing tb_switch_is_xy()
+    functions and do the same for tb_switch_is_ar()/tr().
+  * Move register name conversion pathes up in the series so that we can
+    apply them for v5.5 already.
+  * Update changelog of patch [14/25] so that it only mentions Titan Ridge.
+  * Rename CONFIG_THUNDERBOLT to CONFIG_USB4, this should be more future
+    proof.
+  * Check if TMU is enabled in tb_switch_tmu_enable().
+  * Use "usb3" and "USB3" in USB 3.x tunneling functionality instead of
+    plain "usb".
+  * Reword documentation patch [25/25] according to received comments.
+  * Introduce icm_firmware_running().
+
+Mika Westerberg (6):
+  thunderbolt: Make tb_find_port() available to other files
+  thunderbolt: Call tb_eeprom_get_drom_offset() from tb_eeprom_read_n()
+  thunderbolt: Populate PG field in hot plug acknowledgment packet
+  thunderbolt: Add initial support for USB4
+  thunderbolt: Update Kconfig entries to USB4
+  thunderbolt: Update documentation with the USB4 information
+
+Rajmohan Mani (3):
+  thunderbolt: Make tb_switch_find_cap() available to other files
+  thunderbolt: Add support for Time Management Unit
+  thunderbolt: Add support for USB 3.x tunnels
+
+ Documentation/admin-guide/thunderbolt.rst |  30 +-
+ drivers/Makefile                          |   2 +-
+ drivers/net/Kconfig                       |  10 +-
+ drivers/net/Makefile                      |   2 +-
+ drivers/thunderbolt/Kconfig               |  11 +-
+ drivers/thunderbolt/Makefile              |   4 +-
+ drivers/thunderbolt/cap.c                 |  11 +-
+ drivers/thunderbolt/ctl.c                 |  19 +-
+ drivers/thunderbolt/ctl.h                 |   3 +-
+ drivers/thunderbolt/eeprom.c              | 137 ++--
+ drivers/thunderbolt/nhi.c                 |   3 +
+ drivers/thunderbolt/nhi.h                 |   2 +
+ drivers/thunderbolt/switch.c              | 439 ++++++++++---
+ drivers/thunderbolt/tb.c                  | 227 +++++--
+ drivers/thunderbolt/tb.h                  | 101 +++
+ drivers/thunderbolt/tb_msgs.h             |   6 +-
+ drivers/thunderbolt/tb_regs.h             |  65 +-
+ drivers/thunderbolt/tmu.c                 | 383 +++++++++++
+ drivers/thunderbolt/tunnel.c              | 169 ++++-
+ drivers/thunderbolt/tunnel.h              |   9 +
+ drivers/thunderbolt/usb4.c                | 764 ++++++++++++++++++++++
+ drivers/thunderbolt/xdomain.c             |   6 +
+ 22 files changed, 2167 insertions(+), 236 deletions(-)
+ create mode 100644 drivers/thunderbolt/tmu.c
+ create mode 100644 drivers/thunderbolt/usb4.c
+
 -- 
 2.24.0
 
