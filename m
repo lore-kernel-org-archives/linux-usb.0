@@ -6,42 +6,42 @@ X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
 	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68748C3F68F
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Dec 2019 14:45:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1853C43603
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Dec 2019 15:15:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 485EB2176D
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Dec 2019 14:45:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BE6AC2465E
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Dec 2019 15:15:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727260AbfLROpR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Dec 2019 09:45:17 -0500
-Received: from mail-io1-f71.google.com ([209.85.166.71]:53104 "EHLO
-        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726856AbfLROpP (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Dec 2019 09:45:15 -0500
-Received: by mail-io1-f71.google.com with SMTP id d10so1475086iod.19
-        for <linux-usb@vger.kernel.org>; Wed, 18 Dec 2019 06:45:13 -0800 (PST)
+        id S1726913AbfLRPPL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Dec 2019 10:15:11 -0500
+Received: from mail-il1-f199.google.com ([209.85.166.199]:34167 "EHLO
+        mail-il1-f199.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726939AbfLRPPL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Dec 2019 10:15:11 -0500
+Received: by mail-il1-f199.google.com with SMTP id l13so2013639ils.1
+        for <linux-usb@vger.kernel.org>; Wed, 18 Dec 2019 07:15:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=0bdlNmaxCD5fqq7L78Z2fQzwkj/o9Hs5/Lv+Ota1nxg=;
-        b=TpPRy9x9CLiIwymg1GTrwKY26eBhmZk2sJz5b6NBgnGeIf7JbCLUY04lRGgeLslkRX
-         O3j2ymEmDv6U3U1DT+0Bo/SPeSyxMc53yzs47adTYiKSw4po2nkm87tSW5E56YNS4Tbx
-         Qc34LX7nAf09PfAvaxWA2ziyWBpV+4/VLtOtdg/zAh5blvGnMQ2UwCxW5z4lC8tH2B84
-         +q1Gf9yRZfgIKhY9uDut86Qi8F3RhpOTMHGef3rqneou0PfUyRKyToQYWkngm0zmnOm6
-         WPVuT/A8+3ZYgjV7SMGh0vZmlphbz4sgi+Bm7Z0v+p4ll1opXAp+Z44Xu0rLR70KxUke
-         vR0A==
-X-Gm-Message-State: APjAAAVwt/2WL86c1AvC+Z8zAlOhctT93nAUp4uXKt0pzRNLF0E6r+4z
-        xV+M1BshvscPXA5mP3R5NnGykDGM7WIBG7J6k+xOsxw+yWMl
-X-Google-Smtp-Source: APXvYqybjSYiAZFu7Xg50IBunoKwYwK5lK7Rqh2qMNJUI3t/FMi22e3PBYDNnKJGOQCWh8l6rLjB8I4xhB4jf6mlSAy+b4MqVyNO
+        bh=jSdukNVKN1rb2lDU57Ar/9GWwm2qqaJhHtnd5Wdgw+4=;
+        b=OXF9ivUGV/J1V75r9+vRxLZR93Oy2SSPbM0vy3YCaKlIW3oluGPHQpfYvR3sL5QXl/
+         /Zvl5nSjJOhOJW+/fa1ONrsuWPDzQGY8E7YYXb1i9pBI9BRlTjGHBdQCGSoXbt/gl8U4
+         eWzGDyOrbC8THpDn5rKeTdCZilSkTMiRPdQfcSRrQqfjXYEjEag8FimBfgh8JRA9ZrNM
+         mFTPbLdC4/THqj9pFTygbFfNF3RNS13cFPnYrPxofe0Ldv8/46pm/F3ZwfiIWcgljP3L
+         IOONEbk69SotrefLCf7Zo6KJD+6fX/hJ2OlMCG6+W8JDoO3uNHNmsRY+4cvV3rd2VKwp
+         RQBQ==
+X-Gm-Message-State: APjAAAVhy9him9Ye/XbwO0d32XmP200Vh8dDXO7vbyfS7gfqm6sBW9YB
+        k15qQfyx35nu4dPySMVO0Hct9S4Mgjl9d4H5qetA5vHCEQ4O
+X-Google-Smtp-Source: APXvYqzX8BiTDcFwWOoADIUa/C/W1aNUeW4q5RhSf7rp5KnkYx2nF+BA95bYW/QdzsdpbaLu0DFYyyFA+RBPWauGFLBsYsRahBlT
 MIME-Version: 1.0
-X-Received: by 2002:a92:5855:: with SMTP id m82mr2170777ilb.302.1576680310849;
- Wed, 18 Dec 2019 06:45:10 -0800 (PST)
-Date:   Wed, 18 Dec 2019 06:45:10 -0800
+X-Received: by 2002:a92:4616:: with SMTP id t22mr2292795ila.186.1576682109244;
+ Wed, 18 Dec 2019 07:15:09 -0800 (PST)
+Date:   Wed, 18 Dec 2019 07:15:09 -0800
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000daea9f0599fb7da6@google.com>
-Subject: KASAN: slab-out-of-bounds Read in hidinput_hid_event
-From:   syzbot <syzbot+00eaa791c74b27f5e7b1@syzkaller.appspotmail.com>
+Message-ID: <0000000000000b9e820599fbe9a7@google.com>
+Subject: KASAN: use-after-free Read in hidinput_hid_event
+From:   syzbot <syzbot+c961cb836a707f66e2f8@syzkaller.appspotmail.com>
 To:     andreyknvl@google.com, benjamin.tissoires@redhat.com,
         jikos@kernel.org, linux-input@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
@@ -58,24 +58,24 @@ syzbot found the following crash on:
 
 HEAD commit:    d533c992 usb: core: kcov: collect coverage from usb comple..
 git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=11e440aee00000
+console output: https://syzkaller.appspot.com/x/log.txt?x=100798b9e00000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=743b91162e9f9496
-dashboard link: https://syzkaller.appspot.com/bug?extid=00eaa791c74b27f5e7b1
+dashboard link: https://syzkaller.appspot.com/bug?extid=c961cb836a707f66e2f8
 compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1445d9fae00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12557049e00000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15519951e00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=166f72fee00000
 
 IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+00eaa791c74b27f5e7b1@syzkaller.appspotmail.com
+Reported-by: syzbot+c961cb836a707f66e2f8@syzkaller.appspotmail.com
 
 ==================================================================
-BUG: KASAN: slab-out-of-bounds in test_bit  
+BUG: KASAN: use-after-free in test_bit  
 include/asm-generic/bitops/instrumented-non-atomic.h:110 [inline]
-BUG: KASAN: slab-out-of-bounds in hidinput_hid_event+0x1111/0x15d3  
+BUG: KASAN: use-after-free in hidinput_hid_event+0x1111/0x15d3  
 drivers/hid/hid-input.c:1381
-Read of size 8 at addr ffff8881cf4d2cd0 by task swapper/1/0
+Read of size 8 at addr ffff8881cfb19738 by task swapper/0/0
 
-CPU: 1 PID: 0 Comm: swapper/1 Not tainted 5.5.0-rc2-syzkaller #0
+CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.5.0-rc2-syzkaller #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
 Google 01/01/2011
 Call Trace:
@@ -94,7 +94,7 @@ Call Trace:
   hid_report_raw_event+0xabb/0xed0 drivers/hid/hid-core.c:1757
   hid_input_report+0x315/0x3f0 drivers/hid/hid-core.c:1824
   hid_irq_in+0x50e/0x690 drivers/hid/usbhid/hid-core.c:284
-
+  __usb_hcd_giveback
 
 
 ---
