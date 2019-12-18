@@ -2,1445 +2,859 @@ Return-Path: <SRS0=SoRH=2I=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3BDEC2D0CD
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Dec 2019 17:28:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A41CC2D0BF
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Dec 2019 17:53:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A228B2072B
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Dec 2019 17:28:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E3B852064B
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Dec 2019 17:53:48 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VqavYPgR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y9jt7mGd"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727298AbfLRR2f (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Dec 2019 12:28:35 -0500
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:55291 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727183AbfLRR2f (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Dec 2019 12:28:35 -0500
-Received: by mail-pj1-f67.google.com with SMTP id ep17so1177865pjb.4
-        for <linux-usb@vger.kernel.org>; Wed, 18 Dec 2019 09:28:34 -0800 (PST)
+        id S1727509AbfLRRxp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Dec 2019 12:53:45 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:33253 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727454AbfLRRxo (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Dec 2019 12:53:44 -0500
+Received: by mail-lf1-f65.google.com with SMTP id n25so2353318lfl.0;
+        Wed, 18 Dec 2019 09:53:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+jim9HidCFE6w2U0JzSWjHzD1f7YABhy6cv6TtmD3Z8=;
-        b=VqavYPgRO+lD3YGRprP6RhK69c61s+90oEPwIuTGXUdxnlxCZa+hY3/zipGlq98uHA
-         5F5Go2gvrx40bmyQbR0u6K6QC0qFuBK8fFHiWDO6byStVe0sd7WTieQMpHxa5jRjIwlR
-         bZdP0n2J5ncNPyMiONSGSXEtexoaTwuEPLLHsS4TltVDxrNV0BhXxjjn9dVuh7VTGuYu
-         H99ytXIG7jtx7xbeU+r3Wcy0o4SZAIMaH0qxL83hexNzpkhFrV1ZXJvziNHvybAjQJBD
-         YqrQ8iHzoXNl0No2GjsuHUOt/YIp00XXTkszzK6t86oq7lVqi1nsy+mPCy4kEKNej9jz
-         DzYQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=twIdAjLLUt1LoYkHYlMXCLHsquB7jisBnLtFdNCHo6o=;
+        b=Y9jt7mGdEC3GBhkgg3nLVJdxG3XGWJmzZiUrGFYmMAMcgbejsSPDt5j4FWSbbeV6r3
+         1w1R6dBqVNjM7/t982YDpCuONzwVZvCMtEN6wFqp274/Nl8tUC3CbjzN08VOLRKB/FYL
+         Xh6j8TAzDB1c/gz70lToToZS7TPqXamewbMBYFVQfCzSmgjfKCkR0EUv6Gczk4ci1Jyl
+         SuupKdZP9rcsIn2uRtxivQKM5mN/I36inejKCVxIVb/cOr6wygozyuSDoT+bq1oGTrXS
+         H38lu1Dpn2vPdNED1BKl/nybngie5uQmrztFiCLi3lg0Ftp/U/R/Bptt6GmLkQQ0V/me
+         4QMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+jim9HidCFE6w2U0JzSWjHzD1f7YABhy6cv6TtmD3Z8=;
-        b=aiGWL8am738JHqs7AqSz00B4cf//TzZSZEGBzr+aIo0j9JFI6BbMog6eTeFNZXaL3L
-         pw2Zi3NVMgpT7kDEW7DzWikxfH3dGVrwt47W/g5wcBYqPc6PolL5kW5j4XT2Fu6bItT6
-         rlRgUFT0dshPT5MDqGuE9b1OguC7Tq94A7lHQki4GVdzCv3BhGO9z3bxiJfdb9GuOY3h
-         mkwbP5C7GLtkp18E7Qwen4d59VIwAuz6G1a71SJrddec6kCXs2YsxWWc8TW44imCve51
-         +2JLH3+jPmORVJNirAhBW9el/NcR6LvzwpAwgWNOsmWFFHRqQ/pZJ7fcRnZJniPf/nF8
-         Zl4Q==
-X-Gm-Message-State: APjAAAVqxMQuEZvpBFfKGiV1yL6DFZ1ktmbrHBMTXSLnP7IHa3KoyRL6
-        Rur82lDRbnFpCXkhy1un8E18yTZEDgvfhy7FBw8hDQ==
-X-Google-Smtp-Source: APXvYqwezfF7Rs8yLQqa/gRTxRR8x/1T3qWmXhQ09YjPnkwQv6v7xzYXm7Tef60bpoX1xb0vcSzBtfjVAlh8P4h72VI=
-X-Received: by 2002:a17:90a:660b:: with SMTP id l11mr4072369pjj.47.1576690112967;
- Wed, 18 Dec 2019 09:28:32 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=twIdAjLLUt1LoYkHYlMXCLHsquB7jisBnLtFdNCHo6o=;
+        b=QxaxsHxoTyhyB4pNZIsfWwMLCXs2wOIAvo1CuEzV2K5D9YQ3vChYvxNz3V1oDxbp19
+         8E4C1MpmBSj6fvliWOxv67Vks8v0LM9Cu/dcJLfykFQVcXioZMVMUtP1yo+rKOM34D2v
+         w0V5ObNQfIrYfasSIfsyw8VSCNF86AGOIzddjBph71/I2DqUXDf2Z1g00weSVmHE8bHD
+         0VYuAQXW6GXjoY7mch5le+2H6wzmau9JPQFiDyOuWngSft4Gp6iqpvwmjw8AeeHbxh+8
+         wik0RB7JLhXSa8sdYmDTdzKHONyfZLajFj7v73+G1pGpo9Mi1PpBJhwv/yYATtEEfe6D
+         5h3w==
+X-Gm-Message-State: APjAAAWoCAHhF+UyhmRVIF4KUGTCH/56BoiUigC8nBay+RsmxI/u/Zmg
+        S6yYsjLStrFaifmioCoKjwQ=
+X-Google-Smtp-Source: APXvYqzZYGFquzBQk+T0nblGXFOBy84a1OVxNoWvvOp+pqZkr7UUdL9d1oCLUSnk5UnFcyHv/V4jCA==
+X-Received: by 2002:a19:ca59:: with SMTP id h25mr2547645lfj.27.1576691619878;
+        Wed, 18 Dec 2019 09:53:39 -0800 (PST)
+Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.gmail.com with ESMTPSA id n14sm1530480lfe.5.2019.12.18.09.53.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Dec 2019 09:53:39 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Felipe Balbi <balbi@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v1 3/4] usb: phy: tegra: Perform general clean up of the code
+Date:   Wed, 18 Dec 2019 20:53:12 +0300
+Message-Id: <20191218175313.16235-4-digetx@gmail.com>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191218175313.16235-1-digetx@gmail.com>
+References: <20191218175313.16235-1-digetx@gmail.com>
 MIME-Version: 1.0
-References: <cover.1576087039.git.andreyknvl@google.com> <f45a20db3e5b01002ae8c91b3a8ea58e38b7bb65.1576087039.git.andreyknvl@google.com>
- <20191218132328.GA121143@kroah.com>
-In-Reply-To: <20191218132328.GA121143@kroah.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Wed, 18 Dec 2019 18:28:19 +0100
-Message-ID: <CAAeHK+zXegV1GmSKD8Y3-hTbKUQceWdfo+GJPxSSzYr0zQTYKw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] usb: gadget: add raw-gadget interface
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     USB list <linux-usb@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Felipe Balbi <balbi@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Alexander Potapenko <glider@google.com>,
-        Marco Elver <elver@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Dec 18, 2019 at 2:23 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Wed, Dec 11, 2019 at 07:02:41PM +0100, Andrey Konovalov wrote:
-> > USB Raw Gadget is a kernel module that provides a userspace interface for
-> > the USB Gadget subsystem. Essentially it allows to emulate USB devices
-> > from userspace. Enabled with CONFIG_USB_RAW_GADGET. Raw Gadget is
-> > currently a strictly debugging feature and shouldn't be used in
-> > production.
-> >
-> > Raw Gadget is similar to GadgetFS, but provides a more low-level and
-> > direct access to the USB Gadget layer for the userspace. The key
-> > differences are:
-> >
-> > 1. Every USB request is passed to the userspace to get a response, while
-> >    GadgetFS responds to some USB requests internally based on the provided
-> >    descriptors. However note, that the UDC driver might respond to some
-> >    requests on its own and never forward them to the Gadget layer.
-> >
-> > 2. GadgetFS performs some sanity checks on the provided USB descriptors,
-> >    while Raw Gadget allows you to provide arbitrary data as responses to
-> >    USB requests.
-> >
-> > 3. Raw Gadget provides a way to select a UDC device/driver to bind to,
-> >    while GadgetFS currently binds to the first available UDC.
-> >
-> > 4. Raw Gadget uses predictable endpoint names (handles) across different
-> >    UDCs (as long as UDCs have enough endpoints of each required transfer
-> >    type).
-> >
-> > 5. Raw Gadget has ioctl-based interface instead of a filesystem-based one.
->
-> Looks good to me, only minor comments below.
+This patch fixes few dozens of legit checkpatch warnings, adds missed
+handling of potential error-cases, fixes ULPI clk-prepare refcounting and
+prettifies code where makes sense. All these clean-up changes are quite
+minor and do not fix any problems.
 
-Great, thanks!
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ drivers/usb/phy/phy-tegra-usb.c | 367 +++++++++++++++++---------------
+ 1 file changed, 197 insertions(+), 170 deletions(-)
 
-About reworking the logging to use dev_err/dbg(): can I pass the
-global miscdevice struct into those macros? Or should I pass a pointer
-to this struct into all of the functions that print log messages? The
-latter seems unnecessarily complex, unless there's a reason to do
-that.
+diff --git a/drivers/usb/phy/phy-tegra-usb.c b/drivers/usb/phy/phy-tegra-usb.c
+index 15bd253d53c9..76949dbbbdc2 100644
+--- a/drivers/usb/phy/phy-tegra-usb.c
++++ b/drivers/usb/phy/phy-tegra-usb.c
+@@ -28,35 +28,35 @@
+ #include <linux/usb/tegra_usb_phy.h>
+ #include <linux/regulator/consumer.h>
+ 
+-#define ULPI_VIEWPORT		0x170
++#define ULPI_VIEWPORT				0x170
+ 
+ /* PORTSC PTS/PHCD bits, Tegra20 only */
+-#define TEGRA_USB_PORTSC1				0x184
+-#define TEGRA_USB_PORTSC1_PTS(x)			(((x) & 0x3) << 30)
+-#define TEGRA_USB_PORTSC1_PHCD				(1 << 23)
++#define TEGRA_USB_PORTSC1			0x184
++#define TEGRA_USB_PORTSC1_PTS(x)		(((x) & 0x3) << 30)
++#define TEGRA_USB_PORTSC1_PHCD			BIT(23)
+ 
+ /* HOSTPC1 PTS/PHCD bits, Tegra30 and above */
+-#define TEGRA_USB_HOSTPC1_DEVLC		0x1b4
+-#define TEGRA_USB_HOSTPC1_DEVLC_PTS(x)	(((x) & 0x7) << 29)
+-#define TEGRA_USB_HOSTPC1_DEVLC_PHCD	(1 << 22)
++#define TEGRA_USB_HOSTPC1_DEVLC			0x1b4
++#define TEGRA_USB_HOSTPC1_DEVLC_PTS(x)		(((x) & 0x7) << 29)
++#define TEGRA_USB_HOSTPC1_DEVLC_PHCD		BIT(22)
+ 
+ /* Bits of PORTSC1, which will get cleared by writing 1 into them */
+ #define TEGRA_PORTSC1_RWC_BITS	(PORT_CSC | PORT_PEC | PORT_OCC)
+ 
+-#define USB_SUSP_CTRL		0x400
+-#define   USB_WAKE_ON_CNNT_EN_DEV	(1 << 3)
+-#define   USB_WAKE_ON_DISCON_EN_DEV	(1 << 4)
+-#define   USB_SUSP_CLR		(1 << 5)
+-#define   USB_PHY_CLK_VALID	(1 << 7)
+-#define   UTMIP_RESET			(1 << 11)
+-#define   UHSIC_RESET			(1 << 11)
+-#define   UTMIP_PHY_ENABLE		(1 << 12)
+-#define   ULPI_PHY_ENABLE	(1 << 13)
+-#define   USB_SUSP_SET		(1 << 14)
+-#define   USB_WAKEUP_DEBOUNCE_COUNT(x)	(((x) & 0x7) << 16)
+-
+-#define USB1_LEGACY_CTRL	0x410
+-#define   USB1_NO_LEGACY_MODE			(1 << 0)
++#define USB_SUSP_CTRL				0x400
++#define   USB_WAKE_ON_CNNT_EN_DEV		BIT(3)
++#define   USB_WAKE_ON_DISCON_EN_DEV		BIT(4)
++#define   USB_SUSP_CLR				BIT(5)
++#define   USB_PHY_CLK_VALID			BIT(7)
++#define   UTMIP_RESET				BIT(11)
++#define   UHSIC_RESET				BIT(11)
++#define   UTMIP_PHY_ENABLE			BIT(12)
++#define   ULPI_PHY_ENABLE			BIT(13)
++#define   USB_SUSP_SET				BIT(14)
++#define   USB_WAKEUP_DEBOUNCE_COUNT(x)		(((x) & 0x7) << 16)
++
++#define USB1_LEGACY_CTRL			0x410
++#define   USB1_NO_LEGACY_MODE			BIT(0)
+ #define   USB1_VBUS_SENSE_CTL_MASK		(3 << 1)
+ #define   USB1_VBUS_SENSE_CTL_VBUS_WAKEUP	(0 << 1)
+ #define   USB1_VBUS_SENSE_CTL_AB_SESS_VLD_OR_VBUS_WAKEUP \
+@@ -64,88 +64,88 @@
+ #define   USB1_VBUS_SENSE_CTL_AB_SESS_VLD	(2 << 1)
+ #define   USB1_VBUS_SENSE_CTL_A_SESS_VLD	(3 << 1)
+ 
+-#define ULPI_TIMING_CTRL_0	0x424
+-#define   ULPI_OUTPUT_PINMUX_BYP	(1 << 10)
+-#define   ULPI_CLKOUT_PINMUX_BYP	(1 << 11)
++#define ULPI_TIMING_CTRL_0			0x424
++#define   ULPI_OUTPUT_PINMUX_BYP		BIT(10)
++#define   ULPI_CLKOUT_PINMUX_BYP		BIT(11)
+ 
+-#define ULPI_TIMING_CTRL_1	0x428
+-#define   ULPI_DATA_TRIMMER_LOAD	(1 << 0)
+-#define   ULPI_DATA_TRIMMER_SEL(x)	(((x) & 0x7) << 1)
+-#define   ULPI_STPDIRNXT_TRIMMER_LOAD	(1 << 16)
+-#define   ULPI_STPDIRNXT_TRIMMER_SEL(x)	(((x) & 0x7) << 17)
+-#define   ULPI_DIR_TRIMMER_LOAD		(1 << 24)
+-#define   ULPI_DIR_TRIMMER_SEL(x)	(((x) & 0x7) << 25)
++#define ULPI_TIMING_CTRL_1			0x428
++#define   ULPI_DATA_TRIMMER_LOAD		BIT(0)
++#define   ULPI_DATA_TRIMMER_SEL(x)		(((x) & 0x7) << 1)
++#define   ULPI_STPDIRNXT_TRIMMER_LOAD		BIT(16)
++#define   ULPI_STPDIRNXT_TRIMMER_SEL(x)		(((x) & 0x7) << 17)
++#define   ULPI_DIR_TRIMMER_LOAD			BIT(24)
++#define   ULPI_DIR_TRIMMER_SEL(x)		(((x) & 0x7) << 25)
+ 
+-#define UTMIP_PLL_CFG1		0x804
++#define UTMIP_PLL_CFG1				0x804
+ #define   UTMIP_XTAL_FREQ_COUNT(x)		(((x) & 0xfff) << 0)
+ #define   UTMIP_PLLU_ENABLE_DLY_COUNT(x)	(((x) & 0x1f) << 27)
+ 
+-#define UTMIP_XCVR_CFG0		0x808
++#define UTMIP_XCVR_CFG0				0x808
+ #define   UTMIP_XCVR_SETUP(x)			(((x) & 0xf) << 0)
+ #define   UTMIP_XCVR_SETUP_MSB(x)		((((x) & 0x70) >> 4) << 22)
+ #define   UTMIP_XCVR_LSRSLEW(x)			(((x) & 0x3) << 8)
+ #define   UTMIP_XCVR_LSFSLEW(x)			(((x) & 0x3) << 10)
+-#define   UTMIP_FORCE_PD_POWERDOWN		(1 << 14)
+-#define   UTMIP_FORCE_PD2_POWERDOWN		(1 << 16)
+-#define   UTMIP_FORCE_PDZI_POWERDOWN		(1 << 18)
+-#define   UTMIP_XCVR_LSBIAS_SEL			(1 << 21)
++#define   UTMIP_FORCE_PD_POWERDOWN		BIT(14)
++#define   UTMIP_FORCE_PD2_POWERDOWN		BIT(16)
++#define   UTMIP_FORCE_PDZI_POWERDOWN		BIT(18)
++#define   UTMIP_XCVR_LSBIAS_SEL			BIT(21)
+ #define   UTMIP_XCVR_HSSLEW(x)			(((x) & 0x3) << 4)
+ #define   UTMIP_XCVR_HSSLEW_MSB(x)		((((x) & 0x1fc) >> 2) << 25)
+ 
+-#define UTMIP_BIAS_CFG0		0x80c
+-#define   UTMIP_OTGPD			(1 << 11)
+-#define   UTMIP_BIASPD			(1 << 10)
+-#define   UTMIP_HSSQUELCH_LEVEL(x)	(((x) & 0x3) << 0)
+-#define   UTMIP_HSDISCON_LEVEL(x)	(((x) & 0x3) << 2)
+-#define   UTMIP_HSDISCON_LEVEL_MSB(x)	((((x) & 0x4) >> 2) << 24)
++#define UTMIP_BIAS_CFG0				0x80c
++#define   UTMIP_OTGPD				BIT(11)
++#define   UTMIP_BIASPD				BIT(10)
++#define   UTMIP_HSSQUELCH_LEVEL(x)		(((x) & 0x3) << 0)
++#define   UTMIP_HSDISCON_LEVEL(x)		(((x) & 0x3) << 2)
++#define   UTMIP_HSDISCON_LEVEL_MSB(x)		((((x) & 0x4) >> 2) << 24)
+ 
+-#define UTMIP_HSRX_CFG0		0x810
+-#define   UTMIP_ELASTIC_LIMIT(x)	(((x) & 0x1f) << 10)
+-#define   UTMIP_IDLE_WAIT(x)		(((x) & 0x1f) << 15)
++#define UTMIP_HSRX_CFG0				0x810
++#define   UTMIP_ELASTIC_LIMIT(x)		(((x) & 0x1f) << 10)
++#define   UTMIP_IDLE_WAIT(x)			(((x) & 0x1f) << 15)
+ 
+-#define UTMIP_HSRX_CFG1		0x814
+-#define   UTMIP_HS_SYNC_START_DLY(x)	(((x) & 0x1f) << 1)
++#define UTMIP_HSRX_CFG1				0x814
++#define   UTMIP_HS_SYNC_START_DLY(x)		(((x) & 0x1f) << 1)
+ 
+-#define UTMIP_TX_CFG0		0x820
+-#define   UTMIP_FS_PREABMLE_J		(1 << 19)
+-#define   UTMIP_HS_DISCON_DISABLE	(1 << 8)
++#define UTMIP_TX_CFG0				0x820
++#define   UTMIP_FS_PREABMLE_J			BIT(19)
++#define   UTMIP_HS_DISCON_DISABLE		BIT(8)
+ 
+-#define UTMIP_MISC_CFG0		0x824
+-#define   UTMIP_DPDM_OBSERVE		(1 << 26)
+-#define   UTMIP_DPDM_OBSERVE_SEL(x)	(((x) & 0xf) << 27)
+-#define   UTMIP_DPDM_OBSERVE_SEL_FS_J	UTMIP_DPDM_OBSERVE_SEL(0xf)
+-#define   UTMIP_DPDM_OBSERVE_SEL_FS_K	UTMIP_DPDM_OBSERVE_SEL(0xe)
+-#define   UTMIP_DPDM_OBSERVE_SEL_FS_SE1 UTMIP_DPDM_OBSERVE_SEL(0xd)
+-#define   UTMIP_DPDM_OBSERVE_SEL_FS_SE0 UTMIP_DPDM_OBSERVE_SEL(0xc)
+-#define   UTMIP_SUSPEND_EXIT_ON_EDGE	(1 << 22)
++#define UTMIP_MISC_CFG0				0x824
++#define   UTMIP_DPDM_OBSERVE			BIT(26)
++#define   UTMIP_DPDM_OBSERVE_SEL(x)		(((x) & 0xf) << 27)
++#define   UTMIP_DPDM_OBSERVE_SEL_FS_J		UTMIP_DPDM_OBSERVE_SEL(0xf)
++#define   UTMIP_DPDM_OBSERVE_SEL_FS_K		UTMIP_DPDM_OBSERVE_SEL(0xe)
++#define   UTMIP_DPDM_OBSERVE_SEL_FS_SE1		UTMIP_DPDM_OBSERVE_SEL(0xd)
++#define   UTMIP_DPDM_OBSERVE_SEL_FS_SE0		UTMIP_DPDM_OBSERVE_SEL(0xc)
++#define   UTMIP_SUSPEND_EXIT_ON_EDGE		BIT(22)
+ 
+-#define UTMIP_MISC_CFG1		0x828
+-#define   UTMIP_PLL_ACTIVE_DLY_COUNT(x)	(((x) & 0x1f) << 18)
+-#define   UTMIP_PLLU_STABLE_COUNT(x)	(((x) & 0xfff) << 6)
++#define UTMIP_MISC_CFG1				0x828
++#define   UTMIP_PLL_ACTIVE_DLY_COUNT(x)		(((x) & 0x1f) << 18)
++#define   UTMIP_PLLU_STABLE_COUNT(x)		(((x) & 0xfff) << 6)
+ 
+-#define UTMIP_DEBOUNCE_CFG0	0x82c
+-#define   UTMIP_BIAS_DEBOUNCE_A(x)	(((x) & 0xffff) << 0)
++#define UTMIP_DEBOUNCE_CFG0			0x82c
++#define   UTMIP_BIAS_DEBOUNCE_A(x)		(((x) & 0xffff) << 0)
+ 
+-#define UTMIP_BAT_CHRG_CFG0	0x830
+-#define   UTMIP_PD_CHRG			(1 << 0)
++#define UTMIP_BAT_CHRG_CFG0			0x830
++#define   UTMIP_PD_CHRG				BIT(0)
+ 
+-#define UTMIP_SPARE_CFG0	0x834
+-#define   FUSE_SETUP_SEL		(1 << 3)
++#define UTMIP_SPARE_CFG0			0x834
++#define   FUSE_SETUP_SEL			BIT(3)
+ 
+-#define UTMIP_XCVR_CFG1		0x838
+-#define   UTMIP_FORCE_PDDISC_POWERDOWN	(1 << 0)
+-#define   UTMIP_FORCE_PDCHRP_POWERDOWN	(1 << 2)
+-#define   UTMIP_FORCE_PDDR_POWERDOWN	(1 << 4)
+-#define   UTMIP_XCVR_TERM_RANGE_ADJ(x)	(((x) & 0xf) << 18)
++#define UTMIP_XCVR_CFG1				0x838
++#define   UTMIP_FORCE_PDDISC_POWERDOWN		BIT(0)
++#define   UTMIP_FORCE_PDCHRP_POWERDOWN		BIT(2)
++#define   UTMIP_FORCE_PDDR_POWERDOWN		BIT(4)
++#define   UTMIP_XCVR_TERM_RANGE_ADJ(x)		(((x) & 0xf) << 18)
+ 
+-#define UTMIP_BIAS_CFG1		0x83c
+-#define   UTMIP_BIAS_PDTRK_COUNT(x)	(((x) & 0x1f) << 3)
++#define UTMIP_BIAS_CFG1				0x83c
++#define   UTMIP_BIAS_PDTRK_COUNT(x)		(((x) & 0x1f) << 3)
+ 
+ /* For Tegra30 and above only, the address is different in Tegra20 */
+-#define USB_USBMODE		0x1f8
+-#define   USB_USBMODE_MASK		(3 << 0)
+-#define   USB_USBMODE_HOST		(3 << 0)
+-#define   USB_USBMODE_DEVICE		(2 << 0)
++#define USB_USBMODE				0x1f8
++#define   USB_USBMODE_MASK			(3 << 0)
++#define   USB_USBMODE_HOST			(3 << 0)
++#define   USB_USBMODE_DEVICE			(2 << 0)
+ 
+ static DEFINE_SPINLOCK(utmip_pad_lock);
+ static int utmip_pad_count;
+@@ -194,6 +194,11 @@ static const struct tegra_xtal_freq tegra_freq_table[] = {
+ 	},
+ };
+ 
++static inline struct tegra_usb_phy *to_tegra_usb_phy(struct usb_phy *u_phy)
++{
++	return container_of(u_phy, struct tegra_usb_phy, u_phy);
++}
++
+ static void set_pts(struct tegra_usb_phy *phy, u8 pts_val)
+ {
+ 	void __iomem *base = phy->regs;
+@@ -310,13 +315,16 @@ static void ulpi_close(struct tegra_usb_phy *phy)
+ 	}
+ }
+ 
+-static void utmip_pad_power_on(struct tegra_usb_phy *phy)
++static int utmip_pad_power_on(struct tegra_usb_phy *phy)
+ {
+-	unsigned long val, flags;
+-	void __iomem *base = phy->pad_regs;
+ 	struct tegra_utmip_config *config = phy->config;
++	void __iomem *base = phy->pad_regs;
++	unsigned long val, flags;
++	int err;
+ 
+-	clk_prepare_enable(phy->pad_clk);
++	err = clk_prepare_enable(phy->pad_clk);
++	if (err)
++		return err;
+ 
+ 	spin_lock_irqsave(&utmip_pad_lock, flags);
+ 
+@@ -339,19 +347,24 @@ static void utmip_pad_power_on(struct tegra_usb_phy *phy)
+ 	spin_unlock_irqrestore(&utmip_pad_lock, flags);
+ 
+ 	clk_disable_unprepare(phy->pad_clk);
++
++	return 0;
+ }
+ 
+ static int utmip_pad_power_off(struct tegra_usb_phy *phy)
+ {
+-	unsigned long val, flags;
+ 	void __iomem *base = phy->pad_regs;
++	unsigned long val, flags;
++	int err;
+ 
+ 	if (!utmip_pad_count) {
+ 		dev_err(phy->u_phy.dev, "UTMIP pad already powered off\n");
+ 		return -EINVAL;
+ 	}
+ 
+-	clk_prepare_enable(phy->pad_clk);
++	err = clk_prepare_enable(phy->pad_clk);
++	if (err)
++		return err;
+ 
+ 	spin_lock_irqsave(&utmip_pad_lock, flags);
+ 
+@@ -378,8 +391,8 @@ static int utmi_wait_register(void __iomem *reg, u32 mask, u32 result)
+ 
+ static void utmi_phy_clk_disable(struct tegra_usb_phy *phy)
+ {
+-	unsigned long val;
+ 	void __iomem *base = phy->regs;
++	unsigned long val;
+ 
+ 	/*
+ 	 * The USB driver may have already initiated the phy clock
+@@ -394,13 +407,14 @@ static void utmi_phy_clk_disable(struct tegra_usb_phy *phy)
+ 		val |= USB_SUSP_SET;
+ 		writel(val, base + USB_SUSP_CTRL);
+ 
+-		udelay(10);
++		usleep_range(10, 100);
+ 
+ 		val = readl(base + USB_SUSP_CTRL);
+ 		val &= ~USB_SUSP_SET;
+ 		writel(val, base + USB_SUSP_CTRL);
+-	} else
++	} else {
+ 		set_phcd(phy, true);
++	}
+ 
+ 	if (utmi_wait_register(base + USB_SUSP_CTRL, USB_PHY_CLK_VALID, 0) < 0)
+ 		dev_err(phy->u_phy.dev,
+@@ -409,8 +423,8 @@ static void utmi_phy_clk_disable(struct tegra_usb_phy *phy)
+ 
+ static void utmi_phy_clk_enable(struct tegra_usb_phy *phy)
+ {
+-	unsigned long val;
+ 	void __iomem *base = phy->regs;
++	unsigned long val;
+ 
+ 	/*
+ 	 * The USB driver may have already initiated the phy clock
+@@ -426,25 +440,27 @@ static void utmi_phy_clk_enable(struct tegra_usb_phy *phy)
+ 		val |= USB_SUSP_CLR;
+ 		writel(val, base + USB_SUSP_CTRL);
+ 
+-		udelay(10);
++		usleep_range(10, 100);
+ 
+ 		val = readl(base + USB_SUSP_CTRL);
+ 		val &= ~USB_SUSP_CLR;
+ 		writel(val, base + USB_SUSP_CTRL);
+-	} else
++	} else {
+ 		set_phcd(phy, false);
++	}
+ 
+-	if (utmi_wait_register(base + USB_SUSP_CTRL, USB_PHY_CLK_VALID,
+-						     USB_PHY_CLK_VALID))
++	if (utmi_wait_register(base + USB_SUSP_CTRL,
++			       USB_PHY_CLK_VALID, USB_PHY_CLK_VALID))
+ 		dev_err(phy->u_phy.dev,
+ 			"Timeout waiting for PHY to stabilize on enable\n");
+ }
+ 
+ static int utmi_phy_power_on(struct tegra_usb_phy *phy)
+ {
+-	unsigned long val;
+-	void __iomem *base = phy->regs;
+ 	struct tegra_utmip_config *config = phy->config;
++	void __iomem *base = phy->regs;
++	unsigned long val;
++	int err;
+ 
+ 	val = readl(base + USB_SUSP_CTRL);
+ 	val |= UTMIP_RESET;
+@@ -510,7 +526,9 @@ static int utmi_phy_power_on(struct tegra_usb_phy *phy)
+ 		writel(val, base + UTMIP_BAT_CHRG_CFG0);
+ 	}
+ 
+-	utmip_pad_power_on(phy);
++	err = utmip_pad_power_on(phy);
++	if (err)
++		return err;
+ 
+ 	val = readl(base + UTMIP_XCVR_CFG0);
+ 	val &= ~(UTMIP_FORCE_PD_POWERDOWN | UTMIP_FORCE_PD2_POWERDOWN |
+@@ -591,8 +609,8 @@ static int utmi_phy_power_on(struct tegra_usb_phy *phy)
+ 
+ static int utmi_phy_power_off(struct tegra_usb_phy *phy)
+ {
+-	unsigned long val;
+ 	void __iomem *base = phy->regs;
++	unsigned long val;
+ 
+ 	utmi_phy_clk_disable(phy);
+ 
+@@ -626,8 +644,8 @@ static int utmi_phy_power_off(struct tegra_usb_phy *phy)
+ 
+ static void utmi_phy_preresume(struct tegra_usb_phy *phy)
+ {
+-	unsigned long val;
+ 	void __iomem *base = phy->regs;
++	unsigned long val;
+ 
+ 	val = readl(base + UTMIP_TX_CFG0);
+ 	val |= UTMIP_HS_DISCON_DISABLE;
+@@ -636,8 +654,8 @@ static void utmi_phy_preresume(struct tegra_usb_phy *phy)
+ 
+ static void utmi_phy_postresume(struct tegra_usb_phy *phy)
+ {
+-	unsigned long val;
+ 	void __iomem *base = phy->regs;
++	unsigned long val;
+ 
+ 	val = readl(base + UTMIP_TX_CFG0);
+ 	val &= ~UTMIP_HS_DISCON_DISABLE;
+@@ -647,8 +665,8 @@ static void utmi_phy_postresume(struct tegra_usb_phy *phy)
+ static void utmi_phy_restore_start(struct tegra_usb_phy *phy,
+ 				   enum tegra_usb_phy_port_speed port_speed)
+ {
+-	unsigned long val;
+ 	void __iomem *base = phy->regs;
++	unsigned long val;
+ 
+ 	val = readl(base + UTMIP_MISC_CFG0);
+ 	val &= ~UTMIP_DPDM_OBSERVE_SEL(~0);
+@@ -657,47 +675,52 @@ static void utmi_phy_restore_start(struct tegra_usb_phy *phy,
+ 	else
+ 		val |= UTMIP_DPDM_OBSERVE_SEL_FS_J;
+ 	writel(val, base + UTMIP_MISC_CFG0);
+-	udelay(1);
++	usleep_range(1, 10);
+ 
+ 	val = readl(base + UTMIP_MISC_CFG0);
+ 	val |= UTMIP_DPDM_OBSERVE;
+ 	writel(val, base + UTMIP_MISC_CFG0);
+-	udelay(10);
++	usleep_range(10, 100);
+ }
+ 
+ static void utmi_phy_restore_end(struct tegra_usb_phy *phy)
+ {
+-	unsigned long val;
+ 	void __iomem *base = phy->regs;
++	unsigned long val;
+ 
+ 	val = readl(base + UTMIP_MISC_CFG0);
+ 	val &= ~UTMIP_DPDM_OBSERVE;
+ 	writel(val, base + UTMIP_MISC_CFG0);
+-	udelay(10);
++	usleep_range(10, 100);
+ }
+ 
+ static int ulpi_phy_power_on(struct tegra_usb_phy *phy)
+ {
+-	int ret;
+-	unsigned long val;
+ 	void __iomem *base = phy->regs;
++	unsigned long val;
++	int err;
+ 
+-	ret = gpio_direction_output(phy->reset_gpio, 0);
+-	if (ret < 0) {
++	err = gpio_direction_output(phy->reset_gpio, 0);
++	if (err < 0) {
+ 		dev_err(phy->u_phy.dev, "GPIO %d not set to 0: %d\n",
+-			phy->reset_gpio, ret);
+-		return ret;
++			phy->reset_gpio, err);
++		return err;
+ 	}
+-	msleep(5);
+-	ret = gpio_direction_output(phy->reset_gpio, 1);
+-	if (ret < 0) {
++
++	err = clk_prepare_enable(phy->clk);
++	if (err)
++		return err;
++
++	usleep_range(5000, 10000);
++
++	err = gpio_direction_output(phy->reset_gpio, 1);
++	if (err < 0) {
+ 		dev_err(phy->u_phy.dev, "GPIO %d not set to 1: %d\n",
+-			phy->reset_gpio, ret);
+-		return ret;
++			phy->reset_gpio, err);
++		goto disable_clk;
+ 	}
+ 
+-	clk_prepare_enable(phy->clk);
+-	msleep(1);
++	usleep_range(1000, 2000);
+ 
+ 	val = readl(base + USB_SUSP_CTRL);
+ 	val |= UHSIC_RESET;
+@@ -718,7 +741,7 @@ static int ulpi_phy_power_on(struct tegra_usb_phy *phy)
+ 	val |= ULPI_STPDIRNXT_TRIMMER_SEL(4);
+ 	val |= ULPI_DIR_TRIMMER_SEL(4);
+ 	writel(val, base + ULPI_TIMING_CTRL_1);
+-	udelay(10);
++	usleep_range(10, 100);
+ 
+ 	val |= ULPI_DATA_TRIMMER_LOAD;
+ 	val |= ULPI_STPDIRNXT_TRIMMER_LOAD;
+@@ -726,40 +749,45 @@ static int ulpi_phy_power_on(struct tegra_usb_phy *phy)
+ 	writel(val, base + ULPI_TIMING_CTRL_1);
+ 
+ 	/* Fix VbusInvalid due to floating VBUS */
+-	ret = usb_phy_io_write(phy->ulpi, 0x40, 0x08);
+-	if (ret) {
+-		dev_err(phy->u_phy.dev, "ULPI write failed: %d\n", ret);
+-		return ret;
++	err = usb_phy_io_write(phy->ulpi, 0x40, 0x08);
++	if (err) {
++		dev_err(phy->u_phy.dev, "ULPI write failed: %d\n", err);
++		goto disable_clk;
+ 	}
+ 
+-	ret = usb_phy_io_write(phy->ulpi, 0x80, 0x0B);
+-	if (ret) {
+-		dev_err(phy->u_phy.dev, "ULPI write failed: %d\n", ret);
+-		return ret;
++	err = usb_phy_io_write(phy->ulpi, 0x80, 0x0B);
++	if (err) {
++		dev_err(phy->u_phy.dev, "ULPI write failed: %d\n", err);
++		goto disable_clk;
+ 	}
+ 
+ 	val = readl(base + USB_SUSP_CTRL);
+ 	val |= USB_SUSP_CLR;
+ 	writel(val, base + USB_SUSP_CTRL);
+-	udelay(100);
++	usleep_range(100, 1000);
+ 
+ 	val = readl(base + USB_SUSP_CTRL);
+ 	val &= ~USB_SUSP_CLR;
+ 	writel(val, base + USB_SUSP_CTRL);
+ 
+ 	return 0;
++
++disable_clk:
++	clk_disable_unprepare(phy->clk);
++
++	return err;
+ }
+ 
+ static int ulpi_phy_power_off(struct tegra_usb_phy *phy)
+ {
+-	clk_disable(phy->clk);
++	clk_disable_unprepare(phy->clk);
++
+ 	return gpio_direction_output(phy->reset_gpio, 0);
+ }
+ 
+ static void tegra_usb_phy_close(struct usb_phy *u_phy)
+ {
+-	struct tegra_usb_phy *phy = container_of(u_phy, struct tegra_usb_phy,
+-						 u_phy);
++	struct tegra_usb_phy *phy = to_tegra_usb_phy(u_phy);
+ 
+ 	if (phy->is_ulpi_phy)
+ 		ulpi_close(phy);
+@@ -788,9 +816,10 @@ static int tegra_usb_phy_power_off(struct tegra_usb_phy *phy)
+ 		return utmi_phy_power_off(phy);
+ }
+ 
+-static int tegra_usb_phy_suspend(struct usb_phy *x, int suspend)
++static int tegra_usb_phy_suspend(struct usb_phy *u_phy, int suspend)
+ {
+-	struct tegra_usb_phy *phy = container_of(x, struct tegra_usb_phy, u_phy);
++	struct tegra_usb_phy *phy = to_tegra_usb_phy(u_phy);
++
+ 	if (suspend)
+ 		return tegra_usb_phy_power_off(phy);
+ 	else
+@@ -814,10 +843,9 @@ static int ulpi_open(struct tegra_usb_phy *phy)
+ 
+ static int tegra_usb_phy_init(struct usb_phy *u_phy)
+ {
+-	struct tegra_usb_phy *phy = container_of(u_phy, struct tegra_usb_phy,
+-						 u_phy);
++	struct tegra_usb_phy *phy = to_tegra_usb_phy(u_phy);
+ 	unsigned long parent_rate;
+-	int i;
++	unsigned int i;
+ 	int err;
+ 
+ 	err = clk_prepare_enable(phy->pll_u);
+@@ -868,40 +896,41 @@ static int tegra_usb_phy_init(struct usb_phy *u_phy)
+ 		utmip_pad_close(phy);
+ fail:
+ 	clk_disable_unprepare(phy->pll_u);
++
+ 	return err;
+ }
+ 
+-void tegra_usb_phy_preresume(struct usb_phy *x)
++void tegra_usb_phy_preresume(struct usb_phy *u_phy)
+ {
+-	struct tegra_usb_phy *phy = container_of(x, struct tegra_usb_phy, u_phy);
++	struct tegra_usb_phy *phy = to_tegra_usb_phy(u_phy);
+ 
+ 	if (!phy->is_ulpi_phy)
+ 		utmi_phy_preresume(phy);
+ }
+ EXPORT_SYMBOL_GPL(tegra_usb_phy_preresume);
+ 
+-void tegra_usb_phy_postresume(struct usb_phy *x)
++void tegra_usb_phy_postresume(struct usb_phy *u_phy)
+ {
+-	struct tegra_usb_phy *phy = container_of(x, struct tegra_usb_phy, u_phy);
++	struct tegra_usb_phy *phy = to_tegra_usb_phy(u_phy);
+ 
+ 	if (!phy->is_ulpi_phy)
+ 		utmi_phy_postresume(phy);
+ }
+ EXPORT_SYMBOL_GPL(tegra_usb_phy_postresume);
+ 
+-void tegra_ehci_phy_restore_start(struct usb_phy *x,
+-				 enum tegra_usb_phy_port_speed port_speed)
++void tegra_ehci_phy_restore_start(struct usb_phy *u_phy,
++				  enum tegra_usb_phy_port_speed port_speed)
+ {
+-	struct tegra_usb_phy *phy = container_of(x, struct tegra_usb_phy, u_phy);
++	struct tegra_usb_phy *phy = to_tegra_usb_phy(u_phy);
+ 
+ 	if (!phy->is_ulpi_phy)
+ 		utmi_phy_restore_start(phy, port_speed);
+ }
+ EXPORT_SYMBOL_GPL(tegra_ehci_phy_restore_start);
+ 
+-void tegra_ehci_phy_restore_end(struct usb_phy *x)
++void tegra_ehci_phy_restore_end(struct usb_phy *u_phy)
+ {
+-	struct tegra_usb_phy *phy = container_of(x, struct tegra_usb_phy, u_phy);
++	struct tegra_usb_phy *phy = to_tegra_usb_phy(u_phy);
+ 
+ 	if (!phy->is_ulpi_phy)
+ 		utmi_phy_restore_end(phy);
+@@ -912,21 +941,25 @@ static int read_utmi_param(struct platform_device *pdev, const char *param,
+ 			   u8 *dest)
+ {
+ 	u32 value;
+-	int err = of_property_read_u32(pdev->dev.of_node, param, &value);
+-	*dest = (u8)value;
++	int err;
++
++	err = of_property_read_u32(pdev->dev.of_node, param, &value);
+ 	if (err < 0)
+ 		dev_err(&pdev->dev,
+ 			"Failed to read USB UTMI parameter %s: %d\n",
+ 			param, err);
++	else
++		*dest = (u8)value;
++
+ 	return err;
+ }
+ 
+ static int utmi_phy_probe(struct tegra_usb_phy *tegra_phy,
+ 			  struct platform_device *pdev)
+ {
++	struct tegra_utmip_config *config;
+ 	struct resource *res;
+ 	int err;
+-	struct tegra_utmip_config *config;
+ 
+ 	tegra_phy->is_ulpi_phy = false;
+ 
+@@ -937,7 +970,7 @@ static int utmi_phy_probe(struct tegra_usb_phy *tegra_phy,
+ 	}
+ 
+ 	tegra_phy->pad_regs = devm_ioremap(&pdev->dev, res->start,
+-		resource_size(res));
++					   resource_size(res));
+ 	if (!tegra_phy->pad_regs) {
+ 		dev_err(&pdev->dev, "Failed to remap UTMI pad regs\n");
+ 		return -ENOMEM;
+@@ -951,48 +984,48 @@ static int utmi_phy_probe(struct tegra_usb_phy *tegra_phy,
+ 	config = tegra_phy->config;
+ 
+ 	err = read_utmi_param(pdev, "nvidia,hssync-start-delay",
+-		&config->hssync_start_delay);
++			      &config->hssync_start_delay);
+ 	if (err < 0)
+ 		return err;
+ 
+ 	err = read_utmi_param(pdev, "nvidia,elastic-limit",
+-		&config->elastic_limit);
++			      &config->elastic_limit);
+ 	if (err < 0)
+ 		return err;
+ 
+ 	err = read_utmi_param(pdev, "nvidia,idle-wait-delay",
+-		&config->idle_wait_delay);
++			      &config->idle_wait_delay);
+ 	if (err < 0)
+ 		return err;
+ 
+ 	err = read_utmi_param(pdev, "nvidia,term-range-adj",
+-		&config->term_range_adj);
++			      &config->term_range_adj);
+ 	if (err < 0)
+ 		return err;
+ 
+ 	err = read_utmi_param(pdev, "nvidia,xcvr-lsfslew",
+-		&config->xcvr_lsfslew);
++			      &config->xcvr_lsfslew);
+ 	if (err < 0)
+ 		return err;
+ 
+ 	err = read_utmi_param(pdev, "nvidia,xcvr-lsrslew",
+-		&config->xcvr_lsrslew);
++			      &config->xcvr_lsrslew);
+ 	if (err < 0)
+ 		return err;
+ 
+ 	if (tegra_phy->soc_config->requires_extra_tuning_parameters) {
+ 		err = read_utmi_param(pdev, "nvidia,xcvr-hsslew",
+-			&config->xcvr_hsslew);
++				      &config->xcvr_hsslew);
+ 		if (err < 0)
+ 			return err;
+ 
+ 		err = read_utmi_param(pdev, "nvidia,hssquelch-level",
+-			&config->hssquelch_level);
++				      &config->hssquelch_level);
+ 		if (err < 0)
+ 			return err;
+ 
+ 		err = read_utmi_param(pdev, "nvidia,hsdiscon-level",
+-			&config->hsdiscon_level);
++				      &config->hsdiscon_level);
+ 		if (err < 0)
+ 			return err;
+ 	}
+@@ -1002,7 +1035,7 @@ static int utmi_phy_probe(struct tegra_usb_phy *tegra_phy,
+ 
+ 	if (!config->xcvr_setup_use_fuses) {
+ 		err = read_utmi_param(pdev, "nvidia,xcvr-setup",
+-			&config->xcvr_setup);
++				      &config->xcvr_setup);
+ 		if (err < 0)
+ 			return err;
+ 	}
+@@ -1033,23 +1066,17 @@ MODULE_DEVICE_TABLE(of, tegra_usb_phy_id_table);
+ 
+ static int tegra_usb_phy_probe(struct platform_device *pdev)
+ {
+-	const struct of_device_id *match;
+-	struct resource *res;
+-	struct tegra_usb_phy *tegra_phy = NULL;
+ 	struct device_node *np = pdev->dev.of_node;
++	struct tegra_usb_phy *tegra_phy = NULL;
+ 	enum usb_phy_interface phy_type;
++	struct resource *res;
+ 	int err;
+ 
+ 	tegra_phy = devm_kzalloc(&pdev->dev, sizeof(*tegra_phy), GFP_KERNEL);
+ 	if (!tegra_phy)
+ 		return -ENOMEM;
+ 
+-	match = of_match_device(tegra_usb_phy_id_table, &pdev->dev);
+-	if (!match) {
+-		dev_err(&pdev->dev, "Error: No device match found\n");
+-		return -ENODEV;
+-	}
+-	tegra_phy->soc_config = match->data;
++	tegra_phy->soc_config = of_device_get_match_data(&pdev->dev);
+ 
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	if (!res) {
+@@ -1058,7 +1085,7 @@ static int tegra_usb_phy_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	tegra_phy->regs = devm_ioremap(&pdev->dev, res->start,
+-		resource_size(res));
++				       resource_size(res));
+ 	if (!tegra_phy->regs) {
+ 		dev_err(&pdev->dev, "Failed to remap I/O memory\n");
+ 		return -ENOMEM;
+@@ -1080,12 +1107,12 @@ static int tegra_usb_phy_probe(struct platform_device *pdev)
+ 
+ 		tegra_phy->reset_gpio =
+ 			of_get_named_gpio(np, "nvidia,phy-reset-gpio", 0);
++
+ 		if (!gpio_is_valid(tegra_phy->reset_gpio)) {
+ 			dev_err(&pdev->dev,
+ 				"Invalid GPIO: %d\n", tegra_phy->reset_gpio);
+ 			return tegra_phy->reset_gpio;
+ 		}
+-		tegra_phy->config = NULL;
+ 		break;
+ 
+ 	default:
+@@ -1131,7 +1158,7 @@ static int tegra_usb_phy_probe(struct platform_device *pdev)
+ 		}
+ 
+ 		err = devm_gpio_request(&pdev->dev, tegra_phy->reset_gpio,
+-			"ulpi_phy_reset_b");
++					"ulpi_phy_reset_b");
+ 		if (err < 0) {
+ 			dev_err(&pdev->dev, "Request failed for GPIO %d: %d\n",
+ 				tegra_phy->reset_gpio, err);
+-- 
+2.24.0
 
-For the rest of the comments please see below.
-
->
-> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> > ---
-> >  Documentation/usb/index.rst         |    1 +
-> >  Documentation/usb/raw-gadget.rst    |   59 ++
-> >  drivers/usb/gadget/legacy/Kconfig   |    8 +
-> >  drivers/usb/gadget/legacy/Makefile  |    1 +
-> >  drivers/usb/gadget/legacy/raw.c     | 1070 +++++++++++++++++++++++++++
-> >  include/uapi/linux/usb/raw_gadget.h |  167 +++++
-> >  6 files changed, 1306 insertions(+)
-> >  create mode 100644 Documentation/usb/raw-gadget.rst
-> >  create mode 100644 drivers/usb/gadget/legacy/raw.c
-> >  create mode 100644 include/uapi/linux/usb/raw_gadget.h
-> >
-> > diff --git a/Documentation/usb/index.rst b/Documentation/usb/index.rst
-> > index e55386a4abfb..90310e2a0c1f 100644
-> > --- a/Documentation/usb/index.rst
-> > +++ b/Documentation/usb/index.rst
-> > @@ -22,6 +22,7 @@ USB support
-> >      misc_usbsevseg
-> >      mtouchusb
-> >      ohci
-> > +    raw-gadget
-> >      rio
-> >      usbip_protocol
-> >      usbmon
-> > diff --git a/Documentation/usb/raw-gadget.rst b/Documentation/usb/raw-gadget.rst
-> > new file mode 100644
-> > index 000000000000..cbedf5451ed3
-> > --- /dev/null
-> > +++ b/Documentation/usb/raw-gadget.rst
-> > @@ -0,0 +1,59 @@
-> > +==============
-> > +USB Raw Gadget
-> > +==============
-> > +
-> > +USB Raw Gadget is a kernel module that provides a userspace interface for
-> > +the USB Gadget subsystem. Essentially it allows to emulate USB devices
-> > +from userspace. Enabled with CONFIG_USB_RAW_GADGET. Raw Gadget is
-> > +currently a strictly debugging feature and shouldn't be used in
-> > +production, use GadgetFS instead.
-> > +
-> > +Comparison to GadgetFS
-> > +~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +Raw Gadget is similar to GadgetFS, but provides a more low-level and
-> > +direct access to the USB Gadget layer for the userspace. The key
-> > +differences are:
-> > +
-> > +1. Every USB request is passed to the userspace to get a response, while
-> > +   GadgetFS responds to some USB requests internally based on the provided
-> > +   descriptors. However note, that the UDC driver might respond to some
-> > +   requests on its own and never forward them to the Gadget layer.
-> > +
-> > +2. GadgetFS performs some sanity checks on the provided USB descriptors,
-> > +   while Raw Gadget allows you to provide arbitrary data as responses to
-> > +   USB requests.
-> > +
-> > +3. Raw Gadget provides a way to select a UDC device/driver to bind to,
-> > +   while GadgetFS currently binds to the first available UDC.
-> > +
-> > +4. Raw Gadget uses predictable endpoint names (handles) across different
-> > +   UDCs (as long as UDCs have enough endpoints of each required transfer
-> > +   type).
-> > +
-> > +5. Raw Gadget has ioctl-based interface instead of a filesystem-based one.
-> > +
-> > +Userspace interface
-> > +~~~~~~~~~~~~~~~~~~~
-> > +
-> > +To create a Raw Gadget instance open /dev/raw-gadget. Multiple raw-gadget
-> > +instances (bound to different UDCs) can be used at the same time. The
-> > +interaction with the opened file happens through the ioctl() calls, see
-> > +comments in include/uapi/linux/usb/raw_gadget.h for details.
-> > +
-> > +The typical usage of Raw Gadget looks like:
-> > +
-> > +1. Open Raw Gadget instance via /dev/raw-gadget.
-> > +2. Initialize the instance via USB_RAW_IOCTL_INIT.
-> > +3. Launch the instance with USB_RAW_IOCTL_RUN.
-> > +4. In a loop issue USB_RAW_IOCTL_EVENT_FETCH calls to receive events from
-> > +   Raw Gadget and react to those depending on what kind of USB device
-> > +   needs to be emulated.
-> > +
-> > +Potential future improvements
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +- Implement ioctl's for setting/clearing halt status on endpoints.
-> > +
-> > +- Reporting more events (suspend, resume, etc.) through
-> > +  USB_RAW_IOCTL_EVENT_FETCH.
-> > diff --git a/drivers/usb/gadget/legacy/Kconfig b/drivers/usb/gadget/legacy/Kconfig
-> > index 119a4e47681f..8c947edf7515 100644
-> > --- a/drivers/usb/gadget/legacy/Kconfig
-> > +++ b/drivers/usb/gadget/legacy/Kconfig
-> > @@ -489,3 +489,11 @@ config USB_G_WEBCAM
-> >
-> >         Say "y" to link the driver statically, or "m" to build a
-> >         dynamically linked module called "g_webcam".
-> > +
-> > +config USB_RAW_GADGET
-> > +     tristate "USB Raw Gadget"
-> > +     help
-> > +       USB Raw Gadget is a kernel module that provides a userspace interface
-> > +       for the USB Gadget subsystem. Essentially it allows to emulate USB
-> > +       devices from userspace. See Documentation/usb/raw-gadget.rst for
-> > +       details.
->
-> No help text saying what the module name would be if selected as one?
-
-Will add in v4.
-
->
->
-> > diff --git a/drivers/usb/gadget/legacy/Makefile b/drivers/usb/gadget/legacy/Makefile
-> > index abd0c3e66a05..799feefeee58 100644
-> > --- a/drivers/usb/gadget/legacy/Makefile
-> > +++ b/drivers/usb/gadget/legacy/Makefile
-> > @@ -43,3 +43,4 @@ obj-$(CONFIG_USB_G_WEBCAM)  += g_webcam.o
-> >  obj-$(CONFIG_USB_G_NCM)              += g_ncm.o
-> >  obj-$(CONFIG_USB_G_ACM_MS)   += g_acm_ms.o
-> >  obj-$(CONFIG_USB_GADGET_TARGET)      += tcm_usb_gadget.o
-> > +obj-$(CONFIG_USB_RAW_GADGET) += raw.o
->
-> raw.ko?  I think we already have a raw.ko in the kernel, shouldn't this
-> be usb_raw_gadget.ko or something?
->
-> Yeah, we do, look at drivers/char/raw.c.  This needs to be changed,
-> I can't take it as-is otherwise the builders will croak on it.
-
-OK, I think raw_gadget.ko is short enough and unique. Will change it in in v4.
-
->
-> > diff --git a/drivers/usb/gadget/legacy/raw.c b/drivers/usb/gadget/legacy/raw.c
-> > new file mode 100644
-> > index 000000000000..fcfa2ebc103e
-> > --- /dev/null
-> > +++ b/drivers/usb/gadget/legacy/raw.c
-> > @@ -0,0 +1,1070 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * USB Raw Gadget driver.
-> > + * See Documentation/usb/raw-gadget.rst for more details.
-> > + *
-> > + * Andrey Konovalov <andreyknvl@gmail.com>
-> > + */
-> > +
-> > +#define pr_fmt(fmt) "raw: %s: " fmt, __func__
->
-> "raw gadget"?
->
-> This a driver, why do you ever need to do a pr_* call and not a dev_*
-> instead?
->
-> > +
-> > +#include <linux/compiler.h>
-> > +#include <linux/debugfs.h>
-> > +#include <linux/delay.h>
-> > +#include <linux/kref.h>
-> > +#include <linux/miscdevice.h>
-> > +#include <linux/module.h>
-> > +#include <linux/semaphore.h>
-> > +#include <linux/sched.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/uaccess.h>
-> > +#include <linux/wait.h>
-> > +
-> > +#include <linux/usb.h>
-> > +#include <linux/usb/ch9.h>
-> > +#include <linux/usb/ch11.h>
-> > +#include <linux/usb/gadget.h>
-> > +
-> > +#include <uapi/linux/usb/raw_gadget.h>
-> > +
-> > +#define      DRIVER_DESC "USB Raw Gadget"
-> > +#define DRIVER_NAME "raw-gadget"
->
-> You only use this in one place.  You can use it in the definition of the
-> misc driver name also, right?
-
-Yes, will do in v4.
-
->
->
-> > +
-> > +MODULE_DESCRIPTION(DRIVER_DESC);
-> > +MODULE_AUTHOR("Andrey Konovalov");
-> > +MODULE_LICENSE("GPL");
-> > +
-> > +/*----------------------------------------------------------------------*/
-> > +
-> > +#define RAW_EVENT_QUEUE_SIZE 128
-> > +
-> > +struct raw_event_queue {
-> > +     spinlock_t              lock;
-> > +     struct semaphore        sema;
->
-> Two locks for the same structure?  That feels "wrong".  Why is this?
-> document the heck out of it if it is required please.
-
-raw_event_queue_fetch() can be called concurrently, so there we first
-check that there's at least one event queued by decrementing the
-semaphore, and then take the lock to protect queue struct fields. Does
-this make sense?
-
-I'll add comment explaining that in v4.
-
->
-> > +     struct usb_raw_event    *events[RAW_EVENT_QUEUE_SIZE];
-> > +     int                     size;
-> > +};
-> > +
-> > +static void raw_event_queue_init(struct raw_event_queue *queue)
-> > +{
-> > +     spin_lock_init(&queue->lock);
-> > +     sema_init(&queue->sema, 0);
-> > +     queue->size = 0;
-> > +}
-> > +
-> > +static int raw_event_queue_add(struct raw_event_queue *queue,
-> > +     enum usb_raw_event_type type, size_t length, const void *data)
-> > +{
-> > +     unsigned long flags;
-> > +     struct usb_raw_event *event;
-> > +
-> > +     spin_lock_irqsave(&queue->lock, flags);
-> > +     if (queue->size >= RAW_EVENT_QUEUE_SIZE) {
-> > +             pr_err("too many events\n");
->
-> What can someone do with this error?
-
-Hm, I guess we better change this to WARN_ON(), since if this is
-triggered, there's probably a flaw in raw gadget that we want to
-detect and get fixed.
-
->
-> dev_err() to show exactly where it came from?
->
-> > +             spin_unlock_irqrestore(&queue->lock, flags);
-> > +             return -ENOMEM;
-> > +     }
-> > +     event = kmalloc(sizeof(*event) + length, GFP_ATOMIC);
-> > +     if (!event) {
-> > +             spin_unlock_irqrestore(&queue->lock, flags);
-> > +             return -ENOMEM;
-> > +     }
-> > +     event->type = type;
-> > +     event->length = length;
-> > +     if (event->length)
-> > +             memcpy(&event->data[0], data, length);
-> > +     queue->events[queue->size] = event;
-> > +     queue->size++;
-> > +     up(&queue->sema);
-> > +     spin_unlock_irqrestore(&queue->lock, flags);
-> > +     return 0;
-> > +}
-> > +
-> > +static struct usb_raw_event *raw_event_queue_fetch(
-> > +                             struct raw_event_queue *queue)
-> > +{
-> > +     unsigned long flags;
-> > +     struct usb_raw_event *event;
-> > +
-> > +     if (down_interruptible(&queue->sema))
-> > +             return NULL;
-> > +     spin_lock_irqsave(&queue->lock, flags);
->
-> You just locked twice?
-
-See the explanation above.
-
->
-> > +     if (WARN_ON(!queue->size))
-> > +             return NULL;
->
-> It's as if you want to trigger syzbot :)
->
-> Just log it and return an error.
-
-We do want to trigger syzbot here =) Same as with the upper bound, if
-this is hit, there's probably a flaw in raw gadget that we want to
-detect and get fixed.
-
->
-> > +     event = queue->events[0];
-> > +     queue->size--;
-> > +     memmove(&queue->events[0], &queue->events[1],
-> > +                     queue->size * sizeof(queue->events[0]));
-> > +     spin_unlock_irqrestore(&queue->lock, flags);
-> > +     return event;
-> > +}
-> > +
-> > +static void raw_event_queue_destroy(struct raw_event_queue *queue)
-> > +{
-> > +     int i;
-> > +
-> > +     for (i = 0; i < queue->size; i++)
-> > +             kfree(queue->events[i]);
-> > +     queue->size = 0;
->
-> No locking needed?
-
-No. This is called from dev_free(), which is only called when all
-references go away, so there are no concurrent accesses.
-
->
-> > +}
-> > +
-> > +/*----------------------------------------------------------------------*/
-> > +
-> > +struct raw_dev;
-> > +
-> > +#define USB_RAW_MAX_ENDPOINTS 32
-> > +
-> > +enum ep_state {
-> > +     STATE_EP_DISABLED,
-> > +     STATE_EP_ENABLED,
-> > +};
-> > +
-> > +struct raw_ep {
-> > +     struct raw_dev          *dev;
-> > +     enum ep_state           state;
-> > +     struct usb_ep           *ep;
-> > +     struct usb_request      *req;
-> > +     bool                    urb_queued;
-> > +     bool                    disabling;
-> > +     ssize_t                 status;
-> > +};
-> > +
-> > +enum dev_state {
-> > +     STATE_DEV_INVALID = 0,
-> > +     STATE_DEV_OPENED,
-> > +     STATE_DEV_INITIALIZED,
-> > +     STATE_DEV_RUNNING,
-> > +     STATE_DEV_CLOSED,
-> > +     STATE_DEV_FAILED
-> > +};
-> > +
-> > +struct raw_dev {
-> > +     struct kref                     count;
-> > +     spinlock_t                      lock;
-> > +
-> > +     const char                      *udc_name;
-> > +     struct usb_gadget_driver        driver;
->
-> A dev embeds a driver?
->
-> Not a pointer?
->
-> But you have a kref, so the reference count of this object is there,
-> right?
-
-I didn't get this comment, could you elaborate? I can make it a
-pointer, but for each raw_dev we have a unique usb_gadget_driver
-instance, so embedding it as is is simpler.
-
->
-> > +
-> > +     /* Protected by lock: */
-> > +     enum dev_state                  state;
-> > +     bool                            gadget_registered;
-> > +     struct usb_gadget               *gadget;
-> > +     struct usb_request              *req;
-> > +     bool                            ep0_in_pending;
-> > +     bool                            ep0_out_pending;
-> > +     bool                            ep0_urb_queued;
-> > +     ssize_t                         ep0_status;
-> > +     struct raw_ep                   eps[USB_RAW_MAX_ENDPOINTS];
-> > +
-> > +     struct completion               ep0_done;
-> > +     struct raw_event_queue          queue;
->
-> No pointer to your misc device?  I think you need that for logging.
->
-> > +};
-> > +
-> > +static struct raw_dev *dev_new(void)
-> > +{
-> > +     struct raw_dev *dev;
-> > +
-> > +     dev = kzalloc(sizeof(*dev), GFP_KERNEL);
-> > +     if (!dev)
-> > +             return NULL;
-> > +     /* Matches kref_put() in raw_release(). */
-> > +     kref_init(&dev->count);
-> > +     spin_lock_init(&dev->lock);
-> > +     init_completion(&dev->ep0_done);
-> > +     raw_event_queue_init(&dev->queue);
-> > +     return dev;
-> > +}
-> > +
-> > +static void dev_free(struct kref *kref)
-> > +{
-> > +     struct raw_dev *dev = container_of(kref, struct raw_dev, count);
-> > +     int i;
-> > +
-> > +     kfree(dev->udc_name);
-> > +     kfree(dev->driver.udc_name);
-> > +     if (dev->req) {
-> > +             if (dev->ep0_urb_queued)
-> > +                     usb_ep_dequeue(dev->gadget->ep0, dev->req);
-> > +             usb_ep_free_request(dev->gadget->ep0, dev->req);
-> > +     }
-> > +     raw_event_queue_destroy(&dev->queue);
-> > +     for (i = 0; i < USB_RAW_MAX_ENDPOINTS; i++) {
-> > +             if (dev->eps[i].state != STATE_EP_ENABLED)
-> > +                     continue;
-> > +             usb_ep_disable(dev->eps[i].ep);
-> > +             usb_ep_free_request(dev->eps[i].ep, dev->eps[i].req);
-> > +             kfree(dev->eps[i].ep->desc);
-> > +             dev->eps[i].state = STATE_EP_DISABLED;
-> > +     }
-> > +     kfree(dev);
-> > +}
-> > +
-> > +/*----------------------------------------------------------------------*/
-> > +
-> > +static int raw_queue_event(struct raw_dev *dev,
-> > +     enum usb_raw_event_type type, size_t length, const void *data)
-> > +{
-> > +     int ret = 0;
-> > +     unsigned long flags;
-> > +
-> > +     ret = raw_event_queue_add(&dev->queue, type, length, data);
-> > +     if (ret < 0) {
-> > +             spin_lock_irqsave(&dev->lock, flags);
-> > +             dev->state = STATE_DEV_FAILED;
-> > +             spin_unlock_irqrestore(&dev->lock, flags);
-> > +     }
-> > +     return ret;
-> > +}
-> > +
-> > +static void gadget_ep0_complete(struct usb_ep *ep, struct usb_request *req)
-> > +{
-> > +     struct raw_dev *dev = req->context;
-> > +     unsigned long flags;
-> > +
-> > +     spin_lock_irqsave(&dev->lock, flags);
-> > +     if (req->status)
-> > +             dev->ep0_status = req->status;
-> > +     else
-> > +             dev->ep0_status = req->actual;
-> > +     if (dev->ep0_in_pending)
-> > +             dev->ep0_in_pending = false;
-> > +     else
-> > +             dev->ep0_out_pending = false;
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +
-> > +     complete(&dev->ep0_done);
-> > +}
-> > +
-> > +static int gadget_bind(struct usb_gadget *gadget,
-> > +                     struct usb_gadget_driver *driver)
-> > +{
-> > +     int ret = 0;
-> > +     struct raw_dev *dev = container_of(driver, struct raw_dev, driver);
-> > +     struct usb_request *req;
-> > +     unsigned long flags;
-> > +
-> > +     if (strcmp(gadget->name, dev->udc_name) != 0)
-> > +             return -ENODEV;
-> > +
-> > +     set_gadget_data(gadget, dev);
-> > +     req = usb_ep_alloc_request(gadget->ep0, GFP_KERNEL);
-> > +     if (!req) {
-> > +             pr_err("usb_ep_alloc_request failed\n");
-> > +             set_gadget_data(gadget, NULL);
-> > +             return -ENOMEM;
-> > +     }
-> > +
-> > +     spin_lock_irqsave(&dev->lock, flags);
-> > +     dev->req = req;
-> > +     dev->req->context = dev;
-> > +     dev->req->complete = gadget_ep0_complete;
-> > +     dev->gadget = gadget;
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +
-> > +     /* Matches kref_put() in gadget_unbind(). */
-> > +     kref_get(&dev->count);
-> > +
-> > +     ret = raw_queue_event(dev, USB_RAW_EVENT_CONNECT, 0, NULL);
-> > +     if (ret < 0)
-> > +             pr_err("failed to queue event\n");
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +static void gadget_unbind(struct usb_gadget *gadget)
-> > +{
-> > +     struct raw_dev *dev = get_gadget_data(gadget);
-> > +     unsigned long flags;
-> > +
-> > +     spin_lock_irqsave(&dev->lock, flags);
-> > +     set_gadget_data(gadget, NULL);
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +     /* Matches kref_get() in gadget_bind(). */
-> > +     kref_put(&dev->count, dev_free);
->
-> What protects the kref from being called 'put' twice on the same
-> pointer at the same time?  There should be some lock somewhere, right?
-
-Hm, kref_put() does refcount_dec_and_test(), which in turns calls
-atomic_dec_and_test(), so this is protected against concurrent puts
-(which is the whole idea of kref?), and no locking is needed. Unless I
-misunderstand something.
-
->
->
-> > +}
-> > +
-> > +static int gadget_setup(struct usb_gadget *gadget,
-> > +                     const struct usb_ctrlrequest *ctrl)
-> > +{
-> > +     int ret = 0;
-> > +     struct raw_dev *dev = get_gadget_data(gadget);
-> > +     unsigned long flags;
-> > +
-> > +     spin_lock_irqsave(&dev->lock, flags);
-> > +     if (dev->state != STATE_DEV_RUNNING) {
-> > +             pr_err("ignoring, device is not running\n");
-> > +             ret = -ENODEV;
-> > +             goto out_unlock;
-> > +     }
-> > +     if (dev->ep0_in_pending || dev->ep0_out_pending) {
-> > +             pr_debug("stalling, already have pending request\n");
-> > +             ret = -EBUSY;
-> > +             goto out_unlock;
-> > +     }
-> > +     if ((ctrl->bRequestType & USB_DIR_IN) && ctrl->wLength)
-> > +             dev->ep0_in_pending = true;
-> > +     else
-> > +             dev->ep0_out_pending = true;
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +
-> > +     ret = raw_queue_event(dev, USB_RAW_EVENT_CONTROL, sizeof(*ctrl), ctrl);
-> > +     if (ret < 0)
-> > +             pr_err("failed to queue event\n");
-> > +     goto out;
-> > +
-> > +out_unlock:
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +out:
-> > +     return ret;
-> > +}
-> > +
-> > +/* These are currently ununsed but present in case UDC driver requires them. */
-> > +static void gadget_disconnect(struct usb_gadget *gadget) { }
-> > +static void gadget_suspend(struct usb_gadget *gadget) { }
-> > +static void gadget_resume(struct usb_gadget *gadget) { }
-> > +static void gadget_reset(struct usb_gadget *gadget) { }
-> > +
-> > +/*----------------------------------------------------------------------*/
-> > +
-> > +static int raw_open(struct inode *inode, struct file *fd)
-> > +{
-> > +     struct raw_dev *dev;
-> > +
-> > +     dev = dev_new();
-> > +     if (!dev) {
-> > +             pr_err("failed to created device");
->
-> You should have access to your misc device here, so dev_err()?
->
-> > +             return -ENOMEM;
-> > +     }
-> > +     fd->private_data = dev;
-> > +     dev->state = STATE_DEV_OPENED;
-> > +     return 0;
-> > +}
-> > +
-> > +static int raw_release(struct inode *inode, struct file *fd)
-> > +{
-> > +     int ret = 0;
-> > +     struct raw_dev *dev = fd->private_data;
-> > +     unsigned long flags;
-> > +     bool unregister = false;
-> > +
-> > +     spin_lock_irqsave(&dev->lock, flags);
-> > +     dev->state = STATE_DEV_CLOSED;
-> > +     if (!dev->gadget) {
-> > +             spin_unlock_irqrestore(&dev->lock, flags);
-> > +             goto out_put;
-> > +     }
-> > +     if (dev->gadget_registered)
-> > +             unregister = true;
-> > +     dev->gadget_registered = false;
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +
-> > +     if (unregister) {
-> > +             ret = usb_gadget_unregister_driver(&dev->driver);
-> > +             WARN_ON(ret != 0);
->
-> you want to crash?  :)
-
-No reason to crash here I guess :) Will remove in v4.
-
->
-> > +             /* Matches kref_get() in raw_ioctl_run(). */
-> > +             kref_put(&dev->count, dev_free);
-> > +     }
-> > +
-> > +out_put:
-> > +     /* Matches dev_new() in raw_open(). */
-> > +     kref_put(&dev->count, dev_free);
-> > +     return ret;
-> > +}
-> > +
-> > +/*----------------------------------------------------------------------*/
-> > +
-> > +static int raw_ioctl_init(struct raw_dev *dev, unsigned long value)
-> > +{
-> > +     int ret = 0;
-> > +     struct usb_raw_init arg;
-> > +     char *udc_driver_name;
-> > +     char *udc_device_name;
-> > +     unsigned long flags;
-> > +
-> > +     ret = copy_from_user(&arg, (void __user *)value, sizeof(arg));
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     switch (arg.speed) {
-> > +     case USB_SPEED_UNKNOWN:
-> > +             arg.speed = USB_SPEED_HIGH;
-> > +             break;
-> > +     case USB_SPEED_LOW:
-> > +     case USB_SPEED_FULL:
-> > +     case USB_SPEED_HIGH:
-> > +     case USB_SPEED_SUPER:
-> > +             break;
-> > +     default:
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     udc_driver_name = kmalloc(UDC_NAME_LENGTH_MAX, GFP_KERNEL);
-> > +     if (!udc_driver_name)
-> > +             return -ENOMEM;
-> > +     ret = strscpy(udc_driver_name, &arg.driver_name[0],
-> > +                             UDC_NAME_LENGTH_MAX);
-> > +     if (ret < 0) {
-> > +             kfree(udc_driver_name);
-> > +             return ret;
-> > +     }
-> > +     ret = 0;
-> > +
-> > +     udc_device_name = kmalloc(UDC_NAME_LENGTH_MAX, GFP_KERNEL);
-> > +     if (!udc_device_name) {
-> > +             kfree(udc_driver_name);
-> > +             return -ENOMEM;
-> > +     }
-> > +     ret = strscpy(udc_device_name, &arg.device_name[0],
-> > +                             UDC_NAME_LENGTH_MAX);
-> > +     if (ret < 0) {
-> > +             kfree(udc_driver_name);
-> > +             kfree(udc_device_name);
-> > +             return ret;
-> > +     }
-> > +     ret = 0;
-> > +
-> > +     spin_lock_irqsave(&dev->lock, flags);
-> > +     if (dev->state != STATE_DEV_OPENED) {
-> > +             pr_debug("fail, device is not opened\n");
->
-> dev_dbg().
->
-> > +             kfree(udc_driver_name);
-> > +             kfree(udc_device_name);
-> > +             ret = -EINVAL;
-> > +             goto out_unlock;
-> > +     }
-> > +     dev->udc_name = udc_driver_name;
-> > +
-> > +     dev->driver.function = DRIVER_DESC;
-> > +     dev->driver.max_speed = arg.speed;
-> > +     dev->driver.setup = gadget_setup;
-> > +     dev->driver.disconnect = gadget_disconnect;
-> > +     dev->driver.bind = gadget_bind;
-> > +     dev->driver.unbind = gadget_unbind;
-> > +     dev->driver.suspend = gadget_suspend;
-> > +     dev->driver.resume = gadget_resume;
-> > +     dev->driver.reset = gadget_reset;
-> > +     dev->driver.driver.name = DRIVER_NAME;
-> > +     dev->driver.udc_name = udc_device_name;
-> > +     dev->driver.match_existing_only = 1;
-> > +
-> > +     dev->state = STATE_DEV_INITIALIZED;
-> > +
-> > +out_unlock:
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +     return ret;
-> > +}
-> > +
-> > +static int raw_ioctl_run(struct raw_dev *dev, unsigned long value)
-> > +{
-> > +     int ret = 0;
-> > +     unsigned long flags;
-> > +
-> > +     if (value)
-> > +             return -EINVAL;
-> > +
-> > +     spin_lock_irqsave(&dev->lock, flags);
-> > +     if (dev->state != STATE_DEV_INITIALIZED) {
-> > +             pr_debug("fail, device is not initialized\n");
->
-> dev_dbg()
->
-> > +             ret = -EINVAL;
-> > +             goto out_unlock;
-> > +     }
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +
-> > +     ret = usb_gadget_probe_driver(&dev->driver);
-> > +
-> > +     spin_lock_irqsave(&dev->lock, flags);
-> > +     if (ret) {
-> > +             pr_err("fail, usb_gadget_probe_driver returned %d\n", ret);
->
-> dev_err()
->
-> same goes for everywhere, no need for any pr_* calls in this driver.
->
-> > +             dev->state = STATE_DEV_FAILED;
-> > +             goto out_unlock;
-> > +     }
-> > +     dev->gadget_registered = true;
-> > +     dev->state = STATE_DEV_RUNNING;
-> > +     /* Matches kref_put() in raw_release(). */
-> > +     kref_get(&dev->count);
-> > +
-> > +out_unlock:
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +     return ret;
-> > +}
-> > +
-> > +static int raw_ioctl_event_fetch(struct raw_dev *dev, unsigned long value)
-> > +{
-> > +     int ret = 0;
-> > +     struct usb_raw_event arg;
-> > +     unsigned long flags;
-> > +     struct usb_raw_event *event;
-> > +     uint32_t length;
-> > +
-> > +     ret = copy_from_user(&arg, (void __user *)value, sizeof(arg));
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     spin_lock_irqsave(&dev->lock, flags);
-> > +     if (dev->state != STATE_DEV_RUNNING) {
-> > +             pr_debug("fail, device is not running\n");
-> > +             spin_unlock_irqrestore(&dev->lock, flags);
-> > +             return -EINVAL;
-> > +     }
-> > +     if (!dev->gadget) {
-> > +             pr_debug("fail, gadget is not bound\n");
-> > +             spin_unlock_irqrestore(&dev->lock, flags);
-> > +             return -EBUSY;
-> > +     }
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +
-> > +     event = raw_event_queue_fetch(&dev->queue);
-> > +     if (!event) {
-> > +             pr_debug("event fetching interrupted\n");
-> > +             return -EINTR;
-> > +     }
-> > +     length = min(arg.length, event->length);
-> > +     ret = copy_to_user((void __user *)value, event,
-> > +                             sizeof(*event) + length);
-> > +     return ret;
-> > +}
-> > +
-> > +static void *raw_alloc_io_data(struct usb_raw_ep_io *io, void __user *ptr,
-> > +                             bool get_from_user)
-> > +{
-> > +     int ret;
-> > +     void *data;
-> > +
-> > +     ret = copy_from_user(io, ptr, sizeof(*io));
-> > +     if (ret)
-> > +             return ERR_PTR(ret);
-> > +     if (io->ep >= USB_RAW_MAX_ENDPOINTS)
-> > +             return ERR_PTR(-EINVAL);
-> > +     if (!usb_raw_io_flags_valid(io->flags))
-> > +             return ERR_PTR(-EINVAL);
-> > +     if (io->length > PAGE_SIZE)
-> > +             return ERR_PTR(-EINVAL);
-> > +     if (get_from_user)
-> > +             data = memdup_user(ptr + sizeof(*io), io->length);
-> > +     else {
-> > +             data = kmalloc(io->length, GFP_KERNEL);
-> > +             if (!data)
-> > +                     data = ERR_PTR(-ENOMEM);
-> > +     }
-> > +     return data;
-> > +}
-> > +
-> > +static int raw_process_ep0_io(struct raw_dev *dev, struct usb_raw_ep_io *io,
-> > +                             void *data, bool in)
-> > +{
-> > +     int ret = 0;
-> > +     unsigned long flags;
-> > +
-> > +     spin_lock_irqsave(&dev->lock, flags);
-> > +     if (dev->state != STATE_DEV_RUNNING) {
-> > +             pr_debug("fail, device is not running\n");
-> > +             ret = -EINVAL;
-> > +             goto out_unlock;
-> > +     }
-> > +     if (!dev->gadget) {
-> > +             pr_debug("fail, gadget is not bound\n");
-> > +             ret = -EBUSY;
-> > +             goto out_unlock;
-> > +     }
-> > +     if (dev->ep0_urb_queued) {
-> > +             pr_debug("fail, urb already queued\n");
-> > +             ret = -EBUSY;
-> > +             goto out_unlock;
-> > +     }
-> > +     if ((in && !dev->ep0_in_pending) ||
-> > +                     (!in && !dev->ep0_out_pending)) {
-> > +             pr_debug("fail, wrong direction\n");
-> > +             ret = -EBUSY;
-> > +             goto out_unlock;
-> > +     }
-> > +     if (WARN_ON(in && dev->ep0_out_pending)) {
-> > +             ret = -ENODEV;
-> > +             dev->state = STATE_DEV_FAILED;
-> > +             goto out_done;
-> > +     }
-> > +     if (WARN_ON(!in && dev->ep0_in_pending)) {
-> > +             ret = -ENODEV;
-> > +             dev->state = STATE_DEV_FAILED;
-> > +             goto out_done;
-> > +     }
-> > +
-> > +     dev->req->buf = data;
-> > +     dev->req->length = io->length;
-> > +     dev->req->zero = usb_raw_io_flags_zero(io->flags);
-> > +     dev->ep0_urb_queued = true;
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +
-> > +     ret = usb_ep_queue(dev->gadget->ep0, dev->req, GFP_ATOMIC);
-> > +     if (ret) {
-> > +             pr_err("fail, usb_ep_queue returned %d\n", ret);
-> > +             spin_lock_irqsave(&dev->lock, flags);
-> > +             dev->state = STATE_DEV_FAILED;
-> > +             goto out_done;
-> > +     }
-> > +
-> > +     ret = wait_for_completion_interruptible(&dev->ep0_done);
-> > +     if (ret) {
-> > +             pr_debug("wait interrupted\n");
-> > +             usb_ep_dequeue(dev->gadget->ep0, dev->req);
-> > +             wait_for_completion(&dev->ep0_done);
-> > +             spin_lock_irqsave(&dev->lock, flags);
-> > +             goto out_done;
-> > +     }
-> > +
-> > +     spin_lock_irqsave(&dev->lock, flags);
-> > +     ret = dev->ep0_status;
-> > +
-> > +out_done:
-> > +     dev->ep0_urb_queued = false;
-> > +out_unlock:
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +     return ret;
-> > +}
-> > +
-> > +static int raw_ioctl_ep0_write(struct raw_dev *dev, unsigned long value)
-> > +{
-> > +     int ret = 0;
-> > +     void *data;
-> > +     struct usb_raw_ep_io io;
-> > +
-> > +     data = raw_alloc_io_data(&io, (void __user *)value, true);
-> > +     if (IS_ERR(data))
-> > +             return PTR_ERR(data);
-> > +     ret = raw_process_ep0_io(dev, &io, data, true);
-> > +     kfree(data);
-> > +     return ret;
-> > +}
-> > +
-> > +static int raw_ioctl_ep0_read(struct raw_dev *dev, unsigned long value)
-> > +{
-> > +     int ret = 0;
-> > +     void *data;
-> > +     struct usb_raw_ep_io io;
-> > +     unsigned int length;
-> > +
-> > +     data = raw_alloc_io_data(&io, (void __user *)value, false);
-> > +     if (IS_ERR(data))
-> > +             return PTR_ERR(data);
-> > +     ret = raw_process_ep0_io(dev, &io, data, false);
-> > +     if (ret < 0) {
-> > +             kfree(data);
-> > +             return ret;
-> > +     }
-> > +     length = min(io.length, (unsigned int)ret);
-> > +     ret = copy_to_user((void __user *)(value + sizeof(io)), data, length);
-> > +     kfree(data);
-> > +     return ret;
-> > +}
-> > +
-> > +static bool check_ep_caps(struct usb_ep *ep,
-> > +                             struct usb_endpoint_descriptor *desc)
-> > +{
-> > +     switch (usb_endpoint_type(desc)) {
-> > +     case USB_ENDPOINT_XFER_ISOC:
-> > +             if (!ep->caps.type_iso)
-> > +                     return false;
-> > +             break;
-> > +     case USB_ENDPOINT_XFER_BULK:
-> > +             if (!ep->caps.type_bulk)
-> > +                     return false;
-> > +             break;
-> > +     case USB_ENDPOINT_XFER_INT:
-> > +             if (!ep->caps.type_int)
-> > +                     return false;
-> > +             break;
-> > +     default:
-> > +             return false;
-> > +     }
-> > +
-> > +     if (usb_endpoint_dir_in(desc) && !ep->caps.dir_in)
-> > +             return false;
-> > +     if (usb_endpoint_dir_out(desc) && !ep->caps.dir_out)
-> > +             return false;
-> > +
-> > +     return true;
-> > +}
-> > +
-> > +static int raw_ioctl_ep_enable(struct raw_dev *dev, unsigned long value)
-> > +{
-> > +     int ret = 0, i;
-> > +     unsigned long flags;
-> > +     struct usb_endpoint_descriptor *desc;
-> > +     struct usb_ep *ep = NULL;
-> > +
-> > +     desc = memdup_user((void __user *)value, sizeof(*desc));
-> > +     if (IS_ERR(desc))
-> > +             return PTR_ERR(desc);
-> > +
-> > +     /*
-> > +      * Endpoints with a maxpacket length of 0 can cause crashes in UDC
-> > +      * drivers.
-> > +      */
-> > +     if (usb_endpoint_maxp(desc) == 0) {
-> > +             kfree(desc);
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     spin_lock_irqsave(&dev->lock, flags);
-> > +     if (dev->state != STATE_DEV_RUNNING) {
-> > +             pr_debug("fail, device is not running\n");
-> > +             ret = -EINVAL;
-> > +             goto out_free;
-> > +     }
-> > +     if (!dev->gadget) {
-> > +             pr_debug("fail, gadget is not bound\n");
-> > +             ret = -EBUSY;
-> > +             goto out_free;
-> > +     }
-> > +
-> > +     for (i = 0; i < USB_RAW_MAX_ENDPOINTS; i++) {
-> > +             if (dev->eps[i].state == STATE_EP_ENABLED)
-> > +                     continue;
-> > +             break;
-> > +     }
-> > +     if (i == USB_RAW_MAX_ENDPOINTS) {
-> > +             pr_debug("fail, no device endpoints available\n");
-> > +             ret = -EBUSY;
-> > +             goto out_free;
-> > +     }
-> > +
-> > +     gadget_for_each_ep(ep, dev->gadget) {
-> > +             if (ep->enabled)
-> > +                     continue;
-> > +             if (!check_ep_caps(ep, desc))
-> > +                     continue;
-> > +             ep->desc = desc;
-> > +             ret = usb_ep_enable(ep);
-> > +             if (ret < 0) {
-> > +                     pr_err("fail, usb_ep_enable returned %d\n", ret);
-> > +                     goto out_free;
-> > +             }
-> > +             dev->eps[i].req = usb_ep_alloc_request(ep, GFP_ATOMIC);
-> > +             if (!dev->eps[i].req) {
-> > +                     pr_err("fail, usb_ep_alloc_request failed\n");
-> > +                     usb_ep_disable(ep);
-> > +                     ret = -ENOMEM;
-> > +                     goto out_free;
-> > +             }
-> > +             dev->eps[i].ep = ep;
-> > +             dev->eps[i].state = STATE_EP_ENABLED;
-> > +             ep->driver_data = &dev->eps[i];
-> > +             ret = i;
-> > +             goto out_unlock;
-> > +     }
-> > +
-> > +     pr_debug("fail, no gadget endpoints available\n");
-> > +     ret = -EBUSY;
-> > +
-> > +out_free:
-> > +     kfree(desc);
-> > +out_unlock:
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +     return ret;
-> > +}
-> > +
-> > +static int raw_ioctl_ep_disable(struct raw_dev *dev, unsigned long value)
-> > +{
-> > +     int ret = 0, i = value;
-> > +     unsigned long flags;
-> > +     const void *desc;
-> > +
-> > +     if (i < 0 || i >= USB_RAW_MAX_ENDPOINTS)
-> > +             return -EINVAL;
-> > +
-> > +     spin_lock_irqsave(&dev->lock, flags);
-> > +     if (dev->state != STATE_DEV_RUNNING) {
-> > +             pr_debug("fail, device is not running\n");
-> > +             ret = -EINVAL;
-> > +             goto out_unlock;
-> > +     }
-> > +     if (!dev->gadget) {
-> > +             pr_debug("fail, gadget is not bound\n");
-> > +             ret = -EBUSY;
-> > +             goto out_unlock;
-> > +     }
-> > +     if (dev->eps[i].state != STATE_EP_ENABLED) {
-> > +             pr_debug("fail, endpoint is not enabled\n");
-> > +             ret = -EINVAL;
-> > +             goto out_unlock;
-> > +     }
-> > +     if (dev->eps[i].disabling) {
-> > +             pr_debug("fail, disable already in progress\n");
-> > +             ret = -EINVAL;
-> > +             goto out_unlock;
-> > +     }
-> > +     dev->eps[i].disabling = true;
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +
-> > +     usb_ep_disable(dev->eps[i].ep);
-> > +
-> > +     spin_lock_irqsave(&dev->lock, flags);
-> > +     usb_ep_free_request(dev->eps[i].ep, dev->eps[i].req);
-> > +     desc = dev->eps[i].ep->desc;
-> > +     dev->eps[i].ep = NULL;
-> > +     dev->eps[i].state = STATE_EP_DISABLED;
-> > +     kfree(desc);
-> > +     dev->eps[i].disabling = false;
-> > +
-> > +out_unlock:
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +     return ret;
-> > +}
-> > +
-> > +static void gadget_ep_complete(struct usb_ep *ep, struct usb_request *req)
-> > +{
-> > +     struct raw_ep *r_ep = (struct raw_ep *)ep->driver_data;
-> > +     struct raw_dev *dev = r_ep->dev;
-> > +     unsigned long flags;
-> > +
-> > +     spin_lock_irqsave(&dev->lock, flags);
-> > +     if (req->status)
-> > +             r_ep->status = req->status;
-> > +     else
-> > +             r_ep->status = req->actual;
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +
-> > +     complete((struct completion *)req->context);
-> > +}
-> > +
-> > +static int raw_process_ep_io(struct raw_dev *dev, struct usb_raw_ep_io *io,
-> > +                             void *data, bool in)
-> > +{
-> > +     int ret = 0;
-> > +     unsigned long flags;
-> > +     struct raw_ep *ep = &dev->eps[io->ep];
-> > +     DECLARE_COMPLETION_ONSTACK(done);
-> > +
-> > +     spin_lock_irqsave(&dev->lock, flags);
-> > +     if (dev->state != STATE_DEV_RUNNING) {
-> > +             pr_debug("fail, device is not running\n");
-> > +             ret = -EINVAL;
-> > +             goto out_unlock;
-> > +     }
-> > +     if (!dev->gadget) {
-> > +             pr_debug("fail, gadget is not bound\n");
-> > +             ret = -EBUSY;
-> > +             goto out_unlock;
-> > +     }
-> > +     if (ep->state != STATE_EP_ENABLED) {
-> > +             pr_debug("fail, endpoint is not enabled\n");
-> > +             ret = -EBUSY;
-> > +             goto out_unlock;
-> > +     }
-> > +     if (ep->disabling) {
-> > +             pr_debug("fail, endpoint is being disabled\n");
-> > +             ret = -EBUSY;
-> > +             goto out_unlock;
-> > +     }
-> > +     if (ep->urb_queued) {
-> > +             pr_debug("fail, urb already queued\n");
-> > +             ret = -EBUSY;
-> > +             goto out_unlock;
-> > +     }
-> > +     if ((in && !ep->ep->caps.dir_in) || (!in && ep->ep->caps.dir_in)) {
-> > +             pr_debug("fail, wrong direction\n");
-> > +             ret = -EINVAL;
-> > +             goto out_unlock;
-> > +     }
-> > +
-> > +     ep->dev = dev;
-> > +     ep->req->context = &done;
-> > +     ep->req->complete = gadget_ep_complete;
-> > +     ep->req->buf = data;
-> > +     ep->req->length = io->length;
-> > +     ep->req->zero = usb_raw_io_flags_zero(io->flags);
-> > +     ep->urb_queued = true;
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +
-> > +     ret = usb_ep_queue(ep->ep, ep->req, GFP_ATOMIC);
-> > +     if (ret) {
-> > +             pr_err("fail, usb_ep_queue returned %d\n", ret);
-> > +             spin_lock_irqsave(&dev->lock, flags);
-> > +             dev->state = STATE_DEV_FAILED;
-> > +             goto out_done;
-> > +     }
-> > +
-> > +     ret = wait_for_completion_interruptible(&done);
-> > +     if (ret) {
-> > +             pr_debug("wait interrupted\n");
-> > +             usb_ep_dequeue(ep->ep, ep->req);
-> > +             wait_for_completion(&done);
-> > +             spin_lock_irqsave(&dev->lock, flags);
-> > +             goto out_done;
-> > +     }
-> > +
-> > +     spin_lock_irqsave(&dev->lock, flags);
-> > +     ret = ep->status;
-> > +
-> > +out_done:
-> > +     ep->urb_queued = false;
-> > +out_unlock:
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +     return ret;
-> > +}
-> > +
-> > +static int raw_ioctl_ep_write(struct raw_dev *dev, unsigned long value)
-> > +{
-> > +     int ret = 0;
-> > +     char *data;
-> > +     struct usb_raw_ep_io io;
-> > +
-> > +     data = raw_alloc_io_data(&io, (void __user *)value, true);
-> > +     if (IS_ERR(data))
-> > +             return PTR_ERR(data);
-> > +     ret = raw_process_ep_io(dev, &io, data, true);
-> > +     kfree(data);
-> > +     return ret;
-> > +}
-> > +
-> > +static int raw_ioctl_ep_read(struct raw_dev *dev, unsigned long value)
-> > +{
-> > +     int ret = 0;
-> > +     char *data;
-> > +     struct usb_raw_ep_io io;
-> > +     unsigned int length;
-> > +
-> > +     data = raw_alloc_io_data(&io, (void __user *)value, false);
-> > +     if (IS_ERR(data))
-> > +             return PTR_ERR(data);
-> > +     ret = raw_process_ep_io(dev, &io, data, false);
-> > +     if (ret < 0) {
-> > +             kfree(data);
-> > +             return ret;
-> > +     }
-> > +     length = min(io.length, (unsigned int)ret);
-> > +     ret = copy_to_user((void __user *)(value + sizeof(io)), data, length);
-> > +     kfree(data);
-> > +     return ret;
-> > +}
-> > +
-> > +static int raw_ioctl_configure(struct raw_dev *dev, unsigned long value)
-> > +{
-> > +     int ret = 0;
-> > +     unsigned long flags;
-> > +
-> > +     if (value)
-> > +             return -EINVAL;
-> > +     spin_lock_irqsave(&dev->lock, flags);
-> > +     if (dev->state != STATE_DEV_RUNNING) {
-> > +             pr_debug("fail, device is not running\n");
-> > +             ret = -EINVAL;
-> > +             goto out_unlock;
-> > +     }
-> > +     if (!dev->gadget) {
-> > +             pr_debug("fail, gadget is not bound\n");
-> > +             ret = -EBUSY;
-> > +             goto out_unlock;
-> > +     }
-> > +     usb_gadget_set_state(dev->gadget, USB_STATE_CONFIGURED);
-> > +
-> > +out_unlock:
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +     return ret;
-> > +}
-> > +
-> > +static int raw_ioctl_vbus_draw(struct raw_dev *dev, unsigned long value)
-> > +{
-> > +     int ret = 0;
-> > +     unsigned long flags;
-> > +
-> > +     spin_lock_irqsave(&dev->lock, flags);
-> > +     if (dev->state != STATE_DEV_RUNNING) {
-> > +             pr_debug("fail, device is not running\n");
-> > +             ret = -EINVAL;
-> > +             goto out_unlock;
-> > +     }
-> > +     if (!dev->gadget) {
-> > +             pr_debug("fail, gadget is not bound\n");
-> > +             ret = -EBUSY;
-> > +             goto out_unlock;
-> > +     }
-> > +     usb_gadget_vbus_draw(dev->gadget, 2 * value);
-> > +
-> > +out_unlock:
-> > +     spin_unlock_irqrestore(&dev->lock, flags);
-> > +     return ret;
-> > +}
-> > +
-> > +static long raw_ioctl(struct file *fd, unsigned int cmd, unsigned long value)
-> > +{
-> > +     struct raw_dev *dev = fd->private_data;
-> > +     int ret = 0;
-> > +
-> > +     if (!dev)
-> > +             return -EBUSY;
-> > +
-> > +     switch (cmd) {
-> > +     case USB_RAW_IOCTL_INIT:
-> > +             ret = raw_ioctl_init(dev, value);
-> > +             break;
-> > +     case USB_RAW_IOCTL_RUN:
-> > +             ret = raw_ioctl_run(dev, value);
-> > +             break;
-> > +     case USB_RAW_IOCTL_EVENT_FETCH:
-> > +             ret = raw_ioctl_event_fetch(dev, value);
-> > +             break;
-> > +     case USB_RAW_IOCTL_EP0_WRITE:
-> > +             ret = raw_ioctl_ep0_write(dev, value);
-> > +             break;
-> > +     case USB_RAW_IOCTL_EP0_READ:
-> > +             ret = raw_ioctl_ep0_read(dev, value);
-> > +             break;
-> > +     case USB_RAW_IOCTL_EP_ENABLE:
-> > +             ret = raw_ioctl_ep_enable(dev, value);
-> > +             break;
-> > +     case USB_RAW_IOCTL_EP_DISABLE:
-> > +             ret = raw_ioctl_ep_disable(dev, value);
-> > +             break;
-> > +     case USB_RAW_IOCTL_EP_WRITE:
-> > +             ret = raw_ioctl_ep_write(dev, value);
-> > +             break;
-> > +     case USB_RAW_IOCTL_EP_READ:
-> > +             ret = raw_ioctl_ep_read(dev, value);
-> > +             break;
-> > +     case USB_RAW_IOCTL_CONFIGURE:
-> > +             ret = raw_ioctl_configure(dev, value);
-> > +             break;
-> > +     case USB_RAW_IOCTL_VBUS_DRAW:
-> > +             ret = raw_ioctl_vbus_draw(dev, value);
-> > +             break;
-> > +     default:
-> > +             ret = -EINVAL;
-> > +     }
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +/*----------------------------------------------------------------------*/
-> > +
-> > +static const struct file_operations raw_fops = {
-> > +     .open =                 raw_open,
-> > +     .unlocked_ioctl =       raw_ioctl,
-> > +     .compat_ioctl =         raw_ioctl,
-> > +     .release =              raw_release,
-> > +     .llseek =               no_llseek,
-> > +};
-> > +
-> > +static struct miscdevice raw_device = {
-> > +     .minor = MISC_DYNAMIC_MINOR,
-> > +     .name = "raw-gadget",
->
-> DRIVER_NAME?
-
-Will do in v4.
-
->
-> > +     .fops = &raw_fops,
-> > +};
-> > +
-> > +static int __init raw_init(void)
-> > +{
-> > +     int rv;
-> > +
-> > +     rv = misc_register(&raw_device);
-> > +     if (rv) {
-> > +             pr_err("failed to register raw-gadget device with %d\n", rv);
-> > +             return rv;
-> > +     }
-> > +     return 0;
-> > +}
-> > +
-> > +static void __exit raw_exit(void)
-> > +{
-> > +     misc_deregister(&raw_device);
-> > +}
-> > +
-> > +module_init(raw_init);
-> > +module_exit(raw_exit);
->
-> module_misc_device()?  :)
-
-Will do in v4.
-
-Thanks!
