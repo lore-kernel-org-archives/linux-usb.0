@@ -2,95 +2,97 @@ Return-Path: <SRS0=SoRH=2I=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76B56C43603
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Dec 2019 17:54:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 572BCC43603
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Dec 2019 17:58:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 515192465E
-	for <linux-usb@archiver.kernel.org>; Wed, 18 Dec 2019 17:54:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2BBBB2064B
+	for <linux-usb@archiver.kernel.org>; Wed, 18 Dec 2019 17:58:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ojyAodJs"
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="sjS0HqG9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727406AbfLRRxj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 18 Dec 2019 12:53:39 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:39742 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727130AbfLRRxi (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Dec 2019 12:53:38 -0500
-Received: by mail-lf1-f65.google.com with SMTP id y1so2328543lfb.6;
-        Wed, 18 Dec 2019 09:53:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tANAGAdpU+BFt2vwt7q1SVWW9LOxxvMiToKQfU2dzGY=;
-        b=ojyAodJsS39WwSn2v9z10Ilwua3eGiadQEkWeX95j+itQ849iU+10jsELlgwfvZxvL
-         ilaHyAX00JDOH7L6FEvOsipkdwKtAON35PsYKDFMlX2ZE0Rr2yw65RRtwJcdPFXKuYbI
-         mPhpTZp48pUHRo2qADJN8rVJQyEvcvXfu1Ln4HHOl28n9ldfyN/MDz9vvCfLfR9M7bGn
-         6/8fVzk67IjdvkNw8uWWAsRzrlLnWJ41UUu8m3+RCthdgAOivTu+oLGnlyxK8xW01S32
-         IDsQH4rmIoNc1C4XKkNx8TpVcMU4275JgYjemVI5hLi3d22ykeW3WJT6cXW+h03U1CDq
-         du4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tANAGAdpU+BFt2vwt7q1SVWW9LOxxvMiToKQfU2dzGY=;
-        b=ZgONUXxsnur90jAJpYR2eWmRRQaxx4seYpxqBn4gCHt6VuKTIvS39pE+jPvo/HwjEG
-         PJXhh6Wk0IabLKPSKlILv2Ul8FUDHAVTazrwpcqtPqCLtkSyYKPI7pZu3pKEqL5N5lyZ
-         Sj0bnZw2rJeGD+7AABvVQJEoJB857SNh80Q70pS93IL3EIRpR5agL+Cx4kmINriNe+9W
-         2+ZgL4sR/oLVE6UQczR6c778dp4NPXfYL/zf8s7pZV1DN+O0KB3Aim8Uwmx+6iCkRy2T
-         5QJIXfCmgkLHmnBj6Roi5v8P8Hrj2pI/mmFfOx0StM0N/NCe1l6RifRhuS4wCSSs3Bla
-         Nc1g==
-X-Gm-Message-State: APjAAAXf+8EMYdAzqD80Vt8CvnKXmN+HZUscIcfVIDmawQyh5vzz7KEj
-        0GAsT/GetlpgZdSoRP8pWNb+yliV
-X-Google-Smtp-Source: APXvYqwgJ4OIShl4gWAypmuZ77/QGVn2SFvXdJnirvnhCMOQ+zoxPP+l1VUVnz4DOkM/l0djWNNMQA==
-X-Received: by 2002:ac2:5c4a:: with SMTP id s10mr2553655lfp.88.1576691616167;
-        Wed, 18 Dec 2019 09:53:36 -0800 (PST)
-Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id n14sm1530480lfe.5.2019.12.18.09.53.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Dec 2019 09:53:35 -0800 (PST)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Felipe Balbi <balbi@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v1 0/4] NVIDIA Tegra USB2 drivers clean up
-Date:   Wed, 18 Dec 2019 20:53:09 +0300
-Message-Id: <20191218175313.16235-1-digetx@gmail.com>
-X-Mailer: git-send-email 2.24.0
+        id S1727185AbfLRR6z (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 18 Dec 2019 12:58:55 -0500
+Received: from mail25.static.mailgun.info ([104.130.122.25]:18982 "EHLO
+        mail25.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726960AbfLRR6z (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 18 Dec 2019 12:58:55 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1576691935; h=Date: Message-Id: Cc: To: References:
+ In-Reply-To: From: Subject: Content-Transfer-Encoding: MIME-Version:
+ Content-Type: Sender; bh=3C6L4b2dA8aEQpFcyQGCt4S6TCBt8DWzO/OHKf/+d/Q=;
+ b=sjS0HqG9ljt91DXxDWPuhJvCKcG8+ewseIy2bBGLz7Cw0vZxjK/+tqsLO9NibEMA9auj8yXq
+ Z9RINFuXO7MBurF0g9cq0bZOi2DKrZLk+3fJS0H2dh4XtxRforeIUV+NrrOGGShyIkpnr5N1
+ jEtnfB/mO1rqCloLkH128Xl2uls=
+X-Mailgun-Sending-Ip: 104.130.122.25
+X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5dfa68d9.7f828cb120d8-smtp-out-n02;
+ Wed, 18 Dec 2019 17:58:49 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 79F77C447A0; Wed, 18 Dec 2019 17:58:47 +0000 (UTC)
+Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi [88.114.240.156])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: kvalo)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 00DB5C433CB;
+        Wed, 18 Dec 2019 17:58:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 00DB5C433CB
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=kvalo@codeaurora.org
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 1/7] ath9k: fix storage endpoint lookup
+From:   Kalle Valo <kvalo@codeaurora.org>
+In-Reply-To: <20191210114426.4713-2-johan@kernel.org>
+References: <20191210114426.4713-2-johan@kernel.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     QCA ath9k Development <ath9k-devel@qca.qualcomm.com>,
+        Arend van Spriel <arend@broadcom.com>,
+        Franky Lin <franky.lin@broadcom.com>,
+        Hante Meuleman <hante.meuleman@broadcom.com>,
+        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
+        Wright Feng <wright.feng@cypress.com>,
+        Jes Sorensen <Jes.Sorensen@redhat.com>,
+        Amitkumar Karwar <amitkarwar@gmail.com>,
+        Siva Rebbagondla <siva8118@gmail.com>,
+        Daniel Drake <dsd@gentoo.org>,
+        Ulrich Kunitz <kune@deine-taler.de>,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Johan Hovold <johan@kernel.org>,
+        stable <stable@vger.kernel.org>
+User-Agent: pwcli/0.0.0-git (https://github.com/kvalo/pwcli/) Python/2.7.12
+Message-Id: <20191218175847.79F77C447A0@smtp.codeaurora.org>
+Date:   Wed, 18 Dec 2019 17:58:47 +0000 (UTC)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hello,
+Johan Hovold <johan@kernel.org> wrote:
 
-This small patch series brings the NVIDIA Tegra USB2 PHY driver into a better
-shape by refactoring code to match upstream standards, the ChipIdea/Tegra UDC
-driver also gets a minor update. Please review and apply, thanks in advance!
+> Make sure to use the current alternate setting when verifying the
+> storage interface descriptors to avoid submitting an URB to an invalid
+> endpoint.
+> 
+> Failing to do so could cause the driver to misbehave or trigger a WARN()
+> in usb_submit_urb() that kernels with panic_on_warn set would choke on.
+> 
+> Fixes: 36bcce430657 ("ath9k_htc: Handle storage devices")
+> Cc: stable <stable@vger.kernel.org>     # 2.6.39
+> Signed-off-by: Johan Hovold <johan@kernel.org>
+> Signed-off-by: Kalle Valo <kvalo@codeaurora.org>
 
-Dmitry Osipenko (4):
-  dt-binding: usb: ci-hdrc-usb2: Document NVIDIA Tegra support
-  usb: phy: tegra: Hook up init/shutdown callbacks
-  usb: phy: tegra: Perform general clean up of the code
-  usb: phy: tegra: Use relaxed versions of readl/writel
+Patch applied to ath-next branch of ath.git, thanks.
 
- .../devicetree/bindings/usb/ci-hdrc-usb2.txt  |   4 +
- drivers/usb/chipidea/ci_hdrc_tegra.c          |   9 -
- drivers/usb/phy/phy-tegra-usb.c               | 715 ++++++++++--------
- 3 files changed, 395 insertions(+), 333 deletions(-)
+0ef332951e85 ath9k: fix storage endpoint lookup
 
 -- 
-2.24.0
+https://patchwork.kernel.org/patch/11282013/
 
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
