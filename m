@@ -2,87 +2,152 @@ Return-Path: <SRS0=Scb6=2J=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.6 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB7E3C43603
-	for <linux-usb@archiver.kernel.org>; Thu, 19 Dec 2019 10:36:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D661C43603
+	for <linux-usb@archiver.kernel.org>; Thu, 19 Dec 2019 11:35:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7669521D7D
-	for <linux-usb@archiver.kernel.org>; Thu, 19 Dec 2019 10:36:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3FCAC24672
+	for <linux-usb@archiver.kernel.org>; Thu, 19 Dec 2019 11:35:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="gXqqZMtt"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=crapouillou.net header.i=@crapouillou.net header.b="cHB0INpO"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726909AbfLSKgH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 19 Dec 2019 05:36:07 -0500
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:21166 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726622AbfLSKgH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 19 Dec 2019 05:36:07 -0500
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xBJAWcHB023188;
-        Thu, 19 Dec 2019 11:35:51 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=STMicroelectronics;
- bh=Iemh3RU/aIK2iehtIHFQuSP9XvVK+0CTJ21s2KN63yo=;
- b=gXqqZMtt1rmXVv8DSNqowaaZF4CP5ipsS+CfHYPDclIlhMGNjgvC3kxymw3NCIhfk0KE
- T5DvKrwgHt3a+8s7URBKXpykwiUPAMK3ND/B8JIsTjaSzhs11IldghDLHb7J32f4H0oV
- HN63TEwVe7Q/GTCM9a0I6k4LJw07OtB+vRgmRELcvlpDBuVwr2fFpheErYYIMNRwoMMf
- 4yIAMuw+E/LXFw1zUPZjrMFDr9RzHyub6GyY0sk7hCH2k19PaQjA8M2hp1SQ6fAu+Ikb
- HA9Z9SBVGmO0SeWO6+dfv5mERJaEyTuUtbNucceK3ZAinG+jADU2H12If5VY7dmHL35H tA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2wvpd1s21e-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 19 Dec 2019 11:35:51 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 04B32100039;
-        Thu, 19 Dec 2019 11:35:41 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id C51142A467F;
-        Thu, 19 Dec 2019 11:35:40 +0100 (CET)
-Received: from localhost (10.75.127.46) by SFHDAG3NODE3.st.com (10.75.127.9)
- with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 19 Dec 2019 11:35:40
- +0100
-From:   Benjamin Gaignard <benjamin.gaignard@st.com>
-To:     <gregkh@linuxfoundation.org>, <robh+dt@kernel.org>,
-        <mark.rutland@arm.com>, <kgene@kernel.org>, <krzk@kernel.org>,
-        <hminas@synopsys.com>
-CC:     <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>, <m.szyprowski@samsung.com>,
-        <amelie.delaunay@st.com>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>
-Subject: [PATCH v2 0/2] Add yaml DWC2 bindings
-Date:   Thu, 19 Dec 2019 11:35:34 +0100
-Message-ID: <20191219103536.25485-1-benjamin.gaignard@st.com>
-X-Mailer: git-send-email 2.15.0
+        id S1726770AbfLSLfr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 19 Dec 2019 06:35:47 -0500
+Received: from outils.crapouillou.net ([89.234.176.41]:47908 "EHLO
+        crapouillou.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726695AbfLSLfr (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 19 Dec 2019 06:35:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=crapouillou.net;
+        s=mail; t=1576755342; h=from:from:sender:reply-to:subject:subject:date:date:
+         message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+         content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=ckop6Kqk0CV79KVL4zcYWdYOX/VFrNEJtlGjWhAJS+I=;
+        b=cHB0INpO3f2CogS5CbRHjpHON4couUPO673zqq7Nuzt+0O+Ra3tG1zlgjfXmhQ2Kt3PwMz
+        PHDsiKkqjNju5o4p8QeS2Z3/WPfYnErBSN8CD/X2l05m+WBKnaDH4WED7emxpQl0M3cUd5
+        xAKnVCRlloCicTthjywCisc97X4H6dU=
+Date:   Thu, 19 Dec 2019 12:35:37 +0100
+From:   Paul Cercueil <paul@crapouillou.net>
+Subject: RE: [PATCH v2 3/3] power/supply: Add generic USB charger driver
+To:     Peter Chen <peter.chen@nxp.com>
+Cc:     Sebastian Reichel <sre@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>, od@zcrc.me,
+        linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Message-Id: <1576755337.3.0@crapouillou.net>
+In-Reply-To: <VI1PR04MB53273342340E350BFFFDE12F8B530@VI1PR04MB5327.eurprd04.prod.outlook.c
+        om>
+References: <20191211155032.167032-1-paul@crapouillou.net>
+        <20191211155032.167032-3-paul@crapouillou.net>
+        <20191212091814.GA7035@b29397-desktop> <1576270147.3.0@crapouillou.net>
+        <VI1PR04MB5327401FFD2D32E937548DD48B510@VI1PR04MB5327.eurprd04.prod.outlook.com>
+        <1576493525.3.0@crapouillou.net>
+        <VI1PR04MB5327B8EF35340FC4B2D02DE88B500@VI1PR04MB5327.eurprd04.prod.outlook.com>
+        <1576617863.3.1@crapouillou.net>
+        <VI1PR04MB53273342340E350BFFFDE12F8B530@VI1PR04MB5327.eurprd04.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.46]
-X-ClientProxiedBy: SFHDAG6NODE2.st.com (10.75.127.17) To SFHDAG3NODE3.st.com
- (10.75.127.9)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-12-19_01:2019-12-17,2019-12-19 signatures=0
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Convert DWC2 bindings to json-schema and fix issue in dtsi file.
+Hi Peter,
 
-Benjamin Gaignard (2):
-  dt-bindings: usb: Convert DWC2 bindings to json-schema
-  ARM: dts: exynos: Remove unneeded "snps,dwc2" from hsotg node
 
- Documentation/devicetree/bindings/usb/dwc2.txt  |  64 ----------
- Documentation/devicetree/bindings/usb/dwc2.yaml | 152 ++++++++++++++++++++++++
- arch/arm/boot/dts/exynos3250.dtsi               |   2 +-
- 3 files changed, 153 insertions(+), 65 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/usb/dwc2.txt
- create mode 100644 Documentation/devicetree/bindings/usb/dwc2.yaml
+Le mer., d=E9c. 18, 2019 at 02:46, Peter Chen <peter.chen@nxp.com> a=20
+=E9crit :
+>=20
+>>  >>  >
+>>  >>  >>  >>  +
+>>  >>  >>  >>  +	desc =3D &charger->desc;
+>>  >>  >>  >>  +	desc->name =3D "usb-charger";
+>>  >>  >>  >>  +	desc->properties =3D usb_charger_properties;
+>>  >>  >>  >>  +	desc->num_properties =3D=20
+>> ARRAY_SIZE(usb_charger_properties);
+>>  >>  >>  >>  +	desc->get_property =3D usb_charger_get_property;
+>>  >>  >>  >>  +	desc->type =3D POWER_SUPPLY_TYPE_USB;
+>>  >>  >>  >
+>>  >>  >>  > What's your further plan for this generic USB charger?
+>>  >>  >>  > To support BC1.2, we need to know charger type, and how we
+>>  >> could  >> get  > it?
+>>  >>  >>  >
+>>  >>  >>  > Peter
+>>  >>  >>
+>>  >>  >>  Well I don't really know. The USB role framework does not=20
+>> give
+>>  >> any  >> info about  what's plugged.
+>>  >>  >>
+>>  >>  >
+>>  >>  > What's the use case for this patch set? How it be used?
+>>  >>
+>>  >>  My devicetree:
+>>  >>
+>>  >>  usb_otg: usb@13440000 {
+>>  >>  	compatible =3D "ingenic,jz4770-musb", "simple-mfd";
+>>  >>  	reg =3D <0x13440000 0x10000>;
+>>  >>  	[...]
+>>  >>
+>>  >>  	usb-role-switch;
+>>  >>
+>>  >>  	connector {
+>>  >>  		compatible =3D "gpio-usb-b-connector", "usb-b-connector";
+>>  >>  		label =3D "mini-USB";
+>>  >>  		type =3D "mini";
+>>  >>
+>>  >>  		id-gpios =3D <&gpf 18 GPIO_ACTIVE_HIGH>;
+>>  >>  		vbus-gpios =3D <&gpb 5 GPIO_ACTIVE_HIGH>;
+>>  >>  		[...]
+>>  >>  	};
+>>  >>
+>>  >>  	usb_charger: usb-charger {
+>>  >>  		compatible =3D "usb-charger";
+>>  >>  	};
+>>  >>  };
+>>  >>
+>>  >>  The new gpio-usb-connector driver uses the ID/VBUS GPIOs to=20
+>> detect
+>>  >> in  which state (device, host, unconnected) a OTG connector is.
+>>  >> However,  that means I cannot use the standard gpio-charger=20
+>> driver to
+>>  >> detect the  presence of a charger based on the state of the VBUS
+>>  >> gpio, since it's  already requested here. So the point of this
+>>  >> patchset is to provide an  alternative to gpio-charger that works
+>>  >> with OTG controllers compatible  with 'usb-role-switch'.
+>>  >>
+>>  >
+>>  > Thanks for explaining it.
+>>  >
+>>  > What's the user for this USB charger,  PMIC or what else? How the=20
+>> user
+>>  > uses this USB charger interface?
+>>=20
+>>  It's exported as a standard charger, so it can be passed to client=20
+>> drivers through
+>>  devicetree, and its online status can be retrieved from sysfs.
+>>=20
+>=20
+> Hi Paul,
+>=20
+> If you would like to get role from usb-role-switch, the udc driver=20
+> may probably have already worked.
+> There is a 'state' entry under the udc device to indicate USB Ch9=20
+> state. Try to see if it could
+> satisfy your requirement.
 
--- 
-2.15.0
+This is not the proper way to retrieve charger status.
+Linux supports chargers through the power supply subsystem, that's=20
+where it should be exported.
+
+Cheers,
+-Paul
+
+=
 
