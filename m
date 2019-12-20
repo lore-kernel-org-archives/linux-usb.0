@@ -2,159 +2,101 @@ Return-Path: <SRS0=a1ir=2K=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3430DC2D0C0
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Dec 2019 04:31:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B84D9C43603
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Dec 2019 07:07:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F27A021D7D
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Dec 2019 04:31:16 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N34TX41K"
+	by mail.kernel.org (Postfix) with ESMTP id 88C2D24679
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Dec 2019 07:07:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1576825658;
+	bh=DsXW0Gs0MivMncxjTRzFK4LBCsqpOeFEz2Rkne+5NfE=;
+	h=Date:From:To:Cc:Subject:List-ID:From;
+	b=CoXh90z2Qai0jrnXj0W0PK/Ek/TOyGUFAOucZ1z94PlhlivgtE1fAFTW4E31I8zaQ
+	 srMHkdatLkhqankuIjV72yyYk4TX15S8GrfBGauw3l6eetLGiiXdG4YVb/kTb6THc7
+	 iBhIhsvE0bwQWyYgVePU3pN0kOql4gdfjN8DdW2Q=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727176AbfLTEbN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 19 Dec 2019 23:31:13 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:43652 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726986AbfLTEbN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 19 Dec 2019 23:31:13 -0500
-Received: by mail-lj1-f193.google.com with SMTP id a13so8579229ljm.10;
-        Thu, 19 Dec 2019 20:31:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fVajutgU4AewzvJs6rRQbIrAoLOoOEBhPs/ZIUmI/WI=;
-        b=N34TX41KkQ2aIKXv0ieUAt1On2i09BoudreHVP5xBn3DYfcijrJKR3tF1kwIC+w59P
-         iGdTCAUy4ePy741kZvD/fIl5Wc9MZZLeOdTo+auOdALGWm4FvMco0vieil2J03adNMhs
-         Y5Jua19qrP0P3Ywi+RYmI168KGk+NcVIHaNrjWAeVel/QP07OBkNfGWCdGG9Fp1BDTrB
-         KWTK38LLM8G3eEIZAkGFkP5LHHECrsf67uFN2a/MHtt4ILq0pgw93DuvM03CKkj7ZyDA
-         s5fsJEF3Q2BP2BL409xCcR/vXsnfGCDnx5geVDPmVp0JySKfEsF/CyS59DU8Vn0K0cfZ
-         hApg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fVajutgU4AewzvJs6rRQbIrAoLOoOEBhPs/ZIUmI/WI=;
-        b=stsLll9pZ3bVj4kykKFlnYPvLtJcA8VNBcSJPy+IZNSaJl2rGEfnEeIi4reU5xYbHz
-         jCABoCMH5KiS6cwZp9jV6OQ/MHy4WILUlqpEi2dF5tUh+Vzz0EhjH8RRFBKUvUac6xED
-         RcZbBF8IEKbQRveYMytWUid/xJbtCPClN0RJGKjhIErKHqk2cf7QZ88upKe25sxGa8kQ
-         9ErgEfa5aH1swMElz2GLKpn63jFxnv9zKnu8+epJt98a9eitNGcDfUSxrowpm5dbaAsV
-         o9LcCNnFLfHafNklEE62luQQn1V9b6JwS55+GEYRtohqN3AYweIhvtJkfN6v9LXAkmuF
-         cXzw==
-X-Gm-Message-State: APjAAAVbTXTTmuKrKzY9yEHE4sZIo965c+aUrr1YeGLK3z6ytbnATbyT
-        b75+1AilQtWWpcIu6/WvdQhUTQ5s
-X-Google-Smtp-Source: APXvYqwvoC56XGHrrnK9Of2G6/T/tDdXAkvpzoJVH6+G6hYRKOW19PKn373vR4bt92ZUAWqXOPDb7g==
-X-Received: by 2002:a2e:824a:: with SMTP id j10mr8488846ljh.209.1576816270045;
-        Thu, 19 Dec 2019 20:31:10 -0800 (PST)
-Received: from [192.168.2.145] (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.googlemail.com with ESMTPSA id d9sm3623012lja.73.2019.12.19.20.31.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Dec 2019 20:31:09 -0800 (PST)
-Subject: Re: [PATCH v2 10/10] usb: chipidea: tegra: Add USB_TEGRA_PHY module
- to driver's dependencies
-To:     Peter Chen <peter.chen@nxp.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20191220015238.9228-1-digetx@gmail.com>
- <20191220015238.9228-11-digetx@gmail.com>
- <20191220035650.GC19921@b29397-desktop>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <fb7dee6e-e645-fe45-126c-c5f1e280bc26@gmail.com>
-Date:   Fri, 20 Dec 2019 07:31:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.3.0
+        id S1727165AbfLTHHe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 20 Dec 2019 02:07:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57426 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726030AbfLTHHe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 20 Dec 2019 02:07:34 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DA83524679;
+        Fri, 20 Dec 2019 07:07:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576825652;
+        bh=DsXW0Gs0MivMncxjTRzFK4LBCsqpOeFEz2Rkne+5NfE=;
+        h=Date:From:To:Cc:Subject:From;
+        b=fXeukvU40uyFie6dkYH7y56kHDdbd8KQOw3ROSZuJOw0zDRn1YJanbxxZYtdrNCty
+         aiu+rBTEyQeQG2taT1D/uAafdg99A1yFWCllykAo9T9zd/bM9DfE3lp01e1WMip9iw
+         KlMUv0ae/ufrL45Wq4qCiDRf5BBFaGeQwvuwG5v4=
+Date:   Fri, 20 Dec 2019 08:07:30 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [GIT PULL] USB fixes for 5.5-rc3
+Message-ID: <20191220070730.GA2190076@kroah.com>
 MIME-Version: 1.0
-In-Reply-To: <20191220035650.GC19921@b29397-desktop>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-20.12.2019 06:56, Peter Chen пишет:
-> On 19-12-20 04:52:38, Dmitry Osipenko wrote:
->> Now, when ci_hdrc_tegra kernel module is loaded, the phy_tegra_usb module
->> is loaded too regardless of kernel's configuration. Previously this
->> problem was masked because Tegra's EHCI driver is usually enabled in
->> kernel's config and thus PHY driver was getting loaded because of it, but
->> now I was making some more thorough testing and noticed that PHY's module
->> isn't getting auto-loaded without the host driver.
->>
->> Note that ChipIdea's driver doesn't use any of the exported functions of
->> phy_tegra_usb module and thus the module needs to be requested explicitly.
->>
->> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>  drivers/usb/chipidea/Kconfig         | 1 +
->>  drivers/usb/chipidea/ci_hdrc_tegra.c | 6 ++++++
->>  2 files changed, 7 insertions(+)
->>
->> diff --git a/drivers/usb/chipidea/Kconfig b/drivers/usb/chipidea/Kconfig
->> index ae850b3fddf2..d53db520e209 100644
->> --- a/drivers/usb/chipidea/Kconfig
->> +++ b/drivers/usb/chipidea/Kconfig
->> @@ -7,6 +7,7 @@ config USB_CHIPIDEA
->>  	select RESET_CONTROLLER
->>  	select USB_ULPI_BUS
->>  	select USB_ROLE_SWITCH
->> +	select USB_TEGRA_PHY if ARCH_TEGRA
->>  	help
->>  	  Say Y here if your system has a dual role high speed USB
->>  	  controller based on ChipIdea silicon IP. It supports:
->> diff --git a/drivers/usb/chipidea/ci_hdrc_tegra.c b/drivers/usb/chipidea/ci_hdrc_tegra.c
->> index 7455df0ede49..8bc11100245d 100644
->> --- a/drivers/usb/chipidea/ci_hdrc_tegra.c
->> +++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
->> @@ -53,6 +53,12 @@ static int tegra_udc_probe(struct platform_device *pdev)
->>  	struct tegra_udc *udc;
->>  	int err;
->>  
->> +	if (IS_MODULE(CONFIG_USB_TEGRA_PHY)) {
->> +		err = request_module("phy_tegra_usb");
->> +		if (err)
->> +			return err;
->> +	}
->> +
-> 
-> Why you do this dependency, if this controller driver can't
-> get USB PHY, it should return error. What's the return value
-> after calling below:
-> 
-> 	udc->phy = devm_usb_get_phy_by_phandle(&pdev->dev, "nvidia,phy", 0);
+The following changes since commit d1eef1c619749b2a57e514a3fa67d9a516ffa919:
 
-It returns -EPROBE_DEFER when phy_tegra_usb isn't loaded.
+  Linux 5.5-rc2 (2019-12-15 15:16:08 -0800)
 
-So if you'll do:
+are available in the Git repository at:
 
-# rmmod ci_hdrc_tegra; rmmod ci_hdrc; rmmod phy_tegra_usb;
-# modprobe ci_hdrc_tegra
-# lsmod
-Module                  Size  Used by
-ci_hdrc_tegra          16384  0
-ci_hdrc                45056  1 ci_hdrc_tegra
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.5-rc3
 
-After this patch:
+for you to fetch changes up to 6056a0f8ede27b296d10ef46f7f677cc9d715371:
 
-# rmmod ci_hdrc_tegra; rmmod ci_hdrc; rmmod phy_tegra_usb;
-# modprobe ci_hdrc_tegra
-# lsmod
-Module                  Size  Used by
-Module                  Size  Used by
-phy_tegra_usb          20480  1
-ci_hdrc_tegra          16384  0
-ci_hdrc                45056  1 ci_hdrc_tegra
+  usb: xhci: Fix build warning seen with CONFIG_PM=n (2019-12-18 19:23:42 +0100)
+
+----------------------------------------------------------------
+USB fixes for 5.5-rc3
+
+Here are some small USB fixes for some reported issues.
+
+Included in here are:
+  - xhci build warning fix
+  - ehci disconnect warning fix
+  - usbip lockup fix and error cleanup fix
+  - typec build fix
+
+All of these have been in linux-next with no reported issues.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Erkka Talvitie (1):
+      USB: EHCI: Do not return -EPIPE when hub is disconnected
+
+Guenter Roeck (1):
+      usb: xhci: Fix build warning seen with CONFIG_PM=n
+
+Suwan Kim (2):
+      usbip: Fix receive error in vhci-hcd when using scatter-gather
+      usbip: Fix error path of vhci_recv_ret_submit()
+
+zhong jiang (1):
+      usb: typec: fusb302: Fix an undefined reference to 'extcon_get_state'
+
+ drivers/usb/host/ehci-q.c        | 13 ++++++++++++-
+ drivers/usb/host/xhci-pci.c      |  2 +-
+ drivers/usb/typec/tcpm/Kconfig   |  1 +
+ drivers/usb/usbip/usbip_common.c |  3 +++
+ drivers/usb/usbip/vhci_rx.c      | 13 +++++++++----
+ 5 files changed, 26 insertions(+), 6 deletions(-)
