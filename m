@@ -2,101 +2,100 @@ Return-Path: <SRS0=a1ir=2K=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B84D9C43603
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Dec 2019 07:07:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1593C43603
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Dec 2019 07:11:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 88C2D24679
-	for <linux-usb@archiver.kernel.org>; Fri, 20 Dec 2019 07:07:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1576825658;
-	bh=DsXW0Gs0MivMncxjTRzFK4LBCsqpOeFEz2Rkne+5NfE=;
-	h=Date:From:To:Cc:Subject:List-ID:From;
-	b=CoXh90z2Qai0jrnXj0W0PK/Ek/TOyGUFAOucZ1z94PlhlivgtE1fAFTW4E31I8zaQ
-	 srMHkdatLkhqankuIjV72yyYk4TX15S8GrfBGauw3l6eetLGiiXdG4YVb/kTb6THc7
-	 iBhIhsvE0bwQWyYgVePU3pN0kOql4gdfjN8DdW2Q=
+	by mail.kernel.org (Postfix) with ESMTP id A3A8124680
+	for <linux-usb@archiver.kernel.org>; Fri, 20 Dec 2019 07:11:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727165AbfLTHHe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 20 Dec 2019 02:07:34 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57426 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726030AbfLTHHe (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 20 Dec 2019 02:07:34 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DA83524679;
-        Fri, 20 Dec 2019 07:07:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576825652;
-        bh=DsXW0Gs0MivMncxjTRzFK4LBCsqpOeFEz2Rkne+5NfE=;
-        h=Date:From:To:Cc:Subject:From;
-        b=fXeukvU40uyFie6dkYH7y56kHDdbd8KQOw3ROSZuJOw0zDRn1YJanbxxZYtdrNCty
-         aiu+rBTEyQeQG2taT1D/uAafdg99A1yFWCllykAo9T9zd/bM9DfE3lp01e1WMip9iw
-         KlMUv0ae/ufrL45Wq4qCiDRf5BBFaGeQwvuwG5v4=
-Date:   Fri, 20 Dec 2019 08:07:30 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [GIT PULL] USB fixes for 5.5-rc3
-Message-ID: <20191220070730.GA2190076@kroah.com>
+        id S1727179AbfLTHLq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 20 Dec 2019 02:11:46 -0500
+Received: from [167.172.186.51] ([167.172.186.51]:59486 "EHLO shell.v3.sk"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727176AbfLTHLq (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 20 Dec 2019 02:11:46 -0500
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id 2B0A1DFCA6;
+        Fri, 20 Dec 2019 07:02:11 +0000 (UTC)
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id suoZH-FJMzFf; Fri, 20 Dec 2019 07:02:10 +0000 (UTC)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by zimbra.v3.sk (Postfix) with ESMTP id A30F8DFCA8;
+        Fri, 20 Dec 2019 07:02:10 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at zimbra.v3.sk
+Received: from shell.v3.sk ([127.0.0.1])
+        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 2GlQI33HSVV8; Fri, 20 Dec 2019 07:02:10 +0000 (UTC)
+Received: from furthur.lan (unknown [109.183.109.54])
+        by zimbra.v3.sk (Postfix) with ESMTPSA id 4F4B3DFCA6;
+        Fri, 20 Dec 2019 07:02:10 +0000 (UTC)
+From:   Lubomir Rintel <lkundrak@v3.sk>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lubomir Rintel <lkundrak@v3.sk>
+Subject: [PATCH] USB: EHCI: ehci-mv: drop pxa_ehci_type and unused device IDs
+Date:   Fri, 20 Dec 2019 08:02:02 +0100
+Message-Id: <20191220070202.239870-1-lkundrak@v3.sk>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The following changes since commit d1eef1c619749b2a57e514a3fa67d9a516ffa919:
+A trivial cleanup.
 
-  Linux 5.5-rc2 (2019-12-15 15:16:08 -0800)
+Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+---
+ drivers/usb/host/ehci-mv.c           | 6 ++----
+ include/linux/platform_data/mv_usb.h | 8 --------
+ 2 files changed, 2 insertions(+), 12 deletions(-)
 
-are available in the Git repository at:
+diff --git a/drivers/usb/host/ehci-mv.c b/drivers/usb/host/ehci-mv.c
+index c8717f06cd8cb..91602e3492084 100644
+--- a/drivers/usb/host/ehci-mv.c
++++ b/drivers/usb/host/ehci-mv.c
+@@ -257,10 +257,8 @@ static int mv_ehci_remove(struct platform_device *pd=
+ev)
+ MODULE_ALIAS("mv-ehci");
+=20
+ static const struct platform_device_id ehci_id_table[] =3D {
+-	{"pxa-u2oehci", PXA_U2OEHCI},
+-	{"pxa-sph", PXA_SPH},
+-	{"mmp3-hsic", MMP3_HSIC},
+-	{"mmp3-fsic", MMP3_FSIC},
++	{"pxa-u2oehci", 0},
++	{"pxa-sph", 0},
+ 	{},
+ };
+=20
+diff --git a/include/linux/platform_data/mv_usb.h b/include/linux/platfor=
+m_data/mv_usb.h
+index 5376b6d799d5d..20d239c02bf3a 100644
+--- a/include/linux/platform_data/mv_usb.h
++++ b/include/linux/platform_data/mv_usb.h
+@@ -6,14 +6,6 @@
+ #ifndef __MV_PLATFORM_USB_H
+ #define __MV_PLATFORM_USB_H
+=20
+-enum pxa_ehci_type {
+-	EHCI_UNDEFINED =3D 0,
+-	PXA_U2OEHCI,	/* pxa 168, 9xx */
+-	PXA_SPH,	/* pxa 168, 9xx SPH */
+-	MMP3_HSIC,	/* mmp3 hsic */
+-	MMP3_FSIC,	/* mmp3 fsic */
+-};
+-
+ enum {
+ 	MV_USB_MODE_OTG,
+ 	MV_USB_MODE_HOST,
+--=20
+2.24.1
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.5-rc3
-
-for you to fetch changes up to 6056a0f8ede27b296d10ef46f7f677cc9d715371:
-
-  usb: xhci: Fix build warning seen with CONFIG_PM=n (2019-12-18 19:23:42 +0100)
-
-----------------------------------------------------------------
-USB fixes for 5.5-rc3
-
-Here are some small USB fixes for some reported issues.
-
-Included in here are:
-  - xhci build warning fix
-  - ehci disconnect warning fix
-  - usbip lockup fix and error cleanup fix
-  - typec build fix
-
-All of these have been in linux-next with no reported issues.
-
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-----------------------------------------------------------------
-Erkka Talvitie (1):
-      USB: EHCI: Do not return -EPIPE when hub is disconnected
-
-Guenter Roeck (1):
-      usb: xhci: Fix build warning seen with CONFIG_PM=n
-
-Suwan Kim (2):
-      usbip: Fix receive error in vhci-hcd when using scatter-gather
-      usbip: Fix error path of vhci_recv_ret_submit()
-
-zhong jiang (1):
-      usb: typec: fusb302: Fix an undefined reference to 'extcon_get_state'
-
- drivers/usb/host/ehci-q.c        | 13 ++++++++++++-
- drivers/usb/host/xhci-pci.c      |  2 +-
- drivers/usb/typec/tcpm/Kconfig   |  1 +
- drivers/usb/usbip/usbip_common.c |  3 +++
- drivers/usb/usbip/vhci_rx.c      | 13 +++++++++----
- 5 files changed, 26 insertions(+), 6 deletions(-)
