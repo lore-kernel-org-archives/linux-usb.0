@@ -2,64 +2,74 @@ Return-Path: <SRS0=hlyZ=2L=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A7CCC43603
-	for <linux-usb@archiver.kernel.org>; Sat, 21 Dec 2019 06:50:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3F62C2D0D2
+	for <linux-usb@archiver.kernel.org>; Sat, 21 Dec 2019 08:33:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 35B1B2070B
-	for <linux-usb@archiver.kernel.org>; Sat, 21 Dec 2019 06:50:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6699221655
+	for <linux-usb@archiver.kernel.org>; Sat, 21 Dec 2019 08:33:08 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b="TH1ortl6";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b="a2F+OYes"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725997AbfLUGuT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 21 Dec 2019 01:50:19 -0500
-Received: from [167.172.186.51] ([167.172.186.51]:39588 "EHLO shell.v3.sk"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725838AbfLUGuT (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 21 Dec 2019 01:50:19 -0500
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id F3BBFDFCC8;
-        Sat, 21 Dec 2019 06:50:20 +0000 (UTC)
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id puEEto27kgsw; Sat, 21 Dec 2019 06:50:20 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id 50B6CDFCB0;
-        Sat, 21 Dec 2019 06:50:20 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at zimbra.v3.sk
-Received: from shell.v3.sk ([127.0.0.1])
-        by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id jLvPNWMTRI6U; Sat, 21 Dec 2019 06:50:20 +0000 (UTC)
-Received: from furthur.lan (unknown [109.183.109.54])
-        by zimbra.v3.sk (Postfix) with ESMTPSA id C70B1DFC8A;
-        Sat, 21 Dec 2019 06:50:19 +0000 (UTC)
-From:   Lubomir Rintel <lkundrak@v3.sk>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/3] USB: EHCI: ehci-mv: make HSIC work
-Date:   Sat, 21 Dec 2019 07:50:05 +0100
-Message-Id: <20191221065008.266445-1-lkundrak@v3.sk>
-X-Mailer: git-send-email 2.24.1
+        id S1727097AbfLUIdG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 21 Dec 2019 03:33:06 -0500
+Received: from cable.insite.cz ([84.242.75.189]:58834 "EHLO cable.insite.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726729AbfLUIce (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 21 Dec 2019 03:32:34 -0500
+X-Greylist: delayed 588 seconds by postgrey-1.27 at vger.kernel.org; Sat, 21 Dec 2019 03:32:33 EST
+Received: from localhost (localhost [127.0.0.1])
+        by cable.insite.cz (Postfix) with ESMTP id 762DCA1A40B06
+        for <linux-usb@vger.kernel.org>; Sat, 21 Dec 2019 09:22:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+        t=1576916562; bh=oyowXZG47iAR04qQPUwVWGJkUpug/1u/w65TRQ3eoi8=;
+        h=To:From:Subject:Date:From;
+        b=TH1ortl6cok/eQAcwGKAw/Gph0CehUfQrDs7CkyhErXp8x1rAvLF6ScO07ZqmXngO
+         iWtFbX/epn4MKKwvb9geg6xxS49FKaWJ/tcCUMRd3/T5jTDZir+eEA60QIBJfVtt6W
+         C6AUarf53xtjCti4SO9XDph18kAAztgGIev2weP0=
+Received: from cable.insite.cz ([84.242.75.189])
+        by localhost (server.insite.cz [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Blh5ggHXJShT for <linux-usb@vger.kernel.org>;
+        Sat, 21 Dec 2019 09:22:36 +0100 (CET)
+Received: from [192.168.105.151] (ip28.insite.cz [81.0.237.28])
+        (Authenticated sender: pavel)
+        by cable.insite.cz (Postfix) with ESMTPSA id 733A3A1A40B01
+        for <linux-usb@vger.kernel.org>; Sat, 21 Dec 2019 09:22:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+        t=1576916556; bh=oyowXZG47iAR04qQPUwVWGJkUpug/1u/w65TRQ3eoi8=;
+        h=To:From:Subject:Date:From;
+        b=a2F+OYesa1ZG2E16IkEkr1HItqcITG5Y3VNtYzi8J0b/2hZSDrEhUGMYE5E8SPOYO
+         HIrAVoEDgmtmh2Y5fQn5J33XU7ssUbLJRP+d82j229aTdEVKtBt30msU9I7zRfVGdU
+         pRmNxkGmxLSGNKGtsf9TXqveRWLuceUZPX7jhgAc=
+To:     linux-usb@vger.kernel.org
+From:   Pavel Hofman <pavel.hofman@ivitera.com>
+Subject: USB: UAC2: Custom bInterval values
+Message-ID: <d8d929f3-9479-85fe-915e-ef1f1386bf6d@ivitera.com>
+Date:   Sat, 21 Dec 2019 09:22:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-2; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-please have a look at the three patches chained to this message. They
-are independent of each other and can be applied iny any order.
+Hi,
 
-My main objective was to make HSIC work on MMP3. The PHY patch is
-loosely related to that (there's no MMP3 HSIC PHY driver, but the NOP
-is sufficient). The last one is a cosmetic thing.
+I would like to add support for custom EP IN and EP OUT bInterval values 
+in f_uac2.c, to allow fine-tuning the gadget for higher samplerates.
 
-Compared to first submission, the patches are now submitted as series
-and the wording of the third one's commit message has been changed.
+For now the easiest way to me seems to add the params to uac2_opts and 
+add module params to  g_audio module (to the existing params p_chmask, 
+p_srate, etc.). Please will such change be accepted to upstream?
 
-Thank you,
-Lubo
+Thanks,
 
-
+Pavel.
