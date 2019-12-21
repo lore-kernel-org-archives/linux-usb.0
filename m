@@ -6,42 +6,42 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6491EC2D0D2
-	for <linux-usb@archiver.kernel.org>; Sat, 21 Dec 2019 06:50:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EABDC43603
+	for <linux-usb@archiver.kernel.org>; Sat, 21 Dec 2019 06:50:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3B3DC2070B
-	for <linux-usb@archiver.kernel.org>; Sat, 21 Dec 2019 06:50:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4BDE62070B
+	for <linux-usb@archiver.kernel.org>; Sat, 21 Dec 2019 06:50:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726482AbfLUGuW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 21 Dec 2019 01:50:22 -0500
-Received: from [167.172.186.51] ([167.172.186.51]:39626 "EHLO shell.v3.sk"
+        id S1726186AbfLUGuV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 21 Dec 2019 01:50:21 -0500
+Received: from [167.172.186.51] ([167.172.186.51]:39638 "EHLO shell.v3.sk"
         rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725907AbfLUGuW (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Sat, 21 Dec 2019 01:50:22 -0500
+        id S1725838AbfLUGuV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 21 Dec 2019 01:50:21 -0500
 Received: from localhost (localhost.localdomain [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id 9DFC4DFC9F;
-        Sat, 21 Dec 2019 06:50:22 +0000 (UTC)
+        by zimbra.v3.sk (Postfix) with ESMTP id 3DF21DFC8A;
+        Sat, 21 Dec 2019 06:50:23 +0000 (UTC)
 Received: from shell.v3.sk ([127.0.0.1])
         by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 0QoOZXV2rgXD; Sat, 21 Dec 2019 06:50:21 +0000 (UTC)
+        with ESMTP id XyUelJViFghl; Sat, 21 Dec 2019 06:50:20 +0000 (UTC)
 Received: from localhost (localhost.localdomain [127.0.0.1])
-        by zimbra.v3.sk (Postfix) with ESMTP id A9ABFDFC8A;
-        Sat, 21 Dec 2019 06:50:21 +0000 (UTC)
+        by zimbra.v3.sk (Postfix) with ESMTP id B77AADFCC9;
+        Sat, 21 Dec 2019 06:50:20 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at zimbra.v3.sk
 Received: from shell.v3.sk ([127.0.0.1])
         by localhost (zimbra.v3.sk [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id WDwk2-J3pCBA; Sat, 21 Dec 2019 06:50:21 +0000 (UTC)
+        with ESMTP id JtPuZOI1Bivk; Sat, 21 Dec 2019 06:50:20 +0000 (UTC)
 Received: from furthur.lan (unknown [109.183.109.54])
-        by zimbra.v3.sk (Postfix) with ESMTPSA id 10F50DFCCB;
-        Sat, 21 Dec 2019 06:50:21 +0000 (UTC)
+        by zimbra.v3.sk (Postfix) with ESMTPSA id 408C3DFC9C;
+        Sat, 21 Dec 2019 06:50:20 +0000 (UTC)
 From:   Lubomir Rintel <lkundrak@v3.sk>
 To:     Alan Stern <stern@rowland.harvard.edu>
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
         Lubomir Rintel <lkundrak@v3.sk>
-Subject: [PATCH v2 3/3] USB: EHCI: ehci-mv: drop pxa_ehci_type and some device IDs
-Date:   Sat, 21 Dec 2019 07:50:08 +0100
-Message-Id: <20191221065008.266445-4-lkundrak@v3.sk>
+Subject: [PATCH v2 1/3] USB: EHCI: ehci-mv: add HSIC support
+Date:   Sat, 21 Dec 2019 07:50:06 +0100
+Message-Id: <20191221065008.266445-2-lkundrak@v3.sk>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191221065008.266445-1-lkundrak@v3.sk>
 References: <20191221065008.266445-1-lkundrak@v3.sk>
@@ -52,56 +52,50 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This is merely a cleanup. None of these is used anywhere.
+Some special dance is needed to initialize the HSIC port.
 
 Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-
 ---
-Changes since v1:
-- Changed the wording a bit
-
- drivers/usb/host/ehci-mv.c           | 6 ++----
- include/linux/platform_data/mv_usb.h | 8 --------
- 2 files changed, 2 insertions(+), 12 deletions(-)
+ drivers/usb/host/ehci-mv.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
 diff --git a/drivers/usb/host/ehci-mv.c b/drivers/usb/host/ehci-mv.c
-index c8717f06cd8cb..91602e3492084 100644
+index 66ec1fdf9fe7d..21eb32baf9380 100644
 --- a/drivers/usb/host/ehci-mv.c
 +++ b/drivers/usb/host/ehci-mv.c
-@@ -257,10 +257,8 @@ static int mv_ehci_remove(struct platform_device *pd=
-ev)
- MODULE_ALIAS("mv-ehci");
+@@ -11,6 +11,7 @@
+ #include <linux/clk.h>
+ #include <linux/err.h>
+ #include <linux/usb/otg.h>
++#include <linux/usb/of.h>
+ #include <linux/platform_data/mv_usb.h>
+ #include <linux/io.h>
 =20
- static const struct platform_device_id ehci_id_table[] =3D {
--	{"pxa-u2oehci", PXA_U2OEHCI},
--	{"pxa-sph", PXA_SPH},
--	{"mmp3-hsic", MMP3_HSIC},
--	{"mmp3-fsic", MMP3_FSIC},
-+	{"pxa-u2oehci", 0},
-+	{"pxa-sph", 0},
- 	{},
- };
+@@ -67,6 +68,8 @@ static int mv_ehci_reset(struct usb_hcd *hcd)
+ {
+ 	struct device *dev =3D hcd->self.controller;
+ 	struct ehci_hcd_mv *ehci_mv =3D hcd_to_ehci_hcd_mv(hcd);
++	struct ehci_hcd *ehci =3D hcd_to_ehci(hcd);
++	u32 status;
+ 	int retval;
 =20
-diff --git a/include/linux/platform_data/mv_usb.h b/include/linux/platfor=
-m_data/mv_usb.h
-index 5376b6d799d5d..20d239c02bf3a 100644
---- a/include/linux/platform_data/mv_usb.h
-+++ b/include/linux/platform_data/mv_usb.h
-@@ -6,14 +6,6 @@
- #ifndef __MV_PLATFORM_USB_H
- #define __MV_PLATFORM_USB_H
+ 	if (ehci_mv =3D=3D NULL) {
+@@ -80,6 +83,14 @@ static int mv_ehci_reset(struct usb_hcd *hcd)
+ 	if (retval)
+ 		dev_err(dev, "ehci_setup failed %d\n", retval);
 =20
--enum pxa_ehci_type {
--	EHCI_UNDEFINED =3D 0,
--	PXA_U2OEHCI,	/* pxa 168, 9xx */
--	PXA_SPH,	/* pxa 168, 9xx SPH */
--	MMP3_HSIC,	/* mmp3 hsic */
--	MMP3_FSIC,	/* mmp3 fsic */
--};
--
- enum {
- 	MV_USB_MODE_OTG,
- 	MV_USB_MODE_HOST,
++	if (of_usb_get_phy_mode(dev->of_node) =3D=3D USBPHY_INTERFACE_MODE_HSIC=
+) {
++		status =3D ehci_readl(ehci, &ehci->regs->port_status[0]);
++		status |=3D PORT_TEST_FORCE;
++		ehci_writel(ehci, status, &ehci->regs->port_status[0]);
++		status &=3D ~PORT_TEST_FORCE;
++		ehci_writel(ehci, status, &ehci->regs->port_status[0]);
++	}
++
+ 	return retval;
+ }
+=20
 --=20
 2.24.1
 
