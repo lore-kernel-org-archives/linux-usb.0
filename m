@@ -8,53 +8,53 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6CE4C2D0C8
-	for <linux-usb@archiver.kernel.org>; Sat, 28 Dec 2019 20:37:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96A77C2D0C8
+	for <linux-usb@archiver.kernel.org>; Sat, 28 Dec 2019 20:37:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 71A2F222D9
-	for <linux-usb@archiver.kernel.org>; Sat, 28 Dec 2019 20:37:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 64523222D9
+	for <linux-usb@archiver.kernel.org>; Sat, 28 Dec 2019 20:37:17 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mRnbE/lx"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lfBKqg2I"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727381AbfL1UhJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 28 Dec 2019 15:37:09 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:46469 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726575AbfL1UgG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 28 Dec 2019 15:36:06 -0500
-Received: by mail-lf1-f67.google.com with SMTP id f15so22876003lfl.13;
-        Sat, 28 Dec 2019 12:36:03 -0800 (PST)
+        id S1726857AbfL1UgF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 28 Dec 2019 15:36:05 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:43885 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726578AbfL1UgF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 28 Dec 2019 15:36:05 -0500
+Received: by mail-lj1-f196.google.com with SMTP id a13so29864494ljm.10;
+        Sat, 28 Dec 2019 12:36:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3zJwoKWUzhHu2qg87X/qZkbb+MLW6RjOn5y5gSTkjEM=;
-        b=mRnbE/lxxTlb6843s20Wq/JuXsqXz58ME8YJmXmdkHsFx5lkRheFLnoL1743agrcAq
-         D643sc0L7Lz2KhHOUoIyhkpLGsajHcY8QxaCOFotYRdesUrsrae1LllWH6+n7wgZgvoF
-         awwOpXm+kcpU3kgEqJYsG/S4eW0MfhA5+HoRIufeqTWfEX4P2u87c0w+Nq2J+MTq2wQR
-         hLX6A+qmIrf0xk8raxggQB3gZVM3RrIbqDsRUyl0O3JmTK5JxrA5tFQ0VbI4NTrO8zhY
-         Kkf8/nh4A2RjIq8BnJYIjn/2pSJxdzxnLtJH/cuNSsaZZCse7RP9vGhWe+VoneGnia4l
-         vg8A==
+        bh=jx7JMSohyFkVm6KDld0640Fsvvb0PRHAf2COPicsQ2M=;
+        b=lfBKqg2IwJZ73AH+sRWQOCZJ4oLYYMHE47SvirWG/USKRV1PVr7y3Fl9AsJf0x34JH
+         /Wc2fTz8UWGH78JX+DDwEZb1rTXc5libe78VG3Ycbl41uiIOyd/LS8Rul0Zoi8iCLrNP
+         zPet4eUNDUvLrwFpEBoiAskiWos1pSGEFxxmBgJydJO51li7LMI4IPXS3y6MQsKpLsRw
+         oIY0ly9A9QfQE/nTyiidCUbhciyyJy+MRg4qn/PeXzIQ6yQBV1E1t7RUSlRDYbwe+kbg
+         vw+sXCBNDcc+41rA//LJRDp0GK/QGXfBOegmn14ZNtJfGLvEAi77KLCGS3j269kDVIgz
+         Ib2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3zJwoKWUzhHu2qg87X/qZkbb+MLW6RjOn5y5gSTkjEM=;
-        b=Uhjx7P6m5527W2ROmKEWgHSf8yZjFIlYdHUqXpou9eHqC2dMCZXTjiJ88+w1lEkjLt
-         sGlg1sRLmSW/o6cvclZnbxQXAP5wYHg6QZ/5aFH/jnHv/gzi7V/nkrb8px0CLMk+zkzH
-         hb2krgMlQXYpMQGr5tveBAXMCSPDQCwLOv3Sj1oFxCfUzgqrYz9fbZi56YH4OkjgpqZb
-         FK8DPV+C0R/K6BvsVCAa5iGUevmS16kzLyUVOfIw92IM76I2pPe6F6dg27GsQ19qMwoU
-         j+rHtMMbkfduBWgX7ifaNcrZAPEsHrkGXjCKMiex1fKVfsma83cSgqXzfYu+mJY0zEeI
-         DLCA==
-X-Gm-Message-State: APjAAAX+MR8IN0YNEpu+Fbv6F80nXeQLXNoELWfk5fGIEhJLTV1iL1Pp
-        3eBzpUmBURq8Zi68WuY92+TwpXB5
-X-Google-Smtp-Source: APXvYqxuAVRuoEeR9F5903EvJmzgh6q8+edtfgMO7Exh9+ByrB36gfMV64jgeHEbCJ5wt100mD0kXg==
-X-Received: by 2002:a19:dc14:: with SMTP id t20mr32802658lfg.47.1577565362959;
-        Sat, 28 Dec 2019 12:36:02 -0800 (PST)
+        bh=jx7JMSohyFkVm6KDld0640Fsvvb0PRHAf2COPicsQ2M=;
+        b=n5W1aihb1SBcCHf8zpQMu8OtXg4NgiakdsF/qFcv8KJUKsM1e8qaGauQqZ16SmXZdB
+         AAfLTH5v/pMkfWiYl90OlKOD3mWdfM+Xr8sAebcuAB29PSu0fX06Zazh1JUq5zxTa3Tn
+         XQTilSWYCoSBrWtvfvGfqYH6xubdWEevJPPgvshefilDC8gx+lpA27KFbbloxoAJCT9a
+         Vy75u8+xdg5b3GoUVHPp/XeaB6G600ChzjrQ6PBrB8l1aEo2msyy4wnXbrt4w3CKmzsC
+         W99Oum7eMjYNibWJIP63/G07UWPFjkDF3UNyKa6KQvmss53K1vriZ507jNS1ULqNBINo
+         NJLQ==
+X-Gm-Message-State: APjAAAWEIqToeKsCRUyrwwTABujsUBoE5t0ESG8i1/0f3LZiDxP/7Pxt
+        W5GMbcrisVX9J4PvKW/frao=
+X-Google-Smtp-Source: APXvYqwEdQdCed74k+h6NsLaM+av49yIq6BCvb60vLJ2wTG7LUXo2I9XAgQGtzQQ5EgmBnqMBhqVTw==
+X-Received: by 2002:a2e:9095:: with SMTP id l21mr31340013ljg.175.1577565360987;
+        Sat, 28 Dec 2019 12:36:00 -0800 (PST)
 Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id d9sm15162614lja.73.2019.12.28.12.36.02
+        by smtp.gmail.com with ESMTPSA id d9sm15162614lja.73.2019.12.28.12.36.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Dec 2019 12:36:02 -0800 (PST)
+        Sat, 28 Dec 2019 12:36:00 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -64,9 +64,9 @@ To:     Rob Herring <robh+dt@kernel.org>,
         Felipe Balbi <balbi@kernel.org>
 Cc:     devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 04/16] usb: phy: tegra: Use relaxed versions of readl/writel
-Date:   Sat, 28 Dec 2019 23:33:46 +0300
-Message-Id: <20191228203358.23490-5-digetx@gmail.com>
+Subject: [PATCH v3 02/16] usb: phy: tegra: Hook up init/shutdown callbacks
+Date:   Sat, 28 Dec 2019 23:33:44 +0300
+Message-Id: <20191228203358.23490-3-digetx@gmail.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191228203358.23490-1-digetx@gmail.com>
 References: <20191228203358.23490-1-digetx@gmail.com>
@@ -77,481 +77,296 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There is nothing to synchronize in regards to memory stores, thus all
-readl/writel occurrences in the code could be replaced with a relaxed
-versions, for consistency.
+Generic PHY provides init/shutdown callbacks which allow USB-host drivers
+to abstract PHY's hardware management in a common way. This change allows
+to remove Tegra-specific PHY handling from the ChipIdea driver.
 
+Note that ChipIdea's driver shall be changed at the same time because it
+turns PHY ON without the PHY's initialization and this doesn't work now,
+resulting in a NULL dereference of phy->freq because it's set during of
+the PHY's initialization.
+
+Acked-by: Peter Chen <peter.chen@nxp.com>
 Acked-by: Thierry Reding <treding@nvidia.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/usb/phy/phy-tegra-usb.c | 195 ++++++++++++++++----------------
- 1 file changed, 98 insertions(+), 97 deletions(-)
+ drivers/usb/phy/phy-tegra-usb.c | 180 +++++++++++++++++++++-----------
+ 1 file changed, 117 insertions(+), 63 deletions(-)
 
 diff --git a/drivers/usb/phy/phy-tegra-usb.c b/drivers/usb/phy/phy-tegra-usb.c
-index 227757b8174c..4d6d586c49cc 100644
+index ea7ef1dc0b42..d11d217e232b 100644
 --- a/drivers/usb/phy/phy-tegra-usb.c
 +++ b/drivers/usb/phy/phy-tegra-usb.c
-@@ -205,15 +205,16 @@ static void set_pts(struct tegra_usb_phy *phy, u8 pts_val)
- 	unsigned long val;
- 
- 	if (phy->soc_config->has_hostpc) {
--		val = readl(base + TEGRA_USB_HOSTPC1_DEVLC);
-+		val = readl_relaxed(base + TEGRA_USB_HOSTPC1_DEVLC);
- 		val &= ~TEGRA_USB_HOSTPC1_DEVLC_PTS(~0);
- 		val |= TEGRA_USB_HOSTPC1_DEVLC_PTS(pts_val);
--		writel(val, base + TEGRA_USB_HOSTPC1_DEVLC);
-+		writel_relaxed(val, base + TEGRA_USB_HOSTPC1_DEVLC);
- 	} else {
--		val = readl(base + TEGRA_USB_PORTSC1) & ~TEGRA_PORTSC1_RWC_BITS;
-+		val = readl_relaxed(base + TEGRA_USB_PORTSC1);
-+		val &= ~TEGRA_PORTSC1_RWC_BITS;
- 		val &= ~TEGRA_USB_PORTSC1_PTS(~0);
- 		val |= TEGRA_USB_PORTSC1_PTS(pts_val);
--		writel(val, base + TEGRA_USB_PORTSC1);
-+		writel_relaxed(val, base + TEGRA_USB_PORTSC1);
- 	}
- }
- 
-@@ -223,19 +224,19 @@ static void set_phcd(struct tegra_usb_phy *phy, bool enable)
- 	unsigned long val;
- 
- 	if (phy->soc_config->has_hostpc) {
--		val = readl(base + TEGRA_USB_HOSTPC1_DEVLC);
-+		val = readl_relaxed(base + TEGRA_USB_HOSTPC1_DEVLC);
- 		if (enable)
- 			val |= TEGRA_USB_HOSTPC1_DEVLC_PHCD;
- 		else
- 			val &= ~TEGRA_USB_HOSTPC1_DEVLC_PHCD;
--		writel(val, base + TEGRA_USB_HOSTPC1_DEVLC);
-+		writel_relaxed(val, base + TEGRA_USB_HOSTPC1_DEVLC);
- 	} else {
--		val = readl(base + TEGRA_USB_PORTSC1) & ~PORT_RWC_BITS;
-+		val = readl_relaxed(base + TEGRA_USB_PORTSC1) & ~PORT_RWC_BITS;
- 		if (enable)
- 			val |= TEGRA_USB_PORTSC1_PHCD;
- 		else
- 			val &= ~TEGRA_USB_PORTSC1_PHCD;
--		writel(val, base + TEGRA_USB_PORTSC1);
-+		writel_relaxed(val, base + TEGRA_USB_PORTSC1);
- 	}
- }
- 
-@@ -329,7 +330,7 @@ static int utmip_pad_power_on(struct tegra_usb_phy *phy)
- 	spin_lock_irqsave(&utmip_pad_lock, flags);
- 
- 	if (utmip_pad_count++ == 0) {
--		val = readl(base + UTMIP_BIAS_CFG0);
-+		val = readl_relaxed(base + UTMIP_BIAS_CFG0);
- 		val &= ~(UTMIP_OTGPD | UTMIP_BIASPD);
- 
- 		if (phy->soc_config->requires_extra_tuning_parameters) {
-@@ -341,7 +342,7 @@ static int utmip_pad_power_on(struct tegra_usb_phy *phy)
- 			val |= UTMIP_HSDISCON_LEVEL(config->hsdiscon_level);
- 			val |= UTMIP_HSDISCON_LEVEL_MSB(config->hsdiscon_level);
- 		}
--		writel(val, base + UTMIP_BIAS_CFG0);
-+		writel_relaxed(val, base + UTMIP_BIAS_CFG0);
- 	}
- 
- 	spin_unlock_irqrestore(&utmip_pad_lock, flags);
-@@ -369,9 +370,9 @@ static int utmip_pad_power_off(struct tegra_usb_phy *phy)
- 	spin_lock_irqsave(&utmip_pad_lock, flags);
- 
- 	if (--utmip_pad_count == 0) {
--		val = readl(base + UTMIP_BIAS_CFG0);
-+		val = readl_relaxed(base + UTMIP_BIAS_CFG0);
- 		val |= UTMIP_OTGPD | UTMIP_BIASPD;
--		writel(val, base + UTMIP_BIAS_CFG0);
-+		writel_relaxed(val, base + UTMIP_BIAS_CFG0);
- 	}
- 
- 	spin_unlock_irqrestore(&utmip_pad_lock, flags);
-@@ -385,8 +386,8 @@ static int utmi_wait_register(void __iomem *reg, u32 mask, u32 result)
+@@ -238,23 +238,6 @@ static int utmip_pad_open(struct tegra_usb_phy *phy)
  {
- 	u32 tmp;
+ 	int ret;
  
--	return readl_poll_timeout(reg, tmp, (tmp & mask) == result,
--				  2000, 6000);
-+	return readl_relaxed_poll_timeout(reg, tmp, (tmp & mask) == result,
-+					  2000, 6000);
+-	phy->pad_clk = devm_clk_get(phy->u_phy.dev, "utmi-pads");
+-	if (IS_ERR(phy->pad_clk)) {
+-		ret = PTR_ERR(phy->pad_clk);
+-		dev_err(phy->u_phy.dev,
+-			"Failed to get UTMIP pad clock: %d\n", ret);
+-		return ret;
+-	}
+-
+-	phy->pad_rst = devm_reset_control_get_optional_shared(
+-						phy->u_phy.dev, "utmi-pads");
+-	if (IS_ERR(phy->pad_rst)) {
+-		ret = PTR_ERR(phy->pad_rst);
+-		dev_err(phy->u_phy.dev,
+-			"Failed to get UTMI-pads reset: %d\n", ret);
+-		return ret;
+-	}
+-
+ 	ret = clk_prepare_enable(phy->pad_clk);
+ 	if (ret) {
+ 		dev_err(phy->u_phy.dev,
+@@ -315,6 +298,18 @@ static int utmip_pad_close(struct tegra_usb_phy *phy)
+ 	return ret;
  }
  
- static void utmi_phy_clk_disable(struct tegra_usb_phy *phy)
-@@ -403,15 +404,15 @@ static void utmi_phy_clk_disable(struct tegra_usb_phy *phy)
- 		return;
++static void ulpi_close(struct tegra_usb_phy *phy)
++{
++	int err;
++
++	err = gpio_direction_output(phy->reset_gpio, 1);
++	if (err < 0) {
++		dev_err(phy->u_phy.dev,
++			"ULPI reset GPIO %d direction not asserted: %d\n",
++			phy->reset_gpio, err);
++	}
++}
++
+ static void utmip_pad_power_on(struct tegra_usb_phy *phy)
+ {
+ 	unsigned long val, flags;
+@@ -761,15 +756,25 @@ static int ulpi_phy_power_off(struct tegra_usb_phy *phy)
+ 	return gpio_direction_output(phy->reset_gpio, 0);
+ }
  
- 	if (phy->is_legacy_phy) {
--		val = readl(base + USB_SUSP_CTRL);
-+		val = readl_relaxed(base + USB_SUSP_CTRL);
- 		val |= USB_SUSP_SET;
--		writel(val, base + USB_SUSP_CTRL);
-+		writel_relaxed(val, base + USB_SUSP_CTRL);
+-static void tegra_usb_phy_close(struct tegra_usb_phy *phy)
++static void tegra_usb_phy_shutdown(struct usb_phy *u_phy)
+ {
+-	if (!IS_ERR(phy->vbus))
+-		regulator_disable(phy->vbus);
++	struct tegra_usb_phy *phy = container_of(u_phy, struct tegra_usb_phy,
++						 u_phy);
  
- 		usleep_range(10, 100);
+-	if (!phy->is_ulpi_phy)
++	if (WARN_ON(!phy->freq))
++		return;
++
++	if (phy->is_ulpi_phy)
++		ulpi_close(phy);
++	else
+ 		utmip_pad_close(phy);
  
--		val = readl(base + USB_SUSP_CTRL);
-+		val = readl_relaxed(base + USB_SUSP_CTRL);
- 		val &= ~USB_SUSP_SET;
--		writel(val, base + USB_SUSP_CTRL);
-+		writel_relaxed(val, base + USB_SUSP_CTRL);
- 	} else {
- 		set_phcd(phy, true);
- 	}
-@@ -436,15 +437,15 @@ static void utmi_phy_clk_enable(struct tegra_usb_phy *phy)
- 		return;
++	if (!IS_ERR(phy->vbus))
++		regulator_disable(phy->vbus);
++
+ 	clk_disable_unprepare(phy->pll_u);
++
++	phy->freq = NULL;
+ }
  
- 	if (phy->is_legacy_phy) {
--		val = readl(base + USB_SUSP_CTRL);
-+		val = readl_relaxed(base + USB_SUSP_CTRL);
- 		val |= USB_SUSP_CLR;
--		writel(val, base + USB_SUSP_CTRL);
-+		writel_relaxed(val, base + USB_SUSP_CTRL);
+ static int tegra_usb_phy_power_on(struct tegra_usb_phy *phy)
+@@ -788,9 +793,13 @@ static int tegra_usb_phy_power_off(struct tegra_usb_phy *phy)
+ 		return utmi_phy_power_off(phy);
+ }
  
- 		usleep_range(10, 100);
- 
--		val = readl(base + USB_SUSP_CTRL);
-+		val = readl_relaxed(base + USB_SUSP_CTRL);
- 		val &= ~USB_SUSP_CLR;
--		writel(val, base + USB_SUSP_CTRL);
-+		writel_relaxed(val, base + USB_SUSP_CTRL);
- 	} else {
- 		set_phcd(phy, false);
- 	}
-@@ -462,75 +463,75 @@ static int utmi_phy_power_on(struct tegra_usb_phy *phy)
- 	unsigned long val;
+-static int	tegra_usb_phy_suspend(struct usb_phy *x, int suspend)
++static int tegra_usb_phy_set_suspend(struct usb_phy *x, int suspend)
+ {
+ 	struct tegra_usb_phy *phy = container_of(x, struct tegra_usb_phy, u_phy);
++
++	if (WARN_ON(!phy->freq))
++		return -EINVAL;
++
+ 	if (suspend)
+ 		return tegra_usb_phy_power_off(phy);
+ 	else
+@@ -801,53 +810,27 @@ static int ulpi_open(struct tegra_usb_phy *phy)
+ {
  	int err;
  
--	val = readl(base + USB_SUSP_CTRL);
-+	val = readl_relaxed(base + USB_SUSP_CTRL);
- 	val |= UTMIP_RESET;
--	writel(val, base + USB_SUSP_CTRL);
-+	writel_relaxed(val, base + USB_SUSP_CTRL);
- 
- 	if (phy->is_legacy_phy) {
--		val = readl(base + USB1_LEGACY_CTRL);
-+		val = readl_relaxed(base + USB1_LEGACY_CTRL);
- 		val |= USB1_NO_LEGACY_MODE;
--		writel(val, base + USB1_LEGACY_CTRL);
-+		writel_relaxed(val, base + USB1_LEGACY_CTRL);
- 	}
- 
--	val = readl(base + UTMIP_TX_CFG0);
-+	val = readl_relaxed(base + UTMIP_TX_CFG0);
- 	val |= UTMIP_FS_PREABMLE_J;
--	writel(val, base + UTMIP_TX_CFG0);
-+	writel_relaxed(val, base + UTMIP_TX_CFG0);
- 
--	val = readl(base + UTMIP_HSRX_CFG0);
-+	val = readl_relaxed(base + UTMIP_HSRX_CFG0);
- 	val &= ~(UTMIP_IDLE_WAIT(~0) | UTMIP_ELASTIC_LIMIT(~0));
- 	val |= UTMIP_IDLE_WAIT(config->idle_wait_delay);
- 	val |= UTMIP_ELASTIC_LIMIT(config->elastic_limit);
--	writel(val, base + UTMIP_HSRX_CFG0);
-+	writel_relaxed(val, base + UTMIP_HSRX_CFG0);
- 
--	val = readl(base + UTMIP_HSRX_CFG1);
-+	val = readl_relaxed(base + UTMIP_HSRX_CFG1);
- 	val &= ~UTMIP_HS_SYNC_START_DLY(~0);
- 	val |= UTMIP_HS_SYNC_START_DLY(config->hssync_start_delay);
--	writel(val, base + UTMIP_HSRX_CFG1);
-+	writel_relaxed(val, base + UTMIP_HSRX_CFG1);
- 
--	val = readl(base + UTMIP_DEBOUNCE_CFG0);
-+	val = readl_relaxed(base + UTMIP_DEBOUNCE_CFG0);
- 	val &= ~UTMIP_BIAS_DEBOUNCE_A(~0);
- 	val |= UTMIP_BIAS_DEBOUNCE_A(phy->freq->debounce);
--	writel(val, base + UTMIP_DEBOUNCE_CFG0);
-+	writel_relaxed(val, base + UTMIP_DEBOUNCE_CFG0);
- 
--	val = readl(base + UTMIP_MISC_CFG0);
-+	val = readl_relaxed(base + UTMIP_MISC_CFG0);
- 	val &= ~UTMIP_SUSPEND_EXIT_ON_EDGE;
--	writel(val, base + UTMIP_MISC_CFG0);
-+	writel_relaxed(val, base + UTMIP_MISC_CFG0);
- 
- 	if (!phy->soc_config->utmi_pll_config_in_car_module) {
--		val = readl(base + UTMIP_MISC_CFG1);
-+		val = readl_relaxed(base + UTMIP_MISC_CFG1);
- 		val &= ~(UTMIP_PLL_ACTIVE_DLY_COUNT(~0) |
- 			UTMIP_PLLU_STABLE_COUNT(~0));
- 		val |= UTMIP_PLL_ACTIVE_DLY_COUNT(phy->freq->active_delay) |
- 			UTMIP_PLLU_STABLE_COUNT(phy->freq->stable_count);
--		writel(val, base + UTMIP_MISC_CFG1);
-+		writel_relaxed(val, base + UTMIP_MISC_CFG1);
- 
--		val = readl(base + UTMIP_PLL_CFG1);
-+		val = readl_relaxed(base + UTMIP_PLL_CFG1);
- 		val &= ~(UTMIP_XTAL_FREQ_COUNT(~0) |
- 			UTMIP_PLLU_ENABLE_DLY_COUNT(~0));
- 		val |= UTMIP_XTAL_FREQ_COUNT(phy->freq->xtal_freq_count) |
- 			UTMIP_PLLU_ENABLE_DLY_COUNT(phy->freq->enable_delay);
--		writel(val, base + UTMIP_PLL_CFG1);
-+		writel_relaxed(val, base + UTMIP_PLL_CFG1);
- 	}
- 
- 	if (phy->mode == USB_DR_MODE_PERIPHERAL) {
--		val = readl(base + USB_SUSP_CTRL);
-+		val = readl_relaxed(base + USB_SUSP_CTRL);
- 		val &= ~(USB_WAKE_ON_CNNT_EN_DEV | USB_WAKE_ON_DISCON_EN_DEV);
--		writel(val, base + USB_SUSP_CTRL);
-+		writel_relaxed(val, base + USB_SUSP_CTRL);
- 
--		val = readl(base + UTMIP_BAT_CHRG_CFG0);
-+		val = readl_relaxed(base + UTMIP_BAT_CHRG_CFG0);
- 		val &= ~UTMIP_PD_CHRG;
--		writel(val, base + UTMIP_BAT_CHRG_CFG0);
-+		writel_relaxed(val, base + UTMIP_BAT_CHRG_CFG0);
- 	} else {
--		val = readl(base + UTMIP_BAT_CHRG_CFG0);
-+		val = readl_relaxed(base + UTMIP_BAT_CHRG_CFG0);
- 		val |= UTMIP_PD_CHRG;
--		writel(val, base + UTMIP_BAT_CHRG_CFG0);
-+		writel_relaxed(val, base + UTMIP_BAT_CHRG_CFG0);
- 	}
- 
- 	err = utmip_pad_power_on(phy);
- 	if (err)
+-	phy->clk = devm_clk_get(phy->u_phy.dev, "ulpi-link");
+-	if (IS_ERR(phy->clk)) {
+-		err = PTR_ERR(phy->clk);
+-		dev_err(phy->u_phy.dev, "Failed to get ULPI clock: %d\n", err);
+-		return err;
+-	}
+-
+-	err = devm_gpio_request(phy->u_phy.dev, phy->reset_gpio,
+-		"ulpi_phy_reset_b");
+-	if (err < 0) {
+-		dev_err(phy->u_phy.dev, "Request failed for GPIO %d: %d\n",
+-			phy->reset_gpio, err);
+-		return err;
+-	}
+-
+ 	err = gpio_direction_output(phy->reset_gpio, 0);
+ 	if (err < 0) {
+ 		dev_err(phy->u_phy.dev,
+-			"GPIO %d direction not set to output: %d\n",
++			"ULPI reset GPIO %d direction not deasserted: %d\n",
+ 			phy->reset_gpio, err);
  		return err;
- 
--	val = readl(base + UTMIP_XCVR_CFG0);
-+	val = readl_relaxed(base + UTMIP_XCVR_CFG0);
- 	val &= ~(UTMIP_FORCE_PD_POWERDOWN | UTMIP_FORCE_PD2_POWERDOWN |
- 		 UTMIP_FORCE_PDZI_POWERDOWN | UTMIP_XCVR_LSBIAS_SEL |
- 		 UTMIP_XCVR_SETUP(~0) | UTMIP_XCVR_SETUP_MSB(~0) |
-@@ -548,57 +549,57 @@ static int utmi_phy_power_on(struct tegra_usb_phy *phy)
- 		val |= UTMIP_XCVR_HSSLEW(config->xcvr_hsslew);
- 		val |= UTMIP_XCVR_HSSLEW_MSB(config->xcvr_hsslew);
- 	}
--	writel(val, base + UTMIP_XCVR_CFG0);
-+	writel_relaxed(val, base + UTMIP_XCVR_CFG0);
- 
--	val = readl(base + UTMIP_XCVR_CFG1);
-+	val = readl_relaxed(base + UTMIP_XCVR_CFG1);
- 	val &= ~(UTMIP_FORCE_PDDISC_POWERDOWN | UTMIP_FORCE_PDCHRP_POWERDOWN |
- 		 UTMIP_FORCE_PDDR_POWERDOWN | UTMIP_XCVR_TERM_RANGE_ADJ(~0));
- 	val |= UTMIP_XCVR_TERM_RANGE_ADJ(config->term_range_adj);
--	writel(val, base + UTMIP_XCVR_CFG1);
-+	writel_relaxed(val, base + UTMIP_XCVR_CFG1);
- 
--	val = readl(base + UTMIP_BIAS_CFG1);
-+	val = readl_relaxed(base + UTMIP_BIAS_CFG1);
- 	val &= ~UTMIP_BIAS_PDTRK_COUNT(~0);
- 	val |= UTMIP_BIAS_PDTRK_COUNT(0x5);
--	writel(val, base + UTMIP_BIAS_CFG1);
-+	writel_relaxed(val, base + UTMIP_BIAS_CFG1);
- 
--	val = readl(base + UTMIP_SPARE_CFG0);
-+	val = readl_relaxed(base + UTMIP_SPARE_CFG0);
- 	if (config->xcvr_setup_use_fuses)
- 		val |= FUSE_SETUP_SEL;
- 	else
- 		val &= ~FUSE_SETUP_SEL;
--	writel(val, base + UTMIP_SPARE_CFG0);
-+	writel_relaxed(val, base + UTMIP_SPARE_CFG0);
- 
- 	if (!phy->is_legacy_phy) {
--		val = readl(base + USB_SUSP_CTRL);
-+		val = readl_relaxed(base + USB_SUSP_CTRL);
- 		val |= UTMIP_PHY_ENABLE;
--		writel(val, base + USB_SUSP_CTRL);
-+		writel_relaxed(val, base + USB_SUSP_CTRL);
  	}
  
--	val = readl(base + USB_SUSP_CTRL);
-+	val = readl_relaxed(base + USB_SUSP_CTRL);
- 	val &= ~UTMIP_RESET;
--	writel(val, base + USB_SUSP_CTRL);
-+	writel_relaxed(val, base + USB_SUSP_CTRL);
- 
- 	if (phy->is_legacy_phy) {
--		val = readl(base + USB1_LEGACY_CTRL);
-+		val = readl_relaxed(base + USB1_LEGACY_CTRL);
- 		val &= ~USB1_VBUS_SENSE_CTL_MASK;
- 		val |= USB1_VBUS_SENSE_CTL_A_SESS_VLD;
--		writel(val, base + USB1_LEGACY_CTRL);
-+		writel_relaxed(val, base + USB1_LEGACY_CTRL);
- 
--		val = readl(base + USB_SUSP_CTRL);
-+		val = readl_relaxed(base + USB_SUSP_CTRL);
- 		val &= ~USB_SUSP_SET;
--		writel(val, base + USB_SUSP_CTRL);
-+		writel_relaxed(val, base + USB_SUSP_CTRL);
- 	}
- 
- 	utmi_phy_clk_enable(phy);
- 
- 	if (phy->soc_config->requires_usbmode_setup) {
--		val = readl(base + USB_USBMODE);
-+		val = readl_relaxed(base + USB_USBMODE);
- 		val &= ~USB_USBMODE_MASK;
- 		if (phy->mode == USB_DR_MODE_HOST)
- 			val |= USB_USBMODE_HOST;
- 		else
- 			val |= USB_USBMODE_DEVICE;
--		writel(val, base + USB_USBMODE);
-+		writel_relaxed(val, base + USB_USBMODE);
- 	}
- 
- 	if (!phy->is_legacy_phy)
-@@ -615,29 +616,29 @@ static int utmi_phy_power_off(struct tegra_usb_phy *phy)
- 	utmi_phy_clk_disable(phy);
- 
- 	if (phy->mode == USB_DR_MODE_PERIPHERAL) {
--		val = readl(base + USB_SUSP_CTRL);
-+		val = readl_relaxed(base + USB_SUSP_CTRL);
- 		val &= ~USB_WAKEUP_DEBOUNCE_COUNT(~0);
- 		val |= USB_WAKE_ON_CNNT_EN_DEV | USB_WAKEUP_DEBOUNCE_COUNT(5);
--		writel(val, base + USB_SUSP_CTRL);
-+		writel_relaxed(val, base + USB_SUSP_CTRL);
- 	}
- 
--	val = readl(base + USB_SUSP_CTRL);
-+	val = readl_relaxed(base + USB_SUSP_CTRL);
- 	val |= UTMIP_RESET;
--	writel(val, base + USB_SUSP_CTRL);
-+	writel_relaxed(val, base + USB_SUSP_CTRL);
- 
--	val = readl(base + UTMIP_BAT_CHRG_CFG0);
-+	val = readl_relaxed(base + UTMIP_BAT_CHRG_CFG0);
- 	val |= UTMIP_PD_CHRG;
--	writel(val, base + UTMIP_BAT_CHRG_CFG0);
-+	writel_relaxed(val, base + UTMIP_BAT_CHRG_CFG0);
- 
--	val = readl(base + UTMIP_XCVR_CFG0);
-+	val = readl_relaxed(base + UTMIP_XCVR_CFG0);
- 	val |= UTMIP_FORCE_PD_POWERDOWN | UTMIP_FORCE_PD2_POWERDOWN |
- 	       UTMIP_FORCE_PDZI_POWERDOWN;
--	writel(val, base + UTMIP_XCVR_CFG0);
-+	writel_relaxed(val, base + UTMIP_XCVR_CFG0);
- 
--	val = readl(base + UTMIP_XCVR_CFG1);
-+	val = readl_relaxed(base + UTMIP_XCVR_CFG1);
- 	val |= UTMIP_FORCE_PDDISC_POWERDOWN | UTMIP_FORCE_PDCHRP_POWERDOWN |
- 	       UTMIP_FORCE_PDDR_POWERDOWN;
--	writel(val, base + UTMIP_XCVR_CFG1);
-+	writel_relaxed(val, base + UTMIP_XCVR_CFG1);
- 
- 	return utmip_pad_power_off(phy);
- }
-@@ -647,9 +648,9 @@ static void utmi_phy_preresume(struct tegra_usb_phy *phy)
- 	void __iomem *base = phy->regs;
- 	unsigned long val;
- 
--	val = readl(base + UTMIP_TX_CFG0);
-+	val = readl_relaxed(base + UTMIP_TX_CFG0);
- 	val |= UTMIP_HS_DISCON_DISABLE;
--	writel(val, base + UTMIP_TX_CFG0);
-+	writel_relaxed(val, base + UTMIP_TX_CFG0);
+-	phy->ulpi = otg_ulpi_create(&ulpi_viewport_access_ops, 0);
+-	if (!phy->ulpi) {
+-		dev_err(phy->u_phy.dev, "Failed to create ULPI OTG\n");
+-		err = -ENOMEM;
+-		return err;
+-	}
+-
+-	phy->ulpi->io_priv = phy->regs + ULPI_VIEWPORT;
+ 	return 0;
  }
  
- static void utmi_phy_postresume(struct tegra_usb_phy *phy)
-@@ -657,9 +658,9 @@ static void utmi_phy_postresume(struct tegra_usb_phy *phy)
- 	void __iomem *base = phy->regs;
- 	unsigned long val;
+-static int tegra_usb_phy_init(struct tegra_usb_phy *phy)
++static int tegra_usb_phy_init(struct usb_phy *u_phy)
+ {
++	struct tegra_usb_phy *phy = container_of(u_phy, struct tegra_usb_phy,
++						 u_phy);
+ 	unsigned long parent_rate;
+ 	int i;
+ 	int err;
  
--	val = readl(base + UTMIP_TX_CFG0);
-+	val = readl_relaxed(base + UTMIP_TX_CFG0);
- 	val &= ~UTMIP_HS_DISCON_DISABLE;
--	writel(val, base + UTMIP_TX_CFG0);
-+	writel_relaxed(val, base + UTMIP_TX_CFG0);
- }
+-	phy->pll_u = devm_clk_get(phy->u_phy.dev, "pll_u");
+-	if (IS_ERR(phy->pll_u)) {
+-		err = PTR_ERR(phy->pll_u);
+-		dev_err(phy->u_phy.dev,
+-			"Failed to get pll_u clock: %d\n", err);
+-		return err;
+-	}
++	if (WARN_ON(phy->freq))
++		return 0;
  
- static void utmi_phy_restore_start(struct tegra_usb_phy *phy,
-@@ -668,18 +669,18 @@ static void utmi_phy_restore_start(struct tegra_usb_phy *phy,
- 	void __iomem *base = phy->regs;
- 	unsigned long val;
+ 	err = clk_prepare_enable(phy->pll_u);
+ 	if (err)
+@@ -884,10 +867,22 @@ static int tegra_usb_phy_init(struct tegra_usb_phy *phy)
+ 	if (err < 0)
+ 		goto fail;
  
--	val = readl(base + UTMIP_MISC_CFG0);
-+	val = readl_relaxed(base + UTMIP_MISC_CFG0);
- 	val &= ~UTMIP_DPDM_OBSERVE_SEL(~0);
- 	if (port_speed == TEGRA_USB_PHY_PORT_SPEED_LOW)
- 		val |= UTMIP_DPDM_OBSERVE_SEL_FS_K;
- 	else
- 		val |= UTMIP_DPDM_OBSERVE_SEL_FS_J;
--	writel(val, base + UTMIP_MISC_CFG0);
-+	writel_relaxed(val, base + UTMIP_MISC_CFG0);
- 	usleep_range(1, 10);
- 
--	val = readl(base + UTMIP_MISC_CFG0);
-+	val = readl_relaxed(base + UTMIP_MISC_CFG0);
- 	val |= UTMIP_DPDM_OBSERVE;
--	writel(val, base + UTMIP_MISC_CFG0);
-+	writel_relaxed(val, base + UTMIP_MISC_CFG0);
- 	usleep_range(10, 100);
- }
- 
-@@ -688,9 +689,9 @@ static void utmi_phy_restore_end(struct tegra_usb_phy *phy)
- 	void __iomem *base = phy->regs;
- 	unsigned long val;
- 
--	val = readl(base + UTMIP_MISC_CFG0);
-+	val = readl_relaxed(base + UTMIP_MISC_CFG0);
- 	val &= ~UTMIP_DPDM_OBSERVE;
--	writel(val, base + UTMIP_MISC_CFG0);
-+	writel_relaxed(val, base + UTMIP_MISC_CFG0);
- 	usleep_range(10, 100);
- }
- 
-@@ -722,31 +723,31 @@ static int ulpi_phy_power_on(struct tegra_usb_phy *phy)
- 
- 	usleep_range(1000, 2000);
- 
--	val = readl(base + USB_SUSP_CTRL);
-+	val = readl_relaxed(base + USB_SUSP_CTRL);
- 	val |= UHSIC_RESET;
--	writel(val, base + USB_SUSP_CTRL);
-+	writel_relaxed(val, base + USB_SUSP_CTRL);
- 
--	val = readl(base + ULPI_TIMING_CTRL_0);
-+	val = readl_relaxed(base + ULPI_TIMING_CTRL_0);
- 	val |= ULPI_OUTPUT_PINMUX_BYP | ULPI_CLKOUT_PINMUX_BYP;
--	writel(val, base + ULPI_TIMING_CTRL_0);
-+	writel_relaxed(val, base + ULPI_TIMING_CTRL_0);
- 
--	val = readl(base + USB_SUSP_CTRL);
-+	val = readl_relaxed(base + USB_SUSP_CTRL);
- 	val |= ULPI_PHY_ENABLE;
--	writel(val, base + USB_SUSP_CTRL);
-+	writel_relaxed(val, base + USB_SUSP_CTRL);
- 
- 	val = 0;
--	writel(val, base + ULPI_TIMING_CTRL_1);
-+	writel_relaxed(val, base + ULPI_TIMING_CTRL_1);
- 
- 	val |= ULPI_DATA_TRIMMER_SEL(4);
- 	val |= ULPI_STPDIRNXT_TRIMMER_SEL(4);
- 	val |= ULPI_DIR_TRIMMER_SEL(4);
--	writel(val, base + ULPI_TIMING_CTRL_1);
-+	writel_relaxed(val, base + ULPI_TIMING_CTRL_1);
- 	usleep_range(10, 100);
- 
- 	val |= ULPI_DATA_TRIMMER_LOAD;
- 	val |= ULPI_STPDIRNXT_TRIMMER_LOAD;
- 	val |= ULPI_DIR_TRIMMER_LOAD;
--	writel(val, base + ULPI_TIMING_CTRL_1);
-+	writel_relaxed(val, base + ULPI_TIMING_CTRL_1);
- 
- 	/* Fix VbusInvalid due to floating VBUS */
- 	err = usb_phy_io_write(phy->ulpi, 0x40, 0x08);
-@@ -761,14 +762,14 @@ static int ulpi_phy_power_on(struct tegra_usb_phy *phy)
- 		goto disable_clk;
- 	}
- 
--	val = readl(base + USB_SUSP_CTRL);
-+	val = readl_relaxed(base + USB_SUSP_CTRL);
- 	val |= USB_SUSP_CLR;
--	writel(val, base + USB_SUSP_CTRL);
-+	writel_relaxed(val, base + USB_SUSP_CTRL);
- 	usleep_range(100, 1000);
- 
--	val = readl(base + USB_SUSP_CTRL);
-+	val = readl_relaxed(base + USB_SUSP_CTRL);
- 	val &= ~USB_SUSP_CLR;
--	writel(val, base + USB_SUSP_CTRL);
-+	writel_relaxed(val, base + USB_SUSP_CTRL);
- 
++	err = tegra_usb_phy_power_on(phy);
++	if (err)
++		goto close_phy;
++
  	return 0;
  
++close_phy:
++	if (phy->is_ulpi_phy)
++		ulpi_close(phy);
++	else
++		utmip_pad_close(phy);
+ fail:
+ 	clk_disable_unprepare(phy->pll_u);
++
++	phy->freq = NULL;
++
+ 	return err;
+ }
+ 
+@@ -1134,22 +1129,77 @@ static int tegra_usb_phy_probe(struct platform_device *pdev)
+ 		tegra_phy->vbus = ERR_PTR(-ENODEV);
+ 	}
+ 
+-	tegra_phy->u_phy.dev = &pdev->dev;
+-	err = tegra_usb_phy_init(tegra_phy);
+-	if (err < 0)
++	tegra_phy->pll_u = devm_clk_get(&pdev->dev, "pll_u");
++	err = PTR_ERR_OR_ZERO(tegra_phy->pll_u);
++	if (err) {
++		dev_err(&pdev->dev, "Failed to get pll_u clock: %d\n", err);
+ 		return err;
++	}
++
++	if (tegra_phy->is_ulpi_phy) {
++		tegra_phy->clk = devm_clk_get(&pdev->dev, "ulpi-link");
++		err = PTR_ERR_OR_ZERO(tegra_phy->clk);
++		if (err) {
++			dev_err(&pdev->dev,
++				"Failed to get ULPI clock: %d\n", err);
++			return err;
++		}
++
++		err = devm_gpio_request(&pdev->dev, tegra_phy->reset_gpio,
++			"ulpi_phy_reset_b");
++		if (err < 0) {
++			dev_err(&pdev->dev, "Request failed for GPIO %d: %d\n",
++				tegra_phy->reset_gpio, err);
++			return err;
++		}
++
++		tegra_phy->ulpi = otg_ulpi_create(&ulpi_viewport_access_ops, 0);
++		if (!tegra_phy->ulpi) {
++			dev_err(&pdev->dev, "Failed to create ULPI OTG\n");
++			err = -ENOMEM;
++			return err;
++		}
++
++		tegra_phy->ulpi->io_priv = tegra_phy->regs + ULPI_VIEWPORT;
++	} else {
++		tegra_phy->pad_clk = devm_clk_get(&pdev->dev, "utmi-pads");
++		err = PTR_ERR_OR_ZERO(tegra_phy->pad_clk);
++		if (err) {
++			dev_err(&pdev->dev,
++				"Failed to get UTMIP pad clock: %d\n", err);
++			return err;
++		}
++
++		tegra_phy->pad_rst = devm_reset_control_get_optional_shared(
++						&pdev->dev, "utmi-pads");
++		err = PTR_ERR_OR_ZERO(tegra_phy->pad_rst);
++		if (err) {
++			dev_err(&pdev->dev,
++				"Failed to get UTMI-pads reset: %d\n", err);
++			return err;
++		}
++	}
+ 
+-	tegra_phy->u_phy.set_suspend = tegra_usb_phy_suspend;
++	tegra_phy->u_phy.dev = &pdev->dev;
++	tegra_phy->u_phy.init = tegra_usb_phy_init;
++	tegra_phy->u_phy.shutdown = tegra_usb_phy_shutdown;
++	tegra_phy->u_phy.set_suspend = tegra_usb_phy_set_suspend;
+ 
+ 	platform_set_drvdata(pdev, tegra_phy);
+ 
+ 	err = usb_add_phy_dev(&tegra_phy->u_phy);
+-	if (err < 0) {
+-		tegra_usb_phy_close(tegra_phy);
+-		return err;
+-	}
++	if (err < 0)
++		goto free_ulpi;
+ 
+ 	return 0;
++
++free_ulpi:
++	if (tegra_phy->ulpi) {
++		kfree(tegra_phy->ulpi->otg);
++		kfree(tegra_phy->ulpi);
++	}
++
++	return err;
+ }
+ 
+ static int tegra_usb_phy_remove(struct platform_device *pdev)
+@@ -1157,7 +1207,11 @@ static int tegra_usb_phy_remove(struct platform_device *pdev)
+ 	struct tegra_usb_phy *tegra_phy = platform_get_drvdata(pdev);
+ 
+ 	usb_remove_phy(&tegra_phy->u_phy);
+-	tegra_usb_phy_close(tegra_phy);
++
++	if (tegra_phy->ulpi) {
++		kfree(tegra_phy->ulpi->otg);
++		kfree(tegra_phy->ulpi);
++	}
+ 
+ 	return 0;
+ }
 -- 
 2.24.0
 
