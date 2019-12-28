@@ -5,56 +5,56 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF5DBC2D0D1
-	for <linux-usb@archiver.kernel.org>; Sat, 28 Dec 2019 20:36:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CCB8C3F68F
+	for <linux-usb@archiver.kernel.org>; Sat, 28 Dec 2019 20:36:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 86E4C21744
+	by mail.kernel.org (Postfix) with ESMTP id DDFF121744
 	for <linux-usb@archiver.kernel.org>; Sat, 28 Dec 2019 20:36:07 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F0TDwlSY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZO+mnalQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726780AbfL1UgD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 28 Dec 2019 15:36:03 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:44613 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726575AbfL1UgC (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 28 Dec 2019 15:36:02 -0500
-Received: by mail-lj1-f193.google.com with SMTP id u71so29862943lje.11;
-        Sat, 28 Dec 2019 12:36:00 -0800 (PST)
+        id S1726917AbfL1UgG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 28 Dec 2019 15:36:06 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:42913 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726827AbfL1UgG (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sat, 28 Dec 2019 15:36:06 -0500
+Received: by mail-lj1-f195.google.com with SMTP id y4so15515668ljj.9;
+        Sat, 28 Dec 2019 12:36:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=bvf4OSFNQcVF0tHhO08aQEMZiSb+xUsqvddNKBq6qy4=;
-        b=F0TDwlSY87vh6jALSmqg7UkSMm5ISdJeaa13aKEDsrvT040sx5AC7qCYS+MpJIT33X
-         tEYA3ffk6sOkFRI0jkRFFBACTEs/gdtdBbtB5ywo9XFiBOtsOVhjgsvFX+fD78Jicgde
-         m2LuNzmVq7zZahJv/eQhPuwXp1cskTuGpKN5+4aWOvTpmnfRsZ3Yb+gWhUgU5KGHuoFx
-         yhnMSawRXlF2wyiPyddbKEK6ckTHCXt2/08Zw1SQEyB09FpQlahikIGT2M5m7gHjqxLW
-         I0HdvleFXyNFahbVTFO21kXS39evWRmYq9kml5+SupUd+huytdDKgNdE6oIL+QEDjc8b
-         7LeA==
+        bh=09QqZVe0j7zalGHXPclISoph95GAHOs1aDcqQ5aR3C8=;
+        b=ZO+mnalQH++X/KaR1fh3FdJ94dFgjDUdMwHSRbklDcp535yYnnIVmvji/+AeMS3nS5
+         f833qm4g06Jza5QSzHqcnF5u/ke02TO4G7FZjpzcXs7avVp/l1yKs4Fq+7b+36CShGgL
+         PUYjhqb+Ds9+8WyQE/6ZUPW70wtVfuNEnMzDbiy61NiYlqtU8J3VF/8Idoh3Od6Z36wd
+         oZidHnF+qUzkgdxVgm+52m3HDWhb81Rjtp2MjDshgC6f9kiz2uud/Tu1DJCISM9icABL
+         kqjEL6nkNVy+kWK5dEJrqv6eNbliytPXrQFGQdpxpz/rpZDgqEHMOqKZBno99TwVkb58
+         KxYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=bvf4OSFNQcVF0tHhO08aQEMZiSb+xUsqvddNKBq6qy4=;
-        b=mkALFVkMNbNLO2dkwUEv/FmSmPJtHPZ9qteh2f9EaKi8ytb1/OrnhqCA32nfZ7k7aP
-         B9Yw4EqgSWmzU/fWM6bHZm6yO76qB8dx/7+p1NT5esaUoyOT0TixDSYFzueNIIUd+bvd
-         Jvhj7OGcx8rhJOFUpIBRcfy3jukyA21tLRMEmNDh1IIypSDvVs83ws8upR2xZJ02Apsm
-         5B3lTlE7oWYIQnuvQF6Jq11jVgkrCh+RoN4yaIuK7FdIjAqCdVwAdddykxyzss1VbbsP
-         0XOSCHY55yQaZ4HG1IKgrCblcPBQWYn5J5Ktd/SnflIxs3dALT0JEh7sacfDCG4ObT9Z
-         uHSA==
-X-Gm-Message-State: APjAAAV8N1KSavEfc1NyiyV3xIanJ7KKEY+LwRV+fhVQXJkJYqcOraej
-        F3XsMrvOeDtJUD8hAeR/inY=
-X-Google-Smtp-Source: APXvYqzwpxlNCNUwrML48Eq/oKgKa2QCbM5bfx5ahFqrKmJfokZr8VMZFchSLwVwScLx/tTZmlqFPg==
-X-Received: by 2002:a2e:9c0b:: with SMTP id s11mr15255011lji.11.1577565360121;
-        Sat, 28 Dec 2019 12:36:00 -0800 (PST)
+        bh=09QqZVe0j7zalGHXPclISoph95GAHOs1aDcqQ5aR3C8=;
+        b=iBSQAbLa5RMlBKLLexPZR4ubx+dzyHvbd15buzrb8OiR1QOkZHggHmdYpNEBNic0+E
+         BJmnUtnm8W5qX2aHPiydM4a6sgDEq9TK19UCvI4n/hvRyc1rbD1mTDuNa5i2r2/dcWc6
+         Fu8KuF49QE13OcVjOMEwUJ+YRiwWT5W+zyH4pmCp/WnNr7iQGkkMlFRzuj4TUCmWNwtV
+         fPHnz9pXmn3WE3nxUQIzyi8Gx/9j0KfA3zDHA13X1H72jEb9MOP2BBcnp+pJSCUF3JUl
+         /yvzGBNQeqyuuNViZOheXjwiUizX5ggCDMvTiCggQHU6gh/vbwHCIO8d3dhZ8XYrGxgI
+         XE0A==
+X-Gm-Message-State: APjAAAVpNUomcNEfL0OEhrZHCcIMgWka72FZGzIBZ/6Gd+e08+zz4WI7
+        NDtBf9uHAMX8+tDgKFyF0SA=
+X-Google-Smtp-Source: APXvYqxW/oDy9y/qgr17eEmwIMTI6JLjz4RMAp24NA6KMU5dG9WSFcCo/vOUq8DHDZerzqg2heKr5Q==
+X-Received: by 2002:a2e:2a86:: with SMTP id q128mr32825246ljq.241.1577565363816;
+        Sat, 28 Dec 2019 12:36:03 -0800 (PST)
 Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id d9sm15162614lja.73.2019.12.28.12.35.59
+        by smtp.gmail.com with ESMTPSA id d9sm15162614lja.73.2019.12.28.12.36.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Dec 2019 12:35:59 -0800 (PST)
+        Sat, 28 Dec 2019 12:36:03 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -64,9 +64,9 @@ To:     Rob Herring <robh+dt@kernel.org>,
         Felipe Balbi <balbi@kernel.org>
 Cc:     devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 01/16] dt-binding: usb: ci-hdrc-usb2: Document NVIDIA Tegra support
-Date:   Sat, 28 Dec 2019 23:33:43 +0300
-Message-Id: <20191228203358.23490-2-digetx@gmail.com>
+Subject: [PATCH v3 05/16] usb: phy: tegra: Use generic stub for a missing VBUS regulator
+Date:   Sat, 28 Dec 2019 23:33:47 +0300
+Message-Id: <20191228203358.23490-6-digetx@gmail.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20191228203358.23490-1-digetx@gmail.com>
 References: <20191228203358.23490-1-digetx@gmail.com>
@@ -77,30 +77,67 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-NVIDIA Tegra SoCs use ChipIdea silicon IP for the USB controllers.
+Regulator core provides dummy regulator if device-tree doesn't define VBUS
+regulator.
 
-Acked-by: Peter Chen <peter.chen@nxp.com>
-Acked-by: Thierry Reding <treding@nvidia.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- Documentation/devicetree/bindings/usb/ci-hdrc-usb2.txt | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/usb/phy/phy-tegra-usb.c | 28 +++++++++-------------------
+ 1 file changed, 9 insertions(+), 19 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.txt b/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.txt
-index cfc9f40ab641..51376cbe5f3d 100644
---- a/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.txt
-+++ b/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.txt
-@@ -15,6 +15,10 @@ Required properties:
- 	"qcom,ci-hdrc"
- 	"chipidea,usb2"
- 	"xlnx,zynq-usb-2.20a"
-+	"nvidia,tegra20-udc"
-+	"nvidia,tegra30-udc"
-+	"nvidia,tegra114-udc"
-+	"nvidia,tegra124-udc"
- - reg: base address and length of the registers
- - interrupts: interrupt for the USB controller
+diff --git a/drivers/usb/phy/phy-tegra-usb.c b/drivers/usb/phy/phy-tegra-usb.c
+index 4d6d586c49cc..0a07efc9de06 100644
+--- a/drivers/usb/phy/phy-tegra-usb.c
++++ b/drivers/usb/phy/phy-tegra-usb.c
+@@ -798,9 +798,7 @@ static void tegra_usb_phy_shutdown(struct usb_phy *u_phy)
+ 	else
+ 		utmip_pad_close(phy);
  
+-	if (!IS_ERR(phy->vbus))
+-		regulator_disable(phy->vbus);
+-
++	regulator_disable(phy->vbus);
+ 	clk_disable_unprepare(phy->pll_u);
+ 
+ 	phy->freq = NULL;
+@@ -878,14 +876,11 @@ static int tegra_usb_phy_init(struct usb_phy *u_phy)
+ 		goto fail;
+ 	}
+ 
+-	if (!IS_ERR(phy->vbus)) {
+-		err = regulator_enable(phy->vbus);
+-		if (err) {
+-			dev_err(phy->u_phy.dev,
+-				"Failed to enable USB VBUS regulator: %d\n",
+-				err);
+-			goto fail;
+-		}
++	err = regulator_enable(phy->vbus);
++	if (err) {
++		dev_err(phy->u_phy.dev,
++			"Failed to enable USB VBUS regulator: %d\n", err);
++		goto fail;
+ 	}
+ 
+ 	if (phy->is_ulpi_phy)
+@@ -1120,14 +1115,9 @@ static int tegra_usb_phy_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	/* On some boards, the VBUS regulator doesn't need to be controlled */
+-	if (of_find_property(np, "vbus-supply", NULL)) {
+-		tegra_phy->vbus = devm_regulator_get(&pdev->dev, "vbus");
+-		if (IS_ERR(tegra_phy->vbus))
+-			return PTR_ERR(tegra_phy->vbus);
+-	} else {
+-		dev_notice(&pdev->dev, "no vbus regulator");
+-		tegra_phy->vbus = ERR_PTR(-ENODEV);
+-	}
++	tegra_phy->vbus = devm_regulator_get(&pdev->dev, "vbus");
++	if (IS_ERR(tegra_phy->vbus))
++		return PTR_ERR(tegra_phy->vbus);
+ 
+ 	tegra_phy->pll_u = devm_clk_get(&pdev->dev, "pll_u");
+ 	err = PTR_ERR_OR_ZERO(tegra_phy->pll_u);
 -- 
 2.24.0
 
