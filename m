@@ -2,298 +2,88 @@ Return-Path: <SRS0=jrK9=2U=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0891C2D0D3
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Dec 2019 11:15:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD63BC2D0CE
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Dec 2019 11:34:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6C1DD206DB
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Dec 2019 11:15:09 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="bRlo93Wp"
+	by mail.kernel.org (Postfix) with ESMTP id 83E5720863
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Dec 2019 11:34:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1577705679;
+	bh=ZF4QpeWMRzVNh/7YVGePhghEgMWqiWlwc6VbNwNqTFo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=o2bQ7Wiolfjj2n7hwx+x4jcb3ZEK4FtJyr4fHjMx4A7UMZuXUQoh/iQT4agSuIj/4
+	 dhq/5Y1wMeniy5i3ftkak3uG1T66LvYM9CPR4+bV8ruOagrtO1TNIrW8Qsm5HBrGWA
+	 Cp/N33J04p6J865t4022AcDMjc3fL5wpQ1vh83wQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727425AbfL3LNr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 30 Dec 2019 06:13:47 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:15529 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726196AbfL3LNq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Dec 2019 06:13:46 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e09dbc10000>; Mon, 30 Dec 2019 03:13:06 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 30 Dec 2019 03:13:45 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 30 Dec 2019 03:13:45 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 30 Dec
- 2019 11:13:45 +0000
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 30 Dec
- 2019 11:13:44 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 30 Dec 2019 11:13:44 +0000
-Received: from nkristam-ubuntu.nvidia.com (Not Verified[10.19.64.167]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e09dbe50000>; Mon, 30 Dec 2019 03:13:44 -0800
-From:   Nagarjuna Kristam <nkristam@nvidia.com>
-To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
-        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <mark.rutland@arm.com>, <robh+dt@kernel.org>, <kishon@ti.com>
-CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        "Nagarjuna Kristam" <nkristam@nvidia.com>
-Subject: [Patch V3 02/18] dt-bindings: usb: Add NVIDIA Tegra XUSB device mode controller binding
-Date:   Mon, 30 Dec 2019 16:39:39 +0530
-Message-ID: <1577704195-2535-3-git-send-email-nkristam@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1577704195-2535-1-git-send-email-nkristam@nvidia.com>
-References: <1577704195-2535-1-git-send-email-nkristam@nvidia.com>
-X-NVConfidentiality: public
+        id S1727417AbfL3Lec (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 30 Dec 2019 06:34:32 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35506 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727360AbfL3Lec (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 30 Dec 2019 06:34:32 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4B7AB206E4;
+        Mon, 30 Dec 2019 11:34:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1577705671;
+        bh=ZF4QpeWMRzVNh/7YVGePhghEgMWqiWlwc6VbNwNqTFo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=iDejW0Watpe54MljfLJtjmUxDSOm8qGIALDCJBuUPqBOFPA2MPo4/KZXVhiEo4d9Q
+         4dU1MbheR5qbe9OAtlUJ06v8AePEYByODwt7JGtu/0U15E1dY0AcVWtWf9krXrOanF
+         5Cinl6LiulKKrK2c7J+xiOBJ3Otq5ghCTjL0Hmr0=
+Date:   Mon, 30 Dec 2019 12:25:09 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Douglas Gilbert <dgilbert@interlog.com>
+Cc:     linux-usb@vger.kernel.org, linux@roeck-us.net,
+        stable@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB-PD tcpm: bad warning+size, PPS adapters
+Message-ID: <20191230112509.GA884080@kroah.com>
+References: <20191230033544.1809-1-dgilbert@interlog.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1577704386; bh=Bj22kAVGjKXGxVbst2udBVV4nxA7Ue9u3i6PTO0qtaI=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=bRlo93Wp9cR9ygziMWa/RjFyjX79i0jxHyNNskQeLFJFyQeasBv/oRBe3Y6T/Cnkb
-         5ZoAdLxqhDDtohBxIdMWfica/SaP8T8AsUCke75Heo8Q7ZI0mkom9q/d0dif6eOeND
-         IwnwsDNVeNZsQXnqmbHYDMPNV2+afAvra7dNJ29e2GwyjI2neTXF7xhoYpyohBv66M
-         8FlL1V/30uVSvlqC6bMdJybUBJuNpRMWnHnTxUjhUNgAWbtwfqMxwiWZ6lao56kIq9
-         ZSMq4EXfK4hUvdhl3PQJppYgGHmlP2uYaIiLcJ0T9KVuPG8ZCxIM43jzu8F4+0M6iq
-         iwnIXrsDwNGeA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191230033544.1809-1-dgilbert@interlog.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add device-tree binding documentation for the XUSB device mode controller
-present on Tegra210 and Tegra186 SoC. This controller supports the USB 3.0
-specification.
+On Sun, Dec 29, 2019 at 10:35:44PM -0500, Douglas Gilbert wrote:
+> Augmented Power Delivery Objects (A)PDO_s are used by USB-C
+> PD power adapters to advertize the voltages and currents
+> they support. There can be up to 7 PDO_s but before PPS
+> (programmable power supply) there were seldom more than 4
+> or 5. Recently Samsung released an optional PPS 45 Watt power
+> adapter (EP-TA485) that has 7 PDO_s. It is for the Galaxy 10+
+> tablet and charges it quicker than the adapter supplied at
+> purchase. The EP-TA485 causes an overzealous WARN_ON to soil
+> the log plus it miscalculates the number of bytes to read.
+> 
+> So this bug has been there for some time but goes
+> undetected for the majority of USB-C PD power adapters on
+> the market today that have 6 or less PDO_s. That may soon
+> change as more USB-C PD adapters with PPS come to market.
+> 
+> Tested on a EP-TA485 and an older Lenovo PN: SA10M13950
+> USB-C 65 Watt adapter (without PPS and has 4 PDO_s) plus
+> several other PD power adapters.
+> 
+> Signed-off-by: Douglas Gilbert <dgilbert@interlog.com>
+> ---
+>  drivers/usb/typec/tcpm/tcpci.c | 20 +++++++++++++++-----
+>  1 file changed, 15 insertions(+), 5 deletions(-)
 
-Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
-Acked-by: Thierry Reding <treding@nvidia.com>
----
-V3:
- - Added Reviewed-by and Acked-by updates to commit message.
----
-V2:
- - used enum instead of oneOf and const.
- - Moved reg, reg-names, clocks, clock-names to property section from allOf.
- - Limited allOf to min and max items based on soc.
- - Updated description for power-domains.
- - Added V1 reference
----
-V1
- - This document is yaml version of [1], with difference of usb-role-switch
-   removal.
-[1] https://patchwork.kernel.org/patch/11156253/ 
----
- .../devicetree/bindings/usb/nvidia,tegra-xudc.yaml | 190 +++++++++++++++++++++
- 1 file changed, 190 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
+<formletter>
 
-diff --git a/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
-new file mode 100644
-index 0000000..b84ed8e
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/nvidia,tegra-xudc.yaml
-@@ -0,0 +1,190 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: "http://devicetree.org/schemas/usb/nvidia,tegra-xudc.yaml#"
-+$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+
-+title: Device tree binding for NVIDIA Tegra XUSB device mode controller (XUDC)
-+
-+description:
-+  The Tegra XUDC controller supports both USB 2.0 HighSpeed/FullSpeed and
-+  USB 3.0 SuperSpeed protocols.
-+
-+maintainers:
-+  - Nagarjuna Kristam <nkristam@nvidia.com>
-+  - JC Kuo <jckuo@nvidia.com>
-+  - Thierry Reding <treding@nvidia.com>
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - nvidia,tegra210-xudc # For Tegra210
-+          - nvidia,tegra186-xudc # For Tegra186
-+
-+  reg:
-+    minItems: 2
-+    maxItems: 3
-+    items:
-+      - description: XUSB device controller registers
-+      - description: XUSB device PCI Config registers
-+      - description: XUSB device registers.
-+
-+  reg-names:
-+    minItems: 2
-+    maxItems: 3
-+    items:
-+      - const: base
-+      - const: fpci
-+      - const: ipfs
-+
-+  interrupts:
-+    maxItems: 1
-+    description: Must contain the XUSB device interrupt.
-+
-+  clocks:
-+    minItems: 4
-+    maxItems: 5
-+    items:
-+      - description: Clock to enable core XUSB dev clock.
-+      - description: Clock to enable XUSB super speed clock.
-+      - description: Clock to enable XUSB super speed dev clock.
-+      - description: Clock to enable XUSB high speed dev clock.
-+      - description: Clock to enable XUSB full speed dev clock.
-+
-+  clock-names:
-+    minItems: 4
-+    maxItems: 5
-+    items:
-+     - const: dev
-+     - const: ss
-+     - const: ss_src
-+     - const: fs_src
-+     - const: hs_src
-+
-+  power-domains:
-+    maxItems: 2
-+    items:
-+      - description: XUSBB(device) power-domain
-+      - description: XUSBA(superspeed) power-domain
-+
-+  power-domain-names:
-+    maxItems: 2
-+    items:
-+      - const: dev
-+      - const: ss
-+
-+  nvidia,xusb-padctl:
-+    $ref: /schemas/types.yaml#/definitions/phandle-array
-+    description:
-+      phandle to the XUSB pad controller that is used to configure the USB pads
-+      used by the XUDC controller.
-+
-+  phys:
-+    minItems: 1
-+    description:
-+      Must contain an entry for each entry in phy-names.
-+      See ../phy/phy-bindings.txt for details.
-+
-+  phy-names:
-+    minItems: 1
-+    items:
-+      - const: usb2-0
-+      - const: usb2-1
-+      - const: usb2-2
-+      - const: usb2-3
-+      - const: usb3-0
-+      - const: usb3-1
-+      - const: usb3-2
-+      - const: usb3-3
-+
-+  avddio-usb-supply:
-+    description: PCIe/USB3 analog logic power supply. Must supply 1.05 V.
-+
-+  hvdd-usb-supply:
-+    description: USB controller power supply. Must supply 3.3 V.
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - power-domains
-+  - power-domain-names
-+  - nvidia,xusb-padctl
-+  - phys
-+  - phy-names
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - nvidia,tegra210-xudc
-+    then:
-+      properties:
-+        reg:
-+          minItems: 3
-+        reg-names:
-+          minItems: 3
-+        clocks:
-+          minItems: 5
-+        clock-names:
-+          minItems: 5
-+      required:
-+        - avddio-usb-supply
-+        - hvdd-usb-supply
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - nvidia,tegra186-xudc
-+    then:
-+      properties:
-+        reg:
-+          maxItems: 2
-+        reg-names:
-+          maxItems: 2
-+        clocks:
-+          maxItems: 4
-+        clock-names:
-+          maxItems: 4
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/tegra210-car.h>
-+    #include <dt-bindings/gpio/tegra-gpio.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    usb@700d0000 {
-+        compatible = "nvidia,tegra210-xudc";
-+        reg = <0x0 0x700d0000 0x0 0x8000>,
-+              <0x0 0x700d8000 0x0 0x1000>,
-+              <0x0 0x700d9000 0x0 0x1000>;
-+        reg-names = "base", "fpci", "ipfs";
-+
-+        interrupts = <GIC_SPI 44 IRQ_TYPE_LEVEL_HIGH>;
-+
-+        clocks = <&tegra_car TEGRA210_CLK_XUSB_DEV>,
-+                 <&tegra_car TEGRA210_CLK_XUSB_SS>,
-+                 <&tegra_car TEGRA210_CLK_XUSB_SSP_SRC>,
-+                 <&tegra_car TEGRA210_CLK_XUSB_FS_SRC>,
-+                 <&tegra_car TEGRA210_CLK_XUSB_HS_SRC>;
-+        clock-names = "dev", "ss", "ss_src", "fs_src", "hs_src";
-+
-+        power-domains = <&pd_xusbdev>, <&pd_xusbss>;
-+        power-domain-names = "dev", "ss";
-+
-+        nvidia,xusb-padctl = <&padctl>;
-+
-+        phys = <&micro_b>;
-+        phy-names = "usb2-0";
-+
-+        avddio-usb-supply = <&vdd_pex_1v05>;
-+        hvdd-usb-supply = <&vdd_3v3_sys>;
-+    };
--- 
-2.7.4
+This is not the correct way to submit patches for inclusion in the
+stable kernel tree.  Please read:
+    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+for how to do this properly.
 
+</formletter>
