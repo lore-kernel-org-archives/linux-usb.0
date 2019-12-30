@@ -2,114 +2,88 @@ Return-Path: <SRS0=jrK9=2U=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6739C2D0CE
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Dec 2019 16:13:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2BADC2D0C2
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Dec 2019 17:22:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8CB4E2071E
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Dec 2019 16:13:04 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WG4La9s5"
+	by mail.kernel.org (Postfix) with ESMTP id C9FE9206DB
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Dec 2019 17:22:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1577726549;
+	bh=fW+t00riNY8kM3dJLh4bxka9+sII9/uVpWad+1AZ0Tw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=wBoohijkw0yGdSP3WKPx5bc97uKeENs3YeK0X2MNLfApLakxRmjpxnh9HIL1vPanV
+	 3GqakA6apPZ5j1SgmzwFi8jS7i423eFDzTy8lKcZ8EgqwVcxRqTNNCAdcMUEUrYo1M
+	 gQ2tAQUx7DytNtJ++gc3bWlcpE5WHlX53zdl2RqY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726798AbfL3QNB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 30 Dec 2019 11:13:01 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:40479 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726673AbfL3QNB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Dec 2019 11:13:01 -0500
-Received: by mail-ed1-f68.google.com with SMTP id b8so33004826edx.7
-        for <linux-usb@vger.kernel.org>; Mon, 30 Dec 2019 08:13:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=G+IpvNYDr1r8qiuEoCpZSYzbw36vNuYa2znw2miGrDA=;
-        b=WG4La9s5mhcbwYlQ2kAuW8nhMwm1/5+T0FR3m096MJaQPzYLHjRT7xh0wWL6r+JfG0
-         dqvqaKQ7/avtVROEZkFXTwLj+8qXpm+15l4CfZ5e2Qr7l2VziQaJcbx9VzNLbATaH2IN
-         CuaTn8d1qmh24SQEFALHaHPKdxjzpGEstOXDDVFhTZdzQj9li4/h871hduxDHhI66zDt
-         J2ZuN5HuFA1i3KgrEiF7KcbSAVoPqy741saZwRzvwB3kEI1EB7hYukmNVdiSYgpXAcow
-         qDR7oK+104ETHLRk/CrIyTx47c7LF9f2d/Vg9oVyPOFjkgp1Ek5iM58TGTXnsXLtImxF
-         CTxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=G+IpvNYDr1r8qiuEoCpZSYzbw36vNuYa2znw2miGrDA=;
-        b=CjjCqWmD18APEqG6y+X/+wAp1wFkn8a4mPMSXaMXYU65tPn1tr//jIrjH9nomMyp2C
-         O/ADwP0ZG8USeqLXGwcTtVoEshzE1gWygoj9LqGQgMP1yKEPknjat9APuyUyyevUkwAy
-         0fX2pUSXHbLVHivzCjQZur5p5Ss6yqULrxcvlf5+XLVCaRllRI97b8IY0wVh1TQRJBXo
-         H4CpTiXkAtDifYo6vMOD9xcLVL0g2Ppbzzltni2wnTj68X69SgYqtHtBBakSV24awsfU
-         eCljUQvo6mDivGLCO9oqP6MAROzBkiKZp2RCkvPGIlgxlX6RAExkazXADIrCphZ4byOm
-         I94g==
-X-Gm-Message-State: APjAAAWhympbE5A0qwoKMgJTaQzNiRyYYXuo0fbqmZ+e2WEUpzWfWmUM
-        6kmra6qZMTobtx6X+JvOvWaZyg==
-X-Google-Smtp-Source: APXvYqyQLdXcF5BunDhBXgm6EMm1xV9hVQs1TafRntsrA3F/atajI6uyS4ZbVKz9Z6UkPhnSuI5Jgg==
-X-Received: by 2002:a17:906:4d46:: with SMTP id b6mr69483027ejv.79.1577722379278;
-        Mon, 30 Dec 2019 08:12:59 -0800 (PST)
-Received: from localhost.localdomain ([176.61.57.127])
-        by smtp.gmail.com with ESMTPSA id dx7sm5624489ejb.81.2019.12.30.08.12.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Dec 2019 08:12:58 -0800 (PST)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     balbi@kernel.org, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH] usb: dwc3: gadget: Fix failure to detect end of transfer
-Date:   Mon, 30 Dec 2019 16:13:21 +0000
-Message-Id: <20191230161321.2738541-1-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.24.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1727496AbfL3RWZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 30 Dec 2019 12:22:25 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57130 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727490AbfL3RWY (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Mon, 30 Dec 2019 12:22:24 -0500
+Received: from localhost.localdomain (unknown [194.230.155.138])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 81EF820730;
+        Mon, 30 Dec 2019 17:22:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1577726544;
+        bh=fW+t00riNY8kM3dJLh4bxka9+sII9/uVpWad+1AZ0Tw=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=u2aHzgfeUvO3iKsjryPcGZoQsMLKJG+87TluSTqLzcnjC1QjcM1ICo2Ev8twpdm5i
+         wUpRmEXSL2pLPWxWogcVHk0Sppn1clpcSnhFRayqIXyjDtB9zeuP3bnSlhwu8OaCP4
+         0ytFHjdnp3pjZhn5eTUQB/kl+CSG34nCH3b27i4M=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH 2/2] usb: phy: Enable compile testing for some of drivers
+Date:   Mon, 30 Dec 2019 18:22:15 +0100
+Message-Id: <20191230172215.17370-2-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191230172215.17370-1-krzk@kernel.org>
+References: <20191230172215.17370-1-krzk@kernel.org>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-A recent bugfix 8c7d4b7b3d43 ("usb: dwc3: gadget: Fix logical condition")
-correctly fixes a logical error in the gadget driver but, exposes a further
-bug in determining when a transfer has completed.
+Some of the USB phy drivers can be compile tested to increase build
+coverage.
 
-Prior to 8c7d4b7b3d43 we were calling dwc3_gadget_giveback() when we
-shouldn't have been. Afer this change the below test fails to complete on
-my hardware.
-
-Host:
-echo "host" > /dev/ttyACM0
-
-Device:
-cat < /dev/ttyGS0
-
-This is caused by the driver incorrectly detecting end of transfer, a
-problem that had previous been masked by the continuous calling of
-dwc3_gadget_giveback() prior to 8c7d4b7b3d43.
-
-Remediate by making the test <= instead of ==
-
-Fixes: e0c42ce590fe ("usb: dwc3: gadget: simplify IOC handling")
-
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/usb/dwc3/gadget.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/phy/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 0c960a97ea02..464c4d9961c7 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -2467,7 +2467,7 @@ static int dwc3_gadget_ep_reclaim_trb_linear(struct dwc3_ep *dep,
+diff --git a/drivers/usb/phy/Kconfig b/drivers/usb/phy/Kconfig
+index 24b4f091acb8..ff24fca0a2d9 100644
+--- a/drivers/usb/phy/Kconfig
++++ b/drivers/usb/phy/Kconfig
+@@ -162,7 +162,7 @@ config USB_MXS_PHY
  
- static bool dwc3_gadget_ep_request_completed(struct dwc3_request *req)
- {
--	return req->request.actual == req->request.length;
-+	return req->request.actual <= req->request.length;
- }
+ config USB_TEGRA_PHY
+ 	tristate "NVIDIA Tegra USB PHY Driver"
+-	depends on ARCH_TEGRA
++	depends on ARCH_TEGRA || COMPILE_TEST
+ 	select USB_COMMON
+ 	select USB_PHY
+ 	select USB_ULPI
+@@ -172,7 +172,7 @@ config USB_TEGRA_PHY
  
- static int dwc3_gadget_ep_cleanup_completed_request(struct dwc3_ep *dep,
+ config USB_ULPI
+ 	bool "Generic ULPI Transceiver Driver"
+-	depends on ARM || ARM64
++	depends on ARM || ARM64 || COMPILE_TEST
+ 	select USB_ULPI_VIEWPORT
+ 	help
+ 	  Enable this to support ULPI connected USB OTG transceivers which
 -- 
-2.24.0
+2.17.1
 
