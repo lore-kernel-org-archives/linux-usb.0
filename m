@@ -1,76 +1,114 @@
-Return-Path: <SRS0=SYxO=2T=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=jrK9=2U=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C84F2C2D0CE
-	for <linux-usb@archiver.kernel.org>; Sun, 29 Dec 2019 16:40:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19F1BC2D0C0
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Dec 2019 00:57:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A780120722
-	for <linux-usb@archiver.kernel.org>; Sun, 29 Dec 2019 16:40:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E5E8320748
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Dec 2019 00:57:49 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M8nb6HdX"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726661AbfL2Qkx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 29 Dec 2019 11:40:53 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:39207 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726575AbfL2Qkx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 29 Dec 2019 11:40:53 -0500
-Received: (qmail 20510 invoked by uid 500); 29 Dec 2019 11:40:52 -0500
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 29 Dec 2019 11:40:52 -0500
-Date:   Sun, 29 Dec 2019 11:40:52 -0500 (EST)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@netrider.rowland.org
-To:     Guenter Roeck <linux@roeck-us.net>
-cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S1726706AbfL3A5p (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 29 Dec 2019 19:57:45 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:44420 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726315AbfL3A5p (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 29 Dec 2019 19:57:45 -0500
+Received: by mail-pg1-f196.google.com with SMTP id x7so17241374pgl.11;
+        Sun, 29 Dec 2019 16:57:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=UVnprGvLewdhuWA7pzt73rmpOg554J2l+Ch1m7KvQNQ=;
+        b=M8nb6HdXs4EZh2oyQEe/0LpTjEerc6Qzg8fLvT8k+c4V7MauftFfWMIYuayRMs0NUY
+         6B4tLSAHGqBo2RAJgxA3waMxqHkEiHi2cdQZbBCwfADp+f/HHgvfzuzxYSrcL5k94/qx
+         7hKtxJHXBtP9vjC9Uk6lo4qKbRdQUpfrjRlvKoGsyWlHh/LlsQyEugNIlNzZNxJPZVao
+         aMyWljFroZzMNQfz56Zg+jafw7Z2bF6q27iC/lHlZZj0FjiHy7HJD3iCYvKAb55M/x95
+         yDQ+qlvNYCC3DnM84IahITsa0/mz4Csd2sIzVoQqOXsM/y3JNc4p+wG4xAWWLPz7rkht
+         f88Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=UVnprGvLewdhuWA7pzt73rmpOg554J2l+Ch1m7KvQNQ=;
+        b=fN2QeZ8ruzBIikiNZjL91iDO5lj52uZRni2loIa8f9YjopNz47rfhb0MJ27N5BYsM6
+         pbo6pz9NTj7NZ8b85sRR7bxBpL7MPX6QQYSZa651pTJeTlEK6ZaKbE35SC0z3domF0II
+         QLCxNk6FTzN//wQXHB/cw4pRgnLakNzHwaE3mjh8EQkbQd6ApNk8shST9x32zPy4XK2f
+         td5oS9DhZ80+Xv/nxrQQUEOnWMjAW3ZBb+vMaQshrjwN2rFDVfoTl6BufdR+cpR9nIOs
+         sT+CYBWpJZE4OIdYktgUJfF5GsSjXAVPPgT/uSczqoUkUcQd3Oqj8Q576KTUmzwWZSRj
+         WzUw==
+X-Gm-Message-State: APjAAAVvozQ1J27BX7+edk+14s6YUPLtYgnHYtHv1DN8Vp16pEk4mjDU
+        w1YJECaDIny41jtpzmd3BV/cBjZ/
+X-Google-Smtp-Source: APXvYqxwQcbGRxWsq5dg8Tr+u+V6Yx8Fqv406yJ4eqHhgpfiPLjgdTHOhSmj5+wXMxtGKxi12ud5cg==
+X-Received: by 2002:a63:d041:: with SMTP id s1mr69679419pgi.363.1577667464428;
+        Sun, 29 Dec 2019 16:57:44 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id z13sm22222445pjz.15.2019.12.29.16.57.43
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 29 Dec 2019 16:57:43 -0800 (PST)
+Date:   Sun, 29 Dec 2019 16:57:42 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         USB list <linux-usb@vger.kernel.org>,
         Kernel development list <linux-kernel@vger.kernel.org>,
         Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        <stable@vger.kernel.org>
-Subject: Re: [PATCH] usb: chipidea: host: Disable port power only if previously
- enabled
-In-Reply-To: <20191229162811.GA21566@roeck-us.net>
-Message-ID: <Pine.LNX.4.44L0.1912291137150.19645-100000@netrider.rowland.org>
+        stable@vger.kernel.org
+Subject: Re: [PATCH] usb: chipidea: host: Disable port power only if
+ previously enabled
+Message-ID: <20191230005742.GA25100@roeck-us.net>
+References: <20191229162811.GA21566@roeck-us.net>
+ <Pine.LNX.4.44L0.1912291137150.19645-100000@netrider.rowland.org>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Pine.LNX.4.44L0.1912291137150.19645-100000@netrider.rowland.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sun, 29 Dec 2019, Guenter Roeck wrote:
-
-> On Sat, Dec 28, 2019 at 02:33:01PM -0500, Alan Stern wrote:
-> > 
-> > Let's try a slightly different approach.  What happens with this patch?
-> > 
-> > Alan Stern
-> > 
-> > 
-> > Index: usb-devel/drivers/usb/core/hub.c
-> > ===================================================================
-> > --- usb-devel.orig/drivers/usb/core/hub.c
-> > +++ usb-devel/drivers/usb/core/hub.c
-> > @@ -1065,6 +1065,7 @@ static void hub_activate(struct usb_hub
-> >  		if (type == HUB_INIT) {
-> >  			delay = hub_power_on_good_delay(hub);
-> >  
-> > +			hub->power_bits[0] = ~0UL;	/* All ports on */
-> >  			hub_power_on(hub, false);
-> >  			INIT_DELAYED_WORK(&hub->init_work, hub_init_func2);
-> >  			queue_delayed_work(system_power_efficient_wq,
-> > 
+On Sun, Dec 29, 2019 at 11:40:52AM -0500, Alan Stern wrote:
+> On Sun, 29 Dec 2019, Guenter Roeck wrote:
 > 
-> That doesn't make a difference - the traceback is still seen with this patch
-> applied.
+> > On Sat, Dec 28, 2019 at 02:33:01PM -0500, Alan Stern wrote:
+> > > 
+> > > Let's try a slightly different approach.  What happens with this patch?
+> > > 
+> > > Alan Stern
+> > > 
+> > > 
+> > > Index: usb-devel/drivers/usb/core/hub.c
+> > > ===================================================================
+> > > --- usb-devel.orig/drivers/usb/core/hub.c
+> > > +++ usb-devel/drivers/usb/core/hub.c
+> > > @@ -1065,6 +1065,7 @@ static void hub_activate(struct usb_hub
+> > >  		if (type == HUB_INIT) {
+> > >  			delay = hub_power_on_good_delay(hub);
+> > >  
+> > > +			hub->power_bits[0] = ~0UL;	/* All ports on */
+> > >  			hub_power_on(hub, false);
+> > >  			INIT_DELAYED_WORK(&hub->init_work, hub_init_func2);
+> > >  			queue_delayed_work(system_power_efficient_wq,
+> > > 
+> > 
+> > That doesn't make a difference - the traceback is still seen with this patch
+> > applied.
+> 
+> Can you trace what's going on?  Does this code pathway now end up
+> calling ehci_port_power() for each root-hub port, and from there down
+> into the chipidea driver?  If not, can you find where it gets
+> sidetracked?
+> 
+Sure, I'll do that. It will have to wait for the new year, though -
+internet connectivity is terrible where I am right now,
 
-Can you trace what's going on?  Does this code pathway now end up
-calling ehci_port_power() for each root-hub port, and from there down
-into the chipidea driver?  If not, can you find where it gets
-sidetracked?
-
-Alan Stern
-
+Guenter
