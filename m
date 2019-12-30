@@ -2,53 +2,51 @@ Return-Path: <SRS0=jrK9=2U=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7841C2D0C2
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Dec 2019 11:14:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D89D5C2D0D4
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Dec 2019 11:14:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9ADF02071E
-	for <linux-usb@archiver.kernel.org>; Mon, 30 Dec 2019 11:14:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AEA1420730
+	for <linux-usb@archiver.kernel.org>; Mon, 30 Dec 2019 11:14:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="M53VbcDN"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="OySnadAS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727602AbfL3LO3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 30 Dec 2019 06:14:29 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:19454 "EHLO
+        id S1727554AbfL3LOR (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 30 Dec 2019 06:14:17 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:19428 "EHLO
         hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727508AbfL3LO1 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Dec 2019 06:14:27 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e09dc040000>; Mon, 30 Dec 2019 03:14:12 -0800
+        with ESMTP id S1727528AbfL3LOQ (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 30 Dec 2019 06:14:16 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e09dbf90000>; Mon, 30 Dec 2019 03:14:01 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 30 Dec 2019 03:14:26 -0800
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 30 Dec 2019 03:14:15 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 30 Dec 2019 03:14:26 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 30 Dec
- 2019 11:14:26 +0000
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 30 Dec
- 2019 11:14:25 +0000
+        by hqpgpgate101.nvidia.com on Mon, 30 Dec 2019 03:14:15 -0800
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 30 Dec
+ 2019 11:14:14 +0000
 Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL101.nvidia.com
  (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 30 Dec 2019 11:14:25 +0000
+ Transport; Mon, 30 Dec 2019 11:14:14 +0000
 Received: from nkristam-ubuntu.nvidia.com (Not Verified[10.19.64.167]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e09dc0e0000>; Mon, 30 Dec 2019 03:14:25 -0800
+        id <B5e09dc030000>; Mon, 30 Dec 2019 03:14:13 -0800
 From:   Nagarjuna Kristam <nkristam@nvidia.com>
 To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
         <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
         <mark.rutland@arm.com>, <robh+dt@kernel.org>, <kishon@ti.com>
 CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        "Nagarjuna Kristam" <nkristam@nvidia.com>
-Subject: [Patch V3 13/18] arm64: tegra: update OTG port entries for jetson-tx1
-Date:   Mon, 30 Dec 2019 16:39:50 +0530
-Message-ID: <1577704195-2535-14-git-send-email-nkristam@nvidia.com>
+        Nagarjuna Kristam <nkristam@nvidia.com>
+Subject: [Patch V3 10/18] usb: gadget: tegra-xudc: Add usb-phy support
+Date:   Mon, 30 Dec 2019 16:39:47 +0530
+Message-ID: <1577704195-2535-11-git-send-email-nkristam@nvidia.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1577704195-2535-1-git-send-email-nkristam@nvidia.com>
 References: <1577704195-2535-1-git-send-email-nkristam@nvidia.com>
@@ -56,82 +54,119 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1577704452; bh=eBbk3un2Bjdw6UX/1mHaHb4DdWE3j9/foVfq7K9W134=;
+        t=1577704441; bh=K+oEbyvzG/P+nHK8o49dn5j4HhavBLATleGdnDrniAE=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
          In-Reply-To:References:X-NVConfidentiality:MIME-Version:
          Content-Type;
-        b=M53VbcDNqN7fHfocv/924hQI91rfb+Wn1o9pYreDkgy/n+vg1e/Or5ZrvrQLActsL
-         5FExl2/bqtjndWwdVNpoJK11dBardwcfujcKGurD8nhIIG48wABwDbq482up8dH3Px
-         Uxikycdfv2fK0eUC5PejAawSpL/r9uraguQMlKCrplwGN35aEOnGPQ9Ofz7wxuobhO
-         9u6Syjlaly54u9T7vRim/AwuZvTTs4CSsSduwYV3t3LMerkKEBLNQFnYaj49UbS4R4
-         qjPX3+Jh0Z1w4fqhuUKNJ0QaLTREHHihaiZaX6xhyMYSvOC/zAFzo7S42805hCReeM
-         TGCpXdG9WBfzw==
+        b=OySnadASZDujVt68SmLf/IirSw6CImMFl56H89ELpdQwfYcQt8Wr7SL8u+Wr4FtpT
+         +KeDqkvzC3LTfSILAeUhfQ8hvwJbmNeCP7MSPh6T2iXrA/gVpIhiQYNsSLkqOXE3aO
+         p+CotTwMPl+p5dHZP+kKkSI+m/pZiR/r1XFSUKOM1AhizS1vMHob8RMSrYdWXFnzZo
+         A7fYv+YachlxMg6yYH1pifC6c84jp7noAcQl0BPHOryEASPeF/zWgy6SMt/gKuthT5
+         F1CXQV7SXBkqWs6g3FHdwWd7ZPn/meDpapHS//Jr/80fXAxMzCpzWiU7cZ/0+GYdmJ
+         Co48UVaZGNHcw==
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Populate OTG vbus regulator. Add usb-role-switch entry to USB 2-0 port
-and corresponding connector details.
+usb-phy is used to get notified on the USB role changes. Get usb-phy from
+the utmi phy.
 
 Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
 ---
 V2-V3:
  - No changes in this version
 ---
- arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+ drivers/usb/gadget/udc/tegra-xudc.c | 39 +++++++++++++++++++++++++++++++++----
+ 1 file changed, 35 insertions(+), 4 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
-index b009507..18c0610 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
-@@ -1336,7 +1336,6 @@
- 		       <&{/padctl@7009f000/pads/pcie/lanes/pcie-5}>;
- 		phy-names = "usb2-0", "usb2-1", "usb2-2", "usb2-3", "usb3-0",
- 			    "usb3-1";
--
- 		dvddio-pex-supply = <&vdd_pex_1v05>;
- 		hvddio-pex-supply = <&vdd_1v8>;
- 		avdd-usb-supply = <&vdd_3v3_sys>;
-@@ -1440,7 +1439,19 @@
- 		ports {
- 			usb2-0 {
- 				status = "okay";
-+				vbus-supply = <&vdd_usb_vbus_otg>;
- 				mode = "otg";
-+
-+				usb-role-switch;
-+				connector {
-+					compatible = "usb-b-connector",
-+						     "gpio-usb-b-connector";
-+					label = "micro-USB";
-+					type = "micro";
-+					vbus-gpio = <&gpio TEGRA_GPIO(Z, 0)
-+						     GPIO_ACTIVE_LOW>;
-+					id-gpio = <&pmic 0 0>;
-+				};
- 			};
+diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
+index 6ddb974..0f27d57 100644
+--- a/drivers/usb/gadget/udc/tegra-xudc.c
++++ b/drivers/usb/gadget/udc/tegra-xudc.c
+@@ -26,7 +26,9 @@
+ #include <linux/reset.h>
+ #include <linux/usb/ch9.h>
+ #include <linux/usb/gadget.h>
++#include <linux/usb/otg.h>
+ #include <linux/usb/role.h>
++#include <linux/usb/phy.h>
+ #include <linux/workqueue.h>
  
- 			usb2-1 {
-@@ -1606,6 +1617,17 @@
- 			vin-supply = <&vdd_5v0_sys>;
- 		};
+ /* XUSB_DEV registers */
+@@ -488,6 +490,9 @@ struct tegra_xudc {
+ 	bool suspended;
+ 	bool powergated;
  
-+		vdd_usb_vbus_otg: regulator@11 {
-+			compatible = "regulator-fixed";
-+			reg = <9>;
-+			regulator-name = "USB_VBUS_EN0";
-+			regulator-min-microvolt = <5000000>;
-+			regulator-max-microvolt = <5000000>;
-+			gpio = <&gpio TEGRA_GPIO(CC, 4) GPIO_ACTIVE_HIGH>;
-+			enable-active-high;
-+			vin-supply = <&vdd_5v0_sys>;
-+		};
++	struct usb_phy *usbphy;
++	struct notifier_block vbus_nb;
 +
- 		vdd_hdmi: regulator@10 {
- 			compatible = "regulator-fixed";
- 			reg = <10>;
+ 	struct completion disconnect_complete;
+ 
+ 	bool selfpowered;
+@@ -678,7 +683,22 @@ static void tegra_xudc_usb_role_sw_work(struct work_struct *work)
+ 		tegra_xudc_device_mode_on(xudc);
+ 	else
+ 		tegra_xudc_device_mode_off(xudc);
++}
++
++static int tegra_xudc_vbus_notifier(struct notifier_block *nb,
++					 unsigned long action, void *data)
++{
++	struct tegra_xudc *xudc = container_of(nb, struct tegra_xudc,
++					       vbus_nb);
++
++	dev_dbg(xudc->dev, "%s action is %ld\n", __func__, action);
++
++	xudc->role = (enum usb_role)action;
+ 
++	if (!xudc->suspended)
++		schedule_work(&xudc->usb_role_sw_work);
++
++	return NOTIFY_OK;
+ }
+ 
+ static void tegra_xudc_plc_reset_work(struct work_struct *work)
+@@ -1949,6 +1969,9 @@ static int tegra_xudc_gadget_start(struct usb_gadget *gadget,
+ 		xudc_writel(xudc, val, CTRL);
+ 	}
+ 
++	if (xudc->usbphy)
++		otg_set_peripheral(xudc->usbphy->otg, gadget);
++
+ 	xudc->driver = driver;
+ unlock:
+ 	dev_dbg(xudc->dev, "%s: ret value is %d", __func__, ret);
+@@ -1969,6 +1992,9 @@ static int tegra_xudc_gadget_stop(struct usb_gadget *gadget)
+ 
+ 	spin_lock_irqsave(&xudc->lock, flags);
+ 
++	if (xudc->usbphy)
++		otg_set_peripheral(xudc->usbphy->otg, NULL);
++
+ 	val = xudc_readl(xudc, CTRL);
+ 	val &= ~(CTRL_IE | CTRL_ENABLE);
+ 	xudc_writel(xudc, val, CTRL);
+@@ -3573,10 +3599,15 @@ static int tegra_xudc_probe(struct platform_device *pdev)
+ 	INIT_DELAYED_WORK(&xudc->port_reset_war_work,
+ 				tegra_xudc_port_reset_war_work);
+ 
+-	/* Set the mode as device mode and this keeps phy always ON */
+-	dev_info(xudc->dev, "Set usb role to device mode always");
+-	xudc->role = USB_ROLE_DEVICE;
+-	schedule_work(&xudc->usb_role_sw_work);
++	xudc->vbus_nb.notifier_call = tegra_xudc_vbus_notifier;
++	xudc->usbphy = devm_usb_get_phy_by_node(xudc->dev,
++						xudc->utmi_phy->dev.of_node,
++						&xudc->vbus_nb);
++	if (IS_ERR(xudc->usbphy)) {
++		err = PTR_ERR(xudc->usbphy);
++		dev_err(xudc->dev, "failed to get usbphy phy: %d\n", err);
++		goto free_eps;
++	}
+ 
+ 	pm_runtime_enable(&pdev->dev);
+ 
 -- 
 2.7.4
 
