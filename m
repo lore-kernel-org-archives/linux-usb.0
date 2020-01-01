@@ -2,99 +2,91 @@ Return-Path: <SRS0=n/7d=2W=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66F66C2D0DC
-	for <linux-usb@archiver.kernel.org>; Wed,  1 Jan 2020 17:23:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E0B4C32764
+	for <linux-usb@archiver.kernel.org>; Wed,  1 Jan 2020 18:27:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 40744206E6
-	for <linux-usb@archiver.kernel.org>; Wed,  1 Jan 2020 17:23:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E0D02207E0
+	for <linux-usb@archiver.kernel.org>; Wed,  1 Jan 2020 18:27:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727278AbgAARWp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 1 Jan 2020 12:22:45 -0500
-Received: from lnfm1.sai.msu.ru ([93.180.26.255]:35309 "EHLO lnfm1.sai.msu.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727215AbgAARWo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 1 Jan 2020 12:22:44 -0500
-X-Greylist: delayed 3350 seconds by postgrey-1.27 at vger.kernel.org; Wed, 01 Jan 2020 12:22:39 EST
-Received: from dragon.sai.msu.ru (dragon.sai.msu.ru [93.180.26.172])
-        by lnfm1.sai.msu.ru (8.14.1/8.12.8) with ESMTP id 001GQJAN001787;
-        Wed, 1 Jan 2020 19:26:24 +0300
-Received: from oak.local (unknown [188.123.231.178])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (Client did not present a certificate)
-        by dragon.sai.msu.ru (Postfix) with ESMTPSA id 7B7B9106D7B;
-        Wed,  1 Jan 2020 19:26:21 +0300 (MSK)
-From:   "Matwey V. Kornilov" <matwey@sai.msu.ru>
-To:     b-liu@ti.com, gregkh@linuxfoundation.org, stern@rowland.harvard.edu
-Cc:     matwey.kornilov@gmail.com,
-        "Matwey V. Kornilov" <matwey@sai.msu.ru>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND v2 4/6] usb: musb: Rename musb_start_urb() to musb_start_next_urb()
-Date:   Wed,  1 Jan 2020 19:26:08 +0300
-Message-Id: <20200101162610.15819-5-matwey@sai.msu.ru>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20200101162610.15819-1-matwey@sai.msu.ru>
-References: <20200101162610.15819-1-matwey@sai.msu.ru>
-In-Reply-To: <20190403185310.8437-1-matwey@sai.msu.ru>
-References: <20190403185310.8437-1-matwey@sai.msu.ru>
+        id S1727502AbgAAS06 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 1 Jan 2020 13:26:58 -0500
+Received: from mail3-relais-sop.national.inria.fr ([192.134.164.104]:13083
+        "EHLO mail3-relais-sop.national.inria.fr" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727313AbgAAS02 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 1 Jan 2020 13:26:28 -0500
+X-IronPort-AV: E=Sophos;i="5.69,382,1571695200"; 
+   d="scan'208";a="334542271"
+Received: from palace.rsr.lip6.fr (HELO palace.lip6.fr) ([132.227.105.202])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/AES128-SHA256; 01 Jan 2020 19:26:23 +0100
+From:   Julia Lawall <Julia.Lawall@inria.fr>
+To:     "H. Peter Anvin" <hpa@zytor.com>
+Cc:     kernel-janitors@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        alsa-devel@alsa-project.org, netdev@vger.kernel.org,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org
+Subject: [PATCH 00/10] use resource_size
+Date:   Wed,  1 Jan 2020 18:49:40 +0100
+Message-Id: <1577900990-8588-1-git-send-email-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-In the following commit we introduce new musb_start_urb() function
-which will be able to start arbitrary urb. In order to have
-intuitive function names we rename musb_start_urb() to
-musb_start_next_urb().
+Use resource_size rather than a verbose computation on
+the end and start fields.
 
-Signed-off-by: Matwey V. Kornilov <matwey@sai.msu.ru>
+The semantic patch that makes these changes is as follows:
+(http://coccinelle.lip6.fr/)
+
+<smpl>
+@@
+struct resource ptr;
+@@
+
+- ((ptr.end) - (ptr.start) + 1)
++ resource_size(&ptr)
+
+@@
+struct resource *ptr;
+@@
+
+- ((ptr->end) - (ptr->start) + 1)
++ resource_size(ptr)
+
+@@
+struct resource ptr;
+@@
+
+- ((ptr.end) + 1 - (ptr.start))
++ resource_size(&ptr)
+
+@@
+struct resource *ptr;
+@@
+
+- ((ptr->end) + 1 - (ptr->start))
++ resource_size(ptr)
+</smpl>
+
 ---
- drivers/usb/musb/musb_host.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/musb/musb_host.c b/drivers/usb/musb/musb_host.c
-index 5d23c950a21b..3a202a2a521d 100644
---- a/drivers/usb/musb/musb_host.c
-+++ b/drivers/usb/musb/musb_host.c
-@@ -213,7 +213,7 @@ static struct musb_qh *musb_ep_get_qh(struct musb_hw_ep *ep, int is_in)
-  * Context: controller locked, irqs blocked
-  */
- static void
--musb_start_urb(struct musb *musb, int is_in, struct musb_qh *qh)
-+musb_start_next_urb(struct musb *musb, int is_in, struct musb_qh *qh)
- {
- 	u32			len;
- 	void __iomem		*mbase =  musb->mregs;
-@@ -403,7 +403,7 @@ static void musb_advance_schedule(struct musb *musb, struct urb *urb,
- 	if (qh != NULL && qh->is_ready) {
- 		musb_dbg(musb, "... next ep%d %cX urb %p",
- 		    hw_ep->epnum, is_in ? 'R' : 'T', next_urb(qh));
--		musb_start_urb(musb, is_in, qh);
-+		musb_start_next_urb(musb, is_in, qh);
- 	}
- }
- 
-@@ -1001,7 +1001,7 @@ static void musb_bulk_nak_timeout(struct musb *musb, struct musb_hw_ep *ep,
- 		}
- 
- 		if (next_qh)
--			musb_start_urb(musb, is_in, next_qh);
-+			musb_start_next_urb(musb, is_in, next_qh);
- 	}
- }
- 
-@@ -2141,7 +2141,7 @@ static int musb_schedule(
- 	qh->hw_ep = hw_ep;
- 	qh->hep->hcpriv = qh;
- 	if (idle)
--		musb_start_urb(musb, is_in, qh);
-+		musb_start_next_urb(musb, is_in, qh);
- 	return 0;
- }
- 
--- 
-2.16.4
-
+ arch/mips/kernel/setup.c                  |    6 ++----
+ arch/powerpc/platforms/83xx/km83xx.c      |    2 +-
+ arch/powerpc/platforms/powernv/pci-ioda.c |    4 ++--
+ arch/x86/kernel/crash.c                   |    2 +-
+ drivers/net/ethernet/freescale/fman/mac.c |    4 ++--
+ drivers/usb/gadget/udc/omap_udc.c         |    6 +++---
+ drivers/video/fbdev/cg14.c                |    3 +--
+ drivers/video/fbdev/s1d13xxxfb.c          |   16 ++++++++--------
+ sound/drivers/ml403-ac97cr.c              |    4 +---
+ sound/soc/sof/imx/imx8.c                  |    3 +--
+ 10 files changed, 22 insertions(+), 28 deletions(-)
