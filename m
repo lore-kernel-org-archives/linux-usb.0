@@ -2,177 +2,210 @@ Return-Path: <SRS0=Fi+P=2X=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6168CC2D0DC
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jan 2020 16:38:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73569C2D0DC
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jan 2020 17:03:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2AD92206E6
-	for <linux-usb@archiver.kernel.org>; Thu,  2 Jan 2020 16:38:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 34AE621835
+	for <linux-usb@archiver.kernel.org>; Thu,  2 Jan 2020 17:03:25 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="c5V+EXMc"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Zo1h+euU"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728808AbgABQiU (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 2 Jan 2020 11:38:20 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45036 "EHLO
+        id S1728880AbgABRDY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 2 Jan 2020 12:03:24 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:45108 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728280AbgABQiU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Jan 2020 11:38:20 -0500
+        with ESMTP id S1728824AbgABRDY (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 2 Jan 2020 12:03:24 -0500
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 49323516;
-        Thu,  2 Jan 2020 17:38:17 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2AECC516;
+        Thu,  2 Jan 2020 18:03:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1577983097;
-        bh=EakE89tJOd3GObfS/u4FO++zBGtF8KQUPS8XEnOhKDg=;
+        s=mail; t=1577984600;
+        bh=Z5DB6kcL/dyxcOp4S6pQQ3Rv4v8IF2Vv8vSAIm+M1pI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=c5V+EXMc239xu5RmVgPhxFxbA0Pmwd21gq2IDQYS8wAcg6/ZYS/kEERjdL/I78QtB
-         xwOlE45y5YpNUOyboCh9HfKwv3tKduJz/XLoOYlafzlIwdPwf7M42WoBFwQC0bJe+f
-         9p47Sx/GLq6HVPsZ4JPxeMENpRtGLAx0dLhD/p6M=
-Date:   Thu, 2 Jan 2020 18:38:07 +0200
+        b=Zo1h+euU0czNKXEId8RNKVrUwLql/YFJLJfSi/U/SQCq9EuAi8/O/BoniJSK9wEx4
+         atVYOYpM06bQQU8Tj0z/a1QmVqoGYqM5KdL79KpFjrDO+esQkMPk5vT9EWGoyTD89x
+         kjFymnrBhl43Ay0rSMR/v1XT6PLM1OlFACuSIQuQ=
+Date:   Thu, 2 Jan 2020 19:03:10 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Takashi Iwai <tiwai@suse.de>, Johan Hovold <johan@kernel.org>,
+To:     Roger Whittaker <Roger.Whittaker@suse.com>
+Cc:     Alan Stern <stern@rowland.harvard.edu>,
+        Takashi Iwai <tiwai@suse.de>, Johan Hovold <johan@kernel.org>,
         Greg KH <gregkh@linuxfoundation.org>,
-        Roger Whittaker <Roger.Whittaker@suse.com>,
-        Takashi Iwai <tiwai@suse.com>, linux-usb@vger.kernel.org
+        Takashi Iwai <tiwai@suse.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
 Subject: Re: Certain cameras no longer working with uvcvideo on recent
  (openSUSE) kernels
-Message-ID: <20200102163807.GE4843@pendragon.ideasonboard.com>
+Message-ID: <20200102170310.GF4843@pendragon.ideasonboard.com>
 References: <s5hr20ingu5.wl-tiwai@suse.de>
  <Pine.LNX.4.44L0.2001021003130.1546-100000@iolanthe.rowland.org>
+ <20200102163807.GE4843@pendragon.ideasonboard.com>
+ <20200102165738.GA26369@suse.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Pine.LNX.4.44L0.2001021003130.1546-100000@iolanthe.rowland.org>
+In-Reply-To: <20200102165738.GA26369@suse.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Alan,
+Hi Roger,
 
-On Thu, Jan 02, 2020 at 10:06:33AM -0500, Alan Stern wrote:
-> On Thu, 2 Jan 2020, Takashi Iwai wrote:
-> > On Thu, 02 Jan 2020 12:20:45 +0100, Johan Hovold wrote:
-> > > On Wed, Jan 01, 2020 at 03:09:35PM -0500, Alan Stern wrote:
-> > > > On Wed, 1 Jan 2020, Greg KH wrote:
-> > > > > On Wed, Jan 01, 2020 at 08:35:59PM +0200, Laurent Pinchart wrote:
-> > > 
-> > > > > > [  470.351700] usb 1-1.4.3.1: config 1 interface 2 altsetting 0 endpoint 0x82 has wMaxPacketSize 0, skipping
-> > > > > > 
-> > > > > > This seems to be the culprit, and it points to the USB core. One
-> > > > > > interface is ignored due to its wMaxPacketSize value, and the uvcvideo
-> > > > > > driver then fails to find it.
-> > > > > > 
-> > > > > > The wMaxPacketSize check was added in
-> > > > > > 
-> > > > > > commit d482c7bb0541d19dea8bff437a9f3c5563b5b2d2
-> > > > > > Author: Alan Stern <stern@rowland.harvard.edu>
-> > > > > > Date:   Mon Oct 28 10:52:35 2019 -0400
-> > > > > > 
-> > > > > >     USB: Skip endpoints with 0 maxpacket length
-> > > > > > 
-> > > > > >     Endpoints with a maxpacket length of 0 are probably useless.  They
-> > > > > >     can't transfer any data, and it's not at all unlikely that an HCD will
-> > > > > >     crash or hang when trying to handle an URB for such an endpoint.
-> > > > > > 
-> > > > > >     Currently the USB core does not check for endpoints having a maxpacket
-> > > > > >     value of 0.  This patch adds a check, printing a warning and skipping
-> > > > > >     over any endpoints it catches.
-> > > > > > 
-> > > > > >     Now, the USB spec does not rule out endpoints having maxpacket = 0.
-> > > > > >     But since they wouldn't have any practical use, there doesn't seem to
-> > > > > >     be any good reason for us to accept them.
-> > > > > > 
-> > > > > >     Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-> > > > > > 
-> > > > > >     Link: https://lore.kernel.org/r/Pine.LNX.4.44L0.1910281050420.1485-100000@iolanthe.rowland.org
-> > > > > >     Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > > > > > 
-> > > > > > The commit was merged in v5.4 and backported to v5.3.11 in
-> > > > > > 47aaab6377204cdbcd16f52a23c584f994fd0d15.
-> > > > > > 
-> > > > > > For reference for Alan and linux-usb, the issue being discussed is
-> > > > > > described in https://bugzilla.suse.com/show_bug.cgi?id=1159811. The
-> > > > > > above commit seems to cause a regression with several cameras. I've
-> > > > > > attached to this e-mail the lsusb output provided by Roger.
-> > > > > 
-> > > > > How can a device work with an endpoint of 0 length?
-> > > > > 
-> > > > > What does the driver expect to do with those endpoints?  Does it expect
-> > > > > it to be present but just ignore it?
-> > > > 
-> > > > I see what's going on.  The endpoint in question is isochronous, and
-> > > > the bAlternateSetting value is 0, which makes this the default
-> > > > altsetting for that interface.  The USB spec says (at the end of
-> > > > section 5.6.3):
-> > > > 
-> > > > 	All device default interface settings must not include any
-> > > > 	isochronous endpoints with non-zero data payload sizes
-> > > > 	(specified via wMaxPacketSize in the endpoint descriptor).  
-> > > > 	Alternate interface settings may specify non-zero data payload
-> > > > 	sizes for isochronous endpoints.
-> > > > 
-> > > > That explains why the maxpacket size is set to 0.
-> > > > 
-> > > > So it looks like the endpoint-descriptor parsing code might want to
-> > > > make a special case to accept isochronous endpoints with maxpacket 0 if
-> > > > bAlternateSetting is 0.  But whether we do this or not, I would expect
-> > > > the uvcvideo driver to look for isochronous endpoints in the alternate
-> > > > settings it will actually use, not in altsetting 0.  Then the presence
-> > > > or absence of that endpoint descriptor would make no difference to
-> > > > uvcvideo.
-> > > > 
-> > > > (Unless the UVC spec _requires_ these endpoint descriptors to be
-> > > > present.  If it does then we should simply change the core parsing code
-> > > > and leave uvcvideo alone.)
-> > > 
-> > > Note that we also have this little gem in the ftdi usb-serial driver
-> > > (since 2009) overriding a zero max packet size for devices with broken
-> > > descriptors:
-> > > 
-> > > 	895f28badce9 ("USB: ftdi_sio: fix hi-speed device packet size calculation")
-> > > 
-> > > Note sure how common those are but they will no longer work after the
-> > > new sanity check in core. I guess we could add quirks for them (to core)
-> > > in case we get any reports, but perhaps reverting the check should be
-> > > considered.
-> > 
-> > FWIW, Roger confirmed that reverting the commit d482c7bb0541 does
-> > indeed fix the issue (with the latest 5.4.y kernel).
+On Thu, Jan 02, 2020 at 04:57:42PM +0000, Roger Whittaker wrote:
+> On Thu, Jan 02, 2020 at 06:38:07PM +0200, Laurent Pinchart wrote:
 > 
-> All right.  Suppose instead of reverting that commit, I change the code
-> so that it only logs a warning when it finds an endpoint descriptor
-> with maxpacket = 0 (and it skips the warning for isochronous endpoints
-> in altsetting 0).  At the same time, we can add a check to
-> usb_submit_urb() to refuse URBs if the endpoint's maxpacket is 0.
+> > Roger, would you be able to set the uvcvideo trace module parameter to
+> > 0xffff before plugging the device, and provide the messages printed by
+> > the driver to the kernel log both with and without the above commit ?
 > 
-> Sounds good?
+> With 5.3.12-2-default, loading uvcvideo with
+> 
+> options uvcvideo trace=0xffff
 
-It makes it easier for me as I won't have to adapt the uvcvideo driver,
-so it certainly sounds good :-)
+Thank you.
 
-The USB specification allows different endpoint settings in different
-alternate settings, and unless I'm mistaken, it includes a different
-number of endpoints and different endpoint numbers. The UVC
-specification isn't very clear on this topic, but in practice most
-isochronous devices don't include any isochronous endpoint in altsetting
-0. Only 5 devices in my database of ~400 has an isochronous endpoint in
-altsetting 0, all of them with a wMaxPacketSize value set to 0. The
-above commit, if it only ignored the endpoint, should thus be fine, as
-the uvcvideo driver checks for endpoints in other alternate settings
-(the related code is the loop at the end of uvc_parse_streaming() in
-drivers/media/usb/uvc/uvc_driver.c). I thus wonder what's going wrong,
-and if the commit couldn't cause the interface to be mistakenly ignored
-as a whole ?
+> On plugging:
+> 
+> [   73.571566] usb 1-1.4.3.1: new high-speed USB device number 12 using xhci_hcd
+> [   73.729180] usb 1-1.4.3.1: config 1 interface 2 altsetting 0 endpoint 0x82 has wMaxPacketSize 0, skipping
+> [   73.729552] usb 1-1.4.3.1: New USB device found, idVendor=1778, idProduct=0214, bcdDevice= 7.07
+> [   73.729558] usb 1-1.4.3.1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> [   73.729561] usb 1-1.4.3.1: Product: IPEVO Point 2 View
+> [   73.729564] usb 1-1.4.3.1: Manufacturer: IPEVO Inc.
+> [   73.732670] hid-generic 0003:1778:0214.0009: hiddev98,hidraw8: USB HID v1.10 Device [IPEVO Inc. IPEVO Point 2 View] on usb-0000:00:14.0-1.4.3.1/input0
+> [   73.781765] videodev: Linux video capture interface: v2.00
+> [   73.807553] uvcvideo: Probing generic UVC device 1.4.3.1
+> [   73.807693] uvcvideo: no class-specific streaming interface descriptors found.
 
-Roger, would you be able to set the uvcvideo trace module parameter to
-0xffff before plugging the device, and provide the messages printed by
-the driver to the kernel log both with and without the above commit ?
+It seems that Alan's patch causes more than the endpoint to be ignored.
+
+> [   73.807728] uvcvideo: Found a Status endpoint (addr 81).
+> [   73.807730] uvcvideo: Found UVC 1.00 device IPEVO Point 2 View (1778:0214)
+> [   73.807759] uvcvideo: Failed to query (GET_INFO) UVC control 2 on unit 1: -32 (exp. 1).
+> [   73.807832] uvcvideo: Control error 6
+> [   73.807834] uvcvideo: Added control 00000000-0000-0000-0000-000000000001/2 to device 1.4.3.1 entity 1
+> [   73.807835] uvcvideo: Adding mapping 'Exposure, Auto' to control 00000000-0000-0000-0000-000000000001/2.
+> [   73.807876] uvcvideo: Added control 00000000-0000-0000-0000-000000000001/6 to device 1.4.3.1 entity 1
+> [   73.807877] uvcvideo: Adding mapping 'Focus (absolute)' to control 00000000-0000-0000-0000-000000000001/6.
+> [   73.807918] uvcvideo: Failed to query (GET_INFO) UVC control 9 on unit 1: -32 (exp. 1).
+> [   73.807996] uvcvideo: Control error 6
+> [   73.807997] uvcvideo: Added control 00000000-0000-0000-0000-000000000001/9 to device 1.4.3.1 entity 1
+> [   73.807998] uvcvideo: Adding mapping 'Iris, Absolute' to control 00000000-0000-0000-0000-000000000001/9.
+> [   73.808037] uvcvideo: Added control 00000000-0000-0000-0000-000000000001/8 to device 1.4.3.1 entity 1
+> [   73.808038] uvcvideo: Adding mapping 'Focus, Auto' to control 00000000-0000-0000-0000-000000000001/8.
+> [   73.808079] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/2 to device 1.4.3.1 entity 3
+> [   73.808080] uvcvideo: Adding mapping 'Brightness' to control 00000000-0000-0000-0000-000000000101/2.
+> [   73.808119] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/3 to device 1.4.3.1 entity 3
+> [   73.808120] uvcvideo: Adding mapping 'Contrast' to control 00000000-0000-0000-0000-000000000101/3.
+> [   73.808159] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/6 to device 1.4.3.1 entity 3
+> [   73.808160] uvcvideo: Adding mapping 'Hue' to control 00000000-0000-0000-0000-000000000101/6.
+> [   73.808205] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/7 to device 1.4.3.1 entity 3
+> [   73.808206] uvcvideo: Adding mapping 'Saturation' to control 00000000-0000-0000-0000-000000000101/7.
+> [   73.808255] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/8 to device 1.4.3.1 entity 3
+> [   73.808257] uvcvideo: Adding mapping 'Sharpness' to control 00000000-0000-0000-0000-000000000101/8.
+> [   73.808308] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/9 to device 1.4.3.1 entity 3
+> [   73.808309] uvcvideo: Adding mapping 'Gamma' to control 00000000-0000-0000-0000-000000000101/9.
+> [   73.808349] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/10 to device 1.4.3.1 entity 3
+> [   73.808350] uvcvideo: Adding mapping 'White Balance Temperature' to control 00000000-0000-0000-0000-000000000101/10.
+> [   73.808389] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/5 to device 1.4.3.1 entity 3
+> [   73.808390] uvcvideo: Adding mapping 'Power Line Frequency' to control 00000000-0000-0000-0000-000000000101/5.
+> [   73.808431] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/11 to device 1.4.3.1 entity 3
+> [   73.808432] uvcvideo: Adding mapping 'White Balance Temperature, Auto' to control 00000000-0000-0000-0000-000000000101/11.
+> [   73.808434] uvcvideo: Scanning UVC chain: OT 2 <- XU 4 <- PU 3 <- IT 1
+> [   73.808437] uvcvideo: Found a valid video chain (1 -> 2).
+> [   73.808438] uvcvideo: No streaming interface found for terminal 2.
+> [   73.808442] uvcvideo 1-1.4.3.1:1.1: Entity type for entity Extension 4 was not initialized!
+> [   73.808444] uvcvideo 1-1.4.3.1:1.1: Entity type for entity Processing 3 was not initialized!
+> [   73.808446] uvcvideo 1-1.4.3.1:1.1: Entity type for entity Camera 1 was not initialized!
+> [   73.808542] input: IPEVO Point 2 View: IPEVO Point as /devices/pci0000:00/0000:00:14.0/usb1/1-1/1-1.4/1-1.4.3/1-1.4.3.1/1-1.4.3.1:1.1/input/input21
+> [   73.808590] uvcvideo: UVC device initialized.
+> [   73.808636] usbcore: registered new interface driver uvcvideo
+> [   73.808637] USB Video Class driver (1.1.1)
+> [   75.899721] uvcvideo: Suspending interface 1
+> 
+> 
+> ------------------------------------------------------------------------
+> 
+> With 5.4.7-1.g43720a7-default (the kernel Takashi built with commit
+> d482c7bb0541 reverted), loading uvcvideo with
+> 
+> options uvcvideo trace=0xffff
+> 
+> On plugging:
+> 
+> [  267.765563] usb 1-1.4.3.1: new high-speed USB device number 13 using xhci_hcd
+> [  267.879567] usb 1-1.4.3.1: New USB device found, idVendor=1778, idProduct=0214, bcdDevice= 7.07
+> [  267.879573] usb 1-1.4.3.1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> [  267.879577] usb 1-1.4.3.1: Product: IPEVO Point 2 View
+> [  267.879580] usb 1-1.4.3.1: Manufacturer: IPEVO Inc.
+> [  267.882718] hid-generic 0003:1778:0214.000A: hiddev98,hidraw7: USB HID v1.10 Device [IPEVO Inc. IPEVO Point 2 View] on usb-0000:00:14.0-1.4.3.1/input0
+> [  267.883135] uvcvideo: Probing generic UVC device 1.4.3.1
+> [  267.883260] uvcvideo: trying extra data from endpoint 0.
+> [  267.883265] uvcvideo: Found format YUV 4:2:2 (YUYV).
+> [  267.883268] uvcvideo: - 640x480 (30.0 fps)
+> [  267.883277] uvcvideo: - 320x240 (30.0 fps)
+> [  267.883278] uvcvideo: - 800x600 (24.0 fps)
+> [  267.883280] uvcvideo: - 1024x768 (15.0 fps)
+> [  267.883282] uvcvideo: - 1280x1024 (8.0 fps)
+> [  267.883284] uvcvideo: - 1600x1200 (4.0 fps)
+> [  267.883286] uvcvideo: - 640x480 (30.0 fps)
+> [  267.883288] uvcvideo: Found format MJPEG.
+> [  267.883290] uvcvideo: - 640x480 (45.0 fps)
+> [  267.883292] uvcvideo: - 320x240 (45.0 fps)
+> [  267.883293] uvcvideo: - 800x600 (45.0 fps)
+> [  267.883295] uvcvideo: - 1024x768 (30.0 fps)
+> [  267.883297] uvcvideo: - 1280x1024 (15.0 fps)
+> [  267.883299] uvcvideo: - 1600x1200 (8.0 fps)
+> [  267.883301] uvcvideo: - 640x480 (45.0 fps)
+> [  267.883310] uvcvideo: Found a Status endpoint (addr 81).
+> [  267.883314] uvcvideo: Found UVC 1.00 device IPEVO Point 2 View (1778:0214)
+> [  267.883380] uvcvideo: Failed to query (GET_INFO) UVC control 2 on unit 1: -32 (exp. 1).
+> [  267.883411] uvcvideo: Control error 6
+> [  267.883416] uvcvideo: Added control 00000000-0000-0000-0000-000000000001/2 to device 1.4.3.1 entity 1
+> [  267.883419] uvcvideo: Adding mapping 'Exposure, Auto' to control 00000000-0000-0000-0000-000000000001/2.
+> [  267.883468] uvcvideo: Added control 00000000-0000-0000-0000-000000000001/6 to device 1.4.3.1 entity 1
+> [  267.883471] uvcvideo: Adding mapping 'Focus (absolute)' to control 00000000-0000-0000-0000-000000000001/6.
+> [  267.883512] uvcvideo: Failed to query (GET_INFO) UVC control 9 on unit 1: -32 (exp. 1).
+> [  267.883588] uvcvideo: Control error 6
+> [  267.883590] uvcvideo: Added control 00000000-0000-0000-0000-000000000001/9 to device 1.4.3.1 entity 1
+> [  267.883593] uvcvideo: Adding mapping 'Iris, Absolute' to control 00000000-0000-0000-0000-000000000001/9.
+> [  267.883642] uvcvideo: Added control 00000000-0000-0000-0000-000000000001/8 to device 1.4.3.1 entity 1
+> [  267.883645] uvcvideo: Adding mapping 'Focus, Auto' to control 00000000-0000-0000-0000-000000000001/8.
+> [  267.883694] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/2 to device 1.4.3.1 entity 3
+> [  267.883696] uvcvideo: Adding mapping 'Brightness' to control 00000000-0000-0000-0000-000000000101/2.
+> [  267.883745] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/3 to device 1.4.3.1 entity 3
+> [  267.883747] uvcvideo: Adding mapping 'Contrast' to control 00000000-0000-0000-0000-000000000101/3.
+> [  267.883795] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/6 to device 1.4.3.1 entity 3
+> [  267.883797] uvcvideo: Adding mapping 'Hue' to control 00000000-0000-0000-0000-000000000101/6.
+> [  267.883846] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/7 to device 1.4.3.1 entity 3
+> [  267.883848] uvcvideo: Adding mapping 'Saturation' to control 00000000-0000-0000-0000-000000000101/7.
+> [  267.883895] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/8 to device 1.4.3.1 entity 3
+> [  267.883898] uvcvideo: Adding mapping 'Sharpness' to control 00000000-0000-0000-0000-000000000101/8.
+> [  267.883947] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/9 to device 1.4.3.1 entity 3
+> [  267.883949] uvcvideo: Adding mapping 'Gamma' to control 00000000-0000-0000-0000-000000000101/9.
+> [  267.883999] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/10 to device 1.4.3.1 entity 3
+> [  267.884002] uvcvideo: Adding mapping 'White Balance Temperature' to control 00000000-0000-0000-0000-000000000101/10.
+> [  267.884050] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/5 to device 1.4.3.1 entity 3
+> [  267.884053] uvcvideo: Adding mapping 'Power Line Frequency' to control 00000000-0000-0000-0000-000000000101/5.
+> [  267.884101] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/11 to device 1.4.3.1 entity 3
+> [  267.884104] uvcvideo: Adding mapping 'White Balance Temperature, Auto' to control 00000000-0000-0000-0000-000000000101/11.
+> [  267.884108] uvcvideo: Scanning UVC chain: OT 2 <- XU 4 <- PU 3 <- IT 1
+> [  267.884117] uvcvideo: Found a valid video chain (1 -> 2).
+> [  267.885020] uvcvideo 1-1.4.3.1:1.1: Entity type for entity Extension 4 was not initialized!
+> [  267.885025] uvcvideo 1-1.4.3.1:1.1: Entity type for entity Processing 3 was not initialized!
+> [  267.885028] uvcvideo 1-1.4.3.1:1.1: Entity type for entity Camera 1 was not initialized!
+> [  267.885188] input: IPEVO Point 2 View: IPEVO Point as /devices/pci0000:00/0000:00:14.0/usb1/1-1/1-1.4/1-1.4.3/1-1.4.3.1/1-1.4.3.1:1.1/input/input22
+> [  267.885266] uvcvideo: UVC device initialized.
+> [  267.919845] uvcvideo: uvc_v4l2_open
+> [  267.919884] uvcvideo: uvc_v4l2_release
+> [  270.387236] uvcvideo: Suspending interface 2
+> [  270.387241] uvcvideo: Suspending interface 1
 
 -- 
 Regards,
