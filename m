@@ -2,89 +2,87 @@ Return-Path: <SRS0=/oMr=2Y=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13245C2D0CE
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 08:40:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C7C9C00523
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 08:44:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DA1702253D
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 08:40:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1144A2464B
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 08:44:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1578041049;
+	bh=O98c330wJ+yit3cNj7UledYuE4zwC0j4iFKZGfkh7fo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=GetcdWgM38qtfBsOQhh+bzj9HoxnblUZgqVQWtoL3b2PfTwjJ4j42k6B6Dvl2KDYI
+	 FqOZWwLkpRdQ0ZyDq7obbESzlbGaVV8TwB+JX91Q38GbxCE/nr3G89owDoVra7rYs0
+	 3atYyAPWZG/2ok9IsbED337RUM1alJANtrWaHD34=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726313AbgACIkT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jan 2020 03:40:19 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:58172 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726181AbgACIkT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jan 2020 03:40:19 -0500
-Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <kai.heng.feng@canonical.com>)
-        id 1inIVC-0003Sp-4G; Fri, 03 Jan 2020 08:40:14 +0000
-From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
-To:     mathias.nyman@intel.com, gregkh@linuxfoundation.org,
-        stern@rowland.harvard.edu
-Cc:     acelan.kao@canonical.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>
-Subject: [PATCH 1/3] xhci: Ensure link state is U3 after setting USB_SS_PORT_LS_U3
-Date:   Fri,  3 Jan 2020 16:40:06 +0800
-Message-Id: <20200103084008.3579-1-kai.heng.feng@canonical.com>
-X-Mailer: git-send-email 2.17.1
+        id S1727220AbgACIoI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jan 2020 03:44:08 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55950 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726640AbgACIoI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 3 Jan 2020 03:44:08 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6160721D7D;
+        Fri,  3 Jan 2020 08:44:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1578041047;
+        bh=O98c330wJ+yit3cNj7UledYuE4zwC0j4iFKZGfkh7fo=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XgWEKYMn4BZxk2DksfggKy13C4WF3ocNV3U/lXFFC34NrSaJmhlA7GZs/SfZN7ZoP
+         oTAXfzP3T8MGkWmeL5p0IobGwuPA8TdKSc4FROcfyLu9FSDRD6k7vlqfWqLOgSn2I3
+         ysftd8vAim/AFjOkC5NkrrI3/jsRD1S2gpSlGUYo=
+Date:   Fri, 3 Jan 2020 09:44:05 +0100
+From:   "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+To:     Peter Chen <peter.chen@nxp.com>
+Cc:     Baolin Wang <baolin.wang7@gmail.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        dl-linux-imx <linux-imx@nxp.com>,
+        "pawell@cadence.com" <pawell@cadence.com>,
+        "rogerq@ti.com" <rogerq@ti.com>
+Subject: Re: [PATCH 1/1] usb: cdns3: add NXP imx8qm glue layer
+Message-ID: <20200103084405.GB855576@kroah.com>
+References: <1577426348-31227-1-git-send-email-peter.chen@nxp.com>
+ <878smqksjo.fsf@kernel.org>
+ <VI1PR04MB532770282A2C0701BD2A0EBA8B230@VI1PR04MB5327.eurprd04.prod.outlook.com>
+ <CADBw62roaEi6UWV3X2NtqQ55w_SONactEn=JxrPShMV7oj98vQ@mail.gmail.com>
+ <VI1PR04MB53274DD899A84806D84C5FBB8B230@VI1PR04MB5327.eurprd04.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <VI1PR04MB53274DD899A84806D84C5FBB8B230@VI1PR04MB5327.eurprd04.prod.outlook.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The xHCI spec doesn't specify the upper bound of U3 transition time. For
-some devices 20ms is not enough, so we need to make sure the link state
-is in U3 before further actions.
+On Fri, Jan 03, 2020 at 03:20:17AM +0000, Peter Chen wrote:
+>  
+> > > Hi Felipe,
+> > >
+> > > How to make sure it works? Except for enabling CONFIG_COMPLIE_TEST,
+> > > what else I need to do? Thanks.
+> > 
+> > Felipe's suggestion is you should change your config dependency as:
+> > depends on ARCH_MXC || COMPILE_TEST
+> > 
+> > Then user can compile your driver to find warning or something else though the
+> > ARCH_MXC config is not enabled.
+> 
+> Hi Baolin,
+> 
+> I know that, I have already changed that,  unset ARCH_MXC and enable
+> CONFIG_COMPILE_TEST. What else I could do to make sure it could compile OK
+> at every architecture?
 
-I've tried to use U3 Entry Capability by setting U3 Entry Enable in
-config register, however the port change event for U3 transition
-interrupts the system suspend process.
+Add that option and then actually build it for all arches :)
 
-For now let's use the less ideal method by polling PLS.
+thanks,
 
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
----
- drivers/usb/host/xhci-hub.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
-index 7a3a29e5e9d2..2b2e9d004dbf 100644
---- a/drivers/usb/host/xhci-hub.c
-+++ b/drivers/usb/host/xhci-hub.c
-@@ -1228,6 +1228,7 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
- 			break;
- 		case USB_PORT_FEAT_LINK_STATE:
- 			temp = readl(ports[wIndex]->addr);
-+			xhci_dbg(xhci, "before setting link state, actual port %d-%d status = 0x%0x\n", hcd->self.busnum, wIndex + 1, temp);
- 			/* Disable port */
- 			if (link_state == USB_SS_PORT_LS_SS_DISABLED) {
- 				xhci_dbg(xhci, "Disable port %d\n", wIndex);
-@@ -1316,9 +1317,17 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
- 			msleep(20); /* wait device to enter */
- 			spin_lock_irqsave(&xhci->lock, flags);
- 
--			temp = readl(ports[wIndex]->addr);
--			if (link_state == USB_SS_PORT_LS_U3)
-+			if (link_state == USB_SS_PORT_LS_U3) {
-+				retval = xhci_handshake(ports[wIndex]->addr, PORT_PLS_MASK, XDEV_U3, 80 * 1000);
-+				if (retval)
-+					xhci_dbg(xhci, "polling XDEV_U3 on port %d-%d timeout\n", hcd->self.busnum, wIndex + 1);
-+
- 				bus_state->suspended_ports |= 1 << wIndex;
-+			}
-+
-+			temp = readl(ports[wIndex]->addr);
-+			xhci_dbg(xhci, "after setting link state, port %d-%d status = 0x%0x\n", hcd->self.busnum, wIndex + 1, temp);
-+
- 			break;
- 		case USB_PORT_FEAT_POWER:
- 			/*
--- 
-2.17.1
-
+greg k-h
