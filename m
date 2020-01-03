@@ -2,94 +2,83 @@ Return-Path: <SRS0=/oMr=2Y=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EDFEC2D0CE
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 16:36:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C84F8C2D0C2
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 16:40:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3C8FC24649
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 16:36:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 96D6D2465B
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 16:40:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1578069376;
-	bh=t4bgbJJbSS52nJcUUxdgLK3cBH7RVMsYoAXiO4lvpIU=;
+	s=default; t=1578069643;
+	bh=TKY5B9he46GmvnJkwdmWtHvRFw0gy4YRKbRubwq1RA8=;
 	h=From:To:Cc:Subject:Date:List-ID:From;
-	b=sNZWsrz3H4GsYGm7AHXeR3r+WJFtX2nYS1doOM2rqhBDtzilgg65Jta7DygbiFZDp
-	 UqWM6UETiAM5+ESdWW2rvq6U61b+LCAqw2czKZ5wEm7tbwmS7OzdPsHViV20cMk9E/
-	 EXPIF89oy5sxppV9SHOJFOchcdaotCLeQ6o3cW/k=
+	b=2iDEfVdhVTIBecjSVGU3tjAux3px1wFauQwPGPwe4j9Q0AoBJNWIVk4QmYehdj3kY
+	 pRYRZEdRlFaRxVWCm6+yC4O8/RHC/Pbs9NH9szaLa1P294I7/G8wNnAHlP8ZwVwERk
+	 vpXTtumUZaBlW4TR62QP+RtTwZn9M296Ud7yZ4BA=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728049AbgACQfe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jan 2020 11:35:34 -0500
-Received: from mail-lj1-f177.google.com ([209.85.208.177]:41824 "EHLO
-        mail-lj1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728035AbgACQfe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jan 2020 11:35:34 -0500
-Received: by mail-lj1-f177.google.com with SMTP id h23so44436932ljc.8;
-        Fri, 03 Jan 2020 08:35:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fFX7uGIZ1X+s79thV3DjoWZzF0PRIpeDDbwCxzY7LwM=;
-        b=tB4oPF5Pt840/umBcBu0ZUXFfgP4G8j0ioHyS7wrRSnmcUiciLUY+hwLYnd3Y/AYw6
-         M93VdIaHjO2P/xu/dth1dR4zBw7iKOA+kvTyTjpQUa+JQjUxooFKl83thFOCnOZdyMAT
-         +vuotpWTyBEpkjRQcSHLisM1LgPBP4lke8u9qfmAfaE9439mpZgLLT89gWtSk/GOe+Lw
-         JDmCuREF5SthddWRGbxXuaVaLHHHyR/nyf78JN+wNrGdcyQtlJouTSttEd7IeE+HskkI
-         92JVEyzAsfwJETQio4zNn7BCpDOJIMuPNltApGvSfmAzYPz71sJuoVITmgEU3bHOSNTv
-         l0gw==
-X-Gm-Message-State: APjAAAW4D0j7fKNTEM9M6gOKc0reZTOsdcj6AJ5AY8+ylzAoziPiDGSO
-        S9JY5iFPjFSrRtYa53FSYTQ=
-X-Google-Smtp-Source: APXvYqwdsfT9Ue4rfa7wkDSMJ6nFrh+aKIp0gZyMBI5hCHZMJfPLm13CY0cMs1nbZoC3osiPdRFX/Q==
-X-Received: by 2002:a2e:9b9a:: with SMTP id z26mr52058439lji.181.1578069331694;
-        Fri, 03 Jan 2020 08:35:31 -0800 (PST)
-Received: from xi.terra (c-14b8e655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.184.20])
-        by smtp.gmail.com with ESMTPSA id w6sm24854434lfq.95.2020.01.03.08.35.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jan 2020 08:35:30 -0800 (PST)
-Received: from johan by xi.terra with local (Exim 4.92.3)
-        (envelope-from <johan@xi.terra>)
-        id 1inPvA-0000Kg-Vr; Fri, 03 Jan 2020 17:35:33 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Sean Young <sean@mess.org>, Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
-Subject: [PATCH 0/6] media: fix USB descriptor issues
-Date:   Fri,  3 Jan 2020 17:35:07 +0100
-Message-Id: <20200103163513.1229-1-johan@kernel.org>
-X-Mailer: git-send-email 2.24.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1727988AbgACQkj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jan 2020 11:40:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47792 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727817AbgACQkj (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 3 Jan 2020 11:40:39 -0500
+Received: from localhost.localdomain (unknown [194.230.155.149])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 899F7206E6;
+        Fri,  3 Jan 2020 16:40:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1578069638;
+        bh=TKY5B9he46GmvnJkwdmWtHvRFw0gy4YRKbRubwq1RA8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Em97YJUgy6L/J6qOkZ0wcXXcvgQ/C7FOEeXnwiJpPmr965ilT7u13CyoUSNfUVCyu
+         UqhslCV7HveGSB/AK7Lo9297ReXVPlt854Q5lFNM9zw3U8EyAQEzd62x90baVVyOpg
+         kivksL5aalawykbk6/M0NTpvcvRPBi5d1kuivKP8=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Alan Stern <stern@rowland.harvard.edu>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [PATCH] usb: ehci-mv: Fix missing iomem in cast
+Date:   Fri,  3 Jan 2020 17:40:31 +0100
+Message-Id: <20200103164031.4089-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series fixes a number of issues due to missing or incomplete sanity
-checks that could lead to NULL-pointer dereferences, memory corruption
-or driver misbehaviour when a device has unexpected descriptors.
+Fix missing __iomem in cast to struct ehci_caps.  This fixes the Sparse
+warning visible on x86_64 compile test:
 
-Johan
+   drivers/usb/host/ehci-mv.c:167:23: warning: cast removes address space '<asn:2>' of expression
+   drivers/usb/host/ehci-mv.c:167:20: warning: incorrect type in assignment (different address spaces)
+   drivers/usb/host/ehci-mv.c:167:20:    expected struct ehci_caps [noderef] <asn:2> *caps
+   drivers/usb/host/ehci-mv.c:167:20:    got struct ehci_caps *
 
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+---
+ drivers/usb/host/ehci-mv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Johan Hovold (6):
-  media: flexcop-usb: fix endpoint sanity check
-  media: ov519: add missing endpoint sanity checks
-  media: stv06xx: add missing descriptor sanity checks
-  media: xirlink_cit: add missing descriptor sanity checks
-  media: dib0700: fix rc endpoint lookup
-  media: iguanair: fix endpoint sanity check
-
- drivers/media/rc/iguanair.c                   |  2 +-
- drivers/media/usb/b2c2/flexcop-usb.c          |  6 +++---
- drivers/media/usb/dvb-usb/dib0700_core.c      |  4 ++--
- drivers/media/usb/gspca/ov519.c               | 10 ++++++++++
- drivers/media/usb/gspca/stv06xx/stv06xx.c     | 19 ++++++++++++++++++-
- .../media/usb/gspca/stv06xx/stv06xx_pb0100.c  |  4 ++++
- drivers/media/usb/gspca/xirlink_cit.c         | 18 +++++++++++++++++-
- 7 files changed, 55 insertions(+), 8 deletions(-)
-
+diff --git a/drivers/usb/host/ehci-mv.c b/drivers/usb/host/ehci-mv.c
+index 66ec1fdf9fe7..16df3cfbed26 100644
+--- a/drivers/usb/host/ehci-mv.c
++++ b/drivers/usb/host/ehci-mv.c
+@@ -164,7 +164,7 @@ static int mv_ehci_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	ehci = hcd_to_ehci(hcd);
+-	ehci->caps = (struct ehci_caps *) ehci_mv->cap_regs;
++	ehci->caps = (struct ehci_caps __iomem *) ehci_mv->cap_regs;
+ 
+ 	if (ehci_mv->mode == MV_USB_MODE_OTG) {
+ 		ehci_mv->otg = devm_usb_get_phy(&pdev->dev, USB_PHY_TYPE_USB2);
 -- 
-2.24.1
+2.17.1
 
