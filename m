@@ -2,162 +2,169 @@ Return-Path: <SRS0=/oMr=2Y=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C43C3C32767
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 17:12:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36345C32767
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 22:39:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 9D4892464B
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 17:12:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0C85F206F0
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 22:39:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1578071557;
-	bh=tikjmOkXzl67kgxwPdvLRaRJqpldgktGgrS2H4m1wPk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=Z/KkH6A6p7VBGrQM0thyVkJnlakP6l1e5P7Sqn7XlneoUOjGREPB9xhW9XL35Zipq
-	 51QUA9grqpIcvN4H4gm62ujapGe7dntPee+Y19oU79NzacChe1xgltxEdpPmFNO8P6
-	 Kd8n3tyHG3UnFHr7HF2vk+5ZaqCiBbtbk4dymdc0=
+	s=default; t=1578091190;
+	bh=eZIP4KIWxeGwOG4p0RiBeNAYcb6lwKBGuBGGniccGAc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=cU05zDKPj2Wg9Kh22k6OoHRR+E1lIz725vAJe830NXV07V6yUgqeJ1iahixaKb0sc
+	 /e3L5HROZHHa6VCwQa3iClbuo4AVgsVEdeLtaXC4zJ6+s89Sm1Awx/7Qvf991K2/Rq
+	 A5irVbY+uORUu0Wc0xIywbMU8l5LdIdPgG3y9PHw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728247AbgACRMZ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jan 2020 12:12:25 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46898 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728216AbgACRMX (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 3 Jan 2020 12:12:23 -0500
-Received: from localhost.localdomain (unknown [194.230.155.149])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C02A4222C3;
-        Fri,  3 Jan 2020 17:12:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578071542;
-        bh=tikjmOkXzl67kgxwPdvLRaRJqpldgktGgrS2H4m1wPk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=v8E9zX4UIDLzAd5zOxAsedGIcpvNFV5QzvrJO9liwyDUdG5pRAfWIR/WCSA7Dazjh
-         YqU2FZ0UlUVfA9KpckU7TXkL0418Ra24J7/qwELuAIJG5kF7NmcO4E6zBi+TC9BXUR
-         q/jTgkFKzInc7v4lKvkcNEXn4bJMnx+aH14vSPgY=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Arnd Bergmann <arnd@arndb.de>, Johan Hovold <johan@kernel.org>,
-        Ran Wang <ran.wang_1@nxp.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org
-Subject: [PATCH 07/19] usb: exynos: Rename Samsung and Exynos to lowercase
-Date:   Fri,  3 Jan 2020 18:11:19 +0100
-Message-Id: <20200103171131.9900-8-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200103171131.9900-1-krzk@kernel.org>
-References: <20200103171131.9900-1-krzk@kernel.org>
+        id S1728861AbgACWjs (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jan 2020 17:39:48 -0500
+Received: from mail-il1-f194.google.com ([209.85.166.194]:34135 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728820AbgACWjp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jan 2020 17:39:45 -0500
+Received: by mail-il1-f194.google.com with SMTP id s15so37919384iln.1
+        for <linux-usb@vger.kernel.org>; Fri, 03 Jan 2020 14:39:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=zkpAQHH/RoZyf/tc8qpSyGyxg+iM3EC4X8NtpzdVpM0=;
+        b=WJSdmGXf9ZoIlrana7qRsn1niyOU3U6o+8TgJLrdn8cjlazWKzXljjak0SHDFtaxDl
+         FmFQQgUm3eSek5xKY6cLH4Iye57Pxm8pUEzXDvEvHXWQMDHaBkMD5+hAhdghycsMfj7v
+         OmRvwh+LixncQqSnzdgS8fVq7e5LyJvMMIF3B2mklit5k163Jb832v+4H36jBc8WiKgY
+         Xeoc8cs64NLhN8qrcayiyNsqi3xiP0Bb1f3Thy+Oe7IQ0srq6qg8m+2lZMb+tCA9lkBU
+         N4p1FQ+6Oa19VrRz+G8eqrQvRdvPifmJJfjezM4fy0fR6qKIa0kniURqmxDpuNLAT085
+         oujw==
+X-Gm-Message-State: APjAAAUSueoh8GFlj989qsHMBUs8YrsjPiZOBsm7Osm/krcHrZTDB8Ar
+        jVmXXfdEsgQzHuFlDm//85tPADo=
+X-Google-Smtp-Source: APXvYqzrCw/rzqp8geonZl/+1vAPs7XpG0D7wJ7N5/JebxApZPph5gpN6B1OdteUZy0NkoNNK6ctmQ==
+X-Received: by 2002:a92:3646:: with SMTP id d6mr71196966ilf.148.1578091184048;
+        Fri, 03 Jan 2020 14:39:44 -0800 (PST)
+Received: from rob-hp-laptop ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id n5sm21219169ila.7.2020.01.03.14.39.42
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Jan 2020 14:39:42 -0800 (PST)
+Received: from rob (uid 1000)
+        (envelope-from rob@rob-hp-laptop)
+        id 2219b7
+        by rob-hp-laptop (DragonFly Mail Agent v0.11);
+        Fri, 03 Jan 2020 15:39:40 -0700
+Date:   Fri, 3 Jan 2020 15:39:40 -0700
+From:   Rob Herring <robh@kernel.org>
+To:     JC Kuo <jckuo@nvidia.com>
+Cc:     gregkh@linuxfoundation.org, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, kishon@ti.com, linux-tegra@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, nkristam@nvidia.com
+Subject: Re: [PATCH v5 3/5] dt-bindings: phy: tegra: Add Tegra194 support
+Message-ID: <20200103223940.GA9205@bogus>
+References: <20200103081814.9848-1-jckuo@nvidia.com>
+ <20200103081814.9848-4-jckuo@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200103081814.9848-4-jckuo@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Fix up inconsistent usage of upper and lowercase letters in "Samsung"
-and "Exynos" names.
+On Fri, Jan 03, 2020 at 04:18:12PM +0800, JC Kuo wrote:
+> Extend the bindings to cover the set of features found in Tegra194.
+> Note that, technically, there are four more supplies connected to the
+> XUSB pad controller (DVDD_PEX, DVDD_PEX_PLL, HVDD_PEX and HVDD_PEX_PLL)
+> , but the power sequencing requirements of Tegra194 require these to be
+> under the control of the PMIC.
+> 
+> Tegra194 XUSB PADCTL supports up to USB 3.1 Gen 2 speed, however, it
+> is possible for some platforms have long signal trace that could not
+> provide sufficient electrical environment for Gen 2 speed. This patch
+> adds a "maximum-speed" property to usb3 ports which can be used to
+> specify the maximum supported speed for any particular USB 3.1 port.
+> For a port that is not capable of SuperSpeedPlus, "maximum-speed"
+> property should carry "super-speed".
+> 
+> Signed-off-by: JC Kuo <jckuo@nvidia.com>
+> ---
+> Changes in v5:
+> - re-use "maximum-speed" instead of adding "nvidia,disable-gen2"
+> Changes in v4: none
+> Changes in v3: none
+> Changes in v2:
+> - fix a typo
+> 
+>  .../phy/nvidia,tegra124-xusb-padctl.txt        | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt b/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt
+> index 9fb682e47c29..7d0089006e67 100644
+> --- a/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt
+> +++ b/Documentation/devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt
+> @@ -37,6 +37,7 @@ Required properties:
+>    - Tegra132: "nvidia,tegra132-xusb-padctl", "nvidia,tegra124-xusb-padctl"
+>    - Tegra210: "nvidia,tegra210-xusb-padctl"
+>    - Tegra186: "nvidia,tegra186-xusb-padctl"
+> +  - Tegra194: "nvidia,tegra194-xusb-padctl"
+>  - reg: Physical base address and length of the controller's registers.
+>  - resets: Must contain an entry for each entry in reset-names.
+>  - reset-names: Must include the following entries:
+> @@ -62,6 +63,10 @@ For Tegra186:
+>  - vclamp-usb-supply: Bias rail for USB pad. Must supply 1.8 V.
+>  - vddio-hsic-supply: HSIC PHY power supply. Must supply 1.2 V.
+>  
+> +For Tegra194:
+> +- avdd-usb-supply: USB I/Os, VBUS, ID, REXT, D+/D- power supply. Must supply
+> +  3.3 V.
+> +- vclamp-usb-supply: Bias rail for USB pad. Must supply 1.8 V.
+>  
+>  Pad nodes:
+>  ==========
+> @@ -154,6 +159,11 @@ For Tegra210, the list of valid PHY nodes is given below:
+>  - sata: sata-0
+>    - functions: "usb3-ss", "sata"
+>  
+> +For Tegra194, the list of valid PHY nodes is given below:
+> +- usb2: usb2-0, usb2-1, usb2-2, usb2-3
+> +  - functions: "xusb"
+> +- usb3: usb3-0, usb3-1, usb3-2, usb3-3
+> +  - functions: "xusb"
+>  
+>  Port nodes:
+>  ===========
+> @@ -221,6 +231,11 @@ Optional properties:
+>    is internal. In the absence of this property the port is considered to be
+>    external.
+>  
+> +- maximum-speed: Only for Tegra194. A string property that specifies maximum
+> +  supported speed of a usb3 port. Valid values are:
+> +  - "super-speed-plus": default, the usb3 port supports USB 3.1 Gen 2 speed.
 
-"SAMSUNG" and "EXYNOS" are not abbreviations but regular trademarked
-names.  Therefore they should be written with lowercase letters starting
-with capital letter.
+Not defined as a valid value in usb/generic.txt. '-gen2' instead of 
+'-plus' would be clearer IMO. However, is there any need to define the 
+maximum speed possible? The purpose of this property is to limit the 
+speed below the max.
 
-The lowercase "Exynos" name is promoted by its manufacturer Samsung
-Electronics Co., Ltd., in advertisement materials and on website.
-
-Although advertisement materials usually use uppercase "SAMSUNG", the
-lowercase version is used in all legal aspects (e.g. on Wikipedia and in
-privacy/legal statements on
-https://www.samsung.com/semiconductor/privacy-global/).
-
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- drivers/usb/dwc3/dwc3-exynos.c | 4 ++--
- drivers/usb/host/Kconfig       | 4 ++--
- drivers/usb/host/ehci-exynos.c | 4 ++--
- drivers/usb/host/ohci-exynos.c | 2 +-
- 4 files changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/usb/dwc3/dwc3-exynos.c b/drivers/usb/dwc3/dwc3-exynos.c
-index c1e9ea621f41..90bb022737da 100644
---- a/drivers/usb/dwc3/dwc3-exynos.c
-+++ b/drivers/usb/dwc3/dwc3-exynos.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /**
-- * dwc3-exynos.c - Samsung EXYNOS DWC3 Specific Glue layer
-+ * dwc3-exynos.c - Samsung Exynos DWC3 Specific Glue layer
-  *
-  * Copyright (c) 2012 Samsung Electronics Co., Ltd.
-  *		http://www.samsung.com
-@@ -255,4 +255,4 @@ module_platform_driver(dwc3_exynos_driver);
- 
- MODULE_AUTHOR("Anton Tikhomirov <av.tikhomirov@samsung.com>");
- MODULE_LICENSE("GPL v2");
--MODULE_DESCRIPTION("DesignWare USB3 EXYNOS Glue Layer");
-+MODULE_DESCRIPTION("DesignWare USB3 Exynos Glue Layer");
-diff --git a/drivers/usb/host/Kconfig b/drivers/usb/host/Kconfig
-index 8d730180db06..ed49d08f2f9e 100644
---- a/drivers/usb/host/Kconfig
-+++ b/drivers/usb/host/Kconfig
-@@ -269,7 +269,7 @@ config USB_EHCI_SH
- 	  If you use the PCI EHCI controller, this option is not necessary.
- 
- config USB_EHCI_EXYNOS
--	tristate "EHCI support for Samsung S5P/EXYNOS SoC Series"
-+	tristate "EHCI support for Samsung S5P/Exynos SoC Series"
- 	depends on ARCH_S5PV210 || ARCH_EXYNOS
- 	help
- 	  Enable support for the Samsung Exynos SOC's on-chip EHCI controller.
-@@ -542,7 +542,7 @@ config USB_OHCI_SH
- 	  If you use the PCI OHCI controller, this option is not necessary.
- 
- config USB_OHCI_EXYNOS
--	tristate "OHCI support for Samsung S5P/EXYNOS SoC Series"
-+	tristate "OHCI support for Samsung S5P/Exynos SoC Series"
- 	depends on ARCH_S5PV210 || ARCH_EXYNOS
- 	help
- 	  Enable support for the Samsung Exynos SOC's on-chip OHCI controller.
-diff --git a/drivers/usb/host/ehci-exynos.c b/drivers/usb/host/ehci-exynos.c
-index 01debfd03d4a..a4e9abcbdc4f 100644
---- a/drivers/usb/host/ehci-exynos.c
-+++ b/drivers/usb/host/ehci-exynos.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * SAMSUNG EXYNOS USB HOST EHCI Controller
-+ * Samsung Exynos USB HOST EHCI Controller
-  *
-  * Copyright (C) 2011 Samsung Electronics Co.Ltd
-  * Author: Jingoo Han <jg1.han@samsung.com>
-@@ -21,7 +21,7 @@
- 
- #include "ehci.h"
- 
--#define DRIVER_DESC "EHCI EXYNOS driver"
-+#define DRIVER_DESC "EHCI Exynos driver"
- 
- #define EHCI_INSNREG00(base)			(base + 0x90)
- #define EHCI_INSNREG00_ENA_INCR16		(0x1 << 25)
-diff --git a/drivers/usb/host/ohci-exynos.c b/drivers/usb/host/ohci-exynos.c
-index d5ce98e205c7..bd40e597f256 100644
---- a/drivers/usb/host/ohci-exynos.c
-+++ b/drivers/usb/host/ohci-exynos.c
-@@ -19,7 +19,7 @@
- 
- #include "ohci.h"
- 
--#define DRIVER_DESC "OHCI EXYNOS driver"
-+#define DRIVER_DESC "OHCI Exynos driver"
- 
- static const char hcd_name[] = "ohci-exynos";
- static struct hc_driver __read_mostly exynos_ohci_hc_driver;
--- 
-2.17.1
-
+> +  - "super-speed": the usb3 port supports USB 3.1 Gen 1 speed only.
+> +
+>  For Tegra124 and Tegra132, the XUSB pad controller exposes the following
+>  ports:
+>  - 3x USB2: usb2-0, usb2-1, usb2-2
+> @@ -233,6 +248,9 @@ For Tegra210, the XUSB pad controller exposes the following ports:
+>  - 2x HSIC: hsic-0, hsic-1
+>  - 4x super-speed USB: usb3-0, usb3-1, usb3-2, usb3-3
+>  
+> +For Tegra194, the XUSB pad controller exposes the following ports:
+> +- 4x USB2: usb2-0, usb2-1, usb2-2, usb2-3
+> +- 4x super-speed USB: usb3-0, usb3-1, usb3-2, usb3-3
+>  
+>  Examples:
+>  =========
+> -- 
+> 2.17.1
+> 
