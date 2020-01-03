@@ -2,157 +2,117 @@ Return-Path: <SRS0=/oMr=2Y=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3116C2D0CE
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 08:18:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C61F2C2D0CE
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 08:40:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 79C9C22314
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 08:18:48 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="He0cTCOw"
+	by mail.kernel.org (Postfix) with ESMTP id A44D622314
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 08:40:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727429AbgACISV (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jan 2020 03:18:21 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:17270 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726054AbgACISU (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jan 2020 03:18:20 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e0ef8a00000>; Fri, 03 Jan 2020 00:17:36 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 03 Jan 2020 00:18:19 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 03 Jan 2020 00:18:19 -0800
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 3 Jan
- 2020 08:18:19 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 3 Jan 2020 08:18:19 +0000
-Received: from jckuo-lt.nvidia.com (Not Verified[10.19.108.118]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e0ef8c90000>; Fri, 03 Jan 2020 00:18:18 -0800
-From:   JC Kuo <jckuo@nvidia.com>
-To:     <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
-        <robh@kernel.org>, <jonathanh@nvidia.com>, <kishon@ti.com>
-CC:     <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <nkristam@nvidia.com>, JC Kuo <jckuo@nvidia.com>
-Subject: [PATCH v5 0/5] add Tegra194 XUSB host and pad controller support
-Date:   Fri, 3 Jan 2020 16:18:09 +0800
-Message-ID: <20200103081814.9848-1-jckuo@nvidia.com>
+        id S1727409AbgACIkW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jan 2020 03:40:22 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:58177 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726181AbgACIkV (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jan 2020 03:40:21 -0500
+Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <kai.heng.feng@canonical.com>)
+        id 1inIVF-0003T5-Vv; Fri, 03 Jan 2020 08:40:18 +0000
+From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
+To:     mathias.nyman@intel.com, gregkh@linuxfoundation.org,
+        stern@rowland.harvard.edu
+Cc:     acelan.kao@canonical.com, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Kai-Heng Feng <kai.heng.feng@canonical.com>
+Subject: [PATCH 2/3] xhci: Wait until link state trainsits to U0 after setting USB_SS_PORT_LS_U0
+Date:   Fri,  3 Jan 2020 16:40:07 +0800
+Message-Id: <20200103084008.3579-2-kai.heng.feng@canonical.com>
 X-Mailer: git-send-email 2.17.1
-X-NVConfidentiality: public
-MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1578039456; bh=X4mjGDVLvOOMu/CS3QJZ3IdBByzNIMa6AL45A4t9lns=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         X-NVConfidentiality:MIME-Version:Content-Type;
-        b=He0cTCOwtP8g6qSPimI+NDkH7F+JLDLil9kihoklJw0rJ3eHBXe14F9kXpF/UoBZs
-         ryKacQfOzrf2uxRHGSPjeOlRW0CKwK3beXbbBgBUwyGFttfpemaNhpMpO53fYaP/B2
-         QOA1RXpbx7uBMttqhCT3pEhb7ibaFjZ/DdAECdE7UN1ltl3GnLgxOMo0D9zKHul6Ie
-         447mKg6LkvlhYL5aWKQxsgiEF2teJyY9IJDbRg0LDgXLPGTPIhRZFwadQjFXZGJzpP
-         GDd/FjafmHzzKv3go38Ca3ybcWu8qhLxaVU3SEjVUnx0Pl/b9IWZZT4uod1WuAJmsS
-         PIfNiXBA56ueA==
+In-Reply-To: <20200103084008.3579-1-kai.heng.feng@canonical.com>
+References: <20200103084008.3579-1-kai.heng.feng@canonical.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This series introduces support for Tegra194 XUSB host and pad
-controller. Tegra194 XUSB host and pad controller are highly
-similar to the controllers found on Tegra186. Therefore, it's
-possible to resue xhci-tegra.c and xusb-tegra186.c for Tegra194.
+Like U3 case, xHCI spec doesn't specify the upper bound of U0 transition
+time. The 20ms is not enough for some devices.
 
-Changelog:
-v5:
-  phy: tegra: xusb: Protect Tegra186 soc with config
-   - no change
+Intead of polling PLS or PLC, we can facilitate the port change event to
+know that the link transits to U0 is completed.
 
-  phy: tegra: xusb: Add Tegra194 support
-   - re-use "maximum-speed" instead of adding "nvidia,disable-gen2"
+Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+---
+ drivers/usb/host/xhci-hub.c  | 8 +++++++-
+ drivers/usb/host/xhci-mem.c  | 1 +
+ drivers/usb/host/xhci-ring.c | 1 +
+ drivers/usb/host/xhci.h      | 1 +
+ 4 files changed, 10 insertions(+), 1 deletion(-)
 
-  dt-bindings: phy: tegra: Add Tegra194 support
-   - re-use "maximum-speed" instead of adding "nvidia,disable-gen2"
-
-  arm64: tegra: Add XUSB and pad controller on Tegra194
-   - no change
-
-  arm64: tegra: Enable XUSB host in P2972-0000 board
-   - no change
-
-v4:
-  xhci: tegra: Parameterize mailbox register addresses
-   - removed from v4 as it has been accepted in v3
-  
-  usb: host: xhci-tegra: Add Tegra194 XHCI support
-   - removed from v4 as it has been accepted in v3
-
-  phy: tegra: xusb: Add Tegra194 support
-   - no change
-
-  dt-bindings: phy: tegra: Add Tegra194 support
-   - no change
-
-  arm64: tegra: Add XUSB and pad controller on Tegra194
-   - no change
-
-  arm64: tegra: Enable XUSB host in P2972-0000 board
-   - no change
-
-v3:
-  add change log to cover latter
-
-v2:
-  xhci: tegra: Parameterize mailbox register addresses
-   - no change
-
-  usb: host: xhci-tegra: Add Tegra194 XHCI support
-   - no change
-
-  phy: tegra: xusb: Protect Tegra186 soc with config
-   - new patch to protect Tegra186 soc data with config
-
-  phy: tegra: xusb: Add Tegra194 support
-   - removed unnecessary #if/#endif pairs
-   - introduce new soc->supports_gen2 flag which indicate whether or not
-     a soc supports USB 3.1 Gen 2 speed
-
-  dt-bindings: phy: tegra: Add Tegra194 support
-   - fix a typo
-
-  arm64: tegra: Add XUSB and pad controller on Tegra194
-   - renamed xhci@3610000 with usb@3610000
-   - moved padctl@3520000 and usb@3610000 inside /cbb
-   - cleaned up "clocks" property of usb@3610000 node
-   - added blanks lines to visually separate blocks
-
-  arm64: tegra: Enable XUSB host in P2972-0000 board
-   - use capitalization of regulator names
-   - fix gpio property of VDD_5V_SATA regulator
-
-JC Kuo (5):
-  phy: tegra: xusb: Protect Tegra186 soc with config
-  phy: tegra: xusb: Add Tegra194 support
-  dt-bindings: phy: tegra: Add Tegra194 support
-  arm64: tegra: Add XUSB and pad controller on Tegra194
-  arm64: tegra: Enable XUSB host in P2972-0000 board
-
- .../phy/nvidia,tegra124-xusb-padctl.txt       |  18 +++
- .../arm64/boot/dts/nvidia/tegra194-p2888.dtsi |  36 ++++-
- .../boot/dts/nvidia/tegra194-p2972-0000.dts   |  63 ++++++++
- arch/arm64/boot/dts/nvidia/tegra194.dtsi      | 139 +++++++++++++++++
- drivers/phy/tegra/Makefile                    |   1 +
- drivers/phy/tegra/xusb-tegra186.c             | 143 +++++++++++++-----
- drivers/phy/tegra/xusb.c                      |  17 +++
- drivers/phy/tegra/xusb.h                      |   5 +
- 8 files changed, 387 insertions(+), 35 deletions(-)
-
+diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
+index 2b2e9d004dbf..07886a1bce62 100644
+--- a/drivers/usb/host/xhci-hub.c
++++ b/drivers/usb/host/xhci-hub.c
+@@ -1310,11 +1310,17 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
+ 					spin_lock_irqsave(&xhci->lock, flags);
+ 				}
+ 			}
++			if (link_state == USB_SS_PORT_LS_U0)
++				reinit_completion(&ports[wIndex]->link_state_changed);
+ 
+ 			xhci_set_link_state(xhci, ports[wIndex], link_state);
+ 
+ 			spin_unlock_irqrestore(&xhci->lock, flags);
+-			msleep(20); /* wait device to enter */
++			if (link_state == USB_SS_PORT_LS_U0) {
++				if (!wait_for_completion_timeout(&ports[wIndex]->link_state_changed, msecs_to_jiffies(100)))
++					xhci_dbg(xhci, "missing U0 port change event for port %d-%d\n", hcd->self.busnum, wIndex + 1);
++			} else
++				msleep(20); /* wait device to enter */
+ 			spin_lock_irqsave(&xhci->lock, flags);
+ 
+ 			if (link_state == USB_SS_PORT_LS_U3) {
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 3b1388fa2f36..c760a28e3556 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -2268,6 +2268,7 @@ static int xhci_setup_port_arrays(struct xhci_hcd *xhci, gfp_t flags)
+ 		xhci->hw_ports[i].addr = &xhci->op_regs->port_status_base +
+ 			NUM_PORT_REGS * i;
+ 		xhci->hw_ports[i].hw_portnum = i;
++		init_completion(&xhci->hw_ports[i].link_state_changed);
+ 	}
+ 
+ 	xhci->rh_bw = kcalloc_node(num_ports, sizeof(*xhci->rh_bw), flags,
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index d23f7408c81f..44d91a53bf07 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -1677,6 +1677,7 @@ static void handle_port_status(struct xhci_hcd *xhci,
+ 	     (portsc & PORT_PLS_MASK) == XDEV_U1 ||
+ 	     (portsc & PORT_PLS_MASK) == XDEV_U2)) {
+ 		xhci_dbg(xhci, "resume SS port %d finished\n", port_id);
++		complete(&port->link_state_changed);
+ 		/* We've just brought the device into U0/1/2 through either the
+ 		 * Resume state after a device remote wakeup, or through the
+ 		 * U3Exit state after a host-initiated resume.  If it's a device
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index 13d8838cd552..b86a664453dc 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1708,6 +1708,7 @@ struct xhci_port {
+ 	int			hw_portnum;
+ 	int			hcd_portnum;
+ 	struct xhci_hub		*rhub;
++	struct completion       link_state_changed;
+ };
+ 
+ struct xhci_hub {
 -- 
 2.17.1
 
