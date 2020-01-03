@@ -7,60 +7,60 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F727C2D0CE
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 16:36:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC85FC2D0CE
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 16:36:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DB36C206E6
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 16:36:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A38D5206E6
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 16:36:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1578069360;
-	bh=9IxaneBXBz//cqI9ucpOav97oG/Yx4zZ9kzLoz22MFg=;
+	s=default; t=1578069362;
+	bh=kjrgtrC2p5Ze8muSZDjMpTFZ6AR3yll5W1vZFaxFI9E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=N3Gf7I1jF8jyKc9VD+8Ydiurl1v/+ogdGV0+MM8qdTeuXxqAAV3KF3h6+J72rtUyq
-	 FGZX/nwsCOxXhC7N8WPEg9r8O0Wiv0qTCQJCYg1Bti+z2rEP2mEX1yKL7kx8dMiOKT
-	 7rFL/BrK2KwEJvZD4uUQHnGY6JYKQEad96xClctE=
+	b=1o2x/Nt/w2FQw6aYv5O1UonQGgfFZM0JK+XIP7NhjCo9Wc96nb1Cq7y3WJ7rG5lRI
+	 SbPmjFWm6+/LPduqw6ZoMUNahGvQ9GQHjHzvGVGlggKzPh4s6YQdKqmwRsKP0IxSdn
+	 MU+ksIk+ZLcwtDif6MsJFHXAlphEFGadMs3z0I8A=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728079AbgACQfg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jan 2020 11:35:36 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:45707 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728036AbgACQfe (ORCPT
+        id S1728066AbgACQff (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jan 2020 11:35:35 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:36873 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727980AbgACQfe (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jan 2020 11:35:34 -0500
-Received: by mail-lf1-f66.google.com with SMTP id 203so32158587lfa.12;
-        Fri, 03 Jan 2020 08:35:33 -0800 (PST)
+Received: by mail-lf1-f65.google.com with SMTP id b15so32230161lfc.4;
+        Fri, 03 Jan 2020 08:35:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XMpeSMQqCmVMBjs6tekc+S1FNP6LOEYLPDRMzZL0Udw=;
-        b=YI+M4AVbCcye0GMaWkhFa0GymmOkGJVJ5lquQDxd9uHVbIzEBTH5kvzfWTEKcN3hFc
-         dMxCcMts/qc1JlMfPn0+cWnxbYUDop9sfNvSYLoI/MpgIbcDRP8cwZOe5uQEbyJTjJ5b
-         tb+Cf3AR+2dZmLjU5gzELHLmvV7jsV9tBL2VA3ShVwD9IsL4MRiI62X0LZkNNY0oxUgt
-         rfgcLYkfYcEUEFQgAdkIplB/apq4GAHskZLMeH1otSE1P3Is4cUJYvE443zrxYG9CNYs
-         QSg83Lau34D58lDNZOTYsTkFJAS6s510nwpz/9MIk1A9Rmx0ZFkg/1OOWUGwVqbn0GhK
-         Th6Q==
-X-Gm-Message-State: APjAAAUT5XjyBQHyw+W1/zdRvKd3gxb8H3rFSvfAUA/uQLBzoyUB/gLC
-        8jdu7HDDRI3Zblef0sSB+ukluify
-X-Google-Smtp-Source: APXvYqxpfJSvhuzuLgdXVlOKI4W1C/fxw3JnLN40r/V/o5hgJeYKUVXNqXgr/k46Kj/hvbpO/OwA/w==
-X-Received: by 2002:ac2:508e:: with SMTP id f14mr46728621lfm.72.1578069332612;
+        bh=t2rl7ZcqsXYCGxJFsJJzURnWZhFxN2ZAlltA2Ev3mU0=;
+        b=AmWBVvo5Xq/2tBHD+L2G9q7NB990zlGpdF0heX3OEKuI6aiLDMh2z2JVI/L0nEMVK3
+         KkrK/6ySm9rfgvHtkwERWvbJ7bztIXXVYG7mkv6mTiS7Up4BYptrAzAdkCefsF9I3q8Y
+         to+5oQDwJKSYBimKztPlEFR7pKz6qcas6gpqtnw013FHeTptkMOvCQNjUhQ5v3T2YM69
+         85i0pPBoVoOK7Bt8BXCty33Ue9Rp1GihxumDiGaAsdpGkN3sAZQnDjaLIJGPcp8gA61q
+         VIWw8bdaqs5w4L9szqA+lzq4k6dMhjLtbK/yA1TCYflM0BOFvC/nYjF9GXjNpSbkpqL6
+         p0ZA==
+X-Gm-Message-State: APjAAAUZ5uCbLx/Uu2lNKU8jLWQli+AFzCHEtn28xTZkvc0enyV2Zuoo
+        zwwo2NVH0sgOv1qSkuqC4CXCxYPA
+X-Google-Smtp-Source: APXvYqwfQMiwtQBYqyr/l2m2RgF1Ki6vgIfhw+bV7PYO3ca3nP4scEMNOH8ETfGDb0vV1FuNaILXpw==
+X-Received: by 2002:ac2:5147:: with SMTP id q7mr50425117lfd.87.1578069332135;
         Fri, 03 Jan 2020 08:35:32 -0800 (PST)
 Received: from xi.terra (c-14b8e655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.184.20])
-        by smtp.gmail.com with ESMTPSA id w19sm24845957lfl.55.2020.01.03.08.35.30
+        by smtp.gmail.com with ESMTPSA id d20sm24857445lfm.32.2020.01.03.08.35.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jan 2020 08:35:31 -0800 (PST)
+        Fri, 03 Jan 2020 08:35:30 -0800 (PST)
 Received: from johan by xi.terra with local (Exim 4.92.3)
         (envelope-from <johan@xi.terra>)
-        id 1inPvB-0000Ku-9l; Fri, 03 Jan 2020 17:35:33 +0100
+        id 1inPvB-0000Kj-3W; Fri, 03 Jan 2020 17:35:33 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Sean Young <sean@mess.org>, Hans Verkuil <hverkuil@xs4all.nl>,
         linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-        stable <stable@vger.kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH 3/6] media: stv06xx: add missing descriptor sanity checks
-Date:   Fri,  3 Jan 2020 17:35:10 +0100
-Message-Id: <20200103163513.1229-4-johan@kernel.org>
+        Oliver Neukum <oneukum@suse.com>,
+        stable <stable@vger.kernel.org>
+Subject: [PATCH 1/6] media: flexcop-usb: fix endpoint sanity check
+Date:   Fri,  3 Jan 2020 17:35:08 +0100
+Message-Id: <20200103163513.1229-2-johan@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200103163513.1229-1-johan@kernel.org>
 References: <20200103163513.1229-1-johan@kernel.org>
@@ -71,90 +71,44 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Make sure to check that we have two alternate settings and at least one
-endpoint before accessing the second altsetting structure and
-dereferencing the endpoint arrays.
+A recent commit added an endpoint sanity check to address a NULL-pointer
+dereference on probe. Unfortunately the check was done on the current
+altsetting which was later changed.
 
-This specifically avoids dereferencing NULL-pointers or corrupting
-memory when a device does not have the expected descriptors.
+Fix this by moving the sanity check to after the altsetting is changed.
 
-Note that the sanity checks in stv06xx_start() and pb0100_start() are
-not redundant as the driver is mixing looking up altsettings by index
-and by number, which may not coincide.
-
-Fixes: 8668d504d72c ("V4L/DVB (12082): gspca_stv06xx: Add support for st6422 bridge and sensor")
-Fixes: c0b33bdc5b8d ("[media] gspca-stv06xx: support bandwidth changing")
-Cc: stable <stable@vger.kernel.org>     # 2.6.31
-Cc: Hans de Goede <hdegoede@redhat.com>
+Fixes: 1b976fc6d684 ("media: b2c2-flexcop-usb: add sanity checking")
+Cc: Oliver Neukum <oneukum@suse.com>
+Cc: stable <stable@vger.kernel.org>
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/media/usb/gspca/stv06xx/stv06xx.c     | 19 ++++++++++++++++++-
- .../media/usb/gspca/stv06xx/stv06xx_pb0100.c  |  4 ++++
- 2 files changed, 22 insertions(+), 1 deletion(-)
+ drivers/media/usb/b2c2/flexcop-usb.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/usb/gspca/stv06xx/stv06xx.c b/drivers/media/usb/gspca/stv06xx/stv06xx.c
-index 79653d409951..95673fc0a99c 100644
---- a/drivers/media/usb/gspca/stv06xx/stv06xx.c
-+++ b/drivers/media/usb/gspca/stv06xx/stv06xx.c
-@@ -282,6 +282,9 @@ static int stv06xx_start(struct gspca_dev *gspca_dev)
- 		return -EIO;
+diff --git a/drivers/media/usb/b2c2/flexcop-usb.c b/drivers/media/usb/b2c2/flexcop-usb.c
+index 039963a7765b..198ddfb8d2b1 100644
+--- a/drivers/media/usb/b2c2/flexcop-usb.c
++++ b/drivers/media/usb/b2c2/flexcop-usb.c
+@@ -511,6 +511,9 @@ static int flexcop_usb_init(struct flexcop_usb *fc_usb)
+ 		return ret;
  	}
  
-+	if (alt->desc.bNumEndpoints < 1)
++	if (fc_usb->uintf->cur_altsetting->desc.bNumEndpoints < 1)
 +		return -ENODEV;
 +
- 	packet_size = le16_to_cpu(alt->endpoint[0].desc.wMaxPacketSize);
- 	err = stv06xx_write_bridge(sd, STV_ISO_SIZE_L, packet_size);
- 	if (err < 0)
-@@ -306,11 +309,21 @@ static int stv06xx_start(struct gspca_dev *gspca_dev)
+ 	switch (fc_usb->udev->speed) {
+ 	case USB_SPEED_LOW:
+ 		err("cannot handle USB speed because it is too slow.");
+@@ -544,9 +547,6 @@ static int flexcop_usb_probe(struct usb_interface *intf,
+ 	struct flexcop_device *fc = NULL;
+ 	int ret;
  
- static int stv06xx_isoc_init(struct gspca_dev *gspca_dev)
- {
-+	struct usb_interface_cache *intfc;
- 	struct usb_host_interface *alt;
- 	struct sd *sd = (struct sd *) gspca_dev;
- 
-+	intfc = gspca_dev->dev->actconfig->intf_cache[0];
-+
-+	if (intfc->num_altsetting < 2)
-+		return -ENODEV;
-+
-+	alt = &intfc->altsetting[1];
-+
-+	if (alt->desc.bNumEndpoints < 1)
-+		return -ENODEV;
-+
- 	/* Start isoc bandwidth "negotiation" at max isoc bandwidth */
--	alt = &gspca_dev->dev->actconfig->intf_cache[0]->altsetting[1];
- 	alt->endpoint[0].desc.wMaxPacketSize =
- 		cpu_to_le16(sd->sensor->max_packet_size[gspca_dev->curr_mode]);
- 
-@@ -323,6 +336,10 @@ static int stv06xx_isoc_nego(struct gspca_dev *gspca_dev)
- 	struct usb_host_interface *alt;
- 	struct sd *sd = (struct sd *) gspca_dev;
- 
-+	/*
-+	 * Existence of altsetting and endpoint was verified in
-+	 * stv06xx_isoc_init()
-+	 */
- 	alt = &gspca_dev->dev->actconfig->intf_cache[0]->altsetting[1];
- 	packet_size = le16_to_cpu(alt->endpoint[0].desc.wMaxPacketSize);
- 	min_packet_size = sd->sensor->min_packet_size[gspca_dev->curr_mode];
-diff --git a/drivers/media/usb/gspca/stv06xx/stv06xx_pb0100.c b/drivers/media/usb/gspca/stv06xx/stv06xx_pb0100.c
-index 6d1007715ff7..ae382b3b5f7f 100644
---- a/drivers/media/usb/gspca/stv06xx/stv06xx_pb0100.c
-+++ b/drivers/media/usb/gspca/stv06xx/stv06xx_pb0100.c
-@@ -185,6 +185,10 @@ static int pb0100_start(struct sd *sd)
- 	alt = usb_altnum_to_altsetting(intf, sd->gspca_dev.alt);
- 	if (!alt)
- 		return -ENODEV;
-+
-+	if (alt->desc.bNumEndpoints < 1)
-+		return -ENODEV;
-+
- 	packet_size = le16_to_cpu(alt->endpoint[0].desc.wMaxPacketSize);
- 
- 	/* If we don't have enough bandwidth use a lower framerate */
+-	if (intf->cur_altsetting->desc.bNumEndpoints < 1)
+-		return -ENODEV;
+-
+ 	if ((fc = flexcop_device_kmalloc(sizeof(struct flexcop_usb))) == NULL) {
+ 		err("out of memory\n");
+ 		return -ENOMEM;
 -- 
 2.24.1
 
