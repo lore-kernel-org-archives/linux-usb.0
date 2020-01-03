@@ -2,107 +2,197 @@ Return-Path: <SRS0=/oMr=2Y=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=3.0 tests=DKIM_ADSP_ALL,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 219D9C32767
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 07:58:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0251C00523
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 08:18:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id ECCED222C3
-	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 07:58:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 72618222C4
+	for <linux-usb@archiver.kernel.org>; Fri,  3 Jan 2020 08:18:27 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=rere.qmqm.pl header.i=@rere.qmqm.pl header.b="XQtTcmZe"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="TMVO19DT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727059AbgACH6I (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jan 2020 02:58:08 -0500
-Received: from rere.qmqm.pl ([91.227.64.183]:2573 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725890AbgACH6I (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 3 Jan 2020 02:58:08 -0500
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 47py251QD8z7s;
-        Fri,  3 Jan 2020 08:58:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1578038285; bh=zkjL1hrrT7myfigooh6KuldpzOYUcI60uVQjI24wYgU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XQtTcmZehlZS0vz8AgGQh39LrS0ZLMZt+Cu2ZBfahf4+0srsdcEM/v4U8O0M9+z0R
-         2TyHJE4T9+Iri+aNHvZwbg5ZK5iD19iDcrrih4GqSgMf7iYahVDOLLGll5UlwMNjZ6
-         Cpze4GbbHQvWUHh6wJYaRZ1JnlmcMfbxQsEF2S0HmQRXDptkx8X/H61byUAx5rFzSg
-         6wg9jXnR6E4UiZw6gT3W+FTeNgXSw4Hlo+XGpBDZwyuW52fQDClh82sswT5NRMZTQ8
-         pt3udMMRzshnrNsy1v28z2GL3WCU1G0HPIKWO8cz1ZSbWU6JPzzlFsVc3MpqThhwVg
-         KVWqhQ0aByorQ==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.101.4 at mail
-Date:   Fri, 3 Jan 2020 08:58:04 +0100
-From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Felipe Balbi <balbi@kernel.org>, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 10/16] usb: phy: tegra: Use device-tree notion of
- reset-GPIO's active-state
-Message-ID: <20200103075803.GC14228@qmqm.qmqm.pl>
-References: <20191228203358.23490-1-digetx@gmail.com>
- <20191228203358.23490-11-digetx@gmail.com>
+        id S1727452AbgACISX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jan 2020 03:18:23 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:17279 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726054AbgACISW (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jan 2020 03:18:22 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e0ef8a20000>; Fri, 03 Jan 2020 00:17:38 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 03 Jan 2020 00:18:22 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 03 Jan 2020 00:18:22 -0800
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 3 Jan
+ 2020 08:18:21 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 3 Jan 2020 08:18:21 +0000
+Received: from jckuo-lt.nvidia.com (Not Verified[10.19.108.118]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e0ef8cb0000>; Fri, 03 Jan 2020 00:18:20 -0800
+From:   JC Kuo <jckuo@nvidia.com>
+To:     <gregkh@linuxfoundation.org>, <thierry.reding@gmail.com>,
+        <robh@kernel.org>, <jonathanh@nvidia.com>, <kishon@ti.com>
+CC:     <linux-tegra@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <nkristam@nvidia.com>, JC Kuo <jckuo@nvidia.com>
+Subject: [PATCH v5 1/5] phy: tegra: xusb: Protect Tegra186 soc with config
+Date:   Fri, 3 Jan 2020 16:18:10 +0800
+Message-ID: <20200103081814.9848-2-jckuo@nvidia.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200103081814.9848-1-jckuo@nvidia.com>
+References: <20200103081814.9848-1-jckuo@nvidia.com>
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191228203358.23490-11-digetx@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1578039458; bh=jtzhgmOSyLlj7voWgVZkhzmevHlkmril+TYqeYqIUAw=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
+         Content-Type;
+        b=TMVO19DT564EdqdoqBGJfRsE12O2RpJgoAXKOYjwWpjLSM56xjVFXPo6mzcowRGif
+         UoHGSvWygjFgGmKugqYSzPlEUOXwNlrgkKOFehk1GCzquqVXbQnC/+AUCNBaInqDid
+         ukwONRHGhD+Y49e/WYD9oV0f1YnEz5/ftBHnVoNgnfc2GeHapohr54nLZ/yvDW/z71
+         Vvw4gjXAysMUuUNn807fnDEnsfo/fdS3rZH+wNb+A1gr3PJZWHKpSzpSS0PP4eYXOW
+         wTP6vCplSLSe2sgLfwEPEUpa/ORstOJ6hO72Pj2g7DGAXGYRmX/ia8dVJcv/qTPv9G
+         xH9xwe9vnaqKw==
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Dec 28, 2019 at 11:33:52PM +0300, Dmitry Osipenko wrote:
-[...]
->  static int ulpi_open(struct tegra_usb_phy *phy)
->  {
-> -	int err;
-> -
-> -	err = gpio_direction_output(phy->reset_gpio, 0);
-> -	if (err) {
-> -		dev_err(phy->u_phy.dev,
-> -			"ULPI reset GPIO %d direction not deasserted: %d\n",
-> -			phy->reset_gpio, err);
-> -		return err;
-> -	}
-> +	gpiod_set_value_cansleep(phy->reset_gpio, 1);
->  
->  	return 0;
->  }
+As xusb-tegra186.c will be reused for Tegra194, it would be good to
+protect Tegra186 soc data with CONFIG_ARCH_TEGRA_186_SOC. This commit
+also reshuffles Tegra186 soc data single CONFIG_ARCH_TEGRA_186_SOC
+will be sufficient.
 
-The message now removed seems inverted to the meaning of the code. Is
-this a bug, or the reset really should be asserted here? I can see that
-it is deasserted in phy_power_up, but that goes before or after ulpi_open()?
-After the change below, the reset is asserted at probe() time now.
+Signed-off-by: JC Kuo <jckuo@nvidia.com>
+Acked-by: Thierry Reding <treding@nvidia.com>
+---
+Changes in v5: none
+Changes in v4: none
+Changes in v3: none
+Changes in v2:
+- new patch to protect Tegra186 soc data with config
 
-[...]
-> -		err = devm_gpio_request(&pdev->dev, tegra_phy->reset_gpio,
-> -					"ulpi_phy_reset_b");
-> +		gpiod = devm_gpiod_get_from_of_node(&pdev->dev, np,
-> +						    "nvidia,phy-reset-gpio",
-> +						    0, GPIOD_OUT_HIGH,
-> +						    "ulpi_phy_reset_b");
-> +		err = PTR_ERR_OR_ZERO(gpiod);
->  		if (err) {
-> -			dev_err(&pdev->dev, "Request failed for GPIO %d: %d\n",
-> -				tegra_phy->reset_gpio, err);
-> +			dev_err(&pdev->dev,
-> +				"Request failed for reset GPIO: %d\n", err);
->  			return err;
->  		}
-> +		tegra_phy->reset_gpio = gpiod;
+ drivers/phy/tegra/xusb-tegra186.c | 70 ++++++++++++++++---------------
+ 1 file changed, 36 insertions(+), 34 deletions(-)
 
-A nice extension to kernel's printf - "%pe" format - has just landed in
-Linus' master tree.
+diff --git a/drivers/phy/tegra/xusb-tegra186.c b/drivers/phy/tegra/xusb-tegra186.c
+index 84c27394c181..01f7d979c9a8 100644
+--- a/drivers/phy/tegra/xusb-tegra186.c
++++ b/drivers/phy/tegra/xusb-tegra186.c
+@@ -503,19 +503,6 @@ static const char * const tegra186_usb2_functions[] = {
+ 	"xusb",
+ };
+ 
+-static const struct tegra_xusb_lane_soc tegra186_usb2_lanes[] = {
+-	TEGRA186_LANE("usb2-0", 0,  0, 0, usb2),
+-	TEGRA186_LANE("usb2-1", 0,  0, 0, usb2),
+-	TEGRA186_LANE("usb2-2", 0,  0, 0, usb2),
+-};
+-
+-static const struct tegra_xusb_pad_soc tegra186_usb2_pad = {
+-	.name = "usb2",
+-	.num_lanes = ARRAY_SIZE(tegra186_usb2_lanes),
+-	.lanes = tegra186_usb2_lanes,
+-	.ops = &tegra186_usb2_pad_ops,
+-};
+-
+ static int tegra186_usb2_port_enable(struct tegra_xusb_port *port)
+ {
+ 	return 0;
+@@ -765,27 +752,6 @@ static const char * const tegra186_usb3_functions[] = {
+ 	"xusb",
+ };
+ 
+-static const struct tegra_xusb_lane_soc tegra186_usb3_lanes[] = {
+-	TEGRA186_LANE("usb3-0", 0,  0, 0, usb3),
+-	TEGRA186_LANE("usb3-1", 0,  0, 0, usb3),
+-	TEGRA186_LANE("usb3-2", 0,  0, 0, usb3),
+-};
+-
+-static const struct tegra_xusb_pad_soc tegra186_usb3_pad = {
+-	.name = "usb3",
+-	.num_lanes = ARRAY_SIZE(tegra186_usb3_lanes),
+-	.lanes = tegra186_usb3_lanes,
+-	.ops = &tegra186_usb3_pad_ops,
+-};
+-
+-static const struct tegra_xusb_pad_soc * const tegra186_pads[] = {
+-	&tegra186_usb2_pad,
+-	&tegra186_usb3_pad,
+-#if 0 /* TODO implement */
+-	&tegra186_hsic_pad,
+-#endif
+-};
+-
+ static int
+ tegra186_xusb_read_fuse_calibration(struct tegra186_xusb_padctl *padctl)
+ {
+@@ -885,6 +851,7 @@ static const struct tegra_xusb_padctl_ops tegra186_xusb_padctl_ops = {
+ 	.vbus_override = tegra186_xusb_padctl_vbus_override,
+ };
+ 
++#if IS_ENABLED(CONFIG_ARCH_TEGRA_186_SOC)
+ static const char * const tegra186_xusb_padctl_supply_names[] = {
+ 	"avdd-pll-erefeut",
+ 	"avdd-usb",
+@@ -892,6 +859,40 @@ static const char * const tegra186_xusb_padctl_supply_names[] = {
+ 	"vddio-hsic",
+ };
+ 
++static const struct tegra_xusb_lane_soc tegra186_usb2_lanes[] = {
++	TEGRA186_LANE("usb2-0", 0,  0, 0, usb2),
++	TEGRA186_LANE("usb2-1", 0,  0, 0, usb2),
++	TEGRA186_LANE("usb2-2", 0,  0, 0, usb2),
++};
++
++static const struct tegra_xusb_pad_soc tegra186_usb2_pad = {
++	.name = "usb2",
++	.num_lanes = ARRAY_SIZE(tegra186_usb2_lanes),
++	.lanes = tegra186_usb2_lanes,
++	.ops = &tegra186_usb2_pad_ops,
++};
++
++static const struct tegra_xusb_lane_soc tegra186_usb3_lanes[] = {
++	TEGRA186_LANE("usb3-0", 0,  0, 0, usb3),
++	TEGRA186_LANE("usb3-1", 0,  0, 0, usb3),
++	TEGRA186_LANE("usb3-2", 0,  0, 0, usb3),
++};
++
++static const struct tegra_xusb_pad_soc tegra186_usb3_pad = {
++	.name = "usb3",
++	.num_lanes = ARRAY_SIZE(tegra186_usb3_lanes),
++	.lanes = tegra186_usb3_lanes,
++	.ops = &tegra186_usb3_pad_ops,
++};
++
++static const struct tegra_xusb_pad_soc * const tegra186_pads[] = {
++	&tegra186_usb2_pad,
++	&tegra186_usb3_pad,
++#if 0 /* TODO implement */
++	&tegra186_hsic_pad,
++#endif
++};
++
+ const struct tegra_xusb_padctl_soc tegra186_xusb_padctl_soc = {
+ 	.num_pads = ARRAY_SIZE(tegra186_pads),
+ 	.pads = tegra186_pads,
+@@ -916,6 +917,7 @@ const struct tegra_xusb_padctl_soc tegra186_xusb_padctl_soc = {
+ 	.num_supplies = ARRAY_SIZE(tegra186_xusb_padctl_supply_names),
+ };
+ EXPORT_SYMBOL_GPL(tegra186_xusb_padctl_soc);
++#endif
+ 
+ MODULE_AUTHOR("JC Kuo <jckuo@nvidia.com>");
+ MODULE_DESCRIPTION("NVIDIA Tegra186 XUSB Pad Controller driver");
+-- 
+2.17.1
 
-Best Regards,
-Micha³ Miros³aw
