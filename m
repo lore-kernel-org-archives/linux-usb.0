@@ -2,174 +2,87 @@ Return-Path: <SRS0=+QBl=2Z=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00A20C00523
-	for <linux-usb@archiver.kernel.org>; Sat,  4 Jan 2020 00:30:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EBABC00523
+	for <linux-usb@archiver.kernel.org>; Sat,  4 Jan 2020 00:33:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B77B221835
-	for <linux-usb@archiver.kernel.org>; Sat,  4 Jan 2020 00:30:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 07055222C3
+	for <linux-usb@archiver.kernel.org>; Sat,  4 Jan 2020 00:33:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1578097810;
-	bh=CsP96XdXWPhtHQSYoG9XjJe2AzYmGvUvwdXUhtDcf7E=;
+	s=default; t=1578098028;
+	bh=jk0Jim+TF2ug1BP0E8YWaOqX2toviYeuYE1BM3Zl7Tc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=iSymCzTtd0SQZtbtZlgTd63nPezYLtz+ub5j7Mv+ahHLlMdnVkBxkU5v4k5n+8Ziq
-	 3sp/d+GnjL0VkJXnBgQ96SyKsgDNt418aSqJu/ykdvTX3TxyN5w0Q0OxggU7ImKyIw
-	 imW9s5yU+aCl0oLdbEgISwxQRgp3VBhmzKuINqRQ=
+	b=zjf2dxKnfTbshp9V+33BMtEwCA7N3lhJPSoSaONtDsegtFkarR3CFRSJP+rumT874
+	 /nsKYEen0QgVuIw+RY40DJSYrYdvscju2+2RQ9AobWN4sM5TFibPjqnqLwZ/pPYKi0
+	 0yutZE9SsNeaVzK1XmJihAegFMQFASBCBfcYygR4=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726703AbgADAaK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jan 2020 19:30:10 -0500
-Received: from mail-il1-f193.google.com ([209.85.166.193]:36130 "EHLO
+        id S1727158AbgADAdp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jan 2020 19:33:45 -0500
+Received: from mail-il1-f193.google.com ([209.85.166.193]:34383 "EHLO
         mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726229AbgADAaK (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jan 2020 19:30:10 -0500
-Received: by mail-il1-f193.google.com with SMTP id b15so38039105iln.3
-        for <linux-usb@vger.kernel.org>; Fri, 03 Jan 2020 16:30:09 -0800 (PST)
+        with ESMTP id S1726968AbgADAdp (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jan 2020 19:33:45 -0500
+Received: by mail-il1-f193.google.com with SMTP id s15so38063389iln.1
+        for <linux-usb@vger.kernel.org>; Fri, 03 Jan 2020 16:33:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=7In7Tco29iuCsOLy3g6JjgD5lKC+PYNDMM0DSnAitvg=;
-        b=Wgc66G9LeOzZp72+ej7p5Z4O+iJVWvtuAoD0JoiShbcTGl8J/e4c3vZdmKYpEbxEAG
-         yDWVojzi+DljSxBG5xh7S/vzbqlnKZBHuC2VeK/1FppD+piSv2XQ0j5FNBSZSNFncscL
-         pi6RoYJzqABRhX9una3s6tVuIT1IPvbtzucxY/hoKKe7ZPTaYeDLdeYQW28WlsIWrSxD
-         PhOlHgpMG2B/hO7radRgW+cjZKlAqeXdLs4EOfaUCpIk8ScqsSn5Cdvycxg7VfaUNkPz
-         OAVpcVLq4ngtf2MvObzAAx48P/aw5aW8w9kiqbDkV9d9Nw+StoVzx5sGnLtig5BYsYiI
-         vnyA==
-X-Gm-Message-State: APjAAAXweQCq/4Ot2qbrRvebhk4+/wOwH0edTHwKytX8PsSsj3Y5nyVK
-        Jsn9/MUPL/R+RkwuEQcijcaH/Jk=
-X-Google-Smtp-Source: APXvYqz5tkNkBa65cFmHk8NWHr/pTAWBa+g1cLAcFv9Dl8cu6yDv7b/dBPzwvIoVJONghJTmrCrwYA==
-X-Received: by 2002:a92:5d8d:: with SMTP id e13mr59588822ilg.285.1578097809139;
-        Fri, 03 Jan 2020 16:30:09 -0800 (PST)
+        bh=2jtU2GwA92LWxQFkeCrbjyJNc+9eRgZ+rt7rVVu7gPA=;
+        b=Lt94AwlXCO4yhnvkq6TH/2aETIXM4v/dRwGwL5XNmFxP1KN3EJdle2U9fuZBYe1fzh
+         LYhIKlUoJMb5zseeQJF1tCIn0BzctG0AHfcmMNi4E9tyRuwCSgZwktfgu9ZGot+o9gOe
+         wkIZ6wEZ3S4RZh2ygtDumEkQpyIn7ffhXatvG9YHZ+0zUyksDlp3ndzVpBA858je94zj
+         ds+9PCcHit4tXiUkdEY0f6b1df9zLg20sL8K1ibq8mC+RF/slVdPv+C2n2JOxufaqlZk
+         ybxfXzhP1ce7UiCdmFfjr8pZNWNZ/h2L+DNKhxuaRn7ZcnDF6mtzd/rkOfyGhsqq8e1T
+         Oncw==
+X-Gm-Message-State: APjAAAWml99+2QCFJU8sbEdhnTDi7V3xJi3SRh0biVKutIcFwW4twnZD
+        0cVgLNMCd2KKdoEIHtxyMwGuIP8=
+X-Google-Smtp-Source: APXvYqwuprLY1m5EUZ8x6S86snR9cvfjGnnf8/kBKLtDsaM+J4t3wSfHYRJ768fOVa8GeySHrkHD/w==
+X-Received: by 2002:a05:6e02:cc5:: with SMTP id c5mr62053704ilj.47.1578098024028;
+        Fri, 03 Jan 2020 16:33:44 -0800 (PST)
 Received: from rob-hp-laptop ([64.188.179.251])
-        by smtp.gmail.com with ESMTPSA id y18sm14150648ilm.9.2020.01.03.16.30.08
+        by smtp.gmail.com with ESMTPSA id e184sm9102506iof.77.2020.01.03.16.33.42
         for <linux-usb@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jan 2020 16:30:09 -0800 (PST)
+        Fri, 03 Jan 2020 16:33:43 -0800 (PST)
 Received: from rob (uid 1000)
         (envelope-from rob@rob-hp-laptop)
-        id 2219b7
+        id 221a53
         by rob-hp-laptop (DragonFly Mail Agent v0.11);
-        Fri, 03 Jan 2020 17:28:06 -0700
-Date:   Fri, 3 Jan 2020 17:28:06 -0700
+        Fri, 03 Jan 2020 17:33:41 -0700
+Date:   Fri, 3 Jan 2020 17:33:41 -0700
 From:   Rob Herring <robh@kernel.org>
-To:     Hanjie Lin <hanjie.lin@amlogic.com>
-Cc:     Jerome Brunet <jbrunet@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Yue Wang <yue.wang@amlogic.com>,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, Carlo Caione <carlo@caione.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Liang Yang <liang.yang@amlogic.com>,
-        Jianxin Pan <jianxin.pan@amlogic.com>,
-        Qiufang Dai <qiufang.dai@amlogic.com>,
-        Jian Hu <jian.hu@amlogic.com>,
-        Victor Wan <victor.wan@amlogic.com>,
-        Xingyu Chen <xingyu.chen@amlogic.com>
-Subject: Re: [PATCH v3 1/6] dt-bindings: phy: Add Amlogic A1 USB2 PHY Bindings
-Message-ID: <20200104002806.GA24214@bogus>
-References: <1577428606-69855-1-git-send-email-hanjie.lin@amlogic.com>
- <1577428606-69855-2-git-send-email-hanjie.lin@amlogic.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     devicetree@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 01/16] dt-binding: usb: ci-hdrc-usb2: Document NVIDIA
+ Tegra support
+Message-ID: <20200104003341.GA5889@bogus>
+References: <20191228203358.23490-1-digetx@gmail.com>
+ <20191228203358.23490-2-digetx@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1577428606-69855-2-git-send-email-hanjie.lin@amlogic.com>
+In-Reply-To: <20191228203358.23490-2-digetx@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Dec 27, 2019 at 02:36:41PM +0800, Hanjie Lin wrote:
-> Add the Amlogic A1 Family USB2 PHY Bindings
+On Sat, 28 Dec 2019 23:33:43 +0300, Dmitry Osipenko wrote:
+> NVIDIA Tegra SoCs use ChipIdea silicon IP for the USB controllers.
 > 
-> It supports Host mode only.
-> 
-> Signed-off-by: Hanjie Lin <hanjie.lin@amlogic.com>
-> Signed-off-by: Yue Wang <yue.wang@amlogic.com>
+> Acked-by: Peter Chen <peter.chen@nxp.com>
+> Acked-by: Thierry Reding <treding@nvidia.com>
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  .../bindings/phy/amlogic,meson-a1-usb2-phy.yaml    | 55 ++++++++++++++++++++++
->  1 file changed, 55 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/phy/amlogic,meson-a1-usb2-phy.yaml
+>  Documentation/devicetree/bindings/usb/ci-hdrc-usb2.txt | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/phy/amlogic,meson-a1-usb2-phy.yaml b/Documentation/devicetree/bindings/phy/amlogic,meson-a1-usb2-phy.yaml
-> new file mode 100644
-> index 00000000..2b2c526
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/phy/amlogic,meson-a1-usb2-phy.yaml
-> @@ -0,0 +1,55 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright 2019 Amlogic, Inc
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/phy/amlogic,meson-a1-usb2-phy.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: Amlogic A1 USB2 PHY
-> +
-> +maintainers:
-> +  - Yue Wang <yue.wang@amlogic.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - amlogic,meson-a1-usb2-phy
 
-Use 'const' if there's only 1.
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  reset-names:
-> +    items:
-> +      - const: phy
-
-Don't need *-names when there's a single entry.
-
-> +
-> +  "#phy-cells":
-> +    const: 0
-> +
-> +  power-domains:
-> +     maxItems: 1
-> +     description:
-> +       a phandle to respective power domain node as described by generic
-> +       PM domain bindings (see power/power_domain.txt for more information).
-
-Drop the generic description. No need to duplicate everywhere.
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - resets
-> +  - reset-names
-> +  - "#phy-cells"
-> +  - power-domains
-> +
-> +examples:
-> +  - |
-> +    usb2_phy1: phy@40000 {
-> +      status = "okay";
-> +      compatible = "amlogic,a1-usb2-phy";
-> +      reg = <0x0 0x40000 0x0 0x2000>;
-> +      resets = <&reset RESET_USBPHY>;
-> +      reset-names = "phy";
-> +      #phy-cells = <0>;
-> +      power-domains = <&pwrc PWRC_USB_ID>;
-> +    };
-> -- 
-> 2.7.4
-> 
+Acked-by: Rob Herring <robh@kernel.org>
