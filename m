@@ -2,231 +2,99 @@ Return-Path: <SRS0=+QBl=2Z=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F944C32767
-	for <linux-usb@archiver.kernel.org>; Sat,  4 Jan 2020 00:35:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 871EEC00523
+	for <linux-usb@archiver.kernel.org>; Sat,  4 Jan 2020 00:37:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 26F5A21835
-	for <linux-usb@archiver.kernel.org>; Sat,  4 Jan 2020 00:35:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5F70420866
+	for <linux-usb@archiver.kernel.org>; Sat,  4 Jan 2020 00:37:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1578098117;
-	bh=M7aIwZfl2ohAAgMncAbyydKZCVSAvhAVlGopIdlIMfk=;
+	s=default; t=1578098247;
+	bh=w+DnMBG5f5m51ZCgawmyI1Mpraj+f/jr+3j7BeywOr0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=wtwJm2r2Yimoya/q4EKFwBkFclPo8K3TACASpp16V5HhHTToCUzCG7woYkaCAToYC
-	 o2twyWgcNow/mAa1A/r5vqwMIgeZttCpLs+x79MBfwRDPsWETc4z5vaen7HltGPuYc
-	 vDICOE/xKrAKyZKs3CQWcGOIupJ6nnE0UjssISaI=
+	b=gLAlEAoBGi7SM/cFTvK6vOqWpB0bFY4izooQIIfYQOGZ9D7+Qc7wY6j2h6o+UIttV
+	 ae/wIFRLjU5/9wYt1EiSYN1VJNKl+MCqR6ai84GuLMTPP8xDsxSxPT8JJxYE7niu3G
+	 b6zJgaWZh8YHSvFo1OzyedfrdU87F813naOVtZYI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726968AbgADAfQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 3 Jan 2020 19:35:16 -0500
-Received: from mail-io1-f66.google.com ([209.85.166.66]:40151 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726697AbgADAfQ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jan 2020 19:35:16 -0500
-Received: by mail-io1-f66.google.com with SMTP id x1so43108810iop.7
-        for <linux-usb@vger.kernel.org>; Fri, 03 Jan 2020 16:35:15 -0800 (PST)
+        id S1727257AbgADAhY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 3 Jan 2020 19:37:24 -0500
+Received: from mail-io1-f48.google.com ([209.85.166.48]:33643 "EHLO
+        mail-io1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727228AbgADAhT (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 3 Jan 2020 19:37:19 -0500
+Received: by mail-io1-f48.google.com with SMTP id z8so43113437ioh.0
+        for <linux-usb@vger.kernel.org>; Fri, 03 Jan 2020 16:37:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=OkEhI0mGAaFruOBaLTQQRQIQxA1NVDP05WMjkcVPHmI=;
-        b=DDM4Kssg75PvYrLfBWHaq/LJUQZNV5oh+VoG5TYZmIj0H6G0lz5g+N7Lw4ZhICDG8s
-         mIMOagYxDPhLGnwYc+egjroBAvy/dE6ORk5PZ7yiSA1qmspTY7nfEoN/Z1GJoEkTJLJ/
-         TWQ98YuwDDO4CBujdvjSAIC8pdHlEoVkpKpzVf69t3K5Jd2drMyz2WE9hR+q1W+ALfi1
-         RtFxcltPnvTRdS3pry4A/PVFS5UMZHZ8gCRss3PzzKUeUIhix8Fy2Wh8ngD3ts4+t7sI
-         B7XZC4t0h8VOAkcngrd/PsOgKq+Q1ehmBmU/2hYeO1F5lN0eCPpE7rohj03yZKoGk/Rt
-         SVvg==
-X-Gm-Message-State: APjAAAURUxnwl7Ot7lL6XD75HnLWRwFK5WWb5YRRb8s58SZrMDOgyVOs
-        PkG98n3iO6CaqKorUxrp+MIFSgo=
-X-Google-Smtp-Source: APXvYqzAn1A70ghWKDChfVFcS4y/CMv1WJ8MTqAlSkZ75J4ubvMeh0kkbLwKFDof6TA6ol4qNZh8cw==
-X-Received: by 2002:a6b:3a8a:: with SMTP id h132mr59344208ioa.207.1578098114900;
-        Fri, 03 Jan 2020 16:35:14 -0800 (PST)
+        bh=DyH66go0qsvcEZgmTI6bctw9NNe8CYLjRZjlFnsO2lI=;
+        b=FczkugBarosy0TFO1YXSMSo2+OD/Ir5sFQhDDuckBqSkrTjw5h8LmCBDyZ++3tCumt
+         6qzgRFSV9KyoviHAx6zPpOr7aEw76FmpnNxYCU3s5+s/meUxIzxZCvmLSaC/Bd7Xj1+W
+         9vcU1zkkrqc2JlTsH3vRAmOIgTcG0Ef1ZGSgbXL0JdaoOT7HJTUqKhlSLLCg8qD3eLd0
+         VOVM433uWz8fiKlU495pshjF7EpvOhSmPqDtC5aHfezqSZtcGb0IssbNpTatCiY9gOjR
+         rhuCYTxgWvJV3r6N6RcDc5Kw631Dm4qtE/QCSKWgt7r3SFeaFvSngpyb+eAUK7LEgTpO
+         6Bjg==
+X-Gm-Message-State: APjAAAXUBRtoKWm8ZDmHXL7oav00yrRd1ncwJfVLBZJqTv0zS12duui9
+        91bqdNPLjllO16awyt10AQVDlRg=
+X-Google-Smtp-Source: APXvYqwvSSDcrTuqW8gjnPQBQ3PDJFSgAtRzeemIMFkWncCV7zgcV3/oopOEnqcRYtZAVdS1Ppmt4w==
+X-Received: by 2002:a02:cdcb:: with SMTP id m11mr72001455jap.125.1578098238629;
+        Fri, 03 Jan 2020 16:37:18 -0800 (PST)
 Received: from rob-hp-laptop ([64.188.179.251])
-        by smtp.gmail.com with ESMTPSA id q11sm12438972ioi.25.2020.01.03.16.35.13
+        by smtp.gmail.com with ESMTPSA id m90sm17530111ilh.56.2020.01.03.16.37.17
         for <linux-usb@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jan 2020 16:35:14 -0800 (PST)
+        Fri, 03 Jan 2020 16:37:17 -0800 (PST)
 Received: from rob (uid 1000)
         (envelope-from rob@rob-hp-laptop)
         id 2219a5
         by rob-hp-laptop (DragonFly Mail Agent v0.11);
-        Fri, 03 Jan 2020 17:32:10 -0700
-Date:   Fri, 3 Jan 2020 17:32:10 -0700
+        Fri, 03 Jan 2020 17:37:17 -0700
+Date:   Fri, 3 Jan 2020 17:37:17 -0700
 From:   Rob Herring <robh@kernel.org>
-To:     Hanjie Lin <hanjie.lin@amlogic.com>
-Cc:     Jerome Brunet <jbrunet@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Yue Wang <yue.wang@amlogic.com>,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, Carlo Caione <carlo@caione.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Liang Yang <liang.yang@amlogic.com>,
-        Jianxin Pan <jianxin.pan@amlogic.com>,
-        Qiufang Dai <qiufang.dai@amlogic.com>,
-        Jian Hu <jian.hu@amlogic.com>,
-        Victor Wan <victor.wan@amlogic.com>,
-        Xingyu Chen <xingyu.chen@amlogic.com>
-Subject: Re: [PATCH v3 2/6] dt-bindings: usb: dwc3: Add the Amlogic A1 Family
- DWC3 Glue Bindings
-Message-ID: <20200104003210.GA29074@bogus>
-References: <1577428606-69855-1-git-send-email-hanjie.lin@amlogic.com>
- <1577428606-69855-3-git-send-email-hanjie.lin@amlogic.com>
+To:     Nagarjuna Kristam <nkristam@nvidia.com>
+Cc:     balbi@kernel.org, gregkh@linuxfoundation.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        mark.rutland@arm.com, robh+dt@kernel.org, kishon@ti.com,
+        devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nagarjuna Kristam <nkristam@nvidia.com>
+Subject: Re: [Patch V3 01/18] dt-bindings: phy: tegra-xusb: Add
+ usb-role-switch
+Message-ID: <20200104003717.GA11747@bogus>
+References: <1577704195-2535-1-git-send-email-nkristam@nvidia.com>
+ <1577704195-2535-2-git-send-email-nkristam@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1577428606-69855-3-git-send-email-hanjie.lin@amlogic.com>
+In-Reply-To: <1577704195-2535-2-git-send-email-nkristam@nvidia.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Dec 27, 2019 at 02:36:42PM +0800, Hanjie Lin wrote:
-> The Amlogic A1 SoC Family embeds 1 USB Controllers:
->  - a DWC3 IP configured as Host for USB2 and USB3
+On Mon, 30 Dec 2019 16:39:38 +0530, Nagarjuna Kristam wrote:
+> Add usb-role-switch property for Tegra210 and Tegra186 platforms. This
+> entry is used by XUSB pad controller driver to register for role changes
+> for OTG/Peripheral capable USB 2 ports.
 > 
-> A glue connects the controllers to the USB2 PHY of A1 SoC.
-> 
-> Signed-off-by: Hanjie Lin <hanjie.lin@amlogic.com>
-> Signed-off-by: Yue Wang <yue.wang@amlogic.com>
+> Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
+> Acked-by: Thierry Reding <treding@nvidia.com>
 > ---
->  .../bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml  | 57 +++++++++++++++++++---
->  1 file changed, 51 insertions(+), 6 deletions(-)
+> V3:
+>  - Added Acked-by updates to commit message.
+> ---
+> V2:
+>  - Moved usb-role-switch to seperate Required section as suggested by Thierry.
+>  - Added reference to usb/usb-conn-gpio.txt for connector subnode.
+> ---
+>  .../devicetree/bindings/phy/nvidia,tegra124-xusb-padctl.txt         | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml b/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
-> index 4efb77b..6103cc2 100644
-> --- a/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
-> +++ b/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
-> @@ -9,6 +9,8 @@ title: Amlogic Meson G12A DWC3 USB SoC Controller Glue
->  
->  maintainers:
->    - Neil Armstrong <narmstrong@baylibre.com>
-> +  - Hanjie Lin <hanjie.lin@amlogic.com>
-> +  - Yue Wang <yue.wang@amlogic.com>
->  
->  description: |
->    The Amlogic G12A embeds a DWC3 USB IP Core configured for USB2 and USB3
-> @@ -22,10 +24,14 @@ description: |
->    The DWC3 Glue controls the PHY routing and power, an interrupt line is
->    connected to the Glue to serve as OTG ID change detection.
->  
-> +  The Amlogic A1 embeds a DWC3 USB IP Core configured for USB2 in
-> +  host-only mode.
-> +
->  properties:
->    compatible:
->      enum:
->        - amlogic,meson-g12a-usb-ctrl
-> +      - amlogic,meson-a1-usb-ctrl
->  
->    ranges: true
->  
-> @@ -37,6 +43,11 @@ properties:
->  
->    clocks:
->      minItems: 1
-> +    maxItems: 4
-> +
-> +  clock-names:
-> +    minItems: 1
-> +    maxItems: 4
->  
->    resets:
->      minItems: 1
-> @@ -47,17 +58,22 @@ properties:
->    interrupts:
->      maxItems: 1
->  
-> +  phys:
-> +    minItems: 1
-> +    maxItems: 3
-> +
->    phy-names:
->      items:
->        - const: usb2-phy0 # USB2 PHY0 if USBHOST_A port is used
->        - const: usb2-phy1 # USB2 PHY1 if USBOTG_B port is used
->        - const: usb3-phy0 # USB3 PHY if USB3_0 is used
->  
-> -  phys:
-> -    minItems: 1
-> -    maxItems: 3
-> -
 
-Why the unnecessary move?
-
-> -  dr_mode: true
-> +  dr_mode:
-> +    description: usb mode for G12A
-> +    enum:
-> +      - host
-> +      - peripheral
-> +      - otg
-
-No, this is a common property that doesn't need to be redefined here. It 
-was correct as-is.
-
->  
->    power-domains:
->      maxItems: 1
-> @@ -80,9 +96,9 @@ required:
->    - resets
->    - reg
->    - interrupts
-> -  - phy-names
->    - phys
->    - dr_mode
-> +  - phy-names
-
-Again, unnecessary change.
-
->  
->  examples:
->    - |
-> @@ -124,4 +140,33 @@ examples:
->                snps,quirk-frame-length-adjustment;
->            };
->      };
-> +  - |
-> +    a1_usb: usb@ffe09000 {
-
-You are only adding a compatible. No need for a whole new example.
-
-> +          status = "okay";
-> +          compatible = "amlogic,meson-a1-usb-ctrl";
-> +          reg = <0 0xffe09000 0x0 0xa0>;
-> +          #address-cells = <1>;
-> +          #size-cells = <1>;
-> +          ranges;
->  
-> +          clocks = <&clkc_periphs 36>,
-> +                   <&clkc_periphs 85>,
-> +                   <&clkc_periphs 2>,
-> +                   <&clkc_periphs 3>;
-> +          clock-names = "usb_ctrl", "usb_bus", "xtal_usb_phy",
-> +                        "xtal_usb_ctrl";
-> +
-> +          resets = <&reset 36>;
-> +
-> +          phys = <&usb2_phy1>;
-> +          phy-names = "usb2-phy1";
-> +
-> +          a1_dwc3: usb@ff400000 {
-> +                  compatible = "snps,dwc3";
-> +                  reg = <0xff400000 0x100000>;
-> +                  interrupts = <0 90 4>;
-> +                  dr_mode = "host";
-> +                  snps,dis_u2_susphy_quirk;
-> +                  snps,quirk-frame-length-adjustment = <0x20>;
-> +          };
-> +    };
-> -- 
-> 2.7.4
-> 
+Acked-by: Rob Herring <robh@kernel.org>
