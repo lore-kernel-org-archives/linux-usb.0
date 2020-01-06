@@ -8,53 +8,53 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45F19C00523
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jan 2020 01:34:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F2B7C00523
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jan 2020 01:34:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1AB35218AC
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jan 2020 01:34:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1435221775
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jan 2020 01:34:59 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AmUifnA5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VRVHx06V"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727455AbgAFBez (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 5 Jan 2020 20:34:55 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:44953 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727260AbgAFBex (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 5 Jan 2020 20:34:53 -0500
-Received: by mail-lf1-f65.google.com with SMTP id v201so35297459lfa.11;
-        Sun, 05 Jan 2020 17:34:51 -0800 (PST)
+        id S1727473AbgAFBe5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 5 Jan 2020 20:34:57 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:37072 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727460AbgAFBe5 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 5 Jan 2020 20:34:57 -0500
+Received: by mail-lj1-f194.google.com with SMTP id o13so37885713ljg.4;
+        Sun, 05 Jan 2020 17:34:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=+7IbWzfPhmBnEreIxXsILwKTpjW90RDh/fEgRDfgjeM=;
-        b=AmUifnA5XnTZGZZ082fVauHQS8xiNyA7i6Pv7uajYxbnxnD5Nd/i6mX6YGkbtIwSAy
-         g02Us0ENuC5NO2XDoeHhVy6rHPqBq7WgoGxgdTHNM1ZmLb0ZxKRywsyxRZN79WuBq6OY
-         15Rx3a462oTajjSNG77GEDqaOXN0yAEpsVNksCLDnA3z2U3/m6I1POkqASzaADSg7Osq
-         7pH9ue+tml699F1DO/5FKirmHH7794X2y2YNrUNNMosHVfmamo5CThssalTPxqWVP0KI
-         IOKSWaww3CSJJuEqkZ+0+abQCZauLESsuEwHRLRtG0cMd6PRx/4CWcx8ycr5abr+LF5j
-         uHEw==
+        bh=GxHWs7smKY9c542URAYmUJXKzRbv59ZDpizKO+V3yf8=;
+        b=VRVHx06Vdq1FmBBvykANKRrOTaBaWpW0ceu68mFMZkSaW1MKOTvYtijA7Jfcv9Z+Vy
+         VHT7+Vw39+kILzZ8Fl+IvaGkRY6UErngMeqmXa+LqWSFfgHsydPqgDANeomLVUXGZvol
+         e9QJqSSUqFaPaVEjIVmHlxTfkP6vA2i3MMCutwpsQ021++LZYYEf9ZwVqIgagdCh/SHy
+         +jbHCuUtUhOpv2fyAskwH2eAA2MUlOIW4SlztlFxrBEVovI1Y8smatUy1guroTVGidAA
+         V1omcibhTwdMuBCnzQjPxgfVk2VbsJ2r1nEK7raM4Q6vfCvi622d+IwlIfq14xfxmnvc
+         OHqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+7IbWzfPhmBnEreIxXsILwKTpjW90RDh/fEgRDfgjeM=;
-        b=XF6NHneZFAo/prJc/Eye9hRwCEvybMnYoCSc2mBWd3DQDpXovgfpb3iUPy/4MnKVtY
-         QMQxnb1oEaI871r7l+pPXYa9Bp5AuM63SryVTk6V0QShVY1vtV//Ax18snZe+CoStEmJ
-         3Ww4vnoxK0SnuuJ0oAkIWyQMvKD9Mz7aP0ZOuWzwdNMHSefSunKcz4kqfW5KNNw+QOpV
-         zw+jzYChh9jQ27zx7/63tT2QEue6Q6SUg2LsjGix5iSbHsEvSM4ikFkKjuZkMwLX9gdI
-         sb7F4Ch01ce/CpLdPuLa3BbkFIIyT0HTSjbjRr98ZR4fawJdeBbG82ohqkNWBKjKzJqE
-         W1ww==
-X-Gm-Message-State: APjAAAUJFpuavxB4BR0kqHaA3YDZRv5no+yjnUA6CzukHuTGk6o0Q4E2
-        3l+2Rzu6mMlohx2cVRY1WTE=
-X-Google-Smtp-Source: APXvYqw8vdLhoJtuPi+v3NEjMicxcwkIIvTDQv+HHBM9MAUYnVdcQHr7ETJIuDHVYSThN2WhJ7sm8A==
-X-Received: by 2002:a19:c697:: with SMTP id w145mr54051507lff.54.1578274490798;
-        Sun, 05 Jan 2020 17:34:50 -0800 (PST)
+        bh=GxHWs7smKY9c542URAYmUJXKzRbv59ZDpizKO+V3yf8=;
+        b=hADt+o4AVd1zzQp6Yk5ccuuFWQmpRgiFvgPF1waGCjwmPaDEggjWWu4W3vJc5fdCK6
+         OelO4rbVgHG8uc8+D+FhjVL4Rtski+4HxyAMfT0BnEkFj9muUp+IiwfTYBeI6DIjXPkt
+         R+lrfIF1Fj27VdB/JBK4u9ux8rXcne79RKZipsJJRBreg7oXg/5FF8wuBa2em9jAAxU0
+         xpmERg8stGTda0kIsHktiKYbnXBpUr3uLmFKtvJ11uxJA20TlxA/1gI6KThDXhnqztv8
+         cWxVsb4TLf7YQzY8+8728pnvP5v2+GeJ73KytY7Tekb3YSBFbIuSeFD+KvbWwYPj0L8R
+         QEyg==
+X-Gm-Message-State: APjAAAWx2X4GlDkP38H5GNHCXTZzKSh36H6de0vbhkG4oTpJr4IPt01z
+        5++3XuVIIc6S/rgUSf6WUyA=
+X-Google-Smtp-Source: APXvYqwdZzmJbOI48HJEEBGpaUjSh004D0logSjpYIG20UUxtX7jJxIu81U4ZvA/91YgmezcYMor4g==
+X-Received: by 2002:a2e:b0c9:: with SMTP id g9mr57560697ljl.134.1578274494896;
+        Sun, 05 Jan 2020 17:34:54 -0800 (PST)
 Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id h10sm28235739ljc.39.2020.01.05.17.34.50
+        by smtp.gmail.com with ESMTPSA id h10sm28235739ljc.39.2020.01.05.17.34.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jan 2020 17:34:50 -0800 (PST)
+        Sun, 05 Jan 2020 17:34:54 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Peter Chen <Peter.Chen@nxp.com>,
@@ -64,9 +64,9 @@ To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
 Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v4 11/20] usb: phy: tegra: Use devm_otg_ulpi_create()
-Date:   Mon,  6 Jan 2020 04:34:07 +0300
-Message-Id: <20200106013416.9604-12-digetx@gmail.com>
+Subject: [PATCH v4 16/20] usb: phy: tegra: Keep CPU interrupts enabled
+Date:   Mon,  6 Jan 2020 04:34:12 +0300
+Message-Id: <20200106013416.9604-17-digetx@gmail.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20200106013416.9604-1-digetx@gmail.com>
 References: <20200106013416.9604-1-digetx@gmail.com>
@@ -77,74 +77,69 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The resource-managed variant removes the necessity for the driver to care
-about freeing ULPI resources.
+There is no good reason for disabling of CPU interrupts in order to
+protect the utmip_pad_count modification.
 
-Suggested-by: Thierry Reding <thierry.reding@gmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/usb/phy/phy-tegra-usb.c | 22 ++++++----------------
- 1 file changed, 6 insertions(+), 16 deletions(-)
+ drivers/usb/phy/phy-tegra-usb.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/usb/phy/phy-tegra-usb.c b/drivers/usb/phy/phy-tegra-usb.c
-index 5b9f031619c5..9adbcdf8d3a1 100644
+index 1b9667b0aa11..037e8eee737d 100644
 --- a/drivers/usb/phy/phy-tegra-usb.c
 +++ b/drivers/usb/phy/phy-tegra-usb.c
-@@ -1100,6 +1100,7 @@ static int tegra_usb_phy_probe(struct platform_device *pdev)
- 	enum usb_phy_interface phy_type;
- 	struct reset_control *reset;
- 	struct resource *res;
-+	struct usb_phy *phy;
+@@ -310,7 +310,6 @@ static int utmip_pad_power_on(struct tegra_usb_phy *phy)
+ {
+ 	struct tegra_utmip_config *config = phy->config;
+ 	void __iomem *base = phy->pad_regs;
+-	unsigned long flags;
+ 	u32 val;
  	int err;
  
- 	tegra_phy = devm_kzalloc(&pdev->dev, sizeof(*tegra_phy), GFP_KERNEL);
-@@ -1200,12 +1201,14 @@ static int tegra_usb_phy_probe(struct platform_device *pdev)
- 			return err;
- 		}
- 
--		tegra_phy->ulpi = otg_ulpi_create(&ulpi_viewport_access_ops, 0);
--		if (!tegra_phy->ulpi) {
-+		phy = devm_otg_ulpi_create(&pdev->dev,
-+					   &ulpi_viewport_access_ops, 0);
-+		if (!phy) {
- 			dev_err(&pdev->dev, "Failed to create ULPI OTG\n");
- 			return -ENOMEM;
- 		}
- 
-+		tegra_phy->ulpi = phy;
- 		tegra_phy->ulpi->io_priv = tegra_phy->regs + ULPI_VIEWPORT;
- 		break;
- 
-@@ -1224,17 +1227,9 @@ static int tegra_usb_phy_probe(struct platform_device *pdev)
- 
- 	err = usb_add_phy_dev(&tegra_phy->u_phy);
+@@ -318,7 +317,7 @@ static int utmip_pad_power_on(struct tegra_usb_phy *phy)
  	if (err)
--		goto free_ulpi;
-+		return err;
+ 		return err;
  
- 	return 0;
--
--free_ulpi:
--	if (tegra_phy->ulpi) {
--		kfree(tegra_phy->ulpi->otg);
--		kfree(tegra_phy->ulpi);
--	}
--
--	return err;
- }
+-	spin_lock_irqsave(&utmip_pad_lock, flags);
++	spin_lock(&utmip_pad_lock);
  
- static int tegra_usb_phy_remove(struct platform_device *pdev)
-@@ -1243,11 +1238,6 @@ static int tegra_usb_phy_remove(struct platform_device *pdev)
+ 	if (utmip_pad_count++ == 0) {
+ 		val = readl_relaxed(base + UTMIP_BIAS_CFG0);
+@@ -336,7 +335,7 @@ static int utmip_pad_power_on(struct tegra_usb_phy *phy)
+ 		writel_relaxed(val, base + UTMIP_BIAS_CFG0);
+ 	}
  
- 	usb_remove_phy(&tegra_phy->u_phy);
+-	spin_unlock_irqrestore(&utmip_pad_lock, flags);
++	spin_unlock(&utmip_pad_lock);
  
--	if (tegra_phy->ulpi) {
--		kfree(tegra_phy->ulpi->otg);
--		kfree(tegra_phy->ulpi);
--	}
--
- 	return 0;
- }
+ 	clk_disable_unprepare(phy->pad_clk);
+ 
+@@ -346,7 +345,6 @@ static int utmip_pad_power_on(struct tegra_usb_phy *phy)
+ static int utmip_pad_power_off(struct tegra_usb_phy *phy)
+ {
+ 	void __iomem *base = phy->pad_regs;
+-	unsigned long flags;
+ 	u32 val;
+ 	int ret;
+ 
+@@ -354,7 +352,7 @@ static int utmip_pad_power_off(struct tegra_usb_phy *phy)
+ 	if (ret)
+ 		return ret;
+ 
+-	spin_lock_irqsave(&utmip_pad_lock, flags);
++	spin_lock(&utmip_pad_lock);
+ 
+ 	if (!utmip_pad_count) {
+ 		dev_err(phy->u_phy.dev, "UTMIP pad already powered off\n");
+@@ -368,7 +366,7 @@ static int utmip_pad_power_off(struct tegra_usb_phy *phy)
+ 		writel_relaxed(val, base + UTMIP_BIAS_CFG0);
+ 	}
+ ulock:
+-	spin_unlock_irqrestore(&utmip_pad_lock, flags);
++	spin_unlock(&utmip_pad_lock);
+ 
+ 	clk_disable_unprepare(phy->pad_clk);
  
 -- 
 2.24.0
