@@ -5,56 +5,56 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F39ACC00523
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jan 2020 01:35:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D91DFC00523
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jan 2020 01:35:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id CB871215A4
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jan 2020 01:35:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B0912217F4
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jan 2020 01:35:28 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pl+Qvi3r"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ItqQEaqy"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727486AbgAFBfP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 5 Jan 2020 20:35:15 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:35356 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727477AbgAFBe7 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 5 Jan 2020 20:34:59 -0500
-Received: by mail-lj1-f193.google.com with SMTP id j1so41922066lja.2;
-        Sun, 05 Jan 2020 17:34:58 -0800 (PST)
+        id S1727559AbgAFBf1 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 5 Jan 2020 20:35:27 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:38515 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727447AbgAFBez (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 5 Jan 2020 20:34:55 -0500
+Received: by mail-lf1-f66.google.com with SMTP id r14so35370410lfm.5;
+        Sun, 05 Jan 2020 17:34:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=igfQ1RetbgHAAuHNfFj/g8fEnXKwtVyqbTA8fDE/yUQ=;
-        b=pl+Qvi3r8f1VkmjWjt3l5gq37uNCtLSTCW2MFBVdbip5vWvIWiaFU4HAca0b/NEGO5
-         xOOlJQO72CYX1XCP9s7ZAZ7MC2mL9rFTNJQOcozf7LjxiWubp24NoWhzIDfs2JMiyTfJ
-         lv7kFoQbl7Hmrx0wfUpatNo3GAAjcsP6P6cfb6TpCyzrJvmHdvCNVnIAF7/JY2qf5Wm5
-         nQNYRLz7lMb1may7oij8S5Y8t10T1DA2mIIE53Tkg1kmj4LyraBQv1Bk/J/cNfuM8dGt
-         PGKurUgWrAksHfEUd08cwgJibi8UrtoJ4QAAWNFmtgAX1V8+W4NKDi3rUPuYSRZjjkIb
-         Iogg==
+        bh=wai/IBa7xwSSxkZALdhcvS+HcXKSmruVdy9OLgrA8Wk=;
+        b=ItqQEaqyXUmzvU/jvIe3qhXtXMgjThlwNa2tgEylWtWLGDMth/AXM7ZlWtF/6yVb/h
+         VGkhW2UMNjJQffKXovzmS5LY+/UO/JH26qL7hdmfGNcNvdAIyTjRsC7mO05Jh09gDNur
+         kC+bdYVBB5Atp7EM/HTRXpTNaPfQY2j3mapyQ7+IfUmGYUl609MLSMQ4qf/qvzBDTghR
+         Quc93mS82f0aTJDBzqSfGyoe24UBh/M6joBHBLNpeRCrY8Lumw/W6FY9047Qay5NC4xK
+         QqLd8zwTW4LnjWhTwpdYmieGp+8GcxDWus/c22Popvl3huRiuVra5ZFeacj7ouAvONO3
+         +7qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=igfQ1RetbgHAAuHNfFj/g8fEnXKwtVyqbTA8fDE/yUQ=;
-        b=LoUEK0avoEld3E5ag3AR62U7v4mf4es98coUJIsrschrws1rRTZeivLy7TTvDN6h3V
-         u1grBnZ2dkccRRbpJwGH0atrc88+PYjCf2/7uElM8W+QQlMRRcz2U79y1X6NvcVvOFQa
-         MBi5Nof8oCkjGJoi9WCB2wyzkHGvUyHt8FTtyMrIaBdQWYpxqoNv4w52Ie54E+0xX3Ix
-         aaLHREY58fO0oHdGozOodYj+FqeVhwytVdAsclxoxW9iUy7JmFY7HD9Hsbq7q4BJ1ZAP
-         30WGqP+TWYjXrY05x3AwzTVMgalF4Wa7tW2GvY6vSCWhZWNDSGoFEYC7qtS+PvkMF6By
-         FBog==
-X-Gm-Message-State: APjAAAXjrIbcau84WmiiSbTW1wrAQ3/uwA4GK54n3UnsPkaUXaRnaMdl
-        3hnAo5jqstzg0V26kHfZDK5yWZ3Z
-X-Google-Smtp-Source: APXvYqxDhIqRsg3MSzikSUDbt47DbhhVA9bdwjviZ6+MzOGPFc8wxoZmcmMiNC8ObvicmZLkb7IguQ==
-X-Received: by 2002:a2e:96c4:: with SMTP id d4mr51194118ljj.225.1578274497366;
-        Sun, 05 Jan 2020 17:34:57 -0800 (PST)
+        bh=wai/IBa7xwSSxkZALdhcvS+HcXKSmruVdy9OLgrA8Wk=;
+        b=jW7c7bbmEp6zAefWoCIAyM7t92ri+7er8hbCoxRDTAvahx/41C6XqV9eh5eu+qZKWj
+         p8sPr0prVPlciqDIF05Q6MUCjhEM118j6+Egd3IWmmAf3Efe9Hd1cGv2B/3+AxjszIBn
+         1MzzdB1VPu+u/PvryeWWU+0RyHdTcbxgVXw+LGqSQ3DB+Io0QBCQ4pUImMxDh1wWvCa5
+         asjoq06FmQGbSdf5Krt/8chYI8y79Co4Lpz6aGtBGincr4ESP0XJTUCuGDxWQP+DcRNo
+         +ojFzv+o80SnzZOkyZMjg4162HxyxXhhrs7Is4MjdhT+svTeJNPVOfWCfNV4/skJo6On
+         cLnA==
+X-Gm-Message-State: APjAAAVddpgcTyN3di/+WjRpBqGJ7b1QW+YRvMzNVnWTx6w4cycj/7BI
+        pieIA66PF9Qa9SMjuz7Gi14=
+X-Google-Smtp-Source: APXvYqx7vTuQbwJiqWPtDuOvsV/KoGyFfXeb0igKd/ikCy0C/e6KcP2osqD2nB1hMKC1FhfcF9Dzpw==
+X-Received: by 2002:a19:c3cc:: with SMTP id t195mr56942352lff.144.1578274493274;
+        Sun, 05 Jan 2020 17:34:53 -0800 (PST)
 Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id h10sm28235739ljc.39.2020.01.05.17.34.56
+        by smtp.gmail.com with ESMTPSA id h10sm28235739ljc.39.2020.01.05.17.34.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jan 2020 17:34:56 -0800 (PST)
+        Sun, 05 Jan 2020 17:34:52 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Peter Chen <Peter.Chen@nxp.com>,
@@ -64,9 +64,9 @@ To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
 Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v4 19/20] usb: host: ehci-tegra: Stop managing PHY's power
-Date:   Mon,  6 Jan 2020 04:34:15 +0300
-Message-Id: <20200106013416.9604-20-digetx@gmail.com>
+Subject: [PATCH v4 14/20] usb: phy: tegra: Disable VBUS regulator on tegra_usb_phy_init failure
+Date:   Mon,  6 Jan 2020 04:34:10 +0300
+Message-Id: <20200106013416.9604-15-digetx@gmail.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20200106013416.9604-1-digetx@gmail.com>
 References: <20200106013416.9604-1-digetx@gmail.com>
@@ -77,31 +77,54 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-There is no need to use usb_phy_set_suspend during of driver's probe
-because now PHY driver enables hardware during of PHY's initialization.
+VBUS regulator should be turned off in a case of error.
 
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/usb/host/ehci-tegra.c | 6 ------
- 1 file changed, 6 deletions(-)
+ drivers/usb/phy/phy-tegra-usb.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/host/ehci-tegra.c b/drivers/usb/host/ehci-tegra.c
-index 32483bef046b..1eb94205a5ac 100644
---- a/drivers/usb/host/ehci-tegra.c
-+++ b/drivers/usb/host/ehci-tegra.c
-@@ -480,12 +480,6 @@ static int tegra_ehci_probe(struct platform_device *pdev)
+diff --git a/drivers/usb/phy/phy-tegra-usb.c b/drivers/usb/phy/phy-tegra-usb.c
+index c431968d0433..90b42e963a1e 100644
+--- a/drivers/usb/phy/phy-tegra-usb.c
++++ b/drivers/usb/phy/phy-tegra-usb.c
+@@ -864,20 +864,20 @@ static int tegra_usb_phy_init(struct usb_phy *u_phy)
+ 		dev_err(phy->u_phy.dev, "Invalid pll_u parent rate %ld\n",
+ 			parent_rate);
+ 		err = -EINVAL;
+-		goto fail;
++		goto disable_clk;
  	}
- 	u_phy->otg->host = hcd_to_bus(hcd);
  
--	err = usb_phy_set_suspend(hcd->usb_phy, 0);
--	if (err) {
--		dev_err(&pdev->dev, "Failed to power on the phy\n");
--		goto cleanup_phy;
--	}
--
- 	irq = platform_get_irq(pdev, 0);
- 	if (!irq) {
- 		dev_err(&pdev->dev, "Failed to get IRQ\n");
+ 	err = regulator_enable(phy->vbus);
+ 	if (err) {
+ 		dev_err(phy->u_phy.dev,
+ 			"Failed to enable USB VBUS regulator: %d\n", err);
+-		goto fail;
++		goto disable_clk;
+ 	}
+ 
+ 	if (!phy->is_ulpi_phy) {
+ 		err = utmip_pad_open(phy);
+ 		if (err)
+-			goto fail;
++			goto disable_vbus;
+ 	}
+ 
+ 	err = tegra_usb_phy_power_on(phy);
+@@ -889,7 +889,11 @@ static int tegra_usb_phy_init(struct usb_phy *u_phy)
+ close_phy:
+ 	if (!phy->is_ulpi_phy)
+ 		utmip_pad_close(phy);
+-fail:
++
++disable_vbus:
++	regulator_disable(phy->vbus);
++
++disable_clk:
+ 	clk_disable_unprepare(phy->pll_u);
+ 
+ 	phy->freq = NULL;
 -- 
 2.24.0
 
