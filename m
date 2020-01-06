@@ -6,33 +6,32 @@ X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A8CAC33C8C
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jan 2020 16:17:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68170C33C8C
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jan 2020 16:21:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 54C2D208C4
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jan 2020 16:17:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3972D20731
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jan 2020 16:21:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726487AbgAFQRN (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 6 Jan 2020 11:17:13 -0500
-Received: from iolanthe.rowland.org ([192.131.102.54]:53392 "HELO
+        id S1726546AbgAFQVt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 6 Jan 2020 11:21:49 -0500
+Received: from iolanthe.rowland.org ([192.131.102.54]:53408 "HELO
         iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726448AbgAFQRN (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Jan 2020 11:17:13 -0500
-Received: (qmail 3625 invoked by uid 2102); 6 Jan 2020 11:17:12 -0500
+        with SMTP id S1726494AbgAFQVt (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 6 Jan 2020 11:21:49 -0500
+Received: (qmail 3637 invoked by uid 2102); 6 Jan 2020 11:21:48 -0500
 Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 6 Jan 2020 11:17:12 -0500
-Date:   Mon, 6 Jan 2020 11:17:12 -0500 (EST)
+  by localhost with SMTP; 6 Jan 2020 11:21:48 -0500
+Date:   Mon, 6 Jan 2020 11:21:48 -0500 (EST)
 From:   Alan Stern <stern@rowland.harvard.edu>
 X-X-Sender: stern@iolanthe.rowland.org
-To:     Johan Hovold <johan@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 cc:     Greg KH <greg@kroah.com>,
         Roger Whittaker <Roger.Whittaker@suse.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Takashi Iwai <tiwai@suse.de>,
+        Takashi Iwai <tiwai@suse.de>, Johan Hovold <johan@kernel.org>,
         USB list <linux-usb@vger.kernel.org>
 Subject: Re: [PATCH] USB: Fix: Don't skip endpoint descriptors with maxpacket=0
-In-Reply-To: <20200106160315.GA30908@localhost>
-Message-ID: <Pine.LNX.4.44L0.2001061116320.1514-100000@iolanthe.rowland.org>
+In-Reply-To: <20200106161329.GA13373@pendragon.ideasonboard.com>
+Message-ID: <Pine.LNX.4.44L0.2001061118240.1514-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
@@ -40,8 +39,12 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, 6 Jan 2020, Johan Hovold wrote:
+On Mon, 6 Jan 2020, Laurent Pinchart wrote:
 
+> Hi Alan,
+> 
+> Thank you for the patch.
+> 
 > On Mon, Jan 06, 2020 at 10:43:42AM -0500, Alan Stern wrote:
 > > It turns out that even though endpoints with a maxpacket length of 0
 > > aren't useful for data transfer, the descriptors do serve other
@@ -68,17 +71,21 @@ On Mon, 6 Jan 2020, Johan Hovold wrote:
 > > CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > > Link: https://marc.info/?l=linux-usb&m=157790377329882&w=2
 > 
-> Acked-by: Johan Hovold <johan@kernel.org>
+> The patch looks good to me, so
 > 
-> We also need
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
-> Cc: stable <stable@vger.kernel.org>
-> 
-> as d482c7bb0541 ("USB: Skip endpoints with 0 maxpacket length") ended up
-> being (auto- ?) selected for stable.
+> But shouldn't we also warn if maxp != 0 && usb_endpoint_xfer_isoc(d) &&
+> asnum == 0 ?
 
-Absolutely -- I had intended to add that CC: but it slipped my mind 
-when the email was being prepared.
+We could, but that's a different kind of issue.  That would be more a
+question of not adhering to the standard than of possibly failing to
+work.
+
+In theory the USBCV tests already check for this.  Manufacturers that 
+don't run those tests probably also won't care if the Linux kernel 
+complains.  But as far as I know, none of our drivers will malfunction 
+if there's an isochronous endpoint in altsetting 0 with maxpacket > 0.
 
 Alan Stern
 
