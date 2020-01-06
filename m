@@ -8,53 +8,53 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 899C4C00523
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jan 2020 01:34:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45F19C00523
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jan 2020 01:34:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5E40F218AC
-	for <linux-usb@archiver.kernel.org>; Mon,  6 Jan 2020 01:34:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1AB35218AC
+	for <linux-usb@archiver.kernel.org>; Mon,  6 Jan 2020 01:34:56 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mnpcRc2A"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AmUifnA5"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727426AbgAFBev (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 5 Jan 2020 20:34:51 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:45999 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727386AbgAFBet (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 5 Jan 2020 20:34:49 -0500
-Received: by mail-lj1-f193.google.com with SMTP id j26so49278864ljc.12;
-        Sun, 05 Jan 2020 17:34:47 -0800 (PST)
+        id S1727455AbgAFBez (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 5 Jan 2020 20:34:55 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:44953 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727260AbgAFBex (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 5 Jan 2020 20:34:53 -0500
+Received: by mail-lf1-f65.google.com with SMTP id v201so35297459lfa.11;
+        Sun, 05 Jan 2020 17:34:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=d+M+D7s06jXgSbN4ZI5MC1X7Q1YDI/iTue4S1s8hLAk=;
-        b=mnpcRc2A1gfrgNJaoDcUskw3FIkQhKyqH0uO1xhvrCt8ttyysBW0WeLGOmBzDoD6if
-         hKwHN8Rb0yq2YrFOeehF8t56LcgP1Erqc8hrvNgp1atT0h3/0QnK4ZU3a2aln2mfkQ9G
-         Oh/3H3b5A1SfkYsU83SoeVZY77fmCH0B18qQQDR7QE0EXhZB4rGfdIQz7J1J8BrxDKYx
-         4k8b2l7x0k83wwl/T1YO1boUM9RE4C7EVCApSGr87zKv2Eix96O5ErkhYIQzz+yYxvy8
-         +YAzZEDZMg3JlRDPRumiNssoWxbR+BLIDwkzjs0DUr/jSD8bV69BO55aTgPsQUJq7uc/
-         8lcQ==
+        bh=+7IbWzfPhmBnEreIxXsILwKTpjW90RDh/fEgRDfgjeM=;
+        b=AmUifnA5XnTZGZZ082fVauHQS8xiNyA7i6Pv7uajYxbnxnD5Nd/i6mX6YGkbtIwSAy
+         g02Us0ENuC5NO2XDoeHhVy6rHPqBq7WgoGxgdTHNM1ZmLb0ZxKRywsyxRZN79WuBq6OY
+         15Rx3a462oTajjSNG77GEDqaOXN0yAEpsVNksCLDnA3z2U3/m6I1POkqASzaADSg7Osq
+         7pH9ue+tml699F1DO/5FKirmHH7794X2y2YNrUNNMosHVfmamo5CThssalTPxqWVP0KI
+         IOKSWaww3CSJJuEqkZ+0+abQCZauLESsuEwHRLRtG0cMd6PRx/4CWcx8ycr5abr+LF5j
+         uHEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=d+M+D7s06jXgSbN4ZI5MC1X7Q1YDI/iTue4S1s8hLAk=;
-        b=jXduwq1Y0M8KzfqKJGtglANhKl0W6bGp0/xYAuCiZFXUWCoBOd4Uyh3LjRBwYD/Ncz
-         Y2SgGq4AFHIA2gdS0Tq4tgEUoMkSLpgcLh6l5KiIS2bndOUhzHcu9EYZznrZVFbF/J/9
-         XRy7PHDpLX+PiSAuI4mT24bk5mAnvtCD718VzXqm6jHh4KCGiKh2a0FiIGz63HAexOcW
-         oHsxpKe2wlMMlUsnHM1KYe94JCRYKVX+kkieNi1tA43/KDKotJTVP0smNwmc8uX+A3E3
-         QoaGTYiDWZUH2aWgQ6szr+1s2zfRbQckKF3j6bY/5lBHvtPS3zjNkImJs8pg+XSx/PK8
-         ciOg==
-X-Gm-Message-State: APjAAAXkvh9SvvSlpwMDhnMsTdZmvHxdFud4iTyNtihij0ZPO147Iaru
-        qOpWbo9IQxS6kqqHhM1B9bI=
-X-Google-Smtp-Source: APXvYqxNisSENks7sCdkMmDVjD1IWcirOI/Rk+sIrVJNy8oOywjSiwcn4bfBn6SwKR6SUsbns/x8WA==
-X-Received: by 2002:a2e:88c4:: with SMTP id a4mr10684183ljk.174.1578274487319;
-        Sun, 05 Jan 2020 17:34:47 -0800 (PST)
+        bh=+7IbWzfPhmBnEreIxXsILwKTpjW90RDh/fEgRDfgjeM=;
+        b=XF6NHneZFAo/prJc/Eye9hRwCEvybMnYoCSc2mBWd3DQDpXovgfpb3iUPy/4MnKVtY
+         QMQxnb1oEaI871r7l+pPXYa9Bp5AuM63SryVTk6V0QShVY1vtV//Ax18snZe+CoStEmJ
+         3Ww4vnoxK0SnuuJ0oAkIWyQMvKD9Mz7aP0ZOuWzwdNMHSefSunKcz4kqfW5KNNw+QOpV
+         zw+jzYChh9jQ27zx7/63tT2QEue6Q6SUg2LsjGix5iSbHsEvSM4ikFkKjuZkMwLX9gdI
+         sb7F4Ch01ce/CpLdPuLa3BbkFIIyT0HTSjbjRr98ZR4fawJdeBbG82ohqkNWBKjKzJqE
+         W1ww==
+X-Gm-Message-State: APjAAAUJFpuavxB4BR0kqHaA3YDZRv5no+yjnUA6CzukHuTGk6o0Q4E2
+        3l+2Rzu6mMlohx2cVRY1WTE=
+X-Google-Smtp-Source: APXvYqw8vdLhoJtuPi+v3NEjMicxcwkIIvTDQv+HHBM9MAUYnVdcQHr7ETJIuDHVYSThN2WhJ7sm8A==
+X-Received: by 2002:a19:c697:: with SMTP id w145mr54051507lff.54.1578274490798;
+        Sun, 05 Jan 2020 17:34:50 -0800 (PST)
 Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
-        by smtp.gmail.com with ESMTPSA id h10sm28235739ljc.39.2020.01.05.17.34.46
+        by smtp.gmail.com with ESMTPSA id h10sm28235739ljc.39.2020.01.05.17.34.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jan 2020 17:34:46 -0800 (PST)
+        Sun, 05 Jan 2020 17:34:50 -0800 (PST)
 From:   Dmitry Osipenko <digetx@gmail.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Peter Chen <Peter.Chen@nxp.com>,
@@ -64,9 +64,9 @@ To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         =?UTF-8?q?Micha=C5=82=20Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>
 Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v4 07/20] usb: phy: tegra: Clean up included headers
-Date:   Mon,  6 Jan 2020 04:34:03 +0300
-Message-Id: <20200106013416.9604-8-digetx@gmail.com>
+Subject: [PATCH v4 11/20] usb: phy: tegra: Use devm_otg_ulpi_create()
+Date:   Mon,  6 Jan 2020 04:34:07 +0300
+Message-Id: <20200106013416.9604-12-digetx@gmail.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20200106013416.9604-1-digetx@gmail.com>
 References: <20200106013416.9604-1-digetx@gmail.com>
@@ -77,53 +77,74 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add "spinlock.h", which was included indirectly, and sort includes in
-alphabet order.
+The resource-managed variant removes the necessity for the driver to care
+about freeing ULPI resources.
 
+Suggested-by: Thierry Reding <thierry.reding@gmail.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/usb/phy/phy-tegra-usb.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ drivers/usb/phy/phy-tegra-usb.c | 22 ++++++----------------
+ 1 file changed, 6 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/usb/phy/phy-tegra-usb.c b/drivers/usb/phy/phy-tegra-usb.c
-index c045f44ea964..aca1413db0ed 100644
+index 5b9f031619c5..9adbcdf8d3a1 100644
 --- a/drivers/usb/phy/phy-tegra-usb.c
 +++ b/drivers/usb/phy/phy-tegra-usb.c
-@@ -9,24 +9,26 @@
-  *	Venu Byravarasu <vbyravarasu@nvidia.com>
-  */
+@@ -1100,6 +1100,7 @@ static int tegra_usb_phy_probe(struct platform_device *pdev)
+ 	enum usb_phy_interface phy_type;
+ 	struct reset_control *reset;
+ 	struct resource *res;
++	struct usb_phy *phy;
+ 	int err;
  
--#include <linux/resource.h>
- #include <linux/delay.h>
--#include <linux/slab.h>
- #include <linux/err.h>
- #include <linux/export.h>
--#include <linux/module.h>
--#include <linux/platform_device.h>
--#include <linux/iopoll.h>
- #include <linux/gpio.h>
-+#include <linux/iopoll.h>
-+#include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_device.h>
- #include <linux/of_gpio.h>
--#include <linux/usb/otg.h>
--#include <linux/usb/ulpi.h>
--#include <linux/usb/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/resource.h>
-+#include <linux/slab.h>
-+#include <linux/spinlock.h>
-+
-+#include <linux/regulator/consumer.h>
-+
- #include <linux/usb/ehci_def.h>
-+#include <linux/usb/of.h>
- #include <linux/usb/tegra_usb_phy.h>
--#include <linux/regulator/consumer.h>
-+#include <linux/usb/ulpi.h>
+ 	tegra_phy = devm_kzalloc(&pdev->dev, sizeof(*tegra_phy), GFP_KERNEL);
+@@ -1200,12 +1201,14 @@ static int tegra_usb_phy_probe(struct platform_device *pdev)
+ 			return err;
+ 		}
  
- #define ULPI_VIEWPORT				0x170
+-		tegra_phy->ulpi = otg_ulpi_create(&ulpi_viewport_access_ops, 0);
+-		if (!tegra_phy->ulpi) {
++		phy = devm_otg_ulpi_create(&pdev->dev,
++					   &ulpi_viewport_access_ops, 0);
++		if (!phy) {
+ 			dev_err(&pdev->dev, "Failed to create ULPI OTG\n");
+ 			return -ENOMEM;
+ 		}
+ 
++		tegra_phy->ulpi = phy;
+ 		tegra_phy->ulpi->io_priv = tegra_phy->regs + ULPI_VIEWPORT;
+ 		break;
+ 
+@@ -1224,17 +1227,9 @@ static int tegra_usb_phy_probe(struct platform_device *pdev)
+ 
+ 	err = usb_add_phy_dev(&tegra_phy->u_phy);
+ 	if (err)
+-		goto free_ulpi;
++		return err;
+ 
+ 	return 0;
+-
+-free_ulpi:
+-	if (tegra_phy->ulpi) {
+-		kfree(tegra_phy->ulpi->otg);
+-		kfree(tegra_phy->ulpi);
+-	}
+-
+-	return err;
+ }
+ 
+ static int tegra_usb_phy_remove(struct platform_device *pdev)
+@@ -1243,11 +1238,6 @@ static int tegra_usb_phy_remove(struct platform_device *pdev)
+ 
+ 	usb_remove_phy(&tegra_phy->u_phy);
+ 
+-	if (tegra_phy->ulpi) {
+-		kfree(tegra_phy->ulpi->otg);
+-		kfree(tegra_phy->ulpi);
+-	}
+-
+ 	return 0;
+ }
  
 -- 
 2.24.0
