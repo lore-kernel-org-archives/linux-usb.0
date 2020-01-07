@@ -2,97 +2,82 @@ Return-Path: <SRS0=uAmH=24=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BD27C282DD
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Jan 2020 19:51:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7406C282DD
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Jan 2020 20:43:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 639E0206DB
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Jan 2020 19:51:27 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QzQ1Ia8B"
+	by mail.kernel.org (Postfix) with ESMTP id B21F02072A
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Jan 2020 20:43:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728421AbgAGTvY (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Jan 2020 14:51:24 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:50248 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728364AbgAGTvY (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jan 2020 14:51:24 -0500
-Received: by mail-wm1-f68.google.com with SMTP id a5so79103wmb.0;
-        Tue, 07 Jan 2020 11:51:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=N+e1mVy5VPUC1b+U+QeGIXntkp+YQnzcx3wiamDhMYI=;
-        b=QzQ1Ia8BIn5mC4RILSDjoqVdXSHmjccrKCoJNvWM2zSQmTcZAwsYzZEKn0Fs4q+/Ew
-         vTs8+3whhN/s2kdibQlxCDmmUEZOL1pmmi4QgbslQ3omMsrrqd9qsfp2nRXG6kOjJ3Ma
-         R836nHwK4x2xEEFWttu6vNR3jvUfaIsECs4jR2FZdqVvR2AFtNCQr1osvYBcJ2WknA80
-         t/nd4rW9YpkuWfU3RUTWPcqA7fRpoYMzjFOYysEWJ3yK/1Eq2q0FgJ1BlFiczNQ7dfKO
-         bWwF1NZB+1mam0xjkDDL5dRcqrM6zByTrxaySGbP4iPFW7SRoNALnEX7Ntmv/R3calS4
-         14CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=N+e1mVy5VPUC1b+U+QeGIXntkp+YQnzcx3wiamDhMYI=;
-        b=GW6jE3YFR+JPYQujXl+l/1TrDARdt+4uuFRZT11iljbjeeJpV0DiUEQeSKHjg9yqI7
-         2jtdqBm6dnSB2TOj1rlmFIzyTtnD7YOfsKDP0/9LyKGlZTlza4PmUY7HsaJedxAZrose
-         uDI/xKpwl36pJ1maB8WEwGJbJz5aDbeVSyBT8NaNEmyR8pQScRdFV03o/2mTpQbXxX0Y
-         jm4x7OOJDeyryV63zGJtj6Os7n4mnzP86r0xLec9hjpK8yWZFh4R6NCWBAWxcQT1HmLj
-         pODVk6NCkKiK1uO+j+vVy00YMZmUJWMdHgNgzh0UH0lsY0wGgkOewm1lEr4/IOoUSgSj
-         tspA==
-X-Gm-Message-State: APjAAAV5z9zxu887VDxQbweFXuAxfev4kwTMWMTY0aQTahbvOKAG5xQv
-        WhbpnCt+dfZ1rpQHvZu5BoXIyb5ur9g5NnpWZzo=
-X-Google-Smtp-Source: APXvYqxw2oF+3vnxN6qUMzMwgtepbEmBB6gHsuaGdrKPHQ6z09MDLjhaFV4qD1LA2QQhEM2/cytMn5uqV5+eaYnwndI=
-X-Received: by 2002:a1c:1b15:: with SMTP id b21mr48232wmb.17.1578426682449;
- Tue, 07 Jan 2020 11:51:22 -0800 (PST)
+        id S1726778AbgAGUnv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Jan 2020 15:43:51 -0500
+Received: from iolanthe.rowland.org ([192.131.102.54]:48318 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726210AbgAGUnv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jan 2020 15:43:51 -0500
+Received: (qmail 7898 invoked by uid 2102); 7 Jan 2020 15:43:50 -0500
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 7 Jan 2020 15:43:50 -0500
+Date:   Tue, 7 Jan 2020 15:43:50 -0500 (EST)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     syzbot <syzbot+10e5f68920f13587ab12@syzkaller.appspotmail.com>
+cc:     andreyknvl@google.com, <gregkh@linuxfoundation.org>,
+        <gustavo@embeddedor.com>, <ingrassia@epigenesys.com>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <syzkaller-bugs@googlegroups.com>
+Subject: Re: WARNING in usbhid_raw_request/usb_submit_urb (2)
+In-Reply-To: <0000000000003a83be059b91c6e4@google.com>
+Message-ID: <Pine.LNX.4.44L0.2001071541020.1567-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-References: <20191106083843.1718437-1-vkoul@kernel.org>
-In-Reply-To: <20191106083843.1718437-1-vkoul@kernel.org>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Tue, 7 Jan 2020 11:51:11 -0800
-Message-ID: <CANcMJZDqX6-+naGEbBiyM+1cZS6jfMoP9bm5Uk4ZuP_mw5aNWw@mail.gmail.com>
-Subject: Re: [PATCH v5 0/4] usb: xhci: Add support for Renesas USB controllers
-To:     Vinod Koul <vkoul@kernel.org>
-Cc:     Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-arm-msm@vger.kernel.org,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Christian Lamparter <chunkeey@googlemail.com>,
-        linux-usb@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Todd Kjos <tkjos@google.com>,
-        Alistair Delva <adelva@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Nov 6, 2019 at 12:40 AM Vinod Koul <vkoul@kernel.org> wrote:
->
-> This series add support for Renesas USB controllers uPD720201 and uPD720202.
-> These require firmware to be loaded and in case devices have ROM those can
-> also be programmed if empty. If ROM is programmed, it runs from ROM as well.
->
-> This includes two patches from Christian which supported these controllers
-> w/o ROM and later my patches for ROM support and multiple firmware versions.
->
+On Tue, 7 Jan 2020, syzbot wrote:
 
-Hey Vinod!
-   In pushing this series to one of the Android trees for the db845c,
-there was some concern raised that this series is adding a lot of
-renesas specific logic to the more generic xhci-pci driver. There was
-some question if instead that logic should be added to its own
-file/module? Do you have any thoughts on this?
+> Hello,
+> 
+> syzbot has tested the proposed patch and the reproducer did not trigger  
+> crash:
+> 
+> Reported-and-tested-by:  
+> syzbot+10e5f68920f13587ab12@syzkaller.appspotmail.com
+> 
+> Tested on:
+> 
+> commit:         ecdf2214 usb: gadget: add raw-gadget interface
+> git tree:       https://github.com/google/kasan.git
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=b06a019075333661
+> dashboard link: https://syzkaller.appspot.com/bug?extid=10e5f68920f13587ab12
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> patch:          https://syzkaller.appspot.com/x/patch.diff?x=11543656e00000
+> 
+> Note: testing is done by a robot and is best-effort only.
 
-Also, It seems there hasn't been much feedback on this for a few
-months now. Is there a newer version of the patchset I should sync
-with? Do you have plans to resubmit soon?
+Not very informative. I wonder just how elusive this race is.  The
+patch below doesn't change anything; let's see what happens.
 
-thanks
--john
+Alan Stern
+
+#syz test: https://github.com/google/kasan.git ecdf2214
+
+Index: usb-devel/drivers/usb/core/urb.c
+===================================================================
+--- usb-devel.orig/drivers/usb/core/urb.c
++++ usb-devel/drivers/usb/core/urb.c
+@@ -205,7 +205,7 @@ int usb_urb_ep_type_check(const struct u
+ 
+ 	ep = usb_pipe_endpoint(urb->dev, urb->pipe);
+ 	if (!ep)
+-		return -EINVAL;
++		return -EINVAL;
+ 	if (usb_pipetype(urb->pipe) != pipetypes[usb_endpoint_type(&ep->desc)])
+ 		return -EINVAL;
+ 	return 0;
+
