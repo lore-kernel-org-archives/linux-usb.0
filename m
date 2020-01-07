@@ -2,68 +2,51 @@ Return-Path: <SRS0=uAmH=24=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A415BC282DD
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Jan 2020 21:25:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D187BC33C9B
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Jan 2020 21:30:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7DF992080A
-	for <linux-usb@archiver.kernel.org>; Tue,  7 Jan 2020 21:25:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A8EBF2081E
+	for <linux-usb@archiver.kernel.org>; Tue,  7 Jan 2020 21:30:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728825AbgAGVZL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 7 Jan 2020 16:25:11 -0500
-Received: from iolanthe.rowland.org ([192.131.102.54]:48668 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1729318AbgAGVZH (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jan 2020 16:25:07 -0500
-Received: (qmail 8325 invoked by uid 2102); 7 Jan 2020 16:25:06 -0500
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 7 Jan 2020 16:25:06 -0500
-Date:   Tue, 7 Jan 2020 16:25:06 -0500 (EST)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     syzbot <syzbot+10e5f68920f13587ab12@syzkaller.appspotmail.com>
-cc:     andreyknvl@google.com, <gregkh@linuxfoundation.org>,
-        <gustavo@embeddedor.com>, <ingrassia@epigenesys.com>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <syzkaller-bugs@googlegroups.com>
-Subject: Re: WARNING in usbhid_raw_request/usb_submit_urb (2)
-In-Reply-To: <000000000000b9ee2d059b933d37@google.com>
-Message-ID: <Pine.LNX.4.44L0.2001071624021.1567-100000@iolanthe.rowland.org>
-MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+        id S1727281AbgAGVay (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 7 Jan 2020 16:30:54 -0500
+Received: from shards.monkeyblade.net ([23.128.96.9]:38308 "EHLO
+        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726389AbgAGVay (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 7 Jan 2020 16:30:54 -0500
+Received: from localhost (unknown [IPv6:2601:601:9f00:1c3::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 7096F15A17077;
+        Tue,  7 Jan 2020 13:30:53 -0800 (PST)
+Date:   Tue, 07 Jan 2020 13:30:52 -0800 (PST)
+Message-Id: <20200107.133052.439656166097762856.davem@davemloft.net>
+To:     chenzhou10@huawei.com
+Cc:     linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH next 0/2] net: ch9200: code cleanup
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <20200107092856.97742-1-chenzhou10@huawei.com>
+References: <20200107092856.97742-1-chenzhou10@huawei.com>
+X-Mailer: Mew version 6.8 on Emacs 26.1
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Tue, 07 Jan 2020 13:30:53 -0800 (PST)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Tue, 7 Jan 2020, syzbot wrote:
+From: Chen Zhou <chenzhou10@huawei.com>
+Date: Tue, 7 Jan 2020 17:28:54 +0800
 
-> Hello,
-> 
-> syzbot has tested the proposed patch but the reproducer still triggered  
-> crash:
-> WARNING in usbhid_raw_request/usb_submit_urb
+> patch 1 introduce __func__ in debug message.
+> patch 2 remove unnecessary return.
 
-All right, now for a slightly larger change.
-
-Alan Stern
-
-#syz test: https://github.com/google/kasan.git ecdf2214
-
-Index: usb-devel/drivers/usb/core/urb.c
-===================================================================
---- usb-devel.orig/drivers/usb/core/urb.c
-+++ usb-devel/drivers/usb/core/urb.c
-@@ -205,7 +205,7 @@ int usb_urb_ep_type_check(const struct u
- 
- 	ep = usb_pipe_endpoint(urb->dev, urb->pipe);
- 	if (!ep)
--		return -EINVAL;
-+		return -EBADF;
- 	if (usb_pipetype(urb->pipe) != pipetypes[usb_endpoint_type(&ep->desc)])
- 		return -EINVAL;
- 	return 0;
-
+Series applied, thanks.
