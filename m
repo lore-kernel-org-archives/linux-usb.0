@@ -2,73 +2,109 @@ Return-Path: <SRS0=ucs1=25=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA85C282DD
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jan 2020 15:55:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58734C47409
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jan 2020 15:59:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A21B820720
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jan 2020 15:55:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1578498916;
-	bh=rTbx0N+nMJdJX14nKSiBoSNdldUvQwIAMhEzefIklvM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=nqHjzgeT01xPYbYksInL+PLrij2FcNo0K+q6VuaJ/SQ2vTxhDzy76UsDW3XaSyeXE
-	 Ml3BvX/+mKPZ2nc4jVnkROHXUQzBWLb4o1Oa0IYU1W5+Pt1Mv0p9F7UC67ss/uTTq8
-	 wJS1jLJOxNzJiHRL62rfugz4dquh7l5XexyGW8KU=
+	by mail.kernel.org (Postfix) with ESMTP id 396F52070E
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jan 2020 15:59:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727784AbgAHPzQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Jan 2020 10:55:16 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55028 "EHLO mail.kernel.org"
+        id S1729165AbgAHP6u (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Jan 2020 10:58:50 -0500
+Received: from mga12.intel.com ([192.55.52.136]:43702 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727347AbgAHPzQ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 8 Jan 2020 10:55:16 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EB65620705;
-        Wed,  8 Jan 2020 15:55:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578498915;
-        bh=rTbx0N+nMJdJX14nKSiBoSNdldUvQwIAMhEzefIklvM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=r4f8GZvdB2C3UqdD+54A8RANPoHeJqCKYowaZq+5rRxA2evLGa0J7ayqRsVFr3e/s
-         uMl0LIck7lu04xXIR/eNLmszXB3NB7nNY25sqhgc0hAeeSFHrua+/vuEv/rWzmURaQ
-         MpU6YpxXh9mpr6Xd+u9KrXm30blG7L9X5mzfa6UM=
-Date:   Wed, 8 Jan 2020 16:55:13 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Tomasz =?utf-8?Q?Mo=C5=84?= <desowin@gmail.com>
-Cc:     linux-usb@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Pete Zaitcev <zaitcev@redhat.com>,
-        Alan Stern <stern@rowland.harvard.edu>
-Subject: Re: [PATCH] usbmon: Report device address assigned to USB device
-Message-ID: <20200108155513.GB2451129@kroah.com>
-References: <20200106093724.22947-1-desowin@gmail.com>
+        id S1727746AbgAHP6t (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 8 Jan 2020 10:58:49 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jan 2020 07:58:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,410,1571727600"; 
+   d="scan'208";a="303590872"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
+  by orsmga001.jf.intel.com with ESMTP; 08 Jan 2020 07:58:46 -0800
+Subject: Re: [PATCH v5 0/4] usb: xhci: Add support for Renesas USB controllers
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Vinod Koul <vkoul@kernel.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        linux-arm-msm@vger.kernel.org,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Christian Lamparter <chunkeey@googlemail.com>,
+        linux-usb@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Todd Kjos <tkjos@google.com>,
+        Alistair Delva <adelva@google.com>
+References: <20191106083843.1718437-1-vkoul@kernel.org>
+ <CANcMJZDqX6-+naGEbBiyM+1cZS6jfMoP9bm5Uk4ZuP_mw5aNWw@mail.gmail.com>
+ <20200108040707.GU2818@vkoul-mobl> <20200108062436.GA2276347@kroah.com>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-ID: <b0dc038b-cc25-1d37-9339-689bb5b61ff7@linux.intel.com>
+Date:   Wed, 8 Jan 2020 18:00:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200106093724.22947-1-desowin@gmail.com>
+In-Reply-To: <20200108062436.GA2276347@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jan 06, 2020 at 10:37:17AM +0100, Tomasz Moń wrote:
-> Make USB device addresses match while sniffing USB communication
-> with usbmon and hardware USB sniffer (OpenVizsla) at the same time.
-> On xHCI root hubs the address is assigned by hardware and can be
-> different than devnum.
+On 8.1.2020 8.24, Greg Kroah-Hartman wrote:
+> On Wed, Jan 08, 2020 at 09:37:07AM +0530, Vinod Koul wrote:
+>> Hi John,
+>>
+>> On 07-01-20, 11:51, John Stultz wrote:
+>>> On Wed, Nov 6, 2019 at 12:40 AM Vinod Koul <vkoul@kernel.org> wrote:
+>>>>
+>>>> This series add support for Renesas USB controllers uPD720201 and uPD720202.
+>>>> These require firmware to be loaded and in case devices have ROM those can
+>>>> also be programmed if empty. If ROM is programmed, it runs from ROM as well.
+>>>>
+>>>> This includes two patches from Christian which supported these controllers
+>>>> w/o ROM and later my patches for ROM support and multiple firmware versions.
+>>>>
+>>>
+>>> Hey Vinod!
+>>>     In pushing this series to one of the Android trees for the db845c,
+>>> there was some concern raised that this series is adding a lot of
+>>> renesas specific logic to the more generic xhci-pci driver. There was
+>>> some question if instead that logic should be added to its own
+>>> file/module? Do you have any thoughts on this?
+>>
+>> TBH I have not thought about that and in previous post neither Greg or
+>> Mathias gave a feedback that this was not acceptable...
+>>
+>> We can think about splitting but apart from firmware load there is not
+>> much extra functionality that we need to add, the controller behaviour
+>> as a standard xhci-pci. So i am not sure if we gain much by splitting.
+>>
+>>> Also, It seems there hasn't been much feedback on this for a few
+>>> months now. Is there a newer version of the patchset I should sync
+>>> with? Do you have plans to resubmit soon?
+>>
+>> Well am still waiting for feedback :( I dont have any update on top of
+>> this, I can repost but I dont think that really serves a purpose.
+>>
+>> I would really like to hear from Greg if this series is acceptable and
+>> if not what would he like to see changed.
+> 
+> Greg is not the xhci maintainer :)
+> 
 
-This breaks the userspace abi for matching up the devnum with the number
-that is listed by the kernel to userspace, making it really hard to
-match things up for xhci devices now :(
+Reviewing this always got bumped down on my todo list as other urgent issues
+came up.
 
-I understand the need to look at this data, but you can't do it in a way
-that will change things like this.
-
-thanks,
-
-greg k-h
+I think the concern about adding this amount of renesas specific code to
+xhci-pci.c is valid. This series adds over 900 lines of Renesas FW loading
+code to a 600 line xhci-pci.c
+  
+-Mathias
