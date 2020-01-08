@@ -2,107 +2,79 @@ Return-Path: <SRS0=ucs1=25=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=0.3 required=3.0 tests=DATE_IN_PAST_03_06,
-	DKIMWL_WL_HIGH,DKIM_SIGNED,DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85661C33CA1
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jan 2020 11:17:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6C68C282DD
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jan 2020 12:53:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 59D5920673
-	for <linux-usb@archiver.kernel.org>; Wed,  8 Jan 2020 11:17:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1578482256;
-	bh=K5a1FOPcyRp0DCp/auw2go40HmDbbxw4Ibqe87jWEbc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=L7IGJKs0ftcIyYBudtXKY7d+hFLmW+qgzRvBDknmzvWSvqH9j/EguIzv+Erc56rh5
-	 6Lc7X++MJspduzEF6GAZf1d2B4BOk+ot/bLkxFjTvU6ZmNDo8jxK/iBOWTwG/aWOYv
-	 9dVqYHNKtKeeBveC3b3Ixbi23nYDUcyaPXDYYazU=
+	by mail.kernel.org (Postfix) with ESMTP id 95E18206F0
+	for <linux-usb@archiver.kernel.org>; Wed,  8 Jan 2020 12:53:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728053AbgAHLRc (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 8 Jan 2020 06:17:32 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55122 "EHLO mail.kernel.org"
+        id S1728281AbgAHMxW (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 8 Jan 2020 07:53:22 -0500
+Received: from mga02.intel.com ([134.134.136.20]:3862 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728045AbgAHLRc (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 8 Jan 2020 06:17:32 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F144320673;
-        Wed,  8 Jan 2020 11:17:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578482251;
-        bh=K5a1FOPcyRp0DCp/auw2go40HmDbbxw4Ibqe87jWEbc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=THqQZPcVvjC+wUPF3+29t3zF6xnYfYeYidcDePpV7b32VACrK9oGbLXd/UyWldH9t
-         tHrsowP1uTWquWgELlF37kxzuMxK1GRMcPT46tf5+Nxu9L+N4CxGNYaJCSEAmSq31E
-         4F8KHd8A0ugKdG9epSYOsK+CeWK557snvitFzsZA=
-Date:   Wed, 8 Jan 2020 07:24:36 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Vinod Koul <vkoul@kernel.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        linux-arm-msm@vger.kernel.org,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Christian Lamparter <chunkeey@googlemail.com>,
-        linux-usb@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Todd Kjos <tkjos@google.com>,
-        Alistair Delva <adelva@google.com>
-Subject: Re: [PATCH v5 0/4] usb: xhci: Add support for Renesas USB controllers
-Message-ID: <20200108062436.GA2276347@kroah.com>
-References: <20191106083843.1718437-1-vkoul@kernel.org>
- <CANcMJZDqX6-+naGEbBiyM+1cZS6jfMoP9bm5Uk4ZuP_mw5aNWw@mail.gmail.com>
- <20200108040707.GU2818@vkoul-mobl>
+        id S1728252AbgAHMxV (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 8 Jan 2020 07:53:21 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 08 Jan 2020 04:53:21 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,410,1571727600"; 
+   d="scan'208";a="303544485"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga001.jf.intel.com with ESMTP; 08 Jan 2020 04:53:18 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1001)
+        id 1F3FA14B; Wed,  8 Jan 2020 14:53:18 +0200 (EET)
+From:   Mika Westerberg <mika.westerberg@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Andreas Noever <andreas.noever@gmail.com>,
+        Michael Jamet <michael.jamet@intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>,
+        Lukas Wunner <lukas@wunner.de>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [PATCH 1/2] thunderbolt: Fix xhci check in usb4_switch_setup()
+Date:   Wed,  8 Jan 2020 15:53:16 +0300
+Message-Id: <20200108125317.36444-2-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200108125317.36444-1-mika.westerberg@linux.intel.com>
+References: <20200108125317.36444-1-mika.westerberg@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200108040707.GU2818@vkoul-mobl>
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jan 08, 2020 at 09:37:07AM +0530, Vinod Koul wrote:
-> Hi John,
-> 
-> On 07-01-20, 11:51, John Stultz wrote:
-> > On Wed, Nov 6, 2019 at 12:40 AM Vinod Koul <vkoul@kernel.org> wrote:
-> > >
-> > > This series add support for Renesas USB controllers uPD720201 and uPD720202.
-> > > These require firmware to be loaded and in case devices have ROM those can
-> > > also be programmed if empty. If ROM is programmed, it runs from ROM as well.
-> > >
-> > > This includes two patches from Christian which supported these controllers
-> > > w/o ROM and later my patches for ROM support and multiple firmware versions.
-> > >
-> > 
-> > Hey Vinod!
-> >    In pushing this series to one of the Android trees for the db845c,
-> > there was some concern raised that this series is adding a lot of
-> > renesas specific logic to the more generic xhci-pci driver. There was
-> > some question if instead that logic should be added to its own
-> > file/module? Do you have any thoughts on this?
-> 
-> TBH I have not thought about that and in previous post neither Greg or
-> Mathias gave a feedback that this was not acceptable...
-> 
-> We can think about splitting but apart from firmware load there is not
-> much extra functionality that we need to add, the controller behaviour
-> as a standard xhci-pci. So i am not sure if we gain much by splitting.
-> 
-> > Also, It seems there hasn't been much feedback on this for a few
-> > months now. Is there a newer version of the patchset I should sync
-> > with? Do you have plans to resubmit soon?
-> 
-> Well am still waiting for feedback :( I dont have any update on top of
-> this, I can repost but I dont think that really serves a purpose.
-> 
-> I would really like to hear from Greg if this series is acceptable and
-> if not what would he like to see changed.
+The code tried to check whether xhci variable has ROUTER_CS_6_HCI bit
+set but since xhci type is bool and it already holds true or false based
+on that very bit, fix the check to use the variable directly.
 
-Greg is not the xhci maintainer :)
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Fixes: b04079837b20 ("thunderbolt: Add initial support for USB4")
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/usb4.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/thunderbolt/usb4.c b/drivers/thunderbolt/usb4.c
+index dbe7ecce4505..b341fc60c4ba 100644
+--- a/drivers/thunderbolt/usb4.c
++++ b/drivers/thunderbolt/usb4.c
+@@ -239,7 +239,7 @@ int usb4_switch_setup(struct tb_switch *sw)
+ 		 * and the parent does not have any USB3 dowstream
+ 		 * adapters (so we cannot do USB 3.x tunneling).
+ 		 */
+-		if (xhci & ROUTER_CS_6_HCI)
++		if (xhci)
+ 			val |= ROUTER_CS_5_HCO;
+ 	}
+ 
+-- 
+2.24.1
 
