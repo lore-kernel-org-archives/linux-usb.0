@@ -2,75 +2,109 @@ Return-Path: <SRS0=xjLD=26=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FC30C32771
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Jan 2020 09:52:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EF40C32771
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Jan 2020 10:15:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DB5642072E
-	for <linux-usb@archiver.kernel.org>; Thu,  9 Jan 2020 09:52:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1578563530;
-	bh=c7jZaClDypVvCvlKnzlLrOVgU/QAtJw4RonErlcWPhs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=YHH6TSU0PwzrK3mmR7I/QkB5lEAvhzkem4d6Xdbzo/lOjVxcZofZjSQ3PnZ7izTSI
-	 LEkQW+EpRps08zmRW5Pgy0d0bjBiy6pR/2TUk9NZAhTEJrrklrW/ltFGHjwnWsRdl1
-	 H0bricUeuReNfjNFcLE0MHffzoMIjsGxLlN95GxY=
+	by mail.kernel.org (Postfix) with ESMTP id 50D022072A
+	for <linux-usb@archiver.kernel.org>; Thu,  9 Jan 2020 10:15:43 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=baylibre-com.20150623.gappssmtp.com header.i=@baylibre-com.20150623.gappssmtp.com header.b="h0ow4VeS"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729913AbgAIJwK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 9 Jan 2020 04:52:10 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44742 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729170AbgAIJwH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 9 Jan 2020 04:52:07 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E98422072A;
-        Thu,  9 Jan 2020 09:52:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578563527;
-        bh=c7jZaClDypVvCvlKnzlLrOVgU/QAtJw4RonErlcWPhs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HtBDzX3uUiALzEYnsTKv11FaCLZ2eTIjw4oz8YP7hMb/f22MjJKc4o8ulCsPik4X/
-         wRhQWzViODjLQ3ZMw0hrrHAWz2kKkSfSISAPLKt9FVzuWUmvuF5Dz++qgWX5T66+zG
-         c4y+3I81e0RuiHOEL+OaWFPbm6WqnX0h5WtQ0WqE=
-Date:   Thu, 9 Jan 2020 10:52:05 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Guenter Roeck <linux@roeck-us.net>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 14/15] usb: typec: Add member for the supported USB modes
- to struct typec_capability
-Message-ID: <20200109095205.GA129962@kroah.com>
-References: <20191230142611.24921-1-heikki.krogerus@linux.intel.com>
- <20191230142611.24921-15-heikki.krogerus@linux.intel.com>
+        id S1730026AbgAIKPm (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 9 Jan 2020 05:15:42 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:36621 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728899AbgAIKPl (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 9 Jan 2020 05:15:41 -0500
+Received: by mail-wr1-f67.google.com with SMTP id z3so6772093wru.3
+        for <linux-usb@vger.kernel.org>; Thu, 09 Jan 2020 02:15:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=cskzhIjwtS0ZVRi8zMZa+kHk4M1kBjG50N69LQL60P8=;
+        b=h0ow4VeStV9ER/XHasMs74E0+JCwgBvbicr55G654K+QgM0E3o7aCk/LftohaQ/mam
+         K/oPl1DN9ogDVNFnXQbG619dEI3IiXEBVkaAAHXUe7T8aypF4zBkArvDclU6nylS3EZM
+         RsYFqnDW/LsLHvnfFU1VGIYFweyPCIYpDVrRkeaGDhB5ogdRzQQHJFTmBSANZKatHOHJ
+         l7suu9Wc/eeOJCwarOUn3veAcF3NA986bAtFIgIh/Xi8GhKX1w68ZtCg88Sk7IclgS5v
+         FaOPmjwSuVB0QSRe/FpXDssCBKIP/At2DrBAd2pK7bu89NvewLGccxwZioH4NbNJ8yvW
+         2kkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=cskzhIjwtS0ZVRi8zMZa+kHk4M1kBjG50N69LQL60P8=;
+        b=qV+DQ73LVINvCO2zdtxb+6ca5i2EGz96E5+FhzjOd8fE+MTqgG4Y+cRMnwcBW5oVlm
+         XYdtYPLCy/jyT4OmEqwcIlknbPgwXGoE1sBHY4ilBnQOjIlkpSjcx8IqbqbwhEDreZUf
+         0V/bUmPeOpPnY8fZlzCZoUDBAir+7g4Y/uHQQ/BGsBpD5XEuEUT1IfYBFgrHHLNuA0tF
+         zeL7XWmQa7vj7hj29LiY24VnCSz4y09YMoWCHf1KKC5bRR+LhOCrq1TmoxoquUQcBFPG
+         T07vCRJFYhw9BQS7ug/9X5dE5LsNmzlih3JenL0Wx6Eo+dnrzMPY+BINhOzIRJt6h+3P
+         ptMA==
+X-Gm-Message-State: APjAAAU9MhHyPAPNj9aY82N9qiONpU1ChYvE3TCKnBCPgTH8U9KJS3PH
+        KeSGcsQvtKY8dZUbFDcKyDSujA==
+X-Google-Smtp-Source: APXvYqwBJeqcb+JtzqfcXa3IBx+RAeZpEMUk+jeaEw1/iu/wKVv0xRKabBxEgIHfrQJo/hYAfvxhCQ==
+X-Received: by 2002:a05:6000:11c5:: with SMTP id i5mr9833559wrx.102.1578564939054;
+        Thu, 09 Jan 2020 02:15:39 -0800 (PST)
+Received: from bender.baylibre.local (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id q19sm2250460wmc.12.2020.01.09.02.15.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jan 2020 02:15:38 -0800 (PST)
+From:   Neil Armstrong <narmstrong@baylibre.com>
+To:     balbi@kernel.org, khilman@baylibre.com, devicetree@vger.kernel.org
+Cc:     Neil Armstrong <narmstrong@baylibre.com>,
+        linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Dongjin Kim <tobetter@gmail.com>,
+        Jianxin Pan <jianxin.pan@amlogic.com>,
+        Thinh Nguyen <thinhn@synopsys.com>,
+        Jun Li <lijun.kernel@gmail.com>, Tim <elatllat@gmail.com>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v2 1/3] doc: dt: bindings: usb: dwc3: Update entries for disabling SS instances in park mode
+Date:   Thu,  9 Jan 2020 11:15:33 +0100
+Message-Id: <20200109101535.26812-2-narmstrong@baylibre.com>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20200109101535.26812-1-narmstrong@baylibre.com>
+References: <20200109101535.26812-1-narmstrong@baylibre.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191230142611.24921-15-heikki.krogerus@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Dec 30, 2019 at 05:26:10PM +0300, Heikki Krogerus wrote:
-> The ports can inform which USB modes (USB2, USB3 and USB4)
-> they support with this member.
-> 
-> This information will be needed once we start using the new
-> Enter_USB message.
-> 
-> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> ---
->  include/linux/usb/typec.h | 6 ++++++
->  1 file changed, 6 insertions(+)
+This patch updates the documentation with the information related
+to the quirks that needs to be added for disabling all SuperSpeed XHCI
+instances in park mode.
 
-I dropped a few other patches in this series, and stopped here.  If you
-could fix up the attribute issue I pointed out and rebase and resend the
-reset of these, I'll be glad to take them.
+Cc: Dongjin Kim <tobetter@gmail.com>
+Cc: Jianxin Pan <jianxin.pan@amlogic.com>
+Cc: Thinh Nguyen <thinhn@synopsys.com>
+Cc: Jun Li <lijun.kernel@gmail.com>
+Reported-by: Tim <elatllat@gmail.com>
+Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+Acked-by: Rob Herring <robh@kernel.org>
+---
+ Documentation/devicetree/bindings/usb/dwc3.txt | 2 ++
+ 1 file changed, 2 insertions(+)
 
-thanks,
+diff --git a/Documentation/devicetree/bindings/usb/dwc3.txt b/Documentation/devicetree/bindings/usb/dwc3.txt
+index 66780a47ad85..c977a3ba2f35 100644
+--- a/Documentation/devicetree/bindings/usb/dwc3.txt
++++ b/Documentation/devicetree/bindings/usb/dwc3.txt
+@@ -75,6 +75,8 @@ Optional properties:
+ 			from P0 to P1/P2/P3 without delay.
+  - snps,dis-tx-ipgap-linecheck-quirk: when set, disable u2mac linestate check
+ 			during HS transmit.
++ - snps,parkmode-disable-ss-quirk: when set, all SuperSpeed bus instances in
++			park mode are disabled.
+  - snps,dis_metastability_quirk: when set, disable metastability workaround.
+ 			CAUTION: use only if you are absolutely sure of it.
+  - snps,is-utmi-l1-suspend: true when DWC3 asserts output signal
+-- 
+2.22.0
 
-greg k-h
