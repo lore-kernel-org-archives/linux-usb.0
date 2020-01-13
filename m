@@ -2,152 +2,148 @@ Return-Path: <SRS0=0jAJ=3C=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.4 required=3.0 tests=DKIMWL_WL_MED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22C37C33CAD
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Jan 2020 13:40:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A383C33CAD
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Jan 2020 14:02:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E3677214AF
-	for <linux-usb@archiver.kernel.org>; Mon, 13 Jan 2020 13:40:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 528DD20678
+	for <linux-usb@archiver.kernel.org>; Mon, 13 Jan 2020 14:02:11 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ucEiag0O"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="tzgXTIJI"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727494AbgAMNke (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 13 Jan 2020 08:40:34 -0500
-Received: from mail-pj1-f67.google.com ([209.85.216.67]:53717 "EHLO
-        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726074AbgAMNkd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Jan 2020 08:40:33 -0500
-Received: by mail-pj1-f67.google.com with SMTP id n96so4184432pjc.3
-        for <linux-usb@vger.kernel.org>; Mon, 13 Jan 2020 05:40:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ejCMkWWKwAoPI8u4KcGTMFwvY/YANPU/hMabfiSeUWY=;
-        b=ucEiag0OE86mT0+xHRiS4rf3+pJ8ZcTZjYKFIUZq1UogkOZ9pyd8qUlITMHqvfyYz3
-         gCZJiqd2ZRmknv8B10q0Nu2YZw249kz3EmPExGBVGZPpYLlSs2M79K9ATENcScWlgzC7
-         zIER/DZY9r2fndqCL3vWq/5gemEga2FeqcgSZhNNfhGGFawR5kvwTBCvndHxv41v1aX6
-         5KhqIPLElw1QigUzSWr0E5bWH3sL1qOMO1mX2PUGVOeRJDbNFS/6kP3rh7bD+gCCwSP6
-         c6S3xUbhl9bRDg401XWpz/45GH+zglbzTY9djLULueyAnK6XebPE0kjSdZ5axv3uBy/u
-         haJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ejCMkWWKwAoPI8u4KcGTMFwvY/YANPU/hMabfiSeUWY=;
-        b=B5G8anRdiV02bqjusjN89NwCWU6er1zcgyHV9TW6Hju3Hwv/3Y395lt1UQa1sBig2Y
-         SD6BCrnPMVvMwHgubtzq7D78h9B7Mk5YA+DzSC7962X4bxWu6/f1Fbs+519HAPpu1RHc
-         wxT+bFH4tLjJ7N2kiiiQKIIe+5zP32OtyaZmSDs/aM3qLORq8LypPV8o9FHCIaSya77v
-         2WaCsuQ0Y/1ooheemYb62uclDFiPM0XMIgv4uUY506QMjzWODDbDIofAM9CLyVRL4aE1
-         MJDkBKN845t13haWeMyBdn39zQK3glzJ78jgD/nIrl19JKoHFmXOShodOD78TYXYfmBq
-         0Dsg==
-X-Gm-Message-State: APjAAAX4eTAuqZ7nWJteqB+K+Y50xPj12UZ4vfUnLH/FyNuSpvIZghtQ
-        Evqea/f9DTMtEdS/YgCr82/1/hV46ERscsyGlwE/KA==
-X-Google-Smtp-Source: APXvYqwpVDtR7a+YeUtFgWE31wFU/5VDAT2mqpXM1oQMEgw6UQkfLNMA8pNEyGKxEhTdX/pSnyP8ALm+BgkUQ/hgJpE=
-X-Received: by 2002:a17:902:704b:: with SMTP id h11mr5765181plt.147.1578922832774;
- Mon, 13 Jan 2020 05:40:32 -0800 (PST)
+        id S1728695AbgAMOCI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 13 Jan 2020 09:02:08 -0500
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:56743 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728512AbgAMOCH (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 13 Jan 2020 09:02:07 -0500
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200113140206euoutp0273c96a53419d85679e6384e8f2ca07d9~pdyCM_Vai0645906459euoutp02N
+        for <linux-usb@vger.kernel.org>; Mon, 13 Jan 2020 14:02:06 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200113140206euoutp0273c96a53419d85679e6384e8f2ca07d9~pdyCM_Vai0645906459euoutp02N
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1578924126;
+        bh=Q76juxHEkfagvYhP5sjzFgIpF/yAGbHi9ChyXpJi2so=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=tzgXTIJIXYsaKO8a/feX4dBTzL+c1/1loNAr/bV2wOz+0Ymw1Q0fCAUUCcAxHlSuc
+         ve0fqYTunXK0+fsUmtWze8gaSyQRlUx1kEgvq+dWiSgaUNgeLkb6NsSzkBSGUVNarG
+         QglwRu9wXh1qO8evSNJZh78l+eU2ED4JtD821I8Y=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20200113140205eucas1p1a4f06b8a8c8249831a4b33c7bb01dbf8~pdyCBMxS-0437304373eucas1p1P;
+        Mon, 13 Jan 2020 14:02:05 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id 5E.04.61286.D587C1E5; Mon, 13
+        Jan 2020 14:02:05 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20200113140205eucas1p1ad988fd90cc2c9bf0efc28269a374bd0~pdyBozjN70437104371eucas1p1u;
+        Mon, 13 Jan 2020 14:02:05 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20200113140205eusmtrp2e51b92d9c8eda43b736af98ed1a3916b~pdyBoPk-f1632916329eusmtrp29;
+        Mon, 13 Jan 2020 14:02:05 +0000 (GMT)
+X-AuditID: cbfec7f2-f0bff7000001ef66-95-5e1c785d3bb4
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id B7.F3.07950.D587C1E5; Mon, 13
+        Jan 2020 14:02:05 +0000 (GMT)
+Received: from [106.120.51.15] (unknown [106.120.51.15]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20200113140205eusmtip1fdc55511c22a6ebde4c2b8fb548c6de7~pdyBRd_oU1947319473eusmtip1L;
+        Mon, 13 Jan 2020 14:02:05 +0000 (GMT)
+Subject: Re: [PATCH RESEND] phy: exynos5-usbdrd: Calibrating makes sense
+ only for USB2.0 PHY
+To:     linux-usb@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <1c5da6e3-d62e-9aa9-8c0c-e028c2c8c444@samsung.com>
+Date:   Mon, 13 Jan 2020 15:02:04 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+        Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <cover.1576697098.git.andreyknvl@google.com> <6cd46f8512dc12e20667c2b02d487591868cb20f.1576697098.git.andreyknvl@google.com>
- <20200111193156.GC435222@kroah.com>
-In-Reply-To: <20200111193156.GC435222@kroah.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Mon, 13 Jan 2020 14:40:21 +0100
-Message-ID: <CAAeHK+z2+_UHNp4_D2iL9FzPtDoU1YBohCaDJG8sAy12uc_-ew@mail.gmail.com>
-Subject: Re: [PATCH v4 1/1] usb: gadget: add raw-gadget interface
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>
-Cc:     USB list <linux-usb@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Alexander Potapenko <glider@google.com>,
-        Marco Elver <elver@google.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191213083157.9220-1-m.szyprowski@samsung.com>
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrIKsWRmVeSWpSXmKPExsWy7djP87qxFTJxBpNW6ltsnLGe1eLC0x42
+        i/PnN7BbXN41h81ixvl9TBaLlrUyO7B5bFrVyebRt2UVo8fxG9uZPD5vkgtgieKySUnNySxL
+        LdK3S+DK2PZjNnPBa86Ku0e3MzcwLuLoYuTkkBAwkTj8v4+1i5GLQ0hgBaPE9l1f2CGcL4wS
+        VxpXQWU+M0q8WfydFaZl4YEDUFXLGSV27rgOVfWWUeLtx43sIFXCAnES299sYwOxRQQcJJYs
+        vQNmMwusZJR4/9wdxGYTMJToetsFFucVsJPoO3IAbAOLgKrE696nLCC2qECsxP3VUxkhagQl
+        Ts58AhbnFLCVaHj+mhFiprzE9rdzmCFscYlbT+YzgRwkIbCMXWLZvgdQZ7tITJo3mRnCFpZ4
+        dXwLO4QtI/F/J0xDM6PEw3Nr2SGcHkaJy00zGCGqrCXunPsFdCoH0ApNifW79EFMCQFHid1f
+        XCBMPokbbwUhbuCTmLRtOjNEmFeio00IYoaaxKzj6+C2HrxwiXkCo9IsJJ/NQvLNLCTfzEJY
+        u4CRZRWjeGppcW56arFhXmq5XnFibnFpXrpecn7uJkZgwjn97/inHYxfLyUdYhTgYFTi4W3I
+        k4kTYk0sK67MPcQowcGsJMK76ZxUnBBvSmJlVWpRfnxRaU5q8SFGaQ4WJXFe40UvY4UE0hNL
+        UrNTUwtSi2CyTBycUg2MHK5BetGneE2PmqoxSfVMs+Zc8zjmpItTzE1T6y7bzmIp5QvStxr7
+        v2x4kW8e9aIhx6GX9f1j06BHvwqnT9Nd47TDu5PV8dNf4+oY71TDB6d5Tygprpg3bcLXkrgL
+        Hu/Vw+t+p7Akr3I89+qXOZuivHWQxv5iDjOR1IvTyn31wxbULDsXWKDEUpyRaKjFXFScCAAj
+        D3WTNAMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCIsWRmVeSWpSXmKPExsVy+t/xu7qxFTJxBifWS1hsnLGe1eLC0x42
+        i/PnN7BbXN41h81ixvl9TBaLlrUyO7B5bFrVyebRt2UVo8fxG9uZPD5vkgtgidKzKcovLUlV
+        yMgvLrFVija0MNIztLTQMzKx1DM0No+1MjJV0rezSUnNySxLLdK3S9DL2PZjNnPBa86Ku0e3
+        MzcwLuLoYuTkkBAwkVh44AB7FyMXh5DAUkaJpyf/MEMkZCROTmtghbCFJf5c62IDsYUEXjNK
+        vJpkCmILC8RJnDndxwhiiwg4SCxZeocNZBCzwEpGiZ4JJ5kgpk5glJhypwNsEpuAoUTXW4hJ
+        vAJ2En1HDoDFWQRUJV73PmUBsUUFYiX+n7kGVSMocXLmE7A4p4CtRMPz12DbmAXMJOZtfsgM
+        YctLbH87B8oWl7j1ZD7TBEahWUjaZyFpmYWkZRaSlgWMLKsYRVJLi3PTc4uN9IoTc4tL89L1
+        kvNzNzECY2zbsZ9bdjB2vQs+xCjAwajEw6uRIxMnxJpYVlyZe4hRgoNZSYR30zmpOCHelMTK
+        qtSi/Pii0pzU4kOMpkDPTWSWEk3OB8Z/Xkm8oamhuYWlobmxubGZhZI4b4fAwRghgfTEktTs
+        1NSC1CKYPiYOTqkGRt67p1T7eRe83euxv2Gj3PsrHjffadhc3noxjjUm6+82ryOLVr6y+1Wn
+        Ij8/febbM3dn3WVre7Xi3P4ztrcOaoYbFCUoxYW5z/w4+7pOis2fnKcRfpLB+5d2p0u7X9Zj
+        0nyac+bclfue3j1V69SC39baMSouerZxdo62qt3ZXZG7vrvnP177ZbsSS3FGoqEWc1FxIgDF
+        u2YtxwIAAA==
+X-CMS-MailID: 20200113140205eucas1p1ad988fd90cc2c9bf0efc28269a374bd0
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20191213083209eucas1p1459831639297fc7c37089c8fef4e0248
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20191213083209eucas1p1459831639297fc7c37089c8fef4e0248
+References: <CGME20191213083209eucas1p1459831639297fc7c37089c8fef4e0248@eucas1p1.samsung.com>
+        <20191213083157.9220-1-m.szyprowski@samsung.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Sat, Jan 11, 2020 at 9:02 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
+
+On 13.12.2019 09:31, Marek Szyprowski wrote:
+> PHY calibration is needed only for USB2.0 (UTMI) PHY, so skip calling
+> calibration code when phy_calibrate() is called for USB3.0 (PIPE3) PHY.
 >
-> On Wed, Dec 18, 2019 at 08:26:57PM +0100, Andrey Konovalov wrote:
-> > USB Raw Gadget is a kernel module that provides a userspace interface for
-> > the USB Gadget subsystem. Essentially it allows to emulate USB devices
-> > from userspace. Enabled with CONFIG_USB_RAW_GADGET. Raw Gadget is
-> > currently a strictly debugging feature and shouldn't be used in
-> > production.
-> >
-> > Raw Gadget is similar to GadgetFS, but provides a more low-level and
-> > direct access to the USB Gadget layer for the userspace. The key
-> > differences are:
-> >
-> > 1. Every USB request is passed to the userspace to get a response, while
-> >    GadgetFS responds to some USB requests internally based on the provided
-> >    descriptors. However note, that the UDC driver might respond to some
-> >    requests on its own and never forward them to the Gadget layer.
-> >
-> > 2. GadgetFS performs some sanity checks on the provided USB descriptors,
-> >    while Raw Gadget allows you to provide arbitrary data as responses to
-> >    USB requests.
-> >
-> > 3. Raw Gadget provides a way to select a UDC device/driver to bind to,
-> >    while GadgetFS currently binds to the first available UDC.
-> >
-> > 4. Raw Gadget uses predictable endpoint names (handles) across different
-> >    UDCs (as long as UDCs have enough endpoints of each required transfer
-> >    type).
-> >
-> > 5. Raw Gadget has ioctl-based interface instead of a filesystem-based one.
-> >
-> > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> Fixes: d8c80bb3b55b ("phy: exynos5-usbdrd: Calibrate LOS levels for exynos5420/5800")
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+
+gentle ping
+
+> ---
+>   drivers/phy/samsung/phy-exynos5-usbdrd.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 >
-> This looks good to me, with the one minor problem below that you can fix
-> with a follow-on patch.
+> diff --git a/drivers/phy/samsung/phy-exynos5-usbdrd.c b/drivers/phy/samsung/phy-exynos5-usbdrd.c
+> index 646259bee909..f07edd80d2f3 100644
+> --- a/drivers/phy/samsung/phy-exynos5-usbdrd.c
+> +++ b/drivers/phy/samsung/phy-exynos5-usbdrd.c
+> @@ -714,7 +714,9 @@ static int exynos5_usbdrd_phy_calibrate(struct phy *phy)
+>   	struct phy_usb_instance *inst = phy_get_drvdata(phy);
+>   	struct exynos5_usbdrd_phy *phy_drd = to_usbdrd_phy(inst);
+>   
+> -	return exynos5420_usbdrd_phy_calibrate(phy_drd);
+> +	if (inst->phy_cfg->id == EXYNOS5_DRDPHY_UTMI)
+> +		return exynos5420_usbdrd_phy_calibrate(phy_drd);
+> +	return 0;
+>   }
+>   
+>   static const struct phy_ops exynos5_usbdrd_phy_ops = {
 
-Great, thanks! I'd prefer to send out v5 to keep this a single patch
-if that's OK.
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
-I've also found an issue, but I'm not sure if that is the bug in Raw
-Gadget, or in the gadget layer (in the former case I'll add this fix
-to v5 as well). What I believe I'm seeing is
-__fput()->usb_gadget_unregister_driver()->usb_gadget_remove_driver()->gadget_unbind()
-racing with dummy_timer()->gadget_setup(). In my case it results in
-gadget_unbind() doing set_gadget_data(gadget, NULL), and then
-gadget_setup() dereferencing get_gadget_data(gadget).
-
-Alan, does it look possible for those two functions to race? Should
-this be prevented by the gadget layer, or should I use some kind of
-locking in my gadget driver to prevent this?
-
-> This should probably go through Felipe's tree
-> though, so I'll wait for him to review the gadget side and then queue it
-> up in his tree:
-
-OK, looking forward to Felipe's review.
-
-> > +/* The type of event fetched with the USB_RAW_IOCTL_EVENT_FETCH ioctl. */
-> > +enum usb_raw_event_type {
-> > +     USB_RAW_EVENT_INVALID,
-> > +
-> > +     /* This event is queued when the driver has bound to a UDC. */
-> > +     USB_RAW_EVENT_CONNECT,
-> > +
-> > +     /* This event is queued when a new control request arrived to ep0. */
-> > +     USB_RAW_EVENT_CONTROL,
-> > +
-> > +     /* The list might grow in the future. */
-> > +};
->
-> You have to manually specify the enum values in the .h file for all
-> entries in order to assure that both userspace and the kernel will be in
-> sync with the same values.  I think that's documented in the "how to
-> write an ioctl interface" document that is somewhere in
-> Documentation/...
-
-Will fix in v5, thanks!
