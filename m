@@ -2,90 +2,49 @@ Return-Path: <SRS0=yvD0=3D=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 875C0C33CB1
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Jan 2020 11:08:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70114C33CB1
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Jan 2020 12:18:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5392E24672
-	for <linux-usb@archiver.kernel.org>; Tue, 14 Jan 2020 11:08:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579000085;
-	bh=wrzz6v9wLgVngplgzAofdyB8EqjvqeoIboyKf2AyPLE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=2LlVehm7XOFANhM1Y4YnYRYlPKDw33knG33ePgXo2i0vWWYvlTkUFiGCW2FSx3m1L
-	 eUeByvr9ihfzXWRE8lFiwiPYwhtkJF18p1szhgeJCa7Bu0CKPb6Aw2SBxQ4U/uIO81
-	 NXPgUtzd89BSLqXOA+ThI30HIVLUndwGGZg7Okc4=
+	by mail.kernel.org (Postfix) with ESMTP id 4B79E24672
+	for <linux-usb@archiver.kernel.org>; Tue, 14 Jan 2020 12:18:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729470AbgANLIC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 14 Jan 2020 06:08:02 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:33009 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726169AbgANLIB (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 14 Jan 2020 06:08:01 -0500
-Received: by mail-lf1-f66.google.com with SMTP id n25so9517576lfl.0;
-        Tue, 14 Jan 2020 03:08:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=PfZydivwfpsS9eSFFmwuHqFctO21HupiJd+0/1Yj/aM=;
-        b=ulLMmfkzSabw5x+jFstssnAbT3pPlGUQoJCp+07XQ71B1R9qyfjzYirS7MFznc4i4n
-         CAdO15VAEhyKk/ASGyVtdMo0gSpSkW8Uz7ODcOZaAO2T6K+e5H1IxqIshu8lSVs87MMV
-         S9lDdDsVqlxxZ6ZTpXMtH1SJaGHlvIgU0I1IEyP17tG2syrgG7V2o87v5GJIuCA5DxRH
-         KxlSzdqUL3d4sO3qe67oTi1Z9ZoJ1ggLJDydRedbiQktIuUGidJYzMhq4G9huUVsI199
-         8sZCgnJDgFPyBlxbcLTGJ0XhiuRPEL3cJ+Qy0bPHn1aoVmNFa967wG5x2DAQydmf1hCm
-         79mg==
-X-Gm-Message-State: APjAAAVtKJbXgyoezQwO8XCCZJw6+ugkZBqvNpnwLYMyNeOP5xF9zLhv
-        ZvT3lZ8RQTkV+zCPNNAIwogwjf8m
-X-Google-Smtp-Source: APXvYqyeY0JmYJPp+WsuWZKtBdtzIUB0Hcp9sQSnT/SENGAhSj3t9Xh53Hjs9siinjvGFA7KOUbY0w==
-X-Received: by 2002:a05:6512:41b:: with SMTP id u27mr1316895lfk.164.1579000079727;
-        Tue, 14 Jan 2020 03:07:59 -0800 (PST)
-Received: from xi.terra (c-14b8e655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.184.20])
-        by smtp.gmail.com with ESMTPSA id 204sm7123754lfj.47.2020.01.14.03.07.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jan 2020 03:07:59 -0800 (PST)
-Received: from johan by xi.terra with local (Exim 4.92.3)
-        (envelope-from <johan@kernel.org>)
-        id 1irK3D-00016I-2i; Tue, 14 Jan 2020 12:07:59 +0100
-Date:   Tue, 14 Jan 2020 12:07:59 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Greg KH <greg@kroah.com>
-Cc:     Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable <stable@vger.kernel.org>,
-        Martin Jansen <martin.jansen@opticon.com>
-Subject: Re: [PATCH] USB: serial: opticon: fix control-message timeouts
-Message-ID: <20200114110759.GG2301@localhost>
-References: <20200113172213.30869-1-johan@kernel.org>
- <20200113182546.GF411698@kroah.com>
+        id S1728959AbgANMSu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 14 Jan 2020 07:18:50 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39856 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726053AbgANMSu (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Tue, 14 Jan 2020 07:18:50 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A64782465A;
+        Tue, 14 Jan 2020 12:18:49 +0000 (UTC)
+Date:   Tue, 14 Jan 2020 13:18:47 +0100
+From:   Greg KH <greg@kroah.com>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] USB: serial: opticon: add chars_in_buffer()
+ implementation
+Message-ID: <20200114121847.GA1503960@kroah.com>
+References: <20200114110146.5929-1-johan@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200113182546.GF411698@kroah.com>
+In-Reply-To: <20200114110146.5929-1-johan@kernel.org>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Mon, Jan 13, 2020 at 07:25:46PM +0100, Greg Kroah-Hartman wrote:
-> On Mon, Jan 13, 2020 at 06:22:13PM +0100, Johan Hovold wrote:
-> > The driver was issuing synchronous uninterruptible control requests
-> > without using a timeout. This could lead to the driver hanging
-> > on open() or tiocmset() due to a malfunctioning (or malicious) device
-> > until the device is physically disconnected.
-> > 
-> > The USB upper limit of five seconds per request should be more than
-> > enough.
-> > 
-> > Fixes: 309a057932ab ("USB: opticon: add rts and cts support")
-> > Cc: stable <stable@vger.kernel.org>     # 2.6.39
-> > Cc: Martin Jansen <martin.jansen@opticon.com>
-> > Signed-off-by: Johan Hovold <johan@kernel.org>
+On Tue, Jan 14, 2020 at 12:01:45PM +0100, Johan Hovold wrote:
+> Add a chars_in_buffer() implementation so that the tty layer will wait
+> for outgoing buffered data to be drained when needed (e.g. on final
+> close()).
 > 
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Johan Hovold <johan@kernel.org>
 
-Thanks for reviewing these. This one; now applied.
-
-Johan
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
