@@ -7,51 +7,51 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 754DBC33CB7
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:25:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5770C33CB1
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:26:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 449E220728
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:25:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 99F1220728
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:26:01 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="rgNoj8Ke"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="BKQ13Yfm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729067AbgAONZv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Jan 2020 08:25:51 -0500
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:53860 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728978AbgAONZu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jan 2020 08:25:50 -0500
+        id S1729091AbgAON0B (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Jan 2020 08:26:01 -0500
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:51348 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729031AbgAONZv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jan 2020 08:25:51 -0500
 Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPnTv073258;
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPnqv100010;
         Wed, 15 Jan 2020 07:25:49 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
         s=ti-com-17Q1; t=1579094749;
-        bh=+gYMqHQOAcTGTUpRS6YNTVRWPyVX0nxc/pbJR/hobKQ=;
+        bh=Wlv2+k4Inr/X4dHxvmynD/KAbfMProOMyfybITpPKB8=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=rgNoj8KeMgCT6saXgoSWoHbuS49BgrDst4mzdUhyLUJkpmlMLJKauC+N6lG5gIQdy
-         sknhO6DM8VECW6i1bB9RQ136DmaqXZMN4qRWsvgRXTmHOLAqh0jlDkdkkF/Q2Bnq/H
-         jI4iH3r71UXE3iTP2oMIpoWq43Dqgeg0qrNzg4e0=
-Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00FDPnx6086454
+        b=BKQ13Yfm+dAOXTL9LSqWc2P36P7FaOjiWzkagyDW44NZGZs9AvpuSnOnRxmbxt1qF
+         Ur/iJRXM64yY9JpyegrXhOgYMw09/S3N4pH7FJ5EVO1EmxXe9csNQ/wBt4g54FhuiV
+         m4kQj/JT1yEZQl/5aJMoCDC1Ymd4Y35+5nv/9h4Q=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00FDPn7h086466
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
         Wed, 15 Jan 2020 07:25:49 -0600
-Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 15
- Jan 2020 07:25:48 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ Jan 2020 07:25:49 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
  Frontend Transport; Wed, 15 Jan 2020 07:25:49 -0600
 Received: from uda0271908.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPm36066537;
-        Wed, 15 Jan 2020 07:25:48 -0600
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPm3A066537;
+        Wed, 15 Jan 2020 07:25:49 -0600
 From:   Bin Liu <b-liu@ti.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>, Bin Liu <b-liu@ti.com>
-Subject: [PATCH 08/25] usb: musb: omap2430: Clean up enable and remove devctl tinkering
-Date:   Wed, 15 Jan 2020 07:25:30 -0600
-Message-ID: <20200115132547.364-9-b-liu@ti.com>
+Subject: [PATCH 12/25] usb: musb: jz4740: Add local dev variable to clean up probe
+Date:   Wed, 15 Jan 2020 07:25:34 -0600
+Message-ID: <20200115132547.364-13-b-liu@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200115132547.364-1-b-liu@ti.com>
 References: <20200115132547.364-1-b-liu@ti.com>
@@ -63,56 +63,88 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Tony Lindgren <tony@atomide.com>
+From: Paul Cercueil <paul@crapouillou.net>
 
-There should be no need to tinker with devctl in enable in the SoC glue
-code. We have musb_start() to take care of handling it already.
+Clean up the probe function by using a local 'struct device *dev'
+variable, instead of referencing &pdev->dev everytime.
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
-Signed-off-by: Tony Lindgren <tony@atomide.com>
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 Signed-off-by: Bin Liu <b-liu@ti.com>
 ---
- drivers/usb/musb/omap2430.c | 20 --------------------
- 1 file changed, 20 deletions(-)
+ drivers/usb/musb/jz4740.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/usb/musb/omap2430.c b/drivers/usb/musb/omap2430.c
-index 9c1b72a4b12f..2cc54135bb8b 100644
---- a/drivers/usb/musb/omap2430.c
-+++ b/drivers/usb/musb/omap2430.c
-@@ -276,33 +276,13 @@ static int omap2430_musb_init(struct musb *musb)
+diff --git a/drivers/usb/musb/jz4740.c b/drivers/usb/musb/jz4740.c
+index 03c555679e5e..9aca12f99c9f 100644
+--- a/drivers/usb/musb/jz4740.c
++++ b/drivers/usb/musb/jz4740.c
+@@ -109,36 +109,37 @@ static const struct musb_platform_ops jz4740_musb_ops = {
  
- static void omap2430_musb_enable(struct musb *musb)
+ static int jz4740_probe(struct platform_device *pdev)
  {
--	u8		devctl;
--	unsigned long timeout = jiffies + msecs_to_jiffies(1000);
- 	struct device *dev = musb->controller;
- 	struct omap2430_glue *glue = dev_get_drvdata(dev->parent);
--	struct musb_hdrc_platform_data *pdata = dev_get_platdata(dev);
--	struct omap_musb_board_data *data = pdata->board_data;
--
++	struct device			*dev = &pdev->dev;
+ 	struct musb_hdrc_platform_data	*pdata = &jz4740_musb_platform_data;
+ 	struct platform_device		*musb;
+ 	struct jz4740_glue		*glue;
+ 	struct clk                      *clk;
+ 	int				ret;
  
- 	switch (glue->status) {
+-	glue = devm_kzalloc(&pdev->dev, sizeof(*glue), GFP_KERNEL);
++	glue = devm_kzalloc(dev, sizeof(*glue), GFP_KERNEL);
+ 	if (!glue)
+ 		return -ENOMEM;
  
- 	case MUSB_ID_GROUND:
- 		omap_control_usb_set_mode(glue->control_otghs, USB_MODE_HOST);
--		if (data->interface_type != MUSB_INTERFACE_UTMI)
--			break;
--		devctl = musb_readb(musb->mregs, MUSB_DEVCTL);
--		/* start the session */
--		devctl |= MUSB_DEVCTL_SESSION;
--		musb_writeb(musb->mregs, MUSB_DEVCTL, devctl);
--		while (musb_readb(musb->mregs, MUSB_DEVCTL) &
--				MUSB_DEVCTL_BDEVICE) {
--			cpu_relax();
--
--			if (time_after(jiffies, timeout)) {
--				dev_err(dev, "configured as A device timeout");
--				break;
--			}
--		}
- 		break;
+ 	musb = platform_device_alloc("musb-hdrc", PLATFORM_DEVID_AUTO);
+ 	if (!musb) {
+-		dev_err(&pdev->dev, "failed to allocate musb device\n");
++		dev_err(dev, "failed to allocate musb device");
+ 		return -ENOMEM;
+ 	}
  
- 	case MUSB_VBUS_VALID:
+-	clk = devm_clk_get(&pdev->dev, "udc");
++	clk = devm_clk_get(dev, "udc");
+ 	if (IS_ERR(clk)) {
+-		dev_err(&pdev->dev, "failed to get clock\n");
++		dev_err(dev, "failed to get clock");
+ 		ret = PTR_ERR(clk);
+ 		goto err_platform_device_put;
+ 	}
+ 
+ 	ret = clk_prepare_enable(clk);
+ 	if (ret) {
+-		dev_err(&pdev->dev, "failed to enable clock\n");
++		dev_err(dev, "failed to enable clock");
+ 		goto err_platform_device_put;
+ 	}
+ 
+-	musb->dev.parent		= &pdev->dev;
++	musb->dev.parent		= dev;
+ 
+ 	glue->musb			= musb;
+ 	glue->clk			= clk;
+@@ -150,19 +151,19 @@ static int jz4740_probe(struct platform_device *pdev)
+ 	ret = platform_device_add_resources(musb, pdev->resource,
+ 					    pdev->num_resources);
+ 	if (ret) {
+-		dev_err(&pdev->dev, "failed to add resources\n");
++		dev_err(dev, "failed to add resources");
+ 		goto err_clk_disable;
+ 	}
+ 
+ 	ret = platform_device_add_data(musb, pdata, sizeof(*pdata));
+ 	if (ret) {
+-		dev_err(&pdev->dev, "failed to add platform_data\n");
++		dev_err(dev, "failed to add platform_data");
+ 		goto err_clk_disable;
+ 	}
+ 
+ 	ret = platform_device_add(musb);
+ 	if (ret) {
+-		dev_err(&pdev->dev, "failed to register musb device\n");
++		dev_err(dev, "failed to register musb device");
+ 		goto err_clk_disable;
+ 	}
+ 
 -- 
 2.17.1
 
