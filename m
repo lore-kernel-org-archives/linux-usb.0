@@ -7,51 +7,51 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C20C6C33CB6
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:26:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 448ECC33CB3
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:26:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 884D820728
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:26:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 182E020728
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:26:06 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="TOSqt6c2"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="w0gzRCIQ"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729096AbgAON0E (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1729098AbgAON0E (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Wed, 15 Jan 2020 08:26:04 -0500
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:53858 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726555AbgAONZu (ORCPT
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:49140 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728912AbgAONZu (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jan 2020 08:25:50 -0500
 Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPmP5073245;
-        Wed, 15 Jan 2020 07:25:48 -0600
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPnKK068997;
+        Wed, 15 Jan 2020 07:25:49 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1579094748;
-        bh=aBhzsKGdqarcLPIGjG27jWlmu6rkLWcmQ67Xwd2uJxM=;
+        s=ti-com-17Q1; t=1579094749;
+        bh=3ecZVXteFczQjcsbE9Fkmapr+Bt7ZYBisGtOJAwU94Y=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=TOSqt6c2s6bEMSGC7B4IRgeN2SB9Zh6VG6xd8yh/za3MELHp19wfeDulLD1gO2zsa
-         UBgf71wDRNEPTsEdBbzYs4p0vsnaOk6B2XC7zTJuselegHWCMT5ki1bbS47zvbuBEa
-         3RMfMk0zIC0XOD2CLogd9iI067JPAAVh41s+WaSc=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00FDPmt4110406
+        b=w0gzRCIQBjmhEM73+6/8E78WRzztCmDAfNZEAlyVo5GOVetUigek8UZeVKfH9IorK
+         7enSoKFjgAyQjqLyJQXIPLy/EiIghyLwnOdfDwL+YNhBZiAx0jV56SF9IAFjlvgVFZ
+         kKuwHmbtTPk1uWnEmOEYlAHtBWJFrrVDdPCWlSZQ=
+Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00FDPnHE110413
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 15 Jan 2020 07:25:48 -0600
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+        Wed, 15 Jan 2020 07:25:49 -0600
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 15
  Jan 2020 07:25:48 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
  Frontend Transport; Wed, 15 Jan 2020 07:25:48 -0600
 Received: from uda0271908.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPm2x066537;
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPm32066537;
         Wed, 15 Jan 2020 07:25:48 -0600
 From:   Bin Liu <b-liu@ti.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>, Bin Liu <b-liu@ti.com>
-Subject: [PATCH 01/25] usb: musb: core: Update the function description
-Date:   Wed, 15 Jan 2020 07:25:23 -0600
-Message-ID: <20200115132547.364-2-b-liu@ti.com>
+Subject: [PATCH 04/25] usb: musb: omap2430: Get rid of musb .set_vbus for omap2430 glue
+Date:   Wed, 15 Jan 2020 07:25:26 -0600
+Message-ID: <20200115132547.364-5-b-liu@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200115132547.364-1-b-liu@ti.com>
 References: <20200115132547.364-1-b-liu@ti.com>
@@ -63,30 +63,49 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Saurav Girepunje <saurav.girepunje@gmail.com>
+From: Tony Lindgren <tony@atomide.com>
 
-Update the function description of musb_stage0_irq() to remove unused
-parameter.
+We currently have musb_set_vbus() called from two different paths. Mostly
+it gets called from the USB PHY via omap_musb_set_mailbox(), but in some
+cases it can get also called from musb_stage0_irq() rather via .set_vbus:
 
-Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
-[b-liu@ti.com: revised commit log]
+(musb_set_host [musb_hdrc])
+(omap2430_musb_set_vbus [omap2430])
+(musb_stage0_irq [musb_hdrc])
+(musb_interrupt [musb_hdrc])
+(omap2430_musb_interrupt [omap2430])
+
+This is racy and will not work with introducing generic helper functions
+for musb_set_host() and musb_set_peripheral(). We want to get rid of the
+busy loops in favor of usleep_range().
+
+Let's just get rid of .set_vbus for omap2430 glue layer and let the PHY
+code handle VBUS with musb_set_vbus(). Note that in the follow-up patch
+we can completely remove omap2430_musb_set_vbus(), but let's do it in a
+separate patch as this change may actually turn out to be needed as a
+fix.
+
+Reported-by: Pavel Machek <pavel@ucw.cz>
+Acked-by: Pavel Machek <pavel@ucw.cz>
+Signed-off-by: Tony Lindgren <tony@atomide.com>
 Signed-off-by: Bin Liu <b-liu@ti.com>
 ---
- drivers/usb/musb/musb_core.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/usb/musb/omap2430.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/usb/musb/musb_core.c b/drivers/usb/musb/musb_core.c
-index 5ebf30bd61bd..48d95850152d 100644
---- a/drivers/usb/musb/musb_core.c
-+++ b/drivers/usb/musb/musb_core.c
-@@ -909,7 +909,6 @@ static void musb_handle_intr_reset(struct musb *musb)
-  * @param musb instance pointer
-  * @param int_usb register contents
-  * @param devctl
-- * @param power
-  */
+diff --git a/drivers/usb/musb/omap2430.c b/drivers/usb/musb/omap2430.c
+index a3d2fef67746..5c93226e0e20 100644
+--- a/drivers/usb/musb/omap2430.c
++++ b/drivers/usb/musb/omap2430.c
+@@ -361,8 +361,6 @@ static const struct musb_platform_ops omap2430_ops = {
+ 	.init		= omap2430_musb_init,
+ 	.exit		= omap2430_musb_exit,
  
- static irqreturn_t musb_stage0_irq(struct musb *musb, u8 int_usb,
+-	.set_vbus	= omap2430_musb_set_vbus,
+-
+ 	.enable		= omap2430_musb_enable,
+ 	.disable	= omap2430_musb_disable,
+ 
 -- 
 2.17.1
 
