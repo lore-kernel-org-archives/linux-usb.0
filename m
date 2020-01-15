@@ -2,125 +2,116 @@ Return-Path: <SRS0=3jNv=3E=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3E31C33CB1
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 08:57:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE5D5C33CB1
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 08:58:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 906F924655
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 08:57:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AFCB92187F
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 08:58:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1579078709;
+	bh=8GGvYkWRI1Hfrb7ke9IJGW25+aOyf895C4PxwnIYV7I=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
+	b=tt2J9zWcc1935AG4GKSq2ayfy+BkcoimBRQQx1M51nW01//LyAj88N5Ikk1AbFVCf
+	 9emmE5aCKLVwsK4IIP8ISYA3R4kQTqAmUwftNufp4x4m6PfmgiKy/NTadAwCTihQ3+
+	 z4wd5Sa4XMjinAL7jolUIQYiQEmTtWAhH9gIzBcQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729141AbgAOI5r (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Jan 2020 03:57:47 -0500
-Received: from smtp.qindel.com ([89.140.90.34]:56840 "EHLO thor.qindel.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729044AbgAOI5q (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 15 Jan 2020 03:57:46 -0500
-X-Greylist: delayed 300 seconds by postgrey-1.27 at vger.kernel.org; Wed, 15 Jan 2020 03:57:46 EST
-Received: from localhost (localhost [127.0.0.1])
-        by thor.qindel.com (Postfix) with ESMTP id D551B602CB;
-        Wed, 15 Jan 2020 09:52:44 +0100 (CET)
-Received: from thor.qindel.com ([127.0.0.1])
-        by localhost (thor.qindel.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id kfg-ZpTGDLIC; Wed, 15 Jan 2020 09:52:44 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-        by thor.qindel.com (Postfix) with ESMTP id 9F19A602CC;
-        Wed, 15 Jan 2020 09:52:44 +0100 (CET)
-X-Virus-Scanned: amavisd-new at thor.qindel.com
-Received: from thor.qindel.com ([127.0.0.1])
-        by localhost (thor.qindel.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id EuQOVuYwOyNN; Wed, 15 Jan 2020 09:52:44 +0100 (CET)
-Received: from superman.qindel.com (superman.qindel.com [172.26.4.138])
-        by thor.qindel.com (Postfix) with ESMTP id 297BC602CB;
-        Wed, 15 Jan 2020 09:52:41 +0100 (CET)
-Date:   Wed, 15 Jan 2020 09:52:40 +0100 (CET)
-From:   Vadim Troshchinskiy <vtroshchinskiy@qindel.com>
-To:     shuah <shuah@kernel.org>
-Cc:     linux-usb@vger.kernel.org,
-        Valentina Manea <valentina.manea.m@gmail.com>
-Message-ID: <783453790.2802069.1579078360600.JavaMail.zimbra@qindel.com>
-In-Reply-To: <86e6dfbf-cf51-1467-3a78-fd72377385b7@kernel.org>
-References: <5176009.64u6Zm7RkX@gverdu.qindel.com> <86e6dfbf-cf51-1467-3a78-fd72377385b7@kernel.org>
-Subject: Re: [PATCH] usbip: Remove unaligned pointer usage from usbip tools
+        id S1729031AbgAOI63 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Jan 2020 03:58:29 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:40954 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729016AbgAOI63 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jan 2020 03:58:29 -0500
+Received: by mail-lj1-f193.google.com with SMTP id u1so17632329ljk.7
+        for <linux-usb@vger.kernel.org>; Wed, 15 Jan 2020 00:58:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=fHu/NwA4NTJNoJ0radcC3JqAj5S9NzKhljImujJbmrE=;
+        b=o5mM1aAgT9KWcJyrr35TGk0H6nz76PdN73djp6ZWUiHONG/I4kxRnDvC8Mu33203lR
+         6SCyPRGgEEotL4eQm4a7CCgOylzshJrTSz9Ckb9R/LlROR4w7yNSXkplZ6mrqecGQoOR
+         VrllQW029tdxfXn+BKW8U5KKB5ycR8XW586EPWxsDmNGj3ZK9uAE5/VyOrhOXAH934Sn
+         2PnWO3Sjy+xP1WYU5zKHefbYTHoUDvUjvVTpFDxySxxfoBGU8SSwsNhFoUi8q/pbcMRz
+         ng6ur4n5JVlWFJGXycpwYgR5k/uVquioTBHCTy6wlvWb3sSzzAEV89fRpx5LZTazAGOK
+         4mig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version;
+        bh=fHu/NwA4NTJNoJ0radcC3JqAj5S9NzKhljImujJbmrE=;
+        b=kNLprsuVbztwh0WEffKVZ8sDO8Wxsj2WgnjK57XLQtpGbolNOD1Ldnw+pbib32Yrxh
+         AzR5vF9LoUXxyBh9HWb4qiMw1+NCHZiIi0QMhkYgf7grZ+Clq6n6rDkjn7nSUgXG9zcv
+         GSPiqhOmBZ8qZrmfTS7tuCedbMyPO6UMB3OiyPgB6M0sur3R6fM2uchtPPiPRirFiJFI
+         UuiRThrrI2Ahefv1fhFuln4Lmp4CMjX5vroZfYOX1UJMsy8fPsf2xqAT+qf6W0tLXyQC
+         YhuB+NPY6WlJISnWbUBS4TGITAQ1b9cXL7ekuH7FhXeUYrsFWDg9J7DNpQi11xZ3OUVr
+         kp8w==
+X-Gm-Message-State: APjAAAXnBS6JVQQp3dk+pSzpi9SPGg1DrdOKrN60zDNla3kpS1lRbkfw
+        zpZS+MlMAYDkwl2cnvT6tQfaCwoFWJI+wA==
+X-Google-Smtp-Source: APXvYqx57o7rOWNgdj+iGywIxtNrYxxQ/poYvjvEt+RJaxer+Sbwph18uq3SDE08IlqvN1CFZyWygA==
+X-Received: by 2002:a05:651c:104:: with SMTP id a4mr1161818ljb.104.1579078706777;
+        Wed, 15 Jan 2020 00:58:26 -0800 (PST)
+Received: from saruman (88-113-215-33.elisa-laajakaista.fi. [88.113.215.33])
+        by smtp.gmail.com with ESMTPSA id y29sm8687422ljd.88.2020.01.15.00.58.25
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 15 Jan 2020 00:58:25 -0800 (PST)
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Lukas Wunner <lukas@wunner.de>,
+        Minas Harutyunyan <hminas@synopsys.com>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: dwc2: Drop unlock/lock upon queueing a work item
+In-Reply-To: <20200109123617.5ovxwkfnmf7ou4z4@wunner.de>
+References: <77c07f00a6a9d94323c4a060a3c72817b0703b97.1574244795.git.lukas@wunner.de> <20200109123617.5ovxwkfnmf7ou4z4@wunner.de>
+Date:   Wed, 15 Jan 2020 10:59:27 +0200
+Message-ID: <87h80x6qog.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.26.0.51]
-X-Mailer: Zimbra 8.0.6_GA_5922 (ZimbraWebClient - GC77 (Linux)/8.0.6_GA_5922)
-Thread-Topic: usbip: Remove unaligned pointer usage from usbip tools
-Thread-Index: +rhF6qW7fw7UqOfMwhrOIKL4HzRpvA==
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
 
------ Mensaje original -----
-> De: "shuah" <shuah@kernel.org>
-> Para: "Vadim Troshchinskiy" <vtroshchinskiy@qindel.com>, linux-usb@vger.kernel.org
-> CC: "Valentina Manea" <valentina.manea.m@gmail.com>, "shuah" <shuah@kernel.org>
-> Enviados: Jueves, 2 de Enero 2020 1:01:24
-> Asunto: Re: [PATCH] usbip: Remove unaligned pointer usage from usbip tools
-> 
-> Hi Vadim,
-> 
+Hi,
 
+Lukas Wunner <lukas@wunner.de> writes:
+> Hi Felipe,
+>
+> just a gentle ping:  The below patch was submitted more than 8 weeks ago
+> and I'm neither seeing it on one of your branches nor have there been
+> any comments on the list.  Are there objections to this patch?
 
-Hello! Sorry for the late reply, I was on vacation.
+I don't see an Acked-by Minas, so I can't take the patch, sorry.
 
+=2D-=20
+balbi
 
-> On 12/10/19 8:50 AM, Vadim Troshchinskiy wrote:
-> > The usbip tools use packed structs for network communication. Taking the
-> > address of a packed member of a struct can crash the program with SIGBUS
-> > on architectures with strict alignment requirements.
-> > 
-> 
-> Can you be more specific on which architectures?
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-To my knowledge, older ARM processors, SPARC, probably others mostly of the low
-power/embedded kinds. I personally work with x86, so this isn't a critical issue
-for me, but I'm noting it's a portability concern.
-
-On architectures which don't produce an error it's typically a significant
-performance penalty (though it wouldn't be that big of a deal in this case in
-particular)
-
-In my case the main issue is that recent versions of GCC warn about this and
-fail when -Werror is used. Sure, one could disable the warning or remove -Werror,
-but that would obscure the issue and could cause hard to figure out problems
-for somebody else down the line.
-
-
-
-> >   
-> > -void usbip_net_pack_uint16_t(int pack, uint16_t *num)
-> > +void usbip_net_pack_uint16_t(int pack, uint8_t *num)
-> 
-> Is there a reason to change this to uint8_t?
-> 
-
-
-On architectures that require alignment, access must be done on multiples
-of the data size. So for instance a 16 bit value must be located at byte
-addresses 0, 2, 4, 6, etc, and a 32 bit value would have to be at addresses
-0, 4, 8, etc.
-
-So taking a pointer to a 16 bit value located at address 3 is a problem, but
-accessing a byte at the same address is just fine.
-
-malloc always aligns allocations to the maximum amount necessary for any
-value on the architecture, but that only goes for the first byte. If you take
-the address of the second one you're not in alignment anymore.
-
-So what the patch does is to copy a value byte by byte into a temporary
-variable the compiler has made sure is correctly aligned, do the 16/32 bit
-operation on that, then copy it back. For that to work it has to operate on
-uint8_t.
-
-
-
-
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl4e1G8ACgkQzL64meEa
+mQZ/6Q//TblxGT4XpqGrpl2mn7RVkAn1gXeRtxnJoD4UtaJAWTqpGNz6LSInOGTu
+rJLP3y4ZLymoziKJd2S/xSMDXV1DK8B+bLiSiVr4yey6TJeCOD9OouCx61vm9D1K
+8yFLMxk6ixT5cYJ32nyE7/hazSs6o+xB5tqctWXkSE/kMs5tmhu02gg5SxHHcUea
+fCmvV2JS9GzAJP7U9wgoRvsSbwC4aHTt6lDFln0pMEAoZRb1zXRO32IxUfVJbhFO
+wMBS8YnAyayuau3jH2HMDC51t04TTIiKmVtEnEzFK/T8DajRvBsSzvRmNjcFJ3vX
+h7lGQt8XMaAPx4550Plvb7Qw3F2MlWEj7JML2B/ZNC3qdodItxRT779DHN/oFVQ+
+9qs+c4QVgCZL6Z9kG3mFX6/ibHefen6GD+dQ+tPusXl9VoRhm6tmMSDBDx7AC87e
+jJnqXRv+KfzDrvcOt7nF9LZKybfFyC3vicsJVgIDXwrPkMOmTzAHn+DzunaGv36t
+b/nVinZWONionM1T1gTgur2gyXnczJpiSEzBsy3cbsU27nMtyvnDWvqbZ0XgboUp
+axdsFthtU+GbIxrVUh/mol/cUtCfGaXOCGOEWu5bhSz0yxBePlurabY26zc7btRz
+aDkSm8yDNSSJYNR4c1NZVV/VUE7iGi9AhE5iQA2iexZDsn1uigE=
+=2LYL
+-----END PGP SIGNATURE-----
+--=-=-=--
