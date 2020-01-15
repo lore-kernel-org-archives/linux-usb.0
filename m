@@ -2,68 +2,120 @@ Return-Path: <SRS0=3jNv=3E=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25624C33CB1
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 12:05:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA992C33CB1
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 12:10:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EA5952187F
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 12:05:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7504A2077B
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 12:10:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1579090202;
+	bh=MU9O8uSPvoxqDc8Q1Bu6EZPQmj1Zdha56Vgh1hczLr8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
+	b=vhZPAzA1A/HsJ5OxLBc2YD2lbWR0ke88q/8xBX89aYLCQuwKhumWl9mQmic2go0LV
+	 PuKh2g8eIWEgMaOSoloHp2Gpcmi57n5TAk0tV+/UFfExh1KH9yAFLL+QSoQQpANxVG
+	 KDqdMMgLLr9nsM1hlpNLvJdj5CKD05VjnbQuCLM8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730158AbgAOMFf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Jan 2020 07:05:35 -0500
-Received: from bmailout1.hostsharing.net ([83.223.95.100]:53545 "EHLO
-        bmailout1.hostsharing.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726165AbgAOMFf (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jan 2020 07:05:35 -0500
-X-Greylist: delayed 506 seconds by postgrey-1.27 at vger.kernel.org; Wed, 15 Jan 2020 07:05:34 EST
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client CN "*.hostsharing.net", Issuer "COMODO RSA Domain Validation Secure Server CA" (not verified))
-        by bmailout1.hostsharing.net (Postfix) with ESMTPS id A825A3000BB4B;
-        Wed, 15 Jan 2020 12:57:07 +0100 (CET)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-        id 81D4C40EB1; Wed, 15 Jan 2020 12:57:07 +0100 (CET)
-Date:   Wed, 15 Jan 2020 12:57:07 +0100
-From:   Lukas Wunner <lukas@wunner.de>
-To:     Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH] usb: dwc2: Drop unlock/lock upon queueing a work item
-Message-ID: <20200115115707.c4l7t64r5obanvg3@wunner.de>
-References: <77c07f00a6a9d94323c4a060a3c72817b0703b97.1574244795.git.lukas@wunner.de>
- <20200109123617.5ovxwkfnmf7ou4z4@wunner.de>
- <87h80x6qog.fsf@kernel.org>
- <788fc4ab-28f4-f4de-66b3-8c39ab841c3e@synopsys.com>
- <20200115113039.lmz6kzwqspq2vugc@wunner.de>
- <d11f5537-f0f8-20cd-ff5c-c4951e60d3dc@synopsys.com>
+        id S1730196AbgAOMKC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Jan 2020 07:10:02 -0500
+Received: from mail-lj1-f174.google.com ([209.85.208.174]:33132 "EHLO
+        mail-lj1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726165AbgAOMKB (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jan 2020 07:10:01 -0500
+Received: by mail-lj1-f174.google.com with SMTP id y6so18317856lji.0
+        for <linux-usb@vger.kernel.org>; Wed, 15 Jan 2020 04:10:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
+         :mime-version;
+        bh=cvS2LSNNM8/ibzNW2MtTZk0AbsDbGmksvtGWXLochu4=;
+        b=I4CPw8SkRWyBbZaUDlufFdawqGGdHD0ALRpzRXXRLWR9C8H0pDta/APPWKkjKZ99bq
+         R9f75kDal8+C+nVAHI123uMKpVOw2inUyd5Muv0Bvn31P5ui1cuA81Bh7PQSQN6bRmmf
+         FASkKDNmV2pRIHalGh9Iy6s5iK33VHim5giKUL1r+xCs6+3EugskmYEXKz6IqGWyVbwP
+         EWVBWd1AVSPKCbRHAROfoPqyRdlJqZIf9pMd7dlRoJI0mp5FNOkEMsANBXeilMZccce+
+         y5wHeGtSauhgGhXY4bqctMaOk3yDYwxI6nMjFu0nQuaMr4RE44JHoDZwkoETzcCHkwib
+         8bfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
+         :date:message-id:mime-version;
+        bh=cvS2LSNNM8/ibzNW2MtTZk0AbsDbGmksvtGWXLochu4=;
+        b=ETTeYHdwZNM0jCy04v5WgNQjycxEtCsuagW8m0dZezD4Y+YeE2a29ekmJ048ktxEOm
+         OFexY0CW+hRdtD0K2SIbx+lfICfpkeHSCepAhSCGDzyUIvdFvUiy9v6Do2L+BGzJABQ8
+         HDgNFcHNHc6tpKLx76u1OuUoPPro2P017RJ1crnRDInQNUg6YCVug+Q8m5GbIAuj0UY8
+         0n8nANrrbsmN95jmUw8OqNtR4zIJyKcqGmB30ktwDvjD/QZnDRPaKtKsNp8CNlPLzQMX
+         dbCGGxXu4qlBKEr9RHQHOaFCy3NtE+JLC/TKgu2zkPOY+Y1ODleTY8zm2NeMIvpKQ5sN
+         l2sA==
+X-Gm-Message-State: APjAAAU9fOaJaPmYWsqSDu0JaYQ6uExZHHLRHItQPDLNhgRIEKtoftoa
+        WdMjxS+Br4/FIu/jtElFwmNn11s8WYdcpA==
+X-Google-Smtp-Source: APXvYqxRYiMLkOUocjsDD6UMDAUECSEqLdbQg5f6Lk9aiz+An7JnZ5rHG3EaSvDF0Eb1FbBjZzKAvw==
+X-Received: by 2002:a2e:9f52:: with SMTP id v18mr1605767ljk.30.1579090199611;
+        Wed, 15 Jan 2020 04:09:59 -0800 (PST)
+Received: from saruman (88-113-215-33.elisa-laajakaista.fi. [88.113.215.33])
+        by smtp.gmail.com with ESMTPSA id y8sm9085749lji.56.2020.01.15.04.09.58
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 15 Jan 2020 04:09:59 -0800 (PST)
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: Re: [GIT PULL] USB: changes for v5.6 merge window
+In-Reply-To: <87zheo6i14.fsf@kernel.org>
+References: <878sm96pzf.fsf@kernel.org> <20200115092813.GA3153837@kroah.com> <20200115093746.GA3177342@kroah.com> <8736ch6mbe.fsf@kernel.org> <20200115120334.GB3270387@kroah.com> <87zheo6i14.fsf@kernel.org>
+Date:   Wed, 15 Jan 2020 14:11:00 +0200
+Message-ID: <87wo9s6ht7.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d11f5537-f0f8-20cd-ff5c-c4951e60d3dc@synopsys.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jan 15, 2020 at 11:44:14AM +0000, Minas Harutyunyan wrote:
-> On 1/15/2020 3:30 PM, Lukas Wunner wrote:
-> > https://urldefense.proofpoint.com/v2/url?u=https-3A__lore.kernel.org_linux-2Dusb_77c07f00a6a9d94323c4a060a3c72817b0703b97.1574244795.git.lukas-40wunner.de_&d=DwIBAg&c=DPL6_X_6JkXFx7AXWqB0tg&r=6z9Al9FrHR_ZqbbtSAsD16pvOL2S3XHxQnSzq8kusyI&m=RvUQvVjq5dj9CVUu3njmpdm88GS6B3rFv7iB9Rj8k4Y&s=p4AmQK1vx63kNa3BDdfxaOO1C80AvmgTQY5wtKJcXbc&e=
-> 
-> Actually I agree with you on unnecessary unlock/lock here. Currently I'm 
-> going to test your patch before Ack.
-> Just, want to check with you - did you see any issue in driver flow 
-> without this patch? or it just code cleanup?
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Just a cleanup.  I was looking through dwc_otg (which is still used by the
-Raspberry Pi Foundation's downstream tree) and checked to what extent the
-antipatterns found there are still present in dwc2, thereby found this
-occurrence.
 
-Thanks,
+Hi again,
 
-Lukas
+Felipe Balbi <balbi@kernel.org> writes:
+>>> Out of curiosity, what are you using to flag those? Is checkpatch doing
+>>> that now?
+>>
+>> No, I'm using some scripts originally based on code that Stephen uses
+>> for linux-next (you would have got the same report from him when he
+>> merges in your tree.)  I published them on the workflows@vger.k.o
+>> mailing list a while back if you are interested in them.
+>
+> Cool, I'll look for them. Thanks
+
+For anyone interested:
+
+https://lore.kernel.org/workflows/20190926195143.GA1742392@kroah.com/
+
+=2D-=20
+balbi
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl4fAVQACgkQzL64meEa
+mQaiYxAAhGmhHclzfhpQU8JjxIHE998xrZ69sZgK5dxAJq2yDvDUF4agHxzWsFgu
+Iv+cJ3Ch+CI5RPYvfbIR91w5BgGlLTOGRZx/YXqZUJUcD9DU8e6zRm4LHkzeTtrD
+KFYcOyicVp04hXAh+mJ5Pq7fG+07bk5Van3ryakD3kT4NPuvu0dQEvl3qm8Ha0Tc
+2sRkHG2GwUvF98HqucY/mlsRuJnckJ3SbIH+aO5kqv8nM02VxHy0MXcxWDQSXUGb
+ESpomYgc2Nk2cZ0i05QGrO3E4OpWMm97d8okqkysDUSslYAe/zpIjT2cfKv43j3p
+teODjwuQSViRd60MbK2gnDB6SUhxosPAdCY70RRQnfKAjHrM3KBWsLNqcoTW3tZD
+FtnaScj3SHPe6Q99C1St6Na1bWPLZpM1EJwghQMxFZOTNKJzSeUvDgtAlB0T38PK
+6efV+Bd7LuKWogtfh/FP5Qc/B1W9VY6OD/tKwDbGWr4lYpEkmAjEMoboBu7uLxpX
+kWJ7QprCSBpwYWfJHjKKOmvMi57jxv6EJr/kkAkjJtRUuXG81YDKSjUAc5y6RwzR
+AQucLjGYkugsRIi3jvPtUqnkwZLHg6VL7vGlFyRDx3HlW8QRq7S+HSw+Y7SkDXD3
+f4cSo/SCYl3/H3Y1npQwr3naLlZq2kTm8flwV3AyzzUasmxGXp8=
+=O7ka
+-----END PGP SIGNATURE-----
+--=-=-=--
