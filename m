@@ -7,51 +7,51 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 923D1C33CB3
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:25:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42520C33CB6
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:25:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 67EFD20728
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:25:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1637320728
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:25:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="S+EWhdOH"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="bNyvSq8p"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729073AbgAONZw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1729074AbgAONZw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Wed, 15 Jan 2020 08:25:52 -0500
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:38458 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726483AbgAONZu (ORCPT
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:51346 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729027AbgAONZu (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jan 2020 08:25:50 -0500
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPndh118452;
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPn5Z100006;
         Wed, 15 Jan 2020 07:25:49 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
         s=ti-com-17Q1; t=1579094749;
-        bh=x/QY4ihjsKJBVgALk/LHBRK870RJVXCBg4TFXkmo0Yk=;
+        bh=Yf/J6iht2corlOWu2FBkiHE9x3QCTxDg3ic6t+CvvX8=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=S+EWhdOH/ocGpmIsgFP7DH204wQhwEgQm/QLFQCahXR4Qofc+8OMk1NwRCqWLaNZy
-         KXKszsHuftmnSH8nBcS9YQsWmNGRSxxh4vehJ+DiGdcYyE14JqINEgMtqQQ9mt7afa
-         z7ZI+KODk0FOdfDlRAQMBRZd9DrytWNO8Jimc4ek=
-Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00FDPn46110425
+        b=bNyvSq8pf71om+eEgemmTXzK7nNoUHtw6zP7SEUleyzrz837FnaNSU6AFTE6cTtFn
+         47jl7k61/jRfcXT2CDzR5MZNSvIcFm/VyAeoYsDlVqQ0zfOy/FmNe/1VoR91lMeglZ
+         DvFKIOIoTf6x2gnE8y4/ldlz3u69iqXebtyBWIxk=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00FDPnXD086463
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
         Wed, 15 Jan 2020 07:25:49 -0600
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 15
  Jan 2020 07:25:49 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
  Frontend Transport; Wed, 15 Jan 2020 07:25:49 -0600
 Received: from uda0271908.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPm3F066537;
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPm3B066537;
         Wed, 15 Jan 2020 07:25:49 -0600
 From:   Bin Liu <b-liu@ti.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>, Bin Liu <b-liu@ti.com>
-Subject: [PATCH 17/25] USB: musb: fix __iomem in trace functions
-Date:   Wed, 15 Jan 2020 07:25:39 -0600
-Message-ID: <20200115132547.364-18-b-liu@ti.com>
+Subject: [PATCH 13/25] usb: musb: jz4740: Constify jz4740_musb_pdata struct
+Date:   Wed, 15 Jan 2020 07:25:35 -0600
+Message-ID: <20200115132547.364-14-b-liu@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200115132547.364-1-b-liu@ti.com>
 References: <20200115132547.364-1-b-liu@ti.com>
@@ -63,131 +63,61 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: "Ben Dooks (Codethink)" <ben.dooks@codethink.co.uk>
+From: Paul Cercueil <paul@crapouillou.net>
 
-The trace functions should have __iomem on the addr
-pointers. Add __iomem to avoid the following warnings
-from sparse:
+By moving around the jz4740_musb_pdata structure, we can have the
+.platform_ops field initialized, so that we don't have to initialize it
+manually in the probe function. Therefore, the struct can be const now.
 
-drivers/usb/musb/musb_core.c:253:55: warning: incorrect type in argument 2 (different address spaces)
-drivers/usb/musb/musb_core.c:253:55:    expected void const *addr
-drivers/usb/musb/musb_core.c:253:55:    got void const [noderef] <asn:2> *addr
-drivers/usb/musb/musb_core.c:259:56: warning: incorrect type in argument 2 (different address spaces)
-drivers/usb/musb/musb_core.c:259:56:    expected void const *addr
-drivers/usb/musb/musb_core.c:259:56:    got void [noderef] <asn:2> *addr
-drivers/usb/musb/musb_core.c:267:55: warning: incorrect type in argument 2 (different address spaces)
-drivers/usb/musb/musb_core.c:267:55:    expected void const *addr
-drivers/usb/musb/musb_core.c:267:55:    got void const [noderef] <asn:2> *addr
-drivers/usb/musb/musb_core.c:273:56: warning: incorrect type in argument 2 (different address spaces)
-drivers/usb/musb/musb_core.c:273:56:    expected void const *addr
-drivers/usb/musb/musb_core.c:273:56:    got void [noderef] <asn:2> *addr
-drivers/usb/musb/musb_core.c:383:55: warning: incorrect type in argument 2 (different address spaces)
-drivers/usb/musb/musb_core.c:383:55:    expected void const *addr
-drivers/usb/musb/musb_core.c:383:55:    got void const [noderef] <asn:2> *addr
-drivers/usb/musb/musb_core.c:390:56: warning: incorrect type in argument 2 (different address spaces)
-drivers/usb/musb/musb_core.c:390:56:    expected void const *addr
-drivers/usb/musb/musb_core.c:390:56:    got void [noderef] <asn:2> *addr
-
-Signed-off-by: Ben Dooks (Codethink) <ben.dooks@codethink.co.uk>
+Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 Signed-off-by: Bin Liu <b-liu@ti.com>
 ---
- drivers/usb/musb/musb_trace.h | 33 +++++++++++++++++++++------------
- 1 file changed, 21 insertions(+), 12 deletions(-)
+ drivers/usb/musb/jz4740.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/usb/musb/musb_trace.h b/drivers/usb/musb/musb_trace.h
-index a97d618fe8ff..b193daf69685 100644
---- a/drivers/usb/musb/musb_trace.h
-+++ b/drivers/usb/musb/musb_trace.h
-@@ -38,11 +38,12 @@ TRACE_EVENT(musb_log,
- );
+diff --git a/drivers/usb/musb/jz4740.c b/drivers/usb/musb/jz4740.c
+index 9aca12f99c9f..1400e5763d44 100644
+--- a/drivers/usb/musb/jz4740.c
++++ b/drivers/usb/musb/jz4740.c
+@@ -66,11 +66,6 @@ static const struct musb_hdrc_config jz4740_musb_config = {
+ 	.fifo_cfg_size = ARRAY_SIZE(jz4740_musb_fifo_cfg),
+ };
  
- DECLARE_EVENT_CLASS(musb_regb,
--	TP_PROTO(void *caller, const void *addr, unsigned int offset, u8 data),
-+	TP_PROTO(void *caller, const void  __iomem *addr,
-+		 unsigned int offset, u8 data),
- 	TP_ARGS(caller, addr, offset, data),
- 	TP_STRUCT__entry(
- 		__field(void *, caller)
--		__field(const void *, addr)
-+		__field(const void __iomem *, addr)
- 		__field(unsigned int, offset)
- 		__field(u8, data)
- 	),
-@@ -57,21 +58,24 @@ DECLARE_EVENT_CLASS(musb_regb,
- );
+-static struct musb_hdrc_platform_data jz4740_musb_platform_data = {
+-	.mode   = MUSB_PERIPHERAL,
+-	.config = &jz4740_musb_config,
+-};
+-
+ static int jz4740_musb_init(struct musb *musb)
+ {
+ 	struct device *dev = musb->controller->parent;
+@@ -107,10 +102,16 @@ static const struct musb_platform_ops jz4740_musb_ops = {
+ 	.init		= jz4740_musb_init,
+ };
  
- DEFINE_EVENT(musb_regb, musb_readb,
--	TP_PROTO(void *caller, const void *addr, unsigned int offset, u8 data),
-+	TP_PROTO(void *caller, const void __iomem *addr,
-+		 unsigned int offset, u8 data),
- 	TP_ARGS(caller, addr, offset, data)
- );
++static const struct musb_hdrc_platform_data jz4740_musb_pdata = {
++	.mode		= MUSB_PERIPHERAL,
++	.config		= &jz4740_musb_config,
++	.platform_ops	= &jz4740_musb_ops,
++};
++
+ static int jz4740_probe(struct platform_device *pdev)
+ {
+ 	struct device			*dev = &pdev->dev;
+-	struct musb_hdrc_platform_data	*pdata = &jz4740_musb_platform_data;
++	const struct musb_hdrc_platform_data *pdata = &jz4740_musb_pdata;
+ 	struct platform_device		*musb;
+ 	struct jz4740_glue		*glue;
+ 	struct clk                      *clk;
+@@ -144,8 +145,6 @@ static int jz4740_probe(struct platform_device *pdev)
+ 	glue->musb			= musb;
+ 	glue->clk			= clk;
  
- DEFINE_EVENT(musb_regb, musb_writeb,
--	TP_PROTO(void *caller, const void *addr, unsigned int offset, u8 data),
-+	TP_PROTO(void *caller, const void __iomem *addr,
-+		 unsigned int offset, u8 data),
- 	TP_ARGS(caller, addr, offset, data)
- );
+-	pdata->platform_ops		= &jz4740_musb_ops;
+-
+ 	platform_set_drvdata(pdev, glue);
  
- DECLARE_EVENT_CLASS(musb_regw,
--	TP_PROTO(void *caller, const void *addr, unsigned int offset, u16 data),
-+	TP_PROTO(void *caller, const void __iomem *addr,
-+		 unsigned int offset, u16 data),
- 	TP_ARGS(caller, addr, offset, data),
- 	TP_STRUCT__entry(
- 		__field(void *, caller)
--		__field(const void *, addr)
-+		__field(const void __iomem *, addr)
- 		__field(unsigned int, offset)
- 		__field(u16, data)
- 	),
-@@ -86,21 +90,24 @@ DECLARE_EVENT_CLASS(musb_regw,
- );
- 
- DEFINE_EVENT(musb_regw, musb_readw,
--	TP_PROTO(void *caller, const void *addr, unsigned int offset, u16 data),
-+	TP_PROTO(void *caller, const void __iomem *addr,
-+		 unsigned int offset, u16 data),
- 	TP_ARGS(caller, addr, offset, data)
- );
- 
- DEFINE_EVENT(musb_regw, musb_writew,
--	TP_PROTO(void *caller, const void *addr, unsigned int offset, u16 data),
-+	TP_PROTO(void *caller, const void __iomem *addr,
-+		 unsigned int offset, u16 data),
- 	TP_ARGS(caller, addr, offset, data)
- );
- 
- DECLARE_EVENT_CLASS(musb_regl,
--	TP_PROTO(void *caller, const void *addr, unsigned int offset, u32 data),
-+	TP_PROTO(void *caller, const void __iomem *addr,
-+		 unsigned int offset, u32 data),
- 	TP_ARGS(caller, addr, offset, data),
- 	TP_STRUCT__entry(
- 		__field(void *, caller)
--		__field(const void *, addr)
-+		__field(const void __iomem *, addr)
- 		__field(unsigned int, offset)
- 		__field(u32, data)
- 	),
-@@ -115,12 +122,14 @@ DECLARE_EVENT_CLASS(musb_regl,
- );
- 
- DEFINE_EVENT(musb_regl, musb_readl,
--	TP_PROTO(void *caller, const void *addr, unsigned int offset, u32 data),
-+	TP_PROTO(void *caller, const void __iomem *addr,
-+		 unsigned int offset, u32 data),
- 	TP_ARGS(caller, addr, offset, data)
- );
- 
- DEFINE_EVENT(musb_regl, musb_writel,
--	TP_PROTO(void *caller, const void *addr, unsigned int offset, u32 data),
-+	TP_PROTO(void *caller, const void __iomem *addr,
-+		 unsigned int offset, u32 data),
- 	TP_ARGS(caller, addr, offset, data)
- );
- 
+ 	ret = platform_device_add_resources(musb, pdev->resource,
 -- 
 2.17.1
 
