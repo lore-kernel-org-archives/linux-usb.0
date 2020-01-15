@@ -7,51 +7,51 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34087C33CB1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C20C6C33CB6
 	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:26:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EE6AC20728
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:26:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 884D820728
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:26:05 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="EWBcM5Ha"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="TOSqt6c2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729094AbgAON0E (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        id S1729096AbgAON0E (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
         Wed, 15 Jan 2020 08:26:04 -0500
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:38446 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728931AbgAONZu (ORCPT
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:53858 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726555AbgAONZu (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jan 2020 08:25:50 -0500
 Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPnew118443;
-        Wed, 15 Jan 2020 07:25:49 -0600
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPmP5073245;
+        Wed, 15 Jan 2020 07:25:48 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1579094749;
-        bh=YB/gBaYDxUNt0oGYdHvGQbjKZyQsMqcYYPkBVWaMllI=;
+        s=ti-com-17Q1; t=1579094748;
+        bh=aBhzsKGdqarcLPIGjG27jWlmu6rkLWcmQ67Xwd2uJxM=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=EWBcM5HamFlGy6culUS9xSbrkc/bFeNySnNVVDxwbPx0IotRmuuVlUL2PSdvD5/J8
-         rQSzXqyACYemtbgxq+A02Q5SDhP/oYLG4jRkJXxry6JNDTrM9uBQzZDG7mhmgSvgSb
-         Gs9PpAMUGe2CCtvJsR7Dwo3zkT+CS+LW4mztghiA=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00FDPnvI110419
+        b=TOSqt6c2s6bEMSGC7B4IRgeN2SB9Zh6VG6xd8yh/za3MELHp19wfeDulLD1gO2zsa
+         UBgf71wDRNEPTsEdBbzYs4p0vsnaOk6B2XC7zTJuselegHWCMT5ki1bbS47zvbuBEa
+         3RMfMk0zIC0XOD2CLogd9iI067JPAAVh41s+WaSc=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00FDPmt4110406
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 15 Jan 2020 07:25:49 -0600
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+        Wed, 15 Jan 2020 07:25:48 -0600
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 15
- Jan 2020 07:25:49 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ Jan 2020 07:25:48 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
  Frontend Transport; Wed, 15 Jan 2020 07:25:48 -0600
 Received: from uda0271908.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPm33066537;
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPm2x066537;
         Wed, 15 Jan 2020 07:25:48 -0600
 From:   Bin Liu <b-liu@ti.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>, Bin Liu <b-liu@ti.com>
-Subject: [PATCH 05/25] usb: musb: omap2430: Wait on enable to avoid babble
-Date:   Wed, 15 Jan 2020 07:25:27 -0600
-Message-ID: <20200115132547.364-6-b-liu@ti.com>
+Subject: [PATCH 01/25] usb: musb: core: Update the function description
+Date:   Wed, 15 Jan 2020 07:25:23 -0600
+Message-ID: <20200115132547.364-2-b-liu@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200115132547.364-1-b-liu@ti.com>
 References: <20200115132547.364-1-b-liu@ti.com>
@@ -63,40 +63,30 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Tony Lindgren <tony@atomide.com>
+From: Saurav Girepunje <saurav.girepunje@gmail.com>
 
-We can get babble interrupt if we attempt to switch to USB host mode too
-soon after enabling musb. Let's fix the issue by waiting a bit in
-runtime_resume.
+Update the function description of musb_stage0_irq() to remove unused
+parameter.
 
-Cc: Jacopo Mondi <jacopo@jmondi.org>
-Cc: Marcel Partap <mpartap@gmx.net>
-Cc: Merlijn Wajer <merlijn@wizzup.org>
-Cc: Michael Scott <hashcode0f@gmail.com>
-Cc: NeKit <nekit1000@gmail.com>
-Cc: Pavel Machek <pavel@ucw.cz>
-Cc: Sebastian Reichel <sre@kernel.org>
-Acked-by: Pavel Machek <pavel@ucw.cz>
-Signed-off-by: Tony Lindgren <tony@atomide.com>
+Signed-off-by: Saurav Girepunje <saurav.girepunje@gmail.com>
+[b-liu@ti.com: revised commit log]
 Signed-off-by: Bin Liu <b-liu@ti.com>
 ---
- drivers/usb/musb/omap2430.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/usb/musb/musb_core.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/usb/musb/omap2430.c b/drivers/usb/musb/omap2430.c
-index 5c93226e0e20..920862c3fc64 100644
---- a/drivers/usb/musb/omap2430.c
-+++ b/drivers/usb/musb/omap2430.c
-@@ -550,6 +550,9 @@ static int omap2430_runtime_resume(struct device *dev)
- 	musb_writel(musb->mregs, OTG_INTERFSEL,
- 		    musb->context.otg_interfsel);
+diff --git a/drivers/usb/musb/musb_core.c b/drivers/usb/musb/musb_core.c
+index 5ebf30bd61bd..48d95850152d 100644
+--- a/drivers/usb/musb/musb_core.c
++++ b/drivers/usb/musb/musb_core.c
+@@ -909,7 +909,6 @@ static void musb_handle_intr_reset(struct musb *musb)
+  * @param musb instance pointer
+  * @param int_usb register contents
+  * @param devctl
+- * @param power
+  */
  
-+	/* Wait for musb to get oriented. Otherwise we can get babble */
-+	usleep_range(200000, 250000);
-+
- 	return 0;
- }
- 
+ static irqreturn_t musb_stage0_irq(struct musb *musb, u8 int_usb,
 -- 
 2.17.1
 
