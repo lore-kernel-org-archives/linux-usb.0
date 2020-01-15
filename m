@@ -7,51 +7,51 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42520C33CB6
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:25:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17C2CC33CB1
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:25:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 1637320728
+	by mail.kernel.org (Postfix) with ESMTP id E0A6B2084D
 	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:25:54 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="bNyvSq8p"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="HSZLr53Q"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729074AbgAONZw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Jan 2020 08:25:52 -0500
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:51346 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729027AbgAONZu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jan 2020 08:25:50 -0500
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPn5Z100006;
-        Wed, 15 Jan 2020 07:25:49 -0600
+        id S1729077AbgAONZy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Jan 2020 08:25:54 -0500
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:53868 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728904AbgAONZw (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jan 2020 08:25:52 -0500
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPolr073267;
+        Wed, 15 Jan 2020 07:25:50 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1579094749;
-        bh=Yf/J6iht2corlOWu2FBkiHE9x3QCTxDg3ic6t+CvvX8=;
+        s=ti-com-17Q1; t=1579094750;
+        bh=YVFdkc5lkW+O80b4FQmhNiJEra5Z05Aen0FpFrdx/RU=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=bNyvSq8pf71om+eEgemmTXzK7nNoUHtw6zP7SEUleyzrz837FnaNSU6AFTE6cTtFn
-         47jl7k61/jRfcXT2CDzR5MZNSvIcFm/VyAeoYsDlVqQ0zfOy/FmNe/1VoR91lMeglZ
-         DvFKIOIoTf6x2gnE8y4/ldlz3u69iqXebtyBWIxk=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00FDPnXD086463
+        b=HSZLr53QwX2/JdE9jAuErkEVUeebSz3d/aABTM4b47BKIHAKdfTi+0dEJ7DAfb0JV
+         Ka/GyvvhfCZL4Sk6VcPQN3aTFWZwiOCoxrcXZ3iS8+iwsukpVNDaCuGQX7ztcL4TYr
+         rDnZbz3u20EefFZrDgJJJHIG9X34wMg4HX/dKFeA=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00FDPo7t019854
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 15 Jan 2020 07:25:49 -0600
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+        Wed, 15 Jan 2020 07:25:50 -0600
+Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 15
- Jan 2020 07:25:49 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ Jan 2020 07:25:50 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE111.ent.ti.com
+ (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
  Frontend Transport; Wed, 15 Jan 2020 07:25:49 -0600
 Received: from uda0271908.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPm3B066537;
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPm3N066537;
         Wed, 15 Jan 2020 07:25:49 -0600
 From:   Bin Liu <b-liu@ti.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>, Bin Liu <b-liu@ti.com>
-Subject: [PATCH 13/25] usb: musb: jz4740: Constify jz4740_musb_pdata struct
-Date:   Wed, 15 Jan 2020 07:25:35 -0600
-Message-ID: <20200115132547.364-14-b-liu@ti.com>
+Subject: [PATCH 25/25] usb: musb: remove dummy driver musb_am335x.c
+Date:   Wed, 15 Jan 2020 07:25:47 -0600
+Message-ID: <20200115132547.364-26-b-liu@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200115132547.364-1-b-liu@ti.com>
 References: <20200115132547.364-1-b-liu@ti.com>
@@ -63,61 +63,104 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Paul Cercueil <paul@crapouillou.net>
+Since commit 0782e8572ce4 ("ARM: dts: Probe am335x musb with ti-sysc"),
+the dummy driver musb_am335x.c is no longer needed, let's drop it.
 
-By moving around the jz4740_musb_pdata structure, we can have the
-.platform_ops field initialized, so that we don't have to initialize it
-manually in the probe function. Therefore, the struct can be const now.
-
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Acked-by: Tony Lindgren <tony@atomide.com>
 Signed-off-by: Bin Liu <b-liu@ti.com>
 ---
- drivers/usb/musb/jz4740.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ drivers/usb/musb/Kconfig       |  4 ----
+ drivers/usb/musb/Makefile      |  3 ---
+ drivers/usb/musb/musb_am335x.c | 44 ----------------------------------
+ 3 files changed, 51 deletions(-)
+ delete mode 100644 drivers/usb/musb/musb_am335x.c
 
-diff --git a/drivers/usb/musb/jz4740.c b/drivers/usb/musb/jz4740.c
-index 9aca12f99c9f..1400e5763d44 100644
---- a/drivers/usb/musb/jz4740.c
-+++ b/drivers/usb/musb/jz4740.c
-@@ -66,11 +66,6 @@ static const struct musb_hdrc_config jz4740_musb_config = {
- 	.fifo_cfg_size = ARRAY_SIZE(jz4740_musb_fifo_cfg),
- };
+diff --git a/drivers/usb/musb/Kconfig b/drivers/usb/musb/Kconfig
+index 63376d494f0f..eb2ded1026ee 100644
+--- a/drivers/usb/musb/Kconfig
++++ b/drivers/usb/musb/Kconfig
+@@ -101,7 +101,6 @@ config USB_MUSB_AM35X
  
--static struct musb_hdrc_platform_data jz4740_musb_platform_data = {
--	.mode   = MUSB_PERIPHERAL,
--	.config = &jz4740_musb_config,
+ config USB_MUSB_DSPS
+ 	tristate "TI DSPS platforms"
+-	select USB_MUSB_AM335X_CHILD
+ 	depends on ARCH_OMAP2PLUS || COMPILE_TEST
+ 	depends on OF_IRQ
+ 
+@@ -122,9 +121,6 @@ config USB_MUSB_MEDIATEK
+ 	depends on GENERIC_PHY
+ 	select USB_ROLE_SWITCH
+ 
+-config USB_MUSB_AM335X_CHILD
+-	tristate
+-
+ comment "MUSB DMA mode"
+ 
+ config MUSB_PIO_ONLY
+diff --git a/drivers/usb/musb/Makefile b/drivers/usb/musb/Makefile
+index 63d82d0fab67..932247360a9f 100644
+--- a/drivers/usb/musb/Makefile
++++ b/drivers/usb/musb/Makefile
+@@ -26,9 +26,6 @@ obj-$(CONFIG_USB_MUSB_JZ4740)			+= jz4740.o
+ obj-$(CONFIG_USB_MUSB_SUNXI)			+= sunxi.o
+ obj-$(CONFIG_USB_MUSB_MEDIATEK)      		+= mediatek.o
+ 
+-
+-obj-$(CONFIG_USB_MUSB_AM335X_CHILD)		+= musb_am335x.o
+-
+ # the kconfig must guarantee that only one of the
+ # possible I/O schemes will be enabled at a time ...
+ # PIO only, or DMA (several potential schemes).
+diff --git a/drivers/usb/musb/musb_am335x.c b/drivers/usb/musb/musb_am335x.c
+deleted file mode 100644
+index 5f04f8e3a640..000000000000
+--- a/drivers/usb/musb/musb_am335x.c
++++ /dev/null
+@@ -1,44 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-#include <linux/platform_device.h>
+-#include <linux/pm_runtime.h>
+-#include <linux/module.h>
+-#include <linux/of_platform.h>
+-
+-static int am335x_child_probe(struct platform_device *pdev)
+-{
+-	int ret;
+-
+-	pm_runtime_enable(&pdev->dev);
+-
+-	ret = of_platform_populate(pdev->dev.of_node, NULL, NULL, &pdev->dev);
+-	if (ret)
+-		goto err;
+-
+-	return 0;
+-err:
+-	pm_runtime_disable(&pdev->dev);
+-	return ret;
+-}
+-
+-static const struct of_device_id am335x_child_of_match[] = {
+-	{ .compatible = "ti,am33xx-usb" },
+-	{  },
+-};
+-MODULE_DEVICE_TABLE(of, am335x_child_of_match);
+-
+-static struct platform_driver am335x_child_driver = {
+-	.probe		= am335x_child_probe,
+-	.driver         = {
+-		.name   = "am335x-usb-childs",
+-		.of_match_table	= am335x_child_of_match,
+-	},
 -};
 -
- static int jz4740_musb_init(struct musb *musb)
- {
- 	struct device *dev = musb->controller->parent;
-@@ -107,10 +102,16 @@ static const struct musb_platform_ops jz4740_musb_ops = {
- 	.init		= jz4740_musb_init,
- };
- 
-+static const struct musb_hdrc_platform_data jz4740_musb_pdata = {
-+	.mode		= MUSB_PERIPHERAL,
-+	.config		= &jz4740_musb_config,
-+	.platform_ops	= &jz4740_musb_ops,
-+};
-+
- static int jz4740_probe(struct platform_device *pdev)
- {
- 	struct device			*dev = &pdev->dev;
--	struct musb_hdrc_platform_data	*pdata = &jz4740_musb_platform_data;
-+	const struct musb_hdrc_platform_data *pdata = &jz4740_musb_pdata;
- 	struct platform_device		*musb;
- 	struct jz4740_glue		*glue;
- 	struct clk                      *clk;
-@@ -144,8 +145,6 @@ static int jz4740_probe(struct platform_device *pdev)
- 	glue->musb			= musb;
- 	glue->clk			= clk;
- 
--	pdata->platform_ops		= &jz4740_musb_ops;
+-static int __init am335x_child_init(void)
+-{
+-	return platform_driver_register(&am335x_child_driver);
+-}
+-module_init(am335x_child_init);
 -
- 	platform_set_drvdata(pdev, glue);
- 
- 	ret = platform_device_add_resources(musb, pdev->resource,
+-MODULE_DESCRIPTION("AM33xx child devices");
+-MODULE_LICENSE("GPL v2");
 -- 
 2.17.1
 
