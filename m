@@ -2,88 +2,73 @@ Return-Path: <SRS0=3jNv=3E=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C4E8C33CB3
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 08:43:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABB5DC33CB1
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 08:51:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 52A6F2073A
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 08:43:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A1B9214AF
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 08:51:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579077807;
-	bh=/FLsJUJ31mzuqYFMdvkkSWnUismo+bkfJF/TXKu+Xng=;
+	s=default; t=1579078315;
+	bh=MpcdW6VtqSy6TKoY+EC09mOESDqSv0U77iB0tx17N8o=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=NzlhEfU1mfEH+hNZ99fzWDf0ewGVX1/y1bUTMPtFIFeWMZLkbEqpZDLaPDR3Gyz3G
-	 6xbSO7W7Wr4LEBGwI48PkZK33AXPwMeX7tB9BWeYaQTAtjWulg2sPqzxCUxFtQx9qF
-	 Hl5CkmUqZFVDS7yeFbVUVqGaOmX04LRNT/0VaKVc=
+	b=SLhlacHh2yYhBD7Iprh7jVZq+JYnv1ms08k2O051O/K0UleI0x2pIAkABGGPVOHM6
+	 X+ct9NNdkDQJeSBj85mo4pO1PbX4XPxzWpGlz1zpOTWeyLl7thbepJTvbH5SuuvUGK
+	 wp5K5f/DmIsHmH3hCl4Y3lDD+FBpf4WCk/peDpKg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728939AbgAOIn0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Jan 2020 03:43:26 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:45679 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728911AbgAOIn0 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jan 2020 03:43:26 -0500
-Received: by mail-lf1-f68.google.com with SMTP id 203so12030834lfa.12;
-        Wed, 15 Jan 2020 00:43:24 -0800 (PST)
+        id S1729028AbgAOIvz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Jan 2020 03:51:55 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:45744 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729016AbgAOIvy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jan 2020 03:51:54 -0500
+Received: by mail-lj1-f193.google.com with SMTP id j26so17593501ljc.12
+        for <linux-usb@vger.kernel.org>; Wed, 15 Jan 2020 00:51:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
          :mime-version;
-        bh=Z/YS02c1TwDm4fzEdyAro9aD0jq2KhJ8uk8GHgLnCGk=;
-        b=fQa/lqqe1G4ZA5nZyEaSWefREZoNM3o2XddUf51vA48tYZ8nt2SpLGiTC3Yx8JL7rY
-         2BS7pZKcgnit8y7b5JTX0okELFgiZMp+17SwVjG0IL0ck6gGX7s4LZIcVBr0GbOX8qrx
-         PR5WPkZBqZO/SBLtwvkcVXCrm8oi6/gQv988ZHXX8SKH3oqimuJAlyOmoYQFSIA1NJ8M
-         zjVfgLHPFzdwGKfcjXB1K9eoI7luM2ROaK7aFlqJG+0/xKOxroj6mDMFDwr9LwIh7qof
-         Y4OaTSYfrqPR2J32rt75LHSpZG7K6uCQRQ5/MFz2xkRT2u1oQzx/dJPowXJ3owlpXJiW
-         IsXA==
+        bh=O8QX7lshn7S4wP2q+6eXSQxQqLsU2iaIy57WiaY7geQ=;
+        b=hPpFwht5nIAJrFC4hbK0i9diwp57yF+x3BNRb9eZRViHVH/BdJ3PRdU2Shw03KJJTp
+         eCMKngj6wwOuTXktYDPcIhP/l2/JTkV5ybyr9C8Fd34oSKJ1kimF+CozqcJpvIYJ+qEk
+         B8pm1xu8TI+H8O0TtlOgCL8gPjIv1BNlZVWpPKouu9Gf79vP3z39aqvETH+KiFo+abBc
+         MnIOeLfXGFy6eGQxTD+yd0cIHFxZZxfIdRPW9Wo73yaamkmS+7YAp7NptnxBNCI1QkXM
+         KPUN0XFYT7cCTtO2Hm8XaPfVFq59peobTLW90d0yxOGuPESZTILWtTQSDIgb1YD2b8e4
+         DhMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
          :date:message-id:mime-version;
-        bh=Z/YS02c1TwDm4fzEdyAro9aD0jq2KhJ8uk8GHgLnCGk=;
-        b=VLswKvhBlX1a7Z4TDOQVJxB/UvrU+HYSKNgwuZvJV8Tw7t4mbbMmjO88TkrSZwc+nZ
-         iXSe4GT39DeO4CPb5++k/h+ecC8RPxOyHWHuZDctbgVrH1C6ypYbEe84azCWeqyHvoqi
-         Sra0KJvsQp0AtptuZcYtkgonru5dAfK8m3XxNnDx+YaAeGR/ZOwW9o60VDqeKQ1juLT2
-         xY56v84nWfmotxm6wGftiMHj+pIHn/wh8h42qBw94yd427YOWCJSszOq5w2M6t3zhb28
-         0mPgGTmkla1df3ErMaoKvSOTGWJRJGLKsoTJV1E6f8k3JmMEq8O5VlNjzRH+6Emf3Nuh
-         kB/A==
-X-Gm-Message-State: APjAAAVhJaIcRl0hRl0v9AEWr+V/5oquD7I9v2Kv5Ee2rMMly6yVMm/9
-        Vm56hjGuBeqgaJsAhR9lsUg=
-X-Google-Smtp-Source: APXvYqyopiD+cXnqJ096h1Jrq1D8XyPRz5Dh2ChG/ePnwC7zEu53MzS8S88Fo9mm2rYEdlGUpXrqBA==
-X-Received: by 2002:ac2:4194:: with SMTP id z20mr4115478lfh.20.1579077803634;
-        Wed, 15 Jan 2020 00:43:23 -0800 (PST)
+        bh=O8QX7lshn7S4wP2q+6eXSQxQqLsU2iaIy57WiaY7geQ=;
+        b=gfeMKu7MfMa4F3QKjYjjiVCGJvsSmyNyDZUOoYc8yvNi8Pg8IXbCD/H2MFV3Vh4XOQ
+         Xy+epiXlJ+7qtTJ8k3Eq5Y1YjYhWwBUj3AiwbDmNnps5egVAkeoUcuDk2CYWSnF0PLUG
+         yeDOBF8LkMyV36mnj2k5ZPbX0nS7xRyw89qsZZ3U6x29ueH3gZKe9xk8EVkIJ+PL1xg3
+         M8/KSzfEI9WGGe7V+l05Ejim8oS3Jv7h24LcVafEt3Mz8ouRxtL5fyk7EreEL0Ls79cX
+         JoyFkJzmH2gbgu/qQA/ncQPK7CcZZ9xG9WCpT4AQ8Y5STP7/X3qr9wnuZSWtIPxZkOmF
+         k9Yg==
+X-Gm-Message-State: APjAAAVPAMDObFdvMqGCJ0rF5TFe98DSp4NmokJYZv3ESGDByo4rn7fb
+        sPEQT5un3Dx4DWnGZMD/zJ3zAyTKFB17oQ==
+X-Google-Smtp-Source: APXvYqwlvtfZIFwEArI2YL+OzXSNbr9JUpSRy4M5dxcaGHSEGvEQBJCAM8NRTKKM4cciQetKRPaBzQ==
+X-Received: by 2002:a2e:858f:: with SMTP id b15mr1123392lji.275.1579078312206;
+        Wed, 15 Jan 2020 00:51:52 -0800 (PST)
 Received: from saruman (88-113-215-33.elisa-laajakaista.fi. [88.113.215.33])
-        by smtp.gmail.com with ESMTPSA id x23sm8491572lff.24.2020.01.15.00.43.21
+        by smtp.gmail.com with ESMTPSA id z5sm8832581lji.40.2020.01.15.00.51.50
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 15 Jan 2020 00:43:22 -0800 (PST)
+        Wed, 15 Jan 2020 00:51:51 -0800 (PST)
 From:   Felipe Balbi <balbi@kernel.org>
-To:     Hanjie Lin <hanjie.lin@amlogic.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Rob Herring <robh@kernel.org>,
+To:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kevin Hilman <khilman@baylibre.com>
-Cc:     Hanjie Lin <hanjie.lin@amlogic.com>,
-        Yue Wang <yue.wang@amlogic.com>,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, Carlo Caione <carlo@caione.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Liang Yang <liang.yang@amlogic.com>,
-        Jianxin Pan <jianxin.pan@amlogic.com>,
-        Qiufang Dai <qiufang.dai@amlogic.com>,
-        Jian Hu <jian.hu@amlogic.com>,
-        Victor Wan <victor.wan@amlogic.com>,
-        Xingyu Chen <xingyu.chen@amlogic.com>
-Subject: Re: [PATCH v4 4/6] usb: dwc3: Add Amlogic A1 DWC3 glue
-In-Reply-To: <1578537045-23260-5-git-send-email-hanjie.lin@amlogic.com>
-References: <1578537045-23260-1-git-send-email-hanjie.lin@amlogic.com> <1578537045-23260-5-git-send-email-hanjie.lin@amlogic.com>
-Date:   Wed, 15 Jan 2020 10:44:23 +0200
-Message-ID: <87pnfl6rdk.fsf@kernel.org>
+        "linux-usb\@vger.kernel.org" <linux-usb@vger.kernel.org>
+Cc:     John Youn <John.Youn@synopsys.com>
+Subject: Re: [PATCH v2 0/3] usb: dwc3: gadget: Improve END_TRANSFER handling
+In-Reply-To: <812db213-b30b-1f51-649d-62de723dcac4@synopsys.com>
+References: <cover.1576715470.git.thinhn@synopsys.com> <87r208sw7o.fsf@kernel.org> <812db213-b30b-1f51-649d-62de723dcac4@synopsys.com>
+Date:   Wed, 15 Jan 2020 10:52:52 +0200
+Message-ID: <87muap6qzf.fsf@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; boundary="=-=-=";
         micalg=pgp-sha256; protocol="application/pgp-signature"
@@ -99,37 +84,34 @@ Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-Hanjie Lin <hanjie.lin@amlogic.com> writes:
-
-> Adds support for Amlogic A1 USB Control Glue HW.
+Thinh Nguyen <Thinh.Nguyen@synopsys.com> writes:
+>> Thinh Nguyen <Thinh.Nguyen@synopsys.com> writes:
+>>> This patch series improves the handling of the END_TRANSFER command:
+>>>
+>>> 1) Don't issue multiple END_TRANSFER commands while the previous hasn't
+>>>     completed
+>>> 2) Don't issue START_TRANSFER command while END_TRANSFER hasn't complet=
+ed
+>>> 3) Remove arbitrary 100us delay
+>>>
+>>> Changes in v2:
+>>>   - Remove unused variable
+>> Tried applying these, but it failed on patch 1.
+>>
 >
-> The Amlogic A1 SoC Family embeds 1 USB Controllers:
-> - a DWC3 IP configured as Host for USB2 and USB3
+> Your next branch doesn't have these prerequisite patches from mainline:
+> d3abda5a98a1 ("usb: dwc3: gadget: Clear started flag for non-IOC")
+> 2d7b78f59e02 ("usb: dwc3: ep0: Clear started flag on completion")
 >
-> A glue connects the controllers to the USB2 PHY of A1 SoC.
+> Will you rebase on v5.5 rc-x? Let me know how we can proceed to resolve=20
+> the conflict.
 >
-> Signed-off-by: Hanjie Lin <hanjie.lin@amlogic.com>
-> Signed-off-by: Yue Wang <yue.wang@amlogic.com>
+> Also, have you a chance to take a look at these patches:
+> https://patchwork.kernel.org/project/linux-usb/list/?series=3D214669
+> * usb: dwc3: gadget: Properly set maxpacket limit
+> * usb: dwc3: Fix GTXFIFOSIZ.TXFDEP macro name
 
-you're not really adding a new glue. Rather, you're adding support for a
-new platform in an existing glue. Make sure subject is clearer
-
-> @@ -409,17 +426,32 @@ static int dwc3_meson_g12a_probe(struct platform_de=
-vice *pdev)
->  		priv->vbus =3D NULL;
->  	}
->=20=20
-> -	priv->clk =3D devm_clk_get(dev, NULL);
-> -	if (IS_ERR(priv->clk))
-> -		return PTR_ERR(priv->clk);
-> +	priv->soc_id =3D (enum meson_soc_id)of_device_get_match_data(&pdev->dev=
-);
-> +
-> +	if (priv->soc_id =3D=3D MESON_SOC_G12A) {
-
-you can use of_device_is_compatible() and get rid of the enumeration you ad=
-ded.
-
+indeed, now they've applied cleanly. Thanks
 
 =2D-=20
 balbi
@@ -139,18 +121,18 @@ Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl4e0OcACgkQzL64meEa
-mQYg7hAA3b0X6pzchiGHghxKiosXFmzOQiX2dHylXsAnC1vrb2qhE18bHFR+1bBV
-R2w3SJE9PG0ohQN7JGOhL0SFHXbMs1DkRODizU6bvahZdgZy+/303lGKoKHwROaY
-xY0BVakqO6it+5Kvuk0HR4FcHRNKmePWF3Eh86UBClVON/O8xxGaIiUaTzGNM8d4
-thCM+xTDuBqhUsucX2VStmiL7I0vfFXVk8K/vWPLPEEoYvVZVkU4fEu0RZQnLXtn
-yqrGAw/YNEG9e1RLiLILZeNEA0d22hQS3tFiS3bi6AOe124C0Cmok592uypCyhaI
-+9kllsLmVroR26xEw1edqA2aQ/WzQV5ALagTa1QAjRwp72Do2ls8efc1lyyRgxro
-JlH/XiRV4vS+Rt8E5Z1Sz7uteVU32Qnvc6vEqAXa0DBRAnDxSNL/zEfZe4mvI5jx
-hE+0NNRbyK+cvmvzAIinsAueFgngGMUxr/ssX8Gogibipp2yCYs5QWMQ6iXRDdWU
-TG2J39+gfrJWHmd9fJp8hsb/lxTwEe1qhZCQPNH3YB7PcIiyNbDDnjhqPNm3DtbQ
-771yDsiOxNo0lfb135GHYW+HblXqLHbmRlW0c8SZ9gm0Bs5V4eppjDUVdWyL1W1P
-3fk3G2/nxHKRTD8sc8T3EPCIc19dbCTOKrO9rHnM/aOuzE9TXmU=
-=/llC
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl4e0uQACgkQzL64meEa
+mQZOihAAv67DCAX0SOuEHIz27mMGdV0vjkfrgdgojsUNRIsBXaKNyGaK05xgpBRW
+TG620hnFeLwVN797VmVXjNVPWMkZpidllzDjsFRCTsM5ZlD1i9U+FFVEEC5Cgdly
+yBSD9wQ4+COOenwAfRFjx4UByV2LfTBtx/I49XL+INLpYpsa9ALpknBvkI1+vPlX
+1H4Piqo06pBijYhnGXRHh9pdbah8eRCpxlk5uAvTmRsJ4zD1AVYexHJC600duXKV
+HgoPFmWqfE10O1hmLMdpubTWT2GBFQqtTEErqcOA2qg/nigyeUAAaK8mxpYdKwYR
+mlU20u3QStZpms78pPej3ut5ZZs/LHgdpyX66pdTiYZqfL9mSusNP5/rBQ7LkvOG
+MY0BWZfDPDBRXSBXvmyNruDzXmw8Q9kock4aepnvrqE16y7O9JUFpg/jCiTNDYGR
+kybZ0baAScZbsbxAkDCtIpGfOvonWFLbX9tgPHuCRAMAnP7Jc0uiQcpCHe72yLLn
+fs7SysJ6s7eAQZPuzHznvXUkWEaUBKWft8M/ZbZRIIeJi8mOSE2yg1Ie/FQLpMB3
+ORVOWOKtHjX24HVUhPuCI7cgpv9BCFxoaDzv2Z7k1J4lSf/KtC8yfC3Ie7riVRv+
+M4ht7pHO4xxTltLwE59BvzDwb0diz4/rxS2KX+s99iUxNLNhdew=
+=ZBN9
 -----END PGP SIGNATURE-----
 --=-=-=--
