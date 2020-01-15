@@ -7,50 +7,51 @@ X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 91591C33CB1
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:26:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39734C33CB6
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:26:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 655E32072B
+	by mail.kernel.org (Postfix) with ESMTP id EF00920728
 	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 13:26:03 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="BcqLl793"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="hTqLAOwm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729092AbgAON0C (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Jan 2020 08:26:02 -0500
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:49152 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729039AbgAONZu (ORCPT
+        id S1729093AbgAON0D (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Jan 2020 08:26:03 -0500
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:51332 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726554AbgAONZu (ORCPT
         <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jan 2020 08:25:50 -0500
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPnXv069002;
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPnpU099989;
         Wed, 15 Jan 2020 07:25:49 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
         s=ti-com-17Q1; t=1579094749;
-        bh=CsvdqamM/+3ZHq5Xv+e/GUp3qjRTY5bF4VYeHFV8l3A=;
+        bh=g9McmvHlwW3mj2yAcDaVFA3nqtYkS4Mh1U3vQqnU0ss=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=BcqLl793mx7snOXtb93BN441St4DPnoJSKVRRyFDJ9WEDXeY6aX5nn2fR/R1WcOg3
-         1AM+4CRZcKRXafDlbdeJ3yClq3PJdQ8+xPDuNqnJEoDV7IBw2ShztswvendicN/3uO
-         3le2+CxMVT3mbdZ8efF9KFoH/DEbZyGVa24iZvPA=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPnSf018807;
-        Wed, 15 Jan 2020 07:25:49 -0600
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+        b=hTqLAOwmaSgE1MQOz4l9pAR1wgIiB1ZV9WCcWFtFPJbZZtt4ztwufFD3YCGF2VkXa
+         6249a1mm/udg8hdH1mmaI3vQMpKmBNCzc1SnEImmNr2qmjfgt+JFMJsPntXZ6kQEp9
+         iiLkFHR92/VJaZjPodzZQsnB1noGYNJRt+SIX05Y=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00FDPmRS110410
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 15 Jan 2020 07:25:48 -0600
+Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 15
- Jan 2020 07:25:49 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ Jan 2020 07:25:48 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Wed, 15 Jan 2020 07:25:49 -0600
+ Frontend Transport; Wed, 15 Jan 2020 07:25:48 -0600
 Received: from uda0271908.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPm3C066537;
-        Wed, 15 Jan 2020 07:25:49 -0600
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00FDPm30066537;
+        Wed, 15 Jan 2020 07:25:48 -0600
 From:   Bin Liu <b-liu@ti.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 CC:     <linux-usb@vger.kernel.org>, Bin Liu <b-liu@ti.com>
-Subject: [PATCH 14/25] usb: musb: jz4740: Rename platform_device field in priv struct
-Date:   Wed, 15 Jan 2020 07:25:36 -0600
-Message-ID: <20200115132547.364-15-b-liu@ti.com>
+Subject: [PATCH 02/25] usb: musb: sunxi: propagate devicetree node to glue pdev
+Date:   Wed, 15 Jan 2020 07:25:24 -0600
+Message-ID: <20200115132547.364-3-b-liu@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200115132547.364-1-b-liu@ti.com>
 References: <20200115132547.364-1-b-liu@ti.com>
@@ -62,50 +63,30 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Paul Cercueil <paul@crapouillou.net>
+From: Mans Rullgard <mans@mansr.com>
 
-Name the platform_device pointer 'pdev' instead of 'musb'. Since the
-driver also deal with pointers to 'struct musb', it can be very
-confusing to have a pointer named after this struct but with a different
-type.
+In order for devicetree nodes to be correctly associated with attached
+devices, the controller node needs to be propagated to the glue device.
 
-Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+Signed-off-by: Mans Rullgard <mans@mansr.com>
 Signed-off-by: Bin Liu <b-liu@ti.com>
 ---
- drivers/usb/musb/jz4740.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/usb/musb/sunxi.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/usb/musb/jz4740.c b/drivers/usb/musb/jz4740.c
-index 1400e5763d44..64e0b0f8c45b 100644
---- a/drivers/usb/musb/jz4740.c
-+++ b/drivers/usb/musb/jz4740.c
-@@ -17,7 +17,7 @@
- #include "musb_core.h"
- 
- struct jz4740_glue {
--	struct platform_device  *musb;
-+	struct platform_device	*pdev;
- 	struct clk		*clk;
- };
- 
-@@ -142,7 +142,7 @@ static int jz4740_probe(struct platform_device *pdev)
- 
- 	musb->dev.parent		= dev;
- 
--	glue->musb			= musb;
-+	glue->pdev			= musb;
- 	glue->clk			= clk;
- 
- 	platform_set_drvdata(pdev, glue);
-@@ -179,7 +179,7 @@ static int jz4740_remove(struct platform_device *pdev)
- {
- 	struct jz4740_glue	*glue = platform_get_drvdata(pdev);
- 
--	platform_device_unregister(glue->musb);
-+	platform_device_unregister(glue->pdev);
- 	clk_disable_unprepare(glue->clk);
- 
- 	return 0;
+diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
+index 832a41f9ee7d..a72665fbf111 100644
+--- a/drivers/usb/musb/sunxi.c
++++ b/drivers/usb/musb/sunxi.c
+@@ -781,6 +781,8 @@ static int sunxi_musb_probe(struct platform_device *pdev)
+ 	pinfo.name	 = "musb-hdrc";
+ 	pinfo.id	= PLATFORM_DEVID_AUTO;
+ 	pinfo.parent	= &pdev->dev;
++	pinfo.fwnode	= of_fwnode_handle(pdev->dev.of_node);
++	pinfo.of_node_reused = true;
+ 	pinfo.res	= pdev->resource;
+ 	pinfo.num_res	= pdev->num_resources;
+ 	pinfo.data	= &pdata;
 -- 
 2.17.1
 
