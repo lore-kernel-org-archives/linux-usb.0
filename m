@@ -2,176 +2,125 @@ Return-Path: <SRS0=3jNv=3E=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEBA1C33CB1
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 08:55:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3E31C33CB1
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 08:57:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B123B214AF
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 08:55:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579078539;
-	bh=c+LNizMQIeFS3JQmEnlHk76Rcl3AUZL9HObpRk38PZM=;
-	h=From:To:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=nap4ARt/JN25IGTuS54pFZhiWKWTF1QeSE2G1NQZmFRKCYg89lUcKfeiOtxyStvU8
-	 UX4zIbCLurU47nM9grDrB95Vyv8wGfgDCG8h5oOC8u8+n3oJslDAOg377mlotH08Ig
-	 8jYM1JNC0bIzO0S7CdeWavVeBtJctuE+2y8gksvs=
+	by mail.kernel.org (Postfix) with ESMTP id 906F924655
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 08:57:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729099AbgAOIzj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Jan 2020 03:55:39 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:42724 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726513AbgAOIzj (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 15 Jan 2020 03:55:39 -0500
-Received: by mail-lj1-f194.google.com with SMTP id y4so17612134ljj.9
-        for <linux-usb@vger.kernel.org>; Wed, 15 Jan 2020 00:55:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=t5m3OamKZRHEgjM8QxJfJSEwe0n7/ih3eD4sd0D5ZAw=;
-        b=WhHEhJ+b3G/qfyDQTnXMWLw8eUuqXHM1SWQ4S3pSWW0NH9InticeCDtxjdapafEqO5
-         ylNHM+1FO9RseZOWBdwVUJvh+QuWF8/7yZlVby1gGbBw/idqhScoeEtfrtqLlTQeZeeq
-         AUG98VpRkk4X64AUa+MIIN2+0KL0E8825lLxIGT1sBJQ5UB8W9DPTe3xUhjrvetyH0MY
-         y3RY6Cb4+8bqlNnmqh5rjdinLnSVKrE88qQt7n/7NP0Fr7BxQ1cjTeTsoSYvcJp1RWAP
-         YITnrfURScU9Pzt9qdThQBd1nqEWn85jLzkq0/lTPZZJaUV4QmsMd1AIiW04IldlNm9a
-         8rvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:subject:in-reply-to:references
-         :date:message-id:mime-version;
-        bh=t5m3OamKZRHEgjM8QxJfJSEwe0n7/ih3eD4sd0D5ZAw=;
-        b=hBaOQCMC0JTLRiMu9BPmFw2nlCWqZ3mFceZEtqwfrcUBko6/bMlCdfeUq+6w32Rl7i
-         y60PFrlBNsQi5D76eGMzBPQvt4vMI/4OEYTM6pgawdGdoaeCoM+pM/v+qg2Vk78BSwxG
-         JnvOLh3V1bLD0wyI4Tt33FoMjcuY0tmSB65pa07u6EMKyd8fxrMAUEEPJdgyYPxz9Xqc
-         qlyvjyrrRWQ3EF/u/v2cIf0CrAVPTlchrZphBhC7nnLA8TpG0sQzZwQwmDZhO3s4/MlC
-         Og/vfZDvZOMZa0FcBywiizSXAZiH445BcydCIcU25PsEk+HV5cnTKoQRKcBovg1Mvhc8
-         iNdw==
-X-Gm-Message-State: APjAAAXiMnLkaRmnrwOfMi3uecj3ZlqUOAplOHAX2HUmMZ5KREKtp8xa
-        yErxcRcxY9pRvLvK9uo7HGEfCvmAM6sCZg==
-X-Google-Smtp-Source: APXvYqzjkBW+WRJiujabNqzDLqoKnp7uFkdtxotIHg/6/pq46pX+rPd3ZI5JAHWu0weA/x1pNYtacw==
-X-Received: by 2002:a2e:571d:: with SMTP id l29mr1113408ljb.193.1579078536217;
-        Wed, 15 Jan 2020 00:55:36 -0800 (PST)
-Received: from saruman (88-113-215-33.elisa-laajakaista.fi. [88.113.215.33])
-        by smtp.gmail.com with ESMTPSA id n11sm8715252ljg.15.2020.01.15.00.55.35
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 15 Jan 2020 00:55:35 -0800 (PST)
-From:   Felipe Balbi <balbi@kernel.org>
-To:     Jonathan Thibault <jonathan@navigue.com>, linux-usb@vger.kernel.org
-Subject: Re: USB_DWC3_OF_SIMPLE
-In-Reply-To: <f07f375c-9096-c94b-f457-42d4e83093c3@navigue.com>
-References: <c3a1c48c-1ac7-e5c2-e09a-3b55100735ab@navigue.com> <871rs9t336.fsf@kernel.org> <f07f375c-9096-c94b-f457-42d4e83093c3@navigue.com>
-Date:   Wed, 15 Jan 2020 10:56:37 +0200
-Message-ID: <87k15t6qt6.fsf@kernel.org>
+        id S1729141AbgAOI5r (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Jan 2020 03:57:47 -0500
+Received: from smtp.qindel.com ([89.140.90.34]:56840 "EHLO thor.qindel.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729044AbgAOI5q (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 15 Jan 2020 03:57:46 -0500
+X-Greylist: delayed 300 seconds by postgrey-1.27 at vger.kernel.org; Wed, 15 Jan 2020 03:57:46 EST
+Received: from localhost (localhost [127.0.0.1])
+        by thor.qindel.com (Postfix) with ESMTP id D551B602CB;
+        Wed, 15 Jan 2020 09:52:44 +0100 (CET)
+Received: from thor.qindel.com ([127.0.0.1])
+        by localhost (thor.qindel.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id kfg-ZpTGDLIC; Wed, 15 Jan 2020 09:52:44 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+        by thor.qindel.com (Postfix) with ESMTP id 9F19A602CC;
+        Wed, 15 Jan 2020 09:52:44 +0100 (CET)
+X-Virus-Scanned: amavisd-new at thor.qindel.com
+Received: from thor.qindel.com ([127.0.0.1])
+        by localhost (thor.qindel.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id EuQOVuYwOyNN; Wed, 15 Jan 2020 09:52:44 +0100 (CET)
+Received: from superman.qindel.com (superman.qindel.com [172.26.4.138])
+        by thor.qindel.com (Postfix) with ESMTP id 297BC602CB;
+        Wed, 15 Jan 2020 09:52:41 +0100 (CET)
+Date:   Wed, 15 Jan 2020 09:52:40 +0100 (CET)
+From:   Vadim Troshchinskiy <vtroshchinskiy@qindel.com>
+To:     shuah <shuah@kernel.org>
+Cc:     linux-usb@vger.kernel.org,
+        Valentina Manea <valentina.manea.m@gmail.com>
+Message-ID: <783453790.2802069.1579078360600.JavaMail.zimbra@qindel.com>
+In-Reply-To: <86e6dfbf-cf51-1467-3a78-fd72377385b7@kernel.org>
+References: <5176009.64u6Zm7RkX@gverdu.qindel.com> <86e6dfbf-cf51-1467-3a78-fd72377385b7@kernel.org>
+Subject: Re: [PATCH] usbip: Remove unaligned pointer usage from usbip tools
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.26.0.51]
+X-Mailer: Zimbra 8.0.6_GA_5922 (ZimbraWebClient - GC77 (Linux)/8.0.6_GA_5922)
+Thread-Topic: usbip: Remove unaligned pointer usage from usbip tools
+Thread-Index: +rhF6qW7fw7UqOfMwhrOIKL4HzRpvA==
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
 
-Hi,
+----- Mensaje original -----
+> De: "shuah" <shuah@kernel.org>
+> Para: "Vadim Troshchinskiy" <vtroshchinskiy@qindel.com>, linux-usb@vger.kernel.org
+> CC: "Valentina Manea" <valentina.manea.m@gmail.com>, "shuah" <shuah@kernel.org>
+> Enviados: Jueves, 2 de Enero 2020 1:01:24
+> Asunto: Re: [PATCH] usbip: Remove unaligned pointer usage from usbip tools
+> 
+> Hi Vadim,
+> 
 
-Jonathan Thibault <jonathan@navigue.com> writes:
->>> I am currently trying to port OpenWRT to Ubiquiti's EdgeRouter 4 which
->>> is a Cavium Octeon 7130.=C2=A0 While investigating to support XHCI (the
->>> device has a single USB3 port), I ran into the dwc3 driver which
->>> apparently supports that very chipset via the dwc3-of-simple glue.
->>>
->>> Looking at Ubiquiti's own firmware, it seems they are using a modified
->>> version of the standard xhci-platform driver.
->>>
->>> So now I am faced with two different approaches:
->>>
->>> 1- Attempt to replicate Ubiquiti's modifications to xhci-plat.
->>>
->>> 2- Switch to dwc3-of-simple.
->>>
->>> With option 1, so far, I can get xhci to load by merely adding a
->>> '.compatible =3D' member to usb_xhci_of_match[], but the driver complai=
-ns
->>> about LPM algorithms and disables LPM (which may be fine, I don't know
->>> if it is even supported on this device).
->>>
->>> Option 2 (where you might hopefully help), potentially involves more
->>> modification to the OpenWRT since their Octeon kernel config does not
->>> appear to enable CONFIG_COMMON_CLK, which the driver depends on.=C2=A0 =
-And I
->>> do not know if I should also disable standard ohci and ehci drivers once
->>> I manage to enable the USB_DWC3_OF_SIMPLE.
->>>
->>> I'm looking for recommendations on the best approach.=C2=A0 Keep in min=
-d that
->>> while I can cobble together some ugly but functional hacks, I am not an
->>> experienced kernel dev.
->> Just switch to dwc3-of-simple, it already supports the SoC you're
->> dealing with. Try removing the dependency on CONFIG_COMMON_CLK. I think
->> we already get empty stubs when common clk is disabled.
->>
->> If that works for you, that's an easy patch.
->>
->
-> Sadly, while it does build without the COMMON_CLK dependency, probing fai=
-ls:
->
-> [=C2=A0=C2=A0=C2=A0 4.881646] dwc3 1680000000000.xhci: Configuration mism=
-atch. dr_mode=20
-> forced to host
-> [=C2=A0=C2=A0=C2=A0 4.889574] dwc3 1690000000000.xhci: Configuration mism=
-atch. dr_mode=20
-> forced to host
-> [=C2=A0=C2=A0=C2=A0 4.897546] dwc3-of-simple: probe of 1180068000000.uctl=
- failed with=20
-> error -12
-> [=C2=A0=C2=A0=C2=A0 4.904715] dwc3-of-simple: probe of 1180069000000.uctl=
- failed with=20
-> error -12
->
-> The return value suggests that it's from the if(!simple->clks) check in=20
-> dwc3_of_simple_clk_init().
 
-Add a check for your platform and ignore clocks altogether.
+Hello! Sorry for the late reply, I was on vacation.
 
-if (of_platform_is_compatible(....)) {
-	ignore_clocks =3D true;
 
-> The configuration mismatch warning is a bit of a mystery to me as well=20
-> since the only mode available in kernel config is USB_DWC3_HOST and what=
-=20
-> I selected.=C2=A0 Would this be because the controller itself is reportin=
-g=20
-> another configuration?
+> On 12/10/19 8:50 AM, Vadim Troshchinskiy wrote:
+> > The usbip tools use packed structs for network communication. Taking the
+> > address of a packed member of a struct can crash the program with SIGBUS
+> > on architectures with strict alignment requirements.
+> > 
+> 
+> Can you be more specific on which architectures?
 
-What do you have in your Device Tree?
 
-=2D-=20
-balbi
+To my knowledge, older ARM processors, SPARC, probably others mostly of the low
+power/embedded kinds. I personally work with x86, so this isn't a critical issue
+for me, but I'm noting it's a portability concern.
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+On architectures which don't produce an error it's typically a significant
+performance penalty (though it wouldn't be that big of a deal in this case in
+particular)
 
------BEGIN PGP SIGNATURE-----
+In my case the main issue is that recent versions of GCC warn about this and
+fail when -Werror is used. Sure, one could disable the warning or remove -Werror,
+but that would obscure the issue and could cause hard to figure out problems
+for somebody else down the line.
 
-iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl4e08UACgkQzL64meEa
-mQY+9A/+Mhu0HN0FYdyq6LJv1oce8yanEEzEYXI5Oz8EvKc6iJlyXg/2sa98JBE4
-kZ6pxwGCC5ONeS2P1m309SX3dyrCTIftTkAmIL/zQFxlRHcRoATMfEvr5Ykh3qCT
-+MGsiuJQbNZtsHeASADvSV7wpdWYNaGbQkfBpK8284xYWANp60J+zHP6TOboojfe
-EXU8r5gDAU9jbIVIz07rlRjdkPHpdDrgs5AO8KFcxn/MwlQAY7l1FRMuAIZrh/7N
-ejgnXbQtW6UiFerjgItS2nsqYrPc2S75NePGKVaczLGyTXzSN/9ag7VlNMVJRbs+
-Z7IzMh4sDhnnso8NpqohVvKddHCYMx6k4+LdODI4qpbIWb0PL2r8zLesMQ7Iyr39
-v64+KBTZcp7JHGecSQ6Mxo/Clceoj7CAhBRBfLQf8X8W/Hqn611O+ZBmcsrUyn3F
-54/oSFyQJ0HzYVtT3y/wn2zqp/fd/+iz6cmXqEjpxJ+hJy03DkmjPKPCRI80Y/uJ
-aorayNc7uW7wSu63++pqnuiQg8vOMLIrsaK+85b7jFRsPdda8IZkSZJqQR/Eb8Pf
-Dcxq6nQfvY1Jqv0J2DzCDZ+gz76luVDulaVNd7vBAStEzwdHHHFCnf9A7JzYltxj
-9j4Ix1rxt/2B+i2xPgGWEpRpZDM3SURql5hBD9OCUMNABuDpP4s=
-=lnjO
------END PGP SIGNATURE-----
---=-=-=--
+
+
+> >   
+> > -void usbip_net_pack_uint16_t(int pack, uint16_t *num)
+> > +void usbip_net_pack_uint16_t(int pack, uint8_t *num)
+> 
+> Is there a reason to change this to uint8_t?
+> 
+
+
+On architectures that require alignment, access must be done on multiples
+of the data size. So for instance a 16 bit value must be located at byte
+addresses 0, 2, 4, 6, etc, and a 32 bit value would have to be at addresses
+0, 4, 8, etc.
+
+So taking a pointer to a 16 bit value located at address 3 is a problem, but
+accessing a byte at the same address is just fine.
+
+malloc always aligns allocations to the maximum amount necessary for any
+value on the architecture, but that only goes for the first byte. If you take
+the address of the second one you're not in alignment anymore.
+
+So what the patch does is to copy a value byte by byte into a temporary
+variable the compiler has made sure is correctly aligned, do the 16/32 bit
+operation on that, then copy it back. For that to work it has to operate on
+uint8_t.
+
+
+
+
