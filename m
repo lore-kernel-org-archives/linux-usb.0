@@ -2,80 +2,69 @@ Return-Path: <SRS0=3jNv=3E=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 886CFC33CB1
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 09:37:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F164C33CB1
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 09:38:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5A91E24655
-	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 09:37:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579081070;
-	bh=e6KJufILmecJ7CsN2+z5/mBYImAiULy/GEraX2lTpBI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=kSwkX1dfsxRZR9wVArczD/8kUSLkwQ+3ltVD0f1A84XdfrStKQinlacF0e2djtwCi
-	 Fl5PEKxJ4RWqpoyJp70ChFYW3Tq3mat4NtPvUA+AJiSzwrhvPwSLhdBLA075dCn5pO
-	 yI7wL/W/hz7CNdlFl6N8E5oBtDvanNWRjYDHHd4k=
+	by mail.kernel.org (Postfix) with ESMTP id 0A96124655
+	for <linux-usb@archiver.kernel.org>; Wed, 15 Jan 2020 09:38:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729427AbgAOJht (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 15 Jan 2020 04:37:49 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38314 "EHLO mail.kernel.org"
+        id S1729441AbgAOJiH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 15 Jan 2020 04:38:07 -0500
+Received: from inva020.nxp.com ([92.121.34.13]:41016 "EHLO inva020.nxp.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729396AbgAOJht (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Wed, 15 Jan 2020 04:37:49 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A7F4D24655;
-        Wed, 15 Jan 2020 09:37:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579081069;
-        bh=e6KJufILmecJ7CsN2+z5/mBYImAiULy/GEraX2lTpBI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=d20J6fdicVMmmFJU6Heshm2zlU6rw7sqsThVlmHJZNTPi9ji/84hQkpp3bm0fT9Y4
-         bPKyJOuoMws5jAvzVk+4ARn8XyATpYTaBKYH3HWlAdhfOD8GSo6cLyMXzWk7T+yatI
-         SM+CsDd4kP2e+RozWZSZLrI3R1B2Yg0DJKO8U4v4=
-Date:   Wed, 15 Jan 2020 10:37:46 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Felipe Balbi <balbi@kernel.org>
-Cc:     linux-usb@vger.kernel.org
-Subject: Re: [GIT PULL] USB: changes for v5.6 merge window
-Message-ID: <20200115093746.GA3177342@kroah.com>
-References: <878sm96pzf.fsf@kernel.org>
- <20200115092813.GA3153837@kroah.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200115092813.GA3153837@kroah.com>
+        id S1729396AbgAOJiH (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 15 Jan 2020 04:38:07 -0500
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id D96101A05B2;
+        Wed, 15 Jan 2020 10:38:05 +0100 (CET)
+Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id CCF181A088B;
+        Wed, 15 Jan 2020 10:38:03 +0100 (CET)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id EF94A402BB;
+        Wed, 15 Jan 2020 17:38:00 +0800 (SGT)
+From:   Peter Chen <peter.chen@nxp.com>
+To:     linux-usb@vger.kernel.org
+Cc:     linux-imx@nxp.com, Jun Li <jun.li@nxp.com>,
+        Peter Chen <peter.chen@nxp.com>
+Subject: [PATCH 1/1] usb: chipidea: add inline for ci_hdrc_host_driver_init if host is not defined
+Date:   Wed, 15 Jan 2020 17:34:00 +0800
+Message-Id: <1579080840-5344-1-git-send-email-peter.chen@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jan 15, 2020 at 10:28:13AM +0100, Greg Kroah-Hartman wrote:
-> On Wed, Jan 15, 2020 at 11:14:28AM +0200, Felipe Balbi wrote:
-> > 
-> > Hi Greg,
-> > 
-> > here's my pull request for v5.6 merge window. If you want anything to be
-> > changed, let me know.
-> 
-> Did you send this twice?  Any difference?
-> 
+From: Jun Li <jun.li@nxp.com>
 
-I did a pull, and get this problem when checking the patches:
+Otherwise, there is a build warning if this header file is included
+by non host source file, eg, otg.c.
 
-Commit: 6a6ae4e8e926 ("usb: gadget: f_ncm: Use atomic_t to track in-flight request")
-	Fixes tag: Fixes: 40d133d7f5426 ("usb: gadget: f_ncm: convert to new function interface
-	Has these problem(s):
-	        - Subject has leading but no trailing parentheses
-	        - Subject has leading but no trailing quotes
+Signed-off-by: Jun Li <jun.li@nxp.com>
+Signed-off-by: Peter Chen <peter.chen@nxp.com>
+---
+ drivers/usb/chipidea/host.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'll go fix it up, but that will break your tree if you try to merge as
-I will have to rebase :(
+diff --git a/drivers/usb/chipidea/host.h b/drivers/usb/chipidea/host.h
+index 70112cf0f195..2625aa01a911 100644
+--- a/drivers/usb/chipidea/host.h
++++ b/drivers/usb/chipidea/host.h
+@@ -20,7 +20,7 @@ static inline void ci_hdrc_host_destroy(struct ci_hdrc *ci)
+ 
+ }
+ 
+-static void ci_hdrc_host_driver_init(void)
++static inline void ci_hdrc_host_driver_init(void)
+ {
+ 
+ }
+-- 
+2.17.1
 
-thanks,
-
-greg k-h
