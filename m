@@ -2,83 +2,89 @@ Return-Path: <SRS0=Mi6m=3F=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84706C33CB6
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 19:06:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1CB1C33CAF
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 19:06:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 5AB3F2073A
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 19:06:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 73D20206E6
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 19:06:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1579201600;
+	bh=U/B3pNQ4riAajbwurPO6a9f0ReSuizpofz3BUv7r6GU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=hGJWlA4vMbAGUNDK5wXlMt4+te/tQgncpQGHqGUOZKrGaq51FQhYRp0Ad2Vwgndqc
+	 ZsIjxardmUxsXEuw0ihVy4NQBUiMhRivRQDWbOcfWZqs1nyVfGVTTjPocLi2SAMZ2i
+	 fxJbSGfC5CwC1qoJlwvfUDKg6k18HSFRdFvQdWsw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437446AbgAPTGJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Jan 2020 14:06:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48362 "EHLO mail.kernel.org"
+        id S2388112AbgAPRBd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Jan 2020 12:01:33 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52796 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1733289AbgAPTGJ (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 16 Jan 2020 14:06:09 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S2388082AbgAPRBd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 16 Jan 2020 12:01:33 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E3076206B7;
-        Thu, 16 Jan 2020 19:06:07 +0000 (UTC)
-Date:   Thu, 16 Jan 2020 20:06:06 +0100
-From:   Greg KH <greg@kroah.com>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     linux-usb@vger.kernel.org, stable <stable@vger.kernel.org>
-Subject: Re: [PATCH] USB: serial: suppress driver bind attributes
-Message-ID: <20200116190606.GB1020857@kroah.com>
-References: <20200116160705.5199-1-johan@kernel.org>
- <20200116161829.GA909791@kroah.com>
- <20200116162424.GP2301@localhost>
+        by mail.kernel.org (Postfix) with ESMTPSA id CEAD424653;
+        Thu, 16 Jan 2020 17:01:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579194092;
+        bh=U/B3pNQ4riAajbwurPO6a9f0ReSuizpofz3BUv7r6GU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=zI6YEYolhCBl+iVG5992WA+ijXym5Q7KL1dYv/qj+OUjSnKnMwZxKfwzq0VpzDKir
+         KW7bba0A1sypYbqpS4LRQXcbSwKsPrXMo1VwEkYJ57hrSC1FohgSBpuVJw0UpivfyJ
+         VGzBq3s+UjdIkmJKza0H9ohnt5xn3QzH0bpyEnzw=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     YueHaibing <yuehaibing@huawei.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 195/671] cdc-wdm: pass return value of recover_from_urb_loss
+Date:   Thu, 16 Jan 2020 11:51:44 -0500
+Message-Id: <20200116165940.10720-78-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200116165940.10720-1-sashal@kernel.org>
+References: <20200116165940.10720-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200116162424.GP2301@localhost>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Jan 16, 2020 at 05:24:24PM +0100, Johan Hovold wrote:
-> On Thu, Jan 16, 2020 at 05:18:29PM +0100, Greg Kroah-Hartman wrote:
-> > On Thu, Jan 16, 2020 at 05:07:05PM +0100, Johan Hovold wrote:
-> > > USB-serial drivers must not be unbound from their ports before the
-> > > corresponding USB driver is unbound from the parent interface so
-> > > suppress the bind and unbind attributes.
-> > > 
-> > > Unbinding a serial driver while it's port is open is a sure way to
-> > > trigger a crash as any driver state is released on unbind while port
-> > > hangup is handled on the parent USB interface level. Drivers for
-> > > multiport devices where ports share a resource such as an interrupt
-> > > endpoint also generally cannot handle individual ports going away.
-> > > 
-> > > Cc: stable <stable@vger.kernel.org>
-> > > Signed-off-by: Johan Hovold <johan@kernel.org>
-> > > ---
-> > >  drivers/usb/serial/usb-serial.c | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > > 
-> > > diff --git a/drivers/usb/serial/usb-serial.c b/drivers/usb/serial/usb-serial.c
-> > > index 8f066bb55d7d..dc7a65b9ec98 100644
-> > > --- a/drivers/usb/serial/usb-serial.c
-> > > +++ b/drivers/usb/serial/usb-serial.c
-> > > @@ -1317,6 +1317,9 @@ static int usb_serial_register(struct usb_serial_driver *driver)
-> > >  		return -EINVAL;
-> > >  	}
-> > >  
-> > > +	/* Prevent individual ports from being unbound. */
-> > > +	driver->driver.suppress_bind_attrs = true;
-> > 
-> > We can still unbind the usb driver though, right?  If so, this is fine
-> > with me.
-> 
-> Right, this is only about disabling individual ports, something which
-> essentially no subdriver can handle while a port is open (e.g. port-data
-> set to NULL while port is still open... boom).
+From: YueHaibing <yuehaibing@huawei.com>
 
-Ok, thanks for verifying, and sorry for writing that bug in the first
-place :)
+[ Upstream commit 0742a338f5b3446a26de551ad8273fb41b2787f2 ]
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+'rv' is the correct return value, pass it upstream instead of 0
+
+Fixes: 17d80d562fd7 ("USB: autosuspend for cdc-wdm")
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/usb/class/cdc-wdm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
+index b8a1fdefb515..4929c5883068 100644
+--- a/drivers/usb/class/cdc-wdm.c
++++ b/drivers/usb/class/cdc-wdm.c
+@@ -1107,7 +1107,7 @@ static int wdm_post_reset(struct usb_interface *intf)
+ 	rv = recover_from_urb_loss(desc);
+ 	mutex_unlock(&desc->wlock);
+ 	mutex_unlock(&desc->rlock);
+-	return 0;
++	return rv;
+ }
+ 
+ static struct usb_driver wdm_driver = {
+-- 
+2.20.1
+
