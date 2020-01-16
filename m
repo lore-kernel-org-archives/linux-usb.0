@@ -2,89 +2,107 @@ Return-Path: <SRS0=Mi6m=3F=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-5.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9ABE6C33CAF
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 17:56:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45188C33CB6
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 18:01:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 74D9F2073A
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 17:56:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579197391;
-	bh=g/YGBqeroqkxDgUBykYtK8KfBGkUxXI54w48aAXNL9Q=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=BBVZQSjHmNgKstty3etTtBTskru4FUKoAwCAHlgP64/lFeDBKqTJkHyd9zqbdzGmP
-	 T+Dh7lp2OVKHaRZJ5C9xGflBoHOYwmzKCAtYGnmmNgzpLXzOvX1tCvUSVTEDvsT/7i
-	 BrKYdcXT6OjLAGF6YtahRnHyoGd5XaeSimaOqJMY=
+	by mail.kernel.org (Postfix) with ESMTP id 2229624695
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 18:01:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394026AbgAPRnz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Jan 2020 12:43:55 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34444 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394021AbgAPRny (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:43:54 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S2394930AbgAPSBO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Jan 2020 13:01:14 -0500
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:39567 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2394685AbgAPSBN (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Jan 2020 13:01:13 -0500
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id DAF5E3C0579;
+        Thu, 16 Jan 2020 19:01:10 +0100 (CET)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id q7C202YH4ZyQ; Thu, 16 Jan 2020 19:01:04 +0100 (CET)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9FE2E2473E;
-        Thu, 16 Jan 2020 17:43:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579196634;
-        bh=g/YGBqeroqkxDgUBykYtK8KfBGkUxXI54w48aAXNL9Q=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=CPhqVmQfSRl187lAE/y/KhDHhgQb8VRFGN/8tdifhGKGn5jJR1hggtbaVZMREu+qr
-         iD5nSHLPB4C/IXxtFTXzZ0IlP93rSJ1362hYA9D4E/uvyO7sg9dWEKGAP/HOxchfdK
-         MiZhsokifNEXfrMkFzCOJCEYtfvnR0iQ9yAs+Ig4=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     YueHaibing <yuehaibing@huawei.com>,
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id AB6783C04C0;
+        Thu, 16 Jan 2020 19:01:04 +0100 (CET)
+Received: from lxhi-065.adit-jv.com (10.72.93.66) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Thu, 16 Jan
+ 2020 19:01:04 +0100
+Date:   Thu, 16 Jan 2020 19:01:01 +0100
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     David Howells <dhowells@redhat.com>
+CC:     Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Spyridon Papageorgiou <spapageorgiou@de.adit-jv.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 047/174] cdc-wdm: pass return value of recover_from_urb_loss
-Date:   Thu, 16 Jan 2020 12:40:44 -0500
-Message-Id: <20200116174251.24326-47-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116174251.24326-1-sashal@kernel.org>
-References: <20200116174251.24326-1-sashal@kernel.org>
+        <linux-usb@vger.kernel.org>, Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: Do you have a sink for USB notifications?
+Message-ID: <20200116180101.GA22765@lxhi-065.adit-jv.com>
+References: <8232.1579184201@warthog.procyon.org.uk>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <8232.1579184201@warthog.procyon.org.uk>
+X-Originating-IP: [10.72.93.66]
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: YueHaibing <yuehaibing@huawei.com>
+Hi David,
 
-[ Upstream commit 0742a338f5b3446a26de551ad8273fb41b2787f2 ]
+On Thu, Jan 16, 2020 at 02:16:41PM +0000, David Howells wrote:
+> Hi Eugeniu, Spyridon,
+> 
+> Greg pointed me at your patch:
+> 
+> 	https://lore.kernel.org/lkml/20190605090556.17792-1-erosca@de.adit-jv.com/
 
-'rv' is the correct return value, pass it upstream instead of 0
+I remember this thread.
 
-Fixes: 17d80d562fd7 ("USB: autosuspend for cdc-wdm")
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/class/cdc-wdm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Do you have a consumer program for USB notification events? 
 
-diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
-index 71ad04d54212..1a1d1cfc3704 100644
---- a/drivers/usb/class/cdc-wdm.c
-+++ b/drivers/usb/class/cdc-wdm.c
-@@ -1098,7 +1098,7 @@ static int wdm_post_reset(struct usb_interface *intf)
- 	rv = recover_from_urb_loss(desc);
- 	mutex_unlock(&desc->wlock);
- 	mutex_unlock(&desc->rlock);
--	return 0;
-+	return rv;
- }
- 
- static struct usb_driver wdm_driver = {
+As you might expect, looking at the above patch, we are using
+'udevadm monitor' in the development environment. The end user is
+making sense of the notifications either via udev daemon or via
+a custom libudev-linked application.
+
+> I'm would like to
+> get my general notification queue patches upstream in this merge window, but
+> it appears that Linus would like there to be userspace consumers first.
+> 
+> My latest patch set is here:
+> 
+> 	https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/log/?h=notifications-pipe-core
+> 
+> This provides access to keyring, usb and block device notifications.
+
+It's great to see new and creative solutions being proposed in upstream,
+especially if those attempt improving system reliability, robustness and
+help standardizing the interfaces.
+
+However, to be honest, I am concerned of below:
+ - The amount of code [*] I have to compile/link to enable the feature
+   (as opposed to ~15 lines of *.c code in the aforementioned patch)
+ - No active users
+ - No readily available userspace applications to handle the events
+ - No complaints from the customers w.r.t. udevd/libudev (no secret, 
+   this is what most of the times funds our work and drives the
+   industry forward)
+
+I am still ready to offer any help, if needed. TIA!
+
+> 
+> Thanks,
+> David
+> 
+
+[*] git diff --shortstat v5.5-rc3..linux-fs/notifications-pipe-core
+    63 files changed, 2505 insertions(+), 106 deletions(-)
+
 -- 
-2.20.1
-
+Best Regards,
+Eugeniu
