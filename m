@@ -2,109 +2,93 @@ Return-Path: <SRS0=Mi6m=3F=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.0 required=3.0 tests=FREEMAIL_FORGED_FROMDOMAIN,
+	FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B341C33CAF
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 22:06:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC9C1C33CAF
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 22:35:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id F26B820728
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 22:06:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A541206B7
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 22:35:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732459AbgAPWGO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Jan 2020 17:06:14 -0500
-Received: from iolanthe.rowland.org ([192.131.102.54]:41696 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1729260AbgAPWGO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Jan 2020 17:06:14 -0500
-Received: (qmail 11448 invoked by uid 2102); 16 Jan 2020 17:06:12 -0500
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 16 Jan 2020 17:06:12 -0500
-Date:   Thu, 16 Jan 2020 17:06:12 -0500 (EST)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-cc:     Chris Dickens <christopher.a.dickens@gmail.com>,
-        linux-usb <linux-usb@vger.kernel.org>
-Subject: Re: Inconsistency in how URBs are unlinked
-In-Reply-To: <20200116214034.GA1250873@kroah.com>
-Message-ID: <Pine.LNX.4.44L0.2001161656270.1301-100000@iolanthe.rowland.org>
+        id S1732698AbgAPWf7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Jan 2020 17:35:59 -0500
+Received: from mx009.vodafonemail.xion.oxcs.net ([153.92.174.39]:52285 "EHLO
+        mx009.vodafonemail.xion.oxcs.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729631AbgAPWf6 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Jan 2020 17:35:58 -0500
+Received: from vsmx002.vodafonemail.xion.oxcs.net (unknown [192.168.75.192])
+        by mta-6-out.mta.xion.oxcs.net (Postfix) with ESMTP id 24FAC604ED5;
+        Thu, 16 Jan 2020 22:35:56 +0000 (UTC)
+Received: from arcor.de (unknown [87.162.53.76])
+        by mta-6-out.mta.xion.oxcs.net (Postfix) with ESMTPA id B88CF604ED8;
+        Thu, 16 Jan 2020 22:35:49 +0000 (UTC)
+Date:   Thu, 16 Jan 2020 23:35:42 +0100
+From:   Reinhard Speyerer <rspmn@arcor.de>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Kristian Evensen <kristian.evensen@gmail.com>,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH] USB: serial: option: add support for Quectel RM500Q in
+ QDL mode
+Message-ID: <20200116223541.GA1080@arcor.de>
+References: <20200114132923.GA18330@arcor.de>
+ <20200116160016.GN2301@localhost>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200116160016.GN2301@localhost>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-VADE-STATUS: LEGIT
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, 16 Jan 2020, Greg Kroah-Hartman wrote:
-
-> On Thu, Jan 16, 2020 at 01:34:21PM -0800, Chris Dickens wrote:
-> > Hi,
+On Thu, Jan 16, 2020 at 05:00:16PM +0100, Johan Hovold wrote:
+> On Tue, Jan 14, 2020 at 02:29:23PM +0100, Reinhard Speyerer wrote:
+> > Add support for Quectel RM500Q in QDL mode.
 > > 
-> > A bug [1] has been reported against libusb about a segfault that
-> > occurs when a device is disconnected while processing isochronous
-> > transfers.  In my investigation I discovered an interesting
-> > inconsistency in how URBs are unlinked across the USB core.
+> > T:  Bus=02 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#= 24 Spd=480  MxCh= 0
+> > D:  Ver= 2.10 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
+> > P:  Vendor=2c7c ProdID=0800 Rev= 0.00
+> > S:  Manufacturer=Qualcomm CDMA Technologies MSM
+> > S:  Product=QUSB_BULK_SN:xxxxxxxx
+> > S:  SerialNumber=xxxxxxxx
+> > C:* #Ifs= 1 Cfg#= 1 Atr=a0 MxPwr=  2mA
+> > I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=10 Driver=option
+> > E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+> > E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
 > > 
-> > The usbfs driver will unlink URBs in the same order they are
-> > submitted.
-
-You're talking about destroy_async(), right?  Yes, I should change that 
-to make it go in backwards order -- thanks for pointing this out.
-
-> >  From what I can see this code is executed when
-> > setting/releasing an interface or when alloc'ing/freeing streams.  I
-> > see there is also a call within the usbfs driver's disconnect
-> > function, but that appears to be a no-op (is this really the case?) as
-> > by the time that function is called the interface would have already
-> > been disabled and thus usb_hcd_flush_endpoint() would have been
-> > called.
-
-Not necessarily.  You can unbind a driver such as usbfs without 
-disabling the interface.
-
-> > Since commit 2eac136243 ("usb: core: unlink urbs from the tail of the
-> > endpoint's urb_list"), the usb_hcd_flush_endpoint() function will
-> > unlink URBs in the reverse order of submission.  This subtle change is
-> > what led to the crash within libusb.  The bug manifests when transfers
-> > within libusb are split into multiple URBs.  Prior to this change, the
-> > order in which URBs were reaped matched the order in which they were
-> > submitted.  Internally libusb expects this order to match and frees
-> > memory when it encounters the last URB in a multi-URB transfer, but
-> > since it reaps the last URB first the memory is freed right away and
-> > things take a turn when the freed memory is accessed when reaping the
-> > other URB(s) in that same transfer.
+> > It is assumed that the ZLP flag required for other Qualcomm-based
+> > 5G devices also applies to Quectel RM500Q.
+> > 
+> > Signed-off-by: Reinhard Speyerer <rspmn@arcor.de>
+> > ---
+> > diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+> > index 62bad1b2c18e..084cc2fff3ae 100644
+> > --- a/drivers/usb/serial/option.c
+> > +++ b/drivers/usb/serial/option.c
+> > @@ -1107,6 +1107,8 @@ static const struct usb_device_id option_ids[] = {
+> >  	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_EM12, 0xff, 0, 0) },
+> >  	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_RM500Q, 0xff, 0xff, 0x30) },
+> >  	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_RM500Q, 0xff, 0, 0) },
+> > +	{ USB_DEVICE_AND_INTERFACE_INFO(QUECTEL_VENDOR_ID, QUECTEL_PRODUCT_RM500Q, 0xff, 0xff, 0x10),
+> > +	  .driver_info = ZLP },
 > 
-> That commit was from July 2017, has no one really noticed since then?
-> 
-> Anyway, who is splitting the urb up, libusb or usbfs?  I'm guessing
-> libusb here as otherwise this wouldn't be an issue, but if you are
-> splitting them up, shouldn't you never count on the order in which they
-> are handled as some host controllers can reorder them (I think xhci
-> can).  So this type of fix for libusb is to be expected I would think,
-> you can't count on an async interface ever working in an ordered manner,
-> right?
+> By the way, don't you want NCTRL(0) here too (cf. Telit SBL FN980).
 
-Host controllers can't reorder URBs for the same endpoint, although 
-they can reorder URBs for differing endpoints.
+Hi Johan,
 
-> Also, what does other operating systems do here?
+NCTRL(0) is also used for the diag port of the Telit FN980 while it
+is not used for the diag port of the RM500Q in Kristian's patch.
 
-In general it is better to unlink URBs in reverse order.  This
-eliminates all possibility that the kernel will unlink URB x before it
-executes but then URB x+1 will get executed before the kernel can
-unlink it.
+So far I have not observed any problems when using the diag and the QDL
+ports of the RM500Q without NCTRL(0).
 
-> > I will fix libusb to account for this behavior, but I thought it worth
-> > mentioning as this new behavior isn't what I (and possibly others)
-> > necessarily expect.
-> 
-> New as of 2017 :)
+Unless you or Kristian would prefer to have this changed I would suggest
+to keep it as is now.
 
-The kernel guarantees that URBs for a single endpoint will complete in
-order _unless_ they have been unlinked.  Unlinked URBs can complete in
-any order -- and not necessarily the order in which they were unlinked.
-
-Alan Stern
-
+Regards,
+Reinhard
