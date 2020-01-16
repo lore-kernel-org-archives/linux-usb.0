@@ -2,98 +2,124 @@ Return-Path: <SRS0=Mi6m=3F=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8769AC33CAF
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 19:17:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40800C33CAF
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 19:31:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 591E42077C
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 19:17:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 18ABE206D9
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 19:31:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579202238;
-	bh=aX7ifRBNjLV4P2WSjgKpSySenyZPKe/92qia74ikSpM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=BT8jfubRTGzUHBOlYRFLT2yxyo+/KQmVMqLjnSmGeS0nwHb+k3B1rePPkOXRr2YPV
-	 BH/mvxQ1RWwiFWWBRB8OAFtjVWKjr1K5pCuJnp0u5KpYuvgun9nb2bgyzReD9/W0ml
-	 mIeGG3usrRNe2P4zTuCevY7h2yYQ0QAwVU1PM9bk=
+	s=default; t=1579203099;
+	bh=cYq521Xb+o395bShj6QpiHteLl9zlelJoUUI3lPWNUI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=HR6YvGvOXr8/BIa5I+bQQbPSz5VPcGayllfy8kN6xWZxZ0Spuj255Utueo/UPMnmZ
+	 61osxWWmMMaYezeKOzSOzROZI8uPlem88FVXu1lvAsYdHcTuOAXpaBCIEboge6kFct
+	 zsfDT5Y8PUntGzdnh46KSbGr0ZojaVEEmUFsBZ3M=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389453AbgAPTRQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Jan 2020 14:17:16 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40774 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732955AbgAPQz3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 16 Jan 2020 11:55:29 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 99BD420730;
-        Thu, 16 Jan 2020 16:55:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579193729;
-        bh=aX7ifRBNjLV4P2WSjgKpSySenyZPKe/92qia74ikSpM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=REESr598VvRipbs6BUyv2+jkx4T+ZuYc7TQap51G9srO4pj5GzjEVjLDxdjk5iXFM
-         cpqAtuOFaTzrUoO7Np85+BvyoqOlbeKJRajm7Cw47EGAxuFXTcZ4S+0mbySHC12hTI
-         xbipoPb+Ne3cRV0zezS+kVAC2e6sCV83eww7JvVA=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 022/671] usb: dwc3: add EXTCON dependency for qcom
-Date:   Thu, 16 Jan 2020 11:44:13 -0500
-Message-Id: <20200116165502.8838-22-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116165502.8838-1-sashal@kernel.org>
-References: <20200116165502.8838-1-sashal@kernel.org>
+        id S1730228AbgAPTbe (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Jan 2020 14:31:34 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:40278 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729010AbgAPTbe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Jan 2020 14:31:34 -0500
+Received: by mail-ot1-f65.google.com with SMTP id w21so20427414otj.7;
+        Thu, 16 Jan 2020 11:31:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=PlRiaY/Cg3ejfSAUDDuZd3aB1y/ppEi3jqWY+7TrCNo=;
+        b=n3iQwp4Iox7coZPy6YWCIymRKalXOQx2WSwJTYWdDWDEZVWx0qlBwv6FgcX0to5MVz
+         D4AAXOIumHeUHvBnWPdTLGGVHoU5sEH2E2mUo+2w4LsQ/kA6dgaGP349WXokqLMvn7hZ
+         ZOd57fudaY1fnTOptWyl4cenMu1kwGP1xvb9ulllJzYA1FJq6uTk8+yvYrWl6klsQ/Ht
+         us91nLCWoF3OwulWPeZf2rodsOoPagkHHtrGJuThjew0UKMC4EGi+2CPGd9l9S0ILd65
+         NewOh2xG8+ZqJiW2HQFe870bIvkzc67jFlkLx3pJFLBraO0Ekc6yEwf98xTKrYgdon8o
+         VqOQ==
+X-Gm-Message-State: APjAAAVOemnUeYIIoU+7KeF3vHf0rfQoyYVeePK40y0Y1gN1bmV+L3yT
+        9Rl9eFdKetDSiBXjf4fDzQ==
+X-Google-Smtp-Source: APXvYqy6E9T0byX756tK96Hg0t5Fuinh4r76yE+g1o4eRVmW1Hizyadv81FqET3Qo3ogkxT9Rgt/FA==
+X-Received: by 2002:a9d:6181:: with SMTP id g1mr3450824otk.104.1579203093287;
+        Thu, 16 Jan 2020 11:31:33 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id q13sm8034721otc.5.2020.01.16.11.31.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jan 2020 11:31:32 -0800 (PST)
+Received: (nullmailer pid 5311 invoked by uid 1000);
+        Thu, 16 Jan 2020 19:31:30 -0000
+Date:   Thu, 16 Jan 2020 13:31:30 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        gregkh@linuxfoundation.org, jackp@codeaurora.org, balbi@kernel.org,
+        bjorn.andersson@linaro.org, linux-kernel@vger.kernel.org,
+        Sriharsha Allenki <sallenki@codeaurora.org>,
+        Anu Ramanathan <anur@codeaurora.org>,
+        Shawn Guo <shawn.guo@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jorge Ramirez-Ortiz <jorge.ramirez.ortiz@gmail.com>,
+        devicetree@vger.kernel.org,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: Re: [PATCH 02/19] dt-bindings: phy: Add Qualcomm Synopsys Hi-Speed
+ USB PHY binding
+Message-ID: <20200116193130.GA2483@bogus>
+References: <20200115141333.1222676-1-bryan.odonoghue@linaro.org>
+ <20200115141333.1222676-3-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200115141333.1222676-3-bryan.odonoghue@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Wed, 15 Jan 2020 14:13:16 +0000, Bryan O'Donoghue wrote:
+> From: Sriharsha Allenki <sallenki@codeaurora.org>
+> 
+> Adds bindings for QCS404 USB PHY supporting Low-Speed, Full-Speed and
+> Hi-Speed USB connectivity on Qualcomm chipsets.
+> 
+> [bod: Converted to YAML. Changed name dropping snps component]
+> 
+> Signed-off-by: Sriharsha Allenki <sallenki@codeaurora.org>
+> Signed-off-by: Anu Ramanathan <anur@codeaurora.org>
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
+> Cc: Andy Gross <agross@kernel.org>
+> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Cc: Kishon Vijay Abraham I <kishon@ti.com>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Jorge Ramirez-Ortiz <jorge.ramirez.ortiz@gmail.com>
+> Cc: linux-arm-msm@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  .../bindings/phy/qcom,qcs404-usb-hs.yaml      | 78 +++++++++++++++++++
+>  1 file changed, 78 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/phy/qcom,qcs404-usb-hs.yaml
+> 
 
-[ Upstream commit 3def4031b3e3fbb524cbd01555b057a6cef0d5e6 ]
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Like the omap back-end, we get a link error with CONFIG_EXTCON=m
-when building the qcom back-end into the kernel:
+warning: no schema found in file: Documentation/devicetree/bindings/phy/qcom,qcs404-usb-hs.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/phy/qcom,qcs404-usb-hs.yaml: ignoring, error parsing file
+Documentation/devicetree/bindings/display/simple-framebuffer.example.dts:21.16-37.11: Warning (chosen_node_is_root): /example-0/chosen: chosen node must be at root node
+Documentation/devicetree/bindings/phy/qcom,qcs404-usb-hs.yaml:  while scanning for the next token
+found character that cannot start any token
+  in "<unicode string>", line 64, column 1
+Documentation/devicetree/bindings/Makefile:12: recipe for target 'Documentation/devicetree/bindings/phy/qcom,qcs404-usb-hs.example.dts' failed
+make[1]: *** [Documentation/devicetree/bindings/phy/qcom,qcs404-usb-hs.example.dts] Error 1
+Makefile:1263: recipe for target 'dt_binding_check' failed
+make: *** [dt_binding_check] Error 2
 
-drivers/usb/dwc3/dwc3-qcom.o: In function `dwc3_qcom_probe':
-dwc3-qcom.c:(.text+0x13dc): undefined reference to `extcon_get_edev_by_phandle'
-dwc3-qcom.c:(.text+0x1b18): undefined reference to `devm_extcon_register_notifier'
-dwc3-qcom.c:(.text+0x1b9c): undefined reference to `extcon_get_state'
-
-Do the same thing as OMAP and add an explicit dependency on
-EXTCON.
-
-Fixes: a4333c3a6ba9 ("usb: dwc3: Add Qualcomm DWC3 glue driver")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/dwc3/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/dwc3/Kconfig b/drivers/usb/dwc3/Kconfig
-index 518ead12458d..1a0404fda596 100644
---- a/drivers/usb/dwc3/Kconfig
-+++ b/drivers/usb/dwc3/Kconfig
-@@ -113,7 +113,7 @@ config USB_DWC3_ST
- 
- config USB_DWC3_QCOM
- 	tristate "Qualcomm Platform"
--	depends on ARCH_QCOM || COMPILE_TEST
-+	depends on EXTCON && (ARCH_QCOM || COMPILE_TEST)
- 	depends on OF
- 	default USB_DWC3
- 	help
--- 
-2.20.1
-
+See https://patchwork.ozlabs.org/patch/1223565
+Please check and re-submit.
