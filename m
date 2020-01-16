@@ -7,46 +7,45 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94FFFC33CB6
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 18:26:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CC0AC33CB3
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 18:31:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 68A50208C3
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 18:26:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E50522073A
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 18:31:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579199182;
-	bh=Ex7beX8B0uBCb6owvoU+lXPoJuQfKrE4JeXVwBoIk1A=;
+	s=default; t=1579199519;
+	bh=YwJenkpKoQsOOnBf39koHZ3gIvgogWUcYu9U/efC4eo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=V+/uPI8zTeKxnWBj4QzcTXKEsgU6p/zbL4Y+PjbLSx4bBgc0j1kOQ1fOMMNOdve8B
-	 YLI8CzjaWB10yjgiXwjxxJxaJVnq8BLlGvg/94dHsqSHpBVyyYX2FKXON/7zv4j6uR
-	 l7eTwO+M8V3pgymh8ml1yZ+tfMxXPP6vOUkbK5wc=
+	b=NkTh28j0PPAzvhVT2hdFcWAGFdVyad6AzKOPwqg9Jr94YRHGLMo2qbj0YkZ98nC32
+	 tdS3WhBtw83N3Wz4vviFVasFX7z9p62Qwj+u2az6viTp5EumP4pSm4KtioP34SOj9k
+	 58x8rmIRBUF/SmtJZTBxE8PyWN6HYdla4CF2fSOY=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387457AbgAPS0L (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Jan 2020 13:26:11 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35814 "EHLO mail.kernel.org"
+        id S2391886AbgAPRZH (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Jan 2020 12:25:07 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60602 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404027AbgAPR0o (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:26:44 -0500
+        id S2391880AbgAPRZG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 16 Jan 2020 12:25:06 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 883A7246BC;
-        Thu, 16 Jan 2020 17:26:43 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C8521246CE;
+        Thu, 16 Jan 2020 17:25:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579195604;
-        bh=Ex7beX8B0uBCb6owvoU+lXPoJuQfKrE4JeXVwBoIk1A=;
+        s=default; t=1579195506;
+        bh=YwJenkpKoQsOOnBf39koHZ3gIvgogWUcYu9U/efC4eo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=yTwjEZPrmd2oylq4F6TyxGwTwloMYKJXCF1lRS9Kz+ZraOgNXSC6igz5lWc7rx8/I
-         LhlI9YbW7STXZaLJ/wFNHYHvN5fV/UdcFyJHmQCHqEgh0nGJrno7IoMhIyVU7Mf3pJ
-         tGHvaGKS2rqTspARFVcSTJLW9YoBWaTTM0k2q6rs=
+        b=vDl4l6VISRZmLqy8LwTyLQ+niTHJ+7kg7ch+br8tyKrsaWsD+TUzDVFgURgXUzrpS
+         FMQzGVbxuF87BHO0k7W7BarlLENdZet2e5F20hh/3rDNknHR3mreHtDnLnlmGQk/P5
+         u6V5zIj39Z9QoioB3xRB/Im1MK1L1NYR7sE3dVd8=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Minas Harutyunyan <minas.harutyunyan@synopsys.com>,
-        Minas Harutyunyan <hminas@synopsys.com>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
+Cc:     YueHaibing <yuehaibing@huawei.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 179/371] dwc2: gadget: Fix completed transfer size calculation in DDMA
-Date:   Thu, 16 Jan 2020 12:20:51 -0500
-Message-Id: <20200116172403.18149-122-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 106/371] cdc-wdm: pass return value of recover_from_urb_loss
+Date:   Thu, 16 Jan 2020 12:19:38 -0500
+Message-Id: <20200116172403.18149-49-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116172403.18149-1-sashal@kernel.org>
 References: <20200116172403.18149-1-sashal@kernel.org>
@@ -59,37 +58,33 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Minas Harutyunyan <minas.harutyunyan@synopsys.com>
+From: YueHaibing <yuehaibing@huawei.com>
 
-[ Upstream commit 5acb4b970184d189d901192d075997c933b82260 ]
+[ Upstream commit 0742a338f5b3446a26de551ad8273fb41b2787f2 ]
 
-Fix calculation of transfer size on completion in function
-dwc2_gadget_get_xfersize_ddma().
+'rv' is the correct return value, pass it upstream instead of 0
 
-Added increment of descriptor pointer to move to next descriptor in
-the loop.
-
-Fixes: aa3e8bc81311 ("usb: dwc2: gadget: DDMA transfer start and complete")
-
-Signed-off-by: Minas Harutyunyan <hminas@synopsys.com>
-Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
+Fixes: 17d80d562fd7 ("USB: autosuspend for cdc-wdm")
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/dwc2/gadget.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/class/cdc-wdm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
-index e164439b2154..4af9a1c652ed 100644
---- a/drivers/usb/dwc2/gadget.c
-+++ b/drivers/usb/dwc2/gadget.c
-@@ -2276,6 +2276,7 @@ static unsigned int dwc2_gadget_get_xfersize_ddma(struct dwc2_hsotg_ep *hs_ep)
- 		if (status & DEV_DMA_STS_MASK)
- 			dev_err(hsotg->dev, "descriptor %d closed with %x\n",
- 				i, status & DEV_DMA_STS_MASK);
-+		desc++;
- 	}
+diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
+index a593cdfc897f..d5d42dccda10 100644
+--- a/drivers/usb/class/cdc-wdm.c
++++ b/drivers/usb/class/cdc-wdm.c
+@@ -1085,7 +1085,7 @@ static int wdm_post_reset(struct usb_interface *intf)
+ 	rv = recover_from_urb_loss(desc);
+ 	mutex_unlock(&desc->wlock);
+ 	mutex_unlock(&desc->rlock);
+-	return 0;
++	return rv;
+ }
  
- 	return bytes_rem;
+ static struct usb_driver wdm_driver = {
 -- 
 2.20.1
 
