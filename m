@@ -7,50 +7,48 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ACF2C33CB3
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 19:07:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8769AC33CAF
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 19:17:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 47F8E2072E
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 19:07:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 591E42077C
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 19:17:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579201668;
-	bh=Ft5R2hCR6SUenckKNbDsleKmXE+k+129qTyRdihFhVA=;
+	s=default; t=1579202238;
+	bh=aX7ifRBNjLV4P2WSjgKpSySenyZPKe/92qia74ikSpM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=JATlBaDGk8cY3b3F7BR/7/NtkuzztcROsscv0TrSjG/uH72WlalQtJerNZ+5Wgrll
-	 5VjNxUPbi0mn79zBNHkSVl5+7eQms0QjD0ruWv+xTXhWO5HcLHX0/V9MlM24N6Gtl0
-	 eNXIBK6ySApKwQJUfO2VLKIkzSrv58pd5wyhA13k=
+	b=BT8jfubRTGzUHBOlYRFLT2yxyo+/KQmVMqLjnSmGeS0nwHb+k3B1rePPkOXRr2YPV
+	 BH/mvxQ1RWwiFWWBRB8OAFtjVWKjr1K5pCuJnp0u5KpYuvgun9nb2bgyzReD9/W0ml
+	 mIeGG3usrRNe2P4zTuCevY7h2yYQ0QAwVU1PM9bk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436957AbgAPTHr (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Jan 2020 14:07:47 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51998 "EHLO mail.kernel.org"
+        id S2389453AbgAPTRQ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Jan 2020 14:17:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40774 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388040AbgAPRBN (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:01:13 -0500
+        id S1732955AbgAPQz3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 16 Jan 2020 11:55:29 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5D60E2087E;
-        Thu, 16 Jan 2020 17:01:12 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 99BD420730;
+        Thu, 16 Jan 2020 16:55:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579194073;
-        bh=Ft5R2hCR6SUenckKNbDsleKmXE+k+129qTyRdihFhVA=;
+        s=default; t=1579193729;
+        bh=aX7ifRBNjLV4P2WSjgKpSySenyZPKe/92qia74ikSpM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RwUQBQvJxnUB+05EjOqnlW2O+uU+bbWmoIu7+JI+CJYjckq4HTzV7vpk3oj8X75nB
-         eQ4Q5eeXRRchLpyrPE5FrKmLCLQ1pv4tdkkmR8S4vS8yAbo8ad/aIWt5gDCL7yt64B
-         Vdi+5WTM3ipAwPQwxI8ab2LZ2IP6cdRiuvxBqbqw=
+        b=REESr598VvRipbs6BUyv2+jkx4T+ZuYc7TQap51G9srO4pj5GzjEVjLDxdjk5iXFM
+         cpqAtuOFaTzrUoO7Np85+BvyoqOlbeKJRajm7Cw47EGAxuFXTcZ4S+0mbySHC12hTI
+         xbipoPb+Ne3cRV0zezS+kVAC2e6sCV83eww7JvVA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Sven Van Asbroeck <thesven73@gmail.com>,
-        Tony Lindgren <tony@atomide.com>, Bin Liu <b-liu@ti.com>,
-        Sven Van Asbroeck <TheSven73@gmail.com>,
+Cc:     Arnd Bergmann <arnd@arndb.de>,
         Felipe Balbi <felipe.balbi@linux.intel.com>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 181/671] usb: phy: twl6030-usb: fix possible use-after-free on remove
-Date:   Thu, 16 Jan 2020 11:51:30 -0500
-Message-Id: <20200116165940.10720-64-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 022/671] usb: dwc3: add EXTCON dependency for qcom
+Date:   Thu, 16 Jan 2020 11:44:13 -0500
+Message-Id: <20200116165502.8838-22-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116165940.10720-1-sashal@kernel.org>
-References: <20200116165940.10720-1-sashal@kernel.org>
+In-Reply-To: <20200116165502.8838-1-sashal@kernel.org>
+References: <20200116165502.8838-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -60,39 +58,42 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Sven Van Asbroeck <thesven73@gmail.com>
+From: Arnd Bergmann <arnd@arndb.de>
 
-[ Upstream commit 5895d311d28f2605e2f71c1a3e043ed38f3ac9d2 ]
+[ Upstream commit 3def4031b3e3fbb524cbd01555b057a6cef0d5e6 ]
 
-In remove(), use cancel_delayed_work_sync() to cancel the
-delayed work. Otherwise there's a chance that this work
-will continue to run until after the device has been removed.
+Like the omap back-end, we get a link error with CONFIG_EXTCON=m
+when building the qcom back-end into the kernel:
 
-This issue was detected with the help of Coccinelle.
+drivers/usb/dwc3/dwc3-qcom.o: In function `dwc3_qcom_probe':
+dwc3-qcom.c:(.text+0x13dc): undefined reference to `extcon_get_edev_by_phandle'
+dwc3-qcom.c:(.text+0x1b18): undefined reference to `devm_extcon_register_notifier'
+dwc3-qcom.c:(.text+0x1b9c): undefined reference to `extcon_get_state'
 
-Cc: Tony Lindgren <tony@atomide.com>
-Cc: Bin Liu <b-liu@ti.com>
-Fixes: b6a619a883c3 ("usb: phy: Check initial state for twl6030")
-Signed-off-by: Sven Van Asbroeck <TheSven73@gmail.com>
+Do the same thing as OMAP and add an explicit dependency on
+EXTCON.
+
+Fixes: a4333c3a6ba9 ("usb: dwc3: Add Qualcomm DWC3 glue driver")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/phy/phy-twl6030-usb.c | 2 +-
+ drivers/usb/dwc3/Kconfig | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/phy/phy-twl6030-usb.c b/drivers/usb/phy/phy-twl6030-usb.c
-index 183550b63faa..dade34d70419 100644
---- a/drivers/usb/phy/phy-twl6030-usb.c
-+++ b/drivers/usb/phy/phy-twl6030-usb.c
-@@ -400,7 +400,7 @@ static int twl6030_usb_remove(struct platform_device *pdev)
- {
- 	struct twl6030_usb *twl = platform_get_drvdata(pdev);
+diff --git a/drivers/usb/dwc3/Kconfig b/drivers/usb/dwc3/Kconfig
+index 518ead12458d..1a0404fda596 100644
+--- a/drivers/usb/dwc3/Kconfig
++++ b/drivers/usb/dwc3/Kconfig
+@@ -113,7 +113,7 @@ config USB_DWC3_ST
  
--	cancel_delayed_work(&twl->get_status_work);
-+	cancel_delayed_work_sync(&twl->get_status_work);
- 	twl6030_interrupt_mask(TWL6030_USBOTG_INT_MASK,
- 		REG_INT_MSK_LINE_C);
- 	twl6030_interrupt_mask(TWL6030_USBOTG_INT_MASK,
+ config USB_DWC3_QCOM
+ 	tristate "Qualcomm Platform"
+-	depends on ARCH_QCOM || COMPILE_TEST
++	depends on EXTCON && (ARCH_QCOM || COMPILE_TEST)
+ 	depends on OF
+ 	default USB_DWC3
+ 	help
 -- 
 2.20.1
 
