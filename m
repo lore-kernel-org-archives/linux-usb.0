@@ -4,53 +4,51 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52E70C33CB3
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 18:32:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AB0FC33CAF
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 18:37:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 26D51208C3
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 18:32:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DE1462077B
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 18:37:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579199560;
-	bh=pApbjpB3M1WpmYu3P2kMlD3KDQd2NJxdcECDY4o+trk=;
+	s=default; t=1579199824;
+	bh=qHi2vZGa6HHGYoZ1i6Hkv1WKq6nGxUsjxOfHRbuQpXE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=kuxnjcAVxwpF5ZxQC3v4Q28ZkfnYR6DDPuKD9uwrq77x8rSg73AbBPEwUY+JnjhU4
-	 p5rgAt5iQm1oLP1sIJY7YhL8aCIouoacCitJkPuIUeGnm1lUh5KkCZjkgWGCO+hump
-	 e9GsBpN29Oomym+nWOvo1fxEI839WZmOQXeYwIqU=
+	b=XbuGPktpQQg15PGaVJUV0evxfjh94/C1BxNwNs/VU0GAzW216sk2P/8PFrvZESrYC
+	 uihmIzA8/pvu4DYNef+IgRh8n4ifEXe4br8xCpDHq33sgWaBc470GidMs65momtrx/
+	 kS4rAqSRajKjd2/1EYHkGxoxHTzd9Y3xtjOVNM00=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391985AbgAPSci (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Jan 2020 13:32:38 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60294 "EHLO mail.kernel.org"
+        id S2389617AbgAPRMz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Jan 2020 12:12:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56580 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391833AbgAPRY5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:24:57 -0500
+        id S1730687AbgAPRMy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 16 Jan 2020 12:12:54 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4F9952468D;
-        Thu, 16 Jan 2020 17:24:56 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7AC432469D;
+        Thu, 16 Jan 2020 17:12:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579195497;
-        bh=pApbjpB3M1WpmYu3P2kMlD3KDQd2NJxdcECDY4o+trk=;
+        s=default; t=1579194774;
+        bh=qHi2vZGa6HHGYoZ1i6Hkv1WKq6nGxUsjxOfHRbuQpXE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=q3bUW5hictFEyspyE7/eNRE8AEiyZ7hOTlQoCZu+jCkz3PaPbyvIW0hZeQ8en+ClZ
-         joPV/MAOPUJiSirVzg7grx88IQoN6Q2oVYflchJ73XTOuUuzsGa/4tjg8fpE4vSRLE
-         OLIDg3tHBqzKO33XP7ZkJXVyJzUIW5xuMw2mFulQ=
+        b=TiQfD4NtX8IjeXOyUmL6+ojscaPMXL9ONukUv9DhRWi6LDYXs2G3qqsguQzqEpJHo
+         qBBoQKaINwbsriPVk+6XzLDlHad3431TfJ9rnobzuqvfprWzJ6n2HRU0RjKNEEyYlE
+         sFaHNUnWk5oM4Dmwge+Xr4BKyc7o4X2KNQb4nSMc=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Sven Van Asbroeck <thesven73@gmail.com>,
-        Tony Lindgren <tony@atomide.com>, Bin Liu <b-liu@ti.com>,
-        Sven Van Asbroeck <TheSven73@gmail.com>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
+Cc:     Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 098/371] usb: phy: twl6030-usb: fix possible use-after-free on remove
-Date:   Thu, 16 Jan 2020 12:19:30 -0500
-Message-Id: <20200116172403.18149-41-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 592/671] USB: usb-skeleton: fix use-after-free after driver unbind
+Date:   Thu, 16 Jan 2020 12:03:50 -0500
+Message-Id: <20200116170509.12787-329-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116172403.18149-1-sashal@kernel.org>
-References: <20200116172403.18149-1-sashal@kernel.org>
+In-Reply-To: <20200116170509.12787-1-sashal@kernel.org>
+References: <20200116170509.12787-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -60,39 +58,35 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Sven Van Asbroeck <thesven73@gmail.com>
+From: Johan Hovold <johan@kernel.org>
 
-[ Upstream commit 5895d311d28f2605e2f71c1a3e043ed38f3ac9d2 ]
+[ Upstream commit 6353001852776e7eeaab4da78922d4c6f2b076af ]
 
-In remove(), use cancel_delayed_work_sync() to cancel the
-delayed work. Otherwise there's a chance that this work
-will continue to run until after the device has been removed.
+The driver failed to stop its read URB on disconnect, something which
+could lead to a use-after-free in the completion handler after driver
+unbind in case the character device has been closed.
 
-This issue was detected with the help of Coccinelle.
-
-Cc: Tony Lindgren <tony@atomide.com>
-Cc: Bin Liu <b-liu@ti.com>
-Fixes: b6a619a883c3 ("usb: phy: Check initial state for twl6030")
-Signed-off-by: Sven Van Asbroeck <TheSven73@gmail.com>
-Signed-off-by: Felipe Balbi <felipe.balbi@linux.intel.com>
+Fixes: e7389cc9a7ff ("USB: skel_read really sucks royally")
+Signed-off-by: Johan Hovold <johan@kernel.org>
+Link: https://lore.kernel.org/r/20191009170944.30057-3-johan@kernel.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/phy/phy-twl6030-usb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/usb-skeleton.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/phy/phy-twl6030-usb.c b/drivers/usb/phy/phy-twl6030-usb.c
-index b5dc077ed7d3..8e14fa221191 100644
---- a/drivers/usb/phy/phy-twl6030-usb.c
-+++ b/drivers/usb/phy/phy-twl6030-usb.c
-@@ -413,7 +413,7 @@ static int twl6030_usb_remove(struct platform_device *pdev)
- {
- 	struct twl6030_usb *twl = platform_get_drvdata(pdev);
+diff --git a/drivers/usb/usb-skeleton.c b/drivers/usb/usb-skeleton.c
+index e0cf11f798c5..2e99da45ce0b 100644
+--- a/drivers/usb/usb-skeleton.c
++++ b/drivers/usb/usb-skeleton.c
+@@ -573,6 +573,7 @@ static void skel_disconnect(struct usb_interface *interface)
+ 	dev->disconnected = 1;
+ 	mutex_unlock(&dev->io_mutex);
  
--	cancel_delayed_work(&twl->get_status_work);
-+	cancel_delayed_work_sync(&twl->get_status_work);
- 	twl6030_interrupt_mask(TWL6030_USBOTG_INT_MASK,
- 		REG_INT_MSK_LINE_C);
- 	twl6030_interrupt_mask(TWL6030_USBOTG_INT_MASK,
++	usb_kill_urb(dev->bulk_in_urb);
+ 	usb_kill_anchored_urbs(&dev->submitted);
+ 
+ 	/* decrement our usage count */
 -- 
 2.20.1
 
