@@ -2,53 +2,53 @@ Return-Path: <SRS0=Mi6m=3F=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C03BDC47409
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 17:34:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EF48C33CB7
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 17:37:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8F83C246A1
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 17:34:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D216A246B1
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 17:37:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579196067;
-	bh=r567kJllO7l6ZFL/EKiqPTZlPdMaYe+6YV6/jG8CsyQ=;
+	s=default; t=1579196249;
+	bh=zPjllkjADDMjcToQuZOmKmG2EBKJqnMdfjf7vbvjdaQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=hZFIRdcwTA2ej3R3K8jF4PeoUT8ncvfUn4r1U6ab0zgwYHkIAR92BPSGULBjHwy9A
-	 UcrdEXa1H0qTYyB/OVF/Z+Pc7pBcXR63jULwjbec+gHED12BfbCXu1B6WLbcynbrcw
-	 aKgb59InRIChHucMRZBkYO3qUwQYy9st5NDz7yAk=
+	b=qFXDdMR1yJsw3PXPzSf/nfoKlFQ2k67eF4dpySulNbH8G/LVqh7jUYPc2F19hio1F
+	 9TmytFnmAJcDdweo9w7P+HNLMFH/2fMO56PFnVJhQjz41vT4/H5Ro34pLMc/qrkq+w
+	 f3OR8hYnrQRWcA2KMo73I0qypWqWAAflUkvFHBZI=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404870AbgAPRe0 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Jan 2020 12:34:26 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42474 "EHLO mail.kernel.org"
+        id S2405367AbgAPRh2 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Jan 2020 12:37:28 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52728 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392971AbgAPRaI (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:30:08 -0500
+        id S2405362AbgAPRh1 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 16 Jan 2020 12:37:27 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 465342471F;
-        Thu, 16 Jan 2020 17:30:07 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A7208246C0;
+        Thu, 16 Jan 2020 17:37:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579195808;
-        bh=r567kJllO7l6ZFL/EKiqPTZlPdMaYe+6YV6/jG8CsyQ=;
+        s=default; t=1579196247;
+        bh=zPjllkjADDMjcToQuZOmKmG2EBKJqnMdfjf7vbvjdaQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=uJ1NQ45UDW5irQ+lErE4/MYaShlyUGvwgUILbH5nnU5wOSch43wxT+6UBW5qnrUzz
-         3ESRU3okGhJkZ46+R8+BsYHM73zLajqJgM7oNT4tRRLYlB8Jq/99aw1OJ0rYA4G2no
-         5SQOqggWeT+6g3a14BqVgJ99Dksf1je2ffDZTAqU=
+        b=jl9pK7qYPexoCAQHUofV4KWzNkJyg9MgYMAbLseb8bYzrPMrmu2ZvzQpKLEtC+gSh
+         vu5m5NrKeEUc9IKW4lWXh29bYkKcqM8fNRo+DBV019xEE0Q1O7snjvCcuQW/YQGDqq
+         U8vskVu4fI36x+qcU5eyR6jbGhwKwkXcRiW6OmQo=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Johan Hovold <johan@kernel.org>,
+Cc:     YueHaibing <yuehaibing@huawei.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 321/371] USB: usb-skeleton: fix use-after-free after driver unbind
-Date:   Thu, 16 Jan 2020 12:23:13 -0500
-Message-Id: <20200116172403.18149-264-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 075/251] cdc-wdm: pass return value of recover_from_urb_loss
+Date:   Thu, 16 Jan 2020 12:33:44 -0500
+Message-Id: <20200116173641.22137-35-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116172403.18149-1-sashal@kernel.org>
-References: <20200116172403.18149-1-sashal@kernel.org>
+In-Reply-To: <20200116173641.22137-1-sashal@kernel.org>
+References: <20200116173641.22137-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -58,35 +58,33 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Johan Hovold <johan@kernel.org>
+From: YueHaibing <yuehaibing@huawei.com>
 
-[ Upstream commit 6353001852776e7eeaab4da78922d4c6f2b076af ]
+[ Upstream commit 0742a338f5b3446a26de551ad8273fb41b2787f2 ]
 
-The driver failed to stop its read URB on disconnect, something which
-could lead to a use-after-free in the completion handler after driver
-unbind in case the character device has been closed.
+'rv' is the correct return value, pass it upstream instead of 0
 
-Fixes: e7389cc9a7ff ("USB: skel_read really sucks royally")
-Signed-off-by: Johan Hovold <johan@kernel.org>
-Link: https://lore.kernel.org/r/20191009170944.30057-3-johan@kernel.org
+Fixes: 17d80d562fd7 ("USB: autosuspend for cdc-wdm")
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/usb-skeleton.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/class/cdc-wdm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/usb-skeleton.c b/drivers/usb/usb-skeleton.c
-index 7140d06ae04f..baf047c0be6c 100644
---- a/drivers/usb/usb-skeleton.c
-+++ b/drivers/usb/usb-skeleton.c
-@@ -575,6 +575,7 @@ static void skel_disconnect(struct usb_interface *interface)
- 	dev->disconnected = 1;
- 	mutex_unlock(&dev->io_mutex);
+diff --git a/drivers/usb/class/cdc-wdm.c b/drivers/usb/class/cdc-wdm.c
+index 217a479165e0..09337a973335 100644
+--- a/drivers/usb/class/cdc-wdm.c
++++ b/drivers/usb/class/cdc-wdm.c
+@@ -1098,7 +1098,7 @@ static int wdm_post_reset(struct usb_interface *intf)
+ 	rv = recover_from_urb_loss(desc);
+ 	mutex_unlock(&desc->wlock);
+ 	mutex_unlock(&desc->rlock);
+-	return 0;
++	return rv;
+ }
  
-+	usb_kill_urb(dev->bulk_in_urb);
- 	usb_kill_anchored_urbs(&dev->submitted);
- 
- 	/* decrement our usage count */
+ static struct usb_driver wdm_driver = {
 -- 
 2.20.1
 
