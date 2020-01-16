@@ -7,45 +7,46 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AB0FC33CAF
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 18:37:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9BB6C33CB6
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 18:47:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DE1462077B
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 18:37:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9BE742053B
+	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 18:47:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579199824;
-	bh=qHi2vZGa6HHGYoZ1i6Hkv1WKq6nGxUsjxOfHRbuQpXE=;
+	s=default; t=1579200432;
+	bh=TJeYjIHhNMiZ37QzlXdwOSx5qNMJPZ9IvTSccoEPWic=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=XbuGPktpQQg15PGaVJUV0evxfjh94/C1BxNwNs/VU0GAzW216sk2P/8PFrvZESrYC
-	 uihmIzA8/pvu4DYNef+IgRh8n4ifEXe4br8xCpDHq33sgWaBc470GidMs65momtrx/
-	 kS4rAqSRajKjd2/1EYHkGxoxHTzd9Y3xtjOVNM00=
+	b=mEhekOn71PyHZrmcwHEPoSe74u/PB21RU/NtvEVoaLuA/GzFau4N9+GTawf0J7Vz1
+	 +0owrZ5fMuhL8ru0+9x0Y84+3A16a5TrBQOAXLlAvZysmoszzmFyO1mC8Y434zNUfF
+	 GKHqPG+2Vo7H4n+B51osNZ9Po3YJLhSm07VTMNyQ=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389617AbgAPRMz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Jan 2020 12:12:55 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56580 "EHLO mail.kernel.org"
+        id S2389826AbgAPRKD (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Jan 2020 12:10:03 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47296 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730687AbgAPRMy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:12:54 -0500
+        id S2389472AbgAPRKD (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 16 Jan 2020 12:10:03 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7AC432469D;
-        Thu, 16 Jan 2020 17:12:53 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C300E2468B;
+        Thu, 16 Jan 2020 17:10:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579194774;
-        bh=qHi2vZGa6HHGYoZ1i6Hkv1WKq6nGxUsjxOfHRbuQpXE=;
+        s=default; t=1579194602;
+        bh=TJeYjIHhNMiZ37QzlXdwOSx5qNMJPZ9IvTSccoEPWic=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TiQfD4NtX8IjeXOyUmL6+ojscaPMXL9ONukUv9DhRWi6LDYXs2G3qqsguQzqEpJHo
-         qBBoQKaINwbsriPVk+6XzLDlHad3431TfJ9rnobzuqvfprWzJ6n2HRU0RjKNEEyYlE
-         sFaHNUnWk5oM4Dmwge+Xr4BKyc7o4X2KNQb4nSMc=
+        b=A5r9ZtMD/Xkf2pkecLYcP1Folb3hWpATx/l/HKsd7OiVqpw3AbLdx/cSIrZRLergw
+         HJGFjTxvEeIbB5+rRO/iick8M0bhLlWQmONRTB+/aEK/vsqn6179JAdblOR4d854TY
+         ISipe1oP/VgOGfzTiz/hXmg/+jY1lVYhXZ0iOacU=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Johan Hovold <johan@kernel.org>,
+Cc:     Ruslan Bilovol <ruslan.bilovol@gmail.com>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 592/671] USB: usb-skeleton: fix use-after-free after driver unbind
-Date:   Thu, 16 Jan 2020 12:03:50 -0500
-Message-Id: <20200116170509.12787-329-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 470/671] usb: host: xhci-hub: fix extra endianness conversion
+Date:   Thu, 16 Jan 2020 12:01:48 -0500
+Message-Id: <20200116170509.12787-207-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116170509.12787-1-sashal@kernel.org>
 References: <20200116170509.12787-1-sashal@kernel.org>
@@ -58,35 +59,42 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Johan Hovold <johan@kernel.org>
+From: Ruslan Bilovol <ruslan.bilovol@gmail.com>
 
-[ Upstream commit 6353001852776e7eeaab4da78922d4c6f2b076af ]
+[ Upstream commit 6269e4c76eacabaea0d0099200ae1a455768d208 ]
 
-The driver failed to stop its read URB on disconnect, something which
-could lead to a use-after-free in the completion handler after driver
-unbind in case the character device has been closed.
+Don't do extra cpu_to_le32 conversion for
+put_unaligned_le32 because it is already implemented
+in this function.
 
-Fixes: e7389cc9a7ff ("USB: skel_read really sucks royally")
-Signed-off-by: Johan Hovold <johan@kernel.org>
-Link: https://lore.kernel.org/r/20191009170944.30057-3-johan@kernel.org
+Fixes sparse error:
+xhci-hub.c:1152:44: warning: incorrect type in argument 1 (different base types)
+xhci-hub.c:1152:44:    expected unsigned int [usertype] val
+xhci-hub.c:1152:44:    got restricted __le32 [usertype]
+
+Fixes: 395f540 "xhci: support new USB 3.1 hub request to get extended port status"
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>
+Signed-off-by: Ruslan Bilovol <ruslan.bilovol@gmail.com>
+Link: https://lore.kernel.org/r/1562501839-26522-1-git-send-email-ruslan.bilovol@gmail.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/usb/usb-skeleton.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/host/xhci-hub.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/usb-skeleton.c b/drivers/usb/usb-skeleton.c
-index e0cf11f798c5..2e99da45ce0b 100644
---- a/drivers/usb/usb-skeleton.c
-+++ b/drivers/usb/usb-skeleton.c
-@@ -573,6 +573,7 @@ static void skel_disconnect(struct usb_interface *interface)
- 	dev->disconnected = 1;
- 	mutex_unlock(&dev->io_mutex);
- 
-+	usb_kill_urb(dev->bulk_in_urb);
- 	usb_kill_anchored_urbs(&dev->submitted);
- 
- 	/* decrement our usage count */
+diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
+index 8f180bf7561a..9772c0de59b7 100644
+--- a/drivers/usb/host/xhci-hub.c
++++ b/drivers/usb/host/xhci-hub.c
+@@ -1104,7 +1104,7 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
+ 			}
+ 			port_li = readl(ports[wIndex]->addr + PORTLI);
+ 			status = xhci_get_ext_port_status(temp, port_li);
+-			put_unaligned_le32(cpu_to_le32(status), &buf[4]);
++			put_unaligned_le32(status, &buf[4]);
+ 		}
+ 		break;
+ 	case SetPortFeature:
 -- 
 2.20.1
 
