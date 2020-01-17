@@ -2,117 +2,95 @@ Return-Path: <SRS0=zrGg=3G=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DF45C33CB1
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Jan 2020 10:13:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64FA6C33CB1
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Jan 2020 10:15:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 43DD824653
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Jan 2020 10:13:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F3CA2082F
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Jan 2020 10:15:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579255996;
-	bh=gWNPbgVjqLEq9t4KhsR0YiILGCT1JRCJ979eh84Wxg4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=CXjn8ypzStrOceNQYr4jLfqGmbGt/AHHAd5XeJ8l6vd3Zy/246sUTkqoedkcnGChO
-	 sS0AIsos40n0mnLLSu68Hqvr0pT01iqVj31WI0CQVNZHgguWDrWalCh03W6uixegO/
-	 07Ub5BCfhIGmPgT2h2Nc1n+UmETURCkt5hL1L7gs=
+	s=default; t=1579256154;
+	bh=pnNA3rr1eEYPMdAJ0/17c42CaUVzGdaRRYuWdAdXq2Q=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:List-ID:From;
+	b=wYvkgbS7Zmai1nfx3Ud0uVXRr0LeCrZBz0+xmIxZZz1rpt5SL03B2pgRLi2wqVM0c
+	 C4eYz955/y+AqRrx8QmWBD/6RqQ7JobzI9/SRCpUFq5lfydZbvk8wMKQ3rcoAbJRoC
+	 DwJ34qACz6p7/IRYBooxEFmUX3wny0+cY9Js47iw=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727162AbgAQKNL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 17 Jan 2020 05:13:11 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:36852 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726362AbgAQKNI (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Jan 2020 05:13:08 -0500
-Received: by mail-lj1-f193.google.com with SMTP id r19so25888970ljg.3;
-        Fri, 17 Jan 2020 02:13:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=27OKuW1EPYQNCW/10XPFeETBURDbLJdk+E98iUT1Caw=;
-        b=NofO/ZPZv6WP8VA3XNwhb3xJ+XX/LQ2SbN5+OxNSWFfvzxTg4ARU3zUccy1DY+nGyA
-         hiS6pEr9b1BImfCdfimJaHkrGFK7V1oQrirpNZ4mR6M8wWrF42qNyfJUSIiUvScNKYeP
-         BbXwfAWByWmjN+AGI3C8rGpAqcb/tDyt7SngTq9Q7RPEPw/rS1YP9OVTZDmetrhNF3EJ
-         l/pDa4/i9fYBpneTmD30s1Be5P2tStUD+zoM/pRYQbI2fIUNnP5bmgsrncuKzoCYN244
-         sw95kj/zwe+Wnb8X1C2uY23QAw3pMaHgYKkkKE1LvXvzrZ1Jwf9gdMDZ+xJ9IoErWF91
-         vyng==
-X-Gm-Message-State: APjAAAWmL8PUSo5ZQRFS0JpVMHorDzfZNJe6ucYZfAAve8l9JakwrK+R
-        JgvRSs2jHQdi3d4njnFIbIk=
-X-Google-Smtp-Source: APXvYqy5a957oEtlMR0bDbBktblL00BQnpOpzbL56Oezu5j5K+CCTVzXtMPJMTfRwMwDax6POlWtgQ==
-X-Received: by 2002:a2e:5304:: with SMTP id h4mr5277032ljb.75.1579255985184;
-        Fri, 17 Jan 2020 02:13:05 -0800 (PST)
-Received: from xi.terra (c-14b8e655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.184.20])
-        by smtp.gmail.com with ESMTPSA id n30sm13867442lfi.54.2020.01.17.02.13.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jan 2020 02:13:04 -0800 (PST)
-Received: from johan by xi.terra with local (Exim 4.92.3)
-        (envelope-from <johan@kernel.org>)
-        id 1isOch-0001So-V7; Fri, 17 Jan 2020 11:13:04 +0100
-Date:   Fri, 17 Jan 2020 11:13:03 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Greg KH <greg@kroah.com>
-Cc:     Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
-        stable <stable@vger.kernel.org>
-Subject: Re: [PATCH] USB: serial: suppress driver bind attributes
-Message-ID: <20200117101303.GQ2301@localhost>
-References: <20200116160705.5199-1-johan@kernel.org>
- <20200116161829.GA909791@kroah.com>
- <20200116162424.GP2301@localhost>
- <20200116190606.GB1020857@kroah.com>
+        id S1726513AbgAQKPx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 17 Jan 2020 05:15:53 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50344 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726085AbgAQKPx (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 17 Jan 2020 05:15:53 -0500
+Received: from pobox.suse.cz (prg-ext-pat.suse.com [213.151.95.130])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C2C65206E6;
+        Fri, 17 Jan 2020 10:15:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579256152;
+        bh=pnNA3rr1eEYPMdAJ0/17c42CaUVzGdaRRYuWdAdXq2Q=;
+        h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+        b=NG2joGxm0DjeGmxPWaJMGSFDJfugSzD7JJa8Q9dleUq/YIpoCGE5N5tntccnj6pNe
+         PlJgrR0nIjemyabxAzvk9uSBKA3xrwtV5UMgKIBOdjtXbY0eGCpMRGRjkqOEnfKJdC
+         y4mKdBGb7ELzbbzXSpEf2sGskCDtCrVqnbYYdjpc=
+Date:   Fri, 17 Jan 2020 11:15:49 +0100 (CET)
+From:   Jiri Kosina <jikos@kernel.org>
+To:     "Johan Korsnes (jkorsnes)" <jkorsnes@cisco.com>
+cc:     Alan Stern <stern@rowland.harvard.edu>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Armando Visconti <armando.visconti@st.com>
+Subject: Re: [PATCH 2/2] HID: core: increase HID report buffer size to 8KiB
+In-Reply-To: <c72e9cdd-5a1d-ed07-f8c2-de26e4181a39@cisco.com>
+Message-ID: <nycvar.YFH.7.76.2001171115230.31058@cbobk.fhfr.pm>
+References: <Pine.LNX.4.44L0.2001151017190.1788-100000@iolanthe.rowland.org> <c72e9cdd-5a1d-ed07-f8c2-de26e4181a39@cisco.com>
+User-Agent: Alpine 2.21 (LSU 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200116190606.GB1020857@kroah.com>
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Jan 16, 2020 at 08:06:06PM +0100, Greg Kroah-Hartman wrote:
-> On Thu, Jan 16, 2020 at 05:24:24PM +0100, Johan Hovold wrote:
-> > On Thu, Jan 16, 2020 at 05:18:29PM +0100, Greg Kroah-Hartman wrote:
-> > > On Thu, Jan 16, 2020 at 05:07:05PM +0100, Johan Hovold wrote:
-> > > > USB-serial drivers must not be unbound from their ports before the
-> > > > corresponding USB driver is unbound from the parent interface so
-> > > > suppress the bind and unbind attributes.
-> > > > 
-> > > > Unbinding a serial driver while it's port is open is a sure way to
-> > > > trigger a crash as any driver state is released on unbind while port
-> > > > hangup is handled on the parent USB interface level. Drivers for
-> > > > multiport devices where ports share a resource such as an interrupt
-> > > > endpoint also generally cannot handle individual ports going away.
-> > > > 
-> > > > Cc: stable <stable@vger.kernel.org>
-> > > > Signed-off-by: Johan Hovold <johan@kernel.org>
-> > > > ---
-> > > >  drivers/usb/serial/usb-serial.c | 3 +++
-> > > >  1 file changed, 3 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/usb/serial/usb-serial.c b/drivers/usb/serial/usb-serial.c
-> > > > index 8f066bb55d7d..dc7a65b9ec98 100644
-> > > > --- a/drivers/usb/serial/usb-serial.c
-> > > > +++ b/drivers/usb/serial/usb-serial.c
-> > > > @@ -1317,6 +1317,9 @@ static int usb_serial_register(struct usb_serial_driver *driver)
-> > > >  		return -EINVAL;
-> > > >  	}
-> > > >  
-> > > > +	/* Prevent individual ports from being unbound. */
-> > > > +	driver->driver.suppress_bind_attrs = true;
-> > > 
-> > > We can still unbind the usb driver though, right?  If so, this is fine
-> > > with me.
+On Wed, 15 Jan 2020, Johan Korsnes (jkorsnes) wrote:
+
+> >> We have a touch device that reports its opens and shorts test results
+> >> in HID buffers of size 8184 bytes. With this patch we're able to
+> >> successfully obtain these reports.
+> >>
+> >> Alan Stern: Your commit 8ec321e96e05 ("HID: Fix slab-out-of-bounds
+> >> read in hid_field_extract") states:
+> >>
+> >> "This patch fixes the problem by rejecting any report whose total
+> >> length exceeds the HID_MAX_BUFFER_SIZE limit (minus one byte to allow
+> >> for a possible report index). In theory a device could have a report
+> >> longer than that, but if there was such a thing we wouldn't handle it
+> >> correctly anyway."
+> >>
+> >> Is this something we have to worry about when increasing the buffer
+> >> size? Or are you referring to the fact that we previously truncated
+> >> the reports if they exceeded max buffer size?
 > > 
-> > Right, this is only about disabling individual ports, something which
-> > essentially no subdriver can handle while a port is open (e.g. port-data
-> > set to NULL while port is still open... boom).
+> > The latter.  And after this patch we will still truncate reports that
+> > exceed the max buffer size, no "previously" about it.
+> > 
+> > (Incidentally, these last three paragraphs don't belong in the patch
+> > description; nobody will care about them once the patch has been
+> > merged.  You should have put them below the "---" separator line.)
+> > 
 > 
-> Ok, thanks for verifying, and sorry for writing that bug in the first
-> place :)
-> 
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Right. If this patch is of interest I can submit a second version
+> with a cleaned-up patch description.
 
-Heh, thanks for reviewing.
+Please do; I'll be happy to merge it afterwards together with the first 
+fix.
 
-Johan
+Thanks,
+
+-- 
+Jiri Kosina
+SUSE Labs
+
