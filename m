@@ -1,135 +1,136 @@
-Return-Path: <SRS0=Mi6m=3F=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=zrGg=3G=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0F34C33CAF
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 22:49:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86FC2C33CB3
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Jan 2020 00:22:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 6F12B20728
-	for <linux-usb@archiver.kernel.org>; Thu, 16 Jan 2020 22:49:41 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="aWzpkYr+"
+	by mail.kernel.org (Postfix) with ESMTP id 626F52072B
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Jan 2020 00:22:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387529AbgAPWtl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Jan 2020 17:49:41 -0500
-Received: from gateway33.websitewelcome.com ([192.185.146.87]:18058 "EHLO
-        gateway33.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729261AbgAPWtk (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Jan 2020 17:49:40 -0500
-X-Greylist: delayed 1500 seconds by postgrey-1.27 at vger.kernel.org; Thu, 16 Jan 2020 17:49:39 EST
-Received: from cm16.websitewelcome.com (cm16.websitewelcome.com [100.42.49.19])
-        by gateway33.websitewelcome.com (Postfix) with ESMTP id 9D5E121D7EF6
-        for <linux-usb@vger.kernel.org>; Thu, 16 Jan 2020 16:03:29 -0600 (CST)
-Received: from gator4166.hostgator.com ([108.167.133.22])
-        by cmsmtp with SMTP
-        id sDEfiqzuo32AdsDEfi1eh9; Thu, 16 Jan 2020 16:03:29 -0600
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
-        Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=lJqbOVGeD356I6fIe5iirDZBONX68UGjE9KZh7u5oGg=; b=aWzpkYr+XHoNFKlaSNzO+UXLZZ
-        fuXnIZFQyXXrqcldKm/2ji1V6SAct69fFyXrBXeg7DVIefdRIQICEGlgT808cM5xUVN9B9jBvmfrP
-        PVpJxi5Q7VK/lJ9YvgzhA8U3n/K/J3wgIpFHTSo/GDamYhIFLe+2qz5OJIgoauc2/IskXvvyxsN6H
-        N4B9Ulm2locWbjIebP7r4PEqfdXrlRhdE8CpnJhIt9CihJjJY0mVxRXL9LUlKq2z6Y2P1O3j4SDPf
-        8ZLE35/7SbDuXJ9c4EYXbvOL3FlwQlFHyNmN4D9vqWgIvXfKiGnEIzTI3k/EIfvZFxFf4A3zp+lwe
-        +AXwiraA==;
-Received: from 187-162-252-62.static.axtel.net ([187.162.252.62]:44004 helo=embeddedor)
-        by gator4166.hostgator.com with esmtpa (Exim 4.92)
-        (envelope-from <gustavo@embeddedor.com>)
-        id 1isDEe-000egY-Bn; Thu, 16 Jan 2020 16:03:28 -0600
-Date:   Thu, 16 Jan 2020 16:03:27 -0600
-From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-To:     Johan Hovold <johan@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-Subject: [PATCH] USB: serial: garmin_gps: Use flexible-array member
-Message-ID: <20200116220327.GA12537@embeddedor.com>
+        id S1733092AbgAQAWI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Jan 2020 19:22:08 -0500
+Received: from mail-sh.amlogic.com ([58.32.228.43]:52681 "EHLO
+        mail-sh.amlogic.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728963AbgAQAWF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Jan 2020 19:22:05 -0500
+Received: from droid10.amlogic.com (10.18.11.213) by mail-sh.amlogic.com
+ (10.18.11.5) with Microsoft SMTP Server id 15.1.1591.10; Fri, 17 Jan 2020
+ 08:22:31 +0800
+From:   Hanjie Lin <hanjie.lin@amlogic.com>
+To:     Jerome Brunet <jbrunet@baylibre.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Rob Herring <robh@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
+        Kevin Hilman <khilman@baylibre.com>
+CC:     Hanjie Lin <hanjie.lin@amlogic.com>,
+        <linux-amlogic@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        Carlo Caione <carlo@caione.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Liang Yang <liang.yang@amlogic.com>,
+        Jianxin Pan <jianxin.pan@amlogic.com>,
+        Qiufang Dai <qiufang.dai@amlogic.com>,
+        Jian Hu <jian.hu@amlogic.com>,
+        Victor Wan <victor.wan@amlogic.com>,
+        Yue Wang <yue.wang@amlogic.com>,
+        Xingyu Chen <xingyu.chen@amlogic.com>
+Subject: [PATCH v6 0/6] arm64: meson: Add support for USB on Amlogic A1
+Date:   Fri, 17 Jan 2020 08:21:38 +0800
+Message-ID: <1579220504-110067-1-git-send-email-hanjie.lin@amlogic.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 187.162.252.62
-X-Source-L: No
-X-Exim-ID: 1isDEe-000egY-Bn
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 187-162-252-62.static.axtel.net (embeddedor) [187.162.252.62]:44004
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 3
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
+Content-Type: text/plain
+X-Originating-IP: [10.18.11.213]
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Old code in the kernel uses 1-byte and 0-byte arrays to indicate the
-presence of a "variable length array":
+This patchset adds support for USB on Amlogic A1 SoCs.
 
-struct something {
-    int length;
-    u8 data[1];
-};
+This patchset is composed with :
+- bindings of the PHY
+- bindings of the USB Control Glue
+- PHY Driver
+- USB Control Glue driver
+- dts of the PHY
+- dts of the USB Controller
 
-struct something *instance;
+The Amlogic A1 USB Complex is composed of :
+- 1 DWC3 USB controller for USB2 Host functionality
+- 1 USB2 PHY for USB2 Host functionality
 
-instance = kmalloc(sizeof(*instance) + size, GFP_KERNEL);
-instance->length = size;
-memcpy(instance->data, source, size);
+The USB Control Glue setups the clocks and the reset about DWC3 USB
+controller, and binds to the USB2 PHY. It also configures the 8bit
+UTMI interfaces for the USB2 PHY, including setting USB2 phy mode.
 
-There is also 0-byte arrays. Both cases pose confusion for things like
-sizeof(), CONFIG_FORTIFY_SOURCE, etc.[1] Instead, the preferred mechanism
-to declare variable-length types such as the one above is a flexible array
-member[2] which need to be the last member of a structure and empty-sized:
+The USB2 PHY driver initializes the phy analog settings, phy PLL 
+setup and phy tuning.
 
-struct something {
-        int stuff;
-        u8 data[];
-};
+This patchset is based on A1 clock/power domain/reset series at [0].
 
-Also, by making use of the mechanism above, we will get a compiler warning
-in case the flexible array does not occur last in the structure, which
-will help us prevent some kind of undefined behavior bugs from being
-unadvertenly introduced[3] to the codebase from now on.
-
-[1] https://github.com/KSPP/linux/issues/21
-[2] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
-[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
-
-Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
----
- drivers/usb/serial/garmin_gps.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/serial/garmin_gps.c b/drivers/usb/serial/garmin_gps.c
-index 633550ec3025..ffd984142171 100644
---- a/drivers/usb/serial/garmin_gps.c
-+++ b/drivers/usb/serial/garmin_gps.c
-@@ -104,7 +104,7 @@ struct garmin_packet {
- 	int               seq;
- 	/* the real size of the data array, always > 0 */
- 	int               size;
--	__u8              data[1];
-+	__u8              data[];
- };
+Changes since v1:[1]
+ - integrate glue and phy drivers into g12a's
  
- /* structure used to keep the current state of the driver */
+Changes since v2:[2]
+ - modify amlogic,meson-g12a-usb-ctrl.yaml with dt_binding_check tool
+ - phy/glue driver use of_device_get_match_data to distinguish A1 from G12A
+
+Changes since v3:[3]
+ - fix bindings mistakes of the PHY according Rob's comments
+ - fix bindings mistakes of the USB Control Glue according Rob's comments
+ - phy driver add xtal_usb_phy clock which moved from glue driver
+ - glue driver use otg_mode instead of soc_id to support otg function
+
+Changes since v4:[4]
+ - phy driver revert reset-names changes
+ - phy driver change clock name to "xtal" to consistent with g12a
+ - glue driver add drvdata otg_switch_supported
+
+Changes since v5:[5]
+ - integrate phy bindings into g12a
+ - modify glue bindings format according to martin's advices
+ - glue driver add dwc3_meson_g12a_otg_init() do otg related work
+ - glue driver add clk_bulk_disable_unprepare() in remove
+ 
+[0]
+https://patchwork.kernel.org/project/linux-amlogic/list/?series=185477
+https://patchwork.kernel.org/project/linux-amlogic/list/?series=180055
+https://patchwork.kernel.org/project/linux-amlogic/list/?series=189643
+
+[1] : https://lore.kernel.org/linux-amlogic/1574405757-76184-1-git-send-email-hanjie.lin@amlogic.com
+
+[2] : https://lore.kernel.org/linux-amlogic/1576636944-196192-1-git-send-email-hanjie.lin@amlogic.com
+
+[3] : https://lore.kernel.org/linux-amlogic/1577428606-69855-1-git-send-email-hanjie.lin@amlogic.com
+
+[4] : https://lore.kernel.org/linux-amlogic/1578537045-23260-1-git-send-email-hanjie.lin@amlogic.com
+
+[5] : https://lore.kernel.org/linux-amlogic/1578634957-54826-1-git-send-email-hanjie.lin@amlogic.com
+Hanjie Lin (6):
+  dt-bindings: phy: Add Amlogic A1 USB2 PHY Bindings
+  dt-bindings: usb: dwc3: Add the Amlogic A1 Family DWC3 Glue Bindings
+  phy: amlogic: Add Amlogic A1 USB2 PHY Driver
+  usb: dwc3: Add Amlogic A1 DWC3 glue
+  arm64: dts: meson: a1: Enable USB2 PHY
+  arm64: dts: meson: a1: Enable DWC3 controller
+
+ .../bindings/phy/amlogic,meson-g12a-usb2-phy.yaml  |  15 ++
+ .../bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml  |  38 ++++-
+ arch/arm64/boot/dts/amlogic/meson-a1.dtsi          |  44 ++++++
+ drivers/phy/amlogic/phy-meson-g12a-usb2.c          |  85 ++++++----
+ drivers/usb/dwc3/dwc3-meson-g12a.c                 | 172 ++++++++++++++-------
+ 5 files changed, 269 insertions(+), 85 deletions(-)
+
 -- 
-2.23.0
+2.7.4
 
