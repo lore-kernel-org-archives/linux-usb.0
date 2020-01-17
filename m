@@ -4,59 +4,59 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15E26C33CB8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8433CC33CB6
 	for <linux-usb@archiver.kernel.org>; Fri, 17 Jan 2020 09:51:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E036220730
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Jan 2020 09:51:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 59AB120730
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Jan 2020 09:51:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=default; t=1579254673;
-	bh=VqZ8sLL8zIp47ibFvMXIkm1AhIjua/qKsLXSKmRTiaQ=;
+	bh=44jEVXbCE3tV3NxxNZHH2NI6a5l3CAJfnqlRnbx6oys=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=wKI3KdDAR7RRdmIGDr1fjOaqcRDqVGA2HPKwI3Jg5n/rRv2PPZDXXis9yF0E49ONa
-	 21keHDygCotw4iJQ6c5WjG664RDQrQ9DEVKraAfqaoczT45WqflRYCwd/1AdvsjVMG
-	 V8/m8/RbW4s/QOZMEGrOvUDEHFfgvkdE5/ZqQtxU=
+	b=wpej6hOynqiZR2gMX8bApQzP87EPOiCZkatiaxoemQCafANpH+YULB2drfEafrsrI
+	 ZgrZT4t5iPwqxXqj8fMQfVI4LDd9wYToPKh7gk3wHJClrwj10Ky0aaBW+aHSKV0sAh
+	 V5RIumM3jin2W2RQ3AMe/oveYqyatLacSvhjCzcg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728731AbgAQJvK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 17 Jan 2020 04:51:10 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:35245 "EHLO
+        id S1728773AbgAQJvM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 17 Jan 2020 04:51:12 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:42458 "EHLO
         mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726903AbgAQJvJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Jan 2020 04:51:09 -0500
-Received: by mail-lj1-f196.google.com with SMTP id j1so25790821lja.2;
-        Fri, 17 Jan 2020 01:51:07 -0800 (PST)
+        with ESMTP id S1728733AbgAQJvK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 17 Jan 2020 04:51:10 -0500
+Received: by mail-lj1-f196.google.com with SMTP id y4so25806701ljj.9;
+        Fri, 17 Jan 2020 01:51:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=lItgM4AuMa7NuLq3vvovEJzVKMKt6bwUYNd3Nm8lyCg=;
-        b=lbULAYYnLgDLU0gVvJNO7JanSkg1M4PeMI8AloL29z/doYFLVkoitD79QJVh9OiZlC
-         xeIwVDMwRgRWUB4SVcxHJ26ddt6t2VB78SUFjIPDEar2JeLhVpBNLRVj4NzokkJKWbjt
-         lfVH9FUZ842ZptuKG79dGoqNsIAlUn5kRXt2QOI/7yRvUbT1l6SD6GjP7K5LSVaTzUH0
-         NMgUkpPp3/eJPVgixJsUxco4kT7hjpPHeaNzQlOV9EZ1XuHFLlqsdbhEnd7V2jPOvqwa
-         WNhdrROlHcJY1ZIJrfqJB6DllnFEMQCX6hXkoc4qr3bWygCEDTlZ3SiJl3fpaRJWctA0
-         LfuA==
-X-Gm-Message-State: APjAAAWeLgYNIzACMsJ3970rWrhrydSwVIEfaA0bB6oG/zOZrL7AvyoU
-        Q6yG7LrOx0a8nYkc+4mijEGs2Xeb
-X-Google-Smtp-Source: APXvYqw8i7Z0U5J3jxJDNmJmWEUyKXwPWelWP1Q3u/ZOlydygzFADALS9eLeipGW4YvsAJ8T4DaffQ==
-X-Received: by 2002:a2e:7a07:: with SMTP id v7mr5276698ljc.271.1579254666628;
-        Fri, 17 Jan 2020 01:51:06 -0800 (PST)
+        bh=40JSScTYyOWPofT3nlZNpI9vXYe97j1JnSkOaEKoYOo=;
+        b=IcH3jEwiTz8EjUV82Ni3vQbgHgvGlPleQPVNNPrOyWH/8Kux8m8wk35Yq9qixSeYOn
+         6TXyexiWAgCv5tMUxp8CrNWEl9A6JrjWepdvaAunxUlAs0FN53QznzIx5e7TiFKa6bz7
+         9oP+3tGg9762C/R0bDsWD5o2SZXgjFURLQgg4qdMpsIHxQNKlzSzSWM+pwHnFd8V/YUt
+         2WlgdSJEPSKfkZTdp/VNaxmoWLVOtTmEbaOgiMAKObho2hvygWOQRFrql2Kiw2rTM/xB
+         v5g+hp032qECNNQ6JipnciCZvuks/HwJd113T4vjjAEM+0y2YmsezTDSiZq0Devg8DA/
+         7b1g==
+X-Gm-Message-State: APjAAAUzJEzHjsyMksQHuYd7xO2NoficxwCLjfZcRc9s/2vORfMO8I2n
+        XNTvMCuejDfMwjCfm5R8d6g=
+X-Google-Smtp-Source: APXvYqwjbimfxL+ouk5jb1yXFuN5jRAjSxk677pM16ltU2pIWlmSmTQAOx3qvjwZlNopkCXf20uKBA==
+X-Received: by 2002:a05:651c:1129:: with SMTP id e9mr4943525ljo.239.1579254667686;
+        Fri, 17 Jan 2020 01:51:07 -0800 (PST)
 Received: from xi.terra (c-14b8e655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.184.20])
-        by smtp.gmail.com with ESMTPSA id s9sm14012695ljh.90.2020.01.17.01.51.04
+        by smtp.gmail.com with ESMTPSA id y29sm11974808ljd.88.2020.01.17.01.51.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jan 2020 01:51:04 -0800 (PST)
+        Fri, 17 Jan 2020 01:51:06 -0800 (PST)
 Received: from johan by xi.terra with local (Exim 4.92.3)
         (envelope-from <johan@xi.terra>)
-        id 1isOHQ-0007DO-FJ; Fri, 17 Jan 2020 10:51:04 +0100
+        id 1isOHQ-0007DX-Kz; Fri, 17 Jan 2020 10:51:04 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     linux-usb@vger.kernel.org, stable <stable@vger.kernel.org>
-Subject: [PATCH 3/5] USB: serial: io_edgeport: add missing active-port sanity check
-Date:   Fri, 17 Jan 2020 10:50:24 +0100
-Message-Id: <20200117095026.27655-4-johan@kernel.org>
+Subject: [PATCH 5/5] USB: serial: quatech2: handle unbound ports
+Date:   Fri, 17 Jan 2020 10:50:26 +0100
+Message-Id: <20200117095026.27655-6-johan@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200117095026.27655-1-johan@kernel.org>
 References: <20200117095026.27655-1-johan@kernel.org>
@@ -67,63 +67,63 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-The driver receives the active port number from the device, but never
-made sure that the port number was valid. This could lead to a
-NULL-pointer dereference or memory corruption in case a device sends
-data for an invalid port.
+Check for NULL port data in the event handlers to avoid dereferencing a
+NULL pointer in the unlikely case where a port device isn't bound to a
+driver (e.g. after an allocation failure on port probe).
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable <stable@vger.kernel.org>
+Fixes: f7a33e608d9a ("USB: serial: add quatech2 usb to serial driver")
+Cc: stable <stable@vger.kernel.org>     # 3.5
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/io_edgeport.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ drivers/usb/serial/quatech2.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/drivers/usb/serial/io_edgeport.c b/drivers/usb/serial/io_edgeport.c
-index 0582d78bdb1d..5737add6a2a4 100644
---- a/drivers/usb/serial/io_edgeport.c
-+++ b/drivers/usb/serial/io_edgeport.c
-@@ -1725,7 +1725,8 @@ static void edge_break(struct tty_struct *tty, int break_state)
- static void process_rcvd_data(struct edgeport_serial *edge_serial,
- 				unsigned char *buffer, __u16 bufferLength)
+diff --git a/drivers/usb/serial/quatech2.c b/drivers/usb/serial/quatech2.c
+index a62981ca7a73..c76a2c0c32ff 100644
+--- a/drivers/usb/serial/quatech2.c
++++ b/drivers/usb/serial/quatech2.c
+@@ -470,6 +470,13 @@ static int get_serial_info(struct tty_struct *tty,
+ 
+ static void qt2_process_status(struct usb_serial_port *port, unsigned char *ch)
  {
--	struct device *dev = &edge_serial->serial->dev->dev;
-+	struct usb_serial *serial = edge_serial->serial;
-+	struct device *dev = &serial->dev->dev;
- 	struct usb_serial_port *port;
- 	struct edgeport_port *edge_port;
- 	__u16 lastBufferLength;
-@@ -1821,9 +1822,8 @@ static void process_rcvd_data(struct edgeport_serial *edge_serial,
- 
- 			/* spit this data back into the tty driver if this
- 			   port is open */
--			if (rxLen) {
--				port = edge_serial->serial->port[
--							edge_serial->rxPort];
-+			if (rxLen && edge_serial->rxPort < serial->num_ports) {
-+				port = serial->port[edge_serial->rxPort];
- 				edge_port = usb_get_serial_port_data(port);
- 				if (edge_port && edge_port->open) {
- 					dev_dbg(dev, "%s - Sending %d bytes to TTY for port %d\n",
-@@ -1833,8 +1833,8 @@ static void process_rcvd_data(struct edgeport_serial *edge_serial,
- 							rxLen);
- 					edge_port->port->icount.rx += rxLen;
- 				}
--				buffer += rxLen;
- 			}
-+			buffer += rxLen;
- 			break;
- 
- 		case EXPECT_HDR3:	/* Expect 3rd byte of status header */
-@@ -1869,6 +1869,8 @@ static void process_rcvd_status(struct edgeport_serial *edge_serial,
- 	__u8 code = edge_serial->rxStatusCode;
- 
- 	/* switch the port pointer to the one being currently talked about */
-+	if (edge_serial->rxPort >= edge_serial->serial->num_ports)
++	struct qt2_port_private *port_priv;
++
++	/* May be called from qt2_process_read_urb() for an unbound port. */
++	port_priv = usb_get_serial_port_data(port);
++	if (!port_priv)
 +		return;
- 	port = edge_serial->serial->port[edge_serial->rxPort];
- 	edge_port = usb_get_serial_port_data(port);
- 	if (edge_port == NULL) {
++
+ 	switch (*ch) {
+ 	case QT2_LINE_STATUS:
+ 		qt2_update_lsr(port, ch + 1);
+@@ -484,14 +491,27 @@ static void qt2_process_status(struct usb_serial_port *port, unsigned char *ch)
+ static void qt2_process_xmit_empty(struct usb_serial_port *port,
+ 				   unsigned char *ch)
+ {
++	struct qt2_port_private *port_priv;
+ 	int bytes_written;
+ 
++	/* May be called from qt2_process_read_urb() for an unbound port. */
++	port_priv = usb_get_serial_port_data(port);
++	if (!port_priv)
++		return;
++
+ 	bytes_written = (int)(*ch) + (int)(*(ch + 1) << 4);
+ }
+ 
+ /* not needed, kept to document functionality */
+ static void qt2_process_flush(struct usb_serial_port *port, unsigned char *ch)
+ {
++	struct qt2_port_private *port_priv;
++
++	/* May be called from qt2_process_read_urb() for an unbound port. */
++	port_priv = usb_get_serial_port_data(port);
++	if (!port_priv)
++		return;
++
+ 	return;
+ }
+ 
 -- 
 2.24.1
 
