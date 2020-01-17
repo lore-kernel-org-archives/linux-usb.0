@@ -2,25 +2,25 @@ Return-Path: <SRS0=zrGg=3G=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86FC2C33CB3
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Jan 2020 00:22:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 146DFC33CB3
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Jan 2020 00:22:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 626F52072B
-	for <linux-usb@archiver.kernel.org>; Fri, 17 Jan 2020 00:22:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E811121D7D
+	for <linux-usb@archiver.kernel.org>; Fri, 17 Jan 2020 00:22:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733092AbgAQAWI (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 16 Jan 2020 19:22:08 -0500
+        id S1733080AbgAQAWL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 16 Jan 2020 19:22:11 -0500
 Received: from mail-sh.amlogic.com ([58.32.228.43]:52681 "EHLO
         mail-sh.amlogic.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728963AbgAQAWF (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Jan 2020 19:22:05 -0500
+        with ESMTP id S1728963AbgAQAWK (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 16 Jan 2020 19:22:10 -0500
 Received: from droid10.amlogic.com (10.18.11.213) by mail-sh.amlogic.com
  (10.18.11.5) with Microsoft SMTP Server id 15.1.1591.10; Fri, 17 Jan 2020
- 08:22:31 +0800
+ 08:22:32 +0800
 From:   Hanjie Lin <hanjie.lin@amlogic.com>
 To:     Jerome Brunet <jbrunet@baylibre.com>,
         Neil Armstrong <narmstrong@baylibre.com>,
@@ -29,6 +29,7 @@ To:     Jerome Brunet <jbrunet@baylibre.com>,
         Felipe Balbi <felipe.balbi@linux.intel.com>,
         Kevin Hilman <khilman@baylibre.com>
 CC:     Hanjie Lin <hanjie.lin@amlogic.com>,
+        Yue Wang <yue.wang@amlogic.com>,
         <linux-amlogic@lists.infradead.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
@@ -41,12 +42,13 @@ CC:     Hanjie Lin <hanjie.lin@amlogic.com>,
         Qiufang Dai <qiufang.dai@amlogic.com>,
         Jian Hu <jian.hu@amlogic.com>,
         Victor Wan <victor.wan@amlogic.com>,
-        Yue Wang <yue.wang@amlogic.com>,
         Xingyu Chen <xingyu.chen@amlogic.com>
-Subject: [PATCH v6 0/6] arm64: meson: Add support for USB on Amlogic A1
-Date:   Fri, 17 Jan 2020 08:21:38 +0800
-Message-ID: <1579220504-110067-1-git-send-email-hanjie.lin@amlogic.com>
+Subject: [PATCH v6 2/6] dt-bindings: usb: dwc3: Add the Amlogic A1 Family DWC3 Glue Bindings
+Date:   Fri, 17 Jan 2020 08:21:40 +0800
+Message-ID: <1579220504-110067-3-git-send-email-hanjie.lin@amlogic.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1579220504-110067-1-git-send-email-hanjie.lin@amlogic.com>
+References: <1579220504-110067-1-git-send-email-hanjie.lin@amlogic.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.18.11.213]
@@ -55,82 +57,84 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This patchset adds support for USB on Amlogic A1 SoCs.
+The Amlogic A1 SoC Family embeds 1 USB Controllers:
+ - a DWC3 IP configured as Host for USB2 and USB3
 
-This patchset is composed with :
-- bindings of the PHY
-- bindings of the USB Control Glue
-- PHY Driver
-- USB Control Glue driver
-- dts of the PHY
-- dts of the USB Controller
+A glue connects the controllers to the USB2 PHY of A1 SoC.
 
-The Amlogic A1 USB Complex is composed of :
-- 1 DWC3 USB controller for USB2 Host functionality
-- 1 USB2 PHY for USB2 Host functionality
+Signed-off-by: Yue Wang <yue.wang@amlogic.com>
+Signed-off-by: Hanjie Lin <hanjie.lin@amlogic.com>
+---
+ .../bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml  | 38 ++++++++++++++++++++--
+ 1 file changed, 35 insertions(+), 3 deletions(-)
 
-The USB Control Glue setups the clocks and the reset about DWC3 USB
-controller, and binds to the USB2 PHY. It also configures the 8bit
-UTMI interfaces for the USB2 PHY, including setting USB2 phy mode.
-
-The USB2 PHY driver initializes the phy analog settings, phy PLL 
-setup and phy tuning.
-
-This patchset is based on A1 clock/power domain/reset series at [0].
-
-Changes since v1:[1]
- - integrate glue and phy drivers into g12a's
+diff --git a/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml b/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
+index 4efb77b..2b588fa 100644
+--- a/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
++++ b/Documentation/devicetree/bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml
+@@ -22,10 +22,14 @@ description: |
+   The DWC3 Glue controls the PHY routing and power, an interrupt line is
+   connected to the Glue to serve as OTG ID change detection.
  
-Changes since v2:[2]
- - modify amlogic,meson-g12a-usb-ctrl.yaml with dt_binding_check tool
- - phy/glue driver use of_device_get_match_data to distinguish A1 from G12A
-
-Changes since v3:[3]
- - fix bindings mistakes of the PHY according Rob's comments
- - fix bindings mistakes of the USB Control Glue according Rob's comments
- - phy driver add xtal_usb_phy clock which moved from glue driver
- - glue driver use otg_mode instead of soc_id to support otg function
-
-Changes since v4:[4]
- - phy driver revert reset-names changes
- - phy driver change clock name to "xtal" to consistent with g12a
- - glue driver add drvdata otg_switch_supported
-
-Changes since v5:[5]
- - integrate phy bindings into g12a
- - modify glue bindings format according to martin's advices
- - glue driver add dwc3_meson_g12a_otg_init() do otg related work
- - glue driver add clk_bulk_disable_unprepare() in remove
++  The Amlogic A1 embeds a DWC3 USB IP Core configured for USB2 in
++  host-only mode.
++
+ properties:
+   compatible:
+     enum:
+       - amlogic,meson-g12a-usb-ctrl
++      - amlogic,meson-a1-usb-ctrl
  
-[0]
-https://patchwork.kernel.org/project/linux-amlogic/list/?series=185477
-https://patchwork.kernel.org/project/linux-amlogic/list/?series=180055
-https://patchwork.kernel.org/project/linux-amlogic/list/?series=189643
-
-[1] : https://lore.kernel.org/linux-amlogic/1574405757-76184-1-git-send-email-hanjie.lin@amlogic.com
-
-[2] : https://lore.kernel.org/linux-amlogic/1576636944-196192-1-git-send-email-hanjie.lin@amlogic.com
-
-[3] : https://lore.kernel.org/linux-amlogic/1577428606-69855-1-git-send-email-hanjie.lin@amlogic.com
-
-[4] : https://lore.kernel.org/linux-amlogic/1578537045-23260-1-git-send-email-hanjie.lin@amlogic.com
-
-[5] : https://lore.kernel.org/linux-amlogic/1578634957-54826-1-git-send-email-hanjie.lin@amlogic.com
-Hanjie Lin (6):
-  dt-bindings: phy: Add Amlogic A1 USB2 PHY Bindings
-  dt-bindings: usb: dwc3: Add the Amlogic A1 Family DWC3 Glue Bindings
-  phy: amlogic: Add Amlogic A1 USB2 PHY Driver
-  usb: dwc3: Add Amlogic A1 DWC3 glue
-  arm64: dts: meson: a1: Enable USB2 PHY
-  arm64: dts: meson: a1: Enable DWC3 controller
-
- .../bindings/phy/amlogic,meson-g12a-usb2-phy.yaml  |  15 ++
- .../bindings/usb/amlogic,meson-g12a-usb-ctrl.yaml  |  38 ++++-
- arch/arm64/boot/dts/amlogic/meson-a1.dtsi          |  44 ++++++
- drivers/phy/amlogic/phy-meson-g12a-usb2.c          |  85 ++++++----
- drivers/usb/dwc3/dwc3-meson-g12a.c                 | 172 ++++++++++++++-------
- 5 files changed, 269 insertions(+), 85 deletions(-)
-
+   ranges: true
+ 
+@@ -35,9 +39,6 @@ properties:
+   "#size-cells":
+     enum: [ 1, 2 ]
+ 
+-  clocks:
+-    minItems: 1
+-
+   resets:
+     minItems: 1
+ 
+@@ -84,6 +85,37 @@ required:
+   - phys
+   - dr_mode
+ 
++allOf:
++  - if:
++      properties:
++        compatible:
++          enum:
++            - amlogic,meson-g12a-usb-ctrl
++
++    then:
++      properties:
++        clocks:
++         minItems: 1
++
++  - if:
++      properties:
++        compatible:
++          enum:
++            - amlogic,meson-a1-usb-ctrl
++
++    then:
++      properties:
++        clocks:
++          items:
++            minItems: 3
++       clock-names:
++          items:
++            - const: usb_ctrl
++            - const: usb_bus
++            - const: xtal_usb_ctrl
++      required:
++        - clock-names
++
+ examples:
+   - |
+     usb: usb@ffe09000 {
 -- 
 2.7.4
 
