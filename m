@@ -2,112 +2,115 @@ Return-Path: <SRS0=FyyG=3H=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PULL_REQUEST,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB18DC33CB1
-	for <linux-usb@archiver.kernel.org>; Sat, 18 Jan 2020 13:18:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCAC9C3F68F
+	for <linux-usb@archiver.kernel.org>; Sat, 18 Jan 2020 14:22:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A90C12468D
-	for <linux-usb@archiver.kernel.org>; Sat, 18 Jan 2020 13:18:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 949FB2469C
+	for <linux-usb@archiver.kernel.org>; Sat, 18 Jan 2020 14:22:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1579357377;
+	bh=wPi5zx31z0yN00YU6yYN20ekq7QlhlimDjBgZKv0A7o=;
+	h=Date:From:To:Cc:Subject:List-ID:From;
+	b=BFlyfD9+RcZnrXpmDMHhblZMkqkrMTRhccKgXq5iBs7isIHZ/iVzUcP0A3mM5NP+B
+	 DCPbdfWoFVt98qhgjO+i0v1sM5MBvisvkpPw+IPL5BgSVEtGYHGHr3Aebqe52cbHKW
+	 dWjuscMRHrtgq+l/xb6Yjw67vf94ehKcUMJZlCIc=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729074AbgARNSe convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-usb@archiver.kernel.org>);
-        Sat, 18 Jan 2020 08:18:34 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:45824 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728688AbgARNSd (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sat, 18 Jan 2020 08:18:33 -0500
-Received: by mail-wr1-f65.google.com with SMTP id j42so25161573wrj.12;
-        Sat, 18 Jan 2020 05:18:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=3M4ZjZLxqwNY1d3VEgK180VUD4b24X/dDEbhOgpWU6g=;
-        b=SwRFDk/Gp+sL2UjCHAIKjbjiXeKR9cryRJiZ9L18P1Kj2ptt0NegAJetZVEIWUVR0Z
-         cEeml+cJo28i7Y9LvCjelMARnkrRzDaOJIn0CXP4mw2OD8U36IFfNB7PWBohVMmjEn0V
-         S9VLXrT5SnldvNqW2wOrJBX8K2p3LcUGzUO/K1e1Um/Qfei2tHjDZTug2lZUB5T0M/57
-         SQWh8JfbEk8Tc/s7J+kfl21SzjSyQFdXPZuTSvIbxMIKUIzfXdBbc2cqUpoUwHEssiVF
-         rz+KNjYMxZvclDEtyspvYdEx0kj5X+QKYTIou+yN9UT3KPCBWUbk/TInnQuRQPG5/HC7
-         DeMQ==
-X-Gm-Message-State: APjAAAUvAdSs+/HBxeUAoR6QSKYMiv4BMXNoi/aQ0U40pss6USELg4Ac
-        O/s/1WFtyDeCuq3fN/fuer7rSyDsO1MX8ePHfCUvI8UG
-X-Google-Smtp-Source: APXvYqxR/GvQvWoRh2G02bIHuRXJTaoflf3QgcqLAkmSYEKLZ92iFEDEakk266yNKrASQAL5RTz33vE+6RVjrPOu0P8=
-X-Received: by 2002:adf:90ee:: with SMTP id i101mr8265714wri.417.1579353511444;
- Sat, 18 Jan 2020 05:18:31 -0800 (PST)
+        id S1726597AbgAROWy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sat, 18 Jan 2020 09:22:54 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48652 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726208AbgAROWy (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Sat, 18 Jan 2020 09:22:54 -0500
+Received: from localhost (170.143.71.37.rev.sfr.net [37.71.143.170])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C71262469A;
+        Sat, 18 Jan 2020 14:22:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579357372;
+        bh=wPi5zx31z0yN00YU6yYN20ekq7QlhlimDjBgZKv0A7o=;
+        h=Date:From:To:Cc:Subject:From;
+        b=kJ5N0bXzNU/AVdELNXiPMzzy592YAu9C0pUYOP2rhDktHN19XWF376HqiBrcA5BAJ
+         43n7NvuWozIbEkwOYP54H7gLcoOMpJVm2jjeceuZTPrMO0h8iPQmSILY0SR8SLzD2r
+         dK3T6V7HDj1jrZNU6LNn0B0o6/fFJ2NBPFEci4NU=
+Date:   Sat, 18 Jan 2020 15:22:50 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [GIT PULL] USB fixes for 5.5-rc7
+Message-ID: <20200118142250.GA80066@kroah.com>
 MIME-Version: 1.0
-References: <20191106120219.15028-1-alexandru.ardelean@analog.com> <20200116132901.23977-1-alexandru.ardelean@analog.com>
-In-Reply-To: <20200116132901.23977-1-alexandru.ardelean@analog.com>
-From:   =?UTF-8?Q?Micha=C5=82_Nazarewicz?= <mina86@mina86.com>
-Date:   Sat, 18 Jan 2020 13:18:20 +0000
-Message-ID: <CA+pa1O1bCTgAg=7MFYsF1o2P2UTvppt92x0GfzVvDZ1+Ch-74Q@mail.gmail.com>
-Subject: Re: [PATCH][RESEND] usb: gadget: ffs: ffs_aio_cancel(): Save/restore
- IRQ flags
-To:     Alexandru Ardelean <alexandru.ardelean@analog.com>
-Cc:     USB list <linux-usb@vger.kernel.org>, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lars-Peter Clausen <lars@metafoo.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, 16 Jan 2020 at 13:27, Alexandru Ardelean
-<alexandru.ardelean@analog.com> wrote:
->
-> From: Lars-Peter Clausen <lars@metafoo.de>
->
-> ffs_aio_cancel() can be called from both interrupt and thread context. Make
-> sure that the current IRQ state is saved and restored by using
-> spin_{un,}lock_irq{save,restore}().
->
-> Otherwise undefined behavior might occur.
->
-> Signed-off-by: Lars-Peter Clausen <lars@metafoo.de>
-> Signed-off-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
+The following changes since commit b3a987b0264d3ddbb24293ebff10eddfc472f653:
 
-Acked-by: Michal Nazarewicz <mina86@mina86.com>
+  Linux 5.5-rc6 (2020-01-12 16:55:08 -0800)
 
-> ---
->  drivers/usb/gadget/function/f_fs.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-> index 6f8b67e61771..bdac92d3a8d0 100644
-> --- a/drivers/usb/gadget/function/f_fs.c
-> +++ b/drivers/usb/gadget/function/f_fs.c
-> @@ -1162,18 +1162,19 @@ static int ffs_aio_cancel(struct kiocb *kiocb)
->  {
->         struct ffs_io_data *io_data = kiocb->private;
->         struct ffs_epfile *epfile = kiocb->ki_filp->private_data;
-> +       unsigned long flags;
->         int value;
->
->         ENTER();
->
-> -       spin_lock_irq(&epfile->ffs->eps_lock);
-> +       spin_lock_irqsave(&epfile->ffs->eps_lock, flags);
->
->         if (likely(io_data && io_data->ep && io_data->req))
->                 value = usb_ep_dequeue(io_data->ep, io_data->req);
->         else
->                 value = -EINVAL;
->
-> -       spin_unlock_irq(&epfile->ffs->eps_lock);
-> +       spin_unlock_irqrestore(&epfile->ffs->eps_lock, flags);
->
->         return value;
->  }
-> --
-> 2.20.1
->
+are available in the Git repository at:
 
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-5.5-rc7
 
--- 
-Best regards
-ミハウ “𝓶𝓲𝓷𝓪86” ナザレヴイツ
-«If at first you don’t succeed, give up skydiving»
+for you to fetch changes up to 453495d4e791664e42be2254a6a8acb84b991417:
+
+  Merge tag 'usb-serial-5.5-rc7' of https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial into usb-linus (2020-01-17 19:40:06 +0100)
+
+----------------------------------------------------------------
+USB driver fixes for 5.5-rc7
+
+Here are some small USB driver and core fixes for 5.5-rc7
+
+There's one fix for hub wakeup issues and a number of small usb-serial
+driver fixes and device id updates.
+
+The hub fix has been in linux-next for a while with no reported issues,
+and the usb-serial ones have all passed 0-day with no problems.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Greg Kroah-Hartman (1):
+      Merge tag 'usb-serial-5.5-rc7' of https://git.kernel.org/.../johan/usb-serial into usb-linus
+
+Jer�nimo Borque (1):
+      USB: serial: simple: Add Motorola Solutions TETRA MTP3xxx and MTP85xx
+
+Johan Hovold (7):
+      USB: serial: opticon: fix control-message timeouts
+      USB: serial: suppress driver bind attributes
+      USB: serial: ch341: handle unbound port at reset_resume
+      USB: serial: io_edgeport: handle unbound ports on URB completion
+      USB: serial: io_edgeport: add missing active-port sanity check
+      USB: serial: keyspan: handle unbound ports
+      USB: serial: quatech2: handle unbound ports
+
+Keiya Nobuta (1):
+      usb: core: hub: Improved device recognition on remote wakeup
+
+Kristian Evensen (1):
+      USB: serial: option: Add support for Quectel RM500Q
+
+Reinhard Speyerer (1):
+      USB: serial: option: add support for Quectel RM500Q in QDL mode
+
+ drivers/usb/core/hub.c                 |  1 +
+ drivers/usb/serial/ch341.c             |  6 +++++-
+ drivers/usb/serial/io_edgeport.c       | 16 +++++++++-------
+ drivers/usb/serial/keyspan.c           |  4 ++++
+ drivers/usb/serial/opticon.c           |  2 +-
+ drivers/usb/serial/option.c            |  6 ++++++
+ drivers/usb/serial/quatech2.c          |  6 ++++++
+ drivers/usb/serial/usb-serial-simple.c |  2 ++
+ drivers/usb/serial/usb-serial.c        |  3 +++
+ 9 files changed, 37 insertions(+), 9 deletions(-)
