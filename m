@@ -8,67 +8,67 @@ X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E41F4C2D0DB
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Jan 2020 14:05:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 852BCC2D0DB
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Jan 2020 14:09:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B89A221D7E
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Jan 2020 14:05:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5739522314
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Jan 2020 14:09:22 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qBYZJhae"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VsGePNNH"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728776AbgATOFz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 Jan 2020 09:05:55 -0500
-Received: from mail-pg1-f194.google.com ([209.85.215.194]:43389 "EHLO
-        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726876AbgATOFy (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Jan 2020 09:05:54 -0500
-Received: by mail-pg1-f194.google.com with SMTP id k197so15590815pga.10;
-        Mon, 20 Jan 2020 06:05:54 -0800 (PST)
+        id S1727665AbgATOJT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 Jan 2020 09:09:19 -0500
+Received: from mail-pj1-f67.google.com ([209.85.216.67]:53642 "EHLO
+        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726738AbgATOJS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Jan 2020 09:09:18 -0500
+Received: by mail-pj1-f67.google.com with SMTP id n96so6835191pjc.3;
+        Mon, 20 Jan 2020 06:09:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=hJrcFJ3vsqXp48qo1RuEHDb7bDX0LbPhJcuIERyga/A=;
-        b=qBYZJhaeClTqitdQhQn1Nh/6WuACkmiDFzbx82/EYpB5s21+STqhxYmWqYS+oi7GlX
-         oIBo+AZ56AuXoc7ZJkwnecAWJ1DH3oiXaq/8g3BakcRA4x/97ANXzbFbdDqiIxT/98T7
-         JYsUB5GVDPm5p0vN9+klwEfD6QaNn8ZHRRcg3c6NUEu93kCCgr4GcGEPC2GsHFEKvICS
-         jWCBrXfuNWIiN9WMj8Txisyat8sNQF1CItStp58bvXzO3MYjaRiwM6PNIri7jVqAF0yl
-         cXeapFOBZSdEFJ+Ftk2rdnqyoGItJEG5C2vDS0W/6pyI4pXN6qMvLYy2OpXxPlQfe7CX
-         Eiyg==
+        bh=4CTbIeEzkXO5fB5W+Pbzr8GP/XfcEsPFM6dFVweDmW4=;
+        b=VsGePNNH62qfKjyGlIoukU6+uBz2EoHFYKRvl9i0Iy+FAYTych5/siIxFb9p1kXPIN
+         RTjAtSpcCAwEiNymRsJlTpffv0YCHZgsWBwex3+chnPlgAdoPt9zX0S4hfiwOoZz1AoN
+         dW07A1Cbiidy2cDlD8nhzEcyfT4zRSBle+FyxHkamzp/MFfdUAHP0jmHxqrsaOZh1IXC
+         083QUJJtfw1HQFtPf0Z3C1tL2wbzTLaGAfax7/H3z8jl6fbeaVeHhzooTg5rGbNi0R43
+         ZnK5CFR/MP80RlX8lRD2APLt7vrM8OwPfgQMpOKYSRq3pDez1pczaveFKIQGXqvmzE2E
+         Sifw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hJrcFJ3vsqXp48qo1RuEHDb7bDX0LbPhJcuIERyga/A=;
-        b=LAXSLnVi13bpvQ71EufCG9ZrX3eX0PLKEDLFT+5w7DfDynVdTpIOZqBLxJZnrVk9sO
-         /U23EXYCcrWV6X7mEjJgNvrZHCiObhpjWiR1JJT224mfpIkSvYsqRjnhEFlRJ2moKLJ7
-         YVJLE0hkyjnKucD1N6bDn9lm5sLC8yItgrnhTGbmY7xFBObs6lEhpsm57pu/o+Mi8fCx
-         JIyBCKj33A27uZkvqysMs0oMLI8PDw04Fb2+3WkUSXwv189LPBAX6hCPaPp/uLC8cBFt
-         Ugv+1FhM7zTEu/ksRgaOjXfiN940Dlx+WfYOO2qLhvsbf11dpqvsAsmxBzsa1Tj2jXBU
-         pcMg==
-X-Gm-Message-State: APjAAAXgEbI10dJa0H6QmqSSTiPOceFLDh3AUdd55Bv1aS0jxno5hS+w
-        x0EYlkTD/QWkj5J2giesHVgjCT2xrXiQyw==
-X-Google-Smtp-Source: APXvYqw70cs8vLjnYZx/kM+R8OVhr+GwwfEZSBnYr/t0VvyJGzPLRR/18E35qoo5J+w3AhThHV5I3w==
-X-Received: by 2002:a63:7a56:: with SMTP id j22mr11188460pgn.35.1579529153152;
-        Mon, 20 Jan 2020 06:05:53 -0800 (PST)
+        bh=4CTbIeEzkXO5fB5W+Pbzr8GP/XfcEsPFM6dFVweDmW4=;
+        b=ZhQ4LiX7aQMvxQ7bME2rmF8ViXidJcsnZnlnvy9+LLfvWEJIAplDnifsrF0P1KEotp
+         zNkxxPvfTOB/rZ/PDOiphlq/EHK9dm1xBk4hnjOMstLyX2EgATXTLUn28xNLtUntV4nr
+         0lQJOxf4w+q4T24tzKgDXfHZmLZuvOvVqUe5Y/pd1bnbbVWKilDwaTr17P4fvvPvYKiU
+         /Td+2VyCSx3ixvHz47cY4k+fuFv0dq+FForss0iiYqo3jWFbwGYkArl5fMocVHnu87Js
+         FjQ6cmHrm5ArWlXA/s3DS5AzAaUjfItYgKpL98QOyrkXfwFiHTD8P8r20LxdMepZ4ry/
+         7MhQ==
+X-Gm-Message-State: APjAAAXVGoKtC4G8limLacHaI55mHvPHtrjVWectX8RxVPt/bqtTJm8K
+        2LLkIoUUAiXRtZT0hc+NhJ9UlxGUtPeKdA==
+X-Google-Smtp-Source: APXvYqz+UNZZLh0pK4TnBa4SchIF8535UKk8mnl9qxS9otojl0GkJ4cAvWWXad9ayW4pK4Vv6rMvug==
+X-Received: by 2002:a17:902:8c91:: with SMTP id t17mr7482762plo.98.1579529357309;
+        Mon, 20 Jan 2020 06:09:17 -0800 (PST)
 Received: from glados.lan ([2601:647:4c01:6541:fa16:54ff:fed1:1bd6])
-        by smtp.gmail.com with ESMTPSA id b42sm188991pjc.27.2020.01.20.06.05.52
+        by smtp.gmail.com with ESMTPSA id r30sm41887687pfl.162.2020.01.20.06.09.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2020 06:05:52 -0800 (PST)
+        Mon, 20 Jan 2020 06:09:16 -0800 (PST)
 From:   Thomas Hebb <tommyhebb@gmail.com>
 To:     linux-kernel@vger.kernel.org
-Cc:     linux-stable@vger.kernel.org, Thomas Hebb <tommyhebb@gmail.com>,
+Cc:     stable@vger.kernel.org, Thomas Hebb <tommyhebb@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Guenter Roeck <linux@roeck-us.net>,
         Hans de Goede <hdegoede@redhat.com>,
         Heikki Krogerus <heikki.krogerus@linux.intel.com>,
         linux-usb@vger.kernel.org
-Subject: [PATCH v2 2/2] usb: typec: fusb302: fix "op-sink-microwatt" default that was in mW
-Date:   Mon, 20 Jan 2020 06:05:41 -0800
-Message-Id: <c497958a1b0d8e3421c5eda46abddba6651cec1e.1579529138.git.tommyhebb@gmail.com>
+Subject: [PATCH v3 2/2] usb: typec: fusb302: fix "op-sink-microwatt" default that was in mW
+Date:   Mon, 20 Jan 2020 06:09:06 -0800
+Message-Id: <0da564559af75ec829c6c7e3aa4024f857c91bee.1579529334.git.tommyhebb@gmail.com>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <0eac53c4878423a9abd49d2142fe4cb1136db4e2.1579529138.git.tommyhebb@gmail.com>
-References: <0eac53c4878423a9abd49d2142fe4cb1136db4e2.1579529138.git.tommyhebb@gmail.com>
+In-Reply-To: <d8be32512efd31995ad7d65b27df9d443131b07c.1579529334.git.tommyhebb@gmail.com>
+References: <d8be32512efd31995ad7d65b27df9d443131b07c.1579529334.git.tommyhebb@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -81,11 +81,12 @@ port") didn't convert this value from mW to uW when migrating to a new
 specification format like it should have.
 
 Fixes: 8f6244055bd3 ("usb: typec: fusb302: Always provide fwnode for the port")
-Cc: linux-stable@vger.kernel.org
+Cc: stable@vger.kernel.org
 Signed-off-by: Thomas Hebb <tommyhebb@gmail.com>
 
 ---
 
+Changes in v3: None
 Changes in v2: None
 
  drivers/usb/typec/tcpm/fusb302.c | 2 +-
