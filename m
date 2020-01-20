@@ -2,134 +2,151 @@ Return-Path: <SRS0=3b5b=3J=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0
+	tests=HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD84DC2D0DB
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Jan 2020 16:32:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C488C32771
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Jan 2020 20:14:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 8373522314
-	for <linux-usb@archiver.kernel.org>; Mon, 20 Jan 2020 16:32:43 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="G2IagIBO"
+	by mail.kernel.org (Postfix) with ESMTP id 2B32422527
+	for <linux-usb@archiver.kernel.org>; Mon, 20 Jan 2020 20:14:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729464AbgATQcl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 20 Jan 2020 11:32:41 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:38155 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728783AbgATQau (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Jan 2020 11:30:50 -0500
-Received: by mail-wm1-f65.google.com with SMTP id u2so216499wmc.3
-        for <linux-usb@vger.kernel.org>; Mon, 20 Jan 2020 08:30:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=qsI/xaPXMqNdKm9K1igbwkE2PA4fRpWtUntr4tiEc9c=;
-        b=G2IagIBOWzh/x16MmgeTD8wsIydKubQXPVKg1rv4Z4RR14LDQWt4zUhDU1HfrMHczS
-         g2r9eRIVi4i/ydvfIil0I54FM5sMKiwf39RnsBZSyhht06aVtE2SnZ0ieVphedo49NHE
-         jyM9X8ahmWECdxjbEEEKkrA8C6jqWVGjCx3+mWK3UP1CKmMc7ZJeoiUO+sWU5PGFXemw
-         zpIi9XvkZfWSNzY6KYAnoZbZJ4XiUdOJl7/BKzSETmz/GahtWUPtDVdmLoNqDJwfDswp
-         38kre8EH+B9ShaUuYJ3dKFx96kX7u04ZL+AN6b+ayfcCPPkyHlf/ntH6qcrqH+/Dk+05
-         LwsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=qsI/xaPXMqNdKm9K1igbwkE2PA4fRpWtUntr4tiEc9c=;
-        b=q6oXbshhDue/mkRKzw5Bsz0EiClLfko91O595ItPgqdym7GC2bLQXF6qytWAOzM5h3
-         6HoMT3d8lVffd/5vVf80bUeNgqG3mgFXkINGFSeaGLV35WMx4jtQpgj/yapGx7nnumZv
-         5S4fFEkyQaxRiKyO1Y+vDve3ydH2SWELcckOn8zN+trwviqB/cEsgzi96tVLfD3CaSSe
-         wH2a1+dhCV6qhXeJ6My5ncCY9BiZSN94YMgwVc4LPOqz2bEysD2xuyqDdsvRi/yyRNJ2
-         2r8J4KTvwuwIISBIFvaCqaKMpCnLVELSVqWHab6Ji6Q9b2xrAyUSnYs2A6di2MBPS6eV
-         P5aQ==
-X-Gm-Message-State: APjAAAXDbCAgSovQR6X4Y7VrEV7G2YdpWDLIMg+Z7vgsokUi2PXfQYF3
-        s9bTkDyWgR67NTeXM+20GmiW4TODlQU=
-X-Google-Smtp-Source: APXvYqzzFJTUL2uBj8UC6wtxz6N+1fzM94B2exU3q07GUKuUf2SDhArGvq1P2gzxo5nwlVOdim5jTg==
-X-Received: by 2002:a1c:22c6:: with SMTP id i189mr165624wmi.15.1579537847957;
-        Mon, 20 Jan 2020 08:30:47 -0800 (PST)
-Received: from localhost.localdomain ([176.61.57.127])
-        by smtp.gmail.com with ESMTPSA id p26sm22631756wmc.24.2020.01.20.08.30.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2020 08:30:47 -0800 (PST)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        gregkh@linuxfoundation.org, jackp@codeaurora.org, balbi@kernel.org,
-        bjorn.andersson@linaro.org
-Cc:     linux-kernel@vger.kernel.org,
-        Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>,
-        Jorge Ramirez-Ortiz <jorge.ramirez.ortiz@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH v2 01/19] dt-bindings: phy: remove qcom-dwc3-usb-phy
-Date:   Mon, 20 Jan 2020 16:30:58 +0000
-Message-Id: <20200120163116.1197682-2-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200120163116.1197682-1-bryan.odonoghue@linaro.org>
-References: <20200120163116.1197682-1-bryan.odonoghue@linaro.org>
+        id S1726876AbgATUOv (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 20 Jan 2020 15:14:51 -0500
+Received: from wp126.webpack.hosteurope.de ([80.237.132.133]:45616 "EHLO
+        wp126.webpack.hosteurope.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726752AbgATUOv (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 20 Jan 2020 15:14:51 -0500
+Received: from [2003:a:659:3f00:1e6f:65ff:fe31:d1d5] (helo=hermes.fivetechno.de); authenticated
+        by wp126.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        id 1itdRe-00042k-JS; Mon, 20 Jan 2020 21:14:46 +0100
+X-Virus-Scanned: by amavisd-new 2.11.1 using newest ClamAV at
+        linuxbbg.five-lan.de
+Received: from dell2.five-lan.de (pD9E89C03.dip0.t-ipconnect.de [217.232.156.3])
+        (authenticated bits=0)
+        by hermes.fivetechno.de (8.15.2/8.14.5/SuSE Linux 0.8) with ESMTPSA id 00KKEiNZ005951
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+        Mon, 20 Jan 2020 21:14:44 +0100
+Subject: Re: [Bug ?] usb :typec :tcpm :fusb302
+To:     Guenter Roeck <linux@roeck-us.net>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Linux USB Mailing List <linux-usb@vger.kernel.org>,
+        Linux Kernel <linux-kernel@vger.kernel.org>,
+        linux-rockchip@lists.infradead.org
+References: <0ac6bbe7-6395-526d-213c-ac58a19d8673@fivetechno.de>
+ <20200120115828.GC32175@kuha.fi.intel.com>
+ <e05b6c1f-5e00-c000-23b9-1683230fd9f7@roeck-us.net>
+ <546a5723-a974-ed0a-93e3-b46c919b0f7e@fivetechno.de>
+ <2e739a08-191b-d7c9-1273-4000cbbca423@roeck-us.net>
+From:   Markus Reichl <m.reichl@fivetechno.de>
+Message-ID: <d985890e-f1a4-a9b4-8f08-1860ea4486f7@fivetechno.de>
+Date:   Mon, 20 Jan 2020 21:14:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.3.0
 MIME-Version: 1.0
+In-Reply-To: <2e739a08-191b-d7c9-1273-4000cbbca423@roeck-us.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: de-DE
 Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;m.reichl@fivetechno.de;1579551290;e7f14293;
+X-HE-SMSGID: 1itdRe-00042k-JS
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>
+Hi Guenter,
 
-This binding is not used by any driver.
+Am 20.01.20 um 17:04 schrieb Guenter Roeck:
+> On 1/20/20 6:34 AM, Markus Reichl wrote:
+>> Hi Guenter,
+>>
+>> Am 20.01.20 um 15:21 schrieb Guenter Roeck:
+>>> On 1/20/20 3:58 AM, Heikki Krogerus wrote:
+>>>> Hi Markus,
+>>>>
+>>>> On Thu, Jan 09, 2020 at 05:29:07PM +0100, Markus Reichl wrote:
+>>>>> Hi,
+>>>>>
+>>>>> I'm working with a ROC-RK3399-PC arm64 board from firefly, circuit sheet [1].
+>>>>> The board is powered from an USB-C type connector via an FUSB302 PD controller.
+>>>>> With measured 15W+ power consumption it should use higher voltage PD modes than
+>>>>> the standard 5V USB-C mode.
+>>>>>
+>>>>> When I add the related connector node in DTS [2] the FUSB302 initializes
+>>>>> the right PD mode (e.g. 15V/3A).
+>>>>>
+>>>>> But during initialisation the PD is switched off shortly and the board has a blackout.
+>>>>> When I inject a backup supply voltage behind the FUSB302 (e.g. at SYS_12V line) during boot
+>>>>> I can remove the backup after succesfull setting up the PD and the board will run fine.
+>>>>>
+>>>>> Is it possible to change the behaviour of the fusb302 driver to not power down the PD supply
+>>>>> during init?
+>>>>
+>>>> I guess it's also possible that the problem is with tcpm.c instead of
+>>>> fusb302.c. tcpm.c provides the USB PD state matchines. Guenter! Can
+>>>> you take a look at this?
+>>>>
+>>>
+>>> There was always a problem with handoff from the bootloader. tcpm_init() calls
+>>> tcpm_reset_port() which turns vbus and vconn off, which I imagine can
+>>> trigger the situation.
+>>>
+>>> Unfortunately I was never able to solve the puzzle. The Type-C protocol does
+>>> not support any kind of "hand-off" from one component in the system to another.
+>>> If the state machine doesn't start from a clean state, there is pretty
+>>> much no guarantee that it ever synchronizes.
+>>>
+>>> Maybe someone can find a better solution, but when I wrote the code I just
+>>> could not get it to work reliably without resetting everything during
+>>> registration.
+>>>
+>>> Note that v4.4 did not include the upstream tcpm code, suggesting the
+>>> code in the vendor kernel was possibly using a different or backported
+>>> state machine. Impossible to say what was done there without access
+>>> to the code.
+>>
+>> The vendor code for fusb302 is here:
+>> https://github.com/FireflyTeam/kernel/tree/rk3399/firefly/drivers/mfd
+>>
+> 
+> AFAICS the vendor code don't reset VBUS, and selectively (only) resets the
+> PD state machine in the fusb302 on startup. The tcpm state machine is embedded
+> in the fusb302 driver, making this easier to control.
+> 
+> The fusb302 Linux kernel driver, on the other side, resets the entire fusb302
+> on initialization, not just PD (bit 0 of the reset register). Question is if
+> that can be changed to just reset PD (bit 1 of the reset register).
+> Maybe that would already fix the problem. Can you give it a try ?
+> 
+> Guenter
 
-Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>
-Cc: Jorge Ramirez-Ortiz <jorge.ramirez.ortiz@gmail.com>
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- .../bindings/phy/qcom-dwc3-usb-phy.txt        | 37 -------------------
- 1 file changed, 37 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/phy/qcom-dwc3-usb-phy.txt
+I tried 
 
-diff --git a/Documentation/devicetree/bindings/phy/qcom-dwc3-usb-phy.txt b/Documentation/devicetree/bindings/phy/qcom-dwc3-usb-phy.txt
-deleted file mode 100644
-index a1697c27aecd..000000000000
---- a/Documentation/devicetree/bindings/phy/qcom-dwc3-usb-phy.txt
-+++ /dev/null
-@@ -1,37 +0,0 @@
--Qualcomm DWC3 HS AND SS PHY CONTROLLER
----------------------------------------
--
--DWC3 PHY nodes are defined to describe on-chip Synopsis Physical layer
--controllers.  Each DWC3 PHY controller should have its own node.
--
--Required properties:
--- compatible: should contain one of the following:
--	- "qcom,dwc3-hs-usb-phy" for High Speed Synopsis PHY controller
--	- "qcom,dwc3-ss-usb-phy" for Super Speed Synopsis PHY controller
--- reg: offset and length of the DWC3 PHY controller register set
--- #phy-cells: must be zero
--- clocks: a list of phandles and clock-specifier pairs, one for each entry in
--  clock-names.
--- clock-names: Should contain "ref" for the PHY reference clock
--
--Optional clocks:
--  "xo"		External reference clock
--
--Example:
--		phy@100f8800 {
--			compatible = "qcom,dwc3-hs-usb-phy";
--			reg = <0x100f8800 0x30>;
--			clocks = <&gcc USB30_0_UTMI_CLK>;
--			clock-names = "ref";
--			#phy-cells = <0>;
--
--		};
--
--		phy@100f8830 {
--			compatible = "qcom,dwc3-ss-usb-phy";
--			reg = <0x100f8830 0x30>;
--			clocks = <&gcc USB30_0_MASTER_CLK>;
--			clock-names = "ref";
--			#phy-cells = <0>;
--
--		};
--- 
-2.25.0
+diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/fusb302.c
+index ed8655c6af8c..6e15e7b22064 100644
+--- a/drivers/usb/typec/tcpm/fusb302.c
++++ b/drivers/usb/typec/tcpm/fusb302.c
+@@ -334,11 +334,11 @@ static int fusb302_sw_reset(struct fusb302_chip *chip)
+        int ret = 0;
+ 
+        ret = fusb302_i2c_write(chip, FUSB_REG_RESET,
+-                               FUSB_REG_RESET_SW_RESET);
++                               FUSB_REG_RESET_PD_RESET);
+        if (ret < 0)
+-               fusb302_log(chip, "cannot sw reset the chip, ret=%d", ret);
++               fusb302_log(chip, "cannot pd reset the chip, ret=%d", ret);
+        else
+-               fusb302_log(chip, "sw reset");
++               fusb302_log(chip, "pd reset");
+ 
+        return ret;
+ }
 
+but did not help, after mmc and ehci initializing the PD-supply gets switched off at 1.95s. 
+Gruß,
+Markus
