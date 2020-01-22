@@ -2,76 +2,167 @@ Return-Path: <SRS0=IeTI=3L=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	UNWANTED_LANGUAGE_BODY autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE7EAC32771
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 07:50:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A25A3C32771
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 08:03:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id AE6422465B
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 07:50:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 830AF2467C
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 08:03:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728811AbgAVHuX (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 Jan 2020 02:50:23 -0500
-Received: from rtits2.realtek.com ([211.75.126.72]:60629 "EHLO
+        id S1729384AbgAVIDh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 Jan 2020 03:03:37 -0500
+Received: from rtits2.realtek.com ([211.75.126.72]:33442 "EHLO
         rtits2.realtek.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726083AbgAVHuX (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jan 2020 02:50:23 -0500
+        with ESMTP id S1729353AbgAVIDg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jan 2020 03:03:36 -0500
 Authenticated-By: 
-X-SpamFilter-By: BOX Solutions SpamTrap 5.62 with qID 00M7oJeR005548, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (smtpsrv.realtek.com[172.21.6.99])
-        by rtits2.realtek.com.tw (8.15.2/2.57/5.78) with ESMTPS id 00M7oJeR005548
+X-SpamFilter-By: BOX Solutions SpamTrap 5.62 with qID 00M83XF1009793, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (RTEXMB06.realtek.com.tw[172.21.6.99])
+        by rtits2.realtek.com.tw (8.15.2/2.57/5.78) with ESMTPS id 00M83XF1009793
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 22 Jan 2020 15:50:19 +0800
-Received: from RTEXMB05.realtek.com.tw (172.21.6.98) by
+        Wed, 22 Jan 2020 16:03:33 +0800
+Received: from RTEXMB06.realtek.com.tw (172.21.6.99) by
  RTEXMB06.realtek.com.tw (172.21.6.99) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1779.2; Wed, 22 Jan 2020 15:50:19 +0800
-Received: from RTEXMB04.realtek.com.tw (172.21.6.97) by
- RTEXMB05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1779.2; Wed, 22 Jan 2020 15:50:18 +0800
-Received: from RTEXMB04.realtek.com.tw ([fe80::d9c5:a079:495e:b999]) by
- RTEXMB04.realtek.com.tw ([fe80::d9c5:a079:495e:b999%6]) with mapi id
- 15.01.1779.005; Wed, 22 Jan 2020 15:50:18 +0800
+ 15.1.1779.2; Wed, 22 Jan 2020 16:03:33 +0800
+Received: from RTITCASV01.realtek.com.tw (172.21.6.18) by
+ RTEXMB06.realtek.com.tw (172.21.6.99) with Microsoft SMTP Server
+ (version=TLS1_0, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.1.1779.2
+ via Frontend Transport; Wed, 22 Jan 2020 16:03:33 +0800
+Received: from fc30.localdomain (172.21.177.138) by RTITCASV01.realtek.com.tw
+ (172.21.6.18) with Microsoft SMTP Server id 14.3.468.0; Wed, 22 Jan 2020
+ 16:03:31 +0800
 From:   Hayes Wang <hayeswang@realtek.com>
-To:     Grant Grundler <grundler@chromium.org>
-CC:     netdev <netdev@vger.kernel.org>, nic_swsd <nic_swsd@realtek.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Prashant Malani <pmalani@chromium.org>
-Subject: RE: [PATCH net 9/9] r8152: disable DelayPhyPwrChg
-Thread-Topic: [PATCH net 9/9] r8152: disable DelayPhyPwrChg
-Thread-Index: AQHV0FhSIZuQmjh3PESNf3BKmFZCOqf1vQeAgACPtwA=
-Date:   Wed, 22 Jan 2020 07:50:18 +0000
-Message-ID: <fdd1b5e0538347698f0ca88aaef26617@realtek.com>
+To:     <netdev@vger.kernel.org>
+CC:     <nic_swsd@realtek.com>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <pmalani@chromium.org>,
+        <grundler@chromium.org>, Hayes Wang <hayeswang@realtek.com>
+Subject: [PATCH net v3 8/9] r8152: avoid the MCU to clear the lanwake
+Date:   Wed, 22 Jan 2020 16:02:12 +0800
+Message-ID: <1394712342-15778-366-Taiwan-albertk@realtek.com>
+X-Mailer: Microsoft Office Outlook 11
+In-Reply-To: <1394712342-15778-358-Taiwan-albertk@realtek.com>
 References: <1394712342-15778-338-Taiwan-albertk@realtek.com>
- <1394712342-15778-347-Taiwan-albertk@realtek.com>
- <CANEJEGs+K9rFqzFG_4cPaQvi9FV3L5jMdCi4KYtcfpg1x+nwjw@mail.gmail.com>
-In-Reply-To: <CANEJEGs+K9rFqzFG_4cPaQvi9FV3L5jMdCi4KYtcfpg1x+nwjw@mail.gmail.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.21.177.214]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <1394712342-15778-358-Taiwan-albertk@realtek.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [172.21.177.138]
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-R3JhbnQgR3J1bmRsZXIgW21haWx0bzpncnVuZGxlckBjaHJvbWl1bS5vcmddDQo+IFNlbnQ6IFdl
-ZG5lc2RheSwgSmFudWFyeSAyMiwgMjAyMCAzOjAzIFBNDQpbLi4uXQ0KPiBEaWQgeW91IG1lYW4g
-ImRvbid0IGFsbG93IHRoZSBwaHkgdG8gZW50ZXIgUDMgcG93ZXIgc2F2aW5nIG1vZGUiPw0KPiBJ
-ZiBQMyBwb3dlciBzYXZpbmcgbW9kZSBpcyBicm9rZW4sIHdoYXQgaXMgdGhlIHN5bXB0b20/DQoN
-Clllcy4NCkl0IGluY3JlYXNlcyBwb3dlciBjb25zdW1wdGlvbi4NCg0KUFMuIHRoZSAicGh5IiBp
-cyBmb3IgVVNCLCBub3QgZm9yIEV0aGVybmV0Lg0KDQo+IEhvdyBsb25nIGlzIHRoZSBkZWxheSB3
-aGVuIHRoaXMgaXMgc3RpbGwgZW5hYmxlZD8gKHRvIGhlbHAgaWRlbnRpZnkNCj4gZmFpbHVyZXMg
-d2hlbiB0aGlzIGlzIHN0aWxsIGVuYWJsZWQpDQoNCldoZW4gdGhpcyBpcyBlbmFibGUsIHRoZSBk
-ZXZpY2Ugd291bGQgd2FpdCBhbiBpbnRlcm5hbCBzaWduYWwgd2hpY2gNCndvdWxkbid0IGJlIHRy
-aWdnZXJlZC4gVGhlbiwgdGhlIGRldmljZSBjb3VsZG4ndCBlbnRlciBQMyBtb2RlLCBzbyB0aGUN
-CnBvd2VyIGNvbnN1bXB0aW9uIGlzIGluY3JlYXNlZC4NCg0KQmVzdCBSZWdhcmRzLA0KSGF5ZXMN
-Cg==
+Avoid the MCU to clear the lanwake after suspending. It may cause the
+WOL fail. Disable LANWAKE_CLR_EN before suspending. Besides,enable it
+and reset the lanwake status when resuming or initializing.
+
+Signed-off-by: Hayes Wang <hayeswang@realtek.com>
+---
+ drivers/net/usb/r8152.c | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
+
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index b1a00f29455b..c037fc7adcea 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -68,6 +68,7 @@
+ #define PLA_LED_FEATURE		0xdd92
+ #define PLA_PHYAR		0xde00
+ #define PLA_BOOT_CTRL		0xe004
++#define PLA_LWAKE_CTRL_REG	0xe007
+ #define PLA_GPHY_INTR_IMR	0xe022
+ #define PLA_EEE_CR		0xe040
+ #define PLA_EEEP_CR		0xe080
+@@ -95,6 +96,7 @@
+ #define PLA_TALLYCNT		0xe890
+ #define PLA_SFF_STS_7		0xe8de
+ #define PLA_PHYSTATUS		0xe908
++#define PLA_CONFIG6		0xe90a /* CONFIG6 */
+ #define PLA_BP_BA		0xfc26
+ #define PLA_BP_0		0xfc28
+ #define PLA_BP_1		0xfc2a
+@@ -300,6 +302,9 @@
+ #define LINK_ON_WAKE_EN		0x0010
+ #define LINK_OFF_WAKE_EN	0x0008
+ 
++/* PLA_CONFIG6 */
++#define LANWAKE_CLR_EN		BIT(0)
++
+ /* PLA_CONFIG5 */
+ #define BWF_EN			0x0040
+ #define MWF_EN			0x0020
+@@ -356,6 +361,9 @@
+ /* PLA_BOOT_CTRL */
+ #define AUTOLOAD_DONE		0x0002
+ 
++/* PLA_LWAKE_CTRL_REG */
++#define LANWAKE_PIN		BIT(7)
++
+ /* PLA_SUSPEND_FLAG */
+ #define LINK_CHG_EVENT		BIT(0)
+ 
+@@ -4968,6 +4976,8 @@ static void rtl8152_down(struct r8152 *tp)
+ 
+ static void rtl8153_up(struct r8152 *tp)
+ {
++	u32 ocp_data;
++
+ 	if (test_bit(RTL8152_UNPLUG, &tp->flags))
+ 		return;
+ 
+@@ -4975,6 +4985,15 @@ static void rtl8153_up(struct r8152 *tp)
+ 	r8153_u2p3en(tp, false);
+ 	r8153_aldps_en(tp, false);
+ 	r8153_first_init(tp);
++
++	ocp_data = ocp_read_byte(tp, MCU_TYPE_PLA, PLA_CONFIG6);
++	ocp_data |= LANWAKE_CLR_EN;
++	ocp_write_byte(tp, MCU_TYPE_PLA, PLA_CONFIG6, ocp_data);
++
++	ocp_data = ocp_read_byte(tp, MCU_TYPE_PLA, PLA_LWAKE_CTRL_REG);
++	ocp_data &= ~LANWAKE_PIN;
++	ocp_write_byte(tp, MCU_TYPE_PLA, PLA_LWAKE_CTRL_REG, ocp_data);
++
+ 	r8153_aldps_en(tp, true);
+ 
+ 	switch (tp->version) {
+@@ -4993,11 +5012,17 @@ static void rtl8153_up(struct r8152 *tp)
+ 
+ static void rtl8153_down(struct r8152 *tp)
+ {
++	u32 ocp_data;
++
+ 	if (test_bit(RTL8152_UNPLUG, &tp->flags)) {
+ 		rtl_drop_queued_tx(tp);
+ 		return;
+ 	}
+ 
++	ocp_data = ocp_read_byte(tp, MCU_TYPE_PLA, PLA_CONFIG6);
++	ocp_data &= ~LANWAKE_CLR_EN;
++	ocp_write_byte(tp, MCU_TYPE_PLA, PLA_CONFIG6, ocp_data);
++
+ 	r8153_u1u2en(tp, false);
+ 	r8153_u2p3en(tp, false);
+ 	r8153_power_cut_en(tp, false);
+@@ -5458,6 +5483,14 @@ static void r8153_init(struct r8152 *tp)
+ 	r8153_mac_clk_spd(tp, false);
+ 	usb_enable_lpm(tp->udev);
+ 
++	ocp_data = ocp_read_byte(tp, MCU_TYPE_PLA, PLA_CONFIG6);
++	ocp_data |= LANWAKE_CLR_EN;
++	ocp_write_byte(tp, MCU_TYPE_PLA, PLA_CONFIG6, ocp_data);
++
++	ocp_data = ocp_read_byte(tp, MCU_TYPE_PLA, PLA_LWAKE_CTRL_REG);
++	ocp_data &= ~LANWAKE_PIN;
++	ocp_write_byte(tp, MCU_TYPE_PLA, PLA_LWAKE_CTRL_REG, ocp_data);
++
+ 	/* rx aggregation */
+ 	ocp_data = ocp_read_word(tp, MCU_TYPE_USB, USB_USB_CTRL);
+ 	ocp_data &= ~(RX_AGG_DISABLE | RX_ZERO_EN);
+-- 
+2.21.0
+
