@@ -2,67 +2,84 @@ Return-Path: <SRS0=IeTI=3L=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 501EBC2D0DB
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 18:56:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26E9DC2D0DB
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 18:56:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 211B02465A
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 18:56:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 005FF24673
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 18:56:29 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fS4TJ86U"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C+vwCnMD"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727022AbgAVS4P (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 Jan 2020 13:56:15 -0500
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:52464 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726004AbgAVS4P (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jan 2020 13:56:15 -0500
-Received: by mail-wm1-f65.google.com with SMTP id p9so198012wmc.2
-        for <linux-usb@vger.kernel.org>; Wed, 22 Jan 2020 10:56:13 -0800 (PST)
+        id S1729199AbgAVS43 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 Jan 2020 13:56:29 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:39379 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729160AbgAVS42 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jan 2020 13:56:28 -0500
+Received: by mail-wr1-f67.google.com with SMTP id y11so236353wrt.6
+        for <linux-usb@vger.kernel.org>; Wed, 22 Jan 2020 10:56:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bzlb1RNJacHtUYCuYqwuP7wS2PSTXuiA30zpoldeYRk=;
-        b=fS4TJ86UvRY2S+1xKKBWUiezqeWqQB35cOx93DhWPMXjoV1z6VWk+MAsoVAGPfc1Gr
-         ylCBDBbzdNdfuSzpDbfsJdenPQh8vO99ITPBIV7v0q9pbhy8+O8vZsxZqJDVBZZ9KDf5
-         VVedzf0r1qM/KDSn+GD6Aqv70DWHw41aGKIck55mpIq6i++qwRiyPdvb6XV6BOCYcMaC
-         yMsfQzMEHQKz8GqqOV2s6O+4QSrPuDYE4UQ+sKXndB9S1K/jIWaFj6vUm2K/32RsxeWl
-         1BzcYO6pW65aCzsDSGcDrkUhuotz7i2Kg04NZUIfDi61bSbO8VumN/ywOW6ADH8pr2OS
-         rmFw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=q0F3sFz0+h3FHMff0QjQ0SHaRu2x6ApQiXqi+8cwCoc=;
+        b=C+vwCnMDymtRpxwn72o5Ewdo/bwsLCteOPf+jkQ2GBhk8Qn2+0IC0hs1cWB9EVE0GI
+         aT5rE3rKqiPB/RqkDseqo1Fq/ur+6LDw6LBqhc6/GyLmEwykGq5+FarpEm61/ahGhEkm
+         347gbM1BJeGSTMdd6C1BxiO7dsnO5dYXnN4dsYFgjj/1dM2vX48atz5TU8hHN2p6nZ4G
+         jkvNwGlil1j+D9wLsVpZqNYaocOoYESzCum5+oIMo8vMVSbopnsSGdJ4Kn2udfPDrIei
+         nonZ8OvqZfiylc5v90lGq/poDg5taW1RQnHfCbk6dhrJuCU3vFNHuxObosqdeGCgBI0q
+         ERQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bzlb1RNJacHtUYCuYqwuP7wS2PSTXuiA30zpoldeYRk=;
-        b=pm19AascyKtgpreMKiYIm1EbbN0wzVkCzr2/CSlBT4H4Y9FSQOst1rS47/UIHrhovx
-         jMl00hdtB9lOjsGSNf2X4OIZVLjQ1g/RWavypmy7+g4fCGqn1XvrLF/qVjG+Ig6mlRkH
-         qR4S/u/CH5xegDZZgWUJ2rCjEY3zpJbAPa6Uosy9yIDKUQ72FJCjUmD3SzV+W1w06T9f
-         iPAKSXUzqJcH5A1xpJ1m6Qjyr740I/MvOiMRgwZx30rhFYX0dJHWo6+mp701Q2XhwtJL
-         rTDl7QiwuA31bJRJtLUKXgoKUTTkjWgKztfBATNSafnUwDUnsFGpHT7MTfelfrl+A+4q
-         fr+A==
-X-Gm-Message-State: APjAAAXSHiAklGzsWIkSVc4XBpmyUMgz9vHkWGxQbvSMWjx9/Ye64+Xg
-        hB49bKD9INqa7DTpkYbA+qaUoA==
-X-Google-Smtp-Source: APXvYqwr7zfPeZMdgSWPAsBZljn8ewVSiCdp3jsPhpI/n54/F6r8dRZSGwBb81uc8oZnO0zSYV5AlA==
-X-Received: by 2002:a1c:1b44:: with SMTP id b65mr4300734wmb.11.1579719373155;
-        Wed, 22 Jan 2020 10:56:13 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=q0F3sFz0+h3FHMff0QjQ0SHaRu2x6ApQiXqi+8cwCoc=;
+        b=Ei/7WmhTvSHPuvnIh/CS/ZZCGQyJRwyeCGsSQt0/+ncYqojEdprMvmX7D2nH0wbSH5
+         MTVuu/vxHlhCKFeL3zjJck/Uypjc4LvLLM4308wic9Y761c1wSos3fCvOhWE4j317g3q
+         TpyH4Bc6PqMdn9d1AWuI7J40qYZFw5pYa8PCwgYj3rtt245Zt6lnCC5lvybRzauk7Pbc
+         2n7CeV41/4yDcIZVqB6TuVa3bU65/i7Z9JjrSAdM19snneNQYYIbADpWs2/2lTerX90w
+         5eUwm4sT31/xYDhmB8gREOGcvmXVLk7oHXopeN5a5TsT1z50UPcQEGWlHIv4SZBYz2b4
+         tbjA==
+X-Gm-Message-State: APjAAAWOMDd3hNhk/RRg/hTbHH2zDYyxWNRVKwL4haYaipEt74RDa5uS
+        LihFMZ7Ti3GAmuVKGcG2ujdokvowLWgZ3g==
+X-Google-Smtp-Source: APXvYqxfIp3fzYVdC1qlDFZye4heP/NHEtW3pA2Wyi5LSX2OlDxJCt2O4BA/ZVgG6dKYLjCTtr/79Q==
+X-Received: by 2002:a5d:4692:: with SMTP id u18mr12793936wrq.206.1579719386983;
+        Wed, 22 Jan 2020 10:56:26 -0800 (PST)
 Received: from localhost.localdomain ([176.61.57.127])
-        by smtp.gmail.com with ESMTPSA id q15sm58590390wrr.11.2020.01.22.10.56.12
+        by smtp.gmail.com with ESMTPSA id q15sm58590390wrr.11.2020.01.22.10.56.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jan 2020 10:56:12 -0800 (PST)
+        Wed, 22 Jan 2020 10:56:26 -0800 (PST)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
         gregkh@linuxfoundation.org, jackp@codeaurora.org, balbi@kernel.org,
         bjorn.andersson@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH v3 00/19] Enable Qualcomm QCS 404 HS/SS USB
-Date:   Wed, 22 Jan 2020 18:55:51 +0000
-Message-Id: <20200122185610.131930-1-bryan.odonoghue@linaro.org>
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        John Stultz <john.stultz@linaro.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        ShuFan Lee <shufan_lee@richtek.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Yu Chen <chenyu56@huawei.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Jun Li <lijun.kernel@gmail.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        devicetree@vger.kernel.org
+Subject: [PATCH v3 11/19] usb: dwc3: Add support for usb-conn-gpio connectors
+Date:   Wed, 22 Jan 2020 18:56:02 +0000
+Message-Id: <20200122185610.131930-12-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200122185610.131930-1-bryan.odonoghue@linaro.org>
+References: <20200122185610.131930-1-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
@@ -70,122 +87,97 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-V1:
-This series enables the Primary and Secondary USB controllers on the
-QCS404, associated PHYs, role-switching and DTS descriptions.
+This patch adds the ability to probe and enumerate a connector based on
+usb-conn-gpio. A device node label gpio_usb_connector is used to identify
+a usb-conn-gpio as a child of the USB interface.
 
-The series takes in a number of patches worked on by a number of people
-over the past few years from downstream, through to previous upstream
-submissions for both of these interfaces. Additional work has been done to
-enable USB role-switching.
+You would use usb-conn-gpio when a regulator in your system provides VBUS
+directly to the connector instead of supplying via the USB PHY.
 
-1. USB SS
-   - extcon has been dropped in favour of gpio-usb-conn as discussed and
-     agreed previously by Jorge, Bjorn, Stephen Boyd and Jack Pham [1].
+The parent device must have the "usb-role-switch" property, so that when
+the usb-conn-gpio driver calls usb_role_switch_set_role() the notification
+in dwc3 will run and the block registers will be updated to match the state
+detected at the connector.
 
-   - Regulator API has been updated following suggestions from Bjorn.
-   
-   - Sanitzation of the DT compatible name - dropped "snps" entirely
-     from the name - it made almost no sense to me and doesn't appear
-     consistent with similar naming conventions for Snopsys based IP.
+Cc: John Stultz <john.stultz@linaro.org>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
+CC: ShuFan Lee <shufan_lee@richtek.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>
+Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc: Yu Chen <chenyu56@huawei.com>
+Cc: Felipe Balbi <balbi@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Jun Li <lijun.kernel@gmail.com>
+Cc: Valentin Schneider <valentin.schneider@arm.com>
+Cc: Jack Pham <jackp@codeaurora.org>
+Cc: linux-usb@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+ drivers/usb/dwc3/drd.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-2. USB HS
-   - Regulator API changes here.
-   - Dropped "snps" from the namespace for similar reasons as above.
-   - Dropped "28nm" from the namespace, looked superfluous.
-   - Changed "High-Speed" to "Hi-Speed".
-   - [2]
-
-3. DWC3 Role switching
-   - At the time usb-gpio-conn was discussed it was mentioned that
-     role-switching was absent from the DWC3 driver.
-   - John Stultz has some patches in-flight for that, that I've included in
-     this series for completeness.
-   - Adds my SoB to relevant patches.
-   - Drops gerrit ChangeId.
-
-4. DWC3 usb-gpio-conn
-   Needs to be a child node of the DWC3 driver so some code and DT binding
-   is required for that.
-
-5. QCOM-DWC3
-   Since we are role-switching with an external PMIC supplying VBUS we want
-   to skip past toggling VBUS from QCOM-DWC3 controlled registers, so a
-   patch is added to the qcom-dwc3 driver to do that.
-
-References:
-
-1: USB SS PHY for Qualcomm's QCS404
-https://lwn.net/ml/devicetree/20190207111734.24171-1-jorge.ramirez-ortiz@linaro.org/
-
-2: Add Synopsys High-Speed USB PHY driver for Qualcomm SoCs
-https://lore.kernel.org/linux-arm-msm/20181127100722.9993-3-shawn.guo@linaro.org/
-
-https://www.spinics.net/lists/linux-usb/msg190003.html
-
-V2:
-- Fixes yaml error - Rob's YAML robot
-- Exclusive control of reset in PHY drivers - Philipp Zabel
-
-V3:
-- Fixes typo generating YAML warning - Rob's YAML robot
-
-Bjorn Andersson (1):
-  arm64: dts: qcom: qcs404: Add USB devices and PHYs
-
-Bryan O'Donoghue (10):
-  dt-bindings: usb: dwc3: Add a gpio-usb-connector description
-  usb: dwc3: qcom: Override VBUS when using gpio_usb_connector
-  usb: dwc3: Add support for usb-conn-gpio connectors
-  arm64: dts: qcom: qcs404-evb: Define VBUS detect pin
-  arm64: dts: qcom: qcs404-evb: Define VBUS boost pin
-  arm64: dts: qcom: qcs404-evb: Define USB ID pin
-  arm64: dts: qcom: qcs404-evb: Describe external VBUS regulator
-  arm64: dts: qcom: qcs404-evb: Raise vreg_l12_3p3 minimum voltage
-  arm64: dts: qcom: qcs404-evb: Enable secondary USB controller
-  arm64: dts: qcom: qcs404-evb: Enable primary USB controller
-
-John Stultz (2):
-  dt-bindings: usb: generic: Add role-switch-default-mode binding
-  usb: dwc3: Add support for role-switch-default-mode binding
-
-Jorge Ramirez-Ortiz (3):
-  dt-bindings: phy: remove qcom-dwc3-usb-phy
-  dt-bindings: Add Qualcomm USB SuperSpeed PHY bindings
-  phy: qualcomm: usb: Add SuperSpeed PHY driver
-
-Shawn Guo (1):
-  phy: qualcomm: Add Synopsys Hi-Speed USB PHY driver
-
-Sriharsha Allenki (1):
-  dt-bindings: phy: Add Qualcomm Synopsys Hi-Speed USB PHY binding
-
-Yu Chen (1):
-  usb: dwc3: Registering a role switch in the DRD code.
-
- .../bindings/phy/intel,lgm-emmc-phy.yaml      |  56 ---
- .../bindings/phy/qcom,qcs404-usb-hs.yaml      |  77 ++++
- .../devicetree/bindings/phy/qcom,usb-ss.yaml  |  75 ++++
- .../bindings/phy/qcom-dwc3-usb-phy.txt        |  37 --
- .../devicetree/bindings/usb/dwc3.txt          |  11 +
- .../devicetree/bindings/usb/generic.txt       |   6 +
- arch/arm64/boot/dts/qcom/qcs404-evb.dtsi      |  90 +++-
- arch/arm64/boot/dts/qcom/qcs404.dtsi          | 100 +++++
- drivers/phy/qualcomm/Kconfig                  |  21 +
- drivers/phy/qualcomm/Makefile                 |   2 +
- drivers/phy/qualcomm/phy-qcom-qcs404-usb-hs.c | 415 ++++++++++++++++++
- drivers/phy/qualcomm/phy-qcom-usb-ss.c        | 246 +++++++++++
- drivers/usb/dwc3/core.h                       |   6 +
- drivers/usb/dwc3/drd.c                        | 123 +++++-
- drivers/usb/dwc3/dwc3-qcom.c                  |  17 +-
- 15 files changed, 1184 insertions(+), 98 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/phy/intel,lgm-emmc-phy.yaml
- create mode 100644 Documentation/devicetree/bindings/phy/qcom,qcs404-usb-hs.yaml
- create mode 100644 Documentation/devicetree/bindings/phy/qcom,usb-ss.yaml
- delete mode 100644 Documentation/devicetree/bindings/phy/qcom-dwc3-usb-phy.txt
- create mode 100644 drivers/phy/qualcomm/phy-qcom-qcs404-usb-hs.c
- create mode 100644 drivers/phy/qualcomm/phy-qcom-usb-ss.c
-
+diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
+index 865341facece..c6bb7cb809d5 100644
+--- a/drivers/usb/dwc3/drd.c
++++ b/drivers/usb/dwc3/drd.c
+@@ -11,6 +11,7 @@
+ #include <linux/of_graph.h>
+ #include <linux/platform_device.h>
+ #include <linux/property.h>
++#include <linux/of_platform.h>
+ 
+ #include "debug.h"
+ #include "core.h"
+@@ -557,9 +558,32 @@ static int dwc3_setup_role_switch(struct dwc3 *dwc)
+ 	dwc3_set_mode(dwc, mode);
+ 	return 0;
+ }
++
++static int dwc3_register_gpio_usb_connector(struct dwc3 *dwc)
++{
++	struct device		*dev = dwc->dev;
++	struct device_node	*np = dev->of_node, *con_np;
++	int			ret;
++
++	con_np = of_get_child_by_name(np, "gpio_usb_connector");
++	if (!np) {
++		dev_dbg(dev, "no usb_connector child node specified\n");
++		return 0;
++	}
++
++	ret = of_platform_populate(np, NULL, NULL, dev);
++	if (ret) {
++		dev_err(dev, "failed to register usb_connector - %d\n", ret);
++		return ret;
++	}
++
++	return 0;
++}
++
+ #else
+ #define ROLE_SWITCH 0
+ #define dwc3_setup_role_switch(x) 0
++#define dwc3_register_gpio_usb_connector(x) 0
+ #endif
+ 
+ int dwc3_drd_init(struct dwc3 *dwc)
+@@ -575,6 +599,9 @@ int dwc3_drd_init(struct dwc3 *dwc)
+ 		ret = dwc3_setup_role_switch(dwc);
+ 		if (ret < 0)
+ 			return ret;
++		ret = dwc3_register_gpio_usb_connector(dwc);
++		if (ret < 0)
++			return ret;
+ 	} else if (dwc->edev) {
+ 		dwc->edev_nb.notifier_call = dwc3_drd_notifier;
+ 		ret = extcon_register_notifier(dwc->edev, EXTCON_USB_HOST,
 -- 
 2.25.0
 
