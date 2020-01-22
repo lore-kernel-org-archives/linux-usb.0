@@ -6,35 +6,35 @@ X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D26CDC2D0CE
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 01:44:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6C38C2D0CE
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 01:44:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A3D2724676
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 01:44:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BA92824676
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 01:44:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729159AbgAVBnz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Jan 2020 20:43:55 -0500
-Received: from rtits2.realtek.com ([211.75.126.72]:56888 "EHLO
+        id S1726885AbgAVBoS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Jan 2020 20:44:18 -0500
+Received: from rtits2.realtek.com ([211.75.126.72]:56916 "EHLO
         rtits2.realtek.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728899AbgAVBnz (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Jan 2020 20:43:55 -0500
+        with ESMTP id S1729268AbgAVBoP (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Jan 2020 20:44:15 -0500
 Authenticated-By: 
-X-SpamFilter-By: BOX Solutions SpamTrap 5.62 with qID 00M1hjvP020137, This message is accepted by code: ctloc85258
+X-SpamFilter-By: BOX Solutions SpamTrap 5.62 with qID 00M1iBD6020222, This message is accepted by code: ctloc85258
 Received: from mail.realtek.com (RTITCASV02.realtek.com.tw[172.21.6.19])
-        by rtits2.realtek.com.tw (8.15.2/2.57/5.78) with ESMTPS id 00M1hjvP020137
+        by rtits2.realtek.com.tw (8.15.2/2.57/5.78) with ESMTPS id 00M1iBD6020222
         (version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Wed, 22 Jan 2020 09:43:47 +0800
+        Wed, 22 Jan 2020 09:44:12 +0800
 Received: from fc30.localdomain (172.21.177.138) by RTITCASV02.realtek.com.tw
  (172.21.6.19) with Microsoft SMTP Server id 14.3.468.0; Wed, 22 Jan 2020
- 09:43:10 +0800
+ 09:44:10 +0800
 From:   Hayes Wang <hayeswang@realtek.com>
 To:     <netdev@vger.kernel.org>
 CC:     <nic_swsd@realtek.com>, <linux-kernel@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <pmalani@chromium.org>,
         <grundler@chromium.org>, Hayes Wang <hayeswang@realtek.com>
-Subject: [PATCH net v2 6/9] r8152: disable test IO for RTL8153B
-Date:   Wed, 22 Jan 2020 09:41:18 +0800
-Message-ID: <1394712342-15778-354-Taiwan-albertk@realtek.com>
+Subject: [PATCH net v2 9/9] r8152: disable DelayPhyPwrChg
+Date:   Wed, 22 Jan 2020 09:41:21 +0800
+Message-ID: <1394712342-15778-357-Taiwan-albertk@realtek.com>
 X-Mailer: Microsoft Office Outlook 11
 In-Reply-To: <1394712342-15778-348-Taiwan-albertk@realtek.com>
 References: <1394712342-15778-338-Taiwan-albertk@realtek.com>
@@ -48,42 +48,56 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-For RTL8153B with QFN32, disable test IO. Otherwise, it may casue
-abnormal behavior for the device randomly.
+Enable DelayPhyPwrChg let the device fail enter the power saving mode
+of P3.
 
 Signed-off-by: Hayes Wang <hayeswang@realtek.com>
 ---
- drivers/net/usb/r8152.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/net/usb/r8152.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 1fb85c79bd33..7efeddad1fc8 100644
+index c037fc7adcea..3f425f974d03 100644
 --- a/drivers/net/usb/r8152.c
 +++ b/drivers/net/usb/r8152.c
-@@ -312,6 +312,7 @@
- /* PLA_PHY_PWR */
- #define TX_10M_IDLE_EN		0x0080
- #define PFM_PWM_SWITCH		0x0040
-+#define TEST_IO_OFF		BIT(4)
+@@ -31,7 +31,7 @@
+ #define NETNEXT_VERSION		"11"
  
- /* PLA_MAC_PWR_CTRL */
- #define D3_CLK_GATED_EN		0x00004000
-@@ -5538,6 +5539,15 @@ static void r8153b_init(struct r8152 *tp)
- 	ocp_data &= ~PLA_MCU_SPDWN_EN;
- 	ocp_write_word(tp, MCU_TYPE_PLA, PLA_MAC_PWR_CTRL3, ocp_data);
+ /* Information for net */
+-#define NET_VERSION		"10"
++#define NET_VERSION		"11"
  
-+	if (tp->version == RTL_VER_09) {
-+		/* Disable Test IO for 32QFN */
-+		if (ocp_read_byte(tp, MCU_TYPE_PLA, 0xdc00) & BIT(5)) {
-+			ocp_data = ocp_read_word(tp, MCU_TYPE_PLA, PLA_PHY_PWR);
-+			ocp_data |= TEST_IO_OFF;
-+			ocp_write_word(tp, MCU_TYPE_PLA, PLA_PHY_PWR, ocp_data);
-+		}
-+	}
+ #define DRIVER_VERSION		"v1." NETNEXT_VERSION "." NET_VERSION
+ #define DRIVER_AUTHOR "Realtek linux nic maintainers <nic_swsd@realtek.com>"
+@@ -109,6 +109,7 @@
+ #define PLA_BP_EN		0xfc38
+ 
+ #define USB_USB2PHY		0xb41e
++#define USB_SSPHYLINK1		0xb426
+ #define USB_SSPHYLINK2		0xb428
+ #define USB_U2P3_CTRL		0xb460
+ #define USB_CSR_DUMMY1		0xb464
+@@ -384,6 +385,9 @@
+ #define USB2PHY_SUSPEND		0x0001
+ #define USB2PHY_L1		0x0002
+ 
++/* USB_SSPHYLINK1 */
++#define DELAY_PHY_PWR_CHG	BIT(1)
 +
- 	set_bit(GREEN_ETHERNET, &tp->flags);
+ /* USB_SSPHYLINK2 */
+ #define pwd_dn_scale_mask	0x3ffe
+ #define pwd_dn_scale(x)		((x) << 1)
+@@ -4994,6 +4998,10 @@ static void rtl8153_up(struct r8152 *tp)
+ 	ocp_data &= ~LANWAKE_PIN;
+ 	ocp_write_byte(tp, MCU_TYPE_PLA, PLA_LWAKE_CTRL_REG, ocp_data);
  
- 	/* rx aggregation */
++	ocp_data = ocp_read_word(tp, MCU_TYPE_USB, USB_SSPHYLINK1);
++	ocp_data &= ~DELAY_PHY_PWR_CHG;
++	ocp_write_word(tp, MCU_TYPE_USB, USB_SSPHYLINK1, ocp_data);
++
+ 	r8153_aldps_en(tp, true);
+ 
+ 	switch (tp->version) {
 -- 
 2.21.0
 
