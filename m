@@ -7,56 +7,56 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACD3CC2D0DB
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 10:15:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27806C2D0DB
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 10:15:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 79A742467F
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 10:15:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F2F7324683
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 10:15:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579688154;
-	bh=bZys1UjnBjiUy5msrYP893NTWbpflJf7vyLAnBEC5UQ=;
+	s=default; t=1579688156;
+	bh=Yi8kGLqwUyfXJxXRhlUe5TyqWZUMK08ApcZxL6Pb40o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=IC8Jt1yxypo+nef0uRa09mk8AmVEEPpnwgYeD3irmOsWpqnuo5uKvvbK/TeT+ROjk
-	 PV28teNi4fKT+1jshk7fY54KbPOx/nWittyRX5ijXsqgmkwks3qsSJTrmKkJYnzl83
-	 PReH6uMMtyA0Z2UubrN7/YW8dYZDcA7H0k4RAJZM=
+	b=QJ+C6klPqDk2VIDd4HfBw7jORBM6TEQO1msQb//n34UQPjF6EebHRw+o8pOL2Yx1t
+	 dmn0N77xK66NX53HncnnfSy26NUG2GuBBGHBrthsQNDLKhNRJKJ7D1pJJPeNDTOgS7
+	 wcTHj391zy0cWAl2C0xMzdAm4nj1v8QjHm4RJJLk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729526AbgAVKPx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 Jan 2020 05:15:53 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:45410 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729281AbgAVKPx (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jan 2020 05:15:53 -0500
-Received: by mail-lf1-f66.google.com with SMTP id 203so4850219lfa.12;
-        Wed, 22 Jan 2020 02:15:51 -0800 (PST)
+        id S1729538AbgAVKPy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 Jan 2020 05:15:54 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:39418 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729384AbgAVKPy (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jan 2020 05:15:54 -0500
+Received: by mail-lj1-f193.google.com with SMTP id o11so5836781ljc.6;
+        Wed, 22 Jan 2020 02:15:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=nAGmP7/E0+dkjElTkN6jQ2jIYPfA3j8DC+gRpJkqbEM=;
-        b=RR9APJA9q+P+rvlxm+E9R/AvatjJnDSjytvr7OMpj5tKI2MvPxuQETkiPOIYU22kUt
-         f4ehalsXkf/+oHBO/LEW0Ce8r+wZR1I8/BIS47LX94L5xR0bxL5DGhVsI0SkehCCTrKz
-         QxC1F1TwriIvWOobk58q+CuEaNtEyugimLkFiyYvuDjLANlv34QiZAxcpl7tv3GEeK0g
-         pqI2tI7xh/p7iem9MCsPgBNeGmndqMp2n7NN0/cUYmbIuagN0l9WhGKQSQbzaup0OQZ3
-         5u5iKuvN32cOpin9A2loRwgoT6JoTPf54ja5rm0cMfNV79vvLSBT4XVLff4wEk+Brfow
-         kTfw==
-X-Gm-Message-State: APjAAAVgKqmJpXfYW/ujtcO+yJ84IoJ8CxZs2QlRAXgjadFfnNcKkiTu
-        28NGomJxaNn/CZsGgZ/Nx+w=
-X-Google-Smtp-Source: APXvYqx1ZBBPf872QGty4fVC30qLUgko5wXFyT5uPwtOwckYEcWVbOSAkTvlTWqQkroYybLE+tCUfQ==
-X-Received: by 2002:ac2:5e2e:: with SMTP id o14mr1399159lfg.198.1579688151084;
+        bh=Em19EzjWfRgzXWLNmqkC5wijvfl7V9/+QdnPlZcD7+s=;
+        b=Nm88Q1RzKjoLlZK4dZeMXSD7e7C3ULGZ0y8aFGZpWUDC8HVWYoH4JtNpyOQfwI1o6o
+         6Q7LPtR7teI3mgI5dN8UqkXnnPsomvFXA4EX1K+Ue87x1Oy9ZtJZDnmb2DuBZ0OWEAiK
+         rwlCvbNF+8r1lEvi6MfLvPMxLXAqGa+VQEHLcHReZHdOEcLukcuslCLUtSKwrlnwJVNY
+         5o561flgRZiFC2cUREvsfdlJp3VwrYN17wTuqa45v4tXliR4FsPfYTVfb1sg6eAnKIys
+         hpnKIviGGJcxJJEfoVGng78Vtz1Y8HKzkRqlHzQluDJsr++GI2bFON0ibJ8kDUo3zcil
+         TQMg==
+X-Gm-Message-State: APjAAAW/MotwdIKRCMzRZ/c811kkRjecyjJmb2Z0i2pqqzUPupMFyR21
+        saDDbaIXGaxwK3FEuY+Cf5ifi7Yi
+X-Google-Smtp-Source: APXvYqzyu1e0zzpVNUaebmYd/1OK53ZCTp1+35cmK3LfXrtiKhKPmg/RpfKEymswco7AM07cL8sskQ==
+X-Received: by 2002:a2e:8745:: with SMTP id q5mr17803846ljj.208.1579688151805;
         Wed, 22 Jan 2020 02:15:51 -0800 (PST)
 Received: from xi.terra (c-14b8e655.07-184-6d6c6d4.bbcust.telenor.se. [85.230.184.20])
-        by smtp.gmail.com with ESMTPSA id r15sm19988772ljh.11.2020.01.22.02.15.49
+        by smtp.gmail.com with ESMTPSA id 2sm20088114ljq.38.2020.01.22.02.15.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 22 Jan 2020 02:15:50 -0800 (PST)
 Received: from johan by xi.terra with local (Exim 4.92.3)
         (envelope-from <johan@xi.terra>)
-        id 1iuD34-0007bU-71; Wed, 22 Jan 2020 11:15:46 +0100
+        id 1iuD34-0007bf-Ca; Wed, 22 Jan 2020 11:15:46 +0100
 From:   Johan Hovold <johan@kernel.org>
 To:     Johan Hovold <johan@kernel.org>
 Cc:     linux-usb@vger.kernel.org, stable <stable@vger.kernel.org>
-Subject: [PATCH 1/5] USB: serial: ir-usb: add missing endpoint sanity check
-Date:   Wed, 22 Jan 2020 11:15:26 +0100
-Message-Id: <20200122101530.29176-2-johan@kernel.org>
+Subject: [PATCH 3/5] USB: serial: ir-usb: fix IrLAP framing
+Date:   Wed, 22 Jan 2020 11:15:28 +0100
+Message-Id: <20200122101530.29176-4-johan@kernel.org>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200122101530.29176-1-johan@kernel.org>
 References: <20200122101530.29176-1-johan@kernel.org>
@@ -67,36 +67,169 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Add missing endpoint sanity check to avoid dereferencing a NULL-pointer
-on open() in case a device lacks a bulk-out endpoint.
-
-Note that prior to commit f4a4cbb2047e ("USB: ir-usb: reimplement using
-generic framework") the oops would instead happen on open() if the
-device lacked a bulk-in endpoint and on write() if it lacked a bulk-out
-endpoint.
+Commit f4a4cbb2047e ("USB: ir-usb: reimplement using generic framework")
+switched to using the generic write implementation which may combine
+multiple write requests into larger transfers. This can break the IrLAP
+protocol where end-of-frame is determined using the USB short packet
+mechanism, for example, if multiple frames are sent in rapid succession.
 
 Fixes: f4a4cbb2047e ("USB: ir-usb: reimplement using generic framework")
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable <stable@vger.kernel.org>
+Cc: stable <stable@vger.kernel.org>     # 2.6.35
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/usb/serial/ir-usb.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/usb/serial/ir-usb.c | 113 +++++++++++++++++++++++++++++-------
+ 1 file changed, 91 insertions(+), 22 deletions(-)
 
 diff --git a/drivers/usb/serial/ir-usb.c b/drivers/usb/serial/ir-usb.c
-index 302eb9530859..c3b06fc5a7f0 100644
+index 26eab1307165..627bea7e6cfb 100644
 --- a/drivers/usb/serial/ir-usb.c
 +++ b/drivers/usb/serial/ir-usb.c
-@@ -195,6 +195,9 @@ static int ir_startup(struct usb_serial *serial)
- 	struct usb_irda_cs_descriptor *irda_desc;
- 	int rates;
+@@ -45,9 +45,10 @@ static int buffer_size;
+ static int xbof = -1;
  
-+	if (serial->num_bulk_in < 1 || serial->num_bulk_out < 1)
-+		return -ENODEV;
+ static int  ir_startup (struct usb_serial *serial);
+-static int  ir_open(struct tty_struct *tty, struct usb_serial_port *port);
+-static int ir_prepare_write_buffer(struct usb_serial_port *port,
+-						void *dest, size_t size);
++static int ir_write(struct tty_struct *tty, struct usb_serial_port *port,
++		const unsigned char *buf, int count);
++static int ir_write_room(struct tty_struct *tty);
++static void ir_write_bulk_callback(struct urb *urb);
+ static void ir_process_read_urb(struct urb *urb);
+ static void ir_set_termios(struct tty_struct *tty,
+ 		struct usb_serial_port *port, struct ktermios *old_termios);
+@@ -77,8 +78,9 @@ static struct usb_serial_driver ir_device = {
+ 	.num_ports		= 1,
+ 	.set_termios		= ir_set_termios,
+ 	.attach			= ir_startup,
+-	.open			= ir_open,
+-	.prepare_write_buffer	= ir_prepare_write_buffer,
++	.write			= ir_write,
++	.write_room		= ir_write_room,
++	.write_bulk_callback	= ir_write_bulk_callback,
+ 	.process_read_urb	= ir_process_read_urb,
+ };
+ 
+@@ -254,35 +256,102 @@ static int ir_startup(struct usb_serial *serial)
+ 	return 0;
+ }
+ 
+-static int ir_open(struct tty_struct *tty, struct usb_serial_port *port)
++static int ir_write(struct tty_struct *tty, struct usb_serial_port *port,
++		const unsigned char *buf, int count)
+ {
+-	int i;
++	struct urb *urb = NULL;
++	unsigned long flags;
++	int ret;
+ 
+-	for (i = 0; i < ARRAY_SIZE(port->write_urbs); ++i)
+-		port->write_urbs[i]->transfer_flags = URB_ZERO_PACKET;
++	if (port->bulk_out_size == 0)
++		return -EINVAL;
+ 
+-	/* Start reading from the device */
+-	return usb_serial_generic_open(tty, port);
+-}
++	if (count == 0)
++		return 0;
+ 
+-static int ir_prepare_write_buffer(struct usb_serial_port *port,
+-						void *dest, size_t size)
+-{
+-	unsigned char *buf = dest;
+-	int count;
++	count = min(count, port->bulk_out_size - 1);
 +
- 	irda_desc = irda_usb_find_class_desc(serial, 0);
- 	if (!irda_desc) {
- 		dev_err(&serial->dev->dev,
++	spin_lock_irqsave(&port->lock, flags);
++	if (__test_and_clear_bit(0, &port->write_urbs_free)) {
++		urb = port->write_urbs[0];
++		port->tx_bytes += count;
++	}
++	spin_unlock_irqrestore(&port->lock, flags);
++
++	if (!urb)
++		return 0;
+ 
+ 	/*
+ 	 * The first byte of the packet we send to the device contains an
+-	 * inbound header which indicates an additional number of BOFs and
++	 * outbound header which indicates an additional number of BOFs and
+ 	 * a baud rate change.
+ 	 *
+ 	 * See section 5.4.2.2 of the USB IrDA spec.
+ 	 */
+-	*buf = ir_xbof | ir_baud;
++	*(u8 *)urb->transfer_buffer = ir_xbof | ir_baud;
++
++	memcpy(urb->transfer_buffer + 1, buf, count);
++
++	urb->transfer_buffer_length = count + 1;
++	urb->transfer_flags = URB_ZERO_PACKET;
++
++	ret = usb_submit_urb(urb, GFP_ATOMIC);
++	if (ret) {
++		dev_err(&port->dev, "failed to submit write urb: %d\n", ret);
++
++		spin_lock_irqsave(&port->lock, flags);
++		__set_bit(0, &port->write_urbs_free);
++		port->tx_bytes -= count;
++		spin_unlock_irqrestore(&port->lock, flags);
++
++		return ret;
++	}
++
++	return count;
++}
++
++static void ir_write_bulk_callback(struct urb *urb)
++{
++	struct usb_serial_port *port = urb->context;
++	int status = urb->status;
++	unsigned long flags;
++
++	spin_lock_irqsave(&port->lock, flags);
++	__set_bit(0, &port->write_urbs_free);
++	port->tx_bytes -= urb->transfer_buffer_length - 1;
++	spin_unlock_irqrestore(&port->lock, flags);
++
++	switch (status) {
++	case 0:
++		break;
++	case -ENOENT:
++	case -ECONNRESET:
++	case -ESHUTDOWN:
++		dev_dbg(&port->dev, "write urb stopped: %d\n", status);
++		return;
++	case -EPIPE:
++		dev_err(&port->dev, "write urb stopped: %d\n", status);
++		return;
++	default:
++		dev_err(&port->dev, "nonzero write-urb status: %d\n", status);
++		break;
++	}
++
++	usb_serial_port_softint(port);
++}
++
++static int ir_write_room(struct tty_struct *tty)
++{
++	struct usb_serial_port *port = tty->driver_data;
++	int count = 0;
++
++	if (port->bulk_out_size == 0)
++		return 0;
++
++	if (test_bit(0, &port->write_urbs_free))
++		count = port->bulk_out_size - 1;
+ 
+-	count = kfifo_out_locked(&port->write_fifo, buf + 1, size - 1,
+-								&port->lock);
+-	return count + 1;
++	return count;
+ }
+ 
+ static void ir_process_read_urb(struct urb *urb)
 -- 
 2.24.1
 
