@@ -2,60 +2,58 @@ Return-Path: <SRS0=IeTI=3L=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B22E5C33CB6
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 22:26:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BFBDC33CAF
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 22:27:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 801B424676
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 22:26:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E97692465A
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 22:27:04 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="K0ohNbHM"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pOv4DwOm"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728853AbgAVW0y (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 Jan 2020 17:26:54 -0500
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:43764 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726061AbgAVW0x (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jan 2020 17:26:53 -0500
-Received: by mail-pf1-f193.google.com with SMTP id x6so495000pfo.10
-        for <linux-usb@vger.kernel.org>; Wed, 22 Jan 2020 14:26:53 -0800 (PST)
+        id S1726004AbgAVW0v (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 Jan 2020 17:26:51 -0500
+Received: from mail-pj1-f67.google.com ([209.85.216.67]:37574 "EHLO
+        mail-pj1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726054AbgAVW0v (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jan 2020 17:26:51 -0500
+Received: by mail-pj1-f67.google.com with SMTP id m13so226110pjb.2
+        for <linux-usb@vger.kernel.org>; Wed, 22 Jan 2020 14:26:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=swWbt3aJL3q8h4lz+/4twKGtWH3pxZbO2/WppH1VqRE=;
-        b=K0ohNbHMOAsVb4M6Ck8cIf3BM8XchMabhMit1TMM4M9rA7DOOGd/sgBcVKqk4Dkfyl
-         MzkiSn6mrkDn4Rzo4C7qixNHdL/CFF78glRDZyCApSy9ECeubN35sr+56Jowj5rwc1qX
-         P0nCx7C1QsIOrrIqxRuZIJCWeIkHckFcMN5GGbk1NVw9Y/JbCuMS4i3CzwgBPRDfpjcq
-         SBIyfImGz9ImHeT0LopgirqAnevkSzpfLi+UMd7UT0MkGdqNkR32HmrLKL2wP3KNBLbp
-         aDB8LJZb1z0/CHBTLZbYRBbK4qL9hHXMe7uTtYP/yX1g1i8LefORegdQRnX/eR1YsnR8
-         UbNA==
+        h=from:to:cc:subject:date:message-id;
+        bh=cxNVjgQGWzacnqlCZNmJQJkdYDIqlJE10RKfm1uE9mM=;
+        b=pOv4DwOm5vOgZ+PrlXxtrPOfWsAyaYxbfU0ipKfrLvdyaCWIZfNb3Tng6PIcTsdm0L
+         ptJZCs9pnIt/C29i4j2b84lpo9l50BBU61Ouw2z41al6f33wRE/NdYF2iVzvLlb/6xBZ
+         e/xmNQSI16yFl3/XernW55vcPqz8JpeiVTq4YKG9NOrD+4+pJOVyk3xoMA6jnIJwjKQi
+         4fs9zHCqRJAdjI2c5RirLb7u0ddIDol/VF//LhFEDDx4xDKLymEfbLlMjiDFaBI99kEV
+         pnIxClfbDRiNjxCEHchG1D9XUAl32oxJRBRlSd5OAx/ZLJUOQgaJYg1KXShxMTVer1kH
+         x8EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=swWbt3aJL3q8h4lz+/4twKGtWH3pxZbO2/WppH1VqRE=;
-        b=CwC5N7srpa0WKIyiVdUCA6DRbMrKbJdD4FAlA29pK0ypRM8R48WlNunvdjMY/EiiDz
-         KsJOssWEhGxDDXobfMyV2upnH3/apkiZ9b5Zx+bQHpxP+T3imhYTM+ptU4KggQdECqNH
-         D4NUnM3qSIrqQpRm1/oPl+udXPEWOhweC/XPY4TmkZlvzadN5h8IbIGjHd95aV0HqbrU
-         IjqHkv+6m6CZMQvMQfXHTVP70XhOALCDbGGbyz/LqqsNGcpxV4SQ2lJK5yrLEVB0qkMc
-         zrrmWnMuKpS0eFg0pBO0gAPCs4v6OjZqdKmqyDmdEjxczZjRek2Ja6Df86BqtCFWJsin
-         iO0w==
-X-Gm-Message-State: APjAAAWQt8zww5QlS8Klcyio7GCPeZS+U3LdyXiuwa0su6NR1f1KkjY6
-        FnZAVoLEFdpZsLKn2/QroD6O1A==
-X-Google-Smtp-Source: APXvYqxjWJnBDQWDLfs492qyC8m1YgOMNGISqY5eu6Q4wsVKzbqlsokkc0qtDmoQD/wqOD4EOckAOw==
-X-Received: by 2002:a62:3892:: with SMTP id f140mr4552209pfa.190.1579732012776;
-        Wed, 22 Jan 2020 14:26:52 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=cxNVjgQGWzacnqlCZNmJQJkdYDIqlJE10RKfm1uE9mM=;
+        b=jS3ATWGUxUeOAn6P7zAtC6Way+SQCl6xT1u/acP4vJ45l0Nw5jLElHFUcgcJooZaca
+         GxJhGdI3l9iGtzAJE48iLeSUtH/mo/efPXyiO71GuG4DtqKXOSJ8JufFJ3vpgmyxal2z
+         6AZOiDqFUG79MjDGx1gxZui1/NdypUIXYeE7hq8frANdWvHUntf55dScD03URt8861Y8
+         MhvNdAxUyiSE67keKbtCVtX6qwGJPxFBYmPmmK20euQFYqVlQldjFKbo7gN4Xg80Q7JF
+         LkBOMg8p6OigPZH1yIQ8cjZ6fAdZgZcqcEmb0KpmC9OS7xz2mKwOR9GGRMaiBqdQLPoq
+         bN8w==
+X-Gm-Message-State: APjAAAUHwZT/jP3Kl2y3WUHdSfdieL4tuph+oMsRITI8Mu+h/EaWHEjE
+        fobhVAsJ/cqD7qdy/M0tpPiL2g==
+X-Google-Smtp-Source: APXvYqwTOHRjwf4d8GAH3/wqyQXJ/KEyA6qmWmh3w2qWEbuYZc+PmC1vhzKke3graUr1g49XLUJdlw==
+X-Received: by 2002:a17:90a:d0c5:: with SMTP id y5mr808414pjw.126.1579732010599;
+        Wed, 22 Jan 2020 14:26:50 -0800 (PST)
 Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
-        by smtp.gmail.com with ESMTPSA id a28sm47793509pfh.119.2020.01.22.14.26.51
+        by smtp.gmail.com with ESMTPSA id a28sm47793509pfh.119.2020.01.22.14.26.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jan 2020 14:26:52 -0800 (PST)
+        Wed, 22 Jan 2020 14:26:50 -0800 (PST)
 From:   John Stultz <john.stultz@linaro.org>
 To:     lkml <linux-kernel@vger.kernel.org>
-Cc:     Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>,
+Cc:     John Stultz <john.stultz@linaro.org>,
         Felipe Balbi <felipe.balbi@linux.intel.com>,
         Yang Fei <fei.yang@intel.com>,
         Thinh Nguyen <thinhn@synopsys.com>,
@@ -64,87 +62,59 @@ Cc:     Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>,
         Jack Pham <jackp@codeaurora.org>, Todd Kjos <tkjos@google.com>,
         Greg KH <gregkh@linuxfoundation.org>,
         Linux USB List <linux-usb@vger.kernel.org>,
-        stable <stable@vger.kernel.org>,
-        John Stultz <john.stultz@linaro.org>
-Subject: [RFC][PATCH 2/2] usb: dwc3: gadget: Correct the logic for finding last SG entry
-Date:   Wed, 22 Jan 2020 22:26:45 +0000
-Message-Id: <20200122222645.38805-3-john.stultz@linaro.org>
+        stable <stable@vger.kernel.org>
+Subject: [RFC][PATCH 0/2] Avoiding DWC3 transfer stalls/hangs when using adb over f_fs
+Date:   Wed, 22 Jan 2020 22:26:43 +0000
+Message-Id: <20200122222645.38805-1-john.stultz@linaro.org>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200122222645.38805-1-john.stultz@linaro.org>
-References: <20200122222645.38805-1-john.stultz@linaro.org>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
+Hey all,
+  I wanted to send these out for comment and thoughts.
 
-As a process of preparing TRBs usb_gadget_map_request_by_dev() is
-called from dwc3_prepare_trbs() for mapping the request. This will
-call dma_map_sg() if req->num_sgs are greater than 0. dma_map_sg()
-will map the sg entries in sglist and return the number of mapped SGs.
-As a part of mapping, some sg entries having contigous memory may be
-merged together into a single sg (when IOMMU used). So, the number of
-mapped sg entries may not be equal to the number of orginal sg entries
-in the request (req->num_sgs).
+Since ~4.20, when the functionfs gadget enabled scatter-gather
+support, we have seen problems with adb connections stalling and
+stopping to function on hardware with dwc3 usb controllers.
+Specifically, HiKey960, Dragonboard 845c, and Pixel3 devices.
 
-As a part of preparing the TRBs, dwc3_prepare_one_trb_sg() iterates over
-the sg entries present in the sglist and calls sg_is_last() to identify
-whether the sg entry is last and set IOC bit for the last sg entry. The
-sg_is_last() determines last sg if SG_END is set in sg->page_link. When
-IOMMU used, dma_map_sg() merges 2 or more sgs into a single sg and it
-doesn't retain the page_link properties. Because of this reason the
-sg_is_last() may not find SG_END and thus resulting in IOC bit never
-getting set.
+Initally the workaround we used was to simply disable scatter
+gather support on the dwc3 by commenting out the
+"dwc->gadget.sg_supported = true;" line.
 
-For example:
+After working with Fei Yang, who was seeing similar trouble on
+Intel dwc3 based hardare, Thinh Nguyen mentioned that a fix had
+already been found and pointed me to one of Anurag's patches.
 
-Consider a request having 8 sg entries with each entry having a length of
-4096 bytes. Assume that sg1 & sg2, sg3 & sg4, sg5 & sg6, sg7 & sg8 are
-having contigous memory regions.
+This solved the issue on HiKey960 and I sent it out to the list
+but didn't get any feedback.
 
-Before calling dma_map_sg():
-            sg1-->sg2-->sg3-->sg4-->sg6-->sg7-->sg8
-dma_length: 4K    4K    4K    4K    4K    4K    4K
-SG_END:     False False False False False False True
-num_sgs = 8
-num_mapped_sgs = 0
+Additional testing with the Dragonboard 845c found that that
+first fix was not sufficient, and so I've sat on the fix
+thinking something deeper was amiss and went back to the hack
+of disabling sg_supported on all dwc3 platforms. 
 
-The dma_map_sg() merges sg1 & sg2 memory regions into sg1->dma_address.
-Similarly sg3 & sg4 into sg2->dma_address, sg5 & sg6 into the
-sg3->dma_address and sg6 & sg8 into sg4->dma_address. Here the memory
-regions are merged but the page_link properties like SG_END are not
-retained into the merged sgs.
+In the following months Fei's continued and repeated efforts
+didn't seem to get enough review to result in a fix, and they've
+since moved on to other work.
 
-After calling dma_map_sg();
-            sg1-->sg2-->sg3-->sg4-->sg6-->sg7-->sg8
-dma_length: 8K    8K    8K    8K    0K    0K     0K
-SG_END:     False False False False False False True
-num_sgs = 8
-num_mapped_sgs = 4
+Recently, I found that folks at qcom have seen similer issues
+and pointed me to the second patch in this series, which does
+seem to resolve the issue on the Dragonboard 845c, but not the
+HiKey960 on its own.
 
-After calling dma_map_sg(), sg1,sg2,sg3,sg4 are having dma_length of
-8096 bytes each and remaining sg4,sg5,sg6,sg7 are having 0 bytes of
-dma_length.
+So I wanted to send these patches out for comment. There's
+clearly a number of folks seeing broken behavior for ahwile on
+dwc3 hardware, and we're all seeemingly working around it in our
+own ways, so either those individual fixes need to get upstream
+or we need to figure out some deeper solution to the issue.
 
-After dma_map_sg() is performed dma_perpare_trb_sg() iterates on all sg
-entries and sets IOC bit only for the sg8 (since sg_is_last() returns true
-only for sg8). But after calling dma_map_sg() the valid data are present
-only till sg4 and the IOC bit should be set for sg4 TRB only (which is not
-happening in the present code)
+So I wanted to send these two out for review and feedback.
 
-The above mentioned issue can be fixed by determining last sg based on the
-req->num_queued_sgs instead of sg_is_last(). If (req->num_queued_sgs + 1)
-is equal to req->num_mapped_sgs, then this sg is the last sg. In the above
-example, the dwc3 driver has already queued 3 sgs (upto sg3), so the
-num_queued_sgs = 3. On preparing the next sg (i.e sg4), check for last sg
-(num_queued_sgs + 1) == num_mapped_sgs becomes true. So, the driver sets
-IOC bit for sg4. This patch does the same.
-
-At a practical level, this patch resolves USB transfer stalls
-seen with adb on dwc3 based db845c, pixel3 and other qcom
-hardware after functionfs gadget added scatter-gather support
-around v4.20.
+thanks
+-john
 
 Cc: Felipe Balbi <felipe.balbi@linux.intel.com>
 Cc: Yang Fei <fei.yang@intel.com>
@@ -156,26 +126,15 @@ Cc: Todd Kjos <tkjos@google.com>
 Cc: Greg KH <gregkh@linuxfoundation.org>
 Cc: Linux USB List <linux-usb@vger.kernel.org>
 Cc: stable <stable@vger.kernel.org>
-Signed-off-by: Anurag Kumar Vulisha <anurag.kumar.vulisha@xilinx.com>
-[jstultz: Add note to end of commit message on specific issue this resovles]
-Signed-off-by: John Stultz <john.stultz@linaro.org>
----
- drivers/usb/dwc3/gadget.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 1edce3bbb55c..30a80bc97cfe 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -1068,7 +1068,7 @@ static void dwc3_prepare_one_trb_sg(struct dwc3_ep *dep,
- 		unsigned int rem = length % maxp;
- 		unsigned chain = true;
- 
--		if (sg_is_last(s))
-+		if ((req->num_queued_sgs + 1) == req->request.num_mapped_sgs)
- 			chain = false;
- 
- 		if (rem && usb_endpoint_dir_out(dep->endpoint.desc) && !chain) {
+Anurag Kumar Vulisha (2):
+  usb: dwc3: gadget: Check for IOC/LST bit in both event->status and
+    TRB->ctrl fields
+  usb: dwc3: gadget: Correct the logic for finding last SG entry
+
+ drivers/usb/dwc3/gadget.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
 -- 
 2.17.1
 
