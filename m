@@ -1,212 +1,119 @@
-Return-Path: <SRS0=yvN3=3K=vger.kernel.org=linux-usb-owner@kernel.org>
+Return-Path: <SRS0=IeTI=3L=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.6 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E29ADC2D0CE
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Jan 2020 23:16:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA633C33CAA
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 01:41:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B8A0224655
-	for <linux-usb@archiver.kernel.org>; Tue, 21 Jan 2020 23:16:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579648578;
-	bh=ayi0AQkHboqVmNH7AQabmgfP8IUvSerrd/s8Dg6irxY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=J98pbhcMxlcxYwSFfDXtWfQE2CcuNQ4/yoEPlvtUPZcHjW1HHpXQoDjZklNDvjL/e
-	 jprvG7vJ1endta/6vxoXTbd3C8dvMlvCuKuicDstnczwxNpjVzQoppNQw09aAWhcNx
-	 7l5MbGRDfZI+Bj7tE4uAusju90T/qh+kafIo5eHI=
+	by mail.kernel.org (Postfix) with ESMTP id 95ADC24673
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 01:41:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726729AbgAUXQO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Jan 2020 18:16:14 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:38780 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725933AbgAUXQO (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Jan 2020 18:16:14 -0500
-Received: by mail-ot1-f68.google.com with SMTP id z9so4616672oth.5;
-        Tue, 21 Jan 2020 15:16:13 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=/onuDQImRyHyeU+wg0RFJ08EsMO/XYMDEqGXXxAGX/0=;
-        b=HJxAsjy0AgIAYJKRPoKyRiz9QTJqm+jX7vWKnFqkTzekhjLSAEsu0N/aK9t8nMjuxe
-         jgyzcjxFw8uZDaQyynFG4H/8b7MkFal561CmRJxLF645yGkgYPSIdvkb3xEvW7mo2ORC
-         Iol7yMt1mIs7XRxvMx2FabtejDyqrZgxcirnQh7y0BrJo2/nZYlD1S9YNWSMd4xAdDLH
-         dmwggtX0yIStHzvb91iTdEo9ZF6iNsdLMmI6lvwrdteuB6Kw9pu4oBJlZno4DpYxgLWA
-         3y6spyil3ChjtqQ1W+4TsbF4gurZ3UoE8RYZ+ItkBDG2jKeGBcZyEiHfeiuGTTKxtRYQ
-         8/Bg==
-X-Gm-Message-State: APjAAAV3S6h9PLpPSiWmlhzG8etOEAotHOYJdxF9mXeluLQBIGRqC4jk
-        /gYEzx1LrcabZ/2UusRTVg==
-X-Google-Smtp-Source: APXvYqxOlNxNPRDh0FtKVnyQTJJgPAUPOTjgcHJlh3jVqJyPvy6CPuylJEEv98kBW1xxBPmh2ODgOA==
-X-Received: by 2002:a05:6830:1442:: with SMTP id w2mr5512997otp.143.1579648573545;
-        Tue, 21 Jan 2020 15:16:13 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id r23sm12462343oij.38.2020.01.21.15.16.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jan 2020 15:16:12 -0800 (PST)
-Received: (nullmailer pid 21706 invoked by uid 1000);
-        Tue, 21 Jan 2020 23:16:11 -0000
-Date:   Tue, 21 Jan 2020 17:16:11 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Paul Cercueil <paul@crapouillou.net>
-Cc:     Bin Liu <b-liu@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Rutland <mark.rutland@arm.com>, od@zcrc.me,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] dt-bindings: usb: Convert jz4740-musb doc to YAML
-Message-ID: <20200121231611.GA19164@bogus>
-References: <20200115220008.91445-1-paul@crapouillou.net>
- <20200115220008.91445-2-paul@crapouillou.net>
+        id S1729049AbgAVBly (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Jan 2020 20:41:54 -0500
+Received: from rtits2.realtek.com ([211.75.126.72]:56777 "EHLO
+        rtits2.realtek.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728816AbgAVBly (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Jan 2020 20:41:54 -0500
+Authenticated-By: 
+X-SpamFilter-By: BOX Solutions SpamTrap 5.62 with qID 00M1fnsf019833, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (RTITCASV02.realtek.com.tw[172.21.6.19])
+        by rtits2.realtek.com.tw (8.15.2/2.57/5.78) with ESMTPS id 00M1fnsf019833
+        (version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
+        Wed, 22 Jan 2020 09:41:51 +0800
+Received: from fc30.localdomain (172.21.177.138) by RTITCASV02.realtek.com.tw
+ (172.21.6.19) with Microsoft SMTP Server id 14.3.468.0; Wed, 22 Jan 2020
+ 09:41:47 +0800
+From:   Hayes Wang <hayeswang@realtek.com>
+To:     <netdev@vger.kernel.org>
+CC:     <nic_swsd@realtek.com>, <linux-kernel@vger.kernel.org>,
+        <linux-usb@vger.kernel.org>, <pmalani@chromium.org>,
+        <grundler@chromium.org>, Hayes Wang <hayeswang@realtek.com>
+Subject: [PATCH net v2 1/9] r8152: fix runtime resume for linking change
+Date:   Wed, 22 Jan 2020 09:41:13 +0800
+Message-ID: <1394712342-15778-349-Taiwan-albertk@realtek.com>
+X-Mailer: Microsoft Office Outlook 11
+In-Reply-To: <1394712342-15778-348-Taiwan-albertk@realtek.com>
+References: <1394712342-15778-338-Taiwan-albertk@realtek.com>
+ <1394712342-15778-348-Taiwan-albertk@realtek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200115220008.91445-2-paul@crapouillou.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [172.21.177.138]
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Wed, Jan 15, 2020 at 07:00:04PM -0300, Paul Cercueil wrote:
-> Convert ingenic,jz4740-musb.txt to ingenic,musb.yaml, and add the
-> new ingenic,jz4770-musb compatible string in the process.
-> 
-> Signed-off-by: Paul Cercueil <paul@crapouillou.net>
-> ---
->  .../bindings/usb/ingenic,jz4740-musb.txt      | 32 ---------
->  .../devicetree/bindings/usb/ingenic,musb.yaml | 72 +++++++++++++++++++
->  2 files changed, 72 insertions(+), 32 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/usb/ingenic,jz4740-musb.txt
->  create mode 100644 Documentation/devicetree/bindings/usb/ingenic,musb.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/ingenic,jz4740-musb.txt b/Documentation/devicetree/bindings/usb/ingenic,jz4740-musb.txt
-> deleted file mode 100644
-> index 16808721f3ff..000000000000
-> --- a/Documentation/devicetree/bindings/usb/ingenic,jz4740-musb.txt
-> +++ /dev/null
-> @@ -1,32 +0,0 @@
-> -Ingenic JZ4740 MUSB driver
-> -
-> -Required properties:
-> -
-> -- compatible: Must be "ingenic,jz4740-musb"
-> -- reg: Address range of the UDC register set
-> -- interrupts: IRQ number related to the UDC hardware
-> -- interrupt-names: must be "mc"
-> -- clocks: phandle to the "udc" clock
-> -- clock-names: must be "udc"
-> -- phys: phandle to the USB PHY
-> -
-> -Example:
-> -
-> -usb_phy: usb-phy@0 {
-> -	compatible = "usb-nop-xceiv";
-> -	#phy-cells = <0>;
-> -};
-> -
-> -udc: usb@13040000 {
-> -	compatible = "ingenic,jz4740-musb";
-> -	reg = <0x13040000 0x10000>;
-> -
-> -	interrupt-parent = <&intc>;
-> -	interrupts = <24>;
-> -	interrupt-names = "mc";
-> -
-> -	clocks = <&cgu JZ4740_CLK_UDC>;
-> -	clock-names = "udc";
-> -
-> -	phys = <&usb_phy>;
-> -};
-> diff --git a/Documentation/devicetree/bindings/usb/ingenic,musb.yaml b/Documentation/devicetree/bindings/usb/ingenic,musb.yaml
-> new file mode 100644
-> index 000000000000..f8902ee83e56
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/ingenic,musb.yaml
-> @@ -0,0 +1,72 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/usb/ingenic,musb.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Ingenic JZ47xx USB IP DT bindings
-> +
-> +maintainers:
-> +  - Paul Cercueil <paul@crapouillou.net>
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: '^usb@.*'
-> +
-> +  compatible:
-> +    oneOf:
-> +      - const: ingenic,jz4770-musb
-> +      - const: ingenic,jz4740-musb
+Fix the runtime resume doesn't work normally for linking change.
 
-'enum' is preferred over a oneOf + const.
+1. Reset the settings and status of runtime suspend.
+2. Sync the linking status.
+3. Poll the linking change.
 
-Otherwise,
+Signed-off-by: Hayes Wang <hayeswang@realtek.com>
+---
+ drivers/net/usb/r8152.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index 031cb8fff909..115559707683 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -365,8 +365,10 @@
+ #define DEBUG_LTSSM		0x0082
+ 
+ /* PLA_EXTRA_STATUS */
++#define CUR_LINK_OK		BIT(15)
+ #define U3P3_CHECK_EN		BIT(7)	/* RTL_VER_05 only */
+ #define LINK_CHANGE_FLAG	BIT(8)
++#define POLL_LINK_CHG		BIT(0)
+ 
+ /* USB_USB2PHY */
+ #define USB2PHY_SUSPEND		0x0001
+@@ -5387,6 +5389,16 @@ static void r8153_init(struct r8152 *tp)
+ 		else
+ 			ocp_data |= DYNAMIC_BURST;
+ 		ocp_write_byte(tp, MCU_TYPE_USB, USB_CSR_DUMMY1, ocp_data);
++
++		r8153_queue_wake(tp, false);
++
++		ocp_data = ocp_read_word(tp, MCU_TYPE_PLA, PLA_EXTRA_STATUS);
++		if (rtl8152_get_speed(tp) & LINK_STATUS)
++			ocp_data |= CUR_LINK_OK;
++		else
++			ocp_data &= ~CUR_LINK_OK;
++		ocp_data |= POLL_LINK_CHG;
++		ocp_write_word(tp, MCU_TYPE_PLA, PLA_EXTRA_STATUS, ocp_data);
+ 	}
+ 
+ 	ocp_data = ocp_read_byte(tp, MCU_TYPE_USB, USB_CSR_DUMMY2);
+@@ -5416,6 +5428,7 @@ static void r8153_init(struct r8152 *tp)
+ 	ocp_write_word(tp, MCU_TYPE_USB, USB_CONNECT_TIMER, 0x0001);
+ 
+ 	r8153_power_cut_en(tp, false);
++	rtl_runtime_suspend_enable(tp, false);
+ 	r8153_u1u2en(tp, true);
+ 	r8153_mac_clk_spd(tp, false);
+ 	usb_enable_lpm(tp->udev);
+@@ -5484,6 +5497,14 @@ static void r8153b_init(struct r8152 *tp)
+ 	r8153b_ups_en(tp, false);
+ 	r8153_queue_wake(tp, false);
+ 	rtl_runtime_suspend_enable(tp, false);
++
++	ocp_data = ocp_read_word(tp, MCU_TYPE_PLA, PLA_EXTRA_STATUS);
++	if (rtl8152_get_speed(tp) & LINK_STATUS)
++		ocp_data |= CUR_LINK_OK;
++	else
++		ocp_data &= ~CUR_LINK_OK;
++	ocp_data |= POLL_LINK_CHG;
++	ocp_write_word(tp, MCU_TYPE_PLA, PLA_EXTRA_STATUS, ocp_data);
+ 	r8153b_u1u2en(tp, true);
+ 	usb_enable_lpm(tp->udev);
+ 
+-- 
+2.21.0
 
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    items:
-> +      - const: udc
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: mc
-> +
-> +  phys:
-> +    description: PHY specifier for the USB PHY
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +  - interrupt-names
-> +  - phys
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/jz4740-cgu.h>
-> +    usb_phy: usb-phy@0 {
-> +      compatible = "usb-nop-xceiv";
-> +      #phy-cells = <0>;
-> +    };
-> +
-> +    udc: usb@13040000 {
-> +      compatible = "ingenic,jz4740-musb";
-> +      reg = <0x13040000 0x10000>;
-> +
-> +      interrupt-parent = <&intc>;
-> +      interrupts = <24>;
-> +      interrupt-names = "mc";
-> +
-> +      clocks = <&cgu JZ4740_CLK_UDC>;
-> +      clock-names = "udc";
-> +
-> +      phys = <&usb_phy>;
-> +    };
-> -- 
-> 2.24.1
-> 
