@@ -2,134 +2,169 @@ Return-Path: <SRS0=IeTI=3L=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02E58C2D0DB
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 18:57:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51279C33CAF
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 19:31:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D560621835
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 18:57:57 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pRG9LBmd"
+	by mail.kernel.org (Postfix) with ESMTP id 2C4E520704
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 19:31:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728205AbgAVS4Q (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 22 Jan 2020 13:56:16 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:39477 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726621AbgAVS4Q (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jan 2020 13:56:16 -0500
-Received: by mail-wm1-f68.google.com with SMTP id 20so185394wmj.4
-        for <linux-usb@vger.kernel.org>; Wed, 22 Jan 2020 10:56:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=qsI/xaPXMqNdKm9K1igbwkE2PA4fRpWtUntr4tiEc9c=;
-        b=pRG9LBmdA77QlahXYh5Nus9tfRpUo5AFbdSWsL+0XT3QJab1WATu+dxyKUmFctjySd
-         cCVa6wsti27lRJxiioGev4IaUCPVhT+SayO6oRbsS3fiZ9PG8eRVpQYhLhGFA+2d26CR
-         9OkSiazpoxuBtrrdZdCqh4WXsrmLo/baSXWwLhI0pXU2F0kwnJCQDRlvrT8a/ChIZgot
-         KzzkbFTtuJlb/UPUa1jElGVzZUy4+YS1zMnqaZMzBTrCJcIF6YJKLvWwHr6Owl2YvX8K
-         WYf+7CVoqub8kXXef4++H/qZzFF+5BWVCyZlYRdEzqOs61AcuNSeb8pOAJrPtGqufF5e
-         97Pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=qsI/xaPXMqNdKm9K1igbwkE2PA4fRpWtUntr4tiEc9c=;
-        b=jOTIZF3c8P0YBkd/OD4pGK5hrBU7mXc788QaptzUW1N8ftsxWoxqCyk1HGQ1DZfM6B
-         cZYYODcC7APZiJypGwKMQJpEb3LqiHyyI9LyeoavKvI51fnZWsxfoVFR0dSej5tLVGqD
-         YJ4+aU40uP0XU0f/skTsCGgHvtgzkDl3tTEe+nKzCbVKqAWhMFV23cBjewOb9PQ6r6cF
-         Vr/eYHKwxhWyTD1My3SvmEvq6dSerjMYud7SvpU85PHqA/2niZlLPCXRP+FYTGaaFQj8
-         CZkyfmevUKIFsEi46PLWexYeLBj0ZADS3p3ENqPbidtRIWH/NO0/M6HECVkVYlBZtCF5
-         wQaQ==
-X-Gm-Message-State: APjAAAXfg6e9JUM4Svc1rYvgGDhI8dNa/r94KcSXhxX/bnD74Pnv1rfp
-        LJHQ4D4UMN4jNtDThXgAfotLDg==
-X-Google-Smtp-Source: APXvYqz0IDlDRIP7S8I1GgGAZ46OxkvhlJ5Sti9+qcfPPbVXc+gCXCq1gA5S77046vns0gcYtT/wSw==
-X-Received: by 2002:a7b:cfc2:: with SMTP id f2mr4211199wmm.44.1579719374319;
-        Wed, 22 Jan 2020 10:56:14 -0800 (PST)
-Received: from localhost.localdomain ([176.61.57.127])
-        by smtp.gmail.com with ESMTPSA id q15sm58590390wrr.11.2020.01.22.10.56.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jan 2020 10:56:13 -0800 (PST)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        gregkh@linuxfoundation.org, jackp@codeaurora.org, balbi@kernel.org,
-        bjorn.andersson@linaro.org
-Cc:     linux-kernel@vger.kernel.org,
-        Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>,
-        Jorge Ramirez-Ortiz <jorge.ramirez.ortiz@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH v3 01/19] dt-bindings: phy: remove qcom-dwc3-usb-phy
-Date:   Wed, 22 Jan 2020 18:55:52 +0000
-Message-Id: <20200122185610.131930-2-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200122185610.131930-1-bryan.odonoghue@linaro.org>
-References: <20200122185610.131930-1-bryan.odonoghue@linaro.org>
+        id S1728760AbgAVTba (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 22 Jan 2020 14:31:30 -0500
+Received: from iolanthe.rowland.org ([192.131.102.54]:39198 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1725827AbgAVTba (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 22 Jan 2020 14:31:30 -0500
+Received: (qmail 4435 invoked by uid 2102); 22 Jan 2020 14:31:29 -0500
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 22 Jan 2020 14:31:29 -0500
+Date:   Wed, 22 Jan 2020 14:31:29 -0500 (EST)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Paul Zimmerman <pauldzim@gmail.com>
+cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Heinzelmann <heinzelmann.david@gmail.com>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>
+Subject: Re: [REGRESSION][BISECTED] 5.5-rc suspend/resume failure caused by
+ patch a4f55d8b8c14 ("usb: hub: Check device descriptor before resusciation")
+In-Reply-To: <20200121193131.070a28bf@EliteBook>
+Message-ID: <Pine.LNX.4.44L0.2001221249190.1636-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>
+On Tue, 21 Jan 2020, Paul Zimmerman wrote:
 
-This binding is not used by any driver.
+> On Mon, 20 Jan 2020 13:52:15 -0700 Paul Zimmerman <pauldzim@gmail.com> wrote:
+> 
+> > On Mon, 20 Jan 2020 10:23:11 -0500 (EST) Alan Stern <stern@rowland.harvard.edu> wrote:
+> >   
+> > > On Sun, 19 Jan 2020, Paul Zimmerman wrote:
+> > >     
+> > > > I reported this regression last week (see
+> > > > https://lore.kernel.org/linux-usb/20200115153714.03d5b3aa@EliteBook/T/#u)
+> > > > but I got no response to my email. Today I have retested with
+> > > > 5.5-rc7 and verified that the problem still exists. So I am
+> > > > resending with a different subject line to see if anyone responds.
+> > > > 
+> > > > The $subject patch causes a regression on my HP EliteBook laptop
+> > > > with a built-in USB bluetooth adapter. About 50% of the time, a
+> > > > suspend/resume cycle will cause the bluetooth adapter to stop
+> > > > working.
+> > > > 
+> > > > The dmesg log below shows two suspend/resume cycles. At time
+> > > > 63.928 you can see the bluetooth adapter being successfully
+> > > > resumed, and at time 140.969 you can see it fail. After reverting
+> > > > the patch, the bluetooth adapter resumes 100% of the time.
+> > > > 
+> > > > I also included below a lsusb -v of the bluetooth adapter. Is
+> > > > there any other debugging info you'd like me to send?      
+> > > 
+> > > It looks like your dmesg log was made without enabling debugging 
+> > > messages in usbcore.  Can you collect another log with debugging 
+> > > messages turned on?
+> > > 
+> > > 	echo 'module usbcore =p'    
+> > > >/sys/kernel/debug/dynamic_debug/control    
+> > > 
+> > > Also, it might not hurt to collect and post a usbmon trace for a bad
+> > > suspend-resume cycle.    
+> > 
+> > Hi Alan,
+> > 
+> > Thanks for responding. The new dmesg log and the usbmon trace are
+> > below. The dmesg shows a good suspend/resume followed by a bad one.
+> > The bluetooth device is usb 2-3.2 I believe. The usbmon trace is only
+> > for the failed suspend/resume case.  
 
-Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>
-Cc: Jorge Ramirez-Ortiz <jorge.ramirez.ortiz@gmail.com>
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- .../bindings/phy/qcom-dwc3-usb-phy.txt        | 37 -------------------
- 1 file changed, 37 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/phy/qcom-dwc3-usb-phy.txt
+It might be interesting to have a usbmon trace of a successful resume 
+as well, for comparison.  However I suspect it would just show that 
+the new Get-Device-Descriptor request worked and everything else 
+continued on normally.
 
-diff --git a/Documentation/devicetree/bindings/phy/qcom-dwc3-usb-phy.txt b/Documentation/devicetree/bindings/phy/qcom-dwc3-usb-phy.txt
-deleted file mode 100644
-index a1697c27aecd..000000000000
---- a/Documentation/devicetree/bindings/phy/qcom-dwc3-usb-phy.txt
-+++ /dev/null
-@@ -1,37 +0,0 @@
--Qualcomm DWC3 HS AND SS PHY CONTROLLER
----------------------------------------
--
--DWC3 PHY nodes are defined to describe on-chip Synopsis Physical layer
--controllers.  Each DWC3 PHY controller should have its own node.
--
--Required properties:
--- compatible: should contain one of the following:
--	- "qcom,dwc3-hs-usb-phy" for High Speed Synopsis PHY controller
--	- "qcom,dwc3-ss-usb-phy" for Super Speed Synopsis PHY controller
--- reg: offset and length of the DWC3 PHY controller register set
--- #phy-cells: must be zero
--- clocks: a list of phandles and clock-specifier pairs, one for each entry in
--  clock-names.
--- clock-names: Should contain "ref" for the PHY reference clock
--
--Optional clocks:
--  "xo"		External reference clock
--
--Example:
--		phy@100f8800 {
--			compatible = "qcom,dwc3-hs-usb-phy";
--			reg = <0x100f8800 0x30>;
--			clocks = <&gcc USB30_0_UTMI_CLK>;
--			clock-names = "ref";
--			#phy-cells = <0>;
--
--		};
--
--		phy@100f8830 {
--			compatible = "qcom,dwc3-ss-usb-phy";
--			reg = <0x100f8830 0x30>;
--			clocks = <&gcc USB30_0_MASTER_CLK>;
--			clock-names = "ref";
--			#phy-cells = <0>;
--
--		};
--- 
-2.25.0
+> I did some more debugging on this using ftrace, here is an annotated
+> log that shows what I think is happening on a failed resume. Note that
+> hub_port_connect_change() is the function that the patch modified to
+> call usb_get_device_descriptor() in some circumstances.
+> 
+> This first call to hub_port_connect_change() is for a different device,
+> not the failing one. There are multiple other calls to that function in
+> the trace, but they are not for the device in question:
+>      kworker/1:6-19987 [001]  7803.175058: funcgraph_entry:                      |  hub_port_connect_change() {
+>      kworker/1:6-19987 [001]  7803.175069: funcgraph_entry:      ! 11911.151 us  |    usb_get_device_descriptor();
+>      kworker/2:5-20675 [002]  7803.179333: funcgraph_entry:                      |  usb_probe_interface() {
+> 
+> Starting here is a worker thread that is trying to setup the bluetooth
+> adapter after the resume:
+>    kworker/u17:1-3175  [002]  7803.179457: funcgraph_entry:                      |  hci_power_on() {
+>    kworker/u17:1-3175  [002]  7803.179458: funcgraph_entry:                      |    hci_dev_do_open() {
+>    kworker/u17:1-3175  [002]  7803.179468: funcgraph_entry:                      |      btusb_setup_intel() {
+>      kworker/2:5-20675 [002]  7803.179480: funcgraph_exit:       ! 147.596 us    |  }
+> 
+> And here is a worker thread that is handling the connect change on the USB
+> port with the bluetooth device. This happens while the btusb_setup_intel()
+> function called by the other thread above is still running:
+>      kworker/3:1-16790 [003]  7803.181323: funcgraph_entry:                      |  hub_port_connect_change() {
+>      kworker/3:1-16790 [003]  7803.181330: funcgraph_entry:                      |    usb_get_device_descriptor() {
+>      kworker/0:2-19962 [000]  7803.184885: funcgraph_entry:        6.016 us      |  hub_port_connect_change();
+>      kworker/0:2-19962 [000]  7803.187208: funcgraph_entry:        5.462 us      |  hub_port_connect_change();
+>      kworker/1:6-19987 [001]  7803.187835: funcgraph_exit:       ! 12776.810 us  |  }
+>      kworker/1:6-19987 [001]  7803.187846: funcgraph_entry:      ! 767445.344 us |  hub_port_connect_change();
+> 
+> By this point the failure has happened ("Bluetooth: hci0: Reading Intel
+> version information failed (-110)") , and it looks like somebody
+> queues another work to try setting up the bluetooth adapter again:
+>        hciconfig-21074 [000]  7803.193549: funcgraph_entry:                      |  hci_dev_open() {
+>      kworker/1:6-19987 [001]  7803.955315: funcgraph_entry:      ! 144039.307 us |  hub_port_connect_change();
+>    kworker/u17:1-3175  [003]  7805.203325: funcgraph_exit:       ! 2023855 us    |      }
+>    kworker/u17:1-3175  [003]  7805.211728: funcgraph_exit:       ! 2032269 us    |    }
+>    kworker/u17:1-3175  [003]  7805.211731: funcgraph_exit:       ! 2032273 us    |  }
+>        hciconfig-21074 [000]  7805.211760: funcgraph_entry:                      |    hci_dev_do_open() {
+>        hciconfig-21074 [000]  7805.211777: funcgraph_entry:      ! 3069605 us    |      btusb_setup_intel();
+> 
+> And here the usb_get_device_descriptor() call made by the USB worker thread
+> finally completes. It also fails ("kworker/3:1 timed out on ep0in len=0/18"):
+>      kworker/3:1-16790 [003]  7808.277224: funcgraph_exit:       ! 5095893 us    |    }
+>        hciconfig-21074 [001]  7808.283313: funcgraph_exit:       ! 3071554 us    |    }
+>        hciconfig-21074 [001]  7808.283315: funcgraph_exit:       ! 5089767 us    |  }
+> 
+> So if I'm understanding this correctly, there are two threads that are
+> trying to access the USB bluetooth device at the same time. I have no
+> idea if that is how it's supposed to work.
+
+In fact it isn't, although in principle this shouldn't cause any
+trouble.  It looks like your bluetooth device is deficient: It
+sometimes crashes if it receives a Get-Device-Descriptor request while
+it is busy with something else.
+
+Still, since there was no real connection change at the port, there's
+no reason to call hub_port_connect_change() here.  Let's see if the
+patch below fixes your problem.
+
+Alan Stern
+
+
+
+Index: usb-devel/drivers/usb/core/hub.c
+===================================================================
+--- usb-devel.orig/drivers/usb/core/hub.c
++++ usb-devel/drivers/usb/core/hub.c
+@@ -1216,11 +1216,6 @@ static void hub_activate(struct usb_hub
+ #ifdef CONFIG_PM
+ 			udev->reset_resume = 1;
+ #endif
+-			/* Don't set the change_bits when the device
+-			 * was powered off.
+-			 */
+-			if (test_bit(port1, hub->power_bits))
+-				set_bit(port1, hub->change_bits);
+ 
+ 		} else {
+ 			/* The power session is gone; tell hub_wq */
 
