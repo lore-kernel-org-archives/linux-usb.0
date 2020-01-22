@@ -2,43 +2,42 @@ Return-Path: <SRS0=IeTI=3L=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB50EC2D0CE
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 01:42:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E1F3C2D0CE
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 01:42:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id A1DE3217F4
-	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 01:42:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7D2822465A
+	for <linux-usb@archiver.kernel.org>; Wed, 22 Jan 2020 01:42:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729113AbgAVBl7 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 21 Jan 2020 20:41:59 -0500
-Received: from rtits2.realtek.com ([211.75.126.72]:56779 "EHLO
+        id S1728978AbgAVBlx (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 21 Jan 2020 20:41:53 -0500
+Received: from rtits2.realtek.com ([211.75.126.72]:56774 "EHLO
         rtits2.realtek.com.tw" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729098AbgAVBl6 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Jan 2020 20:41:58 -0500
+        with ESMTP id S1728901AbgAVBlx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 21 Jan 2020 20:41:53 -0500
 Authenticated-By: 
-X-SpamFilter-By: BOX Solutions SpamTrap 5.62 with qID 00M1fqZJ019841, This message is accepted by code: ctloc85258
+X-SpamFilter-By: BOX Solutions SpamTrap 5.62 with qID 00M1fjj8019815, This message is accepted by code: ctloc85258
 Received: from mail.realtek.com (RTITCASV02.realtek.com.tw[172.21.6.19])
-        by rtits2.realtek.com.tw (8.15.2/2.57/5.78) with ESMTPS id 00M1fqZJ019841
+        by rtits2.realtek.com.tw (8.15.2/2.57/5.78) with ESMTPS id 00M1fjj8019815
         (version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Wed, 22 Jan 2020 09:41:52 +0800
+        Wed, 22 Jan 2020 09:41:47 +0800
 Received: from fc30.localdomain (172.21.177.138) by RTITCASV02.realtek.com.tw
  (172.21.6.19) with Microsoft SMTP Server id 14.3.468.0; Wed, 22 Jan 2020
- 09:41:51 +0800
+ 09:41:43 +0800
 From:   Hayes Wang <hayeswang@realtek.com>
 To:     <netdev@vger.kernel.org>
 CC:     <nic_swsd@realtek.com>, <linux-kernel@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <pmalani@chromium.org>,
         <grundler@chromium.org>, Hayes Wang <hayeswang@realtek.com>
-Subject: [PATCH net v2 2/9] r8152: reset flow control patch when linking on for RTL8153B
-Date:   Wed, 22 Jan 2020 09:41:14 +0800
-Message-ID: <1394712342-15778-350-Taiwan-albertk@realtek.com>
+Subject: [PATCH net v2 0/9] r8152: serial fixes
+Date:   Wed, 22 Jan 2020 09:41:12 +0800
+Message-ID: <1394712342-15778-348-Taiwan-albertk@realtek.com>
 X-Mailer: Microsoft Office Outlook 11
-In-Reply-To: <1394712342-15778-348-Taiwan-albertk@realtek.com>
+In-Reply-To: <1394712342-15778-338-Taiwan-albertk@realtek.com>
 References: <1394712342-15778-338-Taiwan-albertk@realtek.com>
- <1394712342-15778-348-Taiwan-albertk@realtek.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -48,36 +47,26 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When linking ON, the patch of flow control has to be reset. This
-makes sure the patch works normally.
+v2:
+For patch #2, move declaring the variable "ocp_data".
 
-Signed-off-by: Hayes Wang <hayeswang@realtek.com>
----
- drivers/net/usb/r8152.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+v1:
+These patches are used to fix some issues for RTL8153.
 
-diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-index 115559707683..504db2348a3e 100644
---- a/drivers/net/usb/r8152.c
-+++ b/drivers/net/usb/r8152.c
-@@ -2865,6 +2865,17 @@ static int rtl8153_enable(struct r8152 *tp)
- 	r8153_set_rx_early_timeout(tp);
- 	r8153_set_rx_early_size(tp);
- 
-+	if (tp->version == RTL_VER_09) {
-+		u32 ocp_data;
-+
-+		ocp_data = ocp_read_word(tp, MCU_TYPE_USB, USB_FW_TASK);
-+		ocp_data &= ~FC_PATCH_TASK;
-+		ocp_write_word(tp, MCU_TYPE_USB, USB_FW_TASK, ocp_data);
-+		usleep_range(1000, 2000);
-+		ocp_data |= FC_PATCH_TASK;
-+		ocp_write_word(tp, MCU_TYPE_USB, USB_FW_TASK, ocp_data);
-+	}
-+
- 	return rtl_enable(tp);
- }
- 
+Hayes Wang (9):
+  r8152: fix runtime resume for linking change
+  r8152: reset flow control patch when linking on for RTL8153B
+  r8152: get default setting of WOL before initializing
+  r8152: disable U2P3 for RTL8153B
+  r8152: Disable PLA MCU clock speed down
+  r8152: disable test IO for RTL8153B
+  r8152: don't enable U1U2 with USB_SPEED_HIGH for RTL8153B
+  r8152: avoid the MCU to clear the lanwake
+  r8152: disable DelayPhyPwrChg
+
+ drivers/net/usb/r8152.c | 124 ++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 113 insertions(+), 11 deletions(-)
+
 -- 
 2.21.0
 
