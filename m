@@ -2,87 +2,134 @@ Return-Path: <SRS0=AWg3=3M=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=DATE_IN_PAST_12_24,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2CB4C2D0DB
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Jan 2020 18:20:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F483C2D0DB
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Jan 2020 18:23:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 800AD2253D
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Jan 2020 18:20:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579803601;
-	bh=eCbmFWhr09fdl4lcnriyADrYbS8yDrcUUn4Zzsq6B60=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=psF8IveucO/i1XTFpqVBUMmQBsF7MArIIOkLtzjMY+e+36VWfdPxyjo2JwbD2uMp3
-	 JZOU1BV/Opd0EtDXBFKnnZo1aD5kjwpJ7W5oGtBEUJru5YohedMfl20fqJUzqLWm8m
-	 s2gLDfOFA8jdeiBwYbDQYJEeJONr/r4mKK+ZLw6E=
+	by mail.kernel.org (Postfix) with ESMTP id 32CAE21D7E
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Jan 2020 18:23:03 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C2575JY+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728831AbgAWSUB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 23 Jan 2020 13:20:01 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36046 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727278AbgAWSUA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 23 Jan 2020 13:20:00 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B098022522;
-        Thu, 23 Jan 2020 18:19:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579803600;
-        bh=eCbmFWhr09fdl4lcnriyADrYbS8yDrcUUn4Zzsq6B60=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ITVNho+fK4cgtcd/XSxOU7RomUWP+4+hIxvGaDep7bZd94ynRLjdbF8XyZQQtvZ6J
-         17cpGnD9nsvBFR4Ph/UzhoH4rU1FdXyabNg6fvFXVLRC/k9xWFwAfB9n+xp66ig60B
-         h36Ia6foDl3xeb7KZvcVPFyn9/b3+3WGevETu1wg=
-Date:   Thu, 23 Jan 2020 19:19:58 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     EJ Hsu <ejh@nvidia.com>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2] usb: uas: fix a plug & unplug racing
-Message-ID: <20200123181958.GA1930162@kroah.com>
-References: <20200122074302.69790-1-ejh@nvidia.com>
- <1579762922.2841.0.camel@suse.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1579762922.2841.0.camel@suse.com>
+        id S1729037AbgAWSXC (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 23 Jan 2020 13:23:02 -0500
+Received: from mail-pf1-f173.google.com ([209.85.210.173]:33177 "EHLO
+        mail-pf1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729031AbgAWSXC (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Jan 2020 13:23:02 -0500
+Received: by mail-pf1-f173.google.com with SMTP id z16so1924502pfk.0
+        for <linux-usb@vger.kernel.org>; Thu, 23 Jan 2020 10:23:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=bo/OsYyrQ5f4c1n/3+jslyR1BtB3QudbiUsZXeQtoB0=;
+        b=C2575JY+42hNxHRyXWgEJ++HZhVDt0hiFtcJ//ZB5CizFSpKD7Kx3WrsdKZjUnZiyR
+         NZJD1CYc2WH4A0HAuSsQldwEvqZEmDv2RoWh3U4iEZ4TJ7SPbOFBjdigY9VQRzPECb+X
+         h7WSY7fDqBB47+fD5up6q+oob0erG/sR1bbkUrxfK4R6P5oEanm0uS+Av5mYVUfwWFNV
+         WDkrgEtZfTG6BHnC1fYMF8HOzC9n2cPRDc+DAoMnTvhCWzLIJ8aN4aB5VDEm0hdqcIXi
+         FgKDIFlXeFJSEedhUdi15exZYBRdMmuvJ+LcQ5WPAVPKS8uZIHwZGGR9eWWV6mZxQ42J
+         g61g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=bo/OsYyrQ5f4c1n/3+jslyR1BtB3QudbiUsZXeQtoB0=;
+        b=caBHsfo8jWlM7cX4eoj/HYonXKOO2wCMot+zoN/HulpI8Fnd0pEMEGtyGCrBAXGp19
+         EkW+myt7jwPt7LC7w8yQABV9NjRDYP/FzEgtNKRVbN/p0GmiwBABwIb2L6mzclvUWe8g
+         Z7hesYyxtUODoZg4A96Fr8tmHYkyy7YdsY6/X4DUNeDK4gAVUTBsGiZou5On5OpHM6ii
+         jcbndNPbE6UMoKAsmxqa2JfATROllwiUSaT/s6pAUb0BHqr7f719qZQZfcp+NH2B92e5
+         Vqlmx5DvSKcVRKCQcwM1gKN5gHp6vJqL7oBofs/LlkUors5ea4DWZhoxOsO1L9joF4fm
+         nMZg==
+X-Gm-Message-State: APjAAAXPkHQBmoZojoc79niZDbPj5llafAGTYs1l/FKah0x8dW7KXB3c
+        n2MfQKwnq5asBY1W2hyh80I=
+X-Google-Smtp-Source: APXvYqxwKE747kyZoAPf2q6DIqaIMbkCWkGf50xc0tuqY86f7vAKBU8L30JvLCHfYGksx7EiIvhsYA==
+X-Received: by 2002:aa7:8708:: with SMTP id b8mr8703071pfo.184.1579803781634;
+        Thu, 23 Jan 2020 10:23:01 -0800 (PST)
+Received: from ajayg.nvidia.com (searspoint.nvidia.com. [216.228.112.21])
+        by smtp.gmail.com with ESMTPSA id p21sm3427894pfn.103.2020.01.23.10.23.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jan 2020 10:23:00 -0800 (PST)
+From:   Ajay Gupta <ajaykuee@gmail.com>
+X-Google-Original-From: Ajay Gupta <ajayg@nvidia.com>
+To:     heikki.krogerus@linux.intel.com
+Cc:     linux-usb@vger.kernel.org, Ajay Gupta <ajayg@nvidia.com>
+Subject: [PATCH v2 1/2] usb: typec: ucsi: register DP only for NVIDIA DP VDO
+Date:   Wed, 22 Jan 2020 16:58:58 -0800
+Message-Id: <20200123005859.13194-1-ajayg@nvidia.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Jan 23, 2020 at 08:02:02AM +0100, Oliver Neukum wrote:
-> Am Dienstag, den 21.01.2020, 23:43 -0800 schrieb EJ Hsu:
-> > When a uas disk is plugged into an external hub, uas_probe()
-> > will be called by the hub thread to do the probe. It will
-> > first create a SCSI host and then do the scan for this host.
-> > During the scan, it will probe the LUN using SCSI INQUERY command
-> > which will be packed in the URB and submitted to uas disk.
-> > 
-> > There might be a chance that this external hub with uas disk
-> > attached is unplugged during the scan. In this case, uas driver
-> > will fail to submit the URB (due to the NOTATTACHED state of uas
-> > device) and try to put this SCSI command back to request queue
-> > waiting for next chance to run.
-> > 
-> > In normal case, this cycle will terminate when hub thread gets
-> > disconnection event and calls into uas_disconnect() accordingly.
-> > But in this case, uas_disconnect() will not be called because
-> > hub thread of external hub gets stuck waiting for the completion
-> > of this SCSI command. A deadlock happened.
-> > 
-> > In this fix, uas will call scsi_scan_host() asynchronously to
-> > avoid the blocking of hub thread.
-> > 
-> > Signed-off-by: EJ Hsu <ejh@nvidia.com>
-> Acked-by: Oliver Neukum <oneukum@suse.com>
+From: Ajay Gupta <ajayg@nvidia.com>
 
-EJ can you resend this with Oliver's ack as I lost the original patch in
-my archives now as it was so long ago...
+NVIDIA VirtualLink (svid 0x955) has two altmode, vdo=0x1 for
+VirtualLink DP mode and vdo=0x3 for NVIDIA test mode.
+Register display altmode driver only for vdo=0x1
 
-thanks,
+Signed-off-by: Ajay Gupta <ajayg@nvidia.com>
+---
+Changes from v1->v2:
+ Moved defines from typec_dp.h to ucsi.h based on comments
+ from Heikki.
 
-greg k-h
+ drivers/usb/typec/ucsi/ucsi.c | 12 ++++++++++--
+ drivers/usb/typec/ucsi/ucsi.h |  7 +++++++
+ 2 files changed, 17 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index d5a6aac86327..eca9d598a42f 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -270,9 +270,16 @@ static int ucsi_register_altmode(struct ucsi_connector *con,
+ 
+ 		switch (desc->svid) {
+ 		case USB_TYPEC_DP_SID:
+-		case USB_TYPEC_NVIDIA_VLINK_SID:
+ 			alt = ucsi_register_displayport(con, override, i, desc);
+ 			break;
++		case USB_TYPEC_NVIDIA_VLINK_SID:
++			if (desc->vdo == USB_TYPEC_NVIDIA_VLINK_DBG_VDO)
++				alt = typec_port_register_altmode(con->port,
++								  desc);
++			else
++				alt = ucsi_register_displayport(con, override,
++								i, desc);
++			break;
+ 		default:
+ 			alt = typec_port_register_altmode(con->port, desc);
+ 			break;
+@@ -475,7 +482,8 @@ static void ucsi_unregister_altmodes(struct ucsi_connector *con, u8 recipient)
+ 	while (adev[i]) {
+ 		if (recipient == UCSI_RECIPIENT_SOP &&
+ 		    (adev[i]->svid == USB_TYPEC_DP_SID ||
+-			adev[i]->svid == USB_TYPEC_NVIDIA_VLINK_SID)) {
++			(adev[i]->svid == USB_TYPEC_NVIDIA_VLINK_SID &&
++			adev[i]->vdo != USB_TYPEC_NVIDIA_VLINK_DBG_VDO))) {
+ 			pdev = typec_altmode_get_partner(adev[i]);
+ 			ucsi_displayport_remove_partner((void *)pdev);
+ 		}
+diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
+index e434b9c9a9eb..a89112b69cd5 100644
+--- a/drivers/usb/typec/ucsi/ucsi.h
++++ b/drivers/usb/typec/ucsi/ucsi.h
+@@ -340,4 +340,11 @@ static inline void
+ ucsi_displayport_remove_partner(struct typec_altmode *adev) { }
+ #endif /* CONFIG_TYPEC_DP_ALTMODE */
+ 
++/*
++ * NVIDIA VirtualLink (svid 0x955) has two altmode. VirtualLink
++ * DP mode with vdo=0x1 and NVIDIA test mode with vdo=0x3
++ */
++#define USB_TYPEC_NVIDIA_VLINK_DP_VDO	0x1
++#define USB_TYPEC_NVIDIA_VLINK_DBG_VDO	0x3
++
+ #endif /* __DRIVER_USB_TYPEC_UCSI_H */
+-- 
+2.17.1
+
