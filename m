@@ -2,157 +2,87 @@ Return-Path: <SRS0=AWg3=3M=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED859C3F68F
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Jan 2020 17:46:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2CB4C2D0DB
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Jan 2020 18:20:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C8CFD21734
-	for <linux-usb@archiver.kernel.org>; Thu, 23 Jan 2020 17:46:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 800AD2253D
+	for <linux-usb@archiver.kernel.org>; Thu, 23 Jan 2020 18:20:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579801570;
-	bh=Nm/1hZYRDXEy1h5zI+ojaQyAVgcLuXzuAam4glSnMeQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:List-ID:From;
-	b=lp1K+MbvsgqkgfAELjyNNEzinnVQ75dHcqMQxWMz3l9cZjd/Hxgfy1gl2uO4UOtEQ
-	 WlJRFiAuAyNDgqIcVYr+l6M6If7STTkHS8fZyIpxa0OTA/LDiNWEi5anlQPmF9GjPF
-	 vRPHdoHjgwQL0iRIGQl8Bn29sv3cTca4k/mtXBeY=
+	s=default; t=1579803601;
+	bh=eCbmFWhr09fdl4lcnriyADrYbS8yDrcUUn4Zzsq6B60=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=psF8IveucO/i1XTFpqVBUMmQBsF7MArIIOkLtzjMY+e+36VWfdPxyjo2JwbD2uMp3
+	 JZOU1BV/Opd0EtDXBFKnnZo1aD5kjwpJ7W5oGtBEUJru5YohedMfl20fqJUzqLWm8m
+	 s2gLDfOFA8jdeiBwYbDQYJEeJONr/r4mKK+ZLw6E=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728797AbgAWRqG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 23 Jan 2020 12:46:06 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:41733 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727022AbgAWRqG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 23 Jan 2020 12:46:06 -0500
-Received: by mail-lf1-f67.google.com with SMTP id m30so2958559lfp.8;
-        Thu, 23 Jan 2020 09:46:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:in-reply-to:references:date:message-id
-         :mime-version;
-        bh=9SUGR8QdPMNh7QLWat7AGgDe3jaF2rbpW1KxZ9s3AOs=;
-        b=sbFxacSfBCAGBU7s2TQJY0DzNNQymStUoOtlfwJBSEBZcT6Z/Mj9byWnE1Za5HXWkB
-         HHwxRj5HnyQLx0JTKC4L1ghcKf8AgKcqkc0Mu1b3SgdH3LMU04PsjcLonuH3Zfl5M3G9
-         6NQIneG0d0c6MgKlDpopQtJsg1qegmt59z8gBdm9BZpq1CaZNJoXQwCBrmGd8Fe15rxu
-         D2YrNynapEEOiHCGsaeWp/u0+6G+N/JmhB9+x1g0kzrNyYxKT11DedfTf4m+q4oSgv+t
-         KPkmLkX+JhNE+2xMdYCHXC+g2G5NN+FZJTf5cmsBCMXqE2RXSYPnWNeh5xQf+pmZJ5zT
-         6s6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:in-reply-to:references
-         :date:message-id:mime-version;
-        bh=9SUGR8QdPMNh7QLWat7AGgDe3jaF2rbpW1KxZ9s3AOs=;
-        b=acUccFWUpfaY+2pX5apMWCetRGDrBrGKyZd440RRxbLbGGAC+qh1T12R2T678qHkPH
-         vsyx7n/CMw7C/lyGpDzUFeXKDkiEm+ZHGKnt2isGLbDhjcmXTolQyss3BNqWSkp/lu56
-         EhoT3fDZia8+Nap48+AFGlV8vDPG+81hkVP23myBnHGBv9KL/HQsds9loBMp9TEEANPz
-         kIy2WerDSgDgwEDZs7wPflxZhIONlNr0YultupEGBKfg0e6WWnKmO/BSpa/J4jgDPcpx
-         /vODQO1IFdtaSOrUj6enwE/blg2SMnWBSpUiaFXKsG+dXuAdYw26dUqhjnAJTMk7skrL
-         vO+g==
-X-Gm-Message-State: APjAAAXpqRJpW6mw3xr2kzQHTwYx1xPcjQh5ALL42Lqv1X7nMTV2OWGG
-        UhBTHYZXaiDTOqYWqAobmRls03iykySScw==
-X-Google-Smtp-Source: APXvYqx1D1Oq970OIGQK6so+TTaZuGf+dWk0DQrGNPBalH7w5tCE1RWZJXmyIiFu0n1PWuhk49C2MQ==
-X-Received: by 2002:ac2:4a91:: with SMTP id l17mr5353742lfp.75.1579801563345;
-        Thu, 23 Jan 2020 09:46:03 -0800 (PST)
-Received: from saruman (88-113-215-33.elisa-laajakaista.fi. [88.113.215.33])
-        by smtp.gmail.com with ESMTPSA id r2sm1668668lff.63.2020.01.23.09.46.01
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 23 Jan 2020 09:46:02 -0800 (PST)
-From:   Felipe Balbi <balbi@kernel.org>
-To:     "Yang\, Fei" <fei.yang@intel.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        John Stultz <john.stultz@linaro.org>,
-        lkml <linux-kernel@vger.kernel.org>
-Cc:     Felipe Balbi <felipe.balbi@linux.intel.com>,
-        Thinh Nguyen <thinhn@synopsys.com>,
-        Tejas Joglekar <tejas.joglekar@synopsys.com>,
-        Jack Pham <jackp@codeaurora.org>, Todd Kjos <tkjos@google.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        stable <stable@vger.kernel.org>
-Subject: RE: [RFC][PATCH 0/2] Avoiding DWC3 transfer stalls/hangs when using adb over f_fs
-In-Reply-To: <02E7334B1630744CBDC55DA8586225837F9EE335@ORSMSX102.amr.corp.intel.com>
-References: <20200122222645.38805-1-john.stultz@linaro.org> <ef64036f-7621-50d9-0e23-0f7141a40d7a@collabora.com> <02E7334B1630744CBDC55DA8586225837F9EE280@ORSMSX102.amr.corp.intel.com> <87o8uu3wqd.fsf@kernel.org> <02E7334B1630744CBDC55DA8586225837F9EE335@ORSMSX102.amr.corp.intel.com>
-Date:   Thu, 23 Jan 2020 19:46:51 +0200
-Message-ID: <87lfpy3w1g.fsf@kernel.org>
+        id S1728831AbgAWSUB (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 23 Jan 2020 13:20:01 -0500
+Received: from mail.kernel.org ([198.145.29.99]:36046 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727278AbgAWSUA (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 23 Jan 2020 13:20:00 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B098022522;
+        Thu, 23 Jan 2020 18:19:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579803600;
+        bh=eCbmFWhr09fdl4lcnriyADrYbS8yDrcUUn4Zzsq6B60=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ITVNho+fK4cgtcd/XSxOU7RomUWP+4+hIxvGaDep7bZd94ynRLjdbF8XyZQQtvZ6J
+         17cpGnD9nsvBFR4Ph/UzhoH4rU1FdXyabNg6fvFXVLRC/k9xWFwAfB9n+xp66ig60B
+         h36Ia6foDl3xeb7KZvcVPFyn9/b3+3WGevETu1wg=
+Date:   Thu, 23 Jan 2020 19:19:58 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Oliver Neukum <oneukum@suse.com>
+Cc:     EJ Hsu <ejh@nvidia.com>, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2] usb: uas: fix a plug & unplug racing
+Message-ID: <20200123181958.GA1930162@kroah.com>
+References: <20200122074302.69790-1-ejh@nvidia.com>
+ <1579762922.2841.0.camel@suse.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-        micalg=pgp-sha256; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1579762922.2841.0.camel@suse.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+On Thu, Jan 23, 2020 at 08:02:02AM +0100, Oliver Neukum wrote:
+> Am Dienstag, den 21.01.2020, 23:43 -0800 schrieb EJ Hsu:
+> > When a uas disk is plugged into an external hub, uas_probe()
+> > will be called by the hub thread to do the probe. It will
+> > first create a SCSI host and then do the scan for this host.
+> > During the scan, it will probe the LUN using SCSI INQUERY command
+> > which will be packed in the URB and submitted to uas disk.
+> > 
+> > There might be a chance that this external hub with uas disk
+> > attached is unplugged during the scan. In this case, uas driver
+> > will fail to submit the URB (due to the NOTATTACHED state of uas
+> > device) and try to put this SCSI command back to request queue
+> > waiting for next chance to run.
+> > 
+> > In normal case, this cycle will terminate when hub thread gets
+> > disconnection event and calls into uas_disconnect() accordingly.
+> > But in this case, uas_disconnect() will not be called because
+> > hub thread of external hub gets stuck waiting for the completion
+> > of this SCSI command. A deadlock happened.
+> > 
+> > In this fix, uas will call scsi_scan_host() asynchronously to
+> > avoid the blocking of hub thread.
+> > 
+> > Signed-off-by: EJ Hsu <ejh@nvidia.com>
+> Acked-by: Oliver Neukum <oneukum@suse.com>
 
+EJ can you resend this with Oliver's ack as I lost the original patch in
+my archives now as it was so long ago...
 
-Hi,
+thanks,
 
-"Yang, Fei" <fei.yang@intel.com> writes:
->>>>> Hey all,
->>>>>    I wanted to send these out for comment and thoughts.
->>>>>=20
->>>>> Since ~4.20, when the functionfs gadget enabled scatter-gather=20
->>>>> support, we have seen problems with adb connections stalling and=20
->>>>> stopping to function on hardware with dwc3 usb controllers.
->>>>> Specifically, HiKey960, Dragonboard 845c, and Pixel3 devices.
->>>>
->>>> Any chance this:
->>>>=20
->>>> https://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git/commit/
->>>> ?h=3Dtesting/next&id=3Df63333e8e4fd63d8d8ae83b89d2c38cf21d64801
->>> This is a different issue. I have tried initializing num_sgs when debug=
-ging this adb stall problem, but it didn't help.
->>
->> So multiple folks have run through this problem, but not *one* has trace=
-points collected from the issue? C'mon guys. Can someone, please, collect t=
-racepoints so we can figure out what's actually going on?
->>
->> I'm pretty sure this should be solved at the DMA API level, just want to=
- confirm.
->
-> I have sent you the tracepoints long time ago. Also my analysis of the
-> problem (BTW, I don't think the tracepoints helped much). It's
-> basically a logic problem in function dwc3_gadget_ep_reclaim_trb_sg().
-
-AFAICT, this is caused by DMA API merging pages together when map an
-sglist for DMA. While doing that, it does *not* move the SG_END flag
-which sg_is_last() checks.
-
-I consider that an overlook on the DMA API, wouldn't you? Why should DMA
-API users care if pages were merged or not while mapping the sglist? We
-have for_each_sg() and sg_is_last() for a reason.
-
-> I can try dig into my old emails and resend, but that is a bit hard to fi=
-nd.
-
-Don't bother, I'm still not convinced we should fix at the driver level
-when sg_is_last() should be working here, unless we should iterate over
-num_sgs instead of num_mapped_sgs, though I don't think that's the case
-since in that case we would have to chain buffers of size zero.
-
-=2D-=20
-balbi
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl4p3AsACgkQzL64meEa
-mQaTdA/+PpmXuec0fjzp1yy6MejaVnnPEOFDVaOYvpaYkbH9C/UhwT42e5ZuaVg1
-abC2wFsKPer2Xbtb9rmJflvqiD+smblgDpkLyFHEwZRC0a7o+c6CkFYMPNNM9+w/
-sNWVwM3sfLGQ9Wcx0hQueLmhksBbvGcAqnph/MwFJcz81k77/BEYFqo/8n7c6o7K
-YBJrySxFqi6y/jCv0u+FDG449XOdh2Udydp/7UPCXrOZis6D2nxiiU8H7taKGZuO
-jluTVDFsFQK9CA8GVLMocciLUPSQlSDlac3cUH4lQnVqDGNGfjSN37AkFzeUKSNL
-HgOJA0E4ewtZFe3EM1JKQU968a3OrPYkdzZi0pvwnDxfJ8pyo1/jqQInz518etwq
-SHqM2r/Pwwtem+wwbi6Z+WKmfwHI445Jht3DoC1dSnREXSG5VzXJzyIWVrAvtexN
-kWDaqp4tBVQqVbsmOIQVBio46kBe/yNlhFgycnaXGSlz7JLJXvfMqhA4xSAbr6Vt
-rob9DoX879dS0JS3YN6tOHQeP0eVZjq/xUwTjhVDA1l/XNb7WM4lx//5o8hqn1VW
-XMP9VBC4W0NZoRmhi4pcp7zXHxTal68rLJkYL78yi8R9N3ERuo3XylA40jAOaR0E
-najiMxtEwxPalArWq9qbWI/EcMEMMiom03pZnFnHAiTsj7alMhE=
-=ZK9D
------END PGP SIGNATURE-----
---=-=-=--
+greg k-h
