@@ -2,93 +2,83 @@ Return-Path: <SRS0=idDB=3N=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-0.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ECCCC35243
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 14:35:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97343C2D0DB
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 15:09:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id ED58020661
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 14:35:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579876542;
-	bh=oeW6U2MkcM5rIUI9vPpzZNq4TO61iMRDiVW1cUgizZw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=mIf/oHoGl17GJNCoDsqsi7T5ImvMp50RgAYpoVyaxAYcxll2LEFTvc0JUHnOWZJq/
-	 QjxHIq5syfR8RwlFPLCNZiupemv2XrdqETcvPi107wvlRRY1H76wZ/nFCuAPx7ECAK
-	 fkFBRe+nfjyHzs/TwWsvbQ5WS6APpXdHsX+Ey82s=
+	by mail.kernel.org (Postfix) with ESMTP id 69BD520709
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 15:09:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392073AbgAXOfl (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 24 Jan 2020 09:35:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39792 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391673AbgAXOT3 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 24 Jan 2020 09:19:29 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8940221556;
-        Fri, 24 Jan 2020 14:19:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579875568;
-        bh=oeW6U2MkcM5rIUI9vPpzZNq4TO61iMRDiVW1cUgizZw=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=qcWUxSfbN1pNWtwMh5zEVeqKfQP4HmrhmG3GuNq3SryGsWkjr40Cjb8zj9jzVb1zn
-         tYXmWkeAx8sHMQZGsI5CH4Nc85lytPVX75Q98QFmkB4Up3RomCUF5eukAj9bl40cRn
-         oB24fBm/TtKOFEP+CDlwGQ3MzZgLF+f8AKtdoAU8=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kristian Evensen <kristian.evensen@gmail.com>,
-        =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 061/107] qmi_wwan: Add support for Quectel RM500Q
-Date:   Fri, 24 Jan 2020 09:17:31 -0500
-Message-Id: <20200124141817.28793-61-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200124141817.28793-1-sashal@kernel.org>
-References: <20200124141817.28793-1-sashal@kernel.org>
+        id S1730252AbgAXPJh (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 24 Jan 2020 10:09:37 -0500
+Received: from iolanthe.rowland.org ([192.131.102.54]:48930 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1728816AbgAXPJg (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Jan 2020 10:09:36 -0500
+Received: (qmail 1719 invoked by uid 2102); 24 Jan 2020 10:09:35 -0500
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 24 Jan 2020 10:09:35 -0500
+Date:   Fri, 24 Jan 2020 10:09:35 -0500 (EST)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     JH <jupiter.hce@gmail.com>
+cc:     linux-usb <linux-usb@vger.kernel.org>
+Subject: Re: qmi_wwan error
+In-Reply-To: <CAA=hcWSKCryEZVhWptN9iz1dbh_4rMNp0X1LMop0SA7LjYWRVQ@mail.gmail.com>
+Message-ID: <Pine.LNX.4.44L0.2001241007350.1610-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Kristian Evensen <kristian.evensen@gmail.com>
+On Fri, 24 Jan 2020, JH wrote:
 
-[ Upstream commit a9ff44f0e61d074f29770413fef6a5452be7b83e ]
+> Hi,
+> 
+> I am running kernel 4.19.75 on iMX6 with a uBlox SARA-R4 LTE modem,
+> the modem manager is oFono, connect manager is connman. It could
+> connect to LTE between half hours to hours, then it dropped LTE
+> connection randomly, here are error messages, what could cause the
+> qmi_wwan status received: -71 and qmi_wwan usb_submit_urb failed with
+> result -19 errors?
 
-RM500Q is a 5G module from Quectel, supporting both standalone and
-non-standalone modes. The normal Quectel quirks apply (DTR and dynamic
-interface numbers).
+The most likely cause is that the modem's firmware crashed, or it 
+disconnected itself electronically from the USB bus.  Or else somebody 
+unplugged the USB cable.
 
-Signed-off-by: Kristian Evensen <kristian.evensen@gmail.com>
-Acked-by: Bjørn Mork <bjorn@mork.no>
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/net/usb/qmi_wwan.c | 1 +
- 1 file changed, 1 insertion(+)
+Alan Stern
 
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 4196c0e327403..9485c8d1de8a3 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -1062,6 +1062,7 @@ static const struct usb_device_id products[] = {
- 	{QMI_QUIRK_QUECTEL_DYNCFG(0x2c7c, 0x0125)},	/* Quectel EC25, EC20 R2.0  Mini PCIe */
- 	{QMI_QUIRK_QUECTEL_DYNCFG(0x2c7c, 0x0306)},	/* Quectel EP06/EG06/EM06 */
- 	{QMI_QUIRK_QUECTEL_DYNCFG(0x2c7c, 0x0512)},	/* Quectel EG12/EM12 */
-+	{QMI_QUIRK_QUECTEL_DYNCFG(0x2c7c, 0x0800)},	/* Quectel RM500Q-GL */
- 
- 	/* 3. Combined interface devices matching on interface number */
- 	{QMI_FIXED_INTF(0x0408, 0xea42, 4)},	/* Yota / Megafon M100-1 */
--- 
-2.20.1
+> 
+> [ 1018.944840] usb 1-1: USB disconnect, device number 2
+> [ 1019.072845] option1 ttyUSB0: GSM modem (1-port) converter now
+> disconnected from ttyUSB0
+> [ 1019.130834] option 1-1:1.0: device disconnected
+> [ 1019.142012] qmi_wwan 1-1:1.3: nonzero urb status received: -71
+> [ 1019.147909] qmi_wwan 1-1:1.3: wdm_int_callback - 0 bytes
+> [ 1019.153254] qmi_wwan 1-1:1.3: wdm_int_callback - usb_submit_urb
+> failed with result -19
+> [ 1019.228197] option1 ttyUSB1: GSM modem (1-port) converter now
+> disconnected from ttyUSB1
+> [ 1019.274475] option 1-1:1.2: device disconnected
+> [ 1019.340442] qmi_wwan 1-1:1.3 wwan0: unregister 'qmi_wwan'
+> usb-ci_hdrc.1-1, WWAN/QMI device
+> [ 1022.827992] usb 1-1: new high-speed USB device number 3 using ci_hdrc
+> [ 1023.057165] option 1-1:1.0: GSM modem (1-port) converter detected
+> [ 1023.097815] usb 1-1: GSM modem (1-port) converter now attached to ttyUSB0
+> [ 1023.157293] option 1-1:1.2: GSM modem (1-port) converter detected
+> [ 1023.178163] usb 1-1: GSM modem (1-port) converter now attached to ttyUSB1
+> [ 1023.201251] qmi_wwan 1-1:1.3: cdc-wdm0: USB WDM device
+> [ 1023.243783] qmi_wwan 1-1:1.3 wwan0: register 'qmi_wwan' at
+> usb-ci_hdrc.1-1, WWAN/QMI device, 16:ed:38:aa:c5:90
+> 
+> Thank you.
+> 
+> Kind regards,
+> 
+> - jh
 
