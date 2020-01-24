@@ -2,104 +2,127 @@ Return-Path: <SRS0=idDB=3N=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71259C47409
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 01:18:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09842C35242
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 04:12:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3AEF124686
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 01:18:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579828703;
-	bh=w9WNDehsM1lFSFmPeMSuZhv8mPkdVYroQ9F1lrDU4GQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=LYEFgpkPHsvzirDN4478Rya43Ri8mAG0dJ/ZRhxb762RQzFbmkCLfjZHzOTvBPXb+
-	 l7Bl8rtNHCp4PvghPfRYQRcFEI6gs4Te47wlJO9yGWXYHfH8IfGiUXBwkrvRLq8Gts
-	 +uLRUZZeUf//xSc1i2MIeaNSWIKhlYLnubIbiGUU=
+	by mail.kernel.org (Postfix) with ESMTP id CF04F22527
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 04:12:36 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (1024-bit key) header.d=renesasgroup.onmicrosoft.com header.i=@renesasgroup.onmicrosoft.com header.b="o9kKJTeW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731004AbgAXBSO (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 23 Jan 2020 20:18:14 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33372 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729545AbgAXBSM (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 23 Jan 2020 20:18:12 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CFBC821D7E;
-        Fri, 24 Jan 2020 01:18:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579828691;
-        bh=w9WNDehsM1lFSFmPeMSuZhv8mPkdVYroQ9F1lrDU4GQ=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KMF6rzF0anuDYLq6YCAKfzzsZ6prsmPzYKEK5N4MBeQHi8Wv5VaHn8P1ubQjaIlPc
-         sFpJYkOWjNTTL0t7Yx9U5IbWX4oztaCR0bW+vMSniLtEDG7N/EOt6jFE9Yhno1iheY
-         hc0UKAxJ7SB/sBynSNv78Ue94x4O445WbYQNP600=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Laura Abbott <labbott@fedoraproject.org>,
-        Steven Ellis <sellis@redhat.com>,
-        Pacho Ramos <pachoramos@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
-        usb-storage@lists.one-eyed-alien.net
-Subject: [PATCH AUTOSEL 4.9 2/2] usb-storage: Disable UAS on JMicron SATA enclosure
-Date:   Thu, 23 Jan 2020 20:18:08 -0500
-Message-Id: <20200124011808.18801-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200124011808.18801-1-sashal@kernel.org>
-References: <20200124011808.18801-1-sashal@kernel.org>
+        id S1729847AbgAXEMg (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 23 Jan 2020 23:12:36 -0500
+Received: from mail-eopbgr1410125.outbound.protection.outlook.com ([40.107.141.125]:6931
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729641AbgAXEMf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 23 Jan 2020 23:12:35 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j1Rhf6rDqxTo3CRY0e3G+Uy/Jql8fMt2ZtWiMUIsaRvJr8kLPHyRIgCPLZ5AzAQXNJpEnlYxX7uSsIxVak2L7gX3Yv9Uih81YXOTUrcARQxOgHKoAKBFjhPd1tu9kBCT0KPZNBK7XMqMaz9JpaknagJ5p5oOdFzrF83Y7PtUQu3ek0jLHv7jW4yfSoBo8IVh4J9gi+WRKCqkdzts9U/HEgf1HaYuUfSs5YMJj7SR+qSlojP0odGhxBVlEGLvL1JVULS1x9f/wBfZ8cnJMMnu/MP5ddfCakqqkIM97xz2T7boaTIx03V05xO9ZReV9jBdRAxlaWxb4IiqZ0R3NSjQyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3qclDkUi//48yzdK81mQY4Z9xEogzn/P6lW6B0dkR4c=;
+ b=ZiH2Cw2gFGUsDda8Ga5AD/apaRqLvR08KQA01dStgn8Yu1egiIZkhZgTPudgDnJEMAwqnfgoFvdBQPkLo14mbndKJ7pW/yeyXLDQUvEqPDFlYSaB5D9nN8PNQ0FDZPgUXshKY121jpfhJiFHceoZLNuK8mHYZ86KyFp97BO04b4PM4Bc+y9vB9PIsXLvE7QGc+eP/H6qmIniaAZoE1Fs/XrOnLG5eclANMq7KbNt5VxGCvzFXGW9Vji5q+kOdBLyXyiPtuwrkfsAZg5LVbsd14aPQEyIUssSVc/qrWBAtSiA9XWowwvpDg8MT8e+xl4zJB3A34AOMn901M5pSj+0RA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3qclDkUi//48yzdK81mQY4Z9xEogzn/P6lW6B0dkR4c=;
+ b=o9kKJTeWjfleQw0R7a3HBfqRVyKhnphLAbdoSq3WBeAczPjFBhNSpQBKttOKO0RuVBPkTFolq56sTTF0cgEuIsbnsTRPxeb6HGJ43w1LuuRWRhaxI7bk1dO92jzdQxHg6QYtl+dl8WdSne9p0ZTA67mXXJHaFOXKVFWyGG8nWIU=
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
+ TYAPR01MB4846.jpnprd01.prod.outlook.com (20.179.186.23) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2665.21; Fri, 24 Jan 2020 04:12:32 +0000
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::318b:31aa:4212:bd49]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::318b:31aa:4212:bd49%7]) with mapi id 15.20.2665.017; Fri, 24 Jan 2020
+ 04:12:32 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Greg KH <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Tony Prisk <linux@prisktech.co.nz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        USB list <linux-usb@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v2] usb: host: ehci-platform: add a quirk to avoid stuck
+Thread-Topic: [PATCH v2] usb: host: ehci-platform: add a quirk to avoid stuck
+Thread-Index: AQHV0eWnau2SnovLYkCRv0gNW3Qw46f4P9eAgAD0h0A=
+Date:   Fri, 24 Jan 2020 04:12:31 +0000
+Message-ID: <TYAPR01MB45443172A8C024BAA509F682D80E0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+References: <1579781234-2084-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <CAMuHMdXqVFOO=D6AgzBmfW3SPYfGa-sBdZ4a+4nJZD5tFNDcWA@mail.gmail.com>
+In-Reply-To: <CAMuHMdXqVFOO=D6AgzBmfW3SPYfGa-sBdZ4a+4nJZD5tFNDcWA@mail.gmail.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [150.249.235.54]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: b97f02e2-9296-43dc-36f8-08d7a083a250
+x-ms-traffictypediagnostic: TYAPR01MB4846:
+x-microsoft-antispam-prvs: <TYAPR01MB4846626E4E7205BB2E5F6FADD80E0@TYAPR01MB4846.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-forefront-prvs: 02929ECF07
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(346002)(376002)(39860400002)(136003)(366004)(199004)(189003)(2906002)(5660300002)(7696005)(66556008)(66446008)(64756008)(66476007)(6916009)(76116006)(52536014)(66946007)(71200400001)(54906003)(26005)(186003)(316002)(478600001)(55016002)(6506007)(9686003)(33656002)(4326008)(86362001)(8936002)(8676002)(81166006)(81156014);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB4846;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: G1Miro+bFtcbPLfRz+mZ/S+4qVad228bo8UzBTzSY+pg/TGar1qENofBiLQGQS/G+YW8DTHWYsitbBkFRhvIkUUEr/2mPn4Ozo6luVErVC4pChMgWMeE+61MVkczplvhu6G/HJN+AsGlqbIvqlhqbrY30gvJCOPq+tMQg9olX4qFsAz2y40wpdHZvIzpO0aq5nFxARZSYPKjVCAbz/WPlrR2YTeP05w7uerJ2xUxXhe1RIRiieJXTb9m2+3bIrw2HNAO8WNZ5GO4vLtht+10/4AQ/oeNzoqYoTMzouJsV4f5nc2ThthdUoQ9AxkxaqPmRwm94awkUgV4AkPw/LqrMNXAM4HDEW825ME7kDk3L2iVwY6Z7A7o/NUj4TFTSCkGNqfsPU5BRB3vwJXVCunvIdaEtgazGZJkL4VFIzHQPn0Asy/GDDA15pKH8Vnsf+D4
+x-ms-exchange-antispam-messagedata: xz6pfhmrOOxnxNKdNxGdpozfv0eYiQIaZ1ICgZnCz/3Y1ZKa4fqa6sp7XeqUhQnHFghj1E9WbYc9g5f1vuO4PyEWjV90rXs5bdAH9unAixpNQyi0bWl8GA71T0cllUqUKkJC9kOpZzwMWc6TwkYASA==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b97f02e2-9296-43dc-36f8-08d7a083a250
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jan 2020 04:12:31.9361
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wztDv+66BduVnB/Dml7l4tYFkNtLBCel0w6fze4AFueFwjpngw7J+KpHd+FfF0ygFam55UFqCadQz1cvnkhKmn/11n5EXBP1qcN2RblELTOB6lJQuF3Ij+MfWQIkoQBu
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4846
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Laura Abbott <labbott@fedoraproject.org>
-
-[ Upstream commit bc3bdb12bbb3492067c8719011576370e959a2e6 ]
-
-Steve Ellis reported incorrect block sizes and alignement
-offsets with a SATA enclosure. Adding a quirk to disable
-UAS fixes the problems.
-
-Reported-by: Steven Ellis <sellis@redhat.com>
-Cc: Pacho Ramos <pachoramos@gmail.com>
-Signed-off-by: Laura Abbott <labbott@fedoraproject.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/storage/unusual_uas.h | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/storage/unusual_uas.h b/drivers/usb/storage/unusual_uas.h
-index f15aa47c54a9d..0eb8c67ee1382 100644
---- a/drivers/usb/storage/unusual_uas.h
-+++ b/drivers/usb/storage/unusual_uas.h
-@@ -163,12 +163,15 @@ UNUSUAL_DEV(0x2537, 0x1068, 0x0000, 0x9999,
- 		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
- 		US_FL_IGNORE_UAS),
- 
--/* Reported-by: Takeo Nakayama <javhera@gmx.com> */
-+/*
-+ * Initially Reported-by: Takeo Nakayama <javhera@gmx.com>
-+ * UAS Ignore Reported by Steven Ellis <sellis@redhat.com>
-+ */
- UNUSUAL_DEV(0x357d, 0x7788, 0x0000, 0x9999,
- 		"JMicron",
- 		"JMS566",
- 		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
--		US_FL_NO_REPORT_OPCODES),
-+		US_FL_NO_REPORT_OPCODES | US_FL_IGNORE_UAS),
- 
- /* Reported-by: Hans de Goede <hdegoede@redhat.com> */
- UNUSUAL_DEV(0x4971, 0x1012, 0x0000, 0x9999,
--- 
-2.20.1
-
+SGkgR2VlcnQtc2FuLA0KDQpUaGFuayB5b3UgZm9yIHlvdXIgcmV2aWV3IQ0KDQo+IEZyb206IEdl
+ZXJ0IFV5dHRlcmhvZXZlbiwgU2VudDogVGh1cnNkYXksIEphbnVhcnkgMjMsIDIwMjAgMTA6MzQg
+UE0NCjxzbmlwPg0KPiA+IC0tLSBhL2RyaXZlcnMvdXNiL2hvc3QvZWhjaS1wbGF0Zm9ybS5jDQo+
+ID4gKysrIGIvZHJpdmVycy91c2IvaG9zdC9laGNpLXBsYXRmb3JtLmMNCj4gDQo+ID4gK3N0YXRp
+YyBjb25zdCBzdHJ1Y3Qgc29jX2RldmljZV9hdHRyaWJ1dGUgcXVpcmtfcG9sbF9tYXRjaFtdID0g
+ew0KPiA+ICsgICAgICAgeyAuc29jX2lkID0gInI4YTc3OTUiIH0sDQo+ID4gKyAgICAgICB7IC5z
+b2NfaWQgPSAicjhhNzc5NTEiIH0sDQo+IA0KPiBBcyAuc29jX2lkIGlzIGRlcml2ZWQgZnJvbSB0
+aGUgbWFpbiBjb21wYXRpYmxlIHZhbHVlLCBpdCBpcyAicjhhNzc5NSIgZm9yIGJvdGgNCj4gUi1D
+YXIgSDMgRVMxLnggKFI4QTc3OTUwKSBhbmQgRVMyLjArIChSOEE3Nzk1MSkuDQoNCk9oLCBJIGdv
+dCBpdC4NCg0KPiA+ICsgICAgICAgeyAuc29jX2lkID0gInI4YTc3OTYiIH0sDQo+ID4gKyAgICAg
+ICB7IC5zb2NfaWQgPSAicjhhNzc5NjEiIH0sDQo+ID4gKyAgICAgICB7IC5zb2NfaWQgPSAicjhh
+Nzc5NjUiIH0sDQo+ID4gKyAgICAgICB7IC5zb2NfaWQgPSAicjhhNzc5OTAiIH0sDQo+ID4gKyAg
+ICAgICB7IC5zb2NfaWQgPSAicjhhNzc5OTUiIH0sDQo+IA0KPiBJbnN0ZWFkIG9mIG1hdGNoaW5n
+IG9uIC5zb2NfaWQsIHlvdSBjYW4gYWxzbyBtYXRjaCBvbiAuZmFtaWx5ID0gIlItQ2FyIEdlbjMi
+DQo+ICh1bnRpbCB3ZSBkaXNjb3ZlciBhIGZ1dHVyZSBmYW1pbHkgbWVtYmVyIHRoYXQgaXMgbm90
+IGFmZmVjdGVkPykuDQoNClRoYW5rIHlvdSBmb3IgdGhpcyBzdWdnZXN0aW9uLiBJJ2xsIHVzZSBz
+dWNoIGEgLmZhbWlseSAodW50aWwgdGhlbikuDQoNCj4gSSBndWVzcyB0aGlzIGFmZmVjdHMgUlov
+RzIsIHRvbz8gLmZhbWlseSA9ICJSWi9HMiIuDQoNCkkgdGhpbmsgc28uIFNvLCBJJ2xsIGFkZCAi
+UlovRzIiIG9uIHYzIHBhdGNoLg0KDQpCZXN0IHJlZ2FyZHMsDQpZb3NoaWhpcm8gU2hpbW9kYQ0K
+DQo+IEdye29ldGplLGVldGluZ31zLA0KPiANCj4gICAgICAgICAgICAgICAgICAgICAgICAgR2Vl
+cnQNCj4gDQo+IC0tDQo+IEdlZXJ0IFV5dHRlcmhvZXZlbiAtLSBUaGVyZSdzIGxvdHMgb2YgTGlu
+dXggYmV5b25kIGlhMzIgLS0gZ2VlcnRAbGludXgtbTY4ay5vcmcNCj4gDQo+IEluIHBlcnNvbmFs
+IGNvbnZlcnNhdGlvbnMgd2l0aCB0ZWNobmljYWwgcGVvcGxlLCBJIGNhbGwgbXlzZWxmIGEgaGFj
+a2VyLiBCdXQNCj4gd2hlbiBJJ20gdGFsa2luZyB0byBqb3VybmFsaXN0cyBJIGp1c3Qgc2F5ICJw
+cm9ncmFtbWVyIiBvciBzb21ldGhpbmcgbGlrZSB0aGF0Lg0KPiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIC0tIExpbnVzIFRvcnZhbGRzDQo=
