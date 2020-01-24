@@ -7,37 +7,37 @@ X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65979C35240
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 01:17:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D58A2C35240
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 01:17:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 2BEDC24655
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 01:17:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A6DD24655
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 01:17:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1579828661;
+	s=default; t=1579828678;
 	bh=xjiIuT2evy8epx2GISn700fzYHTLGE7gpt2NB0cwO60=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=GHJSQAgutgplioqYnpfA9F8BKTp8VsFBBqxtio04A6KO9ZGo3MZu56O0Mw4obf1hw
-	 iAE+XO5ppkiWpJu1MQkhpIqq1arBbRDtMbYf3Z0A6yEBvZ33qeec6O2n/WOGBzH8ud
-	 dlwFUm8W1q467S0k+JJ3c5uBX+BHaX+diiq66fQM=
+	b=UgWwTkcvZdmQmXCvpc0zz4KbtnVPWy4T4rhBY30IDZPtNO0vJcn+pMiFR/2jUYyXw
+	 AhpzkkX27DxBSY1xGVfk4jFub4yJWnUlbdEiZZcCLcVY5mAiqC7Jlsu3Ro0EaVEKIx
+	 66FkZ3Y/rBc0teVTJ9Oo6dC6lcCZZfMhkLA1FC3k=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730667AbgAXBRj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 23 Jan 2020 20:17:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60738 "EHLO mail.kernel.org"
+        id S1730811AbgAXBR5 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 23 Jan 2020 20:17:57 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33024 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730656AbgAXBRi (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 23 Jan 2020 20:17:38 -0500
+        id S1729316AbgAXBR5 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 23 Jan 2020 20:17:57 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B21A4206A2;
-        Fri, 24 Jan 2020 01:17:36 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 563E721D7E;
+        Fri, 24 Jan 2020 01:17:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579828657;
+        s=default; t=1579828676;
         bh=xjiIuT2evy8epx2GISn700fzYHTLGE7gpt2NB0cwO60=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mhf8VvsmofmyoN59NrisBDNTQnqteliPkpphYbdsZM6QzjujQPf1Jpnc71lkO4rS1
-         bjmsJ0feVsuNUP2CjdXTqKKDzqQ0I5bmmZ5K0cCHbzI3+UjJJZYV1kq5In3wthPYNn
-         5c0uR97qiS+PADpieIqjaCaahFg5P2euq1wWoWNM=
+        b=2lEpOucFuMhjdV97nN50aalPNQfiAjn0tiqKQutag4+oFEQlu2W35BU9okjRFNpUR
+         pONDzLncejMEcVedeADipaQWxB1V+tbKHjLm0ezNaP7SXELnw4pf+obkRLwqzy0FNx
+         NvWqm99hWn1BB7MPXOaIhwemDHKksI5A48g4BGy4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Laura Abbott <labbott@fedoraproject.org>,
@@ -46,12 +46,12 @@ Cc:     Laura Abbott <labbott@fedoraproject.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org,
         usb-storage@lists.one-eyed-alien.net
-Subject: [PATCH AUTOSEL 5.4 25/33] usb-storage: Disable UAS on JMicron SATA enclosure
-Date:   Thu, 23 Jan 2020 20:17:00 -0500
-Message-Id: <20200124011708.18232-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 07/11] usb-storage: Disable UAS on JMicron SATA enclosure
+Date:   Thu, 23 Jan 2020 20:17:43 -0500
+Message-Id: <20200124011747.18575-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200124011708.18232-1-sashal@kernel.org>
-References: <20200124011708.18232-1-sashal@kernel.org>
+In-Reply-To: <20200124011747.18575-1-sashal@kernel.org>
+References: <20200124011747.18575-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
