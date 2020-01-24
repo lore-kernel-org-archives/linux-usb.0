@@ -2,116 +2,92 @@ Return-Path: <SRS0=idDB=3N=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 549EBC2D0DB
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 13:30:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A74CCC2D0DB
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 14:11:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3185D2075D
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 13:30:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 71301214AF
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 14:11:36 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="OUxPmpHW"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389856AbgAXNaa (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 24 Jan 2020 08:30:30 -0500
-Received: from albert.telenet-ops.be ([195.130.137.90]:56142 "EHLO
-        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389540AbgAXNaT (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Jan 2020 08:30:19 -0500
-Received: from ramsan ([84.195.182.253])
-        by albert.telenet-ops.be with bizsmtp
-        id uDW42100T5USYZQ06DW4VA; Fri, 24 Jan 2020 14:30:17 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iuz2C-0007bH-D3; Fri, 24 Jan 2020 14:30:04 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iuz2C-00047C-Ba; Fri, 24 Jan 2020 14:30:04 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Gilad Ben-Yossef <gilad@benyossef.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        "Rafael J . Wysocki" <rafael@kernel.org>
-Cc:     Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-        Felipe Balbi <balbi@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Bin Liu <b-liu@ti.com>, linux-crypto@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 1/2] debugfs: regset32: Add Runtime PM support
-Date:   Fri, 24 Jan 2020 14:29:56 +0100
-Message-Id: <20200124132957.15769-2-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200124132957.15769-1-geert+renesas@glider.be>
-References: <20200124132957.15769-1-geert+renesas@glider.be>
+        id S2389841AbgAXOLf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 24 Jan 2020 09:11:35 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:54850 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389118AbgAXOLf (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Jan 2020 09:11:35 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00OE8RCK065931;
+        Fri, 24 Jan 2020 14:11:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2019-08-05;
+ bh=VfNjqg7FejUrmLZJcuFSOF82y9tdMchXxATYFjEy1q4=;
+ b=OUxPmpHW4++e/oZ8ICTiksfYm56LaT6jP9XajNEy3rgWIjLtwVyfBFVnCDm3fVSA6sTR
+ tbhAa1L2H1vKy1rlDiBoFhK8CYJElQQA/mCKjrHTYCrZjJR+GMeBfeZPQL/0ktFYtwid
+ MSBJLObZITMGk61zg5DSXzW0ixfjjBsBxYrPpS9x2kXii+kyD2VuzKT3e65QvmhL6PuC
+ A3bKJNbmqZgWM0aefaE6RuXj9qXF1xyVBbYg/S6tVcGQB0rzJlKR5HUbNcF8W5eVc6ZL
+ Zc6L7HyEXlZzF+ZT0TXBuN7x6V3bNYzh4BV2RrDSqlgzTz/6A37GFUqYnfd9t8QzWbQN lg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2130.oracle.com with ESMTP id 2xksev1ady-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 24 Jan 2020 14:11:12 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id 00OE9ACV011506;
+        Fri, 24 Jan 2020 14:11:12 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by aserp3020.oracle.com with ESMTP id 2xqmwfbgrs-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 24 Jan 2020 14:11:11 +0000
+Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 00OEB72Z000365;
+        Fri, 24 Jan 2020 14:11:08 GMT
+Received: from kadam (/129.205.23.165)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 24 Jan 2020 06:11:07 -0800
+Date:   Fri, 24 Jan 2020 17:10:58 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Hillf Danton <hdanton@sina.com>
+Cc:     syzbot <syzbot+75287f75e2fedd69d680@syzkaller.appspotmail.com>,
+        andreyknvl@google.com, bnvandana@gmail.com,
+        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, mchehab@kernel.org,
+        syzkaller-bugs@googlegroups.com
+Subject: Re: KASAN: use-after-free Read in v4l2_release (3)
+Message-ID: <20200124141058.GM1847@kadam>
+References: <000000000000de50d7059ba6acd5@google.com>
+ <20200123102707.2596-1-hdanton@sina.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200123102707.2596-1-hdanton@sina.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9509 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=609
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1911140001 definitions=main-2001240118
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9509 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=2 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=687 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1911140001
+ definitions=main-2001240118
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hardware registers of devices under control of power management cannot
-be accessed at all times.  If such a device is suspended, register
-accesses may lead to undefined behavior, like reading bogus values, or
-causing exceptions or system locks.
+This would work but another approach would be to to allocate "usbvision"
+with devm_kzalloc(&dev->dev,...  I believe that would postpone the free
+enough to solve the use after free but I hadn't tested it yet.  But
+other drivers do that so hopefully it works.
 
-Extend struct debugfs_regset32 with an optional field to let device
-drivers specify the device the registers in the set belong to.  This
-allows debugfs_show_regset32() to make sure the device is resumed while
-its registers are being read.
-
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- fs/debugfs/file.c       | 8 ++++++++
- include/linux/debugfs.h | 1 +
- 2 files changed, 9 insertions(+)
-
-diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
-index dede25247b81f72a..5e52d68421c678f2 100644
---- a/fs/debugfs/file.c
-+++ b/fs/debugfs/file.c
-@@ -18,6 +18,7 @@
- #include <linux/slab.h>
- #include <linux/atomic.h>
- #include <linux/device.h>
-+#include <linux/pm_runtime.h>
- #include <linux/poll.h>
- #include <linux/security.h>
- 
-@@ -1057,7 +1058,14 @@ static int debugfs_show_regset32(struct seq_file *s, void *data)
- {
- 	struct debugfs_regset32 *regset = s->private;
- 
-+	if (regset->dev)
-+		pm_runtime_get_sync(regset->dev);
-+
- 	debugfs_print_regs32(s, regset->regs, regset->nregs, regset->base, "");
-+
-+	if (regset->dev)
-+		pm_runtime_put(regset->dev);
-+
- 	return 0;
- }
- 
-diff --git a/include/linux/debugfs.h b/include/linux/debugfs.h
-index bf9b6cafa4c26a68..5d0783ae09f365ac 100644
---- a/include/linux/debugfs.h
-+++ b/include/linux/debugfs.h
-@@ -35,6 +35,7 @@ struct debugfs_regset32 {
- 	const struct debugfs_reg32 *regs;
- 	int nregs;
- 	void __iomem *base;
-+	struct device *dev;	/* Optional device for Runtime PM */
- };
- 
- extern struct dentry *arch_debugfs_dir;
--- 
-2.17.1
-
+regards,
+dan carpenter
