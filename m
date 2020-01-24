@@ -2,101 +2,103 @@ Return-Path: <SRS0=idDB=3N=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.9 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 357E9C2D0CE
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 08:42:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B47A6C2D0DB
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 12:16:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 033112070A
-	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 08:42:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8520E206D4
+	for <linux-usb@archiver.kernel.org>; Fri, 24 Jan 2020 12:16:46 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=st.com header.i=@st.com header.b="G627GwUv"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b="j2MhxV65";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b="j2MhxV65"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729469AbgAXIlw (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 24 Jan 2020 03:41:52 -0500
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:41226 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725821AbgAXIlw (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 24 Jan 2020 03:41:52 -0500
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 00O8cLi4009557;
-        Fri, 24 Jan 2020 09:41:42 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=STMicroelectronics;
- bh=6YN6uRI+tL0RDCkjsa7KMknLT70Rl4troyt+Y2tOtyQ=;
- b=G627GwUva+dpPyfCp5ytx+OmRrxerrsKs9gj1FakrHCoQiqQEFooZInNOVvQAECAq01x
- fKl/4swugfCnT4ZD46Gpu2QGPdQ1yL/yIbFPoah2NAeepn4w4hdaigLIL3mau4YAhWFK
- Td2l3twaeTXz+fEQxkTFm1jgyeXwaAGoHhlO6hnBmHqR1KL2Lo2GlGDRWBn8VaF6glsn
- SG573uHseDuMhdpbmexeHn2idnHIjjVg7yXOcEsyX2NErxkUMYwQecvAh2O09Vbj57w6
- sM5J5HlYYf0h3zU2GVpR2OsVSyGaXvaNA3ZMLb65I6g0b1NOA+ymc4D+JYrmlZpq/2OC xQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2xkrc5eu6h-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 24 Jan 2020 09:41:42 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id CD44E100038;
-        Fri, 24 Jan 2020 09:41:39 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B2C6920EDC8;
-        Fri, 24 Jan 2020 09:41:39 +0100 (CET)
-Received: from localhost (10.75.127.47) by SFHDAG3NODE2.st.com (10.75.127.8)
- with Microsoft SMTP Server (TLS) id 15.0.1347.2; Fri, 24 Jan 2020 09:41:39
- +0100
-From:   Amelie Delaunay <amelie.delaunay@st.com>
-To:     Minas Harutyunyan <hminas@synopsys.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-CC:     <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>,
-        Amelie Delaunay <amelie.delaunay@st.com>
-Subject: [PATCH v3 0/2] USB DWC2 support for STM32MP15 SoCs USB OTG
-Date:   Fri, 24 Jan 2020 09:41:29 +0100
-Message-ID: <20200124084131.23749-1-amelie.delaunay@st.com>
-X-Mailer: git-send-email 2.17.1
+        id S1730379AbgAXMQp (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 24 Jan 2020 07:16:45 -0500
+Received: from cable.insite.cz ([84.242.75.189]:54102 "EHLO cable.insite.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730275AbgAXMQp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 24 Jan 2020 07:16:45 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by cable.insite.cz (Postfix) with ESMTP id CEB85A1A40B07;
+        Fri, 24 Jan 2020 13:16:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+        t=1579868201; bh=L01J8jxK50mtP80y/7F4UYp0RJAINpEbN3MrdXYjrSo=;
+        h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
+        b=j2MhxV65Rw/6S5DLR0IgT+LQsh+I9P89s+Spwv72hZmyK+ejxjVyWpadQZ+3E2q5m
+         7bjTohw77WTzOwr3zO8xR/QJoAzEVth8LI840+Af03vt4yVseyGADaWDbJfIt42ZUN
+         OKTiuR9AEz+9G6SDfYufRxOnwifA6kY64hBeL5qs=
+Received: from cable.insite.cz ([84.242.75.189])
+        by localhost (server.insite.cz [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id wB9GSccwqEa3; Fri, 24 Jan 2020 13:16:41 +0100 (CET)
+Received: from [192.168.100.32] (unknown [192.168.100.32])
+        (Authenticated sender: pavel)
+        by cable.insite.cz (Postfix) with ESMTPSA id A6C85A1A40B02;
+        Fri, 24 Jan 2020 13:16:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
+        t=1579868201; bh=L01J8jxK50mtP80y/7F4UYp0RJAINpEbN3MrdXYjrSo=;
+        h=Subject:From:To:Cc:References:Date:In-Reply-To:From;
+        b=j2MhxV65Rw/6S5DLR0IgT+LQsh+I9P89s+Spwv72hZmyK+ejxjVyWpadQZ+3E2q5m
+         7bjTohw77WTzOwr3zO8xR/QJoAzEVth8LI840+Af03vt4yVseyGADaWDbJfIt42ZUN
+         OKTiuR9AEz+9G6SDfYufRxOnwifA6kY64hBeL5qs=
+Subject: Re: [PATCH] usb: gadget: u_audio: Fix high-speed max packet size
+From:   Pavel Hofman <pavel.hofman@ivitera.com>
+To:     John Keeping <john@metanate.com>
+Cc:     linux-usb@vger.kernel.org, Felipe Balbi <balbi@kernel.org>
+References: <4f2df2bc-e208-fffb-48e2-3e14cd093103@ivitera.com>
+ <60bf144a-2039-8832-b6f1-f972de6a6846@ivitera.com>
+ <cfcef91b-799e-7d02-4a4c-26ee95e85ff7@ivitera.com>
+ <20200114200450.064cd521.john@metanate.com>
+ <24f0935d-16a7-4301-78f4-fa459e356ca9@ivitera.com>
+ <20200117104022.5bb769f2.john@metanate.com>
+ <495ccd06-9059-2249-ce70-aa9647609319@ivitera.com>
+Message-ID: <9607a759-c08c-97bd-a0a7-f506ca64435f@ivitera.com>
+Date:   Fri, 24 Jan 2020 13:16:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.47]
-X-ClientProxiedBy: SFHDAG7NODE3.st.com (10.75.127.21) To SFHDAG3NODE2.st.com
- (10.75.127.8)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.572
- definitions=2020-01-24_02:2020-01-24,2020-01-24 signatures=0
+In-Reply-To: <495ccd06-9059-2249-ce70-aa9647609319@ivitera.com>
+Content-Type: text/plain; charset=iso-8859-2; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Adds support for STM32MP15 SoCs USB OTG HS and FS based on DWC2 IP.
 
-STM32MP15 SoCs embeds a DWC2 IP that can be used in HS or in FS, and
-uses an external Vbus and ID level detection to support OTG operations.
+Dne 19. 01. 20 v 15:53 Pavel Hofman napsal(a):
+> 
+> Dne 17. 01. 20 v 11:40 John Keeping napsal(a):
+>> On Thu, 16 Jan 2020 16:39:50 +0100
+>> Pavel Hofman <pavel.hofman@ivitera.com> wrote:
+>>
+>>>> I've taken a look at this and the patch below fixes it in my simple
+>>>> testing.  But note that this doesn't adjust the PCM's min_period_bytes
+>>>> which will be necessary if you want to minimize latency with an 
+>>>> adjusted
+>>>> high-speed bInterval setting.
+>>>
+>>> Please can I ask you to submit your patch? IMO your perhaps slightly
+>>> suboptimal solution is much better than the current broken version.
+>>
+>> Yes, the patch is definitely an improvement.  I thought it would be
+>> picked up from the earlier mail, but I think Patchwork requires the
+>> subject to match, so I'm including it again here.
+>>
+>> Are you able to provide a Tested-by for this change?
+> 
+> 
+> Testing looks OK, thanks a lot!
+> 
+> Tested-by: Pavel Hofman  <pavel.hofman@ivitera.com>
+> 
 
-Amelie Delaunay (2):
-  dt-bindings: usb: dwc2: add support for STM32MP15 SoCs USB OTG HS and
-    FS
-  usb: dwc2: add support for STM32MP15 SoCs USB OTG HS and FS
+Please may I ask for finishing the patch submittal procedure, when it is 
+already prepared and useful?
 
----
-Changes in v3:
-- fix usb33d-supply in bindings
+Thanks a lot,
 
-Changes in v2:
-- add Minas Acked-by on driver
-- use dwc2.yaml bindings
-
- .../devicetree/bindings/usb/dwc2.yaml         |  6 ++
- drivers/usb/dwc2/core.h                       |  8 ++
- drivers/usb/dwc2/hw.h                         |  8 ++
- drivers/usb/dwc2/params.c                     | 33 +++++++
- drivers/usb/dwc2/platform.c                   | 94 ++++++++++++++++++-
- 5 files changed, 147 insertions(+), 2 deletions(-)
-
--- 
-2.17.1
-
+Pavel.
