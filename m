@@ -2,124 +2,143 @@ Return-Path: <SRS0=1629=3S=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+X-Spam-Status: No, score=-5.4 required=3.0 tests=FROM_LOCAL_HEX,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7555AC33CB2
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Jan 2020 11:21:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE75FC33CB2
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Jan 2020 12:27:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 45D7920708
-	for <linux-usb@archiver.kernel.org>; Wed, 29 Jan 2020 11:21:51 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lo3mryy3"
+	by mail.kernel.org (Postfix) with ESMTP id A23E420702
+	for <linux-usb@archiver.kernel.org>; Wed, 29 Jan 2020 12:27:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726091AbgA2LVu (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 29 Jan 2020 06:21:50 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:33083 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726067AbgA2LVu (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Jan 2020 06:21:50 -0500
-Received: by mail-lj1-f194.google.com with SMTP id y6so18069606lji.0;
-        Wed, 29 Jan 2020 03:21:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:references:date:in-reply-to:message-id
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=NPCUdLAYmbEspRBF05xZGb8x0Dpqva/T+gPsfhkFeOA=;
-        b=lo3mryy3EPGV3wjla57jjaGExvmgGbLwskoGo2f4aETMXTnZY4n8y3V4MVs5q8uuVn
-         0g33CDZIii/tmXcz40l8nSLVuHtSey5IcN88fgqai2D3Of2cf7pCNbb+thaEFxBB8CQf
-         4ktOVU2JIMVE9X2pEogqYMGScv63jddu2RiRv0hR5iPB7HI8EZY8tXTHHwO+sr8z0e3z
-         lBbv+KwyISNeEuOHs/oRvt3ynNR2+cnw+Yac7MqxruZH5vFi9wXHbLTZRKhYTZ5ai+Dq
-         OWktIQQvL2ywRr9jTZ4WnC2ZT5bwZPPYH2rROmp+ngU219FDIS2873/x4Fu+a+xFQV0r
-         Z0Xw==
+        id S1726466AbgA2M1K (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 29 Jan 2020 07:27:10 -0500
+Received: from mail-il1-f198.google.com ([209.85.166.198]:51131 "EHLO
+        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726067AbgA2M1K (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 29 Jan 2020 07:27:10 -0500
+Received: by mail-il1-f198.google.com with SMTP id z12so12830545ilh.17
+        for <linux-usb@vger.kernel.org>; Wed, 29 Jan 2020 04:27:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:references:date:in-reply-to
-         :message-id:user-agent:mime-version:content-transfer-encoding;
-        bh=NPCUdLAYmbEspRBF05xZGb8x0Dpqva/T+gPsfhkFeOA=;
-        b=N6u64a4aLyKDduxLyCxpMrgK4kjHpQ0uKd+ThXLp3Wh6QVPD2CdfQSevlJeElvfjMu
-         p+MuACZRWVFVH+5lMkuey0zufTVIlbATZKbiZUD74KFUPjeDO1kvluNottLb9/DBy7yz
-         Lk457QDzUSKvdiZVutQpiMUgiGv22iVVjSq9oILpLM6WGX1rGBvPB9Prb+zv88sCju2I
-         T6whYgBCq6BbwNP/rNEN0E6gVR607Eqr1sYybEZ1LDqo9fg9BJhIAM/zzOlTo+QqjOjd
-         4lAajKOyy/QtsW/UGqiO4edD36yL7CGSEjB+KyuV7EhqzhhMBoiUKEVI2zZq4XzvxJW7
-         JmhA==
-X-Gm-Message-State: APjAAAW1Pc2zsK8DTeCUI+gn1VJP4CQZADOAbH4/q45M7UBYF6eo6XfE
-        Gg3sli+FoSYwp9eChbSp/a6jAEwc
-X-Google-Smtp-Source: APXvYqxNVehRNwku/wPhP1/6tlzSibCQ47vVcHhXNMgzbVJn6j32BloCUTvoaCwPYWpa+82n49fcJg==
-X-Received: by 2002:a2e:844e:: with SMTP id u14mr3111213ljh.183.1580296907910;
-        Wed, 29 Jan 2020 03:21:47 -0800 (PST)
-Received: from osv.localdomain ([89.175.180.246])
-        by smtp.gmail.com with ESMTPSA id z7sm764137lji.30.2020.01.29.03.21.46
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 29 Jan 2020 03:21:47 -0800 (PST)
-From:   Sergey Organov <sorganov@gmail.com>
-To:     linux-usb@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <balbi@kernel.org>,
-        =?utf-8?Q?Micha=C5=82_Miros=C5=82aw?= <mirq-linux@rere.qmqm.pl>,
-        linux-serial@vger.kernel.org
-Subject: [PATCH v3] usb: gadget: serial: fix Tx stall after buffer overflow
-References: <87pnfi8xc2.fsf@osv.gnss.ru>
-Date:   Wed, 29 Jan 2020 14:21:46 +0300
-In-Reply-To: <87pnfi8xc2.fsf@osv.gnss.ru> (Sergey Organov's message of "Fri,
-        17 Jan 2020 08:29:33 +0300")
-Message-ID: <87sgjyzewl.fsf@osv.gnss.ru>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.4 (gnu/linux)
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=1LU7cT1NM4zJrmEpKD8Xx8DzjfpEkyjd7mAueUGcFA4=;
+        b=jPE9TsM5Ub63IXhj381G1lAVSEaGAfqUZ7huGBY4LUrg7NIdbf+/C+poFHzFdWwGA6
+         ttlCr4/HhSGAVhJ32bgY+I6keTgwptb6WMQxX5SmxZuTCSBiVNqTEd2u4g4JGeeEBu66
+         KEIIENtilrREfK/pUVVtaXFLxFaw6lyNOljCbDtGwW9cEJFRZodtELgZGz8HgWcDz8ks
+         JbLFfbFLgVDc9xlj+In1uZi512F5+5o5w/It4k5+71oGOLqzqJVM/Z+SVC11yM/86050
+         bukY9FiEbdEg1EYJCa3sVEs8BRIqRMs+n1HjgJFi+aNNG7z7pn9OtZR09Kw9zGY8Z5h3
+         298w==
+X-Gm-Message-State: APjAAAVA5ew1rsuvm4cSm+2Lu+BkVmx8pZMNWCzgJfAahK2kIYXbLB+b
+        wZ2zZ1ovwVvAGhhRyh6jIkVxM14UsKhyB0BsbXz1b/37fjR9
+X-Google-Smtp-Source: APXvYqyNNrRfVc3UyNQSHPkK7stFmdv/ZckLWKDUYrA32R2im2tl3cGAMvD4/gIXTVOHZxoxgKtB42vprg8vDW7+E4Q2MgUMWssJ
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a02:5206:: with SMTP id d6mr3952937jab.8.1580300829579;
+ Wed, 29 Jan 2020 04:27:09 -0800 (PST)
+Date:   Wed, 29 Jan 2020 04:27:09 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000095e1d8059d4675ac@google.com>
+Subject: WARNING in ar5523_cmd/usb_submit_urb
+From:   syzbot <syzbot+1bc2c2afd44f820a669f@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, gregkh@linuxfoundation.org,
+        ingrassia@epigenesys.com, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Symptom: application opens /dev/ttyGS0 and starts sending (writing) to
-it while either USB cable is not connected, or nobody listens on the
-other side of the cable. If driver circular buffer overflows before
-connection is established, no data will be written to the USB layer
-until/unless /dev/ttyGS0 is closed and re-opened again by the
-application (the latter besides having no means of being notified about
-the event of establishing of the connection.)
+Hello,
 
-Fix: on open and/or connect, kick Tx to flush circular buffer data to
-USB layer.
+syzbot found the following crash on:
 
-Signed-off-by: Sergey Organov <sorganov@gmail.com>
-Reviewed-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+HEAD commit:    cd234325 usb: gadget: add raw-gadget interface
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=146bf3c9e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=bb745005307bc641
+dashboard link: https://syzkaller.appspot.com/bug?extid=1bc2c2afd44f820a669f
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1646cf35e00000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11017735e00000
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+1bc2c2afd44f820a669f@syzkaller.appspotmail.com
+
+usb 1-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+usb 1-1: Product: syz
+usb 1-1: Manufacturer: syz
+usb 1-1: SerialNumber: syz
+------------[ cut here ]------------
+usb 1-1: BOGUS urb xfer, pipe 3 != type 1
+WARNING: CPU: 0 PID: 95 at drivers/usb/core/urb.c:478 usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 0 PID: 95 Comm: kworker/0:2 Not tainted 5.5.0-rc7-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0xef/0x16e lib/dump_stack.c:118
+ panic+0x2aa/0x6e1 kernel/panic.c:221
+ __warn.cold+0x2f/0x30 kernel/panic.c:582
+ report_bug+0x27b/0x2f0 lib/bug.c:195
+ fixup_bug arch/x86/kernel/traps.c:174 [inline]
+ fixup_bug arch/x86/kernel/traps.c:169 [inline]
+ do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:267
+ do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:286
+ invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1027
+RIP: 0010:usb_submit_urb+0x1188/0x1460 drivers/usb/core/urb.c:478
+Code: 4d 85 ed 74 46 e8 28 2d e1 fd 4c 89 f7 e8 d0 87 17 ff 41 89 d8 44 89 e1 4c 89 ea 48 89 c6 48 c7 c7 a0 2b 3b 86 e8 20 13 b6 fd <0f> 0b e9 20 f4 ff ff e8 fc 2c e1 fd 0f 1f 44 00 00 e8 f2 2c e1 fd
+RSP: 0018:ffff8881d58cf0d8 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: 0000000000000001 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff81295a0d RDI: ffffed103ab19e0d
+RBP: ffff8881cd478050 R08: ffff8881d71ac980 R09: fffffbfff1269cae
+R10: fffffbfff1269cad R11: ffffffff8934e56f R12: 0000000000000003
+R13: ffff8881d098eee8 R14: ffff8881cda730a0 R15: ffff8881d5583b00
+ ar5523_cmd+0x438/0x7a0 drivers/net/wireless/ath/ar5523/ar5523.c:271
+ ar5523_cmd_read drivers/net/wireless/ath/ar5523/ar5523.c:298 [inline]
+ ar5523_host_available drivers/net/wireless/ath/ar5523/ar5523.c:1372 [inline]
+ ar5523_probe+0xc11/0x1ad0 drivers/net/wireless/ath/ar5523/ar5523.c:1652
+ usb_probe_interface+0x310/0x800 drivers/usb/core/driver.c:361
+ really_probe+0x290/0xad0 drivers/base/dd.c:548
+ driver_probe_device+0x223/0x350 drivers/base/dd.c:721
+ __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:828
+ bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+ __device_attach+0x217/0x390 drivers/base/dd.c:894
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+ device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+ usb_set_configuration+0xe47/0x17d0 drivers/usb/core/message.c:2023
+ generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+ usb_probe_device+0xaf/0x140 drivers/usb/core/driver.c:266
+ really_probe+0x290/0xad0 drivers/base/dd.c:548
+ driver_probe_device+0x223/0x350 drivers/base/dd.c:721
+ __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:828
+ bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+ __device_attach+0x217/0x390 drivers/base/dd.c:894
+ bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+ device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+ usb_new_device.cold+0x540/0xcd0 drivers/usb/core/hub.c:2538
+ hub_port_connect drivers/usb/core/hub.c:5185 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5325 [inline]
+ port_event drivers/usb/core/hub.c:5471 [inline]
+ hub_event+0x21cb/0x4300 drivers/usb/core/hub.c:5553
+ process_one_work+0x945/0x15c0 kernel/workqueue.c:2264
+ worker_thread+0x96/0xe20 kernel/workqueue.c:2410
+ kthread+0x318/0x420 kernel/kthread.c:255
+ ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+Kernel Offset: disabled
+Rebooting in 86400 seconds..
+
+
 ---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Changes in v3:
-
-- Add Reviewed-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
-
-Changes in v2:
-
-- Add comment to document why tty_wakeup() is kept in place
-- Don't add debug print
-- Remove NOTE from description
-
- drivers/usb/gadget/function/u_serial.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
-index f986e5c..8167d37 100644
---- a/drivers/usb/gadget/function/u_serial.c
-+++ b/drivers/usb/gadget/function/u_serial.c
-@@ -561,8 +561,10 @@ static int gs_start_io(struct gs_port *port)
- 	port->n_read = 0;
- 	started = gs_start_rx(port);
- 
--	/* unblock any pending writes into our circular buffer */
- 	if (started) {
-+		gs_start_tx(port);
-+		/* Unblock any pending writes into our circular buffer, in case
-+		 * we didn't in gs_start_tx() */
- 		tty_wakeup(port->port.tty);
- 	} else {
- 		gs_free_requests(ep, head, &port->read_allocated);
--- 
-2.10.0.1.g57b01a3
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
