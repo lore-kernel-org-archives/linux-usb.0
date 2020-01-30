@@ -2,149 +2,129 @@ Return-Path: <SRS0=cxYj=3T=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C5A1C2D0DB
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Jan 2020 16:58:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC0A1C2D0DB
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Jan 2020 17:05:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3F2CD20661
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Jan 2020 16:58:59 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="coBk1dC2"
+	by mail.kernel.org (Postfix) with ESMTP id 9B03220707
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Jan 2020 17:05:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727332AbgA3Q66 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 30 Jan 2020 11:58:58 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:33326 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727158AbgA3Q66 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Jan 2020 11:58:58 -0500
-Received: by mail-ot1-f67.google.com with SMTP id b18so3841654otp.0
-        for <linux-usb@vger.kernel.org>; Thu, 30 Jan 2020 08:58:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VkkAC/29FIiJsIoqn1/IGPQLhGYJQdYouYstDqlFPgM=;
-        b=coBk1dC2VHCUDBwNDaf0tYDsfTzR4g6me2T9f8kdluZttCiZfZkpFOqJAyoBu2gQS4
-         A3tx5kH/TIJOEyMdNfrFYUZiyCtmi9uD9cBqRCDNqNYmeOkImSAePiX7D4FtyXeBVlwG
-         9dh3h1btqM9Qlu9B311uHJ/iVBUqh9z8pzfAQKzEDnatx8vi8gQY/cEQdv5RiDMxd0QX
-         a7tdJMRRuFtJWM1a6kOy8G5GAOnMoMIdDv7xRViar2an6l/GMd6IDxIYwACU6i2vcwH0
-         VOppFD/OBU7l92OKgqoRVmXIKxmtQ5Cj0OmVtetBovHMVkjw4Z4ZIgfCN3pmIMh8P72l
-         C2lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VkkAC/29FIiJsIoqn1/IGPQLhGYJQdYouYstDqlFPgM=;
-        b=Qc482D5AtwQtnbmT7xdg88hL9ENbJfpbXamV7wUnMU5UIXU6bcv3TVnRQOE3wN35Nd
-         euBiNpYrhlFAQOHQuc1JsNmPU4ivQqXIwFy88jGwH7c9RwM6yKqVB7hJ6iDH7oBf+lww
-         Ott7xvbdi30dIlFrFQGQ+JwPHsy4CYL08p9y3t+O7m1GgKxIDrjrNCu+aPs8zsMxObxm
-         QkdfNem7vZfrJTaFScXHHRWHREEmUd/fsasv+kqZIUE6zWlQR2bcdm5JCfMja8F4EtKQ
-         8u73opY70kKfGW+5Pu8FJObkd8ktOcUrEG9LqgdlBc9d+AJVPCw/BgCtpNI5nY0trw8K
-         E+wA==
-X-Gm-Message-State: APjAAAXaQjos4lx1rBPw9YWYXHqqXSrss7MWKQyUZqBwlxh1mY+emI/Y
-        Uo+WdTCUNYIw1MBCnj8BM55kMRQ/JsOUMiknCf0=
-X-Google-Smtp-Source: APXvYqz6rJsGpWJnxbE1zXySPAGUcZjYqNmdZ/mvkXVyF+fjsfupl1DkUnl2ACZEc9evQiEvBWkpIJuQrFGoiWbrKR0=
-X-Received: by 2002:a9d:7653:: with SMTP id o19mr4174700otl.118.1580403537519;
- Thu, 30 Jan 2020 08:58:57 -0800 (PST)
+        id S1727270AbgA3RFf (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 30 Jan 2020 12:05:35 -0500
+Received: from mga09.intel.com ([134.134.136.24]:16487 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727158AbgA3RFf (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 30 Jan 2020 12:05:35 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Jan 2020 09:05:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,382,1574150400"; 
+   d="scan'208";a="309759519"
+Received: from mattu-haswell.fi.intel.com (HELO [10.237.72.170]) ([10.237.72.170])
+  by orsmga001.jf.intel.com with ESMTP; 30 Jan 2020 09:05:13 -0800
+Subject: Re: [PATCH v6 0/5] usb: xhci: Add support for Renesas USB controllers
+To:     Vinod Koul <vkoul@kernel.org>,
+        Christian Lamparter <chunkeey@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        linux-arm-msm@vger.kernel.org,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        USB list <linux-usb@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>
+References: <20200113084005.849071-1-vkoul@kernel.org>
+ <20200121064608.GA2841@vkoul-mobl>
+ <CAAd0S9Dd7Ygx7TgV3E_A6z29efG7jsE1-xy48_cHotroWuk_ZA@mail.gmail.com>
+ <5878067.luYmtVZgP3@debian64> <20200125053237.GG2841@vkoul-mobl>
+From:   Mathias Nyman <mathias.nyman@linux.intel.com>
+Message-ID: <64340358-6682-4ae0-9c06-d72d5a4ff259@linux.intel.com>
+Date:   Thu, 30 Jan 2020 19:07:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <CAAWug1d8wv3Thu0b==j6fLajU965unYKs552j+s9t13MOytmng@mail.gmail.com>
- <1578907421.2590.2.camel@suse.com> <CAAWug1eZiDgMGH9qDi=_Cj_=-HU2icVpNCzeaRYJLzQBChJDJA@mail.gmail.com>
- <20200130063403.GB628384@kroah.com>
-In-Reply-To: <20200130063403.GB628384@kroah.com>
-From:   Richard Dodd <richard.o.dodd@gmail.com>
-Date:   Thu, 30 Jan 2020 16:58:46 +0000
-Message-ID: <CAAWug1erbkau-P5hdJ1F3hJBea_nmpiiOiNVJ2-HM2fZ==TS-A@mail.gmail.com>
-Subject: Re: Usb midi device does not work on wake
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Oliver Neukum <oneukum@suse.com>, linux-usb@vger.kernel.org
-Content-Type: multipart/mixed; boundary="00000000000074c800059d5e5fcb"
+In-Reply-To: <20200125053237.GG2841@vkoul-mobl>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
---00000000000074c800059d5e5fcb
-Content-Type: text/plain; charset="UTF-8"
+On 25.1.2020 7.32, Vinod Koul wrote:
+>>>>>>
+>>>>>> On Mon, Jan 13, 2020 at 12:42 AM Vinod Koul <vkoul@kernel.org> wrote:
+>>>>>>>
+>>>>>>> This series add support for Renesas USB controllers uPD720201 and uPD720202.
+>>>>>>> These require firmware to be loaded and in case devices have ROM those can
+>>>>>>> also be programmed if empty. If ROM is programmed, it runs from ROM as well.
+>>>>>>>
+>>>>>>> This includes two patches from Christian which supported these controllers
+>>>>>>> w/o ROM and later my patches for ROM support and multiple firmware versions,
+>>>>>>> debugfs hook for rom erase and export of xhci-pci functions.
+>>>>>>>
+...
+> 
+> Mathias, any comments on this series..?
+> 
 
-Hi Greg
+Hi Vinod
 
-Hopefully I followed the correct instructions. I have attached the patch.
+Sorry about the delay.
 
-Rich
+Maybe a firmware loading driver like this that wraps the xhci pci driver could
+work.
 
-On Thu, Jan 30, 2020 at 6:34 AM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Wed, Jan 29, 2020 at 03:47:29PM +0000, Richard Dodd wrote:
-> > On Mon, Jan 13, 2020 at 9:40 AM Oliver Neukum <oneukum@suse.com> wrote:
-> > >
-> > > Am Sonntag, den 12.01.2020, 12:06 +0000 schrieb Richard Dodd:
-> > > > Hello
-> > > >
-> > > > I've got a Novation midi-over-usb device (LaunchControl XL) that works
-> > > > correctly on boot, but remains in power-off mode when waking from
-> > > > sleep.
-> > > >
-> > > > I suspect that there is some sort of initialisation that needs to be
-> > > > applied. Could anyone suggest possible causes, or point me in the
-> > > > direction of the relevant source code. I found `sound/usb/quirks.c`,
-> > > > which seems to be the place to handle this kind of thing, but there is
-> > > > no mention of my device anywhere in the source tree at present
-> > > > (1235:0061).
-> > >
-> > > Hi,
-> > >
-> > > some devices need an additional reset. They have the quirk RESET_RESUME
-> > > in that file. Try adding your device to that list and recompile your
-> > > kernel.
-> > >
-> > >         HTH
-> > >                 Oliver
-> > >
-> >
-> > Hi
-> >
-> > I found the list you are talking about in `drivers/usb/core/quirks.c`,
-> > and when I patched it, my device correctly woke up after suspend. :)
-> >
-> > Can I upstream the patch by posting it here. The patch is attached to
-> > this email.
->
-> Can you please resend this in the format described in the documentation
-> so that we can apply it to the tree?
->
-> thanks,
->
-> greg k-h
+One benefit is that we could skip searching for the right firmware name based
+on PCI ID. Each of these Renesas controllers now have their own pci_device_id
+entry in the pci_ids[] table, and could have the supported firmware name(s)
+in .driver_data. This way we wouldn't need to add the renesas_fw_table[] or
+maybe even the renesas_needs_fw_dl() function in this series.
 
---00000000000074c800059d5e5fcb
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-USB-Fix-novation-SourceControl-XL-after-suspend.patch"
-Content-Disposition: attachment; 
-	filename="0001-USB-Fix-novation-SourceControl-XL-after-suspend.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_k60zflue0>
-X-Attachment-Id: f_k60zflue0
+I realize this can't be easily changed because usb_hcd_pci_probe() takes the
+pci_device_id pointer as an argument, and expects id.driver_data to be a
+HC driver pointer.
 
-RnJvbSA3ZDk5MWRmNjlkMmM0N2FjNDFmNDY1NzEwOWNlZTUxNGVlZjY4NzI4IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBSaWNoYXJkIERvZGQgPHJpY2hhcmQuby5kb2RkQGdtYWlsLmNv
-bT4KRGF0ZTogVGh1LCAzMCBKYW4gMjAyMCAxNjo1Mzo1MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hd
-IFVTQjogRml4IG5vdmF0aW9uIFNvdXJjZUNvbnRyb2wgWEwgYWZ0ZXIgc3VzcGVuZAoKQ3VycmVu
-dGx5LCB0aGUgU291cmNlQ29udHJvbCB3aWxsIHN0YXkgaW4gcG93ZXItZG93biBtb2RlIGFmdGVy
-IHJlc3VtaW5nCmZyb20gc3VzcGVuZC4gVGhpcyBwYXRjaCByZXNldHMgdGhlIGRldmljZSBhZnRl
-ciBzdXNwZW5kIHRvIHBvd2VyIGl0IHVwLgoKU2lnbmVkLW9mZi1ieTogUmljaGFyZCBEb2RkIDxy
-aWNoYXJkLm8uZG9kZEBnbWFpbC5jb20+Ci0tLQogZHJpdmVycy91c2IvY29yZS9xdWlya3MuYyB8
-IDMgKysrCiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEvZHJp
-dmVycy91c2IvY29yZS9xdWlya3MuYyBiL2RyaXZlcnMvdXNiL2NvcmUvcXVpcmtzLmMKaW5kZXgg
-NmI2NDEzMDczNTg0Li4zZGI2YzA1YWFhNGIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvdXNiL2NvcmUv
-cXVpcmtzLmMKKysrIGIvZHJpdmVycy91c2IvY29yZS9xdWlya3MuYwpAQCAtNDQ1LDYgKzQ0NSw5
-IEBAIHN0YXRpYyBjb25zdCBzdHJ1Y3QgdXNiX2RldmljZV9pZCB1c2JfcXVpcmtfbGlzdFtdID0g
-ewogCS8qIElOVEVMIFZBTFVFIFNTRCAqLwogCXsgVVNCX0RFVklDRSgweDgwODYsIDB4ZjFhNSks
-IC5kcml2ZXJfaW5mbyA9IFVTQl9RVUlSS19SRVNFVF9SRVNVTUUgfSwKIAorCS8qIG5vdmF0aW9u
-IFNvdW5kQ29udHJvbCBYTCAqLworCXsgVVNCX0RFVklDRSgweDEyMzUsIDB4MDA2MSksIC5kcml2
-ZXJfaW5mbyA9IFVTQl9RVUlSS19SRVNFVF9SRVNVTUUgfSwKKwogCXsgfSAgLyogdGVybWluYXRp
-bmcgZW50cnkgbXVzdCBiZSBsYXN0ICovCiB9OwogCi0tIAoyLjI1LjAKCg==
---00000000000074c800059d5e5fcb--
+So this turns out to be a question for Greg and Alan:
+
+Would it make sense to change usb_hcd_pci_probe() to take a HC driver pointer
+as an argument instead of a pointer to pci_device_id?
+pci_device_id pointer is only used to extract the HC driver handle.
+This way the driver_data could be used for, well, driver data.
+
+Heikki actually suggested this some time ago to me, back then the idea was to
+improve xhci quirks code by using driver_data for quirk flags instead of
+finding and setting them later.
+
+There are a few other opens regarding this series. Mostly because I'm not (yet)
+familiar with all the details, so I'll just just list them here.
+
+- Is it really enough to add the Renesas driver to Makefile before xhci-pci
+   driver to make sure it gets matched and probed based on vendor/device id
+   before xhci-pci driver is matched and probed based on pci class?
+   What if the Renesas driver is a module and xhci-pci compiled in?
+
+- Previously probe didn't return before hcd's were added and everything set up.
+   Now with request_firmware_nowait() probe returns early successfully, and the
+   old xhci_pci_probe() which sets up everything is called later by the request
+   firmware callback. So there could be whole new set of races possible.
+   For example pci remove can be called mid firmware loading, or when the old
+   xhci_pci_probe is still setting up things.
+
+   I understood that a synchronous request_firmware() in probe has its own
+   issues, not sure if there is a good solution for this.
+
+- Before the firmware is written to the controller the firmware version is
+   compared against a hardcoded number in the drivers renesas_fw_table[].
+   This means new firmware versions can't be supported without patching the driver.
+   Is this intentional?
+
+- Mathias
