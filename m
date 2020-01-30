@@ -2,165 +2,97 @@ Return-Path: <SRS0=cxYj=3T=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B81EC33C9E
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Jan 2020 05:48:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA188C33C9E
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Jan 2020 06:34:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id D5AB82082E
-	for <linux-usb@archiver.kernel.org>; Thu, 30 Jan 2020 05:48:25 +0000 (UTC)
-Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MtQJQL1r"
+	by mail.kernel.org (Postfix) with ESMTP id A29842082E
+	for <linux-usb@archiver.kernel.org>; Thu, 30 Jan 2020 06:34:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1580366046;
+	bh=767Wiye4mKvLlTJNrl4itVPQCJYPkxOxoRtmVbI43IE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
+	b=cTw2ZwLWBvf0PMPV2Nc39JiHhBhAPSnN7ph5tpeODQHYkie+DPSQNJUCi0BsQOuu6
+	 EfIn+seF1SxMzTPoWGDA7D1QeSEpcdE3ePgVlnYHm9eptMwx2OmpzCIBrWeTQK950w
+	 cc/6nNrjrkYz+bXt6cXPuzBuBDNm721oxvoG6Xsg=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727133AbgA3FsA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 30 Jan 2020 00:48:00 -0500
-Received: from mail-pf1-f193.google.com ([209.85.210.193]:38584 "EHLO
-        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725798AbgA3FsA (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Jan 2020 00:48:00 -0500
-Received: by mail-pf1-f193.google.com with SMTP id x185so910258pfc.5;
-        Wed, 29 Jan 2020 21:47:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=RM4StqYp6528LuZxqUQeQTeN+yjjb6Yypxjs3dilWF4=;
-        b=MtQJQL1riGhO0J3oNnkxjTOkdAw7nIV+ZEJDEd3JHw8zO6QY/7Ot+CdLuwSkWPIvxd
-         fgYjHwn2xYoa6qa8z8qYjmOWEeImUE7nVlSBqSrXNmYnAEPm0mwOoFOHCOBtlwSzMC82
-         MS9ZQwqBV/GSzkL7Z4bItURDxCOjoE0wXR+6W+wpcmt+CbtHNu+NzUkOyuxhVoOorcrd
-         fSP4f5lvaNmR4AipWtdTFpkOklT/tVt+sDAEPEIkeSNaEQPUy6i3fYmQkdibmaTVkp3c
-         uhcrDIN5NiRtAaXYo8Cp1o7evB0U5n/+j7cjnt9YasBuGrnR8dg6I/lkrWeIue9iW/s6
-         7ePA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=RM4StqYp6528LuZxqUQeQTeN+yjjb6Yypxjs3dilWF4=;
-        b=G5YC5ab3oBSrDFcMuCxuqRHboL+1PJ4UYA+Pq8/RIS2oOUryT2gPytKtDMV0bFCrnZ
-         LJqnXbfSywuqIAHxDh30fzk64s7nr5Pj5X4hoLjfssjMyiy+6HyqZ39VlkGUAcdjR0YT
-         njt/9Wd2JrqNrWc+e3St1J+/Zo90d16tRknq5dpyrIrR54QRu8j7FlkSbmLFBYB9s3KQ
-         hn0ct86QU7egLFmsuQKqdR7VQxjoNZQPvWBITh4EpDfWieUTwhuZBhhyNfypjDgG92wi
-         cyOzF6d1SC2DlQWG0FAflqkevzYc2low56FTReG2Cwe+JT8ybFw+wiSpNzMf1j9me7m/
-         RPfQ==
-X-Gm-Message-State: APjAAAU62b21j6p2aSIvPMziBEzSqwVp+IKekAQr9TjUzJZa+xgx1vQA
-        U5DQn9boKDduSpPqFdbgSBM=
-X-Google-Smtp-Source: APXvYqwTWUb9YVBt9SWre6ugobNtU2BjmBbD7TafH+st/hqQdxAI+SvTl5FeIhGohZXLpYLQsEPjbA==
-X-Received: by 2002:aa7:93a4:: with SMTP id x4mr3375345pff.42.1580363278593;
-        Wed, 29 Jan 2020 21:47:58 -0800 (PST)
-Received: from localhost (59-120-186-245.HINET-IP.hinet.net. [59.120.186.245])
-        by smtp.gmail.com with ESMTPSA id w26sm4690392pfj.119.2020.01.29.21.47.57
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 29 Jan 2020 21:47:57 -0800 (PST)
-From:   "Ji-Ze Hong (Peter Hong)" <hpeter@gmail.com>
-X-Google-Original-From: "Ji-Ze Hong (Peter Hong)" <hpeter+linux_kernel@gmail.com>
-To:     johan@kernel.org
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, peter_hong@fintek.com.tw,
-        "Ji-Ze Hong (Peter Hong)" <hpeter+linux_kernel@gmail.com>
-Subject: [PATCH V3 1/6] USB: serial: f81232: Extract LSR handler
-Date:   Thu, 30 Jan 2020 13:47:47 +0800
-Message-Id: <20200130054752.9368-2-hpeter+linux_kernel@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200130054752.9368-1-hpeter+linux_kernel@gmail.com>
-References: <20200130054752.9368-1-hpeter+linux_kernel@gmail.com>
+        id S1726733AbgA3GeG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 30 Jan 2020 01:34:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54002 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725865AbgA3GeG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 30 Jan 2020 01:34:06 -0500
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1F67420707;
+        Thu, 30 Jan 2020 06:34:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1580366045;
+        bh=767Wiye4mKvLlTJNrl4itVPQCJYPkxOxoRtmVbI43IE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GAoh0lqn7+37aP0BSP1IFRW90WNwcfq67J3Jof7oFCh8ICp24ImbvmEgaGKXJiNzr
+         mVrj87oKFpgr9IhxfFWYoJTraM+i2uJdpIaO7rXsSlVd0M6PlEb23Dnjf/9bQI316B
+         AqboVFpvWh8Lqev5u3fjhnJGZI4KCvNqwXmKuGnU=
+Date:   Thu, 30 Jan 2020 07:34:03 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Richard Dodd <richard.o.dodd@gmail.com>
+Cc:     Oliver Neukum <oneukum@suse.com>, linux-usb@vger.kernel.org
+Subject: Re: Usb midi device does not work on wake
+Message-ID: <20200130063403.GB628384@kroah.com>
+References: <CAAWug1d8wv3Thu0b==j6fLajU965unYKs552j+s9t13MOytmng@mail.gmail.com>
+ <1578907421.2590.2.camel@suse.com>
+ <CAAWug1eZiDgMGH9qDi=_Cj_=-HU2icVpNCzeaRYJLzQBChJDJA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAWug1eZiDgMGH9qDi=_Cj_=-HU2icVpNCzeaRYJLzQBChJDJA@mail.gmail.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Extract LSR handler to function that can be re-used by
-F81532A/534A/535/536.
+On Wed, Jan 29, 2020 at 03:47:29PM +0000, Richard Dodd wrote:
+> On Mon, Jan 13, 2020 at 9:40 AM Oliver Neukum <oneukum@suse.com> wrote:
+> >
+> > Am Sonntag, den 12.01.2020, 12:06 +0000 schrieb Richard Dodd:
+> > > Hello
+> > >
+> > > I've got a Novation midi-over-usb device (LaunchControl XL) that works
+> > > correctly on boot, but remains in power-off mode when waking from
+> > > sleep.
+> > >
+> > > I suspect that there is some sort of initialisation that needs to be
+> > > applied. Could anyone suggest possible causes, or point me in the
+> > > direction of the relevant source code. I found `sound/usb/quirks.c`,
+> > > which seems to be the place to handle this kind of thing, but there is
+> > > no mention of my device anywhere in the source tree at present
+> > > (1235:0061).
+> >
+> > Hi,
+> >
+> > some devices need an additional reset. They have the quirk RESET_RESUME
+> > in that file. Try adding your device to that list and recompile your
+> > kernel.
+> >
+> >         HTH
+> >                 Oliver
+> >
+> 
+> Hi
+> 
+> I found the list you are talking about in `drivers/usb/core/quirks.c`,
+> and when I patched it, my device correctly woke up after suspend. :)
+> 
+> Can I upstream the patch by posting it here. The patch is attached to
+> this email.
 
-Signed-off-by: Ji-Ze Hong (Peter Hong) <hpeter+linux_kernel@gmail.com>
----
-Changelog:
-v3:
-	1. Change git comment for describe more information.
+Can you please resend this in the format described in the documentation
+so that we can apply it to the tree?
 
-v2:
-	1: Separate LSR handler from original combined driver. 
+thanks,
 
- drivers/usb/serial/f81232.c | 53 +++++++++++++++++++++----------------
- 1 file changed, 30 insertions(+), 23 deletions(-)
-
-diff --git a/drivers/usb/serial/f81232.c b/drivers/usb/serial/f81232.c
-index 43fa1f0716b7..c07d376c743d 100644
---- a/drivers/usb/serial/f81232.c
-+++ b/drivers/usb/serial/f81232.c
-@@ -322,10 +322,38 @@ static void f81232_read_int_callback(struct urb *urb)
- 			__func__, retval);
- }
- 
-+static char f81232_handle_lsr(struct usb_serial_port *port, u8 lsr)
-+{
-+	struct f81232_private *priv = usb_get_serial_port_data(port);
-+	char tty_flag = TTY_NORMAL;
-+
-+	if (!(lsr & UART_LSR_BRK_ERROR_BITS))
-+		return tty_flag;
-+
-+	if (lsr & UART_LSR_BI) {
-+		tty_flag = TTY_BREAK;
-+		port->icount.brk++;
-+		usb_serial_handle_break(port);
-+	} else if (lsr & UART_LSR_PE) {
-+		tty_flag = TTY_PARITY;
-+		port->icount.parity++;
-+	} else if (lsr & UART_LSR_FE) {
-+		tty_flag = TTY_FRAME;
-+		port->icount.frame++;
-+	}
-+
-+	if (lsr & UART_LSR_OE) {
-+		port->icount.overrun++;
-+		schedule_work(&priv->lsr_work);
-+		tty_insert_flip_char(&port->port, 0, TTY_OVERRUN);
-+	}
-+
-+	return tty_flag;
-+}
-+
- static void f81232_process_read_urb(struct urb *urb)
- {
- 	struct usb_serial_port *port = urb->context;
--	struct f81232_private *priv = usb_get_serial_port_data(port);
- 	unsigned char *data = urb->transfer_buffer;
- 	char tty_flag;
- 	unsigned int i;
-@@ -341,29 +369,8 @@ static void f81232_process_read_urb(struct urb *urb)
- 	/* bulk-in data: [LSR(1Byte)+DATA(1Byte)][LSR(1Byte)+DATA(1Byte)]... */
- 
- 	for (i = 0; i < urb->actual_length; i += 2) {
--		tty_flag = TTY_NORMAL;
- 		lsr = data[i];
--
--		if (lsr & UART_LSR_BRK_ERROR_BITS) {
--			if (lsr & UART_LSR_BI) {
--				tty_flag = TTY_BREAK;
--				port->icount.brk++;
--				usb_serial_handle_break(port);
--			} else if (lsr & UART_LSR_PE) {
--				tty_flag = TTY_PARITY;
--				port->icount.parity++;
--			} else if (lsr & UART_LSR_FE) {
--				tty_flag = TTY_FRAME;
--				port->icount.frame++;
--			}
--
--			if (lsr & UART_LSR_OE) {
--				port->icount.overrun++;
--				schedule_work(&priv->lsr_work);
--				tty_insert_flip_char(&port->port, 0,
--						TTY_OVERRUN);
--			}
--		}
-+		tty_flag = f81232_handle_lsr(port, lsr);
- 
- 		if (port->port.console && port->sysrq) {
- 			if (usb_serial_handle_sysrq_char(port, data[i + 1]))
--- 
-2.17.1
-
+greg k-h
