@@ -2,97 +2,127 @@ Return-Path: <SRS0=NQ6k=3U=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.5 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68D61C35240
-	for <linux-usb@archiver.kernel.org>; Fri, 31 Jan 2020 03:11:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1FEDC33CB2
+	for <linux-usb@archiver.kernel.org>; Fri, 31 Jan 2020 03:25:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 3FD5C20CC7
-	for <linux-usb@archiver.kernel.org>; Fri, 31 Jan 2020 03:11:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A34B02082E
+	for <linux-usb@archiver.kernel.org>; Fri, 31 Jan 2020 03:25:19 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="B6i90Fsh"
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=mg.codeaurora.org header.i=@mg.codeaurora.org header.b="u7uV6T6u"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727827AbgAaDLS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 30 Jan 2020 22:11:18 -0500
-Received: from mail25.static.mailgun.info ([104.130.122.25]:38778 "EHLO
-        mail25.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727749AbgAaDLS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Jan 2020 22:11:18 -0500
+        id S1727862AbgAaDZT (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 30 Jan 2020 22:25:19 -0500
+Received: from mail26.static.mailgun.info ([104.130.122.26]:33416 "EHLO
+        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727739AbgAaDZS (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 30 Jan 2020 22:25:18 -0500
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1580440278; h=Content-Transfer-Encoding: MIME-Version:
- Message-Id: Date: Subject: Cc: To: From: Sender;
- bh=53clo0pvKO/ZUbr9ij1Zkut8lFIwCW2TtRKxxqRKmGE=; b=B6i90FshWBXwG4VBKq3OauTjJOotSW2WvaShg+0oAOqjYbsFW0gcGMYIaLZfI35YGPf6Lpih
- 8lcQxnsi/j03MhQA9t2s/W2kSvDOn6gbzTIg9AFqeEYKTzvYsiDtTh3h8qlf6HdFq1N1SAUy
- YJOu8T668pZfnEP+TxTiDghyP80=
-X-Mailgun-Sending-Ip: 104.130.122.25
+ s=smtp; t=1580441118; h=In-Reply-To: Content-Type: MIME-Version:
+ References: Message-ID: Subject: Cc: To: From: Date: Sender;
+ bh=WAfvMiZMUEfhKLTfw1eNZwP5qhJuiGUZbkD7wChQu+c=; b=u7uV6T6ue5HpnWP/3b9OMs4xsmyeYI+C9vSQBb2yauHj36ljjJWjX0hzxE93civ8pIFIV1tm
+ 10Zc3RXtlR77D7pzRkCSv1s+sok7+LmuhZNv/H9urzdC1huZAnv1UnaFibWG1F/Jm3ZJix1u
+ jVCG44dvMaaYR6uLse6zhl4OjSs=
+X-Mailgun-Sending-Ip: 104.130.122.26
 X-Mailgun-Sid: WyIxZTE2YSIsICJsaW51eC11c2JAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e339acd.7ff54a564d50-smtp-out-n01;
- Fri, 31 Jan 2020 03:11:09 -0000 (UTC)
+ by mxa.mailgun.org with ESMTP id 5e339e16.7fb6c37f5dc0-smtp-out-n03;
+ Fri, 31 Jan 2020 03:25:10 -0000 (UTC)
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id B94E8C4479C; Fri, 31 Jan 2020 03:11:09 +0000 (UTC)
+        id 75017C4479C; Fri, 31 Jan 2020 03:25:09 +0000 (UTC)
 Received: from jackp-linux.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: jackp)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 0E19EC433CB;
-        Fri, 31 Jan 2020 03:11:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 0E19EC433CB
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 7079CC433CB;
+        Fri, 31 Jan 2020 03:25:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7079CC433CB
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=jackp@codeaurora.org
+Date:   Thu, 30 Jan 2020 19:25:01 -0800
 From:   Jack Pham <jackp@codeaurora.org>
-To:     Felipe Balbi <balbi@kernel.org>
-Cc:     linux-usb@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jack Pham <jackp@codeaurora.org>
-Subject: [PATCH v4 1/2] usb: gadget: composite: Fix bMaxPower for SuperSpeedPlus
-Date:   Thu, 30 Jan 2020 19:10:35 -0800
-Message-Id: <20200131031036.28255-1-jackp@codeaurora.org>
-X-Mailer: git-send-email 2.24.0
+To:     Tejas Joglekar <Tejas.Joglekar@synopsys.com>
+Cc:     Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        John Youn <John.Youn@synopsys.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        stable@vger.kernel.org
+Subject: Re: [PATCH] usb: dwc3: gadget: Fix logical condition
+Message-ID: <20200131032501.GA10078@jackp-linux.qualcomm.com>
+References: <cedf287bd185a5cbe31095d74e75b392f6c5263d.1573624581.git.joglekar@synopsys.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cedf287bd185a5cbe31095d74e75b392f6c5263d.1573624581.git.joglekar@synopsys.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-SuperSpeedPlus peripherals must report their bMaxPower of the
-configuration descriptor in units of 8mA as per the USB 3.2
-specification. The current switch statement in encode_bMaxPower()
-only checks for USB_SPEED_SUPER but not USB_SPEED_SUPER_PLUS so
-the latter falls back to USB 2.0 encoding which uses 2mA units.
-Replace the switch with a simple if/else.
+Hi Tejas & Felipe,
 
-Fixes: eae5820b852f ("usb: gadget: composite: Write SuperSpeedPlus config descriptors")
-Signed-off-by: Jack Pham <jackp@codeaurora.org>
----
-v4: rebased on usb-next (v5.6-rc1)
+On Wed, Nov 13, 2019 at 11:45:16AM +0530, Tejas Joglekar wrote:
+> This patch corrects the condition to kick the transfer without
+> giving back the requests when either request has remaining data
+> or when there are pending SGs. The && check was introduced during
+> spliting up the dwc3_gadget_ep_cleanup_completed_requests() function.
+> 
+> Fixes: f38e35dd84e2 ("usb: dwc3: gadget: split dwc3_gadget_ep_cleanup_completed_requests()")
+> 
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Tejas Joglekar <joglekar@synopsys.com>
+> ---
+>  drivers/usb/dwc3/gadget.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+> index 86dc1db788a9..e07159e06f9a 100644
+> --- a/drivers/usb/dwc3/gadget.c
+> +++ b/drivers/usb/dwc3/gadget.c
+> @@ -2485,7 +2485,7 @@ static int dwc3_gadget_ep_cleanup_completed_request(struct dwc3_ep *dep,
+>  
+>  	req->request.actual = req->request.length - req->remaining;
+>  
+> -	if (!dwc3_gadget_ep_request_completed(req) &&
+> +	if (!dwc3_gadget_ep_request_completed(req) ||
+>  			req->num_pending_sgs) {
+>  		__dwc3_gadget_kick_transfer(dep);
+>  		goto out;
 
- drivers/usb/gadget/composite.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+Been staring at this for a while--I think I see a potential issue but
+not sure if it is or not.
 
-diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
-index 3b4f67000315..cd303a3ea680 100644
---- a/drivers/usb/gadget/composite.c
-+++ b/drivers/usb/gadget/composite.c
-@@ -437,12 +437,10 @@ static u8 encode_bMaxPower(enum usb_device_speed speed,
- 		val = CONFIG_USB_GADGET_VBUS_DRAW;
- 	if (!val)
- 		return 0;
--	switch (speed) {
--	case USB_SPEED_SUPER:
--		return DIV_ROUND_UP(val, 8);
--	default:
-+	if (speed < USB_SPEED_SUPER)
- 		return DIV_ROUND_UP(val, 2);
--	}
-+	else
-+		return DIV_ROUND_UP(val, 8);
- }
- 
- static int config_buf(struct usb_configuration *config,
+If this condition is true and causes an early return, the 'ret' value
+could be 0 which could allow the caller in cleanup_completed_requests()
+to continue looping over the started_list and calling
+cleanup_completed_request() again on the next req. But we just issued
+another START or UPDATE transfer command on the previous incomplete req
+and now the loop continued to try to reclaim the next TRB (and increment
+the dequeue pointer and whatnot) when it might actually be in progress.
+
+According to the code before f38e35dd84e2,
+
+	list_for_each_entry_safe(req, tmp, &dep->started_list, list) {
+
+	...
+		if (!dwc3_gadget_ep_request_completed(req) ||
+				req->num_pending_sgs) {
+			__dwc3_gadget_kick_transfer(dep);
+			break;
+		}
+
+The 'goto out' used to be a 'break', which terminates the list loop. But
+with the refactored code, the loop can only terminate if 'ret' is
+non-zero.
+
+I haven't seen any real issue with the code as-is yet, but was just
+wondering if the 'goto out' should be replaced with a return 1?
+
+Jack
 -- 
-2.24.0
+The Qualcomm Innovation Center, Inc. is a member of Code Aurora Forum,
+a Linux Foundation Collaborative Project
