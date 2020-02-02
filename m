@@ -2,126 +2,114 @@ Return-Path: <SRS0=Q0qp=3W=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF997C35249
-	for <linux-usb@archiver.kernel.org>; Sun,  2 Feb 2020 19:29:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF0A3C3F68F
+	for <linux-usb@archiver.kernel.org>; Sun,  2 Feb 2020 22:44:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B2A0F20679
-	for <linux-usb@archiver.kernel.org>; Sun,  2 Feb 2020 19:29:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9394620679
+	for <linux-usb@archiver.kernel.org>; Sun,  2 Feb 2020 22:44:51 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="phTQ09+j"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SHP/sqRP"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726909AbgBBT3P (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Sun, 2 Feb 2020 14:29:15 -0500
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:38222 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726290AbgBBT3O (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Sun, 2 Feb 2020 14:29:14 -0500
-Received: by mail-pg1-f193.google.com with SMTP id a33so6600961pgm.5;
-        Sun, 02 Feb 2020 11:29:14 -0800 (PST)
+        id S1727088AbgBBWot (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Sun, 2 Feb 2020 17:44:49 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:33348 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726998AbgBBWos (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Sun, 2 Feb 2020 17:44:48 -0500
+Received: by mail-lj1-f195.google.com with SMTP id y6so12653280lji.0;
+        Sun, 02 Feb 2020 14:44:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=83XBXAdF60qQhjfbLi9bwa5VGB/pa56aRpXZec7GZUQ=;
-        b=phTQ09+j8Vr2PTCfUXpoYipZuNKH07aPv2Zc4kKmqWltkBWIFf9lbdsKaJi04tqGKB
-         89O9EaYkOjA51Y7sM+LHx35FD96pzQrI8ycxQF5cEY/yC1ssICLlZEQUycHoZWIVUWt2
-         q16FVK+zhYaWdLk8XAHU1LN0lvwpKUL99e4YsRBtm7+KfvKJwYQvUyk+CtcydCMaq+ET
-         221+uh0dgiGXI2gstojGhDXQ1o8QOETUOOtvRTfRA68FI1vzrH0FMON1RKItRVa6CRuq
-         g8b3vyU06z53cNAR6K9+60lftqNVoGeOuyjvd2bJRGZh6EoIfJa1jV/TIfNInWanSkyq
-         RaVw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uX9jcydOX89ZUGugoSW4MzS7C2+BSpc+mKQCrQ08uKo=;
+        b=SHP/sqRPruZqaLCIk6EmJ9WPtKElGy8YeKueEbeU8O+o0AwzAEJoc5qhqHDDNfrdtn
+         ZuBa2GhGaf7+QuOFX8+1m17bOs+lDZhOHx41Y8EYP6XRr68HC6XAk/HvwZ+/oXUW1q1S
+         9pX17LccLxCfk+jEW5NQxCAMAxnGB7Vs7Hts6pfcVxxiiiiWkljeeuYL0RYh5MQea1u5
+         IOjM7XVc/6xZwHIRyYhhSkqK3U2qPV+hBOX9AkDgP+NZf5nTbP98WoEus9hrYhcdGKpB
+         UGTSLbs5b4P/s0BokeyzCN4BjnrN6GZAWpQiMAi82dzAKshK5P+cUeE07THjC3Joas3M
+         PTJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=83XBXAdF60qQhjfbLi9bwa5VGB/pa56aRpXZec7GZUQ=;
-        b=VN8H8mCN2nmRVpbvUQ1jbu9U5uQDwy8dP6fwvMAMeAKOHWyxQE000z3BAmfxISjkF2
-         1l5ci0nmLwrhnKJmjaGCVJHzxQfFqHKYIuuIE4d4kHGx5W/EdgprH34JdKuANGQVKTJf
-         3RaMHW+bg8gU7EXOR1ciT9vXFIBQ8JIky8mm5CCvUYOzyH8HMk4DY3qqnqOfu9MAA74m
-         5ddu6PqJmmdfMxipSHcw7W72GA693MqMxZ49n9rak8xYEWvuWa3otYvjQ6Fk18AJWDcG
-         T/4j0jKfc5+tQnt7qMSmrIq3qd76u9mHknroHOzrgDapaPiwi5VArSjPH8UvE1+lcvb7
-         3oKg==
-X-Gm-Message-State: APjAAAXIYN+rIn9rYVJ+yBqCkllJuwprJWOO/UYQ6H4LTLQxKJrozHfK
-        aWmhrFDa6SJv74qkUlAFZhQWiFnG
-X-Google-Smtp-Source: APXvYqzJztCs5B5fO2HsKuk9KrOTKzLnJc/BQ7QWxXvbl/crt2aXnI7p1PJyFU1wfbUJKbCsn2dMEA==
-X-Received: by 2002:a63:8dc4:: with SMTP id z187mr5569042pgd.68.1580671754231;
-        Sun, 02 Feb 2020 11:29:14 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id b4sm17987390pfd.18.2020.02.02.11.29.13
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 02 Feb 2020 11:29:13 -0800 (PST)
-Date:   Sun, 2 Feb 2020 11:29:12 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Macpaul Lin <macpaul.lin@mediatek.com>
-Cc:     Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Mediatek WSD Upstream <wsd_upstream@mediatek.com>,
-        Sriharsha Allenki <sallenki@codeaurora.org>
-Subject: Re: [PATCH] xhci-mtk: Fix NULL pointer dereference with xhci_irq()
- for shared_hcd
-Message-ID: <20200202192912.GA20763@roeck-us.net>
-References: <1579246910-22736-1-git-send-email-macpaul.lin@mediatek.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uX9jcydOX89ZUGugoSW4MzS7C2+BSpc+mKQCrQ08uKo=;
+        b=H2vbFr4vfH2/8XRmxMXH9S57rLXlXmWIDOOFoiw8XbTABWKDOn+GeqBYsfbUKizQ4A
+         SMh9Od3epiL1pvcK6OFwuVO0+blMSMGCjMOW7ihoY7e/P/RL3Jh2ZRAtyACP25lsOvPk
+         5jYiz5o8wkYwP3EXOh46tRXXwLNr8FJ2ZeHHKSH5EJXjAQhUcaBT8w3wJjIGinJPrnPR
+         8aqfVXxngCmzFgiQ3KqfHu7nXysNr1GAbE4XhXwZANS9HWmLhTIu5f2kbJczTeZGJHJH
+         4nkuUSILCyvVwfG6odooGod6qqiHfdFbxlCPIRJLaiEdLm7tVGv0gAs/INCrnwYxzYXG
+         nAcw==
+X-Gm-Message-State: APjAAAWO/98b1FtuDT58TWUtxai/HyQUi7xiE7bHZHMPbJvlVzCtmcIB
+        WPqytbfJv7J2USV0bpTxDeY=
+X-Google-Smtp-Source: APXvYqw9SUOzao6RNXRMb9fAXP2eoOjQxkoW3I5EiJLMd8bMoKMvIOH8Bz8JsfRVc3QrpPwPO1mGIw==
+X-Received: by 2002:a2e:a491:: with SMTP id h17mr12065508lji.101.1580683486101;
+        Sun, 02 Feb 2020 14:44:46 -0800 (PST)
+Received: from localhost.localdomain (79-139-233-37.dynamic.spd-mgts.ru. [79.139.233.37])
+        by smtp.gmail.com with ESMTPSA id p136sm8031014lfa.8.2020.02.02.14.44.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Feb 2020 14:44:45 -0800 (PST)
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Felipe Balbi <balbi@kernel.org>
+Cc:     linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v1] usb: phy: tegra: Add clarifying comments about the shared registers
+Date:   Mon,  3 Feb 2020 01:42:59 +0300
+Message-Id: <20200202224259.29187-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1579246910-22736-1-git-send-email-macpaul.lin@mediatek.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Fri, Jan 17, 2020 at 03:41:50PM +0800, Macpaul Lin wrote:
-> According to NULL pointer fix: https://tinyurl.com/uqft5ra
-> xhci: Fix NULL pointer dereference with xhci_irq() for shared_hcd
-> The similar issue has also been found in QC activities in Mediatek.
-> 
-> Here quote the description from the referenced patch as follows.
-> "Commit ("f068090426ea xhci: Fix leaking USB3 shared_hcd
-> at xhci removal") sets xhci_shared_hcd to NULL without
-> stopping xhci host. This results into a race condition
-> where shared_hcd (super speed roothub) related interrupts
-> are being handled with xhci_irq happens when the
-> xhci_plat_remove is called and shared_hcd is set to NULL.
-> Fix this by setting the shared_hcd to NULL only after the
-> controller is halted and no interrupts are generated."
-> 
-> Signed-off-by: Sriharsha Allenki <sallenki@codeaurora.org>
-> Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
-> ---
->  drivers/usb/host/xhci-mtk.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/host/xhci-mtk.c b/drivers/usb/host/xhci-mtk.c
-> index b18a6baef204..c227c67f5dc5 100644
-> --- a/drivers/usb/host/xhci-mtk.c
-> +++ b/drivers/usb/host/xhci-mtk.c
-> @@ -593,11 +593,11 @@ static int xhci_mtk_remove(struct platform_device *dev)
->  	struct usb_hcd  *shared_hcd = xhci->shared_hcd;
->  
->  	usb_remove_hcd(shared_hcd);
-> -	xhci->shared_hcd = NULL;
->  	device_init_wakeup(&dev->dev, false);
->  
->  	usb_remove_hcd(hcd);
->  	usb_put_hcd(shared_hcd);
-> +	xhci->shared_hcd = NULL;
+Tools like Coccinelle may erroneously recommend to use the
+devm_platform_ioremap_resource() API for the registers mapping because
+these tools are not aware about the implementation details of the driver.
+Let's add a clarifying comments to the code, which should help to stop
+future attempts to break the driver.
 
-I may be wrong, but I have some concerns that this replaces
-the NULL pointer access with a UAF.
+Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+---
+ drivers/usb/phy/phy-tegra-usb.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Guenter
+diff --git a/drivers/usb/phy/phy-tegra-usb.c b/drivers/usb/phy/phy-tegra-usb.c
+index 037e8eee737d..6153cc35aba0 100644
+--- a/drivers/usb/phy/phy-tegra-usb.c
++++ b/drivers/usb/phy/phy-tegra-usb.c
+@@ -969,6 +969,10 @@ static int utmi_phy_probe(struct tegra_usb_phy *tegra_phy,
+ 		return  -ENXIO;
+ 	}
+ 
++	/*
++	 * Note that UTMI pad registers are shared by all PHYs, therefore
++	 * devm_platform_ioremap_resource() can't be used here.
++	 */
+ 	tegra_phy->pad_regs = devm_ioremap(&pdev->dev, res->start,
+ 					   resource_size(res));
+ 	if (!tegra_phy->pad_regs) {
+@@ -1087,6 +1091,10 @@ static int tegra_usb_phy_probe(struct platform_device *pdev)
+ 		return  -ENXIO;
+ 	}
+ 
++	/*
++	 * Note that PHY and USB controller are using shared registers,
++	 * therefore devm_platform_ioremap_resource() can't be used here.
++	 */
+ 	tegra_phy->regs = devm_ioremap(&pdev->dev, res->start,
+ 				       resource_size(res));
+ 	if (!tegra_phy->regs) {
+-- 
+2.24.0
 
->  	usb_put_hcd(hcd);
->  	xhci_mtk_sch_exit(mtk);
->  	xhci_mtk_clks_disable(mtk);
-> -- 
-> 2.18.0
