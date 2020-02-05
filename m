@@ -2,172 +2,144 @@ Return-Path: <SRS0=87d9=3Z=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37A1FC35254
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Feb 2020 11:42:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFA9CC352A1
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Feb 2020 11:57:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 135BF21741
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Feb 2020 11:42:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A63AA217F4
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Feb 2020 11:57:07 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=metanate.com header.i=@metanate.com header.b="pBDIT5N2"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726810AbgBELmL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Feb 2020 06:42:11 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:54762 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726386AbgBELmL (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Feb 2020 06:42:11 -0500
-Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <kai.heng.feng@canonical.com>)
-        id 1izIpN-0003Ww-0f; Wed, 05 Feb 2020 11:26:41 +0000
-From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
-To:     mathias.nyman@intel.com, gregkh@linuxfoundation.org,
-        stern@rowland.harvard.edu
-Cc:     acelan.kao@canonical.com, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>
-Subject: [RESEND] [PATCH v2 2/3] xhci: Wait until link state trainsits to U0 after setting USB_SS_PORT_LS_U0
-Date:   Wed,  5 Feb 2020 19:26:32 +0800
-Message-Id: <20200205112633.25995-2-kai.heng.feng@canonical.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200205112633.25995-1-kai.heng.feng@canonical.com>
-References: <20200205112633.25995-1-kai.heng.feng@canonical.com>
+        id S1727868AbgBEL5E (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Feb 2020 06:57:04 -0500
+Received: from dougal.metanate.com ([90.155.101.14]:20693 "EHLO metanate.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727833AbgBEL5E (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Wed, 5 Feb 2020 06:57:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=simple/simple; d=metanate.com;
+         s=stronger; h=Content-Transfer-Encoding:Content-Type:References:In-Reply-To:
+        Message-ID:Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description;
+         bh=QIyjQ/REztIDNpy2jOk34jtYI7tAwWjPcGdUhfZavRk=; b=pBDIT5N2UMu5EENFL3Aj9/v5X
+        KoYRuZfpCHcB/lOGydqgH2wb5j8sp5sj2Iz0OYjvCJDaGy+N/daqjvBAyiF3NV4iyAshxRFWxtb1x
+        KYZrLnYYs+sXgrTq84bVhdhC+TQ57T1lFIT4U5o9k4BpmJA0H7J6z/Tne8QDpD3G1nXiKRh7pqqJa
+        I7snvwoFf7Ng9W4pp7Ds9ZmoJ0YYZRCBoL4BjhRYOzGounUE597/nep5+sR+ywPHQOotgQazkPzR4
+        EKrGpge5oHOPXmIbSHgTpekIykjzih2JCjwtjz/ObFgxhjjKgT+834Eb2x7bqV31ven21LXUMWTWd
+        3j0ESHxQg==;
+Received: from dougal.metanate.com ([192.168.88.1] helo=donbot)
+        by email.metanate.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <john@metanate.com>)
+        id 1izJIe-0006L1-Td; Wed, 05 Feb 2020 11:56:56 +0000
+Date:   Wed, 5 Feb 2020 11:56:56 +0000
+From:   John Keeping <john@metanate.com>
+To:     Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
+Cc:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] usb: dwc2: Implement set_selfpowered()
+Message-ID: <20200205115656.3c698385.john@metanate.com>
+In-Reply-To: <34b74e48-a3ea-f68f-540e-121ae98afb31@synopsys.com>
+References: <20200204152933.2216615-1-john@metanate.com>
+        <34b74e48-a3ea-f68f-540e-121ae98afb31@synopsys.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Authenticated: YES
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Like U3 case, xHCI spec doesn't specify the upper bound of U0 transition
-time. The 20ms is not enough for some devices.
+Hi Minas,
 
-Intead of polling PLS or PLC, we can facilitate the port change event to
-know that the link transits to U0 is completed.
+On Wed, 5 Feb 2020 07:59:48 +0000
+Minas Harutyunyan <Minas.Harutyunyan@synopsys.com> wrote:
 
-While at it, also separate U0 and U3 case to make the code cleaner.
+> On 2/4/2020 7:29 PM, John Keeping wrote:
+> > dwc2 always reports as self-powered in response to a device status
+> > request.  Implement the set_selfpowered() operations so that the gadget
+> > can report as bus-powered when appropriate.
+> > 
+> > This is modelled on the dwc3 implementation.
+> > 
+> > Signed-off-by: John Keeping <john@metanate.com>  
+> 
+> Good catch. Just one concern. Your patch partially fix my patch this is 
+> why I think you need to add Fixes tag otherwise it can create merge 
+> conflict if your patch will be merged to next earlier than my.
 
-Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
----
-v2:
- - Seperate U0 and U3 case.
- - Prevent setting U0 from non-U state.
- - Move the completion from per port to bus_state.
+I don't think this is actually a fix for your patch, it's a separate fix
+which happens to touch the same code.
 
- drivers/usb/host/xhci-hub.c  | 43 +++++++++++++++++++++++++-----------
- drivers/usb/host/xhci-mem.c  |  2 ++
- drivers/usb/host/xhci-ring.c |  1 +
- drivers/usb/host/xhci.h      |  1 +
- 4 files changed, 34 insertions(+), 13 deletions(-)
+Since dwc2 has never supported the set_selfpowered() operation, I'm not
+really sure if this counts as a bugfix or a feature.
 
-diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
-index d3c5bcf76755..0a5d8b28b99f 100644
---- a/drivers/usb/host/xhci-hub.c
-+++ b/drivers/usb/host/xhci-hub.c
-@@ -1297,7 +1297,32 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
- 					 wIndex, link_state);
- 				goto error;
- 			}
-+
-+			if (link_state == USB_SS_PORT_LS_U0) {
-+				if ((temp & PORT_PLS_MASK) == XDEV_U0)
-+					break;
-+
-+				if (!((temp & PORT_PLS_MASK) == XDEV_U1 ||
-+				    (temp & PORT_PLS_MASK) == XDEV_U2 ||
-+				    (temp & PORT_PLS_MASK) == XDEV_U3)) {
-+					xhci_warn(xhci, "Can only set port %d to U0 from U state\n",
-+							wIndex);
-+					goto error;
-+				}
-+				reinit_completion(&bus_state->link_change_done[wIndex]);
-+				xhci_set_link_state(xhci, ports[wIndex], USB_SS_PORT_LS_U0);
-+				spin_unlock_irqrestore(&xhci->lock, flags);
-+				if (!wait_for_completion_timeout(&bus_state->link_change_done[wIndex],
-+								 msecs_to_jiffies(100)))
-+					xhci_dbg(xhci, "missing U0 port change event for port %d\n",
-+						 wIndex);
-+				spin_lock_irqsave(&xhci->lock, flags);
-+				temp = readl(ports[wIndex]->addr);
-+				break;
-+			}
-+
- 			if (link_state == USB_SS_PORT_LS_U3) {
-+				int retries = 10;
- 				slot_id = xhci_find_slot_id_by_port(hcd, xhci,
- 						wIndex + 1);
- 				if (slot_id) {
-@@ -1308,26 +1333,18 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
- 					xhci_stop_device(xhci, slot_id, 1);
- 					spin_lock_irqsave(&xhci->lock, flags);
- 				}
--			}
--
--			xhci_set_link_state(xhci, ports[wIndex], link_state);
--
--			spin_unlock_irqrestore(&xhci->lock, flags);
--			if (link_state == USB_SS_PORT_LS_U3) {
--				int retries = 10;
--
-+				xhci_set_link_state(xhci, ports[wIndex], USB_SS_PORT_LS_U3);
-+				spin_unlock_irqrestore(&xhci->lock, flags);
- 				while (retries--) {
- 					msleep(10); /* wait device to enter */
- 					temp = readl(ports[wIndex]->addr);
- 					if ((temp & PORT_PLS_MASK) == XDEV_U3)
- 						break;
- 				}
--			}
--			spin_lock_irqsave(&xhci->lock, flags);
--
--			temp = readl(ports[wIndex]->addr);
--			if (link_state == USB_SS_PORT_LS_U3)
-+				spin_lock_irqsave(&xhci->lock, flags);
-+				temp = readl(ports[wIndex]->addr);
- 				bus_state->suspended_ports |= 1 << wIndex;
-+			}
- 			break;
- 		case USB_PORT_FEAT_POWER:
- 			/*
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 3b1388fa2f36..aceb8c1af775 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -2531,6 +2531,8 @@ int xhci_mem_init(struct xhci_hcd *xhci, gfp_t flags)
- 		xhci->usb3_rhub.bus_state.resume_done[i] = 0;
- 		/* Only the USB 2.0 completions will ever be used. */
- 		init_completion(&xhci->usb2_rhub.bus_state.rexit_done[i]);
-+		init_completion(&xhci->usb2_rhub.bus_state.link_change_done[i]);
-+		init_completion(&xhci->usb3_rhub.bus_state.link_change_done[i]);
- 	}
- 
- 	if (scratchpad_alloc(xhci, flags))
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index d23f7408c81f..4d0f8dab069a 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -1677,6 +1677,7 @@ static void handle_port_status(struct xhci_hcd *xhci,
- 	     (portsc & PORT_PLS_MASK) == XDEV_U1 ||
- 	     (portsc & PORT_PLS_MASK) == XDEV_U2)) {
- 		xhci_dbg(xhci, "resume SS port %d finished\n", port_id);
-+		complete(&bus_state->link_change_done[hcd_portnum]);
- 		/* We've just brought the device into U0/1/2 through either the
- 		 * Resume state after a device remote wakeup, or through the
- 		 * U3Exit state after a host-initiated resume.  If it's a device
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index 13d8838cd552..b5d443ce0750 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -1694,6 +1694,7 @@ struct xhci_bus_state {
- 	/* Which ports are waiting on RExit to U0 transition. */
- 	unsigned long		rexit_ports;
- 	struct completion	rexit_done[USB_MAXCHILDREN];
-+	struct completion	link_change_done[USB_MAXCHILDREN];
- };
- 
- 
--- 
-2.17.1
+I'm happy to re-send with a fixes tag if you think it's necessary, but I
+don't think it's accurate in this case - your patch did not introduce a
+bug here :-)
+
+
+Regards,
+John
+
+> > ---
+> >   drivers/usb/dwc2/gadget.c | 24 +++++++++++++++++++++++-
+> >   1 file changed, 23 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
+> > index 2717f4401b97..76c0a5242175 100644
+> > --- a/drivers/usb/dwc2/gadget.c
+> > +++ b/drivers/usb/dwc2/gadget.c
+> > @@ -1646,7 +1646,8 @@ static int dwc2_hsotg_process_req_status(struct dwc2_hsotg *hsotg,
+> >   
+> >   	switch (ctrl->bRequestType & USB_RECIP_MASK) {
+> >   	case USB_RECIP_DEVICE:
+> > -		status = 1 << USB_DEVICE_SELF_POWERED;
+> > +		status = hsotg->gadget.is_selfpowered <<
+> > +			 USB_DEVICE_SELF_POWERED;
+> >   		status |= hsotg->remote_wakeup_allowed <<
+> >   			  USB_DEVICE_REMOTE_WAKEUP;
+> >   		reply = cpu_to_le16(status);
+> > @@ -4530,6 +4531,26 @@ static int dwc2_hsotg_gadget_getframe(struct usb_gadget *gadget)
+> >   	return dwc2_hsotg_read_frameno(to_hsotg(gadget));
+> >   }
+> >   
+> > +/**
+> > + * dwc2_hsotg_set_selfpowered - set if device is self/bus powered
+> > + * @gadget: The usb gadget state
+> > + * @is_selfpowered: Whether the device is self-powered
+> > + *
+> > + * Set if the device is self or bus powered.
+> > + */
+> > +static int dwc2_hsotg_set_selfpowered(struct usb_gadget *gadget,
+> > +				      int is_selfpowered)
+> > +{
+> > +	struct dwc2_hsotg *hsotg = to_hsotg(gadget);
+> > +	unsigned long flags;
+> > +
+> > +	spin_lock_irqsave(&hsotg->lock, flags);
+> > +	gadget->is_selfpowered = !!is_selfpowered;
+> > +	spin_unlock_irqrestore(&hsotg->lock, flags);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >   /**
+> >    * dwc2_hsotg_pullup - connect/disconnect the USB PHY
+> >    * @gadget: The usb gadget state
+> > @@ -4621,6 +4642,7 @@ static int dwc2_hsotg_vbus_draw(struct usb_gadget *gadget, unsigned int mA)
+> >   
+> >   static const struct usb_gadget_ops dwc2_hsotg_gadget_ops = {
+> >   	.get_frame	= dwc2_hsotg_gadget_getframe,
+> > +	.set_selfpowered	= dwc2_hsotg_set_selfpowered,
+> >   	.udc_start		= dwc2_hsotg_udc_start,
+> >   	.udc_stop		= dwc2_hsotg_udc_stop,
+> >   	.pullup                 = dwc2_hsotg_pullup,
+> >   
 
