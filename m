@@ -7,65 +7,79 @@ X-Spam-Status: No, score=-9.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B607C35254
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Feb 2020 11:22:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27B4FC35254
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Feb 2020 11:22:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id E0B3021927
-	for <linux-usb@archiver.kernel.org>; Wed,  5 Feb 2020 11:22:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F0AC62192A
+	for <linux-usb@archiver.kernel.org>; Wed,  5 Feb 2020 11:22:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728377AbgBELWq (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Wed, 5 Feb 2020 06:22:46 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:54451 "EHLO
+        id S1728260AbgBELWj (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Wed, 5 Feb 2020 06:22:39 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:54437 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728368AbgBELWq (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Feb 2020 06:22:46 -0500
+        with ESMTP id S1727231AbgBELWj (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Wed, 5 Feb 2020 06:22:39 -0500
 Received: from 61-220-137-37.hinet-ip.hinet.net ([61.220.137.37] helo=localhost)
         by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.86_2)
         (envelope-from <kai.heng.feng@canonical.com>)
-        id 1izIlV-0003I7-QV; Wed, 05 Feb 2020 11:22:42 +0000
+        id 1izIlO-0003Ho-2S; Wed, 05 Feb 2020 11:22:34 +0000
 From:   Kai-Heng Feng <kai.heng.feng@canonical.com>
 To:     mathias.nyman@intel.com, gregkh@linuxfoundation.org,
         stern@rowland.harvard.edu
 Cc:     acelan.kao@canonical.com, linux-usb@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Kai-Heng Feng <kai.heng.feng@canonical.com>
-Subject: [PATCH 3/3] USB: Disable LPM on WD19's Realtek Hub
-Date:   Wed,  5 Feb 2020 19:22:28 +0800
-Message-Id: <20200205112228.25155-3-kai.heng.feng@canonical.com>
+Subject: [PATCH v2 1/3] xhci: Ensure link state is U3 after setting USB_SS_PORT_LS_U3
+Date:   Wed,  5 Feb 2020 19:22:26 +0800
+Message-Id: <20200205112228.25155-1-kai.heng.feng@canonical.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200205112228.25155-1-kai.heng.feng@canonical.com>
-References: <20200205112228.25155-1-kai.heng.feng@canonical.com>
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Realtek Hub (0bda:0x0487) used in Dell Dock WD19 sometimes drops off the
-bus when bringing underlying ports from U3 to U0.
+The xHCI spec doesn't specify the upper bound of U3 transition time. For
+some devices 20ms is not enough, so we need to make sure the link state
+is in U3 before further actions.
 
-Disabling LPM on the hub during setting link state is not enough, so
-let's disable LPM completely for this hub.
+I've tried to use U3 Entry Capability by setting U3 Entry Enable in
+config register, however the port change event for U3 transition
+interrupts the system suspend process.
+
+For now let's use the less ideal method by polling PLS.
 
 Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
 ---
- drivers/usb/core/quirks.c | 3 +++
- 1 file changed, 3 insertions(+)
+v2:
+ - Remove some redundant debug messages.
+ - Use msleep loop outside if spinlock to stop pegging CPU.
 
-diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-index 6b6413073584..2fb7c1602280 100644
---- a/drivers/usb/core/quirks.c
-+++ b/drivers/usb/core/quirks.c
-@@ -371,6 +371,9 @@ static const struct usb_device_id usb_quirk_list[] = {
- 	{ USB_DEVICE(0x0b05, 0x17e0), .driver_info =
- 			USB_QUIRK_IGNORE_REMOTE_WAKEUP },
+ drivers/usb/host/xhci-hub.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
+index 7a3a29e5e9d2..d3c5bcf76755 100644
+--- a/drivers/usb/host/xhci-hub.c
++++ b/drivers/usb/host/xhci-hub.c
+@@ -1313,7 +1313,16 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
+ 			xhci_set_link_state(xhci, ports[wIndex], link_state);
  
-+	/* Realtek hub in Dell WD19 (Type-C) */
-+	{ USB_DEVICE(0x0bda, 0x0487), .driver_info = USB_QUIRK_NO_LPM },
+ 			spin_unlock_irqrestore(&xhci->lock, flags);
+-			msleep(20); /* wait device to enter */
++			if (link_state == USB_SS_PORT_LS_U3) {
++				int retries = 10;
 +
- 	/* Action Semiconductor flash disk */
- 	{ USB_DEVICE(0x10d6, 0x2200), .driver_info =
- 			USB_QUIRK_STRING_FETCH_255 },
++				while (retries--) {
++					msleep(10); /* wait device to enter */
++					temp = readl(ports[wIndex]->addr);
++					if ((temp & PORT_PLS_MASK) == XDEV_U3)
++						break;
++				}
++			}
+ 			spin_lock_irqsave(&xhci->lock, flags);
+ 
+ 			temp = readl(ports[wIndex]->addr);
 -- 
 2.17.1
 
