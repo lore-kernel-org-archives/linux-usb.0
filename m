@@ -6,23 +6,23 @@ X-Spam-Status: No, score=-1.0 required=3.0 tests=MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FDB0C2D0B1
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Feb 2020 09:27:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B84CC2D0B1
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Feb 2020 09:33:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 42717214AF
-	for <linux-usb@archiver.kernel.org>; Thu,  6 Feb 2020 09:27:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 002FA20838
+	for <linux-usb@archiver.kernel.org>; Thu,  6 Feb 2020 09:33:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728039AbgBFJ15 convert rfc822-to-8bit (ORCPT
+        id S1728435AbgBFJdq convert rfc822-to-8bit (ORCPT
         <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 Feb 2020 04:27:57 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56204 "EHLO mail.kernel.org"
+        Thu, 6 Feb 2020 04:33:46 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57448 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727861AbgBFJ15 (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 6 Feb 2020 04:27:57 -0500
+        id S1727976AbgBFJdp (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 6 Feb 2020 04:33:45 -0500
 From:   bugzilla-daemon@bugzilla.kernel.org
 To:     linux-usb@vger.kernel.org
 Subject: [Bug 206427] go7007 driver fails to handle interrupt
-Date:   Thu, 06 Feb 2020 09:27:56 +0000
+Date:   Thu, 06 Feb 2020 09:33:44 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -38,7 +38,7 @@ X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
 X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-206427-208809-5qdHKLcPx3@https.bugzilla.kernel.org/>
+Message-ID: <bug-206427-208809-dQViuojGn0@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-206427-208809@https.bugzilla.kernel.org/>
 References: <bug-206427-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -53,8 +53,9 @@ X-Mailing-List: linux-usb@vger.kernel.org
 
 https://bugzilla.kernel.org/show_bug.cgi?id=206427
 
---- Comment #7 from Takashi Iwai (tiwai@suse.de) ---
-Could you give lsusb -v output of this device, too?
+--- Comment #8 from Takashi Iwai (tiwai@suse.de) ---
+Also please give the whole dmesg output from the boot.  hwinfo output would be
+helpful, too.
 
 -- 
 You are receiving this mail because:
