@@ -5,55 +5,55 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ED30C2BA83
-	for <linux-usb@archiver.kernel.org>; Fri,  7 Feb 2020 20:17:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B954BC2BA83
+	for <linux-usb@archiver.kernel.org>; Fri,  7 Feb 2020 20:17:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 26D2A24125
-	for <linux-usb@archiver.kernel.org>; Fri,  7 Feb 2020 20:17:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 90EE3214AF
+	for <linux-usb@archiver.kernel.org>; Fri,  7 Feb 2020 20:17:26 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MfPz2Bfz"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ru4R36kT"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727698AbgBGURJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 7 Feb 2020 15:17:09 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:34146 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727621AbgBGURG (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 Feb 2020 15:17:06 -0500
-Received: by mail-wr1-f65.google.com with SMTP id t2so417921wrr.1
-        for <linux-usb@vger.kernel.org>; Fri, 07 Feb 2020 12:17:03 -0800 (PST)
+        id S1727764AbgBGURM (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 7 Feb 2020 15:17:12 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:34164 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727705AbgBGURM (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 Feb 2020 15:17:12 -0500
+Received: by mail-wr1-f67.google.com with SMTP id t2so418249wrr.1
+        for <linux-usb@vger.kernel.org>; Fri, 07 Feb 2020 12:17:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=escQMdMChLaA5L2nhd2tLBaF0R66KZITD7/HL10B5xc=;
-        b=MfPz2BfzBwP/KUCZVk4v8jzjxP/Q5t8/mJGudnix8e/RULNYvDQWhO73QSDrCE8IyV
-         m1e+aXV3zbQ6FckE0PXy7ZuVkqrqQpxGxMTB16LfBBgLVNZyHYzHPidvOXg8o3PVqnsS
-         cZ0lqio0Wx+nC+ZNFLa7NVngWJ4eMfQZ6Pm/ZCuCMsHo6gDkDJzK1adGDzYC3MjIX6wD
-         euHmTXK27gBKaBB3Lg8wpl+5s80bGm8u8PLeZZHb7w9qkdV4wK093Yi+n/V5W63Qj7n5
-         7XCtIFHiqfFG9p/5NI5eTVGSCsWltEFbYVDOIM/sxgzDz1+5wThx3rmO15+ctF/2Zzk9
-         Kp0g==
+        bh=dlgrD1ImLwD8i7swr2073g2/em63RPZPKMG2q6/uiVU=;
+        b=Ru4R36kTtWo7RY+7R96hpnx7U4sdZ95e5vrc2PCKal3y0Pmq4XW9r1cPh45LLKmIxo
+         C9UQwp4tsILXsP4T9ciEBiAiwfQnimN93bMsJvhBV6cotvScHBlACyorUxuCYt8OQvtb
+         ho4AJOdsTlUWoBADTDM8dT0pYigB3GbSjdYuHtBFQn9ZlcekMaqop8GeZfDQMoxADijn
+         1l1ZKQ6CW5pcRcyktTZCc1baIkfH1NALgUFdTi3rb+eqvvE8ST3KeQfksZolPsL7hXyx
+         EAOdixPfG4ktmNqWkwhtktkVDdU9zW2237aa5qctzskVtU7kaZ041+JTMO1OkqHJrn+X
+         hcBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=escQMdMChLaA5L2nhd2tLBaF0R66KZITD7/HL10B5xc=;
-        b=iYTZ1MmJrPuUC7SG/EQbQXldsRzFI4fm1R1zVqaUKxsS6wi4QGu5wbZzgus4qLhkXp
-         s0grFt9qQC3gXs3EiMeSbphDXEOo5CdWVAVlI8JtsnDCIPXIYa/+bWtwIUL6lcSitwQ9
-         TQjWm+krv9ywB3Pvlse+959eo28tR5t0CnQUgBgbWGhNf55uE4hnqTtBhe7H5CdeJYpQ
-         4RoHeX8KYs1kbKDhsLJ1noPIcQzX4aj6lIgAeqz7lJM9hEKNt+NJEmYuyraeUXuOXCoO
-         yrt9rn02sATcHJONm9YucT6GwE3ccOATlsS+gi4B+mf3BWFMjxDojT2uEITJYOx3/rgf
-         IKsQ==
-X-Gm-Message-State: APjAAAUoShx7FFiUZOpulhqiwFRZeEQLXd41jqPu/zXf0simym9Th/HH
-        w/c0ZbROnfuk06Rbg+BCP3Qxjg==
-X-Google-Smtp-Source: APXvYqy+eha3zbKXgThRJ4HT8Y+WlVy0Be2Z+ZxppG2V4ZG3jN7M0vCN+nY0gULQ9GOiAs65sSYL1g==
-X-Received: by 2002:adf:de0b:: with SMTP id b11mr693234wrm.89.1581106622815;
-        Fri, 07 Feb 2020 12:17:02 -0800 (PST)
+        bh=dlgrD1ImLwD8i7swr2073g2/em63RPZPKMG2q6/uiVU=;
+        b=Yti1PT2MsdFbn/9aQCTPIgiWrQ2y1WI1+Eai4wOPZ4X28jq63IxBi/iH7xybg6SJ2e
+         Ykb+lP34co1UpJrbStr5kz5XwiSnh6kYWQOZGfLrhTass+VQEt8j1iq3Z8DcmaPEfTCd
+         mNApxdFuZYar9KBAvYZOApwT+t4C9XskxMU1Zd8NJGnM/my01GJXm7oTGkCRCsG98yiQ
+         CpuIK9JQGSpvPQZ/Q6KiThd4GTQW1gMuJOsBEdq61SbY+l1z12MV/iWtVa3hXG6/S3yo
+         pCPYYbdoAJ6+Yp2IgzeKxUm1XnDnrisPFIvD248Ry1S5OEUfCLF66oZic5F4nGwkogtI
+         Kltg==
+X-Gm-Message-State: APjAAAVYnT8ZvFp5vXjmYLellVJskPl39I0P8IkEhK+ylAFqK3CWBfkS
+        q47KMKj4cJLFOh6Ci2Kc0D4pCw==
+X-Google-Smtp-Source: APXvYqzE9BTTrq21fdw8OjnE89OQse/v2jVi476ojGDmrV4TRcoetaQFboSU5vlQ6uS2bchtechMiA==
+X-Received: by 2002:adf:f802:: with SMTP id s2mr758230wrp.201.1581106630760;
+        Fri, 07 Feb 2020 12:17:10 -0800 (PST)
 Received: from localhost.localdomain ([176.61.57.127])
-        by smtp.gmail.com with ESMTPSA id h2sm5018542wrt.45.2020.02.07.12.17.01
+        by smtp.gmail.com with ESMTPSA id h2sm5018542wrt.45.2020.02.07.12.17.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Feb 2020 12:17:02 -0800 (PST)
+        Fri, 07 Feb 2020 12:17:10 -0800 (PST)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
         gregkh@linuxfoundation.org, jackp@codeaurora.org, balbi@kernel.org,
@@ -61,11 +61,11 @@ To:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
 Cc:     linux-kernel@vger.kernel.org,
         Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         Andy Gross <agross@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: [PATCH v5 11/18] usb: dwc3: Add support for a role-switch notifier
-Date:   Fri,  7 Feb 2020 20:16:47 +0000
-Message-Id: <20200207201654.641525-12-bryan.odonoghue@linaro.org>
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org
+Subject: [PATCH v5 18/18] arm64: dts: qcom: qcs404-evb: Enable USB controllers
+Date:   Fri,  7 Feb 2020 20:16:54 +0000
+Message-Id: <20200207201654.641525-19-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200207201654.641525-1-bryan.odonoghue@linaro.org>
 References: <20200207201654.641525-1-bryan.odonoghue@linaro.org>
@@ -76,115 +76,82 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Role-switching is a 1:1 mapping between a producer and a consumer. For DWC3
-we have some vendor specific wrappers, notably the qcom wrapper that want
-to toggle some PHY related bits on a USB role switch.
+This patch enables the primary and secondary USB controllers on the
+qcs404-evb.
 
-This patch adds a role-switch notifier to the dwc3 drd code. When the USB
-role-switch set() routine runs, the notifier will fire passing the notified
-mode to the consumer, thus allowing vendor specific fix-ups to toggle from
-the role-switching events.
+Primary:
+The primary USB controller has
+
+- One USB3 SS PHY using gpio-usb-conn
+- One USB2 HS PHY in device mode only and no connector driver
+  associated.
+
+Secondary:
+The second DWC3 controller which has one USB Hi-Speed PHY attached to it.
 
 Cc: Andy Gross <agross@kernel.org>
 Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Lee Jones <lee.jones@linaro.org>
-Cc: Felipe Balbi <balbi@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Jack Pham <jackp@codeaurora.org>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
 Cc: linux-arm-msm@vger.kernel.org
-Cc: linux-usb@vger.kernel.org
+Cc: devicetree@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- drivers/usb/dwc3/core.h | 19 +++++++++++++++++++
- drivers/usb/dwc3/drd.c  | 17 +++++++++++++++++
- 2 files changed, 36 insertions(+)
+ arch/arm64/boot/dts/qcom/qcs404-evb.dtsi | 40 ++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index a99e57636172..c2e85f587674 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -955,6 +955,7 @@ struct dwc3_scratchpad_array {
-  *		- USBPHY_INTERFACE_MODE_UTMI
-  *		- USBPHY_INTERFACE_MODE_UTMIW
-  * @role_sw: usb_role_switch handle
-+ * @role_sw_nl: role switch notifier list
-  * @usb2_phy: pointer to USB2 PHY
-  * @usb3_phy: pointer to USB3 PHY
-  * @usb2_generic_phy: pointer to USB2 PHY
-@@ -1089,6 +1090,7 @@ struct dwc3 {
- 	struct notifier_block	edev_nb;
- 	enum usb_phy_interface	hsphy_mode;
- 	struct usb_role_switch	*role_sw;
-+	struct raw_notifier_head role_sw_nl;
+diff --git a/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi b/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi
+index 0fff50f755ef..4045d3000da6 100644
+--- a/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi
++++ b/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi
+@@ -318,6 +318,46 @@ pinconf {
+ 	};
+ };
  
- 	u32			fladj;
- 	u32			irq_gadget;
-@@ -1499,4 +1501,21 @@ static inline void dwc3_ulpi_exit(struct dwc3 *dwc)
- { }
- #endif
- 
-+#if IS_ENABLED(CONFIG_USB_ROLE_SWITCH)
-+int dwc3_role_switch_notifier_register(struct dwc3 *dwc,
-+				       struct notifier_block *nb);
-+int dwc3_role_switch_notifier_unregister(struct dwc3 *dwc,
-+					 struct notifier_block *nb);
-+#else
-+static inline int
-+dwc3_role_switch_notifier_register(struct dwc3 *dwc,
-+				   struct notifier_block *nb)
-+{ return 0; }
++&usb2 {
++	status = "okay";
++};
 +
-+static inline int
-+dwc3_role_switch_notifier_unregister(struct dwc3 *dwc,
-+				     struct notifier_block *nb)
-+{ return 0; }
-+#endif
++&usb2_phy_sec {
++	vdd-supply = <&vreg_l4_1p2>;
++	vdda1p8-supply = <&vreg_l5_1p8>;
++	vdda3p3-supply = <&vreg_l12_3p3>;
++	status = "okay";
++};
 +
- #endif /* __DRIVERS_USB_DWC3_CORE_H */
-diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
-index c1825fd655f6..8d3f1599d422 100644
---- a/drivers/usb/dwc3/drd.c
-+++ b/drivers/usb/dwc3/drd.c
-@@ -496,6 +496,8 @@ static int dwc3_usb_role_switch_set(struct device *dev, enum usb_role role)
- 	}
- 
- 	dwc3_set_mode(dwc, mode);
-+	raw_notifier_call_chain(&dwc->role_sw_nl, mode, NULL);
++&usb3 {
++	status = "okay";
++	dwc3@7580000 {
++		usb-role-switch;
++		usb_con: connector {
++			compatible = "gpio-usb-b-connector";
++			label = "USB-C";
++			id-gpios = <&tlmm 116 GPIO_ACTIVE_HIGH>;
++			vbus-supply = <&usb3_vbus_reg>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&usb3_id_pin>, <&usb3_vbus_pin>;
++			status = "okay";
++		};
++	};
++};
 +
- 	return 0;
- }
- 
-@@ -558,6 +560,18 @@ static int dwc3_register_gpio_usb_connector(struct dwc3 *dwc)
- 	return ret;
- }
- 
-+int dwc3_role_switch_notifier_register(struct dwc3 *dwc,
-+				       struct notifier_block *nb)
-+{
-+	return raw_notifier_chain_register(&dwc->role_sw_nl, nb);
-+}
++&usb2_phy_prim {
++	vdd-supply = <&vreg_l4_1p2>;
++	vdda1p8-supply = <&vreg_l5_1p8>;
++	vdda3p3-supply = <&vreg_l12_3p3>;
++	status = "okay";
++};
 +
-+int dwc3_role_switch_notifier_unregister(struct dwc3 *dwc,
-+					 struct notifier_block *nb)
-+{
-+	return raw_notifier_chain_unregister(&dwc->role_sw_nl, nb);
-+}
++&usb3_phy {
++	vdd-supply = <&vreg_l3_1p05>;
++	vdda1p8-supply = <&vreg_l5_1p8>;
++	status = "okay";
++};
 +
- #else
- #define dwc3_setup_role_switch(x) 0
- #define dwc3_register_gpio_usb_connector(x) 0
-@@ -579,6 +593,9 @@ int dwc3_drd_init(struct dwc3 *dwc)
- 		ret = dwc3_register_gpio_usb_connector(dwc);
- 		if (ret < 0)
- 			return ret;
-+
-+		RAW_INIT_NOTIFIER_HEAD(&dwc->role_sw_nl);
-+
- 	} else if (dwc->edev) {
- 		dwc->edev_nb.notifier_call = dwc3_drd_notifier;
- 		ret = extcon_register_notifier(dwc->edev, EXTCON_USB_HOST,
+ &wifi {
+ 	status = "okay";
+ 	vdd-0.8-cx-mx-supply = <&vreg_l2_1p275>;
 -- 
 2.25.0
 
