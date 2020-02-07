@@ -5,55 +5,55 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
 	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
 	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33E26C352A2
-	for <linux-usb@archiver.kernel.org>; Fri,  7 Feb 2020 01:59:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B0DEC352A2
+	for <linux-usb@archiver.kernel.org>; Fri,  7 Feb 2020 01:59:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 0ABEC22527
-	for <linux-usb@archiver.kernel.org>; Fri,  7 Feb 2020 01:59:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 51F57218AC
+	for <linux-usb@archiver.kernel.org>; Fri,  7 Feb 2020 01:59:33 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ph/ceQJB"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iANebn6J"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727723AbgBGB73 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 6 Feb 2020 20:59:29 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:40371 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727698AbgBGB73 (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Feb 2020 20:59:29 -0500
-Received: by mail-wm1-f67.google.com with SMTP id t14so939514wmi.5
-        for <linux-usb@vger.kernel.org>; Thu, 06 Feb 2020 17:59:27 -0800 (PST)
+        id S1727753AbgBGB7c (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 6 Feb 2020 20:59:32 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:41279 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727727AbgBGB7b (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 6 Feb 2020 20:59:31 -0500
+Received: by mail-wr1-f67.google.com with SMTP id c9so763459wrw.8
+        for <linux-usb@vger.kernel.org>; Thu, 06 Feb 2020 17:59:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=GxnmQXYbPrwwDf1YSEYt6X6fG7RNrO9V3k1o149cooA=;
-        b=Ph/ceQJBkbfcaN2157vp1LsLvms4t8gRLjruxE0+ZYUYxSz9CF4i6n3ysHGgZXvOnj
-         nXoUAoKnAVWL15mrTFqyDJO/Qm1F+EXvHDFvCbnVigDDqPXhqJ2QF2pLpsOKC7caM279
-         u/IkyIqsM6YZVobJaeS2dGFbatI/q7BDqEvcDJtvZO0MfMa64s3dpwCgKMy8C7tCyiqh
-         /qzJYn9ueunXKKYkPP1qgmNiQHgZ9HOY+0mC0f6gmqf5+FHsLCTxfLgJwqsKPKtH6COj
-         cNi/UBuBbNuYsxKZeuNXh0113n5iwRQjlCCph8NVd5AAn8LjaBaXAbk1yi2VJtjcXO+V
-         pYfQ==
+        bh=0+D4B2/b6iuMMctw3DJ/Qvn6fdBFldvYEUcyhIreNWc=;
+        b=iANebn6J+cWw8DNkmjIevDTStDdTWyvlKc+j2sUFC20IO3mpOpbgPJz+bkumI5qlEm
+         19gQIf2FkImml/qYnFOMh66VWOIUhDB5FYTL3BKIeZabqrZgOQNPahh4/Nxp/M+jVvgm
+         mLH/1imw927YRfZNDcy9cHBrRZk3KjzW+7o7kNPzfMbLN1m9F8kvEfU7vkx3lPIFM1Tt
+         dTh6n7zJgL7/bcgsMJvLgpYnwRjZyJuG16rCo6VJqWJXO7auYlJX0jgjn3ljnSNS3DLJ
+         DNXYouhLDzcqR0X9lc3TFPtQSithnKH+USCC8V0RLDhrDcVb2cJG28i9/jqcSuI7tllY
+         7L5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=GxnmQXYbPrwwDf1YSEYt6X6fG7RNrO9V3k1o149cooA=;
-        b=bQAQ/zOH3R2aeapzK9waZtfJg5vRZ8fKuH2cjdgLVbkpVSjzKdoRm9fbsQ+VZFx715
-         q7rxFBXE/hfO/ZFhtyyFbSRZtbPLOcOTwt59fV7OvPSzZSr3Pe8NErKnTcNHxyov+F5j
-         pkv7ZMaFnbY12cEOQ4hxP3PLTCItIyzcHmWboWy8uxsf8ym6VF0ptyiKA6W/Ab2OZmK+
-         tlT5yOgF3B1nFEzW74lXGmaMdKEBgr09lOfHZ1jKchc9HCDAoXdOoCuyWGfqLiSdA9h0
-         ldtb7x7mib+/grqdlAHE+Wp6lFQF63MKDHBpGPulYQAyqG6+zpc6ttR9ru2As+xfkx4S
-         PmXw==
-X-Gm-Message-State: APjAAAUC245RfCjg7ihEk+M/+Nt7edlYX8kOnHHSJSOBzqar7kivnc1i
-        L0hw92AJNIJrr6aPlcoC2+wgOg==
-X-Google-Smtp-Source: APXvYqzRCnHwCvNpDLkgCsTiWvatIyOa3bRtPAr2/syZ37Q0Ryuo260neou5/AukdGISrddCaXKjJg==
-X-Received: by 2002:a1c:ded7:: with SMTP id v206mr1007653wmg.106.1581040767193;
-        Thu, 06 Feb 2020 17:59:27 -0800 (PST)
+        bh=0+D4B2/b6iuMMctw3DJ/Qvn6fdBFldvYEUcyhIreNWc=;
+        b=Cne11upB+R9cHB+SKWzrYgsPVrU0LzYiPmsSYrelHOYyDMKxRqrtrf2zZjpxRWeYzc
+         nJqQ5l+ynARUknW768er6H9Ru2P+3RKpEVZimG9SZ5ggAUUNA9gy3A6PWwIkhN6K01d9
+         MceVpbgtlI+9wz4cCZ5c3rss5ETSMeUgFGXMBwSz3JzcZpJdN52JbxZdNbMXTYiNXnsf
+         0d8XrqqOJn0CEyV3DAogTKRBvUfXvRKCyYkvcnORrV8hDe6kLkFS2oa/UCf6q7RSlhwI
+         j3+ei4He8ZJLZrpLQ7zR/1D9XYfkb9eBGcXvSHPAhA83nr1aJXLoILjwCIYNs5B/kJsY
+         3Rew==
+X-Gm-Message-State: APjAAAUL/+ypdjI8h2ucIdWS/Prf1T2B+m3wB4WGn/si+GQUOlaBw2O6
+        Hy+DTBxUHeUYyumTZ4g5ucIP3A==
+X-Google-Smtp-Source: APXvYqyOly3hII6E2lxUaW9RfyMcOLzelD3TulYhuFQF6qGDByAUcBCDzxz4HuUAG3ZF7YBskjwmPQ==
+X-Received: by 2002:adf:e8c9:: with SMTP id k9mr1244346wrn.168.1581040769619;
+        Thu, 06 Feb 2020 17:59:29 -0800 (PST)
 Received: from localhost.localdomain ([176.61.57.127])
-        by smtp.gmail.com with ESMTPSA id a62sm1490095wmh.33.2020.02.06.17.59.25
+        by smtp.gmail.com with ESMTPSA id a62sm1490095wmh.33.2020.02.06.17.59.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Feb 2020 17:59:26 -0800 (PST)
+        Thu, 06 Feb 2020 17:59:29 -0800 (PST)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
         gregkh@linuxfoundation.org, jackp@codeaurora.org, balbi@kernel.org,
@@ -63,9 +63,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Andy Gross <agross@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org
-Subject: [PATCH v4 16/18] arm64: dts: qcom: qcs404-evb: Raise vreg_l12_3p3 minimum voltage
-Date:   Fri,  7 Feb 2020 01:59:05 +0000
-Message-Id: <20200207015907.242991-17-bryan.odonoghue@linaro.org>
+Subject: [PATCH v4 18/18] arm64: dts: qcom: qcs404-evb: Enable primary USB controller
+Date:   Fri,  7 Feb 2020 01:59:07 +0000
+Message-Id: <20200207015907.242991-19-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200207015907.242991-1-bryan.odonoghue@linaro.org>
 References: <20200207015907.242991-1-bryan.odonoghue@linaro.org>
@@ -76,11 +76,14 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Rather than set the minimum microvolt for this regulator in the USB SS PHY
-driver, set it in the DTS.
+This patch enables the primary USB controller which has
 
-Suggested-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+- One USB3 SS PHY using gpio-usb-conn
+- One USB2 HS PHY in device mode only and no connector driver
+  associated.
+
 Cc: Andy Gross <agross@kernel.org>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
 Cc: Rob Herring <robh+dt@kernel.org>
 Cc: Mark Rutland <mark.rutland@arm.com>
 Cc: linux-arm-msm@vger.kernel.org
@@ -88,22 +91,49 @@ Cc: devicetree@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/qcs404-evb.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/qcom/qcs404-evb.dtsi | 29 ++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi b/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi
-index 01ef59e8e5b7..0fff50f755ef 100644
+index 07d6d793a922..4045d3000da6 100644
 --- a/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi
 +++ b/arch/arm64/boot/dts/qcom/qcs404-evb.dtsi
-@@ -199,7 +199,7 @@ vreg_l11_sdc2: l11 {
- 		};
+@@ -329,6 +329,35 @@ &usb2_phy_sec {
+ 	status = "okay";
+ };
  
- 		vreg_l12_3p3: l12 {
--			regulator-min-microvolt = <2968000>;
-+			regulator-min-microvolt = <3050000>;
- 			regulator-max-microvolt = <3300000>;
- 		};
- 
++&usb3 {
++	status = "okay";
++	dwc3@7580000 {
++		usb-role-switch;
++		usb_con: connector {
++			compatible = "gpio-usb-b-connector";
++			label = "USB-C";
++			id-gpios = <&tlmm 116 GPIO_ACTIVE_HIGH>;
++			vbus-supply = <&usb3_vbus_reg>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&usb3_id_pin>, <&usb3_vbus_pin>;
++			status = "okay";
++		};
++	};
++};
++
++&usb2_phy_prim {
++	vdd-supply = <&vreg_l4_1p2>;
++	vdda1p8-supply = <&vreg_l5_1p8>;
++	vdda3p3-supply = <&vreg_l12_3p3>;
++	status = "okay";
++};
++
++&usb3_phy {
++	vdd-supply = <&vreg_l3_1p05>;
++	vdda1p8-supply = <&vreg_l5_1p8>;
++	status = "okay";
++};
++
+ &wifi {
+ 	status = "okay";
+ 	vdd-0.8-cx-mx-supply = <&vreg_l2_1p275>;
 -- 
 2.25.0
 
