@@ -2,86 +2,134 @@ Return-Path: <SRS0=ig6G=33=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.8 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 230B1C2BA83
-	for <linux-usb@archiver.kernel.org>; Fri,  7 Feb 2020 19:24:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7508FC35242
+	for <linux-usb@archiver.kernel.org>; Fri,  7 Feb 2020 20:16:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C085A20715
-	for <linux-usb@archiver.kernel.org>; Fri,  7 Feb 2020 19:24:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 48F80214AF
+	for <linux-usb@archiver.kernel.org>; Fri,  7 Feb 2020 20:16:55 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b="bnH13+Oe";
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ivitera.com header.i=@ivitera.com header.b="BbhxBVuC"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nzKvmZJ9"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726974AbgBGTYo (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 7 Feb 2020 14:24:44 -0500
-Received: from cable.insite.cz ([84.242.75.189]:43524 "EHLO cable.insite.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726900AbgBGTYo (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 7 Feb 2020 14:24:44 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by cable.insite.cz (Postfix) with ESMTP id F3174A1A40B08;
-        Fri,  7 Feb 2020 20:24:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-        t=1581103478; bh=9Y8oU7gNioIhzBGf2ReSXrUwmyZgNr8rOIU3grsxqIk=;
-        h=Subject:To:References:From:Date:In-Reply-To:From;
-        b=bnH13+OeeWEhM2p9dOp3agPgUQZ/F4E2/DKqBrC6bnQuOlEMZOzbQV+ys70hXF1Gp
-         1RY0mwrmgjNGO9HbHn6HWFCt9jkQ67DV7BcWMZpRgtUcU/3uZ30T0MkxDU/VmSt4F3
-         tLHezlHFmrWAL9escC2+hQ+m48DA3zX/VjahaDH4=
-Received: from cable.insite.cz ([84.242.75.189])
-        by localhost (server.insite.cz [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id rr23XFlYhdfp; Fri,  7 Feb 2020 20:24:32 +0100 (CET)
-Received: from [192.168.105.151] (ip28.insite.cz [81.0.237.28])
-        (Authenticated sender: pavel)
-        by cable.insite.cz (Postfix) with ESMTPSA id 413D0A1A40B05;
-        Fri,  7 Feb 2020 20:24:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-        t=1581103472; bh=9Y8oU7gNioIhzBGf2ReSXrUwmyZgNr8rOIU3grsxqIk=;
-        h=Subject:To:References:From:Date:In-Reply-To:From;
-        b=BbhxBVuCgmX6df79lwM6tc3o3YHEhpIe0yvI313XPvQYAxsDAs2mAzDBOtrzKsT9O
-         EiWFhcV9lGgtAYAVHB8I8nHZyAqpTpLTL9Pb9jGEUpvhvER0dC4ZKhcaud9mzEN9w8
-         6UzkLUSO4/tQ8NeF8qFb0hUngP9LhpjcV6ZBO7Ag=
-Subject: Re: [PATCH] overlays: dwc2: Increase RX FIFO size
-To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        linux-usb@vger.kernel.org
-References: <43db1d9c-6fa2-88bd-11df-6ae2f48a4ac9@ivitera.com>
- <9b0f8daeb12ad4e5be74ff93e64c38087af199cf.camel@suse.de>
-From:   Pavel Hofman <pavel.hofman@ivitera.com>
-Message-ID: <75d6f277-7c47-d029-6c90-27825443a380@ivitera.com>
-Date:   Fri, 7 Feb 2020 20:24:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1727379AbgBGUQy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 7 Feb 2020 15:16:54 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:38110 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727455AbgBGUQx (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 7 Feb 2020 15:16:53 -0500
+Received: by mail-wm1-f67.google.com with SMTP id a9so4154213wmj.3
+        for <linux-usb@vger.kernel.org>; Fri, 07 Feb 2020 12:16:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=qsI/xaPXMqNdKm9K1igbwkE2PA4fRpWtUntr4tiEc9c=;
+        b=nzKvmZJ9aAV/JW+8pzm2E70BKhQcS23xS0CYkXUr7Z3bAxJaRv8nqWz2cj1SSddqpQ
+         uoYVkYCmGAhg2yBA3YBHi+G5uSEerEuFW1eFYWObrz4OwI2Vxvli+j8E5/Vu6vdXOJOr
+         Xm4L3nC2KO8US8RWWLmptOE/87ngvdNCkoKchUjMlhtqsfcqnvbuTDKCI25tJFt4h+6i
+         nEYJ2A26wYgCpQMR2JBl/f4WYvfkFQ6Qer3IcjqHeNEkZ6TYgEH4WjCIhDmQ813wcrcf
+         R2WSvjmTqnJ2S3kYlnM4Fd4m+EhFRIsP/FBWi+R1hYNrj+qBCuL1emw0a2SrjBhGkPMv
+         sjeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=qsI/xaPXMqNdKm9K1igbwkE2PA4fRpWtUntr4tiEc9c=;
+        b=jcAC/1d84vIgpeViMK6GbWv5F+w7ILA1vMz2uO+FeJBjSFOhZYrWBN3v5hdMudIrUr
+         VTVE0p8NpH2jk+OwWRRUKrh3QdKvzpif1YVc3EewkqYYNmngutZKWD4/kqugoGLdsVvw
+         zOij7S12TKH8hKzx7hgSPPTF8gFRGp/d/b0sCP++svT8NKizEd/vkeQsJPjNgHZ1JCH1
+         xPSRx5AjidB/BNOTwFHHdDJ70RiD7cyIx02Y24z9BeKVBFMcaKMIg4LcRQ0UOIkUcI4/
+         IiJkPVcDBnxHD4QkuWF5C8ka4BjpmoOi1j2QNyoIFXHTwpP9smpEVIbp2HcxL32HCfKm
+         Cz8g==
+X-Gm-Message-State: APjAAAU1T0DMERlgIGKpR1pOAN5lknK1hm4N+xn1DeEzXnIkd6uqWKTE
+        santUYCG0eczU5osu8kNw+94XQ==
+X-Google-Smtp-Source: APXvYqw9qXEd9607sipcwdF14YHooE/RA/yasD/GDtyTLNkUEQwkjXe4Bpi0gslaJ+gT36M7lapfbg==
+X-Received: by 2002:a7b:cab1:: with SMTP id r17mr47670wml.116.1581106610849;
+        Fri, 07 Feb 2020 12:16:50 -0800 (PST)
+Received: from localhost.localdomain ([176.61.57.127])
+        by smtp.gmail.com with ESMTPSA id h2sm5018542wrt.45.2020.02.07.12.16.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Feb 2020 12:16:50 -0800 (PST)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        gregkh@linuxfoundation.org, jackp@codeaurora.org, balbi@kernel.org,
+        bjorn.andersson@linaro.org, robh@kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>,
+        Jorge Ramirez-Ortiz <jorge.ramirez.ortiz@gmail.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH v5 01/18] dt-bindings: phy: remove qcom-dwc3-usb-phy
+Date:   Fri,  7 Feb 2020 20:16:37 +0000
+Message-Id: <20200207201654.641525-2-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200207201654.641525-1-bryan.odonoghue@linaro.org>
+References: <20200207201654.641525-1-bryan.odonoghue@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <9b0f8daeb12ad4e5be74ff93e64c38087af199cf.camel@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Hi Nicolas,
+From: Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>
 
-Dne 07. 02. 20 v 18:25 Nicolas Saenz Julienne napsal(a):
-> 
-> I suggest making a short summary of your github explanation[1] instead of just
-> citing Minas. On one hand Minas' memory might get fuzzy after some time (or not
-> be able to access the documentation) and...
-> 
->> See: https://github.com/raspberrypi/linux/issues/3447
-> 
-> ...you're assuming this link will be always available. Which is unlikely. After
-> properly explaining the issue, you won't need the link anyway. Ultimately a
-> patch description should be as self-contained/self-explanatory as possible.
+This binding is not used by any driver.
 
-No problem. I tend to copy the whole explanation from that post as it 
-explains in detail every step of the calculation which is quite complex. 
-Would that be OK?
+Signed-off-by: Jorge Ramirez-Ortiz <jorge.ramirez-ortiz@linaro.org>
+Cc: Jorge Ramirez-Ortiz <jorge.ramirez.ortiz@gmail.com>
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+ .../bindings/phy/qcom-dwc3-usb-phy.txt        | 37 -------------------
+ 1 file changed, 37 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/phy/qcom-dwc3-usb-phy.txt
 
-Thanks,
+diff --git a/Documentation/devicetree/bindings/phy/qcom-dwc3-usb-phy.txt b/Documentation/devicetree/bindings/phy/qcom-dwc3-usb-phy.txt
+deleted file mode 100644
+index a1697c27aecd..000000000000
+--- a/Documentation/devicetree/bindings/phy/qcom-dwc3-usb-phy.txt
++++ /dev/null
+@@ -1,37 +0,0 @@
+-Qualcomm DWC3 HS AND SS PHY CONTROLLER
+---------------------------------------
+-
+-DWC3 PHY nodes are defined to describe on-chip Synopsis Physical layer
+-controllers.  Each DWC3 PHY controller should have its own node.
+-
+-Required properties:
+-- compatible: should contain one of the following:
+-	- "qcom,dwc3-hs-usb-phy" for High Speed Synopsis PHY controller
+-	- "qcom,dwc3-ss-usb-phy" for Super Speed Synopsis PHY controller
+-- reg: offset and length of the DWC3 PHY controller register set
+-- #phy-cells: must be zero
+-- clocks: a list of phandles and clock-specifier pairs, one for each entry in
+-  clock-names.
+-- clock-names: Should contain "ref" for the PHY reference clock
+-
+-Optional clocks:
+-  "xo"		External reference clock
+-
+-Example:
+-		phy@100f8800 {
+-			compatible = "qcom,dwc3-hs-usb-phy";
+-			reg = <0x100f8800 0x30>;
+-			clocks = <&gcc USB30_0_UTMI_CLK>;
+-			clock-names = "ref";
+-			#phy-cells = <0>;
+-
+-		};
+-
+-		phy@100f8830 {
+-			compatible = "qcom,dwc3-ss-usb-phy";
+-			reg = <0x100f8830 0x30>;
+-			clocks = <&gcc USB30_0_MASTER_CLK>;
+-			clock-names = "ref";
+-			#phy-cells = <0>;
+-
+-		};
+-- 
+2.25.0
 
-Pavel.
