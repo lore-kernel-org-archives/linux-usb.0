@@ -5,37 +5,37 @@ X-Spam-Level:
 X-Spam-Status: No, score=-9.9 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAB84C3B185
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Feb 2020 08:13:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E065C3B184
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Feb 2020 08:13:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id C2A662080C
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Feb 2020 08:13:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5790F2080C
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Feb 2020 08:13:12 +0000 (UTC)
 Authentication-Results: mail.kernel.org;
-	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="goSBVyeE"
+	dkim=pass (2048-bit key) header.d=nvidia.com header.i=@nvidia.com header.b="UZnzq3I+"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727811AbgBJINF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 10 Feb 2020 03:13:05 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:18273 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727764AbgBJIND (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 10 Feb 2020 03:13:03 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e4110800000>; Mon, 10 Feb 2020 00:12:48 -0800
+        id S1727858AbgBJINL (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 10 Feb 2020 03:13:11 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:3719 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727842AbgBJINL (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 10 Feb 2020 03:13:11 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e4110570000>; Mon, 10 Feb 2020 00:12:08 -0800
 Received: from hqmail.nvidia.com ([172.20.161.6])
   by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 10 Feb 2020 00:13:03 -0800
+  Mon, 10 Feb 2020 00:13:10 -0800
 X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 10 Feb 2020 00:13:03 -0800
-Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 10 Feb
- 2020 08:13:02 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 10 Feb 2020 08:13:02 +0000
+        by hqpgpgate101.nvidia.com on Mon, 10 Feb 2020 00:13:10 -0800
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 10 Feb
+ 2020 08:13:10 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 10 Feb 2020 08:13:10 +0000
 Received: from nkristam-ubuntu.nvidia.com (Not Verified[10.19.67.128]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e41108b0001>; Mon, 10 Feb 2020 00:13:02 -0800
+        id <B5e4110920001>; Mon, 10 Feb 2020 00:13:09 -0800
 From:   Nagarjuna Kristam <nkristam@nvidia.com>
 To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
         <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
@@ -43,9 +43,9 @@ To:     <balbi@kernel.org>, <gregkh@linuxfoundation.org>,
 CC:     <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
         <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Nagarjuna Kristam <nkristam@nvidia.com>
-Subject: [Patch V5 11/21] usb: gadget: tegra-xudc: use phy_set_mode to set/unset device mode
-Date:   Mon, 10 Feb 2020 13:41:37 +0530
-Message-ID: <1581322307-11140-12-git-send-email-nkristam@nvidia.com>
+Subject: [Patch V5 13/21] arm64: tegra: update OTG port entries for jetson-tx1
+Date:   Mon, 10 Feb 2020 13:41:39 +0530
+Message-ID: <1581322307-11140-14-git-send-email-nkristam@nvidia.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1581322307-11140-1-git-send-email-nkristam@nvidia.com>
 References: <1581322307-11140-1-git-send-email-nkristam@nvidia.com>
@@ -53,75 +53,82 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1581322369; bh=enSyMPzTayP8VechD0lnuAhplv7sin8uwClOTcl+XQQ=;
+        t=1581322328; bh=y15v5G/rXu3alwT2NMBoAGJAjAx5EZBOKD4pJ4se3Qc=;
         h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
          In-Reply-To:References:X-NVConfidentiality:MIME-Version:
          Content-Type;
-        b=goSBVyeEQff02Q8ND2Q4UCmjWnlG9dvVi/KlHeqv1EvT4kjOOTYU6xi3+bEFitE86
-         MJcMcYC8ahXAGfpisjWa5IgedVcQ6pPpXdpxe86uwLJ48zSu8B2QBjbeIu+h6Wru7K
-         YkcPxg8mnstFTwbhnMXIiBdjoeyPiKS8xBd4lMmtrlMMzkdLRz3NWzld7coAr6j02E
-         98uxkEeg7EMd2zAyeCLVr8sgL4TB62Hw9UYvzxGxRq6WiQGdyVLa03Rjp23HPNVY+4
-         z+t0nb/geyw71ww3eloeuR6Sce7M1Ft25m8DSknK8FWWuN1qVg9RS/xKcLOoJV1cui
-         DD2sj1s7MVbmw==
+        b=UZnzq3I+GqMM4DPJT2ihWsoUb+zT6RE8ylNZJCZbv5HRwCUMrvV60SfL/RuY50lyZ
+         ESbBnqh6L1VBYbyxqCLvkVaDghZJLD4SnPY6t/uEWO5h2xv9G2VLivIvrrcOgd51Zz
+         YsAUuTQmutiWejm9MmOL3pnFAIPO+/wk1uuQY5wQhUY6WVnCZ/INSG3rRxZTa+HFnB
+         JmS3MfdjJsNChDIztVm/uJ2bm+kYS5SK9QgUKDeYZCcrAIoB+l3KEdQXVAGpSqknQh
+         kY9vak3k3K0zcrOLlKbQVnEpiBujY0NNOCDzBBxGkddJiisS19cE2JQd1lk3y1yaPW
+         aGN9/bzQopf6A==
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-When device mode is set/uset, VBUS override activity is done via
-exported functions from padctl driver. Use phy_set_mode() instead.
+Populate OTG vbus regulator. Add usb-role-switch entry to USB 2-0 port
+and corresponding connector details.
 
 Signed-off-by: Nagarjuna Kristam <nkristam@nvidia.com>
 ---
-V5:
- - No changes.
----
-V4:
- - Updated commit message as per comments from Thierry.
----
-V2-V3:
+V2-V5:
  - No changes in this version
 ---
- drivers/usb/gadget/udc/tegra-xudc.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/gadget/udc/tegra-xudc.c b/drivers/usb/gadget/udc/tegra-xudc.c
-index 7411dd15..a2299ee 100644
---- a/drivers/usb/gadget/udc/tegra-xudc.c
-+++ b/drivers/usb/gadget/udc/tegra-xudc.c
-@@ -612,7 +612,7 @@ static void tegra_xudc_device_mode_on(struct tegra_xudc *xudc)
- 
- 	dev_dbg(xudc->dev, "device mode on\n");
- 
--	tegra_xusb_padctl_set_vbus_override(xudc->padctl, true);
-+	phy_set_mode_ext(xudc->utmi_phy, PHY_MODE_USB_OTG, USB_ROLE_DEVICE);
- }
- 
- static void tegra_xudc_device_mode_off(struct tegra_xudc *xudc)
-@@ -627,7 +627,7 @@ static void tegra_xudc_device_mode_off(struct tegra_xudc *xudc)
- 
- 	reinit_completion(&xudc->disconnect_complete);
- 
--	tegra_xusb_padctl_set_vbus_override(xudc->padctl, false);
-+	phy_set_mode_ext(xudc->utmi_phy, PHY_MODE_USB_OTG, USB_ROLE_NONE);
- 
- 	pls = (xudc_readl(xudc, PORTSC) & PORTSC_PLS_MASK) >>
- 		PORTSC_PLS_SHIFT;
-@@ -714,9 +714,11 @@ static void tegra_xudc_plc_reset_work(struct work_struct *work)
- 
- 		if (pls == PORTSC_PLS_INACTIVE) {
- 			dev_info(xudc->dev, "PLS = Inactive. Toggle VBUS\n");
--			tegra_xusb_padctl_set_vbus_override(xudc->padctl,
--							      false);
--			tegra_xusb_padctl_set_vbus_override(xudc->padctl, true);
-+			phy_set_mode_ext(xudc->utmi_phy, PHY_MODE_USB_OTG,
-+					 USB_ROLE_NONE);
-+			phy_set_mode_ext(xudc->utmi_phy, PHY_MODE_USB_OTG,
-+					 USB_ROLE_DEVICE);
+diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
+index b009507..18c0610 100644
+--- a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
++++ b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
+@@ -1336,7 +1336,6 @@
+ 		       <&{/padctl@7009f000/pads/pcie/lanes/pcie-5}>;
+ 		phy-names = "usb2-0", "usb2-1", "usb2-2", "usb2-3", "usb3-0",
+ 			    "usb3-1";
+-
+ 		dvddio-pex-supply = <&vdd_pex_1v05>;
+ 		hvddio-pex-supply = <&vdd_1v8>;
+ 		avdd-usb-supply = <&vdd_3v3_sys>;
+@@ -1440,7 +1439,19 @@
+ 		ports {
+ 			usb2-0 {
+ 				status = "okay";
++				vbus-supply = <&vdd_usb_vbus_otg>;
+ 				mode = "otg";
 +
- 			xudc->wait_csc = false;
- 		}
- 	}
++				usb-role-switch;
++				connector {
++					compatible = "usb-b-connector",
++						     "gpio-usb-b-connector";
++					label = "micro-USB";
++					type = "micro";
++					vbus-gpio = <&gpio TEGRA_GPIO(Z, 0)
++						     GPIO_ACTIVE_LOW>;
++					id-gpio = <&pmic 0 0>;
++				};
+ 			};
+ 
+ 			usb2-1 {
+@@ -1606,6 +1617,17 @@
+ 			vin-supply = <&vdd_5v0_sys>;
+ 		};
+ 
++		vdd_usb_vbus_otg: regulator@11 {
++			compatible = "regulator-fixed";
++			reg = <9>;
++			regulator-name = "USB_VBUS_EN0";
++			regulator-min-microvolt = <5000000>;
++			regulator-max-microvolt = <5000000>;
++			gpio = <&gpio TEGRA_GPIO(CC, 4) GPIO_ACTIVE_HIGH>;
++			enable-active-high;
++			vin-supply = <&vdd_5v0_sys>;
++		};
++
+ 		vdd_hdmi: regulator@10 {
+ 			compatible = "regulator-fixed";
+ 			reg = <10>;
 -- 
 2.7.4
 
