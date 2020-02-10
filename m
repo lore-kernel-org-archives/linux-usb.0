@@ -2,77 +2,152 @@ Return-Path: <SRS0=EFIa=36=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.4 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DF1CC352A4
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Feb 2020 06:38:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 082C1C352A4
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Feb 2020 07:31:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 44F2C20661
-	for <linux-usb@archiver.kernel.org>; Mon, 10 Feb 2020 06:38:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C3C4321775
+	for <linux-usb@archiver.kernel.org>; Mon, 10 Feb 2020 07:31:29 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="o+d91p+O"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727569AbgBJGiJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Mon, 10 Feb 2020 01:38:09 -0500
-Received: from alexa-out-blr-02.qualcomm.com ([103.229.18.198]:56754 "EHLO
-        alexa-out-blr-02.qualcomm.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726061AbgBJGiJ (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Mon, 10 Feb 2020 01:38:09 -0500
-Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
-  by alexa-out-blr-02.qualcomm.com with ESMTP/TLS/AES256-SHA; 10 Feb 2020 12:07:17 +0530
-Received: from c-sanm-linux.qualcomm.com ([10.206.25.31])
-  by ironmsg02-blr.qualcomm.com with ESMTP; 10 Feb 2020 12:06:48 +0530
-Received: by c-sanm-linux.qualcomm.com (Postfix, from userid 2343233)
-        id 7DA382198; Mon, 10 Feb 2020 12:06:47 +0530 (IST)
-From:   Sandeep Maheswaram <sanm@codeaurora.org>
-To:     Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+        id S1727481AbgBJHb3 (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Mon, 10 Feb 2020 02:31:29 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:56300 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726061AbgBJHb2 (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Mon, 10 Feb 2020 02:31:28 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01A7OElx065123;
+        Mon, 10 Feb 2020 07:31:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=s6AinvzoHu/EdvI5/km7p3NZcYYsNfxd02N+9fjiWIA=;
+ b=o+d91p+OipC5huZT6Phm67TlEy2DB6c4trFdSjRGyGzSpbl5jDGUgfPpyYJSutDJFeYM
+ 1IhStyHLn321q25Vh4NEwGI0duBASeEttF6U2HaMXax+I6JzqyIAavHqhCRiSsYHxOfa
+ 44Hb1kU/FnkN8Hp/7b+rsvGpACvyDFgo9rCzwI1u21QummBTD4iz929aU4t7E8U06MA5
+ 4syRIURPuET08VR6YI6BMR40e3Nr1xKHRpuTlfnOgcIrCahchwFNzw5FnsPZN+Bj3ruz
+ 4TQlzWRlfjn7t0Vb6YxfdKsDHIbkp9QlvEUG+z5cq66j3EvGDKfG67C3ZzTn+XpSp7mI QQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2130.oracle.com with ESMTP id 2y2k87t5ge-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 10 Feb 2020 07:31:21 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 01A7MN3i168306;
+        Mon, 10 Feb 2020 07:31:20 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3020.oracle.com with ESMTP id 2y26sgh3sg-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 10 Feb 2020 07:31:20 +0000
+Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 01A7VICF013006;
+        Mon, 10 Feb 2020 07:31:18 GMT
+Received: from kadam (/129.205.23.165)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Sun, 09 Feb 2020 23:31:18 -0800
+Date:   Mon, 10 Feb 2020 10:31:10 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     kbuild@lists.01.org, Hanjie Lin <hanjie.lin@amlogic.com>
+Cc:     kbuild-all@lists.01.org, linux-usb@vger.kernel.org,
+        linux-omap@vger.kernel.org,
+        Felipe Balbi <felipe.balbi@linux.intel.com>,
         Felipe Balbi <balbi@kernel.org>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Doug Anderson <dianders@chromium.org>,
-        Matthias Kaehlcke <mka@chromium.org>
-Cc:     linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Manu Gautam <mgautam@codeaurora.org>,
-        Sandeep Maheswaram <sanm@codeaurora.org>
-Subject: [PATCH v4 0/2] Add USB DWC3 support for SC7180
-Date:   Mon, 10 Feb 2020 12:06:43 +0530
-Message-Id: <1581316605-29202-1-git-send-email-sanm@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+        Yue Wang <yue.wang@amlogic.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Subject: [balbi-usb:testing/next 5/10] drivers/usb/dwc3/dwc3-meson-g12a.c:455
+ dwc3_meson_g12a_otg_init() error: uninitialized symbol 'ret'.
+Message-ID: <20200210073110.GQ24804@kadam>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9526 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0 mlxscore=0
+ malwarescore=0 bulkscore=0 spamscore=0 suspectscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2001150001
+ definitions=main-2002100062
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9526 signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 lowpriorityscore=0
+ suspectscore=0 bulkscore=0 phishscore=0 mlxlogscore=999 mlxscore=0
+ malwarescore=0 impostorscore=0 clxscore=1011 spamscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2001150001 definitions=main-2002100062
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Converting dt binding to yaml.
-Adding compatible for SC7180 in dt bindings.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git testing/next
+head:   b081f1dc121c0bdeacc45cf02c35d1ee95120680
+commit: 729149c53f048f16aff9e662bf444c275b59ba8a [5/10] usb: dwc3: Add Amlogic A1 DWC3 glue
 
-Changes in v4:
-Addressed the comments from Doug in yaml file.
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-Changes in v3:
-Dropped the patch for adding the compatible in dwc3 driver from the series.
-Addressed the comments from Doug in yaml file.
+smatch warnings:
+drivers/usb/dwc3/dwc3-meson-g12a.c:455 dwc3_meson_g12a_otg_init() error: uninitialized symbol 'ret'.
 
-Changes in v2:
-Sorted the compatible in dwc3 driver.
-Converted dt binding to yaml.
-Added compatible in yaml.
+# https://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git/commit/?id=729149c53f048f16aff9e662bf444c275b59ba8a
+git remote add balbi-usb https://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git
+git remote update balbi-usb
+git checkout 729149c53f048f16aff9e662bf444c275b59ba8a
+vim +/ret +455 drivers/usb/dwc3/dwc3-meson-g12a.c
 
-Sandeep Maheswaram (2):
-  dt-bindings: usb: qcom,dwc3: Convert USB DWC3 bindings
-  dt-bindings: usb: qcom,dwc3: Add compatible for SC7180
+729149c53f048f Hanjie Lin     2020-01-20  411  static int dwc3_meson_g12a_otg_init(struct platform_device *pdev,
+729149c53f048f Hanjie Lin     2020-01-20  412  				    struct dwc3_meson_g12a *priv)
+729149c53f048f Hanjie Lin     2020-01-20  413  {
+729149c53f048f Hanjie Lin     2020-01-20  414  	enum phy_mode otg_id;
+729149c53f048f Hanjie Lin     2020-01-20  415  	int ret, irq;
+729149c53f048f Hanjie Lin     2020-01-20  416  	struct device *dev = &pdev->dev;
+729149c53f048f Hanjie Lin     2020-01-20  417  
+729149c53f048f Hanjie Lin     2020-01-20  418  	if (!priv->drvdata->otg_switch_supported)
+729149c53f048f Hanjie Lin     2020-01-20  419  		return 0;
+729149c53f048f Hanjie Lin     2020-01-20  420  
+729149c53f048f Hanjie Lin     2020-01-20  421  	if (priv->otg_mode == USB_DR_MODE_OTG) {
+729149c53f048f Hanjie Lin     2020-01-20  422  		/* Ack irq before registering */
+729149c53f048f Hanjie Lin     2020-01-20  423  		regmap_update_bits(priv->regmap, USB_R5,
+729149c53f048f Hanjie Lin     2020-01-20  424  				   USB_R5_ID_DIG_IRQ, 0);
+729149c53f048f Hanjie Lin     2020-01-20  425  
+729149c53f048f Hanjie Lin     2020-01-20  426  		irq = platform_get_irq(pdev, 0);
+729149c53f048f Hanjie Lin     2020-01-20  427  		ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
+729149c53f048f Hanjie Lin     2020-01-20  428  						dwc3_meson_g12a_irq_thread,
+729149c53f048f Hanjie Lin     2020-01-20  429  						IRQF_ONESHOT, pdev->name, priv);
+729149c53f048f Hanjie Lin     2020-01-20  430  		if (ret)
+729149c53f048f Hanjie Lin     2020-01-20  431  			return ret;
+729149c53f048f Hanjie Lin     2020-01-20  432  	}
+729149c53f048f Hanjie Lin     2020-01-20  433  
+729149c53f048f Hanjie Lin     2020-01-20  434  	/* Setup OTG mode corresponding to the ID pin */
+729149c53f048f Hanjie Lin     2020-01-20  435  	if (priv->otg_mode == USB_DR_MODE_OTG) {
+729149c53f048f Hanjie Lin     2020-01-20  436  		otg_id = dwc3_meson_g12a_get_id(priv);
+729149c53f048f Hanjie Lin     2020-01-20  437  		if (otg_id != priv->otg_phy_mode) {
+729149c53f048f Hanjie Lin     2020-01-20  438  			if (dwc3_meson_g12a_otg_mode_set(priv, otg_id))
+729149c53f048f Hanjie Lin     2020-01-20  439  				dev_warn(dev, "Failed to switch OTG mode\n");
+729149c53f048f Hanjie Lin     2020-01-20  440  		}
+729149c53f048f Hanjie Lin     2020-01-20  441  	}
+729149c53f048f Hanjie Lin     2020-01-20  442  
+729149c53f048f Hanjie Lin     2020-01-20  443  	/* Setup role switcher */
+729149c53f048f Hanjie Lin     2020-01-20  444  	priv->switch_desc.usb2_port = dwc3_meson_g12_find_child(dev,
+729149c53f048f Hanjie Lin     2020-01-20  445  								"snps,dwc3");
+729149c53f048f Hanjie Lin     2020-01-20  446  	priv->switch_desc.udc = dwc3_meson_g12_find_child(dev, "snps,dwc2");
+729149c53f048f Hanjie Lin     2020-01-20  447  	priv->switch_desc.allow_userspace_control = true;
+729149c53f048f Hanjie Lin     2020-01-20  448  	priv->switch_desc.set = dwc3_meson_g12a_role_set;
+729149c53f048f Hanjie Lin     2020-01-20  449  	priv->switch_desc.get = dwc3_meson_g12a_role_get;
+729149c53f048f Hanjie Lin     2020-01-20  450  
+729149c53f048f Hanjie Lin     2020-01-20  451  	priv->role_switch = usb_role_switch_register(dev, &priv->switch_desc);
+729149c53f048f Hanjie Lin     2020-01-20  452  	if (IS_ERR(priv->role_switch))
+729149c53f048f Hanjie Lin     2020-01-20  453  		dev_warn(dev, "Unable to register Role Switch\n");
+729149c53f048f Hanjie Lin     2020-01-20  454  
+729149c53f048f Hanjie Lin     2020-01-20 @455  	return ret;
 
- .../devicetree/bindings/usb/qcom,dwc3.txt          | 104 --------------
- .../devicetree/bindings/usb/qcom,dwc3.yaml         | 156 +++++++++++++++++++++
- 2 files changed, 156 insertions(+), 104 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/usb/qcom,dwc3.txt
- create mode 100644 Documentation/devicetree/bindings/usb/qcom,dwc3.yaml
+"ret" can be uninitialized.  It should be "return 0;" anyway.
 
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+729149c53f048f Hanjie Lin     2020-01-20  456  }
 
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
