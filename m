@@ -2,111 +2,132 @@ Return-Path: <SRS0=9l+J=37=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.1 required=3.0 tests=DKIM_INVALID,DKIM_SIGNED,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26B80C352A3
-	for <linux-usb@archiver.kernel.org>; Tue, 11 Feb 2020 23:38:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CA42C35242
+	for <linux-usb@archiver.kernel.org>; Tue, 11 Feb 2020 23:43:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id EE8582073C
-	for <linux-usb@archiver.kernel.org>; Tue, 11 Feb 2020 23:38:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F07EC2070A
+	for <linux-usb@archiver.kernel.org>; Tue, 11 Feb 2020 23:43:05 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="jZxKKx/1"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728066AbgBKXip (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Tue, 11 Feb 2020 18:38:45 -0500
-Received: from cloudserver094114.home.pl ([79.96.170.134]:42015 "EHLO
-        cloudserver094114.home.pl" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728052AbgBKXio (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Tue, 11 Feb 2020 18:38:44 -0500
-Received: from 79.184.254.199.ipv4.supernova.orange.pl (79.184.254.199) (HELO kreacher.localnet)
- by serwer1319399.home.pl (79.96.170.134) with SMTP (IdeaSmtpServer 0.83.341)
- id 1502ec76482e32b6; Wed, 12 Feb 2020 00:38:43 +0100
-From:   "Rafael J. Wysocki" <rjw@rjwysocki.net>
-To:     Linux PM <linux-pm@vger.kernel.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Amit Kucheria <amit.kucheria@linaro.org>,
-        Peter Chen <Peter.Chen@nxp.com>, linux-usb@vger.kernel.org
-Subject: [PATCH 23/28] drivers: usb: Call cpu_latency_qos_*() instead of pm_qos_*()
-Date:   Wed, 12 Feb 2020 00:28:44 +0100
-Message-ID: <19064076.ICumzjfW0v@kreacher>
-In-Reply-To: <1654227.8mz0SueHsU@kreacher>
-References: <1654227.8mz0SueHsU@kreacher>
+        id S1727935AbgBKXnF (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Tue, 11 Feb 2020 18:43:05 -0500
+Received: from gateway31.websitewelcome.com ([192.185.143.40]:37639 "EHLO
+        gateway31.websitewelcome.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727911AbgBKXnF (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Tue, 11 Feb 2020 18:43:05 -0500
+X-Greylist: delayed 1275 seconds by postgrey-1.27 at vger.kernel.org; Tue, 11 Feb 2020 18:43:04 EST
+Received: from cm17.websitewelcome.com (cm17.websitewelcome.com [100.42.49.20])
+        by gateway31.websitewelcome.com (Postfix) with ESMTP id 027721F343
+        for <linux-usb@vger.kernel.org>; Tue, 11 Feb 2020 17:21:49 -0600 (CST)
+Received: from gator4166.hostgator.com ([108.167.133.22])
+        by cmsmtp with SMTP
+        id 1eqijkGVdAGTX1eqijwdkh; Tue, 11 Feb 2020 17:21:48 -0600
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=embeddedor.com; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:
+        Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=n5ilMfy8gku9SOZFBLYy4Y+cibBJVLrMCr+czct/SY8=; b=jZxKKx/1yNPqJcOFhRKuRMVtcJ
+        TwctO5+9TOnW4gtBqVfwD0eK6eqFqRBjn6YJ9ngyF5og8apmAx14brohfTu/ctzyPkDeXfbAyRA8f
+        GqLLOxvvXwKU5tnskL48XmLBRHU2decBNOW0A6XDlheOKJcwKBR2+PGQ9MtsJiG6zcG5s/fzkTBJ4
+        jjNo8rzqvocHIs2kk/gJOIWXlMbUlCr/OIqX8CPph9Fy01wZh6XI7pdgsNdL10nakY1hmNgWSylQS
+        I65GCsQUtPHeE2RDHqCFsJ9M4E9r/w+munDkL7kSvZL8TVSYpk5ltuaGTCjJyisOB3/8e3qDRwkmb
+        l6nYkwhg==;
+Received: from [200.68.140.36] (port=9177 helo=embeddedor)
+        by gator4166.hostgator.com with esmtpa (Exim 4.92)
+        (envelope-from <gustavo@embeddedor.com>)
+        id 1j1eqf-003aK6-F8; Tue, 11 Feb 2020 17:21:45 -0600
+Date:   Tue, 11 Feb 2020 17:24:20 -0600
+From:   "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+To:     Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Subject: [PATCH] USB: serial: ti_usb_3410_5052: Replace zero-length array
+ with flexible-array member
+Message-ID: <20200211232420.GA22388@embeddedor>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - embeddedor.com
+X-BWhitelist: no
+X-Source-IP: 200.68.140.36
+X-Source-L: No
+X-Exim-ID: 1j1eqf-003aK6-F8
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: (embeddedor) [200.68.140.36]:9177
+X-Source-Auth: gustavo@embeddedor.com
+X-Email-Count: 43
+X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+The current codebase makes use of the zero-length array language
+extension to the C90 standard, but the preferred mechanism to declare
+variable-length types such as these ones is a flexible array member[1][2],
+introduced in C99:
 
-Call cpu_latency_qos_add/remove_request() instead of
-pm_qos_add/remove_request(), respectively, because the
-latter are going to be dropped.
+struct foo {
+        int stuff;
+        struct boo array[];
+};
 
-No intentional functional impact.
+By making use of the mechanism above, we will get a compiler warning
+in case the flexible array does not occur last in the structure, which
+will help us prevent some kind of undefined behavior bugs from being
+inadvertenly introduced[3] to the codebase from now on.
 
-Signed-off-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+This issue was found with the help of Coccinelle.
+
+[1] https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html
+[2] https://github.com/KSPP/linux/issues/21
+[3] commit 76497732932f ("cxgb3/l2t: Fix undefined behaviour")
+
+Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
 ---
- drivers/usb/chipidea/ci_hdrc_imx.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ drivers/usb/serial/ti_usb_3410_5052.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/chipidea/ci_hdrc_imx.c b/drivers/usb/chipidea/ci_hdrc_imx.c
-index d8e7eb2f97b9..a479af3ae31d 100644
---- a/drivers/usb/chipidea/ci_hdrc_imx.c
-+++ b/drivers/usb/chipidea/ci_hdrc_imx.c
-@@ -393,8 +393,7 @@ static int ci_hdrc_imx_probe(struct platform_device *pdev)
- 	}
+diff --git a/drivers/usb/serial/ti_usb_3410_5052.c b/drivers/usb/serial/ti_usb_3410_5052.c
+index dd0ad67aa71e..db3ab25d9228 100644
+--- a/drivers/usb/serial/ti_usb_3410_5052.c
++++ b/drivers/usb/serial/ti_usb_3410_5052.c
+@@ -219,7 +219,7 @@ struct ti_write_data_bytes {
+ 	u8	bDataCounter;
+ 	__be16	wBaseAddrHi;
+ 	__be16	wBaseAddrLo;
+-	u8	bData[0];
++	u8	bData[];
+ } __packed;
  
- 	if (pdata.flags & CI_HDRC_PMQOS)
--		pm_qos_add_request(&data->pm_qos_req,
--			PM_QOS_CPU_DMA_LATENCY, 0);
-+		cpu_latency_qos_add_request(&data->pm_qos_req, 0);
+ struct ti_read_data_request {
+@@ -234,7 +234,7 @@ struct ti_read_data_bytes {
+ 	__u8	bCmdCode;
+ 	__u8	bModuleId;
+ 	__u8	bErrorCode;
+-	__u8	bData[0];
++	__u8	bData[];
+ } __packed;
  
- 	ret = imx_get_clks(dev);
- 	if (ret)
-@@ -478,7 +477,7 @@ static int ci_hdrc_imx_probe(struct platform_device *pdev)
- 		/* don't overwrite original ret (cf. EPROBE_DEFER) */
- 		regulator_disable(data->hsic_pad_regulator);
- 	if (pdata.flags & CI_HDRC_PMQOS)
--		pm_qos_remove_request(&data->pm_qos_req);
-+		cpu_latency_qos_remove_request(&data->pm_qos_req);
- 	data->ci_pdev = NULL;
- 	return ret;
- }
-@@ -499,7 +498,7 @@ static int ci_hdrc_imx_remove(struct platform_device *pdev)
- 	if (data->ci_pdev) {
- 		imx_disable_unprepare_clks(&pdev->dev);
- 		if (data->plat_data->flags & CI_HDRC_PMQOS)
--			pm_qos_remove_request(&data->pm_qos_req);
-+			cpu_latency_qos_remove_request(&data->pm_qos_req);
- 		if (data->hsic_pad_regulator)
- 			regulator_disable(data->hsic_pad_regulator);
- 	}
-@@ -527,7 +526,7 @@ static int __maybe_unused imx_controller_suspend(struct device *dev)
- 
- 	imx_disable_unprepare_clks(dev);
- 	if (data->plat_data->flags & CI_HDRC_PMQOS)
--		pm_qos_remove_request(&data->pm_qos_req);
-+		cpu_latency_qos_remove_request(&data->pm_qos_req);
- 
- 	data->in_lpm = true;
- 
-@@ -547,8 +546,7 @@ static int __maybe_unused imx_controller_resume(struct device *dev)
- 	}
- 
- 	if (data->plat_data->flags & CI_HDRC_PMQOS)
--		pm_qos_add_request(&data->pm_qos_req,
--			PM_QOS_CPU_DMA_LATENCY, 0);
-+		cpu_latency_qos_add_request(&data->pm_qos_req, 0);
- 
- 	ret = imx_prepare_enable_clks(dev);
- 	if (ret)
+ /* Interrupt struct */
 -- 
-2.16.4
-
-
-
-
+2.25.0
 
