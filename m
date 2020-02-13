@@ -7,36 +7,36 @@ X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
 	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 083FEC3B189
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Feb 2020 13:24:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B47DC2BA83
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Feb 2020 13:25:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id DDACB222C2
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Feb 2020 13:24:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0CD022467C
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Feb 2020 13:25:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730085AbgBMNYt (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 13 Feb 2020 08:24:49 -0500
+        id S1730015AbgBMNZA (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 13 Feb 2020 08:25:00 -0500
 Received: from mga06.intel.com ([134.134.136.31]:44559 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730080AbgBMNYs (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 13 Feb 2020 08:24:48 -0500
+        id S1730062AbgBMNYn (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 13 Feb 2020 08:24:43 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Feb 2020 05:24:47 -0800
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Feb 2020 05:24:43 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,436,1574150400"; 
-   d="scan'208";a="347728510"
+   d="scan'208";a="347728505"
 Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
-  by fmsmga001.fm.intel.com with ESMTP; 13 Feb 2020 05:24:45 -0800
+  by fmsmga001.fm.intel.com with ESMTP; 13 Feb 2020 05:24:41 -0800
 From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc:     Benson Leung <bleung@chromium.org>,
         Prashant Malani <pmalani@chromium.org>,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH 8/9] usb: typec: Add definitions for Thunderbolt 3 Alternate Mode
-Date:   Thu, 13 Feb 2020 16:24:27 +0300
-Message-Id: <20200213132428.53374-9-heikki.krogerus@linux.intel.com>
+Subject: [PATCH 6/9] usb: roles: Allow the role switches to be named
+Date:   Thu, 13 Feb 2020 16:24:25 +0300
+Message-Id: <20200213132428.53374-7-heikki.krogerus@linux.intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200213132428.53374-1-heikki.krogerus@linux.intel.com>
 References: <20200213132428.53374-1-heikki.krogerus@linux.intel.com>
@@ -47,82 +47,53 @@ Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-This adds separate header file for the Thunderbolt 3
-Alternate Mode (aka. TBT). The header supplies definitions for
-all the Thunderbolt specific VDOs (Vendor Defined Objects)
-that are described in the USB Type-C Connector specification
-v2.0, as well as definition for the Thunderbolt 3 Standard
-ID (SID).
+The switch devices have been named by using the name of the
+parent device as base for now, but if for example the
+parent device controls multiple muxes, that will not work.
 
-There is also a new connector state value for the
-Thunderbolt 3 Alternate Mode that can be used with the mux
-drivers.
+Adding an optional member "name" to the switch descriptor
+that can be used for naming the switch during registration.
 
 Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
- include/linux/usb/typec_tbt.h | 53 +++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
- create mode 100644 include/linux/usb/typec_tbt.h
+ drivers/usb/roles/class.c | 3 ++-
+ include/linux/usb/role.h  | 2 ++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/usb/typec_tbt.h b/include/linux/usb/typec_tbt.h
-new file mode 100644
-index 000000000000..47c2d501ddce
---- /dev/null
-+++ b/include/linux/usb/typec_tbt.h
-@@ -0,0 +1,53 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef __USB_TYPEC_TBT_H
-+#define __USB_TYPEC_TBT_H
-+
-+#include <linux/usb/typec_altmode.h>
-+
-+#define USB_TYPEC_VENDOR_INTEL		0x8087
-+/* Alias for convenience */
-+#define USB_TYPEC_TBT_SID		USB_TYPEC_VENDOR_INTEL
-+
-+/* Connector state for Thunderbolt3 */
-+#define TYPEC_TBT_MODE			TYPEC_STATE_MODAL
-+
-+/**
-+ * struct typec_thunderbolt_data - Thundebolt3 Alt Mode specific data
-+ * @device_mode: Device Discover Mode VDO
-+ * @cable_mode: Cable Discover Mode VDO
-+ * @enter_vdo: Enter Mode VDO
-+ */
-+struct typec_thunderbolt_data {
-+	u32 device_mode;
-+	u32 cable_mode;
-+	u32 enter_vdo;
-+};
-+
-+/* TBT3 Device Discover Mode VDO bits */
-+#define TBT_MODE			BIT(0)
-+#define TBT_ADAPTER(_vdo_)		(((_vdo_) & BIT(16)) >> 16)
-+#define   TBT_ADAPTER_LEGACY		0
-+#define   TBT_ADAPTER_TBT3		1
-+#define TBT_INTEL_SPECIFIC_B0		BIT(26)
-+#define TBT_VENDOR_SPECIFIC_B0		BIT(30)
-+#define TBT_VENDOR_SPECIFIC_B1		BIT(31)
-+
-+#define TBT_SET_ADAPTER(a)		(((a) & 1) << 16)
-+
-+/* TBT3 Cable Discover Mode VDO bits */
-+#define TBT_CABLE_SPEED(_vdo_)		(((_vdo_) & GENMASK(18, 16)) >> 16)
-+#define   TBT_CABLE_USB3_GEN1		1
-+#define   TBT_CABLE_USB3_PASSIVE	2
-+#define   TBT_CABLE_10_AND_20GBPS	3
-+#define TBT_CABLE_ROUNDED		BIT(19)
-+#define TBT_CABLE_OPTICAL		BIT(21)
-+#define TBT_CABLE_RETIMER		BIT(22)
-+#define TBT_CABLE_LINK_TRAINING		BIT(23)
-+
-+#define TBT_SET_CABLE_SPEED(_s_)	(((_s_) & GENMASK(2, 0)) << 16)
-+
-+/* TBT3 Device Enter Mode VDO bits */
-+#define TBT_ENTER_MODE_CABLE_SPEED(s)	TBT_SET_CABLE_SPEED(s)
-+#define TBT_ENTER_MODE_ACTIVE_CABLE	BIT(24)
-+
-+#endif /* __USB_TYPEC_TBT_H */
+diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
+index d5e57d26c31f..e17df54f2852 100644
+--- a/drivers/usb/roles/class.c
++++ b/drivers/usb/roles/class.c
+@@ -330,7 +330,8 @@ usb_role_switch_register(struct device *parent,
+ 	sw->dev.class = role_class;
+ 	sw->dev.type = &usb_role_dev_type;
+ 	sw->dev.driver_data = desc->driver_data;
+-	dev_set_name(&sw->dev, "%s-role-switch", dev_name(parent));
++	dev_set_name(&sw->dev, "%s-role-switch",
++		     desc->name ? desc->name : dev_name(parent));
+ 
+ 	ret = device_register(&sw->dev);
+ 	if (ret) {
+diff --git a/include/linux/usb/role.h b/include/linux/usb/role.h
+index c028ba8029ad..0164fed31b06 100644
+--- a/include/linux/usb/role.h
++++ b/include/linux/usb/role.h
+@@ -27,6 +27,7 @@ typedef enum usb_role (*usb_role_switch_get_t)(struct usb_role_switch *sw);
+  * @get: Callback for getting the role (optional)
+  * @allow_userspace_control: If true userspace may change the role through sysfs
+  * @driver_data: Private data pointer
++ * @name: Name for the switch (optional)
+  *
+  * @usb2_port and @usb3_port will point to the USB host port and @udc to the USB
+  * device controller behind the USB connector with the role switch. If
+@@ -43,6 +44,7 @@ struct usb_role_switch_desc {
+ 	usb_role_switch_get_t get;
+ 	bool allow_userspace_control;
+ 	void *driver_data;
++	const char *name;
+ };
+ 
+ 
 -- 
 2.25.0
 
