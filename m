@@ -2,85 +2,128 @@ Return-Path: <SRS0=gmFf=4B=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44600C2BA83
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Feb 2020 14:49:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D87F7C2BA83
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Feb 2020 16:02:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 16F872073C
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Feb 2020 14:49:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B8B7B21734
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Feb 2020 16:02:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727566AbgBMOta (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 13 Feb 2020 09:49:30 -0500
-Received: from iolanthe.rowland.org ([192.131.102.54]:59984 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726780AbgBMOta (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Feb 2020 09:49:30 -0500
-Received: (qmail 1587 invoked by uid 2102); 13 Feb 2020 09:49:28 -0500
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 13 Feb 2020 09:49:28 -0500
-Date:   Thu, 13 Feb 2020 09:49:28 -0500 (EST)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Sam Lewis <sam.vr.lewis@gmail.com>
-cc:     Oliver Neukum <oneukum@suse.de>, <linux-usb@vger.kernel.org>
-Subject: Re: USB hub driver over-current behavior
-In-Reply-To: <CA+ZLECuKY0zOfGW4=5U1o0fYuYta9Xxdxwvbj5zS5TB6NVoqFQ@mail.gmail.com>
-Message-ID: <Pine.LNX.4.44L0.2002130947420.1572-100000@iolanthe.rowland.org>
+        id S1728399AbgBMQCK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 13 Feb 2020 11:02:10 -0500
+Received: from smtprelay0076.hostedemail.com ([216.40.44.76]:38045 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727955AbgBMPYe (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Feb 2020 10:24:34 -0500
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 64D68180AAD53;
+        Thu, 13 Feb 2020 15:24:32 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-HE-Tag: fact83_447fe222a2361
+X-Filterd-Recvd-Size: 3345
+Received: from XPS-9350.home (unknown [47.151.143.254])
+        (Authenticated sender: joe@perches.com)
+        by omf11.hostedemail.com (Postfix) with ESMTPA;
+        Thu, 13 Feb 2020 15:24:30 +0000 (UTC)
+Message-ID: <8b6c1b9031ab9f3cdebada06b8d46467f1492d68.camel@perches.com>
+Subject: [PATCH] checkpatch: Prefer fallthrough; over fallthrough comments
+From:   Joe Perches <joe@perches.com>
+To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Timur Tabi <timur@kernel.org>, Li Yang <leoyang.li@nxp.com>,
+        Anton Vorontsov <avorontsov@ru.mvista.com>,
+        kbuild test robot <lkp@intel.com>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Thu, 13 Feb 2020 07:23:13 -0800
+In-Reply-To: <6ab68169-dde6-b5ba-0909-fa685bd24aac@rasmusvillemoes.dk>
+References: <20200213085401.27862-1-linux@rasmusvillemoes.dk>
+         <20200213125659.GB3325929@kroah.com>
+         <6ab68169-dde6-b5ba-0909-fa685bd24aac@rasmusvillemoes.dk>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, 13 Feb 2020, Sam Lewis wrote:
+commit 294f69e662d1 ("compiler_attributes.h: Add 'fallthrough'
+pseudo keyword for switch/case use") added the pseudo keyword
+so add a test for it to checkpatch.
 
-> On Tue, 11 Feb 2020 at 01:53, Alan Stern <stern@rowland.harvard.edu> wrote:
-> >
-> > On Mon, 10 Feb 2020, Oliver Neukum wrote:
-> > > error handling at this level has gotten little love.
-> >
-> > Indeed.  This is mostly because the issue does not crop up in normal
-> > usage very often.  And most hubs don't have very good over-current
-> > protection anyway.
-> >
-> > I believe the original expectation was that over-current events would
-> > generally be intermittent and very short-lived.  So when an event did
-> > occur, it would make sense to wait a little while and then try to
-> > switch the port back on.  Nobody ever bothered to implement a total
-> > time or retry limit on this behavior, probably because there weren't
-> > any complaints.
-> 
-> Thanks for the responses. This makes sense, especially if most
-> consumer hubs aren't very high quality.
-> 
-> > > The basic problem is that we have no good way to switch a portback on
-> > > after we have given up on it. Feel free to propose a patch to the
-> > > kernel and a tool to use it and we can discuss them.
-> >
-> > Yes, patches are welcome.
-> >
-> 
-> How receptive would you (and other contributors/maintainers) be to a
-> patch that adds configuration that allows a port to stay off if it
-> receives an OC event? This obviously wouldn't be the desired behaviour
-> in the general case, but could be useful for embedded devices (such as
-> mine) where the design of the hub electronics are such that you can be
-> confident that an OC event is not just an glitch and is indicative of
-> a real problem.
+Warn on a patch or use --strict for files.
 
-That would be okay.  You could even do something where the port would 
-stay powered off until the user tells the kernel to turn it back on.
+Signed-off-by: Joe Perches <joe@perches.com>
+---
+ scripts/checkpatch.pl | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-> If it isn't acceptable to have a USB port off until the system is
-> rebooted, what would be the appropriate mechanism of allowing a
-> userspace application to manually turn the port back on?
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index f3b8434..5579d7 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -2286,6 +2286,19 @@ sub pos_last_openparen {
+ 	return length(expand_tabs(substr($line, 0, $last_openparen))) + 1;
+ }
+ 
++sub get_raw_comment {
++	my ($line, $rawline) = @_;
++	my $comment = '';
++
++	for my $i (0 .. (length($line) - 1)) {
++		if (substr($line, $i, 1) eq "$;") {
++			$comment .= substr($rawline, $i, 1);
++		}
++	}
++
++	return $comment;
++}
++
+ sub process {
+ 	my $filename = shift;
+ 
+@@ -2447,6 +2460,7 @@ sub process {
+ 		$sline =~ s/$;/ /g;	#with comments as spaces
+ 
+ 		my $rawline = $rawlines[$linenr - 1];
++		my $raw_comment = get_raw_comment($line, $rawline);
+ 
+ # check if it's a mode change, rename or start of a patch
+ 		if (!$in_commit_log &&
+@@ -6403,6 +6417,28 @@ sub process {
+ 			}
+ 		}
+ 
++# check for /* fallthrough */ like comment, prefer fallthrough;
++		my @fallthroughs = (
++			'fallthrough',
++			'@fallthrough@',
++			'lint -fallthrough[ \t]*',
++			'intentional(?:ly)?[ \t]*fall(?:(?:s | |-)[Tt]|t)hr(?:ough|u|ew)',
++			'(?:else,?\s*)?FALL(?:S | |-)?THR(?:OUGH|U|EW)[ \t.!]*(?:-[^\n\r]*)?',
++			'Fall(?:(?:s | |-)[Tt]|t)hr(?:ough|u|ew)[ \t.!]*(?:-[^\n\r]*)?',
++			'fall(?:s | |-)?thr(?:ough|u|ew)[ \t.!]*(?:-[^\n\r]*)?',
++		    );
++		if ($raw_comment ne '') {
++			foreach my $ft (@fallthroughs) {
++				if ($raw_comment =~ /$ft/) {
++					my $msg_level = \&WARN;
++					$msg_level = \&CHK if ($file);
++					&{$msg_level}("PREFER_FALLTHROUGH",
++						      "Prefer 'fallthrough;' over fallthrough comment\n" . $herecurr);
++					last;
++				}
++			}
++		}
++
+ # check for switch/default statements without a break;
+ 		if ($perl_version_ok &&
+ 		    defined $stat &&
 
-A sysfs attribute file is the way to go.  Probably under the port
-device.
-
-Alan Stern
 
