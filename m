@@ -2,128 +2,173 @@ Return-Path: <SRS0=gmFf=4B=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D87F7C2BA83
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Feb 2020 16:02:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55B66C3B18C
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Feb 2020 16:09:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id B8B7B21734
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Feb 2020 16:02:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2B16B2468A
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Feb 2020 16:09:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1581610196;
+	bh=dES5qeQQV5qH7gq7wZypUbm5iN/bZVdhJd1oLXcV5vE=;
+	h=From:To:Cc:Subject:Date:List-ID:From;
+	b=hoXqJWpxvHuEKWWjEyEEEGoaozmfiIzWQrQ7h7wUl16845o+6H7PpojB8AKyALW/g
+	 6cXH7/Rg8gGWEhTTwD120kgmfuq5wbg667I70nWc7tS4O2K7HaiHNzSG4nXFZi2Lse
+	 P0ecsJqoWiGyjWAcX/G7qB9huSeJUKa0N5VCPtR8=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728399AbgBMQCK (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 13 Feb 2020 11:02:10 -0500
-Received: from smtprelay0076.hostedemail.com ([216.40.44.76]:38045 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727955AbgBMPYe (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Feb 2020 10:24:34 -0500
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 64D68180AAD53;
-        Thu, 13 Feb 2020 15:24:32 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: fact83_447fe222a2361
-X-Filterd-Recvd-Size: 3345
-Received: from XPS-9350.home (unknown [47.151.143.254])
-        (Authenticated sender: joe@perches.com)
-        by omf11.hostedemail.com (Postfix) with ESMTPA;
-        Thu, 13 Feb 2020 15:24:30 +0000 (UTC)
-Message-ID: <8b6c1b9031ab9f3cdebada06b8d46467f1492d68.camel@perches.com>
-Subject: [PATCH] checkpatch: Prefer fallthrough; over fallthrough comments
-From:   Joe Perches <joe@perches.com>
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Timur Tabi <timur@kernel.org>, Li Yang <leoyang.li@nxp.com>,
-        Anton Vorontsov <avorontsov@ru.mvista.com>,
-        kbuild test robot <lkp@intel.com>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Thu, 13 Feb 2020 07:23:13 -0800
-In-Reply-To: <6ab68169-dde6-b5ba-0909-fa685bd24aac@rasmusvillemoes.dk>
-References: <20200213085401.27862-1-linux@rasmusvillemoes.dk>
-         <20200213125659.GB3325929@kroah.com>
-         <6ab68169-dde6-b5ba-0909-fa685bd24aac@rasmusvillemoes.dk>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.34.1-2 
+        id S1730147AbgBMQJy (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 13 Feb 2020 11:09:54 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:38135 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728442AbgBMQJu (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Thu, 13 Feb 2020 11:09:50 -0500
+Received: by mail-lj1-f195.google.com with SMTP id w1so7248954ljh.5
+        for <linux-usb@vger.kernel.org>; Thu, 13 Feb 2020 08:09:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:mime-version;
+        bh=yVtzRoMhCw3uuG9FTlaNhIMkB7hbfMfjAI/xOGojqW0=;
+        b=mLyFWi3cqx7cTfTMfF9dHttdVUnsDouHb4jB+OBFvzQxz/n7gSg+cAT88v6KKJqH0u
+         wLgEbJCNR2oXOjagZhrhKbAQiCU3459srUMOSFTDEscoZUSlRBN1t3pRmLHHzoJmA/Wi
+         3QGs9BQgEYX7SDsR7SanJIb9XEbG1/YKS1RxzhZVtAwczqhqOTU82gTNaGrsg6oykqr4
+         Jzp4GqbvGc1JQw89QZREkT6n6AEQ2X/D1GWU78R/fw8egPr/3acvkrfEPRgE5WX8l7hJ
+         LLZURY9tM8id5SHizR9eI7wMYhKCXHFxsZGCQ1+CT6vBk/Sgo+wS6259W21bfCwMj9aN
+         fEcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version;
+        bh=yVtzRoMhCw3uuG9FTlaNhIMkB7hbfMfjAI/xOGojqW0=;
+        b=EoBmnP2rNA/tIVABdavrN4A307F1KZ6+bpdBmoAxpPeUAK7oJl6lNd5cM+WFwyHXCv
+         nDDE94ZmTy9iv49CSD6sto/3eZoUves+wM+wmG2ACtYwD2P6dCjfUFfjL5OsBhimmXPD
+         rDZcnhwcT4aXy6jK5zXUU1S17hUTSxZm/XakooUnZiBdIRDxWcIvKhNPcZFlhV8s9eMA
+         DFALCduGEYFQuiRpjRYyCya8WNLLvaJvGXQoh08I8o3oJgXXAIcHe5ZOzHmvcmCJA9wv
+         F21sn+eTBKBdELCMY9xUW6v5ImJxZdpuXM6rQ0IP82w1RAU6T/57Sva2yqPYfnJSbJrA
+         B82g==
+X-Gm-Message-State: APjAAAWOTgkiWrNKx5qNie03QDPBO15v5WRfz4OnH4KdDpvraX8fU4fk
+        TK0GcyQO3XCjCOlcf/yZsNz1fIyu
+X-Google-Smtp-Source: APXvYqyZztX6kmJw8Nr/YDHEKb9VWDH+lvbY1JUqFsTtIKglULnKGBVSMie1xf6Z8bQ5nXd4au9VMA==
+X-Received: by 2002:a2e:b0c4:: with SMTP id g4mr11720450ljl.83.1581610187500;
+        Thu, 13 Feb 2020 08:09:47 -0800 (PST)
+Received: from saruman (88-113-215-33.elisa-laajakaista.fi. [88.113.215.33])
+        by smtp.gmail.com with ESMTPSA id x23sm1566144lff.24.2020.02.13.08.09.46
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 13 Feb 2020 08:09:46 -0800 (PST)
+From:   Felipe Balbi <balbi@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-usb@vger.kernel.org
+Subject: [GIT PULL] USB fixes for v5.6-rc1
+Date:   Thu, 13 Feb 2020 18:09:42 +0200
+Message-ID: <87k14qqxix.fsf@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="=-=-=";
+        micalg=pgp-sha256; protocol="application/pgp-signature"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-commit 294f69e662d1 ("compiler_attributes.h: Add 'fallthrough'
-pseudo keyword for switch/case use") added the pseudo keyword
-so add a test for it to checkpatch.
+--=-=-=
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Warn on a patch or use --strict for files.
 
-Signed-off-by: Joe Perches <joe@perches.com>
+Hi Greg,
+
+not too many fixes this time around. Only 9 commits. Let me know if you
+need or want anything to be changed.
+
+cheers
+
+
+The following changes since commit bb6d3fb354c5ee8d6bde2d576eb7220ea09862b9:
+
+  Linux 5.6-rc1 (2020-02-09 16:08:48 -0800)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git tags/fixes-fo=
+r-v5.6-rc1
+
+for you to fetch changes up to 42cd5ffe46c1037d5d9a253c72e71a024a7bfbef:
+
+  usb: dwc3: debug: fix string position formatting mixup with ret and len (=
+2020-02-11 08:45:45 +0200)
+
+=2D---------------------------------------------------------------
+USB: fixes for v5.6-rc1
+
+DWC3 learned that we can't always depend on Event Status bits. A
+problem was solved which would only surface with scatter list on IN
+endpoints.
+
+DWC2 got a fix for feature requests (both set and clear) and GetStatus
+request.
+
+The serial gadget got a fix for a TX stall bug.
+
+Composite framework now works better for SSP devices.
+
+=2D---------------------------------------------------------------
+Anurag Kumar Vulisha (1):
+      usb: dwc3: gadget: Check for IOC/LST bit in TRB->ctrl fields
+
+Colin Ian King (1):
+      usb: dwc3: debug: fix string position formatting mixup with ret and l=
+en
+
+Jack Pham (2):
+      usb: gadget: composite: Fix bMaxPower for SuperSpeedPlus
+      usb: gadget: composite: Support more than 500mA MaxPower
+
+John Keeping (1):
+      usb: gadget: u_audio: Fix high-speed max packet size
+
+Lars-Peter Clausen (1):
+      usb: gadget: ffs: ffs_aio_cancel(): Save/restore IRQ flags
+
+Minas Harutyunyan (2):
+      usb: dwc2: Fix in ISOC request length checking
+      usb: dwc2: Fix SET/CLEAR_FEATURE and GET_STATUS flows
+
+Sergey Organov (1):
+      usb: gadget: serial: fix Tx stall after buffer overflow
+
+ drivers/usb/dwc2/gadget.c              | 40 +++++++++++++++++++-----------=
+----
+ drivers/usb/dwc3/debug.h               | 39 +++++++++++++-----------------=
 ---
- scripts/checkpatch.pl | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ drivers/usb/dwc3/gadget.c              |  3 ++-
+ drivers/usb/gadget/composite.c         | 30 ++++++++++++++++---------
+ drivers/usb/gadget/function/f_fs.c     |  5 +++--
+ drivers/usb/gadget/function/u_audio.c  | 10 ++++-----
+ drivers/usb/gadget/function/u_serial.c |  4 +++-
+ 7 files changed, 71 insertions(+), 60 deletions(-)
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index f3b8434..5579d7 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -2286,6 +2286,19 @@ sub pos_last_openparen {
- 	return length(expand_tabs(substr($line, 0, $last_openparen))) + 1;
- }
- 
-+sub get_raw_comment {
-+	my ($line, $rawline) = @_;
-+	my $comment = '';
-+
-+	for my $i (0 .. (length($line) - 1)) {
-+		if (substr($line, $i, 1) eq "$;") {
-+			$comment .= substr($rawline, $i, 1);
-+		}
-+	}
-+
-+	return $comment;
-+}
-+
- sub process {
- 	my $filename = shift;
- 
-@@ -2447,6 +2460,7 @@ sub process {
- 		$sline =~ s/$;/ /g;	#with comments as spaces
- 
- 		my $rawline = $rawlines[$linenr - 1];
-+		my $raw_comment = get_raw_comment($line, $rawline);
- 
- # check if it's a mode change, rename or start of a patch
- 		if (!$in_commit_log &&
-@@ -6403,6 +6417,28 @@ sub process {
- 			}
- 		}
- 
-+# check for /* fallthrough */ like comment, prefer fallthrough;
-+		my @fallthroughs = (
-+			'fallthrough',
-+			'@fallthrough@',
-+			'lint -fallthrough[ \t]*',
-+			'intentional(?:ly)?[ \t]*fall(?:(?:s | |-)[Tt]|t)hr(?:ough|u|ew)',
-+			'(?:else,?\s*)?FALL(?:S | |-)?THR(?:OUGH|U|EW)[ \t.!]*(?:-[^\n\r]*)?',
-+			'Fall(?:(?:s | |-)[Tt]|t)hr(?:ough|u|ew)[ \t.!]*(?:-[^\n\r]*)?',
-+			'fall(?:s | |-)?thr(?:ough|u|ew)[ \t.!]*(?:-[^\n\r]*)?',
-+		    );
-+		if ($raw_comment ne '') {
-+			foreach my $ft (@fallthroughs) {
-+				if ($raw_comment =~ /$ft/) {
-+					my $msg_level = \&WARN;
-+					$msg_level = \&CHK if ($file);
-+					&{$msg_level}("PREFER_FALLTHROUGH",
-+						      "Prefer 'fallthrough;' over fallthrough comment\n" . $herecurr);
-+					last;
-+				}
-+			}
-+		}
-+
- # check for switch/default statements without a break;
- 		if ($perl_version_ok &&
- 		    defined $stat &&
+=2D-=20
+balbi
 
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEElLzh7wn96CXwjh2IzL64meEamQYFAl5FdMYACgkQzL64meEa
+mQYJShAA0PjnmSc+euuGXlfMwzQfZDkwq3BLOBPQsiywJyZ0ANTbswnaNx93IoGq
+Of5a40xjE7HDNmKCIyLNYtGTav8/XBOg9F/UKJ3e2fJ3dCT+V0JpwxpcZJh7bZmu
+SDtYtSO4sc4/7yUKcZhpFyrEOgQzQkPkGNCaHPScM5GEo2WfhYaDks+xsInRJ1io
+sN7rmmDF/10U03cLBfAhz40Mqj+YfaPa+zqn1YEgSpn5qbjojxld1Xn4sfOD2N/h
+aPieqca6/EEx0Bd0H0hwwaiwluZZawVsW7gwfmzXjElTEGNbvV3AM25biIeer121
+Ramcqrcp9iGmnY4h7nWa6i83s3SaGX47J2SBclMUNwF5QfTzfVeDoHeb/eU/oHwd
+RZHZYQ5yjnfYtvxYDuBXu2dDb5YOyoCBp2Tp5E5VfkeL6Hv0/mAuicA3/b2uKvCW
+b8LWbGPoU8aSCNEt/K5ffsmf0o314GUB3erL5M0S5+wPWdtqQ9Rg9G4xJtAaTsg4
+B6iRifGS5ufCCw21YW05f4msKhK21meyN06xSlo/VzLmisgyby1T8El4yfn2IR0B
+8Gw0wmP3T6JyCZpS8tLcrOIj+oIT5+s3BPCAYs+R2/hHKOD8LVOe/dvkbZoiaYOC
+4+IOwaAPuhEgDXcjGs5IFjmt0NsZWuGTSKPRlJHQxPCbrbV98wo=
+=fQwN
+-----END PGP SIGNATURE-----
+--=-=-=--
