@@ -2,90 +2,106 @@ Return-Path: <SRS0=gmFf=4B=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.7 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC87AC2BA83
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Feb 2020 13:04:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D04CEC3F68F
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Feb 2020 13:24:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 7E4CE2168B
-	for <linux-usb@archiver.kernel.org>; Thu, 13 Feb 2020 13:04:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581599049;
-	bh=JzuXVZMjhJuQSJ5hGh5JfZlVw6AYi3gKS44RcKZi8yI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:List-ID:From;
-	b=2N7MVlGo7sI35bBuRI26TVbV/+tAyxf8Un+iA03DGFuyOYSxVemVtjTxu4jwdUx2Y
-	 rJ8wWGz9bFyylJm1oEHRYQAqjYXweScOh1Wfc7aGYzb71Xb5LqWLk9MyfAUAcujoQr
-	 +Xut/fx1KRgmKyFxAnVx5ASG35GWlhr64r9YCHd0=
+	by mail.kernel.org (Postfix) with ESMTP id B08FE24650
+	for <linux-usb@archiver.kernel.org>; Thu, 13 Feb 2020 13:24:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729981AbgBMNEG (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Thu, 13 Feb 2020 08:04:06 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49778 "EHLO mail.kernel.org"
+        id S1729996AbgBMNYd (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Thu, 13 Feb 2020 08:24:33 -0500
+Received: from mga06.intel.com ([134.134.136.31]:44559 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729801AbgBMNEG (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Thu, 13 Feb 2020 08:04:06 -0500
-Received: from localhost (unknown [209.37.97.194])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9F6DB2168B;
-        Thu, 13 Feb 2020 13:04:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581599044;
-        bh=JzuXVZMjhJuQSJ5hGh5JfZlVw6AYi3gKS44RcKZi8yI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rKcZlkdb1MfHMvC/XJXfgmNFUkssnjWs2ADRkmHXZ9mvIr//KwkdCC50/Ltj/M0PG
-         I0m89eojS5KcAIjAWPsFPJfX/rRcXDDOHLTe7buofpKbFgASMcaiXNIkdsCwflkNtZ
-         VEBeoqqUxZD/8RNhH9Bp8nCx7FJv1ZIdiVzuNRLU=
-Date:   Thu, 13 Feb 2020 05:04:04 -0800
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc:     Colin King <colin.king@canonical.com>, linux-usb@vger.kernel.org,
-        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: ucsi: remove redundant assignment to
- variable num
-Message-ID: <20200213130404.GA3369961@kroah.com>
-References: <20200208165022.30429-1-colin.king@canonical.com>
- <20200213113423.GK1498@kuha.fi.intel.com>
+        id S1729588AbgBMNYd (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Thu, 13 Feb 2020 08:24:33 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Feb 2020 05:24:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,436,1574150400"; 
+   d="scan'208";a="347728488"
+Received: from black.fi.intel.com (HELO black.fi.intel.com.) ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 13 Feb 2020 05:24:31 -0800
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Benson Leung <bleung@chromium.org>,
+        Prashant Malani <pmalani@chromium.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [PATCH 1/9] usb: typec: mux: Allow the muxes to be named
+Date:   Thu, 13 Feb 2020 16:24:20 +0300
+Message-Id: <20200213132428.53374-2-heikki.krogerus@linux.intel.com>
+X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200213132428.53374-1-heikki.krogerus@linux.intel.com>
+References: <20200213132428.53374-1-heikki.krogerus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200213113423.GK1498@kuha.fi.intel.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-On Thu, Feb 13, 2020 at 01:34:23PM +0200, Heikki Krogerus wrote:
-> On Sat, Feb 08, 2020 at 04:50:22PM +0000, Colin King wrote:
-> > From: Colin Ian King <colin.king@canonical.com>
-> > 
-> > Variable num is being assigned with a value that is never read, it is
-> > assigned a new value later in a for-loop. The assignment is redundant
-> > and can be removed.
-> > 
-> > Addresses-Coverity: ("Unused value")
-> > Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> > ---
-> >  drivers/usb/typec/ucsi/ucsi.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-> > index d5a6aac86327..b1b72cb7af10 100644
-> > --- a/drivers/usb/typec/ucsi/ucsi.c
-> > +++ b/drivers/usb/typec/ucsi/ucsi.c
-> > @@ -400,7 +400,7 @@ static int ucsi_register_altmodes(struct ucsi_connector *con, u8 recipient)
-> >  	struct typec_altmode_desc desc;
-> >  	struct ucsi_altmode alt[2];
-> >  	u64 command;
-> > -	int num = 1;
-> > +	int num;
-> >  	int ret;
-> >  	int len;
-> >  	int j;
-> 
-> Greg! I'll pick this, and to you with a few other patches that I have
-> in my queue for the ucsi driver. I hope that's OK.
+The mux devices have been named by using the name of the
+parent device as base until now, but if for example the
+parent device controls multiple muxes, that will not work.
+This makes it possible to supply the name for a mux during
+registration.
 
-Thats fine.
+Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+---
+ drivers/usb/typec/mux.c       | 6 ++++--
+ include/linux/usb/typec_mux.h | 2 ++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/typec/mux.c b/drivers/usb/typec/mux.c
+index 5baf0f416c73..3a9970d1d1c0 100644
+--- a/drivers/usb/typec/mux.c
++++ b/drivers/usb/typec/mux.c
+@@ -137,7 +137,8 @@ typec_switch_register(struct device *parent,
+ 	sw->dev.class = &typec_mux_class;
+ 	sw->dev.type = &typec_switch_dev_type;
+ 	sw->dev.driver_data = desc->drvdata;
+-	dev_set_name(&sw->dev, "%s-switch", dev_name(parent));
++	dev_set_name(&sw->dev, "%s-switch",
++		     desc->name ? desc->name : dev_name(parent));
+ 
+ 	ret = device_add(&sw->dev);
+ 	if (ret) {
+@@ -326,7 +327,8 @@ typec_mux_register(struct device *parent, const struct typec_mux_desc *desc)
+ 	mux->dev.class = &typec_mux_class;
+ 	mux->dev.type = &typec_mux_dev_type;
+ 	mux->dev.driver_data = desc->drvdata;
+-	dev_set_name(&mux->dev, "%s-mux", dev_name(parent));
++	dev_set_name(&mux->dev, "%s-mux",
++		     desc->name ? desc->name : dev_name(parent));
+ 
+ 	ret = device_add(&mux->dev);
+ 	if (ret) {
+diff --git a/include/linux/usb/typec_mux.h b/include/linux/usb/typec_mux.h
+index be7292c0be5e..47ab5a828b07 100644
+--- a/include/linux/usb/typec_mux.h
++++ b/include/linux/usb/typec_mux.h
+@@ -17,6 +17,7 @@ typedef int (*typec_switch_set_fn_t)(struct typec_switch *sw,
+ struct typec_switch_desc {
+ 	struct fwnode_handle *fwnode;
+ 	typec_switch_set_fn_t set;
++	const char *name;
+ 	void *drvdata;
+ };
+ 
+@@ -42,6 +43,7 @@ typedef int (*typec_mux_set_fn_t)(struct typec_mux *mux,
+ struct typec_mux_desc {
+ 	struct fwnode_handle *fwnode;
+ 	typec_mux_set_fn_t set;
++	const char *name;
+ 	void *drvdata;
+ };
+ 
+-- 
+2.25.0
+
