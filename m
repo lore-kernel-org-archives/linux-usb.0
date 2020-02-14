@@ -2,140 +2,151 @@ Return-Path: <SRS0=TGj/=4C=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.6 required=3.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B529BC2BA83
-	for <linux-usb@archiver.kernel.org>; Fri, 14 Feb 2020 18:19:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B09FC2BA83
+	for <linux-usb@archiver.kernel.org>; Fri, 14 Feb 2020 18:46:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 870D224676
-	for <linux-usb@archiver.kernel.org>; Fri, 14 Feb 2020 18:19:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1581704360;
-	bh=zbK5P6bE+5w9JpZDIVeW4d4YCT86HCfVE6Z0vyzn7KM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
-	b=2LakggcDgNCQfk00jPAZgdFZGEKOc5/fWAS+Owq5R8dGM107avhk6aOetcICn5QCq
-	 I3EdBHEb1d2QS1zVOJkSbpO+rEnMz9DwbAqELUlC61zgu5p1A7RLZEMA7LFwwfFsO/
-	 zsaZgTyIL5s6mMOT7nQdBuj92/W9KS0QfC9MFaco=
+	by mail.kernel.org (Postfix) with ESMTP id 3A7FD20848
+	for <linux-usb@archiver.kernel.org>; Fri, 14 Feb 2020 18:46:12 +0000 (UTC)
+Authentication-Results: mail.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RrbDf18P"
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405147AbgBNSTP (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 14 Feb 2020 13:19:15 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54774 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730518AbgBNPue (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 14 Feb 2020 10:50:34 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EA69024688;
-        Fri, 14 Feb 2020 15:50:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581695433;
-        bh=zbK5P6bE+5w9JpZDIVeW4d4YCT86HCfVE6Z0vyzn7KM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=R+QX5IosFj6JEcMveVs/fm32I/rxTvJ7WF0MSIVcrQdzZnG6euQCiNAksdX8plWKZ
-         ymaqzHkSlw8RFep0yrDWKvhy7idTstes6Ls2v1+YVD4Amhx26uBcIUuXh8ittqynBy
-         dLNIk9FkEYgFJFpCvCL1i7NMHYbuVfmTXkfas8wY=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     John Keeping <john@metanate.com>,
-        Minas Harutyunyan <hminas@synopsys.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 076/542] usb: dwc2: Fix IN FIFO allocation
-Date:   Fri, 14 Feb 2020 10:41:08 -0500
-Message-Id: <20200214154854.6746-76-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
-References: <20200214154854.6746-1-sashal@kernel.org>
+        id S2390048AbgBNSqJ (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 14 Feb 2020 13:46:09 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:36840 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389723AbgBNSqI (ORCPT
+        <rfc822;linux-usb@vger.kernel.org>); Fri, 14 Feb 2020 13:46:08 -0500
+Received: by mail-pf1-f196.google.com with SMTP id 185so5299907pfv.3;
+        Fri, 14 Feb 2020 10:46:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lcAo2cRFw8x17fP3aIkMxC2GnRGns7uCksHDMjRNXaw=;
+        b=RrbDf18PWY+2fPPPQRCgyupMcufV7Ny4wcwsGdOEEtsxZ8n4SIz0nQ15AsuI8LKx6z
+         MJ8q3fbC03jYi1t/U7E53gh122fpTd8gehcq8oh4HGQdd54PshFBi2u0WhbgBUIXvfXF
+         BNPispvDrlbRxPl/8EcYvO0C3qEowmJZ8uHiVjoxssrmVmcy9xN8o+gS6FFhK2Wmjz+8
+         +2+b5ZlZoiwfVjpEprNai/LE5rtCB2hXQYMJPKTtA3OtrQswlomQ+NLhGHRKz9mGP34q
+         iurjMAKWExIUYE2f3A6NL19yI+YOHOoJsl3W+5MRRpgTqUNA9etGO5eriI4pdaLIVx3L
+         ndCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lcAo2cRFw8x17fP3aIkMxC2GnRGns7uCksHDMjRNXaw=;
+        b=ceIfjNpz9JtKKWCuWcZM+qfk4hQPjCYcOSAi3INokVLgdHU/LujHIECxQ9WftvTYwx
+         lnS69w8WdstQkN1Ai31xa/WaLylPIll5Q3evhPpX8JOufBwUuAydhn973rSvirtFJixy
+         uTj1s63xk37C2JS9ZEJg276a7teEqeeKUcOiXEZFhk9IDoggAaKdJnDrZX0RRAhVVFLP
+         3+dZylmUy678IwK7q1uJRDRYnM35tyaK/d7rmVqRMutXSsllxWTNFOV7Mkn2oz+eUAst
+         cbf9IjXViNi+r1W6ZIRXMfc5bTg3BAk4chZHqBEEKQp9D8pc3QMP+RKDF1nwnCy3X8qn
+         u/1A==
+X-Gm-Message-State: APjAAAU3zRXmDS5STERyiaBvSbGKaj/L2GjvZ/bQQPCPH97yLC6bX/he
+        CUUI475LdAHfj5Nretzopda4II0CzKqW6sIGzssAfq5a/ds=
+X-Google-Smtp-Source: APXvYqxBFH0CC58Eqsz0AVHcO9xbju+Mjk3tQbBjybssL0kk6NvWWHu+bwSV1YNeofoXZI9LmQpR1MhmnPV/lORZNDo=
+X-Received: by 2002:a62:1a09:: with SMTP id a9mr4854899pfa.64.1581705968117;
+ Fri, 14 Feb 2020 10:46:08 -0800 (PST)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+References: <20191104143713.11137-1-alexandre.torgue@st.com>
+ <20200206133918.15012-1-youling257@gmail.com> <0c4a37a9-0a2e-e698-f423-53060854ea05@ti.com>
+ <CAOzgRdb5QfJDQzbtoHQry4wxUg52LwX5XFCPzzaYa=z+RqNWOQ@mail.gmail.com>
+ <8bd72269-16ae-b24a-7144-44d22d668dc6@ti.com> <1cd5885d-7db4-59b9-ef2d-e3556f60ca68@st.com>
+In-Reply-To: <1cd5885d-7db4-59b9-ef2d-e3556f60ca68@st.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 14 Feb 2020 20:46:00 +0200
+Message-ID: <CAHp75VcbPYNKfrnkuSfdN8t100kZFdq05hkbWxJKgRWJknRgxQ@mail.gmail.com>
+Subject: Re: [PATCH] phy: core: Add consumer device link support
+To:     Alexandre Torgue <alexandre.torgue@st.com>
+Cc:     Kishon Vijay Abraham I <kishon@ti.com>,
+        youling 257 <youling257@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        USB <linux-usb@vger.kernel.org>, saravanak@google.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: John Keeping <john@metanate.com>
+On Mon, Feb 10, 2020 at 1:32 PM Alexandre Torgue
+<alexandre.torgue@st.com> wrote:
+> On 2/10/20 9:08 AM, Kishon Vijay Abraham I wrote:
+> > On 07/02/20 12:27 PM, youling 257 wrote:
+> >> test this diff, dwc3 work for my device, thanks.
+> >>
+> >> 2020-02-07 13:16 GMT+08:00, Kishon Vijay Abraham I <kishon@ti.com>:
+> >>> On 06/02/20 7:09 PM, youling257 wrote:
+> >>>> This patch cause "dwc3 dwc3.3.auto: failed to create device link to
+> >>>> dwc3.3.auto.ulpi" problem.
+> >>>> https://bugzilla.kernel.org/show_bug.cgi?id=206435
 
-[ Upstream commit 644139f8b64d818f6345351455f14471510879a5 ]
++1 to the report.
+Please revert for v5.6 or provide a fix ASAP!
 
-On chips with fewer FIFOs than endpoints (for example RK3288 which has 9
-endpoints, but only 6 which are cabable of input), the DPTXFSIZN
-registers above the FIFO count may return invalid values.
+> >>>
+> >>> I'm suspecting there is some sort of reverse dependency with dwc3 ULPI.
+> >>> Can you try the following diff?
+> >>>
+> >>> diff --git a/drivers/phy/phy-core.c b/drivers/phy/phy-core.c
+> >>> index 2eb28cc2d2dc..397311dcb116 100644
+> >>> --- a/drivers/phy/phy-core.c
+> >>> +++ b/drivers/phy/phy-core.c
+> >>> @@ -687,7 +687,7 @@ struct phy *phy_get(struct device *dev, const char
+> >>> *string)
+> >>>
+> >>>          get_device(&phy->dev);
+> >>>
+> >>> -       link = device_link_add(dev, &phy->dev, DL_FLAG_STATELESS);
+> >>> +       link = device_link_add(dev, &phy->dev, DL_FLAG_SYNC_STATE_ONLY);
+> >>>          if (!link) {
+> >>>                  dev_err(dev, "failed to create device link to %s\n",
+> >>>                          dev_name(phy->dev.parent));
+> >>> @@ -802,7 +802,7 @@ struct phy *devm_of_phy_get(struct device *dev,
+> >>> struct device_node *np,
+> >>>                  return phy;
+> >>>          }
+> >>>
+> >>> -       link = device_link_add(dev, &phy->dev, DL_FLAG_STATELESS);
+> >>> +       link = device_link_add(dev, &phy->dev, DL_FLAG_SYNC_STATE_ONLY);
+> >>>          if (!link) {
+> >>>                  dev_err(dev, "failed to create device link to %s\n",
+> >>>                          dev_name(phy->dev.parent));
+> >>> @@ -851,7 +851,7 @@ struct phy *devm_of_phy_get_by_index(struct device
+> >>> *dev, struct device_node *np,
+> >>>          *ptr = phy;
+> >>>          devres_add(dev, ptr);
+> >>>
+> >>> -       link = device_link_add(dev, &phy->dev, DL_FLAG_STATELESS);
+> >>> +       link = device_link_add(dev, &phy->dev, DL_FLAG_SYNC_STATE_ONLY);
+> >>>          if (!link) {
+> >>>                  dev_err(dev, "failed to create device link to %s\n",
+> >>>                          dev_name(phy->dev.parent));Parent
+> >
+> > Can you check if this doesn't affect the suspend/resume ordering?
+>
+> With this fix, suspend/resume ordering is broken on my side. What do you
+> think to keep the STATELESS flag and to only display a warn if
+> "device_link_add" returns an error ? It's not "smart" but it could
+> solved our issue.
+>
+> As a lot of improvements have been recently done on device link topic by
+> Saravana, we could check with him what is the way to follow.
+>
+> Regards
+> Alex
+>
+> >
+> > Thanks
+> > Kishon
+> >
 
-With logging added on startup, I see:
 
-	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=1 sz=256
-	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=2 sz=128
-	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=3 sz=128
-	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=4 sz=64
-	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=5 sz=64
-	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=6 sz=32
-	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=7 sz=0
-	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=8 sz=0
-	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=9 sz=0
-	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=10 sz=0
-	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=11 sz=0
-	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=12 sz=0
-	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=13 sz=0
-	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=14 sz=0
-	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=15 sz=0
 
-but:
-
-	# cat /sys/kernel/debug/ff580000.usb/fifo
-	Non-periodic FIFOs:
-	RXFIFO: Size 275
-	NPTXFIFO: Size 16, Start 0x00000113
-
-	Periodic TXFIFOs:
-		DPTXFIFO 1: Size 256, Start 0x00000123
-		DPTXFIFO 2: Size 128, Start 0x00000223
-		DPTXFIFO 3: Size 128, Start 0x000002a3
-		DPTXFIFO 4: Size 64, Start 0x00000323
-		DPTXFIFO 5: Size 64, Start 0x00000363
-		DPTXFIFO 6: Size 32, Start 0x000003a3
-		DPTXFIFO 7: Size 0, Start 0x000003e3
-		DPTXFIFO 8: Size 0, Start 0x000003a3
-		DPTXFIFO 9: Size 256, Start 0x00000123
-
-so it seems that FIFO 9 is mirroring FIFO 1.
-
-Fix the allocation by using the FIFO count instead of the endpoint count
-when selecting a FIFO for an endpoint.
-
-Acked-by: Minas Harutyunyan <hminas@synopsys.com>
-Signed-off-by: John Keeping <john@metanate.com>
-Signed-off-by: Felipe Balbi <balbi@kernel.org>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/usb/dwc2/gadget.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
-index 6be10e496e105..a9133773b89e4 100644
---- a/drivers/usb/dwc2/gadget.c
-+++ b/drivers/usb/dwc2/gadget.c
-@@ -4056,11 +4056,12 @@ static int dwc2_hsotg_ep_enable(struct usb_ep *ep,
- 	 * a unique tx-fifo even if it is non-periodic.
- 	 */
- 	if (dir_in && hsotg->dedicated_fifos) {
-+		unsigned fifo_count = dwc2_hsotg_tx_fifo_count(hsotg);
- 		u32 fifo_index = 0;
- 		u32 fifo_size = UINT_MAX;
- 
- 		size = hs_ep->ep.maxpacket * hs_ep->mc;
--		for (i = 1; i < hsotg->num_of_eps; ++i) {
-+		for (i = 1; i <= fifo_count; ++i) {
- 			if (hsotg->fifo_map & (1 << i))
- 				continue;
- 			val = dwc2_readl(hsotg, DPTXFSIZN(i));
 -- 
-2.20.1
-
+With Best Regards,
+Andy Shevchenko
