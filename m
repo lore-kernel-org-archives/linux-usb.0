@@ -2,197 +2,165 @@ Return-Path: <SRS0=TGj/=4C=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.8 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7190DC2BA83
-	for <linux-usb@archiver.kernel.org>; Fri, 14 Feb 2020 18:17:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2ADCC2BA83
+	for <linux-usb@archiver.kernel.org>; Fri, 14 Feb 2020 18:19:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 43A9224677
-	for <linux-usb@archiver.kernel.org>; Fri, 14 Feb 2020 18:17:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C65BB222C2
+	for <linux-usb@archiver.kernel.org>; Fri, 14 Feb 2020 18:19:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1581704354;
+	bh=U8gWgSTY/YoEU4F+UmoZGFPHS7racHGq+NDlydgsKt4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=Ul3Sx4J23Py7GmW6O9KlHSlRCGScF51uwzwZAplmyF6jJ3/7jEOEwJVaT3qW4+5Hv
+	 jIw1T1K21d04RJBGoCWX2YwLNdKCjl3fG0g+9RRl3X2S5sL9VN3UUh08kpIkeORNk8
+	 xlEnYEDTv2Os+v+Q+8Qv4gtP/YttzFKfkMqeTETk=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405124AbgBNSRS (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 14 Feb 2020 13:17:18 -0500
-Received: from smtprelay0076.hostedemail.com ([216.40.44.76]:51244 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2405119AbgBNSRS (ORCPT
-        <rfc822;linux-usb@vger.kernel.org>); Fri, 14 Feb 2020 13:17:18 -0500
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay06.hostedemail.com (Postfix) with ESMTP id AB4161822451B;
-        Fri, 14 Feb 2020 18:17:16 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-HE-Tag: north37_224944e309a50
-X-Filterd-Recvd-Size: 5967
-Received: from XPS-9350.home (unknown [47.151.143.254])
-        (Authenticated sender: joe@perches.com)
-        by omf17.hostedemail.com (Postfix) with ESMTPA;
-        Fri, 14 Feb 2020 18:17:15 +0000 (UTC)
-Message-ID: <60559197a1af9e0af7f329cc3427989e5756846f.camel@perches.com>
-Subject: [PATCH] usb-storage: Use const to reduce object data size
-From:   Joe Perches <joe@perches.com>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Date:   Fri, 14 Feb 2020 10:15:57 -0800
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.34.1-2 
+        id S1730516AbgBNPue (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 14 Feb 2020 10:50:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54738 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730505AbgBNPud (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 14 Feb 2020 10:50:33 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BD42E24650;
+        Fri, 14 Feb 2020 15:50:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1581695432;
+        bh=U8gWgSTY/YoEU4F+UmoZGFPHS7racHGq+NDlydgsKt4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=BBygKLKhTe2zX/hzQJ8svCG2h9AvevnCGbqNM7981kWC4yyOcn+gJ8tkxWwHPnFs6
+         yA9C4X1VsM5OOTu3DSZQFWCaX2drmyeXB2TJhFmhhDtxW9xDngaJ8nM8s6VGDTrwhT
+         tt1SX1/zJFTePUdlB1g3iR329BA8l+aZziwHmYFk=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Jia-Ju Bai <baijiaju1990@gmail.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.5 075/542] usb: gadget: udc: fix possible sleep-in-atomic-context bugs in gr_probe()
+Date:   Fri, 14 Feb 2020 10:41:07 -0500
+Message-Id: <20200214154854.6746-75-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
+References: <20200214154854.6746-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-Make structs const to reduce data size ~20KB.
+From: Jia-Ju Bai <baijiaju1990@gmail.com>
 
-Change function arguments and prototypes as necessary to compile.
+[ Upstream commit 9c1ed62ae0690dfe5d5e31d8f70e70a95cb48e52 ]
 
-$ size (x86-64 defconfig pre)
-   text	   data	    bss	    dec	    hex	filename
-  12281	  10948	    480	  23709	   5c9d	./drivers/usb/storage/usb.o
-    111	  10528	      8	  10647	   2997	./drivers/usb/storage/usual-tables.o
+The driver may sleep while holding a spinlock.
+The function call path (from bottom to top) in Linux 4.19 is:
 
-$ size (x86-64 defconfig post)
-   text	   data	    bss	    dec	    hex	filename
-  22809	    420	    480	  23709	   5c9d	drivers/usb/storage/usb.o
-  10551	      0	      0	  10551	   2937	drivers/usb/storage/usual-tables.o
+drivers/usb/gadget/udc/core.c, 1175:
+	kzalloc(GFP_KERNEL) in usb_add_gadget_udc_release
+drivers/usb/gadget/udc/core.c, 1272:
+	usb_add_gadget_udc_release in usb_add_gadget_udc
+drivers/usb/gadget/udc/gr_udc.c, 2186:
+	usb_add_gadget_udc in gr_probe
+drivers/usb/gadget/udc/gr_udc.c, 2183:
+	spin_lock in gr_probe
 
-Signed-off-by: Joe Perches <joe@perches.com>
+drivers/usb/gadget/udc/core.c, 1195:
+	mutex_lock in usb_add_gadget_udc_release
+drivers/usb/gadget/udc/core.c, 1272:
+	usb_add_gadget_udc_release in usb_add_gadget_udc
+drivers/usb/gadget/udc/gr_udc.c, 2186:
+	usb_add_gadget_udc in gr_probe
+drivers/usb/gadget/udc/gr_udc.c, 2183:
+	spin_lock in gr_probe
+
+drivers/usb/gadget/udc/gr_udc.c, 212:
+	debugfs_create_file in gr_probe
+drivers/usb/gadget/udc/gr_udc.c, 2197:
+	gr_dfs_create in gr_probe
+drivers/usb/gadget/udc/gr_udc.c, 2183:
+    spin_lock in gr_probe
+
+drivers/usb/gadget/udc/gr_udc.c, 2114:
+	devm_request_threaded_irq in gr_request_irq
+drivers/usb/gadget/udc/gr_udc.c, 2202:
+	gr_request_irq in gr_probe
+drivers/usb/gadget/udc/gr_udc.c, 2183:
+    spin_lock in gr_probe
+
+kzalloc(GFP_KERNEL), mutex_lock(), debugfs_create_file() and
+devm_request_threaded_irq() can sleep at runtime.
+
+To fix these possible bugs, usb_add_gadget_udc(), gr_dfs_create() and
+gr_request_irq() are called without handling the spinlock.
+
+These bugs are found by a static analysis tool STCheck written by myself.
+
+Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
+Signed-off-by: Felipe Balbi <balbi@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
+ drivers/usb/gadget/udc/gr_udc.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-compile tested only
-
- drivers/usb/storage/usb.c          | 10 +++++-----
- drivers/usb/storage/usb.h          |  5 +++--
- drivers/usb/storage/usual-tables.c |  6 +++---
- include/linux/usb_usual.h          |  2 +-
- 4 files changed, 12 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/usb/storage/usb.c b/drivers/usb/storage/usb.c
-index 9a79cd..94a6472 100644
---- a/drivers/usb/storage/usb.c
-+++ b/drivers/usb/storage/usb.c
-@@ -121,12 +121,12 @@ MODULE_PARM_DESC(quirks, "supplemental list of
-device IDs and their quirks");
- 	.initFunction = init_function,	\
- }
+diff --git a/drivers/usb/gadget/udc/gr_udc.c b/drivers/usb/gadget/udc/gr_udc.c
+index 64d80c65bb967..aaf975c809bf9 100644
+--- a/drivers/usb/gadget/udc/gr_udc.c
++++ b/drivers/usb/gadget/udc/gr_udc.c
+@@ -2175,8 +2175,6 @@ static int gr_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 	}
  
--static struct us_unusual_dev us_unusual_dev_list[] = {
-+static const struct us_unusual_dev us_unusual_dev_list[] = {
- #	include "unusual_devs.h"
- 	{ }		/* Terminating entry */
- };
+-	spin_lock(&dev->lock);
+-
+ 	/* Inside lock so that no gadget can use this udc until probe is done */
+ 	retval = usb_add_gadget_udc(dev->dev, &dev->gadget);
+ 	if (retval) {
+@@ -2185,15 +2183,21 @@ static int gr_probe(struct platform_device *pdev)
+ 	}
+ 	dev->added = 1;
  
--static struct us_unusual_dev for_dynamic_ids =
-+static const struct us_unusual_dev for_dynamic_ids =
- 		USUAL_DEV(USB_SC_SCSI, USB_PR_BULK);
++	spin_lock(&dev->lock);
++
+ 	retval = gr_udc_init(dev);
+-	if (retval)
++	if (retval) {
++		spin_unlock(&dev->lock);
+ 		goto out;
+-
+-	gr_dfs_create(dev);
++	}
  
- #undef UNUSUAL_DEV
-@@ -583,7 +583,7 @@ EXPORT_SYMBOL_GPL(usb_stor_adjust_quirks);
+ 	/* Clear all interrupt enables that might be left on since last boot */
+ 	gr_disable_interrupts_and_pullup(dev);
  
- /* Get the unusual_devs entries and the string descriptors */
- static int get_device_info(struct us_data *us, const struct
-usb_device_id *id,
--		struct us_unusual_dev *unusual_dev)
-+		const struct us_unusual_dev *unusual_dev)
- {
- 	struct usb_device *dev = us->pusb_dev;
- 	struct usb_interface_descriptor *idesc =
-@@ -933,7 +933,7 @@ static unsigned int usb_stor_sg_tablesize(struct
-usb_interface *intf)
- int usb_stor_probe1(struct us_data **pus,
- 		struct usb_interface *intf,
- 		const struct usb_device_id *id,
--		struct us_unusual_dev *unusual_dev,
-+		const struct us_unusual_dev *unusual_dev,
- 		struct scsi_host_template *sht)
- {
- 	struct Scsi_Host *host;
-@@ -1092,7 +1092,7 @@ static struct scsi_host_template
-usb_stor_host_template;
- static int storage_probe(struct usb_interface *intf,
- 			 const struct usb_device_id *id)
- {
--	struct us_unusual_dev *unusual_dev;
-+	const struct us_unusual_dev *unusual_dev;
- 	struct us_data *us;
- 	int result;
- 	int size;
-diff --git a/drivers/usb/storage/usb.h b/drivers/usb/storage/usb.h
-index 85052c..5850d62 100644
---- a/drivers/usb/storage/usb.h
-+++ b/drivers/usb/storage/usb.h
-@@ -93,7 +93,8 @@ struct us_data {
- 	struct mutex		dev_mutex;	 /* protect pusb_dev */
- 	struct usb_device	*pusb_dev;	 /* this usb_device */
- 	struct usb_interface	*pusb_intf;	 /* this interface */
--	struct us_unusual_dev   *unusual_dev;	 /* device-filter
-entry     */
-+	const struct us_unusual_dev   *unusual_dev;
-+						/* device-filter
-entry     */
- 	unsigned long		fflags;		 /* fixed flags from
-filter */
- 	unsigned long		dflags;		 /* dynamic atomic
-bitflags */
- 	unsigned int		send_bulk_pipe;	 /* cached pipe values
-*/
-@@ -185,7 +186,7 @@ extern int usb_stor_post_reset(struct usb_interface
-*iface);
- extern int usb_stor_probe1(struct us_data **pus,
- 		struct usb_interface *intf,
- 		const struct usb_device_id *id,
--		struct us_unusual_dev *unusual_dev,
-+		const struct us_unusual_dev *unusual_dev,
- 		struct scsi_host_template *sht);
- extern int usb_stor_probe2(struct us_data *us);
- extern void usb_stor_disconnect(struct usb_interface *intf);
-diff --git a/drivers/usb/storage/usual-tables.c
-b/drivers/usb/storage/usual-tables.c
-index cfd12e5..529512 100644
---- a/drivers/usb/storage/usual-tables.c
-+++ b/drivers/usb/storage/usual-tables.c
-@@ -40,7 +40,7 @@
- 	.driver_info = (flags) \
- }
++	spin_unlock(&dev->lock);
++
++	gr_dfs_create(dev);
++
+ 	retval = gr_request_irq(dev, dev->irq);
+ 	if (retval) {
+ 		dev_err(dev->dev, "Failed to request irq %d\n", dev->irq);
+@@ -2222,8 +2226,6 @@ static int gr_probe(struct platform_device *pdev)
+ 		dev_info(dev->dev, "regs: %p, irq %d\n", dev->regs, dev->irq);
  
--struct usb_device_id usb_storage_usb_ids[] = {
-+const struct usb_device_id usb_storage_usb_ids[] = {
- #	include "unusual_devs.h"
- 	{ }		/* Terminating entry */
- };
-@@ -68,7 +68,7 @@ struct ignore_entry {
- 	.bcdmax = bcdDeviceMax,		\
- }
+ out:
+-	spin_unlock(&dev->lock);
+-
+ 	if (retval)
+ 		gr_remove(pdev);
  
--static struct ignore_entry ignore_ids[] = {
-+static const struct ignore_entry ignore_ids[] = {
- #	include "unusual_alauda.h"
- #	include "unusual_cypress.h"
- #	include "unusual_datafab.h"
-@@ -92,7 +92,7 @@ int usb_usual_ignore_device(struct usb_interface
-*intf)
- {
- 	struct usb_device *udev;
- 	unsigned vid, pid, bcd;
--	struct ignore_entry *p;
-+	const struct ignore_entry *p;
- 
- 	udev = interface_to_usbdev(intf);
- 	vid = le16_to_cpu(udev->descriptor.idVendor);
-diff --git a/include/linux/usb_usual.h b/include/linux/usb_usual.h
-index 000a595..4a19ac3 100644
---- a/include/linux/usb_usual.h
-+++ b/include/linux/usb_usual.h
-@@ -92,6 +92,6 @@ enum { US_DO_ALL_FLAGS };
- #include <linux/usb/storage.h>
- 
- extern int usb_usual_ignore_device(struct usb_interface *intf);
--extern struct usb_device_id usb_storage_usb_ids[];
-+extern const struct usb_device_id usb_storage_usb_ids[];
- 
- #endif /* __LINUX_USB_USUAL_H */
-
+-- 
+2.20.1
 
