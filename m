@@ -2,100 +2,140 @@ Return-Path: <SRS0=TGj/=4C=vger.kernel.org=linux-usb-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.2 required=3.0 tests=HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,SIGNED_OFF_BY,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 806F7C2BA83
-	for <linux-usb@archiver.kernel.org>; Fri, 14 Feb 2020 16:56:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74702C3B1A1
+	for <linux-usb@archiver.kernel.org>; Fri, 14 Feb 2020 16:56:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.kernel.org (Postfix) with ESMTP id 62BE92467E
-	for <linux-usb@archiver.kernel.org>; Fri, 14 Feb 2020 16:56:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C6472067D
+	for <linux-usb@archiver.kernel.org>; Fri, 14 Feb 2020 16:56:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1581699406;
+	bh=08Lj0q5MBAug7J7RApZE4cdTfd5AwhADXQ6MMkcy2rA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:List-ID:From;
+	b=BxUp9dza9e1lOutW+u9gruOKpghPfW9LPdgJn2nAcYLCuXwDJecDDSGaMqnuzIiuH
+	 RPftmsR/JC32uvLzHDgYN1yBlHKnneV0bLr6YqC0VWcaY9q1pKQVWC7YDENQkWpPaP
+	 wrZgSv9rpu5IfzJeJb6yAnbaca/9S/JW9NLYAyOU=
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393963AbgBNQ4g (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
-        Fri, 14 Feb 2020 11:56:36 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39752 "EHLO mail.kernel.org"
+        id S2392410AbgBNQRz (ORCPT <rfc822;linux-usb@archiver.kernel.org>);
+        Fri, 14 Feb 2020 11:17:55 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49584 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2393951AbgBNQ4g (ORCPT <rfc822;linux-usb@vger.kernel.org>);
-        Fri, 14 Feb 2020 11:56:36 -0500
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S2404587AbgBNQRz (ORCPT <rfc822;linux-usb@vger.kernel.org>);
+        Fri, 14 Feb 2020 11:17:55 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 741CB2067D;
-        Fri, 14 Feb 2020 16:56:35 +0000 (UTC)
-Date:   Fri, 14 Feb 2020 11:56:34 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     Mathias Nyman <mathias.nyman@intel.com>,
+        by mail.kernel.org (Postfix) with ESMTPSA id 3F0BE24694;
+        Fri, 14 Feb 2020 16:17:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1581697074;
+        bh=08Lj0q5MBAug7J7RApZE4cdTfd5AwhADXQ6MMkcy2rA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Z6zgTbeBtUVyM6eNwzxK3tFUMzBC6ZjYR7bYPzlR5FTRbfJcjqZo+sffXN+7hrpfG
+         DPI+g8Up46f8eVJyi7a51aO8MeAJ6DQn5ibdJ96KRwZvhQcUsvA8ndDe4mENoc5g2a
+         L3kA5IUs/sFhpG7KMGtbVhLFDNpRWFJ0NAIod5Yg=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     John Keeping <john@metanate.com>,
+        Minas Harutyunyan <hminas@synopsys.com>,
+        Felipe Balbi <balbi@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org,
-        Tzvetomir Stoyanov <tstoyanov@vmware.com>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>
-Subject: [PATCH] xhci: Do not open code __print_symbolic() in xhci trace
- events
-Message-ID: <20200214115634.30e8ebf2@gandalf.local.home>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        Sasha Levin <sashal@kernel.org>, linux-usb@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 029/186] usb: dwc2: Fix IN FIFO allocation
+Date:   Fri, 14 Feb 2020 11:14:38 -0500
+Message-Id: <20200214161715.18113-29-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200214161715.18113-1-sashal@kernel.org>
+References: <20200214161715.18113-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-usb-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-usb.vger.kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 
-From: Steven Rostedt (VMware) <rostedt@goodmis.org>
+From: John Keeping <john@metanate.com>
 
-libtraceevent (used by perf and trace-cmd) failed to parse the
-xhci_urb_dequeue trace event. This is because the user space trace
-event format parsing is not a full C compiler. It can handle some basic
-logic, but is not meant to be able to handle everything C can do.
+[ Upstream commit 644139f8b64d818f6345351455f14471510879a5 ]
 
-In cases where a trace event field needs to be converted from a number
-to a string, there's the __print_symbolic() macro that should be used:
+On chips with fewer FIFOs than endpoints (for example RK3288 which has 9
+endpoints, but only 6 which are cabable of input), the DPTXFSIZN
+registers above the FIFO count may return invalid values.
 
- See samples/trace_events/trace-events-sample.h
+With logging added on startup, I see:
 
-Some xhci trace events open coded the __print_symbolic() causing the
-user spaces tools to fail to parse it. This has to be replaced with
-__print_symbolic() instead.
+	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=1 sz=256
+	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=2 sz=128
+	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=3 sz=128
+	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=4 sz=64
+	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=5 sz=64
+	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=6 sz=32
+	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=7 sz=0
+	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=8 sz=0
+	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=9 sz=0
+	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=10 sz=0
+	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=11 sz=0
+	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=12 sz=0
+	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=13 sz=0
+	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=14 sz=0
+	dwc2 ff580000.usb: dwc2_hsotg_init_fifo: ep=15 sz=0
 
-CC: stable@vger.kernel.org
-Reported-by: Tzvetomir Stoyanov <tstoyanov@vmware.com>
-Bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=206531
-Fixes: 5abdc2e6e12ff ("usb: host: xhci: add urb_enqueue/dequeue/giveback tracers")
-Signed-off-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
+but:
+
+	# cat /sys/kernel/debug/ff580000.usb/fifo
+	Non-periodic FIFOs:
+	RXFIFO: Size 275
+	NPTXFIFO: Size 16, Start 0x00000113
+
+	Periodic TXFIFOs:
+		DPTXFIFO 1: Size 256, Start 0x00000123
+		DPTXFIFO 2: Size 128, Start 0x00000223
+		DPTXFIFO 3: Size 128, Start 0x000002a3
+		DPTXFIFO 4: Size 64, Start 0x00000323
+		DPTXFIFO 5: Size 64, Start 0x00000363
+		DPTXFIFO 6: Size 32, Start 0x000003a3
+		DPTXFIFO 7: Size 0, Start 0x000003e3
+		DPTXFIFO 8: Size 0, Start 0x000003a3
+		DPTXFIFO 9: Size 256, Start 0x00000123
+
+so it seems that FIFO 9 is mirroring FIFO 1.
+
+Fix the allocation by using the FIFO count instead of the endpoint count
+when selecting a FIFO for an endpoint.
+
+Acked-by: Minas Harutyunyan <hminas@synopsys.com>
+Signed-off-by: John Keeping <john@metanate.com>
+Signed-off-by: Felipe Balbi <balbi@kernel.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
-diff --git a/drivers/usb/host/xhci-trace.h b/drivers/usb/host/xhci-trace.h
-index 56eb867803a6..b19582b2a72c 100644
---- a/drivers/usb/host/xhci-trace.h
-+++ b/drivers/usb/host/xhci-trace.h
-@@ -289,23 +289,12 @@ DECLARE_EVENT_CLASS(xhci_log_urb,
- 	),
- 	TP_printk("ep%d%s-%s: urb %p pipe %u slot %d length %d/%d sgs %d/%d stream %d flags %08x",
- 			__entry->epnum, __entry->dir_in ? "in" : "out",
--			({ char *s;
--			switch (__entry->type) {
--			case USB_ENDPOINT_XFER_INT:
--				s = "intr";
--				break;
--			case USB_ENDPOINT_XFER_CONTROL:
--				s = "control";
--				break;
--			case USB_ENDPOINT_XFER_BULK:
--				s = "bulk";
--				break;
--			case USB_ENDPOINT_XFER_ISOC:
--				s = "isoc";
--				break;
--			default:
--				s = "UNKNOWN";
--			} s; }), __entry->urb, __entry->pipe, __entry->slot_id,
-+			__print_symbolic(__entry->type,
-+				   { USB_ENDPOINT_XFER_INT,	"intr" },
-+				   { USB_ENDPOINT_XFER_CONTROL,	"control" },
-+				   { USB_ENDPOINT_XFER_BULK,	"bulk" },
-+				   { USB_ENDPOINT_XFER_ISOC,	"isoc" }),
-+			__entry->urb, __entry->pipe, __entry->slot_id,
- 			__entry->actual, __entry->length, __entry->num_mapped_sgs,
- 			__entry->num_sgs, __entry->stream, __entry->flags
- 		)
+ drivers/usb/dwc2/gadget.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
+index 4af9a1c652edb..aeb6f7c84ea0a 100644
+--- a/drivers/usb/dwc2/gadget.c
++++ b/drivers/usb/dwc2/gadget.c
+@@ -3933,11 +3933,12 @@ static int dwc2_hsotg_ep_enable(struct usb_ep *ep,
+ 	 * a unique tx-fifo even if it is non-periodic.
+ 	 */
+ 	if (dir_in && hsotg->dedicated_fifos) {
++		unsigned fifo_count = dwc2_hsotg_tx_fifo_count(hsotg);
+ 		u32 fifo_index = 0;
+ 		u32 fifo_size = UINT_MAX;
+ 
+ 		size = hs_ep->ep.maxpacket * hs_ep->mc;
+-		for (i = 1; i < hsotg->num_of_eps; ++i) {
++		for (i = 1; i <= fifo_count; ++i) {
+ 			if (hsotg->fifo_map & (1 << i))
+ 				continue;
+ 			val = dwc2_readl(hsotg->regs + DPTXFSIZN(i));
+-- 
+2.20.1
+
